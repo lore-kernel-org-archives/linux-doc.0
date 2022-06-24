@@ -2,106 +2,97 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 134D5C43334
-	for <linux-doc@archiver.kernel.org>; Fri, 24 Jun 2022 21:58:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 51886C43334
+	for <linux-doc@archiver.kernel.org>; Fri, 24 Jun 2022 22:24:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229614AbiFXV6R (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 24 Jun 2022 17:58:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50232 "EHLO
+        id S230431AbiFXWYO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 24 Jun 2022 18:24:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42536 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230392AbiFXV6Q (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Jun 2022 17:58:16 -0400
-Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com [IPv6:2607:f8b0:4864:20::52a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F42B5FD3;
-        Fri, 24 Jun 2022 14:58:15 -0700 (PDT)
-Received: by mail-pg1-x52a.google.com with SMTP id 184so3539529pga.12;
-        Fri, 24 Jun 2022 14:58:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:content-language:to:cc:from
-         :subject:content-transfer-encoding;
-        bh=6x6Z4E26nV0ZtU/SyJqV7Zl5vmGkEtDni/w+IrGDa38=;
-        b=eEsTcA/FaqNfiUT/PmbTpXPlMbPGRT3Z+1Lsr84kB5KF/nmelhYk0S+ejtndA7k+Yk
-         DGYAnXJBWkAt01cR+0z4bX3PXB7gzA7JIdaDK1jEmh6oflXH0ciJcCO1jJtByL5s6v42
-         lYrCKjBkgG5lr4uud48ybA7dzgfCwpH40EybioQ4m/7Jfh1lhKqRTKJ7Ozv6erp8v58f
-         lEQ5Pm8VRIsN4Ufsbtb5+TgR06QqvIqSvsnFZWLsmlqDe8c2xWhZtzrX17D441fbte9V
-         Dx9yyIjOH93tRXBlfqnZg9ud+6HW43ptI1olMVzCVy1G/DJIzSPzIOayzd8BZ7LGvZ6v
-         LtDg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent
-         :content-language:to:cc:from:subject:content-transfer-encoding;
-        bh=6x6Z4E26nV0ZtU/SyJqV7Zl5vmGkEtDni/w+IrGDa38=;
-        b=iucYNXsrB8yq9lMOHLzYw6w1kb1PGNOQmSzK3AfmfuGeY1pfOtd2onVUWDS8K5fvqc
-         To/9UPJEOjlolxQCYiOjt49TlDVWOrKz+AJijwpXKpHDcbZiYcdP7vsrfiZPflAgAmag
-         JHrgWc4a462IHd6zLXTTVu+NO1lv6AaH6n2/WN0YlUfIWhG6BO2cmzBA1nQa8dAYQl5/
-         6N8bCL2wlXKqb9eqQ26uqx1N5PHBQfxM+s2gvFro4ptZI9El0skipJWRw4wLJHo+MDSw
-         ojH9UllARWd999zYh3CFqabxM+y5DgUwSpwWFxXx8ChHz7X7woUtQmaU0/RD7FGWgPq+
-         9BhQ==
-X-Gm-Message-State: AJIora/TFrh1myXjpEahToyxZ6jf7f+AHPw2f2zvnTxBC2NBMD0EbSwW
-        5jRNVk0FWqfUqIXo+7PkeIKTQDXrrpw=
-X-Google-Smtp-Source: AGRyM1twBJGNS79yLEz+PXmwXUsFzg02LWoSSYdaqbbydRVznHpppNmORI5PDc+RwAb2+O1GvzzvJg==
-X-Received: by 2002:a63:6f43:0:b0:408:d61b:77b0 with SMTP id k64-20020a636f43000000b00408d61b77b0mr804444pgc.529.1656107894640;
-        Fri, 24 Jun 2022 14:58:14 -0700 (PDT)
-Received: from [192.168.11.5] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id o17-20020a170902779100b0015e8d4eb218sm2289717pll.98.2022.06.24.14.58.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 24 Jun 2022 14:58:14 -0700 (PDT)
-Message-ID: <50d6f0bc-030d-9529-0665-e2b3e7c792d8@gmail.com>
-Date:   Sat, 25 Jun 2022 06:58:09 +0900
+        with ESMTP id S229797AbiFXWYN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Jun 2022 18:24:13 -0400
+Received: from email.cn (m218-171.88.com [110.43.218.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5ECAB88590;
+        Fri, 24 Jun 2022 15:24:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.cn;
+        s=dkim; h=Date:From:To; bh=wI3llXZ89/86O4qf5yhKKxw89rBdjGt6UL5y2
+        /VdiRI=; b=Iz9v1P3z4/dW/cccl7Kyx37MsCCi1Ka1cZM6oeaVRwnw928ZqzIQP
+        hXhTaHsUFn1PZGwe8GvBS8H88OpYle8+s8OjwIYzuJNJioVa9aXsbNkXWslBsqqY
+        70VRj5UX9XAcaD1KDAjXIR4K2Y3BMqTasUYJxDx0z9nYkPlnvkwgSE=
+Received: from bobwxc.mipc (unknown [120.242.121.172])
+        by v_coremail2-frontend-1 (Coremail) with SMTP id LCKnCgAn2GRuObZi_DEGAA--.16180S2;
+        Sat, 25 Jun 2022 06:23:44 +0800 (CST)
+Date:   Sat, 25 Jun 2022 06:23:42 +0800
+From:   Wu XiangCheng <bobwxc@email.cn>
+To:     Mike Rapoport <rppt@kernel.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, Mike Rapoport <rppt@linux.ibm.com>
+Subject: Re: [PATCH] docs: rename Documentation/vm to Documentation/mm
+Message-ID: <YrSQhNYvcZfTRUnU@bobwxc.mipc>
+References: <20220622132258.457734-1-rppt@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Content-Language: en-US
-To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        "Maciej W. Rozycki" <macro@orcam.me.uk>,
-        Miguel Ojeda <ojeda@kernel.org>, linux-kernel@vger.kernel.org,
-        Akira Yokosawa <akiyks@gmail.com>
-From:   Akira Yokosawa <akiyks@gmail.com>
-Subject: [PATCH v2] docs/doc-guide: Mention make variable SPHINXDIRS
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220622132258.457734-1-rppt@kernel.org>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=693; i=bobwxc@yeah.net;
+ h=from:subject:message-id; bh=VgmFHXt64+nXwE358/BSAtg1wDlAN/7IkKogMn+pOog=;
+ b=owEB7QES/pANAwAKAbZbKBIigrCFAcsmYgBitae+1GspiO9tJ2PoZI2fglKFzyee8ot0neMYr9hQ
+ UE4bG1yJAbMEAAEKAB0WIQRFujdTmQmloK0WXU+2WygSIoKwhQUCYrWnvgAKCRC2WygSIoKwhc8MDA
+ CaoqWKkOIRasV9YGh+5x7pZ3j/IJD/kBk/VDRVJpHJY3AwtkW+JDXPjxZZIGG1fqy+dd5yLqjH8YS6
+ kwMFQrmeogNqlfNXpE8IynlU7LqNAAaIoeSIEQE1LgdCFSsVNXcldBOnuZ8aiArlXPe0hdtL9GeifF
+ o4i+GQfw7k88/VFpn3DrqfoWYu5n6SXVEth3812Z38he6W4cVMoYM9M1wNRzG87oZwL1vY2nh3ZcyY
+ yYq+5Er6lzsJD3f+qewdiZckZTW1mLhspo5nNFL2y1ZY+K2ztn6NLOKn3cfvhmE2qQhOGICGWzEYMl
+ U76kd5JV+yuRB9fNwZV34J1whhGqPR6VRl8mmXzP1VOIqmOG2rCYPLXaWCt900E0ldZ7EVzoESM/zD
+ JztI2G8Y5daYSD+kWtRIhoVNTsn1Lfv9yGp0yMUCYJmOGfHvSMySVzd16lPbRY5Z3lc6JkQAu53Ah/
+ zeW95ef1AQn9bdpaRS3a7Ck9suBSWcOKyW3xa9GMUXuRc=
+X-Developer-Key: i=bobwxc@yeah.net; a=openpgp;
+ fpr=2BF2A4AA2F0730C3279ED01D32684A40BCA7AEA7
+X-CM-TRANSID: LCKnCgAn2GRuObZi_DEGAA--.16180S2
+X-Coremail-Antispam: 1UD129KBjvdXoW7JrW5Kw1UAF1fGF4xJw1fWFg_yoWxKrb_ua
+        yfJF1Iyr47AFW8KrsrWw4ayr1kXrZ29ayUXrn8tFWrAF9Fk397KF9Fkw1Fva15Xr4kury5
+        W34rZrZ2kFyagjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+        9fnUUIcSsGvfJTRUUUb0kYjsxI4VW3JwAYFVCjjxCrM7CY07I20VC2zVCF04k26cxKx2IY
+        s7xG6rWj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI
+        8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1l84ACjcxK6I8E
+        87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UM2AIxVAIcxkEcV
+        Aq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6x8ErcxFaVAv8VWxJr1U
+        JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41l42xK82IYc2Ij64vIr41l42xK82
+        IY6x8ErcxFaVAv8VWxJr1UJwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v2
+        6r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2
+        Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_
+        Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMI
+        IF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IUU3rc3UUUUU=
+        =
+X-Originating-IP: [120.242.121.172]
+X-CM-SenderInfo: pere453f6hztlloou0/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-SPHINXDIRS is useful when you want to test build only those
-documents affected by your changes.
+On Wed, Jun 22, 2022 at 08:22:58AM -0500, Mike Rapoport wrote:
+> From: Mike Rapoport <rppt@linux.ibm.com>
+> 
+> so it will be consistent with code mm directory and with
+> Documentation/admin-guide/mm and won't be confused with virtual
+> machines.
+> 
+> Suggested-by: Matthew Wilcox <willy@infradead.org>
+> Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
+> ---
 
-Mention it in the "Sphinx Build" section.
+Hi Mike,
 
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
-Cc: Maciej W. Rozycki <macro@orcam.me.uk>
----
-v1 -> v2:
-  - Added command example (Jon)
+After applying this patch:
 
-v1: https://lore.kernel.org/r/ff89c064-e24a-0f2f-fc03-b029e5d04338@gmail.com/
---
- Documentation/doc-guide/sphinx.rst | 7 +++++++
- 1 file changed, 7 insertions(+)
+$ grep "/vm/" Documentation/translations/zh_CN/mm/memory-model.rst -n
+132:  以允许设备驱动程序协调与设备内存相关的内存管理事件，通常是GPU内存。参见/vm/hmm.rst。
 
-diff --git a/Documentation/doc-guide/sphinx.rst b/Documentation/doc-guide/sphinx.rst
-index edc4fa023986..1228b85f6f77 100644
---- a/Documentation/doc-guide/sphinx.rst
-+++ b/Documentation/doc-guide/sphinx.rst
-@@ -151,6 +151,13 @@ If the theme is not available, it will fall-back to the classic one.
- 
- The Sphinx theme can be overridden by using the ``DOCS_THEME`` make variable.
- 
-+There is another make variable ``SPHINXDIRS``, which is useful when test
-+building a subset of documentation.  For example, you can build documents
-+under ``Documentation/doc-guide`` by running
-+``make SPHINXDIRS=doc-guide htmldocs``.
-+The documentation section of ``make help`` will show you the list of
-+subdirectories you can specify.
-+
- To remove the generated documentation, run ``make cleandocs``.
- 
- .. [#ink] Having ``inkscape(1)`` from Inkscape (https://inkscape.org)
+Please replace '/vm/hmm.rst' with 'Documentation/mm/hmm.rst'.
 
-base-commit: 0ebe4dd124d3a0e708ea24734c13d52657e36363
--- 
-2.25.1
+Thanks,
+	Wu
 
