@@ -2,98 +2,99 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 54011C43334
-	for <linux-doc@archiver.kernel.org>; Fri, 24 Jun 2022 23:40:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A7A7C43334
+	for <linux-doc@archiver.kernel.org>; Sat, 25 Jun 2022 01:15:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231496AbiFXXkW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 24 Jun 2022 19:40:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37130 "EHLO
+        id S229910AbiFYBPt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 24 Jun 2022 21:15:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41540 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230490AbiFXXkU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Jun 2022 19:40:20 -0400
-Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F4CB89D33
-        for <linux-doc@vger.kernel.org>; Fri, 24 Jun 2022 16:40:19 -0700 (PDT)
-Received: by mail-ej1-x62c.google.com with SMTP id t5so7707605eje.1
-        for <linux-doc@vger.kernel.org>; Fri, 24 Jun 2022 16:40:19 -0700 (PDT)
+        with ESMTP id S229450AbiFYBPt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Jun 2022 21:15:49 -0400
+Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com [IPv6:2607:f8b0:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 78FB03ED2C;
+        Fri, 24 Jun 2022 18:15:48 -0700 (PDT)
+Received: by mail-pf1-x431.google.com with SMTP id t21so3966927pfq.1;
+        Fri, 24 Jun 2022 18:15:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ioGTNHXffZwnZ8I7y2BRheK/DbmuKIFCf1q9qCvNtRE=;
-        b=gPUgC1E8eC2BqehwvtcAgsVR+1S+BTJA9WU5iGYKvy4xUBKGEbcb3f5NG2dSVmkMaL
-         J0foMgTURbKIFnRnbsj58R+I8QxePawmLt5GxBwk1f3eIjfsRBUg4NwXldr7Z4hdTHmK
-         DW8NHmYIkHd1kfQEj9hJKqxrPZ7b7MkzZHdCE3f2Sng0BMeZR/jY00wCr2S2nJZoU9+X
-         tWk5Eg+ehQq4J9nyR34lLr7rj29iW/NtN/QvVXjd8UDCOZSv4IeImJK6NwKlIG3PA50Z
-         X3lu/4llQ5L9ifwgfVyYqfGMRPmC1sj3klUTNf/JkPvbivh59rMwhGMlmOVQtXFRaGLO
-         RytA==
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=mddgUzjjMvwn6t+jkp7452qXuMD9uxs9pKqRGpWnzls=;
+        b=MFL75ZqSwniQVJ/Tg712PAfFoFZvNdUvvD/hHpnQShNFY/kvSnWnwMdGXuyFf6363F
+         InG8hiCJoMElYT0AYLFk9kwgttuBvSDgybhQeiOQSCJKXX7iV9NMaIVeA5V9HKkFeyQi
+         D0pv5Lh1cd1gjsl3hfadEOgKyegWuS6L4pjyOtchRD5G9RUb13fE+AayBbCz7dHeQ5ij
+         uDeIqmpxmzTFTUuU+wOTF4t+Z39oVUZh8SbygfhA9E5qr/MauwsO8C2xNOkzSUls3mnD
+         vdAhHP+ZGW5AWfuw6h3b3c4IyhkmWRsf0OR7t7/VRE3UVfFSEnuj/z6yN4gDae0XzvgM
+         KMsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ioGTNHXffZwnZ8I7y2BRheK/DbmuKIFCf1q9qCvNtRE=;
-        b=gHXKPHZm4e6KVTSapsMpeODHr83buwKJ30YuQ++f1pz3gjOz9MMKnRGaRKR9iR6AIW
-         eio0UX5oj9ltvudtms/Zd7LvlfD6I9FoDPDZwLfJwnq0QH5xuuVWYwaQwbiOsjcBWre+
-         Aq4t9QREnA6SIi72ADlA70/KA2goskEHnw/NCuyv58lZKnppDJazL4wsyRcuFHluS7mN
-         A5IPPJlXQZOPRBiQGTp0pnIB8eL23n7mwSc6qy6b0tRsWfazNBeFtIspNouEcTXRNSIA
-         oju/gzxwolbaqYl2yGvQOD0m5Se+w9gWPwMJW2T4ovMCJdFB1s17gK33JDqu4HYWmrhT
-         rFeg==
-X-Gm-Message-State: AJIora/MrslOrYcPxKuVvTAz8y6jZlMnd+x507aZZZvfY723oaHHKBjP
-        n69xGhJ3mJYVETEVaMSxFHN4o2ZJTy6Py9BzlPc63A==
-X-Google-Smtp-Source: AGRyM1s4ws/aqxlJeM5cTpkwHOGmCVjfTOdh8yuqMaDTlT05PSaxFD6smAlqQyw8HO9CERa4VC023nFn6040NePICfw=
-X-Received: by 2002:a17:906:308f:b0:709:af33:9fa7 with SMTP id
- 15-20020a170906308f00b00709af339fa7mr1347941ejv.369.1656114017449; Fri, 24
- Jun 2022 16:40:17 -0700 (PDT)
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=mddgUzjjMvwn6t+jkp7452qXuMD9uxs9pKqRGpWnzls=;
+        b=Xx1C5wc9CAHLyRPp3h/8HT0uq1n4DXhx3fAg049UgsHbL6q1ie41LV0VVYE+6CFhqx
+         ZXvHz+1RiPu8+vBYrCgWGvuYYNvzJRc4qmO1N2ODyXJKiMBCAPe7Q1V1qBQRxnZNGSzt
+         m03wLfbSaMd2Pv3vA98/HAnQGaiHFhaClP2fkovRX2bPVvJgR28ez/MIl6IAtPY1HUK+
+         jxx2mo4+OOH+zcUJBCKLqEMr9bU54stup6zaGfGO+sgFPb694I5wL2HXWqpqCLhhE0QL
+         8wpjmCsCOUZPYu4IUGEjW9Sz/0ER/xvO/TPBt0GYkd+vYC6qKsdOZdBiEZ9ju4kdDumj
+         BTNQ==
+X-Gm-Message-State: AJIora/KfeoevwP8tngjw4Qqq8rd2tQKtMZIhjtd825kBGPKOfm44o4J
+        yUlU+vUqg87Bb5QDwMYd0eQ=
+X-Google-Smtp-Source: AGRyM1tyD3JHAlSkBQre22ZgvMm1Os5Ag+84SUDLVbeBfB3j6RW5jvPKEfdDHIPvu+CHWDALZaL72A==
+X-Received: by 2002:a63:6b08:0:b0:3fd:1b8e:3932 with SMTP id g8-20020a636b08000000b003fd1b8e3932mr1481851pgc.552.1656119747744;
+        Fri, 24 Jun 2022 18:15:47 -0700 (PDT)
+Received: from [192.168.43.80] (subs09a-223-255-225-71.three.co.id. [223.255.225.71])
+        by smtp.gmail.com with ESMTPSA id d76-20020a621d4f000000b005255151e248sm2433430pfd.174.2022.06.24.18.15.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 24 Jun 2022 18:15:47 -0700 (PDT)
+Message-ID: <241393bf-1fd3-ab25-867b-7132d7590aa8@gmail.com>
+Date:   Sat, 25 Jun 2022 08:15:43 +0700
 MIME-Version: 1.0
-References: <20220603195626.121922-1-dlatypov@google.com> <87pmix3ktq.fsf@meer.lwn.net>
- <2c3399e9-4f4e-a71a-4030-e4e6d72b5d4e@linuxfoundation.org>
- <8735ft3co5.fsf@meer.lwn.net> <96154234-7842-3bc9-d89f-eb20be40e6de@linuxfoundation.org>
-In-Reply-To: <96154234-7842-3bc9-d89f-eb20be40e6de@linuxfoundation.org>
-From:   Daniel Latypov <dlatypov@google.com>
-Date:   Fri, 24 Jun 2022 16:40:06 -0700
-Message-ID: <CAGS_qxpQvftq2qiiaNhr5sAkJWgQhtB1CK2_ZeYASLYynWVHRA@mail.gmail.com>
-Subject: Re: [PATCH 1/3] Documentation: kunit: remove duplicate kunit-tool.rst
-To:     Shuah Khan <skhan@linuxfoundation.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>, brendanhiggins@google.com,
-        davidgow@google.com, linux-kernel@vger.kernel.org,
-        kunit-dev@googlegroups.com, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH] media: docs: Modify the section of User xattr
+Content-Language: en-US
+To:     Deming Wang <wangdeming@inspur.com>, miklos@szeredi.hu,
+        corbet@lwn.net
+Cc:     linux-unionfs@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20220624014605.2007-1-wangdeming@inspur.com>
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <20220624014605.2007-1-wangdeming@inspur.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jun 24, 2022 at 3:51 PM Shuah Khan <skhan@linuxfoundation.org> wrote:
->
-> On 6/24/22 4:43 PM, Jonathan Corbet wrote:
-> > Shuah Khan <skhan@linuxfoundation.org> writes:
-> >
-> >>> So not that long ago these patches were going through Shuah...it seems
-> >>> that's not happening anymore?  I can pick up kunit docs patches,
-> >>> certainly.  I've taken the silence on these as assent and applied them.
-> >>>
-> >>
-> >> I am still taking ksefltest and kunit doc patches through my tree. I wait
-> >> for Brendan to ack at times. This one didn't show up in linux-kselftest
-> >> list it appears.
-> >>
-> >> If you cc linux-kselftest and I get an ack from Brendan, I will take this
-> >> through kselftest tree.
-> >
-> > As I said up above, I went ahead and applied them.  I can drop them
-> > again if you want to carry them, just let me know.
-> >
->
-> Jon, yes please go ahead and drop this one. I will wait for Brendan
-> to ack it. Reduces confusion in the future. Very often, there is code
-> dependencies as well.
->
-> Daniel, please don't skip kselftest list in the future.
+On 6/24/22 08:46, Deming Wang wrote:
+> Delete duplicate words of "the".
+> 
 
-Ack.
-I was hoping to avoid confusion about who should apply them; looks
-like it created more.
+I think "Modify something" isn't clear subject, because reviewers
+don't know at glance the logical change this patch is doing other
+than actually reading the diff below.
 
-Just a note: this one has no code dependencies, so it can be applied
-whenever or wherever.
+For the patch message, what about "Remove duplicate the"?
 
-Daniel
+In this case of trivial patch, it's OK to have the patch message
+same as the subject, if the message can't be described more
+concise but clearer.
+
+> @@ -607,7 +607,7 @@ can be removed.
+>  User xattr
+>  ----------
+>  
+> -The the "-o userxattr" mount option forces overlayfs to use the
+> +The "-o userxattr" mount option forces overlayfs to use the
+>  "user.overlay." xattr namespace instead of "trusted.overlay.".  This is
+>  useful for unprivileged mounting of overlayfs.
+>  
+
+The diff looks OK.
+
+Thanks.
+
+-- 
+An old man doll... just what I always wanted! - Clara
