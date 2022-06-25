@@ -2,105 +2,175 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0823EC433EF
-	for <linux-doc@archiver.kernel.org>; Sat, 25 Jun 2022 15:12:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 01C0DC433EF
+	for <linux-doc@archiver.kernel.org>; Sat, 25 Jun 2022 16:10:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233042AbiFYPMH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 25 Jun 2022 11:12:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42254 "EHLO
+        id S233161AbiFYQKP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 25 Jun 2022 12:10:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44466 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232952AbiFYPMG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 25 Jun 2022 11:12:06 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C77A613EA6;
-        Sat, 25 Jun 2022 08:12:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-        bh=dKTkwKojcLQzO4HZicW5lV577VlQCVPv8wgQNnjwa2A=; b=UeTQSq521AV81Bphy5XLseEV/S
-        au3XmyaHmrSDSIcqBAB9k/VajVy3z12inr3Hs+20Z++0uKGvRH7dpnbg3d0E/oXzAnyvL7CaTwF5C
-        9JXf8hk8mmJRiB2q7iWWMo/CXbEkVAT0IJee3MntbrOhHnTN4u5z4EHzjVcrsNcBTXSEGaHavK5C9
-        d6R74bzIyG0APru5yLJnTkJLmgQgRliRwSsoDZvI8EtA85zrMizNkNmHV3HnLgkos92wxSRREtgoX
-        4qv8phY72ve9CD4euWtfoaYdzMGQh52z0ZUZhfbqVMeGMbymTLq07TqlPCDcIrGPKPsdngymJoy11
-        +2xrRa2g==;
-Received: from [2601:1c0:6280:3f0::aa0b]
-        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1o57S6-006UD6-8t; Sat, 25 Jun 2022 15:12:02 +0000
-Message-ID: <4c403239-3c71-4ab9-2168-f7e9d77008b2@infradead.org>
-Date:   Sat, 25 Jun 2022 08:12:00 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH] Documentation: kunit: eliminate code-block warnings
-Content-Language: en-US
-To:     Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org
-Cc:     Brendan Higgins <brendanhiggins@google.com>,
-        linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
-        linux-doc@vger.kernel.org, Harinder Singh <sharinder@google.com>,
-        Tim Bird <tim.bird@sony.com>
-References: <20220401024707.10550-1-rdunlap@infradead.org>
- <87fsjt50c8.fsf@meer.lwn.net>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <87fsjt50c8.fsf@meer.lwn.net>
-Content-Type: text/plain; charset=UTF-8
+        with ESMTP id S233173AbiFYQKO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 25 Jun 2022 12:10:14 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6FEB614D2E;
+        Sat, 25 Jun 2022 09:10:13 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 0AD2AB80139;
+        Sat, 25 Jun 2022 16:10:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DCD3AC3411C;
+        Sat, 25 Jun 2022 16:10:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1656173410;
+        bh=QSWAyUdJzasHKF1Z9c5060hPLNcWPmd3x4OaL74W4HY=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=MPIF5FvG7m9c6/e3wnewrLU1ha4RtardAl1QUwVJUrAGCelDOO2XeOxmdvJKLf9gI
+         Q5sflhfn0uXwoIhhaxnoALf7a5Pct27xYqtWxTQT0AJ8TLDfyU7LtWrCVxzjJCTZG3
+         xszxQR91hOMUYOmfpfce7rscmQ59SxHI0Vt1rqcQuOcOLvUhai6++e6i4s5wDh+VH5
+         H6P5u+uc74ixbvi4ajD9Ywb74N9fcWXh9jStjYFDHxQBT5PMqPhZ3YSrjxB/x932op
+         Z5C+Q8ijvad9s2Ou+O8QjkKuiOi/1Je5ujHesnHko5VAHubhWajJft+S/lDV7yFCn2
+         1/uh6zFgE4vTQ==
+Date:   Sun, 26 Jun 2022 01:10:06 +0900
+From:   Masami Hiramatsu (Google) <mhiramat@kernel.org>
+To:     Jeff Xie <xiehuan09@gmail.com>
+Cc:     rostedt@goodmis.org, mingo@redhat.com, mhiramat@kernel.org,
+        zanussi@kernel.org, linux-kernel@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v12 4/4] trace/objtrace: Add documentation for objtrace
+Message-Id: <20220626011006.22572fbabcac5c8494e09f13@kernel.org>
+In-Reply-To: <20220606160943.663180-5-xiehuan09@gmail.com>
+References: <20220606160943.663180-1-xiehuan09@gmail.com>
+        <20220606160943.663180-5-xiehuan09@gmail.com>
+X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hi Jeff,
 
+OK, this looks good to me.
 
-On 6/24/22 12:27, Jonathan Corbet wrote:
-> Randy Dunlap <rdunlap@infradead.org> writes:
-> 
->> Fix Sphinx complaints about code-block directive missing an argument.
->> For start.rst, add "none" since that is already heavily used in that
->> file. For run_wrapper.rst, use the simpler "::" literal block instead.
-> 
-> [Sorry that this fell through the cracks; I'm never quite sure who is
-> going to handle kunit patches]
-> 
->> dev-tools/kunit/start.rst:83: WARNING: Error in "code-block" directive:
->> 1 argument(s) required, 0 supplied.
->>
->> dev-tools/kunit/run_wrapper.rst:17: WARNING: Error in "code-block" directive:
->> 1 argument(s) required, 0 supplied.
-> 
-> So which version of Sphinx are you using?  The language argument became
-> optional in 2.0, so you'd need to be running something pretty ancient to
-> see this.
-> 
-> Ah, I see 1.8.5 in your later message...how wedded are you to that
-> version?
+Reviewed-by: Masami Hiramatsu (Google) <mhiramat@kernel.org>
 
-It's what ships with OpenSuse Leap 15.3, which I have been using for quite
-a long time.
+And just a note that please add 'Documentation:' tag to the title
+and Cc to linux-doc@vger.kernel.org and Jonathan Corbet too since
+this is a patch for the Documentation/*.
 
-I see that there is now OpenSuse Leap 15.4, so I could upgrade to that,
-but I don't know what version on Sphinx it uses.
+Thank you,
 
-> Ostensibly we support back to 1.7, so I guess we should stick by its
-> rules.  But the better solution, I think, is to raise our minimum
-> version; I think I'll look into that shortly.
+On Tue,  7 Jun 2022 00:09:43 +0800
+Jeff Xie <xiehuan09@gmail.com> wrote:
+
+> Added documentation explaining how to use objtrace trigger to get the value
+> of the object.
+> 
+> Signed-off-by: Jeff Xie <xiehuan09@gmail.com>
+> ---
+>  Documentation/trace/events.rst | 83 ++++++++++++++++++++++++++++++++++
+>  1 file changed, 83 insertions(+)
+> 
+> diff --git a/Documentation/trace/events.rst b/Documentation/trace/events.rst
+> index c47f381d0c00..0dc475160133 100644
+> --- a/Documentation/trace/events.rst
+> +++ b/Documentation/trace/events.rst
+> @@ -546,6 +546,89 @@ The following commands are supported:
+>  
+>    See Documentation/trace/histogram.rst for details and examples.
+>  
+> +- objtrace
+> +
+> +  This command provides a way to get the value of any object, The object
+> +  can be obtained from the dynamic event(kprobe_event/uprobe_event) or the
+> +  static event(tracepoint).
+> +
+> +  Usage:
+> +  When using the kprobe event, only need to set the objtrace(a new trigger),
+> +  we can get the value of the object. The object is from the setting of the
+> +  kprobe event.
+> +
+> +  For example:
+> +  For the function bio_add_page():
+> +
+> +  int bio_add_page(struct bio *bio, struct page *page,
+> +	unsigned int len, unsigned int offset)
+> +
+> +  Firstly, we can set the base of the object, thus the first string "arg1"
+> +  stands for the value of the first parameter of this function bio_add_gage(),
+> +
+> +  # echo 'p bio_add_page arg1=$arg1' > ./kprobe_events
+> +
+> +  Secondly, we can get the value dynamically based on above object.
+> +
+> +  find the offset of the bi_size in struct bio:
+> +  $ gdb vmlinux
+> +  (gdb) p &(((struct bio *)0)->bi_iter.bi_size)
+> +  $1 = (unsigned int *) 0x28
+> +
+> +  # echo 'objtrace:add:arg1,0x28:u32:1 if comm == "cat"' > ./events/kprobes/ \
+> +	p_bio_add_page_0/trigger
+> +
+> +  # cd /sys/kernel/debug/tracing/
+> +  # echo 'p bio_add_page arg1=$arg1' > ./kprobe_events
+> +  # echo 'objtrace:add:arg1,0x28:u32:1 if comm == "cat"' > ./events/kprobes/p_bio_add_page_0/trigger
+> +
+> +  # du -sh /test.txt
+> +  12.0K   /test.txt
+> +
+> +  # cat  /test.txt > /dev/null
+> +  # cat ./trace
+> +  # tracer: nop
+> +  #
+> +  # entries-in-buffer/entries-written: 128/128   #P:4
+> +  #
+> +  #                                _-----=> irqs-off/BH-disabled
+> +  #                               / _----=> need-resched
+> +  #                              | / _---=> hardirq/softirq
+> +  #                              || / _--=> preempt-depth
+> +  #                              ||| / _-=> migrate-disable
+> +  #                              |||| /     delay
+> +  #           TASK-PID     CPU#  |||||  TIMESTAMP  FUNCTION
+> +  #              | |         |   |||||     |         |
+> +               cat-117     [002] ...1.     1.602243: __bio_try_merge_page <-bio_add_page object:0xffff88811bee4000 value:0x0
+> +               cat-117     [002] ...1.     1.602244: __bio_add_page <-bio_add_page object:0xffff88811bee4000 value:0x0
+> +               cat-117     [002] ...2.     1.602244: bio_add_page <-ext4_mpage_readpages object:0xffff88811bee4000 value:0x1000
+> +               cat-117     [002] ...1.     1.602245: __bio_try_merge_page <-bio_add_page object:0xffff88811bee4000 value:0x1000
+> +               cat-117     [002] ...1.     1.602245: __bio_add_page <-bio_add_page object:0xffff88811bee4000 value:0x1000
+> +               cat-117     [002] ...2.     1.602245: bio_add_page <-ext4_mpage_readpages object:0xffff88811bee4000 value:0x2000
+> +               cat-117     [002] ...1.     1.602245: __bio_try_merge_page <-bio_add_page object:0xffff88811bee4000 value:0x2000
+> +               cat-117     [002] ...1.     1.602245: __bio_add_page <-bio_add_page object:0xffff88811bee4000 value:0x2000
+> +               cat-117     [002] ...1.     1.602245: submit_bio <-ext4_mpage_readpages object:0xffff88811bee4000 value:0x3000
+> +               cat-117     [002] ...1.     1.602245: submit_bio_noacct <-ext4_mpage_readpages object:0xffff88811bee4000 value:0x3000
+> +               cat-117     [002] ...1.     1.602246: __submit_bio <-submit_bio_noacct object:0xffff88811bee4000 value:0x3000
+> +               cat-117     [002] ...1.     1.602246: submit_bio_checks <-__submit_bio object:0xffff88811bee4000 value:0x3000
+> +               cat-117     [002] ...1.     1.602246: __cond_resched <-submit_bio_checks object:0xffff88811bee4000 value:0x3000
+> +               cat-117     [002] ...1.     1.602246: should_fail_bio <-submit_bio_checks object:0xffff88811bee4000 value:0x3000
+> +               cat-117     [002] ...1.     1.602246: blk_mq_submit_bio <-submit_bio_noacct object:0xffff88811bee4000 value:0x3000
+> +               cat-117     [002] ...1.     1.602246: blk_attempt_plug_merge <-blk_mq_submit_bio object:0xffff88811bee4000 value:0x3000
+> +               cat-117     [002] ...1.     1.602246: blk_mq_sched_bio_merge <-blk_mq_submit_bio object:0xffff88811bee4000 value:0x3000
+> +               cat-117     [002] ...1.     1.602247: __rcu_read_lock <-blk_mq_submit_bio object:0xffff88811bee4000 value:0x3000
+> +               cat-117     [002] ...1.     1.602247: __rcu_read_unlock <-blk_mq_submit_bio object:0xffff88811bee4000 value:0x3000
+> +               cat-117     [002] ...1.     1.602247: __blk_mq_alloc_requests <-blk_mq_submit_bio object:0xffff88811bee4000 value:0x3000
+> +            <idle>-0       [002] d..3.     1.602298: bio_endio <-blk_update_request object:0xffff88811bee4000 value:0x0
+> +            <idle>-0       [002] d..3.     1.602298: mpage_end_io <-blk_update_request object:0xffff88811bee4000 value:0x0
+> +            <idle>-0       [002] d..3.     1.602298: __read_end_io <-blk_update_request object:0xffff88811bee4000 value:0x0
+> +            <idle>-0       [002] d..3.     1.602300: bio_put <-blk_update_request object:0xffff88811bee4000 value:0x0
+> +            <idle>-0       [002] d..3.     1.602300: bio_free <-blk_update_request object:0xffff88811bee4000 value:0x0
+> +            <idle>-0       [002] d..3.     1.602300: mempool_free <-blk_update_request object:0xffff88811bee4000 value:0x0
+> +            <idle>-0       [002] d..3.     1.602300: mempool_free_slab <-blk_update_request object:0xffff88811bee4000 value:0x0
+> +            <idle>-0       [002] d..3.     1.602300: kmem_cache_free <-blk_update_request object:0xffff88811bee4000 value:0x0
+> +             ...
+> +
+>  7. In-kernel trace event API
+>  ============================
+>  
+> -- 
+> 2.25.1
 > 
 
->>  
->>  Run command:
->>  
->> -.. code-block::
->> +::
-> 
-> A much nicer fix for these would have been just:
-> 
->   Run command::
-
-Yeah, that is nicer.
-
-> 
-> Oh well, I've applied it.
-
-thanks.
 
 -- 
-~Randy
+Masami Hiramatsu (Google) <mhiramat@kernel.org>
