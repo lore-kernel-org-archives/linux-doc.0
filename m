@@ -2,99 +2,84 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A7A7C43334
-	for <linux-doc@archiver.kernel.org>; Sat, 25 Jun 2022 01:15:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C80E0C43334
+	for <linux-doc@archiver.kernel.org>; Sat, 25 Jun 2022 01:22:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229910AbiFYBPt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 24 Jun 2022 21:15:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41540 "EHLO
+        id S231204AbiFYBWB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 24 Jun 2022 21:22:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44834 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229450AbiFYBPt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Jun 2022 21:15:49 -0400
-Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com [IPv6:2607:f8b0:4864:20::431])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 78FB03ED2C;
-        Fri, 24 Jun 2022 18:15:48 -0700 (PDT)
-Received: by mail-pf1-x431.google.com with SMTP id t21so3966927pfq.1;
-        Fri, 24 Jun 2022 18:15:48 -0700 (PDT)
+        with ESMTP id S229844AbiFYBWA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 24 Jun 2022 21:22:00 -0400
+Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 450BD2981D;
+        Fri, 24 Jun 2022 18:22:00 -0700 (PDT)
+Received: by mail-pj1-x1032.google.com with SMTP id b12-20020a17090a6acc00b001ec2b181c98so7216263pjm.4;
+        Fri, 24 Jun 2022 18:22:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=message-id:date:mime-version:user-agent:subject:content-language:to
          :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=mddgUzjjMvwn6t+jkp7452qXuMD9uxs9pKqRGpWnzls=;
-        b=MFL75ZqSwniQVJ/Tg712PAfFoFZvNdUvvD/hHpnQShNFY/kvSnWnwMdGXuyFf6363F
-         InG8hiCJoMElYT0AYLFk9kwgttuBvSDgybhQeiOQSCJKXX7iV9NMaIVeA5V9HKkFeyQi
-         D0pv5Lh1cd1gjsl3hfadEOgKyegWuS6L4pjyOtchRD5G9RUb13fE+AayBbCz7dHeQ5ij
-         uDeIqmpxmzTFTUuU+wOTF4t+Z39oVUZh8SbygfhA9E5qr/MauwsO8C2xNOkzSUls3mnD
-         vdAhHP+ZGW5AWfuw6h3b3c4IyhkmWRsf0OR7t7/VRE3UVfFSEnuj/z6yN4gDae0XzvgM
-         KMsA==
+        bh=oab5pkGHNScBy29BY/vUlO/Jq0PnbUXb+Uq+pWQ2JE0=;
+        b=ZC8c4XKObB3k9bs0UVISG0emAbk9MDe4QM1B/ppNDhmsQgh7XF1VG38SYp0Dtdqi3t
+         bCGBFJkXloOuEyJi9CeY0rBxRM3RZfLmJG264tRknc3vQ3gXYxBn8nqxKaDWVn7Tnxnr
+         0HfV37bmPr8iCpl0GnMZUl1uuK0p4pIjNLkjahHiJVzM1dc1n5NpKW6iJAErNBactvIG
+         vPgRHl72tzVVT3dZNbJtjyzrm4o1onjM15VK/k6qHOATRdznUPqCaU4YXDv7xdvrnpdq
+         arVUXc3y1XXoLwGJdZya4qb1/mLMBwUQO3WpakWHaucin6RIZPusL1+ZG6X5dfo4nlG5
+         A2NQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
          :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=mddgUzjjMvwn6t+jkp7452qXuMD9uxs9pKqRGpWnzls=;
-        b=Xx1C5wc9CAHLyRPp3h/8HT0uq1n4DXhx3fAg049UgsHbL6q1ie41LV0VVYE+6CFhqx
-         ZXvHz+1RiPu8+vBYrCgWGvuYYNvzJRc4qmO1N2ODyXJKiMBCAPe7Q1V1qBQRxnZNGSzt
-         m03wLfbSaMd2Pv3vA98/HAnQGaiHFhaClP2fkovRX2bPVvJgR28ez/MIl6IAtPY1HUK+
-         jxx2mo4+OOH+zcUJBCKLqEMr9bU54stup6zaGfGO+sgFPb694I5wL2HXWqpqCLhhE0QL
-         8wpjmCsCOUZPYu4IUGEjW9Sz/0ER/xvO/TPBt0GYkd+vYC6qKsdOZdBiEZ9ju4kdDumj
-         BTNQ==
-X-Gm-Message-State: AJIora/KfeoevwP8tngjw4Qqq8rd2tQKtMZIhjtd825kBGPKOfm44o4J
-        yUlU+vUqg87Bb5QDwMYd0eQ=
-X-Google-Smtp-Source: AGRyM1tyD3JHAlSkBQre22ZgvMm1Os5Ag+84SUDLVbeBfB3j6RW5jvPKEfdDHIPvu+CHWDALZaL72A==
-X-Received: by 2002:a63:6b08:0:b0:3fd:1b8e:3932 with SMTP id g8-20020a636b08000000b003fd1b8e3932mr1481851pgc.552.1656119747744;
-        Fri, 24 Jun 2022 18:15:47 -0700 (PDT)
-Received: from [192.168.43.80] (subs09a-223-255-225-71.three.co.id. [223.255.225.71])
-        by smtp.gmail.com with ESMTPSA id d76-20020a621d4f000000b005255151e248sm2433430pfd.174.2022.06.24.18.15.45
+        bh=oab5pkGHNScBy29BY/vUlO/Jq0PnbUXb+Uq+pWQ2JE0=;
+        b=NJ2u1x5kArhyllLFFZk6HvHxRX1Ge+jaQl/c8f2D3TtEsDCL98M3Yd3W+Yq/X/D5XD
+         gzPrt79yVQP6Gc5VmqLPgQkKgqsPGDRgb/3Q1ShiTB8+S+hrHHaqqu44eAy2+jOKMkIX
+         keG77vXLfaZR3mOYkHfn2ioyWWUDdx9hH6C7HRkRsI+Gneeu/6kYCy5Anyd15ykCWquY
+         BslvEkwOPlpAICdEMXxGZjU2qS33W8IFR0RKO0cjYvbUIMNFeVJhTdxbWi1XecRhW1RF
+         WJ6U2WQUcFVwIGUiDUyUi4A/twt521D6LAOZBnF09eUm+yroOz7mDHAmX+qVbSZtLprN
+         BYEA==
+X-Gm-Message-State: AJIora/3aN2+Mc2WzUg0qdmJLRd/L2a6Swzfvfo9eB9rJqiyW5XmTJY9
+        096NaRCL20+Se7A/51MfyEPNSpE98Q4=
+X-Google-Smtp-Source: AGRyM1vUM6pY46Bo8PVdjR11WolOTknz75/RHApcr7a+t4Y/WZW17R+k6Ra8xR92qK3aBGNvCsfDIg==
+X-Received: by 2002:a17:902:ea07:b0:16a:2833:3207 with SMTP id s7-20020a170902ea0700b0016a28333207mr1839599plg.86.1656120119602;
+        Fri, 24 Jun 2022 18:21:59 -0700 (PDT)
+Received: from [192.168.43.80] (subs03-180-214-233-86.three.co.id. [180.214.233.86])
+        by smtp.gmail.com with ESMTPSA id i14-20020a62870e000000b005251ce498cfsm2326094pfe.191.2022.06.24.18.21.56
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 24 Jun 2022 18:15:47 -0700 (PDT)
-Message-ID: <241393bf-1fd3-ab25-867b-7132d7590aa8@gmail.com>
-Date:   Sat, 25 Jun 2022 08:15:43 +0700
+        Fri, 24 Jun 2022 18:21:59 -0700 (PDT)
+Message-ID: <0afa5acc-e78f-9920-8488-5c322312f14f@gmail.com>
+Date:   Sat, 25 Jun 2022 08:21:55 +0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.10.0
-Subject: Re: [PATCH] media: docs: Modify the section of User xattr
+Subject: Re: [PATCH v2] docs/doc-guide: Mention make variable SPHINXDIRS
 Content-Language: en-US
-To:     Deming Wang <wangdeming@inspur.com>, miklos@szeredi.hu,
-        corbet@lwn.net
-Cc:     linux-unionfs@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20220624014605.2007-1-wangdeming@inspur.com>
+To:     Akira Yokosawa <akiyks@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        "Maciej W. Rozycki" <macro@orcam.me.uk>,
+        Miguel Ojeda <ojeda@kernel.org>, linux-kernel@vger.kernel.org
+References: <50d6f0bc-030d-9529-0665-e2b3e7c792d8@gmail.com>
 From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <20220624014605.2007-1-wangdeming@inspur.com>
+In-Reply-To: <50d6f0bc-030d-9529-0665-e2b3e7c792d8@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 6/24/22 08:46, Deming Wang wrote:
-> Delete duplicate words of "the".
-> 
+On 6/25/22 04:58, Akira Yokosawa wrote:
+> +There is another make variable ``SPHINXDIRS``, which is useful when test
+> +building a subset of documentation.  For example, you can build documents
+> +under ``Documentation/doc-guide`` by running
+> +``make SPHINXDIRS=doc-guide htmldocs``.
+> +The documentation section of ``make help`` will show you the list of
+> +subdirectories you can specify.
+> +
 
-I think "Modify something" isn't clear subject, because reviewers
-don't know at glance the logical change this patch is doing other
-than actually reading the diff below.
-
-For the patch message, what about "Remove duplicate the"?
-
-In this case of trivial patch, it's OK to have the patch message
-same as the subject, if the message can't be described more
-concise but clearer.
-
-> @@ -607,7 +607,7 @@ can be removed.
->  User xattr
->  ----------
->  
-> -The the "-o userxattr" mount option forces overlayfs to use the
-> +The "-o userxattr" mount option forces overlayfs to use the
->  "user.overlay." xattr namespace instead of "trusted.overlay.".  This is
->  useful for unprivileged mounting of overlayfs.
->  
-
-The diff looks OK.
-
-Thanks.
+What about "The list of valid subdirectories can be found in the documentation
+section of ``make help``."?
 
 -- 
 An old man doll... just what I always wanted! - Clara
