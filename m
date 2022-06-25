@@ -2,110 +2,195 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F1C7C433EF
-	for <linux-doc@archiver.kernel.org>; Sat, 25 Jun 2022 16:38:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A331C433EF
+	for <linux-doc@archiver.kernel.org>; Sat, 25 Jun 2022 17:07:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232979AbiFYQiU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 25 Jun 2022 12:38:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57654 "EHLO
+        id S233230AbiFYRHU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 25 Jun 2022 13:07:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43342 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232172AbiFYQiU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 25 Jun 2022 12:38:20 -0400
-X-Greylist: delayed 2400 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sat, 25 Jun 2022 09:38:18 PDT
-Received: from 4.mo583.mail-out.ovh.net (4.mo583.mail-out.ovh.net [178.33.111.247])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D25B13D5A
-        for <linux-doc@vger.kernel.org>; Sat, 25 Jun 2022 09:38:18 -0700 (PDT)
-Received: from player760.ha.ovh.net (unknown [10.108.16.91])
-        by mo583.mail-out.ovh.net (Postfix) with ESMTP id B8B3E239F2
-        for <linux-doc@vger.kernel.org>; Sat, 25 Jun 2022 15:22:56 +0000 (UTC)
-Received: from sk2.org (82-65-25-201.subs.proxad.net [82.65.25.201])
-        (Authenticated sender: steve@sk2.org)
-        by player760.ha.ovh.net (Postfix) with ESMTPSA id 114742BF81CAC;
-        Sat, 25 Jun 2022 15:22:52 +0000 (UTC)
-Authentication-Results: garm.ovh; auth=pass (GARM-100R003f7620af6-7b52-4906-bc6a-9af872b4aa46,
-                    6AC0142EC25AD3FE2D0BC2776DBD8C4E282FD61D) smtp.auth=steve@sk2.org
-X-OVh-ClientIp: 82.65.25.201
-Date:   Sat, 25 Jun 2022 17:22:45 +0200
-From:   Stephen Kitt <steve@sk2.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] docs: admin-guide/sysctl: escape % symbols
-Message-ID: <20220625172245.15d0ae7b@heffalump.sk2.org>
-In-Reply-To: <871qvd6fq2.fsf@meer.lwn.net>
-References: <20220624110230.595740-1-steve@sk2.org>
-        <871qvd6fq2.fsf@meer.lwn.net>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+        with ESMTP id S233210AbiFYRHT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 25 Jun 2022 13:07:19 -0400
+Received: from mail-oi1-x22b.google.com (mail-oi1-x22b.google.com [IPv6:2607:f8b0:4864:20::22b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B668515A1C;
+        Sat, 25 Jun 2022 10:07:17 -0700 (PDT)
+Received: by mail-oi1-x22b.google.com with SMTP id k24so7548010oij.2;
+        Sat, 25 Jun 2022 10:07:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=8n9hH/ythAzKKBKCcBBuLLTJGb02YFxnmek8KzP48ZY=;
+        b=Xj14f2kF5uDcTrOhgRk/1voVwpMJzJpmVCSNNBF3kWL5gJ3nQmljbmB0vJGWVDMKXT
+         aUVQUS5qnNtX0wOeSuVtvrADrVzSWzIhs54A/kk0RRaUJMlpDCjjyaBXLjcg6V1Vkc33
+         dFYi5yD6jRCpFgsfVWc/ECuRgWbln3L61Wb0AhSkhclG+wmHtrnPMPsnCRV3ebGOT3Ro
+         A1+ov/HeaN+UYmjbUGhxtx7WR5gZCHHdUk+3ZeaxZD1Q4p3fqFQeP/9lELspW1uU9AX0
+         LEv5kZ3VVcmL2yl36+VtPkDvIozmMSIFmZsCXrxq6MUdDGlWLS9kQk+DgoF7E1nKQauR
+         ASJQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=8n9hH/ythAzKKBKCcBBuLLTJGb02YFxnmek8KzP48ZY=;
+        b=7fTFgvKp9dZjK4+ywVMS6mvkjQGtnAWEHWfRJ9of9RuyK4jnGqqIZS+P8Y40Do9kUT
+         f7plz1o8SjpMXQyCg9cOkQLaIrE0u3sPbcbQ4CE3MtZaSNc9iLB/RhPFdSFHl2VgyEc3
+         EbubsS3704gS0gC+T0uwb0cqrqwpxlKNvC7xsmkDhdoxVKG/KTgj9BSYa4p7g+usyKej
+         F5g6+zE0ZYFAegTDUmeGQoR8QwDmUS3Pm2oja3wy9E6H0XRSAplRcew3jqgtwi9Qg/ln
+         wQOkvnxyNwYXQWkM7hM+ihrNFqShA69Cc7T+ZjFZCOov0CAak3tk7HpHwpzid5R9qoYB
+         sKIA==
+X-Gm-Message-State: AJIora9r4jKvGDWqdMWXBY/P5oHsZvHutTkM6nCABJjClDiBrJAE2k7D
+        eG6GwgoLZIGCV1/uNQhz17RpotcbMC0NNkbVGHE=
+X-Google-Smtp-Source: AGRyM1tky3qHCX8JXqM0saeXGeVNItq3JpdgE7sqUGOAM3SJJZHjLdqcxT0uTLhjPLworwQNvE+o2Rlv80GA4Jm4CM4=
+X-Received: by 2002:a05:6808:e8c:b0:335:2835:79c3 with SMTP id
+ k12-20020a0568080e8c00b00335283579c3mr5493503oil.217.1656176836854; Sat, 25
+ Jun 2022 10:07:16 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/Pe0R7RzTtKL/6ALA3/RL0CV";
- protocol="application/pgp-signature"; micalg=pgp-sha512
-X-Ovh-Tracer-Id: 2904821760775325318
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrudeguddgkeelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkjghfofggtgesghdtreerredtvdenucfhrhhomhepufhtvghphhgvnhcumfhithhtuceoshhtvghvvgesshhkvddrohhrgheqnecuggftrfgrthhtvghrnhepfeffgefhgfeuueeffeejieefieefgfefffethfdtudegvdejueelhffhfeegjeeinecukfhppedtrddtrddtrddtpdekvddrieehrddvhedrvddtudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepphhlrgihvghrjeeitddrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehsthgvvhgvsehskhdvrdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtoheplhhinhhugidqughotgesvhhgvghrrdhkvghrnhgvlhdrohhrghdpoffvtefjohhsthepmhhoheekfe
+References: <20220606160943.663180-1-xiehuan09@gmail.com> <20220606160943.663180-5-xiehuan09@gmail.com>
+ <20220626011006.22572fbabcac5c8494e09f13@kernel.org>
+In-Reply-To: <20220626011006.22572fbabcac5c8494e09f13@kernel.org>
+From:   Jeff Xie <xiehuan09@gmail.com>
+Date:   Sun, 26 Jun 2022 01:07:04 +0800
+Message-ID: <CAEr6+EBCPoZ_KkdOkFQgqgc9rrsOUVbkthJN6t-OLvL2gBwmDQ@mail.gmail.com>
+Subject: Re: [PATCH v12 4/4] trace/objtrace: Add documentation for objtrace
+To:     Masami Hiramatsu <mhiramat@kernel.org>
+Cc:     Steven Rostedt <rostedt@goodmis.org>, mingo@redhat.com,
+        Tom Zanussi <zanussi@kernel.org>, linux-kernel@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
---Sig_/Pe0R7RzTtKL/6ALA3/RL0CV
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Hi Masami,
 
-On Fri, 24 Jun 2022 13:09:25 -0600, Jonathan Corbet <corbet@lwn.net> wrote:
-> Stephen Kitt <steve@sk2.org> writes:
-> > % symbols need to be escaped to render correctly here, do so.
+On Sun, Jun 26, 2022 at 12:10 AM Masami Hiramatsu <mhiramat@kernel.org> wrote:
+>
+> Hi Jeff,
+>
+> OK, this looks good to me.
+>
+> Reviewed-by: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+>
+> And just a note that please add 'Documentation:' tag to the title
+> and Cc to linux-doc@vger.kernel.org and Jonathan Corbet too since
+> this is a patch for the Documentation/*.
+
+Thanks for the reminder, I will do it like this in my next version.
+
+> Thank you,
+>
+> On Tue,  7 Jun 2022 00:09:43 +0800
+> Jeff Xie <xiehuan09@gmail.com> wrote:
+>
+> > Added documentation explaining how to use objtrace trigger to get the value
+> > of the object.
 > >
-> > Signed-off-by: Stephen Kitt <steve@sk2.org>
+> > Signed-off-by: Jeff Xie <xiehuan09@gmail.com>
 > > ---
-> >  Documentation/admin-guide/sysctl/kernel.rst | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
+> >  Documentation/trace/events.rst | 83 ++++++++++++++++++++++++++++++++++
+> >  1 file changed, 83 insertions(+)
 > >
-> > diff --git a/Documentation/admin-guide/sysctl/kernel.rst
-> > b/Documentation/admin-guide/sysctl/kernel.rst index
-> > ddccd1077462..079a51ed88a9 100644 ---
-> > a/Documentation/admin-guide/sysctl/kernel.rst +++
-> > b/Documentation/admin-guide/sysctl/kernel.rst @@ -38,8 +38,8 @@ acct
-> > =20
-> >  If BSD-style process accounting is enabled these values control
-> >  its behaviour. If free space on filesystem where the log lives
-> > -goes below ``lowwater``% accounting suspends. If free space gets
-> > -above ``highwater``% accounting resumes. ``frequency`` determines
-> > +goes below ``lowwater``\% accounting suspends. If free space gets
-> > +above ``highwater``\% accounting resumes. ``frequency`` determines
-> >  how often do we check the amount of free space (value is in
-> >  seconds). Default: =20
->=20
-> Interesting...I had to go digging into why this is, because "%" isn't
-> really special for RST.  The real problem is that ``literal`` markup
-> needs to have word separators around it, and the recommended solution is
-> to use "\ " instead.
->=20
-> So I'll apply this, but tweak the changelog and add the extra spaces.
+> > diff --git a/Documentation/trace/events.rst b/Documentation/trace/events.rst
+> > index c47f381d0c00..0dc475160133 100644
+> > --- a/Documentation/trace/events.rst
+> > +++ b/Documentation/trace/events.rst
+> > @@ -546,6 +546,89 @@ The following commands are supported:
+> >
+> >    See Documentation/trace/histogram.rst for details and examples.
+> >
+> > +- objtrace
+> > +
+> > +  This command provides a way to get the value of any object, The object
+> > +  can be obtained from the dynamic event(kprobe_event/uprobe_event) or the
+> > +  static event(tracepoint).
+> > +
+> > +  Usage:
+> > +  When using the kprobe event, only need to set the objtrace(a new trigger),
+> > +  we can get the value of the object. The object is from the setting of the
+> > +  kprobe event.
+> > +
+> > +  For example:
+> > +  For the function bio_add_page():
+> > +
+> > +  int bio_add_page(struct bio *bio, struct page *page,
+> > +     unsigned int len, unsigned int offset)
+> > +
+> > +  Firstly, we can set the base of the object, thus the first string "arg1"
+> > +  stands for the value of the first parameter of this function bio_add_gage(),
+> > +
+> > +  # echo 'p bio_add_page arg1=$arg1' > ./kprobe_events
+> > +
+> > +  Secondly, we can get the value dynamically based on above object.
+> > +
+> > +  find the offset of the bi_size in struct bio:
+> > +  $ gdb vmlinux
+> > +  (gdb) p &(((struct bio *)0)->bi_iter.bi_size)
+> > +  $1 = (unsigned int *) 0x28
+> > +
+> > +  # echo 'objtrace:add:arg1,0x28:u32:1 if comm == "cat"' > ./events/kprobes/ \
+> > +     p_bio_add_page_0/trigger
+> > +
+> > +  # cd /sys/kernel/debug/tracing/
+> > +  # echo 'p bio_add_page arg1=$arg1' > ./kprobe_events
+> > +  # echo 'objtrace:add:arg1,0x28:u32:1 if comm == "cat"' > ./events/kprobes/p_bio_add_page_0/trigger
+> > +
+> > +  # du -sh /test.txt
+> > +  12.0K   /test.txt
+> > +
+> > +  # cat  /test.txt > /dev/null
+> > +  # cat ./trace
+> > +  # tracer: nop
+> > +  #
+> > +  # entries-in-buffer/entries-written: 128/128   #P:4
+> > +  #
+> > +  #                                _-----=> irqs-off/BH-disabled
+> > +  #                               / _----=> need-resched
+> > +  #                              | / _---=> hardirq/softirq
+> > +  #                              || / _--=> preempt-depth
+> > +  #                              ||| / _-=> migrate-disable
+> > +  #                              |||| /     delay
+> > +  #           TASK-PID     CPU#  |||||  TIMESTAMP  FUNCTION
+> > +  #              | |         |   |||||     |         |
+> > +               cat-117     [002] ...1.     1.602243: __bio_try_merge_page <-bio_add_page object:0xffff88811bee4000 value:0x0
+> > +               cat-117     [002] ...1.     1.602244: __bio_add_page <-bio_add_page object:0xffff88811bee4000 value:0x0
+> > +               cat-117     [002] ...2.     1.602244: bio_add_page <-ext4_mpage_readpages object:0xffff88811bee4000 value:0x1000
+> > +               cat-117     [002] ...1.     1.602245: __bio_try_merge_page <-bio_add_page object:0xffff88811bee4000 value:0x1000
+> > +               cat-117     [002] ...1.     1.602245: __bio_add_page <-bio_add_page object:0xffff88811bee4000 value:0x1000
+> > +               cat-117     [002] ...2.     1.602245: bio_add_page <-ext4_mpage_readpages object:0xffff88811bee4000 value:0x2000
+> > +               cat-117     [002] ...1.     1.602245: __bio_try_merge_page <-bio_add_page object:0xffff88811bee4000 value:0x2000
+> > +               cat-117     [002] ...1.     1.602245: __bio_add_page <-bio_add_page object:0xffff88811bee4000 value:0x2000
+> > +               cat-117     [002] ...1.     1.602245: submit_bio <-ext4_mpage_readpages object:0xffff88811bee4000 value:0x3000
+> > +               cat-117     [002] ...1.     1.602245: submit_bio_noacct <-ext4_mpage_readpages object:0xffff88811bee4000 value:0x3000
+> > +               cat-117     [002] ...1.     1.602246: __submit_bio <-submit_bio_noacct object:0xffff88811bee4000 value:0x3000
+> > +               cat-117     [002] ...1.     1.602246: submit_bio_checks <-__submit_bio object:0xffff88811bee4000 value:0x3000
+> > +               cat-117     [002] ...1.     1.602246: __cond_resched <-submit_bio_checks object:0xffff88811bee4000 value:0x3000
+> > +               cat-117     [002] ...1.     1.602246: should_fail_bio <-submit_bio_checks object:0xffff88811bee4000 value:0x3000
+> > +               cat-117     [002] ...1.     1.602246: blk_mq_submit_bio <-submit_bio_noacct object:0xffff88811bee4000 value:0x3000
+> > +               cat-117     [002] ...1.     1.602246: blk_attempt_plug_merge <-blk_mq_submit_bio object:0xffff88811bee4000 value:0x3000
+> > +               cat-117     [002] ...1.     1.602246: blk_mq_sched_bio_merge <-blk_mq_submit_bio object:0xffff88811bee4000 value:0x3000
+> > +               cat-117     [002] ...1.     1.602247: __rcu_read_lock <-blk_mq_submit_bio object:0xffff88811bee4000 value:0x3000
+> > +               cat-117     [002] ...1.     1.602247: __rcu_read_unlock <-blk_mq_submit_bio object:0xffff88811bee4000 value:0x3000
+> > +               cat-117     [002] ...1.     1.602247: __blk_mq_alloc_requests <-blk_mq_submit_bio object:0xffff88811bee4000 value:0x3000
+> > +            <idle>-0       [002] d..3.     1.602298: bio_endio <-blk_update_request object:0xffff88811bee4000 value:0x0
+> > +            <idle>-0       [002] d..3.     1.602298: mpage_end_io <-blk_update_request object:0xffff88811bee4000 value:0x0
+> > +            <idle>-0       [002] d..3.     1.602298: __read_end_io <-blk_update_request object:0xffff88811bee4000 value:0x0
+> > +            <idle>-0       [002] d..3.     1.602300: bio_put <-blk_update_request object:0xffff88811bee4000 value:0x0
+> > +            <idle>-0       [002] d..3.     1.602300: bio_free <-blk_update_request object:0xffff88811bee4000 value:0x0
+> > +            <idle>-0       [002] d..3.     1.602300: mempool_free <-blk_update_request object:0xffff88811bee4000 value:0x0
+> > +            <idle>-0       [002] d..3.     1.602300: mempool_free_slab <-blk_update_request object:0xffff88811bee4000 value:0x0
+> > +            <idle>-0       [002] d..3.     1.602300: kmem_cache_free <-blk_update_request object:0xffff88811bee4000 value:0x0
+> > +             ...
+> > +
+> >  7. In-kernel trace event API
+> >  ============================
+> >
+> > --
+> > 2.25.1
+> >
+>
+>
+> --
+> Masami Hiramatsu (Google) <mhiramat@kernel.org>
 
-Ah yes, thanks for looking into this!
-
-Regards,
-
-Stephen
-
---Sig_/Pe0R7RzTtKL/6ALA3/RL0CV
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEEnPVX/hPLkMoq7x0ggNMC9Yhtg5wFAmK3KEUACgkQgNMC9Yht
-g5z18Q/9ERonRuANlr+e7Zjg4opVcYZC+lOypAfauXJvP6DGiXqF4bOOgUezE7ns
-EGtHKyKm2HWIwnrdu1WdkHl5RcLsGLrcBRrTWSEqABXauv0zHSM8cdqNosfBaz/g
-WgZA41bc7VzBL/70gjwPXqV9OYS/03Vq+TLPznQ/mw0PEdFIQTaR+7Y9AL61r1Tw
-NUNkNMb65jPmyeNDdAhLXtvRn3JHibEPAq9kpc4QNejCN/1Yu2Q0OPxeEppEUXZA
-1JRGttDrRjAxMeWYiSJc9iaVc20qLMdcy79mugBbd5vGqVzPBT0Je4sEkHrTJvtn
-8oP+sr77/nCiGp8ZrzqJEszdJUd/SclMz8MiDQvq/ls023feuGwUm5wdX6WY2k2r
-aPIdH2JPG7h6b2Rh2SEtF7um4KB3pbQr+wqj2PlYOSV7x20lSwCpZ5rOWgpn6FhI
-UMdbeYDZKN0ptpd0gOuwvgk5E3G5mFzovRTE0QbNRiI906Xw1ceiR1qlzfHKtgec
-8pygx+p/nftHWg7Zsg/KckA3iS8F/64nsJ+e1Q1Y4dnjZI+jUxiij3IGO8Njqe+t
-963mF+/GdecjtObLsgX2b46Wl1GCMCzXSlTULrzLrSL6wr3d/5pqohI/wJRzsPSd
-qJpWgAYlEWMvRi/dbubIBHJ2hF8xjhEonVthUbrb4UiZYJvdtqs=
-=ADlL
------END PGP SIGNATURE-----
-
---Sig_/Pe0R7RzTtKL/6ALA3/RL0CV--
+Thanks,
+JeffXie
