@@ -2,49 +2,49 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 86A18C43334
-	for <linux-doc@archiver.kernel.org>; Sun, 26 Jun 2022 09:11:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 69BD1CCA481
+	for <linux-doc@archiver.kernel.org>; Sun, 26 Jun 2022 09:11:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234124AbiFZJLO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 26 Jun 2022 05:11:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46234 "EHLO
+        id S234137AbiFZJLP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 26 Jun 2022 05:11:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46238 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229867AbiFZJLM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 26 Jun 2022 05:11:12 -0400
+        with ESMTP id S230051AbiFZJLN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 26 Jun 2022 05:11:13 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0EC412A93;
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0538512A94;
         Sun, 26 Jun 2022 02:11:11 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 7F7DD61180;
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 8D63261187;
         Sun, 26 Jun 2022 09:11:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C90DBC341CB;
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3E51C341CE;
         Sun, 26 Jun 2022 09:11:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1656234670;
-        bh=cvDUPUUtzJ93M+/T9ebETbcn6ZTwTPOb5ac5fH1CZ78=;
+        bh=8FZLUqXlt4kX0eBdlVb+sYAB98PK6Yu7ycSI8qBBmeg=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Py8Or5iBCfo2Dr3X8ilWCsHU4LTknV0s5DZ51vu0G/LjbBhgPaRbhIsPDHIeCjGfZ
-         TlngHyAXay4F/5H38vkY7w77Kh0/oj1SXTDI8jklE3Cy31/tGBRURPC67H7BxlCxY1
-         AqsNCtxhZP4Y7/nFdkHr9yYgI1fhtZlLFC7QwBxsMNTMBkOQk/v2xZYRtVewCS0osr
-         G2f27OpGPZh0dUt4pfJShmbghzEmXpAfrnnflTjpmonMhvmTERfuGaS/vt+1n6NpUk
-         89oIgtqf+MLjF1n6ZKCG90HCfZstYBus5DoT2FhBqEMhrFcjmd4qG1noJIUvCTcGpJ
-         /qsw78i13cYVw==
+        b=ihh4Didv1uMwr3X/E0EFfQ5nIcDRiiCd44NN5clCMtqQqM2T95eOp1oP+BTInBuvS
+         lMfu2VVwxhFJevYuOT1mv+SHvmD786Yy04YFxWLzOQJ346BDy/sC7280gZZSqGP+uM
+         cltz3Qh+vCegNGmfzIDMxvHVTPW5luu9QJQmwQVwbSxOQas4eyBN7khX1QGsr2b+H+
+         pMIJ7bOE/bnFvSoP9ArDY7Oa9CyczyaG9lOGxxxFq6WesoaD6KXRR509/dnf1ZQEdU
+         RRKadWSmx/9n8QxW73uj/ySOiZXbJmn5hD56dfG+FxktNpL5lYeQpJq1sow5Xf5umU
+         PFX/JLZSSv1Bg==
 Received: from mchehab by mail.kernel.org with local (Exim 4.95)
         (envelope-from <mchehab@kernel.org>)
-        id 1o5OIN-001coG-S9;
-        Sun, 26 Jun 2022 10:11:07 +0100
+        id 1o5OIO-001cow-3S;
+        Sun, 26 Jun 2022 10:11:08 +0100
 From:   Mauro Carvalho Chehab <mchehab@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         "Jonathan Corbet" <corbet@lwn.net>,
         "Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
-        David Howells <dhowells@redhat.com>, linux-cachefs@redhat.com,
+        Paolo Bonzini <pbonzini@redhat.com>, kvm@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v2 02/20] docs: filesystems: update netfs-api.rst reference
-Date:   Sun, 26 Jun 2022 10:10:48 +0100
-Message-Id: <5f867f01d42c3e65e111167739ed1a41a26623f9.1656234456.git.mchehab@kernel.org>
+Subject: [PATCH v2 13/20] Documentation: KVM: update msr.rst reference
+Date:   Sun, 26 Jun 2022 10:10:59 +0100
+Message-Id: <5652b7f5caff3b817a660b75f1f319a2f8962380.1656234456.git.mchehab@kernel.org>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <cover.1656234456.git.mchehab@kernel.org>
 References: <cover.1656234456.git.mchehab@kernel.org>
@@ -54,35 +54,35 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Changeset efc930fa1d84 ("docs: filesystems: caching/netfs-api.txt: convert it to ReST")
-renamed: Documentation/filesystems/caching/netfs-api.txt
-to: Documentation/filesystems/caching/netfs-api.rst.
+Changeset daec8d408308 ("Documentation: KVM: add separate directories for architecture-specific documentation")
+renamed: Documentation/virt/kvm/msr.rst
+to: Documentation/virt/kvm/x86/msr.rst.
 
 Update its cross-reference accordingly.
 
-Fixes: efc930fa1d84 ("docs: filesystems: caching/netfs-api.txt: convert it to ReST")
+Fixes: daec8d408308 ("Documentation: KVM: add separate directories for architecture-specific documentation")
 Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
 ---
 
 To avoid mailbombing on a large number of people, only mailing lists were C/C on the cover.
 See [PATCH v2 00/20] at: https://lore.kernel.org/all/cover.1656234456.git.mchehab@kernel.org/
 
- include/linux/fscache.h | 2 +-
+ Documentation/virt/kvm/api.rst | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/include/linux/fscache.h b/include/linux/fscache.h
-index 72585c9729a2..2f82ea31d4c1 100644
---- a/include/linux/fscache.h
-+++ b/include/linux/fscache.h
-@@ -378,7 +378,7 @@ void fscache_update_cookie(struct fscache_cookie *cookie, const void *aux_data,
-  *
-  * Request that the size of an object be changed.
-  *
-- * See Documentation/filesystems/caching/netfs-api.txt for a complete
-+ * See Documentation/filesystems/caching/netfs-api.rst for a complete
-  * description.
-  */
- static inline
+diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
+index 9260152c37cb..41afd1125cb1 100644
+--- a/Documentation/virt/kvm/api.rst
++++ b/Documentation/virt/kvm/api.rst
+@@ -7894,7 +7894,7 @@ architecture-specific interfaces.  This capability and the architecture-
+ specific interfaces must be consistent, i.e. if one says the feature
+ is supported, than the other should as well and vice versa.  For arm64
+ see Documentation/virt/kvm/devices/vcpu.rst "KVM_ARM_VCPU_PVTIME_CTRL".
+-For x86 see Documentation/virt/kvm/msr.rst "MSR_KVM_STEAL_TIME".
++For x86 see Documentation/virt/kvm/x86/msr.rst "MSR_KVM_STEAL_TIME".
+ 
+ 8.25 KVM_CAP_S390_DIAG318
+ -------------------------
 -- 
 2.36.1
 
