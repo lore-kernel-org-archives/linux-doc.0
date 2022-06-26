@@ -2,61 +2,66 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 71782CCA47C
-	for <linux-doc@archiver.kernel.org>; Sun, 26 Jun 2022 09:14:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 42C88C43334
+	for <linux-doc@archiver.kernel.org>; Sun, 26 Jun 2022 09:23:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234312AbiFZJOu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 26 Jun 2022 05:14:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51860 "EHLO
+        id S234174AbiFZJXR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 26 Jun 2022 05:23:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57812 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234305AbiFZJOu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 26 Jun 2022 05:14:50 -0400
-Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D353E56;
-        Sun, 26 Jun 2022 02:14:48 -0700 (PDT)
-Received: by mail-qk1-f173.google.com with SMTP id b125so5005973qkg.11;
-        Sun, 26 Jun 2022 02:14:48 -0700 (PDT)
+        with ESMTP id S234151AbiFZJXN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 26 Jun 2022 05:23:13 -0400
+Received: from mail-io1-xd36.google.com (mail-io1-xd36.google.com [IPv6:2607:f8b0:4864:20::d36])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 98E4910561;
+        Sun, 26 Jun 2022 02:23:11 -0700 (PDT)
+Received: by mail-io1-xd36.google.com with SMTP id y18so6873667iof.2;
+        Sun, 26 Jun 2022 02:23:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Y+LUHC0DYaulPNo54n0DeVDYRCFGg0Z9uPUo6eao7cY=;
+        b=gsetRLCAEWRpYTa+ktubHph4GACN1etqI0SW0ZaKl+tXJgFgfvNyI1sIMBOmdufqWn
+         5VGXphd8iVaSX1K2KdxgbA9Tu6tDn3QkShLII6lmA9jRvcRB9xuu5MTQKHfyZQ+SkgPr
+         yfUc+O5FVteVBQBBwq7PGOLwpXa7VUqpPrdVr+8ycLThEc+SuTBpJjnc9gV1XJEYrkkY
+         XUxSf+Qs6glluHVKhscIZCgYFlGtsRpDKgItYzC9UhZrdea4CVB3JsW37QtCtpq8bkyK
+         PCtX35olaRNIHekoPkIx9yqE55q5ylkOwVQ3OTaO4IiGbdunNDS/nQ3//R8J7Ws2Njgb
+         rLyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=jbPraZXafoS9hoTYKTZ34AOWnSsSx8JmOQi+FZJXy5o=;
-        b=7805PzomCq7irGRYCGTH0DbQJ7yVnuoNMTEcvXHbvQcGWoZQbVN7fEKsPhmNnyMZxp
-         JBX2c9pZGuNfZreubKg3tyCOvTMdNEbI+YrEs/wIupOnyvtzsghOgU9m8akp8nx5hoWW
-         RtVf8ylVQgnAM1ntSN/UgnGE3+syYLc//IH/UaBhxMigqvRiC13cPhRIDNcw319NiPk8
-         Zi27fjzItyr/cjLVSWugL9W3wGCc0YE+vrWbZ+1NUTA0znl0azeasXiasf2vakxLqL4Z
-         gKx4wUO0ZL5qHt4MtMfLz1pL5Lsk43LCt0J7hbcobtsxK69w6re2hdrX9FNfjUcwH0p6
-         3MSQ==
-X-Gm-Message-State: AJIora/FgzCs1SPssKC5mivdIXrbUzzBV9/PV9LPBFqKq1/VW3xURnJ8
-        H1n2W02k6DjHsIq/mpz+tSVVnHsvjsUMxA==
-X-Google-Smtp-Source: AGRyM1uD91pSXgG6pa19BRUmEZPCsvKJEdw3NaYit4C9PLiRW6MyvdMCHwpONNxrPkT+Fz7sA1wxsQ==
-X-Received: by 2002:a05:620a:4712:b0:6a7:304f:89c2 with SMTP id bs18-20020a05620a471200b006a7304f89c2mr4950769qkb.46.1656234887485;
-        Sun, 26 Jun 2022 02:14:47 -0700 (PDT)
-Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com. [209.85.219.173])
-        by smtp.gmail.com with ESMTPSA id g18-20020a37e212000000b006a691904891sm5620392qki.16.2022.06.26.02.14.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 26 Jun 2022 02:14:47 -0700 (PDT)
-Received: by mail-yb1-f173.google.com with SMTP id i7so11812211ybe.11;
-        Sun, 26 Jun 2022 02:14:47 -0700 (PDT)
-X-Received: by 2002:a05:6902:120e:b0:634:6f29:6b84 with SMTP id
- s14-20020a056902120e00b006346f296b84mr7820984ybu.604.1656234886883; Sun, 26
- Jun 2022 02:14:46 -0700 (PDT)
+        bh=Y+LUHC0DYaulPNo54n0DeVDYRCFGg0Z9uPUo6eao7cY=;
+        b=ao84SzjZLBpgw097RmWx9ZWuZ2gO6xzeI2emxKoJoUn9FNc/dgExfSm5tjA7HdHspR
+         I7NS4IEpjtQUE6M9z8gvLhwVv+K/IJ4BCM0p2oYG78fHLRiImd3SnnvV5HSAvFypha3r
+         qEE3iFXFrHIbMv88oBtO0uRI0dF+BnEw1H4te4kLFOcW41qvG1sBLscSN8C+N5L+Iusb
+         L8Xhvwk2cdxygGiDARrZL4pnOcw/c3qrDlPuxdf1Dc74AGmCuVOEPBxfS5hBxGsS6ubE
+         avYHjFJN2ub6j/GbpWPmiBzjGHG92ZMg1DDlWTdQd+Sa8xuS47iXO+adIC9mAtFMsd+J
+         vFGQ==
+X-Gm-Message-State: AJIora/gLASsNMauMnj8fso/L/jI0IOD3xV+IDEx2VUglS32g3wILz9Y
+        f7SYchUZgWEcU3+esL6rglRKFbBUoSU1+6DxeOM=
+X-Google-Smtp-Source: AGRyM1sTPyrwAW7cGfkqYHJ4SWTFXqK2TW3q006TuQYS4E5Jki/zc4K+pbjxw2exH/ObCFtwMxxZS7iRr4Q8A6RfMLo=
+X-Received: by 2002:a05:6602:2d90:b0:63d:b41e:e4e4 with SMTP id
+ k16-20020a0566022d9000b0063db41ee4e4mr3954751iow.172.1656235390597; Sun, 26
+ Jun 2022 02:23:10 -0700 (PDT)
 MIME-Version: 1.0
-References: <cover.1656234456.git.mchehab@kernel.org> <d6e3482ed622b6953db69cddb70f20c55c96e4da.1656234456.git.mchehab@kernel.org>
-In-Reply-To: <d6e3482ed622b6953db69cddb70f20c55c96e4da.1656234456.git.mchehab@kernel.org>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Sun, 26 Jun 2022 11:14:35 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXu_v28veaFva_VSKMKWjCYSosSr6pGpj5W3kj-MXfzsg@mail.gmail.com>
-Message-ID: <CAMuHMdXu_v28veaFva_VSKMKWjCYSosSr6pGpj5W3kj-MXfzsg@mail.gmail.com>
-Subject: Re: [PATCH v2 16/20] arch: m68k: q40: README: drop references to IDE driver
+References: <cover.1656234456.git.mchehab@kernel.org> <94fe771609d32583fee41f47fe29433cbce5b04e.1656234456.git.mchehab@kernel.org>
+In-Reply-To: <94fe771609d32583fee41f47fe29433cbce5b04e.1656234456.git.mchehab@kernel.org>
+From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date:   Sun, 26 Jun 2022 11:22:59 +0200
+Message-ID: <CANiq72=0HHiixjrBqbdEWjiOL0tAtLz=zGe5N3TqRoeq6Rk71A@mail.gmail.com>
+Subject: Re: [PATCH v2 06/20] docs: zh_CN: fix a broken reference
 To:     Mauro Carvalho Chehab <mchehab@kernel.org>
 Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Finn Thain <fthain@linux-m68k.org>,
-        Jens Axboe <axboe@kernel.dk>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-m68k <linux-m68k@lists.linux-m68k.org>
+        Alex Gaynor <alex.gaynor@gmail.com>,
+        Alex Shi <alexs@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
+        Wedson Almeida Filho <wedsonaf@google.com>,
+        Wu XiangCheng <bobwxc@email.cn>,
+        Yanteng Si <siyanteng@loongson.cn>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        rust-for-linux <rust-for-linux@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
@@ -64,24 +69,11 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 On Sun, Jun 26, 2022 at 11:11 AM Mauro Carvalho Chehab
 <mchehab@kernel.org> wrote:
-> Since IDE support was deleted by Christoph Hellwig <hch@lst.de>,
-> Jun 16 2021, drop the left-over from README file, updating the
-> documentation to point to ata/pata_falcon.c.
 >
-> Fixes: 44b1fbc0f5f3 ("m68k/q40: Replace q40ide driver with pata_falcon and falconide")
-> Fixes: b7fb14d3ac63 ("ide: remove the legacy ide driver")
-> Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+> The location of the rust doc is wrong (probably a typo). Fix it.
 
-Reviewed-by: Geert Uytterhoeven <geert@linux-m68k.org>
-Acked-by: Geert Uytterhoeven <geert@linux-m68k.org>
+Thanks Mauro -- it was the old location of the document. For some
+reason, the translated docs have bits from -next.
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Cheers,
+Miguel
