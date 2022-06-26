@@ -2,178 +2,1040 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4CF87C433EF
-	for <linux-doc@archiver.kernel.org>; Sun, 26 Jun 2022 17:33:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C16D1C433EF
+	for <linux-doc@archiver.kernel.org>; Sun, 26 Jun 2022 23:30:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229850AbiFZRdQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 26 Jun 2022 13:33:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45228 "EHLO
+        id S229463AbiFZXaZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 26 Jun 2022 19:30:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49068 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231397AbiFZRdO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 26 Jun 2022 13:33:14 -0400
-Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC6F8764A
-        for <linux-doc@vger.kernel.org>; Sun, 26 Jun 2022 10:33:11 -0700 (PDT)
-Received: by mail-wr1-x433.google.com with SMTP id i25so4435483wrc.13
-        for <linux-doc@vger.kernel.org>; Sun, 26 Jun 2022 10:33:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=LVyzL8mphbtENNv7Ak5Yb4fzhkW9NpbRag7uI4Hacxc=;
-        b=CixvAORRF/ukN2FEZzF3AXwjYn0QSsLkd38tK+4yJetZJEOD2q8BWdl+K7blkYG7QX
-         PEpxd9kqTN2VWUXcz4YD/IK4r7df6FMK1XmJ0tM6GJBIgNOaTzoUXLdb0Hle84111G9o
-         PEcdOK/tcVBUK/beyvIgVjBuqREmne+JuyFWCO/FfnY/agQm+R8Qf8mdpKl+YSiiVc6D
-         warzD6uHfDCskO3OxQ41n/NxKpV0jX6Lm3HwMpdQWZangXskbf0W6LW/iOMuDxXv5+n9
-         tur8NsPqRiFwF1WgpEzx5KFrcp5JtHOeGJzYbiubnZrrT7cSPNOvq+v99yOHeGHnva84
-         muQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=LVyzL8mphbtENNv7Ak5Yb4fzhkW9NpbRag7uI4Hacxc=;
-        b=3jhu2R3SV5yVIe/kq8T4JzWRREBMuQvN1BLtoqz8942tguN39Za7IUHx7UcgygyHOM
-         W/e6W2/fOeZGQw3+q1mFnAxLCZLesJYDnoOqZ9d9irO6B4EEw5fr+EbGy9ErkqiBRmJm
-         Eusb0OB4K1qkmCwLiLSAtpBKqVDcIKhoVliShc+WiyG7CYlSLo1nLJ0E2aQW1JHxEZem
-         zX4mR/S5CaLq3TdwozvGTVAiYwhzdOQQDG7oKYPu5dlwBQlegpUFC/6rXOXXWuO1zXi9
-         kWtizD4loaehUHriL2vhXVgtb6FGYQRzgPgc6PM6jbgKsyh4EokVAqaq/36tp4iPws5g
-         RSow==
-X-Gm-Message-State: AJIora+vvxlyTPyRCmoo0uJ3X/Ij5eAc7EJtM83ZOjDNpldcGU9SKX/X
-        5YYnitCbC6nKuULflAMtM1+/9A==
-X-Google-Smtp-Source: AGRyM1sT+QzEds/eFmu00keheN6WbaWKP57czuiPSPRTt3/jN3GsXQ0byLphmAqRpiPIai9t45cykg==
-X-Received: by 2002:a5d:6ac4:0:b0:21b:a724:1711 with SMTP id u4-20020a5d6ac4000000b0021ba7241711mr8495754wrw.80.1656264790204;
-        Sun, 26 Jun 2022 10:33:10 -0700 (PDT)
-Received: from [192.168.10.46] (146725694.box.freepro.com. [130.180.211.218])
-        by smtp.googlemail.com with ESMTPSA id c11-20020a05600c0acb00b00397342e3830sm11310979wmr.0.2022.06.26.10.33.07
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 26 Jun 2022 10:33:09 -0700 (PDT)
-Message-ID: <43b1c2fd-b746-84eb-c82b-23f1bd39242e@linaro.org>
-Date:   Sun, 26 Jun 2022 19:33:06 +0200
+        with ESMTP id S229775AbiFZXaX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 26 Jun 2022 19:30:23 -0400
+Received: from email.cn (m218-153.88.com [110.43.218.153])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47A832BF3
+        for <linux-doc@vger.kernel.org>; Sun, 26 Jun 2022 16:30:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.cn;
+        s=dkim; h=Date:From:To; bh=5QiGrpHf3b6ktCjXGiwB7kMCMVZoLn2HsbqED
+        tp2qH8=; b=QQI/MQkaI0A5FviScoQY2RMxzK2I6T9eQFsNAQWzDWn0X7OGrmPCO
+        ru1qQ5N5pWtaWlnPcPLpZ0fntt3jVIaPL69LfOqQVLPtv5cumCQtIE+TYhOv4qbB
+        41qKUdaiBXYzUo5ECFuFcw60yXh/D7wKfOns9yEiif2YVE83mYYY7o=
+Received: from [127.0.0.1] (unknown [112.96.54.63])
+        by v_coremail2-frontend-2 (Coremail) with SMTP id GiKnCgAnzxP067hiI6MhAA--.27557S2;
+        Mon, 27 Jun 2022 07:29:57 +0800 (CST)
+Date:   Mon, 27 Jun 2022 07:29:53 +0800
+From:   Wu XiangCheng <bobwxc@email.cn>
+To:     Yanteng Si <siyanteng@loongson.cn>, Alex Shi <alexs@kernel.org>
+CC:     Jonathan Corbet <corbet@lwn.net>, xu xin <xu.xin16@zte.com.cn>,
+        Yang Yang <yang.yang29@zte.com.cn>,
+        Junhua Huang <huang.junhua@zte.com.cn>,
+        Tang Yizhou <tangyizhou@huawei.com>,
+        Binbin Zhou <zhoubinbin@loongson.cn>, linux-doc@vger.kernel.org
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH=5D_docs/zh=5FCN=3A_Add_a_new_tra?= =?US-ASCII?Q?nslation_of_reporting-regressions=2Erst?=
+In-Reply-To: <dbf2845f-c3f4-06c8-393a-f03725a38fba@loongson.cn>
+References: <YrZufcSEnvBWj+7Z@bobwxc.mipc> <dbf2845f-c3f4-06c8-393a-f03725a38fba@loongson.cn>
+Message-ID: <F2B9AD81-48CE-4DED-BD32-0C7CB702EDC9@email.cn>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH v2 01/14] thermal/core: Change thermal_zone_ops to
- thermal_sensor_ops
-Content-Language: en-US
-To:     "Rafael J. Wysocki" <rafael@kernel.org>,
-        Daniel Lezcano <daniel.lezcano@linexp.org>
-Cc:     Kevin Hilman <khilman@baylibre.com>,
-        Alexandre Bailon <abailon@baylibre.com>,
-        Linux PM <linux-pm@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Amit Kucheria <amitk@kernel.org>,
-        Zhang Rui <rui.zhang@intel.com>,
-        Jonathan Corbet <corbet@lwn.net>, Len Brown <lenb@kernel.org>,
-        Raju Rangoju <rajur@chelsio.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Ido Schimmel <idosch@nvidia.com>,
-        Petr Machata <petrm@nvidia.com>,
-        Luca Coelho <luciano.coelho@intel.com>,
-        Kalle Valo <kvalo@kernel.org>, Peter Kaestle <peter@piie.net>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Mark Gross <markgross@kernel.org>,
-        Sebastian Reichel <sre@kernel.org>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Support Opensource <support.opensource@diasemi.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
-        Miri Korenblit <miriam.rachel.korenblit@intel.com>,
-        Johannes Berg <johannes.berg@intel.com>,
-        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-        Sumeet Pawnikar <sumeet.r.pawnikar@intel.com>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Chuansheng Liu <chuansheng.liu@intel.com>,
-        Jiasheng Jiang <jiasheng@iscas.ac.cn>,
-        Antoine Tenart <atenart@kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        "open list:ACPI THERMAL DRIVER" <linux-acpi@vger.kernel.org>,
-        "open list:CXGB4 ETHERNET DRIVER (CXGB4)" <netdev@vger.kernel.org>,
-        "open list:INTEL WIRELESS WIFI LINK (iwlwifi)" 
-        <linux-wireless@vger.kernel.org>,
-        "open list:ACER ASPIRE ONE TEMPERATURE AND FAN DRIVER" 
-        <platform-driver-x86@vger.kernel.org>,
-        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "open list:RENESAS R-CAR THERMAL DRIVERS" 
-        <linux-renesas-soc@vger.kernel.org>
-References: <20220507125443.2766939-1-daniel.lezcano@linexp.org>
- <20220507125443.2766939-2-daniel.lezcano@linexp.org>
- <CAJZ5v0ik_JQ4Awtw7iR68W4-9ZL8FRDsDd-kWmL-n09fgg3reg@mail.gmail.com>
-From:   Daniel Lezcano <daniel.lezcano@linaro.org>
-In-Reply-To: <CAJZ5v0ik_JQ4Awtw7iR68W4-9ZL8FRDsDd-kWmL-n09fgg3reg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-CM-TRANSID: GiKnCgAnzxP067hiI6MhAA--.27557S2
+X-Coremail-Antispam: 1UD129KBjvAXoWfZFyDtFW8Wry8Kw15Jw4xWFg_yoW5Gry8Go
+        WftrWS9ws5Cr47Jr4UGa1UGF9rZa1UGrn8uF4DtrnxCr109a1rtF1kJ3yUJrW7ury5G3Wf
+        ta47tr47CFyUJ3W3n29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
+        AaLaJ3UjIYCTnIWjp_UUU537k0a2IF6w4kM7kC6x804xWl1xkIjI8I6I8E6xAIw20EY4v2
+        0xvaj40_Wr0E3s1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7
+        IYx2IY67AKxVW5JVW7JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4x0Y4vE
+        x4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4j6r4UJwAS0I0E0x
+        vYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VCjz48v1sIEY20_
+        Cr1UJr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxAIw28IcxkI7VAKI48JMx
+        AIw28IcVCjz48v1sIEY20_Cr1UJr1l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG
+        67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MI
+        IYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E
+        14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJV
+        W8JwCI42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x07jHBTOU
+        UUUU=
+X-Originating-IP: [112.96.54.63]
+X-CM-SenderInfo: pere453f6hztlloou0/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hi, yanteng
 
-Hi Rafael,
+=E4=BA=8E 2022=E5=B9=B46=E6=9C=8826=E6=97=A5 GMT+08:00 =E4=B8=8B=E5=8D=881=
+0:21:44, Yanteng Si <siyanteng@loongson=2Ecn> =E5=86=99=E5=88=B0:
+>On 2022/6/25 =E4=B8=8A=E5=8D=8810:10, Wu XiangCheng wrote:
+>> Last English version used:
+>>=20
+>> commit d2b40ba2cce2 ("docs: *-regressions=2Erst: explain how quickly
+>> issues should be handled")
+>>=20
+>> Signed-off-by: Wu XiangCheng <bobwxc@email=2Ecn>
+>> ---
+>>   =2E=2E=2E/translations/zh_CN/admin-guide/index=2Erst  |   2 +-
+>>   =2E=2E=2E/admin-guide/reporting-regressions=2Erst     | 373 +++++++++=
++++++++++
+>>   2 files changed, 374 insertions(+), 1 deletion(-)
+>>   create mode 100644 Documentation/translations/zh_CN/admin-guide/repor=
+ting-regressions=2Erst
+>>=20
+>> diff --git a/Documentation/translations/zh_CN/admin-guide/index=2Erst b=
+/Documentation/translations/zh_CN/admin-guide/index=2Erst
+>> index be535ffaf4b0=2E=2E2f6970d0a032 100644
+>> --- a/Documentation/translations/zh_CN/admin-guide/index=2Erst
+>> +++ b/Documentation/translations/zh_CN/admin-guide/index=2Erst
+>> @@ -36,6 +36,7 @@ Todolist:
+>>      :maxdepth: 1
+>>        reporting-issues
+>> +   reporting-regressions
+>>      security-bugs
+>>      bug-hunting
+>>      bug-bisect
+>> @@ -44,7 +45,6 @@ Todolist:
+>>     Todolist:
+>>   -*   reporting-bugs
+>>   *   ramoops
+>>   *   dynamic-debug-howto
+>>   *   kdump/index
+>> diff --git a/Documentation/translations/zh_CN/admin-guide/reporting-reg=
+ressions=2Erst b/Documentation/translations/zh_CN/admin-guide/reporting-reg=
+ressions=2Erst
+>> new file mode 100644
+>> index 000000000000=2E=2E9bf24ec6327d
+>> --- /dev/null
+>> +++ b/Documentation/translations/zh_CN/admin-guide/reporting-regression=
+s=2Erst
+>> @@ -0,0 +1,373 @@
+>> +=2E=2E SPDX-License-Identifier: (GPL-2=2E0+ OR CC-BY-4=2E0)
+>> +=2E=2E [see the bottom of this file for redistribution information]
+>> +
+>> +=2E=2E include:: =2E=2E/disclaimer-zh_CN=2Erst
+>> +
+>> +:Original: Documentation/admin-guide/reporting-regressions=2Erst
+>> +
+>> +:=E8=AF=91=E8=80=85:
+>> +
+>> + =E5=90=B4=E6=83=B3=E6=88=90 Wu XiangCheng <bobwxc@email=2Ecn>
+>> +
+>> +
+>> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>> +=E6=8A=A5=E5=91=8A=E5=9B=9E=E5=BD=92=E9=97=AE=E9=A2=98
+>> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>> +
+>> +=E2=80=9C*=E6=88=91=E4=BB=AC=E6=8B=92=E7=BB=9D=E5=87=BA=E7=8E=B0=E5=9B=
+=9E=E5=BD=92*=E2=80=9D=E6=98=AFLinux=E5=86=85=E6=A0=B8=E5=BC=80=E5=8F=91=E7=
+=9A=84=E9=A6=96=E8=A6=81=E8=A7=84=E5=88=99=EF=BC=9BLinux=E7=9A=84=E5=8F=91=
+=E8=B5=B7=E8=80=85=E5=92=8C=E9=A2=86=E5=86=9B=E5=BC=80=E5=8F=91=E8=80=85Lin=
+us
+>> +Torvalds=E7=AB=8B=E4=B8=8B=E4=BA=86=E6=AD=A4=E8=A7=84=E5=88=99=E5=B9=
+=B6=E7=A1=AE=E4=BF=9D=E5=AE=83=E8=A2=AB=E8=90=BD=E5=AE=9E=E3=80=82
+>> +
+>> +=E6=9C=AC=E6=96=87=E6=A1=A3=E6=8F=8F=E8=BF=B0=E4=BA=86=E8=BF=99=E6=9D=
+=A1=E8=A7=84=E5=88=99=E5=AF=B9=E7=94=A8=E6=88=B7=E7=9A=84=E6=84=8F=E4=B9=89=
+=EF=BC=8C=E4=BB=A5=E5=8F=8ALinux=E5=86=85=E6=A0=B8=E5=BC=80=E5=8F=91=E6=A8=
+=A1=E5=9E=8B=E5=A6=82=E4=BD=95=E7=A1=AE=E4=BF=9D=E8=A7=A3=E5=86=B3=E6=89=80=
+=E6=9C=89=E8=A2=AB=E6=8A=A5=E5=91=8A
+>> +=E7=9A=84=E5=9B=9E=E5=BD=92=EF=BC=9B=E5=85=B3=E4=BA=8E=E5=86=85=E6=A0=
+=B8=E5=BC=80=E5=8F=91=E8=80=85=E5=A6=82=E4=BD=95=E5=A4=84=E7=90=86=E7=9A=84=
+=E6=96=B9=E9=9D=A2=E5=8F=82=E8=A7=81 Documentation/process/handling-regress=
+ions=2Erst =E3=80=82
+>> +
+>> +
+>> +=E6=9C=AC=E6=96=87=E9=87=8D=E7=82=B9=EF=BC=88=E4=BA=A6=E5=8D=B3=E2=80=
+=9C=E5=A4=AA=E9=95=BF=E4=B8=8D=E7=9C=8B=E2=80=9D=EF=BC=89
+>> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D
+>> +
+>> +#=2E =E5=A6=82=E6=9E=9C=E6=9F=90=E7=A8=8B=E5=BA=8F=E5=9C=A8=E5=8E=9F=
+=E5=85=88=E7=9A=84Linux=E5=86=85=E6=A0=B8=E4=B8=8A=E8=BF=90=E8=A1=8C=E8=89=
+=AF=E5=A5=BD=EF=BC=8C=E4=BD=86=E5=9C=A8=E8=BE=83=E6=96=B0=E7=89=88=E6=9C=AC=
+=E4=B8=8A=E6=95=88=E6=9E=9C=E6=9B=B4=E5=B7=AE=E3=80=81=E6=88=96=E8=80=85=E6=
+=A0=B9=E6=9C=AC=E4=B8=8D
+>> +   =E8=83=BD=E7=94=A8=EF=BC=8C=E9=82=A3=E4=B9=88=E4=BD=A0=E5=B0=B1=E7=
+=A2=B0=E8=A7=81=E5=9B=9E=E5=BD=92=E9=97=AE=E9=A2=98=E4=BA=86=E3=80=82=E6=B3=
+=A8=E6=84=8F=EF=BC=8C=E6=96=B0=E5=86=85=E6=A0=B8=E9=9C=80=E8=A6=81=E4=BD=BF=
+=E7=94=A8=E7=B1=BB=E4=BC=BC=E9=85=8D=E7=BD=AE=E7=BC=96=E8=AF=91=EF=BC=9B=E6=
+=9B=B4=E5=A4=9A=E7=9B=B8=E5=85=B3=E7=BB=86
+>> +   =E8=8A=82=E5=8F=82=E8=A7=81=E4=B8=8B=E6=96=B9=E3=80=82
+>> +
+>> +#=2E =E6=8C=89=E7=85=A7 Documentation/admin-guide/reporting-issues=2Er=
+st =E4=B8=AD=E6=89=80=E8=AF=B4=E7=9A=84=E6=8A=A5=E5=91=8A=E4=BD=A0=E7=9A=84=
+=E9=97=AE=E9=A2=98=EF=BC=8C
+>We have a reporting-issues in Chinese=2E
 
-sorry for the delay, I was OoO.
+ok, will fix all existed files' path=2E
 
-On 17/05/2022 17:42, Rafael J. Wysocki wrote:
-> On Sat, May 7, 2022 at 2:55 PM Daniel Lezcano <daniel.lezcano@linexp.org> wrote:
->>
->> A thermal zone is software abstraction of a sensor associated with
->> properties and cooling devices if any.
->>
->> The fact that we have thermal_zone and thermal_zone_ops mixed is
->> confusing and does not clearly identify the different components
->> entering in the thermal management process. A thermal zone appears to
->> be a sensor while it is not.
-> 
-> Well, the majority of the operations in thermal_zone_ops don't apply
-> to thermal sensors.  For example, ->set_trips(), ->get_trip_type(),
-> ->get_trip_temp().
+>> +   =E8=AF=A5=E6=96=87=E6=A1=A3=E5=B7=B2=E7=BB=8F=E5=8C=85=E5=90=AB=E4=
+=BA=86=E6=89=80=E6=9C=89=E5=85=B3=E4=BA=8E=E5=9B=9E=E5=BD=92=E7=9A=84=E9=87=
+=8D=E8=A6=81=E6=96=B9=E9=9D=A2=EF=BC=8C=E4=B8=BA=E4=BA=86=E6=96=B9=E4=BE=BF=
+=E8=B5=B7=E8=A7=81=E4=B9=9F=E5=A4=8D=E5=88=B6=E5=88=B0=E4=BA=86=E4=B8=8B=E9=
+=9D=A2=E3=80=82=E4=B8=A4=E4=B8=AA
+>> +   =E9=87=8D=E7=82=B9=EF=BC=9A=E5=9C=A8=E6=8A=A5=E5=91=8A=E4=B8=BB=E9=
+=A2=98=E4=B8=AD=E4=BD=BF=E7=94=A8=E2=80=9C[REGRESSION]=E2=80=9D=E5=BC=80=E5=
+=A4=B4=E5=B9=B6=E6=8A=84=E9=80=81=E6=88=96=E8=BD=AC=E5=8F=91=E5=88=B0 `=E5=
+=9B=9E=E5=BD=92=E9=82=AE=E4=BB=B6=E5=88=97=E8=A1=A8
+>> +   <https://lore=2Ekernel=2Eorg/regressions/>`_ =EF=BC=88regressions@l=
+ists=2Elinux=2Edev=EF=BC=89=E3=80=82
+>> +
+>> +#=2E =E5=8F=AF=E9=80=89=E4=BD=86=E6=98=AF=E5=BB=BA=E8=AE=AE=EF=BC=9A=
+=E5=9C=A8=E5=8F=91=E9=80=81=E6=88=96=E8=BD=AC=E5=8F=91=E6=8A=A5=E5=91=8A=E6=
+=97=B6=EF=BC=8C=E6=8C=87=E6=98=8E=E8=AF=A5=E5=9B=9E=E5=BD=92=E5=8F=91=E7=94=
+=9F=E7=9A=84=E8=B5=B7=E7=82=B9=EF=BC=8C=E4=BB=A5=E4=BE=BFLinux=E5=86=85=E6=
+=A0=B8=E5=9B=9E=E5=BD=92
+>> +   =E8=BF=BD=E8=B8=AA=E6=9C=BA=E5=99=A8=E4=BA=BA=E2=80=9Cregzbot=E2=80=
+=9D=E5=8F=AF=E4=BB=A5=E8=BF=BD=E8=B8=AA=E6=AD=A4=E9=97=AE=E9=A2=98::
+>> +
+>> +       #regzbot introduced v5=2E13=2E=2Ev5=2E14-rc1
+>
+>> +
+>> +
+>> +=E6=9C=89=E5=85=B3=E7=94=A8=E6=88=B7=E7=9A=84=E6=89=80=E6=9C=89Linux=
+=E5=86=85=E6=A0=B8=E5=9B=9E=E5=BD=92=E7=BB=86=E8=8A=82
+>How about:
+>a =E4=B8=8E=E7=94=A8=E6=88=B7=E7=9B=B8=E5=85=B3=E7=9A=84=E6=89=80=E6=9C=
+=89
+>b =E6=89=80=E6=9C=89=E4=B8=8E=E7=94=A8=E6=88=B7=E7=9B=B8=E5=85=B3=E7=9A=
+=84
 
-The set_trips is necessary to set the sensor interrupt to fire when the 
-trip temperature is crossed the way up or down.
+pick a
 
->> In order to set the scene for multiple thermal sensors aggregated into
->> a single thermal zone. Rename the thermal_zone_ops to
->> thermal_sensor_ops, that will appear clearyl the thermal zone is not a
->> sensor but an abstraction of one [or multiple] sensor(s).
-> 
-> So I'm not convinced that the renaming mentioned above is particularly
-> clean either.
-> 
-> IMV the way to go would be to split the thermal sensor operations,
-> like ->get_temp(), out of thermal_zone_ops.
+>> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D
+>> +
+>> +
+>> +=E5=9F=BA=E6=9C=AC=E9=87=8D=E7=82=B9
+>> +--------
+>> +
+>> +
+>> +=E4=BB=80=E4=B9=88=E6=98=AF=E2=80=9C=E5=9B=9E=E5=BD=92=E2=80=9D=E4=BB=
+=A5=E5=8F=8A=E4=B8=BA=E4=BB=80=E4=B9=88=E2=80=9C=E6=8B=92=E7=BB=9D=E5=87=BA=
+=E7=8E=B0=E5=9B=9E=E5=BD=92=E2=80=9D=EF=BC=9F
+>> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> +
+>> +=E5=A6=82=E6=9E=9C=E6=9F=90=E7=A8=8B=E5=BA=8F/=E5=AE=9E=E4=BE=8B=E5=9C=
+=A8=E5=8E=9F=E5=85=88=E7=9A=84Linux=E5=86=85=E6=A0=B8=E4=B8=8A=E8=BF=90=E8=
+=A1=8C=E8=89=AF=E5=A5=BD=EF=BC=8C=E4=BD=86=E5=9C=A8=E8=BE=83=E6=96=B0=E7=89=
+=88=E6=9C=AC=E4=B8=8A=E6=95=88=E6=9E=9C=E6=9B=B4=E5=B7=AE=E3=80=81=E6=88=96=
+=E8=80=85=E6=A0=B9=E6=9C=AC
+>> +=E4=B8=8D=E8=83=BD=E7=94=A8=EF=BC=8C=E9=82=A3=E4=B9=88=E4=BD=A0=E5=B0=
+=B1=E7=A2=B0=E8=A7=81=E5=9B=9E=E5=BD=92=E9=97=AE=E9=A2=98=E4=BA=86=E3=80=82=
+=E2=80=9C=E6=8B=92=E7=BB=9D=E5=9B=9E=E5=BD=92=E8=A7=84=E5=88=99=E2=80=9D=E4=
+=B8=8D=E5=85=81=E8=AE=B8=E5=87=BA=E7=8E=B0=E8=BF=99=E7=A7=8D=E6=83=85=E5=86=
+=B5=E3=80=82=E5=A6=82=E6=9E=9C=E5=81=B6=E7=84=B6=E5=8F=91
+>"no regressions rule" =E4=B8=8D=E5=9B=9E=E5=BD=92=E8=A7=84=E5=88=99=EF=BC=
+=9F=E6=97=A0=E8=AE=BA=E7=BF=BB=E8=AF=91=E6=88=90=E4=BB=80=E4=B9=88=EF=BC=8C=
+=E8=AF=B7=E4=B8=8A=E4=B8=8B=E6=96=87=E7=BB=9F=E4=B8=80=E3=80=82
 
-Probably, we should first replace all the calls to ops->get_temp with a 
-function. Then create the ops for the sensor:
+ok
 
-  - get_trend
-  - get_temp
-  - set_trips
-  - bind / unbind
+>> +=E7=94=9F=E4=BA=86=EF=BC=8C=E5=AF=BC=E8=87=B4=E9=97=AE=E9=A2=98=E7=9A=
+=84=E5=BC=80=E5=8F=91=E8=80=85=E5=BA=94=E5=BD=93=E8=BF=85=E9=80=9F=E4=BF=AE=
+=E5=A4=8D=E9=97=AE=E9=A2=98=E3=80=82
+>> +
+>> +=E4=B9=9F=E5=B0=B1=E6=98=AF=E8=AF=B4=EF=BC=8C=E8=8B=A5Linux 5=2E13=E4=
+=B8=AD=E7=9A=84WiFi=E9=A9=B1=E5=8A=A8=E7=A8=8B=E5=BA=8F=E8=BF=90=E8=A1=8C=
+=E8=89=AF=E5=A5=BD=EF=BC=8C=E4=BD=86=E6=98=AF=E5=9C=A85=2E14=E7=89=88=E6=9C=
+=AC=E4=B8=8A=E5=8D=B4=E4=B8=8D=E8=83=BD=E7=94=A8=E3=80=81=E9=80=9F
+>> +=E5=BA=A6=E6=98=8E=E6=98=BE=E5=8F=98=E6=85=A2=E6=88=96=E5=87=BA=E7=8E=
+=B0=E9=94=99=E8=AF=AF=EF=BC=8C=E9=82=A3=E5=B0=B1=E5=87=BA=E7=8E=B0=E4=BA=86=
+=E5=9B=9E=E5=BD=92=E3=80=82=E5=A6=82=E6=9E=9C=E6=9F=90=E6=AD=A3=E5=B8=B8=E5=
+=B7=A5=E4=BD=9C=E7=9A=84=E5=BA=94=E7=94=A8=E7=A8=8B=E5=BA=8F=E7=AA=81=E7=84=
+=B6=E5=9C=A8=E6=96=B0=E5=86=85=E6=A0=B8=E4=B8=8A
+>> +=E5=87=BA=E7=8E=B0=E4=B8=8D=E7=A8=B3=E5=AE=9A=EF=BC=8C=E8=BF=99=E4=B9=
+=9F=E6=98=AF=E5=9B=9E=E5=BD=92=EF=BC=9B=E8=BF=99=E4=BA=9B=E9=97=AE=E9=A2=98=
+=E5=8F=AF=E8=83=BD=E6=98=AF=E7=94=B1=E4=BA=8Eprocfs=E3=80=81sysfs=E6=88=96L=
+inux=E6=8F=90=E4=BE=9B=E7=BB=99=E7=94=A8=E6=88=B7=E7=A9=BA=E9=97=B4
+>> +=E8=BD=AF=E4=BB=B6=E7=9A=84=E8=AE=B8=E5=A4=9A=E5=85=B6=E4=BB=96=E6=8E=
+=A5=E5=8F=A3=E4=B9=8B=E4=B8=80=E7=9A=84=E5=8F=98=E5=8C=96=E3=80=82=E4=BD=86=
+=E8=AF=B7=E8=AE=B0=E4=BD=8F=EF=BC=8C=E5=89=8D=E8=BF=B0=E4=BE=8B=E5=AD=90=E4=
+=B8=AD=E7=9A=845=2E14=E9=9C=80=E8=A6=81=E4=BD=BF=E7=94=A8=E7=B1=BB=E4=BC=BC=
+=E4=BA=8E5=2E13=E7=9A=84
+>> +=E9=85=8D=E7=BD=AE=E6=9E=84=E5=BB=BA=E3=80=82=E8=BF=99=E5=8F=AF=E4=BB=
+=A5=E7=94=A8 ``make olddefconfig`` =E5=AE=9E=E7=8E=B0=EF=BC=8C=E8=AF=A6=E7=
+=BB=86=E8=A7=A3=E9=87=8A=E8=A7=81=E4=B8=8B=E3=80=82
+>> +
+>> +=E6=B3=A8=E6=84=8F=E6=9C=AC=E8=8A=82=E7=AC=AC=E4=B8=80=E5=8F=A5=E8=AF=
+=9D=E4=B8=AD=E7=9A=84=E2=80=9C=E5=AE=9E=E4=BE=8B=E2=80=9D=EF=BC=9A=E5=8D=B3=
+=E4=BD=BF=E5=BC=80=E5=8F=91=E8=80=85=E9=9C=80=E8=A6=81=E9=81=B5=E5=BE=AA=E2=
+=80=9C=E6=8B=92=E7=BB=9D=E5=9B=9E=E5=BD=92=E2=80=9D=E8=A7=84=E5=88=99=EF=BC=
+=8C=E4=BD=86=E4=BB=8D=E5=8F=AF=E8=87=AA=E7=94=B1=E5=9C=B0=E6=94=B9
+>> +=E5=8F=98=E5=86=85=E6=A0=B8=E7=9A=84=E4=BB=BB=E4=BD=95=E6=96=B9=E9=9D=
+=A2=EF=BC=8C=E7=94=9A=E8=87=B3=E6=98=AF=E5=AF=BC=E5=87=BA=E5=88=B0=E7=94=A8=
+=E6=88=B7=E7=A9=BA=E9=97=B4=E7=9A=84API=E6=88=96ABI=EF=BC=8C=E5=8F=AA=E8=A6=
+=81=E5=88=AB=E7=A0=B4=E5=9D=8F=E7=8E=B0=E6=9C=89=E7=9A=84=E5=BA=94=E7=94=A8=
+=E7=A8=8B=E5=BA=8F=E6=88=96
+>> +=E7=94=A8=E4=BE=8B=E3=80=82
+>> +
+>> +=E8=BF=98=E9=9C=80=E6=B3=A8=E6=84=8F=EF=BC=8C=E2=80=9C=E6=8B=92=E7=BB=
+=9D=E5=9B=9E=E5=BD=92=E2=80=9D=E8=A7=84=E5=88=99=E5=8F=AA=E9=99=90=E5=88=B6=
+=E5=86=85=E6=A0=B8=E6=8F=90=E4=BE=9B=E7=BB=99=E7=94=A8=E6=88=B7=E7=A9=BA=E9=
+=97=B4=E7=9A=84=E6=8E=A5=E5=8F=A3=E3=80=82=E5=AE=83=E4=B8=8D=E9=80=82=E7=94=
+=A8=E4=BA=8E=E5=86=85=E6=A0=B8=E5=86=85=E9=83=A8=E6=8E=A5
+>> +=E5=8F=A3=EF=BC=8C=E6=AF=94=E5=A6=82=E4=B8=80=E4=BA=9B=E5=A4=96=E9=83=
+=A8=E5=BC=80=E5=8F=91=E7=9A=84=E9=A9=B1=E5=8A=A8=E7=A8=8B=E5=BA=8F=E7=94=A8=
+=E6=9D=A5=E6=8F=92=E5=85=A5=E9=92=A9=E5=AD=90=E5=88=B0=E5=86=85=E6=A0=B8=E7=
+=9A=84=E6=A8=A1=E5=9D=97API=E3=80=82
+>> +
+>> +=E5=A6=82=E4=BD=95=E6=8A=A5=E5=91=8A=E5=9B=9E=E5=BD=92=EF=BC=9F
+>> +~~~~~~~~~~~~~~
+>> +
+>> +=E5=8F=AA=E9=9C=80=E6=8C=89=E7=85=A7 Documentation/admin-guide/reporti=
+ng-issues=2Erst =E4=B8=AD=E6=89=80=E8=AF=B4=E7=9A=84=E6=8A=A5=E5=91=8A=E4=
+=BD=A0=E7=9A=84=E9=97=AE=E9=A2=98=EF=BC=8C
+>zh_CN/admin-guide/xxx
 
-> But then it is not clear what a thermal zone with multiple sensors in
-> it really means.  I guess it would require an aggregation function to
-> combine the thermal sensors in it that would produce an effective
-> temperature to check against the trip points.
+ok
 
-Yes, that is why the above ops->get_temp should be wrapped into a 
-function which can evolve to an aggregation function.
+>> +=E8=AF=A5=E6=96=87=E6=A1=A3=E5=B7=B2=E7=BB=8F=E5=8C=85=E5=90=AB=E4=BA=
+=86=E8=A6=81=E7=82=B9=E3=80=82=E4=B8=8B=E9=9D=A2=E5=87=A0=E7=82=B9=E6=A6=82=
+=E8=BF=B0=E4=BA=86=E4=B8=80=E4=B8=8B=E5=8F=AA=E5=9C=A8=E5=9B=9E=E5=BD=92=E4=
+=B8=AD=E9=87=8D=E8=A6=81=E7=9A=84=E6=96=B9=E9=9D=A2=EF=BC=9A
+>> +
+>> + * =E5=9C=A8=E6=A3=80=E6=9F=A5=E5=8F=AF=E5=8A=A0=E5=85=A5=E8=AE=A8=E8=
+=AE=BA=E7=9A=84=E7=8E=B0=E6=9C=89=E6=8A=A5=E5=91=8A=E6=97=B6=EF=BC=8C=E5=88=
+=AB=E5=BF=98=E4=BA=86=E6=90=9C=E7=B4=A2 `Linux=E5=9B=9E=E5=BD=92=E9=82=AE=
+=E4=BB=B6=E5=88=97=E8=A1=A8
+>> +   <https://lore=2Ekernel=2Eorg/regressions/>`_ =E5=92=8C `regzbot=E7=
+=BD=91=E9=A1=B5=E7=95=8C=E9=9D=A2
+>> +   <https://linux-regtracking=2Eleemhuis=2Einfo/regzbot/>`_ =E3=80=82
+>> +
+>> + * =E5=9C=A8=E6=8A=A5=E5=91=8A=E4=B8=BB=E9=A2=98=E7=9A=84=E5=BC=80=E5=
+=A4=B4=E5=8A=A0=E4=B8=8A=E2=80=9C[REGRESSION]=E2=80=9D=E3=80=82
+>> +
+>> + * =E5=9C=A8=E4=BD=A0=E7=9A=84=E6=8A=A5=E5=91=8A=E4=B8=AD=E6=98=8E=E7=
+=A1=AE=E6=9C=80=E5=90=8E=E4=B8=80=E4=B8=AA=E6=AD=A3=E5=B8=B8=E5=B7=A5=E4=BD=
+=9C=E7=9A=84=E5=86=85=E6=A0=B8=E7=89=88=E6=9C=AC=E5=92=8C=E9=A6=96=E4=B8=AA=
+=E5=87=BA=E9=97=AE=E9=A2=98=E7=9A=84=E7=89=88=E6=9C=AC=E3=80=82=E5=A6=82=E8=
+=8B=A5=E5=8F=AF=E8=83=BD=EF=BC=8C
+>> +   =E7=94=A8=E4=BA=8C=E5=88=86=E6=B3=95=E5=B0=9D=E8=AF=95=E6=89=BE=E5=
+=87=BA=E5=AF=BC=E8=87=B4=E5=9B=9E=E5=BD=92=E7=9A=84=E5=8F=98=E6=9B=B4=EF=BC=
+=8C=E6=9B=B4=E5=A4=9A=E7=BB=86=E8=8A=82=E8=A7=81=E4=B8=8B=E3=80=82
+>> +
+>> + * =E8=AE=B0=E5=BE=97=E6=8A=8A=E6=8A=A5=E5=91=8A=E5=8F=91=E5=88=B0Linu=
+x=E5=9B=9E=E5=BD=92=E9=82=AE=E4=BB=B6=E5=88=97=E8=A1=A8=EF=BC=88regressions=
+@lists=2Elinux=2Edev=EF=BC=89=E3=80=82
+>> +
+>> +   * =E5=A6=82=E6=9E=9C=E9=80=9A=E8=BF=87=E9=82=AE=E4=BB=B6=E6=8A=A5=
+=E5=91=8A=E5=9B=9E=E5=BD=92=EF=BC=8C=E8=AF=B7=E6=8A=84=E9=80=81=E5=9B=9E=E5=
+=BD=92=E5=88=97=E8=A1=A8=E3=80=82
+>> +
+>> +   * =E5=A6=82=E6=9E=9C=E4=BD=A0=E4=BD=BF=E7=94=A8=E6=9F=90=E4=BA=9B=
+=E7=BC=BA=E9=99=B7=E8=BF=BD=E8=B8=AA=E5=99=A8=E6=8A=A5=E5=91=8A=E5=9B=9E=E5=
+=BD=92=EF=BC=8C=E8=AF=B7=E9=80=9A=E8=BF=87=E9=82=AE=E4=BB=B6=E8=BD=AC=E5=8F=
+=91=E5=B7=B2=E6=8F=90=E4=BA=A4=E7=9A=84=E6=8A=A5=E5=91=8A=E5=88=B0=E5=9B=9E=
+=E5=BD=92=E5=88=97=E8=A1=A8=EF=BC=8C
+>> +     =E5=B9=B6=E6=8A=84=E9=80=81=E7=BB=B4=E6=8A=A4=E8=80=85=E4=BB=A5=
+=E5=8F=8A=E5=87=BA=E9=97=AE=E9=A2=98=E7=9A=84=E7=9B=B8=E5=85=B3=E5=AD=90=E7=
+=B3=BB=E7=BB=9F=E7=9A=84=E9=82=AE=E4=BB=B6=E5=88=97=E8=A1=A8=E3=80=82
+>> +
+>> +   =E5=A6=82=E6=9E=9C=E6=98=AF=E7=A8=B3=E5=AE=9A=E7=89=88=E6=88=96=E9=
+=95=BF=E6=9C=9F=E6=94=AF=E6=8C=81=E7=89=88=E7=B3=BB=E5=88=97=EF=BC=88=E5=A6=
+=82v5=2E15=2E3=E2=80=A6v5=2E15=2E5=EF=BC=89=E7=9A=84=E5=9B=9E=E5=BD=92=EF=
+=BC=8C=E8=AF=B7=E8=AE=B0=E5=BE=97=E6=8A=84=E9=80=81
+>> +   `Linux=E7=A8=B3=E5=AE=9A=E7=89=88=E9=82=AE=E4=BB=B6=E5=88=97=E8=A1=
+=A8 <https://lore=2Ekernel=2Eorg/stable/>`_ =EF=BC=88stable@vger=2Ekernel=
+=2Eorg=EF=BC=89=E3=80=82
+>> +
+>> +  =E5=A6=82=E6=9E=9C=E4=BD=A0=E6=88=90=E5=8A=9F=E5=9C=B0=E6=89=A7=E8=
+=A1=8C=E4=BA=86=E4=BA=8C=E5=88=86=EF=BC=8C=E8=AF=B7=E6=8A=84=E9=80=81=E8=82=
+=87=E4=BA=8B=E6=8F=90=E4=BA=A4=E7=9A=84=E4=BF=A1=E6=81=AF=E4=B8=AD=E6=89=80=
+=E6=9C=89=E7=AD=BE=E4=BA=86=E2=80=9CSigned-off-by:=E2=80=9D=E7=9A=84=E4=BA=
+=BA=E3=80=82
+>> +
+>> +=E5=9C=A8=E6=8A=84=E9=80=81=E4=BD=A0=E7=9A=84=E6=8A=A5=E5=91=8A=E5=88=
+=B0=E5=88=97=E8=A1=A8=E6=97=B6=EF=BC=8C=E4=B9=9F=E8=AF=B7=E8=AE=B0=E5=BE=97=
+=E9=80=9A=E7=9F=A5=E5=89=8D=E8=BF=B0=E7=9A=84Linux=E5=86=85=E6=A0=B8=E5=9B=
+=9E=E5=BD=92=E8=BF=BD=E8=B8=AA=E6=9C=BA=E5=99=A8=E4=BA=BA=E3=80=82=E5=8F=AA=
+=E9=9C=80=E5=9C=A8=E9=82=AE=E4=BB=B6
+>> +=E4=B8=AD=E5=8C=85=E5=90=AB=E5=A6=82=E4=B8=8B=E7=89=87=E6=AE=B5::
+>> +
+>> +       #regzbot introduced: v5=2E13=2E=2Ev5=2E14-rc1
+>> +
+>> +Regzbot=E4=BC=9A=E5=B0=B1=E5=B0=86=E4=BD=A0=E7=9A=84=E9=82=AE=E4=BB=B6=
+=E8=A7=86=E4=B8=BA=E5=9C=A8=E6=9F=90=E4=B8=AA=E7=89=B9=E5=AE=9A=E7=89=88=E6=
+=9C=AC=E5=8C=BA=E9=97=B4=E7=9A=84=E5=9B=9E=E5=BD=92=E6=8A=A5=E5=91=8A=E3=80=
+=82=E4=B8=8A=E4=BE=8B=E4=B8=AD=E5=8D=B3linux v5=2E13=E4=BB=8D
+>> +=E7=84=B6=E6=AD=A3=E5=B8=B8=EF=BC=8C=E8=80=8CLinux 5=2E14-rc1=E6=98=AF=
+=E9=A6=96=E4=B8=AA=E6=82=A8=E9=81=87=E5=88=B0=E9=97=AE=E9=A2=98=E7=9A=84=E7=
+=89=88=E6=9C=AC=E3=80=82=E5=A6=82=E6=9E=9C=E4=BD=A0=E6=89=A7=E8=A1=8C=E4=BA=
+=86=E4=BA=8C=E5=88=86=E4=BB=A5=E6=9F=A5=E6=89=BE=E5=AF=BC=E8=87=B4=E5=9B=9E
+>> +=E5=BD=92=E7=9A=84=E6=8F=90=E4=BA=A4=EF=BC=8C=E8=AF=B7=E4=BD=BF=E7=94=
+=A8=E6=8C=87=E5=AE=9A=E8=82=87=E4=BA=8B=E6=8F=90=E4=BA=A4=E7=9A=84id=E4=BB=
+=A3=E6=9B=BF::
+>> +
+>> +       #regzbot introduced: 1f2e3d4c5d
+>> +
+>> +=E6=B7=BB=E5=8A=A0=E8=BF=99=E6=A0=B7=E7=9A=84=E2=80=9Cregzbot=E5=91=BD=
+=E4=BB=A4=E2=80=9D=E5=AF=B9=E4=BD=A0=E6=98=AF=E6=9C=89=E5=A5=BD=E5=A4=84=E7=
+=9A=84=EF=BC=8C=E5=AE=83=E4=BC=9A=E7=A1=AE=E4=BF=9D=E6=8A=A5=E5=91=8A=E4=B8=
+=8D=E4=BC=9A=E8=A2=AB=E5=BF=BD=E7=95=A5=E3=80=82=E5=A6=82=E6=9E=9C=E4=BD=A0=
+=E7=9C=81=E7=95=A5=E4=BA=86
+>> +=E5=AE=83=EF=BC=8CLinux=E5=86=85=E6=A0=B8=E7=9A=84=E5=9B=9E=E5=BD=92=
+=E8=B7=9F=E8=B8=AA=E8=80=85=E4=BC=9A=E6=8A=8A=E4=BD=A0=E7=9A=84=E5=9B=9E=E5=
+=BD=92=E5=91=8A=E8=AF=89regzbot=EF=BC=8C=E5=8F=AA=E8=A6=81=E4=BD=A0=E5=8F=
+=91=E9=80=81=E4=BA=86=E4=B8=80=E4=B8=AA=E5=89=AF=E6=9C=AC=E5=88=B0=E5=9B=9E=
+=E5=BD=92
+>> +=E9=82=AE=E4=BB=B6=E5=88=97=E8=A1=A8=E3=80=82=E4=BD=86=E6=98=AF=E5=9B=
+=9E=E5=BD=92=E8=B7=9F=E8=B8=AA=E8=80=85=E5=8F=AA=E6=9C=89=E4=B8=80=E4=B8=AA=
+=E4=BA=BA=EF=BC=8C=E6=9C=89=E6=97=B6=E4=B8=8D=E5=BE=97=E4=B8=8D=E4=BC=91=E6=
+=81=AF=E6=88=96=E7=94=9A=E8=87=B3=E5=81=B6=E5=B0=94=E4=BA=AB=E5=8F=97=E5=8F=
+=AF=E4=BB=A5=E8=BF=9C=E7=A6=BB=E7=94=B5=E8=84=91
+>> +=E7=9A=84=E6=97=B6=E5=85=89=EF=BC=88=E5=90=AC=E8=B5=B7=E6=9D=A5=E5=BE=
+=88=E7=96=AF=E7=8B=82=EF=BC=89=E3=80=82=E5=9B=A0=E6=AD=A4=EF=BC=8C=E4=BE=9D=
+=E8=B5=96=E6=AD=A4=E4=BA=BA=E6=89=8B=E5=8A=A8=E5=B0=86=E5=9B=9E=E5=BD=92=E6=
+=B7=BB=E5=8A=A0=E5=88=B0 `=E5=B7=B2=E8=BF=BD=E8=B8=AA=E4=B8=94=E5=B0=9A=E6=
+=9C=AA=E8=A7=A3=E5=86=B3=E7=9A=84
+>> +Linux=E5=86=85=E6=A0=B8=E5=9B=9E=E5=BD=92=E5=88=97=E8=A1=A8 <https://l=
+inux-regtracking=2Eleemhuis=2Einfo/regzbot/>`_ =E5=92=8C
+>> +regzbot=E5=8F=91=E9=80=81=E7=9A=84=E6=AF=8F=E5=91=A8=E5=9B=9E=E5=BD=92=
+=E6=8A=A5=E5=91=8A=EF=BC=8C=E5=8F=AF=E8=83=BD=E4=BC=9A=E5=87=BA=E7=8E=B0=E5=
+=BB=B6=E8=BF=9F=E3=80=82 =E8=BF=99=E6=A0=B7=E7=9A=84=E5=BB=B6=E8=AF=AF=E4=
+=BC=9A=E5=AF=BC=E8=87=B4Linus Torvalds
+>> +=E5=9C=A8=E5=86=B3=E5=AE=9A=E2=80=9C=E7=BB=A7=E7=BB=AD=E5=BC=80=E5=8F=
+=91=E8=BF=98=E6=98=AF=E5=8F=91=E5=B8=83=E6=96=B0=E7=89=88=E6=9C=AC=EF=BC=9F=
+=E2=80=9D=E6=97=B6=E5=BF=BD=E7=95=A5=E4=B8=A5=E9=87=8D=E7=9A=84=E5=9B=9E=E5=
+=BD=92=E3=80=82
+>> +
+>> +=E7=9C=9F=E7=9A=84=E4=BF=AE=E5=A4=8D=E4=BA=86=E6=89=80=E6=9C=89=E7=9A=
+=84=E5=9B=9E=E5=BD=92=E5=90=97=EF=BC=9F
+>> +~~~~~~~~~~~~~~~~~~~~~~~~
+>> +
+>> +=E5=87=A0=E4=B9=8E=E6=89=80=E6=9C=89=E9=83=BD=E6=98=AF=EF=BC=8C=E5=8F=
+=AA=E8=A6=81=E5=BC=95=E8=B5=B7=E9=97=AE=E9=A2=98=E7=9A=84=E5=8F=98=E6=9B=B4=
+=EF=BC=88=E8=82=87=E4=BA=8B=E6=8F=90=E4=BA=A4=EF=BC=89=E8=A2=AB=E5=8F=AF=E9=
+=9D=A0=E5=AE=9A=E4=BD=8D=E3=80=82=E4=B9=9F=E6=9C=89=E4=BA=9B=E5=9B=9E=E5=BD=
+=92=E5=8F=AF=E4=BB=A5=E4=B8=8D=E7=94=A8=E8=BF=99
+>> +=E6=A0=B7=EF=BC=8C=E4=BD=86=E9=80=9A=E5=B8=B8=E6=98=AF=E5=BF=85=E9=A1=
+=BB=E7=9A=84=E3=80=82
+>> +
+>> +=E8=B0=81=E9=9C=80=E8=A6=81=E6=89=BE=E5=87=BA=E5=9B=9E=E5=BD=92=E7=9A=
+=84=E6=A0=B9=E6=9C=AC=E5=8E=9F=E5=9B=A0=EF=BC=9F
+>> +~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> +
+>> +=E5=8F=97=E5=BD=B1=E5=93=8D=E4=BB=A3=E7=A0=81=E5=8C=BA=E5=9F=9F=E7=9A=
+=84=E5=BC=80=E5=8F=91=E8=80=85=E5=BA=94=E8=AF=A5=E8=87=AA=E8=A1=8C=E5=B0=9D=
+=E8=AF=95=E5=AE=9A=E4=BD=8D=E9=97=AE=E9=A2=98=E6=89=80=E5=9C=A8=E3=80=82=E4=
+=BD=86=E4=BB=85=E9=9D=A0=E4=BB=96=E4=BB=AC=E7=9A=84=E5=8A=AA=E5=8A=9B=E5=BE=
+=80=E5=BE=80=E6=98=AF=E4=B8=8D=E5=8F=AF
+>> +=E8=83=BD=E5=81=9A=E5=88=B0=E7=9A=84=EF=BC=8C=E5=BE=88=E5=A4=9A=E9=97=
+=AE=E9=A2=98=E5=8F=AA=E5=8F=91=E7=94=9F=E5=9C=A8=E5=BC=80=E5=8F=91=E8=80=85=
+=E7=9A=84=E6=97=A0=E6=B3=95=E6=8E=A5=E8=A7=A6=E7=9A=84=E5=85=B6=E4=BB=96=E7=
+=89=B9=E5=AE=9A=E5=A4=96=E9=83=A8=E7=8E=AF=E5=A2=83=E4=B8=AD=E2=80=94=E2=80=
+=94=E4=BE=8B=E5=A6=82=E7=89=B9=E5=AE=9A=E7=9A=84
+>> +=E7=A1=AC=E4=BB=B6=E5=B9=B3=E5=8F=B0=E3=80=81=E5=9B=BA=E4=BB=B6=E3=80=
+=81Linux=E5=8F=91=E8=A1=8C=E7=89=88=E3=80=81=E7=B3=BB=E7=BB=9F=E7=9A=84=E9=
+=85=8D=E7=BD=AE=E6=88=96=E5=BA=94=E7=94=A8=E7=A8=8B=E5=BA=8F=E3=80=82=E8=BF=
+=99=E5=B0=B1=E6=98=AF=E4=B8=BA=E4=BB=80=E4=B9=88=E6=9C=80=E7=BB=88=E5=BE=80=
+=E5=BE=80=E6=98=AF=E6=8A=A5
+>> +=E5=91=8A=E8=80=85=E5=AE=9A=E4=BD=8D=E8=82=87=E4=BA=8B=E6=8F=90=E4=BA=
+=A4=EF=BC=9B=E6=9C=89=E6=97=B6=E7=94=A8=E6=88=B7=E7=94=9A=E8=87=B3=E9=9C=80=
+=E8=A6=81=E5=86=8D=E8=BF=90=E8=A1=8C=E9=A2=9D=E5=A4=96=E6=B5=8B=E8=AF=95=E4=
+=BB=A5=E6=9F=A5=E6=98=8E=E7=A1=AE=E5=88=87=E7=9A=84=E6=A0=B9=E6=9C=AC=E5=8E=
+=9F=E5=9B=A0=E3=80=82=E5=BC=80=E5=8F=91
+>> +=E8=80=85=E5=BA=94=E8=AF=A5=E6=8F=90=E4=BE=9B=E5=BB=BA=E8=AE=AE=E5=92=
+=8C=E5=8F=AF=E8=83=BD=E7=9A=84=E5=B8=AE=E5=8A=A9=EF=BC=8C=E4=BB=A5=E4=BD=BF=
+=E6=99=AE=E9=80=9A=E7=94=A8=E6=88=B7=E6=9B=B4=E5=AE=B9=E6=98=93=E5=AE=8C=E6=
+=88=90=E8=AF=A5=E6=B5=81=E7=A8=8B=E3=80=82
+>> +
+>> +=E5=A6=82=E4=BD=95=E6=89=BE=E5=88=B0=E7=BD=AA=E9=AD=81=E7=A5=B8=E9=A6=
+=96=EF=BC=9F
+>> +~~~~~~~~~~~~~~~~~~
+>> +
+>> +=E5=A6=82 Documentation/admin-guide/reporting-issues=2Erst =EF=BC=88=
+=E7=AE=80=E8=A6=81=EF=BC=89=E5=92=8C
+>> +Documentation/admin-guide/bug-bisect=2Erst =EF=BC=88=E8=AF=A6=E7=BB=86=
+=EF=BC=89=E4=B8=AD=E6=89=80=E8=BF=B0=EF=BC=8C=E6=89=A7=E8=A1=8C=E4=BA=8C=E5=
+=88=86=E3=80=82=E5=90=AC=E8=B5=B7=E6=9D=A5=E5=B7=A5
+>ditto
 
-> Honestly, I don't think that setting a separate set of trips for each
-> sensor in a thermal zone would make a lot of sense.
+ok
 
-I agree the set_trips is for the interrupt mode only.
+>> +=E4=BD=9C=E9=87=8F=E5=BE=88=E5=A4=A7=EF=BC=8C=E4=BD=86=E5=A4=A7=E9=83=
+=A8=E5=88=86=E6=83=85=E5=86=B5=E4=B8=8B=E5=BE=88=E5=BF=AB=E5=B0=B1=E8=83=BD=
+=E6=89=BE=E5=88=B0=E7=BD=AA=E9=AD=81=E7=A5=B8=E9=A6=96=E3=80=82=E5=A6=82=E6=
+=9E=9C=E8=BF=99=E5=BE=88=E5=9B=B0=E9=9A=BE=E6=88=96=E5=8F=AF=E9=9D=A0=E5=9C=
+=B0=E9=87=8D=E7=8E=B0=E9=97=AE=E9=A2=98=E5=BE=88
+>> +=E8=80=97=E6=97=B6=EF=BC=8C=E8=AF=B7=E8=80=83=E8=99=91=E4=B8=8E=E5=85=
+=B6=E4=BB=96=E5=8F=97=E5=BD=B1=E5=93=8D=E7=9A=84=E7=94=A8=E6=88=B7=E5=90=88=
+=E4=BD=9C=EF=BC=8C=E4=B8=80=E8=B5=B7=E7=BC=A9=E5=B0=8F=E6=90=9C=E7=B4=A2=E8=
+=8C=83=E5=9B=B4=E3=80=82
+>> +
+>> +=E5=BD=93=E5=87=BA=E7=8E=B0=E5=9B=9E=E5=BD=92=E6=97=B6=E6=88=91=E5=8F=
+=AF=E4=BB=A5=E5=90=91=E8=B0=81=E5=AF=BB=E6=B1=82=E5=BB=BA=E8=AE=AE=EF=BC=9F
+>> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> +
+>> +=E5=8F=91=E9=80=81=E9=82=AE=E4=BB=B6=E5=88=B0=E5=9B=9E=E5=BD=92=E9=82=
+=AE=E4=BB=B6=E5=88=97=E8=A1=A8=EF=BC=88regressions@lists=2Elinux=2Edev=EF=
+=BC=89=E5=90=8C=E6=97=B6=E6=8A=84=E9=80=81Linux=E5=86=85=E6=A0=B8=E7=9A=84=
+=E5=9B=9E=E5=BD=92
+>> +=E8=B7=9F=E8=B8=AA=E8=80=85=EF=BC=88regressions@leemhuis=2Einfo=EF=BC=
+=89;=E5=A6=82=E6=9E=9C=E9=97=AE=E9=A2=98=E9=9C=80=E8=A6=81=E4=BF=9D=E5=AF=
+=86=E5=A4=84=E7=90=86=EF=BC=8C=E5=8F=AF=E4=BB=A5=E7=9C=81=E7=95=A5=E5=88=97=
+=E8=A1=A8=E3=80=82
+>> +
+>> +
+>> +=E5=85=B3=E4=BA=8E=E5=9B=9E=E5=BD=92=E7=9A=84=E6=9B=B4=E5=A4=9A=E7=BB=
+=86=E8=8A=82
+>> +------------------
+>> +
+>> +
+>> +=E2=80=9C=E6=97=A0=E5=9B=9E=E5=BD=92=E8=A7=84=E5=88=99=E2=80=9D=E7=9A=
+=84=E7=9B=AE=E6=A0=87=E6=98=AF=E4=BB=80=E4=B9=88=EF=BC=9F
+>> +~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> +
+>> +=E7=94=A8=E6=88=B7=E5=BA=94=E8=AF=A5=E6=94=BE=E5=BF=83=E5=8D=87=E7=BA=
+=A7=E5=86=85=E6=A0=B8=E7=89=88=E6=9C=AC=EF=BC=8C=E8=80=8C=E4=B8=8D=E5=BF=85=
+=E6=8B=85=E5=BF=83=E6=9C=89=E7=A8=8B=E5=BA=8F=E5=8F=AF=E8=83=BD=E5=B4=A9=E6=
+=BA=83=E3=80=82=E8=BF=99=E7=AC=A6=E5=90=88=E5=86=85=E6=A0=B8=E5=BC=80=E5=8F=
+=91=E8=80=85=E7=9A=84=E5=88=A9=E7=9B=8A=EF=BC=8C
+>> +=E5=8F=AF=E4=BB=A5=E4=BD=BF=E6=9B=B4=E6=96=B0=E6=9C=89=E5=90=B8=E5=BC=
+=95=E5=8A=9B=EF=BC=9A=E4=BB=96=E4=BB=AC=E4=B8=8D=E5=B8=8C=E6=9C=9B=E7=94=A8=
+=E6=88=B7=E5=81=9C=E7=95=99=E5=9C=A8=E5=81=9C=E6=AD=A2=E7=BB=B4=E6=8A=A4=E6=
+=88=96=E8=B6=85=E8=BF=87=E4=B8=80=E5=B9=B4=E5=8D=8A=E7=9A=84=E7=A8=B3=E5=AE=
+=9A/=E9=95=BF=E6=9C=9FLinux
+>> +=E7=89=88=E6=9C=AC=E7=B3=BB=E5=88=97=E4=B8=8A=E3=80=82=E8=BF=99=E4=B9=
+=9F=E7=AC=A6=E5=90=88=E6=89=80=E6=9C=89=E4=BA=BA=E7=9A=84=E5=88=A9=E7=9B=8A=
+=EF=BC=8C=E5=9B=A0=E4=B8=BA `=E9=82=A3=E4=BA=9B=E7=B3=BB=E5=88=97=E5=8F=AF=
+=E8=83=BD=E5=90=AB=E6=9C=89=E5=B7=B2=E7=9F=A5=E7=9A=84=E7=BC=BA=E9=99=B7=E3=
+=80=81=E5=AE=89=E5=85=A8=E9=97=AE=E9=A2=98
+>> +=E6=88=96=E5=85=B6=E4=BB=96=E5=90=8E=E7=BB=AD=E7=89=88=E6=9C=AC=E5=B7=
+=B2=E7=BB=8F=E4=BF=AE=E5=A4=8D=E7=9A=84=E9=97=AE=E9=A2=98
+>> +<http://www=2Ekroah=2Ecom/log/blog/2018/08/24/what-stable-kernel-shoul=
+d-i-use/>`_ =E3=80=82
+>> +=E6=AD=A4=E5=A4=96=EF=BC=8C=E5=86=85=E6=A0=B8=E5=BC=80=E5=8F=91=E8=80=
+=85=E5=B8=8C=E6=9C=9B=E4=BD=BF=E7=94=A8=E6=88=B7=E6=B5=8B=E8=AF=95=E6=9C=80=
+=E6=96=B0=E7=9A=84=E9=A2=84=E5=8F=91=E8=A1=8C=E7=89=88=E6=88=96=E5=B8=B8=E8=
+=A7=84=E5=8F=91=E8=A1=8C=E7=89=88=E5=8F=98=E5=BE=97=E7=AE=80=E5=8D=95=E8=80=
+=8C=E6=9C=89=E5=90=B8=E5=BC=95=E5=8A=9B=E3=80=82
+>> +=E8=BF=99=E5=90=8C=E6=A0=B7=E7=AC=A6=E5=90=88=E6=89=80=E6=9C=89=E4=BA=
+=BA=E7=9A=84=E5=88=A9=E7=9B=8A=EF=BC=8C=E5=A6=82=E6=9E=9C=E6=96=B0=E7=89=88=
+=E6=9C=AC=E5=87=BA=E6=9D=A5=E5=90=8E=E5=BE=88=E5=BF=AB=E5=B0=B1=E6=9C=89=E7=
+=9B=B8=E5=85=B3=E6=8A=A5=E5=91=8A=EF=BC=8C=E4=BC=9A=E4=BD=BF=E8=BF=BD=E8=B8=
+=AA=E5=92=8C=E4=BF=AE=E5=A4=8D=E9=97=AE=E9=A2=98
+>> +=E6=9B=B4=E5=AE=B9=E6=98=93=E3=80=82
+>> +
+>> +=E5=AE=9E=E9=99=85=E4=B8=AD=E2=80=9C=E6=97=A0=E5=9B=9E=E5=BD=92=E2=80=
+=9D=E8=A7=84=E5=88=99=E7=9C=9F=E7=9A=84=E5=8F=AF=E8=A1=8C=E5=90=97=EF=BC=9F
+>> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> +
+>> +=E8=BF=99=E4=B8=8D=E6=98=AF=E5=8F=A5=E7=8E=A9=E7=AC=91=E8=AF=9D=EF=BC=
+=8C=E8=AF=B7=E8=A7=81Linux=E5=88=9B=E5=BB=BA=E8=80=85=E5=92=8C=E4=B8=BB=E8=
+=A6=81=E5=BC=80=E5=8F=91=E4=BA=BA=E5=91=98Linus Torvalds=E5=9C=A8=E9=82=AE=
+=E4=BB=B6=E5=88=97=E8=A1=A8=E4=B8=AD=E7=9A=84=E8=AE=B8
+>> +=E5=A4=9A=E5=8F=91=E8=A8=80=EF=BC=8C=E5=85=B6=E4=B8=AD=E4=B8=80=E4=BA=
+=9B=E5=9C=A8 Documentation/process/handling-regressions=2Erst =E4=B8=AD=E8=
+=A2=AB=E5=BC=95=E7=94=A8=E3=80=82
+>> +
+>> +=E6=AD=A4=E8=A7=84=E5=88=99=E7=9A=84=E4=BE=8B=E5=A4=96=E6=83=85=E5=86=
+=B5=E6=9E=81=E4=B8=BA=E7=BD=95=E8=A7=81=EF=BC=9B=E4=B9=8B=E5=89=8D=E5=BD=93=
+=E5=BC=80=E5=8F=91=E8=80=85=E8=AE=A4=E4=B8=BA=E6=9F=90=E4=B8=AA=E7=89=B9=E5=
+=AE=9A=E7=9A=84=E6=83=85=E5=86=B5=E6=9C=89=E5=BF=85=E8=A6=81=E6=8F=B4=E5=BC=
+=95=E4=BE=8B=E5=A4=96=E6=97=B6=EF=BC=8C
+>> +=E5=9F=BA=E6=9C=AC=E9=83=BD=E8=A2=AB=E8=AF=81=E6=98=8E=E9=94=99=E4=BA=
+=86=E3=80=82
+>> +
+>> +=E8=B0=81=E6=9D=A5=E7=A1=AE=E4=BF=9D=E2=80=9C=E6=97=A0=E5=9B=9E=E5=BD=
+=92=E2=80=9D=E8=A2=AB=E8=90=BD=E5=AE=9E=EF=BC=9F
+>> +~~~~~~~~~~~~~~~~~~~~~~~~
+>> +
+>> +=E7=85=A7=E7=9C=8B=E5=92=8C=E6=94=AF=E6=92=91=E6=A0=91=E7=9A=84=E5=AD=
+=90=E7=B3=BB=E7=BB=9F=E7=BB=B4=E6=8A=A4=E8=80=85=E5=BA=94=E8=AF=A5=E5=85=B3=
+=E5=BF=83=E8=BF=99=E4=B8=80=E7=82=B9=E2=80=94=E2=80=94=E4=BE=8B=E5=A6=82=EF=
+=BC=8CLinus Torvalds=E4=B9=8B=E4=BA=8E=E4=B8=BB=E7=BA=BF=EF=BC=8C
+>> +Greg Kroah-Hartman=E7=AD=89=E4=BA=BA=E4=B9=8B=E4=BA=8E=E5=90=84=E7=A7=
+=8D=E7=A8=B3=E5=AE=9A/=E9=95=BF=E6=9C=9F=E7=B3=BB=E5=88=97=E3=80=82
+>> +
+>> +=E4=BB=96=E4=BB=AC=E9=83=BD=E5=BE=97=E5=88=B0=E4=BA=86=E5=88=AB=E4=BA=
+=BA=E7=9A=84=E5=B8=AE=E5=8A=A9=EF=BC=8C=E4=BB=A5=E7=A1=AE=E4=BF=9D=E5=9B=9E=
+=E5=BD=92=E6=8A=A5=E5=91=8A=E4=B8=8D=E4=BC=9A=E8=A2=AB=E9=81=97=E6=BC=8F=E3=
+=80=82=E5=85=B6=E4=B8=AD=E4=B9=8B=E4=B8=80=E6=98=AFThorsten
+>> +Leemhuis=EF=BC=8C=E4=BB=96=E7=9B=AE=E5=89=8D=E6=8B=85=E4=BB=BBLinux=E5=
+=86=85=E6=A0=B8=E7=9A=84=E2=80=9C=E5=9B=9E=E5=BD=92=E8=B7=9F=E8=B8=AA=E8=80=
+=85=E2=80=9D=EF=BC=9B=E4=B8=BA=E4=BA=86=E5=81=9A=E5=A5=BD=E8=BF=99=E9=A1=B9=
+=E5=B7=A5=E4=BD=9C=EF=BC=8C=E4=BB=96=E4=BD=BF=E7=94=A8=E4=BA=86
+>> +regzbot=E2=80=94=E2=80=94Linux=E5=86=85=E6=A0=B8=E5=9B=9E=E5=BD=92=E8=
+=B7=9F=E8=B8=AA=E6=9C=BA=E5=99=A8=E4=BA=BA=E3=80=82=E6=89=80=E4=BB=A5=E8=BF=
+=99=E5=B0=B1=E6=98=AF=E4=B8=BA=E4=BB=80=E4=B9=88=E8=A6=81=E6=8A=84=E9=80=81=
+=E6=88=96=E8=BD=AC=E5=8F=91=E4=BD=A0=E7=9A=84=E6=8A=A5=E5=91=8A=E5=88=B0
+>> +=E5=9B=9E=E5=BD=92=E9=82=AE=E4=BB=B6=E5=88=97=E8=A1=A8=E6=9D=A5=E9=80=
+=9A=E7=9F=A5=E8=BF=99=E4=BA=9B=E4=BA=BA=EF=BC=8C=E5=B7=B2=E7=BB=8F=E6=9C=80=
+=E5=A5=BD=E5=9C=A8=E4=BD=A0=E7=9A=84=E9=82=AE=E4=BB=B6=E4=B8=AD=E5=8C=85=E5=
+=90=AB=E2=80=9Cregzbot=E5=91=BD=E4=BB=A4=E2=80=9D=E6=9D=A5=E7=AB=8B=E5=8D=
+=B3=E8=BF=BD=E8=B8=AA=E5=AE=83=E3=80=82
+>> +
+>> +=E5=9B=9E=E5=BD=92=E9=80=9A=E5=B8=B8=E5=A4=9A=E4=B9=85=E8=83=BD=E4=BF=
+=AE=E5=A4=8D=EF=BC=9F
+>> +~~~~~~~~~~~~~~~~~~~~
+>> +
+>> +=E5=BC=80=E5=8F=91=E8=80=85=E5=BA=94=E8=AF=A5=E5=B0=BD=E5=BF=AB=E4=BF=
+=AE=E5=A4=8D=E4=BB=BB=E4=BD=95=E8=A2=AB=E6=8A=A5=E5=91=8A=E7=9A=84=E5=9B=9E=
+=E5=BD=92=EF=BC=8C=E4=BB=A5=E6=8F=90=E4=BE=9B=E5=8F=8A=E6=97=B6=E4=B8=BA=E5=
+=8F=97=E5=BD=B1=E5=93=8D=E7=9A=84=E7=94=A8=E6=88=B7=E6=8F=90=E4=BE=9B=E8=A7=
+=A3=E5=86=B3=E6=96=B9=E6=A1=88=EF=BC=8C=E5=B9=B6
+>> +=E9=98=B2=E6=AD=A2=E6=9B=B4=E5=A4=9A=E7=94=A8=E6=88=B7=E9=81=87=E5=88=
+=B0=E9=97=AE=E9=A2=98=EF=BC=9B=E7=84=B6=E8=80=8C=EF=BC=8C=E5=BC=80=E5=8F=91=
+=E4=BA=BA=E5=91=98=E9=9C=80=E8=A6=81=E8=8A=B1=E8=B6=B3=E5=A4=9F=E7=9A=84=E6=
+=97=B6=E9=97=B4=E5=92=8C=E6=B3=A8=E6=84=8F=E5=8A=9B=E7=A1=AE=E4=BF=9D=E5=9B=
+=9E=E5=BD=92=E4=BF=AE=E5=A4=8D=E4=B8=8D=E4=BC=9A
+>> +=E9=80=A0=E6=88=90=E9=A2=9D=E5=A4=96=E7=9A=84=E6=8D=9F=E5=AE=B3=E3=80=
+=82
+>> +
+>> +=E5=9B=A0=E6=AD=A4=EF=BC=8C=E7=AD=94=E6=A1=88=E5=8F=96=E5=86=B3=E4=BA=
+=8E=E5=90=84=E7=A7=8D=E5=9B=A0=E7=B4=A0=EF=BC=8C=E5=A6=82=E5=9B=9E=E5=BD=92=
+=E7=9A=84=E5=BD=B1=E5=93=8D=E3=80=81=E5=AD=98=E5=9C=A8=E6=97=B6=E9=95=BF=E6=
+=88=96=E5=87=BA=E7=8E=B0=E4=BA=8E=E5=93=AA=E4=B8=AALinux=E7=89=88=E6=9C=AC=
+=E7=B3=BB=E5=88=97=E3=80=82
+>> +=E4=BD=86=E6=9C=80=E7=BB=88=EF=BC=8C=E5=A4=A7=E5=A4=9A=E6=95=B0=E7=9A=
+=84=E5=9B=9E=E5=BD=92=E5=BA=94=E8=AF=A5=E5=9C=A8=E4=B8=A4=E5=91=A8=E5=86=85=
+=E4=BF=AE=E5=A4=8D=E3=80=82
+>> +
+>> +=E5=BD=93=E9=97=AE=E9=A2=98=E5=8F=AF=E4=BB=A5=E9=80=9A=E8=BF=87=E5=8D=
+=87=E7=BA=A7=E6=9F=90=E4=BA=9B=E8=BD=AF=E4=BB=B6=E8=A7=A3=E5=86=B3=E6=97=B6=
+=EF=BC=8C=E6=98=AF=E5=9B=9E=E5=BD=92=E5=90=97=EF=BC=9F
+>> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> +
+>> +=E5=9F=BA=E6=9C=AC=E9=83=BD=E6=98=AF=E3=80=82=E5=A6=82=E6=9E=9C=E5=BC=
+=80=E5=8F=91=E4=BA=BA=E5=91=98=E5=91=8A=E8=AF=89=E6=82=A8=E5=85=B6=E4=BB=96=
+=E6=83=85=E5=86=B5=EF=BC=8C=E8=AF=B7=E5=92=A8=E8=AF=A2=E4=B8=8A=E8=BF=B0=E5=
+=9B=9E=E5=BD=92=E8=B7=9F=E8=B8=AA=E8=80=85=E3=80=82
+>> +
+>> +=E5=BD=93=E6=96=B0=E5=86=85=E6=A0=B8=E5=8F=98=E6=85=A2=E6=88=96=E8=83=
+=BD=E8=80=97=E5=A2=9E=E5=8A=A0=EF=BC=8C=E6=98=AF=E5=9B=9E=E5=BD=92=E5=90=97=
+=EF=BC=9F
+>> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> +
+>> +=E6=98=AF=E7=9A=84=EF=BC=8C=E4=BD=86=E6=9C=89=E4=B8=80=E4=BA=9B=E5=B7=
+=AE=E5=88=AB=E3=80=82=E5=9C=A8=E5=BE=AE=E5=9E=8B=E5=9F=BA=E5=87=86=E6=B5=8B=
+=E8=AF=95=E4=B8=AD=E5=8F=98=E6=85=A25%=E4=B8=8D=E5=A4=AA=E5=8F=AF=E8=83=BD=
+=E8=A2=AB=E8=A7=86=E4=B8=BA=E5=9B=9E=E5=BD=92=EF=BC=8C=E9=99=A4=E9=9D=9E=E5=
+=AE=83=E4=B9=9F=E4=BC=9A=E5=AF=B9
+>> +=E5=B9=BF=E6=B3=9B=E5=9F=BA=E5=87=86=E6=B5=8B=E8=AF=95=E7=9A=84=E7=BB=
+=93=E6=9E=9C=E4=BA=A7=E7=94=9F=E8=B6=85=E8=BF=871%=E7=9A=84=E5=BD=B1=E5=93=
+=8D=E3=80=82=E5=A6=82=E6=9E=9C=E6=9C=89=E7=96=91=E9=97=AE=EF=BC=8C=E8=AF=B7=
+=E5=AF=BB=E6=B1=82=E5=BB=BA=E8=AE=AE=E3=80=82
+>> +
+>> +=E5=BD=93=E6=9B=B4=E6=96=B0Linux=E6=97=B6=E5=A4=96=E9=83=A8=E5=86=85=
+=E6=A0=B8=E6=A8=A1=E5=9D=97=E5=B4=A9=E6=BA=83=E4=BA=86=EF=BC=8C=E6=98=AF=E5=
+=9B=9E=E5=BD=92=E5=90=97=EF=BC=9F
+>> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> +
+>> +=E4=B8=8D=EF=BC=8C=E5=9B=A0=E4=B8=BA=E2=80=9C=E6=97=A0=E5=9B=9E=E5=BD=
+=92=E2=80=9D=E8=A7=84=E5=88=99=E4=BB=85=E9=99=90=E4=BA=8ELinux=E5=86=85=E6=
+=A0=B8=E6=8F=90=E4=BE=9B=E7=BB=99=E7=94=A8=E6=88=B7=E7=A9=BA=E9=97=B4=E7=9A=
+=84=E6=8E=A5=E5=8F=A3=E5=92=8C=E6=9C=8D=E5=8A=A1=E3=80=82=E5=9B=A0=E6=AD=A4=
+=EF=BC=8C=E5=AE=83=E4=B8=8D=E5=8C=85=E6=8B=AC
+>> +=E6=9E=84=E5=BB=BA=E6=88=96=E8=BF=90=E8=A1=8C=E5=A4=96=E9=83=A8=E5=BC=
+=80=E5=8F=91=E7=9A=84=E5=86=85=E6=A0=B8=E6=A8=A1=E5=9D=97=EF=BC=8C=E5=9B=A0=
+=E4=B8=BA=E5=AE=83=E4=BB=AC=E5=9C=A8=E5=86=85=E6=A0=B8=E7=A9=BA=E9=97=B4=E4=
+=B8=AD=E8=BF=90=E8=A1=8C=E4=B8=8E=E6=8C=82=E8=BF=9B=E5=86=85=E6=A0=B8=E4=BD=
+=BF=E7=94=A8=E7=9A=84=E5=86=85=E9=83=A8=E6=8E=A5
+>> +=E5=8F=A3=E5=81=B6=E5=B0=94=E4=BC=9A=E5=8F=98=E5=8C=96=E3=80=82
+>> +
+>> +=E5=A6=82=E4=BD=95=E5=A4=84=E7=90=86=E5=AE=89=E5=85=A8=E4=BF=AE=E5=A4=
+=8D=E5=BC=95=E8=B5=B7=E7=9A=84=E5=9B=9E=E5=BD=92=EF=BC=9F
+>> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> +
+>> +=E5=9C=A8=E6=9E=81=E4=B8=BA=E7=BD=95=E8=A7=81=E7=9A=84=E6=83=85=E5=86=
+=B5=E4=B8=8B=EF=BC=8C=E5=AE=89=E5=85=A8=E9=97=AE=E9=A2=98=E6=97=A0=E6=B3=95=
+=E5=9C=A8=E4=B8=8D=E5=BC=95=E8=B5=B7=E5=9B=9E=E5=BD=92=E7=9A=84=E6=83=85=E5=
+=86=B5=E4=B8=8B=E4=BF=AE=E5=A4=8D=EF=BC=9B=E8=BF=99=E4=BA=9B=E4=BF=AE=E5=A4=
+=8D=E9=83=BD=E8=A2=AB=E6=94=BE=E5=BC=83=E4=BA=86=EF=BC=8C
+>> +=E5=9B=A0=E4=B8=BA=E5=AE=83=E4=BB=AC=E7=BB=88=E7=A9=B6=E4=BC=9A=E5=BC=
+=95=E8=B5=B7=E9=97=AE=E9=A2=98=E3=80=82=E5=B9=B8=E8=BF=90=E7=9A=84=E6=98=AF=
+=E8=BF=99=E7=A7=8D=E4=B8=A4=E9=9A=BE=E5=A2=83=E5=9C=B0=E5=9F=BA=E6=9C=AC=E9=
+=83=BD=E5=8F=AF=E4=BB=A5=E9=81=BF=E5=85=8D=EF=BC=8C=E5=8F=97=E5=BD=B1=E5=93=
+=8D=E5=8C=BA=E5=9F=9F=E7=9A=84=E4=B8=BB=E8=A6=81
+>> +=E5=BC=80=E5=8F=91=E8=80=85=E4=BB=A5=E5=8F=8ALinus Torvalds=E6=9C=AC=
+=E4=BA=BA=E9=80=9A=E5=B8=B8=E9=83=BD=E4=BC=9A=E5=8A=AA=E5=8A=9B=E5=9C=A8=E4=
+=B8=8D=E5=BC=95=E5=85=A5=E5=9B=9E=E5=BD=92=E7=9A=84=E6=83=85=E5=86=B5=E4=B8=
+=8B=E8=A7=A3=E5=86=B3=E5=AE=89=E5=85=A8=E9=97=AE=E9=A2=98=E3=80=82
+>> +
+>> +=E5=A6=82=E6=9E=9C=E4=BD=A0=E4=BB=8D=E7=84=B6=E9=9D=A2=E4=B8=B4=E6=AD=
+=A4=E7=A7=8D=E6=83=85=E5=86=B5=EF=BC=8C=E8=AF=B7=E6=9F=A5=E7=9C=8B=E9=82=AE=
+=E4=BB=B6=E5=88=97=E8=A1=A8=E6=A1=A3=E6=A1=88=E6=98=AF=E5=90=A6=E6=9C=89=E4=
+=BA=BA=E5=B0=BD=E5=8A=9B=E9=81=BF=E5=85=8D=E8=BF=87=E5=9B=9E=E5=BD=92=E3=80=
+=82=E5=A6=82=E6=9E=9C=E6=B2=A1=E6=9C=89=EF=BC=8C
+>> +=E8=AF=B7=E6=8A=A5=E5=91=8A=E5=AE=83=EF=BC=9B=E5=A6=82=E6=9C=89=E7=96=
+=91=E9=97=AE=EF=BC=8C=E8=AF=B7=E5=A6=82=E4=B8=8A=E6=89=80=E8=BF=B0=E5=AF=BB=
+=E6=B1=82=E5=BB=BA=E8=AE=AE=E3=80=82
+>> +
+>> +=E5=BD=93=E4=BF=AE=E5=A4=8D=E5=9B=9E=E5=BD=92=E6=97=B6=E4=B8=8D=E5=8F=
+=AF=E9=81=BF=E5=85=8D=E4=BC=9A=E5=BC=95=E5=85=A5=E5=8F=A6=E4=B8=80=E4=B8=AA=
+=EF=BC=8C=E5=A6=82=E4=BD=95=E5=A4=84=E7=90=86=EF=BC=9F
+>> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> +
+>> +=E5=BE=88=E9=81=97=E6=86=BE=E8=BF=99=E7=A7=8D=E4=BA=8B=E7=A1=AE=E5=AE=
+=9E=E4=BC=9A=E5=87=BA=E7=8E=B0=EF=BC=8C=E4=BD=86=E5=B9=B8=E8=BF=90=E7=9A=84=
+=E6=98=AF=E5=B9=B6=E4=B8=8D=E7=BB=8F=E5=B8=B8=E5=87=BA=E7=8E=B0=EF=BC=9B=E5=
+=A6=82=E6=9E=9C=E5=8F=91=E7=94=9F=E4=BA=86=EF=BC=8C=E5=8F=97=E5=BD=B1=E5=93=
+=8D=E4=BB=A3=E7=A0=81=E5=8C=BA=E7=9A=84=E8=B5=84
+>> +=E6=B7=B1=E5=BC=80=E5=8F=91=E8=80=85=E5=BA=94=E5=BD=93=E8=B0=83=E6=9F=
+=A5=E8=AF=A5=E9=97=AE=E9=A2=98=E4=BB=A5=E6=89=BE=E5=88=B0=E9=81=BF=E5=85=8D=
+=E5=9B=9E=E5=BD=92=E7=9A=84=E8=A7=A3=E5=86=B3=E6=96=B9=E6=B3=95=EF=BC=8C=E8=
+=87=B3=E5=B0=91=E9=81=BF=E5=85=8D=E5=AE=83=E4=BB=AC=E7=9A=84=E5=BD=B1=E5=93=
+=8D=E3=80=82=E5=A6=82=E6=9E=9C=E4=BD=A0=E9=81=87
+>> +=E5=88=B0=E8=BF=99=E6=A0=B7=E7=9A=84=E6=83=85=E5=86=B5=EF=BC=8C=E5=A6=
+=82=E4=B8=8A=E6=89=80=E8=BF=B0=EF=BC=9A=E6=A3=80=E6=9F=A5=E4=B9=8B=E5=89=8D=
+=E7=9A=84=E8=AE=A8=E8=AE=BA=E6=98=AF=E5=90=A6=E6=9C=89=E4=BA=BA=E5=B7=B2=E7=
+=BB=8F=E5=B0=BD=E4=BA=86=E6=9C=80=E5=A4=A7=E5=8A=AA=E5=8A=9B=EF=BC=8C=E5=A6=
+=82=E6=9C=89=E7=96=91=E9=97=AE=E8=AF=B7=E5=AF=BB
+>> +=E6=B1=82=E5=BB=BA=E8=AE=AE=E3=80=82
+>> +
+>> +=E5=B0=8F=E6=8F=90=E7=A4=BA=EF=BC=9A=E5=A6=82=E6=9E=9C=E4=BA=BA=E4=BB=
+=AC=E5=9C=A8=E6=AF=8F=E4=B8=AA=E5=BC=80=E5=8F=91=E5=91=A8=E6=9C=9F=E4=B8=AD=
+=E5=AE=9A=E6=9C=9F=E7=BB=99=E5=87=BA=E4=B8=BB=E7=BA=BF=E9=A2=84=E5=8F=91=E5=
+=B8=83=EF=BC=88=E5=8D=B3v5=2E15-rc1=E6=88=96-rc3=EF=BC=89=E4=BB=A5=E4=BE=9B
+>> +=E6=B5=8B=E8=AF=95=EF=BC=8C=E5=88=99=E5=8F=AF=E4=BB=A5=E9=81=BF=E5=85=
+=8D=E8=BF=99=E7=A7=8D=E6=83=85=E5=86=B5=E3=80=82=E4=B8=BA=E4=BA=86=E6=9B=B4=
+=E5=A5=BD=E5=9C=B0=E8=A7=A3=E9=87=8A=EF=BC=8C=E5=8F=AF=E4=BB=A5=E8=AE=BE=E6=
+=83=B3=E4=B8=80=E4=B8=AA=E5=9C=A8Linux v5=2E14=E5=92=8Cv5=2E15-rc1
+>> +=E4=B9=8B=E9=97=B4=E9=9B=86=E6=88=90=E7=9A=84=E6=9B=B4=E6=94=B9=EF=BC=
+=8C=E8=AF=A5=E6=9B=B4=E6=94=B9=E5=AF=BC=E8=87=B4=E4=BA=86=E5=9B=9E=E5=BD=92=
+=EF=BC=8C=E4=BD=86=E5=90=8C=E6=97=B6=E6=98=AF=E5=BA=94=E7=94=A8=E4=BA=8E5=
+=2E15-rc1=E7=9A=84=E5=85=B6=E4=BB=96=E6=94=B9=E8=BF=9B=E7=9A=84=E5=BC=BA=E4=
+=BE=9D=E8=B5=96=E3=80=82
+>> +=E5=A6=82=E6=9E=9C=E6=9C=89=E4=BA=BA=E5=9C=A85=2E15=E5=8F=91=E5=B8=83=
+=E4=B9=8B=E5=89=8D=E5=B0=B1=E5=8F=91=E7=8E=B0=E5=B9=B6=E6=8A=A5=E5=91=8A=E4=
+=BA=86=E8=BF=99=E4=B8=AA=E9=97=AE=E9=A2=98=EF=BC=8C=E9=82=A3=E4=B9=88=E6=89=
+=80=E6=9C=89=E6=9B=B4=E6=94=B9=E9=83=BD=E5=8F=AF=E4=BB=A5=E7=9B=B4=E6=8E=A5=
+=E6=92=A4=E9=94=80=EF=BC=8C=E4=BB=8E
+>> +=E8=80=8C=E8=A7=A3=E5=86=B3=E5=9B=9E=E5=BD=92=E9=97=AE=E9=A2=98=E3=80=
+=82=E8=80=8C=E5=B0=B1=E5=9C=A8=E5=87=A0=E5=A4=A9=E6=88=96=E5=87=A0=E5=91=A8=
+=E5=90=8E=EF=BC=8C=E6=AD=A4=E8=A7=A3=E5=86=B3=E6=96=B9=E6=A1=88=E5=8F=98=E6=
+=88=90=E4=BA=86=E4=B8=8D=E5=8F=AF=E8=83=BD=EF=BC=8C=E5=9B=A0=E4=B8=BA=E4=B8=
+=80=E4=BA=9B=E8=BD=AF=E4=BB=B6=E5=8F=AF=E8=83=BD
+>> +=E5=B7=B2=E7=BB=8F=E5=BC=80=E5=A7=8B=E4=BE=9D=E8=B5=96=E4=BA=8E=E5=90=
+=8E=E7=BB=AD=E6=9B=B4=E6=94=B9=E4=B9=8B=E4=B8=80=EF=BC=9A=E6=92=A4=E9=94=80=
+=E6=89=80=E6=9C=89=E6=9B=B4=E6=94=B9=E5=B0=86=E5=AF=BC=E8=87=B4=E4=B8=8A=E8=
+=BF=B0=E7=94=A8=E6=88=B7=E8=BD=AF=E4=BB=B6=E5=87=BA=E7=8E=B0=E5=9B=9E=E5=BD=
+=92=EF=BC=8C=E8=BF=99=E6=98=AF=E4=B8=8D=E5=8F=AF
+>> +=E6=8E=A5=E5=8F=97=E7=9A=84=E3=80=82
+>> +
+>> +=E8=8B=A5=E6=88=91=E6=89=80=E4=BE=9D=E8=B5=96=E7=9A=84=E5=8A=9F=E8=83=
+=BD=E5=9C=A8=E6=95=B0=E6=9C=88=E5=89=8D=E8=A2=AB=E7=A7=BB=E9=99=A4=E4=BA=86=
+=EF=BC=8C=E6=98=AF=E5=9B=9E=E5=BD=92=E5=90=97=EF=BC=9F
+>> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> +
+>> +=E6=98=AF=E7=9A=84=EF=BC=8C=E4=BD=86=E5=A6=82=E5=89=8D=E8=8A=82=E6=89=
+=80=E8=BF=B0=EF=BC=8C=E9=80=9A=E5=B8=B8=E5=BE=88=E9=9A=BE=E4=BF=AE=E5=A4=8D=
+=E6=AD=A4=E7=B1=BB=E5=9B=9E=E5=BD=92=E3=80=82=E5=9B=A0=E6=AD=A4=E9=9C=80=E8=
+=A6=81=E9=80=90=E6=A1=88=E5=A4=84=E7=90=86=E3=80=82=E8=BF=99=E4=B9=9F=E6=98=
+=AF=E5=AE=9A=E6=9C=9F=E6=B5=8B=E8=AF=95=E4=B8=BB
+>> +=E7=BA=BF=E9=A2=84=E5=8F=91=E5=B8=83=E5=AF=B9=E6=89=80=E6=9C=89=E4=BA=
+=BA=E6=9C=89=E5=A5=BD=E5=A4=84=E7=9A=84=E5=8F=A6=E4=B8=80=E4=B8=AA=E5=8E=9F=
+=E5=9B=A0=E3=80=82
+>> +
+>> +=E5=A6=82=E6=9E=9C=E6=88=91=E4=BC=BC=E4=B9=8E=E6=98=AF=E5=94=AF=E4=B8=
+=80=E5=8F=97=E5=BD=B1=E5=93=8D=E7=9A=84=E4=BA=BA=EF=BC=8C=E6=98=AF=E5=90=A6=
+=E4=BB=8D=E9=80=82=E7=94=A8=E2=80=9C=E6=97=A0=E5=9B=9E=E5=BD=92=E2=80=9D=E8=
+=A7=84=E5=88=99=EF=BC=9F
+>> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> +
+>> +=E9=80=82=E7=94=A8=EF=BC=8C=E4=BD=86=E4=BB=85=E9=99=90=E4=BA=8E=E5=AE=
+=9E=E9=99=85=E4=BD=BF=E7=94=A8=EF=BC=9ALinux=E5=BC=80=E5=8F=91=E4=BA=BA=E5=
+=91=98=E5=B8=8C=E6=9C=9B=E8=83=BD=E5=A4=9F=E8=87=AA=E7=94=B1=E5=9C=B0=E5=8F=
+=96=E6=B6=88=E9=82=A3=E4=BA=9B=E5=8F=AA=E8=83=BD=E5=9C=A8=E9=98=81=E6=A5=BC=
+=E5=92=8C=E5=8D=9A=E7=89=A9
+>> +=E9=A6=86=E4=B8=AD=E6=89=BE=E5=88=B0=E7=9A=84=E7=A1=AC=E4=BB=B6=E7=9A=
+=84=E6=94=AF=E6=8C=81=E3=80=82
+>> +
+>> +=E8=AF=B7=E6=B3=A8=E6=84=8F=EF=BC=8C=E6=9C=89=E6=97=B6=E4=B8=BA=E4=BA=
+=86=E5=8F=96=E5=BE=97=E8=BF=9B=E5=B1=95=EF=BC=8C=E4=B8=8D=E5=BE=97=E4=B8=8D=
+=E5=87=BA=E7=8E=B0=E5=9B=9E=E5=BD=92=E2=80=94=E2=80=94=E5=90=8E=E8=80=85=E4=
+=B9=9F=E6=98=AF=E9=98=B2=E6=AD=A2Linux=E5=81=9C=E6=BB=9E=E4=B8=8D=E5=89=8D=
+=E6=89=80=E5=BF=85=E9=9C=80
+>> +=E7=9A=84=E3=80=82=E5=9B=A0=E6=AD=A4=E5=A6=82=E6=9E=9C=E5=9B=9E=E5=BD=
+=92=E6=89=80=E5=BD=B1=E5=93=8D=E7=9A=84=E7=94=A8=E6=88=B7=E5=BE=88=E5=B0=91=
+=EF=BC=8C=E9=82=A3=E4=B9=88=E4=B8=BA=E4=BA=86=E4=BB=96=E4=BB=AC=E5=92=8C=E5=
+=85=B6=E4=BB=96=E4=BA=BA=E6=9B=B4=E5=A4=A7=E7=9A=84=E5=88=A9=E7=9B=8A=EF=BC=
+=8C=E8=BF=98=E6=98=AF=E8=AE=A9=E4=BA=8B=E6=83=85
+>> +=E8=BF=87=E5=8E=BB=E5=90=A7=E3=80=82=E5=B0=A4=E5=85=B6=E6=98=AF=E5=AD=
+=98=E5=9C=A8=E6=9F=90=E7=A7=8D=E8=A7=84=E9=81=BF=E5=9B=9E=E5=BD=92=E7=9A=84=
+=E7=AE=80=E5=8D=95=E6=96=B9=E6=B3=95=EF=BC=8C=E4=BE=8B=E5=A6=82=E6=9B=B4=E6=
+=96=B0=E4=B8=80=E4=BA=9B=E8=BD=AF=E4=BB=B6=E6=88=96=E8=80=85=E4=BD=BF=E7=94=
+=A8=E4=B8=93=E9=97=A8=E4=B8=BA=E6=AD=A4=E7=9B=AE
+>> +=E7=9A=84=E5=88=9B=E5=BB=BA=E7=9A=84=E5=86=85=E6=A0=B8=E5=8F=82=E6=95=
+=B0=E3=80=82
+>> +
+>> +=E5=9B=9E=E5=BD=92=E8=A7=84=E5=88=99=E6=98=AF=E5=90=A6=E4=B9=9F=E9=80=
+=82=E7=94=A8=E4=BA=8Estaging=E6=A0=91=E4=B8=AD=E7=9A=84=E4=BB=A3=E7=A0=81=
+=EF=BC=9F
+>> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> +
+>> +=E4=B8=8D=EF=BC=8C=E5=8F=82=E8=A7=81 `=E9=80=82=E7=94=A8=E4=BA=8E=E6=
+=89=80=E6=9C=89staging=E4=BB=A3=E7=A0=81=E9=85=8D=E7=BD=AE=E9=80=89=E9=A1=
+=B9=E7=9A=84=E5=B8=AE=E5=8A=A9=E6=96=87=E6=9C=AC
+>> +<https://git=2Ekernel=2Eorg/pub/scm/linux/kernel/git/torvalds/linux=2E=
+git/tree/drivers/staging/Kconfig>`_ =EF=BC=8C
+>> +=E5=85=B6=E6=97=A9=E5=B7=B2=E5=A3=B0=E6=98=8E::
+>> +
+>> +       =E8=AF=B7=E6=B3=A8=E6=84=8F=EF=BC=9A=E8=BF=99=E4=BA=9B=E9=A9=B1=
+=E5=8A=A8=E6=AD=A3=E5=9C=A8=E7=A7=AF=E6=9E=81=E5=BC=80=E5=8F=91=E4=B8=AD=EF=
+=BC=8C=E5=8F=AF=E8=83=BD=E6=97=A0=E6=B3=95=E6=AD=A3=E5=B8=B8=E5=B7=A5=E4=BD=
+=9C=EF=BC=8C=E5=B9=B6=E5=8F=AF=E8=83=BD=E5=8C=85=E5=90=AB=E4=BC=9A=E5=9C=A8=
+=E4=B8=8D=E4=B9=85=E7=9A=84
+>> +       =E5=B0=86=E6=9D=A5=E5=8F=91=E7=94=9F=E5=8F=98=E5=8C=96=E7=9A=84=
+=E7=94=A8=E6=88=B7=E6=8E=A5=E5=8F=A3=E3=80=82
+>> +
+>> +=E8=99=BD=E7=84=B6staging=E5=BC=80=E5=8F=91=E4=BA=BA=E5=91=98=E9=80=9A=
+=E5=B8=B8=E5=9D=9A=E6=8C=81=E2=80=9C=E6=97=A0=E5=9B=9E=E5=BD=92=E2=80=9D=E7=
+=9A=84=E5=8E=9F=E5=88=99=EF=BC=8C=E4=BD=86=E6=9C=89=E6=97=B6=E4=B8=BA=E4=BA=
+=86=E5=8F=96=E5=BE=97=E8=BF=9B=E5=B1=95=E4=B9=9F=E4=BC=9A=E8=BF=9D=E8=83=8C=
+=E5=AE=83=E3=80=82=E8=BF=99=E5=B0=B1
+>> +=E6=98=AF=E4=B8=BA=E4=BB=80=E4=B9=88=E5=BD=93staging=E6=A0=91=E7=9A=84=
+WiFi=E9=A9=B1=E5=8A=A8=E8=A2=AB=E5=9F=BA=E6=9C=AC=E6=8E=A8=E5=80=92=E9=87=
+=8D=E6=9D=A5=E6=97=B6=EF=BC=8C=E6=9C=89=E4=BA=9B=E7=94=A8=E6=88=B7=E4=B8=8D=
+=E5=BE=97=E4=B8=8D=E5=A4=84=E7=90=86=E5=9B=9E=E5=BD=92=EF=BC=88=E9=80=9A=E5=
+=B8=B8=E5=8F=AF
+>> +=E4=BB=A5=E5=BF=BD=E7=95=A5=EF=BC=89=E3=80=82
+>> +
+>> +=E4=B8=BA=E4=BB=80=E4=B9=88=E8=BE=83=E6=96=B0=E7=89=88=E6=9C=AC=E5=BF=
+=85=E9=A1=BB=E2=80=9C=E4=BD=BF=E7=94=A8=E7=9B=B8=E4=BC=BC=E9=85=8D=E7=BD=AE=
+=E7=BC=96=E8=AF=91=E2=80=9D=EF=BC=9F
+>> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> +
+>> +=E5=9B=A0=E4=B8=BALinux=E5=86=85=E6=A0=B8=E5=BC=80=E5=8F=91=E4=BA=BA=
+=E5=91=98=E6=9C=89=E6=97=B6=E4=BC=9A=E9=9B=86=E6=88=90=E5=B7=B2=E7=9F=A5=E7=
+=9A=84=E4=BC=9A=E5=AF=BC=E8=87=B4=E5=9B=9E=E5=BD=92=E7=9A=84=E5=8F=98=E6=9B=
+=B4=EF=BC=8C=E4=BD=86=E4=BD=BF=E5=AE=83=E4=BB=AC=E6=88=90=E4=B8=BA=E5=8F=AF=
+=E9=80=89=E7=9A=84=EF=BC=8C=E5=B9=B6
+>> +=E5=9C=A8=E5=86=85=E6=A0=B8=E7=9A=84=E9=BB=98=E8=AE=A4=E9=85=8D=E7=BD=
+=AE=E4=B8=8B=E7=A6=81=E7=94=A8=E5=AE=83=E4=BB=AC=E3=80=82=E8=BF=99=E4=B8=80=
+=E6=8A=80=E5=B7=A7=E5=85=81=E8=AE=B8=E8=BF=9B=E6=AD=A5=EF=BC=8C=E5=90=A6=E5=
+=88=99=E2=80=9C=E6=97=A0=E5=9B=9E=E5=BD=92=E2=80=9D=E8=A7=84=E5=88=99=E5=B0=
+=86=E5=AF=BC=E8=87=B4=E5=81=9C=E6=BB=9E=E3=80=82
+>> +
+>> +=E4=BE=8B=E5=A6=82=EF=BC=8C=E8=AF=95=E6=83=B3=E4=B8=80=E4=B8=AA=E6=96=
+=B0=E7=9A=84=E5=8F=AF=E4=BB=A5=E9=98=BB=E6=AD=A2=E6=81=B6=E6=84=8F=E8=BD=AF=
+=E4=BB=B6=E6=BB=A5=E7=94=A8=E6=9F=90=E4=B8=AA=E5=86=85=E6=A0=B8=E7=9A=84=E6=
+=8E=A5=E5=8F=A3=E7=9A=84=E5=AE=89=E5=85=A8=E7=89=B9=E6=80=A7=EF=BC=8C=E5=90=
+=8C=E6=97=B6=E5=8F=88=E9=9C=80=E8=A6=81=E6=BB=A1=E8=B6=B3
+>> +=E5=8F=A6=E4=B8=80=E4=B8=AA=E5=BE=88=E7=BD=95=E8=A7=81=E7=9A=84=E5=BA=
+=94=E7=94=A8=E7=A8=8B=E5=BA=8F=E3=80=82=E4=B8=8A=E8=BF=B0=E7=9A=84=E6=96=B9=
+=E6=B3=95=E5=8F=AF=E4=BD=BF=E4=B8=A4=E6=96=B9=E9=83=BD=E6=BB=A1=E6=84=8F=EF=
+=BC=9A=E4=BD=BF=E7=94=A8=E8=BF=99=E4=BA=9B=E5=BA=94=E7=94=A8=E7=A8=8B=E5=BA=
+=8F=E7=9A=84=E4=BA=BA=E5=8F=AF=E4=BB=A5=E5=85=B3=E9=97=AD
+>> +=E6=96=B0=E7=9A=84=E5=AE=89=E5=85=A8=E5=8A=9F=E8=83=BD=EF=BC=8C=E8=80=
+=8C=E5=85=B6=E4=BB=96=E4=B8=8D=E4=BC=9A=E9=81=87=E5=88=B0=E9=BA=BB=E7=83=A6=
+=E7=9A=84=E4=BA=BA=E5=8F=AF=E4=BB=A5=E5=90=AF=E7=94=A8=E5=AE=83=E3=80=82
+>> +
+>> +=E5=A6=82=E4=BD=95=E5=88=9B=E5=BB=BA=E4=B8=8E=E6=97=A7=E5=86=85=E6=A0=
+=B8=E7=9B=B8=E4=BC=BC=E7=9A=84=E9=85=8D=E7=BD=AE=EF=BC=9F
+>> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> +
+>> +=E7=94=A8=E4=B8=80=E4=B8=AA=E5=B7=B2=E7=9F=A5=E8=89=AF=E5=A5=BD=E7=9A=
+=84=E5=86=85=E6=A0=B8=E5=90=AF=E5=8A=A8=E6=9C=BA=E5=99=A8=EF=BC=8C=E5=B9=B6=
+=E7=94=A8 ``make olddefconfig`` =E9=85=8D=E7=BD=AE=E6=96=B0=E7=89=88=E7=9A=
+=84Linux=E3=80=82=E8=BF=99
+>> +=E4=BC=9A=E8=AE=A9=E5=86=85=E6=A0=B8=E7=9A=84=E6=9E=84=E5=BB=BA=E8=84=
+=9A=E6=9C=AC=E4=BB=8E=E6=AD=A3=E5=9C=A8=E8=BF=90=E8=A1=8C=E7=9A=84=E5=86=85=
+=E6=A0=B8=E4=B8=AD=E6=91=98=E5=BD=95=E9=85=8D=E7=BD=AE=E6=96=87=E4=BB=B6=EF=
+=BC=88=E2=80=9C=2Econfig=E2=80=9D=E6=96=87=E4=BB=B6=EF=BC=89=EF=BC=8C=E4=BD=
+=9C=E4=B8=BA=E5=8D=B3=E5=B0=86=E7=BC=96
+>> +=E8=AF=91=E7=9A=84=E6=96=B0=E7=89=88=E6=9C=AC=E7=9A=84=E5=9F=BA=E7=A1=
+=80=E9=85=8D=E7=BD=AE=EF=BC=9B=E5=90=8C=E6=97=B6=E5=B0=86=E6=89=80=E6=9C=89=
+=E6=96=B0=E7=9A=84=E9=85=8D=E7=BD=AE=E9=80=89=E9=A1=B9=E8=AE=BE=E4=B8=BA=E9=
+=BB=98=E8=AE=A4=E5=80=BC=EF=BC=8C=E4=BB=A5=E7=A6=81=E7=94=A8=E5=8F=AF=E8=83=
+=BD=E5=AF=BC=E8=87=B4=E5=9B=9E=E5=BD=92=E7=9A=84
+>> +=E6=96=B0=E5=8A=9F=E8=83=BD=E3=80=82
+>> +
+>> +=E5=A6=82=E4=BD=95=E6=8A=A5=E5=91=8A=E5=9C=A8=E9=A2=84=E7=BC=96=E8=AF=
+=91=E7=9A=84=E6=99=AE=E9=80=9A=E5=86=85=E6=A0=B8=E4=B8=AD=E5=8F=91=E7=8E=B0=
+=E7=9A=84=E5=9B=9E=E5=BD=92=EF=BC=9F
+>> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> +
+>> +=E6=82=A8=E9=9C=80=E8=A6=81=E7=A1=AE=E4=BF=9D=E6=96=B0=E7=9A=84=E5=86=
+=85=E6=A0=B8=E6=98=AF=E7=94=A8=E4=B8=8E=E6=97=A7=E7=89=88=E7=9B=B8=E4=BC=BC=
+=E7=9A=84=E9=85=8D=E7=BD=AE=E7=BC=96=E8=AF=91=EF=BC=88=E8=A7=81=E4=B8=8A=E6=
+=96=87=EF=BC=89=EF=BC=8C=E5=9B=A0=E4=B8=BA=E9=82=A3=E4=BA=9B=E6=9E=84=E5=BB=
+=BA=E5=AE=83=E4=BB=AC=E7=9A=84=E4=BA=BA=E5=8F=AF
+>> +=E8=83=BD=E5=90=AF=E7=94=A8=E4=BA=86=E4=B8=80=E4=BA=9B=E5=B7=B2=E7=9F=
+=A5=E7=9A=84=E4=B8=8E=E6=96=B0=E5=86=85=E6=A0=B8=E4=B8=8D=E5=85=BC=E5=AE=B9=
+=E7=9A=84=E7=89=B9=E6=80=A7=E3=80=82=E5=A6=82=E6=9C=89=E7=96=91=E9=97=AE=EF=
+=BC=8C=E8=AF=B7=E5=90=91=E5=86=85=E6=A0=B8=E7=9A=84=E6=8F=90=E4=BE=9B=E8=80=
+=85=E6=8A=A5=E5=91=8A=E9=97=AE=E9=A2=98=E5=B9=B6
+>> +=E5=AF=BB=E6=B1=82=E5=BB=BA=E8=AE=AE=E3=80=82
+>> +
+>> +
+>> +=E7=94=A8=E2=80=9Cregzbot=E2=80=9D=E8=BF=BD=E8=B8=AA=E5=9B=9E=E5=BD=92=
+=E7=9A=84=E6=9B=B4=E5=A4=9A=E4=BF=A1=E6=81=AF
+>> +-----------------------------
+>> +
+>> +=E4=BB=80=E4=B9=88=E6=98=AF=E5=9B=9E=E5=BD=92=E8=BF=BD=E8=B8=AA=EF=BC=
+=9F=E4=B8=BA=E5=95=A5=E6=88=91=E9=9C=80=E8=A6=81=E5=85=B3=E5=BF=83=E5=AE=83=
+=EF=BC=9F
+>> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> +
+>> +=E5=83=8F=E2=80=9C=E6=97=A0=E5=9B=9E=E5=BD=92=E2=80=9D=E8=BF=99=E6=A0=
+=B7=E7=9A=84=E8=A7=84=E5=88=99=E9=9C=80=E8=A6=81=E6=9C=89=E4=BA=BA=E6=9D=A5=
+=E7=A1=AE=E4=BF=9D=E5=AE=83=E4=BB=AC=E8=A2=AB=E9=81=B5=E5=AE=88=EF=BC=8C=E5=
+=90=A6=E5=88=99=E4=BC=9A=E8=A2=AB=E6=9C=89=E6=84=8F/=E6=97=A0=E6=84=8F=E6=
+=89=93=E7=A0=B4=E3=80=82=E5=8E=86=E5=8F=B2=E8=AF=81
+>> +=E6=98=8E=E4=BA=86=E8=BF=99=E4=B8=80=E7=82=B9=E5=AF=B9=E4=BA=8ELinux=
+=E5=86=85=E6=A0=B8=E5=BC=80=E5=8F=91=E4=B9=9F=E9=80=82=E7=94=A8=E3=80=82=E8=
+=BF=99=E5=B0=B1=E6=98=AF=E4=B8=BA=E4=BB=80=E4=B9=88Linux=E5=86=85=E6=A0=B8=
+=E7=9A=84=E5=9B=9E=E5=BD=92=E8=B7=9F=E8=B8=AA=E8=80=85Thorsten
+>> +Leemhuis=EF=BC=8C=EF=BC=8C=E5=92=8C=E5=8F=A6=E4=B8=80=E4=BA=9B=E4=BA=
+=BA=E5=B0=BD=E5=8A=9B=E5=85=B3=E6=B3=A8=E6=89=80=E6=9C=89=E7=9A=84=E5=9B=9E=
+=E5=BD=92=E7=9B=B4=E5=88=B0=E4=BB=96=E4=BB=AC=E8=A7=A3=E5=86=B3=E3=80=82=E4=
+=BB=96=E4=BB=AC=E4=BB=8E=E6=9C=AA=E4=B8=BA=E6=AD=A4=E8=8E=B7=E5=BE=97=E6=8A=
+=A5=E9=85=AC=EF=BC=8C
+>> +=E5=9B=A0=E6=AD=A4=E8=BF=99=E9=A1=B9=E5=B7=A5=E4=BD=9C=E6=98=AF=E5=9C=
+=A8=E5=B0=BD=E6=9C=80=E5=A4=A7=E5=8A=AA=E5=8A=9B=E7=9A=84=E5=9F=BA=E7=A1=80=
+=E4=B8=8A=E5=AE=8C=E6=88=90=E7=9A=84=E3=80=82
+>> +
+>> +=E4=B8=BA=E4=BB=80=E4=B9=88/=E5=A6=82=E4=BD=95=E4=BD=BF=E7=94=A8=E6=9C=
+=BA=E5=99=A8=E4=BA=BA=E8=BF=BD=E8=B8=AALinux=E5=86=85=E6=A0=B8=E5=9B=9E=E5=
+=BD=92=EF=BC=9F
+>> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> +
+>> +=E7=94=B1=E4=BA=8ELinux=E5=86=85=E6=A0=B8=E5=BC=80=E5=8F=91=E8=BF=87=
+=E7=A8=8B=E7=9A=84=E5=88=86=E5=B8=83=E5=BC=8F=E5=92=8C=E6=9D=BE=E6=95=A3=E7=
+=BB=93=E6=9E=84=EF=BC=8C=E5=AE=8C=E5=85=A8=E6=89=8B=E5=8A=A8=E8=B7=9F=E8=B8=
+=AA=E5=9B=9E=E5=BD=92=E5=B7=B2=E7=BB=8F=E8=A2=AB=E8=AF=81=E6=98=8E=E6=98=AF=
+=E7=9B=B8=E5=BD=93=E5=9B=B0=E9=9A=BE
+>> +=E7=9A=84=E3=80=82=E5=9B=A0=E6=AD=A4Linux=E5=86=85=E6=A0=B8=E7=9A=84=
+=E5=9B=9E=E5=BD=92=E8=B7=9F=E8=B8=AA=E8=80=85=E5=BC=80=E5=8F=91=E4=BA=86reg=
+zbot=E6=9D=A5=E4=BF=83=E8=BF=9B=E8=BF=99=E9=A1=B9=E5=B7=A5=E4=BD=9C=EF=BC=
+=8C=E5=85=B6=E9=95=BF=E6=9C=9F=E7=9B=AE=E6=A0=87=E6=98=AF=E5=B0=BD=E5=8F=AF=
+=E8=83=BD=E4=B8=BA
+>> +=E6=89=80=E6=9C=89=E7=9B=B8=E5=85=B3=E4=BA=BA=E5=91=98=E8=87=AA=E5=8A=
+=A8=E5=8C=96=E5=9B=9E=E5=BD=92=E8=B7=9F=E8=B8=AA=E3=80=82
+>> +
+>> +Regzbot=E9=80=9A=E8=BF=87=E7=9B=91=E8=A7=86=E8=B7=9F=E8=B8=AA=E7=9A=84=
+=E5=9B=9E=E5=BD=92=E6=8A=A5=E5=91=8A=E7=9A=84=E5=9B=9E=E5=A4=8D=E6=9D=A5=E5=
+=B7=A5=E4=BD=9C=E3=80=82=E6=AD=A4=E5=A4=96=EF=BC=8C=E5=AE=83=E8=BF=98=E6=9F=
+=A5=E6=89=BE=E7=94=A8=E2=80=9CLink:=E2=80=9D=E6=A0=87=E7=AD=BE=E5=BC=95=E7=
+=94=A8=E8=BF=99
+>> +=E4=BA=9B=E6=8A=A5=E5=91=8A=E7=9A=84=E8=A1=A5=E4=B8=81=EF=BC=9B=E5=AF=
+=B9=E8=BF=99=E4=BA=9B=E8=A1=A5=E4=B8=81=E7=9A=84=E5=9B=9E=E5=A4=8D=E4=B9=9F=
+=E4=BC=9A=E8=A2=AB=E8=B7=9F=E8=B8=AA=E3=80=82=E7=BB=93=E5=90=88=E8=BF=99=E4=
+=BA=9B=E6=95=B0=E6=8D=AE=EF=BC=8C=E5=8F=AF=E4=BB=A5=E5=BE=88=E5=A5=BD=E5=9C=
+=B0=E4=BA=86=E8=A7=A3=E5=BD=93=E5=89=8D=E4=BF=AE
+>> +=E5=A4=8D=E8=BF=87=E7=A8=8B=E7=9A=84=E7=8A=B6=E6=80=81=E3=80=82
+>> +
+>> +=E5=A6=82=E4=BD=95=E6=9F=A5=E7=9C=8Bregzbot=E5=BD=93=E5=89=8D=E8=BF=BD=
+=E8=B8=AA=E7=9A=84=E5=9B=9E=E5=BD=92=EF=BC=9F
+>> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> +
+>> +=E5=8F=82=E8=A7=81 `regzbot=E5=9C=A8=E7=BA=BF <https://linux-regtracki=
+ng=2Eleemhuis=2Einfo/regzbot/>`_ =E3=80=82
+>> +
+>> +=E4=BD=95=E7=A7=8D=E9=97=AE=E9=A2=98=E5=8F=AF=E4=BB=A5=E7=94=B1regzbot=
+=E8=BF=BD=E8=B8=AA=EF=BC=9F
+>> +~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> +
+>> +=E8=AF=A5=E6=9C=BA=E5=99=A8=E4=BA=BA=E5=8F=AA=E4=B8=BA=E4=BA=86=E8=B7=
+=9F=E8=B8=AA=E5=9B=9E=E5=BD=92=EF=BC=8C=E5=9B=A0=E6=AD=A4=E8=AF=B7=E4=B8=8D=
+=E8=A6=81=E8=AE=A9regzbot=E6=B6=89=E5=8F=8A=E5=B8=B8=E8=A7=84=E9=97=AE=E9=
+=A2=98=E3=80=82=E4=BD=86=E6=98=AF=E5=AF=B9=E4=BA=8ELinux=E5=86=85=E6=A0=B8=
+=E7=9A=84
+>> +=E5=9B=9E=E5=BD=92=E8=B7=9F=E8=B8=AA=E8=80=85=E6=9D=A5=E8=AF=B4=EF=BC=
+=8C=E8=AE=A9regzbot=E8=B7=9F=E8=B8=AA=E4=B8=A5=E9=87=8D=E9=97=AE=E9=A2=98=
+=E4=B9=9F=E5=8F=AF=E4=BB=A5=EF=BC=8C=E5=A6=82=E6=9C=89=E5=85=B3=E6=8C=82=E8=
+=B5=B7=E3=80=81=E6=8D=9F=E5=9D=8F=E6=95=B0=E6=8D=AE=E6=88=96=E5=86=85=E9=83=
+=A8=E9=94=99=E8=AF=AF
+>> +=EF=BC=88Panic=E3=80=81Oops=E3=80=81BUG=EF=BC=88=EF=BC=89=E3=80=81warn=
+ing=E2=80=A6=EF=BC=89=E7=9A=84=E6=8A=A5=E5=91=8A=E3=80=82
+>> +
+>> +How to change aspects of a tracked regression?
+>del
+>> +=E5=A6=82=E4=BD=95=E4=BF=AE=E6=94=B9=E8=A2=AB=E8=BF=BD=E8=B8=AA=E5=9B=
+=9E=E5=BD=92=E7=9A=84=E7=9B=B8=E5=85=B3=E4=BF=A1=E6=81=AF=EF=BC=9F
+>> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> +
+>> +=E5=9C=A8=E7=9B=B4=E6=8E=A5=E6=88=96=E9=97=B4=E6=8E=A5=E5=9B=9E=E5=A4=
+=8D=E6=8A=A5=E5=91=8A=E9=82=AE=E4=BB=B6=E6=97=B6=E4=BD=BF=E7=94=A8=E2=80=9C=
+regzbot=E5=91=BD=E4=BB=A4=E2=80=9D=E5=8D=B3=E5=8F=AF=E3=80=82=E6=9C=80=E7=
+=AE=80=E5=8D=95=E7=9A=84=E6=96=B9=E6=B3=95=E6=98=AF=EF=BC=9A=E5=9C=A8=E2=80=
+=9C=E5=B7=B2=E5=8F=91=E9=80=81=E2=80=9D=E6=96=87
+>> +=E4=BB=B6=E5=A4=B9=E6=88=96=E9=82=AE=E4=BB=B6=E5=88=97=E8=A1=A8=E5=AD=
+=98=E6=A1=A3=E4=B8=AD=E6=89=BE=E5=88=B0=E6=8A=A5=E5=91=8A=EF=BC=8C=E7=84=B6=
+=E5=90=8E=E4=BD=BF=E7=94=A8=E9=82=AE=E4=BB=B6=E5=AE=A2=E6=88=B7=E7=AB=AF=E7=
+=9A=84=E2=80=9C=E5=85=A8=E9=83=A8=E5=9B=9E=E5=A4=8D=E2=80=9D=E5=8A=9F=E8=83=
+=BD=E5=AF=B9=E5=85=B6=E8=BF=9B=E8=A1=8C=E5=9B=9E=E5=A4=8D=E3=80=82
+>> +=E5=9C=A8=E8=AF=A5=E9=82=AE=E4=BB=B6=E4=B8=AD=E7=9A=84=E7=8B=AC=E7=AB=
+=8B=E6=AE=B5=E8=90=BD=E4=B8=AD=E5=8F=AF=E4=BD=BF=E7=94=A8=E4=BB=A5=E4=B8=8B=
+=E5=91=BD=E4=BB=A4=E4=B9=8B=E4=B8=80=EF=BC=88=E5=8D=B3=E4=BD=BF=E7=94=A8=E7=
+=A9=BA=E8=A1=8C=E5=B0=86=E8=BF=99=E4=BA=9B=E5=91=BD=E4=BB=A4=E4=B8=AD=E7=9A=
+=84=E4=B8=80=E4=B8=AA=E6=88=96=E5=A4=9A=E4=B8=AA=E4=B8=8E
+>> +=E5=85=B6=E4=BD=99=E9=82=AE=E4=BB=B6=E6=96=87=E6=9C=AC=E5=88=86=E9=9A=
+=94=E5=BC=80=EF=BC=89=E3=80=82
+>> +
+>> + * =E6=9B=B4=E6=96=B0=E5=9B=9E=E5=BD=92=E5=BC=95=E5=85=A5=E8=B5=B7=E7=
+=82=B9=EF=BC=8C=E4=BE=8B=E5=A6=82=E5=9C=A8=E6=89=A7=E8=A1=8C=E4=BA=8C=E5=88=
+=86=E4=B9=8B=E5=90=8E::
+>> +
+>> +       #regzbot introduced: 1f2e3d4c5d
+>> +
+>> + * =E8=AE=BE=E7=BD=AE=E6=88=96=E6=9B=B4=E6=96=B0=E6=A0=87=E9=A2=98::
+>> +
+>> +       #regzbot title: foo
+>> +
+>> + * =E7=9B=91=E8=A7=86=E8=AE=A8=E8=AE=BA=E6=88=96bugzilla=2Ekernel=2Eor=
+g=E4=B8=8A=E6=9C=89=E5=85=B3=E8=AE=A8=E8=AE=BA=E6=88=96=E4=BF=AE=E5=A4=8D=
+=E7=9A=84=E5=B7=A5=E5=8D=95::
+>> +
+>> +       #regzbot monitor: https://lore=2Ekernel=2Eorg/r/30th=2Eannivers=
+ary=2Erepost@klaava=2EHelsinki=2EFI/
+>> +       #regzbot monitor: https://bugzilla=2Ekernel=2Eorg/show_bug=2Ecg=
+i?id=3D123456789
+>> +
+>> + * =E6=A0=87=E8=AE=B0=E4=B8=80=E4=B8=AA=E6=9C=89=E6=9B=B4=E5=A4=9A=E7=
+=9B=B8=E5=85=B3=E7=BB=86=E8=8A=82=E7=9A=84=E5=9C=B0=E6=96=B9=EF=BC=8C=E4=BE=
+=8B=E5=A6=82=E6=9C=89=E5=85=B3=E4=BD=86=E4=B8=BB=E9=A2=98=E4=B8=8D=E5=90=8C=
+=E7=9A=84=E9=82=AE=E4=BB=B6=E5=88=97=E8=A1=A8=E5=B8=96=E5=AD=90=E6=88=96=E7=
+=BC=BA=E9=99=B7=E8=BF=BD=E8=B8=AA=E5=99=A8=E4=B8=AD=E7=9A=84=E5=B7=A5=E5=8D=
+=95::
+>> +
+>> +       #regzbot link: https://bugzilla=2Ekernel=2Eorg/show_bug=2Ecgi?i=
+d=3D123456789
+>> +
+>> + * =E6=A0=87=E8=AE=B0=E5=9B=9E=E5=BD=92=E5=B7=B2=E5=A4=B1=E6=95=88::
+>> +
+>> +       #regzbot invalid: wasn't a regression, problem has always exist=
+ed
+>> +
+>> +Regzbot=E8=BF=98=E6=94=AF=E6=8C=81=E5=85=B6=E4=BB=96=E4=B8=80=E4=BA=9B=
+=E4=B8=BB=E8=A6=81=E7=94=B1=E5=BC=80=E5=8F=91=E4=BA=BA=E5=91=98=E6=88=96=E5=
+=9B=9E=E5=BD=92=E8=BF=BD=E8=B8=AA=E4=BA=BA=E5=91=98=E4=BD=BF=E7=94=A8=E7=9A=
+=84=E5=91=BD=E4=BB=A4=E3=80=82=E5=91=BD=E4=BB=A4=E7=9A=84=E6=9B=B4=E5=A4=9A=
+=E7=BB=86=E8=8A=82=E8=AF=B7
+>> +=E5=8F=82=E8=80=83 `=E5=85=A5=E9=97=A8=E6=8C=87=E5=8D=97 <https://gitl=
+ab=2Ecom/knurd42/regzbot/-/blob/main/docs/getting_started=2Emd>`_
+>> +=E5=92=8C `=E5=8F=82=E8=80=83=E6=89=8B=E5=86=8C <https://gitlab=2Ecom/=
+knurd42/regzbot/-/blob/main/docs/reference=2Emd>`_ =E3=80=82
+>Thanks,
+>Yanteng
 
+v2 will be a little later=2E
 
--- 
-<http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
+Thanks,
+Wu
 
-Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
-<http://twitter.com/#!/linaroorg> Twitter |
-<http://www.linaro.org/linaro-blog/> Blog
+>> +
+>> +=2E=2E
+>> +   end-of-content
+>> +=2E=2E
+>> +   This text is available under GPL-2=2E0+ or CC-BY-4=2E0, as stated a=
+t the top
+>> +   of the file=2E If you want to distribute this text under CC-BY-4=2E=
+0 only,
+>> +   please use "The Linux kernel developers" for author attribution and=
+ link
+>> +   this as source:
+>> +   https://git=2Ekernel=2Eorg/pub/scm/linux/kernel/git/torvalds/linux=
+=2Egit/plain/Documentation/translations/zh_CN/admin-guide/reporting-regress=
+ions=2Erst
+>> +=2E=2E
+>> +   Note: Only the content of this RST file as found in the Linux kerne=
+l sources
+>> +   is available under CC-BY-4=2E0, as versions of this text that were =
+processed
+>> +   (for example by the kernel's build system) might contain content ta=
+ken from
+>> +   files which use a more restrictive license=2E
+>>=20
+>> base-commit: 0ebe4dd124d3a0e708ea24734c13d52657e36363
+>>=20
+
