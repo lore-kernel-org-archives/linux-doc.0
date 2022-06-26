@@ -2,50 +2,66 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 14F84C433EF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 85553CCA481
 	for <linux-doc@archiver.kernel.org>; Sun, 26 Jun 2022 09:11:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234037AbiFZJLT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 26 Jun 2022 05:11:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46314 "EHLO
+        id S234162AbiFZJLQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 26 Jun 2022 05:11:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46244 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234140AbiFZJLP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 26 Jun 2022 05:11:15 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 991D512AAD;
-        Sun, 26 Jun 2022 02:11:13 -0700 (PDT)
+        with ESMTP id S232248AbiFZJLN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 26 Jun 2022 05:11:13 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8236012A9A;
+        Sun, 26 Jun 2022 02:11:12 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 4A12EB80D32;
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 152F461186;
         Sun, 26 Jun 2022 09:11:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CD474C385A2;
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1872C341CA;
         Sun, 26 Jun 2022 09:11:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1656234670;
-        bh=OtvtjDh4zRBG+WkPlpA082IB/8hqoRflSYipxG8ajqs=;
+        bh=ApZQkTVnenerWztaVmFVFWCkGX5enE8Jokt4QEoiyq8=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=oRQ6Nx4tCmAP9guKVYQ40FXluSIJjnaHRPWTLgfRaCMYHfTdH7ImEu9izUuu9/Vgj
-         CW/+thD7Cgz6Fi1VUJQv6cCyKCbIT5DlZ3GqY5bJgJhJl/kQ1XkgWbnzKxe9BWAesf
-         oUlxEpbqnldu3BKD4aw1Vc0jTBSBIaQCTQhTO2VGDeaecDmCTv/v0xglGKRCuYjHRl
-         iohUMDIskj/8ZxhKEFYcod9u1TYxtr/27hrnSW4hZib8mJ/KGc7leVfYw31cZH+UFc
-         EeKCbnseFT/lUSbBaz/RJ9Hu0m2WVckDdnnv4w1Ne50SD57eUmCTUyl8TjdDcL8Z1M
-         a3Ka6bD49Hv7Q==
+        b=CG5qn3kuWwHakJqS7RKOcK9W9tkz/kqcpovCIwIpcUS7fS3T16YFXxsIk1rxPRN3+
+         4D24IyKnmupH1+QnzGjxbH07Z9ySDqhpiU9s+t8tUOz1w60dx14WbOOo322o/WqFFM
+         MCQerz1q2YhcWfBfyP+tGg0123M4NiTooYb6ygW5LetOY4FpHYN1PIHxLo36E9cuyW
+         sZcLIbaF1Mz0FX3Ms9kkxPHD2LTsEV7IQboWaXR0EOsbIUdrfc+9z8fBOb9aV/sSzF
+         J2NzRKaTYBdq+L4lygWJx8tbkG5sJqlSoWbZ2tzF/+5jL6K5Dtwr7Ewf/TKBItq8tT
+         OnMX9v8V7UYiQ==
 Received: from mchehab by mail.kernel.org with local (Exim 4.95)
         (envelope-from <mchehab@kernel.org>)
-        id 1o5OIO-001cpN-84;
+        id 1o5OIO-001cp3-4w;
         Sun, 26 Jun 2022 10:11:08 +0100
 From:   Mauro Carvalho Chehab <mchehab@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
         "Jonathan Corbet" <corbet@lwn.net>,
         "Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
-        Conor Dooley <conor.dooley@microchip.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Rob Herring <robh@kernel.org>, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 20/20] MAINTAINERS: fix cross references to mfd/dlg,da9063.yaml
-Date:   Sun, 26 Jun 2022 10:11:06 +0100
-Message-Id: <813bdc2f54663572a976bccdcafae2d463259fa0.1656234456.git.mchehab@kernel.org>
+        "Steven Rostedt (Google)" <rostedt@goodmis.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Borislav Petkov <bp@alien8.de>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        Isabella Basso <isabbasso@riseup.net>,
+        Josh Poimboeuf <jpoimboe@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Miroslav Benes <mbenes@suse.cz>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Vlastimil Babka <vbabka@suse.cz>, linux-kernel@vger.kernel.org,
+        x86@kernel.org
+Subject: [PATCH v2 15/20] objtool: update objtool.txt references
+Date:   Sun, 26 Jun 2022 10:11:01 +0100
+Message-Id: <ec285ece6348a5be191aebe45f78d06b3319056b.1656234456.git.mchehab@kernel.org>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <cover.1656234456.git.mchehab@kernel.org>
 References: <cover.1656234456.git.mchehab@kernel.org>
@@ -55,31 +71,91 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The entry forgot to add "dlg," to the file pattern.
+Changeset a8e35fece49b ("objtool: Update documentation")
+renamed: tools/objtool/Documentation/stack-validation.txt
+to: tools/objtool/Documentation/objtool.txt.
 
-Fixes: 441613662db7 ("dt-bindings: mfd: Convert da9063 to yaml")
+Update the cross-references accordingly.
+
+Fixes: a8e35fece49b ("objtool: Update documentation")
 Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
 ---
 
 To avoid mailbombing on a large number of people, only mailing lists were C/C on the cover.
 See [PATCH v2 00/20] at: https://lore.kernel.org/all/cover.1656234456.git.mchehab@kernel.org/
 
- MAINTAINERS | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ Documentation/x86/orc-unwinder.rst | 2 +-
+ include/linux/objtool.h            | 2 +-
+ lib/Kconfig.debug                  | 2 +-
+ tools/include/linux/objtool.h      | 2 +-
+ tools/objtool/check.c              | 2 +-
+ 5 files changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index cd3f4964c14a..6acae3a340cb 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -5886,7 +5886,7 @@ W:	http://www.dialog-semiconductor.com/products
- F:	Documentation/devicetree/bindings/input/da90??-onkey.txt
- F:	Documentation/devicetree/bindings/input/dlg,da72??.txt
- F:	Documentation/devicetree/bindings/mfd/da90*.txt
--F:	Documentation/devicetree/bindings/mfd/da90*.yaml
-+F:	Documentation/devicetree/bindings/mfd/dlg,da90*.yaml
- F:	Documentation/devicetree/bindings/regulator/dlg,da9*.yaml
- F:	Documentation/devicetree/bindings/regulator/da92*.txt
- F:	Documentation/devicetree/bindings/regulator/slg51000.txt
+diff --git a/Documentation/x86/orc-unwinder.rst b/Documentation/x86/orc-unwinder.rst
+index 9a66a88be765..cdb257015bd9 100644
+--- a/Documentation/x86/orc-unwinder.rst
++++ b/Documentation/x86/orc-unwinder.rst
+@@ -140,7 +140,7 @@ Unwinder implementation details
+ 
+ Objtool generates the ORC data by integrating with the compile-time
+ stack metadata validation feature, which is described in detail in
+-tools/objtool/Documentation/stack-validation.txt.  After analyzing all
++tools/objtool/Documentation/objtool.txt.  After analyzing all
+ the code paths of a .o file, it creates an array of orc_entry structs,
+ and a parallel array of instruction addresses associated with those
+ structs, and writes them to the .orc_unwind and .orc_unwind_ip sections
+diff --git a/include/linux/objtool.h b/include/linux/objtool.h
+index 15b940ec1eac..1c769cddb42a 100644
+--- a/include/linux/objtool.h
++++ b/include/linux/objtool.h
+@@ -62,7 +62,7 @@ struct unwind_hint {
+  * It should only be used in special cases where you're 100% sure it won't
+  * affect the reliability of frame pointers and kernel stack traces.
+  *
+- * For more information, see tools/objtool/Documentation/stack-validation.txt.
++ * For more information, see tools/objtool/Documentation/objtool.txt.
+  */
+ #define STACK_FRAME_NON_STANDARD(func) \
+ 	static void __used __section(".discard.func_stack_frame_non_standard") \
+diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
+index 3da5f9acb966..3025347bb433 100644
+--- a/lib/Kconfig.debug
++++ b/lib/Kconfig.debug
+@@ -498,7 +498,7 @@ config STACK_VALIDATION
+ 	  runtime stack traces are more reliable.
+ 
+ 	  For more information, see
+-	  tools/objtool/Documentation/stack-validation.txt.
++	  tools/objtool/Documentation/objtool.txt.
+ 
+ config NOINSTR_VALIDATION
+ 	bool
+diff --git a/tools/include/linux/objtool.h b/tools/include/linux/objtool.h
+index 15b940ec1eac..1c769cddb42a 100644
+--- a/tools/include/linux/objtool.h
++++ b/tools/include/linux/objtool.h
+@@ -62,7 +62,7 @@ struct unwind_hint {
+  * It should only be used in special cases where you're 100% sure it won't
+  * affect the reliability of frame pointers and kernel stack traces.
+  *
+- * For more information, see tools/objtool/Documentation/stack-validation.txt.
++ * For more information, see tools/objtool/Documentation/objtool.txt.
+  */
+ #define STACK_FRAME_NON_STANDARD(func) \
+ 	static void __used __section(".discard.func_stack_frame_non_standard") \
+diff --git a/tools/objtool/check.c b/tools/objtool/check.c
+index 864bb9dd3584..970844ceecdc 100644
+--- a/tools/objtool/check.c
++++ b/tools/objtool/check.c
+@@ -3190,7 +3190,7 @@ static struct instruction *next_insn_to_validate(struct objtool_file *file,
+  * Follow the branch starting at the given instruction, and recursively follow
+  * any other branches (jumps).  Meanwhile, track the frame pointer state at
+  * each instruction and validate all the rules described in
+- * tools/objtool/Documentation/stack-validation.txt.
++ * tools/objtool/Documentation/objtool.txt.
+  */
+ static int validate_branch(struct objtool_file *file, struct symbol *func,
+ 			   struct instruction *insn, struct insn_state state)
 -- 
 2.36.1
 
