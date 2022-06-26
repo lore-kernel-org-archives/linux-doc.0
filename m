@@ -2,99 +2,178 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D52DDCCA47C
-	for <linux-doc@archiver.kernel.org>; Sun, 26 Jun 2022 15:49:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4CF87C433EF
+	for <linux-doc@archiver.kernel.org>; Sun, 26 Jun 2022 17:33:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231583AbiFZPtL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 26 Jun 2022 11:49:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57026 "EHLO
+        id S229850AbiFZRdQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 26 Jun 2022 13:33:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45228 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229468AbiFZPtK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 26 Jun 2022 11:49:10 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 915E2DEC3;
-        Sun, 26 Jun 2022 08:49:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-        bh=1HGEtHzkdYFCGW7ANqN5HrrMrcP7Zd/q8tMBeRZp9zY=; b=eo/KMH7QYwiA0mgyV2DsXE3ikf
-        4rfMDuFFuJaaHw0TOGYReukToi0g2Zv0FFd74fm+noB1w9Z8ifGtRTez/2w2Acdm1cxWZFd4OW03h
-        8GxWvN9zCC2jLYNkLbodRv8mvAfRhKFYvVfhlOAELCh7frmUSpKL/So7TwNnTH623tU3MSQYkKX28
-        logrbUbNHXkny2ODJnNMsV0b8PTUM18ooxSTVDwP6b6XpboB6U/vr07jYZEopThmA4fKuWAJWhZ9p
-        0IjZXWGPpEibep0wXbNGLfPbUXaDwoQrfMvxphDKSMCMICL/tO6XoSdGvboh5/jWAurvs3XOQ7gNP
-        ehmNMTnQ==;
-Received: from [2601:1c0:6280:3f0::aa0b]
-        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1o5UVU-00CXe7-OU; Sun, 26 Jun 2022 15:49:04 +0000
-Message-ID: <065c391b-ec72-4a72-7ca1-55093082164d@infradead.org>
-Date:   Sun, 26 Jun 2022 08:49:02 -0700
+        with ESMTP id S231397AbiFZRdO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 26 Jun 2022 13:33:14 -0400
+Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC6F8764A
+        for <linux-doc@vger.kernel.org>; Sun, 26 Jun 2022 10:33:11 -0700 (PDT)
+Received: by mail-wr1-x433.google.com with SMTP id i25so4435483wrc.13
+        for <linux-doc@vger.kernel.org>; Sun, 26 Jun 2022 10:33:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=LVyzL8mphbtENNv7Ak5Yb4fzhkW9NpbRag7uI4Hacxc=;
+        b=CixvAORRF/ukN2FEZzF3AXwjYn0QSsLkd38tK+4yJetZJEOD2q8BWdl+K7blkYG7QX
+         PEpxd9kqTN2VWUXcz4YD/IK4r7df6FMK1XmJ0tM6GJBIgNOaTzoUXLdb0Hle84111G9o
+         PEcdOK/tcVBUK/beyvIgVjBuqREmne+JuyFWCO/FfnY/agQm+R8Qf8mdpKl+YSiiVc6D
+         warzD6uHfDCskO3OxQ41n/NxKpV0jX6Lm3HwMpdQWZangXskbf0W6LW/iOMuDxXv5+n9
+         tur8NsPqRiFwF1WgpEzx5KFrcp5JtHOeGJzYbiubnZrrT7cSPNOvq+v99yOHeGHnva84
+         muQw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=LVyzL8mphbtENNv7Ak5Yb4fzhkW9NpbRag7uI4Hacxc=;
+        b=3jhu2R3SV5yVIe/kq8T4JzWRREBMuQvN1BLtoqz8942tguN39Za7IUHx7UcgygyHOM
+         W/e6W2/fOeZGQw3+q1mFnAxLCZLesJYDnoOqZ9d9irO6B4EEw5fr+EbGy9ErkqiBRmJm
+         Eusb0OB4K1qkmCwLiLSAtpBKqVDcIKhoVliShc+WiyG7CYlSLo1nLJ0E2aQW1JHxEZem
+         zX4mR/S5CaLq3TdwozvGTVAiYwhzdOQQDG7oKYPu5dlwBQlegpUFC/6rXOXXWuO1zXi9
+         kWtizD4loaehUHriL2vhXVgtb6FGYQRzgPgc6PM6jbgKsyh4EokVAqaq/36tp4iPws5g
+         RSow==
+X-Gm-Message-State: AJIora+vvxlyTPyRCmoo0uJ3X/Ij5eAc7EJtM83ZOjDNpldcGU9SKX/X
+        5YYnitCbC6nKuULflAMtM1+/9A==
+X-Google-Smtp-Source: AGRyM1sT+QzEds/eFmu00keheN6WbaWKP57czuiPSPRTt3/jN3GsXQ0byLphmAqRpiPIai9t45cykg==
+X-Received: by 2002:a5d:6ac4:0:b0:21b:a724:1711 with SMTP id u4-20020a5d6ac4000000b0021ba7241711mr8495754wrw.80.1656264790204;
+        Sun, 26 Jun 2022 10:33:10 -0700 (PDT)
+Received: from [192.168.10.46] (146725694.box.freepro.com. [130.180.211.218])
+        by smtp.googlemail.com with ESMTPSA id c11-20020a05600c0acb00b00397342e3830sm11310979wmr.0.2022.06.26.10.33.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 26 Jun 2022 10:33:09 -0700 (PDT)
+Message-ID: <43b1c2fd-b746-84eb-c82b-23f1bd39242e@linaro.org>
+Date:   Sun, 26 Jun 2022 19:33:06 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v2 10/20] Documentation: update watch_queue.rst references
+ Thunderbird/91.9.1
+Subject: Re: [PATCH v2 01/14] thermal/core: Change thermal_zone_ops to
+ thermal_sensor_ops
 Content-Language: en-US
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Chris Down <chris@chrisdown.name>,
-        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-        David Howells <dhowells@redhat.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Eric Dumazet <edumazet@google.com>,
-        Jarkko Sakkinen <jarkko@kernel.org>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Kees Cook <keescook@chromium.org>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Oliver Glitta <glittao@gmail.com>,
-        Peter Xu <peterx@redhat.com>, Petr Mladek <pmladek@suse.com>,
-        Vlastimil Babka <vbabka@suse.cz>, keyrings@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <cover.1656234456.git.mchehab@kernel.org>
- <1c220de9c58f35e815a3df9458ac2bea323c8bfb.1656234456.git.mchehab@kernel.org>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <1c220de9c58f35e815a3df9458ac2bea323c8bfb.1656234456.git.mchehab@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+To:     "Rafael J. Wysocki" <rafael@kernel.org>,
+        Daniel Lezcano <daniel.lezcano@linexp.org>
+Cc:     Kevin Hilman <khilman@baylibre.com>,
+        Alexandre Bailon <abailon@baylibre.com>,
+        Linux PM <linux-pm@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Amit Kucheria <amitk@kernel.org>,
+        Zhang Rui <rui.zhang@intel.com>,
+        Jonathan Corbet <corbet@lwn.net>, Len Brown <lenb@kernel.org>,
+        Raju Rangoju <rajur@chelsio.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Ido Schimmel <idosch@nvidia.com>,
+        Petr Machata <petrm@nvidia.com>,
+        Luca Coelho <luciano.coelho@intel.com>,
+        Kalle Valo <kvalo@kernel.org>, Peter Kaestle <peter@piie.net>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Mark Gross <markgross@kernel.org>,
+        Sebastian Reichel <sre@kernel.org>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Support Opensource <support.opensource@diasemi.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
+        Miri Korenblit <miriam.rachel.korenblit@intel.com>,
+        Johannes Berg <johannes.berg@intel.com>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Sumeet Pawnikar <sumeet.r.pawnikar@intel.com>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        Chuansheng Liu <chuansheng.liu@intel.com>,
+        Jiasheng Jiang <jiasheng@iscas.ac.cn>,
+        Antoine Tenart <atenart@kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        "open list:ACPI THERMAL DRIVER" <linux-acpi@vger.kernel.org>,
+        "open list:CXGB4 ETHERNET DRIVER (CXGB4)" <netdev@vger.kernel.org>,
+        "open list:INTEL WIRELESS WIFI LINK (iwlwifi)" 
+        <linux-wireless@vger.kernel.org>,
+        "open list:ACER ASPIRE ONE TEMPERATURE AND FAN DRIVER" 
+        <platform-driver-x86@vger.kernel.org>,
+        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "open list:RENESAS R-CAR THERMAL DRIVERS" 
+        <linux-renesas-soc@vger.kernel.org>
+References: <20220507125443.2766939-1-daniel.lezcano@linexp.org>
+ <20220507125443.2766939-2-daniel.lezcano@linexp.org>
+ <CAJZ5v0ik_JQ4Awtw7iR68W4-9ZL8FRDsDd-kWmL-n09fgg3reg@mail.gmail.com>
+From:   Daniel Lezcano <daniel.lezcano@linaro.org>
+In-Reply-To: <CAJZ5v0ik_JQ4Awtw7iR68W4-9ZL8FRDsDd-kWmL-n09fgg3reg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
+Hi Rafael,
 
-On 6/26/22 02:10, Mauro Carvalho Chehab wrote:
-> Changeset f5461124d59b ("Documentation: move watch_queue to core-api")
-> renamed: Documentation/watch_queue.rst
-> to: Documentation/core-api/watch_queue.rst.
-> 
-> Update the cross-references accordingly.
-> 
-> Fixes: f5461124d59b ("Documentation: move watch_queue to core-api")
-> Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-> Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+sorry for the delay, I was OoO.
 
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-
-Thanks.
-
-> ---
+On 17/05/2022 17:42, Rafael J. Wysocki wrote:
+> On Sat, May 7, 2022 at 2:55 PM Daniel Lezcano <daniel.lezcano@linexp.org> wrote:
+>>
+>> A thermal zone is software abstraction of a sensor associated with
+>> properties and cooling devices if any.
+>>
+>> The fact that we have thermal_zone and thermal_zone_ops mixed is
+>> confusing and does not clearly identify the different components
+>> entering in the thermal management process. A thermal zone appears to
+>> be a sensor while it is not.
 > 
-> To avoid mailbombing on a large number of people, only mailing lists were C/C on the cover.
-> See [PATCH v2 00/20] at: https://lore.kernel.org/all/cover.1656234456.git.mchehab@kernel.org/
+> Well, the majority of the operations in thermal_zone_ops don't apply
+> to thermal sensors.  For example, ->set_trips(), ->get_trip_type(),
+> ->get_trip_temp().
+
+The set_trips is necessary to set the sensor interrupt to fire when the 
+trip temperature is crossed the way up or down.
+
+>> In order to set the scene for multiple thermal sensors aggregated into
+>> a single thermal zone. Rename the thermal_zone_ops to
+>> thermal_sensor_ops, that will appear clearyl the thermal zone is not a
+>> sensor but an abstraction of one [or multiple] sensor(s).
 > 
->  Documentation/security/keys/core.rst | 2 +-
->  include/linux/watch_queue.h          | 2 +-
->  init/Kconfig                         | 2 +-
->  kernel/watch_queue.c                 | 2 +-
->  4 files changed, 4 insertions(+), 4 deletions(-)
+> So I'm not convinced that the renaming mentioned above is particularly
+> clean either.
+> 
+> IMV the way to go would be to split the thermal sensor operations,
+> like ->get_temp(), out of thermal_zone_ops.
+
+Probably, we should first replace all the calls to ops->get_temp with a 
+function. Then create the ops for the sensor:
+
+  - get_trend
+  - get_temp
+  - set_trips
+  - bind / unbind
+
+> But then it is not clear what a thermal zone with multiple sensors in
+> it really means.  I guess it would require an aggregation function to
+> combine the thermal sensors in it that would produce an effective
+> temperature to check against the trip points.
+
+Yes, that is why the above ops->get_temp should be wrapped into a 
+function which can evolve to an aggregation function.
+
+> Honestly, I don't think that setting a separate set of trips for each
+> sensor in a thermal zone would make a lot of sense.
+
+I agree the set_trips is for the interrupt mode only.
 
 
 -- 
-~Randy
+<http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
+
+Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
+<http://twitter.com/#!/linaroorg> Twitter |
+<http://www.linaro.org/linaro-blog/> Blog
