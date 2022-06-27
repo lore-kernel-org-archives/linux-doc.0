@@ -2,134 +2,86 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 43007C433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Jun 2022 20:58:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C5762C433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Jun 2022 21:43:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240726AbiF0U6E (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 27 Jun 2022 16:58:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42192 "EHLO
+        id S240851AbiF0Vnt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 27 Jun 2022 17:43:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44626 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237599AbiF0U5z (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Jun 2022 16:57:55 -0400
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5FA65F46;
-        Mon, 27 Jun 2022 13:57:52 -0700 (PDT)
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25RKgRJX009280;
-        Mon, 27 Jun 2022 20:57:51 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
- mime-version : subject : from : to : cc : references : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=Mg1mXq46lwWjOYPGFa6aZTnXVXBd+1ItFxTZzc2cyRA=;
- b=VG5rAMMiRSr/EsF10e4Qa/8F9B7kA4AEfaAMTzTtf6T3pHgL7MnNPazIF4IK0kSUm+/W
- OGROyJ9po3+NZPocu4hNuji0EVC/uh3psRtxIFLoweB+PRubMMhfwMsRaTjxDOJgGOAA
- LwQVac4zcKtVH/vtUljmr7Y7IdDroBzbElM7yGonMKZ+fGS0SMMlNpNaSWZzEXlBlBWt
- MFvG7389A79gZeWZAt25XaL+L29f3WFISfiMFwaix0Q6j29vDvDpDp/GZolOdVtoRtWM
- ow3kcF46Go3slJQ7fmCpuvrhp8kVm0xC/cBXio0gJTjILXmZdltU5vtuECHyR/zpYELp mw== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3gyktjgcjf-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 27 Jun 2022 20:57:50 +0000
-Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
-        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 25RKsPBN025876;
-        Mon, 27 Jun 2022 20:57:50 GMT
-Received: from ppma01wdc.us.ibm.com (fd.55.37a9.ip4.static.sl-reverse.com [169.55.85.253])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3gyktjgcj4-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 27 Jun 2022 20:57:50 +0000
-Received: from pps.filterd (ppma01wdc.us.ibm.com [127.0.0.1])
-        by ppma01wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 25RKowbI011467;
-        Mon, 27 Jun 2022 20:57:48 GMT
-Received: from b01cxnp22036.gho.pok.ibm.com (b01cxnp22036.gho.pok.ibm.com [9.57.198.26])
-        by ppma01wdc.us.ibm.com with ESMTP id 3gwt090qff-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 27 Jun 2022 20:57:48 +0000
-Received: from b01ledav003.gho.pok.ibm.com (b01ledav003.gho.pok.ibm.com [9.57.199.108])
-        by b01cxnp22036.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 25RKvmpR9371980
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 27 Jun 2022 20:57:48 GMT
-Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 20F2AB2065;
-        Mon, 27 Jun 2022 20:57:48 +0000 (GMT)
-Received: from b01ledav003.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 79BE0B2066;
-        Mon, 27 Jun 2022 20:57:43 +0000 (GMT)
-Received: from [9.163.8.193] (unknown [9.163.8.193])
-        by b01ledav003.gho.pok.ibm.com (Postfix) with ESMTP;
-        Mon, 27 Jun 2022 20:57:43 +0000 (GMT)
-Message-ID: <f86e2e05-114a-cc9e-8f3a-96b36889063d@linux.ibm.com>
-Date:   Mon, 27 Jun 2022 16:57:42 -0400
+        with ESMTP id S238216AbiF0Vno (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Jun 2022 17:43:44 -0400
+Received: from mail-pg1-x52f.google.com (mail-pg1-x52f.google.com [IPv6:2607:f8b0:4864:20::52f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8CF0C4A;
+        Mon, 27 Jun 2022 14:43:42 -0700 (PDT)
+Received: by mail-pg1-x52f.google.com with SMTP id d129so10285263pgc.9;
+        Mon, 27 Jun 2022 14:43:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=tsp6NWTiXSJ0zfkiGxcTyiVcKEGRfQJ96DU5zcvmvhA=;
+        b=WuBauiPHNgwaS1JBOh71BPtqPlPvMN2PZLdgBpcs5mPw/64QyyNNsRDE2I1oPamnWs
+         yH+ZmYC/KFHskKTFDDEdMiU0/NfuQnu2oHb0uefxd60xIBhQ71G9FBVEMy7AsGxal8kE
+         J2JxpnlGhPrn+Hd4W42EK0DRx3GbS6q/yAE4dEGqMzhwG3ipp7LrSkr/lzQ/I9QkWd50
+         gia8mVit37kNI1HQn27DfOjb/D9Erex/iPtiA6HK+TonCT19ckW9/Sb8FklUtBsvlX+S
+         zPMwAoqLSN9BfViwkfTSzOZ+US/n0ZJqCIIZZdOsNp8VfwpbxDgOB+P7mo3alFSdaGl9
+         DmTg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=tsp6NWTiXSJ0zfkiGxcTyiVcKEGRfQJ96DU5zcvmvhA=;
+        b=qiNPXFhkz8K6ycRmwC7Pk7fYTLw+KJgH1EOzvbX8MZ1NuWJ14PDErKTMQy7vouOSFp
+         VrBHeIxSUs3vrl8PJDiQcuslFsFfXXIx/EtX+K8A/0Mf3zFMGE/HD5+TD4esJFZNPhtB
+         Z9eygSbbXIWVuo47mI+3MIIyZBr6u9BSAuo37bOeelx1+bDkeLXZvFFZ24EnfjGGBEDs
+         /3EmAc2INYPgpgFQnbubokvLxtWqjZjj8G/ihCFczHyp1IjgRtELTykzrhimXIex55rZ
+         8zhp/YEvDDtki8Dg0jHVbclU1LXMgFxG3f0mQIDsEVl8vfvzKfRgZGrV7vCAvwitEJmW
+         AkDA==
+X-Gm-Message-State: AJIora+PI6EEKlv0ta62BTJW4Umm6rpMaBUwMR+8MO+21zwMj7Jq2po4
+        Px07d89Uw91MunAJDYx8YFY=
+X-Google-Smtp-Source: AGRyM1sbLVHH/FJZe241zkPNZj4SGgeHPgS+lUiLtRFIreMiYU4bVWPssKK4vwZfhTUB/zhZEW+1Iw==
+X-Received: by 2002:a63:d949:0:b0:408:870f:70d1 with SMTP id e9-20020a63d949000000b00408870f70d1mr14450923pgj.620.1656366222013;
+        Mon, 27 Jun 2022 14:43:42 -0700 (PDT)
+Received: from localhost.localdomain ([2409:4072:e95:685d:6958:8e77:9c10:bd78])
+        by smtp.gmail.com with ESMTPSA id bj12-20020a056a02018c00b003fbfe88be17sm7587529pgb.24.2022.06.27.14.43.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 27 Jun 2022 14:43:41 -0700 (PDT)
+From:   Praghadeesh T K S <praghadeeshthevendria@gmail.com>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Praghadeesh T K S <praghadeeshthevendria@gmail.com>,
+        linux-doc@vger.kernel.org (open list:DOCUMENTATION),
+        linux-kernel@vger.kernel.org (open list)
+Cc:     linux-kernel-mentees@lists.linuxfoundation.org,
+        skhan@linuxfoundation.org, praghadeeshtks@zohomail.in
+Subject: [PATCH] docs: fix 'make htmldocs' warning in leds
+Date:   Tue, 28 Jun 2022 03:13:11 +0530
+Message-Id: <20220627214311.7817-1-praghadeeshthevendria@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH v9 00/21] KVM: s390: enable zPCI for interpretive
- execution
-Content-Language: en-US
-From:   Matthew Rosato <mjrosato@linux.ibm.com>
-To:     linux-s390@vger.kernel.org
-Cc:     alex.williamson@redhat.com, cohuck@redhat.com,
-        schnelle@linux.ibm.com, farman@linux.ibm.com, pmorel@linux.ibm.com,
-        borntraeger@linux.ibm.com, hca@linux.ibm.com, gor@linux.ibm.com,
-        gerald.schaefer@linux.ibm.com, agordeev@linux.ibm.com,
-        svens@linux.ibm.com, frankja@linux.ibm.com, david@redhat.com,
-        imbrenda@linux.ibm.com, vneethv@linux.ibm.com,
-        oberpar@linux.ibm.com, freude@linux.ibm.com, thuth@redhat.com,
-        pasic@linux.ibm.com, pbonzini@redhat.com, corbet@lwn.net,
-        jgg@nvidia.com, kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-References: <20220606203325.110625-1-mjrosato@linux.ibm.com>
-In-Reply-To: <20220606203325.110625-1-mjrosato@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: R55Xn59uhCVJlVdv1QifeEKCKe5YqDcP
-X-Proofpoint-ORIG-GUID: fUt8M3rRfiwx4w3h5tZbpHCdm7OMRxST
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-06-27_06,2022-06-24_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 clxscore=1011
- suspectscore=0 lowpriorityscore=0 malwarescore=0 adultscore=0 phishscore=0
- mlxlogscore=753 bulkscore=0 impostorscore=0 spamscore=0 priorityscore=1501
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2204290000
- definitions=main-2206270084
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 6/6/22 4:33 PM, Matthew Rosato wrote:
-> Enable interpretive execution of zPCI instructions + adapter interruption
-> forwarding for s390x KVM vfio-pci.  This is done by triggering a routine
-> when the VFIO group is associated with the KVM guest, transmitting to
-> firmware a special token (GISA designation) to enable that specific guest
-> for interpretive execution on that zPCI device.  Load/store interpreation
-> enablement is then controlled by userspace (based upon whether or not a
-> SHM bit is placed in the virtual function handle).  Adapter Event
-> Notification interpretation is controlled from userspace via a new KVM
-> ioctl.
-> 
-> By allowing intepretation of zPCI instructions and firmware delivery of
-> interrupts to guests, we can reduce the frequency of guest SIE exits for
-> zPCI.
-> 
->  From the perspective of guest configuration, you passthrough zPCI devices
-> in the same manner as before, with intepretation support being used by
-> default if available in kernel+qemu.
-> 
-> Will follow up with a link the most recent QEMU series.
-> 
-> Changelog v8->v9:
-> - Rebase on top of 5.19-rc1, adjust ioctl and capability defines
-> - s/kzdev = 0/kzdev = NULL/ (Alex)
-> - rename vfio_pci_zdev_open to vfio_pci_zdev_open_device (Jason)
-> - rename vfio_pci_zdev_release to vfio_pci_zdev_close_device (Jason)
-> - make vfio_pci_zdev_close_device return void, instead WARN_ON or ignore
->    errors in lower level function (kvm_s390_pci_unregister_kvm) (Jason)
-> - remove notifier accidentally left in struct zpci_dev + associated
->    include statment (Jason)
-> - Remove patch 'KVM: s390: introduce CPU feature for zPCI Interpretation'
->    based on discussion in QEMU thread.
-> 
+Fix following 'make htmldocs' warnings:
+./Documentation/leds/leds-qcom-lpg.rst: WARNING:
+document isn't included in any toctree
 
-Ping -- I'm hoping this can make the next merge window, but there are 
-still 2 patches left without any review tag (16 & 17).
+Signed-off-by: Praghadeesh T K S <praghadeeshthevendria@gmail.com>
+---
+ Documentation/leds/index.rst | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/Documentation/leds/index.rst b/Documentation/leds/index.rst
+index e5d63b9..b9ca081 100644
+--- a/Documentation/leds/index.rst
++++ b/Documentation/leds/index.rst
+@@ -26,3 +26,4 @@ LEDs
+    leds-lp55xx
+    leds-mlxcpld
+    leds-sc27xx
++   leds-qcom-lpg
+-- 
+2.25.1
 
