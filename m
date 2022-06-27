@@ -2,182 +2,122 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E8A9C433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Jun 2022 17:44:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D2D72C433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Jun 2022 19:10:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239261AbiF0Ro2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 27 Jun 2022 13:44:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51044 "EHLO
+        id S237795AbiF0TKf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 27 Jun 2022 15:10:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56686 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239312AbiF0Ro0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Jun 2022 13:44:26 -0400
-Received: from mail-io1-xd2f.google.com (mail-io1-xd2f.google.com [IPv6:2607:f8b0:4864:20::d2f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C469BBC8F;
-        Mon, 27 Jun 2022 10:44:25 -0700 (PDT)
-Received: by mail-io1-xd2f.google.com with SMTP id y18so10335150iof.2;
-        Mon, 27 Jun 2022 10:44:25 -0700 (PDT)
+        with ESMTP id S240365AbiF0TKd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Jun 2022 15:10:33 -0400
+Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A003B5597;
+        Mon, 27 Jun 2022 12:10:32 -0700 (PDT)
+Received: by mail-pj1-x1032.google.com with SMTP id n16-20020a17090ade9000b001ed15b37424so10310355pjv.3;
+        Mon, 27 Jun 2022 12:10:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=2SBDr5WQ13aVroyMZaLjPodrqS+BO65WmudTcNVjl9g=;
-        b=DOjFWl7DGPBIzagL4uEXTouw/pu9vunlqDndJ+cYPWYNnNfedRNbqEMlic+82c+XdD
-         Hnc3T/tehye74jksSYIiDgU53o2itCilgjuEdx/+5GdxY4r6b5E0eJqIgRZ6mKd+mIyN
-         uZ9qN1B3erO/0dHxUWKYrzUIMuI777JE1EJPH/ADM2jiHGwL4rvtIsfO9+7iwMg3rABY
-         tm3nwzrbomMT/7WflEinPgTmSC17Mvho97BDBtA9XQaxBwaeuldp7vPjAR4U2zEkN9q5
-         PsceOzrI7ptH+2cE7A3YUdMhaqXQkZLk2FBR57jlVTfGvn3X6iBUKQ4v+YaF1TJSh5X0
-         LaIg==
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=/TJYBcpsxpHM1dgljke9KHv7g4SupUF3o95Sw1aZ2ck=;
+        b=IUrCqExbfNSEqdj1+aclN5lVCX6iP7eBPxz3UnA29I42X7w8qUJC0d2QFa6lECfvHS
+         lTMdErf6FACs1/hyp38L86tGz+o787pLf2VIheb7iIKAGcJlc9+ImxpPc6dZHKPr2Lnd
+         297Swn9MhvVXOe5pLyL9hyobmlUtJUylIgtVuWFNUy7M/cvy0Ei9a+7/6RNLP/vuaWpm
+         qPXLfyJ7VkpxIpiy0dSvQGEwS2wO1IikzptCMphwHEF+yGlRha2BCj6vVKJloizO0jzV
+         wtWURRXun0tZKmoLu2aju0/0SznVwcWbO33ww6x17xU68Xd6vEBZdnna3JSmuqObPHbN
+         196g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=2SBDr5WQ13aVroyMZaLjPodrqS+BO65WmudTcNVjl9g=;
-        b=H9MSFDN7jg0puBs5SCaZm/d+HY5+VSfTXzATkX0IpPbv6iUFmBRV8+NCEfFkX/WhQH
-         ZaYjQk0x3IsGd1BB0tmmBjPOCEXtT0zcjYu5m39btl+tZaWtaACMx3gyiIiniSuK3jc4
-         41FvjVgtm9scoWVsCJLNLa6Wqd907cUTT31WU+YIeATYDqsMwvqx76OvQlzKdFCwxpFA
-         niy/AmYcWwjf0/OjTMWNSEXHOiNBdXv30QkTujYaOmOo6bNVSFLzAOF/BDVW5lAxSjsO
-         XjoBv2sijbLeYxc7fDBlRMRlkijibdCZ+um3uGXIT+KHeRGC2ftNfHOdqidY6fFwF9cB
-         e4pw==
-X-Gm-Message-State: AJIora92UVtIg8SC7nVo1eppBWSQy5wLZ7yBXxubt6aYstKVfxOu2eUt
-        Doj24dCLD4GpX9T7eCSOjCraJh2zARPkddwabMN6zEDsM1w=
-X-Google-Smtp-Source: AGRyM1u8XfhTCcud+nvTlI04Am6dCzZsvc9ROEFVlbjHtjSsxNx2INiXsCdKMMO9LxOyyE8Evx+3kwVoBxF6wP7hQpI=
-X-Received: by 2002:a02:a311:0:b0:33c:957a:7d2f with SMTP id
- q17-20020a02a311000000b0033c957a7d2fmr4411535jai.256.1656351865153; Mon, 27
- Jun 2022 10:44:25 -0700 (PDT)
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition
+         :content-transfer-encoding:in-reply-to;
+        bh=/TJYBcpsxpHM1dgljke9KHv7g4SupUF3o95Sw1aZ2ck=;
+        b=IMOxxCH+3YW5q69QljDGHjGdATj/9ipfgW8YCq9jPRqEyKqBRh2RZXFh4D7ZsUEVfT
+         mzyE2c4HHjZRyqIbUedzt1hnDzWumsvZ+nLG3+Sk/z0xcWNMzal8k1FLfXDcQnoHeIKl
+         ILWXqMi+/qF5Wbcni0hFrj1L/19CjIzt39lLEcCfP8PfC01hO3DDcPajvIXh4/pDcDga
+         6EsNtsdJOaojsCFXBewDrTw4w8ViVOiRXUqN/RAi5JStChLWQHyqii4df9+DRv5dzjMh
+         LKUvfXKhMiBz2PyciB+RSaywmCZCkwZ6DeoS/bqambujl3RFc+c8KYEAbumVLkh3K+qX
+         uxqQ==
+X-Gm-Message-State: AJIora91OBj6bihYl7CPX5A7XSvvfFZyAdfauZt6Awu7PWCc9g02kP2J
+        0C8f7S8c2PRRSttO0AzNRnY=
+X-Google-Smtp-Source: AGRyM1v4pZPlgtYqoeaDHgmUszlXO0IEON1F8nITnkj9iOAgcw3+OR56oHGI6Qm3c0Gt8vy7rjuFZw==
+X-Received: by 2002:a17:902:bc4c:b0:16a:4849:ddbe with SMTP id t12-20020a170902bc4c00b0016a4849ddbemr816273plz.25.1656357031911;
+        Mon, 27 Jun 2022 12:10:31 -0700 (PDT)
+Received: from localhost ([2620:10d:c090:400::5:4120])
+        by smtp.gmail.com with ESMTPSA id t5-20020a17090aae0500b001ec4f258028sm7805995pjq.55.2022.06.27.12.10.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 27 Jun 2022 12:10:31 -0700 (PDT)
+Sender: Tejun Heo <htejun@gmail.com>
+Date:   Tue, 28 Jun 2022 04:10:29 +0900
+From:   Tejun Heo <tj@kernel.org>
+To:     Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>
+Cc:     Waiman Long <longman@redhat.com>,
+        Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <shuah@kernel.org>, cgroups@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Roman Gushchin <guro@fb.com>, Phil Auld <pauld@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Marcelo Tosatti <mtosatti@redhat.com>
+Subject: Re: [PATCH v11 7/8] cgroup/cpuset: Update description of
+ cpuset.cpus.partition in cgroup-v2.rst
+Message-ID: <YroApRMPV/6zO5I8@mtj.duckdns.org>
+References: <20220510153413.400020-1-longman@redhat.com>
+ <20220510153413.400020-8-longman@redhat.com>
+ <YqYnQ4U4t6j/3UaL@slm.duckdns.org>
+ <404171dc-0da3-21f2-5003-9718f875e967@redhat.com>
+ <YqarMyNo9oHxhZFh@slm.duckdns.org>
+ <20220613142452.GB6910@blackbody.suse.cz>
+ <YqdzuSQuAeiPXQvy@slm.duckdns.org>
+ <20220613175548.GB21665@blackbody.suse.cz>
+ <Yqd7WMFj6AEyV3Cy@slm.duckdns.org>
+ <20220614115345.GA6771@blackbody.suse.cz>
 MIME-Version: 1.0
-References: <20210414184604.23473-1-ojeda@kernel.org> <fae4873e-2ff9-df35-0ab9-34bf4417b717@schinagl.nl>
-In-Reply-To: <fae4873e-2ff9-df35-0ab9-34bf4417b717@schinagl.nl>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Mon, 27 Jun 2022 19:44:13 +0200
-Message-ID: <CANiq72mRxM-7griYF+0FWqYoSoNL8ad=L-i6a2-GsaCeb0C6qQ@mail.gmail.com>
-Subject: Re: [PATCH 00/13] [RFC] Rust support
-To:     oliver+list@schinagl.nl
-Cc:     Miguel Ojeda <ojeda@kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        rust-for-linux <rust-for-linux@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220614115345.GA6771@blackbody.suse.cz>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Olliver,
+Hello,
 
-On Mon, Jun 20, 2022 at 5:11 PM Olliver Schinagl <oliver@schinagl.nl> wrote:
->
-> I apologize for being late to the party and for potentially using the
-> wrong thread, but I recall somewhere in v5 that it was best to respond
-> to the RFC for general comments.
+On Tue, Jun 14, 2022 at 01:53:45PM +0200, Michal Koutný wrote:
+> On Mon, Jun 13, 2022 at 08:00:56AM -1000, Tejun Heo <tj@kernel.org> wrote:
+> > Yeah, I don't know why this part is different from any other errors that the
+> > parent can make.
+> 
+> It's different because a write to parent's cpuset.cpus is independent of
+> whether cpuset.cpus of its children are exclusive or not.
+> In an extreme case the children may be non-exclusive
+> 
+>     parent	cpuset.cpus=0-3 //   valid partition
+>     `- child_1	cpuset.cpus=0-1	// invalid partition
+>     `- child_2	cpuset.cpus=1-2 // invalid partition
+> 
+> but the parent can still be a valid partition (thanks to cpu no. 3 in
+> the example above).
+> 
+> Do I miss anything?
 
-No need to apologize! Feel free to use the latest threads or a new
-thread in e.g. the rust-for-linux ML.
+What I'm trying to say is that cpuset.cpus of child_1 and child_2 are
+owned by the parent, so a feature which blocks siblings from
+intersecting each other doesn't make whole lot of sense because all
+those files are under the control of the parent who would have the
+power to enable or disable the restrition anyway.
 
-> On 14-04-2021 20:45, ojeda@kernel.org wrote:
-> > From: Miguel Ojeda <ojeda@kernel.org>
-> >
-> > Moreover, as explained above, we are taking the chance to enforce
-> > some documentation guidelines. We are also enforcing automatic code
-> > formatting, a set of Clippy lints, etc. We decided to go with Rust's
-> > idiomatic style, i.e. keeping `rustfmt` defaults. For instance, this
-> > means 4 spaces are used for indentation, rather than a tab. We are
-> > happy to change that if needed -- we think what is important is
-> > keeping the formatting automated
->
-> Enforcing this is great, but how will you enforce this 'everywhere'?
-> Right now, you can easily 'bypass' any CI put in place, and while 'for
-> now' this is only about the Rust infra, where this can be strongly
-> enforced, once we see actual drivers pop-up; these won't go through the
-> Rust CI before merging CI forever? A maintainer can 'just merge'
-> something still, right?
+The partition mode file is owned by the parent too, right? So, all
+these are to be configured by the same entity and the errors can be
+reported the same way, no?
 
-Indeed, but there are workarounds, for instance, we could have a bot
-checking -next.
+Thanks.
 
-Or we could put it in an opt-in compilation mode (i.e. not for users)
-where extra things are checked (like `W=`) that maintainers use so
-that e.g. `allmodconfig` builds are kept clean.
-
-> Anyway, what I wanted to criticize, is the so called "keeping with
-> `rustfmt` defaults". It has been known, that, well Rust's defaults are
-> pretty biased and opinionated. For the Rust project, that's fair of
-> course, their code, their rules.
->
-> However, there's two arguments against that. For one, using the Rust
-> 'style', now means there's 2 different code styles in the Kernel.
-> Cognitively alone, that can be quite frustrating and annoying. Having to
-> go back and forth between two styles can be mentally challenging which
-> only causes mistakes and frustration. So why change something that
-> already exists? Also, see my first point. Having to constantly
-> remember/switch to 'in this file/function the curly brace is on a
-> different line'. Lets try to stay consistent, the rules may not be
-> perfect (80 columns ;), but so far consistency is tried. OCD and Autism
-> etc doesn't help with this ;)
-
-Note that the point of using `rustfmt` is that one does not need to
-care about the details -- one can e.g. run the tool on file save. So
-no need to remember how to do it when writing Rust.
-
-Now, it is true that the Rust syntax resembles C in many cases, so
-things like the curly braces for function definitions are similar
-enough that we could do the same thing in both sides.
-
-However, most Rust code uses `rustfmt` and typically also follow most
-of its defaults, including the standard library, books, etc.; which
-helps when reading and reusing other code. This is different from C
-and C++, where as you know there is no single style (at least as
-prevalent as `rustfmt`), thus one needs to become accustomed to each
-project's C style (or ideally use `clang-format` to avoid having to
-learn it). So while this is not relevant for C, in the case of Rust,
-there is value in using the `rustfmt` style.
-
-As for consistency, one could argue that by using `rustfmt` we are
-being consistent with the rest of the Rust code out there. This may be
-important for those that have expressed interest on sharing some code
-between kernel and userspace; as well as if we end up vendoring some
-external crates (similar to what we do with `alloc` now).
-
-> Secondly, and this is really far more important, the Rust default style
-> is not very inclusive, as it makes readability harder. This has been
-> brought up by many others in plenty of places, including the `rustfmt`
-> issue tracker under bug #4067 [0]. While the discussion eventually only
-> led to the 'fmt-rfcs' [1], where it was basically said 'you could be on
-> to something, but this ship has sailed 3 years ago (when nobody was
-> looking caring), and while we hear you, we're not going to change our
-> defaults anymore.
->
-> But I also agree and share these commenters pain. When the tab character
-> is used for indenting (and not alignment mind you), then visually
-> impaired (who can still be amazing coders) can more easily read code by
-> adjusting the width what works best to them.
->
-> With even git renaming `master` to `main` to be more inclusive, can we
-> also be more inclusive to us that have a hard time distinguishing narrow
-> indentations?
-
-As noted in the RFC, we are happy to tweak the style to whatever
-kernel developers prefer. We think the particular style is not that
-important. Absent other reasons, the defaults seem OK, so we chose
-that for simplicity and consistency with as most existing Rust code as
-possible.
-
-As for accessibility, I am no expert, so that may be a good point,
-especially if editors cannot solve this on their end (so that everyone
-could program in all languages/projects regardless of style).
-
-> Thanks, and sorry for rubbing any ones nerves, but to "some of us" this
-> actually matters a great deal.
-
-No nerves were damaged :) Thanks for all the input!
-
-> P.S. would we expect inline C/Rust code mixed? What then?
-
-Everything is possible, e.g. we could have Rust proc macros that parse
-C and things like that. But if we ended up with such a thing, the
-solution would be to format each accordingly to its style (indentation
-could be an exception, I guess).
-
-Cheers,
-Miguel
+-- 
+tejun
