@@ -2,156 +2,182 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F6D8C43334
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Jun 2022 17:14:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E8A9C433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Jun 2022 17:44:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236242AbiF0ROx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 27 Jun 2022 13:14:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36146 "EHLO
+        id S239261AbiF0Ro2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 27 Jun 2022 13:44:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51044 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235780AbiF0ROw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Jun 2022 13:14:52 -0400
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2052.outbound.protection.outlook.com [40.107.94.52])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 134A7C0D;
-        Mon, 27 Jun 2022 10:14:52 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=C1Cwm68/Yg9O64XKyOtnEzh45M92uZSyPUynWntjSJcdu2t868b5xRrSm/jLJXCKJ7kdgQvTFoly3b0rRSZrCRkiNQQbzjIDZtplaULUrGSQYOilja4VIT6r7cZzxRwge2fokBo2c3MV6Sr6PaXZS+jfefxPrE/3eVEecPaWiWLFa+S2GdOZ6x08hhiJpNf3ifLnQtIA53GC48+vc6CKFeHdVUuLoIbddDD5w3twR5t0YkS9TLsBH5Z279WtSFujwHIcTUBlu0wUg31GhyGablX90NS5xVVEbb0yWetT6KcrHy/5tQTGjmXFXWsCmE4OBPdrwvm+zcOrJKgUJz9r0g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=HevRhSm63gQMXjhVEa8Yn1QnFlwAIIAkd6JNKxTG1Ow=;
- b=Ru5cY5rEdH5p80TWauZ8gz/qcPh6NAo2oX9SIDSl31K3C2dvA+n13RIGb7jcUzOK6mb6+yeS0s79fpnv/k/0pVRrE680zVPLI41DIhmUuNPzAj8d68jrzQa1h7J1tfJZsnITYwWkWjzdgGqmBrZeuh1IAqmA/md2yqz4+pmXNZADsdUMgT0xexjU9nvS7OGwVBu56BJEZuHXwHfFgLbxSRPazXoIkL2OGtOBAchOR03k4X0l9IfI4oDl7vtZ5HWTw71Q38ZuDSZRC7js+Pkqhd79KyfiS6xHWFOKSDILPUhx0eWYbwjTuMPBcsIoWrFqn8Bncy6H+KOC33GM5F5fhg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HevRhSm63gQMXjhVEa8Yn1QnFlwAIIAkd6JNKxTG1Ow=;
- b=JWnubizx9JNDIzKFHpzdrRiS4SidW0miz+0fUR0QhZH2VdbQfrMF0ggUwmlZwJ+jw8pfnYhP6g8N1Ivllp0bkYQqRRKrluaC4Eol6BivEQEvQmVpEmFG9H5dXcle76y66IpvvMs6etGq92jnZHDs3u/G2ySgjYQGE8L2r+mW5vG66o068h2vlxXBICQrqt1/dJOnw9oaVBv6KWsDUbJ6oSCCdpH81/haIBUoOxCj8dImFPp9skbVSAYrsr3d8anj/c7Jm9IYTCzfHpoCx+MLEkiYNZKGBy7DXVfD+F203okVvaPN5hQEjoyPhoixaa/Ot4oH0daU2FapHciD+Tu82Q==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from BY5PR12MB4116.namprd12.prod.outlook.com (2603:10b6:a03:210::13)
- by SJ0PR12MB5407.namprd12.prod.outlook.com (2603:10b6:a03:3ac::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5373.17; Mon, 27 Jun
- 2022 17:14:50 +0000
-Received: from BY5PR12MB4116.namprd12.prod.outlook.com
- ([fe80::dda2:7b0a:3280:5365]) by BY5PR12MB4116.namprd12.prod.outlook.com
- ([fe80::dda2:7b0a:3280:5365%6]) with mapi id 15.20.5373.018; Mon, 27 Jun 2022
- 17:14:50 +0000
-Message-ID: <729aeab5-f3d7-a5fc-c1a6-c07a18572b11@nvidia.com>
-Date:   Mon, 27 Jun 2022 10:14:45 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v2 17/20] tegra194-hte.rst: fix reference to its binding
-Content-Language: en-US
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Rob Herring <robh@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org
-References: <cover.1656234456.git.mchehab@kernel.org>
- <2e2c86485cb0642455cee01796f9a74de21403e6.1656234456.git.mchehab@kernel.org>
-X-Nvconfidentiality: pubic
-From:   Dipen Patel <dipenp@nvidia.com>
-In-Reply-To: <2e2c86485cb0642455cee01796f9a74de21403e6.1656234456.git.mchehab@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BY5PR17CA0001.namprd17.prod.outlook.com
- (2603:10b6:a03:1b8::14) To BY5PR12MB4116.namprd12.prod.outlook.com
- (2603:10b6:a03:210::13)
+        with ESMTP id S239312AbiF0Ro0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Jun 2022 13:44:26 -0400
+Received: from mail-io1-xd2f.google.com (mail-io1-xd2f.google.com [IPv6:2607:f8b0:4864:20::d2f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C469BBC8F;
+        Mon, 27 Jun 2022 10:44:25 -0700 (PDT)
+Received: by mail-io1-xd2f.google.com with SMTP id y18so10335150iof.2;
+        Mon, 27 Jun 2022 10:44:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=2SBDr5WQ13aVroyMZaLjPodrqS+BO65WmudTcNVjl9g=;
+        b=DOjFWl7DGPBIzagL4uEXTouw/pu9vunlqDndJ+cYPWYNnNfedRNbqEMlic+82c+XdD
+         Hnc3T/tehye74jksSYIiDgU53o2itCilgjuEdx/+5GdxY4r6b5E0eJqIgRZ6mKd+mIyN
+         uZ9qN1B3erO/0dHxUWKYrzUIMuI777JE1EJPH/ADM2jiHGwL4rvtIsfO9+7iwMg3rABY
+         tm3nwzrbomMT/7WflEinPgTmSC17Mvho97BDBtA9XQaxBwaeuldp7vPjAR4U2zEkN9q5
+         PsceOzrI7ptH+2cE7A3YUdMhaqXQkZLk2FBR57jlVTfGvn3X6iBUKQ4v+YaF1TJSh5X0
+         LaIg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=2SBDr5WQ13aVroyMZaLjPodrqS+BO65WmudTcNVjl9g=;
+        b=H9MSFDN7jg0puBs5SCaZm/d+HY5+VSfTXzATkX0IpPbv6iUFmBRV8+NCEfFkX/WhQH
+         ZaYjQk0x3IsGd1BB0tmmBjPOCEXtT0zcjYu5m39btl+tZaWtaACMx3gyiIiniSuK3jc4
+         41FvjVgtm9scoWVsCJLNLa6Wqd907cUTT31WU+YIeATYDqsMwvqx76OvQlzKdFCwxpFA
+         niy/AmYcWwjf0/OjTMWNSEXHOiNBdXv30QkTujYaOmOo6bNVSFLzAOF/BDVW5lAxSjsO
+         XjoBv2sijbLeYxc7fDBlRMRlkijibdCZ+um3uGXIT+KHeRGC2ftNfHOdqidY6fFwF9cB
+         e4pw==
+X-Gm-Message-State: AJIora92UVtIg8SC7nVo1eppBWSQy5wLZ7yBXxubt6aYstKVfxOu2eUt
+        Doj24dCLD4GpX9T7eCSOjCraJh2zARPkddwabMN6zEDsM1w=
+X-Google-Smtp-Source: AGRyM1u8XfhTCcud+nvTlI04Am6dCzZsvc9ROEFVlbjHtjSsxNx2INiXsCdKMMO9LxOyyE8Evx+3kwVoBxF6wP7hQpI=
+X-Received: by 2002:a02:a311:0:b0:33c:957a:7d2f with SMTP id
+ q17-20020a02a311000000b0033c957a7d2fmr4411535jai.256.1656351865153; Mon, 27
+ Jun 2022 10:44:25 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 3381357c-cb4a-4b16-a0c1-08da58608afb
-X-MS-TrafficTypeDiagnostic: SJ0PR12MB5407:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: eTSNoG0g3q70Ej5S2FWdZKo3zFxhrJIi5juyVz3Xx5qizy0MirY6NBwhCl4HTZ2gSrV34k2htMBWG/goYBOaNCghNgKJN/SSzwo6yjdRn40TJNZ5hIfSs3wewR6ecIwuN/T0fvKCdYV9p2yOEtoELTs7O7bXgLJBloLMw+0DPAh52hhmjKzoZB+D7YZQw+Wmq99A2sKZ66rfp5OZNX3VgZd9rkCFbzRpAvGSigrroTFM4TpS2Ip7vf4xAopv/RoGKfUjgHZqMo/zSlaRNvAofO7YLsyG0eVk6mRhvFfd1AnpZdUan7ACJmMNE9otdSyW86reW1LQ81sgFP5EQz63IDNGE2+sCRdoZOyPVpABRBuUf+tmNa7GMu4YrtWAQzUU9JdbDq2B3bU4pCISk+FYTJTK3ReIes3mWdeF5I7Ah/A1fF1a1PZxIPoLulZFYjKzC+etuwbHtJp6vr8Ay3OVXOR1eaFSepSRIAdauk0p93sAEsXXedL0zX2z5KY7rK7cdLrP/iYUs6/M1vRnVHuY7IYY36M/PD2KhvAguzQV4X/OAnOfTJu5lbKtxfZyDeqoewROear4263pIoVo+65Vmyuw8Y6VGp4Xgj33NH69aMq8cr+8L8LMY90ubfDy8R8kCGm5xuZi1FEte3RAYHbOq3T1Nw6UiJMk0MnHCOeisG1GK6bS2prH0yi/yuAWPi/ibELUIaZZDpzWWuTPfztJW49dzL04GCobCFMc5JDoSWCnFT8QOVS4tROqUYU/0OJf8gCYi+w4lLnCPejGxJIhC28vvjfg+USnFdnBFoTnDao2U1XtHgTfbhYao8S6wLI1VrFYmq1K0vJxjLAgZae2ka3e8IN8xkSMy13VF85KooalMZA18y0R7Cbt/ZRFvMJupByJ9PQZwd+GdiXo83mwMg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR12MB4116.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(39860400002)(136003)(396003)(376002)(366004)(346002)(6512007)(966005)(6486002)(478600001)(26005)(8676002)(4326008)(31686004)(86362001)(6666004)(36756003)(31696002)(41300700001)(2906002)(83380400001)(54906003)(186003)(8936002)(2616005)(38100700002)(316002)(6506007)(53546011)(110136005)(66476007)(5660300002)(66556008)(66946007)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Z240UzlhSGg5aURPeXd4cE1wcDBZS1diQU15M21MQ0xxYVJ6NXorUGVOZy9h?=
- =?utf-8?B?NEI4K3NSNU9CQms4Z1BtckVJVVRxL25kUTAwdFMxUlBoTkgxeHpTNjhHTVRw?=
- =?utf-8?B?ek1tTzVlMjlSRDFwQVBFNFVubkFscGN2WElzZjZYY29pdTdKQmpRQnhWbHlL?=
- =?utf-8?B?YnFaN3owVDFuQ2d3TjhNTHI5YzJjOXV4bTVSWi9tRnBLSSsya0twbkZ0ZUNF?=
- =?utf-8?B?V245NHhhanVqS1JlVVhwNUNRRzNZM08rbXlUcDhFMFlGTXJzZG5mKzRJRTZy?=
- =?utf-8?B?bjA2d0tSaTJHVmhWOWE2YmJvUzc0cnZmdkRWNTZaWWFuSlExa0xMbzNvMnR3?=
- =?utf-8?B?MlF2c0NieFdRZXl6UmpwSnVXVkd6TTFiU0RiQnlGWjMyaWxsa1F6WDRjQkxV?=
- =?utf-8?B?UGdiQU9RSGFpK1F4d2ZVMnN4M3pydERqbEpKSHczbGVuUXpkdkJwbm4rZktP?=
- =?utf-8?B?Y1llcjdsT3cvR3JzdEdYZmEycVJ4NEUvMDZEVWs0bVRSemd5Q0QwemJMVExn?=
- =?utf-8?B?YWFoakJqb3pRbzd0MzRTQ3doNlliOXVsbGthUUVyK2dvMUVMWU1CcG9odnVN?=
- =?utf-8?B?ZjE4RWxvZk5LTzdPOVl3dzZmMGFnbS9uL0hWL2VOUVNmRHFHUTU0NkJRTEFy?=
- =?utf-8?B?QzdJS3pZUk9UdjN0TXF5Rnd6bllMRHhQclNCUVRMUnl0Qk9CQ2xPTkcxR0pu?=
- =?utf-8?B?OWFKdkNKUkE4bFEvVXg3ZnkwQXY1czF3RjhRbjFlUXd0U2tlbHZacXpJZGZM?=
- =?utf-8?B?b2ZqVFgyVW9DakRUenc1ZEJjNDI0MnFWWG1nTytCeGl6aUZ1NDhPczgrZHA5?=
- =?utf-8?B?S1hoUEwyN3Q4cFRKQWZrUmlWTWJCRTczeUNhTEYxa3llcWxLaFN4ZGhSTUJY?=
- =?utf-8?B?Z0tCTTFXdzVObWxsa3RXV3A4eTlyR1BVYTdiS1AxcFJEQzFQUjZpeFZNUnov?=
- =?utf-8?B?NWpBV2FEczUzZmt1ZkU4TnVrNFphZHhiMUVWV3RKMEdaaEswQTZzVVE0QjFQ?=
- =?utf-8?B?YldIMmNyNHRJRUhGZXBkS1Jxbm10Z0tvS2paNUJGODRQZk5vZUgrR1VRNmNm?=
- =?utf-8?B?Z0xLWStWTEFxYlJIb2xoUFRjbXdweW9rZFUvbm94dlNwcno3bXNObEFFVSt6?=
- =?utf-8?B?R3dmM0wrQ0x2dkFRYlU5TVd3TlBRdjVJa3VaRmxFUzhhVXZtV1NBY1J2MGtm?=
- =?utf-8?B?WHV6eEs2VjFVNnFXeG91YW9qb2wvNlE4TVZVczZMZEFwS1l1anRDYzZLUFIv?=
- =?utf-8?B?UU1naCtpa2ExTlE0bmFMNERiaGw4U056TE11K0hrSVRtMERBMFZzVFl4Zy82?=
- =?utf-8?B?aXB4bm41NTREaE81Q2h0T2IraWJEaU1yb3RQSlpjTkhBN3Z2QWF2Vkd5OUZj?=
- =?utf-8?B?cFo2WmxPU2Q4dm55K3VmY2t0THNDZFJDdWkwc1FoRWFjbGRqaVhQbFlVd2dH?=
- =?utf-8?B?WlIyYkR3NnNlcUFZRjIxU3p6ZE55UTFHYXdJN2NvR3g2dC95VzlmWkR1aG9H?=
- =?utf-8?B?N3FicHRiQkNtN1RDRHEvVWgwU1o0dFhJOWZyeWVwNm41T016WHpCejBFdzhT?=
- =?utf-8?B?VlJVZEhiaVl1cW8zMSt0Q2lVOVRzNzJrU3lZZUMxa3k3dWJTS3pnaGhMekVY?=
- =?utf-8?B?Rk5lcVROd3N6V2RDYWI3VVJqYTlrR25XL1RsVUpoOFFWblMwbmxoR1VCSVVI?=
- =?utf-8?B?b04xTW5GS1g5a3VGeUIvMTBHQWw1TjZKVXJiRUpGZ3pXcnlyWk5obE5YV1hh?=
- =?utf-8?B?YmoyUVhyQnJ4KzJVTzBTVHJ1ZlBMNXpXV0NjVGFMaDkyZnJNR1BDdXpFb21l?=
- =?utf-8?B?dkg5Zm9ETTdzNHFOVkpOeDRtV2pSQUgvZHRDNkYyWXZ4blJYUWMwUWpSNDhG?=
- =?utf-8?B?ZnllZ0VqSEZDVEpORmlialY2YVBPenhTcnoyMlIzSSt3US9IR3R0cWQwVEpU?=
- =?utf-8?B?NG5yblJ6dUhlSHhhSWllNFhRVW9aTUZxU2wxNkhGUlNOVENCT0YybmNBUDdj?=
- =?utf-8?B?SEFvaFFHOVFORFJxUm54d3pIMGRCSmlmU3Y2MisrTXhhL2dkd2dzYWFNOWRy?=
- =?utf-8?B?VlNnVGoxaGpuT0lzaEtqQnZ5bVlXRjZhc2FUOStkcy85aE54Si9Fd0RDM2lV?=
- =?utf-8?Q?RwFF/dzC7Wr9a/JHJnIInFeoX?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3381357c-cb4a-4b16-a0c1-08da58608afb
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR12MB4116.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jun 2022 17:14:50.1790
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 7z31u/TIapYLs+sNzwXB1GWPmpt4bPZyjUm8tqACmXD13gJqmk6TH+SMQaIm0IunRKhqJyiI0O2f73sxCfkXvw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB5407
+References: <20210414184604.23473-1-ojeda@kernel.org> <fae4873e-2ff9-df35-0ab9-34bf4417b717@schinagl.nl>
+In-Reply-To: <fae4873e-2ff9-df35-0ab9-34bf4417b717@schinagl.nl>
+From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date:   Mon, 27 Jun 2022 19:44:13 +0200
+Message-ID: <CANiq72mRxM-7griYF+0FWqYoSoNL8ad=L-i6a2-GsaCeb0C6qQ@mail.gmail.com>
+Subject: Re: [PATCH 00/13] [RFC] Rust support
+To:     oliver+list@schinagl.nl
+Cc:     Miguel Ojeda <ojeda@kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        rust-for-linux <rust-for-linux@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 6/26/22 2:11 AM, Mauro Carvalho Chehab wrote:
-> The binding directory for hte was renamed. Update references accordingly.
->
-> Fixes: af583852d2ef ("dt-bindings: Renamed hte directory to timestamp")
-> Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
-> ---
->
-> To avoid mailbombing on a large number of people, only mailing lists were C/C on the cover.
-> See [PATCH v2 00/20] at: https://lore.kernel.org/all/cover.1656234456.git.mchehab@kernel.org/
->
->  Documentation/driver-api/hte/tegra194-hte.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/Documentation/driver-api/hte/tegra194-hte.rst b/Documentation/driver-api/hte/tegra194-hte.rst
-> index 41983e04d2a0..d29b7fe86f31 100644
-> --- a/Documentation/driver-api/hte/tegra194-hte.rst
-> +++ b/Documentation/driver-api/hte/tegra194-hte.rst
-> @@ -37,7 +37,7 @@ LIC (Legacy Interrupt Controller) IRQ GTE
->  
->  This GTE instance timestamps LIC IRQ lines in real time. There are 352 IRQ
->  lines which this instance can add timestamps to in real time. The hte
-> -devicetree binding described at ``Documentation/devicetree/bindings/hte/``
-> +devicetree binding described at ``Documentation/devicetree/bindings/timestamp``
->  provides an example of how a consumer can request an IRQ line. Since it is a
->  one-to-one mapping with IRQ GTE provider, consumers can simply specify the IRQ
->  number that they are interested in. There is no userspace consumer support for
+Hi Olliver,
 
-Reviewed-by: Dipen Patel <dipenp@nvidia.com>
+On Mon, Jun 20, 2022 at 5:11 PM Olliver Schinagl <oliver@schinagl.nl> wrote:
+>
+> I apologize for being late to the party and for potentially using the
+> wrong thread, but I recall somewhere in v5 that it was best to respond
+> to the RFC for general comments.
 
+No need to apologize! Feel free to use the latest threads or a new
+thread in e.g. the rust-for-linux ML.
+
+> On 14-04-2021 20:45, ojeda@kernel.org wrote:
+> > From: Miguel Ojeda <ojeda@kernel.org>
+> >
+> > Moreover, as explained above, we are taking the chance to enforce
+> > some documentation guidelines. We are also enforcing automatic code
+> > formatting, a set of Clippy lints, etc. We decided to go with Rust's
+> > idiomatic style, i.e. keeping `rustfmt` defaults. For instance, this
+> > means 4 spaces are used for indentation, rather than a tab. We are
+> > happy to change that if needed -- we think what is important is
+> > keeping the formatting automated
+>
+> Enforcing this is great, but how will you enforce this 'everywhere'?
+> Right now, you can easily 'bypass' any CI put in place, and while 'for
+> now' this is only about the Rust infra, where this can be strongly
+> enforced, once we see actual drivers pop-up; these won't go through the
+> Rust CI before merging CI forever? A maintainer can 'just merge'
+> something still, right?
+
+Indeed, but there are workarounds, for instance, we could have a bot
+checking -next.
+
+Or we could put it in an opt-in compilation mode (i.e. not for users)
+where extra things are checked (like `W=`) that maintainers use so
+that e.g. `allmodconfig` builds are kept clean.
+
+> Anyway, what I wanted to criticize, is the so called "keeping with
+> `rustfmt` defaults". It has been known, that, well Rust's defaults are
+> pretty biased and opinionated. For the Rust project, that's fair of
+> course, their code, their rules.
+>
+> However, there's two arguments against that. For one, using the Rust
+> 'style', now means there's 2 different code styles in the Kernel.
+> Cognitively alone, that can be quite frustrating and annoying. Having to
+> go back and forth between two styles can be mentally challenging which
+> only causes mistakes and frustration. So why change something that
+> already exists? Also, see my first point. Having to constantly
+> remember/switch to 'in this file/function the curly brace is on a
+> different line'. Lets try to stay consistent, the rules may not be
+> perfect (80 columns ;), but so far consistency is tried. OCD and Autism
+> etc doesn't help with this ;)
+
+Note that the point of using `rustfmt` is that one does not need to
+care about the details -- one can e.g. run the tool on file save. So
+no need to remember how to do it when writing Rust.
+
+Now, it is true that the Rust syntax resembles C in many cases, so
+things like the curly braces for function definitions are similar
+enough that we could do the same thing in both sides.
+
+However, most Rust code uses `rustfmt` and typically also follow most
+of its defaults, including the standard library, books, etc.; which
+helps when reading and reusing other code. This is different from C
+and C++, where as you know there is no single style (at least as
+prevalent as `rustfmt`), thus one needs to become accustomed to each
+project's C style (or ideally use `clang-format` to avoid having to
+learn it). So while this is not relevant for C, in the case of Rust,
+there is value in using the `rustfmt` style.
+
+As for consistency, one could argue that by using `rustfmt` we are
+being consistent with the rest of the Rust code out there. This may be
+important for those that have expressed interest on sharing some code
+between kernel and userspace; as well as if we end up vendoring some
+external crates (similar to what we do with `alloc` now).
+
+> Secondly, and this is really far more important, the Rust default style
+> is not very inclusive, as it makes readability harder. This has been
+> brought up by many others in plenty of places, including the `rustfmt`
+> issue tracker under bug #4067 [0]. While the discussion eventually only
+> led to the 'fmt-rfcs' [1], where it was basically said 'you could be on
+> to something, but this ship has sailed 3 years ago (when nobody was
+> looking caring), and while we hear you, we're not going to change our
+> defaults anymore.
+>
+> But I also agree and share these commenters pain. When the tab character
+> is used for indenting (and not alignment mind you), then visually
+> impaired (who can still be amazing coders) can more easily read code by
+> adjusting the width what works best to them.
+>
+> With even git renaming `master` to `main` to be more inclusive, can we
+> also be more inclusive to us that have a hard time distinguishing narrow
+> indentations?
+
+As noted in the RFC, we are happy to tweak the style to whatever
+kernel developers prefer. We think the particular style is not that
+important. Absent other reasons, the defaults seem OK, so we chose
+that for simplicity and consistency with as most existing Rust code as
+possible.
+
+As for accessibility, I am no expert, so that may be a good point,
+especially if editors cannot solve this on their end (so that everyone
+could program in all languages/projects regardless of style).
+
+> Thanks, and sorry for rubbing any ones nerves, but to "some of us" this
+> actually matters a great deal.
+
+No nerves were damaged :) Thanks for all the input!
+
+> P.S. would we expect inline C/Rust code mixed? What then?
+
+Everything is possible, e.g. we could have Rust proc macros that parse
+C and things like that. But if we ended up with such a thing, the
+solution would be to format each accordingly to its style (indentation
+could be an exception, I guess).
+
+Cheers,
+Miguel
