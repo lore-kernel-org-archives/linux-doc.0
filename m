@@ -2,120 +2,121 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CBD6FC433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Jun 2022 09:17:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 90F51CCA473
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Jun 2022 09:52:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233927AbiF0JR5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 27 Jun 2022 05:17:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39838 "EHLO
+        id S233994AbiF0JwC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 27 Jun 2022 05:52:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40880 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233936AbiF0JRz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Jun 2022 05:17:55 -0400
-Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 175E662F4;
-        Mon, 27 Jun 2022 02:17:53 -0700 (PDT)
-Received: from dggpemm500020.china.huawei.com (unknown [172.30.72.56])
-        by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4LWhsP34JVz1L8j0;
-        Mon, 27 Jun 2022 17:15:37 +0800 (CST)
-Received: from dggpemm500006.china.huawei.com (7.185.36.236) by
- dggpemm500020.china.huawei.com (7.185.36.49) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Mon, 27 Jun 2022 17:17:50 +0800
-Received: from [10.174.178.55] (10.174.178.55) by
- dggpemm500006.china.huawei.com (7.185.36.236) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Mon, 27 Jun 2022 17:17:49 +0800
-Subject: Re: [PATCH 5/5] arm64: kdump: Don't defer the reservation of crash
- high memory
-To:     Baoquan He <bhe@redhat.com>,
-        Catalin Marinas <catalin.marinas@arm.com>
-CC:     Kefeng Wang <wangkefeng.wang@huawei.com>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        <x86@kernel.org>, "H . Peter Anvin" <hpa@zytor.com>,
-        "Eric Biederman" <ebiederm@xmission.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        "Frank Rowand" <frowand.list@gmail.com>,
-        <devicetree@vger.kernel.org>, Dave Young <dyoung@redhat.com>,
-        Vivek Goyal <vgoyal@redhat.com>, <kexec@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>, Will Deacon <will@kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>, <linux-doc@vger.kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Feng Zhou <zhoufeng.zf@bytedance.com>,
-        Chen Zhou <dingguo.cz@antgroup.com>,
-        John Donnelly <John.p.donnelly@oracle.com>,
-        "Dave Kleikamp" <dave.kleikamp@oracle.com>,
-        liushixin <liushixin2@huawei.com>
-References: <20220613080932.663-1-thunder.leizhen@huawei.com>
- <20220613080932.663-6-thunder.leizhen@huawei.com>
- <YrFYHYgX3mC//t2l@MiWiFi-R3L-srv>
- <3f66323d-f371-b931-65fb-edfae0f01c88@huawei.com> <YrIIJkhKWSuAqkCx@arm.com>
- <YrLUREAoBMSZo7RR@MiWiFi-R3L-srv> <YrRzvO5F0dumsbAU@arm.com>
- <Yrkbak66vYT55H4x@MiWiFi-R3L-srv>
-From:   "Leizhen (ThunderTown)" <thunder.leizhen@huawei.com>
-Message-ID: <e3318551-4134-245a-c060-86ab81eb3e68@huawei.com>
-Date:   Mon, 27 Jun 2022 17:17:49 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+        with ESMTP id S233867AbiF0JwB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Jun 2022 05:52:01 -0400
+Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com [IPv6:2607:f8b0:4864:20::62c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 54C0E6378;
+        Mon, 27 Jun 2022 02:52:00 -0700 (PDT)
+Received: by mail-pl1-x62c.google.com with SMTP id o18so7726819plg.2;
+        Mon, 27 Jun 2022 02:52:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=dRX8FWNzBU7QvPCSptvJ8/0ZXRASxQI/9/dRpScKoWM=;
+        b=D5W8LLPVBsfy3j+4HKtK9yEJ5wEU0qzSXPu9zRUxd/zIGMunanHjC0QgEYlBA17DAW
+         xt0UIn9TPTx0LrUOk2U3WavV01Zc17vYhSh3LtNtTu923d3YScxoiRdf3iH1wzHHxj08
+         LnzBJWTvio3FBIM9qQFswATUHtvXRqlq1fGIhgJbto41FgKamK3VXpw6Qpwug6Be2Nwx
+         8Q+GVrNqld8SaIS/OlQWVq5ZbeVDv6vPJLZJDH8RcJuGhcns7C5nNMmL/UOTT2fcRFvK
+         VSMk/lkj/PU68D8ktW6iMbaWtQmJ57ov6kIomOYXSv40ZCGSQqo/GzcEa6T8kMLnqSYq
+         4GBw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=dRX8FWNzBU7QvPCSptvJ8/0ZXRASxQI/9/dRpScKoWM=;
+        b=BQVYJRMTURx/GcwN5ene5V+GZrsqeHOSjWO5MwGHlsidAw9siyVDyg+ZJrmzRnrV84
+         5QbyUFjcv6bKUIJDfMZrSfy5UsJGLwqSqSX7yKWLglsPeU+48NR6xhuS2cwgLJX5MUKe
+         l1p7fxvYJysVjXUJG94q5ayemME3ZmzKNP03Yj2zjmMcxehyqZ2RtpbB0tXwsOZM39G1
+         VYdzV93HDLbJnp97AuoJwdR7mJkR7fcHR5jlrpbakppgIiHvmKiyn+EiQss6NyyvCCxW
+         6nchVQVB2+hBECXLCMugorSspjAc0K//J8bEjj7Hb6g35kw9EL9jofy3L2W1U/K+3TRy
+         dnUA==
+X-Gm-Message-State: AJIora+q6YB74Igly30V1T9gZRBeJjAXm3037xC6mH92Z4iXj/HAYMZe
+        Vf2kBCNSsWpH0eMWS75Sgxs=
+X-Google-Smtp-Source: AGRyM1vtVzM4K0yHjGP9MGHdazzgBgMeEwQiVqV7kI2RBsQLQMD0tQMY75a1Ieu4RL7NzxOip7APJQ==
+X-Received: by 2002:a17:903:1c4:b0:16b:7928:95ce with SMTP id e4-20020a17090301c400b0016b792895cemr5896510plh.158.1656323519781;
+        Mon, 27 Jun 2022 02:51:59 -0700 (PDT)
+Received: from debian.me (subs03-180-214-233-72.three.co.id. [180.214.233.72])
+        by smtp.gmail.com with ESMTPSA id 71-20020a63034a000000b0040d2d9f15e0sm6727357pgd.20.2022.06.27.02.51.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 27 Jun 2022 02:51:59 -0700 (PDT)
+Received: by debian.me (Postfix, from userid 1000)
+        id 772C91037D8; Mon, 27 Jun 2022 16:51:56 +0700 (WIB)
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     linux-doc@vger.kernel.org
+Cc:     Bagas Sanjaya <bagasdotme@gmail.com>,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        David Matlack <dmatlack@google.com>,
+        Ben Gardon <bgardon@google.com>, Peter Xu <peterx@redhat.com>,
+        kvm@vger.kernel.org, linux-next@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH next 2/2] KVM: x86/MMU: properly format KVM_CAP_VM_DISABLE_NX_HUGE_PAGES capability table
+Date:   Mon, 27 Jun 2022 16:51:51 +0700
+Message-Id: <20220627095151.19339-3-bagasdotme@gmail.com>
+X-Mailer: git-send-email 2.36.0
+In-Reply-To: <20220627095151.19339-1-bagasdotme@gmail.com>
+References: <20220627095151.19339-1-bagasdotme@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <Yrkbak66vYT55H4x@MiWiFi-R3L-srv>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.178.55]
-X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
- dggpemm500006.china.huawei.com (7.185.36.236)
-X-CFilter-Loop: Reflected
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+There is unexpected warning on KVM_CAP_VM_DISABLE_NX_HUGE_PAGES capability
+table, which cause the table to be rendered as paragraph text instead.
 
+The warning is due to missing colon at capability name and returns keyword,
+as well as improper alignment on multi-line returns field.
 
-On 2022/6/27 10:52, Baoquan He wrote:
-> On 06/23/22 at 03:07pm, Catalin Marinas wrote:
->> On Wed, Jun 22, 2022 at 04:35:16PM +0800, Baoquan He wrote:
->>> On 06/21/22 at 07:04pm, Catalin Marinas wrote:
->>>> The problem with splitting is that you can end up with two entries in
->>>> the TLB for the same VA->PA mapping (e.g. one for a 4KB page and another
->>>> for a 2MB block). In the lucky case, the CPU will trigger a TLB conflict
->>>> abort (but can be worse like loss of coherency).
->>>
->>> Thanks for this explanation. Is this a drawback of arm64 design? X86
->>> code do the same thing w/o issue, is there way to overcome this on
->>> arm64 from hardware or software side?
->>
->> It is a drawback of the arm64 implementations. Having multiple TLB
->> entries for the same VA would need additional logic in hardware to
->> detect, so the microarchitects have pushed back. In ARMv8.4, some
->> balanced was reached with FEAT_BBM so that the only visible side-effect
->> is a potential TLB conflict abort that could be resolved by software.
-> 
-> I see, thx.
-> 
->>
->>> I ever got a arm64 server with huge memory, w or w/o crashkernel setting 
->>> have different bootup time. And the more often TLB miss and flush will
->>> cause performance cost. It is really a pity if we have very powerful
->>> arm64 cpu and system capacity, but bottlenecked by this drawback.
->>
->> Is it only the boot time affected or the runtime performance as well?
-> 
-> Sorry for late reply. What I observerd is the boot time serious latecy
-> with huge memory. Since the timestamp is not available at that time,
-> we can't tell the number. I didn't notice the runtime performance.
+Fix the warning by adding missing colons and aligning the field.
 
-There's some data here, and I see you're not on the cc list.
+Link: https://lore.kernel.org/lkml/20220627181937.3be67263@canb.auug.org.au/
+Fixes: 084cc29f8bbb03 ("KVM: x86/MMU: Allow NX huge pages to be disabled on a per-vm basis")
+Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: David Matlack <dmatlack@google.com>
+Cc: Ben Gardon <bgardon@google.com>
+Cc: Peter Xu <peterx@redhat.com>
+Cc: kvm@vger.kernel.org
+Cc: linux-next@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+---
+ Documentation/virt/kvm/api.rst | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-https://lore.kernel.org/linux-mm/1656241815-28494-1-git-send-email-guanghuifeng@linux.alibaba.com/T/
-
-> 
-> .
-> 
-
+diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
+index ec9f16f472e709..df8fc905217437 100644
+--- a/Documentation/virt/kvm/api.rst
++++ b/Documentation/virt/kvm/api.rst
+@@ -8209,13 +8209,13 @@ available and supports the `KVM_PV_DUMP_CPU` subcommand.
+ 8.38 KVM_CAP_VM_DISABLE_NX_HUGE_PAGES
+ -------------------------------------
+ 
+-:Capability KVM_CAP_VM_DISABLE_NX_HUGE_PAGES
++:Capability: KVM_CAP_VM_DISABLE_NX_HUGE_PAGES
+ :Architectures: x86
+ :Type: vm
+ :Parameters: arg[0] must be 0.
+-:Returns 0 on success, -EPERM if the userspace process does not
+-	 have CAP_SYS_BOOT, -EINVAL if args[0] is not 0 or any vCPUs have been
+-	 created.
++:Returns: 0 on success, -EPERM if the userspace process does not
++          have CAP_SYS_BOOT, -EINVAL if args[0] is not 0 or any vCPUs have been
++          created.
+ 
+ This capability disables the NX huge pages mitigation for iTLB MULTIHIT.
+ 
 -- 
-Regards,
-  Zhen Lei
+An old man doll... just what I always wanted! - Clara
+
