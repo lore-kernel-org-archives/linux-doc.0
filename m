@@ -2,87 +2,160 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 88E4EC433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Jun 2022 22:28:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 998C5C433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Jun 2022 22:55:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240465AbiF0W2c (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 27 Jun 2022 18:28:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60806 "EHLO
+        id S240769AbiF0WzM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 27 Jun 2022 18:55:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59724 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242599AbiF0W21 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Jun 2022 18:28:27 -0400
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC61613E0E;
-        Mon, 27 Jun 2022 15:28:21 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 99DBD2D3;
-        Mon, 27 Jun 2022 22:28:20 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 99DBD2D3
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1656368900; bh=sqIB6wvrcODWFpVRELCRk3qr6U5GjoJLZ6jWg7iZ8RM=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=tBdwa2gyqh0UWNpCqHtyxH00UrvUUHQCOygDftFAF48yMR+elnJmgrjHB4CIB36rc
-         eJs15+rKB1Td8rbLIXE6NVfHABElEG0kY+P/UzVzJg0/W3DoWNlbl6iXkgSCvb7J0U
-         Ivr0SH42v1FfRmhD3WuQPSXfQzYj1Q2XzNiFX+QwRQRO+WKPJ5Jll9Ip07JFmCv9bq
-         JC8AXKkzdOs4pNLsVTSwo9ZsgoTT2o1N2Mr6HUe450vUOL1wdcg8NwUhgYX9M4Rz6d
-         c63fjFL4BVgN37IAfVPt/gpAcbfJzT9eYPe+61wnUaCh2jhbyqoOZpmgQ0+Jbp9H4L
-         6IYIOkLpk+w5Q==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Shuah Khan <skhan@linuxfoundation.org>,
-        Daniel Latypov <dlatypov@google.com>,
-        brendanhiggins@google.com, davidgow@google.com
-Cc:     linux-kernel@vger.kernel.org, kunit-dev@googlegroups.com,
-        linux-doc@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH 1/3] Documentation: kunit: remove duplicate kunit-tool.rst
-In-Reply-To: <96154234-7842-3bc9-d89f-eb20be40e6de@linuxfoundation.org>
-References: <20220603195626.121922-1-dlatypov@google.com>
- <87pmix3ktq.fsf@meer.lwn.net>
- <2c3399e9-4f4e-a71a-4030-e4e6d72b5d4e@linuxfoundation.org>
- <8735ft3co5.fsf@meer.lwn.net>
- <96154234-7842-3bc9-d89f-eb20be40e6de@linuxfoundation.org>
-Date:   Mon, 27 Jun 2022 16:28:20 -0600
-Message-ID: <87lethyc57.fsf@meer.lwn.net>
+        with ESMTP id S236092AbiF0WzM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Jun 2022 18:55:12 -0400
+Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 286BBC7;
+        Mon, 27 Jun 2022 15:55:11 -0700 (PDT)
+Received: by mail-wm1-x335.google.com with SMTP id i67-20020a1c3b46000000b003a03567d5e9so6714592wma.1;
+        Mon, 27 Jun 2022 15:55:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=9lOPeA9vvaiwrc8RGmW70icF1DKGIzZjDJ8+Ucf9WO4=;
+        b=VJ4YBLCw3078xk+8dyLf3gwBU8Cd14dymqoyGFBawCGZ4DiG+T+7vqp1+ifKk6RWDa
+         wY5WoCGzReh6CVns+YdYrBhmGLi/3LHvyfDJdPXR73tE9tIj/8UHYtCFxUzSQ+Nmho26
+         drGVqmEzBP/85LgtqvK0OGNiTzZAsYhyqrx+Yc+Yba5l7K2fFkz5lW841wAC9tEQChMp
+         yCU3CVivhw6cbYOVcWMWTmEvaAzoEi3pYHiwwqG/kvya5NLHNLIHy54bzRFKJp8VU7jr
+         +JAjP1a622aw2D2MzMwyceCKS5jzgweedT3lsHQM5CQLE4HMQpR246iJFE4q8sNZhTaN
+         ZyQA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=9lOPeA9vvaiwrc8RGmW70icF1DKGIzZjDJ8+Ucf9WO4=;
+        b=B6TWpTGSWfRKpkyhy9Ij73xWvGLqTLk9MrYGcHHVJ/JfRFeTOFRsmQhytisceqhwe7
+         bmGDKTSMb82lLTDGiLs1pXOykTsgEzOV8mDhdCZP5U4IAz6axdNhjm47C+M9TJslukKj
+         m5s6bMO56m3t62DnI3j0Q8n/DT9o6Yeavy9as8uX4yV1mnR9m/Y2J+zTWiDJUekNiurS
+         4OFZYyBTH4IHJx3jfqrSJIbBjjPiuvYV+6+gRFyRelWPy1XaRoacy9sTQYg2FykXYZtF
+         FFvIjFJJqK98oQoaVSQndmcWdvpKSKLmaNDESD1gPMSVexIwdWB2CE9lTz6YTJFC9oqv
+         oGQw==
+X-Gm-Message-State: AJIora/QNdQYnW4NPrZ2llW0S+2+2KKMp9o2Oklf5eb+pPgaGUiWlIrl
+        X5rBGFoskst1pyGY9ctIeOc=
+X-Google-Smtp-Source: AGRyM1s05tbhpIkS7r5444R7Er2lvhy/C6+ddfXV+91UnOAS071/QdcOboJQXguFNaiuQC/j3mEXIw==
+X-Received: by 2002:a05:600c:886:b0:3a0:49d7:d8b9 with SMTP id l6-20020a05600c088600b003a049d7d8b9mr9804184wmp.115.1656370509478;
+        Mon, 27 Jun 2022 15:55:09 -0700 (PDT)
+Received: from caracal.museclub.art (p200300cf9f1a9e008d6dafec091202b8.dip0.t-ipconnect.de. [2003:cf:9f1a:9e00:8d6d:afec:912:2b8])
+        by smtp.googlemail.com with ESMTPSA id n8-20020a05600c304800b003a04b248896sm4163502wmh.35.2022.06.27.15.55.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 27 Jun 2022 15:55:08 -0700 (PDT)
+From:   Eugene Shalygin <eugene.shalygin@gmail.com>
+To:     eugene.shalygin@gmail.com
+Cc:     Michael Carns <mike@carns.com>, Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] hwmon: (asus-ec-sensors) add support for Maximus XI Hero
+Date:   Tue, 28 Jun 2022 00:54:36 +0200
+Message-Id: <20220627225437.87462-1-eugene.shalygin@gmail.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Shuah Khan <skhan@linuxfoundation.org> writes:
+From: Michael Carns <mike@carns.com>
 
-> On 6/24/22 4:43 PM, Jonathan Corbet wrote:
->> Shuah Khan <skhan@linuxfoundation.org> writes:
->> 
->>>> So not that long ago these patches were going through Shuah...it seems
->>>> that's not happening anymore?  I can pick up kunit docs patches,
->>>> certainly.  I've taken the silence on these as assent and applied them.
->>>>
->>>
->>> I am still taking ksefltest and kunit doc patches through my tree. I wait
->>> for Brendan to ack at times. This one didn't show up in linux-kselftest
->>> list it appears.
->>>
->>> If you cc linux-kselftest and I get an ack from Brendan, I will take this
->>> through kselftest tree.
->> 
->> As I said up above, I went ahead and applied them.  I can drop them
->> again if you want to carry them, just let me know.
->> 
->
-> Jon, yes please go ahead and drop this one. I will wait for Brendan
-> to ack it. Reduces confusion in the future. Very often, there is code
-> dependencies as well.
+Add definitions for ROG MAXIMUS XI HERO and ROG MAXIMUS XI HERO (WI-FI)
+boards.
 
-OK, I have dropped those three commits.  Note that I also had to drop
-Randy's patch which had been waiting since April:
+Signed-off-by: Michael Carns <mike@carns.com>
+Signed-off-by: Eugene Shalygin <eugene.shalygin@gmail.com>
+---
+ Documentation/hwmon/asus_ec_sensors.rst |  2 ++
+ drivers/hwmon/asus-ec-sensors.c         | 36 +++++++++++++++++++++++++
+ 2 files changed, 38 insertions(+)
 
-  https://lore.kernel.org/linux-doc/20220401024707.10550-1-rdunlap%40infradead.org/
+diff --git a/Documentation/hwmon/asus_ec_sensors.rst b/Documentation/hwmon/asus_ec_sensors.rst
+index 00d8c46ef9e0..1e40c123db77 100644
+--- a/Documentation/hwmon/asus_ec_sensors.rst
++++ b/Documentation/hwmon/asus_ec_sensors.rst
+@@ -13,6 +13,8 @@ Supported boards:
+  * ROG CROSSHAIR VIII FORMULA
+  * ROG CROSSHAIR VIII HERO
+  * ROG CROSSHAIR VIII IMPACT
++ * ROG MAXIMUS XI HERO
++ * ROG MAXIMUS XI HERO (WI-FI)
+  * ROG STRIX B550-E GAMING
+  * ROG STRIX B550-I GAMING
+  * ROG STRIX X570-E GAMING
+diff --git a/drivers/hwmon/asus-ec-sensors.c b/drivers/hwmon/asus-ec-sensors.c
+index 19d3ca71b360..625c2baa35ec 100644
+--- a/drivers/hwmon/asus-ec-sensors.c
++++ b/drivers/hwmon/asus-ec-sensors.c
+@@ -141,6 +141,7 @@ enum board_family {
+ 	family_unknown,
+ 	family_amd_400_series,
+ 	family_amd_500_series,
++	family_intel_300_series,
+ 	family_intel_600_series
+ };
+ 
+@@ -200,6 +201,26 @@ static const struct ec_sensor_info sensors_family_amd_500[] = {
+ 		EC_SENSOR("Water_Out", hwmon_temp, 1, 0x01, 0x01),
+ };
+ 
++static const struct ec_sensor_info sensors_family_intel_300[] = {
++	[ec_sensor_temp_chipset] =
++		EC_SENSOR("Chipset", hwmon_temp, 1, 0x00, 0x3a),
++	[ec_sensor_temp_cpu] = EC_SENSOR("CPU", hwmon_temp, 1, 0x00, 0x3b),
++	[ec_sensor_temp_mb] =
++		EC_SENSOR("Motherboard", hwmon_temp, 1, 0x00, 0x3c),
++	[ec_sensor_temp_t_sensor] =
++		EC_SENSOR("T_Sensor", hwmon_temp, 1, 0x00, 0x3d),
++	[ec_sensor_temp_vrm] = EC_SENSOR("VRM", hwmon_temp, 1, 0x00, 0x3e),
++	[ec_sensor_fan_cpu_opt] =
++		EC_SENSOR("CPU_Opt", hwmon_fan, 2, 0x00, 0xb0),
++	[ec_sensor_fan_vrm_hs] = EC_SENSOR("VRM HS", hwmon_fan, 2, 0x00, 0xb2),
++	[ec_sensor_fan_water_flow] =
++		EC_SENSOR("Water_Flow", hwmon_fan, 2, 0x00, 0xbc),
++	[ec_sensor_temp_water_in] =
++		EC_SENSOR("Water_In", hwmon_temp, 1, 0x01, 0x00),
++	[ec_sensor_temp_water_out] =
++		EC_SENSOR("Water_Out", hwmon_temp, 1, 0x01, 0x01),
++};
++
+ static const struct ec_sensor_info sensors_family_intel_600[] = {
+ 	[ec_sensor_temp_t_sensor] =
+ 		EC_SENSOR("T_Sensor", hwmon_temp, 1, 0x00, 0x3d),
+@@ -281,6 +302,18 @@ static const struct ec_board_info board_info[] = {
+ 		.mutex_path = ASUS_HW_ACCESS_MUTEX_ASMX,
+ 		.family = family_amd_500_series,
+ 	},
++	{
++		.board_names = {
++			"ROG MAXIMUS XI HERO",
++			"ROG MAXIMUS XI HERO (WI-FI)",
++		},
++		.sensors = SENSOR_SET_TEMP_CHIPSET_CPU_MB |
++			SENSOR_TEMP_T_SENSOR |
++			SENSOR_TEMP_VRM | SENSOR_SET_TEMP_WATER |
++			SENSOR_FAN_CPU_OPT | SENSOR_FAN_WATER_FLOW,
++		.mutex_path = ASUS_HW_ACCESS_MUTEX_ASMX,
++		.family = family_intel_300_series,
++	},
+ 	{
+ 		.board_names = {"ROG CROSSHAIR VIII IMPACT"},
+ 		.sensors = SENSOR_SET_TEMP_CHIPSET_CPU_MB |
+@@ -814,6 +847,9 @@ static int __init asus_ec_probe(struct platform_device *pdev)
+ 	case family_amd_500_series:
+ 		ec_data->sensors_info = sensors_family_amd_500;
+ 		break;
++	case family_intel_300_series:
++		ec_data->sensors_info = sensors_family_intel_300;
++		break;
+ 	case family_intel_600_series:
+ 		ec_data->sensors_info = sensors_family_intel_600;
+ 		break;
+-- 
+2.35.1
 
-since it conflicts with the above.  So you'll want to pick that one up
-too.
-
-Thanks,
-
-jon
