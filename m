@@ -2,106 +2,120 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F040C43334
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Jun 2022 08:29:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CBD6FC433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Jun 2022 09:17:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233201AbiF0I3j (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 27 Jun 2022 04:29:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56768 "EHLO
+        id S233927AbiF0JR5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 27 Jun 2022 05:17:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39838 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232821AbiF0I3i (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Jun 2022 04:29:38 -0400
-Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com [IPv6:2607:f8b0:4864:20::436])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47B5F625B;
-        Mon, 27 Jun 2022 01:29:37 -0700 (PDT)
-Received: by mail-pf1-x436.google.com with SMTP id 65so8279608pfw.11;
-        Mon, 27 Jun 2022 01:29:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=ukkF+qHOzzJMvCgB5J2nCt+SiXX4tns6CZy4txdYFbU=;
-        b=XxyEOMZwFzVx5EqLSOdfvMnVEC1pw/bEOwoadIsKwf1nVcHANtQJ22GQmY1QPa/0n/
-         fx7Nqz9oO4lusnDOnJQq/hBe0NL62WNXNxb2FVZKsAGwv7jjJl6KgArZ5IuCfU4WtYrk
-         clOJhaaue+7migoHXRwutGvYSWZXu0fPYEe9X6VF+sQT2ulz7yn9PeutINSUiZ5kw7Z5
-         295/GFrIzBjTkxAcs4s+iMb9rerAqOmbWJ1vG70DgxWYzx7Kg8ZEWYkdd1t8/e7o8fOZ
-         OIbccFFmOvAVQGWX11VoQl8Timd35Qy3RvBGIWwPnO7YZAzwkZXdiOXMT9kG5f1hpfdz
-         V75g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=ukkF+qHOzzJMvCgB5J2nCt+SiXX4tns6CZy4txdYFbU=;
-        b=cfxkCd+NLvKNwQt6BZ+BD8e1/FYfjTU/Y4GD3VXuvNjEY2lhsM8tzY94SyxKVM6E0h
-         /miGbysuLgkArtlluVMQMbhMJM4sC751Jrdr10LwU29vgxsryDvo04uaPbJMZYhYjDQs
-         1YkxinOVgCxW7gHHI+9iSGpwDag23dYtbbIP+DnTwI/Zpf2E6z45VcIJmdvt4niHDvec
-         jMtqeYPkHjP7/3fyYQJtFpqy47dvD11tIM7QPE+qiG+P9WX8nbD3ezBKPgKwcduiXElD
-         Hcyetd+veNLNw4ae9BRr2Z6XGQPTF3PEv2XxASiEXgGrrlvIqs4K+AuYMMuCEu/72LvI
-         2E3Q==
-X-Gm-Message-State: AJIora8XpkWgrz+Svd7GyO3srs7GyEgCzWCVp59mUpZbYvhfygnLL3Ac
-        3pNcK3HBIc7sIT/iv++gm7U=
-X-Google-Smtp-Source: AGRyM1t5rT9Mx8i6fAAE3TL6UtytoFVyXcLJMuFRwjYYPjWjgJuidF7BRMqT7CWr0IQsni4W0A7WMA==
-X-Received: by 2002:aa7:8e9e:0:b0:525:1d15:8fb8 with SMTP id a30-20020aa78e9e000000b005251d158fb8mr13469032pfr.35.1656318576800;
-        Mon, 27 Jun 2022 01:29:36 -0700 (PDT)
-Received: from debian.me (subs02-180-214-232-68.three.co.id. [180.214.232.68])
-        by smtp.gmail.com with ESMTPSA id bf27-20020a056a000d9b00b0051bd9981ccbsm6497050pfb.39.2022.06.27.01.29.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Jun 2022 01:29:36 -0700 (PDT)
-Received: by debian.me (Postfix, from userid 1000)
-        id B3DDC10388D; Mon, 27 Jun 2022 15:29:30 +0700 (WIB)
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     linux-doc@vger.kernel.org
-Cc:     Bagas Sanjaya <bagasdotme@gmail.com>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Allison Randal <allison@lohutok.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        with ESMTP id S233936AbiF0JRz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Jun 2022 05:17:55 -0400
+Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 175E662F4;
+        Mon, 27 Jun 2022 02:17:53 -0700 (PDT)
+Received: from dggpemm500020.china.huawei.com (unknown [172.30.72.56])
+        by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4LWhsP34JVz1L8j0;
+        Mon, 27 Jun 2022 17:15:37 +0800 (CST)
+Received: from dggpemm500006.china.huawei.com (7.185.36.236) by
+ dggpemm500020.china.huawei.com (7.185.36.49) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Mon, 27 Jun 2022 17:17:50 +0800
+Received: from [10.174.178.55] (10.174.178.55) by
+ dggpemm500006.china.huawei.com (7.185.36.236) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Mon, 27 Jun 2022 17:17:49 +0800
+Subject: Re: [PATCH 5/5] arm64: kdump: Don't defer the reservation of crash
+ high memory
+To:     Baoquan He <bhe@redhat.com>,
+        Catalin Marinas <catalin.marinas@arm.com>
+CC:     Kefeng Wang <wangkefeng.wang@huawei.com>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
         Thomas Gleixner <tglx@linutronix.de>,
-        linux-next@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH RESEND next] Documentation: samsung-s3c24xx: Add blank line after SPDX directive
-Date:   Mon, 27 Jun 2022 15:29:28 +0700
-Message-Id: <20220627082928.11239-1-bagasdotme@gmail.com>
-X-Mailer: git-send-email 2.36.0
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        <x86@kernel.org>, "H . Peter Anvin" <hpa@zytor.com>,
+        "Eric Biederman" <ebiederm@xmission.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        "Frank Rowand" <frowand.list@gmail.com>,
+        <devicetree@vger.kernel.org>, Dave Young <dyoung@redhat.com>,
+        Vivek Goyal <vgoyal@redhat.com>, <kexec@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>, Will Deacon <will@kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        Jonathan Corbet <corbet@lwn.net>, <linux-doc@vger.kernel.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Feng Zhou <zhoufeng.zf@bytedance.com>,
+        Chen Zhou <dingguo.cz@antgroup.com>,
+        John Donnelly <John.p.donnelly@oracle.com>,
+        "Dave Kleikamp" <dave.kleikamp@oracle.com>,
+        liushixin <liushixin2@huawei.com>
+References: <20220613080932.663-1-thunder.leizhen@huawei.com>
+ <20220613080932.663-6-thunder.leizhen@huawei.com>
+ <YrFYHYgX3mC//t2l@MiWiFi-R3L-srv>
+ <3f66323d-f371-b931-65fb-edfae0f01c88@huawei.com> <YrIIJkhKWSuAqkCx@arm.com>
+ <YrLUREAoBMSZo7RR@MiWiFi-R3L-srv> <YrRzvO5F0dumsbAU@arm.com>
+ <Yrkbak66vYT55H4x@MiWiFi-R3L-srv>
+From:   "Leizhen (ThunderTown)" <thunder.leizhen@huawei.com>
+Message-ID: <e3318551-4134-245a-c060-86ab81eb3e68@huawei.com>
+Date:   Mon, 27 Jun 2022 17:17:49 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <Yrkbak66vYT55H4x@MiWiFi-R3L-srv>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.174.178.55]
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+ dggpemm500006.china.huawei.com (7.185.36.236)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-After merging spdx tree for linux-next testing, Stephen Rothwell reported
-htmldocs warning:
 
-Documentation/arm/samsung-s3c24xx/cpufreq.rst:2: WARNING: Explicit markup ends without a blank line; unexpected unindent.
 
-It is due to missing blank line separator between SPDX directive and
-page title.
+On 2022/6/27 10:52, Baoquan He wrote:
+> On 06/23/22 at 03:07pm, Catalin Marinas wrote:
+>> On Wed, Jun 22, 2022 at 04:35:16PM +0800, Baoquan He wrote:
+>>> On 06/21/22 at 07:04pm, Catalin Marinas wrote:
+>>>> The problem with splitting is that you can end up with two entries in
+>>>> the TLB for the same VA->PA mapping (e.g. one for a 4KB page and another
+>>>> for a 2MB block). In the lucky case, the CPU will trigger a TLB conflict
+>>>> abort (but can be worse like loss of coherency).
+>>>
+>>> Thanks for this explanation. Is this a drawback of arm64 design? X86
+>>> code do the same thing w/o issue, is there way to overcome this on
+>>> arm64 from hardware or software side?
+>>
+>> It is a drawback of the arm64 implementations. Having multiple TLB
+>> entries for the same VA would need additional logic in hardware to
+>> detect, so the microarchitects have pushed back. In ARMv8.4, some
+>> balanced was reached with FEAT_BBM so that the only visible side-effect
+>> is a potential TLB conflict abort that could be resolved by software.
+> 
+> I see, thx.
+> 
+>>
+>>> I ever got a arm64 server with huge memory, w or w/o crashkernel setting 
+>>> have different bootup time. And the more often TLB miss and flush will
+>>> cause performance cost. It is really a pity if we have very powerful
+>>> arm64 cpu and system capacity, but bottlenecked by this drawback.
+>>
+>> Is it only the boot time affected or the runtime performance as well?
+> 
+> Sorry for late reply. What I observerd is the boot time serious latecy
+> with huge memory. Since the timestamp is not available at that time,
+> we can't tell the number. I didn't notice the runtime performance.
 
-Add the blank line to fix the warning.
+There's some data here, and I see you're not on the cc list.
 
-Link: https://lore.kernel.org/linux-next/20220614164506.6afd65a6@canb.auug.org.au/
-Fixes: b7bc1c9e5b04da ("treewide: Replace GPLv2 boilerplate/reference with SPDX - gpl-2.0_147.RULE")
-Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Allison Randal <allison@lohutok.net>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Cc: linux-next@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
----
- Documentation/arm/samsung-s3c24xx/cpufreq.rst | 1 +
- 1 file changed, 1 insertion(+)
+https://lore.kernel.org/linux-mm/1656241815-28494-1-git-send-email-guanghuifeng@linux.alibaba.com/T/
 
-diff --git a/Documentation/arm/samsung-s3c24xx/cpufreq.rst b/Documentation/arm/samsung-s3c24xx/cpufreq.rst
-index ed19ce1a462921..cd22697cf60660 100644
---- a/Documentation/arm/samsung-s3c24xx/cpufreq.rst
-+++ b/Documentation/arm/samsung-s3c24xx/cpufreq.rst
-@@ -1,4 +1,5 @@
- .. SPDX-License-Identifier: GPL-2.0-only
-+
- =======================
- S3C24XX CPUfreq support
- =======================
+> 
+> .
+> 
+
 -- 
-An old man doll... just what I always wanted! - Clara
-
+Regards,
+  Zhen Lei
