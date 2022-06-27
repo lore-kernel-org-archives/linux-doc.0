@@ -2,160 +2,134 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 998C5C433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Jun 2022 22:55:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A50ABC433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Jun 2022 23:24:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240769AbiF0WzM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 27 Jun 2022 18:55:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59724 "EHLO
+        id S241967AbiF0XYQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 27 Jun 2022 19:24:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35550 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236092AbiF0WzM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Jun 2022 18:55:12 -0400
-Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 286BBC7;
-        Mon, 27 Jun 2022 15:55:11 -0700 (PDT)
-Received: by mail-wm1-x335.google.com with SMTP id i67-20020a1c3b46000000b003a03567d5e9so6714592wma.1;
-        Mon, 27 Jun 2022 15:55:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=9lOPeA9vvaiwrc8RGmW70icF1DKGIzZjDJ8+Ucf9WO4=;
-        b=VJ4YBLCw3078xk+8dyLf3gwBU8Cd14dymqoyGFBawCGZ4DiG+T+7vqp1+ifKk6RWDa
-         wY5WoCGzReh6CVns+YdYrBhmGLi/3LHvyfDJdPXR73tE9tIj/8UHYtCFxUzSQ+Nmho26
-         drGVqmEzBP/85LgtqvK0OGNiTzZAsYhyqrx+Yc+Yba5l7K2fFkz5lW841wAC9tEQChMp
-         yCU3CVivhw6cbYOVcWMWTmEvaAzoEi3pYHiwwqG/kvya5NLHNLIHy54bzRFKJp8VU7jr
-         +JAjP1a622aw2D2MzMwyceCKS5jzgweedT3lsHQM5CQLE4HMQpR246iJFE4q8sNZhTaN
-         ZyQA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=9lOPeA9vvaiwrc8RGmW70icF1DKGIzZjDJ8+Ucf9WO4=;
-        b=B6TWpTGSWfRKpkyhy9Ij73xWvGLqTLk9MrYGcHHVJ/JfRFeTOFRsmQhytisceqhwe7
-         bmGDKTSMb82lLTDGiLs1pXOykTsgEzOV8mDhdCZP5U4IAz6axdNhjm47C+M9TJslukKj
-         m5s6bMO56m3t62DnI3j0Q8n/DT9o6Yeavy9as8uX4yV1mnR9m/Y2J+zTWiDJUekNiurS
-         4OFZYyBTH4IHJx3jfqrSJIbBjjPiuvYV+6+gRFyRelWPy1XaRoacy9sTQYg2FykXYZtF
-         FFvIjFJJqK98oQoaVSQndmcWdvpKSKLmaNDESD1gPMSVexIwdWB2CE9lTz6YTJFC9oqv
-         oGQw==
-X-Gm-Message-State: AJIora/QNdQYnW4NPrZ2llW0S+2+2KKMp9o2Oklf5eb+pPgaGUiWlIrl
-        X5rBGFoskst1pyGY9ctIeOc=
-X-Google-Smtp-Source: AGRyM1s05tbhpIkS7r5444R7Er2lvhy/C6+ddfXV+91UnOAS071/QdcOboJQXguFNaiuQC/j3mEXIw==
-X-Received: by 2002:a05:600c:886:b0:3a0:49d7:d8b9 with SMTP id l6-20020a05600c088600b003a049d7d8b9mr9804184wmp.115.1656370509478;
-        Mon, 27 Jun 2022 15:55:09 -0700 (PDT)
-Received: from caracal.museclub.art (p200300cf9f1a9e008d6dafec091202b8.dip0.t-ipconnect.de. [2003:cf:9f1a:9e00:8d6d:afec:912:2b8])
-        by smtp.googlemail.com with ESMTPSA id n8-20020a05600c304800b003a04b248896sm4163502wmh.35.2022.06.27.15.55.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Jun 2022 15:55:08 -0700 (PDT)
-From:   Eugene Shalygin <eugene.shalygin@gmail.com>
-To:     eugene.shalygin@gmail.com
-Cc:     Michael Carns <mike@carns.com>, Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] hwmon: (asus-ec-sensors) add support for Maximus XI Hero
-Date:   Tue, 28 Jun 2022 00:54:36 +0200
-Message-Id: <20220627225437.87462-1-eugene.shalygin@gmail.com>
-X-Mailer: git-send-email 2.35.1
+        with ESMTP id S241196AbiF0XYQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Jun 2022 19:24:16 -0400
+Received: from esa5.hgst.iphmx.com (esa5.hgst.iphmx.com [216.71.153.144])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6265823169
+        for <linux-doc@vger.kernel.org>; Mon, 27 Jun 2022 16:24:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+  t=1656372254; x=1687908254;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=S8N+p0moc3MloWqEEauJLXVpb/5eTV2AD6EVivHGR+Q=;
+  b=OI0edh33Da6Kr4vDJdjyVE+HOpOLwVJxXtDJRqKZ/PFgQ9lyvBqJX126
+   wjmzbAI/B6A8EaXC+LwyDiz6gJu5ZoToC2IyOww9yJ8bJduuFtKj40qsx
+   kK98GfLegK6WSN0MI4PxfRjQsUZJ8PlQKGRpeSkgmDcRFoopPMCz/xjlc
+   TowN2YWrCd9XjBC/tsaRns7aFlHejEei2IqfuO96wpKNyzbEuHgrvN4O4
+   XoorNgNHlbzFot8O4XX68lO/NEmGXlzioR1yG6hIlGvEbErpcO1/fFgrB
+   n02DCbwKWzA0ksPRvX46zlzgXmjJ1byFRcyDxJXJbZ7S+aZ01SPJx7u9C
+   A==;
+X-IronPort-AV: E=Sophos;i="5.92,227,1650902400"; 
+   d="scan'208";a="204233394"
+Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com) ([199.255.45.14])
+  by ob1.hgst.iphmx.com with ESMTP; 28 Jun 2022 07:24:13 +0800
+IronPort-SDR: GqSySP5bRbq4WHE9ugaQLDjZ90TFqPvp0PsZj9dl/Ao3l3orHCazl8CsflojGqgifZIjMWRRIC
+ 3E8fl0Qdq2NCIGhoxvYtIPpHH2kpyHrqg8sdhy+D5jmL4cn0wA5RZijZUescFtMkz5qWi7X4Ub
+ DxoacG8xG6gs3JxyPvaV4FZ+k+tiCWXFUvC8Fzu/fYEinhC0A8RIGElgE2HUGFgUY3M3vG/59p
+ oSM7ReiPB00ONyazYQN6NinOSWxGdoZFwoEa05YmUv6JY0QRW/+6JrUPc7nQXa0B678UDEcEL5
+ ejlbYSjTxVhaT448e9W5S0Gu
+Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
+  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 27 Jun 2022 15:46:36 -0700
+IronPort-SDR: CZ8/P28ZoivDq9blZs8GybUrr6EM/UuUHJvW3JmAX4NKAV4E4NSPWTnH9Vqw9wP54Elfnisj48
+ TE8jrf68IYvwLrb/jCPpQpn6BZ9lTqK++87xh2DqnmAaW/XZ70X1MlRtbIGzuJ/1g516bND1Zw
+ odhzqKQCwkAVs9JMouLLd0IIbt2ps4GP8jEi/oHsgb7RU0sWXWf7ieRAhUEWoVkyWFHXcTxUF3
+ 7cBW0URBmIvNX028M78ZV3QZx4RyNyPRhIr5Yrbuvkg6yub5ytN0txNQS32whxP/Nz8klcg8dn
+ YSQ=
+WDCIronportException: Internal
+Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
+  by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 27 Jun 2022 16:24:14 -0700
+Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
+        by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4LX3hY4Gqzz1Rw4L
+        for <linux-doc@vger.kernel.org>; Mon, 27 Jun 2022 16:24:13 -0700 (PDT)
+Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
+        reason="pass (just generated, assumed good)"
+        header.d=opensource.wdc.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
+        opensource.wdc.com; h=content-transfer-encoding:content-type
+        :in-reply-to:organization:from:references:to:content-language
+        :subject:user-agent:mime-version:date:message-id; s=dkim; t=
+        1656372252; x=1658964253; bh=S8N+p0moc3MloWqEEauJLXVpb/5eTV2AD6E
+        VivHGR+Q=; b=DOmB0q+yumadQfEfKMysp6ZcnZ0HtW72qJdwM5m8B0Kc9Tad+dF
+        7gDs0OfNHqCTGeSJfqD9/6sW1evo3sq7cfUvTRWVJIHK1cvpn/iA0skUc9IIKiE8
+        KNmo/tqZYLCa5cn5qWD0Ryij/7qx8e/kumjGMwTGlY2HfYRxOMPtvr9WNC/dUNhF
+        menESGNdXZJXjqA+MtrgYPevYEFlhkjHja7G3apSDEhYWjiRMEr2hwIPvwtYRb3G
+        oGa6nySA/D6iv8hrxLg69E36edryEq45dv95ZCgDqaDMBUQ/0rXQ/5OSFkcyN4S3
+        m/oYW8SWIyUKCVcIwEf/+kyLjCcbBjt44xA==
+X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
+Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
+        by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id ZFfKILKOpyJj for <linux-doc@vger.kernel.org>;
+        Mon, 27 Jun 2022 16:24:12 -0700 (PDT)
+Received: from [10.225.163.99] (unknown [10.225.163.99])
+        by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4LX3hV0cq4z1RtVk;
+        Mon, 27 Jun 2022 16:24:09 -0700 (PDT)
+Message-ID: <b69c6112-98b7-3890-9d11-bb321a7c877a@opensource.wdc.com>
+Date:   Tue, 28 Jun 2022 08:24:08 +0900
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v4 5/5] libata-scsi: Cap ata_device->max_sectors according
+ to shost->max_sectors
+Content-Language: en-US
+To:     John Garry <john.garry@huawei.com>, joro@8bytes.org,
+        will@kernel.org, jejb@linux.ibm.com, martin.petersen@oracle.com,
+        hch@lst.de, m.szyprowski@samsung.com, robin.murphy@arm.com
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-ide@vger.kernel.org, iommu@lists.linux-foundation.org,
+        iommu@lists.linux.dev, linux-scsi@vger.kernel.org,
+        linuxarm@huawei.com
+References: <1656343521-62897-1-git-send-email-john.garry@huawei.com>
+ <1656343521-62897-6-git-send-email-john.garry@huawei.com>
+From:   Damien Le Moal <damien.lemoal@opensource.wdc.com>
+Organization: Western Digital Research
+In-Reply-To: <1656343521-62897-6-git-send-email-john.garry@huawei.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Michael Carns <mike@carns.com>
+On 6/28/22 00:25, John Garry wrote:
+> ATA devices (struct ata_device) have a max_sectors field which is
+> configured internally in libata. This is then used to (re)configure the
+> associated sdev request queue max_sectors value from how it is earlier set
+> in __scsi_init_queue(). In __scsi_init_queue() the max_sectors value is set
+> according to shost limits, which includes host DMA mapping limits.
+> 
+> Cap the ata_device max_sectors according to shost->max_sectors to respect
+> this shost limit.
+> 
+> Signed-off-by: John Garry <john.garry@huawei.com>
+> Acked-by: Damien Le Moal <damien.lemoal@opensource.wdc.com>
 
-Add definitions for ROG MAXIMUS XI HERO and ROG MAXIMUS XI HERO (WI-FI)
-boards.
+Nit: please change the patch title to "ata: libata-scsi: Cap ..."
 
-Signed-off-by: Michael Carns <mike@carns.com>
-Signed-off-by: Eugene Shalygin <eugene.shalygin@gmail.com>
----
- Documentation/hwmon/asus_ec_sensors.rst |  2 ++
- drivers/hwmon/asus-ec-sensors.c         | 36 +++++++++++++++++++++++++
- 2 files changed, 38 insertions(+)
+> ---
+>  drivers/ata/libata-scsi.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/ata/libata-scsi.c b/drivers/ata/libata-scsi.c
+> index 86dbb1cdfabd..24a43d540d9f 100644
+> --- a/drivers/ata/libata-scsi.c
+> +++ b/drivers/ata/libata-scsi.c
+> @@ -1060,6 +1060,7 @@ int ata_scsi_dev_config(struct scsi_device *sdev, struct ata_device *dev)
+>  		dev->flags |= ATA_DFLAG_NO_UNLOAD;
+>  
+>  	/* configure max sectors */
+> +	dev->max_sectors = min(dev->max_sectors, sdev->host->max_sectors);
+>  	blk_queue_max_hw_sectors(q, dev->max_sectors);
+>  
+>  	if (dev->class == ATA_DEV_ATAPI) {
 
-diff --git a/Documentation/hwmon/asus_ec_sensors.rst b/Documentation/hwmon/asus_ec_sensors.rst
-index 00d8c46ef9e0..1e40c123db77 100644
---- a/Documentation/hwmon/asus_ec_sensors.rst
-+++ b/Documentation/hwmon/asus_ec_sensors.rst
-@@ -13,6 +13,8 @@ Supported boards:
-  * ROG CROSSHAIR VIII FORMULA
-  * ROG CROSSHAIR VIII HERO
-  * ROG CROSSHAIR VIII IMPACT
-+ * ROG MAXIMUS XI HERO
-+ * ROG MAXIMUS XI HERO (WI-FI)
-  * ROG STRIX B550-E GAMING
-  * ROG STRIX B550-I GAMING
-  * ROG STRIX X570-E GAMING
-diff --git a/drivers/hwmon/asus-ec-sensors.c b/drivers/hwmon/asus-ec-sensors.c
-index 19d3ca71b360..625c2baa35ec 100644
---- a/drivers/hwmon/asus-ec-sensors.c
-+++ b/drivers/hwmon/asus-ec-sensors.c
-@@ -141,6 +141,7 @@ enum board_family {
- 	family_unknown,
- 	family_amd_400_series,
- 	family_amd_500_series,
-+	family_intel_300_series,
- 	family_intel_600_series
- };
- 
-@@ -200,6 +201,26 @@ static const struct ec_sensor_info sensors_family_amd_500[] = {
- 		EC_SENSOR("Water_Out", hwmon_temp, 1, 0x01, 0x01),
- };
- 
-+static const struct ec_sensor_info sensors_family_intel_300[] = {
-+	[ec_sensor_temp_chipset] =
-+		EC_SENSOR("Chipset", hwmon_temp, 1, 0x00, 0x3a),
-+	[ec_sensor_temp_cpu] = EC_SENSOR("CPU", hwmon_temp, 1, 0x00, 0x3b),
-+	[ec_sensor_temp_mb] =
-+		EC_SENSOR("Motherboard", hwmon_temp, 1, 0x00, 0x3c),
-+	[ec_sensor_temp_t_sensor] =
-+		EC_SENSOR("T_Sensor", hwmon_temp, 1, 0x00, 0x3d),
-+	[ec_sensor_temp_vrm] = EC_SENSOR("VRM", hwmon_temp, 1, 0x00, 0x3e),
-+	[ec_sensor_fan_cpu_opt] =
-+		EC_SENSOR("CPU_Opt", hwmon_fan, 2, 0x00, 0xb0),
-+	[ec_sensor_fan_vrm_hs] = EC_SENSOR("VRM HS", hwmon_fan, 2, 0x00, 0xb2),
-+	[ec_sensor_fan_water_flow] =
-+		EC_SENSOR("Water_Flow", hwmon_fan, 2, 0x00, 0xbc),
-+	[ec_sensor_temp_water_in] =
-+		EC_SENSOR("Water_In", hwmon_temp, 1, 0x01, 0x00),
-+	[ec_sensor_temp_water_out] =
-+		EC_SENSOR("Water_Out", hwmon_temp, 1, 0x01, 0x01),
-+};
-+
- static const struct ec_sensor_info sensors_family_intel_600[] = {
- 	[ec_sensor_temp_t_sensor] =
- 		EC_SENSOR("T_Sensor", hwmon_temp, 1, 0x00, 0x3d),
-@@ -281,6 +302,18 @@ static const struct ec_board_info board_info[] = {
- 		.mutex_path = ASUS_HW_ACCESS_MUTEX_ASMX,
- 		.family = family_amd_500_series,
- 	},
-+	{
-+		.board_names = {
-+			"ROG MAXIMUS XI HERO",
-+			"ROG MAXIMUS XI HERO (WI-FI)",
-+		},
-+		.sensors = SENSOR_SET_TEMP_CHIPSET_CPU_MB |
-+			SENSOR_TEMP_T_SENSOR |
-+			SENSOR_TEMP_VRM | SENSOR_SET_TEMP_WATER |
-+			SENSOR_FAN_CPU_OPT | SENSOR_FAN_WATER_FLOW,
-+		.mutex_path = ASUS_HW_ACCESS_MUTEX_ASMX,
-+		.family = family_intel_300_series,
-+	},
- 	{
- 		.board_names = {"ROG CROSSHAIR VIII IMPACT"},
- 		.sensors = SENSOR_SET_TEMP_CHIPSET_CPU_MB |
-@@ -814,6 +847,9 @@ static int __init asus_ec_probe(struct platform_device *pdev)
- 	case family_amd_500_series:
- 		ec_data->sensors_info = sensors_family_amd_500;
- 		break;
-+	case family_intel_300_series:
-+		ec_data->sensors_info = sensors_family_intel_300;
-+		break;
- 	case family_intel_600_series:
- 		ec_data->sensors_info = sensors_family_intel_600;
- 		break;
+
 -- 
-2.35.1
-
+Damien Le Moal
+Western Digital Research
