@@ -2,95 +2,100 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E1D6CCA480
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Jun 2022 15:33:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 18D2EC433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Jun 2022 15:33:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236566AbiF0Pc6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 27 Jun 2022 11:32:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52268 "EHLO
+        id S238267AbiF0PdB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 27 Jun 2022 11:33:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51608 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235355AbiF0PcD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Jun 2022 11:32:03 -0400
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 380281A05B;
-        Mon, 27 Jun 2022 08:31:45 -0700 (PDT)
-Received: from fraeml742-chm.china.huawei.com (unknown [172.18.147.200])
-        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4LWsBb04P1z67wM8;
-        Mon, 27 Jun 2022 23:31:03 +0800 (CST)
-Received: from lhreml724-chm.china.huawei.com (10.201.108.75) by
- fraeml742-chm.china.huawei.com (10.206.15.223) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Mon, 27 Jun 2022 17:31:43 +0200
-Received: from localhost.localdomain (10.69.192.58) by
- lhreml724-chm.china.huawei.com (10.201.108.75) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Mon, 27 Jun 2022 16:31:39 +0100
-From:   John Garry <john.garry@huawei.com>
-To:     <damien.lemoal@opensource.wdc.com>, <joro@8bytes.org>,
-        <will@kernel.org>, <jejb@linux.ibm.com>,
-        <martin.petersen@oracle.com>, <hch@lst.de>,
-        <m.szyprowski@samsung.com>, <robin.murphy@arm.com>
-CC:     <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-ide@vger.kernel.org>, <iommu@lists.linux-foundation.org>,
-        <iommu@lists.linux.dev>, <linux-scsi@vger.kernel.org>,
-        <linuxarm@huawei.com>, John Garry <john.garry@huawei.com>
-Subject: [PATCH v4 3/5] scsi: core: Cap shost max_sectors according to DMA mapping limits only once
-Date:   Mon, 27 Jun 2022 23:25:19 +0800
-Message-ID: <1656343521-62897-4-git-send-email-john.garry@huawei.com>
-X-Mailer: git-send-email 2.8.1
-In-Reply-To: <1656343521-62897-1-git-send-email-john.garry@huawei.com>
-References: <1656343521-62897-1-git-send-email-john.garry@huawei.com>
+        with ESMTP id S238262AbiF0PcL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Jun 2022 11:32:11 -0400
+Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44B371A07F;
+        Mon, 27 Jun 2022 08:31:54 -0700 (PDT)
+Received: by mail-pl1-x62b.google.com with SMTP id q18so8456650pld.13;
+        Mon, 27 Jun 2022 08:31:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=iZDC1AGRQHEGpUuB3ISkYbuot/iQPwlOXTIDim4MzLc=;
+        b=O+GWloioEOJpO0XyXVRSMZTQsER89gKRWgIfzRViNiUH+wc06BhSdI/DYNimqD0H/7
+         +pBzmJ7cigXalaMs2EYCeYKV+G6WBWbR7VsAdyeDZvbyF635dgSBJ9nXlWkul7FYLsu8
+         gAtMXnwoSaQlBXInB76dUgvLj6KmA/5ZhOoN5PXuJRteFiHKTnGTlUuAh61yLcYZn323
+         AGGQSk+5H0R6Snc1R2Toqjss7pGQnsZttUZ8diX7VWTqboNL5/2x0EEKY7FPIvyhj3+l
+         8U+0xCg4eQ3aluY9uc5Aw2N+SRaH40XIYSKcjsS9Uk6Yh8XYwdhjkXZpQ/NAeL8ogA9R
+         2+yg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=iZDC1AGRQHEGpUuB3ISkYbuot/iQPwlOXTIDim4MzLc=;
+        b=QqGRFvPCY2XcHSHrdqmje5aY3Cn6u+jtFZfp06+llDLBu19y2Oq38IADxWdb9UuElQ
+         7VihEbJVnh3Mm75TAd0zuc4kZBBiLeUNcirpD4mmpc/eJ7hZ0UdvB1YdmfokE66GZQNk
+         PXou5khJJd4M6iRa5jRxSlNctWOHprHvzVMt1H4gx4f5YItfZSrjmDA6qd2DL9Mcp12R
+         jqHXA4HHlLrmviIVozXapM+d7lZ3h1XjD3rz+p/Soc9qZg9z4Eb7qWKqfVoR1yfyybwA
+         jhfwqN50OVn0hFDf+CQPX5AZ39Iq92AEsFbxR3TkSDln6Y6iZozTS8zOWl+PZh6gypO6
+         TiuA==
+X-Gm-Message-State: AJIora+o4rl4RcGjPs8P0ruJRd9y7Ot3HbJqnILvn2HLjGB2WolycIHF
+        kS91AU3oz2vvv8fwjsLs2RM=
+X-Google-Smtp-Source: AGRyM1sEiEhuPfofrRLQqFzFlVdXiZYLCqnhQsSu7hoQrMhPrjLPj9CQQVl/oAKCcOOKm40jQb6U7g==
+X-Received: by 2002:a17:902:cec4:b0:16a:1fc3:b6e6 with SMTP id d4-20020a170902cec400b0016a1fc3b6e6mr15435957plg.129.1656343914201;
+        Mon, 27 Jun 2022 08:31:54 -0700 (PDT)
+Received: from ubuntu-Virtual-Machine.corp.microsoft.com ([2001:4898:80e8:36:f0eb:a18:55d7:977b])
+        by smtp.gmail.com with ESMTPSA id y6-20020aa78f26000000b005251ec8bb5bsm7595705pfr.199.2022.06.27.08.31.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 27 Jun 2022 08:31:53 -0700 (PDT)
+From:   Tianyu Lan <ltykernel@gmail.com>
+To:     corbet@lwn.net, rafael@kernel.org, len.brown@intel.com,
+        pavel@ucw.cz, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
+        hch@infradead.org, m.szyprowski@samsung.com, robin.murphy@arm.com,
+        paulmck@kernel.org, akpm@linux-foundation.org,
+        keescook@chromium.org, songmuchun@bytedance.com,
+        rdunlap@infradead.org, damien.lemoal@opensource.wdc.com,
+        michael.h.kelley@microsoft.com, kys@microsoft.com
+Cc:     Tianyu Lan <Tianyu.Lan@microsoft.com>,
+        iommu@lists.linux-foundation.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
+        vkuznets@redhat.com, wei.liu@kernel.org, parri.andrea@gmail.com,
+        thomas.lendacky@amd.com, linux-hyperv@vger.kernel.org,
+        kirill.shutemov@intel.com, andi.kleen@intel.com
+Subject: [PATCH 0/2] swiotlb: Split up single swiotlb lock
+Date:   Mon, 27 Jun 2022 11:31:48 -0400
+Message-Id: <20220627153150.106995-1-ltykernel@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.69.192.58]
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- lhreml724-chm.china.huawei.com (10.201.108.75)
-X-CFilter-Loop: Reflected
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The shost->max_sectors is repeatedly capped according to the host DMA
-mapping limit for each sdev in __scsi_init_queue(). This is unnecessary, so
-set only once when adding the host.
+From: Tianyu Lan <Tianyu.Lan@microsoft.com>
 
-Signed-off-by: John Garry <john.garry@huawei.com>
----
- drivers/scsi/hosts.c    | 5 +++++
- drivers/scsi/scsi_lib.c | 4 ----
- 2 files changed, 5 insertions(+), 4 deletions(-)
+Traditionally swiotlb was not performance critical because it was only
+used for slow devices. But in some setups, like TDX/SEV confidential
+guests, all IO has to go through swiotlb. Currently swiotlb only has a
+single lock. Under high IO load with multiple CPUs this can lead to
+significat lock contention on the swiotlb lock.
 
-diff --git a/drivers/scsi/hosts.c b/drivers/scsi/hosts.c
-index 8352f90d997d..d04bd2c7c9f1 100644
---- a/drivers/scsi/hosts.c
-+++ b/drivers/scsi/hosts.c
-@@ -236,6 +236,11 @@ int scsi_add_host_with_dma(struct Scsi_Host *shost, struct device *dev,
- 
- 	shost->dma_dev = dma_dev;
- 
-+	if (dma_dev->dma_mask) {
-+		shost->max_sectors = min_t(unsigned int, shost->max_sectors,
-+				dma_max_mapping_size(dma_dev) >> SECTOR_SHIFT);
-+	}
-+
- 	error = scsi_mq_setup_tags(shost);
- 	if (error)
- 		goto fail;
-diff --git a/drivers/scsi/scsi_lib.c b/drivers/scsi/scsi_lib.c
-index 6ffc9e4258a8..6ce8acea322a 100644
---- a/drivers/scsi/scsi_lib.c
-+++ b/drivers/scsi/scsi_lib.c
-@@ -1884,10 +1884,6 @@ void __scsi_init_queue(struct Scsi_Host *shost, struct request_queue *q)
- 		blk_queue_max_integrity_segments(q, shost->sg_prot_tablesize);
- 	}
- 
--	if (dev->dma_mask) {
--		shost->max_sectors = min_t(unsigned int, shost->max_sectors,
--				dma_max_mapping_size(dev) >> SECTOR_SHIFT);
--	}
- 	blk_queue_max_hw_sectors(q, shost->max_sectors);
- 	blk_queue_segment_boundary(q, shost->dma_boundary);
- 	dma_set_seg_boundary(dev, shost->dma_boundary);
+Patch 1 is to introduce swiotlb area concept and split up single swiotlb
+lock.
+Patch 2 set swiotlb area number with lapic number
+
+
+Tianyu Lan (2):
+  swiotlb: Split up single swiotlb lock
+  x86/ACPI: Set swiotlb area according to the number of lapic entry in
+    MADT
+
+ .../admin-guide/kernel-parameters.txt         |   4 +-
+ arch/x86/kernel/acpi/boot.c                   |   3 +
+ include/linux/swiotlb.h                       |  27 +++
+ kernel/dma/swiotlb.c                          | 202 ++++++++++++++----
+ 4 files changed, 197 insertions(+), 39 deletions(-)
+
 -- 
-2.35.3
+2.25.1
 
