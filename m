@@ -2,75 +2,112 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DBEB3C43334
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Jun 2022 02:43:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 63CE8C43334
+	for <linux-doc@archiver.kernel.org>; Mon, 27 Jun 2022 02:52:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229623AbiF0Cno (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 26 Jun 2022 22:43:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56006 "EHLO
+        id S231875AbiF0Cwi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 26 Jun 2022 22:52:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59598 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229538AbiF0Cnm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 26 Jun 2022 22:43:42 -0400
-Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com [IPv6:2607:f8b0:4864:20::42f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2F5B2BE5;
-        Sun, 26 Jun 2022 19:43:41 -0700 (PDT)
-Received: by mail-pf1-x42f.google.com with SMTP id bo5so7699654pfb.4;
-        Sun, 26 Jun 2022 19:43:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=7zPquDCtZyzOA5PY0kmGl8Aq5WV/QI7GoaYVVezsWQc=;
-        b=RXYOiN1ZRkDNUMdc6EvAB2KgoCOIpKk5DqqITbyH4Vm2P8rSvNhv9GnBqND274rhqK
-         uEQKv//gzOUb9VEv/V8H4tq5ku32/hpJzNKhjlPVSLXGkTRuFszOKydarYHMgh9HeCyL
-         YUjLPgikAFoMxMZuq+MbPb3K/W7CGyjllQWAa1r4GSc437jPi0AVKL96hrMwGK5GRZlF
-         ZYAm/lPHrps4RRmF4HU0mMlZzqLxjDCmWdPINdBMIMnIffS2YyB4DOndO2qkm8m4lqtw
-         ZMev55V+h13X3llJWzpTR5eyeCJFqdPXOwPZxjrsfoBsNDq8WLB9tHCp00HGV39lN5dC
-         xRzg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=7zPquDCtZyzOA5PY0kmGl8Aq5WV/QI7GoaYVVezsWQc=;
-        b=5BvV1jkf9IXJiFlanWiqUF+r07eh0Qx1v4AF+3hDT6xVoydCnt3P5rVyFXWDYNGM8a
-         0TD+Bbdgxm1X6QQT9xRMHTo+1fEPIj2fMSjPLcrOljE8LYcUU2qqyT1FcUWD5CrqsBN4
-         NkUW5jGJVSc67/X20X7Tj8fsPctTWmJGTt2M9dIwTbtJ8c1oY5/KQD5++aS43Ehqe16D
-         RNyEkqJ8uWR7B2jAYLis4kzyLj5xcdBpKae0Q7sOLx/zl6dWzOG+ldUV7XRSpZD9CGUj
-         gIT+8XDJKmIRA+s7t+NaDtj8cxaVkT9sAjw+LqTgxwiRYQfUl9ARAQj8MKbFtMhHA742
-         nkPQ==
-X-Gm-Message-State: AJIora9IclGtfLgpTfZzZHqmUOIXeURXuDdZyG+Y88V1DuZuipy4jQSc
-        grYVRJLbJEQxkqy0wjVyN4QdWJJNMPo=
-X-Google-Smtp-Source: AGRyM1uxOY5c+2dolNZFaGjY0xMUlqUk6YWCBkPiq0IWdnBHfUD8ill9/ZeItAmTbEN/32/O4RXXlQ==
-X-Received: by 2002:a63:5203:0:b0:40d:bf0c:d123 with SMTP id g3-20020a635203000000b0040dbf0cd123mr8462230pgb.287.1656297820946;
-        Sun, 26 Jun 2022 19:43:40 -0700 (PDT)
-Received: from [192.168.43.80] (subs03-180-214-233-21.three.co.id. [180.214.233.21])
-        by smtp.gmail.com with ESMTPSA id u12-20020a17090341cc00b0016a6cd546d6sm5429307ple.251.2022.06.26.19.43.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 26 Jun 2022 19:43:40 -0700 (PDT)
-Message-ID: <9811d0e3-6c0d-6854-e654-4546fbe23860@gmail.com>
-Date:   Mon, 27 Jun 2022 09:43:35 +0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH] Documentation: samsung-s3c24xx: Add blank line after SPDX
- directive
-Content-Language: en-US
-To:     linux-doc@vger.kernel.org
-Cc:     Stephen Rothwell <sfr@canb.auug.org.au>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Allison Randal <allison@lohutok.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        with ESMTP id S231855AbiF0Cwh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 26 Jun 2022 22:52:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 2B4863885
+        for <linux-doc@vger.kernel.org>; Sun, 26 Jun 2022 19:52:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1656298356;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=JakvLevS0YnBGyhibLY4QkJ72ieVyrb1/yRcRNc1BYw=;
+        b=jNCD/kYs9UsjI6vXvS20lyqAhrDHrtzj+h7FZqI1c+09SbtCU6xd2XWxTLjE4YFr7+XJDA
+        e3UqdTdJ3uFvf52u5vLaARzjyyu330MPXc0AGpHalNszSX4C6ZM4NNa0YWAZG2tigpBIPs
+        KaIARRyAp0ZT14ycgoWqWlURPCf5CCA=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-3-3tZgnw0DPyKkAw1P9ym7bg-1; Sun, 26 Jun 2022 22:52:32 -0400
+X-MC-Unique: 3tZgnw0DPyKkAw1P9ym7bg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8B95D811E75;
+        Mon, 27 Jun 2022 02:52:31 +0000 (UTC)
+Received: from localhost (ovpn-13-65.pek2.redhat.com [10.72.13.65])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id B0D6F40CFD05;
+        Mon, 27 Jun 2022 02:52:29 +0000 (UTC)
+Date:   Mon, 27 Jun 2022 10:52:26 +0800
+From:   Baoquan He <bhe@redhat.com>
+To:     Catalin Marinas <catalin.marinas@arm.com>
+Cc:     Kefeng Wang <wangkefeng.wang@huawei.com>,
+        Zhen Lei <thunder.leizhen@huawei.com>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
         Thomas Gleixner <tglx@linutronix.de>,
-        linux-kernel@vger.kernel.org
-References: <20220614164506.6afd65a6@canb.auug.org.au>
- <20220614084658.509389-1-bagasdotme@gmail.com>
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <20220614084658.509389-1-bagasdotme@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Eric Biederman <ebiederm@xmission.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        devicetree@vger.kernel.org, Dave Young <dyoung@redhat.com>,
+        Vivek Goyal <vgoyal@redhat.com>, kexec@lists.infradead.org,
+        linux-kernel@vger.kernel.org, Will Deacon <will@kernel.org>,
+        linux-arm-kernel@lists.infradead.org,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Feng Zhou <zhoufeng.zf@bytedance.com>,
+        Chen Zhou <dingguo.cz@antgroup.com>,
+        John Donnelly <John.p.donnelly@oracle.com>,
+        Dave Kleikamp <dave.kleikamp@oracle.com>,
+        liushixin <liushixin2@huawei.com>
+Subject: Re: [PATCH 5/5] arm64: kdump: Don't defer the reservation of crash
+ high memory
+Message-ID: <Yrkbak66vYT55H4x@MiWiFi-R3L-srv>
+References: <20220613080932.663-1-thunder.leizhen@huawei.com>
+ <20220613080932.663-6-thunder.leizhen@huawei.com>
+ <YrFYHYgX3mC//t2l@MiWiFi-R3L-srv>
+ <3f66323d-f371-b931-65fb-edfae0f01c88@huawei.com>
+ <YrIIJkhKWSuAqkCx@arm.com>
+ <YrLUREAoBMSZo7RR@MiWiFi-R3L-srv>
+ <YrRzvO5F0dumsbAU@arm.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YrRzvO5F0dumsbAU@arm.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-ping
+On 06/23/22 at 03:07pm, Catalin Marinas wrote:
+> On Wed, Jun 22, 2022 at 04:35:16PM +0800, Baoquan He wrote:
+> > On 06/21/22 at 07:04pm, Catalin Marinas wrote:
+> > > The problem with splitting is that you can end up with two entries in
+> > > the TLB for the same VA->PA mapping (e.g. one for a 4KB page and another
+> > > for a 2MB block). In the lucky case, the CPU will trigger a TLB conflict
+> > > abort (but can be worse like loss of coherency).
+> > 
+> > Thanks for this explanation. Is this a drawback of arm64 design? X86
+> > code do the same thing w/o issue, is there way to overcome this on
+> > arm64 from hardware or software side?
+> 
+> It is a drawback of the arm64 implementations. Having multiple TLB
+> entries for the same VA would need additional logic in hardware to
+> detect, so the microarchitects have pushed back. In ARMv8.4, some
+> balanced was reached with FEAT_BBM so that the only visible side-effect
+> is a potential TLB conflict abort that could be resolved by software.
+
+I see, thx.
+
+> 
+> > I ever got a arm64 server with huge memory, w or w/o crashkernel setting 
+> > have different bootup time. And the more often TLB miss and flush will
+> > cause performance cost. It is really a pity if we have very powerful
+> > arm64 cpu and system capacity, but bottlenecked by this drawback.
+> 
+> Is it only the boot time affected or the runtime performance as well?
+
+Sorry for late reply. What I observerd is the boot time serious latecy
+with huge memory. Since the timestamp is not available at that time,
+we can't tell the number. I didn't notice the runtime performance.
+
