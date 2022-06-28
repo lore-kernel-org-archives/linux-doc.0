@@ -2,134 +2,100 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A50ABC433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 27 Jun 2022 23:24:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5910BC43334
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Jun 2022 00:32:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241967AbiF0XYQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 27 Jun 2022 19:24:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35550 "EHLO
+        id S240891AbiF1AcG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 27 Jun 2022 20:32:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34180 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241196AbiF0XYQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Jun 2022 19:24:16 -0400
-Received: from esa5.hgst.iphmx.com (esa5.hgst.iphmx.com [216.71.153.144])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6265823169
-        for <linux-doc@vger.kernel.org>; Mon, 27 Jun 2022 16:24:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1656372254; x=1687908254;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=S8N+p0moc3MloWqEEauJLXVpb/5eTV2AD6EVivHGR+Q=;
-  b=OI0edh33Da6Kr4vDJdjyVE+HOpOLwVJxXtDJRqKZ/PFgQ9lyvBqJX126
-   wjmzbAI/B6A8EaXC+LwyDiz6gJu5ZoToC2IyOww9yJ8bJduuFtKj40qsx
-   kK98GfLegK6WSN0MI4PxfRjQsUZJ8PlQKGRpeSkgmDcRFoopPMCz/xjlc
-   TowN2YWrCd9XjBC/tsaRns7aFlHejEei2IqfuO96wpKNyzbEuHgrvN4O4
-   XoorNgNHlbzFot8O4XX68lO/NEmGXlzioR1yG6hIlGvEbErpcO1/fFgrB
-   n02DCbwKWzA0ksPRvX46zlzgXmjJ1byFRcyDxJXJbZ7S+aZ01SPJx7u9C
-   A==;
-X-IronPort-AV: E=Sophos;i="5.92,227,1650902400"; 
-   d="scan'208";a="204233394"
-Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com) ([199.255.45.14])
-  by ob1.hgst.iphmx.com with ESMTP; 28 Jun 2022 07:24:13 +0800
-IronPort-SDR: GqSySP5bRbq4WHE9ugaQLDjZ90TFqPvp0PsZj9dl/Ao3l3orHCazl8CsflojGqgifZIjMWRRIC
- 3E8fl0Qdq2NCIGhoxvYtIPpHH2kpyHrqg8sdhy+D5jmL4cn0wA5RZijZUescFtMkz5qWi7X4Ub
- DxoacG8xG6gs3JxyPvaV4FZ+k+tiCWXFUvC8Fzu/fYEinhC0A8RIGElgE2HUGFgUY3M3vG/59p
- oSM7ReiPB00ONyazYQN6NinOSWxGdoZFwoEa05YmUv6JY0QRW/+6JrUPc7nQXa0B678UDEcEL5
- ejlbYSjTxVhaT448e9W5S0Gu
-Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
-  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 27 Jun 2022 15:46:36 -0700
-IronPort-SDR: CZ8/P28ZoivDq9blZs8GybUrr6EM/UuUHJvW3JmAX4NKAV4E4NSPWTnH9Vqw9wP54Elfnisj48
- TE8jrf68IYvwLrb/jCPpQpn6BZ9lTqK++87xh2DqnmAaW/XZ70X1MlRtbIGzuJ/1g516bND1Zw
- odhzqKQCwkAVs9JMouLLd0IIbt2ps4GP8jEi/oHsgb7RU0sWXWf7ieRAhUEWoVkyWFHXcTxUF3
- 7cBW0URBmIvNX028M78ZV3QZx4RyNyPRhIr5Yrbuvkg6yub5ytN0txNQS32whxP/Nz8klcg8dn
- YSQ=
-WDCIronportException: Internal
-Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
-  by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 27 Jun 2022 16:24:14 -0700
-Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
-        by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4LX3hY4Gqzz1Rw4L
-        for <linux-doc@vger.kernel.org>; Mon, 27 Jun 2022 16:24:13 -0700 (PDT)
-Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
-        reason="pass (just generated, assumed good)"
-        header.d=opensource.wdc.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
-        opensource.wdc.com; h=content-transfer-encoding:content-type
-        :in-reply-to:organization:from:references:to:content-language
-        :subject:user-agent:mime-version:date:message-id; s=dkim; t=
-        1656372252; x=1658964253; bh=S8N+p0moc3MloWqEEauJLXVpb/5eTV2AD6E
-        VivHGR+Q=; b=DOmB0q+yumadQfEfKMysp6ZcnZ0HtW72qJdwM5m8B0Kc9Tad+dF
-        7gDs0OfNHqCTGeSJfqD9/6sW1evo3sq7cfUvTRWVJIHK1cvpn/iA0skUc9IIKiE8
-        KNmo/tqZYLCa5cn5qWD0Ryij/7qx8e/kumjGMwTGlY2HfYRxOMPtvr9WNC/dUNhF
-        menESGNdXZJXjqA+MtrgYPevYEFlhkjHja7G3apSDEhYWjiRMEr2hwIPvwtYRb3G
-        oGa6nySA/D6iv8hrxLg69E36edryEq45dv95ZCgDqaDMBUQ/0rXQ/5OSFkcyN4S3
-        m/oYW8SWIyUKCVcIwEf/+kyLjCcbBjt44xA==
-X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
-Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
-        by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id ZFfKILKOpyJj for <linux-doc@vger.kernel.org>;
-        Mon, 27 Jun 2022 16:24:12 -0700 (PDT)
-Received: from [10.225.163.99] (unknown [10.225.163.99])
-        by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4LX3hV0cq4z1RtVk;
-        Mon, 27 Jun 2022 16:24:09 -0700 (PDT)
-Message-ID: <b69c6112-98b7-3890-9d11-bb321a7c877a@opensource.wdc.com>
-Date:   Tue, 28 Jun 2022 08:24:08 +0900
+        with ESMTP id S236583AbiF1AcG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Jun 2022 20:32:06 -0400
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5343310FF3;
+        Mon, 27 Jun 2022 17:32:04 -0700 (PDT)
+Received: by mail-pj1-x102c.google.com with SMTP id g16-20020a17090a7d1000b001ea9f820449so14141527pjl.5;
+        Mon, 27 Jun 2022 17:32:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=OFFvy82t3qS2mWvKMEQ2PiSLGvpukFE2JbAHWF/b/0o=;
+        b=NSCcXg1ekuYiFLFIOJztsGrrf6k+Y/n8ieyeC9AuJKRrjhP+8mtp6WwejPs6ymRPCr
+         3+qJflUm1uVqFWeK/w0HEf5BqijTsqUmFg2VZxI9rM7nQNtF0sLdUCFnkyWsgQ6KUdZb
+         3v2/pkEqEbMMVwSSxAou0C8ixVtoQVE4C2gPxOlIBB0uFBopc3EJEWr7FrAsI607E/r5
+         Uz258GrQ4ESmM+gBquhd/ZPfXvC9SRQ8EMF2KLx4JiVVW7ZwmMHy7098bTEBnI2ZqI2P
+         J9d58NUejrTgglboOKwIQeUjZ54xY3xQX8pcvkNA2isKfxoSVhCxmtmtSerA+UHsitTo
+         321w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=OFFvy82t3qS2mWvKMEQ2PiSLGvpukFE2JbAHWF/b/0o=;
+        b=IwRCVZctYsxo1MGnYbuNOb+gO5/3RTHgEJ6ppnqgtO+WV8m5yQPaQWzDCgrRqs8WKQ
+         l8MXHXeSMvMX/H2XnISWkKW0XU8eZqDj4l4EnO08QPywMHazE2QJZ9e4C6HxmSNSICef
+         MbdGy80obg3Xb52fYbDiKmHfH7zltXFwGFgwz1QoeFYpYcCD8AI0bbTJ4kQ7o/3HvVCY
+         SOeF2gLA84QpBzrrrwQYOcLoMjkAs3PETxsW5xTODzT3qxcL3OKxE2tzlddTUzvW0dJv
+         tQFLMu4g3HEOCdJSh2ihbxjLkE4vVsEqr5gG53L9r7PZPyn8jiNDYloGvblfpms8XI7U
+         d2jg==
+X-Gm-Message-State: AJIora+pSNHpdQJ2wJWkQFKAKWrflL9euXBHk95D5IoHiabo4t7l0OGh
+        6Acu6Zuo8aaGyDC5CdsueXU=
+X-Google-Smtp-Source: AGRyM1tWsgyFKFnn4ji+g5YZhEaM1wplTOBNsi5KT3WKRaD4wmjJG2KzTXbtuZlDoMCjfrKa2kFccw==
+X-Received: by 2002:a17:903:41d2:b0:16a:2cca:4869 with SMTP id u18-20020a17090341d200b0016a2cca4869mr2157470ple.13.1656376323885;
+        Mon, 27 Jun 2022 17:32:03 -0700 (PDT)
+Received: from [192.168.43.80] (subs28-116-206-12-39.three.co.id. [116.206.12.39])
+        by smtp.gmail.com with ESMTPSA id x9-20020a634849000000b0040d75537824sm7726863pgk.86.2022.06.27.17.32.00
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 27 Jun 2022 17:32:03 -0700 (PDT)
+Message-ID: <e2eee869-3e72-ea18-6afc-73fe5bc5dbd3@gmail.com>
+Date:   Tue, 28 Jun 2022 07:31:54 +0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.10.0
-Subject: Re: [PATCH v4 5/5] libata-scsi: Cap ata_device->max_sectors according
- to shost->max_sectors
+Subject: Re: [PATCH] docs: fix 'make htmldocs' warning in leds
 Content-Language: en-US
-To:     John Garry <john.garry@huawei.com>, joro@8bytes.org,
-        will@kernel.org, jejb@linux.ibm.com, martin.petersen@oracle.com,
-        hch@lst.de, m.szyprowski@samsung.com, robin.murphy@arm.com
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-ide@vger.kernel.org, iommu@lists.linux-foundation.org,
-        iommu@lists.linux.dev, linux-scsi@vger.kernel.org,
-        linuxarm@huawei.com
-References: <1656343521-62897-1-git-send-email-john.garry@huawei.com>
- <1656343521-62897-6-git-send-email-john.garry@huawei.com>
-From:   Damien Le Moal <damien.lemoal@opensource.wdc.com>
-Organization: Western Digital Research
-In-Reply-To: <1656343521-62897-6-git-send-email-john.garry@huawei.com>
+To:     Praghadeesh T K S <praghadeeshthevendria@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>
+Cc:     linux-kernel-mentees@lists.linuxfoundation.org,
+        skhan@linuxfoundation.org, praghadeeshtks@zohomail.in
+References: <20220627214311.7817-1-praghadeeshthevendria@gmail.com>
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <20220627214311.7817-1-praghadeeshthevendria@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 6/28/22 00:25, John Garry wrote:
-> ATA devices (struct ata_device) have a max_sectors field which is
-> configured internally in libata. This is then used to (re)configure the
-> associated sdev request queue max_sectors value from how it is earlier set
-> in __scsi_init_queue(). In __scsi_init_queue() the max_sectors value is set
-> according to shost limits, which includes host DMA mapping limits.
+On 6/28/22 04:43, Praghadeesh T K S wrote:
+> Fix following 'make htmldocs' warnings:
+> ./Documentation/leds/leds-qcom-lpg.rst: WARNING:
+> document isn't included in any toctree
 > 
-> Cap the ata_device max_sectors according to shost->max_sectors to respect
-> this shost limit.
-> 
-> Signed-off-by: John Garry <john.garry@huawei.com>
-> Acked-by: Damien Le Moal <damien.lemoal@opensource.wdc.com>
-
-Nit: please change the patch title to "ata: libata-scsi: Cap ..."
-
+> Signed-off-by: Praghadeesh T K S <praghadeeshthevendria@gmail.com>
 > ---
->  drivers/ata/libata-scsi.c | 1 +
+>  Documentation/leds/index.rst | 1 +
 >  1 file changed, 1 insertion(+)
 > 
-> diff --git a/drivers/ata/libata-scsi.c b/drivers/ata/libata-scsi.c
-> index 86dbb1cdfabd..24a43d540d9f 100644
-> --- a/drivers/ata/libata-scsi.c
-> +++ b/drivers/ata/libata-scsi.c
-> @@ -1060,6 +1060,7 @@ int ata_scsi_dev_config(struct scsi_device *sdev, struct ata_device *dev)
->  		dev->flags |= ATA_DFLAG_NO_UNLOAD;
->  
->  	/* configure max sectors */
-> +	dev->max_sectors = min(dev->max_sectors, sdev->host->max_sectors);
->  	blk_queue_max_hw_sectors(q, dev->max_sectors);
->  
->  	if (dev->class == ATA_DEV_ATAPI) {
+> diff --git a/Documentation/leds/index.rst b/Documentation/leds/index.rst
+> index e5d63b9..b9ca081 100644
+> --- a/Documentation/leds/index.rst
+> +++ b/Documentation/leds/index.rst
+> @@ -26,3 +26,4 @@ LEDs
+>     leds-lp55xx
+>     leds-mlxcpld
+>     leds-sc27xx
+> +   leds-qcom-lpg
 
+Hi,
+
+I had already sent the fix at [1] (resend at [2]). Thanks anyway.
+
+[1]: https://lore.kernel.org/linux-doc/20220604015735.249707-1-bagasdotme@gmail.com/
+[2]: https://lore.kernel.org/linux-doc/20220612000125.9777-1-bagasdotme@gmail.com/
 
 -- 
-Damien Le Moal
-Western Digital Research
+An old man doll... just what I always wanted! - Clara
