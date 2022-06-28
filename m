@@ -2,89 +2,79 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 01358CCA47E
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Jun 2022 07:18:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C8D32C43334
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Jun 2022 07:54:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241634AbiF1HSA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 28 Jun 2022 03:18:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50478 "EHLO
+        id S1343624AbiF1Hya (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 28 Jun 2022 03:54:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50408 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241591AbiF1HSA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Jun 2022 03:18:00 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3219C2CDF1;
-        Tue, 28 Jun 2022 00:17:59 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id E2E5BB81CD3;
-        Tue, 28 Jun 2022 07:17:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D803C341CB;
-        Tue, 28 Jun 2022 07:17:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1656400676;
-        bh=9f3hskPxoIjzFqhBj1+BqdFVuxoMB7KN1AknVE1N6C0=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=pyvJQc1J0UjDydiW+SD4ddCS1eB/njx9dSX1MPIyYOnTeRBQsQ0xwhfGZG/DU69zR
-         efeCMwfpOrlUFGQANe7y1zhqAgklewzwFM1LY/4lDUsTrvz5sWDKG86uu8oFo+fiix
-         u+qTUjqEgVr2O8NkBz+mF54s6RGMh2xkRNpX6qrqITS4vzbCSE+pWp9TmSrDrQH+Ik
-         IbyDaPUQThh8rJBpPp2vs4slme+zg2FBvxYauWAfne+mya5HZ4kWKilQEjPBTEN7Io
-         49Z9R2jRBhdxxoOPy4ceS6nOw++fQ3Kg7pRYFez+QfbIq4IOZsIPzVC4p+FYT5yl5B
-         /EcHmj0xo+UTw==
-Date:   Tue, 28 Jun 2022 08:17:49 +0100
-From:   Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-        Brendan Higgins <brendanhiggins@google.com>,
-        linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
-        linux-doc@vger.kernel.org, Harinder Singh <sharinder@google.com>,
-        Tim Bird <tim.bird@sony.com>
-Subject: Re: [PATCH] Documentation: kunit: eliminate code-block warnings
-Message-ID: <20220628081744.7e6955e6@sal.lan>
-In-Reply-To: <4c403239-3c71-4ab9-2168-f7e9d77008b2@infradead.org>
-References: <20220401024707.10550-1-rdunlap@infradead.org>
-        <87fsjt50c8.fsf@meer.lwn.net>
-        <4c403239-3c71-4ab9-2168-f7e9d77008b2@infradead.org>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
+        with ESMTP id S242547AbiF1Hya (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Jun 2022 03:54:30 -0400
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93A4A13FA7;
+        Tue, 28 Jun 2022 00:54:28 -0700 (PDT)
+Received: from fraeml712-chm.china.huawei.com (unknown [172.18.147.206])
+        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4LXH0R6bZ3z6GDF1;
+        Tue, 28 Jun 2022 15:53:43 +0800 (CST)
+Received: from lhreml724-chm.china.huawei.com (10.201.108.75) by
+ fraeml712-chm.china.huawei.com (10.206.15.61) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Tue, 28 Jun 2022 09:54:26 +0200
+Received: from [10.126.174.22] (10.126.174.22) by
+ lhreml724-chm.china.huawei.com (10.201.108.75) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Tue, 28 Jun 2022 08:54:25 +0100
+Message-ID: <6619638c-52e8-cb67-c56c-9c9d38c18161@huawei.com>
+Date:   Tue, 28 Jun 2022 08:54:26 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.1
+Subject: Re: [PATCH v4 5/5] libata-scsi: Cap ata_device->max_sectors according
+ to shost->max_sectors
+To:     Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+        <joro@8bytes.org>, <will@kernel.org>, <jejb@linux.ibm.com>,
+        <martin.petersen@oracle.com>, <hch@lst.de>,
+        <m.szyprowski@samsung.com>, <robin.murphy@arm.com>
+CC:     <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-ide@vger.kernel.org>, <iommu@lists.linux-foundation.org>,
+        <iommu@lists.linux.dev>, <linux-scsi@vger.kernel.org>,
+        <linuxarm@huawei.com>
+References: <1656343521-62897-1-git-send-email-john.garry@huawei.com>
+ <1656343521-62897-6-git-send-email-john.garry@huawei.com>
+ <b69c6112-98b7-3890-9d11-bb321a7c877a@opensource.wdc.com>
+From:   John Garry <john.garry@huawei.com>
+In-Reply-To: <b69c6112-98b7-3890-9d11-bb321a7c877a@opensource.wdc.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.126.174.22]
+X-ClientProxiedBy: lhreml726-chm.china.huawei.com (10.201.108.77) To
+ lhreml724-chm.china.huawei.com (10.201.108.75)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Sat, 25 Jun 2022 08:12:00 -0700
-Randy Dunlap <rdunlap@infradead.org> escreveu:
-
-> > So which version of Sphinx are you using?  The language argument became
-> > optional in 2.0, so you'd need to be running something pretty ancient to
-> > see this.
-> > 
-> > Ah, I see 1.8.5 in your later message...how wedded are you to that
-> > version?  
+On 28/06/2022 00:24, Damien Le Moal wrote:
+> On 6/28/22 00:25, John Garry wrote:
+>> ATA devices (struct ata_device) have a max_sectors field which is
+>> configured internally in libata. This is then used to (re)configure the
+>> associated sdev request queue max_sectors value from how it is earlier set
+>> in __scsi_init_queue(). In __scsi_init_queue() the max_sectors value is set
+>> according to shost limits, which includes host DMA mapping limits.
+>>
+>> Cap the ata_device max_sectors according to shost->max_sectors to respect
+>> this shost limit.
+>>
+>> Signed-off-by: John Garry<john.garry@huawei.com>
+>> Acked-by: Damien Le Moal<damien.lemoal@opensource.wdc.com>
+> Nit: please change the patch title to "ata: libata-scsi: Cap ..."
 > 
-> It's what ships with OpenSuse Leap 15.3, which I have been using for quite
-> a long time.
-> 
-> I see that there is now OpenSuse Leap 15.4, so I could upgrade to that,
-> but I don't know what version on Sphinx it uses.
 
-It seems that there are two versions on it, packaged with different
-names:
+ok, but it's going to be an even longer title :)
 
-2.3.1:
-	https://download.opensuse.org/distribution/leap/15.4/repo/oss/noarch/python3-Sphinx-2.3.1-150400.1.7.noarch.rpm
-4.2.0:
-	https://download.opensuse.org/distribution/leap/15.4/repo/oss/noarch/python3-Sphinx_4_2_0-4.2.0-150400.11.6.noarch.rpm
+BTW, this patch has no real dependency on the rest of the series, so 
+could be taken separately if you prefer.
 
-It should be noticed that, while we don't decide to remove support for
-Sphinx < 3, kernel-doc has two different outputs, depending on Sphinx C
-domain support. The legacy support is enabled with version < 3 [1].
-
-As we're currently discussing dropping support for Sphinx version < 3,
-I would recommend you to use the 4.2 package.
-
-Regards,
-Mauro
-
-[1] Version 3.0 is a bad choice, as the C domain is partially broken.
+Thanks,
+John
