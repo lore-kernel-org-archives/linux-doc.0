@@ -2,117 +2,115 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 065FECCA47B
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Jun 2022 01:58:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0273DC43334
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Jun 2022 01:59:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242925AbiF1B6N (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 27 Jun 2022 21:58:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42272 "EHLO
+        id S243319AbiF1B7w (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 27 Jun 2022 21:59:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43524 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241298AbiF1B6N (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Jun 2022 21:58:13 -0400
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7AF4F201;
-        Mon, 27 Jun 2022 18:58:06 -0700 (PDT)
-Received: from dggpemm500024.china.huawei.com (unknown [172.30.72.55])
-        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4LX74Y4M2gzkWt6;
-        Tue, 28 Jun 2022 09:56:45 +0800 (CST)
-Received: from dggpemm500006.china.huawei.com (7.185.36.236) by
- dggpemm500024.china.huawei.com (7.185.36.203) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Tue, 28 Jun 2022 09:58:04 +0800
-Received: from [10.174.178.55] (10.174.178.55) by
- dggpemm500006.china.huawei.com (7.185.36.236) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Tue, 28 Jun 2022 09:58:02 +0800
-Subject: Re: [PATCH v2 0/3] arm64: kdump: Function supplement and performance
- optimization
-To:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        <x86@kernel.org>, "H . Peter Anvin" <hpa@zytor.com>,
-        Eric Biederman <ebiederm@xmission.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        <devicetree@vger.kernel.org>, Dave Young <dyoung@redhat.com>,
-        Baoquan He <bhe@redhat.com>, Vivek Goyal <vgoyal@redhat.com>,
-        <kexec@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>, <linux-doc@vger.kernel.org>
-CC:     Randy Dunlap <rdunlap@infradead.org>,
-        Feng Zhou <zhoufeng.zf@bytedance.com>,
-        Kefeng Wang <wangkefeng.wang@huawei.com>,
-        "Chen Zhou" <dingguo.cz@antgroup.com>,
-        John Donnelly <John.p.donnelly@oracle.com>,
-        Dave Kleikamp <dave.kleikamp@oracle.com>
-References: <20220621124249.1315-1-thunder.leizhen@huawei.com>
-From:   "Leizhen (ThunderTown)" <thunder.leizhen@huawei.com>
-Message-ID: <43d991e4-d0b0-1dd9-47ae-761746c20ab0@huawei.com>
-Date:   Tue, 28 Jun 2022 09:58:02 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+        with ESMTP id S243289AbiF1B7u (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Jun 2022 21:59:50 -0400
+Received: from alexa-out.qualcomm.com (alexa-out.qualcomm.com [129.46.98.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ABA9122B06;
+        Mon, 27 Jun 2022 18:59:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+  t=1656381580; x=1687917580;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=+FeGQ+DrNFEbl7cRAtlTkLDGRbeWYLPNEPZqWz5Xyfk=;
+  b=Xfv0fNDf5D/vhgBqp/VbPA0Y8LJ4qHhFApI5I/X0FDF+ZMCN1t0jtu7B
+   6lzEeCkAtQq12X5E+tb2QwYNS0m6yDPH3XMNTCWXNdBxxBKa4wZzIRr4t
+   GQnWvhtQS7aFY/Qc3iMJicHBaU1dIzIm91n1Fq0NEsJXyhL8PK7OfwzVW
+   w=;
+Received: from ironmsg08-lv.qualcomm.com ([10.47.202.152])
+  by alexa-out.qualcomm.com with ESMTP; 27 Jun 2022 18:59:39 -0700
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+  by ironmsg08-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2022 18:59:39 -0700
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Mon, 27 Jun 2022 18:59:38 -0700
+Received: from hu-amelende-lv.qualcomm.com (10.49.16.6) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Mon, 27 Jun 2022 18:59:38 -0700
+From:   Anjelique Melendez <quic_amelende@quicinc.com>
+To:     <corbet@lwn.net>, <sre@kernel.org>, <robh+dt@kernel.org>
+CC:     <vkoul@kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-pm@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>,
+        David Collins <quic_collinsd@quicinc.com>,
+        Anjelique Melendez <quic_amelende@quicinc.com>
+Subject: [PATCH v2] dt-bindings: power: reset: qcom-pon: update "reg" property details
+Date:   Mon, 27 Jun 2022 18:58:45 -0700
+Message-ID: <20220628015845.28751-1-quic_amelende@quicinc.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-In-Reply-To: <20220621124249.1315-1-thunder.leizhen@huawei.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.178.55]
-X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
- dggpemm500006.china.huawei.com (7.185.36.236)
-X-CFilter-Loop: Reflected
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.49.16.6]
+X-ClientProxiedBy: nalasex01b.na.qualcomm.com (10.47.209.197) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+From: David Collins <quic_collinsd@quicinc.com>
 
+Update the description of "reg" property to add the PON_PBS base
+address along with PON_HLOS base address.  Also add "reg-names"
+property description.
 
-On 2022/6/21 20:42, Zhen Lei wrote:
-> v1 --> v2:
-> 1. Update the commit message of Patch 1, explicitly indicates that "crashkernel=X,high"
->    is specified but "crashkernel=Y,low" is not specified.
-> 2. Drop Patch 4-5. Currently, focus on function integrity, performance optimization
->    will be considered in later versions.
-> 3. Patch 3 is not mandatory, it's just a cleanup now, although it is a must for patch 4-5.
->    But to avoid subsequent duplication of effort, I'm glad it was accepted.
+Signed-off-by: David Collins <quic_collinsd@quicinc.com>
+Signed-off-by: Anjelique Melendez <quic_amelende@quicinc.com>
+---
 
-Hi Catalin:
-  Do you have time to review Patch 1-2? Please ignore Patch 3, because now someone has
-proposed the following new approach:
+New patch series to sperate this patch from applied patches.
+Last comments from original patch series can be found
+https://lore.kernel.org/linux-arm-msm/27515993-18f3-8891-4835-9b6a8d7f86b0@quicinc.com/
 
-https://lore.kernel.org/linux-mm/1656241815-28494-1-git-send-email-guanghuifeng@linux.alibaba.com/T/
+changes since v1:
+  - Updated path which was missing Documention/devicetree prefix
+  - Updated CC list
+  
+ ../bindings/power/reset/qcom,pon.yaml | 20 +++++++++++++++++++-
+ 1 file changed, 19 insertions(+), 1 deletion(-)
 
-> 
-> 
-> v1:
-> After the basic functions of "support reserving crashkernel above 4G on arm64
-> kdump"(see https://lkml.org/lkml/2022/5/6/428) are implemented, we still have
-> three features to be improved.
-> 1. When crashkernel=X,high is specified but crashkernel=Y,low is not specified,
->    the default crash low memory size is provided.
-> 2. For crashkernel=X without '@offset', if the low memory fails to be allocated,
->    fall back to reserve region from high memory(above DMA zones).
-> 3. If crashkernel=X,high is used, page mapping is performed only for the crash
->    high memory, and block mapping is still used for other linear address spaces.
->    Compared to the previous version:
->    (1) For crashkernel=X[@offset], the memory above 4G is not changed to block
->        mapping, leave it to the next time.
->    (2) The implementation method is modified. Now the implementation is simpler
->        and clearer.
-> 
-> Zhen Lei (3):
->   arm64: kdump: Provide default size when crashkernel=Y,low is not
->     specified
->   arm64: kdump: Support crashkernel=X fall back to reserve region above
->     DMA zones
->   arm64: kdump: Remove some redundant checks in map_mem()
-> 
->  .../admin-guide/kernel-parameters.txt         | 10 ++-----
->  arch/arm64/mm/init.c                          | 28 +++++++++++++++++--
->  arch/arm64/mm/mmu.c                           | 25 ++++++++---------
->  3 files changed, 39 insertions(+), 24 deletions(-)
-> 
-
+diff --git a/Documentation/devicetree/bindings/power/reset/qcom,pon.yaml b/Documentation/devicetree/bindings/power/reset/qcom,pon.yaml
+index 353f155d..1d8cf900 100644
+--- a/Documentation/devicetree/bindings/power/reset/qcom,pon.yaml
++++ b/Documentation/devicetree/bindings/power/reset/qcom,pon.yaml
+@@ -26,8 +26,26 @@ properties:
+       - qcom,pm8998-pon
+ 
+   reg:
+-    maxItems: 1
++    description: |
++      Specifies the SPMI base address for the PON (power-on) peripheral.  For
++      PMICs that have the PON peripheral (GEN3) split into PON_HLOS and PON_PBS
++      (e.g. PMK8350), this can hold addresses of both PON_HLOS and PON_PBS
++      peripherals.  In that case, the PON_PBS address needs to be specified to
++      facilitate software debouncing on some PMICs.
++    minItems: 1
++    maxItems: 2
+ 
++  reg-names:
++    description: |
++      For PON GEN1 and GEN2, it should be "pon". For PON GEN3 it should include
++      "pon_hlos" and optionally "pon_pbs".
++    minItems: 1
++    maxItems: 2
++    items:
++      anyOf:
++        - const: pon_hlos
++        - const: pon_pbs
++        - const: pon
+   pwrkey:
+     type: object
+     $ref: "../../input/qcom,pm8941-pwrkey.yaml#"
 -- 
-Regards,
-  Zhen Lei
+2.35.1
+
