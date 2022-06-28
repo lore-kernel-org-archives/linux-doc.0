@@ -2,261 +2,401 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F407AC43334
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Jun 2022 12:46:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1DD89C43334
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Jun 2022 13:29:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345916AbiF1Mqd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 28 Jun 2022 08:46:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43126 "EHLO
+        id S234280AbiF1N3y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 28 Jun 2022 09:29:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57116 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345810AbiF1Mqc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Jun 2022 08:46:32 -0400
-Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com [IPv6:2607:f8b0:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EAAD1237F0
-        for <linux-doc@vger.kernel.org>; Tue, 28 Jun 2022 05:46:30 -0700 (PDT)
-Received: by mail-pl1-x62c.google.com with SMTP id m2so10983432plx.3
-        for <linux-doc@vger.kernel.org>; Tue, 28 Jun 2022 05:46:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=715HAh+gaqfIa4Kb1ioduoLaMYUWMYMaYysEaJLHKcE=;
-        b=CelmbGOKMV6GkiEp4VrISq41OvUgSlP818ECLmYKz+GIjFmczsZvD/Kg23EdF+D1rh
-         5CVyrJe7KlFcIbLxcmpYp6hRsJZMSsofEiz8xBNLNyie3T5BNFIH4MSifHUb4kZyPeIT
-         LsPqPtT3itouJ5QpGLWBcrzUmiqbMXwDN1nhhrYcrcXFfHwHBpVJ+mrqhggtNK19/XNV
-         Z0M1/pn5SPbjX4PkBm0Xux8o9k11Amfkm7i2TswLQr8OVE46qWG4nx+lD0rJab7/DDjt
-         XdjGNyRLFD3UEp262uHJDwH5wPKcKt4RzXOImiHoshEveHgev+AJQKS19KMhAWIvBHE5
-         7TJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=715HAh+gaqfIa4Kb1ioduoLaMYUWMYMaYysEaJLHKcE=;
-        b=hyg0Y4UNjJ9cqNHn/L/udAQ7stOI9cgZ9QAaOkb5OFrN/v6IW6wWQfnobVP6embB71
-         lQGHvR7h0k8MjIEvB/XHfTPYlgB0DRajgN2EG4s5c+3D4OT+hp1T+aw45grcWe9FxUbo
-         85MxqcA301PN8diVuBf1tRPV75ZZFWedqgKRk17GwMYdJF4LYd9R00W45G7jFf7f/arM
-         QdNIQcjAOgDFayz4Cu43CR+SnG1Kf0kpmh0kyUdtevqLXq75zsYgvwfHl0e4HWZLsQpL
-         2OMVSsp7cQ2M07D+YTxrl5FkJN6ma8QJGLm3zkEWChoAnBuqbgwcTO62jAwdozFyb6NH
-         5FjA==
-X-Gm-Message-State: AJIora/Zf/6oflgYbLlL46OGDXv1J9mi301dYIO7uK3nmOabuC8WHMiz
-        m4uV7Sf6pWafoJKw1tWaqcjZJQ==
-X-Google-Smtp-Source: AGRyM1voYmbeQ1MR2tSvuisZXplLREXb9RkvvSLXIe4vLZqkD1GQG3w1pjl/UioIlRG3Q+hyGTRKcA==
-X-Received: by 2002:a17:902:ea0d:b0:16a:68f6:f381 with SMTP id s13-20020a170902ea0d00b0016a68f6f381mr3465407plg.145.1656420390387;
-        Tue, 28 Jun 2022 05:46:30 -0700 (PDT)
-Received: from MacBook-Pro.local.net ([139.177.225.225])
-        by smtp.gmail.com with ESMTPSA id v187-20020a6261c4000000b005255f5d8f9fsm9400295pfb.112.2022.06.28.05.46.26
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 28 Jun 2022 05:46:30 -0700 (PDT)
-From:   lizhe.67@bytedance.com
-To:     tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com
-Cc:     lizefan.x@bytedance.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, lizhe.67@bytedance.com
-Subject: [RFC v2] memmap: introduce cmdline parameter "memmap=nn[KMG]$" without start addr
-Date:   Tue, 28 Jun 2022 20:45:29 +0800
-Message-Id: <20220628124529.15431-1-lizhe.67@bytedance.com>
-X-Mailer: git-send-email 2.32.0
+        with ESMTP id S1346424AbiF1N2b (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Jun 2022 09:28:31 -0400
+Received: from mx0a-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C08ABDBA;
+        Tue, 28 Jun 2022 06:28:08 -0700 (PDT)
+Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25SDNAoT030332;
+        Tue, 28 Jun 2022 13:28:04 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=9g8LeguO+QAkdNpce2uyIpU26i1yVeR9+/lrxk/JDHo=;
+ b=j8Xiz0YWwuirnRwF6TmAFVzrTCREgIIib12MMcbgjarwV8MdfMpirg+GylBexnYAcfi7
+ wJbjdO5Vobj/GSedqggAxR+eTwDNYwlayMGPOtL1+WxuMY2AHu6KdU1LRSvr68c0UV7x
+ f2Mmr09X0OlCT5d66h5OQfs7nATViHTAE1leH519jLoEV/RXB39r/fqzm+qREJce8lIk
+ 0dybbTbV+sNzIoqpZA95I8H1Kgtit0K6FnNcxOgpKjSkMWoMjCgYTXUGxBkpXDcs8B8e
+ q7wkhrHsm9ja48BnC22ZjIXmPIhP9okYLw61xcicdcEMPZJmaB+NhvNLYeoHsz6Yvwa/ dw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3h02fxg644-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 28 Jun 2022 13:28:04 +0000
+Received: from m0098416.ppops.net (m0098416.ppops.net [127.0.0.1])
+        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 25SDO3r1032642;
+        Tue, 28 Jun 2022 13:28:03 GMT
+Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com [169.47.144.27])
+        by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3h02fxg63d-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 28 Jun 2022 13:28:03 +0000
+Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
+        by ppma05wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 25SDJkL4003023;
+        Tue, 28 Jun 2022 13:28:03 GMT
+Received: from b01cxnp23034.gho.pok.ibm.com (b01cxnp23034.gho.pok.ibm.com [9.57.198.29])
+        by ppma05wdc.us.ibm.com with ESMTP id 3gwt09wgyq-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 28 Jun 2022 13:28:03 +0000
+Received: from b01ledav006.gho.pok.ibm.com (b01ledav006.gho.pok.ibm.com [9.57.199.111])
+        by b01cxnp23034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 25SDS2vQ7733562
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 28 Jun 2022 13:28:02 GMT
+Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 74F26AC064;
+        Tue, 28 Jun 2022 13:28:02 +0000 (GMT)
+Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id DD93DAC05B;
+        Tue, 28 Jun 2022 13:27:56 +0000 (GMT)
+Received: from [9.163.8.193] (unknown [9.163.8.193])
+        by b01ledav006.gho.pok.ibm.com (Postfix) with ESMTP;
+        Tue, 28 Jun 2022 13:27:56 +0000 (GMT)
+Message-ID: <beff8d5e-a670-8015-028f-a704627a2b16@linux.ibm.com>
+Date:   Tue, 28 Jun 2022 09:27:55 -0400
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH v9 16/21] KVM: s390: pci: add routines to start/stop
+ interpretive execution
+Content-Language: en-US
+To:     Pierre Morel <pmorel@linux.ibm.com>, linux-s390@vger.kernel.org
+Cc:     alex.williamson@redhat.com, cohuck@redhat.com,
+        schnelle@linux.ibm.com, farman@linux.ibm.com,
+        borntraeger@linux.ibm.com, hca@linux.ibm.com, gor@linux.ibm.com,
+        gerald.schaefer@linux.ibm.com, agordeev@linux.ibm.com,
+        svens@linux.ibm.com, frankja@linux.ibm.com, david@redhat.com,
+        imbrenda@linux.ibm.com, vneethv@linux.ibm.com,
+        oberpar@linux.ibm.com, freude@linux.ibm.com, thuth@redhat.com,
+        pasic@linux.ibm.com, pbonzini@redhat.com, corbet@lwn.net,
+        jgg@nvidia.com, kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+References: <20220606203325.110625-1-mjrosato@linux.ibm.com>
+ <20220606203325.110625-17-mjrosato@linux.ibm.com>
+ <7a9990ca-b591-1351-8848-8d7c59449b12@linux.ibm.com>
+From:   Matthew Rosato <mjrosato@linux.ibm.com>
+In-Reply-To: <7a9990ca-b591-1351-8848-8d7c59449b12@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: _iNB2a_hk9BxPqrJ8pJ-lOn4G88jWJ2o
+X-Proofpoint-ORIG-GUID: A5RmqVfNa3oFbCqkZ09xv3u70fQU8Mqt
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-06-28_07,2022-06-28_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 phishscore=0
+ mlxlogscore=999 mlxscore=0 malwarescore=0 lowpriorityscore=0 clxscore=1015
+ bulkscore=0 spamscore=0 priorityscore=1501 adultscore=0 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2204290000
+ definitions=main-2206280055
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Li Zhe <lizhe.67@bytedance.com>
+On 6/28/22 6:53 AM, Pierre Morel wrote:
+> 
+> 
+> On 6/6/22 22:33, Matthew Rosato wrote:
+>> These routines will be invoked at the time an s390x vfio-pci device is
+>> associated with a KVM (or when the association is removed), allowing
+>> the zPCI device to enable or disable load/store intepretation mode;
+>> this requires the host zPCI device to inform firmware of the unique
+>> token (GISA designation) that is associated with the owning KVM.
+>>
+>> Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
+>> ---
+>>   arch/s390/include/asm/kvm_host.h |  18 ++++
+>>   arch/s390/include/asm/pci.h      |   1 +
+>>   arch/s390/kvm/kvm-s390.c         |  15 +++
+>>   arch/s390/kvm/pci.c              | 162 +++++++++++++++++++++++++++++++
+>>   arch/s390/kvm/pci.h              |   5 +
+>>   arch/s390/pci/pci.c              |   4 +
+>>   6 files changed, 205 insertions(+)
+>>
+>> diff --git a/arch/s390/include/asm/kvm_host.h 
+>> b/arch/s390/include/asm/kvm_host.h
+>> index 8e381603b6a7..6e83d746bae2 100644
+>> --- a/arch/s390/include/asm/kvm_host.h
+>> +++ b/arch/s390/include/asm/kvm_host.h
+>> @@ -19,6 +19,7 @@
+>>   #include <linux/kvm.h>
+>>   #include <linux/seqlock.h>
+>>   #include <linux/module.h>
+>> +#include <linux/pci.h>
+>>   #include <asm/debug.h>
+>>   #include <asm/cpu.h>
+>>   #include <asm/fpu/api.h>
+>> @@ -967,6 +968,8 @@ struct kvm_arch{
+>>       DECLARE_BITMAP(idle_mask, KVM_MAX_VCPUS);
+>>       struct kvm_s390_gisa_interrupt gisa_int;
+>>       struct kvm_s390_pv pv;
+>> +    struct list_head kzdev_list;
+>> +    spinlock_t kzdev_list_lock;
+>>   };
+>>   #define KVM_HVA_ERR_BAD        (-1UL)
+>> @@ -1017,4 +1020,19 @@ static inline void 
+>> kvm_arch_flush_shadow_memslot(struct kvm *kvm,
+>>   static inline void kvm_arch_vcpu_blocking(struct kvm_vcpu *vcpu) {}
+>>   static inline void kvm_arch_vcpu_unblocking(struct kvm_vcpu *vcpu) {}
+>> +#define __KVM_HAVE_ARCH_VM_FREE
+>> +void kvm_arch_free_vm(struct kvm *kvm);
+>> +
+>> +#ifdef CONFIG_VFIO_PCI_ZDEV_KVM
+>> +int kvm_s390_pci_register_kvm(struct zpci_dev *zdev, struct kvm *kvm);
+>> +void kvm_s390_pci_unregister_kvm(struct zpci_dev *zdev);
+>> +#else
+>> +static inline int kvm_s390_pci_register_kvm(struct zpci_dev *dev,
+>> +                        struct kvm *kvm)
+>> +{
+>> +    return -EPERM;
+>> +}
+>> +static inline void kvm_s390_pci_unregister_kvm(struct zpci_dev *dev) {}
+>> +#endif
+>> +
+>>   #endif
+>> diff --git a/arch/s390/include/asm/pci.h b/arch/s390/include/asm/pci.h
+>> index 322060a75d9f..85eb0ef9d4c3 100644
+>> --- a/arch/s390/include/asm/pci.h
+>> +++ b/arch/s390/include/asm/pci.h
+>> @@ -194,6 +194,7 @@ struct zpci_dev {
+>>       /* IOMMU and passthrough */
+>>       struct s390_domain *s390_domain; /* s390 IOMMU domain data */
+>>       struct kvm_zdev *kzdev;
+>> +    struct mutex kzdev_lock;
+> 
+> I guess that since it did not exist before the lock is not there to 
+> protect the zpci_dev struct.
 
-In current kernel we can use memmap=nn[KMG]$ss[KMG] to reserve an
-area of memory for userspace usage through /dev/mem. We have to
-determine the start addr and length. In our scenario, we need
-reserve or alloc large continuous physical memory at least 256M in
-512G's machine, and need reserve more memory in larger machine, at
-just boot phase for a userspace program. And these memories will not
-be freed to system before system reboot. The userspace program can
-use the memory through /dev/mem to store some data. Besides, a
-hardware will need the data stored by the userspace program to do
-it's job. Why we need continuous memory is that the hardware can
-only access memory without mmu. So allocing an area of large
-continuous physical memory for userspace is the best way for us.
-Considering that we have several types of machine with different
-memory specifications, we want an easy way to reserve memory with
-only one size parameter.
+Right, not the zpci_dev itself but it is protecting the contents of the 
+kzdev (including the pointer to the zdev e.g. kzdev->zdev)
 
-This patch introduce a cmdline parameter "memmap=nn[KMG]$". It is
-an extension of "memmap=nn[KMG]$ss[KMG]". We don't need to input
-the start addr. Kernel will reserve a suitable area of memory for
-us. We can get the area from /proc/iomem with the key word "Reserved
-Random" and access the memory through /dev/mem. Notice that we need
-"$" in our cmdline parameter or it will be confused with
-memmap=nn[KMG]@ss[KMG].
+> May be add a comment to say what it is protecting.
 
-Changes from v1
-(https://lore.kernel.org/lkml/20220623062402.12392-1-lizhe.67@bytedance.com/)
-- Rename the region from "Memmap Alloc" to "Reserved Random"
-- add "Reserved Random" region into e820 table
-- add a new e820_type "E820_TYPE_RESERVED_RANDOM"
+Sure
 
-Signed-off-by: Li Zhe <lizhe.67@bytedance.com>
----
- .../admin-guide/kernel-parameters.txt         |  7 ++++
- arch/x86/include/asm/e820/api.h               |  1 +
- arch/x86/include/asm/e820/types.h             |  7 ++++
- arch/x86/kernel/e820.c                        | 41 +++++++++++++++++--
- arch/x86/kernel/setup.c                       |  1 +
- 5 files changed, 53 insertions(+), 4 deletions(-)
+> 
+> 
+>>   };
+>>   static inline bool zdev_enabled(struct zpci_dev *zdev)
+>> diff --git a/arch/s390/kvm/kvm-s390.c b/arch/s390/kvm/kvm-s390.c
+>> index a66da3f66114..4758bb731199 100644
+>> --- a/arch/s390/kvm/kvm-s390.c
+>> +++ b/arch/s390/kvm/kvm-s390.c
+>> @@ -2790,6 +2790,14 @@ static void sca_dispose(struct kvm *kvm)
+>>       kvm->arch.sca = NULL;
+>>   }
+>> +void kvm_arch_free_vm(struct kvm *kvm)
+>> +{
+>> +    if (IS_ENABLED(CONFIG_VFIO_PCI_ZDEV_KVM))
+>> +        kvm_s390_pci_clear_list(kvm);
+>> +
+>> +    __kvm_arch_free_vm(kvm);
+>> +}
+>> +
+>>   int kvm_arch_init_vm(struct kvm *kvm, unsigned long type)
+>>   {
+>>       gfp_t alloc_flags = GFP_KERNEL_ACCOUNT;
+>> @@ -2872,6 +2880,13 @@ int kvm_arch_init_vm(struct kvm *kvm, unsigned 
+>> long type)
+>>       kvm_s390_crypto_init(kvm);
+>> +    if (IS_ENABLED(CONFIG_VFIO_PCI_ZDEV_KVM)) {
+>> +        mutex_lock(&kvm->lock);
+>> +        kvm_s390_pci_init_list(kvm);
+>> +        kvm_s390_vcpu_pci_enable_interp(kvm);
+>> +        mutex_unlock(&kvm->lock);
+>> +    }
+>> +
+>>       mutex_init(&kvm->arch.float_int.ais_lock);
+>>       spin_lock_init(&kvm->arch.float_int.lock);
+>>       for (i = 0; i < FIRQ_LIST_COUNT; i++)
+>> diff --git a/arch/s390/kvm/pci.c b/arch/s390/kvm/pci.c
+>> index b232c8cbaa81..24211741deb0 100644
+>> --- a/arch/s390/kvm/pci.c
+>> +++ b/arch/s390/kvm/pci.c
+>> @@ -12,7 +12,9 @@
+>>   #include <asm/pci.h>
+>>   #include <asm/pci_insn.h>
+>>   #include <asm/pci_io.h>
+>> +#include <asm/sclp.h>
+>>   #include "pci.h"
+>> +#include "kvm-s390.h"
+>>   struct zpci_aift *aift;
+>> @@ -423,6 +425,166 @@ static void kvm_s390_pci_dev_release(struct 
+>> zpci_dev *zdev)
+>>       kfree(kzdev);
+>>   }
+>> +
+>> +/*
+>> + * Register device with the specified KVM. If interpetation 
+>> facilities are
+>> + * available, enable them and let userspace indicate whether or not 
+>> they will
+>> + * be used (specify SHM bit to disable).
+>> + */
+>> +int kvm_s390_pci_register_kvm(struct zpci_dev *zdev, struct kvm *kvm)
+>> +{
+>> +    int rc;
+>> +
+>> +    if (!zdev)
+>> +        return -EINVAL;
+>> +
+>> +    mutex_lock(&zdev->kzdev_lock);
+>> +
+>> +    if (zdev->kzdev || zdev->gisa != 0 || !kvm) {
+>> +        mutex_unlock(&zdev->kzdev_lock);
+>> +        return -EINVAL;
+>> +    }
+>> +
+>> +    kvm_get_kvm(kvm);
+>> +
+>> +    mutex_lock(&kvm->lock);
+> 
+> Why do we need to lock KVM here?
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 2522b11e593f..9c1b7ad39523 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -3022,6 +3022,13 @@
- 			         memmap=64K$0x18690000
- 			         or
- 			         memmap=0x10000$0x18690000
-+			[KNL, X86] If ss[KMG] is omitted, kernel will reserve a
-+			suitable area of memory for us. We can find the area from
-+			/proc/iomem with key word "Reserved Random".
-+			Example: Exclude memory with size 0x10000
-+					 memmap=64K$
-+					 or
-+					 memmap=0x10000$
- 			Some bootloaders may need an escape character before '$',
- 			like Grub2, otherwise '$' and the following number
- 			will be eaten.
-diff --git a/arch/x86/include/asm/e820/api.h b/arch/x86/include/asm/e820/api.h
-index e8f58ddd06d9..6fd959737396 100644
---- a/arch/x86/include/asm/e820/api.h
-+++ b/arch/x86/include/asm/e820/api.h
-@@ -30,6 +30,7 @@ extern void e820__memblock_setup(void);
- 
- extern void e820__reserve_setup_data(void);
- extern void e820__finish_early_params(void);
-+extern void e820__add_reserve_random(void);
- extern void e820__reserve_resources(void);
- extern void e820__reserve_resources_late(void);
- 
-diff --git a/arch/x86/include/asm/e820/types.h b/arch/x86/include/asm/e820/types.h
-index 314f75d886d0..577be1222b94 100644
---- a/arch/x86/include/asm/e820/types.h
-+++ b/arch/x86/include/asm/e820/types.h
-@@ -15,6 +15,13 @@ enum e820_type {
- 	E820_TYPE_UNUSABLE	= 5,
- 	E820_TYPE_PMEM		= 7,
- 
-+	/*
-+	 * This type is used for cmdline "memmap=size$" to reserve
-+	 * an area of memory that user do not need to input start
-+	 * addr.
-+	 */
-+	E820_TYPE_RESERVED_RANDOM = 8,
-+
- 	/*
- 	 * This is a non-standardized way to represent ADR or
- 	 * NVDIMM regions that persist over a reboot.
-diff --git a/arch/x86/kernel/e820.c b/arch/x86/kernel/e820.c
-index f267205f2d5a..aecb1b6bb3c0 100644
---- a/arch/x86/kernel/e820.c
-+++ b/arch/x86/kernel/e820.c
-@@ -64,6 +64,8 @@ struct e820_table *e820_table __refdata			= &e820_table_init;
- struct e820_table *e820_table_kexec __refdata		= &e820_table_kexec_init;
- struct e820_table *e820_table_firmware __refdata	= &e820_table_firmware_init;
- 
-+static u64 memmap_random_size __initdata;
-+
- /* For PCI or other memory-mapped resources */
- unsigned long pci_mem_start = 0xaeedbabe;
- #ifdef CONFIG_PCI
-@@ -189,7 +191,8 @@ static void __init e820_print_type(enum e820_type type)
- 	switch (type) {
- 	case E820_TYPE_RAM:		/* Fall through: */
- 	case E820_TYPE_RESERVED_KERN:	pr_cont("usable");			break;
--	case E820_TYPE_RESERVED:	pr_cont("reserved");			break;
-+	case E820_TYPE_RESERVED:    /* Fall through: */
-+	case E820_TYPE_RESERVED_RANDOM: pr_cont("reserved");            break;
- 	case E820_TYPE_SOFT_RESERVED:	pr_cont("soft reserved");		break;
- 	case E820_TYPE_ACPI:		pr_cont("ACPI data");			break;
- 	case E820_TYPE_NVS:		pr_cont("ACPI NVS");			break;
-@@ -942,8 +945,22 @@ static int __init parse_memmap_one(char *p)
- 		start_at = memparse(p+1, &p);
- 		e820__range_add(start_at, mem_size, E820_TYPE_ACPI);
- 	} else if (*p == '$') {
--		start_at = memparse(p+1, &p);
--		e820__range_add(start_at, mem_size, E820_TYPE_RESERVED);
-+		if (*(p+1) == '\0') {
-+			/*
-+			 * In the case we just want to reserve memory with size
-+			 * 'mem_size' and don't care where it start, we get '\0'
-+			 * here.
-+			 */
-+			p++;
-+			if (IS_ALIGNED(mem_size, PAGE_SIZE))
-+				memmap_random_size = mem_size;
-+			else
-+				pr_err("Reserve Random should input with size aligned to 0x%lx\n",
-+						PAGE_SIZE);
-+		} else {
-+			start_at = memparse(p+1, &p);
-+			e820__range_add(start_at, mem_size, E820_TYPE_RESERVED);
-+		}
- 	} else if (*p == '!') {
- 		start_at = memparse(p+1, &p);
- 		e820__range_add(start_at, mem_size, E820_TYPE_PRAM);
-@@ -1082,6 +1099,7 @@ static const char *__init e820_type_to_string(struct e820_entry *entry)
- 	case E820_TYPE_PRAM:		return "Persistent Memory (legacy)";
- 	case E820_TYPE_PMEM:		return "Persistent Memory";
- 	case E820_TYPE_RESERVED:	return "Reserved";
-+	case E820_TYPE_RESERVED_RANDOM: return "Reserved Random";
- 	case E820_TYPE_SOFT_RESERVED:	return "Soft Reserved";
- 	default:			return "Unknown E820 type";
- 	}
-@@ -1110,7 +1128,8 @@ static unsigned long __init e820_type_to_iores_desc(struct e820_entry *entry)
- 	case E820_TYPE_NVS:		return IORES_DESC_ACPI_NV_STORAGE;
- 	case E820_TYPE_PMEM:		return IORES_DESC_PERSISTENT_MEMORY;
- 	case E820_TYPE_PRAM:		return IORES_DESC_PERSISTENT_MEMORY_LEGACY;
--	case E820_TYPE_RESERVED:	return IORES_DESC_RESERVED;
-+	case E820_TYPE_RESERVED:    /* Fall-through: */
-+	case E820_TYPE_RESERVED_RANDOM: return IORES_DESC_RESERVED;
- 	case E820_TYPE_SOFT_RESERVED:	return IORES_DESC_SOFT_RESERVED;
- 	case E820_TYPE_RESERVED_KERN:	/* Fall-through: */
- 	case E820_TYPE_RAM:		/* Fall-through: */
-@@ -1131,6 +1150,7 @@ static bool __init do_mark_busy(enum e820_type type, struct resource *res)
- 	 */
- 	switch (type) {
- 	case E820_TYPE_RESERVED:
-+	case E820_TYPE_RESERVED_RANDOM:
- 	case E820_TYPE_SOFT_RESERVED:
- 	case E820_TYPE_PRAM:
- 	case E820_TYPE_PMEM:
-@@ -1145,6 +1165,19 @@ static bool __init do_mark_busy(enum e820_type type, struct resource *res)
- 	}
- }
- 
-+void __init e820__add_reserve_random(void)
-+{
-+	if (memmap_random_size) {
-+		phys_addr_t start_at =
-+			memblock_phys_alloc(memmap_random_size, PAGE_SIZE);
-+		if (start_at == 0)
-+			pr_err("cannot find suitable location for memmap\n");
-+		else
-+			e820__range_update(start_at, memmap_random_size,
-+				E820_TYPE_RAM, E820_TYPE_RESERVED_RANDOM);
-+	}
-+}
-+
- /*
-  * Mark E820 reserved areas as busy for the resource manager:
-  */
-diff --git a/arch/x86/kernel/setup.c b/arch/x86/kernel/setup.c
-index bd6c6fd373ae..5b5ac40fc720 100644
---- a/arch/x86/kernel/setup.c
-+++ b/arch/x86/kernel/setup.c
-@@ -1223,6 +1223,7 @@ void __init setup_arch(char **cmdline_p)
- 
- 	x86_init.hyper.guest_late_init();
- 
-+	e820__add_reserve_random();
- 	e820__reserve_resources();
- 	e820__register_nosave_regions(max_pfn);
- 
--- 
-2.20.1
+Hmm, good point, now that we get a reference this seems unnecessary
+
+> 
+> just a question, I do not think it is a big problem.
+> 
+>> +
+>> +    rc = kvm_s390_pci_dev_open(zdev);
+>> +    if (rc)
+>> +        goto err;
+>> +
+>> +    /*
+>> +     * If interpretation facilities aren't available, add the device to
+>> +     * the kzdev list but don't enable for interpretation.
+>> +     */
+>> +    if (!kvm_s390_pci_interp_allowed())
+>> +        goto out;
+>> +
+>> +    /*
+>> +     * If this is the first request to use an interpreted device, 
+>> make the
+>> +     * necessary vcpu changes
+>> +     */
+>> +    if (!kvm->arch.use_zpci_interp)
+>> +        kvm_s390_vcpu_pci_enable_interp(kvm);
+>> +
+>> +    if (zdev_enabled(zdev)) {
+>> +        rc = zpci_disable_device(zdev);
+>> +        if (rc)
+>> +            goto err;
+>> +    }
+>> +
+>> +    /*
+>> +     * Store information about the identity of the kvm guest allowed to
+>> +     * access this device via interpretation to be used by host CLP
+>> +     */
+>> +    zdev->gisa = (u32)virt_to_phys(&kvm->arch.sie_page2->gisa);
+>> +
+>> +    rc = zpci_enable_device(zdev);
+>> +    if (rc)
+>> +        goto clear_gisa;
+>> +
+>> +    /* Re-register the IOMMU that was already created */
+>> +    rc = zpci_register_ioat(zdev, 0, zdev->start_dma, zdev->end_dma,
+>> +                virt_to_phys(zdev->dma_table));
+>> +    if (rc)
+>> +        goto clear_gisa;
+>> +
+>> +out:
+>> +    zdev->kzdev->kvm = kvm;
+>> +
+>> +    spin_lock(&kvm->arch.kzdev_list_lock);
+>> +    list_add_tail(&zdev->kzdev->entry, &kvm->arch.kzdev_list);
+>> +    spin_unlock(&kvm->arch.kzdev_list_lock);
+>> +
+>> +    mutex_unlock(&kvm->lock);
+>> +    mutex_unlock(&zdev->kzdev_lock);
+>> +    return 0;
+>> +
+>> +clear_gisa:
+>> +    zdev->gisa = 0;
+>> +err:
+>> +    if (zdev->kzdev)
+>> +        kvm_s390_pci_dev_release(zdev);
+>> +    mutex_unlock(&kvm->lock);
+>> +    mutex_unlock(&zdev->kzdev_lock);
+>> +    kvm_put_kvm(kvm);
+>> +    return rc;
+>> +}
+>> +EXPORT_SYMBOL_GPL(kvm_s390_pci_register_kvm);
+>> +
+>> +void kvm_s390_pci_unregister_kvm(struct zpci_dev *zdev)
+>> +{
+>> +    struct kvm *kvm;
+>> +
+>> +    if (!zdev)
+>> +        return;
+>> +
+>> +    mutex_lock(&zdev->kzdev_lock);
+>> +
+>> +    if (WARN_ON(!zdev->kzdev)) {
+> 
+> When can this happen ?
+> 
+
+It cannot today, nor should it ever (hence the WARN_ON) -- if we do, 
+it's a case of programming error introduced somewhere (vfio has a KVM 
+reference but we never built a kzdev via kvm_s390_pci_register_kvm or 
+lost it somehow)
+
+>> +        mutex_unlock(&zdev->kzdev_lock);
+>> +        return;
+>> +    }
+>> +
+>> +    kvm = zdev->kzdev->kvm;
+>> +    mutex_lock(&kvm->lock);
+>> +
+>> +    /*
+>> +     * A 0 gisa means interpretation was never enabled, just remove the
+>> +     * device from the list.
+>> +     */
+>> +    if (zdev->gisa == 0)
+>> +        goto out;
+>> +
+>> +    /* Forwarding must be turned off before interpretation */
+>> +    if (zdev->kzdev->fib.fmt0.aibv != 0)
+>> +        kvm_s390_pci_aif_disable(zdev, true);
+>> +
+>> +    /* Remove the host CLP guest designation */
+>> +    zdev->gisa = 0;
+>> +
+>> +    if (zdev_enabled(zdev)) {
+>> +        if (zpci_disable_device(zdev))
+>> +            goto out;
+> 
+> NIT debug trace ?
+
+We should at least get a trace entry in from clp_disable_fh() if 
+something goes wrong here.
+
+> 
+>> +    }
+>> +
+>> +    if (zpci_enable_device(zdev))
+>> +        goto out;
+> 
+> NIT debug trace?
+
+And similarly, a trace entry from clp_enable_fh() here.  So I think 
+these are OK for now.
+
+I am consdering a follow-on to add new s390dbf entries for 'kvm-pci' or 
+so, these might make sense there for additional context, but let's leave 
+that for after this series.
+
+> 
+> Only some questions, otherwise, LGTM
+> 
+> Acked-by: Pierre Morel <pmorel@linux.ibm.com>
+> 
+
+Thanks!
 
