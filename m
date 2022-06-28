@@ -2,69 +2,95 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DE9D8C433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Jun 2022 11:07:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DF62DC43334
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Jun 2022 11:11:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345387AbiF1LHq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 28 Jun 2022 07:07:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35234 "EHLO
+        id S1343969AbiF1LL3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 28 Jun 2022 07:11:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38700 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345302AbiF1LHY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Jun 2022 07:07:24 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 194AD31230;
-        Tue, 28 Jun 2022 04:07:24 -0700 (PDT)
+        with ESMTP id S1344018AbiF1LL2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Jun 2022 07:11:28 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71AAD2C128;
+        Tue, 28 Jun 2022 04:11:27 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id CDD75B81DD1;
-        Tue, 28 Jun 2022 11:07:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C0ECC3411D;
-        Tue, 28 Jun 2022 11:07:18 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 10341619B0;
+        Tue, 28 Jun 2022 11:11:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08980C341CA;
+        Tue, 28 Jun 2022 11:11:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1656414441;
-        bh=3eko6/GH1XdMdAFPhxnypHJyEn42b4Rtn9jq+UXSoX8=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=q+FIGnNq34+rLxRTbqWl4nOlXlhVX8tFquNV20lN6wWmc783px+7gzZ6oblfZIqzD
-         stD+F/KqTKydlWE7RmeCvj0STvrloQgM9AmF8zJnU2n93WqBxfRu95YGERbzTdrpJ4
-         6NF6Dtx7wiyPZZB7hv53+G0ITLZKLgD11tf4C49rcRdKV7PjG0+GU8Q7GFcld3uW2G
-         MnCY/JFUupTgeyLFXIA4+d6bsUqvy5lx5dtOMkNiQR++VWYpaAnhqKPmbVvRgmKcBI
-         Dtgl5ccGxiBb1+BVZgp73OYqcfA42OFUGOk/F/nb8v33qTTrW0waFxdBpv6wUBsI4w
-         wF85HLCQ9SBhg==
-Date:   Tue, 28 Jun 2022 12:07:15 +0100
-From:   Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     Mark Brown <broonie@kernel.org>
+        s=k20201202; t=1656414686;
+        bh=Q06wn05EDIiCZhzyJg+//FJxCEIuxbdNRC9lnKSV+B8=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=HOyd3GdS/fVsE2MhWSblkcjtiQD18VLEXN2awyX6Y79NyU/fcTy1lkKHLtnyzekia
+         rTaIN3+rft0HIGX4LO/MFWLcF62lcG5//ZTUPjpQYRitGT94qP6/PAi7Qeh7YbQc03
+         F5CTIRxpjkfwaiSJUMEX9e5UczNMmeRjBYvNcVa3Fu3r0k6TchY1+uu6VRkUTAcmLS
+         fx1EnhFm7SEhjlwbZ8x1WkZtMGvO00leI5/Esi1rbFccYBK8QwfSsXNXg9jc10lnGR
+         J6X/7YH17lmzjpla/NtzBc47IYB+DXmqQauc1Q+LK1lllqO23EVV9vfLN4Bntnduxw
+         G1Xl1FNmgeROQ==
+Date:   Tue, 28 Jun 2022 12:11:21 +0100
+From:   Mark Brown <broonie@kernel.org>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
 Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Liam Girdwood <lgirdwood@gmail.com>,
         linux-kernel@vger.kernel.org
 Subject: Re: [PATCH 18/22] regulator: fix a kernel-doc warning
-Message-ID: <20220628120715.36080b8b@sal.lan>
-In-Reply-To: <YrrZVDUXzHNtvLNi@sirena.org.uk>
+Message-ID: <Yrrh2QvCT7t79vPu@sirena.org.uk>
 References: <cover.1656409369.git.mchehab@kernel.org>
-        <15efc16e878aa327aa2769023bcdf959a795f41d.1656409369.git.mchehab@kernel.org>
-        <YrrZVDUXzHNtvLNi@sirena.org.uk>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
+ <15efc16e878aa327aa2769023bcdf959a795f41d.1656409369.git.mchehab@kernel.org>
+ <YrrZVDUXzHNtvLNi@sirena.org.uk>
+ <20220628120715.36080b8b@sal.lan>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="Iyx/hEnVpiXqAWtm"
+Content-Disposition: inline
+In-Reply-To: <20220628120715.36080b8b@sal.lan>
+X-Cookie: I like your SNOOPY POSTER!!
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Tue, 28 Jun 2022 11:35:00 +0100
-Mark Brown <broonie@kernel.org> escreveu:
 
-> On Tue, Jun 28, 2022 at 10:46:22AM +0100, Mauro Carvalho Chehab wrote:
-> > document n_ramp_values field at struct regulator_desc, in order
-> > to solve this warning:  
-> 
-> This is patch 18 of a series for which I don't have a cover letter or
-> anything.  What's the story with dependencies here?
+--Iyx/hEnVpiXqAWtm
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-There are no dependnecies. Each patch in this series is independent,
-touching different files.
+On Tue, Jun 28, 2022 at 12:07:15PM +0100, Mauro Carvalho Chehab wrote:
+> Mark Brown <broonie@kernel.org> escreveu:
+> > On Tue, Jun 28, 2022 at 10:46:22AM +0100, Mauro Carvalho Chehab wrote:
 
-Regards,
-Mauro
+> > > document n_ramp_values field at struct regulator_desc, in order
+> > > to solve this warning: =20
+
+> > This is patch 18 of a series for which I don't have a cover letter or
+> > anything.  What's the story with dependencies here?
+
+> There are no dependnecies. Each patch in this series is independent,
+> touching different files.
+
+OK.  In cases like this it really does generally help to send the
+patches indepdently (or perhaps split per subsystem), it avoids
+confusion.
+
+--Iyx/hEnVpiXqAWtm
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmK64dgACgkQJNaLcl1U
+h9CBawf/R9XQ+I8Pi4AlmSKFKPDWvmnfoeKP4mEdF9XBmvZSuGtZva5Jnp6FzyY4
+XHr96BoVMWobmayGiH6DD32AT8AgoFBebS1FRpfxTV9xheEryZAC86glnr8it6ey
+h24LZR9cMeUKu58sKABZoPoEWeTw/AB/1RrBsrI9BW6PJOGAGPFBt3S2xMMgk2hb
+LUZp6DOnCac3CP12nDcSHu+OHfczSh49AYZXbR+MfBWbIay+ESF2YqIvJsX7n+iQ
+XBLkftiq+5I3a/DZotqib6OpRavpKN62KME5v1lnx8TRaWeQ/xdpdruVH4cxi6+P
+BWxRAS8nbAHfbKCVD+PFoGBSqKPdTA==
+=Hc8Y
+-----END PGP SIGNATURE-----
+
+--Iyx/hEnVpiXqAWtm--
