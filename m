@@ -2,105 +2,94 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BBB9BC433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Jun 2022 09:49:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A0B80C43334
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Jun 2022 09:56:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344601AbiF1JtY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 28 Jun 2022 05:49:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39852 "EHLO
+        id S1344537AbiF1J4M (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 28 Jun 2022 05:56:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47420 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344581AbiF1Js7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Jun 2022 05:48:59 -0400
-Received: from mail-yb1-xb30.google.com (mail-yb1-xb30.google.com [IPv6:2607:f8b0:4864:20::b30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 799682BB3D
-        for <linux-doc@vger.kernel.org>; Tue, 28 Jun 2022 02:48:47 -0700 (PDT)
-Received: by mail-yb1-xb30.google.com with SMTP id d5so21295751yba.5
-        for <linux-doc@vger.kernel.org>; Tue, 28 Jun 2022 02:48:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=nnzSecJwwLdHdpah55TWOev8stQAWT9vGpRIkDipvhw=;
-        b=I7H7zqGdOfwwpsDfe9uF8VojqU+qtuDQRgt7FtGBoFlVFCSJN9YFG+1NWGSiIuox8S
-         W+KTN+aOhO/ktobsqKb4feN5yBBDNx0wm/w13zu9GE1MpTeJ9BkKCl/bKqoxTj+butyG
-         02/IG1kxsMpY40YD0RA6epXortCUPMP7sMFf2G2KAsGaM15F0G20pAiOcgk96rxpR8ke
-         4UAfgPRBQGXYCKfOAsUeqXv2EnFCWpyg0H2uCQj9u81Sa+kwI5qveTjwZLSeOF0LEPCz
-         orDz4fOkku7jaCsorv9stb6v1uGkuYXGTaB+8k6Pjso/QtNIucekoLsh+TNJkKdQ3yXO
-         +FxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=nnzSecJwwLdHdpah55TWOev8stQAWT9vGpRIkDipvhw=;
-        b=4ybTxltr+GfmbJV7lGBENPNHi4wYKijSNUcj+xMyLjmt/Ov1IoYFWAY2cEGZcKaBio
-         C4l0l6zS6THUZu9sGt/zj1CKZoOVwsZG3w/FnnnHa0DgiZbu3AGaGda/SZhqgC5htxAL
-         EbmaqtqXpc8otYt8QnCL/pCUMATQSB5hwP9TtSUlv73t5wjXOoA+NHXmuHzMIbYrIXdA
-         AFFu2iYdy50zC344HB7hYCgsGOJysh3v7Ad53j5XCmt3PTkYaQLIrAFGHBCoosIZaKG6
-         xBepeL0tKdWFnYuKvt0wfMCQxL0tg9XIsu5+ExckC0wYW1TO994A3AWfa7pN5f3SDmCC
-         GKBA==
-X-Gm-Message-State: AJIora9KKGzjbjhL++eQkwL2gLTWfqlgDrdUgDJnaT8GSetDyavSWDvd
-        4GzioWjo6vZ7cWyhkZfNS1zUp6J3VEFlyaswG3WTSCPb5REZ+g==
-X-Google-Smtp-Source: AGRyM1vPz47fcquk2IzBhzy+bTY7luIs+lRfkEnNwxblxcyPcZABp99gUxefsLLFGaLceF6zmZkkxVh4KZO10IEsTiQ=
-X-Received: by 2002:a05:6902:152:b0:66c:e116:6a7 with SMTP id
- p18-20020a056902015200b0066ce11606a7mr8598779ybh.533.1656409726603; Tue, 28
- Jun 2022 02:48:46 -0700 (PDT)
-MIME-Version: 1.0
-References: <cover.1656409369.git.mchehab@kernel.org> <687a2e724020d135bc7dfef0ec9010a00ecc0a3a.1656409369.git.mchehab@kernel.org>
-In-Reply-To: <687a2e724020d135bc7dfef0ec9010a00ecc0a3a.1656409369.git.mchehab@kernel.org>
-From:   Marco Elver <elver@google.com>
-Date:   Tue, 28 Jun 2022 11:48:10 +0200
-Message-ID: <CANpmjNPbHYKJqFB-qNjPWsLQyk3fWrqfU3qob_E-8KMLrzpCQQ@mail.gmail.com>
-Subject: Re: [PATCH 14/22] kfence: fix a kernel-doc parameter
+        with ESMTP id S244326AbiF1J4A (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Jun 2022 05:56:00 -0400
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62C282ED7F;
+        Tue, 28 Jun 2022 02:55:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1656410136; x=1687946136;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ZySJLtccvViq3V6jqeioJpJY2xcTgx0ACUTORRR1JEg=;
+  b=AKvhSZkADlFqUmDylhXcP7UmnnFPiOrtXsvsEeBHrT0GEATzDSXpf8Ln
+   Vf6ArNgoQsz2ThLXYxRWe91wMHSeXyeur3EgJYLxe/WKf1BdB1Y9BvavP
+   pTQOVuNT1EJVo50OlqHqcHDoVTRlNJ4LM+aL3xhxseuBixjWT5PN1vkAz
+   OqS6aY3mST/V7477wY5kBDyXFbumPaPAbwKzSPvwFd3QxzWJzOK9NBnaO
+   uSIl7VbHaUmbwSfYHOCxHFfvOothCvX7PtjkG/RE7vg+zxALywcPLSgTS
+   INLqajweLkcTDLb3sTTRI7T95/KRKSxJh9a2sVUPj8fzb/GOJxh9QhBkH
+   Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10391"; a="343385713"
+X-IronPort-AV: E=Sophos;i="5.92,227,1650956400"; 
+   d="scan'208";a="343385713"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jun 2022 02:55:35 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.92,227,1650956400"; 
+   d="scan'208";a="732690989"
+Received: from kuha.fi.intel.com ([10.237.72.185])
+  by fmsmga001.fm.intel.com with SMTP; 28 Jun 2022 02:55:30 -0700
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Tue, 28 Jun 2022 12:55:29 +0300
+Date:   Tue, 28 Jun 2022 12:55:29 +0300
+From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
 To:     Mauro Carvalho Chehab <mchehab@kernel.org>
 Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
         Jonathan Corbet <corbet@lwn.net>,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Alexander Potapenko <glider@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        dri-devel@lists.freedesktop.org, kasan-dev@googlegroups.com,
-        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
+Subject: Re: [PATCH 20/22] usb: typec_altmode: add a missing "@" at a
+ kernel-doc parameter
+Message-ID: <YrrQES9cTnKhp+6h@kuha.fi.intel.com>
+References: <cover.1656409369.git.mchehab@kernel.org>
+ <70dc4c5d744cf1fe9a0efe6b85deaa0489628282.1656409369.git.mchehab@kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <70dc4c5d744cf1fe9a0efe6b85deaa0489628282.1656409369.git.mchehab@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 28 Jun 2022 at 11:46, Mauro Carvalho Chehab <mchehab@kernel.org> wrote:
->
-> The kernel-doc markup is missing the slab pointer description:
->
->         include/linux/kfence.h:221: warning: Function parameter or member 'slab' not described in '__kfence_obj_info'
->
-> Document it.
->
+On Tue, Jun 28, 2022 at 10:46:24AM +0100, Mauro Carvalho Chehab wrote:
+> Without that, the parameter is not properly parsed:
+> 	include/linux/usb/typec_altmode.h:132: warning: Function parameter or member 'altmode' not described in 'typec_altmode_get_orientation'
+> 
 > Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
 
-Reviewed-by: Marco Elver <elver@google.com>
-
-Thank you.
+Acked-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 
 > ---
->
+> 
 > To avoid mailbombing on a large number of people, only mailing lists were C/C on the cover.
 > See [PATCH 00/22] at: https://lore.kernel.org/all/cover.1656409369.git.mchehab@kernel.org/
->
->  include/linux/kfence.h | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/include/linux/kfence.h b/include/linux/kfence.h
-> index 726857a4b680..9c242f4e9fab 100644
-> --- a/include/linux/kfence.h
-> +++ b/include/linux/kfence.h
-> @@ -210,6 +210,7 @@ struct kmem_obj_info;
->   * __kfence_obj_info() - fill kmem_obj_info struct
->   * @kpp: kmem_obj_info to be filled
->   * @object: the object
-> + * @slab: pointer to slab
->   *
->   * Return:
->   * * false - not a KFENCE object
-> --
+> 
+>  include/linux/usb/typec_altmode.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/include/linux/usb/typec_altmode.h b/include/linux/usb/typec_altmode.h
+> index 65933cbe9129..350d49012659 100644
+> --- a/include/linux/usb/typec_altmode.h
+> +++ b/include/linux/usb/typec_altmode.h
+> @@ -124,7 +124,7 @@ struct typec_altmode *typec_match_altmode(struct typec_altmode **altmodes,
+>  
+>  /**
+>   * typec_altmode_get_orientation - Get cable plug orientation
+> - * altmode: Handle to the alternate mode
+> + * @altmode: Handle to the alternate mode
+>   */
+>  static inline enum typec_orientation
+>  typec_altmode_get_orientation(struct typec_altmode *altmode)
+> -- 
 > 2.36.1
->
+
+-- 
+heikki
