@@ -2,74 +2,70 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E2257CCA479
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Jun 2022 16:59:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5813CC43334
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Jun 2022 17:03:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231676AbiF1Q7E (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 28 Jun 2022 12:59:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40500 "EHLO
+        id S232955AbiF1RDL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 28 Jun 2022 13:03:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46882 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237346AbiF1Q6p (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Jun 2022 12:58:45 -0400
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C3B81007
-        for <linux-doc@vger.kernel.org>; Tue, 28 Jun 2022 09:58:45 -0700 (PDT)
-Received: from tr.lan (ip-86-49-12-201.bb.vodafone.cz [86.49.12.201])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        with ESMTP id S234488AbiF1RCj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Jun 2022 13:02:39 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C42A41C924;
+        Tue, 28 Jun 2022 10:02:38 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        (Authenticated sender: marex@denx.de)
-        by phobos.denx.de (Postfix) with ESMTPSA id F307F8407A;
-        Tue, 28 Jun 2022 18:58:43 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
-        s=phobos-20191101; t=1656435524;
-        bh=Hwup3A+MAo/IIHDWPJcJuA/ZrTCj+SJh32Gz9ZwYe6g=;
-        h=From:To:Cc:Subject:Date:From;
-        b=BQG+K9V8ApzpqQAaJ4fC8V+TIy6dMCZu2y4/wGUR5RtMBFWX7fNyCxjiv/5bjWH0j
-         wlCJ6PHKEc8qmTj2T65tYXhsEAdEaNxoepgcoHcS1j+V0HPyD1vSbazexEeJ3/5/pI
-         XJgmTpns8xOmtnqmV7ob4yKG8M4suuCOsho1GO/4oWWAgiMEHDLWZzR9To/OZIyG7X
-         O25i3VEGR6D9DUp82DI1aSq1zPU7lP2+CAbnrvyw29hP3G2MqIp7G8Hfa0IL9XYFco
-         y8pPrSz12+ilXcN8EGr0bL7+oU7DgxMg0ll9WaCBtiIJPTxe6Nkr/FR1W8VcLmnaRJ
-         v+1+6z1ipPKLw==
-From:   Marek Vasut <marex@denx.de>
-To:     alsa-devel@alsa-project.org
-Cc:     perex@perex.cz, linux-doc@vger.kernel.org,
-        Marek Vasut <marex@denx.de>, Mark Brown <broonie@kernel.org>,
-        Takashi Iwai <tiwai@suse.de>
-Subject: [PATCH] ASoC: doc: Capitalize RESET line name
-Date:   Tue, 28 Jun 2022 18:58:40 +0200
-Message-Id: <20220628165840.152235-1-marex@denx.de>
-X-Mailer: git-send-email 2.35.1
+        by ams.source.kernel.org (Postfix) with ESMTPS id 84D37B81F12;
+        Tue, 28 Jun 2022 17:02:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B602BC341C8;
+        Tue, 28 Jun 2022 17:02:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1656435756;
+        bh=DdmnVTonvb08oyxHeMdcY4gk5e2v7SgyNdBTw8QcCtY=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=pBE52dlO5TlmnGSw8Rxi7cwS+TtfjFXn/EZAYfflzWBSZKp05i+H0vSWcLPWFlWTi
+         V08PLZxWAGLhaRnWMTtMNMuFT7EzX1ROp/QEusHqiJcjYAP1sZoo4s43y2iDvvIVX9
+         Stmw3A/rDBrKNawUvGHSEkmGfZhYERlok2vixEZEuuMk8QAdRkEC9pcNJD3mePNEUg
+         rb5C81UG9yxSKvzcqHcRPMggpgf07SdpvRWlCqsnxaAKaOeiUEFczkZp2EqPZd0WK7
+         2Z0lWgA+jkJWX3bAbOhowYJAtcjRhzKa6IfHwPmzjalpP/jRRmDMXVODnI3qkx0Dvq
+         SZ65moCI8p49w==
+From:   Will Deacon <will@kernel.org>
+To:     corbet@lwn.net, Liu Song <liusong@linux.alibaba.com>
+Cc:     catalin.marinas@arm.com, kernel-team@android.com,
+        Will Deacon <will@kernel.org>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH] arm64: correct the effect of mitigations off on kpti
+Date:   Tue, 28 Jun 2022 18:02:28 +0100
+Message-Id: <165642528159.476075.2267547148245425040.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <1656033648-84181-1-git-send-email-liusong@linux.alibaba.com>
+References: <1656033648-84181-1-git-send-email-liusong@linux.alibaba.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Virus-Scanned: clamav-milter 0.103.6 at phobos.denx.de
-X-Virus-Status: Clean
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Make sure all AC97 interface lines are spelled in capitals,
-to avoid confusing readers about where the 5th line is.
+On Fri, 24 Jun 2022 09:20:48 +0800, Liu Song wrote:
+> From: Liu Song <liusong@linux.alibaba.com>
+> 
+> If KASLR is enabled, then kpti will be forced to be enabled even if
+> mitigations off, so we need to adjust the description of this parameter.
+> 
+> 
 
-Signed-off-by: Marek Vasut <marex@denx.de>
-Cc: Mark Brown <broonie@kernel.org>
-Cc: Takashi Iwai <tiwai@suse.de>
----
- Documentation/sound/soc/dai.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Applied to arm64 (for-next/kpti), thanks!
 
-diff --git a/Documentation/sound/soc/dai.rst b/Documentation/sound/soc/dai.rst
-index 009b07e5a0f38..bf8431386d269 100644
---- a/Documentation/sound/soc/dai.rst
-+++ b/Documentation/sound/soc/dai.rst
-@@ -10,7 +10,7 @@ AC97
- ====
- 
- AC97 is a five wire interface commonly found on many PC sound cards. It is
--now also popular in many portable devices. This DAI has a reset line and time
-+now also popular in many portable devices. This DAI has a RESET line and time
- multiplexes its data on its SDATA_OUT (playback) and SDATA_IN (capture) lines.
- The bit clock (BCLK) is always driven by the CODEC (usually 12.288MHz) and the
- frame (FRAME) (usually 48kHz) is always driven by the controller. Each AC97
+[1/1] arm64: correct the effect of mitigations off on kpti
+      https://git.kernel.org/arm64/c/e92b25731ef6
+
+Cheers,
 -- 
-2.35.1
+Will
 
+https://fixes.arm64.dev
+https://next.arm64.dev
+https://will.arm64.dev
