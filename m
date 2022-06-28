@@ -2,120 +2,116 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 396BFC43334
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Jun 2022 14:36:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3292BC43334
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Jun 2022 14:38:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346824AbiF1Og4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 28 Jun 2022 10:36:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47068 "EHLO
+        id S1347168AbiF1OiB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 28 Jun 2022 10:38:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47914 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346825AbiF1Ogv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Jun 2022 10:36:51 -0400
-Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E9F02C651;
-        Tue, 28 Jun 2022 07:36:50 -0700 (PDT)
-Received: by mail-ej1-x62f.google.com with SMTP id q6so26121684eji.13;
-        Tue, 28 Jun 2022 07:36:50 -0700 (PDT)
+        with ESMTP id S1346842AbiF1OiB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Jun 2022 10:38:01 -0400
+Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com [IPv6:2a00:1450:4864:20::634])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 668992DD70;
+        Tue, 28 Jun 2022 07:38:00 -0700 (PDT)
+Received: by mail-ej1-x634.google.com with SMTP id mf9so26337414ejb.0;
+        Tue, 28 Jun 2022 07:38:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=sciSoRCJP9tmgG43WFiyHgQnQbIDAWhG9JNH7sehjOg=;
-        b=LNdkm2CNmCjn5xV828HqDI0l3owRABoKkDSiWA7l8+mfB2EnovxirwQ4PclXBHSjo5
-         X1iYRhkmChyihhXYfaVsVWzPJxIrUBewxBVl+pDqChSu1zlYrP7TrOvI26CJGhTkdp3j
-         ocoBkCLO262zGyz2hP9A9gO6AWXpyYNTiF2iiMRUkC0majwM62NZz0l+RrM8y4Wg57D8
-         Ct5kwwDf49gYFOq4zRQbrsovY4fdKWn8bUGpvPMcgYUwfQeVdAo3IssTzXJ/y2msJ3Nb
-         2KxDKWS3UxmAHGyCYrMf4BM/dTY6zGfFJEIm3xc0JvKfK6A+eX0u1JoVCVN36uht+15l
-         TslA==
+        bh=8hQk/b0dG+ocD4kJkrdVLcqXI9aTRhPcr2tzOyCb7mk=;
+        b=FftgfCRZNOFK3Y04oOXzjZwBv01ZPqBAsXGdkky+kO4cE8jNkzJjWL1lyBbv5cCMzt
+         8ZHo7aDVBL4WTzIKpcJFig+44I2dHAu4WuZE2hWqbj43Oy9+kz8VZRWuxIAC1IVWr7r+
+         7UVFPFEvmhpI+l8mWNF7XiuJKkzRo8CIEcU60klYX480FgZciwWg/mQsXS2iLpsukq1V
+         8LC6NWfqzLKNmrE1prgCNsO9NdbH6n5xqJV7Ty70dkNZNbGOraGm3unIOTuvrQCWoh1l
+         ZQbMrtIhZYzd3Ha5wSzQC8ZMAS6ZQInJTuZ9miKlPSmiuiOFX58iU+qS0nwHu6FHEvYZ
+         h+aA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=sciSoRCJP9tmgG43WFiyHgQnQbIDAWhG9JNH7sehjOg=;
-        b=QKDqWfZxbGIL+sm7sze3dU9ixjPJe6li5EGHDo0nt1FJGwG5+18oRLYwR89zYiEr8l
-         0iYD0o9eGKnltOONBHiKd5iN2+iJhsRUOpiH2RxEXBMUtgtNMRC8Zt8uG3E6zrkc5TsX
-         z2vbBXQlZ6StZ75iGApPJYUcz/PYXDrTu9Y4Zf/ZIMbTM28FUE9s7NO9qldsxwMRiTx6
-         hFyJ6R7EK++o3yI4cbXBBh8ZqZ4YOZ/K4dmX+YWtwwgptVzOTfzsq58NCsBczPKlCkXr
-         QAWCgA62fWUmfVVZ1wjkQdc/Y1hxdn0cqAvXUPt/NbE7XS1VRSTw4aEAdSwSb5nDhTGP
-         PFJw==
-X-Gm-Message-State: AJIora/iyyjQgN5hzcXiiyA2HAUZHBU8gpFKVVzUS/Wzj6fMfpiJfLRB
-        TKkrgN4kVzfdAGfhybOb8lbTNcx7HzAPe6fQUIA=
-X-Google-Smtp-Source: AGRyM1sfDVLE/mwWgB0QAtpx/HKLbEABP8/5Q/zeZSDF33rzwMvDpmwCLCKrNziaUCKnyksiRGhPYaXbhcB1kJ/6rZI=
-X-Received: by 2002:a17:906:74c2:b0:722:e1e2:edea with SMTP id
- z2-20020a17090674c200b00722e1e2edeamr18426813ejl.658.1656427008994; Tue, 28
- Jun 2022 07:36:48 -0700 (PDT)
+        bh=8hQk/b0dG+ocD4kJkrdVLcqXI9aTRhPcr2tzOyCb7mk=;
+        b=MrrNMXEansr9S42JfGAMV9IFmIuL5gzFkUv1K4wTVCvKMqO9ft6iEAG7MB+61/WFE8
+         0Eo2ohHiwTuoU7Yj6LQJPHcZjJK73RPY6EdRlP+vQWSsYHb8ZTd2CFdF67ps41o+17Si
+         y/Y3d66YMAeuuz6ThIKlHoavQWlk8TBZzLz5bnSsOBhQtYFWmY1XlrpCdjfbn8Fmv6o1
+         63ZQ6oWqy3qTLlWmQ85MBwEWsjhZvBN+4V953AwYJzYjxBjEhhvbhY4XHDIGcL5VGpwM
+         JCrjOu653LsA7LpqDlWwY83soyV/9xhGm2rB+uVvN0fZRbhZ+GjadWe9+zCvgTYc3+Ho
+         p+jA==
+X-Gm-Message-State: AJIora9dtcEdMGwEPGmx3JVB2cokwHZaFbjUUegBIVh198XyRRveI58s
+        xEZe5K1SMKWlPhoX8BQ2rK7Rs8EUax9NiPvlbGGIsG6s
+X-Google-Smtp-Source: AGRyM1sjewq/YDh9ewRpgbEn647mcNCTsFzlz2ApXt/lWtI5R9O39yhXZpkP6sUScjKV7B7HZKEprynWngvkhAfQV4M=
+X-Received: by 2002:a17:907:a40f:b0:726:a8f5:1031 with SMTP id
+ sg15-20020a170907a40f00b00726a8f51031mr9317125ejc.185.1656427078995; Tue, 28
+ Jun 2022 07:37:58 -0700 (PDT)
 MIME-Version: 1.0
-References: <cover.1656409369.git.mchehab@kernel.org> <3a54b73b6cbd251d3d5a899b9cfe8b794be78146.1656409369.git.mchehab@kernel.org>
-In-Reply-To: <3a54b73b6cbd251d3d5a899b9cfe8b794be78146.1656409369.git.mchehab@kernel.org>
+References: <cover.1656409369.git.mchehab@kernel.org> <ac8ece934af1145bc16531b9f10d69c76216cb66.1656409369.git.mchehab@kernel.org>
+In-Reply-To: <ac8ece934af1145bc16531b9f10d69c76216cb66.1656409369.git.mchehab@kernel.org>
 From:   Alex Deucher <alexdeucher@gmail.com>
-Date:   Tue, 28 Jun 2022 10:36:37 -0400
-Message-ID: <CADnq5_NEB_FRwXaQ4vYK4oTHGCTCXLLwwqsjNSWmesQYQ_Y5UA@mail.gmail.com>
-Subject: Re: [PATCH 09/22] drm: amdgpu: amdgpu_dm: fix kernel-doc markups
+Date:   Tue, 28 Jun 2022 10:37:47 -0400
+Message-ID: <CADnq5_OxGq_rBr5-n16-5aHhG1WPDhTDjPAgMjMkWw-fG4o=8A@mail.gmail.com>
+Subject: Re: [PATCH 10/22] drm: amdgpu: amdgpu_device.c: fix a kernel-doc markup
 To:     Mauro Carvalho Chehab <mchehab@kernel.org>
 Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Wayne Lin <Wayne.Lin@amd.com>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
+        Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
+        Evan Quan <evan.quan@amd.com>,
+        Guchun Chen <guchun.chen@amd.com>,
         Jonathan Corbet <corbet@lwn.net>,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Jude Shih <shenshih@amd.com>, David Airlie <airlied@linux.ie>,
+        Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>,
         "Pan, Xinhui" <Xinhui.Pan@amd.com>,
-        Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
-        Roman Li <Roman.Li@amd.com>,
+        LKML <linux-kernel@vger.kernel.org>,
         amd-gfx list <amd-gfx@lists.freedesktop.org>,
-        Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>,
-        Leo Li <sunpeng.li@amd.com>, Alex Hung <alex.hung@amd.com>,
+        David Airlie <airlied@linux.ie>,
         Maling list - DRI developers 
-        <dri-devel@lists.freedesktop.org>, Shirish S <shirish.s@amd.com>,
+        <dri-devel@lists.freedesktop.org>, Daniel Vetter <daniel@ffwll.ch>,
+        Kevin Wang <kevin1.wang@amd.com>,
         Alex Deucher <alexander.deucher@amd.com>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        LKML <linux-kernel@vger.kernel.org>
+        Lang Yu <lang.yu@amd.com>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Applied.  Thanks!
-
 On Tue, Jun 28, 2022 at 5:46 AM Mauro Carvalho Chehab
 <mchehab@kernel.org> wrote:
 >
-> There are 4 undocumented fields at struct amdgpu_display_manager.
->
-> Add documentation for them, fixing those warnings:
->
->         drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:544: warning: Function parameter or member 'dmub_outbox_params' not described in 'amdgpu_display_manager'
->         drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:544: warning: Function parameter or member 'num_of_edps' not described in 'amdgpu_display_manager'
->         drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:544: warning: Function parameter or member 'disable_hpd_irq' not described in 'amdgpu_display_manager'
->         drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:544: warning: Function parameter or member 'dmub_aux_transfer_done' not described in 'amdgpu_display_manager'
->         drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h:544: warning: Function parameter or member 'delayed_hpd_wq' not described in 'amdgpu_display_manager'
+> The function was renamed without renaming also kernel-doc markup:
+>         drivers/gpu/drm/amd/amdgpu/amdgpu_device.c:5095: warning: expecting prototype for amdgpu_device_gpu_recover_imp(). Prototype was for amdgpu_device_gpu_recover() instead
 >
 > Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+
+I actually sent out the same patch a few days ago, however, the code
+has since changed with Andrey's recent GPU reset series and the patch
+is no longer applicable.
+
+Thanks,
+
+Alex
+
+
 > ---
 >
 > To avoid mailbombing on a large number of people, only mailing lists were C/C on the cover.
 > See [PATCH 00/22] at: https://lore.kernel.org/all/cover.1656409369.git.mchehab@kernel.org/
 >
->  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h | 7 +++++++
->  1 file changed, 7 insertions(+)
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-> index 547fc1547977..73755b304299 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-> @@ -242,6 +242,13 @@ struct hpd_rx_irq_offload_work {
->   * @force_timing_sync: set via debugfs. When set, indicates that all connected
->   *                    displays will be forced to synchronize.
->   * @dmcub_trace_event_en: enable dmcub trace events
-> + * @dmub_outbox_params: DMUB Outbox parameters
-> + * @num_of_edps: number of backlight eDPs
-> + * @disable_hpd_irq: disables all HPD and HPD RX interrupt handling in the
-> + *                  driver when true
-> + * @dmub_aux_transfer_done: struct completion used to indicate when DMUB
-> + *                         transfers are done
-> + * @delayed_hpd_wq: work queue used to delay DMUB HPD work
->   */
->  struct amdgpu_display_manager {
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> index 9d6418bb963e..6d74767591e7 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> @@ -5079,7 +5079,7 @@ static inline void amdggpu_device_stop_pedning_resets(struct amdgpu_device *adev
 >
+>
+>  /**
+> - * amdgpu_device_gpu_recover_imp - reset the asic and recover scheduler
+> + * amdgpu_device_gpu_recover - reset the asic and recover scheduler
+>   *
+>   * @adev: amdgpu_device pointer
+>   * @job: which job trigger hang
 > --
 > 2.36.1
 >
