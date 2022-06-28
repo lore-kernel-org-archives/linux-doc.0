@@ -2,91 +2,137 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B158CC433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Jun 2022 12:34:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C4FACCA479
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Jun 2022 12:35:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344096AbiF1MeQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 28 Jun 2022 08:34:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34128 "EHLO
+        id S1344399AbiF1Mff (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 28 Jun 2022 08:35:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34706 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245663AbiF1MeQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Jun 2022 08:34:16 -0400
-Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com [IPv6:2607:f8b0:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 341BF2DAB6
-        for <linux-doc@vger.kernel.org>; Tue, 28 Jun 2022 05:34:15 -0700 (PDT)
-Received: by mail-pl1-x62c.google.com with SMTP id c4so10932648plc.8
-        for <linux-doc@vger.kernel.org>; Tue, 28 Jun 2022 05:34:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=AgtvVhfkB9MFjPDZk0eW6qF15/HI/14VLMJggWohgtE=;
-        b=FzhYTx698OOjOlAKVGM1J4TElebsB4vmarv8/HnHUHhC7cxyADcBoWzbyvHI+muvdi
-         37QqLTEMcNFXXEZeBiit0D6jJmcl+D+fogXsNTlgq1xvuTT4uNE97ebrSBBMq3d9MgBa
-         BX2DT6gtYAl1Xyn2/dIDFHx039BQrHp+P/bwXZoXsw2aNMXOP5W+PXG7KJoDbLe/7aLN
-         JNmYI/N87eI/KIxN4vsm7RGs119nknLqjrl5j7++iuDy/t7piYtzd22zX/BnzClkrGeR
-         b6uFhQkmAgi09s6rh0Wg4+QSC06ZqH6s1M6BkiC4XSKiXfyPermoWXK1gBNmNK0fJIua
-         9xcA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=AgtvVhfkB9MFjPDZk0eW6qF15/HI/14VLMJggWohgtE=;
-        b=VAzJFeooo6J8aqlHUwIlQ9yhxT1m0LspY0uVEDb6aRu+wN/mIjIJyPUpA4pLlIhcTK
-         G4wE4dsoH0l7qM2CA6rub4T4/cTSNpHNeCqElk0nVYcTjho5qGRD92K4+GPBgVq87NiY
-         Q3lOnOkm+4Of/Cj7bomhUTwnmNLdG9Dbs6QOX27MbTmVb+5JXja5BC5Ovk8iLXoJKQ29
-         J4XQm1fi/9ywerUXs+Ja9J3S2unspsK5pi3czHuUZ2zGQ1BTibtxehP03rsFouYNGP6b
-         FXREGkS81bFzTIX3QNLmHgc2b//La1KqBTVlrZPl7gyq37iaLazGeoMuk7/SCnlx9gDt
-         TN4Q==
-X-Gm-Message-State: AJIora9Ej3ZG6mIy4fs6tp9Mc9t1t10FqtiGe5nswyqii1g0XgzIKibN
-        pY8/Qt7w4XloS4EAvAkQlc49/A==
-X-Google-Smtp-Source: AGRyM1s45gTXj2HZCAEzzkN9IeQD+456rgjNd0s9t9KrgatOucowm4Ql5Rn52HnVu3lNsc2JcGW+Vw==
-X-Received: by 2002:a17:90b:1982:b0:1ec:e2fa:99ae with SMTP id mv2-20020a17090b198200b001ece2fa99aemr26478986pjb.228.1656419654716;
-        Tue, 28 Jun 2022 05:34:14 -0700 (PDT)
-Received: from MacBook-Pro.local.net ([139.177.225.225])
-        by smtp.gmail.com with ESMTPSA id t5-20020a17090abc4500b001ea629a431bsm9409454pjv.8.2022.06.28.05.34.10
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 28 Jun 2022 05:34:14 -0700 (PDT)
-From:   lizhe.67@bytedance.com
-To:     hpa@zytor.com
-Cc:     bp@alien8.de, dave.hansen@intel.com, dave.hansen@linux.intel.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        lizefan.x@bytedance.com, lizhe.67@bytedance.com, mingo@redhat.com,
-        tglx@linutronix.de, x86@kernel.org
-Subject: Re: [RFC] memmap: introduce cmdline parameter "memmap=nn[KMG]$" without start addr
-Date:   Tue, 28 Jun 2022 20:34:02 +0800
-Message-Id: <20220628123402.14573-1-lizhe.67@bytedance.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <0EA9CBD4-D083-4546-BFAC-9C3A97420E5B@zytor.com>
-References: <0EA9CBD4-D083-4546-BFAC-9C3A97420E5B@zytor.com>
+        with ESMTP id S230459AbiF1Mff (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Jun 2022 08:35:35 -0400
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 570A72ED77;
+        Tue, 28 Jun 2022 05:35:34 -0700 (PDT)
+Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25SCHCh0006869;
+        Tue, 28 Jun 2022 12:35:31 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=VzTRDib4zHd2FCU5EB+yWfonZTP7xYq8c8GPvJz6Hrs=;
+ b=HPp4Ym3KfCxqGjisBYbAiWWX1hq7ezYIHhUU9QOYS28uxvSJ7OwP6jeZukK1z36RWi6F
+ QP6RBcPZ/gJWQnicU9qZiGQ9TMxfsbAkidz/LmthAf26akmiUj+Gz0qVZgfgmAdBiz1q
+ 75I/vQm9RucbtkFVoX7x9JnJiG9HCE5FoIMbWVvxb/pEo0UdhkJPFx5BxZv3dpWz9SZj
+ tYce6DyITtObQLdBdJmAQHxDRe53nMGNnAxFYU5HKjZ947C+MqzFJGishx5wAHgi1u27
+ s/gMu46HUoYJ5WXBqVNTyo2700rf7jJ3AQRDA6fqt2AtMOQqZhUXpDGV3ZA7j4dGHBsU lQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3h01h1rj8x-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 28 Jun 2022 12:35:31 +0000
+Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
+        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 25SCJRgS017268;
+        Tue, 28 Jun 2022 12:35:30 GMT
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com [169.51.49.99])
+        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3h01h1rj82-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 28 Jun 2022 12:35:30 +0000
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+        by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 25SCKc8u001772;
+        Tue, 28 Jun 2022 12:35:28 GMT
+Received: from b06cxnps3075.portsmouth.uk.ibm.com (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
+        by ppma04ams.nl.ibm.com with ESMTP id 3gwt08vu62-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 28 Jun 2022 12:35:28 +0000
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
+        by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 25SCZPUm23986648
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 28 Jun 2022 12:35:25 GMT
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 6BFFAA405B;
+        Tue, 28 Jun 2022 12:35:25 +0000 (GMT)
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 5794BA4054;
+        Tue, 28 Jun 2022 12:35:24 +0000 (GMT)
+Received: from [9.171.60.225] (unknown [9.171.60.225])
+        by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+        Tue, 28 Jun 2022 12:35:24 +0000 (GMT)
+Message-ID: <c98e7c10-272c-2bbb-6909-046d57d721d1@linux.ibm.com>
+Date:   Tue, 28 Jun 2022 14:35:23 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH v9 00/21] KVM: s390: enable zPCI for interpretive
+ execution
+Content-Language: en-US
+To:     Matthew Rosato <mjrosato@linux.ibm.com>, linux-s390@vger.kernel.org
+Cc:     alex.williamson@redhat.com, cohuck@redhat.com,
+        schnelle@linux.ibm.com, farman@linux.ibm.com, pmorel@linux.ibm.com,
+        hca@linux.ibm.com, gor@linux.ibm.com,
+        gerald.schaefer@linux.ibm.com, agordeev@linux.ibm.com,
+        svens@linux.ibm.com, frankja@linux.ibm.com, david@redhat.com,
+        imbrenda@linux.ibm.com, vneethv@linux.ibm.com,
+        oberpar@linux.ibm.com, freude@linux.ibm.com, thuth@redhat.com,
+        pasic@linux.ibm.com, pbonzini@redhat.com, corbet@lwn.net,
+        jgg@nvidia.com, kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+References: <20220606203325.110625-1-mjrosato@linux.ibm.com>
+ <f86e2e05-114a-cc9e-8f3a-96b36889063d@linux.ibm.com>
+From:   Christian Borntraeger <borntraeger@linux.ibm.com>
+In-Reply-To: <f86e2e05-114a-cc9e-8f3a-96b36889063d@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: 7kXy1VyFvROoymAGsQ27TyveRw3QZZwH
+X-Proofpoint-ORIG-GUID: pBNTNyMgnNoCtr5oFZikyJQjgjvEXW8u
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-06-28_06,2022-06-28_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ priorityscore=1501 phishscore=0 adultscore=0 suspectscore=0
+ impostorscore=0 clxscore=1011 spamscore=0 mlxlogscore=999 mlxscore=0
+ bulkscore=0 malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2204290000 definitions=main-2206280048
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 23 Jun 2022 11:22:52, H. Peter Anvin <hpa@zytor.com> wrote:
->>On 6/22/22 23:24, lizhe.67@bytedance.com wrote:
->>> In our scenario, we need reserve or alloc large continous memory like
->>> 256M in machine which have different memory specification at just
->>> boot phase for a user land process.
+Am 27.06.22 um 22:57 schrieb Matthew Rosato:
+> On 6/6/22 4:33 PM, Matthew Rosato wrote:
+>> Enable interpretive execution of zPCI instructions + adapter interruption
+>> forwarding for s390x KVM vfio-pci.  This is done by triggering a routine
+>> when the VFIO group is associated with the KVM guest, transmitting to
+>> firmware a special token (GISA designation) to enable that specific guest
+>> for interpretive execution on that zPCI device.  Load/store interpreation
+>> enablement is then controlled by userspace (based upon whether or not a
+>> SHM bit is placed in the virtual function handle).  Adapter Event
+>> Notification interpretation is controlled from userspace via a new KVM
+>> ioctl.
 >>
->>Just marking the memory reserved doesn't do any good by itself.  There
->>must be some *other* kernel code to find this reserved area and make it
->>available to userspace.
+>> By allowing intepretation of zPCI instructions and firmware delivery of
+>> interrupts to guests, we can reduce the frequency of guest SIE exits for
+>> zPCI.
 >>
->>It seems kinda silly to add this to the kernel without also adding the
->>other half of the solution.  Plus, we don't really even know what this
->>is for.  Are there other, better solutions?  I certainly can't offer any
->>because this changelog did not provide a full picture of the problem
->>this solves.
->
->Don't we already have a large contiguous physical memory allocator for this reason (misdesigned hardware?)
+>>  From the perspective of guest configuration, you passthrough zPCI devices
+>> in the same manner as before, with intepretation support being used by
+>> default if available in kernel+qemu.
+>>
+>> Will follow up with a link the most recent QEMU series.
+>>
+>> Changelog v8->v9:
+>> - Rebase on top of 5.19-rc1, adjust ioctl and capability defines
+>> - s/kzdev = 0/kzdev = NULL/ (Alex)
+>> - rename vfio_pci_zdev_open to vfio_pci_zdev_open_device (Jason)
+>> - rename vfio_pci_zdev_release to vfio_pci_zdev_close_device (Jason)
+>> - make vfio_pci_zdev_close_device return void, instead WARN_ON or ignore
+>>    errors in lower level function (kvm_s390_pci_unregister_kvm) (Jason)
+>> - remove notifier accidentally left in struct zpci_dev + associated
+>>    include statment (Jason)
+>> - Remove patch 'KVM: s390: introduce CPU feature for zPCI Interpretation'
+>>    based on discussion in QEMU thread.
+>>
+> 
+> Ping -- I'm hoping this can make the next merge window, but there are still 2 patches left without any review tag (16 & 17).
 
-Yes we have already considered using CMA to realize the requirement. But CMA
-only provides several kernel space interface for memory allocation. It seems
-that userspace do not have a way to access those memory at current kernel.
-In our scenario, we need to reserve large continuous physical memory for a
-userspace program. It stores some data into memory and a hardware will consume
-them. So allocing an area of large continuous memory for userspace program is
-the best way for us.
+Yes, I will queue this (as is). Ideally you would rebase this on top of kvm/next but I can also do while applying.
+Let me know if you want to respin with the Nits from Pierre.
