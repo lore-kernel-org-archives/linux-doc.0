@@ -2,102 +2,181 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C3ED2C43334
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Jun 2022 17:09:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1833EC43334
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Jun 2022 17:49:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231252AbiF1RJK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 28 Jun 2022 13:09:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51574 "EHLO
+        id S233356AbiF1RtV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 28 Jun 2022 13:49:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36008 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230102AbiF1RJJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Jun 2022 13:09:09 -0400
-Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com [199.106.114.38])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8F272C126;
-        Tue, 28 Jun 2022 10:09:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
-  t=1656436148; x=1687972148;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=U85zC74FglfaUgTtPENvXAGKtODUMugCZKKLb7eNRJc=;
-  b=oxRAHogzZHLpvrUQWGYcAafW3o1BpJFT7u/MyUi2yTpeXzKZV8V9gUPL
-   iFM4/kT4WrhjE4F55tlpt2HuwH1IWGE83uLsGOVJGczhyOqMDvzJvOGym
-   Hgrq8cvUkmu7brMEYemPzYEEnJm1AGZ3YBPcq3lpDBrPXk8Nv2rcLKgG3
-   Y=;
-Received: from unknown (HELO ironmsg05-sd.qualcomm.com) ([10.53.140.145])
-  by alexa-out-sd-01.qualcomm.com with ESMTP; 28 Jun 2022 10:09:08 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
-  by ironmsg05-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jun 2022 10:09:08 -0700
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Tue, 28 Jun 2022 10:09:07 -0700
-Received: from [10.110.50.59] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Tue, 28 Jun
- 2022 10:09:06 -0700
-Message-ID: <fa624172-2aee-1d10-cbdb-398681002fdc@quicinc.com>
-Date:   Tue, 28 Jun 2022 10:09:06 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH 02/22] net: mac80211: add a missing comma at kernel-doc
- markup
-Content-Language: en-US
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-CC:     "David S. Miller" <davem@davemloft.net>,
+        with ESMTP id S233346AbiF1Rsy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Jun 2022 13:48:54 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 561ECAE4F;
+        Tue, 28 Jun 2022 10:48:37 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 4B86F619B3;
+        Tue, 28 Jun 2022 17:48:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B45E3C341C8;
+        Tue, 28 Jun 2022 17:48:34 +0000 (UTC)
+Date:   Tue, 28 Jun 2022 13:48:33 -0400
+From:   Steven Rostedt <rostedt@goodmis.org>
+To:     Daniel Bristot de Oliveira <bristot@kernel.org>
+Cc:     Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>,
         Jonathan Corbet <corbet@lwn.net>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Johannes Berg <johannes@sipsolutions.net>,
-        Paolo Abeni <pabeni@redhat.com>,
-        <linux-kernel@vger.kernel.org>, <linux-wireless@vger.kernel.org>,
-        <netdev@vger.kernel.org>
-References: <cover.1656409369.git.mchehab@kernel.org>
- <11c1bdb861d89c93058fcfe312749b482851cbdb.1656409369.git.mchehab@kernel.org>
-From:   Jeff Johnson <quic_jjohnson@quicinc.com>
-In-Reply-To: <11c1bdb861d89c93058fcfe312749b482851cbdb.1656409369.git.mchehab@kernel.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+        Ingo Molnar <mingo@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Will Deacon <will@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Marco Elver <elver@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Gabriele Paoloni <gpaoloni@redhat.com>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Clark Williams <williams@redhat.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-trace-devel@vger.kernel.org
+Subject: Re: [PATCH V4 03/20] rv/include: Add helper functions for
+ deterministic automata
+Message-ID: <20220628134833.60b69f9f@gandalf.local.home>
+In-Reply-To: <2b5b14c821ee4b069f68571e7f78fbc2ee4e9626.1655368610.git.bristot@kernel.org>
+References: <cover.1655368610.git.bristot@kernel.org>
+        <2b5b14c821ee4b069f68571e7f78fbc2ee4e9626.1655368610.git.bristot@kernel.org>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 6/28/2022 2:46 AM, Mauro Carvalho Chehab wrote:
-> The lack of the comma makes it to not parse the function parameter:
+On Thu, 16 Jun 2022 10:44:45 +0200
+Daniel Bristot de Oliveira <bristot@kernel.org> wrote:
 
-nit: s/comma/colon/
-
-> 	include/net/mac80211.h:6250: warning: Function parameter or member 'vif' not described in 'ieee80211_channel_switch_disconnect'
+> Formally, a deterministic automaton, denoted by G, is defined as a
+> quintuple:
 > 
-> Fix it.
+>   G = { X, E, f, x_0, X_m }
 > 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+> where:
+> 	- X is the set of states;
+> 	- E is the finite set of events;
+> 	- x_0 is the initial state;
+> 	- X_m (subset of X) is the set of marked states.
+> 	- f : X x E -> X $ is the transition function. It defines the
+> 	  state transition in the occurrence of a event from E in
+> 	  the state X. In the special case of deterministic automata,
+> 	  the occurrence of the event in E in a state in X has a
+> 	  deterministic next state from X.
+> 
+> An automaton can also be represented using a graphical format of
+> vertices (nodes) and edges. The open-source tool Graphviz can produce
+> this graphic format using the (textual) DOT language as the source code.
+> 
+> The dot2c tool presented in this paper:
+> 
+> DE OLIVEIRA, Daniel Bristot; CUCINOTTA, Tommaso; DE OLIVEIRA, Romulo
+> Silva. Efficient formal verification for the Linux kernel. In:
+> International Conference on Software Engineering and Formal Methods.
+> Springer, Cham, 2019. p. 315-332.
+> 
+> Translates a deterministic automaton in the DOT format into a C
+> source code representation that to be used for monitoring.
+> 
+> This header file implements helper functions to facilitate the usage
+> of the C output from dot2c for monitoring.
+> 
+> Cc: Wim Van Sebroeck <wim@linux-watchdog.org>
+> Cc: Guenter Roeck <linux@roeck-us.net>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Steven Rostedt <rostedt@goodmis.org>
+> Cc: Ingo Molnar <mingo@redhat.com>
+> Cc: Thomas Gleixner <tglx@linutronix.de>
+> Cc: Peter Zijlstra <peterz@infradead.org>
+> Cc: Will Deacon <will@kernel.org>
+> Cc: Catalin Marinas <catalin.marinas@arm.com>
+> Cc: Marco Elver <elver@google.com>
+> Cc: Dmitry Vyukov <dvyukov@google.com>
+> Cc: "Paul E. McKenney" <paulmck@kernel.org>
+> Cc: Shuah Khan <skhan@linuxfoundation.org>
+> Cc: Gabriele Paoloni <gpaoloni@redhat.com>
+> Cc: Juri Lelli <juri.lelli@redhat.com>
+> Cc: Clark Williams <williams@redhat.com>
+> Cc: linux-doc@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
+> Cc: linux-trace-devel@vger.kernel.org
+> Signed-off-by: Daniel Bristot de Oliveira <bristot@kernel.org>
 > ---
+>  include/rv/automata.h | 49 +++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 49 insertions(+)
+>  create mode 100644 include/rv/automata.h
 > 
-> To avoid mailbombing on a large number of people, only mailing lists were C/C on the cover.
-> See [PATCH 00/22] at: https://lore.kernel.org/all/cover.1656409369.git.mchehab@kernel.org/
-> 
->   include/net/mac80211.h | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/include/net/mac80211.h b/include/net/mac80211.h
-> index 27f24ac0426d..c0557142343f 100644
-> --- a/include/net/mac80211.h
-> +++ b/include/net/mac80211.h
-> @@ -6238,7 +6238,7 @@ void ieee80211_chswitch_done(struct ieee80211_vif *vif, bool success);
->   
->   /**
->    * ieee80211_channel_switch_disconnect - disconnect due to channel switch error
-> - * @vif &struct ieee80211_vif pointer from the add_interface callback.
-> + * @vif: &struct ieee80211_vif pointer from the add_interface callback.
->    * @block_tx: if %true, do not send deauth frame.
->    *
->    * Instruct mac80211 to disconnect due to a channel switch error. The channel
+> diff --git a/include/rv/automata.h b/include/rv/automata.h
+> new file mode 100644
+> index 000000000000..0c0aa54bd820
+> --- /dev/null
+> +++ b/include/rv/automata.h
+> @@ -0,0 +1,49 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * Deterministic automata helper functions, to be used with the automata
+> + * models in C generated by the dot2k tool.
+> + *
+> + * Copyright (C) 2019-2022 Daniel Bristot de Oliveira <bristot@kernel.org>
+
+Copyright before the description.
+
+> + */
+> +
+
+There should be comments here describing how the helper functions are used.
+
+-- Steve
+
+> +#define DECLARE_AUTOMATA_HELPERS(name, type)					\
+> +										\
+> +static inline void *model_get_model_##name(void)				\
+> +{										\
+> +	return (void *) &automaton_##name;					\
+> +}										\
+> +										\
+> +static char *model_get_state_name_##name(enum states_##name state)		\
+> +{										\
+> +	return automaton_##name.state_names[state];				\
+> +}										\
+> +										\
+> +static char *model_get_event_name_##name(enum events_##name event)		\
+> +{										\
+> +	return automaton_##name.event_names[event];				\
+> +}										\
+> +										\
+> +static inline type model_get_init_state_##name(void)				\
+> +{										\
+> +	return automaton_##name.initial_state;					\
+> +}										\
+> +										\
+> +static inline type model_get_next_state_##name(enum states_##name curr_state,	\
+> +					       enum events_##name event)	\
+> +{										\
+> +	if ((curr_state < 0) || (curr_state > state_max_##name))		\
+> +		return -1;							\
+> +										\
+> +	if ((event < 0) || (event > event_max_##name))				\
+> +		return -1;							\
+> +										\
+> +	return automaton_##name.function[curr_state][event];			\
+> +}										\
+> +										\
+> +static inline bool model_is_final_state_##name(enum states_##name state)	\
+> +{										\
+> +	if ((state < 0) || (state > state_max_##name))				\
+> +		return 0;							\
+> +										\
+> +	return !!automaton_##name.final_states[state];				\
+> +}
 
