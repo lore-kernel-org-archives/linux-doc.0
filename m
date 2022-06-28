@@ -2,73 +2,104 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EE380C43334
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Jun 2022 10:17:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BE72CCCA479
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Jun 2022 10:24:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344847AbiF1KRz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 28 Jun 2022 06:17:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48218 "EHLO
+        id S244301AbiF1KYo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 28 Jun 2022 06:24:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57126 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344906AbiF1KRr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Jun 2022 06:17:47 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A73552FE6B;
-        Tue, 28 Jun 2022 03:17:43 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 61916B81DBB;
-        Tue, 28 Jun 2022 10:17:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17D4DC341CC;
-        Tue, 28 Jun 2022 10:17:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1656411461;
-        bh=3rvBGil83uXwD8MzZK79v+yLcATGD+HIirq3TFII2vs=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=tS/ba/x1vAKBAXeLugjjX6VO7FOvPjSmJz8ssL60JmfMWw6Xgve5DJ5ZatYc77nXj
-         T17FeM40FnP99xrCzMtvVNnXRH22PxKJvIQ4ZATFKt89m/+oRrCYac/B5Aec0iQlZH
-         EEqx8xQpl1pDECvIG3ZO2T4gd2/uNhMpuoUgD3BWibC4CK82NJ94/M2eur0iFOwiYo
-         fn2C0wiJ8rJMXm7nbrvRo2cahvPIihrnhs2uhtsXDVP6+wYE6KxkhXj1DM2xG4QRO6
-         QydBEHUMHIfO86S+TW3KFTHnU5yDH2L+ytOEof4nOI0qk1nrbDWfREJNqdxDF3OGe0
-         2sVWPyG9SauuQ==
-Date:   Tue, 28 Jun 2022 12:17:35 +0200
-From:   Christian Brauner <brauner@kernel.org>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 06/22] fs: attr: update vfs uid/gid parameters at
- kernel-doc
-Message-ID: <20220628101735.s2ypei7yperhamhd@wittgenstein>
-References: <cover.1656409369.git.mchehab@kernel.org>
- <cd2746e9496731e559dc8129c6bade369be25c4b.1656409369.git.mchehab@kernel.org>
+        with ESMTP id S239377AbiF1KYo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Jun 2022 06:24:44 -0400
+Received: from mail-yb1-xb2b.google.com (mail-yb1-xb2b.google.com [IPv6:2607:f8b0:4864:20::b2b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70AD730F6C;
+        Tue, 28 Jun 2022 03:24:43 -0700 (PDT)
+Received: by mail-yb1-xb2b.google.com with SMTP id q132so21387296ybg.10;
+        Tue, 28 Jun 2022 03:24:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=dk3qCncJZhuJL7oIz+/IJyOkd8/HlsDLi3zlYk8e4WM=;
+        b=oU7q6TpB5dCpRCh4m7N6CKCcPE3pV/9korBsXlXRimcU9S0tA6EwEE0ZI/yU2CWfji
+         TNwtymdgIJtdph7OftkXCnGzRWDHlg7d2kaTZv+3dvGNApQPskMLtdyc1xukdt6PMlFt
+         jaNhWdocWW0lSAWpZSRSKGYr/pp+ftjRlPizrqjqlHJntGhvjiZiVJYABzuDH//GOEgf
+         X1oqMbU/vZETDmwJGmserZywaDRF5t/L6kigxbxb2AXrejG7YfNH7UeY7vNMZar3vJRJ
+         nNyV2TyDhvAcwIlrsLvCZlSsWc3wB3wn1c614C44g18dmdYkkQa63AljcDPkXe09d4HA
+         EUMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=dk3qCncJZhuJL7oIz+/IJyOkd8/HlsDLi3zlYk8e4WM=;
+        b=lDGVr2Co/x0cBnUCFF6vvqysHurNN3U4DtFX3OGgF/w2f+yAJzqo598V1LsRz6Dm+k
+         vhTHXscKUCjnaxdQppChF01slz7ZrBzJKlmdHc3/GBm0l3Hdzek/LngeVBn4zxZef+xl
+         ust+xRKZqmGn3XJgmNbg/XRED0U1uc563jO5zCTpjnJAje5Ab90oeXB/EtXsW9hQZstM
+         wuxPBhjw8RbT0F+J2tfTIE/t2b4Ns7lct8D5gJSTANPJl22E1DrW8VuXw5qhSmDNq021
+         MvWSR46X3E3p0ok9YKPukt+ZYuTc8kCRr7oUT3BLKuhChnuldXWAOlvW49Jp0dGBei+q
+         aY0g==
+X-Gm-Message-State: AJIora9+r48zh9ywv/2YRpR6Bu6zf23CHMBBQUNJPdefeRd2n2IW/BtW
+        aOuSOM7vGJSK4KEEoWqCXhmStxoNDY73c+QxX2Y=
+X-Google-Smtp-Source: AGRyM1vmOvgu7oijx9AstcWTEZa+a3X5YHhRA1OL2Gu/Fv/D3ynLy6H1a6HwX3LtDWi7cyQmeOl779bVlwIEy5tg278=
+X-Received: by 2002:a25:5809:0:b0:66c:8709:3611 with SMTP id
+ m9-20020a255809000000b0066c87093611mr17054115ybb.608.1656411882606; Tue, 28
+ Jun 2022 03:24:42 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <cd2746e9496731e559dc8129c6bade369be25c4b.1656409369.git.mchehab@kernel.org>
+References: <20220627151819.22694-9-lukas.bulwahn@gmail.com> <a2be48e5-e559-17d7-5ae7-d1205a737ea4@gmail.com>
+In-Reply-To: <a2be48e5-e559-17d7-5ae7-d1205a737ea4@gmail.com>
+From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date:   Tue, 28 Jun 2022 12:24:31 +0200
+Message-ID: <CAKXUXMwvF=DKZGvECMcfkHv959W-HSZ62Xi3CsjKN_xWGJuUKg@mail.gmail.com>
+Subject: Re: [RFC PATCH 08/11] docs: ja_JP: howto: remove reference to removed submitting-drivers
+To:     Akira Yokosawa <akiyks@gmail.com>
+Cc:     Alex Shi <alexs@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        Federico Vaga <federico.vaga@vaga.pv.it>,
+        Jean Delvare <jdelvare@suse.com>,
+        kernel-janitors <kernel-janitors@vger.kernel.org>,
+        linux-doc-tw-discuss@lists.sourceforge.net,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-hwmon@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Yanteng Si <siyanteng@loongson.cn>,
+        Hu Haowen <src.res@email.cn>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jun 28, 2022 at 10:46:10AM +0100, Mauro Carvalho Chehab wrote:
-> The vfs uid/gid parameters have a different name at the function
-> prototype causing kernel-doc warnings. Update them for the parameters
-> to match, fixing those warnings:
-> 
-> 	fs/attr.c:36: warning: Function parameter or member 'ia_vfsuid' not described in 'chown_ok'
-> 	fs/attr.c:36: warning: Excess function parameter 'uid' description in 'chown_ok'
-> 	fs/attr.c:63: warning: Function parameter or member 'ia_vfsgid' not described in 'chgrp_ok'
-> 	fs/attr.c:63: warning: Excess function parameter 'gid' description in 'chgrp_ok'
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
-> ---
-
-This is already fixed in my tree and in -next as
-81a1807d80dd26cdf8a357cf55f556ade90c7fda
-
-So you can drop this.
-
-Thanks!
-Christian
+T24gVHVlLCBKdW4gMjgsIDIwMjIgYXQgNzoyNSBBTSBBa2lyYSBZb2tvc2F3YSA8YWtpeWtzQGdt
+YWlsLmNvbT4gd3JvdGU6DQo+DQo+IEhpIEx1a2FzLA0KPg0KPiBPbiBNb24sIDI3IEp1biAyMDIy
+IDE3OjE4OjE2ICswMjAwLCBMdWthcyBCdWx3YWhuIHdyb3RlOg0KPiA+IFRoZSBkb2N1bWVudCBz
+dWJtaXR0aW5nLWRyaXZlcnMucnN0IHdhcyBkZWxldGVkLiBUaGlzIHJlbW92ZXMgdGhlDQo+ID4g
+Y29ycmVzcG9uZGluZyByZWZlcmVuY2UgaW4gdGhlIEphcGFuZXNlIHRyYW5zbGF0aW9uIG9mIHRo
+ZSBob3d0by4NCj4gPg0KPiA+IFNpZ25lZC1vZmYtYnk6IEx1a2FzIEJ1bHdhaG4gPGx1a2FzLmJ1
+bHdhaG5AZ21haWwuY29tPg0KPg0KPiBTZWUgYmVsb3cgZm9yIHN1Z2dlc3Rpb24gb2YgcGx1cmFs
+IHRvIHNpbmd1bGFyIGNoYW5nZS4NCj4NCg0KVGhhbmtzIGZvciB5b3VyIGhlbHAuDQoNCk9uY2Ug
+Sm9uYXRoYW4gaGFzIHJldmlld2VkIGFuZCBwcmluY2lwYWxseSBhY2tub3dsZWRnZWQgdGhpcyBz
+ZXJpZXMsIEkNCndpbGwgY29weSBpdCBkaXJlY3RseSBmcm9tIHRoaXMgZW1haWwgaW4gcmF3IGZv
+cm0gaW50byB0aGUgLnJzdCBmaWxlLA0KYW1lbmQgdGhlIGNvbW1pdCBhbmQgc2VuZCBvdXQgdGhl
+IG5ldyBwYXRjaCBzZXJpZXMuDQoNCkx1a2FzDQoNCj4gPiAtLS0NCj4gPiAgRG9jdW1lbnRhdGlv
+bi90cmFuc2xhdGlvbnMvamFfSlAvaG93dG8ucnN0IHwgMiArLQ0KPiA+ICAxIGZpbGUgY2hhbmdl
+ZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkNCj4gPg0KPiA+IGRpZmYgLS1naXQgYS9E
+b2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy9qYV9KUC9ob3d0by5yc3QgYi9Eb2N1bWVudGF0aW9u
+L3RyYW5zbGF0aW9ucy9qYV9KUC9ob3d0by5yc3QNCj4gPiBpbmRleCAzOGZlZDZmZTYyZmUuLjAz
+YjIwNzllNGQ1ZCAxMDA2NDQNCj4gPiAtLS0gYS9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy9q
+YV9KUC9ob3d0by5yc3QNCj4gPiArKysgYi9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy9qYV9K
+UC9ob3d0by5yc3QNCj4gPiBAQCAtMTI5LDcgKzEyOSw3IEBAIGxpbnV4LWFwaUB2Z2VyLmtlcm5l
+bC5vcmcg44Gr6YCB44KL44GT44Go44KS5Yun44KB44G+44GZ44CCDQo+ID4gICAgICDjg6vjgavl
+vpPjgaPjgabjgYTjgovjgoLjga7jgaDjgZHjgpLlj5fjgZHku5jjgZHjgIHlpJrjgY/jga7kurrj
+ga/mraPjgZfjgYTjgrnjgr/jgqTjg6vjga7jgrPjg7zjg4kNCj4gPiAgICAgIOOBoOOBkeOCkuOD
+rOODk+ODpeODvOOBl+OBvuOBmeOAgg0KPiA+DQo+ID4gLSAgOnJlZjpgRG9jdW1lbnRhdGlvbi9w
+cm9jZXNzL3N1Ym1pdHRpbmctcGF0Y2hlcy5yc3QgPGNvZGluZ3N0eWxlPmAg44GoIDpyZWY6YERv
+Y3VtZW50YXRpb24vcHJvY2Vzcy9zdWJtaXR0aW5nLWRyaXZlcnMucnN0IDxzdWJtaXR0aW5nZHJp
+dmVycz5gDQo+ID4gKyAgOnJlZjpgRG9jdW1lbnRhdGlvbi9wcm9jZXNzL3N1Ym1pdHRpbmctcGF0
+Y2hlcy5yc3QgPGNvZGluZ3N0eWxlPmANCj4gPiAgICAgIOOBk+OCjOOCieOBruODleOCoeOCpOOD
+q+OBq+OBr+OAgeOBqeOBhuOChOOBo+OBpuOBhuOBvuOBj+ODkeODg+ODgeOCkuS9nOOBo+OBpuaK
+leeov+OBmeOCi+OBi+OBq+OBpA0KPg0KPiAgICAgICAg44GT44Gu44OV44Kh44Kk44Or44Gr44Gv
+44CB44Gp44GG44KE44Gj44Gm44GG44G+44GP44OR44OD44OB44KS5L2c44Gj44Gm5oqV56i/44GZ
+44KL44GL44Gr44GkDQo+DQo+ID4gICAgICDjgYTjgabpnZ7luLjjgavoqbPjgZfjgY/mm7jjgYvj
+gozjgabjgYrjgorjgIHku6XkuIvjgpLlkKvjgb/jgb7jgZkgKOOBk+OCjOOBoOOBkeOBq+mZkOOC
+ieOBquOBhA0KPiA+ICAgICAg44GR44KM44Gp44KCKQ0KPiA+IC0tDQo+ID4gMi4xNy4xDQo+DQo+
+ICAgICAgICAgVGhhbmtzLCBBa2lyYQ0KPg0K
