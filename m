@@ -2,405 +2,261 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7687AC433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Jun 2022 12:45:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F407AC43334
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Jun 2022 12:46:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238226AbiF1MpO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 28 Jun 2022 08:45:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42098 "EHLO
+        id S1345916AbiF1Mqd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 28 Jun 2022 08:46:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43126 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232057AbiF1MpM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Jun 2022 08:45:12 -0400
-Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 09334193ED
-        for <linux-doc@vger.kernel.org>; Tue, 28 Jun 2022 05:45:09 -0700 (PDT)
-Received: from [192.168.100.8] (unknown [112.20.112.134])
-        by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dx_9fQ97piqqNhAA--.14880S3;
-        Tue, 28 Jun 2022 20:45:04 +0800 (CST)
-Message-ID: <ea5f1206-f34c-9907-e7c4-f97122e84dce@loongson.cn>
-Date:   Tue, 28 Jun 2022 20:45:04 +0800
+        with ESMTP id S1345810AbiF1Mqc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Jun 2022 08:46:32 -0400
+Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com [IPv6:2607:f8b0:4864:20::62c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EAAD1237F0
+        for <linux-doc@vger.kernel.org>; Tue, 28 Jun 2022 05:46:30 -0700 (PDT)
+Received: by mail-pl1-x62c.google.com with SMTP id m2so10983432plx.3
+        for <linux-doc@vger.kernel.org>; Tue, 28 Jun 2022 05:46:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=715HAh+gaqfIa4Kb1ioduoLaMYUWMYMaYysEaJLHKcE=;
+        b=CelmbGOKMV6GkiEp4VrISq41OvUgSlP818ECLmYKz+GIjFmczsZvD/Kg23EdF+D1rh
+         5CVyrJe7KlFcIbLxcmpYp6hRsJZMSsofEiz8xBNLNyie3T5BNFIH4MSifHUb4kZyPeIT
+         LsPqPtT3itouJ5QpGLWBcrzUmiqbMXwDN1nhhrYcrcXFfHwHBpVJ+mrqhggtNK19/XNV
+         Z0M1/pn5SPbjX4PkBm0Xux8o9k11Amfkm7i2TswLQr8OVE46qWG4nx+lD0rJab7/DDjt
+         XdjGNyRLFD3UEp262uHJDwH5wPKcKt4RzXOImiHoshEveHgev+AJQKS19KMhAWIvBHE5
+         7TJA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=715HAh+gaqfIa4Kb1ioduoLaMYUWMYMaYysEaJLHKcE=;
+        b=hyg0Y4UNjJ9cqNHn/L/udAQ7stOI9cgZ9QAaOkb5OFrN/v6IW6wWQfnobVP6embB71
+         lQGHvR7h0k8MjIEvB/XHfTPYlgB0DRajgN2EG4s5c+3D4OT+hp1T+aw45grcWe9FxUbo
+         85MxqcA301PN8diVuBf1tRPV75ZZFWedqgKRk17GwMYdJF4LYd9R00W45G7jFf7f/arM
+         QdNIQcjAOgDFayz4Cu43CR+SnG1Kf0kpmh0kyUdtevqLXq75zsYgvwfHl0e4HWZLsQpL
+         2OMVSsp7cQ2M07D+YTxrl5FkJN6ma8QJGLm3zkEWChoAnBuqbgwcTO62jAwdozFyb6NH
+         5FjA==
+X-Gm-Message-State: AJIora/Zf/6oflgYbLlL46OGDXv1J9mi301dYIO7uK3nmOabuC8WHMiz
+        m4uV7Sf6pWafoJKw1tWaqcjZJQ==
+X-Google-Smtp-Source: AGRyM1voYmbeQ1MR2tSvuisZXplLREXb9RkvvSLXIe4vLZqkD1GQG3w1pjl/UioIlRG3Q+hyGTRKcA==
+X-Received: by 2002:a17:902:ea0d:b0:16a:68f6:f381 with SMTP id s13-20020a170902ea0d00b0016a68f6f381mr3465407plg.145.1656420390387;
+        Tue, 28 Jun 2022 05:46:30 -0700 (PDT)
+Received: from MacBook-Pro.local.net ([139.177.225.225])
+        by smtp.gmail.com with ESMTPSA id v187-20020a6261c4000000b005255f5d8f9fsm9400295pfb.112.2022.06.28.05.46.26
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 28 Jun 2022 05:46:30 -0700 (PDT)
+From:   lizhe.67@bytedance.com
+To:     tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com
+Cc:     lizefan.x@bytedance.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, lizhe.67@bytedance.com
+Subject: [RFC v2] memmap: introduce cmdline parameter "memmap=nn[KMG]$" without start addr
+Date:   Tue, 28 Jun 2022 20:45:29 +0800
+Message-Id: <20220628124529.15431-1-lizhe.67@bytedance.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH] docs/zh_CN: core-api: Add watch_queue Chinese translation
-To:     Binbin Zhou <zhoubinbin@loongson.cn>, alexs@kernel.org
-Cc:     corbet@lwn.net, chenhuacai@loongson.cn, bobwxc@email.cn,
-        linux-doc@vger.kernel.org, zhoubb.aaron@gmail.com
-References: <20220627131127.10090-1-zhoubinbin@loongson.cn>
-From:   YanTeng Si <siyanteng@loongson.cn>
-In-Reply-To: <20220627131127.10090-1-zhoubinbin@loongson.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9Dx_9fQ97piqqNhAA--.14880S3
-X-Coremail-Antispam: 1UD129KBjvAXoWfJr13Kw18XF1fWrykJF47urg_yoW8GryDCo
-        W3trs8Cw4kCF1rJa4Ykws3JFW2gF45WF18AFZ3Crn8Zw17Aw4rAan5JwsxtrZ2yrs5GF4r
-        Aa48Gw48uF4rA3Wrn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
-        AaLaJ3UjIYCTnIWjp_UUUY-7AC8VAFwI0_Gr0_Xr1l1xkIjI8I6I8E6xAIw20EY4v20xva
-        j40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2
-        x7M28EF7xvwVC0I7IYx2IY67AKxVW8JVW5JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8
-        JVWxJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
-        Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
-        I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
-        4UM4x0Y48IcVAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCYjI0SjxkI62AI1cAE67vI
-        Y487MxkIecxEwVAFwVW5JwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8Jw
-        C20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAF
-        wI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjx
-        v20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6rWUJVWrZr1UMIIF0xvE
-        x4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvj
-        DU0xZFpf9x0JUDWrXUUUUU=
-X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+From: Li Zhe <lizhe.67@bytedance.com>
 
-在 2022/6/27 21:11, Binbin Zhou 写道:
-> Translate core-api/watch_queue.rst into Chinese.
->
-> The lastest commit of this file is commit f5461124d59b
-> ("Documentation: move watch_queue to core-api")
->
-> Signed-off-by: Binbin Zhou <zhoubinbin@loongson.cn>
-> ---
->   .../translations/zh_CN/core-api/index.rst     |   1 +
->   .../zh_CN/core-api/watch_queue.rst            | 310 ++++++++++++++++++
->   2 files changed, 311 insertions(+)
->   create mode 100644 Documentation/translations/zh_CN/core-api/watch_queue.rst
->
-> diff --git a/Documentation/translations/zh_CN/core-api/index.rst b/Documentation/translations/zh_CN/core-api/index.rst
-> index 26d9913fc8b6..7ca44629860c 100644
-> --- a/Documentation/translations/zh_CN/core-api/index.rst
-> +++ b/Documentation/translations/zh_CN/core-api/index.rst
-> @@ -28,6 +28,7 @@
->      printk-basics
->      printk-formats
->      workqueue
-> +   watch_queue
->      symbol-namespaces
->   
->   数据结构和低级实用程序
-> diff --git a/Documentation/translations/zh_CN/core-api/watch_queue.rst b/Documentation/translations/zh_CN/core-api/watch_queue.rst
-> new file mode 100644
-> index 000000000000..340d2229e85f
-> --- /dev/null
-> +++ b/Documentation/translations/zh_CN/core-api/watch_queue.rst
-> @@ -0,0 +1,310 @@
-> +.. SPDX-License-Identifier: GPL-2.0+
-> +
-> +.. include:: ../disclaimer-zh_CN.rst
-> +
-> +:Original: Documentation/core-api/watch_queue.rst
-> +
-> +:翻译:
-> +
-> +周彬彬 Binbin Zhou <zhoubinbin@loongson.cn>
-> +
-> +.. _cn_watch_queue.rst:
-Now, this tag is useless, so let's delete it.
-> +
-> +
-> +============
-> +通用通知机制
-> +============
-> +
-> +通用通知机制是建立在标准管道驱动之上的，它可以有效地将来自内核的通知消息拼接到用
-> +户空间打开的管道中。这可以与以下方面结合使用::
-> +
-> +  * Key/keyring 通知
-> +
-> +通知缓冲区可以通过以下方式启用：
-> +
-> +	"General setup"/"General notification queue"
-> +	(CONFIG_WATCH_QUEUE)
-> +
-> +文档包含以下章节：
-> +
-> +.. contents:: :local:
-> +
-> +
-> +概述
-> +====
-> +
-> +该设施以一种特殊模式打开的管道形式出现，管道的内部环形缓冲区用于保存内核生成的消
-> +息。然后通过read()读出这些消息。在此类管道上禁用拼接以及类似的操作，因为它们希望
-> +在某些情况下将其添加的内容还原到环中-这可能最终会与通知消息交错。
-How about 最终会与通知消息重叠 ？
-> +
-> +管道的所有者必须告诉内核它想通过该管道观察哪些源。只有连接到该管道上的源才会将消
-> +息插入其中。请注意，一个源可能绑定到多个管道，并同时将消息插入到所有管道中。
-> +
-> +还可以将过滤器放置在管道上，以便在不感兴趣时可以忽略某些源类型和子事件。
-> +
-> +如果环中没有可用的插槽，或者没有预分配的消息缓冲区可用，则将丢弃消息。在这两种情
-> +况下，read()都会在读取缓冲区中当前的最后一条消息后，将WATCH_META_LOSS_NOTIFICATION
-> +插入到输出缓冲区中。
-> +
-> +请注意，当生成一个通知时，内核不会等待消费者收集它，而是继续执行。这意味着可以在
-> +持有自旋锁的同时生成通知，并且还可以保护内核不被用户空间故障无限期地阻碍。
-> +
-> +
-> +消息结构
-> +========
-> +
-> +通知消息由一个简短的头部开始::
-> +
-> +	struct watch_notification {
-> +		__u32	type:24;
-> +		__u32	subtype:8;
-> +		__u32	info;
-> +	};
-> +
-> +"type"表示通知记录的来源，"subtype"表示该来源的记录类型（见下文观察源章节）。该类
-观察源 -> 观测源
-> +型也可以是"WATCH_TYPE_META"。这是一个由观测队列本身在内部生成的特殊记录类型。有两
-> +个子类型：
-> +
-> +  * WATCH_META_REMOVAL_NOTIFICATION
-> +  * WATCH_META_LOSS_NOTIFICATION
-> +
-> +第一个表示安装了观察的对象已被删除或销毁，第二个表示某些消息已丢失。
-> +
-> +"info"表示一系列东西，包括：
-> +
-> +  * 消息的长度，以字节为单位，包括头（带有WATCH_INFO_LENGTH的掩码，并按
-> +    WATCH_INFO_LENGTH__SHIFT移位）。这表示记录的大小，可能在8到127字节之间。
-> +
-> +  * 观测ID（带有WATCH_INFO_ID掩码，并按WATCH_INFO_ID__SHIFT移位）。这表示观测的主
-> +    叫ID，可能在0到255之间。多个观测组可以共享一个队列，这提供了一种区分它们的方法。
-> +
-> +  * 特定类型的字段（WATCH_INFO_TYPE_INFO）。这是由通知生产者设置的，以指示类型和
-> +    子类型的某些特定含义。
-> +
-> +除长度外，信息中的所有内容都可以用于过滤。
-> +
-> +头部后面可以有补充信息。此格式是由类型和子类型决定的。
-> +
-> +
-> +观测列表（通知源）API
-> +=====================
-> +
-> +"观测列表"是订阅通知源的观测者的列表。列表可以附加到对象（比如键或超级块），也可
-> +以是全局的（比如对于设备事件）。从用户空间的角度来看，一个非全局的观测列表通常是
-> +通过引用它所属的对象来引用的（比如使用KEYCTL_NOTIFY并给它一个密钥序列号来观测特定
-> +的密钥）。
-> +
-> +为了管理观测列表，提供了以下函数：
-> +
-> +  * ::
-> +
-> +	void init_watch_list(struct watch_list *wlist,
-> +			     void (*release_watch)(struct watch *wlist));
-> +
-> +    初始化一个观测列表。 如果``release_watch`` 不是NULL，那么这表示当watch_list对
-> +    象被销毁时，应该调用函数来丢弃观测列表对被观测对象的任何引用。
-> +
-> +  * ``void remove_watch_list(struct watch_list *wlist);``
-> +
-> +    这将删除订阅watch_list的所有监视，并释放它们，然后销毁watch_list对象本身。
-> +
-> +
-> +观测队列（通知输出）API
-> +=======================
-> +
-> +"观测队列"是由应用程序分配的用以记录通知的缓冲区，其工作原理完全隐藏在管道设备驱
-> +动中，但必须获得对它的引用才能设置监视。可以通过以下方式进行管理：
-> +
-> +  * ``struct watch_queue *get_watch_queue(int fd);``
-> +
-> +    由于观测队列在内核中通过实现缓冲区的管道的文件描述符表示，用户空间必须通过系
-> +    统调用传递该文件描述符，这可以用于从系统调用中查找指向观测队列的不透明指针。
-> +
-> +  * ``void put_watch_queue(struct watch_queue *wqueue);``
-> +
-> +    该函数用以丢弃从``get_watch_queue()`` 获得的引用。
-> +
-> +
-> +观测订阅API
-> +===========
-> +
-> +“观测”是观测列表上的订阅，表示观测队列，从而表示应写入通知记录的缓冲区。观测队列
-> +对象还可以携带该对象的过滤规则，由用户空间设置。watch 结构的某些部分可以由驱动程
-> +序设置::
-> +
-> +	struct watch {
-> +		union {
-> +			u32		info_id;	/* 在info字段中进行OR运算的ID */
-> +			...
-> +		};
-> +		void			*private;	/* 被观测对象的私有数据 */
-> +		u64			id;		/* 内部标识符 */
-> +		...
-> +	};
-> +
-> +``info_id`` 值是从用户空间获得并按WATCH_INFO_ID__SHIFT移位的8位数字。当通知写入关
-> +联的观测队列缓冲区时，这将与struct watch_notification::info的WATCH_INFO_ID字段进
-> +行或运算。
-> +
-> +``private`` 字段是与watch_list相关联的驱动程序数据，并由``watch_list::release_watch()``
-> +函数清除。
-> +
-> +``id`` 字段是源的ID。使用不同ID发布的通知将被忽略。
-> +
-> +提供以下函数来管理观测:
-> +
-> +  * ``void init_watch(struct watch *watch, struct watch_queue *wqueue);``
-> +
-> +    初始化一个观测对象，把它的指针设置到观察队列中，使用适当的限制来避免死锁。
-> +
-> +  * ``int add_watch_to_object(struct watch *watch, struct watch_list *wlist);``
-> +
-> +    将观测订阅到观测列表（通知源）。watch结构体中的driver-settable字段必须在调用
-> +    它之前设置。
-> +
-> +  * ::
-> +
-> +	int remove_watch_from_object(struct watch_list *wlist,
-> +				     struct watch_queue *wqueue,
-> +				     u64 id, false);
-> +
-> +    从观测列表中删除一个观测，该观测必须与指定的观测队列（``wqueue``）和对象标识
-> +    符（``id``）匹配。通知（``WATCH_META_REMOVAL_NOTIFICATION``）被发送到观测队列
-> +    表示该观测已被删除。
-> +
-> +  * ``int remove_watch_from_object(struct watch_list *wlist, NULL, 0, true);``
-> +
-> +    从观测列表中删除所有观测。 预计这将被称为销毁前的准备工作，届时新的观测将无法
-> +    访问观测列表。通知（``WATCH_META_REMOVAL_NOTIFICATION``）被发送到每个订阅观测
-> +    的观测队列，以表明该观测已被删除。
-> +
-> +
-> +通知发布API
-> +===========
-> +
-> +要将通知发布到观测列表以便订阅的观测可以看到，应使用以下函数::
-> +
-> +	void post_watch_notification(struct watch_list *wlist,
-> +				     struct watch_notification *n,
-> +				     const struct cred *cred,
-> +				     u64 id);
-> +
-> +应预先设置通知格式，并应传入一个指向头部（``n``）的指针。通知可能大于此值，并且缓
-> +冲槽为单位的大小在``n->info & WATCH_INFO_LENGTH`` 中注明。
-> +
-> +``cred`` 结构表示源（对象）的证书，并传递给LSM，例如SELinux，以允许或禁止根据该队
-> +列（对象）的证书在每个单独队列中记录注释。
-> +
-> +``id`` 是源对象ID（如密钥上的序列号）。只有设置相同ID的观测才能看到这个通知。
-> +
-> +
-> +观测源
-> +======
-> +
-> +任何特定的缓冲区都可以从多个源获取信息。 这些源包括:
-> +
-> +  * WATCH_TYPE_KEY_NOTIFY
-> +
-> +    这种类型的通知表示密钥和密钥环的变化，包括密钥环内容或密钥属性的变化。
-> +
-> +    更多信息请参见Documentation/security/keys/core.rst。
-> +
-> +
-> +事件过滤
-> +========
-> +
-> +当创建观测队列后，我们可以应用一组过滤器以限制接收的事件::
-> +
-> +	struct watch_notification_filter filter = {
-> +		...
-> +	};
-> +	ioctl(fd, IOC_WATCH_QUEUE_SET_FILTER, &filter)
-> +
-> +过滤器的描述的类型变量是::
-> +
-> +	struct watch_notification_filter {
-> +		__u32	nr_filters;
-> +		__u32	__reserved;
-> +		struct watch_notification_type_filter filters[];
-> +	};
-> +
-> +其中"nr_filters"表示filters[]数组中过滤器的数量，而"__reserved"应为0。
-> +"filter"数组有以下类型的元素::
-> +
-> +	struct watch_notification_type_filter {
-> +		__u32	type;
-> +		__u32	info_filter;
-> +		__u32	info_mask;
-> +		__u32	subtype_filter[8];
-> +	};
-> +
-> +其中：
-> +
-> +  * ``type`` 是过滤的事件类型，应类似于"WATCH_TYPE_KEY_NOTIFY"。
-> +
-> +  * ``info_filter`` 与``info_mask`` 充当通知记录的信息字段的过滤器，只有在以下情
-> +    况，通知才会写入缓冲区::
-> +
-> +	(watch.info & info_mask) == info_filter
-> +
-> +    例如，这可以用于忽略不在一个挂载树上的观测点的事件。
-> +
-> +  * ``subtype_filter`` 是一个位掩码，表示感兴趣的子类型。subtype_filter[0]的
-> +    bit[0]对应子类型0，bit[1]对应子类型1，以此类推。
-> +
-> +若ioctl()的参数为NULL，则过滤器将被移除，并且来自观测源的所有事件都将通过。
-> +
-> +
-> +用户空间代码示例
-> +================
-> +
-> +缓冲区的创建如下所示::
-> +
-> +	pipe2(fds, O_TMPFILE);
-> +	ioctl(fds[1], IOC_WATCH_QUEUE_SET_SIZE, 256);
-> +
-> +它可以被设置成接收密钥环变化的通知::
-> +
-> +	keyctl(KEYCTL_WATCH_KEY, KEY_SPEC_SESSION_KEYRING, fds[1], 0x01);
-> +
-> +然后，这些通知可以被如下方式所使用::
-> +
-> +	static void consumer(int rfd, struct watch_queue_buffer *buf)
-> +	{
-> +		unsigned char buffer[128];
-> +		ssize_t buf_len;
-> +
-> +		while (buf_len = read(rfd, buffer, sizeof(buffer)),
-> +		       buf_len > 0
-> +		       ) {
-> +			void *p = buffer;
-> +			void *end = buffer + buf_len;
-> +			while (p < end) {
-> +				union {
-> +					struct watch_notification n;
-> +					unsigned char buf1[128];
-> +				} n;
-> +				size_t largest, len;
-> +
-> +				largest = end - p;
-> +				if (largest > 128)
-> +					largest = 128;
-> +				memcpy(&n, p, largest);
-> +
-> +				len = (n->info & WATCH_INFO_LENGTH) >>
-> +					WATCH_INFO_LENGTH__SHIFT;
-> +				if (len == 0 || len > largest)
-> +					return;
-> +
-> +				switch (n.n.type) {
-> +				case WATCH_TYPE_META:
-> +					got_meta(&n.n);
-> +				case WATCH_TYPE_KEY_NOTIFY:
-> +					saw_key_change(&n.n);
-> +					break;
-> +				}
-> +
-> +				p += len;
-> +			}
-> +		}
-> +	}
+In current kernel we can use memmap=nn[KMG]$ss[KMG] to reserve an
+area of memory for userspace usage through /dev/mem. We have to
+determine the start addr and length. In our scenario, we need
+reserve or alloc large continuous physical memory at least 256M in
+512G's machine, and need reserve more memory in larger machine, at
+just boot phase for a userspace program. And these memories will not
+be freed to system before system reboot. The userspace program can
+use the memory through /dev/mem to store some data. Besides, a
+hardware will need the data stored by the userspace program to do
+it's job. Why we need continuous memory is that the hardware can
+only access memory without mmu. So allocing an area of large
+continuous physical memory for userspace is the best way for us.
+Considering that we have several types of machine with different
+memory specifications, we want an easy way to reserve memory with
+only one size parameter.
 
+This patch introduce a cmdline parameter "memmap=nn[KMG]$". It is
+an extension of "memmap=nn[KMG]$ss[KMG]". We don't need to input
+the start addr. Kernel will reserve a suitable area of memory for
+us. We can get the area from /proc/iomem with the key word "Reserved
+Random" and access the memory through /dev/mem. Notice that we need
+"$" in our cmdline parameter or it will be confused with
+memmap=nn[KMG]@ss[KMG].
 
-Thanks,
+Changes from v1
+(https://lore.kernel.org/lkml/20220623062402.12392-1-lizhe.67@bytedance.com/)
+- Rename the region from "Memmap Alloc" to "Reserved Random"
+- add "Reserved Random" region into e820 table
+- add a new e820_type "E820_TYPE_RESERVED_RANDOM"
 
-Yanteng
+Signed-off-by: Li Zhe <lizhe.67@bytedance.com>
+---
+ .../admin-guide/kernel-parameters.txt         |  7 ++++
+ arch/x86/include/asm/e820/api.h               |  1 +
+ arch/x86/include/asm/e820/types.h             |  7 ++++
+ arch/x86/kernel/e820.c                        | 41 +++++++++++++++++--
+ arch/x86/kernel/setup.c                       |  1 +
+ 5 files changed, 53 insertions(+), 4 deletions(-)
+
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 2522b11e593f..9c1b7ad39523 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -3022,6 +3022,13 @@
+ 			         memmap=64K$0x18690000
+ 			         or
+ 			         memmap=0x10000$0x18690000
++			[KNL, X86] If ss[KMG] is omitted, kernel will reserve a
++			suitable area of memory for us. We can find the area from
++			/proc/iomem with key word "Reserved Random".
++			Example: Exclude memory with size 0x10000
++					 memmap=64K$
++					 or
++					 memmap=0x10000$
+ 			Some bootloaders may need an escape character before '$',
+ 			like Grub2, otherwise '$' and the following number
+ 			will be eaten.
+diff --git a/arch/x86/include/asm/e820/api.h b/arch/x86/include/asm/e820/api.h
+index e8f58ddd06d9..6fd959737396 100644
+--- a/arch/x86/include/asm/e820/api.h
++++ b/arch/x86/include/asm/e820/api.h
+@@ -30,6 +30,7 @@ extern void e820__memblock_setup(void);
+ 
+ extern void e820__reserve_setup_data(void);
+ extern void e820__finish_early_params(void);
++extern void e820__add_reserve_random(void);
+ extern void e820__reserve_resources(void);
+ extern void e820__reserve_resources_late(void);
+ 
+diff --git a/arch/x86/include/asm/e820/types.h b/arch/x86/include/asm/e820/types.h
+index 314f75d886d0..577be1222b94 100644
+--- a/arch/x86/include/asm/e820/types.h
++++ b/arch/x86/include/asm/e820/types.h
+@@ -15,6 +15,13 @@ enum e820_type {
+ 	E820_TYPE_UNUSABLE	= 5,
+ 	E820_TYPE_PMEM		= 7,
+ 
++	/*
++	 * This type is used for cmdline "memmap=size$" to reserve
++	 * an area of memory that user do not need to input start
++	 * addr.
++	 */
++	E820_TYPE_RESERVED_RANDOM = 8,
++
+ 	/*
+ 	 * This is a non-standardized way to represent ADR or
+ 	 * NVDIMM regions that persist over a reboot.
+diff --git a/arch/x86/kernel/e820.c b/arch/x86/kernel/e820.c
+index f267205f2d5a..aecb1b6bb3c0 100644
+--- a/arch/x86/kernel/e820.c
++++ b/arch/x86/kernel/e820.c
+@@ -64,6 +64,8 @@ struct e820_table *e820_table __refdata			= &e820_table_init;
+ struct e820_table *e820_table_kexec __refdata		= &e820_table_kexec_init;
+ struct e820_table *e820_table_firmware __refdata	= &e820_table_firmware_init;
+ 
++static u64 memmap_random_size __initdata;
++
+ /* For PCI or other memory-mapped resources */
+ unsigned long pci_mem_start = 0xaeedbabe;
+ #ifdef CONFIG_PCI
+@@ -189,7 +191,8 @@ static void __init e820_print_type(enum e820_type type)
+ 	switch (type) {
+ 	case E820_TYPE_RAM:		/* Fall through: */
+ 	case E820_TYPE_RESERVED_KERN:	pr_cont("usable");			break;
+-	case E820_TYPE_RESERVED:	pr_cont("reserved");			break;
++	case E820_TYPE_RESERVED:    /* Fall through: */
++	case E820_TYPE_RESERVED_RANDOM: pr_cont("reserved");            break;
+ 	case E820_TYPE_SOFT_RESERVED:	pr_cont("soft reserved");		break;
+ 	case E820_TYPE_ACPI:		pr_cont("ACPI data");			break;
+ 	case E820_TYPE_NVS:		pr_cont("ACPI NVS");			break;
+@@ -942,8 +945,22 @@ static int __init parse_memmap_one(char *p)
+ 		start_at = memparse(p+1, &p);
+ 		e820__range_add(start_at, mem_size, E820_TYPE_ACPI);
+ 	} else if (*p == '$') {
+-		start_at = memparse(p+1, &p);
+-		e820__range_add(start_at, mem_size, E820_TYPE_RESERVED);
++		if (*(p+1) == '\0') {
++			/*
++			 * In the case we just want to reserve memory with size
++			 * 'mem_size' and don't care where it start, we get '\0'
++			 * here.
++			 */
++			p++;
++			if (IS_ALIGNED(mem_size, PAGE_SIZE))
++				memmap_random_size = mem_size;
++			else
++				pr_err("Reserve Random should input with size aligned to 0x%lx\n",
++						PAGE_SIZE);
++		} else {
++			start_at = memparse(p+1, &p);
++			e820__range_add(start_at, mem_size, E820_TYPE_RESERVED);
++		}
+ 	} else if (*p == '!') {
+ 		start_at = memparse(p+1, &p);
+ 		e820__range_add(start_at, mem_size, E820_TYPE_PRAM);
+@@ -1082,6 +1099,7 @@ static const char *__init e820_type_to_string(struct e820_entry *entry)
+ 	case E820_TYPE_PRAM:		return "Persistent Memory (legacy)";
+ 	case E820_TYPE_PMEM:		return "Persistent Memory";
+ 	case E820_TYPE_RESERVED:	return "Reserved";
++	case E820_TYPE_RESERVED_RANDOM: return "Reserved Random";
+ 	case E820_TYPE_SOFT_RESERVED:	return "Soft Reserved";
+ 	default:			return "Unknown E820 type";
+ 	}
+@@ -1110,7 +1128,8 @@ static unsigned long __init e820_type_to_iores_desc(struct e820_entry *entry)
+ 	case E820_TYPE_NVS:		return IORES_DESC_ACPI_NV_STORAGE;
+ 	case E820_TYPE_PMEM:		return IORES_DESC_PERSISTENT_MEMORY;
+ 	case E820_TYPE_PRAM:		return IORES_DESC_PERSISTENT_MEMORY_LEGACY;
+-	case E820_TYPE_RESERVED:	return IORES_DESC_RESERVED;
++	case E820_TYPE_RESERVED:    /* Fall-through: */
++	case E820_TYPE_RESERVED_RANDOM: return IORES_DESC_RESERVED;
+ 	case E820_TYPE_SOFT_RESERVED:	return IORES_DESC_SOFT_RESERVED;
+ 	case E820_TYPE_RESERVED_KERN:	/* Fall-through: */
+ 	case E820_TYPE_RAM:		/* Fall-through: */
+@@ -1131,6 +1150,7 @@ static bool __init do_mark_busy(enum e820_type type, struct resource *res)
+ 	 */
+ 	switch (type) {
+ 	case E820_TYPE_RESERVED:
++	case E820_TYPE_RESERVED_RANDOM:
+ 	case E820_TYPE_SOFT_RESERVED:
+ 	case E820_TYPE_PRAM:
+ 	case E820_TYPE_PMEM:
+@@ -1145,6 +1165,19 @@ static bool __init do_mark_busy(enum e820_type type, struct resource *res)
+ 	}
+ }
+ 
++void __init e820__add_reserve_random(void)
++{
++	if (memmap_random_size) {
++		phys_addr_t start_at =
++			memblock_phys_alloc(memmap_random_size, PAGE_SIZE);
++		if (start_at == 0)
++			pr_err("cannot find suitable location for memmap\n");
++		else
++			e820__range_update(start_at, memmap_random_size,
++				E820_TYPE_RAM, E820_TYPE_RESERVED_RANDOM);
++	}
++}
++
+ /*
+  * Mark E820 reserved areas as busy for the resource manager:
+  */
+diff --git a/arch/x86/kernel/setup.c b/arch/x86/kernel/setup.c
+index bd6c6fd373ae..5b5ac40fc720 100644
+--- a/arch/x86/kernel/setup.c
++++ b/arch/x86/kernel/setup.c
+@@ -1223,6 +1223,7 @@ void __init setup_arch(char **cmdline_p)
+ 
+ 	x86_init.hyper.guest_late_init();
+ 
++	e820__add_reserve_random();
+ 	e820__reserve_resources();
+ 	e820__register_nosave_regions(max_pfn);
+ 
+-- 
+2.20.1
 
