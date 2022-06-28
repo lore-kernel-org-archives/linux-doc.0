@@ -2,83 +2,116 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 21A0FC433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Jun 2022 15:53:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 099A4CCA483
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Jun 2022 16:59:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348142AbiF1PxG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 28 Jun 2022 11:53:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33118 "EHLO
+        id S231397AbiF1Q7D (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 28 Jun 2022 12:59:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40000 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346284AbiF1PxF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Jun 2022 11:53:05 -0400
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BFF5A333;
-        Tue, 28 Jun 2022 08:53:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1656431584; x=1687967584;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=YNRS2j3hTEQ2v8S8S/DXdGWTlv0yIqKFJkVZbqJR1WM=;
-  b=YJxdjUpnNaJtW+MD/SEZFLnY1WM7J5BZByZepePktGse5IyjsOvycT51
-   tEtkjqGIBuFQprHyvGsWnX0D2joN0Vuewy+jEup7hfMwdgiglSIeZZmFt
-   GfkBdUG+P+XtMMOmxoRre205wmGBNV1CX0Nt7+IMc8Y/TtzNvaoO3NM04
-   0eURjoG6Upz8aM3CNHDjye8lgHjFoJCGtoow++LBnwkwWdPNOhmydlWVe
-   cilRZ0jPToyg5SpsF+Uvyhora0PRHwD129mW64n/3yTkvy9GaMBPw8QX2
-   Gb1TJrC/EpKgQsGtdz/zqikwsbOd4WIs/dvFcMgEWThAukWxq83LJbIO7
-   w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10392"; a="281814469"
-X-IronPort-AV: E=Sophos;i="5.92,229,1650956400"; 
-   d="scan'208";a="281814469"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jun 2022 08:53:04 -0700
-X-IronPort-AV: E=Sophos;i="5.92,229,1650956400"; 
-   d="scan'208";a="587912493"
-Received: from staibmic-mobl1.amr.corp.intel.com (HELO [10.209.67.166]) ([10.209.67.166])
-  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jun 2022 08:53:03 -0700
-Message-ID: <2eff7546-5ab5-d4cd-43f6-d66b6490d725@intel.com>
-Date:   Tue, 28 Jun 2022 08:52:00 -0700
+        with ESMTP id S237021AbiF1Q62 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Jun 2022 12:58:28 -0400
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E467095B2
+        for <linux-doc@vger.kernel.org>; Tue, 28 Jun 2022 09:58:14 -0700 (PDT)
+Received: from tr.lan (ip-86-49-12-201.bb.vodafone.cz [86.49.12.201])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: marex@denx.de)
+        by phobos.denx.de (Postfix) with ESMTPSA id B546F83A31;
+        Tue, 28 Jun 2022 18:58:12 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+        s=phobos-20191101; t=1656435492;
+        bh=pemWDkXYJYJHkIG427oBju+wORRrZ34sfzIWKrIjjq8=;
+        h=From:To:Cc:Subject:Date:From;
+        b=IvzCxh1aReSffScbyU7MPcoT71j/kqAsBwNudSXLIxDXxgV8fXjkKrQQK2GsZIqRV
+         9jNEtx2DBahdLghW0yWnQbxgBdr+shycnXKVjDbMpZ0HOt3T0qGYxWMkGSzHwvmT60
+         G3Xg0zt/SlOFP700Ow9+tUX8Ql4soSSs2ZTpDRQ0CwGssI+1mWPcOOv9JTyootYoVm
+         fQGuQi/DmVTHzaMNieXdkBMoLBGUZ4LB9xDUG26v0/BE1thRcFTCFI2GLtUVXOHuj+
+         E3A8nqpnSQsysF/M6U+sP2dlEjr2jQZqGhHJmH+UaQu0lM0LpCEkRXGsRlBik1EM2N
+         RZTn9Ww3LSubA==
+From:   Marek Vasut <marex@denx.de>
+To:     alsa-devel@alsa-project.org
+Cc:     perex@perex.cz, linux-doc@vger.kernel.org,
+        Marek Vasut <marex@denx.de>, Mark Brown <broonie@kernel.org>,
+        Takashi Iwai <tiwai@suse.de>
+Subject: [PATCH] ASoC: doc: Update dead links
+Date:   Tue, 28 Jun 2022 18:58:07 +0200
+Message-Id: <20220628165807.152191-1-marex@denx.de>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [RFC v2] memmap: introduce cmdline parameter "memmap=nn[KMG]$"
- without start addr
-Content-Language: en-US
-To:     lizhe.67@bytedance.com, tglx@linutronix.de, mingo@redhat.com,
-        bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
-        hpa@zytor.com
-Cc:     lizefan.x@bytedance.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20220628124529.15431-1-lizhe.67@bytedance.com>
-From:   Dave Hansen <dave.hansen@intel.com>
-In-Reply-To: <20220628124529.15431-1-lizhe.67@bytedance.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: clamav-milter 0.103.6 at phobos.denx.de
+X-Virus-Status: Clean
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 6/28/22 05:45, lizhe.67@bytedance.com wrote:
-> From: Li Zhe <lizhe.67@bytedance.com>
-> 
-> In current kernel we can use memmap=nn[KMG]$ss[KMG] to reserve an
-> area of memory for userspace usage through /dev/mem. We have to
-> determine the start addr and length. In our scenario, we need
-> reserve or alloc large continuous physical memory at least 256M in
-> 512G's machine, and need reserve more memory in larger machine, at
-> just boot phase for a userspace program. And these memories will not
-> be freed to system before system reboot. The userspace program can
-> use the memory through /dev/mem to store some data. Besides, a
-> hardware will need the data stored by the userspace program to do
-> it's job. Why we need continuous memory is that the hardware can
-> only access memory without mmu.
+The alsa-project documentation is now part of the kernel docs,
+the original links are long dead, update links.
 
-That's still a rather anemic description.
+Signed-off-by: Marek Vasut <marex@denx.de>
+Cc: Mark Brown <broonie@kernel.org>
+Cc: Takashi Iwai <tiwai@suse.de>
+---
+ Documentation/process/kernel-docs.rst | 2 +-
+ Documentation/sound/soc/codec.rst     | 2 +-
+ Documentation/sound/soc/platform.rst  | 2 +-
+ sound/pci/ens1370.c                   | 2 +-
+ 4 files changed, 4 insertions(+), 4 deletions(-)
 
-I don't think we want this code in the kernel with that description, sorry.
+diff --git a/Documentation/process/kernel-docs.rst b/Documentation/process/kernel-docs.rst
+index da9527502ef0e..644f9200fd919 100644
+--- a/Documentation/process/kernel-docs.rst
++++ b/Documentation/process/kernel-docs.rst
+@@ -108,7 +108,7 @@ On-line docs
+     * Title: **Writing an ALSA Driver**
+ 
+       :Author: Takashi Iwai <tiwai@suse.de>
+-      :URL: http://www.alsa-project.org/~iwai/writing-an-alsa-driver/index.html
++      :URL: https://www.kernel.org/doc/html/latest/sound/kernel-api/writing-an-alsa-driver.html
+       :Date: 2005
+       :Keywords: ALSA, sound, soundcard, driver, lowlevel, hardware.
+       :Description: Advanced Linux Sound Architecture for developers,
+diff --git a/Documentation/sound/soc/codec.rst b/Documentation/sound/soc/codec.rst
+index 57df149acafc5..af973c4cac930 100644
+--- a/Documentation/sound/soc/codec.rst
++++ b/Documentation/sound/soc/codec.rst
+@@ -132,7 +132,7 @@ The codec driver also supports the following ALSA PCM operations:-
+   };
+ 
+ Please refer to the ALSA driver PCM documentation for details.
+-http://www.alsa-project.org/~iwai/writing-an-alsa-driver/
++https://www.kernel.org/doc/html/latest/sound/kernel-api/writing-an-alsa-driver.html
+ 
+ 
+ DAPM description
+diff --git a/Documentation/sound/soc/platform.rst b/Documentation/sound/soc/platform.rst
+index c1badea53d3d3..7036630eaf016 100644
+--- a/Documentation/sound/soc/platform.rst
++++ b/Documentation/sound/soc/platform.rst
+@@ -46,7 +46,7 @@ snd_soc_component_driver:-
+   };
+ 
+ Please refer to the ALSA driver documentation for details of audio DMA.
+-http://www.alsa-project.org/~iwai/writing-an-alsa-driver/
++https://www.kernel.org/doc/html/latest/sound/kernel-api/writing-an-alsa-driver.html
+ 
+ An example DMA driver is soc/pxa/pxa2xx-pcm.c
+ 
+diff --git a/sound/pci/ens1370.c b/sound/pci/ens1370.c
+index 94efe347a97a9..89210b2c73424 100644
+--- a/sound/pci/ens1370.c
++++ b/sound/pci/ens1370.c
+@@ -8,7 +8,7 @@
+ /* Power-Management-Code ( CONFIG_PM )
+  * for ens1371 only ( FIXME )
+  * derived from cs4281.c, atiixp.c and via82xx.c
+- * using http://www.alsa-project.org/~tiwai/writing-an-alsa-driver/ 
++ * using https://www.kernel.org/doc/html/latest/sound/kernel-api/writing-an-alsa-driver.html
+  * by Kurt J. Bosch
+  */
+ 
+-- 
+2.35.1
 
-If you'd like to come back with an actual description, naming the exact
-hardware that you have *AND* explaining sane reasons for why the
-hardware doesn't have a normal kernel driver (or interface) like every
-other piece of hardware, then we can talk.  But, otherwise, this isn't
-something that can go upstream.
