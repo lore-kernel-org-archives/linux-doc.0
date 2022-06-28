@@ -2,117 +2,69 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 67EBDC43334
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Jun 2022 10:56:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DE9D8C433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Jun 2022 11:07:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345056AbiF1K44 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 28 Jun 2022 06:56:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54058 "EHLO
+        id S1345387AbiF1LHq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 28 Jun 2022 07:07:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35234 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231682AbiF1K4z (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Jun 2022 06:56:55 -0400
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 4DE2D31DC0;
-        Tue, 28 Jun 2022 03:56:54 -0700 (PDT)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D139F152B;
-        Tue, 28 Jun 2022 03:56:53 -0700 (PDT)
-Received: from [10.57.85.130] (unknown [10.57.85.130])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 48C603F5A1;
-        Tue, 28 Jun 2022 03:56:51 -0700 (PDT)
-Message-ID: <06ece223-c71e-baf8-e35e-dbc22a9cf9da@arm.com>
-Date:   Tue, 28 Jun 2022 11:56:46 +0100
+        with ESMTP id S1345302AbiF1LHY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Jun 2022 07:07:24 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 194AD31230;
+        Tue, 28 Jun 2022 04:07:24 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id CDD75B81DD1;
+        Tue, 28 Jun 2022 11:07:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C0ECC3411D;
+        Tue, 28 Jun 2022 11:07:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1656414441;
+        bh=3eko6/GH1XdMdAFPhxnypHJyEn42b4Rtn9jq+UXSoX8=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=q+FIGnNq34+rLxRTbqWl4nOlXlhVX8tFquNV20lN6wWmc783px+7gzZ6oblfZIqzD
+         stD+F/KqTKydlWE7RmeCvj0STvrloQgM9AmF8zJnU2n93WqBxfRu95YGERbzTdrpJ4
+         6NF6Dtx7wiyPZZB7hv53+G0ITLZKLgD11tf4C49rcRdKV7PjG0+GU8Q7GFcld3uW2G
+         MnCY/JFUupTgeyLFXIA4+d6bsUqvy5lx5dtOMkNiQR++VWYpaAnhqKPmbVvRgmKcBI
+         Dtgl5ccGxiBb1+BVZgp73OYqcfA42OFUGOk/F/nb8v33qTTrW0waFxdBpv6wUBsI4w
+         wF85HLCQ9SBhg==
+Date:   Tue, 28 Jun 2022 12:07:15 +0100
+From:   Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     Mark Brown <broonie@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 18/22] regulator: fix a kernel-doc warning
+Message-ID: <20220628120715.36080b8b@sal.lan>
+In-Reply-To: <YrrZVDUXzHNtvLNi@sirena.org.uk>
+References: <cover.1656409369.git.mchehab@kernel.org>
+        <15efc16e878aa327aa2769023bcdf959a795f41d.1656409369.git.mchehab@kernel.org>
+        <YrrZVDUXzHNtvLNi@sirena.org.uk>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v4 2/5] dma-iommu: Add iommu_dma_opt_mapping_size()
-Content-Language: en-GB
-To:     John Garry <john.garry@huawei.com>,
-        damien.lemoal@opensource.wdc.com, joro@8bytes.org, will@kernel.org,
-        jejb@linux.ibm.com, martin.petersen@oracle.com, hch@lst.de,
-        m.szyprowski@samsung.com
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-ide@vger.kernel.org, iommu@lists.linux-foundation.org,
-        iommu@lists.linux.dev, linux-scsi@vger.kernel.org,
-        linuxarm@huawei.com
-References: <1656343521-62897-1-git-send-email-john.garry@huawei.com>
- <1656343521-62897-3-git-send-email-john.garry@huawei.com>
-From:   Robin Murphy <robin.murphy@arm.com>
-In-Reply-To: <1656343521-62897-3-git-send-email-john.garry@huawei.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2022-06-27 16:25, John Garry wrote:
-> Add the IOMMU callback for DMA mapping API dma_opt_mapping_size(), which
-> allows the drivers to know the optimal mapping limit and thus limit the
-> requested IOVA lengths.
-> 
-> This value is based on the IOVA rcache range limit, as IOVAs allocated
-> above this limit must always be newly allocated, which may be quite slow.
+Em Tue, 28 Jun 2022 11:35:00 +0100
+Mark Brown <broonie@kernel.org> escreveu:
 
-Acked-by: Robin Murphy <robin.murphy@arm.com>
-
-> Signed-off-by: John Garry <john.garry@huawei.com>
-> Reviewed-by: Damien Le Moal <damien.lemoal@opensource.wdc.com>
-> ---
->   drivers/iommu/dma-iommu.c | 6 ++++++
->   drivers/iommu/iova.c      | 5 +++++
->   include/linux/iova.h      | 2 ++
->   3 files changed, 13 insertions(+)
+> On Tue, Jun 28, 2022 at 10:46:22AM +0100, Mauro Carvalho Chehab wrote:
+> > document n_ramp_values field at struct regulator_desc, in order
+> > to solve this warning:  
 > 
-> diff --git a/drivers/iommu/dma-iommu.c b/drivers/iommu/dma-iommu.c
-> index f90251572a5d..9e1586447ee8 100644
-> --- a/drivers/iommu/dma-iommu.c
-> +++ b/drivers/iommu/dma-iommu.c
-> @@ -1459,6 +1459,11 @@ static unsigned long iommu_dma_get_merge_boundary(struct device *dev)
->   	return (1UL << __ffs(domain->pgsize_bitmap)) - 1;
->   }
->   
-> +static size_t iommu_dma_opt_mapping_size(void)
-> +{
-> +	return iova_rcache_range();
-> +}
-> +
->   static const struct dma_map_ops iommu_dma_ops = {
->   	.alloc			= iommu_dma_alloc,
->   	.free			= iommu_dma_free,
-> @@ -1479,6 +1484,7 @@ static const struct dma_map_ops iommu_dma_ops = {
->   	.map_resource		= iommu_dma_map_resource,
->   	.unmap_resource		= iommu_dma_unmap_resource,
->   	.get_merge_boundary	= iommu_dma_get_merge_boundary,
-> +	.opt_mapping_size	= iommu_dma_opt_mapping_size,
->   };
->   
->   /*
-> diff --git a/drivers/iommu/iova.c b/drivers/iommu/iova.c
-> index db77aa675145..9f00b58d546e 100644
-> --- a/drivers/iommu/iova.c
-> +++ b/drivers/iommu/iova.c
-> @@ -26,6 +26,11 @@ static unsigned long iova_rcache_get(struct iova_domain *iovad,
->   static void free_cpu_cached_iovas(unsigned int cpu, struct iova_domain *iovad);
->   static void free_iova_rcaches(struct iova_domain *iovad);
->   
-> +unsigned long iova_rcache_range(void)
-> +{
-> +	return PAGE_SIZE << (IOVA_RANGE_CACHE_MAX_SIZE - 1);
-> +}
-> +
->   static int iova_cpuhp_dead(unsigned int cpu, struct hlist_node *node)
->   {
->   	struct iova_domain *iovad;
-> diff --git a/include/linux/iova.h b/include/linux/iova.h
-> index 320a70e40233..c6ba6d95d79c 100644
-> --- a/include/linux/iova.h
-> +++ b/include/linux/iova.h
-> @@ -79,6 +79,8 @@ static inline unsigned long iova_pfn(struct iova_domain *iovad, dma_addr_t iova)
->   int iova_cache_get(void);
->   void iova_cache_put(void);
->   
-> +unsigned long iova_rcache_range(void);
-> +
->   void free_iova(struct iova_domain *iovad, unsigned long pfn);
->   void __free_iova(struct iova_domain *iovad, struct iova *iova);
->   struct iova *alloc_iova(struct iova_domain *iovad, unsigned long size,
+> This is patch 18 of a series for which I don't have a cover letter or
+> anything.  What's the story with dependencies here?
+
+There are no dependnecies. Each patch in this series is independent,
+touching different files.
+
+Regards,
+Mauro
