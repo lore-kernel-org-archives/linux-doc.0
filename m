@@ -2,84 +2,81 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BEBA2CCA47B
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Jun 2022 00:33:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3DAFBC43334
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Jun 2022 00:41:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242301AbiF1AdT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 27 Jun 2022 20:33:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35158 "EHLO
+        id S241793AbiF1Aln (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 27 Jun 2022 20:41:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39004 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241604AbiF1AdT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Jun 2022 20:33:19 -0400
-Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D800BF6E;
-        Mon, 27 Jun 2022 17:33:18 -0700 (PDT)
-Received: by mail-pl1-x632.google.com with SMTP id o18so9651154plg.2;
-        Mon, 27 Jun 2022 17:33:18 -0700 (PDT)
+        with ESMTP id S241779AbiF1Alm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 27 Jun 2022 20:41:42 -0400
+Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9091CE1E;
+        Mon, 27 Jun 2022 17:41:41 -0700 (PDT)
+Received: by mail-pj1-x102a.google.com with SMTP id n16-20020a17090ade9000b001ed15b37424so11015441pjv.3;
+        Mon, 27 Jun 2022 17:41:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=message-id:date:mime-version:user-agent:subject:content-language:to
          :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=ILcFMpZ8TChsc8dbgIsJy5/15HeyPjzmKmhPwi39Lcw=;
-        b=Gtfez6APTy0b2WwpyhyPtNnqdK2yEAishsjbeXoSDui+KQDAT9Sd1EDoVGAkGGlDxi
-         irQoiM26g38FLFeHA7iVIYs+TO2CjZfbVwBtmxw7gpQRPbcrpPZP/Fi3YgX722QTyl4d
-         MJ4seMckx5L4VUz0NJenplLrcpkvoCXjz2qGSS+91AvpxmAqbFZxdPoAkmWyFglnxaca
-         aIT7B/5KnFyvFScYvcoKkKYRYSz4A08bNDZZWaTriDujQ4yuOASiehKC5+juXgB725Ha
-         LKlYPfk/39uFCcK6D2G0iXSdZmfHX6/TyRmQZeH0rWIs3+5gnbOLoJjskzdsfEOr9ypF
-         dRig==
+        bh=zhoZRzmMKzx2Eo7D6V2F/Yf95Srh3OnFnFprcBLngds=;
+        b=BgL/nZfzRNfja9qNd0wxpXI+9/aacrAlvZTxn8VI333hLtqTJk1yBlvh3VjqVHkOwV
+         NgvWlDhcDgQDugml+nxeUBu8psKUYKqLDAit6/mvLqboga4TIngt9J/EB6dlKrZNBjmg
+         UdSAP8dUUPbwTYvPrkd0Y8MOmL68K29fPv3q13+sAY0vZ0F8Q88Xus0RE+03J6ygkkXu
+         LAQxtGHpuXp+gG9dMlVBxHy5woUU2B9H/TCYsit5VKLQ6W2qdTlmVdL4N4ywrknCd3wY
+         Z4zpKlqO3UyGA6A4sJ441sy97igLjH/l7akSVwW1yFdV7fS6Trz205BBl+QRoPhEclYo
+         2rxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
          :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=ILcFMpZ8TChsc8dbgIsJy5/15HeyPjzmKmhPwi39Lcw=;
-        b=H5Kf5kWjeq3Vs6epENrGZeFCDzZVeeJiEtp5oJT+S+kFjrhQJZcJU+E3NdLfXW4iTr
-         xm/EdIZBOazFtw9tOJEGIosou7bx3Wx1mgZLNaZtmcCd8oa1QIu6sDyKPu6baNFKfsr9
-         96KrlhTy25tGgkI0mMrWfIOW7ANevZvFcgMnQzrVFO2fw0i2uz9ZxDnxdPV+0OFRG7S0
-         8bdoyEUe9TCMoewOyU9Wbl4XE/lKTHo61TPAkCW5Id6HK/f6Srck7HO0Y+qCsZIJTeRo
-         KM7mMl6CxNwv6CfrBTyz/YsDxD5gKw0agWn3v8svMDwx4YWfV0RlxynznUF82dQi1BUU
-         5apw==
-X-Gm-Message-State: AJIora/G31Vqji4g7GTxs3VL7dv93YgeKwf2sTf/ty7PQ1fskYUUFfui
-        EPSaBRyOG5cuq8/arKuKbNEvVXIXNRU=
-X-Google-Smtp-Source: AGRyM1vdoL1oBThtd9EHb8LghSUwYayC5QsqHUs+kMhAZfe935FJBZrdXCpjdDSWjqAjgEJ+PF6ZVg==
-X-Received: by 2002:a17:903:2cb:b0:14f:4fb6:2fb0 with SMTP id s11-20020a17090302cb00b0014f4fb62fb0mr2107125plk.172.1656376397672;
-        Mon, 27 Jun 2022 17:33:17 -0700 (PDT)
+        bh=zhoZRzmMKzx2Eo7D6V2F/Yf95Srh3OnFnFprcBLngds=;
+        b=HqGP3nlJqNAU+3g5ANrCbSRD1jxLe6yqCHNElpK048G1v8soHw2lcC1mo6SiLkoYKG
+         HdjMKUG7wsMx6y4aTdesAn6nKBTFSosdoD/hevhvcTelECSAxlctCF5BKT02MP/ZXaRW
+         OfjUYyMFaon9MdUPEIRp2bJxUE2RGcK20MKpUmc7KHARj6hh2cnzSgN5UV6PV4p9kSRR
+         xO1UxOq0gq79jd9YrT6KrxWn/DBDlgbXSvOhH1i+zUEhoMxiJtOhrMvC1k3u/doXOWgw
+         5FA/8zvJGBmizqiNmROnXtUykZDAVSBGjx3hZ9AsssOTimLG1RgewJV65dEc8htcaTv1
+         QvNA==
+X-Gm-Message-State: AJIora/lUCS0W2GLlACi1FxEKWth2Mv0B9kLSfwZAsvme6YqsHNYTZOD
+        fOKCyrLIzdDieALa+QfQjck=
+X-Google-Smtp-Source: AGRyM1v820UVgTCmg//XKPAHQ5lBONTB/RXJJbnfHOYmsU+U/kAn/8y3MhjvjCu82PPhbLzAnqc2Ew==
+X-Received: by 2002:a17:902:ccd0:b0:168:db72:15e with SMTP id z16-20020a170902ccd000b00168db72015emr920597ple.63.1656376901474;
+        Mon, 27 Jun 2022 17:41:41 -0700 (PDT)
 Received: from [192.168.43.80] (subs28-116-206-12-39.three.co.id. [116.206.12.39])
-        by smtp.gmail.com with ESMTPSA id f72-20020a62384b000000b00525167c5ab5sm7912965pfa.81.2022.06.27.17.33.14
+        by smtp.gmail.com with ESMTPSA id i11-20020a1709026acb00b001640aad2f71sm7806738plt.180.2022.06.27.17.41.38
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 27 Jun 2022 17:33:17 -0700 (PDT)
-Message-ID: <6fec7316-6dd2-d457-7e47-33cc7c074c42@gmail.com>
-Date:   Tue, 28 Jun 2022 07:33:13 +0700
+        Mon, 27 Jun 2022 17:41:40 -0700 (PDT)
+Message-ID: <8734fe7a-212d-f0e7-686e-1e929dddf1a9@gmail.com>
+Date:   Tue, 28 Jun 2022 07:41:37 +0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.10.0
-Subject: Re: [PATCH RESEND v2] leds: Add leds-qcom-lpg entry to documentation
- table of contents
+Subject: Re: [PATCH] Documentation: tty: add closing double backticks for
+ lookahead_buf() prototype
 Content-Language: en-US
-To:     linux-doc@vger.kernel.org
-Cc:     Pavel Machek <pavel@ucw.cz>, Jonathan Corbet <corbet@lwn.net>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Marijn Suijten <marijn.suijten@somainline.org>,
-        linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20220612000125.9777-1-bagasdotme@gmail.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     linux-doc@vger.kernel.org, Stephen Rothwell <sfr@canb.auug.org.au>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        =?UTF-8?Q?Ilpo_J=c3=a4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+        linux-kernel@vger.kernel.org
+References: <20220614164745.7b746354@canb.auug.org.au>
+ <20220614091214.511791-1-bagasdotme@gmail.com> <Yrmj14W7eOyuTS94@kroah.com>
 From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <20220612000125.9777-1-bagasdotme@gmail.com>
+In-Reply-To: <Yrmj14W7eOyuTS94@kroah.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 6/12/22 07:01, Bagas Sanjaya wrote:
-> After merging linux-leds tree to the mainline [1], htmldocs build produces
-> a new warning:
-> 
-> checking consistency... /home/bagas/repo/linux-stable/Documentation/leds/leds-qcom-lpg.rst: WARNING: document isn't included in any toctree
-> 
-> The warning above is because leds-qcom-lpg.rst is missing in the table of
-> contents.
-> 
-> Add the missing entry.
+On 6/27/22 19:34, Greg Kroah-Hartman wrote:
+> Ilpo's patch was sent before yours, so I took theirs, sorry.
 > 
 
-ping
+Ah! I don't see his patch before submitting mine. Thanks anyway for
+reminding me.
+
+-- 
+An old man doll... just what I always wanted! - Clara
