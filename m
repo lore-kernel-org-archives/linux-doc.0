@@ -2,140 +2,83 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2FEABC433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Jun 2022 15:00:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 21A0FC433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Jun 2022 15:53:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346085AbiF1PA0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 28 Jun 2022 11:00:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37414 "EHLO
+        id S1348142AbiF1PxG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 28 Jun 2022 11:53:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33118 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346504AbiF1PAZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Jun 2022 11:00:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 9C2B82F64E
-        for <linux-doc@vger.kernel.org>; Tue, 28 Jun 2022 08:00:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1656428423;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=Sn3Aj80ZR5jpI+RNSE98brP0nO4W8nTuF5Ua5228bks=;
-        b=ZnNs+RLkPxI8fRsgFHhnS+j1YIiQQC6FgxyqJgVE4K68MI8TfgwD8BSN9uT5YwnKInfRM2
-        RdJR4zRMcExULaT7T9pJ3kaNTbRxc1ZqL6nDAjXdeGEwHvx86BPX6V0vmVY64KS69e32QH
-        aYs4azPuAvWbZk7dM7MwFI41Q2BoMxM=
-Received: from mail-io1-f69.google.com (mail-io1-f69.google.com
- [209.85.166.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-489-UhFFXbT9Mg-Aw-Ak-2SbpA-1; Tue, 28 Jun 2022 11:00:22 -0400
-X-MC-Unique: UhFFXbT9Mg-Aw-Ak-2SbpA-1
-Received: by mail-io1-f69.google.com with SMTP id q75-20020a6b8e4e000000b0067275f1e6c4so7394931iod.14
-        for <linux-doc@vger.kernel.org>; Tue, 28 Jun 2022 08:00:22 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
-         :references:organization:mime-version:content-transfer-encoding;
-        bh=Sn3Aj80ZR5jpI+RNSE98brP0nO4W8nTuF5Ua5228bks=;
-        b=tlfQ/9YgXic2oyK2utggPcog2fE5+LakZ5HI29ky8jgkwZUiizltiDtRTyXtdWIXoU
-         +aCFRtEXqTqewD56MefucWSWM4W4lJWVWTdoYcJLfPEpGjLSd7857bl3vfTmEhiYkJ41
-         ofuGSAFrtMeeDymHcCVNXsBfbrr6Y4v7cKsrLqE7F0caiauVPpEg+PKndEt4G5mngDxv
-         baKw+TYSpa9o2cheFnWfEXqqgBK4qIN3aHPDuPsJTH0K1B1lmOVOwHg5Ewf5CTcndFQB
-         wjmHVekyxeA6Ci4dBHOta0P3KoYOygoe3Ciq0W6ZAywNVU3GVdsk4kTOcoWwp3jGLJcK
-         icsA==
-X-Gm-Message-State: AJIora88bkXAWTDAXaevGLDXXHPLB0boFnWMi8Rf2gbn4do3hNfCG80/
-        fcBmZ6T7RINIC40XFU3LhtfyvgpAtrM0AQUc5d6o7th5JV0JJ4/tSx6Q8by4pIOpVHJt2DBgusP
-        aQL/95cx9uZRLcO7djX1o
-X-Received: by 2002:a02:cb19:0:b0:33c:8404:3451 with SMTP id j25-20020a02cb19000000b0033c84043451mr9519983jap.176.1656428421678;
-        Tue, 28 Jun 2022 08:00:21 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1szCC9bL6VETX76nqVy7Fx8MQDHT4jVPeSpKlsaHDHSTpH6oSrxkMCvIh6nmg6xhB/FAzpsBA==
-X-Received: by 2002:a02:cb19:0:b0:33c:8404:3451 with SMTP id j25-20020a02cb19000000b0033c84043451mr9519976jap.176.1656428421463;
-        Tue, 28 Jun 2022 08:00:21 -0700 (PDT)
-Received: from redhat.com ([38.15.36.239])
-        by smtp.gmail.com with ESMTPSA id m47-20020a026a6f000000b00339d0617be1sm6078281jaf.35.2022.06.28.08.00.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Jun 2022 08:00:21 -0700 (PDT)
-Date:   Tue, 28 Jun 2022 09:00:19 -0600
-From:   Alex Williamson <alex.williamson@redhat.com>
-To:     Matthew Rosato <mjrosato@linux.ibm.com>
-Cc:     linux-s390@vger.kernel.org, cohuck@redhat.com,
-        schnelle@linux.ibm.com, farman@linux.ibm.com, pmorel@linux.ibm.com,
-        borntraeger@linux.ibm.com, hca@linux.ibm.com, gor@linux.ibm.com,
-        gerald.schaefer@linux.ibm.com, agordeev@linux.ibm.com,
-        svens@linux.ibm.com, frankja@linux.ibm.com, david@redhat.com,
-        imbrenda@linux.ibm.com, vneethv@linux.ibm.com,
-        oberpar@linux.ibm.com, freude@linux.ibm.com, thuth@redhat.com,
-        pasic@linux.ibm.com, pbonzini@redhat.com, corbet@lwn.net,
-        jgg@nvidia.com, kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH v9 19/21] vfio-pci/zdev: different maxstbl for
- interpreted devices
-Message-ID: <20220628090019.2903f766.alex.williamson@redhat.com>
-In-Reply-To: <20220606203325.110625-20-mjrosato@linux.ibm.com>
-References: <20220606203325.110625-1-mjrosato@linux.ibm.com>
-        <20220606203325.110625-20-mjrosato@linux.ibm.com>
-Organization: Red Hat
+        with ESMTP id S1346284AbiF1PxF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Jun 2022 11:53:05 -0400
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BFF5A333;
+        Tue, 28 Jun 2022 08:53:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1656431584; x=1687967584;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=YNRS2j3hTEQ2v8S8S/DXdGWTlv0yIqKFJkVZbqJR1WM=;
+  b=YJxdjUpnNaJtW+MD/SEZFLnY1WM7J5BZByZepePktGse5IyjsOvycT51
+   tEtkjqGIBuFQprHyvGsWnX0D2joN0Vuewy+jEup7hfMwdgiglSIeZZmFt
+   GfkBdUG+P+XtMMOmxoRre205wmGBNV1CX0Nt7+IMc8Y/TtzNvaoO3NM04
+   0eURjoG6Upz8aM3CNHDjye8lgHjFoJCGtoow++LBnwkwWdPNOhmydlWVe
+   cilRZ0jPToyg5SpsF+Uvyhora0PRHwD129mW64n/3yTkvy9GaMBPw8QX2
+   Gb1TJrC/EpKgQsGtdz/zqikwsbOd4WIs/dvFcMgEWThAukWxq83LJbIO7
+   w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10392"; a="281814469"
+X-IronPort-AV: E=Sophos;i="5.92,229,1650956400"; 
+   d="scan'208";a="281814469"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jun 2022 08:53:04 -0700
+X-IronPort-AV: E=Sophos;i="5.92,229,1650956400"; 
+   d="scan'208";a="587912493"
+Received: from staibmic-mobl1.amr.corp.intel.com (HELO [10.209.67.166]) ([10.209.67.166])
+  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jun 2022 08:53:03 -0700
+Message-ID: <2eff7546-5ab5-d4cd-43f6-d66b6490d725@intel.com>
+Date:   Tue, 28 Jun 2022 08:52:00 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [RFC v2] memmap: introduce cmdline parameter "memmap=nn[KMG]$"
+ without start addr
+Content-Language: en-US
+To:     lizhe.67@bytedance.com, tglx@linutronix.de, mingo@redhat.com,
+        bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
+        hpa@zytor.com
+Cc:     lizefan.x@bytedance.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20220628124529.15431-1-lizhe.67@bytedance.com>
+From:   Dave Hansen <dave.hansen@intel.com>
+In-Reply-To: <20220628124529.15431-1-lizhe.67@bytedance.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon,  6 Jun 2022 16:33:23 -0400
-Matthew Rosato <mjrosato@linux.ibm.com> wrote:
-
-> When doing load/store interpretation, the maximum store block length is
-> determined by the underlying firmware, not the host kernel API.  Reflect
-> that in the associated Query PCI Function Group clp capability and let
-> userspace decide which is appropriate to present to the guest.
+On 6/28/22 05:45, lizhe.67@bytedance.com wrote:
+> From: Li Zhe <lizhe.67@bytedance.com>
 > 
-> Reviewed-by: Pierre Morel <pmorel@linux.ibm.com>
-> Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
-> ---
->  drivers/vfio/pci/vfio_pci_zdev.c | 6 ++++--
->  include/uapi/linux/vfio_zdev.h   | 4 ++++
->  2 files changed, 8 insertions(+), 2 deletions(-)
+> In current kernel we can use memmap=nn[KMG]$ss[KMG] to reserve an
+> area of memory for userspace usage through /dev/mem. We have to
+> determine the start addr and length. In our scenario, we need
+> reserve or alloc large continuous physical memory at least 256M in
+> 512G's machine, and need reserve more memory in larger machine, at
+> just boot phase for a userspace program. And these memories will not
+> be freed to system before system reboot. The userspace program can
+> use the memory through /dev/mem to store some data. Besides, a
+> hardware will need the data stored by the userspace program to do
+> it's job. Why we need continuous memory is that the hardware can
+> only access memory without mmu.
 
+That's still a rather anemic description.
 
-Acked-by: Alex Williamson <alex.williamson@redhat.com>
+I don't think we want this code in the kernel with that description, sorry.
 
-
-> diff --git a/drivers/vfio/pci/vfio_pci_zdev.c b/drivers/vfio/pci/vfio_pci_zdev.c
-> index 4f28cdd7ecd1..e163aa9f6144 100644
-> --- a/drivers/vfio/pci/vfio_pci_zdev.c
-> +++ b/drivers/vfio/pci/vfio_pci_zdev.c
-> @@ -45,14 +45,16 @@ static int zpci_group_cap(struct zpci_dev *zdev, struct vfio_info_cap *caps)
->  {
->  	struct vfio_device_info_cap_zpci_group cap = {
->  		.header.id = VFIO_DEVICE_INFO_CAP_ZPCI_GROUP,
-> -		.header.version = 1,
-> +		.header.version = 2,
->  		.dasm = zdev->dma_mask,
->  		.msi_addr = zdev->msi_addr,
->  		.flags = VFIO_DEVICE_INFO_ZPCI_FLAG_REFRESH,
->  		.mui = zdev->fmb_update,
->  		.noi = zdev->max_msi,
->  		.maxstbl = ZPCI_MAX_WRITE_SIZE,
-> -		.version = zdev->version
-> +		.version = zdev->version,
-> +		.reserved = 0,
-> +		.imaxstbl = zdev->maxstbl
->  	};
->  
->  	return vfio_info_add_capability(caps, &cap.header, sizeof(cap));
-> diff --git a/include/uapi/linux/vfio_zdev.h b/include/uapi/linux/vfio_zdev.h
-> index 78c022af3d29..77f2aff1f27e 100644
-> --- a/include/uapi/linux/vfio_zdev.h
-> +++ b/include/uapi/linux/vfio_zdev.h
-> @@ -50,6 +50,10 @@ struct vfio_device_info_cap_zpci_group {
->  	__u16 noi;		/* Maximum number of MSIs */
->  	__u16 maxstbl;		/* Maximum Store Block Length */
->  	__u8 version;		/* Supported PCI Version */
-> +	/* End of version 1 */
-> +	__u8 reserved;
-> +	__u16 imaxstbl;		/* Maximum Interpreted Store Block Length */
-> +	/* End of version 2 */
->  };
->  
->  /**
-
+If you'd like to come back with an actual description, naming the exact
+hardware that you have *AND* explaining sane reasons for why the
+hardware doesn't have a normal kernel driver (or interface) like every
+other piece of hardware, then we can talk.  But, otherwise, this isn't
+something that can go upstream.
