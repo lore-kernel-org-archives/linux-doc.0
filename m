@@ -2,42 +2,42 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 099A4CCA483
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E2257CCA479
 	for <linux-doc@archiver.kernel.org>; Tue, 28 Jun 2022 16:59:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231397AbiF1Q7D (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 28 Jun 2022 12:59:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40000 "EHLO
+        id S231676AbiF1Q7E (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 28 Jun 2022 12:59:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40500 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237021AbiF1Q62 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Jun 2022 12:58:28 -0400
+        with ESMTP id S237346AbiF1Q6p (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Jun 2022 12:58:45 -0400
 Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E467095B2
-        for <linux-doc@vger.kernel.org>; Tue, 28 Jun 2022 09:58:14 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C3B81007
+        for <linux-doc@vger.kernel.org>; Tue, 28 Jun 2022 09:58:45 -0700 (PDT)
 Received: from tr.lan (ip-86-49-12-201.bb.vodafone.cz [86.49.12.201])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
         (No client certificate requested)
         (Authenticated sender: marex@denx.de)
-        by phobos.denx.de (Postfix) with ESMTPSA id B546F83A31;
-        Tue, 28 Jun 2022 18:58:12 +0200 (CEST)
+        by phobos.denx.de (Postfix) with ESMTPSA id F307F8407A;
+        Tue, 28 Jun 2022 18:58:43 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
-        s=phobos-20191101; t=1656435492;
-        bh=pemWDkXYJYJHkIG427oBju+wORRrZ34sfzIWKrIjjq8=;
+        s=phobos-20191101; t=1656435524;
+        bh=Hwup3A+MAo/IIHDWPJcJuA/ZrTCj+SJh32Gz9ZwYe6g=;
         h=From:To:Cc:Subject:Date:From;
-        b=IvzCxh1aReSffScbyU7MPcoT71j/kqAsBwNudSXLIxDXxgV8fXjkKrQQK2GsZIqRV
-         9jNEtx2DBahdLghW0yWnQbxgBdr+shycnXKVjDbMpZ0HOt3T0qGYxWMkGSzHwvmT60
-         G3Xg0zt/SlOFP700Ow9+tUX8Ql4soSSs2ZTpDRQ0CwGssI+1mWPcOOv9JTyootYoVm
-         fQGuQi/DmVTHzaMNieXdkBMoLBGUZ4LB9xDUG26v0/BE1thRcFTCFI2GLtUVXOHuj+
-         E3A8nqpnSQsysF/M6U+sP2dlEjr2jQZqGhHJmH+UaQu0lM0LpCEkRXGsRlBik1EM2N
-         RZTn9Ww3LSubA==
+        b=BQG+K9V8ApzpqQAaJ4fC8V+TIy6dMCZu2y4/wGUR5RtMBFWX7fNyCxjiv/5bjWH0j
+         wlCJ6PHKEc8qmTj2T65tYXhsEAdEaNxoepgcoHcS1j+V0HPyD1vSbazexEeJ3/5/pI
+         XJgmTpns8xOmtnqmV7ob4yKG8M4suuCOsho1GO/4oWWAgiMEHDLWZzR9To/OZIyG7X
+         O25i3VEGR6D9DUp82DI1aSq1zPU7lP2+CAbnrvyw29hP3G2MqIp7G8Hfa0IL9XYFco
+         y8pPrSz12+ilXcN8EGr0bL7+oU7DgxMg0ll9WaCBtiIJPTxe6Nkr/FR1W8VcLmnaRJ
+         v+1+6z1ipPKLw==
 From:   Marek Vasut <marex@denx.de>
 To:     alsa-devel@alsa-project.org
 Cc:     perex@perex.cz, linux-doc@vger.kernel.org,
         Marek Vasut <marex@denx.de>, Mark Brown <broonie@kernel.org>,
         Takashi Iwai <tiwai@suse.de>
-Subject: [PATCH] ASoC: doc: Update dead links
-Date:   Tue, 28 Jun 2022 18:58:07 +0200
-Message-Id: <20220628165807.152191-1-marex@denx.de>
+Subject: [PATCH] ASoC: doc: Capitalize RESET line name
+Date:   Tue, 28 Jun 2022 18:58:40 +0200
+Message-Id: <20220628165840.152235-1-marex@denx.de>
 X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -47,71 +47,29 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The alsa-project documentation is now part of the kernel docs,
-the original links are long dead, update links.
+Make sure all AC97 interface lines are spelled in capitals,
+to avoid confusing readers about where the 5th line is.
 
 Signed-off-by: Marek Vasut <marex@denx.de>
 Cc: Mark Brown <broonie@kernel.org>
 Cc: Takashi Iwai <tiwai@suse.de>
 ---
- Documentation/process/kernel-docs.rst | 2 +-
- Documentation/sound/soc/codec.rst     | 2 +-
- Documentation/sound/soc/platform.rst  | 2 +-
- sound/pci/ens1370.c                   | 2 +-
- 4 files changed, 4 insertions(+), 4 deletions(-)
+ Documentation/sound/soc/dai.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/process/kernel-docs.rst b/Documentation/process/kernel-docs.rst
-index da9527502ef0e..644f9200fd919 100644
---- a/Documentation/process/kernel-docs.rst
-+++ b/Documentation/process/kernel-docs.rst
-@@ -108,7 +108,7 @@ On-line docs
-     * Title: **Writing an ALSA Driver**
+diff --git a/Documentation/sound/soc/dai.rst b/Documentation/sound/soc/dai.rst
+index 009b07e5a0f38..bf8431386d269 100644
+--- a/Documentation/sound/soc/dai.rst
++++ b/Documentation/sound/soc/dai.rst
+@@ -10,7 +10,7 @@ AC97
+ ====
  
-       :Author: Takashi Iwai <tiwai@suse.de>
--      :URL: http://www.alsa-project.org/~iwai/writing-an-alsa-driver/index.html
-+      :URL: https://www.kernel.org/doc/html/latest/sound/kernel-api/writing-an-alsa-driver.html
-       :Date: 2005
-       :Keywords: ALSA, sound, soundcard, driver, lowlevel, hardware.
-       :Description: Advanced Linux Sound Architecture for developers,
-diff --git a/Documentation/sound/soc/codec.rst b/Documentation/sound/soc/codec.rst
-index 57df149acafc5..af973c4cac930 100644
---- a/Documentation/sound/soc/codec.rst
-+++ b/Documentation/sound/soc/codec.rst
-@@ -132,7 +132,7 @@ The codec driver also supports the following ALSA PCM operations:-
-   };
- 
- Please refer to the ALSA driver PCM documentation for details.
--http://www.alsa-project.org/~iwai/writing-an-alsa-driver/
-+https://www.kernel.org/doc/html/latest/sound/kernel-api/writing-an-alsa-driver.html
- 
- 
- DAPM description
-diff --git a/Documentation/sound/soc/platform.rst b/Documentation/sound/soc/platform.rst
-index c1badea53d3d3..7036630eaf016 100644
---- a/Documentation/sound/soc/platform.rst
-+++ b/Documentation/sound/soc/platform.rst
-@@ -46,7 +46,7 @@ snd_soc_component_driver:-
-   };
- 
- Please refer to the ALSA driver documentation for details of audio DMA.
--http://www.alsa-project.org/~iwai/writing-an-alsa-driver/
-+https://www.kernel.org/doc/html/latest/sound/kernel-api/writing-an-alsa-driver.html
- 
- An example DMA driver is soc/pxa/pxa2xx-pcm.c
- 
-diff --git a/sound/pci/ens1370.c b/sound/pci/ens1370.c
-index 94efe347a97a9..89210b2c73424 100644
---- a/sound/pci/ens1370.c
-+++ b/sound/pci/ens1370.c
-@@ -8,7 +8,7 @@
- /* Power-Management-Code ( CONFIG_PM )
-  * for ens1371 only ( FIXME )
-  * derived from cs4281.c, atiixp.c and via82xx.c
-- * using http://www.alsa-project.org/~tiwai/writing-an-alsa-driver/ 
-+ * using https://www.kernel.org/doc/html/latest/sound/kernel-api/writing-an-alsa-driver.html
-  * by Kurt J. Bosch
-  */
- 
+ AC97 is a five wire interface commonly found on many PC sound cards. It is
+-now also popular in many portable devices. This DAI has a reset line and time
++now also popular in many portable devices. This DAI has a RESET line and time
+ multiplexes its data on its SDATA_OUT (playback) and SDATA_IN (capture) lines.
+ The bit clock (BCLK) is always driven by the CODEC (usually 12.288MHz) and the
+ frame (FRAME) (usually 48kHz) is always driven by the controller. Each AC97
 -- 
 2.35.1
 
