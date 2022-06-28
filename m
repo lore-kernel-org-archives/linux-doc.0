@@ -2,94 +2,73 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A0B80C43334
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Jun 2022 09:56:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EE380C43334
+	for <linux-doc@archiver.kernel.org>; Tue, 28 Jun 2022 10:17:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344537AbiF1J4M (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 28 Jun 2022 05:56:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47420 "EHLO
+        id S1344847AbiF1KRz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 28 Jun 2022 06:17:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48218 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244326AbiF1J4A (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Jun 2022 05:56:00 -0400
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62C282ED7F;
-        Tue, 28 Jun 2022 02:55:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1656410136; x=1687946136;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ZySJLtccvViq3V6jqeioJpJY2xcTgx0ACUTORRR1JEg=;
-  b=AKvhSZkADlFqUmDylhXcP7UmnnFPiOrtXsvsEeBHrT0GEATzDSXpf8Ln
-   Vf6ArNgoQsz2ThLXYxRWe91wMHSeXyeur3EgJYLxe/WKf1BdB1Y9BvavP
-   pTQOVuNT1EJVo50OlqHqcHDoVTRlNJ4LM+aL3xhxseuBixjWT5PN1vkAz
-   OqS6aY3mST/V7477wY5kBDyXFbumPaPAbwKzSPvwFd3QxzWJzOK9NBnaO
-   uSIl7VbHaUmbwSfYHOCxHFfvOothCvX7PtjkG/RE7vg+zxALywcPLSgTS
-   INLqajweLkcTDLb3sTTRI7T95/KRKSxJh9a2sVUPj8fzb/GOJxh9QhBkH
-   Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10391"; a="343385713"
-X-IronPort-AV: E=Sophos;i="5.92,227,1650956400"; 
-   d="scan'208";a="343385713"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jun 2022 02:55:35 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.92,227,1650956400"; 
-   d="scan'208";a="732690989"
-Received: from kuha.fi.intel.com ([10.237.72.185])
-  by fmsmga001.fm.intel.com with SMTP; 28 Jun 2022 02:55:30 -0700
-Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Tue, 28 Jun 2022 12:55:29 +0300
-Date:   Tue, 28 Jun 2022 12:55:29 +0300
-From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
+        with ESMTP id S1344906AbiF1KRr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Jun 2022 06:17:47 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A73552FE6B;
+        Tue, 28 Jun 2022 03:17:43 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 61916B81DBB;
+        Tue, 28 Jun 2022 10:17:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17D4DC341CC;
+        Tue, 28 Jun 2022 10:17:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1656411461;
+        bh=3rvBGil83uXwD8MzZK79v+yLcATGD+HIirq3TFII2vs=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=tS/ba/x1vAKBAXeLugjjX6VO7FOvPjSmJz8ssL60JmfMWw6Xgve5DJ5ZatYc77nXj
+         T17FeM40FnP99xrCzMtvVNnXRH22PxKJvIQ4ZATFKt89m/+oRrCYac/B5Aec0iQlZH
+         EEqx8xQpl1pDECvIG3ZO2T4gd2/uNhMpuoUgD3BWibC4CK82NJ94/M2eur0iFOwiYo
+         fn2C0wiJ8rJMXm7nbrvRo2cahvPIihrnhs2uhtsXDVP6+wYE6KxkhXj1DM2xG4QRO6
+         QydBEHUMHIfO86S+TW3KFTHnU5yDH2L+ytOEof4nOI0qk1nrbDWfREJNqdxDF3OGe0
+         2sVWPyG9SauuQ==
+Date:   Tue, 28 Jun 2022 12:17:35 +0200
+From:   Christian Brauner <brauner@kernel.org>
 To:     Mauro Carvalho Chehab <mchehab@kernel.org>
 Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
-Subject: Re: [PATCH 20/22] usb: typec_altmode: add a missing "@" at a
- kernel-doc parameter
-Message-ID: <YrrQES9cTnKhp+6h@kuha.fi.intel.com>
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 06/22] fs: attr: update vfs uid/gid parameters at
+ kernel-doc
+Message-ID: <20220628101735.s2ypei7yperhamhd@wittgenstein>
 References: <cover.1656409369.git.mchehab@kernel.org>
- <70dc4c5d744cf1fe9a0efe6b85deaa0489628282.1656409369.git.mchehab@kernel.org>
+ <cd2746e9496731e559dc8129c6bade369be25c4b.1656409369.git.mchehab@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <70dc4c5d744cf1fe9a0efe6b85deaa0489628282.1656409369.git.mchehab@kernel.org>
+In-Reply-To: <cd2746e9496731e559dc8129c6bade369be25c4b.1656409369.git.mchehab@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jun 28, 2022 at 10:46:24AM +0100, Mauro Carvalho Chehab wrote:
-> Without that, the parameter is not properly parsed:
-> 	include/linux/usb/typec_altmode.h:132: warning: Function parameter or member 'altmode' not described in 'typec_altmode_get_orientation'
+On Tue, Jun 28, 2022 at 10:46:10AM +0100, Mauro Carvalho Chehab wrote:
+> The vfs uid/gid parameters have a different name at the function
+> prototype causing kernel-doc warnings. Update them for the parameters
+> to match, fixing those warnings:
+> 
+> 	fs/attr.c:36: warning: Function parameter or member 'ia_vfsuid' not described in 'chown_ok'
+> 	fs/attr.c:36: warning: Excess function parameter 'uid' description in 'chown_ok'
+> 	fs/attr.c:63: warning: Function parameter or member 'ia_vfsgid' not described in 'chgrp_ok'
+> 	fs/attr.c:63: warning: Excess function parameter 'gid' description in 'chgrp_ok'
 > 
 > Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
-
-Acked-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-
 > ---
-> 
-> To avoid mailbombing on a large number of people, only mailing lists were C/C on the cover.
-> See [PATCH 00/22] at: https://lore.kernel.org/all/cover.1656409369.git.mchehab@kernel.org/
-> 
->  include/linux/usb/typec_altmode.h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/include/linux/usb/typec_altmode.h b/include/linux/usb/typec_altmode.h
-> index 65933cbe9129..350d49012659 100644
-> --- a/include/linux/usb/typec_altmode.h
-> +++ b/include/linux/usb/typec_altmode.h
-> @@ -124,7 +124,7 @@ struct typec_altmode *typec_match_altmode(struct typec_altmode **altmodes,
->  
->  /**
->   * typec_altmode_get_orientation - Get cable plug orientation
-> - * altmode: Handle to the alternate mode
-> + * @altmode: Handle to the alternate mode
->   */
->  static inline enum typec_orientation
->  typec_altmode_get_orientation(struct typec_altmode *altmode)
-> -- 
-> 2.36.1
 
--- 
-heikki
+This is already fixed in my tree and in -next as
+81a1807d80dd26cdf8a357cf55f556ade90c7fda
+
+So you can drop this.
+
+Thanks!
+Christian
