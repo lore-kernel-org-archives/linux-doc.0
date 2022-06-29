@@ -2,71 +2,80 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AD3A0C43334
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Jun 2022 12:55:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B98B4C43334
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Jun 2022 13:06:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232912AbiF2Mzx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 29 Jun 2022 08:55:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54942 "EHLO
+        id S231549AbiF2NGJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 29 Jun 2022 09:06:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38130 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232193AbiF2Mzw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Jun 2022 08:55:52 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2CF02E9E0;
-        Wed, 29 Jun 2022 05:55:51 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
+        with ESMTP id S231687AbiF2NGI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Jun 2022 09:06:08 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7C2D2CCAC
+        for <linux-doc@vger.kernel.org>; Wed, 29 Jun 2022 06:06:03 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 3D6114FA;
-        Wed, 29 Jun 2022 12:55:51 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 3D6114FA
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1656507351; bh=XJl5q3/vT6FIjNUi1Eb8cZqtdz9msa9ZVePJ+Srhbno=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=g8zXpRz7bRSHh2wpmCa3bR+TZv80X7ujemiyJ30PgS4KXcMl5z63hNUSVC80KcyoD
-         +MeF/mYx4AwKhljGaEeMCKdGLc+6q2dpN2QdpK7B4MuW77e6yOuPAHcVnHv+depega
-         5hSKpLBzEY5p8wfepa2FoRKW1zERC2coUEcK2UmjxjNG8WswAamtiYUy8cPTP38QHU
-         hISEGvAgIDdYUE7CGy/uJhPMQN98AQKR3O+05oJiAVtTPi5J3nM0jNTAKv01sPP/Aw
-         aViVFbyBLygEtnHcqhys8P1jO0ojWDPFjSFEZ3gxs26BDLaoUaSU2tNCE9w9gf1vqO
-         MvLLtSdVmGD8A==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     David Gow <davidgow@google.com>,
-        Bagas Sanjaya <bagasdotme@gmail.com>
-Cc:     Daniel Latypov <dlatypov@google.com>,
-        Brendan Higgins <brendanhiggins@google.com>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        KUnit Development <kunit-dev@googlegroups.com>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: Re: [PATCH v2] Documentation: kunit: Cleanup run_wrapper, fix x-ref
-In-Reply-To: <CABVgOSkybS55KynNvSA-B=2Lemwe-iTOwZ55BO4PwaECokizTw@mail.gmail.com>
-References: <20220626101553.1885428-1-davidgow@google.com>
- <20220629040605.2395481-1-davidgow@google.com>
- <321d069a-0db3-6abd-c25e-4da46f361bd7@gmail.com>
- <CABVgOSkybS55KynNvSA-B=2Lemwe-iTOwZ55BO4PwaECokizTw@mail.gmail.com>
-Date:   Wed, 29 Jun 2022 06:55:50 -0600
-Message-ID: <87tu83tyqx.fsf@meer.lwn.net>
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 4060C61DE8
+        for <linux-doc@vger.kernel.org>; Wed, 29 Jun 2022 13:06:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B9DEC341CB;
+        Wed, 29 Jun 2022 13:06:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1656507962;
+        bh=N32uSPu3EtNEptJhBogV/ogjkAX7TnX7yvm7ck5YAWQ=;
+        h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+        b=gzHWbRkYwbx24y9LJruP9AkpJ1CUe6iBcRGu3s7pPuQzUxrTQsd2wpumX9sB+DVYR
+         vh07XufcvGu0qGX1scyh3Lf2B0+PNwjdk2UeYEDy2oraxeWLjF+YTM5yVHx1q7GwuA
+         4PSmfO/okQFYKTA/THthxGG2yOuIKX812dETW1bHurrK48T373vKmy+tN0IPd/gfaj
+         BVCFdceIpD8Yg79tX4qm41i2DBomJ2NXGDQj8cPh3jnPrJA+WO1yxmaXtN/ui/eW1z
+         e6d2McGrRAKfA9ILnpENOb/kNkWD9tNCwIcXhE5mSvbseP9JNN3V0ZUwwqrXFJQS+v
+         983G4sCF/2Hrg==
+From:   Mark Brown <broonie@kernel.org>
+To:     alsa-devel@alsa-project.org, marex@denx.de
+Cc:     tiwai@suse.de, perex@perex.cz, linux-doc@vger.kernel.org
+In-Reply-To: <20220628165840.152235-1-marex@denx.de>
+References: <20220628165840.152235-1-marex@denx.de>
+Subject: Re: [PATCH] ASoC: doc: Capitalize RESET line name
+Message-Id: <165650796136.1089020.10280239824537087786.b4-ty@kernel.org>
+Date:   Wed, 29 Jun 2022 14:06:01 +0100
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-David Gow <davidgow@google.com> writes:
+On Tue, 28 Jun 2022 18:58:40 +0200, Marek Vasut wrote:
+> Make sure all AC97 interface lines are spelled in capitals,
+> to avoid confusing readers about where the 5th line is.
+> 
+> 
 
-> Thanks. The rest of this document is using "we" rather than "you", so
-> I used "we'll" for consistency. If "you" is preferred generally, it'd
-> be best to change it throughout the document (probably in a separate
-> patch).
+Applied to
 
-Nobody has ever tried to articulate a wider policy on first or
-second-person usage for kernel docs, so far as I know, and I think
-that's just fine.  We have far bigger things to worry about before we
-get concerned about consistency at that level.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+
+Thanks!
+
+[1/1] ASoC: doc: Capitalize RESET line name
+      commit: db7bc2741a2aca91b9a4df1bb03e4997a0e90807
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
 
 Thanks,
-
-jon
+Mark
