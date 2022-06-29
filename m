@@ -2,198 +2,202 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C4D4C43334
-	for <linux-doc@archiver.kernel.org>; Tue, 28 Jun 2022 22:38:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 372FBC433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Jun 2022 00:23:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229510AbiF1WiQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 28 Jun 2022 18:38:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41618 "EHLO
+        id S229812AbiF2AXl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 28 Jun 2022 20:23:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50774 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229461AbiF1WiQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Jun 2022 18:38:16 -0400
-Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com [IPv6:2a00:1450:4864:20::334])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CAF4FD112
-        for <linux-doc@vger.kernel.org>; Tue, 28 Jun 2022 15:38:14 -0700 (PDT)
-Received: by mail-wm1-x334.google.com with SMTP id o19-20020a05600c4fd300b003a0489f414cso4899881wmq.4
-        for <linux-doc@vger.kernel.org>; Tue, 28 Jun 2022 15:38:14 -0700 (PDT)
+        with ESMTP id S229804AbiF2AXi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Jun 2022 20:23:38 -0400
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 235A0237CB;
+        Tue, 28 Jun 2022 17:23:33 -0700 (PDT)
+Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
+        by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25SMXxks010882;
+        Wed, 29 Jun 2022 00:23:27 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : content-type : in-reply-to :
+ mime-version; s=corp-2021-07-09;
+ bh=D0fJ8KQlZo6JPz+F8UBPvDU+Z3eiBoVnLKXbvVzVu7c=;
+ b=SZ2M4KF5tm7r93A583aKdp29X136haKf30yyse8aRXBzhBJ0WNwAsTA5UgURNlbRZ+nD
+ okDAWh7IlnCBaLWpg8ShU94MSTu6H4ZP4zlnjK+AOagnRyrnei4+FXji4ez50Qx6icNX
+ KZqLr8CorYFGIUndiFbO7jfAQzCOAn843DC6oVmtRwEQSNFntSR2aufnZOvVunmmHJh7
+ uPZ4yJItiSSyX4IZPD2p124aTHOB21H0v0cHoc5YrllZQNQp5M/SvnJfEZWsR/ytP2Me
+ QFRTzalMqfK/tw+q08rq3Yo4EmlgBXH3Uzev+jIjBAxz1Beumw0zLobZcsdzPLC9yCw1 cQ== 
+Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
+        by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3gws52fsc0-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 29 Jun 2022 00:23:27 +0000
+Received: from pps.filterd (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+        by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.16.1.2/8.16.1.2) with SMTP id 25T0Bo2x037341;
+        Wed, 29 Jun 2022 00:23:26 GMT
+Received: from nam12-bn8-obe.outbound.protection.outlook.com (mail-bn8nam12lp2172.outbound.protection.outlook.com [104.47.55.172])
+        by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com with ESMTP id 3gwrt8d6bm-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 29 Jun 2022 00:23:26 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=WalzjCcF1xRpuhDhkIu9bQYmK6w4sv+rwM6uHJpmgssCsVmLKdU79LoRt7/jZNLk6sU47NDcxOQZ8HqmYp4xYF793HcO0BxJ8dfP8SA4mYOw7HdkmNJnJw3I3/vbK4HHnaRcerl1ftpVdgcRwkxbkTTzL+aD/XXsqrx7Oh052StnCPflsF/kMZHSgIguHlUL+m8JFXxBS85TBQFby2KOuswSyGpThsHppxBZ/1TaqUv2/9y33IhigxcQf6Det3zFm+rTjPNlZBdFWRRrvIRf5MD2WFpP0KkINBKBNuVKMJ3u+k/4VnMQtpWbPZYzJ2PgGs8dfDkQABzLhAZCSLP7hQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=D0fJ8KQlZo6JPz+F8UBPvDU+Z3eiBoVnLKXbvVzVu7c=;
+ b=LGYOWi5opFZ1jDkGeQFUEcNUHRsLYuMNYu0RrUoJrvYagY7Xx9zObS+LtRaKHTMzLZwxNq9vZ1wUd6iCtE+PlNcLVmby0ytGVRYehAUe1jqS600rDSo0j8zTODDCaJIxnn8IvxUJtuh6lGCgB6Nt3g+lVuhx610g2rvUMtOQjjKBM8jayKeNh67XMg2dhQeqnCN1si77+x2sHqK1m9BhJkxOntmjN99Ofcy02umGpIf8j9lvrKe2wuSmAXhEvs0k8NNTQxbjlv/GkibWn2+jpUYO5psaACDhhQNrMAJdnNckJp61la701mCfkjEml6K/kqoUZtk+Sqxs5flYSKdmtw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=D2xQiDloUPECELWlq78dtMk8sQX4Mz7K0pGe9yPKMGc=;
-        b=OpP84mIDDpru5A5sd+m/hLg4LXMxv18S6LfalFgSCro5gC5aX2kJrOAVb3syqigguo
-         8oGL+WAA+7jBv1o2/kR/eJA+AwAJU5BdoIB3/ql4h6SqIRiHHBNgyTqGnuc41dZcOgpS
-         8GODFCQAa+sX8LrqL8JWzP/PgAY/8ZBMz/OK9842UPNrneHpiHczXl7ZTRIwNXE7qo5L
-         1jhrX7WbggTT1LtgYqfgNI4KrXkFmpLJYyRoy8MnLmZ0UM6rNqKs1IJ0phUZcbz9D+o3
-         xbgEc1QeVYLnS15fY8Z2rTrrNwShaQD1Dt6SQf/tzey/enOHsHzoUrOi7sT+lSLcKgVg
-         gnKQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=D2xQiDloUPECELWlq78dtMk8sQX4Mz7K0pGe9yPKMGc=;
-        b=eYjwGm6nBsWaZ885+hvXOFmNyhCTAvVUMllghZRj/CB/SjYIUbn2HrDM15D+Oi9+Sx
-         m42DBDgZX0o1f8WCKH+8F+Io6kFd0JFJkrsI/RRcOFjMDpB7WNvVQLmaXpmz+ZZsC6Iq
-         /OlSPdULz0dHCXHvFEm3UM0jBawkBwJc6kspbSyB2IVZi8ZIBPUKd+Oy2hXCdLS2E4x9
-         78wYMvs6rWRUMiv9Y9svVk0b5K9x+U31B5ucgFhadPnD/vjZ9mrWiuKPsl4JYV5rfwK1
-         GGDO+5GklmZQgc29RGaJIhzQR486SluHJq5ltAwpcV/g2jg/hHSC5Ll+BH46xOzDORUA
-         dnHg==
-X-Gm-Message-State: AJIora/QdUtfDUQN6IePT5IRSPygxF0nyEvhVXBqZ0oFSMvAdPqG7N7G
-        PXfpsmcOdv8iC2FQrgFUqDJxRPIAegKqx3EXm3At1g==
-X-Google-Smtp-Source: AGRyM1tXi+AtbN0W0GHt4S5SYwxRiDa2yaE7kTT3Z77WdS2mulzizwZgd2HMwe6MD30K5Tf3EqxcjladfBlTrx+MSF0=
-X-Received: by 2002:a05:600c:4f84:b0:39c:9897:5295 with SMTP id
- n4-20020a05600c4f8400b0039c98975295mr172377wmq.158.1656455893181; Tue, 28 Jun
- 2022 15:38:13 -0700 (PDT)
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=D0fJ8KQlZo6JPz+F8UBPvDU+Z3eiBoVnLKXbvVzVu7c=;
+ b=PXLGpYqVN2waNjH10rWnx1c6BR6gH+vEUH+FBcDw3cHLoF8PfBmCn1uNu0bEbwhUAjBQDvMmc1GAWW3UsPafkFQRBFUGMvC9erhzhU0CCDZUYypxpGbX1E13zUQbvyWxDD+ZELGPeXyyFfL6kXUGwSuVa8AYIDXjy4AdM72N4C0=
+Received: from BY5PR10MB4196.namprd10.prod.outlook.com (2603:10b6:a03:20d::23)
+ by DM6PR10MB2602.namprd10.prod.outlook.com (2603:10b6:5:af::32) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5373.18; Wed, 29 Jun
+ 2022 00:23:24 +0000
+Received: from BY5PR10MB4196.namprd10.prod.outlook.com
+ ([fe80::c1ba:c197:f81f:ec0]) by BY5PR10MB4196.namprd10.prod.outlook.com
+ ([fe80::c1ba:c197:f81f:ec0%4]) with mapi id 15.20.5373.022; Wed, 29 Jun 2022
+ 00:23:24 +0000
+Date:   Tue, 28 Jun 2022 17:23:21 -0700
+From:   Mike Kravetz <mike.kravetz@oracle.com>
+To:     Muchun Song <songmuchun@bytedance.com>
+Cc:     david@redhat.com, akpm@linux-foundation.org, corbet@lwn.net,
+        linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, duanxiongchun@bytedance.com
+Subject: Re: [PATCH v2 6/8] mm: hugetlb_vmemmap: improve hugetlb_vmemmap code
+ readability
+Message-ID: <YrubeXg8tSxJeGxj@monkey>
+References: <20220628092235.91270-1-songmuchun@bytedance.com>
+ <20220628092235.91270-7-songmuchun@bytedance.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220628092235.91270-7-songmuchun@bytedance.com>
+X-ClientProxiedBy: CO1PR15CA0045.namprd15.prod.outlook.com
+ (2603:10b6:101:1f::13) To BY5PR10MB4196.namprd10.prod.outlook.com
+ (2603:10b6:a03:20d::23)
 MIME-Version: 1.0
-References: <20220623220613.3014268-1-kaleshsingh@google.com>
- <20220623220613.3014268-2-kaleshsingh@google.com> <Yrrrz7MxMu8OoEPU@bfoster>
-In-Reply-To: <Yrrrz7MxMu8OoEPU@bfoster>
-From:   Kalesh Singh <kaleshsingh@google.com>
-Date:   Tue, 28 Jun 2022 15:38:02 -0700
-Message-ID: <CAC_TJvejs5gbggC1hekyjUNctC_8+3FmVn0B7zAZox2+MkEjaA@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] procfs: Add 'size' to /proc/<pid>/fdinfo/
-To:     Brian Foster <bfoster@redhat.com>
-Cc:     =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Christoph Hellwig <hch@infradead.org>,
-        Stephen Brennan <stephen.s.brennan@oracle.com>,
-        David.Laight@aculab.com, Ioannis Ilkos <ilkos@google.com>,
-        "T.J. Mercier" <tjmercier@google.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        "Cc: Android Kernel" <kernel-team@android.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Christoph Anton Mitterer <mail@christoph.anton.mitterer.name>,
-        Paul Gortmaker <paul.gortmaker@windriver.com>,
-        Mike Rapoport <rppt@kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        DRI mailing list <dri-devel@lists.freedesktop.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 10acd7ca-10ef-4655-cbd3-08da5965947a
+X-MS-TrafficTypeDiagnostic: DM6PR10MB2602:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 04jl9ZkJhzaWbBvkPdQvzzYFuP8QfWERbXcTdmFozSOHCNzKuDezrJwaL41TrXJoiyD7k9KxvsapqHojFH7BP0h71pOGdMKhBuTJXM1ipmMOLWEqCQs2mt9Tvstu51SOfjZ4UWnYtmVAX8FQiXuorWqR0657IDn4K8rK5U29ghyyHb1P1edwILhhtdbZq0yP9wGnRXTed5YWnRTHt6qURtqZae5HK1iPekx2cz53rYNBrieAKU7jCjUaAMP/s14Jmjw2/wx1JzOBto9seUJ3Qjsdjw5clR8S0SepwtE/Ix8YtgisDKrbAMHpWeV+/daTQNUyv2Fl4/pwCLWzeH9FQhi2/rW9+zy8uMqzWNE3VeecgrFymrXm9tOjX94P6KCqtumVxnNyCIlA/Wyjluyabm8XU39r8YAfr8i2bvGAhO3uNB8PQIwV0PeOJtKq3mPHXEzbV7f8sLXhTauYHwGXfELPV9btysGOkktH1g60E+XCtOPhsE71dkAUkZfDbewnfh9QtpZPcpRcNUlJBzHZDY1mB/BVWv+4nj55CN66oOYkwQrkrk6TqXfpNo11Uavmr06KBNOiLfrA47qJIoSGDYYXH11Hduq7A736gvS8LbZWBuvpWifPApewZ3AUGiMQd0gjNAFim0OA6/+6+xcgWVBEeWjwidEXVr7XIiUbuqE+ojFU2sujJyitoLBqz0VOCzkSwrAo+Ap1/R4JAkUSwAKTz2bt7XB0CGCcl69E+r2ePGxzPMg2orlLe8LF4MHLWG6QzgcdSsHP1g7poDh4qg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR10MB4196.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(7916004)(346002)(136003)(366004)(376002)(396003)(39860400002)(33716001)(44832011)(66946007)(38100700002)(8936002)(966005)(66476007)(66556008)(316002)(478600001)(4326008)(2906002)(5660300002)(86362001)(6486002)(83380400001)(186003)(6666004)(6916009)(53546011)(6506007)(8676002)(6512007)(26005)(9686003)(41300700001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?fi2BEkcvN9HR5bZqbcZ1BMYQMmrNDOJwXNgQa6FsVXjJCKbv6Dj2YkoYS4ma?=
+ =?us-ascii?Q?0x/vm8YyN3isBm6c+h1+oxTgBrGR1AM7lUgxXug4ctx1405sC9uyO3GWCd6t?=
+ =?us-ascii?Q?OoCKaaiCI8I4Xz1WW7rucgCj72dSJse6sH8DbzY4gB8ROLJ4rKOJelIRmTab?=
+ =?us-ascii?Q?YrUN1jzrphREiQ+p3hfmVlnoObx6NABrYI4MwjrblgLUq5qGlLMJyYMkyXKh?=
+ =?us-ascii?Q?Sdr8UHYdBLp16DZEfW9oRiU5v1Nmsg5aE33xuZJphDvgrLx5ed6QWkI1fg69?=
+ =?us-ascii?Q?Y9/KRGw44jp7Q1l2Z0vJeGoHKgcH90d71xgGgDXWAwUOmrCQt09DedLWDRnh?=
+ =?us-ascii?Q?CyfHQ+rSeqmvZqUgWKxZh4zlwYyvfZ/mM3nDGh158i9C974BTNF648ORhtDn?=
+ =?us-ascii?Q?XlprcPe1RWcsT6m4s4KvNXlC/JZaqHU57GQTDSW7F+EG4XFn8OuVBILJhsCW?=
+ =?us-ascii?Q?kpn52Z2VAZb1gnJUTkwBRbmX74dzRdIVHblU7idm53z0Is4eA6F/D2mo+Lih?=
+ =?us-ascii?Q?4XmGuXAoj3kYYXLbNGdt8nNEfl1cwfYjCzE/SUH5q63d/zinwV49kGW4q7HK?=
+ =?us-ascii?Q?uYmdKT9Cd2eBlXPy7PxI/YRnSumDykjsPO037oqkGP+kmnuemDKzPWH0+RXt?=
+ =?us-ascii?Q?8Fh6ohrRleEufhreZjNs0qdelbQWqrVckE96D0ey4H+YuVa0ryOvAKFyytPk?=
+ =?us-ascii?Q?LKHQOKAxM8e8tILJjRf/ZTWLN901E6iw2L4lILJ5yXt+8gD2OHjBB2vlUlqV?=
+ =?us-ascii?Q?369kp8A5w8Y0FTa2yQYCEX2gkyL0gNIfa3ZH6tqdI4+7EauQR4AA4W599J2i?=
+ =?us-ascii?Q?WCRfUwx+M7LVt3qx8YaN0Ky2UkPKpjrKfoOF+nzXQrIiovmNbEwN29crFQml?=
+ =?us-ascii?Q?Ewv03M0D/0uWPEY6P3EzR+IT8c/pK8gWi7vzRIbarsVS9aeuQY5cEVUc+2QN?=
+ =?us-ascii?Q?1kocy7oMe9YFqtrjhcE7MvUvwoobw7OeEVHdyhngCfghKtiy1+NKHn+7Rme3?=
+ =?us-ascii?Q?meJG/UuQv8nyzgJmmggYbO8G4p0jpaqZMgiRVzydjz/bFvbep+hIiBVj+v6m?=
+ =?us-ascii?Q?gOI3m1fbEJ2cKv2/5+Elju8mthBkeUBU3zMwLOts2qnBNnU9z/w4fIUImwes?=
+ =?us-ascii?Q?UaBoxFhNEXUKN7Vbf9Yd7Vwa+FX7D2dBY9jZB0i0lN9tS2SQpDiz/D7Yc9Op?=
+ =?us-ascii?Q?Md1h80hwCGuIzuRDmNZbnXvTZax8re0oz5Q0BdRZRb4UNcLDqFhvbN+NHPf5?=
+ =?us-ascii?Q?5+JXydk9DVxl9rqEKHqxrw4Z2I6lP6x49+W41WVDWuFHt+Q+GoAM3F9Z4FwR?=
+ =?us-ascii?Q?3DsIiOllnJtcUBtjI8QnL3I9sYzxA2b5IOOE8Z+XDOzrbEI/wX8I6Bj0ZpcC?=
+ =?us-ascii?Q?zY61QIU8whYCp1LK+dufDdpmze9mss7PSg5UCuE1SlGV70Eb3Rwd4QfhjmPV?=
+ =?us-ascii?Q?6JL/YWSYa5NWfn1lJie+GagvVBxbV7ClY6Mg35Eiaas69CiDjAYGVYwdkcg7?=
+ =?us-ascii?Q?dq3LGX0nUg8CtgR108ambeWhK9opXZcKB5dAqA1lFK+HO8D/2xbbivIPl0ym?=
+ =?us-ascii?Q?aQE1XJ+B0Eg3gbir7wvXVaoVhRdTEMY2drREhEkmVEtlSNY7RY2gc/Lyvbgn?=
+ =?us-ascii?Q?ag=3D=3D?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 10acd7ca-10ef-4655-cbd3-08da5965947a
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR10MB4196.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jun 2022 00:23:24.5553
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: G1d+kl1EjVQGxIQuwLCSRThXnYIK8FSQasrCVRyerCB5busj5MfTlWstFHC9C2AuQflqoyCiAY33LHp9+WJb6A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR10MB2602
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.517,18.0.883
+ definitions=2022-06-28_11:2022-06-28,2022-06-28 signatures=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 suspectscore=0
+ mlxscore=0 phishscore=0 malwarescore=0 adultscore=0 spamscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2204290000 definitions=main-2206280095
+X-Proofpoint-ORIG-GUID: KFBjRiFcK3jNDIkTWCZkhvYCgCK7c5OB
+X-Proofpoint-GUID: KFBjRiFcK3jNDIkTWCZkhvYCgCK7c5OB
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jun 28, 2022 at 4:54 AM Brian Foster <bfoster@redhat.com> wrote:
->
-> On Thu, Jun 23, 2022 at 03:06:06PM -0700, Kalesh Singh wrote:
-> > To be able to account the amount of memory a process is keeping pinned
-> > by open file descriptors add a 'size' field to fdinfo output.
-> >
-> > dmabufs fds already expose a 'size' field for this reason, remove this
-> > and make it a common field for all fds. This allows tracking of
-> > other types of memory (e.g. memfd and ashmem in Android).
-> >
-> > Signed-off-by: Kalesh Singh <kaleshsingh@google.com>
-> > Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com>
-> > ---
-> >
-> > Changes in v2:
-> >   - Add Christian's Reviewed-by
-> >
-> > Changes from rfc:
-> >   - Split adding 'size' and 'path' into a separate patches, per Christi=
-an
-> >   - Split fdinfo seq_printf into separate lines, per Christian
-> >   - Fix indentation (use tabs) in documentaion, per Randy
-> >
-> >  Documentation/filesystems/proc.rst | 12 ++++++++++--
-> >  drivers/dma-buf/dma-buf.c          |  1 -
-> >  fs/proc/fd.c                       |  9 +++++----
-> >  3 files changed, 15 insertions(+), 7 deletions(-)
-> >
-> ...
-> > diff --git a/fs/proc/fd.c b/fs/proc/fd.c
-> > index 913bef0d2a36..464bc3f55759 100644
-> > --- a/fs/proc/fd.c
-> > +++ b/fs/proc/fd.c
-> > @@ -54,10 +54,11 @@ static int seq_show(struct seq_file *m, void *v)
-> >       if (ret)
-> >               return ret;
-> >
-> > -     seq_printf(m, "pos:\t%lli\nflags:\t0%o\nmnt_id:\t%i\nino:\t%lu\n"=
-,
-> > -                (long long)file->f_pos, f_flags,
-> > -                real_mount(file->f_path.mnt)->mnt_id,
-> > -                file_inode(file)->i_ino);
-> > +     seq_printf(m, "pos:\t%lli\n", (long long)file->f_pos);
-> > +     seq_printf(m, "flags:\t0%o\n", f_flags);
-> > +     seq_printf(m, "mnt_id:\t%i\n", real_mount(file->f_path.mnt)->mnt_=
-id);
-> > +     seq_printf(m, "ino:\t%lu\n", file_inode(file)->i_ino);
-> > +     seq_printf(m, "size:\t%lli\n", (long long)file_inode(file)->i_siz=
-e);
->
-> Hi Kalesh,
->
-> Any reason not to use i_size_read() here?
+On 06/28/22 17:22, Muchun Song wrote:
+> There is a discussion about the name of hugetlb_vmemmap_alloc/free in
+> thread [1].  The suggestion suggested by David is rename "alloc/free"
+> to "optimize/restore" to make functionalities clearer to users,
+> "optimize" means the function will optimize vmemmap pages, while
+> "restore" means restoring its vmemmap pages discared before. This
+> commit does this.
+> 
+> Another discussion is the confusion RESERVE_VMEMMAP_NR isn't used
+> explicitly for vmemmap_addr but implicitly for vmemmap_end in
+> hugetlb_vmemmap_alloc/free.  David suggested we can compute what
+> hugetlb_vmemmap_init() does now at runtime.  We do not need to worry
+> for the overhead of computing at runtime since the calculation is
+> simple enough and those functions are not in a hot path.  This commit
+> has the following improvements:
+> 
+>   1) The function suffixed name ("optimize/restore") is more expressive.
+>   2) The logic becomes less weird in hugetlb_vmemmap_optimize/restore().
+>   3) The hugetlb_vmemmap_init() does not need to be exported anymore.
+>   4) A ->optimize_vmemmap_pages field in struct hstate is killed.
+>   5) There is only one place where checks is_power_of_2(sizeof(struct
+>      page)) instead of two places.
+>   6) Add more comments for hugetlb_vmemmap_optimize/restore().
+>   7) For external users, hugetlb_optimize_vmemmap_pages() is used for
+>      detecting if the HugeTLB's vmemmap pages is optimizable originally.
+>      In this commit, it is killed and we introduce a new helper
+>      hugetlb_vmemmap_optimizable() to replace it.  The name is more
+>      expressive.
+> 
+> Link: https://lore.kernel.org/all/20220404074652.68024-2-songmuchun@bytedance.com/ [1]
+> Signed-off-by: Muchun Song <songmuchun@bytedance.com>
+> ---
+>  include/linux/hugetlb.h |   7 +--
+>  include/linux/sysctl.h  |   4 ++
+>  mm/hugetlb.c            |  15 ++---
+>  mm/hugetlb_vmemmap.c    | 143 ++++++++++++++++++++----------------------------
+>  mm/hugetlb_vmemmap.h    |  41 +++++++++-----
+>  5 files changed, 102 insertions(+), 108 deletions(-)
 
-Hi Brian.
+Thanks!  I like the removal of hugetlb_vmemmap_init and printing directly
+from report_hugepages.  Still need to look at your your command parsing
+patches.
 
-Thanks for pointing this out. You are right, we should use
-i_size_read() here. I'll update in the next version.
+> @@ -3191,8 +3191,10 @@ static void __init report_hugepages(void)
+>  		char buf[32];
+>  
+>  		string_get_size(huge_page_size(h), 1, STRING_UNITS_2, buf, 32);
+> -		pr_info("HugeTLB registered %s page size, pre-allocated %ld pages\n",
+> +		pr_info("HugeTLB: registered %s page size, pre-allocated %ld pages\n",
+>  			buf, h->free_huge_pages);
+> +		pr_info("HugeTLB: %d KiB vmemmap can be freed for a %s page\n",
+> +			hugetlb_vmemmap_optimizable_size(h) / SZ_1K, buf);
+>  	}
+>  }
 
->
-> Also not sure if it matters that much for your use case, but something
-> worth noting at least with shmem is that one can do something like:
->
-> # cat /proc/meminfo | grep Shmem:
-> Shmem:               764 kB
-> # xfs_io -fc "falloc -k 0 10m" ./file
-> # ls -alh file
-> -rw-------. 1 root root 0 Jun 28 07:22 file
-> # stat file
->   File: file
->   Size: 0               Blocks: 20480      IO Block: 4096   regular empty=
- file
-> # cat /proc/meminfo | grep Shmem:
-> Shmem:             11004 kB
->
-> ... where the resulting memory usage isn't reflected in i_size (but is
-> is in i_blocks/bytes).
+My first thought was "Why report vmemmap freed pages if not enabled?".
+However, since it can be enabled at runtime it is best always print.
 
-I tried a similar experiment a few times, but I don't see the same
-results. In my case, there is not any change in shmem. IIUC the
-fallocate is allocating the disk space not shared memory.
+Reviewed-by: Mike Kravetz <mike.kravetz@oracle.com>
 
-cat /proc/meminfo > meminfo.start
-xfs_io -fc "falloc -k 0 50m" ./xfs_file
-cat /proc/meminfo > meminfo.stop
-tail -n +1 meminfo.st* | grep -i '=3D=3D\|Shmem:'
-
-=3D=3D> meminfo.start <=3D=3D
-Shmem:               484 kB
-=3D=3D> meminfo.stop <=3D=3D
-Shmem:               484 kB
-
-ls -lh xfs_file
--rw------- 1 root root 0 Jun 28 15:12 xfs_file
-
-stat xfs_file
-  File: xfs_file
-  Size: 0               Blocks: 102400     IO Block: 4096   regular empty f=
-ile
-
-Thanks,
-Kalesh
-
->
-> Brian
->
-> >
-> >       /* show_fd_locks() never deferences files so a stale value is saf=
-e */
-> >       show_fd_locks(m, file, files);
-> > --
-> > 2.37.0.rc0.161.g10f37bed90-goog
-> >
->
+-- 
+Mike Kravetz
