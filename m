@@ -2,101 +2,80 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B71BC433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Jun 2022 01:28:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C84EC433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Jun 2022 01:32:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229604AbiF2B2y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 28 Jun 2022 21:28:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59796 "EHLO
+        id S229591AbiF2Bcu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 28 Jun 2022 21:32:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33258 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229461AbiF2B2y (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Jun 2022 21:28:54 -0400
-Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 561A61FCE6
-        for <linux-doc@vger.kernel.org>; Tue, 28 Jun 2022 18:28:53 -0700 (PDT)
-Received: by mail-pl1-x635.google.com with SMTP id x20so7035789plx.6
-        for <linux-doc@vger.kernel.org>; Tue, 28 Jun 2022 18:28:53 -0700 (PDT)
+        with ESMTP id S229510AbiF2Bct (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Jun 2022 21:32:49 -0400
+Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com [IPv6:2607:f8b0:4864:20::429])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D57E2201BA
+        for <linux-doc@vger.kernel.org>; Tue, 28 Jun 2022 18:32:48 -0700 (PDT)
+Received: by mail-pf1-x429.google.com with SMTP id i64so13608762pfc.8
+        for <linux-doc@vger.kernel.org>; Tue, 28 Jun 2022 18:32:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=shopee.com; s=shopee.com;
-        h=mime-version:subject:from:in-reply-to:date:cc
-         :content-transfer-encoding:message-id:references:to;
-        bh=0BKcY1bFgwGBzCmf/JqPtG+cfTHCwCaCL5k7kzYp4G8=;
-        b=PA8F7fOGuep4wYWZ2hJDpbUeRZghrwcjzGQDp9gdCXdwSWLhw7DNxTeAZ+fJxt5ynP
-         uOmHVHCayHN4WGevH5gnzPgUyECsGs5RO0Zn+M3MBNYhYCkn9QlhH0IFjQGGivUlnSj6
-         r3WT1omwfwx0AWn+SHAEJhUljJL9tK1qSn7kqwv64ZjcAjejkMe3Lp2IIo4BwJkWUL64
-         d174l2gn8OYzyZvE/0RGo11v0I/i5mJpDl5NuUvkOuD6+tlUpCo2dNfoiHoMt0V2QQE3
-         E4Px9w1wB62OhfXAMjwe2/YEY49ObSatyiZRDxsWhWEwVWDSeVQ6eV1we2Gyedleb+we
-         VUmQ==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=3g1pMU8jjpRq2Yqw0B79T70UE/7NoHF4/d0o4UgFWSo=;
+        b=MJwskSvqMftr1NHhU9PsHIxm74YQwzYJ+T39atcHK6wSMZexi247O7gYa0BMurGIIW
+         MHm0G0pUx1pSCxy059ZTl1kzCNQXjizpuN6eY24x9fwReu6L2oDXNo99qTcaCuIwbg/N
+         uD9MtG8fL4nivDlt46DkIyMXcSlmcSp5ubeTeExS91Oqs0glh/70yE/YU5gqzejJW8Lg
+         afUtrzgFeLBGIBkeLPuQymXwIfMQL1qKz7zpzdReJbHB5Sb3x8I4YfxNT5f7dpVHXCO/
+         9oWWHi4f+w8XL8ockST4DPlFi2BTA+FsTvF1QQZwjK7SRNfp9zWylCQRJZd+2JVs4xDI
+         udDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
-         :content-transfer-encoding:message-id:references:to;
-        bh=0BKcY1bFgwGBzCmf/JqPtG+cfTHCwCaCL5k7kzYp4G8=;
-        b=Xjv9k9E+/0a7FM+MrA1+wBNhbg2PhnV4O1Bygg78l1FD80J7gYm5gEaC+X7nYKtP/U
-         VT18qaurnBgK1h/ewhXBgz5Zj9VL6N6Gi0QPO3cToDfZf7EORyxe3hGqou4HNPT/Hpzz
-         Fi+DiVn0cUq5J6IDlh4VaXwDFqpI25Xz2tg4Dz+HpH98hraP5gTwNesBkbbR7tXwHImo
-         7In3qraWEv4AwKgR+IqtkzVS/MVUPwJe5h1S9LLXoDqDd0aLx9x9PPWbLgcle8X7ScMM
-         /xRS58JaHfcRreI4d+rzhtcP++1FfDer0WgQbgYFpAF3VeasSQZVtSKwbuyHwH4YVOqA
-         P0Cw==
-X-Gm-Message-State: AJIora/UdSBV42fMIW8tJwA4RD/MjC/68bMA/nWn1vGJmuQXOWnJrbP5
-        RWR33qsnxQNXGz+yQv9LiMlkhg==
-X-Google-Smtp-Source: AGRyM1thJ5CdaujditWNjp66MHQpGQ0yjEwoATJGUeM95pGZO81XLCTKh60zqCi8pvqX0NCu0cUj1A==
-X-Received: by 2002:a17:903:124f:b0:16b:8167:e34e with SMTP id u15-20020a170903124f00b0016b8167e34emr7761056plh.52.1656466132699;
-        Tue, 28 Jun 2022 18:28:52 -0700 (PDT)
-Received: from smtpclient.apple (bb119-74-120-80.singnet.com.sg. [119.74.120.80])
-        by smtp.gmail.com with ESMTPSA id x34-20020a634a22000000b0040ca587fe0fsm9812887pga.63.2022.06.28.18.28.50
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 28 Jun 2022 18:28:52 -0700 (PDT)
-Content-Type: text/plain;
-        charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3696.100.31\))
-Subject: Re: [PATCH 2/2] docs/zh_CN: Add mutex-design Chinese translation
-From:   Tang Yizhou <yizhou.tang@shopee.com>
-In-Reply-To: <CAJy-AmkA7u1Lc76V8R-7L1cW-gpM-8fAaYU+kMk9p-7tHjW_Hw@mail.gmail.com>
-Date:   Wed, 29 Jun 2022 09:28:48 +0800
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        robin.lubin@shopee.com, huangh@sea.com,
-        "Wu X.C." <bobwxc@email.cn>, Tang Yizhou <yizhou.tang@shopee.com>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <498BC9DA-AE60-43C4-B96F-E87EA9758731@shopee.com>
-References: <20220626122210.56704-1-yizhou.tang@shopee.com>
- <20220626122210.56704-3-yizhou.tang@shopee.com>
- <f3ba720a-cc26-09f5-5f24-d0746eed1b64@loongson.cn>
- <CAJy-Amn1D0Q97xfCQwr9Og9e4PSSkCwNAdXejVNVWX_TrqwCaA@mail.gmail.com>
- <85b29345-c2a8-6a92-f03f-94cad0017f68@loongson.cn>
- <CAJy-AmkA7u1Lc76V8R-7L1cW-gpM-8fAaYU+kMk9p-7tHjW_Hw@mail.gmail.com>
-To:     Alex Shi <seakeel@gmail.com>, Alex Shi <alexs@kernel.org>,
-        YanTeng Si <siyanteng@loongson.cn>,
-        Jonathan Corbet <corbet@lwn.net>
-X-Mailer: Apple Mail (2.3696.100.31)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=3g1pMU8jjpRq2Yqw0B79T70UE/7NoHF4/d0o4UgFWSo=;
+        b=vzhwUu4pz+/6ZUmEmSim6Jd9oJrsaTlnOqBWNwnD27s46shTfVGhbQIIMRfpj/N33D
+         q8OJWUqpD8xmrDXGbpHqso8xfzhJk7EtIst8MVfspa+1WMZmgjLx/8FsQkOg4tBZBhrF
+         lPgTJovOaqYmAQxWAVpHM+yl2iAnj3EWRT9xxEDd69G1dWA1+xTlkjJwu00PQBgi22RG
+         XwFq3K4d7HJ6rzeI0V+XeAkZYJT1jTVaSH2jwf/yOp4ZAzV2982h1z/+weyvuoaV/pE4
+         Yo3J8+4jVTwtaqkjN/KcTgqDJMUxq7d1WUIDfBR8UDlvxqCpcKoa8lokLqZmWdNLM64D
+         tQ3w==
+X-Gm-Message-State: AJIora/L/J0Qg9Mhc+VG29hNC5pMcvbquAQZDRdhUeZ4xxRCIYbzrAr0
+        XiBrTTaIpskKxdqk1rkpt/ozZQ==
+X-Google-Smtp-Source: AGRyM1vVmrDoC9NdV58muuAiUVjesyXdoh492DTRTYhqBJy4sn/stkbBqyloDoiaPwGrfp5lMd1MQg==
+X-Received: by 2002:a63:3f48:0:b0:40c:f2ca:4769 with SMTP id m69-20020a633f48000000b0040cf2ca4769mr759318pga.205.1656466368269;
+        Tue, 28 Jun 2022 18:32:48 -0700 (PDT)
+Received: from localhost.localdomain (bb119-74-120-80.singnet.com.sg. [119.74.120.80])
+        by smtp.gmail.com with ESMTPSA id ij28-20020a170902ab5c00b0016223016d79sm9973581plb.90.2022.06.28.18.32.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 28 Jun 2022 18:32:47 -0700 (PDT)
+From:   yizhou.tang@shopee.com
+To:     siyanteng@loongson.cn, alexs@kernel.org, seakeel@gmail.com,
+        corbet@lwn.net
+Cc:     linux-doc@vger.kernel.org, robin.lubin@shopee.com, huangh@sea.com,
+        bobwxc@email.cn, Tang Yizhou <yizhou.tang@shopee.com>
+Subject: [PATCH v2 0/2] Add mutex-design Chinese translation
+Date:   Wed, 29 Jun 2022 09:32:38 +0800
+Message-Id: <20220629013240.65386-1-yizhou.tang@shopee.com>
+X-Mailer: git-send-email 2.32.1 (Apple Git-133)
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+From: Tang Yizhou <yizhou.tang@shopee.com>
 
-> On 28 Jun 2022, at 11:04, Alex Shi <seakeel@gmail.com> wrote:
->=20
->>>> =E5=AF=BC=E8=87=B4=E7=9A=84=E7=BC=93=E5=AD=98=E8=A1=8C=E8=B7=B3=E8=B7=
-=83=EF=BC=88cacheline bouncing=EF=BC=89=E8=BF=99=E7=A7=8D=E6=98=82=E8=B4=B5=
-=E7=9A=84=E5=BC=80=E9=94=80=EF=BC=9F
->>> Both look fine. and may we don't have a better way to reflect the =
-fact
->>> cache bouncing between cpus?
->>=20
->> how about cpu=E6=A0=B8=E9=97=B4=E7=BC=93=E5=AD=98=E8=A1=8C=E5=BC=B9=E8=B7=
-=B3?
->=20
-> Uh, is the following better?
-> =E5=AF=BC=E8=87=B4=E7=9A=84(CPU=E6=A0=B8=E9=97=B4)=E7=BC=93=E5=AD=98=E8=A1=
-=8C=E5=9B=9E=E5=BC=B9=EF=BC=88cacheline bouncing=EF=BC=89=E8=BF=99=E7=A7=8D=
-=E6=98=82=E8=B4=B5=E7=9A=84=E5=BC=80=E9=94=80
->=20
+v2:
+Take Alex's advice and pick his Reviewed-by tag.
 
-Seems much better. I will take this advice.
+Tang Yizhou (2):
+  docs/zh_CN: Show the Chinese translation of spinlocks
+  docs/zh_CN: Add mutex-design Chinese translation
 
-Thanks,
-Yizhou
+ .../translations/zh_CN/locking/index.rst      |   5 +-
+ .../zh_CN/locking/mutex-design.rst            | 145 ++++++++++++++++++
+ 2 files changed, 148 insertions(+), 2 deletions(-)
+ create mode 100644 Documentation/translations/zh_CN/locking/mutex-design.rst
 
-> Thanks
-> Alex
+-- 
+2.34.1
 
