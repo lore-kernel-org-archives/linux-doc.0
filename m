@@ -2,172 +2,101 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A28D9C433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Jun 2022 00:39:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B71BC433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Jun 2022 01:28:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229735AbiF2Ajc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 28 Jun 2022 20:39:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33226 "EHLO
+        id S229604AbiF2B2y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 28 Jun 2022 21:28:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59796 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229547AbiF2Ajb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Jun 2022 20:39:31 -0400
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B284111166;
-        Tue, 28 Jun 2022 17:39:30 -0700 (PDT)
-Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
-        by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25SMYRZn019856;
-        Wed, 29 Jun 2022 00:39:25 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : content-type : in-reply-to :
- mime-version; s=corp-2021-07-09;
- bh=Sx9e191KWx371OLGYvJqE/YU7mAauMdkIioDIydZCJU=;
- b=B/bHFSTfGud0BG0aAEBqS1P5EtwaQVe/k/rUQHV5rDkW34DFoI+DYR4Vqla/miN5y5jj
- 4RUcp9oq7m2/DF4mSMkagds08Q8g02muRl3gDrO07qlv3c6tNCXoL9DIQGIavknRCs2E
- mSnj+eSN9z/irwEvJa/7UDMIO5lX/77ebIhLIMzqow7VpnSw1r8voKsCKqoIzhmmQDjb
- Wquf2gFZtO1ZY1yO4tU3TCY7c5paWUrrhc5kZldgQ/PBnegRVPatQOh0obmVZapO/tNa
- EP+UR8Rc/vMgipUff0lylhbCuxgpj/8yitaRtvQvrjv7t/0cY3Px8L0T9paRIGqyl1wW OQ== 
-Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
-        by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3gwry0ftp6-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 29 Jun 2022 00:39:25 +0000
-Received: from pps.filterd (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-        by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.16.1.2/8.16.1.2) with SMTP id 25T0aLvs007831;
-        Wed, 29 Jun 2022 00:39:24 GMT
-Received: from nam02-sn1-obe.outbound.protection.outlook.com (mail-sn1anam02lp2041.outbound.protection.outlook.com [104.47.57.41])
-        by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com with ESMTP id 3gwrt2nn18-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 29 Jun 2022 00:39:23 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=lwG+X/71BYzD0huitQ/3X67O8qunYZ48J/4mMHrELx6qeSVXrT1VAj44eOJlZcYFz4r6J0h0ml2R4Ey/XCMYK5uBAs2IpUG7KPvsTZMbIDE5Zbbp7vS8iifAeiTfKNZQsT3xGGVZhQ8NUwVUm/ib16qEuhVHEwDyATq0OCvN2kKnre8o8P5siTHdxEIhog29oqulIGBEoDlLb52PeGUl3PwfIBwBY0pgwWuXzrRIy1Sbvi/YJkxA87Xdiux4CHKaf1QhUSKYJRMnl+DnWA5npSRlYH6hPBI52sDxawsbxYoRTX58HmSqTmYKZ/AJFD5Ofglq84zGyYx/sp36rdFhQw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Sx9e191KWx371OLGYvJqE/YU7mAauMdkIioDIydZCJU=;
- b=i2/pIul7aK3PicwKu942umM5HYBvXNgZOSnAVzi4VM4vWS6iaXhIDnZul2cKHPkFxry4lkdSgJTzxR9DaY6aLyUXWq2HZ+iMYj84ponNBkDGDfOGPD/LbmRSkZFmpRSUWqoTJqn0MfvooeUwaRQ3PpuCcxlUBKnOkes0W2JshuUUHvLrXxwTW42LXdsRiwAsELGrPWrxAE6i+bZYipX47PYJuzxGzUIuNUx3OaIXYMESgl+e2OjkHNJeRXTmkvJ9DfvZnRBB3rOkKZ1oO/nPy0r6HZ9WVkcrt5SlLRf32mCkEdb++H+8whsyCwKdDuMPiOiISF4JFDQEWBQhIxq1kA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
+        with ESMTP id S229461AbiF2B2y (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 28 Jun 2022 21:28:54 -0400
+Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 561A61FCE6
+        for <linux-doc@vger.kernel.org>; Tue, 28 Jun 2022 18:28:53 -0700 (PDT)
+Received: by mail-pl1-x635.google.com with SMTP id x20so7035789plx.6
+        for <linux-doc@vger.kernel.org>; Tue, 28 Jun 2022 18:28:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Sx9e191KWx371OLGYvJqE/YU7mAauMdkIioDIydZCJU=;
- b=oHbjkd8bVuraGXEr18SzYwkMGmCbmcJ+QBZlcDSRvoDDh1yfB9v3ZsDkmOZDnKW+rfzNVvZNbOFJWf34agFjrzKpeLI6bL9QOu3ENI/w1dvReAc0kBJAiMWApxu7tZFpQRMaPQoNz7XaegxpHu1WXt3nRVV7rbfC4lRG8Ub1Dnk=
-Received: from BY5PR10MB4196.namprd10.prod.outlook.com (2603:10b6:a03:20d::23)
- by SN6PR10MB2815.namprd10.prod.outlook.com (2603:10b6:805:d1::28) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5373.16; Wed, 29 Jun
- 2022 00:39:22 +0000
-Received: from BY5PR10MB4196.namprd10.prod.outlook.com
- ([fe80::c1ba:c197:f81f:ec0]) by BY5PR10MB4196.namprd10.prod.outlook.com
- ([fe80::c1ba:c197:f81f:ec0%4]) with mapi id 15.20.5373.022; Wed, 29 Jun 2022
- 00:39:22 +0000
-Date:   Tue, 28 Jun 2022 17:39:19 -0700
-From:   Mike Kravetz <mike.kravetz@oracle.com>
-To:     Muchun Song <songmuchun@bytedance.com>
-Cc:     david@redhat.com, akpm@linux-foundation.org, corbet@lwn.net,
-        linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, duanxiongchun@bytedance.com
-Subject: Re: [PATCH v2 8/8] mm: hugetlb_vmemmap: use PTRS_PER_PTE instead of
- PMD_SIZE / PAGE_SIZE
-Message-ID: <YrufN8Zp8J20Qat3@monkey>
-References: <20220628092235.91270-1-songmuchun@bytedance.com>
- <20220628092235.91270-9-songmuchun@bytedance.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220628092235.91270-9-songmuchun@bytedance.com>
-X-ClientProxiedBy: MW4PR04CA0117.namprd04.prod.outlook.com
- (2603:10b6:303:83::32) To BY5PR10MB4196.namprd10.prod.outlook.com
- (2603:10b6:a03:20d::23)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: f55fceef-455f-4639-30db-08da5967cf36
-X-MS-TrafficTypeDiagnostic: SN6PR10MB2815:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: wqwLceY+92kP19XoO+K3Fgkml3pdrMn3DsJ98M6MdjT8kk95Pr5W8gqrKkENs22wEXwfpDXZbqiLnIgveWIE7XJa7vyhfbGdkBYgSb0hWPWblCTZ58JgzflEZMS4kX0vnRuADRHqCCKOPRsLh4mm439cBMlC4L+BaqLRqkoKfbO2YGVyLO5i5zLjTi6mLfelJjYgfa+/jyAwrxzcZ46+5z2CD3LyzF9upKpWTcEgKFMg/YAQosxAkw6f6w0GAZpPH4WC/vKfnWib5zk3fqgpfF4mTWOPs6pehx6RXuyYBpTW+jgSJLzVzXSC2rkYIjCf50KwKfQE+cCTUeGJrv3IwULJ4u74c4dnOQ4tmlSh7tsWCYr/ucgzy+PY5cqtNZZGOOqccM/r3plJ+Qpqc4YTSHtJUfSXSl1tizBZ7vLKCahymh3vBdDDlVnpqUhihQx83TBXPwWEoTiu9y1Kxwx36zl6VnxeOTMzsgvUK0d6WJj8Fl07KzQF+n+1VghjZUVsa2Gt6rf/ObpN8Rx756L+w1jhG0r1rNpRbvkcg6XXwYcZXWuZt85MhPPrynSWgEEGepsbfMG4W8oApNQ1V2VeTJeM0bMNBtwCKV+4glk+PWbacm8Pg1fdQCd5+PjhOsMsgcXif0e/Zy83cQfV3kz5Gnz5+WtrpKQRpQmYgMJSwJptjab0lFZ/FUBqKkrE8A/fklibAy0HQUmx4Pni+z8GN9jQVyQ7in12ubv0fy6wP6c=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR10MB4196.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(7916004)(346002)(136003)(39860400002)(376002)(396003)(366004)(6916009)(66946007)(86362001)(53546011)(2906002)(316002)(33716001)(66556008)(9686003)(8936002)(4744005)(6506007)(38100700002)(4326008)(5660300002)(6512007)(26005)(8676002)(44832011)(83380400001)(6486002)(478600001)(6666004)(41300700001)(186003)(66476007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?aHZw5Yg0WB6pVa8hUKwk76tHsXXIOQm9tFQ6y9pULu1AqzCK9VW9OU+bqg4W?=
- =?us-ascii?Q?kep3xpwr03zAjDPij5eFc0mmfwd50ekiR7O/l0qbXZX6TvLJvQSwbHmNNYWX?=
- =?us-ascii?Q?5NFa2Y1fndIiN3MGyXb3ST0v9WYsJPo+3bnZO4uvX+I3hMVDUF7/qem25+lD?=
- =?us-ascii?Q?zl1jEEpSF9/EFi+KRo3uKYLrWOvsOL8NQRXLcvaZoei9EajNYdsilVXtALXD?=
- =?us-ascii?Q?mb/VyFOVXVqKSqmIaT3275QwU8CEbZO9XIEY0tyfmXeefPOTNcTG/5EMfLSP?=
- =?us-ascii?Q?9NixnvGivtG1K+MFbHCn7++mr3PlPtLBCYpzOyoRHhZUBBL+2xnQ7DuwPb5k?=
- =?us-ascii?Q?yOyZQ2Mp5gD/7I5Mlbshg600245grKfoq1ObFoRCD3LSpPwYkQNK97jKL97P?=
- =?us-ascii?Q?5bw1T4XJsF/2nMWkeAsWpw1F8iNtPN36LFZRkscLD9W4KrIzhVJWQSMVwhjA?=
- =?us-ascii?Q?UztRywc/StXKPkOtjU9grcoJf2diua1vXf/3XnQRPbQgiPfddeNpkJ3dlkw3?=
- =?us-ascii?Q?f4OJC7AM8LFwlQaI2SHvzD37lb5mp/Xa0TcjX7PLpdoe8cFpCw/DXEq9wvkO?=
- =?us-ascii?Q?imB2jZZqdoxmyuOh1BRoatjAF6IIns99qTM86Ej/HqTuJj2zWVxRUoQdwOlP?=
- =?us-ascii?Q?iAn1Mg139wyHo7PUAD5dJ+LzaK+897yy/f0zkCSSlUFgNg9fnML6+832K0ON?=
- =?us-ascii?Q?+JtMYJmUGKVKHl6VS+6UdOnNl9WvZwygBZmfXANeLpP1vOiDp8FhlU9dvfMW?=
- =?us-ascii?Q?onA0KaBgYnt3UWwBjkVDf7uempXnqblFFKsXbvRcKweZBcRIs5LnKHX7HgXM?=
- =?us-ascii?Q?zEKcsC+LMUQPuf5Ztx1N0KchZy2fYqB5hdt2SMENkUNa/t+C9CYg4EFvSX+f?=
- =?us-ascii?Q?Mtpp22AZq9IUROx80N4BYFfYYTB5r6OuVClzucw3vxcoo5QuLU1jqvZXJ+mT?=
- =?us-ascii?Q?1rgXnMcZm+2EIMfFK6DhrLubBn7sgdPLHMf7r/9aCTDpoJpqhprh7EYxJvGu?=
- =?us-ascii?Q?OIJlq0hCF8BqYEOEe2ntiPGQqW79Pt0Ci0WHtYp4glsBvMgPvyQsAfD8B4n/?=
- =?us-ascii?Q?UAuZgYIZ1Nn9/qzcaqUUcOinWdLMoYmlnC/cdRfcMiwDfpVhRsK4xiT+TThT?=
- =?us-ascii?Q?wOiOxXsqfO6mvHEYzklgRDnARheSi1aG+BOpno+nbetGZkkmkx+iLChoeXKQ?=
- =?us-ascii?Q?p5I+TdoGdiy6P1UauuSU5Zoaa3onnncVaPUq8IfS4jcPy+Nsl3hMAEXimGKE?=
- =?us-ascii?Q?c7FYUQbFQHKBJGRuA8dlstoJeV0EPyGORf1AmGPlNjHmUTJjqpbpbH/SyxlB?=
- =?us-ascii?Q?kSexH9EwC3XlOSAkngh9CXDoVlKn81W80AYnl3vlafI9tjXtj5lCrWXmVJ+U?=
- =?us-ascii?Q?jmxvmO4EuS5kW5LOyYZz9BB9m3FUTwcSMFr72h7LRgdTmbm8y/6eqGJOaD+e?=
- =?us-ascii?Q?H3gvMS6gCuieXC4s30QFGsABWJVB7l1MqYVcFinW0Vz19gjUtHGzePoUSDN6?=
- =?us-ascii?Q?NR9nGQjga6pfB0dMRqzCqIYMmKOZ8B9ZNB45tCXCsx2LcOusHbcBJgtr/uHU?=
- =?us-ascii?Q?zgek7MaiaK/000+9BG9lyhwf2Ee4gXIouNQFoXOI7BgrDsyNC3iHRcxfQ0qJ?=
- =?us-ascii?Q?LA=3D=3D?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f55fceef-455f-4639-30db-08da5967cf36
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR10MB4196.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jun 2022 00:39:22.0847
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: yLYauAkqyqqHMvoKAVTsJ3pFeeImmu0e/c7xsbD89zsrIr+/s82QKWVI8X9vh/f7Q/oLf0HujjrlPZFzksn+nA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR10MB2815
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.517,18.0.883
- definitions=2022-06-28_11:2022-06-28,2022-06-28 signatures=0
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 mlxscore=0 phishscore=0
- malwarescore=0 mlxlogscore=999 spamscore=0 adultscore=0 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2204290000
- definitions=main-2206290000
-X-Proofpoint-GUID: Q0_VEo5FiQh_hzd1z8KhbgzFCFJ8jK_6
-X-Proofpoint-ORIG-GUID: Q0_VEo5FiQh_hzd1z8KhbgzFCFJ8jK_6
+        d=shopee.com; s=shopee.com;
+        h=mime-version:subject:from:in-reply-to:date:cc
+         :content-transfer-encoding:message-id:references:to;
+        bh=0BKcY1bFgwGBzCmf/JqPtG+cfTHCwCaCL5k7kzYp4G8=;
+        b=PA8F7fOGuep4wYWZ2hJDpbUeRZghrwcjzGQDp9gdCXdwSWLhw7DNxTeAZ+fJxt5ynP
+         uOmHVHCayHN4WGevH5gnzPgUyECsGs5RO0Zn+M3MBNYhYCkn9QlhH0IFjQGGivUlnSj6
+         r3WT1omwfwx0AWn+SHAEJhUljJL9tK1qSn7kqwv64ZjcAjejkMe3Lp2IIo4BwJkWUL64
+         d174l2gn8OYzyZvE/0RGo11v0I/i5mJpDl5NuUvkOuD6+tlUpCo2dNfoiHoMt0V2QQE3
+         E4Px9w1wB62OhfXAMjwe2/YEY49ObSatyiZRDxsWhWEwVWDSeVQ6eV1we2Gyedleb+we
+         VUmQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+         :content-transfer-encoding:message-id:references:to;
+        bh=0BKcY1bFgwGBzCmf/JqPtG+cfTHCwCaCL5k7kzYp4G8=;
+        b=Xjv9k9E+/0a7FM+MrA1+wBNhbg2PhnV4O1Bygg78l1FD80J7gYm5gEaC+X7nYKtP/U
+         VT18qaurnBgK1h/ewhXBgz5Zj9VL6N6Gi0QPO3cToDfZf7EORyxe3hGqou4HNPT/Hpzz
+         Fi+DiVn0cUq5J6IDlh4VaXwDFqpI25Xz2tg4Dz+HpH98hraP5gTwNesBkbbR7tXwHImo
+         7In3qraWEv4AwKgR+IqtkzVS/MVUPwJe5h1S9LLXoDqDd0aLx9x9PPWbLgcle8X7ScMM
+         /xRS58JaHfcRreI4d+rzhtcP++1FfDer0WgQbgYFpAF3VeasSQZVtSKwbuyHwH4YVOqA
+         P0Cw==
+X-Gm-Message-State: AJIora/UdSBV42fMIW8tJwA4RD/MjC/68bMA/nWn1vGJmuQXOWnJrbP5
+        RWR33qsnxQNXGz+yQv9LiMlkhg==
+X-Google-Smtp-Source: AGRyM1thJ5CdaujditWNjp66MHQpGQ0yjEwoATJGUeM95pGZO81XLCTKh60zqCi8pvqX0NCu0cUj1A==
+X-Received: by 2002:a17:903:124f:b0:16b:8167:e34e with SMTP id u15-20020a170903124f00b0016b8167e34emr7761056plh.52.1656466132699;
+        Tue, 28 Jun 2022 18:28:52 -0700 (PDT)
+Received: from smtpclient.apple (bb119-74-120-80.singnet.com.sg. [119.74.120.80])
+        by smtp.gmail.com with ESMTPSA id x34-20020a634a22000000b0040ca587fe0fsm9812887pga.63.2022.06.28.18.28.50
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 28 Jun 2022 18:28:52 -0700 (PDT)
+Content-Type: text/plain;
+        charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3696.100.31\))
+Subject: Re: [PATCH 2/2] docs/zh_CN: Add mutex-design Chinese translation
+From:   Tang Yizhou <yizhou.tang@shopee.com>
+In-Reply-To: <CAJy-AmkA7u1Lc76V8R-7L1cW-gpM-8fAaYU+kMk9p-7tHjW_Hw@mail.gmail.com>
+Date:   Wed, 29 Jun 2022 09:28:48 +0800
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        robin.lubin@shopee.com, huangh@sea.com,
+        "Wu X.C." <bobwxc@email.cn>, Tang Yizhou <yizhou.tang@shopee.com>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <498BC9DA-AE60-43C4-B96F-E87EA9758731@shopee.com>
+References: <20220626122210.56704-1-yizhou.tang@shopee.com>
+ <20220626122210.56704-3-yizhou.tang@shopee.com>
+ <f3ba720a-cc26-09f5-5f24-d0746eed1b64@loongson.cn>
+ <CAJy-Amn1D0Q97xfCQwr9Og9e4PSSkCwNAdXejVNVWX_TrqwCaA@mail.gmail.com>
+ <85b29345-c2a8-6a92-f03f-94cad0017f68@loongson.cn>
+ <CAJy-AmkA7u1Lc76V8R-7L1cW-gpM-8fAaYU+kMk9p-7tHjW_Hw@mail.gmail.com>
+To:     Alex Shi <seakeel@gmail.com>, Alex Shi <alexs@kernel.org>,
+        YanTeng Si <siyanteng@loongson.cn>,
+        Jonathan Corbet <corbet@lwn.net>
+X-Mailer: Apple Mail (2.3696.100.31)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 06/28/22 17:22, Muchun Song wrote:
-> There is already a macro PTRS_PER_PTE to represent the number of page table
-> entries, just use it.
-> 
-> Signed-off-by: Muchun Song <songmuchun@bytedance.com>
-> ---
->  mm/hugetlb_vmemmap.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/mm/hugetlb_vmemmap.c b/mm/hugetlb_vmemmap.c
-> index 6bbc445b1a66..65b527e1799c 100644
-> --- a/mm/hugetlb_vmemmap.c
-> +++ b/mm/hugetlb_vmemmap.c
-> @@ -48,7 +48,7 @@ static int __split_vmemmap_huge_pmd(pmd_t *pmd, unsigned long start)
->  
->  	pmd_populate_kernel(&init_mm, &__pmd, pgtable);
->  
-> -	for (i = 0; i < PMD_SIZE / PAGE_SIZE; i++, addr += PAGE_SIZE) {
-> +	for (i = 0; i < PTRS_PER_PTE; i++, addr += PAGE_SIZE) {
->  		pte_t entry, *pte;
->  		pgprot_t pgprot = PAGE_KERNEL;
->  
-> -- 
-> 2.11.0
-> 
 
-That certainly seems like right macro/value to use.
+> On 28 Jun 2022, at 11:04, Alex Shi <seakeel@gmail.com> wrote:
+>=20
+>>>> =E5=AF=BC=E8=87=B4=E7=9A=84=E7=BC=93=E5=AD=98=E8=A1=8C=E8=B7=B3=E8=B7=
+=83=EF=BC=88cacheline bouncing=EF=BC=89=E8=BF=99=E7=A7=8D=E6=98=82=E8=B4=B5=
+=E7=9A=84=E5=BC=80=E9=94=80=EF=BC=9F
+>>> Both look fine. and may we don't have a better way to reflect the =
+fact
+>>> cache bouncing between cpus?
+>>=20
+>> how about cpu=E6=A0=B8=E9=97=B4=E7=BC=93=E5=AD=98=E8=A1=8C=E5=BC=B9=E8=B7=
+=B3?
+>=20
+> Uh, is the following better?
+> =E5=AF=BC=E8=87=B4=E7=9A=84(CPU=E6=A0=B8=E9=97=B4)=E7=BC=93=E5=AD=98=E8=A1=
+=8C=E5=9B=9E=E5=BC=B9=EF=BC=88cacheline bouncing=EF=BC=89=E8=BF=99=E7=A7=8D=
+=E6=98=82=E8=B4=B5=E7=9A=84=E5=BC=80=E9=94=80
+>=20
 
-Reviewed-by: Mike Kravetz <mike.kravetz@oracle.com>
+Seems much better. I will take this advice.
 
--- 
-Mike Kravetz
+Thanks,
+Yizhou
+
+> Thanks
+> Alex
+
