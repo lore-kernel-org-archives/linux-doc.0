@@ -2,90 +2,113 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5BB6ACCA47C
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Jun 2022 14:09:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A883C433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Jun 2022 16:46:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231963AbiF2OJf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 29 Jun 2022 10:09:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39208 "EHLO
+        id S231731AbiF2QqW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 29 Jun 2022 12:46:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55282 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233557AbiF2OJe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Jun 2022 10:09:34 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6C842CE04;
-        Wed, 29 Jun 2022 07:09:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=vIUxXrfRpQPd8e40gcqC8UVMd7+p4lDNzJaouIvbYRY=; b=PmT2nEDFXm3So1eVE1/jDd8HHf
-        SBr1ovtXhZNGhEX3cO3TljW/uC3u7F2rVs/Q4lNzxuv3f2n6g63cbtVdF0FT4qPSnkzoYtlB4fTqg
-        EzgiixJE9MccFEPbvyjXv1iPzdKnUgK50Uh2pYgItsyr1gRT7Ue5MgiX6FI8/PsxwMCofGp1Gv2xv
-        lSGsyL4aeAa83SX+OfZRPpp0ETDDXkwXHMXa+p9rRAL+eB2mAF1kh4M20vJFDw0uJiUGtaetgqJdt
-        CgxAToCea/ywbU4/orOn0Q84PEghm6gYSuqpJC1Hr51fgxajTItnSpV6Ky3dp12IMeAp3BJPkP/qK
-        aBg/2ENA==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1o6YNU-00CPbk-1y; Wed, 29 Jun 2022 14:09:12 +0000
-Date:   Wed, 29 Jun 2022 07:09:12 -0700
-From:   Christoph Hellwig <hch@infradead.org>
-To:     Tianyu Lan <ltykernel@gmail.com>
-Cc:     corbet@lwn.net, rafael@kernel.org, len.brown@intel.com,
-        pavel@ucw.cz, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
-        hch@infradead.org, m.szyprowski@samsung.com, robin.murphy@arm.com,
-        paulmck@kernel.org, akpm@linux-foundation.org,
-        keescook@chromium.org, songmuchun@bytedance.com,
-        rdunlap@infradead.org, damien.lemoal@opensource.wdc.com,
-        michael.h.kelley@microsoft.com, kys@microsoft.com,
-        Tianyu Lan <Tianyu.Lan@microsoft.com>,
-        iommu@lists.linux-foundation.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
-        vkuznets@redhat.com, wei.liu@kernel.org, parri.andrea@gmail.com,
-        thomas.lendacky@amd.com, linux-hyperv@vger.kernel.org,
-        kirill.shutemov@intel.com, andi.kleen@intel.com,
-        Andi Kleen <ak@linux.intel.com>
-Subject: Re: [PATCH 1/2] swiotlb: Split up single swiotlb lock
-Message-ID: <YrxdCHRTRS62pAON@infradead.org>
-References: <20220627153150.106995-1-ltykernel@gmail.com>
- <20220627153150.106995-2-ltykernel@gmail.com>
+        with ESMTP id S230186AbiF2Qpu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Jun 2022 12:45:50 -0400
+Received: from mail-il1-x12b.google.com (mail-il1-x12b.google.com [IPv6:2607:f8b0:4864:20::12b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17C3535878
+        for <linux-doc@vger.kernel.org>; Wed, 29 Jun 2022 09:45:31 -0700 (PDT)
+Received: by mail-il1-x12b.google.com with SMTP id p14so10682433ile.1
+        for <linux-doc@vger.kernel.org>; Wed, 29 Jun 2022 09:45:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=xGIU+aRPCYaMBfL+8XL6sraQKPPP1WAl6hN6GjVRnm0=;
+        b=ZLTOZGyhHOsDXU9kON9b5y+LQvnnaHc11gH1140IIjaZ/QzAsI3uZ0Zl7HrBUctSMC
+         AJGGcAXit/fC21y+87Lea8X3Z0udGhItxi+Nl8SgS9EhjgSoby0BAwDAJ19YqdUti1HK
+         18B8di56pIVsQrA35xlGeeFhLiDg7vIQclYKw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=xGIU+aRPCYaMBfL+8XL6sraQKPPP1WAl6hN6GjVRnm0=;
+        b=NjOGTdw/Y2yZqGBR0UswkzbMlIkcZNQVd5y+ZLToRptPDf5mg59qxIbTgmwfCWkvvj
+         Om9VGqfeDVPhPyQYwfZpAsgC1CcId7xvSEEJsxX5CuGwpulFqI7hh/6jWDodtblr6+E2
+         YQLvQxrbgAM8zMZY6BKKUAgcR5hniTlYYSG6mPV5ZWXagIT9S575zRTq/+Lm/GDpb2ry
+         bOucLPSv7CC3k/rJrYEiFtBQ43Y2Jrwdcw1iTKhT0xbm+7zGFXQq6fnYUr/qxU246xXO
+         7OkDYes0JUP3t4DVEMdGAn7cVIc5XVmwqZicvAiRKsiRkX2Ph8R/sX3+TcgQ5wQakshq
+         CBUg==
+X-Gm-Message-State: AJIora8XjpvGTAYjBEHxUm038GJfeBcrPnE2D2AQi6oJWsAGjpZsZCbn
+        UFDrBqm0FKXukgUas2Ks0HASuA==
+X-Google-Smtp-Source: AGRyM1svrUEQkOYs/zv+vQ4Xxcu9a59RDyYG4Qo6FelRQT8rNSrPlrN4x8Mlsnkms2FHETr1M+85DQ==
+X-Received: by 2002:a92:b00e:0:b0:2d6:538b:b866 with SMTP id x14-20020a92b00e000000b002d6538bb866mr2348519ilh.199.1656521130140;
+        Wed, 29 Jun 2022 09:45:30 -0700 (PDT)
+Received: from [192.168.1.128] ([38.15.45.1])
+        by smtp.gmail.com with ESMTPSA id x17-20020a029711000000b0033a29ec646dsm7511423jai.4.2022.06.29.09.45.29
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 29 Jun 2022 09:45:29 -0700 (PDT)
+Subject: Re: [PATCH 1/3] Documentation: kunit: remove duplicate kunit-tool.rst
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Daniel Latypov <dlatypov@google.com>,
+        brendanhiggins@google.com, davidgow@google.com
+Cc:     linux-kernel@vger.kernel.org, kunit-dev@googlegroups.com,
+        linux-doc@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
+        Shuah Khan <skhan@linuxfoundation.org>
+References: <20220603195626.121922-1-dlatypov@google.com>
+ <87pmix3ktq.fsf@meer.lwn.net>
+ <2c3399e9-4f4e-a71a-4030-e4e6d72b5d4e@linuxfoundation.org>
+ <8735ft3co5.fsf@meer.lwn.net>
+ <96154234-7842-3bc9-d89f-eb20be40e6de@linuxfoundation.org>
+ <87lethyc57.fsf@meer.lwn.net>
+From:   Shuah Khan <skhan@linuxfoundation.org>
+Message-ID: <aeac8d90-fab5-7887-77f0-48b8d5f715c7@linuxfoundation.org>
+Date:   Wed, 29 Jun 2022 10:45:28 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220627153150.106995-2-ltykernel@gmail.com>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+In-Reply-To: <87lethyc57.fsf@meer.lwn.net>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jun 27, 2022 at 11:31:49AM -0400, Tianyu Lan wrote:
-> +/**
-> + * struct io_tlb_area - IO TLB memory area descriptor
-> + *
-> + * This is a single area with a single lock.
-> + *
-> + * @used:	The number of used IO TLB block.
-> + * @index:	The slot index to start searching in this area for next round.
-> + * @lock:	The lock to protect the above data structures in the map and
-> + *		unmap calls.
-> + */
-> +struct io_tlb_area {
-> +	unsigned long used;
-> +	unsigned int index;
-> +	spinlock_t lock;
-> +};
+On 6/27/22 4:28 PM, Jonathan Corbet wrote:
+> Shuah Khan <skhan@linuxfoundation.org> writes:
+> 
+>> On 6/24/22 4:43 PM, Jonathan Corbet wrote:
+>>> Shuah Khan <skhan@linuxfoundation.org> writes:
+>>>
+>>>>> So not that long ago these patches were going through Shuah...it seems
+>>>>> that's not happening anymore?  I can pick up kunit docs patches,
+>>>>> certainly.  I've taken the silence on these as assent and applied them.
+>>>>>
+>>>>
+>>>> I am still taking ksefltest and kunit doc patches through my tree. I wait
+>>>> for Brendan to ack at times. This one didn't show up in linux-kselftest
+>>>> list it appears.
+>>>>
+>>>> If you cc linux-kselftest and I get an ack from Brendan, I will take this
+>>>> through kselftest tree.
+>>>
+>>> As I said up above, I went ahead and applied them.  I can drop them
+>>> again if you want to carry them, just let me know.
+>>>
+>>
+>> Jon, yes please go ahead and drop this one. I will wait for Brendan
+>> to ack it. Reduces confusion in the future. Very often, there is code
+>> dependencies as well.
+> 
+> OK, I have dropped those three commits.  Note that I also had to drop
+> Randy's patch which had been waiting since April:
+> 
+>    https://lore.kernel.org/linux-doc/20220401024707.10550-1-rdunlap%40infradead.org/
+> 
+> since it conflicts with the above.  So you'll want to pick that one up
+> too.
+> 
 
-As already mentioned last time, please move this into swiotlb.c,
-swiotlb.h only uses a pointer to this structure.
+Thank you. I will pick these 3 up.
 
->  static void swiotlb_init_io_tlb_mem(struct io_tlb_mem *mem, phys_addr_t start,
-> -		unsigned long nslabs, unsigned int flags, bool late_alloc)
-> +				    unsigned long nslabs, unsigned int flags,
-> +				    bool late_alloc, unsigned int nareas)
-
-Nit: the two tab indentation for prototype continuations is a lot easier
-to maintain, so don't graciously switch away from it.
-
-> +			alloc_size - (offset + ((i - slot_index) << IO_TLB_SHIFT));
-
-Overly long line here.
+thanks,
+-- Shuah
 
