@@ -2,250 +2,166 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 469FCC43334
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Jun 2022 20:43:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1CB4AC433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Jun 2022 21:06:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231159AbiF2Un0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 29 Jun 2022 16:43:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37676 "EHLO
+        id S229480AbiF2VGy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 29 Jun 2022 17:06:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50386 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230441AbiF2UnZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Jun 2022 16:43:25 -0400
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com [IPv6:2a00:1450:4864:20::42e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 78AC821837
-        for <linux-doc@vger.kernel.org>; Wed, 29 Jun 2022 13:43:24 -0700 (PDT)
-Received: by mail-wr1-x42e.google.com with SMTP id q9so24198401wrd.8
-        for <linux-doc@vger.kernel.org>; Wed, 29 Jun 2022 13:43:24 -0700 (PDT)
+        with ESMTP id S229632AbiF2VGx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Jun 2022 17:06:53 -0400
+Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EEF0E3FBF0;
+        Wed, 29 Jun 2022 14:06:51 -0700 (PDT)
+Received: by mail-pj1-x1033.google.com with SMTP id dw10-20020a17090b094a00b001ed00a16eb4so700682pjb.2;
+        Wed, 29 Jun 2022 14:06:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=jK9//luGxpfbLffwOAXZvUD0KZmVzGC+4VJ1Mf8Ewyg=;
-        b=k5WSowoVnLxuxKjSPP3cp1XzTEAHY3y45UhQuF8UEDAyCTaVCqG/CT+GI0HDpCJiRr
-         qY92QFJIvnA+icgYFsho+2NHk8VIu8knAAsA4n5acDav+H8Bx/JChuc9/xU2pHxunkqn
-         Xa7V6+8eHKvHEzuihehfP5VnTNMUxG2sVEkn+lldtmnf/cCTkXjtmmUEqEhHB1ghA1+P
-         XiNUznA+U4VlknZfH43Wecpj/M1WX+pi8c7VlQcttS6Tn+4WR79rWAWtr3AWhjkWvAlB
-         8c14CN87gcOsljgVtquohoB6BqLa9yxRumbngWbW4Zv5Aafipq5gZb9HHF5pygsGcTHe
-         sV5A==
+        d=gmail.com; s=20210112;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=8p+JOQ19xWokrdD2iUophisiJ9mD6MuQuzslw5aPPt8=;
+        b=pBDhbsa65pfboiBYSIPpuk5KeIXyy0CQwKFEJmWAxZi2DC419WqJc0EL/OQYVNSaQl
+         yKjLEf/pFzk45D9E7KNeB4dnQXjiBvD8UxBN31ZoFpf9/lH/Jgq1r4YxOoN6tncKFzYI
+         NzxYHA0UCTUAIW2ULluh+3s2lqPBpt8hB84OacsdqUXwz8XphTIzOeCUYrR4fiqXEbUA
+         zfTtNFhGVEy3TXntUEu6Xrfab9eP65FLmP15nS6c8uNuioDmDv3AtIyHz8Zs4KWrmdC2
+         M0CwsJh2UfSEOs7LBhI1eOYvFiAhwHnF2UQWktnMsjKgDpOc2Folx0VSewBYKJHOFcvD
+         MnOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=jK9//luGxpfbLffwOAXZvUD0KZmVzGC+4VJ1Mf8Ewyg=;
-        b=EVCR7iHDgRS2LIgJguM6FcrH8ghaDLNnFkaZAG0cqCs9wiEx1YwotJJWoxKZ0eQ61j
-         hfg0Qayib3Mx+oD/BeblFVUel3Zoawbugoe0weDx7ZgXatGDuSVzJNCH2BMpR4+B5Qpz
-         1k0x49Im2GSTAzSRotY6+gRNatBoCDC9+3cb5zhPwgoCXCVcMwQSQDN6PtHwdAUszd8Z
-         k6044QWE1GAQniSmkTD4q8knrjCiuYuP4G69cJkKhWHLK9NjHWSzhyFJheEHDIkgwslN
-         NFDds9OQVj564ZcpoEuOsAqsYqBfy4GJmdMWCbkY+dGXwNlZ/37C3BFby2vhQYzsTT6F
-         Ob7A==
-X-Gm-Message-State: AJIora81UWcejbGXuTFqUEvEXrL4MQRIEUm5YiL7vNUzinfdN9EMT2Om
-        pwbynB946xAC3IW3ZikBMnwbEiinKKwxzZnaQoZr9Q==
-X-Google-Smtp-Source: AGRyM1sdZpRIIt8pzdPqsysENF0+n2K+v1kR9bTNvP8/I1WmweNa1mfdcg2Fg6hW5XcLplZP4kyRd9qLNe68d2DEstQ=
-X-Received: by 2002:a5d:52c6:0:b0:21b:9f39:78de with SMTP id
- r6-20020a5d52c6000000b0021b9f3978demr5179522wrv.699.1656535402268; Wed, 29
- Jun 2022 13:43:22 -0700 (PDT)
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to;
+        bh=8p+JOQ19xWokrdD2iUophisiJ9mD6MuQuzslw5aPPt8=;
+        b=Gro5dPtQZuwVI0VmD2xbxN663JhcEjnfBPmXTzrBRxSsZ+aYUA8cjzeXIahufbDt4P
+         OELqP8pBPvuoWvRex+e8PeA6JVrqlGwpIMaNrNldGWP/DO2Emg4m9wdQSkoaNoMTFy8R
+         nSNXC9rhMXE43msXCNqVkOMqdJq/OegrQ2Kyqk1vEZmzDcJaqmLeVPNabrgCsdK6uZN0
+         3YyRbl3vPHwrZ46Peqv5I31mO+ajtnLYAwQMsTErU94STXXSDyO6upgo31cQpUxYlJg/
+         Mh+dVuhMrHxM6g4iM9UTLWbQLOWgF33SOQ3yw3UwsdcwL4wBky8F6C25QI1nMj4RZ1XV
+         OXtA==
+X-Gm-Message-State: AJIora/e73RwLM4As/lhqzkpoYGcOrz/T3l5I+YHifcIAxa/IlAaufLG
+        ocZJ3FcS4TxL+tnFr0yL6VG5YvvJ0R0=
+X-Google-Smtp-Source: AGRyM1s+IVwYUeIRlFUjDSpO5yq9/VlA/lFPZa6AvW0otsJCgzZyLyBPKOeccAiaY/j4LdhIZUmESQ==
+X-Received: by 2002:a17:90a:31c1:b0:1ec:729f:36b7 with SMTP id j1-20020a17090a31c100b001ec729f36b7mr7669431pjf.123.1656536811190;
+        Wed, 29 Jun 2022 14:06:51 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id s37-20020a056a0017a500b0052513b5d078sm11984154pfg.31.2022.06.29.14.06.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 Jun 2022 14:06:50 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date:   Wed, 29 Jun 2022 14:06:49 -0700
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     Eugene Shalygin <eugene.shalygin@gmail.com>
+Cc:     Michael Carns <mike@carns.com>, Jean Delvare <jdelvare@suse.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] hwmon: (asus-ec-sensors) add support for Maximus XI Hero
+Message-ID: <20220629210649.GA3936933@roeck-us.net>
+References: <20220627225437.87462-1-eugene.shalygin@gmail.com>
 MIME-Version: 1.0
-References: <20220623220613.3014268-1-kaleshsingh@google.com>
- <20220623220613.3014268-2-kaleshsingh@google.com> <Yrrrz7MxMu8OoEPU@bfoster>
- <CAC_TJvejs5gbggC1hekyjUNctC_8+3FmVn0B7zAZox2+MkEjaA@mail.gmail.com> <YrxEUbDkYLE6XF6x@bfoster>
-In-Reply-To: <YrxEUbDkYLE6XF6x@bfoster>
-From:   Kalesh Singh <kaleshsingh@google.com>
-Date:   Wed, 29 Jun 2022 13:43:11 -0700
-Message-ID: <CAC_TJvcRd7=9xGXP5-t8v3g5iFWtYANpGA-nTqaGZBVTwa=07w@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] procfs: Add 'size' to /proc/<pid>/fdinfo/
-To:     Brian Foster <bfoster@redhat.com>
-Cc:     =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Christoph Hellwig <hch@infradead.org>,
-        Stephen Brennan <stephen.s.brennan@oracle.com>,
-        David.Laight@aculab.com, Ioannis Ilkos <ilkos@google.com>,
-        "T.J. Mercier" <tjmercier@google.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        "Cc: Android Kernel" <kernel-team@android.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Christoph Anton Mitterer <mail@christoph.anton.mitterer.name>,
-        Paul Gortmaker <paul.gortmaker@windriver.com>,
-        Mike Rapoport <rppt@kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        DRI mailing list <dri-devel@lists.freedesktop.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220627225437.87462-1-eugene.shalygin@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jun 29, 2022 at 5:23 AM Brian Foster <bfoster@redhat.com> wrote:
->
-> On Tue, Jun 28, 2022 at 03:38:02PM -0700, Kalesh Singh wrote:
-> > On Tue, Jun 28, 2022 at 4:54 AM Brian Foster <bfoster@redhat.com> wrote=
-:
-> > >
-> > > On Thu, Jun 23, 2022 at 03:06:06PM -0700, Kalesh Singh wrote:
-> > > > To be able to account the amount of memory a process is keeping pin=
-ned
-> > > > by open file descriptors add a 'size' field to fdinfo output.
-> > > >
-> > > > dmabufs fds already expose a 'size' field for this reason, remove t=
-his
-> > > > and make it a common field for all fds. This allows tracking of
-> > > > other types of memory (e.g. memfd and ashmem in Android).
-> > > >
-> > > > Signed-off-by: Kalesh Singh <kaleshsingh@google.com>
-> > > > Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com>
-> > > > ---
-> > > >
-> > > > Changes in v2:
-> > > >   - Add Christian's Reviewed-by
-> > > >
-> > > > Changes from rfc:
-> > > >   - Split adding 'size' and 'path' into a separate patches, per Chr=
-istian
-> > > >   - Split fdinfo seq_printf into separate lines, per Christian
-> > > >   - Fix indentation (use tabs) in documentaion, per Randy
-> > > >
-> > > >  Documentation/filesystems/proc.rst | 12 ++++++++++--
-> > > >  drivers/dma-buf/dma-buf.c          |  1 -
-> > > >  fs/proc/fd.c                       |  9 +++++----
-> > > >  3 files changed, 15 insertions(+), 7 deletions(-)
-> > > >
-> ...
-> > >
-> > > Also not sure if it matters that much for your use case, but somethin=
-g
-> > > worth noting at least with shmem is that one can do something like:
-> > >
-> > > # cat /proc/meminfo | grep Shmem:
-> > > Shmem:               764 kB
-> > > # xfs_io -fc "falloc -k 0 10m" ./file
-> > > # ls -alh file
-> > > -rw-------. 1 root root 0 Jun 28 07:22 file
-> > > # stat file
-> > >   File: file
-> > >   Size: 0               Blocks: 20480      IO Block: 4096   regular e=
-mpty file
-> > > # cat /proc/meminfo | grep Shmem:
-> > > Shmem:             11004 kB
-> > >
-> > > ... where the resulting memory usage isn't reflected in i_size (but i=
-s
-> > > is in i_blocks/bytes).
-> >
-> > I tried a similar experiment a few times, but I don't see the same
-> > results. In my case, there is not any change in shmem. IIUC the
-> > fallocate is allocating the disk space not shared memory.
-> >
->
-> Sorry, it was implied in my previous test was that I was running against
-> tmpfs. So regardless of fs, the fallocate keep_size semantics shown in
-> both cases is as expected: the underlying blocks are allocated and the
-> inode size is unchanged.
->
-> What wasn't totally clear to me when I read this patch was 1. whether
-> tmpfs refers to Shmem and 2. whether tmpfs allowed this sort of
-> operation. The test above seems to confirm both, however, right? E.g., a
-> more detailed example:
->
-> # mount | grep /tmp
-> tmpfs on /tmp type tmpfs (rw,nosuid,nodev,seclabel,nr_inodes=3D1048576,in=
-ode64)
-> # cat /proc/meminfo | grep Shmem:
-> Shmem:              5300 kB
-> # xfs_io -fc "falloc -k 0 1g" /tmp/file
-> # stat /tmp/file
->   File: /tmp/file
->   Size: 0               Blocks: 2097152    IO Block: 4096   regular empty=
- file
-> Device: 22h/34d Inode: 45          Links: 1
-> Access: (0600/-rw-------)  Uid: (    0/    root)   Gid: (    0/    root)
-> Context: unconfined_u:object_r:user_tmp_t:s0
-> Access: 2022-06-29 08:04:01.301307154 -0400
-> Modify: 2022-06-29 08:04:01.301307154 -0400
-> Change: 2022-06-29 08:04:01.451312834 -0400
->  Birth: 2022-06-29 08:04:01.301307154 -0400
-> # cat /proc/meminfo | grep Shmem:
-> Shmem:           1053876 kB
-> # rm -f /tmp/file
-> # cat /proc/meminfo | grep Shmem:
-> Shmem:              5300 kB
->
-> So clearly this impacts Shmem.. was your test run against tmpfs or some
-> other (disk based) fs?
+On Tue, Jun 28, 2022 at 12:54:36AM +0200, Eugene Shalygin wrote:
+> From: Michael Carns <mike@carns.com>
+> 
+> Add definitions for ROG MAXIMUS XI HERO and ROG MAXIMUS XI HERO (WI-FI)
+> boards.
+> 
+> Signed-off-by: Michael Carns <mike@carns.com>
+> Signed-off-by: Eugene Shalygin <eugene.shalygin@gmail.com>
 
-Hi Brian,
-
-Thanks for clarifying. My issue was tmpfs not mounted at /tmp in my system:
-
-=3D=3D> meminfo.start <=3D=3D
-Shmem:               572 kB
-=3D=3D> meminfo.stop <=3D=3D
-Shmem:             51688 kB
-
->
-> FWIW, I don't have any objection to exposing inode size if it's commonly
-> useful information. My feedback was more just an fyi that i_size doesn't
-> necessarily reflect underlying space consumption (whether it's memory or
-> disk space) in more generic cases, because it sounds like that is really
-> what you're after here. The opposite example to the above would be
-> something like an 'xfs_io -fc "truncate 1t" /tmp/file', which shows a
-> 1TB inode size with zero additional shmem usage.
-
-From these cases, it seems the more generic way to do this is by
-calculating the actual size consumed using the blocks. (i_blocks *
-512). So in the latter example  'xfs_io -fc "truncate 1t" /tmp/file'
-the size consumed would be zero. Let me know if it sounds ok to you
-and I can repost the updated version.
+Applied to hwmon-next.
 
 Thanks,
-Kalesh
+Guenter
 
->
-> Brian
->
-> > cat /proc/meminfo > meminfo.start
-> > xfs_io -fc "falloc -k 0 50m" ./xfs_file
-> > cat /proc/meminfo > meminfo.stop
-> > tail -n +1 meminfo.st* | grep -i '=3D=3D\|Shmem:'
-> >
-> > =3D=3D> meminfo.start <=3D=3D
-> > Shmem:               484 kB
-> > =3D=3D> meminfo.stop <=3D=3D
-> > Shmem:               484 kB
-> >
-> > ls -lh xfs_file
-> > -rw------- 1 root root 0 Jun 28 15:12 xfs_file
-> >
-> > stat xfs_file
-> >   File: xfs_file
-> >   Size: 0               Blocks: 102400     IO Block: 4096   regular emp=
-ty file
-> >
-> > Thanks,
-> > Kalesh
-> >
-> > >
-> > > Brian
-> > >
-> > > >
-> > > >       /* show_fd_locks() never deferences files so a stale value is=
- safe */
-> > > >       show_fd_locks(m, file, files);
-> > > > --
-> > > > 2.37.0.rc0.161.g10f37bed90-goog
-> > > >
-> > >
-> >
->
-> --
-> To unsubscribe from this group and stop receiving emails from it, send an=
- email to kernel-team+unsubscribe@android.com.
->
+> ---
+>  Documentation/hwmon/asus_ec_sensors.rst |  2 ++
+>  drivers/hwmon/asus-ec-sensors.c         | 36 +++++++++++++++++++++++++
+>  2 files changed, 38 insertions(+)
+> 
+> diff --git a/Documentation/hwmon/asus_ec_sensors.rst b/Documentation/hwmon/asus_ec_sensors.rst
+> index 00d8c46ef9e0..1e40c123db77 100644
+> --- a/Documentation/hwmon/asus_ec_sensors.rst
+> +++ b/Documentation/hwmon/asus_ec_sensors.rst
+> @@ -13,6 +13,8 @@ Supported boards:
+>   * ROG CROSSHAIR VIII FORMULA
+>   * ROG CROSSHAIR VIII HERO
+>   * ROG CROSSHAIR VIII IMPACT
+> + * ROG MAXIMUS XI HERO
+> + * ROG MAXIMUS XI HERO (WI-FI)
+>   * ROG STRIX B550-E GAMING
+>   * ROG STRIX B550-I GAMING
+>   * ROG STRIX X570-E GAMING
+> diff --git a/drivers/hwmon/asus-ec-sensors.c b/drivers/hwmon/asus-ec-sensors.c
+> index 19d3ca71b360..625c2baa35ec 100644
+> --- a/drivers/hwmon/asus-ec-sensors.c
+> +++ b/drivers/hwmon/asus-ec-sensors.c
+> @@ -141,6 +141,7 @@ enum board_family {
+>  	family_unknown,
+>  	family_amd_400_series,
+>  	family_amd_500_series,
+> +	family_intel_300_series,
+>  	family_intel_600_series
+>  };
+>  
+> @@ -200,6 +201,26 @@ static const struct ec_sensor_info sensors_family_amd_500[] = {
+>  		EC_SENSOR("Water_Out", hwmon_temp, 1, 0x01, 0x01),
+>  };
+>  
+> +static const struct ec_sensor_info sensors_family_intel_300[] = {
+> +	[ec_sensor_temp_chipset] =
+> +		EC_SENSOR("Chipset", hwmon_temp, 1, 0x00, 0x3a),
+> +	[ec_sensor_temp_cpu] = EC_SENSOR("CPU", hwmon_temp, 1, 0x00, 0x3b),
+> +	[ec_sensor_temp_mb] =
+> +		EC_SENSOR("Motherboard", hwmon_temp, 1, 0x00, 0x3c),
+> +	[ec_sensor_temp_t_sensor] =
+> +		EC_SENSOR("T_Sensor", hwmon_temp, 1, 0x00, 0x3d),
+> +	[ec_sensor_temp_vrm] = EC_SENSOR("VRM", hwmon_temp, 1, 0x00, 0x3e),
+> +	[ec_sensor_fan_cpu_opt] =
+> +		EC_SENSOR("CPU_Opt", hwmon_fan, 2, 0x00, 0xb0),
+> +	[ec_sensor_fan_vrm_hs] = EC_SENSOR("VRM HS", hwmon_fan, 2, 0x00, 0xb2),
+> +	[ec_sensor_fan_water_flow] =
+> +		EC_SENSOR("Water_Flow", hwmon_fan, 2, 0x00, 0xbc),
+> +	[ec_sensor_temp_water_in] =
+> +		EC_SENSOR("Water_In", hwmon_temp, 1, 0x01, 0x00),
+> +	[ec_sensor_temp_water_out] =
+> +		EC_SENSOR("Water_Out", hwmon_temp, 1, 0x01, 0x01),
+> +};
+> +
+>  static const struct ec_sensor_info sensors_family_intel_600[] = {
+>  	[ec_sensor_temp_t_sensor] =
+>  		EC_SENSOR("T_Sensor", hwmon_temp, 1, 0x00, 0x3d),
+> @@ -281,6 +302,18 @@ static const struct ec_board_info board_info[] = {
+>  		.mutex_path = ASUS_HW_ACCESS_MUTEX_ASMX,
+>  		.family = family_amd_500_series,
+>  	},
+> +	{
+> +		.board_names = {
+> +			"ROG MAXIMUS XI HERO",
+> +			"ROG MAXIMUS XI HERO (WI-FI)",
+> +		},
+> +		.sensors = SENSOR_SET_TEMP_CHIPSET_CPU_MB |
+> +			SENSOR_TEMP_T_SENSOR |
+> +			SENSOR_TEMP_VRM | SENSOR_SET_TEMP_WATER |
+> +			SENSOR_FAN_CPU_OPT | SENSOR_FAN_WATER_FLOW,
+> +		.mutex_path = ASUS_HW_ACCESS_MUTEX_ASMX,
+> +		.family = family_intel_300_series,
+> +	},
+>  	{
+>  		.board_names = {"ROG CROSSHAIR VIII IMPACT"},
+>  		.sensors = SENSOR_SET_TEMP_CHIPSET_CPU_MB |
+> @@ -814,6 +847,9 @@ static int __init asus_ec_probe(struct platform_device *pdev)
+>  	case family_amd_500_series:
+>  		ec_data->sensors_info = sensors_family_amd_500;
+>  		break;
+> +	case family_intel_300_series:
+> +		ec_data->sensors_info = sensors_family_intel_300;
+> +		break;
+>  	case family_intel_600_series:
+>  		ec_data->sensors_info = sensors_family_intel_600;
+>  		break;
