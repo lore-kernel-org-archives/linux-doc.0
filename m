@@ -2,113 +2,122 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A883C433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Jun 2022 16:46:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D1E3C433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Jun 2022 19:31:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231731AbiF2QqW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 29 Jun 2022 12:46:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55282 "EHLO
+        id S230072AbiF2Tb5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 29 Jun 2022 15:31:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41366 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230186AbiF2Qpu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Jun 2022 12:45:50 -0400
-Received: from mail-il1-x12b.google.com (mail-il1-x12b.google.com [IPv6:2607:f8b0:4864:20::12b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17C3535878
-        for <linux-doc@vger.kernel.org>; Wed, 29 Jun 2022 09:45:31 -0700 (PDT)
-Received: by mail-il1-x12b.google.com with SMTP id p14so10682433ile.1
-        for <linux-doc@vger.kernel.org>; Wed, 29 Jun 2022 09:45:31 -0700 (PDT)
+        with ESMTP id S229460AbiF2Tb4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Jun 2022 15:31:56 -0400
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33AE31402F;
+        Wed, 29 Jun 2022 12:31:56 -0700 (PDT)
+Received: by mail-pj1-x102c.google.com with SMTP id x1-20020a17090abc8100b001ec7f8a51f5so503288pjr.0;
+        Wed, 29 Jun 2022 12:31:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=xGIU+aRPCYaMBfL+8XL6sraQKPPP1WAl6hN6GjVRnm0=;
-        b=ZLTOZGyhHOsDXU9kON9b5y+LQvnnaHc11gH1140IIjaZ/QzAsI3uZ0Zl7HrBUctSMC
-         AJGGcAXit/fC21y+87Lea8X3Z0udGhItxi+Nl8SgS9EhjgSoby0BAwDAJ19YqdUti1HK
-         18B8di56pIVsQrA35xlGeeFhLiDg7vIQclYKw=
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=jYmbPjWKjblF3Fbvn5D7snSMKd9hjTzx+uVhX6b92oQ=;
+        b=WH87GyqrupEFl05RzR4g5wzqLrb890Xo8u9ZNHJ+AIX97hcciUZdOgIZh87YWgdQm0
+         T2o5WE4L2Qbac+DFg5E/EwuT79dqm9+s4L4DneL4z9jVaXvIFBmQXtm+MffVl+vsW0fT
+         GRZibCs5H1LHbC9jHG/kCbpEJDupJt+lkWm/Yt8CqUoqKSCEov33m4PTef3JaQktE9Ry
+         bpq8BYomvObC5cozfUf74rY9ULK7lyoMUS7myK+0wAHxRDt7Jn6GsAvHs3kO01swdmYE
+         BqS9mqbRfyj/ufRA0x27ojiBczoUah5EHkhAlwhQKEasbjg9OssuCpOr9XvmOhAzD96t
+         lxAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=xGIU+aRPCYaMBfL+8XL6sraQKPPP1WAl6hN6GjVRnm0=;
-        b=NjOGTdw/Y2yZqGBR0UswkzbMlIkcZNQVd5y+ZLToRptPDf5mg59qxIbTgmwfCWkvvj
-         Om9VGqfeDVPhPyQYwfZpAsgC1CcId7xvSEEJsxX5CuGwpulFqI7hh/6jWDodtblr6+E2
-         YQLvQxrbgAM8zMZY6BKKUAgcR5hniTlYYSG6mPV5ZWXagIT9S575zRTq/+Lm/GDpb2ry
-         bOucLPSv7CC3k/rJrYEiFtBQ43Y2Jrwdcw1iTKhT0xbm+7zGFXQq6fnYUr/qxU246xXO
-         7OkDYes0JUP3t4DVEMdGAn7cVIc5XVmwqZicvAiRKsiRkX2Ph8R/sX3+TcgQ5wQakshq
-         CBUg==
-X-Gm-Message-State: AJIora8XjpvGTAYjBEHxUm038GJfeBcrPnE2D2AQi6oJWsAGjpZsZCbn
-        UFDrBqm0FKXukgUas2Ks0HASuA==
-X-Google-Smtp-Source: AGRyM1svrUEQkOYs/zv+vQ4Xxcu9a59RDyYG4Qo6FelRQT8rNSrPlrN4x8Mlsnkms2FHETr1M+85DQ==
-X-Received: by 2002:a92:b00e:0:b0:2d6:538b:b866 with SMTP id x14-20020a92b00e000000b002d6538bb866mr2348519ilh.199.1656521130140;
-        Wed, 29 Jun 2022 09:45:30 -0700 (PDT)
-Received: from [192.168.1.128] ([38.15.45.1])
-        by smtp.gmail.com with ESMTPSA id x17-20020a029711000000b0033a29ec646dsm7511423jai.4.2022.06.29.09.45.29
+        bh=jYmbPjWKjblF3Fbvn5D7snSMKd9hjTzx+uVhX6b92oQ=;
+        b=kun8BiiQl1XwT2pJbfCMqCWaBAlc9JghbUq3aQAa7Ein+kSkcwb7FzeAAvLTyv+rx1
+         pFy7yDCuQMW+UXWuaO94qnPpojCATzRBmTdkWJHpgCUGNiNFIWZI1GUTXo/87vg8YPoA
+         uW3zACnS7uHywHwaBiDQWdj278H+HZnXOiC7+EqdshjPAKIB7m1juWE855q0eSYswVDG
+         321PTUvdHbszgGkhNm1aobge+DX18tYZw1ZXMdTiRaJ3M0boL5V8KuKUbCIFt+ElUuO/
+         6VZnuFAdc1iaZi9zNXUwy4qvQe5LGnfG/PgMyAnjM3JDRyFvsG6BGs+BmZIxSY66Lx5L
+         ht0A==
+X-Gm-Message-State: AJIora/QflLzaMypjI5YwPdF8A3nwNH4Qf4yZyv5m82eNFPkFjZaQkUf
+        FStyv5hg624g6vcXv6J+wjk=
+X-Google-Smtp-Source: AGRyM1tDIKZpKQtLvsksnXuYUjag9Ap7LacWq35dvAXGQC0NZYh/aOQJoGkWbDlEwanzGB/U/NGszA==
+X-Received: by 2002:a17:90b:4c86:b0:1ec:cc0f:32da with SMTP id my6-20020a17090b4c8600b001eccc0f32damr7507818pjb.66.1656531115687;
+        Wed, 29 Jun 2022 12:31:55 -0700 (PDT)
+Received: from [172.30.1.37] ([14.32.163.5])
+        by smtp.gmail.com with ESMTPSA id a8-20020a656048000000b003db7de758besm11796699pgp.5.2022.06.29.12.31.52
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 29 Jun 2022 09:45:29 -0700 (PDT)
-Subject: Re: [PATCH 1/3] Documentation: kunit: remove duplicate kunit-tool.rst
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Daniel Latypov <dlatypov@google.com>,
-        brendanhiggins@google.com, davidgow@google.com
-Cc:     linux-kernel@vger.kernel.org, kunit-dev@googlegroups.com,
-        linux-doc@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
-        Shuah Khan <skhan@linuxfoundation.org>
-References: <20220603195626.121922-1-dlatypov@google.com>
- <87pmix3ktq.fsf@meer.lwn.net>
- <2c3399e9-4f4e-a71a-4030-e4e6d72b5d4e@linuxfoundation.org>
- <8735ft3co5.fsf@meer.lwn.net>
- <96154234-7842-3bc9-d89f-eb20be40e6de@linuxfoundation.org>
- <87lethyc57.fsf@meer.lwn.net>
-From:   Shuah Khan <skhan@linuxfoundation.org>
-Message-ID: <aeac8d90-fab5-7887-77f0-48b8d5f715c7@linuxfoundation.org>
-Date:   Wed, 29 Jun 2022 10:45:28 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+        Wed, 29 Jun 2022 12:31:55 -0700 (PDT)
+Message-ID: <b6abe557-029d-cf2b-db79-40630fafb5f1@gmail.com>
+Date:   Thu, 30 Jun 2022 04:31:50 +0900
 MIME-Version: 1.0
-In-Reply-To: <87lethyc57.fsf@meer.lwn.net>
-Content-Type: text/plain; charset=utf-8; format=flowed
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH 08/22] devfreq: shut up kernel-doc warnings
 Content-Language: en-US
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Chanwoo Choi <cw00.choi@samsung.com>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        MyungJoo Ham <myungjoo.ham@samsung.com>,
+        linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org
+References: <cover.1656409369.git.mchehab@kernel.org>
+ <6a15081e17d78e914526c315d5bb53ea575edf90.1656409369.git.mchehab@kernel.org>
+From:   Chanwoo Choi <cwchoi00@gmail.com>
+In-Reply-To: <6a15081e17d78e914526c315d5bb53ea575edf90.1656409369.git.mchehab@kernel.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 6/27/22 4:28 PM, Jonathan Corbet wrote:
-> Shuah Khan <skhan@linuxfoundation.org> writes:
+On 22. 6. 28. 18:46, Mauro Carvalho Chehab wrote:
+> There are 4 warnings there:
+> 	drivers/devfreq/devfreq.c:707: warning: Function parameter or member 'val' not described in 'qos_min_notifier_call'
+> 	drivers/devfreq/devfreq.c:707: warning: Function parameter or member 'ptr' not described in 'qos_min_notifier_call'
+> 	drivers/devfreq/devfreq.c:717: warning: Function parameter or member 'val' not described in 'qos_max_notifier_call'
+> 	drivers/devfreq/devfreq.c:717: warning: Function parameter or member 'ptr' not described in 'qos_max_notifier_call'
 > 
->> On 6/24/22 4:43 PM, Jonathan Corbet wrote:
->>> Shuah Khan <skhan@linuxfoundation.org> writes:
->>>
->>>>> So not that long ago these patches were going through Shuah...it seems
->>>>> that's not happening anymore?  I can pick up kunit docs patches,
->>>>> certainly.  I've taken the silence on these as assent and applied them.
->>>>>
->>>>
->>>> I am still taking ksefltest and kunit doc patches through my tree. I wait
->>>> for Brendan to ack at times. This one didn't show up in linux-kselftest
->>>> list it appears.
->>>>
->>>> If you cc linux-kselftest and I get an ack from Brendan, I will take this
->>>> through kselftest tree.
->>>
->>> As I said up above, I went ahead and applied them.  I can drop them
->>> again if you want to carry them, just let me know.
->>>
->>
->> Jon, yes please go ahead and drop this one. I will wait for Brendan
->> to ack it. Reduces confusion in the future. Very often, there is code
->> dependencies as well.
+> It turns that neither val nor ptr are actually used on those
+> function, so document as such.
 > 
-> OK, I have dropped those three commits.  Note that I also had to drop
-> Randy's patch which had been waiting since April:
+> Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+> ---
 > 
->    https://lore.kernel.org/linux-doc/20220401024707.10550-1-rdunlap%40infradead.org/
+> To avoid mailbombing on a large number of people, only mailing lists were C/C on the cover.
+> See [PATCH 00/22] at: https://lore.kernel.org/all/cover.1656409369.git.mchehab@kernel.org/
 > 
-> since it conflicts with the above.  So you'll want to pick that one up
-> too.
+>  drivers/devfreq/devfreq.c | 4 ++++
+>  1 file changed, 4 insertions(+)
 > 
+> diff --git a/drivers/devfreq/devfreq.c b/drivers/devfreq/devfreq.c
+> index 01474daf4548..3020855d8400 100644
+> --- a/drivers/devfreq/devfreq.c
+> +++ b/drivers/devfreq/devfreq.c
+> @@ -700,6 +700,8 @@ static int qos_notifier_call(struct devfreq *devfreq)
+>  /**
+>   * qos_min_notifier_call() - Callback for QoS min_freq changes.
+>   * @nb:		Should be devfreq->nb_min
+> + * @val:	not used
+> + * @ptr:	not used
+>   */
+>  static int qos_min_notifier_call(struct notifier_block *nb,
+>  					 unsigned long val, void *ptr)
+> @@ -710,6 +712,8 @@ static int qos_min_notifier_call(struct notifier_block *nb,
+>  /**
+>   * qos_max_notifier_call() - Callback for QoS max_freq changes.
+>   * @nb:		Should be devfreq->nb_max
+> + * @val:	not used
+> + * @ptr:	not used
+>   */
+>  static int qos_max_notifier_call(struct notifier_block *nb,
+>  					 unsigned long val, void *ptr)
 
-Thank you. I will pick these 3 up.
+Applied it. Thanks.
 
-thanks,
--- Shuah
-
+-- 
+Best Regards,
+Samsung Electronics
+Chanwoo Choi
