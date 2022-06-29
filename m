@@ -2,80 +2,69 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B98B4C43334
-	for <linux-doc@archiver.kernel.org>; Wed, 29 Jun 2022 13:06:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D0C0DC433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 29 Jun 2022 14:05:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231549AbiF2NGJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 29 Jun 2022 09:06:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38130 "EHLO
+        id S231501AbiF2OFe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 29 Jun 2022 10:05:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33876 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231687AbiF2NGI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Jun 2022 09:06:08 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7C2D2CCAC
-        for <linux-doc@vger.kernel.org>; Wed, 29 Jun 2022 06:06:03 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 4060C61DE8
-        for <linux-doc@vger.kernel.org>; Wed, 29 Jun 2022 13:06:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B9DEC341CB;
-        Wed, 29 Jun 2022 13:06:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1656507962;
-        bh=N32uSPu3EtNEptJhBogV/ogjkAX7TnX7yvm7ck5YAWQ=;
-        h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-        b=gzHWbRkYwbx24y9LJruP9AkpJ1CUe6iBcRGu3s7pPuQzUxrTQsd2wpumX9sB+DVYR
-         vh07XufcvGu0qGX1scyh3Lf2B0+PNwjdk2UeYEDy2oraxeWLjF+YTM5yVHx1q7GwuA
-         4PSmfO/okQFYKTA/THthxGG2yOuIKX812dETW1bHurrK48T373vKmy+tN0IPd/gfaj
-         BVCFdceIpD8Yg79tX4qm41i2DBomJ2NXGDQj8cPh3jnPrJA+WO1yxmaXtN/ui/eW1z
-         e6d2McGrRAKfA9ILnpENOb/kNkWD9tNCwIcXhE5mSvbseP9JNN3V0ZUwwqrXFJQS+v
-         983G4sCF/2Hrg==
-From:   Mark Brown <broonie@kernel.org>
-To:     alsa-devel@alsa-project.org, marex@denx.de
-Cc:     tiwai@suse.de, perex@perex.cz, linux-doc@vger.kernel.org
-In-Reply-To: <20220628165840.152235-1-marex@denx.de>
-References: <20220628165840.152235-1-marex@denx.de>
-Subject: Re: [PATCH] ASoC: doc: Capitalize RESET line name
-Message-Id: <165650796136.1089020.10280239824537087786.b4-ty@kernel.org>
-Date:   Wed, 29 Jun 2022 14:06:01 +0100
+        with ESMTP id S230281AbiF2OFd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Jun 2022 10:05:33 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE73D2A251;
+        Wed, 29 Jun 2022 07:05:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=AdnOUixFaogrIHpTOlzBgm/evJyLH1AoH6sNGHs7rbw=; b=qmpdXaujtrOzhGFxHHFi13Bm1J
+        gCSK8vuAHJjN+MEZ6dknO6RyA2A4rowbq52NOjL0ixWi6EHF5CcNomLJsrvDzy070xpeb+dLUwAuX
+        anrkbObQPDTcRpTvJOHClFyrhy2O565MHOyNkUP5BioQ9ARaoqZQv9fKUFcHtkW5KBxDvGw01suxN
+        WSl2EXInD8ayYEhgbP5c8hLQ6eIHaqkqkdary0J2Y5WrQW5kV1Ag7B27ckzI6ENiq18aRzSPvM8iJ
+        ik4F+h1SzY475L2QXGEW+6hMSgDDsaIOdTEsHACLzHLCMY2M5X+9UKfDYKkRuMriM1IgWHbeQGbO3
+        LZ96O5AA==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1o6YJN-00CNma-5V; Wed, 29 Jun 2022 14:04:57 +0000
+Date:   Wed, 29 Jun 2022 07:04:57 -0700
+From:   Christoph Hellwig <hch@infradead.org>
+To:     Tianyu Lan <ltykernel@gmail.com>
+Cc:     corbet@lwn.net, rafael@kernel.org, len.brown@intel.com,
+        pavel@ucw.cz, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
+        hch@infradead.org, m.szyprowski@samsung.com, robin.murphy@arm.com,
+        paulmck@kernel.org, akpm@linux-foundation.org,
+        keescook@chromium.org, songmuchun@bytedance.com,
+        rdunlap@infradead.org, damien.lemoal@opensource.wdc.com,
+        michael.h.kelley@microsoft.com, kys@microsoft.com,
+        Tianyu Lan <Tianyu.Lan@microsoft.com>,
+        iommu@lists.linux-foundation.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
+        vkuznets@redhat.com, wei.liu@kernel.org, parri.andrea@gmail.com,
+        thomas.lendacky@amd.com, linux-hyperv@vger.kernel.org,
+        kirill.shutemov@intel.com, andi.kleen@intel.com,
+        Andi Kleen <ak@linux.intel.com>
+Subject: Re: [PATCH 2/2] x86/ACPI: Set swiotlb area according to the number
+ of lapic entry in MADT
+Message-ID: <YrxcCZKvFYjxLf9n@infradead.org>
+References: <20220627153150.106995-1-ltykernel@gmail.com>
+ <20220627153150.106995-3-ltykernel@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220627153150.106995-3-ltykernel@gmail.com>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 28 Jun 2022 18:58:40 +0200, Marek Vasut wrote:
-> Make sure all AC97 interface lines are spelled in capitals,
-> to avoid confusing readers about where the 5th line is.
+On Mon, Jun 27, 2022 at 11:31:50AM -0400, Tianyu Lan wrote:
+> From: Tianyu Lan <Tianyu.Lan@microsoft.com>
 > 
-> 
+> When initialize swiotlb bounce buffer, smp_init() has not been
+> called and cpu number can not be got from num_online_cpus().
+> Use the number of lapic entry to set swiotlb area number and
+> keep swiotlb area number equal to cpu number on the x86 platform.
 
-Applied to
-
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-
-Thanks!
-
-[1/1] ASoC: doc: Capitalize RESET line name
-      commit: db7bc2741a2aca91b9a4df1bb03e4997a0e90807
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+Can we reorder that initialization?  Because I really hate having
+to have an arch hook in every architecture.
