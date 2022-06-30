@@ -2,75 +2,68 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C4604C43334
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Jun 2022 18:20:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 60B0EC43334
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Jun 2022 18:24:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231596AbiF3SUr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 30 Jun 2022 14:20:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38214 "EHLO
+        id S233126AbiF3SYd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 30 Jun 2022 14:24:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41104 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236477AbiF3SUq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Jun 2022 14:20:46 -0400
+        with ESMTP id S232034AbiF3SYc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Jun 2022 14:24:32 -0400
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E40DE419BE;
-        Thu, 30 Jun 2022 11:20:45 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D97541300;
+        Thu, 30 Jun 2022 11:24:32 -0700 (PDT)
 Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 88CC04B7;
-        Thu, 30 Jun 2022 18:20:45 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 88CC04B7
+        by ms.lwn.net (Postfix) with ESMTPSA id B8AA94B7;
+        Thu, 30 Jun 2022 18:24:31 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net B8AA94B7
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1656613245; bh=zEX0jDaGRsOibTdtNVlBKNOjdBWErNw4UW8i61bvYM8=;
+        t=1656613471; bh=p/sWzyhrbkyk3TRdT7vX/Awfp+eVJD1AxPUZppQmEIM=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=DzP0hPqKONjHyjuaLmB7ovyEGNeQuVViQe1ciHBH2jmGHFG0VvLvIyZ+5EKPD9DbC
-         XXX3Y9ro+pYiIr2b2wi43gkmlZFhORSdYFrn6OUu33pbsA7yc6quedxluojTcTLY/q
-         q1A5RRdkw1ju7/1peetdghDEFdyuV9EgH5Qny3zMrsVqz/s91PqCuPEtLI6Qz415Mi
-         AYRXlp1BMluvq9uAoB7Fd5LE+oWIfkVAe2fh4lqztw3RgR5IFMRWyjg01B6abvS/DE
-         sBnhCvFRb7c7w/0ko1VIbs0GADRAQ2COwNEdEsQiblEmf7ylSpSXczqgiHR3VDx7B2
-         Gq/ADIjEZlZBg==
+        b=P1PHD5SLDmyl1ngcjr+v51mhMSfhc5mMQHhOHvrzgdih/mj8ibjeYtWYu+eGqLIK/
+         PUD8Dm/OlwfONr2fz/d1nghdnDE3LlBdtsN52huJcCxSYLf49JJAt3puGi2cWKt36N
+         OXSqY7tXtOlnCsEkC909W4qXpf1snhEHgT0k9IdAAc62hYB3fYFodRuZ197M7IoOq9
+         OaDa/zAJFE9DiBymksvAsfhPPlwR3YPYrmnevfjx0tlGO2RDQ54SYAdpbBaQvrcnJw
+         4C4ljxx0zWlif5My3+RcAU0CfDobO21BpG+ldNhGUMExMJYKs0KisuDU/rcnCRibpv
+         SPRboqbnKM7cg==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Federico Vaga <federico.vaga@vaga.pv.it>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Federico Vaga <federico.vaga@vaga.pv.it>
-Subject: Re: [PATCH] doc:it_IT: align Italian documentation
-In-Reply-To: <87pmiqnjbz.fsf@meer.lwn.net>
-References: <20220628111603.603357-1-federico.vaga@vaga.pv.it>
- <87pmiqnjbz.fsf@meer.lwn.net>
-Date:   Thu, 30 Jun 2022 12:20:44 -0600
-Message-ID: <87letenhc3.fsf@meer.lwn.net>
+To:     Akira Yokosawa <akiyks@gmail.com>, linux-doc@vger.kernel.org
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        "Maciej W. Rozycki" <macro@orcam.me.uk>,
+        Miguel Ojeda <ojeda@kernel.org>, linux-kernel@vger.kernel.org,
+        Akira Yokosawa <akiyks@gmail.com>
+Subject: Re: [PATCH v2] docs/doc-guide: Mention make variable SPHINXDIRS
+In-Reply-To: <50d6f0bc-030d-9529-0665-e2b3e7c792d8@gmail.com>
+References: <50d6f0bc-030d-9529-0665-e2b3e7c792d8@gmail.com>
+Date:   Thu, 30 Jun 2022 12:24:31 -0600
+Message-ID: <87czeqnh5s.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Jonathan Corbet <corbet@lwn.net> writes:
+Akira Yokosawa <akiyks@gmail.com> writes:
 
-> Federico Vaga <federico.vaga@vaga.pv.it> writes:
+> SPHINXDIRS is useful when you want to test build only those
+> documents affected by your changes.
 >
->> Translation for the following patches
->>
->> commit df05c0e9496c ("Documentation: Raise the minimum supported version of LLVM to 11.0.0")
->> commit 333b11e541fe ("Documentation: Add minimum pahole version")
->> commit 6d6a8d6a4ed0 ("docs: Update Sphinx requirements")
->> [...]
+> Mention it in the "Sphinx Build" section.
 >
-> Applied, thanks.
+> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+> Cc: Maciej W. Rozycki <macro@orcam.me.uk>
+> ---
+> v1 -> v2:
+>   - Added command example (Jon)
+>
+> v1: https://lore.kernel.org/r/ff89c064-e24a-0f2f-fc03-b029e5d04338@gmail.com/
+> --
+>  Documentation/doc-guide/sphinx.rst | 7 +++++++
+>  1 file changed, 7 insertions(+)
 
-Actually, I take that back; it creates a massive mess of docs-build
-warnings:
-
-  MAINTAINERS:4: WARNING: duplicate label maintainers, other instance in /stuff/k/git/kernel/Documentation/process/maintainers.rst
-  MAINTAINERS:107: WARNING: unknown document: ../maintainer/maintainer-entry-profile
-  MAINTAINERS:165: WARNING: unknown document: ../networking/device_drivers/ethernet/3com/vortex
-  MAINTAINERS:235: WARNING: unknown document: ../networking/6lowpan
-  [...]
-
-This all comes down to the duplicate copy of
-Documentation/process/maintainers.rst that your patch adds.  Don't do
-that, please.
-
-Thanks,
+Applied, thanks.
 
 jon
