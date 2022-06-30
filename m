@@ -2,116 +2,80 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BC619C433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Jun 2022 10:13:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B6345CCA47F
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Jun 2022 11:46:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234063AbiF3KN6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 30 Jun 2022 06:13:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51690 "EHLO
+        id S235121AbiF3LqX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 30 Jun 2022 07:46:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60690 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234508AbiF3KN6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Jun 2022 06:13:58 -0400
-Received: from mail-pg1-x529.google.com (mail-pg1-x529.google.com [IPv6:2607:f8b0:4864:20::529])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D18644A20;
-        Thu, 30 Jun 2022 03:13:57 -0700 (PDT)
-Received: by mail-pg1-x529.google.com with SMTP id r66so18061619pgr.2;
-        Thu, 30 Jun 2022 03:13:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=yHS730e4vBBXm7TzAGTuOdImtTpJ1+sTID/QkZphy1Y=;
-        b=QednnHhV8MfZXVkfpPnF/2EDXwk3hWGuh8w4qVSLxaEI9Vi8S/VygZMjopq6QHH+/0
-         UG6ZglWPVwR/vfNVT+v8/DcUCSO0taqAyE4dRWo6WZlnczZzXeJECeDjluQTIU2YiGzN
-         BhziIkcdSy0Z2u2ET9Rm0urj4BGOF5z+ueZRT9vfeK+sGMiId7GKN4Y97v3zV6dkxIdH
-         OItGIo9RU9Y6vMBH5+Uvc9nbTSQpKwQ7u07WXA5EABGvpkF8fJSFNZdY1djMYhIYu0ZF
-         mUIabd8D1fli6bzVVzGPPjoplsOu5IylZskWPem5rjLUgaxP9eZC1JaMke/SBME/SGud
-         yyog==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=yHS730e4vBBXm7TzAGTuOdImtTpJ1+sTID/QkZphy1Y=;
-        b=f3WP2li1HC49xl1Ea4h1GV5qSBT1ctQlCmAvTHGTj2rcucGrx8wC7UdI8rVvFMtf6z
-         gViJAFwEahJGOOuy9Z+kDbGz+d0ZzDmved1MSWPwJ2fGwrcFDxzmUremqErty2yK9iIO
-         yA6EffvXijzxqDD9nFX3l8fzKA1ucZHufUyfzv/MEX52mpQe+K/S1if6fJqi76uD2EXG
-         aIYfQxv4AkiTsc0H4z7HUlz78COrSNn1KQse16QYs3YsaVmxQEjbgSEGQVHCjvhG442F
-         fJUs/uK2ebtgCVThAjbnVkALxj9EsTUIROtUYDpHcDC3jlvjwCrcrf5RFunK94je8yl0
-         BAKQ==
-X-Gm-Message-State: AJIora+3pusf/aQuVDWSe0U85yphnyRPb7wPQVxyKFjeGdQd1tQy/DaI
-        FMBp7i9rLkygKxwKMota1ds=
-X-Google-Smtp-Source: AGRyM1uhJ9hpMKkSHpSlnFoGHFrFu8+IvkcXxYGmxVIhD72S3fLnguDrTs6neMjBXaIuaq7eoTWC1w==
-X-Received: by 2002:a05:6a00:2410:b0:522:9837:581f with SMTP id z16-20020a056a00241000b005229837581fmr15105934pfh.11.1656584036579;
-        Thu, 30 Jun 2022 03:13:56 -0700 (PDT)
-Received: from debian.me (subs02-180-214-232-27.three.co.id. [180.214.232.27])
-        by smtp.gmail.com with ESMTPSA id y11-20020a170902d64b00b0016782c55790sm13043107plh.232.2022.06.30.03.13.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Jun 2022 03:13:55 -0700 (PDT)
-Received: by debian.me (Postfix, from userid 1000)
-        id 77EA8103901; Thu, 30 Jun 2022 17:13:51 +0700 (WIB)
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     linux-doc@vger.kernel.org
-Cc:     Bagas Sanjaya <bagasdotme@gmail.com>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Suzuki K Poulose <suzuki.poulose@arm.com>,
-        Mike Leach <mike.leach@linaro.org>,
-        Leo Yan <leo.yan@linaro.org>, Jonathan Corbet <corbet@lwn.net>,
-        Rob Herring <robh@kernel.org>, coresight@lists.linaro.org,
-        linux-arm-kernel@lists.infradead.org, linux-next@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Stephen Rothwell <sfr@canb.auug.org.au>
-Subject: [PATCH next] Documentation: coresight: escape coresight bindings file wildcard
-Date:   Thu, 30 Jun 2022 17:13:17 +0700
-Message-Id: <20220630101317.102680-1-bagasdotme@gmail.com>
-X-Mailer: git-send-email 2.36.0
+        with ESMTP id S233592AbiF3LqR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Jun 2022 07:46:17 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B09335A461
+        for <linux-doc@vger.kernel.org>; Thu, 30 Jun 2022 04:46:13 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 63047B82A3D
+        for <linux-doc@vger.kernel.org>; Thu, 30 Jun 2022 11:46:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18990C385A5;
+        Thu, 30 Jun 2022 11:46:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1656589571;
+        bh=y23dn3xscoxlX2Hr88BQdcfLioVdD06aIUSMoMRHtvA=;
+        h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+        b=rR07Abj/wDXH5e4AouaREXvtyQrnW87e87tJKq4ZKB4+lzH7po/52SjphelNLbVQ8
+         3+IuRB7NomXz6e29XsgtnnkJsn5UYgU1FMED9VLrsljdJUMnc/MtbeHqFwLg8Qy6Tb
+         Ev18iKbjdrdlY+BIT7vESYzg6TnyTGYUxTL9Gxl8f8T9etRqSUTJ+7CmPy9S8jFIQ7
+         nsxyGwCHCA/JerbGr37jYF4AB5NbhhyiFiMSA0JPwEPTChWe3Q7BraNyzrZWXLKBjU
+         OU6ybckb419id1xGkYEfVE5bRb2JCWyAt7wUbjoQvruAkuCEL08Hcrq8KnFbsds/Ni
+         85gXFDP9VfBEg==
+From:   Mark Brown <broonie@kernel.org>
+To:     marex@denx.de, alsa-devel@alsa-project.org
+Cc:     perex@perex.cz, tiwai@suse.de, linux-doc@vger.kernel.org
+In-Reply-To: <20220628165807.152191-1-marex@denx.de>
+References: <20220628165807.152191-1-marex@denx.de>
+Subject: Re: [PATCH] ASoC: doc: Update dead links
+Message-Id: <165658956982.346792.17836675302325290041.b4-ty@kernel.org>
+Date:   Thu, 30 Jun 2022 12:46:09 +0100
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Stephen Rothwell reported htmldocs warning:
+On Tue, 28 Jun 2022 18:58:07 +0200, Marek Vasut wrote:
+> The alsa-project documentation is now part of the kernel docs,
+> the original links are long dead, update links.
+> 
+> 
 
-Documentation/trace/coresight/coresight.rst:133: WARNING: Inline emphasis start-string without end-string.
+Applied to
 
-The warning above is due to unescaped wildcard asterisk (*) on CoreSight
-devicetree binding filename, which confuses Sphinx as emphasis instead.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-Escape the wildcard to fix the warning.
+Thanks!
 
-Link: https://lore.kernel.org/linux-next/20220630173801.41bf22a2@canb.auug.org.au/
-Fixes: 3c15fddf312120 ("dt-bindings: arm: Convert CoreSight bindings to DT schema")
-Cc: Mathieu Poirier <mathieu.poirier@linaro.org>
-Cc: Suzuki K Poulose <suzuki.poulose@arm.com>
-Cc: Mike Leach <mike.leach@linaro.org>
-Cc: Leo Yan <leo.yan@linaro.org>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Rob Herring <robh@kernel.org>
-Cc: coresight@lists.linaro.org
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: linux-next@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
----
- Documentation/trace/coresight/coresight.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+[1/1] ASoC: doc: Update dead links
+      commit: d15534a6f4cff031f1233154f1e275302c03e5d4
 
-diff --git a/Documentation/trace/coresight/coresight.rst b/Documentation/trace/coresight/coresight.rst
-index 529b7c80e6f353..1644a0244ad10a 100644
---- a/Documentation/trace/coresight/coresight.rst
-+++ b/Documentation/trace/coresight/coresight.rst
-@@ -130,7 +130,7 @@ Misc:
- Device Tree Bindings
- --------------------
- 
--See Documentation/devicetree/bindings/arm/arm,coresight-*.yaml for details.
-+See Documentation/devicetree/bindings/arm/arm,coresight-\*.yaml for details.
- 
- As of this writing drivers for ITM, STMs and CTIs are not provided but are
- expected to be added as the solution matures.
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
-base-commit: 6cc11d2a1759275b856e464265823d94aabd5eaf
--- 
-An old man doll... just what I always wanted! - Clara
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
