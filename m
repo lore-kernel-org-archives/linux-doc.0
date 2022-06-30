@@ -2,57 +2,61 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 62F0FC43334
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Jun 2022 17:37:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D585C433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Jun 2022 17:46:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232971AbiF3Rhi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 30 Jun 2022 13:37:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32830 "EHLO
+        id S235522AbiF3RqV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 30 Jun 2022 13:46:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39724 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236536AbiF3Rhh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Jun 2022 13:37:37 -0400
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EDA233FD92;
-        Thu, 30 Jun 2022 10:37:36 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
+        with ESMTP id S233809AbiF3RqU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Jun 2022 13:46:20 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D8D23631E;
+        Thu, 30 Jun 2022 10:46:19 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 9CBA44B7;
-        Thu, 30 Jun 2022 17:37:36 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 9CBA44B7
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1656610656; bh=+LbHLvKEiiEc8pj4i9ditdVLj0AsUDpF6czmKDRAGAQ=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=ERFEf+hW4cBKgwZDsBfjGL1+pMPjSmjGy3n4+MMUybl0YPcR9mdt0i4Pfh/rdtzsK
-         LXcN6qfiEKibZTLo0ApKZxP5wvduy+2n1tBkKVFCxCiD+1qy4JM8qW+dKTk0pqv83m
-         iR/RE0MArmMNaB6RzHzqIHQEpzQMSGYPgvksSgr8nfvanui/XiGxOMfL0ZVQwiPhUm
-         ERjvy1NdBOucCtkzB0eLfy83X1ZIVpdvgOY5lzC5rfGRPzZFVj0016MeJvcXpPJU3C
-         +fQpxF0Jigtm6sDt44GZ92PLBNxiORwD+Fb7Xf+wnifXdSSbJxlQaXNgcb59dlwoQR
-         MctSHX7LQJx+w==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Federico Vaga <federico.vaga@vaga.pv.it>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Federico Vaga <federico.vaga@vaga.pv.it>
-Subject: Re: [PATCH] doc:it_IT: align Italian documentation
-In-Reply-To: <20220628111603.603357-1-federico.vaga@vaga.pv.it>
-References: <20220628111603.603357-1-federico.vaga@vaga.pv.it>
-Date:   Thu, 30 Jun 2022 11:37:36 -0600
-Message-ID: <87pmiqnjbz.fsf@meer.lwn.net>
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 1ACD6621AD;
+        Thu, 30 Jun 2022 17:46:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 255ABC34115;
+        Thu, 30 Jun 2022 17:46:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1656611178;
+        bh=u/9qxCzbEkQBcytv7lOwYR8v/Dx/VVKIWpmEu7mODBY=;
+        h=From:To:Cc:Subject:Date:From;
+        b=W2dRhMD97p021AGYm0NRR9OVofsH1m+HRTNTRqH0LNCuDkWHzhNPBwA4z74AOPrJh
+         EMOw3p3oFXH68ambOsE+NmQr6mIf8A0zW6fgL9D3VLRerC8X4YOJ+V4L9K6CFRJzxD
+         AFg2somlShNHrg0+/5dE+Ea7Euwjapn/lCXBIvFKfqd+5VXiOXHsw0EUZEvDGzQ98M
+         nNAWpoyEw3ahZ7jeSC649irujXx6zEdtQnmEbglOWdk3bOawxvOx6PIz/JN5TCr/Ex
+         q9ed8p0WlYU6loqH0d8OgQ4YvzIZZcy1dj/NhsMfhrRsNI70zeChJUdl1DDXLWwiLj
+         IW/IvRqyjT7kw==
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     davem@davemloft.net
+Cc:     netdev@vger.kernel.org, edumazet@google.com, pabeni@redhat.com,
+        corbet@lwn.net, linux-doc@vger.kernel.org,
+        Jakub Kicinski <kuba@kernel.org>
+Subject: [PATCH net 0/3] docs: netdev: document more of our rules
+Date:   Thu, 30 Jun 2022 10:46:04 -0700
+Message-Id: <20220630174607.629408-1-kuba@kernel.org>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Federico Vaga <federico.vaga@vaga.pv.it> writes:
+The patch series length limit and reverse xmas tree are not documented.
+Add those, and a tl;dr section summarizing how we differ.
 
-> Translation for the following patches
->
-> commit df05c0e9496c ("Documentation: Raise the minimum supported version of LLVM to 11.0.0")
-> commit 333b11e541fe ("Documentation: Add minimum pahole version")
-> commit 6d6a8d6a4ed0 ("docs: Update Sphinx requirements")
-> [...]
+Jakub Kicinski (3):
+  docs: netdev: document that patch series length limit
+  docs: netdev: document reverse xmas tree
+  docs: netdev: add a cheat sheet for the rules
 
-Applied, thanks.
+ Documentation/process/maintainer-netdev.rst | 30 +++++++++++++++++++++
+ 1 file changed, 30 insertions(+)
 
-jon
+-- 
+2.36.1
+
