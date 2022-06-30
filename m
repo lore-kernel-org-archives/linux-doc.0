@@ -2,99 +2,152 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D3D0BC43334
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Jun 2022 02:43:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B6EDAC433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Jun 2022 03:03:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231604AbiF3CnF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 29 Jun 2022 22:43:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59936 "EHLO
+        id S231388AbiF3DDf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 29 Jun 2022 23:03:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44692 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230073AbiF3CnE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Jun 2022 22:43:04 -0400
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B249D1EAF3;
-        Wed, 29 Jun 2022 19:43:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1656556983; x=1688092983;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=1lniFQHbdKUYo5fK6cZ0TOr+5OfkEYvxDzpS35OnvAA=;
-  b=CjEe1uZSCrqjrEK/uKr2Nk5UAISY9PCaSHviIhxhwmufXkeOe8OB9efO
-   jUGcxed8OnQh73JddRnvpoNV+pg69VT0icZzZzQc8GHeDnjlSbrGfAUwz
-   2/FbiebSQ3YKhvE5gfcwE/o47YokuO9gK3YMUFHSTOs/uOdiA/nJifKe4
-   3d2hliadQ7R5bwU57snmpaCZ1t5Zs5DIGci87wBWCeL6FZYsgEsariOIo
-   egCYFRHFtvIct9bpCUNDWc5kK/FNzNPd7uTWnT1jQK5wmXX+IofQue23I
-   gOsi7frqweuVVrYDWWhUnNgLi09qEu9kBStAyLOqqGi3az4cOOICBgnT1
-   Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10393"; a="262020362"
-X-IronPort-AV: E=Sophos;i="5.92,232,1650956400"; 
-   d="scan'208";a="262020362"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2022 19:43:03 -0700
-X-IronPort-AV: E=Sophos;i="5.92,232,1650956400"; 
-   d="scan'208";a="647681038"
-Received: from gao-cwp.sh.intel.com (HELO gao-cwp) ([10.239.159.23])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2022 19:42:59 -0700
-Date:   Thu, 30 Jun 2022 10:42:43 +0800
-From:   Chao Gao <chao.gao@intel.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     dave.hansen@intel.com, len.brown@intel.com, tony.luck@intel.com,
-        rafael.j.wysocki@intel.com, reinette.chatre@intel.com,
-        dan.j.williams@intel.com, kirill.shutemov@linux.intel.com,
-        sathyanarayanan.kuppuswamy@linux.intel.com,
-        ilpo.jarvinen@linux.intel.com, Andi Kleen <ak@linux.intel.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Borislav Petkov <bp@suse.de>,
-        Muchun Song <songmuchun@bytedance.com>,
-        Kees Cook <keescook@chromium.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-        linux-doc@vger.kernel.org, linux-pm@vger.kernel.org,
-        iommu@lists.linux-foundation.org
-Subject: Re: [PATCH v1 3/3] swiotlb: Split up single swiotlb lock
-Message-ID: <20220630024238.GA884@gao-cwp>
-References: <20220628070136.419163-1-chao.gao@intel.com>
- <20220628070136.419163-4-chao.gao@intel.com>
+        with ESMTP id S229455AbiF3DDe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Jun 2022 23:03:34 -0400
+Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B66DF2FFC8;
+        Wed, 29 Jun 2022 20:03:33 -0700 (PDT)
+Received: by mail-pj1-x1032.google.com with SMTP id x1-20020a17090abc8100b001ec7f8a51f5so1490521pjr.0;
+        Wed, 29 Jun 2022 20:03:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=cYw3aiKeUWBcgmeT5pS9kKfrmKw4uYd7xdDVkalIxnM=;
+        b=kEOh1fcQhG/jNogP65aBxX0GVyiwpH+2MSz2j0sc/pUG8A5NC0rF9ENn5ETZwPKdn5
+         jtyeeQThYJkrtYcbgzydzdOG+9tV/z8Lliq7Rb/ncYgk191Z+cFhIbY0wxN7VVTSVMCM
+         d+kDu8KUvg/+t7GHiQWrMZ/RYiQ7uVqxZQ3ihi71HusJtLSeTXfZ5sFO7XMBXw+MfOQv
+         UhcRdFKWzr8ZL4CcOOrFLr+YAHGYLLXIykqXqbNQlAgMFf8ZbnCx9j5Z/7RoyGxBLOgQ
+         BWJuz9zjqnvVdS7xm9vrQ7OcIUMyHk6UFtuWGtX86oM8NXeH3TembDteGseTL8sghT7U
+         2l4Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=cYw3aiKeUWBcgmeT5pS9kKfrmKw4uYd7xdDVkalIxnM=;
+        b=e/4bryeVvyxhZXaEsxcUxYZXcUIiiBULR1+FcYBrUiwZ2xgNKua57rJYlqQ8n/aAea
+         DMnwKOhVwfeRs6M3fFNJ85mnAkYtiPS1ayogrEbDo1XxdbFrxEeDW8Df5H6e2uylZNRc
+         YG5uF9isOettVcOZT41LSqyjNomVocIKCNXCT5IGjZuoNi3VMp1zti/FX9mGgKM1HaI4
+         ijeTpsMAu1CSOANDdnp44zfKqxVNTyunSjvgpMdLuzQPCsCz2CpwdAhz386mJU75uUkf
+         2Ch32IiRoMk3dSTr9bRvwXCGOA0H0MaeBztl1z1fMRvRUZThJA4Qbce40agZ9yIPSex1
+         x0OQ==
+X-Gm-Message-State: AJIora9Its7ST5AGh56vvFjgOvaUfnAa7SeeDxsc+6FVXJlSKJ7NM+m/
+        Lpou03omfv0cVqGttei9xDw=
+X-Google-Smtp-Source: AGRyM1uHjQ8/11ewRBkPe7/6baTese5ertCgya4DAOP8m29M1jOz+F+PDXLMuKBpM7WHj94iBJ8kYw==
+X-Received: by 2002:a17:903:1c3:b0:16b:a8f8:882c with SMTP id e3-20020a17090301c300b0016ba8f8882cmr2996743plh.158.1656558213237;
+        Wed, 29 Jun 2022 20:03:33 -0700 (PDT)
+Received: from [192.168.43.80] (subs10b-223-255-225-235.three.co.id. [223.255.225.235])
+        by smtp.gmail.com with ESMTPSA id ml22-20020a17090b361600b001ecb29de3e4sm442990pjb.49.2022.06.29.20.03.29
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 29 Jun 2022 20:03:32 -0700 (PDT)
+Message-ID: <8607c3ab-ef68-a782-e53d-86f5cde70559@gmail.com>
+Date:   Thu, 30 Jun 2022 10:03:26 +0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220628070136.419163-4-chao.gao@intel.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v2 1/1] Documentation/x86: Add the AMX enabling example
+Content-Language: en-US
+To:     "Chang S. Bae" <chang.seok.bae@intel.com>, dave.hansen@intel.com,
+        len.brown@intel.com, tony.luck@intel.com,
+        rafael.j.wysocki@intel.com, reinette.chatre@intel.com,
+        dan.j.williams@intel.com
+Cc:     corbet@lwn.net, linux-doc@vger.kernel.org,
+        linux-man@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20220629224235.20589-1-chang.seok.bae@intel.com>
+ <20220629224235.20589-2-chang.seok.bae@intel.com>
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <20220629224235.20589-2-chang.seok.bae@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jun 28, 2022 at 03:01:34PM +0800, Chao Gao wrote:
->From: Andi Kleen <ak@linux.intel.com>
->
->Traditionally swiotlb was not performance critical because it was only
->used for slow devices. But in some setups, like TDX confidential
->guests, all IO has to go through swiotlb. Currently swiotlb only has a
->single lock. Under high IO load with multiple CPUs this can lead to
->signifiant lock contention on the swiotlb lock. We've seen 20+% CPU
->time in locks in some extreme cases.
->
->This patch splits the swiotlb into individual areas which have their
->own lock. Each CPU tries to allocate in its own area first. Only if
->that fails does it search other areas. On freeing the allocation is
->freed into the area where the memory was originally allocated from.
->
->To avoid doing a full modulo in the main path the number of swiotlb
->areas is always rounded to the next power of two. I believe that's
->not really needed anymore on modern CPUs (which have fast enough
->dividers), but still a good idea on older parts.
->
->The number of areas can be set using the swiotlb option. But to avoid
->every user having to set this option set the default to the number of
->available CPUs. Unfortunately on x86 swiotlb is initialized before
->num_possible_cpus() is available, that is why it uses a custom hook
->called from the early ACPI code.
->
->Signed-off-by: Andi Kleen <ak@linux.intel.com>
->[ rebase and fix warnings of checkpatch.pl ]
->Signed-off-by: Chao Gao <chao.gao@intel.com>
+On 6/30/22 05:42, Chang S. Bae wrote:
+> Explain steps to enable the dynamic feature with a code example.
+> 
+> Signed-off-by: Chang S. Bae <chang.seok.bae@intel.com>
+> Reviewed-by: Thiago Macieira <thiago.macieira@intel.com>
+> Cc: linux-doc@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
+> ---
+> Changes from v1:
+> * Update the description without mentioning CPUID & XGETBV (Dave Hansen).
+> ---
+>  Documentation/x86/xstate.rst | 42 ++++++++++++++++++++++++++++++++++++
+>  1 file changed, 42 insertions(+)
+> 
+> diff --git a/Documentation/x86/xstate.rst b/Documentation/x86/xstate.rst
+> index 5cec7fb558d6..c439901419fb 100644
+> --- a/Documentation/x86/xstate.rst
+> +++ b/Documentation/x86/xstate.rst
+> @@ -64,6 +64,48 @@ the handler allocates a larger xstate buffer for the task so the large
+>  state can be context switched. In the unlikely cases that the allocation
+>  fails, the kernel sends SIGSEGV.
+>  
+> +AMX TILE_DATA enabling example
+> +^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> +
+> +The following steps dynamically enable TILE_DATA:
+> +
 
-Just noticed that Tianyu already posted a variant of this patch.
-Will drop this one from my series.
+This should be "Below is the example of how userspace applications enable
+TILE_DATA dynamically:"
+
+> +  1. An application first needs to determine the feature support::
+> +
+
+Better say "The application first needs to query the kernel for AMX
+support".
+
+> +        #include <asm/prctl.h>
+> +        #include <sys/syscall.h>
+> +        #include <stdio.h>
+> +        #include <unistd.h>
+> +
+> +        #define ARCH_GET_XCOMP_SUPP  0x1021
+> +
+> +        #define XFEATURE_XTILECFG    17
+> +        #define XFEATURE_XTILEDATA   18
+> +        #define XFEATURE_MASK_XTILE ((1 << XFEATURE_XTILECFG) | (1 << XFEATURE_XTILEDATA))
+> +
+> +        unsigned long features;
+> +        long rc;
+> +
+> +        ...
+> +
+> +        rc = syscall(SYS_arch_prctl, ARCH_GET_XCOMP_SUPP, &features);
+> +
+> +        if (!rc && (features & XFEATURE_MASK_XTILE) == XFEATURE_MASK_XTILE)
+> +            printf("AMX is available.\n");
+> +
+> +  2. After determining support for AMX, an application must explicitly ask
+> +     permission to use it::
+> +
+
+Shorter is "After that,..."
+
+> +        #define ARCH_REQ_XCOMP_PERM  0x1023
+> +
+> +        ...
+> +
+> +        rc = syscall(SYS_arch_prctl, ARCH_REQ_XCOMP_PERM, XFEATURE_XTILEDATA);
+> +
+> +        if (!rc)
+> +            printf("AMX is ready for use.\n");
+> +
+> +Note this example does not include the sigaltstack preparation.
+> +
+
+I guess "application" here means userspace application, right?
+
+-- 
+An old man doll... just what I always wanted! - Clara
