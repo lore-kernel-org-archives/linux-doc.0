@@ -2,97 +2,105 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7DC71C43334
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Jun 2022 16:07:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 50D5FC433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Jun 2022 16:09:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232479AbiF3QHe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 30 Jun 2022 12:07:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44356 "EHLO
+        id S235603AbiF3QJv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 30 Jun 2022 12:09:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47206 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235595AbiF3QHd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Jun 2022 12:07:33 -0400
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B07331AF0F;
-        Thu, 30 Jun 2022 09:07:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1656605251; x=1688141251;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=rVhsXlaSwKi/9ubObaloKtFwrU5bFv0Ykt9c96pG2MQ=;
-  b=ax5J+5tQdvIcxPU6y1UC1yWN2tNzAWlDqY8RJPqdTc5r9AZBRep9kx/8
-   4mAABkrvMKCteDXnqix8pDVQkDtkNoQ64L3IHXGDHAMJL3klqc8VHs7jA
-   ox0qKfSbnuZoejJ+f/mx+01b4JAt5Kn0ARTmKFxt0R4lXZ6Rc67TVtCqV
-   uXMX4OkE47CBnx8s0/rOctzVHAB9EzZdF6USmnmkx4zrIB+XcaSw6XJda
-   lXrHWL3faKHQAksIERb2wKMNZcWPoKRo6HcKUwVvccAqq+SBX9U8HOWmK
-   2OLz5eo7qMeyI3m2UqRXYRSC9CTuihknXNiMyz0RqLsXp2FNZ2JSokuPp
-   w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10394"; a="262793284"
-X-IronPort-AV: E=Sophos;i="5.92,234,1650956400"; 
-   d="scan'208";a="262793284"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2022 09:07:31 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.92,234,1650956400"; 
-   d="scan'208";a="647949156"
-Received: from fmsmsx604.amr.corp.intel.com ([10.18.126.84])
-  by fmsmga008.fm.intel.com with ESMTP; 30 Jun 2022 09:07:31 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx604.amr.corp.intel.com (10.18.126.84) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27; Thu, 30 Jun 2022 09:07:30 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27; Thu, 30 Jun 2022 09:07:29 -0700
-Received: from fmsmsx610.amr.corp.intel.com ([10.18.126.90]) by
- fmsmsx610.amr.corp.intel.com ([10.18.126.90]) with mapi id 15.01.2308.027;
- Thu, 30 Jun 2022 09:07:29 -0700
-From:   "Luck, Tony" <tony.luck@intel.com>
-To:     "Bae, Chang Seok" <chang.seok.bae@intel.com>,
-        "Hansen, Dave" <dave.hansen@intel.com>,
-        "Brown, Len" <len.brown@intel.com>,
-        "Wysocki, Rafael J" <rafael.j.wysocki@intel.com>,
-        "Chatre, Reinette" <reinette.chatre@intel.com>,
-        "Williams, Dan J" <dan.j.williams@intel.com>
-CC:     "corbet@lwn.net" <corbet@lwn.net>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-man@vger.kernel.org" <linux-man@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH v2 1/1] Documentation/x86: Add the AMX enabling example
-Thread-Topic: [PATCH v2 1/1] Documentation/x86: Add the AMX enabling example
-Thread-Index: AQHYjArQoWH2w9xfNEO7Tn8LqH3Xaq1nBneQgAGCcwD//5Sy0A==
-Date:   Thu, 30 Jun 2022 16:07:29 +0000
-Message-ID: <66c4d3ce4c6f47d29bbb951739555eb0@intel.com>
-References: <20220629224235.20589-1-chang.seok.bae@intel.com>
- <20220629224235.20589-2-chang.seok.bae@intel.com>
- <f01bb09a504240059a79a94c24ba4eba@intel.com>
- <5c67d453-a162-b61d-4a27-c854f1ef3587@intel.com>
-In-Reply-To: <5c67d453-a162-b61d-4a27-c854f1ef3587@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-reaction: no-action
-dlp-version: 11.6.500.17
-x-originating-ip: [10.1.200.100]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        with ESMTP id S235517AbiF3QJu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Jun 2022 12:09:50 -0400
+Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com [IPv6:2607:f8b0:4864:20::42a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED6D127CC8;
+        Thu, 30 Jun 2022 09:09:49 -0700 (PDT)
+Received: by mail-pf1-x42a.google.com with SMTP id a15so18539975pfv.13;
+        Thu, 30 Jun 2022 09:09:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=KwsSHKLHRHeZ0d5jA7PWaCGAaPUqT4/TqEpXIIwB1VY=;
+        b=VIFAbWG/kO4gzWSlyJ9yQgKHfRV/ICX1iG9a/ei94noNZzpa9U/dWDAe9JSWDUBRoh
+         qy9T486Wu3Q4nLrNRiQNa1HrCjqw99DJbxlKTzkgix/osKU5IYKhpiE5KRKq6Xyj8laA
+         cevib/mnKf6TB6lMjzCR55DT1LOMc6jsF8RM3vrlTKmdzYALB2EMuwU6gGsTiFDdjWHQ
+         eTI8x8gXst8QHFIgZANgIEiBRWs1SOfm6Nk+QjZWCKDOUomUuvd3rXybh/NV1MpDOnbE
+         kBA/UERHkSIv5Fwm/GKXG5xuSkOIblaIlg6HjnYSAq8pR4n1KGR1TONZNkvLWdyorhJz
+         GN6Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=KwsSHKLHRHeZ0d5jA7PWaCGAaPUqT4/TqEpXIIwB1VY=;
+        b=ccL5lQ2Z3NuJ84f9dhMhFIBYToLGdS/JQ8h/si8S9+pKPT8VSwrJBMo7N5yOhkw/9N
+         tZu15MoZ4zKIRyywAfVkT33FQPQXpm/tUvZwVlGohmoKCur5dYSiUbJV/XqUQwrj3BPB
+         xlEg7PFLFgIxMwCWkb48GfjIEOOFtovsHBzd4h9L63xJS7gcEKUfBkES3cVMJQtsK7MN
+         ltp0v5gROBM77bAO9BB0nkM0bqWv6v9yqYsLW7LNvufvDBDvpxU2RRmGL1av3503fyza
+         RwRqz1I1K0K2B96eCC6pDY+kjxPRsS/hS1yPVYNUCXhJmSTt39kQCzIwy5tey2GW8vmV
+         OLig==
+X-Gm-Message-State: AJIora9ys+DpyEzOHmnarZg/r0rA2DmWIrjkRJU0ykhNu/ls5jBr/hVp
+        uYFgjkQH+AtdAloE6nEN9K4=
+X-Google-Smtp-Source: AGRyM1sMsMYRLHKnhpVNZxh9qvjcZFmYSohiiYSVMmKD5eVHyVENMkBfA55O3jSOPBloWV3IOQ/IOA==
+X-Received: by 2002:a65:684c:0:b0:411:b3d3:a7f7 with SMTP id q12-20020a65684c000000b00411b3d3a7f7mr2083847pgt.448.1656605389072;
+        Thu, 30 Jun 2022 09:09:49 -0700 (PDT)
+Received: from praghadeesh ([2409:4072:6d1a:bac4:80b2:d21d:c273:e2aa])
+        by smtp.gmail.com with ESMTPSA id l4-20020a17090b078400b001ec92575e83sm4715815pjz.4.2022.06.30.09.09.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 30 Jun 2022 09:09:48 -0700 (PDT)
+Date:   Thu, 30 Jun 2022 21:39:41 +0530
+From:   Praghadeesh T K S <praghadeeshthevendria@gmail.com>
+To:     Bagas Sanjaya <bagasdotme@gmail.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        skhan@linuxfoundation.org, praghadeeshtks@zohomail.in
+Subject: Re: [PATCH] docs: fix 'make htmldocs' warning in leds
+Message-ID: <20220630160941.GA70425@praghadeesh>
+References: <20220627214311.7817-1-praghadeeshthevendria@gmail.com>
+ <e2eee869-3e72-ea18-6afc-73fe5bc5dbd3@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e2eee869-3e72-ea18-6afc-73fe5bc5dbd3@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-PiBCdXQgdGhlc2Ugc3RhdGUgY29tcG9uZW50cyBhcmUgYXJjaGl0ZWN0dXJhbC4gV2hpbGUgdGhp
-cyBjYW4gaGVscCANCj4gdXNlcnNwYWNlIGFueXdheSwgc2F5aW5nICJYU1RBVEUgY29tcG9uZW50
-IiBoZXJlIGFuZCBvbiB0aGUgbWFuLXBhZ2UgaXMgDQo+IHByb2JhYmx5IGl0IGFzIHRoZXkgYXJl
-IGFscmVhZHkgZGVmaW5lZCBpbiB0aGUgeDg2IHNwZWMuDQoNCkFuIGFwcGxpY2F0aW9uIHdyaXRl
-ciBjYW4ndCB1c2U6DQoNCiMgaW5jbHVkZSB7eDg2IHNwZWN9Ig0KDQp0byBnZXQgdGhlc2UgdmFs
-dWVzIC4uLiBpZiBhcHBsaWNhdGlvbnMgbmVlZCB0aGVtIHRvIGZpbmQgb3V0IGlmIEFNWCBpcyBw
-cmVzZW50LA0KYW5kIHRvIGVuYWJsZSBpdCwgdGhlbiB0aGV5IG5lZWQgYW4gQVBJLg0KDQpNYXli
-ZSB5b3VyIGV4YW1wbGUgY29kZSBzaG91bGQganVzdCBiZSBhIGxpYnJhcnkgcm91dGluZT8gU28g
-YXBwbGljYXRpb24gd3JpdGVycw0KY2FuIGp1c3QgZG86DQoNCglpZiAoIWludGVsX2FteF9lbmFi
-bGUoKSkgew0KCQllcnJvciBtZXNzYWdlLCBvciBmYWxsIGJhY2sgdG8gbm9uLUFNWCBpbXBsZW1l
-bnRhdGlvbg0KCX0NCg0Kd2l0aG91dCBoYXZpbmcgdG8gd29ycnkgYWJvdXQgdGhvc2UgI2RlZmlu
-ZXMuDQoNCi1Ub255DQo=
+On Tue, Jun 28, 2022 at 07:31:54AM +0700, Bagas Sanjaya wrote:
+> On 6/28/22 04:43, Praghadeesh T K S wrote:
+> > Fix following 'make htmldocs' warnings:
+> > ./Documentation/leds/leds-qcom-lpg.rst: WARNING:
+> > document isn't included in any toctree
+> > 
+> > Signed-off-by: Praghadeesh T K S <praghadeeshthevendria@gmail.com>
+> > ---
+> >  Documentation/leds/index.rst | 1 +
+> >  1 file changed, 1 insertion(+)
+> > 
+> > diff --git a/Documentation/leds/index.rst b/Documentation/leds/index.rst
+> > index e5d63b9..b9ca081 100644
+> > --- a/Documentation/leds/index.rst
+> > +++ b/Documentation/leds/index.rst
+> > @@ -26,3 +26,4 @@ LEDs
+> >     leds-lp55xx
+> >     leds-mlxcpld
+> >     leds-sc27xx
+> > +   leds-qcom-lpg
+> 
+> Hi,
+> 
+> I had already sent the fix at [1] (resend at [2]). Thanks anyway.
+> 
+> [1]: https://lore.kernel.org/linux-doc/20220604015735.249707-1-bagasdotme@gmail.com/
+> [2]: https://lore.kernel.org/linux-doc/20220612000125.9777-1-bagasdotme@gmail.com/
+> 
+> -- 
+> An old man doll... just what I always wanted! - Clara
+
+Hi,
+
+Thanks for your reply.
+
+Thanks,
+Praghadeesh
