@@ -2,152 +2,116 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B6EDAC433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Jun 2022 03:03:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BC619C433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Jun 2022 10:13:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231388AbiF3DDf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 29 Jun 2022 23:03:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44692 "EHLO
+        id S234063AbiF3KN6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 30 Jun 2022 06:13:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51690 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229455AbiF3DDe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 29 Jun 2022 23:03:34 -0400
-Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B66DF2FFC8;
-        Wed, 29 Jun 2022 20:03:33 -0700 (PDT)
-Received: by mail-pj1-x1032.google.com with SMTP id x1-20020a17090abc8100b001ec7f8a51f5so1490521pjr.0;
-        Wed, 29 Jun 2022 20:03:33 -0700 (PDT)
+        with ESMTP id S234508AbiF3KN6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Jun 2022 06:13:58 -0400
+Received: from mail-pg1-x529.google.com (mail-pg1-x529.google.com [IPv6:2607:f8b0:4864:20::529])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D18644A20;
+        Thu, 30 Jun 2022 03:13:57 -0700 (PDT)
+Received: by mail-pg1-x529.google.com with SMTP id r66so18061619pgr.2;
+        Thu, 30 Jun 2022 03:13:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=cYw3aiKeUWBcgmeT5pS9kKfrmKw4uYd7xdDVkalIxnM=;
-        b=kEOh1fcQhG/jNogP65aBxX0GVyiwpH+2MSz2j0sc/pUG8A5NC0rF9ENn5ETZwPKdn5
-         jtyeeQThYJkrtYcbgzydzdOG+9tV/z8Lliq7Rb/ncYgk191Z+cFhIbY0wxN7VVTSVMCM
-         d+kDu8KUvg/+t7GHiQWrMZ/RYiQ7uVqxZQ3ihi71HusJtLSeTXfZ5sFO7XMBXw+MfOQv
-         UhcRdFKWzr8ZL4CcOOrFLr+YAHGYLLXIykqXqbNQlAgMFf8ZbnCx9j5Z/7RoyGxBLOgQ
-         BWJuz9zjqnvVdS7xm9vrQ7OcIUMyHk6UFtuWGtX86oM8NXeH3TembDteGseTL8sghT7U
-         2l4Q==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=yHS730e4vBBXm7TzAGTuOdImtTpJ1+sTID/QkZphy1Y=;
+        b=QednnHhV8MfZXVkfpPnF/2EDXwk3hWGuh8w4qVSLxaEI9Vi8S/VygZMjopq6QHH+/0
+         UG6ZglWPVwR/vfNVT+v8/DcUCSO0taqAyE4dRWo6WZlnczZzXeJECeDjluQTIU2YiGzN
+         BhziIkcdSy0Z2u2ET9Rm0urj4BGOF5z+ueZRT9vfeK+sGMiId7GKN4Y97v3zV6dkxIdH
+         OItGIo9RU9Y6vMBH5+Uvc9nbTSQpKwQ7u07WXA5EABGvpkF8fJSFNZdY1djMYhIYu0ZF
+         mUIabd8D1fli6bzVVzGPPjoplsOu5IylZskWPem5rjLUgaxP9eZC1JaMke/SBME/SGud
+         yyog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=cYw3aiKeUWBcgmeT5pS9kKfrmKw4uYd7xdDVkalIxnM=;
-        b=e/4bryeVvyxhZXaEsxcUxYZXcUIiiBULR1+FcYBrUiwZ2xgNKua57rJYlqQ8n/aAea
-         DMnwKOhVwfeRs6M3fFNJ85mnAkYtiPS1ayogrEbDo1XxdbFrxEeDW8Df5H6e2uylZNRc
-         YG5uF9isOettVcOZT41LSqyjNomVocIKCNXCT5IGjZuoNi3VMp1zti/FX9mGgKM1HaI4
-         ijeTpsMAu1CSOANDdnp44zfKqxVNTyunSjvgpMdLuzQPCsCz2CpwdAhz386mJU75uUkf
-         2Ch32IiRoMk3dSTr9bRvwXCGOA0H0MaeBztl1z1fMRvRUZThJA4Qbce40agZ9yIPSex1
-         x0OQ==
-X-Gm-Message-State: AJIora9Its7ST5AGh56vvFjgOvaUfnAa7SeeDxsc+6FVXJlSKJ7NM+m/
-        Lpou03omfv0cVqGttei9xDw=
-X-Google-Smtp-Source: AGRyM1uHjQ8/11ewRBkPe7/6baTese5ertCgya4DAOP8m29M1jOz+F+PDXLMuKBpM7WHj94iBJ8kYw==
-X-Received: by 2002:a17:903:1c3:b0:16b:a8f8:882c with SMTP id e3-20020a17090301c300b0016ba8f8882cmr2996743plh.158.1656558213237;
-        Wed, 29 Jun 2022 20:03:33 -0700 (PDT)
-Received: from [192.168.43.80] (subs10b-223-255-225-235.three.co.id. [223.255.225.235])
-        by smtp.gmail.com with ESMTPSA id ml22-20020a17090b361600b001ecb29de3e4sm442990pjb.49.2022.06.29.20.03.29
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 29 Jun 2022 20:03:32 -0700 (PDT)
-Message-ID: <8607c3ab-ef68-a782-e53d-86f5cde70559@gmail.com>
-Date:   Thu, 30 Jun 2022 10:03:26 +0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v2 1/1] Documentation/x86: Add the AMX enabling example
-Content-Language: en-US
-To:     "Chang S. Bae" <chang.seok.bae@intel.com>, dave.hansen@intel.com,
-        len.brown@intel.com, tony.luck@intel.com,
-        rafael.j.wysocki@intel.com, reinette.chatre@intel.com,
-        dan.j.williams@intel.com
-Cc:     corbet@lwn.net, linux-doc@vger.kernel.org,
-        linux-man@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20220629224235.20589-1-chang.seok.bae@intel.com>
- <20220629224235.20589-2-chang.seok.bae@intel.com>
+        bh=yHS730e4vBBXm7TzAGTuOdImtTpJ1+sTID/QkZphy1Y=;
+        b=f3WP2li1HC49xl1Ea4h1GV5qSBT1ctQlCmAvTHGTj2rcucGrx8wC7UdI8rVvFMtf6z
+         gViJAFwEahJGOOuy9Z+kDbGz+d0ZzDmved1MSWPwJ2fGwrcFDxzmUremqErty2yK9iIO
+         yA6EffvXijzxqDD9nFX3l8fzKA1ucZHufUyfzv/MEX52mpQe+K/S1if6fJqi76uD2EXG
+         aIYfQxv4AkiTsc0H4z7HUlz78COrSNn1KQse16QYs3YsaVmxQEjbgSEGQVHCjvhG442F
+         fJUs/uK2ebtgCVThAjbnVkALxj9EsTUIROtUYDpHcDC3jlvjwCrcrf5RFunK94je8yl0
+         BAKQ==
+X-Gm-Message-State: AJIora+3pusf/aQuVDWSe0U85yphnyRPb7wPQVxyKFjeGdQd1tQy/DaI
+        FMBp7i9rLkygKxwKMota1ds=
+X-Google-Smtp-Source: AGRyM1uhJ9hpMKkSHpSlnFoGHFrFu8+IvkcXxYGmxVIhD72S3fLnguDrTs6neMjBXaIuaq7eoTWC1w==
+X-Received: by 2002:a05:6a00:2410:b0:522:9837:581f with SMTP id z16-20020a056a00241000b005229837581fmr15105934pfh.11.1656584036579;
+        Thu, 30 Jun 2022 03:13:56 -0700 (PDT)
+Received: from debian.me (subs02-180-214-232-27.three.co.id. [180.214.232.27])
+        by smtp.gmail.com with ESMTPSA id y11-20020a170902d64b00b0016782c55790sm13043107plh.232.2022.06.30.03.13.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 30 Jun 2022 03:13:55 -0700 (PDT)
+Received: by debian.me (Postfix, from userid 1000)
+        id 77EA8103901; Thu, 30 Jun 2022 17:13:51 +0700 (WIB)
 From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <20220629224235.20589-2-chang.seok.bae@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+To:     linux-doc@vger.kernel.org
+Cc:     Bagas Sanjaya <bagasdotme@gmail.com>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Mike Leach <mike.leach@linaro.org>,
+        Leo Yan <leo.yan@linaro.org>, Jonathan Corbet <corbet@lwn.net>,
+        Rob Herring <robh@kernel.org>, coresight@lists.linaro.org,
+        linux-arm-kernel@lists.infradead.org, linux-next@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Stephen Rothwell <sfr@canb.auug.org.au>
+Subject: [PATCH next] Documentation: coresight: escape coresight bindings file wildcard
+Date:   Thu, 30 Jun 2022 17:13:17 +0700
+Message-Id: <20220630101317.102680-1-bagasdotme@gmail.com>
+X-Mailer: git-send-email 2.36.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 6/30/22 05:42, Chang S. Bae wrote:
-> Explain steps to enable the dynamic feature with a code example.
-> 
-> Signed-off-by: Chang S. Bae <chang.seok.bae@intel.com>
-> Reviewed-by: Thiago Macieira <thiago.macieira@intel.com>
-> Cc: linux-doc@vger.kernel.org
-> Cc: linux-kernel@vger.kernel.org
-> ---
-> Changes from v1:
-> * Update the description without mentioning CPUID & XGETBV (Dave Hansen).
-> ---
->  Documentation/x86/xstate.rst | 42 ++++++++++++++++++++++++++++++++++++
->  1 file changed, 42 insertions(+)
-> 
-> diff --git a/Documentation/x86/xstate.rst b/Documentation/x86/xstate.rst
-> index 5cec7fb558d6..c439901419fb 100644
-> --- a/Documentation/x86/xstate.rst
-> +++ b/Documentation/x86/xstate.rst
-> @@ -64,6 +64,48 @@ the handler allocates a larger xstate buffer for the task so the large
->  state can be context switched. In the unlikely cases that the allocation
->  fails, the kernel sends SIGSEGV.
->  
-> +AMX TILE_DATA enabling example
-> +^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> +
-> +The following steps dynamically enable TILE_DATA:
-> +
+Stephen Rothwell reported htmldocs warning:
 
-This should be "Below is the example of how userspace applications enable
-TILE_DATA dynamically:"
+Documentation/trace/coresight/coresight.rst:133: WARNING: Inline emphasis start-string without end-string.
 
-> +  1. An application first needs to determine the feature support::
-> +
+The warning above is due to unescaped wildcard asterisk (*) on CoreSight
+devicetree binding filename, which confuses Sphinx as emphasis instead.
 
-Better say "The application first needs to query the kernel for AMX
-support".
+Escape the wildcard to fix the warning.
 
-> +        #include <asm/prctl.h>
-> +        #include <sys/syscall.h>
-> +        #include <stdio.h>
-> +        #include <unistd.h>
-> +
-> +        #define ARCH_GET_XCOMP_SUPP  0x1021
-> +
-> +        #define XFEATURE_XTILECFG    17
-> +        #define XFEATURE_XTILEDATA   18
-> +        #define XFEATURE_MASK_XTILE ((1 << XFEATURE_XTILECFG) | (1 << XFEATURE_XTILEDATA))
-> +
-> +        unsigned long features;
-> +        long rc;
-> +
-> +        ...
-> +
-> +        rc = syscall(SYS_arch_prctl, ARCH_GET_XCOMP_SUPP, &features);
-> +
-> +        if (!rc && (features & XFEATURE_MASK_XTILE) == XFEATURE_MASK_XTILE)
-> +            printf("AMX is available.\n");
-> +
-> +  2. After determining support for AMX, an application must explicitly ask
-> +     permission to use it::
-> +
+Link: https://lore.kernel.org/linux-next/20220630173801.41bf22a2@canb.auug.org.au/
+Fixes: 3c15fddf312120 ("dt-bindings: arm: Convert CoreSight bindings to DT schema")
+Cc: Mathieu Poirier <mathieu.poirier@linaro.org>
+Cc: Suzuki K Poulose <suzuki.poulose@arm.com>
+Cc: Mike Leach <mike.leach@linaro.org>
+Cc: Leo Yan <leo.yan@linaro.org>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Rob Herring <robh@kernel.org>
+Cc: coresight@lists.linaro.org
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-next@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+---
+ Documentation/trace/coresight/coresight.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Shorter is "After that,..."
+diff --git a/Documentation/trace/coresight/coresight.rst b/Documentation/trace/coresight/coresight.rst
+index 529b7c80e6f353..1644a0244ad10a 100644
+--- a/Documentation/trace/coresight/coresight.rst
++++ b/Documentation/trace/coresight/coresight.rst
+@@ -130,7 +130,7 @@ Misc:
+ Device Tree Bindings
+ --------------------
+ 
+-See Documentation/devicetree/bindings/arm/arm,coresight-*.yaml for details.
++See Documentation/devicetree/bindings/arm/arm,coresight-\*.yaml for details.
+ 
+ As of this writing drivers for ITM, STMs and CTIs are not provided but are
+ expected to be added as the solution matures.
 
-> +        #define ARCH_REQ_XCOMP_PERM  0x1023
-> +
-> +        ...
-> +
-> +        rc = syscall(SYS_arch_prctl, ARCH_REQ_XCOMP_PERM, XFEATURE_XTILEDATA);
-> +
-> +        if (!rc)
-> +            printf("AMX is ready for use.\n");
-> +
-> +Note this example does not include the sigaltstack preparation.
-> +
-
-I guess "application" here means userspace application, right?
-
+base-commit: 6cc11d2a1759275b856e464265823d94aabd5eaf
 -- 
 An old man doll... just what I always wanted! - Clara
+
