@@ -2,104 +2,123 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5605AC43334
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Jun 2022 17:02:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3DAF7C43334
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Jun 2022 17:06:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236203AbiF3RCd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 30 Jun 2022 13:02:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60322 "EHLO
+        id S236259AbiF3RGm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 30 Jun 2022 13:06:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35688 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236263AbiF3RCd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Jun 2022 13:02:33 -0400
-Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com [IPv6:2607:f8b0:4864:20::430])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A505338B1;
-        Thu, 30 Jun 2022 10:02:32 -0700 (PDT)
-Received: by mail-pf1-x430.google.com with SMTP id t21so50653pfq.1;
-        Thu, 30 Jun 2022 10:02:32 -0700 (PDT)
+        with ESMTP id S236047AbiF3RGl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Jun 2022 13:06:41 -0400
+Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8043B3E5CB
+        for <linux-doc@vger.kernel.org>; Thu, 30 Jun 2022 10:06:40 -0700 (PDT)
+Received: by mail-pj1-x102b.google.com with SMTP id go6so99619pjb.0
+        for <linux-doc@vger.kernel.org>; Thu, 30 Jun 2022 10:06:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=XWkDP+ftLDbtk7OocZFgBK5F1p4Vc5nVr5Aln5Bk0dQ=;
-        b=n8LZs4epo5UQ4J+3zuY7BUPjc4xUXA5d75K4z0momEv9N2Xnjov8J9gGiRdXoZSw+a
-         6NtaahIysIS6pe67AF+pd02MuWdfRsIPS87b9idHjXHB4s9qXq1N9s/K9a928WA13DLy
-         hSLunucs/qAhoLDf8VwPCY/1b8VXIamidzzdwOHAZQkHwy3CzGsKWcDVOTJGKjtCqGmY
-         Z3SxNKybvr9SGYe7fEOMXpjxv1O8TU5KELQOyVx7afeHuSSaVXRLUieqswFuXLZNFca5
-         4p9+C8qUzny199h/ejCsCs2gFTFlYnZkbFPRfnWY93w/c8AUKw6qZkz/B4bH3jdfO0gY
-         VkeQ==
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=eAr7PQsxKeew00/CVr7ZzHucmGcjpALBBy+n+XFui6I=;
+        b=Fwuwe3ZO30tghfWbLzVhLTW/P804T2Iz/JWwmhIB0XzUV4tCO5Uy0L2KikEz2oooFz
+         hOR6Xk/OVmzbBBFFm7kfk/KAB/7BxuheUHQtleYNMVMkEpp33O5kjAbL3t9lGN9IfIGN
+         ctq1Ws8as/OXK1bwSua1Y6wC7GX1cUBXst0QkpET2rHi221GVeFqtFK3LtiVfDlUy12b
+         rVeoI9PeueFXnVBx3U5ip/zqlKSuY4kHNz4z/xLE1bOA7VNo1RPAS02cbgEhVTeRCXoW
+         wV1lft9xJZdMU9U+QbkE1JJaOydnZelnNI6qwx19uIbPyhWhP9XsUgCKEfvxEMsGpQDj
+         gxeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=XWkDP+ftLDbtk7OocZFgBK5F1p4Vc5nVr5Aln5Bk0dQ=;
-        b=71r9QfUmHBEZ8sOeGk/HASNmbuQG+OPA47kWgRHwZkIBPTGU2A+J4HzV03lxXZ0cp4
-         qboO+qZ2+xNYhL+X+X7FdaQTT76S7Bv0Zkiazov9H1VMRR0tGLknPz6dOSSJAaDdiABU
-         i+l22tkixEWTfr7dcMSC4yFfHdUcGdpEQoE37jeU5VWnfUkpAdELTYO+THH6RSHVwRqo
-         O3HyIrbJ4e4EvMIIQIKAzOxARx9740+Tp1ehTe4Ysf36fyHXhxnoa+qJ6eq+DLuSwyIi
-         QlcOzQor+BOICM91x8iV4PRtUTlUQfC6qMFbBr424jKBe2P/y4leE1RV5+r+yuFaRQ9t
-         Te4A==
-X-Gm-Message-State: AJIora9UNUS4ljUVjOuxiH1zE5VT95X9SGjEqUR5hNMFxooTKBAoPcM8
-        q1TsRJakaxNjVxWGGc3yYTM=
-X-Google-Smtp-Source: AGRyM1unLh5+2f3N8WdaNvFePkaneEkCPbeaBgJSIjnjZNxgOeXkifHqiBLyurLiV39500WbhCEqGA==
-X-Received: by 2002:a63:5304:0:b0:3db:2e57:6f34 with SMTP id h4-20020a635304000000b003db2e576f34mr8330163pgb.88.1656608551924;
-        Thu, 30 Jun 2022 10:02:31 -0700 (PDT)
-Received: from ?IPV6:2404:f801:0:5:8000::75b? ([2404:f801:9000:18:efec::75b])
-        by smtp.gmail.com with ESMTPSA id b1-20020a170902a9c100b0016a1e2c2efcsm13681071plr.223.2022.06.30.10.02.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 30 Jun 2022 10:02:31 -0700 (PDT)
-Message-ID: <a876f862-c005-108d-e6f9-68336a8d89f0@gmail.com>
-Date:   Fri, 1 Jul 2022 01:02:21 +0800
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=eAr7PQsxKeew00/CVr7ZzHucmGcjpALBBy+n+XFui6I=;
+        b=LUS1k6k1YD8JKCTTOCR/SG4SoUS6b0tHUPeMeRzMp3SKzCBWZdIXSzJbT5M5uFIshI
+         bDizB8wmzoEKnxf2Jd4RgEelZcN3fXwsaHh6m9YIPUefFLXUHpurAftCT63REWvq/Xiw
+         8nrx1a7d0HaZooMZYAc+zmPrd9jsTOZ2H78E6c0dZM38MHQ89djth14vY2SbN7vD1zxe
+         LmiWcohq2wYvIFv6Hjhqg1jlGrEl1GhIbQntR5muZnTZ1sF1j/hb7aIF3ggLqAg0WHwA
+         kvdEhZtSgATg71gyNC9D/8/Bh83pgXLGrVf8ISRFLyqthCwTwERJIOtrkD2d0gCfUPbu
+         VOJw==
+X-Gm-Message-State: AJIora8PAqDWk33kQxyAria5beaeXCzVPz14gcyuIF5MrEOsos3FX4b1
+        rJIUST0N4W6WSC/dIsn9tPUAEQ==
+X-Google-Smtp-Source: AGRyM1tQlkoaEbHG6+vV4lZEf6QKE6dhZv4RO/68eWlgyxt5ZkZDUlagQJLqtw41qfD37FBmZiz7QA==
+X-Received: by 2002:a17:902:e381:b0:16a:1b5d:5438 with SMTP id g1-20020a170902e38100b0016a1b5d5438mr16387906ple.147.1656608799905;
+        Thu, 30 Jun 2022 10:06:39 -0700 (PDT)
+Received: from p14s (S0106889e681aac74.cg.shawcable.net. [68.147.0.187])
+        by smtp.gmail.com with ESMTPSA id f24-20020a63f118000000b0040caab35e5bsm7580699pgi.89.2022.06.30.10.06.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 30 Jun 2022 10:06:38 -0700 (PDT)
+Date:   Thu, 30 Jun 2022 11:06:36 -0600
+From:   Mathieu Poirier <mathieu.poirier@linaro.org>
+To:     Bagas Sanjaya <bagasdotme@gmail.com>
+Cc:     linux-doc@vger.kernel.org,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Mike Leach <mike.leach@linaro.org>,
+        Leo Yan <leo.yan@linaro.org>, Jonathan Corbet <corbet@lwn.net>,
+        Rob Herring <robh@kernel.org>, coresight@lists.linaro.org,
+        linux-arm-kernel@lists.infradead.org, linux-next@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Stephen Rothwell <sfr@canb.auug.org.au>
+Subject: Re: [PATCH next] Documentation: coresight: escape coresight bindings
+ file wildcard
+Message-ID: <20220630170636.GA2090408@p14s>
+References: <20220630101317.102680-1-bagasdotme@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH 2/2] x86/ACPI: Set swiotlb area according to the number of
- lapic entry in MADT
-Content-Language: en-US
-To:     Christoph Hellwig <hch@infradead.org>
-Cc:     corbet@lwn.net, rafael@kernel.org, len.brown@intel.com,
-        pavel@ucw.cz, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
-        m.szyprowski@samsung.com, robin.murphy@arm.com, paulmck@kernel.org,
-        akpm@linux-foundation.org, keescook@chromium.org,
-        songmuchun@bytedance.com, rdunlap@infradead.org,
-        damien.lemoal@opensource.wdc.com, michael.h.kelley@microsoft.com,
-        kys@microsoft.com, Tianyu Lan <Tianyu.Lan@microsoft.com>,
-        iommu@lists.linux-foundation.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
-        vkuznets@redhat.com, wei.liu@kernel.org, parri.andrea@gmail.com,
-        thomas.lendacky@amd.com, linux-hyperv@vger.kernel.org,
-        kirill.shutemov@intel.com, andi.kleen@intel.com,
-        Andi Kleen <ak@linux.intel.com>
-References: <20220627153150.106995-1-ltykernel@gmail.com>
- <20220627153150.106995-3-ltykernel@gmail.com>
- <YrxcCZKvFYjxLf9n@infradead.org>
-From:   Tianyu Lan <ltykernel@gmail.com>
-In-Reply-To: <YrxcCZKvFYjxLf9n@infradead.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220630101317.102680-1-bagasdotme@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 6/29/2022 10:04 PM, Christoph Hellwig wrote:
-> On Mon, Jun 27, 2022 at 11:31:50AM -0400, Tianyu Lan wrote:
->> From: Tianyu Lan <Tianyu.Lan@microsoft.com>
->>
->> When initialize swiotlb bounce buffer, smp_init() has not been
->> called and cpu number can not be got from num_online_cpus().
->> Use the number of lapic entry to set swiotlb area number and
->> keep swiotlb area number equal to cpu number on the x86 platform.
+On Thu, Jun 30, 2022 at 05:13:17PM +0700, Bagas Sanjaya wrote:
+> Stephen Rothwell reported htmldocs warning:
 > 
-> Can we reorder that initialization?  Because I really hate having
-> to have an arch hook in every architecture.
+> Documentation/trace/coresight/coresight.rst:133: WARNING: Inline emphasis start-string without end-string.
+> 
+> The warning above is due to unescaped wildcard asterisk (*) on CoreSight
+> devicetree binding filename, which confuses Sphinx as emphasis instead.
+> 
+> Escape the wildcard to fix the warning.
+> 
+> Link: https://lore.kernel.org/linux-next/20220630173801.41bf22a2@canb.auug.org.au/
+> Fixes: 3c15fddf312120 ("dt-bindings: arm: Convert CoreSight bindings to DT schema")
+> Cc: Mathieu Poirier <mathieu.poirier@linaro.org>
+> Cc: Suzuki K Poulose <suzuki.poulose@arm.com>
+> Cc: Mike Leach <mike.leach@linaro.org>
+> Cc: Leo Yan <leo.yan@linaro.org>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Rob Herring <robh@kernel.org>
+> Cc: coresight@lists.linaro.org
+> Cc: linux-arm-kernel@lists.infradead.org
+> Cc: linux-next@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
+> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> ---
+>  Documentation/trace/coresight/coresight.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
 
-How about using "flags" parameter of swiotlb_init() to pass area number
-or add new parameter for area number?
+Applied.
 
-I just reposted patch 1 since there is just some coding style issue and 
-area number may also set via swiotlb kernel parameter. We still need 
-figure out a good solution to pass area number from architecture code.
+Thanks,
+Mathieu
 
-
-
+> diff --git a/Documentation/trace/coresight/coresight.rst b/Documentation/trace/coresight/coresight.rst
+> index 529b7c80e6f353..1644a0244ad10a 100644
+> --- a/Documentation/trace/coresight/coresight.rst
+> +++ b/Documentation/trace/coresight/coresight.rst
+> @@ -130,7 +130,7 @@ Misc:
+>  Device Tree Bindings
+>  --------------------
+>  
+> -See Documentation/devicetree/bindings/arm/arm,coresight-*.yaml for details.
+> +See Documentation/devicetree/bindings/arm/arm,coresight-\*.yaml for details.
+>  
+>  As of this writing drivers for ITM, STMs and CTIs are not provided but are
+>  expected to be added as the solution matures.
+> 
+> base-commit: 6cc11d2a1759275b856e464265823d94aabd5eaf
+> -- 
+> An old man doll... just what I always wanted! - Clara
+> 
