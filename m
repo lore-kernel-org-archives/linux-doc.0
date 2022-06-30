@@ -2,271 +2,400 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 739B5CCA47B
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Jun 2022 12:16:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 17FCEC433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Jun 2022 12:30:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233592AbiF3MQB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 30 Jun 2022 08:16:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57242 "EHLO
+        id S234300AbiF3Maj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 30 Jun 2022 08:30:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39948 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232946AbiF3MQA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Jun 2022 08:16:00 -0400
-Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com [66.111.4.221])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38CDF1D306;
-        Thu, 30 Jun 2022 05:15:57 -0700 (PDT)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-        by mailnew.nyi.internal (Postfix) with ESMTP id 5410E5802D8;
-        Thu, 30 Jun 2022 08:04:46 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute5.internal (MEProxy); Thu, 30 Jun 2022 08:04:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
-        :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-        :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-        :x-sasl-enc; s=fm2; t=1656590686; x=1656597886; bh=8fLAj7Cosaq3L
-        KVDA7qNFWnIgEzd8lukzSVga6MMBEw=; b=jy5NNYHLeyEBuA5d844L22mQ9G+2X
-        xBLo2JrD+oVIypGTm4im7rELDSpqWgJOjbv8iX8t5QNq1S8kmeynjEfO21w01XTK
-        V4kAmEItjsVNl3vOL0VMGHBWCVz1qkmXAPff4ReT6n35tTisj8a7nRV5WxWqf4/6
-        TwXiXTyg6laeCUiOuI7p3MuGZGc1ky/jkVvRmXeCdZbDkR2/FDoXMazu8xd0uHwf
-        WUvuTIVaI8OSP5aJsxBwCqoIHaRPn6gjZYBo/iZHqlq2POrC6o358d7fj7lblKF6
-        IDHw86LFu+yslqPDEmvh5toqZr4SVOPbsYJwClTgS9luDh7ZvuO2NXhSQ==
-X-ME-Sender: <xms:XpG9YoJy4M7tk_KzNDrh7LUmjJTJ--jKiW-hKvRPM9FNEtSQuBgMGQ>
-    <xme:XpG9YoKpP1C2iRYgTnXqnRrec7Kn2f50Dvkr3bLpLoXG4_iVR0p8UKt0crWVmRbRF
-    V6c71SQatiO28WChQ>
-X-ME-Received: <xmr:XpG9YotQnlRW_5zor8wJi97LoWEW4jGl4LeX1YDjbYUl2uUqH59PNhUMiPjY0lOfpb1NKsl15Q>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudehuddggeeiucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucenucfjughrpefhvfevufffkffojghfggfgsedtke
-    ertdertddtnecuhfhrohhmpeffrghvvgcuvfhutghkvghruceouggrvhgvseguthhutghk
-    vghrrdgtohdruhhkqeenucggtffrrghtthgvrhhnpeetuedvvdehheetfeeifefhvdejve
-    ekteegveegvdfhjeekffefledvfefgfffhgeenucffohhmrghinhepkhgvrhhnvghlrdho
-    rhhgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepug
-    grvhgvseguthhutghkvghrrdgtohdruhhk
-X-ME-Proxy: <xmx:XpG9YlaZzFJaQqEgSd84Z1WjGEti1Nykm7ZruLwBVlKV11AnTteygQ>
-    <xmx:XpG9YvZRbD5Wsbs7-tj36UCPnHLulG9GkdECXJD_-T_x_WZ43fhLmA>
-    <xmx:XpG9YhCGcEk-8eJWLjn59yxYMZq-jzHbksSecOKS3ZaD9NMWHV-Qyw>
-    <xmx:XpG9Ypm7MndPMasYldyY6rWhPRNnajlienfIFQ7soW49hUJ4uRe4CA>
-Feedback-ID: i559945a3:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 30 Jun 2022 08:04:45 -0400 (EDT)
-From:   Dave Tucker <dave@dtucker.co.uk>
-To:     bpf@vger.kernel.org
-Cc:     corbet@lwn.net, ast@kernel.org, daniel@iogearbox.net,
-        andrii@kernel.org, kafai@fb.com, songliubraving@fb.com,
-        john.fastabend@gmail.com, kpsingh@kernel.org,
-        linux-doc@vger.kernel.org, Dave Tucker <dave@dtucker.co.uk>
-Subject: [PATCH v4 bpf-next 2/2] bpf, docs: document BPF_MAP_TYPE_ARRAY
-Date:   Thu, 30 Jun 2022 13:04:09 +0100
-Message-Id: <ca8a57db17da57f403b029c14ba4f0b89774d361.1656590177.git.dave@dtucker.co.uk>
-X-Mailer: git-send-email 2.37.0
-In-Reply-To: <cover.1656590177.git.dave@dtucker.co.uk>
-References: <cover.1656590177.git.dave@dtucker.co.uk>
+        with ESMTP id S234222AbiF3Mai (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Jun 2022 08:30:38 -0400
+Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id B340D2E6A6
+        for <linux-doc@vger.kernel.org>; Thu, 30 Jun 2022 05:30:35 -0700 (PDT)
+Received: from localhost.localdomain (unknown [112.20.112.134])
+        by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dxn9tml71iOVhmAA--.14765S2;
+        Thu, 30 Jun 2022 20:30:31 +0800 (CST)
+From:   Binbin Zhou <zhoubinbin@loongson.cn>
+To:     alexs@kernel.org, siyanteng@loongson.cn
+Cc:     corbet@lwn.net, chenhuacai@loongson.cn, bobwxc@email.cn,
+        linux-doc@vger.kernel.org, Binbin Zhou <zhoubinbin@loongson.cn>
+Subject: [PATCH V2] docs/zh_CN: core-api: Add watch_queue Chinese translation
+Date:   Thu, 30 Jun 2022 20:30:29 +0800
+Message-Id: <20220630123029.5720-1-zhoubinbin@loongson.cn>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf9Dxn9tml71iOVhmAA--.14765S2
+X-Coremail-Antispam: 1UD129KBjvAXoW3Aw4ktFyfZFyxKr47AFW5KFg_yoW8Jw45Jo
+        W3trZ8Cw4kJF1rXa4Y9ws5JFW7WF45uF1kJFZ2krn8Z347Aw4xXan3tw15t392vrs5KF1r
+        A3W0gw4rCF4rA3WDn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
+        AaLaJ3UjIYCTnIWjp_UUUY57AC8VAFwI0_Gr0_Xr1l1xkIjI8I6I8E6xAIw20EY4v20xva
+        j40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2
+        x7M28EF7xvwVC0I7IYx2IY67AKxVW5JVW7JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWx
+        JVW8Jr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
+        CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
+        2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
+        W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc2xSY4AK67AK6ryU
+        MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr
+        0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0E
+        wIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJV
+        W8JwCI42IY6xAIw20EY4v20xvaj40_WFyUJVCq3wCI42IY6I8E87Iv67AKxVWUJVW8JwCI
+        42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x0JUDWrXUUUUU=
+X-CM-SenderInfo: p2kr3uplqex0o6or00hjvr0hdfq/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This commit adds documentation for the BPF_MAP_TYPE_ARRAY including
-kernel version introduced, usage and examples.
-It also documents BPF_MAP_TYPE_PERCPU_ARRAY since this is similar.
+Translate core-api/watch_queue.rst into Chinese.
 
-Signed-off-by: Dave Tucker <dave@dtucker.co.uk>
+The lastest commit of this file is commit f5461124d59b
+("Documentation: move watch_queue to core-api")
+
+Signed-off-by: Binbin Zhou <zhoubinbin@loongson.cn>
 ---
- Documentation/bpf/map_array.rst | 183 ++++++++++++++++++++++++++++++++
- 1 file changed, 183 insertions(+)
- create mode 100644 Documentation/bpf/map_array.rst
+Changes since v1:
 
-diff --git a/Documentation/bpf/map_array.rst b/Documentation/bpf/map_array.rst
+Take Yanteng's advice and add his proofreading signature to watch_queue.rst.
+
+---
+ .../translations/zh_CN/core-api/index.rst     |   1 +
+ .../zh_CN/core-api/watch_queue.rst            | 312 ++++++++++++++++++
+ 2 files changed, 313 insertions(+)
+ create mode 100644 Documentation/translations/zh_CN/core-api/watch_queue.rst
+
+diff --git a/Documentation/translations/zh_CN/core-api/index.rst b/Documentation/translations/zh_CN/core-api/index.rst
+index 080643bac459..8a94ad87465d 100644
+--- a/Documentation/translations/zh_CN/core-api/index.rst
++++ b/Documentation/translations/zh_CN/core-api/index.rst
+@@ -28,6 +28,7 @@
+    printk-basics
+    printk-formats
+    workqueue
++   watch_queue
+    symbol-namespaces
+ 
+ 数据结构和低级实用程序
+diff --git a/Documentation/translations/zh_CN/core-api/watch_queue.rst b/Documentation/translations/zh_CN/core-api/watch_queue.rst
 new file mode 100644
-index 000000000000..eadc714591d2
+index 000000000000..139f021238cf
 --- /dev/null
-+++ b/Documentation/bpf/map_array.rst
-@@ -0,0 +1,183 @@
-+.. SPDX-License-Identifier: GPL-2.0-only
-+.. Copyright (C) 2021 Red Hat, Inc.
++++ b/Documentation/translations/zh_CN/core-api/watch_queue.rst
+@@ -0,0 +1,312 @@
++.. SPDX-License-Identifier: GPL-2.0+
 +
-+================================================
-+BPF_MAP_TYPE_ARRAY and BPF_MAP_TYPE_PERCPU_ARRAY
-+================================================
++.. include:: ../disclaimer-zh_CN.rst
 +
-+.. note:: ``BPF_MAP_TYPE_ARRAY`` was introduced in Kernel version 3.19 and
-+   ``BPF_MAP_TYPE_PERCPU_ARRAY`` in version 4.6
++:Original: Documentation/core-api/watch_queue.rst
 +
-+``BPF_MAP_TYPE_ARRAY`` and ``BPF_MAP_TYPE_PERCPU_ARRAY`` provide generic array
-+storage.  The key type is an unsigned 32-bit integer (4 bytes) and the map is of
-+constant size. All array elements are pre-allocated and zero initialized when
-+created. ``BPF_MAP_TYPE_PERCPU_ARRAY`` uses a different memory region for each
-+CPU whereas ``BPF_MAP_TYPE_ARRAY`` uses the same memory region. The maximum
-+size of an array, defined in max_entries, is limited to 2^32. The value stored
-+can be of any size, however, small values will be rounded up to 8 bytes.
++:翻译:
 +
-+Since Kernel 5.4, memory mapping may be enabled for ``BPF_MAP_TYPE_ARRAY`` by
-+setting the flag ``BPF_F_MMAPABLE``.  The map definition is page-aligned and
-+starts on the first page.  Sufficient page-sized and page-aligned blocks of
-+memory are allocated to store all array values, starting on the second page,
-+which in some cases will result in over-allocation of memory. The benefit of
-+using this is increased performance and ease of use since userspace programs
-+would not be required to use helper functions to access and mutate data.
++周彬彬 Binbin Zhou <zhoubinbin@loongson.cn>
 +
-+Usage
-+=====
++:校译:
 +
-+Array elements can be retrieved using the ``bpf_map_lookup_elem()`` helper.
-+This helper returns a pointer into the array element, so to avoid data races
-+with userspace reading the value, the user must use primitives like
-+``__sync_fetch_and_add()`` when updating the value in-place.  Access from
-+userspace uses the libbpf API of the same name.
++司延腾 Yanteng Si <siyanteng@loongson.cn>
 +
-+Array elements can also be added using the ``bpf_map_update_elem()`` helper or
-+libbpf API.
 +
-+Since the array is of constant size, ``bpf_map_delete_elem()`` is not supported.
-+To clear an array element, you may use ``bpf_map_update_eleme()`` to insert a
-+zero value to that index.
++============
++通用通知机制
++============
 +
-+Values stored in ``BPF_MAP_TYPE_ARRAY`` can be accessed by multiple programs
-+across different CPUs.  To restrict storage to a single CPU, you may use a
-+``BPF_MAP_TYPE_PERCPU_ARRAY``.  Since Kernel version 5.1, the BPF infrastructure
-+provides ``struct bpf_spin_lock`` to synchronize access.
++通用通知机制是建立在标准管道驱动之上的，它可以有效地将来自内核的通知消息拼接到用
++户空间打开的管道中。这可以与以下方面结合使用::
 +
-+``bpf_map_get_next_key()`` can be used to iterate over array values.
++  * Key/keyring 通知
 +
-+Examples
++通知缓冲区可以通过以下方式启用：
++
++	"General setup"/"General notification queue"
++	(CONFIG_WATCH_QUEUE)
++
++文档包含以下章节：
++
++.. contents:: :local:
++
++
++概述
++====
++
++该设施以一种特殊模式打开的管道形式出现，管道的内部环形缓冲区用于保存内核生成的消
++息。然后通过read()读出这些消息。在此类管道上禁用拼接以及类似的操作，因为它们希望
++在某些情况下将其添加的内容还原到环中-这可能最终会与通知消息重叠。
++
++管道的所有者必须告诉内核它想通过该管道观察哪些源。只有连接到该管道上的源才会将消
++息插入其中。请注意，一个源可能绑定到多个管道，并同时将消息插入到所有管道中。
++
++还可以将过滤器放置在管道上，以便在不感兴趣时可以忽略某些源类型和子事件。
++
++如果环中没有可用的插槽，或者没有预分配的消息缓冲区可用，则将丢弃消息。在这两种情
++况下，read()都会在读取缓冲区中当前的最后一条消息后，将WATCH_META_LOSS_NOTIFICATION
++插入到输出缓冲区中。
++
++请注意，当生成一个通知时，内核不会等待消费者收集它，而是继续执行。这意味着可以在
++持有自旋锁的同时生成通知，并且还可以保护内核不被用户空间故障无限期地阻碍。
++
++
++消息结构
 +========
 +
-+Please see the `tools/testing/selftests/bpf`_ directory for functional examples.
-+This sample code simply demonstrates the API.
++通知消息由一个简短的头部开始::
 +
-+.. section links
-+.. _tools/testing/selftests/bpf:
-+   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/testing/selftests/bpf
++	struct watch_notification {
++		__u32	type:24;
++		__u32	subtype:8;
++		__u32	info;
++	};
 +
-+Kernel
-+------
++"type"表示通知记录的来源，"subtype"表示该来源的记录类型（见下文观测源章节）。该类
++型也可以是"WATCH_TYPE_META"。这是一个由观测队列本身在内部生成的特殊记录类型。有两
++个子类型：
 +
-+.. code-block:: c
++  * WATCH_META_REMOVAL_NOTIFICATION
++  * WATCH_META_LOSS_NOTIFICATION
 +
-+    struct {
-+        __uint(type, BPF_MAP_TYPE_ARRAY);
-+        __type(key, u32);
-+        __type(value, long);
-+        __uint(max_entries, 256);
-+    } my_map SEC(".maps");
++第一个表示安装了观察的对象已被删除或销毁，第二个表示某些消息已丢失。
 +
-+    int bpf_prog(struct __sk_buff *skb)
-+    {
-+        int index = load_byte(skb,
-+                              ETH_HLEN + offsetof(struct iphdr, protocol));
-+        long *value;
++"info"表示一系列东西，包括：
 +
-+        if (skb->pkt_type != PACKET_OUTGOING)
-+            return 0;
++  * 消息的长度，以字节为单位，包括头（带有WATCH_INFO_LENGTH的掩码，并按
++    WATCH_INFO_LENGTH__SHIFT移位）。这表示记录的大小，可能在8到127字节之间。
 +
-+        value = bpf_map_lookup_elem(&my_map, &index);
-+        if (value)
-+            __sync_fetch_and_add(value, skb->len);
++  * 观测ID（带有WATCH_INFO_ID掩码，并按WATCH_INFO_ID__SHIFT移位）。这表示观测的主
++    叫ID，可能在0到255之间。多个观测组可以共享一个队列，这提供了一种区分它们的方法。
 +
-+        return 0;
-+    }
++  * 特定类型的字段（WATCH_INFO_TYPE_INFO）。这是由通知生产者设置的，以指示类型和
++    子类型的某些特定含义。
 +
-+Userspace
-+---------
++除长度外，信息中的所有内容都可以用于过滤。
 +
-+BPF_MAP_TYPE_ARRAY
-+~~~~~~~~~~~~~~~~~~
-+
-+.. code-block:: c
-+
-+    #include <assert.h>
-+    #include <bpf/libbpf.h>
-+    #include <bpf/bpf.h>
-+
-+    int main(int argc, char **argv)
-+    {
-+        int fd;
-+        int ret = 0;
-+        __u32 i, j;
-+        __u32 index = 42;
-+        long v, value;
-+
-+        fd = bpf_create_map(BPF_MAP_TYPE_ARRAY, sizeof(__u32), sizeof(long),
-+                            256, 0);
-+        if (fd < 0)
-+            return fd;
-+
-+        /* fill the map with values from 0-255 */
-+        for (i = 0; i < 256 ; i++) {
-+            ret = bpf_map_update_elem(fd, &i, &v, BPF_ANY);
-+            if (ret < 0)
-+                return ret;
-+        }
-+
-+        ret = bpf_map_lookup_elem(fd, &index, &value);
-+        if (ret < 0)
-+            return ret;
-+
-+        assert(value == 42);
-+
-+        return ret;
-+    }
-+
-+BPF_MAP_TYPE_PERCPU_ARRAY
-+~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+.. code-block:: c
-+
-+    #include <assert.h>
-+    #include <bpf/libbpf.h>
-+    #include <bpf/bpf.h>
-+
-+    int main(int argc, char **argv)
-+    {
-+        int ncpus = libbpf_num_possible_cpus();
-+        if (ncpus < 0)
-+            return ncpus;
-+
-+        int fd;
-+        int ret = 0;
-+        __u32 i, j;
-+        __u32 index = 42;
-+        long v[ncpus], value[ncpus];
++头部后面可以有补充信息。此格式是由类型和子类型决定的。
 +
 +
-+        fd = bpf_create_map(BPF_MAP_TYPE_PERCPU_ARRAY, sizeof(__u32),
-+                            sizeof(long), 256, 0);
-+        if (fd < 0)
-+            return -1;
++观测列表（通知源）API
++=====================
 +
-+        /* fill the map with values from 0-255 for each cpu */
-+        for (i = 0; i < 256 ; i++) {
-+            for (j = 0; j < ncpus; j++)
-+                v[j] = i;
-+            ret = bpf_map_update_elem(fd, &i, &v, BPF_ANY);
-+            if (ret < 0)
-+                return ret;
-+        }
++"观测列表"是订阅通知源的观测者的列表。列表可以附加到对象（比如键或超级块），也可
++以是全局的（比如对于设备事件）。从用户空间的角度来看，一个非全局的观测列表通常是
++通过引用它所属的对象来引用的（比如使用KEYCTL_NOTIFY并给它一个密钥序列号来观测特定
++的密钥）。
 +
-+        ret = bpf_map_lookup_elem(fd, &index, &value);
-+        if (ret < 0)
-+            return ret;
++为了管理观测列表，提供了以下函数：
 +
-+        for (j = 0; j < ncpus; j++)
-+            assert(value[j] == 42);
++  * ::
 +
-+        return ret;
-+    }
++	void init_watch_list(struct watch_list *wlist,
++			     void (*release_watch)(struct watch *wlist));
 +
-+Semantics
-+=========
++    初始化一个观测列表。 如果``release_watch`` 不是NULL，那么这表示当watch_list对
++    象被销毁时，应该调用函数来丢弃观测列表对被观测对象的任何引用。
 +
-+As illustrated in the example above, when using a ``BPF_MAP_TYPE_PERCPU_ARRAY``
-+in userspace, the values are an array with ``ncpus`` elements.
++  * ``void remove_watch_list(struct watch_list *wlist);``
 +
-+When calling ``bpf_map_update_elem()`` the flags ``BPF_NOEXIST`` can not be used
-+for these maps.
++    这将删除订阅watch_list的所有监视，并释放它们，然后销毁watch_list对象本身。
 +
++
++观测队列（通知输出）API
++=======================
++
++"观测队列"是由应用程序分配的用以记录通知的缓冲区，其工作原理完全隐藏在管道设备驱
++动中，但必须获得对它的引用才能设置监视。可以通过以下方式进行管理：
++
++  * ``struct watch_queue *get_watch_queue(int fd);``
++
++    由于观测队列在内核中通过实现缓冲区的管道的文件描述符表示，用户空间必须通过系
++    统调用传递该文件描述符，这可以用于从系统调用中查找指向观测队列的不透明指针。
++
++  * ``void put_watch_queue(struct watch_queue *wqueue);``
++
++    该函数用以丢弃从``get_watch_queue()`` 获得的引用。
++
++
++观测订阅API
++===========
++
++“观测”是观测列表上的订阅，表示观测队列，从而表示应写入通知记录的缓冲区。观测队列
++对象还可以携带该对象的过滤规则，由用户空间设置。watch 结构的某些部分可以由驱动程
++序设置::
++
++	struct watch {
++		union {
++			u32		info_id;	/* 在info字段中进行OR运算的ID */
++			...
++		};
++		void			*private;	/* 被观测对象的私有数据 */
++		u64			id;		/* 内部标识符 */
++		...
++	};
++
++``info_id`` 值是从用户空间获得并按WATCH_INFO_ID__SHIFT移位的8位数字。当通知写入关
++联的观测队列缓冲区时，这将与struct watch_notification::info的WATCH_INFO_ID字段进
++行或运算。
++
++``private`` 字段是与watch_list相关联的驱动程序数据，并由``watch_list::release_watch()``
++函数清除。
++
++``id`` 字段是源的ID。使用不同ID发布的通知将被忽略。
++
++提供以下函数来管理观测:
++
++  * ``void init_watch(struct watch *watch, struct watch_queue *wqueue);``
++
++    初始化一个观测对象，把它的指针设置到观察队列中，使用适当的限制来避免死锁。
++
++  * ``int add_watch_to_object(struct watch *watch, struct watch_list *wlist);``
++
++    将观测订阅到观测列表（通知源）。watch结构体中的driver-settable字段必须在调用
++    它之前设置。
++
++  * ::
++
++	int remove_watch_from_object(struct watch_list *wlist,
++				     struct watch_queue *wqueue,
++				     u64 id, false);
++
++    从观测列表中删除一个观测，该观测必须与指定的观测队列（``wqueue``）和对象标识
++    符（``id``）匹配。通知（``WATCH_META_REMOVAL_NOTIFICATION``）被发送到观测队列
++    表示该观测已被删除。
++
++  * ``int remove_watch_from_object(struct watch_list *wlist, NULL, 0, true);``
++
++    从观测列表中删除所有观测。 预计这将被称为销毁前的准备工作，届时新的观测将无法
++    访问观测列表。通知（``WATCH_META_REMOVAL_NOTIFICATION``）被发送到每个订阅观测
++    的观测队列，以表明该观测已被删除。
++
++
++通知发布API
++===========
++
++要将通知发布到观测列表以便订阅的观测可以看到，应使用以下函数::
++
++	void post_watch_notification(struct watch_list *wlist,
++				     struct watch_notification *n,
++				     const struct cred *cred,
++				     u64 id);
++
++应预先设置通知格式，并应传入一个指向头部（``n``）的指针。通知可能大于此值，并且缓
++冲槽为单位的大小在``n->info & WATCH_INFO_LENGTH`` 中注明。
++
++``cred`` 结构表示源（对象）的证书，并传递给LSM，例如SELinux，以允许或禁止根据该队
++列（对象）的证书在每个单独队列中记录注释。
++
++``id`` 是源对象ID（如密钥上的序列号）。只有设置相同ID的观测才能看到这个通知。
++
++
++观测源
++======
++
++任何特定的缓冲区都可以从多个源获取信息。 这些源包括:
++
++  * WATCH_TYPE_KEY_NOTIFY
++
++    这种类型的通知表示密钥和密钥环的变化，包括密钥环内容或密钥属性的变化。
++
++    更多信息请参见Documentation/security/keys/core.rst。
++
++
++事件过滤
++========
++
++当创建观测队列后，我们可以应用一组过滤器以限制接收的事件::
++
++	struct watch_notification_filter filter = {
++		...
++	};
++	ioctl(fd, IOC_WATCH_QUEUE_SET_FILTER, &filter)
++
++过滤器的描述的类型变量是::
++
++	struct watch_notification_filter {
++		__u32	nr_filters;
++		__u32	__reserved;
++		struct watch_notification_type_filter filters[];
++	};
++
++其中"nr_filters"表示filters[]数组中过滤器的数量，而"__reserved"应为0。
++"filter"数组有以下类型的元素::
++
++	struct watch_notification_type_filter {
++		__u32	type;
++		__u32	info_filter;
++		__u32	info_mask;
++		__u32	subtype_filter[8];
++	};
++
++其中：
++
++  * ``type`` 是过滤的事件类型，应类似于"WATCH_TYPE_KEY_NOTIFY"。
++
++  * ``info_filter`` 与``info_mask`` 充当通知记录的信息字段的过滤器，只有在以下情
++    况，通知才会写入缓冲区::
++
++	(watch.info & info_mask) == info_filter
++
++    例如，这可以用于忽略不在一个挂载树上的观测点的事件。
++
++  * ``subtype_filter`` 是一个位掩码，表示感兴趣的子类型。subtype_filter[0]的
++    bit[0]对应子类型0，bit[1]对应子类型1，以此类推。
++
++若ioctl()的参数为NULL，则过滤器将被移除，并且来自观测源的所有事件都将通过。
++
++
++用户空间代码示例
++================
++
++缓冲区的创建如下所示::
++
++	pipe2(fds, O_TMPFILE);
++	ioctl(fds[1], IOC_WATCH_QUEUE_SET_SIZE, 256);
++
++它可以被设置成接收密钥环变化的通知::
++
++	keyctl(KEYCTL_WATCH_KEY, KEY_SPEC_SESSION_KEYRING, fds[1], 0x01);
++
++然后，这些通知可以被如下方式所使用::
++
++	static void consumer(int rfd, struct watch_queue_buffer *buf)
++	{
++		unsigned char buffer[128];
++		ssize_t buf_len;
++
++		while (buf_len = read(rfd, buffer, sizeof(buffer)),
++		       buf_len > 0
++		       ) {
++			void *p = buffer;
++			void *end = buffer + buf_len;
++			while (p < end) {
++				union {
++					struct watch_notification n;
++					unsigned char buf1[128];
++				} n;
++				size_t largest, len;
++
++				largest = end - p;
++				if (largest > 128)
++					largest = 128;
++				memcpy(&n, p, largest);
++
++				len = (n->info & WATCH_INFO_LENGTH) >>
++					WATCH_INFO_LENGTH__SHIFT;
++				if (len == 0 || len > largest)
++					return;
++
++				switch (n.n.type) {
++				case WATCH_TYPE_META:
++					got_meta(&n.n);
++				case WATCH_TYPE_KEY_NOTIFY:
++					saw_key_change(&n.n);
++					break;
++				}
++
++				p += len;
++			}
++		}
++	}
 -- 
-2.37.0
+2.20.1
 
