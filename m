@@ -2,81 +2,95 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 09BE7C43334
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Jun 2022 12:15:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 281DEC433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 30 Jun 2022 12:16:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235185AbiF3MO7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 30 Jun 2022 08:14:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55874 "EHLO
+        id S232111AbiF3MQA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 30 Jun 2022 08:16:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57232 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234994AbiF3MOs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Jun 2022 08:14:48 -0400
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 628841D0F7;
-        Thu, 30 Jun 2022 05:14:40 -0700 (PDT)
-Received: from fraeml709-chm.china.huawei.com (unknown [172.18.147.226])
-        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4LYcdq12gKz6H7dh;
-        Thu, 30 Jun 2022 20:12:15 +0800 (CST)
-Received: from lhreml724-chm.china.huawei.com (10.201.108.75) by
- fraeml709-chm.china.huawei.com (10.206.15.37) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Thu, 30 Jun 2022 14:14:38 +0200
-Received: from localhost.localdomain (10.69.192.58) by
- lhreml724-chm.china.huawei.com (10.201.108.75) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Thu, 30 Jun 2022 13:14:34 +0100
-From:   John Garry <john.garry@huawei.com>
-To:     <damien.lemoal@opensource.wdc.com>, <joro@8bytes.org>,
-        <will@kernel.org>, <jejb@linux.ibm.com>,
-        <martin.petersen@oracle.com>, <hch@lst.de>,
-        <m.szyprowski@samsung.com>, <robin.murphy@arm.com>
-CC:     <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-ide@vger.kernel.org>, <iommu@lists.linux-foundation.org>,
-        <iommu@lists.linux.dev>, <linux-scsi@vger.kernel.org>,
-        <linuxarm@huawei.com>, John Garry <john.garry@huawei.com>
-Subject: [PATCH v5 5/5] ata: libata-scsi: Cap ata_device->max_sectors according to shost->max_sectors
-Date:   Thu, 30 Jun 2022 20:08:12 +0800
-Message-ID: <1656590892-42307-6-git-send-email-john.garry@huawei.com>
-X-Mailer: git-send-email 2.8.1
-In-Reply-To: <1656590892-42307-1-git-send-email-john.garry@huawei.com>
-References: <1656590892-42307-1-git-send-email-john.garry@huawei.com>
+        with ESMTP id S230350AbiF3MP7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Jun 2022 08:15:59 -0400
+Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com [66.111.4.221])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5AF1A1EC69;
+        Thu, 30 Jun 2022 05:15:57 -0700 (PDT)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+        by mailnew.nyi.internal (Postfix) with ESMTP id 7677E5802C4;
+        Thu, 30 Jun 2022 08:04:32 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute5.internal (MEProxy); Thu, 30 Jun 2022 08:04:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+        :feedback-id:feedback-id:from:from:in-reply-to:message-id
+        :mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
+        1656590672; x=1656597872; bh=pAZH5MTBdgS3CquuCfAfzYAxKgms2Uu1+KL
+        7ZAZvgAA=; b=EvEf7W+eOXP5lYbA71ryKh7xp6PoglK7MbvylNGO3aGGoHvcIZ1
+        /WZ7AcV09D5AMzBDBq0cb0/qQxIbYFT1HH09IlXRqvH6sd6Vr1aFZfAOr29GTsGm
+        w4ULvZ4pKZsFTxUhfLuSO1vYn+SN7Tajeo8D4ShNlFLw46WhzpsJiLiZfJDGAQfE
+        GjU95ZWGVAWu/RvtIuDjma8/Uy+0hm7PpUll2fTXXeJOPzJDlTRlgQeLEXVAfwLo
+        HiKjjiUQTG45IYc8Eu/SsdGwrjXKhmf8PGLnP0iwWeoHFS5V5UuxhENUiULTUb+o
+        xfm28LKWBamXQbDCYqKLcad61cpiwK7ORxg==
+X-ME-Sender: <xms:T5G9YjeGSFKqvKIWHutUc3pqfn-s0mYmcRlNXWLcJIRSoGyMrLOqAw>
+    <xme:T5G9YpOrIOabj2zmH_ue6okukwHuxSLcu4QKj_xfsXfwCMy5uwF3PTdcArGoQCJ3F
+    gcWiKz_5dDIJ9Fvng>
+X-ME-Received: <xmr:T5G9Ysh38_JA8Xn3R-tMENTbcX20SVfym-s38Hasrx3eY1touhofJnHzMepEOGHTbrhqHszMGQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudehuddggeeiucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucenucfjughrpefhvfevufffkffoggfgsedtkeertd
+    ertddtnecuhfhrohhmpeffrghvvgcuvfhutghkvghruceouggrvhgvseguthhutghkvghr
+    rdgtohdruhhkqeenucggtffrrghtthgvrhhnpefhffdtkeegveeiveefgfdtudehkeehie
+    ejleduieehiedtffevjeekhfehfeehtdenucevlhhushhtvghrufhiiigvpedtnecurfgr
+    rhgrmhepmhgrihhlfhhrohhmpegurghvvgesughtuhgtkhgvrhdrtghordhukh
+X-ME-Proxy: <xmx:T5G9Yk8ci1CUBwvN2HTjAfU_WNUWvVNfxh2IV6_jstvMkFioSDQh9g>
+    <xmx:T5G9YvvLwR0sg5rmRDDj-go4SqIzZmXbsS2gmkAO6MEIxUYckkd-0w>
+    <xmx:T5G9YjH4Ef-P0Zt6996DfB8xvZh-_2-hjACdgawOIVhGSPExChK8Gg>
+    <xmx:UJG9YtLuaxoLMGwv7GaGuRTG433-kbS91x33MCS75Qg0bR4JBw4wOA>
+Feedback-ID: i559945a3:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 30 Jun 2022 08:04:31 -0400 (EDT)
+From:   Dave Tucker <dave@dtucker.co.uk>
+To:     bpf@vger.kernel.org
+Cc:     corbet@lwn.net, ast@kernel.org, daniel@iogearbox.net,
+        andrii@kernel.org, kafai@fb.com, songliubraving@fb.com,
+        john.fastabend@gmail.com, kpsingh@kernel.org,
+        linux-doc@vger.kernel.org, Dave Tucker <dave@dtucker.co.uk>
+Subject: [PATCH v4 bpf-next 0/2] bpf, docs: Document BPF_MAP_TYPE_ARRAY
+Date:   Thu, 30 Jun 2022 13:04:07 +0100
+Message-Id: <cover.1656590177.git.dave@dtucker.co.uk>
+X-Mailer: git-send-email 2.37.0
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.69.192.58]
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
- lhreml724-chm.china.huawei.com (10.201.108.75)
-X-CFilter-Loop: Reflected
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-ATA devices (struct ata_device) have a max_sectors field which is
-configured internally in libata. This is then used to (re)configure the
-associated sdev request queue max_sectors value from how it is earlier set
-in __scsi_init_queue(). In __scsi_init_queue() the max_sectors value is set
-according to shost limits, which includes host DMA mapping limits.
+This series is the beginning of my attempt to improve the BPF map and
+program type documentation. It expands the template from
+map_cgroup_storage to include the kernel version it was introduced.
+I then used this template to document BPF_MAP_TYPE_ARRAY and
+BPF_MAP_TYPE_PERCPU_ARRAY
 
-Cap the ata_device max_sectors according to shost->max_sectors to respect
-this shost limit.
+v3->v4:
+- fix doctest failure due to missing newline
 
-Signed-off-by: John Garry <john.garry@huawei.com>
-Acked-by: Damien Le Moal <damien.lemoal@opensource.wdc.com>
----
- drivers/ata/libata-scsi.c | 1 +
- 1 file changed, 1 insertion(+)
+v2->v3:
+- wrap text to 80 chars and add newline at end of file
 
-diff --git a/drivers/ata/libata-scsi.c b/drivers/ata/libata-scsi.c
-index 86dbb1cdfabd..24a43d540d9f 100644
---- a/drivers/ata/libata-scsi.c
-+++ b/drivers/ata/libata-scsi.c
-@@ -1060,6 +1060,7 @@ int ata_scsi_dev_config(struct scsi_device *sdev, struct ata_device *dev)
- 		dev->flags |= ATA_DFLAG_NO_UNLOAD;
- 
- 	/* configure max sectors */
-+	dev->max_sectors = min(dev->max_sectors, sdev->host->max_sectors);
- 	blk_queue_max_hw_sectors(q, dev->max_sectors);
- 
- 	if (dev->class == ATA_DEV_ATAPI) {
+v1->v2:
+- point to selftests for functional examples
+- update examples to follow kernel style
+- add docs for BPF_F_MMAPABLE
+
+Dave Tucker (2):
+  bpf, docs: add kernel version to map_cgroup_storage
+  bpf, docs: document BPF_MAP_TYPE_ARRAY
+
+ Documentation/bpf/map_array.rst          | 183 +++++++++++++++++++++++
+ Documentation/bpf/map_cgroup_storage.rst |   2 +
+ 2 files changed, 185 insertions(+)
+ create mode 100644 Documentation/bpf/map_array.rst
+
 -- 
-2.35.3
+2.37.0
 
