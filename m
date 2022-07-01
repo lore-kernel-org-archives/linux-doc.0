@@ -2,68 +2,86 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 68DBEC433EF
-	for <linux-doc@archiver.kernel.org>; Fri,  1 Jul 2022 13:21:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C5908C433EF
+	for <linux-doc@archiver.kernel.org>; Fri,  1 Jul 2022 13:24:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230006AbiGANVE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 1 Jul 2022 09:21:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48532 "EHLO
+        id S231378AbiGANYj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 1 Jul 2022 09:24:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51388 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229632AbiGANVE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 Jul 2022 09:21:04 -0400
-X-Greylist: delayed 206 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 01 Jul 2022 06:21:02 PDT
-Received: from eidolon.nox.tf (eidolon.nox.tf [IPv6:2a07:2ec0:2185::])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3EEAB5C9F9;
-        Fri,  1 Jul 2022 06:21:02 -0700 (PDT)
-Received: from equinox by eidolon.nox.tf with local (Exim 4.94.2)
-        (envelope-from <equinox@diac24.net>)
-        id 1o7GWa-00GsJJ-Lp; Fri, 01 Jul 2022 15:17:33 +0200
-Date:   Fri, 1 Jul 2022 15:17:32 +0200
-From:   David Lamparter <equinox@diac24.net>
-To:     Jiri Pirko <jiri@resnulli.us>
-Cc:     Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org,
-        corbet@lwn.net, linux-doc@vger.kernel.org
-Subject: Re: [PATCH net-next] eth: remove neterion/vxge
-Message-ID: <Yr7z7HU2Z79pMrM0@eidolon.nox.tf>
-References: <20220701044234.706229-1-kuba@kernel.org>
- <Yr7NpQz6/esZAiZv@nanopsycho>
+        with ESMTP id S230152AbiGANYi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 Jul 2022 09:24:38 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2530365D55;
+        Fri,  1 Jul 2022 06:24:38 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id A098061BD4;
+        Fri,  1 Jul 2022 13:24:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 920CAC3411E;
+        Fri,  1 Jul 2022 13:24:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1656681877;
+        bh=AB1moI492HfefygLu4A3x4hIpNObzlN7G4uBSSpjw7k=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=PYDBb8/GKL8sqVlHibUIiJ+IgtlG5P6gokVJ+TqCxuRw8wDE7rI3mxdeFff3I7XYz
+         8TDyNkGBGMpljUzAFYq54ZkW5/kBNJUzysdrdZdUCJoybwEU2qB4GIQ+otjdlPOC9h
+         sieq62dydjUyuB1GXB6uV2eSe6di4owVUdWxKP6t6IGfCLJOovgGavb69Av4NAlpxJ
+         FN5y9hme+AYw/cgndhsQ7lf6yf95knOEupWVKG16/+xSz2f5af5250sJkIvkqLIqqv
+         SA08NjrehFpgAMOP0P5j6dA7zSOEKXslE31m0LcIBTOES2e8a2bn31MyF9tbogRjPB
+         PkBPHX2i0A3Cg==
+Message-ID: <ec9a37a6-4584-695c-8ed9-15e94f13781a@kernel.org>
+Date:   Fri, 1 Jul 2022 15:24:29 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Yr7NpQz6/esZAiZv@nanopsycho>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH V4 01/20] rv: Add Runtime Verification (RV) interface
+Content-Language: en-US
+To:     Punit Agrawal <punit.agrawal@bytedance.com>
+Cc:     Steven Rostedt <rostedt@goodmis.org>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Ingo Molnar <mingo@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Will Deacon <will@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Marco Elver <elver@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Gabriele Paoloni <gpaoloni@redhat.com>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Clark Williams <williams@redhat.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-trace-devel@vger.kernel.org
+References: <cover.1655368610.git.bristot@kernel.org>
+ <60548902dbccaa7ba420e40e46835693e27f643f.1655368610.git.bristot@kernel.org>
+ <87tu8bmh2s.fsf@stealth>
+From:   Daniel Bristot de Oliveira <bristot@kernel.org>
+In-Reply-To: <87tu8bmh2s.fsf@stealth>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-[culled Cc:]
+Hi Punit!
 
-On Fri, Jul 01, 2022 at 12:34:13PM +0200, Jiri Pirko wrote:
-> Fri, Jul 01, 2022 at 06:42:34AM CEST, kuba@kernel.org wrote:
-> >The last meaningful change to this driver was made by Jon in 2011.
-> >As much as we'd like to believe that this is because the code is
-> >perfect the chances are nobody is using this hardware.
+On 6/23/22 19:21, Punit Agrawal wrote:
+> Hi Daniel,
 > 
-> Hmm, I can understand what for driver for HW that is no longer
-> developed, the driver changes might be very minimal. The fact that the
-> code does not change for years does not mean that there are users of
-> this NIC which this patch would break :/
+> A few flyby issues I noticed while going through the patches to
+> understand what RV offers.
+> 
+> For the typos, I wonder if it isn't better to use a spellcheck - they
+> unnecessarily detract from the review. Sorry for the annoyance!
 
-As a "reference datapoint", I'm a user that was affected by the removal
-of the Mellanox SwitchX-2 driver about a year ago.  But that was a bit
-different since the driver was apparently rather incomplete (I don't
-know the details, was still messing around to even get things going.)
+I do appreciate this kind of review. I run a spell checker, but sometimes I
+forget a patch here or there. I will add your changes and check the other
+patches.
 
-(FWIW my use case is in giving old hardware a second life, in this case
-completely throwing away the PowerPC control board from Mellanox SX6000
-series switches and replacing it with a new custom CPU board...  I might
-well be the only person interested in that driver.
-
-> Isn't there some obsoletion scheme globally applied to kernel device
-> support? I would expect something like that.
-
-I have the same question - didn't see any such policy but didn't look
-particularly hard.  But would like to avoid putting time into making
-something work just to have the kernel driver yanked shortly after :)
-
-
--David
+Thanks!
+-- Daniel
