@@ -2,38 +2,38 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A2D65CCA479
-	for <linux-doc@archiver.kernel.org>; Fri,  1 Jul 2022 08:49:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E33E9C433EF
+	for <linux-doc@archiver.kernel.org>; Fri,  1 Jul 2022 08:49:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234950AbiGAItZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 1 Jul 2022 04:49:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57830 "EHLO
+        id S235647AbiGAIt0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 1 Jul 2022 04:49:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55886 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233646AbiGAItM (ORCPT
+        with ESMTP id S233288AbiGAItM (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Fri, 1 Jul 2022 04:49:12 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7D21E0DA;
-        Fri,  1 Jul 2022 01:48:56 -0700 (PDT)
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B103101ED;
+        Fri,  1 Jul 2022 01:48:57 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id BAE02621F9;
-        Fri,  1 Jul 2022 08:48:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1C1ADC341C6;
+        by ams.source.kernel.org (Postfix) with ESMTPS id 69D4DB82F2F;
+        Fri,  1 Jul 2022 08:48:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 14C3BC3411E;
         Fri,  1 Jul 2022 08:48:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1656665335;
-        bh=q6GO+RA/vkKq8tjuoPuRJhM1OnZmuwwmIL2YmITsc+c=;
+        bh=h5ZruEJ95WKJ2GkkQoahYktyKw9EOQdVkp6S/Q58M/I=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=u5jMWUu4ZGh+zipLD92yG6S3biqgvWqIVE8J37n7tlhAC/EqzUFEtLUwfhFQqVf8k
-         +gRwEzMudWiJ2vGVuHmtRTAXztevdl8R3ov28IvLQU2Hq/R5+Xo2HhiNLDokirmaSA
-         liaypvRlpeTxTfTwske3Aexemhnx1RtJNfpwJWK5+C4T9LhkcGW5tyeXwhuD4khalf
-         mGT2IqAf1/wT76KqRRpl6YBD6F4moSxMW90jxv3uqgqjdU+ZgW+yGuc0YiR8C3tvHF
-         /2f6J8S/R4aaIRE1/ck71DMpiIJlVd5PNqjF30lrgl8MdbIt5mRQzc7+Z2KrbBt6Up
-         WXaBVdOOqNs4A==
+        b=YjUvQ6ldjSecl9YK6o+96aDdSYZlAySFkpsb/m9xVhslmuoV3a8QB4r22WhgvZ7aA
+         bj318/1wCaFEsl2ahHyJioDNDMC+LxKCLV186jos4gUb8lRZXr+5U6nSzunuiUqh14
+         b6atIYfcy2M8poLGDiFWWvpZcpAYbr0VFt+gipmVIgvE+0OL83Nr31Su3xFOvKlBy7
+         QygFWDFtT5K72RPjm8G0rrTJ5g/aAQwSa7uxBVT+BtjlWD3IL3GAq6kwIq14pVYwgP
+         JE4SLDobYts7WwdC0cunxRm515oelOt9Uu26/ryT2IBnUaP7MhEpx2nMhDAzPn8tcq
+         tJBAjnTBe5HQg==
 Received: from mchehab by mail.kernel.org with local (Exim 4.95)
         (envelope-from <mchehab@kernel.org>)
-        id 1o7CKZ-006T9K-SY;
+        id 1o7CKZ-006T9E-RI;
         Fri, 01 Jul 2022 09:48:51 +0100
 From:   Mauro Carvalho Chehab <mchehab@kernel.org>
 To:     Jonathan Corbet <corbet@lwn.net>,
@@ -42,9 +42,9 @@ Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         "Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
         ksummit-discuss@lists.linuxfoundation.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 4/4] scripts: sphinx-pre-install: provide both venv and package installs
-Date:   Fri,  1 Jul 2022 09:48:49 +0100
-Message-Id: <22f35e31173b368b40252df5ff9f3ef42a87c409.1656664906.git.mchehab@kernel.org>
+Subject: [PATCH 2/4] scripts: sphinx-pre-install: report broken venv
+Date:   Fri,  1 Jul 2022 09:48:47 +0100
+Message-Id: <d323efe8d6e90a5a53e351f94b5ee1cff9049395.1656664906.git.mchehab@kernel.org>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <cover.1656664906.git.mchehab@kernel.org>
 References: <cover.1656664906.git.mchehab@kernel.org>
@@ -62,10 +62,11 @@ Cc: ksummit-discuss@lists.linuxfoundation.org
 Cc: linux-doc@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org
 
-As it is not a consensus about installing sphinx using venv, and
-modern distributions are now shipping with Sphinx versions above
-the minimal requirements to build the docs, provide both venv
-and package install commands by default.
+After distro upgrades, the directory names for python may change.
+On such case, the previously-created venv will be broken, and
+sphinx-build won't run.
+
+Add a logic to report it.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
 ---
@@ -73,128 +74,26 @@ Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
 To avoid mailbombing on a large number of people, only mailing lists were C/C on the cover.
 See [PATCH 0/4] at: https://lore.kernel.org/all/cover.1656664906.git.mchehab@kernel.org/
 
- scripts/sphinx-pre-install | 43 ++++++++++++++++++++++++++++----------
- 1 file changed, 32 insertions(+), 11 deletions(-)
+ scripts/sphinx-pre-install | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
 diff --git a/scripts/sphinx-pre-install b/scripts/sphinx-pre-install
-index 930a6d058c12..27bac4fbe35b 100755
+index ae8c49734899..18537e5af692 100755
 --- a/scripts/sphinx-pre-install
 +++ b/scripts/sphinx-pre-install
-@@ -25,6 +25,7 @@ my $need_sphinx = 0;
- my $need_pip = 0;
- my $need_virtualenv = 0;
- my $rec_sphinx_upgrade = 0;
-+my $verbose_warn_install = 1;
- my $install = "";
- my $virtenv_dir = "";
- my $python_cmd = "";
-@@ -103,10 +104,12 @@ sub check_missing(%)
- 			next;
- 		}
+@@ -720,6 +720,12 @@ sub get_virtenv()
+ 		next if (! -f $sphinx_cmd);
  
--		if ($is_optional) {
--			print "Warning: better to also install \"$prog\".\n";
--		} else {
--			print "ERROR: please install \"$prog\", otherwise, build won't work.\n";
-+		if ($verbose_warn_install) {
-+			if ($is_optional) {
-+				print "Warning: better to also install \"$prog\".\n";
-+			} else {
-+				print "ERROR: please install \"$prog\", otherwise, build won't work.\n";
-+			}
- 		}
- 		if (defined($map{$prog})) {
- 			$install .= " " . $map{$prog};
-@@ -386,7 +389,8 @@ sub give_debian_hints()
- 	check_missing(\%map);
- 
- 	return if (!$need && !$optional);
--	printf("You should run:\n\n\tsudo apt-get install $install\n");
-+	printf("You should run:\n") if ($verbose_warn_install);
-+	printf("\n\tsudo apt-get install $install\n");
- }
- 
- sub give_redhat_hints()
-@@ -458,10 +462,12 @@ sub give_redhat_hints()
- 
- 	if (!$old) {
- 		# dnf, for Fedora 18+
--		printf("You should run:\n\n\tsudo dnf install -y $install\n");
-+		printf("You should run:\n") if ($verbose_warn_install);
-+		printf("\n\tsudo dnf install -y $install\n");
- 	} else {
- 		# yum, for RHEL (and clones) or Fedora version < 18
--		printf("You should run:\n\n\tsudo yum install -y $install\n");
-+		printf("You should run:\n") if ($verbose_warn_install);
-+		printf("\n\tsudo yum install -y $install\n");
- 	}
- }
- 
-@@ -509,7 +515,8 @@ sub give_opensuse_hints()
- 	check_missing(\%map);
- 
- 	return if (!$need && !$optional);
--	printf("You should run:\n\n\tsudo zypper install --no-recommends $install\n");
-+	printf("You should run:\n") if ($verbose_warn_install);
-+	printf("\n\tsudo zypper install --no-recommends $install\n");
- }
- 
- sub give_mageia_hints()
-@@ -553,7 +560,8 @@ sub give_mageia_hints()
- 	check_missing(\%map);
- 
- 	return if (!$need && !$optional);
--	printf("You should run:\n\n\tsudo $packager_cmd $install\n");
-+	printf("You should run:\n") if ($verbose_warn_install);
-+	printf("\n\tsudo $packager_cmd $install\n");
- }
- 
- sub give_arch_linux_hints()
-@@ -583,7 +591,8 @@ sub give_arch_linux_hints()
- 	check_missing(\%map);
- 
- 	return if (!$need && !$optional);
--	printf("You should run:\n\n\tsudo pacman -S $install\n");
-+	printf("You should run:\n") if ($verbose_warn_install);
-+	printf("\n\tsudo pacman -S $install\n");
- }
- 
- sub give_gentoo_hints()
-@@ -610,7 +619,8 @@ sub give_gentoo_hints()
- 
- 	return if (!$need && !$optional);
- 
--	printf("You should run:\n\n");
-+	printf("You should run:\n") if ($verbose_warn_install);
-+	printf("\n");
- 
- 	my $imagemagick = "media-gfx/imagemagick svg png";
- 	my $cairo = "media-gfx/graphviz cairo pdf";
-@@ -873,6 +883,16 @@ sub recommend_sphinx_version($)
- 	printf "\t. $virtenv_dir/bin/activate\n";
- 	printf "\tpip install -r $requirement_file\n";
- 	deactivate_help();
+ 		my $ver = get_sphinx_version($sphinx_cmd);
 +
-+	printf "\nAnother option would be to install Sphinx package with:\n";
++		if (!$ver) {
++			$f =~ s#/bin/activate##;
++			print("Warning: virtual envionment $f is not working.\nPython version upgrade? Remove it with:\n\n\trm -rf $f\n\n");
++		}
 +
-+	%missing = ();
-+	$pdf = 0;
-+	$optional = 0;
-+	add_package("python-sphinx", 0);
-+	check_python_module("sphinx_rtd_theme", 1);
-+
-+	check_distros();
- }
- 
- sub check_needs()
-@@ -945,6 +965,7 @@ sub check_needs()
- 	check_program("latexmk", 2) if ($pdf);
- 
- 	# Do distro-specific checks and output distro-install commands
-+	$verbose_warn_install = 0;
- 	check_distros();
- 
- 	if (!$python_cmd) {
+ 		if ($need_sphinx && ($ver ge $min_version)) {
+ 			return ($f, $ver);
+ 		} elsif ($ver gt $cur_version) {
 -- 
 2.36.1
 
