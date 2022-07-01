@@ -2,145 +2,173 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2DFD4C43334
-	for <linux-doc@archiver.kernel.org>; Thu, 30 Jun 2022 23:50:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EBA79C43334
+	for <linux-doc@archiver.kernel.org>; Fri,  1 Jul 2022 01:21:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230345AbiF3XuR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 30 Jun 2022 19:50:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39410 "EHLO
+        id S230318AbiGABVy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 30 Jun 2022 21:21:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37650 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230188AbiF3XuR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Jun 2022 19:50:17 -0400
-Received: from esa2.hgst.iphmx.com (esa2.hgst.iphmx.com [68.232.143.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0107E5C967
-        for <linux-doc@vger.kernel.org>; Thu, 30 Jun 2022 16:49:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1656632981; x=1688168981;
+        with ESMTP id S229639AbiGABVx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 30 Jun 2022 21:21:53 -0400
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 54C835A2CB;
+        Thu, 30 Jun 2022 18:21:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1656638512; x=1688174512;
   h=message-id:date:mime-version:subject:to:cc:references:
    from:in-reply-to:content-transfer-encoding;
-  bh=nwEn1VMZrx8GUvODDT0OaTNy6z1BOZ2HCe57NZ02Lbc=;
-  b=kpEbRW2X3oEidjs8uBQHkwmJkxUhHK/wYY7FI6uj9a5dnSE6TzlXWTEK
-   0TAlt8byWlEFQtZRArQHxIKvqorHEwNfYBGYy7FitZm1B+BAK11HwLnSr
-   H/QTnxcgLitwaF+5jEyL1Qcgc+xBaSZok+ML/l3w/omzzYmdx1XzT+gOG
-   eY1jsg+pHl7ZiZI5IQuiM5r0whL7CzhxSgBFUcRifmsS7weZGjGvJsk/h
-   NaB5SzfNRsdSfq7ufdY1XNiBEs+1p79oQWzKLKYO3QQS5+iHmlJnYH9Ff
-   CZNZ6d5t+SPIiwqKv4q/W1diZLQvSvQLteAfJHQd8Sa6orFR8t/aYPelk
-   g==;
-X-IronPort-AV: E=Sophos;i="5.92,235,1650902400"; 
-   d="scan'208";a="308859934"
-Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com) ([199.255.45.15])
-  by ob1.hgst.iphmx.com with ESMTP; 01 Jul 2022 07:49:41 +0800
-IronPort-SDR: 2KRSNGLVrFA1MasZC076VG4JSf7NAKUq+/t8TnFfgAW+kHb4lNdN68a76rGaIkheLg4GJj5Pq9
- PIlbUw95KicRAO/TaQKh6y4bale95oUIVEhZEg7PxNE5ACgV9VdfW8xUZ6CwjuutYg4N84+ULo
- nZQ7nG3jIaq7rqLkHRT/nAHMxVMLkWKFPhHTr4tDMrs/rhMEH0pVGC6NaJ40YP4ReoJkihuAoR
- jZ3dU/mCb0kNBtkFXGl7aL9lBxZiT+xEr7wV028ITrdO1FrRe8urQosUhXfZtWzWUYXWaCv7LL
- ahqD40oxyePHSphAuHGhc/Yk
-Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
-  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 30 Jun 2022 16:07:15 -0700
-IronPort-SDR: mXV9R6jSXMRNlDloGj7ukdWJUj2ctTDe1N04UF2P93RpcyjT1b9/wqyY+wCfPGucQMLPFvC/mJ
- gAF14fL4Bf2BhKV8EW5YDqUDHzUWP3zzd5XQbUyIgrtAp7wFXczgcicuXkxH3r9opThlolUW4P
- geJziEv5S96AREJaE585N88MvEhIjqM8KVNHQM3EcFUR/i+qP14E2w1uJMx/lzeNbTwE3VpIdf
- CVNrQ4Rj+j1rV669znCVpzT7CF/8aawEwv4w+5j83iyOIXYmJx+sigjzaOqgLimu3/w9TG/jxP
- gpc=
-WDCIronportException: Internal
-Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
-  by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 30 Jun 2022 16:49:42 -0700
-Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
-        by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4LYw6Y0xH0z1Rwnm
-        for <linux-doc@vger.kernel.org>; Thu, 30 Jun 2022 16:49:40 -0700 (PDT)
-Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
-        reason="pass (just generated, assumed good)"
-        header.d=opensource.wdc.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
-        opensource.wdc.com; h=content-transfer-encoding:content-type
-        :in-reply-to:organization:from:references:to:content-language
-        :subject:user-agent:mime-version:date:message-id; s=dkim; t=
-        1656632980; x=1659224981; bh=nwEn1VMZrx8GUvODDT0OaTNy6z1BOZ2HCe5
-        7NZ02Lbc=; b=WLH01e7EcYJscXnwQ3vvbmxQTuNCz3i5pBQVZdrz66seSwF49h1
-        +8GS6jTrsLEAkuw/tD2AknhPYioGLd4d7sT3GQLnO6xu/H8Jja/BvPtC53e7auQP
-        2ySivAr3YR8mb2/bi7YxGSMXNxKQK4k66W4nuilErMzlwRy3gJ/aBV7BiQf2lZgN
-        w3Be/GZWvaOFz6780wZxse2VtnKneGGzbV4SXNJ7ACmPrxcECYPahoxF1WbKesDe
-        Kdmo3OxJxKftQgVnI75yZCLNb1RE5mbPQy6HR+ycBckrjlDzqPdHq0Q3XHuPEaRr
-        ThWJqmi9TPbB2tm7FvbOONX5x4GDU+VLEEw==
-X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
-Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
-        by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id euqz00ks2OwQ for <linux-doc@vger.kernel.org>;
-        Thu, 30 Jun 2022 16:49:40 -0700 (PDT)
-Received: from [10.225.163.102] (unknown [10.225.163.102])
-        by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4LYw6T5Ymgz1RtVk;
-        Thu, 30 Jun 2022 16:49:37 -0700 (PDT)
-Message-ID: <2e6475e5-4899-1e3a-1418-918b9510ec6d@opensource.wdc.com>
-Date:   Fri, 1 Jul 2022 08:49:36 +0900
+  bh=G2fAQsutHSI8kLKVVakNXwxot1Yyc0ooUkqIi8b15IA=;
+  b=c4QNRs3N2jhbkzCT0dIZHMMxEFx/ac7LUFsFEPsniCXGblAEkZvkybgD
+   GDcHXRcw4VSAG6BT/4XWBSmDwWYayzar6sdrw1OFn63hYE7KeExTVe1ob
+   y/EoKg6MikYiAmFGPgUIgwE+4grBZXLbqXJTK+0BWXUphaA1aGHapHbWL
+   Q+l57jzMy09nd4vlmFN5QZCasEGtUtjOPkk1JU7YJDy2kjRntnGHTYhla
+   xz+aJ+V+DURO1OpuqsP258meHj/yW5Ea4sJw8gOGEsCEUOa3XwalSv2QU
+   GOqXG156DuYDjvCbwFV2UPXtV3BrVN5IMzmfJdQ/hAR32ytHnBmyCYuly
+   A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10394"; a="282547312"
+X-IronPort-AV: E=Sophos;i="5.92,236,1650956400"; 
+   d="scan'208";a="282547312"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2022 18:21:52 -0700
+X-IronPort-AV: E=Sophos;i="5.92,236,1650956400"; 
+   d="scan'208";a="596042946"
+Received: from xiaoyaol-hp-g830.ccr.corp.intel.com (HELO [10.249.169.250]) ([10.249.169.250])
+  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2022 18:21:42 -0700
+Message-ID: <4fe3b47d-e94a-890a-5b87-6dfb7763bc7e@intel.com>
+Date:   Fri, 1 Jul 2022 09:21:39 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v5 4/5] scsi: scsi_transport_sas: Cap shost max_sectors
- according to DMA optimal limit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Firefox/91.0 Thunderbird/91.10.0
+Subject: Re: [PATCH v6 6/8] KVM: Handle page fault for private memory
 Content-Language: en-US
-To:     John Garry <john.garry@huawei.com>, joro@8bytes.org,
-        will@kernel.org, jejb@linux.ibm.com, martin.petersen@oracle.com,
-        hch@lst.de, m.szyprowski@samsung.com, robin.murphy@arm.com
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-ide@vger.kernel.org, iommu@lists.linux-foundation.org,
-        iommu@lists.linux.dev, linux-scsi@vger.kernel.org,
-        linuxarm@huawei.com
-References: <1656590892-42307-1-git-send-email-john.garry@huawei.com>
- <1656590892-42307-5-git-send-email-john.garry@huawei.com>
-From:   Damien Le Moal <damien.lemoal@opensource.wdc.com>
-Organization: Western Digital Research
-In-Reply-To: <1656590892-42307-5-git-send-email-john.garry@huawei.com>
-Content-Type: text/plain; charset=UTF-8
+To:     Michael Roth <michael.roth@amd.com>,
+        Vishal Annapurve <vannapurve@google.com>
+Cc:     Chao Peng <chao.p.peng@linux.intel.com>,
+        "Nikunj A. Dadhania" <nikunj@amd.com>,
+        kvm list <kvm@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sean Christopherson <seanjc@google.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86 <x86@kernel.org>, "H . Peter Anvin" <hpa@zytor.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Jun Nakajima <jun.nakajima@intel.com>,
+        Dave Hansen <dave.hansen@intel.com>,
+        Andi Kleen <ak@linux.intel.com>,
+        David Hildenbrand <david@redhat.com>, aarcange@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com,
+        Quentin Perret <qperret@google.com>, mhocko@suse.com
+References: <20220519153713.819591-1-chao.p.peng@linux.intel.com>
+ <20220519153713.819591-7-chao.p.peng@linux.intel.com>
+ <b3ce0855-0e4b-782a-599c-26590df948dd@amd.com>
+ <20220624090246.GA2181919@chaop.bj.intel.com>
+ <CAGtprH82H_fjtRbL0KUxOkgOk4pgbaEbAydDYfZ0qxz41JCnAQ@mail.gmail.com>
+ <20220630222140.of4md7bufd5jv5bh@amd.com>
+From:   Xiaoyao Li <xiaoyao.li@intel.com>
+In-Reply-To: <20220630222140.of4md7bufd5jv5bh@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 6/30/22 21:08, John Garry wrote:
-> Streaming DMA mappings may be considerably slower when mappings go through
-> an IOMMU and the total mapping length is somewhat long. This is because the
-> IOMMU IOVA code allocates and free an IOVA for each mapping, which may
-> affect performance.
+On 7/1/2022 6:21 AM, Michael Roth wrote:
+> On Thu, Jun 30, 2022 at 12:14:13PM -0700, Vishal Annapurve wrote:
+>> With transparent_hugepages=always setting I see issues with the
+>> current implementation.
+>>
+>> Scenario:
+>> 1) Guest accesses a gfn range 0x800-0xa00 as private
+>> 2) Guest calls mapgpa to convert the range 0x84d-0x86e as shared
+>> 3) Guest tries to access recently converted memory as shared for the first time
+>> Guest VM shutdown is observed after step 3 -> Guest is unable to
+>> proceed further since somehow code section is not as expected
+>>
+>> Corresponding KVM trace logs after step 3:
+>> VCPU-0-61883   [078] ..... 72276.115679: kvm_page_fault: address
+>> 84d000 error_code 4
+>> VCPU-0-61883   [078] ..... 72276.127005: kvm_mmu_spte_requested: gfn
+>> 84d pfn 100b4a4d level 2
+>> VCPU-0-61883   [078] ..... 72276.127008: kvm_tdp_mmu_spte_changed: as
+>> id 0 gfn 800 level 2 old_spte 100b1b16827 new_spte 100b4a00ea7
+>> VCPU-0-61883   [078] ..... 72276.127009: kvm_mmu_prepare_zap_page: sp
+>> gen 0 gfn 800 l1 8-byte q0 direct wux nxe ad root 0 sync
+>> VCPU-0-61883   [078] ..... 72276.127009: kvm_tdp_mmu_spte_changed: as
+>> id 0 gfn 800 level 1 old_spte 1003eb27e67 new_spte 5a0
+>> VCPU-0-61883   [078] ..... 72276.127010: kvm_tdp_mmu_spte_changed: as
+>> id 0 gfn 801 level 1 old_spte 10056cc8e67 new_spte 5a0
+>> VCPU-0-61883   [078] ..... 72276.127010: kvm_tdp_mmu_spte_changed: as
+>> id 0 gfn 802 level 1 old_spte 10056fa2e67 new_spte 5a0
+>> VCPU-0-61883   [078] ..... 72276.127010: kvm_tdp_mmu_spte_changed: as
+>> id 0 gfn 803 level 1 old_spte 0 new_spte 5a0
+>> ....
+>>   VCPU-0-61883   [078] ..... 72276.127089: kvm_tdp_mmu_spte_changed: as
+>> id 0 gfn 9ff level 1 old_spte 100a43f4e67 new_spte 5a0
+>>   VCPU-0-61883   [078] ..... 72276.127090: kvm_mmu_set_spte: gfn 800
+>> spte 100b4a00ea7 (rwxu) level 2 at 10052fa5020
+>>   VCPU-0-61883   [078] ..... 72276.127091: kvm_fpu: unload
+>>
+>> Looks like with transparent huge pages enabled kvm tried to handle the
+>> shared memory fault on 0x84d gfn by coalescing nearby 4K pages
+>> to form a contiguous 2MB page mapping at gfn 0x800, since level 2 was
+>> requested in kvm_mmu_spte_requested.
+>> This caused the private memory contents from regions 0x800-0x84c and
+>> 0x86e-0xa00 to get unmapped from the guest leading to guest vm
+>> shutdown.
 > 
-> For performance reasons set the request queue max_sectors from
-> dma_opt_mapping_size(), which knows this mapping limit.
+> Interesting... seems like that wouldn't be an issue for non-UPM SEV, since
+> the private pages would still be mapped as part of that 2M mapping, and
+> it's completely up to the guest as to whether it wants to access as
+> private or shared. But for UPM it makes sense this would cause issues.
 > 
-> Signed-off-by: John Garry <john.garry@huawei.com>
-> ---
->  drivers/scsi/scsi_transport_sas.c | 6 ++++++
->  1 file changed, 6 insertions(+)
+>>
+>> Does getting the mapping level as per the fault access type help
+>> address the above issue? Any such coalescing should not cross between
+>> private to
+>> shared or shared to private memory regions.
 > 
-> diff --git a/drivers/scsi/scsi_transport_sas.c b/drivers/scsi/scsi_transport_sas.c
-> index 12bff64dade6..1b45248748e0 100644
-> --- a/drivers/scsi/scsi_transport_sas.c
-> +++ b/drivers/scsi/scsi_transport_sas.c
-> @@ -225,6 +225,7 @@ static int sas_host_setup(struct transport_container *tc, struct device *dev,
->  {
->  	struct Scsi_Host *shost = dev_to_shost(dev);
->  	struct sas_host_attrs *sas_host = to_sas_host_attrs(shost);
-> +	struct device *dma_dev = shost->dma_dev;
->  
->  	INIT_LIST_HEAD(&sas_host->rphy_list);
->  	mutex_init(&sas_host->lock);
-> @@ -236,6 +237,11 @@ static int sas_host_setup(struct transport_container *tc, struct device *dev,
->  		dev_printk(KERN_ERR, dev, "fail to a bsg device %d\n",
->  			   shost->host_no);
->  
-> +	if (dma_dev) {
-> +		shost->max_sectors = min_t(unsigned int, shost->max_sectors,
-> +				dma_opt_mapping_size(dma_dev) >> SECTOR_SHIFT);
-> +	}
+> Doesn't seem like changing the check to fault->is_private would help in
+> your particular case, since the subsequent host_pfn_mapping_level() call
+> only seems to limit the mapping level to whatever the mapping level is
+> for the HVA in the host page table.
+> 
+> Seems like with UPM we need some additional handling here that also
+> checks that the entire 2M HVA range is backed by non-private memory.
+> 
+> Non-UPM SNP hypervisor patches already have a similar hook added to
+> host_pfn_mapping_level() which implements such a check via RMP table, so
+> UPM might need something similar:
+> 
+>    https://github.com/AMDESE/linux/commit/ae4475bc740eb0b9d031a76412b0117339794139
+> 
+> -Mike
+> 
 
-Hmm... shost->max_sectors becomes the max_hw_sectors limit for the block
-dev. So using dma_max_mapping_size(dma_dev) for that limit makes sense.
-Shouldn't dma_opt_mapping_size(dma_dev) be used to limit only the default
-"soft" limit (queue max_sectors limit) instead of the hard limit ?
+For TDX, we try to track the page type (shared, private, mixed) of each 
+gfn at given level. Only when the type is shared/private, can it be 
+mapped at that level. When it's mixed, i.e., it contains both shared 
+pages and private pages at given level, it has to go to next smaller level.
 
-> +
->  	return 0;
->  }
->  
--- 
-Damien Le Moal
-Western Digital Research
+https://github.com/intel/tdx/commit/ed97f4042eb69a210d9e972ccca6a84234028cad
+
+
