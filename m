@@ -2,98 +2,106 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E33E9C433EF
-	for <linux-doc@archiver.kernel.org>; Fri,  1 Jul 2022 08:49:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 33F92C43334
+	for <linux-doc@archiver.kernel.org>; Fri,  1 Jul 2022 08:55:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235647AbiGAIt0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 1 Jul 2022 04:49:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55886 "EHLO
+        id S235751AbiGAIzt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 1 Jul 2022 04:55:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38446 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233288AbiGAItM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 Jul 2022 04:49:12 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B103101ED;
-        Fri,  1 Jul 2022 01:48:57 -0700 (PDT)
+        with ESMTP id S236533AbiGAIzl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 Jul 2022 04:55:41 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8B111D0CE;
+        Fri,  1 Jul 2022 01:55:35 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 69D4DB82F2F;
-        Fri,  1 Jul 2022 08:48:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 14C3BC3411E;
-        Fri,  1 Jul 2022 08:48:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1656665335;
-        bh=h5ZruEJ95WKJ2GkkQoahYktyKw9EOQdVkp6S/Q58M/I=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=YjUvQ6ldjSecl9YK6o+96aDdSYZlAySFkpsb/m9xVhslmuoV3a8QB4r22WhgvZ7aA
-         bj318/1wCaFEsl2ahHyJioDNDMC+LxKCLV186jos4gUb8lRZXr+5U6nSzunuiUqh14
-         b6atIYfcy2M8poLGDiFWWvpZcpAYbr0VFt+gipmVIgvE+0OL83Nr31Su3xFOvKlBy7
-         QygFWDFtT5K72RPjm8G0rrTJ5g/aAQwSa7uxBVT+BtjlWD3IL3GAq6kwIq14pVYwgP
-         JE4SLDobYts7WwdC0cunxRm515oelOt9Uu26/ryT2IBnUaP7MhEpx2nMhDAzPn8tcq
-         tJBAjnTBe5HQg==
-Received: from mchehab by mail.kernel.org with local (Exim 4.95)
-        (envelope-from <mchehab@kernel.org>)
-        id 1o7CKZ-006T9E-RI;
-        Fri, 01 Jul 2022 09:48:51 +0100
-From:   Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        "Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
-        ksummit-discuss@lists.linuxfoundation.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH 2/4] scripts: sphinx-pre-install: report broken venv
-Date:   Fri,  1 Jul 2022 09:48:47 +0100
-Message-Id: <d323efe8d6e90a5a53e351f94b5ee1cff9049395.1656664906.git.mchehab@kernel.org>
-X-Mailer: git-send-email 2.36.1
-In-Reply-To: <cover.1656664906.git.mchehab@kernel.org>
-References: <cover.1656664906.git.mchehab@kernel.org>
+        by ams.source.kernel.org (Postfix) with ESMTPS id 3C3ACB82EF6;
+        Fri,  1 Jul 2022 08:55:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70648C3411E;
+        Fri,  1 Jul 2022 08:55:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1656665733;
+        bh=yjBhNZrxeyLRbyUd/FhFFxflFi3Gvl3ms34vFj/Xl08=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=bSUg75cVKMYeFf+UivniMvky44e9rhNmPUWPH9RXFW+k6ESNL46/yURXjjMoMUQ+d
+         yJTZ72ctNgYIDjiG9ddI0h89NmY2SGUDGNRWf+c5VbvgON7ZiYwNayRrlQOpI5xptW
+         OqbmxgLk0cILQA2zTd+6X0nCBhxLVu5bds9YS0es=
+Date:   Fri, 1 Jul 2022 10:55:30 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     David Gow <davidgow@google.com>
+Cc:     Brendan Higgins <brendanhiggins@google.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Kees Cook <keescook@chromium.org>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        "Guilherme G . Piccoli" <gpiccoli@igalia.com>,
+        Sebastian Reichel <sre@kernel.org>,
+        John Ogness <john.ogness@linutronix.de>,
+        Joe Fradley <joefradley@google.com>,
+        Daniel Latypov <dlatypov@google.com>,
+        kunit-dev@googlegroups.com, linux-kselftest@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Lucas De Marchi <lucas.demarchi@intel.com>,
+        Aaron Tomlin <atomlin@redhat.com>,
+        linux-fsdevel@vger.kernel.org, linux-block@vger.kernel.org,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        linux-kbuild@vger.kernel.org
+Subject: Re: [PATCH v4 2/4] module: panic: Taint the kernel when selftest
+ modules load
+Message-ID: <Yr62gr9advYNTPoM@kroah.com>
+References: <20220701084744.3002019-1-davidgow@google.com>
+ <20220701084744.3002019-2-davidgow@google.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220701084744.3002019-2-davidgow@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Cc: "Jonathan Corbet" <corbet@lwn.net>
-Cc: "Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: ksummit-discuss@lists.linuxfoundation.org
-Cc: linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
+On Fri, Jul 01, 2022 at 04:47:42PM +0800, David Gow wrote:
+> Taint the kernel with TAINT_TEST whenever a test module loads, by adding
+> a new "TEST" module property, and setting it for all modules in the
+> tools/testing directory. This property can also be set manually, for
+> tests which live outside the tools/testing directory with:
+> MODULE_INFO(test, "Y");
+> 
+> Signed-off-by: David Gow <davidgow@google.com>
+> ---
+> 
+> This patch is new in v4 of this series.
+> 
+> ---
+>  kernel/module/main.c  | 8 ++++++++
+>  scripts/mod/modpost.c | 3 +++
+>  2 files changed, 11 insertions(+)
+> 
+> diff --git a/kernel/module/main.c b/kernel/module/main.c
+> index fed58d30725d..f2ca0a3ee5e6 100644
+> --- a/kernel/module/main.c
+> +++ b/kernel/module/main.c
+> @@ -1988,6 +1988,14 @@ static int check_modinfo(struct module *mod, struct load_info *info, int flags)
+>  	/* Set up license info based on the info section */
+>  	set_license(mod, get_modinfo(info, "license"));
+>  
+> +	if (!get_modinfo(info, "test")) {
+> +		if (!test_taint(TAINT_TEST))
+> +			pr_warn("%s: loading test module taints kernel.\n",
+> +				mod->name);
+> +		add_taint_module(mod, TAINT_TEST, LOCKDEP_STILL_OK);
+> +	}
+> +
+> +
 
-After distro upgrades, the directory names for python may change.
-On such case, the previously-created venv will be broken, and
-sphinx-build won't run.
+Why 2 blank lines?
 
-Add a logic to report it.
+thanks,
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
----
-
-To avoid mailbombing on a large number of people, only mailing lists were C/C on the cover.
-See [PATCH 0/4] at: https://lore.kernel.org/all/cover.1656664906.git.mchehab@kernel.org/
-
- scripts/sphinx-pre-install | 6 ++++++
- 1 file changed, 6 insertions(+)
-
-diff --git a/scripts/sphinx-pre-install b/scripts/sphinx-pre-install
-index ae8c49734899..18537e5af692 100755
---- a/scripts/sphinx-pre-install
-+++ b/scripts/sphinx-pre-install
-@@ -720,6 +720,12 @@ sub get_virtenv()
- 		next if (! -f $sphinx_cmd);
- 
- 		my $ver = get_sphinx_version($sphinx_cmd);
-+
-+		if (!$ver) {
-+			$f =~ s#/bin/activate##;
-+			print("Warning: virtual envionment $f is not working.\nPython version upgrade? Remove it with:\n\n\trm -rf $f\n\n");
-+		}
-+
- 		if ($need_sphinx && ($ver ge $min_version)) {
- 			return ($f, $ver);
- 		} elsif ($ver gt $cur_version) {
--- 
-2.36.1
-
+greg k-h
