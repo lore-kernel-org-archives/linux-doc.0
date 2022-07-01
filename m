@@ -2,79 +2,102 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EA931C43334
-	for <linux-doc@archiver.kernel.org>; Fri,  1 Jul 2022 07:48:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 23753C43334
+	for <linux-doc@archiver.kernel.org>; Fri,  1 Jul 2022 07:53:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234651AbiGAHsw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 1 Jul 2022 03:48:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45492 "EHLO
+        id S234937AbiGAHxZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 1 Jul 2022 03:53:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49152 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235578AbiGAHsr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 Jul 2022 03:48:47 -0400
-Received: from vps0.lunn.ch (vps0.lunn.ch [185.16.172.187])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C7236EE86;
-        Fri,  1 Jul 2022 00:48:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-        bh=h2ZOn+dCZfyggMWCkIPXgrYmuhMv5KH6IhCtBthTteA=; b=FcfuFR+AfwlESM+okzWsug+jCn
-        /ey4a3A8ISRFlanmCKPesHUzhH4bVaofW4NUc+q7lwrKrj8xMxJPcak2H3sh9B5ZYW1qxVlsGuEy/
-        LPPaAdqfIvUbWGTuZLUbdapkJrsTEnpMLe7CwVmOLdpLB80uCtBg5d7jwLNLVZt8/DRE=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-        (envelope-from <andrew@lunn.ch>)
-        id 1o7BOA-008uh7-ON; Fri, 01 Jul 2022 09:48:30 +0200
-Date:   Fri, 1 Jul 2022 09:48:30 +0200
-From:   Andrew Lunn <andrew@lunn.ch>
-To:     Jakub Kicinski <kuba@kernel.org>
-Cc:     davem@davemloft.net, netdev@vger.kernel.org, edumazet@google.com,
-        pabeni@redhat.com, corbet@lwn.net, linux-doc@vger.kernel.org
-Subject: Re: [PATCH net 1/3] docs: netdev: document that patch series length
- limit
-Message-ID: <Yr6mziKdr/rmuTjt@lunn.ch>
-References: <20220630174607.629408-1-kuba@kernel.org>
- <20220630174607.629408-2-kuba@kernel.org>
+        with ESMTP id S229808AbiGAHxX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 Jul 2022 03:53:23 -0400
+Received: from mx.kolabnow.com (mx.kolabnow.com [212.103.80.153])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1EB311571B;
+        Fri,  1 Jul 2022 00:53:18 -0700 (PDT)
+Received: from localhost (unknown [127.0.0.1])
+        by mx.kolabnow.com (Postfix) with ESMTP id 2346041A80;
+        Fri,  1 Jul 2022 09:53:16 +0200 (CEST)
+Authentication-Results: ext-mx-out003.mykolab.com (amavisd-new);
+        dkim=pass (4096-bit key) reason="pass (just generated, assumed good)"
+        header.d=kolabnow.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
+        message-id:references:in-reply-to:subject:subject:from:from:date
+        :date:content-transfer-encoding:content-type:content-type
+        :mime-version:received:received:received; s=dkim20160331; t=
+        1656661995; x=1658476396; bh=P2xW8RAKZgVCO8JagbR3K85O7/vn6UpB/KM
+        K5m2zFFI=; b=hs97aeaxzPBepYy56KfzzhGl7pEh11cKV8tmCogbizWYLLTQXiS
+        LSQ2kFDLQbQK7lRCx6Zy32DxrNy/CkLAANK0sycWmthAldYfZOXHxxoiEL3Q/yEj
+        G2D6uZTExpGMfFtlveKvpuC5TWZ3y6MtFH/p2qYefR+qLt2ypmHusPr8DZf60J/A
+        bIYdOrUtw6jxc8ElTA2u1Xn1pkGZuLfBFiyOgaOkmXL5EoxOuI1Je46CRmASqjGA
+        eY8bM4R6cTxM7igXtQh586lZW+2CSAc5pOtJZbDiIag1QDAsPlF65dz4jv5Xsw/E
+        Ss0J28nLr5wnvI33RyMaXdcPLDhLAvqNKvB9egXbU7tiEsPBsOWmne1VGNPK/GMu
+        7B+z5B9iBlxgWKmQxUTwQ0JUeP6sB2nw37vhZ+raQCcpwszXLJAhdnbaBo0hK/xF
+        qwuGkaZ/a6frztzOuCO4zDJKkbkf2QA2RcF6ZV6ikvzAkd49rFNE+XI/1m6bnmud
+        5btuqOpx1jqpHmLDyxJsGPd1RRia2xfxh/8wCcp8xRKbOrJvXlacmwW0RLUnaeR5
+        Ywuy00kASBIwr1SSLzjn81pr5+61RBYELtl03rdJSFzJKpOOfUhuncqHXPLk7Hhl
+        C8pHHmCON5sh6Cb3NMHjWHWaKmWO1KIiNK0jtUfoqc59M0gsKhAhKlXg=
+X-Virus-Scanned: amavisd-new at mykolab.com
+Received: from mx.kolabnow.com ([127.0.0.1])
+        by localhost (ext-mx-out003.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id qUvTHXEY6TZy; Fri,  1 Jul 2022 09:53:15 +0200 (CEST)
+Received: from int-mx001.mykolab.com (unknown [10.9.13.1])
+        by mx.kolabnow.com (Postfix) with ESMTPS id 7DBF241A59;
+        Fri,  1 Jul 2022 09:53:14 +0200 (CEST)
+Received: from int-subm002.mykolab.com (unknown [10.9.37.2])
+        by int-mx001.mykolab.com (Postfix) with ESMTPS id 09F5B904;
+        Fri,  1 Jul 2022 09:53:13 +0200 (CEST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220630174607.629408-2-kuba@kernel.org>
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date:   Fri, 01 Jul 2022 09:53:12 +0200
+From:   Federico Vaga <federico.vaga@vaga.pv.it>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] doc:it_IT: align Italian documentation
+In-Reply-To: <87letenhc3.fsf@meer.lwn.net>
+References: <20220628111603.603357-1-federico.vaga@vaga.pv.it>
+ <87pmiqnjbz.fsf@meer.lwn.net> <87letenhc3.fsf@meer.lwn.net>
+Message-ID: <672f9a07653412d359e4992eb175d792@vaga.pv.it>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jun 30, 2022 at 10:46:05AM -0700, Jakub Kicinski wrote:
-> We had been asking people to avoid massive patch series but it does
-> not appear in the FAQ.
+On 2022-06-30 20:20, Jonathan Corbet wrote:
+> Jonathan Corbet <corbet@lwn.net> writes:
 > 
-> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
-> ---
->  Documentation/process/maintainer-netdev.rst | 8 ++++++++
->  1 file changed, 8 insertions(+)
+>> Federico Vaga <federico.vaga@vaga.pv.it> writes:
+>> 
+>>> Translation for the following patches
+>>> 
+>>> commit df05c0e9496c ("Documentation: Raise the minimum supported 
+>>> version of LLVM to 11.0.0")
+>>> commit 333b11e541fe ("Documentation: Add minimum pahole version")
+>>> commit 6d6a8d6a4ed0 ("docs: Update Sphinx requirements")
+>>> [...]
+>> 
+>> Applied, thanks.
 > 
-> diff --git a/Documentation/process/maintainer-netdev.rst b/Documentation/process/maintainer-netdev.rst
-> index c456b5225d66..862b6508fc22 100644
-> --- a/Documentation/process/maintainer-netdev.rst
-> +++ b/Documentation/process/maintainer-netdev.rst
-> @@ -136,6 +136,14 @@ it to the maintainer to figure out what is the most recent and current
->  version that should be applied. If there is any doubt, the maintainer
->  will reply and ask what should be done.
->  
-> +How do I divide my work into patches?
-> +-------------------------------------
-> +
-> +Put yourself in the shoes of the reviewer. Each patch is read separately
-> +and therefore should constitute a comprehensible step towards your stated
-> +goal. Avoid sending series longer than 15 patches, they clog review queue
-> +and increase mailing list traffic when re-posted.
-> +
+> Actually, I take that back; it creates a massive mess of docs-build
+> warnings:
+> 
+>   MAINTAINERS:4: WARNING: duplicate label maintainers, other instance
+> in /stuff/k/git/kernel/Documentation/process/maintainers.rst
+>   MAINTAINERS:107: WARNING: unknown document:
+> ../maintainer/maintainer-entry-profile
+>   MAINTAINERS:165: WARNING: unknown document:
+> ../networking/device_drivers/ethernet/3com/vortex
+>   MAINTAINERS:235: WARNING: unknown document: ../networking/6lowpan
+>   [...]
+> 
+> This all comes down to the duplicate copy of
+> Documentation/process/maintainers.rst that your patch adds.  Don't do
+> that, please.
 
-Hi Jakub
+I see, I think I overlooked at that because I was grepping for `it_IT` 
+errors.
+Sorry for the problem, and thanks for pointing it out. I will send a V2.
 
-I think a key concept is, big patch series takes longer to review, so
-needs a bigger junk of time allocated to it, so often gets differed
-until late. As a result, it will take longer to merge. A small series
-can be reviewed in a short time, so Maintainers just do it, allowing
-for quicker merging.
-
-    Andrew
+-- 
+Federico Vaga
+http://www.federicovaga.it/
