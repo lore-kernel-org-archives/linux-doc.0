@@ -2,150 +2,152 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 10F19C43334
-	for <linux-doc@archiver.kernel.org>; Fri,  1 Jul 2022 10:35:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6323FCCA479
+	for <linux-doc@archiver.kernel.org>; Fri,  1 Jul 2022 11:55:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235453AbiGAKfY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 1 Jul 2022 06:35:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55574 "EHLO
+        id S235907AbiGALzY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 1 Jul 2022 07:55:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55532 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236333AbiGAKfW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 Jul 2022 06:35:22 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ABE157969E;
-        Fri,  1 Jul 2022 03:35:21 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 3B61062339;
-        Fri,  1 Jul 2022 10:35:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A6C4C341C6;
-        Fri,  1 Jul 2022 10:35:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1656671720;
-        bh=5hX8oRoPZn4b5fAaXxxYWDQveykgB7sgy/RluBH/fJU=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=UWsq++M5k0Wo3efjXd1fLAQzurXJaA8GNRq0b6drz75gynuFHQa39dFdvKWiH04u3
-         u89Q2AoTV2EoGcNYW3oH4iH1+CvKo0EWKBfUMEyz0xZlzarTk2K6bJkFVql7L82ddO
-         LuY+yThHSOoxvhtr0vmohQ3P7cO/ZS7ygZl7sY6A=
-Date:   Fri, 1 Jul 2022 12:35:17 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Ray Chi <raychi@google.com>
-Cc:     corbet@lwn.net, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-        Albert Wang <albertccwang@google.com>
-Subject: Re: [PATCH] USB: hub: add module parameters to usbcore for port init
- retries
-Message-ID: <Yr7N5ZjKLpeQflxd@kroah.com>
-References: <20220617102256.3253019-1-raychi@google.com>
- <YrFxLYibDtyuxSO6@kroah.com>
- <CAPBYUsBbP7ssGXSRyWN46u1-Qaa712QLm748FhJ-M3pANZUsng@mail.gmail.com>
+        with ESMTP id S234791AbiGALzX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 Jul 2022 07:55:23 -0400
+Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D075823BD;
+        Fri,  1 Jul 2022 04:55:22 -0700 (PDT)
+Received: from mx0.riseup.net (mx0-pn.riseup.net [10.0.1.42])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
+         client-signature RSA-PSS (2048 bits) client-digest SHA256)
+        (Client CN "mx0.riseup.net", Issuer "R3" (not verified))
+        by mx1.riseup.net (Postfix) with ESMTPS id 4LZDCt0kflzDqJx;
+        Fri,  1 Jul 2022 11:55:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
+        t=1656676522; bh=OmDfSiag79ufUXArN30LVk+EOWL3+NU7HJfkYVWwnEs=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=bQmFDRdMJzvZTv/048CChDzvcBkOHgUQrFztw2zatFqVCRWgxr+6Z9hGp2H+K6qo6
+         DurzcHXdVEd4pPQAZD68gGbXIIYqjtd/FcDmnpEhG4uniXrUNj6zKPVQGTLEysMJ0h
+         zLj4E9Eu+i6/9dq5kkXZcD+X+PEg1RMqQW6yxIhE=
+Received: from fews1.riseup.net (fews1-pn.riseup.net [10.0.1.83])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
+         client-signature RSA-PSS (2048 bits) client-digest SHA256)
+        (Client CN "mail.riseup.net", Issuer "R3" (not verified))
+        by mx0.riseup.net (Postfix) with ESMTPS id 4LZDCr1fmPz9tBq;
+        Fri,  1 Jul 2022 11:55:20 +0000 (UTC)
+X-Riseup-User-ID: 58664E14B2D373C4C74D8CFBD14FDC6AA3184A3116830436C65DB32C22F59FC5
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+         by fews1.riseup.net (Postfix) with ESMTPSA id 4LZDCg5zQxz5vw3;
+        Fri,  1 Jul 2022 11:55:11 +0000 (UTC)
+Message-ID: <f361c4b7-12b8-0513-2025-4ed8025a67d1@riseup.net>
+Date:   Fri, 1 Jul 2022 08:55:07 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAPBYUsBbP7ssGXSRyWN46u1-Qaa712QLm748FhJ-M3pANZUsng@mail.gmail.com>
+Subject: Re: [PATCH v4 3/4] kunit: Taint the kernel when KUnit tests are run
+Content-Language: en-US
+To:     David Gow <davidgow@google.com>
+Cc:     "Guilherme G . Piccoli" <gpiccoli@igalia.com>,
+        Kees Cook <keescook@chromium.org>,
+        Sebastian Reichel <sre@kernel.org>,
+        John Ogness <john.ogness@linutronix.de>,
+        Joe Fradley <joefradley@google.com>,
+        Daniel Latypov <dlatypov@google.com>,
+        kunit-dev@googlegroups.com, linux-kselftest@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Lucas De Marchi <lucas.demarchi@intel.com>,
+        Aaron Tomlin <atomlin@redhat.com>,
+        linux-fsdevel@vger.kernel.org, linux-block@vger.kernel.org,
+        Michal Marek <michal.lkml@markovi.net>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        linux-kbuild@vger.kernel.org,
+        Brendan Higgins <brendanhiggins@google.com>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>
+References: <20220701084744.3002019-1-davidgow@google.com>
+ <20220701084744.3002019-3-davidgow@google.com>
+From:   =?UTF-8?Q?Ma=c3=adra_Canal?= <mairacanal@riseup.net>
+In-Reply-To: <20220701084744.3002019-3-davidgow@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jul 01, 2022 at 05:46:42PM +0800, Ray Chi wrote:
-> On Tue, Jun 21, 2022 at 3:20 PM Greg KH <gregkh@linuxfoundation.org> wrote:
-> >
-> > On Fri, Jun 17, 2022 at 06:22:56PM +0800, Ray Chi wrote:
-> > > Currently, there is a Kconfig (CONFIG_USB_FEW_INIT_RETRIES) to
-> > > reduce retries when the port initialization is failed. The retry
-> > > times are fixed and assigned in compile time. To improve the
-> > > flexibility, this patch add four module parameters:
-> > > port_reset_tries, set_address_tries, get_descriptor_tries,
-> > > and get_maxpacket0_tries, to replace the original default values.
-> > >
-> > > The default value of module parameters is the same as before
-> > > to preserve the existing behavior.
-> > >
-> > > Signed-off-by: Ray Chi <raychi@google.com>
-> > > ---
-> > >  .../admin-guide/kernel-parameters.txt         | 16 ++++++++++
-> > >  drivers/usb/core/hub.c                        | 31 ++++++++++++++++---
-> > >  2 files changed, 42 insertions(+), 5 deletions(-)
-> > >
-> > > diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> > > index 8090130b544b..c467b2778128 100644
-> > > --- a/Documentation/admin-guide/kernel-parameters.txt
-> > > +++ b/Documentation/admin-guide/kernel-parameters.txt
-> > > @@ -6277,6 +6277,22 @@
-> > >                       USB_REQ_GET_DESCRIPTOR request in milliseconds
-> > >                       (default 5000 = 5.0 seconds).
-> > >
-> > > +     usbcore.port_reset_tries=
-> > > +                     [USB] Set the retry time of port reset for each
-> > > +                     port initialization (default PORT_RESET_TRIES = 5).
-> > > +
-> > > +     usbcore.set_address_tries=
-> > > +                     [USB] set the retry time of set address for each
-> > > +                     port initialization (default SET_ADDRESS_TRIES = 2).
-> > > +
-> > > +     usbcore.get_descriptor_tries=
-> > > +                     [USB] set the retry time of set address for each
-> > > +                     port initialization (default GET_DESCRIPTOR_TRIES = 2).
-> > > +
-> > > +     usbcore.get_maxpacket0_tries=
-> > > +                     [USB] set the retry time of get maxpacket0 for each
-> > > +                     port initialization (default GET_MAXPACKET0_TRIES = 3).
-> > > +
-> > >       usbcore.nousb   [USB] Disable the USB subsystem
-> > >
-> > >       usbcore.quirks=
-> > > diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
-> > > index b7f66dcd1fe0..c5c695886424 100644
-> > > --- a/drivers/usb/core/hub.c
-> > > +++ b/drivers/usb/core/hub.c
-> > > @@ -2788,6 +2788,27 @@ static unsigned hub_is_wusb(struct usb_hub *hub)
-> > >  #define HUB_LONG_RESET_TIME  200
-> > >  #define HUB_RESET_TIMEOUT    800
-> > >
-> > > +/* define retry time for port reset */
-> > > +static int port_reset_tries = PORT_RESET_TRIES;
-> > > +module_param(port_reset_tries, int, S_IRUGO|S_IWUSR);
-> > > +MODULE_PARM_DESC(port_reset_tries, "retry times of port reset for each port initialization");
-> >
-> > Please no.  Module parameters are from the 1990's, let us never add new
-> > ones if at all possible.
-> >
-> > These are global options, for all devices in the system.  Instead, use
-> > per-device settings if you really need to change these values.
+On 7/1/22 05:47, 'David Gow' via KUnit Development wrote:
+> Make KUnit trigger the new TAINT_TEST taint when any KUnit test is run.
+> Due to KUnit tests not being intended to run on production systems, and
+> potentially causing problems (or security issues like leaking kernel
+> addresses), the kernel's state should not be considered safe for
+> production use after KUnit tests are run.
 > 
-> Sorry for the late reply.
-> Since the driver is using define macro to decide the retry time
-> currently, we can't
-> modify the value directly. Do you mean setting by device tree for
-> per-device settings? or other methods?
-
-Yes, anything other than a module parameter as you just modified the
-value of ALL devices in the system, which I do not think you really
-want, right?  Odds are you just want to be able to work around a broken
-internal USB hub, and do not want this option changed for anything that
-a user plugs into the system, right?
-
-> > But I would even push back on that and ask why these values need to be
-> > changed at all.  What hardware is broken so badly that our timeout
-> > settings do not work properly?  Can we modify them gracefully to "just
-> > work" without any need for tweaking or requiring any modification by a
-> > user at all?  That would be the better solution instead of requiring
-> > users to do this on their own when confronted by misbehaving hardware.
+> This both marks KUnit modules as test modules using MODULE_INFO() and
+> manually taints the kernel when tests are run (which catches builtin
+> tests).
 > 
-> I got some reports from end users, but I couldn't see the hardware
-> information due to
-> enumeration not being complete. There are too many hardwares owned by end users.
-> It is hard to make work for all of them. In addition, some users just
-> tried to reboot the Host device
-> when they found their connected hardware not working. It would cause
-> the device reset or hang
-> due to the retry mechanism. This is why I want to modify the retry times.
+> Acked-by: Luis Chamberlain <mcgrof@kernel.org>
+> Tested-by: Daniel Latypov <dlatypov@google.com>
+> Reviewed-by: Brendan Higgins <brendanhiggins@google.com>
+> Signed-off-by: David Gow <davidgow@google.com>
+> ---
 
-So this is for external devices?  Then just change the kernel build
-option for those systems?  In all the 20+ years, we haven't seen a real
-need for this yet, what just changed to require it?
+Tested with DRM KUnit tests on x86_64.
 
-thanks,
+Tested-By: Maíra Canal <mairacanal@riseup.net>
 
-greg k-h
+Best Regards
+- Maíra Canal
+
+> 
+> Changes since v3:
+> https://lore.kernel.org/lkml/20220513083212.3537869-2-davidgow@google.com/
+> - Use MODULE_INFO() for KUnit modules.
+>   - This is technically redundant, as the KUnit executor will taint the
+>     kernel when _any_ KUnit tests are run, but may be useful if some
+>     other tool will parse the 'test' property.
+> - Add {Acked,Tested,Reviewed}-by tags.
+> 
+> ---
+>  include/kunit/test.h | 3 ++-
+>  lib/kunit/test.c     | 4 ++++
+>  2 files changed, 6 insertions(+), 1 deletion(-)
+> 
+> diff --git a/include/kunit/test.h b/include/kunit/test.h
+> index 8ffcd7de9607..ccae848720dc 100644
+> --- a/include/kunit/test.h
+> +++ b/include/kunit/test.h
+> @@ -277,7 +277,8 @@ static inline int kunit_run_all_tests(void)
+>  	{								\
+>  		return __kunit_test_suites_exit(__suites);		\
+>  	}								\
+> -	module_exit(kunit_test_suites_exit)
+> +	module_exit(kunit_test_suites_exit)				\
+> +	MODULE_INFO(test, "Y");
+>  #else
+>  #define kunit_test_suites_for_module(__suites)
+>  #endif /* MODULE */
+> diff --git a/lib/kunit/test.c b/lib/kunit/test.c
+> index a5053a07409f..8b11552dc215 100644
+> --- a/lib/kunit/test.c
+> +++ b/lib/kunit/test.c
+> @@ -11,6 +11,7 @@
+>  #include <kunit/test-bug.h>
+>  #include <linux/kernel.h>
+>  #include <linux/moduleparam.h>
+> +#include <linux/panic.h>
+>  #include <linux/sched/debug.h>
+>  #include <linux/sched.h>
+>  
+> @@ -501,6 +502,9 @@ int kunit_run_tests(struct kunit_suite *suite)
+>  	struct kunit_result_stats suite_stats = { 0 };
+>  	struct kunit_result_stats total_stats = { 0 };
+>  
+> +	/* Taint the kernel so we know we've run tests. */
+> +	add_taint(TAINT_TEST, LOCKDEP_STILL_OK);
+> +
+>  	if (suite->suite_init) {
+>  		suite->suite_init_err = suite->suite_init(suite);
+>  		if (suite->suite_init_err) {
