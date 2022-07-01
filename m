@@ -2,152 +2,114 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6323FCCA479
-	for <linux-doc@archiver.kernel.org>; Fri,  1 Jul 2022 11:55:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EB291CCA479
+	for <linux-doc@archiver.kernel.org>; Fri,  1 Jul 2022 12:54:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235907AbiGALzY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 1 Jul 2022 07:55:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55532 "EHLO
+        id S233642AbiGAMyi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 1 Jul 2022 08:54:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51278 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234791AbiGALzX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 Jul 2022 07:55:23 -0400
-Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D075823BD;
-        Fri,  1 Jul 2022 04:55:22 -0700 (PDT)
-Received: from mx0.riseup.net (mx0-pn.riseup.net [10.0.1.42])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
-         client-signature RSA-PSS (2048 bits) client-digest SHA256)
-        (Client CN "mx0.riseup.net", Issuer "R3" (not verified))
-        by mx1.riseup.net (Postfix) with ESMTPS id 4LZDCt0kflzDqJx;
-        Fri,  1 Jul 2022 11:55:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
-        t=1656676522; bh=OmDfSiag79ufUXArN30LVk+EOWL3+NU7HJfkYVWwnEs=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=bQmFDRdMJzvZTv/048CChDzvcBkOHgUQrFztw2zatFqVCRWgxr+6Z9hGp2H+K6qo6
-         DurzcHXdVEd4pPQAZD68gGbXIIYqjtd/FcDmnpEhG4uniXrUNj6zKPVQGTLEysMJ0h
-         zLj4E9Eu+i6/9dq5kkXZcD+X+PEg1RMqQW6yxIhE=
-Received: from fews1.riseup.net (fews1-pn.riseup.net [10.0.1.83])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
-         client-signature RSA-PSS (2048 bits) client-digest SHA256)
-        (Client CN "mail.riseup.net", Issuer "R3" (not verified))
-        by mx0.riseup.net (Postfix) with ESMTPS id 4LZDCr1fmPz9tBq;
-        Fri,  1 Jul 2022 11:55:20 +0000 (UTC)
-X-Riseup-User-ID: 58664E14B2D373C4C74D8CFBD14FDC6AA3184A3116830436C65DB32C22F59FC5
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-         by fews1.riseup.net (Postfix) with ESMTPSA id 4LZDCg5zQxz5vw3;
-        Fri,  1 Jul 2022 11:55:11 +0000 (UTC)
-Message-ID: <f361c4b7-12b8-0513-2025-4ed8025a67d1@riseup.net>
-Date:   Fri, 1 Jul 2022 08:55:07 -0300
-MIME-Version: 1.0
-Subject: Re: [PATCH v4 3/4] kunit: Taint the kernel when KUnit tests are run
-Content-Language: en-US
-To:     David Gow <davidgow@google.com>
-Cc:     "Guilherme G . Piccoli" <gpiccoli@igalia.com>,
-        Kees Cook <keescook@chromium.org>,
-        Sebastian Reichel <sre@kernel.org>,
-        John Ogness <john.ogness@linutronix.de>,
-        Joe Fradley <joefradley@google.com>,
-        Daniel Latypov <dlatypov@google.com>,
-        kunit-dev@googlegroups.com, linux-kselftest@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Lucas De Marchi <lucas.demarchi@intel.com>,
-        Aaron Tomlin <atomlin@redhat.com>,
-        linux-fsdevel@vger.kernel.org, linux-block@vger.kernel.org,
-        Michal Marek <michal.lkml@markovi.net>,
+        with ESMTP id S232764AbiGAMyh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 Jul 2022 08:54:37 -0400
+Received: from mail-qt1-x82a.google.com (mail-qt1-x82a.google.com [IPv6:2607:f8b0:4864:20::82a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9728E3A1B7;
+        Fri,  1 Jul 2022 05:54:35 -0700 (PDT)
+Received: by mail-qt1-x82a.google.com with SMTP id q16so315977qtn.5;
+        Fri, 01 Jul 2022 05:54:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=cB0N8Sfsl7ydrt89ELVtEtpHxTBOqHu1NNNG72ZHfPI=;
+        b=kyTff5FBVAJW0oklQUk+p2vs026FoEBJ4rpHQGRsno8WbiGN6MLahpAiecizK+qTWS
+         5cptyI+RlnUe9RA+nwpOh+Ln5oSOtEdZstsazskajbVuyLTtm5ov5qFpRf70c48/4aFt
+         mHbL/Dz44aS+DbU5DAxStuy6be4PRynPjDcB+4OOkUjuLp5WkWGwerIXokvOyu3nX+Dh
+         m0qouNYexpo32TD17Yf2wsuaRb/Kg3GkeI8h07NfkGn/Nj5g79ifwMGhLyUmvRY62tk5
+         BouCf3qSges6BOL/8ba//ds3L3tdvV//VOQMWfFNfkdTLGXdVmUYcYKFok30W+5lkQb/
+         gBRw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=cB0N8Sfsl7ydrt89ELVtEtpHxTBOqHu1NNNG72ZHfPI=;
+        b=AuoIZ0Z5EfycJ7FCNIwvD3y2QuXEs+IM4nTMBJKXm1KFGstJdnhAo5B25H1hZzp8uO
+         Ca3gFR7mF8JSVsa15RsnlcryOc6ocGZaIiVB+i0ki0wT/FsKRoKh+j91AtLJs8KNHEjs
+         YgetD+6aLg21F4vtVGIHhVvk93kZl+zZXma/JN370+YA1fA8k93IfUhffmpbnaWgbgsG
+         xVv13Z55BH2d4HAlqlr8B6I1yaVp5av9oAAJW4ChOqHnOZfS8LV6j7kVxSTHLAslDSe4
+         Hvwlfx310dR9Ohjdpzbf1Qv5npxzhH7I37dSohY7TEVqV3DLk+kbO86FyD7uRKD1nA6f
+         gcvg==
+X-Gm-Message-State: AJIora82anUZB9cqXg67tOYU+eBi6mxLpzSIZpCvM3m6jE2eM1gqbMms
+        4WCKLErUWZrsgvIFfic1OQgeO02Iw3g=
+X-Google-Smtp-Source: AGRyM1vgpEU2SWOmHoiPTLl71LpcpYpHpmt7pAvqDIR6NabZC84wEX8F6AAvp7S/yxeLcr2lAHBtMQ==
+X-Received: by 2002:ac8:578d:0:b0:31a:e1d7:952a with SMTP id v13-20020ac8578d000000b0031ae1d7952amr12367208qta.103.1656680074516;
+        Fri, 01 Jul 2022 05:54:34 -0700 (PDT)
+Received: from localhost ([2601:4c1:c100:1230:f902:9816:653f:2f66])
+        by smtp.gmail.com with ESMTPSA id ay4-20020a05622a228400b002f39b99f69csm14026933qtb.54.2022.07.01.05.54.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 01 Jul 2022 05:54:34 -0700 (PDT)
+From:   Yury Norov <yury.norov@gmail.com>
+To:     linux-kernel@vger.kernel.org,
         Andrew Morton <akpm@linux-foundation.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        linux-kbuild@vger.kernel.org,
-        Brendan Higgins <brendanhiggins@google.com>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>
-References: <20220701084744.3002019-1-davidgow@google.com>
- <20220701084744.3002019-3-davidgow@google.com>
-From:   =?UTF-8?Q?Ma=c3=adra_Canal?= <mairacanal@riseup.net>
-In-Reply-To: <20220701084744.3002019-3-davidgow@google.com>
-Content-Type: text/plain; charset=UTF-8
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        David Howells <dhowells@redhat.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        NeilBrown <neilb@suse.de>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Russell King <linux@armlinux.org.uk>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        William Kucharski <william.kucharski@oracle.com>,
+        linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mm@kvack.org
+Cc:     Yury Norov <yury.norov@gmail.com>
+Subject: [PATCH 0/8] lib: cleanup bitmap-related headers
+Date:   Fri,  1 Jul 2022 05:54:22 -0700
+Message-Id: <20220701125430.2907638-1-yury.norov@gmail.com>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 7/1/22 05:47, 'David Gow' via KUnit Development wrote:
-> Make KUnit trigger the new TAINT_TEST taint when any KUnit test is run.
-> Due to KUnit tests not being intended to run on production systems, and
-> potentially causing problems (or security issues like leaking kernel
-> addresses), the kernel's state should not be considered safe for
-> production use after KUnit tests are run.
-> 
-> This both marks KUnit modules as test modules using MODULE_INFO() and
-> manually taints the kernel when tests are run (which catches builtin
-> tests).
-> 
-> Acked-by: Luis Chamberlain <mcgrof@kernel.org>
-> Tested-by: Daniel Latypov <dlatypov@google.com>
-> Reviewed-by: Brendan Higgins <brendanhiggins@google.com>
-> Signed-off-by: David Gow <davidgow@google.com>
-> ---
+This series unifies declarations of bitmap-related functions and aligns
+return types with values that actually returned. Also, it moves one-liner
+wrappers around cpumask functions into headers, so that compiler has a
+chance to optimize better.
 
-Tested with DRM KUnit tests on x86_64.
+With this series, GCC 11.2 for ARM64 with kernel v5.19-rc4:
+add/remove: 15/7 grow/shrink: 461/164 up/down: 14844/-4580 (10264)
 
-Tested-By: Maíra Canal <mairacanal@riseup.net>
+This +10K didn't surprize me because  modern compilers are more agressive
+in inlining, loop unrolling, and other techniques that increase size of
+the image.
 
-Best Regards
-- Maíra Canal
+Yury Norov (8):
+  arm: align find_bit defs with generic kernel
+  lib/bitmap: change return values to bool where appropriate
+  lib/bitmap: change type of bitmap_weight to unsigned int
+  cpumask: change return types to bool where appropriate
+  lib/cpumask: change return types to unsigned
+  lib/cpumask: move one-line wrappers around find_bit to the header
+  mm: split include/linux/gfp.h
+  lib/cpumask: move some one-line wrappers to header file
 
-> 
-> Changes since v3:
-> https://lore.kernel.org/lkml/20220513083212.3537869-2-davidgow@google.com/
-> - Use MODULE_INFO() for KUnit modules.
->   - This is technically redundant, as the KUnit executor will taint the
->     kernel when _any_ KUnit tests are run, but may be useful if some
->     other tool will parse the 'test' property.
-> - Add {Acked,Tested,Reviewed}-by tags.
-> 
-> ---
->  include/kunit/test.h | 3 ++-
->  lib/kunit/test.c     | 4 ++++
->  2 files changed, 6 insertions(+), 1 deletion(-)
-> 
-> diff --git a/include/kunit/test.h b/include/kunit/test.h
-> index 8ffcd7de9607..ccae848720dc 100644
-> --- a/include/kunit/test.h
-> +++ b/include/kunit/test.h
-> @@ -277,7 +277,8 @@ static inline int kunit_run_all_tests(void)
->  	{								\
->  		return __kunit_test_suites_exit(__suites);		\
->  	}								\
-> -	module_exit(kunit_test_suites_exit)
-> +	module_exit(kunit_test_suites_exit)				\
-> +	MODULE_INFO(test, "Y");
->  #else
->  #define kunit_test_suites_for_module(__suites)
->  #endif /* MODULE */
-> diff --git a/lib/kunit/test.c b/lib/kunit/test.c
-> index a5053a07409f..8b11552dc215 100644
-> --- a/lib/kunit/test.c
-> +++ b/lib/kunit/test.c
-> @@ -11,6 +11,7 @@
->  #include <kunit/test-bug.h>
->  #include <linux/kernel.h>
->  #include <linux/moduleparam.h>
-> +#include <linux/panic.h>
->  #include <linux/sched/debug.h>
->  #include <linux/sched.h>
->  
-> @@ -501,6 +502,9 @@ int kunit_run_tests(struct kunit_suite *suite)
->  	struct kunit_result_stats suite_stats = { 0 };
->  	struct kunit_result_stats total_stats = { 0 };
->  
-> +	/* Taint the kernel so we know we've run tests. */
-> +	add_taint(TAINT_TEST, LOCKDEP_STILL_OK);
-> +
->  	if (suite->suite_init) {
->  		suite->suite_init_err = suite->suite_init(suite);
->  		if (suite->suite_init_err) {
+ Documentation/core-api/mm-api.rst |   8 +-
+ MAINTAINERS                       |   1 +
+ arch/arm/include/asm/bitops.h     |  20 +-
+ include/linux/bitmap.h            |  10 +-
+ include/linux/cpumask.h           | 125 +++++++++--
+ include/linux/gfp.h               | 334 +----------------------------
+ include/linux/gfp_flags.h         | 338 ++++++++++++++++++++++++++++++
+ lib/bitmap.c                      |   9 +-
+ lib/cpumask.c                     |  97 +--------
+ tools/include/linux/bitmap.h      |  12 +-
+ tools/lib/bitmap.c                |   6 +-
+ 11 files changed, 483 insertions(+), 477 deletions(-)
+ create mode 100644 include/linux/gfp_flags.h
+
+-- 
+2.34.1
+
