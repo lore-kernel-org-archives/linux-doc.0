@@ -2,102 +2,76 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 23753C43334
-	for <linux-doc@archiver.kernel.org>; Fri,  1 Jul 2022 07:53:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 83019C433EF
+	for <linux-doc@archiver.kernel.org>; Fri,  1 Jul 2022 08:02:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234937AbiGAHxZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 1 Jul 2022 03:53:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49152 "EHLO
+        id S235794AbiGAICr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 1 Jul 2022 04:02:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60058 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229808AbiGAHxX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 Jul 2022 03:53:23 -0400
-Received: from mx.kolabnow.com (mx.kolabnow.com [212.103.80.153])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1EB311571B;
-        Fri,  1 Jul 2022 00:53:18 -0700 (PDT)
-Received: from localhost (unknown [127.0.0.1])
-        by mx.kolabnow.com (Postfix) with ESMTP id 2346041A80;
-        Fri,  1 Jul 2022 09:53:16 +0200 (CEST)
-Authentication-Results: ext-mx-out003.mykolab.com (amavisd-new);
-        dkim=pass (4096-bit key) reason="pass (just generated, assumed good)"
-        header.d=kolabnow.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
-        message-id:references:in-reply-to:subject:subject:from:from:date
-        :date:content-transfer-encoding:content-type:content-type
-        :mime-version:received:received:received; s=dkim20160331; t=
-        1656661995; x=1658476396; bh=P2xW8RAKZgVCO8JagbR3K85O7/vn6UpB/KM
-        K5m2zFFI=; b=hs97aeaxzPBepYy56KfzzhGl7pEh11cKV8tmCogbizWYLLTQXiS
-        LSQ2kFDLQbQK7lRCx6Zy32DxrNy/CkLAANK0sycWmthAldYfZOXHxxoiEL3Q/yEj
-        G2D6uZTExpGMfFtlveKvpuC5TWZ3y6MtFH/p2qYefR+qLt2ypmHusPr8DZf60J/A
-        bIYdOrUtw6jxc8ElTA2u1Xn1pkGZuLfBFiyOgaOkmXL5EoxOuI1Je46CRmASqjGA
-        eY8bM4R6cTxM7igXtQh586lZW+2CSAc5pOtJZbDiIag1QDAsPlF65dz4jv5Xsw/E
-        Ss0J28nLr5wnvI33RyMaXdcPLDhLAvqNKvB9egXbU7tiEsPBsOWmne1VGNPK/GMu
-        7B+z5B9iBlxgWKmQxUTwQ0JUeP6sB2nw37vhZ+raQCcpwszXLJAhdnbaBo0hK/xF
-        qwuGkaZ/a6frztzOuCO4zDJKkbkf2QA2RcF6ZV6ikvzAkd49rFNE+XI/1m6bnmud
-        5btuqOpx1jqpHmLDyxJsGPd1RRia2xfxh/8wCcp8xRKbOrJvXlacmwW0RLUnaeR5
-        Ywuy00kASBIwr1SSLzjn81pr5+61RBYELtl03rdJSFzJKpOOfUhuncqHXPLk7Hhl
-        C8pHHmCON5sh6Cb3NMHjWHWaKmWO1KIiNK0jtUfoqc59M0gsKhAhKlXg=
-X-Virus-Scanned: amavisd-new at mykolab.com
-Received: from mx.kolabnow.com ([127.0.0.1])
-        by localhost (ext-mx-out003.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id qUvTHXEY6TZy; Fri,  1 Jul 2022 09:53:15 +0200 (CEST)
-Received: from int-mx001.mykolab.com (unknown [10.9.13.1])
-        by mx.kolabnow.com (Postfix) with ESMTPS id 7DBF241A59;
-        Fri,  1 Jul 2022 09:53:14 +0200 (CEST)
-Received: from int-subm002.mykolab.com (unknown [10.9.37.2])
-        by int-mx001.mykolab.com (Postfix) with ESMTPS id 09F5B904;
-        Fri,  1 Jul 2022 09:53:13 +0200 (CEST)
+        with ESMTP id S236068AbiGAIC3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 Jul 2022 04:02:29 -0400
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67DC86F35D;
+        Fri,  1 Jul 2022 01:02:28 -0700 (PDT)
+Received: from fraeml708-chm.china.huawei.com (unknown [172.18.147.201])
+        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4LZ6yN5ZSQz67y8S;
+        Fri,  1 Jul 2022 15:58:20 +0800 (CST)
+Received: from lhreml724-chm.china.huawei.com (10.201.108.75) by
+ fraeml708-chm.china.huawei.com (10.206.15.36) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Fri, 1 Jul 2022 10:02:25 +0200
+Received: from [10.126.173.51] (10.126.173.51) by
+ lhreml724-chm.china.huawei.com (10.201.108.75) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Fri, 1 Jul 2022 09:02:24 +0100
+Message-ID: <17c90e55-4560-fa37-398a-4de3838704ca@huawei.com>
+Date:   Fri, 1 Jul 2022 09:02:27 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.1
+Subject: Re: [PATCH v5 3/5] scsi: core: Cap shost max_sectors according to DMA
+ limits only once
+To:     Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+        <joro@8bytes.org>, <will@kernel.org>, <jejb@linux.ibm.com>,
+        <martin.petersen@oracle.com>, <hch@lst.de>,
+        <m.szyprowski@samsung.com>, <robin.murphy@arm.com>
+CC:     <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-ide@vger.kernel.org>, <iommu@lists.linux-foundation.org>,
+        <iommu@lists.linux.dev>, <linux-scsi@vger.kernel.org>,
+        <linuxarm@huawei.com>
+References: <1656590892-42307-1-git-send-email-john.garry@huawei.com>
+ <1656590892-42307-4-git-send-email-john.garry@huawei.com>
+ <5f79d8e7-0035-cfb0-d612-3e1c7f243f22@opensource.wdc.com>
+From:   John Garry <john.garry@huawei.com>
+In-Reply-To: <5f79d8e7-0035-cfb0-d612-3e1c7f243f22@opensource.wdc.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
-Date:   Fri, 01 Jul 2022 09:53:12 +0200
-From:   Federico Vaga <federico.vaga@vaga.pv.it>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] doc:it_IT: align Italian documentation
-In-Reply-To: <87letenhc3.fsf@meer.lwn.net>
-References: <20220628111603.603357-1-federico.vaga@vaga.pv.it>
- <87pmiqnjbz.fsf@meer.lwn.net> <87letenhc3.fsf@meer.lwn.net>
-Message-ID: <672f9a07653412d359e4992eb175d792@vaga.pv.it>
+X-Originating-IP: [10.126.173.51]
+X-ClientProxiedBy: lhreml712-chm.china.huawei.com (10.201.108.63) To
+ lhreml724-chm.china.huawei.com (10.201.108.75)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2022-06-30 20:20, Jonathan Corbet wrote:
-> Jonathan Corbet <corbet@lwn.net> writes:
+On 01/07/2022 00:41, Damien Le Moal wrote:
+>>   
+>>   	shost->dma_dev = dma_dev;
+>>   
+>> +	if (dma_dev->dma_mask) {
+>> +		shost->max_sectors = min_t(unsigned int, shost->max_sectors,
+>> +				dma_max_mapping_size(dma_dev) >> SECTOR_SHIFT);
+>> +	}
+> Nit: you could remove the curly brackets... But it being a multi-line
+> statement, having them is OK too I think.
 > 
->> Federico Vaga <federico.vaga@vaga.pv.it> writes:
->> 
->>> Translation for the following patches
->>> 
->>> commit df05c0e9496c ("Documentation: Raise the minimum supported 
->>> version of LLVM to 11.0.0")
->>> commit 333b11e541fe ("Documentation: Add minimum pahole version")
->>> commit 6d6a8d6a4ed0 ("docs: Update Sphinx requirements")
->>> [...]
->> 
->> Applied, thanks.
-> 
-> Actually, I take that back; it creates a massive mess of docs-build
-> warnings:
-> 
->   MAINTAINERS:4: WARNING: duplicate label maintainers, other instance
-> in /stuff/k/git/kernel/Documentation/process/maintainers.rst
->   MAINTAINERS:107: WARNING: unknown document:
-> ../maintainer/maintainer-entry-profile
->   MAINTAINERS:165: WARNING: unknown document:
-> ../networking/device_drivers/ethernet/3com/vortex
->   MAINTAINERS:235: WARNING: unknown document: ../networking/6lowpan
->   [...]
-> 
-> This all comes down to the duplicate copy of
-> Documentation/process/maintainers.rst that your patch adds.  Don't do
-> that, please.
 
-I see, I think I overlooked at that because I was grepping for `it_IT` 
-errors.
-Sorry for the problem, and thanks for pointing it out. I will send a V2.
+tglx seems to think that they are ok, and I generally agree (now):
 
--- 
-Federico Vaga
-http://www.federicovaga.it/
+https://lore.kernel.org/linux-arm-kernel/877djwdorz.ffs@nanos.tec.linutronix.de/
+
+AFAICT coding-style.rst is ok with them in this scenario too
+
+Cheers,
+John
