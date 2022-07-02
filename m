@@ -2,91 +2,86 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A324EC43334
-	for <linux-doc@archiver.kernel.org>; Sat,  2 Jul 2022 10:11:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 065EEC43334
+	for <linux-doc@archiver.kernel.org>; Sat,  2 Jul 2022 11:07:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232270AbiGBKLk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 2 Jul 2022 06:11:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37202 "EHLO
+        id S231594AbiGBLHv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 2 Jul 2022 07:07:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37488 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232242AbiGBKLi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 2 Jul 2022 06:11:38 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C571218B0D;
-        Sat,  2 Jul 2022 03:11:37 -0700 (PDT)
+        with ESMTP id S231540AbiGBLHu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 2 Jul 2022 07:07:50 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD91415A24;
+        Sat,  2 Jul 2022 04:07:49 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 2EC85B82ED3;
-        Sat,  2 Jul 2022 10:11:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B7355C34114;
-        Sat,  2 Jul 2022 10:11:34 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 5B4C860C7C;
+        Sat,  2 Jul 2022 11:07:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 154D1C385A2;
+        Sat,  2 Jul 2022 11:07:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1656756694;
-        bh=zSYkGS2HJ+WHpni5N2jtrIv0c5dT9e/UFu6JXtlIEM0=;
+        s=k20201202; t=1656760068;
+        bh=Jzw0fXE90LTUqdwEmGdDANbmLnU3nO//vKmbl/WQ7m4=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=hxLYJRdzwkScLW67dCya8z32Ptg9ZRATYeWcVIHmYMyFXf1EW9Ba/sv/9t0T5fmnW
-         EL1obzl/d6Vgojfm/W8079lfCmkQGY3pf/yRFfIvYFbYOD5dBZ6hU7yE7xvlGsbpKV
-         r/39j8VsPiQNvCa0v6A8+Cz0dtFZr7vgs/+wx/i9VmMupmPTeUVh55PqSKOplXp0hW
-         5Ufb57aqwShAFaTAvZkh7TXTXxAP5DN9SDGEKcEy8BR2GQwJwqj37q/j0a9khN0Xof
-         lmHjNGiO29w6jwcPYChT4XHQzUrXvWezhOpdav3+sSi6S57Vmaq9XXEd8rDGn9SUNY
-         NGmDsWKiDjZqw==
+        b=g+wAhT1D3Vaiq9Gz6DvG6+u4eoTHxpAF8VIjCg7mDw5FvSxwI3DIlBdPU6KGUUsiA
+         /aCbbIoCJupqNCTyQfLOdUmfYbl3amEm4gacdcqnedSY/s0e6KIG5O9ctaOMMwdmNE
+         M2ux8LF0YzjX0cIfBs+Jyr8zIfRcSTAPvcM33lvI2KCdT1Gh5vYkczdXsUcLbPf28d
+         2GU4BUscZ/Ed5qR+f9Md+4239kNfJc91dNNta2fG/LYVBLGtj3E6ve5hBs1sBEcEKo
+         nsZUAXOBANwy2InfavKDJu9oSIJQTjOm1z2/4IuFVJwQFjgPFIAn4Q6JLUKCnpQp1H
+         H9wYN6fu44GAQ==
 Received: from mchehab by mail.kernel.org with local (Exim 4.95)
         (envelope-from <mchehab@kernel.org>)
-        id 1o7a67-007cMp-OA;
-        Sat, 02 Jul 2022 11:11:31 +0100
+        id 1o7ayX-007gsI-QN;
+        Sat, 02 Jul 2022 12:07:45 +0100
 From:   Mauro Carvalho Chehab <mchehab@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         "Jonathan Corbet" <corbet@lwn.net>,
         "Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
-        ksummit-discuss@lists.linuxfoundation.org,
+        Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>, alsa-devel@alsa-project.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v2 5/5] scripts: sphinx-pre-install: place a warning for Sphinx >= 3.0
-Date:   Sat,  2 Jul 2022 11:11:29 +0100
-Message-Id: <085e0ada65c11da9303d07e70c510dc45f21315b.1656756450.git.mchehab@kernel.org>
+Subject: [PATCH 10/12] docs: alsa: alsa-driver-api.rst: remove a kernel-doc file
+Date:   Sat,  2 Jul 2022 12:07:42 +0100
+Message-Id: <3cd6b93b36b32ad6ae160931aaa00b20688e241a.1656759989.git.mchehab@kernel.org>
 X-Mailer: git-send-email 2.36.1
-In-Reply-To: <cover.1656756450.git.mchehab@kernel.org>
-References: <cover.1656756450.git.mchehab@kernel.org>
+In-Reply-To: <cover.1656759988.git.mchehab@kernel.org>
+References: <cover.1656759988.git.mchehab@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Newer versions of Sphinx have a known bug:
-	https://github.com/sphinx-doc/sphinx/pull/8313
+This file:
+	sound/core/compress_offload.c
 
-Those currently produces 11 false-positive warnings On Sphinx
-version 3.1+.
-
-While Sphinx fix is not applied, let's warn adventurers that would
-be using Sphinx installed via distro packages.
+Doesn't define any docs, as everything is inside the header
+file. So, drop it, in order to remove a Sphinx warning.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
 ---
 
 To avoid mailbombing on a large number of people, only mailing lists were C/C on the cover.
-See [PATCH v2 0/5] at: https://lore.kernel.org/all/cover.1656756450.git.mchehab@kernel.org/
+See [PATCH 00/12] at: https://lore.kernel.org/all/cover.1656759988.git.mchehab@kernel.org/
 
- scripts/sphinx-pre-install | 4 ++++
- 1 file changed, 4 insertions(+)
+ Documentation/sound/kernel-api/alsa-driver-api.rst | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/scripts/sphinx-pre-install b/scripts/sphinx-pre-install
-index 106d75425d3f..271c4eb1d702 100755
---- a/scripts/sphinx-pre-install
-+++ b/scripts/sphinx-pre-install
-@@ -902,6 +902,10 @@ sub recommend_sphinx_version($)
- 	$need = $old_need;
- 	$optional = $old_optional;
+diff --git a/Documentation/sound/kernel-api/alsa-driver-api.rst b/Documentation/sound/kernel-api/alsa-driver-api.rst
+index d24c64df7069..3cf8eb4ecaf4 100644
+--- a/Documentation/sound/kernel-api/alsa-driver-api.rst
++++ b/Documentation/sound/kernel-api/alsa-driver-api.rst
+@@ -86,7 +86,6 @@ Compress Offload
  
-+	printf "\n    Please note that Sphinx >= 3.0 will currently produce false-positive\n";
-+	printf "   warning when the same name is used for more than one type (functions,\n";
-+	printf "   structs, enums,...). This is known Sphinx bug. For more details, see:\n";
-+	printf "\thttps://github.com/sphinx-doc/sphinx/pull/8313\n";
- }
- 
- sub check_needs()
+ Compress Offload API
+ --------------------
+-.. kernel-doc:: sound/core/compress_offload.c
+ .. kernel-doc:: include/uapi/sound/compress_offload.h
+ .. kernel-doc:: include/uapi/sound/compress_params.h
+ .. kernel-doc:: include/sound/compress_driver.h
 -- 
 2.36.1
 
