@@ -2,142 +2,119 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A54AC43334
-	for <linux-doc@archiver.kernel.org>; Sat,  2 Jul 2022 04:32:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 04CBBCCA47C
+	for <linux-doc@archiver.kernel.org>; Sat,  2 Jul 2022 04:45:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231243AbiGBEct (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 2 Jul 2022 00:32:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34310 "EHLO
+        id S232079AbiGBEp2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 2 Jul 2022 00:45:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42022 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230414AbiGBEcr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 2 Jul 2022 00:32:47 -0400
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06F933A1B6
-        for <linux-doc@vger.kernel.org>; Fri,  1 Jul 2022 21:32:45 -0700 (PDT)
-Received: by mail-wr1-x42d.google.com with SMTP id o4so5791343wrh.3
-        for <linux-doc@vger.kernel.org>; Fri, 01 Jul 2022 21:32:45 -0700 (PDT)
+        with ESMTP id S231985AbiGBEp0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 2 Jul 2022 00:45:26 -0400
+Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D1C920F70
+        for <linux-doc@vger.kernel.org>; Fri,  1 Jul 2022 21:45:24 -0700 (PDT)
+Received: by mail-wm1-x32a.google.com with SMTP id l68so2377458wml.3
+        for <linux-doc@vger.kernel.org>; Fri, 01 Jul 2022 21:45:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=PH2TMpQn3+Ki4XJL1iwZVrfHt91c+F5tLmGgS598Gik=;
-        b=kkiWtt45CYCatZxIM6n2UYbkNGXaLTzGzNw5mxf3SH9gPUaE7GUl8cjYdv4LD47uWP
-         dsDlcMVt6gRW6T7UZiTYtJY3jby00aFLTWr9T7Bn2UGmMpeJw/lJcT1MDH7X3MQg/Zs1
-         6nseZzI536Ctd06dH25OcUfjv+mxRxMVmnU0CJDGzWQ/IQSZXYENv4Re9XAL9k27LvVE
-         PzcWa8sn5j58bwC5I8zEv1bVRPVMFgB1bmuRLDQJAAkLy66fCvM3dBXjB/5c1NtHRtHN
-         66JvYA1Mjk1iGsjpJGh/P7hDsFZrwrQrxtlJPJRGLcGRWXlc3/h1i77uP3DZiVINTiEd
-         9Jfw==
+        bh=9QUznk9CDtQUfHSvJwWyYyxggrlziRL1wWH9Qyntjes=;
+        b=Z3yqNw5bty2PnRpfqBUpH8mBQplhZNpdUjGwTgGnoWVV69BNrv4qf/JiXrzcq53hIv
+         qrEaV9LlzPafJlzbqbL4iRKlXwNvWZqfSVr8GAtN0e9HGuYAXTVZaa7vFztcCRpd6vvH
+         YJVzRTpHj4DZCt+N2TbiaHcRzKCWAMR9R+Hfr6m3Yv8NPIaxxJZcD2Nx+LKKKw9CXfYr
+         vUFzokpcpqgqMblaFSPoU0s6fYBsf7MgZ/8NA9Tf3qC4Xm79fFXNtQbfIlejLhaDTJTw
+         Fm+XpuVSSRceUdFYYQ8HVDnGcsPATk62AhnIn6rnuF8R8/3cQsdrP0I+NcY1ZyPVgJH0
+         U/kg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=PH2TMpQn3+Ki4XJL1iwZVrfHt91c+F5tLmGgS598Gik=;
-        b=mmKtVOGFFKKFFYwaDb6cNifAtlTC4RewUizIS/duQlLj7a40nsM3V0IoIvNcDopl2M
-         U+8ZEf2z3OKZd8/G/aP+sdiW8wpxz85EjRYkRDnoOoBhpecv76IZeoHJsCOaOJw6ytjI
-         MEeSqvmnPlLdV3cAQAUPvGVaQqdwmUEwgZbM+zRO5vEyrNoW91YSElKxzc3PEiazwKWL
-         vv8HnUtK2rC7/u0gYS1CCSaToOypCKNe5prL6Y6TZvohNU0GzDZp7GYizSSK0cuLOX8O
-         vQydqSTT63YnOpLLZefr8MP1mcHJ6ZOvKE2trbqmqkzynV+yBXiCFlN6q1gbEyseCTO3
-         PYWQ==
-X-Gm-Message-State: AJIora8OzEbbQd5vnaCsOuTU0rok68Fjgzjt9qAyQ12AsQwe9Ljm945g
-        7EP/UKXh5nDn3gZYRLS/ob55zFIixuOfdlTnIp6Mdg==
-X-Google-Smtp-Source: AGRyM1uw0V77ApSZIErlqEBKSJwuvOG10VFlsMNgvoCeL0tEcQYY7TovoyvBjoSc8abmOj00vghwNf+wDSy2YzfD4KE=
-X-Received: by 2002:a05:6000:1542:b0:21d:28c0:eb43 with SMTP id
- 2-20020a056000154200b0021d28c0eb43mr16830740wry.622.1656736364374; Fri, 01
- Jul 2022 21:32:44 -0700 (PDT)
+        bh=9QUznk9CDtQUfHSvJwWyYyxggrlziRL1wWH9Qyntjes=;
+        b=ApM7F/fJ3dzuoMeQeXQgSoJpY5Q5wtM1o1BLEQh2c3o6Yku4x7OW9uUJ4IEojWJuOT
+         6DJQx6zttXwWEddJvcZ/sG2E2HYFGU33NWLC0Pl9UtAjIIFFbwgOiIPvGfgF6xoQWjAN
+         Izj2jHwnGncgiMPFxcntcmNYe6xIwomZTITIK9U7jPcqPw79F0iaGDte9X2Dd25myEal
+         66o0WJpljYvRb65uIx//fIaESLQpN7OqQnUl3H32FGn4QxlTMIxTEjiisfzdCO7vDOVd
+         gzdiBC/663Dp670unyrZjiJLGf8F44BqUDYtvOIKj0DV3OUHoIBkBtf5smkAa0YMBbco
+         53wg==
+X-Gm-Message-State: AJIora9qIhWubC/2Akg7moA4suJXME0p0F32LItmvXjNQjyZ9GrJIQpa
+        OYYjPa5UztliWeiuSW7P4SOH38fAd/LMIG7hCk7j+A==
+X-Google-Smtp-Source: AGRyM1tGijl82OhiA1sFnwORt2+qIpv+4fkfRv8eVyHlrNPW3B5mWZT8c68Tze0io1DNHJoLwaz7f9O0/Wy5pmlIPg0=
+X-Received: by 2002:a05:600c:34ce:b0:3a0:3b4b:9022 with SMTP id
+ d14-20020a05600c34ce00b003a03b4b9022mr20217035wmq.66.1656737122786; Fri, 01
+ Jul 2022 21:45:22 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220701181723.349165-1-mairacanal@riseup.net>
-In-Reply-To: <20220701181723.349165-1-mairacanal@riseup.net>
+References: <20220702040959.3232874-1-davidgow@google.com> <20220702040959.3232874-2-davidgow@google.com>
+In-Reply-To: <20220702040959.3232874-2-davidgow@google.com>
 From:   David Gow <davidgow@google.com>
-Date:   Sat, 2 Jul 2022 12:32:33 +0800
-Message-ID: <CABVgOSn0o=b6vPYsrP+rqGaKskVVL0gw11gbsGn6qecPPKQGqA@mail.gmail.com>
-Subject: Re: [PATCH] Documentation: Kunit: Fix example with compilation error
-To:     =?UTF-8?B?TWHDrXJhIENhbmFs?= <mairacanal@riseup.net>
-Cc:     Brendan Higgins <brendanhiggins@google.com>,
+Date:   Sat, 2 Jul 2022 12:45:11 +0800
+Message-ID: <CABVgOSncQmFM50+B2rr31hFeiriF19MY7KTiUF4BddR0cTVXqA@mail.gmail.com>
+Subject: Re: [PATCH v5 2/4] module: panic: Taint the kernel when selftest
+ modules load
+To:     Brendan Higgins <brendanhiggins@google.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         Jonathan Corbet <corbet@lwn.net>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Kees Cook <keescook@chromium.org>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>
+Cc:     "Guilherme G . Piccoli" <gpiccoli@igalia.com>,
+        Sebastian Reichel <sre@kernel.org>,
+        John Ogness <john.ogness@linutronix.de>,
+        Joe Fradley <joefradley@google.com>,
+        Daniel Latypov <dlatypov@google.com>,
+        KUnit Development <kunit-dev@googlegroups.com>,
         "open list:KERNEL SELFTEST FRAMEWORK" 
         <linux-kselftest@vger.kernel.org>,
-        KUnit Development <kunit-dev@googlegroups.com>,
         "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Lucas De Marchi <lucas.demarchi@intel.com>,
+        Aaron Tomlin <atomlin@redhat.com>,
+        linux-fsdevel@vger.kernel.org, linux-block@vger.kernel.org,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
 Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
-        boundary="00000000000081fc4905e2cafe51"
+        boundary="000000000000b5450b05e2cb2be3"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
---00000000000081fc4905e2cafe51
+--000000000000b5450b05e2cb2be3
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Sat, Jul 2, 2022 at 2:17 AM Ma=C3=ADra Canal <mairacanal@riseup.net> wro=
-te:
+On Sat, Jul 2, 2022 at 12:10 PM David Gow <davidgow@google.com> wrote:
 >
-> The Parameterized Testing example contains a compilation error, as the
-> signature for the description helper function should be void(*)(struct
-> sha1_test_case *, char *), so the struct should not be const. This is
-> warned by Clang:
+> Taint the kernel with TAINT_TEST whenever a test module loads, by adding
+> a new "TEST" module property, and setting it for all modules in the
+> tools/testing directory. This property can also be set manually, for
+> tests which live outside the tools/testing directory with:
+> MODULE_INFO(test, "Y");
 >
-> error: initialization of =E2=80=98void (*)(struct sha1_test_case *, char =
-*)=E2=80=99
-> from incompatible pointer type =E2=80=98void (*)(const struct sha1_test_c=
-ase *,
-> char *)=E2=80=99 [-Werror=3Dincompatible-pointer-types]
->     33 | KUNIT_ARRAY_PARAM(sha1, cases, case_to_desc);
->        |                                ^~~~~~~~~~~~
-> ../include/kunit/test.h:1339:70: note: in definition of macro
-> =E2=80=98KUNIT_ARRAY_PARAM=E2=80=99
-> 1339 |                         void (*__get_desc)(typeof(__next), char *)=
- =3D get_desc; \
->
-> Signed-off-by: Ma=C3=ADra Canal <mairacanal@riseup.net>
+> Reviewed-by: Luis Chamberlain <mcgrof@kernel.org>
+> Signed-off-by: David Gow <davidgow@google.com>
 > ---
 
-Thanks for catching this. The change to the documentation looks good,
-but it may be better to change the array to be:
-const struct cases[] =3D { ... }
+I forgot the changelogs here. The only significant difference from v4
+is the change from pr_warn() to pr_warn_once().
 
-That matches most of the existing uses of this, such as the mctp test,
-and encourages the use of const in cases (like the example) where it
-makes sense.
+Changes since v4:
+https://lore.kernel.org/linux-kselftest/20220701084744.3002019-2-davidgow@google.com/
+- Use pr_warn_once() to only log a warning the first time a module
+taints the kernel with TAINT_TEST
+  - Loading lots of test modules is a common usecase, and this would
+otherwise spam the logs too much.
+  - Thanks Luis.
+- Remove a superfluous newline (Thanks Greg)
+- Add Luis' Reviewed-by tag.
 
-I'm okay with it either way, though: they're both valid.
+This patch was new in v4 of the series.
 
-Reviewed-by: David Gow <davidgow@google.com>
-
-Cheers,
--- David
-
->  Documentation/dev-tools/kunit/usage.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/Documentation/dev-tools/kunit/usage.rst b/Documentation/dev-=
-tools/kunit/usage.rst
-> index d62a04255c2e..8e72fb277058 100644
-> --- a/Documentation/dev-tools/kunit/usage.rst
-> +++ b/Documentation/dev-tools/kunit/usage.rst
-> @@ -517,7 +517,7 @@ By reusing the same ``cases`` array from above, we ca=
-n write the test as a
->         };
->
->         // Need a helper function to generate a name for each test case.
-> -       static void case_to_desc(const struct sha1_test_case *t, char *de=
-sc)
-> +       static void case_to_desc(struct sha1_test_case *t, char *desc)
->         {
->                 strcpy(desc, t->str);
->         }
-> --
-> 2.36.1
->
-> --
-> You received this message because you are subscribed to the Google Groups=
- "KUnit Development" group.
-> To unsubscribe from this group and stop receiving emails from it, send an=
- email to kunit-dev+unsubscribe@googlegroups.com.
-> To view this discussion on the web visit https://groups.google.com/d/msgi=
-d/kunit-dev/20220701181723.349165-1-mairacanal%40riseup.net.
-
---00000000000081fc4905e2cafe51
+--000000000000b5450b05e2cb2be3
 Content-Type: application/pkcs7-signature; name="smime.p7s"
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="smime.p7s"
@@ -204,14 +181,14 @@ OOYwT0BUtHYR/3903Dmdx5Alq+NDvUHDjozgo0f6oIkwDXT3yBV36utQ/jFisd36C8RD5mM+NFpu
 3aqLXARRbKtxw29ErCwulof2dcAonG7cd5j+gmS84sLhKU+BhL1OQVXnJ5tj7xZ5Ri5I23brcwk0
 lk/gWqfgs3ppT9Xk7zVit9q8MYICajCCAmYCAQEwaDBUMQswCQYDVQQGEwJCRTEZMBcGA1UEChMQ
 R2xvYmFsU2lnbiBudi1zYTEqMCgGA1UEAxMhR2xvYmFsU2lnbiBBdGxhcyBSMyBTTUlNRSBDQSAy
-MDIwAhABh9LgIPnlfMFHR0Die8n7MA0GCWCGSAFlAwQCAQUAoIHUMC8GCSqGSIb3DQEJBDEiBCCV
-iAZq3Cj9aBl+7QPpQ95SfWUTIr3KwNfxpIqSUKMp3zAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcB
-MBwGCSqGSIb3DQEJBTEPFw0yMjA3MDIwNDMyNDRaMGkGCSqGSIb3DQEJDzFcMFowCwYJYIZIAWUD
+MDIwAhABh9LgIPnlfMFHR0Die8n7MA0GCWCGSAFlAwQCAQUAoIHUMC8GCSqGSIb3DQEJBDEiBCB6
+MUW5/2C+NwdwPyzrypegp4o7/ZCX80g3E7oQCfQzrzAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcB
+MBwGCSqGSIb3DQEJBTEPFw0yMjA3MDIwNDQ1MjNaMGkGCSqGSIb3DQEJDzFcMFowCwYJYIZIAWUD
 BAEqMAsGCWCGSAFlAwQBFjALBglghkgBZQMEAQIwCgYIKoZIhvcNAwcwCwYJKoZIhvcNAQEKMAsG
-CSqGSIb3DQEBBzALBglghkgBZQMEAgEwDQYJKoZIhvcNAQEBBQAEggEANNBbmaFSEWBoW+1nEu4M
-xCCNhN1t8oNaTz0sZjVvG9+K7Wjp4LCyBVh9l+nQl9COKjr6i8W7WlnPwh4xFde0AyYSj4adtba5
-ZJ6SELnrWxMKDEXrAhAOYIYYvPxmD8abYpHxiWkChKOrQ7gd8lcMMVry9GO3mRG4E0AnVli7PUgW
-HvpiO721paFNCAAibOvsYeBQPrfgyuIuShN3WoYF5PEM/q7diUDm8oNkmkgDjOohbnY7Sddn/4Qi
-cj3e/HuWwg1SwS4choJBel2Wh7PYxEP8lkZUzF+9WWqcas4rJ8AWjTDcnJ2GSc0Z+/nCKa9ulJC7
-w0bTd/xHIeyHbnidrQ==
---00000000000081fc4905e2cafe51--
+CSqGSIb3DQEBBzALBglghkgBZQMEAgEwDQYJKoZIhvcNAQEBBQAEggEAQFU/kt+/Zqo2zj+QL0VK
+HLb7oths0piZaOIg1yjUPn6SR9VzMfvQ1ko1zy+DzlDsnmiTn2bsCmLYZUmDhxP1E2Whf+sEJtne
+ClcxQCJOvq0UEb0TMI9jHYUw7gPtli05wZhtUUAg9YhyvzCMy8QIyMO01fQ0wGEjxIV8ZuPE7D/B
+vAFi+RfvHMFm5XEbgNW7FPM/Pvil8u+bvcmXJ9jZ9Bi2AsGtsooDwFWAeIhvNxuVZ0C2Gzr6ZEih
+4ETDq0imMuJOe5opjJMpzQhDD+k3HrBPsTbeOMYAbIFL0vOqz7xvUqRmuxrL7tnSEXe9hQRZIo1y
+ykjj9R+rZGII+vYxTw==
+--000000000000b5450b05e2cb2be3--
