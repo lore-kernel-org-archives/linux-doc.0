@@ -2,217 +2,97 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CB67DCCA47C
-	for <linux-doc@archiver.kernel.org>; Sat,  2 Jul 2022 05:15:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 66223C433EF
+	for <linux-doc@archiver.kernel.org>; Sat,  2 Jul 2022 07:40:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229951AbiGBFP1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 2 Jul 2022 01:15:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56420 "EHLO
+        id S231737AbiGBHkI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 2 Jul 2022 03:40:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44636 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231350AbiGBFP0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 2 Jul 2022 01:15:26 -0400
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 035E22AE26
-        for <linux-doc@vger.kernel.org>; Fri,  1 Jul 2022 22:15:25 -0700 (PDT)
-Received: by mail-wr1-x436.google.com with SMTP id i25so5808401wrc.13
-        for <linux-doc@vger.kernel.org>; Fri, 01 Jul 2022 22:15:24 -0700 (PDT)
+        with ESMTP id S230180AbiGBHkI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 2 Jul 2022 03:40:08 -0400
+Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9CE92018B
+        for <linux-doc@vger.kernel.org>; Sat,  2 Jul 2022 00:40:06 -0700 (PDT)
+Received: by mail-pj1-x102a.google.com with SMTP id c6-20020a17090abf0600b001eee794a478so8565622pjs.1
+        for <linux-doc@vger.kernel.org>; Sat, 02 Jul 2022 00:40:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=fMlyS89DVW4NcOugMQ1j80ZXGoOK3pah0FBHynTrVps=;
-        b=jF14g3Df5cme/XtW8TeBGZhRpukPJeU6pf2HDpiNhfovC/Ci7I53TGA8zxnMHsGJRQ
-         Epvr7ClwPGSk4p+s+Di/X8szlpI2YjTi1ulmlZxGDExkFamgvuLNgjBiaJIJOFu2SXuE
-         vQGNDMrEQsSqtSqHKmfgr/KlfUTunFUuw+HqICwWIBW25yhxUoCavG3cwO4f9pWij/Z2
-         6unwyKQZ+/jLP3bv/LBiKED0jkWsT7wHER+O/7JK1tzikVzKTEdnvBRMnXlXZNDnAmFM
-         qHGdwbHaXZiL6E8/ylZbWBPo1uM0diuvadG60L62SUpVXKZYXNVRlsx/8aC4G/yw8FQc
-         xINA==
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=86ivI2kTplNSggLHC7HK9uwoRfFFJ0gxKxjC/jAY+Ys=;
+        b=dwv38yQIHbTdA0OgqGmwqNjiGod6x/VVWvZOWZk2R3GlN5HUNmenXqFdAJ6PbuylF+
+         iCWqGdp7sIcq0JITW8Ruh3iYLHGkHnA7kLSbTJuUJFDkHFKQNL1ozSl5NKWDWYgM5LXi
+         uCtEm6QddTpFuTtPcwEYCwgUbt9jAwrLXIDK5VUBjPtrH3d+ZsZtWSr4oGoqcD5sJVyK
+         +8EEwLnqWNHtY+jOTrq9XWhkwQW3wkCbVceMH3q6qAA5RmK9m5V20t6hXq7WPE71b2eg
+         Moq+Bde4PnqdDcdCfI0eS1+PoVo74BZfqghpyYZIbxTqep1QLpoVBmdwHMcHWNxw5lx5
+         tOHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=fMlyS89DVW4NcOugMQ1j80ZXGoOK3pah0FBHynTrVps=;
-        b=pEtckHMcTfGk/aOSFC95gGFL463V1i4BGHlzcVVhodUL5g3+LddN4rL+8vNeM/DL9F
-         lTh0lkJ1bPebSpT61bE8Gv3DCMrAuH1D8DFAKuvCKiQq7UgBBgMdTb/Hhkw9X30TNVJR
-         ZwKroneDz5Hmte+FoMt6lTgABNjalS2FHTc7+H6L/KYvnEQcgZVGZwKxLvPeNpZUZ3NV
-         08i6DxheWCNkDwGf7jZyjsNrq1kUPKAu/7lKExbSkGvCTK0n4sZrdmM7njYSqcsFsdJg
-         9IMx/4kc25heHN98w46zWjwTNgoUk9j2t0vf8du106PcoBfL9RWPwbsCQqo3XRnqdqJe
-         khhA==
-X-Gm-Message-State: AJIora9BpWYHexw0fzxRiiAWza4YBNAhnXi0a5fFq3bASkZKhd7N4Q8E
-        87+UfLrhOwMfXrwRnSIS+0YlaSn9LBWJdUzvykIUHA==
-X-Google-Smtp-Source: AGRyM1vu42eI/pOP7aSZzfJAPkeXxFJph6bFCNI8ZoAsBC75T4Pa6dXLeQWW2R1zbVoTvESWy2onuWk+AALs2R5qV9k=
-X-Received: by 2002:a05:6000:1542:b0:21d:28c0:eb43 with SMTP id
- 2-20020a056000154200b0021d28c0eb43mr16947959wry.622.1656738923390; Fri, 01
- Jul 2022 22:15:23 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=86ivI2kTplNSggLHC7HK9uwoRfFFJ0gxKxjC/jAY+Ys=;
+        b=kXko/NL8UXfal13zxraABO9KaLzULKr6S6eB8LjzS7jUH+o3XL4Ys7x/fxYutm8qld
+         8r/BqmCwRWvEa4mndVioA+aXWZKHJimOs0qSwT/E7koPvzvWwzcn2rYLGa/OkdjwuPGf
+         m0mTMdbZ0JHR697I66CLSY4G1ROIfzMTCPMR9QuRT6YHJrPT5t7gtzTyB1H5lJiVjlev
+         UAUXwfIeLkF81hkFeC/4Gs+HVjrksweouS4w2V4aTIjYHEbMivR4b21lvTWglhZXowzl
+         c45qFqaTkp/W7YZOHwrfzVP+VdAr+NIOar/mtX4IZ01Z8jgqg2h8LXtXawGaX49qboo9
+         C3nA==
+X-Gm-Message-State: AJIora8Uaw3g1oxL5XgiELZGSLjprWeSwI337n7LLlK9v1JgNWo+7Jex
+        R1OkULE/zoGZ0EBN6jrqR406kiOrvZC1cQ==
+X-Google-Smtp-Source: AGRyM1tUXVAA49bCcGTyyalI4mYrruhy841ebQTwx3VE1e8qsbL2mxih5nFoqSeAQpGzXjfG+oUGYA==
+X-Received: by 2002:a17:902:ef92:b0:16a:1ef1:22db with SMTP id iz18-20020a170902ef9200b0016a1ef122dbmr23593237plb.2.1656747606531;
+        Sat, 02 Jul 2022 00:40:06 -0700 (PDT)
+Received: from debian.me (subs03-180-214-233-78.three.co.id. [180.214.233.78])
+        by smtp.gmail.com with ESMTPSA id k5-20020a170902d58500b0016a1096bc95sm16721883plh.12.2022.07.02.00.40.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 02 Jul 2022 00:40:05 -0700 (PDT)
+Received: by debian.me (Postfix, from userid 1000)
+        id 91DFF1037E5; Sat,  2 Jul 2022 14:40:01 +0700 (WIB)
+Date:   Sat, 2 Jul 2022 14:40:00 +0700
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     kernel test robot <lkp@intel.com>
+Cc:     Ben Gardon <bgardon@google.com>, kbuild-all@lists.01.org,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        David Matlack <dmatlack@google.com>,
+        Peter Xu <peterx@redhat.com>, linux-doc@vger.kernel.org
+Subject: Re: [linux-next:master 4541/7282] htmldocs:
+ Documentation/virt/kvm/api.rst:8217: WARNING: Unexpected indentation.
+Message-ID: <Yr/2UKna9f9b2O/D@debian.me>
+References: <202207021352.PpKTUY8V-lkp@intel.com>
 MIME-Version: 1.0
-References: <20220701084744.3002019-1-davidgow@google.com> <20220701084744.3002019-4-davidgow@google.com>
- <Yr92OngNsEOxszUA@bombadil.infradead.org> <CABVgOSnZwnQZAo5LH1KEbpVYvCtvTVCG4kZR=aV_gxFuU_D12g@mail.gmail.com>
-In-Reply-To: <CABVgOSnZwnQZAo5LH1KEbpVYvCtvTVCG4kZR=aV_gxFuU_D12g@mail.gmail.com>
-From:   David Gow <davidgow@google.com>
-Date:   Sat, 2 Jul 2022 13:15:12 +0800
-Message-ID: <CABVgOS=W-hAUN_Nx0-5-FysT1NZ-khWje00DnTdWhV1zD7UXKw@mail.gmail.com>
-Subject: Re: [PATCH v4 4/4] selftest: Taint kernel when test module loaded
-To:     Luis Chamberlain <mcgrof@kernel.org>
-Cc:     Brendan Higgins <brendanhiggins@google.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Kees Cook <keescook@chromium.org>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        "Guilherme G . Piccoli" <gpiccoli@igalia.com>,
-        Sebastian Reichel <sre@kernel.org>,
-        John Ogness <john.ogness@linutronix.de>,
-        Joe Fradley <joefradley@google.com>,
-        Daniel Latypov <dlatypov@google.com>,
-        KUnit Development <kunit-dev@googlegroups.com>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Lucas De Marchi <lucas.demarchi@intel.com>,
-        Aaron Tomlin <atomlin@redhat.com>,
-        linux-fsdevel@vger.kernel.org, linux-block@vger.kernel.org,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
-        boundary="000000000000087a5005e2cb9775"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <202207021352.PpKTUY8V-lkp@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
---000000000000087a5005e2cb9775
-Content-Type: text/plain; charset="UTF-8"
+On Sat, Jul 02, 2022 at 01:07:39PM +0800, kernel test robot wrote:
+> If you fix the issue, kindly add following tag where applicable
+> Reported-by: kernel test robot <lkp@intel.com>
+> 
+> All warnings (new ones prefixed by >>):
+> 
+> >> Documentation/virt/kvm/api.rst:8217: WARNING: Unexpected indentation.
+> 
+> vim +8217 Documentation/virt/kvm/api.rst
+> 
+>   8211	
+>   8212	:Capability KVM_CAP_VM_DISABLE_NX_HUGE_PAGES
+>   8213	:Architectures: x86
+>   8214	:Type: vm
+>   8215	:Parameters: arg[0] must be 0.
+>   8216	:Returns 0 on success, -EPERM if the userspace process does not
+> > 8217		 have CAP_SYS_BOOT, -EINVAL if args[0] is not 0 or any vCPUs have been
+>   8218		 created.
+>   8219	
+> 
 
-On Sat, Jul 2, 2022 at 12:06 PM David Gow <davidgow@google.com> wrote:
->
-> On Sat, Jul 2, 2022 at 6:33 AM Luis Chamberlain <mcgrof@kernel.org> wrote:
-> >
-> > On Fri, Jul 01, 2022 at 04:47:44PM +0800, David Gow wrote:
-> > > Make any kselftest test module (using the kselftest_module framework)
-> > > taint the kernel with TAINT_TEST on module load.
-> > >
-> > > Note that several selftests use kernel modules which are not based on
-> > > the kselftest_module framework, and so will not automatically taint the
-> > > kernel.
-> > >
-> > > This can be done in two ways:
-> > > - Moving the module to the tools/testing directory. All modules under
-> > >   this directory will taint the kernel.
-> > > - Adding the 'test' module property with:
-> > >   MODULE_INFO(test, "Y")
-> >
-> > This just needs to be documented somewhere other than a commit log.
-> > Otherwise I am not sure how we can be sure it will catch on.
->
-> I've updated the kselftest documentation for v5.
->
-> > > Similarly, selftests which do not load modules into the kernel generally
-> > > should not taint the kernel (or possibly should only do so on failure),
-> > > as it's assumed that testing from user-space should be safe. Regardless,
-> > > they can write to /proc/sys/kernel/tainted if required.
-> > >
-> > > Signed-off-by: David Gow <davidgow@google.com>
-> >
-> > Looks good otherwise!
-> >
-> > Reviewed-by: Luis Chamberlain <mcgrof@kernel.org>
-> >
-> > Do we want this to go through selftest / kunit / modules tree?
-> > Happy for it to through any. I can't predict a conflict.
->
-> I don't mind which tree it goes through either -- I'm not aware of
-> anything which would depend on it. I do have it on the list of things
-> pending for the KUnit tree, but it's much less KUnit-specific now
-> compared to v1. Regardless, I'll leave in the KUnit to-do list, and
-> we'll pick it up if no-one else particularly wants to.
->
+I think this is fixed by this series [1].
 
-FYI: It looks like patches 1 & 3 are already in the kunit tree, so it
-makes sense to take the rest of them, too:
-https://git.kernel.org/pub/scm/linux/kernel/git/shuah/linux-kselftest.git/log/?h=kunit
+[1]: https://lore.kernel.org/linux-doc/20220627095151.19339-1-bagasdotme@gmail.com/
 
-Cheers,
--- David
-
---000000000000087a5005e2cb9775
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Description: S/MIME Cryptographic Signature
-
-MIIPnwYJKoZIhvcNAQcCoIIPkDCCD4wCAQExDzANBglghkgBZQMEAgEFADALBgkqhkiG9w0BBwGg
-ggz5MIIEtjCCA56gAwIBAgIQeAMYYHb81ngUVR0WyMTzqzANBgkqhkiG9w0BAQsFADBMMSAwHgYD
-VQQLExdHbG9iYWxTaWduIFJvb3QgQ0EgLSBSMzETMBEGA1UEChMKR2xvYmFsU2lnbjETMBEGA1UE
-AxMKR2xvYmFsU2lnbjAeFw0yMDA3MjgwMDAwMDBaFw0yOTAzMTgwMDAwMDBaMFQxCzAJBgNVBAYT
-AkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNhMSowKAYDVQQDEyFHbG9iYWxTaWduIEF0bGFz
-IFIzIFNNSU1FIENBIDIwMjAwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCvLe9xPU9W
-dpiHLAvX7kFnaFZPuJLey7LYaMO8P/xSngB9IN73mVc7YiLov12Fekdtn5kL8PjmDBEvTYmWsuQS
-6VBo3vdlqqXZ0M9eMkjcKqijrmDRleudEoPDzTumwQ18VB/3I+vbN039HIaRQ5x+NHGiPHVfk6Rx
-c6KAbYceyeqqfuJEcq23vhTdium/Bf5hHqYUhuJwnBQ+dAUcFndUKMJrth6lHeoifkbw2bv81zxJ
-I9cvIy516+oUekqiSFGfzAqByv41OrgLV4fLGCDH3yRh1tj7EtV3l2TngqtrDLUs5R+sWIItPa/4
-AJXB1Q3nGNl2tNjVpcSn0uJ7aFPbAgMBAAGjggGKMIIBhjAOBgNVHQ8BAf8EBAMCAYYwHQYDVR0l
-BBYwFAYIKwYBBQUHAwIGCCsGAQUFBwMEMBIGA1UdEwEB/wQIMAYBAf8CAQAwHQYDVR0OBBYEFHzM
-CmjXouseLHIb0c1dlW+N+/JjMB8GA1UdIwQYMBaAFI/wS3+oLkUkrk1Q+mOai97i3Ru8MHsGCCsG
-AQUFBwEBBG8wbTAuBggrBgEFBQcwAYYiaHR0cDovL29jc3AyLmdsb2JhbHNpZ24uY29tL3Jvb3Ry
-MzA7BggrBgEFBQcwAoYvaHR0cDovL3NlY3VyZS5nbG9iYWxzaWduLmNvbS9jYWNlcnQvcm9vdC1y
-My5jcnQwNgYDVR0fBC8wLTAroCmgJ4YlaHR0cDovL2NybC5nbG9iYWxzaWduLmNvbS9yb290LXIz
-LmNybDBMBgNVHSAERTBDMEEGCSsGAQQBoDIBKDA0MDIGCCsGAQUFBwIBFiZodHRwczovL3d3dy5n
-bG9iYWxzaWduLmNvbS9yZXBvc2l0b3J5LzANBgkqhkiG9w0BAQsFAAOCAQEANyYcO+9JZYyqQt41
-TMwvFWAw3vLoLOQIfIn48/yea/ekOcParTb0mbhsvVSZ6sGn+txYAZb33wIb1f4wK4xQ7+RUYBfI
-TuTPL7olF9hDpojC2F6Eu8nuEf1XD9qNI8zFd4kfjg4rb+AME0L81WaCL/WhP2kDCnRU4jm6TryB
-CHhZqtxkIvXGPGHjwJJazJBnX5NayIce4fGuUEJ7HkuCthVZ3Rws0UyHSAXesT/0tXATND4mNr1X
-El6adiSQy619ybVERnRi5aDe1PTwE+qNiotEEaeujz1a/+yYaaTY+k+qJcVxi7tbyQ0hi0UB3myM
-A/z2HmGEwO8hx7hDjKmKbDCCA18wggJHoAMCAQICCwQAAAAAASFYUwiiMA0GCSqGSIb3DQEBCwUA
-MEwxIDAeBgNVBAsTF0dsb2JhbFNpZ24gUm9vdCBDQSAtIFIzMRMwEQYDVQQKEwpHbG9iYWxTaWdu
-MRMwEQYDVQQDEwpHbG9iYWxTaWduMB4XDTA5MDMxODEwMDAwMFoXDTI5MDMxODEwMDAwMFowTDEg
-MB4GA1UECxMXR2xvYmFsU2lnbiBSb290IENBIC0gUjMxEzARBgNVBAoTCkdsb2JhbFNpZ24xEzAR
-BgNVBAMTCkdsb2JhbFNpZ24wggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDMJXaQeQZ4
-Ihb1wIO2hMoonv0FdhHFrYhy/EYCQ8eyip0EXyTLLkvhYIJG4VKrDIFHcGzdZNHr9SyjD4I9DCuu
-l9e2FIYQebs7E4B3jAjhSdJqYi8fXvqWaN+JJ5U4nwbXPsnLJlkNc96wyOkmDoMVxu9bi9IEYMpJ
-pij2aTv2y8gokeWdimFXN6x0FNx04Druci8unPvQu7/1PQDhBjPogiuuU6Y6FnOM3UEOIDrAtKeh
-6bJPkC4yYOlXy7kEkmho5TgmYHWyn3f/kRTvriBJ/K1AFUjRAjFhGV64l++td7dkmnq/X8ET75ti
-+w1s4FRpFqkD2m7pg5NxdsZphYIXAgMBAAGjQjBAMA4GA1UdDwEB/wQEAwIBBjAPBgNVHRMBAf8E
-BTADAQH/MB0GA1UdDgQWBBSP8Et/qC5FJK5NUPpjmove4t0bvDANBgkqhkiG9w0BAQsFAAOCAQEA
-S0DbwFCq/sgM7/eWVEVJu5YACUGssxOGhigHM8pr5nS5ugAtrqQK0/Xx8Q+Kv3NnSoPHRHt44K9u
-bG8DKY4zOUXDjuS5V2yq/BKW7FPGLeQkbLmUY/vcU2hnVj6DuM81IcPJaP7O2sJTqsyQiunwXUaM
-ld16WCgaLx3ezQA3QY/tRG3XUyiXfvNnBB4V14qWtNPeTCekTBtzc3b0F5nCH3oO4y0IrQocLP88
-q1UOD5F+NuvDV0m+4S4tfGCLw0FREyOdzvcya5QBqJnnLDMfOjsl0oZAzjsshnjJYS8Uuu7bVW/f
-hO4FCU29KNhyztNiUGUe65KXgzHZs7XKR1g/XzCCBNgwggPAoAMCAQICEAGH0uAg+eV8wUdHQOJ7
-yfswDQYJKoZIhvcNAQELBQAwVDELMAkGA1UEBhMCQkUxGTAXBgNVBAoTEEdsb2JhbFNpZ24gbnYt
-c2ExKjAoBgNVBAMTIUdsb2JhbFNpZ24gQXRsYXMgUjMgU01JTUUgQ0EgMjAyMDAeFw0yMjA2MjAw
-MjAzNTNaFw0yMjEyMTcwMjAzNTNaMCQxIjAgBgkqhkiG9w0BCQEWE2RhdmlkZ293QGdvb2dsZS5j
-b20wggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCv9aO5pJtu5ZPHSb99iASzp2mcnJtk
-JIh8xsJ+fNj9OOm0B7Rbg2l0+F4c19b1DyIzz/DHXIX9Gc55kfd4TBzhITOJmB+WdbaWS8Lnr9gu
-SVO8OISymO6uVA0Lmkfne3zV0TwRtFkEeff0+P+MqdaLutOmOcLQRp8eAzb/TNKToSROBYmBRcuA
-hDOMCVZZozIJ7T4nHBjfOrR+nJ4mjBIDRnDucs4dazypyiYiHYLfedCxp8vldywHMsTxl59Ue9Yk
-RVewDw3HWvWUIMbc+Y636UXdUn4axP1TXN0khUpexMoc5qCHxpBIE/AyeS4WPASlE8uVY9Qg8dT6
-kJmeOT+ZAgMBAAGjggHUMIIB0DAeBgNVHREEFzAVgRNkYXZpZGdvd0Bnb29nbGUuY29tMA4GA1Ud
-DwEB/wQEAwIFoDAdBgNVHSUEFjAUBggrBgEFBQcDBAYIKwYBBQUHAwIwHQYDVR0OBBYEFDyAvtuc
-z/tQRXr3iPeVmZCr7nttMEwGA1UdIARFMEMwQQYJKwYBBAGgMgEoMDQwMgYIKwYBBQUHAgEWJmh0
-dHBzOi8vd3d3Lmdsb2JhbHNpZ24uY29tL3JlcG9zaXRvcnkvMAwGA1UdEwEB/wQCMAAwgZoGCCsG
-AQUFBwEBBIGNMIGKMD4GCCsGAQUFBzABhjJodHRwOi8vb2NzcC5nbG9iYWxzaWduLmNvbS9jYS9n
-c2F0bGFzcjNzbWltZWNhMjAyMDBIBggrBgEFBQcwAoY8aHR0cDovL3NlY3VyZS5nbG9iYWxzaWdu
-LmNvbS9jYWNlcnQvZ3NhdGxhc3Izc21pbWVjYTIwMjAuY3J0MB8GA1UdIwQYMBaAFHzMCmjXouse
-LHIb0c1dlW+N+/JjMEYGA1UdHwQ/MD0wO6A5oDeGNWh0dHA6Ly9jcmwuZ2xvYmFsc2lnbi5jb20v
-Y2EvZ3NhdGxhc3Izc21pbWVjYTIwMjAuY3JsMA0GCSqGSIb3DQEBCwUAA4IBAQAx+EQjLATc/sze
-VoZkH7OLz+/no1+y31x4BQ3wjW7lKfay9DAAVym896b7ECttSo95GEvS7pYMikzud57WypK7Bjpi
-ep8YLarLRDrvyyvBuYtyDrIewkuASHtV1oy5E6QZZe2VOxMm6e2oJnFFjbflot4A08D3SwqDwV0i
-OOYwT0BUtHYR/3903Dmdx5Alq+NDvUHDjozgo0f6oIkwDXT3yBV36utQ/jFisd36C8RD5mM+NFpu
-3aqLXARRbKtxw29ErCwulof2dcAonG7cd5j+gmS84sLhKU+BhL1OQVXnJ5tj7xZ5Ri5I23brcwk0
-lk/gWqfgs3ppT9Xk7zVit9q8MYICajCCAmYCAQEwaDBUMQswCQYDVQQGEwJCRTEZMBcGA1UEChMQ
-R2xvYmFsU2lnbiBudi1zYTEqMCgGA1UEAxMhR2xvYmFsU2lnbiBBdGxhcyBSMyBTTUlNRSBDQSAy
-MDIwAhABh9LgIPnlfMFHR0Die8n7MA0GCWCGSAFlAwQCAQUAoIHUMC8GCSqGSIb3DQEJBDEiBCDp
-myI6YdUkYSDLGMNpBLQUNYRJN0LF6NS6xPdtFpU4cTAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcB
-MBwGCSqGSIb3DQEJBTEPFw0yMjA3MDIwNTE1MjNaMGkGCSqGSIb3DQEJDzFcMFowCwYJYIZIAWUD
-BAEqMAsGCWCGSAFlAwQBFjALBglghkgBZQMEAQIwCgYIKoZIhvcNAwcwCwYJKoZIhvcNAQEKMAsG
-CSqGSIb3DQEBBzALBglghkgBZQMEAgEwDQYJKoZIhvcNAQEBBQAEggEATznrmUKqtmKPOM0mgFPm
-hwZ5BJMna59QAMv8LHS2+3BReuudjMy3MzN+GDs0aodOwmsiARkral8YB3GYguf7TvMyQke+9PAi
-GzLhrAsCXla7z5DbkxADRQJGYGi4JOSmoPD0k+9awSwcsd0IPOlsy+4zMovpqNV2EM5+t3rIn73r
-kt3R0da1Sx36udR9p1kMaNVMus5RMADXzQ1MGnWBIxr8OQoLXBn01ZKQ3khFYD7ByLrLYsp+ue9w
-Riyc7snb+2bjjZjqKRGxPcy/j9r8NxvuVuVYc2reBh9ohPYN890FfWFB+hbjslSTkGojkcegtWmP
-4i5f975istGfoIovJQ==
---000000000000087a5005e2cb9775--
+-- 
+An old man doll... just what I always wanted! - Clara
