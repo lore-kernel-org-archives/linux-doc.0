@@ -2,86 +2,92 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F3D43C43334
-	for <linux-doc@archiver.kernel.org>; Fri,  1 Jul 2022 23:44:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EEB34C43334
+	for <linux-doc@archiver.kernel.org>; Sat,  2 Jul 2022 00:23:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229695AbiGAXoI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 1 Jul 2022 19:44:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49252 "EHLO
+        id S230497AbiGBAXS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 1 Jul 2022 20:23:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41950 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229550AbiGAXoI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 Jul 2022 19:44:08 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6DF4F34672;
-        Fri,  1 Jul 2022 16:44:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-        bh=mez9F7tccYkohKQuva3nCM30jzyfldCTbq2ekG07rFg=; b=CrPO9pEnphkoLCBCUxnyjkpl4i
-        zxYpZxzkBnJSaZ6hPUCtJzvpkj9li6qoH36eedj66e/6cS3Je0+hVCeZ3o5OnHZ/JmzIDhDaxRnHz
-        MC1VpjdD0gg6CKk6Kk0/sMxBVcgHCkeFb95PyvoktQlavZAHDeTaMraoyOv30+SfJfWLkbqowDiP8
-        e+qw861Igi8clAC1uXDYpduPefcZl78o7Bn/jAjVOsFY7MrxrGRp4I3ZW3Qbd7BZVHaVcTeMUyhLH
-        L94Xqz1Z/ZrR7+BoxXYenBcBT+gj/xdj7yDX9vbLGbRLhDoKEaMD/EnnQy40cyav6I68jUsddmaD3
-        soqRiKUA==;
-Received: from [2601:1c0:6280:3f0::aa0b]
-        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1o7QIw-007RFB-3M; Fri, 01 Jul 2022 23:44:06 +0000
-Message-ID: <d4871bfa-f55a-cc77-b3b3-6cf4cb1349ca@infradead.org>
-Date:   Fri, 1 Jul 2022 16:44:05 -0700
+        with ESMTP id S230483AbiGBAXO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 Jul 2022 20:23:14 -0400
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 544BA109E;
+        Fri,  1 Jul 2022 17:23:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1656721393; x=1688257393;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=3MYgZyegdLh56+9c/svUS5g9teTfjtFubk1JPzVyR0s=;
+  b=mwO8DyTCmpuqZ7tf3x5RlJwyB0yEgJXl37ajFkzCWObqQOo2T7IKt+Hg
+   dovm0L8h5yPVawOdZHFlczgwmdRcsM5Gj4eFJHUnR1+XLsiEfoLMxOCEy
+   ZI8PGl2E8j886vcSluWHiGU9kJPG0h9x7oXS4vPp9AxYSgmC/B6hOQn96
+   ztdVfR2PcZENlJl4OC39B/+yKRjViQJ+fW6hAArRm47CgjqK7+5MwLY+S
+   9WsJMrrKbDV+ZudIE/hecekJGJP0ghj74obWEWyEHrVGhVcip1CqL0VT/
+   9FiUfx2inI3m5anKBvKSGu4u2vsT5mOo8uKFoBVQAoDt+17lt8EjCXbTb
+   g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10395"; a="346753712"
+X-IronPort-AV: E=Sophos;i="5.92,238,1650956400"; 
+   d="scan'208";a="346753712"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2022 17:23:12 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.92,238,1650956400"; 
+   d="scan'208";a="596446508"
+Received: from lkp-server01.sh.intel.com (HELO 68b931ab7ac1) ([10.239.97.150])
+  by fmsmga007.fm.intel.com with ESMTP; 01 Jul 2022 17:23:11 -0700
+Received: from kbuild by 68b931ab7ac1 with local (Exim 4.95)
+        (envelope-from <lkp@intel.com>)
+        id 1o7Quk-000EVY-MC;
+        Sat, 02 Jul 2022 00:23:10 +0000
+Date:   Sat, 2 Jul 2022 08:22:37 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Mikulas Patocka <mpatocka@redhat.com>
+Cc:     kbuild-all@lists.01.org, linux-kernel@vger.kernel.org,
+        Mike Snitzer <snitzer@redhat.com>, linux-doc@vger.kernel.org
+Subject: htmldocs: Documentation/admin-guide/device-mapper/writecache.rst:23:
+ WARNING: Unexpected indentation.
+Message-ID: <202207020824.oMJMSB8R-lkp@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH] treewide: fix "interruptible" misspellings
-Content-Language: en-US
-To:     Kees Cook <keescook@chromium.org>, Jonathan Corbet <corbet@lwn.net>
-Cc:     Colin Ian King <colin.king@intel.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
-References: <20220701231737.2474950-1-keescook@chromium.org>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20220701231737.2474950-1-keescook@chromium.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   1ce8c443e95698cecc32cc8ed5ff4b72da61eed4
+commit: 5c0de3d72f8c05678ed769bea24e98128f7ab570 dm writecache: make writeback pause configurable
+date:   1 year ago
+reproduce: make htmldocs
 
-On 7/1/22 16:17, Kees Cook wrote:
-> A common misspelling of "interruptible" is "interruptable". This fixes
-> them in the tree and adds the most common variation to spelling.txt.
-> Note that "uninterruptable" was already in spelling.txt.
-> 
-> Suggested-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: Colin Ian King <colin.king@intel.com>
-> Cc: linux-doc@vger.kernel.org
-> Signed-off-by: Kees Cook <keescook@chromium.org>
+If you fix the issue, kindly add following tag where applicable
+Reported-by: kernel test robot <lkp@intel.com>
 
-Looks good. Thanks.
+All warnings (new ones prefixed by >>):
 
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+>> Documentation/admin-guide/device-mapper/writecache.rst:23: WARNING: Unexpected indentation.
 
-> ---
->  Documentation/admin-guide/sysrq.rst                  |  2 +-
->  Documentation/hid/hiddev.rst                         |  2 +-
->  Documentation/scsi/ChangeLog.lpfc                    |  2 +-
->  drivers/firmware/qcom_scm-legacy.c                   |  2 +-
->  drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c       |  2 +-
->  drivers/gpu/drm/msm/msm_gem_submit.c                 |  2 +-
->  drivers/gpu/drm/radeon/radeon_fence.c                | 12 ++++++------
->  drivers/input/serio/hil_mlc.c                        |  2 +-
->  drivers/net/ethernet/amd/nmclan_cs.c                 |  4 ++--
->  .../ethernet/chelsio/inline_crypto/chtls/chtls_cm.h  |  4 ++--
->  drivers/scsi/aacraid/commsup.c                       |  2 +-
->  drivers/tee/optee/supp.c                             | 10 +++++-----
->  drivers/tty/serial/mux.c                             |  2 +-
->  fs/ecryptfs/miscdev.c                                |  2 +-
->  scripts/spelling.txt                                 |  1 +
->  sound/soc/intel/atom/sst/sst_pvt.c                   |  2 +-
->  16 files changed, 27 insertions(+), 26 deletions(-)
-> 
+vim +23 Documentation/admin-guide/device-mapper/writecache.rst
+
+f0ba43774cea3fc Documentation/device-mapper/writecache.rst Mauro Carvalho Chehab 2019-06-12  13  
+48debafe4f2feab Documentation/device-mapper/writecache.txt Mikulas Patocka       2018-03-08  14  1. type of the cache device - "p" or "s"
+f0ba43774cea3fc Documentation/device-mapper/writecache.rst Mauro Carvalho Chehab 2019-06-12  15  	- p - persistent memory
+f0ba43774cea3fc Documentation/device-mapper/writecache.rst Mauro Carvalho Chehab 2019-06-12  16  	- s - SSD
+48debafe4f2feab Documentation/device-mapper/writecache.txt Mikulas Patocka       2018-03-08  17  2. the underlying device that will be cached
+48debafe4f2feab Documentation/device-mapper/writecache.txt Mikulas Patocka       2018-03-08  18  3. the cache device
+48debafe4f2feab Documentation/device-mapper/writecache.txt Mikulas Patocka       2018-03-08  19  4. block size (4096 is recommended; the maximum block size is the page
+48debafe4f2feab Documentation/device-mapper/writecache.txt Mikulas Patocka       2018-03-08  20     size)
+48debafe4f2feab Documentation/device-mapper/writecache.txt Mikulas Patocka       2018-03-08  21  5. the number of optional parameters (the parameters with an argument
+48debafe4f2feab Documentation/device-mapper/writecache.txt Mikulas Patocka       2018-03-08  22     count as two)
+d284f8248c72d0c Documentation/device-mapper/writecache.txt Mikulas Patocka       2018-06-28 @23  	start_sector n		(default: 0)
+
+:::::: The code at line 23 was first introduced by commit
+:::::: d284f8248c72d0cb36a930920e60592eb455cd0d dm writecache: support optional offset for start of device
+
+:::::: TO: Mikulas Patocka <mpatocka@redhat.com>
+:::::: CC: Mike Snitzer <snitzer@redhat.com>
 
 -- 
-~Randy
+0-DAY CI Kernel Test Service
+https://01.org/lkp
