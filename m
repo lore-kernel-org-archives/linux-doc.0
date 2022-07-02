@@ -2,104 +2,127 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E5085C433EF
-	for <linux-doc@archiver.kernel.org>; Sat,  2 Jul 2022 03:27:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 97044CCA47B
+	for <linux-doc@archiver.kernel.org>; Sat,  2 Jul 2022 04:06:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229782AbiGBD1N (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 1 Jul 2022 23:27:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55772 "EHLO
+        id S231520AbiGBEG1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 2 Jul 2022 00:06:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46394 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229486AbiGBD1M (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 1 Jul 2022 23:27:12 -0400
-Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F1DA637ABE;
-        Fri,  1 Jul 2022 20:27:11 -0700 (PDT)
-Received: by mail-pj1-x102f.google.com with SMTP id b12-20020a17090a6acc00b001ec2b181c98so8192900pjm.4;
-        Fri, 01 Jul 2022 20:27:11 -0700 (PDT)
+        with ESMTP id S231293AbiGBEG0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 2 Jul 2022 00:06:26 -0400
+Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72C542C672
+        for <linux-doc@vger.kernel.org>; Fri,  1 Jul 2022 21:06:25 -0700 (PDT)
+Received: by mail-wm1-x32f.google.com with SMTP id v67-20020a1cac46000000b003a1888b9d36so2322460wme.0
+        for <linux-doc@vger.kernel.org>; Fri, 01 Jul 2022 21:06:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:to:cc:references:subject
-         :content-language:from:in-reply-to:content-transfer-encoding;
-        bh=s+6CTwYMp+CWbidlKsAY/mNC/AWdOdnbGcTllivcfjA=;
-        b=i2Kyt4uH3b+JAcLn8a7wiqQbZz8NtDvdcE9A8I0SfgETxYhGlD9HjR3f8WzZ+UQj8x
-         K3lxXr40wRe3+uql+mGBz9qRkA6ZRjd2uXjaP6tCfeCeHVuvdcAlCuWbqgQVMtZDicn2
-         eH+Zqy9HAfhr0KUZ1SmT08qlkhFrzm3zz4z9ZpQ4rlYEBUNuZD85TBWRPhErZM4YW/oq
-         gkNToj1+TxW4QAgGlZNyK6B+tjEym+2693hOWjEV7Snxynw9haZRvldOaTUEzU/elYFX
-         Sd/mxYg9QNHq6z78QULQnPx0zBKRhpzgivL2ZLTn82KNnAbn0LIsrAp0DW0U1DlPFG09
-         IzYA==
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=aNrpQditMVEzFyzmpSk2zil+RQzMhf0c7Pi6bIl2lQA=;
+        b=GnuVhVl72bylbCLXmrX2ZeWx8r2fYIBYdA0AKAzb+UyLeTck6yNXLV9RxU4EOOe7mb
+         q3joHU7AyOrzPPgnLgeehd4wxqonuBta49LyB0YcwkKw/dwU9OqbHmAduR+EDVLWVheb
+         dvZpkfSLVXNtQZ9sJxqqC0pT7jTv9Hf6CaOPZLrtqxeg0i9LPH8/BdNPstoLlYQpb8jz
+         VyfYRc0/nocp7b7eAIrWhcozZXlBDqOqg23EQzjiRqcggxX880AjHT8oawPnX3VeQe4R
+         hrrQfIL3mjM7JNYjfueqNEGDjBal1B//nzsvMD1y0+Eu2WdsYGnvNp+T8OEnGTyfHMQe
+         aG+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:to:cc
-         :references:subject:content-language:from:in-reply-to
-         :content-transfer-encoding;
-        bh=s+6CTwYMp+CWbidlKsAY/mNC/AWdOdnbGcTllivcfjA=;
-        b=ntTTiMXuNU00fxAJ9BBr3q3C4Tqwkdclvj5zafWbpdVHQ2hZZYJSXI5cCQ/fuDlB+G
-         ssnyGWm8Psfgqc8jBxrwloF7OUzYw+38f6pHtUeCwVCqCbaghqEM/tktMyTyrBl1kJoI
-         Mgj4vgX9xdr5TJbvh9DLU93ZnZnsCAsD+ZPiE4/rd+sPWamdYfvruYCkB0YOFWMKa++O
-         uVlLgvqICw0Pp7H4ThJNOvWLADY7IXFEYRioSKqBbQ0PVW10XFaVSG0YXOCmq50hQFbt
-         XjWTGHs6hb1yO4SANsbO2+LgiisXij8yMR2ENQJ5JNSyGp3VMgpUGu4kAj8HwyfSDmVR
-         f0gw==
-X-Gm-Message-State: AJIora/BNDgiXYuEKa/UUVcXPKq4gcni6a7Fzt0+0uCkdDeCOSIBvt3k
-        U2w+TEIHRz15npUof4XTHBKuhnFs5R0=
-X-Google-Smtp-Source: AGRyM1vT5WTMrlTJS6hab7FTm7WO0xCZPP4jsuY2oGhNh1ECKzASR8K2HH3vEu89zCeHtaQqDlN2gA==
-X-Received: by 2002:a17:902:ecd0:b0:16a:2c0f:3a1a with SMTP id a16-20020a170902ecd000b0016a2c0f3a1amr23488518plh.108.1656732431470;
-        Fri, 01 Jul 2022 20:27:11 -0700 (PDT)
-Received: from [192.168.11.5] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id y67-20020a626446000000b0051bd9981cacsm16437368pfb.123.2022.07.01.20.27.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 01 Jul 2022 20:27:10 -0700 (PDT)
-Message-ID: <44dd52ee-bf53-ba66-da82-0a90402812a1@gmail.com>
-Date:   Sat, 2 Jul 2022 12:27:05 +0900
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=aNrpQditMVEzFyzmpSk2zil+RQzMhf0c7Pi6bIl2lQA=;
+        b=fHPsq59HpRaS4xSbuzdgzOUIvvHhAC5tSzvz9Xgk36JPgp1CNGqjmfLkggGqOzJOHm
+         pzX5WHvTUKyyA8akSfRaWOMJUGQXHecBswPQsh5cpSLy1bzhpnVnZR/vnptPf960d/S6
+         ioh1HK0jYViRJUx/Cod2MTSflGYPlFno2e2AskPrqWXj9QnTamvY+WcMBdPP+uPf8H1I
+         ggVZYtfiVurzQlLRFBR8FFclDlbPXSPC+2r+P6pJ57NwKDmxGwxOlpd88LktmZtBp/GD
+         PhBIAakwAUrQDf4uA14CgYjv+DSAQBtCXbz9hUF8a6OJEh0XHphGuwda6+nh0GtpyCfs
+         dHKw==
+X-Gm-Message-State: AJIora8dg+9mSr6D7Hlf0wezhDOZXEWG01+ce4nF4zJG+iIyURz/msk6
+        7bPk44Fqgqvy+QbE0xktrIiMA2IfU1Ns4VIP/rtRvw==
+X-Google-Smtp-Source: AGRyM1u4kwUUQQkn63Aw/JJQWQpKKif6NpIsTbVsB3q0gHEM6LBcudovPxPlekXcr9Ryh3J58GRYvygfh9KuJdnqOo4=
+X-Received: by 2002:a05:600c:1e14:b0:3a0:2bba:4b2e with SMTP id
+ ay20-20020a05600c1e1400b003a02bba4b2emr19527464wmb.196.1656734783843; Fri, 01
+ Jul 2022 21:06:23 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        n@nfraprado.net
-References: <20220630163630.714673-1-corbet@lwn.net>
-Subject: Re: [PATCH 0/2] docs: A couple of automarkup improvements
-Content-Language: en-US
-From:   Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <20220630163630.714673-1-corbet@lwn.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20220701084744.3002019-1-davidgow@google.com> <20220701084744.3002019-4-davidgow@google.com>
+ <Yr92OngNsEOxszUA@bombadil.infradead.org>
+In-Reply-To: <Yr92OngNsEOxszUA@bombadil.infradead.org>
+From:   David Gow <davidgow@google.com>
+Date:   Sat, 2 Jul 2022 12:06:12 +0800
+Message-ID: <CABVgOSnZwnQZAo5LH1KEbpVYvCtvTVCG4kZR=aV_gxFuU_D12g@mail.gmail.com>
+Subject: Re: [PATCH v4 4/4] selftest: Taint kernel when test module loaded
+To:     Luis Chamberlain <mcgrof@kernel.org>
+Cc:     Brendan Higgins <brendanhiggins@google.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Kees Cook <keescook@chromium.org>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        "Guilherme G . Piccoli" <gpiccoli@igalia.com>,
+        Sebastian Reichel <sre@kernel.org>,
+        John Ogness <john.ogness@linutronix.de>,
+        Joe Fradley <joefradley@google.com>,
+        Daniel Latypov <dlatypov@google.com>,
+        KUnit Development <kunit-dev@googlegroups.com>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Lucas De Marchi <lucas.demarchi@intel.com>,
+        Aaron Tomlin <atomlin@redhat.com>,
+        linux-fsdevel@vger.kernel.org, linux-block@vger.kernel.org,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 30 Jun 2022 10:36:28 -0600, Jonathan Corbet wrote:
-> Building the docs takes far too long.  Much of the blame for that lies with
-> Sphinx, but some of it is under our own control.  These two patches
-> eliminate a bunch of useless work in the automarkup extension.
-> 
-> Benchmarking Sphinx runs is hard, as the run time can be rather variable.
-> I have consistently found about a 15% speedup from these patches, though,
-> with no output changes.
-> 
-> Testing was done with Sphinx 4.4.0 and 5.0.2.  My systems all have Python
-> 3.10 installed, and there does not appear, alas, to be a straightforward
-> way to get Sphinx 3.x to run on that version.  Versions of Sphinx prior to
-> 3.0 will not be affected by these changes.
+On Sat, Jul 2, 2022 at 6:33 AM Luis Chamberlain <mcgrof@kernel.org> wrote:
+>
+> On Fri, Jul 01, 2022 at 04:47:44PM +0800, David Gow wrote:
+> > Make any kselftest test module (using the kselftest_module framework)
+> > taint the kernel with TAINT_TEST on module load.
+> >
+> > Note that several selftests use kernel modules which are not based on
+> > the kselftest_module framework, and so will not automatically taint the
+> > kernel.
+> >
+> > This can be done in two ways:
+> > - Moving the module to the tools/testing directory. All modules under
+> >   this directory will taint the kernel.
+> > - Adding the 'test' module property with:
+> >   MODULE_INFO(test, "Y")
+>
+> This just needs to be documented somewhere other than a commit log.
+> Otherwise I am not sure how we can be sure it will catch on.
 
-They look nice improvements, indeed!
+I've updated the kselftest documentation for v5.
 
-On my rather non-performant machine with Python 3.9.2 + Sphinx 5.0.2,
-elapsed time of "make htmldocs" decreased about 12% without any difference
-in generated HTML files.
+> > Similarly, selftests which do not load modules into the kernel generally
+> > should not taint the kernel (or possibly should only do so on failure),
+> > as it's assumed that testing from user-space should be safe. Regardless,
+> > they can write to /proc/sys/kernel/tainted if required.
+> >
+> > Signed-off-by: David Gow <davidgow@google.com>
+>
+> Looks good otherwise!
+>
+> Reviewed-by: Luis Chamberlain <mcgrof@kernel.org>
+>
+> Do we want this to go through selftest / kunit / modules tree?
+> Happy for it to through any. I can't predict a conflict.
 
-For the series:
+I don't mind which tree it goes through either -- I'm not aware of
+anything which would depend on it. I do have it on the list of things
+pending for the KUnit tree, but it's much less KUnit-specific now
+compared to v1. Regardless, I'll leave in the KUnit to-do list, and
+we'll pick it up if no-one else particularly wants to.
 
-Tested-by: Akira Yokosawa <akiyks@gmail.com>
-
-        Thanks, Akira
-> 
-> Jonathan Corbet (2):
->   docs: automarkup: track failed cross-reference attempts
->   docs: automarkup: do not look up symbols twice
-> 
->  Documentation/sphinx/automarkup.py | 56 +++++++++++++++++-------------
->  1 file changed, 32 insertions(+), 24 deletions(-)
-> 
-> -- 
-> 2.36.1
-
+Cheers,
+-- David
