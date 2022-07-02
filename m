@@ -2,77 +2,210 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 85F23C43334
-	for <linux-doc@archiver.kernel.org>; Sat,  2 Jul 2022 09:24:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5FA36C433EF
+	for <linux-doc@archiver.kernel.org>; Sat,  2 Jul 2022 10:11:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230155AbiGBJYt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 2 Jul 2022 05:24:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41936 "EHLO
+        id S232020AbiGBKLh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 2 Jul 2022 06:11:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37174 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229446AbiGBJYt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 2 Jul 2022 05:24:49 -0400
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF49313D0E;
-        Sat,  2 Jul 2022 02:24:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1656753888; x=1688289888;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ZvCBqILuhQc+PA91u5tYAtzmTbr5oRh9lNn3MY3bA4I=;
-  b=YpHDGG90SgD1yZIRHieITDsK8LfEsxpG0+WZKHL3NvSTfb9VSalc/mKe
-   YrAWDvejney0q7Yr2rTnWXuMH2dTcPpgKR1fFr4kfFrPjJYrDzLo6vFLs
-   dt3O+GXpR4ax6QTs3DtYfgVvkhDVlAcPkScGIdz62eEYrkaXiMyjwWx6A
-   6a2aiAMvAVNuzhpgkQdOR6MWh98hcINnMwk8eELPdyNJqDivEwv+8lgmn
-   lja8y7PL2V1BqRmtR0j8XuC2snLBo0LuOgcn6SLVHJOYyEkYtPkGR+lAX
-   7dzBgkHSSS/KK73u2pNl7gFIhS86Se3AHUoV8f8oypW67Owi28o2xIa86
-   g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10395"; a="262608312"
-X-IronPort-AV: E=Sophos;i="5.92,239,1650956400"; 
-   d="scan'208";a="262608312"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2022 02:24:48 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.92,239,1650956400"; 
-   d="scan'208";a="541966077"
-Received: from lkp-server01.sh.intel.com (HELO 68b931ab7ac1) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 02 Jul 2022 02:24:46 -0700
-Received: from kbuild by 68b931ab7ac1 with local (Exim 4.95)
-        (envelope-from <lkp@intel.com>)
-        id 1o7ZMs-000F5z-81;
-        Sat, 02 Jul 2022 09:24:46 +0000
-Date:   Sat, 2 Jul 2022 17:23:50 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Gwendal Grignou <gwendal@chromium.org>
-Cc:     kbuild-all@lists.01.org, linux-kernel@vger.kernel.org,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Stephen Boyd <swboyd@chromium.org>, linux-doc@vger.kernel.org
-Subject: htmldocs: Documentation/ABI/testing/sysfs-bus-iio-sx9324:2: WARNING:
- Unexpected indentation.
-Message-ID: <202207021703.lEW6FLT1-lkp@intel.com>
+        with ESMTP id S229446AbiGBKLh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 2 Jul 2022 06:11:37 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 056D5186C1;
+        Sat,  2 Jul 2022 03:11:35 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 7A24A60C09;
+        Sat,  2 Jul 2022 10:11:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C21CCC341CE;
+        Sat,  2 Jul 2022 10:11:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1656756694;
+        bh=wMdXq2y82GLiB6F6ppucYweW5DGaedV5+P83VXCnYMc=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=VwEvOgZZIv/S7hq91E0RU8y2CGQDZq1wliv9825COknHo1AR+bpXqQWp6ZcmYC/Nr
+         iTlriAk7SUEX2p32Xm00lXafO5HdrhRz5UQ3fkzoiliSDc4bttlnaXJyVk7FH+kYt5
+         rsDh+59Ir5KGBSQModfpKvE9UujjwteJRUNOnHOSK9Cm48EU21ggnPBHYvEyceY3Ce
+         8vq6V3ufFtyxxoBCb60ztBijNNYcrUZ/lqMMGqNXyWGL2+feskQEKZXJKu3L25BX4i
+         8RCtPzxs7SOwWqqzGiQlcR5PYPuLWGtN/YPHUDuXeNcoyzkBYoO0LrtE08zQUoOYvn
+         3RzRS39skKmDg==
+Received: from mchehab by mail.kernel.org with local (Exim 4.95)
+        (envelope-from <mchehab@kernel.org>)
+        id 1o7a67-007cMm-Nb;
+        Sat, 02 Jul 2022 11:11:31 +0100
+From:   Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        "Jonathan Corbet" <corbet@lwn.net>,
+        "Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
+        ksummit-discuss@lists.linuxfoundation.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v2 4/5] scripts: sphinx-pre-install: provide both venv and package installs
+Date:   Sat,  2 Jul 2022 11:11:28 +0100
+Message-Id: <7c99d985df204c73e3daafd5fd2f30a31269405d.1656756450.git.mchehab@kernel.org>
+X-Mailer: git-send-email 2.36.1
+In-Reply-To: <cover.1656756450.git.mchehab@kernel.org>
+References: <cover.1656756450.git.mchehab@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   089866061428ec9bf67221247c936792078c41a4
-commit: 4c18a890dff8d95ca234d184773910383a978d45 iio:proximity:sx9324: Add SX9324 support
-date:   5 months ago
-reproduce: make htmldocs
+As it is not a consensus about installing sphinx using venv, and
+modern distributions are now shipping with Sphinx versions above
+the minimal requirements to build the docs, provide both venv
+and package install commands by default.
 
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
+Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+---
 
-All warnings (new ones prefixed by >>):
+To avoid mailbombing on a large number of people, only mailing lists were C/C on the cover.
+See [PATCH v2 0/5] at: https://lore.kernel.org/all/cover.1656756450.git.mchehab@kernel.org/
 
->> Documentation/ABI/testing/sysfs-bus-iio-sx9324:2: WARNING: Unexpected indentation.
+ scripts/sphinx-pre-install | 55 +++++++++++++++++++++++++++++---------
+ 1 file changed, 42 insertions(+), 13 deletions(-)
 
-vim +2 Documentation/ABI/testing/sysfs-bus-iio-sx9324
-
-   > 2	Date:		November 2021
-
+diff --git a/scripts/sphinx-pre-install b/scripts/sphinx-pre-install
+index 930a6d058c12..106d75425d3f 100755
+--- a/scripts/sphinx-pre-install
++++ b/scripts/sphinx-pre-install
+@@ -25,6 +25,7 @@ my $need_sphinx = 0;
+ my $need_pip = 0;
+ my $need_virtualenv = 0;
+ my $rec_sphinx_upgrade = 0;
++my $verbose_warn_install = 1;
+ my $install = "";
+ my $virtenv_dir = "";
+ my $python_cmd = "";
+@@ -103,10 +104,12 @@ sub check_missing(%)
+ 			next;
+ 		}
+ 
+-		if ($is_optional) {
+-			print "Warning: better to also install \"$prog\".\n";
+-		} else {
+-			print "ERROR: please install \"$prog\", otherwise, build won't work.\n";
++		if ($verbose_warn_install) {
++			if ($is_optional) {
++				print "Warning: better to also install \"$prog\".\n";
++			} else {
++				print "ERROR: please install \"$prog\", otherwise, build won't work.\n";
++			}
+ 		}
+ 		if (defined($map{$prog})) {
+ 			$install .= " " . $map{$prog};
+@@ -386,7 +389,8 @@ sub give_debian_hints()
+ 	check_missing(\%map);
+ 
+ 	return if (!$need && !$optional);
+-	printf("You should run:\n\n\tsudo apt-get install $install\n");
++	printf("You should run:\n") if ($verbose_warn_install);
++	printf("\n\tsudo apt-get install $install\n");
+ }
+ 
+ sub give_redhat_hints()
+@@ -458,10 +462,12 @@ sub give_redhat_hints()
+ 
+ 	if (!$old) {
+ 		# dnf, for Fedora 18+
+-		printf("You should run:\n\n\tsudo dnf install -y $install\n");
++		printf("You should run:\n") if ($verbose_warn_install);
++		printf("\n\tsudo dnf install -y $install\n");
+ 	} else {
+ 		# yum, for RHEL (and clones) or Fedora version < 18
+-		printf("You should run:\n\n\tsudo yum install -y $install\n");
++		printf("You should run:\n") if ($verbose_warn_install);
++		printf("\n\tsudo yum install -y $install\n");
+ 	}
+ }
+ 
+@@ -509,7 +515,8 @@ sub give_opensuse_hints()
+ 	check_missing(\%map);
+ 
+ 	return if (!$need && !$optional);
+-	printf("You should run:\n\n\tsudo zypper install --no-recommends $install\n");
++	printf("You should run:\n") if ($verbose_warn_install);
++	printf("\n\tsudo zypper install --no-recommends $install\n");
+ }
+ 
+ sub give_mageia_hints()
+@@ -553,7 +560,8 @@ sub give_mageia_hints()
+ 	check_missing(\%map);
+ 
+ 	return if (!$need && !$optional);
+-	printf("You should run:\n\n\tsudo $packager_cmd $install\n");
++	printf("You should run:\n") if ($verbose_warn_install);
++	printf("\n\tsudo $packager_cmd $install\n");
+ }
+ 
+ sub give_arch_linux_hints()
+@@ -583,7 +591,8 @@ sub give_arch_linux_hints()
+ 	check_missing(\%map);
+ 
+ 	return if (!$need && !$optional);
+-	printf("You should run:\n\n\tsudo pacman -S $install\n");
++	printf("You should run:\n") if ($verbose_warn_install);
++	printf("\n\tsudo pacman -S $install\n");
+ }
+ 
+ sub give_gentoo_hints()
+@@ -610,7 +619,8 @@ sub give_gentoo_hints()
+ 
+ 	return if (!$need && !$optional);
+ 
+-	printf("You should run:\n\n");
++	printf("You should run:\n") if ($verbose_warn_install);
++	printf("\n");
+ 
+ 	my $imagemagick = "media-gfx/imagemagick svg png";
+ 	my $cairo = "media-gfx/graphviz cairo pdf";
+@@ -700,7 +710,7 @@ sub check_distros()
+ 
+ sub deactivate_help()
+ {
+-	printf "\nIf you want to exit the virtualenv, you can use:\n";
++	printf "\n    If you want to exit the virtualenv, you can use:\n";
+ 	printf "\tdeactivate\n";
+ }
+ 
+@@ -863,7 +873,7 @@ sub recommend_sphinx_version($)
+ 			print "To upgrade Sphinx, use:\n\n";
+ 		}
+ 	} else {
+-		print "Sphinx needs to be installed either as a package or via pip/pypi with:\n";
++		print "\nSphinx needs to be installed either:\n1) via pip/pypi with:\n\n";
+ 	}
+ 
+ 	$python_cmd = find_python_no_venv();
+@@ -873,6 +883,25 @@ sub recommend_sphinx_version($)
+ 	printf "\t. $virtenv_dir/bin/activate\n";
+ 	printf "\tpip install -r $requirement_file\n";
+ 	deactivate_help();
++
++	printf "\n2) As a package with:\n";
++
++	my $old_need = $need;
++	my $old_optional = $optional;
++	%missing = ();
++	$pdf = 0;
++	$optional = 0;
++	$install = "";
++	$verbose_warn_install = 0;
++
++	add_package("python-sphinx", 0);
++	check_python_module("sphinx_rtd_theme", 1);
++
++	check_distros();
++
++	$need = $old_need;
++	$optional = $old_optional;
++
+ }
+ 
+ sub check_needs()
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+2.36.1
+
