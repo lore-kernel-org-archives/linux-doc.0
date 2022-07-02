@@ -2,45 +2,45 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D4280C43334
-	for <linux-doc@archiver.kernel.org>; Sat,  2 Jul 2022 11:56:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DB944C43334
+	for <linux-doc@archiver.kernel.org>; Sat,  2 Jul 2022 11:58:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231572AbiGBL4H (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 2 Jul 2022 07:56:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39836 "EHLO
+        id S229955AbiGBL6O (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 2 Jul 2022 07:58:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40882 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230155AbiGBL4G (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 2 Jul 2022 07:56:06 -0400
+        with ESMTP id S232285AbiGBL6B (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 2 Jul 2022 07:58:01 -0400
 Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0D3613F3C;
-        Sat,  2 Jul 2022 04:56:04 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E87D613F0D;
+        Sat,  2 Jul 2022 04:57:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1656762965; x=1688298965;
+  t=1656763079; x=1688299079;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=IHRxPXI2AjXfX75L8NFTEgjJ1hQ1grsVio3ExHvN1eY=;
-  b=iYFzn/mj8dMKK+pa/Wa0cGKGr5yTXYAZyoymdvBAQ6CKDTzSKuhYrlIH
-   4sXsI1nNbWcdwhUNbQjkPdrMtzsxNPArL17UB35vCMhwtmr45jzpUGMe0
-   sgG7BAza0fUQdKQTkd0v2IONCypcMuomdwIwGLVHgIcoSbT8whS4F00qF
-   cPN7bGr7Iz4+qih1hCx7KjgWopD3b5wtzkhSl7S1u5f75P1PnrE7Egb/L
-   pw7CN2m+i0KaXCGo9HepHTJHGtrsz58N/RvsbIB/WzXz1seKdIgWCGeGI
-   OqMCqfpakRJQ98AltTHdvFteZ/bjQo9Vo3m8v/sNXdHJww/aJ+TJJkkXz
-   g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10395"; a="346808053"
+  bh=re3LFd38nLBlu3MQiWD1Ny6wrWGEckMsB9soYe/z/cY=;
+  b=cTjwzHOQVxjy8OoznS3kmtCaQEwEMI8xKkmcjN43xbg4Zb+YdQiLOcCZ
+   JjN3mK18CCJuz/fHzyffyVcN9aLbeYoL0zkoI5DggQJH6WqDD7EjV3NcR
+   fitx1/mon4tS/913OkkrseBAiVrR4tBBdzppp2BD/DxDZAlQQ0tdkNskZ
+   Mp8pbyoveJx4vK41Hyh5/d3aB0ds0lxno0f2BHzyL16efBBryksAOuKUl
+   EcPPbBEW+GxSlnSBkg+LC4iWMT8Cr0eVCSqC45RyqmJsWWGGwYzCLwLKf
+   mj85zdo5lWdS1YJUsN58w07cApc3P79cI6XFfYmpmIEmgXhIP7MbqCu8K
+   w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10395"; a="346808172"
 X-IronPort-AV: E=Sophos;i="5.92,239,1650956400"; 
-   d="scan'208";a="346808053"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2022 04:56:04 -0700
+   d="scan'208";a="346808172"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2022 04:57:59 -0700
 X-IronPort-AV: E=Sophos;i="5.92,239,1650956400"; 
-   d="scan'208";a="768758377"
+   d="scan'208";a="541992929"
 Received: from smile.fi.intel.com ([10.237.72.54])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2022 04:56:00 -0700
+  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2022 04:57:55 -0700
 Received: from andy by smile.fi.intel.com with local (Exim 4.96)
         (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1o7bjA-0013aa-2j;
-        Sat, 02 Jul 2022 14:55:56 +0300
-Date:   Sat, 2 Jul 2022 14:55:56 +0300
+        id 1o7bl1-0013ah-1H;
+        Sat, 02 Jul 2022 14:57:51 +0300
+Date:   Sat, 2 Jul 2022 14:57:51 +0300
 From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To:     Yury Norov <yury.norov@gmail.com>
 Cc:     linux-kernel@vger.kernel.org,
@@ -57,49 +57,33 @@ Cc:     linux-kernel@vger.kernel.org,
         William Kucharski <william.kucharski@oracle.com>,
         linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         linux-mm@kvack.org
-Subject: Re: [PATCH 1/8] arm: align find_bit declarations with generic kernel
-Message-ID: <YsAyTNMvCNLeDZY/@smile.fi.intel.com>
+Subject: Re: [PATCH 3/8] lib/bitmap: change type of bitmap_weight to unsigned
+ int
+Message-ID: <YsAyv66xOYoNSoga@smile.fi.intel.com>
 References: <20220701125430.2907638-1-yury.norov@gmail.com>
- <20220701125430.2907638-2-yury.norov@gmail.com>
+ <20220701125430.2907638-4-yury.norov@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220701125430.2907638-2-yury.norov@gmail.com>
+In-Reply-To: <20220701125430.2907638-4-yury.norov@gmail.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jul 01, 2022 at 05:54:23AM -0700, Yury Norov wrote:
-> ARM has their own implementation for find_bit functions, and function
-> declarations are different with those in generic headers. Fix it.
+On Fri, Jul 01, 2022 at 05:54:25AM -0700, Yury Norov wrote:
+> bitmap_weight() doesn't return negative values, so change it's type
+> to unsigned int.
+
+Patch (the code) suggests something else.
+
+> It may help compiler to generate better code and
+> catch bugs.
 
 ...
 
-> -extern int _find_first_zero_bit_le(const unsigned long *p, unsigned size);
-> -extern int _find_next_zero_bit_le(const unsigned long *p, int size, int offset);
-> -extern int _find_first_bit_le(const unsigned long *p, unsigned size);
-> -extern int _find_next_bit_le(const unsigned long *p, int size, int offset);
-> +unsigned long  _find_first_zero_bit_le(const unsigned long *p, unsigned long size);
-> +unsigned long  _find_next_zero_bit_le(const unsigned long *p,
-> +					unsigned long size, unsigned long offset);
-> +unsigned long  _find_first_bit_le(const unsigned long *p, unsigned long size);
-
-> +unsigned long  _find_next_bit_le(const unsigned long *p,
-> +					unsigned long size, unsigned long offset);
-
-Indentation seems broken.
-
-Also for all: is double space required?
-
-
-...
-
-> +unsigned long _find_next_bit_be(const unsigned long *p,
-> +					unsigned long size, unsigned long offset);
-
-Indentation of the second line is broken (u in 'unsigned' should be in the same
-column as 'const').
+> -int __bitmap_weight(const unsigned long *bitmap, unsigned int nbits);
+> +unsigned long __bitmap_weight(const unsigned long *bitmap, unsigned int nbits);
 
 -- 
 With Best Regards,
