@@ -2,52 +2,52 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5AFD9C433EF
-	for <linux-doc@archiver.kernel.org>; Sat,  2 Jul 2022 21:59:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 86BE1C43334
+	for <linux-doc@archiver.kernel.org>; Sat,  2 Jul 2022 22:06:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229638AbiGBV7l (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 2 Jul 2022 17:59:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56320 "EHLO
+        id S230371AbiGBWGo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 2 Jul 2022 18:06:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59298 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229497AbiGBV7j (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 2 Jul 2022 17:59:39 -0400
+        with ESMTP id S229486AbiGBWGm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 2 Jul 2022 18:06:42 -0400
 Received: from mail-qt1-x82f.google.com (mail-qt1-x82f.google.com [IPv6:2607:f8b0:4864:20::82f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08703BC98;
-        Sat,  2 Jul 2022 14:59:39 -0700 (PDT)
-Received: by mail-qt1-x82f.google.com with SMTP id l14so4722228qtx.2;
-        Sat, 02 Jul 2022 14:59:38 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A794CE16;
+        Sat,  2 Jul 2022 15:06:41 -0700 (PDT)
+Received: by mail-qt1-x82f.google.com with SMTP id ay10so4726319qtb.1;
+        Sat, 02 Jul 2022 15:06:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=CRmpJqPfR2Ffc8HgrJVdi9vtvYXJmh3FYn3557q1NwE=;
-        b=IM5wTLBzQjNlhxRrQd9duTSaviX9W642sXlAB85N1J/s7j5rmEna+8IABQod6CKWwf
-         idRQLlJu1V3fyKxBBgZT8orNNwSfG3ldK93UWDDfwO+2whPF1ZAxLA40DoQvxU5BfMNp
-         3lBbbYWyQlIivNwXQikzuuHqR4sZAigx4GkkKHfZlqHeuEoeLfDb/PifXKGZipSv/aeN
-         Cynt/+Yyu7uFh0AOVPy3Vsn+npnyt9GaCOHUIl2GPSlPaA5FV2+u3jZ48DmkHJn3sw2W
-         Qhb1WicuxCijgoIjMRw1yzx8xh+1vtZ7swikn0STs41+ERPMsE0gL2i/YGW133S/wqfx
-         tCEw==
+        bh=qWVzoWJiukz0uMc/6nDJZct0as3OEPBskJtVTg6SlEg=;
+        b=mc7H5jasd4LfEtY2rm4wZRl7UnEzyYM03PXLNK4gNksqdVesPr/gZzzyu0Eg4uuWwM
+         23RnsOURvmBEhBp+0Q7LrhTZ4r8nyDPhPdeY+L3pkBN/Iw1dppG6+XsdHfUIKruiE0Ki
+         hJpTCrhsfM6iy7xy39Hk2yLXH+ciWFngkjpmtDsH7zvypETVllyKmY23delveTOU42df
+         R/6o5f0lMwH7BeA/A8gm1WLvuL65sydYfRLFEBsMsR4FPfvl7ZY5oNrsUZiY4UsfzjKQ
+         Em0qEFm7hrLooqSR1TbDgD+cFzHDaTwYTSHjOrKVDY2ilfC5delAoiUzsJo4OalIBoEW
+         gXHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=CRmpJqPfR2Ffc8HgrJVdi9vtvYXJmh3FYn3557q1NwE=;
-        b=T0G+dQhirx6pMpv6mtLkHI/dUe5RVHkkRe6seN7e+R3mu0mqlvcIPlgjs3ZE+IH5Tw
-         jYfF7XDb+V3+rS+U0in4wV7Qncr2TmwewpRFldF2Rf95vCxctzaFzL2FsUs8m3sVu2xm
-         dMkcErRaqj+jvdS4g6JkGfv+KV1jjwf/7oprIoKpECkgvDc52seMtbs5rYGbd4AeBfIp
-         9VB104VKOy3wUnU+23sX7QunpTOp8V0kQuL2WJ+4amE6icUns6gIQ/pf36ntuVoQztuk
-         5FTfX3ZMXKm002olqSsZJlcgP1HWNaGBik5EazBl65M7RqNHyqnvVXvn0TrNKuT1MK37
-         UNxA==
-X-Gm-Message-State: AJIora8BqgRNTGYurxnMARa7m8oH6G1kSLS3G0G9G/pTBu1Imd7ixZW9
-        AKMn7YZnsOpMSVC5SMudJus=
-X-Google-Smtp-Source: AGRyM1vsKaZ4Q845hwAJdZ+Iup3JowgDZtmbhIizUAD0kSH6BZk1L5rQHvQIxX0hZopZgMtlLU/zgg==
-X-Received: by 2002:a05:6214:c6e:b0:472:edeb:f694 with SMTP id t14-20020a0562140c6e00b00472edebf694mr2331526qvj.90.1656799178059;
-        Sat, 02 Jul 2022 14:59:38 -0700 (PDT)
+        bh=qWVzoWJiukz0uMc/6nDJZct0as3OEPBskJtVTg6SlEg=;
+        b=t2TBlZS4v9HgIgjz02CfhI1MAOIzM7J7KioR/qxNlu12pW7eXD9PelYBlECIkiyOsA
+         ks0z8SIw5fKIgr3J6LgWXNbBi1V9ju+hMRxW6UWmeV06G9PM6iwir/kCS2kxsCk/L+OL
+         8DyUQeFQetJybD3ldjHxQbF+MesxLp0iI2TKtlTqCCrCQoqEP9rNFfF5Tt6ULn0fGsy6
+         /IuLtpUXdR+E0p6k77T3CDWjRhyaI4dDb3hJVybzIcjgRYBmQJwBr0dTujh4LYzh6Ivp
+         WeCdQ4JmMnJPaE/lYoLpSBrm4tCIbROykevW1P789GixTXhknoVcFtcKAB0I9IKrDFcI
+         Qv5A==
+X-Gm-Message-State: AJIora9Dt7v/5C4x7fBXLQLHtd01vGMwTtZersLz5+uXznfilMDquCwl
+        9iUdKfs5W5RyaA5tlJof/Ec=
+X-Google-Smtp-Source: AGRyM1vq6UAVmcmt5d/O2DY7q4ksXfPBKaksojESvKdwWStGnRsTeqbeOkgRt3edMzGa3psAP0PpzA==
+X-Received: by 2002:ac8:5b0e:0:b0:31d:3b3d:37cd with SMTP id m14-20020ac85b0e000000b0031d3b3d37cdmr7456251qtw.657.1656799600667;
+        Sat, 02 Jul 2022 15:06:40 -0700 (PDT)
 Received: from localhost ([2601:4c1:c100:1230:e838:b1c2:b125:986a])
-        by smtp.gmail.com with ESMTPSA id q15-20020ac8450f000000b003177f0fb61esm16496345qtn.75.2022.07.02.14.59.37
+        by smtp.gmail.com with ESMTPSA id cb24-20020a05622a1f9800b003187c484027sm12140303qtb.73.2022.07.02.15.06.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 02 Jul 2022 14:59:37 -0700 (PDT)
-Date:   Sat, 2 Jul 2022 14:59:37 -0700
+        Sat, 02 Jul 2022 15:06:40 -0700 (PDT)
+Date:   Sat, 2 Jul 2022 15:06:39 -0700
 From:   Yury Norov <yury.norov@gmail.com>
 To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Cc:     linux-kernel@vger.kernel.org,
@@ -64,46 +64,43 @@ Cc:     linux-kernel@vger.kernel.org,
         William Kucharski <william.kucharski@oracle.com>,
         linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         linux-mm@kvack.org
-Subject: Re: [PATCH 5/8] lib/cpumask: change return types to unsigned where
- appropriate
-Message-ID: <YsC/yRH1HLHvDlIS@yury-laptop>
+Subject: Re: [PATCH 7/8] mm: split include/linux/gfp.h
+Message-ID: <YsDBb15JeN2v/NBK@yury-laptop>
 References: <20220701125430.2907638-1-yury.norov@gmail.com>
- <20220701125430.2907638-6-yury.norov@gmail.com>
- <YsAzU3g2QpgmIGre@smile.fi.intel.com>
+ <20220701125430.2907638-8-yury.norov@gmail.com>
+ <YsA0k5G1B1kiQdXY@smile.fi.intel.com>
+ <YsA1hHc3GgTIsglN@smile.fi.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YsAzU3g2QpgmIGre@smile.fi.intel.com>
+In-Reply-To: <YsA1hHc3GgTIsglN@smile.fi.intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Jul 02, 2022 at 03:00:19PM +0300, Andy Shevchenko wrote:
-> On Fri, Jul 01, 2022 at 05:54:27AM -0700, Yury Norov wrote:
-> > Switch return types to unsigned int where return values cannot be negative.
-> 
-> ...
-> 
-> > -int cpumask_any_and_distribute(const struct cpumask *src1p,
-> > +unsigned int cpumask_any_and_distribute(const struct cpumask *src1p,
-> >  			       const struct cpumask *src2p);
-> 
-> It breaks indentation of the second line.
+On Sat, Jul 02, 2022 at 03:09:40PM +0300, Andy Shevchenko wrote:
+> On Sat, Jul 02, 2022 at 03:05:39PM +0300, Andy Shevchenko wrote:
+> > On Fri, Jul 01, 2022 at 05:54:29AM -0700, Yury Norov wrote:
+> > > gfp.h belongs to many include paths, and it causes circular dependencies
+> > > when, for example, trying to keep cpumask one-line wrappers in headers.
+> > > 
+> > > In many cases, sources need only gfp flags. This patch splits gfp.h by
+> > > moving flags to include/linux/gfp_flags.h. It helps to move trivial 
+> > > wrappers from c-file to header in the following patch for cpumask.
+> > 
+> > Wondering if you checked Ingo's gigantic series [1] for something similar.
+> > Maybe you may utilize his work if there is anything like this.
 
-I'd prefer to keep 2nd line untouched to not trash history for
-nothing.
+No, I didn't. 
 
+> > 
+> > [1]: https://git.kernel.org/pub/scm/linux/kernel/git/mingo/tip.git/log/?h=sched/headers
 > 
-> ...
-> 
-> > -int cpumask_next_and(int n, const struct cpumask *src1p,
-> > +unsigned int cpumask_next_and(int n, const struct cpumask *src1p,
-> >  		     const struct cpumask *src2p)
-> 
-> Ditto.
-> 
-> And seems a lot of cases in the series like this.
-> 
+> https://git.kernel.org/pub/scm/linux/kernel/git/mingo/tip.git/commit/?h=sched/headers&id=56a20d45417dc517d91626e5ef9f5492a5e901aa
+> and a few more patches on top
+
+OK, I'll try to use his patches. If they don't work - I'll take mine.
+
 > -- 
 > With Best Regards,
 > Andy Shevchenko
