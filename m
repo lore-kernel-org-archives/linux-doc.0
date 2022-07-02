@@ -2,38 +2,38 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E97B1CCA47B
-	for <linux-doc@archiver.kernel.org>; Sat,  2 Jul 2022 10:11:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A324EC43334
+	for <linux-doc@archiver.kernel.org>; Sat,  2 Jul 2022 10:11:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232246AbiGBKLj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 2 Jul 2022 06:11:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37178 "EHLO
+        id S232270AbiGBKLk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 2 Jul 2022 06:11:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37202 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231897AbiGBKLh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 2 Jul 2022 06:11:37 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D88718B2A;
-        Sat,  2 Jul 2022 03:11:36 -0700 (PDT)
+        with ESMTP id S232242AbiGBKLi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 2 Jul 2022 06:11:38 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C571218B0D;
+        Sat,  2 Jul 2022 03:11:37 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 7B65060C14;
-        Sat,  2 Jul 2022 10:11:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BF254C341CD;
+        by ams.source.kernel.org (Postfix) with ESMTPS id 2EC85B82ED3;
+        Sat,  2 Jul 2022 10:11:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B7355C34114;
         Sat,  2 Jul 2022 10:11:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1656756694;
-        bh=tyjiB6KXIb2t/OE4/soCi8nyF//+2DvXcvBFmclJruU=;
+        bh=zSYkGS2HJ+WHpni5N2jtrIv0c5dT9e/UFu6JXtlIEM0=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=tqHiiJ6Jne5DcQX2ahkE0KDPkGEHznmWfh365Q4dkbNYGNCo/gpwQiU3beWEo+rx3
-         abIMoF1s7y/kn5tRTBc6BCklWV5LKwnfgs3arjHnR1GBBsamccMkd+N+7tAsSVWCTu
-         Bd2LSLLrZiJzuIJE22MVmfTx4pETQ2Hb8Weyv39tDiIz+0GygFrkDkvosFJ+Bj414P
-         t1s4ds/YzCFgFXdo7BAZK/iX+YvgBSw+5+oheRt4bAP1XUFMypX2E/VL999NCMvkoM
-         sgCju8OdJofs+8px3zJ8neSf9J0tukSooajV8UqvIi8sRZpA9g/faZHWfyAi/VPek4
-         InQwEYqiIdmpA==
+        b=hxLYJRdzwkScLW67dCya8z32Ptg9ZRATYeWcVIHmYMyFXf1EW9Ba/sv/9t0T5fmnW
+         EL1obzl/d6Vgojfm/W8079lfCmkQGY3pf/yRFfIvYFbYOD5dBZ6hU7yE7xvlGsbpKV
+         r/39j8VsPiQNvCa0v6A8+Cz0dtFZr7vgs/+wx/i9VmMupmPTeUVh55PqSKOplXp0hW
+         5Ufb57aqwShAFaTAvZkh7TXTXxAP5DN9SDGEKcEy8BR2GQwJwqj37q/j0a9khN0Xof
+         lmHjNGiO29w6jwcPYChT4XHQzUrXvWezhOpdav3+sSi6S57Vmaq9XXEd8rDGn9SUNY
+         NGmDsWKiDjZqw==
 Received: from mchehab by mail.kernel.org with local (Exim 4.95)
         (envelope-from <mchehab@kernel.org>)
-        id 1o7a67-007cMg-MX;
+        id 1o7a67-007cMp-OA;
         Sat, 02 Jul 2022 11:11:31 +0100
 From:   Mauro Carvalho Chehab <mchehab@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
@@ -42,9 +42,9 @@ Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         "Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
         ksummit-discuss@lists.linuxfoundation.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v2 2/5] scripts: sphinx-pre-install: report broken venv
-Date:   Sat,  2 Jul 2022 11:11:26 +0100
-Message-Id: <f117f03555b0636d2be0b68f3a23b1d3f03ccf1d.1656756450.git.mchehab@kernel.org>
+Subject: [PATCH v2 5/5] scripts: sphinx-pre-install: place a warning for Sphinx >= 3.0
+Date:   Sat,  2 Jul 2022 11:11:29 +0100
+Message-Id: <085e0ada65c11da9303d07e70c510dc45f21315b.1656756450.git.mchehab@kernel.org>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <cover.1656756450.git.mchehab@kernel.org>
 References: <cover.1656756450.git.mchehab@kernel.org>
@@ -54,11 +54,14 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-After distro upgrades, the directory names for python may change.
-On such case, the previously-created venv will be broken, and
-sphinx-build won't run.
+Newer versions of Sphinx have a known bug:
+	https://github.com/sphinx-doc/sphinx/pull/8313
 
-Add a logic to report it.
+Those currently produces 11 false-positive warnings On Sphinx
+version 3.1+.
+
+While Sphinx fix is not applied, let's warn adventurers that would
+be using Sphinx installed via distro packages.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
 ---
@@ -66,26 +69,24 @@ Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
 To avoid mailbombing on a large number of people, only mailing lists were C/C on the cover.
 See [PATCH v2 0/5] at: https://lore.kernel.org/all/cover.1656756450.git.mchehab@kernel.org/
 
- scripts/sphinx-pre-install | 6 ++++++
- 1 file changed, 6 insertions(+)
+ scripts/sphinx-pre-install | 4 ++++
+ 1 file changed, 4 insertions(+)
 
 diff --git a/scripts/sphinx-pre-install b/scripts/sphinx-pre-install
-index ae8c49734899..18537e5af692 100755
+index 106d75425d3f..271c4eb1d702 100755
 --- a/scripts/sphinx-pre-install
 +++ b/scripts/sphinx-pre-install
-@@ -720,6 +720,12 @@ sub get_virtenv()
- 		next if (! -f $sphinx_cmd);
+@@ -902,6 +902,10 @@ sub recommend_sphinx_version($)
+ 	$need = $old_need;
+ 	$optional = $old_optional;
  
- 		my $ver = get_sphinx_version($sphinx_cmd);
-+
-+		if (!$ver) {
-+			$f =~ s#/bin/activate##;
-+			print("Warning: virtual envionment $f is not working.\nPython version upgrade? Remove it with:\n\n\trm -rf $f\n\n");
-+		}
-+
- 		if ($need_sphinx && ($ver ge $min_version)) {
- 			return ($f, $ver);
- 		} elsif ($ver gt $cur_version) {
++	printf "\n    Please note that Sphinx >= 3.0 will currently produce false-positive\n";
++	printf "   warning when the same name is used for more than one type (functions,\n";
++	printf "   structs, enums,...). This is known Sphinx bug. For more details, see:\n";
++	printf "\thttps://github.com/sphinx-doc/sphinx/pull/8313\n";
+ }
+ 
+ sub check_needs()
 -- 
 2.36.1
 
