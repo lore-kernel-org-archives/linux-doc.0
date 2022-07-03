@@ -2,104 +2,86 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 96930CCA473
-	for <linux-doc@archiver.kernel.org>; Sun,  3 Jul 2022 09:48:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E2216C43334
+	for <linux-doc@archiver.kernel.org>; Sun,  3 Jul 2022 09:57:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229550AbiGCJso (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 3 Jul 2022 05:48:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55622 "EHLO
+        id S229503AbiGCJ5n (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 3 Jul 2022 05:57:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59040 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229503AbiGCJsn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 3 Jul 2022 05:48:43 -0400
-Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A035B7663;
-        Sun,  3 Jul 2022 02:48:42 -0700 (PDT)
-Received: by mail-pl1-x62b.google.com with SMTP id 5so234304plk.9;
-        Sun, 03 Jul 2022 02:48:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=oiH22WBwxNe4iZftLgTmVues81FNsgN3x6fpbRHkQQs=;
-        b=pfJz87kay59E1D2tI6KeT+kzTagw+uwOsUPbzI3oFtNwCEBwi9JhYu5VAWSHMG+M2F
-         ul9LAedN3eWN01UuQplHaJcmLkwytzIypq+JStfVenXgeTy6gySpYZII0qBeRE/3ZLYS
-         +0Yrq1nk7m3lWdJMc1FUquYs9c3ZM3oqHlxiF8pkiQ0UxTm4nHDLK+4dvGmYIoEvGury
-         Be2Qnwj/mnJ3KmH4G4277DQPSi1szmPsk4/8z9hQBcYQ/aIq6sG6UqpXbjR8+/uWnB6u
-         p0kdx9hg3VC7LkMB1+IMJ/Z9nIHRsKW+fMrLVwkiv9Oiz/tWVBu0AxGj2HinvvGcsZ2O
-         c5kQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=oiH22WBwxNe4iZftLgTmVues81FNsgN3x6fpbRHkQQs=;
-        b=7egahj+uFMoh0zftp+/aRdpM4BkYGTEsrA6MKa4YQms5PB2pvQWo2CY9xmyEEbawJP
-         bHicUMgOVAGMrMWEQJN2SulrADPxGv640MZUEBh1bGBmwkEZXsDn/CWg9CRr6MWx7OFY
-         pwH5iugnJbRcLmX46+one0vbnvvw/Y2xNboCJbm08cPvPUPpCM/QfSk6Qa9oJCQDhPbm
-         l6TGT3MCVws0xYh8YpRkGt4iK0GNxWt+Lus0HAlwLIU0YVcHt3rZeaJbKEeqOqpWfF9u
-         +wd2nfjyC0N2FOkZ7TDADI9xd8nI2+M3NyHMlgpTNKkyaxk8CRwTnNICfKTfhs9sIfWM
-         5Nqw==
-X-Gm-Message-State: AJIora+5zkhx4b6rLs/npQ/li+UcZQ6xkOpuQlkILapA+EPfyz42qwkn
-        V1vPgRkb3+hSddffbbbHQ0rDDUON/VXw8g==
-X-Google-Smtp-Source: AGRyM1ujsJltvmMK0T1qg3zAkixRgxfPxhtfeYayFJkUiB/pzwFFb7lL4pAcwPCSvKNI06+Leb14qg==
-X-Received: by 2002:a17:902:bb90:b0:16b:8a74:3aad with SMTP id m16-20020a170902bb9000b0016b8a743aadmr29061269pls.47.1656841722124;
-        Sun, 03 Jul 2022 02:48:42 -0700 (PDT)
-Received: from debian.me (subs02-180-214-232-73.three.co.id. [180.214.232.73])
-        by smtp.gmail.com with ESMTPSA id be9-20020a056a001f0900b005251fff13dfsm18659763pfb.155.2022.07.03.02.48.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 03 Jul 2022 02:48:41 -0700 (PDT)
-Received: by debian.me (Postfix, from userid 1000)
-        id 7457D10387C; Sun,  3 Jul 2022 16:48:37 +0700 (WIB)
-Date:   Sun, 3 Jul 2022 16:48:37 +0700
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Akira Yokosawa <akiyks@gmail.com>
-Cc:     Gwendal Grignou <gwendal@chromium.org>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        with ESMTP id S231211AbiGCJ5m (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 3 Jul 2022 05:57:42 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ABFA1959A;
+        Sun,  3 Jul 2022 02:57:41 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 0B88561239;
+        Sun,  3 Jul 2022 09:57:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23C0AC341C6;
+        Sun,  3 Jul 2022 09:57:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1656842260;
+        bh=sr4KPKwXln9dVhXaJKSMNkYjpQn83ttknVa4Y3jo6As=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=jcg++DqrYeV/JqOaBEI6N7zwG7+KcHD1+g4g+eGG+h+43qxnOzOAdFiHL2sCpXVSm
+         zM0jOX1B1wZdzZfi/1KWZ7sx0tc68XbpJr030DrsQkgqYoNylO1FNMiHoIb07HpicI
+         3MRwouPL/KM8wzkALGO4MlitCSUTJkKZcAx777zE1lFBpA4HccZhzgfYE2ZWu7CSQL
+         AAfJvGz9Is8uRkKGccVaMid8I1O87M56DDHuyxrq89OSzJpMSXyozQdghqAlD35JzK
+         Vysj9G7HlPwhB2PTEvGM/j5x5+FpEIwipnuQ2UdnvmlL6VOO+bfQCeSeR280j3lg1l
+         raTHgIdgi9i5g==
+Date:   Sun, 3 Jul 2022 10:57:34 +0100
+From:   Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     Bagas Sanjaya <bagasdotme@gmail.com>
+Cc:     kernel test robot <lkp@intel.com>,
+        Gwendal Grignou <gwendal@chromium.org>,
         kbuild-all@lists.01.org, linux-kernel@vger.kernel.org,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
         Stephen Boyd <swboyd@chromium.org>, linux-doc@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        kernel test robot <lkp@intel.com>, linux-iio@vger.kernel.org
-Subject: Re: [PATCH] iio: proximity: sx9324: add empty line in front of
- bullet list
-Message-ID: <YsFl9YoSn2YUDHAk@debian.me>
+        Akira Yokosawa <akiyks@gmail.com>
+Subject: Re: htmldocs: Documentation/ABI/testing/sysfs-bus-iio-sx9324:2:
+ WARNING: Unexpected indentation.
+Message-ID: <20220703105734.05076795@sal.lan>
+In-Reply-To: <85c5fe48-90fd-6ad6-72d8-a3e7929f23e4@gmail.com>
 References: <202207021703.lEW6FLT1-lkp@intel.com>
- <85c5fe48-90fd-6ad6-72d8-a3e7929f23e4@gmail.com>
- <abcaa4f5-7a9b-56b5-c11a-a88fef9d1e0a@gmail.com>
+        <85c5fe48-90fd-6ad6-72d8-a3e7929f23e4@gmail.com>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <abcaa4f5-7a9b-56b5-c11a-a88fef9d1e0a@gmail.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Jul 03, 2022 at 01:27:47PM +0900, Akira Yokosawa wrote:
-> "make htmldocs" emits a warning of:
+Em Sun, 3 Jul 2022 10:29:44 +0700
+Bagas Sanjaya <bagasdotme@gmail.com> escreveu:
+
+> On 7/2/22 16:23, kernel test robot wrote:
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> > head:   089866061428ec9bf67221247c936792078c41a4
+> > commit: 4c18a890dff8d95ca234d184773910383a978d45 iio:proximity:sx9324: Add SX9324 support
+> > date:   5 months ago
+> > reproduce: make htmldocs
+> > 
+> > If you fix the issue, kindly add following tag where applicable
+> > Reported-by: kernel test robot <lkp@intel.com>
+> > 
+> > All warnings (new ones prefixed by >>):
+> >   
+> >>> Documentation/ABI/testing/sysfs-bus-iio-sx9324:2: WARNING: Unexpected indentation.  
+> > 
+> > vim +2 Documentation/ABI/testing/sysfs-bus-iio-sx9324
+> >   
+> >    > 2	Date:		November 2021  
+> >   
 > 
->     Documentation/ABI/testing/sysfs-bus-iio-sx9324:2: WARNING: Unexpected indentation.
-> 
-> This is due to a missing empty line in front of the bullet list.
-> Fix it.
-> 
-> Note: The line count of 2 in the warning is not exact in this case.
-> 
-> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
-> Fixes: 4c18a890dff8 ("iio:proximity:sx9324: Add SX9324 support")
-> Link: https://lore.kernel.org/r/202207021703.lEW6FLT1-lkp@intel.com/
-> Reported-by: kernel test robot <lkp@intel.com>
-> Cc: Gwendal Grignou <gwendal@chromium.org>
-> Cc: Stephen Boyd <swboyd@chromium.org>
-> Cc: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> I'm not sure how to fix above, since the Date: field looks OK to me.
 
-Applying this on top of Mauro's fixes [1], no warnings. Thanks.
+This one is trivial: just add a blank line. I already provided
+Jonathan a feedback about that:
 
-So I think Sphinx was pointing the culprit at the wrong location, since
-the problem isn't lie on the field, but rather on the list.
+	https://lore.kernel.org/all/20220626234411.227c1a87@sal.lan/
 
-Mauro, can you please pick this up?
-
-[1]: https://lore.kernel.org/linux-doc/cover.1656759988.git.mchehab@kernel.org/
-
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
-
--- 
-An old man doll... just what I always wanted! - Clara
+Regards,
+Mauro
