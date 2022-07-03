@@ -2,88 +2,75 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F970CCA473
-	for <linux-doc@archiver.kernel.org>; Sun,  3 Jul 2022 21:17:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 19B7FC43334
+	for <linux-doc@archiver.kernel.org>; Sun,  3 Jul 2022 21:36:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229954AbiGCVRE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 3 Jul 2022 17:17:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33174 "EHLO
+        id S229673AbiGCVgd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 3 Jul 2022 17:36:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41212 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229791AbiGCVRE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 3 Jul 2022 17:17:04 -0400
-Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28F895F95;
-        Sun,  3 Jul 2022 14:17:03 -0700 (PDT)
-Received: from fews1.riseup.net (fews1-pn.riseup.net [10.0.1.83])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
-         client-signature RSA-PSS (2048 bits) client-digest SHA256)
-        (Client CN "mail.riseup.net", Issuer "R3" (not verified))
-        by mx1.riseup.net (Postfix) with ESMTPS id 4LbhZq3XlCzDqb8;
-        Sun,  3 Jul 2022 21:16:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
-        t=1656883022; bh=6Ij8yOwB4JYb9RD/LraY+fNrTpkLeOaMfQgUySj3D08=;
-        h=From:To:Cc:Subject:Date:From;
-        b=pOCVJ59irxatorE7DrR6wHRNx9/P0MC49Tu6buujPr0C2Y8+YJE1ro2FFYlcO4qeB
-         TXrjz5LfZA2pOd99El2qHB63Hpl1FxB5wg9DIdw7NpRpQ7Wbaq1TKk0WcCSAZu2Alf
-         dqKvLW7ihcPqKf2rzpLUV0atgrPCTdMCNhZg1YpA=
-X-Riseup-User-ID: A375FB2AA550E8B726569AC28C478E255E83A99C7E458BD264E12F57DEAE1F4D
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-         by fews1.riseup.net (Postfix) with ESMTPSA id 4LbhZm3jhjz5vTK;
-        Sun,  3 Jul 2022 21:16:48 +0000 (UTC)
-From:   =?UTF-8?q?Ma=C3=ADra=20Canal?= <mairacanal@riseup.net>
-To:     Brendan Higgins <brendanhiggins@google.com>,
-        Jonathan Corbet <corbet@lwn.net>, davidgow@google.com
-Cc:     linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        =?UTF-8?q?Ma=C3=ADra=20Canal?= <mairacanal@riseup.net>
-Subject: [PATCH v2] Documentation: KUnit: Fix example with compilation error
-Date:   Sun,  3 Jul 2022 18:16:42 -0300
-Message-Id: <20220703211642.550255-1-mairacanal@riseup.net>
+        with ESMTP id S229519AbiGCVgb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 3 Jul 2022 17:36:31 -0400
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 561172AE0;
+        Sun,  3 Jul 2022 14:36:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1656884190; x=1688420190;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=24QQ5NPrwFmpCkw+mx2t1WzaBx8QIpAmI3MSKELw5lE=;
+  b=h/3Yy+C7US0kx/CvqAzBxZjHLkBZ517j35ojb0IopMkwggf4/D/pZoD4
+   wFd2Y2FSNIjRvsEoLTKyydXGnUI0SQ1Yyb1PT3jKjZHBBUHkJzdXP+Ra9
+   VmNTU5Q68Uk7MX91gNcHed6cyybIwNGysn2vI987Le4afKSoaIU7jCZdc
+   OznKdKz4WH4oiSgyfEdf9q28mm1WszTbI8WWPrjmQ1lHP7VZbIztj6U3Z
+   m81kWoaOG9dZ6PrQirj/RqRHVvw0MgtYM6pCvfVs4M2TuE3Vmtc/sZpmF
+   0GjTnSEr9QSm/QvedwCCepiTlVePpGXjrtfo0M+lo6BMY1xj4q87arx/0
+   w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10397"; a="263396831"
+X-IronPort-AV: E=Sophos;i="5.92,241,1650956400"; 
+   d="scan'208";a="263396831"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2022 14:36:30 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.92,241,1650956400"; 
+   d="scan'208";a="695114319"
+Received: from lkp-server01.sh.intel.com (HELO 68b931ab7ac1) ([10.239.97.150])
+  by fmsmga002.fm.intel.com with ESMTP; 03 Jul 2022 14:36:28 -0700
+Received: from kbuild by 68b931ab7ac1 with local (Exim 4.95)
+        (envelope-from <lkp@intel.com>)
+        id 1o87GV-000H19-S3;
+        Sun, 03 Jul 2022 21:36:27 +0000
+Date:   Mon, 4 Jul 2022 05:36:25 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Brendan Higgins <brendanhiggins@google.com>
+Cc:     kbuild-all@lists.01.org, linux-kernel@vger.kernel.org,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Kees Cook <keescook@chromium.org>,
+        David Gow <davidgow@google.com>, linux-doc@vger.kernel.org
+Subject: htmldocs: Documentation/dev-tools/kunit/api/test:9:
+ include/kunit/test.h:318: WARNING: Inline interpreted text or phrase
+ reference start-string without end-string.
+Message-ID: <202207040533.Ja5Z2Onx-lkp@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The Parameterized Testing example contains a compilation error, as the
-signature for the description helper function is void(*)(const struct
-sha1_test_case *, char *), and the struct is non-const. This is
-warned by Clang:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   20855e4cb361adeabce3665f5174b09b4a6ebfe6
+commit: 9bf2eed995f9f8136f00110214c120f2d7912ad8 kunit: add support for kunit_suites that reference init code
+date:   10 weeks ago
+reproduce: make htmldocs
 
-error: initialization of ‘void (*)(struct sha1_test_case *, char *)’
-from incompatible pointer type ‘void (*)(const struct sha1_test_case *,
-char *)’ [-Werror=incompatible-pointer-types]
-33 | KUNIT_ARRAY_PARAM(sha1, cases, case_to_desc);
-   |                                ^~~~~~~~~~~~
-../include/kunit/test.h:1339:70: note: in definition of macro
-‘KUNIT_ARRAY_PARAM’
-1339 |                         void
-    (*__get_desc)(typeof(__next), char *) = get_desc; \
+If you fix the issue, kindly add following tag where applicable
+Reported-by: kernel test robot <lkp@intel.com>
 
-Signed-off-by: Maíra Canal <mairacanal@riseup.net>
----
-v1 -> v2: https://lore.kernel.org/linux-kselftest/CABVgOSkFKJBNt-AsWmOh2Oni4QO2xdiXJiYD1EVcS-Qz=BjJRw@mail.gmail.com/T/#mf546fc75bf9e5bd27cb3bbd531b51409fbc87a9d
-- Instead of changing the function signature to non-const, makes the cases
-const (David Gow).
----
- Documentation/dev-tools/kunit/usage.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+All warnings (new ones prefixed by >>):
 
-diff --git a/Documentation/dev-tools/kunit/usage.rst b/Documentation/dev-tools/kunit/usage.rst
-index d62a04255c2e..44158eecb51e 100644
---- a/Documentation/dev-tools/kunit/usage.rst
-+++ b/Documentation/dev-tools/kunit/usage.rst
-@@ -505,7 +505,7 @@ By reusing the same ``cases`` array from above, we can write the test as a
- 		const char *str;
- 		const char *sha1;
- 	};
--	struct sha1_test_case cases[] = {
-+	const struct sha1_test_case cases[] = {
- 		{
- 			.str = "hello world",
- 			.sha1 = "2aae6c35c94fcfb415dbe95f408b9ce91ee846ed",
+>> Documentation/dev-tools/kunit/api/test:9: include/kunit/test.h:318: WARNING: Inline interpreted text or phrase reference start-string without end-string.
+
 -- 
-2.36.1
-
+0-DAY CI Kernel Test Service
+https://01.org/lkp
