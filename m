@@ -2,106 +2,131 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 86BE1C43334
-	for <linux-doc@archiver.kernel.org>; Sat,  2 Jul 2022 22:06:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D58AC43334
+	for <linux-doc@archiver.kernel.org>; Sun,  3 Jul 2022 03:26:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230371AbiGBWGo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 2 Jul 2022 18:06:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59298 "EHLO
+        id S229885AbiGCD03 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 2 Jul 2022 23:26:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43718 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229486AbiGBWGm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 2 Jul 2022 18:06:42 -0400
-Received: from mail-qt1-x82f.google.com (mail-qt1-x82f.google.com [IPv6:2607:f8b0:4864:20::82f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A794CE16;
-        Sat,  2 Jul 2022 15:06:41 -0700 (PDT)
-Received: by mail-qt1-x82f.google.com with SMTP id ay10so4726319qtb.1;
-        Sat, 02 Jul 2022 15:06:41 -0700 (PDT)
+        with ESMTP id S229486AbiGCD02 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 2 Jul 2022 23:26:28 -0400
+Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DCF1B9FC3;
+        Sat,  2 Jul 2022 20:26:22 -0700 (PDT)
+Received: by mail-pj1-x102b.google.com with SMTP id fz10so139247pjb.2;
+        Sat, 02 Jul 2022 20:26:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=qWVzoWJiukz0uMc/6nDJZct0as3OEPBskJtVTg6SlEg=;
-        b=mc7H5jasd4LfEtY2rm4wZRl7UnEzyYM03PXLNK4gNksqdVesPr/gZzzyu0Eg4uuWwM
-         23RnsOURvmBEhBp+0Q7LrhTZ4r8nyDPhPdeY+L3pkBN/Iw1dppG6+XsdHfUIKruiE0Ki
-         hJpTCrhsfM6iy7xy39Hk2yLXH+ciWFngkjpmtDsH7zvypETVllyKmY23delveTOU42df
-         R/6o5f0lMwH7BeA/A8gm1WLvuL65sydYfRLFEBsMsR4FPfvl7ZY5oNrsUZiY4UsfzjKQ
-         Em0qEFm7hrLooqSR1TbDgD+cFzHDaTwYTSHjOrKVDY2ilfC5delAoiUzsJo4OalIBoEW
-         gXHw==
+        bh=/LE3/OvnxwC10hHaqp2JoOJSN7rfZOpUu2WCyCiyCz4=;
+        b=Augt3VIV/iWcoU+DHx6Yl7vroOm9Hwz+XtZe2jvyXkhsx95p/JLAo0xcEd6ix1ZIVf
+         qIfg68MUyw+xLjl2gBsPYsbv6l3jY94RzOJD92gb6rxdLTyy5Av/dXPYvA/EXIhLOtLz
+         svOqPB75mbgpDTnbuNTXc8rdS2DrehpRBgIiYcfLEACt56jQqPD4OYEXOr+iSon97xBH
+         KYxD4XfgTiHC/xmDNEPOFfPpT2EHhts4G6H0Pm0fJr3aoQ7VOuwkBeKtFwd1B4K1k9D/
+         GdNdQLrWNIKMTC9YgyvhuIjL+GirhGz9Rbn2DEPjhAWabLVNFd+wt0MxRzds1x2rF4/L
+         8aeg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=qWVzoWJiukz0uMc/6nDJZct0as3OEPBskJtVTg6SlEg=;
-        b=t2TBlZS4v9HgIgjz02CfhI1MAOIzM7J7KioR/qxNlu12pW7eXD9PelYBlECIkiyOsA
-         ks0z8SIw5fKIgr3J6LgWXNbBi1V9ju+hMRxW6UWmeV06G9PM6iwir/kCS2kxsCk/L+OL
-         8DyUQeFQetJybD3ldjHxQbF+MesxLp0iI2TKtlTqCCrCQoqEP9rNFfF5Tt6ULn0fGsy6
-         /IuLtpUXdR+E0p6k77T3CDWjRhyaI4dDb3hJVybzIcjgRYBmQJwBr0dTujh4LYzh6Ivp
-         WeCdQ4JmMnJPaE/lYoLpSBrm4tCIbROykevW1P789GixTXhknoVcFtcKAB0I9IKrDFcI
-         Qv5A==
-X-Gm-Message-State: AJIora9Dt7v/5C4x7fBXLQLHtd01vGMwTtZersLz5+uXznfilMDquCwl
-        9iUdKfs5W5RyaA5tlJof/Ec=
-X-Google-Smtp-Source: AGRyM1vq6UAVmcmt5d/O2DY7q4ksXfPBKaksojESvKdwWStGnRsTeqbeOkgRt3edMzGa3psAP0PpzA==
-X-Received: by 2002:ac8:5b0e:0:b0:31d:3b3d:37cd with SMTP id m14-20020ac85b0e000000b0031d3b3d37cdmr7456251qtw.657.1656799600667;
-        Sat, 02 Jul 2022 15:06:40 -0700 (PDT)
-Received: from localhost ([2601:4c1:c100:1230:e838:b1c2:b125:986a])
-        by smtp.gmail.com with ESMTPSA id cb24-20020a05622a1f9800b003187c484027sm12140303qtb.73.2022.07.02.15.06.40
+        bh=/LE3/OvnxwC10hHaqp2JoOJSN7rfZOpUu2WCyCiyCz4=;
+        b=hSqHn4/XX/P/1YE7EvPtr7Y+Gdsa1DIREWmnADK9NoQy99dUPWRtADeOmp8jV5NVib
+         WBnRteh9EbmYjsDyBRgK8MiOR/LL3MxloBDohF3ox6rX4Ywo29ftvJkN0cTn84sWVVP4
+         evQ/7KuPFaoOm6FTu1uGu6I4xfvA0YhJzAftMKvnnOMhvyMr+B+rSXsMCAuMHgDTUq0a
+         D60ZfydIqmFzEmlgQ99aOyFFJ66m35ObaZ2GcAZoDMLIiTzcRoL06Qy/4yrpQ0pkevKi
+         OrInWrB1W2JRoNrczCaKDgYwbnqHFMS7bK1d1RvhMkjJURkI2ulbJ1mbG3IgRfR4mwHX
+         tBtA==
+X-Gm-Message-State: AJIora9XIOW8cd/kwEIuBr8xZHO3SqObbMGFfCEDNVp09OqOPg7BXXUf
+        ScwRSq1f3RsApXnEAA2R9+hy4tQUFJpMcg==
+X-Google-Smtp-Source: AGRyM1v/qGK0NX2/G7uiSvuhmywhBxQ+rRzGPCB7tQOWN8p4Gfx3qW4Qvkfllc0ImMReMYjkXPk5jA==
+X-Received: by 2002:a17:903:2c6:b0:16a:276a:ad81 with SMTP id s6-20020a17090302c600b0016a276aad81mr29074812plk.65.1656818782428;
+        Sat, 02 Jul 2022 20:26:22 -0700 (PDT)
+Received: from debian.me (subs32-116-206-28-33.three.co.id. [116.206.28.33])
+        by smtp.gmail.com with ESMTPSA id u17-20020a170902e81100b0016a0db8c5b4sm1866809plg.156.2022.07.02.20.26.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 02 Jul 2022 15:06:40 -0700 (PDT)
-Date:   Sat, 2 Jul 2022 15:06:39 -0700
-From:   Yury Norov <yury.norov@gmail.com>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     linux-kernel@vger.kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        David Howells <dhowells@redhat.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        NeilBrown <neilb@suse.de>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Russell King <linux@armlinux.org.uk>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        William Kucharski <william.kucharski@oracle.com>,
-        linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mm@kvack.org
-Subject: Re: [PATCH 7/8] mm: split include/linux/gfp.h
-Message-ID: <YsDBb15JeN2v/NBK@yury-laptop>
-References: <20220701125430.2907638-1-yury.norov@gmail.com>
- <20220701125430.2907638-8-yury.norov@gmail.com>
- <YsA0k5G1B1kiQdXY@smile.fi.intel.com>
- <YsA1hHc3GgTIsglN@smile.fi.intel.com>
+        Sat, 02 Jul 2022 20:26:21 -0700 (PDT)
+Received: by debian.me (Postfix, from userid 1000)
+        id EA78810390C; Sun,  3 Jul 2022 10:26:16 +0700 (WIB)
+Date:   Sun, 3 Jul 2022 10:26:16 +0700
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        "David S. Miller" <davem@davemloft.net>,
+        Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+        Theodore Ts'o <tytso@mit.edu>,
+        Alasdair Kergon <agk@redhat.com>,
+        Andreas Dilger <adilger.kernel@dilger.ca>,
+        Brendan Higgins <brendanhiggins@google.com>,
+        Dipen Patel <dipenp@nvidia.com>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Johannes Berg <johannes@sipsolutions.net>,
+        Mike Snitzer <snitzer@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>, Takashi Iwai <tiwai@suse.com>,
+        Gwendal Grignou <gwendal@chromium.org>,
+        alsa-devel@alsa-project.org, dm-devel@redhat.com,
+        kunit-dev@googlegroups.com, kvm@vger.kernel.org,
+        linux-ext4@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-pci@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-wireless@vger.kernel.org, netdev@vger.kernel.org
+Subject: Re: [PATCH 00/12] Fix several documentation build warnings with
+ Sphinx 2.4.4
+Message-ID: <YsEMWDYCdjxiUZ1P@debian.me>
+References: <cover.1656759988.git.mchehab@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <YsA1hHc3GgTIsglN@smile.fi.intel.com>
+In-Reply-To: <cover.1656759988.git.mchehab@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Jul 02, 2022 at 03:09:40PM +0300, Andy Shevchenko wrote:
-> On Sat, Jul 02, 2022 at 03:05:39PM +0300, Andy Shevchenko wrote:
-> > On Fri, Jul 01, 2022 at 05:54:29AM -0700, Yury Norov wrote:
-> > > gfp.h belongs to many include paths, and it causes circular dependencies
-> > > when, for example, trying to keep cpumask one-line wrappers in headers.
-> > > 
-> > > In many cases, sources need only gfp flags. This patch splits gfp.h by
-> > > moving flags to include/linux/gfp_flags.h. It helps to move trivial 
-> > > wrappers from c-file to header in the following patch for cpumask.
-> > 
-> > Wondering if you checked Ingo's gigantic series [1] for something similar.
-> > Maybe you may utilize his work if there is anything like this.
-
-No, I didn't. 
-
-> > 
-> > [1]: https://git.kernel.org/pub/scm/linux/kernel/git/mingo/tip.git/log/?h=sched/headers
+On Sat, Jul 02, 2022 at 12:07:32PM +0100, Mauro Carvalho Chehab wrote:
+> This series is against next-20220701. It fixes several warnings
+> that are currently produced while building html docs.
 > 
-> https://git.kernel.org/pub/scm/linux/kernel/git/mingo/tip.git/commit/?h=sched/headers&id=56a20d45417dc517d91626e5ef9f5492a5e901aa
-> and a few more patches on top
-
-OK, I'll try to use his patches. If they don't work - I'll take mine.
-
-> -- 
-> With Best Regards,
-> Andy Shevchenko
+> Each patch in this series is independent from the others, as
+> each one touches a different file.
 > 
+> Mauro Carvalho Chehab (12):
+>   docs: ext4: blockmap.rst: fix a broken table
+>   docs: tegra194-hte.rst: don't include gpiolib.c twice
+>   docs: device-mapper: add a blank line at writecache.rst
+>   docs: PCI: pci-vntb-function.rst: Properly include ascii artwork
+>   docs: PCI: pci-vntb-howto.rst: fix a title markup
+>   docs: virt: kvm: fix a title markup at api.rst
+>   docs: ABI: sysfs-bus-nvdimm
+>   kunit: test.h: fix a kernel-doc markup
+>   net: mac80211: fix a kernel-doc markup
+>   docs: alsa: alsa-driver-api.rst: remove a kernel-doc file
+>   docs: arm: index.rst: add google/chromebook-boot-flow
+>   docs: leds: index.rst: add leds-qcom-lpg to it
+> 
+
+Hi Mauro,
+
+Thanks for cleaning up these warning above. However, I have already
+submitted some of these cleanups (pending reviews or integration):
+
+[1]: https://lore.kernel.org/linux-doc/20220702042350.23187-1-bagasdotme@gmail.com/
+[2]: https://lore.kernel.org/linux-doc/20220612000125.9777-1-bagasdotme@gmail.com/
+[3]: https://lore.kernel.org/linux-doc/20220627095151.19339-1-bagasdotme@gmail.com/
+[4]: https://lore.kernel.org/linux-doc/20220627082928.11239-1-bagasdotme@gmail.com/
+
+There's still a warning left:
+
+Documentation/ABI/testing/sysfs-bus-iio-sx9324:2: WARNING: Unexpected indentation.
+
+But I think the Date: field that triggered the warning above looks OK.
+
+Regardless of that, the build successed.
+
+Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+
+-- 
+An old man doll... just what I always wanted! - Clara
