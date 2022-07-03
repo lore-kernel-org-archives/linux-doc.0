@@ -2,110 +2,81 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B2D40C433EF
-	for <linux-doc@archiver.kernel.org>; Sun,  3 Jul 2022 04:27:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E1D2AC43334
+	for <linux-doc@archiver.kernel.org>; Sun,  3 Jul 2022 06:16:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230079AbiGCE14 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 3 Jul 2022 00:27:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52930 "EHLO
+        id S229711AbiGCGQi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 3 Jul 2022 02:16:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42484 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229782AbiGCE14 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 3 Jul 2022 00:27:56 -0400
-Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com [IPv6:2607:f8b0:4864:20::434])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 410CD655F;
-        Sat,  2 Jul 2022 21:27:53 -0700 (PDT)
-Received: by mail-pf1-x434.google.com with SMTP id f85so2259916pfa.3;
-        Sat, 02 Jul 2022 21:27:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=L3p41Hy2xkGcM9lCGDSD8Sj0lyHS0AKT+S1haQ42j0w=;
-        b=oStd8z+n+zb6l9ZMlyH6Awr7moCoXrpFVl9kRQZqRF1yRtSvbrzlfYOz9ou79dOYDE
-         0WMiLg+IdCvRY9OSJ9XgIp/sja810iXC9RBPPV8low9BTDfOZNZ9fmhEZMbPkBr9b+Nl
-         6bVraWKUe2HVjSfTOrMafabo8tRn8ej5wMupGn/YaHV344k+wKKJ1V2ScYkncx0UoL3T
-         RC5vxUtgaZ5XlMUpJSK+BAwueT3eH9COh4hM7Effx30Vdc88mYY2p9GTA+Ne5ZAp+lkt
-         u2Ehhi8M3vgxvXiS69q8qOklA2/Vnleauomi75difO0lg6ymA5H/JE8itNk5RjvDT5FJ
-         vxoA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=L3p41Hy2xkGcM9lCGDSD8Sj0lyHS0AKT+S1haQ42j0w=;
-        b=MezbvqlhkDb5JQPFon5AC7SWr5K18Cs0NDVceGr7m3XMKf4mcpf0NaUiNqZ0Lccu5V
-         O0tgWDXKGuitBq3RNBzSaP/1STLX2HG612w+psjVYQSkNhu1/tw1fS5wWVGZTnXJKBeg
-         Sc3KdG2lZBgJ9Gks2iE3i9GZXy9i9GD9Jr0O91IR9QjDyWsO/083olV+U1o6QPFCImtL
-         7jxZdMPo6sRDp1VP8L5shl8B0ST0HE0vf2Cfja8hvx4W1oO8mXNIcwN1t1IJBhJViTB+
-         xNmTO664UUsXub/FWN9tKJ1ZY5I3FVX6+HA2lVkNfZEe4P4kkdYXecQ0F23IdkiBNJ9T
-         f26g==
-X-Gm-Message-State: AJIora837diWVKhoFEkavu5REM9B8fs8dy4Ij+s8Df1xIyLwqk03eTlk
-        RxNmluwFFH8AjntXlUE/29B/HSzZtac=
-X-Google-Smtp-Source: AGRyM1u3Pvdf9wOoKvmkYRg+h459H+ro5MrXSf9xRirGQpvhD0gpDFNaHFDtfIGU9XUUG+Z40piC4A==
-X-Received: by 2002:a63:4716:0:b0:410:ac39:868d with SMTP id u22-20020a634716000000b00410ac39868dmr18843643pga.347.1656822472792;
-        Sat, 02 Jul 2022 21:27:52 -0700 (PDT)
-Received: from [192.168.11.5] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id c13-20020a170902c1cd00b0016a276aada7sm18274477plc.20.2022.07.02.21.27.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 02 Jul 2022 21:27:52 -0700 (PDT)
-Message-ID: <abcaa4f5-7a9b-56b5-c11a-a88fef9d1e0a@gmail.com>
-Date:   Sun, 3 Jul 2022 13:27:47 +0900
+        with ESMTP id S229562AbiGCGQh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 3 Jul 2022 02:16:37 -0400
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E56832614
+        for <linux-doc@vger.kernel.org>; Sat,  2 Jul 2022 23:16:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1656828996; x=1688364996;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=dbnGAVBhqMjh4IkpQ5qdsUqIz8UDvlr+et7UCYj2F3k=;
+  b=i6geDs80Cdy+Jv8/UI2Apwq3C9XjI8UiYSUZWSj3ZpoCHKvc01RQNZvr
+   Bs13DFrHl4TgM6sNHZ+SPURO2FDVwnLkUWu1ZfPiXJZVohuWzTTPHnR5t
+   SwB4REMDWLpMGJhG4ugNg/0trIHRcFcnmz5vHEU10PmKr3Y8tUwesm3iw
+   X1mvNpBJeN1BjZVD/NobdtDTXsIKRZsijTEDrBeUZF+u3pr40T5vwYOPi
+   dVrDlpK0m5Ei0wOIKqi7pwuzH6hwCxPo7ztC1nJApsCdcMPyB+jCB8BdH
+   205DCcff2SCZsxtgniahOAQU6Qb5Mldv3blV3NVZd5uCNZG8i+t929VSi
+   w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10396"; a="281668904"
+X-IronPort-AV: E=Sophos;i="5.92,241,1650956400"; 
+   d="scan'208";a="281668904"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2022 23:16:36 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.92,241,1650956400"; 
+   d="scan'208";a="542141220"
+Received: from lkp-server01.sh.intel.com (HELO 68b931ab7ac1) ([10.239.97.150])
+  by orsmga003.jf.intel.com with ESMTP; 02 Jul 2022 23:16:34 -0700
+Received: from kbuild by 68b931ab7ac1 with local (Exim 4.95)
+        (envelope-from <lkp@intel.com>)
+        id 1o7suI-000GAV-0q;
+        Sun, 03 Jul 2022 06:16:34 +0000
+Date:   Sun, 3 Jul 2022 14:16:13 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Ben Gardon <bgardon@google.com>
+Cc:     kbuild-all@lists.01.org,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        David Matlack <dmatlack@google.com>,
+        Peter Xu <peterx@redhat.com>, linux-doc@vger.kernel.org
+Subject: [linux-next:master 4541/7282] htmldocs:
+ Documentation/virt/kvm/api.rst:8210: WARNING: Title underline too short.
+Message-ID: <202207031437.qIh6LFcx-lkp@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: [PATCH] iio: proximity: sx9324: add empty line in front of bullet
- list
-Content-Language: en-US
-To:     Gwendal Grignou <gwendal@chromium.org>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Cc:     kbuild-all@lists.01.org, linux-kernel@vger.kernel.org,
-        Stephen Boyd <swboyd@chromium.org>, linux-doc@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        kernel test robot <lkp@intel.com>, linux-iio@vger.kernel.org
-References: <202207021703.lEW6FLT1-lkp@intel.com>
- <85c5fe48-90fd-6ad6-72d8-a3e7929f23e4@gmail.com>
-From:   Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <85c5fe48-90fd-6ad6-72d8-a3e7929f23e4@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-"make htmldocs" emits a warning of:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   c4185b16aba73929aa76f0d030efbe79ae867808
+commit: 084cc29f8bbb034cf30a7ee07a816c115e0c28df [4541/7282] KVM: x86/MMU: Allow NX huge pages to be disabled on a per-vm basis
+reproduce: make htmldocs
 
-    Documentation/ABI/testing/sysfs-bus-iio-sx9324:2: WARNING: Unexpected indentation.
-
-This is due to a missing empty line in front of the bullet list.
-Fix it.
-
-Note: The line count of 2 in the warning is not exact in this case.
-
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
-Fixes: 4c18a890dff8 ("iio:proximity:sx9324: Add SX9324 support")
-Link: https://lore.kernel.org/r/202207021703.lEW6FLT1-lkp@intel.com/
+If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
-Cc: Gwendal Grignou <gwendal@chromium.org>
-Cc: Stephen Boyd <swboyd@chromium.org>
-Cc: Jonathan Cameron <Jonathan.Cameron@huawei.com>
----
- Documentation/ABI/testing/sysfs-bus-iio-sx9324 | 1 +
- 1 file changed, 1 insertion(+)
 
-diff --git a/Documentation/ABI/testing/sysfs-bus-iio-sx9324 b/Documentation/ABI/testing/sysfs-bus-iio-sx9324
-index 632e3321f5a3..a8342770e7cb 100644
---- a/Documentation/ABI/testing/sysfs-bus-iio-sx9324
-+++ b/Documentation/ABI/testing/sysfs-bus-iio-sx9324
-@@ -5,6 +5,7 @@ Contact:	Gwendal Grignou <gwendal@chromium.org>
- Description:
- 		SX9324 has 3 inputs, CS0, CS1 and CS2. Hardware layout
- 		defines if the input is
-+
- 		+ not connected (HZ),
- 		+ grounded (GD),
- 		+ connected to an antenna where it can act as a base
+All warnings (new ones prefixed by >>):
+
+>> Documentation/virt/kvm/api.rst:8210: WARNING: Title underline too short.
+
+vim +8210 Documentation/virt/kvm/api.rst
+
+  8208	
+  8209	8.38 KVM_CAP_VM_DISABLE_NX_HUGE_PAGES
+> 8210	---------------------------
+  8211	
+
 -- 
-2.25.1
-
-
+0-DAY CI Kernel Test Service
+https://01.org/lkp
