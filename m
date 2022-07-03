@@ -2,53 +2,54 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 07B94C433EF
-	for <linux-doc@archiver.kernel.org>; Sun,  3 Jul 2022 13:15:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AAD42C43334
+	for <linux-doc@archiver.kernel.org>; Sun,  3 Jul 2022 14:37:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232416AbiGCNP4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 3 Jul 2022 09:15:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34536 "EHLO
+        id S232127AbiGCOg7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 3 Jul 2022 10:36:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45082 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232493AbiGCNPz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 3 Jul 2022 09:15:55 -0400
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC41A63E8;
-        Sun,  3 Jul 2022 06:15:54 -0700 (PDT)
+        with ESMTP id S229739AbiGCOg6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 3 Jul 2022 10:36:58 -0400
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC7B963AF;
+        Sun,  3 Jul 2022 07:36:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1656854154; x=1688390154;
+  t=1656859018; x=1688395018;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/K/XbiGJKbxDxO0RGsaOp2tGMlUlUOZKBB0ivtAl+iU=;
-  b=OKQ5uv/N/OocDIrKUHF0bgA0IkVzcuN5fB5fUyE4LjAGVjUs1vhLs1oY
-   CfO8h7yzMpjwpwBJUGij+b53s2MdICfBBBw+blEbdLFqVZzOpscjSRER3
-   s2/kug5op0Az2qVeKDbp4oa9JNCvNKgK4V9Bs1yfPXIz77DHA/M6LVa2x
-   LLDitDotQk5hNMmM4shk4SDDhP3cSxbt1wS75cHt4Mr+PGDPWmBLgcSUa
-   gAxbFmBoLG+kcp7pq74GlLeYTTNucIxQboun+FBxYmO7z09ZWGiC/BbRq
-   zLvjt7bbQfIafoXA16MnP/Z4z/Aww3QgD0lAjKOO1Zu10BUD/bcVgSInN
-   A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10396"; a="271717601"
+  bh=DMxpozazW6mTdg7Efhz9X5/dQ5of/dx9O2hS7N4aIYA=;
+  b=jrhXw3GIj1TTCeJ4SGnS09jihVy7f4tBc2baK1DxPzy0JT310qb5bdkg
+   /M0ouyPbXWYUdjaWdU2kvxFjoGKEmIS38NyJFU/W6j6sluFoFxwL3pOPY
+   VNN9Ydi8pdzkXds0xQHjJ1Aa8hHf+hT6pcTWr4IgOzX9GGU1appOraovG
+   cbBQ9ZMj6DqCaC4FlydDv6tkAr/cbwIEtn+Zrrj/x1ZKyExb6MB+E6zAu
+   l0civyB6W3Epzdw+yrNM7naOc02rZULuU8ln/zrT7nf0Rezpf2eEBsDYY
+   XIIaJ/Erlpi+2vnQPcZrK6toe7FLGuK1P7LtIjA4LdjXxr4zNSoN/m3+J
+   Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10396"; a="283683779"
 X-IronPort-AV: E=Sophos;i="5.92,241,1650956400"; 
-   d="scan'208";a="271717601"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2022 06:15:54 -0700
+   d="scan'208";a="283683779"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2022 07:36:57 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.92,241,1650956400"; 
-   d="scan'208";a="919021209"
+   d="scan'208";a="542225966"
 Received: from lkp-server01.sh.intel.com (HELO 68b931ab7ac1) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 03 Jul 2022 06:15:53 -0700
+  by orsmga003.jf.intel.com with ESMTP; 03 Jul 2022 07:36:55 -0700
 Received: from kbuild by 68b931ab7ac1 with local (Exim 4.95)
         (envelope-from <lkp@intel.com>)
-        id 1o7zS4-000GYi-J5;
-        Sun, 03 Jul 2022 13:15:52 +0000
-Date:   Sun, 3 Jul 2022 21:15:46 +0800
+        id 1o80iV-000Gbv-8S;
+        Sun, 03 Jul 2022 14:36:55 +0000
+Date:   Sun, 3 Jul 2022 22:36:41 +0800
 From:   kernel test robot <lkp@intel.com>
-To:     SeongJae Park <sjpark@amazon.de>
+To:     Kajol Jain <kjain@linux.ibm.com>
 Cc:     kbuild-all@lists.01.org, linux-kernel@vger.kernel.org,
+        Dan Williams <dan.j.williams@intel.com>,
+        Madhavan Srinivasan <maddy@in.ibm.com>,
         linux-doc@vger.kernel.org
-Subject: [sj:damon/next 17/20] htmldocs:
- Documentation/admin-guide/mm/damon/guide.rst:173: WARNING: unknown document:
- /vm/damon/api
-Message-ID: <202207032102.FQn5Ryi7-lkp@intel.com>
+Subject: htmldocs: Documentation/ABI/testing/sysfs-bus-nvdimm:11: WARNING:
+ Unexpected indentation.
+Message-ID: <202207032228.bTwnKXlK-lkp@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
@@ -56,9 +57,10 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sj/linux.git damon/next
-head:   54aa71ecf6cac755c491a1992d83437cd2240311
-commit: e381a2734cd4250c0e3ab5f46cecc86ec67edb57 [17/20] Docs/DAMON: Add more docs -next doc
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   69cb6c6556ad89620547318439d6be8bb1629a5a
+commit: 2bec6d9aa89cbe97deb6fbc64708212b780605a4 docs: ABI: sysfs-bus-nvdimm: Document sysfs event format entries for nvdimm pmu
+date:   4 months ago
 reproduce: make htmldocs
 
 If you fix the issue, kindly add following tag where applicable
@@ -66,16 +68,27 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 All warnings (new ones prefixed by >>):
 
->> Documentation/admin-guide/mm/damon/guide.rst:173: WARNING: unknown document: /vm/damon/api
+>> Documentation/ABI/testing/sysfs-bus-nvdimm:11: WARNING: Unexpected indentation.
 
-vim +173 Documentation/admin-guide/mm/damon/guide.rst
+vim +11 Documentation/ABI/testing/sysfs-bus-nvdimm
 
-   172	
- > 173	If you are a kernel space programmer, writing kernel space DAMON applications
-   174	using the API (refer to the :doc:`/vm/damon/api` for more detail) would be an
-   175	option.
-   176	
-   177	
+     9	
+    10	What:           /sys/bus/event_source/devices/nmemX/format
+  > 11	Date:           February 2022
+    12	KernelVersion:  5.18
+    13	Contact:        Kajol Jain <kjain@linux.ibm.com>
+    14	Description:	(RO) Attribute group to describe the magic bits
+    15			that go into perf_event_attr.config for a particular pmu.
+    16			(See ABI/testing/sysfs-bus-event_source-devices-format).
+    17	
+    18			Each attribute under this group defines a bit range of the
+    19			perf_event_attr.config. Supported attribute is listed
+    20			below::
+    21			  event  = "config:0-4"  - event ID
+    22	
+    23			For example::
+    24				ctl_res_cnt = "event=0x1"
+    25	
 
 -- 
 0-DAY CI Kernel Test Service
