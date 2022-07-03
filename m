@@ -2,65 +2,73 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A859C433EF
-	for <linux-doc@archiver.kernel.org>; Sun,  3 Jul 2022 21:47:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 23312C43334
+	for <linux-doc@archiver.kernel.org>; Sun,  3 Jul 2022 22:47:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229673AbiGCVrb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 3 Jul 2022 17:47:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44898 "EHLO
+        id S229950AbiGCWrk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 3 Jul 2022 18:47:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36244 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229626AbiGCVrb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 3 Jul 2022 17:47:31 -0400
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7CC7A2AE2
-        for <linux-doc@vger.kernel.org>; Sun,  3 Jul 2022 14:47:30 -0700 (PDT)
+        with ESMTP id S229904AbiGCWrk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 3 Jul 2022 18:47:40 -0400
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5DC20D0;
+        Sun,  3 Jul 2022 15:47:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1656884850; x=1688420850;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=IaQyU8LKf23ljLGerTawPDbjCqcJc3FiasXHUcAtQig=;
-  b=GGqxHR/vKZfOCZtxx0e2veWCQiMCHLAoRXxg6C604a90t8OjC/UTb983
-   cc5ep2QaoBZpOev78OwBo2De6CLvcBF2U7X9v9ifwjKhRSiCOmMMf8zHF
-   ZVR/TwxXd0+GJhSegA5QouzqEhIZyV3Kz/fwYtms/UV8UcQxQQSc+fal2
-   yMbniXfoYeDzX5zvzNecjSiTzLounIX+QPt5k7UtWU9bQj2LZ+ThT6Oip
-   KOdVKeY3vpYQ8PxYRmOn4bWgoyiXmLICXICmbYUhe93Sz34L766YbugGf
-   6oYWZTcHjC/nG6f5PDYkNc7/5ezB7xMR+D6J/JqN408lfpWh0CDtehG+l
-   g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10397"; a="263397622"
-X-IronPort-AV: E=Sophos;i="5.92,241,1650956400"; 
-   d="scan'208";a="263397622"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2022 14:47:30 -0700
+  t=1656888459; x=1688424459;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=/PmK2eXzgjrBLS74JCwU82LCDUPF/ZUhbL4hF+i0b7A=;
+  b=AVna/CjMbie5MysrThMy5Cw4wPGgLgD2GX3Mo8a+wcb2S/8l9dfk1Hj9
+   QQXTQMiw9rD2Ma6aIyc4vRqWSv6OKwwkDGJyU6QN4VXFaaosE1GHLg3Ls
+   sXkPdvpazYbGZ0cR+KIy1bYCbIcbl5e2HU0iDIRxcIbkT19StZRZqwwiI
+   OoZ+1cMA0Q6F9JRfzMN8KGC3/2b2I7GBXa/hrOjh/3gcVn9RTq2Qt0Gcw
+   cruPps6kOjv18V7tpTUapWQEe/emgTF9lXcWh2U2/HBsQqzc2UMplZh0Q
+   vyVmOoBsYj/VNsOcfWWoWnuUEPfMc/2wlSJ4XXGwpHe/PoBqG7jnXksYh
+   w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10397"; a="262784482"
+X-IronPort-AV: E=Sophos;i="5.92,243,1650956400"; 
+   d="scan'208";a="262784482"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2022 15:47:38 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.92,241,1650956400"; 
-   d="scan'208";a="919103223"
+X-IronPort-AV: E=Sophos;i="5.92,243,1650956400"; 
+   d="scan'208";a="681993479"
 Received: from lkp-server01.sh.intel.com (HELO 68b931ab7ac1) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 03 Jul 2022 14:47:28 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 03 Jul 2022 15:47:35 -0700
 Received: from kbuild by 68b931ab7ac1 with local (Exim 4.95)
         (envelope-from <lkp@intel.com>)
-        id 1o87RA-000H1f-6L;
-        Sun, 03 Jul 2022 21:47:28 +0000
-Date:   Mon, 4 Jul 2022 05:46:40 +0800
+        id 1o88NL-000H51-Au;
+        Sun, 03 Jul 2022 22:47:35 +0000
+Date:   Mon, 4 Jul 2022 06:47:33 +0800
 From:   kernel test robot <lkp@intel.com>
-To:     Dylan Yip <dylan.yip@xilinx.com>
-Cc:     kbuild-all@lists.01.org, linux-arm-kernel@lists.infradead.org,
-        Michal Simek <monstr@monstr.eu>,
-        Hyun Kwon <hyun.kwon@xilinx.com>, linux-doc@vger.kernel.org
-Subject: [xilinx-xlnx:release-2020.2.2_k26 129/241] htmldocs:
- Documentation/output/videodev2.h.rst:6: WARNING: undefined label:
- v4l2-ctrl-type-hdr (if the link has no caption the label must precede a
- section header)
-Message-ID: <202207040526.WWF8LiLg-lkp@intel.com>
+To:     Lorenzo Bianconi <lorenzo@kernel.org>, netdev@vger.kernel.org
+Cc:     kbuild-all@lists.01.org, ilias.apalodimas@linaro.org,
+        hawk@kernel.org, davem@davemloft.net, edumazet@google.com,
+        kuba@kernel.org, pabeni@redhat.com, corbet@lwn.net,
+        linux-doc@vger.kernel.org, jbrouer@redhat.com,
+        lorenzo.bianconi@redhat.com
+Subject: Re: [PATCH v2 net-next] Documentation: update
+ networking/page_pool.rst with ethtool APIs
+Message-ID: <202207040608.lU2e57H3-lkp@intel.com>
+References: <8c1f582d286fd5a7406dfff895eea39bb8fedca6.1654546043.git.lorenzo@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <8c1f582d286fd5a7406dfff895eea39bb8fedca6.1654546043.git.lorenzo@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-tree:   https://github.com/Xilinx/linux-xlnx release-2020.2.2_k26
-head:   4731ff5042ce76fc145bc2797faa2d91b090675e
-commit: eaaa91e3600a51760c14f0ac5276cb143f6c9987 [129/241] media: videodev2.h: Add control type for HDR
+Hi Lorenzo,
+
+I love your patch! Perhaps something to improve:
+
+[auto build test WARNING on net-next/master]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Lorenzo-Bianconi/Documentation-update-networking-page_pool-rst-with-ethtool-APIs/20220607-041741
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next.git 58f9d52ff689a262bec7f5713c07f5a79e115168
 reproduce: make htmldocs
 
 If you fix the issue, kindly add following tag where applicable
@@ -68,7 +76,25 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 All warnings (new ones prefixed by >>):
 
->> Documentation/output/videodev2.h.rst:6: WARNING: undefined label: v4l2-ctrl-type-hdr (if the link has no caption the label must precede a section header)
+>> Documentation/networking/page_pool.rst:154: WARNING: Unexpected indentation.
+
+vim +154 Documentation/networking/page_pool.rst
+
+   151	
+   152	* page_pool_ethtool_stats_get_strings(): reports page_pool ethtool stats
+   153	  strings according to the struct page_pool_stats
+ > 154	     * rx_pp_alloc_fast
+   155	     * rx_pp_alloc_slow
+   156	     * rx_pp_alloc_slow_ho
+   157	     * rx_pp_alloc_empty
+   158	     * rx_pp_alloc_refill
+   159	     * rx_pp_alloc_waive
+   160	     * rx_pp_recycle_cached
+   161	     * rx_pp_recycle_cache_full
+   162	     * rx_pp_recycle_ring
+   163	     * rx_pp_recycle_ring_full
+   164	     * rx_pp_recycle_released_ref
+   165	
 
 -- 
 0-DAY CI Kernel Test Service
