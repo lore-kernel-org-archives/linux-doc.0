@@ -2,127 +2,119 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 94823C43334
-	for <linux-doc@archiver.kernel.org>; Mon,  4 Jul 2022 13:02:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A14BCCA479
+	for <linux-doc@archiver.kernel.org>; Mon,  4 Jul 2022 13:33:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234593AbiGDNCP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 4 Jul 2022 09:02:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42250 "EHLO
+        id S234986AbiGDNdD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 4 Jul 2022 09:33:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39436 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234366AbiGDNCO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 4 Jul 2022 09:02:14 -0400
-Received: from mail-yw1-x1133.google.com (mail-yw1-x1133.google.com [IPv6:2607:f8b0:4864:20::1133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8EE2B7650;
-        Mon,  4 Jul 2022 06:02:13 -0700 (PDT)
-Received: by mail-yw1-x1133.google.com with SMTP id 00721157ae682-3137316bb69so81248507b3.10;
-        Mon, 04 Jul 2022 06:02:13 -0700 (PDT)
+        with ESMTP id S234926AbiGDNc1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 4 Jul 2022 09:32:27 -0400
+Received: from mail-yw1-x1134.google.com (mail-yw1-x1134.google.com [IPv6:2607:f8b0:4864:20::1134])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8DCB61EA
+        for <linux-doc@vger.kernel.org>; Mon,  4 Jul 2022 06:30:50 -0700 (PDT)
+Received: by mail-yw1-x1134.google.com with SMTP id 00721157ae682-31c89111f23so32008157b3.0
+        for <linux-doc@vger.kernel.org>; Mon, 04 Jul 2022 06:30:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+        d=eclypsium.com; s=google;
+        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
          :cc;
-        bh=+/WAa+FA2OPU9UHOFsfNsoHyWgYz2aEv+swmJGaV8ok=;
-        b=LXpMy8vV5Tgwg4ggUby6rb092+eBbT8tDL4/nbljmfEmZl+l763SMe0kXQDFj4BHAL
-         SO3U15HVmNY4dltXz2WosqcIJTWTbzxBnNwsIIxIkaKDh74GUdwz5GsVbK6DSMszVu7u
-         yd5FiJpVQH1YDbO58dP3onrO5GO1XYWRrkwzYDWCeGBLn7UM0TgiYqBLWKhp9rhXJ6z/
-         oBNmqsqlqWMdhceiGv8Z6gr6klG1YOoIFSDvCK50LzoTgsRgOzBdgyUSVI4agTjJSLeo
-         w3orR6FjJyYTpryLNulJ7crd/Iuj+T+mQ9dempkYVRuKSjw2L7gpzuAPts9pDOxhptYJ
-         XrKQ==
+        bh=4sJJk3M6vsKpl7JSGSYCE3sRYw0K/8Hv86xEcNZ+Nd4=;
+        b=fcQU2Wm3jsup8PZ7DotmFdIkczSdfP+lppfzeXHTDpthZRw6tLkfYL0Ic9S+aietan
+         HeE/1cTGyhylOuXZLK/XjK3HnPD256mjYAMdjM8bl/9YSTbOmlGR+cuYD71GkMUXAa4e
+         XJE897LrlfI+8MsXIJXLb0m4zGTnSE68PQ0zF28Pxog6SZyvgyPv5EaKcoSUzQpSscXT
+         Fkp7a60aRe4IaM9ZCnHAVU84Z+5NYwVxM4u29MQjvLN8xE9QcjIe/Tc9dpaNUS6QGLix
+         JxJo1MvBQu8koHvHjASsWTA+m29UhrP3EJM1bYZ47jwefLkfxUe2+aXxzAr0AiaciBF6
+         vZFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
          :message-id:subject:to:cc;
-        bh=+/WAa+FA2OPU9UHOFsfNsoHyWgYz2aEv+swmJGaV8ok=;
-        b=P/2iG+HSJJVO6o/t4MojxArFBZukgHKG+3my4kGIxc/rCyQ/Oyu6alVrhKa1xjsxdq
-         LOapP6iyqVpwWVaXMImQbzFKYBX0PFpXgiSbiNkcaYGXgTUTEc68ojq7UiSf0d9m48OA
-         /OjMiXmZsZgTHBGQhupKxn2uoxIvBiLCrCEvraUHiihsyP4eUnuDvzLIXWhjKk7HaqMV
-         zY74HMnYop3X7EjfM24KIDcbnhHH9oneWx3UB8lWRKQKoC1CV8a/dMXlzAVL5x1E+nuM
-         KBefj36L/kZ0RKBl/kb0SeKkJDkzeFx0BSFeauL8ddRNIK8WXOKp7EzbRLOUF6wQgpEJ
-         PxPQ==
-X-Gm-Message-State: AJIora8MtCCsQeOh9w3MTW2GekAzGtpHf+BEi2YWQBzkUrw4WJAw8Kao
-        qbxaoFWw1JCd6ylF/HK7PlqrN0JODfxjJucAPDA=
-X-Google-Smtp-Source: AGRyM1sI/tzlaoftsLV3su+NET07t9IRl4DQbevcpFmKt2ApgRmbHStsCYOoPVSuhn7ylHvKmKllRMaNokprfFKJb7A=
-X-Received: by 2002:a81:5211:0:b0:31c:89a8:b63 with SMTP id
- g17-20020a815211000000b0031c89a80b63mr8973562ywb.104.1656939732512; Mon, 04
- Jul 2022 06:02:12 -0700 (PDT)
+        bh=4sJJk3M6vsKpl7JSGSYCE3sRYw0K/8Hv86xEcNZ+Nd4=;
+        b=n6p+yokOWHiI+/PlOHyrXp0ZNAfqEfHW5CgerR1qSoxxqaacNzxW+DlhemtxlLFUin
+         x4Op0eRiVPG0l6BHnldNl8mZdI2vS+xtBPuI0qDEKhW01XaZ6MThbOBjfWPYNdTgixO2
+         1lDUwgP4UaKNzTuXi81lzpXy1/29xHhDi0OUNQq4nafswXzHj9urmogjA4ncDn5xH/Zv
+         40mjYdzq0BRsXGrqU8/6qIKvImF8n+ZfeoCpjmC2JFI9hY94WvDM0Xj2QGjYE60i+3HE
+         uB1h2VmGlOawJ/CS1Q/r3MkN0T1ki5peLLCaVs5FurJ6RhAnAHZag12aWPQHA4USLiOC
+         svLw==
+X-Gm-Message-State: AJIora8pZmnx0UaA3ulh9cXo4Wj1kJCnsHbU35O5VaMLSAPo/5xZoLt7
+        VBz15uzxP2AMzZpmOXlxbrWuJ+Yy3i0+/l6t2de5Nw==
+X-Google-Smtp-Source: AGRyM1tcmPO6/Mszl/iBsNYuYLUmwlpGyvOOVl1ng/95gpqCI49QNNzWh/9ZapKzcQuz+vp4S0l9EETBYrbE+Jbphlw=
+X-Received: by 2002:a0d:d1c3:0:b0:313:eca0:bf42 with SMTP id
+ t186-20020a0dd1c3000000b00313eca0bf42mr33889232ywd.369.1656941449703; Mon, 04
+ Jul 2022 06:30:49 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220627151819.22694-1-lukas.bulwahn@gmail.com> <87y1xenju5.fsf@meer.lwn.net>
-In-Reply-To: <87y1xenju5.fsf@meer.lwn.net>
-From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Date:   Mon, 4 Jul 2022 15:02:01 +0200
-Message-ID: <CAKXUXMwBV79aWBByBaq+uicpKB4pJG8Nd=RWT55bVcqkV4YR9Q@mail.gmail.com>
-Subject: Re: [RFC PATCH 00/11] docs: remove submitting-drivers.rst
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Federico Vaga <federico.vaga@vaga.pv.it>,
-        Alex Shi <alexs@kernel.org>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Hu Haowen <src.res@email.cn>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-doc-tw-discuss@lists.sourceforge.net,
-        Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        linux-hwmon@vger.kernel.org,
-        kernel-janitors <kernel-janitors@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Received: by 2002:a0d:f944:0:0:0:0:0 with HTTP; Mon, 4 Jul 2022 06:30:49 -0700 (PDT)
+In-Reply-To: <972639a2-4041-ae40-dd51-79d5f35b31c9@infradead.org>
+References: <20220701222040.1471655-1-martin.fernandez@eclypsium.com> <972639a2-4041-ae40-dd51-79d5f35b31c9@infradead.org>
+From:   Martin Fernandez <martin.fernandez@eclypsium.com>
+Date:   Mon, 4 Jul 2022 10:30:49 -0300
+Message-ID: <CAKgze5YvB-0gim-i2zaDeY4abxyZh_-pPxHh8_jE1=PQn_n+sQ@mail.gmail.com>
+Subject: Re: [PATCH] doc/checkpatch: Add description to MACRO_ARG_REUSE
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     linux-doc@vger.kernel.org, dwaipayanray1@gmail.com,
+        lukas.bulwahn@gmail.com, joe@perches.com
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jun 30, 2022 at 7:26 PM Jonathan Corbet <corbet@lwn.net> wrote:
+On 7/1/22, Randy Dunlap <rdunlap@infradead.org> wrote:
 >
-> Lukas Bulwahn <lukas.bulwahn@gmail.com> writes:
 >
-> > Dear Jonathan, dear Federico, dear Alex, dear Yanteng, dear Hu,
-> >
-> > Here is an attempt to delete submitting-drivers with some improvements
-> > and clean-up in other documentation places to convince ourselves that
-> > nothing valuable is lost when deleting this checklist.
+> On 7/1/22 15:20, Martin Fernandez wrote:
+>> Add a description to the MACRO_ARG_REUSE check.
+>>
+>> I feel like this is also a good place to put a workaround although I'm
+>> not sure if there is a cannonical way to solve those kinds of issues.
 >
-> I am totally in favor of doing this; that document has not served any
-> real purpose for a long time.  Resend with the translation tweaks and
-> such, and I'll happily apply it.
+>                          canonical
 >
+>
+> The usual way in the kernel is to declare a local _x and local _y (for your
+> example below).  See how it is done in include/linux/minmax.h for
+> min_not_zero().
+>>
+>> Signed-off-by: Martin Fernandez <martin.fernandez@eclypsium.com>
+>> ---
+>>  Documentation/dev-tools/checkpatch.rst | 15 +++++++++++++++
+>>  1 file changed, 15 insertions(+)
+>>
+>> diff --git a/Documentation/dev-tools/checkpatch.rst
+>> b/Documentation/dev-tools/checkpatch.rst
+>> index b52452bc2963..43fa99f188f5 100644
+>> --- a/Documentation/dev-tools/checkpatch.rst
+>> +++ b/Documentation/dev-tools/checkpatch.rst
+>> @@ -759,6 +759,21 @@ Indentation and Line Breaks
+>>  Macros, Attributes and Symbols
+>>  ------------------------------
+>>
+>> +  **ARG_REUSE**
+>> +    Using the same argument multiple times in the macro definition
+>> +    would lead to unwanted side-effects.
+>> +
+>> +    For example, given a `min` macro defined like::
+>> +
+>> +     #define min(x, y)  ((x) < (y) ? (x) : (y))
+>> +
+>> +    If you call it with `min(foo(x), 0)` would expand to::
+>> +
+>> +     foo(x) < 0 ? foo(x) : 0
+>> +
+>> +    If `foo` have side-effects or it's an expensive calculation the
+>> +    results might not be what the user inteded.
+>
+>                                           intended.
+>
+>> +
+>>    **ARRAY_SIZE**
+>>      The ARRAY_SIZE(foo) macro should be preferred over
+>>      sizeof(foo)/sizeof(foo[0]) for finding number of elements in an
 
-I send out the tuned patch series, ready to be picked:
+Thank you for the feedback, I'll send a new one right away!
 
-https://lore.kernel.org/linux-doc/20220704122537.3407-1-lukas.bulwahn@gmail.com/
-
-> > As future work---with this one submitting checklist gone---I see the harder
-> > follow-up task to synchronize and clean up the various submission hints/
-> > guidelines/checklists in the remaining kernel documentation that partly
-> > overlap and differ in detail, their structure (unstructured, unordered
-> > lists vs. sections and subsections) and their state of being outdated:
-> >
-> >   Documentation/process/submit-checklist.rst
-> >   Documentation/process/submitting-patches.rst
-> >   MAINTAINERS#Tips for patch submitters
-> >
-> > My next task at hand is to read through all three documents, figure out
-> > what still applies and what is outdated, determine a good common structure
-> > for all three documents, include cross-links and make them to some extent
-> > follow a clear consistent policy. E.g., one document is a more detailed
-> > description of everything mentioned in the short list of another document.
-> > I will try to work through that in the next months or motivate and guide
-> > some colleague or mentee to work together with me on that.
+> thanks.
+> --
+> ~Randy
 >
-> This seems like a good exercise as well.  I think the MAINTAINERS text
-> should go away entirely, that's not really an appropriate place for it.
-> submit-checklist.rst hasn't seen any real attention for some time; I'm
-> not sure how useful it really is.
->
-> What I would *really* like is a version of submitting-patches.rst that
-> is not a "War and Peace" sort of reading experience.  That is a lot for
-> somebody to get through before they can send their first patch...but
-> it's not easy to make it shorter without losing important stuff.
->
-
-We share the same vision. I will try to propose a good submit
-checklist that covers the content of submitting-patches.rst as a short
-bullet-point list. That should then also cover the valuable (not
-outdated) parts of Documentation/process/submit-checklist.rst and
-'MAINTAINERS#Tips for patch submitters' as well. With that new
-checklist included with proper references and considered good by our
-peers, we will use the earned credits to delete the previous tips and
-checklists.
-
-Lukas
