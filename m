@@ -2,81 +2,77 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 63139C433EF
-	for <linux-doc@archiver.kernel.org>; Mon,  4 Jul 2022 08:24:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BF9F0C43334
+	for <linux-doc@archiver.kernel.org>; Mon,  4 Jul 2022 08:34:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232779AbiGDIYe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 4 Jul 2022 04:24:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35876 "EHLO
+        id S231668AbiGDIep (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 4 Jul 2022 04:34:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41724 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232034AbiGDIYe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 4 Jul 2022 04:24:34 -0400
-Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A867645D;
-        Mon,  4 Jul 2022 01:24:33 -0700 (PDT)
-Received: by mail-wm1-x32c.google.com with SMTP id r81-20020a1c4454000000b003a0297a61ddso7475148wma.2;
-        Mon, 04 Jul 2022 01:24:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:mail-followup-to:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=8VDmb5hD0Rg+qAaKdqnTf53ON+uQ+2FHX0ENAq7deNU=;
-        b=fWo2McuN8C7oaV0v0eMTC/yYHyWEPLLZFnaTjKqdeb/DxC+EEXwXEXpiaRMbMQj+uI
-         GqRVG+LnXAF3p6w+lCA5MxdIP2iyWGjdBCPHLXz9Jt/lC01E7LWlxFIECzsaOsirIVV0
-         OpwrKop2jtO0aKWTPQONxaf8KBvXt2gCK94bSY3XpCbQq5dhgcOcGYPZsywVcpYYjnqw
-         qh0tG/PgSlJjbl/hb3jMxQWgOJ2V+CC8Q3CMHf6gTDUZmy+6dsbkdVhOzeSlSARRzMXu
-         6VUlykmN2wTbfxIJEQyARfYjWqi9EFnpuMRHyivJa2+6iT4va5ya8zYaNQPmcvAHStW3
-         aDgA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id
-         :mail-followup-to:references:mime-version:content-disposition
-         :in-reply-to;
-        bh=8VDmb5hD0Rg+qAaKdqnTf53ON+uQ+2FHX0ENAq7deNU=;
-        b=Up8s0/pLJ7ZDuNjHqBX4k52ytuFJG1rNhKbsjxEkxus7k+vhM7uNlce3Ce7wsQajGj
-         RP2ITDIiRpY5EE9+LwIEj67KjF4uHRRTlDQeiJxvYE2mPLoh0h1rORGYSOV0+ImKB1Fv
-         yWSs3A0CumFwnkNyfuscGGLA7evvGw9pLdmtR5iB3YfHz/Ft/vX88FBBhYPUJOKWvxYD
-         pkDT0mssvd60t5F6wBSEpIMGe5YroCzQkv4hd6uJZlA2xkDlDU3P38rT9X+VPB/IQrHl
-         84FLOUSnN2nR5cpU+OPPtvimnetW3zq9RQ6HGd2T5MhE95pHSFDfmv4s4JxW59CnGpUY
-         X91w==
-X-Gm-Message-State: AJIora8vEu3ba1D303GXzwkDw2++92pvgfJjgKfKWy8UA11JYXjr+mi8
-        rJHbkUbZGXGvAIawLAvxacQ=
-X-Google-Smtp-Source: AGRyM1usenAKTHds6z/KnMEtKnzXnwc6K884+kceVvftvPqe7W/2gnL/AHMdRCQe7Wi06MV8plFueQ==
-X-Received: by 2002:a05:600c:1412:b0:3a1:6e8f:f18f with SMTP id g18-20020a05600c141200b003a16e8ff18fmr29153899wmi.9.1656923071856;
-        Mon, 04 Jul 2022 01:24:31 -0700 (PDT)
-Received: from gmail.com ([81.168.73.77])
-        by smtp.gmail.com with ESMTPSA id k23-20020a7bc317000000b003976fbfbf00sm19382923wmj.30.2022.07.04.01.24.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Jul 2022 01:24:30 -0700 (PDT)
-Date:   Mon, 4 Jul 2022 09:24:28 +0100
-From:   Martin Habets <habetsm.xilinx@gmail.com>
-To:     Jiri Pirko <jiri@resnulli.us>
-Cc:     Jakub Kicinski <kuba@kernel.org>, davem@davemloft.net,
-        netdev@vger.kernel.org, edumazet@google.com, pabeni@redhat.com,
-        corbet@lwn.net, linux-doc@vger.kernel.org
-Subject: Re: [PATCH net-next] eth: remove neterion/vxge
-Message-ID: <YsKjvPl3bUXqeGJf@gmail.com>
-Mail-Followup-To: Jiri Pirko <jiri@resnulli.us>,
-        Jakub Kicinski <kuba@kernel.org>, davem@davemloft.net,
-        netdev@vger.kernel.org, edumazet@google.com, pabeni@redhat.com,
-        corbet@lwn.net, linux-doc@vger.kernel.org
-References: <20220701044234.706229-1-kuba@kernel.org>
- <Yr7NpQz6/esZAiZv@nanopsycho>
+        with ESMTP id S231497AbiGDIen (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 4 Jul 2022 04:34:43 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B517B5F8A;
+        Mon,  4 Jul 2022 01:34:42 -0700 (PDT)
+Received: from localhost.localdomain (unknown [39.53.41.168])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: usama.anjum)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 8E2CD6601638;
+        Mon,  4 Jul 2022 09:34:39 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1656923681;
+        bh=SeURJBNtzhwCV0tVGs7sh8U9S4mht0PBp1oWTSOLU/4=;
+        h=From:To:Cc:Subject:Date:From;
+        b=PQDdatC4C8GBKrjcAPRgfJUvT35DlZ1iPtXE/jyqwz6A5q5YThoqg5Zpf2Ecqbbl4
+         UFCe2ZQ3mH3vVJDumktUobxns/HFaDSmLc0FkPamSyygtsns+0NKvO+06yUBR5gCbI
+         iUgPSb4tjgE3nqr5SwNkUuLUwgK2lSG2fVToZyfhTNQWTUF7/ZQgAArbgAR5or0LPo
+         yneZJrfpQAmJsT5i8SpgXv9ui9/B0np8B/6fMKvdCW2Sfk18exGxOQ0GLmRPHnvP6w
+         uzjeHlvBigRzMdp4PE3/3gdaeWryb5pkGjYU3gbeWbWbN01kGJnDmZERDbTvu5uiBa
+         NggP244iCYIkw==
+From:   Muhammad Usama Anjum <usama.anjum@collabora.com>
+To:     Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        Muhammad Usama Anjum <usama.anjum@collabora.com>
+Cc:     kernel@collabora.com, Shuah Khan <skhan@linuxfoundation.org>,
+        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] docs/kselftest: Fix build commands in guidelines
+Date:   Mon,  4 Jul 2022 13:34:25 +0500
+Message-Id: <20220704083426.1867401-1-usama.anjum@collabora.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Yr7NpQz6/esZAiZv@nanopsycho>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jul 01, 2022 at 12:34:13PM +0200, Jiri Pirko wrote:
-> Isn't there some obsoletion scheme globally applied to kernel device
-> support? I would expect something like that.
+Build commands start with "make". It is missing. Add "make" to the start
+of the build command.
 
-The only thing I've found is that stuff gets marked with DEPRECATED
-in Kconfig.
-Having an official CONFIG_DEPRECATED option could be a way to
-formalise this more, but I'm not sure if that is needed.
+Fixes: 820636106342 ("docs/kselftest: add more guidelines for adding new tests")
+Signed-off-by: Muhammad Usama Anjum <usama.anjum@collabora.com>
+---
+ Documentation/dev-tools/kselftest.rst | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-Martin
+diff --git a/Documentation/dev-tools/kselftest.rst b/Documentation/dev-tools/kselftest.rst
+index ee6467ca8293..9dd94c334f05 100644
+--- a/Documentation/dev-tools/kselftest.rst
++++ b/Documentation/dev-tools/kselftest.rst
+@@ -255,9 +255,9 @@ Contributing new tests (details)
+ 
+  * All changes should pass::
+ 
+-    kselftest-{all,install,clean,gen_tar}
+-    kselftest-{all,install,clean,gen_tar} O=abo_path
+-    kselftest-{all,install,clean,gen_tar} O=rel_path
++    make kselftest-{all,install,clean,gen_tar}
++    make kselftest-{all,install,clean,gen_tar} O=abs_path
++    make kselftest-{all,install,clean,gen_tar} O=rel_path
+     make -C tools/testing/selftests {all,install,clean,gen_tar}
+     make -C tools/testing/selftests {all,install,clean,gen_tar} O=abs_path
+     make -C tools/testing/selftests {all,install,clean,gen_tar} O=rel_path
+-- 
+2.30.2
+
