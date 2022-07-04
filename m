@@ -2,77 +2,148 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BF9F0C43334
-	for <linux-doc@archiver.kernel.org>; Mon,  4 Jul 2022 08:34:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 60F19C43334
+	for <linux-doc@archiver.kernel.org>; Mon,  4 Jul 2022 09:49:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231668AbiGDIep (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 4 Jul 2022 04:34:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41724 "EHLO
+        id S232902AbiGDJtg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 4 Jul 2022 05:49:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43532 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231497AbiGDIen (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 4 Jul 2022 04:34:43 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B517B5F8A;
-        Mon,  4 Jul 2022 01:34:42 -0700 (PDT)
-Received: from localhost.localdomain (unknown [39.53.41.168])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: usama.anjum)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 8E2CD6601638;
-        Mon,  4 Jul 2022 09:34:39 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1656923681;
-        bh=SeURJBNtzhwCV0tVGs7sh8U9S4mht0PBp1oWTSOLU/4=;
-        h=From:To:Cc:Subject:Date:From;
-        b=PQDdatC4C8GBKrjcAPRgfJUvT35DlZ1iPtXE/jyqwz6A5q5YThoqg5Zpf2Ecqbbl4
-         UFCe2ZQ3mH3vVJDumktUobxns/HFaDSmLc0FkPamSyygtsns+0NKvO+06yUBR5gCbI
-         iUgPSb4tjgE3nqr5SwNkUuLUwgK2lSG2fVToZyfhTNQWTUF7/ZQgAArbgAR5or0LPo
-         yneZJrfpQAmJsT5i8SpgXv9ui9/B0np8B/6fMKvdCW2Sfk18exGxOQ0GLmRPHnvP6w
-         uzjeHlvBigRzMdp4PE3/3gdaeWryb5pkGjYU3gbeWbWbN01kGJnDmZERDbTvu5uiBa
-         NggP244iCYIkw==
-From:   Muhammad Usama Anjum <usama.anjum@collabora.com>
-To:     Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        Muhammad Usama Anjum <usama.anjum@collabora.com>
-Cc:     kernel@collabora.com, Shuah Khan <skhan@linuxfoundation.org>,
-        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] docs/kselftest: Fix build commands in guidelines
-Date:   Mon,  4 Jul 2022 13:34:25 +0500
-Message-Id: <20220704083426.1867401-1-usama.anjum@collabora.com>
-X-Mailer: git-send-email 2.30.2
+        with ESMTP id S232644AbiGDJtg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 4 Jul 2022 05:49:36 -0400
+Received: from mail-yb1-xb29.google.com (mail-yb1-xb29.google.com [IPv6:2607:f8b0:4864:20::b29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2081E2AD9;
+        Mon,  4 Jul 2022 02:49:35 -0700 (PDT)
+Received: by mail-yb1-xb29.google.com with SMTP id l144so3426422ybl.5;
+        Mon, 04 Jul 2022 02:49:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=upxJ9MJ8gsVDlXDiuKX4+gbfevRMZmGiVadxBV+kpe8=;
+        b=qpHNh54MzgRw/unTs6ylIG6lsq0QzcEUzvY+KsDq+HVjI7Jeoy22/FDGFzk62XnWZq
+         pRXixYTwJaB2+72PZyhVEebJnEgQK/wovb6AB3Qi8YwUZ5x0mh8p+F8eUK9TIH/DeH+o
+         051TXq25MjKoz+zRqzBHqD9mZr/dYcVtzBjSGnXvYaejkZRfekks6tiRn33g6s1VMf6z
+         nHPP2a+YQ+/ZL6Vzaa3wntbjRl6pfO1dqTWZRUstwgyLbHozFt2CPubQ85gm5KNW5ech
+         yCRwCdu3KbbXoyjmYFxijPOj0lACMBnzlgB5rZrJ5qpxDXc+203vzEhNV5erIntoBmKf
+         zyOw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=upxJ9MJ8gsVDlXDiuKX4+gbfevRMZmGiVadxBV+kpe8=;
+        b=76a2vQSYnG7xor+x2mYihYess3dvlwTVaZXUmpj7lnuLnl+R/gFxiJQPQmH4+xfmAA
+         Az1Vdq2MybC7G8M+crPPYkGow9Ool+CsV/oUQxCkAE6Z6zFY6urUwUZDXIuV6xx6glBL
+         I5+MKV1WtgEqM1iqaI3lrE9B9RMIFkXvl6znyq2m0fx8vmYFGM9XSRdqTYJM40ureIsQ
+         bXrs/o6CApMqKUIedzNucWKxQQWLMIyEUlRZ4G2NSwcQAev9UZpe8PeuX/qqWWGHvJpg
+         B46f3zG1SDNWE2+cLDz/3o/o1mymd7Ejj9L5gO5zYJd3SEO7zfNI0aGyRUZfBeIaGiIf
+         JR5w==
+X-Gm-Message-State: AJIora+fo9uladoZgWkKib6U+AuHC6aSuqA5zyRrexej4x6wjvVYYoTa
+        FHyXQ9XRlfWR79xQvM9oA666vEICQe/nImQ5gNo=
+X-Google-Smtp-Source: AGRyM1uuTnlo8UbsTNpCu9w7y6Imn3pGteU2AlhpEORjfZffq++K3qlqc72uL681GfWtLoni83k3M/c8Qd4oL79LzwE=
+X-Received: by 2002:a25:5809:0:b0:66c:8709:3611 with SMTP id
+ m9-20020a255809000000b0066c87093611mr28080763ybb.608.1656928174292; Mon, 04
+ Jul 2022 02:49:34 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220627151819.22694-1-lukas.bulwahn@gmail.com>
+ <20220627151819.22694-8-lukas.bulwahn@gmail.com> <20220628091647.xf5cygybqemwprgb@numero86.vaga.pv.it>
+In-Reply-To: <20220628091647.xf5cygybqemwprgb@numero86.vaga.pv.it>
+From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date:   Mon, 4 Jul 2022 11:49:23 +0200
+Message-ID: <CAKXUXMzAzT6c=Atwbnif0MQg50B9UpG6_rV65_OvkaJPTzaPcw@mail.gmail.com>
+Subject: Re: [RFC PATCH 07/11] docs: it_IT: align to submitting-drivers removal
+To:     Federico Vaga <federico.vaga@vaga.pv.it>
+Cc:     Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
+        Yanteng Si <siyanteng@loongson.cn>,
+        Hu Haowen <src.res@email.cn>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-doc-tw-discuss@lists.sourceforge.net,
+        Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        linux-hwmon@vger.kernel.org,
+        kernel-janitors <kernel-janitors@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Build commands start with "make". It is missing. Add "make" to the start
-of the build command.
+On Tue, Jun 28, 2022 at 11:16 AM Federico Vaga <federico.vaga@vaga.pv.it> w=
+rote:
+>
+> On Mon, Jun 27, 2022 at 05:18:15PM +0200, Lukas Bulwahn wrote:
+> >Adjust the Italian translation to the removal of submitting-drivers in t=
+he
+> >English kernel documentation.
+> >
+> >Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+> >---
+> > .../it_IT/kernel-hacking/hacking.rst             |  3 +--
+> > .../translations/it_IT/process/5.Posting.rst     |  5 ++---
+> > .../translations/it_IT/process/8.Conclusion.rst  |  3 +--
+> > .../translations/it_IT/process/howto.rst         |  3 +--
+> > .../translations/it_IT/process/index.rst         |  1 -
+> > .../it_IT/process/submitting-drivers.rst         | 16 ----------------
+> > .../it_IT/process/submitting-patches.rst         |  6 ++----
+> > 7 files changed, 7 insertions(+), 30 deletions(-)
+> > delete mode 100644 Documentation/translations/it_IT/process/submitting-=
+drivers.rst
+> >
+> >diff --git a/Documentation/translations/it_IT/kernel-hacking/hacking.rst=
+ b/Documentation/translations/it_IT/kernel-hacking/hacking.rst
+> >index d5c521327f6a..4bec4669cf48 100644
+> >--- a/Documentation/translations/it_IT/kernel-hacking/hacking.rst
+> >+++ b/Documentation/translations/it_IT/kernel-hacking/hacking.rst
+> >@@ -795,8 +795,7 @@ anche per avere patch pulite, c'=C3=A8 del lavoro am=
+ministrativo da fare:
+> >    di un semplice impegno su una parte del codice.
+> >
+> > -  Infine, non dimenticatevi di leggere
+> >-   ``Documentation/process/submitting-patches.rst`` e possibilmente anc=
+he
+> >-   ``Documentation/process/submitting-drivers.rst``.
+> >+   ``Documentation/process/submitting-patches.rst``.
+> >
+> > Trucchetti del kernel
+> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> >diff --git a/Documentation/translations/it_IT/process/5.Posting.rst b/Do=
+cumentation/translations/it_IT/process/5.Posting.rst
+> >index 1476d51eb5e5..a036f38fc82e 100644
+> >--- a/Documentation/translations/it_IT/process/5.Posting.rst
+> >+++ b/Documentation/translations/it_IT/process/5.Posting.rst
+> >@@ -16,9 +16,8 @@ e di procedure per la pubblicazione delle patch; segui=
+rle render=C3=A0 la vita
+> > pi=C3=B9 facile a tutti quanti.  Questo documento cercher=C3=A0 di copr=
+ire questi
+> > argomenti con un ragionevole livello di dettaglio; pi=C3=B9 informazion=
+i possono
+> > essere trovare nella cartella 'Documentation', nei file
+> >-:ref:`translations/it_IT/process/submitting-patches.rst <it_submittingp=
+atches>`,
+> >-:ref:`translations/it_IT/process/submitting-drivers.rst <it_submittingd=
+rivers>`, e
+> >-:ref:`translations/it_IT/process/submit-checklist.rst <it_submitcheckli=
+st>`.
+> >+:ref:`translations/it_IT/process/submitting-patches.rst <it_submittingp=
+atches>`
+> >+e :ref:`translations/it_IT/process/submit-checklist.rst <it_submitcheck=
+list>`.
+>
+> Fixing plural. The final correct statement must be:
+>
+> nel file :ref:`translations/it_IT/process/submitting-patches.rst <it_subm=
+ittingpatches>`.
+>
+> Notice 'nei file' -> 'nel file'
+>
+>
 
-Fixes: 820636106342 ("docs/kselftest: add more guidelines for adding new tests")
-Signed-off-by: Muhammad Usama Anjum <usama.anjum@collabora.com>
----
- Documentation/dev-tools/kselftest.rst | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Are you sure about this proposed change here? In my patch, I just
+changed the enumeration from three objects (submittingpatches,
+submittingdrivers, submitchecklist) to two objects (submittingpatches,
+submitchecklist).
 
-diff --git a/Documentation/dev-tools/kselftest.rst b/Documentation/dev-tools/kselftest.rst
-index ee6467ca8293..9dd94c334f05 100644
---- a/Documentation/dev-tools/kselftest.rst
-+++ b/Documentation/dev-tools/kselftest.rst
-@@ -255,9 +255,9 @@ Contributing new tests (details)
- 
-  * All changes should pass::
- 
--    kselftest-{all,install,clean,gen_tar}
--    kselftest-{all,install,clean,gen_tar} O=abo_path
--    kselftest-{all,install,clean,gen_tar} O=rel_path
-+    make kselftest-{all,install,clean,gen_tar}
-+    make kselftest-{all,install,clean,gen_tar} O=abs_path
-+    make kselftest-{all,install,clean,gen_tar} O=rel_path
-     make -C tools/testing/selftests {all,install,clean,gen_tar}
-     make -C tools/testing/selftests {all,install,clean,gen_tar} O=abs_path
-     make -C tools/testing/selftests {all,install,clean,gen_tar} O=rel_path
--- 
-2.30.2
+So, it should stay plural, right?
 
+Lukas
