@@ -2,76 +2,238 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C3E91C43334
-	for <linux-doc@archiver.kernel.org>; Mon,  4 Jul 2022 19:39:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 06346C433EF
+	for <linux-doc@archiver.kernel.org>; Mon,  4 Jul 2022 19:49:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229733AbiGDTjv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 4 Jul 2022 15:39:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46754 "EHLO
+        id S230466AbiGDTt0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 4 Jul 2022 15:49:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50726 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229674AbiGDTjv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 4 Jul 2022 15:39:51 -0400
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83E4DE00F;
-        Mon,  4 Jul 2022 12:39:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1656963590; x=1688499590;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=uXUWM4ZCmmyqWVnwBc+JZKXlVfuCIgdCR3FN6nzesaQ=;
-  b=AbdP3PqFdoer2Pm9sYYNBS4fTfg8LAK4QnuuNjEynNI/Cp1GadKslm7C
-   WGsFIoffpa1O8+6ghULMadQQB6olXZAtuRy9ZHinFXihUoG3GHs5ioBEL
-   QUG54/jXyc5uADbFdjTRoq8Ttql6plcjO88qjqlSKkgFFM8e+iw/23/yk
-   K7ajdEsbPnuYLHM+6kODPoTQSGe3/MzSaZ01yjN0tUymKjyG1VHuBSAZv
-   FvstUUwGO26xoAnN+n2Vk3ovu+K1PK5Gvs/AJ1pWW6jY4DBtj7mIIOCk8
-   pnZy3w234U4BmVtj1PIE+iqZFy+BQl9xaoAU7rQheo0ZNXRm6XwGQAuJQ
-   w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10398"; a="284298622"
-X-IronPort-AV: E=Sophos;i="5.92,243,1650956400"; 
-   d="scan'208";a="284298622"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2022 12:39:50 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.92,243,1650956400"; 
-   d="scan'208";a="919452883"
-Received: from lkp-server01.sh.intel.com (HELO 68b931ab7ac1) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 04 Jul 2022 12:39:48 -0700
-Received: from kbuild by 68b931ab7ac1 with local (Exim 4.95)
-        (envelope-from <lkp@intel.com>)
-        id 1o8Rv9-000I7r-PO;
-        Mon, 04 Jul 2022 19:39:47 +0000
-Date:   Tue, 5 Jul 2022 03:39:07 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc:     kbuild-all@lists.01.org, linux-kernel@vger.kernel.org,
-        Michael Grzeschik <m.grzeschik@pengutronix.de>,
-        linux-doc@vger.kernel.org
-Subject: [mgr:v5.19/topic/rk3568-vepu-h264-stateless-bootlin 2/4] htmldocs:
- Documentation/output/videodev2.h.rst:6: WARNING: undefined label:
- v4l2-ctrl-type-h264-encode-params (if the link has no caption the label must
- precede a section header)
-Message-ID: <202207050300.unCEGUNs-lkp@intel.com>
+        with ESMTP id S230057AbiGDTtZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 4 Jul 2022 15:49:25 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2C7110A7;
+        Mon,  4 Jul 2022 12:49:24 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 950AAB812A1;
+        Mon,  4 Jul 2022 19:49:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F6AEC3411E;
+        Mon,  4 Jul 2022 19:49:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1656964162;
+        bh=IQVtwsEeec0X0H652uGrEAoAYDLVO3bwow8hDmu8X1Q=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=kpCGHmlL9B5+2kXN4u2OZY977890MUVEO/g7l3Jtk4S0sPCxo2J2Vi9/q/z8bnH+e
+         EoAm6CqZb3mpJ8pwWEEdnUeTd9HzgVORioIA9IfOH8xLJ3m6oAimYuMq1h9rQC/8jP
+         jEO1XFKbBGRpXkX0DGD90lzBhF+6rIGj0UaCUYzgWkLv8agyZFyoCXhiapGKzfIW1d
+         JaE9YeTVnTbTSbkNraDMiTOGHAaQjeFNUYzalLcAuPu6FBRvfPMixCTPV2B7nMksd5
+         LEDv67WEktf3tvXPDC6B4tg/bGTJ8F4mIlfxN6N8q5yy7qV8n4FSErqd3lK0+yYsPC
+         62aUMJfvfY3Kg==
+Message-ID: <549fa553-ba75-97c1-9afb-9d2684902bde@kernel.org>
+Date:   Mon, 4 Jul 2022 21:49:14 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH V4 01/20] rv: Add Runtime Verification (RV) interface
+Content-Language: en-US
+To:     Steven Rostedt <rostedt@goodmis.org>
+Cc:     Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Ingo Molnar <mingo@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Will Deacon <will@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Marco Elver <elver@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Gabriele Paoloni <gpaoloni@redhat.com>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Clark Williams <williams@redhat.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-trace-devel@vger.kernel.org
+References: <cover.1655368610.git.bristot@kernel.org>
+ <60548902dbccaa7ba420e40e46835693e27f643f.1655368610.git.bristot@kernel.org>
+ <20220623162635.636f3d3c@rorschach.local.home>
+From:   Daniel Bristot de Oliveira <bristot@kernel.org>
+In-Reply-To: <20220623162635.636f3d3c@rorschach.local.home>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-tree:   https://git.pengutronix.de/git/mgr/linux v5.19/topic/rk3568-vepu-h264-stateless-bootlin
-head:   11fcd09bf7cbe84c3e2e322142e3aff59c5c8402
-commit: ec2b92670100c6bd075ca859bc3392b5b913be27 [2/4] media: Introduce Hantro V4L2 H.264 stateless encoding API
-reproduce: make htmldocs
+On 6/23/22 22:26, Steven Rostedt wrote:
+> On Thu, 16 Jun 2022 10:44:43 +0200
+> Daniel Bristot de Oliveira <bristot@kernel.org> wrote:
 
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
+[ removing comments that I agreed and changed the code/log accordingly ]
 
-All warnings (new ones prefixed by >>):
+>>
+>>  "monitoring_on"
+>>    - It is an on/off general switcher for monitoring. Note
+>>    that it does not disable enabled monitors, but stop the per-entity
+>>    monitors of monitoring the events received from the system.
+>>    It resambles the "tracing_on" switcher.
+> 
+> You mean that the tracepoints are still attached, but the process of
+> monitoring isn't doing anything?
 
->> Documentation/output/videodev2.h.rst:6: WARNING: undefined label: v4l2-ctrl-type-h264-encode-params (if the link has no caption the label must precede a section header)
->> Documentation/output/videodev2.h.rst:6: WARNING: undefined label: v4l2-ctrl-type-h264-encode-rc (if the link has no caption the label must precede a section header)
->> Documentation/output/videodev2.h.rst:6: WARNING: undefined label: v4l2-ctrl-type-h264-encode-feedback (if the link has no caption the label must precede a section header)
+correct, I am now mentioning it in the comment.
+ 
+[...]
 
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+>> +static int disable_monitor(struct rv_monitor_def *mdef)
+>> +{
+>> +	if (mdef->monitor->enabled) {
+>> +		mdef->monitor->enabled = 0;
+>> +		mdef->monitor->stop();
+>> +	}
+>> +
+>> +	mdef->enabled = 0;
+> 
+> What's the difference between mdef->enabled and mdef->monitor->enabled?
+
+Ooops, the mdef->enabled is a leftover... removing mdef->enabled.
+
+>> +	return 0;
+>> +}
+>> +
+
+[...]
+
+>> +static int create_monitor_dir(struct rv_monitor_def *mdef)
+>> +{
+>> +	struct dentry *root = get_monitors_root();
+>> +	struct dentry *tmp;
+>> +	const char *name = mdef->monitor->name;
+>> +	int retval = 0;
+>> +
+>> +	mdef->root_d = rv_create_dir(name, root);
+>> +
+>> +	if (!mdef->root_d)
+>> +		return -ENOMEM;
+>> +
+>> +	tmp = rv_create_file("enable", 0600,
+> 
+> I'd recommend make the modes (0600) into macros. I recently changed
+> these for tracing, and having them hard coded was a pain.
+> 
+> #define RV_FILE_READ	0600
+> 
+
+Added:
+#define RV_MODE_WRITE                   TRACE_MODE_WRITE
+#define RV_MODE_READ                    TRACE_MODE_READ
+
+
+>> +			     mdef->root_d, mdef,
+>> +			     &interface_enable_fops);
+>> +	if (!tmp) {
+>> +		retval = -ENOMEM;
+>> +		goto out_remove_root;
+>> +	}
+>> +
+>> +	tmp = rv_create_file("desc", 0400,
+> 
+> Same here, and in all other cases.
+> 
+>> +			      mdef->root_d, mdef,
+>> +			      &interface_desc_fops);
+>> +	if (!tmp) {
+>> +		retval = -ENOMEM;
+>> +		goto out_remove_root;
+>> +	}
+>> +
+>> +	return retval;
+>> +
+>> +out_remove_root:
+>> +	rv_remove(mdef->root_d);
+>> +	return retval;
+>> +}
+
+[...]
+>> +static ssize_t
+>> +enabled_monitors_write(struct file *filp, const char __user *user_buf,
+>> +		      size_t count, loff_t *ppos)
+>> +{
+>> +	char buff[MAX_RV_MONITOR_NAME_SIZE+1];
+>> +	struct rv_monitor_def *mdef;
+>> +	int retval = -EINVAL;
+>> +	bool enable = true;
+>> +	char *ptr = buff;
+>> +	int len;
+>> +
+>> +	if (count < 1 || count > MAX_RV_MONITOR_NAME_SIZE+1)
+>> +		return -EINVAL;
+>> +
+>> +	memset(buff, 0, sizeof(buff));
+>> +
+>> +	retval = simple_write_to_buffer(buff, sizeof(buff)-1, ppos, user_buf,
+>> +					count);
+>> +	if (!retval)
+>> +		return -EFAULT;
+>> +
+>> +	if (buff[0] == '!') {
+>> +		enable = false;
+>> +		ptr++;
+>> +	}
+>> +
+>> +	len = strlen(ptr);
+>> +	if (!len)
+>> +		return count;
+>> +	/*
+>> +	 * remove \n
+>> +	 */
+>> +	ptr[len-1] = '\0';
+> 
+> Are you sure there's an '\n' here?
+> 
+> One could just do "write(fd, "monitor", 7)"
+> 
+> Perhaps use strim()
+
+ack.
+
+> 
+>> +
+>> +	mutex_lock(&rv_interface_lock);
+>> +
+>> +	retval = -EINVAL;
+>> +
+>> +	list_for_each_entry(mdef, &rv_monitors_list, list) {
+>> +		if (strcmp(ptr, mdef->monitor->name) == 0) {
+> 
+> BTW, you could do:
+> 
+> 		if (strcmp(ptr, mdef->monitor->name) != 0)
+> 			continue;
+> 
+> And then get rid of an extra indent below.
+> 
+>> +			/*
+>> +			 * Monitor found!
+>> +			 */
+>> +			if (enable)
+>> +				retval = enable_monitor(mdef);
+>> +			else
+>> +				retval = disable_monitor(mdef);
+>> +
+>> +			if (retval)
+>> +				goto out;
+> 
+> Why not just break?
+> 
+> In fact, you could just do:
+> 
+> 			if (!retval)
+> 				retval = count;
+> 			break;
+
+yep, it looks better.
+
+-- Daniel
