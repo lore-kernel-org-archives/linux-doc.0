@@ -2,131 +2,75 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ACAF6C433EF
-	for <linux-doc@archiver.kernel.org>; Mon,  4 Jul 2022 03:41:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D9020C43334
+	for <linux-doc@archiver.kernel.org>; Mon,  4 Jul 2022 04:46:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230281AbiGDDlZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 3 Jul 2022 23:41:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56062 "EHLO
+        id S229735AbiGDEqB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 4 Jul 2022 00:46:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56300 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229461AbiGDDlZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 3 Jul 2022 23:41:25 -0400
-Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 78D462622;
-        Sun,  3 Jul 2022 20:41:24 -0700 (PDT)
-Received: by mail-pj1-x1032.google.com with SMTP id s21so3528778pjq.4;
-        Sun, 03 Jul 2022 20:41:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=zot34Su/UJzEfLvtI5KsgZ2ZXPjjcCX/oHVe3Y9OwDI=;
-        b=OkJu/yPaalIGdh19Of+/u7IZp0HIpjRq6mnNPx8dhdusfJQUWDFvF0tsoPAOIaU7FM
-         GFVubWcyLEYM0obEBJdxX6Y6JiK/03yJ+tjRpY56b6j8IRgjgw+DLRdcc3y5pYDESjKG
-         Ik7zRWjAIlhnNnzgW5mtX9zTEQ3UqduvU0L0rOWvXkX0Ke6UQGTY2v18ePtuEVSMnoU9
-         1aTve/ZNS+dUink4jIDuvlBwk3dJ9UTshJ3HHXSsbPG8MFTxhNcRkN2zUlsd8+aSnuHk
-         Zdx18MYpGle7kzeEVdQgtqmi5J+EwCjB5olz8/Ekb7Ew/jfMnPsuiVWJVsdhM7GNSdCb
-         VH6A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=zot34Su/UJzEfLvtI5KsgZ2ZXPjjcCX/oHVe3Y9OwDI=;
-        b=q3fd8Tic+dlseWM1UzSPt2uiZaqqmPjIMlpgdEJFvINJl8cTjzeZKf7REXioVGOdg3
-         NIHEPLHUh+8BOGgDc23LzbO9o3NMmmbQYNfUJ3UtgpoVUBsx3AYtjEuXqEkqyBhRN8gQ
-         xGymceD14TnjyUxwt/LATvzrEDWnYslRsrB4X0ZasjZ1ICLmtdRhNrnUmY4Xiee5ZbVE
-         Aawsv6dxg9VxN0n8cVOA8z50aKvLtSvM2Cpgo/b7KNX7TXkAopa8PQ614cUjntJP8Jwl
-         ml/f8+pcB+x7jay1kGSGbsEHiR8CqNyzDsoXLxv+mwodFu/Kg/cHQQL+yeAf6DxUIbyK
-         /nyw==
-X-Gm-Message-State: AJIora/IFCMSSzzOrRVtS++Q/gNrzWEx1zXDskjXbmEMqdFWg4uRpQbB
-        2BI+K3d4QuwlVu7HWcDsIQc=
-X-Google-Smtp-Source: AGRyM1v9KHlohz3vcXGrrclX/fkxSnHkerFknyMVKuMgLZHh/yvDSFUgs9ItYXukQcHaScmoDn/T7w==
-X-Received: by 2002:a17:902:d50b:b0:16a:2cb3:74f7 with SMTP id b11-20020a170902d50b00b0016a2cb374f7mr33830730plg.6.1656906083923;
-        Sun, 03 Jul 2022 20:41:23 -0700 (PDT)
-Received: from debian.me (subs02-180-214-232-10.three.co.id. [180.214.232.10])
-        by smtp.gmail.com with ESMTPSA id v187-20020a6261c4000000b005255f5d8f9fsm19981190pfb.112.2022.07.03.20.41.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 03 Jul 2022 20:41:23 -0700 (PDT)
-Received: by debian.me (Postfix, from userid 1000)
-        id BE085103946; Mon,  4 Jul 2022 10:41:18 +0700 (WIB)
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     linux-doc@vger.kernel.org
-Cc:     Bagas Sanjaya <bagasdotme@gmail.com>,
-        kernel test robot <lkp@intel.com>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Andrea Merello <andrea.merello@iit.it>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Rob Herring <robh+dt@kernel.org>,
-        Matt Ranostay <matt.ranostay@konsulko.com>,
-        Alexandru Ardelean <ardeleanalex@gmail.com>, jacopo@jmondi.org,
-        linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v2] Documentation: bno055: separate SPDX identifier and page title
-Date:   Mon,  4 Jul 2022 10:40:42 +0700
-Message-Id: <20220704034041.15448-1-bagasdotme@gmail.com>
-X-Mailer: git-send-email 2.36.0
-In-Reply-To: <YsGVa8KFmdvGY92e@debian.me>
-References: <YsGVa8KFmdvGY92e@debian.me>
+        with ESMTP id S229477AbiGDEqA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 4 Jul 2022 00:46:00 -0400
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF10363BC
+        for <linux-doc@vger.kernel.org>; Sun,  3 Jul 2022 21:45:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1656909959; x=1688445959;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=8Ov2bz1oM/y2rUrclJKAmC/wO3avL5+WENiHwk4PWtU=;
+  b=DudhQSlyE93OhKmHoUDWpe4ZNUfjqbh2RXtk8b/WOXlN3SYcMvW6L33a
+   sh2ABfwwJvf2DRyqlnMTAIKjwYnn6qMUL8pBFw78e5VzT4J2LLeS4tuXX
+   33T3Keuw11gMjj1MoViR1dDLFS/JrsAXcqajSM8mLgWAdnKmQwL3aNUy/
+   /QDWZBW2vZSBQ6qixSofMyPKewQB4wvMiL5GEKw5Tz0dflF92F+wNG5PN
+   LGhK7e6gGEQ9yunva0yJDPf1isiF91frAUnLvT4uOLrmd1aGXBJ7j1q/1
+   AsZxcJoQMIjNU9iCi3hW06PTtevvpHRbGpllbhygzHrZNgkBO2lXpWMqM
+   Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10397"; a="308564619"
+X-IronPort-AV: E=Sophos;i="5.92,243,1650956400"; 
+   d="scan'208";a="308564619"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2022 21:45:59 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.92,243,1650956400"; 
+   d="scan'208";a="919175616"
+Received: from lkp-server01.sh.intel.com (HELO 68b931ab7ac1) ([10.239.97.150])
+  by fmsmga005.fm.intel.com with ESMTP; 03 Jul 2022 21:45:58 -0700
+Received: from kbuild by 68b931ab7ac1 with local (Exim 4.95)
+        (envelope-from <lkp@intel.com>)
+        id 1o8Dy9-000HVH-Is;
+        Mon, 04 Jul 2022 04:45:57 +0000
+Date:   Mon, 4 Jul 2022 12:45:07 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Rohit Visavalia <rohit.visavalia@xilinx.com>
+Cc:     kbuild-all@lists.01.org, linux-arm-kernel@lists.infradead.org,
+        Michal Simek <monstr@monstr.eu>,
+        Vishal Sagar <vishal.sagar@xilinx.com>,
+        linux-doc@vger.kernel.org
+Subject: [xilinx-xlnx:master 356/605] htmldocs:
+ Documentation/output/videodev2.h.rst:6: WARNING: undefined label:
+ v4l2-pix-fmt-x403 (if the link has no caption the label must precede a
+ section header)
+Message-ID: <202207041237.hvQzwM9U-lkp@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-kernel test robot reported htmldocs warning:
+tree:   https://github.com/Xilinx/linux-xlnx master
+head:   a739ad1c8da292adc265c7043f7028a1002c3fd1
+commit: 0cc5e27906b914f5c42935e6cd99e2249f403840 [356/605] media: v4l: Support 3 planar YUV 444 10bpc pixel format in contiguous memory
+reproduce: make htmldocs
 
-Documentation/iio/bno055.rst:2: WARNING: Explicit markup ends without a blank line; unexpected unindent.
-
-The warning above is caused by missing blank line separator between SPDX
-identifier and page title.
-
-Add the blank line to fix the warning.
-
-Link: https://lore.kernel.org/lkml/202207031509.DlBrHyaw-lkp@intel.com/
-Fixes: ec0c70cb45507d ("docs: iio: add documentation for BNO055 driver")
+If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
-Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Andrea Merello <andrea.merello@iit.it>
-Cc: Jonathan Cameron <jic23@kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: Lars-Peter Clausen <lars@metafoo.de>
-Cc: Rob Herring <robh+dt@kernel.org>
-Cc: Matt Ranostay <matt.ranostay@konsulko.com>
-Cc: Alexandru Ardelean <ardeleanalex@gmail.com>
-Cc: jacopo@jmondi.org
-Cc: linux-iio@vger.kernel.org
-Cc: devicetree@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org (open list)
-Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
----
 
- Changes since v1 [1]:
-   - Collect Reviewed-by from Andy Shevchenko
-   - Explain why the warning is triggered
-   - No code changes 
+All warnings (new ones prefixed by >>):
 
- This patch is based on "Add support for Bosch BNO055 IMU" series [2]
- as fixup for BNO055 documentation (patch [14/14])
+>> Documentation/output/videodev2.h.rst:6: WARNING: undefined label: v4l2-pix-fmt-x403 (if the link has no caption the label must precede a section header)
 
- [1]: https://lore.kernel.org/lkml/YsGVa8KFmdvGY92e@debian.me/
- [2]: https://lore.kernel.org/lkml/20220613120534.36991-1-andrea.merello@iit.it/ 
- Documentation/iio/bno055.rst | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/Documentation/iio/bno055.rst b/Documentation/iio/bno055.rst
-index af21376d7a2533..9a489a79d8f5a8 100644
---- a/Documentation/iio/bno055.rst
-+++ b/Documentation/iio/bno055.rst
-@@ -1,4 +1,5 @@
- .. SPDX-License-Identifier: GPL-2.0
-+
- ==============================
- BNO055 driver
- ==============================
 -- 
-An old man doll... just what I always wanted! - Clara
-
+0-DAY CI Kernel Test Service
+https://01.org/lkp
