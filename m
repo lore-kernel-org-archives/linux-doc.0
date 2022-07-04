@@ -2,274 +2,107 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D97ECC43334
-	for <linux-doc@archiver.kernel.org>; Mon,  4 Jul 2022 20:30:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D566C433EF
+	for <linux-doc@archiver.kernel.org>; Mon,  4 Jul 2022 23:00:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233777AbiGDUaz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 4 Jul 2022 16:30:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41796 "EHLO
+        id S229614AbiGDXAK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 4 Jul 2022 19:00:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47964 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233785AbiGDUaw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 4 Jul 2022 16:30:52 -0400
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1904BDED3;
-        Mon,  4 Jul 2022 13:30:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1656966651; x=1688502651;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=qjJR3bTTqiVwDUtZuLsilpASFgpjsBul0CFXHQHE9Tk=;
-  b=kdjby5aBkrUBa/GbJzFD/2x8okL72X54aOAuy2OHDY4KICMxjzEb7V4M
-   yeYTnDRCFs8JMubwQIMHPJHSLi8pGVCzbAJ4/aKGbChnESyIZDijOPoEs
-   0kcjOUwZjpJM/BPdkf0mJYAybYhRy7RSBV8CkwBBrkJ8Nit4oLIyYjJMo
-   ElHBtPb+RhGQ4r545BnVmUVYTgadk3DriutUWebr6Sj3l/2huRtJ5Pv6p
-   nQ7C7P1kZHIcz5Z01YImc2Pz+M1lQXD4W2ARpaWVKOc7HkxRNSmvBHuxz
-   oLuExoLWl7YHIpxYvngVJNKeS9BSHeUZCWeTqvSmPa47gWf+J5Ti7HR7Q
-   A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10398"; a="263616640"
-X-IronPort-AV: E=Sophos;i="5.92,243,1650956400"; 
-   d="scan'208";a="263616640"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2022 13:30:50 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.92,243,1650956400"; 
-   d="scan'208";a="919461370"
-Received: from lkp-server01.sh.intel.com (HELO 68b931ab7ac1) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 04 Jul 2022 13:30:49 -0700
-Received: from kbuild by 68b931ab7ac1 with local (Exim 4.95)
-        (envelope-from <lkp@intel.com>)
-        id 1o8SiW-000I9f-LP;
-        Mon, 04 Jul 2022 20:30:48 +0000
-Date:   Tue, 5 Jul 2022 04:30:11 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Isaku Yamahata <isaku.yamahata@intel.com>
-Cc:     kbuild-all@lists.01.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: [intel-tdx:kvm-upstream 266/267] htmldocs:
- Documentation/virt/kvm/intel-tdx.rst:181: WARNING: Enumerated list ends
- without a blank line; unexpected unindent.
-Message-ID: <202207050428.5xG5lJOv-lkp@intel.com>
+        with ESMTP id S229456AbiGDXAJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 4 Jul 2022 19:00:09 -0400
+Received: from mail-ua1-x92d.google.com (mail-ua1-x92d.google.com [IPv6:2607:f8b0:4864:20::92d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E55FB863
+        for <linux-doc@vger.kernel.org>; Mon,  4 Jul 2022 16:00:09 -0700 (PDT)
+Received: by mail-ua1-x92d.google.com with SMTP id s4so3995358uad.0
+        for <linux-doc@vger.kernel.org>; Mon, 04 Jul 2022 16:00:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=eclypsium.com; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=im3qEeAmdXUHO+WGiZDrLtlzO2iC5TQaRlSt5RR4Yi4=;
+        b=b3sf35YMLlMnmD0XI2MndG/Ki+SJhIzMgSnCCrFH/29wWiHzDH/QrUNbA22VZSyhdm
+         ZSCDP8PHvScDBrTjwXEJSFh0S9lZ+46+kf9ok5uQUggEZjFq4qQ/dsylgdZ/c+ASmLRf
+         ljBJplHwo6Dt741eMJNgx8JDuxyRBbW9DxWxg81ANQNcVHHJxIDG73iguLzWIMT7yFQ3
+         CyF0/gO6ExhT/Pyjgwu00JOQSxhQY4LoymZBhxl+L1AdEOjyFtzEz08heY+TmG2dQdXk
+         AsD5t7S0WVS6YYFxtyZXuoxpi59nWDRP392uF28svhsdadLJCuknkSNbzzlEyD3ysYqT
+         qeUg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=im3qEeAmdXUHO+WGiZDrLtlzO2iC5TQaRlSt5RR4Yi4=;
+        b=tvmrUrE40ySA6TnvAZiy0/+6CS9bfW0plSSmaljXajvkKlMwAOQHID0QZjUr7yR8GM
+         nVc/Vas0Y35Ox6WVuyZTbPjXgNGwG+GBHrw68HVAu4jGYGDEr8LvoQQihYAV1joETxiO
+         6aQltTvKf9INop7uTia9zmUe4uEZf5RF5X4egPGp+aBz6atpx8IB+Ce8WHKcVpqlr+Ze
+         rlP1EPBSaZwZs5yxdyf8UCBGw/f8UT1w0oxKK1oqyrSMEOF3Uh02RAK2VV+DsC+Z72Wo
+         SVu0YX/UAmCwX+THL7imSUJVv9hOy/NdltCIULwEcKCN7Dc7VSIBjaa4aN8perV+LJI6
+         ISNA==
+X-Gm-Message-State: AJIora9M2+Z51x4EEY9Ox165huIjNlwHIV3qwfvMK2XWxnp+7S9uInZl
+        Lv1kFYD9Q5pf0v4cjAYOaMUAZuDBM2pwC2Zs+U4J89Y70l4/pIgz7My/t8bG4cGRXWZsJBJcjb1
+        o9rrkG4n/Eto1fag+kQjpOsdOD1A1rAf0gNwaaaCRNbLwltwGqzBqfrSoYgoun0j85XhUu+etZ7
+        1g1CH+nozCQE/D
+X-Google-Smtp-Source: AGRyM1sFL3izaOkzTcb7s1T8dZRv7qt9i++B0cfjkrrXU0zdL7pZMcKJd17fmC1GtNf+fi4Di5ALYg==
+X-Received: by 2002:ab0:7a43:0:b0:382:96f8:7457 with SMTP id a3-20020ab07a43000000b0038296f87457mr2774227uat.45.1656975608035;
+        Mon, 04 Jul 2022 16:00:08 -0700 (PDT)
+Received: from localhost ([181.97.174.128])
+        by smtp.gmail.com with ESMTPSA id z4-20020ab03404000000b00381eb3801d7sm4182449uap.1.2022.07.04.16.00.06
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 04 Jul 2022 16:00:07 -0700 (PDT)
+From:   Martin Fernandez <martin.fernandez@eclypsium.com>
+To:     linux-doc@vger.kernel.org
+Cc:     dwaipayanray1@gmail.com, lukas.bulwahn@gmail.com, joe@perches.com,
+        Martin Fernandez <martin.fernandez@eclypsium.com>
+Subject: [PATCH v3] doc/checkpatch: Add description to MACRO_ARG_REUSE
+Date:   Mon,  4 Jul 2022 19:57:57 -0300
+Message-Id: <20220704225757.1811311-1-martin.fernandez@eclypsium.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-tree:   https://github.com/intel/tdx.git kvm-upstream
-head:   7af4efe32638544aecb58ed7365d0ef2ea6f85ea
-commit: 9e54fa1ac03df3cd2fb7a2e64d3cffc35d4f097e [266/267] Documentation/virtual/kvm: Document on Trust Domain Extensions(TDX)
-reproduce: make htmldocs
+Add a description, an example and a possible workaround to the
+MACRO_ARG_REUSE check.
 
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
+Signed-off-by: Martin Fernandez <martin.fernandez@eclypsium.com>
+Acked-by: Dwaipayan Ray <dwaipayanray1@gmail.com>
+---
+ Documentation/dev-tools/checkpatch.rst | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
 
-All warnings (new ones prefixed by >>):
-
->> Documentation/virt/kvm/intel-tdx.rst:181: WARNING: Enumerated list ends without a blank line; unexpected unindent.
->> Documentation/virt/kvm/intel-tdx.rst:219: WARNING: Unexpected indentation.
->> Documentation/virt/kvm/intel-tdx.rst:223: WARNING: Block quote ends without a blank line; unexpected unindent.
->> Documentation/virt/kvm/intel-tdx.rst:239: WARNING: Bullet list ends without a blank line; unexpected unindent.
->> Documentation/virt/kvm/intel-tdx.rst:353: WARNING: Footnote [1] is not referenced.
->> Documentation/virt/kvm/intel-tdx.rst: WARNING: document isn't included in any toctree
-
-vim +181 Documentation/virt/kvm/intel-tdx.rst
-
-   179	
-   180	#. system wide capability check
- > 181	  * KVM_CAP_VM_TYPES: check if VM type is supported and if TDX_VM_TYPE is
-   182	    supported.
-   183	
-   184	#. creating VM
-   185	  * KVM_CREATE_VM
-   186	  * KVM_TDX_CAPABILITIES: query if TDX is supported on the platform.
-   187	  * KVM_TDX_INIT_VM: pass TDX specific VM parameters.
-   188	
-   189	#. creating VCPU
-   190	  * KVM_CREATE_VCPU
-   191	  * KVM_TDX_INIT_VCPU: pass TDX specific VCPU parameters.
-   192	
-   193	#. initializing guest memory
-   194	  * allocate guest memory and initialize page same to normal KVM case
-   195	    In TDX case, parse and load TDVF into guest memory in addition.
-   196	  * KVM_TDX_INIT_MEM_REGION to add and measure guest pages.
-   197	    If the pages has contents above, those pages need to be added.
-   198	    Otherwise the contents will be lost and guest sees zero pages.
-   199	  * KVM_TDX_FINALIAZE_VM: Finalize VM and measurement
-   200	    This must be after KVM_TDX_INIT_MEM_REGION.
-   201	
-   202	#. run vcpu
-   203	
-   204	Design discussion
-   205	=================
-   206	
-   207	Coexistence of normal(VMX) VM and TD VM
-   208	---------------------------------------
-   209	It's required to allow both legacy(normal VMX) VMs and new TD VMs to
-   210	coexist. Otherwise the benefits of VM flexibility would be eliminated.
-   211	The main issue for it is that the logic of kvm_x86_ops callbacks for
-   212	TDX is different from VMX. On the other hand, the variable,
-   213	kvm_x86_ops, is global single variable. Not per-VM, not per-vcpu.
-   214	
-   215	Several points to be considered.
-   216	  . No or minimal overhead when TDX is disabled(CONFIG_INTEL_TDX_HOST=n).
-   217	  . Avoid overhead of indirect call via function pointers.
-   218	  . Contain the changes under arch/x86/kvm/vmx directory and share logic
- > 219	    with VMX for maintenance.
-   220	    Even though the ways to operation on VM (VMX instruction vs TDX
-   221	    SEAM call) is different, the basic idea remains same. So, many
-   222	    logic can be shared.
- > 223	  . Future maintenance
-   224	    The huge change of kvm_x86_ops in (near) future isn't expected.
-   225	    a centralized file is acceptable.
-   226	
-   227	- Wrapping kvm x86_ops: The current choice
-   228	  Introduce dedicated file for arch/x86/kvm/vmx/main.c (the name,
-   229	  main.c, is just chosen to show main entry points for callbacks.) and
-   230	  wrapper functions around all the callbacks with
-   231	  "if (is-tdx) tdx-callback() else vmx-callback()".
-   232	
-   233	  Pros:
-   234	  - No major change in common x86 KVM code. The change is (mostly)
-   235	    contained under arch/x86/kvm/vmx/.
-   236	  - When TDX is disabled(CONFIG_INTEL_TDX_HOST=n), the overhead is
-   237	    optimized out.
-   238	  - Micro optimization by avoiding function pointer.
- > 239	  Cons:
-   240	  - Many boiler plates in arch/x86/kvm/vmx/main.c.
-   241	
-   242	Alternative:
-   243	- Introduce another callback layer under arch/x86/kvm/vmx.
-   244	  Pros:
-   245	  - No major change in common x86 KVM code. The change is (mostly)
-   246	    contained under arch/x86/kvm/vmx/.
-   247	  - clear separation on callbacks.
-   248	  Cons:
-   249	  - overhead in VMX even when TDX is disabled(CONFIG_INTEL_TDX_HOST=n).
-   250	
-   251	- Allow per-VM kvm_x86_ops callbacks instead of global kvm_x86_ops
-   252	  Pros:
-   253	  - clear separation on callbacks.
-   254	  Cons:
-   255	  - Big change in common x86 code.
-   256	  - overhead in common code even when TDX is
-   257	    disabled(CONFIG_INTEL_TDX_HOST=n).
-   258	
-   259	- Introduce new directory arch/x86/kvm/tdx
-   260	  Pros:
-   261	  - It clarifies that TDX is different from VMX.
-   262	  Cons:
-   263	  - Given the level of code sharing, it complicates code sharing.
-   264	
-   265	KVM MMU Changes
-   266	---------------
-   267	KVM MMU needs to be enhanced to handle Secure/Shared-EPT. The
-   268	high-level execution flow is mostly same to normal EPT case.
-   269	EPT violation/misconfiguration -> invoke TDP fault handler ->
-   270	resolve TDP fault -> resume execution. (or emulate MMIO)
-   271	The difference is, that S-EPT is operated(read/write) via TDX SEAM
-   272	call which is expensive instead of direct read/write EPT entry.
-   273	One bit of GPA (51 or 47 bit) is repurposed so that it means shared
-   274	with host(if set to 1) or private to TD(if cleared to 0).
-   275	
-   276	- The current implementation
-   277	  . Reuse the existing MMU code with minimal update.  Because the
-   278	    execution flow is mostly same. But additional operation, TDX call
-   279	    for S-EPT, is needed. So add hooks for it to kvm_x86_ops.
-   280	  . For performance, minimize TDX SEAM call to operate on S-EPT. When
-   281	    getting corresponding S-EPT pages/entry from faulting GPA, don't
-   282	    use TDX SEAM call to read S-EPT entry. Instead create shadow copy
-   283	    in host memory.
-   284	    Repurpose the existing kvm_mmu_page as shadow copy of S-EPT and
-   285	    associate S-EPT to it.
-   286	  . Treats share bit as attributes. mask/unmask the bit where
-   287	    necessary to keep the existing traversing code works.
-   288	    Introduce kvm.arch.gfn_shared_mask and use "if (gfn_share_mask)"
-   289	    for special case.
-   290	    = 0 : for non-TDX case
-   291	    = 51 or 47 bit set for TDX case.
-   292	
-   293	  Pros:
-   294	  - Large code reuse with minimal new hooks.
-   295	  - Execution path is same.
-   296	  Cons:
-   297	  - Complicates the existing code.
-   298	  - Repurpose kvm_mmu_page as shadow of Secure-EPT can be confusing.
-   299	
-   300	Alternative:
-   301	- Replace direct read/write on EPT entry with TDX-SEAM call by
-   302	  introducing callbacks on EPT entry.
-   303	  Pros:
-   304	  - Straightforward.
-   305	  Cons:
-   306	  - Too many touching point.
-   307	  - Too slow due to TDX-SEAM call.
-   308	  - Overhead even when TDX is disabled(CONFIG_INTEL_TDX_HOST=n).
-   309	
-   310	- Sprinkle "if (is-tdx)" for TDX special case
-   311	  Pros:
-   312	  - Straightforward.
-   313	  Cons:
-   314	  - The result is non-generic and ugly.
-   315	  - Put TDX specific logic into common KVM MMU code.
-   316	
-   317	New KVM API, ioctl (sub)command, to manage TD VMs
-   318	-------------------------------------------------
-   319	Additional KVM API are needed to control TD VMs. The operations on TD
-   320	VMs are specific to TDX.
-   321	
-   322	- Piggyback and repurpose KVM_MEMORY_ENCRYPT_OP
-   323	  Although not all operation isn't memory encryption, repupose to get
-   324	  TDX specific ioctls.
-   325	  Pros:
-   326	  - No major change in common x86 KVM code.
-   327	  Cons:
-   328	  - The operations aren't actually memory encryption, but operations
-   329	    on TD VMs.
-   330	
-   331	Alternative:
-   332	- Introduce new ioctl for guest protection like
-   333	  KVM_GUEST_PROTECTION_OP and introduce subcommand for TDX.
-   334	  Pros:
-   335	  - Clean name.
-   336	  Cons:
-   337	  - One more new ioctl for guest protection.
-   338	  - Confusion with KVM_MEMORY_ENCRYPT_OP with KVM_GUEST_PROTECTION_OP.
-   339	
-   340	- Rename KVM_MEMORY_ENCRYPT_OP to KVM_GUEST_PROTECTION_OP and keep
-   341	  KVM_MEMORY_ENCRYPT_OP as same value for user API for compatibility.
-   342	  "#define KVM_MEMORY_ENCRYPT_OP KVM_GUEST_PROTECTION_OP" for uapi
-   343	  compatibility.
-   344	  Pros:
-   345	  - No new ioctl with more suitable name.
-   346	  Cons:
-   347	  - May cause confusion to the existing user program.
-   348	
-   349	
-   350	References
-   351	==========
-   352	
- > 353	.. [1] TDX specification
-   354	   https://software.intel.com/content/www/us/en/develop/articles/intel-trust-domain-extensions.html
-   355	.. [2] Intel Trust Domain Extensions (Intel TDX)
-   356	   https://software.intel.com/content/dam/develop/external/us/en/documents/tdx-whitepaper-final9-17.pdf
-   357	.. [3] Intel CPU Architectural Extensions Specification
-   358	   https://software.intel.com/content/dam/develop/external/us/en/documents/intel-tdx-cpu-architectural-specification.pdf
-   359	.. [4] Intel TDX Module 1.0 EAS
-   360	   https://software.intel.com/content/dam/develop/external/us/en/documents/intel-tdx-module-1eas.pdf
-   361	.. [5] Intel TDX Loader Interface Specification
-   362	   https://software.intel.com/content/dam/develop/external/us/en/documents/intel-tdx-seamldr-interface-specification.pdf
-   363	.. [6] Intel TDX Guest-Hypervisor Communication Interface
-   364	   https://software.intel.com/content/dam/develop/external/us/en/documents/intel-tdx-guest-hypervisor-communication-interface.pdf
-   365	.. [7] Intel TDX Virtual Firmware Design Guide
-   366	   https://software.intel.com/content/dam/develop/external/us/en/documents/tdx-virtual-firmware-design-guide-rev-1.
-   367	.. [8] intel public github
-   368	   kvm TDX branch: https://github.com/intel/tdx/tree/kvm
-   369	   TDX guest branch: https://github.com/intel/tdx/tree/guest
-   370	.. [9] tdvf
-   371	    https://github.com/tianocore/edk2-staging/tree/TDVF
- > 372	.. [10] KVM forum 2020: Intel Virtualization Technology Extensions to
-
+diff --git a/Documentation/dev-tools/checkpatch.rst b/Documentation/dev-tools/checkpatch.rst
+index b52452bc2963..86545c65cf7b 100644
+--- a/Documentation/dev-tools/checkpatch.rst
++++ b/Documentation/dev-tools/checkpatch.rst
+@@ -759,6 +759,26 @@ Indentation and Line Breaks
+ Macros, Attributes and Symbols
+ ------------------------------
+ 
++  **ARG_REUSE**
++    Using the same argument multiple times in the macro definition
++    would lead to unwanted side-effects.
++
++    For example, given a `min` macro defined like::
++
++      #define min(x, y)  ((x) < (y) ? (x) : (y))
++
++    If you call it with `min(foo(x), 0)`, it would expand to::
++
++      foo(x) < 0 ? foo(x) : 0
++
++    If `foo` has side-effects or it's an expensive calculation the
++    results might not be what the user intended.
++
++    For a workaround the idea is to define local variables to hold the
++    macro's arguments. Checkout the actual implementation of `min` in
++    include/linux/minmax.h for the full implementation of the
++    workaround.
++
+   **ARRAY_SIZE**
+     The ARRAY_SIZE(foo) macro should be preferred over
+     sizeof(foo)/sizeof(foo[0]) for finding number of elements in an
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+2.30.2
+
