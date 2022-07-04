@@ -2,44 +2,45 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 15266C433EF
-	for <linux-doc@archiver.kernel.org>; Mon,  4 Jul 2022 16:36:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A302C433EF
+	for <linux-doc@archiver.kernel.org>; Mon,  4 Jul 2022 16:46:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233502AbiGDQgD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 4 Jul 2022 12:36:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41284 "EHLO
+        id S232251AbiGDQqv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 4 Jul 2022 12:46:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45326 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233313AbiGDQgC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 4 Jul 2022 12:36:02 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2BCCB855;
-        Mon,  4 Jul 2022 09:36:00 -0700 (PDT)
+        with ESMTP id S234839AbiGDQou (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 4 Jul 2022 12:44:50 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B4952BE39;
+        Mon,  4 Jul 2022 09:44:40 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id A5616B8114B;
-        Mon,  4 Jul 2022 16:35:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CFBE3C341C7;
-        Mon,  4 Jul 2022 16:35:57 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 50C376146C;
+        Mon,  4 Jul 2022 16:44:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 49EEAC3411E;
+        Mon,  4 Jul 2022 16:44:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1656952558;
-        bh=Q75PA0ihcw46MgoO9hImbq+mkmb2piBNBaKYd9Ickvw=;
+        s=k20201202; t=1656953079;
+        bh=Z2uRn29TAG3n10ZRXwiAj2SO+DVxbV7cjUpMOS7oyII=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=rCovc5Tl9Gq95vZXfSSS721zmw/zWudHGrzFbrlPERyfkGAp/vwVjKs1mWWLOCHi4
-         azZqhsX07iBDIMQa/5sI01vU9fnCaWDCK3tkqmHL6nW9y8FqHpRhWfed9HXmPn5BOZ
-         yN26k2UMSyQ9R5XdazlOwRNPKRWqGGUlffrdkVCH4ge2VADRKg5XHP7i5RXqe+vGi9
-         DIdvcaXON9c7coN4foGEMAsbJLhGLh9m4RqZqVnBrKrKhFauumG6d9cAX4+fGfgACA
-         qWFYfiMIBXaISBIFUcSyKWAMfG8aab9PwLZSyArSAL/+92RjEGr3DDInKSpoHq9fG8
-         Iy2wzuYzSfzGw==
+        b=AAEg6VZH8BwyH6HOvW1qUdKSH2xNNEO0Bv1LzdjWzZ0vvIvzV9O+VsSD1laqJnpYo
+         1v6DYPyAhisFJvqFDIpeTraTd2KCL1ObYPyFNtQRgIP9KMSlW8buYT+eltzf+RJze0
+         i1XumXssUlrwjVgnF6IryDuAjk0UUBLNuumJGU0Ui548Uv9NoVW0OFCvgjmb5E/zN1
+         6mzay+evq4coOmWvLUQHegafS4wfWcgghtbF6cSOvzAXBzopa1hL8k0CnYd3SKBG51
+         a7lANjwEL5xfQr+vGb5WXHXdakGsKNAZ0+S6IfaMZRGsaH7+JpaAPrDQLfQsAWH+Qm
+         yyc2y5BA6JN1Q==
 From:   SeongJae Park <sj@kernel.org>
 To:     kernel test robot <lkp@intel.com>
 Cc:     SeongJae Park <sjpark@amazon.de>, kbuild-all@lists.01.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [sj:damon/next 17/20] htmldocs: Documentation/admin-guide/mm/damon/guide.rst:173: WARNING: unknown document: /vm/damon/api
-Date:   Mon,  4 Jul 2022 16:35:55 +0000
-Message-Id: <20220704163555.87880-1-sj@kernel.org>
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        damon@lists.linux.dev
+Subject: Re: [sj:damon/next 16/20] htmldocs: Documentation/PCI/index.rst: WARNING: document isn't included in any toctree
+Date:   Mon,  4 Jul 2022 16:44:37 +0000
+Message-Id: <20220704164437.88314-1-sj@kernel.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <202207032102.FQn5Ryi7-lkp@intel.com>
+In-Reply-To: <202207031427.IAzQ551Z-lkp@intel.com>
 References: 
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -47,56 +48,28 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, 3 Jul 2022 21:15:46 +0800 kernel test robot <lkp@intel.com> wrote:
-
+On Sun, 3 Jul 2022 14:36:56 +0800 kernel test robot <lkp@intel.com> wrote:
+ 
 > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sj/linux.git damon/=
 > next
 > head:   54aa71ecf6cac755c491a1992d83437cd2240311
-> commit: e381a2734cd4250c0e3ab5f46cecc86ec67edb57 [17/20] Docs/DAMON: Add mo=
-> re docs -next doc
+> commit: 81b3079ea3e5ea85af358bb8a7621bb4f2aec50f [16/20] Docs: Modify for D=
+> AMON only
 > reproduce: make htmldocs
 > 
 > If you fix the issue, kindly add following tag where applicable
 > Reported-by: kernel test robot <lkp@intel.com>
 > 
 > All warnings (new ones prefixed by >>):
-> 
-> >> Documentation/admin-guide/mm/damon/guide.rst:173: WARNING: unknown docum=
-> ent: /vm/damon/api
-> 
-> vim +173 Documentation/admin-guide/mm/damon/guide.rst
-> 
->    172
->  > 173  If you are a kernel space programmer, writing kernel space DAMON applications
->    174  using the API (refer to the :doc:`/vm/damon/api` for more detail) would be an
->    175  option.
->    176
->    177
 
-Thank you for finding this issue!  I fixed this with below change.
-
-    diff --git a/Documentation/admin-guide/mm/damon/guide.rst b/Documentation/admin-guide/mm/damon/guide.rst
-    index a014cb99a116..e1eb92c61499 100644
-    --- a/Documentation/admin-guide/mm/damon/guide.rst
-    +++ b/Documentation/admin-guide/mm/damon/guide.rst
-    @@ -171,7 +171,7 @@ applies complex optimizations itself.  Using this, you can make more creative
-     and wise optimizations.
-    
-     If you are a kernel space programmer, writing kernel space DAMON applications
-    -using the API (refer to the :doc:`/vm/damon/api` for more detail) would be an
-    +using the API (refer to the :doc:`/mm/damon/api` for more detail) would be an
-     option.
-
-Please note that the issue is made by a commit that only for DAMON hacking
-tree, not for the mainline or other trees.  So the patch wouldn't be submitted
-to other mailing lists.
+Thank you for this reporting!  The warnings are due to a commit for DAMON
+hacking tree that removes documents that not related with DAMON from the index
+so that the document can be for only DAMON.  As the commit is only for DAMON
+hacking tree and hence doesn't aim to be merged in the mainline or any other
+trees, I will keep these warnings.
 
 
 Thanks,
 SJ
 
-> 
-> --
-> 0-DAY CI Kernel Test Service
-> https://01.org/lkp
-> 
+[...]
