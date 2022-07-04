@@ -2,146 +2,89 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 20492CCA479
-	for <linux-doc@archiver.kernel.org>; Mon,  4 Jul 2022 11:00:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 078E2C433EF
+	for <linux-doc@archiver.kernel.org>; Mon,  4 Jul 2022 11:00:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233910AbiGDLAD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 4 Jul 2022 07:00:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50278 "EHLO
+        id S234153AbiGDLAP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 4 Jul 2022 07:00:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50480 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233059AbiGDLAC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 4 Jul 2022 07:00:02 -0400
-Received: from mx.kolabnow.com (mx.kolabnow.com [212.103.80.154])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B342710D0;
-        Mon,  4 Jul 2022 03:59:58 -0700 (PDT)
-Received: from localhost (unknown [127.0.0.1])
-        by mx.kolabnow.com (Postfix) with ESMTP id 1FA7AD0E;
-        Mon,  4 Jul 2022 12:59:52 +0200 (CEST)
-Authentication-Results: ext-mx-out002.mykolab.com (amavisd-new);
-        dkim=pass (4096-bit key) reason="pass (just generated, assumed good)"
-        header.d=kolabnow.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
-        in-reply-to:content-transfer-encoding:content-disposition
-        :content-type:content-type:mime-version:references:message-id
-        :subject:subject:from:from:date:date:received:received:received;
-         s=dkim20160331; t=1656932391; x=1658746792; bh=OsIWiXUEYCo45MHB
-        NAtw8T1MH1g0PqlfjghU8IT8d48=; b=ULUH0B6ZkkNL+dBXV1R6+mlD4wAbsP/P
-        BKvPA/cwH2SLOz3OUs+Ha2NnFeqKSuPVbypW0qURXIcCTd852CMPd5xrZQIYF1+I
-        qjVnEfCtmFrwmq9BU5Pq0o8sRoHB2PysXeHklHKi+H/wxcFiJRlR1tgpm0zZqXd7
-        uBPMwnG3xSVGIbhA38z0UiW92+N0GlOlajEWuX/dsNnauqmDzby1EiEaGaf61QrD
-        dSVfy0KgXdbwJvLNIja7Z/MmX3AyUEX0+KYM6gg8hG5jacM+qWZlUX45yuqLA4hq
-        ky7lHdsrMSgqh5Yc/NX1sEBoiOb0VjT6poGH7189/4SS5uFxvMelFd+1fl4EsMrX
-        8uRPtsjxv4+tytASa5PspViIxqisvJoDYiTs43Ak+QBTbZxxqDOl4ywXtZvhNPSz
-        21tD0ZA141FHbOAJOzwpFVfa9M8pfOYDxSniihF9ffEkr2J4SCRoeitLu6Obus9V
-        Cotb8UDszIs/jbDNFYXDNS/lH5ht8ZgYvuCJGPgVzmfJ/TYgti4e7eflNU3m5hqx
-        VzxDyvMeK/NWKf36MynUwjCLTFqjQBg1k5yzOvQvj4kwX+LBMKrE1ttwx0X88dA6
-        RU/17D+dVnYlbwS97XyvU2FEkA7RkmgazEKRXHwFyBn7nlgt1VmLnIb1Ka/whBqi
-        pdetF1c2KFY=
-X-Virus-Scanned: amavisd-new at mykolab.com
-Received: from mx.kolabnow.com ([127.0.0.1])
-        by localhost (ext-mx-out002.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id PmZtLwz8Ykbd; Mon,  4 Jul 2022 12:59:51 +0200 (CEST)
-Received: from int-mx003.mykolab.com (unknown [10.9.13.3])
-        by mx.kolabnow.com (Postfix) with ESMTPS id F07CE1448;
-        Mon,  4 Jul 2022 12:59:44 +0200 (CEST)
-Received: from ext-subm001.mykolab.com (unknown [10.9.6.1])
-        by int-mx003.mykolab.com (Postfix) with ESMTPS id 9C2E938EB;
-        Mon,  4 Jul 2022 12:59:39 +0200 (CEST)
-Date:   Mon, 4 Jul 2022 12:59:33 +0200
-From:   Federico Vaga <federico.vaga@vaga.pv.it>
-To:     Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Hu Haowen <src.res@email.cn>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-doc-tw-discuss@lists.sourceforge.net,
-        Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        linux-hwmon@vger.kernel.org,
-        kernel-janitors <kernel-janitors@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [RFC PATCH 07/11] docs: it_IT: align to submitting-drivers
- removal
-Message-ID: <20220704105933.c26zmkzyvdjmxb5a@numero86.vaga.pv.it>
-References: <20220627151819.22694-1-lukas.bulwahn@gmail.com>
- <20220627151819.22694-8-lukas.bulwahn@gmail.com>
- <20220628091647.xf5cygybqemwprgb@numero86.vaga.pv.it>
- <CAKXUXMzAzT6c=Atwbnif0MQg50B9UpG6_rV65_OvkaJPTzaPcw@mail.gmail.com>
+        with ESMTP id S234054AbiGDLAL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 4 Jul 2022 07:00:11 -0400
+Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B866AFD35;
+        Mon,  4 Jul 2022 04:00:06 -0700 (PDT)
+Received: by mail-wr1-x42d.google.com with SMTP id n4so5537773wru.11;
+        Mon, 04 Jul 2022 04:00:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:in-reply-to:date:message-id:references
+         :user-agent:mime-version;
+        bh=r9fNXfRbdc5ZvafBNWErX1+dlYsQ8FGynZjrFEqrCDQ=;
+        b=koOZfNAI6ls9HxqrNk434Buyi99oDW4VmsitHN2ksndpIv7RD0r/YfluDefsYGrvbD
+         sbPymTzb6RH5knV5s633xhz7IXea+K6RkyAk6Mmv7mxAJoK/zgOwM/ZkLm1uXHBRJkBw
+         IZ6e9kH59lneH6EiZECXQ5lyOMpH5OEhp9R/5hA3PDuGLLC/xBHBTg6a6oQ0huxYrc+6
+         EnD6brQtBZm3nIATVcia/nhn2Eqozh/SF/J2jTNB8LtbFv7+a4xRCAuow0263sNE0haS
+         Nrx8fWFlcBTzR87I8BU7Mw8xdUWSyfSUxYQE6Ug9B/g8SjOzMSzM38LODOKzBFZFtRV1
+         Vmkw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:in-reply-to:date:message-id
+         :references:user-agent:mime-version;
+        bh=r9fNXfRbdc5ZvafBNWErX1+dlYsQ8FGynZjrFEqrCDQ=;
+        b=vpXH4NEOyu3SmzJruYrsu74n2lebVWDn4uFzDSvIP/mvlNl3340k+yDSLY2fHolRI/
+         Ao2sc6j33zYsf8na80ld2joieqHk5Ycx2pUnI9JADq1NjA2f8hIZYCvo7Qg09qJTLyPq
+         T7ldyRbyuL0IOYtAcL7chJ8RTD/xdve3IPCJe8ip9rf6Yd69h7xvtw6aPmweq4jc7xSV
+         5EnoscL6Kwz+eW0tfTbs6tfdACj43QdoXxIDgW+Hkt+ItSQya+he8wmPzNM9DoZDKhim
+         LFBMogpiTFW+75R34ufvBAIZjsorlF/N6Bac/eH5WQ1VUp6tPaBTIx4RaYXHBVK/CCgO
+         Je5w==
+X-Gm-Message-State: AJIora/fh6uLm2ZFRs5GGaDyGQ+vp8nDG3Eqx0GMhSUSnAflUXFBiyws
+        Rn9iJJxx30+DQhL5W8J2Oz2sdGnJ7vvDOtr/
+X-Google-Smtp-Source: AGRyM1uSWRYUuIs7wmTBAvcy8FFXqoXJcNXmPIIzYyY5nnuyuKjoFBhWtTDW2jdv08Ck95bpv+EJ+w==
+X-Received: by 2002:adf:dc0d:0:b0:21d:ea5:710f with SMTP id t13-20020adfdc0d000000b0021d0ea5710fmr26441065wri.48.1656932404965;
+        Mon, 04 Jul 2022 04:00:04 -0700 (PDT)
+Received: from imac ([2a02:8010:60a0:0:dc4:4125:ca49:32b7])
+        by smtp.gmail.com with ESMTPSA id u15-20020a5d434f000000b0021b970a68f9sm30163025wrr.26.2022.07.04.04.00.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 04 Jul 2022 04:00:04 -0700 (PDT)
+From:   Donald Hunter <donald.hunter@gmail.com>
+To:     Dave Tucker <dave@dtucker.co.uk>
+Cc:     bpf@vger.kernel.org, corbet@lwn.net, ast@kernel.org,
+        daniel@iogearbox.net, andrii@kernel.org, kafai@fb.com,
+        songliubraving@fb.com, john.fastabend@gmail.com,
+        kpsingh@kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v4 bpf-next 2/2] bpf, docs: document BPF_MAP_TYPE_ARRAY
+In-Reply-To: <ca8a57db17da57f403b029c14ba4f0b89774d361.1656590177.git.dave@dtucker.co.uk>
+        (Dave Tucker's message of "Thu, 30 Jun 2022 13:04:09 +0100")
+Date:   Mon, 04 Jul 2022 11:39:53 +0100
+Message-ID: <m2y1x940w6.fsf@gmail.com>
+References: <cover.1656590177.git.dave@dtucker.co.uk>
+        <ca8a57db17da57f403b029c14ba4f0b89774d361.1656590177.git.dave@dtucker.co.uk>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.1 (darwin)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAKXUXMzAzT6c=Atwbnif0MQg50B9UpG6_rV65_OvkaJPTzaPcw@mail.gmail.com>
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jul 04, 2022 at 11:49:23AM +0200, Lukas Bulwahn wrote:
->On Tue, Jun 28, 2022 at 11:16 AM Federico Vaga <federico.vaga@vaga.pv.it> wrote:
->>
->> On Mon, Jun 27, 2022 at 05:18:15PM +0200, Lukas Bulwahn wrote:
->> >Adjust the Italian translation to the removal of submitting-drivers in the
->> >English kernel documentation.
->> >
->> >Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
->> >---
->> > .../it_IT/kernel-hacking/hacking.rst             |  3 +--
->> > .../translations/it_IT/process/5.Posting.rst     |  5 ++---
->> > .../translations/it_IT/process/8.Conclusion.rst  |  3 +--
->> > .../translations/it_IT/process/howto.rst         |  3 +--
->> > .../translations/it_IT/process/index.rst         |  1 -
->> > .../it_IT/process/submitting-drivers.rst         | 16 ----------------
->> > .../it_IT/process/submitting-patches.rst         |  6 ++----
->> > 7 files changed, 7 insertions(+), 30 deletions(-)
->> > delete mode 100644 Documentation/translations/it_IT/process/submitting-drivers.rst
->> >
->> >diff --git a/Documentation/translations/it_IT/kernel-hacking/hacking.rst b/Documentation/translations/it_IT/kernel-hacking/hacking.rst
->> >index d5c521327f6a..4bec4669cf48 100644
->> >--- a/Documentation/translations/it_IT/kernel-hacking/hacking.rst
->> >+++ b/Documentation/translations/it_IT/kernel-hacking/hacking.rst
->> >@@ -795,8 +795,7 @@ anche per avere patch pulite, c'è del lavoro amministrativo da fare:
->> >    di un semplice impegno su una parte del codice.
->> >
->> > -  Infine, non dimenticatevi di leggere
->> >-   ``Documentation/process/submitting-patches.rst`` e possibilmente anche
->> >-   ``Documentation/process/submitting-drivers.rst``.
->> >+   ``Documentation/process/submitting-patches.rst``.
->> >
->> > Trucchetti del kernel
->> > =====================
->> >diff --git a/Documentation/translations/it_IT/process/5.Posting.rst b/Documentation/translations/it_IT/process/5.Posting.rst
->> >index 1476d51eb5e5..a036f38fc82e 100644
->> >--- a/Documentation/translations/it_IT/process/5.Posting.rst
->> >+++ b/Documentation/translations/it_IT/process/5.Posting.rst
->> >@@ -16,9 +16,8 @@ e di procedure per la pubblicazione delle patch; seguirle renderà la vita
->> > più facile a tutti quanti.  Questo documento cercherà di coprire questi
->> > argomenti con un ragionevole livello di dettaglio; più informazioni possono
->> > essere trovare nella cartella 'Documentation', nei file
->> >-:ref:`translations/it_IT/process/submitting-patches.rst <it_submittingpatches>`,
->> >-:ref:`translations/it_IT/process/submitting-drivers.rst <it_submittingdrivers>`, e
->> >-:ref:`translations/it_IT/process/submit-checklist.rst <it_submitchecklist>`.
->> >+:ref:`translations/it_IT/process/submitting-patches.rst <it_submittingpatches>`
->> >+e :ref:`translations/it_IT/process/submit-checklist.rst <it_submitchecklist>`.
->>
->> Fixing plural. The final correct statement must be:
->>
->> nel file :ref:`translations/it_IT/process/submitting-patches.rst <it_submittingpatches>`.
->>
->> Notice 'nei file' -> 'nel file'
->>
->>
->
->Are you sure about this proposed change here? In my patch, I just
->changed the enumeration from three objects (submittingpatches,
->submittingdrivers, submitchecklist) to two objects (submittingpatches,
->submitchecklist).
->
->So, it should stay plural, right?
+Dave Tucker <dave@dtucker.co.uk> writes:
 
-You are right. My mistake, I miscounted '-' and '+' in the patch.
+> +Since Kernel 5.4, memory mapping may be enabled for ``BPF_MAP_TYPE_ARRAY`` by
 
->Lukas
+It looks to be 5.5 according to bootlin:
 
--- 
-~ - ~ - ~ - ~
-Federico Vaga
+https://elixir.bootlin.com/linux/v5.4.203/A/ident/BPF_F_MMAPABLE
+https://elixir.bootlin.com/linux/v5.5/A/ident/BPF_F_MMAPABLE
+
+> +Array elements can also be added using the ``bpf_map_update_elem()`` helper or
+> +libbpf API.
+> +
+> +Since the array is of constant size, ``bpf_map_delete_elem()`` is not supported.
+> +To clear an array element, you may use ``bpf_map_update_eleme()`` to insert a
+> +zero value to that index.
+
+Typo in bpf_map_update_elem().
+
+Thanks!
+--
+Donald Hunter
