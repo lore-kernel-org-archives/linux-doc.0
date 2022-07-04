@@ -2,119 +2,106 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A14BCCA479
-	for <linux-doc@archiver.kernel.org>; Mon,  4 Jul 2022 13:33:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A2A8EC43334
+	for <linux-doc@archiver.kernel.org>; Mon,  4 Jul 2022 13:44:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234986AbiGDNdD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 4 Jul 2022 09:33:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39436 "EHLO
+        id S229448AbiGDNoR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 4 Jul 2022 09:44:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51372 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234926AbiGDNc1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 4 Jul 2022 09:32:27 -0400
-Received: from mail-yw1-x1134.google.com (mail-yw1-x1134.google.com [IPv6:2607:f8b0:4864:20::1134])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8DCB61EA
-        for <linux-doc@vger.kernel.org>; Mon,  4 Jul 2022 06:30:50 -0700 (PDT)
-Received: by mail-yw1-x1134.google.com with SMTP id 00721157ae682-31c89111f23so32008157b3.0
-        for <linux-doc@vger.kernel.org>; Mon, 04 Jul 2022 06:30:50 -0700 (PDT)
+        with ESMTP id S233742AbiGDNoP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 4 Jul 2022 09:44:15 -0400
+Received: from mail-vs1-xe2a.google.com (mail-vs1-xe2a.google.com [IPv6:2607:f8b0:4864:20::e2a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79B992ACC
+        for <linux-doc@vger.kernel.org>; Mon,  4 Jul 2022 06:44:13 -0700 (PDT)
+Received: by mail-vs1-xe2a.google.com with SMTP id q28so9040179vsp.7
+        for <linux-doc@vger.kernel.org>; Mon, 04 Jul 2022 06:44:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=eclypsium.com; s=google;
-        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-         :cc;
-        bh=4sJJk3M6vsKpl7JSGSYCE3sRYw0K/8Hv86xEcNZ+Nd4=;
-        b=fcQU2Wm3jsup8PZ7DotmFdIkczSdfP+lppfzeXHTDpthZRw6tLkfYL0Ic9S+aietan
-         HeE/1cTGyhylOuXZLK/XjK3HnPD256mjYAMdjM8bl/9YSTbOmlGR+cuYD71GkMUXAa4e
-         XJE897LrlfI+8MsXIJXLb0m4zGTnSE68PQ0zF28Pxog6SZyvgyPv5EaKcoSUzQpSscXT
-         Fkp7a60aRe4IaM9ZCnHAVU84Z+5NYwVxM4u29MQjvLN8xE9QcjIe/Tc9dpaNUS6QGLix
-         JxJo1MvBQu8koHvHjASsWTA+m29UhrP3EJM1bYZ47jwefLkfxUe2+aXxzAr0AiaciBF6
-         vZFw==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=pRW6I8f353gFSx8l2p/QjMjzjYlOCAEBTBrB4U1APYg=;
+        b=aIMw3MmfMEhSW/ep6EHztQeCAiU0KVetf20gN80QB5qAvQSf5gbO9E7aJwkqZgMu29
+         e2yFOvZi3GZjlMDFlnHC690B1kiBPFAoHYXYjhWN5Whr/hL/Dk86UPNwv15MC/qPJDDZ
+         A+b3A+CHdkQfagaA0vT83dnU+Ydb3IJ4G0bPBrGvJ3Ngo2BiQIx9FCaOQRlcegYlnjrf
+         t0eARojq7wh2miq/x5PdNQ3Py6iLUobs2BW92Vb3VPDVKa7ebDUpXiAWPZccVkquslkT
+         ZUuNhjgl2h97LRnJO3ZXUU55CVvD3+r3VCSEH37oupmHwxNyT0bPSCbHMXBPm+fcbh1Q
+         wY/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-         :message-id:subject:to:cc;
-        bh=4sJJk3M6vsKpl7JSGSYCE3sRYw0K/8Hv86xEcNZ+Nd4=;
-        b=n6p+yokOWHiI+/PlOHyrXp0ZNAfqEfHW5CgerR1qSoxxqaacNzxW+DlhemtxlLFUin
-         x4Op0eRiVPG0l6BHnldNl8mZdI2vS+xtBPuI0qDEKhW01XaZ6MThbOBjfWPYNdTgixO2
-         1lDUwgP4UaKNzTuXi81lzpXy1/29xHhDi0OUNQq4nafswXzHj9urmogjA4ncDn5xH/Zv
-         40mjYdzq0BRsXGrqU8/6qIKvImF8n+ZfeoCpjmC2JFI9hY94WvDM0Xj2QGjYE60i+3HE
-         uB1h2VmGlOawJ/CS1Q/r3MkN0T1ki5peLLCaVs5FurJ6RhAnAHZag12aWPQHA4USLiOC
-         svLw==
-X-Gm-Message-State: AJIora8pZmnx0UaA3ulh9cXo4Wj1kJCnsHbU35O5VaMLSAPo/5xZoLt7
-        VBz15uzxP2AMzZpmOXlxbrWuJ+Yy3i0+/l6t2de5Nw==
-X-Google-Smtp-Source: AGRyM1tcmPO6/Mszl/iBsNYuYLUmwlpGyvOOVl1ng/95gpqCI49QNNzWh/9ZapKzcQuz+vp4S0l9EETBYrbE+Jbphlw=
-X-Received: by 2002:a0d:d1c3:0:b0:313:eca0:bf42 with SMTP id
- t186-20020a0dd1c3000000b00313eca0bf42mr33889232ywd.369.1656941449703; Mon, 04
- Jul 2022 06:30:49 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a0d:f944:0:0:0:0:0 with HTTP; Mon, 4 Jul 2022 06:30:49 -0700 (PDT)
-In-Reply-To: <972639a2-4041-ae40-dd51-79d5f35b31c9@infradead.org>
-References: <20220701222040.1471655-1-martin.fernandez@eclypsium.com> <972639a2-4041-ae40-dd51-79d5f35b31c9@infradead.org>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=pRW6I8f353gFSx8l2p/QjMjzjYlOCAEBTBrB4U1APYg=;
+        b=dZxyVW8QY7Gz5wD9/CEEPSgWQYI/bGi/Kth9onljiqXiJnWxUWtnmPSqHJcT8c3QxH
+         kyveFWaBXKxo0YOkg2XXI7i/7hYW7tnEJkkHRl9TOq9wAMA9UJiMN/gHH83SPyX5H99j
+         MYkANLoVKw0E9WD5w6w46y1Uw1TOHsa1IzIfU04rUTidISnYPKSO+KPZlWaJs8d2RTwG
+         Gs3sf13GuqH8MPJv6q3kqzbtWitX3hMKVrIsBkQNTaM0rjh7B/+PgU8eAOWyluTGuRbM
+         Sdlbuad5AFyuWa6FRQbMD1CyUMZYhuAeV9D8wGy0rJhzUc/SIHVs9WdbGPBGZcqc9XGb
+         gYiA==
+X-Gm-Message-State: AJIora/B9PZTU2I143/6ZSGLqPS+JFADg5BAvU0wmyT2CHuTNbB8kGXC
+        Rg0FnQ1MTpVzlWYvXA9hZJyj6KAeMs4tZFa6rJcbW7G5wqxLWa8FF06FlKTpP36A0VLyfvT0npN
+        KPo6FohctxZJvm1M+LLyEyLUZDX9jz+gbA8NJLkwKcxpk8vdmP4XNB1NfbPYfwseJV5v7UzmI3P
+        512Ex9STbIq0g3
+X-Google-Smtp-Source: AGRyM1uZL76q3HVNMManzanpEcOLdCKoOmgpRU/26ID1MiN44xut9MkPvslL+mgIyx4XxYlgCEftvg==
+X-Received: by 2002:a67:2645:0:b0:356:4519:b587 with SMTP id m66-20020a672645000000b003564519b587mr16633078vsm.23.1656942252281;
+        Mon, 04 Jul 2022 06:44:12 -0700 (PDT)
+Received: from localhost ([181.97.174.128])
+        by smtp.gmail.com with ESMTPSA id y8-20020a0561020c4800b0034c00d40507sm3335852vss.3.2022.07.04.06.44.10
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 04 Jul 2022 06:44:11 -0700 (PDT)
 From:   Martin Fernandez <martin.fernandez@eclypsium.com>
-Date:   Mon, 4 Jul 2022 10:30:49 -0300
-Message-ID: <CAKgze5YvB-0gim-i2zaDeY4abxyZh_-pPxHh8_jE1=PQn_n+sQ@mail.gmail.com>
-Subject: Re: [PATCH] doc/checkpatch: Add description to MACRO_ARG_REUSE
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     linux-doc@vger.kernel.org, dwaipayanray1@gmail.com,
-        lukas.bulwahn@gmail.com, joe@perches.com
-Content-Type: text/plain; charset="UTF-8"
+To:     linux-doc@vger.kernel.org
+Cc:     dwaipayanray1@gmail.com, lukas.bulwahn@gmail.com, joe@perches.com,
+        Martin Fernandez <martin.fernandez@eclypsium.com>
+Subject: [PATCH v2] doc/checkpatch: Add description to MACRO_ARG_REUSE
+Date:   Mon,  4 Jul 2022 10:44:02 -0300
+Message-Id: <20220704134402.1486566-1-martin.fernandez@eclypsium.com>
+X-Mailer: git-send-email 2.30.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 7/1/22, Randy Dunlap <rdunlap@infradead.org> wrote:
->
->
-> On 7/1/22 15:20, Martin Fernandez wrote:
->> Add a description to the MACRO_ARG_REUSE check.
->>
->> I feel like this is also a good place to put a workaround although I'm
->> not sure if there is a cannonical way to solve those kinds of issues.
->
->                          canonical
->
->
-> The usual way in the kernel is to declare a local _x and local _y (for your
-> example below).  See how it is done in include/linux/minmax.h for
-> min_not_zero().
->>
->> Signed-off-by: Martin Fernandez <martin.fernandez@eclypsium.com>
->> ---
->>  Documentation/dev-tools/checkpatch.rst | 15 +++++++++++++++
->>  1 file changed, 15 insertions(+)
->>
->> diff --git a/Documentation/dev-tools/checkpatch.rst
->> b/Documentation/dev-tools/checkpatch.rst
->> index b52452bc2963..43fa99f188f5 100644
->> --- a/Documentation/dev-tools/checkpatch.rst
->> +++ b/Documentation/dev-tools/checkpatch.rst
->> @@ -759,6 +759,21 @@ Indentation and Line Breaks
->>  Macros, Attributes and Symbols
->>  ------------------------------
->>
->> +  **ARG_REUSE**
->> +    Using the same argument multiple times in the macro definition
->> +    would lead to unwanted side-effects.
->> +
->> +    For example, given a `min` macro defined like::
->> +
->> +     #define min(x, y)  ((x) < (y) ? (x) : (y))
->> +
->> +    If you call it with `min(foo(x), 0)` would expand to::
->> +
->> +     foo(x) < 0 ? foo(x) : 0
->> +
->> +    If `foo` have side-effects or it's an expensive calculation the
->> +    results might not be what the user inteded.
->
->                                           intended.
->
->> +
->>    **ARRAY_SIZE**
->>      The ARRAY_SIZE(foo) macro should be preferred over
->>      sizeof(foo)/sizeof(foo[0]) for finding number of elements in an
+Add a description, an example and a possible workaround to the
+MACRO_ARG_REUSE check.
 
-Thank you for the feedback, I'll send a new one right away!
+Signed-off-by: Martin Fernandez <martin.fernandez@eclypsium.com>
+---
+ Documentation/dev-tools/checkpatch.rst | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
 
-> thanks.
-> --
-> ~Randy
->
+diff --git a/Documentation/dev-tools/checkpatch.rst b/Documentation/dev-tools/checkpatch.rst
+index b52452bc2963..f7ed2c1f9d5e 100644
+--- a/Documentation/dev-tools/checkpatch.rst
++++ b/Documentation/dev-tools/checkpatch.rst
+@@ -759,6 +759,26 @@ Indentation and Line Breaks
+ Macros, Attributes and Symbols
+ ------------------------------
+
++  **ARG_REUSE**
++    Using the same argument multiple times in the macro definition
++    would lead to unwanted side-effects.
++
++    For example, given a `min` macro defined like::
++
++     #define min(x, y)  ((x) < (y) ? (x) : (y))
++
++    If you call it with `min(foo(x), 0)` would expand to::
++
++     foo(x) < 0 ? foo(x) : 0
++
++    If `foo` have side-effects or it's an expensive calculation the
++    results might not be what the user intended.
++
++    For a workaround the idea is to define local variables to hold the
++    macro's arguments. Checkout the actual implementation of `min` in
++    include/linux/minmax.h for the full implementation of the
++    workaround.
++
+   **ARRAY_SIZE**
+     The ARRAY_SIZE(foo) macro should be preferred over
+     sizeof(foo)/sizeof(foo[0]) for finding number of elements in an
+--
+2.30.2
+
