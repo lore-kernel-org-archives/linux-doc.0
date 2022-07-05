@@ -2,89 +2,70 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A35FBC43334
-	for <linux-doc@archiver.kernel.org>; Tue,  5 Jul 2022 17:40:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5BEB2C433EF
+	for <linux-doc@archiver.kernel.org>; Tue,  5 Jul 2022 18:06:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231425AbiGERkH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 5 Jul 2022 13:40:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60660 "EHLO
+        id S230389AbiGESGi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 5 Jul 2022 14:06:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49840 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229610AbiGERkH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Jul 2022 13:40:07 -0400
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CCFCE17E14;
-        Tue,  5 Jul 2022 10:40:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1657042805; x=1688578805;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=tbN9HBw9meoAuTFi8WRaht1ogLbillXd6XljgI3uiHk=;
-  b=cKpSQTs2tt106OcJyw5X+WJnTI+vKA/kh4LqZwUzJ17GaHFIDqrNT/wh
-   TIAJfVOaqps2kDxrYlaDpZFxEQn5EeSj2KUgrAloC455hf0UyxKahUaIc
-   /v9/KOsFH0L4LFOALaUQ+BREAwuAlWRM4zewVnPe2VsJMdNULuFIvv0nh
-   b3SnFAKbycNW+OVdvYOK1Tdt4VTFK5+BlPkv+Gy+vUMOdoZB7Ic3c3s08
-   TB7j1nSH552SV0mx4M3parsBcPpb95aP6EQEObL8dDShhnNW3b0zeQeO6
-   g9fAWjMn8L53iImy6wN3FmFuwTB+9k/O1VzNKdECDLk1SyjWSjcKMnJT8
-   A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10399"; a="282170518"
-X-IronPort-AV: E=Sophos;i="5.92,247,1650956400"; 
-   d="scan'208";a="282170518"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jul 2022 10:37:49 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.92,247,1650956400"; 
-   d="scan'208";a="735238072"
-Received: from lkp-server01.sh.intel.com (HELO 68b931ab7ac1) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 05 Jul 2022 10:37:48 -0700
-Received: from kbuild by 68b931ab7ac1 with local (Exim 4.95)
-        (envelope-from <lkp@intel.com>)
-        id 1o8mUd-000JQt-N5;
-        Tue, 05 Jul 2022 17:37:47 +0000
-Date:   Wed, 6 Jul 2022 01:37:10 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Chao Peng <chao.p.peng@linux.intel.com>
-Cc:     kbuild-all@lists.01.org, linux-kernel@vger.kernel.org,
-        Isaku Yamahata <isaku.yamahata@intel.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        with ESMTP id S229866AbiGESGh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Jul 2022 14:06:37 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8511415A1A;
+        Tue,  5 Jul 2022 11:06:36 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 2994961835;
+        Tue,  5 Jul 2022 18:06:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38630C341C7;
+        Tue,  5 Jul 2022 18:06:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1657044395;
+        bh=E3601zQ2j/tztwTxZrm7lvZKQ3SjhUTsiW9Ta8zjZHA=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=St+4rFsBcwusXUzvSyEoUlhEGP//kYjqjIQmxgRuMMSSpMRYvZ/UylzMi56wQQhEf
+         vX5/rLDHY8sRg+w30XpFuHBrFwXnKZvsqVIqXMoydrej3Qf5Uow0b6cW4HlbHz91Yr
+         MNuPofmRV7QUIbZxYcAU3BZGazoxNObYyBNxAk8mQtWel5p8F8HNdSDJopXmEenoLs
+         lHTGRC2bVuKGOdOaadedVawKAB1Rgd87QXbseS/Gd19d5ejxHL4CoVLhFamYRAguRj
+         82k/5w4n7Vm4HNEAxuja/1o7qtBQrEtBNqmeRoujeG3xo5p+XomS93qAvKxrFUIFPa
+         /Fe2wj0hiR8kw==
+Date:   Tue, 5 Jul 2022 11:06:34 -0700
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     Paolo Abeni <pabeni@redhat.com>
+Cc:     Francois Romieu <romieu@fr.zoreil.com>, davem@davemloft.net,
+        netdev@vger.kernel.org, edumazet@google.com, corbet@lwn.net,
+        jdmason@kudzu.us, vburru@marvell.com, jiawenwu@trustnetic.com,
         linux-doc@vger.kernel.org
-Subject: [intel-tdx:kvm-upstream-workaround 329/442] htmldocs:
- Documentation/virt/kvm/api.rst:1364: WARNING: Inline emphasis start-string
- without end-string.
-Message-ID: <202207060157.oZAr0KUU-lkp@intel.com>
+Subject: Re: [PATCH net-next] eth: remove neterion/vxge
+Message-ID: <20220705110634.4a66389a@kernel.org>
+In-Reply-To: <cbd7e14b3496229497ae49edbb68c04d4c1d7449.camel@redhat.com>
+References: <20220701044234.706229-1-kuba@kernel.org>
+        <Yr8rC9jXtoFbUIQ+@electric-eye.fr.zoreil.com>
+        <20220701144010.5ae54364@kernel.org>
+        <cbd7e14b3496229497ae49edbb68c04d4c1d7449.camel@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-tree:   https://github.com/intel/tdx.git kvm-upstream-workaround
-head:   8af973ebaf30642129fc1ca63f155a469f9615ed
-commit: 088ff1f7cc255f6cef6bbe6bdeac7bef64d76ba5 [329/442] KVM: Extend the memslot to support fd-based private memory
-reproduce: make htmldocs
+On Tue, 05 Jul 2022 08:17:24 +0200 Paolo Abeni wrote:
+> On Fri, 2022-07-01 at 14:40 -0700, Jakub Kicinski wrote:
+> > 100%, I really wish something like that existed. I have a vague memory
+> > of Fedora or some other distro collecting HW data. Maybe it died because
+> > of privacy issues?  
+> 
+> AFAICS that database still exists and is active:
+> 
+> https://linux-hardware.org/?view=search&vendor=neterion&d=All
+> 
+> It shows no usage at all for the relevant vendor.
+> 
+> On the flip side, it looks like the data points come mostly/exclusively
+> from desktop systems, not very relevant in this specific case.
 
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
-
-All warnings (new ones prefixed by >>):
-
->> Documentation/virt/kvm/api.rst:1364: WARNING: Inline emphasis start-string without end-string.
-
-vim +1364 Documentation/virt/kvm/api.rst
-
-088ff1f7cc255f Documentation/virt/kvm/api.rst    Chao Peng      2021-11-15  1363  
-0f2d8f4dd0663d Documentation/kvm/api.txt         Avi Kivity     2010-03-25 @1364    /* for kvm_memory_region::flags */
-4d8b81abc47b83 Documentation/virtual/kvm/api.txt Xiao Guangrong 2012-08-21  1365    #define KVM_MEM_LOG_DIRTY_PAGES	(1UL << 0)
-4d8b81abc47b83 Documentation/virtual/kvm/api.txt Xiao Guangrong 2012-08-21  1366    #define KVM_MEM_READONLY	(1UL << 1)
-088ff1f7cc255f Documentation/virt/kvm/api.rst    Chao Peng      2021-11-15  1367    #define KVM_MEM_PRIVATE		(1UL << 2)
-0f2d8f4dd0663d Documentation/kvm/api.txt         Avi Kivity     2010-03-25  1368  
-
-:::::: The code at line 1364 was first introduced by commit
-:::::: 0f2d8f4dd0663defff8c1738d33478c1fb65a4f5 KVM: Document KVM_SET_USER_MEMORY_REGION
-
-:::::: TO: Avi Kivity <avi@redhat.com>
-:::::: CC: Avi Kivity <avi@redhat.com>
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+GTK! There is a whole bunch of old Mellanox NICs reported so I think
+there is _some_ server coverage. I'm leaning towards applying the patch.
