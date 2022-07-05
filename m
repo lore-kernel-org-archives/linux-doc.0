@@ -2,107 +2,113 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D566C433EF
-	for <linux-doc@archiver.kernel.org>; Mon,  4 Jul 2022 23:00:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7002BC43334
+	for <linux-doc@archiver.kernel.org>; Tue,  5 Jul 2022 01:13:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229614AbiGDXAK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 4 Jul 2022 19:00:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47964 "EHLO
+        id S229877AbiGEBNk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 4 Jul 2022 21:13:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45256 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229456AbiGDXAJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 4 Jul 2022 19:00:09 -0400
-Received: from mail-ua1-x92d.google.com (mail-ua1-x92d.google.com [IPv6:2607:f8b0:4864:20::92d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E55FB863
-        for <linux-doc@vger.kernel.org>; Mon,  4 Jul 2022 16:00:09 -0700 (PDT)
-Received: by mail-ua1-x92d.google.com with SMTP id s4so3995358uad.0
-        for <linux-doc@vger.kernel.org>; Mon, 04 Jul 2022 16:00:09 -0700 (PDT)
+        with ESMTP id S229699AbiGEBNj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 4 Jul 2022 21:13:39 -0400
+Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E3F0B87A;
+        Mon,  4 Jul 2022 18:13:39 -0700 (PDT)
+Received: by mail-pj1-x102d.google.com with SMTP id y14-20020a17090a644e00b001ef775f7118so6853348pjm.2;
+        Mon, 04 Jul 2022 18:13:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=eclypsium.com; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=im3qEeAmdXUHO+WGiZDrLtlzO2iC5TQaRlSt5RR4Yi4=;
-        b=b3sf35YMLlMnmD0XI2MndG/Ki+SJhIzMgSnCCrFH/29wWiHzDH/QrUNbA22VZSyhdm
-         ZSCDP8PHvScDBrTjwXEJSFh0S9lZ+46+kf9ok5uQUggEZjFq4qQ/dsylgdZ/c+ASmLRf
-         ljBJplHwo6Dt741eMJNgx8JDuxyRBbW9DxWxg81ANQNcVHHJxIDG73iguLzWIMT7yFQ3
-         CyF0/gO6ExhT/Pyjgwu00JOQSxhQY4LoymZBhxl+L1AdEOjyFtzEz08heY+TmG2dQdXk
-         AsD5t7S0WVS6YYFxtyZXuoxpi59nWDRP392uF28svhsdadLJCuknkSNbzzlEyD3ysYqT
-         qeUg==
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=/KsfK/V0d8ToZ+E6OEEqCLi5B5hLJgvh5U23wBizRsg=;
+        b=KRmMBSAu9BXPprxpAm5q1f77xbWjG8Isw/3aW9fcpWq4nM4Pw0eKaaC67TYI4oHRb3
+         rBfQTftx42v485u+jrEJ/3dOgpMZTOvebwqZpokjsQ/hcv1y7aOaOWwysMFuVBVidxg/
+         zfaE3XHyOhU1Q7VapKOpFk4m6KS6ckrwtXHA8KX0L7abAGv9fXJc9lYcFv4Aye+cJ6gD
+         GpFAFOq91yD4F+rIg6xMOs2Yh4FuHZMrC3gfaxHLQVNSc8nxLQjsfsfVKVkXLRUWbfGZ
+         XmyUHqKby76lpX9L+7SFN5pkBTcNkwAXZujVSx9H6sFCyXgX98dy63fAvKTfxWrqZ4ar
+         3QBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=im3qEeAmdXUHO+WGiZDrLtlzO2iC5TQaRlSt5RR4Yi4=;
-        b=tvmrUrE40ySA6TnvAZiy0/+6CS9bfW0plSSmaljXajvkKlMwAOQHID0QZjUr7yR8GM
-         nVc/Vas0Y35Ox6WVuyZTbPjXgNGwG+GBHrw68HVAu4jGYGDEr8LvoQQihYAV1joETxiO
-         6aQltTvKf9INop7uTia9zmUe4uEZf5RF5X4egPGp+aBz6atpx8IB+Ce8WHKcVpqlr+Ze
-         rlP1EPBSaZwZs5yxdyf8UCBGw/f8UT1w0oxKK1oqyrSMEOF3Uh02RAK2VV+DsC+Z72Wo
-         SVu0YX/UAmCwX+THL7imSUJVv9hOy/NdltCIULwEcKCN7Dc7VSIBjaa4aN8perV+LJI6
-         ISNA==
-X-Gm-Message-State: AJIora9M2+Z51x4EEY9Ox165huIjNlwHIV3qwfvMK2XWxnp+7S9uInZl
-        Lv1kFYD9Q5pf0v4cjAYOaMUAZuDBM2pwC2Zs+U4J89Y70l4/pIgz7My/t8bG4cGRXWZsJBJcjb1
-        o9rrkG4n/Eto1fag+kQjpOsdOD1A1rAf0gNwaaaCRNbLwltwGqzBqfrSoYgoun0j85XhUu+etZ7
-        1g1CH+nozCQE/D
-X-Google-Smtp-Source: AGRyM1sFL3izaOkzTcb7s1T8dZRv7qt9i++B0cfjkrrXU0zdL7pZMcKJd17fmC1GtNf+fi4Di5ALYg==
-X-Received: by 2002:ab0:7a43:0:b0:382:96f8:7457 with SMTP id a3-20020ab07a43000000b0038296f87457mr2774227uat.45.1656975608035;
-        Mon, 04 Jul 2022 16:00:08 -0700 (PDT)
-Received: from localhost ([181.97.174.128])
-        by smtp.gmail.com with ESMTPSA id z4-20020ab03404000000b00381eb3801d7sm4182449uap.1.2022.07.04.16.00.06
+        bh=/KsfK/V0d8ToZ+E6OEEqCLi5B5hLJgvh5U23wBizRsg=;
+        b=3SeTKSV7SNZnHHkJJabsyLbFCY/KyZ9IWA/uJaQqj59Hr2caC31ZsjIYmLI/OuvPU6
+         6f89AtoBWb89V1+J+02LcGU7b0poYH9MrKukxF1TbwfROE2osqslOZa4aVO6YiAf/Adl
+         Cne4TpCn7axvT0EAqXxwYRDmsRGRpt3XaN/3jZEChvUqxkNgXLKijwuGAJ3G4xSXUrrs
+         rYnAbLkdmA85lJ83x7psYVy0QLp2XTbIGxE6vbv5hT4Rp934/ByGQcx8Sf0cr5fWtgBz
+         C4o7XjwDGo/yy3+SBe0f9TqxtfPlYa/AAWTwbiL6lVKr5r/V3rnmnJmTEk7r8xQ5vaif
+         qJqw==
+X-Gm-Message-State: AJIora/PtCM3iPl6Qc+aJCLj4MUIwR3bq+jzljwQBeLyupVPi9NI0Ice
+        gfZEOlFgaivvQaCKRVKKYy4=
+X-Google-Smtp-Source: AGRyM1sgMpaP0Q64qHoUTkXkRGyu9301qytl0nv2YEGI1fDSAssBS1+jo33V7GNKPyoovjjoPztl0Q==
+X-Received: by 2002:a17:90a:d3d7:b0:1ef:ebe:d613 with SMTP id d23-20020a17090ad3d700b001ef0ebed613mr38126329pjw.240.1656983618520;
+        Mon, 04 Jul 2022 18:13:38 -0700 (PDT)
+Received: from [192.168.43.80] (subs02-180-214-232-11.three.co.id. [180.214.232.11])
+        by smtp.gmail.com with ESMTPSA id w8-20020a1709026f0800b0016a38fa3f95sm21874957plk.118.2022.07.04.18.13.33
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 04 Jul 2022 16:00:07 -0700 (PDT)
-From:   Martin Fernandez <martin.fernandez@eclypsium.com>
-To:     linux-doc@vger.kernel.org
-Cc:     dwaipayanray1@gmail.com, lukas.bulwahn@gmail.com, joe@perches.com,
-        Martin Fernandez <martin.fernandez@eclypsium.com>
-Subject: [PATCH v3] doc/checkpatch: Add description to MACRO_ARG_REUSE
-Date:   Mon,  4 Jul 2022 19:57:57 -0300
-Message-Id: <20220704225757.1811311-1-martin.fernandez@eclypsium.com>
-X-Mailer: git-send-email 2.30.2
+        Mon, 04 Jul 2022 18:13:37 -0700 (PDT)
+Message-ID: <5418fb0b-47e2-d251-a6c7-a9bacbaf3dc1@gmail.com>
+Date:   Tue, 5 Jul 2022 08:13:31 +0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v2] Documentation: bno055: separate SPDX identifier and
+ page title
+Content-Language: en-US
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     Linux Documentation List <linux-doc@vger.kernel.org>,
+        kernel test robot <lkp@intel.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Andrea Merello <andrea.merello@iit.it>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Rob Herring <robh+dt@kernel.org>,
+        Matt Ranostay <matt.ranostay@konsulko.com>,
+        Alexandru Ardelean <ardeleanalex@gmail.com>,
+        jmondi <jacopo@jmondi.org>,
+        linux-iio <linux-iio@vger.kernel.org>,
+        devicetree <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+References: <YsGVa8KFmdvGY92e@debian.me>
+ <20220704034041.15448-1-bagasdotme@gmail.com>
+ <CAHp75Vdg=NG9fnd0EQWg5D4WoW9hGJM+MMBRLSacgQUptuGe9Q@mail.gmail.com>
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <CAHp75Vdg=NG9fnd0EQWg5D4WoW9hGJM+MMBRLSacgQUptuGe9Q@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add a description, an example and a possible workaround to the
-MACRO_ARG_REUSE check.
+On 7/5/22 02:49, Andy Shevchenko wrote:
+>> Cc: Jonathan Corbet <corbet@lwn.net>
+>> Cc: Andrea Merello <andrea.merello@iit.it>
+>> Cc: Jonathan Cameron <jic23@kernel.org>
+>> Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+>> Cc: Lars-Peter Clausen <lars@metafoo.de>
+>> Cc: Rob Herring <robh+dt@kernel.org>
+>> Cc: Matt Ranostay <matt.ranostay@konsulko.com>
+>> Cc: Alexandru Ardelean <ardeleanalex@gmail.com>
+>> Cc: jacopo@jmondi.org
+>> Cc: linux-iio@vger.kernel.org
+>> Cc: devicetree@vger.kernel.org
+>> Cc: linux-kernel@vger.kernel.org (open list)
+> 
+> It's a very noisy Cc list which will go in the git history. Instead,
+> use --to and --cc parameters of `git format-patch`. Maintainers
+> usually use `b4` tool that adds a Link tag to the patch itself on the
+> Lore archive which will keep track on the Cc list anyway.
+> 
 
-Signed-off-by: Martin Fernandez <martin.fernandez@eclypsium.com>
-Acked-by: Dwaipayan Ray <dwaipayanray1@gmail.com>
----
- Documentation/dev-tools/checkpatch.rst | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
+Hi Andy,
 
-diff --git a/Documentation/dev-tools/checkpatch.rst b/Documentation/dev-tools/checkpatch.rst
-index b52452bc2963..86545c65cf7b 100644
---- a/Documentation/dev-tools/checkpatch.rst
-+++ b/Documentation/dev-tools/checkpatch.rst
-@@ -759,6 +759,26 @@ Indentation and Line Breaks
- Macros, Attributes and Symbols
- ------------------------------
- 
-+  **ARG_REUSE**
-+    Using the same argument multiple times in the macro definition
-+    would lead to unwanted side-effects.
-+
-+    For example, given a `min` macro defined like::
-+
-+      #define min(x, y)  ((x) < (y) ? (x) : (y))
-+
-+    If you call it with `min(foo(x), 0)`, it would expand to::
-+
-+      foo(x) < 0 ? foo(x) : 0
-+
-+    If `foo` has side-effects or it's an expensive calculation the
-+    results might not be what the user intended.
-+
-+    For a workaround the idea is to define local variables to hold the
-+    macro's arguments. Checkout the actual implementation of `min` in
-+    include/linux/minmax.h for the full implementation of the
-+    workaround.
-+
-   **ARRAY_SIZE**
-     The ARRAY_SIZE(foo) macro should be preferred over
-     sizeof(foo)/sizeof(foo[0]) for finding number of elements in an
+Thanks for reminding me.
+
+I think something like `b4 am -l`, right?
+
+Anyway, should I resend (reroll)?
+
 -- 
-2.30.2
-
+An old man doll... just what I always wanted! - Clara
