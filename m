@@ -2,54 +2,53 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4140FC43334
-	for <linux-doc@archiver.kernel.org>; Tue,  5 Jul 2022 11:00:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 26596C43334
+	for <linux-doc@archiver.kernel.org>; Tue,  5 Jul 2022 13:30:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232819AbiGELAW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 5 Jul 2022 07:00:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49296 "EHLO
+        id S231346AbiGENaT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 5 Jul 2022 09:30:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45944 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232929AbiGEK7x (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Jul 2022 06:59:53 -0400
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6DD3A15FE9
-        for <linux-doc@vger.kernel.org>; Tue,  5 Jul 2022 03:59:42 -0700 (PDT)
+        with ESMTP id S231834AbiGENaH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Jul 2022 09:30:07 -0400
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A0AF4578E;
+        Tue,  5 Jul 2022 05:51:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1657018782; x=1688554782;
+  t=1657025502; x=1688561502;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=KYWlWkjveNrW7gDbXiSGvO86pasbzhISrFt4H0Bpgpw=;
-  b=iXjMIkXAiGEzcmlTwKT/MzQUz7jzDUhL7lu9wj9Y64IRNfvUt7/BuOkL
-   Wd/ogLEnlHmbmpOGsJHZRC48cHW8nr6KisN1f5nVODfduUT4pITt059LQ
-   EU7mqUPNURoy+rzDZ1Xdujkzb4R8vf87Caw99FmKCBPcteqO1juesTaR3
-   2LA8SjaOtVKowZnRRzEwTrbrk1Xh923CaRZI1RSBrRiuKc+A2BzdvrgF7
-   GiXDvrom5bjYxuiijuOJDeoKABsTDZNAcdkRwBeBBp6Fsl0W2f78OlOXa
-   aDsaVLuIJrvHRIOgX5Kbth4byRRkS2kZ3f92gN+gjKNP5Fyz7e07ABQUM
-   w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10398"; a="280875711"
+  bh=zZ9kSIwpfSMKUXpyfeQrdAkf/rdUOV3WkmiPoqtFBuQ=;
+  b=VB3g3rIf4JwrvxzD3O657wAYq7Fci2KOyPE7t6hfB7toICHnHlVSn/Yq
+   p9KFgXPLSBwNZ9CbJJ9OwHme/dRA7o53q4yYyMpH0l4nM5dMvkt4HJAJs
+   enODaWPyZ32GHC1aMouK0Kxahr2LMd0m1NW2NB/1YuKSH55nkNMrH4ReJ
+   ktRbab9wqOuwxjfmWFQj2j2tHeMREksmYW+oPth3KyEI8ZkoK+QH3gZ5g
+   lzPpYotEpXR8Xbu/bBQEPS7lgeW1NS/MOFmFjFlYdej4HdjWDIlblbJUQ
+   o1gYKd4XDD6EX6Eq7rys+ezYPKQzDJMyII5xSZ368/iijjSjdtWzRwzPo
+   Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10398"; a="369666747"
 X-IronPort-AV: E=Sophos;i="5.92,245,1650956400"; 
-   d="scan'208";a="280875711"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jul 2022 03:59:42 -0700
+   d="scan'208";a="369666747"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jul 2022 05:50:50 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.92,245,1650956400"; 
-   d="scan'208";a="719687262"
+   d="scan'208";a="660545802"
 Received: from lkp-server01.sh.intel.com (HELO 68b931ab7ac1) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 05 Jul 2022 03:59:40 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 05 Jul 2022 05:50:48 -0700
 Received: from kbuild by 68b931ab7ac1 with local (Exim 4.95)
         (envelope-from <lkp@intel.com>)
-        id 1o8gHL-000J0l-Md;
-        Tue, 05 Jul 2022 10:59:39 +0000
-Date:   Tue, 5 Jul 2022 18:58:39 +0800
+        id 1o8i0u-000J5d-AG;
+        Tue, 05 Jul 2022 12:50:48 +0000
+Date:   Tue, 5 Jul 2022 20:50:46 +0800
 From:   kernel test robot <lkp@intel.com>
-To:     Frank Li <Frank.Li@nxp.com>
-Cc:     kbuild-all@lists.01.org,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        Jon Mason <jdmason@kudzu.us>, linux-doc@vger.kernel.org
-Subject: [linux-next:master 3587/7896] htmldocs:
- Documentation/PCI/endpoint/pci-vntb-function.rst:82: WARNING: Unexpected
+To:     Isaku Yamahata <isaku.yamahata@intel.com>
+Cc:     kbuild-all@lists.01.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: [intel-tdx:kvm-upstream-workaround 313/442] htmldocs:
+ Documentation/ABI/testing/sysfs-firmware-tdx:2: WARNING: Unexpected
  indentation.
-Message-ID: <202207051821.3f0eRIsL-lkp@intel.com>
+Message-ID: <202207052017.miU9soWY-lkp@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
@@ -57,9 +56,9 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   2a2aa3f05338270aecbe2492fda910d6c17e0102
-commit: 0c4b285d9636cc850f55151fa6a250dd131e5192 [3587/7896] Documentation: PCI: Add specification for the PCI vNTB function device
+tree:   https://github.com/intel/tdx.git kvm-upstream-workaround
+head:   8af973ebaf30642129fc1ca63f155a469f9615ed
+commit: 38171b7e61218ed34ba38f00c6503ffa3ee1a806 [313/442] x86/virt/tdx: Export TDX keyid number and status of TDX module via sysfs
 reproduce: make htmldocs
 
 If you fix the issue, kindly add following tag where applicable
@@ -67,37 +66,37 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 All warnings (new ones prefixed by >>):
 
->> Documentation/PCI/endpoint/pci-vntb-function.rst:82: WARNING: Unexpected indentation.
->> Documentation/PCI/endpoint/pci-vntb-howto.rst:131: WARNING: Title underline too short.
+>> Documentation/ABI/testing/sysfs-firmware-tdx:2: WARNING: Unexpected indentation.
+>> Documentation/ABI/testing/sysfs-firmware-tdx:2: WARNING: Block quote ends without a blank line; unexpected unindent.
+>> Documentation/ABI/testing/sysfs-firmware-tdx:2: WARNING: Malformed table.
+>> Documentation/ABI/testing/sysfs-firmware-tdx:22: WARNING: Blank line required after table.
+>> Documentation/ABI/testing/sysfs-firmware-tdx:22: WARNING: Definition list ends without a blank line; unexpected unindent.
+>> Documentation/ABI/testing/sysfs-firmware-tdx:1: WARNING: undefined label: abi_sys_firmware_tdx_tdx_module (if the link has no caption the label must precede a section header)
 
-vim +82 Documentation/PCI/endpoint/pci-vntb-function.rst
+vim +2 Documentation/ABI/testing/sysfs-firmware-tdx
 
-    60	
-    61	  It is appended after Config region.
-    62	
-    63	  +--------------------------------------------------+ Base
-    64	  |                                                  |
-    65	  |                                                  |
-    66	  |                                                  |
-    67	  |          Common Config Register                  |
-    68	  |                                                  |
-    69	  |                                                  |
-    70	  |                                                  |
-    71	  +-----------------------+--------------------------+ Base + span_offset
-    72	  |                       |                          |
-    73	  |    Peer Span Space    |    Span Space            |
-    74	  |                       |                          |
-    75	  |                       |                          |
-    76	  +-----------------------+--------------------------+ Base + span_offset
-    77	  |                       |                          |      + span_count * 4
-    78	  |                       |                          |
-    79	  |     Span Space        |   Peer Span Space        |
-    80	  |                       |                          |
-    81	  +-----------------------+--------------------------+
-  > 82	        Virtual PCI             Pcie Endpoint
-    83	        NTB Driver               NTB Driver
-    84	
-    85	
+   > 1	What:           /sys/firmware/tdx/
+   > 2	Date:           March 2022
+     3	KernelVersion:  5.17
+     4	Contact:        Isaku Yamahata <isaku.yamahata@intel.com>, kvm@vger.kernel.org
+     5	Description:
+     6	                Intel's Trust Domain Extensions (TDX) protect guest VMs from
+     7	                malicious hosts and some physical attacks.  This directory
+     8	                represents the entry point directory for the TDX.
+     9	
+    10	                the TDX requires the TDX firmware to load into an isolated
+    11	                memory region.  It requires a two-step loading process.  It uses
+    12	                the first phase firmware loader (a.k.a NP-SEAMLDR) that loads
+    13	                the next loader and the second phase firmware loader(a.k.a
+    14	                P-SEAMLDR) that loads the TDX firmware(a.k.a the "TDX module").
+    15	                =============== ================================================
+    16	                keyid_num       the number of SEAM keyid as an hexadecimal
+    17	                                number with the "0x" prefix.
+    18	                =============== ================================================
+    19	Users:          libvirt
+    20	
+    21	What:           /sys/firmware/tdx/tdx_module/
+  > 22	Date:           March 2022
 
 -- 
 0-DAY CI Kernel Test Service
