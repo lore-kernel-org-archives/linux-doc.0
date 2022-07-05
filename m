@@ -2,81 +2,89 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 22CB7C43334
-	for <linux-doc@archiver.kernel.org>; Tue,  5 Jul 2022 23:00:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7AE7FCCA47B
+	for <linux-doc@archiver.kernel.org>; Tue,  5 Jul 2022 23:59:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229994AbiGEXAP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 5 Jul 2022 19:00:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55436 "EHLO
+        id S229543AbiGEX7g (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 5 Jul 2022 19:59:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53988 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229963AbiGEXAP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Jul 2022 19:00:15 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6AD631837D;
-        Tue,  5 Jul 2022 16:00:14 -0700 (PDT)
+        with ESMTP id S229455AbiGEX7g (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Jul 2022 19:59:36 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A8C20183AD;
+        Tue,  5 Jul 2022 16:59:35 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 057AE61D54;
-        Tue,  5 Jul 2022 23:00:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 60881C341C8;
-        Tue,  5 Jul 2022 23:00:13 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 4AFA361166;
+        Tue,  5 Jul 2022 23:59:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 47C70C341C7;
+        Tue,  5 Jul 2022 23:59:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1657062013;
-        bh=sMHUtfx37inBiWE4NcZNRyuniWlUq58v05CnvpEccyI=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=KomGJmSqaz3Pz5ke9dgFZ1+D/ri6SYl4a2wp0jMIgoOOxiIjczznb5R/2O/gmAtok
-         yPyDLMUf9ZgKDlk7DPjNOCPHr2QlseBGc2GlIlwRT1oPi6wuY89r0rJJuY4uKY3ZJo
-         mrsF8TaOpKt0/Qj3P9SdXcma3000Sj7N0mVoUCyZUlwwMfQUiMd9EX/evdc5b0I0+O
-         HyL8EC0HaGmFBE7nPVuq6lmpG/oHQ7toXn0DCB446GA44JAbgNyqRkFyEDMENMds6s
-         nxKNlgwKhWjUFuMCIzGbQqF0aP/38Y42clwKUyEAB3jtSE6dWCRZLN3ntw288oTGea
-         fLXmemwPSu4gg==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 394C8E45BDE;
-        Tue,  5 Jul 2022 23:00:13 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        s=k20201202; t=1657065574;
+        bh=HzhDq3jCkMDG8lfPENyfnzpgHn8+yFzo4Tfu3sukxNo=;
+        h=From:To:Cc:Subject:Date:From;
+        b=lcHGipXRRJR0GMiQuzfsXd/gg82wZLvlsYwHXrt4JzXByGMutRRhnxB8j7wbmJzER
+         HLGW42UDdRicAZhfOyEPgn857KJbX8i9sH41IGpnjTfu1oxoHwSyP9wZg1uP3P01sG
+         ZMI/sS47niOweAKZScXCkxOuAhbmjKbMqJECkQNvJ2eE3nPm0ZYoQJz8ZN0drcpaPd
+         TIg3SEpwJ/C8ihehgdvBJD8wU9dR/jLtwyOY4p5D5wpRbNF1m8nc+RnVqrhHg58uUg
+         TINmb1/T0RNvsLV8LGZEngXuInBWmkWtP9LCnjdySDcgdj8orUzPMPLjUqa/DE8rny
+         SvhjkQRvUPPIg==
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     davem@davemloft.net
+Cc:     netdev@vger.kernel.org, edumazet@google.com, pabeni@redhat.com,
+        john.fastabend@gmail.com, borisp@nvidia.com,
+        linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        maximmi@nvidia.com, Jakub Kicinski <kuba@kernel.org>
+Subject: [PATCH net-next 0/5] tls: rx: nopad and backlog flushing
+Date:   Tue,  5 Jul 2022 16:59:21 -0700
+Message-Id: <20220705235926.1035407-1-kuba@kernel.org>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net-next] eth: remove neterion/vxge
-From:   patchwork-bot+netdevbpf@kernel.org
-Message-Id: <165706201323.1820.7088439299724265295.git-patchwork-notify@kernel.org>
-Date:   Tue, 05 Jul 2022 23:00:13 +0000
-References: <20220701044234.706229-1-kuba@kernel.org>
-In-Reply-To: <20220701044234.706229-1-kuba@kernel.org>
-To:     Jakub Kicinski <kuba@kernel.org>
-Cc:     davem@davemloft.net, netdev@vger.kernel.org, edumazet@google.com,
-        pabeni@redhat.com, corbet@lwn.net, jdmason@kudzu.us,
-        vburru@marvell.com, jiawenwu@trustnetic.com,
-        linux-doc@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello:
+This small series contains the two changes I've been working
+towards in the previous ~50 patches a couple of months ago.
 
-This patch was applied to netdev/net-next.git (master)
-by Jakub Kicinski <kuba@kernel.org>:
+The first major change is the optional "nopad" optimization.
+Currently TLS 1.3 Rx performs quite poorly because it does
+not support the "zero-copy" or rather direct decrypt to a user
+space buffer. Because of TLS 1.3 record padding we don't
+know if a record contains data or a control message until
+we decrypt it. Most records will contain data, tho, so the
+optimization is to try the decryption hoping its data and
+retry if it wasn't.
 
-On Thu, 30 Jun 2022 21:42:34 -0700 you wrote:
-> The last meaningful change to this driver was made by Jon in 2011.
-> As much as we'd like to believe that this is because the code is
-> perfect the chances are nobody is using this hardware.
-> 
-> Because of the size of this driver there is a nontrivial maintenance
-> cost to keeping this code around, in the last 2 years we're averaging
-> more than 1 change a month. Some of which require nontrivial review
-> effort, see commit 877fe9d49b74 ("Revert "drivers/net/ethernet/neterion/vxge:
-> Fix a use-after-free bug in vxge-main.c"") for example.
-> 
-> [...]
+The performance gain from doing that is significant (~40%)
+but if I'm completely honest the major reason is that we
+call skb_cow_data() on the non-"zc" path. The next series
+will remove the CoW, dropping the gain to only ~10%.
 
-Here is the summary with links:
-  - [net-next] eth: remove neterion/vxge
-    https://git.kernel.org/netdev/net-next/c/f05643a0f60b
+The second change is to flush the backlog every 128kB.
 
-You are awesome, thank you!
+Jakub Kicinski (5):
+  tls: rx: don't include tail size in data_len
+  tls: rx: support optimistic decrypt to user buffer with TLS 1.3
+  tls: rx: add sockopt for enabling optimistic decrypt with TLS 1.3
+  selftests: tls: add selftest variant for pad
+  tls: rx: periodically flush socket backlog
+
+ Documentation/networking/tls.rst  | 18 +++++++
+ include/linux/sockptr.h           |  8 +++
+ include/net/tls.h                 |  3 ++
+ include/uapi/linux/snmp.h         |  1 +
+ include/uapi/linux/tls.h          |  2 +
+ net/core/sock.c                   |  1 +
+ net/tls/tls_main.c                | 75 +++++++++++++++++++++++++++
+ net/tls/tls_proc.c                |  1 +
+ net/tls/tls_sw.c                  | 84 ++++++++++++++++++++++++-------
+ tools/testing/selftests/net/tls.c | 15 ++++++
+ 10 files changed, 191 insertions(+), 17 deletions(-)
+
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+2.36.1
 
