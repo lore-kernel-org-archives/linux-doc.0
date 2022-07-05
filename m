@@ -2,105 +2,89 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 933E3C43334
-	for <linux-doc@archiver.kernel.org>; Tue,  5 Jul 2022 07:04:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 90D64C433EF
+	for <linux-doc@archiver.kernel.org>; Tue,  5 Jul 2022 07:57:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229800AbiGEHEA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 5 Jul 2022 03:04:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37868 "EHLO
+        id S229885AbiGEH5i (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 5 Jul 2022 03:57:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50258 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229727AbiGEHD7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Jul 2022 03:03:59 -0400
-Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com [IPv6:2607:f8b0:4864:20::62f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9892512D07;
-        Tue,  5 Jul 2022 00:03:57 -0700 (PDT)
-Received: by mail-pl1-x62f.google.com with SMTP id y18so2241279plb.2;
-        Tue, 05 Jul 2022 00:03:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:to:cc:references:subject
-         :content-language:from:in-reply-to:content-transfer-encoding;
-        bh=2ufLS6mmfGLjwF9pxsw1TQp1kLjrOVbI80R+vNoRSvk=;
-        b=PX8gc5mIejixPJCgPu0KBUXlOXb+wzKfs6yxAOjWuKajPAVu/Uo8igsaQ4uYjFaAoE
-         2OhpLmyfX7k7gQH2/vPnqc2KB0DVcSUqan3DGUMpiJjvrs84XVLn/XN42fMcrtMZqTIB
-         3MrsFxvUcpskmMJdOVZmdYavsFRvchrpwk1ENUuorkOlwk2/FwKrOXZeoXkEO9t1xShE
-         qvX148aymfVztwC65QfoPFkSsK4vDLU1nlJpgYn8DuU2SbU2pRItVhCKmGPmQuhtDrFU
-         A7luZn0sxeWf262qZiu9Ywb0zmRaBZYpEVjF5Q9W+jSDg2hIQ2ybgvDNH24lpvX3rIdG
-         2R9w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:to:cc
-         :references:subject:content-language:from:in-reply-to
-         :content-transfer-encoding;
-        bh=2ufLS6mmfGLjwF9pxsw1TQp1kLjrOVbI80R+vNoRSvk=;
-        b=50RRAnnDyIuD4u8UGfkrNUiRNYAvsYbL8eWItpy/Q88FwsFFkJXKt6TtWVLR5XEP19
-         XDflcRhWSCvZ1S19Tbgx3Sogf8pvQps4m8iyO6rd+w2Y1x2fMP0FuMTEi6tRp4cpc7Dr
-         V7eNEL+ecLtjoL0nRUm6TGeXE0idz5uXkk+xhuzciLaos5sVklaIxsaqhH4fLRTNdBq2
-         6hB1oDYsfNP8WXKxJkbY4UqfvBWqlDvDuoskQxaRvoRB+P+6lbcxaSDhrtVdw9SEUqKh
-         /3OZIQ7jpMF+GDj+xmMlqv3Z6kK6XS9JXuxNFFMS0RfdReT1+D+x4i83o/j3WyZ2K5RD
-         fszw==
-X-Gm-Message-State: AJIora+qVVv7JzyD5S1Q/lnERj/Soi+340NPtQPX7rBHRKBEq4s340RE
-        eNzgijAoUFDXlQqTTHMGm+k=
-X-Google-Smtp-Source: AGRyM1vmviWyx2o7pqRKS6HpNTGuLHcvSoMidTGwEgDcYRIXJPxrH9DF8ootL62hBguKuP8VvRxifw==
-X-Received: by 2002:a17:902:7616:b0:16b:b48d:1ae7 with SMTP id k22-20020a170902761600b0016bb48d1ae7mr26067064pll.73.1657004637129;
-        Tue, 05 Jul 2022 00:03:57 -0700 (PDT)
-Received: from [192.168.11.9] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id t13-20020a6549cd000000b0040ced958e8fsm21786055pgs.80.2022.07.05.00.03.53
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 05 Jul 2022 00:03:56 -0700 (PDT)
-Message-ID: <3b1c6414-276a-0b4a-91b3-607cfae1ec60@gmail.com>
-Date:   Tue, 5 Jul 2022 16:03:51 +0900
+        with ESMTP id S231549AbiGEH5g (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 5 Jul 2022 03:57:36 -0400
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E0CD13D7A;
+        Tue,  5 Jul 2022 00:57:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1657007855; x=1688543855;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=YK0kaz1WbxoXkKe6+U4yLt7BCkOqmxG4giXSM0IjVos=;
+  b=LVuFC88ttXxNTGR92UskyTpS87fN6e5iPG7p9/mfFT2y76+pIdCB8AhA
+   EeETnekP8Z3KEBc82c1uFiY/RPKnadcweQASAfMrbLOzSkk8ZKvPz7T4b
+   6XQuAKGfu2SXZ8sMaNyUQknqcvNkxU/1iTSsQ02zeEwM3AXu6F21f1MFw
+   F89OaXx70hR+ecePf3ppmi2lITN35b+0RPDjDBejPuWkgiY7CgKHrMyYZ
+   RRvnzsaTZFK+zNHQG3o9GRsA3PNgDJ4UU+NjLOcsOLW6rHlRRfF++gvgD
+   LZsDIDL4I2oaNHL8Fx+GbzVY0HdjUGS21EOSO3rYJFxjSQ8BpE9k7jryU
+   A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10398"; a="283312296"
+X-IronPort-AV: E=Sophos;i="5.92,245,1650956400"; 
+   d="scan'208";a="283312296"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jul 2022 00:57:34 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.92,245,1650956400"; 
+   d="scan'208";a="567505661"
+Received: from lkp-server01.sh.intel.com (HELO 68b931ab7ac1) ([10.239.97.150])
+  by orsmga006.jf.intel.com with ESMTP; 05 Jul 2022 00:57:33 -0700
+Received: from kbuild by 68b931ab7ac1 with local (Exim 4.95)
+        (envelope-from <lkp@intel.com>)
+        id 1o8dR6-000IrL-Js;
+        Tue, 05 Jul 2022 07:57:32 +0000
+Date:   Tue, 5 Jul 2022 15:56:44 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Isaku Yamahata <isaku.yamahata@intel.com>
+Cc:     kbuild-all@lists.01.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: [intel-tdx:kvm-upstream-workaround 306/442] htmldocs:
+ Documentation/virt/kvm/tdx-legacy-mmu.rst:49: WARNING: Unexpected
+ indentation.
+Message-ID: <202207051551.z6X8ExZg-lkp@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-To:     Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Cc:     alexs@kernel.org, corbet@lwn.net, federico.vaga@vaga.pv.it,
-        jdelvare@suse.com, kernel-janitors@vger.kernel.org,
-        linux-doc-tw-discuss@lists.sourceforge.net,
-        linux-doc@vger.kernel.org, linux-hwmon@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux@roeck-us.net,
-        siyanteng@loongson.cn, src.res@email.cn,
-        Akira Yokosawa <akiyks@gmail.com>
-References: <20220704122537.3407-9-lukas.bulwahn@gmail.com>
-Subject: Re: [PATCH 08/11] docs: ja_JP: howto: remove reference to removed
- submitting-drivers
-Content-Language: en-US
-From:   Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <20220704122537.3407-9-lukas.bulwahn@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-T24gTW9uLCAgNCBKdWwgMjAyMiAxNDoyNTozNCArMDIwMCwgTHVrYXMgQnVsd2FobiB3cm90
-ZToNCj4gVGhlIGRvY3VtZW50IHN1Ym1pdHRpbmctZHJpdmVycy5yc3Qgd2FzIGRlbGV0ZWQu
-IFRoaXMgcmVtb3ZlcyB0aGUNCj4gY29ycmVzcG9uZGluZyByZWZlcmVuY2UgaW4gdGhlIEph
-cGFuZXNlIHRyYW5zbGF0aW9uIG9mIHRoZSBob3d0bywNCj4gd2l0aCBzb21lIGFzc2lzdGFu
-Y2UgZnJvbSBBa2lyYSBZb2thc2F3YS4NCj4gDQo+IExpbms6IGh0dHBzOi8vbG9yZS5rZXJu
-ZWwub3JnL2xpbnV4LWRvYy9hMmJlNDhlNS1lNTU5LTE3ZDctNWFlNy1kMTIwNWE3MzdlYTRA
-Z21haWwuY29tLw0KPiBTaWduZWQtb2ZmLWJ5OiBMdWthcyBCdWx3YWhuIDxsdWthcy5idWx3
-YWhuQGdtYWlsLmNvbT4NCg0KUmV2aWV3ZWQtYnk6IEFraXJhIFlva29zYXdhIDxha2l5a3NA
-Z21haWwuY29tPg0KDQogICAgICAgIFRoYW5rcywgQWtpcmENCg0KPiAtLS0NCj4gIERvY3Vt
-ZW50YXRpb24vdHJhbnNsYXRpb25zL2phX0pQL2hvd3RvLnJzdCB8IDQgKystLQ0KPiAgMSBm
-aWxlIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkNCj4gDQo+IGRp
-ZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy9qYV9KUC9ob3d0by5yc3Qg
-Yi9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy9qYV9KUC9ob3d0by5yc3QNCj4gaW5kZXgg
-MzhmZWQ2ZmU2MmZlLi42NDllMmZmMmE0MDcgMTAwNjQ0DQo+IC0tLSBhL0RvY3VtZW50YXRp
-b24vdHJhbnNsYXRpb25zL2phX0pQL2hvd3RvLnJzdA0KPiArKysgYi9Eb2N1bWVudGF0aW9u
-L3RyYW5zbGF0aW9ucy9qYV9KUC9ob3d0by5yc3QNCj4gQEAgLTEyOSw4ICsxMjksOCBAQCBs
-aW51eC1hcGlAdmdlci5rZXJuZWwub3JnIOOBq+mAgeOCi+OBk+OBqOOCkuWLp+OCgeOBvuOB
-meOAgg0KPiAgICAgIOODq+OBq+W+k+OBo+OBpuOBhOOCi+OCguOBruOBoOOBkeOCkuWPl+OB
-keS7mOOBkeOAgeWkmuOBj+OBruS6uuOBr+ato+OBl+OBhOOCueOCv+OCpOODq+OBruOCs+OD
-vOODiQ0KPiAgICAgIOOBoOOBkeOCkuODrOODk+ODpeODvOOBl+OBvuOBmeOAgg0KPiAgDQo+
-IC0gIDpyZWY6YERvY3VtZW50YXRpb24vcHJvY2Vzcy9zdWJtaXR0aW5nLXBhdGNoZXMucnN0
-IDxjb2RpbmdzdHlsZT5gIOOBqCA6cmVmOmBEb2N1bWVudGF0aW9uL3Byb2Nlc3Mvc3VibWl0
-dGluZy1kcml2ZXJzLnJzdCA8c3VibWl0dGluZ2RyaXZlcnM+YA0KPiAtICAgIOOBk+OCjOOC
-ieOBruODleOCoeOCpOODq+OBq+OBr+OAgeOBqeOBhuOChOOBo+OBpuOBhuOBvuOBj+ODkeOD
-g+ODgeOCkuS9nOOBo+OBpuaKleeov+OBmeOCi+OBi+OBq+OBpA0KPiArICA6cmVmOmBEb2N1
-bWVudGF0aW9uL3Byb2Nlc3Mvc3VibWl0dGluZy1wYXRjaGVzLnJzdCA8Y29kaW5nc3R5bGU+
-YA0KPiArICAgIOOBk+OBruODleOCoeOCpOODq+OBq+OBr+OAgeOBqeOBhuOChOOBo+OBpuOB
-huOBvuOBj+ODkeODg+ODgeOCkuS9nOOBo+OBpuaKleeov+OBmeOCi+OBi+OBq+OBpA0KPiAg
-ICAgIOOBhOOBpumdnuW4uOOBq+ips+OBl+OBj+abuOOBi+OCjOOBpuOBiuOCiuOAgeS7peS4
-i+OCkuWQq+OBv+OBvuOBmSAo44GT44KM44Gg44GR44Gr6ZmQ44KJ44Gq44GEDQo+ICAgICAg
-44GR44KM44Gp44KCKQ0KPiAgDQo+IC0tIA0KPiAyLjE3LjENCg==
+tree:   https://github.com/intel/tdx.git kvm-upstream-workaround
+head:   8af973ebaf30642129fc1ca63f155a469f9615ed
+commit: b3b66d4ef5e175da9ce1ed41277130fee7cbdd84 [306/442] KVM: x86: design documentation on TDX support of x86 legacy KVM MMU
+reproduce: make htmldocs
+
+If you fix the issue, kindly add following tag where applicable
+Reported-by: kernel test robot <lkp@intel.com>
+
+All warnings (new ones prefixed by >>):
+
+>> Documentation/virt/kvm/tdx-legacy-mmu.rst:49: WARNING: Unexpected indentation.
+>> Documentation/virt/kvm/tdx-legacy-mmu.rst:50: WARNING: Block quote ends without a blank line; unexpected unindent.
+>> Documentation/virt/kvm/tdx-legacy-mmu.rst:52: WARNING: Definition list ends without a blank line; unexpected unindent.
+>> Documentation/virt/kvm/tdx-legacy-mmu.rst: WARNING: document isn't included in any toctree
+
+vim +49 Documentation/virt/kvm/tdx-legacy-mmu.rst
+
+    44	
+    45	(private EPT entry, shared EPT entry) =
+    46	        (non-present, non-present):             private mapping is allowed
+    47	        (present, non-present):                 private mapping is mapped
+    48	        (non-present | SPTE_SHARED_MASK, non-present):
+  > 49	                                                shared mapping is allowed
+  > 50	        (non-present | SPTE_SHARED_MASK, present):
+    51	                                                shared mapping is mapped
+  > 52	        (present, present):                     invalid combination
+    53	
+    54	
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
