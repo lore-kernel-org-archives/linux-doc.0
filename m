@@ -2,808 +2,1176 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 945B5CCA481
-	for <linux-doc@archiver.kernel.org>; Wed,  6 Jul 2022 17:43:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DE5D9C433EF
+	for <linux-doc@archiver.kernel.org>; Wed,  6 Jul 2022 17:48:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234046AbiGFRn3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 6 Jul 2022 13:43:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59986 "EHLO
+        id S233637AbiGFRsD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 6 Jul 2022 13:48:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36564 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234028AbiGFRnR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Jul 2022 13:43:17 -0400
-Received: from mail-qt1-x82b.google.com (mail-qt1-x82b.google.com [IPv6:2607:f8b0:4864:20::82b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 052522AE0A;
-        Wed,  6 Jul 2022 10:43:08 -0700 (PDT)
-Received: by mail-qt1-x82b.google.com with SMTP id he28so19263609qtb.13;
-        Wed, 06 Jul 2022 10:43:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=bsiYdF140lek56kOGdYEMP+oPunyoPAlImPHAu3g5u8=;
-        b=NPXXmNmhnTAUw7ICcNGeIxJ5vsU42BuzCHVIw7U0wgmWSIUhHiiX76DVJhin01Ae6J
-         VtrgTgrULN0cyGFDKEr1KiuC3D1M8jD3Nev3SWq2Hc7Cnf6B+a2/GH/n5mpf1hIgdeaD
-         LbIEk4LmlYJU/7REGKX8ygv9rEInbkb0SrYgVDfimCUaLQccTYkc0ixsbJvAjoM/xFpX
-         XtiNJ8cf5bVFAugBOHbDa1Ts5+q54HlwmDnACyfSFwErtPNgLj4TnDlb0xF0tK+rgY7D
-         mdmAgXnbigaTLd1Nad4oG+UeSpx7S7YX3ofYoDllgY6j+FgFHqKXlfqPOSwfMQjHx+EX
-         zvlA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=bsiYdF140lek56kOGdYEMP+oPunyoPAlImPHAu3g5u8=;
-        b=qmK55jncjvDU2QgV9wnDDADLN0rn/z1a9CURiaZza9yo9zGOqyCjeBtk3+qGY61xNM
-         l9QvQ/vr4oacn1wamZUWN5RgnW+N+/veRSYQ+cS588D+xLPeSrvpdRpZCdhRS9lE3WQW
-         CObmAyKIM7fC4qLxMYwqkmpM4qv5a2D1h3Q1pjyTdcfdIBbSuqq6jq7g2npNZuUsEcVx
-         RF5PFE1RS6lmhIZ2aSrc+zokIkaxnSj+6IrF9GhuITSPqqYohwxu1ZHoqKhmqz5td5yI
-         e8RJsuyVHgglRJqOqWd5SIt8D50P9jwCbwHfl80psonIWteoLUqI/82WZ9RNsZRyQtzT
-         zdqw==
-X-Gm-Message-State: AJIora8YaY/PhFSGxPo/l9KJcyp1yXcCAjL0cySrhZtV55w1sBykture
-        Jb775hg4UkdhlMP0iEA+qY9DCAFAvnJs4A==
-X-Google-Smtp-Source: AGRyM1u3Eg279VZtdb+HrzmXr37fexjkVU9Kw1aFwkdrskBr5dQ42vlXQmrHIwx7jOCWelAxyW3I8A==
-X-Received: by 2002:a0c:f40c:0:b0:472:ff75:49ce with SMTP id h12-20020a0cf40c000000b00472ff7549cemr10840543qvl.91.1657129385794;
-        Wed, 06 Jul 2022 10:43:05 -0700 (PDT)
-Received: from localhost (c-69-254-185-160.hsd1.ar.comcast.net. [69.254.185.160])
-        by smtp.gmail.com with ESMTPSA id j4-20020a05620a410400b006a6278a2b31sm20362880qko.75.2022.07.06.10.43.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Jul 2022 10:43:04 -0700 (PDT)
-From:   Yury Norov <yury.norov@gmail.com>
-To:     linux-kernel@vger.kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        David Howells <dhowells@redhat.com>,
-        Ingo Molnar <mingo@kernel.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
+        with ESMTP id S231892AbiGFRsC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Jul 2022 13:48:02 -0400
+Received: from out2.migadu.com (out2.migadu.com [188.165.223.204])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10B1833B;
+        Wed,  6 Jul 2022 10:47:59 -0700 (PDT)
+Date:   Thu, 7 Jul 2022 01:49:02 +0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+        t=1657129677;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=vwbHIODjikMdD0pyDHODwC8DuxiBf0fN5fKMGOL+J5k=;
+        b=hXQnchn6EooQSi8EUzzFcTuXZJWs1O866SKvau6TZlvOSyzbSgbK2BdxLkJu6m1kK3TOJt
+        39y4Tkofni5PgijNMSZqWc8I5FWWPoWqRpP+wLRleG/2rtIy6QL4J7cON2HLarf40zyoHC
+        BRx7ArdDVvjll30e3nw4efWuRyqr1M4=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From:   Tao Zhou <tao.zhou@linux.dev>
+To:     Daniel Bristot de Oliveira <bristot@kernel.org>
+Cc:     Steven Rostedt <rostedt@goodmis.org>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>,
         Jonathan Corbet <corbet@lwn.net>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        NeilBrown <neilb@suse.de>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Russell King <linux@armlinux.org.uk>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        William Kucharski <william.kucharski@oracle.com>,
-        linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mm@kvack.org
-Cc:     Yury Norov <yury.norov@gmail.com>
-Subject: [PATCH 08/10] headers/deps: mm: Split <linux/gfp_types.h> out of <linux/gfp.h>
-Date:   Wed,  6 Jul 2022 10:42:51 -0700
-Message-Id: <20220706174253.4175492-9-yury.norov@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220706174253.4175492-1-yury.norov@gmail.com>
-References: <20220706174253.4175492-1-yury.norov@gmail.com>
+        Ingo Molnar <mingo@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Will Deacon <will@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Marco Elver <elver@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Gabriele Paoloni <gpaoloni@redhat.com>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Clark Williams <williams@redhat.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-trace-devel@vger.kernel.org, Tao Zhou <tao.zhou@linux.dev>
+Subject: Re: [PATCH V4 01/20] rv: Add Runtime Verification (RV) interface
+Message-ID: <YsXLDvjHqOxYtckg@geo.homenetwork>
+References: <cover.1655368610.git.bristot@kernel.org>
+ <60548902dbccaa7ba420e40e46835693e27f643f.1655368610.git.bristot@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <60548902dbccaa7ba420e40e46835693e27f643f.1655368610.git.bristot@kernel.org>
+X-Migadu-Flow: FLOW_OUT
+X-Migadu-Auth-User: linux.dev
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Ingo Molnar <mingo@kernel.org>
+On Thu, Jun 16, 2022 at 10:44:43AM +0200, Daniel Bristot de Oliveira wrote:
 
-This is a much smaller header.
+> RV is a lightweight (yet rigorous) method that complements classical
+> exhaustive verification techniques (such as model checking and
+> theorem proving) with a more practical approach to complex systems.
+> 
+> RV works by analyzing the trace of the system's actual execution,
+> comparing it against a formal specification of the system behavior.
+> RV can give precise information on the runtime behavior of the
+> monitored system while enabling the reaction for unexpected
+> events, avoiding, for example, the propagation of a failure on
+> safety-critical systems.
+> 
+> The development of this interface roots in the development of the
+> paper:
+> 
+> DE OLIVEIRA, Daniel Bristot; CUCINOTTA, Tommaso; DE OLIVEIRA, Romulo
+> Silva. Efficient formal verification for the Linux kernel. In:
+> International Conference on Software Engineering and Formal Methods.
+> Springer, Cham, 2019. p. 315-332.
+> 
+> And:
+> 
+> DE OLIVEIRA, Daniel Bristot, et al. Automata-based formal analysis
+> and verification of the real-time Linux kernel. PhD Thesis, 2020.
+> 
+> The RV interface resembles the tracing/ interface on purpose. The current
+> path for the RV interface is /sys/kernel/tracing/rv/.
+> 
+> It presents these files:
+> 
+>  "available_monitors"
+>    - List the available monitors, one per line.
+> 
+>    For example:
+>    [root@f32 rv]# cat available_monitors
+>    wip
+>    wwnr
+> 
+>  "enabled_monitors"
+>    - Lists the enabled monitors, one per line;
+>    - Writing to it enables a given monitor;
+>    - Writing a monitor name with a '-' prefix disables it;
+>    - Truncating the file disables all enabled monitors.
+> 
+>    For example:
+>    [root@f32 rv]# cat enabled_monitors
+>    [root@f32 rv]# echo wip > enabled_monitors
+>    [root@f32 rv]# echo wwnr >> enabled_monitors
+>    [root@f32 rv]# cat enabled_monitors
+>    wip
+>    wwnr
+>    [root@f32 rv]# echo !wip >> enabled_monitors
+>    [root@f32 rv]# cat enabled_monitors
+>    wwnr
+>    [root@f32 rv]# echo > enabled_monitors
+>    [root@f32 rv]# cat enabled_monitors
+>    [root@f32 rv]#
+> 
+>    Note that more than one monitor can be enabled concurrently.
+> 
+>  "monitoring_on"
+>    - It is an on/off general switcher for monitoring. Note
+>    that it does not disable enabled monitors, but stop the per-entity
+>    monitors of monitoring the events received from the system.
+>    It resambles the "tracing_on" switcher.
+> 
+>  "monitors/"
+>    Each monitor will have its one directory inside "monitors/". There
+>    the monitor specific files will be presented.
+>    The "monitors/" directory resambles the "events" directory on
+>    tracefs.
+> 
+>    For example:
+>    [root@f32 rv]# cd monitors/wip/
+>    [root@f32 wip]# ls
+>    desc  enable
+>    [root@f32 wip]# cat desc
+>    auto-generated wakeup in preemptive monitor.
+>    [root@f32 wip]# cat enable
+>    0
+> 
+> For further information, see the comments in the header of
+> kernel/trace/rv/rv.c from this patch.
+> 
+> Cc: Wim Van Sebroeck <wim@linux-watchdog.org>
+> Cc: Guenter Roeck <linux@roeck-us.net>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Steven Rostedt <rostedt@goodmis.org>
+> Cc: Ingo Molnar <mingo@redhat.com>
+> Cc: Thomas Gleixner <tglx@linutronix.de>
+> Cc: Peter Zijlstra <peterz@infradead.org>
+> Cc: Will Deacon <will@kernel.org>
+> Cc: Catalin Marinas <catalin.marinas@arm.com>
+> Cc: Marco Elver <elver@google.com>
+> Cc: Dmitry Vyukov <dvyukov@google.com>
+> Cc: "Paul E. McKenney" <paulmck@kernel.org>
+> Cc: Shuah Khan <skhan@linuxfoundation.org>
+> Cc: Gabriele Paoloni <gpaoloni@redhat.com>
+> Cc: Juri Lelli <juri.lelli@redhat.com>
+> Cc: Clark Williams <williams@redhat.com>
+> Cc: linux-doc@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
+> Cc: linux-trace-devel@vger.kernel.org
+> Signed-off-by: Daniel Bristot de Oliveira <bristot@kernel.org>
+> ---
+>  include/linux/rv.h       |  23 ++
+>  include/linux/sched.h    |  11 +
+>  include/rv/rv.h          |  23 ++
+>  kernel/fork.c            |  14 +
+>  kernel/trace/Kconfig     |   2 +
+>  kernel/trace/Makefile    |   2 +
+>  kernel/trace/rv/Kconfig  |  12 +
+>  kernel/trace/rv/Makefile |   3 +
+>  kernel/trace/rv/rv.c     | 738 +++++++++++++++++++++++++++++++++++++++
+>  kernel/trace/rv/rv.h     |  34 ++
+>  kernel/trace/trace.c     |   4 +
+>  kernel/trace/trace.h     |   2 +
+>  12 files changed, 868 insertions(+)
+>  create mode 100644 include/linux/rv.h
+>  create mode 100644 include/rv/rv.h
+>  create mode 100644 kernel/trace/rv/Kconfig
+>  create mode 100644 kernel/trace/rv/Makefile
+>  create mode 100644 kernel/trace/rv/rv.c
+>  create mode 100644 kernel/trace/rv/rv.h
+> 
+> diff --git a/include/linux/rv.h b/include/linux/rv.h
+> new file mode 100644
+> index 000000000000..205e65f57637
+> --- /dev/null
+> +++ b/include/linux/rv.h
+> @@ -0,0 +1,23 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * Runtime Verification.
+> + *
+> + * For futher information, see: kernel/trace/rv/rv.c.
+> + *
+> + * Copyright (C) 2019-2022 Daniel Bristot de Oliveira <bristot@kernel.org>
+> + */
+> +#ifndef _LINUX_RV_H
+> +#define _LINUX_RV_H
+> +struct rv_monitor {
+> +	const char		*name;
+> +	const char		*description;
+> +	bool			enabled;
 
-Signed-off-by: Ingo Molnar <mingo@kernel.org>
-Signed-off-by: Yury Norov <yury.norov@gmail.com>
----
- include/linux/gfp.h       | 345 +------------------------------------
- include/linux/gfp_types.h | 348 ++++++++++++++++++++++++++++++++++++++
- 2 files changed, 350 insertions(+), 343 deletions(-)
- create mode 100644 include/linux/gfp_types.h
+Can the 'bool enabled;' be put at the end like the definition of
+structure rv_monitor_def. If '8+8+sizeof(bool)+8+8+8' not the same
+as '8+8+8+8+8+sizeof(bool)', I mean is it possible that after the
+end of stucture there is a int or char not require to align to 8 as
+an example from my nonsense.
 
-diff --git a/include/linux/gfp.h b/include/linux/gfp.h
-index 52f2c873a7d4..f314be58fa77 100644
---- a/include/linux/gfp.h
-+++ b/include/linux/gfp.h
-@@ -2,354 +2,13 @@
- #ifndef __LINUX_GFP_H
- #define __LINUX_GFP_H
- 
-+#include <linux/gfp_types.h>
-+
- #include <linux/mmzone.h>
- #include <linux/topology.h>
- 
--/* The typedef is in types.h but we want the documentation here */
--#if 0
--/**
-- * typedef gfp_t - Memory allocation flags.
-- *
-- * GFP flags are commonly used throughout Linux to indicate how memory
-- * should be allocated.  The GFP acronym stands for get_free_pages(),
-- * the underlying memory allocation function.  Not every GFP flag is
-- * supported by every function which may allocate memory.  Most users
-- * will want to use a plain ``GFP_KERNEL``.
-- */
--typedef unsigned int __bitwise gfp_t;
--#endif
--
- struct vm_area_struct;
- 
--/*
-- * In case of changes, please don't forget to update
-- * include/trace/events/mmflags.h and tools/perf/builtin-kmem.c
-- */
--
--/* Plain integer GFP bitmasks. Do not use this directly. */
--#define ___GFP_DMA		0x01u
--#define ___GFP_HIGHMEM		0x02u
--#define ___GFP_DMA32		0x04u
--#define ___GFP_MOVABLE		0x08u
--#define ___GFP_RECLAIMABLE	0x10u
--#define ___GFP_HIGH		0x20u
--#define ___GFP_IO		0x40u
--#define ___GFP_FS		0x80u
--#define ___GFP_ZERO		0x100u
--#define ___GFP_ATOMIC		0x200u
--#define ___GFP_DIRECT_RECLAIM	0x400u
--#define ___GFP_KSWAPD_RECLAIM	0x800u
--#define ___GFP_WRITE		0x1000u
--#define ___GFP_NOWARN		0x2000u
--#define ___GFP_RETRY_MAYFAIL	0x4000u
--#define ___GFP_NOFAIL		0x8000u
--#define ___GFP_NORETRY		0x10000u
--#define ___GFP_MEMALLOC		0x20000u
--#define ___GFP_COMP		0x40000u
--#define ___GFP_NOMEMALLOC	0x80000u
--#define ___GFP_HARDWALL		0x100000u
--#define ___GFP_THISNODE		0x200000u
--#define ___GFP_ACCOUNT		0x400000u
--#define ___GFP_ZEROTAGS		0x800000u
--#ifdef CONFIG_KASAN_HW_TAGS
--#define ___GFP_SKIP_ZERO		0x1000000u
--#define ___GFP_SKIP_KASAN_UNPOISON	0x2000000u
--#define ___GFP_SKIP_KASAN_POISON	0x4000000u
--#else
--#define ___GFP_SKIP_ZERO		0
--#define ___GFP_SKIP_KASAN_UNPOISON	0
--#define ___GFP_SKIP_KASAN_POISON	0
--#endif
--#ifdef CONFIG_LOCKDEP
--#define ___GFP_NOLOCKDEP	0x8000000u
--#else
--#define ___GFP_NOLOCKDEP	0
--#endif
--/* If the above are modified, __GFP_BITS_SHIFT may need updating */
--
--/*
-- * Physical address zone modifiers (see linux/mmzone.h - low four bits)
-- *
-- * Do not put any conditional on these. If necessary modify the definitions
-- * without the underscores and use them consistently. The definitions here may
-- * be used in bit comparisons.
-- */
--#define __GFP_DMA	((__force gfp_t)___GFP_DMA)
--#define __GFP_HIGHMEM	((__force gfp_t)___GFP_HIGHMEM)
--#define __GFP_DMA32	((__force gfp_t)___GFP_DMA32)
--#define __GFP_MOVABLE	((__force gfp_t)___GFP_MOVABLE)  /* ZONE_MOVABLE allowed */
--#define GFP_ZONEMASK	(__GFP_DMA|__GFP_HIGHMEM|__GFP_DMA32|__GFP_MOVABLE)
--
--/**
-- * DOC: Page mobility and placement hints
-- *
-- * Page mobility and placement hints
-- * ---------------------------------
-- *
-- * These flags provide hints about how mobile the page is. Pages with similar
-- * mobility are placed within the same pageblocks to minimise problems due
-- * to external fragmentation.
-- *
-- * %__GFP_MOVABLE (also a zone modifier) indicates that the page can be
-- * moved by page migration during memory compaction or can be reclaimed.
-- *
-- * %__GFP_RECLAIMABLE is used for slab allocations that specify
-- * SLAB_RECLAIM_ACCOUNT and whose pages can be freed via shrinkers.
-- *
-- * %__GFP_WRITE indicates the caller intends to dirty the page. Where possible,
-- * these pages will be spread between local zones to avoid all the dirty
-- * pages being in one zone (fair zone allocation policy).
-- *
-- * %__GFP_HARDWALL enforces the cpuset memory allocation policy.
-- *
-- * %__GFP_THISNODE forces the allocation to be satisfied from the requested
-- * node with no fallbacks or placement policy enforcements.
-- *
-- * %__GFP_ACCOUNT causes the allocation to be accounted to kmemcg.
-- */
--#define __GFP_RECLAIMABLE ((__force gfp_t)___GFP_RECLAIMABLE)
--#define __GFP_WRITE	((__force gfp_t)___GFP_WRITE)
--#define __GFP_HARDWALL   ((__force gfp_t)___GFP_HARDWALL)
--#define __GFP_THISNODE	((__force gfp_t)___GFP_THISNODE)
--#define __GFP_ACCOUNT	((__force gfp_t)___GFP_ACCOUNT)
--
--/**
-- * DOC: Watermark modifiers
-- *
-- * Watermark modifiers -- controls access to emergency reserves
-- * ------------------------------------------------------------
-- *
-- * %__GFP_HIGH indicates that the caller is high-priority and that granting
-- * the request is necessary before the system can make forward progress.
-- * For example, creating an IO context to clean pages.
-- *
-- * %__GFP_ATOMIC indicates that the caller cannot reclaim or sleep and is
-- * high priority. Users are typically interrupt handlers. This may be
-- * used in conjunction with %__GFP_HIGH
-- *
-- * %__GFP_MEMALLOC allows access to all memory. This should only be used when
-- * the caller guarantees the allocation will allow more memory to be freed
-- * very shortly e.g. process exiting or swapping. Users either should
-- * be the MM or co-ordinating closely with the VM (e.g. swap over NFS).
-- * Users of this flag have to be extremely careful to not deplete the reserve
-- * completely and implement a throttling mechanism which controls the
-- * consumption of the reserve based on the amount of freed memory.
-- * Usage of a pre-allocated pool (e.g. mempool) should be always considered
-- * before using this flag.
-- *
-- * %__GFP_NOMEMALLOC is used to explicitly forbid access to emergency reserves.
-- * This takes precedence over the %__GFP_MEMALLOC flag if both are set.
-- */
--#define __GFP_ATOMIC	((__force gfp_t)___GFP_ATOMIC)
--#define __GFP_HIGH	((__force gfp_t)___GFP_HIGH)
--#define __GFP_MEMALLOC	((__force gfp_t)___GFP_MEMALLOC)
--#define __GFP_NOMEMALLOC ((__force gfp_t)___GFP_NOMEMALLOC)
--
--/**
-- * DOC: Reclaim modifiers
-- *
-- * Reclaim modifiers
-- * -----------------
-- * Please note that all the following flags are only applicable to sleepable
-- * allocations (e.g. %GFP_NOWAIT and %GFP_ATOMIC will ignore them).
-- *
-- * %__GFP_IO can start physical IO.
-- *
-- * %__GFP_FS can call down to the low-level FS. Clearing the flag avoids the
-- * allocator recursing into the filesystem which might already be holding
-- * locks.
-- *
-- * %__GFP_DIRECT_RECLAIM indicates that the caller may enter direct reclaim.
-- * This flag can be cleared to avoid unnecessary delays when a fallback
-- * option is available.
-- *
-- * %__GFP_KSWAPD_RECLAIM indicates that the caller wants to wake kswapd when
-- * the low watermark is reached and have it reclaim pages until the high
-- * watermark is reached. A caller may wish to clear this flag when fallback
-- * options are available and the reclaim is likely to disrupt the system. The
-- * canonical example is THP allocation where a fallback is cheap but
-- * reclaim/compaction may cause indirect stalls.
-- *
-- * %__GFP_RECLAIM is shorthand to allow/forbid both direct and kswapd reclaim.
-- *
-- * The default allocator behavior depends on the request size. We have a concept
-- * of so called costly allocations (with order > %PAGE_ALLOC_COSTLY_ORDER).
-- * !costly allocations are too essential to fail so they are implicitly
-- * non-failing by default (with some exceptions like OOM victims might fail so
-- * the caller still has to check for failures) while costly requests try to be
-- * not disruptive and back off even without invoking the OOM killer.
-- * The following three modifiers might be used to override some of these
-- * implicit rules
-- *
-- * %__GFP_NORETRY: The VM implementation will try only very lightweight
-- * memory direct reclaim to get some memory under memory pressure (thus
-- * it can sleep). It will avoid disruptive actions like OOM killer. The
-- * caller must handle the failure which is quite likely to happen under
-- * heavy memory pressure. The flag is suitable when failure can easily be
-- * handled at small cost, such as reduced throughput
-- *
-- * %__GFP_RETRY_MAYFAIL: The VM implementation will retry memory reclaim
-- * procedures that have previously failed if there is some indication
-- * that progress has been made else where.  It can wait for other
-- * tasks to attempt high level approaches to freeing memory such as
-- * compaction (which removes fragmentation) and page-out.
-- * There is still a definite limit to the number of retries, but it is
-- * a larger limit than with %__GFP_NORETRY.
-- * Allocations with this flag may fail, but only when there is
-- * genuinely little unused memory. While these allocations do not
-- * directly trigger the OOM killer, their failure indicates that
-- * the system is likely to need to use the OOM killer soon.  The
-- * caller must handle failure, but can reasonably do so by failing
-- * a higher-level request, or completing it only in a much less
-- * efficient manner.
-- * If the allocation does fail, and the caller is in a position to
-- * free some non-essential memory, doing so could benefit the system
-- * as a whole.
-- *
-- * %__GFP_NOFAIL: The VM implementation _must_ retry infinitely: the caller
-- * cannot handle allocation failures. The allocation could block
-- * indefinitely but will never return with failure. Testing for
-- * failure is pointless.
-- * New users should be evaluated carefully (and the flag should be
-- * used only when there is no reasonable failure policy) but it is
-- * definitely preferable to use the flag rather than opencode endless
-- * loop around allocator.
-- * Using this flag for costly allocations is _highly_ discouraged.
-- */
--#define __GFP_IO	((__force gfp_t)___GFP_IO)
--#define __GFP_FS	((__force gfp_t)___GFP_FS)
--#define __GFP_DIRECT_RECLAIM	((__force gfp_t)___GFP_DIRECT_RECLAIM) /* Caller can reclaim */
--#define __GFP_KSWAPD_RECLAIM	((__force gfp_t)___GFP_KSWAPD_RECLAIM) /* kswapd can wake */
--#define __GFP_RECLAIM ((__force gfp_t)(___GFP_DIRECT_RECLAIM|___GFP_KSWAPD_RECLAIM))
--#define __GFP_RETRY_MAYFAIL	((__force gfp_t)___GFP_RETRY_MAYFAIL)
--#define __GFP_NOFAIL	((__force gfp_t)___GFP_NOFAIL)
--#define __GFP_NORETRY	((__force gfp_t)___GFP_NORETRY)
--
--/**
-- * DOC: Action modifiers
-- *
-- * Action modifiers
-- * ----------------
-- *
-- * %__GFP_NOWARN suppresses allocation failure reports.
-- *
-- * %__GFP_COMP address compound page metadata.
-- *
-- * %__GFP_ZERO returns a zeroed page on success.
-- *
-- * %__GFP_ZEROTAGS zeroes memory tags at allocation time if the memory itself
-- * is being zeroed (either via __GFP_ZERO or via init_on_alloc, provided that
-- * __GFP_SKIP_ZERO is not set). This flag is intended for optimization: setting
-- * memory tags at the same time as zeroing memory has minimal additional
-- * performace impact.
-- *
-- * %__GFP_SKIP_KASAN_UNPOISON makes KASAN skip unpoisoning on page allocation.
-- * Only effective in HW_TAGS mode.
-- *
-- * %__GFP_SKIP_KASAN_POISON makes KASAN skip poisoning on page deallocation.
-- * Typically, used for userspace pages. Only effective in HW_TAGS mode.
-- */
--#define __GFP_NOWARN	((__force gfp_t)___GFP_NOWARN)
--#define __GFP_COMP	((__force gfp_t)___GFP_COMP)
--#define __GFP_ZERO	((__force gfp_t)___GFP_ZERO)
--#define __GFP_ZEROTAGS	((__force gfp_t)___GFP_ZEROTAGS)
--#define __GFP_SKIP_ZERO ((__force gfp_t)___GFP_SKIP_ZERO)
--#define __GFP_SKIP_KASAN_UNPOISON ((__force gfp_t)___GFP_SKIP_KASAN_UNPOISON)
--#define __GFP_SKIP_KASAN_POISON   ((__force gfp_t)___GFP_SKIP_KASAN_POISON)
--
--/* Disable lockdep for GFP context tracking */
--#define __GFP_NOLOCKDEP ((__force gfp_t)___GFP_NOLOCKDEP)
--
--/* Room for N __GFP_FOO bits */
--#define __GFP_BITS_SHIFT (27 + IS_ENABLED(CONFIG_LOCKDEP))
--#define __GFP_BITS_MASK ((__force gfp_t)((1 << __GFP_BITS_SHIFT) - 1))
--
--/**
-- * DOC: Useful GFP flag combinations
-- *
-- * Useful GFP flag combinations
-- * ----------------------------
-- *
-- * Useful GFP flag combinations that are commonly used. It is recommended
-- * that subsystems start with one of these combinations and then set/clear
-- * %__GFP_FOO flags as necessary.
-- *
-- * %GFP_ATOMIC users can not sleep and need the allocation to succeed. A lower
-- * watermark is applied to allow access to "atomic reserves".
-- * The current implementation doesn't support NMI and few other strict
-- * non-preemptive contexts (e.g. raw_spin_lock). The same applies to %GFP_NOWAIT.
-- *
-- * %GFP_KERNEL is typical for kernel-internal allocations. The caller requires
-- * %ZONE_NORMAL or a lower zone for direct access but can direct reclaim.
-- *
-- * %GFP_KERNEL_ACCOUNT is the same as GFP_KERNEL, except the allocation is
-- * accounted to kmemcg.
-- *
-- * %GFP_NOWAIT is for kernel allocations that should not stall for direct
-- * reclaim, start physical IO or use any filesystem callback.
-- *
-- * %GFP_NOIO will use direct reclaim to discard clean pages or slab pages
-- * that do not require the starting of any physical IO.
-- * Please try to avoid using this flag directly and instead use
-- * memalloc_noio_{save,restore} to mark the whole scope which cannot
-- * perform any IO with a short explanation why. All allocation requests
-- * will inherit GFP_NOIO implicitly.
-- *
-- * %GFP_NOFS will use direct reclaim but will not use any filesystem interfaces.
-- * Please try to avoid using this flag directly and instead use
-- * memalloc_nofs_{save,restore} to mark the whole scope which cannot/shouldn't
-- * recurse into the FS layer with a short explanation why. All allocation
-- * requests will inherit GFP_NOFS implicitly.
-- *
-- * %GFP_USER is for userspace allocations that also need to be directly
-- * accessibly by the kernel or hardware. It is typically used by hardware
-- * for buffers that are mapped to userspace (e.g. graphics) that hardware
-- * still must DMA to. cpuset limits are enforced for these allocations.
-- *
-- * %GFP_DMA exists for historical reasons and should be avoided where possible.
-- * The flags indicates that the caller requires that the lowest zone be
-- * used (%ZONE_DMA or 16M on x86-64). Ideally, this would be removed but
-- * it would require careful auditing as some users really require it and
-- * others use the flag to avoid lowmem reserves in %ZONE_DMA and treat the
-- * lowest zone as a type of emergency reserve.
-- *
-- * %GFP_DMA32 is similar to %GFP_DMA except that the caller requires a 32-bit
-- * address. Note that kmalloc(..., GFP_DMA32) does not return DMA32 memory
-- * because the DMA32 kmalloc cache array is not implemented.
-- * (Reason: there is no such user in kernel).
-- *
-- * %GFP_HIGHUSER is for userspace allocations that may be mapped to userspace,
-- * do not need to be directly accessible by the kernel but that cannot
-- * move once in use. An example may be a hardware allocation that maps
-- * data directly into userspace but has no addressing limitations.
-- *
-- * %GFP_HIGHUSER_MOVABLE is for userspace allocations that the kernel does not
-- * need direct access to but can use kmap() when access is required. They
-- * are expected to be movable via page reclaim or page migration. Typically,
-- * pages on the LRU would also be allocated with %GFP_HIGHUSER_MOVABLE.
-- *
-- * %GFP_TRANSHUGE and %GFP_TRANSHUGE_LIGHT are used for THP allocations. They
-- * are compound allocations that will generally fail quickly if memory is not
-- * available and will not wake kswapd/kcompactd on failure. The _LIGHT
-- * version does not attempt reclaim/compaction at all and is by default used
-- * in page fault path, while the non-light is used by khugepaged.
-- */
--#define GFP_ATOMIC	(__GFP_HIGH|__GFP_ATOMIC|__GFP_KSWAPD_RECLAIM)
--#define GFP_KERNEL	(__GFP_RECLAIM | __GFP_IO | __GFP_FS)
--#define GFP_KERNEL_ACCOUNT (GFP_KERNEL | __GFP_ACCOUNT)
--#define GFP_NOWAIT	(__GFP_KSWAPD_RECLAIM)
--#define GFP_NOIO	(__GFP_RECLAIM)
--#define GFP_NOFS	(__GFP_RECLAIM | __GFP_IO)
--#define GFP_USER	(__GFP_RECLAIM | __GFP_IO | __GFP_FS | __GFP_HARDWALL)
--#define GFP_DMA		__GFP_DMA
--#define GFP_DMA32	__GFP_DMA32
--#define GFP_HIGHUSER	(GFP_USER | __GFP_HIGHMEM)
--#define GFP_HIGHUSER_MOVABLE	(GFP_HIGHUSER | __GFP_MOVABLE | \
--			 __GFP_SKIP_KASAN_POISON)
--#define GFP_TRANSHUGE_LIGHT	((GFP_HIGHUSER_MOVABLE | __GFP_COMP | \
--			 __GFP_NOMEMALLOC | __GFP_NOWARN) & ~__GFP_RECLAIM)
--#define GFP_TRANSHUGE	(GFP_TRANSHUGE_LIGHT | __GFP_DIRECT_RECLAIM)
--
- /* Convert GFP flags to their corresponding migrate type */
- #define GFP_MOVABLE_MASK (__GFP_RECLAIMABLE|__GFP_MOVABLE)
- #define GFP_MOVABLE_SHIFT 3
-diff --git a/include/linux/gfp_types.h b/include/linux/gfp_types.h
-new file mode 100644
-index 000000000000..06fc85cee23f
---- /dev/null
-+++ b/include/linux/gfp_types.h
-@@ -0,0 +1,348 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+#ifndef __LINUX_GFP_TYPES_H
-+#define __LINUX_GFP_TYPES_H
-+
-+/* The typedef is in types.h but we want the documentation here */
-+#if 0
-+/**
-+ * typedef gfp_t - Memory allocation flags.
-+ *
-+ * GFP flags are commonly used throughout Linux to indicate how memory
-+ * should be allocated.  The GFP acronym stands for get_free_pages(),
-+ * the underlying memory allocation function.  Not every GFP flag is
-+ * supported by every function which may allocate memory.  Most users
-+ * will want to use a plain ``GFP_KERNEL``.
-+ */
-+typedef unsigned int __bitwise gfp_t;
-+#endif
-+
-+/*
-+ * In case of changes, please don't forget to update
-+ * include/trace/events/mmflags.h and tools/perf/builtin-kmem.c
-+ */
-+
-+/* Plain integer GFP bitmasks. Do not use this directly. */
-+#define ___GFP_DMA		0x01u
-+#define ___GFP_HIGHMEM		0x02u
-+#define ___GFP_DMA32		0x04u
-+#define ___GFP_MOVABLE		0x08u
-+#define ___GFP_RECLAIMABLE	0x10u
-+#define ___GFP_HIGH		0x20u
-+#define ___GFP_IO		0x40u
-+#define ___GFP_FS		0x80u
-+#define ___GFP_ZERO		0x100u
-+#define ___GFP_ATOMIC		0x200u
-+#define ___GFP_DIRECT_RECLAIM	0x400u
-+#define ___GFP_KSWAPD_RECLAIM	0x800u
-+#define ___GFP_WRITE		0x1000u
-+#define ___GFP_NOWARN		0x2000u
-+#define ___GFP_RETRY_MAYFAIL	0x4000u
-+#define ___GFP_NOFAIL		0x8000u
-+#define ___GFP_NORETRY		0x10000u
-+#define ___GFP_MEMALLOC		0x20000u
-+#define ___GFP_COMP		0x40000u
-+#define ___GFP_NOMEMALLOC	0x80000u
-+#define ___GFP_HARDWALL		0x100000u
-+#define ___GFP_THISNODE		0x200000u
-+#define ___GFP_ACCOUNT		0x400000u
-+#define ___GFP_ZEROTAGS		0x800000u
-+#ifdef CONFIG_KASAN_HW_TAGS
-+#define ___GFP_SKIP_ZERO		0x1000000u
-+#define ___GFP_SKIP_KASAN_UNPOISON	0x2000000u
-+#define ___GFP_SKIP_KASAN_POISON	0x4000000u
-+#else
-+#define ___GFP_SKIP_ZERO		0
-+#define ___GFP_SKIP_KASAN_UNPOISON	0
-+#define ___GFP_SKIP_KASAN_POISON	0
-+#endif
-+#ifdef CONFIG_LOCKDEP
-+#define ___GFP_NOLOCKDEP	0x8000000u
-+#else
-+#define ___GFP_NOLOCKDEP	0
-+#endif
-+/* If the above are modified, __GFP_BITS_SHIFT may need updating */
-+
-+/*
-+ * Physical address zone modifiers (see linux/mmzone.h - low four bits)
-+ *
-+ * Do not put any conditional on these. If necessary modify the definitions
-+ * without the underscores and use them consistently. The definitions here may
-+ * be used in bit comparisons.
-+ */
-+#define __GFP_DMA	((__force gfp_t)___GFP_DMA)
-+#define __GFP_HIGHMEM	((__force gfp_t)___GFP_HIGHMEM)
-+#define __GFP_DMA32	((__force gfp_t)___GFP_DMA32)
-+#define __GFP_MOVABLE	((__force gfp_t)___GFP_MOVABLE)  /* ZONE_MOVABLE allowed */
-+#define GFP_ZONEMASK	(__GFP_DMA|__GFP_HIGHMEM|__GFP_DMA32|__GFP_MOVABLE)
-+
-+/**
-+ * DOC: Page mobility and placement hints
-+ *
-+ * Page mobility and placement hints
-+ * ---------------------------------
-+ *
-+ * These flags provide hints about how mobile the page is. Pages with similar
-+ * mobility are placed within the same pageblocks to minimise problems due
-+ * to external fragmentation.
-+ *
-+ * %__GFP_MOVABLE (also a zone modifier) indicates that the page can be
-+ * moved by page migration during memory compaction or can be reclaimed.
-+ *
-+ * %__GFP_RECLAIMABLE is used for slab allocations that specify
-+ * SLAB_RECLAIM_ACCOUNT and whose pages can be freed via shrinkers.
-+ *
-+ * %__GFP_WRITE indicates the caller intends to dirty the page. Where possible,
-+ * these pages will be spread between local zones to avoid all the dirty
-+ * pages being in one zone (fair zone allocation policy).
-+ *
-+ * %__GFP_HARDWALL enforces the cpuset memory allocation policy.
-+ *
-+ * %__GFP_THISNODE forces the allocation to be satisfied from the requested
-+ * node with no fallbacks or placement policy enforcements.
-+ *
-+ * %__GFP_ACCOUNT causes the allocation to be accounted to kmemcg.
-+ */
-+#define __GFP_RECLAIMABLE ((__force gfp_t)___GFP_RECLAIMABLE)
-+#define __GFP_WRITE	((__force gfp_t)___GFP_WRITE)
-+#define __GFP_HARDWALL   ((__force gfp_t)___GFP_HARDWALL)
-+#define __GFP_THISNODE	((__force gfp_t)___GFP_THISNODE)
-+#define __GFP_ACCOUNT	((__force gfp_t)___GFP_ACCOUNT)
-+
-+/**
-+ * DOC: Watermark modifiers
-+ *
-+ * Watermark modifiers -- controls access to emergency reserves
-+ * ------------------------------------------------------------
-+ *
-+ * %__GFP_HIGH indicates that the caller is high-priority and that granting
-+ * the request is necessary before the system can make forward progress.
-+ * For example, creating an IO context to clean pages.
-+ *
-+ * %__GFP_ATOMIC indicates that the caller cannot reclaim or sleep and is
-+ * high priority. Users are typically interrupt handlers. This may be
-+ * used in conjunction with %__GFP_HIGH
-+ *
-+ * %__GFP_MEMALLOC allows access to all memory. This should only be used when
-+ * the caller guarantees the allocation will allow more memory to be freed
-+ * very shortly e.g. process exiting or swapping. Users either should
-+ * be the MM or co-ordinating closely with the VM (e.g. swap over NFS).
-+ * Users of this flag have to be extremely careful to not deplete the reserve
-+ * completely and implement a throttling mechanism which controls the
-+ * consumption of the reserve based on the amount of freed memory.
-+ * Usage of a pre-allocated pool (e.g. mempool) should be always considered
-+ * before using this flag.
-+ *
-+ * %__GFP_NOMEMALLOC is used to explicitly forbid access to emergency reserves.
-+ * This takes precedence over the %__GFP_MEMALLOC flag if both are set.
-+ */
-+#define __GFP_ATOMIC	((__force gfp_t)___GFP_ATOMIC)
-+#define __GFP_HIGH	((__force gfp_t)___GFP_HIGH)
-+#define __GFP_MEMALLOC	((__force gfp_t)___GFP_MEMALLOC)
-+#define __GFP_NOMEMALLOC ((__force gfp_t)___GFP_NOMEMALLOC)
-+
-+/**
-+ * DOC: Reclaim modifiers
-+ *
-+ * Reclaim modifiers
-+ * -----------------
-+ * Please note that all the following flags are only applicable to sleepable
-+ * allocations (e.g. %GFP_NOWAIT and %GFP_ATOMIC will ignore them).
-+ *
-+ * %__GFP_IO can start physical IO.
-+ *
-+ * %__GFP_FS can call down to the low-level FS. Clearing the flag avoids the
-+ * allocator recursing into the filesystem which might already be holding
-+ * locks.
-+ *
-+ * %__GFP_DIRECT_RECLAIM indicates that the caller may enter direct reclaim.
-+ * This flag can be cleared to avoid unnecessary delays when a fallback
-+ * option is available.
-+ *
-+ * %__GFP_KSWAPD_RECLAIM indicates that the caller wants to wake kswapd when
-+ * the low watermark is reached and have it reclaim pages until the high
-+ * watermark is reached. A caller may wish to clear this flag when fallback
-+ * options are available and the reclaim is likely to disrupt the system. The
-+ * canonical example is THP allocation where a fallback is cheap but
-+ * reclaim/compaction may cause indirect stalls.
-+ *
-+ * %__GFP_RECLAIM is shorthand to allow/forbid both direct and kswapd reclaim.
-+ *
-+ * The default allocator behavior depends on the request size. We have a concept
-+ * of so called costly allocations (with order > %PAGE_ALLOC_COSTLY_ORDER).
-+ * !costly allocations are too essential to fail so they are implicitly
-+ * non-failing by default (with some exceptions like OOM victims might fail so
-+ * the caller still has to check for failures) while costly requests try to be
-+ * not disruptive and back off even without invoking the OOM killer.
-+ * The following three modifiers might be used to override some of these
-+ * implicit rules
-+ *
-+ * %__GFP_NORETRY: The VM implementation will try only very lightweight
-+ * memory direct reclaim to get some memory under memory pressure (thus
-+ * it can sleep). It will avoid disruptive actions like OOM killer. The
-+ * caller must handle the failure which is quite likely to happen under
-+ * heavy memory pressure. The flag is suitable when failure can easily be
-+ * handled at small cost, such as reduced throughput
-+ *
-+ * %__GFP_RETRY_MAYFAIL: The VM implementation will retry memory reclaim
-+ * procedures that have previously failed if there is some indication
-+ * that progress has been made else where.  It can wait for other
-+ * tasks to attempt high level approaches to freeing memory such as
-+ * compaction (which removes fragmentation) and page-out.
-+ * There is still a definite limit to the number of retries, but it is
-+ * a larger limit than with %__GFP_NORETRY.
-+ * Allocations with this flag may fail, but only when there is
-+ * genuinely little unused memory. While these allocations do not
-+ * directly trigger the OOM killer, their failure indicates that
-+ * the system is likely to need to use the OOM killer soon.  The
-+ * caller must handle failure, but can reasonably do so by failing
-+ * a higher-level request, or completing it only in a much less
-+ * efficient manner.
-+ * If the allocation does fail, and the caller is in a position to
-+ * free some non-essential memory, doing so could benefit the system
-+ * as a whole.
-+ *
-+ * %__GFP_NOFAIL: The VM implementation _must_ retry infinitely: the caller
-+ * cannot handle allocation failures. The allocation could block
-+ * indefinitely but will never return with failure. Testing for
-+ * failure is pointless.
-+ * New users should be evaluated carefully (and the flag should be
-+ * used only when there is no reasonable failure policy) but it is
-+ * definitely preferable to use the flag rather than opencode endless
-+ * loop around allocator.
-+ * Using this flag for costly allocations is _highly_ discouraged.
-+ */
-+#define __GFP_IO	((__force gfp_t)___GFP_IO)
-+#define __GFP_FS	((__force gfp_t)___GFP_FS)
-+#define __GFP_DIRECT_RECLAIM	((__force gfp_t)___GFP_DIRECT_RECLAIM) /* Caller can reclaim */
-+#define __GFP_KSWAPD_RECLAIM	((__force gfp_t)___GFP_KSWAPD_RECLAIM) /* kswapd can wake */
-+#define __GFP_RECLAIM ((__force gfp_t)(___GFP_DIRECT_RECLAIM|___GFP_KSWAPD_RECLAIM))
-+#define __GFP_RETRY_MAYFAIL	((__force gfp_t)___GFP_RETRY_MAYFAIL)
-+#define __GFP_NOFAIL	((__force gfp_t)___GFP_NOFAIL)
-+#define __GFP_NORETRY	((__force gfp_t)___GFP_NORETRY)
-+
-+/**
-+ * DOC: Action modifiers
-+ *
-+ * Action modifiers
-+ * ----------------
-+ *
-+ * %__GFP_NOWARN suppresses allocation failure reports.
-+ *
-+ * %__GFP_COMP address compound page metadata.
-+ *
-+ * %__GFP_ZERO returns a zeroed page on success.
-+ *
-+ * %__GFP_ZEROTAGS zeroes memory tags at allocation time if the memory itself
-+ * is being zeroed (either via __GFP_ZERO or via init_on_alloc, provided that
-+ * __GFP_SKIP_ZERO is not set). This flag is intended for optimization: setting
-+ * memory tags at the same time as zeroing memory has minimal additional
-+ * performace impact.
-+ *
-+ * %__GFP_SKIP_KASAN_UNPOISON makes KASAN skip unpoisoning on page allocation.
-+ * Only effective in HW_TAGS mode.
-+ *
-+ * %__GFP_SKIP_KASAN_POISON makes KASAN skip poisoning on page deallocation.
-+ * Typically, used for userspace pages. Only effective in HW_TAGS mode.
-+ */
-+#define __GFP_NOWARN	((__force gfp_t)___GFP_NOWARN)
-+#define __GFP_COMP	((__force gfp_t)___GFP_COMP)
-+#define __GFP_ZERO	((__force gfp_t)___GFP_ZERO)
-+#define __GFP_ZEROTAGS	((__force gfp_t)___GFP_ZEROTAGS)
-+#define __GFP_SKIP_ZERO ((__force gfp_t)___GFP_SKIP_ZERO)
-+#define __GFP_SKIP_KASAN_UNPOISON ((__force gfp_t)___GFP_SKIP_KASAN_UNPOISON)
-+#define __GFP_SKIP_KASAN_POISON   ((__force gfp_t)___GFP_SKIP_KASAN_POISON)
-+
-+/* Disable lockdep for GFP context tracking */
-+#define __GFP_NOLOCKDEP ((__force gfp_t)___GFP_NOLOCKDEP)
-+
-+/* Room for N __GFP_FOO bits */
-+#define __GFP_BITS_SHIFT (27 + IS_ENABLED(CONFIG_LOCKDEP))
-+#define __GFP_BITS_MASK ((__force gfp_t)((1 << __GFP_BITS_SHIFT) - 1))
-+
-+/**
-+ * DOC: Useful GFP flag combinations
-+ *
-+ * Useful GFP flag combinations
-+ * ----------------------------
-+ *
-+ * Useful GFP flag combinations that are commonly used. It is recommended
-+ * that subsystems start with one of these combinations and then set/clear
-+ * %__GFP_FOO flags as necessary.
-+ *
-+ * %GFP_ATOMIC users can not sleep and need the allocation to succeed. A lower
-+ * watermark is applied to allow access to "atomic reserves".
-+ * The current implementation doesn't support NMI and few other strict
-+ * non-preemptive contexts (e.g. raw_spin_lock). The same applies to %GFP_NOWAIT.
-+ *
-+ * %GFP_KERNEL is typical for kernel-internal allocations. The caller requires
-+ * %ZONE_NORMAL or a lower zone for direct access but can direct reclaim.
-+ *
-+ * %GFP_KERNEL_ACCOUNT is the same as GFP_KERNEL, except the allocation is
-+ * accounted to kmemcg.
-+ *
-+ * %GFP_NOWAIT is for kernel allocations that should not stall for direct
-+ * reclaim, start physical IO or use any filesystem callback.
-+ *
-+ * %GFP_NOIO will use direct reclaim to discard clean pages or slab pages
-+ * that do not require the starting of any physical IO.
-+ * Please try to avoid using this flag directly and instead use
-+ * memalloc_noio_{save,restore} to mark the whole scope which cannot
-+ * perform any IO with a short explanation why. All allocation requests
-+ * will inherit GFP_NOIO implicitly.
-+ *
-+ * %GFP_NOFS will use direct reclaim but will not use any filesystem interfaces.
-+ * Please try to avoid using this flag directly and instead use
-+ * memalloc_nofs_{save,restore} to mark the whole scope which cannot/shouldn't
-+ * recurse into the FS layer with a short explanation why. All allocation
-+ * requests will inherit GFP_NOFS implicitly.
-+ *
-+ * %GFP_USER is for userspace allocations that also need to be directly
-+ * accessibly by the kernel or hardware. It is typically used by hardware
-+ * for buffers that are mapped to userspace (e.g. graphics) that hardware
-+ * still must DMA to. cpuset limits are enforced for these allocations.
-+ *
-+ * %GFP_DMA exists for historical reasons and should be avoided where possible.
-+ * The flags indicates that the caller requires that the lowest zone be
-+ * used (%ZONE_DMA or 16M on x86-64). Ideally, this would be removed but
-+ * it would require careful auditing as some users really require it and
-+ * others use the flag to avoid lowmem reserves in %ZONE_DMA and treat the
-+ * lowest zone as a type of emergency reserve.
-+ *
-+ * %GFP_DMA32 is similar to %GFP_DMA except that the caller requires a 32-bit
-+ * address. Note that kmalloc(..., GFP_DMA32) does not return DMA32 memory
-+ * because the DMA32 kmalloc cache array is not implemented.
-+ * (Reason: there is no such user in kernel).
-+ *
-+ * %GFP_HIGHUSER is for userspace allocations that may be mapped to userspace,
-+ * do not need to be directly accessible by the kernel but that cannot
-+ * move once in use. An example may be a hardware allocation that maps
-+ * data directly into userspace but has no addressing limitations.
-+ *
-+ * %GFP_HIGHUSER_MOVABLE is for userspace allocations that the kernel does not
-+ * need direct access to but can use kmap() when access is required. They
-+ * are expected to be movable via page reclaim or page migration. Typically,
-+ * pages on the LRU would also be allocated with %GFP_HIGHUSER_MOVABLE.
-+ *
-+ * %GFP_TRANSHUGE and %GFP_TRANSHUGE_LIGHT are used for THP allocations. They
-+ * are compound allocations that will generally fail quickly if memory is not
-+ * available and will not wake kswapd/kcompactd on failure. The _LIGHT
-+ * version does not attempt reclaim/compaction at all and is by default used
-+ * in page fault path, while the non-light is used by khugepaged.
-+ */
-+#define GFP_ATOMIC	(__GFP_HIGH|__GFP_ATOMIC|__GFP_KSWAPD_RECLAIM)
-+#define GFP_KERNEL	(__GFP_RECLAIM | __GFP_IO | __GFP_FS)
-+#define GFP_KERNEL_ACCOUNT (GFP_KERNEL | __GFP_ACCOUNT)
-+#define GFP_NOWAIT	(__GFP_KSWAPD_RECLAIM)
-+#define GFP_NOIO	(__GFP_RECLAIM)
-+#define GFP_NOFS	(__GFP_RECLAIM | __GFP_IO)
-+#define GFP_USER	(__GFP_RECLAIM | __GFP_IO | __GFP_FS | __GFP_HARDWALL)
-+#define GFP_DMA		__GFP_DMA
-+#define GFP_DMA32	__GFP_DMA32
-+#define GFP_HIGHUSER	(GFP_USER | __GFP_HIGHMEM)
-+#define GFP_HIGHUSER_MOVABLE	(GFP_HIGHUSER | __GFP_MOVABLE | \
-+			 __GFP_SKIP_KASAN_POISON)
-+#define GFP_TRANSHUGE_LIGHT	((GFP_HIGHUSER_MOVABLE | __GFP_COMP | \
-+			 __GFP_NOMEMALLOC | __GFP_NOWARN) & ~__GFP_RECLAIM)
-+#define GFP_TRANSHUGE	(GFP_TRANSHUGE_LIGHT | __GFP_DIRECT_RECLAIM)
-+
-+#endif /* __LINUX_GFP_TYPES_H */
--- 
-2.34.1
+> +	int			(*start)(void);
+> +	void			(*stop)(void);
+> +	void			(*reset)(void);
+> +};
+> +
+> +extern bool monitoring_on;
+> +int rv_unregister_monitor(struct rv_monitor *monitor);
+> +int rv_register_monitor(struct rv_monitor *monitor);
+> +#endif /* _LINUX_RV_H */
+> diff --git a/include/linux/sched.h b/include/linux/sched.h
+> index c46f3a63b758..b037f364efdc 100644
+> --- a/include/linux/sched.h
+> +++ b/include/linux/sched.h
+> @@ -35,6 +35,7 @@
+>  #include <linux/seqlock.h>
+>  #include <linux/kcsan.h>
+>  #include <asm/kmap_size.h>
+> +#include <rv/rv.h>
+>  
+>  /* task_struct member predeclarations (sorted alphabetically): */
+>  struct audit_context;
+> @@ -1500,6 +1501,16 @@ struct task_struct {
+>  	struct callback_head		l1d_flush_kill;
+>  #endif
+>  
+> +#ifdef CONFIG_RV
+> +	/*
+> +	 * Per-task RV monitor. Nowadays fixed in RV_PER_TASK_MONITORS.
+> +	 * If we find justification for more monitors, we can think
+> +	 * about adding more or developing a dynamic method. So far,
+> +	 * none of these are justified.
+> +	 */
+> +	union rv_task_monitor		rv[RV_PER_TASK_MONITORS];
+> +#endif
+> +
+>  	/*
+>  	 * New fields for task_struct should be added above here, so that
+>  	 * they are included in the randomized portion of task_struct.
+> diff --git a/include/rv/rv.h b/include/rv/rv.h
+> new file mode 100644
+> index 000000000000..27a108881d35
+> --- /dev/null
+> +++ b/include/rv/rv.h
+> @@ -0,0 +1,23 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +
+> +#ifndef _RV_RV_H
+> +#define _RV_RV_H
+> +
+> +/*
+> + * Per-task RV monitors count. Nowadays fixed in RV_PER_TASK_MONITORS.
+> + * If we find justification for more monitors, we can think about
+> + * adding more or developing a dynamic method. So far, none of
+> + * these are justified.
+> + */
+> +#define RV_PER_TASK_MONITORS		1
+> +#define RV_PER_TASK_MONITOR_INIT	(RV_PER_TASK_MONITORS)
+> +
+> +/*
+> + * Futher monitor types are expected, so make this a union.
+> + */
+> +union rv_task_monitor {
+> +};
+> +
+> +int get_task_monitor_slot(void);
+> +void put_task_monitor_slot(int slot);
+> +#endif /* _RV_RV_H */
+> diff --git a/kernel/fork.c b/kernel/fork.c
+> index 9d44f2d46c69..5e40e58ef83d 100644
+> --- a/kernel/fork.c
+> +++ b/kernel/fork.c
+> @@ -1964,6 +1964,18 @@ static void copy_oom_score_adj(u64 clone_flags, struct task_struct *tsk)
+>  	mutex_unlock(&oom_adj_mutex);
+>  }
+>  
+> +#ifdef CONFIG_RV
+> +static void rv_task_fork(struct task_struct *p)
+> +{
+> +	int i;
+> +
+> +	for (i = 0; i < RV_PER_TASK_MONITORS; i++)
+> +		;
+> +}
+> +#else
+> +#define rv_task_fork(p) do {} while (0)
+> +#endif
+> +
+>  /*
+>   * This creates a new process as a copy of the old one,
+>   * but does not actually start it yet.
+> @@ -2399,6 +2411,8 @@ static __latent_entropy struct task_struct *copy_process(
+>  	 */
+>  	copy_seccomp(p);
+>  
+> +	rv_task_fork(p);
+> +
+>  	rseq_fork(p, clone_flags);
+>  
+>  	/* Don't start children in a dying pid namespace */
+> diff --git a/kernel/trace/Kconfig b/kernel/trace/Kconfig
+> index debbbb083286..b415690748bf 100644
+> --- a/kernel/trace/Kconfig
+> +++ b/kernel/trace/Kconfig
+> @@ -1105,4 +1105,6 @@ config HIST_TRIGGERS_DEBUG
+>  
+>            If unsure, say N.
+>  
+> +source "kernel/trace/rv/Kconfig"
+> +
+>  endif # FTRACE
+> diff --git a/kernel/trace/Makefile b/kernel/trace/Makefile
+> index 0d261774d6f3..b2670fff6e94 100644
+> --- a/kernel/trace/Makefile
+> +++ b/kernel/trace/Makefile
+> @@ -108,3 +108,5 @@ obj-$(CONFIG_RETHOOK) += rethook.o
+>  obj-$(CONFIG_TRACEPOINT_BENCHMARK) += trace_benchmark.o
+>  
+>  libftrace-y := ftrace.o
+> +
+> +obj-$(CONFIG_RV) += rv/
+> diff --git a/kernel/trace/rv/Kconfig b/kernel/trace/rv/Kconfig
+> new file mode 100644
+> index 000000000000..6d127cdb00dd
+> --- /dev/null
+> +++ b/kernel/trace/rv/Kconfig
+> @@ -0,0 +1,12 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
+> +#
+> +menuconfig RV
+> +	bool "Runtime Verification"
+> +	depends on TRACING
+> +	help
+> +	  Enable the kernel runtime verification infrastructure. RV is a
+> +	  lightweight (yet rigorous) method that complements classical
+> +	  exhaustive verification techniques (such as model checking and
+> +	  theorem proving). RV works by analyzing the trace of the system's
+> +	  actual execution, comparing it against a formal specification of
+> +	  the system behavior.
+> diff --git a/kernel/trace/rv/Makefile b/kernel/trace/rv/Makefile
+> new file mode 100644
+> index 000000000000..fd995379df67
+> --- /dev/null
+> +++ b/kernel/trace/rv/Makefile
+> @@ -0,0 +1,3 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +
+> +obj-$(CONFIG_RV) += rv.o
+> diff --git a/kernel/trace/rv/rv.c b/kernel/trace/rv/rv.c
+> new file mode 100644
+> index 000000000000..43af7b13187e
+> --- /dev/null
+> +++ b/kernel/trace/rv/rv.c
+> @@ -0,0 +1,738 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * This is the online Runtime Verification (RV) interface.
+> + *
+> + * RV is a lightweight (yet rigorous) method that complements classical
+> + * exhaustive verification techniques (such as model checking and
+> + * theorem proving) with a more practical approach to complex systems.
+> + *
+> + * RV works by analyzing the trace of the system's actual execution,
+> + * comparing it against a formal specification of the system behavior.
+> + * RV can give precise information on the runtime behavior of the
+> + * monitored system while enabling the reaction for unexpected
+> + * events, avoiding, for example, the propagation of a failure on
+> + * safety-critical systems.
+> + *
+> + * The development of this interface roots in the development of the
+> + * paper:
+> + *
+> + * DE OLIVEIRA, Daniel Bristot; CUCINOTTA, Tommaso; DE OLIVEIRA, Romulo
+> + * Silva. Efficient formal verification for the Linux kernel. In:
+> + * International Conference on Software Engineering and Formal Methods.
+> + * Springer, Cham, 2019. p. 315-332.
+> + *
+> + * And:
+> + *
+> + * DE OLIVEIRA, Daniel Bristot, et al. Automata-based formal analysis
+> + * and verification of the real-time Linux kernel. PhD Thesis, 2020.
+> + *
+> + * == Runtime monitor interface ==
+> + *
+> + * A monitor is the central part of the runtime verification of a system.
+> + *
+> + * The monitor stands in between the formal specification of the desired
+> + * (or undesired) behavior, and the trace of the actual system.
+> + *
+> + * In Linux terms, the runtime verification monitors are encapsulated
+> + * inside the "RV monitor" abstraction. A RV monitor includes a reference
+> + * model of the system, a set of instances of the monitor (per-cpu monitor,
+> + * per-task monitor, and so on), and the helper functions that glue the
+> + * monitor to the system via trace. Generally, a monitor includes some form
+> + * of trace output as a reaction for event parsing and exceptions,
+> + * as depicted bellow:
+> + *
+> + * Linux  +----- RV Monitor ----------------------------------+ Formal
+> + *  Realm |                                                   |  Realm
+> + *  +-------------------+     +----------------+     +-----------------+
+> + *  |   Linux kernel    |     |     Monitor    |     |     Reference   |
+> + *  |     Tracing       |  -> |   Instance(s)  | <-  |       Model     |
+> + *  | (instrumentation) |     | (verification) |     | (specification) |
+> + *  +-------------------+     +----------------+     +-----------------+
+> + *         |                          |                       |
+> + *         |                          V                       |
+> + *         |                     +----------+                 |
+> + *         |                     | Reaction |                 |
+> + *         |                     +--+--+--+-+                 |
+> + *         |                        |  |  |                   |
+> + *         |                        |  |  +-> trace output ?  |
+> + *         +------------------------|--|----------------------+
+> + *                                  |  +----> panic ?
+> + *                                  +-------> <user-specified>
+> + *
+> + * This file implements the interface for loading RV monitors, and
+> + * to control the verification session.
+> + *
+> + * == Registering monitors ==
+> + *
+> + * The struct rv_monitor defines a set of callback functions to control
+> + * a verification session. For instance, when a given monitor is enabled,
+> + * the "start" callback function is called to hook the instrumentation
+> + * functions to the kernel trace events. The "stop" function is called
+> + * when disabling the verification session.
+> + *
+> + * A RV monitor is registered via:
+> + *   int rv_register_monitor(struct rv_monitor *monitor);
+> + * And unregistered via:
+> + *   int rv_unregister_monitor(struct rv_monitor *monitor);
+> + *
+> + * These functions are exported to modules, enabling verification monitors
+> + * to be dynamically loaded.
+> + *
+> + * == User interface ==
+> + *
+> + * The user interface resembles kernel tracing interface. It presents
+> + * these files:
+> + *
+> + *  "available_monitors"
+> + *    - List the available monitors, one per line.
+> + *
+> + *    For example:
+> + *    [root@f32 rv]# cat available_monitors
+> + *    wip
+> + *    wwnr
+> + *
+> + *  "enabled_monitors"
+> + *    - Lists the enabled monitors, one per line;
+> + *    - Writing to it enables a given monitor;
+> + *    - Writing a monitor name with a '-' prefix disables it;
+> + *    - Truncating the file disables all enabled monitors.
+> + *
+> + *    For example:
+> + *    [root@f32 rv]# cat enabled_monitors
+> + *    [root@f32 rv]# echo wip > enabled_monitors
+> + *    [root@f32 rv]# echo wwnr >> enabled_monitors
+> + *    [root@f32 rv]# cat enabled_monitors
+> + *    wip
+> + *    wwnr
+> + *    [root@f32 rv]# echo !wip >> enabled_monitors
+> + *    [root@f32 rv]# cat enabled_monitors
+> + *    wwnr
+> + *    [root@f32 rv]# echo > enabled_monitors
+> + *    [root@f32 rv]# cat enabled_monitors
+> + *    [root@f32 rv]#
+> + *
+> + *    Note that more than one monitor can be enabled concurrently.
+> + *
+> + *  "monitoring_on"
+> + *    - It is an on/off general switcher for monitoring. Note
+> + *    that it does not disable enabled monitors, but stop the per-entity
+> + *    monitors of monitoring the events received from the system.
+> + *    It resambles the "tracing_on" switcher.
+> + *
+> + *  "monitors/"
+> + *    Each monitor will have its one directory inside "monitors/". There
+> + *    the monitor specific files will be presented.
+> + *    The "monitors/" directory resambles the "events" directory on
+> + *    tracefs.
+> + *
+> + *    For example:
+> + *    [root@f32 rv]# cd monitors/wip/
+> + *    [root@f32 wip]# ls
+> + *    desc  enable
+> + *    [root@f32 wip]# cat desc
+> + *    auto-generated wakeup in preemptive monitor.
+> + *    [root@f32 wip]# cat enable
+> + *    0
+> + *
+> + * Copyright (C) 2019-2022 Daniel Bristot de Oliveira <bristot@kernel.org>
+> + */
+> +
+> +#include <linux/kernel.h>
+> +#include <linux/module.h>
+> +#include <linux/init.h>
+> +#include <linux/slab.h>
+> +#include <rv/rv.h>
+> +
+> +#include "rv.h"
+> +
+> +DEFINE_MUTEX(rv_interface_lock);
+> +struct rv_interface rv_root;
+> +
+> +struct dentry *get_monitors_root(void)
+> +{
+> +	return rv_root.monitors_dir;
+> +}
+> +
+> +/*
+> + * Monitoring on global switcher!
+> + */
+> +bool __read_mostly monitoring_on;
+> +
+> +/*
+> + * Interface for the monitor register.
+> + */
+> +LIST_HEAD(rv_monitors_list);
+> +
+> +static int task_monitor_count;
+> +static bool task_monitor_slots[RV_PER_TASK_MONITORS];
+> +
+> +int get_task_monitor_slot(void)
+> +{
+> +	int i;
+> +
+> +	lockdep_assert_held(&rv_interface_lock);
+> +
+> +	if (task_monitor_count == RV_PER_TASK_MONITORS)
+> +		return -EBUSY;
+> +
+> +	task_monitor_count++;
+> +
+> +	for (i = 0; i < RV_PER_TASK_MONITORS; i++) {
+> +		if (task_monitor_slots[i] == false) {
+> +			task_monitor_slots[i] = true;
+> +			return i;
+> +		}
+> +	}
+> +
+> +	WARN_ONCE(1, "RV task_monitor_cout and slots are out of sync\n");
+> +
+> +	return -EINVAL;
+> +}
+> +
+> +void put_task_monitor_slot(int slot)
+> +{
+> +	lockdep_assert_held(&rv_interface_lock);
+> +
+> +	if (slot < 0 || slot > RV_PER_TASK_MONITORS) {
+> +		WARN_ONCE(1, "RV releasing an invlid slot!: %d\n", slot);
+> +		return;
+> +	}
+> +
+> +	WARN_ONCE(!task_monitor_slots[slot], "RV releasing unsused task_monitor_slots: %d\n",
+> +		  slot);
+> +
+> +	task_monitor_count--;
+> +	task_monitor_slots[slot] = false;
+> +}
+> +
+> +/*
+> + * This section collects the monitor/ files and folders.
+> + */
+> +static ssize_t monitor_enable_read_data(struct file *filp,
+> +					char __user *user_buf,
+> +					size_t count, loff_t *ppos)
+> +{
+> +	struct rv_monitor_def *mdef = filp->private_data;
+> +	char buff[4];
+> +
+> +	memset(buff, 0, sizeof(buff));
+> +
+> +	mutex_lock(&rv_interface_lock);
+> +	sprintf(buff, "%x\n", mdef->monitor->enabled);
+> +	mutex_unlock(&rv_interface_lock);
+> +
+> +	return simple_read_from_buffer(user_buf, count, ppos,
+> +				       buff, strlen(buff)+1);
+> +}
+> +
+> +/*
+> + * Disable a given runtime monitor.
+> + */
+> +static int disable_monitor(struct rv_monitor_def *mdef)
+> +{
+> +	if (mdef->monitor->enabled) {
+> +		mdef->monitor->enabled = 0;
+> +		mdef->monitor->stop();
+> +	}
+> +
+> +	mdef->enabled = 0;
+> +	return 0;
+> +}
+> +
+> +/*
+> + * Enable a given monitor.
+> + */
+> +static int enable_monitor(struct rv_monitor_def *mdef)
+> +{
+> +	int retval;
+> +
+> +	/*
+> +	 * Reset all internal monitors before starting.
+> +	 */
+> +	mdef->monitor->reset();
+> +	if (!mdef->monitor->enabled) {
+> +		retval = mdef->monitor->start();
+> +		if (retval)
+> +			return retval;
+> +	}
+> +
+> +	mdef->monitor->enabled = 1;
+> +	mdef->enabled = 1;
+> +
+> +	return 0;
+> +}
+> +
+> +/*
+> + * interface for enabling/disabling a monitor.
+> + */
+> +static ssize_t monitor_enable_write_data(struct file *filp,
+> +					 const char __user *user_buf,
+> +					 size_t count, loff_t *ppos)
+> +{
+> +	struct rv_monitor_def *mdef = filp->private_data;
+> +	int retval;
+> +	u64 val;
+> +
+> +	retval = kstrtoull_from_user(user_buf, count, 10, &val);
+> +	if (retval)
+> +		return retval;
+> +
+> +	retval = count;
+> +
+> +	mutex_lock(&rv_interface_lock);
+> +
+> +	switch (val) {
+> +	case 0:
+> +		retval = disable_monitor(mdef);
+> +		break;
+> +	case 1:
+> +		retval = enable_monitor(mdef);
+> +		break;
+> +	default:
+> +		retval = -EINVAL;
+> +	}
+> +
+> +	mutex_unlock(&rv_interface_lock);
+> +
+> +	return retval;
+> +}
+> +
+> +static const struct file_operations interface_enable_fops = {
+> +	.open   = simple_open,
+> +	.llseek = no_llseek,
+> +	.write  = monitor_enable_write_data,
+> +	.read   = monitor_enable_read_data,
+> +};
+> +
+> +/*
+> + * Interface to read the enable/disable status of a monitor.
+> + */
+> +static ssize_t
+> +monitor_desc_read_data(struct file *filp, char __user *user_buf,
+> +		       size_t count, loff_t *ppos)
+> +{
+> +	struct rv_monitor_def *mdef = filp->private_data;
+> +	char buf[MAX_RV_MONITOR_NAME_SIZE];
+> +
+> +	memset(buf, 0, sizeof(buf));
+> +
+> +	mutex_lock(&rv_interface_lock);
+> +	sprintf(buf, "%s\n", mdef->monitor->description);
+> +	mutex_unlock(&rv_interface_lock);
+> +
+> +	return simple_read_from_buffer(user_buf, count, ppos,
+> +					buf, strlen(buf)+1);
+> +}
+> +
+> +static const struct file_operations interface_desc_fops = {
+> +	.open   = simple_open,
+> +	.llseek	= no_llseek,
+> +	.read	= monitor_desc_read_data,
+> +};
+> +
+> +/*
+> + * During the registration of a monitor, this function creates
+> + * the monitor dir, where the specific options of the monitor
+> + * is exposed.
+> + */
+> +static int create_monitor_dir(struct rv_monitor_def *mdef)
+> +{
+> +	struct dentry *root = get_monitors_root();
+> +	struct dentry *tmp;
+> +	const char *name = mdef->monitor->name;
+> +	int retval = 0;
+> +
+> +	mdef->root_d = rv_create_dir(name, root);
+> +
+> +	if (!mdef->root_d)
+> +		return -ENOMEM;
+> +
+> +	tmp = rv_create_file("enable", 0600,
+> +			     mdef->root_d, mdef,
+> +			     &interface_enable_fops);
+> +	if (!tmp) {
+> +		retval = -ENOMEM;
+> +		goto out_remove_root;
+> +	}
+> +
+> +	tmp = rv_create_file("desc", 0400,
+> +			      mdef->root_d, mdef,
+> +			      &interface_desc_fops);
+> +	if (!tmp) {
+> +		retval = -ENOMEM;
+> +		goto out_remove_root;
+> +	}
+> +
+> +	return retval;
+> +
+> +out_remove_root:
+> +	rv_remove(mdef->root_d);
+> +	return retval;
+> +}
+> +
+> +/*
+> + * Available/Enable monitor shared seq functions.
+> + */
+> +static int monitors_show(struct seq_file *m, void *p)
+> +{
+> +	struct rv_monitor_def *mon_def = p;
+> +
+> +	seq_printf(m, "%s\n", mon_def->monitor->name);
+> +	return 0;
+> +}
+> +
+> +/*
+> + * Used by the seq file operations at the end of a read
+> + * operation.
+> + */
+> +static void monitors_stop(struct seq_file *m, void *p)
+> +{
+> +	mutex_unlock(&rv_interface_lock);
+> +}
+> +
+> +/*
+> + * Available monitor seq functions:
+> + */
+> +static void *available_monitors_start(struct seq_file *m, loff_t *pos)
+> +{
+> +	mutex_lock(&rv_interface_lock);
+> +	return seq_list_start(&rv_monitors_list, *pos);
+> +}
+> +
+> +static void *available_monitors_next(struct seq_file *m, void *p, loff_t *pos)
+> +{
+> +	return seq_list_next(p, &rv_monitors_list, pos);
+> +}
+> +
+> +/*
+> + * Enable monitor seq functions:
+> + */
+> +
+> +static void *enabled_monitors_next(struct seq_file *m, void *p, loff_t *pos)
+> +{
+> +	struct rv_monitor_def *m_def = p;
+> +
+> +	(*pos)++;
+> +
+> +	list_for_each_entry_continue(m_def, &rv_monitors_list, list) {
+> +		if (m_def->monitor->enabled)
+> +			return m_def;
+> +	}
+> +
+> +	return NULL;
+> +}
+> +
+> +static void *enabled_monitors_start(struct seq_file *m, loff_t *pos)
+> +{
+> +	struct rv_monitor_def *m_def;
+> +	loff_t l;
+> +
+> +	mutex_lock(&rv_interface_lock);
+> +	m_def = list_entry(&rv_monitors_list, struct rv_monitor_def, list);
 
+I realized this m_def is not real but vain. Is it possible the loop is
+skiped and just return m_def that is not valid.
+
+> +	for (l = 0; l <= *pos; ) {
+> +		m_def = enabled_monitors_next(m, m_def, &l);
+> +		if (!m_def)
+> +			break;
+> +	}
+> +
+> +	return m_def;
+> +}
+> +
+> +/*
+> + * available/enabled monitors seq definition.
+> + */
+> +static const struct seq_operations available_monitors_seq_ops = {
+> +	.start	= available_monitors_start,
+> +	.next	= available_monitors_next,
+> +	.stop	= monitors_stop,
+> +	.show	= monitors_show
+> +};
+> +
+> +static const struct seq_operations enabled_monitors_seq_ops = {
+> +	.start  = enabled_monitors_start,
+> +	.next   = enabled_monitors_next,
+> +	.stop   = monitors_stop,
+> +	.show   = monitors_show
+> +};
+> +
+> +/*
+> + * available_monitors interface.
+> + */
+> +static int available_monitors_open(struct inode *inode, struct file *file)
+> +{
+> +	return seq_open(file, &available_monitors_seq_ops);
+> +};
+> +
+> +static const struct file_operations available_monitors_ops = {
+> +	.open    = available_monitors_open,
+> +	.read    = seq_read,
+> +	.llseek  = seq_lseek,
+> +	.release = seq_release
+> +};
+> +
+> +/*
+> + * enabled_monitors interface
+> + */
+> +static void disable_all_monitors(void)
+> +{
+> +	struct rv_monitor_def *mdef;
+> +
+> +	list_for_each_entry(mdef, &rv_monitors_list, list)
+> +		disable_monitor(mdef);
+> +}
+> +
+> +static int enabled_monitors_open(struct inode *inode, struct file *file)
+> +{
+> +	if ((file->f_mode & FMODE_WRITE) && (file->f_flags & O_TRUNC))
+> +		disable_all_monitors();
+> +
+> +	return seq_open(file, &enabled_monitors_seq_ops);
+> +};
+> +
+> +static ssize_t
+> +enabled_monitors_write(struct file *filp, const char __user *user_buf,
+> +		      size_t count, loff_t *ppos)
+> +{
+> +	char buff[MAX_RV_MONITOR_NAME_SIZE+1];
+> +	struct rv_monitor_def *mdef;
+> +	int retval = -EINVAL;
+> +	bool enable = true;
+> +	char *ptr = buff;
+> +	int len;
+> +
+> +	if (count < 1 || count > MAX_RV_MONITOR_NAME_SIZE+1)
+> +		return -EINVAL;
+> +
+> +	memset(buff, 0, sizeof(buff));
+> +
+> +	retval = simple_write_to_buffer(buff, sizeof(buff)-1, ppos, user_buf,
+> +					count);
+> +	if (!retval)
+> +		return -EFAULT;
+> +
+> +	if (buff[0] == '!') {
+> +		enable = false;
+> +		ptr++;
+> +	}
+> +
+> +	len = strlen(ptr);
+> +	if (!len)
+> +		return count;
+> +	/*
+> +	 * remove \n
+> +	 */
+> +	ptr[len-1] = '\0';
+> +
+> +	mutex_lock(&rv_interface_lock);
+> +
+> +	retval = -EINVAL;
+> +
+> +	list_for_each_entry(mdef, &rv_monitors_list, list) {
+> +		if (strcmp(ptr, mdef->monitor->name) == 0) {
+> +			/*
+> +			 * Monitor found!
+> +			 */
+> +			if (enable)
+> +				retval = enable_monitor(mdef);
+> +			else
+> +				retval = disable_monitor(mdef);
+> +
+> +			if (retval)
+> +				goto out;
+> +
+> +			/*
+> +			 * Success!
+> +			 */
+> +			retval = count;
+> +			break;
+> +		}
+> +	}
+> +
+> +out:
+> +	mutex_unlock(&rv_interface_lock);
+> +	return retval;
+> +}
+> +
+> +static const struct file_operations enabled_monitors_ops = {
+> +	.open		= enabled_monitors_open,
+> +	.read		= seq_read,
+> +	.write		= enabled_monitors_write,
+> +	.llseek		= seq_lseek,
+> +	.release	= seq_release,
+> +};
+> +
+> +/*
+> + * monitoring_on general switcher
+> + */
+> +static ssize_t monitoring_on_read_data(struct file *filp,
+> +					char __user *user_buf,
+> +					size_t count, loff_t *ppos)
+> +{
+> +	char buff[4];
+> +
+> +	memset(buff, 0, sizeof(buff));
+> +
+> +	mutex_lock(&rv_interface_lock);
+> +	sprintf(buff, "%d\n", monitoring_on);
+> +	mutex_unlock(&rv_interface_lock);
+> +
+> +	return simple_read_from_buffer(user_buf, count, ppos,
+> +				       buff, strlen(buff)+1);
+> +}
+> +
+> +static void turn_monitoring_off(void)
+> +{
+> +	monitoring_on = false;
+> +}
+> +
+> +static void turn_monitoring_on(void)
+> +{
+> +	reset_all_monitors();
+> +	monitoring_on = true;
+> +}
+> +
+> +static ssize_t monitoring_on_write_data(struct file *filp,
+> +					 const char __user *user_buf,
+> +					 size_t count, loff_t *ppos)
+> +{
+> +	int retval;
+> +	u64 val;
+> +
+> +	retval = kstrtoull_from_user(user_buf, count, 10, &val);
+> +	if (retval)
+> +		return retval;
+> +
+> +	retval = count;
+> +
+> +	mutex_lock(&rv_interface_lock);
+> +
+> +	switch (val) {
+> +	case 0:
+> +		turn_monitoring_off();
+> +		break;
+> +	case 1:
+> +		turn_monitoring_on();
+> +		break;
+> +	default:
+> +		retval = -EINVAL;
+> +	}
+> +
+> +	mutex_unlock(&rv_interface_lock);
+> +
+> +	return retval;
+> +}
+> +
+> +static const struct file_operations monitoring_on_fops = {
+> +	.open   = simple_open,
+> +	.llseek = no_llseek,
+> +	.write  = monitoring_on_write_data,
+> +	.read   = monitoring_on_read_data,
+> +};
+> +
+> +/*
+> + * Monitor API.
+> + */
+> +static void destroy_monitor_dir(struct rv_monitor_def *mdef)
+> +{
+> +	rv_remove(mdef->root_d);
+> +}
+> +
+> +/**
+> + * rv_register_monitor - register a rv monitor.
+> + * @monitor:    The rv_monitor to be registered.
+> + *
+> + * Returns 0 if successful, error otherwise.
+> + */
+> +int rv_register_monitor(struct rv_monitor *monitor)
+> +{
+> +	struct rv_monitor_def *r;
+> +	int retval = 0;
+> +
+> +	if (strlen(monitor->name) >= MAX_RV_MONITOR_NAME_SIZE) {
+> +		pr_info("Monitor %s has a name longer than %d\n",
+> +			monitor->name, MAX_RV_MONITOR_NAME_SIZE);
+> +		return -1;
+> +	}
+> +
+> +	mutex_lock(&rv_interface_lock);
+> +
+> +	list_for_each_entry(r, &rv_monitors_list, list) {
+> +		if (strcmp(monitor->name, r->monitor->name) == 0) {
+> +			pr_info("Monitor %s is already registered\n",
+> +				monitor->name);
+> +			retval = -1;
+> +			goto out_unlock;
+> +		}
+> +	}
+> +
+> +	r = kzalloc(sizeof(struct rv_monitor_def), GFP_KERNEL);
+> +	if (!r) {
+> +		retval = -ENOMEM;
+> +		goto out_unlock;
+> +	}
+> +
+> +	r->monitor = monitor;
+> +
+> +	create_monitor_dir(r);
+> +
+> +	list_add_tail(&r->list, &rv_monitors_list);
+> +
+> +out_unlock:
+> +	mutex_unlock(&rv_interface_lock);
+> +	return retval;
+> +}
+> +
+> +/**
+> + * rv_unregister_monitor - unregister a rv monitor.
+> + * @monitor:    The rv_monitor to be unregistered.
+> + *
+> + * Returns 0 if successful, error otherwise.
+> + */
+> +int rv_unregister_monitor(struct rv_monitor *monitor)
+> +{
+> +	struct rv_monitor_def *ptr, *next;
+> +
+> +	mutex_lock(&rv_interface_lock);
+> +
+> +	list_for_each_entry_safe(ptr, next, &rv_monitors_list, list) {
+> +		if (strcmp(monitor->name, ptr->monitor->name) == 0) {
+> +			list_del(&ptr->list);
+> +			destroy_monitor_dir(ptr);
+> +		}
+> +	}
+> +
+> +	mutex_unlock(&rv_interface_lock);
+> +	return 0;
+> +}
+> +
+> +void reset_all_monitors(void)
+> +{
+> +	struct rv_monitor_def *mdef;
+> +
+> +	/*
+> +	 * Reset all monitors before re-enabling monitoring.
+> +	 */
+> +	list_for_each_entry(mdef, &rv_monitors_list, list) {
+> +		if (mdef->monitor->enabled)
+> +			mdef->monitor->reset();
+> +	}
+> +
+> +}
+> +
+> +int __init rv_init_interface(void)
+> +{
+> +	rv_root.root_dir = rv_create_dir("rv", NULL);
+> +	rv_root.monitors_dir = rv_create_dir("monitors", rv_root.root_dir);
+> +
+> +	rv_create_file("available_monitors", 0400, rv_root.root_dir, NULL,
+> +		       &available_monitors_ops);
+> +	rv_create_file("enabled_monitors", 0600, rv_root.root_dir, NULL,
+> +		       &enabled_monitors_ops);
+> +	rv_create_file("monitoring_on", 0600, rv_root.root_dir, NULL,
+> +		       &monitoring_on_fops);
+> +
+> +	monitoring_on = true;
+> +
+> +	return 0;
+> +}
+> diff --git a/kernel/trace/rv/rv.h b/kernel/trace/rv/rv.h
+> new file mode 100644
+> index 000000000000..0796867a7b1e
+> --- /dev/null
+> +++ b/kernel/trace/rv/rv.h
+> @@ -0,0 +1,34 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +#include <linux/mutex.h>
+> +
+> +struct rv_interface {
+> +	struct dentry *root_dir;
+> +	struct dentry *monitors_dir;
+> +};
+> +
+> +#include "../trace.h"
+> +#include <linux/tracefs.h>
+> +#include <linux/rv.h>
+> +
+> +#define rv_create_dir			tracefs_create_dir
+> +#define rv_create_file			tracefs_create_file
+> +#define rv_remove			tracefs_remove
+> +
+> +#define MAX_RV_MONITOR_NAME_SIZE	32
+> +
+> +extern struct mutex rv_interface_lock;
+> +
+> +struct rv_monitor_def {
+> +	struct list_head list;
+> +	struct rv_monitor *monitor;
+> +	struct dentry *root_d;
+> +	bool enabled;
+> +	bool task_monitor;
+> +};
+> +
+> +extern bool monitoring_on;
+> +struct dentry *get_monitors_root(void);
+> +void reset_all_monitors(void);
+> +int init_rv_monitors(struct dentry *root_dir);
+> +int get_task_monitor_slot(void);
+> +void put_task_monitor_slot(int slot);
+> diff --git a/kernel/trace/trace.c b/kernel/trace/trace.c
+> index 2c95992e2c71..60e357c3120b 100644
+> --- a/kernel/trace/trace.c
+> +++ b/kernel/trace/trace.c
+> @@ -9774,6 +9774,10 @@ static __init int tracer_init_tracefs(void)
+>  		tracer_init_tracefs_work_func(NULL);
+>  	}
+>  
+> +#ifdef CONFIG_RV
+> +	rv_init_interface();
+> +#endif
+> +
+>  	return 0;
+>  }
+>  
+> diff --git a/kernel/trace/trace.h b/kernel/trace/trace.h
+> index ff816fb41e48..becc03c0a45e 100644
+> --- a/kernel/trace/trace.h
+> +++ b/kernel/trace/trace.h
+> @@ -2005,4 +2005,6 @@ struct trace_min_max_param {
+>  
+>  extern const struct file_operations trace_min_max_fops;
+>  
+> +extern int rv_init_interface(void);
+> +
+>  #endif /* _LINUX_KERNEL_TRACE_H */
+> -- 
+> 2.35.1
+> 
