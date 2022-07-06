@@ -2,164 +2,867 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 31479C433EF
-	for <linux-doc@archiver.kernel.org>; Wed,  6 Jul 2022 18:47:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E1594CCA473
+	for <linux-doc@archiver.kernel.org>; Wed,  6 Jul 2022 18:55:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234535AbiGFSrv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 6 Jul 2022 14:47:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58478 "EHLO
+        id S233940AbiGFSz2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 6 Jul 2022 14:55:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35992 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233847AbiGFSrv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Jul 2022 14:47:51 -0400
-Received: from na01-obe.outbound.protection.outlook.com (mail-eastus2azon11021022.outbound.protection.outlook.com [52.101.57.22])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E82228704;
-        Wed,  6 Jul 2022 11:47:50 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=FQkQ/DdX2cz+Xe4nptrSDxl7MYLVEa1lXvWl9K0CHA2XwYP/gd5HKkRVrHjz1HeZbXiUkYpdvIQIoCxn8G8QQ0vPEt1a5s1MDvZR4CImDTgcAJCROxyVli+4pg07keGDhd7Au3OQVf8zHbB4YWx9f3LG89LHrAW9uYffyr1Ci6LyxFjFRqW0cE0Ya8zFa8Shj1ulnF327L2GFHoTn5xBYiSKCTRF5wO4lOub9UjXt/cVETimGHDwRtG1KTVDGQD20zgdJ+TjZu48Rg7/dAMRu8NdznklVBDGmCJK4IoZ8pTlEeCgwN1ZUmNOM/XjshdGA1dcXpmumzaZ/W34mFb96w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=mIQMdUTf1I06LG6IoOkxVJHms426gEMIX8ts7eqZ23A=;
- b=UExv7hbn8MZFXjX7tAjyAbOCqGrJYCAifAulc0ClmaNkLc0jE2w77lmsRAEWthizZYDZlkib8gU1qQ0TnncCeimHoGrs+E6IEB+cA3CoPcEO/vy2fmfMrP9Y3vNmZttB80O6ftnKos37oZfE6o2BgEvpCgFMDV4YQx/iCGUhK38ITD2t895SPIun5GF/vtnAx0ZPtr+mQB1cmRA4mW8FUzJlKaoOWsFyRc2+HCZOO+GFmqWlONSiTcJbRJszvrZQ6T7qBNjxgMzUVQKF7dZO2GXWjsUSxnhKis+dyzu+Dh7ntBk8n+L0Z0ENy1ZkLo8dKIEvPW9BknX/mI2OtgV1Dg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=microsoft.com; dmarc=pass action=none
- header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mIQMdUTf1I06LG6IoOkxVJHms426gEMIX8ts7eqZ23A=;
- b=ce9owJToRB63yES9jYyNxpONykAPUVSZH5Vf1ch94eb/vMhG/1I25WeKoEC3ecoeuNssgtBUo/wFLyIQsj7myjgJvy3gchZtzui578aPDsOzg7YDiYbnUIELqeg98V2qrjip0BY5JxORHj50sEgBtSkHVxrh4fd0c7BvPyJBwL8=
-Received: from PH0PR21MB3025.namprd21.prod.outlook.com (2603:10b6:510:d2::21)
- by PH7PR21MB3311.namprd21.prod.outlook.com (2603:10b6:510:1dc::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5438.3; Wed, 6 Jul
- 2022 18:47:48 +0000
-Received: from PH0PR21MB3025.namprd21.prod.outlook.com
- ([fe80::7838:dcbf:513b:d992]) by PH0PR21MB3025.namprd21.prod.outlook.com
- ([fe80::7838:dcbf:513b:d992%5]) with mapi id 15.20.5438.000; Wed, 6 Jul 2022
- 18:47:48 +0000
-From:   "Michael Kelley (LINUX)" <mikelley@microsoft.com>
-To:     Wei Liu <wei.liu@kernel.org>
-CC:     KY Srinivasan <kys@microsoft.com>,
-        Haiyang Zhang <haiyangz@microsoft.com>,
-        Stephen Hemminger <sthemmin@microsoft.com>,
-        Dexuan Cui <decui@microsoft.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>
-Subject: RE: [PATCH 3/3] Documentation: hyperv: Add overview of clocks and
- timers
-Thread-Topic: [PATCH 3/3] Documentation: hyperv: Add overview of clocks and
- timers
-Thread-Index: AQHYkIYvjumTIE2L2UuibLbjG1DoJK1xqoMAgAAFgMA=
-Date:   Wed, 6 Jul 2022 18:47:48 +0000
-Message-ID: <PH0PR21MB3025CC907DD07AD11FC914C3D7809@PH0PR21MB3025.namprd21.prod.outlook.com>
-References: <1657035822-47950-1-git-send-email-mikelley@microsoft.com>
- <1657035822-47950-4-git-send-email-mikelley@microsoft.com>
- <20220706182534.kh2f4qmjss4635bf@liuwe-devbox-debian-v2>
-In-Reply-To: <20220706182534.kh2f4qmjss4635bf@liuwe-devbox-debian-v2>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ActionId=6a75de09-48ae-4391-a4e9-1b58dfef695b;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ContentBits=0;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Enabled=true;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Method=Standard;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Name=Internal;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SetDate=2022-07-06T18:45:15Z;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SiteId=72f988bf-86f1-41af-91ab-2d7cd011db47;
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=microsoft.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: af0adfdb-ff7c-4f5a-dcd1-08da5f8005b9
-x-ms-traffictypediagnostic: PH7PR21MB3311:EE_
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: AoLMioeHz16Qwf1dnov85eDCO13lMJNSkURnmQWOEkYMPfs6OOqIVhshyAEvdbGMZYSng/SF8a2wqp7dXFAr0t9EfTSKANVhM0pqgLGGskKnH0L6HfBo4VqpjJ4XmuvkBPWmUnVmz0tLfu4FvmXLBNiEojGj+J8FDRMuohlxT9gNlfiulbJJNEspxTPn1hr8BJN9TL/lT3drp7biLsmI8daFyjcdPlMQZdAcIIjCgXco97iW+pEEmDew+taAQbh+wk33PofMNRWhO9EWJlVQ+GA3hV51+CZJmr4sblVYsevo8O2KVyqUwMmiNvKdJhLwvRiFhsqHP28Etd/LMz5t/IVa4bg7qNdw7/hljQB34rBJilJ7klWTtcMucVYmUecJA1DLbCrCBSqEl+FbU+xidiksCpM71ES5ETwA2xsHQhAsxcgO0vuJXb8Uv7E14LXXECBWujhs6BWddnULhJDNfgqmegEfLpFjNWcsnIfxFxHWJqQPy+x5gm9LfgfvHXO2Rcx01bRMOENbVJvSoNwLDY0Di2M7U8Es7LLmChqQBtfZw+PItWy9hWTOCjojvGnexggMfMHCQBJ72F3p3oSEW4ZW99Ijxrfcugfh0Us0SM7PKPsawesQ4JweQGylAJTX0PP8f3Bl4Yxlc3MFYgavBln1CBF/TEVqVoNLo2nYvewunnGz9IRiiQx7ghoduqNOSnn2CWDlDWPZZX96AW2d7SerxQxdyeOQix66xr24J65mIE6zyj9+7O9O13G/LOaT3CdktQlxI9AE0HE47Xv/H96mYGcm3HE5Yt4kli0Bpnsz3UmIusI/LoZm8IlGfExa0hBMjdrnF8IjULwSKITnzaEFIowVvaUeprAF1IC/tzM=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR21MB3025.namprd21.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(136003)(39860400002)(396003)(346002)(366004)(376002)(451199009)(52536014)(66446008)(316002)(5660300002)(66946007)(86362001)(76116006)(8936002)(38070700005)(66556008)(4326008)(38100700002)(83380400001)(122000001)(82950400001)(66476007)(8676002)(64756008)(2906002)(82960400001)(186003)(7696005)(41300700001)(6506007)(478600001)(10290500003)(6916009)(54906003)(33656002)(8990500004)(26005)(55016003)(9686003)(71200400001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?Suaxq7xaf0XhCB2SGpbuYSfJXz/87Ff/tkN2yKNXEvNBxxYpgOqCZ6F3oybv?=
- =?us-ascii?Q?WvHu1N/pVv5YDHyJBJi9Bm96/2uv3GU23Im5eXLHUy+ZWamu1Skcs9PnYdRu?=
- =?us-ascii?Q?1Jk//sn+bNYXz6qOpHbnjonoo0GhH9m+IHGr5loG3FEibt6eXvkxrauDFxJB?=
- =?us-ascii?Q?uy6VoHQrb8cgCDMmSBecnkSXNbV6KF5VQRiwBHnRLvlmfffLBUicrCjy9Uhp?=
- =?us-ascii?Q?xWa5EZYlfK0tHqL9C5FXLGH/R8LDWweCNPPTi17LCPINLpgSE0vlXrF1Ausf?=
- =?us-ascii?Q?TxChM332lwaGaIGIZO97eKDA3DZz3o6vhpV/8eFUR6E3yqodWNiTJW6Mu3pc?=
- =?us-ascii?Q?oWHgRyOKHB+fiEG9kxCZIf1X6A9XBpV8I36ax9Kf9l7ofRaU6xjJFAvM77/A?=
- =?us-ascii?Q?mAbmPpVhp7oc/KiKAfFkNk/a2IQGMykLu7Kkxz/gPJ8cZIBUrkKTTI4sDP6p?=
- =?us-ascii?Q?zy6MG/abLEM0XV9IU4xrtg4IPMOa1gRS7yhcoa/3Lr8yRlBARc6YPbomCIta?=
- =?us-ascii?Q?/KQ7mg544UJolTIeI0dGhq7agGmEJRzwcq/4LaFP9LGpNSwkoxJ8qjGEJ7aA?=
- =?us-ascii?Q?KSIf6YH2MCoytzuEwBYkY2arWPePFjZc6aIGn/BITLEMxUHeoMN/k5YveTOh?=
- =?us-ascii?Q?1Flejm139rdRw3r5z68fF7IQ8W4MlOlcbfWnbU5hX328fQeNQFhp9o5thDnd?=
- =?us-ascii?Q?lCtBbWYX6BldiaWhSEzBHOtJzmIwoDBp3+nwPLRdLcugpi3TjXOGCOyQkHx9?=
- =?us-ascii?Q?avQOu8QEkHIcJtpwMMT2dfPCF9aghdx3aTMZ3i7GS7VgOozLubfeeLbo3MXg?=
- =?us-ascii?Q?DaaWZGwZbMbKvXSGqvNcjW+NglRyTvLAVlDmIOIJG/d8smJtYpOw85oTw++T?=
- =?us-ascii?Q?2zQfoZE7eEGTyCmGRAdU98L/jOlLFCe89j0UKxwlHWLFUusqdOUHSpIt17bJ?=
- =?us-ascii?Q?qhRQeA1JcebRMrqRyZ0PFXchUvbRNPF9plCr3TCN4PmE0wyuxUdIJzrhkoTs?=
- =?us-ascii?Q?O2L2wZJT5p8iGRp5CvHaS/Bp37dTSt7NwZirBuYSzyopom56XZOw+rBIbtYO?=
- =?us-ascii?Q?gWI55P/s1JnrQZKJTEi5ZlBpHkUgYqpFNIJO6fzAeqykj7Uaptwce4kUiJbS?=
- =?us-ascii?Q?zWBm1P2Ff6gObcDcLZRF06ACH5DL1zMa2fepMUSWN2RL6C+tZubqovcnUtnE?=
- =?us-ascii?Q?5EZhulAHShAP71wQHOiK8tv7UNLuVwYA21n/L4mZ5iWJkd/bzuQdtmAXMNB7?=
- =?us-ascii?Q?gtIXDuTJSQ32Hum+kGForZPv+0CGNV7/53+WFMH4n9YdrlPNAuBL1cHrj4Jk?=
- =?us-ascii?Q?GtUol9zoR4X2NfeTdB3DuQ0PJajIndPAiN06QnUEGK2HFUTNZ0u6YwFGzi87?=
- =?us-ascii?Q?n50n6a4ucTPIDNTohLnzfzRkJI4za/MGwWo29YxRmIZ1WUjy2AGPyHJSBy2q?=
- =?us-ascii?Q?DpNE9r8gMhoxpK+FgnmX102rlBX2y3kq/ijzt+yOv9WDfLJgBCLkNPe4ORzV?=
- =?us-ascii?Q?/yaAUW3/bR+h/27ujAt+4jIF4vHFhpYb2jEZgp9G1EX06hGPDSOO6R2XygNy?=
- =?us-ascii?Q?5YKyIi4PdGlxkGktgAVBHAA7Mhj7Jlfrt9e6WpbycbSF4STMyiwbrRxpeWQU?=
- =?us-ascii?Q?yg=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        with ESMTP id S230502AbiGFSz1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Jul 2022 14:55:27 -0400
+Received: from out1.migadu.com (out1.migadu.com [91.121.223.63])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8BE2014D1B;
+        Wed,  6 Jul 2022 11:55:24 -0700 (PDT)
+Date:   Thu, 7 Jul 2022 02:56:27 +0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+        t=1657133722;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=ExSso2xYqPGI+KktGiLJVwJMdZcrYP89PoV3IHLd6so=;
+        b=Telajg2iXcC8mxgQ9Q9gOxWW836Ww66tm03L/5XwLD1jG8ZGmEnN5tw5XcHzegddsTdOUJ
+        EqnY7HAatBkO09Kpm6/WTwcrHzHzatd3pkTz7SIEG/tCs/rGsZgGfgs7orURovl70jlDgH
+        AsDbRhX5agy5x6hzzN5KSeE6vj/0oXU=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From:   Tao Zhou <tao.zhou@linux.dev>
+To:     Daniel Bristot de Oliveira <bristot@kernel.org>
+Cc:     Steven Rostedt <rostedt@goodmis.org>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Ingo Molnar <mingo@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Will Deacon <will@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Marco Elver <elver@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Gabriele Paoloni <gpaoloni@redhat.com>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Clark Williams <williams@redhat.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-trace-devel@vger.kernel.org, Tao Zhou <tao.zhou@linux.dev>
+Subject: Re: [PATCH V4 04/20] rv/include: Add deterministic automata monitor
+ definition via C macros
+Message-ID: <YsXa2w90ej9KjI7D@geo.homenetwork>
+References: <cover.1655368610.git.bristot@kernel.org>
+ <e9c4b813d4e021cbba10203005cbc22ecef5fa80.1655368610.git.bristot@kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: microsoft.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR21MB3025.namprd21.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: af0adfdb-ff7c-4f5a-dcd1-08da5f8005b9
-X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Jul 2022 18:47:48.2553
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: ZqC33UL1+oPQvB1JvFlXpYMRdiccPrZjVcvXMIHoPPleT6p1GrWMO2BuNgLwWJCDeu8+0idXbv7fBAR0nzkdWuFxtpKNXe7fE3hKqKQFlg4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR21MB3311
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e9c4b813d4e021cbba10203005cbc22ecef5fa80.1655368610.git.bristot@kernel.org>
+X-Migadu-Flow: FLOW_OUT
+X-Migadu-Auth-User: linux.dev
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Wei Liu <wei.liu@kernel.org> Sent: Wednesday, July 6, 2022 11:26 AM
->=20
-> On Tue, Jul 05, 2022 at 08:43:42AM -0700, Michael Kelley wrote:
-> > Add documentation topic for clocks and timers when running as a
-> > guest on Hyper-V.
-> >
-> > Signed-off-by: Michael Kelley <mikelley@microsoft.com>
-> > ---
-> >  Documentation/virt/hyperv/clocks.rst | 73
-> ++++++++++++++++++++++++++++++++++++
-> >  Documentation/virt/hyperv/index.rst  |  1 +
-> >  2 files changed, 74 insertions(+)
-> >  create mode 100644 Documentation/virt/hyperv/clocks.rst
-> >
-> > diff --git a/Documentation/virt/hyperv/clocks.rst
-> b/Documentation/virt/hyperv/clocks.rst
-> > new file mode 100644
-> > index 0000000..e4ba2890
-> > --- /dev/null
-> > +++ b/Documentation/virt/hyperv/clocks.rst
-> > @@ -0,0 +1,73 @@
-> > +.. SPDX-License-Identifier: GPL-2.0
-> > +
-> > +Clocks and Timers
-> > +-----------------
->=20
-> This seems to be inconsistent with regard to the other two files -- they
-> use "=3D" signs for the title.
->=20
-> > +
-> > +arm64
-> > +~~~~~
->=20
-> And the other files use "-" for this (second?) level.
->=20
+On Thu, Jun 16, 2022 at 10:44:46AM +0200, Daniel Bristot de Oliveira wrote:
 
-Fair point.  From what I can see, it actually doesn't make any difference
-in how the HTML docs look.  I didn't succeed in generating a PDF, so I'm
-not sure there.   But I'll change the clocks section to match the others
-just for consistency.
+> In Linux terms, the runtime verification monitors are encapsulated
+> inside the "RV monitor" abstraction. The "RV monitor" includes a set
+> of instances of the monitor (per-cpu monitor, per-task monitor, and
+> so on), the helper functions that glue the monitor to the system
+> reference model, and the trace output as a reaction for event parsing
+> and exceptions, as depicted below:
+> 
+> Linux  +----- RV Monitor ----------------------------------+ Formal
+>  Realm |                                                   |  Realm
+>  +-------------------+     +----------------+     +-----------------+
+>  |   Linux kernel    |     |     Monitor    |     |     Reference   |
+>  |     Tracing       |  -> |   Instance(s)  | <-  |       Model     |
+>  | (instrumentation) |     | (verification) |     | (specification) |
+>  +-------------------+     +----------------+     +-----------------+
+>         |                          |                       |
+>         |                          V                       |
+>         |                     +----------+                 |
+>         |                     | Reaction |                 |
+>         |                     +--+--+--+-+                 |
+>         |                        |  |  |                   |
+>         |                        |  |  +-> trace output ?  |
+>         +------------------------|--|----------------------+
+>                                  |  +----> panic ?
+>                                  +-------> <user-specified>
+> 
+> The dot2c tool presented in this paper:
+> 
+> DE OLIVEIRA, Daniel Bristot; CUCINOTTA, Tommaso; DE OLIVEIRA, Romulo
+> Silva. Efficient formal verification for the Linux kernel. In:
+> International Conference on Software Engineering and Formal Methods.
+> Springer, Cham, 2019. p. 315-332.
+> 
+> Translates a deterministic automaton in the DOT format into a C
+> source code representation that to be used for monitoring connecting
+> the Formal Reaml to Linux-like code.
+> 
+> This header file goes beyond, extending the code generation to the
+> verification stage, generating the code to the Monitor Instance(s)
+> level using C macros. The trace event code inspires this approach.
+> 
+> The benefits of the usage of macro for monitor synthesis is 3-fold:
+> 
+> 	- Reduces the code duplication;
+> 	- Facilitates the bug fix/improvement;
+> 	(but mainly:)
+> 	- Avoids the case of developers changing the core of the monitor
+> 	  code to manipulate the model in a (let's say) non-standard
+> 	  way.
+> 
+> This initial implementation presents three different types of monitor
+> instances:
+> 
+> 	- #define DECLARE_DA_MON_GLOBAL(name, type)
+> 	- #define DECLARE_DA_MON_PER_CPU(name, type)
+> 	- #define DECLARE_DA_MON_PER_TASK(name, type)
+> 
+> The first declares the functions for a global deterministic automata
+> monitor, the second with per-cpu instances, and the third with
+> per-task instances.
+> 
+> In all cases, the name is a string that identifies the monitor,
+> and the type is the data type used by dot2c/k on the representation
+> of the model.
+> 
+> For example, the model "wip" below:
+> 
+>                      preempt_disable                       sched_waking
+>    +############+ >------------------> +################+ >------------+
+>  -># preemptive #                      # non-preemptive #              |
+>    +############+ <-----------------<  +################+ <------------+
+>                     preempt_enable
+> 
+> with two states and three events can be stored in a 'char' type.
+> Considering that the preemption control is a per-cpu behavior, the
+> monitor declaration will be:
+> 
+>   DECLARE_DA_MON_PER_CPU(wip, char);
+> 
+> The monitor is executed by sending events to be processed via the
+> functions presented below:
+> 
+>   da_handle_event_$(MONITOR_NAME)($(event from event enum));
+>   da_handle_init_event_$(MONITOR_NAME)($(event from event enum));
+> 
+> The function da_handle_event_$(MONITOR_NAME) is the regular case,
+> while the function da_handle_init_event_$(MONITOR_NAME)() is a
+> special case used to synchronize the system with the model.
+> 
+> When a monitor is enabled, it is placed in the initial state of the
+> automata. However, the monitor does not know if the system is in
+> the initial state. Hence, the monitor ignores events sent by
+> sent by da_handle_event_$(MONITOR_NAME) until the function
+> da_handle_init_event_$(MONITOR_NAME)() is called.
+> 
+> The function da_handle_init_event_$(MONITOR_NAME)() should be used for
+> the case in which the system generates the event is the one that returns
+> the automata to the initial state.
+> 
+> After receiving a da_handle_init_event_$(MONITOR_NAME)() event, the
+> monitor will know that it is in sync with the system and hence will
+> start processing the next events.
+> 
+> Using the wip model as example, the events "preempt_disable" and
+> "sched_waking" should be sent to monitor, respectively, via:
+>         da_handle_event_wip(preempt_disable);
+>         da_handle_event_wip(sched_waking);
+> 
+> While the event "preempt_enabled" will use:
+>         da_handle_init_event_wip(preempt_enable);
+> 
+> To notify the monitor that the system will be returning to the initial
+> state, so the system and the monitor should be in sync.
+> 
+> With the monitor synthesis in place, using these headers and dot2k,
+> the developer's work should be limited to the instrumentation of
+> the system, increasing the confidence in the overall approach.
+> 
+> Cc: Wim Van Sebroeck <wim@linux-watchdog.org>
+> Cc: Guenter Roeck <linux@roeck-us.net>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Steven Rostedt <rostedt@goodmis.org>
+> Cc: Ingo Molnar <mingo@redhat.com>
+> Cc: Thomas Gleixner <tglx@linutronix.de>
+> Cc: Peter Zijlstra <peterz@infradead.org>
+> Cc: Will Deacon <will@kernel.org>
+> Cc: Catalin Marinas <catalin.marinas@arm.com>
+> Cc: Marco Elver <elver@google.com>
+> Cc: Dmitry Vyukov <dvyukov@google.com>
+> Cc: "Paul E. McKenney" <paulmck@kernel.org>
+> Cc: Shuah Khan <skhan@linuxfoundation.org>
+> Cc: Gabriele Paoloni <gpaoloni@redhat.com>
+> Cc: Juri Lelli <juri.lelli@redhat.com>
+> Cc: Clark Williams <williams@redhat.com>
+> Cc: linux-doc@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
+> Cc: linux-trace-devel@vger.kernel.org
+> Signed-off-by: Daniel Bristot de Oliveira <bristot@kernel.org>
+> ---
+>  include/linux/rv.h        |   2 +
+>  include/rv/da_monitor.h   | 419 ++++++++++++++++++++++++++++++++++++++
+>  include/rv/rv.h           |   9 +
+>  include/trace/events/rv.h | 120 +++++++++++
+>  kernel/fork.c             |   2 +-
+>  kernel/trace/rv/Kconfig   |  14 ++
+>  kernel/trace/rv/rv.c      |   5 +
+>  7 files changed, 570 insertions(+), 1 deletion(-)
+>  create mode 100644 include/rv/da_monitor.h
+>  create mode 100644 include/trace/events/rv.h
+> 
+> diff --git a/include/linux/rv.h b/include/linux/rv.h
+> index 1e48c6bb74bf..af2081671219 100644
+> --- a/include/linux/rv.h
+> +++ b/include/linux/rv.h
+> @@ -9,6 +9,8 @@
+>  #ifndef _LINUX_RV_H
+>  #define _LINUX_RV_H
+>  
+> +#define MAX_DA_NAME_LEN         24
+> +
+>  struct rv_reactor {
+>  	char			*name;
+>  	char			*description;
+> diff --git a/include/rv/da_monitor.h b/include/rv/da_monitor.h
+> new file mode 100644
+> index 000000000000..043660429659
+> --- /dev/null
+> +++ b/include/rv/da_monitor.h
+> @@ -0,0 +1,419 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * Deterministic automata (DA) monitor functions, to be used togheter
+> + * with automata models in C generated by the dot2k tool.
+> + *
+> + * The dot2k tool is available at tools/tracing/rv/
+> + *
+> + * Copyright (C) 2019-2022 Daniel Bristot de Oliveira <bristot@kernel.org>
+> + */
+> +
+> +#include <rv/automata.h>
+> +#include <linux/rv.h>
+> +
+> +/*
+> + * Generic helpers for all types of deterministic automata monitors.
+> + */
+> +#define DECLARE_DA_MON_GENERIC_HELPERS(name, type)				\
+> +static char REACT_MSG[1024];							\
+> +										\
+> +static inline char								\
+> +*format_react_msg(type curr_state, type event)					\
 
-Michael
+Not seperate char * into tow lines seems to be comfortable to me.
+
+> +{										\
+> +	snprintf(REACT_MSG, 1024,						\
+> +		 "rv: monitor %s does not allow event %s on state %s\n",	\
+> +		 MODULE_NAME,							\
+> +		 model_get_event_name_##name(event),				\
+> +		 model_get_state_name_##name(curr_state));			\
+> +	return REACT_MSG;							\
+> +}										\
+> +										\
+> +static void cond_react(char *msg)						\
+> +{										\
+> +	if (rv_##name.react)							\
+> +		rv_##name.react(msg);						\
+> +}										\
+> +										\
+> +static inline void da_monitor_reset_##name(struct da_monitor *da_mon)		\
+> +{										\
+> +	da_mon->monitoring = 0;							\
+> +	da_mon->curr_state = model_get_init_state_##name();			\
+> +}										\
+> +										\
+> +static inline type da_monitor_curr_state_##name(struct da_monitor *da_mon)	\
+> +{										\
+> +	return da_mon->curr_state;						\
+> +}										\
+> +										\
+> +static inline void								\
+> +da_monitor_set_state_##name(struct da_monitor *da_mon, enum states_##name state)\
+> +{										\
+> +	da_mon->curr_state = state;						\
+> +}										\
+> +static inline void da_monitor_start_##name(struct da_monitor *da_mon)		\
+> +{										\
+> +	da_mon->monitoring = 1;							\
+> +}										\
+> +										\
+> +static inline bool da_monitoring_##name(struct da_monitor *da_mon)		\
+> +{										\
+> +	return da_mon->monitoring;						\
+> +}
+> +
+> +
+> +/*
+> + * Event handler for implict monitors. Implicity monitor is the one which the
+> + * handler does not need to specify which da_monitor to manilupulate. Examples
+> + * of implicit monitor are the per_cpu or the global ones.
+> + */
+> +#define DECLARE_DA_MON_MODEL_HANDLER_IMPLICIT(name, type)			\
+> +static inline bool								\
+> +da_event_##name(struct da_monitor *da_mon, enum events_##name event)		\
+> +{										\
+> +	type curr_state = da_monitor_curr_state_##name(da_mon);			\
+> +	type next_state = model_get_next_state_##name(curr_state, event);	\
+> +										\
+> +	if (next_state >= 0) {							\
+> +		da_monitor_set_state_##name(da_mon, next_state);		\
+> +										\
+> +		trace_event_##name(model_get_state_name_##name(curr_state),	\
+> +				model_get_event_name_##name(event),		\
+> +				model_get_state_name_##name(next_state),	\
+> +				model_is_final_state_##name(next_state));	\
+> +										\
+> +		return true;							\
+> +	}									\
+> +										\
+> +	if (reacting_on)							\
+> +		cond_react(format_react_msg(curr_state, event));		\
+> +										\
+> +	trace_error_##name(model_get_state_name_##name(curr_state),		\
+> +			   model_get_event_name_##name(event));			\
+> +										\
+> +	return false;								\
+> +}										\
+> +
+> +/*
+> + * Event handler for per_task monitors.
+> + */
+> +#define DECLARE_DA_MON_MODEL_HANDLER_PER_TASK(name, type)			\
+> +static inline type								\
+> +da_event_##name(struct da_monitor *da_mon, struct task_struct *tsk,		\
+> +		enum events_##name event)					\
+> +{										\
+> +	type curr_state = da_monitor_curr_state_##name(da_mon);			\
+> +	type next_state = model_get_next_state_##name(curr_state, event);	\
+> +										\
+> +	if (next_state >= 0) {							\
+> +		da_monitor_set_state_##name(da_mon, next_state);		\
+> +										\
+> +		trace_event_##name(tsk->pid,					\
+> +				   model_get_state_name_##name(curr_state),	\
+> +				   model_get_event_name_##name(event),		\
+> +				   model_get_state_name_##name(next_state),	\
+> +				   model_is_final_state_##name(next_state));	\
+> +										\
+> +		return true;							\
+> +	}									\
+> +										\
+> +	if (reacting_on)							\
+> +		cond_react(format_react_msg(curr_state, event));		\
+> +										\
+> +	trace_error_##name(tsk->pid,						\
+> +			   model_get_state_name_##name(curr_state),		\
+> +			   model_get_event_name_##name(event));			\
+> +										\
+> +	return false;								\
+> +}
+> +
+> +/*
+> + * Functions to define, init and get a global monitor.
+> + */
+> +#define DECLARE_DA_MON_INIT_GLOBAL(name, type)					\
+> +										\
+> +static struct da_monitor da_mon_##name;						\
+> +										\
+> +static struct da_monitor *da_get_monitor_##name(void)				\
+> +{										\
+> +	return &da_mon_##name;							\
+> +}										\
+> +										\
+> +static void da_monitor_reset_all_##name(void)					\
+> +{										\
+> +	da_monitor_reset_##name(da_mon_##name);					\
+> +}										\
+> +										\
+> +static inline int da_monitor_init_##name(void)					\
+> +{										\
+> +	struct da_monitor *da_mon = &da_mon_##name				\
+> +	da_mon->curr_state = model_get_init_state_##name();			\
+> +	da_mon->monitoring = 0;							\
+> +	return 0;								\
+> +}										\
+> +										\
+> +static inline void da_monitor_destroy_##name(void)				\
+> +{										\
+> +	return;									\
+> +}
+> +
+> +/*
+> + * Functions to define, init and get a per-cpu monitor.
+> + */
+> +#define DECLARE_DA_MON_INIT_PER_CPU(name, type)					\
+> +										\
+> +DEFINE_PER_CPU(struct da_monitor, da_mon_##name);				\
+> +										\
+> +static struct da_monitor *da_get_monitor_##name(void)				\
+> +{										\
+> +	return this_cpu_ptr(&da_mon_##name);					\
+> +}										\
+> +										\
+> +static void da_monitor_reset_all_##name(void)					\
+> +{										\
+> +	struct da_monitor *da_mon;						\
+> +	int cpu;								\
+> +	for_each_cpu(cpu, cpu_online_mask) {					\
+> +		da_mon = per_cpu_ptr(&da_mon_##name, cpu);			\
+> +		da_monitor_reset_##name(da_mon);				\
+> +	}									\
+> +}										\
+> +										\
+> +static inline int da_monitor_init_##name(void)					\
+> +{										\
+> +	struct da_monitor *da_mon;						\
+> +	int cpu;								\
+> +	for_each_cpu(cpu, cpu_online_mask) {					\
+> +		da_mon = per_cpu_ptr(&da_mon_##name, cpu);			\
+> +		da_mon->curr_state = model_get_init_state_##name();		\
+> +		da_mon->monitoring = 0;						\
+> +	}									\
+> +	return 0;								\
+> +}										\
+> +										\
+> +static inline void da_monitor_destroy_##name(void)				\
+> +{										\
+> +	return;									\
+> +}
+> +
+> +/*
+> + * Functions to define, init and get a per-task monitor.
+> + */
+> +#define DECLARE_DA_MON_INIT_PER_TASK(name, type)				\
+> +										\
+> +static int task_mon_slot_##name = RV_PER_TASK_MONITOR_INIT;			\
+> +										\
+> +static inline struct da_monitor *da_get_monitor_##name(struct task_struct *tsk)	\
+> +{										\
+> +	return &tsk->rv[task_mon_slot_##name].da_mon;				\
+> +}										\
+> +										\
+> +static void da_monitor_reset_all_##name(void)					\
+> +{										\
+> +	struct task_struct *g, *p;						\
+> +										\
+> +	read_lock(&tasklist_lock);						\
+> +	for_each_process_thread(g, p)						\
+> +		da_monitor_reset_##name(da_get_monitor_##name(p));		\
+> +	read_unlock(&tasklist_lock);						\
+> +}										\
+> +										\
+> +static int da_monitor_init_##name(void)						\
+> +{										\
+> +	struct da_monitor *da_mon;						\
+> +	struct task_struct *g, *p;						\
+> +	int retval;								\
+> +										\
+> +	retval = get_task_monitor_slot();					\
+> +	if (retval < 0)								\
+> +		return retval;							\
+> +										\
+> +	task_mon_slot_##name = retval;						\
+> +										\
+> +	read_lock(&tasklist_lock);						\
+> +	for_each_process_thread(g, p) {						\
+> +		da_mon = da_get_monitor_##name(p);				\
+> +		da_mon->curr_state = model_get_init_state_##name();		\
+> +		da_mon->monitoring = 0;						\
+> +	}									\
+> +	read_unlock(&tasklist_lock);						\
+> +										\
+> +	return 0;								\
+> +}										\
+> +										\
+> +static inline void da_monitor_destroy_##name(void)				\
+> +{										\
+> +	if (task_mon_slot_##name == RV_PER_TASK_MONITOR_INIT) {			\
+> +		WARN_ONCE(1, "Disabling a disabled monitor: " #name);		\
+> +		return;								\
+> +	}									\
+> +	put_task_monitor_slot(task_mon_slot_##name);				\
+> +	return;									\
+> +}
+> +
+> +/*
+> + * Handle event for implicit monitor: da_get_monitor_##name() will figure out
+> + * the monitor.
+> + */
+> +#define DECLARE_DA_MON_MONITOR_HANDLER_IMPLICIT(name, type)			\
+> +										\
+> +static inline void __da_handle_event_##name(struct da_monitor *da_mon,		\
+> +				     enum events_##name event)			\
+> +{										\
+> +	int retval;								\
+> +										\
+> +	if (unlikely(!monitoring_on))						\
+> +		return;								\
+> +										\
+> +	if (unlikely(!rv_##name.enabled))					\
+> +		return;								\
+> +										\
+> +	if (unlikely(!da_monitoring_##name(da_mon)))				\
+> +		return;								\
+> +										\
+> +	retval = da_event_##name(da_mon, event);				\
+> +										\
+> +	if (!retval)								\
+> +		da_monitor_reset_##name(da_mon);				\
+> +}										\
+> +										\
+> +static inline void da_handle_event_##name(enum events_##name event)		\
+> +{										\
+> +	struct da_monitor *da_mon = da_get_monitor_##name();			\
+> +	__da_handle_event_##name(da_mon, event);				\
+> +}										\
+> +										\
+> +static inline bool da_handle_init_event_##name(enum events_##name event)	\
+> +{										\
+> +	struct da_monitor *da_mon;						\
+> +										\
+> +	if (unlikely(!rv_##name.enabled))					\
+> +		return false;							\
+> +										\
+> +	da_mon = da_get_monitor_##name();					\
+> +										\
+> +	if (unlikely(!da_monitoring_##name(da_mon))) {				\
+> +		da_monitor_start_##name(da_mon);				\
+> +		return false;							\
+> +	}									\
+> +										\
+> +	__da_handle_event_##name(da_mon, event);				\
+> +										\
+> +	return true;								\
+> +}										\
+> +										\
+> +static inline bool da_handle_init_run_event_##name(enum events_##name event)	\
+> +{										\
+> +	struct da_monitor *da_mon;						\
+> +										\
+> +	if (unlikely(!rv_##name.enabled))					\
+> +		return false;							\
+> +										\
+> +	da_mon = da_get_monitor_##name();					\
+> +										\
+> +	if (unlikely(!da_monitoring_##name(da_mon)))				\
+> +		da_monitor_start_##name(da_mon);				\
+> +										\
+> +	__da_handle_event_##name(da_mon, event);				\
+> +										\
+> +	return true;								\
+> +}
+> +
+> +/*
+> + * Handle event for per task.
+> + */
+> +#define DECLARE_DA_MON_MONITOR_HANDLER_PER_TASK(name, type)			\
+> +										\
+> +static inline void								\
+> +__da_handle_event_##name(struct da_monitor *da_mon, struct task_struct *tsk,	\
+> +			 enum events_##name event)				\
+> +{										\
+> +	int retval;								\
+> +										\
+> +	if (unlikely(!monitoring_on))						\
+> +		return;								\
+> +										\
+> +	if (unlikely(!rv_##name.enabled))					\
+> +		return;								\
+> +										\
+> +	if (unlikely(!da_monitoring_##name(da_mon)))				\
+> +		return;								\
+> +										\
+> +	retval = da_event_##name(da_mon, tsk, event);				\
+> +										\
+> +	if (!retval)								\
+> +		da_monitor_reset_##name(da_mon);				\
+> +}										\
+> +										\
+> +static inline void								\
+> +da_handle_event_##name(struct task_struct *tsk, enum events_##name event)	\
+> +{										\
+> +	struct da_monitor *da_mon = da_get_monitor_##name(tsk);			\
+> +	__da_handle_event_##name(da_mon, tsk, event);				\
+> +}										\
+> +										\
+> +static inline bool								\
+> +da_handle_init_event_##name(struct task_struct *tsk, enum events_##name event)	\
+> +{										\
+> +	struct da_monitor *da_mon;						\
+> +										\
+> +	if (unlikely(!rv_##name.enabled))					\
+> +		return false;							\
+> +										\
+> +	da_mon = da_get_monitor_##name(tsk);					\
+> +										\
+> +	if (unlikely(!da_monitoring_##name(da_mon))) {				\
+> +		da_monitor_start_##name(da_mon);				\
+> +		return false;							\
+> +	}									\
+> +										\
+> +	__da_handle_event_##name(da_mon, tsk, event);				\
+> +										\
+> +	return true;								\
+> +}
+> +
+> +/*
+> + * Entry point for the global monitor.
+> + */
+> +#define DECLARE_DA_MON_GLOBAL(name, type)					\
+> +										\
+> +DECLARE_AUTOMATA_HELPERS(name, type);						\
+> +										\
+> +DECLARE_DA_MON_GENERIC_HELPERS(name, type);					\
+> +										\
+> +DECLARE_DA_MON_MODEL_HANDLER_IMPLICIT(name, type);				\
+> +										\
+> +DECLARE_DA_MON_INIT_PER_CPU(name, type);					\
+
+Why the global monitor declaration use the per-cpu monitor macro.
+Global monitor has its own DECLARE_DA_MON_INIT_GLOBAL(name, type);
+Or am I miss something?
+
+> +										\
+> +DECLARE_DA_MON_MONITOR_HANDLER_IMPLICIT(name, type);
+> +
+> +
+> +/*
+> + * Entry point for the per-cpu monitor.
+> + */
+> +#define DECLARE_DA_MON_PER_CPU(name, type)					\
+> +										\
+> +DECLARE_AUTOMATA_HELPERS(name, type);						\
+> +										\
+> +DECLARE_DA_MON_GENERIC_HELPERS(name, type);					\
+> +										\
+> +DECLARE_DA_MON_MODEL_HANDLER_IMPLICIT(name, type);				\
+> +										\
+> +DECLARE_DA_MON_INIT_PER_CPU(name, type);					\
+> +										\
+> +DECLARE_DA_MON_MONITOR_HANDLER_IMPLICIT(name, type);
+> +
+> +
+> +/*
+> + * Entry point for the per-task monitor.
+> + */
+> +#define DECLARE_DA_MON_PER_TASK(name, type)					\
+> +										\
+> +DECLARE_AUTOMATA_HELPERS(name, type);						\
+> +										\
+> +DECLARE_DA_MON_GENERIC_HELPERS(name, type);					\
+> +										\
+> +DECLARE_DA_MON_MODEL_HANDLER_PER_TASK(name, type);				\
+> +										\
+> +DECLARE_DA_MON_INIT_PER_TASK(name, type);					\
+> +										\
+> +DECLARE_DA_MON_MONITOR_HANDLER_PER_TASK(name, type);
+> diff --git a/include/rv/rv.h b/include/rv/rv.h
+> index 27a108881d35..b0658cdc53d9 100644
+> --- a/include/rv/rv.h
+> +++ b/include/rv/rv.h
+> @@ -3,6 +3,14 @@
+>  #ifndef _RV_RV_H
+>  #define _RV_RV_H
+>  
+> +/*
+> + * Deterministic automaton per-object variables.
+> + */
+> +struct da_monitor {
+> +	bool	monitoring;
+> +	int	curr_state;
+> +};
+> +
+>  /*
+>   * Per-task RV monitors count. Nowadays fixed in RV_PER_TASK_MONITORS.
+>   * If we find justification for more monitors, we can think about
+> @@ -16,6 +24,7 @@
+>   * Futher monitor types are expected, so make this a union.
+>   */
+>  union rv_task_monitor {
+> +	struct da_monitor da_mon;
+>  };
+>  
+>  int get_task_monitor_slot(void);
+> diff --git a/include/trace/events/rv.h b/include/trace/events/rv.h
+> new file mode 100644
+> index 000000000000..9f40f2a49f84
+> --- /dev/null
+> +++ b/include/trace/events/rv.h
+> @@ -0,0 +1,120 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +#undef TRACE_SYSTEM
+> +#define TRACE_SYSTEM rv
+> +
+> +#if !defined(_TRACE_RV_H) || defined(TRACE_HEADER_MULTI_READ)
+> +#define _TRACE_RV_H
+> +
+> +#include <linux/rv.h>
+> +#include <linux/tracepoint.h>
+> +
+> +#ifdef CONFIG_DA_MON_EVENTS_IMPLICIT
+> +DECLARE_EVENT_CLASS(event_da_monitor,
+> +
+> +	TP_PROTO(char *state, char *event, char *next_state, bool safe),
+> +
+> +	TP_ARGS(state, event, next_state, safe),
+> +
+> +	TP_STRUCT__entry(
+> +		__array(	char,	state,		MAX_DA_NAME_LEN	)
+> +		__array(	char,	event,		MAX_DA_NAME_LEN	)
+> +		__array(	char,	next_state,	MAX_DA_NAME_LEN	)
+> +		__field(	bool,	safe				)
+> +	),
+> +
+> +	TP_fast_assign(
+> +		memcpy(__entry->state,		state,		MAX_DA_NAME_LEN);
+> +		memcpy(__entry->event,		event,		MAX_DA_NAME_LEN);
+> +		memcpy(__entry->next_state,	next_state,	MAX_DA_NAME_LEN);
+> +		__entry->safe			= safe;
+> +	),
+> +
+> +	TP_printk("%s x %s -> %s %s",
+> +		__entry->state,
+> +		__entry->event,
+> +		__entry->next_state,
+> +		__entry->safe ? "(safe)" : "")
+> +);
+> +
+> +DECLARE_EVENT_CLASS(error_da_monitor,
+> +
+> +	TP_PROTO(char *state, char *event),
+> +
+> +	TP_ARGS(state, event),
+> +
+> +	TP_STRUCT__entry(
+> +		__array(	char,	state,		MAX_DA_NAME_LEN	)
+> +		__array(	char,	event,		MAX_DA_NAME_LEN	)
+> +	),
+> +
+> +	TP_fast_assign(
+> +		memcpy(__entry->state,		state,		MAX_DA_NAME_LEN);
+> +		memcpy(__entry->event,		event,		MAX_DA_NAME_LEN);
+> +	),
+> +
+> +	TP_printk("event %s not expected in the state %s",
+> +		__entry->event,
+> +		__entry->state)
+> +);
+> +#endif /* CONFIG_DA_MON_EVENTS_IMPLICIT */
+> +
+> +#ifdef CONFIG_DA_MON_EVENTS_ID
+> +DECLARE_EVENT_CLASS(event_da_monitor_id,
+> +
+> +	TP_PROTO(int id, char *state, char *event, char *next_state, bool safe),
+> +
+> +	TP_ARGS(id, state, event, next_state, safe),
+> +
+> +	TP_STRUCT__entry(
+> +		__field(      	 int,	id				)
+> +		__array(	char,	state,		MAX_DA_NAME_LEN	)
+> +		__array(	char,	event,		MAX_DA_NAME_LEN	)
+> +		__array(	char,	next_state,	MAX_DA_NAME_LEN	)
+> +		__field(	bool,	safe				)
+> +	),
+> +
+> +	TP_fast_assign(
+> +		memcpy(__entry->state,		state,		MAX_DA_NAME_LEN);
+> +		memcpy(__entry->event,		event,		MAX_DA_NAME_LEN);
+> +		memcpy(__entry->next_state,	next_state,	MAX_DA_NAME_LEN);
+> +		__entry->id			= id;
+> +		__entry->safe			= safe;
+> +	),
+> +
+> +	TP_printk("%d: %s x %s -> %s %s",
+> +		__entry->id,
+> +		__entry->state,
+> +		__entry->event,
+> +		__entry->next_state,
+> +		__entry->safe ? "(safe)" : "")
+> +);
+> +
+> +DECLARE_EVENT_CLASS(error_da_monitor_id,
+> +
+> +	TP_PROTO(int id, char *state, char *event),
+> +
+> +	TP_ARGS(id, state, event),
+> +
+> +	TP_STRUCT__entry(
+> +		__field(      	 int,	id				)
+> +		__array(	char,	state,		MAX_DA_NAME_LEN	)
+> +		__array(	char,	event,		MAX_DA_NAME_LEN	)
+> +	),
+> +
+> +	TP_fast_assign(
+> +		memcpy(__entry->state,		state,		MAX_DA_NAME_LEN);
+> +		memcpy(__entry->event,		event,		MAX_DA_NAME_LEN);
+> +		__entry->id			= id;
+> +	),
+> +
+> +	TP_printk("%d: event %s not expected in the state %s",
+> +		__entry->id,
+> +		__entry->event,
+> +		__entry->state)
+> +);
+> +#endif /* CONFIG_DA_MON_EVENTS_ID */
+> +#endif /* _TRACE_RV_H */
+> +
+> +/* This part ust be outside protection */
+> +#undef TRACE_INCLUDE_PATH
+> +#include <trace/define_trace.h>
+> diff --git a/kernel/fork.c b/kernel/fork.c
+> index 5e40e58ef83d..6f1f82ccd5f2 100644
+> --- a/kernel/fork.c
+> +++ b/kernel/fork.c
+> @@ -1970,7 +1970,7 @@ static void rv_task_fork(struct task_struct *p)
+>  	int i;
+>  
+>  	for (i = 0; i < RV_PER_TASK_MONITORS; i++)
+> -		;
+> +		p->rv[i].da_mon.monitoring = false;
+>  }
+>  #else
+>  #define rv_task_fork(p) do {} while (0)
+> diff --git a/kernel/trace/rv/Kconfig b/kernel/trace/rv/Kconfig
+> index 560408fec0c8..1eafb5adcfcb 100644
+> --- a/kernel/trace/rv/Kconfig
+> +++ b/kernel/trace/rv/Kconfig
+> @@ -1,5 +1,19 @@
+>  # SPDX-License-Identifier: GPL-2.0-only
+>  #
+> +config DA_MON_EVENTS
+> +	default n
+> +	bool
+> +
+> +config DA_MON_EVENTS_IMPLICIT
+> +	select DA_MON_EVENTS
+> +	default n
+> +	bool
+> +
+> +config DA_MON_EVENTS_ID
+> +	select DA_MON_EVENTS
+> +	default n
+> +	bool
+> +
+>  menuconfig RV
+>  	bool "Runtime Verification"
+>  	depends on TRACING
+> diff --git a/kernel/trace/rv/rv.c b/kernel/trace/rv/rv.c
+> index 7576d492a974..51a610227341 100644
+> --- a/kernel/trace/rv/rv.c
+> +++ b/kernel/trace/rv/rv.c
+> @@ -143,6 +143,11 @@
+>  #include <linux/slab.h>
+>  #include <rv/rv.h>
+>  
+> +#ifdef CONFIG_DA_MON_EVENTS
+> +#define CREATE_TRACE_POINTS
+> +#include <trace/events/rv.h>
+> +#endif
+> +
+>  #include "rv.h"
+>  
+>  DEFINE_MUTEX(rv_interface_lock);
+> -- 
+> 2.35.1
+> 
