@@ -2,139 +2,91 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5190CC433EF
-	for <linux-doc@archiver.kernel.org>; Wed,  6 Jul 2022 11:29:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CEC7AC43334
+	for <linux-doc@archiver.kernel.org>; Wed,  6 Jul 2022 12:10:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232036AbiGFL3b (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 6 Jul 2022 07:29:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33320 "EHLO
+        id S232915AbiGFMKT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 6 Jul 2022 08:10:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44346 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230151AbiGFL3b (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Jul 2022 07:29:31 -0400
-Received: from mail-yb1-xb33.google.com (mail-yb1-xb33.google.com [IPv6:2607:f8b0:4864:20::b33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29E9A25C49
-        for <linux-doc@vger.kernel.org>; Wed,  6 Jul 2022 04:29:30 -0700 (PDT)
-Received: by mail-yb1-xb33.google.com with SMTP id b85so13547962yba.8
-        for <linux-doc@vger.kernel.org>; Wed, 06 Jul 2022 04:29:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=9dDLq9ywFZ8zqZH15zWm4q0BtnKax7ETihEXwlBlzzo=;
-        b=Hh3GxEUnky0PE93SApp9ncsK35i7yRPKn5w15VQPxBqmr4aYUp6+hDSP3aARLEi8/n
-         ZJeq753Zt0L62czzGg3LpgkhfDKO1jyYdee47HJm45BoX0wUP05UW+Au1XYF6kWNN0QD
-         hIgk00zzUgXnOyNt/ZKJaPXUR9Wg2U+auMZf7G3TkfVZ9nMRB2Mhd7Z6srGYXmDVjYum
-         hF3PPa6ltRr7JVrCqUqmx0go1WyAT5KnUTk+zWCD60qr2ikW42fdASvdQg0bHfLRdWIC
-         f2rYlryHer8e/UI/w8HFMPmecUrMnMfF5IR2xXEup+R5jXceokIeKpwL1g8fvcHwmSV6
-         WZ7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=9dDLq9ywFZ8zqZH15zWm4q0BtnKax7ETihEXwlBlzzo=;
-        b=UubWlF42oOJyGcbgncNPWl5W7bAulGr068qV4DsYr729rDMrb2Gl05HaYkj0GOENS/
-         LhtFFn6qPxtisZjAiuyEozpxweNH9Z7tsIXyMIXoY4tCc/kH7WjgSX5spfNpus0kulIr
-         6ba5bXmzFAZNZSD0wKENj5G/8Ha2xZeO/Qq9oRtSZaEpKxR2B6mMkd0hMJucvuAz2vcH
-         K70P5DceTZNfsYbfIaNIyEOmbWsofZh9u/GAfgethGaxEN9uXiNwgxim2u3C1VbF4f9U
-         Yg5QiqzUMbRSnXkt+QnV3jcNCyIaoBSoU0gT0paZEF6lRbmhlqHS7S408sObc+X+mt+J
-         hvAQ==
-X-Gm-Message-State: AJIora8lxFuD0/MG9k+ikopD9qbnEbFK4FoJem892Q9SlYsOhySuFUwa
-        g+gJ8HbcciHNCkvp+dIZ9Lebtg/GrfOI6GlmlWwxjSWA
-X-Google-Smtp-Source: AGRyM1siexdqcSRQQNkmjthE+VYEIDebuS7OMuDIBst5XikIB5tdrkOQotrA5CoGhJn5U+e9HFg688nFbvrT5rfAd8U=
-X-Received: by 2002:a25:5809:0:b0:66c:8709:3611 with SMTP id
- m9-20020a255809000000b0066c87093611mr39914171ybb.608.1657106969304; Wed, 06
- Jul 2022 04:29:29 -0700 (PDT)
+        with ESMTP id S232378AbiGFMKS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Jul 2022 08:10:18 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DDA7F25589;
+        Wed,  6 Jul 2022 05:10:17 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 88A66B81CA6;
+        Wed,  6 Jul 2022 12:10:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 41A30C341CA;
+        Wed,  6 Jul 2022 12:10:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1657109415;
+        bh=Fh74RXkBxb5qR+VbTaZWkzrhg2eyH/wAqBl/LYQyt0A=;
+        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+        b=c/1vkV/vpUlOMm7VrCDesvLhKVWm6TWzb1lIdab4ZpPubyUfcrGNIpHoAEymG40uh
+         DaGUfoBuEmReKSCRCtDgG52No3ouquJvhanoMKm8yasIo1cgRt5oHGw68ESNvTnhgm
+         Mj8LwYi05+qsPffq07RvJofSPir+K1EAUwWyxxAWk6/PfciMXwj5a8ON0OvPuxFNyc
+         2MSmQ6yIptxQXjRCiwmICxS8tvEAUE+d2Z6EugVzLrPqZMFgaJBd+PF0VCnEAg8fgi
+         1dBnxQzXNlLMDhjxqYoiwElgmHlukOe4aXq/labCzhxwTOHEYRo7mMYVRwzOALsbPW
+         0dSQmDfwx3aOA==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 1BA2CE45BDC;
+        Wed,  6 Jul 2022 12:10:15 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-References: <20220704225757.1811311-1-martin.fernandez@eclypsium.com>
-In-Reply-To: <20220704225757.1811311-1-martin.fernandez@eclypsium.com>
-From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Date:   Wed, 6 Jul 2022 13:29:18 +0200
-Message-ID: <CAKXUXMy+8_O_k5AzE+3VEcMvpJ1BBRm337Nu1J7TDjoKGZx3qA@mail.gmail.com>
-Subject: Re: [PATCH v3] doc/checkpatch: Add description to MACRO_ARG_REUSE
-To:     Martin Fernandez <martin.fernandez@eclypsium.com>
-Cc:     "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Dwaipayan Ray <dwaipayanray1@gmail.com>,
-        Joe Perches <joe@perches.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net-next 0/5] tls: rx: nopad and backlog flushing
+From:   patchwork-bot+netdevbpf@kernel.org
+Message-Id: <165710941510.29479.16431508550562245023.git-patchwork-notify@kernel.org>
+Date:   Wed, 06 Jul 2022 12:10:15 +0000
+References: <20220705235926.1035407-1-kuba@kernel.org>
+In-Reply-To: <20220705235926.1035407-1-kuba@kernel.org>
+To:     Jakub Kicinski <kuba@kernel.org>
+Cc:     davem@davemloft.net, netdev@vger.kernel.org, edumazet@google.com,
+        pabeni@redhat.com, john.fastabend@gmail.com, borisp@nvidia.com,
+        linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        maximmi@nvidia.com
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jul 5, 2022 at 1:00 AM Martin Fernandez
-<martin.fernandez@eclypsium.com> wrote:
->
-> Add a description, an example and a possible workaround to the
-> MACRO_ARG_REUSE check.
->
-> Signed-off-by: Martin Fernandez <martin.fernandez@eclypsium.com>
-> Acked-by: Dwaipayan Ray <dwaipayanray1@gmail.com>
-> ---
->  Documentation/dev-tools/checkpatch.rst | 20 ++++++++++++++++++++
->  1 file changed, 20 insertions(+)
->
-> diff --git a/Documentation/dev-tools/checkpatch.rst b/Documentation/dev-tools/checkpatch.rst
-> index b52452bc2963..86545c65cf7b 100644
-> --- a/Documentation/dev-tools/checkpatch.rst
-> +++ b/Documentation/dev-tools/checkpatch.rst
-> @@ -759,6 +759,26 @@ Indentation and Line Breaks
->  Macros, Attributes and Symbols
->  ------------------------------
->
-> +  **ARG_REUSE**
+Hello:
 
-The name of this checkpatch type is actually "MACRO_ARG_REUSE".
+This series was applied to netdev/net-next.git (master)
+by David S. Miller <davem@davemloft.net>:
 
-> +    Using the same argument multiple times in the macro definition
-> +    would lead to unwanted side-effects.
+On Tue,  5 Jul 2022 16:59:21 -0700 you wrote:
+> This small series contains the two changes I've been working
+> towards in the previous ~50 patches a couple of months ago.
+> 
+> The first major change is the optional "nopad" optimization.
+> Currently TLS 1.3 Rx performs quite poorly because it does
+> not support the "zero-copy" or rather direct decrypt to a user
+> space buffer. Because of TLS 1.3 record padding we don't
+> know if a record contains data or a control message until
+> we decrypt it. Most records will contain data, tho, so the
+> optimization is to try the decryption hoping its data and
+> retry if it wasn't.
+> 
+> [...]
 
-how about "... may lead to unwanted side effects"?
+Here is the summary with links:
+  - [net-next,1/5] tls: rx: don't include tail size in data_len
+    https://git.kernel.org/netdev/net-next/c/603380f54f83
+  - [net-next,2/5] tls: rx: support optimistic decrypt to user buffer with TLS 1.3
+    https://git.kernel.org/netdev/net-next/c/ce61327ce989
+  - [net-next,3/5] tls: rx: add sockopt for enabling optimistic decrypt with TLS 1.3
+    https://git.kernel.org/netdev/net-next/c/88527790c079
+  - [net-next,4/5] selftests: tls: add selftest variant for pad
+    https://git.kernel.org/netdev/net-next/c/f36068a20256
+  - [net-next,5/5] tls: rx: periodically flush socket backlog
+    https://git.kernel.org/netdev/net-next/c/c46b01839f7a
 
-Rationale: it does only lead to side effects if there are multiple
-computations involved.
-
-just on spelling:
-s/side-effects/side effects/
-
-> +
-> +    For example, given a `min` macro defined like::
-> +
-> +      #define min(x, y)  ((x) < (y) ? (x) : (y))
-> +
-> +    If you call it with `min(foo(x), 0)`, it would expand to::
-> +
-> +      foo(x) < 0 ? foo(x) : 0
-> +
-> +    If `foo` has side-effects or it's an expensive calculation the
-> +    results might not be what the user intended.
-> +
-
-s/side-effects/side effects/
-
-> +    For a workaround the idea is to define local variables to hold the
-> +    macro's arguments. Checkout the actual implementation of `min` in
-> +    include/linux/minmax.h for the full implementation of the
-> +    workaround.
-> +
-
-I ran checkpatch on all commits from v5.17..v5.18 and looked for all
-check warnings with MACRO_ARG_REUSE.
-
-There were 35 warnings in 15 commits, touching 16 different files (4
-in drivers/staging, 5 in drivers/net/wireless/, 5 in
-drivers/net/ethernet/, 1 in drivers/net/dsa/, 1 in drivers/net/can/).
-
-As far as I see it from those commits, the more common way to address
-this is to check that a macro is only used locally in some file and
-that all uses of that macro pass a constant value as macro argument.
-
-Maybe we add these two as equally good alternatives?
-
-Lukas
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
 
->    **ARRAY_SIZE**
->      The ARRAY_SIZE(foo) macro should be preferred over
->      sizeof(foo)/sizeof(foo[0]) for finding number of elements in an
-> --
-> 2.30.2
->
