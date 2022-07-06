@@ -2,115 +2,130 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5DB00C433EF
-	for <linux-doc@archiver.kernel.org>; Wed,  6 Jul 2022 08:27:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E1409C43334
+	for <linux-doc@archiver.kernel.org>; Wed,  6 Jul 2022 08:57:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232046AbiGFI1r (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 6 Jul 2022 04:27:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36226 "EHLO
+        id S232587AbiGFI5u (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 6 Jul 2022 04:57:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37306 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232426AbiGFI11 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Jul 2022 04:27:27 -0400
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 180FF240BF;
-        Wed,  6 Jul 2022 01:26:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1657095997; x=1688631997;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=XcUkjLL+YpWw11P834waxgWm/NgeT+vT/ACdu5U5CAo=;
-  b=bXM4SmRunfF2UdZ6n2adSVce6ocOAHH1xRPLAz10BV2oKs9zugqpZkDy
-   8i33755KPbazt9wepKm6IEY9asDygjbALi4nVDTUKElkJVhrytr9AY+iK
-   DMtg4aMn8kiGYKQ7RxwoeO+ZVSKw/DE6Sjp0yXxFaFrmSlRLnyJ59JWqW
-   cjfUGgcV7pYTkEupEnsOMoikiq642Z/9e8cVFbFRWfd57+w97Id6rkxlE
-   94y5G41P/YmbhWo6wHoy7WDEtgDB0Kc0o2RORHR3+CCPMpgcTA6faftRQ
-   9/d2CCGhHdmRTsZuRYjZLmND6Cb8Tax3SjIOkgKFBb0QbNGSwZ/WayQXC
-   g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10399"; a="272467402"
-X-IronPort-AV: E=Sophos;i="5.92,249,1650956400"; 
-   d="scan'208";a="272467402"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2022 01:26:34 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.92,249,1650956400"; 
-   d="scan'208";a="567968372"
-Received: from chaop.bj.intel.com ([10.240.192.101])
-  by orsmga006.jf.intel.com with ESMTP; 06 Jul 2022 01:26:16 -0700
-From:   Chao Peng <chao.p.peng@linux.intel.com>
-To:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
-        qemu-devel@nongnu.org, linux-kselftest@vger.kernel.org
-Cc:     Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <seanjc@google.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        Chao Peng <chao.p.peng@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        Muchun Song <songmuchun@bytedance.com>
-Subject: [PATCH v7 14/14] memfd_create.2: Describe MFD_INACCESSIBLE flag
-Date:   Wed,  6 Jul 2022 16:20:16 +0800
-Message-Id: <20220706082016.2603916-15-chao.p.peng@linux.intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
-References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
+        with ESMTP id S231959AbiGFI5q (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Jul 2022 04:57:46 -0400
+Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com [IPv6:2607:f8b0:4864:20::42e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 687D124BEE;
+        Wed,  6 Jul 2022 01:57:45 -0700 (PDT)
+Received: by mail-pf1-x42e.google.com with SMTP id 3so3669483pfx.3;
+        Wed, 06 Jul 2022 01:57:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=9bOXUBsbXZmaBYzdut2n91pd8GDpqQDkHHTCpALSOcI=;
+        b=WbD1If6fFhm+DWvJ31AEQrrcggmBAVShmCuXjXNLR/EVZnRJUDmLjPBezh+u8N3upE
+         GXKjZxORcv3nTuTsXheqqTeRS4skn7EUMwPYGKEcKo3ObhN6T6QIWqvqxX6Jr8F8QElY
+         /FFM0dQQSlpothQOx+YeobkCdnpTL1e0JIO9lvz1yIw30dwxN0fdT4a7Kza3H9j4qj6X
+         xkNgj8iH/9xz6YGbQQGnLUiRk7GZcv/bnxehkOG5U5RMwAvat4EhTh1NTM/tC6yV7UUl
+         l/1BXoGHW0yM0j0TcLjhlJm98q9lR4zh/p+boW25L80TLyb3fhDy9DvPsO/ZJQjltXZE
+         u58g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=9bOXUBsbXZmaBYzdut2n91pd8GDpqQDkHHTCpALSOcI=;
+        b=3tyE3cz2re6g7D14fKZd/H+Q76R52jkAQIuJdgU6zCnU0WrfvZGFErC18cN0lfLelO
+         0eTLU08/2gyLmZI53VaFLR+yFX9AXKv9UYOmk32jHmWo/5I242aeWjRjC+PTd+nnk5CS
+         7UkrNTsxNcwIZjAFmNy7Ltk5iCloOGDnKoNKW+IfLtyH5RWBS8B+Uf5lslWCcSObES8N
+         k3lqFuUMiBmTrQX9O3reEAAVgAaG2VkwFcMtaHNzRgS41+AN8IG3fUHxdapVswIsriyz
+         vJEndRKqkL5eRaXP2dVzA1DQLiHaukfjpdFYl/8kVzKpjmNx10j81p55PGYbQZc186EI
+         cFLg==
+X-Gm-Message-State: AJIora+g3bwc+phzOW9iejv6A+30SfjHOW2tz5NaqGyZt0kfRUw/gKtq
+        1fImLsu+S7JX5zvFSCO5VvI=
+X-Google-Smtp-Source: AGRyM1sYGXX9loS3JRKD0954hjKimsXBBNwAgBw0D8WiC3yUj6I/JN7LKTG9QaIQg312XdOckDYv7w==
+X-Received: by 2002:a05:6a00:1303:b0:528:2ed8:7e86 with SMTP id j3-20020a056a00130300b005282ed87e86mr29108564pfu.4.1657097864729;
+        Wed, 06 Jul 2022 01:57:44 -0700 (PDT)
+Received: from ?IPV6:2404:f801:0:5:8000::75b? ([2404:f801:9000:18:efec::75b])
+        by smtp.gmail.com with ESMTPSA id d18-20020a170903231200b0016bf7981d0bsm2501495plh.86.2022.07.06.01.57.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 06 Jul 2022 01:57:43 -0700 (PDT)
+Message-ID: <10062b7d-f0a6-6724-4ccb-506da09a8533@gmail.com>
+Date:   Wed, 6 Jul 2022 16:57:33 +0800
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH 2/2] x86/ACPI: Set swiotlb area according to the number of
+ lapic entry in MADT
+Content-Language: en-US
+To:     Christoph Hellwig <hch@infradead.org>
+Cc:     corbet@lwn.net, rafael@kernel.org, len.brown@intel.com,
+        pavel@ucw.cz, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
+        m.szyprowski@samsung.com, robin.murphy@arm.com, paulmck@kernel.org,
+        akpm@linux-foundation.org, keescook@chromium.org,
+        songmuchun@bytedance.com, rdunlap@infradead.org,
+        damien.lemoal@opensource.wdc.com, michael.h.kelley@microsoft.com,
+        kys@microsoft.com, Tianyu Lan <Tianyu.Lan@microsoft.com>,
+        iommu@lists.linux-foundation.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
+        vkuznets@redhat.com, wei.liu@kernel.org, parri.andrea@gmail.com,
+        thomas.lendacky@amd.com, linux-hyperv@vger.kernel.org,
+        kirill.shutemov@intel.com, andi.kleen@intel.com,
+        Andi Kleen <ak@linux.intel.com>
+References: <20220627153150.106995-1-ltykernel@gmail.com>
+ <20220627153150.106995-3-ltykernel@gmail.com>
+ <YrxcCZKvFYjxLf9n@infradead.org>
+ <a876f862-c005-108d-e6f9-68336a8d89f0@gmail.com>
+ <YsVBKgxiQKfnCjvn@infradead.org>
+From:   Tianyu Lan <ltykernel@gmail.com>
+In-Reply-To: <YsVBKgxiQKfnCjvn@infradead.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
----
- man2/memfd_create.2 | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+On 7/6/2022 4:00 PM, Christoph Hellwig wrote:
+> On Fri, Jul 01, 2022 at 01:02:21AM +0800, Tianyu Lan wrote:
+>>> Can we reorder that initialization?  Because I really hate having
+>>> to have an arch hook in every architecture.
+>>
+>> How about using "flags" parameter of swiotlb_init() to pass area number
+>> or add new parameter for area number?
+>>
+>> I just reposted patch 1 since there is just some coding style issue and area
+>> number may also set via swiotlb kernel parameter. We still need figure out a
+>> good solution to pass area number from architecture code.
+> 
+> What is the problem with calling swiotlb_init after nr_possible_cpus()
+> works?
 
-diff --git a/man2/memfd_create.2 b/man2/memfd_create.2
-index 89e9c4136..2698222ae 100644
---- a/man2/memfd_create.2
-+++ b/man2/memfd_create.2
-@@ -101,6 +101,19 @@ meaning that no other seals can be set on the file.
- .\" FIXME Why is the MFD_ALLOW_SEALING behavior not simply the default?
- .\" Is it worth adding some text explaining this?
- .TP
-+.BR MFD_INACCESSIBLE
-+Disallow userspace access through ordinary MMU accesses via
-+.BR read (2),
-+.BR write (2)
-+and
-+.BR mmap (2).
-+The file size cannot be changed once initialized.
-+This flag cannot coexist with
-+.B MFD_ALLOW_SEALING
-+and when this flag is set, the initial set of seals will be
-+.B F_SEAL_SEAL,
-+meaning that no other seals can be set on the file.
-+.TP
- .BR MFD_HUGETLB " (since Linux 4.14)"
- .\" commit 749df87bd7bee5a79cef073f5d032ddb2b211de8
- The anonymous file will be created in the hugetlbfs filesystem using
--- 
-2.17.1
+Swiotlb_init() is called in the mem_init() of different architects and
+memblock free pages are released to the buddy allocator just after
+calling swiotlb_init() via memblock_free_all().
+
+The mem_init() is called before smp_init(). If calling swiotlb_init()
+after smp_init(), that means we can't allocate large chunk low end
+memory via memblock_alloc() in the swiotlb(). Swiotlb_init() needs
+to rework to allocate memory from the buddy allocator and just like
+swiotlb_init_late() does. This will limit the bounce buffer size.
+Otherwise We need to do the reorder for all achitectures and there maybe
+some other unknown issues.
+
+swiotlb flags parameter of swiotlb_init() seems to be a good place to
+pass the area number in current code. If not set the swiotlb_area
+number/flag, the area number will be one and keep the original behavior
+of one single global spinlock protecting io tlb data structure.
+
+
+
+
+
+
+
+
+
+
+
+
+
 
