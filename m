@@ -2,310 +2,94 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CF4CAC433EF
-	for <linux-doc@archiver.kernel.org>; Wed,  6 Jul 2022 20:07:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E426BCCA47C
+	for <linux-doc@archiver.kernel.org>; Wed,  6 Jul 2022 20:44:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231903AbiGFUHp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 6 Jul 2022 16:07:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52752 "EHLO
+        id S233313AbiGFUon (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 6 Jul 2022 16:44:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50096 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231772AbiGFUHo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Jul 2022 16:07:44 -0400
-Received: from out0.migadu.com (out0.migadu.com [IPv6:2001:41d0:2:267::])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA89C1EEF5;
-        Wed,  6 Jul 2022 13:07:42 -0700 (PDT)
-Date:   Thu, 7 Jul 2022 04:08:35 +0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-        t=1657138056;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=fQpfWv3ooUZxpy2MTMOxGZlpcCsuZbo8crZuItPLldQ=;
-        b=o4zkBFFyUqBN4yAvvaM0hyxq7Xeu8W4RiGF5C7DmWbn8Ixyo1D+oftzJuFDd6soyiWmfWc
-        /ut1ktR+NKqcMWxQKt9Znl/qs7/TlzZJn7oLKv2ZwLBUci5o0dy3cW3KtbbaUOUJF3s2fe
-        Jl+7Ttb3rm1gjDbaxQzxaVosuoiYoTs=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From:   Tao Zhou <tao.zhou@linux.dev>
-To:     Daniel Bristot de Oliveira <bristot@kernel.org>
-Cc:     Steven Rostedt <rostedt@goodmis.org>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Ingo Molnar <mingo@redhat.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Will Deacon <will@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Marco Elver <elver@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Gabriele Paoloni <gpaoloni@redhat.com>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Clark Williams <williams@redhat.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-trace-devel@vger.kernel.org, Tao Zhou <tao.zhou@linux.dev>
-Subject: Re: [PATCH V4 10/20] rv/monitor: Add the wwnr monitor skeleton
- created by dot2k
-Message-ID: <YsXrw40DP2ckPHuC@geo.homenetwork>
-References: <cover.1655368610.git.bristot@kernel.org>
- <7d1b2238aa5c805501ae3dc80b213d06f6588cb3.1655368610.git.bristot@kernel.org>
+        with ESMTP id S233364AbiGFUol (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Jul 2022 16:44:41 -0400
+Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com [IPv6:2a00:1450:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0906C28722
+        for <linux-doc@vger.kernel.org>; Wed,  6 Jul 2022 13:44:40 -0700 (PDT)
+Received: by mail-ej1-x632.google.com with SMTP id u12so29032793eja.8
+        for <linux-doc@vger.kernel.org>; Wed, 06 Jul 2022 13:44:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Z3UotlFtUTvslGYUw8cZAVdfuGjI1A/SzFtykXKyRDs=;
+        b=XXmST8IjmjKhpKR+8so2eTQlXVr5n4bcdbvCrQR6SsYDKxke/r6gGxBTEs3PzBfUyh
+         Gho/qFWBPkNnlvgZsPIcaSiRBSvnUQTjMZclY/lpnE7hoaQUck8+EJDww8z8kDOjxiZv
+         eSqdsmEU3zuFO1PAoxfQxKRN4J49RhPgLvgW6F4soy2RKNVzFJpojZ4RhC6KF8lF1Aqb
+         HieFtfEJjL/4yCDZtFqlIIqR4T0tEOOb21VGvz9PmnH62LTQe+tbS9DiHvJmIRMm8YKm
+         rZ6+8sGp6O3LS6QnsZ0HFLsbdn7cd1jNUe1eGqbgmsT6YH/QfloSLjfYo8pYvcO5vRzK
+         E/Gg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Z3UotlFtUTvslGYUw8cZAVdfuGjI1A/SzFtykXKyRDs=;
+        b=Ed2ULAYchtiL8U/n3nAXpJs4S7I9k6sO0UyQjaeBnZuyguGQbkIGbk8G1555Svj0GV
+         vpOwSGvDA++5MhKvPfhwlJkxqpo0IeeoDSv3nyRY2aL7VsIHmZVLLgX9Pf7DK7nvwrRx
+         /+c1HYevh8qc/1L8JIyTznC9yX6SEt7zcT36mOBJ7chNzAvAVf7mH+q0rZTaUrRxxjSp
+         0O2ho0PXaTOICtv3N2RZBKxdP3fiRfkUCVsQ77qKPBMUIR6DjjT297DRzy0/8nYM3O0L
+         s9yFT7xI7UYSS4HIgKXJo6h2tZVMaxrozWcO6rPmPbT1wAyXYGl6zy6jEpmcdrvQNOIM
+         AdEQ==
+X-Gm-Message-State: AJIora+ovAeJNObzzayeygGER0tTm2njb2az+McWTsB5lD0r5D4KUocm
+        zlSzxUvHXtx+sp5gLXN0qdJ8XkpdYzwJg5uSmGwOeA==
+X-Google-Smtp-Source: AGRyM1vw/CTNjT0hp6sr0FIU1O+7erCuP7vrTl99ZxAX3PeTqVb05P8PgJwW0udPTa4ikFyGunX9tNbx/hXemripKPQ=
+X-Received: by 2002:a17:907:3f81:b0:6ff:1a3d:9092 with SMTP id
+ hr1-20020a1709073f8100b006ff1a3d9092mr41210405ejc.319.1657140278463; Wed, 06
+ Jul 2022 13:44:38 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <7d1b2238aa5c805501ae3dc80b213d06f6588cb3.1655368610.git.bristot@kernel.org>
-X-Migadu-Flow: FLOW_OUT
-X-Migadu-Auth-User: linux.dev
+References: <20220702040959.3232874-1-davidgow@google.com> <20220702040959.3232874-2-davidgow@google.com>
+In-Reply-To: <20220702040959.3232874-2-davidgow@google.com>
+From:   Brendan Higgins <brendanhiggins@google.com>
+Date:   Wed, 6 Jul 2022 16:44:27 -0400
+Message-ID: <CAFd5g44UFqEe5WwKurzOMhT2ijUEvv-4R3Eo9W66c_Qruk2jAQ@mail.gmail.com>
+Subject: Re: [PATCH v5 2/4] module: panic: Taint the kernel when selftest
+ modules load
+To:     David Gow <davidgow@google.com>
+Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Kees Cook <keescook@chromium.org>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        "Guilherme G . Piccoli" <gpiccoli@igalia.com>,
+        Sebastian Reichel <sre@kernel.org>,
+        John Ogness <john.ogness@linutronix.de>,
+        Joe Fradley <joefradley@google.com>,
+        Daniel Latypov <dlatypov@google.com>,
+        kunit-dev@googlegroups.com, linux-kselftest@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Lucas De Marchi <lucas.demarchi@intel.com>,
+        Aaron Tomlin <atomlin@redhat.com>,
+        linux-fsdevel@vger.kernel.org, linux-block@vger.kernel.org,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        linux-kbuild@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jun 16, 2022 at 10:44:52AM +0200, Daniel Bristot de Oliveira wrote:
+On Sat, Jul 2, 2022 at 12:10 AM 'David Gow' via KUnit Development
+<kunit-dev@googlegroups.com> wrote:
+>
+> Taint the kernel with TAINT_TEST whenever a test module loads, by adding
+> a new "TEST" module property, and setting it for all modules in the
+> tools/testing directory. This property can also be set manually, for
+> tests which live outside the tools/testing directory with:
+> MODULE_INFO(test, "Y");
+>
+> Reviewed-by: Luis Chamberlain <mcgrof@kernel.org>
+> Signed-off-by: David Gow <davidgow@google.com>
 
-> Per task wakeup while not running (wwnr) monitor, generated by dot2k
-> with this command line:
-> 
->   $ dot2k -d wwnr.dot -t per_task
-> 
-> The model is:
->  ----- %< -----
-> digraph state_automaton {
-> 	center = true;
-> 	size = "7,11";
-> 	{node [shape = plaintext, style=invis, label=""] "__init_not_running"};
-> 	{node [shape = ellipse] "not_running"};
-> 	{node [shape = plaintext] "not_running"};
-> 	{node [shape = plaintext] "running"};
-> 	"__init_not_running" -> "not_running";
-> 	"not_running" [label = "not_running", color = green3];
-> 	"not_running" -> "not_running" [ label = "wakeup" ];
-> 	"not_running" -> "running" [ label = "switch_in" ];
-> 	"running" [label = "running"];
-> 	"running" -> "not_running" [ label = "switch_out" ];
-> 	{ rank = min ;
-> 		"__init_not_running";
-> 		"not_running";
-> 	}
-> }
->  ----- >% -----
-> 
-> This model is broken, the reason is that a task can be running in the
-> processor without being set as RUNNABLE. Think about a task about to
-> sleep:
-> 
-> 1:	set_current_state(TASK_UNINTERRUPTIBLE);
-> 2:	schedule();
-> 
-> And then imagine an IRQ happening in between the lines one and two,
-> waking the task up. BOOM, the wakeup will happen while the task is
-> running.
-> 
-> Q: Why do we need this model, so?
-> A: To test the reactors.
-> 
-> Cc: Wim Van Sebroeck <wim@linux-watchdog.org>
-> Cc: Guenter Roeck <linux@roeck-us.net>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: Steven Rostedt <rostedt@goodmis.org>
-> Cc: Ingo Molnar <mingo@redhat.com>
-> Cc: Thomas Gleixner <tglx@linutronix.de>
-> Cc: Peter Zijlstra <peterz@infradead.org>
-> Cc: Will Deacon <will@kernel.org>
-> Cc: Catalin Marinas <catalin.marinas@arm.com>
-> Cc: Marco Elver <elver@google.com>
-> Cc: Dmitry Vyukov <dvyukov@google.com>
-> Cc: "Paul E. McKenney" <paulmck@kernel.org>
-> Cc: Shuah Khan <skhan@linuxfoundation.org>
-> Cc: Gabriele Paoloni <gpaoloni@redhat.com>
-> Cc: Juri Lelli <juri.lelli@redhat.com>
-> Cc: Clark Williams <williams@redhat.com>
-> Cc: linux-doc@vger.kernel.org
-> Cc: linux-kernel@vger.kernel.org
-> Cc: linux-trace-devel@vger.kernel.org
-> Signed-off-by: Daniel Bristot de Oliveira <bristot@kernel.org>
-> ---
->  kernel/trace/rv/monitors/wwnr/wwnr.c | 115 +++++++++++++++++++++++++++
->  kernel/trace/rv/monitors/wwnr/wwnr.h |  38 +++++++++
->  2 files changed, 153 insertions(+)
->  create mode 100644 kernel/trace/rv/monitors/wwnr/wwnr.c
->  create mode 100644 kernel/trace/rv/monitors/wwnr/wwnr.h
-> 
-> diff --git a/kernel/trace/rv/monitors/wwnr/wwnr.c b/kernel/trace/rv/monitors/wwnr/wwnr.c
-> new file mode 100644
-> index 000000000000..8ba01f0f0df8
-> --- /dev/null
-> +++ b/kernel/trace/rv/monitors/wwnr/wwnr.c
-> @@ -0,0 +1,115 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +#include <linux/ftrace.h>
-> +#include <linux/tracepoint.h>
-> +#include <linux/kernel.h>
-> +#include <linux/module.h>
-> +#include <linux/init.h>
-> +#include <linux/rv.h>
-> +#include <rv/instrumentation.h>
-> +#include <rv/da_monitor.h>
-> +
-> +#define MODULE_NAME "wwnr"
-> +
-> +/*
-> + * XXX: include required tracepoint headers, e.g.,
-> + * #include <linux/trace/events/sched.h>
-> + */
-> +#include <trace/events/rv.h>
-> +
-> +/*
-> + * This is the self-generated part of the monitor. Generally, there is no need
-> + * to touch this section.
-> + */
-> +#include "wwnr.h"
-> +
-> +/*
-> + * Declare the deterministic automata monitor.
-> + *
-> + * The rv monitor reference is needed for the monitor declaration.
-> + */
-> +struct rv_monitor rv_wwnr;
-> +DECLARE_DA_MON_PER_TASK(wwnr, char);
-> +
-> +/*
-> + * This is the instrumentation part of the monitor.
-> + *
-> + * This is the section where manual work is required. Here the kernel events
-> + * are translated into model's event.
-> + *
-> + */
-> +static void handle_switch_in(void *data, /* XXX: fill header */)
-> +{
-> +	struct task_struct *p = /* XXX: how do I get p? */;
-> +	da_handle_event_wwnr(p, switch_in_wwnr);
-> +}
-> +
-> +static void handle_switch_out(void *data, /* XXX: fill header */)
-> +{
-> +	struct task_struct *p = /* XXX: how do I get p? */;
-> +	da_handle_event_wwnr(p, switch_out_wwnr);
-> +}
-> +
-> +static void handle_wakeup(void *data, /* XXX: fill header */)
-> +{
-> +	struct task_struct *p = /* XXX: how do I get p? */;
-> +	da_handle_event_wwnr(p, wakeup_wwnr);
-> +}
-> +
-> +static int start_wwnr(void)
-> +{
-> +	int retval;
-> +
-> +	retval = da_monitor_init_wwnr();
-> +	if (retval)
-> +		return retval;
-> +
-> +	rv_attach_trace_probe("wwnr", /* XXX: tracepoint */, handle_switch_in);
-> +	rv_attach_trace_probe("wwnr", /* XXX: tracepoint */, handle_switch_out);
-> +	rv_attach_trace_probe("wwnr", /* XXX: tracepoint */, handle_wakeup);
-> +
-> +	return 0;
-> +}
-> +
-> +static void stop_wwnr(void)
-> +{
-> +	rv_wwnr.enabled = 0;
-> +
-> +	rv_detach_trace_probe("wwnr", /* XXX: tracepoint */, handle_switch_in);
-> +	rv_detach_trace_probe("wwnr", /* XXX: tracepoint */, handle_switch_out);
-> +	rv_detach_trace_probe("wwnr", /* XXX: tracepoint */, handle_wakeup);
-> +
-> +	da_monitor_destroy_wwnr();
-> +}
-> +
-> +/*
-> + * This is the monitor register section.
-> + */
-> +struct rv_monitor rv_wwnr = {
-> +	.name = "wwnr",
-> +	.description = "auto-generated wwnr",
-> +	.start = start_wwnr,
-> +	.stop = stop_wwnr,
-> +	.reset = da_monitor_reset_all_wwnr,
-> +	.enabled = 0,
-> +};
-> +
-> +int register_wwnr(void)
-> +{
-> +	rv_register_monitor(&rv_wwnr);
-> +	return 0;
-> +}
-> +
-> +void unregister_wwnr(void)
-> +{
-> +	if (rv_wwnr.enabled)
-> +		stop_wwnr();
-> +
-> +	rv_unregister_monitor(&rv_wwnr);
-> +}
-> +
-> +module_init(register_wwnr);
-> +module_exit(unregister_wwnr);
-> +
-> +MODULE_LICENSE("GPL");
-> +MODULE_AUTHOR("dot2k: auto-generated");
-> +MODULE_DESCRIPTION("wwnr");
-> diff --git a/kernel/trace/rv/monitors/wwnr/wwnr.h b/kernel/trace/rv/monitors/wwnr/wwnr.h
-> new file mode 100644
-> index 000000000000..f3dc160642bf
-> --- /dev/null
-> +++ b/kernel/trace/rv/monitors/wwnr/wwnr.h
-> @@ -0,0 +1,38 @@
-> +enum states_wwnr {
-> +	not_running_wwnr = 0,
-> +	running_wwnr,
-> +	state_max_wwnr
-> +};
-> +
-> +enum events_wwnr {
-> +	switch_in_wwnr = 0,
-> +	switch_out_wwnr,
-> +	wakeup_wwnr,
-> +	event_max_wwnr
-> +};
-> +
-> +struct automaton_wwnr {
-> +	char *state_names[state_max_wwnr];
-> +	char *event_names[event_max_wwnr];
-> +	char function[state_max_wwnr][event_max_wwnr];
-> +	char initial_state;
-> +	char final_states[state_max_wwnr];
-> +};
-> +
-> +struct automaton_wwnr automaton_wwnr = {
-> +	.state_names = {
-> +		"not_running",
-> +		"running"
-> +	},
-> +	.event_names = {
-> +		"switch_in",
-> +		"switch_out",
-> +		"wakeup"
-> +	},
-
-The .state_names and .event_names lack the wwnr postfix.
-If they generated aotomatically, something need to fix,
-if not, can manually change to the consistent name.
-
-If the state change from running to non-running(initial state),
-in the next patch in handle_switch() where there checked
-TASK_INTERRUPTABLE to set initial state. Why can not check
-TASK_UNINTERURPTABLE to set initial state there, confused.
-This model is not completed for me now.
-
-> +	.function = {
-> +		{     running_wwnr,               -1, not_running_wwnr },
-> +		{               -1, not_running_wwnr,               -1 },
-> +	},
-> +	.initial_state = not_running_wwnr,
-> +	.final_states = { 1, 0 },
-> +};
-> -- 
-> 2.35.1
-> 
+Acked-by: Brendan Higgins <brendanhiggins@google.com>
