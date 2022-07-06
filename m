@@ -2,196 +2,88 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3BBACC433EF
-	for <linux-doc@archiver.kernel.org>; Wed,  6 Jul 2022 18:34:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B2965C43334
+	for <linux-doc@archiver.kernel.org>; Wed,  6 Jul 2022 18:40:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232713AbiGFSee (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 6 Jul 2022 14:34:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47724 "EHLO
+        id S233593AbiGFSkx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 6 Jul 2022 14:40:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53946 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230431AbiGFSee (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Jul 2022 14:34:34 -0400
-Received: from out0.migadu.com (out0.migadu.com [94.23.1.103])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84582186F1;
-        Wed,  6 Jul 2022 11:34:32 -0700 (PDT)
-Date:   Thu, 7 Jul 2022 02:35:36 +0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-        t=1657132470;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=IO11bj6nk+Np3PVqv865QhkFdKjlAqHlVwGCt6I3fOc=;
-        b=OQWWsrwJIl6r1fSKhY4Z9Xt+JTyjL0JxygDTc4oUaCD/ViMTFy2fU7z6QUYPEnSWFCW50e
-        3cE4yeNrZGYHM7EohbouH+Z2sCBeqaLyoWq6MdO/GbNrwWTbagLsxKr84zS8caHrcCY4dL
-        DtAMxtsptEKG96+UhhixtKCfqLbWY4Y=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From:   Tao Zhou <tao.zhou@linux.dev>
-To:     Daniel Bristot de Oliveira <bristot@kernel.org>
-Cc:     Steven Rostedt <rostedt@goodmis.org>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Ingo Molnar <mingo@redhat.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Will Deacon <will@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Marco Elver <elver@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Gabriele Paoloni <gpaoloni@redhat.com>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Clark Williams <williams@redhat.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-trace-devel@vger.kernel.org, Tao Zhou <tao.zhou@linux.dev>
-Subject: Re: [PATCH V4 03/20] rv/include: Add helper functions for
- deterministic automata
-Message-ID: <YsXV+KTbOU0E5dU+@geo.homenetwork>
-References: <cover.1655368610.git.bristot@kernel.org>
- <2b5b14c821ee4b069f68571e7f78fbc2ee4e9626.1655368610.git.bristot@kernel.org>
+        with ESMTP id S229854AbiGFSkv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Jul 2022 14:40:51 -0400
+Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 02DA214006
+        for <linux-doc@vger.kernel.org>; Wed,  6 Jul 2022 11:40:51 -0700 (PDT)
+Received: by mail-ej1-x631.google.com with SMTP id f23so4321718ejc.4
+        for <linux-doc@vger.kernel.org>; Wed, 06 Jul 2022 11:40:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=bzZxytl6Wz1ULT/c3I88/Se1K67ZgUfdG5WNP/NRkJ8=;
+        b=dQwN+tvPKIRMd1vYHaBJh6VuS0FJt91XOeuM/qjAhRLitRoEcZx2s1ezkBqZ/ws0Pg
+         3fiFn3BV2KEol8zrCiUrVmhY3GaspEBJYeJJtDFNmL/rqQWZTf8d+hj2qKX+/70qXGfe
+         irqBzNKxgl33ozpVHsT36ij1G44wFTxKWPMhBtLHLh8apjOtVYWDtRX8seWCmAySMsr8
+         wuwTTOie4Yj7HXN+8JVP9mNeWL3gK2Gp+P304WDehcZqKNquzHDl8Trkvdb3bQn7+CTd
+         LQvXjGrNOJXt55jX0zVxcj5ddRCMscsy3SaZNpt+o7opQAZBQ/d9Khe2YTFjaiQTFY1V
+         bqSQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=bzZxytl6Wz1ULT/c3I88/Se1K67ZgUfdG5WNP/NRkJ8=;
+        b=nbamF7Apzc8+/5W4tx8mIZGXx2WGdN3YMkPGkdp2uIFssB3ycJo12HSiYltfvw0onX
+         fZskId6OqiTqBda37woj5fKID5St851zenfKInmphDv1l/AHO/hJ61wahHQFULSwFU9Z
+         ARDp7L8qf4paO9cxXZKwABpkVVxqI9D6KQHeAu4kgcEfDWUHb57Bpvpt7sSJByZynnpo
+         Eb+vvaX7mkiwSRYWXqClzupAZbZDmeye/0XmsjOHgN1OB3wuotIrsWk//3JU0cTEPYbL
+         wVpQ65ZgAKJUTbMzZbIzyFMHTrNflG0nRu0GlhfiEfoOLT2iGKVM2jggkeaWZ5WDbgwk
+         t9YA==
+X-Gm-Message-State: AJIora+R3wBJZA+BfvZh3fd8RrUt4Thct/DqxALPUH8g7G38mzrivTIm
+        L5pENmxgHo+D0fJHFtY+iuqVYlz1Cv2JEU2pi1kj3g==
+X-Google-Smtp-Source: AGRyM1t/wfpA6fOyKP5JwHbP+bdVJjg4/MG8xC6r/8iY7QXRXmsDubgkBJpnvhrkzd1QnRJThbyM11ZX1GZakD841c8=
+X-Received: by 2002:a17:907:3f81:b0:6ff:1a3d:9092 with SMTP id
+ hr1-20020a1709073f8100b006ff1a3d9092mr40708168ejc.319.1657132849397; Wed, 06
+ Jul 2022 11:40:49 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2b5b14c821ee4b069f68571e7f78fbc2ee4e9626.1655368610.git.bristot@kernel.org>
-X-Migadu-Flow: FLOW_OUT
-X-Migadu-Auth-User: linux.dev
+References: <20220626101553.1885428-1-davidgow@google.com> <20220629040605.2395481-1-davidgow@google.com>
+In-Reply-To: <20220629040605.2395481-1-davidgow@google.com>
+From:   Brendan Higgins <brendanhiggins@google.com>
+Date:   Wed, 6 Jul 2022 14:40:38 -0400
+Message-ID: <CAFd5g4507mJryQy=fYeVSPpk=zf3LAm2wojM05rLkdTdyV-0Cw@mail.gmail.com>
+Subject: Re: [PATCH v2] Documentation: kunit: Cleanup run_wrapper, fix x-ref
+To:     David Gow <davidgow@google.com>
+Cc:     Daniel Latypov <dlatypov@google.com>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        kunit-dev@googlegroups.com, linux-kselftest@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Bagas Sanjaya <bagasdotme@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jun 16, 2022 at 10:44:45AM +0200, Daniel Bristot de Oliveira wrote:
+On Wed, Jun 29, 2022 at 12:06 AM David Gow <davidgow@google.com> wrote:
+>
+> The "Run Tests on qemu" section of run_wrapper.rst had a few issues left
+> over from the last big documentation refactor[1]:
+> - It referenced a non_uml.rst page, which was integrated into the other
+>   pages (including run_wrapper.rst).
+> - It skimmed over the use of --arch= and --cross_compile= in favour of
+>   using a custom --qemu_config. Since most users will want to use the
+>   former, let's give examples.
+>
+> Remove the reference to the non-existant page, and add a couple of
+> examples to encourage the use of --arch= and --cross_compile=.
+>
+> With this change, there should be no more broken references in the KUnit
+> documentation (i.e., the one mentioned in [2] is gone).
+>
+> [1]: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=46201d47d6c4be594c1d57b7f3251c371626a9c4
+> [2]: https://lore.kernel.org/linux-doc/cover.1656234456.git.mchehab@kernel.org/
+>
+> Signed-off-by: David Gow <davidgow@google.com>
 
-> Formally, a deterministic automaton, denoted by G, is defined as a
-> quintuple:
-> 
->   G = { X, E, f, x_0, X_m }
-> 
-> where:
-> 	- X is the set of states;
-> 	- E is the finite set of events;
-> 	- x_0 is the initial state;
-> 	- X_m (subset of X) is the set of marked states.
-> 	- f : X x E -> X $ is the transition function. It defines the
-> 	  state transition in the occurrence of a event from E in
-> 	  the state X. In the special case of deterministic automata,
-> 	  the occurrence of the event in E in a state in X has a
-> 	  deterministic next state from X.
-> 
-> An automaton can also be represented using a graphical format of
-> vertices (nodes) and edges. The open-source tool Graphviz can produce
-> this graphic format using the (textual) DOT language as the source code.
-> 
-> The dot2c tool presented in this paper:
-> 
-> DE OLIVEIRA, Daniel Bristot; CUCINOTTA, Tommaso; DE OLIVEIRA, Romulo
-> Silva. Efficient formal verification for the Linux kernel. In:
-> International Conference on Software Engineering and Formal Methods.
-> Springer, Cham, 2019. p. 315-332.
-> 
-> Translates a deterministic automaton in the DOT format into a C
-> surce code representation that to be used for monitoring.
-> 
-> This header file implements helper functions to facilitate the usage
-> of the C output from dot2c for monitoring.
-> 
-> Cc: Wim Van Sebroeck <wim@linux-watchdog.org>
-> Cc: Guenter Roeck <linux@roeck-us.net>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: Steven Rostedt <rostedt@goodmis.org>
-> Cc: Ingo Molnar <mingo@redhat.com>
-> Cc: Thomas Gleixner <tglx@linutronix.de>
-> Cc: Peter Zijlstra <peterz@infradead.org>
-> Cc: Will Deacon <will@kernel.org>
-> Cc: Catalin Marinas <catalin.marinas@arm.com>
-> Cc: Marco Elver <elver@google.com>
-> Cc: Dmitry Vyukov <dvyukov@google.com>
-> Cc: "Paul E. McKenney" <paulmck@kernel.org>
-> Cc: Shuah Khan <skhan@linuxfoundation.org>
-> Cc: Gabriele Paoloni <gpaoloni@redhat.com>
-> Cc: Juri Lelli <juri.lelli@redhat.com>
-> Cc: Clark Williams <williams@redhat.com>
-> Cc: linux-doc@vger.kernel.org
-> Cc: linux-kernel@vger.kernel.org
-> Cc: linux-trace-devel@vger.kernel.org
-> Signed-off-by: Daniel Bristot de Oliveira <bristot@kernel.org>
-> ---
->  include/rv/automata.h | 49 +++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 49 insertions(+)
->  create mode 100644 include/rv/automata.h
-> 
-> diff --git a/include/rv/automata.h b/include/rv/automata.h
-> new file mode 100644
-> index 000000000000..0c0aa54bd820
-> --- /dev/null
-> +++ b/include/rv/automata.h
-> @@ -0,0 +1,49 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +/*
-> + * Deterministic automata helper functions, to be used with the automata
-> + * models in C generated by the dot2k tool.
-> + *
-> + * Copyright (C) 2019-2022 Daniel Bristot de Oliveira <bristot@kernel.org>
-> + */
-> +
-> +#define DECLARE_AUTOMATA_HELPERS(name, type)					\
-> +										\
-> +static inline void *model_get_model_##name(void)				\
-> +{										\
-> +	return (void *) &automaton_##name;					\
-> +}									\
-> +										\
-> +static char *model_get_state_name_##name(enum states_##name state)		\
-> +{										\
-> +	return automaton_##name.state_names[state];				\
-> +}										\
-> +										\
-> +static char *model_get_event_name_##name(enum events_##name event)		\
-> +{										\
-> +	return automaton_##name.event_names[event];				\
-> +}										\
-> +										\
-> +static inline type model_get_init_state_##name(void)				\
-> +{										\
-> +	return automaton_##name.initial_state;					\
-> +}										\
-> +										\
-> +static inline type model_get_next_state_##name(enum states_##name curr_state,	\
-> +					       enum events_##name event)	\
-> +{										\
-> +	if ((curr_state < 0) || (curr_state > state_max_##name))		\
-> +		return -1;							\
-
-curr_state can not be state_max_xxx. curr_state must be not bigger
-than state_max_xxx. Or am I miss something?
-
-> +	if ((event < 0) || (event > event_max_##name))				\
-> +		return -1;							\
-> +										\
-
-Same here for the event boundary check.
-
-> +	return automaton_##name.function[curr_state][event];			\
-> +}										\
-> +										\
-> +static inline bool model_is_final_state_##name(enum states_##name state)	\
-> +{										\
-> +	if ((state < 0) || (state > state_max_##name))				\
-> +		return 0;							\
-> +										\
-
-Same here.
-
-> +	return !!automaton_##name.final_states[state];				\
-
-If the value of .final_states[state] is 0 or 1, can the type of
-.final_states[state] be befined to bool. Or not need to use !! to
-explicitly transfer the type to bool. I remember that you define
-this as char array and the matrix model value of this array is 0 or 1
-see from the next patche. 1 delegate the state it is the initial state.
-0 for others.
-
-> +}
-> -- 
-> 2.35.1
-> 
+Reviewed-by: Brendan Higgins <brendanhiggins@google.com>
