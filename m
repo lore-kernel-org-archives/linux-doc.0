@@ -2,181 +2,112 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B56DCCA473
-	for <linux-doc@archiver.kernel.org>; Wed,  6 Jul 2022 14:21:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C9EFC433EF
+	for <linux-doc@archiver.kernel.org>; Wed,  6 Jul 2022 14:31:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232935AbiGFOVx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 6 Jul 2022 10:21:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46966 "EHLO
+        id S232031AbiGFObO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 6 Jul 2022 10:31:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53422 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233168AbiGFOVu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Jul 2022 10:21:50 -0400
-Received: from mail-yb1-xb36.google.com (mail-yb1-xb36.google.com [IPv6:2607:f8b0:4864:20::b36])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1516125297
-        for <linux-doc@vger.kernel.org>; Wed,  6 Jul 2022 07:21:49 -0700 (PDT)
-Received: by mail-yb1-xb36.google.com with SMTP id 76so11967046ybd.0
-        for <linux-doc@vger.kernel.org>; Wed, 06 Jul 2022 07:21:49 -0700 (PDT)
+        with ESMTP id S231827AbiGFObO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Jul 2022 10:31:14 -0400
+Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com [IPv6:2607:f8b0:4864:20::52e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8CB981EC63;
+        Wed,  6 Jul 2022 07:31:13 -0700 (PDT)
+Received: by mail-pg1-x52e.google.com with SMTP id q82so6984998pgq.6;
+        Wed, 06 Jul 2022 07:31:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=TZKM0t6HsBIfJ0404Af4NFugyDQyMH8W4cl9OJ1Qs2w=;
-        b=O6cpp28PS4XrE4nOdOPkbf5qTPLQLJI9TtIv1+LhRrp8ubMhX4Zj3MwtSgRDYLqkTO
-         1Y+2387LN94AF1PIAWFAk4+owAKN47wmWsLs/MyAIaKUedmYXhv+t/oLRBlz9ocHnrHI
-         WLoT4G+J9R6sQFq4Rzsd2oMC/5OKiOqT4xcQelXvbmkw28/qn5p97SZnDoJ19ul7marN
-         uXpVyeyNDUQT6mMGEhJxi05bJkhfaNSIJaU1bmlFAe7qgKa73sNbsi14E4B1CWcyj2G3
-         DXaOS2osYPbRtZrppjpPEyVfwxn92ucyiP6f8HPhPd7m89zdWhYBIqWAf3Cm3WQg29NH
-         wZMg==
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=w2xT/7PtZ3tagdbQ/WcQuh2A722VFZF5Mx+6h0X0mqc=;
+        b=FHhGi4dSerZiLVraVC71UzQcIY/dX8G9dwqPSniHYz1DMQyHRIUrnPpLmMUDhdIt4F
+         DC3km78EYNYJvy0k+6SCXJG16xhLsYFmv8RQyARjtNQ3he+v8hRV/CY0OfDAC/B6Lyg8
+         pKy90tQXmQmph/4CMz6TdVEyEriDBESocTMUAWCpgudrr5guo838IXSv8HgB/xl6sbk/
+         mNbtMqUPRQjxWHhtxjomSOOu31Hhap+BgnuBux3LL9lRneU4fDbCaVC17gJFgJHcfe3S
+         NbYCceM2vHwYRb2abNn0GIhMptJ03g2z0K3nh/kZQCCyBn9AJkDhQh1KVjvqw/dHLKXo
+         BAQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=TZKM0t6HsBIfJ0404Af4NFugyDQyMH8W4cl9OJ1Qs2w=;
-        b=e+OZp1GqPOW6yX2f+dK9msbDRjjmKF2uinZZY2EN0jMkCREC2AkZW4OmwkFxk54i5M
-         5TEbCKhvq46xf0La86JrbmMc+Tl7vNzE7ds+4H7REHQCpTDrCBHWsiDT6WjTlPyVBj/Y
-         yaDKqvOoKMmbm18VCBg+OcZx6W2J4f7HBEEdDhppCj+MPAEYfPumETgDf9/acZHF4MK3
-         xzKzXrSj0S40n2d7lJwvgKCZf2y2sqq4G3rjD7TlK4/iDPO7ySig+wCy1eLIYp8fCrqS
-         j7HNHCjoOPMXw9lMSosaMTnheZYPOCX5Bl9VWph2uzWIMT3Dw3t/OPFIeKLuyUzIznNb
-         0fow==
-X-Gm-Message-State: AJIora/m9ClHmp/jeFKg+IZczCpkXkGbSyJzw/sx5zL2MrAiblx4VKjm
-        xMp6uknWsAjBRF1wl7waAju7Ul0Rzx1ObeUyrFc=
-X-Google-Smtp-Source: AGRyM1uzYJzOnZs52NzsIutn8wb1SSrFAgtbM2FmKigWtGcQtlvusxASGTaZnbudJFvnfDW+GkG1bX0yg/Bfjd7RpmQ=
-X-Received: by 2002:a5b:8cd:0:b0:66e:7510:8de2 with SMTP id
- w13-20020a5b08cd000000b0066e75108de2mr9119437ybq.27.1657117308108; Wed, 06
- Jul 2022 07:21:48 -0700 (PDT)
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=w2xT/7PtZ3tagdbQ/WcQuh2A722VFZF5Mx+6h0X0mqc=;
+        b=wfQv7ge7BhSWMU414zE7N8UL+uZRcoRWIxWcZMD45h357MEe881AZn5OTpCuiR9ljj
+         +fzO6tR7oXXY4SFww5Ki50mh4ks5672kUJsUVVuyd73GHONBUrYKixsY6UiLTgEeVrYQ
+         jj1OQS5U+h8pv68JKZVABGbKuCv9d5FlGZn6xwy4sR5kAjvt1DvF9yTQKwf/XncEwCH9
+         dZMxBip9MzEC8bi22Q2uKFTY8G72hN3i+TjXv4faGHDHwG0pn/jolwFkH+6re3dv0PxP
+         Ox+Gfz9vAwc+YJqLrNrRN4Ae9GA0fqwhiYQ0SXiucDFf0/Q7FxivBD9t7YrKGHAdmOrf
+         Ojmg==
+X-Gm-Message-State: AJIora/uD6B9Se+wM2ozYlOIZT+8iWtfemUFaADKiGf0Ss1OYFprXmZq
+        2Ehh5cVzIG1EqH8OpS0NSWQ=
+X-Google-Smtp-Source: AGRyM1tb3fDyu58P0qGU+xKZ+uH0ststnJ1GBLgXwZPNsLr3hizpL9L5hnRKltaVSZByHQS2CK1VOg==
+X-Received: by 2002:a65:6bd6:0:b0:39d:4f85:9ecf with SMTP id e22-20020a656bd6000000b0039d4f859ecfmr35962872pgw.336.1657117873111;
+        Wed, 06 Jul 2022 07:31:13 -0700 (PDT)
+Received: from [192.168.11.9] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id mn1-20020a17090b188100b001ef42b3c5besm4505153pjb.23.2022.07.06.07.31.10
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 06 Jul 2022 07:31:12 -0700 (PDT)
+Message-ID: <a5544eb7-6044-0b84-cf1c-17ca849c641e@gmail.com>
+Date:   Wed, 6 Jul 2022 23:31:09 +0900
 MIME-Version: 1.0
-References: <20220704225757.1811311-1-martin.fernandez@eclypsium.com>
- <CAKXUXMy+8_O_k5AzE+3VEcMvpJ1BBRm337Nu1J7TDjoKGZx3qA@mail.gmail.com> <CAKgze5ZoYEcPDwDgPkNehuM431z7SdF03308N0EuRRBWr68T1Q@mail.gmail.com>
-In-Reply-To: <CAKgze5ZoYEcPDwDgPkNehuM431z7SdF03308N0EuRRBWr68T1Q@mail.gmail.com>
-From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Date:   Wed, 6 Jul 2022 16:21:37 +0200
-Message-ID: <CAKXUXMyem+n2NySP2smrZLyjvVDWeSAM3Fst4QejLiCCH_gO8g@mail.gmail.com>
-Subject: Re: [PATCH v3] doc/checkpatch: Add description to MACRO_ARG_REUSE
-To:     Martin Fernandez <martin.fernandez@eclypsium.com>
-Cc:     "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Dwaipayan Ray <dwaipayanray1@gmail.com>,
-        Joe Perches <joe@perches.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH v2 0/5] Address some issues with sphinx detection
+Content-Language: en-US
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     corbet@lwn.net, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, mchehab+huawei@kernel.org,
+        ksummit@lists.linux.dev, Akira Yokosawa <akiyks@gmail.com>
+References: <cover.1656756450.git.mchehab@kernel.org>
+ <d0e1a08a-b965-ada6-e026-4e1cc38fbd90@gmail.com>
+From:   Akira Yokosawa <akiyks@gmail.com>
+In-Reply-To: <d0e1a08a-b965-ada6-e026-4e1cc38fbd90@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jul 6, 2022 at 3:26 PM Martin Fernandez
-<martin.fernandez@eclypsium.com> wrote:
->
-> On 7/6/22, Lukas Bulwahn <lukas.bulwahn@gmail.com> wrote:
-> > On Tue, Jul 5, 2022 at 1:00 AM Martin Fernandez
-> > <martin.fernandez@eclypsium.com> wrote:
-> >>
-> >> Add a description, an example and a possible workaround to the
-> >> MACRO_ARG_REUSE check.
-> >>
-> >> Signed-off-by: Martin Fernandez <martin.fernandez@eclypsium.com>
-> >> Acked-by: Dwaipayan Ray <dwaipayanray1@gmail.com>
-> >> ---
-> >>  Documentation/dev-tools/checkpatch.rst | 20 ++++++++++++++++++++
-> >>  1 file changed, 20 insertions(+)
-> >>
-> >> diff --git a/Documentation/dev-tools/checkpatch.rst
-> >> b/Documentation/dev-tools/checkpatch.rst
-> >> index b52452bc2963..86545c65cf7b 100644
-> >> --- a/Documentation/dev-tools/checkpatch.rst
-> >> +++ b/Documentation/dev-tools/checkpatch.rst
-> >> @@ -759,6 +759,26 @@ Indentation and Line Breaks
-> >>  Macros, Attributes and Symbols
-> >>  ------------------------------
-> >>
-> >> +  **ARG_REUSE**
-> >
-> > The name of this checkpatch type is actually "MACRO_ARG_REUSE".
->
-> You are right.
->
-> >> +    Using the same argument multiple times in the macro definition
-> >> +    would lead to unwanted side-effects.
-> >
-> > how about "... may lead to unwanted side effects"?
-> >
-> > Rationale: it does only lead to side effects if there are multiple
-> > computations involved.
->
-> Good point.
->
-> > just on spelling:
-> > s/side-effects/side effects/
-> >
-> >> +
-> >> +    For example, given a `min` macro defined like::
-> >> +
-> >> +      #define min(x, y)  ((x) < (y) ? (x) : (y))
-> >> +
-> >> +    If you call it with `min(foo(x), 0)`, it would expand to::
-> >> +
-> >> +      foo(x) < 0 ? foo(x) : 0
-> >> +
-> >> +    If `foo` has side-effects or it's an expensive calculation the
-> >> +    results might not be what the user intended.
-> >> +
-> >
-> > s/side-effects/side effects/
-> >
-> >> +    For a workaround the idea is to define local variables to hold the
-> >> +    macro's arguments. Checkout the actual implementation of `min` in
-> >> +    include/linux/minmax.h for the full implementation of the
-> >> +    workaround.
-> >> +
-> >
-> > I ran checkpatch on all commits from v5.17..v5.18 and looked for all
-> > check warnings with MACRO_ARG_REUSE.
-> >
-> > There were 35 warnings in 15 commits, touching 16 different files (4
-> > in drivers/staging, 5 in drivers/net/wireless/, 5 in
-> > drivers/net/ethernet/, 1 in drivers/net/dsa/, 1 in drivers/net/can/).
-> >
-> > As far as I see it from those commits, the more common way to address
-> > this is to check that a macro is only used locally in some file and
-> > that all uses of that macro pass a constant value as macro argument.
-> >
-> > Maybe we add these two as equally good alternatives?
->
-> Yes, that's what I did on my patch that triggered this patch. But I
-> don't think that's a workaround. You still have the issue there, just
-> that the uses of the macros are "good".
->
-> I think that falls better into the "I know what I'm doing, I'm ok with
-> the warning" scenario, than a proper workaround.
->
+[CC: update address of ksummit]
 
-Well, the purpose of the checkpatch documentation is to provide some
-more background information on the warning (e.g., the historic
-motivation, what to consider when judging its validity) and any hints
-on possible resolutions. So, I would expect to see the documentation
-cover explaining the most common (reusable) resolutions. A valid
-argument why a check warning can be ignored falls into such a
-resolution. In fact, the category "CHECK" in checkpatch.pl already
-suggests that often the resolution may be to "inspect some code, but
-not modify the code and then further 'ignore' the reported warning",
-as some rules in checkpatch are checking something with just some
-quite weak heuristics.
+On Tue, 5 Jul 2022 13:15:57 +0900, Akira Yokosawa wrote:
+> Hi Mauro,
+[...]
+> 
+> Fedora, RHEL/CentOS, and openSUSE Leap provide helpful packages
+> for installing math expression support.
+> 
+>     Fedora 36               python3-sphinx-latex (python3-sphinx depends on this)
+>     RHEL 9/CentOS stream 9  ditto
+>     openSUSE Leap 15.4      python3-Sphinx_4_2_0-latex
+>                                 (python3-Sphinx_4_2_0 depends on this) or
+>                             python3-Sphinx-latex
+>                                 (python3-Sphinx depends on this, version: 2.3.1)
 
-So, for this patch here: How about avoiding the word "workaround" and
-just state these to options as resolution, e.g., a text like this:
+These packages are supposed to cover LaTeX packages necessary
+for building LaTeX sources the version of Sphinx generates.
 
-Here are two possible options:
-- Check the macro arguments of all uses of this macro to be free of
-unintended side effects. Passing a constant value is usually fine, as
-the compiler will use constant propagation and further optimizations
-to produce acceptable code.
-- If needed, define local variables in the macro to hold the macro's
-argument. See the implementation of `min` in include/linux/minmax.h as
-one example of this option.
+HOWEVER, in my test of openSUSE Leap 15.4, pythno3-Sphinx-4_2_0-latex
+does not cover texlive-tex-gyre, which is required since Sphinx 4.0.0.
 
-What do you think?
+Changelog of Sphinx 4.0.0 [1] says:
 
-I really appreciate you providing some documentation for this rule. I
-also appreciate the rules that checkpatch.pl checks being better
-explained to all of us in the kernel community. That avoids that we
-all, especially newcomers, individually wonder about what checkpatch
-intends to warn us about.
+> Dependencies
+>
+> 4.0.0b1
+>
+> [...]
+>   * LaTeX: add tex-gyre font dependency
 
-Lukas
+[1]: https://www.sphinx-doc.org/en/master/changes.html#release-4-0-0-released-may-09-2021
+
+I'm thinking of opening a ticket at openSUSE's bugzilla.
+
+Fedora 36's python3-sphinx-latex (for Sphinx 4.4.0) has
+texlive-collection-fontsrecommended and covers texlive-tex-gyre naturally.
+
+        Thanks, Akira
+
+> 
+
