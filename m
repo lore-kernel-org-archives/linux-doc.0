@@ -2,72 +2,82 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 48954C433EF
-	for <linux-doc@archiver.kernel.org>; Wed,  6 Jul 2022 17:15:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E870CCA473
+	for <linux-doc@archiver.kernel.org>; Wed,  6 Jul 2022 17:17:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231927AbiGFRPq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 6 Jul 2022 13:15:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38588 "EHLO
+        id S233691AbiGFRRS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 6 Jul 2022 13:17:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39336 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230439AbiGFRPq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Jul 2022 13:15:46 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 422582981D
-        for <linux-doc@vger.kernel.org>; Wed,  6 Jul 2022 10:15:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Type:MIME-Version:Message-ID:
-        Subject:To:From:Date:Sender:Reply-To:Cc:Content-Transfer-Encoding:Content-ID:
-        Content-Description:In-Reply-To:References;
-        bh=qwiGPgzirneBh5RNdiNAdAQF+8Xv2h/kCrWjmD9tJWU=; b=WOoU9SOCmphmiwcmUiex5OFyPH
-        va2Amaxqa9cBEOeNW2ScR3hNjVIcr/aTboIUWNAzzAsNjLrmKM2kpV03ctpWGDTIVEBD7e2VWkiLl
-        bjuDM4Y6K54lgatpoJCKAHrbaq/keOGZq6N/DGODOgMkJBv4R6XVKks2W/qW/xo33qg/HYrJ6RDVi
-        nuyrLiMnih5/ArG55tTT1Lg4WMzbnbz2R7KUqoqPT19ybzrQewtT2vG7hHNVJxBBT9HV5jK45mVEi
-        Dxh57kesTbeD1GVKT0A1DdLfIVLpnjRjd3XhR2EUBgDPMELrrSx7M8wPd/QEB8nNPjdBs/oeAbrDR
-        CgUjbVJg==;
-Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1o98cp-001pEs-Gd
-        for linux-doc@vger.kernel.org; Wed, 06 Jul 2022 17:15:43 +0000
-Date:   Wed, 6 Jul 2022 18:15:43 +0100
-From:   Matthew Wilcox <willy@infradead.org>
-To:     linux-doc@vger.kernel.org
-Subject: How to cross-link to another document?
-Message-ID: <YsXDP3r59jlOTXGb@casper.infradead.org>
+        with ESMTP id S233705AbiGFRRR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Jul 2022 13:17:17 -0400
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5EE2F2A737;
+        Wed,  6 Jul 2022 10:17:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1657127831; x=1688663831;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=k/GJ1Ocu6NSTbZWVHRMDXxNhqdLrEsXDfyhMdsiS/Fk=;
+  b=BDxWCV0EK4dz8dFSd90CjRwejnvf4mqYI5mhhMHVU40Ht7BI0+JmowO4
+   30mWzAjWt4PcgVZ0zlJTHwlbrpMPCzVn5kEzTt7LEGs+FShaTrc/Dr1P3
+   7G739puc/lylZTUmKK9T3rNq6YcvdGOOQmroBLHxpk4zvPxPD1Jnh5dAT
+   PoR3XoOWc+F6dgm/1dAnMbU+W2sm9DHCymWscMMvp6PtqQRMUCzumb8u8
+   7qfCbLdeADErd0gIFVPudS8W8MMwX9Ee50BEJiynWWf9/YZDtl0/xRUad
+   PS1HwjoYXVZGZEo5gZxWOSathufC8KzPQfitrTQWic3sf2CZQyTMMPaqO
+   A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10400"; a="370134896"
+X-IronPort-AV: E=Sophos;i="5.92,250,1650956400"; 
+   d="scan'208";a="370134896"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2022 10:17:10 -0700
+X-IronPort-AV: E=Sophos;i="5.92,250,1650956400"; 
+   d="scan'208";a="620415107"
+Received: from tjsteven-mobl3.amr.corp.intel.com (HELO [10.255.228.25]) ([10.255.228.25])
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2022 10:17:10 -0700
+Message-ID: <2a2411f0-60a9-cf7d-b34d-b1756ad499a5@intel.com>
+Date:   Wed, 6 Jul 2022 10:15:05 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH 04/22] x86/sgx: fix kernel-doc markups
+Content-Language: en-US
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     "H. Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Ingo Molnar <mingo@redhat.com>,
+        Jarkko Sakkinen <jarkko@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        linux-kernel@vger.kernel.org, linux-sgx@vger.kernel.org,
+        x86@kernel.org
+References: <cover.1656409369.git.mchehab@kernel.org>
+ <49f0900ca467867917182a4428b731e55608ca67.1656409369.git.mchehab@kernel.org>
+From:   Dave Hansen <dave.hansen@intel.com>
+In-Reply-To: <49f0900ca467867917182a4428b731e55608ca67.1656409369.git.mchehab@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On 6/28/22 02:46, Mauro Carvalho Chehab wrote:
+> + * @rdi:	snapshot of DI register at enclave exit
+> + * @rsi:	snapshot of SI register at enclave exit
+> + * @rdx:	snapshot of DX register at enclave exit
+> + * @rsp:	snapshot of SP register at enclave exit
+> + * @r8:		snapshot of R8 register at enclave exit
+> + * @r9:		snapshot of R9 register at enclave exit
 
-I've tried several variants of this without success.  What's the
-correct incantation?
+The 'DX register' really is different than RDX.
 
-+++ b/Documentation/core-api/idr.rst
-@@ -17,6 +17,8 @@ solution to the problem to avoid everybody inventing their own.  The IDR
- provides the ability to map an ID to a pointer, while the IDA provides
- only ID allocation, and as a result is much more memory-efficient.
+These should all have the full register names, like:
 
-+The IDR interface is deprecated; please use the _`XArray` instead.
-+
- IDR usage
- =========
+	snapshot of RSP register at enclave exit
 
-+++ b/Documentation/core-api/xarray.rst
-@@ -1,4 +1,5 @@
- .. SPDX-License-Identifier: GPL-2.0+
-+.. XArray_
+With that fixed:
 
- ======
- XArray
-
-I first tried "named reference, reStructuredText_;"
-and then "_`inline internal target`" and I've tried both prefixing and
-suffixing both destination and target with an underscore.  Nothing seems
-to work and sometimes I get error messages telling me it won't work,
-and sometimes I just get non-hyperlinks.
-
-Do I have to do something like
-
-	:ref:`Documentation/core-api/xarray.rst <XArray>`
-?  That would seem unnecessarily verbose.
+Acked-by: Dave Hansen <dave.hansen@linux.intel.com>
