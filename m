@@ -2,188 +2,144 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1121CC43334
-	for <linux-doc@archiver.kernel.org>; Wed,  6 Jul 2022 17:19:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 75AA4CCA47F
+	for <linux-doc@archiver.kernel.org>; Wed,  6 Jul 2022 17:24:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232907AbiGFRTK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 6 Jul 2022 13:19:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41106 "EHLO
+        id S232592AbiGFRYm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 6 Jul 2022 13:24:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46342 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229723AbiGFRTK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Jul 2022 13:19:10 -0400
-Received: from mail-yb1-xb31.google.com (mail-yb1-xb31.google.com [IPv6:2607:f8b0:4864:20::b31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6B111838E
-        for <linux-doc@vger.kernel.org>; Wed,  6 Jul 2022 10:19:08 -0700 (PDT)
-Received: by mail-yb1-xb31.google.com with SMTP id b85so15172699yba.8
-        for <linux-doc@vger.kernel.org>; Wed, 06 Jul 2022 10:19:08 -0700 (PDT)
+        with ESMTP id S233502AbiGFRYk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Jul 2022 13:24:40 -0400
+Received: from mail-yw1-x1133.google.com (mail-yw1-x1133.google.com [IPv6:2607:f8b0:4864:20::1133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6CC5CBE9
+        for <linux-doc@vger.kernel.org>; Wed,  6 Jul 2022 10:24:39 -0700 (PDT)
+Received: by mail-yw1-x1133.google.com with SMTP id 00721157ae682-3137316bb69so146862727b3.10
+        for <linux-doc@vger.kernel.org>; Wed, 06 Jul 2022 10:24:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=eclypsium.com; s=google;
         h=mime-version:in-reply-to:references:from:date:message-id:subject:to
          :cc;
-        bh=sQ/ZknbalC3P/8medLU725+6gH2FeWzdEOU+lfbjBqg=;
-        b=BT1dGCU+ASL4InNk7ICscpx43fHkAGBZW/uvlkoJBIr8024pQrl8Dkyj/J11WGUPko
-         txTTCLZdJukrBjCXQFZlyqN/UNTf9aJKxoxepocmBAlh7ncv7vsWwfB0UFL6C60Zsx8R
-         +hQKAHdTnKq5S+9hZf48yubFo4jpqSs283prhXQmL2xtI+H29d2kcktgRsBGTAumC5dk
-         /XdG9MfTS46R3dHxVuPzqeZ4Nxz+3QnOibukQ18gAmLFEWpiO1BGLEBoH1cOughOrzfd
-         A0PJ/S98MNExqKn/6CPC9xpYhBM+gZKb9BDiNq0r6Bm5cRT65g54uHnUhoc4Uka5NFgC
-         fioQ==
+        bh=6CPLLQODf8OxhiEnp/XuqaNr4G+wbhywhaC2o6gufU8=;
+        b=N3DcEIc503xNVxcqC6Ue93AbtnS4xRie/F9/fCIoy/AcVJKj7Xeja7bqCgPDbnJ/e6
+         BJuCun0HkrweWkNhukjY/hqvQbNk4ZzEe/jFFtPwYc69xuGS46xHk5ydV4n6Pjwvw40X
+         9V5TTdeuOCdXmO7DA0jl8NQY2UnP7O251Xs55aSY3BgdgewflSUquKYPXzk8Zy8dwt+n
+         L0yUBVm16hoo7o/EAo5jfgPa3B1Zx5uWzPCtGe9tUX4ANdCzYJyXdguvC3uY8RI6ybue
+         h2ThAx/IFQUkpz17g3PQI5AfdJ6cSmO7uvC8NpfcgXTJAn1H0L0WXr4olY3+GV3bouXC
+         GUPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:in-reply-to:references:from:date
          :message-id:subject:to:cc;
-        bh=sQ/ZknbalC3P/8medLU725+6gH2FeWzdEOU+lfbjBqg=;
-        b=r8D3Q5nNslh7qCojxaMd0fsntAzUzL8SEM10pBO82u3Q8fcvzTsm1PxR7tC8kHlUy9
-         H5L3gYpigznQXx9hR6cV1B6wollvbIuRKipT4eFcl9tIM/K3muP4JcdHdmDul4T+CeCD
-         C8TDGE00Z6rByEAC9VnFLAEi+TtaYRSpALJ2hSoZFOcxHZxjWFx1dDqXnwIjAs1mRj5V
-         Q+sSjc8HhaoiU1AhRdTBvVpnlzmR0PpTKPi2/f83En3/5nivGzSfEu7X6pUyosQQwhUB
-         RJ07PszwgtHaQuaH0uO05y8KLqBuRNT+yLQojb7i/BeYgvmdsZrj8lYBxnWkMyvuu/jS
-         GGoQ==
-X-Gm-Message-State: AJIora9TlzNou/gSgx/lJicv2IaZn9VCp1uq9OgR92nF51SaF7p1kET8
-        if9PGIKZ7dvtWVbTqsVdxI/NruXIbHu7P3bYBrxsWQ==
-X-Google-Smtp-Source: AGRyM1sLKh6cuork0uqfZJqJYWLsYo2ZhmFiiqBTxs6ZTksF/sdtSlHGk4jANSSa59QB+dLDUNlsaepVjiBRq3L7EB4=
-X-Received: by 2002:a05:6902:287:b0:66e:36d0:ad2a with SMTP id
- v7-20020a056902028700b0066e36d0ad2amr21225633ybh.341.1657127947893; Wed, 06
- Jul 2022 10:19:07 -0700 (PDT)
+        bh=6CPLLQODf8OxhiEnp/XuqaNr4G+wbhywhaC2o6gufU8=;
+        b=o0M1JuQVjVr4rLg1EseicDZ1NzR+3E+UIinWgGFB8cECG+FE3OzrG9AjW7SihZduZ3
+         4huGYG7BGYZk1Z4pzGlD0pegF/qNYm+B6UYOn7aJo9jBrO2S0/ZL6vxs/CozKAm0qzNX
+         igsecAKY+x6mz15HFqJY0dqI+2UkpnilWxrNutlrEhTQ03+4Y7NmFtx0CKgis6du7MMP
+         4mCqdVrS/7QwkImokLMJfP8xKgrw42m8aFCaFCQHLoM19IYD1MR0NRSTNUivoJo2HW02
+         o3aT2rQpwqP6mV86zFcQeDKsVbgu6Liu4kZDM+YD20PmnEDFW9MDXV72L45k5K8b09HV
+         7mUQ==
+X-Gm-Message-State: AJIora/ti6WBapjyOoHhW6pHJcnOIL0txC7RmSXJjZH+TbkXuFhhbQES
+        Tb52jlzboWqqcOh0FtBTIg8ANFLcOy+vHZeroVRQfw==
+X-Google-Smtp-Source: AGRyM1sAEO2eJVUMdJJxmBNcUDREXs9pXKk4qTEc/hCn3weiKnTM/aScRiZYP14gPW09KL5e8ruWf+FECXIk2aqXwCw=
+X-Received: by 2002:a81:6054:0:b0:31c:97f4:b5c with SMTP id
+ u81-20020a816054000000b0031c97f40b5cmr19817147ywb.432.1657128278690; Wed, 06
+ Jul 2022 10:24:38 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a0d:f944:0:0:0:0:0 with HTTP; Wed, 6 Jul 2022 10:19:07 -0700 (PDT)
-In-Reply-To: <CAKXUXMyem+n2NySP2smrZLyjvVDWeSAM3Fst4QejLiCCH_gO8g@mail.gmail.com>
-References: <20220704225757.1811311-1-martin.fernandez@eclypsium.com>
- <CAKXUXMy+8_O_k5AzE+3VEcMvpJ1BBRm337Nu1J7TDjoKGZx3qA@mail.gmail.com>
- <CAKgze5ZoYEcPDwDgPkNehuM431z7SdF03308N0EuRRBWr68T1Q@mail.gmail.com> <CAKXUXMyem+n2NySP2smrZLyjvVDWeSAM3Fst4QejLiCCH_gO8g@mail.gmail.com>
+Received: by 2002:a0d:f944:0:0:0:0:0 with HTTP; Wed, 6 Jul 2022 10:24:38 -0700 (PDT)
+In-Reply-To: <554d0394-321c-c206-1774-7d33360b1553@gmail.com>
+References: <20220704225757.1811311-1-martin.fernandez@eclypsium.com> <554d0394-321c-c206-1774-7d33360b1553@gmail.com>
 From:   Martin Fernandez <martin.fernandez@eclypsium.com>
-Date:   Wed, 6 Jul 2022 14:19:07 -0300
-Message-ID: <CAKgze5aTqiusFuhxezMroecDA5dgMb_BHUG5Au+dxL5UYDZiCw@mail.gmail.com>
+Date:   Wed, 6 Jul 2022 14:24:38 -0300
+Message-ID: <CAKgze5aZ8BZ99+ctp2Q4FMj6q5_vx9J+oUtJpwYn6dUb_E13Aw@mail.gmail.com>
 Subject: Re: [PATCH v3] doc/checkpatch: Add description to MACRO_ARG_REUSE
-To:     Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Cc:     "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Dwaipayan Ray <dwaipayanray1@gmail.com>,
-        Joe Perches <joe@perches.com>
+To:     Akira Yokosawa <akiyks@gmail.com>
+Cc:     dwaipayanray1@gmail.com, joe@perches.com,
+        linux-doc@vger.kernel.org, lukas.bulwahn@gmail.com
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 7/6/22, Lukas Bulwahn <lukas.bulwahn@gmail.com> wrote:
-> On Wed, Jul 6, 2022 at 3:26 PM Martin Fernandez
-> <martin.fernandez@eclypsium.com> wrote:
->>
->> On 7/6/22, Lukas Bulwahn <lukas.bulwahn@gmail.com> wrote:
->> > On Tue, Jul 5, 2022 at 1:00 AM Martin Fernandez
->> > <martin.fernandez@eclypsium.com> wrote:
->> >>
->> >> Add a description, an example and a possible workaround to the
->> >> MACRO_ARG_REUSE check.
->> >>
->> >> Signed-off-by: Martin Fernandez <martin.fernandez@eclypsium.com>
->> >> Acked-by: Dwaipayan Ray <dwaipayanray1@gmail.com>
->> >> ---
->> >>  Documentation/dev-tools/checkpatch.rst | 20 ++++++++++++++++++++
->> >>  1 file changed, 20 insertions(+)
->> >>
->> >> diff --git a/Documentation/dev-tools/checkpatch.rst
->> >> b/Documentation/dev-tools/checkpatch.rst
->> >> index b52452bc2963..86545c65cf7b 100644
->> >> --- a/Documentation/dev-tools/checkpatch.rst
->> >> +++ b/Documentation/dev-tools/checkpatch.rst
->> >> @@ -759,6 +759,26 @@ Indentation and Line Breaks
->> >>  Macros, Attributes and Symbols
->> >>  ------------------------------
->> >>
->> >> +  **ARG_REUSE**
->> >
->> > The name of this checkpatch type is actually "MACRO_ARG_REUSE".
->>
->> You are right.
->>
->> >> +    Using the same argument multiple times in the macro definition
->> >> +    would lead to unwanted side-effects.
->> >
->> > how about "... may lead to unwanted side effects"?
->> >
->> > Rationale: it does only lead to side effects if there are multiple
->> > computations involved.
->>
->> Good point.
->>
->> > just on spelling:
->> > s/side-effects/side effects/
->> >
->> >> +
->> >> +    For example, given a `min` macro defined like::
->> >> +
->> >> +      #define min(x, y)  ((x) < (y) ? (x) : (y))
->> >> +
->> >> +    If you call it with `min(foo(x), 0)`, it would expand to::
->> >> +
->> >> +      foo(x) < 0 ? foo(x) : 0
->> >> +
->> >> +    If `foo` has side-effects or it's an expensive calculation the
->> >> +    results might not be what the user intended.
->> >> +
->> >
->> > s/side-effects/side effects/
->> >
->> >> +    For a workaround the idea is to define local variables to hold
->> >> the
->> >> +    macro's arguments. Checkout the actual implementation of `min` in
->> >> +    include/linux/minmax.h for the full implementation of the
->> >> +    workaround.
->> >> +
->> >
->> > I ran checkpatch on all commits from v5.17..v5.18 and looked for all
->> > check warnings with MACRO_ARG_REUSE.
->> >
->> > There were 35 warnings in 15 commits, touching 16 different files (4
->> > in drivers/staging, 5 in drivers/net/wireless/, 5 in
->> > drivers/net/ethernet/, 1 in drivers/net/dsa/, 1 in drivers/net/can/).
->> >
->> > As far as I see it from those commits, the more common way to address
->> > this is to check that a macro is only used locally in some file and
->> > that all uses of that macro pass a constant value as macro argument.
->> >
->> > Maybe we add these two as equally good alternatives?
->>
->> Yes, that's what I did on my patch that triggered this patch. But I
->> don't think that's a workaround. You still have the issue there, just
->> that the uses of the macros are "good".
->>
->> I think that falls better into the "I know what I'm doing, I'm ok with
->> the warning" scenario, than a proper workaround.
->>
+On 7/6/22, Akira Yokosawa <akiyks@gmail.com> wrote:
+> Hi,
+> Minor nit on reST syntax.
 >
-> Well, the purpose of the checkpatch documentation is to provide some
-> more background information on the warning (e.g., the historic
-> motivation, what to consider when judging its validity) and any hints
-> on possible resolutions. So, I would expect to see the documentation
-> cover explaining the most common (reusable) resolutions. A valid
-> argument why a check warning can be ignored falls into such a
-> resolution. In fact, the category "CHECK" in checkpatch.pl already
-> suggests that often the resolution may be to "inspect some code, but
-> not modify the code and then further 'ignore' the reported warning",
-> as some rules in checkpatch are checking something with just some
-> quite weak heuristics.
+> On Mon,  4 Jul 2022 19:57:57 -0300, Martin Fernandez wrote:
+>> Add a description, an example and a possible workaround to the
+>> MACRO_ARG_REUSE check.
+>>
+>> Signed-off-by: Martin Fernandez <martin.fernandez@eclypsium.com>
+>> Acked-by: Dwaipayan Ray <dwaipayanray1@gmail.com>
+>> ---
+>>  Documentation/dev-tools/checkpatch.rst | 20 ++++++++++++++++++++
+>>  1 file changed, 20 insertions(+)
+>>
+>> diff --git a/Documentation/dev-tools/checkpatch.rst
+>> b/Documentation/dev-tools/checkpatch.rst
+>> index b52452bc2963..86545c65cf7b 100644
+>> --- a/Documentation/dev-tools/checkpatch.rst
+>> +++ b/Documentation/dev-tools/checkpatch.rst
+>> @@ -759,6 +759,26 @@ Indentation and Line Breaks
+>>  Macros, Attributes and Symbols
+>>  ------------------------------
+>>
+>> +  **ARG_REUSE**> +    Using the same argument multiple times in the macro
+>> definition
+>> +    would lead to unwanted side-effects.
 >
-> So, for this patch here: How about avoiding the word "workaround" and
-> just state these to options as resolution, e.g., a text like this:
+> You don't need manual emphasis as above, as this list is already
+> in the form of so-called "Definition Lists" [1, 2].
 >
-> Here are two possible options:
-> - Check the macro arguments of all uses of this macro to be free of
-> unintended side effects. Passing a constant value is usually fine, as
-> the compiler will use constant propagation and further optimizations
-> to produce acceptable code.
-> - If needed, define local variables in the macro to hold the macro's
-> argument. See the implementation of `min` in include/linux/minmax.h as
-> one example of this option.
->
-> What do you think?
+> [1]:
+> https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html#definition-lists
+> [2]:
+> https://www.sphinx-doc.org/en/master/usage/restructuredtext/basics.html#lists-and-quote-like-blocks
 
-Yep, that's very good. I'll go with it.
+Thank you for the references.
 
-> I really appreciate you providing some documentation for this rule. I
-> also appreciate the rules that checkpatch.pl checks being better
-> explained to all of us in the kernel community. That avoids that we
-> all, especially newcomers, individually wonder about what checkpatch
-> intends to warn us about.
+> Defined terms will be automatically emphasized by Sphinx and
+> should look in bold face in the generated HTML/PDF.
+> (Style of emphasis might be customized by configuration.)
 >
-> Lukas
+> It looks like there exists other similar patterns in this file
+> (or might as well be in other related .rst files).  I'd suggest
+> removing those manual emphases in a follow-up patch.
+>
+> This is only a weak suggestion, and there is no urgency.
+> Of course, if you have a reason to do the manual emphases,
+> there is no need to change.
+
+That's interesting. Didn't really know that. I just saw this unknown
+warning for me and since there were no documentation about it I
+decided to quickly add it using the rest of the document as a
+template. I agree that that's not a very good approach but it was very
+quick :)
+
+I'll consider checking the syntax of the whole document for further
+patches, thank you for the suggestion.
+
+>         Thanks, Akira
+>
+>> +
+>> +    For example, given a `min` macro defined like::
+>> +
+>> +      #define min(x, y)  ((x) < (y) ? (x) : (y))
+>> +
+>> +    If you call it with `min(foo(x), 0)`, it would expand to::
+>> +
+>> +      foo(x) < 0 ? foo(x) : 0
+>> +
+>> +    If `foo` has side-effects or it's an expensive calculation the
+>> +    results might not be what the user intended.
+>> +
+>> +    For a workaround the idea is to define local variables to hold the
+>> +    macro's arguments. Checkout the actual implementation of `min` in
+>> +    include/linux/minmax.h for the full implementation of the
+>> +    workaround.
+>> +
+>>    **ARRAY_SIZE**
+>>      The ARRAY_SIZE(foo) macro should be preferred over
+>>      sizeof(foo)/sizeof(foo[0]) for finding number of elements in an
+>> --
+>> 2.30.2
 >
