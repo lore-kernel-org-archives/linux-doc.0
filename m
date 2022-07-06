@@ -2,207 +2,148 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D366CCA47F
-	for <linux-doc@archiver.kernel.org>; Wed,  6 Jul 2022 15:34:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 35757CCA473
+	for <linux-doc@archiver.kernel.org>; Wed,  6 Jul 2022 15:53:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234197AbiGFPeZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 6 Jul 2022 11:34:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45364 "EHLO
+        id S233522AbiGFPxu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 6 Jul 2022 11:53:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50320 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234059AbiGFPeC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Jul 2022 11:34:02 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44BBB27CF3;
-        Wed,  6 Jul 2022 08:32:45 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 0871CB81DA0;
-        Wed,  6 Jul 2022 15:32:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B07D2C341CB;
-        Wed,  6 Jul 2022 15:32:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1657121562;
-        bh=SuF4v3Uz5uTNz8Vjlm3/PnuewX3rlJ5M1kikWnOZ87c=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=uTBeXQz0oNYhMI0zlHUhM/ekv3yFAi3QwatUqmX4b8QXGv+ZAp3b/jvA/rdta9CKh
-         V7yZhuxGfS9FqS/V+f2fLSYqRq4pJ/h+EG5W7+RvzkO3EEMWWRle4Zss69Wu+EPMTY
-         Ym3q0bhYAEcB+Q/BJCxAB8yymR35FdYbrGQqNAJ/b7PLIq36h4LCBgzYW/eRi1UipI
-         gRAssySm7bkanMfols7CqIZK+09Ux7N64q1QGnnd9IT38aKUYHIjGzMlZn5ZGvsKHz
-         b2yt59zFU6DUxQAxI1Exb5jpG46r9UtMHlp7hhNgL4GaF8pfduCdp7amQ46Om2RiYy
-         G/YCsqNLgmnrA==
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Javier Martinez Canillas <javierm@redhat.com>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>,
-        Sasha Levin <sashal@kernel.org>, corbet@lwn.net,
-        tzimmermann@suse.de, bp@suse.de, gregkh@linuxfoundation.org,
-        linux-doc@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 12/18] firmware: sysfb: Add sysfb_disable() helper function
-Date:   Wed,  6 Jul 2022 11:31:47 -0400
-Message-Id: <20220706153153.1598076-12-sashal@kernel.org>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220706153153.1598076-1-sashal@kernel.org>
-References: <20220706153153.1598076-1-sashal@kernel.org>
+        with ESMTP id S233721AbiGFPxg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Jul 2022 11:53:36 -0400
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2041.outbound.protection.outlook.com [40.107.236.41])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0995F29C98;
+        Wed,  6 Jul 2022 08:52:18 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=a0QbMcVLv/lgN4P0ttYxrnTL6szYSy2z4ERhUSiUpBiRGVTU9oH6k4JeK/IozYcR1zi2FVisw4YHFnHgVWU6zfG9XjrzVVioLLFhD2t+9X+ORqt3vbfRV/Pa3Yl6E5sbee9QpaQv4bMX8Ff+SDZhsccD5ngBlE9omt7U3GeBxrJXJs0JO104hE9ONL3asU7944khuW/AokK1HQY5oJJmIKqtCR1RxD+33oII5eIEUcac/kurLhwzaCyCHRtFEyglvP6yhnthpyoDK5ngSG+kD+BavPTe55kwDwYeCbL8ohrJKGyS0AteSsMcnCH7D6VY1SNPpR0123MEYbBR1vjpMw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=oHA8NTdDdhgx9P1LM9QYBQEaIXPhazV9+QslQRx+u1I=;
+ b=lNb/8G/4L1mni++GFM+y2du8yl5olTtnO/Z1/0UCgwW1xfwBL83vAJT7rvh6tHGAm45UVyja1tnfFyjpDoSmaWPjyx6EtPRB9beLZ54eg/PAreYm5QkbO1pgfsIGX2LSMOMV/HW/sTg8OZuNMIQ0wVX69xutydGtHi5G0PTmqxlWFCcn4ldlHoInXbglS64gtylyYglvYw5kyDkVQAuLFNU9xHFnG4tVDrWa/xSe64ptihaNKxGKqybWd4S9MP/n9VIwnZglfHucXdIf6f0fOB0IbaUeBdr5Z4m/RwxoIt1ks5Ehzby/370+4ICXNkG+rnwNb4+43WACMyFEp1UrDw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 12.22.5.236) smtp.rcpttodomain=linux.ibm.com smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=oHA8NTdDdhgx9P1LM9QYBQEaIXPhazV9+QslQRx+u1I=;
+ b=gX9ZKOcbJ2/U+iV3+97OffLuIUy1C0xInGrtf2PPtZ3WCsz0sEffg6yEfkAgP/JbEdTABgqUv6GYm3HdQrqaBFBmgg8ghYeCtfw2E4hyitPCKYyLrG5c/4DQtVr3pFhEhOHlaPRjzWPih/hVIUrQzQS0eRV0IiAzix1l5RC3VopjUoA2I0zMMomSUynmZFYYb2A8QjYK5LG+/PuIwiZC7nJKB88K9jN4LGK8gSV9oX2ZMhGvJVMyZw4ZlXizIikZE1C9vekMhbrk/hl5L/LTXd07FGJf0fSuLOrhLeXNtatr3EKRZfrCc+6LQeYp3wobWn8uIzs8Kcbi07sHxE5+dg==
+Received: from MWHPR22CA0002.namprd22.prod.outlook.com (2603:10b6:300:ef::12)
+ by CH2PR12MB4151.namprd12.prod.outlook.com (2603:10b6:610:78::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5395.15; Wed, 6 Jul
+ 2022 15:52:16 +0000
+Received: from CO1NAM11FT032.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:300:ef:cafe::bf) by MWHPR22CA0002.outlook.office365.com
+ (2603:10b6:300:ef::12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5417.16 via Frontend
+ Transport; Wed, 6 Jul 2022 15:52:15 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 12.22.5.236)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 12.22.5.236 as permitted sender) receiver=protection.outlook.com;
+ client-ip=12.22.5.236; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (12.22.5.236) by
+ CO1NAM11FT032.mail.protection.outlook.com (10.13.174.218) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.20.5417.15 via Frontend Transport; Wed, 6 Jul 2022 15:52:15 +0000
+Received: from drhqmail202.nvidia.com (10.126.190.181) by
+ DRHQMAIL109.nvidia.com (10.27.9.19) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.32; Wed, 6 Jul 2022 15:52:13 +0000
+Received: from drhqmail203.nvidia.com (10.126.190.182) by
+ drhqmail202.nvidia.com (10.126.190.181) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.26; Wed, 6 Jul 2022 08:52:12 -0700
+Received: from Asurada-Nvidia (10.127.8.14) by mail.nvidia.com
+ (10.126.190.182) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.26 via Frontend
+ Transport; Wed, 6 Jul 2022 08:52:11 -0700
+Date:   Wed, 6 Jul 2022 08:52:10 -0700
+From:   Nicolin Chen <nicolinc@nvidia.com>
+To:     Christoph Hellwig <hch@infradead.org>
+CC:     <kwankhede@nvidia.com>, <corbet@lwn.net>, <hca@linux.ibm.com>,
+        <gor@linux.ibm.com>, <agordeev@linux.ibm.com>,
+        <borntraeger@linux.ibm.com>, <svens@linux.ibm.com>,
+        <zhenyuw@linux.intel.com>, <zhi.a.wang@intel.com>,
+        <jani.nikula@linux.intel.com>, <joonas.lahtinen@linux.intel.com>,
+        <rodrigo.vivi@intel.com>, <tvrtko.ursulin@linux.intel.com>,
+        <airlied@linux.ie>, <daniel@ffwll.ch>, <farman@linux.ibm.com>,
+        <mjrosato@linux.ibm.com>, <pasic@linux.ibm.com>,
+        <vneethv@linux.ibm.com>, <oberpar@linux.ibm.com>,
+        <freude@linux.ibm.com>, <akrowiak@linux.ibm.com>,
+        <jjherne@linux.ibm.com>, <alex.williamson@redhat.com>,
+        <cohuck@redhat.com>, <jgg@nvidia.com>, <kevin.tian@intel.com>,
+        <jchrist@linux.ibm.com>, <kvm@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-s390@vger.kernel.org>,
+        <intel-gvt-dev@lists.freedesktop.org>,
+        <intel-gfx@lists.freedesktop.org>,
+        <dri-devel@lists.freedesktop.org>
+Subject: Re: [RFT][PATCH v2 1/9] vfio: Make vfio_unpin_pages() return void
+Message-ID: <YsWvqvlsccxmuhkv@Asurada-Nvidia>
+References: <20220706062759.24946-1-nicolinc@nvidia.com>
+ <20220706062759.24946-2-nicolinc@nvidia.com>
+ <YsUxurAoglm7GmZP@infradead.org>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <YsUxurAoglm7GmZP@infradead.org>
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 24a2e8ec-6764-4ee8-79fe-08da5f677fe6
+X-MS-TrafficTypeDiagnostic: CH2PR12MB4151:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: aXVZZPtNvCX9FKcwmmGb8hfhwdzryP74DNrE7QZENjJWUI06OlRDVruQvn3gv/vEmFeqD2207mgKe2jfe6f5B32h1dNb6izWzB56fuEB81WZQwM5vry3KzwpC7C/lymOdnhDFtjANfL33IcausV656p6ubkvPsrWtrn2OqCZNn2H60AGyHaerSstfUf90awB9NcbolJFVAq+gjBK96nYyGtBWUr8B77zRAPVViMavEoKzWgpNhOUu52Zd//VuY7M8NGCTJOJ+SvIeHxU4oiM32OOr1iq+bSFC7bGRJBw9bEX8layOQvhjO9/T001hLhEZgtxbFZj7FEbDjpyqUEIkkyoyW/uObP1KSSvNk5xcDHma2QA+COaoeN8lGGCQBakJbbKnl8CbkJRXWjPmUpJyl4IPimQZOFrCirwsCvBxFUMRtmmPPAPd6dnm3jRPhrG52kw/TdAb07swkZwIwgeoagZDN5GkmiZEUgjSoyt8Po0IQFejEg3Ikqfoe50/WvKrpUTKSRNn6SU9WTwiFlYC0/bkXx+syjJkO8XEiVnHI/1I/uORza1zJNb9mafzIrGPfuWr4AV87knnLXLYQzTb5y3lL+CZA2lfsBo5B0+/qhhv3lXfV3d6nSFH/xbi0TALj9qFHSsbS2dMHUORZSJIbJlybXx0tw2hZtO92K0S2n7gXO9sHmB/3+yYFBOAyRvs/chZjM8EDHZJC26wrHWtBN+eIPiFwQYsA4cz1lIombbA0MnsWEE4DPi0ImBtFtYL/iaTLyaR8T3UIlPyGlO7fvmojLTBJZY30tHtF5xDtIGm9Tkj2/GYeo89oiGiZSH+viVO+UiynySkbYNpmqk1GYfpjp7PuJKmHZQ+Strahs=
+X-Forefront-Antispam-Report: CIP:12.22.5.236;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:InfoNoRecords;CAT:NONE;SFS:(13230016)(4636009)(396003)(39860400002)(346002)(376002)(136003)(46966006)(36840700001)(40470700004)(426003)(336012)(81166007)(47076005)(82310400005)(6916009)(82740400003)(356005)(54906003)(316002)(8936002)(7416002)(5660300002)(7406005)(86362001)(55016003)(70586007)(40480700001)(4326008)(8676002)(33716001)(70206006)(40460700003)(26005)(36860700001)(9686003)(478600001)(2906002)(186003)(41300700001)(36900700001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jul 2022 15:52:15.7646
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 24a2e8ec-6764-4ee8-79fe-08da5f677fe6
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[12.22.5.236];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT032.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4151
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Javier Martinez Canillas <javierm@redhat.com>
+On Tue, Jul 05, 2022 at 11:54:50PM -0700, Christoph Hellwig wrote:
+> > +void vfio_unpin_pages(struct vfio_device *device, unsigned long *user_pfn,
+> > +		      int npage)
+> >  {
+> >  	struct vfio_container *container;
+> >  	struct vfio_iommu_driver *driver;
+> > -	int ret;
+> >  
+> > -	if (!user_pfn || !npage || !vfio_assert_device_open(device))
+> > -		return -EINVAL;
+> > +	if (WARN_ON_ONCE(!user_pfn || !npage || !vfio_assert_device_open(device)))
+> 
+> This adds an overly long line.  Note that I think in general it is
+> better to have an individual WARN_ON per condition anyway, as that
+> allows to directly pinpoint what went wrong when it triggers.
 
-[ Upstream commit bde376e9de3c0bc55eedc8956b0f114c05531595 ]
+Following patches are touching this line too. And it'll be shrunk
+to a shorter line eventually by the end of PATCH-9.
 
-This can be used by subsystems to unregister a platform device registered
-by sysfb and also to disable future platform device registration in sysfb.
+Yet, I can separate them as you pointed out.
 
-Suggested-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-Link: https://patchwork.freedesktop.org/patch/msgid/20220607182338.344270-3-javierm@redhat.com
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- .../driver-api/firmware/other_interfaces.rst  |  6 +++
- drivers/firmware/sysfb.c                      | 54 ++++++++++++++++---
- include/linux/sysfb.h                         | 12 +++++
- 3 files changed, 66 insertions(+), 6 deletions(-)
+> > +	if (WARN_ON_ONCE(unlikely(!driver || !driver->ops->unpin_pages)))
+> > +		return;
+> 
+> I'd just skip this check an let it crash.  If someone calls unpin
+> on something totally random that wasn't even pinned we don't need to
+> handle that gracefully.
 
-diff --git a/Documentation/driver-api/firmware/other_interfaces.rst b/Documentation/driver-api/firmware/other_interfaces.rst
-index b81794e0cfbb..06ac89adaafb 100644
---- a/Documentation/driver-api/firmware/other_interfaces.rst
-+++ b/Documentation/driver-api/firmware/other_interfaces.rst
-@@ -13,6 +13,12 @@ EDD Interfaces
- .. kernel-doc:: drivers/firmware/edd.c
-    :internal:
- 
-+Generic System Framebuffers Interface
-+-------------------------------------
-+
-+.. kernel-doc:: drivers/firmware/sysfb.c
-+   :export:
-+
- Intel Stratix10 SoC Service Layer
- ---------------------------------
- Some features of the Intel Stratix10 SoC require a level of privilege
-diff --git a/drivers/firmware/sysfb.c b/drivers/firmware/sysfb.c
-index b032f40a92de..1f276f108cc9 100644
---- a/drivers/firmware/sysfb.c
-+++ b/drivers/firmware/sysfb.c
-@@ -34,21 +34,59 @@
- #include <linux/screen_info.h>
- #include <linux/sysfb.h>
- 
-+static struct platform_device *pd;
-+static DEFINE_MUTEX(disable_lock);
-+static bool disabled;
-+
-+static bool sysfb_unregister(void)
-+{
-+	if (IS_ERR_OR_NULL(pd))
-+		return false;
-+
-+	platform_device_unregister(pd);
-+	pd = NULL;
-+
-+	return true;
-+}
-+
-+/**
-+ * sysfb_disable() - disable the Generic System Framebuffers support
-+ *
-+ * This disables the registration of system framebuffer devices that match the
-+ * generic drivers that make use of the system framebuffer set up by firmware.
-+ *
-+ * It also unregisters a device if this was already registered by sysfb_init().
-+ *
-+ * Context: The function can sleep. A @disable_lock mutex is acquired to serialize
-+ *          against sysfb_init(), that registers a system framebuffer device.
-+ */
-+void sysfb_disable(void)
-+{
-+	mutex_lock(&disable_lock);
-+	sysfb_unregister();
-+	disabled = true;
-+	mutex_unlock(&disable_lock);
-+}
-+EXPORT_SYMBOL_GPL(sysfb_disable);
-+
- static __init int sysfb_init(void)
- {
- 	struct screen_info *si = &screen_info;
- 	struct simplefb_platform_data mode;
--	struct platform_device *pd;
- 	const char *name;
- 	bool compatible;
--	int ret;
-+	int ret = 0;
-+
-+	mutex_lock(&disable_lock);
-+	if (disabled)
-+		goto unlock_mutex;
- 
- 	/* try to create a simple-framebuffer device */
- 	compatible = sysfb_parse_mode(si, &mode);
- 	if (compatible) {
- 		pd = sysfb_create_simplefb(si, &mode);
- 		if (!IS_ERR(pd))
--			return 0;
-+			goto unlock_mutex;
- 	}
- 
- 	/* if the FB is incompatible, create a legacy framebuffer device */
-@@ -60,8 +98,10 @@ static __init int sysfb_init(void)
- 		name = "platform-framebuffer";
- 
- 	pd = platform_device_alloc(name, 0);
--	if (!pd)
--		return -ENOMEM;
-+	if (!pd) {
-+		ret = -ENOMEM;
-+		goto unlock_mutex;
-+	}
- 
- 	sysfb_apply_efi_quirks(pd);
- 
-@@ -73,9 +113,11 @@ static __init int sysfb_init(void)
- 	if (ret)
- 		goto err;
- 
--	return 0;
-+	goto unlock_mutex;
- err:
- 	platform_device_put(pd);
-+unlock_mutex:
-+	mutex_unlock(&disable_lock);
- 	return ret;
- }
- 
-diff --git a/include/linux/sysfb.h b/include/linux/sysfb.h
-index 708152e9037b..8ba8b5be5567 100644
---- a/include/linux/sysfb.h
-+++ b/include/linux/sysfb.h
-@@ -55,6 +55,18 @@ struct efifb_dmi_info {
- 	int flags;
- };
- 
-+#ifdef CONFIG_SYSFB
-+
-+void sysfb_disable(void);
-+
-+#else /* CONFIG_SYSFB */
-+
-+static inline void sysfb_disable(void)
-+{
-+}
-+
-+#endif /* CONFIG_SYSFB */
-+
- #ifdef CONFIG_EFI
- 
- extern struct efifb_dmi_info efifb_dmi_list[];
--- 
-2.35.1
+Makes sense. I can drop that in next version.
 
+> Reviewed-by: Christoph Hellwig <hch@lst.de>
+
+Will add to v3. Thanks for the review!
