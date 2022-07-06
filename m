@@ -2,144 +2,181 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 02685C43334
-	for <linux-doc@archiver.kernel.org>; Wed,  6 Jul 2022 14:08:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B56DCCA473
+	for <linux-doc@archiver.kernel.org>; Wed,  6 Jul 2022 14:21:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231335AbiGFOID (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 6 Jul 2022 10:08:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36674 "EHLO
+        id S232935AbiGFOVx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 6 Jul 2022 10:21:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46966 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229780AbiGFOIC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Jul 2022 10:08:02 -0400
-Received: from mail-yb1-xb31.google.com (mail-yb1-xb31.google.com [IPv6:2607:f8b0:4864:20::b31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EDA5EBCB
-        for <linux-doc@vger.kernel.org>; Wed,  6 Jul 2022 07:08:01 -0700 (PDT)
-Received: by mail-yb1-xb31.google.com with SMTP id r3so27511705ybr.6
-        for <linux-doc@vger.kernel.org>; Wed, 06 Jul 2022 07:08:01 -0700 (PDT)
+        with ESMTP id S233168AbiGFOVu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Jul 2022 10:21:50 -0400
+Received: from mail-yb1-xb36.google.com (mail-yb1-xb36.google.com [IPv6:2607:f8b0:4864:20::b36])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1516125297
+        for <linux-doc@vger.kernel.org>; Wed,  6 Jul 2022 07:21:49 -0700 (PDT)
+Received: by mail-yb1-xb36.google.com with SMTP id 76so11967046ybd.0
+        for <linux-doc@vger.kernel.org>; Wed, 06 Jul 2022 07:21:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=eclypsium.com; s=google;
-        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=Om1WpIfJ0pRyZjCduUTT9lpr6Oj+jNLSsXerfpCo2/8=;
-        b=Tg7eoE+IMRAWir/+HdF33YLTISRXVrAUKHvbY7bxpPLCl70axCIv7MI0iYYisB9nZQ
-         CF7o/zBhgvyXNzsICGB/ssVEZTvQXkHSnYogT+rXhBTkYvldhWY0E0AKXXr9kY0k2Dl+
-         nxSlE2B/soYDzqL8HCqnlJ80IRYl8OQY6M6ZaMIey236nopp6MzM0a95Y1MBDPSqMBbh
-         qsdUhokcMEryVya05UJiVzmXxIUDPW3cFWwzjta8HKcUfPsYkO/TKw3q82CsfuLKAGYw
-         XF9ubwdSWeTs0c3PZBXF0RLTVkjSnUf/d1epQ2R/M7D1YAJOXLMWZoUBlIl+4T7OhwgH
-         pdKw==
+        bh=TZKM0t6HsBIfJ0404Af4NFugyDQyMH8W4cl9OJ1Qs2w=;
+        b=O6cpp28PS4XrE4nOdOPkbf5qTPLQLJI9TtIv1+LhRrp8ubMhX4Zj3MwtSgRDYLqkTO
+         1Y+2387LN94AF1PIAWFAk4+owAKN47wmWsLs/MyAIaKUedmYXhv+t/oLRBlz9ocHnrHI
+         WLoT4G+J9R6sQFq4Rzsd2oMC/5OKiOqT4xcQelXvbmkw28/qn5p97SZnDoJ19ul7marN
+         uXpVyeyNDUQT6mMGEhJxi05bJkhfaNSIJaU1bmlFAe7qgKa73sNbsi14E4B1CWcyj2G3
+         DXaOS2osYPbRtZrppjpPEyVfwxn92ucyiP6f8HPhPd7m89zdWhYBIqWAf3Cm3WQg29NH
+         wZMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=Om1WpIfJ0pRyZjCduUTT9lpr6Oj+jNLSsXerfpCo2/8=;
-        b=ukU2FPrBg5hkX7QDqIjBRiOlFasLMPhvjpXzaSig5Fl49xdtBgXJiyshWpU5jA0Kzm
-         2+Kt+YjJgLdkTbf6QQZYQYVucskuyucBi7ILaFuod1oGAf/sEjwcxwpBiMPXtfwmr/zi
-         jr0zlolXGCpiodybfPogyVmlirCKh48KeQZTTCuLngaAEfBHFCa5hWIBPXm1Wl3BqWKr
-         qvraCIu/wFrQZMt33MexaD8XbydYJjNsn157wa3iFmESebFNwxioCWgnaFBQwfm7ybue
-         ATY9h/xOzkDgPG/WekllIW9rOIAIyYMIfWcEZeHNk8UQ3s3qaF6+kwUtnfvopwV/NBhU
-         eyzg==
-X-Gm-Message-State: AJIora/54mQr1XcsWOHXcgY00FLYKHsQRLN8oe34/5m/nBUJI4K73/3U
-        b9i2d2T4qZahkN096jDnPvUS0AcO3RZkrOd6yarCoQ==
-X-Google-Smtp-Source: AGRyM1sU+RXBjq9PZP+6Twyanz7DHV+w6gXPUB4F91HMqCcA48w+EytN1dRAHsAT4Yb90bHvEIFZkHKOejpBxEncqMg=
-X-Received: by 2002:a25:cf81:0:b0:66e:604f:5f8 with SMTP id
- f123-20020a25cf81000000b0066e604f05f8mr13899849ybg.513.1657116481062; Wed, 06
- Jul 2022 07:08:01 -0700 (PDT)
+        bh=TZKM0t6HsBIfJ0404Af4NFugyDQyMH8W4cl9OJ1Qs2w=;
+        b=e+OZp1GqPOW6yX2f+dK9msbDRjjmKF2uinZZY2EN0jMkCREC2AkZW4OmwkFxk54i5M
+         5TEbCKhvq46xf0La86JrbmMc+Tl7vNzE7ds+4H7REHQCpTDrCBHWsiDT6WjTlPyVBj/Y
+         yaDKqvOoKMmbm18VCBg+OcZx6W2J4f7HBEEdDhppCj+MPAEYfPumETgDf9/acZHF4MK3
+         xzKzXrSj0S40n2d7lJwvgKCZf2y2sqq4G3rjD7TlK4/iDPO7ySig+wCy1eLIYp8fCrqS
+         j7HNHCjoOPMXw9lMSosaMTnheZYPOCX5Bl9VWph2uzWIMT3Dw3t/OPFIeKLuyUzIznNb
+         0fow==
+X-Gm-Message-State: AJIora/m9ClHmp/jeFKg+IZczCpkXkGbSyJzw/sx5zL2MrAiblx4VKjm
+        xMp6uknWsAjBRF1wl7waAju7Ul0Rzx1ObeUyrFc=
+X-Google-Smtp-Source: AGRyM1uzYJzOnZs52NzsIutn8wb1SSrFAgtbM2FmKigWtGcQtlvusxASGTaZnbudJFvnfDW+GkG1bX0yg/Bfjd7RpmQ=
+X-Received: by 2002:a5b:8cd:0:b0:66e:7510:8de2 with SMTP id
+ w13-20020a5b08cd000000b0066e75108de2mr9119437ybq.27.1657117308108; Wed, 06
+ Jul 2022 07:21:48 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a0d:f944:0:0:0:0:0 with HTTP; Wed, 6 Jul 2022 07:07:59 -0700 (PDT)
-In-Reply-To: <16d9f9ea-0727-91cf-5443-eb4d3640ec60@gmail.com>
-References: <CAKgze5Yv+mzbsS+L50GHwLLJm4SfDVRP4QKwUPBdihqsq6OjJQ@mail.gmail.com>
- <16d9f9ea-0727-91cf-5443-eb4d3640ec60@gmail.com>
-From:   Martin Fernandez <martin.fernandez@eclypsium.com>
-Date:   Wed, 6 Jul 2022 11:07:59 -0300
-Message-ID: <CAKgze5bhMisUvNr-u5yeOaGdGEVu0GZmfm5xpK9mx3mdzxHj9w@mail.gmail.com>
+References: <20220704225757.1811311-1-martin.fernandez@eclypsium.com>
+ <CAKXUXMy+8_O_k5AzE+3VEcMvpJ1BBRm337Nu1J7TDjoKGZx3qA@mail.gmail.com> <CAKgze5ZoYEcPDwDgPkNehuM431z7SdF03308N0EuRRBWr68T1Q@mail.gmail.com>
+In-Reply-To: <CAKgze5ZoYEcPDwDgPkNehuM431z7SdF03308N0EuRRBWr68T1Q@mail.gmail.com>
+From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date:   Wed, 6 Jul 2022 16:21:37 +0200
+Message-ID: <CAKXUXMyem+n2NySP2smrZLyjvVDWeSAM3Fst4QejLiCCH_gO8g@mail.gmail.com>
 Subject: Re: [PATCH v3] doc/checkpatch: Add description to MACRO_ARG_REUSE
-To:     Akira Yokosawa <akiyks@gmail.com>
-Cc:     bagasdotme@gmail.com, dwaipayanray1@gmail.com, joe@perches.com,
-        linux-doc@vger.kernel.org, lukas.bulwahn@gmail.com
+To:     Martin Fernandez <martin.fernandez@eclypsium.com>
+Cc:     "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Dwaipayan Ray <dwaipayanray1@gmail.com>,
+        Joe Perches <joe@perches.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 7/6/22, Akira Yokosawa <akiyks@gmail.com> wrote:
-> Hi,
-> Let me chime in.
+On Wed, Jul 6, 2022 at 3:26 PM Martin Fernandez
+<martin.fernandez@eclypsium.com> wrote:
 >
-> On Wed, 6 Jul 2022 10:19:46 -0300, Martin Fernandez wrote:
->> On 7/6/22, Bagas Sanjaya <bagasdotme@gmail.com> wrote:
->>> On Mon, Jul 04, 2022 at 07:57:57PM -0300, Martin Fernandez wrote:
->>>> +  **ARG_REUSE**
->>>> +    Using the same argument multiple times in the macro definition
->>>> +    would lead to unwanted side-effects.
->>>> +
->>>> +    For example, given a `min` macro defined like::
->>>> +
->>>> +      #define min(x, y)  ((x) < (y) ? (x) : (y))
->>>> +
->>>> +    If you call it with `min(foo(x), 0)`, it would expand to::
->>>> +
->>>> +      foo(x) < 0 ? foo(x) : 0
->>>> +
->>>
->>> Nit: literal blocks are indented three spaces relative to surrounding
->>> paragraph.
->>
->> I just been told that I should be using 2 (I was using 1) and the rest
->> of the file have 2 spaces...
+> On 7/6/22, Lukas Bulwahn <lukas.bulwahn@gmail.com> wrote:
+> > On Tue, Jul 5, 2022 at 1:00 AM Martin Fernandez
+> > <martin.fernandez@eclypsium.com> wrote:
+> >>
+> >> Add a description, an example and a possible workaround to the
+> >> MACRO_ARG_REUSE check.
+> >>
+> >> Signed-off-by: Martin Fernandez <martin.fernandez@eclypsium.com>
+> >> Acked-by: Dwaipayan Ray <dwaipayanray1@gmail.com>
+> >> ---
+> >>  Documentation/dev-tools/checkpatch.rst | 20 ++++++++++++++++++++
+> >>  1 file changed, 20 insertions(+)
+> >>
+> >> diff --git a/Documentation/dev-tools/checkpatch.rst
+> >> b/Documentation/dev-tools/checkpatch.rst
+> >> index b52452bc2963..86545c65cf7b 100644
+> >> --- a/Documentation/dev-tools/checkpatch.rst
+> >> +++ b/Documentation/dev-tools/checkpatch.rst
+> >> @@ -759,6 +759,26 @@ Indentation and Line Breaks
+> >>  Macros, Attributes and Symbols
+> >>  ------------------------------
+> >>
+> >> +  **ARG_REUSE**
+> >
+> > The name of this checkpatch type is actually "MACRO_ARG_REUSE".
 >
-> I think what Bagas said above is convention of Python documentation [1].
-> As far I see, there is no such convention in kernel documentation.
-> Indents of 2 spaces are fine as far as they are consistent in
-> related .rst files, I suppose.
+> You are right.
 >
-> [1]: https://devguide.python.org/documenting/#use-of-whitespace
+> >> +    Using the same argument multiple times in the macro definition
+> >> +    would lead to unwanted side-effects.
+> >
+> > how about "... may lead to unwanted side effects"?
+> >
+> > Rationale: it does only lead to side effects if there are multiple
+> > computations involved.
 >
->>
->>>> +    If `foo` has side-effects or it's an expensive calculation the
->>>> +    results might not be what the user intended.
->>>> +
->>>> +    For a workaround the idea is to define local variables to hold the
->>>> +    macro's arguments. Checkout the actual implementation of `min` in
->>>> +    include/linux/minmax.h for the full implementation of the
->>>> +    workaround.
->>>> +
->>>
->>> For inline code, the correct syntax is ``some text``.
->>
->> You are right, I just misleadingly reused the syntax for some other
->> example in the file.
->>
->>> However, by
->>> convention here, the backquotes aren't used where these would be
->>> appropriate, like variable and function names.
->>
->> So you are saying that for single variables and functions you don't
->> use double backquotes?
+> Good point.
 >
-> If you want crossref from the functions to their kernel-doc definitions,
-> you can just say function() --- no double backquotes.
-> If you say ``function()``, crossref won't work. See [2] for such
-> crossrefs.
+> > just on spelling:
+> > s/side-effects/side effects/
+> >
+> >> +
+> >> +    For example, given a `min` macro defined like::
+> >> +
+> >> +      #define min(x, y)  ((x) < (y) ? (x) : (y))
+> >> +
+> >> +    If you call it with `min(foo(x), 0)`, it would expand to::
+> >> +
+> >> +      foo(x) < 0 ? foo(x) : 0
+> >> +
+> >> +    If `foo` has side-effects or it's an expensive calculation the
+> >> +    results might not be what the user intended.
+> >> +
+> >
+> > s/side-effects/side effects/
+> >
+> >> +    For a workaround the idea is to define local variables to hold the
+> >> +    macro's arguments. Checkout the actual implementation of `min` in
+> >> +    include/linux/minmax.h for the full implementation of the
+> >> +    workaround.
+> >> +
+> >
+> > I ran checkpatch on all commits from v5.17..v5.18 and looked for all
+> > check warnings with MACRO_ARG_REUSE.
+> >
+> > There were 35 warnings in 15 commits, touching 16 different files (4
+> > in drivers/staging, 5 in drivers/net/wireless/, 5 in
+> > drivers/net/ethernet/, 1 in drivers/net/dsa/, 1 in drivers/net/can/).
+> >
+> > As far as I see it from those commits, the more common way to address
+> > this is to check that a macro is only used locally in some file and
+> > that all uses of that macro pass a constant value as macro argument.
+> >
+> > Maybe we add these two as equally good alternatives?
 >
-> [2]:
-> https://www.kernel.org/doc/html/latest/doc-guide/kernel-doc.html#cross-referencing-from-restructuredtext
+> Yes, that's what I did on my patch that triggered this patch. But I
+> don't think that's a workaround. You still have the issue there, just
+> that the uses of the macros are "good".
 >
-> For simple variables, the style is up to you.  Too much double
-> backquotes might make the text hard to read as plain text, though.
+> I think that falls better into the "I know what I'm doing, I'm ok with
+> the warning" scenario, than a proper workaround.
+>
 
-Great! Thanks for clearing both doubts!
+Well, the purpose of the checkpatch documentation is to provide some
+more background information on the warning (e.g., the historic
+motivation, what to consider when judging its validity) and any hints
+on possible resolutions. So, I would expect to see the documentation
+cover explaining the most common (reusable) resolutions. A valid
+argument why a check warning can be ignored falls into such a
+resolution. In fact, the category "CHECK" in checkpatch.pl already
+suggests that often the resolution may be to "inspect some code, but
+not modify the code and then further 'ignore' the reported warning",
+as some rules in checkpatch are checking something with just some
+quite weak heuristics.
 
->         Thanks, Akira
->
->>
->>> For the last paragraph, better say "The workaround is to define local
->>> variables to hold macro arguments. See the min macro in
->>> include/linux/minmax.h for example.".
->>
->> I like it. Thanks.
->>
->>> --
->>> An old man doll... just what I always wanted! - Clara
->>>
->>
->
+So, for this patch here: How about avoiding the word "workaround" and
+just state these to options as resolution, e.g., a text like this:
+
+Here are two possible options:
+- Check the macro arguments of all uses of this macro to be free of
+unintended side effects. Passing a constant value is usually fine, as
+the compiler will use constant propagation and further optimizations
+to produce acceptable code.
+- If needed, define local variables in the macro to hold the macro's
+argument. See the implementation of `min` in include/linux/minmax.h as
+one example of this option.
+
+What do you think?
+
+I really appreciate you providing some documentation for this rule. I
+also appreciate the rules that checkpatch.pl checks being better
+explained to all of us in the kernel community. That avoids that we
+all, especially newcomers, individually wonder about what checkpatch
+intends to warn us about.
+
+Lukas
