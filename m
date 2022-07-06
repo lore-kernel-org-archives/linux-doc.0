@@ -2,135 +2,207 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AE8D9C433EF
-	for <linux-doc@archiver.kernel.org>; Wed,  6 Jul 2022 15:09:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6BFFDCCA483
+	for <linux-doc@archiver.kernel.org>; Wed,  6 Jul 2022 15:32:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230268AbiGFPJL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 6 Jul 2022 11:09:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53676 "EHLO
+        id S233885AbiGFPcj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 6 Jul 2022 11:32:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44380 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229870AbiGFPJI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Jul 2022 11:09:08 -0400
-Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com [IPv6:2607:f8b0:4864:20::62f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE572DF30
-        for <linux-doc@vger.kernel.org>; Wed,  6 Jul 2022 08:09:07 -0700 (PDT)
-Received: by mail-pl1-x62f.google.com with SMTP id m2so13890930plx.3
-        for <linux-doc@vger.kernel.org>; Wed, 06 Jul 2022 08:09:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:to:cc:references:subject
-         :content-language:from:in-reply-to:content-transfer-encoding;
-        bh=CjWh0bRoLxQ7VyDqT5yHnppMmjghw/7OuldZ9sVFwNs=;
-        b=jwEGBFYenvAhomOzpE8JocUkqpOb8m4+FgB0WWXxjYZnEmWJs9kAi9Ikw0n6fD0Oy4
-         P9k184IlYN0VVkJsCcozBokukq6pzEDmhYRszz7d2thF9UQVCc1PU7zuj5cgbJyRvEih
-         jTVK/p+R/dFXkBNRwvva5sHHrMVmlqQDEhc9q1YvZ3Ce95ouAdR6XwsCkY34DLgP0qKQ
-         gQJ/glw3UVG4ENgq3cdq/j2uV/7tnKXAYOwH5yzWaKkKpgIN5qFhTSotIgNNbZy1aOnK
-         xOjwRyrA/TabZu5xn8rcvDRRaEV/zS0HMtbuCt2HLEE3XMUFLhEu8varrBEXVPb+JZNw
-         QCXA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:to:cc
-         :references:subject:content-language:from:in-reply-to
-         :content-transfer-encoding;
-        bh=CjWh0bRoLxQ7VyDqT5yHnppMmjghw/7OuldZ9sVFwNs=;
-        b=JL6ewndTRCl2sfMqvVLF8R4NPt8LJZZzQCbz1YZt4p2eKILWiAPIt4pn353hj6BgEd
-         yD3RzEp8RuUGDCLVcZ3DeGu+OR2SUvtDDLhBsfN1mvGONID5ypPFh1xEkPjcpGdHaafy
-         zFTcLomGk58SZoueLuy7+r1zZkvv1su3VV5VL60kU1plK3cM1TE3Tfa36eC0ezKibfIG
-         +NT+F4bzYM5Hxklq98/Ml+brOWL0vFSH5+jyLpeZTOv1Un6aF1wK9lUAKIcBukrPK+UK
-         z0/ZMM8bP7JYgCjD6vDvAjgFOyk0mZvKUdqkwLLR5mCXcK1nljXlUdxXw5WGzSYWH4vF
-         lo0g==
-X-Gm-Message-State: AJIora8LJVCYS+mADtZOXwckOxPwyf8jYsVZ9vgHnl5uwwaaJXN6uZrN
-        SD0Aapl6Bh4uVwydA1abRLI=
-X-Google-Smtp-Source: AGRyM1vNIvCBCEDPfGbq+H/TPKvb63snJ/oXNL1XOcP8SbZhAwqROW35O8HczJy7c09eqmeb4cJtyg==
-X-Received: by 2002:a17:90a:fa05:b0:1ef:89d1:1255 with SMTP id cm5-20020a17090afa0500b001ef89d11255mr19460179pjb.73.1657120147221;
-        Wed, 06 Jul 2022 08:09:07 -0700 (PDT)
-Received: from [192.168.11.9] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id x16-20020a17090a165000b001ef406682c1sm14230990pje.39.2022.07.06.08.09.04
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 06 Jul 2022 08:09:06 -0700 (PDT)
-Message-ID: <554d0394-321c-c206-1774-7d33360b1553@gmail.com>
-Date:   Thu, 7 Jul 2022 00:09:02 +0900
+        with ESMTP id S233974AbiGFPcS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Jul 2022 11:32:18 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5CEF27B1C;
+        Wed,  6 Jul 2022 08:31:40 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 90B2AB81D93;
+        Wed,  6 Jul 2022 15:31:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57252C3411C;
+        Wed,  6 Jul 2022 15:31:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1657121498;
+        bh=SuF4v3Uz5uTNz8Vjlm3/PnuewX3rlJ5M1kikWnOZ87c=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=Kap7Dbsl3MImUUIbDe1lCtBNYHHFd5b7xtKE2uIXQAPy3ESeTbE4qdIyV45IBslLy
+         48ViL1ffYzMf4OUcfPj3OlS6q7zj6dmCvLTrtnxPaxiaOoNfHrXE5ITCCfwboJOCrw
+         W0dTDrJgUsRuZYREmVcxwvNhWnDdof0hLt5OIqXYhOEbMBJjM3+qDZqka71fbawSys
+         Yg8MKrGDo75c9OLXnogHJrA4ZrVk4Ku9l6XbDs4/i2LosQeAKl9DSVLCCuPh3RQqZU
+         ++oyXirPeWxDyteKR1smzCUulXOU0PvtjiEUMlO6jU2dgnQRmred6Um2e3U55R6ZoH
+         ysWOxEWZSvR6w==
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Javier Martinez Canillas <javierm@redhat.com>,
+        Daniel Vetter <daniel.vetter@ffwll.ch>,
+        Sasha Levin <sashal@kernel.org>, corbet@lwn.net,
+        tzimmermann@suse.de, bp@suse.de, gregkh@linuxfoundation.org,
+        linux-doc@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.18 16/22] firmware: sysfb: Add sysfb_disable() helper function
+Date:   Wed,  6 Jul 2022 11:30:34 -0400
+Message-Id: <20220706153041.1597639-16-sashal@kernel.org>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220706153041.1597639-1-sashal@kernel.org>
+References: <20220706153041.1597639-1-sashal@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-To:     Martin Fernandez <martin.fernandez@eclypsium.com>
-Cc:     dwaipayanray1@gmail.com, joe@perches.com,
-        linux-doc@vger.kernel.org, lukas.bulwahn@gmail.com,
-        Akira Yokosawa <akiyks@gmail.com>
-References: <20220704225757.1811311-1-martin.fernandez@eclypsium.com>
-Subject: Re: [PATCH v3] doc/checkpatch: Add description to MACRO_ARG_REUSE
-Content-Language: en-US
-From:   Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <20220704225757.1811311-1-martin.fernandez@eclypsium.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
-Minor nit on reST syntax.
+From: Javier Martinez Canillas <javierm@redhat.com>
 
-On Mon,  4 Jul 2022 19:57:57 -0300, Martin Fernandez wrote:
-> Add a description, an example and a possible workaround to the
-> MACRO_ARG_REUSE check.
-> 
-> Signed-off-by: Martin Fernandez <martin.fernandez@eclypsium.com>
-> Acked-by: Dwaipayan Ray <dwaipayanray1@gmail.com>
-> ---
->  Documentation/dev-tools/checkpatch.rst | 20 ++++++++++++++++++++
->  1 file changed, 20 insertions(+)
-> 
-> diff --git a/Documentation/dev-tools/checkpatch.rst b/Documentation/dev-tools/checkpatch.rst
-> index b52452bc2963..86545c65cf7b 100644
-> --- a/Documentation/dev-tools/checkpatch.rst
-> +++ b/Documentation/dev-tools/checkpatch.rst
-> @@ -759,6 +759,26 @@ Indentation and Line Breaks
->  Macros, Attributes and Symbols
->  ------------------------------
->  
-> +  **ARG_REUSE**> +    Using the same argument multiple times in the macro definition
-> +    would lead to unwanted side-effects.
+[ Upstream commit bde376e9de3c0bc55eedc8956b0f114c05531595 ]
 
-You don't need manual emphasis as above, as this list is already
-in the form of so-called "Definition Lists" [1, 2].
+This can be used by subsystems to unregister a platform device registered
+by sysfb and also to disable future platform device registration in sysfb.
 
-[1]: https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html#definition-lists
-[2]: https://www.sphinx-doc.org/en/master/usage/restructuredtext/basics.html#lists-and-quote-like-blocks
+Suggested-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+Link: https://patchwork.freedesktop.org/patch/msgid/20220607182338.344270-3-javierm@redhat.com
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ .../driver-api/firmware/other_interfaces.rst  |  6 +++
+ drivers/firmware/sysfb.c                      | 54 ++++++++++++++++---
+ include/linux/sysfb.h                         | 12 +++++
+ 3 files changed, 66 insertions(+), 6 deletions(-)
 
-Defined terms will be automatically emphasized by Sphinx and
-should look in bold face in the generated HTML/PDF.
-(Style of emphasis might be customized by configuration.)
+diff --git a/Documentation/driver-api/firmware/other_interfaces.rst b/Documentation/driver-api/firmware/other_interfaces.rst
+index b81794e0cfbb..06ac89adaafb 100644
+--- a/Documentation/driver-api/firmware/other_interfaces.rst
++++ b/Documentation/driver-api/firmware/other_interfaces.rst
+@@ -13,6 +13,12 @@ EDD Interfaces
+ .. kernel-doc:: drivers/firmware/edd.c
+    :internal:
+ 
++Generic System Framebuffers Interface
++-------------------------------------
++
++.. kernel-doc:: drivers/firmware/sysfb.c
++   :export:
++
+ Intel Stratix10 SoC Service Layer
+ ---------------------------------
+ Some features of the Intel Stratix10 SoC require a level of privilege
+diff --git a/drivers/firmware/sysfb.c b/drivers/firmware/sysfb.c
+index b032f40a92de..1f276f108cc9 100644
+--- a/drivers/firmware/sysfb.c
++++ b/drivers/firmware/sysfb.c
+@@ -34,21 +34,59 @@
+ #include <linux/screen_info.h>
+ #include <linux/sysfb.h>
+ 
++static struct platform_device *pd;
++static DEFINE_MUTEX(disable_lock);
++static bool disabled;
++
++static bool sysfb_unregister(void)
++{
++	if (IS_ERR_OR_NULL(pd))
++		return false;
++
++	platform_device_unregister(pd);
++	pd = NULL;
++
++	return true;
++}
++
++/**
++ * sysfb_disable() - disable the Generic System Framebuffers support
++ *
++ * This disables the registration of system framebuffer devices that match the
++ * generic drivers that make use of the system framebuffer set up by firmware.
++ *
++ * It also unregisters a device if this was already registered by sysfb_init().
++ *
++ * Context: The function can sleep. A @disable_lock mutex is acquired to serialize
++ *          against sysfb_init(), that registers a system framebuffer device.
++ */
++void sysfb_disable(void)
++{
++	mutex_lock(&disable_lock);
++	sysfb_unregister();
++	disabled = true;
++	mutex_unlock(&disable_lock);
++}
++EXPORT_SYMBOL_GPL(sysfb_disable);
++
+ static __init int sysfb_init(void)
+ {
+ 	struct screen_info *si = &screen_info;
+ 	struct simplefb_platform_data mode;
+-	struct platform_device *pd;
+ 	const char *name;
+ 	bool compatible;
+-	int ret;
++	int ret = 0;
++
++	mutex_lock(&disable_lock);
++	if (disabled)
++		goto unlock_mutex;
+ 
+ 	/* try to create a simple-framebuffer device */
+ 	compatible = sysfb_parse_mode(si, &mode);
+ 	if (compatible) {
+ 		pd = sysfb_create_simplefb(si, &mode);
+ 		if (!IS_ERR(pd))
+-			return 0;
++			goto unlock_mutex;
+ 	}
+ 
+ 	/* if the FB is incompatible, create a legacy framebuffer device */
+@@ -60,8 +98,10 @@ static __init int sysfb_init(void)
+ 		name = "platform-framebuffer";
+ 
+ 	pd = platform_device_alloc(name, 0);
+-	if (!pd)
+-		return -ENOMEM;
++	if (!pd) {
++		ret = -ENOMEM;
++		goto unlock_mutex;
++	}
+ 
+ 	sysfb_apply_efi_quirks(pd);
+ 
+@@ -73,9 +113,11 @@ static __init int sysfb_init(void)
+ 	if (ret)
+ 		goto err;
+ 
+-	return 0;
++	goto unlock_mutex;
+ err:
+ 	platform_device_put(pd);
++unlock_mutex:
++	mutex_unlock(&disable_lock);
+ 	return ret;
+ }
+ 
+diff --git a/include/linux/sysfb.h b/include/linux/sysfb.h
+index 708152e9037b..8ba8b5be5567 100644
+--- a/include/linux/sysfb.h
++++ b/include/linux/sysfb.h
+@@ -55,6 +55,18 @@ struct efifb_dmi_info {
+ 	int flags;
+ };
+ 
++#ifdef CONFIG_SYSFB
++
++void sysfb_disable(void);
++
++#else /* CONFIG_SYSFB */
++
++static inline void sysfb_disable(void)
++{
++}
++
++#endif /* CONFIG_SYSFB */
++
+ #ifdef CONFIG_EFI
+ 
+ extern struct efifb_dmi_info efifb_dmi_list[];
+-- 
+2.35.1
 
-It looks like there exists other similar patterns in this file
-(or might as well be in other related .rst files).  I'd suggest
-removing those manual emphases in a follow-up patch.
-
-This is only a weak suggestion, and there is no urgency.
-Of course, if you have a reason to do the manual emphases,
-there is no need to change.
-
-        Thanks, Akira
-
-> +
-> +    For example, given a `min` macro defined like::
-> +
-> +      #define min(x, y)  ((x) < (y) ? (x) : (y))
-> +
-> +    If you call it with `min(foo(x), 0)`, it would expand to::
-> +
-> +      foo(x) < 0 ? foo(x) : 0
-> +
-> +    If `foo` has side-effects or it's an expensive calculation the
-> +    results might not be what the user intended.
-> +
-> +    For a workaround the idea is to define local variables to hold the
-> +    macro's arguments. Checkout the actual implementation of `min` in
-> +    include/linux/minmax.h for the full implementation of the
-> +    workaround.
-> +
->    **ARRAY_SIZE**
->      The ARRAY_SIZE(foo) macro should be preferred over
->      sizeof(foo)/sizeof(foo[0]) for finding number of elements in an
-> -- 
-> 2.30.2
