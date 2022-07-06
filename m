@@ -2,103 +2,72 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 91AA1CCA473
-	for <linux-doc@archiver.kernel.org>; Wed,  6 Jul 2022 10:22:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 909D0C43334
+	for <linux-doc@archiver.kernel.org>; Wed,  6 Jul 2022 10:40:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232243AbiGFKWC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 6 Jul 2022 06:22:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60886 "EHLO
+        id S232606AbiGFKkd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 6 Jul 2022 06:40:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54246 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231935AbiGFKVj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Jul 2022 06:21:39 -0400
-Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com [IPv6:2607:f8b0:4864:20::631])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A55D2714D;
-        Wed,  6 Jul 2022 03:21:15 -0700 (PDT)
-Received: by mail-pl1-x631.google.com with SMTP id m14so13286771plg.5;
-        Wed, 06 Jul 2022 03:21:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=UzsK5A/Pd2DS/q+pu2TPIXsF74uXoZ2jR8FiWqOBTf0=;
-        b=jPknnkWS+HyznwuLvLZ32EFNaMi2kYHUveXX06LBsxWi8WWk54fdGGslOYuaNSzAC1
-         +C/+81V/BTWAnyuW8zpzEOQ+3m5kTKePsPyILyW85ZxloaLy8smIa1RrjtcLHK+50AnN
-         yH5/1g7GUFT38DXkivHkyB65dBQ5OBuhhzy8EUzkCEJTf3ZiONObArhVTtB/OcViMTCO
-         X8KJZBJU4Y7DZ7cizzptUG1IJyL3aKSnpY0xM5e5mg68r1rnl3nGzJWE9g1ZeO/yvMHJ
-         7jvS9E7520rHkopiOmyafXJGnjCstN3kCYMy2ZH1/+Y8EfKqhyAZCsV/fFXXHCJrvG+e
-         ygDw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=UzsK5A/Pd2DS/q+pu2TPIXsF74uXoZ2jR8FiWqOBTf0=;
-        b=w2Y6SpmJBMIP8pXWlIVkOuLu0pbSMIpNPyIM57uEV3EpEgf4KrkJWXTBPF1fkEzlzk
-         3fjU0rN2xN/hQyIl3nVIbu/4f35SanMyY5MH5PLpgvUCGC4IknXEB1H71B7jei9iEN1C
-         Nh07tWJCVfBAaI0AJh8yJ1TOAfLiVvfItTSP35E/c+yX9ijfmK1nOkqw6FEhft2onbP5
-         GtujuryDzNnKM3yhd8BWxEg4gUPoavz2sVhbsdgpLp7Y2eJSPUx58xjPKQEuqg63244C
-         g8JYmAt/zwanWcDzlhPT9lj/X8GSQ98Q/3N8u2u+YxNGjVipJvdTCvISXwz1VlbcWV33
-         dFOg==
-X-Gm-Message-State: AJIora9HhR2u8Q3E16508TwNPd967xYkTau5ZDOBObafM29Dcav9ET0f
-        J7u/ZP2RySDr7b4/ze+q/PM=
-X-Google-Smtp-Source: AGRyM1u62ff8Zjp/L+wMPt2MQjdQjkuAxTYu9AnfGkSn1v7kxGjrvXqT5UyLr/SkNP7QrlRhVQcR8g==
-X-Received: by 2002:a17:90a:c7cc:b0:1ef:775e:8df1 with SMTP id gf12-20020a17090ac7cc00b001ef775e8df1mr26574178pjb.28.1657102874543;
-        Wed, 06 Jul 2022 03:21:14 -0700 (PDT)
-Received: from ?IPV6:2404:f801:0:5:8000::75b? ([2404:f801:9000:1a:efea::75b])
-        by smtp.gmail.com with ESMTPSA id w21-20020a656955000000b0041282c423e6sm2085990pgq.71.2022.07.06.03.21.04
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 06 Jul 2022 03:21:13 -0700 (PDT)
-Message-ID: <71242da1-8a7a-53ca-06d6-7a1363141bd8@gmail.com>
-Date:   Wed, 6 Jul 2022 18:21:02 +0800
+        with ESMTP id S232292AbiGFKkc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Jul 2022 06:40:32 -0400
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F674275D7;
+        Wed,  6 Jul 2022 03:40:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1657104031; x=1688640031;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=ScH0HeU7dDorXbWy0xDO8TdJE8XEpdrmy8mtvvhWr+w=;
+  b=MYzXh/A0VZrqXjvV6G07vCKrHyCLbn5KEZdDUCyVNwSBmTl2LKWi+E/U
+   2t7yHmhE7tb632wuPGxxcdti7WcUzOW0hTAGksAfGdr50oO2oHDHmOnKE
+   lhTztqkd6xv66GHUsec9cTaC7neeKidgDB1qdeYLxpajjOfWbaIl3oPl+
+   OmeH4lPFoP8WnjM90AdTrqnMhqfAEhps/kn9+OigtJxUAhGWzS0s8qBqR
+   26gM1fC3BUgqHTT95yXXuQ6FVh/QPBqtO2L/W5JjdtK5ju2OheLMILe9t
+   xLikHwrkPwu0z3jmP3WBa1rrY6Wx6NIxUmI8YdyUtc+d4OlMNChD6vPQi
+   A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10399"; a="263495378"
+X-IronPort-AV: E=Sophos;i="5.92,249,1650956400"; 
+   d="scan'208";a="263495378"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2022 03:40:28 -0700
+X-IronPort-AV: E=Sophos;i="5.92,249,1650956400"; 
+   d="scan'208";a="597621092"
+Received: from gklab-106a-125.igk.intel.com (HELO localhost) ([10.211.106.125])
+  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2022 03:40:22 -0700
+From:   "Kallas, Pawel" <pawel.kallas@intel.com>
+To:     linux@roeck-us.net, jdelvare@suse.com, corbet@lwn.net,
+        linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Cc:     iwona.winiarska@intel.com, pawel.kallas@intel.com
+Subject: [PATCH 0/3] hwmon: (pmbus) add power from energy readings
+Date:   Wed,  6 Jul 2022 12:40:21 +0200
+Message-Id: <20220706104024.3118590-1-pawel.kallas@intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH 2/2] x86/ACPI: Set swiotlb area according to the number of
- lapic entry in MADT
-Content-Language: en-US
-To:     Christoph Hellwig <hch@infradead.org>
-Cc:     corbet@lwn.net, rafael@kernel.org, len.brown@intel.com,
-        pavel@ucw.cz, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
-        m.szyprowski@samsung.com, robin.murphy@arm.com, paulmck@kernel.org,
-        akpm@linux-foundation.org, keescook@chromium.org,
-        songmuchun@bytedance.com, rdunlap@infradead.org,
-        damien.lemoal@opensource.wdc.com, michael.h.kelley@microsoft.com,
-        kys@microsoft.com, Tianyu Lan <Tianyu.Lan@microsoft.com>,
-        iommu@lists.linux-foundation.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
-        vkuznets@redhat.com, wei.liu@kernel.org, parri.andrea@gmail.com,
-        thomas.lendacky@amd.com, linux-hyperv@vger.kernel.org,
-        kirill.shutemov@intel.com, andi.kleen@intel.com,
-        Andi Kleen <ak@linux.intel.com>
-References: <20220627153150.106995-1-ltykernel@gmail.com>
- <20220627153150.106995-3-ltykernel@gmail.com>
- <YrxcCZKvFYjxLf9n@infradead.org>
- <a876f862-c005-108d-e6f9-68336a8d89f0@gmail.com>
- <YsVBKgxiQKfnCjvn@infradead.org>
- <10062b7d-f0a6-6724-4ccb-506da09a8533@gmail.com>
- <YsVPwYGHUoctAKjs@infradead.org>
-From:   Tianyu Lan <ltykernel@gmail.com>
-In-Reply-To: <YsVPwYGHUoctAKjs@infradead.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 7/6/2022 5:02 PM, Christoph Hellwig wrote:
-> On Wed, Jul 06, 2022 at 04:57:33PM +0800, Tianyu Lan wrote:
->> Swiotlb_init() is called in the mem_init() of different architects and
->> memblock free pages are released to the buddy allocator just after
->> calling swiotlb_init() via memblock_free_all().
-> 
-> Yes.
-> 
->> The mem_init() is called before smp_init().
-> 
-> But why would that matter?  cpu_possible_map is set up from
-> setup_arch(), which is called before that.
+Add support for reading EIN or EOUT registers and expose power calculated
+from energy. This is more accurate than PIN and POUT power readings.
+Readings are exposed in new hwmon files power1_average and power2_average.
+Also add support for QUERY command that is needed to check availability
+of EIN and EOUT reads and its data format. Only direct data format is
+supported due to lack of test devices supporting other formats.
 
-Sorry. I just still focus online cpu number and the number is got after
-smp_init(). Possible cpu number includes some offline cpus. I will have 
-a try. Thanks for suggestion.
+Kallas, Pawel (3):
+  hwmon: (pmbus) add support for QUERY command
+  hwmon: (pmbus) refactor sensor initialization
+  hwmon: (pmbus) add EIN and EOUT readings
+
+ Documentation/hwmon/pmbus-core.rst |   7 +
+ drivers/hwmon/pmbus/pmbus.c        |  20 +++
+ drivers/hwmon/pmbus/pmbus.h        |  19 +++
+ drivers/hwmon/pmbus/pmbus_core.c   | 261 +++++++++++++++++++++++++++--
+ 4 files changed, 291 insertions(+), 16 deletions(-)
+
+
+base-commit: 7c1de25c06f31b04744beae891baf147af9ba0cb
