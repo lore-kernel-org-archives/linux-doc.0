@@ -2,95 +2,146 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 46D8FC433EF
-	for <linux-doc@archiver.kernel.org>; Wed,  6 Jul 2022 13:57:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F663C433EF
+	for <linux-doc@archiver.kernel.org>; Wed,  6 Jul 2022 14:04:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233097AbiGFN55 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 6 Jul 2022 09:57:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55396 "EHLO
+        id S233805AbiGFOEC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 6 Jul 2022 10:04:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60994 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232833AbiGFN54 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Jul 2022 09:57:56 -0400
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17DE017A90;
-        Wed,  6 Jul 2022 06:57:54 -0700 (PDT)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out1.suse.de (Postfix) with ESMTPS id 8B0FE2262B;
-        Wed,  6 Jul 2022 13:57:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1657115873; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=kiUjfUaxXUHtTpdwighgqJkP8dPW871+3s1BnMx2Ltw=;
-        b=yvPvbIuuxtdk2ZX8Q8tSoKYC5cW9dKB+5Zw1LzSQH7197bMhDdli0CWLiflL03yBVSxu31
-        3GMcXYJKFvhvNqtUy2cQiQ4XZHsfkN6pzZ7I3g+QRQgLeWpktmJqk3iii4LCOU5lITaQ9i
-        sL2Y/gJxVd14DsEMqswdcEn7ilbN6V4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1657115873;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=kiUjfUaxXUHtTpdwighgqJkP8dPW871+3s1BnMx2Ltw=;
-        b=DrSRj0EvDTIpUIt/FJqzoaO8ehUFDCc6m4Kks/eb8UIsdpsS4gF3k4Myi2JAHEtoQp9hzo
-        OUxLU3k8ElQq8jAg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 5F0F213A7D;
-        Wed,  6 Jul 2022 13:57:53 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id RZFGFuGUxWKNOAAAMHmgww
-        (envelope-from <hare@suse.de>); Wed, 06 Jul 2022 13:57:53 +0000
-Message-ID: <18d78bd6-2150-f771-9a6e-2b972d2e1192@suse.de>
-Date:   Wed, 6 Jul 2022 15:57:52 +0200
+        with ESMTP id S233876AbiGFODu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Jul 2022 10:03:50 -0400
+Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A22B6F583
+        for <linux-doc@vger.kernel.org>; Wed,  6 Jul 2022 07:03:46 -0700 (PDT)
+Received: by mail-pj1-x1030.google.com with SMTP id g16-20020a17090a7d1000b001ea9f820449so20485195pjl.5
+        for <linux-doc@vger.kernel.org>; Wed, 06 Jul 2022 07:03:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:to:cc:references:subject
+         :content-language:from:in-reply-to:content-transfer-encoding;
+        bh=LvqsSNmN03acL7fG9WYYDHaIwfMzTQegyvIpQs4jT9A=;
+        b=pYWw9FlHh9Z0TMckFwBvoPQ6mzkpY5qyjZNPJ7mPbqmFrp3GsKm1Xj5l+8ndGIBNnH
+         hEj/31Dd211eDNHBAi3YbFzSd87zpmeujmecQU6fNiLPdn5WLxnImOt0Ha16TRAoeajf
+         KUWlFBCePavXbWB9F7VlRXtHQO1kHEQ4K0vVIq2fonOHG8WsBJxnsaMnIqScCyQt2RcQ
+         yeQ8h7+mLLWt81TbmGGJXrxx/bra6T09oPU3p3+7HzJ+MtAcRZopEv+Cyaa/XdzdjPBw
+         zqlONRRnYpxSrcnAHAuXGDtAOAFi/CgdeCHE19KBEyedOXts8StJ5374zD1E+V5xjGkH
+         rpCA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:to:cc
+         :references:subject:content-language:from:in-reply-to
+         :content-transfer-encoding;
+        bh=LvqsSNmN03acL7fG9WYYDHaIwfMzTQegyvIpQs4jT9A=;
+        b=bTiHx3/iQbXbg/hl7G85b4Szjiicb1iStMzbqqpnla/ausfSjACQ5VmNeZ9X54RW1U
+         JpKH+fm+l4wjEfn2zfyAgxZgaFu7Rpm2T8dCLgNjgXFPLmz+JqYOGadT8XP9j3uqU7NZ
+         W/yfCsejcGYatMsUlLwgA0RbMW9ev8ol2uA4PcTF/Xbn1Bv7iQkEcKpP5G/u1QS7rjX8
+         5GIfQo6jdGHeoC4oqsaVyEfsx9MR77G8DpZyonwJOWmEPIHu6+vABw43tqBycz94oNTu
+         CmT1caV5GqQGnvo/82oeleemxAw0eYz13gPIxj6sSXlNRkEeDamJRAQYmxppMXam11Z/
+         JDgA==
+X-Gm-Message-State: AJIora8f5ypiXBtRSP9tU08emSUb5K9fKJ0Qf6F8V/qpkHt8CAeSPYuj
+        ZHK2x+Fg2sFMfzU50zAEm2A=
+X-Google-Smtp-Source: AGRyM1vnbjX+qdJDs/GcrGYovPhvbM3RQnjOyKit26biaedY8JIsUDOg5srqiXicZkFNujdtTBhNGw==
+X-Received: by 2002:a17:902:8f89:b0:168:d336:ddba with SMTP id z9-20020a1709028f8900b00168d336ddbamr45960815plo.1.1657116226003;
+        Wed, 06 Jul 2022 07:03:46 -0700 (PDT)
+Received: from [192.168.11.9] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id mn1-20020a17090b188100b001ef42b3c5besm4461612pjb.23.2022.07.06.07.03.43
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 06 Jul 2022 07:03:45 -0700 (PDT)
+Message-ID: <16d9f9ea-0727-91cf-5443-eb4d3640ec60@gmail.com>
+Date:   Wed, 6 Jul 2022 23:03:41 +0900
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH v3 6/6] blk-mq: Drop local variable for reserved tag
+ Thunderbird/91.9.1
+To:     Martin Fernandez <martin.fernandez@eclypsium.com>
+Cc:     bagasdotme@gmail.com, dwaipayanray1@gmail.com, joe@perches.com,
+        linux-doc@vger.kernel.org, lukas.bulwahn@gmail.com,
+        Akira Yokosawa <akiyks@gmail.com>
+References: <CAKgze5Yv+mzbsS+L50GHwLLJm4SfDVRP4QKwUPBdihqsq6OjJQ@mail.gmail.com>
+Subject: Re: [PATCH v3] doc/checkpatch: Add description to MACRO_ARG_REUSE
 Content-Language: en-US
-To:     John Garry <john.garry@huawei.com>, axboe@kernel.dk,
-        damien.lemoal@opensource.wdc.com, bvanassche@acm.org, hch@lst.de,
-        jejb@linux.ibm.com, martin.petersen@oracle.com, satishkh@cisco.com,
-        sebaddel@cisco.com, kartilak@cisco.com
-Cc:     linux-doc@vger.kernel.org, linux-rdma@vger.kernel.org,
-        linux-mmc@vger.kernel.org, linux-nvme@lists.infradead.org,
-        linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org,
-        mpi3mr-linuxdrv.pdl@broadcom.com, linux-block@vger.kernel.org,
-        linux-kernel@vger.kernel.org, nbd@other.debian.org
-References: <1657109034-206040-1-git-send-email-john.garry@huawei.com>
- <1657109034-206040-7-git-send-email-john.garry@huawei.com>
-From:   Hannes Reinecke <hare@suse.de>
-In-Reply-To: <1657109034-206040-7-git-send-email-john.garry@huawei.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+From:   Akira Yokosawa <akiyks@gmail.com>
+In-Reply-To: <CAKgze5Yv+mzbsS+L50GHwLLJm4SfDVRP4QKwUPBdihqsq6OjJQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 7/6/22 14:03, John Garry wrote:
-> The local variable is now only referenced once so drop it.
-> 
-> Signed-off-by: John Garry <john.garry@huawei.com>
-> Reviewed-by: Bart Van Assche <bvanassche@acm.org>
-> Reviewed-by: Martin K. Petersen <martin.petersen@oracle.com>
-> ---
->   block/blk-mq-tag.c | 6 ++----
->   1 file changed, 2 insertions(+), 4 deletions(-)
-> 
-Reviewed-by: Hannes Reinecke <hare@suse.de>
+Hi,
+Let me chime in.
 
-Cheers,
+On Wed, 6 Jul 2022 10:19:46 -0300, Martin Fernandez wrote:
+> On 7/6/22, Bagas Sanjaya <bagasdotme@gmail.com> wrote:
+>> On Mon, Jul 04, 2022 at 07:57:57PM -0300, Martin Fernandez wrote:
+>>> +  **ARG_REUSE**
+>>> +    Using the same argument multiple times in the macro definition
+>>> +    would lead to unwanted side-effects.
+>>> +
+>>> +    For example, given a `min` macro defined like::
+>>> +
+>>> +      #define min(x, y)  ((x) < (y) ? (x) : (y))
+>>> +
+>>> +    If you call it with `min(foo(x), 0)`, it would expand to::
+>>> +
+>>> +      foo(x) < 0 ? foo(x) : 0
+>>> +
+>>
+>> Nit: literal blocks are indented three spaces relative to surrounding
+>> paragraph.
+> 
+> I just been told that I should be using 2 (I was using 1) and the rest
+> of the file have 2 spaces...
 
-Hannes
--- 
-Dr. Hannes Reinecke		           Kernel Storage Architect
-hare@suse.de			                  +49 911 74053 688
-SUSE Software Solutions Germany GmbH, Maxfeldstr. 5, 90409 Nürnberg
-HRB 36809 (AG Nürnberg), GF: Felix Imendörffer
+I think what Bagas said above is convention of Python documentation [1].
+As far I see, there is no such convention in kernel documentation.
+Indents of 2 spaces are fine as far as they are consistent in
+related .rst files, I suppose.
+
+[1]: https://devguide.python.org/documenting/#use-of-whitespace
+
+> 
+>>> +    If `foo` has side-effects or it's an expensive calculation the
+>>> +    results might not be what the user intended.
+>>> +
+>>> +    For a workaround the idea is to define local variables to hold the
+>>> +    macro's arguments. Checkout the actual implementation of `min` in
+>>> +    include/linux/minmax.h for the full implementation of the
+>>> +    workaround.
+>>> +
+>>
+>> For inline code, the correct syntax is ``some text``.
+> 
+> You are right, I just misleadingly reused the syntax for some other
+> example in the file.
+> 
+>> However, by
+>> convention here, the backquotes aren't used where these would be
+>> appropriate, like variable and function names.
+> 
+> So you are saying that for single variables and functions you don't
+> use double backquotes?
+
+If you want crossref from the functions to their kernel-doc definitions,
+you can just say function() --- no double backquotes.
+If you say ``function()``, crossref won't work. See [2] for such
+crossrefs.
+
+[2]: https://www.kernel.org/doc/html/latest/doc-guide/kernel-doc.html#cross-referencing-from-restructuredtext
+
+For simple variables, the style is up to you.  Too much double
+backquotes might make the text hard to read as plain text, though.
+
+        Thanks, Akira
+
+> 
+>> For the last paragraph, better say "The workaround is to define local
+>> variables to hold macro arguments. See the min macro in
+>> include/linux/minmax.h for example.".
+> 
+> I like it. Thanks.
+> 
+>> --
+>> An old man doll... just what I always wanted! - Clara
+>>
+> 
