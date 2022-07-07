@@ -2,163 +2,133 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A513CCA488
-	for <linux-doc@archiver.kernel.org>; Thu,  7 Jul 2022 08:09:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D99BDC43334
+	for <linux-doc@archiver.kernel.org>; Thu,  7 Jul 2022 08:11:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235354AbiGGIJS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 7 Jul 2022 04:09:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55586 "EHLO
+        id S234887AbiGGILv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 7 Jul 2022 04:11:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55530 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235287AbiGGIIq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Jul 2022 04:08:46 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC77C4D165;
-        Thu,  7 Jul 2022 01:08:37 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 057A961F51;
-        Thu,  7 Jul 2022 08:08:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5C8D2C3411E;
-        Thu,  7 Jul 2022 08:08:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1657181316;
-        bh=Mzw+guaGxcvS7S4YlQr9bq/AYy4U/puT8v9DMSRjm+c=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=o8T0RPLH1+QXuxRGiOx0iOcZa4PNW1RYnmq0rwqP4JlY+PYLChMX98BzUOmDLYQt5
-         WHtgniPDP3fJS/IKoiVXIaVBC8g4rRYZFs4Es7HO3CMez5153+NrgRKDzbP84fxvsI
-         PrLKzhYgkU2Ze+gIXne4sqvbIkFu3tT1lxy0BeOk=
-Date:   Thu, 7 Jul 2022 10:08:33 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     kernel test robot <lkp@intel.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        virtualization@lists.linux-foundation.org,
-        usbb2k-api-dev@nongnu.org, tipc-discussion@lists.sourceforge.net,
-        target-devel@vger.kernel.org, sound-open-firmware@alsa-project.org,
-        samba-technical@lists.samba.org, rds-devel@oss.oracle.com,
-        patches@opensource.cirrus.com, osmocom-net-gprs@lists.osmocom.org,
-        openipmi-developer@lists.sourceforge.net, nvdimm@lists.linux.dev,
-        ntb@lists.linux.dev, netfilter-devel@vger.kernel.org,
-        netdev@vger.kernel.org, mjpeg-users@lists.sourceforge.net,
-        megaraidlinux.pdl@broadcom.com, linuxppc-dev@lists.ozlabs.org,
-        linux1394-devel@lists.sourceforge.net, linux-x25@vger.kernel.org,
-        linux-wpan@vger.kernel.org, linux-wireless@vger.kernel.org,
-        linux-watchdog@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-unionfs@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-staging@lists.linux.dev, linux-serial@vger.kernel.org,
-        linux-sctp@vger.kernel.org, linux-scsi@vger.kernel.org,
-        linux-samsung-soc@vger.kernel.org,
-        linux-rockchip@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org, linux-rdma@vger.kernel.org,
-        linux-raid@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-phy@lists.infradead.org, linux-perf-users@vger.kernel.org,
-        linux-pci@vger.kernel.org, linux-parport@lists.infradead.org,
-        linux-parisc@vger.kernel.org, linux-omap@vger.kernel.org,
-        linux-nfc@lists.01.org, linux-mtd@lists.infradead.org,
-        linux-mmc@vger.kernel.org, linux-mm@kvack.org,
-        linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
-        linux-leds@vger.kernel.org, linux-integrity@vger.kernel.org,
-        linux-input@vger.kernel.org, linux-iio@vger.kernel.org,
-        linux-ide@vger.kernel.org, linux-hwmon@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-fpga@vger.kernel.org,
-        linux-fbdev@vger.kernel.org, linux-ext4@vger.kernel.org,
-        linux-efi@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-cxl@vger.kernel.org, linux-crypto@vger.kernel.org,
-        linux-clk@vger.kernel.org, linux-cifs@vger.kernel.org,
-        linux-btrfs@vger.kernel.org, linux-bluetooth@vger.kernel.org,
-        linux-block@vger.kernel.org, linux-bcache@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-amlogic@lists.infradead.org, linaro-mm-sig@lists.linaro.org,
-        legousb-devel@lists.sourceforge.net, kvm@vger.kernel.org,
-        keyrings@vger.kernel.org, isdn4linux@listserv.isdn4linux.de,
-        iommu@lists.linux.dev, iommu@lists.linux-foundation.org,
-        intel-wired-lan@lists.osuosl.org, greybus-dev@lists.linaro.org,
-        dri-devel@lists.freedesktop.org, dm-devel@redhat.com,
-        devicetree@vger.kernel.org, dev@openvswitch.org,
-        dccp@vger.kernel.org, damon@lists.linux.dev,
-        coreteam@netfilter.org, cgroups@vger.kernel.org,
-        ceph-devel@vger.kernel.org, ath11k@lists.infradead.org,
-        apparmor@lists.ubuntu.com, amd-gfx@lists.freedesktop.org,
-        alsa-devel@alsa-project.org,
-        accessrunner-general@lists.sourceforge.net
-Subject: Re: [linux-next:master] BUILD REGRESSION
- 088b9c375534d905a4d337c78db3b3bfbb52c4a0
-Message-ID: <YsaUgfPbOg7WuBuB@kroah.com>
-References: <62c683a2.g1VSVt6BrQC6ZzOz%lkp@intel.com>
+        with ESMTP id S234850AbiGGILV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Jul 2022 04:11:21 -0400
+Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com [IPv6:2607:f8b0:4864:20::42f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A42231A3BB
+        for <linux-doc@vger.kernel.org>; Thu,  7 Jul 2022 01:10:38 -0700 (PDT)
+Received: by mail-pf1-x42f.google.com with SMTP id x184so4488707pfx.2
+        for <linux-doc@vger.kernel.org>; Thu, 07 Jul 2022 01:10:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:to:cc:references:subject
+         :content-language:from:in-reply-to:content-transfer-encoding;
+        bh=jdYAV23wNagY2MyKAZgPFrBO8Ed8h1Dv//fXkTU2Cto=;
+        b=cfxJ1pN7DrfaqTGawHodFMqwcFX7j0010SP4mq5RAyOg1wW4HTPqg9ce7HDK67xjy5
+         RVGBJj/mxBTZGPEO42XCmdiMj/AGqBDl9HOloNsE4kSKaxbFnOiABhTDHJOlC6L1OdZO
+         y6PPe+WezkEbk4aplnsqY5z9jxITWbUxr4kLq4znl3itmPkP2S17ZizVm9AYFxFpWbwi
+         42LJMNJ5A9xbj11ceO6JnMiNIvv0XTl64YyX5aL7g0TXX07uS6BNuKSlbsoHIKcYzYWE
+         l5FG/Sf2f5FBSNsWZJoo+QKOan/fjnWZQSVTdBMBVgeylFqpWRZh2H5mzAFSeevqsY/A
+         C1og==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:to:cc
+         :references:subject:content-language:from:in-reply-to
+         :content-transfer-encoding;
+        bh=jdYAV23wNagY2MyKAZgPFrBO8Ed8h1Dv//fXkTU2Cto=;
+        b=H3TCuh0/QZFaRayy5Ral7+eME5K1yONBRhBJhELaEIgb8REbkY3eBm4KHvF32rtK25
+         Sp5F5/y467PWttvoQM6GOnZzImX8Ql8zEx11z6xwQgP4BkLOdWKST2jAJ/PcTJhQB7xS
+         Vrxb9ZiQYAc0dgT2VqFlvufnHW96FuCPxfD5YD298qhVI5GczTF1sn2RhfGq0oLgxDSG
+         kiTx5uQ9kF/pFP0Kz0yRQboY0iVjIUjU9TcBlAR3K05uHcsOlDIa7dYYccFURsYZFz9c
+         IS7JyBB5WAIgQw0mdvBz0eRcojnVb/Bp5wkM11kDahiFcFBLB/XgY2V1EQgkDDx0AI6y
+         YbHg==
+X-Gm-Message-State: AJIora+v+drUZ9VOabuxddwkqTMEBXbDBmb3uh7tY6Mi6aMtgbf0c9AD
+        esMfdjietTGgY/CflXX0Zjm2Fl4ZbDI=
+X-Google-Smtp-Source: AGRyM1swtCh2l75T7xHJMdfvf8NI2vDDokRivwazdgZvmAoSZApC94CRn7iqVHbhoh+nJfmlhx5y5Q==
+X-Received: by 2002:a17:90b:268f:b0:1ef:ba7e:3fe4 with SMTP id pl15-20020a17090b268f00b001efba7e3fe4mr3767285pjb.23.1657181438093;
+        Thu, 07 Jul 2022 01:10:38 -0700 (PDT)
+Received: from [192.168.11.9] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id w18-20020a627b12000000b00527e026591esm16823027pfc.150.2022.07.07.01.10.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 07 Jul 2022 01:10:37 -0700 (PDT)
+Message-ID: <e9aa6aec-7f2b-da3e-84d7-00ca6cfeff06@gmail.com>
+Date:   Thu, 7 Jul 2022 17:10:34 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <62c683a2.g1VSVt6BrQC6ZzOz%lkp@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+To:     Matthew Wilcox <willy@infradead.org>
+Cc:     linux-doc@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+References: <YsXDP3r59jlOTXGb@casper.infradead.org>
+Subject: Re: How to cross-link to another document?
+Content-Language: en-US
+From:   Akira Yokosawa <akiyks@gmail.com>
+In-Reply-To: <YsXDP3r59jlOTXGb@casper.infradead.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jul 07, 2022 at 02:56:34PM +0800, kernel test robot wrote:
-> tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> branch HEAD: 088b9c375534d905a4d337c78db3b3bfbb52c4a0  Add linux-next specific files for 20220706
-> 
-> Error/Warning reports:
-> 
-> https://lore.kernel.org/linux-doc/202207070644.x48XOOvs-lkp@intel.com
-> 
-> Error/Warning: (recently discovered and may have been fixed)
-> 
-> Documentation/arm/google/chromebook-boot-flow.rst: WARNING: document isn't included in any toctree
-> arm-linux-gnueabi-ld: dc_dmub_srv.c:(.text+0x1108): undefined reference to `__aeabi_ddiv'
-> arm-linux-gnueabi-ld: dc_dmub_srv.c:(.text+0x1124): undefined reference to `__aeabi_ui2d'
-> arm-linux-gnueabi-ld: dc_dmub_srv.c:(.text+0x1164): undefined reference to `__aeabi_dmul'
-> arm-linux-gnueabi-ld: dc_dmub_srv.c:(.text+0x1170): undefined reference to `__aeabi_dadd'
-> arm-linux-gnueabi-ld: dc_dmub_srv.c:(.text+0x1180): undefined reference to `__aeabi_dsub'
-> arm-linux-gnueabi-ld: dc_dmub_srv.c:(.text+0x1190): undefined reference to `__aeabi_d2uiz'
-> arm-linux-gnueabi-ld: dc_dmub_srv.c:(.text+0x162c): undefined reference to `__aeabi_d2iz'
-> arm-linux-gnueabi-ld: dc_dmub_srv.c:(.text+0x16b0): undefined reference to `__aeabi_i2d'
-> dc_dmub_srv.c:(.text+0x10f8): undefined reference to `__aeabi_ui2d'
-> dc_dmub_srv.c:(.text+0x464): undefined reference to `__floatunsidf'
-> dc_dmub_srv.c:(.text.dc_dmub_setup_subvp_dmub_command+0x33c): undefined reference to `__floatunsidf'
-> drivers/pci/endpoint/functions/pci-epf-vntb.c:975:5: warning: no previous prototype for 'pci_read' [-Wmissing-prototypes]
-> drivers/pci/endpoint/functions/pci-epf-vntb.c:984:5: warning: no previous prototype for 'pci_write' [-Wmissing-prototypes]
-> drivers/vfio/vfio_iommu_type1.c:2141:35: warning: cast to smaller integer type 'enum iommu_cap' from 'void *' [-Wvoid-pointer-to-enum-cast]
-> mips-linux-ld: dc_dmub_srv.c:(.text.dc_dmub_setup_subvp_dmub_command+0x34c): undefined reference to `__floatunsidf'
-> mips-linux-ld: dc_dmub_srv.c:(.text.dc_dmub_setup_subvp_dmub_command+0x378): undefined reference to `__divdf3'
-> mips-linux-ld: dc_dmub_srv.c:(.text.dc_dmub_setup_subvp_dmub_command+0x38c): undefined reference to `__muldf3'
-> mips-linux-ld: dc_dmub_srv.c:(.text.dc_dmub_setup_subvp_dmub_command+0x3a0): undefined reference to `__adddf3'
-> mips-linux-ld: dc_dmub_srv.c:(.text.dc_dmub_setup_subvp_dmub_command+0x3b4): undefined reference to `__subdf3'
-> mips-linux-ld: dc_dmub_srv.c:(.text.dc_dmub_setup_subvp_dmub_command+0x3d4): undefined reference to `__fixunsdfsi'
-> mips-linux-ld: dc_dmub_srv.c:(.text.dc_dmub_setup_subvp_dmub_command+0x750): undefined reference to `__fixdfsi'
-> mips-linux-ld: dc_dmub_srv.c:(.text.dc_dmub_setup_subvp_dmub_command+0x7c0): undefined reference to `__floatsidf'
-> powerpc-linux-ld: drivers/pci/endpoint/functions/pci-epf-vntb.c:174: undefined reference to `ntb_link_event'
-> xtensa-linux-ld: dc_dmub_srv.c:(.text+0x468): undefined reference to `__divdf3'
-> xtensa-linux-ld: dc_dmub_srv.c:(.text+0x46c): undefined reference to `__muldf3'
-> xtensa-linux-ld: dc_dmub_srv.c:(.text+0x470): undefined reference to `__adddf3'
-> xtensa-linux-ld: dc_dmub_srv.c:(.text+0x474): undefined reference to `__subdf3'
-> xtensa-linux-ld: dc_dmub_srv.c:(.text+0x478): undefined reference to `__fixunsdfsi'
-> xtensa-linux-ld: dc_dmub_srv.c:(.text+0x47c): undefined reference to `__fixdfsi'
-> xtensa-linux-ld: dc_dmub_srv.c:(.text+0x480): undefined reference to `__floatsidf'
-> xtensa-linux-ld: dc_dmub_srv.c:(.text+0x60c): undefined reference to `__floatunsidf'
-> 
-> Unverified Error/Warning (likely false positive, please contact us if interested):
-> 
-> arch/x86/events/core.c:2114 init_hw_perf_events() warn: missing error code 'err'
-> drivers/android/binder.c:1481:19-23: ERROR: from is NULL but dereferenced.
-> drivers/android/binder.c:2920:29-33: ERROR: target_thread is NULL but dereferenced.
-> drivers/android/binder.c:353:25-35: ERROR: node -> proc is NULL but dereferenced.
-> drivers/android/binder.c:4888:16-20: ERROR: t is NULL but dereferenced.
-> drivers/base/regmap/regmap.c:1996:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
-> drivers/char/random.c:869:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
-> drivers/firmware/arm_scmi/clock.c:394:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
-> drivers/firmware/arm_scmi/powercap.c:376:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
-> drivers/gpu/drm/amd/amdgpu/../pm/powerplay/hwmgr/vega10_powertune.c:1214:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
-> drivers/gpu/drm/amd/display/dc/os_types.h: drm/drm_print.h is included more than once.
-> drivers/gpu/drm/bridge/ite-it66121.c:1398:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
-> drivers/greybus/operation.c:617:1: internal compiler error: in arc_ifcvt, at config/arc/arc.c:9637
+Hi Matthew,
 
-<snip>
+On Wed, 6 Jul 2022 18:15:43 +0100, Matthew Wilcox wrote:
+> I've tried several variants of this without success.  What's the
+> correct incantation?
+> 
+> +++ b/Documentation/core-api/idr.rst
+> @@ -17,6 +17,8 @@ solution to the problem to avoid everybody inventing their own.  The IDR
+>  provides the ability to map an ID to a pointer, while the IDA provides
+>  only ID allocation, and as a result is much more memory-efficient.
+> 
+> +The IDR interface is deprecated; please use the _`XArray` instead.
 
-When the compiler crashes, why are you blaming all of these different
-mailing lists?  Perhaps you need to fix your compiler :)
+You can cross-link using .rst file's path, in this case the relative path.
+(This is an extension to Sphinx for kernel documentation.)
 
-thanks,
++The IDR interface is deprecated; please use the xarray.rst instead.
 
-greg k-h
+If you think "the xarray.rst" looks weird in plain-text, then maybe:
+
++The IDR interface is deprecated; please use :doc:`the XArray <xarray>`
++instead.
+
+Here, <xarray> points xarray.rst.  <xarray.rst> doesn't work behind
+:doc:.
+
+Or simply drop "the":
+
++The IDR interface is deprecated; please use xarray.rst instead.
+
+In this case, as both idr.rst and xarray.rst are under core-api/,
+the relative path would be a reasonable option.  As a bonus, it
+works in both full and partial (subdirectory-wise) builds.
+Cross-links using absolute paths don't work in partial builds.
+
+> +
+>  IDR usage
+>  =========
+> 
+> +++ b/Documentation/core-api/xarray.rst
+> @@ -1,4 +1,5 @@
+>  .. SPDX-License-Identifier: GPL-2.0+
+> +.. XArray_
+
+In any case, a reference label at the top of a .rst file is pointless.
+Please don't add a new one.
+
+See: https://www.kernel.org/doc/html/latest/doc-guide/sphinx.html#cross-referencing
+
+Hope this helps.
+
+        Thanks, Akira
+> 
+>  ======
+>  XArray
+> 
+> I first tried "named reference, reStructuredText_;"
+> and then "_`inline internal target`" and I've tried both prefixing and
+> suffixing both destination and target with an underscore.  Nothing seems
+> to work and sometimes I get error messages telling me it won't work,
+> and sometimes I just get non-hyperlinks.
+> 
+> Do I have to do something like
+> 
+> 	:ref:`Documentation/core-api/xarray.rst <XArray>`
+> ?  That would seem unnecessarily verbose.
