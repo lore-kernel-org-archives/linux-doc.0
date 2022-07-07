@@ -2,201 +2,313 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 32AACC43334
-	for <linux-doc@archiver.kernel.org>; Thu,  7 Jul 2022 08:49:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DB7E6C43334
+	for <linux-doc@archiver.kernel.org>; Thu,  7 Jul 2022 11:43:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232981AbiGGItm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 7 Jul 2022 04:49:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36604 "EHLO
+        id S235040AbiGGLn2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 7 Jul 2022 07:43:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49900 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234249AbiGGItl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Jul 2022 04:49:41 -0400
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E063B32ECD;
-        Thu,  7 Jul 2022 01:49:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1657183776; x=1688719776;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=Lh7y5qwArx6kewvw5JDix3U0v75feNENs4ZH8RkRKrg=;
-  b=FePs5TjeqNwFCXLeVEtxHEpUX2K3TVChFaImn0oVR46Jy4pgjkobqBkJ
-   3o1Z0ZkoOorGLb59m0j5vxXzZ9UY1DisrA2Ver42fSSDaY1ifkNktMJUV
-   gpJFr2b8xRKYNrSxaWJAU7Dvw2PI7+5pDjMhIpsiMMatsIOSzE/9RLPUg
-   vhJVl5bnu8l7xNFGY2kccjXGFM0d8gvCmuEi5M7Oz4XGeDyvG0qPGChHW
-   4KqRIf6HJ4I7FyeE1nH/IGP4CpOtSYszJnAFQH9/tN9m4u6WRBo2qcevu
-   c/TamRXCGCz0FDoblR9aFtNdutE4mO9W/wwUTdwdxKDoHOr6gXrmJu+Jj
-   g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10400"; a="282723165"
-X-IronPort-AV: E=Sophos;i="5.92,252,1650956400"; 
-   d="scan'208";a="282723165"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jul 2022 01:49:36 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.92,252,1650956400"; 
-   d="scan'208";a="626239415"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
-  by orsmga001.jf.intel.com with ESMTP; 07 Jul 2022 01:49:35 -0700
-Received: from fmsmsx607.amr.corp.intel.com (10.18.126.87) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+        with ESMTP id S232504AbiGGLn1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Jul 2022 07:43:27 -0400
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21BBF28D;
+        Thu,  7 Jul 2022 04:43:24 -0700 (PDT)
+Received: from canpemm500009.china.huawei.com (unknown [172.30.72.53])
+        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4Ldvcv1r6zzkWmC;
+        Thu,  7 Jul 2022 19:41:19 +0800 (CST)
+Received: from [10.67.102.169] (10.67.102.169) by
+ canpemm500009.china.huawei.com (7.192.105.203) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27; Thu, 7 Jul 2022 01:49:35 -0700
-Received: from fmsmsx601.amr.corp.intel.com (10.18.126.81) by
- fmsmsx607.amr.corp.intel.com (10.18.126.87) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27; Thu, 7 Jul 2022 01:49:34 -0700
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27 via Frontend Transport; Thu, 7 Jul 2022 01:49:34 -0700
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.104)
- by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2308.27; Thu, 7 Jul 2022 01:49:34 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=DdY4okweWzkrXsE6vxgy2i5ITdyLsHuAZc5Vtw+1GH5Ryjb0lUMRnFpD8lFVllYQCecRVUk1jgE+6EEh2BlQS+lZkW4QoqXGcRmqYnF+xHp54GmmPfT7J/fk7laf7ylFfIVvWmI5CmbIhsOa1Uvgm197B82ilvr3vS+vV2TpWkAaurXQWVidAgOJlktbbfecsxKiIGY02dRFS5r4h56iR6OzT023R94MxhOatolYjqDOsVGm6R6MFlB3p61spL+PucsOVHV5m2DjDrf4RjZVm9dMVdxqU4MWHiXuin/hiNUnG05xCNED5MT/j6xhLvpkXmCR5vkfNfkdQ+AsYkv7QQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Lh7y5qwArx6kewvw5JDix3U0v75feNENs4ZH8RkRKrg=;
- b=PRFtos2GNpUvPdp6fsXVuY4HfNgk7K58EjktsUMQ9zTm1WgQGXoss9R7K6y56giAw0Ow6RIv+HS89O89qrNyI13uwjBPXHAvRA7ISH6GYdVumTTDfYJUdbV6ArMHdsrfzR+e8AEAD8dV0+H7YT8YqjqObg03yl7q3NrxKE2y9LSPeIbcFaYD2HSoZtmv3a/nH16EFxWN+xDJAdOs3tDphesxsVPvge9mXayKGhf5JGpoBBmEb44ScpJDSMwJ6MBdI8wp/RbeFzNaufukx2eUDhHNwUx9moFbahxw27aBMfGIocMB7J+ePr92q3ZYQ/cbAwWyQvhUkpkJxIpflHs1ew==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from BN9PR11MB5276.namprd11.prod.outlook.com (2603:10b6:408:135::18)
- by MN0PR11MB6136.namprd11.prod.outlook.com (2603:10b6:208:3c8::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5395.21; Thu, 7 Jul
- 2022 08:49:28 +0000
-Received: from BN9PR11MB5276.namprd11.prod.outlook.com
- ([fe80::8435:5a99:1e28:b38c]) by BN9PR11MB5276.namprd11.prod.outlook.com
- ([fe80::8435:5a99:1e28:b38c%2]) with mapi id 15.20.5395.021; Thu, 7 Jul 2022
- 08:49:28 +0000
-From:   "Tian, Kevin" <kevin.tian@intel.com>
-To:     Nicolin Chen <nicolinc@nvidia.com>,
-        "kwankhede@nvidia.com" <kwankhede@nvidia.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "hca@linux.ibm.com" <hca@linux.ibm.com>,
-        "gor@linux.ibm.com" <gor@linux.ibm.com>,
-        "agordeev@linux.ibm.com" <agordeev@linux.ibm.com>,
-        "borntraeger@linux.ibm.com" <borntraeger@linux.ibm.com>,
-        "svens@linux.ibm.com" <svens@linux.ibm.com>,
-        "zhenyuw@linux.intel.com" <zhenyuw@linux.intel.com>,
-        "Wang, Zhi A" <zhi.a.wang@intel.com>,
-        "jani.nikula@linux.intel.com" <jani.nikula@linux.intel.com>,
-        "joonas.lahtinen@linux.intel.com" <joonas.lahtinen@linux.intel.com>,
-        "Vivi, Rodrigo" <rodrigo.vivi@intel.com>,
-        "tvrtko.ursulin@linux.intel.com" <tvrtko.ursulin@linux.intel.com>,
-        "airlied@linux.ie" <airlied@linux.ie>,
-        "daniel@ffwll.ch" <daniel@ffwll.ch>,
-        "farman@linux.ibm.com" <farman@linux.ibm.com>,
-        "mjrosato@linux.ibm.com" <mjrosato@linux.ibm.com>,
-        "pasic@linux.ibm.com" <pasic@linux.ibm.com>,
-        "vneethv@linux.ibm.com" <vneethv@linux.ibm.com>,
-        "oberpar@linux.ibm.com" <oberpar@linux.ibm.com>,
-        "freude@linux.ibm.com" <freude@linux.ibm.com>,
-        "akrowiak@linux.ibm.com" <akrowiak@linux.ibm.com>,
-        "jjherne@linux.ibm.com" <jjherne@linux.ibm.com>,
-        "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
-        "cohuck@redhat.com" <cohuck@redhat.com>,
-        "jgg@nvidia.com" <jgg@nvidia.com>,
-        "hch@infradead.org" <hch@infradead.org>
-CC:     "jchrist@linux.ibm.com" <jchrist@linux.ibm.com>,
-        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
-        "intel-gvt-dev@lists.freedesktop.org" 
-        <intel-gvt-dev@lists.freedesktop.org>,
-        "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Subject: RE: [RFT][PATCH v2 9/9] vfio: Replace phys_pfn with pages for
- vfio_pin_pages()
-Thread-Topic: [RFT][PATCH v2 9/9] vfio: Replace phys_pfn with pages for
- vfio_pin_pages()
-Thread-Index: AQHYkQGmAGM5gjOpg0eOZ3/nNXMTNK1ymoeg
-Date:   Thu, 7 Jul 2022 08:49:28 +0000
-Message-ID: <BN9PR11MB5276AD70E90F20A3439883A58C839@BN9PR11MB5276.namprd11.prod.outlook.com>
-References: <20220706062759.24946-1-nicolinc@nvidia.com>
- <20220706062759.24946-10-nicolinc@nvidia.com>
-In-Reply-To: <20220706062759.24946-10-nicolinc@nvidia.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 9b8fd76e-760d-483e-4718-08da5ff59a20
-x-ms-traffictypediagnostic: MN0PR11MB6136:EE_
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: YRBeqIkXe3/waRttCG0mK1Er9L3/YlTIQ7eDSVTy+DKX+nF48V2f40IDqPfjXWtAOtv6KwknXpksVupN5RiW2sH235AB8EX72HUUJlwPcMMflvO0glAhToNjNTSBnaudQ4T7j27ooxxOeuynfGKoI7sNFAj78NyTeBg8x35Indo0UlERpQtf0Z/G2rgNLTsR/KYQc6h2O+E100B7ijEbmjJntCyIGE8jrAEcRy+x8kYuHoeLDm/ZlKILHbC+DbQC5+QwNy5bdmVVg55UreO4oHYZ3mq94Ef3BpC85Z6h1BzAoarB7H/ua71d5UgPWH1u1rg2Tw/J86jElAt3cQpBeHf4QWj8ZmZxsI1vAKugpdDty+RDW1bYVSzSF51AqrYBFE3kIl1QMEL4YLjvk0ykfcHieH0rCjbqSuUZ+N5pmcJLWh3+Gj9hDDtErU39twbd3+/UVnMt4ycwoTaVpusaYi/WX0tBKUmaDsYsue3Zt9wvYzMMEuJLjhKjRI5NanCwW6dKR6ANSFjY9bbsxdbbPIc/isLpMFEyMRj9juRIfBdwy4MBzJXtjGk8gcywxdqsaabYvZ6xU9865WBLdNIuKjifDPQdMpf94bgQEBdWayCQNN5lup4f0i+tGMXpH6+IjvRL3sGk8eJ5SzKsM7ZCpW9JEHrtH0KYYIzue/IZkDgKYIkgM6MrmUOUs3Sybw1phL15mIfeMyi94mxFbgyOwTdoeEYFQ/+NKc5TcYGEEhpXXa/+J4hxdiyCnphtkxi4qn6qaiRYjeeFqBufBf/r/kkFpzM/2hy2W+Q86969ae2LyqIFzOutO3Wxn2SqbTaJUEKbnZgQCdVF41vrAZhUQQ==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN9PR11MB5276.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(39860400002)(366004)(136003)(396003)(346002)(376002)(186003)(38070700005)(110136005)(64756008)(54906003)(83380400001)(4326008)(66946007)(71200400001)(8676002)(38100700002)(55016003)(122000001)(66556008)(66446008)(76116006)(66476007)(316002)(478600001)(33656002)(8936002)(5660300002)(6506007)(7416002)(86362001)(52536014)(7406005)(4744005)(7696005)(921005)(82960400001)(9686003)(26005)(2906002)(41300700001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?Z69qGXvYDJ0Laa8D8eSSyF07fq2ZUSFae33CXh2JgMZpsaX1v1VkmHsUIZEF?=
- =?us-ascii?Q?Z42WD9AQtlETKoJPO+97YUYFIqX7WxOmA84H7j3FCo7KeIAILJXb+C7xKOXS?=
- =?us-ascii?Q?UFEj/uHnlRmxh1ufLqbU+vDaPjnjmmCsTXidvZq9SpZHq/XAVfL67ox1ZuQO?=
- =?us-ascii?Q?jvkVggw8+IKlTD7f1Un1cgt4rV/k/y4V7AzdPBdc/3PbWPBwyI6Z+Akblv0e?=
- =?us-ascii?Q?vu+1wiyzMSipl8fp+EPWgnCTgmMDbbPtBFLqPVVE/vaJjwVwt1JkTRgzGBuy?=
- =?us-ascii?Q?33nS5yFXsM6G2MEeQ6uHREZKI4ppqNmIdfov/7hv02VVLnowuFXSN5Wwx35w?=
- =?us-ascii?Q?eSxLazbfOTr2ppi3GDIe7ot2Y1A5MKiQriOgUtFNRZ3rI5eEW9TjPPncOdw9?=
- =?us-ascii?Q?0ZuOgk/+6Cd3ENAZaqyDUJvTsvKX4uXuE145cXJneqGG2X92QG733Ul1vU+y?=
- =?us-ascii?Q?JFFgmZdEW8r7E66nLklee1QMgKjkCyisQU/LsoA2+7kaH8IrXNKFab54zw8c?=
- =?us-ascii?Q?hHmG4QfYMCmiZAuWS92Siml9FavywVcqozxNVYSBB0gzWPknHdIEGoH9lxzL?=
- =?us-ascii?Q?wwckdjuT/pxiLtTNaaIe9otJJ6i8C3pNPgQV8IdoYNgIBAkg4q7yek5wIljM?=
- =?us-ascii?Q?HIhXsd9vSjqpS1UxtorQW7GYGKTPTRNqx6rLJ6spnZI2U2YMwg9Nhf5yPaHx?=
- =?us-ascii?Q?beuYOgX+h8K7ClBhD4G1Zkz3UgGllNwvlVPmLtWFD4yjJbdPxaD52nnqYM+V?=
- =?us-ascii?Q?7pWbhoPVZMS+HW0W4+vDOJnLOaxVQebVT8WnKSjjsMessFZfdXkU9Dx6hzFe?=
- =?us-ascii?Q?RKHB6JvJMYFl+5nMjTGWA2py5tY7FcQ0x006Cp6Q2VeKfY5XwCAnPx8MaeTI?=
- =?us-ascii?Q?LoMnGVGfrXFeFOSMUJL9CRQlNDswPh2+QUGGZ2zE/FkRnt3spU3pSW/JjbvA?=
- =?us-ascii?Q?Up0V8C197HhfFxliU0xCt8zV1Xes722JAJ/O1bmEAfNorSUgS2CCMeYLrbYm?=
- =?us-ascii?Q?Y9KDcylwNnKLk0UlLGBnLf5iWtj5GkXcc9MTZQdCcYr5H8dSDNEaYEtYoCD8?=
- =?us-ascii?Q?JBqu/Ls5SyoGcfwbk6Xs7vio0sF0BM/GsZTnQ4KTBxrnpZg2b7lEFXzhzyj6?=
- =?us-ascii?Q?rO1TB9oZZK/Crmb9Lzzh6Tt5p/nc92zbD/xazKZrZ97BhWLrNabT/rD3Gfv9?=
- =?us-ascii?Q?DG+8xn44SF3mRvs4XDlIdBCkbZwjGcSeBKh+P9/zOvCwQcZK4ydKVbJF/ABr?=
- =?us-ascii?Q?tOobXYvfoHiCCcOsmVnv8fK0cUyGjizrokZszk3uDHnvBOr44iO19Jo8JN8F?=
- =?us-ascii?Q?Gx4sI2YhSYjiG6DfWnjBBV2dVdIpghxzUHbnUkm16Th/ohGO7faAtKaexKf0?=
- =?us-ascii?Q?9klN1X8Tcma6gIPdzXfghAKQ3YSyQb0hqfk2oC5l55VNrX7uVU+wiO+otOFu?=
- =?us-ascii?Q?MKIUOZt1DVipzHdoxlZub8AUEi6P1Bcj/UC6JAbS1aAdZIymUjAZGiryWt0h?=
- =?us-ascii?Q?siReIoyK/6c/foUHHcujWgBbKfMBHVcDOw9cB09zHn1+HmD/PCR1OcN6Fbqf?=
- =?us-ascii?Q?A1IhaT0ty/2r5o6KPvxUtYkpifCQLXFAtvzf+bEa?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ 15.1.2375.24; Thu, 7 Jul 2022 19:43:22 +0800
+CC:     <gregkh@linuxfoundation.org>, <alexander.shishkin@linux.intel.com>,
+        <leo.yan@linaro.org>, <james.clark@arm.com>, <will@kernel.org>,
+        <robin.murphy@arm.com>, <acme@kernel.org>,
+        <jonathan.cameron@huawei.com>, <john.garry@huawei.com>,
+        <helgaas@kernel.org>, <lorenzo.pieralisi@arm.com>,
+        <suzuki.poulose@arm.com>, <mark.rutland@arm.com>,
+        <joro@8bytes.org>, <shameerali.kolothum.thodi@huawei.com>,
+        <peterz@infradead.org>, <mingo@redhat.com>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-pci@vger.kernel.org>, <linux-perf-users@vger.kernel.org>,
+        <iommu@lists.linux-foundation.org>, <prime.zeng@huawei.com>,
+        <liuqi115@huawei.com>, <zhangshaokun@hisilicon.com>,
+        <linuxarm@huawei.com>, <corbet@lwn.net>,
+        <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v9 7/8] docs: trace: Add HiSilicon PTT device driver
+ documentation
+To:     Mathieu Poirier <mathieu.poirier@linaro.org>
+References: <20220606115555.41103-1-yangyicong@hisilicon.com>
+ <20220606115555.41103-8-yangyicong@hisilicon.com>
+ <20220706175751.GA2546265@p14s>
+From:   Yicong Yang <yangyicong@huawei.com>
+Message-ID: <75afb15e-9fc2-d14a-c72d-dc33589cfc0e@huawei.com>
+Date:   Thu, 7 Jul 2022 19:43:21 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.1
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BN9PR11MB5276.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9b8fd76e-760d-483e-4718-08da5ff59a20
-X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Jul 2022 08:49:28.3466
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 3ImSRtW9OwIDRWulDE0Y8NTfOBCIxsO4rdD+0v1xMtfBFldNvHCxFmznh1kl7V9iBt+Zm6bNcotpu2oGWI8l7g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR11MB6136
-X-OriginatorOrg: intel.com
+In-Reply-To: <20220706175751.GA2546265@p14s>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.67.102.169]
+X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
+ canpemm500009.china.huawei.com (7.192.105.203)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> From: Nicolin Chen <nicolinc@nvidia.com>
-> Sent: Wednesday, July 6, 2022 2:28 PM
->=20
-> Most of the callers of vfio_pin_pages() want "struct page *" and the
-> low-level mm code to pin pages returns a list of "struct page *" too.
-> So there's no gain in converting "struct page *" to PFN in between.
->=20
-> Replace the output parameter "phys_pfn" list with a "pages" list, to
-> simplify callers. This also allows us to replace the vfio_iommu_type1
-> implementation with a more efficient one.
+On 2022/7/7 1:57, Mathieu Poirier wrote:
+> Hi,
+> 
+> I have started looking at this set.
 
-worth mentioning that vfio pin is only for struct page * hence the
-pfn_valid() check in gvt can be removed.
+Thanks!
 
->=20
-> For now, also update vfio_iommu_type1 to fit this new parameter too.
->=20
-> Signed-off-by: Nicolin Chen <nicolinc@nvidia.com>
+> 
+> On Mon, Jun 06, 2022 at 07:55:54PM +0800, Yicong Yang wrote:
+>> Document the introduction and usage of HiSilicon PTT device driver.
+>>
+>> Signed-off-by: Yicong Yang <yangyicong@hisilicon.com>
+>> Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+>> ---
+>>  Documentation/trace/hisi-ptt.rst | 307 +++++++++++++++++++++++++++++++
+>>  Documentation/trace/index.rst    |   1 +
+> 
+> The "get_maintainer" script clearly indicates that Jonathan Corbet maintains the
+> Documentation directory and yet he is not CC'ed on this patch, nor is the
+> linux-doc mainling list.  As such, it would not be possible to merge this
+> patchset.
+> 
 
-Reviewed-by: Kevin Tian <kevin.tian@intel.com>
+sorry for missing. +cc'ed.
+
+>>  2 files changed, 308 insertions(+)
+>>  create mode 100644 Documentation/trace/hisi-ptt.rst
+>>
+>> diff --git a/Documentation/trace/hisi-ptt.rst b/Documentation/trace/hisi-ptt.rst
+>> new file mode 100644
+>> index 000000000000..0a3112244d40
+>> --- /dev/null
+>> +++ b/Documentation/trace/hisi-ptt.rst
+>> @@ -0,0 +1,307 @@
+>> +.. SPDX-License-Identifier: GPL-2.0
+>> +
+>> +======================================
+>> +HiSilicon PCIe Tune and Trace device
+>> +======================================
+>> +
+>> +Introduction
+>> +============
+>> +
+>> +HiSilicon PCIe tune and trace device (PTT) is a PCIe Root Complex
+>> +integrated Endpoint (RCiEP) device, providing the capability
+>> +to dynamically monitor and tune the PCIe link's events (tune),
+>> +and trace the TLP headers (trace). The two functions are independent,
+>> +but is recommended to use them together to analyze and enhance the
+>> +PCIe link's performance.
+>> +
+>> +On Kunpeng 930 SoC, the PCIe Root Complex is composed of several
+>> +PCIe cores. Each PCIe core includes several Root Ports and a PTT
+>> +RCiEP, like below. The PTT device is capable of tuning and
+>> +tracing the links of the PCIe core.
+>> +::
+>> +
+>> +          +--------------Core 0-------+
+>> +          |       |       [   PTT   ] |
+>> +          |       |       [Root Port]---[Endpoint]
+>> +          |       |       [Root Port]---[Endpoint]
+>> +          |       |       [Root Port]---[Endpoint]
+>> +    Root Complex  |------Core 1-------+
+>> +          |       |       [   PTT   ] |
+>> +          |       |       [Root Port]---[ Switch ]---[Endpoint]
+>> +          |       |       [Root Port]---[Endpoint] `-[Endpoint]
+>> +          |       |       [Root Port]---[Endpoint]
+>> +          +---------------------------+
+>> +
+>> +The PTT device driver registers one PMU device for each PTT device.
+>> +The name of each PTT device is composed of 'hisi_ptt' prefix with
+>> +the id of the SICL and the Core where it locates. The Kunpeng 930
+>> +SoC encapsulates multiple CPU dies (SCCL, Super CPU Cluster) and
+>> +IO dies (SICL, Super I/O Cluster), where there's one PCIe Root
+>> +Complex for each SICL.
+>> +::
+>> +
+>> +    /sys/devices/hisi_ptt<sicl_id>_<core_id>
+> 
+> All entries added to sysfs should have corresponding documentation.  See [1] and
+> [2] for details and [3] for an example.
+> 
+> [1]. https://elixir.bootlin.com/linux/latest/source/Documentation/ABI/README
+> [2]. https://elixir.bootlin.com/linux/latest/source/Documentation/ABI/testing
+> [3]. https://elixir.bootlin.com/linux/latest/source/Documentation/ABI/testing/sysfs-bus-coresight-devices-etm4x
+> 
+
+ok. I'll add a patch for ABI description. Thanks for the reference.
+
+>> +
+>> +Tune
+>> +====
+>> +
+>> +PTT tune is designed for monitoring and adjusting PCIe link parameters (events).
+>> +Currently we support events in 4 classes. The scope of the events
+>> +covers the PCIe core to which the PTT device belongs.
+>> +
+>> +Each event is presented as a file under $(PTT PMU dir)/tune, and
+>> +a simple open/read/write/close cycle will be used to tune the event.
+>> +::
+>> +
+>> +    $ cd /sys/devices/hisi_ptt<sicl_id>_<core_id>/tune
+>> +    $ ls
+>> +    qos_tx_cpl    qos_tx_np    qos_tx_p
+>> +    tx_path_rx_req_alloc_buf_level
+>> +    tx_path_tx_req_alloc_buf_level
+> 
+> These look overly long... How about watermark_rx and watermark_tx?
+> 
+
+These are gotten from the hardware manual and abbreviated. These events are highly connected
+to the hardware desgin so I think it's better to keep consistence. The watermark_{rx, tx} will
+become ambigious when we add more events for Rx path or other Tx path events.
+
+The event code is composed of two parts. First part (tx_path) describes which path it belongs to
+and second part describes the function ({rx,tx}_req_alloc_buf_level). We called the link path
+between CPU and PCIe RC as Rx path and the path between PCIe RC to the PCIe link as Tx path.
+So we need to have tx_path prefix for the Tx path and {rx, tx}_req_alloc_buf_level for the
+requested watermark of {inbound, outbound} buffer allocation. Indeed we have other Tx path
+buffer events which are not exported in this series.
+
+
+>> +    $ cat qos_tx_dp
+>> +    1
+>> +    $ echo 2 > qos_tx_dp
+>> +    $ cat qos_tx_dp
+>> +    2
+>> +
+>> +Current value (numerical value) of the event can be simply read
+>> +from the file, and the desired value written to the file to tune.
+>> +
+>> +1. Tx path QoS control
+>> +------------------------
+>> +
+>> +The following files are provided to tune the QoS of the tx path of
+>> +the PCIe core.
+>> +
+>> +- qos_tx_cpl: weight of Tx completion TLPs
+>> +- qos_tx_np: weight of Tx non-posted TLPs
+>> +- qos_tx_p: weight of Tx posted TLPs
+>> +
+>> +The weight influences the proportion of certain packets on the PCIe link.
+>> +For example, for the storage scenario, increase the proportion
+>> +of the completion packets on the link to enhance the performance as
+>> +more completions are consumed.
+>> +
+>> +The available tune data of these events is [0, 1, 2].
+>> +Writing a negative value will return an error, and out of range
+>> +values will be converted to 2. Note that the event value just
+>> +indicates a probable level, but is not precise.
+>> +
+>> +2. Tx path buffer control
+>> +-------------------------
+>> +
+>> +Following files are provided to tune the buffer of tx path of the PCIe core.
+>> +
+>> +- tx_path_rx_req_alloc_buf_level: watermark of Rx requested
+>> +- tx_path_tx_req_alloc_buf_level: watermark of Tx requested
+>> +
+>> +These events influence the watermark of the buffer allocated for each
+>> +type. Rx means the inbound while Tx means outbound. The packets will
+>> +be stored in the buffer first and then transmitted either when the
+>> +watermark reached or when timed out. For a busy direction, you should
+>> +increase the related buffer watermark to avoid frequently posting and
+>> +thus enhance the performance. In most cases just keep the default value.
+>> +
+>> +The available tune data of above events is [0, 1, 2].
+>> +Writing a negative value will return an error, and out of range
+>> +values will be converted to 2. Note that the event value just
+>> +indicates a probable level, but is not precise.
+> 
+> This is useful documentation but it also should be found in the ABI
+> documentation referred to above.
+> 
+>> +
+>> +Trace
+>> +=====
+>> +
+>> +PTT trace is designed for dumping the TLP headers to the memory, which
+>> +can be used to analyze the transactions and usage condition of the PCIe
+>> +Link. You can choose to filter the traced headers by either requester ID,
+>> +or those downstream of a set of Root Ports on the same core of the PTT
+>> +device. It's also supported to trace the headers of certain type and of
+>> +certain direction.
+>> +
+>> +You can use the perf command `perf record` to set the parameters, start
+>> +trace and get the data. It's also supported to decode the trace
+>> +data with `perf report`. The control parameters for trace is inputted
+>> +as event code for each events, which will be further illustrated later.
+>> +An example usage is like
+>> +::
+>> +
+>> +    $ perf record -e hisi_ptt0_2/filter=0x80001,type=1,direction=1,
+>> +      format=1/ -- sleep 5
+>> +
+>> +This will trace the TLP headers downstream root port 0000:00:10.1 (event
+>> +code for event 'filter' is 0x80001) with type of posted TLP requests,
+>> +direction of inbound and traced data format of 8DW.
+>> +
+>> +1. filter
+>> +---------
+>> +
+>> +The TLP headers to trace can be filtered by the Root Ports or the requester
+>> +ID of the endpoints, which are located on the same core of the PTT device.
+>> +You can set the filter by specifying the `filter` parameter which is required
+>> +to start the trace. The parameter value is 20 bit. The supported filters and
+>> +related values are outputted through `available_root_port_filters` and
+>> +`available_requester_filters` sysfs attributes for Root Ports and Requesters
+>> +respectively.
+>> +::
+>> +
+>> +    $ cat available_root_port_filters
+>> +    0000:00:10.0	0x80001
+>> +    0000:00:11.0	0x80004
+>> +    $ cat available_requester_filters
+>> +    0000:01:00.0	0x00100
+>> +    0000:01:00.1	0x00101
+> 
+> If I remember correctly, one of the rule for sysfs is one line per entry.
+> 
+
+Since one PTT devices may support several Root Ports and Endpoints on its core, I find no better
+way to make this information convenient and easy to use for the users to collect. So maybe this
+canbe an exception and there seems to have some limited examples like
+/sys/devices/system/node/node<N>/{meminfo, vmstat, meminfo}.
+
+>> +
+>> +Note that multiple Root Ports can be specified at one time, but only
+>> +one Endpoint function can be specified in one trace. Specifying both
+>> +Root Port and function at the same time is not supported.
+>> +
+>> +If no filter is available, reading the related filter sysfs attribute
+>> +will get an empty string.
+>> +::
+>> +
+>> +    $ cat available_root_port_filters
+>> +
+>> +    $ cat available_requester_filters
+> 
+> Those too look overly long, and where to find them is not documented.  As such
+> users have to guest that it must be somewhere under
+> /sys/devices/hisi_ptt<sicl_id>_<core_id>/.
+> 
+
+Since Root Port and Requester are PCIe terminologies so it's better to have them
+embedded to make it clear. Maybe 'available' can be removed.
+
+Will have all these sysfs attributes documented.
+
+> More comments tomorrow.
+> 
+
+Thanks,
+Yicong
