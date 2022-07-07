@@ -2,180 +2,162 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A1D63C43334
-	for <linux-doc@archiver.kernel.org>; Thu,  7 Jul 2022 19:38:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 57695C43334
+	for <linux-doc@archiver.kernel.org>; Thu,  7 Jul 2022 20:08:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235918AbiGGTiz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 7 Jul 2022 15:38:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52334 "EHLO
+        id S236628AbiGGUIM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 7 Jul 2022 16:08:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47042 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231875AbiGGTix (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Jul 2022 15:38:53 -0400
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2042.outbound.protection.outlook.com [40.107.244.42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E4952D1D6;
-        Thu,  7 Jul 2022 12:38:51 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=HwoRsytEuwtSNxaVT7Zn9thspwO5RAzWKNov3fjFlo6XETQS5WB88tOBl25jX+VBHl+0lY0EmcXtfbuButeX3B9RCkdFdsnC6rT4RIJBm++g/x7leAY52SEwB9DX74e7QrsH4qmdNzkMeJSatxvGMy1xxeFStSdkAfYE9TpKVYH/VMbBXWjhJ3t1I6txbHQ9RJhcSp/GF8fp8yzJWeJjdKychNiHtN0qt7dqffOfuG8hPM3vHTZyKfFy2p5qPxu19ae6rb7b4XrkCDy+ix2C3XvB/LXFqRwXbmExlXmsZtdRMgrNtW3XXaoLIXX4SQ775YkHwXVtwJK4Rko7vejS1Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=a1r2MXbwEU03ktEYKpbwsl7haoYcDTi0f+THMD5LQyI=;
- b=GegeAxHsdtuyzTae440EIRWL8sKdDFn5ENTs3kGUnyPnbrWHYh0VHdreG5x0oCigiQzIQ1LQPg2HOPSquhsIov+msB8Ej5ZA3b6VS82e/xYCXXKN6wVALqgtEkjGPVcJFwRCfd9LVwShZVelR7vskG/XqEfKw/XdiQI9idbxPfh0EiskaxG/glZfri+xtskraFMGIXWzXGpJVY2ndD/1EY3wtGIdUddSbYsIwAs/VNRAJdXlpkbhA1MDaN/g/nWhCNTBYKNSn8zR5Kz3zPmFAzcNHOfFn9/fHW6PItsCA7AvKsOQY8Jns4KMU3eV+Vc0fcsFwwv2pKb93B0Ipm3oTA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 12.22.5.235) smtp.rcpttodomain=linux.ibm.com smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=a1r2MXbwEU03ktEYKpbwsl7haoYcDTi0f+THMD5LQyI=;
- b=EqjDfcbpK2o10ltQQntOQWUemMvWiHjdjrPD2gLaGq9GyxirN5VY6nClIrJWhU1GdY/hSqFQTUIu1g6yCvr7zeeL4PjrmbxRXTV6YviLc1znHHaQRaSgeRxdaDjpwkDCw1iyCY2SCUZtRwm2qFV547WDGtF4p38jw+89BjhfQTESnmviQCyly3LdCq6RxMKp/MAPJYg4bn0z+gn/HPNtkOfgDXPMrhzQgGaDC9zP9cyD3qHaGhdXN1R5j+lxyHoJSJ4iTUZdrp0yM0KirXvxpLwH7SkhyHRbeyHAyiniOO5QY22Q3laRz7AryyeQQ4ZBkpPFJlX2EFUHWLXdRRf1gA==
-Received: from MW4PR03CA0352.namprd03.prod.outlook.com (2603:10b6:303:dc::27)
- by DM4PR12MB6135.namprd12.prod.outlook.com (2603:10b6:8:ac::5) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5395.22; Thu, 7 Jul 2022 19:38:50 +0000
-Received: from CO1NAM11FT057.eop-nam11.prod.protection.outlook.com
- (2603:10b6:303:dc:cafe::bd) by MW4PR03CA0352.outlook.office365.com
- (2603:10b6:303:dc::27) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5395.14 via Frontend
- Transport; Thu, 7 Jul 2022 19:38:50 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 12.22.5.235)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 12.22.5.235 as permitted sender) receiver=protection.outlook.com;
- client-ip=12.22.5.235; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (12.22.5.235) by
- CO1NAM11FT057.mail.protection.outlook.com (10.13.174.205) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.5417.15 via Frontend Transport; Thu, 7 Jul 2022 19:38:49 +0000
-Received: from drhqmail203.nvidia.com (10.126.190.182) by
- DRHQMAIL107.nvidia.com (10.27.9.16) with Microsoft SMTP Server (TLS) id
- 15.0.1497.32; Thu, 7 Jul 2022 19:38:49 +0000
-Received: from drhqmail201.nvidia.com (10.126.190.180) by
- drhqmail203.nvidia.com (10.126.190.182) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.26; Thu, 7 Jul 2022 12:38:49 -0700
-Received: from Asurada-Nvidia (10.127.8.9) by mail.nvidia.com (10.126.190.180)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.26 via Frontend
- Transport; Thu, 7 Jul 2022 12:38:47 -0700
-Date:   Thu, 7 Jul 2022 12:38:46 -0700
-From:   Nicolin Chen <nicolinc@nvidia.com>
-To:     Jason Gunthorpe <jgg@nvidia.com>
-CC:     "Tian, Kevin" <kevin.tian@intel.com>,
-        "kwankhede@nvidia.com" <kwankhede@nvidia.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "hca@linux.ibm.com" <hca@linux.ibm.com>,
-        "gor@linux.ibm.com" <gor@linux.ibm.com>,
-        "agordeev@linux.ibm.com" <agordeev@linux.ibm.com>,
-        "borntraeger@linux.ibm.com" <borntraeger@linux.ibm.com>,
-        "svens@linux.ibm.com" <svens@linux.ibm.com>,
-        "zhenyuw@linux.intel.com" <zhenyuw@linux.intel.com>,
-        "Wang, Zhi A" <zhi.a.wang@intel.com>,
-        "jani.nikula@linux.intel.com" <jani.nikula@linux.intel.com>,
-        "joonas.lahtinen@linux.intel.com" <joonas.lahtinen@linux.intel.com>,
-        "Vivi, Rodrigo" <rodrigo.vivi@intel.com>,
-        "tvrtko.ursulin@linux.intel.com" <tvrtko.ursulin@linux.intel.com>,
-        "airlied@linux.ie" <airlied@linux.ie>,
-        "daniel@ffwll.ch" <daniel@ffwll.ch>,
-        "farman@linux.ibm.com" <farman@linux.ibm.com>,
-        "mjrosato@linux.ibm.com" <mjrosato@linux.ibm.com>,
-        "pasic@linux.ibm.com" <pasic@linux.ibm.com>,
-        "vneethv@linux.ibm.com" <vneethv@linux.ibm.com>,
-        "oberpar@linux.ibm.com" <oberpar@linux.ibm.com>,
-        "freude@linux.ibm.com" <freude@linux.ibm.com>,
-        "akrowiak@linux.ibm.com" <akrowiak@linux.ibm.com>,
-        "jjherne@linux.ibm.com" <jjherne@linux.ibm.com>,
-        "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
-        "cohuck@redhat.com" <cohuck@redhat.com>,
-        "hch@infradead.org" <hch@infradead.org>,
-        "jchrist@linux.ibm.com" <jchrist@linux.ibm.com>,
-        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
-        "intel-gvt-dev@lists.freedesktop.org" 
-        <intel-gvt-dev@lists.freedesktop.org>,
-        "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Subject: Re: [RFT][PATCH v2 1/9] vfio: Make vfio_unpin_pages() return void
-Message-ID: <Ysc2RnPC+CsyhPhf@Asurada-Nvidia>
-References: <20220706062759.24946-1-nicolinc@nvidia.com>
- <20220706062759.24946-2-nicolinc@nvidia.com>
- <BN9PR11MB527643D01DFF0AFCED1614488C839@BN9PR11MB5276.namprd11.prod.outlook.com>
- <YscUCe+2sXdDiQWq@Asurada-Nvidia>
- <20220707192210.GC1705032@nvidia.com>
+        with ESMTP id S236158AbiGGUIL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Jul 2022 16:08:11 -0400
+Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com [IPv6:2607:f8b0:4864:20::534])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F60B6050F
+        for <linux-doc@vger.kernel.org>; Thu,  7 Jul 2022 13:08:09 -0700 (PDT)
+Received: by mail-pg1-x534.google.com with SMTP id r22so13551367pgr.2
+        for <linux-doc@vger.kernel.org>; Thu, 07 Jul 2022 13:08:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=cFtvjAz52PfP2pPD+ElBW0/QBf2EF5ZKVG4poUQicBo=;
+        b=mP6SCv4ZYKPXIVkeWPvSzYVLVZhUki25eBM3YjhHa4kfvUF6M24odaSonkI7GHxDgl
+         q8l7jb+yebppC1HydPiKCkfhvmANyTWfCu52lX2gIwEpQBnE29Hb8QHYalq/BA13UOjv
+         +Zyr+YT7RtoA7XbaOypkXR3a1booylX88aVw60q9E8Hgv256LIL7u283VOkjfSc/SkGk
+         xBZgDfQP4w+8tYaciO9M9qkbnh1pzs5vOsjgxpOmnkZpqJo64Sb1mOLl2eYm3CP/azOl
+         MjvEVEDBMn2QuzM5ShiwcRwk74T7S++IlrVOEUYGSFYHaFxUDcAizX/UA4mV7JIntHW7
+         0e3w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=cFtvjAz52PfP2pPD+ElBW0/QBf2EF5ZKVG4poUQicBo=;
+        b=qjJg1XYFMZi96DKX5blm++gA+2wYk2zmZPKynMAjvZqTJRggMnJXcGtNFzdVBJAV8H
+         JVhfiV4/buPekjGkoiNp85s9vGiyrs8j7w49VteZWU4JnNVq/67JaekSF7I/zqYzczs3
+         Ha054UCaHg5mA9Bswp6bjQjC69cqxtmJ0zZAdcGIVCZwETY0+xN3AUtJ74hNND9ep5q4
+         CpdaTxW0TB5RXz9h+Q5LdkzLkzt2RjkRUr7FHhe2r6BOykZo5rnKzoz5rzUwr5o5zUhD
+         st4iF4XlDuc4jtzr1FhRtxJreplLGsrFIX1yfyZxhbou36VtMkPUb5tRBr9oB1WyHLgA
+         y1jQ==
+X-Gm-Message-State: AJIora+OodYYvpHIYpC/B7vnMyGlwvj9hJ1gm7DxrPCJl/SZkxcXBpyF
+        LCidHIzaAIeUkX/yB882EDb4JA==
+X-Google-Smtp-Source: AGRyM1vO+9LD36zGVYjZHKVETQF42VSn4ohks+4f4YrWxIjNuhp8m2LWNGsH0so1jBJkR3/GbUBuuQ==
+X-Received: by 2002:a17:902:d28a:b0:16b:e4d6:6534 with SMTP id t10-20020a170902d28a00b0016be4d66534mr23220212plc.68.1657224488885;
+        Thu, 07 Jul 2022 13:08:08 -0700 (PDT)
+Received: from google.com (123.65.230.35.bc.googleusercontent.com. [35.230.65.123])
+        by smtp.gmail.com with ESMTPSA id w8-20020a627b08000000b00528c6c7bb65sm2244075pfc.83.2022.07.07.13.08.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 07 Jul 2022 13:08:08 -0700 (PDT)
+Date:   Thu, 7 Jul 2022 20:08:04 +0000
+From:   Sean Christopherson <seanjc@google.com>
+To:     Xiaoyao Li <xiaoyao.li@intel.com>
+Cc:     Michael Roth <michael.roth@amd.com>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Chao Peng <chao.p.peng@linux.intel.com>,
+        "Nikunj A. Dadhania" <nikunj@amd.com>,
+        kvm list <kvm@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86 <x86@kernel.org>, "H . Peter Anvin" <hpa@zytor.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Jun Nakajima <jun.nakajima@intel.com>,
+        Dave Hansen <dave.hansen@intel.com>,
+        Andi Kleen <ak@linux.intel.com>,
+        David Hildenbrand <david@redhat.com>, aarcange@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com,
+        Quentin Perret <qperret@google.com>, mhocko@suse.com
+Subject: Re: [PATCH v6 6/8] KVM: Handle page fault for private memory
+Message-ID: <Ysc9JDcVAnlVrGC8@google.com>
+References: <20220519153713.819591-1-chao.p.peng@linux.intel.com>
+ <20220519153713.819591-7-chao.p.peng@linux.intel.com>
+ <b3ce0855-0e4b-782a-599c-26590df948dd@amd.com>
+ <20220624090246.GA2181919@chaop.bj.intel.com>
+ <CAGtprH82H_fjtRbL0KUxOkgOk4pgbaEbAydDYfZ0qxz41JCnAQ@mail.gmail.com>
+ <20220630222140.of4md7bufd5jv5bh@amd.com>
+ <4fe3b47d-e94a-890a-5b87-6dfb7763bc7e@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220707192210.GC1705032@nvidia.com>
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 53b255a2-ec61-46d6-b2c4-08da6050510a
-X-MS-TrafficTypeDiagnostic: DM4PR12MB6135:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: D0weu0ebx0jct5GHyy/fUkzDLKHwsyeH9+JTP4amYNPBOiZAkBPUjw/pMI2jksSZBAWsd9/Ve1SoB+vtw1xlUgxTqfYtUZWCCjWUU56YFfIzudZGEUuah6AZCu1K9UKa3Xt60/H9OfQjdla0axGV5Kk5Im3Uip2w2MK9mmoMZoVr2iX7X53XGfwPsYqN89Njjz2Tq4WjR364RcSRuZ9JsycGF33ZunuID3PWEe9QMsAUFm1grUntH6jx3BRT/sw4wOv6lG+8eFfOPz0P+oFtqYQHSNv3ZIsSxHiN1woQMI4y/csvEijHYFwMsvT7DvUirp11QKPbjFDYhnEPmt5jXZXcDJNVUYMhzSZizYBfHGk3pfLqY9zL8PPuh1JJxReLx4XXT+Ig8eyI3SN3AZ6hCbYpUEVD9Vxh/Ew9Xne4WdE2FLMKtx1tqjxaY3hDXczZ9AS12o7ArUKxgifR0vHqztYyUDppRFUrg1wlV005cqhh/+65J+Gv/IiNSBpAt1DsH0aa/4MI2Q5b7/4dxjgbOWKE1ItPoZxg9LPwsIjKA5Xtd5ogCHOU/KJlDTn5eWD0Ph13Not8QpBqGhLXbo1W4IOUfenp56oaQhBQgaSqo8bn+ylLFZhI62pEY0ccvUHdfr2rlnSuA/g5t24EhIHpj3exQvtiONAgZvmkgDB5TBwKVY9ZU3um7OMYFY2lNaXcl/U41H7BNvz9Hr3WpBu1Gz2cPqP/jN78BbuZnyejGMOaTpnYH3oGKqc+TqmsPpczf9Wv1nEd6/5OBwJsaQr/WlUSFID9ulFDzR6sI+rx3PzRm3pqnaOx57cLg4BNmqmDccYtLgCgTqt9GelvQzCrH1kStcrli+uSHty0+zygEbrWqpS+wYDRrCRdtu0arSCj
-X-Forefront-Antispam-Report: CIP:12.22.5.235;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:InfoNoRecords;CAT:NONE;SFS:(13230016)(4636009)(136003)(376002)(39860400002)(396003)(346002)(40470700004)(46966006)(36840700001)(40460700003)(33716001)(7416002)(54906003)(4326008)(40480700001)(6636002)(7406005)(9686003)(356005)(55016003)(5660300002)(6862004)(26005)(86362001)(70206006)(8936002)(82740400003)(70586007)(316002)(81166007)(478600001)(82310400005)(186003)(8676002)(47076005)(41300700001)(2906002)(36860700001)(336012)(426003)(36900700001)(67856001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jul 2022 19:38:49.8402
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 53b255a2-ec61-46d6-b2c4-08da6050510a
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[12.22.5.235];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT057.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB6135
+In-Reply-To: <4fe3b47d-e94a-890a-5b87-6dfb7763bc7e@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jul 07, 2022 at 04:22:10PM -0300, Jason Gunthorpe wrote:
-> On Thu, Jul 07, 2022 at 10:12:41AM -0700, Nicolin Chen wrote:
-> > On Thu, Jul 07, 2022 at 08:42:28AM +0000, Tian, Kevin wrote:
-> > > External email: Use caution opening links or attachments
-> > > 
-> > > 
-> > > > From: Nicolin Chen <nicolinc@nvidia.com>
-> > > > Sent: Wednesday, July 6, 2022 2:28 PM
-> > > >
-> > > > There's only one caller that checks its return value with a WARN_ON_ONCE,
-> > > > while all other callers do not check return value at all. So simplify the
-> > > > API to return void by embedding similar WARN_ON_ONCEs.
-> > > 
-> > > While this change keeps the similar effect as before it leads to different
-> > > policy for same type of errors between pin and unpin paths:
+On Fri, Jul 01, 2022, Xiaoyao Li wrote:
+> On 7/1/2022 6:21 AM, Michael Roth wrote:
+> > On Thu, Jun 30, 2022 at 12:14:13PM -0700, Vishal Annapurve wrote:
+> > > With transparent_hugepages=always setting I see issues with the
+> > > current implementation.
+
+...
+
+> > > Looks like with transparent huge pages enabled kvm tried to handle the
+> > > shared memory fault on 0x84d gfn by coalescing nearby 4K pages
+> > > to form a contiguous 2MB page mapping at gfn 0x800, since level 2 was
+> > > requested in kvm_mmu_spte_requested.
+> > > This caused the private memory contents from regions 0x800-0x84c and
+> > > 0x86e-0xa00 to get unmapped from the guest leading to guest vm
+> > > shutdown.
 > > 
-> > I think it's because of the policy that an undo function should not
-> > fail. Meanwhile, indulging faulty inputs isn't good either.
+> > Interesting... seems like that wouldn't be an issue for non-UPM SEV, since
+> > the private pages would still be mapped as part of that 2M mapping, and
+> > it's completely up to the guest as to whether it wants to access as
+> > private or shared. But for UPM it makes sense this would cause issues.
 > > 
-> > > e.g.
 > > > 
-> > > vfio_unpin_pages():
-> > >         if (WARN_ON_ONCE(!user_pfn || !npage || !vfio_assert_device_open(device)))
-> > >                 return;
-> > > 
-> > > vfio_pin_pages():
-> > >         if (!user_pfn || !phys_pfn || !npage ||
-> > >             !vfio_assert_device_open(device))
-> > >                 return -EINVAL;
-> > > 
-> > > It sounds a bit weird when reading related code...
+> > > Does getting the mapping level as per the fault access type help
+> > > address the above issue? Any such coalescing should not cross between
+> > > private to
+> > > shared or shared to private memory regions.
 > > 
-> > Any better way to handle this?
+> > Doesn't seem like changing the check to fault->is_private would help in
+> > your particular case, since the subsequent host_pfn_mapping_level() call
+> > only seems to limit the mapping level to whatever the mapping level is
+> > for the HVA in the host page table.
+> > 
+> > Seems like with UPM we need some additional handling here that also
+> > checks that the entire 2M HVA range is backed by non-private memory.
+> > 
+> > Non-UPM SNP hypervisor patches already have a similar hook added to
+> > host_pfn_mapping_level() which implements such a check via RMP table, so
+> > UPM might need something similar:
+> > 
+> >    https://github.com/AMDESE/linux/commit/ae4475bc740eb0b9d031a76412b0117339794139
+> > 
+> > -Mike
+> > 
 > 
-> They should all be WARN_ON's, that is the standard pattern to assert
-> that function arguments must be correctly formed.
+> For TDX, we try to track the page type (shared, private, mixed) of each gfn
+> at given level. Only when the type is shared/private, can it be mapped at
+> that level. When it's mixed, i.e., it contains both shared pages and private
+> pages at given level, it has to go to next smaller level.
+> 
+> https://github.com/intel/tdx/commit/ed97f4042eb69a210d9e972ccca6a84234028cad
 
-OK. I can change that. I assume that, not confined to arguments,
-we might want to have a WARN_ON for the return value check also.
+Hmm, so a new slot->arch.page_attr array shouldn't be necessary, KVM can instead
+update slot->arch.lpage_info on shared<->private conversions.  Detecting whether
+a given range is partially mapped could get nasty if KVM defers tracking to the
+backing store, but if KVM itself does the tracking as was previously suggested[*],
+then updating lpage_info should be relatively straightfoward, e.g. use
+xa_for_each_range() to see if a given 2mb/1gb range is completely covered (fully
+shared) or not covered at all (fully private).
 
-> I would also drop the tests that obviously will oops on their on
-> anyone, like NULL pointer checks. This is a semi-performance path.
-
-OK. I will simply remove those NULL pointer checks. Actually,
-that !user_pfn check is gone anyway in the following patch, as
-user_pfn is replaced with iova.
+[*] https://lore.kernel.org/all/YofeZps9YXgtP3f1@google.com
