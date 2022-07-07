@@ -2,48 +2,47 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8054BC43334
-	for <linux-doc@archiver.kernel.org>; Thu,  7 Jul 2022 20:25:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8CCEBC43334
+	for <linux-doc@archiver.kernel.org>; Thu,  7 Jul 2022 20:33:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236548AbiGGUZp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 7 Jul 2022 16:25:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58734 "EHLO
+        id S235948AbiGGUd7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 7 Jul 2022 16:33:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35774 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236518AbiGGUZp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Jul 2022 16:25:45 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B0D42409E;
-        Thu,  7 Jul 2022 13:25:44 -0700 (PDT)
+        with ESMTP id S235680AbiGGUd6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Jul 2022 16:33:58 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7CF5120BD3;
+        Thu,  7 Jul 2022 13:33:57 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 1A12B62392;
-        Thu,  7 Jul 2022 20:25:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1C967C3411E;
-        Thu,  7 Jul 2022 20:25:40 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 34B5DB80522;
+        Thu,  7 Jul 2022 20:33:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 389B0C3411E;
+        Thu,  7 Jul 2022 20:33:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1657225543;
-        bh=Awv2Q/kTS4EIeMRM5w7rfLsEcGuf97xy2lh+bykwg30=;
+        s=k20201202; t=1657226034;
+        bh=gOQJhMxW8xSp1tMqkz/KWBJO7/GEhU5fryrg90lTNZ8=;
         h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=KLNwmustVN5eGr5ZkI+/HO4bQ+3cufL/liGr5otutC/f9mnzhj25zYdshB8Z+txeo
-         woO+s5lCXSoqMHk20Z3mWugmutv/9OMlFJ7GeepZ+4uA8juaBwAtRHmxrlRMwKGt8P
-         2VAA+BgzaVeC57BG0lVpRYUSYMXNg3TWjBUN+P+M6Q6VDcVDFmeK1XFHKDVcoJNwYj
-         eU3cZg1/03G3zU37nNwus8nym9rbrLAH5J7Wjmq3zn9m6lpYuusG2sYTzDn8Iru2Ex
-         x2el7+KAEGrBXflV2Yd4BMTzt9N3/odyQwFZ7kVzcVd0El0+g1O0iJ27DI0Abfq22D
-         0STQ8ZmwQj6OA==
-Date:   Thu, 7 Jul 2022 21:25:36 +0100
+        b=ny2VmlxA3OodgBB940SLJA2KJbVmTCud9NBjyF1w1cJPXq6sEc02RCD+AntYeMZgm
+         Jj5eHybbSzU5JEtY9DN7/LI/f1/mlpseh7waplaUusDvK5PmxWDdcsTXoI4kRNPQgq
+         bGTwBJuC0xE6AJJzlPKUIhQeHGilWLuAHCZOqRooczD8MO16DiumnvtpqaPP2qHOm0
+         6LLUron71i+8sKTJLCANV5ZVaa5UZIgweKKIzWFQuhUtAxzB4gkGf0IOxsFjKKcV8q
+         EHVUZ/aNTyzuIPL9YHl8gVYvxqjix0y9AzX+LLSIiqNxm2aGC83JpYA3EcZEE8Q+uo
+         +I8LPFSUa/Mnw==
+Date:   Thu, 7 Jul 2022 21:33:47 +0100
 From:   Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Akira Yokosawa <akiyks@gmail.com>,
-        ksummit-discuss@lists.linuxfoundation.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        mchehab+huawei@kernel.org
+To:     Akira Yokosawa <akiyks@gmail.com>
+Cc:     corbet@lwn.net, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, mchehab+huawei@kernel.org,
+        ksummit@lists.linux.dev
 Subject: Re: [PATCH v2 0/5] Address some issues with sphinx detection
-Message-ID: <20220707212536.58026d99@sal.lan>
-In-Reply-To: <87ilo8bw3p.fsf@meer.lwn.net>
+Message-ID: <20220707213347.1b5c2334@sal.lan>
+In-Reply-To: <a5544eb7-6044-0b84-cf1c-17ca849c641e@gmail.com>
 References: <cover.1656756450.git.mchehab@kernel.org>
         <d0e1a08a-b965-ada6-e026-4e1cc38fbd90@gmail.com>
-        <87ilo8bw3p.fsf@meer.lwn.net>
+        <a5544eb7-6044-0b84-cf1c-17ca849c641e@gmail.com>
 X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -52,37 +51,57 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Thu, 07 Jul 2022 12:45:14 -0600
-Jonathan Corbet <corbet@lwn.net> escreveu:
+Em Wed, 6 Jul 2022 23:31:09 +0900
+Akira Yokosawa <akiyks@gmail.com> escreveu:
 
-> Akira Yokosawa <akiyks@gmail.com> writes:
+> [CC: update address of ksummit]
 > 
-> > TL;DR, my suggestion of options and defaults to sphinx-pre-install:
+> On Tue, 5 Jul 2022 13:15:57 +0900, Akira Yokosawa wrote:
+> > Hi Mauro,  
+> [...]
+> > 
+> > Fedora, RHEL/CentOS, and openSUSE Leap provide helpful packages
+> > for installing math expression support.
+> > 
+> >     Fedora 36               python3-sphinx-latex (python3-sphinx depends on this)
+> >     RHEL 9/CentOS stream 9  ditto
+> >     openSUSE Leap 15.4      python3-Sphinx_4_2_0-latex
+> >                                 (python3-Sphinx_4_2_0 depends on this) or
+> >                             python3-Sphinx-latex
+> >                                 (python3-Sphinx depends on this, version: 2.3.1)  
+> 
+> These packages are supposed to cover LaTeX packages necessary
+> for building LaTeX sources the version of Sphinx generates.
+> 
+> HOWEVER, in my test of openSUSE Leap 15.4, pythno3-Sphinx-4_2_0-latex
+> does not cover texlive-tex-gyre, which is required since Sphinx 4.0.0.
+> 
+> Changelog of Sphinx 4.0.0 [1] says:
+> 
+> > Dependencies
 > >
-> >     --no-pdf (default): for htmldocs only
-> >     --no-virtualenv (default): distro Sphinx package
-> >          (mention --virtualenv if distro Sphinx package is too young)
-> >     --virtualenv: Sphinx by venv/virtualenv
-> >     --pdf: for pdfdocs
-> >         --no-cjk (default): don't bother with CJK pdfdocs
-> >         --cjk: for CJK pdfdocs
-> >                (print warning if user's distro doesn't support CJK)
-> > Thoughts?  
+> > 4.0.0b1
+> >
+> > [...]
+> >   * LaTeX: add tex-gyre font dependency  
 > 
-> I think this makes sense.  As far as I can tell, PDF builds are a
-> relative rarity these days, and most people would rather not have to
-> deal with virtualenv if they can avoid it.  We should definitely
-> emphasize native installs whenever that can work.
+> [1]: https://www.sphinx-doc.org/en/master/changes.html#release-4-0-0-released-may-09-2021
 > 
-> I'm planning to go ahead and apply Mauro's sphinx-pre-install patches
-> since they make things better, but then we should look at these tweaks.
+> I'm thinking of opening a ticket at openSUSE's bugzilla.
+> 
+> Fedora 36's python3-sphinx-latex (for Sphinx 4.4.0) has
+> texlive-collection-fontsrecommended and covers texlive-tex-gyre naturally.
+> 
 
-IMO it makes sense to apply them, as they address some existing issues
-on it. 
+Yeah, I remember the script started using some meta-packages for LaTeX.
+This had to change a couple of times because distros that have dozens of
+packages for it were not installing everything on their meta packages.
+So, the packages install but they don't run as they depend on other
+non-installed packages.
 
-We can improve the script later on with Akira's comments and after having 
-some discussions about what would be the default behavior that would fit
-better.
+That's basically why I added a list of *.sty inside the script and started
+using kpsewhich to double-check if all dependencies are there.
 
 Regards,
 Mauro
+
