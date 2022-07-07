@@ -2,244 +2,461 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E018CCA480
-	for <linux-doc@archiver.kernel.org>; Thu,  7 Jul 2022 12:53:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E4885C43334
+	for <linux-doc@archiver.kernel.org>; Thu,  7 Jul 2022 13:46:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235891AbiGGMx5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 7 Jul 2022 08:53:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46418 "EHLO
+        id S235395AbiGGNqQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 7 Jul 2022 09:46:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39414 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235893AbiGGMxg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Jul 2022 08:53:36 -0400
-Received: from mail-pg1-x52b.google.com (mail-pg1-x52b.google.com [IPv6:2607:f8b0:4864:20::52b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74FD312AEA;
-        Thu,  7 Jul 2022 05:53:34 -0700 (PDT)
-Received: by mail-pg1-x52b.google.com with SMTP id e132so18341849pgc.5;
-        Thu, 07 Jul 2022 05:53:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=l6cy31AaJrTdKl6fL2izFIU+5DjlDJpwVJm+i/nQovk=;
-        b=Mw3+dLRsJC4e2NjNnGQ8GZOx403oBXgVn6D1eOVIPJvFVXSstetmEFSbhCsb8HhlUC
-         RlYn7D6eaSp23TCtgAseziG3X2fBxSxj/39P0MOym+L5HtgW9NP205q+66DGL96v0D3T
-         ax26+bD4qvd4oR1OL+ozcEEn1+ljrNCCrDgavzO5MPWV1M1qBltdfHBkH8PjOSffajyZ
-         dVYRaWYd9aqqRewQYbslFTOUilBFaNa2ISPQGBDdGDTpOwl0lLRHqv8Ih/U0EMKeqQZ0
-         FmDeMiJs6n5MEiTa7rdcqpxrIRo3gb6+O9Bu6NkgNEBjZ5M5bnaQiQCQRDeNV160o+WQ
-         reog==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=l6cy31AaJrTdKl6fL2izFIU+5DjlDJpwVJm+i/nQovk=;
-        b=AaqjVPVqxELIr8Ai/rchRQO07j+mEiVkTV9Z6Dl3ql72t4eO+R+GF7+mbfleQMaQrW
-         oOrb/a85RhmMClQHIUyDEmSTroGjcSOf/vT0oeqltlSTBDjKTHmcTHAuiFihidM/nuF9
-         Tf9YOaA3VOtTBSFUeFFSusKl+TTIh0myUkrF04Cuqo+tAvken6f3tOsQc9NDHwNNIKZH
-         /a699rLOL7VyRMrKdHw/yLiYPqw3lglC0f4TnOc53l9nL7+iWy+gfrEDDHLSOt5wMX8h
-         ux6BhNWlzeV0a87YFJaeQfFTLCwvyOF7lroeJK6CuDyaqxPevCo9fx3GThGt3yu7b/72
-         F+Cw==
-X-Gm-Message-State: AJIora/W7jqO9aBMc0i1Gjgq8+YPU0j2vVRl1LePTjBvg/xDDLcanxIo
-        Yrl6OhhWZr9DFo8su8RDXbc=
-X-Google-Smtp-Source: AGRyM1sF8g/5GPUGhwsID/TrPiRGfdyrAfdsWsMgLol9kbQ1rpat6WTfw2GLXYGMztMfhQ8sIIIhaw==
-X-Received: by 2002:a63:6d4c:0:b0:414:ec27:2c87 with SMTP id i73-20020a636d4c000000b00414ec272c87mr1348336pgc.495.1657198413868;
-        Thu, 07 Jul 2022 05:53:33 -0700 (PDT)
-Received: from localhost.localdomain (47-72-206-164.dsl.dyn.ihug.co.nz. [47.72.206.164])
-        by smtp.gmail.com with ESMTPSA id a11-20020a1709027e4b00b0016a3b5a46f0sm27907831pln.241.2022.07.07.05.53.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Jul 2022 05:53:33 -0700 (PDT)
-From:   Barry Song <21cnbao@gmail.com>
-To:     akpm@linux-foundation.org, linux-mm@kvack.org,
-        linux-arm-kernel@lists.infradead.org, x86@kernel.org,
-        catalin.marinas@arm.com, will@kernel.org, linux-doc@vger.kernel.org
-Cc:     corbet@lwn.net, arnd@arndb.de, linux-kernel@vger.kernel.org,
-        darren@os.amperecomputing.com, yangyicong@hisilicon.com,
-        huzhanyuan@oppo.com, lipeifeng@oppo.com, zhangshiming@oppo.com,
-        guojian@oppo.com, realmz6@gmail.com,
-        Barry Song <v-songbaohua@oppo.com>,
-        Nadav Amit <namit@vmware.com>, Mel Gorman <mgorman@suse.de>
-Subject: [PATCH 4/4] arm64: support batched/deferred tlb shootdown during page reclamation
-Date:   Fri,  8 Jul 2022 00:52:42 +1200
-Message-Id: <20220707125242.425242-5-21cnbao@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220707125242.425242-1-21cnbao@gmail.com>
-References: <20220707125242.425242-1-21cnbao@gmail.com>
+        with ESMTP id S235245AbiGGNqN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Jul 2022 09:46:13 -0400
+Received: from email.cn (m218-171.88.com [110.43.218.171])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C844167FA
+        for <linux-doc@vger.kernel.org>; Thu,  7 Jul 2022 06:46:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.cn;
+        s=dkim; h=Date:From:To; bh=csPhRY3KI0HivUGHwgAN2KmlK6yqxXVCVJ3Ih
+        NUSTCU=; b=erJ++ySZp3KF/RaG2mHXPSzX88IZ3NQDiJjtyWRwmEGBKmEqSPb7B
+        L2+UIExPFPb0Tj9UanNn7q1OQ2itPaE1ljkRSjBUMZ6LUs1+beBAt3wzOIWu3E0p
+        hsJiJCExs55NTAk1iA9cLdg/R0EcfoyUvORBFZYgcSbozu+xbnBHLw=
+Received: from bobwxc.mipc (unknown [120.242.70.178])
+        by v_coremail2-frontend-1 (Coremail) with SMTP id LCKnCgD3pmOY48ZihaweAA--.13563S2;
+        Thu, 07 Jul 2022 21:46:02 +0800 (CST)
+Date:   Thu, 7 Jul 2022 21:46:00 +0800
+From:   Wu XiangCheng <bobwxc@email.cn>
+To:     Binbin Zhou <zhoubinbin@loongson.cn>
+Cc:     alexs@kernel.org, siyanteng@loongson.cn, corbet@lwn.net,
+        chenhuacai@loongson.cn, linux-doc@vger.kernel.org
+Subject: Re: [PATCH V2] docs/zh_CN: core-api: Add watch_queue Chinese
+ translation
+Message-ID: <YsbjmEhOjUrYqml4@bobwxc.mipc>
+References: <20220630123029.5720-1-zhoubinbin@loongson.cn>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220630123029.5720-1-zhoubinbin@loongson.cn>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=13455; i=bobwxc@yeah.net;
+ h=from:subject; bh=kxwKdW/WU9bRyaUfTQp1rs8rxK1SlB/qI7yB64rwlk8=;
+ b=owEB7QES/pANAwAKAbZbKBIigrCFAcsmYgBixuNUYKo12QULH3Xv6CygfCZ9+hkThpIf1/+XFusS
+ /+gEhoWJAbMEAAEKAB0WIQRFujdTmQmloK0WXU+2WygSIoKwhQUCYsbjVAAKCRC2WygSIoKwhZ6RC/
+ 9axqDLzkbx6yhXXztVWRD0epTOjXKulsCgQf8nn2L/K/wiJLrZT+7nFPKBtjF2I/eDuN5QmjxvAx4d
+ MROlFfHrY8xyskhgIPbRu7wOT9EacftcEaWaPkcWRm+OKkT89L5OPkm0CX936t6AcwURWbVj/I+9NU
+ rcLnM7HzS3q7zCRObvJb6ZdY6oewEkOXaYN7tQ2qtKhm31bPh0mIdflXwYOFhkpuK1/SedIeBQE/ya
+ 7SlTGv/G4I+Y6OYn5zliCedISwePMyl5m938+NShz1Ky0k+hnlwhbYGjATOjfWmq5Nh7HZ0Ks2JM3J
+ 5cKn2KQqXckeUGT5OlpIGrCxid6ht6aBRVWygnJtGt7v0OO5OfmptmR5Sy0n5HSrEdrFnX7T7PFa8i
+ HxAHTpcxpd6vNRxQKVGO0edTLv6Jtox05DMH9JC6EpoGNGj8XnF8GV5sKD+zsWmHPHajQR+YhnAUcF
+ FixFkKUhPA9sPhEteicbpNR7n1lGmmR6QcdChPL2CjduM=
+X-Developer-Key: i=bobwxc@yeah.net; a=openpgp;
+ fpr=2BF2A4AA2F0730C3279ED01D32684A40BCA7AEA7
+X-CM-TRANSID: LCKnCgD3pmOY48ZihaweAA--.13563S2
+X-Coremail-Antispam: 1UD129KBjvAXoW3ZF1UGrW7Cw4DGrykKw4kWFg_yoW8GF47uo
+        W3tws8Cw4kCF1rJa4Ykws5JFW2gF45uF48JFZ3Crn8Z3W7Aw4rAa1rJa13tFZ2yrs5GF1r
+        Aa48Gw48uF4rA3Wrn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
+        AaLaJ3UjIYCTnIWjp_UUU5k7k0a2IF6FyUM7kC6x804xWl1xkIjI8I6I8E6xAIw20EY4v2
+        0xvaj40_Wr0E3s1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7
+        IYx2IY67AKxVW5JVW7JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwA2z4x0Y4vE
+        x4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW8Jr0_Cr1UM2AIxVAIcx
+        kEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6x8ErcxFaVAv8VWx
+        Jr1UJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc2xSY4AK67AK6ry8MxAIw2
+        8IcxkI7VAKI48JMxAIw28IcVCjz48v1sIEY20_Cr1UJr1l4I8I3I0E4IkC6x0Yz7v_Jr0_
+        Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17
+        CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0
+        I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I
+        8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU
+        0xZFpf9x07UVGQDUUUUU=
+X-Originating-IP: [120.242.70.178]
+X-CM-SenderInfo: pere453f6hztlloou0/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Barry Song <v-songbaohua@oppo.com>
+Hi Binbin,
 
-on x86, batched and deferred tlb shootdown has lead to 90%
-performance increase on tlb shootdown. on arm64, HW can do
-tlb shootdown without software IPI. But sync tlbi is still
-quite expensive.
+On Thu, Jun 30, 2022 at 08:30:29PM +0800, Binbin Zhou wrote:
+> Translate core-api/watch_queue.rst into Chinese.
+> 
+> The lastest commit of this file is commit f5461124d59b
+> ("Documentation: move watch_queue to core-api")
+> 
+> Signed-off-by: Binbin Zhou <zhoubinbin@loongson.cn>
+> ---
+> Changes since v1:
+> 
+> Take Yanteng's advice and add his proofreading signature to watch_queue.rst.
+> 
+> ---
+>  .../translations/zh_CN/core-api/index.rst     |   1 +
+>  .../zh_CN/core-api/watch_queue.rst            | 312 ++++++++++++++++++
+>  2 files changed, 313 insertions(+)
+>  create mode 100644 Documentation/translations/zh_CN/core-api/watch_queue.rst
+> 
+> diff --git a/Documentation/translations/zh_CN/core-api/index.rst b/Documentation/translations/zh_CN/core-api/index.rst
+> index 080643bac459..8a94ad87465d 100644
+> --- a/Documentation/translations/zh_CN/core-api/index.rst
+> +++ b/Documentation/translations/zh_CN/core-api/index.rst
+> @@ -28,6 +28,7 @@
+>     printk-basics
+>     printk-formats
+>     workqueue
+> +   watch_queue
+>     symbol-namespaces
+>  
+>  数据结构和低级实用程序
+> diff --git a/Documentation/translations/zh_CN/core-api/watch_queue.rst b/Documentation/translations/zh_CN/core-api/watch_queue.rst
+> new file mode 100644
+> index 000000000000..139f021238cf
+> --- /dev/null
+> +++ b/Documentation/translations/zh_CN/core-api/watch_queue.rst
+> @@ -0,0 +1,312 @@
+> +.. SPDX-License-Identifier: GPL-2.0+
+> +
+> +.. include:: ../disclaimer-zh_CN.rst
+> +
+> +:Original: Documentation/core-api/watch_queue.rst
+> +
+> +:翻译:
+> +
+> +周彬彬 Binbin Zhou <zhoubinbin@loongson.cn>
+> +
+> +:校译:
+> +
+> +司延腾 Yanteng Si <siyanteng@loongson.cn>
+> +
+> +
+> +============
+> +通用通知机制
+> +============
+> +
+> +通用通知机制是建立在标准管道驱动之上的，它可以有效地将来自内核的通知消息拼接到用
+> +户空间打开的管道中。这可以与以下方面结合使用::
+> +
+> +  * Key/keyring 通知
+> +
+> +通知缓冲区可以通过以下方式启用：
+> +
+> +	"General setup"/"General notification queue"
+> +	(CONFIG_WATCH_QUEUE)
+> +
+> +文档包含以下章节：
+> +
+> +.. contents:: :local:
+> +
+> +
+> +概述
+> +====
+> +
+> +该设施以一种特殊模式打开的管道形式出现，管道的内部环形缓冲区用于保存内核生成的消
+> +息。然后通过read()读出这些消息。在此类管道上禁用拼接以及类似的操作，因为它们希望
+> +在某些情况下将其添加的内容还原到环中-这可能最终会与通知消息重叠。
 
-Even running a simplest program which requires swapout can
-prove this is true,
- #include <sys/types.h>
- #include <unistd.h>
- #include <sys/mman.h>
- #include <string.h>
+- -> ——
 
- int main()
- {
- #define SIZE (1 * 1024 * 1024)
-         volatile unsigned char *p = mmap(NULL, SIZE, PROT_READ | PROT_WRITE,
-                                          MAP_SHARED | MAP_ANONYMOUS, -1, 0);
+> +
+> +管道的所有者必须告诉内核它想通过该管道观察哪些源。只有连接到该管道上的源才会将消
+> +息插入其中。请注意，一个源可能绑定到多个管道，并同时将消息插入到所有管道中。
+> +
+> +还可以将过滤器放置在管道上，以便在不感兴趣时可以忽略某些源类型和子事件。
+> +
+> +如果环中没有可用的插槽，或者没有预分配的消息缓冲区可用，则将丢弃消息。在这两种情
+> +况下，read()都会在读取缓冲区中当前的最后一条消息后，将WATCH_META_LOSS_NOTIFICATION
+> +插入到输出缓冲区中。
+> +
+> +请注意，当生成一个通知时，内核不会等待消费者收集它，而是继续执行。这意味着可以在
+> +持有自旋锁的同时生成通知，并且还可以保护内核不被用户空间故障无限期地阻碍。
+> +
+> +
+> +消息结构
+> +========
+> +
+> +通知消息由一个简短的头部开始::
+> +
+> +	struct watch_notification {
+> +		__u32	type:24;
+> +		__u32	subtype:8;
+> +		__u32	info;
+> +	};
+> +
+> +"type"表示通知记录的来源，"subtype"表示该来源的记录类型（见下文观测源章节）。该类
+> +型也可以是"WATCH_TYPE_META"。这是一个由观测队列本身在内部生成的特殊记录类型。有两
+> +个子类型：
+> +
+> +  * WATCH_META_REMOVAL_NOTIFICATION
+> +  * WATCH_META_LOSS_NOTIFICATION
+> +
+> +第一个表示安装了观察的对象已被删除或销毁，第二个表示某些消息已丢失。
+> +
+> +"info"表示一系列东西，包括：
+> +
+> +  * 消息的长度，以字节为单位，包括头（带有WATCH_INFO_LENGTH的掩码，并按
+> +    WATCH_INFO_LENGTH__SHIFT移位）。这表示记录的大小，可能在8到127字节之间。
+> +
+> +  * 观测ID（带有WATCH_INFO_ID掩码，并按WATCH_INFO_ID__SHIFT移位）。这表示观测的主
+> +    叫ID，可能在0到255之间。多个观测组可以共享一个队列，这提供了一种区分它们的方法。
+> +
+> +  * 特定类型的字段（WATCH_INFO_TYPE_INFO）。这是由通知生产者设置的，以指示类型和
+> +    子类型的某些特定含义。
+> +
+> +除长度外，信息中的所有内容都可以用于过滤。
+> +
+> +头部后面可以有补充信息。此格式是由类型和子类型决定的。
+> +
+> +
+> +观测列表（通知源）API
+> +=====================
+> +
+> +"观测列表"是订阅通知源的观测者的列表。列表可以附加到对象（比如键或超级块），也可
+> +以是全局的（比如对于设备事件）。从用户空间的角度来看，一个非全局的观测列表通常是
+> +通过引用它所属的对象来引用的（比如使用KEYCTL_NOTIFY并给它一个密钥序列号来观测特定
+> +的密钥）。
+> +
+> +为了管理观测列表，提供了以下函数：
+> +
+> +  * ::
+> +
+> +	void init_watch_list(struct watch_list *wlist,
+> +			     void (*release_watch)(struct watch *wlist));
+> +
+> +    初始化一个观测列表。 如果``release_watch`` 不是NULL，那么这表示当watch_list对
 
-         memset(p, 0x88, SIZE);
+add a space before ``re
 
-         for (int k = 0; k < 10000; k++) {
-                 /* swap in */
-                 for (int i = 0; i < SIZE; i += 4096) {
-                         (void)p[i];
-                 }
+> +    象被销毁时，应该调用函数来丢弃观测列表对被观测对象的任何引用。
+> +
+> +  * ``void remove_watch_list(struct watch_list *wlist);``
+> +
+> +    这将删除订阅watch_list的所有监视，并释放它们，然后销毁watch_list对象本身。
 
-                 /* swap out */
-                 madvise(p, SIZE, MADV_PAGEOUT);
-         }
- }
+监视 -> 观测
 
-Perf result on snapdragon 888 with 8 cores by using zRAM
-as the swap block device.
+> +
+> +
+> +观测队列（通知输出）API
+> +=======================
+> +
+> +"观测队列"是由应用程序分配的用以记录通知的缓冲区，其工作原理完全隐藏在管道设备驱
+> +动中，但必须获得对它的引用才能设置监视。可以通过以下方式进行管理：
 
- ~ # perf record taskset -c 4 ./a.out
- [ perf record: Woken up 10 times to write data ]
- [ perf record: Captured and wrote 2.297 MB perf.data (60084 samples) ]
- ~ # perf report
- # To display the perf.data header info, please use --header/--header-only options.
- # To display the perf.data header info, please use --header/--header-only options.
- #
- #
- # Total Lost Samples: 0
- #
- # Samples: 60K of event 'cycles'
- # Event count (approx.): 35706225414
- #
- # Overhead  Command  Shared Object      Symbol
- # ........  .......  .................  .............................................................................
- #
-    21.07%  a.out    [kernel.kallsyms]  [k] _raw_spin_unlock_irq
-     8.23%  a.out    [kernel.kallsyms]  [k] _raw_spin_unlock_irqrestore
-     6.67%  a.out    [kernel.kallsyms]  [k] filemap_map_pages
-     6.16%  a.out    [kernel.kallsyms]  [k] __zram_bvec_write
-     5.36%  a.out    [kernel.kallsyms]  [k] ptep_clear_flush
-     3.71%  a.out    [kernel.kallsyms]  [k] _raw_spin_lock
-     3.49%  a.out    [kernel.kallsyms]  [k] memset64
-     1.63%  a.out    [kernel.kallsyms]  [k] clear_page
-     1.42%  a.out    [kernel.kallsyms]  [k] _raw_spin_unlock
-     1.26%  a.out    [kernel.kallsyms]  [k] mod_zone_state.llvm.8525150236079521930
-     1.23%  a.out    [kernel.kallsyms]  [k] xas_load
-     1.15%  a.out    [kernel.kallsyms]  [k] zram_slot_lock
+监视 -> 观测
 
-ptep_clear_flush() takes 5.36% CPU in the micro-benchmark
-swapping in/out a page mapped by only one process. If the
-page is mapped by multiple processes, typically, like more
-than 100 on a phone, the overhead would be much higher as
-we have to run tlb flush 100 times for one single page.
-Plus, tlb flush overhead will increase with the number
-of CPU cores due to the bad scalability of tlb shootdown
-in HW, so those ARM64 servers should expect much higher
-overhead.
+> +
+> +  * ``struct watch_queue *get_watch_queue(int fd);``
+> +
+> +    由于观测队列在内核中通过实现缓冲区的管道的文件描述符表示，用户空间必须通过系
+> +    统调用传递该文件描述符，这可以用于从系统调用中查找指向观测队列的不透明指针。
+> +
+> +  * ``void put_watch_queue(struct watch_queue *wqueue);``
+> +
+> +    该函数用以丢弃从``get_watch_queue()`` 获得的引用。
 
-Further perf annonate shows 95% cpu time of ptep_clear_flush
-is actually used by the final dsb() to wait for the completion
-of tlb flush. This provides us a very good chance to leverage
-the existing batched tlb in kernel. The minimum modification
-is that we only send async tlbi in the first stage and we send
-dsb while we have to sync in the second stage.
+add a space before ``get
 
-With the above simplest micro benchmark, collapsed time to
-finish the program decreases around 5%.
+> +
+> +
+> +观测订阅API
+> +===========
+> +
+> +“观测”是观测列表上的订阅，表示观测队列，从而表示应写入通知记录的缓冲区。观测队列
+> +对象还可以携带该对象的过滤规则，由用户空间设置。watch 结构的某些部分可以由驱动程
 
-Typical collapsed time w/o patch:
- ~ # time taskset -c 4 ./a.out
- 0.21user 14.34system 0:14.69elapsed
-w/ patch:
- ~ # time taskset -c 4 ./a.out
- 0.22user 13.45system 0:13.80elapsed
+watch 结构 -> watch结构体
 
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Nadav Amit <namit@vmware.com>
-Cc: Mel Gorman <mgorman@suse.de>
-Signed-off-by: Barry Song <v-songbaohua@oppo.com>
----
- Documentation/features/vm/TLB/arch-support.txt |  2 +-
- arch/arm64/Kconfig                             |  1 +
- arch/arm64/include/asm/tlbbatch.h              | 12 ++++++++++++
- arch/arm64/include/asm/tlbflush.h              | 13 +++++++++++++
- 4 files changed, 27 insertions(+), 1 deletion(-)
- create mode 100644 arch/arm64/include/asm/tlbbatch.h
+> +序设置::
+> +
+> +	struct watch {
+> +		union {
+> +			u32		info_id;	/* 在info字段中进行OR运算的ID */
+> +			...
+> +		};
+> +		void			*private;	/* 被观测对象的私有数据 */
+> +		u64			id;		/* 内部标识符 */
+> +		...
+> +	};
+> +
+> +``info_id`` 值是从用户空间获得并按WATCH_INFO_ID__SHIFT移位的8位数字。当通知写入关
+> +联的观测队列缓冲区时，这将与struct watch_notification::info的WATCH_INFO_ID字段进
+> +行或运算。
+> +
+> +``private`` 字段是与watch_list相关联的驱动程序数据，并由``watch_list::release_watch()``
 
-diff --git a/Documentation/features/vm/TLB/arch-support.txt b/Documentation/features/vm/TLB/arch-support.txt
-index 1c009312b9c1..2caf815d7c6c 100644
---- a/Documentation/features/vm/TLB/arch-support.txt
-+++ b/Documentation/features/vm/TLB/arch-support.txt
-@@ -9,7 +9,7 @@
-     |       alpha: | TODO |
-     |         arc: | TODO |
-     |         arm: | TODO |
--    |       arm64: | TODO |
-+    |       arm64: |  ok  |
-     |        csky: | TODO |
-     |     hexagon: | TODO |
-     |        ia64: | TODO |
-diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
-index 1652a9800ebe..e94913a0b040 100644
---- a/arch/arm64/Kconfig
-+++ b/arch/arm64/Kconfig
-@@ -93,6 +93,7 @@ config ARM64
- 	select ARCH_SUPPORTS_INT128 if CC_HAS_INT128
- 	select ARCH_SUPPORTS_NUMA_BALANCING
- 	select ARCH_SUPPORTS_PAGE_TABLE_CHECK
-+	select ARCH_WANT_BATCHED_UNMAP_TLB_FLUSH
- 	select ARCH_WANT_COMPAT_IPC_PARSE_VERSION if COMPAT
- 	select ARCH_WANT_DEFAULT_BPF_JIT
- 	select ARCH_WANT_DEFAULT_TOPDOWN_MMAP_LAYOUT
-diff --git a/arch/arm64/include/asm/tlbbatch.h b/arch/arm64/include/asm/tlbbatch.h
-new file mode 100644
-index 000000000000..fedb0b87b8db
---- /dev/null
-+++ b/arch/arm64/include/asm/tlbbatch.h
-@@ -0,0 +1,12 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+#ifndef _ARCH_ARM64_TLBBATCH_H
-+#define _ARCH_ARM64_TLBBATCH_H
-+
-+struct arch_tlbflush_unmap_batch {
-+	/*
-+	 * For arm64, HW can do tlb shootdown, so we don't
-+	 * need to record cpumask for sending IPI
-+	 */
-+};
-+
-+#endif /* _ARCH_ARM64_TLBBATCH_H */
-diff --git a/arch/arm64/include/asm/tlbflush.h b/arch/arm64/include/asm/tlbflush.h
-index 412a3b9a3c25..b3ed163267ca 100644
---- a/arch/arm64/include/asm/tlbflush.h
-+++ b/arch/arm64/include/asm/tlbflush.h
-@@ -272,6 +272,19 @@ static inline void flush_tlb_page(struct vm_area_struct *vma,
- 	dsb(ish);
- }
- 
-+static inline void arch_tlbbatch_add_mm(struct arch_tlbflush_unmap_batch *batch,
-+					struct mm_struct *mm,
-+					struct vm_area_struct *vma,
-+					unsigned long uaddr)
-+{
-+	flush_tlb_page_nosync(vma, uaddr);
-+}
-+
-+static inline void arch_tlbbatch_flush(struct arch_tlbflush_unmap_batch *batch)
-+{
-+	dsb(ish);
-+}
-+
- /*
-  * This is meant to avoid soft lock-ups on large TLB flushing ranges and not
-  * necessarily a performance improvement.
--- 
-2.25.1
+add a space before ``watch
+
+> +函数清除。
+> +
+> +``id`` 字段是源的ID。使用不同ID发布的通知将被忽略。
+> +
+> +提供以下函数来管理观测:
+> +
+> +  * ``void init_watch(struct watch *watch, struct watch_queue *wqueue);``
+> +
+> +    初始化一个观测对象，把它的指针设置到观察队列中，使用适当的限制来避免死锁。
+> +
+> +  * ``int add_watch_to_object(struct watch *watch, struct watch_list *wlist);``
+> +
+> +    将观测订阅到观测列表（通知源）。watch结构体中的driver-settable字段必须在调用
+> +    它之前设置。
+> +
+> +  * ::
+> +
+> +	int remove_watch_from_object(struct watch_list *wlist,
+> +				     struct watch_queue *wqueue,
+> +				     u64 id, false);
+> +
+> +    从观测列表中删除一个观测，该观测必须与指定的观测队列（``wqueue``）和对象标识
+> +    符（``id``）匹配。通知（``WATCH_META_REMOVAL_NOTIFICATION``）被发送到观测队列
+> +    表示该观测已被删除。
+> +
+> +  * ``int remove_watch_from_object(struct watch_list *wlist, NULL, 0, true);``
+> +
+> +    从观测列表中删除所有观测。 预计这将被称为销毁前的准备工作，届时新的观测将无法
+                                 ^
+remove the space behind first 。
+
+> +    访问观测列表。通知（``WATCH_META_REMOVAL_NOTIFICATION``）被发送到每个订阅观测
+> +    的观测队列，以表明该观测已被删除。
+> +
+> +
+> +通知发布API
+> +===========
+> +
+> +要将通知发布到观测列表以便订阅的观测可以看到，应使用以下函数::
+> +
+> +	void post_watch_notification(struct watch_list *wlist,
+> +				     struct watch_notification *n,
+> +				     const struct cred *cred,
+> +				     u64 id);
+> +
+> +应预先设置通知格式，并应传入一个指向头部（``n``）的指针。通知可能大于此值，并且缓
+> +冲槽为单位的大小在``n->info & WATCH_INFO_LENGTH`` 中注明。
+
+add a space before ``n
+
+> +
+> +``cred`` 结构表示源（对象）的证书，并传递给LSM，例如SELinux，以允许或禁止根据该队
+
+结构 -> 结构体
+
+> +列（对象）的证书在每个单独队列中记录注释。
+> +
+> +``id`` 是源对象ID（如密钥上的序列号）。只有设置相同ID的观测才能看到这个通知。
+> +
+> +
+> +观测源
+> +======
+> +
+> +任何特定的缓冲区都可以从多个源获取信息。 这些源包括:
+> +
+> +  * WATCH_TYPE_KEY_NOTIFY
+> +
+> +    这种类型的通知表示密钥和密钥环的变化，包括密钥环内容或密钥属性的变化。
+> +
+> +    更多信息请参见Documentation/security/keys/core.rst。
+> +
+> +
+> +事件过滤
+> +========
+> +
+> +当创建观测队列后，我们可以应用一组过滤器以限制接收的事件::
+> +
+> +	struct watch_notification_filter filter = {
+> +		...
+> +	};
+> +	ioctl(fd, IOC_WATCH_QUEUE_SET_FILTER, &filter)
+> +
+> +过滤器的描述的类型变量是::
+> +
+> +	struct watch_notification_filter {
+> +		__u32	nr_filters;
+> +		__u32	__reserved;
+> +		struct watch_notification_type_filter filters[];
+> +	};
+> +
+> +其中"nr_filters"表示filters[]数组中过滤器的数量，而"__reserved"应为0。
+> +"filter"数组有以下类型的元素::
+> +
+> +	struct watch_notification_type_filter {
+> +		__u32	type;
+> +		__u32	info_filter;
+> +		__u32	info_mask;
+> +		__u32	subtype_filter[8];
+> +	};
+> +
+> +其中：
+> +
+> +  * ``type`` 是过滤的事件类型，应类似于"WATCH_TYPE_KEY_NOTIFY"。
+> +
+> +  * ``info_filter`` 与``info_mask`` 充当通知记录的信息字段的过滤器，只有在以下情
+
+add a space before ``info
+
+Thanks,
+	Wu
+
+> +    况，通知才会写入缓冲区::
+> +
+> +	(watch.info & info_mask) == info_filter
+> +
+> +    例如，这可以用于忽略不在一个挂载树上的观测点的事件。
+> +
+> +  * ``subtype_filter`` 是一个位掩码，表示感兴趣的子类型。subtype_filter[0]的
+> +    bit[0]对应子类型0，bit[1]对应子类型1，以此类推。
+> +
+> +若ioctl()的参数为NULL，则过滤器将被移除，并且来自观测源的所有事件都将通过。
+> +
+> +
+> +用户空间代码示例
+> +================
+> +
+> +缓冲区的创建如下所示::
+> +
+> +	pipe2(fds, O_TMPFILE);
+> +	ioctl(fds[1], IOC_WATCH_QUEUE_SET_SIZE, 256);
+> +
+> +它可以被设置成接收密钥环变化的通知::
+> +
+> +	keyctl(KEYCTL_WATCH_KEY, KEY_SPEC_SESSION_KEYRING, fds[1], 0x01);
+> +
+> +然后，这些通知可以被如下方式所使用::
+> +
+> +	static void consumer(int rfd, struct watch_queue_buffer *buf)
+> +	{
+> +		unsigned char buffer[128];
+> +		ssize_t buf_len;
+> +
+> +		while (buf_len = read(rfd, buffer, sizeof(buffer)),
+> +		       buf_len > 0
+> +		       ) {
+> +			void *p = buffer;
+> +			void *end = buffer + buf_len;
+> +			while (p < end) {
+> +				union {
+> +					struct watch_notification n;
+> +					unsigned char buf1[128];
+> +				} n;
+> +				size_t largest, len;
+> +
+> +				largest = end - p;
+> +				if (largest > 128)
+> +					largest = 128;
+> +				memcpy(&n, p, largest);
+> +
+> +				len = (n->info & WATCH_INFO_LENGTH) >>
+> +					WATCH_INFO_LENGTH__SHIFT;
+> +				if (len == 0 || len > largest)
+> +					return;
+> +
+> +				switch (n.n.type) {
+> +				case WATCH_TYPE_META:
+> +					got_meta(&n.n);
+> +				case WATCH_TYPE_KEY_NOTIFY:
+> +					saw_key_change(&n.n);
+> +					break;
+> +				}
+> +
+> +				p += len;
+> +			}
+> +		}
+> +	}
+> -- 
+> 2.20.1
 
