@@ -2,162 +2,247 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 57695C43334
-	for <linux-doc@archiver.kernel.org>; Thu,  7 Jul 2022 20:08:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 52795C43334
+	for <linux-doc@archiver.kernel.org>; Thu,  7 Jul 2022 20:16:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236628AbiGGUIM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 7 Jul 2022 16:08:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47042 "EHLO
+        id S235662AbiGGUQH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 7 Jul 2022 16:16:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53248 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236158AbiGGUIL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Jul 2022 16:08:11 -0400
-Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com [IPv6:2607:f8b0:4864:20::534])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F60B6050F
-        for <linux-doc@vger.kernel.org>; Thu,  7 Jul 2022 13:08:09 -0700 (PDT)
-Received: by mail-pg1-x534.google.com with SMTP id r22so13551367pgr.2
-        for <linux-doc@vger.kernel.org>; Thu, 07 Jul 2022 13:08:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=cFtvjAz52PfP2pPD+ElBW0/QBf2EF5ZKVG4poUQicBo=;
-        b=mP6SCv4ZYKPXIVkeWPvSzYVLVZhUki25eBM3YjhHa4kfvUF6M24odaSonkI7GHxDgl
-         q8l7jb+yebppC1HydPiKCkfhvmANyTWfCu52lX2gIwEpQBnE29Hb8QHYalq/BA13UOjv
-         +Zyr+YT7RtoA7XbaOypkXR3a1booylX88aVw60q9E8Hgv256LIL7u283VOkjfSc/SkGk
-         xBZgDfQP4w+8tYaciO9M9qkbnh1pzs5vOsjgxpOmnkZpqJo64Sb1mOLl2eYm3CP/azOl
-         MjvEVEDBMn2QuzM5ShiwcRwk74T7S++IlrVOEUYGSFYHaFxUDcAizX/UA4mV7JIntHW7
-         0e3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=cFtvjAz52PfP2pPD+ElBW0/QBf2EF5ZKVG4poUQicBo=;
-        b=qjJg1XYFMZi96DKX5blm++gA+2wYk2zmZPKynMAjvZqTJRggMnJXcGtNFzdVBJAV8H
-         JVhfiV4/buPekjGkoiNp85s9vGiyrs8j7w49VteZWU4JnNVq/67JaekSF7I/zqYzczs3
-         Ha054UCaHg5mA9Bswp6bjQjC69cqxtmJ0zZAdcGIVCZwETY0+xN3AUtJ74hNND9ep5q4
-         CpdaTxW0TB5RXz9h+Q5LdkzLkzt2RjkRUr7FHhe2r6BOykZo5rnKzoz5rzUwr5o5zUhD
-         st4iF4XlDuc4jtzr1FhRtxJreplLGsrFIX1yfyZxhbou36VtMkPUb5tRBr9oB1WyHLgA
-         y1jQ==
-X-Gm-Message-State: AJIora+OodYYvpHIYpC/B7vnMyGlwvj9hJ1gm7DxrPCJl/SZkxcXBpyF
-        LCidHIzaAIeUkX/yB882EDb4JA==
-X-Google-Smtp-Source: AGRyM1vO+9LD36zGVYjZHKVETQF42VSn4ohks+4f4YrWxIjNuhp8m2LWNGsH0so1jBJkR3/GbUBuuQ==
-X-Received: by 2002:a17:902:d28a:b0:16b:e4d6:6534 with SMTP id t10-20020a170902d28a00b0016be4d66534mr23220212plc.68.1657224488885;
-        Thu, 07 Jul 2022 13:08:08 -0700 (PDT)
-Received: from google.com (123.65.230.35.bc.googleusercontent.com. [35.230.65.123])
-        by smtp.gmail.com with ESMTPSA id w8-20020a627b08000000b00528c6c7bb65sm2244075pfc.83.2022.07.07.13.08.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Jul 2022 13:08:08 -0700 (PDT)
-Date:   Thu, 7 Jul 2022 20:08:04 +0000
-From:   Sean Christopherson <seanjc@google.com>
-To:     Xiaoyao Li <xiaoyao.li@intel.com>
-Cc:     Michael Roth <michael.roth@amd.com>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Chao Peng <chao.p.peng@linux.intel.com>,
-        "Nikunj A. Dadhania" <nikunj@amd.com>,
-        kvm list <kvm@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86 <x86@kernel.org>, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Andy Lutomirski <luto@kernel.org>,
-        Jun Nakajima <jun.nakajima@intel.com>,
-        Dave Hansen <dave.hansen@intel.com>,
-        Andi Kleen <ak@linux.intel.com>,
-        David Hildenbrand <david@redhat.com>, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>, mhocko@suse.com
-Subject: Re: [PATCH v6 6/8] KVM: Handle page fault for private memory
-Message-ID: <Ysc9JDcVAnlVrGC8@google.com>
-References: <20220519153713.819591-1-chao.p.peng@linux.intel.com>
- <20220519153713.819591-7-chao.p.peng@linux.intel.com>
- <b3ce0855-0e4b-782a-599c-26590df948dd@amd.com>
- <20220624090246.GA2181919@chaop.bj.intel.com>
- <CAGtprH82H_fjtRbL0KUxOkgOk4pgbaEbAydDYfZ0qxz41JCnAQ@mail.gmail.com>
- <20220630222140.of4md7bufd5jv5bh@amd.com>
- <4fe3b47d-e94a-890a-5b87-6dfb7763bc7e@intel.com>
+        with ESMTP id S235637AbiGGUQH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Jul 2022 16:16:07 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE4F21D32D;
+        Thu,  7 Jul 2022 13:16:05 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 6E02662418;
+        Thu,  7 Jul 2022 20:16:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D7BB2C3411E;
+        Thu,  7 Jul 2022 20:16:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1657224964;
+        bh=ZFMH5B/Kr49IH99WLl66v3d7NBi0EDRNt8+9wu8lIB4=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=XAG/5TMp8LDglt139jKEchKVWxEpGe2utgAvIcGsBK/smlcBlpQaBaMlVm21Q38wt
+         RZPA+aNRJipERy7WHiK7IK+4gXnQr+rkfXXx9hvVPzWBwx/xHoLoNhqEVVo+uAj2mh
+         voVFX0kdKiwjbchQRlOIMlToO1C+eDKFRw+/G6W1dpctheaq4WffcTDyPlWVjpvqae
+         kqxMKEPZc/gBLfli3oGHkdkHqvdIzzocMlPgTBDs1FH96krZHs8yElrHOz5FoPkdbq
+         cAqQtSpDYYB/wkvW0JHeruxF2QRd4v5SIOORZuw6MVwHvSph3g+/jMgC/aSsaY2fFv
+         ca0oGbuioWGbw==
+Date:   Thu, 7 Jul 2022 21:15:58 +0100
+From:   Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     Akira Yokosawa <akiyks@gmail.com>
+Cc:     corbet@lwn.net, ksummit-discuss@lists.linuxfoundation.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        mchehab+huawei@kernel.org
+Subject: Re: [PATCH v2 0/5] Address some issues with sphinx detection
+Message-ID: <20220707211558.438a27d4@sal.lan>
+In-Reply-To: <d0e1a08a-b965-ada6-e026-4e1cc38fbd90@gmail.com>
+References: <cover.1656756450.git.mchehab@kernel.org>
+        <d0e1a08a-b965-ada6-e026-4e1cc38fbd90@gmail.com>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <4fe3b47d-e94a-890a-5b87-6dfb7763bc7e@intel.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jul 01, 2022, Xiaoyao Li wrote:
-> On 7/1/2022 6:21 AM, Michael Roth wrote:
-> > On Thu, Jun 30, 2022 at 12:14:13PM -0700, Vishal Annapurve wrote:
-> > > With transparent_hugepages=always setting I see issues with the
-> > > current implementation.
+Em Tue, 5 Jul 2022 13:15:57 +0900
+Akira Yokosawa <akiyks@gmail.com> escreveu:
 
-...
-
-> > > Looks like with transparent huge pages enabled kvm tried to handle the
-> > > shared memory fault on 0x84d gfn by coalescing nearby 4K pages
-> > > to form a contiguous 2MB page mapping at gfn 0x800, since level 2 was
-> > > requested in kvm_mmu_spte_requested.
-> > > This caused the private memory contents from regions 0x800-0x84c and
-> > > 0x86e-0xa00 to get unmapped from the guest leading to guest vm
-> > > shutdown.
-> > 
-> > Interesting... seems like that wouldn't be an issue for non-UPM SEV, since
-> > the private pages would still be mapped as part of that 2M mapping, and
-> > it's completely up to the guest as to whether it wants to access as
-> > private or shared. But for UPM it makes sense this would cause issues.
-> > 
-> > > 
-> > > Does getting the mapping level as per the fault access type help
-> > > address the above issue? Any such coalescing should not cross between
-> > > private to
-> > > shared or shared to private memory regions.
-> > 
-> > Doesn't seem like changing the check to fault->is_private would help in
-> > your particular case, since the subsequent host_pfn_mapping_level() call
-> > only seems to limit the mapping level to whatever the mapping level is
-> > for the HVA in the host page table.
-> > 
-> > Seems like with UPM we need some additional handling here that also
-> > checks that the entire 2M HVA range is backed by non-private memory.
-> > 
-> > Non-UPM SNP hypervisor patches already have a similar hook added to
-> > host_pfn_mapping_level() which implements such a check via RMP table, so
-> > UPM might need something similar:
-> > 
-> >    https://github.com/AMDESE/linux/commit/ae4475bc740eb0b9d031a76412b0117339794139
-> > 
-> > -Mike
-> > 
+> Hi Mauro,
 > 
-> For TDX, we try to track the page type (shared, private, mixed) of each gfn
-> at given level. Only when the type is shared/private, can it be mapped at
-> that level. When it's mixed, i.e., it contains both shared pages and private
-> pages at given level, it has to go to next smaller level.
+> On Sat,  2 Jul 2022 11:11:24 +0100, Mauro Carvalho Chehab  wrote:
+> > Checking if Sphinx is available and read to run is tricky, and may involve
+> > installing several packages for the document build to happen.
+> > 
+> > There are two options to install Sphinx:
+> > 
+> > 	- via distro-provided packages;
+> > 	- via pip, using virtualenv/venv.
+> > 
+> > Some recent discussions showed a couple of misleading instructions.
+> > 
+> > This series improves the Sphinx detection by:
+> > 
+> > - Fixing the logich with checks if a past venv is working and recommend
+> >   just enabling it instead of installing a new venv;
+> > - Detect if sphinx-build stopped working on a venv. This may happen during
+> >   distribution updates;
+> > - Move the PDF minimal version to be later, in order for it to be printed only
+> >   after finishing the Sphinx version check;
+> > 
+> > Additionally, as now the Sphinx provided on almost all modern distros are
+> > above the minimal required version, place instructions about how to install
+> > Sphinx from the distro-provided packages after placing the instructions for
+> > installing it via venv.
+> > 
+> > This will hopefully help to have more developers checking documentation
+> > builds with
+> > 
+> > 	make htmldocs  
+> So this is a meta-level feedback considering the most likely uses
+> of sphinx-pre-install.
 > 
-> https://github.com/intel/tdx/commit/ed97f4042eb69a210d9e972ccca6a84234028cad
+> I think first-time users of sphinx-pre-install are more likely
+> interested in getting ready for running "make html".  They won't
+> bother with "make pdfdocs". 
 
-Hmm, so a new slot->arch.page_attr array shouldn't be necessary, KVM can instead
-update slot->arch.lpage_info on shared<->private conversions.  Detecting whether
-a given range is partially mapped could get nasty if KVM defers tracking to the
-backing store, but if KVM itself does the tracking as was previously suggested[*],
-then updating lpage_info should be relatively straightfoward, e.g. use
-xa_for_each_range() to see if a given 2mb/1gb range is completely covered (fully
-shared) or not covered at all (fully private).
+True, but, as you're pointing below, math expressions require LaTeX.
 
-[*] https://lore.kernel.org/all/YofeZps9YXgtP3f1@google.com
+The idea of using --no-pdf is to setup an environment without LaTeX,
+meaning that math tags would only be partially parsed: basically, the
+output would be html with LaTeX-like math expressions (at least last
+time I tried).
+
+> They won't likely be interested in virtualenv, either.
+
+Yes and no. The big issue with using distro packages is that it will
+produce 11 false-positive warnings due to duplicated C symbols. This
+will only be (hopefully) fixed on a later Sphinx 5.x (or 6.0). So,
+it would take more than 6 months to get rid of those.
+
+Using 2.4.4, after the fixes I sent, plus the 3 fixes from IIO tree
+(yet to be merged on -next), there will be just 4 warnings.
+
+So, IMO, for me, is still preferred to use 2.4.4 via venv.
+
+> So I think it would be reasonable to change the default behavior
+> of sphinx-pre-install.
+
+With this series, both venv and non-venv settings will be shown by
+default, allowing the developer decide what he prefers.
+
+Still, I'm not 100% sure if this is the best thing to do. 
+
+One alternative would be to run the script on an even more silent mode
+when called via makefile, in a way that it would, instead it will keep:
+
+- not display anything if sphinx-build works;
+- display enable/disable commands if venv is detected;
+
+But, instead of showing install options, it would instead, print a message
+like:
+
+	Can't build the documentation. Please run:
+
+	./scripts/sphinx-pre-install <options)
+
+	Where options are:
+	  --no-virtualenv	- Recommend installing Sphinx instead of using a virtualenv
+	  --no-pdf		- don't check for dependencies required to build PDF docs
+	  ...
+
+Another alternative would be to use --no-pdf for make htmldocs/epubdocs
+target, and a "--pdf" for make pdfdocs.
+
+> I mean the reasonable behavior without any option would be that of
+> when both --no-pdf and --no-virtualenv are given to the current
+> version.
+> 
+> There are a few issues on --no-pdf.
+> 
+> It says imagemagick and gcc are necessary, but they are redundant
+> in "make html", as far as I see.
+
+Well, gcc is not really necessary, but anyone using the Kernel tree
+very likely needs it. So, it doesn't hurt checking for it.
+
+With regards to imagemagick, I'm not sure if, after your patches changing
+the way to build image, it is still needed. We need to review it.
+
+Changing the dependency chain is a lot of work, as we need to retest
+everything on all supported platforms, using minimal install. Here, I'm
+using lxc download, as it usually gets something close to the minimal
+distro install.
+
+> Furthermore, it doesn't check dvipng and latex, which are used
+> for generating math equation images in HTML.
+
+Not checking for LaTeX is per design. It makes the install a lot havier
+than what's actually needed. dvipng is a new dependency after the
+changes on svg and dot conversions. Yeah, we need to test it on all
+distros and properly add it where needed.
+
+> Fedora, RHEL/CentOS, and openSUSE Leap provide helpful packages
+> for installing math expression support.
+> 
+>     Fedora 36               python3-sphinx-latex (python3-sphinx depends on this)
+>     RHEL 9/CentOS stream 9  ditto
+>     openSUSE Leap 15.4      python3-Sphinx_4_2_0-latex
+>                                 (python3-Sphinx_4_2_0 depends on this) or
+>                             python3-Sphinx-latex
+>                                 (python3-Sphinx depends on this, version: 2.3.1)
+
+yes, but this will install LaTeX. We don't want this for the minimal htmldocs
+build type, as math is used only on a handful set of documents, and most
+developers can live without that.
+
+> Other distros, whose texlive packages are coarse grained, don't provide
+> such helper packages.
+> 
+> Also, as mentioned previously, RHEL 9/CentOS stream9's texlive-xecjk 
+> doesn't work at the moment due to the lack of its dependency (texlive-ctex).
+
+LTS distros like RHEL and SUSE are usually a lot more conservative and may
+not have everything. The building system needs to cope with that.
+
+> I opened a bug ticket at RedHat bugzilla:
+>    https://bugzilla.redhat.com/show_bug.cgi?id=2086254
+> 
+> Unfortunately, I've heard no response yet.
+> If you know some means to boost its priority, please provide a comment
+> or two to the ticket.
+>
+> Until the issue can be resolved, "make pdfdocs" is limited to non-CJK
+> build on CentOS stream 9, RHEL 9 and its clones if you must stick to
+> distro packages. 
+
+Even if they add now, RHEL 9.0 won't have it. So, the script would need
+to check if the distro supports it.
+
+> For non-CJK build to work, you must not have
+> google-noto-sans-cjk-ttc-fonts.
+
+That doesn't sound right. We should probably fix conf.py to do the right
+thing. I mean, if this package is installed but texlive-xecjk, it should
+disable CJK fonts.
+
+> openSUSE Leap does not support full CJK build of "make pdfdocs", either.
+> Its Noto font packaging is peculiar and a similar named package of
+> noto-sans-cjk-fonts installs a set of language-specific fonts, each
+> of which doesn't qualify as a CJK font.
+> 
+> Seeing these problems of LTS distros, I'd suggest sphinx-pre-install
+> --pdf would check packages for non-CJK builds.
+
+Makes sense.
+
+> Another option of --cjk would show you additional packages for full CJK build.
+
+Also makes sense. I don't think they're mutually exclusive.
+
+> TL;DR, my suggestion of options and defaults to sphinx-pre-install:
+> 
+>     --no-pdf (default): for htmldocs only
+>     --no-virtualenv (default): distro Sphinx package
+>          (mention --virtualenv if distro Sphinx package is too young)
+>     --virtualenv: Sphinx by venv/virtualenv
+>     --pdf: for pdfdocs
+>         --no-cjk (default): don't bother with CJK pdfdocs
+>         --cjk: for CJK pdfdocs
+>                (print warning if user's distro doesn't support CJK)
+
+The options make sense. Still I would discuss more about what would be
+the best default:
+
+	- Suggest both venv and no-venv;
+	- Ask the user to run the script;
+	- have different behaviors when called with make pdfdocs
+	  or make htmldocs / epubdocs.
+
+Regards,
+Mauro
