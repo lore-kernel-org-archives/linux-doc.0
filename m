@@ -2,58 +2,57 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A5D9C43334
-	for <linux-doc@archiver.kernel.org>; Thu,  7 Jul 2022 21:10:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E16F7C43334
+	for <linux-doc@archiver.kernel.org>; Thu,  7 Jul 2022 21:12:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236422AbiGGVKh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 7 Jul 2022 17:10:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57956 "EHLO
+        id S236348AbiGGVMf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 7 Jul 2022 17:12:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59224 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229834AbiGGVKg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Jul 2022 17:10:36 -0400
-Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com [IPv6:2a00:1450:4864:20::534])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8096120180;
-        Thu,  7 Jul 2022 14:10:35 -0700 (PDT)
-Received: by mail-ed1-x534.google.com with SMTP id r6so13248894edd.7;
-        Thu, 07 Jul 2022 14:10:35 -0700 (PDT)
+        with ESMTP id S236777AbiGGVM2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Jul 2022 17:12:28 -0400
+Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1C3D2FFCE;
+        Thu,  7 Jul 2022 14:12:26 -0700 (PDT)
+Received: by mail-ed1-x52b.google.com with SMTP id k30so16556487edk.8;
+        Thu, 07 Jul 2022 14:12:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=AdpdTZYbKN8gJRPxD9Stl43hDVe6fS4mUMUUh7HWjcY=;
-        b=SKnj3TB8ofA+CMXOeG+D0a5OamLrFChv+1BzL0C6Y0XX3FUN7HXK5uKaSuMxPnig7/
-         dW/I5/Q0I6/1BJgGtOX4ZAw2HpqfVcYB+bz4r58KkyqjjuePSWsgTyBwCIdOerItTKUS
-         DDrkAMND39MkdhcCvpwJ5czI4bq+Q1yAjnBZPpaRmrqk0WtGO3qEXSJvmqbGcZCfhiF0
-         XTVauqjumpUibAy1BYEXh3EudCShmcKkfFV7wcO2cVDR9Y5I1ykYKmyx1c2hW1HGaZ1S
-         08bGN+ixn0c5tX3dltg3Pbqe8iUCCgS+LrYBL+xMQyw6pUEKT1DOnm1vOaZx9f0VUTwu
-         fBAg==
+        bh=E7lBX2NVyR4wLZQ7armge/PHuuUWSeFzw9RQb5K1xo8=;
+        b=WtBL5NKziFNuFTThNyyKxNqq993+zYRIUkT4vjvf6Boey1TYr16Iy6Kg5WLl0accKf
+         M3R3r0q5cjZhKBrhC9F9Pts9C/B1qSR9RpD87Et+zf1VDKnlCjjQtaOl+FxU5cHCdQFE
+         qNvHSRvgbBlLaOzHhWtRzkJOzd6WJ3Pjb8lA48fKI1LdbRfNt4V2peiD0LbFdI/eU0BO
+         Hikqrd9EUNEUs/L5yQnYPwFDZW7qx3ed2N1uIurkM9Ul1Wntrc5LOR9dQeXdpfT9Kjmg
+         JtRAfK2OS+/rk+0JTFTLdpdFS88Nke5QOhX6rtFm/D/ylsf/SIIBskXzaByujWUh0b9c
+         SnBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=AdpdTZYbKN8gJRPxD9Stl43hDVe6fS4mUMUUh7HWjcY=;
-        b=mfn2gY7LS9/Aj3e/hSp1c8ymTbiSN/35F3zUW2koNE9xQOpR5Q12Lxi60Cpkwfrqrc
-         vc2HKBaEfuwR/pDXUeYKpzy/LaoWMZqu4SA/W/dd8ozLlC3kjBy5D4qkZEw7F8/bVR0M
-         VZA65dyF/i9d1cRFrci/ABESnrSl4wP09zeEvJP7gx2u5j/Hm/JMQpuTqticuFc4MLCg
-         knKz2NgMl7qrZ1yL8vLCgCtRQU64RdasFvuTff+88tn0Kw91phQcGsJl3ujL2SpeEkmt
-         9/NZHKQfG4ogWAAgEx+t1roexyEOmGQ+0p7wNeS+mY7B/+vnSJDRHXmBW7h99Vs1HUYv
-         ralQ==
-X-Gm-Message-State: AJIora/VhfPbnBwfFcpFRKyFDoDVc2NWo4pOAwGGFhyZ2E4PckkXFDJJ
-        IMgyX2STkl7/bvvFWC2YkSaIQfUaSsAFLwqZ6AM=
-X-Google-Smtp-Source: AGRyM1sHv01SRICtjQG4YzhyZUUaToGZ7H53xC8jg1hXK4ki87stazAF/soW7TT5lO5Ox15TejYUuZ56YV26wV0U/BE=
-X-Received: by 2002:aa7:c9d2:0:b0:42e:1776:63e0 with SMTP id
- i18-20020aa7c9d2000000b0042e177663e0mr60934edt.185.1657228234041; Thu, 07 Jul
- 2022 14:10:34 -0700 (PDT)
+        bh=E7lBX2NVyR4wLZQ7armge/PHuuUWSeFzw9RQb5K1xo8=;
+        b=DzxBdO3dxLcqcfvL3/3ljhb6k1IFgLrDyJlPbxLcBRoU7FFFL1ur0sTPv0JL/XoEIE
+         t8hM0fSaTV0E2HwshM2kInFzhBrZUASOtKRgf1PUe98bCceKVmtkd1T9MV7/Aw6Cv11+
+         lpFtYq5cNmzz/Km4l2pxZr2VrrBc5DZDpHbppbF5J8vJvYMnNaWVEqJ6e98wtlhYmDnm
+         wr+WKINWz9mSXrdptxhmMmcUGzOVBBb3FOONUafqP6SVWA0dHqxaU0YJQNO6Vn+OPcKw
+         zB/d0cmsDfWIksicjzwaKwQH0bB74FgxNKjfVCW7KG0d4tAJjkWyopKjtq2/FlYrxTyy
+         oMaw==
+X-Gm-Message-State: AJIora9J/T6imWWFIoK8xozmy9a0sXAYo4IiR6xxvOXOkIHNWzo0MXv0
+        wDOiCAGtjI1Dw1bSXmWMNtokU0pvP9NUaAcFRPGVBbld9/98uQ==
+X-Google-Smtp-Source: AGRyM1uu3GWZeriqyMwRw43BUsAdyD5/Ff+Q6S+6/8raxI7MhcRy13mOivlcRjUlnjBx7zoR3TsKjCB8RuKwpaY+71w=
+X-Received: by 2002:a05:6402:42cb:b0:43a:5df2:bb5d with SMTP id
+ i11-20020a05640242cb00b0043a5df2bb5dmr138776edc.36.1657228345125; Thu, 07 Jul
+ 2022 14:12:25 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220707125242.425242-1-21cnbao@gmail.com> <20220707125242.425242-5-21cnbao@gmail.com>
- <Ysbkbt7cvUWSShtc@hirez.programming.kicks-ass.net>
-In-Reply-To: <Ysbkbt7cvUWSShtc@hirez.programming.kicks-ass.net>
+References: <20220707125242.425242-1-21cnbao@gmail.com> <20220707125242.425242-4-21cnbao@gmail.com>
+ <be65d342-0d4d-473c-2ba8-bc58b708bfac@intel.com>
+In-Reply-To: <be65d342-0d4d-473c-2ba8-bc58b708bfac@intel.com>
 From:   Barry Song <21cnbao@gmail.com>
-Date:   Fri, 8 Jul 2022 09:10:23 +1200
-Message-ID: <CAGsJ_4zamtJcYvsR0xhMmRATjVnuEsaDdC9SkSSQwE4h1EMOxQ@mail.gmail.com>
-Subject: Re: [PATCH 4/4] arm64: support batched/deferred tlb shootdown during
- page reclamation
-To:     Peter Zijlstra <peterz@infradead.org>
+Date:   Fri, 8 Jul 2022 09:12:14 +1200
+Message-ID: <CAGsJ_4zdAjBVbmWXC_M=530QwC=SnuK9783dcaNSCywZAJwgsw@mail.gmail.com>
+Subject: Re: [PATCH 3/4] mm: rmap: Extend tlbbatch APIs to fit new platforms
+To:     Dave Hansen <dave.hansen@intel.com>
 Cc:     Andrew Morton <akpm@linux-foundation.org>,
         Linux-MM <linux-mm@kvack.org>,
         LAK <linux-arm-kernel@lists.infradead.org>, x86 <x86@kernel.org>,
@@ -70,88 +69,31 @@ Cc:     Andrew Morton <akpm@linux-foundation.org>,
         <zhangshiming@oppo.com>, =?UTF-8?B?6YOt5YGl?= <guojian@oppo.com>,
         real mz <realmz6@gmail.com>,
         Barry Song <v-songbaohua@oppo.com>,
-        Nadav Amit <namit@vmware.com>, Mel Gorman <mgorman@suse.de>
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Nadav Amit <namit@vmware.com>,
+        Mel Gorman <mgorman@suse.de>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jul 8, 2022 at 1:50 AM Peter Zijlstra <peterz@infradead.org> wrote:
+On Fri, Jul 8, 2022 at 4:43 AM Dave Hansen <dave.hansen@intel.com> wrote:
 >
-> On Fri, Jul 08, 2022 at 12:52:42AM +1200, Barry Song wrote:
->
-> > diff --git a/arch/arm64/include/asm/tlbbatch.h b/arch/arm64/include/asm/tlbbatch.h
-> > new file mode 100644
-> > index 000000000000..fedb0b87b8db
-> > --- /dev/null
-> > +++ b/arch/arm64/include/asm/tlbbatch.h
-> > @@ -0,0 +1,12 @@
-> > +/* SPDX-License-Identifier: GPL-2.0 */
-> > +#ifndef _ARCH_ARM64_TLBBATCH_H
-> > +#define _ARCH_ARM64_TLBBATCH_H
-> > +
-> > +struct arch_tlbflush_unmap_batch {
-> > +     /*
-> > +      * For arm64, HW can do tlb shootdown, so we don't
-> > +      * need to record cpumask for sending IPI
-> > +      */
-> > +};
-> > +
-> > +#endif /* _ARCH_ARM64_TLBBATCH_H */
-> > diff --git a/arch/arm64/include/asm/tlbflush.h b/arch/arm64/include/asm/tlbflush.h
-> > index 412a3b9a3c25..b3ed163267ca 100644
-> > --- a/arch/arm64/include/asm/tlbflush.h
-> > +++ b/arch/arm64/include/asm/tlbflush.h
-> > @@ -272,6 +272,19 @@ static inline void flush_tlb_page(struct vm_area_struct *vma,
-> >       dsb(ish);
-> >  }
-> >
-> > +static inline void arch_tlbbatch_add_mm(struct arch_tlbflush_unmap_batch *batch,
+> On 7/7/22 05:52, Barry Song wrote:
+> >  static inline void arch_tlbbatch_add_mm(struct arch_tlbflush_unmap_batch *batch,
+> > -                                     struct mm_struct *mm)
 > > +                                     struct mm_struct *mm,
 > > +                                     struct vm_area_struct *vma,
 > > +                                     unsigned long uaddr)
-> > +{
-> > +     flush_tlb_page_nosync(vma, uaddr);
-> > +}
+> >  {
 >
-> You're passing that vma along just to get the mm, that's quite silly and
-> trivially fixed.
+> It's not a huge deal, but could we pass 'vma' _instead_ of 'mm'?  The
+> implementations could then just use vma->vm_mm instead of the passed-in mm.
 
-Yes, this was silly. will include your fix in v2.
-
->
->
-> diff --git a/arch/arm64/include/asm/tlbflush.h b/arch/arm64/include/asm/tlbflush.h
-> index 412a3b9a3c25..87505ecce1f0 100644
-> --- a/arch/arm64/include/asm/tlbflush.h
-> +++ b/arch/arm64/include/asm/tlbflush.h
-> @@ -254,17 +254,23 @@ static inline void flush_tlb_mm(struct mm_struct *mm)
->         dsb(ish);
->  }
->
-> -static inline void flush_tlb_page_nosync(struct vm_area_struct *vma,
-> -                                        unsigned long uaddr)
-> +static inline void __flush_tlb_page_nosync(struct mm_struct *mm,
-> +                                          unsigned long uaddr)
->  {
->         unsigned long addr;
->
->         dsb(ishst);
-> -       addr = __TLBI_VADDR(uaddr, ASID(vma->vm_mm));
-> +       addr = __TLBI_VADDR(uaddr, ASID(mm));
->         __tlbi(vale1is, addr);
->         __tlbi_user(vale1is, addr);
->  }
->
-> +static inline void flush_tlb_page_nosync(struct vm_area_struct *vma,
-> +                                        unsigned long uaddr)
-> +{
-> +       return __flush_tlb_page_nosync(vma->vm_mm, uaddr);
-> +}
-> +
->  static inline void flush_tlb_page(struct vm_area_struct *vma,
->                                   unsigned long uaddr)
->  {
+Yes, Dave. Peter made the same suggestion in 4/4.
+will get this fixed in v2.
 
 Thanks
 Barry
