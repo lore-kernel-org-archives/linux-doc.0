@@ -2,148 +2,156 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 99B97C43334
-	for <linux-doc@archiver.kernel.org>; Thu,  7 Jul 2022 20:51:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A5D9C43334
+	for <linux-doc@archiver.kernel.org>; Thu,  7 Jul 2022 21:10:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236565AbiGGUvg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 7 Jul 2022 16:51:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44952 "EHLO
+        id S236422AbiGGVKh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 7 Jul 2022 17:10:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57956 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236533AbiGGUvg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Jul 2022 16:51:36 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ACA652CE06;
-        Thu,  7 Jul 2022 13:51:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-        bh=TTdDoMIncBueyDVjmYEyIZn/enGMqk78p+ra2MsjS+w=; b=sE7/kRbdlSv7EDNBiYq9turMip
-        Y8jFHim2VJqGyNd6kV+yyl+ghqx0wWjY1oAiKWWvg1OEtRazc2fwps6uBk2W/rAY6QjFvLj3AdcQK
-        NjzHVTWhmxPc8gfHjR0GL/zj+HVMZ1CmupVS4UZZqcjbz8BNmmW8+/IvXVqDA36+u3l3XcpEFhFSQ
-        TWPZ0amSSofhK9YDY4uV5jWZHbMQjPj+zWVwcLWCoEupQm21QzaYFo6WKR5PF7M4AdVOVKeBkAytS
-        btzrXPQ2hDd3Km43Qd42cgGLAXZBmv2WuEUPASG78hGx1ea8ym3uKyTgvrtiaQEfTl5URkscMo0KZ
-        Pud0lScw==;
-Received: from [2601:1c0:6280:3f0::a6b3]
-        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1o9YSz-000B7y-VT; Thu, 07 Jul 2022 20:51:18 +0000
-Message-ID: <a2984435-6c8f-aee2-1e42-efc0b7cc4078@infradead.org>
-Date:   Thu, 7 Jul 2022 13:51:15 -0700
+        with ESMTP id S229834AbiGGVKg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Jul 2022 17:10:36 -0400
+Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com [IPv6:2a00:1450:4864:20::534])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8096120180;
+        Thu,  7 Jul 2022 14:10:35 -0700 (PDT)
+Received: by mail-ed1-x534.google.com with SMTP id r6so13248894edd.7;
+        Thu, 07 Jul 2022 14:10:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=AdpdTZYbKN8gJRPxD9Stl43hDVe6fS4mUMUUh7HWjcY=;
+        b=SKnj3TB8ofA+CMXOeG+D0a5OamLrFChv+1BzL0C6Y0XX3FUN7HXK5uKaSuMxPnig7/
+         dW/I5/Q0I6/1BJgGtOX4ZAw2HpqfVcYB+bz4r58KkyqjjuePSWsgTyBwCIdOerItTKUS
+         DDrkAMND39MkdhcCvpwJ5czI4bq+Q1yAjnBZPpaRmrqk0WtGO3qEXSJvmqbGcZCfhiF0
+         XTVauqjumpUibAy1BYEXh3EudCShmcKkfFV7wcO2cVDR9Y5I1ykYKmyx1c2hW1HGaZ1S
+         08bGN+ixn0c5tX3dltg3Pbqe8iUCCgS+LrYBL+xMQyw6pUEKT1DOnm1vOaZx9f0VUTwu
+         fBAg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=AdpdTZYbKN8gJRPxD9Stl43hDVe6fS4mUMUUh7HWjcY=;
+        b=mfn2gY7LS9/Aj3e/hSp1c8ymTbiSN/35F3zUW2koNE9xQOpR5Q12Lxi60Cpkwfrqrc
+         vc2HKBaEfuwR/pDXUeYKpzy/LaoWMZqu4SA/W/dd8ozLlC3kjBy5D4qkZEw7F8/bVR0M
+         VZA65dyF/i9d1cRFrci/ABESnrSl4wP09zeEvJP7gx2u5j/Hm/JMQpuTqticuFc4MLCg
+         knKz2NgMl7qrZ1yL8vLCgCtRQU64RdasFvuTff+88tn0Kw91phQcGsJl3ujL2SpeEkmt
+         9/NZHKQfG4ogWAAgEx+t1roexyEOmGQ+0p7wNeS+mY7B/+vnSJDRHXmBW7h99Vs1HUYv
+         ralQ==
+X-Gm-Message-State: AJIora/VhfPbnBwfFcpFRKyFDoDVc2NWo4pOAwGGFhyZ2E4PckkXFDJJ
+        IMgyX2STkl7/bvvFWC2YkSaIQfUaSsAFLwqZ6AM=
+X-Google-Smtp-Source: AGRyM1sHv01SRICtjQG4YzhyZUUaToGZ7H53xC8jg1hXK4ki87stazAF/soW7TT5lO5Ox15TejYUuZ56YV26wV0U/BE=
+X-Received: by 2002:aa7:c9d2:0:b0:42e:1776:63e0 with SMTP id
+ i18-20020aa7c9d2000000b0042e177663e0mr60934edt.185.1657228234041; Thu, 07 Jul
+ 2022 14:10:34 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v5 5/6] HID: add spi-hid, transport driver for HID over
- SPI bus
-Content-Language: en-US
-To:     Jarrett Schultz <jaschultzms@gmail.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
+References: <20220707125242.425242-1-21cnbao@gmail.com> <20220707125242.425242-5-21cnbao@gmail.com>
+ <Ysbkbt7cvUWSShtc@hirez.programming.kicks-ass.net>
+In-Reply-To: <Ysbkbt7cvUWSShtc@hirez.programming.kicks-ass.net>
+From:   Barry Song <21cnbao@gmail.com>
+Date:   Fri, 8 Jul 2022 09:10:23 +1200
+Message-ID: <CAGsJ_4zamtJcYvsR0xhMmRATjVnuEsaDdC9SkSSQwE4h1EMOxQ@mail.gmail.com>
+Subject: Re: [PATCH 4/4] arm64: support batched/deferred tlb shootdown during
+ page reclamation
+To:     Peter Zijlstra <peterz@infradead.org>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        LAK <linux-arm-kernel@lists.infradead.org>, x86 <x86@kernel.org>,
         Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>, Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Marcel Ziswiler <marcel.ziswiler@toradex.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Vinod Koul <vkoul@kernel.org>
-Cc:     Dmitry Antipov <dmanti@microsoft.com>, linux-input@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        Jarrett Schultz <jaschultz@microsoft.com>
-References: <20220707165902.3184-1-jaschultzMS@gmail.com>
- <20220707165902.3184-6-jaschultzMS@gmail.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20220707165902.3184-6-jaschultzMS@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+        Will Deacon <will@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Arnd Bergmann <arnd@arndb.de>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Darren Hart <darren@os.amperecomputing.com>,
+        Yicong Yang <yangyicong@hisilicon.com>, huzhanyuan@oppo.com,
+        =?UTF-8?B?5p2O5Z+56ZSLKHdpbmsp?= <lipeifeng@oppo.com>,
+        =?UTF-8?B?5byg6K+X5piOKFNpbW9uIFpoYW5nKQ==?= 
+        <zhangshiming@oppo.com>, =?UTF-8?B?6YOt5YGl?= <guojian@oppo.com>,
+        real mz <realmz6@gmail.com>,
+        Barry Song <v-songbaohua@oppo.com>,
+        Nadav Amit <namit@vmware.com>, Mel Gorman <mgorman@suse.de>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi--
+On Fri, Jul 8, 2022 at 1:50 AM Peter Zijlstra <peterz@infradead.org> wrote:
+>
+> On Fri, Jul 08, 2022 at 12:52:42AM +1200, Barry Song wrote:
+>
+> > diff --git a/arch/arm64/include/asm/tlbbatch.h b/arch/arm64/include/asm/tlbbatch.h
+> > new file mode 100644
+> > index 000000000000..fedb0b87b8db
+> > --- /dev/null
+> > +++ b/arch/arm64/include/asm/tlbbatch.h
+> > @@ -0,0 +1,12 @@
+> > +/* SPDX-License-Identifier: GPL-2.0 */
+> > +#ifndef _ARCH_ARM64_TLBBATCH_H
+> > +#define _ARCH_ARM64_TLBBATCH_H
+> > +
+> > +struct arch_tlbflush_unmap_batch {
+> > +     /*
+> > +      * For arm64, HW can do tlb shootdown, so we don't
+> > +      * need to record cpumask for sending IPI
+> > +      */
+> > +};
+> > +
+> > +#endif /* _ARCH_ARM64_TLBBATCH_H */
+> > diff --git a/arch/arm64/include/asm/tlbflush.h b/arch/arm64/include/asm/tlbflush.h
+> > index 412a3b9a3c25..b3ed163267ca 100644
+> > --- a/arch/arm64/include/asm/tlbflush.h
+> > +++ b/arch/arm64/include/asm/tlbflush.h
+> > @@ -272,6 +272,19 @@ static inline void flush_tlb_page(struct vm_area_struct *vma,
+> >       dsb(ish);
+> >  }
+> >
+> > +static inline void arch_tlbbatch_add_mm(struct arch_tlbflush_unmap_batch *batch,
+> > +                                     struct mm_struct *mm,
+> > +                                     struct vm_area_struct *vma,
+> > +                                     unsigned long uaddr)
+> > +{
+> > +     flush_tlb_page_nosync(vma, uaddr);
+> > +}
+>
+> You're passing that vma along just to get the mm, that's quite silly and
+> trivially fixed.
 
-On 7/7/22 09:59, Jarrett Schultz wrote:
-> From: Jarrett Schultz <jaschultz@microsoft.com>
-> 
-> This driver follows HID Over SPI Protocol Specification 1.0 available at
-> https://www.microsoft.com/en-us/download/details.aspx?id=103325. The
-> initial version of the driver does not support: 1) multi-fragment input
-> reports, 2) sending GET_INPUT and COMMAND output report types and
-> processing their respective acknowledge input reports, and 3) device
-> sleep power state.
-> 
-> Signed-off-by: Dmitry Antipov <dmanti@microsoft.com>
+Yes, this was silly. will include your fix in v2.
 
-Missing your (Jarrett's) Signed-off-by: here.
-
-More below...
-
-> ---
->  drivers/hid/Kconfig                 |    2 +
->  drivers/hid/Makefile                |    1 +
->  drivers/hid/spi-hid/Kconfig         |   25 +
->  drivers/hid/spi-hid/Makefile        |   12 +
->  drivers/hid/spi-hid/spi-hid-core.c  | 1326 +++++++++++++++++++++++++++
->  drivers/hid/spi-hid/spi-hid-core.h  |  188 ++++
->  drivers/hid/spi-hid/spi-hid-of.c    |  141 +++
->  drivers/hid/spi-hid/spi-hid-of.h    |   30 +
->  drivers/hid/spi-hid/spi-hid_trace.h |  194 ++++
->  drivers/hid/spi-hid/trace.c         |    9 +
->  10 files changed, 1928 insertions(+)
->  create mode 100644 drivers/hid/spi-hid/Kconfig
->  create mode 100644 drivers/hid/spi-hid/Makefile
->  create mode 100644 drivers/hid/spi-hid/spi-hid-core.c
->  create mode 100644 drivers/hid/spi-hid/spi-hid-core.h
->  create mode 100644 drivers/hid/spi-hid/spi-hid-of.c
->  create mode 100644 drivers/hid/spi-hid/spi-hid-of.h
->  create mode 100644 drivers/hid/spi-hid/spi-hid_trace.h
->  create mode 100644 drivers/hid/spi-hid/trace.c
-> 
-
-> diff --git a/drivers/hid/spi-hid/Kconfig b/drivers/hid/spi-hid/Kconfig
-> new file mode 100644
-> index 000000000000..37302d658162
-> --- /dev/null
-> +++ b/drivers/hid/spi-hid/Kconfig
-> @@ -0,0 +1,25 @@
-> +#
-> +# Copyright (c) 2021 Microsoft Corporation
-> +#
-> +# This program is free software; you can redistribute it and/or modify it
-> +# under the terms of the GNU General Public License version 2 as published by
-> +# the Free Software Foundation.
-> +#
-
-Please just use SPDX tags instead of all of that.
-See other hid/Kconfig files for examples.
-
-> +menu "SPI HID support"
-> +	depends on SPI
+>
+>
+> diff --git a/arch/arm64/include/asm/tlbflush.h b/arch/arm64/include/asm/tlbflush.h
+> index 412a3b9a3c25..87505ecce1f0 100644
+> --- a/arch/arm64/include/asm/tlbflush.h
+> +++ b/arch/arm64/include/asm/tlbflush.h
+> @@ -254,17 +254,23 @@ static inline void flush_tlb_mm(struct mm_struct *mm)
+>         dsb(ish);
+>  }
+>
+> -static inline void flush_tlb_page_nosync(struct vm_area_struct *vma,
+> -                                        unsigned long uaddr)
+> +static inline void __flush_tlb_page_nosync(struct mm_struct *mm,
+> +                                          unsigned long uaddr)
+>  {
+>         unsigned long addr;
+>
+>         dsb(ishst);
+> -       addr = __TLBI_VADDR(uaddr, ASID(vma->vm_mm));
+> +       addr = __TLBI_VADDR(uaddr, ASID(mm));
+>         __tlbi(vale1is, addr);
+>         __tlbi_user(vale1is, addr);
+>  }
+>
+> +static inline void flush_tlb_page_nosync(struct vm_area_struct *vma,
+> +                                        unsigned long uaddr)
+> +{
+> +       return __flush_tlb_page_nosync(vma->vm_mm, uaddr);
+> +}
 > +
-> +config SPI_HID
-> +	tristate "HID over SPI transport layer"
-> +	default n
-> +	depends on SPI && INPUT && OF
-> +	select HID
-> +	help
-> +	  Say Y here if you use a keyboard, a touchpad, a touchscreen, or any
-> +	  other HID based devices which is connected to your computer via SPI.
+>  static inline void flush_tlb_page(struct vm_area_struct *vma,
+>                                   unsigned long uaddr)
+>  {
 
-	        HID-based devices which are connected
-(or)
-	        HID-based device which is connected
-
-> +
-> +	  If unsure, say N.
-> +
-> +	  This support is also available as a module.  If so, the module
-> +	  will be called spi-hid.
-> +
-> +endmenu
-
--- 
-~Randy
+Thanks
+Barry
