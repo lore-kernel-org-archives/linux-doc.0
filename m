@@ -2,255 +2,264 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B80EC433EF
-	for <linux-doc@archiver.kernel.org>; Thu,  7 Jul 2022 01:14:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9EC14C43334
+	for <linux-doc@archiver.kernel.org>; Thu,  7 Jul 2022 01:25:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230452AbiGGBOg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 6 Jul 2022 21:14:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52306 "EHLO
+        id S234644AbiGGBZv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 6 Jul 2022 21:25:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58316 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230401AbiGGBOg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Jul 2022 21:14:36 -0400
-Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 2D78F2CC9C;
-        Wed,  6 Jul 2022 18:14:34 -0700 (PDT)
-Received: from [192.168.100.8] (unknown [112.20.112.134])
-        by mail.loongson.cn (Coremail) with SMTP id AQAAf9Axn+JzM8ZijesNAA--.41056S3;
-        Thu, 07 Jul 2022 09:14:28 +0800 (CST)
-Message-ID: <c439e285-a395-16a0-4527-3f868c494440@loongson.cn>
-Date:   Thu, 7 Jul 2022 09:14:25 +0800
+        with ESMTP id S234428AbiGGBZv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Jul 2022 21:25:51 -0400
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60B642E6BF;
+        Wed,  6 Jul 2022 18:25:50 -0700 (PDT)
+Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
+        by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 266NFGjE010525;
+        Thu, 7 Jul 2022 01:24:00 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
+ subject : date : message-id : references : in-reply-to : content-type :
+ content-id : content-transfer-encoding : mime-version; s=corp-2021-07-09;
+ bh=qLHrXtmeahSUKEskteTiZcQFZ0ERQE5aTT4xiF8pg9k=;
+ b=jyt5xp9OTPoI7BChqTNeyAT4DgzRVDGMjN/04Bl91+ZHb65n/yooK5xRBRWWu6z5PSkw
+ K5z8NIm7lOxQcy6LRBGGwWWYdqkHZK2S4JDAD6VG9BWDY3OAXi8rf6Fri4BQt8dwF51o
+ l39Mntb/5laE9AZ51rfRTfLA9U6E7pxRM6XPn/uSXkoZSy2VIWvX5kNRgNHlGjjtjC7q
+ VjiUS59HdDTRBNT9P/69yqbj/CnkMWL9Nsv003UqnIdiJjigQiFbsMkQe4WuTfBdbe0J
+ 7/6a8309FAanriqtQ/xqsn7rbwm40UkMMNtGXWAyt/+EY8J3ZM2gDvSkGs/A0hojW2lC tw== 
+Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
+        by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3h4ubybhg3-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 07 Jul 2022 01:23:59 +0000
+Received: from pps.filterd (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+        by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.16.1.2/8.16.1.2) with SMTP id 2671GLB0012099;
+        Thu, 7 Jul 2022 01:23:58 GMT
+Received: from nam10-dm6-obe.outbound.protection.outlook.com (mail-dm6nam10lp2108.outbound.protection.outlook.com [104.47.58.108])
+        by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com with ESMTP id 3h4ud8gqby-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 07 Jul 2022 01:23:58 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=DHdhEE79nvmTCsR2HqHZdO5BAim1RW+BZqxuCJvqkrCo2Ko10U9WjyKN6oJC68fJrxfd62n9JKMyTuojwK3yBqvPw+WRI3sKXw1xBKryKvsZJ5vQK8MLTcLut90RrsXJfY1AuB9gF5cSxdhoktLoBIG45B3KngfFFUXnzOA6UL6Ki9MQUJqC/XlNOUWHBxiBWMloGEIU/EQFATbxA4N7jV+LIgongpT9wRL0SWvQUD8dZA8VkuXgYgTd76RBa/zZfrih7Aqf7DVwM5vSk0Lh0ekf6BB7GchNHKLEKln45aAoLEQhjwTTfw+uW6i8O/ZQCz2UZ/uiU4VkrKOj8u7OCg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=qLHrXtmeahSUKEskteTiZcQFZ0ERQE5aTT4xiF8pg9k=;
+ b=Z8BC5zixS8o4HTVqpJewYGv0+DyM9mVFI6gj46n3XntHg4i9gEzFz7RWvWdpjKehBuLphtvsGioGwPhDLBPH2fKuTDK6Vef9pvbp/yt5ifSQnM0E2fDTpdcpfj2DUn4F+x+6CQFPF3EY8OI5VE5IorQ30sFX2KX2e4Pt4MCwEJbv7UrIuvMH2nOMb1GYMembrMjXs+aMTI9aymLFsmi2wUtR9tOnKq+Bv0JJLYysLFojpmjcUJB/caf25b62o5huZBfcsw420RbbV3IIF+6Sq/2ogj4F1Hys40GsQb7rmeupR58tBukWbl5CjPI6+x1n5U99WBUWtsIJr5oKCht4CA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=qLHrXtmeahSUKEskteTiZcQFZ0ERQE5aTT4xiF8pg9k=;
+ b=iEwbXbrfg6/TQUn6lPfA7kzZFkD7xLmCH+bkGNNVRec+NRRP3H+U50ppmRc6tPEXdj9/bpBC9qtnFZ79evfWUCQcfCTzS/cyYSdKSqLyOMfrcY9ESSzfP+IpXlkFrri/EIXtDMXtBY7bKGLVNQe9jPE7DTfXgMCbyj1/zh4mHSI=
+Received: from SN6PR10MB3022.namprd10.prod.outlook.com (2603:10b6:805:d8::25)
+ by DM5PR10MB1323.namprd10.prod.outlook.com (2603:10b6:3:12::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5395.19; Thu, 7 Jul
+ 2022 01:23:56 +0000
+Received: from SN6PR10MB3022.namprd10.prod.outlook.com
+ ([fe80::6cb8:8ff0:385f:1c54]) by SN6PR10MB3022.namprd10.prod.outlook.com
+ ([fe80::6cb8:8ff0:385f:1c54%3]) with mapi id 15.20.5395.022; Thu, 7 Jul 2022
+ 01:23:56 +0000
+From:   Liam Howlett <liam.howlett@oracle.com>
+To:     Yu Zhao <yuzhao@google.com>
+CC:     Andrew Morton <akpm@linux-foundation.org>,
+        Andi Kleen <ak@linux.intel.com>,
+        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        Mel Gorman <mgorman@suse.de>,
+        Michael Larabel <Michael@michaellarabel.com>,
+        Michal Hocko <mhocko@kernel.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Tejun Heo <tj@kernel.org>, Vlastimil Babka <vbabka@suse.cz>,
+        Will Deacon <will@kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "page-reclaim@google.com" <page-reclaim@google.com>,
+        Brian Geffon <bgeffon@google.com>,
+        Jan Alexander Steffens <heftig@archlinux.org>,
+        Oleksandr Natalenko <oleksandr@natalenko.name>,
+        Steven Barrett <steven@liquorix.net>,
+        Suleiman Souhlal <suleiman@google.com>,
+        Daniel Byrne <djbyrne@mtu.edu>,
+        Donald Carr <d@chaos-reins.com>,
+        =?iso-8859-1?Q?Holger_Hoffst=E4tte?= 
+        <holger@applied-asynchrony.com>,
+        Konstantin Kharlamov <Hi-Angel@yandex.ru>,
+        Shuang Zhai <szhai2@cs.rochester.edu>,
+        Sofia Trinh <sofia.trinh@edi.works>,
+        Vaibhav Jain <vaibhav@linux.ibm.com>
+Subject: Re: [PATCH v13 08/14] mm: multi-gen LRU: support page table walks
+Thread-Topic: [PATCH v13 08/14] mm: multi-gen LRU: support page table walks
+Thread-Index: AQHYkYPx0l/qAVKhik6/g5Dvbyb24K1x69WAgAAxiwA=
+Date:   Thu, 7 Jul 2022 01:23:55 +0000
+Message-ID: <20220707012346.xhg2f4z5au4bfxft@revolver>
+References: <20220706220022.968789-1-yuzhao@google.com>
+ <20220706220022.968789-9-yuzhao@google.com> <YsYMEwJCL4GE0Cx6@google.com>
+In-Reply-To: <YsYMEwJCL4GE0Cx6@google.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 7d42f776-4841-458c-a818-08da5fb75c64
+x-ms-traffictypediagnostic: DM5PR10MB1323:EE_
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: t9dSFPoQIX0IB48bo5kaaJrh/5JI5wVqMUlfuMyoy5lEyH6LsRZhk6/BiUzEAInOVgbiJ3pGJzaXTWuRzgQnQZ8UpTwqBXFwWbdF1gBXUpL28RgzSR0Xje+WLS3itJyVFiqiAO9qbSvi3nZWyoneCTbfUF1ib13I9xC+KEZBF/lY3275pCyT9WP7h2Ik4l8oOW3LGiJBBDBJTAPM/W7Wb/orMICth0PeBxmcj1W7vR485WLisdtEBrSvA3KOkgxnL+eS4XpfpU83kM4SGiTBXgMK5XDch3yvYCPVQpp7gGj0+66Xfz5s77MjpLDAzh6vB1XIH+WTjE0pjPzrSm5lRCF4dNcnGNCXqjQ1KSXAnrr/rpamzVoxOCveuK49PojKlACr5QAlJ+4jRoHelgF4KQt9ENrpPmV9EZJ6SyS8+Cgk60NWGtJDdM/aIPquANl+Yw/kckNVwyQY3WiUjU3UR/rNd6S8l3ajnoA+8BDbQ1HMRTqBVLhnu1OivDsQOviu4fUKhozc5Sg3diRKuX8mQY5vzLhD/eHyjiHc7Y7JjI+TmL0B0YyJT9ho6Uv8it/3aAjazHDvCOB2g1s0yubNfFCb2Sw/NU60TYX0Rw3xTb0ZcMCcnfQ2R8uDQyPn655ZXxBXfgY9jVptDFwxxK9G3XpRe47EBIHVSH12dFHLPmB8LkKn7MoniyACNHddpJ9TWdJFU/6nb1/wA+tIyT9tkXUbwxMg2VcOi2ydsg5Ba6XnobaiEH/GHQpF8Ts4lCXPGFykMQ0l28T9zXpS8qTceCZeE71xWT8Jw0Lhp+661bCnrothKk+NjsuhGQrGWTYM
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR10MB3022.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(7916004)(396003)(39860400002)(346002)(136003)(376002)(366004)(64756008)(316002)(38100700002)(38070700005)(41300700001)(91956017)(4326008)(2906002)(66556008)(66446008)(186003)(33716001)(54906003)(7406005)(8936002)(44832011)(86362001)(8676002)(5660300002)(7416002)(6506007)(71200400001)(76116006)(66946007)(478600001)(6486002)(66476007)(6512007)(122000001)(9686003)(26005)(6916009)(1076003);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?nMl9+khecgWc4lfhGcgV26F6cByyIK94hNK/7yI6t45/3/zo3v63niQp+u?=
+ =?iso-8859-1?Q?wC3dAuuh8fW5LKWanYtPk16TvXACliDnroxkd0JaoWiiwhTNJTS9FhcwJw?=
+ =?iso-8859-1?Q?oEqMIh9ofP09FRoQ44tXdEcZoN1Dl6jPAFlK1y5KSi+LNFE8OQpCgF2ufl?=
+ =?iso-8859-1?Q?FT/aiB3BIIrOIE38dJvNMzEsfLXX3onWS6mKLpxEvpKHr2mBwD6D00jfhv?=
+ =?iso-8859-1?Q?abdCRwEiEV2R3u9Tokiw39/7mZ224ernmoFqD1Pthg11NaPA+VUlVbnX6g?=
+ =?iso-8859-1?Q?vEvDswfa295iUsjw5Xt4IZIR+I3vKBdKKIUyExkewRAjiNGzsrM+Bx2Vw6?=
+ =?iso-8859-1?Q?GxeQoQjxkdOS4YoSbklmugXpAWo7vuE61pnIlmH9sVE6Z/mGZj6SDn3Gq6?=
+ =?iso-8859-1?Q?rgl8e3pkuDgQCMCSbB0yVIMSC/trjxC8VAVDSXz86oQGVf/YWOZuvxd0u/?=
+ =?iso-8859-1?Q?579YHoqGd3xFUkoVSyJB4t58g4IKg4lNNHVFQzNxPSI81CEKIpx6/4sByE?=
+ =?iso-8859-1?Q?BfpStBr3puJ1i3gGCgbhlfs8onHehWChytJ5xKh7V6k4U4Ier8KLLFXJkr?=
+ =?iso-8859-1?Q?VkjnN6WBAg03y1nKyOn/tpTnAh6Fmct/nzNtl0On6oqLJEvRZGWvxGOj2f?=
+ =?iso-8859-1?Q?ilwFn/xcNv+8ZO41U+cv4jSex05ym00c1K8X2s4GFtEbLboB2o/aT+Rd6U?=
+ =?iso-8859-1?Q?ITt2XYWIyvOKRN03SlMmzVKGyw6weJDOlYQCvOHRjvXuX1aZnxpohjfHoC?=
+ =?iso-8859-1?Q?q/jRiqwHW+mlTmYZq2I3HdSEhNUcn4R+vK4Koyol/OtSaDHx26GqvISY73?=
+ =?iso-8859-1?Q?Cs+UouFjR7BrWlBY+akdJ1mmXYYZwQJNw2+FVLNL3lpdWJKr2fFeKQpAVP?=
+ =?iso-8859-1?Q?d3uTZAXZdyWk5scYP5iZEhxDLwgTirx/qY43bNI39uW796nfk2daXw1ulX?=
+ =?iso-8859-1?Q?E9qzOI23BT4f7vEOo1hQFMfiqaLek/IhBCWYfIkujDp2BIwuduwca7UwL6?=
+ =?iso-8859-1?Q?B32crzV9/B1J92yBYSoEdr/U/lt8l9hEuJu8NQHIJs1mwvr/UAoeoszMsR?=
+ =?iso-8859-1?Q?P0fJf4oRw6507sRpZf+RRV/mvOnv/6K8sKo8mwZZKmvApYu9M9/25C4PRO?=
+ =?iso-8859-1?Q?htea5aJwtxzJ8b4OjUTlhremw+4nA3qGIchu7ZjIDY+3ZwTdPP5XEBaAPq?=
+ =?iso-8859-1?Q?4rBZU0u5e8eobE3xzNvuErVmAAi73L1xaaxK7LAnw9+Ut/eo1qddIUKoiN?=
+ =?iso-8859-1?Q?nlJYbPB4k3Og+rIadsXQMdz6H3umAy2FXgH6UXNKSuNn9mRz22EeOQYJDe?=
+ =?iso-8859-1?Q?rT0NP5X+GUS9Qa7hTmI8+AVYNlMtBNkqgKkaXaODVJbnrIJMZ7Xvp0+zU8?=
+ =?iso-8859-1?Q?D6qpPKAw7YX4+3aDkWXFB53HTLmZgICCCu3AQ6gGCjHYnJMLmWOla/zaRg?=
+ =?iso-8859-1?Q?nTza4hLdYuIpSAdMVvX7d/Jo/IgujhbkpeMjN1vH6xhqxIQGvYvMNQVjAD?=
+ =?iso-8859-1?Q?1bVN681/ueuyV2kAK/0KU8gJu6labS5CRP1Wkhp6SJgpTZwAFBBCc6puya?=
+ =?iso-8859-1?Q?4JbXpQUSyB4Apns1FHKfQnX66HSK72GVKyx9WWWi9mjwJ8/X/b9TUU2Osh?=
+ =?iso-8859-1?Q?fbpmR9xkZLvPCZvlM4V7R0XtXeNXKa/UNz9m8khBuIenW5sgCmeg3hYw?=
+ =?iso-8859-1?Q?=3D=3D?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <F9C60B5014073345AFA8649958973EB6@namprd10.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH -next v2] docs/zh_CN: add mm transhuge translation
-To:     Guo Mengqi <guomengqi3@huawei.com>, alexs@kernel.org,
-        corbet@lwn.net, tangyizhou@huawei.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     xuqiang36@huawei.com, zhouguanghui1@huawei.com,
-        zhoubinbin@loongson.cn, bobwxc@email.cn
-References: <20220628133742.91966-1-guomengqi3@huawei.com>
- <20220705141121.73711-1-guomengqi3@huawei.com>
-From:   YanTeng Si <siyanteng@loongson.cn>
-In-Reply-To: <20220705141121.73711-1-guomengqi3@huawei.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9Axn+JzM8ZijesNAA--.41056S3
-X-Coremail-Antispam: 1UD129KBjvJXoWfJFWDZFWxGw1DCryrZF1UWrg_yoWDtF47pF
-        ykKr97Kw18Ar909F1Ik3W0yF1kAr17Ga1xKryxJ3sxJr1DKrsrKa17Ka4UJw4xWry2yrZr
-        Xr4q9F9ayF90gFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUU9C14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-        rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-        1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
-        6F4UM28EF7xvwVC2z280aVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4j6r
-        4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
-        I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
-        4UM4x0Y48IcVAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628vn2kI
-        c2xKxwCYjI0SjxkI62AI1cAE67vIY487MxkIecxEwVAFwVWkMxAIw28IcxkI7VAKI48JMx
-        C20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAF
-        wI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20x
-        vE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v2
-        0xvaj40_WFyUJVCq3wCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14
-        v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x0JUHpB-UUUUU=
-X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR10MB3022.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7d42f776-4841-458c-a818-08da5fb75c64
+X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Jul 2022 01:23:55.9944
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: QwyiaRKe9zn27GqhWKbBFZ8X8WtD8zUpMhTGX2UX9/yZMtB6N1nayQcLiqI6zV1vw56Iul8nS9zxv3buFDwAnA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR10MB1323
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.517,18.0.883
+ definitions=2022-07-06_14:2022-06-28,2022-07-06 signatures=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 bulkscore=0 malwarescore=0
+ mlxscore=0 spamscore=0 suspectscore=0 adultscore=0 mlxlogscore=999
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2206140000
+ definitions=main-2207070004
+X-Proofpoint-GUID: KMtPiq8vTJYb1iyLpEY3XgRh8YtHjgnF
+X-Proofpoint-ORIG-GUID: KMtPiq8vTJYb1iyLpEY3XgRh8YtHjgnF
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+* Yu Zhao <yuzhao@google.com> [220706 18:26]:
+> On Wed, Jul 06, 2022 at 04:00:17PM -0600, Yu Zhao wrote:
+>=20
+> ...
+>=20
+> > +/*
+> > + * Some userspace memory allocators map many single-page VMAs. Instead=
+ of
+> > + * returning back to the PGD table for each of such VMAs, finish an en=
+tire PMD
+> > + * table to reduce zigzags and improve cache performance.
+> > + */
+> > +static bool get_next_vma(unsigned long mask, unsigned long size, struc=
+t mm_walk *args,
+> > +			 unsigned long *vm_start, unsigned long *vm_end)
+> > +{
+> > +	unsigned long start =3D round_up(*vm_end, size);
+> > +	unsigned long end =3D (start | ~mask) + 1;
+> > +
+> > +	VM_WARN_ON_ONCE(mask & size);
+> > +	VM_WARN_ON_ONCE((start & mask) !=3D (*vm_start & mask));
+> > +
+> > +	while (args->vma) {
+> > +		if (start >=3D args->vma->vm_end) {
+> > +			args->vma =3D args->vma->vm_next;
+> > +			continue;
+> > +		}
+> > +
+> > +		if (end && end <=3D args->vma->vm_start)
+> > +			return false;
+> > +
+> > +		if (should_skip_vma(args->vma->vm_start, args->vma->vm_end, args)) {
+> > +			args->vma =3D args->vma->vm_next;
+> > +			continue;
+> > +		}
+> > +
+> > +		*vm_start =3D max(start, args->vma->vm_start);
+> > +		*vm_end =3D min(end - 1, args->vma->vm_end - 1) + 1;
+> > +
+> > +		return true;
+> > +	}
+> > +
+> > +	return false;
+> > +}
+>=20
+> To make the above work on top of the Maple Tree:
+>=20
+> diff --git a/mm/vmscan.c b/mm/vmscan.c
+> index 7096ff7836db..c0c1195da803 100644
+> --- a/mm/vmscan.c
+> +++ b/mm/vmscan.c
+> @@ -3689,23 +3689,14 @@ static bool get_next_vma(unsigned long mask, unsi=
+gned long size, struct mm_walk
+>  {
+>  	unsigned long start =3D round_up(*vm_end, size);
+>  	unsigned long end =3D (start | ~mask) + 1;
+> +	VMA_ITERATOR(vmi, args->mm, start);
+> =20
+>  	VM_WARN_ON_ONCE(mask & size);
+>  	VM_WARN_ON_ONCE((start & mask) !=3D (*vm_start & mask));
+> =20
+> -	while (args->vma) {
+> -		if (start >=3D args->vma->vm_end) {
+> -			args->vma =3D args->vma->vm_next;
+> +	for_each_vma_range(vmi, args->vma, end) {
+> +		if (should_skip_vma(args->vma->vm_start, args->vma->vm_end, args))
+>  			continue;
+> -		}
+> -
+> -		if (end && end <=3D args->vma->vm_start)
+> -			return false;
+> -
+> -		if (should_skip_vma(args->vma->vm_start, args->vma->vm_end, args)) {
+> -			args->vma =3D args->vma->vm_next;
+> -			continue;
+> -		}
+> =20
+>  		*vm_start =3D max(start, args->vma->vm_start);
+>  		*vm_end =3D min(end - 1, args->vma->vm_end - 1) + 1;
 
-在 2022/7/5 22:11, Guo Mengqi 写道:
-> Translate .../mm/transhuge.rst into Chinese.
->
-> Signed-off-by: Guo Mengqi <guomengqi3@huawei.com>
-
-Reviewed-by: Yanteng Si<siyanteng@loongson.cn>
+This looks correct to me.  There are a few subtle things that happen
+with this change but it all works out rather nicely.
 
 
 Thanks,
-
-Yanteng
-
-
-> ---
->   Documentation/translations/zh_CN/mm/index.rst |   2 +-
->   .../translations/zh_CN/mm/transhuge.rst       | 153 ++++++++++++++++++
->   2 files changed, 154 insertions(+), 1 deletion(-)
->   create mode 100644 Documentation/translations/zh_CN/mm/transhuge.rst
->
-> diff --git a/Documentation/translations/zh_CN/mm/index.rst b/Documentation/translations/zh_CN/mm/index.rst
-> index 2f53e37b8049..d0c80025c3ce 100644
-> --- a/Documentation/translations/zh_CN/mm/index.rst
-> +++ b/Documentation/translations/zh_CN/mm/index.rst
-> @@ -56,6 +56,7 @@ Linux内存管理文档
->      page_table_check
->      remap_file_pages
->      split_page_table_lock
-> +   transhuge
->      vmalloced-kernel-stacks
->      z3fold
->      zsmalloc
-> @@ -65,5 +66,4 @@ TODOLIST:
->   * free_page_reporting
->   * hugetlbfs_reserv
->   * slub
-> -* transhuge
->   * unevictable-lru
-> diff --git a/Documentation/translations/zh_CN/mm/transhuge.rst b/Documentation/translations/zh_CN/mm/transhuge.rst
-> new file mode 100644
-> index 000000000000..5204b1113fbf
-> --- /dev/null
-> +++ b/Documentation/translations/zh_CN/mm/transhuge.rst
-> @@ -0,0 +1,153 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +.. include:: ../disclaimer-zh_CN.rst
-> +
-> +:Original: Documentation/vm/transhuge.rst
-> +
-> +:翻译:
-> +
-> + 郭梦琪 Guo Mengqi <guomengqi3@huawei.com>
-> +
-> +:校译:
-> +
-> + 司延腾 Yanteng Si <siyanteng@loongson.cn>
-> + 唐艺舟 Tang Yizhou <tangyeechou@gmail.com>
-> + 时奎亮 Alex Shi <alexs@kernel.org>
-> +
-> +==============
-> +透明巨页机制
-> +==============
-> +
-> +本文档描述透明巨页（THP）的设计理念，以及它是如何与内存管理系统的其它部分交互的。
-> +
-> +设计原则
-> +========
-> +
-> +- “优雅回退”：有些mm组件不感知透明巨页，它们的回退方法是将PMD页表项拆分成PTE
-> +  页表项。必要时还需要拆分透明巨页。这样就可以在常规大小的页或页表项上继续工作。
-> +
-> +- 如果内存碎片化导致巨页分配失败，则分配常规页作为替代放入原vma中，此期间不会
-> +  产生任何失败或明显延迟，也不会引起用户态的注意。
-> +
-> +- 如果一些进程退出后释放了空闲的巨页（不论在伙伴系统还是在VM），由常规页支持的
-> +  guest物理内存应该自动重新申请为巨页。(通过khugepaged进程)
-> +
-> +- 透明巨页不需要预留内存，而是尽可能使用已经存在的巨页。（为避免不可移动的页
-> +  将整个内存碎片化，唯一可能的预留是在kernelcore=的设置中。不过这个调整并不仅
-> +  针对透明巨页，而对内核中所有动态的多级页面申请都适用。）
-> +
-> +get_user_pages和follow_page
-> +===========================
-> +
-> +不论对单个巨页还是hugetlbfs，使用get_user_pages(GUP)和follow_page时，返回的会是
-> +首页或尾页。大多数情况下调用GUP功能的人不关心页的大小，只关心页的真实物理地址
-> +以及暂时将页固定，好在I/O结束后将页释放。但在驱动中，在某些情况下有可能访问尾页
-> +的page_struct（如检查page->mapping字段），这时应该转而检查首页。一旦首页或者尾页
-> +被引用，巨页就不能再被拆分了。
-> +
-> +.. note::
-> +   以上不是针对GUP API的新增限制，它们和hugetlbfs的限制保持一致。因此，如果任何
-> +   驱动能够在hugetlbfs中处理GUP，它们也能在基于透明巨页的映射中很好的工作。
-> +
-> +优雅回退
-> +============
-> +
-> +遍历页表但又不需感知巨页pmd的代码可以这样简单处理：对pmd_offset返回的pmd添加一行
-> +split_huge_pmd(vma, pmd, addr)调用。只需grep搜索"pmd_offset"，并将
-> +split_huge_pmd添加到所有返回的pmd后面，代码就能够自己处理透明巨页了，非常简单。
-> +这短短一行的回退函数很巧妙，为我们省去了成百上千行额外的适配代码。
-> +
-> +如果你不是在遍历页表，而是遇到了一个无法直接处理的巨物理页，可以使用
-> +split_huge_page(page)把它拆分成小页。linux VM就是通过这种方式将巨页换出。
-> +如果页面被pin住了，split_huge_page就会失败。
-> +
-> +例子：添加一行代码使mremap.c支持透明巨页::
-> +
-> +        diff --git a/mm/mremap.c b/mm/mremap.c
-> +        --- a/mm/mremap.c
-> +        +++ b/mm/mremap.c
-> +        @@ -41,6 +41,7 @@ static pmd_t *get_old_pmd(struct mm_stru
-> +                return NULL;
-> +
-> +                pmd = pmd_offset(pud, addr);
-> +        +       split_huge_pmd(vma, pmd, addr);
-> +                if (pmd_none_or_clear_bad(pmd))
-> +                    return NULL;
-> +
-> +巨页支持中的锁使用
-> +==================
-> +
-> +我们还是希望尽可能多的代码能感知透明巨页，因为调用split_huge_page()和
-> +split_huge_pmd()还是有开销的。
-> +
-> +要使遍历页表流程能够感知巨页pmd，只需对pmd_offset返回的pmd调用pmd_trans_huge()。
-> +一定要持有mmap_lock读锁，以避免khugepaged在此期间申请新的巨页pmd
-> +（khugepaged collapse_huge_page会持有mmap_lock写锁而非anon_vma lock）。
-> +如果pmd_trans_huge返回结果为假，那就回到原来的流程。如果pmd_trans_huge返回结果
-> +为真，就需要先持有页表锁(pmd_lock())，然后再进行一次pmd_trans_huge判断。持页表锁
-> +是为了防止巨页pmd被转换成小页（split_huge_pmd是可以跟遍历页表操作同时进行的）。
-> +如果第二次pmd_trans_huge返回结果为假,那就释放页表锁，依然回到原有流程。如果返回
-> +结果继续为真，那就按照巨页pmd和巨页来处理，处理完毕再释放页表锁。
-> +
-> +引用计数和透明巨页
-> +==================
-> +
-> +THP的计数跟其他复合页的计数大致相同：
-> +
-> + - get_page()/put_page()和GUP都在首页上进行计数（修改head page->_refcount）
-> +
-> + - 尾页的_refcount永远是0. get_page_unless_zero()永远无法get到尾页。
-> +
-> + - 映射/解映射特定PTE entry时，增减的是复合页中相应子页的_mapcount.
-> +
-> + - 映射/解映射整个复合页时，增减的是compound_mapcount属性。该属性保存在第一个
-> +   尾页中。对于文件中的巨页，还要增加所有子页中的_mapcount，这样是为了在检测
-> +   子页的解映射时不需考虑竞争问题。
-> +
-> +PageDoubleMap() 表明巨页 *可能* 被映射为了PTE.
-> +
-> +对匿名页，PageDoubleMap()也表示所有子页的_mapcount都偏移了1.
-> +在页被同时映射为了PMD和PTE的情况下，这个额外的引用可以避免子页解映射时的竞争。
-> +
-> +这个优化也可以追踪每个子页mapcount所带来的性能开销。另一种解决方法是在每次
-> +映射/解映射整个复合页时更改所有子页的_mapcount.
-> +
-> +对于匿名页，如果页面的PMD在首次被拆分时同时还具有PMD映射，则设置PG_double_map;
-> +当compound_mapcount值降为0时，取消设置。
-> +
-> +对于映射到文件的页，在其首次映射PTE时，设置PG_double_map; 在页面从页缓存中
-> +移除时，取消设置。
-> +
-> +split_huge_page中，在清除page struct中所有PG_head/tail位之前，需要先将首页中的
-> +引用计数refcount分发到所有其他尾页中。页表项PTE占用的引用计数很好处理，但剩下的
-> +引用计数来源难以确定（如通过get_user_pages的pin页）。如果巨页被pin住，
-> +split_huge_page()会失败。页的引用计数必须等于所有子页mapcount之和再加一（因为
-> +split_huge_page的调用者也必须对首页持有一个引用）。
-> +
-> +对匿名页，split_huge_page用页表项迁移（migration entries）来保持page->_refcount
-> +和page->_mapcount稳定。对文件页则会直接解映射。
-> +
-> +这套机制对物理内存扫描（physical memory scanners）也安全，scanner唯一合法引用页
-> +的途径就是get_page_unless_zero().
-> +
-> +没调atomic_add()时，所有尾页的_refcount都为0. 这时scanner无法获取尾页的引用。
-> +调了atomic_add()后，我们也不在乎页的_refcount是多少了。只要知道应该从首页的引用
-> +计数减去多少即可。
-> +
-> +对首页进行get_page_unless_zero()是可以成功的。此时引用计数的再分配非常明了：
-> +引用计数将会留在首页中。
-> +
-> +split_huge_pmd()对引用计数没有任何限制，在任何时候都可以拆分PMD，而且永远不会
-> +失败。
-> +
-> +局部解映射和deferred_split_huge_page()函数
-> +==========================================
-> +
-> +透明巨页通过munmap()或其他方式解映射时，并不会立即释放内存。在page_remove_rmap()
-> +中检查透明巨页的某个子页是否还在使用，并将透明巨页加入一个预备队列，当内存
-> +使用需求变大时，把透明巨页拆分，释放已经不用的子页。
-> +
-> +检测到局部解映射时，由于处在锁中，无法立即进行拆页。而且在很多情况下，如果透明
-> +巨页是跨VMA的, 那么会在exit(2)中进行局部解映射。这时拆页效果适得其反。
-> +
-> +deferred_split_huge_page函数就是用来进行上文所说的将页排队以预备后续的拆分。真正
-> +的拆页操作是通过内存压力导致的shrinker接口来触发的。
-
+Liam=
