@@ -2,313 +2,501 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DB7E6C43334
-	for <linux-doc@archiver.kernel.org>; Thu,  7 Jul 2022 11:43:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 49CEEC433EF
+	for <linux-doc@archiver.kernel.org>; Thu,  7 Jul 2022 12:40:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235040AbiGGLn2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 7 Jul 2022 07:43:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49900 "EHLO
+        id S234550AbiGGMkm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 7 Jul 2022 08:40:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39170 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232504AbiGGLn1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Jul 2022 07:43:27 -0400
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21BBF28D;
-        Thu,  7 Jul 2022 04:43:24 -0700 (PDT)
-Received: from canpemm500009.china.huawei.com (unknown [172.30.72.53])
-        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4Ldvcv1r6zzkWmC;
-        Thu,  7 Jul 2022 19:41:19 +0800 (CST)
-Received: from [10.67.102.169] (10.67.102.169) by
- canpemm500009.china.huawei.com (7.192.105.203) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Thu, 7 Jul 2022 19:43:22 +0800
-CC:     <gregkh@linuxfoundation.org>, <alexander.shishkin@linux.intel.com>,
-        <leo.yan@linaro.org>, <james.clark@arm.com>, <will@kernel.org>,
-        <robin.murphy@arm.com>, <acme@kernel.org>,
-        <jonathan.cameron@huawei.com>, <john.garry@huawei.com>,
-        <helgaas@kernel.org>, <lorenzo.pieralisi@arm.com>,
-        <suzuki.poulose@arm.com>, <mark.rutland@arm.com>,
-        <joro@8bytes.org>, <shameerali.kolothum.thodi@huawei.com>,
-        <peterz@infradead.org>, <mingo@redhat.com>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-pci@vger.kernel.org>, <linux-perf-users@vger.kernel.org>,
-        <iommu@lists.linux-foundation.org>, <prime.zeng@huawei.com>,
-        <liuqi115@huawei.com>, <zhangshaokun@hisilicon.com>,
-        <linuxarm@huawei.com>, <corbet@lwn.net>,
-        <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v9 7/8] docs: trace: Add HiSilicon PTT device driver
+        with ESMTP id S233808AbiGGMkm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Jul 2022 08:40:42 -0400
+Received: from out1.migadu.com (out1.migadu.com [IPv6:2001:41d0:2:863f::])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E1C202B184;
+        Thu,  7 Jul 2022 05:40:39 -0700 (PDT)
+Date:   Thu, 7 Jul 2022 20:41:43 +0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+        t=1657197638;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=xakQ2aFeqvTh5R8Qqu/jMKICFyToEEdIE1ahfLjwX+M=;
+        b=s0aQRlfZ/bVJKisz3sikNNDpn7UESAyeIIfpmoQjccxdF9yndjnV8GsjmRfXiedYMgEsyp
+        49bN68nRGx97y8bg3K4V0eRcB8Mnj8N1pmaQyz74NesoV71qX1wQ6KqHRRj97AxbLvnp+h
+        O0sFv1k972Jde35Hk41NtInz9DazFeE=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From:   Tao Zhou <tao.zhou@linux.dev>
+To:     Daniel Bristot de Oliveira <bristot@kernel.org>
+Cc:     Steven Rostedt <rostedt@goodmis.org>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Ingo Molnar <mingo@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Will Deacon <will@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Marco Elver <elver@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Gabriele Paoloni <gpaoloni@redhat.com>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Clark Williams <williams@redhat.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-trace-devel@vger.kernel.org, Tao Zhou <tao.zhou@linux.dev>
+Subject: Re: [PATCH V4 20/20] Documentation/rv: Add watchdog-monitor
  documentation
-To:     Mathieu Poirier <mathieu.poirier@linaro.org>
-References: <20220606115555.41103-1-yangyicong@hisilicon.com>
- <20220606115555.41103-8-yangyicong@hisilicon.com>
- <20220706175751.GA2546265@p14s>
-From:   Yicong Yang <yangyicong@huawei.com>
-Message-ID: <75afb15e-9fc2-d14a-c72d-dc33589cfc0e@huawei.com>
-Date:   Thu, 7 Jul 2022 19:43:21 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.1
+Message-ID: <YsbUh8R0wfqTO+Un@geo.homenetwork>
+References: <cover.1655368610.git.bristot@kernel.org>
+ <129a431c1a12610fa7b44f76ce73aa8058f55bc6.1655368610.git.bristot@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20220706175751.GA2546265@p14s>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.67.102.169]
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- canpemm500009.china.huawei.com (7.192.105.203)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <129a431c1a12610fa7b44f76ce73aa8058f55bc6.1655368610.git.bristot@kernel.org>
+X-Migadu-Flow: FLOW_OUT
+X-Migadu-Auth-User: linux.dev
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2022/7/7 1:57, Mathieu Poirier wrote:
-> Hi,
-> 
-> I have started looking at this set.
+On Thu, Jun 16, 2022 at 10:45:02AM +0200,
+Daniel Bristot de Oliveira wrote:
 
-Thanks!
-
+> Adds documentation about the safe_wtd and safe_wtd_nwo RV monitors,
+> and their usage via a safety application.
 > 
-> On Mon, Jun 06, 2022 at 07:55:54PM +0800, Yicong Yang wrote:
->> Document the introduction and usage of HiSilicon PTT device driver.
->>
->> Signed-off-by: Yicong Yang <yangyicong@hisilicon.com>
->> Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
->> ---
->>  Documentation/trace/hisi-ptt.rst | 307 +++++++++++++++++++++++++++++++
->>  Documentation/trace/index.rst    |   1 +
+> Cc: Wim Van Sebroeck <wim@linux-watchdog.org>
+> Cc: Guenter Roeck <linux@roeck-us.net>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Steven Rostedt <rostedt@goodmis.org>
+> Cc: Ingo Molnar <mingo@redhat.com>
+> Cc: Thomas Gleixner <tglx@linutronix.de>
+> Cc: Peter Zijlstra <peterz@infradead.org>
+> Cc: Will Deacon <will@kernel.org>
+> Cc: Catalin Marinas <catalin.marinas@arm.com>
+> Cc: Marco Elver <elver@google.com>
+> Cc: Dmitry Vyukov <dvyukov@google.com>
+> Cc: "Paul E. McKenney" <paulmck@kernel.org>
+> Cc: Shuah Khan <skhan@linuxfoundation.org>
+> Cc: Gabriele Paoloni <gpaoloni@redhat.com>
+> Cc: Juri Lelli <juri.lelli@redhat.com>
+> Cc: Clark Williams <williams@redhat.com>
+> Cc: linux-doc@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
+> Cc: linux-trace-devel@vger.kernel.org
+> Signed-off-by: Daniel Bristot de Oliveira <bristot@kernel.org>
+> ---
+>  Documentation/trace/rv/watchdog-monitor.rst | 250 ++++++++++++++++++++
+>  1 file changed, 250 insertions(+)
+>  create mode 100644 Documentation/trace/rv/watchdog-monitor.rst
 > 
-> The "get_maintainer" script clearly indicates that Jonathan Corbet maintains the
-> Documentation directory and yet he is not CC'ed on this patch, nor is the
-> linux-doc mainling list.  As such, it would not be possible to merge this
-> patchset.
+> diff --git a/Documentation/trace/rv/watchdog-monitor.rst b/Documentation/trace/rv/watchdog-monitor.rst
+> new file mode 100644
+> index 000000000000..2b142fb31572
+> --- /dev/null
+> +++ b/Documentation/trace/rv/watchdog-monitor.rst
+> @@ -0,0 +1,250 @@
+> +Watchdog monitor
+> +----------------
+> +
+> +The watchdog is an essential building block for the usage of Linux in
+> +safety-critical systems because it allows the system to be monitored from
+> +an external element - the watchdog hardware, acting as a safety-monitor.
+> +
+> +A user-space application controls the watchdog device via the watchdog
+> +interface. This application, hereafter safety_app, enables the watchdog
+> +and periodically pets the watchdog upon correct completion of the safety
+> +related processing.
+> +
+> +If the safety_app, for any reason, stops pinging the watchdog,
+> +the watchdog hardware can set the system in a fail-safe state. For
+> +example, shutting the system down.
+> +
+> +Given the importance of the safety_app / watchdog hardware couple,
+> +the interaction between these software pieces also needs some
+> +sort of monitoring. In other words, "who monitors the monitor?"
+> +
+> +The safe watchdog (safe_wtd) RV monitor monitors the interaction between
+> +the safety_app and the watchdog device, enforcing the correct sequence of
+> +events that leads the system to a safe state.
+> +
+> +Furthermore, the safety_app can monitor the RV monitor by collecting the
+> +events generated by the RV monitor itself via tracing interface. In this way,
+> +closing the monitoring loop with the safety_app.
+> +
+> +A diagram of the components and their interactions is::
+> +
+> +  user-space:
+> +                  +--------------------------------+
+> +                  | safety_app                     |-----------+
+> +                  +--------------------------------+           |
+> +                     |                    ^                    |
+> +                     | Configure          | Enable and         |
+> +                     |                    | check data         |
+> +  ===================+====================+===============     |
+> +  kernel-space:      |                    |                    |
+> +                     v                    v                    |
+> +                +----------+  instr.     +-------------+       |
+> +                | watchdog | ----------->| RV Monitor  |----+  |
+> +                | device   |             +-------------+    |  |
+> +                +----------+                                |  |
+> +                  |                                         |  |
+> +                  |                                         |  |
+> +  ================+======================================   |  |
+> +  hardware:       |                                         |  |
+> +                  v                                         |  +-> Bring the system
+> +                +--------------------+                      +----> to a safe state,
+> +                | watchdog hardware  |---------------------------> e.g., halt.
+> +                +--------------------+
+> +
+> +Sample safety_app
+> +-----------------
+> +
+> +The user-space safety_app sample code in ``tools/verification/safety_app/``
+> +serves to illustrate the usage of the RV monitors for this use-case, as
+> +well as the starting point to the development of a user-specific safety_app.
+> +
+> +Watchdog events
+> +---------------
+> +
+> +The RV monitor observes the watchdog by using instrumentation to
+> +process the events generated by the interaction between the
+> +safety_app and the watchdog device layer in kernel.
+> +
+> +The monitored events are:
+> +
+> +  - watchdog:watchdog_open: open the watchdog device;
+> +  - watchdog:watchdog_close: close the watchdog device;
+> +  - watchdog:watchdog_start: start the watchdog;
+> +  - watchdog:watchdog_stop: stop the watchdog;
+> +  - watchdog:watchdog_set_timeout: set the watchdog timeout;
+> +  - watchdog:watchdog_ping: reprogram the watchdog with the previously set
+> +    timeout;
+> +  - watchdog:watchdog_nowayout: prevents the watchdog from stopping;
+> +  - watchdog:watchdog_set_keep_alive: set an intermediary ping to overcome
+> +    the limitation of a hardware watchdog maximum timeout being shorter than
+> +    the timeout set by the user-space tool;
+> +  - watchdog:watchdog_keep_alive: the execution of the function that runs the
+> +    intermediary keep alive ping;
+> +
+> +RV monitor events
+> +-----------------
+> +
+> +The RV monitor monitors the relevant events as an outside observer,
+> +interpreting all the components (the hardware; the watchdog device
+> +interface; and the safety monitor) as an integrated component.
+> +
+> +The events selected for the monitor are:
+> +
+> +  - other_threads: an event generated by any thread other than the
+> +    one that set nowayout or open the watchdog the last time.
+> +  - open: a thread opens the watchdog to manipulate it;
+> +  - close: a thread closes the watchdog;
+> +  - start: starts the watchdog countdown;
+> +  - stop: stops the watchdog;
+> +  - set_safe_timeout: configures the watchdog with a given timeout;
+> +  - ping: resets the watchdog countdown with the previously configured timeout;
+> +  - nowayout: prevents the watchdog to be stopped until the system's shutdown;
+> +  - sched_keep_alive: schedules a kernel worker to ping the watchdog if the
+> +    timeout is longer than the watchdog hardware can handle.
+> +  - keep_alive: executes the previously scheduled watchdog ping;
+> +
+> +Noting that the events that does not appear in the automata models are
+> +considered blocked events, and their execution will always cause the
+> +RV monitor to react to an unexpected event.
+> +
+> +RV monitor specification
+> +------------------------
+> +
+> +The monitor's goal is to assess a set of specifications that conducts the
+> +system to a safe state.
+> +
+> +These specifications are:
+> +
+> +  - 1: Once open, only one process manipulates the watchdog;
+> +  - 2: Following 1, the keep-alive mechanisms will not be used;
+> +  - 3: If required, nowayout will be set before opening the watchdog;
+> +  - 4: A safe timeout must be set;
+> +  - 5: At least one ping must be made before entering the safe/safe_nwo states
+> +  - 6: The RV monitor does not react if the watchdog is closed without stopping.
+> +       But the hardware watchdog is expected to react.
+> +
+> +Deterministic automata monitors
+> +-------------------------------
+> +
+> +Following the specifications, a deterministic automata monitor
+> +was developed. The monitor is modeled as Deterministic Automata model.
+> +
+> +The deterministic automata model for safe_wtd is::
+> +
+> +              #==================================#   other_threads
+> +              H                                  H ----------------+
+> + -----------> H               init               H                 |
+> +              H                                  H <---------------+
+> +              #==================================#
+> +                      |     |     ^
+> +                      |     |     |               close
+> +                      |     |     +----------------------------------------------------+
+> +                      |     |                                                          |
+> +                      |     |                     open                                 |
+> +                      |     +------------------------------------------------------+   |
+> +                      |                                                            |   |
+> +                      |  nowayout                                                  |   |
+> +                      v                                                            |   |
+> +    nowayout        +-------------------+                                          |   |
+> +    other_threads   |                   |          nowayout                        |   |
+> +  +---------------- |        nwo        |<-------------------------------------+   |   |
+> +  |                 |                   |                                      |   |   |
+> +  +---------------> |                   | <+                                   |   |   |
+> +                    +-------------------+  |                                   |   |   |
+> +                      |                    |                                   |   |   |
+> +                      | open               | close                             |   |   |
+> +                      v                    |                                   |   |   |
+> +                    +-------------------+  |                                   |   |   |
+> +                    |    opened_nwo     | -+                                   |   |   |
+> +                    +-------------------+                                      |   |   |
+> +                      |                                                        |   |   |
+> +                      | start                                                  |   |   |
+> +                      v                                                        |   |   |
+> +                    +-------------------+                                      |   |   |
+> +  +---------------> |    started_nwo    | -+                                   |   |   |
+> +  |                 +-------------------+  |                                   |   |   |
+> +  |                   |                    |                                   |   |   |
+> +  | open              | set_safe_timeout   |                                   |   |   |
+> +  |                   v                    |                                   |   |   |
+> +  |                 +-------------------+  |                                   |   |   |
+> +  |                 |      set_nwo      |  |                                   |   |   |
+> +  |                 +-------------------+  |                                   |   |   |
+> +  |                           |            |                                   |   |   |
+> +  |     +-------------+       | ping       |                                   |   |   |
+> +  |     |             |       |            |                                   |   |   |
+> +  |     | ping        v       v            |                                   |   |   |
+> +  |     |           +-------------------+  |                                   |   |   |
+> +  |     +-----------|     safe_nwo      |  |                                   |   |   |
+> +  |                 +-------------------+  |                                   |   |   |
+> +  |                   |                    |                                   |   |   |
+> +  |                   | close              | close                             |   |   |
+> +  |                   v                    v                                   |   |   |
+> +  |                 +----------------------------------+   nowayout            |   |   |
+> +  |                 |                                  |   other_threads       |   |   |
+> +  |                 |        closed_running_nwo        | ----------------+     |   |   |
+> +  |                 |                                  |                 |     |   |   |
+> +  +---------------- |                                  | <---------------+     |   |   |
+> +                    +----------------------------------+                       |   |   |
+> +                        |        nowayout             ^                        |   |   |
+> +                        +-----------------------------+                        |   |   |
+> +                                                                               |   |   |
+> +                                                                               |   |   |
+> +                               +-------------------+           +--------+      |   |   |
+> +                               |                   |           |        |------+---+   |
+> +                               |      started      |  start    | opened |      |       |
+> +             +---------------- |                   | <-------- |        |>-----+-------+
+> +             |                 +-------------------+           +--------+      |       ^
+> +             |                   |                                             |       |
+> +             |                   | set_safe_timeout              +-------------+-------+
+> +             |                   v                               |             |
+> +             |                 +-------------------+             |             |
+> +             |                 |                   |             |             |
+> +             |                 |        set        |             |             |
+> +  +----------+---------------> |                   |             |             |
+> +  |          |                 +-------------------+             |             |
+> +  |          |                   |                               |             |
+> +  |          |                   | ping                          |             |
+> +  |          |                   v                               |             |
+> +  |          |                 +-------------------+   ping      |             |
+> +  |          |                 |                   | -------+    |             |
+> +  |          |           +---- |       safe        |        |    |             |
+> +  |          |           |     |                   | <------+    |             |
+> +  |          |           |     +-------------------+             |             |
+> +  |          |           |       |                               |             |
+> +  |          | stop      |       | stop                          |             |
+> +  |          |           |       v                               |             |
+> +  |          |           |     +-------------------+   close     |             |
+> +  |          +-----------+---> |      stopped      |-------------+             |
+> +  |                      |     +-------------------+                           |
+> +  |                      +---+                                                 |
+> +  |                          | close                                           |
+> +  |                          v                                                 |
+> +  |     other_threads  +----------------------------------------+              |
+> +  |   +--------------> |                                        |              |
+> +  |   |                |             closed_running             |              |
+> +  |   +--------------- |                                        |--------------+
+> +  |                    +----------------------------------------+
+> +  |                               |          ^
+> +  |                         open  |          | close
+> +  |                               v          |
+> +  |    set_safe_timeout       +-------------------+
+> +  +-------------------------> |     reopened      |
+> +                                +-------------------+
+
+So I must check the model matrix in patch18 and the above graph to
+check if the matrix have the not right value or something in this
+graph go wrong.
+
+
+              open
+o init state ------> opened state: there lack a direction arrow. 
+
+
+                         nwo
+o closed_running state -------> closed_running_nwo state: this
+  is the state trasfer indicated from matrix, but the above 
+  graph is not consistent with it. In graph:
+                         nwo
+  closed_running state -------> nwo state. I prefer the state
+  closed_running_nwo.
+
+                            nwo
+                            other_thread
+o closed_running_nwo state ---------------> closed_running_nwo state.
+  The graph above have a duplicate nwo event leading to state transfer.
+                               open
+  closed_running_nwo state ---------------> started_nwo state. I think
+  it should transfer to opened_nwo state.
+
+
+
+                  set_safe_timeout
+o reopened state ------------------> set state: the direction is from
+  reopened state to set state. The graph above have two direction arrow.
+                      stop
+  reopenped state ------------------> opened state. why stop event trigger
+  it to opened state not stoped state. I think it should transfer to stoped
+  state like the started state do.
+
+
+o started state do not have link to closed_running state by close event in
+  graph. Like started_nwo state do, it should have a direct close event to
+  link to closed_running state.
+
+
+
+
+Modified the above graph like this:
+
++
++              #==================================#   other_threads
++              H                                  H ----------------+
++ -----------> H               init               H                 |
++              H                                  H <---------------+
++              #==================================#
++                      |     |     ^
++                      |     |     |               close
++                      |     |     +----------------------------------------------------+
++                      |     |                                                          |
++                      |     |                     open                                 |
++                      |     +------------------------------------------------------+   |
++                      |                                                            |   |
++                      |  nowayout                                                  |   |
++                      v                                                            |   |
++    nowayout        +-------------------+                                          |   |
++    other_threads   |                   |                                          |   |
++  +---------------- |        nwo        |                                          |   |
++  |                 |                   |                                          |   |
++  +---------------> |                   | <+                                       |   |
++                    +-------------------+  |                                       |   |
++                      |                    |                                       |   |
++                      | open               | close                                 |   |
++                      v                    |                                       |   |
++                    +-------------------+  |                                       |   |
++  +---------------> |    opened_nwo     | -+                                       |   |
++  |                 +-------------------+                                          |   |
++  |                   |                                                            |   |
++  |                   | start                                                      |   |
++  |                   v                                                            |   |
++  |                 +-------------------+                                          |   |
++  |                 |    started_nwo    | -+                                       |   |
++  |                 +-------------------+  |                                       |   |
++  |                   |                    |                                       |   |
++  | open              | set_safe_timeout   |                                       |   |
++  |                   v                    |                                       |   |
++  |                 +-------------------+  |                                       |   |
++  |                 |      set_nwo      |  |                                       |   |
++  |                 +-------------------+  |                                       |   |
++  |                           |            |                                       |   |
++  |     +-------------+       | ping       |                                       |   |
++  |     |             |       |            |                                       |   |
++  |     | ping        v       v            |                                       |   |
++  |     |           +-------------------+  |                                       |   |
++  |     +-----------|     safe_nwo      |  |                                       |   |
++  |                 +-------------------+  |                                       |   |
++  |                   |                    |                                       |   |
++  |                   | close              | close                                 |   |
++  |                   v                    v                                       |   |
++  |                 +----------------------------------+   nowayout                |   |
++  |                 |                                  |   other_threads           |   |
++  |                 |        closed_running_nwo        | ----------------+         |   |
++  |                 |                                  |                 |         |   |
++  +---------------- |                                  | <---------------+         |   |
++                    +----------------------------------+                           |   |
++                                        ^                                          |   |
++                                        | nowayout                                 |   |
++                                        +--------------------------------------+   |   |
++                                                                               |   |   |
++                               +-------------------+         	 +--------+     |   |   |
++                               |                   |   start    |        |<----+---+   |
++                               |      started      | <--------- | opened |     |       |
++             +---------------- |                   | ---------+ |        |>----+-------+
++             |                 +-------------------+   close  | +--------+     |       ^
++             |                   |                            |                |       |
++             |                   | set_safe_timeout           |    +-----------+-------+
++             |                   v                            |    |           |
++             |                 +-------------------+          |    |           |
++             |                 |                   |          |    |           |
++             |                 |        set        |          |    |           |
++  +----------+---------------> |                   |          |    |           |
++  |          |                 +-------------------+          |    |           |
++  |          |                   |                            |    |           |
++  |          |                   | ping                       |    |           |
++  |          |                   v                            |    |           |
++  |          |                 +-------------------+   ping   |    |           |
++  |          |                 |                   | -------+ |    |           |
++  |          |           +---- |       safe        |        | |    |           |
++  |          |           |     |                   | <------+ |    |           |
++  |          |           |     +-------------------+          |    |           |
++  |          |           |       |                            |    |           |
++  |          | stop      |       | stop                       |    |           |
++  |          |           |       v                            |    |           |
++  |          |           |     +-------------------+   close  |    |           |
++  |          +-----------+---> |      stopped      |----------+----+           |
++  |                      |     +-------------------+          |                |
++  |                      +---+             ^                  |                |
++  |                          | close       |                  |                |
++  |                          |             +------------------+------+         |
+   |                          v                                v      |         |
++  |     other_threads  +----------------------------------------+    |         |
++  |   +--------------> |                                        |    |         |
++  |   |                |             closed_running             |    |         |
++  |   +--------------- |                                        |----+---------+
++  |                    +----------------------------------------+    |
++  |                               |          ^                       |
++  |                         open  |          | close                 |stop
++  |                               v          |                       |
++  |    set_safe_timeout       +-------------------+                  |
++  +-------------------------- |     reopened      |------------------+
++                              +-------------------+
+
+
+
+Thanks
+> +It is important to note that the events sched_keep_alive and keep_alive
+> +are not allowed in the monitor (they are said to be blocked events).
+> +The execution of any blocked events leads the RV monitor to react.
+> +
+> +Additional options
+> +------------------
+> +
+> +The RV monitor also has a set of options enabled via kernel command
+> +line/module options. They are:
+> +
+> + - watchdog_id: the device id to monitor (default 0);
+> + - dont_stop: once enabled, do not allow the RV monitor to be stopped (default off);
+> + - safe_timeout: define a maximum safe value that a user-space application can
+> +   set as the watchdog timeout (default unlimited);
+> + - check_timeout: After every ping, check if the time left in the watchdog is less
+> +   than or equal to the last timeout set for the watchdog. It only works for watchdog
+> +   devices that provide the get_timeleft() function (default off);
+> -- 
+> 2.35.1
 > 
-
-sorry for missing. +cc'ed.
-
->>  2 files changed, 308 insertions(+)
->>  create mode 100644 Documentation/trace/hisi-ptt.rst
->>
->> diff --git a/Documentation/trace/hisi-ptt.rst b/Documentation/trace/hisi-ptt.rst
->> new file mode 100644
->> index 000000000000..0a3112244d40
->> --- /dev/null
->> +++ b/Documentation/trace/hisi-ptt.rst
->> @@ -0,0 +1,307 @@
->> +.. SPDX-License-Identifier: GPL-2.0
->> +
->> +======================================
->> +HiSilicon PCIe Tune and Trace device
->> +======================================
->> +
->> +Introduction
->> +============
->> +
->> +HiSilicon PCIe tune and trace device (PTT) is a PCIe Root Complex
->> +integrated Endpoint (RCiEP) device, providing the capability
->> +to dynamically monitor and tune the PCIe link's events (tune),
->> +and trace the TLP headers (trace). The two functions are independent,
->> +but is recommended to use them together to analyze and enhance the
->> +PCIe link's performance.
->> +
->> +On Kunpeng 930 SoC, the PCIe Root Complex is composed of several
->> +PCIe cores. Each PCIe core includes several Root Ports and a PTT
->> +RCiEP, like below. The PTT device is capable of tuning and
->> +tracing the links of the PCIe core.
->> +::
->> +
->> +          +--------------Core 0-------+
->> +          |       |       [   PTT   ] |
->> +          |       |       [Root Port]---[Endpoint]
->> +          |       |       [Root Port]---[Endpoint]
->> +          |       |       [Root Port]---[Endpoint]
->> +    Root Complex  |------Core 1-------+
->> +          |       |       [   PTT   ] |
->> +          |       |       [Root Port]---[ Switch ]---[Endpoint]
->> +          |       |       [Root Port]---[Endpoint] `-[Endpoint]
->> +          |       |       [Root Port]---[Endpoint]
->> +          +---------------------------+
->> +
->> +The PTT device driver registers one PMU device for each PTT device.
->> +The name of each PTT device is composed of 'hisi_ptt' prefix with
->> +the id of the SICL and the Core where it locates. The Kunpeng 930
->> +SoC encapsulates multiple CPU dies (SCCL, Super CPU Cluster) and
->> +IO dies (SICL, Super I/O Cluster), where there's one PCIe Root
->> +Complex for each SICL.
->> +::
->> +
->> +    /sys/devices/hisi_ptt<sicl_id>_<core_id>
-> 
-> All entries added to sysfs should have corresponding documentation.  See [1] and
-> [2] for details and [3] for an example.
-> 
-> [1]. https://elixir.bootlin.com/linux/latest/source/Documentation/ABI/README
-> [2]. https://elixir.bootlin.com/linux/latest/source/Documentation/ABI/testing
-> [3]. https://elixir.bootlin.com/linux/latest/source/Documentation/ABI/testing/sysfs-bus-coresight-devices-etm4x
-> 
-
-ok. I'll add a patch for ABI description. Thanks for the reference.
-
->> +
->> +Tune
->> +====
->> +
->> +PTT tune is designed for monitoring and adjusting PCIe link parameters (events).
->> +Currently we support events in 4 classes. The scope of the events
->> +covers the PCIe core to which the PTT device belongs.
->> +
->> +Each event is presented as a file under $(PTT PMU dir)/tune, and
->> +a simple open/read/write/close cycle will be used to tune the event.
->> +::
->> +
->> +    $ cd /sys/devices/hisi_ptt<sicl_id>_<core_id>/tune
->> +    $ ls
->> +    qos_tx_cpl    qos_tx_np    qos_tx_p
->> +    tx_path_rx_req_alloc_buf_level
->> +    tx_path_tx_req_alloc_buf_level
-> 
-> These look overly long... How about watermark_rx and watermark_tx?
-> 
-
-These are gotten from the hardware manual and abbreviated. These events are highly connected
-to the hardware desgin so I think it's better to keep consistence. The watermark_{rx, tx} will
-become ambigious when we add more events for Rx path or other Tx path events.
-
-The event code is composed of two parts. First part (tx_path) describes which path it belongs to
-and second part describes the function ({rx,tx}_req_alloc_buf_level). We called the link path
-between CPU and PCIe RC as Rx path and the path between PCIe RC to the PCIe link as Tx path.
-So we need to have tx_path prefix for the Tx path and {rx, tx}_req_alloc_buf_level for the
-requested watermark of {inbound, outbound} buffer allocation. Indeed we have other Tx path
-buffer events which are not exported in this series.
-
-
->> +    $ cat qos_tx_dp
->> +    1
->> +    $ echo 2 > qos_tx_dp
->> +    $ cat qos_tx_dp
->> +    2
->> +
->> +Current value (numerical value) of the event can be simply read
->> +from the file, and the desired value written to the file to tune.
->> +
->> +1. Tx path QoS control
->> +------------------------
->> +
->> +The following files are provided to tune the QoS of the tx path of
->> +the PCIe core.
->> +
->> +- qos_tx_cpl: weight of Tx completion TLPs
->> +- qos_tx_np: weight of Tx non-posted TLPs
->> +- qos_tx_p: weight of Tx posted TLPs
->> +
->> +The weight influences the proportion of certain packets on the PCIe link.
->> +For example, for the storage scenario, increase the proportion
->> +of the completion packets on the link to enhance the performance as
->> +more completions are consumed.
->> +
->> +The available tune data of these events is [0, 1, 2].
->> +Writing a negative value will return an error, and out of range
->> +values will be converted to 2. Note that the event value just
->> +indicates a probable level, but is not precise.
->> +
->> +2. Tx path buffer control
->> +-------------------------
->> +
->> +Following files are provided to tune the buffer of tx path of the PCIe core.
->> +
->> +- tx_path_rx_req_alloc_buf_level: watermark of Rx requested
->> +- tx_path_tx_req_alloc_buf_level: watermark of Tx requested
->> +
->> +These events influence the watermark of the buffer allocated for each
->> +type. Rx means the inbound while Tx means outbound. The packets will
->> +be stored in the buffer first and then transmitted either when the
->> +watermark reached or when timed out. For a busy direction, you should
->> +increase the related buffer watermark to avoid frequently posting and
->> +thus enhance the performance. In most cases just keep the default value.
->> +
->> +The available tune data of above events is [0, 1, 2].
->> +Writing a negative value will return an error, and out of range
->> +values will be converted to 2. Note that the event value just
->> +indicates a probable level, but is not precise.
-> 
-> This is useful documentation but it also should be found in the ABI
-> documentation referred to above.
-> 
->> +
->> +Trace
->> +=====
->> +
->> +PTT trace is designed for dumping the TLP headers to the memory, which
->> +can be used to analyze the transactions and usage condition of the PCIe
->> +Link. You can choose to filter the traced headers by either requester ID,
->> +or those downstream of a set of Root Ports on the same core of the PTT
->> +device. It's also supported to trace the headers of certain type and of
->> +certain direction.
->> +
->> +You can use the perf command `perf record` to set the parameters, start
->> +trace and get the data. It's also supported to decode the trace
->> +data with `perf report`. The control parameters for trace is inputted
->> +as event code for each events, which will be further illustrated later.
->> +An example usage is like
->> +::
->> +
->> +    $ perf record -e hisi_ptt0_2/filter=0x80001,type=1,direction=1,
->> +      format=1/ -- sleep 5
->> +
->> +This will trace the TLP headers downstream root port 0000:00:10.1 (event
->> +code for event 'filter' is 0x80001) with type of posted TLP requests,
->> +direction of inbound and traced data format of 8DW.
->> +
->> +1. filter
->> +---------
->> +
->> +The TLP headers to trace can be filtered by the Root Ports or the requester
->> +ID of the endpoints, which are located on the same core of the PTT device.
->> +You can set the filter by specifying the `filter` parameter which is required
->> +to start the trace. The parameter value is 20 bit. The supported filters and
->> +related values are outputted through `available_root_port_filters` and
->> +`available_requester_filters` sysfs attributes for Root Ports and Requesters
->> +respectively.
->> +::
->> +
->> +    $ cat available_root_port_filters
->> +    0000:00:10.0	0x80001
->> +    0000:00:11.0	0x80004
->> +    $ cat available_requester_filters
->> +    0000:01:00.0	0x00100
->> +    0000:01:00.1	0x00101
-> 
-> If I remember correctly, one of the rule for sysfs is one line per entry.
-> 
-
-Since one PTT devices may support several Root Ports and Endpoints on its core, I find no better
-way to make this information convenient and easy to use for the users to collect. So maybe this
-canbe an exception and there seems to have some limited examples like
-/sys/devices/system/node/node<N>/{meminfo, vmstat, meminfo}.
-
->> +
->> +Note that multiple Root Ports can be specified at one time, but only
->> +one Endpoint function can be specified in one trace. Specifying both
->> +Root Port and function at the same time is not supported.
->> +
->> +If no filter is available, reading the related filter sysfs attribute
->> +will get an empty string.
->> +::
->> +
->> +    $ cat available_root_port_filters
->> +
->> +    $ cat available_requester_filters
-> 
-> Those too look overly long, and where to find them is not documented.  As such
-> users have to guest that it must be somewhere under
-> /sys/devices/hisi_ptt<sicl_id>_<core_id>/.
-> 
-
-Since Root Port and Requester are PCIe terminologies so it's better to have them
-embedded to make it clear. Maybe 'available' can be removed.
-
-Will have all these sysfs attributes documented.
-
-> More comments tomorrow.
-> 
-
-Thanks,
-Yicong
