@@ -2,73 +2,61 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BB61C433EF
-	for <linux-doc@archiver.kernel.org>; Thu,  7 Jul 2022 18:45:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B4518C433EF
+	for <linux-doc@archiver.kernel.org>; Thu,  7 Jul 2022 18:54:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235810AbiGGSpR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 7 Jul 2022 14:45:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44144 "EHLO
+        id S235978AbiGGSy1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 7 Jul 2022 14:54:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50320 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236199AbiGGSpQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Jul 2022 14:45:16 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A37A33E1E;
-        Thu,  7 Jul 2022 11:45:15 -0700 (PDT)
+        with ESMTP id S235662AbiGGSy0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Jul 2022 14:54:26 -0400
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E94F2AC45;
+        Thu,  7 Jul 2022 11:54:26 -0700 (PDT)
 Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 5F3B04E91;
-        Thu,  7 Jul 2022 18:45:15 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 5F3B04E91
+        by ms.lwn.net (Postfix) with ESMTPSA id 98E98784;
+        Thu,  7 Jul 2022 18:54:25 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 98E98784
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1657219515; bh=J5c8hy79DdtSV1ytf0aM7ul96dmS6b15P+GeZiqhtuQ=;
+        t=1657220065; bh=/fMlRf3BBiH/y93ZsQHiL7t7Abbfscbt0cKNfAWYzk4=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=XarWzkSrfO6MjePvlab2tmpX87v9x+RVQ/TuS9/7cNcKLlMOGLFDI5VkSDy5NMKlg
-         FUCKoqiGWQEYswC5CCI/gXlmDmpwE/gfyn44RnCL60IdGnCfJ71rkms9Z2FRiU5AGc
-         yhpfcAWXO0X2AT7riMzr1b1wmkAEg6bEWT/1h2RWUxgpKR50p9E5oQ4aIxdYOCgvnr
-         gtwsYtB+FgIbGJPZ/sjG+83Jp5d4y2RQQi9MbFNbMwCsmf481JUQW4NDDSR9P1it0h
-         eDzhfe0czkB6pdGVUbUexaq1nYT5opt7blfwxr0vX0zpjoHJ3PecMDfUlrEFlrjnHc
-         2B/AySzNo+yQQ==
+        b=l6amQO03x3OqUce5kRG/390r2EX/q8YrX1e6aGN/L1PbQbt593fTX3QUrnRl2F0ED
+         I+H0WL9n1gvoIUxlFOSd6o491UzVtidx4R0mIKHiSxpMXB46BcWEAYjYlYbQAkAOKx
+         Yvp8EWr0DBOIonr95HiTvzNpkRK75NeG13L2M3J5Jd6vWZfN+TNUbBOW6QJcy2CcPs
+         /X+Zks2+z7cAuyV+uZeFosNGNHa1JU0Hagtib82Dkf0VMuCaJxwpQ28ZCLtgRONgdZ
+         cSAoaQdKHlDu8N9FNmYeCILWTr2ruYi8941LNmxZcShChPVd9zdjj313LDuVTCtIMm
+         mcthwisLlmP5w==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Akira Yokosawa <akiyks@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     ksummit-discuss@lists.linuxfoundation.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        mchehab+huawei@kernel.org, Akira Yokosawa <akiyks@gmail.com>
-Subject: Re: [PATCH v2 0/5] Address some issues with sphinx detection
-In-Reply-To: <d0e1a08a-b965-ada6-e026-4e1cc38fbd90@gmail.com>
-References: <cover.1656756450.git.mchehab@kernel.org>
- <d0e1a08a-b965-ada6-e026-4e1cc38fbd90@gmail.com>
-Date:   Thu, 07 Jul 2022 12:45:14 -0600
-Message-ID: <87ilo8bw3p.fsf@meer.lwn.net>
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     Dipen Patel <dipenp@nvidia.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org
+Subject: Re: [PATCH 02/12] docs: tegra194-hte.rst: don't include gpiolib.c
+ twice
+In-Reply-To: <YsYBMtHLygtss+9u@orome>
+References: <cover.1656759988.git.mchehab@kernel.org>
+ <de81b472f552bd651f140f0aa779a29652fffa62.1656759989.git.mchehab@kernel.org>
+ <7e536472-60cd-c81f-254e-bab9fda7ed37@nvidia.com> <YsYBMtHLygtss+9u@orome>
+Date:   Thu, 07 Jul 2022 12:54:24 -0600
+Message-ID: <87edywbvof.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Akira Yokosawa <akiyks@gmail.com> writes:
+Thierry Reding <thierry.reding@gmail.com> writes:
 
-> TL;DR, my suggestion of options and defaults to sphinx-pre-install:
->
->     --no-pdf (default): for htmldocs only
->     --no-virtualenv (default): distro Sphinx package
->          (mention --virtualenv if distro Sphinx package is too young)
->     --virtualenv: Sphinx by venv/virtualenv
->     --pdf: for pdfdocs
->         --no-cjk (default): don't bother with CJK pdfdocs
->         --cjk: for CJK pdfdocs
->                (print warning if user's distro doesn't support CJK)
->
-> Thoughts?
+> here's another one that applies on top of that earlier patch. Can you
+> apply this to your tree?
 
-I think this makes sense.  As far as I can tell, PDF builds are a
-relative rarity these days, and most people would rather not have to
-deal with virtualenv if they can avoid it.  We should definitely
-emphasize native installs whenever that can work.
-
-I'm planning to go ahead and apply Mauro's sphinx-pre-install patches
-since they make things better, but then we should look at these tweaks.
+Done.
 
 Thanks,
 
