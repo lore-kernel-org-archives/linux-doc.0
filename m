@@ -2,162 +2,126 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F458C43334
-	for <linux-doc@archiver.kernel.org>; Thu,  7 Jul 2022 17:05:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F334EC43334
+	for <linux-doc@archiver.kernel.org>; Thu,  7 Jul 2022 17:07:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236448AbiGGRFK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 7 Jul 2022 13:05:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45736 "EHLO
+        id S235873AbiGGRHQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 7 Jul 2022 13:07:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47510 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236495AbiGGRFF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Jul 2022 13:05:05 -0400
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2058.outbound.protection.outlook.com [40.107.220.58])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D4DD101F6;
-        Thu,  7 Jul 2022 10:05:04 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=fNPbadA3HM6xBDFAGd4BLMTD+8r4WXLe5zs4NMZ4DiSX6PU1DAZIkxZfyl3psQzo1vdf+klsMwInA/S9W+1CLkBTSRnv6s2RSisoNiV0J0ymzFVFXVBcKwFAN8RlnAO9kMqm9Ru95JZRU9yJDtSEJUmknwvdOfKqs64hiFLIJfC9MVeqpRMywBqVPTWHweCMx7adt41q+OwQXV97QvNwnWrUq+fw3bdkk+4t3ziLLaeYVJTMfHz/ygAPNuJgUHfDAdFylQnGyEMs5LLCbJ31rQE8lnF8SxtVzxZVOCCYl/5yS3xeCqJRHj/QU2QbctQqlvs0hQ3iNriLxrGcTk/DQg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=88UnIf43lwxpdCNhm/ISe+bcIYrn7GgyOosKacYKM+U=;
- b=Kp6HS1tLLKNj3/0jcMVMyhu0XlgKGTimEUIMAe2ABzVzNF9T3s/NnFwh6IahErChQUdU0oYr6/Ej+XPl70S42SghVtgmkJkWUmtGNO/fDJlxj13xT5rqvhmiT4sgPKEwpR3a2Dzt879vcGJLzbgiT8efrZT8aD7oHtVA5t3VsMUcs+8TQgJHxYIuQXL4+cvb4MqSdn0TDxAXfBSEA4Vfj6IFCWwkMzP2ucS0+CWyoHLY8BJDA67qk3pNRs3hldP3I5HokplwIbv/EaJzzVnF2OHUjZpRI4BHKfZmlBYUVwoBFlnXyPZD40JhZiYSNVn+M0F+HwLG1/jVFQmbDQwuIg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 12.22.5.238) smtp.rcpttodomain=linux.ibm.com smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=88UnIf43lwxpdCNhm/ISe+bcIYrn7GgyOosKacYKM+U=;
- b=W1Yvl+J2T0DLGOPEb+KtpETytyYQF/PxMfLhMS3rY0PHzIhHANiJQNd/5Qphl5Lc/6CLiz5NHOA3i4x8lcxw7p+lZ9p30vMl6OPzX9WypeI6yr/vrU59nobAUrYf810eje2XXglPCKRMfXjGlzD0QDcalmXNXW9ajIg2+n1BntcYSiVzs28yvfcplHsoTiZnpOFmFqfj4iwWdi2UfjV3iG7Blqm0ZZpaiaWYr1n4rvtWCpiQsBzL+taPTgcJFvGXiQgEvKQoR/Vt5p86M9cbxJ3zOHBLXKPthzjlqdL0HgqaKGGfkkIPbiMbTAer12kuTnr5J6OHEmmeEmDTywWmtA==
-Received: from BN6PR1701CA0013.namprd17.prod.outlook.com
- (2603:10b6:405:15::23) by BN6PR12MB1812.namprd12.prod.outlook.com
- (2603:10b6:404:108::17) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5395.15; Thu, 7 Jul
- 2022 17:05:03 +0000
-Received: from BN8NAM11FT014.eop-nam11.prod.protection.outlook.com
- (2603:10b6:405:15:cafe::5) by BN6PR1701CA0013.outlook.office365.com
- (2603:10b6:405:15::23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5417.19 via Frontend
- Transport; Thu, 7 Jul 2022 17:05:02 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 12.22.5.238)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 12.22.5.238 as permitted sender) receiver=protection.outlook.com;
- client-ip=12.22.5.238; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (12.22.5.238) by
- BN8NAM11FT014.mail.protection.outlook.com (10.13.177.142) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.5417.15 via Frontend Transport; Thu, 7 Jul 2022 17:05:02 +0000
-Received: from drhqmail202.nvidia.com (10.126.190.181) by
- DRHQMAIL105.nvidia.com (10.27.9.14) with Microsoft SMTP Server (TLS) id
- 15.0.1497.32; Thu, 7 Jul 2022 17:05:01 +0000
-Received: from drhqmail202.nvidia.com (10.126.190.181) by
- drhqmail202.nvidia.com (10.126.190.181) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.26; Thu, 7 Jul 2022 10:05:01 -0700
-Received: from Asurada-Nvidia (10.127.8.9) by mail.nvidia.com (10.126.190.181)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.26 via Frontend
- Transport; Thu, 7 Jul 2022 10:05:00 -0700
-Date:   Thu, 7 Jul 2022 10:04:58 -0700
-From:   Nicolin Chen <nicolinc@nvidia.com>
-To:     "Tian, Kevin" <kevin.tian@intel.com>
-CC:     "kwankhede@nvidia.com" <kwankhede@nvidia.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "hca@linux.ibm.com" <hca@linux.ibm.com>,
-        "gor@linux.ibm.com" <gor@linux.ibm.com>,
-        "agordeev@linux.ibm.com" <agordeev@linux.ibm.com>,
-        "borntraeger@linux.ibm.com" <borntraeger@linux.ibm.com>,
-        "svens@linux.ibm.com" <svens@linux.ibm.com>,
-        "zhenyuw@linux.intel.com" <zhenyuw@linux.intel.com>,
-        "Wang, Zhi A" <zhi.a.wang@intel.com>,
-        "jani.nikula@linux.intel.com" <jani.nikula@linux.intel.com>,
-        "joonas.lahtinen@linux.intel.com" <joonas.lahtinen@linux.intel.com>,
-        "Vivi, Rodrigo" <rodrigo.vivi@intel.com>,
-        "tvrtko.ursulin@linux.intel.com" <tvrtko.ursulin@linux.intel.com>,
-        "airlied@linux.ie" <airlied@linux.ie>,
-        "daniel@ffwll.ch" <daniel@ffwll.ch>,
-        "farman@linux.ibm.com" <farman@linux.ibm.com>,
-        "mjrosato@linux.ibm.com" <mjrosato@linux.ibm.com>,
-        "pasic@linux.ibm.com" <pasic@linux.ibm.com>,
-        "vneethv@linux.ibm.com" <vneethv@linux.ibm.com>,
-        "oberpar@linux.ibm.com" <oberpar@linux.ibm.com>,
-        "freude@linux.ibm.com" <freude@linux.ibm.com>,
-        "akrowiak@linux.ibm.com" <akrowiak@linux.ibm.com>,
-        "jjherne@linux.ibm.com" <jjherne@linux.ibm.com>,
-        "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
-        "cohuck@redhat.com" <cohuck@redhat.com>,
-        "jgg@nvidia.com" <jgg@nvidia.com>,
-        "hch@infradead.org" <hch@infradead.org>,
-        "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
-        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
-        "jchrist@linux.ibm.com" <jchrist@linux.ibm.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "intel-gvt-dev@lists.freedesktop.org" 
-        <intel-gvt-dev@lists.freedesktop.org>
-Subject: Re: [RFT][PATCH v2 4/9] vfio: Pass in starting IOVA to
- vfio_pin/unpin_pages API
-Message-ID: <YscSOo/3tLrBX8hz@Asurada-Nvidia>
-References: <20220706062759.24946-1-nicolinc@nvidia.com>
- <20220706062759.24946-5-nicolinc@nvidia.com>
- <BN9PR11MB52769E657ED58B29677AC4F88C839@BN9PR11MB5276.namprd11.prod.outlook.com>
+        with ESMTP id S235267AbiGGRHP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Jul 2022 13:07:15 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3241B4D4C6;
+        Thu,  7 Jul 2022 10:07:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=HovvFFoY7D838hXPBREd1aNwqat8RfYwwK9QiIIVY3U=; b=WqLQNmwKPMLPy2wckZKCKxD3R7
+        8CxT62mp7vdl5Gus1MdpnQTGSiKK2U0lJVJmQunwIC+fZp+s7kN7EJm0uPu80sOF5Ysa11jb16Ht9
+        sjfuVDGyb8SiE1sntIVqLi4d1VRo7/fy7K62YDyR2n0P1DMp4Pwa1GkDx5FPIW8Tl5USpHnOnwoyI
+        ASE+YNxkfaSv63xI4W+POjieNQj3mAUb2/kOXYWEMIPXtStgVujuPj/OvjXRow0adYe4FJ+Vg/Oyc
+        JVsPbpc/ze1q8BMiSf3WlCbjuO3EUj4vhdfHeMWZa0pZURzoCznZGa99ogqoljhQX72r2Mr2zitQa
+        NDjqWo0Q==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1o9Uxw-00H9AX-54; Thu, 07 Jul 2022 17:07:00 +0000
+Date:   Thu, 7 Jul 2022 10:07:00 -0700
+From:   Christoph Hellwig <hch@infradead.org>
+To:     Tianyu Lan <ltykernel@gmail.com>
+Cc:     corbet@lwn.net, hch@infradead.org, m.szyprowski@samsung.com,
+        robin.murphy@arm.com, paulmck@kernel.org, bp@suse.de,
+        akpm@linux-foundation.org, keescook@chromium.org, pmladek@suse.com,
+        rdunlap@infradead.org, damien.lemoal@opensource.wdc.com,
+        michael.h.kelley@microsoft.com, kys@microsoft.com,
+        Tianyu Lan <Tianyu.Lan@microsoft.com>,
+        iommu@lists.linux-foundation.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, vkuznets@redhat.com,
+        wei.liu@kernel.org, parri.andrea@gmail.com,
+        thomas.lendacky@amd.com, linux-hyperv@vger.kernel.org,
+        kirill.shutemov@intel.com, andi.kleen@intel.com,
+        Andi Kleen <ak@linux.intel.com>
+Subject: Re: [PATCH V3] swiotlb: Split up single swiotlb lock
+Message-ID: <YscStPk/IXW9PPmh@infradead.org>
+References: <20220707082436.447984-1-ltykernel@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <BN9PR11MB52769E657ED58B29677AC4F88C839@BN9PR11MB5276.namprd11.prod.outlook.com>
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 90c632d3-b3bc-4859-c623-08da603ad545
-X-MS-TrafficTypeDiagnostic: BN6PR12MB1812:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: x5Cngu0YlMH740gvU99zar3UvqQX7QtFGFeuXfqdvEnTH3IdZs+PvmVVvPbaPYJkVLF8oceVxb4zR1PhO4qAeEBiywlpvN26cuO25BZcsCdgvnSQBKVyQXs4aFdgxmqRMRpi6eTi9CSwi/BaHRtfvvtLF+x8qfX4msq3Cg536ahY7uHYm87oo3SqNcYfzNKkEyZ+LhTwikwGKXFEHy08l/5s+6w44vDA6Y1FIvl6qHk26N8gLh4lSopgtUQUIRP6s+SxbFRm3B+6se04Y00OTjHW8Vrff6VmpBDcJU7Cb6Tf8ebrjxUsOvCf2JbQ9Si+/kzaK1XLindz9baL7nHBS+j66R95MbB7ApxFuSZrnjACjcPHKBmgyxOW4EqTD4qpC7B//TM+jx/WRZXXg1WfA+rV0zVBQcRS6U6zkFSkLZW5rrdWrOYKygx5WunR6jX/RrEeI6jh7MH9/jnFrE67OADJLsZxcnWBitC1A9XgL0Tb1RQQU8wFnEBpxTVM6AQEDJS2O4CnMSXqK3mqr0X8NtVZ57K7BnS/vWE3jymGoaSsEotozFQsTc68Z00bT+Mmv/mNeY4evJ0ir3AuSFaQTUBjnkfaaD5ZRVwIKDDqgCAK4mKHvVX//toqmV58NZI9TsGMIjWo4uAUrOSjAj5gMkx2qF6X5w6naEIwhHcwTU0VFQ43c5KJbv9v8X8Vg5YXAT1g4hREmagDNpPwFN8Vn/NLaD659maiiye6Hr5nst7fVLVL3kjBaHsitO2FBVE0TULXcGoPq75QrqV7s+yulRQ0TQRFGP1QkwjLz9ZmBfNRKTILOKzGlRzkAkYeMr76r97rMvPfcX/1gs5xLPKwgydBcahgZ+3MMR5F7n9T6Lg=
-X-Forefront-Antispam-Report: CIP:12.22.5.238;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:InfoNoRecords;CAT:NONE;SFS:(13230016)(4636009)(396003)(346002)(376002)(39860400002)(136003)(36840700001)(40470700004)(46966006)(41300700001)(40480700001)(54906003)(36860700001)(82310400005)(7416002)(316002)(2906002)(33716001)(55016003)(4326008)(6862004)(70206006)(478600001)(86362001)(82740400003)(5660300002)(83380400001)(426003)(186003)(8676002)(70586007)(336012)(47076005)(26005)(356005)(8936002)(4744005)(81166007)(40460700003)(7406005)(9686003)(36900700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jul 2022 17:05:02.6961
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 90c632d3-b3bc-4859-c623-08da603ad545
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[12.22.5.238];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT014.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR12MB1812
+In-Reply-To: <20220707082436.447984-1-ltykernel@gmail.com>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jul 07, 2022 at 08:46:12AM +0000, Tian, Kevin wrote:
-> External email: Use caution opening links or attachments
+On Thu, Jul 07, 2022 at 04:24:36AM -0400, Tianyu Lan wrote:
+> From: Tianyu Lan <Tianyu.Lan@microsoft.com>
 > 
+> Traditionally swiotlb was not performance critical because it was only
+> used for slow devices. But in some setups, like TDX/SEV confidential
+> guests, all IO has to go through swiotlb. Currently swiotlb only has a
+> single lock. Under high IO load with multiple CPUs this can lead to
+> significat lock contention on the swiotlb lock.
 > 
-> > From: Nicolin Chen
-> > Sent: Wednesday, July 6, 2022 2:28 PM
-> >  /*
-> > - * Pin a set of guest PFNs and return their associated host PFNs for local
-> > + * Pin contiguous guest pages and return their associated host pages for
-> > local
+> This patch splits the swiotlb bounce buffer pool into individual areas
+> which have their own lock. Each CPU tries to allocate in its own area
+> first. Only if that fails does it search other areas. On freeing the
+> allocation is freed into the area where the memory was originally
+> allocated from.
 > 
-> can we replace 'guest' with 'user'?
+> Area number can be set via swiotlb kernel parameter and is default
+> to be possible cpu number. If possible cpu number is not power of
+> 2, area number will be round up to the next power of 2.
 > 
-> >   * domain only.
-> >   * @device [in]  : device
-> > - * @user_pfn [in]: array of user/guest PFNs to be pinned.
-> > - * @npage [in]   : count of elements in user_pfn array.  This count should
-> > not
-> > + * @iova [in]    : starting IOVA of user/guest pages to be pinned.
-> 
-> remove 'guest'.
-> 
-> > + * @npage [in]   : count of pages to be pinned.  This count should not
-> >   *              be greater VFIO_PIN_PAGES_MAX_ENTRIES.
-> 
-> greater 'than' ...
+> This idea from Andi Kleen patch(https://github.com/intel/tdx/commit/
+> 4529b5784c141782c72ec9bd9a92df2b68cb7d45).
 
-Will update them in v3. Thanks
+Thanks, this looks much better.  I think there is a small problem
+with how default_nareas is set - we need to use 0 as the default
+so that an explicit command line value of 1 works.  Als have you
+checked the interaction with swiotlb_adjust_size in detail?
+
+diff --git a/kernel/dma/swiotlb.c b/kernel/dma/swiotlb.c
+index 5536d2cd69d30..85b1c29dd0eb8 100644
+--- a/kernel/dma/swiotlb.c
++++ b/kernel/dma/swiotlb.c
+@@ -70,7 +70,7 @@ struct io_tlb_mem io_tlb_default_mem;
+ phys_addr_t swiotlb_unencrypted_base;
+ 
+ static unsigned long default_nslabs = IO_TLB_DEFAULT_SIZE >> IO_TLB_SHIFT;
+-static unsigned long default_nareas = 1;
++static unsigned long default_nareas;
+ 
+ /**
+  * struct io_tlb_area - IO TLB memory area descriptor
+@@ -90,7 +90,10 @@ struct io_tlb_area {
+ 
+ static void swiotlb_adjust_nareas(unsigned int nareas)
+ {
+-	if (!is_power_of_2(nareas))
++	if (default_nareas)
++		return;
++
++	if (nareas > 1 && !is_power_of_2(nareas))
+ 		nareas = roundup_pow_of_two(nareas);
+ 
+ 	default_nareas = nareas;
+@@ -338,8 +341,7 @@ void __init swiotlb_init_remap(bool addressing_limit, unsigned int flags,
+ 		panic("%s: Failed to allocate %zu bytes align=0x%lx\n",
+ 		      __func__, alloc_size, PAGE_SIZE);
+ 
+-	if (default_nareas == 1)
+-		swiotlb_adjust_nareas(num_possible_cpus());
++	swiotlb_adjust_nareas(num_possible_cpus());
+ 
+ 	mem->areas = memblock_alloc(sizeof(struct io_tlb_area) *
+ 		default_nareas, SMP_CACHE_BYTES);
+@@ -410,8 +412,7 @@ int swiotlb_init_late(size_t size, gfp_t gfp_mask,
+ 			(PAGE_SIZE << order) >> 20);
+ 	}
+ 
+-	if (default_nareas == 1)
+-		swiotlb_adjust_nareas(num_possible_cpus());
++	swiotlb_adjust_nareas(num_possible_cpus());
+ 
+ 	area_order = get_order(array_size(sizeof(*mem->areas),
+ 		default_nareas));
