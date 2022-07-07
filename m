@@ -2,100 +2,129 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DF63BC43334
-	for <linux-doc@archiver.kernel.org>; Thu,  7 Jul 2022 03:03:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 08574C433EF
+	for <linux-doc@archiver.kernel.org>; Thu,  7 Jul 2022 05:31:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234696AbiGGDDs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 6 Jul 2022 23:03:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37052 "EHLO
+        id S234774AbiGGFbl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 7 Jul 2022 01:31:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52890 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234632AbiGGDDr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 6 Jul 2022 23:03:47 -0400
-Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com [IPv6:2607:f8b0:4864:20::436])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0CB92F666;
-        Wed,  6 Jul 2022 20:03:41 -0700 (PDT)
-Received: by mail-pf1-x436.google.com with SMTP id b9so655007pfp.10;
-        Wed, 06 Jul 2022 20:03:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=Cm71KbLuMVqZ7FKRzHT6BD+Pl+HC7ern6DfnF1bDLJQ=;
-        b=KVXW3OumOnJbeLogsywoMxN4p4EmHqwXs28To7S4ROeXyfH97KXUXnfPkhq8JbtiJP
-         5n/587SyzpnvjykQDEvGdW6wjLPe5J9AeJWWs3AIRpjecNp2Tpg36RGoyrRHBdCogpDF
-         49EpoI5zmqIK4yUhf7s93I918UAWG3EZnnxoQMd4RiEYRwAm1BrzzaWtvtb7faAL+2ib
-         joWJo1Lw4pjsJeSS4BjQbz9M+W18dfXRZqi6YenK5ymnkNSuxTzlLbNPS5ju1rHOxTaQ
-         JT817hBHUDwNOA6DoYgMtkoratohNcL7bu3PQo5DqlAknDBSIJeP4qun5ec2oRF6pI9B
-         dqeg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=Cm71KbLuMVqZ7FKRzHT6BD+Pl+HC7ern6DfnF1bDLJQ=;
-        b=Tf+YU1VQTAbww9BbPU3+x3wQQc900FQdcEmV8l30jWnisQ+TCOmJ8Vg6GjT7lkTCJq
-         R3cPxwXcED3TqtwTJO1pVew3aIRN3naejdl558n8KOsNBO+6HGdFLH5hVX15bd/BKVhQ
-         6kectHpMb3kooBNx+eNzsr9wuPVqI0j0OiVIji3oIKNjWsx7Xc+7WDps8uzPkS30FcRn
-         vQ9MuI68jGrxzSXMzPOc/Ggm7cjclE6+ZoOVVCXTjMg5FBAJtmjUjlWC0VDe4r7XCpUi
-         xd1FtxnMS0OMtSu0/iHvNmDY63fkDoYrtsxxm8kKTcLQvuW4aguA/t3bAxvMoZ7SrQyI
-         bKfQ==
-X-Gm-Message-State: AJIora80ScxUJNJsNsHOAXUZvpTqe9Ynl1taA8UBf+9bQWUfeYb5CgFu
-        ow2G/bX3IY9pJgDFqKA5udI=
-X-Google-Smtp-Source: AGRyM1tXupxGgWc7dT/0pADwuodIexQi9+URlAkOMGyJGP9CzF4XEhpV5GjaObJxIyg/vx7zBVqs4A==
-X-Received: by 2002:a17:90b:1b0e:b0:1ec:e2f6:349e with SMTP id nu14-20020a17090b1b0e00b001ece2f6349emr2357257pjb.14.1657163021494;
-        Wed, 06 Jul 2022 20:03:41 -0700 (PDT)
-Received: from [192.168.43.80] (subs03-180-214-233-90.three.co.id. [180.214.233.90])
-        by smtp.gmail.com with ESMTPSA id j6-20020a170903024600b0016bf24611e7sm4723218plh.5.2022.07.06.20.03.34
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 06 Jul 2022 20:03:40 -0700 (PDT)
-Message-ID: <c576d1cc-9f67-4cf7-a851-48bc0e9f0082@gmail.com>
-Date:   Thu, 7 Jul 2022 10:03:32 +0700
-MIME-Version: 1.0
+        with ESMTP id S229538AbiGGFbl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Jul 2022 01:31:41 -0400
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63E943134A;
+        Wed,  6 Jul 2022 22:31:40 -0700 (PDT)
+Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 2675RHEq027963;
+        Thu, 7 Jul 2022 05:31:28 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
+ subject : to : cc : references : from : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=JahQI0wCVfTKzSS0T0XiXQw2qvRF9QGjCY1nJJFl4jc=;
+ b=ru9n4cpowQfkTMW3feGOO7rrlP31Wqk+hcC8Tyoroe7ez4SsgNs0csDyeK5q1Gjutwqj
+ tOuiwaxjT6iScsplRE/VTE+qWTLHVCt04YPRLgAewKg24A7q14qWijUUhQIP65KtUpf/
+ Is9BqBflmo4zPp43oESs2/sfyyUTs8cg/6VuyFJLWMpzVckmVKF5pVuDPj2Xj1rBubrc
+ Su4e/Y+AjiTW7oixZKTfcQGtsfMD/9eiMyPRZwd7ni4/XZ1JEXQiNSme4mwwTVZKiWjt
+ 0y8vBzpALFkqmApbYb3tVvHNStH0pGN3J8biGQnPHHsPt5zVSFRF/iOxF5qDxc4qu24d sA== 
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com [169.51.49.102])
+        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3h5sbug1pn-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 07 Jul 2022 05:31:28 +0000
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+        by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2675M4V3004211;
+        Thu, 7 Jul 2022 05:31:20 GMT
+Received: from b06cxnps3074.portsmouth.uk.ibm.com (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
+        by ppma06ams.nl.ibm.com with ESMTP id 3h4usd229n-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 07 Jul 2022 05:31:20 +0000
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com [9.149.105.58])
+        by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 2675VIZ422610420
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 7 Jul 2022 05:31:18 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 103884C044;
+        Thu,  7 Jul 2022 05:31:18 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 84FF44C040;
+        Thu,  7 Jul 2022 05:31:15 +0000 (GMT)
+Received: from [9.43.98.185] (unknown [9.43.98.185])
+        by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+        Thu,  7 Jul 2022 05:31:15 +0000 (GMT)
+Message-ID: <474e1842-03bb-6621-f1f3-4dba74be41f1@linux.ibm.com>
+Date:   Thu, 7 Jul 2022 11:01:14 +0530
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v13 00/14] Multi-Gen LRU Framework
+ Thunderbird/91.9.1
+Subject: Re: [PATCH 07/12] docs: ABI: sysfs-bus-nvdimm
 Content-Language: en-US
-To:     Yu Zhao <yuzhao@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>
-Cc:     Andi Kleen <ak@linux.intel.com>,
-        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mel Gorman <mgorman@suse.de>,
-        Michael Larabel <Michael@michaellarabel.com>,
-        Michal Hocko <mhocko@kernel.org>,
-        Mike Rapoport <rppt@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Tejun Heo <tj@kernel.org>, Vlastimil Babka <vbabka@suse.cz>,
-        Will Deacon <will@kernel.org>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org, x86@kernel.org,
-        page-reclaim@google.com
-References: <20220706220022.968789-1-yuzhao@google.com>
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <20220706220022.968789-1-yuzhao@google.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Madhavan Srinivasan <maddy@in.ibm.com>,
+        linux-kernel@vger.kernel.org
+References: <cover.1656759988.git.mchehab@kernel.org>
+ <38a59ea8cc8581a3009d269c9f1cd4cf07b347dc.1656759989.git.mchehab@kernel.org>
+From:   kajoljain <kjain@linux.ibm.com>
+In-Reply-To: <38a59ea8cc8581a3009d269c9f1cd4cf07b347dc.1656759989.git.mchehab@kernel.org>
 Content-Type: text/plain; charset=UTF-8
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: KF_vX-_4Sv3kGHA3aSGvUYcmWlQNdRu8
+X-Proofpoint-GUID: KF_vX-_4Sv3kGHA3aSGvUYcmWlQNdRu8
 Content-Transfer-Encoding: 7bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-07-07_03,2022-06-28_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 adultscore=0
+ mlxlogscore=999 malwarescore=0 spamscore=0 lowpriorityscore=0 bulkscore=0
+ clxscore=1011 priorityscore=1501 suspectscore=0 impostorscore=0 mlxscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2206140000
+ definitions=main-2207070021
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 7/7/22 05:00, Yu Zhao wrote:
-> TLDR
-> ====
-> The current page reclaim is too expensive in terms of CPU usage and it
-> often makes poor choices about what to evict. This patchset offers an
-> alternative solution that is performant, versatile and
-> straightforward.
+
+
+On 7/2/22 16:37, Mauro Carvalho Chehab wrote:
+> Add blank lines, as this is required by code-block markup syntax.
+> 
+> Fix this warning:
+> 	Documentation/ABI/testing/sysfs-bus-nvdimm:11: WARNING: Unexpected indentation.
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+> ---
 > 
 
-On what tree this series is based on? I tried to apply on top of mm-everything
-tree but it didn't apply cleanly, so I had to abort.
+Patch looks fine to me.
 
--- 
-An old man doll... just what I always wanted! - Clara
+Reviewed-By: Kajol Jain<kjain@linux.ibm.com>
+
+Thanks,
+Kajol Jain
+
+> To avoid mailbombing on a large number of people, only mailing lists were C/C on the cover.
+> See [PATCH 00/12] at: https://lore.kernel.org/all/cover.1656759988.git.mchehab@kernel.org/
+> 
+>  Documentation/ABI/testing/sysfs-bus-nvdimm | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/Documentation/ABI/testing/sysfs-bus-nvdimm b/Documentation/ABI/testing/sysfs-bus-nvdimm
+> index 1c1f5acbf53d..eeabba807e4b 100644
+> --- a/Documentation/ABI/testing/sysfs-bus-nvdimm
+> +++ b/Documentation/ABI/testing/sysfs-bus-nvdimm
+> @@ -18,9 +18,11 @@ Description:	(RO) Attribute group to describe the magic bits
+>  		Each attribute under this group defines a bit range of the
+>  		perf_event_attr.config. Supported attribute is listed
+>  		below::
+> +
+>  		  event  = "config:0-4"  - event ID
+>  
+>  		For example::
+> +
+>  			ctl_res_cnt = "event=0x1"
+>  
+>  What:           /sys/bus/event_source/devices/nmemX/events
