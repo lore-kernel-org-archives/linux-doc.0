@@ -2,59 +2,44 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 16821C43334
-	for <linux-doc@archiver.kernel.org>; Fri,  8 Jul 2022 08:17:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 863DFC43334
+	for <linux-doc@archiver.kernel.org>; Fri,  8 Jul 2022 08:28:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237350AbiGHIR1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 8 Jul 2022 04:17:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50976 "EHLO
+        id S237403AbiGHI2u (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 8 Jul 2022 04:28:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33814 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236902AbiGHIR0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Jul 2022 04:17:26 -0400
-Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com [IPv6:2a00:1450:4864:20::535])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59B698049E;
-        Fri,  8 Jul 2022 01:17:25 -0700 (PDT)
-Received: by mail-ed1-x535.google.com with SMTP id fd6so25975658edb.5;
-        Fri, 08 Jul 2022 01:17:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=qT5deAffqTtZVxgvmEojgmp/7PC24g9Y8IJXNXkYP7A=;
-        b=ZtYZ4uaxxrkdNypbBx4J9maRKQcdhKkeHfZJBpaBMaGEC5sTp9G2DTYL4wv+jnJAUe
-         SLuqhXjOQ4dsryS2YBSFsxFYP9v+EZumTBTdoRdB9YFTk/YweeZvaFCPyfji2+fdheAC
-         peq/t/nbElA8B1AMy8k47w8A3KBH4GaSA8YaNtpotno2fkakeD4jThqSQ0x7PEMq1utl
-         W260KX4edalLtv/xT7dac16TVmYzdDWKw7Fe4SEXnZ0R4dlF+LieKvtZI0qkV5uYiM9o
-         0rVxKTIeYrI0Nm2I4JWNhnOOsVesa0PgJ1kxpN/A5kOSgZ73DPsrV0+QiAbJCU9yIpkK
-         8q9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=qT5deAffqTtZVxgvmEojgmp/7PC24g9Y8IJXNXkYP7A=;
-        b=a+BNqQyb59xj5ygebsdifokVNKQ05/ViI1JbyAm+xyY0kDd5XQFiioxcSlLfAVGiyR
-         aE++uwWpll5SWuMwcOClMbFwZplX2b3dQzy3BSW0gxWQh4tWLPgNlta+o3bDwWHJy5t5
-         KlgmmhQr/E2AJlK4iYd1jhSvKKoy1NH8N/HzHY4uLI//KAI2qdV2UpecXsPffDsoEeRQ
-         diSAr+QE0RsPWZ3E1fK0OCbbqSYonPISFuvjv/gU5OmLBHGqxsNsiyOHfDEpnyHeJ1Wv
-         yK8vX/4W2EybAi4IyS9xwTR+SAOE1hEX8vd+wGQsOdDWg4zan32wjbeJmTtkI6HiQjNa
-         g6bQ==
-X-Gm-Message-State: AJIora+o3QLEO0ko81qmgtw6Fvcj5J7P12MopBMhtMwNSQSTi8+mRt2r
-        9Tq5ZaIRD0nXbUHAWk5PK9U+SAiq214TmsUZZqo=
-X-Google-Smtp-Source: AGRyM1vkB8bZoNSx6FI2z+hieyN/8K1faoFYu+2IGNBNHn+eOjLS1BKR/WS6kB64rbf9X/xQaPlguTIEyWulWTirYPI=
-X-Received: by 2002:a05:6402:42cb:b0:43a:5df2:bb5d with SMTP id
- i11-20020a05640242cb00b0043a5df2bb5dmr3192234edc.36.1657268243904; Fri, 08
- Jul 2022 01:17:23 -0700 (PDT)
-MIME-Version: 1.0
-References: <67943544-6DAA-4C8A-A04D-029D2D36C318@vmware.com>
- <20220708065957.3859-1-21cnbao@gmail.com> <EE0C38ED-A213-4F5C-9F87-FD90E5035C21@vmware.com>
-In-Reply-To: <EE0C38ED-A213-4F5C-9F87-FD90E5035C21@vmware.com>
-From:   Barry Song <21cnbao@gmail.com>
-Date:   Fri, 8 Jul 2022 20:17:12 +1200
-Message-ID: <CAGsJ_4wp03dV0JqRk5NiSSEwPxvMH7z3SE0FhX8Dc8DjDPuVyw@mail.gmail.com>
-Subject: Re: [PATCH 2/4] mm: rmap: Allow platforms without mm_cpumask to defer
- TLB flush
+        with ESMTP id S237578AbiGHI2r (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Jul 2022 04:28:47 -0400
+Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6FE776944;
+        Fri,  8 Jul 2022 01:28:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=tZqJpdO9mWHvfo40+BrDE5gDm81r18HOvRnoVU7AxhE=; b=ZHBJrcAlGSicxPGyzNcW6jjtGb
+        UihST65d0mhDIdXVy0vepaPfEU9cNn/CFvfQGNX/RDjPqvOu4DHTs6S0vu3+A5MfGVsn/y2NDvEYv
+        DDOUgjjBFYeOBD/eZJwwIK2Pj6gqFKCFji11hDIa0aCrimiINryZhcgH46cAfv5x+IF84mN2GUJ8k
+        6BafMRo7BbcbjNfnU6+Lwuwj5PPzPc2GgVu4ZZhiTGNeJgZSqAtsnnxuUN48Xghc8HJD/3dboufjP
+        gQGwvh5cisG4Su887/XYtsk98bTLhuOfST78VXT2XAUG21ZnhtVUKJovFXgZgc70Cnct0+Kktnpye
+        xxXSiyaQ==;
+Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
+        by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1o9jLE-001efP-Gb; Fri, 08 Jul 2022 08:28:05 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits))
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id D2800300222;
+        Fri,  8 Jul 2022 10:27:58 +0200 (CEST)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id BD0B5200E5E5E; Fri,  8 Jul 2022 10:27:58 +0200 (CEST)
+Date:   Fri, 8 Jul 2022 10:27:58 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
 To:     Nadav Amit <namit@vmware.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
+Cc:     Barry Song <21cnbao@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
         Arnd Bergmann <arnd@arndb.de>,
         Catalin Marinas <catalin.marinas@arm.com>,
         Jonathan Corbet <corbet@lwn.net>,
@@ -74,46 +59,39 @@ Cc:     Andrew Morton <akpm@linux-foundation.org>,
         "x86@kernel.org" <x86@kernel.org>,
         "yangyicong@hisilicon.com" <yangyicong@hisilicon.com>,
         "zhangshiming@oppo.com" <zhangshiming@oppo.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH 2/4] mm: rmap: Allow platforms without mm_cpumask to
+ defer TLB flush
+Message-ID: <YsfqjsntneiX0xYE@hirez.programming.kicks-ass.net>
+References: <67943544-6DAA-4C8A-A04D-029D2D36C318@vmware.com>
+ <20220708065957.3859-1-21cnbao@gmail.com>
+ <EE0C38ED-A213-4F5C-9F87-FD90E5035C21@vmware.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <EE0C38ED-A213-4F5C-9F87-FD90E5035C21@vmware.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jul 8, 2022 at 8:08 PM Nadav Amit <namit@vmware.com> wrote:
->
-> On Jul 7, 2022, at 11:59 PM, Barry Song <21cnbao@gmail.com> wrote:
->
-> >> The cpumask_empty() is indeed just another memory access, which is mos=
-t
-> >> likely ok. But wouldn=E2=80=99t adding something like CONFIG_ARCH_HAS_=
-MM_CPUMASK
-> >> make the code simpler and (slightly, certainly slightly) more performa=
-nt?
-> >
-> > Yep. good suggestion, Nadav. So the code will be as below, right?
->
-> Hmmm=E2=80=A6 Although it is likely to work (because only x86 and arm wou=
-ld use this
-> batch flushing), I think that for consistency ARCH_HAS_MM_CPUMASK should =
-be
-> correct for all architectures.
->
+On Fri, Jul 08, 2022 at 08:08:45AM +0000, Nadav Amit wrote:
+
 > Is it really only x86 that has mm_cpumask()?
 
-i am quite sure there are some other platforms having mm_cpumask().
-for example, arm(not arm64).
-but i am not exactly sure of the situation of each individual arch. thus,
-i don't risk changing their source code.
-but arm64 is the second platform looking for tlbbatch, and
-ARCH_HAS_MM_CPUMASK only affects tlbbatch. so i would
-expect those platforms to fill their ARCH_HAS_MM_CPUMASK
-while they start to bringup their tlbbatch? for this moment,
-we only need to make certain we don't break x86?
-does it make sense?
+Unlikely, everybody who needs to IPI (eg. doesn't have broadcast
+invalidate) has benefit to track this mask more accurately.
 
-Thanks
-Barry
+The below greps for clearing CPUs in the mask and ought to be a fair
+indicator:
 
-
->
+$ git grep -l "cpumask_clear_cpu.*mm_cpumask" arch/
+arch/arm/include/asm/mmu_context.h
+arch/loongarch/include/asm/mmu_context.h
+arch/loongarch/mm/tlb.c
+arch/mips/include/asm/mmu_context.h
+arch/openrisc/mm/tlb.c
+arch/powerpc/include/asm/book3s/64/mmu.h
+arch/powerpc/mm/book3s64/radix_tlb.c
+arch/riscv/mm/context.c
+arch/s390/kernel/smp.c
+arch/um/include/asm/mmu_context.h
+arch/x86/mm/tlb.c
