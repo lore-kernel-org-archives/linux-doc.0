@@ -2,85 +2,122 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8AE37C433EF
-	for <linux-doc@archiver.kernel.org>; Fri,  8 Jul 2022 14:49:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 24628C433EF
+	for <linux-doc@archiver.kernel.org>; Fri,  8 Jul 2022 14:59:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238758AbiGHOto (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 8 Jul 2022 10:49:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43840 "EHLO
+        id S238128AbiGHO7T (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 8 Jul 2022 10:59:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53564 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238766AbiGHOt3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Jul 2022 10:49:29 -0400
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D14421276E;
-        Fri,  8 Jul 2022 07:48:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1657291738; x=1688827738;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=A2lLFi5u8UsxZhn0WXa3lBiGFwloEe9xAauBS7sD2kM=;
-  b=EXwCZvvlIFiuVi6tYqmwv511lrd2lmdXnjfim1z22W+bpmpoRgegAJkj
-   9v7OQOHoqxIiU4Hny6tZXaoYl0ppIy6P0V/cE7bdIPxxmKagnFxmR+7s5
-   FvvXxTT26kPcSvElzWGTnIOGfoAynz5PzqlBY0WrafKb4OGjzU7kJFmk1
-   ORjm8dbZQHo/eFhXenJAfcbn8QYmaJtcOiLIuENldiGHUbCykCJss+2Ma
-   3WRoUXY6Nj7APLxvfPagj6SOnjIQJH39DLdjGQvdYfkte2Rs4QoIxPNFw
-   /KENn+gmgij7sEJaS9eJkrP8eZZxuvm14N+nw8Z2H6tmm9CMBBA8w2PAt
-   A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10401"; a="370608681"
-X-IronPort-AV: E=Sophos;i="5.92,255,1650956400"; 
-   d="scan'208";a="370608681"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2022 07:48:58 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.92,255,1650956400"; 
-   d="scan'208";a="683680886"
-Received: from lkp-server01.sh.intel.com (HELO 68b931ab7ac1) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 08 Jul 2022 07:48:54 -0700
-Received: from kbuild by 68b931ab7ac1 with local (Exim 4.95)
-        (envelope-from <lkp@intel.com>)
-        id 1o9pHq-000Nbs-4I;
-        Fri, 08 Jul 2022 14:48:54 +0000
-Date:   Fri, 8 Jul 2022 22:48:29 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Vikas Gupta <vikas.gupta@broadcom.com>, jiri@nvidia.com,
-        kuba@kernel.org
-Cc:     kbuild-all@lists.01.org, netdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org, davem@davemloft.net,
-        dsahern@kernel.org, stephen@networkplumber.org,
-        edumazet@google.com, pabeni@redhat.com, ast@kernel.org,
-        leon@kernel.org, linux-doc@vger.kernel.org, corbet@lwn.net,
-        michael.chan@broadcom.com, andrew.gospodarek@broadcom.com,
-        Vikas Gupta <vikas.gupta@broadcom.com>
-Subject: Re: [PATCH net-next v2 1/3] devlink: introduce framework for
- selftests
-Message-ID: <202207082224.8QYTEsje-lkp@intel.com>
-References: <20220707182950.29348-2-vikas.gupta@broadcom.com>
+        with ESMTP id S238085AbiGHO7S (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Jul 2022 10:59:18 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 351051EED2;
+        Fri,  8 Jul 2022 07:59:18 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id B6D00628AC;
+        Fri,  8 Jul 2022 14:59:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E7AC4C341CD;
+        Fri,  8 Jul 2022 14:59:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1657292357;
+        bh=aiPOdm248eh6i+dFXA/U9LFbDV6bPilDGjIPCHIxIiI=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=YMiAWYkZYQ7+nUj9qeb2MWfQhFxSyCsvrctKQ+rKTDb+XqZZgYXcObmb1RuIRK+PM
+         pjKulDNPrLFvKk2dvpPIiPwRtCIKsGuMXOxeKLJXPD8Sa3e+TzTOe9aySQ5AmXuoZB
+         rOWzHc2PcMwS/joxv38tSXWKY0GBWChepvQTsSzk0J+tGYE41HjrWgC552QHUUsUyv
+         uFES3lx+j7dGVbziDXA5X/cTcqQL2IQGohPqPi07MrQXcAz3Q0E7fPdWxVKRRI58Vn
+         ulQbA2JuDYZSKNraQz1rBKQ1hxBz1LOb9KaGQDnHuawVvwp/S853nBn4OzA8IJ7YtM
+         vSVR7ic7cioWA==
+Date:   Fri, 8 Jul 2022 15:59:10 +0100
+From:   Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Akira Yokosawa <akiyks@gmail.com>,
+        ksummit-discuss@lists.linuxfoundation.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        mchehab+huawei@kernel.org
+Subject: Re: Expectation to --no-pdf option (was Re: [PATCH v2 0/5] Address
+ some issues with sphinx detection)
+Message-ID: <20220708155910.7c4ea35c@sal.lan>
+In-Reply-To: <87bktzhfcj.fsf@meer.lwn.net>
+References: <cover.1656756450.git.mchehab@kernel.org>
+        <d0e1a08a-b965-ada6-e026-4e1cc38fbd90@gmail.com>
+        <20220707211558.438a27d4@sal.lan>
+        <3ba5a52e-cab6-05cf-a66e-adc58c467e1f@gmail.com>
+        <87bktzhfcj.fsf@meer.lwn.net>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220707182950.29348-2-vikas.gupta@broadcom.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Vikas,
+Em Fri, 08 Jul 2022 08:02:52 -0600
+Jonathan Corbet <corbet@lwn.net> escreveu:
 
-Thank you for the patch! Perhaps something to improve:
+> Akira Yokosawa <akiyks@gmail.com> writes:
+> 
+> > In my tests, the mathjax extension works with all the versions of Sphinx
+> > I tested (1.7.9, 2.4.4, 3.4.3 (debian bullseye), 4.2.0 (openSUSE LEAP 15.4),
+> > and 5.0.2).
+> > Note that math expressions should look much sharper (vector fonts)
+> > than those from imgmath (pixel images).
+> > The time for a browser to complete the rendering might be longer than
+> > with imgmath, especially for pages with a lot of math expressions,
+> > though.  (Yes, I see some of media documents have a lot of them.)
+> >
+> > When you are detached from network connections, browsers will give
+> > up and show those expressions in mathjax source code. 
 
-[auto build test WARNING on net-next/master]
+> -extensions.append("sphinx.ext.imgmath")
+> +extensions.append("sphinx.ext.mathjax")
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Vikas-Gupta/devlink-introduce-framework-for-selftests/20220708-033020
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next.git cf21b355ccb39b0de0b6a7362532bb5584c84a80
-reproduce: make htmldocs
+There are two problems with this:
 
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
+1. mathjax doesn't work for PDF output - nor would work if we add support
+   for man pages some day;
+2. Some Kernel developers disable javascript.
 
-All warnings (new ones prefixed by >>):
+As imgmath works everywere, we opted to use it instead. We were
+actually hoping that the lack of proper math support on Sphinx were
+something that later Sphinx versions after 1.3.1 would have fixed. 
+> 
+> Pulling in a bunch of JavaScript from the net while browsing the kernel
+> docs is not an entirely pleasing solution either.  But perhaps it's
+> preferable to loading the system with Latex. 
 
->> Documentation/networking/devlink/devlink-selftests.rst: WARNING: document isn't included in any toctree
+If we could change conf.py to either load either one depending if it is
+building PDF or not would be the best. The technical problem is that the 
+javascript solution is not compatible with PDF output.
 
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+> I kind of wish we could
+> just do without the fancy math processing entirely, but I lost that
+> battle some time ago...:)
+
+The media uAPI book uses math, and also vm/memory-model.rst. The last
+one could easily use just a C code.
+
+yet, it sounds funny to not have it used inside DRM. GPU processing
+does lots of math. i would expect to have math used there for things
+similar to the usages on media.
+
+Trying to describe the colorspace conversion expressions there without
+math would be really painful:
+
+	https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/colorspaces-details.html?highlight=detailed+colorspace
+
+Anyway, if you have some other solution, I'd gladly use something else.
+
+> 
+> Mauro, have you looked at that option?
+
+Yes, but it got discarded due to pdf output. Not sure if this would work
+on epub either.
+
+> 
+> Thanks,
+> 
+> jon
