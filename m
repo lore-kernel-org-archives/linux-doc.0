@@ -2,102 +2,96 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 91E47C43334
-	for <linux-doc@archiver.kernel.org>; Fri,  8 Jul 2022 16:52:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6DE3BCCA47B
+	for <linux-doc@archiver.kernel.org>; Fri,  8 Jul 2022 17:25:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239410AbiGHQwE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 8 Jul 2022 12:52:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36194 "EHLO
+        id S238498AbiGHRZI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 8 Jul 2022 13:25:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60446 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239422AbiGHQvt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Jul 2022 12:51:49 -0400
-Received: from mail-io1-xd32.google.com (mail-io1-xd32.google.com [IPv6:2607:f8b0:4864:20::d32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 02A3B7478E
-        for <linux-doc@vger.kernel.org>; Fri,  8 Jul 2022 09:51:43 -0700 (PDT)
-Received: by mail-io1-xd32.google.com with SMTP id y3so1620898iof.4
-        for <linux-doc@vger.kernel.org>; Fri, 08 Jul 2022 09:51:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=YVbA5kJPpRyIxTtw0oRvwhHjq4HhLwWNl4x41X1Nw/0=;
-        b=GEZJ3uFcU/SI5PU0Cqabw2GMig+Ouoh8ntsVxK6QKR7GfsdfxXZUAUDtyTOvgAAxrB
-         Osv4nfw+iUs5YvBNMRxFwAPMluBfmF+J28IgJvgRAHpTLdQ1wkR+zbWgZangj7W/LPB1
-         NLtVMme+1vZrbaLHwaynnLli8SvWmVhISiVXQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=YVbA5kJPpRyIxTtw0oRvwhHjq4HhLwWNl4x41X1Nw/0=;
-        b=Kj+G0QmWWAToMAlDRWGgGWLETdE+Vbi8NHvtsaOi6x3dun01OsPsXsXHa1GIExDnEL
-         OFb4smHrJWK+RQ3FZdb8oSKljvwDfG5PLflMd5/DQo3lwFX84EASl6O7353h+GnO8u0A
-         Wre8qoPdaOlm4hjoZIvsvIwLg0ocKnr2kK1oMCCpQMipJBX5PDMlis5QQA5BCzcLx9AK
-         C6YLTNY6HynccV8WzqAmPJye6FxgStPMBLpcyM8pgpFNh5ru2pot+su2D880eDs5mF/X
-         fjzqzgnCIc7YaDOAYWxSi7mowfsvu8HbpbAORkNPORDBpfbTCsyZ7XhqlI+wBWVUNb7C
-         s0SA==
-X-Gm-Message-State: AJIora+BiEzhm3SAaWFZzfOLf9ABKOCxeiWvtgaHmPz12UXGHwlS6PCv
-        Ts6IybLGax4blJ2go6dd2nZnqQ==
-X-Google-Smtp-Source: AGRyM1sTFQ4I6JSicDmJK2DXm8th1grclkWYK5LII+hpjwWSEh2RPJ28k04G2awPdDg5E0RHlAR24A==
-X-Received: by 2002:a05:6638:25c4:b0:33e:a176:c227 with SMTP id u4-20020a05663825c400b0033ea176c227mr2531074jat.61.1657299102336;
-        Fri, 08 Jul 2022 09:51:42 -0700 (PDT)
-Received: from [192.168.1.128] ([38.15.45.1])
-        by smtp.gmail.com with ESMTPSA id cn22-20020a0566383a1600b0033171dafaa0sm10410108jab.178.2022.07.08.09.51.41
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 08 Jul 2022 09:51:41 -0700 (PDT)
-Subject: Re: [PATCH] docs/kselftest: Fix build commands in guidelines
-To:     Muhammad Usama Anjum <usama.anjum@collabora.com>,
-        Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>
-Cc:     kernel@collabora.com, linux-kselftest@vger.kernel.org,
+        with ESMTP id S238683AbiGHRZF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Jul 2022 13:25:05 -0400
+Received: from smtpbgsg1.qq.com (smtpbgsg1.qq.com [54.254.200.92])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D850B3057B
+        for <linux-doc@vger.kernel.org>; Fri,  8 Jul 2022 10:25:02 -0700 (PDT)
+X-QQ-mid: bizesmtp73t1657301078tehk736s
+Received: from wuhui-virtual-machine.localdoma ( [116.7.245.180])
+        by bizesmtp.qq.com (ESMTP) with 
+        id ; Sat, 09 Jul 2022 01:23:53 +0800 (CST)
+X-QQ-SSF: 00400000002000E0T000B00A0000000
+X-QQ-FEAT: DQ0OCu3gog1ErMbpil4nCJvXr11KftXJLuwEV1CE6oeg8nIcWd2Rbi3e7V12v
+        eGIsZiORJ8v8l1/FwZR6P1I98bhh09nNBzNZqtbfzVhEIBZ0hrUCU5CcnOH0mU9tTqgmI3g
+        0dLTebtvEuckl2BipRHUVyvImvlUq4xZEIqL/R1D4LjanreJwpsblwbv1oruD0QZAnqbiOV
+        Hyy+ilbd+soKHz7AegMTlGNYgwWyhha81rXzXP/uNdjSV3013neiUbeXM7KNYEqsDiUPPpn
+        kv+MGsqY19kfl6vRUjT2u8pLX55ns+snhlGCTsbVqKYRl+okJNAmItdzrZF8wfhq2SG8f0A
+        yiMDOMBcDlNx0QsOY1x3wZxSKcI4vH4wbWqDMBLjB7f4/mUODg=
+X-QQ-GoodBg: 2
+From:   Yixuan Cao <caoyixuan2019@email.szu.edu.cn>
+To:     siyanteng@loongson.cn
+Cc:     alexs@kernel.org, corbet@lwn.net, rppt@kernel.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Shuah Khan <skhan@linuxfoundation.org>
-References: <20220704083426.1867401-1-usama.anjum@collabora.com>
-From:   Shuah Khan <skhan@linuxfoundation.org>
-Message-ID: <58aad5c5-339f-85b9-8f48-0ffbd133b0cb@linuxfoundation.org>
-Date:   Fri, 8 Jul 2022 10:51:40 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+        Yixuan Cao <caoyixuan2019@email.szu.edu.cn>
+Subject: [PATCH] Documentation/translations/zh_CN/mm/page_owner.rst: adjust some words
+Date:   Sat,  9 Jul 2022 01:23:51 +0800
+Message-Id: <20220708172351.20928-1-caoyixuan2019@email.szu.edu.cn>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-In-Reply-To: <20220704083426.1867401-1-usama.anjum@collabora.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: bizesmtp:email.szu.edu.cn:qybgforeign:qybgforeign4
+X-QQ-Bgrelay: 1
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 7/4/22 2:34 AM, Muhammad Usama Anjum wrote:
-> Build commands start with "make". It is missing. Add "make" to the start
-> of the build command.
-> 
-> Fixes: 820636106342 ("docs/kselftest: add more guidelines for adding new tests")
-> Signed-off-by: Muhammad Usama Anjum <usama.anjum@collabora.com>
-> ---
->   Documentation/dev-tools/kselftest.rst | 6 +++---
->   1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/Documentation/dev-tools/kselftest.rst b/Documentation/dev-tools/kselftest.rst
-> index ee6467ca8293..9dd94c334f05 100644
-> --- a/Documentation/dev-tools/kselftest.rst
-> +++ b/Documentation/dev-tools/kselftest.rst
-> @@ -255,9 +255,9 @@ Contributing new tests (details)
->   
->    * All changes should pass::
->   
-> -    kselftest-{all,install,clean,gen_tar}
-> -    kselftest-{all,install,clean,gen_tar} O=abo_path
-> -    kselftest-{all,install,clean,gen_tar} O=rel_path
-> +    make kselftest-{all,install,clean,gen_tar}
-> +    make kselftest-{all,install,clean,gen_tar} O=abs_path
-> +    make kselftest-{all,install,clean,gen_tar} O=rel_path
->       make -C tools/testing/selftests {all,install,clean,gen_tar}
->       make -C tools/testing/selftests {all,install,clean,gen_tar} O=abs_path
->       make -C tools/testing/selftests {all,install,clean,gen_tar} O=rel_path
-> 
+I noticed that there are some Chinese words that can be more accurate.
+So I fix them as follows.
 
-Looks like it depends on a patch already in doc tree?
+首先，英文原文中的"release" 在这个语境下
+是物理页面“释放”的意思，而不是“发布”。
+其次，标准表的第一列和第二列，
+表达的是“长短键”的意思，第一列是“短键”，
+而第二列是“长键”。这样翻译或会更清晰一些。
 
-Acked-by: Shuah Khan <skhan@linuxfoundation.org>
+Signed-off-by: Yixuan Cao <caoyixuan2019@email.szu.edu.cn>
+---
+ Documentation/translations/zh_CN/mm/page_owner.rst | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-thanks,
--- Shuah
+diff --git a/Documentation/translations/zh_CN/mm/page_owner.rst b/Documentation/translations/zh_CN/mm/page_owner.rst
+index 6514cb9e03da..b7f81d7a6589 100644
+--- a/Documentation/translations/zh_CN/mm/page_owner.rst
++++ b/Documentation/translations/zh_CN/mm/page_owner.rst
+@@ -156,22 +156,22 @@ page owner在默认情况下是禁用的。所以，如果你想使用它，你
+ 
+   --sort的选项:
+ 
+-	键		键长		描述
++	短键		长键		描述
+ 	p		pid		进程ID
+ 	tg		tgid		线程组ID
+ 	n		name		任务命令名称
+ 	st		stacktrace	页面分配的堆栈跟踪
+ 	T		txt		块的全文
+-	ft		free_ts		页面发布时的时间戳
++	ft		free_ts		页面释放时的时间戳
+ 	at		alloc_ts	页面被分配时的时间戳
+ 	ator		allocator	页面的内存分配器
+ 
+   --curl的选项:
+ 
+-	键		键长		描述
++	短键		长键		描述
+ 	p		pid		进程ID
+ 	tg		tgid		线程组ID
+ 	n		name		任务命令名称
+-	f		free		该页是否已经发布
++	f		free		该页是否已经释放
+ 	st		stacktrace	页面分配的堆栈跟踪
+ 	ator		allocator	页面的内存分配器
+-- 
+2.17.1
+
+
+
