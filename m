@@ -2,80 +2,76 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A41BC43334
-	for <linux-doc@archiver.kernel.org>; Fri,  8 Jul 2022 12:20:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E390C43334
+	for <linux-doc@archiver.kernel.org>; Fri,  8 Jul 2022 14:02:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238108AbiGHMUP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 8 Jul 2022 08:20:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46130 "EHLO
+        id S238388AbiGHOCz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 8 Jul 2022 10:02:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33872 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231301AbiGHMUO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Jul 2022 08:20:14 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC7641573F;
-        Fri,  8 Jul 2022 05:20:13 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        with ESMTP id S238158AbiGHOCy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Jul 2022 10:02:54 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80D951A386;
+        Fri,  8 Jul 2022 07:02:53 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 7A83862622;
-        Fri,  8 Jul 2022 12:20:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id CC681C341CB;
-        Fri,  8 Jul 2022 12:20:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1657282812;
-        bh=7igHYBUjf8cAeNutb+ZLuMrzg2cfDeFZvdEsxuu3ayo=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=lHI0tCqzR3E9BqdyoJAIo+scgb7kZ9FzPcISHuYMf4XjRLGIMuSczNLvJfawarQp6
-         EPolMQTZkE4g+PQlgbRY1pIb3xLQHpTPWmUfUoxB0nF62iTvhEltCgP4VNzZUu4Lv0
-         jHB1UvaU5ZMU2I5WoJnfzBsnOU8zMvE1ORx6stZ/aQL1WdBCx0lQhSyBVU2M3M0TkG
-         g6BtJcPMb+/Z1mFiABTtBA6a9r2CkkqeQT8YjHupm1EumancyMXarwlzFCyXfdDka4
-         oMusmJ2kFgRxID8LUYovUBexlXyh7dzDQgIp+Ye0axpFuX4M7x8/ntrHsIRrHMs0gz
-         t0iU+WxgM1TgQ==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id B33F3E45BDB;
-        Fri,  8 Jul 2022 12:20:12 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        by ms.lwn.net (Postfix) with ESMTPSA id 0841C52AE;
+        Fri,  8 Jul 2022 14:02:52 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 0841C52AE
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1657288973; bh=wSpnYxDKlFB0S/OcW2eFZmHCzB6IpCnff31hbX//2zI=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=Gzmx5KU/wYdL1A7UoLseIPA/r6GW9pdGKU5mVPltm6/PizYT0x++9s838oxckhRkW
+         8cPE74vw83rOUWlJmwyo9Sokm7S4f4wRiKFMExEzTDPiylj4rQqbJ2CM099Xc2z0ZR
+         k+wyjXFFLpBFXGBHcakbRPR5YuUROAothLDC4MpcamuEjQKFCF/pknuJSfdWZpbQGJ
+         lxczEBtsfT+g1CrzxFx+0J9kqsLim3A8w8JNx7h764y6XNxr35i6sxjgzrte54D80E
+         vmItzuiP/+edCGIq3pHIURrxRcQnhE0TtqH9lPOZVSu2pB9P6YUccCp2DrNdbldKqR
+         O/zoRIjYcCRBA==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Akira Yokosawa <akiyks@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     ksummit-discuss@lists.linuxfoundation.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        mchehab+huawei@kernel.org, Akira Yokosawa <akiyks@gmail.com>
+Subject: Re: Expectation to --no-pdf option (was Re: [PATCH v2 0/5] Address
+ some issues with sphinx detection)
+In-Reply-To: <3ba5a52e-cab6-05cf-a66e-adc58c467e1f@gmail.com>
+References: <cover.1656756450.git.mchehab@kernel.org>
+ <d0e1a08a-b965-ada6-e026-4e1cc38fbd90@gmail.com>
+ <20220707211558.438a27d4@sal.lan>
+ <3ba5a52e-cab6-05cf-a66e-adc58c467e1f@gmail.com>
+Date:   Fri, 08 Jul 2022 08:02:52 -0600
+Message-ID: <87bktzhfcj.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH bpf-next] bpf,
- docs: Remove deprecated xsk libbpf APIs description
-From:   patchwork-bot+netdevbpf@kernel.org
-Message-Id: <165728281272.4798.1631027915077654489.git-patchwork-notify@kernel.org>
-Date:   Fri, 08 Jul 2022 12:20:12 +0000
-References: <20220708042736.669132-1-pulehui@huawei.com>
-In-Reply-To: <20220708042736.669132-1-pulehui@huawei.com>
-To:     Pu Lehui <pulehui@huawei.com>
-Cc:     bpf@vger.kernel.org, netdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org,
-        corbet@lwn.net, kafai@fb.com, songliubraving@fb.com, yhs@fb.com,
-        john.fastabend@gmail.com, kpsingh@kernel.org,
-        grantseltzer@gmail.com, rdunlap@infradead.org
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello:
+Akira Yokosawa <akiyks@gmail.com> writes:
 
-This patch was applied to bpf/bpf-next.git (master)
-by Daniel Borkmann <daniel@iogearbox.net>:
+> In my tests, the mathjax extension works with all the versions of Sphinx
+> I tested (1.7.9, 2.4.4, 3.4.3 (debian bullseye), 4.2.0 (openSUSE LEAP 15.4),
+> and 5.0.2).
+> Note that math expressions should look much sharper (vector fonts)
+> than those from imgmath (pixel images).
+> The time for a browser to complete the rendering might be longer than
+> with imgmath, especially for pages with a lot of math expressions,
+> though.  (Yes, I see some of media documents have a lot of them.)
+>
+> When you are detached from network connections, browsers will give
+> up and show those expressions in mathjax source code.
 
-On Fri, 8 Jul 2022 12:27:36 +0800 you wrote:
-> Since xsk APIs has been removed from libbpf, let's clean
-> up the bpf docs simutaneously.
-> 
-> Signed-off-by: Pu Lehui <pulehui@huawei.com>
-> ---
->  .../bpf/libbpf/libbpf_naming_convention.rst         | 13 ++-----------
->  1 file changed, 2 insertions(+), 11 deletions(-)
+Pulling in a bunch of JavaScript from the net while browsing the kernel
+docs is not an entirely pleasing solution either.  But perhaps it's
+preferable to loading the system with Latex.  I kind of wish we could
+just do without the fancy math processing entirely, but I lost that
+battle some time ago...:)
 
-Here is the summary with links:
-  - [bpf-next] bpf, docs: Remove deprecated xsk libbpf APIs description
-    https://git.kernel.org/bpf/bpf-next/c/fb8ddf24c71d
+Mauro, have you looked at that option?
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+Thanks,
 
-
+jon
