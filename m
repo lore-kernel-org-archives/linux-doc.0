@@ -2,516 +2,207 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 56A42C43334
-	for <linux-doc@archiver.kernel.org>; Fri,  8 Jul 2022 09:27:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 00C2ECCA488
+	for <linux-doc@archiver.kernel.org>; Fri,  8 Jul 2022 10:05:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237933AbiGHJ1h (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 8 Jul 2022 05:27:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48996 "EHLO
+        id S236895AbiGHKFW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 8 Jul 2022 06:05:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50970 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237928AbiGHJ1g (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Jul 2022 05:27:36 -0400
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 1AFCA2A73A;
-        Fri,  8 Jul 2022 02:27:35 -0700 (PDT)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3EEEED6E;
-        Fri,  8 Jul 2022 02:27:35 -0700 (PDT)
-Received: from [192.168.99.12] (unknown [172.31.20.19])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 79D6A3F66F;
-        Fri,  8 Jul 2022 02:27:33 -0700 (PDT)
-Message-ID: <48f1e3f1-4271-c7b2-9ead-9ce574680035@foss.arm.com>
-Date:   Fri, 8 Jul 2022 10:27:24 +0100
+        with ESMTP id S237888AbiGHKFO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Jul 2022 06:05:14 -0400
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A651083F18;
+        Fri,  8 Jul 2022 03:05:04 -0700 (PDT)
+Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
+        by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 2689TABU000383;
+        Fri, 8 Jul 2022 10:03:44 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : content-type : in-reply-to :
+ mime-version; s=corp-2021-07-09;
+ bh=5pLPxSfVxyKstenSeJF5S36kf0san/dvZM+lTJUj5kk=;
+ b=PA50aJSWEClK7uNepTEBZoL1lirjNs/B6KGo9hv+IgJJBjI6PrnU57gxCy/+qz2/vyQj
+ oL0aTg5oA3vyQMa5i4vjthnyKQ6BWTpbc8hSzC0vhsKNARztRAH/NSsh9dW8f41s1/so
+ h5x4py0i5Nyy4To7vgnyw4i4pepyPuSuElcTKvhwEliSRnJF5BIoM6faxeMhcKGZ71tu
+ g6CK9oLrA1c0tCFliM/drLZbAOaKa4nWye+NvPyHRWT2dOAH5yfsktPPdZbnkumXqDVe
+ vFnJqDCdS5VkE4w/NgvMoS8PEsTTgT8axv27cKNHj4hM8Pf0gEOvc6MehQ4ndh5dhJ+k bw== 
+Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
+        by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3h4ubyfbtq-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Fri, 08 Jul 2022 10:03:43 +0000
+Received: from pps.filterd (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+        by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.16.1.2/8.16.1.2) with SMTP id 268A1thI017973;
+        Fri, 8 Jul 2022 10:03:41 GMT
+Received: from nam11-co1-obe.outbound.protection.outlook.com (mail-co1nam11lp2170.outbound.protection.outlook.com [104.47.56.170])
+        by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com with ESMTP id 3h4ud9qcwg-2
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Fri, 08 Jul 2022 10:03:41 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=TuiT5fxH64XD++PmsUHkgC7ckixWshUllFXzVoKD339c0SUUkEprR7RnhpyFoyYisCA3NgjigZj0XW0EB5megweHyiCr6hSkfjB4vmdtFZJIMeIcOup727hO99v4rU+KHGM2VxwCN0yEPdAuLSBVLjtDTX+2+alSVMxVUN1rOEFRoTOqCwuurnCJXuJ1xPpJDNTQHwg2CNYTSw5W3ZOLPO8s1GctuCHa9QH/Ddp/uuq+iey3U7OeI5ijPny7xK4dwWsD56h4gO5WjB52nrwuK9WvUAqgGj2AkqywRBgcs4ouzPFjlOii0aq44XhdilOpDJ5HsYjXYD41Haw5vgod9g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=5pLPxSfVxyKstenSeJF5S36kf0san/dvZM+lTJUj5kk=;
+ b=kn1SRlyC5i2qMq14iJp3u48Sc+6YLSyptZNqh+j52LiRAD4GE2LcttsO6tAENFsPKuzk0Ce08wCzR+lQG8YmiaOgDnuauDBR2FvBbWexvMMmaZ1Gtgall4dYhQ8nFYVBMV+c4a2xbe0iKblpnv5Lbi5/H/pOGmdYGjmGP1p+wxaosjR71LV5GqWcVa04uuscYArmjbbs+qiZZIVeTb6tTvgvlzG5R23qxAzaJ8iflf+0CtE45WIcD0krL0IkSbT/GPMV9C2DEQxNKh8rwrnxfyMJIVACZCMqqIyLV0YCRqAjFA2nxRbNB1uuBMsc2b+mBbGgrzbk6dvqLMZZkRVkOg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=5pLPxSfVxyKstenSeJF5S36kf0san/dvZM+lTJUj5kk=;
+ b=d5aihqu/jeH907HQhVDkAIsIAk1o2UUnZLfhRzqbZs24b2LPJu/0i/iO9RegZ/usVjNRK7F6zKl0TV7RkbNtwNk5jSLgf7v7g1ni6mo16f9Ema6DtSWAvvMnjH5lMjvtoIAn4Dcxo3jB26XbdYBYv/P0T7VJlIaKMBVEZ26Hd3s=
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28) by CH0PR10MB4924.namprd10.prod.outlook.com
+ (2603:10b6:610:ca::19) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5417.20; Fri, 8 Jul
+ 2022 10:03:37 +0000
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::5020:9b82:5917:40b]) by MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::5020:9b82:5917:40b%6]) with mapi id 15.20.5417.016; Fri, 8 Jul 2022
+ 10:03:37 +0000
+Date:   Fri, 8 Jul 2022 13:02:19 +0300
+From:   Dan Carpenter <dan.carpenter@oracle.com>
+To:     Guenter Roeck <linux@roeck-us.net>
+Cc:     Greg KH <gregkh@linuxfoundation.org>,
+        kernel test robot <lkp@intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        virtualization@lists.linux-foundation.org,
+        usbb2k-api-dev@nongnu.org, tipc-discussion@lists.sourceforge.net,
+        target-devel@vger.kernel.org, sound-open-firmware@alsa-project.org,
+        samba-technical@lists.samba.org, rds-devel@oss.oracle.com,
+        patches@opensource.cirrus.com, osmocom-net-gprs@lists.osmocom.org,
+        openipmi-developer@lists.sourceforge.net, nvdimm@lists.linux.dev,
+        ntb@lists.linux.dev, netfilter-devel@vger.kernel.org,
+        netdev@vger.kernel.org, mjpeg-users@lists.sourceforge.net,
+        megaraidlinux.pdl@broadcom.com, linuxppc-dev@lists.ozlabs.org,
+        linux1394-devel@lists.sourceforge.net, linux-x25@vger.kernel.org,
+        linux-wpan@vger.kernel.org, linux-wireless@vger.kernel.org,
+        linux-watchdog@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-unionfs@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-staging@lists.linux.dev, linux-serial@vger.kernel.org,
+        linux-sctp@vger.kernel.org, linux-scsi@vger.kernel.org,
+        linux-samsung-soc@vger.kernel.org,
+        linux-rockchip@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org, linux-rdma@vger.kernel.org,
+        linux-raid@vger.kernel.org, linux-pm@vger.kernel.org,
+        linux-phy@lists.infradead.org, linux-perf-users@vger.kernel.org,
+        linux-pci@vger.kernel.org, linux-parport@lists.infradead.org,
+        linux-parisc@vger.kernel.org, linux-omap@vger.kernel.org,
+        linux-nfc@lists.01.org, linux-mtd@lists.infradead.org,
+        linux-mmc@vger.kernel.org, linux-mm@kvack.org,
+        linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
+        linux-leds@vger.kernel.org, linux-integrity@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-iio@vger.kernel.org,
+        linux-ide@vger.kernel.org, linux-hwmon@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-fpga@vger.kernel.org,
+        linux-fbdev@vger.kernel.org, linux-ext4@vger.kernel.org,
+        linux-efi@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-cxl@vger.kernel.org, linux-crypto@vger.kernel.org,
+        linux-clk@vger.kernel.org, linux-cifs@vger.kernel.org,
+        linux-btrfs@vger.kernel.org, linux-bluetooth@vger.kernel.org,
+        linux-block@vger.kernel.org, linux-bcache@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-amlogic@lists.infradead.org, linaro-mm-sig@lists.linaro.org,
+        legousb-devel@lists.sourceforge.net, kvm@vger.kernel.org,
+        keyrings@vger.kernel.org, isdn4linux@listserv.isdn4linux.de,
+        iommu@lists.linux.dev, iommu@lists.linux-foundation.org,
+        intel-wired-lan@lists.osuosl.org, greybus-dev@lists.linaro.org,
+        dri-devel@lists.freedesktop.org, dm-devel@redhat.com,
+        devicetree@vger.kernel.org, dev@openvswitch.org,
+        dccp@vger.kernel.org, damon@lists.linux.dev,
+        coreteam@netfilter.org, cgroups@vger.kernel.org,
+        ceph-devel@vger.kernel.org, ath11k@lists.infradead.org,
+        apparmor@lists.ubuntu.com, amd-gfx@lists.freedesktop.org,
+        alsa-devel@alsa-project.org,
+        accessrunner-general@lists.sourceforge.net
+Subject: Re: [linux-next:master] BUILD REGRESSION
+ 088b9c375534d905a4d337c78db3b3bfbb52c4a0
+Message-ID: <20220708100219.GJ2338@kadam>
+References: <62c683a2.g1VSVt6BrQC6ZzOz%lkp@intel.com>
+ <YsaUgfPbOg7WuBuB@kroah.com>
+ <20220707140258.GA3492673@roeck-us.net>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220707140258.GA3492673@roeck-us.net>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-ClientProxiedBy: JNAP275CA0050.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:4e::10)
+ To MWHPR1001MB2365.namprd10.prod.outlook.com (2603:10b6:301:2d::28)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH 14/14] perf test: Add relevant documentation about
- CoreSight testing
-Content-Language: en-US
-To:     Bagas Sanjaya <bagasdotme@gmail.com>
-Cc:     linux-kernel@vger.kernel.org, coresight@lists.linaro.org,
-        suzuki.poulose@arm.com, mathieu.poirier@linaro.org,
-        mike.leach@linaro.org, leo.yan@linaro.org,
-        linux-perf-users@vger.kernel.org, acme@kernel.org,
-        linux-doc@vger.kernel.org
-References: <20220701120804.3226396-1-carsten.haitzler@foss.arm.com>
- <20220701120804.3226396-15-carsten.haitzler@foss.arm.com>
- <Yr+1KZfciYQWdDgK@debian.me>
-From:   Carsten Haitzler <carsten.haitzler@foss.arm.com>
-Organization: Arm Ltd.
-In-Reply-To: <Yr+1KZfciYQWdDgK@debian.me>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 60888dca-74ab-415d-c312-08da60c91fbd
+X-MS-TrafficTypeDiagnostic: CH0PR10MB4924:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: QpeUnUA80G+bljAIjcJUjdGQmN5uY1eFjfrdzbA17ZIS3uabFZv6Hj1kGve2Lkd6ukSIrwiau9r0ovgbwx+dZEkKmEv6+vXYk4KZAt/MIhaL91UGE+paD/7pDhxzw4BYYVzzpcTlpWSU2EifziKfjy7zSFc7TnpneOwuqT8aeevBVsak78DiURzZSmtUYh/Qt36gA5/ksmagoLtxfOrwnwiX4glTSsn8t5yf7q4IzdByoZMhq0/OHP2LZ5gMTFtZ6UHjHdMMXGvblMy4nwFFyDxr86OS56TwXu8Un5G4D4DsBq8RB57WhWGKUtSyUbZZbVRFVkXmco1NenhtSk86OVpxyYHEtK55FxQsoFvpcV9t5yQLp1tE1ssb1OlZae0sqORl49xAPisMT7jN1cFGRywkbs4jxpVhNo8QYdWoQ3VACsB1KUJ93fDES9dLhmgaIFwDWA8dmP2LXuL1Pd+DFJJTLkU2NgkpHh5jR/cu2c2jTU6PpCMhJIrwzdDt8sfkR6UcBI76NJL0PW+PVyYni0a7Pe3rbeU1PW70RjKKv2/VmnwT8TE08KBGeDQFp1AHEmMbpH2SgzlQWxMvwgGWtM/6/xUqkCQd/CwrTTQo63A1MOH6B7syzqHOaHclI2HJeLiaHI3iu+zlJxnG2+klM626OprekeiAtpkpRWukWRhFT8PONEEVRTQsT2XM6vCyFIqckzuC+ioRgs4tOx6NIenPb/oTrABzGoY+mHsNaR1Q2HerdVNbOlkOvYEcJhoSs2/qCEmiEqL11HGPPZoOhtWl90u/pVoJWO8OqO1Cy/1JYLe4uJbmE6i1YFG6PeLI
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(7916004)(376002)(346002)(136003)(39860400002)(396003)(366004)(33716001)(33656002)(478600001)(41300700001)(44832011)(52116002)(6486002)(38100700002)(6506007)(316002)(54906003)(6666004)(4744005)(38350700002)(6916009)(2906002)(86362001)(66556008)(6512007)(66946007)(8676002)(7336002)(7366002)(7416002)(7406005)(26005)(9686003)(5660300002)(66476007)(186003)(4326008)(1076003)(83380400001)(8936002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?uG7EisZU53uo3Eyn1rAkH1Zp7prdDVjLvtewrji3nHaInhwwPqKJd8IS9Ml6?=
+ =?us-ascii?Q?cCMDRE9xZtRy2ixvN9HtQCxQ6wyVdCMjht4JEfcGvVBGnhiqaHo4dtqdZQNj?=
+ =?us-ascii?Q?TGMY5D1FDrgRGu1ZqSXbxw6awVGysMa0+MX66gOjQV085NsMve2O4eyl5F5y?=
+ =?us-ascii?Q?1R/1hXNMky/piEnyu/AV2u9cPc8QXEEh5K/YB5xHM0lnOA68c0zycKWASuhL?=
+ =?us-ascii?Q?Kla+gf2FV2JSVMUu/Ri/D4jFuSeza/bxZHWLcnm2ZsVWcrf0/LgByhqRjtSp?=
+ =?us-ascii?Q?is7aqVU5aytLlmIcj33/i5SfhSOL6wtmqbxmSOEOtAVcsEJtIXON2a0hsur6?=
+ =?us-ascii?Q?hsWV1BvYk4AATAbHUOntCKDw5fmW1Zb7JOZVwY9IVuxyRJroXe+t96bJLXrI?=
+ =?us-ascii?Q?MssjNzxXj4Jypus/6TmDDUIrYr/PohLpQ7G33Mmk20Wl8iVHL8gXU0umskty?=
+ =?us-ascii?Q?O4Hi9SohVBBFpOOh6t4TgJ/w2hGioWQ3sldG+lmRcJwb3j0MzuvquWbIKe1R?=
+ =?us-ascii?Q?gnxXwQFlT03ge3rnLtt4I5eXee2ZugYaT8hbKKltmH00UW2rot4ogdsXX2iI?=
+ =?us-ascii?Q?DNsESB9w2oxovD/ZQf1hpR0G4CNtCUS0CYB5QKnSBDpXPeXkQpoHeFzSSfjR?=
+ =?us-ascii?Q?wLuWIMCwND+t3ovztoAdWN/UQtE5mMC0kkUBUToTTjIvLciDMD0PSNB6BJUe?=
+ =?us-ascii?Q?w0PR0q9LRd1D/jkiavRKpLKgXzeczspq+Psu7R01u1srIE/QHzUUjYVl5f9a?=
+ =?us-ascii?Q?L02x85oqudSEWTubWsX6ss1WfTqA+8NqL5ENwQjoi9UEoTolcwA7e2XUcwAO?=
+ =?us-ascii?Q?ic9ZTDSAl8/AsX+2l6+qsgzLGODxDFe3K1ko9b4kwkQxpr9NU9z8O/MWDlAK?=
+ =?us-ascii?Q?Dnlvq31Zf740z3fuyX3wN9p5/ha59mVpxZF+xjtVxT7DoDfkostGyBOBfUce?=
+ =?us-ascii?Q?e6fdpEx92+LmFi1lzmVO4Ia+ECDiem6tXYEmQXIyfxx3Lw0RUCChVAujKWLo?=
+ =?us-ascii?Q?oUy4+s0iF6iSny0nF8zOLNHqJzxvFEexDubf1ILb/3btBYa9NgUS5BOaIoA9?=
+ =?us-ascii?Q?WqJ1H2aDG9Kic8ymHAc4FFqNBtuTucRoBG6Ms8LMqLNF0Vza4OaikcRksmX4?=
+ =?us-ascii?Q?rgBMlDqx5pO3KFCTenU+qbHOBovKp6H6HnXn/7m/aF3l+ZqmdwuG77shGwxJ?=
+ =?us-ascii?Q?u+KGV063dyQ+dCgsyvudHwbxefjBFDbkHK/Ybw0NmKX2mYGuv7jbzKnp7JDc?=
+ =?us-ascii?Q?AF5HmXDQhKXZbO2HxUKsXY8vRrxFZhmbIJJMirc8HFwPS3gAzjzb+szX+vF7?=
+ =?us-ascii?Q?xOUKc56091EkjOl6fcqQEf5AMF6UjW4HOZCLHO1S/4o81dPO+oVZQykyHGNa?=
+ =?us-ascii?Q?fevSECWId0k6CwanCU7579YdUXJJMBRkComEJNrTAoR4lhftqLiI0U3rDdrj?=
+ =?us-ascii?Q?Del01xUlm7N66LbqNEPYOHt8Vj9P+Nd4ahXQKeqyeKRQ+d5V2/xM7j6eGiim?=
+ =?us-ascii?Q?CELTFADnEsTdWjQiE8bsPhByqbhH87XWEemEF1ulwsM6DII28FAYU+uBiySC?=
+ =?us-ascii?Q?89eQCwECLDAfd9gxbLFLH7xJjKAclbo03RJxaMbLiExaPJ39HgBBQBjVroGH?=
+ =?us-ascii?Q?Pw=3D=3D?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 60888dca-74ab-415d-c312-08da60c91fbd
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jul 2022 10:03:37.5131
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Xmfxxd2ImvCkN86fhSrHry1xr1wVpvkQCd/kvXC28R2/OhB8G8NrxAgoSiTGxSTnG4h/h/BFA9rqzl+lMJyKXtKr24bFre3OPhNr8wLciI8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR10MB4924
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.517,18.0.883
+ definitions=2022-07-08_08:2022-06-28,2022-07-08 signatures=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 bulkscore=0 malwarescore=0
+ mlxscore=0 spamscore=0 suspectscore=0 adultscore=0 mlxlogscore=999
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2206140000
+ definitions=main-2207080036
+X-Proofpoint-GUID: Ew-Ts5aNqfwze6JmTbUyOisAm9IQ4z0u
+X-Proofpoint-ORIG-GUID: Ew-Ts5aNqfwze6JmTbUyOisAm9IQ4z0u
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Thu, Jul 07, 2022 at 07:02:58AM -0700, Guenter Roeck wrote:
+> and the NULL
+> dereferences in the binder driver are at the very least suspicious.
 
+The NULL dereferences in binder are just nonsense Sparse annotations.
+They don't affect runtime.
 
-On 7/2/22 04:02, Bagas Sanjaya wrote:
-> On Fri, Jul 01, 2022 at 01:08:03PM +0100, carsten.haitzler@foss.arm.com wrote:
->> From: "Carsten Haitzler (Rasterman)" <raster@rasterman.com>
->>
-> 
-> Hi Carsten,
-> 
-> This doc patch can be improved, see below.
+drivers/android/binder.c:1481:19-23: ERROR: from is NULL but dereferenced.
+drivers/android/binder.c:2920:29-33: ERROR: target_thread is NULL but dereferenced.
+drivers/android/binder.c:353:25-35: ERROR: node -> proc is NULL but dereferenced.
+drivers/android/binder.c:4888:16-20: ERROR: t is NULL but dereferenced.
 
-I'll look at addressing the below - with some exceptions as they are not 
-what you think they are.
+regards,
+dan carpenter
 
->> This adds/improves documentation helping people get started with
->> CoreSight and perf as well as describing the testing and how it works.
->>
-> 
-> Use imperative mood instead of descriptive one for patch description.
-> 
->> Signed-off-by: Carsten Haitzler <carsten.haitzler@arm.com>
->> ---
->>   .../trace/coresight/coresight-perf.rst        | 160 ++++++++++++++++++
->>   tools/perf/Documentation/arm-coresight.txt    |   5 +
->>   2 files changed, 165 insertions(+)
->>   create mode 100644 Documentation/trace/coresight/coresight-perf.rst
->>   create mode 100644 tools/perf/Documentation/arm-coresight.txt
->>
->> diff --git a/Documentation/trace/coresight/coresight-perf.rst b/Documentation/trace/coresight/coresight-perf.rst
->> new file mode 100644
->> index 000000000000..de25082447dd
->> --- /dev/null
->> +++ b/Documentation/trace/coresight/coresight-perf.rst
->> @@ -0,0 +1,160 @@
->> +.. SPDX-License-Identifier: GPL-2.0
->> +
->> +================
->> +CoreSight - Perf
->> +================
->> +
->> +    :Author:   Carsten Haitzler <carsten.haitzler@arm.com>
->> +    :Date:     June 29th, 2022
->> +
->> +Perf is able to locally access CoreSight trace data and store it to the
->> +output perf data files. This data can then be later decoded to give the
->> +instructions that were traced for debugging or profiling purposes. You
->> +can log such data with a perf record command like:
->> +
->> +    perf record -e cs_etm//u testbinary
->> +
-> 
-> Use literal code block.
-> 
->> +This would run some test binary (testbinary) until it exits and record
->> +a perf.data trace file. That file would have AUX sections if CoreSight
->> +is working correctly. You can dump the content of this file as
->> +readable text with a command like:
->> +
->> +    perf report --stdio --dump -i perf.data
->> +
-> 
-> Same as above.
-> 
->> +You should find some sections of this file have AUX data blocks like:
->> +
->> +    0x1e78 [0x30]: PERF_RECORD_AUXTRACE size: 0x11dd0  offset: 0  ref: 0x1b614fc1061b0ad1  idx: 0  tid: 531230  cpu: -1
->> +
->> +    . ... CoreSight ETM Trace data: size 73168 bytes
->> +            Idx:0; ID:10;   I_ASYNC : Alignment Synchronisation.
->> +              Idx:12; ID:10;  I_TRACE_INFO : Trace Info.; INFO=0x0 { CC.0 }
->> +              Idx:17; ID:10;  I_ADDR_L_64IS0 : Address, Long, 64 bit, IS0.; Addr=0x0000000000000000;
->> +              Idx:26; ID:10;  I_TRACE_ON : Trace On.
->> +              Idx:27; ID:10;  I_ADDR_CTXT_L_64IS0 : Address & Context, Long, 64 bit, IS0.; Addr=0x0000FFFFB6069140; Ctxt: AArch64,EL0, NS;
->> +              Idx:38; ID:10;  I_ATOM_F6 : Atom format 6.; EEEEEEEEEEEEEEEEEEEEEEEE
->> +              Idx:39; ID:10;  I_ATOM_F6 : Atom format 6.; EEEEEEEEEEEEEEEEEEEEEEEE
->> +              Idx:40; ID:10;  I_ATOM_F6 : Atom format 6.; EEEEEEEEEEEEEEEEEEEEEEEE
->> +              Idx:41; ID:10;  I_ATOM_F6 : Atom format 6.; EEEEEEEEEEEN
->> +              ...
->> +
-> 
-> Here too.
-> 
->> +If you see these above, then your system is tracing CoreSight data
->> +correctly.
->> +
->> +To compile perf with CoreSight support in the tools/perf directory do
->> +
->> +    make CORESIGHT=1
->> +
-> 
-> Here too again.
-> 
->> +This requires OpenCSD to build. You may install distribution packages
->> +for the support such as libopencsd and libopencsd-dev or download it
->> +and build yourself. Upstream OpenCSD is located at:
->> +
->> +  https://github.com/Linaro/OpenCSD
->> +
->> +For complete information on building perf with CoreSight support and
->> +more extensive usage look at:
->> +
->> +  https://github.com/Linaro/OpenCSD/blob/master/HOWTO.md
->> +
->> +
->> +Kernel CoreSight Support
->> +------------------------
->> +
->> +You will also want CoreSight support enabled in your kernel config.
->> +Ensure it is enabled with:
->> +
->> +    CONFIG_CORESIGHT=y
->> +
->> +There are various other CoreSight options you probably also want
->> +enabled like:
->> +
->> +    CONFIG_CORESIGHT_LINKS_AND_SINKS=y
->> +    CONFIG_CORESIGHT_LINK_AND_SINK_TMC=y
->> +    CONFIG_CORESIGHT_CATU=y
->> +    CONFIG_CORESIGHT_SINK_TPIU=y
->> +    CONFIG_CORESIGHT_SINK_ETBV10=y
->> +    CONFIG_CORESIGHT_SOURCE_ETM4X=y
->> +    CONFIG_CORESIGHT_STM=y
->> +    CONFIG_CORESIGHT_CPU_DEBUG=y
->> +    CONFIG_CORESIGHT_CTI=y
->> +    CONFIG_CORESIGHT_CTI_INTEGRATION_REGS=y
->> +
-> 
-> Same as above again.
-> 
->> +Please refer to the kernel configuration help for more information.
->> +
->> +Perf test - Verify kernel and userspace perf CoreSight work
->> +-----------------------------------------------------------
->> +
->> +When you run perf test, it will do a lot of self tests. Some of those
->> +tests will cover CoreSight (only if enabled and on ARM64). You
->> +generally would run perf test from the tools/perf directory in the
->> +kernel tree. Some tests will check some internal perf support like:
->> +
->> +    Check Arm CoreSight trace data recording and synthesized samples
->> +    Check Arm SPE trace data recording and synthesized samples
->> +
-> 
-> Use bullet lists.
-
-Actually this would be a code block - it is literally the stdout from 
-perf test (just 2 lines of it for those tests).
-
->> +Some others will actually use perf record and some test binaries that
->> +are in tests/shell/coresight and will collect traces to ensure a
->> +minimum level of functionality is met. The scripts that launch these
->> +tests are in the same directory. These will all look like:
->> +
->> +    CoreSight / ASM Pure Loop
->> +    CoreSight / Memcpy 16k 10 Threads
->> +    CoreSight / Thread Loop 10 Threads - Check TID
->> +    ...
->> +
-> 
-> Same as above.
-
-This too - a code block.
-
->> +These perf record tests will not run if the tool binaries do not exist
->> +in tests/shell/coresight/*/ and will be skipped. If you do not have
->> +CoreSight support in hardware then either do not build perf with
->> +CoreSight support or remove these binaries in order to not have these
->> +tests fail and have them skip instead.
->> +
->> +These tests will log historical results in the current working
->> +directory (e.g. tools/perf) and will be named stats-*.csv like:
->> +
->> +    stats-asm_pure_loop-out.csv
->> +    stats-memcpy_thread-16k_10.csv
->> +    ...
->> +
-> 
-> These above causes htmldocs warning (unescaped wildcard), so I have to apply
-> the fixup:
-> 
-> ---- >8 ----
-> 
-> diff --git a/Documentation/trace/coresight/coresight-perf.rst b/Documentation/trace/coresight/coresight-perf.rst
-> index de25082447dd50..a25fcda5c37c55 100644
-> --- a/Documentation/trace/coresight/coresight-perf.rst
-> +++ b/Documentation/trace/coresight/coresight-perf.rst
-> @@ -102,13 +102,13 @@ tests are in the same directory. These will all look like:
->       ...
->   
->   These perf record tests will not run if the tool binaries do not exist
-> -in tests/shell/coresight/*/ and will be skipped. If you do not have
-> +in tests/shell/coresight/\*/ and will be skipped. If you do not have
->   CoreSight support in hardware then either do not build perf with
->   CoreSight support or remove these binaries in order to not have these
->   tests fail and have them skip instead.
->   
->   These tests will log historical results in the current working
-> -directory (e.g. tools/perf) and will be named stats-*.csv like:
-> +directory (e.g. tools/perf) and will be named stats-\*.csv like:
->   
->       stats-asm_pure_loop-out.csv
->       stats-memcpy_thread-16k_10.csv
-> 
-> ---- >8 ----
-> 
-> Also, the output list above could be inside code block (since these
-> are output).
-
-Yup.
-
->> +These statistic files log some aspects of the AUX data sections in
->> +the perf data output counting some numbers of certain encodings (a
->> +good way to know that it's working in a very simple way). One problem
->> +with CoreSight is that given a large enough amount of data needing to
->> +be logged, some of it can be lost due to the processor not waking up
->> +in time to read out all the data from buffers etc.. You will notice
->> +that the amount of data collected can vary a lot per run of perf test.
->> +If you wish to see how this changes over time, simply run perf test
->> +multiple times and all these csv files will have more and more data
->> +appended to it that you can later examine, graph and otherwise use to
->> +figure out if things have become worse or better.
->> +
->> +This means sometimes these tests fail as they don't capture all the
->> +data needed. This is about tracking quality and amount of data
->> +produced over time and to see when changes to the Linux kernel improve
->> +quality of traces.
->> +
->> +Be aware that some of these tests take quite a while to run, specifically
->> +in processing the perf data file and dumping contents to then examine what
->> +is inside.
->> +
->> +You can change where these csv logs are stored by setting the
->> +PERF_TEST_CORESIGHT_STATDIR environment variable before running perf
->> +test like:
->> +
->> +    export PERF_TEST_CORESIGHT_STATDIR=/var/tmp
->> +    perf test
->> +
->> +They will also store resulting perf output data in the current
->> +directory for later inspection like:
->> +
->> +    perf-asm_pure_loop-out.data
->> +    perf-memcpy_thread-16k_10.data
->> +    ...
->> +
->> +You can alter where the perf data files are stored by setting the
->> +PERF_TEST_CORESIGHT_DATADIR environment variable such as:
->> +
->> +    PERF_TEST_CORESIGHT_DATADIR=/var/tmp
->> +    perf test
->> +
-> 
-> Use code block.
-> 
->> +You may wish to set these above environment variables if you whish to
->> +keep the output of tests outside of the current working directory for
->> +longer term storage and examination.
->> diff --git a/tools/perf/Documentation/arm-coresight.txt b/tools/perf/Documentation/arm-coresight.txt
->> new file mode 100644
->> index 000000000000..f94743a4d161
->> --- /dev/null
->> +++ b/tools/perf/Documentation/arm-coresight.txt
->> @@ -0,0 +1,5 @@
->> +Arm CoreSight Support
->> +=====================
->> +
->> +Please see docuentation in the central CoreSight location in the
->> +kernel tree under Documentation/trace/coresight
-> 
-> s/ducuentation/documentation/
-> 
-> So here's the improv:
-> 
-> ---- >8 ----
-> 
-> diff --git a/Documentation/trace/coresight/coresight-perf.rst b/Documentation/trace/coresight/coresight-perf.rst
-> index a25fcda5c37c55..0dd4689a699ecd 100644
-> --- a/Documentation/trace/coresight/coresight-perf.rst
-> +++ b/Documentation/trace/coresight/coresight-perf.rst
-> @@ -10,37 +10,37 @@ CoreSight - Perf
->   Perf is able to locally access CoreSight trace data and store it to the
->   output perf data files. This data can then be later decoded to give the
->   instructions that were traced for debugging or profiling purposes. You
-> -can log such data with a perf record command like:
-> +can log such data with a perf record command like::
->   
-> -    perf record -e cs_etm//u testbinary
-> +   perf record -e cs_etm//u testbinary
->   
->   This would run some test binary (testbinary) until it exits and record
->   a perf.data trace file. That file would have AUX sections if CoreSight
->   is working correctly. You can dump the content of this file as
-> -readable text with a command like:
-> +readable text with a command like::
->   
-> -    perf report --stdio --dump -i perf.data
-> +   perf report --stdio --dump -i perf.data
->   
-> -You should find some sections of this file have AUX data blocks like:
-> +You should find some sections of this file have AUX data blocks like::
->   
-> -    0x1e78 [0x30]: PERF_RECORD_AUXTRACE size: 0x11dd0  offset: 0  ref: 0x1b614fc1061b0ad1  idx: 0  tid: 531230  cpu: -1
-> +   0x1e78 [0x30]: PERF_RECORD_AUXTRACE size: 0x11dd0  offset: 0  ref: 0x1b614fc1061b0ad1  idx: 0  tid: 531230  cpu: -1
->   
-> -    . ... CoreSight ETM Trace data: size 73168 bytes
-> -            Idx:0; ID:10;   I_ASYNC : Alignment Synchronisation.
-> -              Idx:12; ID:10;  I_TRACE_INFO : Trace Info.; INFO=0x0 { CC.0 }
-> -              Idx:17; ID:10;  I_ADDR_L_64IS0 : Address, Long, 64 bit, IS0.; Addr=0x0000000000000000;
-> -              Idx:26; ID:10;  I_TRACE_ON : Trace On.
-> -              Idx:27; ID:10;  I_ADDR_CTXT_L_64IS0 : Address & Context, Long, 64 bit, IS0.; Addr=0x0000FFFFB6069140; Ctxt: AArch64,EL0, NS;
-> -              Idx:38; ID:10;  I_ATOM_F6 : Atom format 6.; EEEEEEEEEEEEEEEEEEEEEEEE
-> -              Idx:39; ID:10;  I_ATOM_F6 : Atom format 6.; EEEEEEEEEEEEEEEEEEEEEEEE
-> -              Idx:40; ID:10;  I_ATOM_F6 : Atom format 6.; EEEEEEEEEEEEEEEEEEEEEEEE
-> -              Idx:41; ID:10;  I_ATOM_F6 : Atom format 6.; EEEEEEEEEEEN
-> -              ...
-> +   . ... CoreSight ETM Trace data: size 73168 bytes
-> +           Idx:0; ID:10;   I_ASYNC : Alignment Synchronisation.
-> +             Idx:12; ID:10;  I_TRACE_INFO : Trace Info.; INFO=0x0 { CC.0 }
-> +             Idx:17; ID:10;  I_ADDR_L_64IS0 : Address, Long, 64 bit, IS0.; Addr=0x0000000000000000;
-> +             Idx:26; ID:10;  I_TRACE_ON : Trace On.
-> +             Idx:27; ID:10;  I_ADDR_CTXT_L_64IS0 : Address & Context, Long, 64 bit, IS0.; Addr=0x0000FFFFB6069140; Ctxt: AArch64,EL0, NS;
-> +             Idx:38; ID:10;  I_ATOM_F6 : Atom format 6.; EEEEEEEEEEEEEEEEEEEEEEEE
-> +             Idx:39; ID:10;  I_ATOM_F6 : Atom format 6.; EEEEEEEEEEEEEEEEEEEEEEEE
-> +             Idx:40; ID:10;  I_ATOM_F6 : Atom format 6.; EEEEEEEEEEEEEEEEEEEEEEEE
-> +             Idx:41; ID:10;  I_ATOM_F6 : Atom format 6.; EEEEEEEEEEEN
-> +             ...
->   
->   If you see these above, then your system is tracing CoreSight data
->   correctly.
->   
-> -To compile perf with CoreSight support in the tools/perf directory do
-> +To compile perf with CoreSight support in the tools/perf directory do::
->   
->       make CORESIGHT=1
->   
-> @@ -60,23 +60,23 @@ Kernel CoreSight Support
->   ------------------------
->   
->   You will also want CoreSight support enabled in your kernel config.
-> -Ensure it is enabled with:
-> +Ensure it is enabled with::
->   
-> -    CONFIG_CORESIGHT=y
-> +   CONFIG_CORESIGHT=y
->   
->   There are various other CoreSight options you probably also want
-> -enabled like:
-> +enabled like::
->   
-> -    CONFIG_CORESIGHT_LINKS_AND_SINKS=y
-> -    CONFIG_CORESIGHT_LINK_AND_SINK_TMC=y
-> -    CONFIG_CORESIGHT_CATU=y
-> -    CONFIG_CORESIGHT_SINK_TPIU=y
-> -    CONFIG_CORESIGHT_SINK_ETBV10=y
-> -    CONFIG_CORESIGHT_SOURCE_ETM4X=y
-> -    CONFIG_CORESIGHT_STM=y
-> -    CONFIG_CORESIGHT_CPU_DEBUG=y
-> -    CONFIG_CORESIGHT_CTI=y
-> -    CONFIG_CORESIGHT_CTI_INTEGRATION_REGS=y
-> +   CONFIG_CORESIGHT_LINKS_AND_SINKS=y
-> +   CONFIG_CORESIGHT_LINK_AND_SINK_TMC=y
-> +   CONFIG_CORESIGHT_CATU=y
-> +   CONFIG_CORESIGHT_SINK_TPIU=y
-> +   CONFIG_CORESIGHT_SINK_ETBV10=y
-> +   CONFIG_CORESIGHT_SOURCE_ETM4X=y
-> +   CONFIG_CORESIGHT_STM=y
-> +   CONFIG_CORESIGHT_CPU_DEBUG=y
-> +   CONFIG_CORESIGHT_CTI=y
-> +   CONFIG_CORESIGHT_CTI_INTEGRATION_REGS=y
->   
->   Please refer to the kernel configuration help for more information.
->   
-> @@ -88,18 +88,18 @@ tests will cover CoreSight (only if enabled and on ARM64). You
->   generally would run perf test from the tools/perf directory in the
->   kernel tree. Some tests will check some internal perf support like:
->   
-> -    Check Arm CoreSight trace data recording and synthesized samples
-> -    Check Arm SPE trace data recording and synthesized samples
-> +* Check Arm CoreSight trace data recording and synthesized samples
-> +* Check Arm SPE trace data recording and synthesized samples
->   
->   Some others will actually use perf record and some test binaries that
->   are in tests/shell/coresight and will collect traces to ensure a
->   minimum level of functionality is met. The scripts that launch these
->   tests are in the same directory. These will all look like:
->   
-> -    CoreSight / ASM Pure Loop
-> -    CoreSight / Memcpy 16k 10 Threads
-> -    CoreSight / Thread Loop 10 Threads - Check TID
-> -    ...
-> +* CoreSight / ASM Pure Loop
-> +* CoreSight / Memcpy 16k 10 Threads
-> +* CoreSight / Thread Loop 10 Threads - Check TID
-> +* etc.
->   
->   These perf record tests will not run if the tool binaries do not exist
->   in tests/shell/coresight/\*/ and will be skipped. If you do not have
-> @@ -108,11 +108,11 @@ CoreSight support or remove these binaries in order to not have these
->   tests fail and have them skip instead.
->   
->   These tests will log historical results in the current working
-> -directory (e.g. tools/perf) and will be named stats-\*.csv like:
-> +directory (e.g. tools/perf) and will be named stats-\*.csv like::
->   
-> -    stats-asm_pure_loop-out.csv
-> -    stats-memcpy_thread-16k_10.csv
-> -    ...
-> +   stats-asm_pure_loop-out.csv
-> +   stats-memcpy_thread-16k_10.csv
-> +   ...
->   
->   These statistic files log some aspects of the AUX data sections in
->   the perf data output counting some numbers of certain encodings (a
-> @@ -137,23 +137,23 @@ is inside.
->   
->   You can change where these csv logs are stored by setting the
->   PERF_TEST_CORESIGHT_STATDIR environment variable before running perf
-> -test like:
-> +test like::
->   
-> -    export PERF_TEST_CORESIGHT_STATDIR=/var/tmp
-> -    perf test
-> +   export PERF_TEST_CORESIGHT_STATDIR=/var/tmp
-> +   perf test
->   
->   They will also store resulting perf output data in the current
-> -directory for later inspection like:
-> +directory for later inspection like::
->   
-> -    perf-asm_pure_loop-out.data
-> -    perf-memcpy_thread-16k_10.data
-> -    ...
-> +   perf-asm_pure_loop-out.data
-> +   perf-memcpy_thread-16k_10.data
-> +   ...
->   
->   You can alter where the perf data files are stored by setting the
-> -PERF_TEST_CORESIGHT_DATADIR environment variable such as:
-> +PERF_TEST_CORESIGHT_DATADIR environment variable such as::
->   
-> -    PERF_TEST_CORESIGHT_DATADIR=/var/tmp
-> -    perf test
-> +   PERF_TEST_CORESIGHT_DATADIR=/var/tmp
-> +   perf test
->   
->   You may wish to set these above environment variables if you whish to
->   keep the output of tests outside of the current working directory for
-> diff --git a/tools/perf/Documentation/arm-coresight.txt b/tools/perf/Documentation/arm-coresight.txt
-> index f94743a4d161f2..c117fc50a2a956 100644
-> --- a/tools/perf/Documentation/arm-coresight.txt
-> +++ b/tools/perf/Documentation/arm-coresight.txt
-> @@ -1,5 +1,5 @@
->   Arm CoreSight Support
->   =====================
->   
-> -Please see docuentation in the central CoreSight location in the
-> -kernel tree under Documentation/trace/coresight
-> +For full documentation, see Documentation/trace/coresight/coresight-perf.rst
-> +in the kernel tree.
-> 
-> ---- >8 ----
-> 
-> Note: since this is documentation patch, don't forget to Cc linux-doc list.
-> I add it for you.
-
-I'll split this out to a separate stand-alone patch from this series. I 
-put docs in the place I was told to by the perf coresight maintainers, 
-but that now complicates everyone to send the patch series to and so 
-only the docs are relevant to the doc mailing list, so I'll split it off.
