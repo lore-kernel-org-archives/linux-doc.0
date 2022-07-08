@@ -2,97 +2,179 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 77EF2C43334
-	for <linux-doc@archiver.kernel.org>; Fri,  8 Jul 2022 03:57:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3AF5EC433EF
+	for <linux-doc@archiver.kernel.org>; Fri,  8 Jul 2022 04:49:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237050AbiGHD5L (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 7 Jul 2022 23:57:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44098 "EHLO
+        id S237217AbiGHEtM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 8 Jul 2022 00:49:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51326 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236950AbiGHD5F (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Jul 2022 23:57:05 -0400
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 020DD74DED;
-        Thu,  7 Jul 2022 20:57:03 -0700 (PDT)
-Received: from dggpemm500024.china.huawei.com (unknown [172.30.72.55])
-        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4LfKDK5RWyzkXGC;
-        Fri,  8 Jul 2022 11:54:57 +0800 (CST)
-Received: from dggpemm500019.china.huawei.com (7.185.36.180) by
- dggpemm500024.china.huawei.com (7.185.36.203) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Fri, 8 Jul 2022 11:57:02 +0800
-Received: from k04.huawei.com (10.67.174.115) by
- dggpemm500019.china.huawei.com (7.185.36.180) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Fri, 8 Jul 2022 11:57:01 +0800
-From:   Pu Lehui <pulehui@huawei.com>
-To:     <bpf@vger.kernel.org>, <netdev@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>
-CC:     Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
+        with ESMTP id S237337AbiGHEtJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Jul 2022 00:49:09 -0400
+Received: from mail-pj1-x1049.google.com (mail-pj1-x1049.google.com [IPv6:2607:f8b0:4864:20::1049])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED59676960
+        for <linux-doc@vger.kernel.org>; Thu,  7 Jul 2022 21:49:06 -0700 (PDT)
+Received: by mail-pj1-x1049.google.com with SMTP id a2-20020a17090a740200b001efaae60a57so515283pjg.8
+        for <linux-doc@vger.kernel.org>; Thu, 07 Jul 2022 21:49:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=VZyJYOYOmyBhccquB8jdOUnepxpHA2EaXyI1P4UgbZk=;
+        b=OHzkH6CUxvF29C6YQodBsFfPokm7+7etvB60EYT5rIwMD9OH9U0AtmpXKx8ZweKRed
+         oVZZWfzMiTxQCiJZmTzZFy/2zT1zAwz/QiMCizqTeCDDUMzkWm28PYce3SbM5zzYBW77
+         yV0Uad6HwQFnl1WR7X0N9vmmphNFvmNcYpOaRGosGMuX2CSg5QrwApAEgKVwDHQTpcxy
+         Sky7eDBPBbF7SJ/f16wadWBTNZoJ/jocoStlAp9thvE9KSXkl3BZyWZ1QT9Zu68DamHv
+         OkCWlI0K2FLP1JijkIPh/bzpwjR0tPLlC54olqaueZJM3XL7OldUYMDKpjvcPNHZcS7f
+         1tug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=VZyJYOYOmyBhccquB8jdOUnepxpHA2EaXyI1P4UgbZk=;
+        b=wM6lMgejEBO7DL0dAaLVgu5zbpG1FvpBFn65YjjksRpjVf0/Hvu2R4G8N+z+eaB6mT
+         nHT6Gnr5kKZYOG1RTHZAfqHb3xv3tX9j2VIaAPl+tf9WamTuCleX/h8TZyjeH0B0ePvA
+         d4Hf0CPglZJSkSssIUHQASNmibFq8USQ9QHRz4NXMkdtTB7b/Nk8D/v6CrtCM9lWsXNT
+         hQUT+d7X6a1LHEPdAm0jWpah60wxK51kB+TeOXXrMekygDYY5XeaHDw7RP5H8nea+eeA
+         IeGbGcHTCKxdMJjyj3Dnaqul6hrRYOUCc/fYTt8rwa+4utrx1LV0ahU1nvu6oZWkOoZZ
+         +JNA==
+X-Gm-Message-State: AJIora9FDF1BUi67kKH9+ByjIdF3VOjKDoiaHawj8MRx+tsJZo09xy5a
+        ig2S5+b43yttzo0olt97kwpZK/8CVkWOeQ==
+X-Google-Smtp-Source: AGRyM1v/UKrknfucMWmYcBRyH1xUQKjKyi5ZMpliyIdbk8sMgra7H2LLCj2bXBXPVZ4KhAqUnXO25gVfJYLhfQ==
+X-Received: from slicestar.c.googlers.com ([fda3:e722:ac3:cc00:4f:4b78:c0a8:20a1])
+ (user=davidgow job=sendgmr) by 2002:a05:6a00:1895:b0:527:f270:64de with SMTP
+ id x21-20020a056a00189500b00527f27064demr1678536pfh.61.1657255746437; Thu, 07
+ Jul 2022 21:49:06 -0700 (PDT)
+Date:   Fri,  8 Jul 2022 12:48:44 +0800
+Message-Id: <20220708044847.531566-1-davidgow@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.37.0.rc0.161.g10f37bed90-goog
+Subject: [PATCH v6 1/4] panic: Taint kernel if tests are run
+From:   David Gow <davidgow@google.com>
+To:     Brendan Higgins <brendanhiggins@google.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>,
-        Grant Seltzer <grantseltzer@gmail.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Pu Lehui <pulehui@huawei.com>
-Subject: [PATCH bpf-next] bpf, docs: Remove deprecated xsk libbpf APIs description
-Date:   Fri, 8 Jul 2022 12:27:36 +0800
-Message-ID: <20220708042736.669132-1-pulehui@huawei.com>
-X-Mailer: git-send-email 2.25.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.67.174.115]
-X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
- dggpemm500019.china.huawei.com (7.185.36.180)
-X-CFilter-Loop: Reflected
+        Andrew Morton <akpm@linux-foundation.org>,
+        Kees Cook <keescook@chromium.org>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>
+Cc:     David Gow <davidgow@google.com>,
+        "Guilherme G . Piccoli" <gpiccoli@igalia.com>,
+        Sebastian Reichel <sre@kernel.org>,
+        John Ogness <john.ogness@linutronix.de>,
+        Joe Fradley <joefradley@google.com>,
+        Daniel Latypov <dlatypov@google.com>,
+        kunit-dev@googlegroups.com, linux-kselftest@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Lucas De Marchi <lucas.demarchi@intel.com>,
+        Aaron Tomlin <atomlin@redhat.com>,
+        linux-fsdevel@vger.kernel.org, linux-block@vger.kernel.org,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        linux-kbuild@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Since xsk APIs has been removed from libbpf, let's clean
-up the bpf docs simutaneously.
+Most in-kernel tests (such as KUnit tests) are not supposed to run on
+production systems: they may do deliberately illegal things to trigger
+errors, and have security implications (for example, KUnit assertions
+will often deliberately leak kernel addresses).
 
-Signed-off-by: Pu Lehui <pulehui@huawei.com>
+Add a new taint type, TAINT_TEST to signal that a test has been run.
+This will be printed as 'N' (originally for kuNit, as every other
+sensible letter was taken.)
+
+This should discourage people from running these tests on production
+systems, and to make it easier to tell if tests have been run
+accidentally (by loading the wrong configuration, etc.)
+
+Acked-by: Luis Chamberlain <mcgrof@kernel.org>
+Reviewed-by: Brendan Higgins <brendanhiggins@google.com>
+Signed-off-by: David Gow <davidgow@google.com>
 ---
- .../bpf/libbpf/libbpf_naming_convention.rst         | 13 ++-----------
- 1 file changed, 2 insertions(+), 11 deletions(-)
 
-diff --git a/Documentation/bpf/libbpf/libbpf_naming_convention.rst b/Documentation/bpf/libbpf/libbpf_naming_convention.rst
-index f86360f734a8..c5ac97f3d4c4 100644
---- a/Documentation/bpf/libbpf/libbpf_naming_convention.rst
-+++ b/Documentation/bpf/libbpf/libbpf_naming_convention.rst
-@@ -9,8 +9,8 @@ described here. It's recommended to follow these conventions whenever a
- new function or type is added to keep libbpf API clean and consistent.
+This is v6 of the "make tests taint the kernel" patchset. The only
+changes since v5 (which is the version in linux-next at time of writing)
+are some rather critical fixes to patch 2/4, where the cruicial check
+was inverted. (Oops!)
+
+The 'N' character for the taint is even less useful now that it's no
+longer short for kuNit, but all the letters in TEST are taken. :-(
+
+No changes since v5:
+https://lore.kernel.org/linux-kselftest/20220702040959.3232874-1-davidgow@google.com/
+
+No changes since v4:
+https://lore.kernel.org/linux-kselftest/20220701084744.3002019-1-davidgow@google.com/
+
+Changes since v3:
+https://lore.kernel.org/lkml/20220513083212.3537869-1-davidgow@google.com/
+- Remove the mention of KUnit from the documentation.
+- Add Luis and Brendan's Acked/Reviewed-by tags.
+
+Changes since v2:
+https://lore.kernel.org/linux-kselftest/20220430030019.803481-1-davidgow@google.com/
+- Rename TAINT_KUNIT -> TAINT_TEST.
+- Split into separate patches for adding the taint, and triggering it.
+- Taint on a kselftest_module being loaded (patch 3/3)
+
+Changes since v1:
+https://lore.kernel.org/linux-kselftest/20220429043913.626647-1-davidgow@google.com/
+- Make the taint per-module, to handle the case when tests are in
+  (longer lasting) modules. (Thanks Greg KH).
+
+Note that this still has checkpatch.pl warnings around bracket
+placement, which are intentional as part of matching the surrounding
+code.
+
+---
+ Documentation/admin-guide/tainted-kernels.rst | 1 +
+ include/linux/panic.h                         | 3 ++-
+ kernel/panic.c                                | 1 +
+ 3 files changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/Documentation/admin-guide/tainted-kernels.rst b/Documentation/admin-guide/tainted-kernels.rst
+index ceeed7b0798d..7d80e8c307d1 100644
+--- a/Documentation/admin-guide/tainted-kernels.rst
++++ b/Documentation/admin-guide/tainted-kernels.rst
+@@ -100,6 +100,7 @@ Bit  Log  Number  Reason that got the kernel tainted
+  15  _/K   32768  kernel has been live patched
+  16  _/X   65536  auxiliary taint, defined for and used by distros
+  17  _/T  131072  kernel was built with the struct randomization plugin
++ 18  _/N  262144  an in-kernel test has been run
+ ===  ===  ======  ========================================================
  
- All types and functions provided by libbpf API should have one of the
--following prefixes: ``bpf_``, ``btf_``, ``libbpf_``, ``xsk_``,
--``btf_dump_``, ``ring_buffer_``, ``perf_buffer_``.
-+following prefixes: ``bpf_``, ``btf_``, ``libbpf_``, ``btf_dump_``,
-+``ring_buffer_``, ``perf_buffer_``.
+ Note: The character ``_`` is representing a blank in this table to make reading
+diff --git a/include/linux/panic.h b/include/linux/panic.h
+index e71161da69c4..c7759b3f2045 100644
+--- a/include/linux/panic.h
++++ b/include/linux/panic.h
+@@ -68,7 +68,8 @@ static inline void set_arch_panic_timeout(int timeout, int arch_default_timeout)
+ #define TAINT_LIVEPATCH			15
+ #define TAINT_AUX			16
+ #define TAINT_RANDSTRUCT		17
+-#define TAINT_FLAGS_COUNT		18
++#define TAINT_TEST			18
++#define TAINT_FLAGS_COUNT		19
+ #define TAINT_FLAGS_MAX			((1UL << TAINT_FLAGS_COUNT) - 1)
  
- System call wrappers
- --------------------
-@@ -59,15 +59,6 @@ Auxiliary functions and types that don't fit well in any of categories
- described above should have ``libbpf_`` prefix, e.g.
- ``libbpf_get_error`` or ``libbpf_prog_type_by_name``.
+ struct taint_flag {
+diff --git a/kernel/panic.c b/kernel/panic.c
+index a3c758dba15a..6b3369e21026 100644
+--- a/kernel/panic.c
++++ b/kernel/panic.c
+@@ -428,6 +428,7 @@ const struct taint_flag taint_flags[TAINT_FLAGS_COUNT] = {
+ 	[ TAINT_LIVEPATCH ]		= { 'K', ' ', true },
+ 	[ TAINT_AUX ]			= { 'X', ' ', true },
+ 	[ TAINT_RANDSTRUCT ]		= { 'T', ' ', true },
++	[ TAINT_TEST ]			= { 'N', ' ', true },
+ };
  
--AF_XDP functions
---------------------
--
--AF_XDP functions should have an ``xsk_`` prefix, e.g.
--``xsk_umem__get_data`` or ``xsk_umem__create``. The interface consists
--of both low-level ring access functions and high-level configuration
--functions. These can be mixed and matched. Note that these functions
--are not reentrant for performance reasons.
--
- ABI
- ---
- 
+ /**
 -- 
-2.25.1
+2.37.0.rc0.161.g10f37bed90-goog
 
