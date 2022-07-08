@@ -2,108 +2,164 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C7A80C43334
-	for <linux-doc@archiver.kernel.org>; Fri,  8 Jul 2022 02:06:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 351BCC433EF
+	for <linux-doc@archiver.kernel.org>; Fri,  8 Jul 2022 03:30:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235956AbiGHCGV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 7 Jul 2022 22:06:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41398 "EHLO
+        id S237085AbiGHDaF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 7 Jul 2022 23:30:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59258 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229468AbiGHCGV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Jul 2022 22:06:21 -0400
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 98DC2735B2;
-        Thu,  7 Jul 2022 19:06:20 -0700 (PDT)
+        with ESMTP id S236946AbiGHDaE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 7 Jul 2022 23:30:04 -0400
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36F7E747B5;
+        Thu,  7 Jul 2022 20:30:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1657245980; x=1688781980;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=BlBX0I1TqW5elHAcr8NUa0MqJo+bb/fv2kN7HWnRDvg=;
-  b=FT/sQcQ6fSynWgHsFJu906xRynANUNpSBHQ5+EBRcPamm1NruZnPACCV
-   /nPQXE9mAoEwOfGAF8FOelh77Ke1hQbbPoGvxamF3t31O4RHEy9GV7IXN
-   9STTUcXIYeGeR4/AeM6aUixT/eVbL4wM4bZkwnyJzhMm2ea5zISvWPX2J
-   gZW5ZvkGvEn2Z1C1US6NMeEJ1uyEmwVTXzAQwZlqAK8bdU3gQ81z5DU9d
-   hgCZoDVDWJLG8FVP+zxJ7iYGdSSxXumCHsUxmp02/YJDR//La85fQagQx
-   gbIrG15LnfBhtjIACrgL7l1nk2bkI2+Z4S5tKgzX1v3FDakj8EAuFNw6l
-   g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10401"; a="309728915"
+  t=1657251003; x=1688787003;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=PT02IACBa7Wm0O3NAyqOHw8PuqCfYgWEKpI8T6m3E9Q=;
+  b=gWBFJ8bKzkdleLNFzf1MYRu/9xaIowwykmV0ryKxUQJMp6NekZWLYtE7
+   kmxCrg465f1yTjOiNVQuMExTbU8UecqXo8Fvj9rLEA0K4l6veTIk8g+8H
+   iILMULRbXp+Ro/i7c4A+gHfXHdB064MiQCOb1n2ouCyRiTttUrnXZgfyD
+   HQV1/5/XDurl4rNY1U8MYVhXQDV+0l+oQ701Ksk9qJr8Sp8ejWbJFWi0R
+   mcJyAMS9Cu/mJ23qq0kpl/UdpwCh1pw6cRr/cJK1UflDcJ2fvjNUIaEBa
+   ja4rAI3Cdvh1OxGxSicSuxFo+3yzMMp+9gHoUEwI4j/7Ff7m2WDDrXriB
+   Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10401"; a="370492166"
 X-IronPort-AV: E=Sophos;i="5.92,254,1650956400"; 
-   d="scan'208";a="309728915"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jul 2022 19:06:20 -0700
-X-ExtLoop1: 1
+   d="scan'208";a="370492166"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jul 2022 20:30:02 -0700
 X-IronPort-AV: E=Sophos;i="5.92,254,1650956400"; 
-   d="scan'208";a="720725309"
-Received: from lkp-server01.sh.intel.com (HELO 68b931ab7ac1) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 07 Jul 2022 19:06:18 -0700
-Received: from kbuild by 68b931ab7ac1 with local (Exim 4.95)
-        (envelope-from <lkp@intel.com>)
-        id 1o9dNp-000Mkt-VW;
-        Fri, 08 Jul 2022 02:06:17 +0000
-Date:   Fri, 8 Jul 2022 10:05:28 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Hector Martin <marcan@marcan.st>
-Cc:     kbuild-all@lists.01.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: [asahilinux:t8112/bringup 18/19] drivers/hid/hid-magicmouse.c:575:
- warning: This comment starts with '/**', but isn't a kernel-doc comment.
- Refer Documentation/doc-guide/kernel-doc.rst
-Message-ID: <202207081050.ZuYUDYpP-lkp@intel.com>
+   d="scan'208";a="651398466"
+Received: from xiaoyaol-hp-g830.ccr.corp.intel.com (HELO [10.249.175.131]) ([10.249.175.131])
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jul 2022 20:29:51 -0700
+Message-ID: <5d0b9341-78b5-0959-2517-0fb1fe83a205@intel.com>
+Date:   Fri, 8 Jul 2022 11:29:49 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Firefox/91.0 Thunderbird/91.11.0
+Subject: Re: [PATCH v6 6/8] KVM: Handle page fault for private memory
+Content-Language: en-US
+To:     Sean Christopherson <seanjc@google.com>
+Cc:     Michael Roth <michael.roth@amd.com>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Chao Peng <chao.p.peng@linux.intel.com>,
+        "Nikunj A. Dadhania" <nikunj@amd.com>,
+        kvm list <kvm@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86 <x86@kernel.org>, "H . Peter Anvin" <hpa@zytor.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Jun Nakajima <jun.nakajima@intel.com>,
+        Dave Hansen <dave.hansen@intel.com>,
+        Andi Kleen <ak@linux.intel.com>,
+        David Hildenbrand <david@redhat.com>, aarcange@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com,
+        Quentin Perret <qperret@google.com>, mhocko@suse.com
+References: <20220519153713.819591-1-chao.p.peng@linux.intel.com>
+ <20220519153713.819591-7-chao.p.peng@linux.intel.com>
+ <b3ce0855-0e4b-782a-599c-26590df948dd@amd.com>
+ <20220624090246.GA2181919@chaop.bj.intel.com>
+ <CAGtprH82H_fjtRbL0KUxOkgOk4pgbaEbAydDYfZ0qxz41JCnAQ@mail.gmail.com>
+ <20220630222140.of4md7bufd5jv5bh@amd.com>
+ <4fe3b47d-e94a-890a-5b87-6dfb7763bc7e@intel.com>
+ <Ysc9JDcVAnlVrGC8@google.com>
+From:   Xiaoyao Li <xiaoyao.li@intel.com>
+In-Reply-To: <Ysc9JDcVAnlVrGC8@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-tree:   https://github.com/AsahiLinux/linux t8112/bringup
-head:   0e7640fed025ba0ce4b845a0bbf2a5fdceab631d
-commit: 086a493b890970d6e0afac83878a36fbb22ffd83 [18/19] hid: magicmouse: Add MTP multi-touch device support
-config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20220708/202207081050.ZuYUDYpP-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-3) 11.3.0
-reproduce (this is a W=1 build):
-        # https://github.com/AsahiLinux/linux/commit/086a493b890970d6e0afac83878a36fbb22ffd83
-        git remote add asahilinux https://github.com/AsahiLinux/linux
-        git fetch --no-tags asahilinux t8112/bringup
-        git checkout 086a493b890970d6e0afac83878a36fbb22ffd83
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/hid/
+On 7/8/2022 4:08 AM, Sean Christopherson wrote:
+> On Fri, Jul 01, 2022, Xiaoyao Li wrote:
+>> On 7/1/2022 6:21 AM, Michael Roth wrote:
+>>> On Thu, Jun 30, 2022 at 12:14:13PM -0700, Vishal Annapurve wrote:
+>>>> With transparent_hugepages=always setting I see issues with the
+>>>> current implementation.
+> 
+> ...
+> 
+>>>> Looks like with transparent huge pages enabled kvm tried to handle the
+>>>> shared memory fault on 0x84d gfn by coalescing nearby 4K pages
+>>>> to form a contiguous 2MB page mapping at gfn 0x800, since level 2 was
+>>>> requested in kvm_mmu_spte_requested.
+>>>> This caused the private memory contents from regions 0x800-0x84c and
+>>>> 0x86e-0xa00 to get unmapped from the guest leading to guest vm
+>>>> shutdown.
+>>>
+>>> Interesting... seems like that wouldn't be an issue for non-UPM SEV, since
+>>> the private pages would still be mapped as part of that 2M mapping, and
+>>> it's completely up to the guest as to whether it wants to access as
+>>> private or shared. But for UPM it makes sense this would cause issues.
+>>>
+>>>>
+>>>> Does getting the mapping level as per the fault access type help
+>>>> address the above issue? Any such coalescing should not cross between
+>>>> private to
+>>>> shared or shared to private memory regions.
+>>>
+>>> Doesn't seem like changing the check to fault->is_private would help in
+>>> your particular case, since the subsequent host_pfn_mapping_level() call
+>>> only seems to limit the mapping level to whatever the mapping level is
+>>> for the HVA in the host page table.
+>>>
+>>> Seems like with UPM we need some additional handling here that also
+>>> checks that the entire 2M HVA range is backed by non-private memory.
+>>>
+>>> Non-UPM SNP hypervisor patches already have a similar hook added to
+>>> host_pfn_mapping_level() which implements such a check via RMP table, so
+>>> UPM might need something similar:
+>>>
+>>>     https://github.com/AMDESE/linux/commit/ae4475bc740eb0b9d031a76412b0117339794139
+>>>
+>>> -Mike
+>>>
+>>
+>> For TDX, we try to track the page type (shared, private, mixed) of each gfn
+>> at given level. Only when the type is shared/private, can it be mapped at
+>> that level. When it's mixed, i.e., it contains both shared pages and private
+>> pages at given level, it has to go to next smaller level.
+>>
+>> https://github.com/intel/tdx/commit/ed97f4042eb69a210d9e972ccca6a84234028cad
+> 
+> Hmm, so a new slot->arch.page_attr array shouldn't be necessary, KVM can instead
+> update slot->arch.lpage_info on shared<->private conversions.  Detecting whether
+> a given range is partially mapped could get nasty if KVM defers tracking to the
+> backing store, but if KVM itself does the tracking as was previously suggested[*],
+> then updating lpage_info should be relatively straightfoward, e.g. use
+> xa_for_each_range() to see if a given 2mb/1gb range is completely covered (fully
+> shared) or not covered at all (fully private).
+> 
+> [*] https://lore.kernel.org/all/YofeZps9YXgtP3f1@google.com
 
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
+Yes, slot->arch.page_attr was introduced to help identify whether a page 
+is completely shared/private at given level. It seems XARRAY can serve 
+the same purpose, though I know nothing about it. Looking forward to 
+seeing the patch of using XARRAY.
 
-All warnings (new ones prefixed by >>):
-
-   drivers/hid/hid-magicmouse.c:171: warning: Function parameter or member 'pos' not described in 'magicmouse_sc'
-   drivers/hid/hid-magicmouse.c:171: warning: Function parameter or member 'hdev' not described in 'magicmouse_sc'
-   drivers/hid/hid-magicmouse.c:171: warning: Function parameter or member 'work' not described in 'magicmouse_sc'
-   drivers/hid/hid-magicmouse.c:171: warning: Function parameter or member 'battery_timer' not described in 'magicmouse_sc'
-   drivers/hid/hid-magicmouse.c:171: warning: Function parameter or member 'input_ops' not described in 'magicmouse_sc'
->> drivers/hid/hid-magicmouse.c:575: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * vendor trackpad report
-   drivers/hid/hid-magicmouse.c:589: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * standard HID mouse report
-
-
-vim +575 drivers/hid/hid-magicmouse.c
-
-   573	
-   574	/**
- > 575	 * vendor trackpad report
-   576	 *
-   577	 * @num_fingers:	the number of fingers being reported in @fingers
-   578	 * @buttons:		same as HID buttons
-   579	 */
-   580	struct tp_header {
-   581		// HID vendor part, up to 1751 bytes
-   582		u8 unknown[22];
-   583		u8 num_fingers;
-   584		u8 buttons;
-   585		u8 unknown3[14];
-   586	};
-   587	
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+yes, update slot->arch.lpage_info is good to utilize the existing logic 
+and Isaku has applied it to slot->arch.lpage_info for 2MB support patches.
