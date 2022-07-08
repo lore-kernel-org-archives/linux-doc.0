@@ -2,151 +2,121 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 77D58C43334
-	for <linux-doc@archiver.kernel.org>; Fri,  8 Jul 2022 20:32:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6579FC433EF
+	for <linux-doc@archiver.kernel.org>; Fri,  8 Jul 2022 21:01:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240139AbiGHUcI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 8 Jul 2022 16:32:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54474 "EHLO
+        id S240181AbiGHVBG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 8 Jul 2022 17:01:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52860 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240094AbiGHUb4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Jul 2022 16:31:56 -0400
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2060.outbound.protection.outlook.com [40.107.220.60])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DFD969FE00;
-        Fri,  8 Jul 2022 13:31:53 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=TCEcmAW2eBwnsIcN211V0sQRKkJUPlLO9fn5aV8UFS5ix/+WK4kXdk3NAPUpdreAaT15ivJLk6K/9pCGvMf1GYptai0WJlAdLUNDFaWfmM0gx3culTKK3O9rOwiJaCvrHvA59FB39kZA6sZvlvtu08ddzDORR+qUBagkC9eGgoNfDMNdqzMKuMY/HIGn23nhQnzRDfzLtilCBCp7PLKF/aIHKcdLGiIFGhZLZp0Ftz1NxgLf1cCEQE4QAQ8p2omIrEosIr9d3tUCVXnCj/UP9uCvmBeWCA96XyXtKx5FamFkyMlXiYJlyBTo+EJYAM6kQbA5eVjUtVTiKb1vbdXNiQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=AROgJCrFKTNh8ss+sbPa16c6l7f8KipxpiVwS66Cg2Y=;
- b=JJecR0pW2EDiGWyZ3P5IQYU6bJXcZn+ZPe4wJ0HrWAoobg4hBPSRyKiM4fPRXRbIkJn9duP/13+BnJPhnAWpct4to/DSCY7pSE4e4TEiTC7vheOZgIvOLIA1mK04c38RGThEenr6PY3Z92/C4oqwUz1ytwPatL7RVL3cAU+Y9DtEk672G7Z21wk+OaLyiiHQhCvzH8nR5kcwfryOSQmV+faQfWqmW5PW91nEoBe9olkiJe2rkVvCtCBRA5V4WgXKCAdbZ5h90JC7ja0jZJ6h+K5h09oILQrn8JGD6ncBdRjihOVxCfEixgssIWYFWNQGOvNgivHa7kEM6V9tRAF8Yg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 12.22.5.235) smtp.rcpttodomain=linux.ibm.com smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=AROgJCrFKTNh8ss+sbPa16c6l7f8KipxpiVwS66Cg2Y=;
- b=IuSQPvNvmhJgM1h70m2jYzxPyL0miuLUNsmAkiRq1EDLlj8A3cf4SbFwGrKTiNfjlMexXUAa3st1ggBSwgwzVP9DOc9sDCQLDctTLYFLNP1syhnLpy+dKLs9MDPpxklt/Aq8375GSzSp3ie5qK3/A/T0kYWCNQrbBNK92KnzPsPM35wuspoDqvRB56Wuen5c6dMWUjpDddoyv4/khMFJBWFAitToOlKzryUr+fkTgrQaIkRkl3sciBxvlhEfGZpvC3+jCAs5M9/ZQc6FxjeZ/pux0g4F6xR46JbC/kxnufK5/LsatqqZt3sk6aFuL8e55Gzp42Y2KdwGTy4B0XDJhg==
-Received: from BN9PR03CA0951.namprd03.prod.outlook.com (2603:10b6:408:108::26)
- by CY4PR1201MB2551.namprd12.prod.outlook.com (2603:10b6:903:d9::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5395.17; Fri, 8 Jul
- 2022 20:31:51 +0000
-Received: from BN8NAM11FT067.eop-nam11.prod.protection.outlook.com
- (2603:10b6:408:108:cafe::1c) by BN9PR03CA0951.outlook.office365.com
- (2603:10b6:408:108::26) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5417.16 via Frontend
- Transport; Fri, 8 Jul 2022 20:31:51 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 12.22.5.235)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 12.22.5.235 as permitted sender) receiver=protection.outlook.com;
- client-ip=12.22.5.235; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (12.22.5.235) by
- BN8NAM11FT067.mail.protection.outlook.com (10.13.177.159) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.5417.15 via Frontend Transport; Fri, 8 Jul 2022 20:31:51 +0000
-Received: from drhqmail203.nvidia.com (10.126.190.182) by
- DRHQMAIL107.nvidia.com (10.27.9.16) with Microsoft SMTP Server (TLS) id
- 15.0.1497.32; Fri, 8 Jul 2022 20:31:50 +0000
-Received: from drhqmail202.nvidia.com (10.126.190.181) by
- drhqmail203.nvidia.com (10.126.190.182) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.26; Fri, 8 Jul 2022 13:31:49 -0700
-Received: from Asurada-Nvidia (10.127.8.13) by mail.nvidia.com
- (10.126.190.181) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.26 via Frontend
- Transport; Fri, 8 Jul 2022 13:31:48 -0700
-Date:   Fri, 8 Jul 2022 13:31:47 -0700
-From:   Nicolin Chen <nicolinc@nvidia.com>
-To:     Eric Farman <farman@linux.ibm.com>
-CC:     <kwankhede@nvidia.com>, <corbet@lwn.net>, <hca@linux.ibm.com>,
-        <gor@linux.ibm.com>, <agordeev@linux.ibm.com>,
-        <borntraeger@linux.ibm.com>, <svens@linux.ibm.com>,
-        <zhenyuw@linux.intel.com>, <zhi.a.wang@intel.com>,
-        <jani.nikula@linux.intel.com>, <joonas.lahtinen@linux.intel.com>,
-        <rodrigo.vivi@intel.com>, <tvrtko.ursulin@linux.intel.com>,
-        <airlied@linux.ie>, <daniel@ffwll.ch>, <mjrosato@linux.ibm.com>,
-        <pasic@linux.ibm.com>, <vneethv@linux.ibm.com>,
-        <oberpar@linux.ibm.com>, <freude@linux.ibm.com>,
-        <akrowiak@linux.ibm.com>, <jjherne@linux.ibm.com>,
-        <alex.williamson@redhat.com>, <cohuck@redhat.com>,
-        <jgg@nvidia.com>, <kevin.tian@intel.com>, <hch@infradead.org>,
-        <jchrist@linux.ibm.com>, <kvm@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-s390@vger.kernel.org>,
-        <intel-gvt-dev@lists.freedesktop.org>,
-        <intel-gfx@lists.freedesktop.org>,
-        <dri-devel@lists.freedesktop.org>
-Subject: Re: [RFT][PATCH v2 0/9] Update vfio_pin/unpin_pages API
-Message-ID: <YsiUM/xxymScErv4@Asurada-Nvidia>
-References: <20220706062759.24946-1-nicolinc@nvidia.com>
- <73ba16703b8b6f6b4bf37a55ab011324b5affa38.camel@linux.ibm.com>
+        with ESMTP id S238305AbiGHVBF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Jul 2022 17:01:05 -0400
+Received: from mail-io1-xd2e.google.com (mail-io1-xd2e.google.com [IPv6:2607:f8b0:4864:20::d2e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65980E00D
+        for <linux-doc@vger.kernel.org>; Fri,  8 Jul 2022 14:01:04 -0700 (PDT)
+Received: by mail-io1-xd2e.google.com with SMTP id e5so119179iof.2
+        for <linux-doc@vger.kernel.org>; Fri, 08 Jul 2022 14:01:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=VBRRCtPEnNxgQyJUGv/ZJ77JZZ/1FLrQdGhONhznMbk=;
+        b=pmruvDq1xnw+/V9pDHQd617MBdsm7UB+XfjxhoWht6gF0Yo61yPzf064GBhy/1Opyz
+         5TSIjQmHJ/7zqiYFexhoTXUL4CKBbRNV6GBEmCGs086p3ldy/j8qOBfteud/uJmKzW3s
+         ptezWouRmnPXcWOKjzCQwU0a5YlUTipEXNrvuPx3X/VW4wRi8n/pAlnHBBL72z+5gKrn
+         ZspiFBvNHw1zSVNTaAdou1CVXQMQwKlYW71DebClYIUEywUoEzXPDSUOaMEwox5cyKkT
+         p50sysjXJY8AKlxu2us8vgtpKSpr6xIgXlIL+fyeLb3K0W/U11hs6EszRhO8jZ1iiDKp
+         Oovg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=VBRRCtPEnNxgQyJUGv/ZJ77JZZ/1FLrQdGhONhznMbk=;
+        b=naf2fm3RxCgTUF+cB0Tow4QUZk7RwcNWURJzoZb8kF+OB1pjZ3VrLfvN5cMMCWIiQj
+         TLfhsn6zjTpKCTx515Snd12tgtAew+6WpYzvTmxBCubuxS8PkDrE9lfJYAV3vNmezM3V
+         3HYdUfoqCSnS+7UpVRKZT57cw49zc4qjpaeXXNEtNEeh8M96SlrjRhMxa1/HrzoeoVUo
+         pvKYYTz1AN1mbqzjJbRGZmeNU3P8Ir93D+hlYZI0pQpvnpbnPRTwYILaNp3OWzzPOr+U
+         a1KWD28EKsw1fOUpLBfP6C2n6A+GWD1OUCdln9t/uxlBsBFFa8LtakAuFVJ2lwM0guqJ
+         m8dg==
+X-Gm-Message-State: AJIora/MtNXYup0WHnoyMIqVltTHevj7q29hbEpDczLhGKyK0YzAHOz+
+        7lbgzsE+u44Gl/gU9qdW5AzQbk068vP4jo42wi2QIg==
+X-Google-Smtp-Source: AGRyM1s0rE7jwtOXj9AJ+jtWvZFW7AklSxg2uUHf3cjOqt7Ggjq8z4ONVmZ2p7mcPaKXl+lvX1U+JmQsQCyT8D8LWr4=
+X-Received: by 2002:a05:6602:2e8d:b0:64f:b683:c70d with SMTP id
+ m13-20020a0566022e8d00b0064fb683c70dmr2919156iow.62.1657314063709; Fri, 08
+ Jul 2022 14:01:03 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <73ba16703b8b6f6b4bf37a55ab011324b5affa38.camel@linux.ibm.com>
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 8b5bf56d-ad64-4dac-e8d9-08da6120e3a6
-X-MS-TrafficTypeDiagnostic: CY4PR1201MB2551:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: l99dB0Cc6MZXc+9IXm7iDcDwRQWn7fyWP1+8eEuOJILlkkL/Dstv1mluBZ5fEVMa4bYuKCF4ZrIyrN4QtRUZu0iNMv5aFlpu7ld/L4F/D17PIJxUC7okvFdp12DyZzWFyvzahyfHD4PS+XA+zU5HNtEyXPBReLnB7rsJVT09Jg5K4lso2SVC2ZEaDOT6BPXEbKqOd6nfrbEoItZKdsquYC7V8PRnlvpEBvsdpzYJOMblS6A0R8QmhehjJpxhwcoxIc8/sPbWe0Qz46ItFZR0OhCxu56Y8HQlnJAOM679y2pIgh3T0bL2JYEgYLkL7SsXKjQUdwmLnt++9G40VsILMkvWlzG9V2zKx9sCKXYLj2lGVWeAusB23jMwh6KMrvka9sXYPGH6uPWI0hmcm00VQ3/03h/JDboi04l9wOLLGT/uaJFwrWiVkElLHhczqwSzX4kJB0yTh1CyI3Q6SWV7mM1dTcpYu3h6z02Fko0bkZyvvKtVckE7R0hL8DTkFQNKdWR6EotPZxC5dURj5FBSq0U9tNIc2FoDkU8OeuiqBGfbMISuC1zOGS8bLi8ulRYNfHeOoPOodqwknlHyS1eurYv69vkTJwtmPYb0hFZfdb4kxHDjMW4a/wimLLT78PP7wZQzG9KMtpN3lqKBxCQfnn5gfnKLG+NXuH9+GZOiRzhRBJeN9EuqTAQXVNvKZrrpoMgJmcbr52pee5AW70FZPLeNY50Ya5aCYL/tpTmXAkUQg5WxakhXrZ4tCD7qqGsXh1SwFrBG3F7bZBkItGsHfE28g1W+eGOdJsNBhIG2ApGSBn+MYA4jQeOLiJMgQxzWFt+9tpM5ntE3iy2E95xxUeQNKWtiOFtq8yWzgl76D4b1qALvHaWtLK0L7xLaOHrKPSvuGsFRBuyYx8tzH4umqWLHVQHwf71denGKmtfCnSrAj4wXWHHrxwWdGZbwUiRL
-X-Forefront-Antispam-Report: CIP:12.22.5.235;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:InfoNoRecords;CAT:NONE;SFS:(13230016)(4636009)(39860400002)(346002)(136003)(376002)(396003)(46966006)(36840700001)(40470700004)(70586007)(478600001)(2906002)(8676002)(5660300002)(82740400003)(4326008)(15650500001)(70206006)(55016003)(86362001)(356005)(40480700001)(7406005)(81166007)(966005)(7416002)(54906003)(41300700001)(426003)(82310400005)(336012)(40460700003)(8936002)(33716001)(6916009)(316002)(186003)(83380400001)(9686003)(26005)(36860700001)(47076005)(36900700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jul 2022 20:31:51.0686
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8b5bf56d-ad64-4dac-e8d9-08da6120e3a6
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[12.22.5.235];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT067.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR1201MB2551
+References: <20220708044847.531566-1-davidgow@google.com> <20220708044847.531566-3-davidgow@google.com>
+ <fc638852-ac9a-abab-8fdb-01b685cdec96@linuxfoundation.org>
+In-Reply-To: <fc638852-ac9a-abab-8fdb-01b685cdec96@linuxfoundation.org>
+From:   Daniel Latypov <dlatypov@google.com>
+Date:   Fri, 8 Jul 2022 14:00:51 -0700
+Message-ID: <CAGS_qxpODhSEs_sMm5Gu55EsYy-M9V98eLU-8O+xGMxncXmY4A@mail.gmail.com>
+Subject: Re: [PATCH v6 3/4] kunit: Taint the kernel when KUnit tests are run
+To:     Shuah Khan <skhan@linuxfoundation.org>
+Cc:     David Gow <davidgow@google.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Brendan Higgins <brendanhiggins@google.com>,
+        "Guilherme G . Piccoli" <gpiccoli@igalia.com>,
+        Sebastian Reichel <sre@kernel.org>,
+        John Ogness <john.ogness@linutronix.de>,
+        Joe Fradley <joefradley@google.com>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        kunit-dev@googlegroups.com, linux-kselftest@vger.kernel.org,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Lucas De Marchi <lucas.demarchi@intel.com>,
+        Aaron Tomlin <atomlin@redhat.com>,
+        linux-fsdevel@vger.kernel.org, linux-block@vger.kernel.org,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-kbuild@vger.kernel.org,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Kees Cook <keescook@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jul 08, 2022 at 04:30:32PM -0400, Eric Farman wrote:
-> External email: Use caution opening links or attachments
-> 
-> 
-> On Tue, 2022-07-05 at 23:27 -0700, Nicolin Chen wrote:
-> > This is a preparatory series for IOMMUFD v2 patches. It prepares for
-> > replacing vfio_iommu_type1 implementations of vfio_pin/unpin_pages()
-> > with IOMMUFD version.
+On Fri, Jul 8, 2022 at 1:22 PM Shuah Khan <skhan@linuxfoundation.org> wrote:
+>
+> On 7/7/22 10:48 PM, David Gow wrote:
+> > Make KUnit trigger the new TAINT_TEST taint when any KUnit test is run.
+> > Due to KUnit tests not being intended to run on production systems, and
+> > potentially causing problems (or security issues like leaking kernel
+> > addresses), the kernel's state should not be considered safe for
+> > production use after KUnit tests are run.
 > >
-> > There's a gap between these two versions: the vfio_iommu_type1
-> > version
-> > inputs a non-contiguous PFN list and outputs another PFN list for the
-> > pinned physical page list, while the IOMMUFD version only supports a
-> > contiguous address input by accepting the starting IO virtual address
-> > of a set of pages to pin and by outputting to a physical page list.
+> > This both marks KUnit modules as test modules using MODULE_INFO() and
+> > manually taints the kernel when tests are run (which catches builtin
+> > tests).
 > >
-> > The nature of existing callers mostly aligns with the IOMMUFD
-> > version,
-> > except s390's vfio_ccw_cp code where some additional change is needed
-> > along with this series. Overall, updating to "iova" and "phys_page"
-> > does improve the caller side to some extent.
+> > Acked-by: Luis Chamberlain <mcgrof@kernel.org>
+> > Tested-by: Daniel Latypov <dlatypov@google.com>
+> > Reviewed-by: Brendan Higgins <brendanhiggins@google.com>
+> > Signed-off-by: David Gow <davidgow@google.com>
+> > ---
 > >
-> > Also fix a misuse of physical address and virtual address in the
-> > s390's
-> > crypto code. And update the input naming at the adjacent
-> > vfio_dma_rw().
+> > No changes since v5:
+> > https://lore.kernel.org/linux-kselftest/20220702040959.3232874-3-davidgow@google.com/
 > >
-> > This is on github:
-> > https://github.com/nicolinc/iommufd/commits/vfio_pin_pages
+> > No changes since v4:
+> > https://lore.kernel.org/linux-kselftest/20220701084744.3002019-3-davidgow@google.com/
 > >
-> > Request for testing: I only did build for s390 and i915 code, so it'd
-> > be nice to have people who have environment to run sanity
-> > accordingly.
-> 
-> Tested-by: Eric Farman <farman@linux.ibm.com>   # s390
+>
+> David, Brendan, Andrew,
+>
+> Just confirming the status of these patches. I applied v4 1/3 and v4 3/4
+> to linux-kselftest kunit for 5.20-rc1.
+> I am seeing v5 and v6 now. Andrew applied v5 looks like. Would you like
+> me to drop the two I applied? Do we have to refresh with v6?
 
-Thank you for the review and test!
+Just noting here that there'll be a merge conflict between this patch
+(3/4) and some other patches lined up to go through the kunit tree:
+https://patchwork.kernel.org/project/linux-kselftest/patch/20220625050838.1618469-2-davidgow@google.com/
+
+Not sure how we want to handle that.
+
+Daniel
