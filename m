@@ -2,144 +2,82 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 48C4CCCA483
-	for <linux-doc@archiver.kernel.org>; Fri,  8 Jul 2022 21:24:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F44BC433EF
+	for <linux-doc@archiver.kernel.org>; Fri,  8 Jul 2022 22:19:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238130AbiGHVYs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 8 Jul 2022 17:24:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42228 "EHLO
+        id S237447AbiGHWTO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 8 Jul 2022 18:19:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44422 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238171AbiGHVYq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Jul 2022 17:24:46 -0400
-Received: from mail-io1-xd29.google.com (mail-io1-xd29.google.com [IPv6:2607:f8b0:4864:20::d29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B09F82CDF9
-        for <linux-doc@vger.kernel.org>; Fri,  8 Jul 2022 14:24:43 -0700 (PDT)
-Received: by mail-io1-xd29.google.com with SMTP id r76so134123iod.10
-        for <linux-doc@vger.kernel.org>; Fri, 08 Jul 2022 14:24:43 -0700 (PDT)
+        with ESMTP id S237223AbiGHWTK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Jul 2022 18:19:10 -0400
+Received: from mail-ot1-x332.google.com (mail-ot1-x332.google.com [IPv6:2607:f8b0:4864:20::332])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F8ACA2E5B
+        for <linux-doc@vger.kernel.org>; Fri,  8 Jul 2022 15:19:09 -0700 (PDT)
+Received: by mail-ot1-x332.google.com with SMTP id t26-20020a9d775a000000b006168f7563daso156327otl.2
+        for <linux-doc@vger.kernel.org>; Fri, 08 Jul 2022 15:19:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=42cZlLqESbSzGOIQC6IhKSPqgo/QyLTrwwAMCp9WNzo=;
-        b=IV0paG90JHXaGZbrxl8pRjANIsQWCXppiwcKYlmXVIxXcJ27wNUF4yH2g+6tA4C+qd
-         mamfHwnW/lcS3+Uv/gPQPJf5q/UUMz6XSShpn+/NkJMb/c/gai50uarqyLdYdTFa7a08
-         wnNNt2hidpsVCeeD1GYrXUswLcElFqWYI67m0=
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=7Kxx8TCaDSQdEmoq1MT4g1kMaGmbUTPSpUqv60KP7xA=;
+        b=ZxVKN9dvP5JztVWedq/hOzhs8OoYK5hviyM4fp/H8A1WLKvd0UpPjU86A/tAR0eMnw
+         VJkZQ9v9VX7uIf2KFHwFTMMep5m+YU6DiftDIKm+VdZXOuKk1XouA0Nt6otaREnuNkx4
+         ALoq/pxYIr8TFAA98bz6FVqAoeGsAwp75xC+USCQVJKEoIo5wrHYrnkKdo6fJ88m8oGP
+         cw21Ng588kwIvEewej1+CVmpzF7BPx6cQtYdvuNNGmaNGKYQappoYl/UIT3tdBKx+ejA
+         wDW7zglOgm2bswdHDUD/nt4iQSs3usf8qMwudlJ9kjZ4WoCLEPoiR0bxraVr/JJkQyWr
+         1Dig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=42cZlLqESbSzGOIQC6IhKSPqgo/QyLTrwwAMCp9WNzo=;
-        b=T5CQhGUfzziQGa+95vOU9h5vkYcZO+1YFunRLz/Q3AHJRB5dhKUjDDzE01pUEwz5Uz
-         1D42RV1frjviFFPfC3rFvXA8zwaVjx2GjSybP+JeBB09qsFdqcxT3pCJxfdvVkLGyn8J
-         UF6rk9c6tX22UCNGuB7jchny8lrGSdwT6X85/zZr2Eb2s/4iz5EFH1WowRAZblNpQjuX
-         9aKgDt8J1eRYsSmSxJidczvrGJPx6GkF5ml2YobAOimKcc3d9Awml6xG649+FW1HkA95
-         IG/9XZydJ9bGy5L6eYGP4+G8TXXKZGSdKiHrQM6ZRuY6Ox9T3Wy2pHvlwu0QjgQMM5+d
-         FIRA==
-X-Gm-Message-State: AJIora+PfsyX0VloMPmvbJmfwix7AYCCcWR8/MBaHy7HYLh8UFqoH+2Z
-        hPSmgvWG8zmp4COY60ST5BL40A==
-X-Google-Smtp-Source: AGRyM1sZRJgZl+2OfYXRBrVXka293FsGfZm0I0q0MCwgNYiktkDFQ9OSDQ5BXDPGzW4St1/3aCUuqA==
-X-Received: by 2002:a05:6638:438b:b0:33c:b617:fb46 with SMTP id bo11-20020a056638438b00b0033cb617fb46mr3370276jab.238.1657315483051;
-        Fri, 08 Jul 2022 14:24:43 -0700 (PDT)
-Received: from [192.168.1.128] ([38.15.45.1])
-        by smtp.gmail.com with ESMTPSA id a13-20020a927f0d000000b002d8f50441absm16814624ild.10.2022.07.08.14.24.41
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 08 Jul 2022 14:24:42 -0700 (PDT)
-Subject: Re: [PATCH v6 3/4] kunit: Taint the kernel when KUnit tests are run
-To:     Daniel Latypov <dlatypov@google.com>
-Cc:     David Gow <davidgow@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Brendan Higgins <brendanhiggins@google.com>,
-        "Guilherme G . Piccoli" <gpiccoli@igalia.com>,
-        Sebastian Reichel <sre@kernel.org>,
-        John Ogness <john.ogness@linutronix.de>,
-        Joe Fradley <joefradley@google.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        kunit-dev@googlegroups.com, linux-kselftest@vger.kernel.org,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Lucas De Marchi <lucas.demarchi@intel.com>,
-        Aaron Tomlin <atomlin@redhat.com>,
-        linux-fsdevel@vger.kernel.org, linux-block@vger.kernel.org,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-kbuild@vger.kernel.org,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Shuah Khan <skhan@linuxfoundation.org>
-References: <20220708044847.531566-1-davidgow@google.com>
- <20220708044847.531566-3-davidgow@google.com>
- <fc638852-ac9a-abab-8fdb-01b685cdec96@linuxfoundation.org>
- <CAGS_qxpODhSEs_sMm5Gu55EsYy-M9V98eLU-8O+xGMxncXmY4A@mail.gmail.com>
- <f25f96ce-1c9b-7e66-a5be-96d7cf2988cf@linuxfoundation.org>
-From:   Shuah Khan <skhan@linuxfoundation.org>
-Message-ID: <a00efaa8-71e0-c531-b6a4-e3d695ad628b@linuxfoundation.org>
-Date:   Fri, 8 Jul 2022 15:24:41 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=7Kxx8TCaDSQdEmoq1MT4g1kMaGmbUTPSpUqv60KP7xA=;
+        b=N6+uCEqRWR+PnqbvJS+Xi1WMN2LxsVEOGvdKCSiUoId01LRyjef4WNSXIXi0iBBKyQ
+         8E9X7givq1fsNNnmmLJP1EPnidaT5cJTS4FbORAU9Qw7weLTy78oYq3MSm3aPB3eejf1
+         TAUF3g/KKgRdGV4dKl567pxmN1EScVyTDtC3IIT5RDOg/plcfJSJE52BL5e1GfKyZPeT
+         jGCTRgNeXeYvn7fUcQ1vul6hnpOUOzw5Nl8DPpWughXNgxUWlViLSzgJt1hL1hFi6RWq
+         abm351dkr1fnfV3y5MQg3x+h/U2pa/s/0YYVAWizvXfs/dk1XzwxKbQxJv06bx3sNGlV
+         gQXw==
+X-Gm-Message-State: AJIora8HHpbKSepLoMqNLb4jBceWaPWTWkmgSW7uECjQ5wEx58rw+23D
+        a5WlA3WZyZqPiiJIotc86XWTyn9wRoTD0Q==
+X-Google-Smtp-Source: AGRyM1svgmd7ZkykAPWXlD1EAAE54aWsp+kIe89t2k/ZBxGfYYriNpZdG/+HuTSFQTLSSZ3wWz8Tiw==
+X-Received: by 2002:a9d:77c9:0:b0:616:ceb8:1776 with SMTP id w9-20020a9d77c9000000b00616ceb81776mr2478022otl.256.1657318748961;
+        Fri, 08 Jul 2022 15:19:08 -0700 (PDT)
+Received: from builder.lan (104-57-184-186.lightspeed.austtx.sbcglobal.net. [104.57.184.186])
+        by smtp.gmail.com with ESMTPSA id y10-20020a9d518a000000b00616a2aa298asm48907otg.75.2022.07.08.15.19.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 08 Jul 2022 15:19:08 -0700 (PDT)
+From:   Bjorn Andersson <bjorn.andersson@linaro.org>
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Douglas Anderson <dianders@chromium.org>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Subject: Re: (subset) [PATCH 11/12] docs: arm: index.rst: add google/chromebook-boot-flow
+Date:   Fri,  8 Jul 2022 17:19:04 -0500
+Message-Id: <165731872885.1018153.15545632847166031383.b4-ty@linaro.org>
+X-Mailer: git-send-email 2.32.0
+In-Reply-To: <0ae8251f97c642cfd618f2e32eb1e66339e5dfde.1656759989.git.mchehab@kernel.org>
+References: <cover.1656759988.git.mchehab@kernel.org> <0ae8251f97c642cfd618f2e32eb1e66339e5dfde.1656759989.git.mchehab@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <f25f96ce-1c9b-7e66-a5be-96d7cf2988cf@linuxfoundation.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 7/8/22 3:22 PM, Shuah Khan wrote:
-> On 7/8/22 3:00 PM, Daniel Latypov wrote:
->> On Fri, Jul 8, 2022 at 1:22 PM Shuah Khan <skhan@linuxfoundation.org> wrote:
->>>
->>> On 7/7/22 10:48 PM, David Gow wrote:
->>>> Make KUnit trigger the new TAINT_TEST taint when any KUnit test is run.
->>>> Due to KUnit tests not being intended to run on production systems, and
->>>> potentially causing problems (or security issues like leaking kernel
->>>> addresses), the kernel's state should not be considered safe for
->>>> production use after KUnit tests are run.
->>>>
->>>> This both marks KUnit modules as test modules using MODULE_INFO() and
->>>> manually taints the kernel when tests are run (which catches builtin
->>>> tests).
->>>>
->>>> Acked-by: Luis Chamberlain <mcgrof@kernel.org>
->>>> Tested-by: Daniel Latypov <dlatypov@google.com>
->>>> Reviewed-by: Brendan Higgins <brendanhiggins@google.com>
->>>> Signed-off-by: David Gow <davidgow@google.com>
->>>> ---
->>>>
->>>> No changes since v5:
->>>> https://lore.kernel.org/linux-kselftest/20220702040959.3232874-3-davidgow@google.com/
->>>>
->>>> No changes since v4:
->>>> https://lore.kernel.org/linux-kselftest/20220701084744.3002019-3-davidgow@google.com/
->>>>
->>>
->>> David, Brendan, Andrew,
->>>
->>> Just confirming the status of these patches. I applied v4 1/3 and v4 3/4
->>> to linux-kselftest kunit for 5.20-rc1.
->>> I am seeing v5 and v6 now. Andrew applied v5 looks like. Would you like
->>> me to drop the two I applied? Do we have to refresh with v6?
->>
->> Just noting here that there'll be a merge conflict between this patch
->> (3/4) and some other patches lined up to go through the kunit tree:
->> https://patchwork.kernel.org/project/linux-kselftest/patch/20220625050838.1618469-2-davidgow@google.com/
->>
->> Not sure how we want to handle that.
->>
+On Sat, 2 Jul 2022 12:07:43 +0100, Mauro Carvalho Chehab wrote:
+> This document was added without placing it at arm book.
 > 
-> I can go drop the two patches and have Andrew carry the series through
-> mm tree.
 > 
 
-Sorry spoke too soon. Yes there are others that might have conflicts as
-Daniel pointed out:
+Applied, thanks!
 
-https://patchwork.kernel.org/project/linux-kselftest/patch/20220625050838.1618469-2-davidgow@google.com/
+[11/12] docs: arm: index.rst: add google/chromebook-boot-flow
+        commit: 1e061d985fee50cfcb91a1d2aedbfd43d2f11aaa
 
-thanks,
--- Shuah
-
+Best regards,
+-- 
+Bjorn Andersson <bjorn.andersson@linaro.org>
