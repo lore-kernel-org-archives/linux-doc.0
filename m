@@ -2,204 +2,185 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3CC91C43334
-	for <linux-doc@archiver.kernel.org>; Fri,  8 Jul 2022 11:33:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F53DC43334
+	for <linux-doc@archiver.kernel.org>; Fri,  8 Jul 2022 11:34:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237695AbiGHLdl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 8 Jul 2022 07:33:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59886 "EHLO
+        id S237210AbiGHLeI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 8 Jul 2022 07:34:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60758 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237568AbiGHLdl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Jul 2022 07:33:41 -0400
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60FBD13E83;
-        Fri,  8 Jul 2022 04:33:39 -0700 (PDT)
-Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 268AhpgP003069;
-        Fri, 8 Jul 2022 11:33:37 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=7xrOGjIsWAEbDM49IOKliT1dOZH/keObOYt2wLlK0qA=;
- b=lgIy1DXzsv9XlaV49r6vIDkrbcCTa8rwbkcshFDm/DFh9dmsEtSfOrfwX/mw5MeComim
- JMnrHubTwR5O3oCddXwwV6XkCOoEit3JbXvlRhVP9b+oIQGbsLflNV1QfsqEHtJTYMLn
- rZi6wQMefNafk8EnDnWajx4Ie3fLayCPBvUO6umQnij6bKRpRbwGpnfJqXDlbM4+sBkF
- MdjVYQbdFZUliusvtXLQKYxSfHH1XNwidUdDjdcEbVGSi9oFAIykadmdoqfgtsbPGsn8
- p0xKpxzMqOpmDB1GEjxM6ezwt2h6b+9+tVWjE3gnG4uAoZIy+3bRD3xXGRduJ4A3gobX pw== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3h6k36h357-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 08 Jul 2022 11:33:36 +0000
-Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
-        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 268AkiXe018085;
-        Fri, 8 Jul 2022 11:33:36 GMT
-Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com [149.81.74.108])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3h6k36h34e-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 08 Jul 2022 11:33:36 +0000
-Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
-        by ppma05fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 268BL1cW024404;
-        Fri, 8 Jul 2022 11:33:33 GMT
-Received: from b06avi18878370.portsmouth.uk.ibm.com (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
-        by ppma05fra.de.ibm.com with ESMTP id 3h4uk9aw5q-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 08 Jul 2022 11:33:33 +0000
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com [9.149.105.58])
-        by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 268BXdUk28377420
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 8 Jul 2022 11:33:39 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 063694C04A;
-        Fri,  8 Jul 2022 11:33:30 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id F0CDB4C040;
-        Fri,  8 Jul 2022 11:33:28 +0000 (GMT)
-Received: from [9.171.9.15] (unknown [9.171.9.15])
-        by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
-        Fri,  8 Jul 2022 11:33:28 +0000 (GMT)
-Message-ID: <aa48903f-1354-6cca-4a52-86c073d3071d@linux.ibm.com>
-Date:   Fri, 8 Jul 2022 13:33:28 +0200
+        with ESMTP id S231533AbiGHLeH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Jul 2022 07:34:07 -0400
+Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com [IPv6:2607:f8b0:4864:20::430])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8366951C9;
+        Fri,  8 Jul 2022 04:34:05 -0700 (PDT)
+Received: by mail-pf1-x430.google.com with SMTP id x184so9925352pfx.2;
+        Fri, 08 Jul 2022 04:34:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:from:subject:to:cc
+         :references:content-language:in-reply-to:content-transfer-encoding;
+        bh=M6OFwUPb12h/pvXHZfbZYc/U1LLVevjKdrUoO8uPr7E=;
+        b=hqWjInc8rpZJXQ4RSF/A/W8riAfawzXqE3/GKozWwkvUopMIH3cwpYvmTOFCJcUh4n
+         WXB1cr19OUfsKGfg3sSyzfD3QkRKMY1SG4YWYHyt4IMN/t/xL3zRle6EA65JboNuayC6
+         bibhuwPO7m9pbWkihQh6vanPB8ipwZYbLQXsss4T26E9jqAuBiIGVjNVNKSi+WY3SsEs
+         FNaLFmtz1md3ajCXEchDDgxRA0aKN+BXKTbylngw5mjk10n9CIyedIPE7Ppa3TpQQ360
+         B80CFovNAJKFKIGg7AEV+Nk4axtflCP9VSEPpFk1gh/azgrfNHRWX/ylVztAoqvKqvrk
+         0TJQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:from
+         :subject:to:cc:references:content-language:in-reply-to
+         :content-transfer-encoding;
+        bh=M6OFwUPb12h/pvXHZfbZYc/U1LLVevjKdrUoO8uPr7E=;
+        b=V7TpGJV7MULlDm9McgKrxOgQBMN0Jmy5TzP9Iwdvv9yKgPk8R4HUtUQvhvW8IpwfLp
+         r/r4I6LQ19pTW32Wb6mDokPL0YfFn1WJCTGPZp1fZ52nBHC+SpWVMYxhGdcMKTiHx8Au
+         pPEyeCEQoQHHSvymb2Uv0+WbszZAigDVMTg7kISDnd4ABY7Yq3yCxoJYpSXoJujiE/ji
+         N7m4TQyam1qfffD36V7tPjJfPq6p0EP7xqEnfprekOuO/wXZCkvy9xRR652TSYLvuGlY
+         4gdFKXerEkkF1Ctp7Fehu9OTEOanCMwes21yaIzneSqoNSUISHwvrrW57XzczEId6z0n
+         JV+A==
+X-Gm-Message-State: AJIora/+Cu+n0ZC1bpSNf2MFJ2PrZ9JKViU47fJRvgFM+sjoXEWPKFXE
+        q1PPXMCcU/s9s6YYuJVKH3Hlhch1Ed0=
+X-Google-Smtp-Source: AGRyM1szvIR9fEA0phmqUrXfv4P1IMti+QQ2J5vRs9mK05PzQw3QiFL6bQP9MIQUBh8VrNIa7xVjNg==
+X-Received: by 2002:a63:77ca:0:b0:412:953e:d61b with SMTP id s193-20020a6377ca000000b00412953ed61bmr2942145pgc.397.1657280045238;
+        Fri, 08 Jul 2022 04:34:05 -0700 (PDT)
+Received: from [192.168.11.9] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id t3-20020a62ea03000000b005253e6605b5sm28845336pfh.44.2022.07.08.04.34.02
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 08 Jul 2022 04:34:04 -0700 (PDT)
+Message-ID: <3ba5a52e-cab6-05cf-a66e-adc58c467e1f@gmail.com>
+Date:   Fri, 8 Jul 2022 20:34:00 +0900
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v9 00/21] KVM: s390: enable zPCI for interpretive
- execution
+ Thunderbird/91.9.1
+From:   Akira Yokosawa <akiyks@gmail.com>
+Subject: Expectation to --no-pdf option (was Re: [PATCH v2 0/5] Address some
+ issues with sphinx detection)
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     corbet@lwn.net, ksummit-discuss@lists.linuxfoundation.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        mchehab+huawei@kernel.org, Akira Yokosawa <akiyks@gmail.com>
+References: <cover.1656756450.git.mchehab@kernel.org>
+ <d0e1a08a-b965-ada6-e026-4e1cc38fbd90@gmail.com>
+ <20220707211558.438a27d4@sal.lan>
 Content-Language: en-US
-To:     Matthew Rosato <mjrosato@linux.ibm.com>,
-        linux-s390@vger.kernel.org, alex.williamson@redhat.com,
-        pbonzini@redhat.com, hca@linux.ibm.com, gor@linux.ibm.com
-Cc:     cohuck@redhat.com, schnelle@linux.ibm.com, farman@linux.ibm.com,
-        pmorel@linux.ibm.com, gerald.schaefer@linux.ibm.com,
-        agordeev@linux.ibm.com, svens@linux.ibm.com, frankja@linux.ibm.com,
-        david@redhat.com, imbrenda@linux.ibm.com, vneethv@linux.ibm.com,
-        oberpar@linux.ibm.com, freude@linux.ibm.com, thuth@redhat.com,
-        pasic@linux.ibm.com, corbet@lwn.net, jgg@nvidia.com,
-        kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-References: <20220606203325.110625-1-mjrosato@linux.ibm.com>
-From:   Christian Borntraeger <borntraeger@linux.ibm.com>
-In-Reply-To: <20220606203325.110625-1-mjrosato@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+In-Reply-To: <20220707211558.438a27d4@sal.lan>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: Z-nYG6kolGfyHIgz53xS4AXPTi2GZbpd
-X-Proofpoint-ORIG-GUID: CrcPjwB1UDjtQA3cAPI_RM46Rsj7S50E
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-07-08_08,2022-07-08_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- bulkscore=0 phishscore=0 mlxlogscore=999 spamscore=0 suspectscore=0
- malwarescore=0 mlxscore=0 adultscore=0 lowpriorityscore=0 impostorscore=0
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2206140000 definitions=main-2207080042
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-Am 06.06.22 um 22:33 schrieb Matthew Rosato:
-> Enable interpretive execution of zPCI instructions + adapter interruption
-> forwarding for s390x KVM vfio-pci.  This is done by triggering a routine
-> when the VFIO group is associated with the KVM guest, transmitting to
-> firmware a special token (GISA designation) to enable that specific guest
-> for interpretive execution on that zPCI device.  Load/store interpreation
-> enablement is then controlled by userspace (based upon whether or not a
-> SHM bit is placed in the virtual function handle).  Adapter Event
-> Notification interpretation is controlled from userspace via a new KVM
-> ioctl.
+On Thu, 7 Jul 2022 21:15:58 +0100, Mauro Carvalho Chehab wrote:
+> Em Tue, 5 Jul 2022 13:15:57 +0900
+> Akira Yokosawa <akiyks@gmail.com> escreveu:
 > 
-> By allowing intepretation of zPCI instructions and firmware delivery of
-> interrupts to guests, we can reduce the frequency of guest SIE exits for
-> zPCI.
+>> Hi Mauro,
+>>
+[...]
+
+>> So this is a meta-level feedback considering the most likely uses
+>> of sphinx-pre-install.
+>>
+>> I think first-time users of sphinx-pre-install are more likely
+>> interested in getting ready for running "make html".  They won't
+>> bother with "make pdfdocs". 
 > 
->  From the perspective of guest configuration, you passthrough zPCI devices
-> in the same manner as before, with intepretation support being used by
-> default if available in kernel+qemu.
+> True, but, as you're pointing below, math expressions require LaTeX.
 > 
-> Will follow up with a link the most recent QEMU series.
-> 
-> Changelog v8->v9:
-> - Rebase on top of 5.19-rc1, adjust ioctl and capability defines
-> - s/kzdev = 0/kzdev = NULL/ (Alex)
-> - rename vfio_pci_zdev_open to vfio_pci_zdev_open_device (Jason)
-> - rename vfio_pci_zdev_release to vfio_pci_zdev_close_device (Jason)
-> - make vfio_pci_zdev_close_device return void, instead WARN_ON or ignore
->    errors in lower level function (kvm_s390_pci_unregister_kvm) (Jason)
-> - remove notifier accidentally left in struct zpci_dev + associated
->    include statment (Jason)
-> - Remove patch 'KVM: s390: introduce CPU feature for zPCI Interpretation'
->    based on discussion in QEMU thread.
-> 
-> Matthew Rosato (21):
->    s390/sclp: detect the zPCI load/store interpretation facility
->    s390/sclp: detect the AISII facility
->    s390/sclp: detect the AENI facility
->    s390/sclp: detect the AISI facility
->    s390/airq: pass more TPI info to airq handlers
->    s390/airq: allow for airq structure that uses an input vector
->    s390/pci: externalize the SIC operation controls and routine
->    s390/pci: stash associated GISA designation
->    s390/pci: stash dtsm and maxstbl
->    vfio/pci: introduce CONFIG_VFIO_PCI_ZDEV_KVM
->    KVM: s390: pci: add basic kvm_zdev structure
->    KVM: s390: pci: do initial setup for AEN interpretation
->    KVM: s390: pci: enable host forwarding of Adapter Event Notifications
->    KVM: s390: mechanism to enable guest zPCI Interpretation
->    KVM: s390: pci: provide routines for enabling/disabling interrupt
->      forwarding
->    KVM: s390: pci: add routines to start/stop interpretive execution
->    vfio-pci/zdev: add open/close device hooks
->    vfio-pci/zdev: add function handle to clp base capability
->    vfio-pci/zdev: different maxstbl for interpreted devices
->    KVM: s390: add KVM_S390_ZPCI_OP to manage guest zPCI devices
->    MAINTAINERS: additional files related kvm s390 pci passthrough
-> 
->   Documentation/virt/kvm/api.rst   |  47 +++
->   MAINTAINERS                      |   1 +
->   arch/s390/include/asm/airq.h     |   7 +-
->   arch/s390/include/asm/kvm_host.h |  23 ++
->   arch/s390/include/asm/pci.h      |  11 +
->   arch/s390/include/asm/pci_clp.h  |   9 +-
->   arch/s390/include/asm/pci_insn.h |  29 +-
->   arch/s390/include/asm/sclp.h     |   4 +
->   arch/s390/include/asm/tpi.h      |  13 +
->   arch/s390/kvm/Makefile           |   1 +
->   arch/s390/kvm/interrupt.c        |  96 ++++-
->   arch/s390/kvm/kvm-s390.c         |  83 +++-
->   arch/s390/kvm/kvm-s390.h         |  10 +
->   arch/s390/kvm/pci.c              | 690 +++++++++++++++++++++++++++++++
->   arch/s390/kvm/pci.h              |  88 ++++
->   arch/s390/pci/pci.c              |  16 +
->   arch/s390/pci/pci_clp.c          |   7 +
->   arch/s390/pci/pci_insn.c         |   4 +-
->   arch/s390/pci/pci_irq.c          |  48 ++-
->   drivers/s390/char/sclp_early.c   |   4 +
->   drivers/s390/cio/airq.c          |  12 +-
->   drivers/s390/cio/qdio_thinint.c  |   6 +-
->   drivers/s390/crypto/ap_bus.c     |   9 +-
->   drivers/s390/virtio/virtio_ccw.c |   6 +-
->   drivers/vfio/pci/Kconfig         |  11 +
->   drivers/vfio/pci/Makefile        |   2 +-
->   drivers/vfio/pci/vfio_pci_core.c |  10 +-
->   drivers/vfio/pci/vfio_pci_zdev.c |  35 +-
->   include/linux/sched/user.h       |   3 +-
->   include/linux/vfio_pci_core.h    |  12 +-
->   include/uapi/linux/kvm.h         |  31 ++
->   include/uapi/linux/vfio_zdev.h   |   7 +
->   32 files changed, 1279 insertions(+), 56 deletions(-)
->   create mode 100644 arch/s390/kvm/pci.c
->   create mode 100644 arch/s390/kvm/pci.h
+> The idea of using --no-pdf is to setup an environment without LaTeX,
+> meaning that math tags would only be partially parsed: basically, the
+> output would be html with LaTeX-like math expressions (at least last
+> time I tried).
 
-So I pulled this into a topic branch and will merge that into kvms390/next. We can
-merge this topic  branch into vfio-next and/or s390-next when the conflicts get
-to complicated.
+Oh, that is your intention.  :-/
 
-While pulling I fixed up the numbers for the capability to
+When I saw this help text in "./scripts/sphinx-pre-install --help":
 
-#define KVM_CAP_S390_ZPCI_OP 221
+    --no-pdf	- don't check for dependencies required to build PDF docs
 
-and the doc number to
+for the first time, my expectation was like this:
 
-4.137 KVM_S390_ZPCI_OP
+    If I make "./scripts/sphinx-pre-install --no-pdf" happy, "make htmldocs"
+    will complete without any warning on package requirements.
 
-to minize struggle when doing backports.
+But I got this warning from "make htmldocs" among others:
+
+    WARNING: dvipng command 'dvipng' cannot be run (needed for math display), check the imgmath_dvipng setting
+
+And my reaction to it was something like:
+
+    "What!!!  Why sphinx-pre-install didn't complain?"
+    "OK. I'll ignore sphinx-pre-install.  Let's see what I need to install."
+
+The reason why this mismatch has never surfaced as a problem is, I suppose,
+because most people don't use --no-pdf at all.
+
+However, in thinking of making --no-pdf the default, I thought --no-pdf
+should be more trustworthy.
+
+If your goal is to provide LaTeX-free packages for "make htmldocs",
+the option should have been named --no-latex or similar (probably in
+addition to --no-pdf), no?
+
+Well, arguing does not help. I stop here.
+
+More constructive approach would be to make "make htmldocs" be
+truly latex-free.  Then --no-pdf and --no-latex will be equivalent.
+
+Fortunately, it is possible by using the mathjax extension instead of
+imgmath.  With mathjax, rendering of math expressions is delegated to
+web browsers.
+
+The resulting HTML will depend on mathjax code and math fonts from
+somewhere in the cloud (by default, https://cdnjs.cloudflare.com/ajax/libs/mathjax/...
+or https://cdn.jsdelivr.net/npm/mathjax@3/... depending on the Sphinx
+version).
+
+All you need is this one-liner:
+
+--------
+diff --git a/Documentation/conf.py b/Documentation/conf.py
+
+index 934727e23e0e..fe1084510329 100644
+
+--- a/Documentation/conf.py
+
++++ b/Documentation/conf.py
+
+@@ -106,7 +106,7 @@ else:
+
+ autosectionlabel_prefix_document = True
+
+ autosectionlabel_maxdepth = 2
+
+ 
+
+-extensions.append("sphinx.ext.imgmath")
+
++extensions.append("sphinx.ext.mathjax")
+
+ 
+
+ # Add any paths that contain templates here, relative to this directory.
+
+ templates_path = ['_templates']
+--------
+
+In my tests, the mathjax extension works with all the versions of Sphinx
+I tested (1.7.9, 2.4.4, 3.4.3 (debian bullseye), 4.2.0 (openSUSE LEAP 15.4),
+and 5.0.2).
+Note that math expressions should look much sharper (vector fonts)
+than those from imgmath (pixel images).
+The time for a browser to complete the rendering might be longer than
+with imgmath, especially for pages with a lot of math expressions,
+though.  (Yes, I see some of media documents have a lot of them.)
+
+When you are detached from network connections, browsers will give
+up and show those expressions in mathjax source code.
+
+Mauro, wouldn't this approach work for you?
+
+        Thanks, Akira
+
+PS: Replies to the other topics will be sent separately.
