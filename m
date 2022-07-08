@@ -2,187 +2,247 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EBDD8C433EF
-	for <linux-doc@archiver.kernel.org>; Fri,  8 Jul 2022 05:02:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DEBF7C43334
+	for <linux-doc@archiver.kernel.org>; Fri,  8 Jul 2022 06:22:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236534AbiGHFCM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 8 Jul 2022 01:02:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32850 "EHLO
+        id S237305AbiGHGWE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 8 Jul 2022 02:22:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50928 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229957AbiGHFCK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Jul 2022 01:02:10 -0400
-Received: from mx0a-00082601.pphosted.com (mx0a-00082601.pphosted.com [67.231.145.42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 367D879695;
-        Thu,  7 Jul 2022 22:02:10 -0700 (PDT)
-Received: from pps.filterd (m0109334.ppops.net [127.0.0.1])
-        by mx0a-00082601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 267KPoPx010704;
-        Thu, 7 Jul 2022 22:02:10 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com; h=from : to : cc : subject
- : date : message-id : references : in-reply-to : content-type : content-id
- : mime-version; s=facebook;
- bh=Q5v7NPxcZNm/gj3163zlgPRaXAw8aD+WRPW1F5zzq14=;
- b=JUogubRR5KO/E1oL4WBIW+Znm8PeIwrJrnabtKjLk+qNtiFBR5JbLnLNuv1b2LuwdbIo
- EE1ko5l0/oJ8DKaj/D3DVt4t846yKAjtm7jY5OvK1iPL9y+KiOGLQEaZs3cJSPBrDy0b
- ktKWPq1vxRHx+3eWfO21AVekOfqsQyhmfSg= 
-Received: from nam10-dm6-obe.outbound.protection.outlook.com (mail-dm6nam10lp2101.outbound.protection.outlook.com [104.47.58.101])
-        by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 3h5ashp2c8-2
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 07 Jul 2022 22:02:09 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MNjRn1Bx0/Dmd7fqex/zX8Tq4h0z7Mxj6AAjr9Ur5h+nOmi+eNanDyUm5u0DpsdYSQvgnDMc3fmwHhZXv9iEwXkp1HDJCunB8B7wvnNFVQm51pLnLZofxUuwySWXWXVKz1zb3YgjklUftV+fTgXFo9+eQ9bmDzKoUyB720JNGc+LGeQrz1ElAcJhboAZ/emyrZAsGDJ0IkkgGWCxfSU2LcRa5TuRB2m1uY9qQj5WN5oud1JK0jPjK2dFXW/JHj7XyLjx57VcSOr+TbHsOfgQdMlEFCkbMtge1X74ZNv/CUuSMEyFM8RYJWhTxeL17GYCu/QE4Jeh0g1Gsg533KQBkA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Q5v7NPxcZNm/gj3163zlgPRaXAw8aD+WRPW1F5zzq14=;
- b=Wg8JGUQVWmI1IKOkp8AjCRrXbwYlw17n9pE9vJR/myqKQl0ejXlRe4nK8ix7TvhxBG4VWwwaI2Cn4YMzcqgkddTiYre+Ni7BR/e48y9MpzPrnlI8q3l9dA5eLdwVxRGwtFj1/FfZHsxKqlzeoSHc9lnziieT+08S2d1u8VINCQMpP/s9VM1Wpt6M+Wra43PnVwkfKYzRK756SFj5SkmdLEvRMolsuBNPurRMyNmJFBbYYQwu7MRnllCoXgfWovj2NMuHWcg0kGsO1XWmk8r0FvkbOZCUbl7P3gPgrJ0qEa5EswaL6lQahlBRq/OiRzSl9jh42L94QdSVGgQfcYyAaA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=fb.com; dmarc=pass action=none header.from=fb.com; dkim=pass
- header.d=fb.com; arc=none
-Received: from SA1PR15MB5109.namprd15.prod.outlook.com (2603:10b6:806:1dc::10)
- by MW3PR15MB3993.namprd15.prod.outlook.com (2603:10b6:303:4e::23) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5417.16; Fri, 8 Jul
- 2022 05:02:07 +0000
-Received: from SA1PR15MB5109.namprd15.prod.outlook.com
- ([fe80::e8cd:89e9:95b6:e19a]) by SA1PR15MB5109.namprd15.prod.outlook.com
- ([fe80::e8cd:89e9:95b6:e19a%7]) with mapi id 15.20.5417.016; Fri, 8 Jul 2022
- 05:02:07 +0000
-From:   Song Liu <songliubraving@fb.com>
-To:     Pu Lehui <pulehui@huawei.com>
-CC:     bpf <bpf@vger.kernel.org>, Networking <netdev@vger.kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, Martin Lau <kafai@fb.com>,
-        Yonghong Song <yhs@fb.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>,
-        Grant Seltzer <grantseltzer@gmail.com>,
-        Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH bpf-next] bpf, docs: Remove deprecated xsk libbpf APIs
- description
-Thread-Topic: [PATCH bpf-next] bpf, docs: Remove deprecated xsk libbpf APIs
- description
-Thread-Index: AQHYkn7L5T9/GFx4wUCdtbVyKv6cWK1z6r8A
-Date:   Fri, 8 Jul 2022 05:02:07 +0000
-Message-ID: <EC892D6C-2638-4C13-A725-536428582D63@fb.com>
-References: <20220708042736.669132-1-pulehui@huawei.com>
-In-Reply-To: <20220708042736.669132-1-pulehui@huawei.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Apple Mail (2.3696.100.31)
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: f3fa2332-081e-4e92-3b32-08da609f01b9
-x-ms-traffictypediagnostic: MW3PR15MB3993:EE_
-x-fb-source: Internal
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: EzltRmXu8bUIj1H5woeLblS/clZptV9NOp/J4+kiQCeol9rAAYE8NmVs3z9f/C0mFvCPkEKpFlQnOpKlTzzBbd0gXuwlD99TL/0hsHuRU4k08MS+uZhawUZdOhiviNnE/qy8K1BX/MMmk/E5AKnpHxEiWBEV5PnCe6d1juiVpr+NT03qKeXwsN1LuXihNFbdgRy4KaUegJdNHpnr/MRZ+YBB59HsVm9eAqkoI7plJtw1zhGm7n6URUEUng7DN08WWHOYdFaLDtECwx3ArOsSnQdVo2a+D4pb8Dgkj9cOKPlhxCd6E/+4+KJoz2QZHPB7qxzpYdeaZ+D3VVgUDtSuq+EZtWweXJVc5FV5WcFTo2ytWEbbSkR8vr4DqTuEpsTG2bNDqGUqonGmvU/qOI19hHHkO5B3IAYMqAeyaB0LNqONWIwxCyiKJMIAzbFxmYFG1dRt1QlObpwBCaBuaUtAYNpuem2ULjKyOIK3gk/4KV6vvtq0TUL7zeOWutiowiZNCA4PTPl/01eNHV9jRWuJlZ62AXOyUfOHAX9q3oIcHOp/p5W/WUSeopKDI+fFO55gUi8ktVEIcrNR4vMrFqB/dxeYb5Ap/86ZE0AJ885e5KWqjvYtda90UfZ235wvY/p0iJjxMjzsB41Fs1o6GkAd8hwYPPPunWi0jme2KPI5g+FVG7Fat5bM3sEXuesRyVUTjYQOhoZyX7cldEceN1av2S8z7OfIDD1IFzyxi0ZBaDOkpWzfFzCekLuKFrZUMWYBybOwfqZ5fn+ervFxx0u6anx9QWnNGiGr8sVzZxpLygYVQHxgU3V8/RyO8U6wRuMXNeE5M9bQJqZQ2in+6PuVbu0vz8qCdYuR/lRkQQJZl5w=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR15MB5109.namprd15.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(366004)(39860400002)(396003)(346002)(376002)(136003)(33656002)(8936002)(6486002)(478600001)(7416002)(66946007)(5660300002)(71200400001)(6512007)(66476007)(76116006)(8676002)(6506007)(66446008)(86362001)(53546011)(41300700001)(2906002)(66556008)(91956017)(64756008)(4326008)(6916009)(122000001)(316002)(38100700002)(186003)(38070700005)(54906003)(83380400001)(2616005)(36756003)(45980500001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?xMQM7O7/yBFHY9WZNKi8SC9+jHdofZInbrVkX0H4wcKiOczy2KxpJJfAaj+s?=
- =?us-ascii?Q?/ot2eZGboHnPbKDOnzRHc24Ic7SH0DWs+AzlHHdebcNX559i8n6SABLCBs7Y?=
- =?us-ascii?Q?QBtSTqN+VjYam4gBmz68/t0eAtqWUrsUIEHl4mcebDK6C1dn1dlJV/4OIfUs?=
- =?us-ascii?Q?Ai5sF33/axy3zr6uDZ5HqD9wfJFY2gaSowb1CV0ySHB+oJqS1Kca0Dy58pmB?=
- =?us-ascii?Q?W+JH+n3D5Cy3aLTfO01nZZXyOZNV/vVIzyBF1LgEP4fsIEbuGXzoGBMAoMvX?=
- =?us-ascii?Q?I2cBAlfDmYgLeNVYYBk3FDomAsGs56Q6MiyTlfzOcWVEgLpiGGuodn4CQ1tS?=
- =?us-ascii?Q?WoRxjhDYWQukbyIfQCP2blyHaCG0aEMMCGw3poXMKw2mbFRfnyMgB6sg5QRu?=
- =?us-ascii?Q?dPsTxZhTLNJiRqJb3Yr7IkVmRUjjDLyIBsRZojCpube28QFzXWHdUbiIRI5N?=
- =?us-ascii?Q?H/6ZaCfwcyHdsBPx1SIUJpkjXTKtTuz6cDtOqjDGPrCSmDezfKMUDwfHOgAP?=
- =?us-ascii?Q?H1Wqg4SsD3K1qW/6Ch9uji6tzWFUy5bV5HTjDitU79sYKC3cmdjnGNvTQcmR?=
- =?us-ascii?Q?M2kT4JXW48GQPGskPuhE9W1trE1LNQ720cXbIUdtvaQyfHgiNkb8a6P7JPg7?=
- =?us-ascii?Q?b85bAFJxE80DNh7jaga6Ogw4IaI4QJvKwr0cPHKvgYQL+92k3IX4bJehMfhT?=
- =?us-ascii?Q?NsMp8GCEHxSb037ukhAytD5Vnw5J24sJrPHuM3+uFgpQJPYX8szOcG9YuH02?=
- =?us-ascii?Q?52jn3ic1FDzrIpqH1I6RldUmxeEUXlaXpVRnCrJUKCABbEsoNyujPvQqyXYi?=
- =?us-ascii?Q?Db1g3IfHbY8qyVl/13UzAdkS58PMUhWz+j4+g6HMH7FHTGA2ci81i0i7vjGu?=
- =?us-ascii?Q?L6Ojfn+ZraszJFUAJvSrMTI6Bpn0AC9TPoDCE26OijZBT5bdtiJiqOoUEoIT?=
- =?us-ascii?Q?1CG4XQUli2CrzeGtnRA/3+hP8vCnAx4yrK7pglFimRhIUfeP8NclKipvbVxB?=
- =?us-ascii?Q?VGn8alISMD/rf7DVgbdoXcf/OFIhTLpmhRIstvrj1tYNo7uifs3BbGyRgZm7?=
- =?us-ascii?Q?mEUZqgHvMxjq1JUfriZHpM3Y7wRpe4VCHP3z7jBDH1MMll+/+lzwUhaQ+7/K?=
- =?us-ascii?Q?eSvC/4X0lWHELdM8PnhGAa++fuwaATbO8UZ39N3IMNEHU9NHkgJJ5YCQ4TI9?=
- =?us-ascii?Q?6AblANX8y2ngWN0gHsNA4isqcrSztG8KbGnfLwe8Cw58bj4AaX8+mnZj9Ikc?=
- =?us-ascii?Q?TOTpXZ5rbT1buVqs5DHCEqzROI6D6Tl+Vm1+5MBlaNtYFI4NbYnWgPnGHtS4?=
- =?us-ascii?Q?qAxJ5pquksX+bzQGT9O8HIj073ju3vv013LGCsC+PizOF72OBWr1bfWYWj3s?=
- =?us-ascii?Q?zein3GPwU0XRGgOyHC9AH4w967Ya/zJC0g8wSJXArKeSy427nWxAZG3jAFoo?=
- =?us-ascii?Q?SXIfP+PQQJ8QWPIqRb7i1FRpeVkXfiYfmCs4qVwHF3LGB1oRIevoC3Mcq17/?=
- =?us-ascii?Q?IQg0gDFgRwHIRfC0yrt4DSPAZ8z9XfrL5HNs4O0Wy7z6Lda09DdUW47tRGzk?=
- =?us-ascii?Q?BEU/DSZVB53Zk+QPvQobfL4OVd/Eg28243ZPJXc4d9LtROfH37pvMdZLQzCu?=
- =?us-ascii?Q?pLpjSFVBx60gOl9ZGlB4cVo=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <6ABB0645F046F94285238B9049E111C9@namprd15.prod.outlook.com>
+        with ESMTP id S237302AbiGHGWD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Jul 2022 02:22:03 -0400
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 633A52CE3D;
+        Thu,  7 Jul 2022 23:22:00 -0700 (PDT)
+Received: from canpemm500009.china.huawei.com (unknown [172.30.72.53])
+        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4LfNPd5KfxzTgRl;
+        Fri,  8 Jul 2022 14:18:13 +0800 (CST)
+Received: from [10.67.102.169] (10.67.102.169) by
+ canpemm500009.china.huawei.com (7.192.105.203) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Fri, 8 Jul 2022 14:21:51 +0800
+CC:     <yangyicong@hisilicon.com>, <corbet@lwn.net>, <arnd@arndb.de>,
+        <linux-kernel@vger.kernel.org>, <darren@os.amperecomputing.com>,
+        <huzhanyuan@oppo.com>, <lipeifeng@oppo.com>,
+        <zhangshiming@oppo.com>, <guojian@oppo.com>, <realmz6@gmail.com>,
+        Barry Song <v-songbaohua@oppo.com>,
+        Nadav Amit <namit@vmware.com>, Mel Gorman <mgorman@suse.de>
+Subject: Re: [PATCH 4/4] arm64: support batched/deferred tlb shootdown during
+ page reclamation
+To:     Barry Song <21cnbao@gmail.com>, <akpm@linux-foundation.org>,
+        <linux-mm@kvack.org>, <linux-arm-kernel@lists.infradead.org>,
+        <x86@kernel.org>, <catalin.marinas@arm.com>, <will@kernel.org>,
+        <linux-doc@vger.kernel.org>
+References: <20220707125242.425242-1-21cnbao@gmail.com>
+ <20220707125242.425242-5-21cnbao@gmail.com>
+From:   Yicong Yang <yangyicong@huawei.com>
+Message-ID: <b41ce185-38c0-7fdb-fb19-2b219aab7e0f@huawei.com>
+Date:   Fri, 8 Jul 2022 14:21:50 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.1
 MIME-Version: 1.0
-X-OriginatorOrg: fb.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SA1PR15MB5109.namprd15.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f3fa2332-081e-4e92-3b32-08da609f01b9
-X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Jul 2022 05:02:07.1329
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 8ae927fe-1255-47a7-a2af-5f3a069daaa2
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: ZmfY8DKk78OTOaJVEXmJuyJvCggf63DfjydjP5OXjWFx2CKhYlWGn2vbeKayCVmNzcoQMhADEwT23l2W/e1Hpg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR15MB3993
-X-Proofpoint-ORIG-GUID: iSvopBeSlCusNr6v-zD7mYINuwcJvGNP
-X-Proofpoint-GUID: iSvopBeSlCusNr6v-zD7mYINuwcJvGNP
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-07-08_04,2022-06-28_01,2022-06-22_01
+In-Reply-To: <20220707125242.425242-5-21cnbao@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.67.102.169]
+X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
+ canpemm500009.china.huawei.com (7.192.105.203)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hi Barry,
 
-
-> On Jul 7, 2022, at 9:27 PM, Pu Lehui <pulehui@huawei.com> wrote:
+On 2022/7/7 20:52, Barry Song wrote:
+> From: Barry Song <v-songbaohua@oppo.com>
 > 
-> Since xsk APIs has been removed from libbpf, let's clean
-> up the bpf docs simutaneously.
+> on x86, batched and deferred tlb shootdown has lead to 90%
+> performance increase on tlb shootdown. on arm64, HW can do
+> tlb shootdown without software IPI. But sync tlbi is still
+> quite expensive.
 > 
-> Signed-off-by: Pu Lehui <pulehui@huawei.com>
+> Even running a simplest program which requires swapout can
+> prove this is true,
+>  #include <sys/types.h>
+>  #include <unistd.h>
+>  #include <sys/mman.h>
+>  #include <string.h>
+> 
+>  int main()
+>  {
+>  #define SIZE (1 * 1024 * 1024)
+>          volatile unsigned char *p = mmap(NULL, SIZE, PROT_READ | PROT_WRITE,
+>                                           MAP_SHARED | MAP_ANONYMOUS, -1, 0);
+> 
+>          memset(p, 0x88, SIZE);
+> 
+>          for (int k = 0; k < 10000; k++) {
+>                  /* swap in */
+>                  for (int i = 0; i < SIZE; i += 4096) {
+>                          (void)p[i];
+>                  }
+> 
+>                  /* swap out */
+>                  madvise(p, SIZE, MADV_PAGEOUT);
+>          }
+>  }
+> 
+> Perf result on snapdragon 888 with 8 cores by using zRAM
+> as the swap block device.
+> 
+>  ~ # perf record taskset -c 4 ./a.out
+>  [ perf record: Woken up 10 times to write data ]
+>  [ perf record: Captured and wrote 2.297 MB perf.data (60084 samples) ]
+>  ~ # perf report
+>  # To display the perf.data header info, please use --header/--header-only options.
+>  # To display the perf.data header info, please use --header/--header-only options.
+>  #
+>  #
+>  # Total Lost Samples: 0
+>  #
+>  # Samples: 60K of event 'cycles'
+>  # Event count (approx.): 35706225414
+>  #
+>  # Overhead  Command  Shared Object      Symbol
+>  # ........  .......  .................  .............................................................................
+>  #
+>     21.07%  a.out    [kernel.kallsyms]  [k] _raw_spin_unlock_irq
+>      8.23%  a.out    [kernel.kallsyms]  [k] _raw_spin_unlock_irqrestore
+>      6.67%  a.out    [kernel.kallsyms]  [k] filemap_map_pages
+>      6.16%  a.out    [kernel.kallsyms]  [k] __zram_bvec_write
+>      5.36%  a.out    [kernel.kallsyms]  [k] ptep_clear_flush
+>      3.71%  a.out    [kernel.kallsyms]  [k] _raw_spin_lock
+>      3.49%  a.out    [kernel.kallsyms]  [k] memset64
+>      1.63%  a.out    [kernel.kallsyms]  [k] clear_page
+>      1.42%  a.out    [kernel.kallsyms]  [k] _raw_spin_unlock
+>      1.26%  a.out    [kernel.kallsyms]  [k] mod_zone_state.llvm.8525150236079521930
+>      1.23%  a.out    [kernel.kallsyms]  [k] xas_load
+>      1.15%  a.out    [kernel.kallsyms]  [k] zram_slot_lock
+> 
+> ptep_clear_flush() takes 5.36% CPU in the micro-benchmark
+> swapping in/out a page mapped by only one process. If the
+> page is mapped by multiple processes, typically, like more
+> than 100 on a phone, the overhead would be much higher as
+> we have to run tlb flush 100 times for one single page.
+> Plus, tlb flush overhead will increase with the number
+> of CPU cores due to the bad scalability of tlb shootdown
+> in HW, so those ARM64 servers should expect much higher
+> overhead.
+> 
+> Further perf annonate shows 95% cpu time of ptep_clear_flush
+> is actually used by the final dsb() to wait for the completion
+> of tlb flush. This provides us a very good chance to leverage
+> the existing batched tlb in kernel. The minimum modification
+> is that we only send async tlbi in the first stage and we send
+> dsb while we have to sync in the second stage.
+> 
+> With the above simplest micro benchmark, collapsed time to
+> finish the program decreases around 5%.
+> 
+> Typical collapsed time w/o patch:
+>  ~ # time taskset -c 4 ./a.out
+>  0.21user 14.34system 0:14.69elapsed
+> w/ patch:
+>  ~ # time taskset -c 4 ./a.out
+>  0.22user 13.45system 0:13.80elapsed
+> 
 
-Acked-by: Song Liu <song@kernel.org>
+Tested with benchmark in the commit on Kunpeng920 arm64 server, observed an improvement
+around 12.5% with command `time ./swap_bench`.
+	w/o		w/
+real	0m13.460s	0m11.771s
+user	0m0.248s	0m0.279s
+sys	0m12.039s	0m11.458s
 
+Originally it's noticed a 16.99% overhead of ptep_clear_flush() which has been eliminated
+by this patch:
+
+[root@localhost yang]# perf record -- ./swap_bench && perf report
+[...]
+    16.99%  swap_bench  [kernel.kallsyms]  [k] ptep_clear_flush
+
+Feel free to add:
+Tested-by: Yicong Yang <yangyicong@hisilicon.com>
+
+
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Nadav Amit <namit@vmware.com>
+> Cc: Mel Gorman <mgorman@suse.de>
+> Signed-off-by: Barry Song <v-songbaohua@oppo.com>
 > ---
-> .../bpf/libbpf/libbpf_naming_convention.rst         | 13 ++-----------
-> 1 file changed, 2 insertions(+), 11 deletions(-)
+>  Documentation/features/vm/TLB/arch-support.txt |  2 +-
+>  arch/arm64/Kconfig                             |  1 +
+>  arch/arm64/include/asm/tlbbatch.h              | 12 ++++++++++++
+>  arch/arm64/include/asm/tlbflush.h              | 13 +++++++++++++
+>  4 files changed, 27 insertions(+), 1 deletion(-)
+>  create mode 100644 arch/arm64/include/asm/tlbbatch.h
 > 
-> diff --git a/Documentation/bpf/libbpf/libbpf_naming_convention.rst b/Documentation/bpf/libbpf/libbpf_naming_convention.rst
-> index f86360f734a8..c5ac97f3d4c4 100644
-> --- a/Documentation/bpf/libbpf/libbpf_naming_convention.rst
-> +++ b/Documentation/bpf/libbpf/libbpf_naming_convention.rst
-> @@ -9,8 +9,8 @@ described here. It's recommended to follow these conventions whenever a
-> new function or type is added to keep libbpf API clean and consistent.
+> diff --git a/Documentation/features/vm/TLB/arch-support.txt b/Documentation/features/vm/TLB/arch-support.txt
+> index 1c009312b9c1..2caf815d7c6c 100644
+> --- a/Documentation/features/vm/TLB/arch-support.txt
+> +++ b/Documentation/features/vm/TLB/arch-support.txt
+> @@ -9,7 +9,7 @@
+>      |       alpha: | TODO |
+>      |         arc: | TODO |
+>      |         arm: | TODO |
+> -    |       arm64: | TODO |
+> +    |       arm64: |  ok  |
+>      |        csky: | TODO |
+>      |     hexagon: | TODO |
+>      |        ia64: | TODO |
+> diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
+> index 1652a9800ebe..e94913a0b040 100644
+> --- a/arch/arm64/Kconfig
+> +++ b/arch/arm64/Kconfig
+> @@ -93,6 +93,7 @@ config ARM64
+>  	select ARCH_SUPPORTS_INT128 if CC_HAS_INT128
+>  	select ARCH_SUPPORTS_NUMA_BALANCING
+>  	select ARCH_SUPPORTS_PAGE_TABLE_CHECK
+> +	select ARCH_WANT_BATCHED_UNMAP_TLB_FLUSH
+>  	select ARCH_WANT_COMPAT_IPC_PARSE_VERSION if COMPAT
+>  	select ARCH_WANT_DEFAULT_BPF_JIT
+>  	select ARCH_WANT_DEFAULT_TOPDOWN_MMAP_LAYOUT
+> diff --git a/arch/arm64/include/asm/tlbbatch.h b/arch/arm64/include/asm/tlbbatch.h
+> new file mode 100644
+> index 000000000000..fedb0b87b8db
+> --- /dev/null
+> +++ b/arch/arm64/include/asm/tlbbatch.h
+> @@ -0,0 +1,12 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +#ifndef _ARCH_ARM64_TLBBATCH_H
+> +#define _ARCH_ARM64_TLBBATCH_H
+> +
+> +struct arch_tlbflush_unmap_batch {
+> +	/*
+> +	 * For arm64, HW can do tlb shootdown, so we don't
+> +	 * need to record cpumask for sending IPI
+> +	 */
+> +};
+> +
+> +#endif /* _ARCH_ARM64_TLBBATCH_H */
+> diff --git a/arch/arm64/include/asm/tlbflush.h b/arch/arm64/include/asm/tlbflush.h
+> index 412a3b9a3c25..b3ed163267ca 100644
+> --- a/arch/arm64/include/asm/tlbflush.h
+> +++ b/arch/arm64/include/asm/tlbflush.h
+> @@ -272,6 +272,19 @@ static inline void flush_tlb_page(struct vm_area_struct *vma,
+>  	dsb(ish);
+>  }
+>  
+> +static inline void arch_tlbbatch_add_mm(struct arch_tlbflush_unmap_batch *batch,
+> +					struct mm_struct *mm,
+> +					struct vm_area_struct *vma,
+> +					unsigned long uaddr)
+> +{
+> +	flush_tlb_page_nosync(vma, uaddr);
+> +}
+> +
+> +static inline void arch_tlbbatch_flush(struct arch_tlbflush_unmap_batch *batch)
+> +{
+> +	dsb(ish);
+> +}
+> +
+>  /*
+>   * This is meant to avoid soft lock-ups on large TLB flushing ranges and not
+>   * necessarily a performance improvement.
 > 
-> All types and functions provided by libbpf API should have one of the
-> -following prefixes: ``bpf_``, ``btf_``, ``libbpf_``, ``xsk_``,
-> -``btf_dump_``, ``ring_buffer_``, ``perf_buffer_``.
-> +following prefixes: ``bpf_``, ``btf_``, ``libbpf_``, ``btf_dump_``,
-> +``ring_buffer_``, ``perf_buffer_``.
-> 
-> System call wrappers
-> --------------------
-> @@ -59,15 +59,6 @@ Auxiliary functions and types that don't fit well in any of categories
-> described above should have ``libbpf_`` prefix, e.g.
-> ``libbpf_get_error`` or ``libbpf_prog_type_by_name``.
-> 
-> -AF_XDP functions
-> --------------------
-> -
-> -AF_XDP functions should have an ``xsk_`` prefix, e.g.
-> -``xsk_umem__get_data`` or ``xsk_umem__create``. The interface consists
-> -of both low-level ring access functions and high-level configuration
-> -functions. These can be mixed and matched. Note that these functions
-> -are not reentrant for performance reasons.
-> -
-> ABI
-> ---
-> 
-> -- 
-> 2.25.1
-> 
-
