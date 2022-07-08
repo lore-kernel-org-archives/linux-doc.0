@@ -2,122 +2,119 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 24628C433EF
-	for <linux-doc@archiver.kernel.org>; Fri,  8 Jul 2022 14:59:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 03226C43334
+	for <linux-doc@archiver.kernel.org>; Fri,  8 Jul 2022 15:27:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238128AbiGHO7T (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 8 Jul 2022 10:59:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53564 "EHLO
+        id S238412AbiGHP1h (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 8 Jul 2022 11:27:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46096 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238085AbiGHO7S (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Jul 2022 10:59:18 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 351051EED2;
-        Fri,  8 Jul 2022 07:59:18 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id B6D00628AC;
-        Fri,  8 Jul 2022 14:59:17 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E7AC4C341CD;
-        Fri,  8 Jul 2022 14:59:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1657292357;
-        bh=aiPOdm248eh6i+dFXA/U9LFbDV6bPilDGjIPCHIxIiI=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=YMiAWYkZYQ7+nUj9qeb2MWfQhFxSyCsvrctKQ+rKTDb+XqZZgYXcObmb1RuIRK+PM
-         pjKulDNPrLFvKk2dvpPIiPwRtCIKsGuMXOxeKLJXPD8Sa3e+TzTOe9aySQ5AmXuoZB
-         rOWzHc2PcMwS/joxv38tSXWKY0GBWChepvQTsSzk0J+tGYE41HjrWgC552QHUUsUyv
-         uFES3lx+j7dGVbziDXA5X/cTcqQL2IQGohPqPi07MrQXcAz3Q0E7fPdWxVKRRI58Vn
-         ulQbA2JuDYZSKNraQz1rBKQ1hxBz1LOb9KaGQDnHuawVvwp/S853nBn4OzA8IJ7YtM
-         vSVR7ic7cioWA==
-Date:   Fri, 8 Jul 2022 15:59:10 +0100
-From:   Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Akira Yokosawa <akiyks@gmail.com>,
-        ksummit-discuss@lists.linuxfoundation.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        mchehab+huawei@kernel.org
+        with ESMTP id S238886AbiGHP1c (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Jul 2022 11:27:32 -0400
+Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com [IPv6:2607:f8b0:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7FEDB7359F;
+        Fri,  8 Jul 2022 08:27:29 -0700 (PDT)
+Received: by mail-pf1-x436.google.com with SMTP id d10so10019033pfd.9;
+        Fri, 08 Jul 2022 08:27:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=g+mHkBvSd1sn5xTv8y/Le2buRp58wYG3oF5qe/pxnt0=;
+        b=S1D1ROu9Go1+pxi6GH3PJF98VLIfPYBp0Fw9HNDSqYSZ2oe6nF7OQmqoRXhGD44yqm
+         c7MkSs0r72N70KVs8n/6Qx4iyrCM6L8HAa03o0TVAdZbFHgriqamp3tcGXU22iRg7j2/
+         0/T4FNi1qmYVyiYTCGJpMgz2FZ+gjhdQBnzlVFnnRv/q6G/YeXCW365KKbtKfVfCJVH5
+         jtiCeRR7ECoDnyh67B1CFiLOsVLkU9WPjHPznrCF65gjk2vrrLtJekvaCwLEeqXriiex
+         QJsmPlGTDAEsJQoHOLsdJcX7VhsPgIUyB9CDA0nPY6SSawWp7rmyEbLUvPRlUnxBb9cu
+         bLjg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=g+mHkBvSd1sn5xTv8y/Le2buRp58wYG3oF5qe/pxnt0=;
+        b=BWCxd1RNThw7h3SLy7djcibzNUkha3eWO8GOmOkRW7YD9fOhGrYzViwhzlNHz7Rd2w
+         JFRtejFvmMMhepnpKZwequH7MenmhGuBxh5YLeIR8YEmAlEVbiPg5fNHtMX7XEKDALQP
+         w2uH0RSierdNrhDgdht25cPmihAEhYaXsICorYPwjaKiHrM6EQlbA4SqD4n5px8mYeWo
+         OQeuqG6n13tcGPLL9zd3bBw02sqYmCPE2XrlKfh119P/vrQrpljPml3CN/qWUjJxo215
+         0SVRmlm4KS30wJQH6+Ncaac/oxUOKT4u1fTlqtQU2129W+gQdj7GIcGtbrBZFOqDvwdp
+         MozA==
+X-Gm-Message-State: AJIora/5m7oZKNQo0P7B3HESKbGTDs39TDoRnzcWV69pmabKCWWEzLm7
+        /alHUWvVyKZ+AWexjG5yDi4=
+X-Google-Smtp-Source: AGRyM1tsgLfR9UC3v0KsaKUCMd8A2cfbjKmdyCldTHGSuAHefR8Le8hI4SzytDgdVIwIFAdNKmjeuA==
+X-Received: by 2002:a05:6a00:3307:b0:528:9522:6d3 with SMTP id cq7-20020a056a00330700b00528952206d3mr4616931pfb.65.1657294048987;
+        Fri, 08 Jul 2022 08:27:28 -0700 (PDT)
+Received: from [192.168.11.9] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id ml5-20020a17090b360500b001ef82d23125sm1749506pjb.25.2022.07.08.08.27.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 08 Jul 2022 08:27:28 -0700 (PDT)
+Message-ID: <d54415bb-9bad-6fd8-5636-218c04d5615a@gmail.com>
+Date:   Sat, 9 Jul 2022 00:27:25 +0900
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
 Subject: Re: Expectation to --no-pdf option (was Re: [PATCH v2 0/5] Address
  some issues with sphinx detection)
-Message-ID: <20220708155910.7c4ea35c@sal.lan>
-In-Reply-To: <87bktzhfcj.fsf@meer.lwn.net>
+Content-Language: en-US
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     ksummit-discuss@lists.linuxfoundation.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        mchehab+huawei@kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Akira Yokosawa <akiyks@gmail.com>
 References: <cover.1656756450.git.mchehab@kernel.org>
-        <d0e1a08a-b965-ada6-e026-4e1cc38fbd90@gmail.com>
-        <20220707211558.438a27d4@sal.lan>
-        <3ba5a52e-cab6-05cf-a66e-adc58c467e1f@gmail.com>
-        <87bktzhfcj.fsf@meer.lwn.net>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+ <d0e1a08a-b965-ada6-e026-4e1cc38fbd90@gmail.com>
+ <20220707211558.438a27d4@sal.lan>
+ <3ba5a52e-cab6-05cf-a66e-adc58c467e1f@gmail.com>
+ <87bktzhfcj.fsf@meer.lwn.net> <20220708155910.7c4ea35c@sal.lan>
+From:   Akira Yokosawa <akiyks@gmail.com>
+In-Reply-To: <20220708155910.7c4ea35c@sal.lan>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Fri, 08 Jul 2022 08:02:52 -0600
-Jonathan Corbet <corbet@lwn.net> escreveu:
-
-> Akira Yokosawa <akiyks@gmail.com> writes:
+On Fri, 8 Jul 2022 15:59:10 +0100,
+Mauro Carvalho Chehab wrote:
+> Em Fri, 08 Jul 2022 08:02:52 -0600
+> Jonathan Corbet <corbet@lwn.net> escreveu:
 > 
-> > In my tests, the mathjax extension works with all the versions of Sphinx
-> > I tested (1.7.9, 2.4.4, 3.4.3 (debian bullseye), 4.2.0 (openSUSE LEAP 15.4),
-> > and 5.0.2).
-> > Note that math expressions should look much sharper (vector fonts)
-> > than those from imgmath (pixel images).
-> > The time for a browser to complete the rendering might be longer than
-> > with imgmath, especially for pages with a lot of math expressions,
-> > though.  (Yes, I see some of media documents have a lot of them.)
-> >
-> > When you are detached from network connections, browsers will give
-> > up and show those expressions in mathjax source code. 
-
-> -extensions.append("sphinx.ext.imgmath")
-> +extensions.append("sphinx.ext.mathjax")
-
-There are two problems with this:
-
-1. mathjax doesn't work for PDF output - nor would work if we add support
-   for man pages some day;
-2. Some Kernel developers disable javascript.
-
-As imgmath works everywere, we opted to use it instead. We were
-actually hoping that the lack of proper math support on Sphinx were
-something that later Sphinx versions after 1.3.1 would have fixed. 
+>> Akira Yokosawa <akiyks@gmail.com> writes:
+>>
+>>> In my tests, the mathjax extension works with all the versions of Sphinx
+>>> I tested (1.7.9, 2.4.4, 3.4.3 (debian bullseye), 4.2.0 (openSUSE LEAP 15.4),
+>>> and 5.0.2).
+>>> Note that math expressions should look much sharper (vector fonts)
+>>> than those from imgmath (pixel images).
+>>> The time for a browser to complete the rendering might be longer than
+>>> with imgmath, especially for pages with a lot of math expressions,
+>>> though.  (Yes, I see some of media documents have a lot of them.)
+>>>
+>>> When you are detached from network connections, browsers will give
+>>> up and show those expressions in mathjax source code. 
 > 
-> Pulling in a bunch of JavaScript from the net while browsing the kernel
-> docs is not an entirely pleasing solution either.  But perhaps it's
-> preferable to loading the system with Latex. 
-
-If we could change conf.py to either load either one depending if it is
-building PDF or not would be the best. The technical problem is that the 
-javascript solution is not compatible with PDF output.
-
-> I kind of wish we could
-> just do without the fancy math processing entirely, but I lost that
-> battle some time ago...:)
-
-The media uAPI book uses math, and also vm/memory-model.rst. The last
-one could easily use just a C code.
-
-yet, it sounds funny to not have it used inside DRM. GPU processing
-does lots of math. i would expect to have math used there for things
-similar to the usages on media.
-
-Trying to describe the colorspace conversion expressions there without
-math would be really painful:
-
-	https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/colorspaces-details.html?highlight=detailed+colorspace
-
-Anyway, if you have some other solution, I'd gladly use something else.
-
+>> -extensions.append("sphinx.ext.imgmath")
+>> +extensions.append("sphinx.ext.mathjax")
 > 
-> Mauro, have you looked at that option?
-
-Yes, but it got discarded due to pdf output. Not sure if this would work
-on epub either.
-
+> There are two problems with this:
 > 
-> Thanks,
-> 
-> jon
+> 1. mathjax doesn't work for PDF output - nor would work if we add support
+>    for man pages some day;
+
+Hmm, if I understand what is written in the following page:
+    https://www.sphinx-doc.org/en/master/usage/extensions/math.html
+
+, both imgmath and mathjax extensions are relevant only for HTML output.
+
+It says:
+
+    Changed in version 1.8: Math support for non-HTML builders is integrated
+    to sphinx-core. So mathbase extension is no longer needed.
+
+When did you see the issue of "mathjax doesn't work for PDF output" ?
+
+> 2. Some Kernel developers disable javascript.
+OK, mathjax has no chance, then...
+
+        Thanks, Akira
+
