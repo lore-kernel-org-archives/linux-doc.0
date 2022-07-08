@@ -2,99 +2,85 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 461CBC43334
-	for <linux-doc@archiver.kernel.org>; Fri,  8 Jul 2022 14:39:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8AE37C433EF
+	for <linux-doc@archiver.kernel.org>; Fri,  8 Jul 2022 14:49:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238271AbiGHOj4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 8 Jul 2022 10:39:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58584 "EHLO
+        id S238758AbiGHOto (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 8 Jul 2022 10:49:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43840 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238064AbiGHOj4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Jul 2022 10:39:56 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F80813F0D;
-        Fri,  8 Jul 2022 07:39:55 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 189966285E;
-        Fri,  8 Jul 2022 14:39:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ACFD4C341C6;
-        Fri,  8 Jul 2022 14:39:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1657291194;
-        bh=n9Wx6YYU0Hw39VR6mkEgQaCtA6WpxtO3+AJlLEHoUFA=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=ZSY/ZLBvJ/J3h/RRCHua4mwZbteQKzhRzR3P5WkJBs5pXv4cELtRWn62w3jwr+GWG
-         wAx/XR6l//C3n6/+A6+LBVv/D9xLWKh0i+caBBV4fcwtvfS5BHiH5vmsvb/2gkfmFx
-         JkS6E/KOOEfDVM3g6Vo1Zrh3hj6s39Xq3o3ymn4/DTe+EljcU/wngqdfSzPfTVjW+a
-         DRHETPi08dBezjX/0b1j+5tULfEDgPQJP4IFOKiwdNNA6ulRLvYH8OQn75iIbKgiP+
-         oRM66EcHFeHqdJqEaD15nssvuRip1jVFp11Lblg6mKoRbN6K9Y/BoQLWcBGwuh54rj
-         KrLu3esqMfCog==
-Message-ID: <adbf8277-e680-9357-950d-22cf54b1f6ff@kernel.org>
-Date:   Fri, 8 Jul 2022 16:39:47 +0200
+        with ESMTP id S238766AbiGHOt3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Jul 2022 10:49:29 -0400
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D14421276E;
+        Fri,  8 Jul 2022 07:48:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1657291738; x=1688827738;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=A2lLFi5u8UsxZhn0WXa3lBiGFwloEe9xAauBS7sD2kM=;
+  b=EXwCZvvlIFiuVi6tYqmwv511lrd2lmdXnjfim1z22W+bpmpoRgegAJkj
+   9v7OQOHoqxIiU4Hny6tZXaoYl0ppIy6P0V/cE7bdIPxxmKagnFxmR+7s5
+   FvvXxTT26kPcSvElzWGTnIOGfoAynz5PzqlBY0WrafKb4OGjzU7kJFmk1
+   ORjm8dbZQHo/eFhXenJAfcbn8QYmaJtcOiLIuENldiGHUbCykCJss+2Ma
+   3WRoUXY6Nj7APLxvfPagj6SOnjIQJH39DLdjGQvdYfkte2Rs4QoIxPNFw
+   /KENn+gmgij7sEJaS9eJkrP8eZZxuvm14N+nw8Z2H6tmm9CMBBA8w2PAt
+   A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10401"; a="370608681"
+X-IronPort-AV: E=Sophos;i="5.92,255,1650956400"; 
+   d="scan'208";a="370608681"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2022 07:48:58 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.92,255,1650956400"; 
+   d="scan'208";a="683680886"
+Received: from lkp-server01.sh.intel.com (HELO 68b931ab7ac1) ([10.239.97.150])
+  by FMSMGA003.fm.intel.com with ESMTP; 08 Jul 2022 07:48:54 -0700
+Received: from kbuild by 68b931ab7ac1 with local (Exim 4.95)
+        (envelope-from <lkp@intel.com>)
+        id 1o9pHq-000Nbs-4I;
+        Fri, 08 Jul 2022 14:48:54 +0000
+Date:   Fri, 8 Jul 2022 22:48:29 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Vikas Gupta <vikas.gupta@broadcom.com>, jiri@nvidia.com,
+        kuba@kernel.org
+Cc:     kbuild-all@lists.01.org, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org, davem@davemloft.net,
+        dsahern@kernel.org, stephen@networkplumber.org,
+        edumazet@google.com, pabeni@redhat.com, ast@kernel.org,
+        leon@kernel.org, linux-doc@vger.kernel.org, corbet@lwn.net,
+        michael.chan@broadcom.com, andrew.gospodarek@broadcom.com,
+        Vikas Gupta <vikas.gupta@broadcom.com>
+Subject: Re: [PATCH net-next v2 1/3] devlink: introduce framework for
+ selftests
+Message-ID: <202207082224.8QYTEsje-lkp@intel.com>
+References: <20220707182950.29348-2-vikas.gupta@broadcom.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH V4 01/20] rv: Add Runtime Verification (RV) interface
-Content-Language: en-US
-To:     Tao Zhou <tao.zhou@linux.dev>, Steven Rostedt <rostedt@goodmis.org>
-Cc:     Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Ingo Molnar <mingo@redhat.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Will Deacon <will@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Marco Elver <elver@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Gabriele Paoloni <gpaoloni@redhat.com>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Clark Williams <williams@redhat.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-trace-devel@vger.kernel.org
-References: <cover.1655368610.git.bristot@kernel.org>
- <60548902dbccaa7ba420e40e46835693e27f643f.1655368610.git.bristot@kernel.org>
- <YsXLDvjHqOxYtckg@geo.homenetwork>
-From:   Daniel Bristot de Oliveira <bristot@kernel.org>
-In-Reply-To: <YsXLDvjHqOxYtckg@geo.homenetwork>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220707182950.29348-2-vikas.gupta@broadcom.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hey Tao!
+Hi Vikas,
 
-On 7/6/22 19:49, Tao Zhou wrote:
->> +static void *enabled_monitors_start(struct seq_file *m, loff_t *pos)
->> +{
->> +	struct rv_monitor_def *m_def;
->> +	loff_t l;
->> +
->> +	mutex_lock(&rv_interface_lock);
->> +	m_def = list_entry(&rv_monitors_list, struct rv_monitor_def, list);
-> I realized this m_def is not real but vain. Is it possible the loop is
-> skiped and just return m_def that is not valid.
+Thank you for the patch! Perhaps something to improve:
 
-that is empty... not a problem.
+[auto build test WARNING on net-next/master]
 
-I am not seeing (the possible) problem here. Could you simulate/reproduce the problem?
+url:    https://github.com/intel-lab-lkp/linux/commits/Vikas-Gupta/devlink-introduce-framework-for-selftests/20220708-033020
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next.git cf21b355ccb39b0de0b6a7362532bb5584c84a80
+reproduce: make htmldocs
 
-Btw, this code is "inspired" (iow stolen) from trace_events.c.
+If you fix the issue, kindly add following tag where applicable
+Reported-by: kernel test robot <lkp@intel.com>
 
-Am I missing something? steve?
+All warnings (new ones prefixed by >>):
 
->> +	for (l = 0; l <= *pos; ) {
->> +		m_def = enabled_monitors_next(m, m_def, &l);
->> +		if (!m_def)
->> +			break;
->> +	}
->> +
->> +	return m_def;
->> +}
+>> Documentation/networking/devlink/devlink-selftests.rst: WARNING: document isn't included in any toctree
 
--- Daniel
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
