@@ -2,59 +2,98 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AA2CAC43334
-	for <linux-doc@archiver.kernel.org>; Sat,  9 Jul 2022 15:37:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2254ECCA47C
+	for <linux-doc@archiver.kernel.org>; Sat,  9 Jul 2022 19:31:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229481AbiGIPht (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 9 Jul 2022 11:37:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33040 "EHLO
+        id S229515AbiGITb5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 9 Jul 2022 15:31:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48192 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229478AbiGIPht (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 9 Jul 2022 11:37:49 -0400
-Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55D161260A;
-        Sat,  9 Jul 2022 08:37:47 -0700 (PDT)
-Received: from cwcc.thunk.org (pool-173-48-118-63.bstnma.fios.verizon.net [173.48.118.63])
-        (authenticated bits=0)
-        (User authenticated as tytso@ATHENA.MIT.EDU)
-        by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 269FbTwk024416
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Sat, 9 Jul 2022 11:37:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
-        t=1657381052; bh=9DitvARArg4OKL8NQwK5saaEpS4clc1oleOnJJ3e2rA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To;
-        b=WnkeauIe0vsGvZqf4Iq3fZsUY55/p1pMzrArEgVExy5wAUZnCd6FF0kYKcxz4eRfu
-         8rh2wjw6exfCHhaWhplj7gUEEfV2iMCkKUILxUGpnZbHqIKHMJueNmgjH47yttn5Vd
-         D7fg7gO29jyUtYlV8/kfDMvjgxbB/i6kwqJE1vfK6AT2NMEBNH++57saXq0adaB0Yl
-         DA7cki0QU8OtP5aSt8jUyjKmaHRYRLoPBgb/zil9QBcfyGmc5FOKLDyD0BFO+8Ez8k
-         FrRuksLI2Qe2f1yS5mgXYSBK7Jq1noJlVe8S2CCxH+xdbUtKRalQ2ROItoyDRqY3HA
-         EXWUE5nsa/CHg==
-Received: by cwcc.thunk.org (Postfix, from userid 15806)
-        id 7164D15C4331; Sat,  9 Jul 2022 11:37:29 -0400 (EDT)
-Date:   Sat, 9 Jul 2022 11:37:29 -0400
-From:   "Theodore Ts'o" <tytso@mit.edu>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Andreas Dilger <adilger.kernel@dilger.ca>,
-        linux-ext4@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 15/21] docs: ext4: blockmap.rst: fix a broken table
-Message-ID: <YsmguYemOmrLLXt9@mit.edu>
-References: <cover.1657360984.git.mchehab@kernel.org>
- <29d2a3787e46de72db8563b8c08f593b6b6f0c14.1657360984.git.mchehab@kernel.org>
+        with ESMTP id S229481AbiGITb4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 9 Jul 2022 15:31:56 -0400
+Received: from mail-vs1-xe33.google.com (mail-vs1-xe33.google.com [IPv6:2607:f8b0:4864:20::e33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0AA6101CE
+        for <linux-doc@vger.kernel.org>; Sat,  9 Jul 2022 12:31:55 -0700 (PDT)
+Received: by mail-vs1-xe33.google.com with SMTP id o185so1589647vsc.7
+        for <linux-doc@vger.kernel.org>; Sat, 09 Jul 2022 12:31:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=xlsWHsy+WSigsg0uYZliDjxgP+p+SBFZhCdQ1FFyqWg=;
+        b=WEZ0ILURpKh8sbC8lm/EYHEdBpmUWlb1LIJP7fEVKuC5/tseDNMcSLwQZv0oudbI9y
+         tNTRCeyQcMhr2SaIgvMUo06GRD8mbBY4jKcQBq6EswCLk+C517DmNnfQfnuf3CRollfm
+         vKzGsPUk+VYFJT+uTZt7I+hPqd39NPcIUnqqWgifLAuFqIrlBAWptVI24I2xIbAfDkdz
+         N+Sh/VSK/15lMLEhN/syOHbsXSgOzqUly9kYLSYdqe2I1CrUOCzvlTxJEpydXosxlCeE
+         jDhtsUH6m8Ik0vNuP4p+j/T0RrozPRiYdtTxTGW+lpRUd/D0UJN6LhBI6WkOBMq9ImPl
+         /J/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=xlsWHsy+WSigsg0uYZliDjxgP+p+SBFZhCdQ1FFyqWg=;
+        b=MiqjyH/fV+FHIB3NZUbhbBSVI609InLoDYa3HrJ7AlVRQ15tadLNv8lMXxr22SA2V+
+         6Ynq8Ro/gmgQCg41pKoDV34Uc4XjUWAIr2pa8aRiOOWnXL+LMU5bx4gyxi92eGq6BOQb
+         0rW88NMXXkDjCxZU5PDuTabBnwiZIkwvbGX4iVZSBikWsDB/erBRaMHfsOegPGtgiVB+
+         HHBmFl65P/EWcf7cVqFwNp1OxWSnfZdB8Luj3HBDpcEtCfrGEXTAZ1eU35pNwS9IJ7HT
+         tLaPxMcitcq+l9W63lLYnBTlbDPcugsVW25yBnOc+aYogwXCaJMox0+9YZ7GzdyYy+fq
+         Z6RA==
+X-Gm-Message-State: AJIora9ejX5wvIngGepWMt2vezpv1R4d1Jyf4pTuQKjsPXrqvji9jWz8
+        ufbysxCkyN8Czj6lqg5Y66X+IgWGv/SscQLnxuw5RQ==
+X-Google-Smtp-Source: AGRyM1uC2aQTpOv2bSpzFZ97reIMfr0s6VV8RvjoUaHE3jCQW7GzZMlqog/s6RGckY3SERJErgCsgEwk3HW3QVCGG0w=
+X-Received: by 2002:a05:6102:3656:b0:357:406e:54a3 with SMTP id
+ s22-20020a056102365600b00357406e54a3mr3173785vsu.50.1657395114649; Sat, 09
+ Jul 2022 12:31:54 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <29d2a3787e46de72db8563b8c08f593b6b6f0c14.1657360984.git.mchehab@kernel.org>
+References: <20220706220022.968789-1-yuzhao@google.com> <c576d1cc-9f67-4cf7-a851-48bc0e9f0082@gmail.com>
+In-Reply-To: <c576d1cc-9f67-4cf7-a851-48bc0e9f0082@gmail.com>
+From:   Yu Zhao <yuzhao@google.com>
+Date:   Sat, 9 Jul 2022 13:31:18 -0600
+Message-ID: <CAOUHufbhmma8phX4arNwF10xBf7as=gtc1Y7k01f6CD3v04-QQ@mail.gmail.com>
+Subject: Re: [PATCH v13 00/14] Multi-Gen LRU Framework
+To:     Bagas Sanjaya <bagasdotme@gmail.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Andi Kleen <ak@linux.intel.com>,
+        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        Mel Gorman <mgorman@suse.de>,
+        Michael Larabel <Michael@michaellarabel.com>,
+        Michal Hocko <mhocko@kernel.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Tejun Heo <tj@kernel.org>, Vlastimil Babka <vbabka@suse.cz>,
+        Will Deacon <will@kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        Kernel Page Reclaim v2 <page-reclaim@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Jul 09, 2022 at 11:07:28AM +0100, Mauro Carvalho Chehab wrote:
-> There's one missing space, causing a long error message when
-> building the docs.
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+On Wed, Jul 6, 2022 at 9:03 PM Bagas Sanjaya <bagasdotme@gmail.com> wrote:
+>
+> On 7/7/22 05:00, Yu Zhao wrote:
+> > TLDR
+> > ====
+> > The current page reclaim is too expensive in terms of CPU usage and it
+> > often makes poor choices about what to evict. This patchset offers an
+> > alternative solution that is performant, versatile and
+> > straightforward.
+> >
+>
+> On what tree this series is based on? I tried to apply on top of mm-everything
+> tree but it didn't apply cleanly, so I had to abort.
 
-Acked-by: Theodore Ts'o <tytso@mit.edu>
+If you are on the latest mm-unstable, then please
+git pull https://github.com/yuzhaogoogle/linux.git
+for-mm-unstable-2022-07-09-03-05
