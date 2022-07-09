@@ -2,53 +2,53 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 87AF1CCA483
-	for <linux-doc@archiver.kernel.org>; Sat,  9 Jul 2022 04:21:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 24825C43334
+	for <linux-doc@archiver.kernel.org>; Sat,  9 Jul 2022 04:21:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229491AbiGIEVc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 9 Jul 2022 00:21:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53394 "EHLO
+        id S229677AbiGIEVe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 9 Jul 2022 00:21:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53382 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229637AbiGIEVY (ORCPT
+        with ESMTP id S229634AbiGIEVY (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Sat, 9 Jul 2022 00:21:24 -0400
-Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com [IPv6:2607:f8b0:4864:20::52a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E817D643EC;
+Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 582F04B0E2;
         Fri,  8 Jul 2022 21:21:23 -0700 (PDT)
-Received: by mail-pg1-x52a.google.com with SMTP id r22so532795pgr.2;
+Received: by mail-pl1-x629.google.com with SMTP id f11so375367plr.4;
         Fri, 08 Jul 2022 21:21:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=V/wDVdyPPVBcB1yefKcLd5sdm0T+4PqhqJ52IFO1R5I=;
-        b=Mq9Vi3/OJ12uq6CB3rPI5R6hgkYuMpLlHO3QMykGnT8/OwPpXe+YLMNJ/KJB+0EKBl
-         DA+8lCxBgVoiT0x34zZw7DRLabxDMqBMYGhe0BS4uB05Alp44GFS8Zg1nO/9hxdG0aHn
-         hWa4XeUeEPC4eIIbHLRn6OCxt7FPauItFDqURA6ME/0BsYeM9unBKFk4xcMKcxpUwLQQ
-         9esXoY3Ty02zxYe0qOmypoyhqiMaqy3848l5lYYtbbrRnpc+raeeeDTdRzHetxUopfJf
-         6Ldwvfk4LcyG+YwtpV6KZo8Mmkdkb9Z0fox2g0+vpxa8VY/wTiPDJMxUWe+SGDxlaV3V
-         MPew==
+        bh=1RuJQddSvsoGrYfcpLM/x3vIgUa0k5VONeC0Fi8Aj/A=;
+        b=S9Q+ruIQIcc5r9ovy/YHDvWRrAWhddNdabcaCXlEWsz2VSvaocKMh4uyP7P+g+/IyE
+         NTi3ZC08g/kz2iutkH67cytSdAXrltdUa+CETivcolwx/POyB0pxEfCHcgCcpNbm+1Tz
+         3AU73dQOrQZ2vzT1Esoz09U0EynpliGMHmwfLQRBiKSTGMD/bmQYJrUSZ+jkhXrvI9oH
+         BSXimMjNbjkCqzMX7iEGQ+shy83eyKxXm20F0RNRxZDAteNlx9ur6/SHQVZ/qKVonNsg
+         g3MwGRj8jrtpc1GW9+dRk/T1cXeid1qLiR/Lgfskxh/nF9jNfgx7csj7zE5tYOi9m0p3
+         d/og==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=V/wDVdyPPVBcB1yefKcLd5sdm0T+4PqhqJ52IFO1R5I=;
-        b=SdhsfwgRNfp52ckF7tpVaLLBRp9pquQyIm9cHYLS4pgC86tVxXzgkUjXTIxZNUdcYj
-         6eAgtUoiZAbA31BGDueyJaw+t+Yn9EcyOVdPvhiomE+U7nDTmXA2xrXkK5F2qJy0LV3B
-         VIMm6p2ZQ8rObxIUN3jGmSeYrUGdGRw6vRI2sjyag+wI0/fX59eCCPsW2cAqWtdykh6C
-         tsPIFSPJkxwL5BnnRqPdkAbYRfMcaS+c/tlJseUOy8j3fZwHK2AlaGojwRFSoYs8yCMq
-         X9W89lqvafMTK6mc1eEdKsY/GqjZaGDUyoSDRqQRHqYoWY3BVwu19+Gf3OiXqZeeZ0xt
-         ZgUw==
-X-Gm-Message-State: AJIora+YtBSutEJaz1ROBCu/Z451gbRowyHGQPDiYtPMpZxQmnb45JRo
-        5VrAhGACpd27NPmu85Enlv0=
-X-Google-Smtp-Source: AGRyM1seTB3wYYjlVq9trAZ01j1wiacWJMkiimYvYccMbc+uIihWK6yIR/pj2gHPY259ns+As8O0oA==
-X-Received: by 2002:a63:c21:0:b0:412:22fa:6cdb with SMTP id b33-20020a630c21000000b0041222fa6cdbmr5940431pgl.423.1657340483479;
-        Fri, 08 Jul 2022 21:21:23 -0700 (PDT)
+        bh=1RuJQddSvsoGrYfcpLM/x3vIgUa0k5VONeC0Fi8Aj/A=;
+        b=K2YLe9+GUtnokDENeINi81Ta6msQoisuhwbmFQWox/D+z8ZPpdOL7g2G1xMYrIetJW
+         ECxE4YoXpSBXEvi96usQO3u2CP8GxKBQTagW1jLGxinBlmLeHWASojWP40dPt4KJWWax
+         DrFga5S3iT4DHBMWmB64t/Ekzib8SbXhWg283Q1ihoK1C0ctDK97P0gNvMJneiacPYd5
+         JAss7ZaPx7RtvP/PE4LZauYjp/SFFMU9zU5L8xNlbFk1+d63e4140+/ynE38dqFkxTdk
+         i5X0D2fG+d3A8a+JrCApV/Z3blOamW0NAMzaOlv1Koe1qA4tiDSEdvPSb2EIcGsRMkMN
+         LXkg==
+X-Gm-Message-State: AJIora+n2Z1Sqr4+M00PUm2Q/3Lb6WpZrTItP/6gdHUNzeSlhvaVsEWk
+        rgQ0YeHXE7L8sCZaj2XGHf4=
+X-Google-Smtp-Source: AGRyM1sZPLRuUTnbSpWVs0uiHpCvTCPLH0GGNvgQRsL46bFZC1V58IMyUQwKmUeIwbtPIM3/YWeF3A==
+X-Received: by 2002:a17:902:ce88:b0:16c:1b1e:71b4 with SMTP id f8-20020a170902ce8800b0016c1b1e71b4mr6908770plg.153.1657340482881;
+        Fri, 08 Jul 2022 21:21:22 -0700 (PDT)
 Received: from debian.me (subs02-180-214-232-88.three.co.id. [180.214.232.88])
-        by smtp.gmail.com with ESMTPSA id d8-20020a17090a7bc800b001efa332d365sm236966pjl.33.2022.07.08.21.21.20
+        by smtp.gmail.com with ESMTPSA id b1-20020a170902bd4100b0016be834d544sm318965plx.237.2022.07.08.21.21.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Fri, 08 Jul 2022 21:21:21 -0700 (PDT)
 Received: by debian.me (Postfix, from userid 1000)
-        id 0D7101039BC; Sat,  9 Jul 2022 11:21:11 +0700 (WIB)
+        id 023FB1039D3; Sat,  9 Jul 2022 11:21:10 +0700 (WIB)
 From:   Bagas Sanjaya <bagasdotme@gmail.com>
 To:     linux-doc@vger.kernel.org
 Cc:     Paolo Bonzini <pbonzini@redhat.com>,
@@ -61,9 +61,9 @@ Cc:     Paolo Bonzini <pbonzini@redhat.com>,
         Kai Huang <kai.huang@intel.com>, x86@kernel.org,
         kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
         Bagas Sanjaya <bagasdotme@gmail.com>
-Subject: [PATCH 12/12] Documentation: kvm: Add TDX documentation to KVM table of contents
-Date:   Sat,  9 Jul 2022 11:20:38 +0700
-Message-Id: <20220709042037.21903-13-bagasdotme@gmail.com>
+Subject: [PATCH 07/12] Documentation: kvm: tdx-tdp-mmu: Use literal code block for EPT violation diagrams
+Date:   Sat,  9 Jul 2022 11:20:33 +0700
+Message-Id: <20220709042037.21903-8-bagasdotme@gmail.com>
 X-Mailer: git-send-email 2.37.0
 In-Reply-To: <20220709042037.21903-1-bagasdotme@gmail.com>
 References: <20220709042037.21903-1-bagasdotme@gmail.com>
@@ -73,29 +73,76 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-TDX documentation files under Documentation/virt/kvm/ are missing from
-the table of contents index. Add the missing entries.
+EPT violation diagrams aren't inside literal code block, which trigger
+"line block ends without a blank line" warning. Since these diagrams
+aren't meant line blocks, use literal code block instead.
 
-Fixes: 471b5bf12a3728 ("[MARKER] The start of TDX KVM patch series: TDX architectural definitions")
-Fixes: 9e54fa1ac03df3 ("Documentation/virtual/kvm: Document on Trust Domain Extensions(TDX)")
 Fixes: 7af4efe3263854 ("KVM: x86: design documentation on TDX support of x86 KVM TDP MMU")
 Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 ---
- Documentation/virt/kvm/index.rst | 4 ++++
- 1 file changed, 4 insertions(+)
+ Documentation/virt/kvm/tdx-tdp-mmu.rst | 39 +++++++++++++++++---------
+ 1 file changed, 25 insertions(+), 14 deletions(-)
 
-diff --git a/Documentation/virt/kvm/index.rst b/Documentation/virt/kvm/index.rst
-index e0a2c74e1043a0..f368a4625aa902 100644
---- a/Documentation/virt/kvm/index.rst
-+++ b/Documentation/virt/kvm/index.rst
-@@ -18,3 +18,7 @@ KVM
-    locking
-    vcpu-requests
-    review-checklist
+diff --git a/Documentation/virt/kvm/tdx-tdp-mmu.rst b/Documentation/virt/kvm/tdx-tdp-mmu.rst
+index c9d5fc43a6ca7a..f43ebb08f5cdad 100644
+--- a/Documentation/virt/kvm/tdx-tdp-mmu.rst
++++ b/Documentation/virt/kvm/tdx-tdp-mmu.rst
+@@ -169,30 +169,41 @@ hooks to KVM MMU to reuse the existing code.
+ EPT violation on shared GPA
+ ---------------------------
+ (1) EPT violation on shared GPA or zapping shared GPA
+-    walk down shared EPT tree (the existing code)
+-        |
+-        |
+-        V
+-shared EPT tree (CPU refers.)
++    ::
 +
-+   intel-tdx
-+   intel-tdx-layer-status
-+   tdx-tdp-mmu
++       walk down shared EPT tree (the existing code)
++           |
++           |
++           V
++       shared EPT tree (CPU refers.)
++
+ (2) update the EPT entry. (the existing code)
++
+     TLB shootdown in the case of zapping.
+ 
+ 
+ EPT violation on private GPA
+ ----------------------------
+ (1) EPT violation on private GPA or zapping private GPA
+-    walk down the mirror of secure EPT tree (mostly same as the existing code)
+-        |
+-        |
+-        V
+-mirror of secure EPT tree (KVM MMU software only. reuse of the existing code)
++    ::
++
++       walk down the mirror of secure EPT tree (mostly same as the existing code)
++           |
++           |
++           V
++       mirror of secure EPT tree (KVM MMU software only. reuse of the existing code)
++
+ (2) update the (mirrored) EPT entry. (mostly same as the existing code)
++
+ (3) call the hooks with what EPT entry is changed
+-        |
++    ::
++
++           |
+         NEW: hooks in KVM MMU
+-        |
+-        V
+-secure EPT root(CPU refers)
++           |
++           V
++        secure EPT root(CPU refers)
++
+ (4) the TDX backend calls necessary TDX SEAMCALLs to update real secure EPT.
+ 
+ The major modification is to add hooks for the TDX backend for additional
 -- 
 An old man doll... just what I always wanted! - Clara
 
