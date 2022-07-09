@@ -2,53 +2,54 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 24825C43334
-	for <linux-doc@archiver.kernel.org>; Sat,  9 Jul 2022 04:21:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A2F2C433EF
+	for <linux-doc@archiver.kernel.org>; Sat,  9 Jul 2022 04:26:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229677AbiGIEVe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 9 Jul 2022 00:21:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53382 "EHLO
+        id S229552AbiGIE0h (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 9 Jul 2022 00:26:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59700 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229634AbiGIEVY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 9 Jul 2022 00:21:24 -0400
-Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 582F04B0E2;
-        Fri,  8 Jul 2022 21:21:23 -0700 (PDT)
-Received: by mail-pl1-x629.google.com with SMTP id f11so375367plr.4;
-        Fri, 08 Jul 2022 21:21:23 -0700 (PDT)
+        with ESMTP id S229496AbiGIE0b (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 9 Jul 2022 00:26:31 -0400
+Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A60EDFB8;
+        Fri,  8 Jul 2022 21:26:30 -0700 (PDT)
+Received: by mail-pl1-x62a.google.com with SMTP id f11so380493plr.4;
+        Fri, 08 Jul 2022 21:26:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=1RuJQddSvsoGrYfcpLM/x3vIgUa0k5VONeC0Fi8Aj/A=;
-        b=S9Q+ruIQIcc5r9ovy/YHDvWRrAWhddNdabcaCXlEWsz2VSvaocKMh4uyP7P+g+/IyE
-         NTi3ZC08g/kz2iutkH67cytSdAXrltdUa+CETivcolwx/POyB0pxEfCHcgCcpNbm+1Tz
-         3AU73dQOrQZ2vzT1Esoz09U0EynpliGMHmwfLQRBiKSTGMD/bmQYJrUSZ+jkhXrvI9oH
-         BSXimMjNbjkCqzMX7iEGQ+shy83eyKxXm20F0RNRxZDAteNlx9ur6/SHQVZ/qKVonNsg
-         g3MwGRj8jrtpc1GW9+dRk/T1cXeid1qLiR/Lgfskxh/nF9jNfgx7csj7zE5tYOi9m0p3
-         d/og==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=wblxU4ocX/6b7hDTeD8JaMDf+To2t7CvwCLO5H9GvsE=;
+        b=EeqPE2CrKN+kONWxDFSM7+E3+N5RHT+v5JkHhvJIPY8wOjsSUwXCrWaGuzRtlk05zm
+         GGin0I+CEMC18DH9ZDL/k+cuGRbO6TF5Bg5P6RHBmh5xI8oglkgQLbbUdveOCcfHd6Cc
+         HUIr3SrOPsaPHx/5evo00JtyP3HjCRRKK2Ech5WDoMYfECR67CBOcFLI+NHyIR9dY3Zy
+         qYxezJCG6MeuIIwvLtdscAO9K+uB0qAAzcPhs4/MFQNw0E8ZkvK/AuSm7/OFACXXgrdf
+         CXSbPtjTp9f53F35kRSInDk6XyH8USHI2zDGIMdhoMtw4zj8dmz8m1zlboC9giV4PFdr
+         VW1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=1RuJQddSvsoGrYfcpLM/x3vIgUa0k5VONeC0Fi8Aj/A=;
-        b=K2YLe9+GUtnokDENeINi81Ta6msQoisuhwbmFQWox/D+z8ZPpdOL7g2G1xMYrIetJW
-         ECxE4YoXpSBXEvi96usQO3u2CP8GxKBQTagW1jLGxinBlmLeHWASojWP40dPt4KJWWax
-         DrFga5S3iT4DHBMWmB64t/Ekzib8SbXhWg283Q1ihoK1C0ctDK97P0gNvMJneiacPYd5
-         JAss7ZaPx7RtvP/PE4LZauYjp/SFFMU9zU5L8xNlbFk1+d63e4140+/ynE38dqFkxTdk
-         i5X0D2fG+d3A8a+JrCApV/Z3blOamW0NAMzaOlv1Koe1qA4tiDSEdvPSb2EIcGsRMkMN
-         LXkg==
-X-Gm-Message-State: AJIora+n2Z1Sqr4+M00PUm2Q/3Lb6WpZrTItP/6gdHUNzeSlhvaVsEWk
-        rgQ0YeHXE7L8sCZaj2XGHf4=
-X-Google-Smtp-Source: AGRyM1sZPLRuUTnbSpWVs0uiHpCvTCPLH0GGNvgQRsL46bFZC1V58IMyUQwKmUeIwbtPIM3/YWeF3A==
-X-Received: by 2002:a17:902:ce88:b0:16c:1b1e:71b4 with SMTP id f8-20020a170902ce8800b0016c1b1e71b4mr6908770plg.153.1657340482881;
-        Fri, 08 Jul 2022 21:21:22 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=wblxU4ocX/6b7hDTeD8JaMDf+To2t7CvwCLO5H9GvsE=;
+        b=Q38YGyTNAAP2GDKASITtaw4zlQhBKaORKYqmxNenvTpsUt8ZAEvYYOd4ClF41EDuLn
+         Cr5vU8OD6QRfGrAJBSgTik3857XAtiIXSKB/yB3fWBt9hMeIgyhnG/HPDuYRbkE54hZ8
+         yghXzcZ+rnhAWkCmBveYd6EL+drCUztEzmzJ28L2WAHlVKNlYompP0be9s75FzPw5pOC
+         NVTkRqVMKN2MxdOOLwsfEWGIPcETurp9NiMpOqpORQDnY2/0eh0HaEbd0WxLVT7L1DRY
+         /Km9Oj9yzhEeuN7RytsnD8FmtVgAmOqnv2tZ2+4wGGLBM0clttr3/K/O++EXGcKBFi/4
+         w4TQ==
+X-Gm-Message-State: AJIora+Snn+yQpVa1Gi135Quq4nUAOq/JFegcJSLHQXcS7ugBmBcIrWe
+        2WRThDBW4ODyLUusHu0dO+ZXUZqjo5U=
+X-Google-Smtp-Source: AGRyM1thrTlZvy977uJjAuibEgWKaF0aYWH3JEJQJHBkWlP6wtka5PCgbctI/8N1WZ+bJgc75RNu4Q==
+X-Received: by 2002:a17:902:9301:b0:16a:1c68:f8d6 with SMTP id bc1-20020a170902930100b0016a1c68f8d6mr7105053plb.72.1657340789768;
+        Fri, 08 Jul 2022 21:26:29 -0700 (PDT)
 Received: from debian.me (subs02-180-214-232-88.three.co.id. [180.214.232.88])
-        by smtp.gmail.com with ESMTPSA id b1-20020a170902bd4100b0016be834d544sm318965plx.237.2022.07.08.21.21.19
+        by smtp.gmail.com with ESMTPSA id f8-20020a17090ab94800b001ef42b3c5besm254697pjw.23.2022.07.08.21.26.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 Jul 2022 21:21:21 -0700 (PDT)
+        Fri, 08 Jul 2022 21:26:29 -0700 (PDT)
 Received: by debian.me (Postfix, from userid 1000)
-        id 023FB1039D3; Sat,  9 Jul 2022 11:21:10 +0700 (WIB)
+        id 4CC9C100151; Sat,  9 Jul 2022 11:26:26 +0700 (WIB)
+Date:   Sat, 9 Jul 2022 11:26:26 +0700
 From:   Bagas Sanjaya <bagasdotme@gmail.com>
 To:     linux-doc@vger.kernel.org
 Cc:     Paolo Bonzini <pbonzini@redhat.com>,
@@ -59,90 +60,171 @@ Cc:     Paolo Bonzini <pbonzini@redhat.com>,
         "H. Peter Anvin" <hpa@zytor.com>,
         Isaku Yamahata <isaku.yamahata@intel.com>,
         Kai Huang <kai.huang@intel.com>, x86@kernel.org,
-        kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Bagas Sanjaya <bagasdotme@gmail.com>
-Subject: [PATCH 07/12] Documentation: kvm: tdx-tdp-mmu: Use literal code block for EPT violation diagrams
-Date:   Sat,  9 Jul 2022 11:20:33 +0700
-Message-Id: <20220709042037.21903-8-bagasdotme@gmail.com>
-X-Mailer: git-send-email 2.37.0
-In-Reply-To: <20220709042037.21903-1-bagasdotme@gmail.com>
+        kvm@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 08/12] Documentation: kvm: tdx-tdp-mmu: Properly format
+ nested list for EPT state machine
+Message-ID: <YskDcli+Lg6uKzYX@debian.me>
 References: <20220709042037.21903-1-bagasdotme@gmail.com>
+ <20220709042037.21903-9-bagasdotme@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220709042037.21903-9-bagasdotme@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-EPT violation diagrams aren't inside literal code block, which trigger
-"line block ends without a blank line" warning. Since these diagrams
-aren't meant line blocks, use literal code block instead.
+On Sat, Jul 09, 2022 at 11:20:34AM +0700, Bagas Sanjaya wrote:
+>  The state machine of EPT entry
+>  ------------------------------
+> -(private EPT entry, shared EPT entry) =
+> -        (non-present, non-present):             private mapping is allowed
+> -        (present, non-present):                 private mapping is mapped
+> -        (non-present | SPTE_SHARED_MASK, non-present | SPTE_SHARED_MASK):
+> -                                                shared mapping is allowed
+> -        (non-present | SPTE_SHARED_MASK, present | SPTE_SHARED_MASK):
+> -                                                shared mapping is mapped
+> -        (present | SPTE_SHARED_MASK, any)       invalid combination
+> +* (private EPT entry, shared EPT entry)
+>  
+> -* map_gpa(private GPA): Mark the region that private GPA is allowed(NEW)
+> -        private EPT entry: clear SPTE_SHARED_MASK
+> -          present: nop
+> -          non-present: nop
+> -          non-present | SPTE_SHARED_MASK -> non-present (clear SPTE_SHARED_MASK)
+> +  * (non-present, non-present):
+> +       private mapping is allowed
+> +  * (present, non-present):
+> +       private mapping is mapped
+> +  * (non-present | SPTE_SHARED_MASK, non-present | SPTE_SHARED_MASK):
+> +       shared mapping is allowed
+> +  * (non-present | SPTE_SHARED_MASK, present | SPTE_SHARED_MASK):
+> +       shared mapping is mapped
+> +  * (present | SPTE_SHARED_MASK, any):
+> +       invalid combination
+>  
+> -        shared EPT entry: zap the entry, clear SPTE_SHARED_MASK
+> -          present: invalid
+> -          non-present -> non-present: nop
+> -          present | SPTE_SHARED_MASK -> non-present
+> -          non-present | SPTE_SHARED_MASK -> non-present
+> +* map_gpa (private GPA): Mark the region that private GPA is allowed(NEW)
+>  
+> -* map_gpa(shared GPA): Mark the region that shared GPA is allowed(NEW)
+> -        private EPT entry: zap and set SPTE_SHARED_MASK
+> -          present     -> non-present | SPTE_SHARED_MASK
+> -          non-present -> non-present | SPTE_SHARED_MASK
+> -          non-present | SPTE_SHARED_MASK: nop
+> +  * private EPT entry: clear SPTE_SHARED_MASK
+>  
+> -        shared EPT entry: set SPTE_SHARED_MASK
+> -          present: invalid
+> -          non-present -> non-present | SPTE_SHARED_MASK
+> -          present | SPTE_SHARED_MASK -> present | SPTE_SHARED_MASK: nop
+> -          non-present | SPTE_SHARED_MASK -> non-present | SPTE_SHARED_MASK: nop
+> +    * present: nop
+> +    * non-present: nop
+> +    * non-present | SPTE_SHARED_MASK -> non-present (clear SPTE_SHARED_MASK)
+>  
+> -* map(private GPA)
+> -        private EPT entry
+> -          present: nop
+> -          non-present -> present
+> -          non-present | SPTE_SHARED_MASK: nop. looping on EPT violation(NEW)
+> +  * shared EPT entry: zap the entry, clear SPTE_SHARED_MASK
+>  
+> -        shared EPT entry: nop
+> +    * present: invalid
+> +    * non-present -> non-present: nop
+> +    * present | SPTE_SHARED_MASK -> non-present
+> +    * non-present | SPTE_SHARED_MASK -> non-present
+>  
+> -* map(shared GPA)
+> -        private EPT entry: nop
+> +* map_gpa (shared GPA): Mark the region that shared GPA is allowed(NEW)
+>  
+> -        shared EPT entry
+> -          present: invalid
+> -          present | SPTE_SHARED_MASK: nop
+> -          non-present | SPTE_SHARED_MASK -> present | SPTE_SHARED_MASK
+> -          non-present: nop. looping on EPT violation(NEW)
+> +  * private EPT entry: zap and set SPTE_SHARED_MASK
+>  
+> -* zap(private GPA)
+> -        private EPT entry: zap the entry with keeping SPTE_SHARED_MASK
+> -          present -> non-present
+> -          present | SPTE_SHARED_MASK: invalid
+> -          non-present: nop as is_shadow_present_pte() is checked
+> -          non-present | SPTE_SHARED_MASK: nop as is_shadow_present_pte() is
+> -                                          checked
+> +    * present     -> non-present | SPTE_SHARED_MASK
+> +    * non-present -> non-present | SPTE_SHARED_MASK
+> +    * non-present | SPTE_SHARED_MASK: nop
+>  
+> -        shared EPT entry: nop
+> +  * shared EPT entry: set SPTE_SHARED_MASK
+>  
+> -* zap(shared GPA)
+> -        private EPT entry: nop
+> +    * present: invalid
+> +    * non-present -> non-present | SPTE_SHARED_MASK
+> +    * present | SPTE_SHARED_MASK -> present | SPTE_SHARED_MASK: nop
+> +    * non-present | SPTE_SHARED_MASK -> non-present | SPTE_SHARED_MASK: nop
+>  
+> -        shared EPT entry: zap
+> -          any -> non-present
+> -          present: invalid
+> -          present | SPTE_SHARED_MASK -> non-present | SPTE_SHARED_MASK
+> -          non-present: nop as is_shadow_present_pte() is checked
+> -          non-present | SPTE_SHARED_MASK: nop as is_shadow_present_pte() is
+> -                                          checked
+> +* map (private GPA)
+> +
+> +  * private EPT entry
+> +
+> +    * present: nop
+> +    * non-present -> present
+> +    * non-present | SPTE_SHARED_MASK: nop. looping on EPT violation(NEW)
+> +
+> +  * shared EPT entry: nop
+> +
+> +* map (shared GPA)
+> +
+> +  * private EPT entry: nop
+> +
+> +  * shared EPT entry:
+> +
+> +    * present: invalid
+> +    * present | SPTE_SHARED_MASK: nop
+> +    * non-present | SPTE_SHARED_MASK -> present | SPTE_SHARED_MASK
+> +    * non-present: nop. looping on EPT violation(NEW)
+> +
+> +* zap (private GPA)
+> +
+> +  * private EPT entry: zap the entry with keeping SPTE_SHARED_MASK
+> +
+> +    * present -> non-present
+> +    * present | SPTE_SHARED_MASK: invalid
+> +    * non-present: nop as is_shadow_present_pte() is checked
+> +    * non-present | SPTE_SHARED_MASK: nop as is_shadow_present_pte() is
+> +      checked
+> +
+> +  * shared EPT entry: nop
+> +
+> +* zap (shared GPA)
+> +
+> +  * private EPT entry: nop
+> +
+> +  * shared EPT entry: zap
+> +
+> +    * any -> non-present
+> +    * present: invalid
+> +    * present | SPTE_SHARED_MASK -> non-present | SPTE_SHARED_MASK
+> +    * non-present: nop as is_shadow_present_pte() is checked
+> +    * non-present | SPTE_SHARED_MASK: nop as is_shadow_present_pte() is
+> +      checked
 
-Fixes: 7af4efe3263854 ("KVM: x86: design documentation on TDX support of x86 KVM TDP MMU")
-Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
----
- Documentation/virt/kvm/tdx-tdp-mmu.rst | 39 +++++++++++++++++---------
- 1 file changed, 25 insertions(+), 14 deletions(-)
+IMO, the state machine lists above should have used tables instead.
 
-diff --git a/Documentation/virt/kvm/tdx-tdp-mmu.rst b/Documentation/virt/kvm/tdx-tdp-mmu.rst
-index c9d5fc43a6ca7a..f43ebb08f5cdad 100644
---- a/Documentation/virt/kvm/tdx-tdp-mmu.rst
-+++ b/Documentation/virt/kvm/tdx-tdp-mmu.rst
-@@ -169,30 +169,41 @@ hooks to KVM MMU to reuse the existing code.
- EPT violation on shared GPA
- ---------------------------
- (1) EPT violation on shared GPA or zapping shared GPA
--    walk down shared EPT tree (the existing code)
--        |
--        |
--        V
--shared EPT tree (CPU refers.)
-+    ::
-+
-+       walk down shared EPT tree (the existing code)
-+           |
-+           |
-+           V
-+       shared EPT tree (CPU refers.)
-+
- (2) update the EPT entry. (the existing code)
-+
-     TLB shootdown in the case of zapping.
- 
- 
- EPT violation on private GPA
- ----------------------------
- (1) EPT violation on private GPA or zapping private GPA
--    walk down the mirror of secure EPT tree (mostly same as the existing code)
--        |
--        |
--        V
--mirror of secure EPT tree (KVM MMU software only. reuse of the existing code)
-+    ::
-+
-+       walk down the mirror of secure EPT tree (mostly same as the existing code)
-+           |
-+           |
-+           V
-+       mirror of secure EPT tree (KVM MMU software only. reuse of the existing code)
-+
- (2) update the (mirrored) EPT entry. (mostly same as the existing code)
-+
- (3) call the hooks with what EPT entry is changed
--        |
-+    ::
-+
-+           |
-         NEW: hooks in KVM MMU
--        |
--        V
--secure EPT root(CPU refers)
-+           |
-+           V
-+        secure EPT root(CPU refers)
-+
- (4) the TDX backend calls necessary TDX SEAMCALLs to update real secure EPT.
- 
- The major modification is to add hooks for the TDX backend for additional
 -- 
 An old man doll... just what I always wanted! - Clara
-
