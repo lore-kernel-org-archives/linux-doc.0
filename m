@@ -2,229 +2,177 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A2F2C433EF
-	for <linux-doc@archiver.kernel.org>; Sat,  9 Jul 2022 04:26:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ED748C433EF
+	for <linux-doc@archiver.kernel.org>; Sat,  9 Jul 2022 07:59:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229552AbiGIE0h (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 9 Jul 2022 00:26:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59700 "EHLO
+        id S229475AbiGIH7z (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 9 Jul 2022 03:59:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48330 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229496AbiGIE0b (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 9 Jul 2022 00:26:31 -0400
-Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A60EDFB8;
-        Fri,  8 Jul 2022 21:26:30 -0700 (PDT)
-Received: by mail-pl1-x62a.google.com with SMTP id f11so380493plr.4;
-        Fri, 08 Jul 2022 21:26:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=wblxU4ocX/6b7hDTeD8JaMDf+To2t7CvwCLO5H9GvsE=;
-        b=EeqPE2CrKN+kONWxDFSM7+E3+N5RHT+v5JkHhvJIPY8wOjsSUwXCrWaGuzRtlk05zm
-         GGin0I+CEMC18DH9ZDL/k+cuGRbO6TF5Bg5P6RHBmh5xI8oglkgQLbbUdveOCcfHd6Cc
-         HUIr3SrOPsaPHx/5evo00JtyP3HjCRRKK2Ech5WDoMYfECR67CBOcFLI+NHyIR9dY3Zy
-         qYxezJCG6MeuIIwvLtdscAO9K+uB0qAAzcPhs4/MFQNw0E8ZkvK/AuSm7/OFACXXgrdf
-         CXSbPtjTp9f53F35kRSInDk6XyH8USHI2zDGIMdhoMtw4zj8dmz8m1zlboC9giV4PFdr
-         VW1g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=wblxU4ocX/6b7hDTeD8JaMDf+To2t7CvwCLO5H9GvsE=;
-        b=Q38YGyTNAAP2GDKASITtaw4zlQhBKaORKYqmxNenvTpsUt8ZAEvYYOd4ClF41EDuLn
-         Cr5vU8OD6QRfGrAJBSgTik3857XAtiIXSKB/yB3fWBt9hMeIgyhnG/HPDuYRbkE54hZ8
-         yghXzcZ+rnhAWkCmBveYd6EL+drCUztEzmzJ28L2WAHlVKNlYompP0be9s75FzPw5pOC
-         NVTkRqVMKN2MxdOOLwsfEWGIPcETurp9NiMpOqpORQDnY2/0eh0HaEbd0WxLVT7L1DRY
-         /Km9Oj9yzhEeuN7RytsnD8FmtVgAmOqnv2tZ2+4wGGLBM0clttr3/K/O++EXGcKBFi/4
-         w4TQ==
-X-Gm-Message-State: AJIora+Snn+yQpVa1Gi135Quq4nUAOq/JFegcJSLHQXcS7ugBmBcIrWe
-        2WRThDBW4ODyLUusHu0dO+ZXUZqjo5U=
-X-Google-Smtp-Source: AGRyM1thrTlZvy977uJjAuibEgWKaF0aYWH3JEJQJHBkWlP6wtka5PCgbctI/8N1WZ+bJgc75RNu4Q==
-X-Received: by 2002:a17:902:9301:b0:16a:1c68:f8d6 with SMTP id bc1-20020a170902930100b0016a1c68f8d6mr7105053plb.72.1657340789768;
-        Fri, 08 Jul 2022 21:26:29 -0700 (PDT)
-Received: from debian.me (subs02-180-214-232-88.three.co.id. [180.214.232.88])
-        by smtp.gmail.com with ESMTPSA id f8-20020a17090ab94800b001ef42b3c5besm254697pjw.23.2022.07.08.21.26.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 Jul 2022 21:26:29 -0700 (PDT)
-Received: by debian.me (Postfix, from userid 1000)
-        id 4CC9C100151; Sat,  9 Jul 2022 11:26:26 +0700 (WIB)
-Date:   Sat, 9 Jul 2022 11:26:26 +0700
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     linux-doc@vger.kernel.org
-Cc:     Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Isaku Yamahata <isaku.yamahata@intel.com>,
-        Kai Huang <kai.huang@intel.com>, x86@kernel.org,
-        kvm@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 08/12] Documentation: kvm: tdx-tdp-mmu: Properly format
- nested list for EPT state machine
-Message-ID: <YskDcli+Lg6uKzYX@debian.me>
-References: <20220709042037.21903-1-bagasdotme@gmail.com>
- <20220709042037.21903-9-bagasdotme@gmail.com>
+        with ESMTP id S229379AbiGIH7y (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 9 Jul 2022 03:59:54 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A9C6654C91;
+        Sat,  9 Jul 2022 00:59:53 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 2AC5B60C97;
+        Sat,  9 Jul 2022 07:59:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D14F3C3411C;
+        Sat,  9 Jul 2022 07:59:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1657353592;
+        bh=7jAiWLYz3PeSlOtmhefxB/mS+5thanzSxGjma8acUM4=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=DMdshz3DCA93e3kF8/hTyueCZsiEmTECnhGqIOFc169DQ4gvNUOap0HqxTXuZQuCK
+         H7L4wuSC9dxw/bwBMVJ1a8T4mwDj1hPLLtW8xsAPieK2FSYe2CN6FIutTtgitCzMkj
+         AS0nnLX0fOMiRzjjrk8w+sK5KZzWkCiSguYt3p07mzhehnv7mEhQJZAmJxEEv4qvUq
+         Kf7QR6uRoXQ45+PEDse+BLdRW8pE/0n253Mr1MOxyV32ILiU18GJnwvJa2M1kFfzWL
+         GGhtu3rDYEpwRi4Dx06Ce0k0YNWNP9RIviK2aGvH6bxjB906qoLcl2ejdq2N9HeD+0
+         SXqfdswVLVPPQ==
+Date:   Sat, 9 Jul 2022 08:59:46 +0100
+From:   Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     Akira Yokosawa <akiyks@gmail.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, mchehab+huawei@kernel.org
+Subject: Re: Expectation to --no-pdf option (was Re: [PATCH v2 0/5] Address
+ some issues with sphinx detection)
+Message-ID: <20220709085946.083025aa@sal.lan>
+In-Reply-To: <02a76970-78fb-5d09-6890-cc1dc11ca4db@gmail.com>
+References: <cover.1656756450.git.mchehab@kernel.org>
+        <d0e1a08a-b965-ada6-e026-4e1cc38fbd90@gmail.com>
+        <20220707211558.438a27d4@sal.lan>
+        <3ba5a52e-cab6-05cf-a66e-adc58c467e1f@gmail.com>
+        <87bktzhfcj.fsf@meer.lwn.net>
+        <20220708155910.7c4ea35c@sal.lan>
+        <d54415bb-9bad-6fd8-5636-218c04d5615a@gmail.com>
+        <02a76970-78fb-5d09-6890-cc1dc11ca4db@gmail.com>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220709042037.21903-9-bagasdotme@gmail.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Jul 09, 2022 at 11:20:34AM +0700, Bagas Sanjaya wrote:
->  The state machine of EPT entry
->  ------------------------------
-> -(private EPT entry, shared EPT entry) =
-> -        (non-present, non-present):             private mapping is allowed
-> -        (present, non-present):                 private mapping is mapped
-> -        (non-present | SPTE_SHARED_MASK, non-present | SPTE_SHARED_MASK):
-> -                                                shared mapping is allowed
-> -        (non-present | SPTE_SHARED_MASK, present | SPTE_SHARED_MASK):
-> -                                                shared mapping is mapped
-> -        (present | SPTE_SHARED_MASK, any)       invalid combination
-> +* (private EPT entry, shared EPT entry)
->  
-> -* map_gpa(private GPA): Mark the region that private GPA is allowed(NEW)
-> -        private EPT entry: clear SPTE_SHARED_MASK
-> -          present: nop
-> -          non-present: nop
-> -          non-present | SPTE_SHARED_MASK -> non-present (clear SPTE_SHARED_MASK)
-> +  * (non-present, non-present):
-> +       private mapping is allowed
-> +  * (present, non-present):
-> +       private mapping is mapped
-> +  * (non-present | SPTE_SHARED_MASK, non-present | SPTE_SHARED_MASK):
-> +       shared mapping is allowed
-> +  * (non-present | SPTE_SHARED_MASK, present | SPTE_SHARED_MASK):
-> +       shared mapping is mapped
-> +  * (present | SPTE_SHARED_MASK, any):
-> +       invalid combination
->  
-> -        shared EPT entry: zap the entry, clear SPTE_SHARED_MASK
-> -          present: invalid
-> -          non-present -> non-present: nop
-> -          present | SPTE_SHARED_MASK -> non-present
-> -          non-present | SPTE_SHARED_MASK -> non-present
-> +* map_gpa (private GPA): Mark the region that private GPA is allowed(NEW)
->  
-> -* map_gpa(shared GPA): Mark the region that shared GPA is allowed(NEW)
-> -        private EPT entry: zap and set SPTE_SHARED_MASK
-> -          present     -> non-present | SPTE_SHARED_MASK
-> -          non-present -> non-present | SPTE_SHARED_MASK
-> -          non-present | SPTE_SHARED_MASK: nop
-> +  * private EPT entry: clear SPTE_SHARED_MASK
->  
-> -        shared EPT entry: set SPTE_SHARED_MASK
-> -          present: invalid
-> -          non-present -> non-present | SPTE_SHARED_MASK
-> -          present | SPTE_SHARED_MASK -> present | SPTE_SHARED_MASK: nop
-> -          non-present | SPTE_SHARED_MASK -> non-present | SPTE_SHARED_MASK: nop
-> +    * present: nop
-> +    * non-present: nop
-> +    * non-present | SPTE_SHARED_MASK -> non-present (clear SPTE_SHARED_MASK)
->  
-> -* map(private GPA)
-> -        private EPT entry
-> -          present: nop
-> -          non-present -> present
-> -          non-present | SPTE_SHARED_MASK: nop. looping on EPT violation(NEW)
-> +  * shared EPT entry: zap the entry, clear SPTE_SHARED_MASK
->  
-> -        shared EPT entry: nop
-> +    * present: invalid
-> +    * non-present -> non-present: nop
-> +    * present | SPTE_SHARED_MASK -> non-present
-> +    * non-present | SPTE_SHARED_MASK -> non-present
->  
-> -* map(shared GPA)
-> -        private EPT entry: nop
-> +* map_gpa (shared GPA): Mark the region that shared GPA is allowed(NEW)
->  
-> -        shared EPT entry
-> -          present: invalid
-> -          present | SPTE_SHARED_MASK: nop
-> -          non-present | SPTE_SHARED_MASK -> present | SPTE_SHARED_MASK
-> -          non-present: nop. looping on EPT violation(NEW)
-> +  * private EPT entry: zap and set SPTE_SHARED_MASK
->  
-> -* zap(private GPA)
-> -        private EPT entry: zap the entry with keeping SPTE_SHARED_MASK
-> -          present -> non-present
-> -          present | SPTE_SHARED_MASK: invalid
-> -          non-present: nop as is_shadow_present_pte() is checked
-> -          non-present | SPTE_SHARED_MASK: nop as is_shadow_present_pte() is
-> -                                          checked
-> +    * present     -> non-present | SPTE_SHARED_MASK
-> +    * non-present -> non-present | SPTE_SHARED_MASK
-> +    * non-present | SPTE_SHARED_MASK: nop
->  
-> -        shared EPT entry: nop
-> +  * shared EPT entry: set SPTE_SHARED_MASK
->  
-> -* zap(shared GPA)
-> -        private EPT entry: nop
-> +    * present: invalid
-> +    * non-present -> non-present | SPTE_SHARED_MASK
-> +    * present | SPTE_SHARED_MASK -> present | SPTE_SHARED_MASK: nop
-> +    * non-present | SPTE_SHARED_MASK -> non-present | SPTE_SHARED_MASK: nop
->  
-> -        shared EPT entry: zap
-> -          any -> non-present
-> -          present: invalid
-> -          present | SPTE_SHARED_MASK -> non-present | SPTE_SHARED_MASK
-> -          non-present: nop as is_shadow_present_pte() is checked
-> -          non-present | SPTE_SHARED_MASK: nop as is_shadow_present_pte() is
-> -                                          checked
-> +* map (private GPA)
-> +
-> +  * private EPT entry
-> +
-> +    * present: nop
-> +    * non-present -> present
-> +    * non-present | SPTE_SHARED_MASK: nop. looping on EPT violation(NEW)
-> +
-> +  * shared EPT entry: nop
-> +
-> +* map (shared GPA)
-> +
-> +  * private EPT entry: nop
-> +
-> +  * shared EPT entry:
-> +
-> +    * present: invalid
-> +    * present | SPTE_SHARED_MASK: nop
-> +    * non-present | SPTE_SHARED_MASK -> present | SPTE_SHARED_MASK
-> +    * non-present: nop. looping on EPT violation(NEW)
-> +
-> +* zap (private GPA)
-> +
-> +  * private EPT entry: zap the entry with keeping SPTE_SHARED_MASK
-> +
-> +    * present -> non-present
-> +    * present | SPTE_SHARED_MASK: invalid
-> +    * non-present: nop as is_shadow_present_pte() is checked
-> +    * non-present | SPTE_SHARED_MASK: nop as is_shadow_present_pte() is
-> +      checked
-> +
-> +  * shared EPT entry: nop
-> +
-> +* zap (shared GPA)
-> +
-> +  * private EPT entry: nop
-> +
-> +  * shared EPT entry: zap
-> +
-> +    * any -> non-present
-> +    * present: invalid
-> +    * present | SPTE_SHARED_MASK -> non-present | SPTE_SHARED_MASK
-> +    * non-present: nop as is_shadow_present_pte() is checked
-> +    * non-present | SPTE_SHARED_MASK: nop as is_shadow_present_pte() is
-> +      checked
+Em Sat, 9 Jul 2022 08:01:02 +0900
+Akira Yokosawa <akiyks@gmail.com> escreveu:
 
-IMO, the state machine lists above should have used tables instead.
+> [-CC: ksummit-discuss]
+> On Sat, 9 Jul 2022 00:27:25 +0900, Akira Yokosawa wrote:
+> > On Fri, 8 Jul 2022 15:59:10 +0100,
+> > Mauro Carvalho Chehab wrote:  
+> >> Em Fri, 08 Jul 2022 08:02:52 -0600
+> >> Jonathan Corbet <corbet@lwn.net> escreveu:
+> >>  
+> >>> Akira Yokosawa <akiyks@gmail.com> writes:
+> >>>  
+> >>>> In my tests, the mathjax extension works with all the versions of Sphinx
+> >>>> I tested (1.7.9, 2.4.4, 3.4.3 (debian bullseye), 4.2.0 (openSUSE LEAP 15.4),
+> >>>> and 5.0.2).
+> >>>> Note that math expressions should look much sharper (vector fonts)
+> >>>> than those from imgmath (pixel images).
+> >>>> The time for a browser to complete the rendering might be longer than
+> >>>> with imgmath, especially for pages with a lot of math expressions,
+> >>>> though.  (Yes, I see some of media documents have a lot of them.)
+> >>>>
+> >>>> When you are detached from network connections, browsers will give
+> >>>> up and show those expressions in mathjax source code.   
+> >>  
+> >>> -extensions.append("sphinx.ext.imgmath")
+> >>> +extensions.append("sphinx.ext.mathjax")  
+> >>
+> >> There are two problems with this:
+> >>
+> >> 1. mathjax doesn't work for PDF output - nor would work if we add support
+> >>    for man pages some day;  
+> > 
+> > Hmm, if I understand what is written in the following page:
+> >     https://www.sphinx-doc.org/en/master/usage/extensions/math.html
+> > 
+> > , both imgmath and mathjax extensions are relevant only for HTML output.
+> > 
+> > It says:
+> > 
+> >     Changed in version 1.8: Math support for non-HTML builders is integrated
+> >     to sphinx-core. So mathbase extension is no longer needed.
+> > 
+> > When did you see the issue of "mathjax doesn't work for PDF output" ?  
+> 
+> For the record,
+> 
+> I tested mathjax and PDF output with Sphinx 1.7.9, whose latex mode
+> can't handle nested tables.
+> I had no problem in building userspace-api.pdf and math expressions
+> in it look perfect.
+> 
+> So I believe mathjax does not affect PDF output.
 
--- 
-An old man doll... just what I always wanted! - Clara
+Did you also test epubdocs?
+
+It was an issue when we decided to use imgmath. If this got fixed for
+both supported non-html outputs, we can start using mathjax and get
+rid of installing latex and dvipng.
+
+> Mauro wrote:
+> > As imgmath works everywere, we opted to use it instead. We were
+> > actually hoping that the lack of proper math support on Sphinx were
+> > something that later Sphinx versions after 1.3.1 would have fixed.   
+> 
+> I'm not going to test earlier versions of Sphinx and I have no idea
+> of what issue Mauro saw at the time, but it sounds to me the issue
+> has been fixed since.
+
+Good.
+ 
+> >   
+> >> 2. Some Kernel developers disable javascript.  
+> > OK, mathjax has no chance, then...  
+> 
+> On the second thought, I think mathjax (latex-free "make htmldocs")
+> is good enough for test build purposes.  When javascript is disabled,
+> math expressions are rendered in mathjax source.
+
+Hmm... are there a way to use it with javascript disabled? If so, maybe
+we can force it to always render math expressions during the build, instead
+or relying on javascript at exec time.
+
+> As conf.py is programmable, it is possible to choose sphinx.ext.imgmath
+> when dvipng is found on the build system.
+
+Not sure I like the idea. This would actually mean in practice that
+all developers that are currently doing doc builds will keep using
+imgmath, because they all have it already installed.
+
+> As for sphinx-pre-install, what about adding an option
+> 
+>     --no-js   For those who disable javascript in their browser.
+> 
+> which provide the list of required packages for dvipng?
+
+It is not that simple.
+
+Sphinx has a configurable theme engine. On our builds, we're using
+since the beginning the RTD (readthedocs) theme as default, but
+recent versions default to classic if sphinx_rtd_theme package is
+not installed.
+
+All themes I know that provide a search button use JS to implement
+such feature.
+
+So, a "--no-js" won't provide a javascript-free build environment.
+
+-
+
+On a side discussion, should we keep recommending the install of 
+sphinx_rtd_theme? It is not mandatory anymore to have it installed,
+and the theme is more a matter of personal preferences. 
+
+Also, when testing or modifying the docs, the theme doesn't really
+matter.
+
+So, IMHO, we could stop recommending it.
+
+Regards,
+Mauro   
