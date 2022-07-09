@@ -2,274 +2,237 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BB5E2C433EF
-	for <linux-doc@archiver.kernel.org>; Sat,  9 Jul 2022 02:16:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 20CC1CCA480
+	for <linux-doc@archiver.kernel.org>; Sat,  9 Jul 2022 03:35:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229462AbiGICQW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 8 Jul 2022 22:16:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45716 "EHLO
+        id S229552AbiGIDfo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 8 Jul 2022 23:35:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59782 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229452AbiGICQV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Jul 2022 22:16:21 -0400
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A95B06C113;
-        Fri,  8 Jul 2022 19:16:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1657332979; x=1688868979;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Sc6zczLXkls6PU3MH7wWrl0qoAo4bn1MC33RQ0+2GM0=;
-  b=DBRLpsm8ehfwkwIQnbR9wPWfKIKlcoO+fRsxhEwRNVYfPaDbLMxcK0de
-   YIfkstSbe1/GXXimI5zVAMJxN2a+6Mxlkx/sgGUUzltNtRVlQ8DegLfST
-   SVrcMHtoRNnqUt8e2yrEnQUp+JEO6upsVKVeXXbMcwH5rr72QkU7HuMxx
-   EityqYcXXysuwnuiw2e34twYPUUiHlFEa0MRQtepBFn3G345FQy4vBpu6
-   7GHcMdYaEFbCk0MBMH2i3Xeu3v6dvtPcCBQ0hvi2GfDcXHluIAyQ4QHWq
-   pTvmnra01msoRHN05IZE3nf8z1nLsWgHN1dh3S201S/iNFdEv0fc9pFaF
-   w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10402"; a="284421941"
-X-IronPort-AV: E=Sophos;i="5.92,256,1650956400"; 
-   d="scan'208";a="284421941"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2022 19:16:19 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.92,256,1650956400"; 
-   d="scan'208";a="661963491"
-Received: from lkp-server01.sh.intel.com (HELO 68b931ab7ac1) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 08 Jul 2022 19:16:17 -0700
-Received: from kbuild by 68b931ab7ac1 with local (Exim 4.95)
-        (envelope-from <lkp@intel.com>)
-        id 1oA012-000OC0-Uh;
-        Sat, 09 Jul 2022 02:16:16 +0000
-Date:   Sat, 9 Jul 2022 10:15:53 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Isaku Yamahata <isaku.yamahata@intel.com>
-Cc:     kbuild-all@lists.01.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: [intel-tdx:kvm-upstream-workaround 232/411] htmldocs:
- Documentation/virt/kvm/intel-tdx.rst:181: WARNING: Enumerated list ends
- without a blank line; unexpected unindent.
-Message-ID: <202207091001.5NGaL7w8-lkp@intel.com>
+        with ESMTP id S229541AbiGIDfm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 8 Jul 2022 23:35:42 -0400
+Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E79B0820C0
+        for <linux-doc@vger.kernel.org>; Fri,  8 Jul 2022 20:35:39 -0700 (PDT)
+Received: by mail-wr1-x42f.google.com with SMTP id d16so601013wrv.10
+        for <linux-doc@vger.kernel.org>; Fri, 08 Jul 2022 20:35:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=V9M67rcyKGIjJ1kFq6zR0N52gNBo9LVPd1gMPxN4A2U=;
+        b=e3H5zE7w/nYE5lXLIjv8exqaBZnV8rCyg38xJsvINxFLZgugmTZjnOdcUHYsjqBff0
+         mImbRSNC+T99eaiSTMdyqOlzrIZ6Psn5WNyg+5dneaVlLq0qt9Q2ZdsG35LrmrChUwAS
+         aImhoaGGS6riR4KELZY1s8jTMm7M8ZfCwWoPJufaTMRp5IFQz2ynaGnQC4pac07JVRVR
+         DTslfqXHzTLwbMNB5rlL4Cio6F1cyqoUMGbAbAkZe9g5MSTYc0VfKfBZrqTZbOF1p+7x
+         SQ7uzonNsSsq15QgFsepvwyV9Lz421ME99EpnV5SRJBaheaa2MOmmpMIvzGLXQfZco1K
+         m7AA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=V9M67rcyKGIjJ1kFq6zR0N52gNBo9LVPd1gMPxN4A2U=;
+        b=diK0R0XSNSatgxeObo/Xg9/IDgBZmxEqqPF5b6N38VML25C52ettrgPNSdFh2CT2/4
+         xR8s3PHC6Dj0kVAub1zVJxwyeuWUSSbcey3Q4iX3SH2nx+TEbUd9OcCdTLNRlIOAC6ec
+         +woEA150D+6fIX1EiAflpEqpEwb4416lgAxQCFBy/rv1rtq0/sxireRS3i81FQvImfm6
+         SZBu0+BkWlem6hwfJZUYSL8BAUYWwplXeLBBc+/3QNmCwFlhCZz9EOtuMxC0Ue/+5Ib2
+         eWJY3oJI+tn7xdsPUx7d+WSDHh4fF7TfNjodfPbFHYXegzN2zIUvZGI5mhue9VEPygxX
+         X6uw==
+X-Gm-Message-State: AJIora/O189G1KY+//Avn1HUiFG8KClLVT4mD0PwbA/5zxtjIbiLU7La
+        tbYw+DGlB35p5IFiZX5s7OtNP4NJiXczyQEcJc6XnQ==
+X-Google-Smtp-Source: AGRyM1shMGyZogpGCQ7rR8WEcQtWqL8IiGW2YMygvlDEPhuGrGBQS1ciC9jpCUsZGsmLEfDWmVRI67mLR1of4gEOnKo=
+X-Received: by 2002:adf:e804:0:b0:21d:6e85:7550 with SMTP id
+ o4-20020adfe804000000b0021d6e857550mr6400492wrm.337.1657337738375; Fri, 08
+ Jul 2022 20:35:38 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20220708044847.531566-1-davidgow@google.com> <20220708044847.531566-3-davidgow@google.com>
+ <fc638852-ac9a-abab-8fdb-01b685cdec96@linuxfoundation.org>
+ <CAGS_qxpODhSEs_sMm5Gu55EsYy-M9V98eLU-8O+xGMxncXmY4A@mail.gmail.com>
+ <f25f96ce-1c9b-7e66-a5be-96d7cf2988cf@linuxfoundation.org> <a00efaa8-71e0-c531-b6a4-e3d695ad628b@linuxfoundation.org>
+In-Reply-To: <a00efaa8-71e0-c531-b6a4-e3d695ad628b@linuxfoundation.org>
+From:   David Gow <davidgow@google.com>
+Date:   Sat, 9 Jul 2022 11:35:27 +0800
+Message-ID: <CABVgOSkroVjxTDoKTLBxiX_Fw5qZQmchDpY4U3XCCRYfXbS2bQ@mail.gmail.com>
+Subject: Re: [PATCH v6 3/4] kunit: Taint the kernel when KUnit tests are run
+To:     Shuah Khan <skhan@linuxfoundation.org>
+Cc:     Daniel Latypov <dlatypov@google.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Brendan Higgins <brendanhiggins@google.com>,
+        "Guilherme G . Piccoli" <gpiccoli@igalia.com>,
+        Sebastian Reichel <sre@kernel.org>,
+        John Ogness <john.ogness@linutronix.de>,
+        Joe Fradley <joefradley@google.com>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        KUnit Development <kunit-dev@googlegroups.com>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Lucas De Marchi <lucas.demarchi@intel.com>,
+        Aaron Tomlin <atomlin@redhat.com>,
+        linux-fsdevel@vger.kernel.org, linux-block@vger.kernel.org,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Kees Cook <keescook@chromium.org>
+Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
+        boundary="0000000000002f50a605e357030b"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-tree:   https://github.com/intel/tdx.git kvm-upstream-workaround
-head:   36253a6ed7e922a2e6888cde465578b98145404e
-commit: 1737432c5b003b60834d57951e77ef3d6236d445 [232/411] Documentation/virtual/kvm: Document on Trust Domain Extensions(TDX)
-reproduce: make htmldocs
+--0000000000002f50a605e357030b
+Content-Type: text/plain; charset="UTF-8"
 
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
+On Sat, Jul 9, 2022 at 5:24 AM Shuah Khan <skhan@linuxfoundation.org> wrote:
+>
+> On 7/8/22 3:22 PM, Shuah Khan wrote:
+> > On 7/8/22 3:00 PM, Daniel Latypov wrote:
+> >> On Fri, Jul 8, 2022 at 1:22 PM Shuah Khan <skhan@linuxfoundation.org> wrote:
+> >>>
+> >>> On 7/7/22 10:48 PM, David Gow wrote:
+> >>>> Make KUnit trigger the new TAINT_TEST taint when any KUnit test is run.
+> >>>> Due to KUnit tests not being intended to run on production systems, and
+> >>>> potentially causing problems (or security issues like leaking kernel
+> >>>> addresses), the kernel's state should not be considered safe for
+> >>>> production use after KUnit tests are run.
+> >>>>
+> >>>> This both marks KUnit modules as test modules using MODULE_INFO() and
+> >>>> manually taints the kernel when tests are run (which catches builtin
+> >>>> tests).
+> >>>>
+> >>>> Acked-by: Luis Chamberlain <mcgrof@kernel.org>
+> >>>> Tested-by: Daniel Latypov <dlatypov@google.com>
+> >>>> Reviewed-by: Brendan Higgins <brendanhiggins@google.com>
+> >>>> Signed-off-by: David Gow <davidgow@google.com>
+> >>>> ---
+> >>>>
+> >>>> No changes since v5:
+> >>>> https://lore.kernel.org/linux-kselftest/20220702040959.3232874-3-davidgow@google.com/
+> >>>>
+> >>>> No changes since v4:
+> >>>> https://lore.kernel.org/linux-kselftest/20220701084744.3002019-3-davidgow@google.com/
+> >>>>
+> >>>
+> >>> David, Brendan, Andrew,
+> >>>
+> >>> Just confirming the status of these patches. I applied v4 1/3 and v4 3/4
+> >>> to linux-kselftest kunit for 5.20-rc1.
+> >>> I am seeing v5 and v6 now. Andrew applied v5 looks like. Would you like
+> >>> me to drop the two I applied? Do we have to refresh with v6?
+> >>
+> >> Just noting here that there'll be a merge conflict between this patch
+> >> (3/4) and some other patches lined up to go through the kunit tree:
+> >> https://patchwork.kernel.org/project/linux-kselftest/patch/20220625050838.1618469-2-davidgow@google.com/
+> >>
+> >> Not sure how we want to handle that.
+> >>
+> >
+> > I can go drop the two patches and have Andrew carry the series through
+> > mm tree.
+> >
+>
+> Sorry spoke too soon. Yes there are others that might have conflicts as
+> Daniel pointed out:
+>
+> https://patchwork.kernel.org/project/linux-kselftest/patch/20220625050838.1618469-2-davidgow@google.com/
+>
+> thanks,
+> -- Shuah
+>
 
-All warnings (new ones prefixed by >>):
+Thanks everyone for pointing these out.
 
->> Documentation/virt/kvm/intel-tdx.rst:181: WARNING: Enumerated list ends without a blank line; unexpected unindent.
->> Documentation/virt/kvm/intel-tdx.rst:219: WARNING: Unexpected indentation.
->> Documentation/virt/kvm/intel-tdx.rst:223: WARNING: Block quote ends without a blank line; unexpected unindent.
->> Documentation/virt/kvm/intel-tdx.rst:239: WARNING: Bullet list ends without a blank line; unexpected unindent.
->> Documentation/virt/kvm/intel-tdx.rst:353: WARNING: Footnote is not referenced.
->> Documentation/virt/kvm/intel-tdx.rst: WARNING: document isn't included in any toctree
+I've rebased the other series (the KUnit module support one:
+https://lore.kernel.org/linux-kselftest/20220709032001.819487-1-davidgow@google.com/
+) on top of this.
 
-vim +181 Documentation/virt/kvm/intel-tdx.rst
+If they all go in via the kselftest/kunit tree, everything should be fine now.
 
-   179	
-   180	#. system wide capability check
- > 181	  * KVM_CAP_VM_TYPES: check if VM type is supported and if TDX_VM_TYPE is
-   182	    supported.
-   183	
-   184	#. creating VM
-   185	  * KVM_CREATE_VM
-   186	  * KVM_TDX_CAPABILITIES: query if TDX is supported on the platform.
-   187	  * KVM_TDX_INIT_VM: pass TDX specific VM parameters.
-   188	
-   189	#. creating VCPU
-   190	  * KVM_CREATE_VCPU
-   191	  * KVM_TDX_INIT_VCPU: pass TDX specific VCPU parameters.
-   192	
-   193	#. initializing guest memory
-   194	  * allocate guest memory and initialize page same to normal KVM case
-   195	    In TDX case, parse and load TDVF into guest memory in addition.
-   196	  * KVM_TDX_INIT_MEM_REGION to add and measure guest pages.
-   197	    If the pages has contents above, those pages need to be added.
-   198	    Otherwise the contents will be lost and guest sees zero pages.
-   199	  * KVM_TDX_FINALIAZE_VM: Finalize VM and measurement
-   200	    This must be after KVM_TDX_INIT_MEM_REGION.
-   201	
-   202	#. run vcpu
-   203	
-   204	Design discussion
-   205	=================
-   206	
-   207	Coexistence of normal(VMX) VM and TD VM
-   208	---------------------------------------
-   209	It's required to allow both legacy(normal VMX) VMs and new TD VMs to
-   210	coexist. Otherwise the benefits of VM flexibility would be eliminated.
-   211	The main issue for it is that the logic of kvm_x86_ops callbacks for
-   212	TDX is different from VMX. On the other hand, the variable,
-   213	kvm_x86_ops, is global single variable. Not per-VM, not per-vcpu.
-   214	
-   215	Several points to be considered.
-   216	  . No or minimal overhead when TDX is disabled(CONFIG_INTEL_TDX_HOST=n).
-   217	  . Avoid overhead of indirect call via function pointers.
-   218	  . Contain the changes under arch/x86/kvm/vmx directory and share logic
- > 219	    with VMX for maintenance.
-   220	    Even though the ways to operation on VM (VMX instruction vs TDX
-   221	    SEAM call) is different, the basic idea remains same. So, many
-   222	    logic can be shared.
- > 223	  . Future maintenance
-   224	    The huge change of kvm_x86_ops in (near) future isn't expected.
-   225	    a centralized file is acceptable.
-   226	
-   227	- Wrapping kvm x86_ops: The current choice
-   228	  Introduce dedicated file for arch/x86/kvm/vmx/main.c (the name,
-   229	  main.c, is just chosen to show main entry points for callbacks.) and
-   230	  wrapper functions around all the callbacks with
-   231	  "if (is-tdx) tdx-callback() else vmx-callback()".
-   232	
-   233	  Pros:
-   234	  - No major change in common x86 KVM code. The change is (mostly)
-   235	    contained under arch/x86/kvm/vmx/.
-   236	  - When TDX is disabled(CONFIG_INTEL_TDX_HOST=n), the overhead is
-   237	    optimized out.
-   238	  - Micro optimization by avoiding function pointer.
- > 239	  Cons:
-   240	  - Many boiler plates in arch/x86/kvm/vmx/main.c.
-   241	
-   242	Alternative:
-   243	- Introduce another callback layer under arch/x86/kvm/vmx.
-   244	  Pros:
-   245	  - No major change in common x86 KVM code. The change is (mostly)
-   246	    contained under arch/x86/kvm/vmx/.
-   247	  - clear separation on callbacks.
-   248	  Cons:
-   249	  - overhead in VMX even when TDX is disabled(CONFIG_INTEL_TDX_HOST=n).
-   250	
-   251	- Allow per-VM kvm_x86_ops callbacks instead of global kvm_x86_ops
-   252	  Pros:
-   253	  - clear separation on callbacks.
-   254	  Cons:
-   255	  - Big change in common x86 code.
-   256	  - overhead in common code even when TDX is
-   257	    disabled(CONFIG_INTEL_TDX_HOST=n).
-   258	
-   259	- Introduce new directory arch/x86/kvm/tdx
-   260	  Pros:
-   261	  - It clarifies that TDX is different from VMX.
-   262	  Cons:
-   263	  - Given the level of code sharing, it complicates code sharing.
-   264	
-   265	KVM MMU Changes
-   266	---------------
-   267	KVM MMU needs to be enhanced to handle Secure/Shared-EPT. The
-   268	high-level execution flow is mostly same to normal EPT case.
-   269	EPT violation/misconfiguration -> invoke TDP fault handler ->
-   270	resolve TDP fault -> resume execution. (or emulate MMIO)
-   271	The difference is, that S-EPT is operated(read/write) via TDX SEAM
-   272	call which is expensive instead of direct read/write EPT entry.
-   273	One bit of GPA (51 or 47 bit) is repurposed so that it means shared
-   274	with host(if set to 1) or private to TD(if cleared to 0).
-   275	
-   276	- The current implementation
-   277	  . Reuse the existing MMU code with minimal update.  Because the
-   278	    execution flow is mostly same. But additional operation, TDX call
-   279	    for S-EPT, is needed. So add hooks for it to kvm_x86_ops.
-   280	  . For performance, minimize TDX SEAM call to operate on S-EPT. When
-   281	    getting corresponding S-EPT pages/entry from faulting GPA, don't
-   282	    use TDX SEAM call to read S-EPT entry. Instead create shadow copy
-   283	    in host memory.
-   284	    Repurpose the existing kvm_mmu_page as shadow copy of S-EPT and
-   285	    associate S-EPT to it.
-   286	  . Treats share bit as attributes. mask/unmask the bit where
-   287	    necessary to keep the existing traversing code works.
-   288	    Introduce kvm.arch.gfn_shared_mask and use "if (gfn_share_mask)"
-   289	    for special case.
-   290	    = 0 : for non-TDX case
-   291	    = 51 or 47 bit set for TDX case.
-   292	
-   293	  Pros:
-   294	  - Large code reuse with minimal new hooks.
-   295	  - Execution path is same.
-   296	  Cons:
-   297	  - Complicates the existing code.
-   298	  - Repurpose kvm_mmu_page as shadow of Secure-EPT can be confusing.
-   299	
-   300	Alternative:
-   301	- Replace direct read/write on EPT entry with TDX-SEAM call by
-   302	  introducing callbacks on EPT entry.
-   303	  Pros:
-   304	  - Straightforward.
-   305	  Cons:
-   306	  - Too many touching point.
-   307	  - Too slow due to TDX-SEAM call.
-   308	  - Overhead even when TDX is disabled(CONFIG_INTEL_TDX_HOST=n).
-   309	
-   310	- Sprinkle "if (is-tdx)" for TDX special case
-   311	  Pros:
-   312	  - Straightforward.
-   313	  Cons:
-   314	  - The result is non-generic and ugly.
-   315	  - Put TDX specific logic into common KVM MMU code.
-   316	
-   317	New KVM API, ioctl (sub)command, to manage TD VMs
-   318	-------------------------------------------------
-   319	Additional KVM API are needed to control TD VMs. The operations on TD
-   320	VMs are specific to TDX.
-   321	
-   322	- Piggyback and repurpose KVM_MEMORY_ENCRYPT_OP
-   323	  Although not all operation isn't memory encryption, repupose to get
-   324	  TDX specific ioctls.
-   325	  Pros:
-   326	  - No major change in common x86 KVM code.
-   327	  Cons:
-   328	  - The operations aren't actually memory encryption, but operations
-   329	    on TD VMs.
-   330	
-   331	Alternative:
-   332	- Introduce new ioctl for guest protection like
-   333	  KVM_GUEST_PROTECTION_OP and introduce subcommand for TDX.
-   334	  Pros:
-   335	  - Clean name.
-   336	  Cons:
-   337	  - One more new ioctl for guest protection.
-   338	  - Confusion with KVM_MEMORY_ENCRYPT_OP with KVM_GUEST_PROTECTION_OP.
-   339	
-   340	- Rename KVM_MEMORY_ENCRYPT_OP to KVM_GUEST_PROTECTION_OP and keep
-   341	  KVM_MEMORY_ENCRYPT_OP as same value for user API for compatibility.
-   342	  "#define KVM_MEMORY_ENCRYPT_OP KVM_GUEST_PROTECTION_OP" for uapi
-   343	  compatibility.
-   344	  Pros:
-   345	  - No new ioctl with more suitable name.
-   346	  Cons:
-   347	  - May cause confusion to the existing user program.
-   348	
-   349	
-   350	References
-   351	==========
-   352	
- > 353	.. [1] TDX specification
-   354	   https://software.intel.com/content/www/us/en/develop/articles/intel-trust-domain-extensions.html
-   355	.. [2] Intel Trust Domain Extensions (Intel TDX)
-   356	   https://software.intel.com/content/dam/develop/external/us/en/documents/tdx-whitepaper-final9-17.pdf
-   357	.. [3] Intel CPU Architectural Extensions Specification
-   358	   https://software.intel.com/content/dam/develop/external/us/en/documents/intel-tdx-cpu-architectural-specification.pdf
-   359	.. [4] Intel TDX Module 1.0 EAS
-   360	   https://software.intel.com/content/dam/develop/external/us/en/documents/intel-tdx-module-1eas.pdf
-   361	.. [5] Intel TDX Loader Interface Specification
-   362	   https://software.intel.com/content/dam/develop/external/us/en/documents/intel-tdx-seamldr-interface-specification.pdf
-   363	.. [6] Intel TDX Guest-Hypervisor Communication Interface
-   364	   https://software.intel.com/content/dam/develop/external/us/en/documents/intel-tdx-guest-hypervisor-communication-interface.pdf
-   365	.. [7] Intel TDX Virtual Firmware Design Guide
-   366	   https://software.intel.com/content/dam/develop/external/us/en/documents/tdx-virtual-firmware-design-guide-rev-1.
-   367	.. [8] intel public github
-   368	   kvm TDX branch: https://github.com/intel/tdx/tree/kvm
-   369	   TDX guest branch: https://github.com/intel/tdx/tree/guest
-   370	.. [9] tdvf
-   371	    https://github.com/tianocore/edk2-staging/tree/TDVF
- > 372	.. [10] KVM forum 2020: Intel Virtualization Technology Extensions to
+Cheers,
+-- David
 
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+--0000000000002f50a605e357030b
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Description: S/MIME Cryptographic Signature
+
+MIIPnwYJKoZIhvcNAQcCoIIPkDCCD4wCAQExDzANBglghkgBZQMEAgEFADALBgkqhkiG9w0BBwGg
+ggz5MIIEtjCCA56gAwIBAgIQeAMYYHb81ngUVR0WyMTzqzANBgkqhkiG9w0BAQsFADBMMSAwHgYD
+VQQLExdHbG9iYWxTaWduIFJvb3QgQ0EgLSBSMzETMBEGA1UEChMKR2xvYmFsU2lnbjETMBEGA1UE
+AxMKR2xvYmFsU2lnbjAeFw0yMDA3MjgwMDAwMDBaFw0yOTAzMTgwMDAwMDBaMFQxCzAJBgNVBAYT
+AkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNhMSowKAYDVQQDEyFHbG9iYWxTaWduIEF0bGFz
+IFIzIFNNSU1FIENBIDIwMjAwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCvLe9xPU9W
+dpiHLAvX7kFnaFZPuJLey7LYaMO8P/xSngB9IN73mVc7YiLov12Fekdtn5kL8PjmDBEvTYmWsuQS
+6VBo3vdlqqXZ0M9eMkjcKqijrmDRleudEoPDzTumwQ18VB/3I+vbN039HIaRQ5x+NHGiPHVfk6Rx
+c6KAbYceyeqqfuJEcq23vhTdium/Bf5hHqYUhuJwnBQ+dAUcFndUKMJrth6lHeoifkbw2bv81zxJ
+I9cvIy516+oUekqiSFGfzAqByv41OrgLV4fLGCDH3yRh1tj7EtV3l2TngqtrDLUs5R+sWIItPa/4
+AJXB1Q3nGNl2tNjVpcSn0uJ7aFPbAgMBAAGjggGKMIIBhjAOBgNVHQ8BAf8EBAMCAYYwHQYDVR0l
+BBYwFAYIKwYBBQUHAwIGCCsGAQUFBwMEMBIGA1UdEwEB/wQIMAYBAf8CAQAwHQYDVR0OBBYEFHzM
+CmjXouseLHIb0c1dlW+N+/JjMB8GA1UdIwQYMBaAFI/wS3+oLkUkrk1Q+mOai97i3Ru8MHsGCCsG
+AQUFBwEBBG8wbTAuBggrBgEFBQcwAYYiaHR0cDovL29jc3AyLmdsb2JhbHNpZ24uY29tL3Jvb3Ry
+MzA7BggrBgEFBQcwAoYvaHR0cDovL3NlY3VyZS5nbG9iYWxzaWduLmNvbS9jYWNlcnQvcm9vdC1y
+My5jcnQwNgYDVR0fBC8wLTAroCmgJ4YlaHR0cDovL2NybC5nbG9iYWxzaWduLmNvbS9yb290LXIz
+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
+z/tQRXr3iPeVmZCr7nttMEwGA1UdIARFMEMwQQYJKwYBBAGgMgEoMDQwMgYIKwYBBQUHAgEWJmh0
+dHBzOi8vd3d3Lmdsb2JhbHNpZ24uY29tL3JlcG9zaXRvcnkvMAwGA1UdEwEB/wQCMAAwgZoGCCsG
+AQUFBwEBBIGNMIGKMD4GCCsGAQUFBzABhjJodHRwOi8vb2NzcC5nbG9iYWxzaWduLmNvbS9jYS9n
+c2F0bGFzcjNzbWltZWNhMjAyMDBIBggrBgEFBQcwAoY8aHR0cDovL3NlY3VyZS5nbG9iYWxzaWdu
+LmNvbS9jYWNlcnQvZ3NhdGxhc3Izc21pbWVjYTIwMjAuY3J0MB8GA1UdIwQYMBaAFHzMCmjXouse
+LHIb0c1dlW+N+/JjMEYGA1UdHwQ/MD0wO6A5oDeGNWh0dHA6Ly9jcmwuZ2xvYmFsc2lnbi5jb20v
+Y2EvZ3NhdGxhc3Izc21pbWVjYTIwMjAuY3JsMA0GCSqGSIb3DQEBCwUAA4IBAQAx+EQjLATc/sze
+VoZkH7OLz+/no1+y31x4BQ3wjW7lKfay9DAAVym896b7ECttSo95GEvS7pYMikzud57WypK7Bjpi
+ep8YLarLRDrvyyvBuYtyDrIewkuASHtV1oy5E6QZZe2VOxMm6e2oJnFFjbflot4A08D3SwqDwV0i
+OOYwT0BUtHYR/3903Dmdx5Alq+NDvUHDjozgo0f6oIkwDXT3yBV36utQ/jFisd36C8RD5mM+NFpu
+3aqLXARRbKtxw29ErCwulof2dcAonG7cd5j+gmS84sLhKU+BhL1OQVXnJ5tj7xZ5Ri5I23brcwk0
+lk/gWqfgs3ppT9Xk7zVit9q8MYICajCCAmYCAQEwaDBUMQswCQYDVQQGEwJCRTEZMBcGA1UEChMQ
+R2xvYmFsU2lnbiBudi1zYTEqMCgGA1UEAxMhR2xvYmFsU2lnbiBBdGxhcyBSMyBTTUlNRSBDQSAy
+MDIwAhABh9LgIPnlfMFHR0Die8n7MA0GCWCGSAFlAwQCAQUAoIHUMC8GCSqGSIb3DQEJBDEiBCDW
+xOGRhc2KC7kyBAOO9VflVYWYSBCJ/Qfi9dyPQ2bzwzAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcB
+MBwGCSqGSIb3DQEJBTEPFw0yMjA3MDkwMzM1MzhaMGkGCSqGSIb3DQEJDzFcMFowCwYJYIZIAWUD
+BAEqMAsGCWCGSAFlAwQBFjALBglghkgBZQMEAQIwCgYIKoZIhvcNAwcwCwYJKoZIhvcNAQEKMAsG
+CSqGSIb3DQEBBzALBglghkgBZQMEAgEwDQYJKoZIhvcNAQEBBQAEggEADngLlw+7BHWsDfXodA5M
+3ZhqcKoIUGTKOKpkyuCXDO2O0vKj8H+haMpVNzKb2bCYv1uGJ7wmYoCVGlEWyfEav54JNa7H0CId
+0KmpuSkAFG0AmzSaowoyS6brF411oVsZfEorrGd+H/0v2p+yeF5McUzsBxW5J11rFRw/A/YNysqz
+kHZkkNaZN8H46I3fYTGaNNVvYkbFJw3SXDO10Hbg6g1QLMHhcSF23AuLeaNoN1NN3vzLWIgkuq9n
+SSxPm6THzbhMkmIXgPU0J1KeAuk4LmnWoLX0s3q4qWfaBTD8r4BYYa9yC7w/Ojx6KJTiM/kxZXtq
+hAU+ejbbM2raoq4MZQ==
+--0000000000002f50a605e357030b--
