@@ -2,109 +2,99 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 48259C43334
-	for <linux-doc@archiver.kernel.org>; Sat,  9 Jul 2022 09:56:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 055FCC43334
+	for <linux-doc@archiver.kernel.org>; Sat,  9 Jul 2022 10:07:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229540AbiGIJ4t (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 9 Jul 2022 05:56:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55288 "EHLO
+        id S229667AbiGIKHl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 9 Jul 2022 06:07:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60926 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229462AbiGIJ4t (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 9 Jul 2022 05:56:49 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 548371F2F6;
-        Sat,  9 Jul 2022 02:56:48 -0700 (PDT)
+        with ESMTP id S229460AbiGIKHk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 9 Jul 2022 06:07:40 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A9464AD79;
+        Sat,  9 Jul 2022 03:07:39 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id E537B60B6F;
-        Sat,  9 Jul 2022 09:56:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D4EBC3411C;
-        Sat,  9 Jul 2022 09:56:44 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 155C960E09;
+        Sat,  9 Jul 2022 10:07:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A013C341CB;
+        Sat,  9 Jul 2022 10:07:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1657360607;
-        bh=PbPaVryS3IfrLqQ1B9Ls9PPUnr4E5iWT9w5+tUrG/SU=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=riY1cZ27C76IkL7GJt4UKOvxVIoiho/oMGtH2RQ17N/urCtX9PsAD3/2OxUen05PS
-         uZJf4HUc0MLgcPvohCH5gu13TXIzsnCIbV/kOzVrqcx+/+Ay0mMqRDEPe+uKUT2SzM
-         1Zp4xESSttL5VTpOg3FiBLSwWS6SjIm3xg1qWafdCVsQkPimtkqv8RCpEhk18WQ8Cb
-         F/kwALhaLzftWcjWezq7nGbBfR28H7rEJarRZu3sDhiAwSywUL6MW0igrv6jhi/UOl
-         Ya+9ljZ7gCKeO3OmvarM4WzmxJ+r9UTaNxllha5Qk5r5UpBa3NkMP+eDijKRkYXPN5
-         DUW6U74f/xkpA==
-Date:   Sat, 9 Jul 2022 10:56:40 +0100
+        s=k20201202; t=1657361258;
+        bh=KZMhqKdJLjrHHTJU133KkxjPp76fXsmKlOwAYjquG7U=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=okoGiyBJ3MHqOlHYCE9BY6Dk3VBbeDVgI8KZn2YHIagcREimM3E2hNXqxrc88o4BD
+         pJLBUouTplLaosSaMjBXK3RqhBUr3t2tEEW2xQ2wGFs5KKP9zN8HGRRAeRoWoR7xCI
+         rb3oDkLDqhb9F65kD5byEQlmBiui0uqsdY85s1bX1ttuYYM6AQjjG3bUimp4esLzKp
+         XuOnoekv+NWCSDaIBtpjjMlazL1XKfTPWeG9a8+brfuGyUe6gP9YKkxh48INBBasZi
+         WAwuUU0YOhtnPlmY38waQJKquciZ+t5zECm97zD60cLn01QN687uH/PWw0IWTZMh4F
+         +Qs08yLdID6HQ==
+Received: from mchehab by mail.kernel.org with local (Exim 4.95)
+        (envelope-from <mchehab@kernel.org>)
+        id 1oA7N9-004EGl-Gw;
+        Sat, 09 Jul 2022 11:07:35 +0100
 From:   Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     Takashi Iwai <tiwai@suse.de>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         "Jonathan Corbet" <corbet@lwn.net>,
         "Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>, alsa-devel@alsa-project.org,
+        David Howells <dhowells@redhat.com>, linux-cachefs@redhat.com,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 10/12] docs: alsa: alsa-driver-api.rst: remove a
- kernel-doc file
-Message-ID: <20220709105640.376ff45c@sal.lan>
-In-Reply-To: <87y1x9xclg.wl-tiwai@suse.de>
-References: <cover.1656759988.git.mchehab@kernel.org>
-        <3cd6b93b36b32ad6ae160931aaa00b20688e241a.1656759989.git.mchehab@kernel.org>
-        <87y1x9xclg.wl-tiwai@suse.de>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
+Subject: [PATCH v3 07/21] fscache: fix kernel-doc documentation
+Date:   Sat,  9 Jul 2022 11:07:20 +0100
+Message-Id: <880d7d25753fb326ee17ac08005952112fcf9bdb.1657360984.git.mchehab@kernel.org>
+X-Mailer: git-send-email 2.36.1
+In-Reply-To: <cover.1657360984.git.mchehab@kernel.org>
+References: <cover.1657360984.git.mchehab@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Mon, 04 Jul 2022 14:54:19 +0200
-Takashi Iwai <tiwai@suse.de> escreveu:
+The prototype of two functions use "cookie" for the object
+parameter.
 
-> On Sat, 02 Jul 2022 13:07:42 +0200,
-> Mauro Carvalho Chehab wrote:
-> > 
-> > This file:
-> > 	sound/core/compress_offload.c
-> > 
-> > Doesn't define any docs, as everything is inside the header
-> > file. So, drop it, in order to remove a Sphinx warning.
-> > 
-> > Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>  
-> 
-> Hmm, it looks rather like that some comments (at least for exported
-> functions) should be marked with kerneldoc markers instead.
-> 
-> I'm going to fix those comments.
+Update kernel-doc tags accordingly, fixing those warnings:
 
-Go for it: adding kerneldoc markers is indeed a better solution :-)
+	include/linux/fscache.h:270: warning: Function parameter or member 'cookie' not described in 'fscache_use_cookie'
+	include/linux/fscache.h:270: warning: Excess function parameter 'object' description in 'fscache_use_cookie'
+	include/linux/fscache.h:287: warning: Function parameter or member 'cookie' not described in 'fscache_unuse_cookie'
+	include/linux/fscache.h:287: warning: Excess function parameter 'object' description in 'fscache_unuse_cookie'
 
-Regards,
-Mauro
+Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+---
 
-> 
-> 
-> thanks,
-> 
-> Takashi
-> 
-> > ---
-> > 
-> > To avoid mailbombing on a large number of people, only mailing lists were C/C on the cover.
-> > See [PATCH 00/12] at: https://lore.kernel.org/all/cover.1656759988.git.mchehab@kernel.org/
-> > 
-> >  Documentation/sound/kernel-api/alsa-driver-api.rst | 1 -
-> >  1 file changed, 1 deletion(-)
-> > 
-> > diff --git a/Documentation/sound/kernel-api/alsa-driver-api.rst b/Documentation/sound/kernel-api/alsa-driver-api.rst
-> > index d24c64df7069..3cf8eb4ecaf4 100644
-> > --- a/Documentation/sound/kernel-api/alsa-driver-api.rst
-> > +++ b/Documentation/sound/kernel-api/alsa-driver-api.rst
-> > @@ -86,7 +86,6 @@ Compress Offload
-> >  
-> >  Compress Offload API
-> >  --------------------
-> > -.. kernel-doc:: sound/core/compress_offload.c
-> >  .. kernel-doc:: include/uapi/sound/compress_offload.h
-> >  .. kernel-doc:: include/uapi/sound/compress_params.h
-> >  .. kernel-doc:: include/sound/compress_driver.h
-> > -- 
-> > 2.36.1
-> >   
+To avoid mailbombing on a large number of people, only mailing lists were C/C on the cover.
+See [PATCH v3 00/21] at: https://lore.kernel.org/all/cover.1657360984.git.mchehab@kernel.org/
+
+ include/linux/fscache.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/include/linux/fscache.h b/include/linux/fscache.h
+index 2f82ea31d4c1..e13184c4b198 100644
+--- a/include/linux/fscache.h
++++ b/include/linux/fscache.h
+@@ -257,7 +257,7 @@ struct fscache_cookie *fscache_acquire_cookie(struct fscache_volume *volume,
+ 
+ /**
+  * fscache_use_cookie - Request usage of cookie attached to an object
+- * @object: Object description
++ * @cookie: Object description
+  * @will_modify: If cache is expected to be modified locally
+  *
+  * Request usage of the cookie attached to an object.  The caller should tell
+@@ -273,7 +273,7 @@ static inline void fscache_use_cookie(struct fscache_cookie *cookie,
+ 
+ /**
+  * fscache_unuse_cookie - Cease usage of cookie attached to an object
+- * @object: Object description
++ * @cookie: Object description
+  * @aux_data: Updated auxiliary data (or NULL)
+  * @object_size: Revised size of the object (or NULL)
+  *
+-- 
+2.36.1
+
