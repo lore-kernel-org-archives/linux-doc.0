@@ -2,55 +2,55 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 06BEBC433EF
-	for <linux-doc@archiver.kernel.org>; Sat,  9 Jul 2022 20:38:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B36D2C433EF
+	for <linux-doc@archiver.kernel.org>; Sun, 10 Jul 2022 00:52:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229490AbiGIUiQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 9 Jul 2022 16:38:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42804 "EHLO
+        id S229470AbiGJAw1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 9 Jul 2022 20:52:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52674 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229448AbiGIUiQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 9 Jul 2022 16:38:16 -0400
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7DCC4E0A2;
-        Sat,  9 Jul 2022 13:38:15 -0700 (PDT)
+        with ESMTP id S229450AbiGJAw1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 9 Jul 2022 20:52:27 -0400
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F05A813D7D;
+        Sat,  9 Jul 2022 17:52:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1657399095; x=1688935095;
+  t=1657414346; x=1688950346;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=UsCG2LP+eMsf8h/hHDidHHdX1fTkku1D4E2O+r5yQcI=;
-  b=dz6Vi8IDVGbIB6uWAnW4SDM41rN0BiDYsIFp8lO/i0oncLNroEo68775
-   SP5q3IF/kxwmJqOG3FncotyWL54151nri4bTaB+KoDAfYpPcsm59nKuqU
-   ub6+BbhfMijwNhvrepWS/umGdXRMIBWo/EdcswdOLhi0is1Agc+UqxFIF
-   stQI/h84rfdQ2lmwbNhlQKeNuiyiFoGMdr/9Q2dIFoG0VKlVCAaWmus9z
-   efoXStWszqFDhTkJzGHoNL0Wff7MNc1eebdjXF4K+Bw6eBR8xjHcgTIs7
-   Oz5PEU7hBJfHrpJDd9EDTanDy3yPrDt28sjgjjuL9G5pUIb3vuypuZL5J
-   Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10403"; a="285202639"
-X-IronPort-AV: E=Sophos;i="5.92,259,1650956400"; 
-   d="scan'208";a="285202639"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2022 13:38:14 -0700
+  bh=0WBawKch8FgdG5q67N7Y+VHMcNvqfbYKAysDrYg405o=;
+  b=R7RL5lu6EvmtSKSvrnd36UPqksSyoLgqRuvlRZ+ZSrrnoNdxF+J5TWhZ
+   QgK+tneR+MzAT7YFLxNUGiMY2Mk3w4NE00d5yfTPY6V/APyRKcA3n9ieD
+   +k+Gj8kLmd0KC0oWksbkyMIBvKt0rJ+l8GikZGPcXawddau4EQHGmPB1N
+   K5NnfN5xw+N6U5zwqy48caLu+a2HQMA9mzg0DfKh6mM3JjTsJBcmp5jvU
+   ELB59MldUnVX/RmUNFktVr9GkK6uVguNGRgE9MO50r7ZoysJMQk7EkZWs
+   MHJ1imufGDVFaTFghxloZgC61HWMsdt6XFNimvGdOiZwZaNwASoIK/FIS
+   w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10403"; a="267512531"
+X-IronPort-AV: E=Sophos;i="5.92,260,1650956400"; 
+   d="scan'208";a="267512531"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2022 17:52:25 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.92,259,1650956400"; 
-   d="scan'208";a="621617706"
+X-IronPort-AV: E=Sophos;i="5.92,260,1650956400"; 
+   d="scan'208";a="594492129"
 Received: from lkp-server01.sh.intel.com (HELO 68b931ab7ac1) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 09 Jul 2022 13:38:13 -0700
+  by orsmga002.jf.intel.com with ESMTP; 09 Jul 2022 17:52:23 -0700
 Received: from kbuild by 68b931ab7ac1 with local (Exim 4.95)
         (envelope-from <lkp@intel.com>)
-        id 1oAHDQ-000P4i-J3;
-        Sat, 09 Jul 2022 20:38:12 +0000
-Date:   Sun, 10 Jul 2022 04:37:49 +0800
+        id 1oALBP-000PKe-Al;
+        Sun, 10 Jul 2022 00:52:23 +0000
+Date:   Sun, 10 Jul 2022 08:52:14 +0800
 From:   kernel test robot <lkp@intel.com>
 To:     Chao Peng <chao.p.peng@linux.intel.com>
 Cc:     kbuild-all@lists.01.org, linux-kernel@vger.kernel.org,
         Isaku Yamahata <isaku.yamahata@intel.com>,
         Yu Zhang <yu.c.zhang@linux.intel.com>,
         linux-doc@vger.kernel.org
-Subject: [intel-tdx:kvm-upstream-workaround 295/418] htmldocs:
- Documentation/virt/kvm/api.rst:1364: WARNING: Inline emphasis start-string
- without end-string.
-Message-ID: <202207100439.e7j8H8ek-lkp@intel.com>
+Subject: [intel-tdx:kvm-upstream-workaround 296/418] htmldocs:
+ Documentation/virt/kvm/api.rst:6679: WARNING: Definition list ends without a
+ blank line; unexpected unindent.
+Message-ID: <202207100806.ymoTKohh-lkp@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
@@ -60,7 +60,7 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 tree:   https://github.com/intel/tdx.git kvm-upstream-workaround
 head:   c2b43d6ee32b2f2de54395e7b2d7ba9bfa727608
-commit: 4a84476dadcc3d7640c22b327464bdc9488787fd [295/418] KVM: Extend the memslot to support fd-based private memory
+commit: e11dbdbae913817716494fb41eb22aa88e1464e0 [296/418] KVM: Add KVM_EXIT_MEMORY_FAULT exit
 reproduce: make htmldocs
 
 If you fix the issue, kindly add following tag where applicable
@@ -68,22 +68,31 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 All warnings (new ones prefixed by >>):
 
->> Documentation/virt/kvm/api.rst:1364: WARNING: Inline emphasis start-string without end-string.
+>> Documentation/virt/kvm/api.rst:6679: WARNING: Definition list ends without a blank line; unexpected unindent.
 
-vim +1364 Documentation/virt/kvm/api.rst
+vim +6679 Documentation/virt/kvm/api.rst
 
-4a84476dadcc3d Documentation/virt/kvm/api.rst    Chao Peng      2021-11-15  1363  
-0f2d8f4dd0663d Documentation/kvm/api.txt         Avi Kivity     2010-03-25 @1364    /* for kvm_memory_region::flags */
-4d8b81abc47b83 Documentation/virtual/kvm/api.txt Xiao Guangrong 2012-08-21  1365    #define KVM_MEM_LOG_DIRTY_PAGES	(1UL << 0)
-4d8b81abc47b83 Documentation/virtual/kvm/api.txt Xiao Guangrong 2012-08-21  1366    #define KVM_MEM_READONLY	(1UL << 1)
-4a84476dadcc3d Documentation/virt/kvm/api.rst    Chao Peng      2021-11-15  1367    #define KVM_MEM_PRIVATE		(1UL << 2)
-0f2d8f4dd0663d Documentation/kvm/api.txt         Avi Kivity     2010-03-25  1368  
-
-:::::: The code at line 1364 was first introduced by commit
-:::::: 0f2d8f4dd0663defff8c1738d33478c1fb65a4f5 KVM: Document KVM_SET_USER_MEMORY_REGION
-
-:::::: TO: Avi Kivity <avi@redhat.com>
-:::::: CC: Avi Kivity <avi@redhat.com>
+  6667	
+  6668	  };
+  6669	
+  6670	::
+  6671			/* KVM_EXIT_MEMORY_FAULT */
+  6672			struct {
+  6673	  #define KVM_MEMORY_EXIT_FLAG_PRIVATE	(1 << 0)
+  6674				__u32 flags;
+  6675				__u32 padding;
+  6676				__u64 gpa;
+  6677				__u64 size;
+  6678			} memory;
+> 6679	If exit reason is KVM_EXIT_MEMORY_FAULT then it indicates that the VCPU has
+  6680	encountered a memory error which is not handled by KVM kernel module and
+  6681	userspace may choose to handle it. The 'flags' field indicates the memory
+  6682	properties of the exit.
+  6683	
+  6684	 - KVM_MEMORY_EXIT_FLAG_PRIVATE - indicates the memory error is caused by
+  6685	   private memory access when the bit is set otherwise the memory error is
+  6686	   caused by shared memory access when the bit is clear.
+  6687	
 
 -- 
 0-DAY CI Kernel Test Service
