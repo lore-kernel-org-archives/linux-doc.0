@@ -2,158 +2,170 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 83C5CCCA47B
-	for <linux-doc@archiver.kernel.org>; Mon, 11 Jul 2022 22:52:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BF8DCC433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 11 Jul 2022 23:17:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230234AbiGKWwn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 11 Jul 2022 18:52:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46658 "EHLO
+        id S231195AbiGKXRd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 11 Jul 2022 19:17:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39988 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229476AbiGKWwj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Jul 2022 18:52:39 -0400
-Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com [IPv6:2a00:1450:4864:20::634])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08A3E5C9CF;
-        Mon, 11 Jul 2022 15:52:39 -0700 (PDT)
-Received: by mail-ej1-x634.google.com with SMTP id os14so11297389ejb.4;
-        Mon, 11 Jul 2022 15:52:38 -0700 (PDT)
+        with ESMTP id S229996AbiGKXRd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Jul 2022 19:17:33 -0400
+Received: from mail-io1-xd2b.google.com (mail-io1-xd2b.google.com [IPv6:2607:f8b0:4864:20::d2b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 552A087F74
+        for <linux-doc@vger.kernel.org>; Mon, 11 Jul 2022 16:17:31 -0700 (PDT)
+Received: by mail-io1-xd2b.google.com with SMTP id l24so6344030ion.13
+        for <linux-doc@vger.kernel.org>; Mon, 11 Jul 2022 16:17:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=i2JP/AK/462flQNf3WkuAKr99hiwoo70NGIBG6Typ3w=;
-        b=ErppBv825hWACq85NgILEoUpFIDS7zhQU4dBsF65NWh9mqK1QibzrTz5JjL/oe9P4P
-         xddf9vJAS5jJevier0WxjtSRTzqNqYMTuFMbLyHy18aT7xPi4oZPjKUXEDf3BhSaLDa4
-         4O3xw1J1KLXUrMcEs66ayBXSRlLIZbC064ewsp5aVZAPGfL0CMXNAFyBX/9qyBVJbAOu
-         xoSUM1m6sng8YQvv6Z+b3Z5XjXwnY/UzydMHSmIOJ28NgRuG0eCkAIYDttY9WOuNkv9g
-         v51CIgVGXO+hyPttpvZ9Y8r1QIuDcwQgPgw5HdmKK2Y4Fsxmh65jR/Qqh4XcEPpMGnwl
-         PGqQ==
+        d=linuxfoundation.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=X4V9spvk1I9jjtr8sVusqF9oSSPPa+R7P/GUBMC4gLc=;
+        b=iL2mD/P0V4lfh23PpOV1RJOguNLsoUgdYgJwIjkRgS64rurYUXaVJSd3k7136hlWh+
+         aSX3Sy9hkwO1TextBrkhg7/G0fkAst9YMLYeZGIPYO0n1vg88u4nguP2uIcjBSJdIG2s
+         TQRIQWOEtYP10f+luBeND/Wq3Hi7OU8xOISJE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=i2JP/AK/462flQNf3WkuAKr99hiwoo70NGIBG6Typ3w=;
-        b=NcFknJgVFzO3UqiTfsabJm9c8lvh2/D0/UGn9QcYYwK2kvYyxxu6cVaTtFsk8omazf
-         jzjwukTSs2iA8RR5GzjsJXxcDooqLawZ88w+eubP7S6YSFOFsgCpXmV5m7kRvwF0c6mZ
-         k2T1pLxNZ5pBMT6l3+eQWK6ISAjUV/hm4sKKIPTLTg1uHrsSILq97u9AWqbfQQrCHooC
-         xKMjZzZZY9rcBCBYlWFyeWhTuhA6RkUrb/zpI/1itVWUFj58kZ43gLuoHqRu66t0+hTw
-         pf3ItG5XQ7TaDksNIluk33ToIp8O9K0A5CClui+eon81yN23lPlhFVImlXpuJiMEy+qh
-         udnw==
-X-Gm-Message-State: AJIora97OHHr/7rDTkOhv7qUwJ2hr8NbapZToFXw4WL6KztzqIDXzt0G
-        JZsfag0sBug9gbmllwpJyA3WVGI9f2VE3CPQaH4=
-X-Google-Smtp-Source: AGRyM1u3B9GaqsJzc2ZnGgAx20N9pPna/H/YyY3hApLIj/mDA7Feo0MOU0K0s1MJSpzYriYuHv0RZqEbB9CZJ8ZQIzU=
-X-Received: by 2002:a17:906:8a45:b0:72b:31d4:d537 with SMTP id
- gx5-20020a1709068a4500b0072b31d4d537mr17046686ejc.170.1657579957647; Mon, 11
- Jul 2022 15:52:37 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220711034615.482895-1-21cnbao@gmail.com> <20220711034615.482895-3-21cnbao@gmail.com>
- <13b283fe-10f7-376f-9b8e-856e4d1e0ede@huawei.com>
-In-Reply-To: <13b283fe-10f7-376f-9b8e-856e4d1e0ede@huawei.com>
-From:   Barry Song <21cnbao@gmail.com>
-Date:   Tue, 12 Jul 2022 10:52:24 +1200
-Message-ID: <CAGsJ_4wW=3xsmB1jzcv=sD9OhhPc0v=+odp=JY80vEbMY6OZ_g@mail.gmail.com>
-Subject: Re: [PATCH v2 2/4] mm: rmap: Allow platforms without mm_cpumask to
- defer TLB flush
-To:     Kefeng Wang <wangkefeng.wang@huawei.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        LAK <linux-arm-kernel@lists.infradead.org>, x86 <x86@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=X4V9spvk1I9jjtr8sVusqF9oSSPPa+R7P/GUBMC4gLc=;
+        b=Oerw9BCm+HpmXzgwaPFI3oXy1nIg/Ebq2hlla1UpUat154sakmldo098uwNK7vEvyT
+         vKHv04UvKL5WE++snG3scejkPKpjpmkNVj/QjvSbDgvpL3OjAFj78l+z5uxt3OHLGLJZ
+         EKBpbCkWfRuJgV9r3fUdtujm2FGqi7xtbGO0IJ1lxFuQ50R1iWNP220/ftmU8T0n5zQM
+         f0XwLA72CSe+5Uano0U0Z56x/L2PB6UKkT6wb0dV2xwBQl+n1qfKG9u49BwsCealc2kg
+         8mH96gA9R+oRcxopSVMpxT1hUaQRp4qSIsU2PdumMbFcCikt74nZIo2QwC/ohsgJTcVK
+         PUaQ==
+X-Gm-Message-State: AJIora9ii9tSZOL4MHlyRAVrbLrsnhfPdwBsSBau3Y5ZYG/5vPNsT+PD
+        lWuX2oxq4AqjWFqcHRGjpTuBFg==
+X-Google-Smtp-Source: AGRyM1uj5haGzpa8pwS0HQnvZKEjcACNgX12g8/rtIBFbcZxuC0BrgiAPyKTyF5FN6ouZQ+LKJ9q5Q==
+X-Received: by 2002:a05:6602:2e0c:b0:669:b7a8:fb0a with SMTP id o12-20020a0566022e0c00b00669b7a8fb0amr10334823iow.121.1657581450696;
+        Mon, 11 Jul 2022 16:17:30 -0700 (PDT)
+Received: from [192.168.1.128] ([38.15.45.1])
+        by smtp.gmail.com with ESMTPSA id y20-20020a056e02119400b002dc239fbd04sm3185890ili.22.2022.07.11.16.17.29
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 11 Jul 2022 16:17:30 -0700 (PDT)
+Subject: Re: [PATCH v6 3/4] kunit: Taint the kernel when KUnit tests are run
+To:     David Gow <davidgow@google.com>
+Cc:     Daniel Latypov <dlatypov@google.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Brendan Higgins <brendanhiggins@google.com>,
+        "Guilherme G . Piccoli" <gpiccoli@igalia.com>,
+        Sebastian Reichel <sre@kernel.org>,
+        John Ogness <john.ogness@linutronix.de>,
+        Joe Fradley <joefradley@google.com>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        KUnit Development <kunit-dev@googlegroups.com>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Lucas De Marchi <lucas.demarchi@intel.com>,
+        Aaron Tomlin <atomlin@redhat.com>,
+        linux-fsdevel@vger.kernel.org, linux-block@vger.kernel.org,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Arnd Bergmann <arnd@arndb.de>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Darren Hart <darren@os.amperecomputing.com>,
-        Yicong Yang <yangyicong@hisilicon.com>, huzhanyuan@oppo.com,
-        =?UTF-8?B?5p2O5Z+56ZSLKHdpbmsp?= <lipeifeng@oppo.com>,
-        =?UTF-8?B?5byg6K+X5piOKFNpbW9uIFpoYW5nKQ==?= 
-        <zhangshiming@oppo.com>, =?UTF-8?B?6YOt5YGl?= <guojian@oppo.com>,
-        real mz <realmz6@gmail.com>, linux-mips@vger.kernel.org,
-        openrisc@lists.librecores.org, linuxppc-dev@lists.ozlabs.org,
-        linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
-        Barry Song <v-songbaohua@oppo.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Shuah Khan <skhan@linuxfoundation.org>
+References: <20220708044847.531566-1-davidgow@google.com>
+ <20220708044847.531566-3-davidgow@google.com>
+ <fc638852-ac9a-abab-8fdb-01b685cdec96@linuxfoundation.org>
+ <CAGS_qxpODhSEs_sMm5Gu55EsYy-M9V98eLU-8O+xGMxncXmY4A@mail.gmail.com>
+ <f25f96ce-1c9b-7e66-a5be-96d7cf2988cf@linuxfoundation.org>
+ <a00efaa8-71e0-c531-b6a4-e3d695ad628b@linuxfoundation.org>
+ <CABVgOSkroVjxTDoKTLBxiX_Fw5qZQmchDpY4U3XCCRYfXbS2bQ@mail.gmail.com>
+From:   Shuah Khan <skhan@linuxfoundation.org>
+Message-ID: <4e5ca5b9-cdb8-4ddf-b057-27f721427f52@linuxfoundation.org>
+Date:   Mon, 11 Jul 2022 17:17:29 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
+MIME-Version: 1.0
+In-Reply-To: <CABVgOSkroVjxTDoKTLBxiX_Fw5qZQmchDpY4U3XCCRYfXbS2bQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jul 12, 2022 at 1:35 AM Kefeng Wang <wangkefeng.wang@huawei.com> wr=
-ote:
->
-> Hi Barry=EF=BC=8C
->
-> On 2022/7/11 11:46, Barry Song wrote:
-> > From: Barry Song <v-songbaohua@oppo.com>
-> >
-> > Platforms like ARM64 have hareware TLB shootdown broadcast. They
-> > don't maintain mm_cpumask but just send tlbi and related sync
-> > instructions for TLB flush. task's mm_cpumask is normally empty
-> > in this case. We also allow deferred TLB flush on this kind of
-> > platforms.
-> >
-> > Signed-off-by: Barry Song <v-songbaohua@oppo.com>>
-> > ---
-> ...
-> > diff --git a/mm/Kconfig b/mm/Kconfig
-> > index 169e64192e48..7bf54f57ca01 100644
-> > --- a/mm/Kconfig
-> > +++ b/mm/Kconfig
-> > @@ -951,6 +951,9 @@ config ARCH_HAS_CURRENT_STACK_POINTER
-> >         register alias named "current_stack_pointer", this config can b=
-e
-> >         selected.
-> >
-> > +config ARCH_HAS_MM_CPUMASK
-> > +     bool
-> > +
-> >   config ARCH_HAS_VM_GET_PAGE_PROT
-> >       bool
-> >
-> > diff --git a/mm/rmap.c b/mm/rmap.c
-> > index 5bcb334cd6f2..13d4f9a1d4f1 100644
-> > --- a/mm/rmap.c
-> > +++ b/mm/rmap.c
-> > @@ -692,6 +692,10 @@ static bool should_defer_flush(struct mm_struct *m=
-m, enum ttu_flags flags)
-> >       if (!(flags & TTU_BATCH_FLUSH))
-> >               return false;
-> >
-> > +#ifndef CONFIG_ARCH_HAS_MM_CPUMASK
-> > +     return true;
-> > +#endif
-> > +
->
-> Here is another option to enable arch's tlbbatch defer
->
+On 7/8/22 9:35 PM, David Gow wrote:
+> On Sat, Jul 9, 2022 at 5:24 AM Shuah Khan <skhan@linuxfoundation.org> wrote:
+>>
+>> On 7/8/22 3:22 PM, Shuah Khan wrote:
+>>> On 7/8/22 3:00 PM, Daniel Latypov wrote:
+>>>> On Fri, Jul 8, 2022 at 1:22 PM Shuah Khan <skhan@linuxfoundation.org> wrote:
+>>>>>
+>>>>> On 7/7/22 10:48 PM, David Gow wrote:
+>>>>>> Make KUnit trigger the new TAINT_TEST taint when any KUnit test is run.
+>>>>>> Due to KUnit tests not being intended to run on production systems, and
+>>>>>> potentially causing problems (or security issues like leaking kernel
+>>>>>> addresses), the kernel's state should not be considered safe for
+>>>>>> production use after KUnit tests are run.
+>>>>>>
+>>>>>> This both marks KUnit modules as test modules using MODULE_INFO() and
+>>>>>> manually taints the kernel when tests are run (which catches builtin
+>>>>>> tests).
+>>>>>>
+>>>>>> Acked-by: Luis Chamberlain <mcgrof@kernel.org>
+>>>>>> Tested-by: Daniel Latypov <dlatypov@google.com>
+>>>>>> Reviewed-by: Brendan Higgins <brendanhiggins@google.com>
+>>>>>> Signed-off-by: David Gow <davidgow@google.com>
+>>>>>> ---
+>>>>>>
+>>>>>> No changes since v5:
+>>>>>> https://lore.kernel.org/linux-kselftest/20220702040959.3232874-3-davidgow@google.com/
+>>>>>>
+>>>>>> No changes since v4:
+>>>>>> https://lore.kernel.org/linux-kselftest/20220701084744.3002019-3-davidgow@google.com/
+>>>>>>
+>>>>>
+>>>>> David, Brendan, Andrew,
+>>>>>
+>>>>> Just confirming the status of these patches. I applied v4 1/3 and v4 3/4
+>>>>> to linux-kselftest kunit for 5.20-rc1.
+>>>>> I am seeing v5 and v6 now. Andrew applied v5 looks like. Would you like
+>>>>> me to drop the two I applied? Do we have to refresh with v6?
+>>>>
+>>>> Just noting here that there'll be a merge conflict between this patch
+>>>> (3/4) and some other patches lined up to go through the kunit tree:
+>>>> https://patchwork.kernel.org/project/linux-kselftest/patch/20220625050838.1618469-2-davidgow@google.com/
+>>>>
+>>>> Not sure how we want to handle that.
+>>>>
+>>>
+>>> I can go drop the two patches and have Andrew carry the series through
+>>> mm tree.
+>>>
+>>
+>> Sorry spoke too soon. Yes there are others that might have conflicts as
+>> Daniel pointed out:
+>>
+>> https://patchwork.kernel.org/project/linux-kselftest/patch/20220625050838.1618469-2-davidgow@google.com/
+>>
+>> thanks,
+>> -- Shuah
+>>
+> 
+> Thanks everyone for pointing these out.
+> 
+> I've rebased the other series (the KUnit module support one:
+> https://lore.kernel.org/linux-kselftest/20220709032001.819487-1-davidgow@google.com/
+> ) on top of this.
+> 
+> If they all go in via the kselftest/kunit tree, everything should be fine now.
+> 
+> Cheers,
+> -- David
+> 
 
-This option is even better than simply having ARCH_HAS_MM_CPUMASK
-since arch might make decisions based on specific hardware characters.
-for example,
-https://lists.ozlabs.org/pipermail/linuxppc-dev/2017-November/165468.html
+Thank you David. All patches applied now to linux-kselftest kunit for 5.20-rc1
 
-+bool arch_tlbbatch_should_defer(struct mm_struct *mm)
-+{
-+     if (!radix_enabled() || cpu_has_feature(CPU_FTR_POWER9_DD1))
-+         return false;
-+
-+     if (!mm_is_thread_local(mm))
-+         return true;
-+
-+     return false;
-+}
-
-In this case, having MM_CPUMASK doesn't necessarily mean tlbbatch is needed=
-.
-
-> [1]
-> https://patchwork.ozlabs.org/project/linuxppc-dev/patch/20171101101735.23=
-18-2-khandual@linux.vnet.ibm.com/
->
-> >       /* If remote CPUs need to be flushed then defer batch the flush *=
-/
-> >       if (cpumask_any_but(mm_cpumask(mm), get_cpu()) < nr_cpu_ids)
-> >               should_defer =3D true;
-
-Thanks
-Barry
+thanks,
+-- Shuah
