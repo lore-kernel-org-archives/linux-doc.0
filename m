@@ -2,84 +2,88 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 27EEDC43334
-	for <linux-doc@archiver.kernel.org>; Mon, 11 Jul 2022 06:05:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B1BA3CCA47B
+	for <linux-doc@archiver.kernel.org>; Mon, 11 Jul 2022 07:37:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229469AbiGKGFj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 11 Jul 2022 02:05:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48146 "EHLO
+        id S229868AbiGKHg7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 11 Jul 2022 03:36:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55338 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229644AbiGKGFi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Jul 2022 02:05:38 -0400
-Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com [IPv6:2607:f8b0:4864:20::62f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9475418E17
-        for <linux-doc@vger.kernel.org>; Sun, 10 Jul 2022 23:05:37 -0700 (PDT)
-Received: by mail-pl1-x62f.google.com with SMTP id c13so3596673pla.6
-        for <linux-doc@vger.kernel.org>; Sun, 10 Jul 2022 23:05:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=KV+YGTfcaFLgrFYJ1SemBRBbLthrj0mXGJqzwOHsfoI=;
-        b=So+l0JwhQ0bAC8G9LVigdRBuXXRbCLGbMLeyzAO1SPS7rHB7BzWCEvYWMPHBD3lb6y
-         tfWQN1VhoiMtwVU1lL0H0f81lNwIERA8aNXNziqNi1Gcrg895q38BiB7p10le4F5AieI
-         EZrDlXM61JnFyLo6V34q8mTV79QWbcE8IRiK48fJzB03o6upvNu1RwAgOTH1n2SSoc/5
-         ZGLFKU3GCzzvRdluhKI4JVIoPBbruLKTeMMkZ76684hCmb9aq5+eYx4E0IlY7f6FxEda
-         XUcBQW0ULEzKh4jr6EivzCuzw0upuurDhyazuTO0mglqdIzUj1dNHWvvm01yA+YoS+MO
-         zBLg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=KV+YGTfcaFLgrFYJ1SemBRBbLthrj0mXGJqzwOHsfoI=;
-        b=354FO2RRAtlX2qrIXVxh7Ell/aUPGe2CMscYMHioKI+gRxFUnlPPx52PgjMFnAFOEo
-         vGJOT46o9L9jH7Fh+g136ztZetnNUG1ZssnR/63kwmG87vCcRANqBNCTGs0CA7PigcAT
-         IayGwN5ZdD+MxskzETcKIY2ax8883Y9jUiunIxdJtpvr9iukT6M3pCdfUgB6yIO3oJFq
-         IV2Cp47txdtazUiW8AejIadsegR/DfgR4BlT9YhIpHS46GLtJt3CobMrbPTGgNzsvp6T
-         p06CTDnb/cO1AeFRXevbwbzECf/KmxyxJjLBFemrnvhDKKO0h+xnncxd46ufcY76BdMr
-         DYQw==
-X-Gm-Message-State: AJIora8v72+SC+sqWIRtA4f5HPll25QLg+amC4sohThPKDLmhpO3xpVT
-        3usCQ5ZpFGcF46rwo+u2QXvpMA==
-X-Google-Smtp-Source: AGRyM1sqECluJp113NGdE2ankO4ay0QN5oroR2gvM10IiaTzw4+F0IVqlYbAV0HY9pW9BeKEW8pBpw==
-X-Received: by 2002:a17:90b:3811:b0:1ef:e647:ff34 with SMTP id mq17-20020a17090b381100b001efe647ff34mr16275535pjb.171.1657519537139;
-        Sun, 10 Jul 2022 23:05:37 -0700 (PDT)
-Received: from localhost ([61.120.150.77])
-        by smtp.gmail.com with ESMTPSA id i1-20020a170902c28100b0016c08addb4csm3762144pld.127.2022.07.10.23.05.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 10 Jul 2022 23:05:36 -0700 (PDT)
-Date:   Mon, 11 Jul 2022 14:05:32 +0800
-From:   Muchun Song <songmuchun@bytedance.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Mike Rapoport <rppt@kernel.org>,
-        Wu XiangCheng <bobwxc@email.cn>, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org
-Subject: Re: [PATCH v3 03/21] docs: update vmemmap_dedup.rst reference
-Message-ID: <Ysu9rAoRU19PB2D0@FVFYT0MHHV2J>
-References: <cover.1657360984.git.mchehab@kernel.org>
- <a3a132957ac8cc6b423303f4f4491753714b89b2.1657360984.git.mchehab@kernel.org>
+        with ESMTP id S229478AbiGKHg6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Jul 2022 03:36:58 -0400
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC7671B787;
+        Mon, 11 Jul 2022 00:36:57 -0700 (PDT)
+Received: from fraeml737-chm.china.huawei.com (unknown [172.18.147.226])
+        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4LhFw362hPz686pl;
+        Mon, 11 Jul 2022 15:32:35 +0800 (CST)
+Received: from lhreml724-chm.china.huawei.com (10.201.108.75) by
+ fraeml737-chm.china.huawei.com (10.206.15.218) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Mon, 11 Jul 2022 09:36:55 +0200
+Received: from [10.195.33.182] (10.195.33.182) by
+ lhreml724-chm.china.huawei.com (10.201.108.75) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Mon, 11 Jul 2022 08:36:53 +0100
+Message-ID: <a415e4a1-72ce-53e1-437a-fc7e56e4b913@huawei.com>
+Date:   Mon, 11 Jul 2022 08:36:53 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a3a132957ac8cc6b423303f4f4491753714b89b2.1657360984.git.mchehab@kernel.org>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.1
+Subject: Re: [PATCH v5 0/5] DMA mapping changes for SCSI core
+To:     Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        Christoph Hellwig <hch@lst.de>
+CC:     <joro@8bytes.org>, <will@kernel.org>, <jejb@linux.ibm.com>,
+        <m.szyprowski@samsung.com>, <robin.murphy@arm.com>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-ide@vger.kernel.org>, <iommu@lists.linux-foundation.org>,
+        <iommu@lists.linux.dev>, <linux-scsi@vger.kernel.org>,
+        <linuxarm@huawei.com>
+References: <1656590892-42307-1-git-send-email-john.garry@huawei.com>
+ <b5f80062-e8ef-9597-1b0c-393140950dfb@huawei.com>
+ <20220706134447.GA23753@lst.de> <yq1y1x47jgn.fsf@ca-mkp.ca.oracle.com>
+ <5fd4814a-81b1-0e71-58e0-57a747eb684e@huawei.com>
+ <6367a264-a3d3-8857-9b5a-2afcd25580cb@opensource.wdc.com>
+From:   John Garry <john.garry@huawei.com>
+In-Reply-To: <6367a264-a3d3-8857-9b5a-2afcd25580cb@opensource.wdc.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.195.33.182]
+X-ClientProxiedBy: lhreml726-chm.china.huawei.com (10.201.108.77) To
+ lhreml724-chm.china.huawei.com (10.201.108.75)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Jul 09, 2022 at 11:07:16AM +0100, Mauro Carvalho Chehab wrote:
-> Changeset ee65728e103b ("docs: rename Documentation/vm to Documentation/mm")
-> renamed: Documentation/vm/vmemmap_dedup.rst
-> to: Documentation/mm/vmemmap_dedup.rst.
-> 
-> Update its cross-reference accordingly.
-> 
-> Fixes: ee65728e103b ("docs: rename Documentation/vm to Documentation/mm")
-> Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+On 11/07/2022 00:08, Damien Le Moal wrote:
+>> Ah, I think that I misunderstood Damien's question. I thought he was
+>> asking why not keep shost max_sectors at dma_max_mapping_size() and then
+>> init each sdev request queue max hw sectors at dma_opt_mapping_size().
+> I was suggesting the reverse:)  Keep the device hard limit
+> (max_hw_sectors) to the max dma mapping and set the soft limit
+> (max_sectors) to the optimal dma mapping size.
 
-Reviewed-by: Muchun Song <songmuchun@bytedance.com>
+Sure, but as I mentioned below, I only see a small % of requests whose 
+mapping size exceeds max_sectors but that still causes a big performance 
+hit. So that is why I want to set the hard limit as the optimal dma 
+mapping size.
 
-Thanks.
+Indeed, the IOMMU IOVA caching limit is already the same as default 
+max_sectors for the disks in my system - 128Kb for 4k page size.
+
+> 
+>> But he seems that you want to know why not have the request queue max
+>> sectors at dma_opt_mapping_size(). The answer is related to meaning of
+>> dma_opt_mapping_size(). If we get any mappings which exceed this size
+>> then it can have a big dma mapping performance hit. So I set max hw
+>> sectors at this ‘opt’ mapping size to ensure that we get no mappings
+>> which exceed this size. Indeed, I think max sectors is 128Kb today for
+>> my host, which would be same as dma_opt_mapping_size() value with an
+>> IOMMU enabled. And I find that only a small % of request size may exceed
+>> this 128kb size, but it still has a big performance impact.
+>>
+
+Thanks,
+John
