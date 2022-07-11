@@ -2,121 +2,171 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E73B6C43334
-	for <linux-doc@archiver.kernel.org>; Mon, 11 Jul 2022 15:56:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 96776C43334
+	for <linux-doc@archiver.kernel.org>; Mon, 11 Jul 2022 16:05:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231234AbiGKP4X (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 11 Jul 2022 11:56:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49802 "EHLO
+        id S229663AbiGKQFQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 11 Jul 2022 12:05:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56202 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231130AbiGKP4W (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Jul 2022 11:56:22 -0400
-X-Greylist: delayed 341 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 11 Jul 2022 08:56:21 PDT
-Received: from gauss.telenet-ops.be (gauss.telenet-ops.be [IPv6:2a02:1800:120:4::f00:11])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B16912ED53
-        for <linux-doc@vger.kernel.org>; Mon, 11 Jul 2022 08:56:21 -0700 (PDT)
-Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [IPv6:2a02:1800:120:4::f00:13])
-        by gauss.telenet-ops.be (Postfix) with ESMTPS id 4LhSyk6nw8z4x0N0
-        for <linux-doc@vger.kernel.org>; Mon, 11 Jul 2022 17:50:38 +0200 (CEST)
-Received: from ramsan.of.borg ([84.195.186.194])
-        by baptiste.telenet-ops.be with bizsmtp
-        id trqe2700s4C55Sk01rqeem; Mon, 11 Jul 2022 17:50:38 +0200
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1oAvgE-0036xE-7d; Mon, 11 Jul 2022 17:50:38 +0200
-Received: from geert by rox.of.borg with local (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1oAvgD-006si5-4H; Mon, 11 Jul 2022 17:50:37 +0200
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-To:     Helge Deller <deller@gmx.de>
-Cc:     Michael Schmitz <schmitzmic@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-fbdev@vger.kernel.org,
-        linux-doc@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-m68k@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: [PATCH 09/10] video: fbdev: atari: Remove unused definitions and variables
-Date:   Mon, 11 Jul 2022 17:50:33 +0200
-Message-Id: <e4f96d86a35480e65ac8840cbed52ebcc89c028e.1657554353.git.geert@linux-m68k.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <cover.1657554353.git.geert@linux-m68k.org>
-References: <cover.1657554353.git.geert@linux-m68k.org>
+        with ESMTP id S229616AbiGKQFO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Jul 2022 12:05:14 -0400
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF2D252E4B;
+        Mon, 11 Jul 2022 09:05:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1657555513; x=1689091513;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=tFeOnXMKVHMBMYuxU1nhFxhl70jRU9J1wY/OcsOGdUw=;
+  b=b3sEiSDYtyMA3S9P5phK216FZ16yKhibIdvjqMWNy/a7E9q/5+n+nrdU
+   9i3Cet6DEs07xoht4OYTqnAh7uLegMClVhKZZofAkvMUx4V8XikV7nQCk
+   dYKHX1t8snypXaPs9ZHdR/HXgowSkJrJ9hfZE3bfFLje4dao0iAp193zV
+   mg195P0o8pj4VKYBTM3hMa0GiLJUW45nGJDxC5r8kEq+JCai09RtCa9fT
+   BGkENWQFGrA6EbLJfmtpWkAM4G/VvtTn88M+oVWTePKs+9LdxYSf4PifF
+   TWxV8bC8Kv0cwkVmAz4KfeOTR+gSCTNQDws2FNVpHdKOl9b55CtfY4CbE
+   Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10405"; a="371008022"
+X-IronPort-AV: E=Sophos;i="5.92,263,1650956400"; 
+   d="scan'208";a="371008022"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2022 09:05:13 -0700
+X-IronPort-AV: E=Sophos;i="5.92,263,1650956400"; 
+   d="scan'208";a="592301209"
+Received: from silpixa00400314.ir.intel.com (HELO silpixa00400314) ([10.237.222.76])
+  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2022 09:05:09 -0700
+Date:   Mon, 11 Jul 2022 17:05:01 +0100
+From:   Giovanni Cabiddu <giovanni.cabiddu@intel.com>
+To:     lkp@intel.com, Vlad Dronov <vdronov@redhat.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>
+Cc:     kbuild-all@lists.01.org,
+        GNU/Weeb Mailing List <gwml@vger.gnuweeb.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Tomasz Kowallik <tomaszx.kowalik@intel.com>,
+        Adam Guerin <adam.guerin@intel.com>,
+        Fiona Trahe <fiona.trahe@intel.com>,
+        Wojciech Ziemba <wojciech.ziemba@intel.com>,
+        linux-doc@vger.kernel.org
+Subject: [PATCH] crypto: qat - fix indentation in ABI documentation
+Message-ID: <YsxJnq32lAJIRSET@silpixa00400314>
+References: <202207090803.TEGI95qw-lkp@intel.com>
+ <YsvuJsjxEjp/LHZa@silpixa00400314>
+ <CAMusb+QfUZwq+JRkUrOLGO7mQLZbg_ueFVo2_PTSiSRiq7BoEA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAMusb+QfUZwq+JRkUrOLGO7mQLZbg_ueFVo2_PTSiSRiq7BoEA@mail.gmail.com>
+Organization: Intel Research and Development Ireland Ltd - Co. Reg. #308263 -
+ Collinstown Industrial Park, Leixlip, County Kildare - Ireland
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Several definitions and variables are unused.
-Some variables are set but further unused.
+On Mon, Jul 11, 2022 at 02:35:07PM +0200, Vlad Dronov wrote:
+> Hi,
+> 
+> On Mon, Jul 11, 2022 at 11:32 AM Giovanni Cabiddu
+> <giovanni.cabiddu@intel.com> wrote:
+> >
+> > On Sat, Jul 09, 2022 at 08:23:35AM +0800, kernel test robot wrote:
+> ...skip...
+> > > >> Documentation/ABI/testing/sysfs-driver-qat:24: WARNING: Unexpected indentation.
+> > >
+> > > vim +24 Documentation/ABI/testing/sysfs-driver-qat
+> > >
+> > >   > 24        Date:           June 2022
+> > I'm not able to spot what the issue is. Any suggestions?
+> 
+> Same here. I do not see what issue the test robot is reporting.
+I found what the issue is. It seems Sphinx doesn't like the extra
+indentation in the sections.
 
-Remove them.
+----8<----
 
-Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
+From: Giovanni Cabiddu <giovanni.cabiddu@intel.com>
+Date: Mon, 11 Jul 2022 16:18:43 +0100
+Subject: [PATCH] crypto: qat - fix indentation in ABI documentation
+Organization: Intel Research and Development Ireland Ltd - Co. Reg. #308263 - Collinstown Industrial Park, Leixlip, County Kildare - Ireland
+
+Change the indentation in the file sysfs-driver-qat to resolve the
+following warning when generating documentation with `make htmldocs`:
+
+    Documentation/ABI/testing/sysfs-driver-qat:24: WARNING: Unexpected indentation.
+
+Fixes: d4cfb144f605 ("crypto: qat - expose device config through sysfs for 4xxx")
+Reported-by: kernel test robot <lkp@intel.com>
+Signed-off-by: Giovanni Cabiddu <giovanni.cabiddu@intel.com>
 ---
- drivers/video/fbdev/atafb.c | 20 --------------------
- 1 file changed, 20 deletions(-)
+ Documentation/ABI/testing/sysfs-driver-qat | 38 ++++++++++------------
+ 1 file changed, 17 insertions(+), 21 deletions(-)
 
-diff --git a/drivers/video/fbdev/atafb.c b/drivers/video/fbdev/atafb.c
-index 46a00e0ad5e785ac..e8b178e732e2c785 100644
---- a/drivers/video/fbdev/atafb.c
-+++ b/drivers/video/fbdev/atafb.c
-@@ -1070,8 +1070,6 @@ static int falcon_decode_var(struct fb_var_screeninfo *var,
- 			xstretch = 2;	/* Double pixel width only for hicolor */
- 		/* Default values are used for vert./hor. timing if no pixelclock given. */
- 		if (var->pixclock == 0) {
--			int linesize;
--
- 			/* Choose master pixelclock depending on hor. timing */
- 			plen = 1 * xstretch;
- 			if ((plen * xres + f25.right + f25.hsync + f25.left) *
-@@ -1090,7 +1088,6 @@ static int falcon_decode_var(struct fb_var_screeninfo *var,
- 			left_margin = pclock->left / plen;
- 			right_margin = pclock->right / plen;
- 			hsync_len = pclock->hsync / plen;
--			linesize = left_margin + xres + right_margin + hsync_len;
- 			upper_margin = 31;
- 			lower_margin = 11;
- 			vsync_len = 3;
-@@ -2419,17 +2416,6 @@ atafb_pan_display(struct fb_var_screeninfo *var, struct fb_info *info)
-  * generic drawing routines; imageblit needs updating for image depth > 1
-  */
+diff --git a/Documentation/ABI/testing/sysfs-driver-qat b/Documentation/ABI/testing/sysfs-driver-qat
+index a600531e9562..741d97fa5ae1 100644
+--- a/Documentation/ABI/testing/sysfs-driver-qat
++++ b/Documentation/ABI/testing/sysfs-driver-qat
+@@ -8,12 +8,12 @@ Description:	Reports the current state of the QAT device and allows to
+ 		This attribute is RW.
  
--#if BITS_PER_LONG == 32
--#define BYTES_PER_LONG	4
--#define SHIFT_PER_LONG	5
--#elif BITS_PER_LONG == 64
--#define BYTES_PER_LONG	8
--#define SHIFT_PER_LONG	6
--#else
--#define Please update me
--#endif
--
--
- static void atafb_fillrect(struct fb_info *info, const struct fb_fillrect *rect)
- {
- 	struct atafb_par *par = info->par;
-@@ -2531,8 +2517,6 @@ static void atafb_imageblit(struct fb_info *info, const struct fb_image *image)
- {
- 	struct atafb_par *par = info->par;
- 	int x2, y2;
--	unsigned long *dst;
--	int dst_idx;
- 	const char *src;
- 	u32 dx, dy, width, height, pitch;
+ 		Returned values:
+-			up: the device is up and running
+-			down: the device is down
++		up: the device is up and running
++		down: the device is down
  
-@@ -2559,10 +2543,6 @@ static void atafb_imageblit(struct fb_info *info, const struct fb_image *image)
+ 		Allowed values:
+-			up: initialize and start the device
+-			down: stop the device and bring it down
++		up: initialize and start the device
++		down: stop the device and bring it down
  
- 	if (image->depth == 1) {
- 		// used for font data
--		dst = (unsigned long *)
--			((unsigned long)info->screen_base & ~(BYTES_PER_LONG - 1));
--		dst_idx = ((unsigned long)info->screen_base & (BYTES_PER_LONG - 1)) * 8;
--		dst_idx += dy * par->next_line * 8 + dx;
- 		src = image->data;
- 		pitch = (image->width + 7) / 8;
- 		while (height--) {
+ 		It is possible to transition the device from up to down only
+ 		if the device is up and vice versa.
+@@ -30,16 +30,12 @@ Description:	Reports the current configuration of the QAT device and allows
+ 		This attribute is RW.
+ 
+ 		Returned values:
+-			sym;asym:	the device is configured for running
+-					crypto services
+-			dc:		the device is configured for running
+-					compression services
++		sym;asym:  the device is configured for running crypto services
++		dc:        the device is configured for running compression services
+ 
+ 		Allowed values:
+-			sym;asym:	configure the device for running
+-					crypto services
+-			dc:		configure the device for running
+-					compression services
++		sym;asym:  configure the device for running crypto services
++		dc:        configure the device for running compression services
+ 
+ 		It is possible to set the configuration only if the device
+ 		is in the `down` state (see /sys/bus/pci/devices/<BDF>/qat/state)
+@@ -47,14 +43,14 @@ Description:	Reports the current configuration of the QAT device and allows
+ 		The following example shows how to change the configuration of
+ 		a device configured for running crypto services in order to
+ 		run data compression:
+-			# cat /sys/bus/pci/devices/<BDF>/qat/state
+-			up
+-			# cat /sys/bus/pci/devices/<BDF>/qat/cfg_services
+-			sym;asym
+-			# echo down > /sys/bus/pci/devices/<BDF>/qat/state
+-			# echo dc > /sys/bus/pci/devices/<BDF>/qat/cfg_services
+-			# echo up > /sys/bus/pci/devices/<BDF>/qat/state
+-			# cat /sys/bus/pci/devices/<BDF>/qat/cfg_services
+-			dc
++		# cat /sys/bus/pci/devices/<BDF>/qat/state
++		up
++		# cat /sys/bus/pci/devices/<BDF>/qat/cfg_services
++		sym;asym
++		# echo down > /sys/bus/pci/devices/<BDF>/qat/state
++		# echo dc > /sys/bus/pci/devices/<BDF>/qat/cfg_services
++		# echo up > /sys/bus/pci/devices/<BDF>/qat/state
++		# cat /sys/bus/pci/devices/<BDF>/qat/cfg_services
++		dc
+ 
+ 		This attribute is only available for qat_4xxx devices.
 -- 
-2.25.1
+2.36.1
 
