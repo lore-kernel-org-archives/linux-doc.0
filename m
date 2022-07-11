@@ -2,41 +2,41 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 96776C43334
-	for <linux-doc@archiver.kernel.org>; Mon, 11 Jul 2022 16:05:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C6B3C43334
+	for <linux-doc@archiver.kernel.org>; Mon, 11 Jul 2022 16:30:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229663AbiGKQFQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 11 Jul 2022 12:05:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56202 "EHLO
+        id S231614AbiGKQaT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 11 Jul 2022 12:30:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52082 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229616AbiGKQFO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Jul 2022 12:05:14 -0400
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF2D252E4B;
-        Mon, 11 Jul 2022 09:05:13 -0700 (PDT)
+        with ESMTP id S230247AbiGKQaS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Jul 2022 12:30:18 -0400
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D8221BE94;
+        Mon, 11 Jul 2022 09:30:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1657555513; x=1689091513;
+  t=1657557017; x=1689093017;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=tFeOnXMKVHMBMYuxU1nhFxhl70jRU9J1wY/OcsOGdUw=;
-  b=b3sEiSDYtyMA3S9P5phK216FZ16yKhibIdvjqMWNy/a7E9q/5+n+nrdU
-   9i3Cet6DEs07xoht4OYTqnAh7uLegMClVhKZZofAkvMUx4V8XikV7nQCk
-   dYKHX1t8snypXaPs9ZHdR/HXgowSkJrJ9hfZE3bfFLje4dao0iAp193zV
-   mg195P0o8pj4VKYBTM3hMa0GiLJUW45nGJDxC5r8kEq+JCai09RtCa9fT
-   BGkENWQFGrA6EbLJfmtpWkAM4G/VvtTn88M+oVWTePKs+9LdxYSf4PifF
-   TWxV8bC8Kv0cwkVmAz4KfeOTR+gSCTNQDws2FNVpHdKOl9b55CtfY4CbE
-   Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10405"; a="371008022"
+  bh=M7gQthUQ8v0LKr/DjxFP5tYXmCHQe3FMOrvQefnZBAQ=;
+  b=LtMk+DtscddZ7bXbLNwXgG3JsJc5kNcsh94PKXnkGgFNUif+lB1wjc+0
+   ExcO7HqYcuUDu9WJkjMiS2BCkOmGFXZO6c6I8SDKe5VkxLLbNaLKo7Yqx
+   fX2+UJy5BRXK1ez37lOiQW3jXYANpx0Oz0U6bUuA6OCVWqo5Xj37tQd/k
+   B3kcQgvhEMk4XEZD0xbiPb0FymJy2nYdO0mfwuS2cvJgfp1nBMc4rfomf
+   3I25UJ+r5mrsk9bOQN92lQ47Q8yeI5bNnCJ+6V++61pq6suJLO9LRsJjp
+   qa0Yn/ZFQ19oQtRYm+u6Dl+q0aaBXG2Lkxi2IljtiaHRuR2YR9eIdGJs3
+   A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10405"; a="282257602"
 X-IronPort-AV: E=Sophos;i="5.92,263,1650956400"; 
-   d="scan'208";a="371008022"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2022 09:05:13 -0700
+   d="scan'208";a="282257602"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2022 09:29:52 -0700
 X-IronPort-AV: E=Sophos;i="5.92,263,1650956400"; 
-   d="scan'208";a="592301209"
+   d="scan'208";a="921846535"
 Received: from silpixa00400314.ir.intel.com (HELO silpixa00400314) ([10.237.222.76])
-  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2022 09:05:09 -0700
-Date:   Mon, 11 Jul 2022 17:05:01 +0100
+  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2022 09:29:49 -0700
+Date:   Mon, 11 Jul 2022 17:29:39 +0100
 From:   Giovanni Cabiddu <giovanni.cabiddu@intel.com>
 To:     lkp@intel.com, Vlad Dronov <vdronov@redhat.com>,
         Herbert Xu <herbert@gondor.apana.org.au>
@@ -47,40 +47,44 @@ Cc:     kbuild-all@lists.01.org,
         Adam Guerin <adam.guerin@intel.com>,
         Fiona Trahe <fiona.trahe@intel.com>,
         Wojciech Ziemba <wojciech.ziemba@intel.com>,
-        linux-doc@vger.kernel.org
-Subject: [PATCH] crypto: qat - fix indentation in ABI documentation
-Message-ID: <YsxJnq32lAJIRSET@silpixa00400314>
+        linux-doc@vger.kernel.org, linux-crypto@vger.kernel.org
+Subject: Re: [PATCH RESEND] crypto: qat - fix indentation in ABI documentation
+Message-ID: <YsxP5n0rjUaX0mL8@silpixa00400314>
 References: <202207090803.TEGI95qw-lkp@intel.com>
  <YsvuJsjxEjp/LHZa@silpixa00400314>
  <CAMusb+QfUZwq+JRkUrOLGO7mQLZbg_ueFVo2_PTSiSRiq7BoEA@mail.gmail.com>
+ <YsxJnq32lAJIRSET@silpixa00400314>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAMusb+QfUZwq+JRkUrOLGO7mQLZbg_ueFVo2_PTSiSRiq7BoEA@mail.gmail.com>
+In-Reply-To: <YsxJnq32lAJIRSET@silpixa00400314>
 Organization: Intel Research and Development Ireland Ltd - Co. Reg. #308263 -
  Collinstown Industrial Park, Leixlip, County Kildare - Ireland
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jul 11, 2022 at 02:35:07PM +0200, Vlad Dronov wrote:
-> Hi,
-> 
-> On Mon, Jul 11, 2022 at 11:32 AM Giovanni Cabiddu
-> <giovanni.cabiddu@intel.com> wrote:
-> >
-> > On Sat, Jul 09, 2022 at 08:23:35AM +0800, kernel test robot wrote:
-> ...skip...
-> > > >> Documentation/ABI/testing/sysfs-driver-qat:24: WARNING: Unexpected indentation.
+On Mon, Jul 11, 2022 at 05:05:18PM +0100, Giovanni Cabiddu wrote:
+> On Mon, Jul 11, 2022 at 02:35:07PM +0200, Vlad Dronov wrote:
+> > Hi,
+> > 
+> > On Mon, Jul 11, 2022 at 11:32 AM Giovanni Cabiddu
+> > <giovanni.cabiddu@intel.com> wrote:
 > > >
-> > > vim +24 Documentation/ABI/testing/sysfs-driver-qat
-> > >
-> > >   > 24        Date:           June 2022
-> > I'm not able to spot what the issue is. Any suggestions?
-> 
-> Same here. I do not see what issue the test robot is reporting.
-I found what the issue is. It seems Sphinx doesn't like the extra
-indentation in the sections.
+> > > On Sat, Jul 09, 2022 at 08:23:35AM +0800, kernel test robot wrote:
+> > ...skip...
+> > > > >> Documentation/ABI/testing/sysfs-driver-qat:24: WARNING: Unexpected indentation.
+> > > >
+> > > > vim +24 Documentation/ABI/testing/sysfs-driver-qat
+> > > >
+> > > >   > 24        Date:           June 2022
+> > > I'm not able to spot what the issue is. Any suggestions?
+> > 
+> > Same here. I do not see what issue the test robot is reporting.
+> I found what the issue is. It seems Sphinx doesn't like the extra
+> indentation in the sections.
+
+Resending including linux-crypto. Apologies for the duplicate.
 
 ----8<----
 
