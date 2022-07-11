@@ -2,242 +2,152 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 38D28CCA47B
-	for <linux-doc@archiver.kernel.org>; Mon, 11 Jul 2022 11:14:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C229FC43334
+	for <linux-doc@archiver.kernel.org>; Mon, 11 Jul 2022 11:22:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230464AbiGKLOu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 11 Jul 2022 07:14:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54014 "EHLO
+        id S231262AbiGKLWO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 11 Jul 2022 07:22:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33312 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230418AbiGKLOd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Jul 2022 07:14:33 -0400
-Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com [IPv6:2a00:1450:4864:20::329])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76F49528A3;
-        Mon, 11 Jul 2022 03:31:36 -0700 (PDT)
-Received: by mail-wm1-x329.google.com with SMTP id 9-20020a1c0209000000b003a2dfdebe47so1947647wmc.3;
-        Mon, 11 Jul 2022 03:31:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Y6nO1L8s7IyD/npCLQlL4keFwQMorziso5OVidifAQ8=;
-        b=dxD9QOzlUqFSTlsHGgDPturxgPDNV0CByPxlFK1dCqdFRHPEOCW8Ahc0uVZ0dTMF3M
-         Am4tgZB3ouvj8kCDQtH6O1Dy9Z902BaosZDNgJ7P8BHfQgpjrBiZG2/5KGps4dkwiEvA
-         H6rpe3LTLjNLaaI2vRnD2EFHnMOb0Iy6Z4372meteNby5gHP1DwAj0SoGIFtG69/ys97
-         0Up3ddn8eemznlMo09XNCmBptMJ1Wguwvh3u3UHnsTxsA89KQ5hdi/YnfDQlwCZbD1vw
-         a/SfcdDQ3VE7dWrxzjbkDDANbNYzbjsdAGJQFwInvKADp+FjSpvTtiy1stlMyV0UpzKg
-         G+cg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Y6nO1L8s7IyD/npCLQlL4keFwQMorziso5OVidifAQ8=;
-        b=m9KfFbCs8e8gmMThxvHMwBUdfv7kHyf2XAd1n5ZCV5Vml4qMgN5OTk5HKt+t/kLIzl
-         xfr1dr8j9/+LzpJ5YfjW/FhmSvloHHrGfXKA9n7pIUAERVPHYeb2oCl3eMsBAkofJ3sf
-         vZC+8s+TuzyqZHv095sMjf67eoyjn1AP1mCw+64duPqypxmZQJAOJpej1nJGtrajhr7n
-         5kS8lTQPVvkG94ELfwHgjmahA+lIrdvXJ8zXQMNltslSsVXGCIKYrb6NegVXRCtBhC20
-         3Awlb0gulcYTKc2ki0qz0domBawJ/wmNtcaqAjES0MF8akyAj+x7WytylHIhryjzhMMZ
-         R4Cw==
-X-Gm-Message-State: AJIora+zk1UBwUmf4kZNbIjlN7a1Hqjq3njpMpt+qqOrU6EVMlPUmY4Y
-        teaF8IAqFRb7a9o4HtZo6dhNgDm0pfJ9wg==
-X-Google-Smtp-Source: AGRyM1ttWu5MZXSycXeMb3rTeyWab15Ra7b9fv6uNceRN4kZtLFwv9X/zPGDis1hGFl4tFt+L8xJkA==
-X-Received: by 2002:a7b:c354:0:b0:39c:6753:21f8 with SMTP id l20-20020a7bc354000000b0039c675321f8mr15456738wmj.113.1657535494570;
-        Mon, 11 Jul 2022 03:31:34 -0700 (PDT)
-Received: from localhost.localdomain (62-170-35.netrun.cytanet.com.cy. [62.228.170.35])
-        by smtp.gmail.com with ESMTPSA id ay38-20020a05600c1e2600b003a2cf1ba9e2sm6473204wmb.6.2022.07.11.03.31.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Jul 2022 03:31:34 -0700 (PDT)
-From:   Maxim Devaev <mdevaev@gmail.com>
-To:     linux-usb@vger.kernel.org
-Cc:     mdevaev@gmail.com, stern@rowland.harvard.edu,
-        gregkh@linuxfoundation.org, corbet@lwn.net, balbi@kernel.org,
-        caihuoqing@baidu.com, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: [PATCH v5] usb: gadget: f_mass_storage: forced_eject attribute
-Date:   Mon, 11 Jul 2022 13:29:57 +0300
-Message-Id: <20220711102956.19642-1-mdevaev@gmail.com>
-X-Mailer: git-send-email 2.37.0
+        with ESMTP id S230527AbiGKLVp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Jul 2022 07:21:45 -0400
+Received: from esa6.hgst.iphmx.com (esa6.hgst.iphmx.com [216.71.154.45])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 907C75D59B
+        for <linux-doc@vger.kernel.org>; Mon, 11 Jul 2022 03:46:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+  t=1657536388; x=1689072388;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=M38FathVBz+QDBZGXrRIt275IISeBfhxZNFV9WnBgzI=;
+  b=HZ1aNajO6/J0p+9gLTDjEEes5JoV7FUwJ/1luQqyWg1YaRpNkRvqrI32
+   zM7Tm8ccJfAcoMFp+s2SGUgyrUXP2wiF3pR9f0R43Ayt5DMPVDTmMvEWI
+   HzNnB0vosgE8IAiJ6C5pNVHdtU+AQrS8m1xMDOn0wy86m/7zDqdUcfzjp
+   Bvq22ZatKBaq26uu6PCtuk/EMvVmxPRIGmcqy5L++hOucg9Ph4me4653T
+   Qkp5T6gIyiRAFMiUvvmTAz5TXS9KtouTINe+9pbD9IHLKFJKijo604Hda
+   VyI1L8iQTD5WxVdUKVfIZSwE0rbjidDdcp4o32Jpd+XZvy3vmLkVHHKXG
+   w==;
+X-IronPort-AV: E=Sophos;i="5.92,262,1650902400"; 
+   d="scan'208";a="206062167"
+Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com) ([199.255.45.15])
+  by ob1.hgst.iphmx.com with ESMTP; 11 Jul 2022 18:46:28 +0800
+IronPort-SDR: ai554QTSPJJ96xjvD6eSD6J3gyWWazrZeNkyS7vsw9/A7v4cEIHw6GL4uWzrLRfaKLaCxujNIA
+ IwTYLWo9w8CAGYE1VwMJd1HyDw+UHvAErok7/jj7t01RVABmg+s4Hyv/SNccEF/YTGsM34i1VR
+ ggg8h1bsaf6BcYg5C/qVRE1Gi6mNGrnROImKkdmTjERpg1QuL+cJmf2xn3myrUgNBGSNrE8TlD
+ lOcQEU7I91jJgoJ1QsBOeidkxIXldSawtD/yjfHqZwDEj1DvNVray0iq4k0Mbm3MIF4LdcBRMI
+ 7E+TCdUClCVa9kZ3nfexbTXc
+Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
+  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 11 Jul 2022 03:03:27 -0700
+IronPort-SDR: 8zyZXfdJ+VzY67/v2Mih2iLcmDgWkjecT3D9l6tamYdix+Pc6DUU251t1yHNGr2JaboK8gc5/6
+ k3Q/HwTewqoLx6+w66A8Y/RFJaWkq4C2yQNpW8D6+8e+8rUlzjTIzIhsfsqSgxUXIp7jzHFL3a
+ rpWdnkSNMNWxASh22pSbMeNkYZaRHYpLl/2AtvUGpwX5NGG4aEOEaoqgz1ZviVmZK/KRtjIsmB
+ tRcwI2oqAf5/sQPTUDEaU8pzMMwuVrSKUnvZsODmJJLPi/CVPDObKKL7zBjdUFulS//S/bcWWq
+ o5E=
+WDCIronportException: Internal
+Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
+  by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 11 Jul 2022 03:40:28 -0700
+Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
+        by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4LhL4q53Wfz1Rws0
+        for <linux-doc@vger.kernel.org>; Mon, 11 Jul 2022 03:40:27 -0700 (PDT)
+Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
+        reason="pass (just generated, assumed good)"
+        header.d=opensource.wdc.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
+        opensource.wdc.com; h=content-transfer-encoding:content-type
+        :in-reply-to:organization:from:references:to:content-language
+        :subject:user-agent:mime-version:date:message-id; s=dkim; t=
+        1657536026; x=1660128027; bh=M38FathVBz+QDBZGXrRIt275IISeBfhxZNF
+        V9WnBgzI=; b=Jq8yiythf4/NGMPDez5TDXQRmsRywCxgvudQsGMOmYsnKVsSgRw
+        Z4ASuw7usvOrTQKmaPKdWKF6TuTLFpxxEeOa6LGPkWFwal2t9Ftp2g6X1zVAH/Vf
+        icYZ6ZMn/S+DdP4FS0n6P1h7o5igMr45a8B/bUdts7FCCnSxCl6n8LdMRPZFkYzX
+        IOCwnB6HlRhrkluKixvZotg9Y8P5Z5MwHkQGLEYH2TlYfPYZFdopY6kOukm9SPHi
+        MSfHEEhn41NkWpbh+5tU9s8JMTXgsxx5iFx7xwwiFZ2REAmup3MUsSbWP3LCpZFA
+        oO4VfhLvJVEW9Wb6ZQS8VgdguaAlSHxUZuw==
+X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
+Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
+        by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id rcSbFUbzXloh for <linux-doc@vger.kernel.org>;
+        Mon, 11 Jul 2022 03:40:26 -0700 (PDT)
+Received: from [10.225.163.114] (unknown [10.225.163.114])
+        by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4LhL4m0m61z1RtVk;
+        Mon, 11 Jul 2022 03:40:23 -0700 (PDT)
+Message-ID: <62b801e8-66b6-0af7-b0c9-195823bf9f62@opensource.wdc.com>
+Date:   Mon, 11 Jul 2022 19:40:22 +0900
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v5 0/5] DMA mapping changes for SCSI core
+Content-Language: en-US
+To:     John Garry <john.garry@huawei.com>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        Christoph Hellwig <hch@lst.de>
+Cc:     joro@8bytes.org, will@kernel.org, jejb@linux.ibm.com,
+        m.szyprowski@samsung.com, robin.murphy@arm.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-ide@vger.kernel.org, iommu@lists.linux-foundation.org,
+        iommu@lists.linux.dev, linux-scsi@vger.kernel.org,
+        linuxarm@huawei.com
+References: <1656590892-42307-1-git-send-email-john.garry@huawei.com>
+ <b5f80062-e8ef-9597-1b0c-393140950dfb@huawei.com>
+ <20220706134447.GA23753@lst.de> <yq1y1x47jgn.fsf@ca-mkp.ca.oracle.com>
+ <5fd4814a-81b1-0e71-58e0-57a747eb684e@huawei.com>
+ <6367a264-a3d3-8857-9b5a-2afcd25580cb@opensource.wdc.com>
+ <a415e4a1-72ce-53e1-437a-fc7e56e4b913@huawei.com>
+From:   Damien Le Moal <damien.lemoal@opensource.wdc.com>
+Organization: Western Digital Research
+In-Reply-To: <a415e4a1-72ce-53e1-437a-fc7e56e4b913@huawei.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-It allows to reset prevent_medium_removal flag and "eject" the image.
-This can be useful to free the drive from a hunging host or if the host
-continues to use the drive even after unmounting (Linux does this).
-It's also a bit like using an unfolded paperclip on an optical drive.
+On 7/11/22 16:36, John Garry wrote:
+> On 11/07/2022 00:08, Damien Le Moal wrote:
+>>> Ah, I think that I misunderstood Damien's question. I thought he was
+>>> asking why not keep shost max_sectors at dma_max_mapping_size() and t=
+hen
+>>> init each sdev request queue max hw sectors at dma_opt_mapping_size()=
+.
+>> I was suggesting the reverse:)  Keep the device hard limit
+>> (max_hw_sectors) to the max dma mapping and set the soft limit
+>> (max_sectors) to the optimal dma mapping size.
+>=20
+> Sure, but as I mentioned below, I only see a small % of requests whose=20
+> mapping size exceeds max_sectors but that still causes a big performanc=
+e=20
+> hit. So that is why I want to set the hard limit as the optimal dma=20
+> mapping size.
 
-Previously, the undocumented method of sending SIGUSR1 to a special
-"file-storage" kernel thread could be used for these purposes,
-but when using multiple storages there was no way to distinguish
-one from the other, so we had to send a signal to everyone.
+How can you possibly end-up with requests larger than max_sectors ? BIO
+split is done using this limit, right ? Or is it that request merging is
+allowed up to max_hw_sectors even if the resulting request size exceeds
+max_sectors ?
 
-Reviewed-by: Alan Stern <stern@rowland.harvard.edu>
-Signed-off-by: Maxim Devaev <mdevaev@gmail.com>
----
- v4 -> v5: A more detailed description of the commit
- v3 -> v4: Added comment for fsg_store_forced_eject() internals
- v2 -> v3: Improved spelling
- v1 -> v2: Added documentation for the ABI and sysfs
+>=20
+> Indeed, the IOMMU IOVA caching limit is already the same as default=20
+> max_sectors for the disks in my system - 128Kb for 4k page size.
+>=20
+>>
+>>> But he seems that you want to know why not have the request queue max
+>>> sectors at dma_opt_mapping_size(). The answer is related to meaning o=
+f
+>>> dma_opt_mapping_size(). If we get any mappings which exceed this size
+>>> then it can have a big dma mapping performance hit. So I set max hw
+>>> sectors at this =E2=80=98opt=E2=80=99 mapping size to ensure that we =
+get no mappings
+>>> which exceed this size. Indeed, I think max sectors is 128Kb today fo=
+r
+>>> my host, which would be same as dma_opt_mapping_size() value with an
+>>> IOMMU enabled. And I find that only a small % of request size may exc=
+eed
+>>> this 128kb size, but it still has a big performance impact.
+>>>
+>=20
+> Thanks,
+> John
 
- .../testing/configfs-usb-gadget-mass-storage  |  6 +++++
- Documentation/usb/gadget-testing.rst          |  6 +++++
- Documentation/usb/mass-storage.rst            |  9 +++++++
- drivers/usb/gadget/function/f_mass_storage.c  | 25 +++++++++++++++++++
- drivers/usb/gadget/function/storage_common.c  | 15 +++++++++++
- drivers/usb/gadget/function/storage_common.h  |  2 ++
- 6 files changed, 63 insertions(+)
 
-diff --git a/Documentation/ABI/testing/configfs-usb-gadget-mass-storage b/Documentation/ABI/testing/configfs-usb-gadget-mass-storage
-index c86b63a7bb43..d899adb57e81 100644
---- a/Documentation/ABI/testing/configfs-usb-gadget-mass-storage
-+++ b/Documentation/ABI/testing/configfs-usb-gadget-mass-storage
-@@ -32,4 +32,10 @@ Description:
- 				being a CD-ROM.
- 		nofua		Flag specifying that FUA flag
- 				in SCSI WRITE(10,12)
-+		forced_eject	This write-only file is useful only when
-+				the function is active. It causes the backing
-+				file to be forcibly detached from the LUN,
-+				regardless of whether the host has allowed it.
-+				Any non-zero number of bytes written will
-+				result in ejection.
- 		===========	==============================================
-diff --git a/Documentation/usb/gadget-testing.rst b/Documentation/usb/gadget-testing.rst
-index c18113077889..15624c4fe633 100644
---- a/Documentation/usb/gadget-testing.rst
-+++ b/Documentation/usb/gadget-testing.rst
-@@ -333,6 +333,12 @@ In each lun directory there are the following attribute files:
- 			being a CD-ROM.
- 	nofua		Flag specifying that FUA flag
- 			in SCSI WRITE(10,12)
-+	forced_eject	This write-only file is useful only when
-+			the function is active. It causes the backing
-+			file to be forcibly detached from the LUN,
-+			regardless of whether the host has allowed it.
-+			Any non-zero number of bytes written will
-+			result in ejection.
- 	=============== ==============================================
- 
- Testing the MASS STORAGE function
-diff --git a/Documentation/usb/mass-storage.rst b/Documentation/usb/mass-storage.rst
-index d181b47c3cb6..f399ec631599 100644
---- a/Documentation/usb/mass-storage.rst
-+++ b/Documentation/usb/mass-storage.rst
-@@ -181,6 +181,15 @@ sysfs entries
-     Reflects the state of nofua flag for given logical unit.  It can
-     be read and written.
- 
-+  - forced_eject
-+
-+    When written into, it causes the backing file to be forcibly
-+    detached from the LUN, regardless of whether the host has allowed
-+    it.  The content doesn't matter, any non-zero number of bytes
-+    written will result in ejection.
-+
-+    Can not be read.
-+
-   Other then those, as usual, the values of module parameters can be
-   read from /sys/module/g_mass_storage/parameters/* files.
- 
-diff --git a/drivers/usb/gadget/function/f_mass_storage.c b/drivers/usb/gadget/function/f_mass_storage.c
-index 6ad669dde41c..00cac2a38178 100644
---- a/drivers/usb/gadget/function/f_mass_storage.c
-+++ b/drivers/usb/gadget/function/f_mass_storage.c
-@@ -2520,10 +2520,21 @@ static ssize_t file_store(struct device *dev, struct device_attribute *attr,
- 	return fsg_store_file(curlun, filesem, buf, count);
- }
- 
-+static ssize_t forced_eject_store(struct device *dev,
-+				  struct device_attribute *attr,
-+				  const char *buf, size_t count)
-+{
-+	struct fsg_lun		*curlun = fsg_lun_from_dev(dev);
-+	struct rw_semaphore	*filesem = dev_get_drvdata(dev);
-+
-+	return fsg_store_forced_eject(curlun, filesem, buf, count);
-+}
-+
- static DEVICE_ATTR_RW(nofua);
- /* mode wil be set in fsg_lun_attr_is_visible() */
- static DEVICE_ATTR(ro, 0, ro_show, ro_store);
- static DEVICE_ATTR(file, 0, file_show, file_store);
-+static DEVICE_ATTR_WO(forced_eject);
- 
- /****************************** FSG COMMON ******************************/
- 
-@@ -2677,6 +2688,7 @@ static struct attribute *fsg_lun_dev_attrs[] = {
- 	&dev_attr_ro.attr,
- 	&dev_attr_file.attr,
- 	&dev_attr_nofua.attr,
-+	&dev_attr_forced_eject.attr,
- 	NULL
- };
- 
-@@ -3090,6 +3102,18 @@ static ssize_t fsg_lun_opts_inquiry_string_store(struct config_item *item,
- 
- CONFIGFS_ATTR(fsg_lun_opts_, inquiry_string);
- 
-+static ssize_t fsg_lun_opts_forced_eject_store(struct config_item *item,
-+					       const char *page, size_t len)
-+{
-+	struct fsg_lun_opts *opts = to_fsg_lun_opts(item);
-+	struct fsg_opts *fsg_opts = to_fsg_opts(opts->group.cg_item.ci_parent);
-+
-+	return fsg_store_forced_eject(opts->lun, &fsg_opts->common->filesem,
-+				      page, len);
-+}
-+
-+CONFIGFS_ATTR_WO(fsg_lun_opts_, forced_eject);
-+
- static struct configfs_attribute *fsg_lun_attrs[] = {
- 	&fsg_lun_opts_attr_file,
- 	&fsg_lun_opts_attr_ro,
-@@ -3097,6 +3121,7 @@ static struct configfs_attribute *fsg_lun_attrs[] = {
- 	&fsg_lun_opts_attr_cdrom,
- 	&fsg_lun_opts_attr_nofua,
- 	&fsg_lun_opts_attr_inquiry_string,
-+	&fsg_lun_opts_attr_forced_eject,
- 	NULL,
- };
- 
-diff --git a/drivers/usb/gadget/function/storage_common.c b/drivers/usb/gadget/function/storage_common.c
-index b859a158a414..03035dbbe97b 100644
---- a/drivers/usb/gadget/function/storage_common.c
-+++ b/drivers/usb/gadget/function/storage_common.c
-@@ -519,4 +519,19 @@ ssize_t fsg_store_inquiry_string(struct fsg_lun *curlun, const char *buf,
- }
- EXPORT_SYMBOL_GPL(fsg_store_inquiry_string);
- 
-+ssize_t fsg_store_forced_eject(struct fsg_lun *curlun, struct rw_semaphore *filesem,
-+			       const char *buf, size_t count)
-+{
-+	int ret;
-+
-+	/*
-+	 * Forcibly detach the backing file from the LUN
-+	 * regardless of whether the host has allowed it.
-+	 */
-+	curlun->prevent_medium_removal = 0;
-+	ret = fsg_store_file(curlun, filesem, "", 0);
-+	return ret < 0 ? ret : count;
-+}
-+EXPORT_SYMBOL_GPL(fsg_store_forced_eject);
-+
- MODULE_LICENSE("GPL");
-diff --git a/drivers/usb/gadget/function/storage_common.h b/drivers/usb/gadget/function/storage_common.h
-index bdeb1e233fc9..0a544a82cbf8 100644
---- a/drivers/usb/gadget/function/storage_common.h
-+++ b/drivers/usb/gadget/function/storage_common.h
-@@ -219,5 +219,7 @@ ssize_t fsg_store_removable(struct fsg_lun *curlun, const char *buf,
- 			    size_t count);
- ssize_t fsg_store_inquiry_string(struct fsg_lun *curlun, const char *buf,
- 				 size_t count);
-+ssize_t fsg_store_forced_eject(struct fsg_lun *curlun, struct rw_semaphore *filesem,
-+			       const char *buf, size_t count);
- 
- #endif /* USB_STORAGE_COMMON_H */
--- 
-2.37.0
-
+--=20
+Damien Le Moal
+Western Digital Research
