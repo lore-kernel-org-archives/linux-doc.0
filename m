@@ -2,113 +2,161 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 22143C43334
-	for <linux-doc@archiver.kernel.org>; Mon, 11 Jul 2022 20:25:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7FCE0C43334
+	for <linux-doc@archiver.kernel.org>; Mon, 11 Jul 2022 21:38:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230437AbiGKUZz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 11 Jul 2022 16:25:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44604 "EHLO
+        id S229789AbiGKVit (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 11 Jul 2022 17:38:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52466 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230374AbiGKUZc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Jul 2022 16:25:32 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0918E51A2E;
-        Mon, 11 Jul 2022 13:25:28 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 65CA2B8123F;
-        Mon, 11 Jul 2022 20:25:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8912C341C0;
-        Mon, 11 Jul 2022 20:25:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1657571125;
-        bh=68mGlwaA0EtgA4nJuAvhd7iYXVxtW3CSXJug597Q8rA=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=CBSTj4IN8j0qXmrjuDC6FgYUE8xR3y7Un/6+x7oa4EOA9god2bnLQgJKxUJPeY8Y+
-         IB17n0LDvBK20uIn65DOpGMlBIOn8RAPMpCNIoJdjTqb7RaPn7BqlQvp0uJh/k33wO
-         w4n8TlW2nUAl4WRnI41fuEifCDVPrVYQJmJU6VZU9vJhht8fid9zVxnL/ODiPdHasK
-         tAJn91z7P32HnXIwOpTI0HTIjHh5ml50ayvvcTvSUCd+hEwOOht9BMx1I3a8+uByYg
-         Rbsu6unLS2GpfhvkdgiQCpj/e6AfGtiQUdYa9sizfAe10VOUtQQD9uqsAS6mN9lX39
-         NVSx4TrPIY0Mg==
-Received: from mchehab by mail.kernel.org with local (Exim 4.95)
-        (envelope-from <mchehab@kernel.org>)
-        id 1oAzy3-004e96-T1;
-        Mon, 11 Jul 2022 21:25:19 +0100
-From:   Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        "Jani Nikula" <jani.nikula@linux.intel.com>,
-        "Lucas De Marchi" <lucas.demarchi@intel.com>,
-        "Rodrigo Vivi" <rodrigo.vivi@intel.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        David Airlie <airlied@linux.ie>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-        dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 28/32] docs: gpu: i915.rst: GuC: add more kernel-doc markups
-Date:   Mon, 11 Jul 2022 21:25:13 +0100
-Message-Id: <a22fbe2ea7ca57099f2aadf29fbce6b896fc53c5.1657565224.git.mchehab@kernel.org>
-X-Mailer: git-send-email 2.36.1
-In-Reply-To: <cover.1657565224.git.mchehab@kernel.org>
-References: <cover.1657565224.git.mchehab@kernel.org>
+        with ESMTP id S229934AbiGKVis (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Jul 2022 17:38:48 -0400
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2041.outbound.protection.outlook.com [40.107.236.41])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86E4D32DBA;
+        Mon, 11 Jul 2022 14:38:46 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=PbQvZmnVwKN/aC8PLFz7/baO5U1JazoMNfBYATPgzvxzfFFHzcYJ/jr/p+hRyvlNhPiSSavR+3hVumeuM1VPgoJmXJu76cVI70T5f1aHq3Mw1SUdf4Q7AzQ+VkSmDdhmgIaCGBbt5jvqhGYY9iqFNgbqqRMxNE1YpLBH+dhaBIut1oShGewV40VjH/kGjOj6xCkQPzMOtG5guJdkypVitKCLxej/+S+1oJLEaGQUBXkIuqMqEu3BHfsYV8xHSTeRdQ54HV1gHA44xlZfKxj+pT9cKAWxB0jutxIIqCeALrtWVN3W3c4QIBKA2xVi+y1OQSzsRuEtvyzs9CoKocb0BQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=QCDQSz77ns8uLD/q1JRBPNQ/X+74FPskGJxPBcmtr0Y=;
+ b=dRcrIAeBK2MHi3wQFtQCvX8hd7/id9Kdty7XfdlGhXWmtcicJAQu4Z0Q4Yu33N8QVHL3HazPY9kTmM2TmQPCSmmbF6xjcBSyQRGP1AWQjo/zrI+bXcxmkTL2UAHudtftPQ7sYPGsRWbxkbQt+XvOY4OJaGqpf+ZZXgHMkjX9/R4dqtj9XlJQOexyyURIWnAkAYDHYXa5DUVhX63WBIHpfIgeMNFjzWmBE2PQxrU/82yn5T8Jc+26+ACXkj8IWYb7mTC6xjGL8P4oWa5dw6n0W//2UBlf3e8k8jR8hPoorRUP38kBgIAsTUYwkRciEMSBYrZZG91q26d0DxA91mzglg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=intel.com smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=QCDQSz77ns8uLD/q1JRBPNQ/X+74FPskGJxPBcmtr0Y=;
+ b=gBa1OnBSPg7Oo5+j204XRYVvOdvDSe/2WAlzcV18dUJ1zqHVQcch2qJ/UbmgREjOeXGT99V/u5Dc9NN8JLl9awxwBkDCfe/y4cRAODn4ZMjugOxpqHp1eX7P192/nMBnLu5SkA1FXe6313uoO7DW23vrIPy8EGLX+qUorjcizTw=
+Received: from BN8PR12CA0003.namprd12.prod.outlook.com (2603:10b6:408:60::16)
+ by MN2PR12MB4653.namprd12.prod.outlook.com (2603:10b6:208:1b8::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5417.25; Mon, 11 Jul
+ 2022 21:38:44 +0000
+Received: from BN8NAM11FT026.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:408:60:cafe::c7) by BN8PR12CA0003.outlook.office365.com
+ (2603:10b6:408:60::16) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5417.19 via Frontend
+ Transport; Mon, 11 Jul 2022 21:38:44 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ BN8NAM11FT026.mail.protection.outlook.com (10.13.177.51) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.5417.15 via Frontend Transport; Mon, 11 Jul 2022 21:38:44 +0000
+Received: from [127.0.1.1] (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.28; Mon, 11 Jul
+ 2022 16:38:42 -0500
+Subject: [PATCH 0/9] x86/resctrl: Add the support for AMD QoS new features
+From:   Babu Moger <babu.moger@amd.com>
+To:     <fenghua.yu@intel.com>, <reinette.chatre@intel.com>,
+        <tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>
+CC:     <dave.hansen@linux.intel.com>, <x86@kernel.org>, <hpa@zytor.com>,
+        <corbet@lwn.net>, <hpa@zytor.com>, <linux-kernel@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>
+Date:   Mon, 11 Jul 2022 16:38:42 -0500
+Message-ID: <165757543252.416408.13547339307237713464.stgit@bmoger-ubuntu>
+User-Agent: StGit/1.1.dev103+g5369f4c
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-To:     unlisted-recipients:; (no To-header on input)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: df446ab4-ce4b-4db7-f558-08da6385bacb
+X-MS-TrafficTypeDiagnostic: MN2PR12MB4653:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: rzH1f4haVNEnSvjhlFxvAYYVVDMJze8VWy3qozJsRJIaU89zaenI3MJWuSCpnjgErbPpcdvso9kMyJkO0zL5pX8HByPPqg2kmSN7ZCbcy8WqPSfxRATo7QJ7gIm2S70+4UN590ues5wPXNMimFNbRJhyEct2b6UpJXQw3REKzhLtLgFXuWrD+O0pMst+uzjsKX7tDbqKNP4Xxyv8aVq6w1L/L7AhAX/AM5pl/lOQ7qKIta7t1J8xqhmcFcZvph8su5jeCcjXojO7MWLtXBt4z8VPkeAa8MXTPfC8sl2HM5RGGlKvXJd0wyLfFnK5RA6k1oRaYON4qLDPzwcvsoLlO02V82KEloT9TtV42WyUVJSMsRITagVIuxIPbfhJQqf2vp3aXz2hKwxKvRViKyBtTG9Gh9adqzXV4PFGXTx8331cbIXffBLfbqsTcnQRYGjeTmDAfCTRp4cAqem4mjN/F7WCKba4isOK0XWSZjBzowdWzcR8/j9h1Gz6Up6/dipOg3X0BpxFK8VGXGhep8CIr+stjew2GV3Kc4eXg8paLmzRQKnoWmfcvlvfw+2ys5NFrC3u1RmsDKGRZEiqR6rpIy033ftaHSYKoa3hQJHKHMphdeBfaV+tKiVsDjN6ATbbl/5BCyD6CRKdUoOCT4yt1xjrV9qFxLaX3HeT2SMD7zukJwa6oT4I+F/i1LAketgOOLn1NFzd1TCBALeLTvNFsBLkx48nHR6OmghyaMLcgfWFQ//ZU5yeTRW3b0PgM924n4PcR4EtIuJIESxXz1t9Wxy57uFGRo5f2eHl4sbFcs+xC2GvqipbQdFcps3ob34UIGg3GiJqe4j/eVdmLquuOF4tGmKHhAud3SIMORNpNi80peRG7Z4yazdVLt18vh+cBWPOnNrYORMepxHTROj9NnzaOhp7ipa4IxzxDXMnzeHs3ENSKDbvd5P0KFiB0Yyx
+X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230016)(7916004)(4636009)(376002)(39860400002)(346002)(396003)(136003)(46966006)(40470700004)(36840700001)(966005)(103116003)(40480700001)(478600001)(54906003)(2906002)(44832011)(7416002)(33716001)(81166007)(5660300002)(83380400001)(36860700001)(40460700003)(8936002)(336012)(66574015)(426003)(186003)(26005)(9686003)(8676002)(4326008)(47076005)(70586007)(82740400003)(316002)(110136005)(70206006)(41300700001)(16526019)(82310400005)(16576012)(86362001)(356005)(71626007)(36900700001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jul 2022 21:38:44.1450
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: df446ab4-ce4b-4db7-f558-08da6385bacb
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT026.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4653
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-There are several documented GuC kAPI that aren't currently part
-of the docs. Add them, as this allows identifying issues with
-badly-formatted tags.
-
-Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
----
-
-To avoid mailbombing on a large number of people, only mailing lists were C/C on the cover.
-See [PATCH 00/32] at: https://lore.kernel.org/all/cover.1657565224.git.mchehab@kernel.org/
-
- Documentation/gpu/i915.rst | 22 ++++++++++++++++++++++
- 1 file changed, 22 insertions(+)
-
-diff --git a/Documentation/gpu/i915.rst b/Documentation/gpu/i915.rst
-index afd8c0e3c689..70f2f4826eba 100644
---- a/Documentation/gpu/i915.rst
-+++ b/Documentation/gpu/i915.rst
-@@ -596,6 +596,28 @@ GuC
- 
- .. kernel-doc:: drivers/gpu/drm/i915/gt/uc/intel_guc.h
- 
-+.. kernel-doc:: drivers/gpu/drm/i915/gt/uc/abi/guc_actions_slpc_abi.h
-+
-+.. kernel-doc:: drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
-+
-+.. kernel-doc:: drivers/gpu/drm/i915/gt/uc/intel_guc_ct.h
-+
-+.. kernel-doc:: drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c
-+
-+.. kernel-doc:: drivers/gpu/drm/i915/gt/uc/intel_guc_hwconfig.c
-+
-+.. kernel-doc:: drivers/gpu/drm/i915/gt/uc/intel_guc_log.c
-+
-+.. kernel-doc:: drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
-+
-+.. kernel-doc:: drivers/gpu/drm/i915/gt/uc/intel_huc_fw.c
-+
-+.. kernel-doc:: drivers/gpu/drm/i915/gt/uc/intel_uc.c
-+
-+.. kernel-doc:: drivers/gpu/drm/i915/gt/uc/intel_uc_fw.h
-+
-+.. kernel-doc:: drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
-+
- GuC Firmware Layout
- ~~~~~~~~~~~~~~~~~~~
- 
--- 
-2.36.1
+New AMD processors can now support following QoS features.=0A=
+1. Slow Memory Bandwidth Con=EF=AC=81guration=0A=
+   With this feature, the QOS enforcement policies can be applied=0A=
+   to the external slow memory connected to the host. QOS enforcement=0A=
+   is accomplished by assigning a Class Of Service (COS) to a processor=0A=
+   and specifying allocations or limits for that COS for each resource=0A=
+   to be allocated.=0A=
+=0A=
+2. Bandwidth Monitoring Event Configuration (BMEC)=0A=
+   The bandwidth monitoring events mbm_total_event and mbm_local_event =0A=
+   are set to count all the total and local reads/writes respectively.=0A=
+   With the introduction of slow memory, the two counters are not enough=0A=
+   to count all the different types are memory events. With the feature=0A=
+   BMEC, the users have the option to configure mbm_total_event and=0A=
+   mbm_local_event to count the specific type of events.=0A=
+=0A=
+   Following are the bitmaps of events supported.=0A=
+   Bits    Description=0A=
+      6       Dirty Victims from the QOS domain to all types of memory=0A=
+      5       Reads to slow memory in the non-local NUMA domain=0A=
+      4       Reads to slow memory in the local NUMA domain=0A=
+      3       Non-temporal writes to non-local NUMA domain=0A=
+      2       Non-temporal writes to local NUMA domain=0A=
+      1       Reads to memory in the non-local NUMA domain=0A=
+      0       Reads to memory in the local NUMA domain=0A=
+=0A=
+This series adds support for these features.=0A=
+=0A=
+Feature description is available in the specification, "AMD64 Technology Pl=
+atform Quality=0A=
+of Service Extensions, Revision: 1.03 Publication # 56375 Revision: 1.03 Is=
+sue Date: February 2022".=0A=
+=0A=
+Link: https://www.amd.com/en/support/tech-docs/amd64-technology-platform-qu=
+ality-service-extensions=0A=
+Link: https://bugzilla.kernel.org/show_bug.cgi?id=3D206537=0A=
+---=0A=
+=0A=
+Babu Moger (9):=0A=
+      x86/cpufeatures: Add Slow Memory Bandwidth Allocation feature flag=0A=
+      x86/resctrl: Add a new resource type RDT_RESOURCE_SMBA=0A=
+      x86/resctrl: Detect and configure Slow Memory Bandwidth allocation=0A=
+      x86/cpufeatures: Add Bandwidth Monitoring Event Configuration feature=
+ flag=0A=
+      x86/resctrl: Introduce mon_configurable to detect Bandwidth Monitorin=
+g Event Configuration=0A=
+      x86/resctrl: Add sysfs interface files to read/write event configurat=
+ion=0A=
+      x86/resctrl: Add the sysfs interface to read the event configuration=
+=0A=
+      x86/resctrl: Add sysfs interface to write the event configuration=0A=
+      Documentation/x86: Update resctrl_ui.rst for new features=0A=
+=0A=
+=0A=
+ Documentation/x86/resctrl.rst             | 123 +++++++++++=0A=
+ arch/x86/include/asm/cpufeatures.h        |   2 +=0A=
+ arch/x86/kernel/cpu/resctrl/core.c        |  62 ++++++=0A=
+ arch/x86/kernel/cpu/resctrl/ctrlmondata.c |   2 +-=0A=
+ arch/x86/kernel/cpu/resctrl/internal.h    |  26 +++=0A=
+ arch/x86/kernel/cpu/resctrl/monitor.c     |  16 ++=0A=
+ arch/x86/kernel/cpu/resctrl/rdtgroup.c    | 237 +++++++++++++++++++++-=0A=
+ arch/x86/kernel/cpu/scattered.c           |   2 +=0A=
+ include/linux/resctrl.h                   |   1 +=0A=
+ 9 files changed, 467 insertions(+), 4 deletions(-)=0A=
+=0A=
+--=0A=
+Signature=0A=
 
