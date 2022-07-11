@@ -2,137 +2,152 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 06AF4C433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 11 Jul 2022 14:49:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1FAA2C43334
+	for <linux-doc@archiver.kernel.org>; Mon, 11 Jul 2022 15:11:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229979AbiGKOty (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 11 Jul 2022 10:49:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43972 "EHLO
+        id S232084AbiGKPLa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 11 Jul 2022 11:11:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39850 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231800AbiGKOtt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Jul 2022 10:49:49 -0400
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A136B32449;
-        Mon, 11 Jul 2022 07:49:48 -0700 (PDT)
-Received: from fraeml705-chm.china.huawei.com (unknown [172.18.147.201])
-        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4LhRWV2BZ9z67XMQ;
-        Mon, 11 Jul 2022 22:45:26 +0800 (CST)
-Received: from lhreml724-chm.china.huawei.com (10.201.108.75) by
- fraeml705-chm.china.huawei.com (10.206.15.54) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2375.24; Mon, 11 Jul 2022 16:49:46 +0200
-Received: from [10.202.227.197] (10.202.227.197) by
- lhreml724-chm.china.huawei.com (10.201.108.75) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Mon, 11 Jul 2022 15:49:45 +0100
-Message-ID: <2b36e407-f053-20cc-1d7f-983a4424665c@huawei.com>
-Date:   Mon, 11 Jul 2022 15:49:46 +0100
+        with ESMTP id S232077AbiGKPLa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Jul 2022 11:11:30 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6EF05A2E2;
+        Mon, 11 Jul 2022 08:11:28 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 0D5272DC;
+        Mon, 11 Jul 2022 15:11:28 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 0D5272DC
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1657552288; bh=hSeU9FXMoITez72aytKTs7KEhJYRCmp8Bx8U2+pCzbI=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=V2AmnJYfF9ZWxEnWfd1sgkIJ6uzTaV240/uLdk1LNrvHOg1VW/nRW+QrYVkBW0GHe
+         8V6u8tijpGygd+4R1Gf8gFTjKAQH2AnRUdG/ON/NTwlOOFp6EtH/QafxT+E3Rho+Py
+         SAYJjO/yo8WbiwkIScQfSkNOSMuSwv1Vs84YPwlDs/W8y1s7o1njjQBTNS1TycmSTQ
+         HQ9l+ZTIgtFiDpzzEsD+2qSxDyQzOqD+62hl3oaMryaPjFc34gnDtYoK0NmpIVlDCo
+         pmPbEDLDULYENcpDQ9e7mvjLyQscjNb3FOjPg/cG2B+ExDkCfGmf1ts2lAjr6yWPyB
+         cm93bj6KL4Npg==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Amelie Delaunay <amelie.delaunay@foss.st.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>
+Cc:     linux-doc@vger.kernel.org, dmaengine@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        Marek Vasut <marex@denx.de>,
+        Amelie Delaunay <amelie.delaunay@foss.st.com>
+Subject: Re: [PATCH 1/4] docs: arm: stm32: introduce STM32 DMA-MDMA chaining
+ feature
+In-Reply-To: <20220711084703.268481-2-amelie.delaunay@foss.st.com>
+References: <20220711084703.268481-1-amelie.delaunay@foss.st.com>
+ <20220711084703.268481-2-amelie.delaunay@foss.st.com>
+Date:   Mon, 11 Jul 2022 09:11:27 -0600
+Message-ID: <87a69ffzvk.fsf@meer.lwn.net>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.1
-Subject: Re: [PATCH v5 0/5] DMA mapping changes for SCSI core
-To:     Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        Christoph Hellwig <hch@lst.de>
-CC:     <joro@8bytes.org>, <will@kernel.org>, <jejb@linux.ibm.com>,
-        <m.szyprowski@samsung.com>, <robin.murphy@arm.com>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-ide@vger.kernel.org>, <iommu@lists.linux-foundation.org>,
-        <iommu@lists.linux.dev>, <linux-scsi@vger.kernel.org>,
-        <linuxarm@huawei.com>
-References: <1656590892-42307-1-git-send-email-john.garry@huawei.com>
- <b5f80062-e8ef-9597-1b0c-393140950dfb@huawei.com>
- <20220706134447.GA23753@lst.de> <yq1y1x47jgn.fsf@ca-mkp.ca.oracle.com>
- <5fd4814a-81b1-0e71-58e0-57a747eb684e@huawei.com>
- <6367a264-a3d3-8857-9b5a-2afcd25580cb@opensource.wdc.com>
- <a415e4a1-72ce-53e1-437a-fc7e56e4b913@huawei.com>
- <62b801e8-66b6-0af7-b0c9-195823bf9f62@opensource.wdc.com>
-From:   John Garry <john.garry@huawei.com>
-In-Reply-To: <62b801e8-66b6-0af7-b0c9-195823bf9f62@opensource.wdc.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.202.227.197]
-X-ClientProxiedBy: lhreml723-chm.china.huawei.com (10.201.108.74) To
- lhreml724-chm.china.huawei.com (10.201.108.75)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 11/07/2022 11:40, Damien Le Moal wrote:
-> On 7/11/22 16:36, John Garry wrote:
->> On 11/07/2022 00:08, Damien Le Moal wrote:
->>>> Ah, I think that I misunderstood Damien's question. I thought he was
->>>> asking why not keep shost max_sectors at dma_max_mapping_size() and then
->>>> init each sdev request queue max hw sectors at dma_opt_mapping_size().
->>> I was suggesting the reverse:)  Keep the device hard limit
->>> (max_hw_sectors) to the max dma mapping and set the soft limit
->>> (max_sectors) to the optimal dma mapping size.
->>
->> Sure, but as I mentioned below, I only see a small % of requests whose
->> mapping size exceeds max_sectors but that still causes a big performance
->> hit. So that is why I want to set the hard limit as the optimal dma
->> mapping size.
-> 
-> How can you possibly end-up with requests larger than max_sectors ? BIO
-> split is done using this limit, right ? Or is it that request merging is
-> allowed up to max_hw_sectors even if the resulting request size exceeds
-> max_sectors ?
-> 
+Amelie Delaunay <amelie.delaunay@foss.st.com> writes:
 
-Ah, I see how I thought that I was seeing requests whose size exceeded 
-max_sectors. Somebody must have changed a single disk in my system and 
-this odd disk has a higher default max_sectors_kb -- 512 vs 128 for the 
-rest.
+> STM32 DMA-MDMA chaining feature is available on STM32 SoCs which embed
+> STM32 DMAMUX, DMA and MDMA controllers. It is the case on STM32MP1 SoCs but
+> also on STM32H7 SoCs. But focus is on STM32MP1 SoCs, using DDR.
+> This documentation aims to explain how to use STM32 DMA-MDMA chaining
+> feature in drivers of STM32 peripheral having request lines on STM32 DMA.
+>
+> Signed-off-by: Amelie Delaunay <amelie.delaunay@foss.st.com>
+> ---
+>  .../arm/stm32/stm32-dma-mdma-chaining.rst     | 365 ++++++++++++++++++
+>  1 file changed, 365 insertions(+)
+>  create mode 100644 Documentation/arm/stm32/stm32-dma-mdma-chaining.rst
 
-So ignoring my nonesence that I was seeing oversize requests, as for the 
-idea to set default max_sectors at dma_opt_mapping_size(), I see some 
-issues:
-- for SAS disks I have no common point to impose this limit. Maybe in 
-the slave configure callback, but each SAS driver has its own 
-implementation generally
-- Even if we do config in slave_configure callback the max_sectors value 
-is overwritten later in sd_revalidate_disk().
+When you add a new RST file you also need to add it to index.rst
+somewhere so that it becomes part of the docs build.
 
-This following change could sort the issue though:
+> diff --git a/Documentation/arm/stm32/stm32-dma-mdma-chaining.rst b/Documentation/arm/stm32/stm32-dma-mdma-chaining.rst
+> new file mode 100644
+> index 000000000000..bfbbadc45aa7
+> --- /dev/null
+> +++ b/Documentation/arm/stm32/stm32-dma-mdma-chaining.rst
+> @@ -0,0 +1,365 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +=======================
+> +STM32 DMA-MDMA chaining
+> +=======================
+> +
+> +
+> +Introduction
+> +------------
+> +
+> +  This document describes the STM32 DMA-MDMA chaining feature. But before going further, let's
+> +  introduce the peripherals involved.
 
----8<----
-diff --git a/drivers/scsi/sd.c b/drivers/scsi/sd.c
-index 895b56c8f25e..bb49bea3d161 100644
---- a/drivers/scsi/sd.c
-+++ b/drivers/scsi/sd.c
-@@ -3214,6 +3214,8 @@ static int sd_revalidate_disk(struct gendisk *disk)
-         sector_t old_capacity = sdkp->capacity;
-         unsigned char *buffer;
-         unsigned int dev_max, rw_max;
-+       struct Scsi_Host *host = sdp->host;
-+       struct device *dev = host->dma_dev;
+Please keep to the 80-column limit for documentation, it makes it easier
+to read.
 
-         SCSI_LOG_HLQUEUE(3, sd_printk(KERN_INFO, sdkp,
-                                       "sd_revalidate_disk\n"));
-@@ -3296,8 +3298,13 @@ static int sd_revalidate_disk(struct gendisk *disk)
-                                       (sector_t)BLK_DEF_MAX_SECTORS);
-         }
+> +  To offload data transfers from the CPU, STM32 microprocessors (MPUs) embed direct memory access
+> +  controllers (DMA).
+> +
+> +  STM32MP1 SoCs embed both STM32 DMA and STM32 MDMA controllers. STM32 DMA request routing
+> +  capabilities are enhanced by a DMA request multiplexer (STM32 DMAMUX).
+> +
+> +  **STM32 DMAMUX**
+> +
+> +  STM32 DMAMUX routes any DMA request from a given peripheral to any STM32 DMA controller (STM32MP1
+> +  counts two STM32 DMA controllers) channels.
+> +
+> +  **STM32 DMA**
+> +
+> +  STM32 DMA is mainly used to implement central data buffer storage (usually in the system SRAM) for
+> +  different peripheral. It can access external RAMs but without the ability to generate convenient
+> +  burst transfer ensuring the best load of the AXI.
+> +
+> +  **STM32 MDMA**
+> +
+> +  STM32 MDMA (Master DMA) is mainly used to manage direct data transfers between RAM data buffers
+> +  without CPU intervention. It can also be used in a hierarchical structure that uses STM32 DMA as
+> +  first level data buffer interfaces for AHB peripherals, while the STM32 MDMA acts as a second
+> +  level DMA with better performance. As a AXI/AHB master, STM32 MDMA can take control of the AXI/AHB
+> +  bus.
+> +
+> +
+> +Principles
+> +----------
+> +
+> +  STM32 DMA-MDMA chaining feature relies on the strengths of STM32 DMA and STM32 MDMA controllers.
+> +
+> +  STM32 DMA has a circular Double Buffer Mode (DBM). At each end of transaction (when DMA data
+> +  counter - DMA_SxNDTR - reaches 0), the memory pointers (configured with DMA_SxSM0AR and
+> +  DMA_SxM1AR) are swapped and the DMA data counter is automatically reloaded. This allows the SW or
+> +  the STM32 MDMA to process one memory area while the second memory area is being filled/used by the
+> +  STM32 DMA transfer.
+> +
+> +  With STM32 MDMA linked-list mode, a single request initiates the data array (collection of nodes)
+> +  to be transferred until the linked-list pointer for the channel is null. The channel transfer
+> +  complete of the last node is the end of transfer, unless first and last nodes are linked to each
+> +  other, in such a case, the linked-list loops on to create a circular MDMA transfer.
+> +
+> +  STM32 MDMA has direct connections with STM32 DMA. This enables autonomous communication and
+> +  synchronization between peripherals, thus saving CPU resources and bus congestion. Transfer
+> +  Complete signal of STM32 DMA channel can triggers STM32 MDMA transfer. STM32 MDMA can clear the
+> +  request generated by the STM32 DMA by writing to its Interrupt Clear register (whose address is
+> +  stored in MDMA_CxMAR, and bit mask in MDMA_CxMDR).
+> +
+> +  .. csv-table:: STM32 MDMA interconnect table with STM32 DMA
+> +        :header: "STM32 DMAMUX channels", "STM32 DMA controllers channels",
+> +                 "STM32 DMA Transfer Complete signal", "STM32 MDMA request"
 
--       /* Do not exceed controller limit */
--       rw_max = min(rw_max, queue_max_hw_sectors(q));
-+       if (dev->dma_mask) {
-+               /* Do not exceed dma optimal limit */
-+               rw_max = min_t(unsigned int, rw_max,
-+                               dma_opt_mapping_size(dev) >> SECTOR_SHIFT);
-+       } else {
-+               rw_max = min(rw_max, queue_max_hw_sectors(q));
-+       }
+If at all possible, please use simple tables; that makes the plain text
+documentation much easier to read.
 
-         /*
-          * Only update max_sectors if previously unset or if the 
-current value
-
---->8---
-
-Or I could go with the method in this series, which is not preferred. 
-Let me know what you think.
+[...]
 
 Thanks,
-John
 
+jon
