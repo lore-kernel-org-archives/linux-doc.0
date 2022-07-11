@@ -2,108 +2,137 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9762ACCA480
-	for <linux-doc@archiver.kernel.org>; Mon, 11 Jul 2022 13:35:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 06AF4C433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 11 Jul 2022 14:49:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229708AbiGKNfM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 11 Jul 2022 09:35:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35560 "EHLO
+        id S229979AbiGKOty (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 11 Jul 2022 10:49:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43972 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229767AbiGKNfK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Jul 2022 09:35:10 -0400
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89FD131DF5;
-        Mon, 11 Jul 2022 06:35:09 -0700 (PDT)
-Received: from dggpemm500024.china.huawei.com (unknown [172.30.72.53])
-        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4LhPvr4LMyzkWtj;
-        Mon, 11 Jul 2022 21:32:56 +0800 (CST)
-Received: from dggpemm500001.china.huawei.com (7.185.36.107) by
- dggpemm500024.china.huawei.com (7.185.36.203) with Microsoft SMTP Server
+        with ESMTP id S231800AbiGKOtt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Jul 2022 10:49:49 -0400
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A136B32449;
+        Mon, 11 Jul 2022 07:49:48 -0700 (PDT)
+Received: from fraeml705-chm.china.huawei.com (unknown [172.18.147.201])
+        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4LhRWV2BZ9z67XMQ;
+        Mon, 11 Jul 2022 22:45:26 +0800 (CST)
+Received: from lhreml724-chm.china.huawei.com (10.201.108.75) by
+ fraeml705-chm.china.huawei.com (10.206.15.54) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2375.24; Mon, 11 Jul 2022 16:49:46 +0200
+Received: from [10.202.227.197] (10.202.227.197) by
+ lhreml724-chm.china.huawei.com (10.201.108.75) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Mon, 11 Jul 2022 21:35:05 +0800
-Received: from [10.174.177.243] (10.174.177.243) by
- dggpemm500001.china.huawei.com (7.185.36.107) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Mon, 11 Jul 2022 21:35:04 +0800
-Message-ID: <13b283fe-10f7-376f-9b8e-856e4d1e0ede@huawei.com>
-Date:   Mon, 11 Jul 2022 21:35:04 +0800
+ 15.1.2375.24; Mon, 11 Jul 2022 15:49:45 +0100
+Message-ID: <2b36e407-f053-20cc-1d7f-983a4424665c@huawei.com>
+Date:   Mon, 11 Jul 2022 15:49:46 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH v2 2/4] mm: rmap: Allow platforms without mm_cpumask to
- defer TLB flush
-Content-Language: en-US
-To:     Barry Song <21cnbao@gmail.com>, <akpm@linux-foundation.org>,
-        <linux-mm@kvack.org>, <linux-arm-kernel@lists.infradead.org>,
-        <x86@kernel.org>, <catalin.marinas@arm.com>, <will@kernel.org>,
-        <linux-doc@vger.kernel.org>
-CC:     <corbet@lwn.net>, <arnd@arndb.de>, <linux-kernel@vger.kernel.org>,
-        <darren@os.amperecomputing.com>, <yangyicong@hisilicon.com>,
-        <huzhanyuan@oppo.com>, <lipeifeng@oppo.com>,
-        <zhangshiming@oppo.com>, <guojian@oppo.com>, <realmz6@gmail.com>,
-        <linux-mips@vger.kernel.org>, <openrisc@lists.librecores.org>,
-        <linuxppc-dev@lists.ozlabs.org>, <linux-riscv@lists.infradead.org>,
-        <linux-s390@vger.kernel.org>, Barry Song <v-songbaohua@oppo.com>
-References: <20220711034615.482895-1-21cnbao@gmail.com>
- <20220711034615.482895-3-21cnbao@gmail.com>
-From:   Kefeng Wang <wangkefeng.wang@huawei.com>
-In-Reply-To: <20220711034615.482895-3-21cnbao@gmail.com>
+ Thunderbird/91.6.1
+Subject: Re: [PATCH v5 0/5] DMA mapping changes for SCSI core
+To:     Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        Christoph Hellwig <hch@lst.de>
+CC:     <joro@8bytes.org>, <will@kernel.org>, <jejb@linux.ibm.com>,
+        <m.szyprowski@samsung.com>, <robin.murphy@arm.com>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-ide@vger.kernel.org>, <iommu@lists.linux-foundation.org>,
+        <iommu@lists.linux.dev>, <linux-scsi@vger.kernel.org>,
+        <linuxarm@huawei.com>
+References: <1656590892-42307-1-git-send-email-john.garry@huawei.com>
+ <b5f80062-e8ef-9597-1b0c-393140950dfb@huawei.com>
+ <20220706134447.GA23753@lst.de> <yq1y1x47jgn.fsf@ca-mkp.ca.oracle.com>
+ <5fd4814a-81b1-0e71-58e0-57a747eb684e@huawei.com>
+ <6367a264-a3d3-8857-9b5a-2afcd25580cb@opensource.wdc.com>
+ <a415e4a1-72ce-53e1-437a-fc7e56e4b913@huawei.com>
+ <62b801e8-66b6-0af7-b0c9-195823bf9f62@opensource.wdc.com>
+From:   John Garry <john.garry@huawei.com>
+In-Reply-To: <62b801e8-66b6-0af7-b0c9-195823bf9f62@opensource.wdc.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.174.177.243]
-X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
- dggpemm500001.china.huawei.com (7.185.36.107)
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.202.227.197]
+X-ClientProxiedBy: lhreml723-chm.china.huawei.com (10.201.108.74) To
+ lhreml724-chm.china.huawei.com (10.201.108.75)
 X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Barry，
+On 11/07/2022 11:40, Damien Le Moal wrote:
+> On 7/11/22 16:36, John Garry wrote:
+>> On 11/07/2022 00:08, Damien Le Moal wrote:
+>>>> Ah, I think that I misunderstood Damien's question. I thought he was
+>>>> asking why not keep shost max_sectors at dma_max_mapping_size() and then
+>>>> init each sdev request queue max hw sectors at dma_opt_mapping_size().
+>>> I was suggesting the reverse:)  Keep the device hard limit
+>>> (max_hw_sectors) to the max dma mapping and set the soft limit
+>>> (max_sectors) to the optimal dma mapping size.
+>>
+>> Sure, but as I mentioned below, I only see a small % of requests whose
+>> mapping size exceeds max_sectors but that still causes a big performance
+>> hit. So that is why I want to set the hard limit as the optimal dma
+>> mapping size.
+> 
+> How can you possibly end-up with requests larger than max_sectors ? BIO
+> split is done using this limit, right ? Or is it that request merging is
+> allowed up to max_hw_sectors even if the resulting request size exceeds
+> max_sectors ?
+> 
 
-On 2022/7/11 11:46, Barry Song wrote:
-> From: Barry Song <v-songbaohua@oppo.com>
->
-> Platforms like ARM64 have hareware TLB shootdown broadcast. They
-> don't maintain mm_cpumask but just send tlbi and related sync
-> instructions for TLB flush. task's mm_cpumask is normally empty
-> in this case. We also allow deferred TLB flush on this kind of
-> platforms.
->
-> Signed-off-by: Barry Song <v-songbaohua@oppo.com>>
-> ---
-...
-> diff --git a/mm/Kconfig b/mm/Kconfig
-> index 169e64192e48..7bf54f57ca01 100644
-> --- a/mm/Kconfig
-> +++ b/mm/Kconfig
-> @@ -951,6 +951,9 @@ config ARCH_HAS_CURRENT_STACK_POINTER
->   	  register alias named "current_stack_pointer", this config can be
->   	  selected.
->   
-> +config ARCH_HAS_MM_CPUMASK
-> +	bool
-> +
->   config ARCH_HAS_VM_GET_PAGE_PROT
->   	bool
->   
-> diff --git a/mm/rmap.c b/mm/rmap.c
-> index 5bcb334cd6f2..13d4f9a1d4f1 100644
-> --- a/mm/rmap.c
-> +++ b/mm/rmap.c
-> @@ -692,6 +692,10 @@ static bool should_defer_flush(struct mm_struct *mm, enum ttu_flags flags)
->   	if (!(flags & TTU_BATCH_FLUSH))
->   		return false;
->   
-> +#ifndef CONFIG_ARCH_HAS_MM_CPUMASK
-> +	return true;
-> +#endif
-> +
+Ah, I see how I thought that I was seeing requests whose size exceeded 
+max_sectors. Somebody must have changed a single disk in my system and 
+this odd disk has a higher default max_sectors_kb -- 512 vs 128 for the 
+rest.
 
-Here is another option to enable arch's tlbbatch defer
+So ignoring my nonesence that I was seeing oversize requests, as for the 
+idea to set default max_sectors at dma_opt_mapping_size(), I see some 
+issues:
+- for SAS disks I have no common point to impose this limit. Maybe in 
+the slave configure callback, but each SAS driver has its own 
+implementation generally
+- Even if we do config in slave_configure callback the max_sectors value 
+is overwritten later in sd_revalidate_disk().
 
-[1] 
-https://patchwork.ozlabs.org/project/linuxppc-dev/patch/20171101101735.2318-2-khandual@linux.vnet.ibm.com/
+This following change could sort the issue though:
 
->   	/* If remote CPUs need to be flushed then defer batch the flush */
->   	if (cpumask_any_but(mm_cpumask(mm), get_cpu()) < nr_cpu_ids)
->   		should_defer = true;
+---8<----
+diff --git a/drivers/scsi/sd.c b/drivers/scsi/sd.c
+index 895b56c8f25e..bb49bea3d161 100644
+--- a/drivers/scsi/sd.c
++++ b/drivers/scsi/sd.c
+@@ -3214,6 +3214,8 @@ static int sd_revalidate_disk(struct gendisk *disk)
+         sector_t old_capacity = sdkp->capacity;
+         unsigned char *buffer;
+         unsigned int dev_max, rw_max;
++       struct Scsi_Host *host = sdp->host;
++       struct device *dev = host->dma_dev;
+
+         SCSI_LOG_HLQUEUE(3, sd_printk(KERN_INFO, sdkp,
+                                       "sd_revalidate_disk\n"));
+@@ -3296,8 +3298,13 @@ static int sd_revalidate_disk(struct gendisk *disk)
+                                       (sector_t)BLK_DEF_MAX_SECTORS);
+         }
+
+-       /* Do not exceed controller limit */
+-       rw_max = min(rw_max, queue_max_hw_sectors(q));
++       if (dev->dma_mask) {
++               /* Do not exceed dma optimal limit */
++               rw_max = min_t(unsigned int, rw_max,
++                               dma_opt_mapping_size(dev) >> SECTOR_SHIFT);
++       } else {
++               rw_max = min(rw_max, queue_max_hw_sectors(q));
++       }
+
+         /*
+          * Only update max_sectors if previously unset or if the 
+current value
+
+--->8---
+
+Or I could go with the method in this series, which is not preferred. 
+Let me know what you think.
+
+Thanks,
+John
+
