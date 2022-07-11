@@ -2,29 +2,29 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F3B8C433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 11 Jul 2022 15:51:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3618FC433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 11 Jul 2022 15:51:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231663AbiGKPvD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 11 Jul 2022 11:51:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44014 "EHLO
+        id S231543AbiGKPvG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 11 Jul 2022 11:51:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44234 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231260AbiGKPut (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Jul 2022 11:50:49 -0400
+        with ESMTP id S231549AbiGKPu7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Jul 2022 11:50:59 -0400
 Received: from andre.telenet-ops.be (andre.telenet-ops.be [IPv6:2a02:1800:120:4::f00:15])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE91777A5C
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6C7877A54
         for <linux-doc@vger.kernel.org>; Mon, 11 Jul 2022 08:50:40 -0700 (PDT)
 Received: from ramsan.of.borg ([84.195.186.194])
         by andre.telenet-ops.be with bizsmtp
-        id trqe2700R4C55Sk01rqe5a; Mon, 11 Jul 2022 17:50:38 +0200
+        id trqe2700J4C55Sk01rqe5Y; Mon, 11 Jul 2022 17:50:38 +0200
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
         (Exim 4.93)
         (envelope-from <geert@linux-m68k.org>)
-        id 1oAvgE-0036x3-2b; Mon, 11 Jul 2022 17:50:38 +0200
+        id 1oAvgD-0036xI-Rt; Mon, 11 Jul 2022 17:50:37 +0200
 Received: from geert by rox.of.borg with local (Exim 4.93)
         (envelope-from <geert@linux-m68k.org>)
-        id 1oAvgD-006shq-13; Mon, 11 Jul 2022 17:50:37 +0200
+        id 1oAvgD-006siC-6A; Mon, 11 Jul 2022 17:50:37 +0200
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
 To:     Helge Deller <deller@gmx.de>
 Cc:     Michael Schmitz <schmitzmic@gmail.com>,
@@ -32,38 +32,56 @@ Cc:     Michael Schmitz <schmitzmic@gmail.com>,
         linux-doc@vger.kernel.org, dri-devel@lists.freedesktop.org,
         linux-m68k@vger.kernel.org, linux-kernel@vger.kernel.org,
         Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: [PATCH 07/10] video: fbdev: atari: Fix TT High video mode vertical refresh
-Date:   Mon, 11 Jul 2022 17:50:31 +0200
-Message-Id: <b31294522c994453a99ab57ced7346c0cef9c32d.1657554353.git.geert@linux-m68k.org>
+Subject: [PATCH 10/10] [RFC] video: fbdev: atari: Remove backward bug-compatibility
+Date:   Mon, 11 Jul 2022 17:50:34 +0200
+Message-Id: <52d52566a80bfd00acdcfc28a24799d3fbf638f6.1657554353.git.geert@linux-m68k.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1657554353.git.geert@linux-m68k.org>
 References: <cover.1657554353.git.geert@linux-m68k.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The vertical refresh rate for the TT High video mode (1280x960) is
-wrong.  Fortunately this field is not really used.
+As of v2.1.0, falcon_decode_var() contains a quirk to fix a rounding
+error, as explained by Günther Kelleter on Fri, 30 Aug 1996:
+
+    This diff removes the now obsolete Falcon video option "pwrsave", and
+    fixes a rounding error that is triggered by the resolution switching X
+    server (those who use the pixel clock value 39722 in their /etc/fb.modes
+    should change it to 39721).
+
+However, this causes the modified video mode returned by
+falcon_decode_var() to not match the video mode returned by
+falcon_encode_var().  Fix this by dropping the quirk.
+
+Unfortunately /etc/fb.modes in fbset was never updated, so the
+"640x480-60" mode still contains the wrong pixclock.
+Hence this change may introduce a regression.
 
 Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
 ---
- drivers/video/fbdev/atafb.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Any comments?
+---
+ drivers/video/fbdev/atafb.c | 4 ----
+ 1 file changed, 4 deletions(-)
 
 diff --git a/drivers/video/fbdev/atafb.c b/drivers/video/fbdev/atafb.c
-index fbc333d5615df5d5..528478f6f30857ef 100644
+index e8b178e732e2c785..2bc4089865e60ac2 100644
 --- a/drivers/video/fbdev/atafb.c
 +++ b/drivers/video/fbdev/atafb.c
-@@ -484,7 +484,7 @@ static struct fb_videomode atafb_modedb[] __initdata = {
- 		0, FB_VMODE_NONINTERLACED
- 	}, {
- 		/* 1280x960, 72 kHz, 72 Hz (TT high) */
--		"tt-high", 57, 1280, 960, 7760, 260, 60, 36, 4, 192, 4,
-+		"tt-high", 72, 1280, 960, 7760, 260, 60, 36, 4, 192, 4,
- 		0, FB_VMODE_NONINTERLACED
- 	},
+@@ -1008,10 +1008,6 @@ static int falcon_decode_var(struct fb_var_screeninfo *var,
+ 	else if (yres_virtual < yres)
+ 		yres_virtual = yres;
+ 
+-	/* backward bug-compatibility */
+-	if (var->pixclock > 1)
+-		var->pixclock -= 1;
+-
+ 	par->hw.falcon.line_width = bpp * xres / 16;
+ 	par->hw.falcon.line_offset = bpp * (xres_virtual - xres) / 16;
  
 -- 
 2.25.1
