@@ -2,83 +2,73 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 17A4FC43334
-	for <linux-doc@archiver.kernel.org>; Tue, 12 Jul 2022 13:05:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 41273C433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 12 Jul 2022 13:30:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230004AbiGLNFm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 12 Jul 2022 09:05:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50064 "EHLO
+        id S229918AbiGLNab (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 12 Jul 2022 09:30:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43960 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229677AbiGLNFm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Jul 2022 09:05:42 -0400
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A5CE33A28;
-        Tue, 12 Jul 2022 06:05:41 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
+        with ESMTP id S232929AbiGLNaa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Jul 2022 09:30:30 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AAA019A5F3;
+        Tue, 12 Jul 2022 06:30:28 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id DDEB22B2;
-        Tue, 12 Jul 2022 13:05:40 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net DDEB22B2
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1657631141; bh=QTFaaFfrmflBfN2tiPMpqSNmnH8IeA/fkfWvf4+Z6SM=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=O9ktPBSph9PmD4wdt38ZJz8NisWq7wufs/AOPcMJ1YeK52889vEPQo5xBWEIp9eMj
-         GNqEx1/kzx7IIig1+Xsam5nnR+a9ilxVFaqEp9WQTDgIw33DzuvhdPqBWTVnynElpB
-         4KMoo+UninwEJlRYGz6bxPV+dBL2dFlL+yX9WvLbkrsm9aq4AwmKQMjDXdbaaWpPLC
-         PrDIdtnUOfx7Eap310fAWvETx6U8QfPNirt6/7nXMZn0ntpBxaTWkyJP9PsWimoLyL
-         B6j6/oYY/HUDn3OFxcZneVDa4NTVA5YmVy3rYK2HRRVDmHuF4s4QNZFDHTZuuXWraq
-         PEMrj7nh93v0A==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Dov Murik <dovmurik@linux.ibm.com>, linux-doc@vger.kernel.org
-Cc:     Dov Murik <dovmurik@linux.ibm.com>,
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 4622E61796;
+        Tue, 12 Jul 2022 13:30:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EEDADC341C8;
+        Tue, 12 Jul 2022 13:30:26 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+        dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="P2TcjJWI"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105;
+        t=1657632625;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=MYdthUeGZbvaA1t+1LojU/ybGXAAcEY8rEaTs7qHYZs=;
+        b=P2TcjJWIleqZJ5SKMIVhWV32GAoQryf+5uggPBT1cAXl3zFuVJ5R/lMVVCF8XEuvI1pauA
+        xMOegPqMJrhaO5e71sfm1ndu9cwGOzLVfkltFBYK9e7IO3Jcoo5QhHUY6pi3IX2DmIq9Ke
+        iZExEcoT/GlKa7aIXrQtg6ehVgjQJAU=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id b53cc393 (TLSv1.3:AEAD-AES256-GCM-SHA384:256:NO);
+        Tue, 12 Jul 2022 13:30:25 +0000 (UTC)
+Date:   Tue, 12 Jul 2022 15:30:22 +0200
+From:   "Jason A. Donenfeld" <Jason@zx2c4.com>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Dov Murik <dovmurik@linux.ibm.com>, linux-doc@vger.kernel.org,
         Eric Biggers <ebiggers@google.com>,
-        linux-kernel@vger.kernel.org,
-        "Jason A. Donenfeld" <Jason@zx2c4.com>
+        linux-kernel@vger.kernel.org
 Subject: Re: [PATCH] Documentation: siphash: Fix typo in the name of
  offsetofend macro
-In-Reply-To: <20220712104455.1408150-1-dovmurik@linux.ibm.com>
+Message-ID: <Ys13bqGuPYBUGg3O@zx2c4.com>
 References: <20220712104455.1408150-1-dovmurik@linux.ibm.com>
-Date:   Tue, 12 Jul 2022 07:05:40 -0600
-Message-ID: <87fsj6bhwb.fsf@meer.lwn.net>
+ <87fsj6bhwb.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <87fsj6bhwb.fsf@meer.lwn.net>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Dov Murik <dovmurik@linux.ibm.com> writes:
+Hi Jon,
 
-> The siphash documentation misspelled "offsetendof" instead of
-> "offsetofend".
->
-> Fixes: 2c956a60778cbb ("siphash: add cryptographically secure PRF")
+On Tue, Jul 12, 2022 at 07:05:40AM -0600, Jonathan Corbet wrote:
+> Dov Murik <dovmurik@linux.ibm.com> writes:
+> 
+> > The siphash documentation misspelled "offsetendof" instead of
+> > "offsetofend".
+> >
+> > Fixes: 2c956a60778cbb ("siphash: add cryptographically secure PRF")
+> 
+> When you send a patch with a Fixes tag it's always a good idea to CC the
+> author of the patch being fixed.  Adding Jason...let me know if you'd
+> like me to grab this.
 
-When you send a patch with a Fixes tag it's always a good idea to CC the
-author of the patch being fixed.  Adding Jason...let me know if you'd
-like me to grab this.
+Thanks for CC'ing me. Sure, feel free to take this:
 
-> Signed-off-by: Dov Murik <dovmurik@linux.ibm.com>
-> ---
->  Documentation/security/siphash.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/Documentation/security/siphash.rst b/Documentation/security/siphash.rst
-> index a10380cb78e5..023bd95c74a5 100644
-> --- a/Documentation/security/siphash.rst
-> +++ b/Documentation/security/siphash.rst
-> @@ -85,7 +85,7 @@ Often times the XuY functions will not be large enough, and instead you'll
->  want to pass a pre-filled struct to siphash. When doing this, it's important
->  to always ensure the struct has no padding holes. The easiest way to do this
->  is to simply arrange the members of the struct in descending order of size,
-> -and to use offsetendof() instead of sizeof() for getting the size. For
-> +and to use offsetofend() instead of sizeof() for getting the size. For
->  performance reasons, if possible, it's probably a good thing to align the
->  struct to the right boundary. Here's an example::
->  
-> -- 
-> 2.25.1
+    Acked-by: Jason A. Donenfeld <Jason@zx2c4.com>
 
-Thanks,
-
-jon
+Jason
