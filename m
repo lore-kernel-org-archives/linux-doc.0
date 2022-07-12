@@ -2,624 +2,369 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 981E7C43334
-	for <linux-doc@archiver.kernel.org>; Tue, 12 Jul 2022 15:08:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B1FC2CCA47F
+	for <linux-doc@archiver.kernel.org>; Tue, 12 Jul 2022 15:10:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234011AbiGLPI3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 12 Jul 2022 11:08:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34294 "EHLO
+        id S234127AbiGLPKI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 12 Jul 2022 11:10:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42974 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230197AbiGLPHu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Jul 2022 11:07:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 8160EC5947
-        for <linux-doc@vger.kernel.org>; Tue, 12 Jul 2022 08:01:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1657638051;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=0XC/bcBeLk9zX07NKjk2xGVJ8H4dkjrQs38pi7O3LXc=;
-        b=bMNb852JAhcAqFWFPOcjc9c9xBqdwKN1ZElLIUmUVnQ4CbX6mj9abnvZj3TvrsBso37mPo
-        nq+mMkswGPd6I4fAaoPg6aYoQVUExotI1OyoxrAWrDLMUG2isLGDyjpQ41pp8YBUSTwB0v
-        TJ7stpGKRCWhZ31wqyNG1RdKg7W5F4U=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-518-WtguMMUkNpi1o_C_Y1U4iQ-1; Tue, 12 Jul 2022 11:00:39 -0400
-X-MC-Unique: WtguMMUkNpi1o_C_Y1U4iQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2C5B9811E84;
-        Tue, 12 Jul 2022 15:00:38 +0000 (UTC)
-Received: from plouf.redhat.com (unknown [10.39.195.8])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 6E0AE2166B2A;
-        Tue, 12 Jul 2022 15:00:34 +0000 (UTC)
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-To:     Greg KH <gregkh@linuxfoundation.org>,
-        Jiri Kosina <jikos@kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>, Shuah Khan <shuah@kernel.org>,
-        Dave Marchevsky <davemarchevsky@fb.com>,
-        Joe Stringer <joe@cilium.io>, Jonathan Corbet <corbet@lwn.net>
-Cc:     Tero Kristo <tero.kristo@linux.intel.com>,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        netdev@vger.kernel.org, bpf@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Subject: [PATCH bpf-next v6 23/23] Documentation: add HID-BPF docs
-Date:   Tue, 12 Jul 2022 16:58:50 +0200
-Message-Id: <20220712145850.599666-24-benjamin.tissoires@redhat.com>
-In-Reply-To: <20220712145850.599666-1-benjamin.tissoires@redhat.com>
-References: <20220712145850.599666-1-benjamin.tissoires@redhat.com>
+        with ESMTP id S234076AbiGLPJm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Jul 2022 11:09:42 -0400
+Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com [IPv6:2a00:1450:4864:20::535])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6711FC1648
+        for <linux-doc@vger.kernel.org>; Tue, 12 Jul 2022 08:03:11 -0700 (PDT)
+Received: by mail-ed1-x535.google.com with SMTP id y4so10478288edc.4
+        for <linux-doc@vger.kernel.org>; Tue, 12 Jul 2022 08:03:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=cDPLw2CbVZaDo90y78ZrmTMoMsL1dbAoIyq4iZ3QLaQ=;
+        b=FiMvDWaVxtWeQZSnjHcv8TpobwCSd16qkxExux5EJFHid+NP2AZecH6+9Njbi8tftt
+         Le02cSLfAh7FDtnY7S8oQKIofstWMtXlu0eqQnFq6eH0t5Grvg4UxQ8yqDUnkC9d+SaM
+         QKHjc5tQXyQoymLLRl2plvcppSc/TS4Z6laIl8mOcVQw72TRYE4okUaP1/W1tuZ3MV7P
+         +QRLmR6YUxcYHWV7jKd8eLs74QR9r/TB3tV6w4GEHjM07f8P5f8PhHcg/FKryFvb2xGU
+         6FTJqIQuv4BaRmf314YXpFmTLpcwxdVwhNJ+Av3p9YRZsa3OtFBqZUB6OzbxFsyBfc1L
+         RCRw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=cDPLw2CbVZaDo90y78ZrmTMoMsL1dbAoIyq4iZ3QLaQ=;
+        b=Y6S0wYq6NT+sHAa9h/FwTNfbSd8yBv1qiAzavgjrp/4fUHkseqnvP+M6mrT9v6Frxv
+         c33hnBUyXgbjJ63mvRCF0mKVpP3SK5lT5YEOdsKmqcsUwPj8eS8V2Bsx2ehnHx/1xPfY
+         nhHI8XIKY2Hrfjq5UEMu2HpsbFjmLd5px/MJG8Im0CWCzdrsKqdtz7sW737RoH9NKpSm
+         DxNrv94zV5kNnrQtU3n8jdHMu6T+rtq+cpssKEG2tfr1fNxHtbVduyfha5GPqcnqfBeV
+         CIfZRyug1/r/U+uvH9KFyZUVngUjzO6/0gAUXNRsQYgPLNNn5WHJz5U1GeoBkRza+BmA
+         549Q==
+X-Gm-Message-State: AJIora+Ni3T26SGpfupSAAVTEh8yAWtu4SkKzhmRdEBk9RVKb4wkU2lh
+        0GmOGe9njV9xXgv4k8GF7IdfnvbTOrJEfby2GT41Gg==
+X-Google-Smtp-Source: AGRyM1sQ6a3UF0OjQq1pjj4JvllJzEy59o8mAN3Hz+12m9ylyQfskPBfyoOlEs8MKR84teFB3F51TwIdUescqfxv4so=
+X-Received: by 2002:a05:6402:3214:b0:43a:b36f:a0b4 with SMTP id
+ g20-20020a056402321400b0043ab36fa0b4mr28655679eda.122.1657638189876; Tue, 12
+ Jul 2022 08:03:09 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
+References: <20220606115555.41103-1-yangyicong@hisilicon.com>
+ <20220606115555.41103-8-yangyicong@hisilicon.com> <20220706175751.GA2546265@p14s>
+ <75afb15e-9fc2-d14a-c72d-dc33589cfc0e@huawei.com> <20220707162015.GA2609651@p14s>
+ <0569c6e2-48b2-9d9e-a8cc-971e41d78365@huawei.com>
+In-Reply-To: <0569c6e2-48b2-9d9e-a8cc-971e41d78365@huawei.com>
+From:   Mathieu Poirier <mathieu.poirier@linaro.org>
+Date:   Tue, 12 Jul 2022 09:02:57 -0600
+Message-ID: <CANLsYkx+NxOfrcBfpkor7ZgTTD35Kiy_qMP4AikKQNRzn5wvzg@mail.gmail.com>
+Subject: Re: [PATCH v9 7/8] docs: trace: Add HiSilicon PTT device driver documentation
+To:     Yicong Yang <yangyicong@huawei.com>
+Cc:     yangyicong@hisilicon.com, gregkh@linuxfoundation.org,
+        alexander.shishkin@linux.intel.com, leo.yan@linaro.org,
+        james.clark@arm.com, will@kernel.org, robin.murphy@arm.com,
+        acme@kernel.org, jonathan.cameron@huawei.com,
+        john.garry@huawei.com, helgaas@kernel.org,
+        lorenzo.pieralisi@arm.com, suzuki.poulose@arm.com,
+        mark.rutland@arm.com, joro@8bytes.org,
+        shameerali.kolothum.thodi@huawei.com, peterz@infradead.org,
+        mingo@redhat.com, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-pci@vger.kernel.org,
+        linux-perf-users@vger.kernel.org, iommu@lists.linux-foundation.org,
+        prime.zeng@huawei.com, liuqi115@huawei.com,
+        zhangshaokun@hisilicon.com, linuxarm@huawei.com, corbet@lwn.net,
+        linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Gives a primer on HID-BPF.
+On Tue, 12 Jul 2022 at 06:38, Yicong Yang <yangyicong@huawei.com> wrote:
+>
+> On 2022/7/8 0:20, Mathieu Poirier wrote:
+> > On Thu, Jul 07, 2022 at 07:43:21PM +0800, Yicong Yang wrote:
+> >> On 2022/7/7 1:57, Mathieu Poirier wrote:
+> >>> Hi,
+> >>>
+> >>> I have started looking at this set.
+> >>
+> >> Thanks!
+> >>
+> >>>
+> >>> On Mon, Jun 06, 2022 at 07:55:54PM +0800, Yicong Yang wrote:
+> >>>> Document the introduction and usage of HiSilicon PTT device driver.
+> >>>>
+> >>>> Signed-off-by: Yicong Yang <yangyicong@hisilicon.com>
+> >>>> Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> >>>> ---
+> >>>>  Documentation/trace/hisi-ptt.rst | 307 +++++++++++++++++++++++++++++++
+> >>>>  Documentation/trace/index.rst    |   1 +
+> >>>
+> >>> The "get_maintainer" script clearly indicates that Jonathan Corbet maintains the
+> >>> Documentation directory and yet he is not CC'ed on this patch, nor is the
+> >>> linux-doc mainling list.  As such, it would not be possible to merge this
+> >>> patchset.
+> >>>
+> >>
+> >> sorry for missing. +cc'ed.
+> >>
+> >>>>  2 files changed, 308 insertions(+)
+> >>>>  create mode 100644 Documentation/trace/hisi-ptt.rst
+> >>>>
+> >>>> diff --git a/Documentation/trace/hisi-ptt.rst b/Documentation/trace/hisi-ptt.rst
+> >>>> new file mode 100644
+> >>>> index 000000000000..0a3112244d40
+> >>>> --- /dev/null
+> >>>> +++ b/Documentation/trace/hisi-ptt.rst
+> >>>> @@ -0,0 +1,307 @@
+> >>>> +.. SPDX-License-Identifier: GPL-2.0
+> >>>> +
+> >>>> +======================================
+> >>>> +HiSilicon PCIe Tune and Trace device
+> >>>> +======================================
+> >>>> +
+> >>>> +Introduction
+> >>>> +============
+> >>>> +
+> >>>> +HiSilicon PCIe tune and trace device (PTT) is a PCIe Root Complex
+> >>>> +integrated Endpoint (RCiEP) device, providing the capability
+> >>>> +to dynamically monitor and tune the PCIe link's events (tune),
+> >>>> +and trace the TLP headers (trace). The two functions are independent,
+> >>>> +but is recommended to use them together to analyze and enhance the
+> >>>> +PCIe link's performance.
+> >>>> +
+> >>>> +On Kunpeng 930 SoC, the PCIe Root Complex is composed of several
+> >>>> +PCIe cores. Each PCIe core includes several Root Ports and a PTT
+> >>>> +RCiEP, like below. The PTT device is capable of tuning and
+> >>>> +tracing the links of the PCIe core.
+> >>>> +::
+> >>>> +
+> >>>> +          +--------------Core 0-------+
+> >>>> +          |       |       [   PTT   ] |
+> >>>> +          |       |       [Root Port]---[Endpoint]
+> >>>> +          |       |       [Root Port]---[Endpoint]
+> >>>> +          |       |       [Root Port]---[Endpoint]
+> >>>> +    Root Complex  |------Core 1-------+
+> >>>> +          |       |       [   PTT   ] |
+> >>>> +          |       |       [Root Port]---[ Switch ]---[Endpoint]
+> >>>> +          |       |       [Root Port]---[Endpoint] `-[Endpoint]
+> >>>> +          |       |       [Root Port]---[Endpoint]
+> >>>> +          +---------------------------+
+> >>>> +
+> >>>> +The PTT device driver registers one PMU device for each PTT device.
+> >>>> +The name of each PTT device is composed of 'hisi_ptt' prefix with
+> >>>> +the id of the SICL and the Core where it locates. The Kunpeng 930
+> >>>> +SoC encapsulates multiple CPU dies (SCCL, Super CPU Cluster) and
+> >>>> +IO dies (SICL, Super I/O Cluster), where there's one PCIe Root
+> >>>> +Complex for each SICL.
+> >>>> +::
+> >>>> +
+> >>>> +    /sys/devices/hisi_ptt<sicl_id>_<core_id>
+> >>>
+> >>> All entries added to sysfs should have corresponding documentation.  See [1] and
+> >>> [2] for details and [3] for an example.
+> >>>
+> >>> [1]. https://elixir.bootlin.com/linux/latest/source/Documentation/ABI/README
+> >>> [2]. https://elixir.bootlin.com/linux/latest/source/Documentation/ABI/testing
+> >>> [3]. https://elixir.bootlin.com/linux/latest/source/Documentation/ABI/testing/sysfs-bus-coresight-devices-etm4x
+> >>>
+> >>
+> >> ok. I'll add a patch for ABI description. Thanks for the reference.
+> >>
+> >>>> +
+> >>>> +Tune
+> >>>> +====
+> >>>> +
+> >>>> +PTT tune is designed for monitoring and adjusting PCIe link parameters (events).
+> >>>> +Currently we support events in 4 classes. The scope of the events
+> >>>> +covers the PCIe core to which the PTT device belongs.
+> >>>> +
+> >>>> +Each event is presented as a file under $(PTT PMU dir)/tune, and
+> >>>> +a simple open/read/write/close cycle will be used to tune the event.
+> >>>> +::
+> >>>> +
+> >>>> +    $ cd /sys/devices/hisi_ptt<sicl_id>_<core_id>/tune
+> >>>> +    $ ls
+> >>>> +    qos_tx_cpl    qos_tx_np    qos_tx_p
+> >>>> +    tx_path_rx_req_alloc_buf_level
+> >>>> +    tx_path_tx_req_alloc_buf_level
+> >>>
+> >>> These look overly long... How about watermark_rx and watermark_tx?
+> >>>
+> >>
+> >> These are gotten from the hardware manual and abbreviated. These events are highly connected
+> >> to the hardware desgin so I think it's better to keep consistence. The watermark_{rx, tx} will
+> >> become ambigious when we add more events for Rx path or other Tx path events.
+> >>
+> >> The event code is composed of two parts. First part (tx_path) describes which path it belongs to
+> >> and second part describes the function ({rx,tx}_req_alloc_buf_level). We called the link path
+> >> between CPU and PCIe RC as Rx path and the path between PCIe RC to the PCIe link as Tx path.
+> >> So we need to have tx_path prefix for the Tx path and {rx, tx}_req_alloc_buf_level for the
+> >> requested watermark of {inbound, outbound} buffer allocation. Indeed we have other Tx path
+> >> buffer events which are not exported in this series.
+> >>
+> >
+> > I will not be maintaining nor using this driver so the choice is entirely yours.
+> > That being said the end result is the same - those names are, in my opinion, too
+> > long.
+> >
+> >>
+> >>>> +    $ cat qos_tx_dp
+> >>>> +    1
+> >>>> +    $ echo 2 > qos_tx_dp
+> >>>> +    $ cat qos_tx_dp
+> >>>> +    2
+> >>>> +
+> >>>> +Current value (numerical value) of the event can be simply read
+> >>>> +from the file, and the desired value written to the file to tune.
+> >>>> +
+> >>>> +1. Tx path QoS control
+> >>>> +------------------------
+> >>>> +
+> >>>> +The following files are provided to tune the QoS of the tx path of
+> >>>> +the PCIe core.
+> >>>> +
+> >>>> +- qos_tx_cpl: weight of Tx completion TLPs
+> >>>> +- qos_tx_np: weight of Tx non-posted TLPs
+> >>>> +- qos_tx_p: weight of Tx posted TLPs
+> >>>> +
+> >>>> +The weight influences the proportion of certain packets on the PCIe link.
+> >>>> +For example, for the storage scenario, increase the proportion
+> >>>> +of the completion packets on the link to enhance the performance as
+> >>>> +more completions are consumed.
+> >>>> +
+> >>>> +The available tune data of these events is [0, 1, 2].
+> >>>> +Writing a negative value will return an error, and out of range
+> >>>> +values will be converted to 2. Note that the event value just
+> >>>> +indicates a probable level, but is not precise.
+> >>>> +
+> >>>> +2. Tx path buffer control
+> >>>> +-------------------------
+> >>>> +
+> >>>> +Following files are provided to tune the buffer of tx path of the PCIe core.
+> >>>> +
+> >>>> +- tx_path_rx_req_alloc_buf_level: watermark of Rx requested
+> >>>> +- tx_path_tx_req_alloc_buf_level: watermark of Tx requested
+> >>>> +
+> >>>> +These events influence the watermark of the buffer allocated for each
+> >>>> +type. Rx means the inbound while Tx means outbound. The packets will
+> >>>> +be stored in the buffer first and then transmitted either when the
+> >>>> +watermark reached or when timed out. For a busy direction, you should
+> >>>> +increase the related buffer watermark to avoid frequently posting and
+> >>>> +thus enhance the performance. In most cases just keep the default value.
+> >>>> +
+> >>>> +The available tune data of above events is [0, 1, 2].
+> >>>> +Writing a negative value will return an error, and out of range
+> >>>> +values will be converted to 2. Note that the event value just
+> >>>> +indicates a probable level, but is not precise.
+> >>>
+> >>> This is useful documentation but it also should be found in the ABI
+> >>> documentation referred to above.
+> >>>
+> >>>> +
+> >>>> +Trace
+> >>>> +=====
+> >>>> +
+> >>>> +PTT trace is designed for dumping the TLP headers to the memory, which
+> >>>> +can be used to analyze the transactions and usage condition of the PCIe
+> >>>> +Link. You can choose to filter the traced headers by either requester ID,
+> >>>> +or those downstream of a set of Root Ports on the same core of the PTT
+> >>>> +device. It's also supported to trace the headers of certain type and of
+> >>>> +certain direction.
+> >>>> +
+> >>>> +You can use the perf command `perf record` to set the parameters, start
+> >>>> +trace and get the data. It's also supported to decode the trace
+> >>>> +data with `perf report`. The control parameters for trace is inputted
+> >>>> +as event code for each events, which will be further illustrated later.
+> >>>> +An example usage is like
+> >>>> +::
+> >>>> +
+> >>>> +    $ perf record -e hisi_ptt0_2/filter=0x80001,type=1,direction=1,
+> >>>> +      format=1/ -- sleep 5
+> >>>> +
+> >>>> +This will trace the TLP headers downstream root port 0000:00:10.1 (event
+> >>>> +code for event 'filter' is 0x80001) with type of posted TLP requests,
+> >>>> +direction of inbound and traced data format of 8DW.
+> >>>> +
+> >>>> +1. filter
+> >>>> +---------
+> >>>> +
+> >>>> +The TLP headers to trace can be filtered by the Root Ports or the requester
+> >>>> +ID of the endpoints, which are located on the same core of the PTT device.
+> >>>> +You can set the filter by specifying the `filter` parameter which is required
+> >>>> +to start the trace. The parameter value is 20 bit. The supported filters and
+> >>>> +related values are outputted through `available_root_port_filters` and
+> >>>> +`available_requester_filters` sysfs attributes for Root Ports and Requesters
+> >>>> +respectively.
+> >>>> +::
+> >>>> +
+> >>>> +    $ cat available_root_port_filters
+> >>>> +    0000:00:10.0  0x80001
+> >>>> +    0000:00:11.0  0x80004
+> >>>> +    $ cat available_requester_filters
+> >>>> +    0000:01:00.0  0x00100
+> >>>> +    0000:01:00.1  0x00101
+> >>>
+> >>> If I remember correctly, one of the rule for sysfs is one line per entry.
+> >>>
+> >>
+> >> Since one PTT devices may support several Root Ports and Endpoints on its core, I find no better
+> >> way to make this information convenient and easy to use for the users to collect. So maybe this
+> >> canbe an exception and there seems to have some limited examples like
+> >> /sys/devices/system/node/node<N>/{meminfo, vmstat, meminfo}.
+> >
+> > You can either find a better solution or argue the matter with Greg.  I suggest
+> > to introduce new directories, i.e "root_port_filters" and "requested_filters"
+> > and under those have entries like "port0", "port1" and so on.
+> >
+>
+> Thanks for the suggestion and it does make sense to me. But I've tried it and met some problems.
+> I intended to create two attribute groups for each kind of filter and create attribute for each
+> available filter. like:
+>
+> $ ls root_port_filters    # each filter exists as an sysfs attribute
+> 0000:00:10.0 0000:00:11.0
+> $ cat root_port_filters/0000:00:10.0    # read the attribute get the filter value
+> 0x80001
+>
+> In pratice we may have no filter for certain types, for example no endpoint found on this PCIe
+> core then we'll have no filter attributes under requester_filters directory. Or if endpoint
+> devices are hot removed or manually removed through sysfs by the user, the filter attributes
+> will be created/destroyed dynamically (will support following this series, an implementation
+> will be like in [1]) which may make the directory empty. But sysfs won't allow to have an
+> empty attribute group, restricted in [2].
+>
 
-Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+My comment was not meant to provide a solution but to highlight
+alternative options.  There are a lot of sysfs examples in the kernel
+for you to look at.
 
----
-
-changes in v6:
-- amended the example now that we can directly use the data from the
-  syscall context
-
-changes in v5:
-- amended for new API
-- reworded most of the sentences (thanks to Peter Hutterer for the review)
-
-changes in v4:
-- fixed typos
-
-new in v3
----
- Documentation/hid/hid-bpf.rst | 512 ++++++++++++++++++++++++++++++++++
- Documentation/hid/index.rst   |   1 +
- 2 files changed, 513 insertions(+)
- create mode 100644 Documentation/hid/hid-bpf.rst
-
-diff --git a/Documentation/hid/hid-bpf.rst b/Documentation/hid/hid-bpf.rst
-new file mode 100644
-index 000000000000..75e65c135925
---- /dev/null
-+++ b/Documentation/hid/hid-bpf.rst
-@@ -0,0 +1,512 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+=======
-+HID-BPF
-+=======
-+
-+HID is a standard protocol for input devices but some devices may require
-+custom tweaks, traditionally done with a kernel driver fix. Using the eBPF
-+capabilities instead speeds up development and adds new capabilities to the
-+existing HID interfaces.
-+
-+.. contents::
-+    :local:
-+    :depth: 2
-+
-+
-+When (and why) to use HID-BPF
-+=============================
-+
-+We can enumerate several use cases for when using HID-BPF is better than
-+using a standard kernel driver fix:
-+
-+Dead zone of a joystick
-+-----------------------
-+
-+Assuming you have a joystick that is getting older, it is common to see it
-+wobbling around its neutral point. This is usually filtered at the application
-+level by adding a *dead zone* for this specific axis.
-+
-+With HID-BPF, we can apply this filtering in the kernel directly so userspace
-+does not get woken up when nothing else is happening on the input controller.
-+
-+Of course, given that this dead zone is specific to an individual device, we
-+can not create a generic fix for all of the same joysticks. Adding a custom
-+kernel API for this (e.g. by adding a sysfs entry) does not guarantee this new
-+kernel API will be broadly adopted and maintained.
-+
-+HID-BPF allows the userspace program to load the program itself, ensuring we
-+only load the custom API when we have a user.
-+
-+Simple fixup of report descriptor
-+---------------------------------
-+
-+In the HID tree, half of the drivers only fix one key or one byte
-+in the report descriptor. These fixes all require a kernel patch and the
-+subsequent shepherding into a release, a long and painful process for users.
-+
-+We can reduce this burden by providing an eBPF program instead. Once such a
-+program  has been verified by the user, we can embed the source code into the
-+kernel tree and ship the eBPF program and load it directly instead of loading
-+a specific kernel module for it.
-+
-+Note: distribution of eBPF programs and their inclusion in the kernel is not
-+yet fully implemented
-+
-+Add a new feature that requires a new kernel API
-+------------------------------------------------
-+
-+An example for such a feature are the Universal Stylus Interface (USI) pens.
-+Basically, USI pens require a new kernel API because there are new
-+channels of communication that our HID and input stack do not support.
-+Instead of using hidraw or creating new sysfs entries or ioctls, we can rely
-+on eBPF to have the kernel API controlled by the consumer and to not
-+impact the performances by waking up userspace every time there is an
-+event.
-+
-+Morph a device into something else and control that from userspace
-+------------------------------------------------------------------
-+
-+The kernel has a relatively static mapping of HID items to evdev bits.
-+It cannot decide to dynamically transform a given device into something else
-+as it does not have the required context and any such transformation cannot be
-+undone (or even discovered) by userspace.
-+
-+However, some devices are useless with that static way of defining devices. For
-+example, the Microsoft Surface Dial is a pushbutton with haptic feedback that
-+is barely usable as of today.
-+
-+With eBPF, userspace can morph that device into a mouse, and convert the dial
-+events into wheel events. Also, the userspace program can set/unset the haptic
-+feedback depending on the context. For example, if a menu is visible on the
-+screen we likely need to have a haptic click every 15 degrees. But when
-+scrolling in a web page the user experience is better when the device emits
-+events at the highest resolution.
-+
-+Firewall
-+--------
-+
-+What if we want to prevent other users to access a specific feature of a
-+device? (think a possibly broken firmware update entry point)
-+
-+With eBPF, we can intercept any HID command emitted to the device and
-+validate it or not.
-+
-+This also allows to sync the state between the userspace and the
-+kernel/bpf program because we can intercept any incoming command.
-+
-+Tracing
-+-------
-+
-+The last usage is tracing events and all the fun we can do we BPF to summarize
-+and analyze events.
-+
-+Right now, tracing relies on hidraw. It works well except for a couple
-+of issues:
-+
-+1. if the driver doesn't export a hidraw node, we can't trace anything
-+   (eBPF will be a "god-mode" there, so this may raise some eyebrows)
-+2. hidraw doesn't catch other processes' requests to the device, which
-+   means that we have cases where we need to add printks to the kernel
-+   to understand what is happening.
-+
-+High-level view of HID-BPF
-+==========================
-+
-+The main idea behind HID-BPF is that it works at an array of bytes level.
-+Thus, all of the parsing of the HID report and the HID report descriptor
-+must be implemented in the userspace component that loads the eBPF
-+program.
-+
-+For example, in the dead zone joystick from above, knowing which fields
-+in the data stream needs to be set to ``0`` needs to be computed by userspace.
-+
-+A corollary of this is that HID-BPF doesn't know about the other subsystems
-+available in the kernel. *You can not directly emit input event through the
-+input API from eBPF*.
-+
-+When a BPF program needs to emit input events, it needs to talk HID, and rely
-+on the HID kernel processing to translate the HID data into input events.
-+
-+Available types of programs
-+===========================
-+
-+HID-BPF is built "on top" of BPF, meaning that we use tracing method to
-+declare our programs.
-+
-+HID-BPF has the following attachment types available:
-+
-+1. event processing/filtering with ``SEC("fmod_ret/hid_bpf_device_event")`` in libbpf
-+2. actions coming from userspace with ``SEC("syscall")`` in libbpf
-+3. change of the report descriptor with ``SEC("fmod_ret/hid_bpf_rdesc_fixup")`` in libbpf
-+
-+A ``hid_bpf_device_event`` is calling a BPF program when an event is received from
-+the device. Thus we are in IRQ context and can act on the data or notify userspace.
-+And given that we are in IRQ context, we can not talk back to the device.
-+
-+A ``syscall`` means that userspace called the syscall ``BPF_PROG_RUN`` facility.
-+This time, we can do any operations allowed by HID-BPF, and talking to the device is
-+allowed.
-+
-+Last, ``hid_bpf_rdesc_fixup`` is different from the others as there can be only one
-+BPF program of this type. This is called on ``probe`` from the driver and allows to
-+change the report descriptor from the BPF program. Once a ``hid_bpf_rdesc_fixup``
-+program has been loaded, it is not possible to overwrite it unless the program which
-+inserted it allows us by pinning the program and closing all of its fds pointing to it.
-+
-+Developer API:
-+==============
-+
-+User API data structures available in programs:
-+-----------------------------------------------
-+
-+.. kernel-doc:: include/uapi/linux/hid_bpf.h
-+.. kernel-doc:: include/linux/hid_bpf.h
-+
-+Available tracing functions to attach a HID-BPF program:
-+--------------------------------------------------------
-+
-+.. kernel-doc:: drivers/hid/bpf/hid_bpf_dispatch.c
-+   :functions: hid_bpf_device_event hid_bpf_rdesc_fixup
-+
-+Available API that can be used in all HID-BPF programs:
-+-------------------------------------------------------
-+
-+.. kernel-doc:: drivers/hid/bpf/hid_bpf_dispatch.c
-+   :functions: hid_bpf_get_data
-+
-+Available API that can be used in syscall HID-BPF programs:
-+-----------------------------------------------------------
-+
-+.. kernel-doc:: drivers/hid/bpf/hid_bpf_dispatch.c
-+   :functions: hid_bpf_attach_prog hid_bpf_hw_request hid_bpf_allocate_context hid_bpf_release_context
-+
-+General overview of a HID-BPF program
-+=====================================
-+
-+Accessing the data attached to the context
-+------------------------------------------
-+
-+The ``struct hid_bpf_ctx`` doesn't export the ``data`` fields directly and to access
-+it, a bpf program needs to first call :c:func:`hid_bpf_get_data`.
-+
-+``offset`` can be any integer, but ``size`` needs to be constant, known at compile
-+time.
-+
-+This allows the following:
-+
-+1. for a given device, if we know that the report length will always be of a certain value,
-+   we can request the ``data`` pointer to point at the full report length.
-+
-+   The kernel will ensure we are using a correct size and offset and eBPF will ensure
-+   the code will not attempt to read or write outside of the boundaries::
-+
-+     __u8 *data = hid_bpf_get_data(ctx, 0 /* offset */, 256 /* size */);
-+
-+     if (!data)
-+         return 0; /* ensure data is correct, now the verifier knows we
-+                    * have 256 bytes available */
-+
-+     bpf_printk("hello world: %02x %02x %02x", data[0], data[128], data[255]);
-+
-+2. if the report length is variable, but we know the value of ``X`` is always a 16-bit
-+   integer, we can then have a pointer to that value only::
-+
-+      __u16 *x = hid_bpf_get_data(ctx, offset, sizeof(*x));
-+
-+      if (!x)
-+          return 0; /* something went wrong */
-+
-+      *x += 1; /* increment X by one */
-+
-+Effect of a HID-BPF program
-+---------------------------
-+
-+For all HID-BPF attachment types except for :c:func:`hid_bpf_rdesc_fixup`, several eBPF
-+programs can be attached to the same device.
-+
-+Unless ``HID_BPF_FLAG_INSERT_HEAD`` is added to the flags while attaching the
-+program, the new program is appended at the end of the list.
-+``HID_BPF_FLAG_INSERT_HEAD`` will insert the new program at the beginning of the
-+list which is useful for e.g. tracing where we need to get the unprocessed events
-+from the device.
-+
-+Note that if there are multiple programs using the ``HID_BPF_FLAG_INSERT_HEAD`` flag,
-+only the most recently loaded one is actually the first in the list.
-+
-+``SEC("fmod_ret/hid_bpf_device_event")``
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+Whenever a matching event is raised, the eBPF programs are called one after the other
-+and are working on the same data buffer.
-+
-+If a program changes the data associated with the context, the next one will see
-+the modified data but it will have *no* idea of what the original data was.
-+
-+Once all the programs are run and return ``0`` or a positive value, the rest of the
-+HID stack will work on the modified data, with the ``size`` field of the last hid_bpf_ctx
-+being the new size of the input stream of data.
-+
-+A BPF program returning a negative error discards the event, i.e. this event will not be
-+processed by the HID stack. Clients (hidraw, input, LEDs) will **not** see this event.
-+
-+``SEC("syscall")``
-+~~~~~~~~~~~~~~~~~~
-+
-+``syscall`` are not attached to a given device. To tell which device we are working
-+with, userspace needs to refer to the device by its unique system id (the last 4 numbers
-+in the sysfs path: ``/sys/bus/hid/devices/xxxx:yyyy:zzzz:0000``).
-+
-+To retrieve a context associated with the device, the program must call
-+:c:func:`hid_bpf_allocate_context` and must release it with :c:func:`hid_bpf_release_context`
-+before returning.
-+Once the context is retrieved, one can also request a pointer to kernel memory with
-+:c:func:`hid_bpf_get_data`. This memory is big enough to support all input/output/feature
-+reports of the given device.
-+
-+``SEC("fmod_ret/hid_bpf_rdesc_fixup")``
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+The ``hid_bpf_rdesc_fixup`` program works in a similar manner to
-+``.report_fixup`` of ``struct hid_driver``.
-+
-+When the device is probed, the kernel sets the data buffer of the context with the
-+content of the report descriptor. The memory associated with that buffer is
-+``HID_MAX_DESCRIPTOR_SIZE`` (currently 4kB).
-+
-+The eBPF program can modify the data buffer at-will and the kernel uses the
-+modified content and size as the report descriptor.
-+
-+Whenever a ``SEC("fmod_ret/hid_bpf_rdesc_fixup")`` program is attached (if no
-+program was attached before), the kernel immediately disconnects the HID device
-+and does a reprobe.
-+
-+In the same way, when the ``SEC("fmod_ret/hid_bpf_rdesc_fixup")`` program is
-+detached, the kernel issues a disconnect on the device.
-+
-+There is no ``detach`` facility in HID-BPF. Detaching a program happens when
-+all the user space file descriptors pointing at a program are closed.
-+Thus, if we need to replace a report descriptor fixup, some cooperation is
-+required from the owner of the original report descriptor fixup.
-+The previous owner will likely pin the program in the bpffs, and we can then
-+replace it through normal bpf operations.
-+
-+Attaching a bpf program to a device
-+===================================
-+
-+``libbpf`` does not export any helper to attach a HID-BPF program.
-+Users need to use a dedicated ``syscall`` program which will call
-+``hid_bpf_attach_prog(hid_id, program_fd, flags)``.
-+
-+``hid_id`` is the unique system ID of the HID device (the last 4 numbers in the
-+sysfs path: ``/sys/bus/hid/devices/xxxx:yyyy:zzzz:0000``)
-+
-+``progam_fd`` is the opened file descriptor of the program to attach.
-+
-+``flags`` is of type ``enum hid_bpf_attach_flags``.
-+
-+We can not rely on hidraw to bind a BPF program to a HID device. hidraw is an
-+artefact of the processing of the HID device, and is not stable. Some drivers
-+even disable it, so that removes the tracing capabilies on those devices
-+(where it is interesting to get the non-hidraw traces).
-+
-+On the other hand, the ``hid_id`` is stable for the entire life of the HID device,
-+even if we change its report descriptor.
-+
-+Given that hidraw is not stable when the device disconnects/reconnects, we recommend
-+accessing the current report descriptor of the device through the sysfs.
-+This is available at ``/sys/bus/hid/devices/BUS:VID:PID.000N/report_descriptor`` as a
-+binary stream.
-+
-+Parsing the report descriptor is the responsibility of the BPF programmer or the userspace
-+component that loads the eBPF program.
-+
-+An (almost) complete example of a BPF enhanced HID device
-+=========================================================
-+
-+*Foreword: for most parts, this could be implemented as a kernel driver*
-+
-+Let's imagine we have a new tablet device that has some haptic capabilities
-+to simulate the surface the user is scratching on. This device would also have
-+a specific 3 positions switch to toggle between *pencil on paper*, *cray on a wall*
-+and *brush on a painting canvas*. To make things even better, we can control the
-+physical position of the switch through a feature report.
-+
-+And of course, the switch is relying on some userspace component to control the
-+haptic feature of the device itself.
-+
-+Filtering events
-+----------------
-+
-+The first step consists in filtering events from the device. Given that the switch
-+position is actually reported in the flow of the pen events, using hidraw to implement
-+that filtering would mean that we wake up userspace for every single event.
-+
-+This is OK for libinput, but having an external library that is just interested in
-+one byte in the report is less than ideal.
-+
-+For that, we can create a basic skeleton for our BPF program::
-+
-+  #include "vmlinux.h"
-+  #include <bpf/bpf_helpers.h>
-+  #include <bpf/bpf_tracing.h>
-+
-+  /* HID programs need to be GPL */
-+  char _license[] SEC("license") = "GPL";
-+
-+  /* HID-BPF kfunc API definitions */
-+  extern __u8 *hid_bpf_get_data(struct hid_bpf_ctx *ctx,
-+			      unsigned int offset,
-+			      const size_t __sz) __ksym;
-+  extern int hid_bpf_attach_prog(unsigned int hid_id, int prog_fd, u32 flags) __ksym;
-+
-+  struct {
-+	__uint(type, BPF_MAP_TYPE_RINGBUF);
-+	__uint(max_entries, 4096 * 64);
-+  } ringbuf SEC(".maps");
-+
-+  struct attach_prog_args {
-+	int prog_fd;
-+	unsigned int hid;
-+	unsigned int flags;
-+	int retval;
-+  };
-+
-+  SEC("syscall")
-+  int attach_prog(struct attach_prog_args *ctx)
-+  {
-+	ctx->retval = hid_bpf_attach_prog(ctx->hid,
-+					  ctx->prog_fd,
-+					  ctx->flags);
-+	return 0;
-+  }
-+
-+  __u8 current_value = 0;
-+
-+  SEC("?fmod_ret/hid_bpf_device_event")
-+  int BPF_PROG(filter_switch, struct hid_bpf_ctx *hid_ctx)
-+  {
-+	__u8 *data = hid_bpf_get_data(hid_ctx, 0 /* offset */, 192 /* size */);
-+	__u8 *buf;
-+
-+	if (!data)
-+		return 0; /* EPERM check */
-+
-+	if (current_value != data[152]) {
-+		buf = bpf_ringbuf_reserve(&ringbuf, 1, 0);
-+		if (!buf)
-+			return 0;
-+
-+		*buf = data[152];
-+
-+		bpf_ringbuf_commit(buf, 0);
-+
-+		current_value = data[152];
-+	}
-+
-+	return 0;
-+  }
-+
-+To attach ``filter_switch``, userspace needs to call the ``attach_prog`` syscall
-+program first::
-+
-+  static int attach_filter(struct hid *hid_skel, int hid_id)
-+  {
-+	int err, prog_fd;
-+	int ret = -1;
-+	struct attach_prog_args args = {
-+		.hid = hid_id,
-+	};
-+	DECLARE_LIBBPF_OPTS(bpf_test_run_opts, tattrs,
-+		.ctx_in = &args,
-+		.ctx_size_in = sizeof(args),
-+	);
-+
-+	args.prog_fd = bpf_program__fd(hid_skel->progs.filter_switch);
-+
-+	prog_fd = bpf_program__fd(hid_skel->progs.attach_prog);
-+
-+	err = bpf_prog_test_run_opts(prog_fd, &tattrs);
-+	return err;
-+  }
-+
-+Our userspace program can now listen to notifications on the ring buffer, and
-+is awaken only when the value changes.
-+
-+Controlling the device
-+----------------------
-+
-+To be able to change the haptic feedback from the tablet, the userspace program
-+needs to emit a feature report on the device itself.
-+
-+Instead of using hidraw for that, we can create a ``SEC("syscall")`` program
-+that talks to the device::
-+
-+  /* some more HID-BPF kfunc API definitions */
-+  extern struct hid_bpf_ctx *hid_bpf_allocate_context(unsigned int hid_id) __ksym;
-+  extern void hid_bpf_release_context(struct hid_bpf_ctx *ctx) __ksym;
-+  extern int hid_bpf_hw_request(struct hid_bpf_ctx *ctx,
-+			      __u8* data,
-+			      size_t len,
-+			      enum hid_report_type type,
-+			      enum hid_class_request reqtype) __ksym;
-+
-+
-+  struct hid_send_haptics_args {
-+	/* data needs to come at offset 0 so we can do a memcpy into it */
-+	__u8 data[10];
-+	unsigned int hid;
-+  };
-+
-+  SEC("syscall")
-+  int send_haptic(struct hid_send_haptics_args *args)
-+  {
-+	struct hid_bpf_ctx *ctx;
-+	int ret = 0;
-+
-+	ctx = hid_bpf_allocate_context(args->hid);
-+	if (!ctx)
-+		return 0; /* EPERM check */
-+
-+	ret = hid_bpf_hw_request(ctx,
-+				 args->data,
-+				 10,
-+				 HID_FEATURE_REPORT,
-+				 HID_REQ_SET_REPORT);
-+
-+	hid_bpf_release_context(ctx);
-+
-+	return ret;
-+  }
-+
-+And then userspace needs to call that program directly::
-+
-+  static int set_haptic(struct hid *hid_skel, int hid_id, __u8 haptic_value)
-+  {
-+	int err, prog_fd;
-+	int ret = -1;
-+	struct hid_send_haptics_args args = {
-+		.hid = hid_id,
-+	};
-+	DECLARE_LIBBPF_OPTS(bpf_test_run_opts, tattrs,
-+		.ctx_in = &args,
-+		.ctx_size_in = sizeof(args),
-+	);
-+
-+	args.data[0] = 0x02; /* report ID of the feature on our device */
-+	args.data[1] = haptic_value;
-+
-+	prog_fd = bpf_program__fd(hid_skel->progs.set_haptic);
-+
-+	err = bpf_prog_test_run_opts(prog_fd, &tattrs);
-+	return err;
-+  }
-+
-+Now our userspace program is aware of the haptic state and can control it. The
-+program could make this state further available to other userspace programs
-+(e.g. via a DBus API).
-+
-+The interesting bit here is that we did not created a new kernel API for this.
-+Which means that if there is a bug in our implementation, we can change the
-+interface with the kernel at-will, because the userspace application is
-+responsible for its own usage.
-diff --git a/Documentation/hid/index.rst b/Documentation/hid/index.rst
-index e50f513c579c..b2028f382f11 100644
---- a/Documentation/hid/index.rst
-+++ b/Documentation/hid/index.rst
-@@ -11,6 +11,7 @@ Human Interface Devices (HID)
-    hidraw
-    hid-sensor
-    hid-transport
-+   hid-bpf
- 
-    uhid
- 
--- 
-2.36.1
-
+> [1] https://lore.kernel.org/lkml/20220407125841.3678-4-yangyicong@hisilicon.com/
+> [2] https://github.com/torvalds/linux/blob/5cf3bb0d3a2d0de94f3f551f0e4211068818aabf/fs/sysfs/group.c#L121
+>
+> >>
+> >>>> +
+> >>>> +Note that multiple Root Ports can be specified at one time, but only
+> >>>> +one Endpoint function can be specified in one trace. Specifying both
+> >>>> +Root Port and function at the same time is not supported.
+> >>>> +
+> >>>> +If no filter is available, reading the related filter sysfs attribute
+> >>>> +will get an empty string.
+> >>>> +::
+> >>>> +
+> >>>> +    $ cat available_root_port_filters
+> >>>> +
+> >>>> +    $ cat available_requester_filters
+> >>>
+> >>> Those too look overly long, and where to find them is not documented.  As such
+> >>> users have to guest that it must be somewhere under
+> >>> /sys/devices/hisi_ptt<sicl_id>_<core_id>/.
+> >>>
+> >>
+> >> Since Root Port and Requester are PCIe terminologies so it's better to have them
+> >> embedded to make it clear. Maybe 'available' can be removed.
+> >>
+> >> Will have all these sysfs attributes documented.
+> >>
+> >>> More comments tomorrow.
+> >>>
+> >>
+> >> Thanks,
+> >> Yicong
+> > .
+> >
