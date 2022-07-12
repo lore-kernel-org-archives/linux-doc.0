@@ -2,88 +2,96 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 98D9BC43334
-	for <linux-doc@archiver.kernel.org>; Tue, 12 Jul 2022 19:58:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E474AC433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 12 Jul 2022 21:54:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230515AbiGLT6h (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 12 Jul 2022 15:58:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41320 "EHLO
+        id S233105AbiGLVy6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 12 Jul 2022 17:54:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50644 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230050AbiGLT6g (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Jul 2022 15:58:36 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A032BE9;
-        Tue, 12 Jul 2022 12:58:33 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 01FD861764;
-        Tue, 12 Jul 2022 19:58:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2778AC3411E;
-        Tue, 12 Jul 2022 19:58:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1657655912;
-        bh=hCy5lLxfGKLFkUwDOvKrekJ8LJ+EmLaIlit4nCjzajQ=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:From;
-        b=dn+sv7liPJQ4Pjj71MPVG9akwaxaGkGlrEt6ELc/5qVpNz8Zi1DMP1Q6YHwQKuv6i
-         0CWw4XAbZ3jJaemHxESaolPULXlv1+rUSjGW7Pfm05zdQN5lMJnwAgTfRmLL+8s1/a
-         hxijc/eSpsocaHtO9IlJ0Pi1N8OKOjnQaDvU5OgDb2BTDr0P1qf/wMxkwG1wk7boQV
-         ibHI864MvxvErSIibR/SjJeKraBSvn8rQQet2NvnX4EtrPdHVxW3BwGnCnlh6xSaQf
-         SO4zOpfOaq/oZLLduRg+ioy/RlfrfckYWk1amAU0T6xGL2yEnea+T1ljYXNxg2kOev
-         UVzof9xCHJ9eA==
-Date:   Tue, 12 Jul 2022 14:58:30 -0500
-From:   Bjorn Helgaas <helgaas@kernel.org>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Lorenzo Pieralisi <lpieralisi@kernel.org>,
-        linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
-        Jon Mason <jdmason@kudzu.us>, Frank Li <Frank.Li@nxp.com>
-Subject: Re: [PATCH 05/12] docs: PCI: pci-vntb-howto.rst: fix a title markup
-Message-ID: <20220712195830.GA791058@bhelgaas>
+        with ESMTP id S231283AbiGLVyz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Jul 2022 17:54:55 -0400
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A60045F63;
+        Tue, 12 Jul 2022 14:54:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1657662894; x=1689198894;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=HhwEjN2ERwxDUrhvzVEgnEFaPTQUKvOj+QMZ2916s+s=;
+  b=T2DAap0fgbVM9AmNpyc+PPHIy4YWOT1Y45FgeOJ9LnwwF55eQUWXkVkE
+   0KJAAONOg3JXgj7FpCJiuCgwGh8J94ZyO2DgcPjRskeXXLuZlblpwlpeC
+   Ze00uALAhaSXNIuZLVMx8hUvEgjwIqT2W1jW3Y9QKCP/dLQ0rdmtAokMA
+   KWzG96sY8JO4+JT9mL7biWi5ngyCRb8QaKv5OHR2qE826v7NxkKAlfp6A
+   rFaEEZTF3PLmr9aE8v2XjThs0GbukP2CeczHfHNOb8aQtVNn1rP8CDJ7O
+   6Noh1yOfSBysE/Aj8wSaoCKNluhDSPbeapxXi5ydepzu2httBaBpuHsEJ
+   w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10406"; a="371363578"
+X-IronPort-AV: E=Sophos;i="5.92,266,1650956400"; 
+   d="scan'208";a="371363578"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jul 2022 14:54:53 -0700
+X-IronPort-AV: E=Sophos;i="5.92,266,1650956400"; 
+   d="scan'208";a="772026699"
+Received: from silpixa00400314.ir.intel.com (HELO silpixa00400314) ([10.237.222.76])
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jul 2022 14:54:51 -0700
+Date:   Tue, 12 Jul 2022 22:54:44 +0100
+From:   Giovanni Cabiddu <giovanni.cabiddu@intel.com>
+To:     Bagas Sanjaya <bagasdotme@gmail.com>
+Cc:     linux-doc@vger.kernel.org, Adam Guerin <adam.guerin@intel.com>,
+        Tomasz Kowallik <tomaszx.kowalik@intel.com>,
+        Wojciech Ziemba <wojciech.ziemba@intel.com>,
+        Fiona Trahe <fiona.trahe@intel.com>,
+        linux-crypto@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH next 2/3] Documentation: qat: rewrite description
+Message-ID: <Ys3tpPBUS+ujnaoy@silpixa00400314>
+References: <20220712092954.142027-1-bagasdotme@gmail.com>
+ <20220712092954.142027-3-bagasdotme@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <47ae1b19414346e6b07d57dbaf68a2b4cb273ccb.1656759989.git.mchehab@kernel.org>
+In-Reply-To: <20220712092954.142027-3-bagasdotme@gmail.com>
+Organization: Intel Research and Development Ireland Ltd - Co. Reg. #308263 -
+ Collinstown Industrial Park, Leixlip, County Kildare - Ireland
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-[+cc Jon, Frank]
-
-On Sat, Jul 02, 2022 at 12:07:37PM +0100, Mauro Carvalho Chehab wrote:
-> As warned by Sphinx:
-> 	Documentation/PCI/endpoint/pci-vntb-howto.rst:131: WARNING: Title underline too short.
+On Tue, Jul 12, 2022 at 04:29:53PM +0700, Bagas Sanjaya wrote:
+> The sysfs description contains redundancy on returned and allowed values
+> list, due to the described sysfs is read-write. Rewrite.
 > 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
-
-Another for Jon.
-
+> Cc: Adam Guerin <adam.guerin@intel.com>
+> Cc: Tomasz Kowallik <tomaszx.kowalik@intel.com>
+> Cc: Giovanni Cabiddu <giovanni.cabiddu@intel.com>
+> Cc: Wojciech Ziemba <wojciech.ziemba@intel.com>
+> Cc: Fiona Trahe <fiona.trahe@intel.com>
+> Cc: linux-crypto@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
+> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 > ---
+>  Documentation/ABI/testing/sysfs-driver-qat | 34 +++++++---------------
+>  1 file changed, 11 insertions(+), 23 deletions(-)
 > 
-> To avoid mailbombing on a large number of people, only mailing lists were C/C on the cover.
-> See [PATCH 00/12] at: https://lore.kernel.org/all/cover.1656759988.git.mchehab@kernel.org/
-> 
->  Documentation/PCI/endpoint/pci-vntb-howto.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/PCI/endpoint/pci-vntb-howto.rst b/Documentation/PCI/endpoint/pci-vntb-howto.rst
-> index b4a679144692..31a0bae868f9 100644
-> --- a/Documentation/PCI/endpoint/pci-vntb-howto.rst
-> +++ b/Documentation/PCI/endpoint/pci-vntb-howto.rst
-> @@ -128,7 +128,7 @@ RootComplex Device
->  ==================
->  
->  lspci Output at Host side
-> -------------------------
-> +-------------------------
->  
->  Note that the devices listed here correspond to the values populated in
->  "Creating pci-epf-ntb Device" section above::
-> -- 
-> 2.36.1
-> 
+> diff --git a/Documentation/ABI/testing/sysfs-driver-qat b/Documentation/ABI/testing/sysfs-driver-qat
+> index 43e081ec22cc4a..be6c200abd783c 100644
+> --- a/Documentation/ABI/testing/sysfs-driver-qat
+> +++ b/Documentation/ABI/testing/sysfs-driver-qat
+> @@ -2,18 +2,14 @@ What:		/sys/bus/pci/devices/<BDF>/qat/state
+>  Date:		June 2022
+>  KernelVersion:	5.20
+>  Contact:	qat-linux@intel.com
+> -Description:	Reports the current state of the QAT device and allows to
+> -		change it.
+> +Description:	(RW) Reports the current state of the QAT device. Write to
+> +		the file to initalize and start the device or to stop it.
+                            ^^^^^^^^^
+Typo: initalize.
+It is possible just to say: "Write to the file to start or stop the
+device".
+
+Regards,
+
+-- 
+Giovanni
