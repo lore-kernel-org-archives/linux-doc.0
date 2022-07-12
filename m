@@ -2,84 +2,131 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 02594C433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 12 Jul 2022 19:46:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 51AC6C433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 12 Jul 2022 19:47:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229781AbiGLTqT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 12 Jul 2022 15:46:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57016 "EHLO
+        id S234769AbiGLTrC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 12 Jul 2022 15:47:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56680 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232801AbiGLTpq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Jul 2022 15:45:46 -0400
-Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27ADAB31E0;
-        Tue, 12 Jul 2022 12:35:17 -0700 (PDT)
-Received: by mail-pj1-x1033.google.com with SMTP id q5-20020a17090a304500b001efcc885cc4so9548081pjl.4;
-        Tue, 12 Jul 2022 12:35:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=pcWHAy3/tPHAoTp/hrAF2gP8rrXZmMAJZmgO7CXU4EA=;
-        b=G5CiNtYkMY5QMG4CV9SpPEwSGdgknjRSKSP6Acd1oVu39w2xvd4UdcqYqf0I13/xFf
-         5O+EQDSOCTT3jVBRLGf+XCSyxLnmW7pzJ41loqmiUO4JDExcOZ0xvkSyeGC41Cgz/Vcw
-         x7HoZ47nuJLQFsuosMRvZdmW/mQAhN3GNK5rUXDP4Oo8ZWzL4OkFVUv+rXfHQ1e86j6Q
-         D+lBQyIo/BbntxAIVEpJUu8jVC3RG94XuvnbMwYvHua0T/XEgB/N7eb6qloxW48w7hty
-         oRCT26q2uADVuOQlykWjHRCiiZU/dOleJ84qzTaAA9w5U0w8yUl8szj/1OsJSWVylb+C
-         8mXA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=pcWHAy3/tPHAoTp/hrAF2gP8rrXZmMAJZmgO7CXU4EA=;
-        b=7macrgikBtyYrw1anTdvIDGNkB6dOWxOR6uplROO4CVDrHiEhd2cZ5fFpZm+1FFqmq
-         XTPLnwrJrpsk7vnGFcaZLJ5C8e7Yo1YU8kbvJcYwXNXfE+mYQ8EV4EaGJUTxY+G2Y6d0
-         2np1iw8l4wpw6eKSEpgOEe+AdEqRzagUhL0qsJD+JmtcEy/izUw/W3yRggSNlohidzPK
-         rrcdTeC3kfUjqFre0vHHM2IG6Cuwzz5Ep9FaK4xmP69qdbp3Kq35lzq8ZAclk1CqR0xS
-         B56yX9vVgMM1rN+ihFGaXrTzUr9e3P7TNhq9YSsBm8HjPdCmJMZcvAJ4DxWKOEGZfMtv
-         8Jzg==
-X-Gm-Message-State: AJIora/EMRb8rSYUNrEQLUbHutJJHEYikV07AMoHz3hCdvgRnDHJ98Ke
-        M969i8gYz2orV57GLk1t5oU=
-X-Google-Smtp-Source: AGRyM1uY9XFsLGlhVGw4Ys01vOg/7z0RsZ7y2ns8/B8pSvSBvfnvGcWTuBs/giPWFaerIYuB3xSoQw==
-X-Received: by 2002:a17:90a:4211:b0:1f0:35bf:293e with SMTP id o17-20020a17090a421100b001f035bf293emr6182259pjg.165.1657654516566;
-        Tue, 12 Jul 2022 12:35:16 -0700 (PDT)
-Received: from localhost (fmdmzpr02-ext.fm.intel.com. [192.55.54.37])
-        by smtp.gmail.com with ESMTPSA id k88-20020a17090a3ee100b001ef8ab65052sm7091558pjc.11.2022.07.12.12.35.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Jul 2022 12:35:16 -0700 (PDT)
-Date:   Tue, 12 Jul 2022 12:35:15 -0700
-From:   Isaku Yamahata <isaku.yamahata@gmail.com>
-To:     Bagas Sanjaya <bagasdotme@gmail.com>
-Cc:     linux-doc@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Isaku Yamahata <isaku.yamahata@intel.com>,
-        Kai Huang <kai.huang@intel.com>, x86@kernel.org,
-        kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        isaku.yamahata@gmail.com
-Subject: Re: [PATCH 00/12] Documentation: tdx: documentation fixes
-Message-ID: <20220712193515.GM1379820@ls.amr.corp.intel.com>
-References: <20220709042037.21903-1-bagasdotme@gmail.com>
+        with ESMTP id S235038AbiGLTqV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Jul 2022 15:46:21 -0400
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5129B9D96;
+        Tue, 12 Jul 2022 12:37:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1657654669; x=1689190669;
+  h=date:from:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=WsyqKtSXlQhISKt9B4kKgJBG7bo1PNaIJP2Wls34YBY=;
+  b=YWDY+uiRyi5v9/62iX9qPH/tkeF9OuLbYwLNK4Y8g/0GHtBe/YxyHgL6
+   NlWs5oJUQvZPsoUd7sKCmlIzTMiQX4xqMUhZU9ZOkf7N0CNco/EJ5wP0o
+   CcjKTFXXrMyjFToWBpmKoR72OJ2xuEm+xl8CxygXkkkcwdWQrPvS4OmrG
+   5wsBSl22EKvkgZ4l7Itu3V0sc7w/VGD8SRnaC2BaU6FWOx7Gvb+NpNoCs
+   4/fw4Z6CCfMxOYjeWu9fHSg47uJxKKcglEd0A8cVGRV5/mjNAAlKuyxDU
+   zLr0FsFuNSTZuSp0qz5TSRBs0Ipm4ohV8Igu7rGLOJIHbDSX6Es3kfZQZ
+   g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10406"; a="282579342"
+X-IronPort-AV: E=Sophos;i="5.92,266,1650956400"; 
+   d="scan'208";a="282579342"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jul 2022 12:37:49 -0700
+X-IronPort-AV: E=Sophos;i="5.92,266,1650956400"; 
+   d="scan'208";a="922336550"
+Received: from rhweight-wrk1.ra.intel.com ([137.102.106.43])
+  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jul 2022 12:37:48 -0700
+Date:   Tue, 12 Jul 2022 12:37:38 -0700 (PDT)
+From:   matthew.gerlach@linux.intel.com
+X-X-Sender: mgerlach@rhweight-WRK1
+To:     Marco Pagani <marpagan@redhat.com>
+cc:     basheer.ahmed.muddebihal@intel.com, corbet@lwn.net,
+        hao.wu@intel.com, linux-doc@vger.kernel.org,
+        linux-fpga@vger.kernel.org, linux-kernel@vger.kernel.org,
+        mdf@kernel.org, russell.h.weight@intel.com,
+        tianfei.zhang@intel.com, trix@redhat.com, yilun.xu@intel.com
+Subject: Re: [PATCH v3 2/2] fpga: dfl-pci: Add IDs for Intel N6000, N6001
+ and C6100 cards
+In-Reply-To: <23a5d310-7d5e-a8ee-bd66-b80505e0553e@redhat.com>
+Message-ID: <alpine.DEB.2.22.394.2207121237230.579035@rhweight-WRK1>
+References: <20220707150549.265621-3-matthew.gerlach@linux.intel.com> <23a5d310-7d5e-a8ee-bd66-b80505e0553e@redhat.com>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220709042037.21903-1-bagasdotme@gmail.com>
+Content-Type: text/plain; charset=US-ASCII; format=flowed
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Jul 09, 2022 at 11:20:26AM +0700,
-Bagas Sanjaya <bagasdotme@gmail.com> wrote:
 
-> Here is the documentation fixes for KVM TDX feature tree ([1]). There
-> are 58 new warnings reported when making htmldocs, which are fixed.
-> 
-> [1]: https://github.com/intel/tdx/tree/kvm-upstream
 
-Thank you for those fixes. I'll update the branch and include them for the next
-respin.
--- 
-Isaku Yamahata <isaku.yamahata@gmail.com>
+On Tue, 12 Jul 2022, Marco Pagani wrote:
+
+> On 2022-07-07 17:05, matthew.gerlach@linux.intel.com wrote:
+>> From: Matthew Gerlach <matthew.gerlach@linux.intel.com>
+>>
+>> Add pci_dev_table entries supporting the Intel N6000, N6001
+>> and C6100 cards to the dfl-pci driver.
+>>
+>> Signed-off-by: Matthew Gerlach <matthew.gerlach@linux.intel.com>
+>> Signed-off-by: Tianfei Zhang <tianfei.zhang@intel.com>
+>
+> Tested-by: Marco Pagani <marpagan@redhat.com>
+
+Thanks for testing.
+
+Matthew
+>
+>> ---
+>> v3: added necessary subdevice ids
+>>     removed 'drivers: ' from title
+>>
+>> v2: changed names from INTEL_OFS to INTEL_DFL
+>> ---
+>>  drivers/fpga/dfl-pci.c | 19 +++++++++++++++++++
+>>  1 file changed, 19 insertions(+)
+>>
+>> diff --git a/drivers/fpga/dfl-pci.c b/drivers/fpga/dfl-pci.c
+>> index fd1fa55c9113..94eabdf1d2f7 100644
+>> --- a/drivers/fpga/dfl-pci.c
+>> +++ b/drivers/fpga/dfl-pci.c
+>> @@ -77,12 +77,19 @@ static void cci_pci_free_irq(struct pci_dev *pcidev)
+>>  #define PCIE_DEVICE_ID_INTEL_PAC_D5005		0x0B2B
+>>  #define PCIE_DEVICE_ID_SILICOM_PAC_N5010	0x1000
+>>  #define PCIE_DEVICE_ID_SILICOM_PAC_N5011	0x1001
+>> +#define PCIE_DEVICE_ID_INTEL_DFL		0xbcce
+>>
+>>  /* VF Device */
+>>  #define PCIE_DEVICE_ID_VF_INT_5_X		0xBCBF
+>>  #define PCIE_DEVICE_ID_VF_INT_6_X		0xBCC1
+>>  #define PCIE_DEVICE_ID_VF_DSC_1_X		0x09C5
+>>  #define PCIE_DEVICE_ID_INTEL_PAC_D5005_VF	0x0B2C
+>> +#define PCIE_DEVICE_ID_INTEL_DFL_VF		0xbccf
+>> +
+>> +/* PCI Subdevice ID */
+>> +#define PCIE_SUBDEVICE_ID_INTEL_N6000		0x1770
+>> +#define PCIE_SUBDEVICE_ID_INTEL_N6001		0x1771
+>> +#define PCIE_SUBDEVICE_ID_INTEL_C6100		0x17d4
+>>
+>>  static struct pci_device_id cci_pcie_id_tbl[] = {
+>>  	{PCI_DEVICE(PCI_VENDOR_ID_INTEL, PCIE_DEVICE_ID_PF_INT_5_X),},
+>> @@ -96,6 +103,18 @@ static struct pci_device_id cci_pcie_id_tbl[] = {
+>>  	{PCI_DEVICE(PCI_VENDOR_ID_INTEL, PCIE_DEVICE_ID_INTEL_PAC_D5005_VF),},
+>>  	{PCI_DEVICE(PCI_VENDOR_ID_SILICOM_DENMARK, PCIE_DEVICE_ID_SILICOM_PAC_N5010),},
+>>  	{PCI_DEVICE(PCI_VENDOR_ID_SILICOM_DENMARK, PCIE_DEVICE_ID_SILICOM_PAC_N5011),},
+>> +	{PCI_DEVICE_SUB(PCI_VENDOR_ID_INTEL, PCIE_DEVICE_ID_INTEL_DFL,
+>> +			PCI_VENDOR_ID_INTEL, PCIE_SUBDEVICE_ID_INTEL_N6000),},
+>> +	{PCI_DEVICE_SUB(PCI_VENDOR_ID_INTEL, PCIE_DEVICE_ID_INTEL_DFL_VF,
+>> +			PCI_VENDOR_ID_INTEL, PCIE_SUBDEVICE_ID_INTEL_N6000),},
+>> +	{PCI_DEVICE_SUB(PCI_VENDOR_ID_INTEL, PCIE_DEVICE_ID_INTEL_DFL,
+>> +			PCI_VENDOR_ID_INTEL, PCIE_SUBDEVICE_ID_INTEL_N6001),},
+>> +	{PCI_DEVICE_SUB(PCI_VENDOR_ID_INTEL, PCIE_DEVICE_ID_INTEL_DFL_VF,
+>> +			PCI_VENDOR_ID_INTEL, PCIE_SUBDEVICE_ID_INTEL_N6001),},
+>> +	{PCI_DEVICE_SUB(PCI_VENDOR_ID_INTEL, PCIE_DEVICE_ID_INTEL_DFL,
+>> +			PCI_VENDOR_ID_INTEL, PCIE_SUBDEVICE_ID_INTEL_C6100),},
+>> +	{PCI_DEVICE_SUB(PCI_VENDOR_ID_INTEL, PCIE_DEVICE_ID_INTEL_DFL_VF,
+>> +			PCI_VENDOR_ID_INTEL, PCIE_SUBDEVICE_ID_INTEL_C6100),},
+>>  	{0,}
+>>  };
+>>  MODULE_DEVICE_TABLE(pci, cci_pcie_id_tbl);
+>
+>
