@@ -2,160 +2,151 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1FC38C433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 12 Jul 2022 00:54:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 014E6C43334
+	for <linux-doc@archiver.kernel.org>; Tue, 12 Jul 2022 04:11:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231536AbiGLAy4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 11 Jul 2022 20:54:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54940 "EHLO
+        id S229752AbiGLELn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 12 Jul 2022 00:11:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37588 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229616AbiGLAyz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 11 Jul 2022 20:54:55 -0400
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 307822A721;
-        Mon, 11 Jul 2022 17:54:54 -0700 (PDT)
+        with ESMTP id S229542AbiGLELl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Jul 2022 00:11:41 -0400
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0FC2A2A95D;
+        Mon, 11 Jul 2022 21:11:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1657587294; x=1689123294;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=V6w2sMs8zcctI71jT/jdZW5CM1h96l8zoH9VbyJnAnM=;
-  b=Ldv7tubNo0S98EJKfEhYV3eR54b6saKYfLHbV3vcAeS9oy3Qhgq2cfLm
-   8UeElwpqLa9TeD70uREOlWVLlzKi2p4LIJSyGbFuVvnRMCT//qjVMq4Gi
-   zFvpZBqBd9+E6gT/CR7vUWDSSCvmfQliyAl+TruCHjRbRLhNU4ZyepbQA
-   BmjnajTHw/2ERg3XllpYCHkx7Cq224BKiwCb5EZPzznHP8YbF9We9FNBL
-   pwJKUXC1wtdn09W2BKbHDRm/iYb557BCcDxmuj2BJiQK7iyx/ZRC8VU83
-   PBQvBI5sxqdNiNeBbrLueEDU9bsbnJXWnhkoRessmF85uy61tuaCevvYI
-   Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10405"; a="265219256"
+  t=1657599100; x=1689135100;
+  h=message-id:subject:from:to:cc:date:in-reply-to:
+   references:content-transfer-encoding:mime-version;
+  bh=ArqaeZnuX8QcKhVxfL4Y5BxNELzHnsMjFtshijKs5MA=;
+  b=NXnu+I1EgN9clc32bRoPeT0kHgZWvn/6zX/wCgfHn/aKNJWG+LOb8p4k
+   fXxK1en9yex0Hu9oizgw/eeIvmzeBdLOsnErElfj953jf5+HBj0QGI0JF
+   IVxbkFfcepdb2iRKLKCO5eAKXnLJNmEYC5VqN8w0fgC4V2AUQr6I3L3Ub
+   3kSBgG7bE6Vm74/CaQrksLWA1Par4+JsXnkAkWIvvdqSLxLGm0bYia0tG
+   l5/xg08cO0raMXlXN0Nhf6AoQjGP/VPxr0s1XUBMdTM1TSU3v5B3pUbNz
+   DFAJFWdYIzAne6KKExX51oThlek3K6CQluQGMiVzPFNs2hldQkocDXyiF
+   A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10405"; a="348810695"
 X-IronPort-AV: E=Sophos;i="5.92,264,1650956400"; 
-   d="scan'208";a="265219256"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2022 17:54:53 -0700
-X-ExtLoop1: 1
+   d="scan'208";a="348810695"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2022 21:11:39 -0700
 X-IronPort-AV: E=Sophos;i="5.92,264,1650956400"; 
-   d="scan'208";a="662759318"
-Received: from lkp-server02.sh.intel.com (HELO 8708c84be1ad) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 11 Jul 2022 17:54:48 -0700
-Received: from kbuild by 8708c84be1ad with local (Exim 4.95)
-        (envelope-from <lkp@intel.com>)
-        id 1oB4Aq-0001Rz-8h;
-        Tue, 12 Jul 2022 00:54:48 +0000
-Date:   Tue, 12 Jul 2022 08:54:25 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Jarrett Schultz <jaschultzms@gmail.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
+   d="scan'208";a="592493357"
+Received: from snaskant-mobl.amr.corp.intel.com (HELO khuang2-desk.gar.corp.intel.com) ([10.212.60.27])
+  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2022 21:11:36 -0700
+Message-ID: <b2ac926a9175306b4ae04f73a23c100645d642b6.camel@intel.com>
+Subject: Re: [PATCH 11/12] Documentation: x86: Use literal code block for
+ TDX dmesg output
+From:   Kai Huang <kai.huang@intel.com>
+To:     Bagas Sanjaya <bagasdotme@gmail.com>, linux-doc@vger.kernel.org
+Cc:     Paolo Bonzini <pbonzini@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>, Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Marcel Ziswiler <marcel.ziswiler@toradex.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Vinod Koul <vkoul@kernel.org>
-Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org,
-        Dmitry Antipov <dmanti@microsoft.com>,
-        linux-input@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        Jarrett Schultz <jaschultz@microsoft.com>
-Subject: Re: [PATCH v5 5/6] HID: add spi-hid, transport driver for HID over
- SPI bus
-Message-ID: <202207120839.Ga8kjAG8-lkp@intel.com>
-References: <20220707165902.3184-6-jaschultzMS@gmail.com>
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Isaku Yamahata <isaku.yamahata@intel.com>, x86@kernel.org,
+        kvm@vger.kernel.org, linux-kernel@vger.kernel.org
+Date:   Tue, 12 Jul 2022 16:11:34 +1200
+In-Reply-To: <20220709042037.21903-12-bagasdotme@gmail.com>
+References: <20220709042037.21903-1-bagasdotme@gmail.com>
+         <20220709042037.21903-12-bagasdotme@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.2 (3.44.2-1.fc36) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220707165902.3184-6-jaschultzMS@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Jarrett,
+On Sat, 2022-07-09 at 11:20 +0700, Bagas Sanjaya wrote:
+> The dmesg output blocks are using line blocks, which is incorrect, since
+> this will render the blocks as normal paragraph with preserved line
+> breaks instead of code blocks.
+>=20
+> Use literal code blocks instead for the output.
 
-Thank you for the patch! Perhaps something to improve:
+Thank you very much!
 
-[auto build test WARNING on hid/for-next]
-[also build test WARNING on dtor-input/next robh/for-next linus/master v5.19-rc6 next-20220711]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Obviously I am not familiar with .rst.   I'll fix.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jarrett-Schultz/Add-spi-hid-transport-for-HID-over-SPI-bus/20220708-010203
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-next
-config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20220712/202207120839.Ga8kjAG8-lkp@intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 77a38f6839980bfac61babb40d83772c51427011)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/d0121c2f2d1bb21824555c34c233dd3fbc6aee96
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Jarrett-Schultz/Add-spi-hid-transport-for-HID-over-SPI-bus/20220708-010203
-        git checkout d0121c2f2d1bb21824555c34c233dd3fbc6aee96
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/hid/spi-hid/ drivers/md/ drivers/net/ethernet/marvell/prestera/ drivers/vfio/pci/mlx5/
+>=20
+> Fixes: f05f595045dfc7 ("Documentation/x86: Add documentation for TDX host=
+ support")
+> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> ---
+>  Documentation/x86/tdx.rst | 30 +++++++++++++++---------------
+>  1 file changed, 15 insertions(+), 15 deletions(-)
+>=20
+> diff --git a/Documentation/x86/tdx.rst b/Documentation/x86/tdx.rst
+> index 4430912a2e4f05..f5bd22b89159ec 100644
+> --- a/Documentation/x86/tdx.rst
+> +++ b/Documentation/x86/tdx.rst
+> @@ -41,11 +41,11 @@ TDX boot-time detection
+>  -----------------------
+> =20
+>  Kernel detects TDX and the TDX private KeyIDs during kernel boot.  User
+> -can see below dmesg if TDX is enabled by BIOS:
+> +can see below dmesg if TDX is enabled by BIOS::
+> =20
+> -|  [..] tdx: SEAMRR enabled.
+> -|  [..] tdx: TDX private KeyID range: [16, 64).
+> -|  [..] tdx: TDX enabled by BIOS.
+> +   [..] tdx: SEAMRR enabled.
+> +   [..] tdx: TDX private KeyID range: [16, 64).
+> +   [..] tdx: TDX enabled by BIOS.
+> =20
+>  TDX module detection and initialization
+>  ---------------------------------------
+> @@ -79,20 +79,20 @@ caller.
+>  User can consult dmesg to see the presence of the TDX module, and whethe=
+r
+>  it has been initialized.
+> =20
+> -If the TDX module is not loaded, dmesg shows below:
+> +If the TDX module is not loaded, dmesg shows below::
+> =20
+> -|  [..] tdx: TDX module is not loaded.
+> +   [..] tdx: TDX module is not loaded.
+> =20
+>  If the TDX module is initialized successfully, dmesg shows something
+> -like below:
+> +like below::
+> =20
+> -|  [..] tdx: TDX module: vendor_id 0x8086, major_version 1, minor_versio=
+n 0, build_date 20211209, build_num 160
+> -|  [..] tdx: 65667 pages allocated for PAMT.
+> -|  [..] tdx: TDX module initialized.
+> +   [..] tdx: TDX module: vendor_id 0x8086, major_version 1, minor_versio=
+n 0, build_date 20211209, build_num 160
+> +   [..] tdx: 65667 pages allocated for PAMT.
+> +   [..] tdx: TDX module initialized.
+> =20
+> -If the TDX module failed to initialize, dmesg shows below:
+> +If the TDX module failed to initialize, dmesg shows below::
+> =20
+> -|  [..] tdx: Failed to initialize TDX module.  Shut it down.
+> +   [..] tdx: Failed to initialize TDX module.  Shut it down.
+> =20
+>  TDX Interaction to Other Kernel Components
+>  ------------------------------------------
+> @@ -143,10 +143,10 @@ There are basically two memory hot-add cases that n=
+eed to be prevented:
+>  ACPI memory hot-add and driver managed memory hot-add.  The kernel
+>  rejectes the driver managed memory hot-add too when TDX is enabled by
+>  BIOS.  For instance, dmesg shows below error when using kmem driver to
+> -add a legacy PMEM as system RAM:
+> +add a legacy PMEM as system RAM::
+> =20
+> -|  [..] tdx: Unable to add memory [0x580000000, 0x600000000) on TDX enab=
+led platform.
+> -|  [..] kmem dax0.0: mapping0: 0x580000000-0x5ffffffff memory add failed
+> +   [..] tdx: Unable to add memory [0x580000000, 0x600000000) on TDX enab=
+led platform.
+> +   [..] kmem dax0.0: mapping0: 0x580000000-0x5ffffffff memory add failed
+> =20
+>  However, adding new memory to ZONE_DEVICE should not be prevented as
+>  those pages are not managed by the page allocator.  Therefore,
 
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
-
-All warnings (new ones prefixed by >>):
-
->> drivers/hid/spi-hid/spi-hid-core.c:193:20: warning: 'const' type qualifier on return type has no effect [-Wignored-qualifiers]
-   static const char *const spi_hid_power_mode_string(u8 power_state)
-                      ^~~~~~
->> drivers/hid/spi-hid/spi-hid-core.c:691:4: warning: format specifies type 'unsigned short' but the argument has type '__u32' (aka 'unsigned int') [-Wformat]
-                           hid->vendor, hid->product);
-                           ^~~~~~~~~~~
-   drivers/hid/spi-hid/spi-hid-core.c:691:17: warning: format specifies type 'unsigned short' but the argument has type '__u32' (aka 'unsigned int') [-Wformat]
-                           hid->vendor, hid->product);
-                                        ^~~~~~~~~~~~
-   drivers/hid/spi-hid/spi-hid-core.c:1318:13: error: incompatible function pointer types initializing 'void (*)(struct spi_device *)' with an expression of type 'int (struct spi_device *)' [-Werror,-Wincompatible-function-pointer-types]
-           .remove         = spi_hid_remove,
-                             ^~~~~~~~~~~~~~
-   3 warnings and 1 error generated.
---
-   In file included from drivers/hid/spi-hid/trace.c:9:
-   In file included from drivers/hid/spi-hid/./spi-hid_trace.h:194:
-   In file included from include/trace/define_trace.h:102:
-   In file included from include/trace/trace_events.h:237:
->> drivers/hid/spi-hid/./spi-hid_trace.h:140:92: warning: more '%' conversions than data arguments [-Wformat-insufficient-args]
-           TP_printk("spi%d.%d: (%04x:%04x v%d) HID v%d.%d state i:%d p:%d len i:%d o:%d r:%d flags %c",
-                                                                                                    ~^
-   include/trace/stages/stage3_trace_output.h:9:33: note: expanded from macro 'TP_printk'
-   #define TP_printk(fmt, args...) fmt "\n", args
-                                   ^~~
-   include/trace/trace_events.h:203:27: note: expanded from macro 'DECLARE_EVENT_CLASS'
-           trace_event_printf(iter, print);                                \
-                                    ^~~~~
-   1 warning generated.
-
-
-vim +/const +193 drivers/hid/spi-hid/spi-hid-core.c
-
-   192	
- > 193	static const char *const spi_hid_power_mode_string(u8 power_state)
-   194	{
-   195		switch (power_state) {
-   196		case SPI_HID_POWER_MODE_ON:
-   197			return "d0";
-   198		case SPI_HID_POWER_MODE_SLEEP:
-   199			return "d2";
-   200		case SPI_HID_POWER_MODE_OFF:
-   201			return "d3";
-   202		case SPI_HID_POWER_MODE_WAKING_SLEEP:
-   203			return "d3*";
-   204		default:
-   205			return "unknown";
-   206		}
-   207	}
-   208	
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
