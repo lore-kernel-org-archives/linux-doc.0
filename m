@@ -2,57 +2,108 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 11E7FC433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 12 Jul 2022 06:44:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B7B9CCA47C
+	for <linux-doc@archiver.kernel.org>; Tue, 12 Jul 2022 08:19:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231968AbiGLGoY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 12 Jul 2022 02:44:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58682 "EHLO
+        id S232636AbiGLITm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 12 Jul 2022 04:19:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49908 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231184AbiGLGoX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Jul 2022 02:44:23 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC2CA37190;
-        Mon, 11 Jul 2022 23:44:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=swJefpXncEluK9yw4UzvA4sA1DCzOw/wXgNu2apBFQg=; b=yiO5Hr/u2nR7lagixpbqvT8rVc
-        Ay0EFIElSbZHWvZ3O/VQgB4/UoLDsPySlkZyYWz8nLXmlojBnhGbldHwYjcA/fPgzreE5eG9MuFHa
-        kpgMlolQWm5p+ybiN6wppJl+PHFSSmH5NPLpLkL+lvWDru3M8e3dY6JdDe47WZWcjZt2FNZqAgdoF
-        yiQh02YgZ9aSuc/HkY05SSx2rCXViPOYSCpSOT2NcUeNc5MvBgLNx0NJVx7shsjcNqjhv0UZd7h02
-        fBsz11CSDnZo+4dUDLnfY5CyPcWTzZ+LqIiLHKAGGdTuOhdQQyHwCSMp6YzoOaNORqfXOE7KCBrr4
-        e+s4noXQ==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1oB9cr-0086KR-CV; Tue, 12 Jul 2022 06:44:05 +0000
-Date:   Mon, 11 Jul 2022 23:44:05 -0700
-From:   Christoph Hellwig <hch@infradead.org>
-To:     Tianyu Lan <ltykernel@gmail.com>
-Cc:     corbet@lwn.net, hch@infradead.org, m.szyprowski@samsung.com,
-        robin.murphy@arm.com, paulmck@kernel.org, bp@suse.de,
-        keescook@chromium.org, akpm@linux-foundation.org, pmladek@suse.com,
-        rdunlap@infradead.org, damien.lemoal@opensource.wdc.com,
-        michael.h.kelley@microsoft.com, kys@microsoft.com,
-        Tianyu Lan <Tianyu.Lan@microsoft.com>,
-        iommu@lists.linux-foundation.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, vkuznets@redhat.com,
-        wei.liu@kernel.org, parri.andrea@gmail.com,
-        thomas.lendacky@amd.com, linux-hyperv@vger.kernel.org,
-        kirill.shutemov@intel.com, andi.kleen@intel.com,
-        Andi Kleen <ak@linux.intel.com>
-Subject: Re: [PATCH V4] swiotlb: Split up single swiotlb lock
-Message-ID: <Ys0YNdvNip5kB27V@infradead.org>
-References: <20220708161544.522312-1-ltykernel@gmail.com>
+        with ESMTP id S232276AbiGLITl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Jul 2022 04:19:41 -0400
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6792DA239A;
+        Tue, 12 Jul 2022 01:19:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+        s=badeba3b8450; t=1657613970;
+        bh=RZ/EJL3btc+F2hOcvq6PS/02fzcVymHrhmlsl8ctjeY=;
+        h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
+        b=ZKKgHdk4YaFMgbMsNvVaXiLVHZksVveStccelbYwLSAO1e60A3khV/PVh8Fyic56X
+         KSPUwZaRxPi0sQ4Sf4NJfzBa2Dq3rWeKxNuzDQP7FxyzXS/bKOHakYMaYeLaPQJ9F9
+         xIMoioRu8swxC4Edn1/oCg67AVuoNgG4idDOwRFE=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from [192.168.20.60] ([92.116.185.115]) by mail.gmx.net (mrgmx005
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1M4JmN-1oAu8J1HJh-000MJo; Tue, 12
+ Jul 2022 10:19:30 +0200
+Message-ID: <6e1095c7-5a7b-c71d-7d67-321214106126@gmx.de>
+Date:   Tue, 12 Jul 2022 10:18:53 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220708161544.522312-1-ltykernel@gmail.com>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH 00/10] video: fbdev: atari: Miscellaneous fixes and
+ cleanups
+Content-Language: en-US
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Michael Schmitz <schmitzmic@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-fbdev@vger.kernel.org,
+        linux-doc@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-m68k@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <cover.1657554353.git.geert@linux-m68k.org>
+From:   Helge Deller <deller@gmx.de>
+In-Reply-To: <cover.1657554353.git.geert@linux-m68k.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:y6OTXSI/vDD0Tc+MGb9ohXJ9PmVo6065zAfD2JiW8O6WIvwH4b+
+ qyV6iWgCcllYv3nDjW391uFKSwN/tSYAjMmG0DEyUgfMhp/mt8CcPUC32UsqUzmrI6NDW39
+ ZjZ/YJXukVlZwLU1QQoZEjlhycryINuOzFlQD+1RIxgd8iSXwFw9iO+so/ZOoLJNdDNrIAk
+ QTEiETWTcvvApQkisUssg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:Gaa+xL1Kbec=:MZVxjw3JJRvAEL1HmzeYQF
+ utKKkEXMIWs6985XNF4x510rfnNbKU8K9TGo9ckn4IMZnUadKi6nSOdTv/ZeZSMJQB1W46mM7
+ +BL3IBgDiaVdLCtMHqwNDIDnktQVZYrELG5mbVx1XMw7lwe7vxZiW1Ag2cOIyL/it9VXSx3ua
+ iXXM4iV1ZaSgAASszGPJaGZnoEGjbunL7nGouTxF66/NdjXMacDg/zpNnxKv8uf6hlk9Y9PSi
+ XTVMxKq+JWHp9oIvcRjk0p5B2hHtsY/x6R7BBpHnYsvjegqRiVDOqxsxWlE65miJNwvNkHQlc
+ ss97i/JIrtmQ14X2LBFl532JjhFy8LPS8qBEq/FzbKRFthdhzVxbNvYbrBaj6+p0yI8umhTrp
+ Te/tEn7VrBqx5zy/k8DYALlKlRXzyeADo5W2EK/0B29aBmz4hw3lmk1HkjWlF/GqWF2Z6k1vH
+ sQtkCLAFVeftwSQBi3bcm6BhMwta8jU8T5SO/3fH/mXeu/dBzyMrtg14w1M4BrSvYIbyH0Num
+ vwbAhdagvvStKtrpkrwHI51jfWe2seSykqJYikkmSUgVGMQNtTI1uiCzzaigfIqMHaxxKCjdV
+ 8E+j5joAD3CDi7vjSFkHfDZ0KLVM+cQVmvmvzCkow6K6PkGtc+9vJH4GSuDpg5iJm829R3kPZ
+ Fc6UE/g8Wfs8Dvd3t322tunBsVABi1oWKm3lbvpPvAADomTfqGIN7Emar0bFTQMgPKhb44ekN
+ UdMnC2jeCe+XXJnrGmIXCNPgvg+vOmP1AhzMNTSzZPMLT/jSkZB4y3wtr/bl9GKPnsrT8Lh9z
+ ZWZjnFQxnbIep8AJL+YGTaN+Q7RN8snv16uhieEMbVXVQSLEfdKfVyk/RI+9ER6/mhwcmrvmX
+ z7nUN+5YKBEE9e4e9cTTH7lhrdm4D3m2Bcxk6dZIha6L4UdpWKM7HMw5YXUJVU1qJGiX9T2cz
+ siEmGeZe8Wnl/IYuJrt0/zj2/S/6/JqLnpvcWfk/mcHvvz5ntig9ejp5zlc3yLRZfbYqaJmdk
+ Yw/C+7hdm1N71OeCS2n8tP8/TOPMlFpTwcNvIsPkRdgrBDQo83kx1UF0hXWIERyXMOMRSyWYT
+ 9+uXkXiv/g8KAfP5XkEFClBFJgdRlQ0t7hQKTE8XOSn/GZX5TPZYSQxPA==
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Thanks,
+On 7/11/22 17:50, Geert Uytterhoeven wrote:
+> 	Hi all,
+>
+> This patch series contains miscellaneous fixes and cleanups for the
+> Atari frame buffer device driver, which were identified while working on
+> the Atari DRM driver.
+>
+> Most of them have been tested on ARAnyM, and should be safe to apply,
 
-applied to the dma-mapping tree.
+I've applied patches 1-9 to fbdev for-next git tree....
+
+> except perhaps for the last one, which is marked RFC.
+
+... and would like to see some thoughts/feedback from others on this one .=
+..
+
+Thanks,
+Helge
+
+>
+> Thanks for your comments!
+>
+> Geert Uytterhoeven (10):
+>   video: fbdev: atari: Simplify atafb_pan_display()
+>   video: fbdev: atari: Remove bogus FB_VMODE_YWRAP flags
+>   video: fbdev: atari: Fix inverse handling
+>   video: fbdev: atari: Fix ext_setcolreg()
+>   video: fbdev: atari: Remove unneeded casts from void *
+>   video: fbdev: atari: Remove unneeded casts to void *
+>   video: fbdev: atari: Fix TT High video mode vertical refresh
+>   video: fbdev: atari: Fix VGA modes
+>   video: fbdev: atari: Remove unused definitions and variables
+>   [RFC] video: fbdev: atari: Remove backward bug-compatibility
+>
+>  Documentation/m68k/kernel-options.rst |   4 +-
+>  drivers/video/fbdev/atafb.c           | 101 +++++++-------------------
+>  2 files changed, 29 insertions(+), 76 deletions(-)
+>
+
