@@ -2,104 +2,92 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 898FDC433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 12 Jul 2022 19:57:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C358C43334
+	for <linux-doc@archiver.kernel.org>; Tue, 12 Jul 2022 19:58:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230515AbiGLT5G (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 12 Jul 2022 15:57:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39374 "EHLO
+        id S233908AbiGLT6B (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 12 Jul 2022 15:58:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40362 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230130AbiGLT5G (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Jul 2022 15:57:06 -0400
-X-Greylist: delayed 8400 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 12 Jul 2022 12:57:03 PDT
-Received: from 1.mo582.mail-out.ovh.net (1.mo582.mail-out.ovh.net [46.105.56.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21ED3C3
-        for <linux-doc@vger.kernel.org>; Tue, 12 Jul 2022 12:57:02 -0700 (PDT)
-Received: from player770.ha.ovh.net (unknown [10.110.103.177])
-        by mo582.mail-out.ovh.net (Postfix) with ESMTP id 967B52169D
-        for <linux-doc@vger.kernel.org>; Tue, 12 Jul 2022 17:27:11 +0000 (UTC)
-Received: from sk2.org (82-65-25-201.subs.proxad.net [82.65.25.201])
-        (Authenticated sender: steve@sk2.org)
-        by player770.ha.ovh.net (Postfix) with ESMTPSA id CF11E2C9AB1AD;
-        Tue, 12 Jul 2022 17:27:07 +0000 (UTC)
-Authentication-Results: garm.ovh; auth=pass (GARM-110S004f189b0e1-8866-46bc-95be-58f3392da2e9,
-                    95116E16C79F3EB4FFDADE9184C2BF5B79F623F3) smtp.auth=steve@sk2.org
-X-OVh-ClientIp: 82.65.25.201
-From:   Stephen Kitt <steve@sk2.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Stephen Kitt <steve@sk2.org>
-Subject: [PATCH 1/5] docs: sysctl: remove references to inode-max
-Date:   Tue, 12 Jul 2022 19:26:15 +0200
-Message-Id: <20220712172619.359052-1-steve@sk2.org>
-X-Mailer: git-send-email 2.31.1
+        with ESMTP id S233875AbiGLT57 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Jul 2022 15:57:59 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2B30E59;
+        Tue, 12 Jul 2022 12:57:57 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 3D35D619E9;
+        Tue, 12 Jul 2022 19:57:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5C12EC3411E;
+        Tue, 12 Jul 2022 19:57:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1657655876;
+        bh=YJoRqyJy3qiIn78UeNVjkHQRPeIz+c/iaaoaMAVpK84=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:From;
+        b=P3y8BQAYziE60EfNr9XOgE8zBOjSpqtOu2EhXuMdNyH6GC313kO7bhBPRXqbQkU+V
+         ufF9T4/lDqGnCrfSpA2+ym/U+mP+a/i1rcFLlcQteJ8C/No8l+XucO+mmw3mxP8n27
+         vDEfcd3cUobtGND5kXpbkzXUItXEcmAatZatTvUcWpTZt4BjyOt9BPSKSR82wcfrPQ
+         YMPHNrE1piiYTICazESrv3EavycvvF2CauIW02blun7Y3oPLo7cBSMkofPip0BRips
+         PO+KBj1ei3MGXhF08kUblyy6bhsE0YNQx9P1DC6IEJHyoel/k2kqXczFzRqfVtCFN5
+         lX8zmmiEKm/lw==
+Date:   Tue, 12 Jul 2022 14:57:54 -0500
+From:   Bjorn Helgaas <helgaas@kernel.org>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Lorenzo Pieralisi <lpieralisi@kernel.org>,
+        linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
+        Jon Mason <jdmason@kudzu.us>, Frank Li <Frank.Li@nxp.com>
+Subject: Re: [PATCH 04/12] docs: PCI: pci-vntb-function.rst: Properly include
+ ascii artwork
+Message-ID: <20220712195754.GA790963@bhelgaas>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Ovh-Tracer-Id: 12605293884737488518
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrudejhedguddugecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhvfevufffkffoggfgsedtkeertdertddtnecuhfhrohhmpefuthgvphhhvghnucfmihhtthcuoehsthgvvhgvsehskhdvrdhorhhgqeenucggtffrrghtthgvrhhnpeelgeetueejffejfeejvefhtddufeejgfetleegtddukeelieelvddvteduveejtdenucfkpheptddrtddrtddrtddpkedvrdeihedrvdehrddvtddunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehplhgrhigvrhejjedtrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepshhtvghvvgesshhkvddrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehlihhnuhigqdguohgtsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdfovfetjfhoshhtpehmohehkedv
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <9eeaa329cc4fa64829ff0bdaf8f10e68f7283ac7.1656759989.git.mchehab@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-inode-max was removed in 2.3.20pre1, remove references to it in the
-sysctl documentation.
+[+cc Jon, Frank]
 
-Signed-off-by: Stephen Kitt <steve@sk2.org>
----
- Documentation/admin-guide/sysctl/fs.rst | 16 ++++------------
- 1 file changed, 4 insertions(+), 12 deletions(-)
+On Sat, Jul 02, 2022 at 12:07:36PM +0100, Mauro Carvalho Chehab wrote:
+> Adjust identation and add a "::" in order to properly mark the
+> ascii artwork as a code block, fixing this warning:
+> 
+> 	Documentation/PCI/endpoint/pci-vntb-function.rst:82: WARNING: Unexpected indentation.
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
 
-diff --git a/Documentation/admin-guide/sysctl/fs.rst b/Documentation/admin-guide/sysctl/fs.rst
-index 2a501c9ddc55..54130ae33df8 100644
---- a/Documentation/admin-guide/sysctl/fs.rst
-+++ b/Documentation/admin-guide/sysctl/fs.rst
-@@ -33,7 +33,6 @@ Currently, these files are in /proc/sys/fs:
- - dquot-nr
- - file-max
- - file-nr
--- inode-max
- - inode-nr
- - inode-state
- - nr_open
-@@ -136,18 +135,12 @@ enough for most machines. Actual limit depends on RLIMIT_NOFILE
- resource limit.
- 
- 
--inode-max, inode-nr & inode-state
-----------------------------------
-+inode-nr & inode-state
-+----------------------
- 
- As with file handles, the kernel allocates the inode structures
- dynamically, but can't free them yet.
- 
--The value in inode-max denotes the maximum number of inode
--handlers. This value should be 3-4 times larger than the value
--in file-max, since stdin, stdout and network sockets also
--need an inode struct to handle them. When you regularly run
--out of inodes, you need to increase this value.
--
- The file inode-nr contains the first two items from
- inode-state, so we'll skip to that file...
- 
-@@ -156,11 +149,10 @@ The actual numbers are, in order of appearance, nr_inodes,
- nr_free_inodes and preshrink.
- 
- Nr_inodes stands for the number of inodes the system has
--allocated, this can be slightly more than inode-max because
--Linux allocates them one pageful at a time.
-+allocated.
- 
- Nr_free_inodes represents the number of free inodes (?) and
--preshrink is nonzero when the nr_inodes > inode-max and the
-+preshrink is nonzero when the
- system needs to prune the inode list instead of allocating
- more.
- 
+The series that adds this doc appears to be being merged via Jon
+(cc'd).
 
-base-commit: 50fd82b3a9a9335df5d50c7ddcb81c81d358c4fc
--- 
-2.31.1
-
+> ---
+> 
+> To avoid mailbombing on a large number of people, only mailing lists were C/C on the cover.
+> See [PATCH 00/12] at: https://lore.kernel.org/all/cover.1656759988.git.mchehab@kernel.org/
+> 
+>  Documentation/PCI/endpoint/pci-vntb-function.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/PCI/endpoint/pci-vntb-function.rst b/Documentation/PCI/endpoint/pci-vntb-function.rst
+> index cad8013e8839..7b2ac70e2c57 100644
+> --- a/Documentation/PCI/endpoint/pci-vntb-function.rst
+> +++ b/Documentation/PCI/endpoint/pci-vntb-function.rst
+> @@ -58,7 +58,7 @@ It is same as PCI NTB Function driver
+>  Scratchpad Registers:
+>  ---------------------
+>  
+> -  It is appended after Config region.
+> +It is appended after Config region::
+>  
+>    +--------------------------------------------------+ Base
+>    |                                                  |
+> -- 
+> 2.36.1
+> 
