@@ -2,154 +2,233 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A2B21CCA47F
-	for <linux-doc@archiver.kernel.org>; Tue, 12 Jul 2022 18:20:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6326DC43334
+	for <linux-doc@archiver.kernel.org>; Tue, 12 Jul 2022 19:46:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231402AbiGLSUT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 12 Jul 2022 14:20:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45508 "EHLO
+        id S234634AbiGLTqF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 12 Jul 2022 15:46:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55516 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229619AbiGLSUS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Jul 2022 14:20:18 -0400
-Received: from NAM04-BN8-obe.outbound.protection.outlook.com (mail-bn8nam04on2064.outbound.protection.outlook.com [40.107.100.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 48597A44CC;
-        Tue, 12 Jul 2022 11:20:17 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=juVHQNeoz6dJQ3JMdwMUmRVRXngIWkIaf9LgakPRvng4mK6veadFkHaa8kKLerZptQ6poldLfpBDaqUgkKnG55rjSCnH6ze223UexWHY3Xi+/X1kZxZfjG3PYbZGTu2OAQHo7bnMvSLwZUkMMVcAuUwthRmAAYX/ntZPzsaBvB+yNBdLA8tTPzwA2Fv68kAVWchbsN4SjirOBMmoahek8SwnTM1o7o4+AO5PjmUkisbUlEs2ZeyB5csPRjspHToh+eaA2Wmdzr9mqHHPsQqbl3FktJwU1Q13fgwh+vqmPAbuKZN4h5zmR21ykSQunI77S70KFOTlqNHZIZwaubZc8g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=UbTtax5xbKOdmwQhi+CND6utj8F7L6oK0/d//wZC6tU=;
- b=T9eV8LEheSM8VwdxP0BEimbw258PXJX93AzR7/OtLUkkDo9ogKSmOiPdj52Ix+q4b0mDsGvcrfrp6h3C1iFt+VQMBE8T53gqlgfRRkMwdK3KCev4EWDErsNz5Ib9Vc4jipzPC5SmYjxH/V0Nep410s3L6Ek44zj0ugx10qzuqa8alqm843mE+rDXJbqTOWUixNhGwYrzJEgCigvZ63bWYEqKgAHshowl85xrxQWh9LO2pRqRghz0HXx1OuWmhI0MZ5sWgbEzX2GRwDgLzftGZ22BbG3vFcr0FmRk4sChlBQz1S6/xsYpa/0BJBPOTdQmZklUeIqWzcNW6PmKkK5m4w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 12.22.5.236) smtp.rcpttodomain=linux.ibm.com smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UbTtax5xbKOdmwQhi+CND6utj8F7L6oK0/d//wZC6tU=;
- b=NYk55HyjxYm+cYvXZQ+9XDlwjjypYZyCzM6tnyHMZ0CaLJH6iS0NIrVisBxNm5fnO2x/Q99yZvp3Ge+poc/jXrJvSS6+E738sbAsgkSclcvYpJ0aZcaWr2uW68+ERENmPWpx4jMi2h7RoReSCl92SfAYX24kISc0wjtDT9O7mT4xqmTU4gEBTxeEihCYZQNal84kWEQQEancho5vIQSLLJVb4HzJwMGTyb2IoNxOIC6/oPEVOepz8AtCdBPWOqjj+G0fbOLNGF3drWXwx1rQVnK3g+8GgU7W/A/xz/385H1+MWhl+ksGuI1Pnu+YjRUBEXH/vgiLRNh403Koe95cjA==
-Received: from MW3PR05CA0027.namprd05.prod.outlook.com (2603:10b6:303:2b::32)
- by DM6PR12MB3452.namprd12.prod.outlook.com (2603:10b6:5:115::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5417.23; Tue, 12 Jul
- 2022 18:20:14 +0000
-Received: from CO1NAM11FT061.eop-nam11.prod.protection.outlook.com
- (2603:10b6:303:2b:cafe::a5) by MW3PR05CA0027.outlook.office365.com
- (2603:10b6:303:2b::32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5417.14 via Frontend
- Transport; Tue, 12 Jul 2022 18:20:14 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 12.22.5.236)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 12.22.5.236 as permitted sender) receiver=protection.outlook.com;
- client-ip=12.22.5.236; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (12.22.5.236) by
- CO1NAM11FT061.mail.protection.outlook.com (10.13.175.200) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.5417.15 via Frontend Transport; Tue, 12 Jul 2022 18:20:10 +0000
-Received: from rnnvmail201.nvidia.com (10.129.68.8) by DRHQMAIL109.nvidia.com
- (10.27.9.19) with Microsoft SMTP Server (TLS) id 15.0.1497.32; Tue, 12 Jul
- 2022 18:19:00 +0000
-Received: from rnnvmail203.nvidia.com (10.129.68.9) by rnnvmail201.nvidia.com
- (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.26; Tue, 12 Jul
- 2022 11:18:59 -0700
-Received: from Asurada-Nvidia (10.127.8.12) by mail.nvidia.com (10.129.68.9)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.26 via Frontend
- Transport; Tue, 12 Jul 2022 11:18:56 -0700
-Date:   Tue, 12 Jul 2022 11:18:55 -0700
-From:   Nicolin Chen <nicolinc@nvidia.com>
-To:     Anthony Krowiak <akrowiak@linux.ibm.com>
-CC:     <kwankhede@nvidia.com>, <corbet@lwn.net>, <hca@linux.ibm.com>,
-        <gor@linux.ibm.com>, <agordeev@linux.ibm.com>,
-        <borntraeger@linux.ibm.com>, <svens@linux.ibm.com>,
-        <zhenyuw@linux.intel.com>, <zhi.a.wang@intel.com>,
-        <jani.nikula@linux.intel.com>, <joonas.lahtinen@linux.intel.com>,
-        <rodrigo.vivi@intel.com>, <tvrtko.ursulin@linux.intel.com>,
-        <airlied@linux.ie>, <daniel@ffwll.ch>, <farman@linux.ibm.com>,
-        <mjrosato@linux.ibm.com>, <pasic@linux.ibm.com>,
-        <vneethv@linux.ibm.com>, <oberpar@linux.ibm.com>,
-        <freude@linux.ibm.com>, <jjherne@linux.ibm.com>,
-        <alex.williamson@redhat.com>, <cohuck@redhat.com>,
-        <jgg@nvidia.com>, <kevin.tian@intel.com>, <hch@infradead.org>,
-        <jchrist@linux.ibm.com>, <kvm@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-s390@vger.kernel.org>,
-        <intel-gvt-dev@lists.freedesktop.org>,
-        <intel-gfx@lists.freedesktop.org>,
-        <dri-devel@lists.freedesktop.org>, <terrence.xu@intel.com>
-Subject: Re: [PATCH v3 01/10] vfio: Make vfio_unpin_pages() return void
-Message-ID: <Ys27D6/S6gQipMhv@Asurada-Nvidia>
-References: <20220708224427.1245-1-nicolinc@nvidia.com>
- <20220708224427.1245-2-nicolinc@nvidia.com>
- <99c92c99-cd60-4034-8729-a90ac9a80a7b@linux.ibm.com>
+        with ESMTP id S234862AbiGLTph (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Jul 2022 15:45:37 -0400
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 380949C257;
+        Tue, 12 Jul 2022 12:34:31 -0700 (PDT)
+Received: by mail-pj1-x102c.google.com with SMTP id o3-20020a17090a744300b001ef8f7f3dddso9551389pjk.3;
+        Tue, 12 Jul 2022 12:34:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=n4hhtUV/7d3Hrcufg5badfEYjmHc8zvs4wyYB+BVUlc=;
+        b=F3WNmR0MIHppkPYJ0BpbyftgfXEZNu9242PskWmElgFE83zoA+TBu0d6D+k26Kijgu
+         hSfBZd+iKP2vf2DWNOh8L+6go1H0gPBgQPtfNasdXWuDjzI7sSYI5BRG2dpVrZGzRTa5
+         htBSzJTrtXPVc5cVWAj9rWH1h+hBTcCssG+FyM24iW868DqFaBH/7VqNmPeF/nq6+P0D
+         iZ3Tf0HuJ+MVrcuLLdqfhlzHnoQ5OEhsx8h7+dAW8VeC7j9jk3+xt83SBXm9WqKrxAi6
+         7ZkplvmTPn+9Zc+aBXGV0GTu4lGEsKBilVmilJd8xLkiLHi/Y1evvDkOAH3AVoJcK0R0
+         EmLA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=n4hhtUV/7d3Hrcufg5badfEYjmHc8zvs4wyYB+BVUlc=;
+        b=kMXQ8IdtJHouhha3MySQ+kwDXNhgbLMQ+cOuNwiMEF9F3voPJm42TdMufB0zPYeY8v
+         b2foAxtJuZyLERSsaRqtz0EG5si/rE7ANeMuewJ9m4ko1ucl7rgJFPJ/qypToPjNqImD
+         BSVG6Zl3ZPWIssT7lsTlx9vXkpk2kDqH+iZW4QBI6Z3zIyv7Rws+D1z4vSiWwEpUceb1
+         p2Eqh4M+Db4G0+nYe/4JPxDRBdjRqeC8m0gRRyn9jxcecDkuxsIGoMc7/gLblcCbKtQd
+         bVL1HttIy8upw6tuUoUlSxpwgIBPttnMoHh1xkFxTkfCxuu5LfotW8Zj/vxekeR/53/I
+         cz3Q==
+X-Gm-Message-State: AJIora+gOAlWH1pFV8F41EEykkm6EsVs6ifnsG822Jfd+7G/bSZbHdmc
+        5nbZwK/7FZV1MWUKRJLUSGQ=
+X-Google-Smtp-Source: AGRyM1vmJf7MVlh38UJVbC6A6TPuqKkGNmTyQ0fKXiOJLkMonOBN0CiLf2DZFyOewJLkGjLqkrtPwQ==
+X-Received: by 2002:a17:902:ab87:b0:16a:82a9:feb7 with SMTP id f7-20020a170902ab8700b0016a82a9feb7mr25889355plr.37.1657654470575;
+        Tue, 12 Jul 2022 12:34:30 -0700 (PDT)
+Received: from localhost (fmdmzpr02-ext.fm.intel.com. [192.55.54.37])
+        by smtp.gmail.com with ESMTPSA id 64-20020a621943000000b00518764d09cdsm7198030pfz.164.2022.07.12.12.34.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 12 Jul 2022 12:34:29 -0700 (PDT)
+Date:   Tue, 12 Jul 2022 12:34:28 -0700
+From:   Isaku Yamahata <isaku.yamahata@gmail.com>
+To:     Bagas Sanjaya <bagasdotme@gmail.com>
+Cc:     linux-doc@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Isaku Yamahata <isaku.yamahata@intel.com>,
+        Kai Huang <kai.huang@intel.com>, x86@kernel.org,
+        kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        isaku.yamahata@gmail.com
+Subject: Re: [PATCH 08/12] Documentation: kvm: tdx-tdp-mmu: Properly format
+ nested list for EPT state machine
+Message-ID: <20220712193428.GL1379820@ls.amr.corp.intel.com>
+References: <20220709042037.21903-1-bagasdotme@gmail.com>
+ <20220709042037.21903-9-bagasdotme@gmail.com>
+ <YskDcli+Lg6uKzYX@debian.me>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <99c92c99-cd60-4034-8729-a90ac9a80a7b@linux.ibm.com>
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 8648e357-4c85-4d5f-1e10-08da643328b3
-X-MS-TrafficTypeDiagnostic: DM6PR12MB3452:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: nq7K+qT5ba6g0mFE7BfIznnZEIMkf+3kd5nbR77o6m7fplGvbuzgPa1/cbtxcCXyk5vPXS5xpKRMKP63p9cO7mdazSUKlW/9yBvkITNw+PsN19xYwPcGbHuFhO+wT7inemWPC19G2zaoUEpZNeWwlptNGvbFl3Gflbl9Q6jxfOfrHTGWbUaSEDIKmMdVTtRcyVKwVvi6EGluxfk5vT0W8xC0rr6nJ0i9HkYQlDdL2jmIK8IEKIZBNfZXe9zSjRqZUr+qSISU/EjCPPu5EeFnp0RA6gEolQZ/VMpW/H7gJcxHIAZGgYwfLalJyB83xYva8OGQGTPdcnwjGmYVExZZKQtuDX4OPCIc48pmsmZNen8w9F5MeCPuw+qtxJJJJAnC6slf63ia5RMfF/BwffskYV4gw+iGjdpAoySyb1in6mzjPsDX7/SfP4bCZWAzTxxrRf/gyk8OrY7uD2J53HfQgyIDwbQoKyEmsv8OeL23bH5G0iHh0lf/l00wQIKN6m4BR/E8tQq9lMif3sJS1B97YZfCeZwvBokKKdZDcl1BnAd7Z8kAjWL5d7izpQzEb3kYu37QpAiO442/ZQMqG3hzt6YxGeJjxNXJqNhVOU7yntmrn8IxWNk584cp2E4kANQ1Rf8PAmJNgNqbBBdrl3ekMuLgPWgekk5zlXnBhWzkxMyUlbgHMurA16oN8Yy/bietyCVFFgsTSB/ocQUcN3mImUHqcuFzpEzcVf+eZD/1kW/9rHDS43HRVVqWGQJGylaba+EXrzG2lLrQcIok5QhFozgiY5FtqSR5i9RXqLUfEwxz+ZnDpfHtPnJT6hFDQgHw5MN2yVjvlKJet1IIIvx1JaY9GWymaAXjXyh7/j9UVVLulbrFPxpoSR3Bk0Uwig7dLk3ef3mmlxMYeLQWLh4qG5CKOYrce38Jikf9fSaSuFWe4LJYhUebZP0iqc6G1lQ2
-X-Forefront-Antispam-Report: CIP:12.22.5.236;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:InfoNoRecords;CAT:NONE;SFS:(13230016)(4636009)(376002)(346002)(396003)(39860400002)(136003)(46966006)(40470700004)(36840700001)(36860700001)(55016003)(54906003)(40480700001)(81166007)(26005)(82740400003)(6916009)(9686003)(40460700003)(41300700001)(5660300002)(86362001)(2906002)(8936002)(7416002)(7406005)(356005)(70586007)(966005)(82310400005)(70206006)(186003)(336012)(33716001)(478600001)(47076005)(4326008)(316002)(426003)(83380400001)(8676002)(36900700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jul 2022 18:20:10.9658
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8648e357-4c85-4d5f-1e10-08da643328b3
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[12.22.5.236];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT061.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB3452
+In-Reply-To: <YskDcli+Lg6uKzYX@debian.me>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jul 12, 2022 at 10:21:14AM -0400, Anthony Krowiak wrote:
+On Sat, Jul 09, 2022 at 11:26:26AM +0700,
+Bagas Sanjaya <bagasdotme@gmail.com> wrote:
 
-> > +void vfio_unpin_pages(struct vfio_device *device, unsigned long *user_pfn,
-> > +                   int npage)
-> >   {
-> >       struct vfio_container *container;
-> >       struct vfio_iommu_driver *driver;
-> > -     int ret;
-> > 
-> > -     if (!user_pfn || !npage || !vfio_assert_device_open(device))
-> > -             return -EINVAL;
+> On Sat, Jul 09, 2022 at 11:20:34AM +0700, Bagas Sanjaya wrote:
+> >  The state machine of EPT entry
+> >  ------------------------------
+> > -(private EPT entry, shared EPT entry) =
+> > -        (non-present, non-present):             private mapping is allowed
+> > -        (present, non-present):                 private mapping is mapped
+> > -        (non-present | SPTE_SHARED_MASK, non-present | SPTE_SHARED_MASK):
+> > -                                                shared mapping is allowed
+> > -        (non-present | SPTE_SHARED_MASK, present | SPTE_SHARED_MASK):
+> > -                                                shared mapping is mapped
+> > -        (present | SPTE_SHARED_MASK, any)       invalid combination
+> > +* (private EPT entry, shared EPT entry)
+> >  
+> > -* map_gpa(private GPA): Mark the region that private GPA is allowed(NEW)
+> > -        private EPT entry: clear SPTE_SHARED_MASK
+> > -          present: nop
+> > -          non-present: nop
+> > -          non-present | SPTE_SHARED_MASK -> non-present (clear SPTE_SHARED_MASK)
+> > +  * (non-present, non-present):
+> > +       private mapping is allowed
+> > +  * (present, non-present):
+> > +       private mapping is mapped
+> > +  * (non-present | SPTE_SHARED_MASK, non-present | SPTE_SHARED_MASK):
+> > +       shared mapping is allowed
+> > +  * (non-present | SPTE_SHARED_MASK, present | SPTE_SHARED_MASK):
+> > +       shared mapping is mapped
+> > +  * (present | SPTE_SHARED_MASK, any):
+> > +       invalid combination
+> >  
+> > -        shared EPT entry: zap the entry, clear SPTE_SHARED_MASK
+> > -          present: invalid
+> > -          non-present -> non-present: nop
+> > -          present | SPTE_SHARED_MASK -> non-present
+> > -          non-present | SPTE_SHARED_MASK -> non-present
+> > +* map_gpa (private GPA): Mark the region that private GPA is allowed(NEW)
+> >  
+> > -* map_gpa(shared GPA): Mark the region that shared GPA is allowed(NEW)
+> > -        private EPT entry: zap and set SPTE_SHARED_MASK
+> > -          present     -> non-present | SPTE_SHARED_MASK
+> > -          non-present -> non-present | SPTE_SHARED_MASK
+> > -          non-present | SPTE_SHARED_MASK: nop
+> > +  * private EPT entry: clear SPTE_SHARED_MASK
+> >  
+> > -        shared EPT entry: set SPTE_SHARED_MASK
+> > -          present: invalid
+> > -          non-present -> non-present | SPTE_SHARED_MASK
+> > -          present | SPTE_SHARED_MASK -> present | SPTE_SHARED_MASK: nop
+> > -          non-present | SPTE_SHARED_MASK -> non-present | SPTE_SHARED_MASK: nop
+> > +    * present: nop
+> > +    * non-present: nop
+> > +    * non-present | SPTE_SHARED_MASK -> non-present (clear SPTE_SHARED_MASK)
+> >  
+> > -* map(private GPA)
+> > -        private EPT entry
+> > -          present: nop
+> > -          non-present -> present
+> > -          non-present | SPTE_SHARED_MASK: nop. looping on EPT violation(NEW)
+> > +  * shared EPT entry: zap the entry, clear SPTE_SHARED_MASK
+> >  
+> > -        shared EPT entry: nop
+> > +    * present: invalid
+> > +    * non-present -> non-present: nop
+> > +    * present | SPTE_SHARED_MASK -> non-present
+> > +    * non-present | SPTE_SHARED_MASK -> non-present
+> >  
+> > -* map(shared GPA)
+> > -        private EPT entry: nop
+> > +* map_gpa (shared GPA): Mark the region that shared GPA is allowed(NEW)
+> >  
+> > -        shared EPT entry
+> > -          present: invalid
+> > -          present | SPTE_SHARED_MASK: nop
+> > -          non-present | SPTE_SHARED_MASK -> present | SPTE_SHARED_MASK
+> > -          non-present: nop. looping on EPT violation(NEW)
+> > +  * private EPT entry: zap and set SPTE_SHARED_MASK
+> >  
+> > -* zap(private GPA)
+> > -        private EPT entry: zap the entry with keeping SPTE_SHARED_MASK
+> > -          present -> non-present
+> > -          present | SPTE_SHARED_MASK: invalid
+> > -          non-present: nop as is_shadow_present_pte() is checked
+> > -          non-present | SPTE_SHARED_MASK: nop as is_shadow_present_pte() is
+> > -                                          checked
+> > +    * present     -> non-present | SPTE_SHARED_MASK
+> > +    * non-present -> non-present | SPTE_SHARED_MASK
+> > +    * non-present | SPTE_SHARED_MASK: nop
+> >  
+> > -        shared EPT entry: nop
+> > +  * shared EPT entry: set SPTE_SHARED_MASK
+> >  
+> > -* zap(shared GPA)
+> > -        private EPT entry: nop
+> > +    * present: invalid
+> > +    * non-present -> non-present | SPTE_SHARED_MASK
+> > +    * present | SPTE_SHARED_MASK -> present | SPTE_SHARED_MASK: nop
+> > +    * non-present | SPTE_SHARED_MASK -> non-present | SPTE_SHARED_MASK: nop
+> >  
+> > -        shared EPT entry: zap
+> > -          any -> non-present
+> > -          present: invalid
+> > -          present | SPTE_SHARED_MASK -> non-present | SPTE_SHARED_MASK
+> > -          non-present: nop as is_shadow_present_pte() is checked
+> > -          non-present | SPTE_SHARED_MASK: nop as is_shadow_present_pte() is
+> > -                                          checked
+> > +* map (private GPA)
+> > +
+> > +  * private EPT entry
+> > +
+> > +    * present: nop
+> > +    * non-present -> present
+> > +    * non-present | SPTE_SHARED_MASK: nop. looping on EPT violation(NEW)
+> > +
+> > +  * shared EPT entry: nop
+> > +
+> > +* map (shared GPA)
+> > +
+> > +  * private EPT entry: nop
+> > +
+> > +  * shared EPT entry:
+> > +
+> > +    * present: invalid
+> > +    * present | SPTE_SHARED_MASK: nop
+> > +    * non-present | SPTE_SHARED_MASK -> present | SPTE_SHARED_MASK
+> > +    * non-present: nop. looping on EPT violation(NEW)
+> > +
+> > +* zap (private GPA)
+> > +
+> > +  * private EPT entry: zap the entry with keeping SPTE_SHARED_MASK
+> > +
+> > +    * present -> non-present
+> > +    * present | SPTE_SHARED_MASK: invalid
+> > +    * non-present: nop as is_shadow_present_pte() is checked
+> > +    * non-present | SPTE_SHARED_MASK: nop as is_shadow_present_pte() is
+> > +      checked
+> > +
+> > +  * shared EPT entry: nop
+> > +
+> > +* zap (shared GPA)
+> > +
+> > +  * private EPT entry: nop
+> > +
+> > +  * shared EPT entry: zap
+> > +
+> > +    * any -> non-present
+> > +    * present: invalid
+> > +    * present | SPTE_SHARED_MASK -> non-present | SPTE_SHARED_MASK
+> > +    * non-present: nop as is_shadow_present_pte() is checked
+> > +    * non-present | SPTE_SHARED_MASK: nop as is_shadow_present_pte() is
+> > +      checked
 > 
-> 
-> You left out the check for !user_pfn?
+> IMO, the state machine lists above should have used tables instead.
 
-Yes. I mentioned in the commit log. And it's in response to Jason's
-remark: https://lore.kernel.org/kvm/20220707192210.GC1705032@nvidia.com/
-
-Btw, user_pfn is removed in one of the following patches anyway.
- 
-> > +static void vfio_iommu_type1_unpin_pages(void *iommu_data,
-> > +                                      unsigned long *user_pfn, int npage)
-> >   {
-> >       struct vfio_iommu *iommu = iommu_data;
-> >       bool do_accounting;
-> >       int i;
-> > 
-> > -     if (!iommu || !user_pfn || npage <= 0)
-> > -             return -EINVAL;
-> 
-> 
-> Is there a reason the checks above were not checked for WARN_ON?
-
-For pointers, same reason here.
-
-For npage, it's checked in its caller vfio_unpin_pages -- mentioned
-in the commit log too. The VFIO core is the only caller and it is
-unlikely to change. On the other hand, the plan is to replace this
-vfio_iommu_type1_unpin_pages with IOMMUFD implementation.
+Makes sense. I'll convert those into tables.
+-- 
+Isaku Yamahata <isaku.yamahata@gmail.com>
