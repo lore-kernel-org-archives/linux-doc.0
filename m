@@ -2,41 +2,41 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A2931C43334
-	for <linux-doc@archiver.kernel.org>; Tue, 12 Jul 2022 15:03:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B8E9CCA47C
+	for <linux-doc@archiver.kernel.org>; Tue, 12 Jul 2022 15:03:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233892AbiGLPDB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 12 Jul 2022 11:03:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53904 "EHLO
+        id S233907AbiGLPDG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 12 Jul 2022 11:03:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53108 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233839AbiGLPBR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Jul 2022 11:01:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id C0C27BFAE4
-        for <linux-doc@vger.kernel.org>; Tue, 12 Jul 2022 07:59:39 -0700 (PDT)
+        with ESMTP id S233727AbiGLPBl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Jul 2022 11:01:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 7AC27BE6A7
+        for <linux-doc@vger.kernel.org>; Tue, 12 Jul 2022 07:59:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1657637978;
+        s=mimecast20190719; t=1657637980;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=igo8dC1xC3DXlcpimn8xHU/p9nb0gu+criSaajfjMaY=;
-        b=HiA/pEdpM4oQUC+TiW0bzhy83tKkhIMooeUfwIkx7SxZ6As3SzkvbPDujLOCLSbYgx7z8b
-        siOo7ZWEuqzMLUpP75LFY1EtBOO4F4gE7dZc0L77zhrxuetrhJHzCket3m5IBXsOWaazHH
-        xRrmIRr3K80QFW+weCPZiUV7CHjiWIM=
+        bh=X8IE7rIjNyLJ9JP1wLiPVIN7U1QpM/PS96m9ZFW0ing=;
+        b=SalXaK0FJwnSu5eRUQiDymduu6J9Xorw0MO4N9kWQ6PRBu/gIShWmGfMEBOb9/2kWZ5ZB5
+        Q5T9PgNvEvaBxuZCP9jh8mHY/HscD1ew3fBr+I5eAqbSp/d1Y/piiGKEoSZ3Lx+Y/dr7Zt
+        4PsSeXk6X3qEcei9vChZxN2VOR/HUg8=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-102-Psl1Js4BOnKK_Sv0I2ObuQ-1; Tue, 12 Jul 2022 10:59:31 -0400
-X-MC-Unique: Psl1Js4BOnKK_Sv0I2ObuQ-1
+ us-mta-371-FLKFE4--PcKdZBY9giMHSw-1; Tue, 12 Jul 2022 10:59:34 -0400
+X-MC-Unique: FLKFE4--PcKdZBY9giMHSw-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2D4D718A6523;
-        Tue, 12 Jul 2022 14:59:30 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 76CEF8037AC;
+        Tue, 12 Jul 2022 14:59:33 +0000 (UTC)
 Received: from plouf.redhat.com (unknown [10.39.195.8])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id A544E2166B26;
-        Tue, 12 Jul 2022 14:59:26 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 6C8F42166B26;
+        Tue, 12 Jul 2022 14:59:30 +0000 (UTC)
 From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
 To:     Greg KH <gregkh@linuxfoundation.org>,
         Jiri Kosina <jikos@kernel.org>,
@@ -54,9 +54,9 @@ Cc:     Tero Kristo <tero.kristo@linux.intel.com>,
         netdev@vger.kernel.org, bpf@vger.kernel.org,
         linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Subject: [PATCH bpf-next v6 07/23] bpf: prepare for more bpf syscall to be used from kernel and user space.
-Date:   Tue, 12 Jul 2022 16:58:34 +0200
-Message-Id: <20220712145850.599666-8-benjamin.tissoires@redhat.com>
+Subject: [PATCH bpf-next v6 08/23] libbpf: add map_get_fd_by_id and map_delete_elem in light skeleton
+Date:   Tue, 12 Jul 2022 16:58:35 +0200
+Message-Id: <20220712145850.599666-9-benjamin.tissoires@redhat.com>
 In-Reply-To: <20220712145850.599666-1-benjamin.tissoires@redhat.com>
 References: <20220712145850.599666-1-benjamin.tissoires@redhat.com>
 MIME-Version: 1.0
@@ -66,68 +66,54 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add BPF_MAP_GET_FD_BY_ID and BPF_MAP_DELETE_PROG.
-
-Only BPF_MAP_GET_FD_BY_ID needs to be amended to be able
-to access the bpf pointer either from the userspace or the kernel.
+This allows to have a better control over maps from the kernel when
+preloading eBPF programs.
 
 Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
 
 ---
 
-changes in v6:
-- commit description change
+no changes in v6
 
 new in v5
 ---
- kernel/bpf/syscall.c | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+ tools/lib/bpf/skel_internal.h | 23 +++++++++++++++++++++++
+ 1 file changed, 23 insertions(+)
 
-diff --git a/kernel/bpf/syscall.c b/kernel/bpf/syscall.c
-index ab688d85b2c6..637765390c30 100644
---- a/kernel/bpf/syscall.c
-+++ b/kernel/bpf/syscall.c
-@@ -1417,9 +1417,9 @@ static int map_update_elem(union bpf_attr *attr, bpfptr_t uattr)
+diff --git a/tools/lib/bpf/skel_internal.h b/tools/lib/bpf/skel_internal.h
+index bd6f4505e7b1..bc1db60ad744 100644
+--- a/tools/lib/bpf/skel_internal.h
++++ b/tools/lib/bpf/skel_internal.h
+@@ -251,6 +251,29 @@ static inline int skel_map_update_elem(int fd, const void *key,
+ 	return skel_sys_bpf(BPF_MAP_UPDATE_ELEM, &attr, attr_sz);
+ }
  
- #define BPF_MAP_DELETE_ELEM_LAST_FIELD key
- 
--static int map_delete_elem(union bpf_attr *attr)
-+static int map_delete_elem(union bpf_attr *attr, bpfptr_t uattr)
++static inline int skel_map_delete_elem(int fd, const void *key)
++{
++	const size_t attr_sz = offsetofend(union bpf_attr, flags);
++	union bpf_attr attr;
++
++	memset(&attr, 0, attr_sz);
++	attr.map_fd = fd;
++	attr.key = (long)key;
++
++	return skel_sys_bpf(BPF_MAP_DELETE_ELEM, &attr, attr_sz);
++}
++
++static inline int skel_map_get_fd_by_id(__u32 id)
++{
++	const size_t attr_sz = offsetofend(union bpf_attr, flags);
++	union bpf_attr attr;
++
++	memset(&attr, 0, attr_sz);
++	attr.map_id = id;
++
++	return skel_sys_bpf(BPF_MAP_GET_FD_BY_ID, &attr, attr_sz);
++}
++
+ static inline int skel_raw_tracepoint_open(const char *name, int prog_fd)
  {
--	void __user *ukey = u64_to_user_ptr(attr->key);
-+	bpfptr_t ukey = make_bpfptr(attr->key, uattr.is_kernel);
- 	int ufd = attr->map_fd;
- 	struct bpf_map *map;
- 	struct fd f;
-@@ -1439,7 +1439,7 @@ static int map_delete_elem(union bpf_attr *attr)
- 		goto err_put;
- 	}
- 
--	key = __bpf_copy_key(ukey, map->key_size);
-+	key = ___bpf_copy_key(ukey, map->key_size);
- 	if (IS_ERR(key)) {
- 		err = PTR_ERR(key);
- 		goto err_put;
-@@ -4922,7 +4922,7 @@ static int __sys_bpf(int cmd, bpfptr_t uattr, unsigned int size)
- 		err = map_update_elem(&attr, uattr);
- 		break;
- 	case BPF_MAP_DELETE_ELEM:
--		err = map_delete_elem(&attr);
-+		err = map_delete_elem(&attr, uattr);
- 		break;
- 	case BPF_MAP_GET_NEXT_KEY:
- 		err = map_get_next_key(&attr);
-@@ -5057,8 +5057,10 @@ BPF_CALL_3(bpf_sys_bpf, int, cmd, union bpf_attr *, attr, u32, attr_size)
- 
- 	switch (cmd) {
- 	case BPF_MAP_CREATE:
-+	case BPF_MAP_DELETE_ELEM:
- 	case BPF_MAP_UPDATE_ELEM:
- 	case BPF_MAP_FREEZE:
-+	case BPF_MAP_GET_FD_BY_ID:
- 	case BPF_PROG_LOAD:
- 	case BPF_BTF_LOAD:
- 	case BPF_LINK_CREATE:
+ 	const size_t attr_sz = offsetofend(union bpf_attr, raw_tracepoint.prog_fd);
 -- 
 2.36.1
 
