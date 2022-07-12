@@ -2,113 +2,109 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5BD9FC433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 12 Jul 2022 10:33:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A17C3C433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 12 Jul 2022 10:45:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230010AbiGLKdy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 12 Jul 2022 06:33:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55032 "EHLO
+        id S229889AbiGLKp6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 12 Jul 2022 06:45:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33762 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230123AbiGLKdw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Jul 2022 06:33:52 -0400
-Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com [IPv6:2607:f8b0:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC8E425C4D;
-        Tue, 12 Jul 2022 03:33:51 -0700 (PDT)
-Received: by mail-pl1-x62c.google.com with SMTP id l12so6875840plk.13;
-        Tue, 12 Jul 2022 03:33:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=gachuNnC0hTkk24/HLpfKX6g4vzvef3pJHZ1Ef05Ets=;
-        b=UB2x/3aki2VL+aBcCTr0mvD9nZnmGGre2jKDPsuX5LuzxTbzSk+8kLhPZPFFopGVJB
-         pSj8/q+g9fKizaQjZxz01iq1XhURfbNdvnZHDsNvoDXMSw/lcQWNdH1UicDZfBNXCQg3
-         Kw8Mj372CZVgAhEEna9L/wRKIzYhVGRsr62MfroYO3fpunOmgA6qRBLVII3cITY/76GL
-         P+MPpXsqBTGQ8GvmGBt1zofpPeitPbj+VWaoqGHuyIYMj3vqpAWjO6OylCX1avnDWrc8
-         49G6YUwR/Q4uEmYRV5PHspcU0WBfmWSK3E2X9EAcgZ1fy/epkwrKUK/9RC7izqF/mD5w
-         NbPQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=gachuNnC0hTkk24/HLpfKX6g4vzvef3pJHZ1Ef05Ets=;
-        b=uGbhNglO0etbIlRLjMkz6T6+QgcBQQMHqKA+fz+JzlW4aydajTTYN5F2hxRB5uUbJ+
-         bQr1VLrAfTfS5vX7nshkdyL89qeKy+aTvyg+Cw7l+yyj9cxxCIJ6Zdo9I1DT1/pA5kdP
-         RgwclDuiRHQnTDxaDoeldQM7vJj6/pSBL0BAKPNc0frEE6AIbQklWYyFqSyCfJ+Smv6f
-         WLZQobdxhu5ZyvtSItkglNZhQvqcVfRHybAoIhulucj2onv/IDXtwMi/3L7Z648Ec6lj
-         9PtLIBlHVvamcNmlqSGmqAqh4ygEqGvgRXABXCI83+TlOGbyyRmBOyiT5Q47HhrHD0uz
-         8Pgg==
-X-Gm-Message-State: AJIora/OPhoBiornQjj2udtULKbAl58QTTMJQNQsl0FCl8KBcSQrQfbU
-        Nq+WR3Yvi17SIyJ9fEiHVws=
-X-Google-Smtp-Source: AGRyM1u160iiaMviEuP/qevyCQ6X01OBEMaq/CFW962Wxt+Mpxi0uVdRUmon7eb/UMIbgAoPTEhR0A==
-X-Received: by 2002:a17:902:f605:b0:16c:116d:ecaf with SMTP id n5-20020a170902f60500b0016c116decafmr23203946plg.164.1657622031116;
-        Tue, 12 Jul 2022 03:33:51 -0700 (PDT)
-Received: from [192.168.43.80] (subs02-180-214-232-17.three.co.id. [180.214.232.17])
-        by smtp.gmail.com with ESMTPSA id y9-20020a17090a2b4900b001ef869aa755sm8678869pjc.15.2022.07.12.03.33.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 12 Jul 2022 03:33:50 -0700 (PDT)
-Message-ID: <0ec6f86a-a78b-4b5e-fb43-72f74ee71ceb@gmail.com>
-Date:   Tue, 12 Jul 2022 17:33:45 +0700
+        with ESMTP id S229776AbiGLKp5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Jul 2022 06:45:57 -0400
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA9F5AD879;
+        Tue, 12 Jul 2022 03:45:56 -0700 (PDT)
+Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26CAhB6p026384;
+        Tue, 12 Jul 2022 10:45:54 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding; s=pp1;
+ bh=moa9v0DPAqYqbaHqt5FoLScyi4YMCELdoQ0BpuluAzk=;
+ b=CTJkPoEnjD82mh1Om25UM3nJseag/1ojrLQCmLo0ooIYU5w8Fz9CMxOHH8mUeU85/Rfh
+ 8nmV6WuAbLqkT6dVxiCqRtq9Q+BLmYPJuCV44aL3hFXGDgaSoech3ici31MDbXGLUc7v
+ 53SOwIZ5Z+dYN4RNMHehs7xJOqcUxX5y8smHxb0b8mn6HQgnjIjRNRWgPXG0FvFIm6p9
+ V7b1KA4gHUQgebZx7ErgGlypNQvLecZ++oO+t2LrM90UqnqZTQwmYVkCimk0F8ozym4g
+ 7auO0S8lAhSBimGDhk9UgH1PHhVwYwosJ4IRmP0xVh0moUz0RytHSea76DUuMM0oclmS /A== 
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3h94wf4fu3-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 12 Jul 2022 10:45:54 +0000
+Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
+        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26CATGVb008295;
+        Tue, 12 Jul 2022 10:45:54 GMT
+Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com [169.62.189.10])
+        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3h94wf4ftv-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 12 Jul 2022 10:45:54 +0000
+Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
+        by ppma02dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 26CAapcG012120;
+        Tue, 12 Jul 2022 10:45:53 GMT
+Received: from b01cxnp22034.gho.pok.ibm.com (b01cxnp22034.gho.pok.ibm.com [9.57.198.24])
+        by ppma02dal.us.ibm.com with ESMTP id 3h71a9tcc5-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 12 Jul 2022 10:45:53 +0000
+Received: from b01ledav006.gho.pok.ibm.com (b01ledav006.gho.pok.ibm.com [9.57.199.111])
+        by b01cxnp22034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 26CAjqnF6226548
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 12 Jul 2022 10:45:52 GMT
+Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id A45ABAC05F;
+        Tue, 12 Jul 2022 10:45:52 +0000 (GMT)
+Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 7C2EBAC05B;
+        Tue, 12 Jul 2022 10:45:52 +0000 (GMT)
+Received: from amdrome3.watson.ibm.com (unknown [9.2.130.16])
+        by b01ledav006.gho.pok.ibm.com (Postfix) with ESMTP;
+        Tue, 12 Jul 2022 10:45:52 +0000 (GMT)
+From:   Dov Murik <dovmurik@linux.ibm.com>
+To:     linux-doc@vger.kernel.org
+Cc:     Dov Murik <dovmurik@linux.ibm.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Eric Biggers <ebiggers@google.com>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] Documentation: siphash: Fix typo in the name of offsetofend macro
+Date:   Tue, 12 Jul 2022 10:44:55 +0000
+Message-Id: <20220712104455.1408150-1-dovmurik@linux.ibm.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH RESEND] crypto: qat - fix indentation in ABI documentation
-Content-Language: en-US
-To:     Giovanni Cabiddu <giovanni.cabiddu@intel.com>, lkp@intel.com,
-        Vlad Dronov <vdronov@redhat.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>
-Cc:     kbuild-all@lists.01.org,
-        GNU/Weeb Mailing List <gwml@vger.gnuweeb.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Tomasz Kowallik <tomaszx.kowalik@intel.com>,
-        Adam Guerin <adam.guerin@intel.com>,
-        Fiona Trahe <fiona.trahe@intel.com>,
-        Wojciech Ziemba <wojciech.ziemba@intel.com>,
-        linux-doc@vger.kernel.org, linux-crypto@vger.kernel.org
-References: <202207090803.TEGI95qw-lkp@intel.com>
- <YsvuJsjxEjp/LHZa@silpixa00400314>
- <CAMusb+QfUZwq+JRkUrOLGO7mQLZbg_ueFVo2_PTSiSRiq7BoEA@mail.gmail.com>
- <YsxJnq32lAJIRSET@silpixa00400314> <YsxP5n0rjUaX0mL8@silpixa00400314>
- <YsxlfOG17XQ+zLLZ@silpixa00400314>
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <YsxlfOG17XQ+zLLZ@silpixa00400314>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: jhl3QEua3AWARSZK74ikH1GMBdqqvKgq
+X-Proofpoint-ORIG-GUID: vNJNBBy_-KzZM-OsuoR89l9B3HH7KbpL
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-07-12_05,2022-07-12_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 clxscore=1011
+ suspectscore=0 malwarescore=0 mlxlogscore=800 priorityscore=1501
+ phishscore=0 impostorscore=0 mlxscore=0 bulkscore=0 adultscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2206140000 definitions=main-2207120039
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 7/12/22 01:01, Giovanni Cabiddu wrote:
-> @@ -47,14 +43,14 @@ Description:	Reports the current configuration of the QAT device and allows
->  		The following example shows how to change the configuration of
->  		a device configured for running crypto services in order to
->  		run data compression:
-> -			# cat /sys/bus/pci/devices/<BDF>/qat/state
-> -			up
-> -			# cat /sys/bus/pci/devices/<BDF>/qat/cfg_services
-> -			sym;asym
-> -			# echo down > /sys/bus/pci/devices/<BDF>/qat/state
-> -			# echo dc > /sys/bus/pci/devices/<BDF>/qat/cfg_services
-> -			# echo up > /sys/bus/pci/devices/<BDF>/qat/state
-> -			# cat /sys/bus/pci/devices/<BDF>/qat/cfg_services
-> -			dc
-> +		# cat /sys/bus/pci/devices/<BDF>/qat/state
-> +		up
-> +		# cat /sys/bus/pci/devices/<BDF>/qat/cfg_services
-> +		sym;asym
-> +		# echo down > /sys/bus/pci/devices/<BDF>/qat/state
-> +		# echo dc > /sys/bus/pci/devices/<BDF>/qat/cfg_services
-> +		# echo up > /sys/bus/pci/devices/<BDF>/qat/state
-> +		# cat /sys/bus/pci/devices/<BDF>/qat/cfg_services
-> +		dc
->  
->  		This attribute is only available for qat_4xxx devices.
+The siphash documentation misspelled "offsetendof" instead of
+"offsetofend".
 
-Hi,
+Fixes: 2c956a60778cbb ("siphash: add cryptographically secure PRF")
+Signed-off-by: Dov Murik <dovmurik@linux.ibm.com>
+---
+ Documentation/security/siphash.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I think the culprit is just missing code block marker, which is added
-above. Thanks.
-
+diff --git a/Documentation/security/siphash.rst b/Documentation/security/siphash.rst
+index a10380cb78e5..023bd95c74a5 100644
+--- a/Documentation/security/siphash.rst
++++ b/Documentation/security/siphash.rst
+@@ -85,7 +85,7 @@ Often times the XuY functions will not be large enough, and instead you'll
+ want to pass a pre-filled struct to siphash. When doing this, it's important
+ to always ensure the struct has no padding holes. The easiest way to do this
+ is to simply arrange the members of the struct in descending order of size,
+-and to use offsetendof() instead of sizeof() for getting the size. For
++and to use offsetofend() instead of sizeof() for getting the size. For
+ performance reasons, if possible, it's probably a good thing to align the
+ struct to the right boundary. Here's an example::
+ 
 -- 
-An old man doll... just what I always wanted! - Clara
+2.25.1
+
