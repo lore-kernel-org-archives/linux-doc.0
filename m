@@ -2,131 +2,94 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 51AC6C433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 12 Jul 2022 19:47:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 68AE5CCA47F
+	for <linux-doc@archiver.kernel.org>; Tue, 12 Jul 2022 19:55:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234769AbiGLTrC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 12 Jul 2022 15:47:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56680 "EHLO
+        id S232801AbiGLTzF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 12 Jul 2022 15:55:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34960 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235038AbiGLTqV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Jul 2022 15:46:21 -0400
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5129B9D96;
-        Tue, 12 Jul 2022 12:37:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1657654669; x=1689190669;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=WsyqKtSXlQhISKt9B4kKgJBG7bo1PNaIJP2Wls34YBY=;
-  b=YWDY+uiRyi5v9/62iX9qPH/tkeF9OuLbYwLNK4Y8g/0GHtBe/YxyHgL6
-   NlWs5oJUQvZPsoUd7sKCmlIzTMiQX4xqMUhZU9ZOkf7N0CNco/EJ5wP0o
-   CcjKTFXXrMyjFToWBpmKoR72OJ2xuEm+xl8CxygXkkkcwdWQrPvS4OmrG
-   5wsBSl22EKvkgZ4l7Itu3V0sc7w/VGD8SRnaC2BaU6FWOx7Gvb+NpNoCs
-   4/fw4Z6CCfMxOYjeWu9fHSg47uJxKKcglEd0A8cVGRV5/mjNAAlKuyxDU
-   zLr0FsFuNSTZuSp0qz5TSRBs0Ipm4ohV8Igu7rGLOJIHbDSX6Es3kfZQZ
-   g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10406"; a="282579342"
-X-IronPort-AV: E=Sophos;i="5.92,266,1650956400"; 
-   d="scan'208";a="282579342"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jul 2022 12:37:49 -0700
-X-IronPort-AV: E=Sophos;i="5.92,266,1650956400"; 
-   d="scan'208";a="922336550"
-Received: from rhweight-wrk1.ra.intel.com ([137.102.106.43])
-  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jul 2022 12:37:48 -0700
-Date:   Tue, 12 Jul 2022 12:37:38 -0700 (PDT)
-From:   matthew.gerlach@linux.intel.com
-X-X-Sender: mgerlach@rhweight-WRK1
-To:     Marco Pagani <marpagan@redhat.com>
-cc:     basheer.ahmed.muddebihal@intel.com, corbet@lwn.net,
-        hao.wu@intel.com, linux-doc@vger.kernel.org,
-        linux-fpga@vger.kernel.org, linux-kernel@vger.kernel.org,
-        mdf@kernel.org, russell.h.weight@intel.com,
-        tianfei.zhang@intel.com, trix@redhat.com, yilun.xu@intel.com
-Subject: Re: [PATCH v3 2/2] fpga: dfl-pci: Add IDs for Intel N6000, N6001
- and C6100 cards
-In-Reply-To: <23a5d310-7d5e-a8ee-bd66-b80505e0553e@redhat.com>
-Message-ID: <alpine.DEB.2.22.394.2207121237230.579035@rhweight-WRK1>
-References: <20220707150549.265621-3-matthew.gerlach@linux.intel.com> <23a5d310-7d5e-a8ee-bd66-b80505e0553e@redhat.com>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+        with ESMTP id S235485AbiGLTyu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Jul 2022 15:54:50 -0400
+X-Greylist: delayed 8811 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 12 Jul 2022 12:54:13 PDT
+Received: from 19.mo550.mail-out.ovh.net (19.mo550.mail-out.ovh.net [178.32.97.206])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A0071157
+        for <linux-doc@vger.kernel.org>; Tue, 12 Jul 2022 12:54:13 -0700 (PDT)
+Received: from player770.ha.ovh.net (unknown [10.110.171.238])
+        by mo550.mail-out.ovh.net (Postfix) with ESMTP id ED05C23ACD
+        for <linux-doc@vger.kernel.org>; Tue, 12 Jul 2022 17:27:20 +0000 (UTC)
+Received: from sk2.org (82-65-25-201.subs.proxad.net [82.65.25.201])
+        (Authenticated sender: steve@sk2.org)
+        by player770.ha.ovh.net (Postfix) with ESMTPSA id 218C52C9AB208;
+        Tue, 12 Jul 2022 17:27:16 +0000 (UTC)
+Authentication-Results: garm.ovh; auth=pass (GARM-110S004f2f464b7-596f-4274-afa8-c24faf8a9d25,
+                    95116E16C79F3EB4FFDADE9184C2BF5B79F623F3) smtp.auth=steve@sk2.org
+X-OVh-ClientIp: 82.65.25.201
+From:   Stephen Kitt <steve@sk2.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Stephen Kitt <steve@sk2.org>
+Subject: [PATCH 3/5] docs: sysctl/fs: merge the aio sections
+Date:   Tue, 12 Jul 2022 19:26:17 +0200
+Message-Id: <20220712172619.359052-3-steve@sk2.org>
+X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20220712172619.359052-1-steve@sk2.org>
+References: <20220712172619.359052-1-steve@sk2.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Ovh-Tracer-Id: 12607827160521213574
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrudejhedguddugecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhvfevufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefuthgvphhhvghnucfmihhtthcuoehsthgvvhgvsehskhdvrdhorhhgqeenucggtffrrghtthgvrhhnpeeghffhleeigffhteeiffelveefhfeiudehkedtgefhgedvleffgfejgfdtveeigeenucfkpheptddrtddrtddrtddpkedvrdeihedrvdehrddvtddunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehplhgrhigvrhejjedtrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepshhtvghvvgesshhkvddrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehlihhnuhigqdguohgtsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdfovfetjfhoshhtpehmohehhedt
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+There are two sections documenting aio-nr and aio-max-nr, merge them.
+I kept the second explanation of aio-nr, which seems clearer to me,
+along with the effects of the values from the first section.
 
+Signed-off-by: Stephen Kitt <steve@sk2.org>
+---
+ Documentation/admin-guide/sysctl/fs.rst | 18 +++++-------------
+ 1 file changed, 5 insertions(+), 13 deletions(-)
 
-On Tue, 12 Jul 2022, Marco Pagani wrote:
+diff --git a/Documentation/admin-guide/sysctl/fs.rst b/Documentation/admin-guide/sysctl/fs.rst
+index 0935acd220dc..a61c6aec5e5e 100644
+--- a/Documentation/admin-guide/sysctl/fs.rst
++++ b/Documentation/admin-guide/sysctl/fs.rst
+@@ -50,11 +50,11 @@ Currently, these files are in /proc/sys/fs:
+ aio-nr & aio-max-nr
+ -------------------
+ 
+-aio-nr is the running total of the number of events specified on the
+-io_setup system call for all currently active aio contexts.  If aio-nr
+-reaches aio-max-nr then io_setup will fail with EAGAIN.  Note that
+-raising aio-max-nr does not result in the pre-allocation or re-sizing
+-of any kernel data structures.
++aio-nr shows the current system-wide number of asynchronous io
++requests.  aio-max-nr allows you to change the maximum value
++aio-nr can grow to.  If aio-nr reaches aio-nr-max then io_setup will
++fail with EAGAIN.  Note that raising aio-max-nr does not result in the
++pre-allocation or re-sizing of any kernel data structures.
+ 
+ 
+ dentry-state
+@@ -287,14 +287,6 @@ mount more filesystems than the current value in super-max
+ allows you to.
+ 
+ 
+-aio-nr & aio-max-nr
+--------------------
+-
+-aio-nr shows the current system-wide number of asynchronous io
+-requests.  aio-max-nr allows you to change the maximum value
+-aio-nr can grow to.
+-
+-
+ mount-max
+ ---------
+ 
+-- 
+2.31.1
 
-> On 2022-07-07 17:05, matthew.gerlach@linux.intel.com wrote:
->> From: Matthew Gerlach <matthew.gerlach@linux.intel.com>
->>
->> Add pci_dev_table entries supporting the Intel N6000, N6001
->> and C6100 cards to the dfl-pci driver.
->>
->> Signed-off-by: Matthew Gerlach <matthew.gerlach@linux.intel.com>
->> Signed-off-by: Tianfei Zhang <tianfei.zhang@intel.com>
->
-> Tested-by: Marco Pagani <marpagan@redhat.com>
-
-Thanks for testing.
-
-Matthew
->
->> ---
->> v3: added necessary subdevice ids
->>     removed 'drivers: ' from title
->>
->> v2: changed names from INTEL_OFS to INTEL_DFL
->> ---
->>  drivers/fpga/dfl-pci.c | 19 +++++++++++++++++++
->>  1 file changed, 19 insertions(+)
->>
->> diff --git a/drivers/fpga/dfl-pci.c b/drivers/fpga/dfl-pci.c
->> index fd1fa55c9113..94eabdf1d2f7 100644
->> --- a/drivers/fpga/dfl-pci.c
->> +++ b/drivers/fpga/dfl-pci.c
->> @@ -77,12 +77,19 @@ static void cci_pci_free_irq(struct pci_dev *pcidev)
->>  #define PCIE_DEVICE_ID_INTEL_PAC_D5005		0x0B2B
->>  #define PCIE_DEVICE_ID_SILICOM_PAC_N5010	0x1000
->>  #define PCIE_DEVICE_ID_SILICOM_PAC_N5011	0x1001
->> +#define PCIE_DEVICE_ID_INTEL_DFL		0xbcce
->>
->>  /* VF Device */
->>  #define PCIE_DEVICE_ID_VF_INT_5_X		0xBCBF
->>  #define PCIE_DEVICE_ID_VF_INT_6_X		0xBCC1
->>  #define PCIE_DEVICE_ID_VF_DSC_1_X		0x09C5
->>  #define PCIE_DEVICE_ID_INTEL_PAC_D5005_VF	0x0B2C
->> +#define PCIE_DEVICE_ID_INTEL_DFL_VF		0xbccf
->> +
->> +/* PCI Subdevice ID */
->> +#define PCIE_SUBDEVICE_ID_INTEL_N6000		0x1770
->> +#define PCIE_SUBDEVICE_ID_INTEL_N6001		0x1771
->> +#define PCIE_SUBDEVICE_ID_INTEL_C6100		0x17d4
->>
->>  static struct pci_device_id cci_pcie_id_tbl[] = {
->>  	{PCI_DEVICE(PCI_VENDOR_ID_INTEL, PCIE_DEVICE_ID_PF_INT_5_X),},
->> @@ -96,6 +103,18 @@ static struct pci_device_id cci_pcie_id_tbl[] = {
->>  	{PCI_DEVICE(PCI_VENDOR_ID_INTEL, PCIE_DEVICE_ID_INTEL_PAC_D5005_VF),},
->>  	{PCI_DEVICE(PCI_VENDOR_ID_SILICOM_DENMARK, PCIE_DEVICE_ID_SILICOM_PAC_N5010),},
->>  	{PCI_DEVICE(PCI_VENDOR_ID_SILICOM_DENMARK, PCIE_DEVICE_ID_SILICOM_PAC_N5011),},
->> +	{PCI_DEVICE_SUB(PCI_VENDOR_ID_INTEL, PCIE_DEVICE_ID_INTEL_DFL,
->> +			PCI_VENDOR_ID_INTEL, PCIE_SUBDEVICE_ID_INTEL_N6000),},
->> +	{PCI_DEVICE_SUB(PCI_VENDOR_ID_INTEL, PCIE_DEVICE_ID_INTEL_DFL_VF,
->> +			PCI_VENDOR_ID_INTEL, PCIE_SUBDEVICE_ID_INTEL_N6000),},
->> +	{PCI_DEVICE_SUB(PCI_VENDOR_ID_INTEL, PCIE_DEVICE_ID_INTEL_DFL,
->> +			PCI_VENDOR_ID_INTEL, PCIE_SUBDEVICE_ID_INTEL_N6001),},
->> +	{PCI_DEVICE_SUB(PCI_VENDOR_ID_INTEL, PCIE_DEVICE_ID_INTEL_DFL_VF,
->> +			PCI_VENDOR_ID_INTEL, PCIE_SUBDEVICE_ID_INTEL_N6001),},
->> +	{PCI_DEVICE_SUB(PCI_VENDOR_ID_INTEL, PCIE_DEVICE_ID_INTEL_DFL,
->> +			PCI_VENDOR_ID_INTEL, PCIE_SUBDEVICE_ID_INTEL_C6100),},
->> +	{PCI_DEVICE_SUB(PCI_VENDOR_ID_INTEL, PCIE_DEVICE_ID_INTEL_DFL_VF,
->> +			PCI_VENDOR_ID_INTEL, PCIE_SUBDEVICE_ID_INTEL_C6100),},
->>  	{0,}
->>  };
->>  MODULE_DEVICE_TABLE(pci, cci_pcie_id_tbl);
->
->
