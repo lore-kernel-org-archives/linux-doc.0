@@ -2,214 +2,154 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 850EEC43334
-	for <linux-doc@archiver.kernel.org>; Tue, 12 Jul 2022 18:08:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A2B21CCA47F
+	for <linux-doc@archiver.kernel.org>; Tue, 12 Jul 2022 18:20:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232913AbiGLSIa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 12 Jul 2022 14:08:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37396 "EHLO
+        id S231402AbiGLSUT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 12 Jul 2022 14:20:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45508 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230372AbiGLSI3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Jul 2022 14:08:29 -0400
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DBDA1AA803
-        for <linux-doc@vger.kernel.org>; Tue, 12 Jul 2022 11:08:26 -0700 (PDT)
-Received: by mail-wr1-x431.google.com with SMTP id o4so12301233wrh.3
-        for <linux-doc@vger.kernel.org>; Tue, 12 Jul 2022 11:08:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=resnulli-us.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=DGz+BY3xnZELHM6ryZfTEhs4BFSh6HG4c9xaRhOdDBo=;
-        b=eATREUwe5KadLfNjw8E2OW3DLp6+xaXH9pE7xPuScqZ/3UTqteOJA4331fRQnqqLyl
-         oAM//6GD5o7X7rzo41Dhzgi//jvDgdDAKpaN6K/IXpbcpKZqoNClJIXZpeTsMfaOqiMz
-         TopiZP54AuO0nG/77QILQysk/4jc75EA07J7SD1PyzpZXuw/p8mo/umz5Jb8o2Q4VKNw
-         wre9k0na3PvIpnwuEQ78yb4LnMB8u6GB3fpwoGWG6PfDfPmprrhxFsSyouCH2uOzGG2E
-         uDn9ts3DGWA7aREWeNVDwcVvNrYV25QjtZO9hgCJCl1Fvb28MUyhtojAqU+CzDcYULLm
-         psPQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=DGz+BY3xnZELHM6ryZfTEhs4BFSh6HG4c9xaRhOdDBo=;
-        b=tB6lZ0qSdd10PF36AvIlZfMa2o4wq22rdjAdxOK6nmxIlRt4JGcRF7zCia+ekH3Uga
-         If+Axx4Jd60wadtG8e1S/GI5DWEdCyfMoBbz0GK98AMLk42Lg2qgiV70Su48LgokuBOo
-         q8L+MrWITVAoYKW9sZTjouQDYeofwEvBwDRhtiWo/zPQMJtMS1MIKeS2spcQAAYXVqCd
-         ZTeiqL5dWZCJw+lR58GjXB7KTejYk6H5XizeMahyeJp1q7EupXKM3eXdq4WBctR94b/G
-         Mx/UEyhOZDPVpSrdKOoxDMk3GWhIYrasxFEQiP9Kpswq+HxmaVC8j6pBiJEHNGQaQHSv
-         +38Q==
-X-Gm-Message-State: AJIora/ymlg/V8xIlUUHKmg5bxo0FrIVHqH7JmqVFoXn3UZx/9gQ+cVn
-        lEHEVwjg0mnPfqsQsg34whSzpg==
-X-Google-Smtp-Source: AGRyM1v7/Ig14MY8t442WbNsWeoaSgcjtu4MSGmscQ8plX+daxEtm2CNix76Opc5SpGWbiGJHGXwTw==
-X-Received: by 2002:adf:fcca:0:b0:21d:68ff:2e5a with SMTP id f10-20020adffcca000000b0021d68ff2e5amr23300797wrs.453.1657649305307;
-        Tue, 12 Jul 2022 11:08:25 -0700 (PDT)
-Received: from localhost (host-213-179-129-39.customer.m-online.net. [213.179.129.39])
-        by smtp.gmail.com with ESMTPSA id d20-20020a05600c4c1400b003a1980d55c4sm12883840wmp.47.2022.07.12.11.08.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Jul 2022 11:08:24 -0700 (PDT)
-Date:   Tue, 12 Jul 2022 20:08:23 +0200
-From:   Jiri Pirko <jiri@resnulli.us>
-To:     Vikas Gupta <vikas.gupta@broadcom.com>
-Cc:     Jiri Pirko <jiri@nvidia.com>, Jakub Kicinski <kuba@kernel.org>,
-        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-        "David S. Miller" <davem@davemloft.net>, dsahern@kernel.org,
-        stephen@networkplumber.org, Eric Dumazet <edumazet@google.com>,
-        pabeni@redhat.com, ast@kernel.org, leon@kernel.org,
-        linux-doc@vger.kernel.org, corbet@lwn.net,
-        Michael Chan <michael.chan@broadcom.com>,
-        Andrew Gospodarek <andrew.gospodarek@broadcom.com>
-Subject: Re: [PATCH net-next v2 1/3] devlink: introduce framework for
- selftests
-Message-ID: <Ys24l4O1M/8Kf4/o@nanopsycho>
-References: <20220628164241.44360-1-vikas.gupta@broadcom.com>
- <20220707182950.29348-1-vikas.gupta@broadcom.com>
- <20220707182950.29348-2-vikas.gupta@broadcom.com>
- <YswaKcUs6nOndU2V@nanopsycho>
- <CAHLZf_t9ihOQPvcQa8cZsDDVUX1wisrBjC30tHG_-Dz13zg=qQ@mail.gmail.com>
- <Ys0UpFtcOGWjK/sZ@nanopsycho>
- <CAHLZf_s7s4rqBkDnB+KH-YJRDBDzeZB6VhKMMndk+dxxY11h3g@mail.gmail.com>
+        with ESMTP id S229619AbiGLSUS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Jul 2022 14:20:18 -0400
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com (mail-bn8nam04on2064.outbound.protection.outlook.com [40.107.100.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 48597A44CC;
+        Tue, 12 Jul 2022 11:20:17 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=juVHQNeoz6dJQ3JMdwMUmRVRXngIWkIaf9LgakPRvng4mK6veadFkHaa8kKLerZptQ6poldLfpBDaqUgkKnG55rjSCnH6ze223UexWHY3Xi+/X1kZxZfjG3PYbZGTu2OAQHo7bnMvSLwZUkMMVcAuUwthRmAAYX/ntZPzsaBvB+yNBdLA8tTPzwA2Fv68kAVWchbsN4SjirOBMmoahek8SwnTM1o7o4+AO5PjmUkisbUlEs2ZeyB5csPRjspHToh+eaA2Wmdzr9mqHHPsQqbl3FktJwU1Q13fgwh+vqmPAbuKZN4h5zmR21ykSQunI77S70KFOTlqNHZIZwaubZc8g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=UbTtax5xbKOdmwQhi+CND6utj8F7L6oK0/d//wZC6tU=;
+ b=T9eV8LEheSM8VwdxP0BEimbw258PXJX93AzR7/OtLUkkDo9ogKSmOiPdj52Ix+q4b0mDsGvcrfrp6h3C1iFt+VQMBE8T53gqlgfRRkMwdK3KCev4EWDErsNz5Ib9Vc4jipzPC5SmYjxH/V0Nep410s3L6Ek44zj0ugx10qzuqa8alqm843mE+rDXJbqTOWUixNhGwYrzJEgCigvZ63bWYEqKgAHshowl85xrxQWh9LO2pRqRghz0HXx1OuWmhI0MZ5sWgbEzX2GRwDgLzftGZ22BbG3vFcr0FmRk4sChlBQz1S6/xsYpa/0BJBPOTdQmZklUeIqWzcNW6PmKkK5m4w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 12.22.5.236) smtp.rcpttodomain=linux.ibm.com smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=UbTtax5xbKOdmwQhi+CND6utj8F7L6oK0/d//wZC6tU=;
+ b=NYk55HyjxYm+cYvXZQ+9XDlwjjypYZyCzM6tnyHMZ0CaLJH6iS0NIrVisBxNm5fnO2x/Q99yZvp3Ge+poc/jXrJvSS6+E738sbAsgkSclcvYpJ0aZcaWr2uW68+ERENmPWpx4jMi2h7RoReSCl92SfAYX24kISc0wjtDT9O7mT4xqmTU4gEBTxeEihCYZQNal84kWEQQEancho5vIQSLLJVb4HzJwMGTyb2IoNxOIC6/oPEVOepz8AtCdBPWOqjj+G0fbOLNGF3drWXwx1rQVnK3g+8GgU7W/A/xz/385H1+MWhl+ksGuI1Pnu+YjRUBEXH/vgiLRNh403Koe95cjA==
+Received: from MW3PR05CA0027.namprd05.prod.outlook.com (2603:10b6:303:2b::32)
+ by DM6PR12MB3452.namprd12.prod.outlook.com (2603:10b6:5:115::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5417.23; Tue, 12 Jul
+ 2022 18:20:14 +0000
+Received: from CO1NAM11FT061.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:303:2b:cafe::a5) by MW3PR05CA0027.outlook.office365.com
+ (2603:10b6:303:2b::32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5417.14 via Frontend
+ Transport; Tue, 12 Jul 2022 18:20:14 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 12.22.5.236)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 12.22.5.236 as permitted sender) receiver=protection.outlook.com;
+ client-ip=12.22.5.236; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (12.22.5.236) by
+ CO1NAM11FT061.mail.protection.outlook.com (10.13.175.200) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.20.5417.15 via Frontend Transport; Tue, 12 Jul 2022 18:20:10 +0000
+Received: from rnnvmail201.nvidia.com (10.129.68.8) by DRHQMAIL109.nvidia.com
+ (10.27.9.19) with Microsoft SMTP Server (TLS) id 15.0.1497.32; Tue, 12 Jul
+ 2022 18:19:00 +0000
+Received: from rnnvmail203.nvidia.com (10.129.68.9) by rnnvmail201.nvidia.com
+ (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.26; Tue, 12 Jul
+ 2022 11:18:59 -0700
+Received: from Asurada-Nvidia (10.127.8.12) by mail.nvidia.com (10.129.68.9)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.26 via Frontend
+ Transport; Tue, 12 Jul 2022 11:18:56 -0700
+Date:   Tue, 12 Jul 2022 11:18:55 -0700
+From:   Nicolin Chen <nicolinc@nvidia.com>
+To:     Anthony Krowiak <akrowiak@linux.ibm.com>
+CC:     <kwankhede@nvidia.com>, <corbet@lwn.net>, <hca@linux.ibm.com>,
+        <gor@linux.ibm.com>, <agordeev@linux.ibm.com>,
+        <borntraeger@linux.ibm.com>, <svens@linux.ibm.com>,
+        <zhenyuw@linux.intel.com>, <zhi.a.wang@intel.com>,
+        <jani.nikula@linux.intel.com>, <joonas.lahtinen@linux.intel.com>,
+        <rodrigo.vivi@intel.com>, <tvrtko.ursulin@linux.intel.com>,
+        <airlied@linux.ie>, <daniel@ffwll.ch>, <farman@linux.ibm.com>,
+        <mjrosato@linux.ibm.com>, <pasic@linux.ibm.com>,
+        <vneethv@linux.ibm.com>, <oberpar@linux.ibm.com>,
+        <freude@linux.ibm.com>, <jjherne@linux.ibm.com>,
+        <alex.williamson@redhat.com>, <cohuck@redhat.com>,
+        <jgg@nvidia.com>, <kevin.tian@intel.com>, <hch@infradead.org>,
+        <jchrist@linux.ibm.com>, <kvm@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-s390@vger.kernel.org>,
+        <intel-gvt-dev@lists.freedesktop.org>,
+        <intel-gfx@lists.freedesktop.org>,
+        <dri-devel@lists.freedesktop.org>, <terrence.xu@intel.com>
+Subject: Re: [PATCH v3 01/10] vfio: Make vfio_unpin_pages() return void
+Message-ID: <Ys27D6/S6gQipMhv@Asurada-Nvidia>
+References: <20220708224427.1245-1-nicolinc@nvidia.com>
+ <20220708224427.1245-2-nicolinc@nvidia.com>
+ <99c92c99-cd60-4034-8729-a90ac9a80a7b@linux.ibm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <CAHLZf_s7s4rqBkDnB+KH-YJRDBDzeZB6VhKMMndk+dxxY11h3g@mail.gmail.com>
+In-Reply-To: <99c92c99-cd60-4034-8729-a90ac9a80a7b@linux.ibm.com>
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 8648e357-4c85-4d5f-1e10-08da643328b3
+X-MS-TrafficTypeDiagnostic: DM6PR12MB3452:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: nq7K+qT5ba6g0mFE7BfIznnZEIMkf+3kd5nbR77o6m7fplGvbuzgPa1/cbtxcCXyk5vPXS5xpKRMKP63p9cO7mdazSUKlW/9yBvkITNw+PsN19xYwPcGbHuFhO+wT7inemWPC19G2zaoUEpZNeWwlptNGvbFl3Gflbl9Q6jxfOfrHTGWbUaSEDIKmMdVTtRcyVKwVvi6EGluxfk5vT0W8xC0rr6nJ0i9HkYQlDdL2jmIK8IEKIZBNfZXe9zSjRqZUr+qSISU/EjCPPu5EeFnp0RA6gEolQZ/VMpW/H7gJcxHIAZGgYwfLalJyB83xYva8OGQGTPdcnwjGmYVExZZKQtuDX4OPCIc48pmsmZNen8w9F5MeCPuw+qtxJJJJAnC6slf63ia5RMfF/BwffskYV4gw+iGjdpAoySyb1in6mzjPsDX7/SfP4bCZWAzTxxrRf/gyk8OrY7uD2J53HfQgyIDwbQoKyEmsv8OeL23bH5G0iHh0lf/l00wQIKN6m4BR/E8tQq9lMif3sJS1B97YZfCeZwvBokKKdZDcl1BnAd7Z8kAjWL5d7izpQzEb3kYu37QpAiO442/ZQMqG3hzt6YxGeJjxNXJqNhVOU7yntmrn8IxWNk584cp2E4kANQ1Rf8PAmJNgNqbBBdrl3ekMuLgPWgekk5zlXnBhWzkxMyUlbgHMurA16oN8Yy/bietyCVFFgsTSB/ocQUcN3mImUHqcuFzpEzcVf+eZD/1kW/9rHDS43HRVVqWGQJGylaba+EXrzG2lLrQcIok5QhFozgiY5FtqSR5i9RXqLUfEwxz+ZnDpfHtPnJT6hFDQgHw5MN2yVjvlKJet1IIIvx1JaY9GWymaAXjXyh7/j9UVVLulbrFPxpoSR3Bk0Uwig7dLk3ef3mmlxMYeLQWLh4qG5CKOYrce38Jikf9fSaSuFWe4LJYhUebZP0iqc6G1lQ2
+X-Forefront-Antispam-Report: CIP:12.22.5.236;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:InfoNoRecords;CAT:NONE;SFS:(13230016)(4636009)(376002)(346002)(396003)(39860400002)(136003)(46966006)(40470700004)(36840700001)(36860700001)(55016003)(54906003)(40480700001)(81166007)(26005)(82740400003)(6916009)(9686003)(40460700003)(41300700001)(5660300002)(86362001)(2906002)(8936002)(7416002)(7406005)(356005)(70586007)(966005)(82310400005)(70206006)(186003)(336012)(33716001)(478600001)(47076005)(4326008)(316002)(426003)(83380400001)(8676002)(36900700001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jul 2022 18:20:10.9658
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8648e357-4c85-4d5f-1e10-08da643328b3
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[12.22.5.236];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT061.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB3452
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Tue, Jul 12, 2022 at 06:41:49PM CEST, vikas.gupta@broadcom.com wrote:
->Hi Jiri,
->
->On Tue, Jul 12, 2022 at 11:58 AM Jiri Pirko <jiri@nvidia.com> wrote:
->>
->> Tue, Jul 12, 2022 at 08:16:11AM CEST, vikas.gupta@broadcom.com wrote:
->> >Hi Jiri,
->> >
->> >On Mon, Jul 11, 2022 at 6:10 PM Jiri Pirko <jiri@nvidia.com> wrote:
->> >
->> >> Thu, Jul 07, 2022 at 08:29:48PM CEST, vikas.gupta@broadcom.com wrote:
+On Tue, Jul 12, 2022 at 10:21:14AM -0400, Anthony Krowiak wrote:
 
-[...]
+> > +void vfio_unpin_pages(struct vfio_device *device, unsigned long *user_pfn,
+> > +                   int npage)
+> >   {
+> >       struct vfio_container *container;
+> >       struct vfio_iommu_driver *driver;
+> > -     int ret;
+> > 
+> > -     if (!user_pfn || !npage || !vfio_assert_device_open(device))
+> > -             return -EINVAL;
+> 
+> 
+> You left out the check for !user_pfn?
 
+Yes. I mentioned in the commit log. And it's in response to Jason's
+remark: https://lore.kernel.org/kvm/20220707192210.GC1705032@nvidia.com/
 
->> >> >  * enum devlink_trap_action - Packet trap action.
->> >> >  * @DEVLINK_TRAP_ACTION_DROP: Packet is dropped by the device and a copy
->> >> is not
->> >> >@@ -576,6 +598,10 @@ enum devlink_attr {
->> >> >       DEVLINK_ATTR_LINECARD_TYPE,             /* string */
->> >> >       DEVLINK_ATTR_LINECARD_SUPPORTED_TYPES,  /* nested */
->> >> >
->> >> >+      DEVLINK_ATTR_SELFTESTS_MASK,            /* u32 */
->> >>
->> >> I don't see why this is u32 bitset. Just have one attr per test
->> >> (NLA_FLAG) in a nested attr instead.
->> >>
->> >
->> >As per your suggestion, for an example it should be like as below
->> >
->> >        DEVLINK_ATTR_SELFTESTS,                 /* nested */
->> >
->> >        DEVLINK_ATTR_SELFTESTS_SOMETEST1            /* flag */
->> >
->> >        DEVLINK_ATTR_SELFTESTS_SOMETEST2           /* flag */
->>
->> Yeah, but have the flags in separate enum, no need to pullute the
->> devlink_attr enum by them.
->>
->>
->> >
->> >....    <SOME MORE TESTS>
->> >
->> >.....
->> >
->> >        DEVLINK_ATTR_SLEFTESTS_RESULT_VAL,      /* u8 */
->> >
->> >
->> >
->> > If we have this way then we need to have a mapping (probably a function)
->> >for drivers to tell them what tests need to be executed based on the flags
->> >that are set.
->> > Does this look OK?
->> >  The rationale behind choosing a mask is that we could directly pass the
->> >mask-value to the drivers.
->>
->> If you have separate enum, you can use the attrs as bits internally in
->> kernel. Add a helper that would help the driver to work with it.
->> Pass a struct containing u32 (or u8) not to drivers. Once there are more
->> tests than that, this structure can be easily extended and the helpers
->> changed. This would make this scalable. No need for UAPI change or even
->> internel driver api change.
->
->As per your suggestion, selftest attributes can be declared in separate
->enum as below
->
->enum {
->
->        DEVLINK_SELFTEST_SOMETEST,         /* flag */
->
->        DEVLINK_SELFTEST_SOMETEST1,
->
->        DEVLINK_SELFTEST_SOMETEST2,
->
->....
->
->......
->
->        __DEVLINK_SELFTEST_MAX,
->
->        DEVLINK_SELFTEST_MAX = __DEVLINK_SELFTEST_MAX - 1
->
->};
->Below  examples could be the flow of parameters/data from user to
->kernel and vice-versa
->
->
->Kernel to user for show command . Users can know what all tests are
->supported by the driver. A return from kernel to user.
->______
->|NEST |
->|_____ |TEST1|TEST4|TEST7|...
->
->
->User to kernel to execute test: If user wants to execute test4, test8, test1...
->______
->|NEST |
->|_____ |TEST4|TEST8|TEST1|...
->
->
->Result Kernel to user execute test RES(u8)
->______
->|NEST |
->|_____ |RES4|RES8|RES1|...
+Btw, user_pfn is removed in one of the following patches anyway.
+ 
+> > +static void vfio_iommu_type1_unpin_pages(void *iommu_data,
+> > +                                      unsigned long *user_pfn, int npage)
+> >   {
+> >       struct vfio_iommu *iommu = iommu_data;
+> >       bool do_accounting;
+> >       int i;
+> > 
+> > -     if (!iommu || !user_pfn || npage <= 0)
+> > -             return -EINVAL;
+> 
+> 
+> Is there a reason the checks above were not checked for WARN_ON?
 
-Hmm, I think it is not good idea to rely on the order, a netlink library
-can perhaps reorder it? Not sure here.
+For pointers, same reason here.
 
->
->Results are populated in the same order as the user passed the TESTs
->flags. Does the above result format from kernel to user look OK ?
->Else we need to have below way to form a result format, a nest should
->be made for <test_flag,
->result> but since test flags are in different enum other than
->devlink_attr and RES being part of devlink_attr, I believe it's not
->good practice to make the below structure.
-
-Not a structure, no. Have it as another nest (could be the same attr as
-the parent nest:
-
-______
-|NEST |
-|_____ |NEST|       |NEST|       |NEST|
-        TEST4,RES4   TEST8,RES8   TEST1, RES1
-
-also, it is flexible to add another attr if needed (like maybe result
-message string containing error message? IDK).
-
-
-
->______
->|NEST |
->|_____ | TEST4, RES4|TEST8,RES8|TEST1,RES1|...
->
->Let me know if my understanding is correct.
-
-[...]
+For npage, it's checked in its caller vfio_unpin_pages -- mentioned
+in the commit log too. The VFIO core is the only caller and it is
+unlikely to change. On the other hand, the plan is to replace this
+vfio_iommu_type1_unpin_pages with IOMMUFD implementation.
