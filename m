@@ -2,85 +2,70 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 64ADCC433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 13 Jul 2022 19:59:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 29906C43334
+	for <linux-doc@archiver.kernel.org>; Wed, 13 Jul 2022 20:01:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236869AbiGMT7h (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 13 Jul 2022 15:59:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37076 "EHLO
+        id S236653AbiGMUBs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 13 Jul 2022 16:01:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38260 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231772AbiGMT7f (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Jul 2022 15:59:35 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D5DE2C66D;
-        Wed, 13 Jul 2022 12:59:34 -0700 (PDT)
+        with ESMTP id S231772AbiGMUBs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Jul 2022 16:01:48 -0400
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B896A10FC2;
+        Wed, 13 Jul 2022 13:01:47 -0700 (PDT)
 Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id C9F242B2;
-        Wed, 13 Jul 2022 19:59:33 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net C9F242B2
+        by ms.lwn.net (Postfix) with ESMTPSA id 568A52B2;
+        Wed, 13 Jul 2022 20:01:47 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 568A52B2
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1657742373; bh=Do9uHLHyAyHu2lpSZWRJT0iOh1Ss7Aj4K6hs6hKuVOE=;
+        t=1657742507; bh=qR/ndmsxBAWfwkoYfqXoUzyvIUoYjmUhbtnaGPh/PvI=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=UpPOC2dbrvMdzoMrJVSBxpR4RBctDg0foauekyxOBZZcASr66WgLnvgRW2q4QxJR/
-         1PP/HHxkA1P4E9QchroGOjZb2maKJrh7OwCuhDqD4ZeLGvescJrRubi8Y+SUKBiPC3
-         BMHR11bpf9j9gL+SO6eL0agpCqQJ+KgXAfEDGOPj8ungJJ6beVfIoAnPmWx/0LlbHk
-         nE/hCT2lQYuzXhRsNfmhWv6ETmWmG5aY/vMowPJuZ4eBju9zam7gfP+R/8Y85tNbOQ
-         5xhk6e0uDMgEdAV2YLyva9peZQ3C+zQFjlbKWkssJLAXvqBfX5Gzju32gRabHgQsve
-         p3eElikcK1qdQ==
+        b=awIu3yYmC32JpQjlAZq/v8s0Id5oXJcpPqQUeWYWQ3vEfEMFTUJmVgazKXjJebgE5
+         7gu5lAUkQtrB8v5sUY1B5ShtiZY2jmZJ3zt8QFQ8y+Aky1B7x4o8anZithNuKGvIgB
+         jv33ssnYgmuPTxRUUYlMJFdXdRSqF81Epoq0L0tyM9Y8FOeYKyTDP0wYV34e2cGghW
+         1CFXekARvZ3ok/5EPfnC8PsqTGQ8G63Prn0ZxlABczeBteBgeugX+/De46PJ9PM/6j
+         4QM7UjXPVe7hXXOkcMoOuJIRFAI0b174XT0Xdt04i3BVhvGllXspp2zcR0VS7dvVVW
+         Kwa4WceNFCH1w==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        Hu Haowen <src.res@email.cn>,
-        linux-doc-tw-discuss@lists.sourceforge.net,
-        linux-doc@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Subject: Re: [PATCH] MAINTAINERS: mark linux-doc-tw-discuss mailing list
- moderated
-In-Reply-To: <20220713043516.19290-1-lukas.bulwahn@gmail.com>
-References: <20220713043516.19290-1-lukas.bulwahn@gmail.com>
-Date:   Wed, 13 Jul 2022 13:59:33 -0600
-Message-ID: <87k08g4wd6.fsf@meer.lwn.net>
+To:     "Jason A. Donenfeld" <Jason@zx2c4.com>
+Cc:     Dov Murik <dovmurik@linux.ibm.com>, linux-doc@vger.kernel.org,
+        Eric Biggers <ebiggers@google.com>,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Documentation: siphash: Fix typo in the name of
+ offsetofend macro
+In-Reply-To: <Ys13bqGuPYBUGg3O@zx2c4.com>
+References: <20220712104455.1408150-1-dovmurik@linux.ibm.com>
+ <87fsj6bhwb.fsf@meer.lwn.net> <Ys13bqGuPYBUGg3O@zx2c4.com>
+Date:   Wed, 13 Jul 2022 14:01:46 -0600
+Message-ID: <87fsj44w9h.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Lukas Bulwahn <lukas.bulwahn@gmail.com> writes:
+"Jason A. Donenfeld" <Jason@zx2c4.com> writes:
 
-> After sending a patch to linux-doc-tw-discuss@lists.sourceforge.net, I got
-> the typical response for a moderated list:
+> Hi Jon,
 >
->   Your mail to 'linux-doc-tw-discuss' with the subject
->   ....
->   Is being held until the list moderator can review it for approval.
+> On Tue, Jul 12, 2022 at 07:05:40AM -0600, Jonathan Corbet wrote:
+>> Dov Murik <dovmurik@linux.ibm.com> writes:
+>> 
+>> > The siphash documentation misspelled "offsetendof" instead of
+>> > "offsetofend".
+>> >
+>> > Fixes: 2c956a60778cbb ("siphash: add cryptographically secure PRF")
+>> 
+>> When you send a patch with a Fixes tag it's always a good idea to CC the
+>> author of the patch being fixed.  Adding Jason...let me know if you'd
+>> like me to grab this.
 >
->   The reason it is being held:
+> Thanks for CC'ing me. Sure, feel free to take this:
 >
->       Post by non-member to a members-only list
->
-> Mark this mailing list moderated in MAINTAINERS.
->
-> Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-> ---
->  MAINTAINERS | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index b5aeaddc9539..1320d3eaf198 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -20579,7 +20579,7 @@ F:	tools/tracing/rtla/
->  
->  TRADITIONAL CHINESE DOCUMENTATION
->  M:	Hu Haowen <src.res@email.cn>
-> -L:	linux-doc-tw-discuss@lists.sourceforge.net
-> +L:	linux-doc-tw-discuss@lists.sourceforge.net (moderated for non-subscribers)
->  S:	Maintained
->  W:	https://github.com/srcres258/linux-doc
->  T:	git git://github.com/srcres258/linux-doc.git doc-zh-tw
+>     Acked-by: Jason A. Donenfeld <Jason@zx2c4.com>
 
 Applied, thanks.
 
