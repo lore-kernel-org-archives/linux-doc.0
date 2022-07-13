@@ -2,119 +2,215 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AB2AEC433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 13 Jul 2022 08:01:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EA212C433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 13 Jul 2022 08:12:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234411AbiGMIB0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 13 Jul 2022 04:01:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59916 "EHLO
+        id S235033AbiGMIMi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 13 Jul 2022 04:12:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41608 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231664AbiGMIBZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Jul 2022 04:01:25 -0400
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2ED1FE024B;
-        Wed, 13 Jul 2022 01:01:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1657699284; x=1689235284;
-  h=date:from:to:cc:subject:message-id:reply-to:references:
-   mime-version:in-reply-to;
-  bh=7ENYqPqKTk0ESIJ/QoNgf3KZMY16w1kA6fyDKtIJ5rs=;
-  b=kNCjkJ85qfjLYK9qXQSQByNS+v9xJRKUpuzu8lH80gStYi9Iozs7Rl0h
-   0HWCpUEP5oZSEvmpeWEXVAV+YKETkCaOUeZ3C7XOuk59dNVJkhoQKYaEI
-   GiPmRlpQ8wZQPNJDZokx6u0l3H9jYr7KtOsoh0Dwl96MjgUuJBz++qjsh
-   kqkF32AcVYSyINx5VEzI0vbCScmCr08tsJaZJ4tMhc+b6DZ6c8Rp6xi4C
-   /RCaXDMVFL9tbZ+xIJdK2hij6L3q9l23+m8Kt8u3D76xOALO4b1TytUNh
-   VIeD9HjgOzaIS2Tf8JHtjjtaePuqrlqN41IOwCDb860KmKZJPxx2d0s75
-   w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10406"; a="286277206"
-X-IronPort-AV: E=Sophos;i="5.92,267,1650956400"; 
-   d="scan'208";a="286277206"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jul 2022 01:01:08 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.92,267,1650956400"; 
-   d="scan'208";a="685071104"
-Received: from chaop.bj.intel.com (HELO localhost) ([10.240.192.101])
-  by FMSMGA003.fm.intel.com with ESMTP; 13 Jul 2022 01:00:56 -0700
-Date:   Wed, 13 Jul 2022 15:57:38 +0800
-From:   Chao Peng <chao.p.peng@linux.intel.com>
-To:     "Gupta, Pankaj" <pankaj.gupta@amd.com>
-Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
-        qemu-devel@nongnu.org, linux-kselftest@vger.kernel.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
+        with ESMTP id S234865AbiGMIMg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Jul 2022 04:12:36 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7FF11E95F8;
+        Wed, 13 Jul 2022 01:12:34 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 97FAA61A07;
+        Wed, 13 Jul 2022 08:12:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10151C385A9;
+        Wed, 13 Jul 2022 08:12:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1657699952;
+        bh=bUgQ4agLKlwNmGshtaEDNrxPp1+CT766uFeo5h9OE+s=;
+        h=From:To:Cc:Subject:Date:From;
+        b=LrpndDZ/qEnaIBDExfZzqcvwWZqnpmU3h7UGjJKsVZ50yh2ym5L5FQrM4Ks7AvT3r
+         rskr3bJZQ5t3yUj/XRKBHRAh3Dq5Usm4zGFEQKPBTZ+aC+mQcNiixckz3P49LDY/hb
+         oSbXv972pKS2eajTaWJA5rRvEEdOH1FBnY3YKre7uEGbXj3M2RjiVK4zrOTYHHtTvJ
+         G5D1Q9gXQzJHnHOVGMZTo/CXWvvOLL2x7Qm2hZdqccLPWYTNx3TyPr9yYmf1cMaPwL
+         1kouMRK8iXb4DaCjc3+YBwF/YppInz2qxwNyMq8Vy7+qpV9O7HvLEnOgWZHAiRxmAo
+         mUzXaKshyBlsQ==
+Received: from mchehab by mail.kernel.org with local (Exim 4.95)
+        (envelope-from <mchehab@kernel.org>)
+        id 1oBXTx-004zsV-9a;
+        Wed, 13 Jul 2022 09:12:29 +0100
+From:   Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        David Airlie <airlied@linux.ie>,
         Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <seanjc@google.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        Muchun Song <songmuchun@bytedance.com>
-Subject: Re: [PATCH v7 00/14] KVM: mm: fd-based approach for supporting KVM
- guest private memory
-Message-ID: <20220713075738.GC2831541@chaop.bj.intel.com>
-Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
-References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
- <b1c12a4b-46f7-081b-242f-005a8824aad1@amd.com>
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+        intel-gvt-dev@lists.freedesktop.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v2 00/39] drm/i915: fix kernel-doc issues
+Date:   Wed, 13 Jul 2022 09:11:48 +0100
+Message-Id: <cover.1657699522.git.mchehab@kernel.org>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b1c12a4b-46f7-081b-242f-005a8824aad1@amd.com>
+Content-Transfer-Encoding: 8bit
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jul 13, 2022 at 05:58:32AM +0200, Gupta, Pankaj wrote:
-> 
-> > This is the v7 of this series which tries to implement the fd-based KVM
-> > guest private memory. The patches are based on latest kvm/queue branch
-> > commit:
-> > 
-> >    b9b71f43683a (kvm/queue) KVM: x86/mmu: Buffer nested MMU
-> > split_desc_cache only by default capacity
-> > 
-> > Introduction
-> > ------------
-> > In general this patch series introduce fd-based memslot which provides
-> > guest memory through memory file descriptor fd[offset,size] instead of
-> > hva/size. The fd can be created from a supported memory filesystem
-> > like tmpfs/hugetlbfs etc. which we refer as memory backing store. KVM
-> 
-> Thinking a bit, As host side fd on tmpfs or shmem will store memory on host
-> page cache instead of mapping pages into userspace address space. Can we hit
-> double (un-coordinated) page cache problem with this when guest page cache
-> is also used?
+There are several kernel-doc markups along the i915 driver that aren't part
+of the i915.rst file, nor are included on any other file under Documentation.
+Maybe due to that, there are several kernel-doc markups that report problems
+when checked with scripts/kernel-doc. More than that, some of them also
+have problems when actually integrated at the building system, as reported
+by Sphinx.
 
-This is my understanding: in host it will be indeed in page cache (in
-current shmem implementation) but that's just the way it allocates and
-provides the physical memory for the guest. In guest, guest OS will not
-see this fd (absolutely), it only sees guest memory, on top of which it
-can build its own page cache system for its own file-mapped content but
-that is unrelated to host page cache.
+Along the issues we have:
 
-Chao
-> 
-> Thanks,
-> Pankaj
-> 
+- renamed symbols where the prototype doesn't match the kernel-doc name;
+- some markups doesn't have the symbol name on it;
+- typos when defining parameter;
+- some parameters are missing;
+- some ascii artwork aren't properly displayed after parsed by Sphinx;
+- some other tags produce bad results and warnings after parsed by html build;
+- some "/**" patterns exist on places that aren't kernel-doc markups.
+
+This series, against drm-tip, fix all the above issues and all all such files to
+i915.rst. This way, it will be easier to avoid other problems to be introduced.
+
+While here, I also added SPDX on two display files. Besides being the current
+way to indicate the license, it also makes easier to find all files with kernel-doc
+markups, as all it is needed is to search for "/**" at i915 files to know what of
+them have embedded documentation.
+
+PS.: my end goal here is to ensure that the TLB patch series I'm about to
+send will be properly documented. For that to happen, let's first fix all
+warnings when building the documentation ;-)
+
+---
+
+v2:
+- Added 3 already-existing patches form other PRs addressing some of the
+  issues. The subjects were renamed, in order to describe what they're
+  doing.
+- Fixed checkpatch warnings;
+- Added 4 additional patches at the end, documenting some structs
+  at i915_gem_object_types.h and  intel_gt_pm.h, plus adding 
+  intel-guc.c internal functions to the generated documentation.
+
+Jiapeng Chong (3):
+  drm/i915/gvt: Fix kernel-doc for intel_gvt_switch_mmio()
+  drm/i915/gvt: Fix kernel-doc for intel_vgpu_default_mmio_write
+  drm/i915/gvt: Fix kernel-doc for intel_vgpu_*_resource()
+
+Mauro Carvalho Chehab (36):
+  drm/i915: fix kernel-doc trivial warnings on i915/*.[ch] files
+  drm/i915: display: fix kernel-doc markup warnings
+  drm/i915: gt: fix some Kernel-doc issues
+  drm/i915: gvt: fix kernel-doc trivial warnings
+  drm/i915: gem: fix some Kernel-doc issues
+  drm/i915: intel_wakeref.h: fix some kernel-doc markups
+  drm/i915: i915_gem_ttm: fix a kernel-doc markup
+  drm/i915: i915_gem_ttm_pm.c: fix kernel-doc markups
+  drm/i915: gem: add kernel-doc description for some function parameters
+  drm/i915: i915_gpu_error.c: document dump_flags
+  drm/i915: document kernel-doc trivial issues
+  drm/i915: intel_dp_link_training.c: fix kernel-doc markup
+  drm/i915: intel_fb: fix a kernel-doc issue with Sphinx
+  drm/i915: skl_scaler: fix return value kernel-doc markup
+  drm/i915: intel_pm.c: fix some ascii artwork at kernel-doc
+  drm/i915: i915_gem_region.h: fix i915_gem_apply_to_region_ops doc
+  drm/i915: i915_gem_wait.c: fix a kernel-doc markup
+  drm/i915: fix i915_gem_ttm_move.c DOC: markup
+  drm/i915: stop using kernel-doc markups for something else
+  drm/i915: dvo_ch7xxx.c: use SPDX header
+  drm/i915: dvo_sil164.c: use SPDX header
+  drm/i915: i915_vma_resource.c: fix some kernel-doc markups
+  drm/i915: i915_gem.c fix a kernel-doc issue
+  drm/i915: i915_scatterlist.h: fix some kernel-doc markups
+  drm/i915: i915_deps: use a shorter title markup
+  docs: gpu: i915.rst: display: add kernel-doc markups
+  docs: gpu: i915.rst: gt: add more kernel-doc markups
+  docs: gpu: i915.rst: GuC: add more kernel-doc markups
+  docs: gpu: i915.rst: GVT: add more kernel-doc markups
+  docs: gpu: i915.rst: PM: add more kernel-doc markups
+  docs: gpu: i915.rst: GEM/TTM: add more kernel-doc markups
+  docs: gpu: i915.rst: add the remaining kernel-doc markup files
+  drm/i915 i915_gem_object_types.h: document struct i915_lut_handle
+  drm/i915: document struct drm_i915_gem_object
+  drm/i915: add descriptions for some RPM macros at intel_gt_pm.h
+  drm/i915: add GuC functions to the documentation
+
+ Documentation/gpu/i915.rst                    | 288 ++++++++++++++++++
+ drivers/gpu/drm/i915/display/dvo_ch7017.c     |  26 +-
+ drivers/gpu/drm/i915/display/dvo_ch7xxx.c     |  39 +--
+ drivers/gpu/drm/i915/display/dvo_sil164.c     |  32 +-
+ .../drm/i915/display/intel_display_debugfs.c  |   2 +-
+ .../drm/i915/display/intel_display_power.c    |   2 +-
+ .../drm/i915/display/intel_display_types.h    |   2 +-
+ .../drm/i915/display/intel_dp_link_training.c |   2 +
+ drivers/gpu/drm/i915/display/intel_dvo_dev.h  |   6 +-
+ drivers/gpu/drm/i915/display/intel_fb.c       |   2 +-
+ drivers/gpu/drm/i915/display/intel_sdvo.c     |   4 +-
+ drivers/gpu/drm/i915/display/intel_tc.c       |   2 +-
+ drivers/gpu/drm/i915/display/intel_tv.c       |   2 +-
+ drivers/gpu/drm/i915/display/skl_scaler.c     |   6 +-
+ drivers/gpu/drm/i915/gem/i915_gem_create.c    |   8 +-
+ drivers/gpu/drm/i915/gem/i915_gem_domain.c    |  17 +-
+ drivers/gpu/drm/i915/gem/i915_gem_object.c    |   2 +
+ drivers/gpu/drm/i915/gem/i915_gem_object.h    |   2 +-
+ .../gpu/drm/i915/gem/i915_gem_object_types.h  | 212 ++++++++++---
+ drivers/gpu/drm/i915/gem/i915_gem_region.h    |   8 +-
+ drivers/gpu/drm/i915/gem/i915_gem_ttm.c       |   2 +
+ drivers/gpu/drm/i915/gem/i915_gem_ttm.h       |   1 +
+ drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c  |   4 +-
+ drivers/gpu/drm/i915/gem/i915_gem_ttm_pm.c    |   8 +-
+ drivers/gpu/drm/i915/gem/i915_gem_wait.c      |  26 +-
+ drivers/gpu/drm/i915/gt/intel_context.h       |   6 +-
+ drivers/gpu/drm/i915/gt/intel_context_types.h |  63 ++--
+ drivers/gpu/drm/i915/gt/intel_engine_cs.c     |   4 +-
+ drivers/gpu/drm/i915/gt/intel_engine_types.h  |   1 +
+ drivers/gpu/drm/i915/gt/intel_ggtt_fencing.h  |   2 +-
+ drivers/gpu/drm/i915/gt/intel_gt_pm.h         |  62 ++++
+ drivers/gpu/drm/i915/gt/intel_gt_types.h      |  12 +-
+ drivers/gpu/drm/i915/gt/intel_gtt.h           |   6 +-
+ drivers/gpu/drm/i915/gt/intel_reset_types.h   |   4 +-
+ drivers/gpu/drm/i915/gt/intel_rps.c           |   4 +-
+ .../gpu/drm/i915/gt/intel_timeline_types.h    |   6 +-
+ .../drm/i915/gt/shaders/clear_kernel/hsw.asm  |   4 +-
+ .../drm/i915/gt/shaders/clear_kernel/ivb.asm  |   4 +-
+ drivers/gpu/drm/i915/gt/uc/guc_capture_fwif.h |  24 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h   |   2 +-
+ .../gpu/drm/i915/gt/uc/intel_guc_hwconfig.c   |   5 +-
+ drivers/gpu/drm/i915/gvt/aperture_gm.c        |   4 +-
+ drivers/gpu/drm/i915/gvt/cfg_space.c          |   2 +-
+ drivers/gpu/drm/i915/gvt/dmabuf.h             |   2 +-
+ drivers/gpu/drm/i915/gvt/handlers.c           |   2 +-
+ drivers/gpu/drm/i915/gvt/mmio_context.c       |   2 +-
+ drivers/gpu/drm/i915/gvt/page_track.c         |   2 +-
+ drivers/gpu/drm/i915/gvt/vgpu.c               |   6 +-
+ drivers/gpu/drm/i915/i915_active.h            |  14 +-
+ drivers/gpu/drm/i915/i915_deps.c              |   4 +-
+ drivers/gpu/drm/i915/i915_drm_client.h        |   2 +-
+ drivers/gpu/drm/i915/i915_drv.h               |  30 +-
+ drivers/gpu/drm/i915/i915_file_private.h      |   8 +-
+ drivers/gpu/drm/i915/i915_gem.c               |  12 +-
+ drivers/gpu/drm/i915/i915_gpu_error.c         |   3 +-
+ drivers/gpu/drm/i915/i915_gpu_error.h         |   4 +-
+ drivers/gpu/drm/i915/i915_pmu.h               |  38 +--
+ drivers/gpu/drm/i915/i915_request.h           |   4 +-
+ drivers/gpu/drm/i915/i915_scatterlist.c       |   2 +-
+ drivers/gpu/drm/i915/i915_scatterlist.h       |  12 +-
+ drivers/gpu/drm/i915/i915_utils.h             |   2 +-
+ drivers/gpu/drm/i915/i915_vma.c               |   2 +
+ drivers/gpu/drm/i915/i915_vma_resource.c      |   4 +-
+ drivers/gpu/drm/i915/i915_vma_resource.h      |   3 +-
+ drivers/gpu/drm/i915/intel_pm.c               |  33 +-
+ drivers/gpu/drm/i915/intel_region_ttm.c       |   3 +-
+ drivers/gpu/drm/i915/intel_uncore.h           |   4 +-
+ drivers/gpu/drm/i915/intel_wakeref.h          |   4 +-
+ 68 files changed, 795 insertions(+), 327 deletions(-)
+
+-- 
+2.36.1
+
+
