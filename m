@@ -2,70 +2,81 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 29906C43334
-	for <linux-doc@archiver.kernel.org>; Wed, 13 Jul 2022 20:01:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C667DC433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 13 Jul 2022 20:03:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236653AbiGMUBs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 13 Jul 2022 16:01:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38260 "EHLO
+        id S236821AbiGMUDJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 13 Jul 2022 16:03:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39262 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231772AbiGMUBs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Jul 2022 16:01:48 -0400
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B896A10FC2;
-        Wed, 13 Jul 2022 13:01:47 -0700 (PDT)
+        with ESMTP id S236667AbiGMUDH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Jul 2022 16:03:07 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C629C2CCA0
+        for <linux-doc@vger.kernel.org>; Wed, 13 Jul 2022 13:03:06 -0700 (PDT)
 Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 568A52B2;
-        Wed, 13 Jul 2022 20:01:47 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 568A52B2
+        by ms.lwn.net (Postfix) with ESMTPSA id 7A2FE2B2;
+        Wed, 13 Jul 2022 20:03:06 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 7A2FE2B2
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1657742507; bh=qR/ndmsxBAWfwkoYfqXoUzyvIUoYjmUhbtnaGPh/PvI=;
+        t=1657742586; bh=EOTfmgixUWcWcslxnLM2QoKLAde0L8nx97etzNvHvwc=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=awIu3yYmC32JpQjlAZq/v8s0Id5oXJcpPqQUeWYWQ3vEfEMFTUJmVgazKXjJebgE5
-         7gu5lAUkQtrB8v5sUY1B5ShtiZY2jmZJ3zt8QFQ8y+Aky1B7x4o8anZithNuKGvIgB
-         jv33ssnYgmuPTxRUUYlMJFdXdRSqF81Epoq0L0tyM9Y8FOeYKyTDP0wYV34e2cGghW
-         1CFXekARvZ3ok/5EPfnC8PsqTGQ8G63Prn0ZxlABczeBteBgeugX+/De46PJ9PM/6j
-         4QM7UjXPVe7hXXOkcMoOuJIRFAI0b174XT0Xdt04i3BVhvGllXspp2zcR0VS7dvVVW
-         Kwa4WceNFCH1w==
+        b=duJ2RE15kwrrKyo7TFpXDFLT7nwM/+bYkGJ2IlZzFYEtuXIudvEj2wWPHQyFxCImA
+         sYOC0N8hOG4A9m5bpZ4SjMZcU8kD9Lmq+Kck7UdS8uKZ/t5w/fjWAh6hy7A5IgnF9T
+         wS5ZlmdkCE87ctOwVP2m9wZ0QqBTLYfpkYrIaLGtkSeE488PJIeUGuwzp/9/2NIC8c
+         Q5jhZnHfMoEQGncsjJvhdm7lpmvfaeytlKgQLlB1cPBiEc8iTGq0IfdkXqSCHEo2/C
+         bIPtmBp4bZF5TGxqsfqz49Zoiox2VOT6wDZHWtl7Y9vDVK3xodYKeq4qw/CkWhsEDY
+         djAiNR/TKuZNA==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     "Jason A. Donenfeld" <Jason@zx2c4.com>
-Cc:     Dov Murik <dovmurik@linux.ibm.com>, linux-doc@vger.kernel.org,
-        Eric Biggers <ebiggers@google.com>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Documentation: siphash: Fix typo in the name of
- offsetofend macro
-In-Reply-To: <Ys13bqGuPYBUGg3O@zx2c4.com>
-References: <20220712104455.1408150-1-dovmurik@linux.ibm.com>
- <87fsj6bhwb.fsf@meer.lwn.net> <Ys13bqGuPYBUGg3O@zx2c4.com>
-Date:   Wed, 13 Jul 2022 14:01:46 -0600
-Message-ID: <87fsj44w9h.fsf@meer.lwn.net>
+To:     Binbin Zhou <zhoubinbin@loongson.cn>, alexs@kernel.org,
+        siyanteng@loongson.cn
+Cc:     chenhuacai@loongson.cn, bobwxc@email.cn, zhoubb.aaron@gmail.com,
+        linux-doc@vger.kernel.org, Binbin Zhou <zhoubinbin@loongson.cn>
+Subject: Re: [PATCH V3] docs/zh_CN: core-api: Add watch_queue Chinese
+ translation
+In-Reply-To: <20220710133604.31382-1-zhoubinbin@loongson.cn>
+References: <20220710133604.31382-1-zhoubinbin@loongson.cn>
+Date:   Wed, 13 Jul 2022 14:03:05 -0600
+Message-ID: <87bkts4w7a.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-"Jason A. Donenfeld" <Jason@zx2c4.com> writes:
+Binbin Zhou <zhoubinbin@loongson.cn> writes:
 
-> Hi Jon,
+> Translate core-api/watch_queue.rst into Chinese.
 >
-> On Tue, Jul 12, 2022 at 07:05:40AM -0600, Jonathan Corbet wrote:
->> Dov Murik <dovmurik@linux.ibm.com> writes:
->> 
->> > The siphash documentation misspelled "offsetendof" instead of
->> > "offsetofend".
->> >
->> > Fixes: 2c956a60778cbb ("siphash: add cryptographically secure PRF")
->> 
->> When you send a patch with a Fixes tag it's always a good idea to CC the
->> author of the patch being fixed.  Adding Jason...let me know if you'd
->> like me to grab this.
+> Last English version used:
+> commit f5461124d59b ("Documentation: move watch_queue to core-api").
 >
-> Thanks for CC'ing me. Sure, feel free to take this:
+> Signed-off-by: Binbin Zhou <zhoubinbin@loongson.cn>
+> ---
 >
->     Acked-by: Jason A. Donenfeld <Jason@zx2c4.com>
+> Changes since v2:
+>
+> Take Xiangcheng's advice and add his proofreading signature to
+> watch_queue.rst, thanks.
+>
+> Details:
+> https://lore.kernel.org/linux-doc/YsbjmEhOjUrYqml4@bobwxc.mipc/
+>
+> Changes since v1:
+>
+> Take Yanteng's advice and add his proofreading signature to
+> watch_queue.rst, thanks.
+>
+> Details:
+> https://lore.kernel.org/linux-doc/ea5f1206-f34c-9907-e7c4-f97122e84dce@loongson.cn/
+>
+> ---
+>  .../translations/zh_CN/core-api/index.rst     |   1 +
+>  .../zh_CN/core-api/watch_queue.rst            | 313 ++++++++++++++++++
+>  2 files changed, 314 insertions(+)
+>  create mode 100644 Documentation/translations/zh_CN/core-api/watch_queue.rst
 
 Applied, thanks.
 
