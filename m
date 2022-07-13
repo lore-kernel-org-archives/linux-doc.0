@@ -2,136 +2,112 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A5BB1C43334
-	for <linux-doc@archiver.kernel.org>; Wed, 13 Jul 2022 22:07:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 46687C43334
+	for <linux-doc@archiver.kernel.org>; Wed, 13 Jul 2022 22:51:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237060AbiGMWHU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 13 Jul 2022 18:07:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47228 "EHLO
+        id S229651AbiGMWvL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 13 Jul 2022 18:51:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47370 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236925AbiGMWHT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Jul 2022 18:07:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id DCA424506B
-        for <linux-doc@vger.kernel.org>; Wed, 13 Jul 2022 15:07:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1657750038;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=GNtNspQ7ufX/7l3qNBxVep1F3AGBAOu1ulHpdR7LRfc=;
-        b=eMH3fzrwLZvUtjEn+nUJCk5GQN3A2gsS2iZpt63Xlq3U2PqF70BeniCEWYGH1EAh0935j0
-        hJvVpXQ81ENa58uHv6/MQddOzsACnKO8Q01rIZltsT/yON7Wvb9Y06THLdGWK9FgOgzK+T
-        mF9fUnjqKSBstShar5GVHihUENM7q5U=
-Received: from mail-oa1-f69.google.com (mail-oa1-f69.google.com
- [209.85.160.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-605-ESamlApEOnil9ojRrP3wWQ-1; Wed, 13 Jul 2022 18:07:16 -0400
-X-MC-Unique: ESamlApEOnil9ojRrP3wWQ-1
-Received: by mail-oa1-f69.google.com with SMTP id 586e51a60fabf-10c3654c19bso130221fac.1
-        for <linux-doc@vger.kernel.org>; Wed, 13 Jul 2022 15:07:16 -0700 (PDT)
+        with ESMTP id S229616AbiGMWvK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Jul 2022 18:51:10 -0400
+Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D52322508;
+        Wed, 13 Jul 2022 15:51:09 -0700 (PDT)
+Received: by mail-ej1-x630.google.com with SMTP id mf4so320693ejc.3;
+        Wed, 13 Jul 2022 15:51:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=YrRHsclYAmYjQUGPGUPTa41F8QUV3giK/bxQrlXoyFg=;
+        b=kJQAk/SayfcLlqN5iCohGaDkfrcIO5YDctXgoijvMRrtx6raJ5zinSdwfx5daQW0YB
+         bR2eN6fq7yLGTf9TZX7hYVvr8d7ffhYssK6yPylVPUNRNxmTbaqlK6wWuNOemR23hEbi
+         HJhMHcgHSlicjEihW53hX60En5oTI6tuR/OLjA9qkgIWX1/k5HZE2bc5FikrVVSelplt
+         3Dhs4zhAyzseGIr04qvQ1V5iZKV/1HSqAYzLH0P2K+aO+h47V+iZhaeN8Q0Jke2Sm9dJ
+         osnvaTecHMqFW9uSZPwzKv3pkb8q6alhnLii3dlbhqX+4sVQ4RBNPK/rNwS58MImfmCB
+         EpOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=GNtNspQ7ufX/7l3qNBxVep1F3AGBAOu1ulHpdR7LRfc=;
-        b=vDrF99fftYXMRBRxXVJM4OO3H9qbwWI8M7m3sJ1r4PsDJqWYJJqmL7BGktyDlpM1U3
-         UmdweU8i/xZ/NP2I0Ylb8weQNs3lN7s2G7UtaaZFgmn6AiNBTT0xq90+EQQq2HB5YK7G
-         sFq6usseVTupY5g0zWRqg2QPj7HdplilFCaE1IahMhtt7cmLoKRQfHxgE+Pfq9FDFqD/
-         1k5eAjar69buWgR3FK3hW2AaXzD5+yz0D6J1jIoB49Apnt7vqXiKwQDzkUtrPkv5q3rI
-         HKrv/8eOMePBEyIX7tXmLr2mIk1JUxjHJxlQ1F0uea2PiEMKMJd57EIvyqlSPXGHlx0N
-         iQ3A==
-X-Gm-Message-State: AJIora+nOu346FBoKhrgexFTvAetPXDJBI16l0vLqWr5/JYtE3vv3i/x
-        FsO7ekKjg+pPyhWRpCTAaO/DZ1opVVj5LoARDei/j6D84WNR2K7QfIX/bgjlj5fh/bENu+4rd8P
-        nKkNvjJ6nfJBeyvJlnXc2
-X-Received: by 2002:a05:6808:140d:b0:339:e00e:afb1 with SMTP id w13-20020a056808140d00b00339e00eafb1mr2825669oiv.81.1657750036213;
-        Wed, 13 Jul 2022 15:07:16 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1uEvFxl9rP9NFV64gFM86/GXbJZARS8v3Lv8M/gTEDUsgw0YivueIDmJYq2iS+M92gnYHJu7A==
-X-Received: by 2002:a05:6808:140d:b0:339:e00e:afb1 with SMTP id w13-20020a056808140d00b00339e00eafb1mr2825658oiv.81.1657750036026;
-        Wed, 13 Jul 2022 15:07:16 -0700 (PDT)
-Received: from localhost.localdomain (024-205-208-113.res.spectrum.com. [24.205.208.113])
-        by smtp.gmail.com with ESMTPSA id bu27-20020a0568300d1b00b0061b8653b0c9sm34031otb.22.2022.07.13.15.07.13
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 13 Jul 2022 15:07:15 -0700 (PDT)
-Subject: Re: [PATCH v3 1/2] Documentation: fpga: dfl: add PCI Identification
- documentation
-To:     matthew.gerlach@linux.intel.com, hao.wu@intel.com,
-        yilun.xu@intel.com, russell.h.weight@intel.com,
-        basheer.ahmed.muddebihal@intel.com, mdf@kernel.org, corbet@lwn.net,
-        linux-fpga@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, tianfei.zhang@intel.com
-References: <20220707150549.265621-1-matthew.gerlach@linux.intel.com>
- <20220707150549.265621-2-matthew.gerlach@linux.intel.com>
-From:   Tom Rix <trix@redhat.com>
-Message-ID: <8180679b-1d71-a527-74f2-d77460ea9902@redhat.com>
-Date:   Wed, 13 Jul 2022 15:07:12 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=YrRHsclYAmYjQUGPGUPTa41F8QUV3giK/bxQrlXoyFg=;
+        b=tdUZgE1zKvBtR2MBBZ1gykjAFNPWpegKf6FxU1WXLwPc2MvMA/dZZYExogVMASReh3
+         utCSUaecimjtz1vY5gC2xF+xQfGdz1Xi53LfPUtl3t/8tqP8Z8WvKwMTVSnN3e9aXf8p
+         ShccYh75Z7aMfv2WTEJpEl59LGKtk4+1S58Z1aG+5vMHfUVDUejEy/uCvwIa8GIVbxDk
+         6+cdjZujvRQOKzWTeS4XHWl58j21AzFEMKdzL7OE7wznCfcxNrnRQOXebHo/0FmWWT4F
+         F3sy2VyojhRWwPGXVA2x3YAdNvR7Ihi7gWB/02kjfIWqkFXzU3TBZTRKljjjITCiw3mA
+         2A7w==
+X-Gm-Message-State: AJIora9qJ2kH/MdAA4JFhkADxAXDun3PU6UJFHFHHvkpwCEHv+A/AIKe
+        SXsj/HglTAb6QR2WgzbhU6ejtIK0Xvygig==
+X-Google-Smtp-Source: AGRyM1twELZS2yy7vhdj4iMfY+k/yal/ZTV0lykHX+1VszeqFgDnfbi7uIX8FqPg3kwu32eYHSd8aQ==
+X-Received: by 2002:a17:907:9606:b0:70a:e140:6329 with SMTP id gb6-20020a170907960600b0070ae1406329mr5772604ejc.471.1657752667983;
+        Wed, 13 Jul 2022 15:51:07 -0700 (PDT)
+Received: from junglepc.fritz.box (h081217087223.dyn.cm.kabsi.at. [81.217.87.223])
+        by smtp.gmail.com with ESMTPSA id fg16-20020a1709069c5000b006fec27575f1sm5445281ejc.123.2022.07.13.15.51.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 13 Jul 2022 15:51:07 -0700 (PDT)
+From:   sndanailov@gmail.com
+To:     corbet@lwn.net
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Sotir Danailov <sndanailov@gmail.com>
+Subject: [PATCH] Documentation: process: Update email client instructions for Thunderbird
+Date:   Thu, 14 Jul 2022 00:50:37 +0200
+Message-Id: <20220713225037.1201-1-sndanailov@gmail.com>
+X-Mailer: git-send-email 2.37.0
 MIME-Version: 1.0
-In-Reply-To: <20220707150549.265621-2-matthew.gerlach@linux.intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+From: Sotir Danailov <sndanailov@gmail.com>
 
-On 7/7/22 8:05 AM, matthew.gerlach@linux.intel.com wrote:
-> From: Matthew Gerlach <matthew.gerlach@linux.intel.com>
->
-> Add documentation on identifying FPGA based PCI cards prompted
-> by discussion on the linux-fpga@vger.kernel.org mailing list.
->
-> Signed-off-by: Matthew Gerlach <matthew.gerlach@linux.intel.com>
-> ---
-> v3: Add url to page tracking PCI ID information for DFL based cards.
->
-> v2: Introduced in v2.
-> ---
->   Documentation/fpga/dfl.rst | 21 +++++++++++++++++++++
->   1 file changed, 21 insertions(+)
->
-> diff --git a/Documentation/fpga/dfl.rst b/Documentation/fpga/dfl.rst
-> index 15b670926084..5144775b860a 100644
-> --- a/Documentation/fpga/dfl.rst
-> +++ b/Documentation/fpga/dfl.rst
-> @@ -507,6 +507,27 @@ ids application.
->   https://github.com/OPAE/dfl-feature-id
->   
->   
-> +PCI Device Identification
-> +================================
-> +Since FPGA based PCI cards can be reconfigured to a perform a completely
-> +new function at runtime, properly identifying such cards and binding the
-> +correct driver can be challenging. In many use cases, deployed FPGA based
-> +PCI cards are essentially static and the PCI Product ID and Vendor ID pair
-> +is sufficient to identify the card.  The DFL framework helps with the
-> +dynamic case of deployed FPGA cards changing at run time by providing
-> +more detailed information about card discoverable at runtime.
-> +
-> +At one level, the DFL on a PCI card describes the function of the card.
-> +However, the same DFL could be instantiated on different physical cards.
-> +Conversely, different DFLs could be instantiated on the same physical card.
-> +Practical management of a cloud containing a heterogeneous set of such cards
-> +requires a PCI level of card identification. While the PCI Product ID and
-> +Vendor ID may be sufficient to bind the dfl-pci driver, it is expected
-> +that FPGA PCI cards would advertise suitable Subsystem ID and Subsystem
-> +Vendor ID values. Further PCI Product, Vendor, and Subsystem id tracking
-> +can be found at https://github.com/OPAE/dfl-feature-id/blob/main/dfl-pci-ids.rst.
+The instructions don't match with the current Thunderbird interface.
 
-This link looks good.
+Signed-off-by: Sotir Danailov <sndanailov@gmail.com>
+---
+ Documentation/process/email-clients.rst | 13 ++++++-------
+ 1 file changed, 6 insertions(+), 7 deletions(-)
 
-It may be good to be explicit and say which device(s) needs to be 
-specified by the quadruple.
-
-Reviewed-by: Tom Rix <trix@redhat.com>
-
-> +
-> +
->   Location of DFLs on a PCI Device
->   ================================
->   The original method for finding a DFL on a PCI device assumed the start of the
+diff --git a/Documentation/process/email-clients.rst b/Documentation/process/email-clients.rst
+index 16586f6cc888..243203d73272 100644
+--- a/Documentation/process/email-clients.rst
++++ b/Documentation/process/email-clients.rst
+@@ -280,10 +280,10 @@ to coerce it into behaving.
+ - Allow use of an external editor:
+   The easiest thing to do with Thunderbird and patches is to use an
+   "external editor" extension and then just use your favorite ``$EDITOR``
+-  for reading/merging patches into the body text.  To do this, download
+-  and install the extension, then add a button for it using
+-  :menuselection:`View-->Toolbars-->Customize...` and finally just click on it
+-  when in the :menuselection:`Compose` dialog.
++  for reading/merging patches into the body text. To do this, download
++  and install the extension, then open :menuselection:`Write` and add a button
++  for it using :menuselection:`View-->Toolbars-->Customize...` and finally
++  just click on the new button when you wish to use the external editor.
+ 
+   Please note that "external editor" requires that your editor must not
+   fork, or in other words, the editor must not return before closing.
+@@ -297,7 +297,8 @@ to coerce it into behaving.
+ To beat some sense out of the internal editor, do this:
+ 
+ - Edit your Thunderbird config settings so that it won't use ``format=flowed``.
+-  Go to :menuselection:`edit-->preferences-->advanced-->config editor` to bring up
++  Go to your main window and find the button for your main dropdown menu.
++  :menuselection:`Menu-->Preferences-->General-->Config Editor...` to bring up
+   the thunderbird's registry editor.
+ 
+ - Set ``mailnews.send_plaintext_flowed`` to ``false``
+@@ -306,8 +307,6 @@ To beat some sense out of the internal editor, do this:
+ 
+ - :menuselection:`View-->Message Body As-->Plain Text`
+ 
+-- :menuselection:`View-->Character Encoding-->Unicode (UTF-8)`
+-
+ TkRat (GUI)
+ ***********
+ 
+-- 
+2.37.0
 
