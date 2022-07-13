@@ -2,165 +2,123 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0AC97C433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 13 Jul 2022 23:46:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8AB10CCA47C
+	for <linux-doc@archiver.kernel.org>; Wed, 13 Jul 2022 23:52:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231419AbiGMXqa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 13 Jul 2022 19:46:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55492 "EHLO
+        id S231326AbiGMXwd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 13 Jul 2022 19:52:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58746 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229598AbiGMXq3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Jul 2022 19:46:29 -0400
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E49DA4D4D3
-        for <linux-doc@vger.kernel.org>; Wed, 13 Jul 2022 16:46:28 -0700 (PDT)
+        with ESMTP id S230371AbiGMXwc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Jul 2022 19:52:32 -0400
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31ABE52DF2;
+        Wed, 13 Jul 2022 16:52:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1657755988; x=1689291988;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Vqewqu+V5/PEFIJYsEWdExeBWYsfJPF7XlXLCyGl8wY=;
-  b=ZAiTlc5A8ACrWj/Ip43Gqof53fJbdEOHgRLu9vzyBgi3FfLNs/9aEjx1
-   CprdSes19fSUpQieX2rAwZEdxS5n9pDZs48sHSdEwTE3P2FBsvW2u2fLY
-   8c256YK3Wfd4+NXztaWbgSpsHhzX2DOBNVtl9VYg+M54F9HztVlQ82vcJ
-   EOqheyH2SPTTQN2qn8QUwN9nTyt4SOVNyl96402oRBkjKFbQmEMk8ojaT
-   Ly6H2wtkGQmG91rLapZKngUTJTYNnDkMKI2hGVKWnJz9Vb8Fje0CliwRG
-   CJpOoXv/WUvzd/aPUjXaSG8SzL3X0gGFAD1k5Ymbbu5JBq4KDTpHQAjW2
-   Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10407"; a="311019013"
+  t=1657756351; x=1689292351;
+  h=date:from:to:cc:subject:message-id:reply-to:references:
+   mime-version:in-reply-to;
+  bh=d4b95Nutiv+fVkeoTmmbeGdels6G19ALZ7QCpFCTTwc=;
+  b=ec0iUFs99XSrMBcTD4mfXpTGHIwEqAsiwpuU0GWzLKvYLXib/Azi8/Ly
+   9SiWuFCJyvAZfo7rLKu5nf79sZvP+XJ6uh10Bz4eaKKMTjP83DO/NRwwk
+   m2H19M4PddgwWJsAoRb8+MPNz4kFHILwnuhNGexn3kqyeiEwcLlDCXmaR
+   f/0qxuApQRvbaQdu1Pxx0cgYHtScpq0DVs3CUY6sQAG+li45pLMiuilKj
+   9aEC94fvRy0+sWgWzOfKcnrFNwVTXXH0vp4CRxjh+iFcQB6PrH+VabVvQ
+   mFbVzKYeTFIA9a93CFf+yAD4urjaNXi2VrlFY5v1J6eCWO7OiDlGD4o6Y
+   w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10407"; a="371685475"
 X-IronPort-AV: E=Sophos;i="5.92,269,1650956400"; 
-   d="scan'208";a="311019013"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jul 2022 16:46:28 -0700
+   d="scan'208";a="371685475"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jul 2022 16:52:30 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.92,269,1650956400"; 
-   d="scan'208";a="595890020"
-Received: from lkp-server02.sh.intel.com (HELO 8708c84be1ad) ([10.239.97.151])
-  by orsmga002.jf.intel.com with ESMTP; 13 Jul 2022 16:46:26 -0700
-Received: from kbuild by 8708c84be1ad with local (Exim 4.95)
-        (envelope-from <lkp@intel.com>)
-        id 1oBm3m-0003v3-1b;
-        Wed, 13 Jul 2022 23:46:26 +0000
-Date:   Thu, 14 Jul 2022 07:45:46 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Xiubo Li <xiubli@redhat.com>
-Cc:     kbuild-all@lists.01.org,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        Ilya Dryomov <idryomov@gmail.com>,
-        David Howells <dhowells@redhat.com>, linux-doc@vger.kernel.org
-Subject: [linux-next:master 9878/10347] htmldocs:
- Documentation/filesystems/netfs_library.rst:384: WARNING: Inline emphasis
- start-string without end-string.
-Message-ID: <202207140742.GTPk4U8i-lkp@intel.com>
+   d="scan'208";a="593176855"
+Received: from chaop.bj.intel.com (HELO localhost) ([10.240.192.101])
+  by orsmga007.jf.intel.com with ESMTP; 13 Jul 2022 16:52:20 -0700
+Date:   Thu, 14 Jul 2022 07:49:03 +0800
+From:   Chao Peng <chao.p.peng@linux.intel.com>
+To:     "Gupta, Pankaj" <pankaj.gupta@amd.com>
+Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+        qemu-devel@nongnu.org, linux-kselftest@vger.kernel.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sean Christopherson <seanjc@google.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com,
+        Quentin Perret <qperret@google.com>,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+        Muchun Song <songmuchun@bytedance.com>
+Subject: Re: [PATCH v7 04/14] mm/shmem: Support memfile_notifier
+Message-ID: <20220713234903.GA2881285@chaop.bj.intel.com>
+Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
+References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
+ <20220706082016.2603916-5-chao.p.peng@linux.intel.com>
+ <c4112b84-9359-d4c8-1852-0057c074607c@amd.com>
+ <20220713074458.GB2831541@chaop.bj.intel.com>
+ <74097857-1908-2ff2-1e54-bf7e658ea6c6@amd.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <74097857-1908-2ff2-1e54-bf7e658ea6c6@amd.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   4662b7adea50bb62e993a67f611f3be625d3df0d
-commit: 157be6ddd9e43835f36264b7bd41a918680ad841 [9878/10347] netfs: do not unlock and put the folio twice
-reproduce: make htmldocs
+On Wed, Jul 13, 2022 at 12:01:13PM +0200, Gupta, Pankaj wrote:
+> 
+> > > > +#ifdef CONFIG_MIGRATION
+> > > > +static int shmem_migrate_page(struct address_space *mapping,
+> > > > +			      struct page *newpage, struct page *page,
+> > > > +			      enum migrate_mode mode)
+> > > > +{
+> > > > +	struct inode *inode = mapping->host;
+> > > > +	struct shmem_inode_info *info = SHMEM_I(inode);
+> > > > +
+> > > > +	if (info->memfile_node.flags & MEMFILE_F_UNMOVABLE)
+> > > > +		return -EOPNOTSUPP;
+> > > > +	return migrate_page(mapping, newpage, page, mode);
+> > > 
+> > > Wondering how well page migrate would work for private pages
+> > > on shmem memfd based backend?
+> > 
+> >  From high level:
+> >    - KVM unset MEMFILE_F_UNMOVABLE bit to indicate it capable of
+> >      migrating a page.
+> >    - Introduce new 'migrate' callback(s) to memfile_notifier_ops for KVM
+> >      to register.
+> >    - The callback is hooked to migrate_page() here.
+> >    - Once page migration requested, shmem calls into the 'migrate'
+> >      callback(s) to perform additional steps for encrypted memory (For
+> >      TDX we will call TDH.MEM.PAGE.RELOCATE).
+> 
+> Yes, that would require additional (protocol specific) handling for private
+> pages. Was trying to find where "MEMFILE_F_UNMOVABLE" flag is set currently?
 
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
+It's set with memfile_register_notifier() in patch 13.
 
-All warnings (new ones prefixed by >>):
-
->> Documentation/filesystems/netfs_library.rst:384: WARNING: Inline emphasis start-string without end-string.
->> Documentation/filesystems/netfs_library:609: fs/netfs/buffered_read.c:318: WARNING: Inline emphasis start-string without end-string.
-
-vim +384 Documentation/filesystems/netfs_library.rst
-
-   309	
-   310	 * ``init_request()``
-   311	
-   312	   [Optional] This is called to initialise the request structure.  It is given
-   313	   the file for reference.
-   314	
-   315	 * ``free_request()``
-   316	
-   317	   [Optional] This is called as the request is being deallocated so that the
-   318	   filesystem can clean up any state it has attached there.
-   319	
-   320	 * ``begin_cache_operation()``
-   321	
-   322	   [Optional] This is called to ask the network filesystem to call into the
-   323	   cache (if present) to initialise the caching state for this read.  The netfs
-   324	   library module cannot access the cache directly, so the cache should call
-   325	   something like fscache_begin_read_operation() to do this.
-   326	
-   327	   The cache gets to store its state in ->cache_resources and must set a table
-   328	   of operations of its own there (though of a different type).
-   329	
-   330	   This should return 0 on success and an error code otherwise.  If an error is
-   331	   reported, the operation may proceed anyway, just without local caching (only
-   332	   out of memory and interruption errors cause failure here).
-   333	
-   334	 * ``expand_readahead()``
-   335	
-   336	   [Optional] This is called to allow the filesystem to expand the size of a
-   337	   readahead read request.  The filesystem gets to expand the request in both
-   338	   directions, though it's not permitted to reduce it as the numbers may
-   339	   represent an allocation already made.  If local caching is enabled, it gets
-   340	   to expand the request first.
-   341	
-   342	   Expansion is communicated by changing ->start and ->len in the request
-   343	   structure.  Note that if any change is made, ->len must be increased by at
-   344	   least as much as ->start is reduced.
-   345	
-   346	 * ``clamp_length()``
-   347	
-   348	   [Optional] This is called to allow the filesystem to reduce the size of a
-   349	   subrequest.  The filesystem can use this, for example, to chop up a request
-   350	   that has to be split across multiple servers or to put multiple reads in
-   351	   flight.
-   352	
-   353	   This should return 0 on success and an error code on error.
-   354	
-   355	 * ``issue_read()``
-   356	
-   357	   [Required] The helpers use this to dispatch a subrequest to the server for
-   358	   reading.  In the subrequest, ->start, ->len and ->transferred indicate what
-   359	   data should be read from the server.
-   360	
-   361	   There is no return value; the netfs_subreq_terminated() function should be
-   362	   called to indicate whether or not the operation succeeded and how much data
-   363	   it transferred.  The filesystem also should not deal with setting folios
-   364	   uptodate, unlocking them or dropping their refs - the helpers need to deal
-   365	   with this as they have to coordinate with copying to the local cache.
-   366	
-   367	   Note that the helpers have the folios locked, but not pinned.  It is
-   368	   possible to use the ITER_XARRAY iov iterator to refer to the range of the
-   369	   inode that is being operated upon without the need to allocate large bvec
-   370	   tables.
-   371	
-   372	 * ``is_still_valid()``
-   373	
-   374	   [Optional] This is called to find out if the data just read from the local
-   375	   cache is still valid.  It should return true if it is still valid and false
-   376	   if not.  If it's not still valid, it will be reread from the server.
-   377	
-   378	 * ``check_write_begin()``
-   379	
-   380	   [Optional] This is called from the netfs_write_begin() helper once it has
-   381	   allocated/grabbed the folio to be modified to allow the filesystem to flush
-   382	   conflicting state before allowing it to be modified.
-   383	
- > 384	   It may unlock and discard the folio it was given and set the caller's folio
-   385	   pointer to NULL.  It should return 0 if everything is now fine (*foliop
-   386	   left set) or the op should be retried (*foliop cleared) and any other error
-   387	   code to abort the operation.
-   388	
-   389	 * ``done``
-   390	
-   391	   [Optional] This is called after the folios in the request have all been
-   392	   unlocked (and marked uptodate if applicable).
-   393	
-   394	
-   395	
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+> 
+> Thanks,
+> Pankaj
