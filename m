@@ -2,177 +2,105 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 18314C43334
-	for <linux-doc@archiver.kernel.org>; Wed, 13 Jul 2022 19:34:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B81FC43334
+	for <linux-doc@archiver.kernel.org>; Wed, 13 Jul 2022 19:55:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236942AbiGMTeo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 13 Jul 2022 15:34:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50288 "EHLO
+        id S236545AbiGMTz0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 13 Jul 2022 15:55:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34658 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236815AbiGMTen (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Jul 2022 15:34:43 -0400
-Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com [199.106.114.39])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88D2C27160;
-        Wed, 13 Jul 2022 12:34:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
-  t=1657740882; x=1689276882;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=Jd8Hi43evaBgn191EKvHjKni5pg8aaEABaiuOpMfmpY=;
-  b=JiVmJGECVs/BaVSojXgdlEvL35abqJgfdHtfLbnuqbhnRcqhGp1Z5vVX
-   r6Ja+MI3gSfDge+nPrINcJZSJ+RjXcQ/63yjmYnWyIIEs1hONdUfdNLH9
-   y7B1KhX9jt9kV/cTBbp+0Qy8ivh7VOgWNnlVF6Zz5Ib9DAJ1EIqQpRNqV
-   4=;
-Received: from unknown (HELO ironmsg03-sd.qualcomm.com) ([10.53.140.143])
-  by alexa-out-sd-02.qualcomm.com with ESMTP; 13 Jul 2022 12:34:41 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
-  by ironmsg03-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jul 2022 12:34:40 -0700
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Wed, 13 Jul 2022 12:34:39 -0700
-Received: from hu-amelende-lv.qualcomm.com (10.49.16.6) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Wed, 13 Jul 2022 12:34:39 -0700
-From:   Anjelique Melendez <quic_amelende@quicinc.com>
-To:     <corbet@lwn.net>, <sre@kernel.org>, <robh+dt@kernel.org>,
-        <agross@kernel.org>, <bjorn.andersson@linaro.org>
-CC:     <krzysztof.kozlowski+dt@linaro.org>, <vkoul@kernel.org>,
-        <linux-doc@vger.kernel.org>, <linux-pm@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        David Collins <quic_collinsd@quicinc.com>,
-        Anjelique Melendez <quic_amelende@quicinc.com>
-Subject: [PATCH v3 1/2] dt-bindings: power: reset: qcom-pon: update "reg" property details
-Date:   Wed, 13 Jul 2022 12:33:50 -0700
-Message-ID: <20220713193350.29796-2-quic_amelende@quicinc.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220713193350.29796-1-quic_amelende@quicinc.com>
-References: <20220713193350.29796-1-quic_amelende@quicinc.com>
+        with ESMTP id S236481AbiGMTzZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Jul 2022 15:55:25 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A514E2C10B;
+        Wed, 13 Jul 2022 12:55:24 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id E53A42DC;
+        Wed, 13 Jul 2022 19:55:23 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net E53A42DC
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1657742124; bh=kWuy+rhA64DMuaeB8TXkfZuZB3wkP5La509m4dy0efY=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=mArs6LEWNaAk+iHmyQSAl69AaESH+41g2IDJbSWgJgpuSYtYxyBoaYvKDtFGGUixl
+         Dzuf22cFyz32w9jrysA4i+iVXRq9WDjxAp7ScW2+y648C0HyVF6JAp+kUzfPcwZcGx
+         l+Sib19W+wht/f8KWBKxML2qiXsCLa3eBX02W5RPaYNxn51t+qhrn+RII7U3v5V+gj
+         cGmoaW1IaeeF0ppkXWWfJKei7/BHfSjFfeCE9b94gqahyr8mtpV7KQSnD5C4YFgaol
+         Sh8q5KIRJH5HSKZWtap5yAZy7C78fte2CsGh3cDt6Sz4GHHvmySC+EK11ob/VCN1aU
+         vrXsmdV1nsLsA==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        Federico Vaga <federico.vaga@vaga.pv.it>,
+        Alex Shi <alexs@kernel.org>,
+        Yanteng Si <siyanteng@loongson.cn>,
+        Hu Haowen <src.res@email.cn>, linux-doc@vger.kernel.org,
+        linux-doc-tw-discuss@lists.sourceforge.net
+Cc:     Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        linux-hwmon@vger.kernel.org, kernel-janitors@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Subject: Re: [PATCH 00/11] docs: remove submitting-drivers.rst
+In-Reply-To: <20220704122537.3407-1-lukas.bulwahn@gmail.com>
+References: <20220704122537.3407-1-lukas.bulwahn@gmail.com>
+Date:   Wed, 13 Jul 2022 13:55:23 -0600
+Message-ID: <87sfn44wk4.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Originating-IP: [10.49.16.6]
-X-ClientProxiedBy: nalasex01a.na.qualcomm.com (10.47.209.196) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: David Collins <quic_collinsd@quicinc.com>
+Lukas Bulwahn <lukas.bulwahn@gmail.com> writes:
 
-Update the description of "reg" property to add the PON_PBS base
-address along with PON_HLOS base address.  Also add "reg-names"
-property description.
+> Dear Jonathan, dear Federico, dear Alex, dear Yanteng, dear Hu,
+>
+> Here is an attempt to delete submitting-drivers with some improvements
+> and clean-up in other documentation places to convince ourselves that
+> nothing valuable is lost when deleting this checklist.
 
-Signed-off-by: David Collins <quic_collinsd@quicinc.com>
-Signed-off-by: Anjelique Melendez <quic_amelende@quicinc.com>
----
- Documentation/devicetree/bindings/power/reset/qcom,pon.yaml | 73 ++++++++++++++++++++++++++++--
- 1 file changed, 69 insertions(+), 4 deletions(-)
+So my purpose today was to go ahead and apply these patches, but ...
 
-diff --git a/Documentation/devicetree/bindings/power/reset/qcom,pon.yaml b/Documentation/devicetree/bindings/power/reset/qcom,pon.yaml
-index 353f155d..562fe308 100644
---- a/Documentation/devicetree/bindings/power/reset/qcom,pon.yaml
-+++ b/Documentation/devicetree/bindings/power/reset/qcom,pon.yaml
-@@ -15,18 +15,26 @@ description: |
- 
-   This DT node has pwrkey and resin as sub nodes.
- 
--allOf:
--  - $ref: reboot-mode.yaml#
--
- properties:
-   compatible:
-     enum:
-       - qcom,pm8916-pon
-       - qcom,pms405-pon
-       - qcom,pm8998-pon
-+      - qcom,pmk8350-pon
- 
-   reg:
--    maxItems: 1
-+    description: |
-+      Specifies the SPMI base address for the PON (power-on) peripheral.  For
-+      PMICs that have the PON peripheral (GEN3) split into PON_HLOS and PON_PBS
-+      (e.g. PMK8350), this can hold addresses of both PON_HLOS and PON_PBS
-+      peripherals.  In that case, the PON_PBS address needs to be specified to
-+      facilitate software debouncing on some PMIC.
-+
-+  reg-names:
-+    description: |
-+      For PON GEN1 and GEN2, it should be "pon". For PON GEN3 it should include
-+      "hlos" and optionally "pbs".
- 
-   pwrkey:
-     type: object
-@@ -42,6 +50,63 @@ required:
- 
- unevaluatedProperties: false
- 
-+allOf:
-+  - $ref: reboot-mode.yaml#
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            const: qcom,pm8916-pon
-+    then:
-+      properties:
-+        reg:
-+          maxItems: 1
-+        reg-names:
-+          items:
-+            - const: pon
-+
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            const: qcom,pms405-pon
-+    then:
-+      properties:
-+        reg:
-+          maxItems: 1
-+        reg-names:
-+          items:
-+            - const: pon
-+
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            const: qcom,pm8998-pon
-+    then:
-+      properties:
-+        reg:
-+          maxItems: 1
-+        reg-names:
-+          items:
-+            - const: pon
-+
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            const: qcom,pmk8350-pon
-+    then:
-+      properties:
-+        reg:
-+          minItems: 1
-+          maxItems: 2
-+        reg-names:
-+          minItems: 1
-+          items:
-+            - const: hlos
-+            - const: pbs
-+
- examples:
-   - |
-    #include <dt-bindings/interrupt-controller/irq.h>
--- 
-2.35.1
+> Patch 1, 2 and 3 is just basic clean-up before adding a new reference (see
+> Patch 4). Patch 4 adds the one reference from submitting-drivers, not
+> already mentioned elsewhere in the repository. Patch 5 updates a confusing
+> statement in devices.rst from earlier .txt/.tex distinction times to the
+> new state now with Sphinx & .rst.
+>
+> Patch 6 finally deletes the outdated document, with a cross-check what is
+> covered elsewhere and few open questions (see below).
+>
+> Patch 7 and 8 have been reworked with the native-speaking doc maintainers;
+> they cause no new warnings and are ready to pick,
+>
+> Patch 9 to 11 are weak attempts to adjust the translation, but they need
+> to be taken further by others due to my lack of knowledge on the other
+> languages.  They would currently also cause new warnings in the doc-build
+> right now. They should not be picked if there is no one to continue
+> to adjust the text and fix the warnings on broken references.
+>
+> I hope that patches 1 to 8 can be picked into doc-next, and then we see
+> how to fix up the translations as well.
 
+...even if I do that I get warnings:
+
+  Documentation/translations/zh_CN/process/howto.rst:98: WARNING:
+  undefined label: submittingdrivers (if the link has no caption the
+  label must precede a section header)
+
+it's actually better if I apply the full series, but there's still a few
+of them.  I *really* don't want to add more warnings to the docs build,
+so I've backed off for now.
+
+Alex, can you fix the remaining references in zh_CN?
+
+For zh_TW I'm wondering ... that is increasingly looking like an
+unmaintained drive-by submission.  I suppose we can just brute-force
+remove the references, but I once again find myself wondering about the
+value of this translation.  Is there anybody out there who cares about
+it who could fix this up properly?
+
+Thanks,
+
+jon
