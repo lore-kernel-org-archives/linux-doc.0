@@ -2,104 +2,66 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B81FC43334
-	for <linux-doc@archiver.kernel.org>; Wed, 13 Jul 2022 19:55:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B6D6C433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 13 Jul 2022 19:58:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236545AbiGMTz0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 13 Jul 2022 15:55:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34658 "EHLO
+        id S231760AbiGMT6z (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 13 Jul 2022 15:58:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36602 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236481AbiGMTzZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Jul 2022 15:55:25 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A514E2C10B;
-        Wed, 13 Jul 2022 12:55:24 -0700 (PDT)
+        with ESMTP id S236869AbiGMT6y (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Jul 2022 15:58:54 -0400
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61BD110FC2;
+        Wed, 13 Jul 2022 12:58:52 -0700 (PDT)
 Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id E53A42DC;
-        Wed, 13 Jul 2022 19:55:23 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net E53A42DC
+        by ms.lwn.net (Postfix) with ESMTPSA id DE2432B2;
+        Wed, 13 Jul 2022 19:58:51 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net DE2432B2
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1657742124; bh=kWuy+rhA64DMuaeB8TXkfZuZB3wkP5La509m4dy0efY=;
+        t=1657742332; bh=IpR5hlvA3X6EpAnWpcb8qaW0WD5H/zI6yHsfztl/DTM=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=mArs6LEWNaAk+iHmyQSAl69AaESH+41g2IDJbSWgJgpuSYtYxyBoaYvKDtFGGUixl
-         Dzuf22cFyz32w9jrysA4i+iVXRq9WDjxAp7ScW2+y648C0HyVF6JAp+kUzfPcwZcGx
-         l+Sib19W+wht/f8KWBKxML2qiXsCLa3eBX02W5RPaYNxn51t+qhrn+RII7U3v5V+gj
-         cGmoaW1IaeeF0ppkXWWfJKei7/BHfSjFfeCE9b94gqahyr8mtpV7KQSnD5C4YFgaol
-         Sh8q5KIRJH5HSKZWtap5yAZy7C78fte2CsGh3cDt6Sz4GHHvmySC+EK11ob/VCN1aU
-         vrXsmdV1nsLsA==
+        b=DgnXAwHTuwK0AI6gMGeBTqnAKT0ySEhGkdJp3CJAPq8BCx740CXNa4vQBgL74LPu4
+         gEgy3MJk19zwvm911nfQaalTofeL4rY5y7zX6YpBV/4ZizTRHiJtR03CJtQgRp+4iN
+         EksFbgbQ057YaObvTrgAlouSKLqFvLgPlebb1XY0CkPETzWCh/q/dmLl4g+SUh0/6b
+         gMbW9HCONv/1rX8plqkMFRkO1YXR3CyZ/o/SigciSWEzyeQGRShD1Xr7tGEwpxlstX
+         8TDGUmFYdvDb95qdc6a+G6taEiyXTOkQ5mSHyxi/7y+lQhEu8EB7w0yVuLYW4C7xQM
+         HaRv5fTUMNwjw==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        Federico Vaga <federico.vaga@vaga.pv.it>,
-        Alex Shi <alexs@kernel.org>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Hu Haowen <src.res@email.cn>, linux-doc@vger.kernel.org,
-        linux-doc-tw-discuss@lists.sourceforge.net
-Cc:     Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        linux-hwmon@vger.kernel.org, kernel-janitors@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Subject: Re: [PATCH 00/11] docs: remove submitting-drivers.rst
-In-Reply-To: <20220704122537.3407-1-lukas.bulwahn@gmail.com>
-References: <20220704122537.3407-1-lukas.bulwahn@gmail.com>
-Date:   Wed, 13 Jul 2022 13:55:23 -0600
-Message-ID: <87sfn44wk4.fsf@meer.lwn.net>
+To:     Thorsten Leemhuis <linux@leemhuis.info>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Subject: Re: Update "If something goes wrong" in
+ Documentation/admin-guide/README.rst
+In-Reply-To: <1dc0ab09-2cfd-a310-d1da-ef7d3cc47a71@leemhuis.info>
+References: <CAKXUXMy2WfsRj+nJuNCV4bPNYTvDySLOq3HgpK+gWJSpWS81Kg@mail.gmail.com>
+ <1dc0ab09-2cfd-a310-d1da-ef7d3cc47a71@leemhuis.info>
+Date:   Wed, 13 Jul 2022 13:58:51 -0600
+Message-ID: <87o7xs4wec.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Lukas Bulwahn <lukas.bulwahn@gmail.com> writes:
+Thorsten Leemhuis <linux@leemhuis.info> writes:
 
-> Dear Jonathan, dear Federico, dear Alex, dear Yanteng, dear Hu,
->
-> Here is an attempt to delete submitting-drivers with some improvements
-> and clean-up in other documentation places to convince ourselves that
-> nothing valuable is lost when deleting this checklist.
+> Maybe just copying the "short guide" from the top of
+> reporting-issues.rst might be the most elegant solution for README.rst
+> while adding the link your mentioned (maybe while adding a comment to
+> reporting-issues.rst saying something like 'if you update this section,
+> update the copy over there, too'). But I'm not sure myself right now if
+> that's really the best way forward; maybe a few modifications might be
+> good here. Let's see what Jonathan says.
 
-So my purpose today was to go ahead and apply these patches, but ...
+Let's not duplicate the text; why not just link over to
+reporting-issues.rst?
 
-> Patch 1, 2 and 3 is just basic clean-up before adding a new reference (see
-> Patch 4). Patch 4 adds the one reference from submitting-drivers, not
-> already mentioned elsewhere in the repository. Patch 5 updates a confusing
-> statement in devices.rst from earlier .txt/.tex distinction times to the
-> new state now with Sphinx & .rst.
->
-> Patch 6 finally deletes the outdated document, with a cross-check what is
-> covered elsewhere and few open questions (see below).
->
-> Patch 7 and 8 have been reworked with the native-speaking doc maintainers;
-> they cause no new warnings and are ready to pick,
->
-> Patch 9 to 11 are weak attempts to adjust the translation, but they need
-> to be taken further by others due to my lack of knowledge on the other
-> languages.  They would currently also cause new warnings in the doc-build
-> right now. They should not be picked if there is no one to continue
-> to adjust the text and fix the warnings on broken references.
->
-> I hope that patches 1 to 8 can be picked into doc-next, and then we see
-> how to fix up the translations as well.
-
-...even if I do that I get warnings:
-
-  Documentation/translations/zh_CN/process/howto.rst:98: WARNING:
-  undefined label: submittingdrivers (if the link has no caption the
-  label must precede a section header)
-
-it's actually better if I apply the full series, but there's still a few
-of them.  I *really* don't want to add more warnings to the docs build,
-so I've backed off for now.
-
-Alex, can you fix the remaining references in zh_CN?
-
-For zh_TW I'm wondering ... that is increasingly looking like an
-unmaintained drive-by submission.  I suppose we can just brute-force
-remove the references, but I once again find myself wondering about the
-value of this translation.  Is there anybody out there who cares about
-it who could fix this up properly?
+In general, README.rst has seen little attention for a long time and
+could benefit from a major thrashing, methinks.
 
 Thanks,
 
