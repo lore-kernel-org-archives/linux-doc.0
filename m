@@ -2,91 +2,100 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AEA3FC433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 13 Jul 2022 08:57:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E35CC433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 13 Jul 2022 09:41:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235866AbiGMI53 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 13 Jul 2022 04:57:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38812 "EHLO
+        id S235791AbiGMJl4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 13 Jul 2022 05:41:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59982 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235859AbiGMI5R (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Jul 2022 04:57:17 -0400
-Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com [IPv6:2607:f8b0:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9FBDFF272F;
-        Wed, 13 Jul 2022 01:57:15 -0700 (PDT)
-Received: by mail-pf1-x42b.google.com with SMTP id d10so9673038pfd.9;
-        Wed, 13 Jul 2022 01:57:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=8Cn3qMvUiEDmK/nPYV0HSMPYWM/tSk3wzAm7Cpq40Dk=;
-        b=M5/0GWZgf9t/HA0Ket9kH8p8xKxM/ioUpyEk18hA4+J5bez71ILiJWSOTaD+9NSvy1
-         8Pd2XAqBAuu/WmB+5YRu02HSfmGPqzVpnDrOFxCrGkphNVYPQ/PAvP+WoKh2tBue0XMN
-         ZWklmPECextNKytmuGT5AyVdjT773KtdMgarxoObXnT+3VjiBsPoKvPbE3owG3gJXtro
-         7kd5yMmIe26lIu6HEA8LfN+8RfOyxU/vsDCBUc3adzG1PUIHWPkvF+MqWXIeGXBI5Q2M
-         Tpc2Zj9IiGANSY4Jl5ATV/fLH6tIkiAsbTMrlbM8+W8C/Qui7orOizYhPGPFYqaogDBo
-         wVrA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=8Cn3qMvUiEDmK/nPYV0HSMPYWM/tSk3wzAm7Cpq40Dk=;
-        b=E1+4wNBBsjRqMYoVDRSf2bL+RUZWcFHsUy3HzvHzXQXXBjr068Qd69SClzfFWk9don
-         zowg5Ue2aT8z0OpPWNypo13deJzrmt6U1OpWg4uCdHtGZCED+OTOkJ6wo6sBIMOdtQAC
-         +OnHrwtxq7UqklasoJ5qBRG70xHP66mFCSKuLQ44i3OcbQzFTxebRVPMCXUFMg9nqVFL
-         8RTHyBMiJIbhwRNxi7owvL3BGNQElyaDuuDTIchD4vFpQbFd2NIGH+r5jWUslRCJBqXs
-         39P6fDLibWQKRlyqnanWAAmNHovxzkToHObHcot0YAeyMKLPp9l6exBzGQsiybT4JOE2
-         ySpQ==
-X-Gm-Message-State: AJIora902Rn7bGKaBETF21ZYSZyggibMKH9LIPkLMKMEsFEguQFTb9Jq
-        UZpFnyBL5D+g9OQF2Mu2FXsze5VHgGA=
-X-Google-Smtp-Source: AGRyM1v3xnTGYf+B+DLE2nQQf8NEsmNfuu700MRrsqOw+5A+arnmHX1YMqBRbtKgjgEB4laGmnGNCg==
-X-Received: by 2002:a63:e446:0:b0:412:937b:5a3c with SMTP id i6-20020a63e446000000b00412937b5a3cmr2119838pgk.316.1657702634930;
-        Wed, 13 Jul 2022 01:57:14 -0700 (PDT)
-Received: from debian.me (subs09a-223-255-225-69.three.co.id. [223.255.225.69])
-        by smtp.gmail.com with ESMTPSA id a10-20020aa78e8a000000b005254535a2cfsm8331962pfr.136.2022.07.13.01.57.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Jul 2022 01:57:14 -0700 (PDT)
-Received: by debian.me (Postfix, from userid 1000)
-        id 65BD010397C; Wed, 13 Jul 2022 15:57:11 +0700 (WIB)
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     linux-doc@vger.kernel.org, linux-next@vger.kernel.org
-Cc:     Bagas Sanjaya <bagasdotme@gmail.com>, linux-kernel@vger.kernel.org,
-        linux-crypto@vger.kernel.org
-Subject: [PATCH RESEND v2 0/2] Documentation: qat: documentation fixes
-Date:   Wed, 13 Jul 2022 15:56:26 +0700
-Message-Id: <20220713085627.175604-1-bagasdotme@gmail.com>
-X-Mailer: git-send-email 2.37.0
+        with ESMTP id S234469AbiGMJlz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Jul 2022 05:41:55 -0400
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61D50F5D64;
+        Wed, 13 Jul 2022 02:41:53 -0700 (PDT)
+Received: from [2a02:8108:963f:de38:eca4:7d19:f9a2:22c5]; authenticated
+        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        id 1oBYsQ-00012W-A6; Wed, 13 Jul 2022 11:41:50 +0200
+Message-ID: <1dc0ab09-2cfd-a310-d1da-ef7d3cc47a71@leemhuis.info>
+Date:   Wed, 13 Jul 2022 11:41:49 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Content-Language: en-US
+To:     Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+References: <CAKXUXMy2WfsRj+nJuNCV4bPNYTvDySLOq3HgpK+gWJSpWS81Kg@mail.gmail.com>
+From:   Thorsten Leemhuis <linux@leemhuis.info>
+Subject: Re: Update "If something goes wrong" in
+ Documentation/admin-guide/README.rst
+In-Reply-To: <CAKXUXMy2WfsRj+nJuNCV4bPNYTvDySLOq3HgpK+gWJSpWS81Kg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1657705313;f44ca44f;
+X-HE-SMSGID: 1oBYsQ-00012W-A6
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Here are documentation fixes for qat driver, as recently reported in
-linux-next. This is resend of [1], due to missing v2 subject prefix.
-Sorry for noise.
+Hi! Lukas, thx for bringing this up.
 
-Changes since v1 [2]:
-  - based on next-20220712
-  - Drop kvms390 (already applied by respective maintainer)
-  - Focused on qat driver
-  - Drop "initialize" from [2/2]
-  - Collect Acked-by from Giovanni Cabiddu
+On 13.07.22 09:26, Lukas Bulwahn wrote:
+>
+> During some other unrelated clean-up work, I stumbled upon the section
+> 'If something goes wrong' in Documentation/admin-guide/README.rst
+> (https://www.kernel.org/doc/html/latest/admin-guide/README.html).
+> README.rst is---as it seems---the intended first summary page of the
+> documentation for any user of the kernel (the kernel's release notes
+> document).
+> 
+> The section 'If something goes wrong' describes what to do when
+> encountering a bug and how to report it. The second sentence in that
+> section is especially historic and probably just discouraging for most
+> bug reporters ( ..."the second best thing is to mail them to me
+> (torvalds@linux-foundation.org)"...).
 
-[1]: https://lore.kernel.org/linux-doc/20220713030332.158525-1-bagasdotme@gmail.com/
-[2]: https://lore.kernel.org/linux-doc/20220712092954.142027-1-bagasdotme@gmail.com/
+Ha, yeah, guess so :-D
 
-Cc: linux-kernel@vger.kernel.org
-Cc: linux-crypto@vger.kernel.org
+> Some random user (potentially
+> even unknown to the community) sending an email to Linus is most
+> probably the last best thing to do and is most likely just ignored,
+> right?
 
-Bagas Sanjaya (2):
-  Documentation: qat: Use code block for qat sysfs example
-  Documentation: qat: rewrite description
+I'd say it depends on the report and would guess Linus in quite a few
+cases will act on it if the report at least somewhat good -- or about
+something important, like a bisected regression.
 
- Documentation/ABI/testing/sysfs-driver-qat | 37 ++++++++--------------
- 1 file changed, 13 insertions(+), 24 deletions(-)
+> Probably this section in README.rst needs a rewrite (summarizing
+> Thorsten's reporting-issues.rst, or just copying the summary from
+> there) and should then refer to reporting-issues.rst for more details.
 
--- 
-An old man doll... just what I always wanted! - Clara
+Well, any new summary sounds a bit like 'similar code paths for doing
+the same thing'. Sometimes that is necessary when coding, but often it's
+best avoided for known reasons. I think it's not that different for docs.
 
+Maybe just copying the "short guide" from the top of
+reporting-issues.rst might be the most elegant solution for README.rst
+while adding the link your mentioned (maybe while adding a comment to
+reporting-issues.rst saying something like 'if you update this section,
+update the copy over there, too'). But I'm not sure myself right now if
+that's really the best way forward; maybe a few modifications might be
+good here. Let's see what Jonathan says.
+
+Note, the section in README.rst you mentioned also contains a few
+aspects that reporting-issues.rst despite it's size doesn't cover. :-/
+But some of that stuff looks outdated anyway.
+
+> Thorsten, do you have time to prepare a change to that document that
+> gives a short summary on how to report potential issues and
+> regressions? Otherwise, I will happily put that on my todo list and
+> probably can suggest some RFC patch in a week or two.
+
+Then go for it. Normally I'd be interested, but I'm short on time
+currently, as I'm working a lot on bugzilla integration for regzbot,
+have a vacation coming up, and need to prepare talks for two conferences
+(Kernel Summit and Open Source Summit).
+
+Ciao, Thorsten
