@@ -2,56 +2,204 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CB067CCA479
-	for <linux-doc@archiver.kernel.org>; Wed, 13 Jul 2022 16:14:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 34BA0C43334
+	for <linux-doc@archiver.kernel.org>; Wed, 13 Jul 2022 18:39:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237165AbiGMQOJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 13 Jul 2022 12:14:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49836 "EHLO
+        id S236763AbiGMSjN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 13 Jul 2022 14:39:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41122 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237127AbiGMQOG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Jul 2022 12:14:06 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2E2C33E30
-        for <linux-doc@vger.kernel.org>; Wed, 13 Jul 2022 09:14:05 -0700 (PDT)
+        with ESMTP id S236732AbiGMSjL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Jul 2022 14:39:11 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 416F0201AE;
+        Wed, 13 Jul 2022 11:39:10 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 5081A61B03
-        for <linux-doc@vger.kernel.org>; Wed, 13 Jul 2022 16:14:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9AEFC3411E;
-        Wed, 13 Jul 2022 16:14:02 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id E069BB82123;
+        Wed, 13 Jul 2022 18:39:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39028C34114;
+        Wed, 13 Jul 2022 18:39:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1657728844;
-        bh=IZ4lbr0QQR2cpYQsDk6nEI4H4gzY2dXgkKPRchZ7Y98=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=XJBz34iF9w5bg0QVzw34go4EKR99EumNhLBoFIIr8SmA8lFldGTihFVu1CL2nVvDv
-         ZdoK7SmPabp+5GQW2jWisbZO586CaIW3sLm7f81CEe/PfaT3rjwT6YNoJaWZF8bTfl
-         FcMS52z8tc5bGuaXnlDMagy3FXhtNygztY9cZVeTLhBZSTZBZEey2XPEhTyMd/yg+x
-         paYFd1IlP08nxQqwnolFJTt1F0a0kHbbeEZowcVK7hn9LGU6zXnWCYu+cOd2WO+4aR
-         zNkK+msji46zSVFIrSb7ig3cp1jxLrjnVrYFWpVr75iS1lWLpknUyZqQY4UTrREpFw
-         74RvXXryVbLoA==
-From:   Conor Dooley <conor@kernel.org>
-To:     hch@lst.de
-Cc:     Tianyu.Lan@microsoft.com, iommu@lists.linux.dev,
-        linux-doc@vger.kernel.org, lkp@intel.com, lkp@lists.01.org,
-        ltykernel@gmail.com, oliver.sang@intel.com
-Subject: Re: [EXTERNAL] [swiotlb] 44d89f2248: Kernel_panic-not_syncing:swiotlb_init_remap:nslabs=#too_small
-Date:   Wed, 13 Jul 2022 17:11:34 +0100
-Message-Id: <20220713161133.1707380-1-conor@kernel.org>
-X-Mailer: git-send-email 2.37.0
-In-Reply-To: <20220713060246.GA13497@lst.de>
-References: <20220713060246.GA13497@lst.de>
+        s=k20201202; t=1657737547;
+        bh=tO5x8vlQaYbiXWOT1V2EnWLVdJW7QJQ7UgkTW94PdK8=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=u/XRi340W0jDA+Jvki+5euQb2QKoxeniHCg2XsOQ8H/brEetZ5U3cAtVXp3p2nLDp
+         4/Qi37pTrI48NCfk8C8uwNHQYr41UNgmDkw5E0q6qrEtM0rImfZPWsXfn5mQ/kkEcD
+         7VOIeY6JWN+pBxpjBhUeG5Fh4XXdwCIvorJ1ov9drIb6XNQ7MyclHdIi49JIjfR7Be
+         GoQW9mAkdMyyGjhVXzECDbCm2wjbYC91ohOqWBhdkdT6Y9Ij8P5Gle+i8LB3tt2VZ1
+         FqBX4MGmGIIMEkwJiakKJzsGhEzuxGXW38hdSqJMlEkyrF/vkYzgUAoIbL5RVz9lHr
+         dyfkWg0r6+EHA==
+Message-ID: <9cf7711a-f36a-608d-1605-179f3037b644@kernel.org>
+Date:   Wed, 13 Jul 2022 20:38:59 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH V4 03/20] rv/include: Add helper functions for
+ deterministic automata
+Content-Language: en-US
+To:     Tao Zhou <tao.zhou@linux.dev>
+Cc:     Steven Rostedt <rostedt@goodmis.org>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Ingo Molnar <mingo@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Will Deacon <will@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Marco Elver <elver@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Gabriele Paoloni <gpaoloni@redhat.com>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Clark Williams <williams@redhat.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-trace-devel@vger.kernel.org
+References: <cover.1655368610.git.bristot@kernel.org>
+ <2b5b14c821ee4b069f68571e7f78fbc2ee4e9626.1655368610.git.bristot@kernel.org>
+ <YsXV+KTbOU0E5dU+@geo.homenetwork>
+From:   Daniel Bristot de Oliveira <bristot@kernel.org>
+In-Reply-To: <YsXV+KTbOU0E5dU+@geo.homenetwork>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-FWIW, I hit this on a PolarFire SoC.
-Was relieved to see that it was not another wacky edge case like my
-last run-in with swiotlb issues! If you could CC me on the fix that'd
-be great.
+On 7/6/22 20:35, Tao Zhou wrote:
+> On Thu, Jun 16, 2022 at 10:44:45AM +0200, Daniel Bristot de Oliveira wrote:
+> 
+>> Formally, a deterministic automaton, denoted by G, is defined as a
+>> quintuple:
+>>
+>>   G = { X, E, f, x_0, X_m }
+>>
+>> where:
+>> 	- X is the set of states;
+>> 	- E is the finite set of events;
+>> 	- x_0 is the initial state;
+>> 	- X_m (subset of X) is the set of marked states.
+>> 	- f : X x E -> X $ is the transition function. It defines the
+>> 	  state transition in the occurrence of a event from E in
+>> 	  the state X. In the special case of deterministic automata,
+>> 	  the occurrence of the event in E in a state in X has a
+>> 	  deterministic next state from X.
+>>
+>> An automaton can also be represented using a graphical format of
+>> vertices (nodes) and edges. The open-source tool Graphviz can produce
+>> this graphic format using the (textual) DOT language as the source code.
+>>
+>> The dot2c tool presented in this paper:
+>>
+>> DE OLIVEIRA, Daniel Bristot; CUCINOTTA, Tommaso; DE OLIVEIRA, Romulo
+>> Silva. Efficient formal verification for the Linux kernel. In:
+>> International Conference on Software Engineering and Formal Methods.
+>> Springer, Cham, 2019. p. 315-332.
+>>
+>> Translates a deterministic automaton in the DOT format into a C
+>> surce code representation that to be used for monitoring.
+>>
+>> This header file implements helper functions to facilitate the usage
+>> of the C output from dot2c for monitoring.
+>>
+>> Cc: Wim Van Sebroeck <wim@linux-watchdog.org>
+>> Cc: Guenter Roeck <linux@roeck-us.net>
+>> Cc: Jonathan Corbet <corbet@lwn.net>
+>> Cc: Steven Rostedt <rostedt@goodmis.org>
+>> Cc: Ingo Molnar <mingo@redhat.com>
+>> Cc: Thomas Gleixner <tglx@linutronix.de>
+>> Cc: Peter Zijlstra <peterz@infradead.org>
+>> Cc: Will Deacon <will@kernel.org>
+>> Cc: Catalin Marinas <catalin.marinas@arm.com>
+>> Cc: Marco Elver <elver@google.com>
+>> Cc: Dmitry Vyukov <dvyukov@google.com>
+>> Cc: "Paul E. McKenney" <paulmck@kernel.org>
+>> Cc: Shuah Khan <skhan@linuxfoundation.org>
+>> Cc: Gabriele Paoloni <gpaoloni@redhat.com>
+>> Cc: Juri Lelli <juri.lelli@redhat.com>
+>> Cc: Clark Williams <williams@redhat.com>
+>> Cc: linux-doc@vger.kernel.org
+>> Cc: linux-kernel@vger.kernel.org
+>> Cc: linux-trace-devel@vger.kernel.org
+>> Signed-off-by: Daniel Bristot de Oliveira <bristot@kernel.org>
+>> ---
+>>  include/rv/automata.h | 49 +++++++++++++++++++++++++++++++++++++++++++
+>>  1 file changed, 49 insertions(+)
+>>  create mode 100644 include/rv/automata.h
+>>
+>> diff --git a/include/rv/automata.h b/include/rv/automata.h
+>> new file mode 100644
+>> index 000000000000..0c0aa54bd820
+>> --- /dev/null
+>> +++ b/include/rv/automata.h
+>> @@ -0,0 +1,49 @@
+>> +/* SPDX-License-Identifier: GPL-2.0 */
+>> +/*
+>> + * Deterministic automata helper functions, to be used with the automata
+>> + * models in C generated by the dot2k tool.
+>> + *
+>> + * Copyright (C) 2019-2022 Daniel Bristot de Oliveira <bristot@kernel.org>
+>> + */
+>> +
+>> +#define DECLARE_AUTOMATA_HELPERS(name, type)					\
+>> +										\
+>> +static inline void *model_get_model_##name(void)				\
+>> +{										\
+>> +	return (void *) &automaton_##name;					\
+>> +}									\
+>> +										\
+>> +static char *model_get_state_name_##name(enum states_##name state)		\
+>> +{										\
+>> +	return automaton_##name.state_names[state];				\
+>> +}										\
+>> +										\
+>> +static char *model_get_event_name_##name(enum events_##name event)		\
+>> +{										\
+>> +	return automaton_##name.event_names[event];				\
+>> +}										\
+>> +										\
+>> +static inline type model_get_init_state_##name(void)				\
+>> +{										\
+>> +	return automaton_##name.initial_state;					\
+>> +}										\
+>> +										\
+>> +static inline type model_get_next_state_##name(enum states_##name curr_state,	\
+>> +					       enum events_##name event)	\
+>> +{										\
+>> +	if ((curr_state < 0) || (curr_state > state_max_##name))		\
+>> +		return -1;							\
+> 
+> curr_state can not be state_max_xxx. curr_state must be not bigger
+> than state_max_xxx. Or am I miss something?
+> 
+>> +	if ((event < 0) || (event > event_max_##name))				\
+>> +		return -1;							\
+>> +										\
+> 
+> Same here for the event boundary check.
+> 
+>> +	return automaton_##name.function[curr_state][event];			\
+>> +}										\
+>> +										\
+>> +static inline bool model_is_final_state_##name(enum states_##name state)	\
+>> +{										\
+>> +	if ((state < 0) || (state > state_max_##name))				\
+>> +		return 0;							\
+>> +										\
+> 
+> Same here.
+> 
+>> +	return !!automaton_##name.final_states[state];				\
+> 
+> If the value of .final_states[state] is 0 or 1, can the type of
+> .final_states[state] be befined to bool. Or not need to use !! to
+> explicitly transfer the type to bool. I remember that you define
+> this as char array and the matrix model value of this array is 0 or 1
+> see from the next patche. 1 delegate the state it is the initial state.
+> 0 for others.
 
-Thanks,
-Conor.
+All points addressed!
+-- Daniel
