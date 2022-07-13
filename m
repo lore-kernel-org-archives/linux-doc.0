@@ -2,175 +2,149 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C6C4CC433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 13 Jul 2022 21:20:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DA5DDC433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 13 Jul 2022 21:59:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237381AbiGMVUQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 13 Jul 2022 17:20:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38776 "EHLO
+        id S237349AbiGMV7o (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 13 Jul 2022 17:59:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41632 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237472AbiGMVTn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Jul 2022 17:19:43 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D1CFFE4;
-        Wed, 13 Jul 2022 14:19:11 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 4AE47B82024;
-        Wed, 13 Jul 2022 21:19:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58CC4C385A9;
-        Wed, 13 Jul 2022 21:19:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1657747149;
-        bh=yCkYhWen7pBPp8Qaie4klyI5Sstkqz5vyoR6lpX4PQU=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=fRZXDUwWacRJ6oAJbSb/Wme8EE+/C8WAU2tZC01Iysxcr2AlJ2T+RLIyMX1qe1Ia5
-         JzujN22M7FDZMrzH/Z+vxdGoj06RlBPR8XpLQ8EM21U4/lVkj3FQyUnQoLZqBG1Fir
-         56ga9bVmsZFvBrcJ+I5bpb8Tf7QHI0knLscuftqY5rBfeM9uWUEHSaf5ZMT74c3h+d
-         Ml8XL0acnYLpJpJ28a3XwPUyuxNGsfYrCgVLMeqZc0tOcoXqU/CGeBoCf32d4aoDm3
-         IAzA7/TW8SRoLDxHTxa2mHjEikfAUbk1OIEG54rQH3kp3/dMNm0JJLfh/Pi+PUW2nm
-         Fa9ebtLePQpbA==
-From:   Daniel Bristot de Oliveira <bristot@kernel.org>
-To:     Steven Rostedt <rostedt@goodmis.org>
-Cc:     Daniel Bristot de Oliveira <bristot@kernel.org>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Ingo Molnar <mingo@redhat.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Will Deacon <will@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Marco Elver <elver@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Gabriele Paoloni <gpaoloni@redhat.com>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Clark Williams <williams@redhat.com>,
-        Tao Zhou <tao.zhou@linux.dev>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-trace-devel@vger.kernel.org
-Subject: [PATCH V5 16/16] rv/reactor: Add the panic reactor
-Date:   Wed, 13 Jul 2022 23:17:32 +0200
-Message-Id: <5b3233ed8c7bd06895cc177da8a4299d764d6f9a.1657745645.git.bristot@kernel.org>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <cover.1657745645.git.bristot@kernel.org>
-References: <cover.1657745645.git.bristot@kernel.org>
+        with ESMTP id S237355AbiGMV7j (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Jul 2022 17:59:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 8E1E9DEE9
+        for <linux-doc@vger.kernel.org>; Wed, 13 Jul 2022 14:59:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1657749574;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=guTnNvlqH6K4wA2UCt8wsczuHAK4rJrHvdvd+slq1vY=;
+        b=JeRfmIIYY8aRQ2zB44IpLbgd+6pXNSqiUDJZzX1v3+GYaCMDtQVz0Ysu+MnqOL3vhzqb/A
+        CeH3I53cRV4ToYWBY6q7bnrpM3I+GBxxz6V6LdxODIvVCyj53575/xe3IhP+RIzaINkBBn
+        CPaLqE0k1eP81MjD2fPPdXCvfHWm2Pc=
+Received: from mail-oi1-f197.google.com (mail-oi1-f197.google.com
+ [209.85.167.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-340-TEiai-zHNNaQpA_BXzjWYg-1; Wed, 13 Jul 2022 17:59:30 -0400
+X-MC-Unique: TEiai-zHNNaQpA_BXzjWYg-1
+Received: by mail-oi1-f197.google.com with SMTP id b205-20020aca34d6000000b0033a33a68361so89049oia.10
+        for <linux-doc@vger.kernel.org>; Wed, 13 Jul 2022 14:59:30 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:subject:to:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=guTnNvlqH6K4wA2UCt8wsczuHAK4rJrHvdvd+slq1vY=;
+        b=IiRqjMBqLLRbRMcfjoAb9wZ/eukegsY2A/+WFfghN5raBt2yYE4okW0Op7w5tcE/FW
+         hq3CDRHEPuX8xyyIPci8iSVS8TSyUDIi2/ZbJBtGhdeuFqhSr2iK/vpf0+AD5gT8q/Rz
+         5CUcifOvgmmEsa4Jx7QyCGLcvqTFsNMxY/uruzBoOXWIRzytWb19V7AzE1/Am2yTKhVL
+         nTtoTysKQG2mrargTMkF6WqphOlXfwoS8+gRqyzGMyFEd+s4Iz107rvQ0ihqc8ZTyQnT
+         /kXh87L1TTwCKpnylxofR8G1/GBscVIwpbDEow7IllCHWrbuTd+LPcpA4zeqt57nszGy
+         cEWg==
+X-Gm-Message-State: AJIora/5VRKoFgvjo8tdJunLNTSuCy97ELgXO7POLW7iBYjTPI5uQQn9
+        dHFqtHZcgv+8+1WH4zA23zCvSZzdqjrzo8A/+US2UI7QImnu6mJlX7ZlFKo28snbb4hpNEhd48p
+        ekvgD2Z+ISNp86SeoyVDt
+X-Received: by 2002:a05:6870:56a9:b0:10b:fca8:b578 with SMTP id p41-20020a05687056a900b0010bfca8b578mr3019411oao.78.1657749567195;
+        Wed, 13 Jul 2022 14:59:27 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1vXUp0wlYWszzuHD0u8u82/GNIF0Dw1ziwn/JICNJZfYCbi3V26XmDeIVoOS/Lkfl6sMd8o8w==
+X-Received: by 2002:a05:6870:56a9:b0:10b:fca8:b578 with SMTP id p41-20020a05687056a900b0010bfca8b578mr3019398oao.78.1657749567008;
+        Wed, 13 Jul 2022 14:59:27 -0700 (PDT)
+Received: from localhost.localdomain (024-205-208-113.res.spectrum.com. [24.205.208.113])
+        by smtp.gmail.com with ESMTPSA id x13-20020a056870b40d00b001089aef1815sm32984oap.20.2022.07.13.14.59.25
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 13 Jul 2022 14:59:26 -0700 (PDT)
+Subject: Re: [PATCH v3 2/2] fpga: dfl-pci: Add IDs for Intel N6000, N6001 and
+ C6100 cards
+To:     matthew.gerlach@linux.intel.com, hao.wu@intel.com,
+        yilun.xu@intel.com, russell.h.weight@intel.com,
+        basheer.ahmed.muddebihal@intel.com, mdf@kernel.org, corbet@lwn.net,
+        linux-fpga@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, tianfei.zhang@intel.com
+References: <20220707150549.265621-1-matthew.gerlach@linux.intel.com>
+ <20220707150549.265621-3-matthew.gerlach@linux.intel.com>
+From:   Tom Rix <trix@redhat.com>
+Message-ID: <0c2affef-9a62-3422-ecdb-a8f196ce739c@redhat.com>
+Date:   Wed, 13 Jul 2022 14:59:24 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220707150549.265621-3-matthew.gerlach@linux.intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Sample reactor that panics the system when an exception is found. This
-is useful both to capture a vmcore, or to fail-safe a critical system.
 
-Cc: Wim Van Sebroeck <wim@linux-watchdog.org>
-Cc: Guenter Roeck <linux@roeck-us.net>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Steven Rostedt <rostedt@goodmis.org>
-Cc: Ingo Molnar <mingo@redhat.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Cc: Peter Zijlstra <peterz@infradead.org>
-Cc: Will Deacon <will@kernel.org>
-Cc: Catalin Marinas <catalin.marinas@arm.com>
-Cc: Marco Elver <elver@google.com>
-Cc: Dmitry Vyukov <dvyukov@google.com>
-Cc: "Paul E. McKenney" <paulmck@kernel.org>
-Cc: Shuah Khan <skhan@linuxfoundation.org>
-Cc: Gabriele Paoloni <gpaoloni@redhat.com>
-Cc: Juri Lelli <juri.lelli@redhat.com>
-Cc: Clark Williams <williams@redhat.com>
-Cc: Tao Zhou <tao.zhou@linux.dev>
-Cc: Randy Dunlap <rdunlap@infradead.org>
-Cc: linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Cc: linux-trace-devel@vger.kernel.org
-Signed-off-by: Daniel Bristot de Oliveira <bristot@kernel.org>
----
- kernel/trace/rv/Kconfig         |  8 ++++++
- kernel/trace/rv/Makefile        |  1 +
- kernel/trace/rv/reactor_panic.c | 43 +++++++++++++++++++++++++++++++++
- 3 files changed, 52 insertions(+)
- create mode 100644 kernel/trace/rv/reactor_panic.c
+On 7/7/22 8:05 AM, matthew.gerlach@linux.intel.com wrote:
+> From: Matthew Gerlach <matthew.gerlach@linux.intel.com>
+>
+> Add pci_dev_table entries supporting the Intel N6000, N6001
+> and C6100 cards to the dfl-pci driver.
+>
+> Signed-off-by: Matthew Gerlach <matthew.gerlach@linux.intel.com>
+> Signed-off-by: Tianfei Zhang <tianfei.zhang@intel.com>
+> ---
+> v3: added necessary subdevice ids
+>      removed 'drivers: ' from title
+>
+> v2: changed names from INTEL_OFS to INTEL_DFL
+> ---
+>   drivers/fpga/dfl-pci.c | 19 +++++++++++++++++++
+>   1 file changed, 19 insertions(+)
+>
+> diff --git a/drivers/fpga/dfl-pci.c b/drivers/fpga/dfl-pci.c
+> index fd1fa55c9113..94eabdf1d2f7 100644
+> --- a/drivers/fpga/dfl-pci.c
+> +++ b/drivers/fpga/dfl-pci.c
+> @@ -77,12 +77,19 @@ static void cci_pci_free_irq(struct pci_dev *pcidev)
+>   #define PCIE_DEVICE_ID_INTEL_PAC_D5005		0x0B2B
+>   #define PCIE_DEVICE_ID_SILICOM_PAC_N5010	0x1000
+>   #define PCIE_DEVICE_ID_SILICOM_PAC_N5011	0x1001
+> +#define PCIE_DEVICE_ID_INTEL_DFL		0xbcce
+>   
+>   /* VF Device */
+>   #define PCIE_DEVICE_ID_VF_INT_5_X		0xBCBF
+>   #define PCIE_DEVICE_ID_VF_INT_6_X		0xBCC1
+>   #define PCIE_DEVICE_ID_VF_DSC_1_X		0x09C5
+>   #define PCIE_DEVICE_ID_INTEL_PAC_D5005_VF	0x0B2C
+> +#define PCIE_DEVICE_ID_INTEL_DFL_VF		0xbccf
+> +
+> +/* PCI Subdevice ID */
+> +#define PCIE_SUBDEVICE_ID_INTEL_N6000		0x1770
+> +#define PCIE_SUBDEVICE_ID_INTEL_N6001		0x1771
+> +#define PCIE_SUBDEVICE_ID_INTEL_C6100		0x17d4
+>   
+>   static struct pci_device_id cci_pcie_id_tbl[] = {
+>   	{PCI_DEVICE(PCI_VENDOR_ID_INTEL, PCIE_DEVICE_ID_PF_INT_5_X),},
+> @@ -96,6 +103,18 @@ static struct pci_device_id cci_pcie_id_tbl[] = {
+>   	{PCI_DEVICE(PCI_VENDOR_ID_INTEL, PCIE_DEVICE_ID_INTEL_PAC_D5005_VF),},
+>   	{PCI_DEVICE(PCI_VENDOR_ID_SILICOM_DENMARK, PCIE_DEVICE_ID_SILICOM_PAC_N5010),},
+>   	{PCI_DEVICE(PCI_VENDOR_ID_SILICOM_DENMARK, PCIE_DEVICE_ID_SILICOM_PAC_N5011),},
+> +	{PCI_DEVICE_SUB(PCI_VENDOR_ID_INTEL, PCIE_DEVICE_ID_INTEL_DFL,
+> +			PCI_VENDOR_ID_INTEL, PCIE_SUBDEVICE_ID_INTEL_N6000),},
+> +	{PCI_DEVICE_SUB(PCI_VENDOR_ID_INTEL, PCIE_DEVICE_ID_INTEL_DFL_VF,
+> +			PCI_VENDOR_ID_INTEL, PCIE_SUBDEVICE_ID_INTEL_N6000),},
+> +	{PCI_DEVICE_SUB(PCI_VENDOR_ID_INTEL, PCIE_DEVICE_ID_INTEL_DFL,
+> +			PCI_VENDOR_ID_INTEL, PCIE_SUBDEVICE_ID_INTEL_N6001),},
+> +	{PCI_DEVICE_SUB(PCI_VENDOR_ID_INTEL, PCIE_DEVICE_ID_INTEL_DFL_VF,
+> +			PCI_VENDOR_ID_INTEL, PCIE_SUBDEVICE_ID_INTEL_N6001),},
+> +	{PCI_DEVICE_SUB(PCI_VENDOR_ID_INTEL, PCIE_DEVICE_ID_INTEL_DFL,
+> +			PCI_VENDOR_ID_INTEL, PCIE_SUBDEVICE_ID_INTEL_C6100),},
+> +	{PCI_DEVICE_SUB(PCI_VENDOR_ID_INTEL, PCIE_DEVICE_ID_INTEL_DFL_VF,
+> +			PCI_VENDOR_ID_INTEL, PCIE_SUBDEVICE_ID_INTEL_C6100),},
 
-diff --git a/kernel/trace/rv/Kconfig b/kernel/trace/rv/Kconfig
-index f1d92d431130..ce2a90a89f55 100644
---- a/kernel/trace/rv/Kconfig
-+++ b/kernel/trace/rv/Kconfig
-@@ -71,3 +71,11 @@ config RV_REACT_PRINTK
- 	help
- 	  Enables the printk reactor. The printk reactor emits a printk()
- 	  message if an exception is found.
-+
-+config RV_REACT_PANIC
-+	bool "Panic reactor"
-+	depends on RV_REACTORS
-+	default y
-+	help
-+	  Enables the panic reactor. The panic reactor emits a printk()
-+	  message if an exception is found and panic()s the system.
-diff --git a/kernel/trace/rv/Makefile b/kernel/trace/rv/Makefile
-index a13c750a35c1..963d14875b45 100644
---- a/kernel/trace/rv/Makefile
-+++ b/kernel/trace/rv/Makefile
-@@ -5,3 +5,4 @@ obj-$(CONFIG_RV_MON_WIP) += monitors/wip/wip.o
- obj-$(CONFIG_RV_MON_WWNR) += monitors/wwnr/wwnr.o
- obj-$(CONFIG_RV_REACTORS) += rv_reactors.o
- obj-$(CONFIG_RV_REACT_PRINTK) += reactor_printk.o
-+obj-$(CONFIG_RV_REACT_PANIC) += reactor_panic.o
-diff --git a/kernel/trace/rv/reactor_panic.c b/kernel/trace/rv/reactor_panic.c
-new file mode 100644
-index 000000000000..c9b9ed99495b
---- /dev/null
-+++ b/kernel/trace/rv/reactor_panic.c
-@@ -0,0 +1,43 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (C) 2019-2022 Red Hat, Inc. Daniel Bristot de Oliveira <bristot@kernel.org>
-+ *
-+ * Panic RV reactor:
-+ *   Prints the exception msg to the kernel message log and panic().
-+ */
-+
-+#include <linux/ftrace.h>
-+#include <linux/tracepoint.h>
-+#include <linux/kernel.h>
-+#include <linux/module.h>
-+#include <linux/init.h>
-+#include <linux/rv.h>
-+
-+static void rv_panic_reaction(char *msg)
-+{
-+	panic(msg);
-+}
-+
-+struct rv_reactor rv_panic = {
-+	.name = "panic",
-+	.description = "panic the system if an exception is found.",
-+	.react = rv_panic_reaction
-+};
-+
-+int register_react_panic(void)
-+{
-+	rv_register_reactor(&rv_panic);
-+	return 0;
-+}
-+
-+void unregister_react_panic(void)
-+{
-+	rv_unregister_reactor(&rv_panic);
-+}
-+
-+module_init(register_react_panic);
-+module_exit(unregister_react_panic);
-+
-+MODULE_LICENSE("GPL");
-+MODULE_AUTHOR("Daniel Bristot de Oliveira");
-+MODULE_DESCRIPTION("panic rv reactor: panic if an exception is found");
--- 
-2.35.1
+Matt,
+
+Thanks for making this change, this addresses my concerns with the 
+earlier patch.
+
+Reviewed-by: Tom Rix <trix@redhat.com>
+
+>   	{0,}
+>   };
+>   MODULE_DEVICE_TABLE(pci, cci_pcie_id_tbl);
 
