@@ -2,82 +2,61 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C667DC433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 13 Jul 2022 20:03:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AA904C43334
+	for <linux-doc@archiver.kernel.org>; Wed, 13 Jul 2022 20:04:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236821AbiGMUDJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 13 Jul 2022 16:03:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39262 "EHLO
+        id S235537AbiGMUEJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 13 Jul 2022 16:04:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41214 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236667AbiGMUDH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Jul 2022 16:03:07 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C629C2CCA0
-        for <linux-doc@vger.kernel.org>; Wed, 13 Jul 2022 13:03:06 -0700 (PDT)
+        with ESMTP id S231860AbiGMUEI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Jul 2022 16:04:08 -0400
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0E4CDFF8;
+        Wed, 13 Jul 2022 13:04:06 -0700 (PDT)
 Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 7A2FE2B2;
-        Wed, 13 Jul 2022 20:03:06 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 7A2FE2B2
+        by ms.lwn.net (Postfix) with ESMTPSA id 8E16A2DC;
+        Wed, 13 Jul 2022 20:04:06 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 8E16A2DC
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1657742586; bh=EOTfmgixUWcWcslxnLM2QoKLAde0L8nx97etzNvHvwc=;
+        t=1657742646; bh=EyGDr5V/Nt8GJzbAAi/OLJlDIoto10JJfP1ptrCCEb0=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=duJ2RE15kwrrKyo7TFpXDFLT7nwM/+bYkGJ2IlZzFYEtuXIudvEj2wWPHQyFxCImA
-         sYOC0N8hOG4A9m5bpZ4SjMZcU8kD9Lmq+Kck7UdS8uKZ/t5w/fjWAh6hy7A5IgnF9T
-         wS5ZlmdkCE87ctOwVP2m9wZ0QqBTLYfpkYrIaLGtkSeE488PJIeUGuwzp/9/2NIC8c
-         Q5jhZnHfMoEQGncsjJvhdm7lpmvfaeytlKgQLlB1cPBiEc8iTGq0IfdkXqSCHEo2/C
-         bIPtmBp4bZF5TGxqsfqz49Zoiox2VOT6wDZHWtl7Y9vDVK3xodYKeq4qw/CkWhsEDY
-         djAiNR/TKuZNA==
+        b=SBXTXtodqKS/SXrIKFhsjgX5P+Z+yiCLMy0/ZSVkZ2kwNpBiFfDsfx5U2Do8Vn2b1
+         NJT9UBNqud+wJXJ+PXpEtjIu7r4FHEOnsFFYtKcki70/w+VZQOHgMpjINZk8QY8LCK
+         mYXRkovFcJbb7zKspqKvfsAPlP46T8bc41aR5RGtUtV4nIuuHqEHUBDCsG0/MtwqsV
+         F1hdvofVVp+2uz5PjkKPOo4IJTO7dMHvyqaSvLGaYUJangkL2XuQyZpEskXbwmcKnp
+         UCd2ror2nf70zV8E/KJAn7VQM2CXF7EdDRorNmAVJpHuPDMh7CphgYPtB0CIas8uqO
+         bET8zcUo5q9yg==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Binbin Zhou <zhoubinbin@loongson.cn>, alexs@kernel.org,
-        siyanteng@loongson.cn
-Cc:     chenhuacai@loongson.cn, bobwxc@email.cn, zhoubb.aaron@gmail.com,
-        linux-doc@vger.kernel.org, Binbin Zhou <zhoubinbin@loongson.cn>
-Subject: Re: [PATCH V3] docs/zh_CN: core-api: Add watch_queue Chinese
- translation
-In-Reply-To: <20220710133604.31382-1-zhoubinbin@loongson.cn>
-References: <20220710133604.31382-1-zhoubinbin@loongson.cn>
-Date:   Wed, 13 Jul 2022 14:03:05 -0600
-Message-ID: <87bkts4w7a.fsf@meer.lwn.net>
+To:     Yixuan Cao <caoyixuan2019@email.szu.edu.cn>, siyanteng@loongson.cn
+Cc:     alexs@kernel.org, rppt@kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Yixuan Cao <caoyixuan2019@email.szu.edu.cn>
+Subject: Re: [PATCH] Documentation/translations/zh_CN/mm/page_owner.rst:
+ adjust some words
+In-Reply-To: <20220708172351.20928-1-caoyixuan2019@email.szu.edu.cn>
+References: <20220708172351.20928-1-caoyixuan2019@email.szu.edu.cn>
+Date:   Wed, 13 Jul 2022 14:04:05 -0600
+Message-ID: <877d4g4w5m.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: base64
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Binbin Zhou <zhoubinbin@loongson.cn> writes:
-
-> Translate core-api/watch_queue.rst into Chinese.
->
-> Last English version used:
-> commit f5461124d59b ("Documentation: move watch_queue to core-api").
->
-> Signed-off-by: Binbin Zhou <zhoubinbin@loongson.cn>
-> ---
->
-> Changes since v2:
->
-> Take Xiangcheng's advice and add his proofreading signature to
-> watch_queue.rst, thanks.
->
-> Details:
-> https://lore.kernel.org/linux-doc/YsbjmEhOjUrYqml4@bobwxc.mipc/
->
-> Changes since v1:
->
-> Take Yanteng's advice and add his proofreading signature to
-> watch_queue.rst, thanks.
->
-> Details:
-> https://lore.kernel.org/linux-doc/ea5f1206-f34c-9907-e7c4-f97122e84dce@loongson.cn/
->
-> ---
->  .../translations/zh_CN/core-api/index.rst     |   1 +
->  .../zh_CN/core-api/watch_queue.rst            | 313 ++++++++++++++++++
->  2 files changed, 314 insertions(+)
->  create mode 100644 Documentation/translations/zh_CN/core-api/watch_queue.rst
-
-Applied, thanks.
-
-jon
+WWl4dWFuIENhbyA8Y2FveWl4dWFuMjAxOUBlbWFpbC5zenUuZWR1LmNuPiB3cml0ZXM6DQoNCj4g
+SSBub3RpY2VkIHRoYXQgdGhlcmUgYXJlIHNvbWUgQ2hpbmVzZSB3b3JkcyB0aGF0IGNhbiBiZSBt
+b3JlIGFjY3VyYXRlLg0KPiBTbyBJIGZpeCB0aGVtIGFzIGZvbGxvd3MuDQo+DQo+IOmmluWFiO+8
+jOiLseaWh+WOn+aWh+S4reeahCJyZWxlYXNlIiDlnKjov5nkuKror63looPkuIsNCj4g5piv54mp
+55CG6aG16Z2i4oCc6YeK5pS+4oCd55qE5oSP5oCd77yM6ICM5LiN5piv4oCc5Y+R5biD4oCd44CC
+DQo+IOWFtuasoe+8jOagh+WHhuihqOeahOesrOS4gOWIl+WSjOesrOS6jOWIl++8jA0KPiDooajo
+vr7nmoTmmK/igJzplb/nn63plK7igJ3nmoTmhI/mgJ3vvIznrKzkuIDliJfmmK/igJznn63plK7i
+gJ3vvIwNCj4g6ICM56ys5LqM5YiX5piv4oCc6ZW/6ZSu4oCd44CC6L+Z5qC357+76K+R5oiW5Lya
+5pu05riF5pmw5LiA5Lqb44CCDQo+DQo+IFNpZ25lZC1vZmYtYnk6IFlpeHVhbiBDYW8gPGNhb3lp
+eHVhbjIwMTlAZW1haWwuc3p1LmVkdS5jbj4NCj4gLS0tDQo+ICBEb2N1bWVudGF0aW9uL3RyYW5z
+bGF0aW9ucy96aF9DTi9tbS9wYWdlX293bmVyLnJzdCB8IDggKysrKy0tLS0NCj4gIDEgZmlsZSBj
+aGFuZ2VkLCA0IGluc2VydGlvbnMoKyksIDQgZGVsZXRpb25zKC0pDQoNCkFwcGxpZWQsIHRoYW5r
+cy4NCg0Kam9uDQo=
