@@ -2,78 +2,147 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B0D0CCA47F
-	for <linux-doc@archiver.kernel.org>; Wed, 13 Jul 2022 00:33:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C15B4C43334
+	for <linux-doc@archiver.kernel.org>; Wed, 13 Jul 2022 03:04:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229671AbiGMAdV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 12 Jul 2022 20:33:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55694 "EHLO
+        id S233696AbiGMDEC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 12 Jul 2022 23:04:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36876 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229514AbiGMAdV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Jul 2022 20:33:21 -0400
-X-Greylist: delayed 24601 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 12 Jul 2022 17:33:19 PDT
-Received: from 19.mo584.mail-out.ovh.net (19.mo584.mail-out.ovh.net [87.98.179.66])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 579558CC91
-        for <linux-doc@vger.kernel.org>; Tue, 12 Jul 2022 17:33:19 -0700 (PDT)
-Received: from player770.ha.ovh.net (unknown [10.111.172.36])
-        by mo584.mail-out.ovh.net (Postfix) with ESMTP id 9CD0D237E9
-        for <linux-doc@vger.kernel.org>; Tue, 12 Jul 2022 17:27:25 +0000 (UTC)
-Received: from sk2.org (82-65-25-201.subs.proxad.net [82.65.25.201])
-        (Authenticated sender: steve@sk2.org)
-        by player770.ha.ovh.net (Postfix) with ESMTPSA id EFDF52C9AB238;
-        Tue, 12 Jul 2022 17:27:20 +0000 (UTC)
-Authentication-Results: garm.ovh; auth=pass (GARM-110S00462552c4c-6b9c-4525-8fb9-2f419f0dbf44,
-                    95116E16C79F3EB4FFDADE9184C2BF5B79F623F3) smtp.auth=steve@sk2.org
-X-OVh-ClientIp: 82.65.25.201
-From:   Stephen Kitt <steve@sk2.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Stephen Kitt <steve@sk2.org>
-Subject: [PATCH 4/5] docs: sysctl/fs: remove references to super-max/-nr
-Date:   Tue, 12 Jul 2022 19:26:18 +0200
-Message-Id: <20220712172619.359052-4-steve@sk2.org>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20220712172619.359052-1-steve@sk2.org>
-References: <20220712172619.359052-1-steve@sk2.org>
+        with ESMTP id S233105AbiGMDEA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 12 Jul 2022 23:04:00 -0400
+Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9014426ACA;
+        Tue, 12 Jul 2022 20:03:54 -0700 (PDT)
+Received: by mail-pj1-x1031.google.com with SMTP id cp18-20020a17090afb9200b001ef79e8484aso2622322pjb.1;
+        Tue, 12 Jul 2022 20:03:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=TceMcUV+/l4WL/aDjeSG/t8FqTVXmRKi59JDreDyO4Y=;
+        b=LgwCqeVcRYkCGf4XTCEuyfhdt+DypSM7nZPaxNKHD/63Y6XZ3h802i7v6BFOlbTEcX
+         cqc4Wuq3jhys/RSbVU3FzEitLPAOLrHnL6oUTWlMcXWEQCs+I5w8ZU/Y0prsig8sJXg3
+         1BGTuGsd9S/ZUSViw2qIK+NsfMrDZE7PV5Y0LqAF5z2IfV9OPviN1NyMj8w0pJlov8x7
+         JALigW7v+06Qk+BiK4Hg6Eihv9INXN6JVuz78ASq/P/QZGLINnvn65oaK/RkUX8OlKwk
+         Fm8Cm0D6lBzgYTbG3kwhwmM07WislvSilTbsY57wRZPAXlgErXjOePXzmPq67/zewXKp
+         qUiw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=TceMcUV+/l4WL/aDjeSG/t8FqTVXmRKi59JDreDyO4Y=;
+        b=OuZmALjGwFlCpiFKwzYzD8fiIUMxgOajJMJp4y9V7i9xpdbR3wEah9A1Z3gpFj0ePp
+         /9dUyz1LW7CFsjmcJl9f4Nogl9RK8e0lWPzv3vVEfJfCw8BD3BVjYnkCBcWwjJ2SErhg
+         r/JeJVJZ4I3y/KEDFGDpnU5eevGePGxJNCGRo+Fe9C+oTjSTs6pGdF9LcC2iFHd4hJNN
+         /3ap+JFFT79oFd4zvO3GYYxxW/j8tkL+f34iIlFUqadSOAY29e/FLCQauoJX7sG6fJF/
+         l+U0SkNHJ2SGcsIsItrVON2cujzwKPE+O01QQYNzjxyMxHO8DmFLbaqmWaYh+6bBzNF0
+         03fw==
+X-Gm-Message-State: AJIora9Xl/CgzZgm7y+fD+RczuQQgMCs5qEYFL3KgAAhKoJ8uNHSfOYS
+        BtpozYXYo4hn3Gs9iqicFXAg9yJmXQoy4w==
+X-Google-Smtp-Source: AGRyM1s/8vU43pwgJyeE2uZ33X0EfSLycxmaVf9MwR6348/GdgjdSlV7qRI5QkUGPhqsz86dDcxxJg==
+X-Received: by 2002:a17:902:d4c2:b0:16b:ffc5:9705 with SMTP id o2-20020a170902d4c200b0016bffc59705mr1137459plg.142.1657681433925;
+        Tue, 12 Jul 2022 20:03:53 -0700 (PDT)
+Received: from debian.me (subs02-180-214-232-20.three.co.id. [180.214.232.20])
+        by smtp.gmail.com with ESMTPSA id l9-20020a170902f68900b0015e8d4eb24fsm7486570plg.153.2022.07.12.20.03.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 12 Jul 2022 20:03:53 -0700 (PDT)
+Received: by debian.me (Postfix, from userid 1000)
+        id 2F2AD103950; Wed, 13 Jul 2022 10:03:47 +0700 (WIB)
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     linux-doc@vger.kernel.org, linux-next@vger.kernel.org
+Cc:     Bagas Sanjaya <bagasdotme@gmail.com>,
+        Giovanni Cabiddu <giovanni.cabiddu@intel.com>,
+        Adam Guerin <adam.guerin@intel.com>,
+        Tomasz Kowallik <tomaszx.kowalik@intel.com>,
+        Wojciech Ziemba <wojciech.ziemba@intel.com>,
+        Fiona Trahe <fiona.trahe@intel.com>,
+        linux-crypto@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 2/2] Documentation: qat: rewrite description
+Date:   Wed, 13 Jul 2022 10:03:33 +0700
+Message-Id: <20220713030332.158525-3-bagasdotme@gmail.com>
+X-Mailer: git-send-email 2.37.0
+In-Reply-To: <20220713030332.158525-1-bagasdotme@gmail.com>
+References: <20220713030332.158525-1-bagasdotme@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Ovh-Tracer-Id: 12609234535036388998
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrudejhedguddugecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhvfevufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefuthgvphhhvghnucfmihhtthcuoehsthgvvhgvsehskhdvrdhorhhgqeenucggtffrrghtthgvrhhnpeeghffhleeigffhteeiffelveefhfeiudehkedtgefhgedvleffgfejgfdtveeigeenucfkpheptddrtddrtddrtddpkedvrdeihedrvdehrddvtddunecuvehluhhsthgvrhfuihiivgepudenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehplhgrhigvrhejjedtrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepshhtvghvvgesshhkvddrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehlihhnuhigqdguohgtsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdfovfetjfhoshhtpehmohehkeeg
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-These were removed in 2.4.7.8. Remove references to super-max and
-super-nr in the sysctl documentation.
+The sysfs description contains redundancy on returned and allowed values
+list, due to the described sysfs is read-write. Rewrite.
 
-Signed-off-by: Stephen Kitt <steve@sk2.org>
+Acked-by: Giovanni Cabiddu <giovanni.cabiddu@intel.com>
+Cc: Adam Guerin <adam.guerin@intel.com>
+Cc: Tomasz Kowallik <tomaszx.kowalik@intel.com>
+Cc: Giovanni Cabiddu <giovanni.cabiddu@intel.com>
+Cc: Wojciech Ziemba <wojciech.ziemba@intel.com>
+Cc: Fiona Trahe <fiona.trahe@intel.com>
+Cc: linux-crypto@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 ---
- Documentation/admin-guide/sysctl/fs.rst | 10 ----------
- 1 file changed, 10 deletions(-)
+ Documentation/ABI/testing/sysfs-driver-qat | 34 +++++++---------------
+ 1 file changed, 11 insertions(+), 23 deletions(-)
 
-diff --git a/Documentation/admin-guide/sysctl/fs.rst b/Documentation/admin-guide/sysctl/fs.rst
-index a61c6aec5e5e..df683c15b098 100644
---- a/Documentation/admin-guide/sysctl/fs.rst
-+++ b/Documentation/admin-guide/sysctl/fs.rst
-@@ -277,16 +277,6 @@ or otherwise protected/tainted binaries. The modes are
- =   ==========  ===============================================================
+diff --git a/Documentation/ABI/testing/sysfs-driver-qat b/Documentation/ABI/testing/sysfs-driver-qat
+index 43e081ec22cc4a..185f81a2aab360 100644
+--- a/Documentation/ABI/testing/sysfs-driver-qat
++++ b/Documentation/ABI/testing/sysfs-driver-qat
+@@ -2,18 +2,14 @@ What:		/sys/bus/pci/devices/<BDF>/qat/state
+ Date:		June 2022
+ KernelVersion:	5.20
+ Contact:	qat-linux@intel.com
+-Description:	Reports the current state of the QAT device and allows to
+-		change it.
++Description:	(RW) Reports the current state of the QAT device. Write to
++		the file to start or stop the device.
  
+-		This attribute is RW.
++		The values are:
  
--super-max & super-nr
----------------------
--
--These numbers control the maximum number of superblocks, and
--thus the maximum number of mounted filesystems the kernel
--can have. You only need to increase super-max if you need to
--mount more filesystems than the current value in super-max
--allows you to.
--
--
- mount-max
- ---------
+-		Returned values:
+-			up: the device is up and running
+-			down: the device is down
++		* up: the device is up and running
++		* down: the device is down
  
+-		Allowed values:
+-			up: initialize and start the device
+-			down: stop the device and bring it down
+ 
+ 		It is possible to transition the device from up to down only
+ 		if the device is up and vice versa.
+@@ -24,22 +20,14 @@ What:		/sys/bus/pci/devices/<BDF>/qat/cfg_services
+ Date:		June 2022
+ KernelVersion:	5.20
+ Contact:	qat-linux@intel.com
+-Description:	Reports the current configuration of the QAT device and allows
+-		to change it.
++Description:	(RW) Reports the current configuration of the QAT device.
++		Write to the file to change the configured services.
+ 
+-		This attribute is RW.
++		The values are:
+ 
+-		Returned values:
+-			sym;asym:	the device is configured for running
+-					crypto services
+-			dc:		the device is configured for running
+-					compression services
+-
+-		Allowed values:
+-			sym;asym:	configure the device for running
+-					crypto services
+-			dc:		configure the device for running
+-					compression services
++		* sym;asym: the device is configured for running crypto
++		  services
++		* dc: the device is configured for running compression services
+ 
+ 		It is possible to set the configuration only if the device
+ 		is in the `down` state (see /sys/bus/pci/devices/<BDF>/qat/state)
 -- 
-2.31.1
+An old man doll... just what I always wanted! - Clara
 
