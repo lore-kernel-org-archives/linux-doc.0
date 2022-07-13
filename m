@@ -2,58 +2,60 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 33EC3C433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 13 Jul 2022 21:16:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 264F2C433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 13 Jul 2022 21:17:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232027AbiGMVQ2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 13 Jul 2022 17:16:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37252 "EHLO
+        id S236391AbiGMVR4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 13 Jul 2022 17:17:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38092 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231869AbiGMVQ1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Jul 2022 17:16:27 -0400
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 846F71B7B6;
-        Wed, 13 Jul 2022 14:16:25 -0700 (PDT)
-Received: by mail-wr1-x434.google.com with SMTP id f2so17208549wrr.6;
-        Wed, 13 Jul 2022 14:16:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=ade7ObTi+FJbpe8M3g1zL7/iq3MRsltHVz+uLnKawkY=;
-        b=Cp5JxwMI6rXF0UwWrr4cETLExEO97I8vjw7cDra1IgW9kTme5cXOmnL0jskHzcwN5Z
-         /ikPWJobLIu8RzDZxGeef7MB/iWuZSSFSrcuzB01WF7scCfUEdB0PLxXTH8VyWs8qOH2
-         XOxGrA7G+/X+PaK1RrBGG0Wzg8gGyFQ+iC+xk/4VvQnZRgpuB2OV9E98ZYC/JfshR8kb
-         YpjxGUllgldmBO9wim6URy4A2/clGwg+7+LxJmecmg74prAse/O12t9TljYd+oOVwzdl
-         oFpNlgrai5LBrbXiWHwbkaKpZ2Bj8B+OWhAcz+UmH/WNz2Udc/kFyDHY1LEz3x3mfVlc
-         aZug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=ade7ObTi+FJbpe8M3g1zL7/iq3MRsltHVz+uLnKawkY=;
-        b=ity1kFHl95PlTAXGYy3JWhbt/vS73zrcIVVn/qIj0/jbP37edPWbKoxCUKG9Cl2ExD
-         UJQ+R9UT1BcEH0hliO/mxcolqae6Js2VJimt4mUCdW2Rd5BQo+LyRPgRG+MTFCJdfnTR
-         Z0zgVoAAZbp0FaVgiWSWoXODYVOSSHCF5GK+vC5p/s3wSRAn7eAu/2eHVN1XoZvurY9y
-         Rp0fPDO2b2rEAtk31Auekb6QZ/cFrm7+4niCINtbu8x8XR4svwoBoW1sjKLoeOTNJRDt
-         J3WpDxA5QOcQ/gvMf6p24m6uEs+rsa84XSfWFZTBJAQZufw5BdVzdE3efxz2pp+z5Deb
-         qIuw==
-X-Gm-Message-State: AJIora/Tmq875ZQ2vT3yxDeKT9eQGCjNsexFl4LVEdHmFRtlvT9zQGmj
-        sMn+Xy/U5yc/IJLesoaod1xZIi86iP+NvQ==
-X-Google-Smtp-Source: AGRyM1tVjzgZGV90TCTospvui4ZLKY31Y9gXgZOMGVRHx4N/Ek+NIoL8+cdLhfoVLyJKOiRctCfJHg==
-X-Received: by 2002:a05:6000:1681:b0:21d:85a7:4ed with SMTP id y1-20020a056000168100b0021d85a704edmr5026044wrd.345.1657746983668;
-        Wed, 13 Jul 2022 14:16:23 -0700 (PDT)
-Received: from imac.fritz.box ([2a02:8010:60a0:0:1d4b:d2ed:e4a9:507e])
-        by smtp.gmail.com with ESMTPSA id f11-20020adfe90b000000b0021d7b41255esm11875182wrm.98.2022.07.13.14.16.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Jul 2022 14:16:23 -0700 (PDT)
-From:   Donald Hunter <donald.hunter@gmail.com>
-To:     bpf@vger.kernel.org, linux-doc@vger.kernel.org
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Donald Hunter <donald.hunter@gmail.com>
-Subject: [PATCH] bpf, docs: document BPF_MAP_TYPE_HASH and variants
-Date:   Wed, 13 Jul 2022 22:16:12 +0100
-Message-Id: <20220713211612.84782-1-donald.hunter@gmail.com>
+        with ESMTP id S231572AbiGMVRz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Jul 2022 17:17:55 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33FD632DAA;
+        Wed, 13 Jul 2022 14:17:54 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id C7106B8215D;
+        Wed, 13 Jul 2022 21:17:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D649BC34114;
+        Wed, 13 Jul 2022 21:17:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1657747071;
+        bh=bJNy6Ilu8OgTmOjBSus8VD5JwAPf9TOtAHeuxrw2/Us=;
+        h=From:To:Cc:Subject:Date:From;
+        b=p4ILm9ZylL450uar2awsbPuxLrIReAoStRufjjdjYUaGn/z9JuQFT9YkGjYZSz14Z
+         tuUaTc/9jOwuKs+jTiZrfzWy8H3ROssfI6XP4tB/MmDyhbcUBFcvnkNlS39KiB+Nya
+         vTQDQWhbNjGZr+hfQAAUlcVbcb8M9A3hIyNc9eNRF0pNOzUHzJ816DHBleDgXFtOBN
+         vIgus02Rsy7sEQEAYmNoXp+JzRu0MBHcEPiJEEN+w/09o8CMo3HAD9lvm+8Mj6nMKp
+         aGEECCjTglUv3N/kSwIEexuw9/C3gT7JEuKhnxF/VGWI5WceU5q49H+eIIDwyu+C1k
+         WC7sJytGpXPIQ==
+From:   Daniel Bristot de Oliveira <bristot@kernel.org>
+To:     Steven Rostedt <rostedt@goodmis.org>
+Cc:     Daniel Bristot de Oliveira <bristot@kernel.org>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Ingo Molnar <mingo@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Will Deacon <will@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Marco Elver <elver@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Gabriele Paoloni <gpaoloni@redhat.com>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Clark Williams <williams@redhat.com>,
+        Tao Zhou <tao.zhou@linux.dev>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-trace-devel@vger.kernel.org
+Subject: [PATCH V5 00/16] The Runtime Verification (RV) interface
+Date:   Wed, 13 Jul 2022 23:17:16 +0200
+Message-Id: <cover.1657745645.git.bristot@kernel.org>
 X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -61,202 +63,222 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This commit adds documentation for BPF_MAP_TYPE_HASH including kernel
-version introduced, usage and examples. It also documents
-BPF_MAP_TYPE_PERCPU_HASH, BPF_MAP_TYPE_LRU_HASH and
-BPF_MAP_TYPE_LRU_PERCPU_HASH which are similar.
+Over the last years, I've been exploring the possibility of
+verifying the Linux kernel behavior using Runtime Verification.
 
-Note that this file is included in the BPF documentation by the glob in
-Documentation/bpf/maps.rst
+Runtime Verification (RV) is a lightweight (yet rigorous) method that
+complements classical exhaustive verification techniques (such as model
+checking and theorem proving) with a more practical approach for complex
+systems.
 
-Signed-off-by: Donald Hunter <donald.hunter@gmail.com>
----
- Documentation/bpf/map_hash.rst | 176 +++++++++++++++++++++++++++++++++
- 1 file changed, 176 insertions(+)
- create mode 100644 Documentation/bpf/map_hash.rst
+Instead of relying on a fine-grained model of a system (e.g., a
+re-implementation a instruction level), RV works by analyzing the trace of the
+system's actual execution, comparing it against a formal specification of
+the system behavior.
 
-diff --git a/Documentation/bpf/map_hash.rst b/Documentation/bpf/map_hash.rst
-new file mode 100644
-index 000000000000..991452e70cc9
---- /dev/null
-+++ b/Documentation/bpf/map_hash.rst
-@@ -0,0 +1,176 @@
-+.. SPDX-License-Identifier: GPL-2.0-only
-+.. Copyright (C) 2021 Red Hat, Inc.
-+
-+===============================================
-+BPF_MAP_TYPE_HASH, with PERCPU and LRU Variants
-+===============================================
-+
-+.. note::
-+   - ``BPF_MAP_TYPE_HASH`` was introduced in kernel version 3.19
-+   - ``BPF_MAP_TYPE_PERCPU_HASH`` was introduced in version 4.6
-+   - Both ``BPF_MAP_TYPE_LRU_HASH`` and ``BPF_MAP_TYPE_LRU_PERCPU_HASH``
-+     were introduced in version 4.10
-+
-+``BPF_MAP_TYPE_HASH`` and ``BPF_MAP_TYPE_PERCPU_HASH`` provide general
-+purpose hash map storage. Both the key and the value can be structs,
-+allowing for composite keys and values. The maximum number of entries is
-+defined in max_entries and is limited to 2^32. The kernel is responsible
-+for allocating and freeing key/value pairs, up to the max_entries limit
-+that you specify. ``BPF_MAP_TYPE_PERCPU_HASH`` provides a separate hash
-+table per CPU.
-+
-+Values stored in ``BPF_MAP_TYPE_HASH`` can be accessed concurrently by
-+programs running on different CPUs.  Since Kernel version 5.1, the BPF
-+infrastructure provides ``struct bpf_spin_lock`` to synchronize access.
-+
-+The ``BPF_MAP_TYPE_LRU_HASH`` and ``BPF_MAP_TYPE_LRU_PERCPU_HASH``
-+variants add LRU semantics to their respective hash tables. An LRU hash
-+will automatically evict the least recently used entries when the hash
-+table reaches capacity. An LRU hash maintains an internal LRU list that
-+is used to select elements for eviction. This internal LRU list is
-+shared across CPUs but it is possible to request a per CPU LRU list with
-+the ``BPF_F_NO_COMMON_LRU`` flag when calling ``bpf_map_create``.
-+
-+Usage
-+=====
-+
-+.. c:function::
-+   long bpf_map_update_elem(struct bpf_map *map, const void *key, const void *value, u60 flags)
-+
-+Hash entries can be added or updated using the ``bpf_map_update_elem()``
-+helper. This helper replaces existing elements atomically. The ``flags``
-+parameter can be used to control the update behaviour:
-+
-+- ``BPF_ANY`` will create a new element or update an existing element
-+- ``BPF_NOTEXIST`` will create a new element only if one did not already
-+  exist
-+- ``BPF_EXIST`` will update an existing element
-+
-+``bpf_map_update_elem()`` returns 0 on success, or negative error in
-+case of failure.
-+
-+.. c:function::
-+   void *bpf_map_lookup_elem(struct bpf_map *map, const void *key)
-+
-+Hash entries can be retrieved using the ``bpf_map_lookup_elem()``
-+helper. This helper returns a pointer to the value associated with
-+``key``, or ``NULL`` if no entry was found.
-+
-+.. c:function::
-+   long bpf_map_delete_elem(struct bpf_map *map, const void *key)
-+
-+Hash entries can be deleted using the ``bpf_map_delete_elem()``
-+helper. This helper will return 0 on success, or negative error in case
-+of failure.
-+
-+Per CPU Hashes
-+--------------
-+
-+For ``BPF_MAP_TYPE_PERCPU_HASH`` and ``BPF_MAP_TYPE_LRU_PERCPU_HASH``
-+the ``bpf_map_update_elem()`` and ``bpf_map_lookup_elem()`` helpers
-+automatically access the hash slot for the current CPU.
-+
-+.. c:function::
-+   void *bpf_map_lookup_percpu_elem(struct bpf_map *map, const void *key, u32 cpu)
-+
-+The ``bpf_map_lookup_percpu_elem()`` helper can be used to lookup the
-+value in the hash slot for a specific CPU. Returns value associated with
-+``key`` on ``cpu`` , or ``NULL`` if no entry was found or ``cpu`` is
-+invalid.
-+
-+Userspace
-+---------
-+
-+.. c:function::
-+   int bpf_map_get_next_key (int fd, const void *cur_key, void *next_key)
-+
-+In userspace, is possible to iterate through the keys of a hash using
-+the ``bpf_map_get_next_key()`` function. The first key can be fetched by
-+calling ``bpf_map_get_next_key()`` with ``cur_key`` set to
-+``NULL``. Subsequent calls will fetch the next key that follows the
-+current key. ``bpf_map_get_next_key()`` returns 0 on success, -ENOENT if
-+cur_key is the last key in the hash, or negative error in case of
-+failure.
-+
-+Examples
-+========
-+
-+Please see the ``tools/testing/selftests/bpf`` directory for functional
-+examples.  This sample code demonstrates API usage.
-+
-+Kernel
-+------
-+
-+.. code-block:: c
-+
-+    #include <linux/bpf.h>
-+    #include <bpf/bpf_helpers.h>
-+
-+    struct key {
-+        __u32 srcip;
-+    };
-+
-+    struct value {
-+        __u64 packets;
-+        __u64 bytes;
-+    };
-+
-+    struct {
-+            __uint(type, BPF_MAP_TYPE_LRU_HASH);
-+            __uint(max_entries, 32);
-+            __type(key, struct key);
-+            __type(value, struct value);
-+    } packet_stats SEC(".maps");
-+
-+    static inline void count_by_srcip(__u32 srcip, int bytes)
-+    {
-+            struct key key = {
-+                    .srcip = srcip
-+            };
-+            struct value *value = bpf_map_lookup_elem(&packet_stats, &key);
-+            if (value) {
-+                    __sync_fetch_and_add(&value->packets, 1);
-+                    __sync_fetch_and_add(&value->bytes, bytes);
-+            } else {
-+                    struct value newval = { 1, bytes };
-+                    bpf_map_update_elem(&packet_stats, &key, &newval, BPF_NOEXIST);
-+            }
-+    }
-+
-+Userspace
-+---------
-+
-+.. code-block:: c
-+
-+    #include <bpf/libbpf.h>
-+    #include <bpf/bpf.h>
-+
-+    static void print_values(int map_fd)
-+    {
-+            struct key *cur_key = NULL;
-+            struct key next_key;
-+            int next;
-+            do {
-+                    next = bpf_map_get_next_key(stats_fd, cur_key, &next_key);
-+                    if (next == -ENOENT)
-+                            break;
-+                    if (next < 0) {
-+                            fprintf(stderr, "bpf_map_get_next_key %d returned %s\n", stats_fd, strerror(-next));
-+                            break;
-+                    }
-+
-+                    struct in_addr src_addr = {
-+                            .s_addr = next_key.srcip
-+                    };
-+                    char *src_ip = inet_ntoa(src_addr);
-+
-+                    struct value value;
-+                    int ret = bpf_map_lookup_elem(stats_fd, &next_key, &value);
-+                    if (ret < 0) {
-+                            fprintf(stderr, "Failed to lookup elem with key %s: %s\n", src_ip, strerror(-ret));
-+                            break;
-+                    }
-+                    printf("%s: %lld packets, %lld bytes\n", src_ip, value.packets, value.bytes);
-+                    cur_key = &next_key;
-+            } while (next == 0);
-+    }
+The usage of deterministic automaton for RV is a well-established
+approach. In the specific case of the Linux kernel, you can check how
+to model complex behavior of the Linux kernel with this paper:
+
+  De Oliveira, Daniel Bristot; Cucinotta, Tommaso; De Oliveira, Romulo Silva.
+  *Efficient formal verification for the Linux kernel.* In: International
+  Conference on Software Engineering and Formal Methods. Springer, Cham, 2019.
+  p. 315-332.
+
+And how efficient is this approach here:
+
+  De Oliveira, Daniel B.; De Oliveira, Romulo S.; Cucinotta, Tommaso. *A thread
+  synchronization model for the PREEMPT_RT Linux kernel.* Journal of Systems
+  Architecture, 2020, 107: 101729.
+
+tlrd: it is possible to model complex behaviors in a modular way, with
+an acceptable overhead (even for production systems). See this
+presentation at 2019's ELCE: https://www.youtube.com/watch?v=BfTuEHafNgg
+
+Here I am proposing a more practical approach for the usage of deterministic
+automata for runtime verification, and it includes:
+
+	- An interface for controlling the verification;
+	- A tool and set of headers that enables the automatic code
+	  generation of the RV monitor (Monitor Synthesis);
+	- Sample monitors to evaluate the interface;
+
+Given that RV is a tracing consumer, the code is being placed inside the
+tracing subsystem (Steven and I have been talking about it for a while).
+
+Features to be added after this patchset:
+	- safe_wtd monitor (requires further discussion with watchdog maintainers)
+	- Export symbols for external modules
+	- dot2bpf
+	- Add a reactor that enables the visualization of the visited
+	  states via KCOV (Marco Elver & Dmitry Vyukov)
+	- Add a CRC method to check from user-space if the values
+	  exported by the monitor were not corrupted by any other
+	  kernel task (Gabriele Paoloni)
+
+Changes from v4:
+	- The watchdog monitor will be discussed on another thread (Daniel)
+	- s/safe/final/ in the tracepoint definition (Daniel)
+	- Improved error handling at __init functions (Daniel)
+	- Remove the hostname from example of commands in a shell (Bagas Sanjaya)
+	- Added documentation about automata representation in C/DOT/Formal
+	  and this documentation is cited in a comment on all model.h
+	  (Steven)
+	- Make wwnr a single patch (Daniel/Steven)
+	- Add the .dot file for each monitor (Daniel)
+	- Add a document for each monitor (Daniel)
+	- Add an order for documentation in the index.rst (Daniel)
+	- Add wip/wwnr/... long description (Steven/Randy)
+	- Add comments for helper functions (Steven)
+	- Improve checks in da_monitor.h (Tao Zhou)
+	- Change final states set to bool (Tao/Daniel)
+	- Adjust indentation on enabling monitor/reactor (Steven)
+	- Use strim on buffers from user-space (Steven)
+	- Remove ifdefs inside functions (Steven)
+	- Adjust depends on RV in Kconfig (Steven)
+	- Check empty enabled monitor list (Tao Zhou)
+	- Fixed Copyright (Steven)
+	- Adjusted structures' indentation (Steven)
+	- Fix rv/monitors/$monitor/enabled return value (Song Liu)
+	- Typos (Punit Agrawal/Randy)
+	- Improved python scripts w.r.t. consistency (Steve)
+	- Blamed myself for so many problems :-) (Daniel's mind)
+Changes from v3:
+	- Rebased on 5.19
+	(rostedt's request were made on 1x1 meetings)
+	- Moved monitors to monitors/$name/ (Rostedt)
+	- Consolidate the tracepoints into a single include file in the default
+	  directory (trace/events/rv.h) (Rostedt)
+	- The tracepoints now record the entire string to the buffer.
+	- Change the enable_monitors to disable monitors with ! (instead of -).
+	  (Rostedt)
+	- Add a suffix to the state/events enums, to avoid conflict in the
+	  vmlinux.h used by eBPF.
+	- The models are now placed in the $name.h (it used to store the
+	  tracepoints, but they are now consolidated in a single file)
+	- dot2c and dot2k updated to the changes
+	- models re-generated with these new standards.
+	- user-space tools moved to an directory outside of tools/tracing as
+	  other methods of verification/log sources are planned.
+Changes from v2:
+	- Tons of checkpatch and kernel test robot
+	- Moved files to better places
+	- Adjusted watchdog tracepoints patch (Guenter Roeck)
+	- Added pretimeout watchdog events (Peter Enderborg) 
+	- Used task struct to store per-task monitors (Peter Zijlstra)
+	- Changed the instrumentation to use internal definition of tracepoint
+	  and check the callback signature (Steven Rostedt)
+	- Used printk_deferred() and removed the comment about deadlocks
+	  (Shuah Khan/John Ogness)
+	- Some simplifications:
+		- Removed the safe watchdog nowayout for now (myself)
+		- Removed export symbols for now (myself)
+Changes from V1:
+	- rebased to the latest kernel;
+	- code cleanup;
+	- the watchdog dev monitor;
+	- safety app;
+
+
+Daniel Bristot de Oliveira (16):
+  rv: Add Runtime Verification (RV) interface
+  rv: Add runtime reactors interface
+  rv/include: Add helper functions for deterministic automata
+  rv/include: Add deterministic automata monitor definition via C macros
+  rv/include: Add instrumentation helper functions
+  Documentation/rv: Add a basic documentation
+  tools/rv: Add dot2c
+  Documentation/rv: Add deterministic automaton documentation
+  tools/rv: Add dot2k
+  Documentation/rv: Add deterministic automata monitor synthesis
+    documentation
+  Documentation/rv: Add deterministic automata instrumentation
+    documentation
+  rv/monitor: Add the wip monitor skeleton created by dot2k
+  rv/monitor: Add the wip monitor
+  rv/monitor: Add the wwnr monitor
+  rv/reactor: Add the printk reactor
+  rv/reactor: Add the panic reactor
+
+ Documentation/trace/index.rst                 |   1 +
+ .../trace/rv/da_monitor_instrumentation.rst   | 169 ++++
+ .../trace/rv/da_monitor_synthesis.rst         | 147 ++++
+ .../trace/rv/deterministic_automata.rst       | 184 +++++
+ Documentation/trace/rv/index.rst              |  14 +
+ Documentation/trace/rv/monitor_wip.rst        |  55 ++
+ Documentation/trace/rv/monitor_wwnr.rst       |  45 ++
+ .../trace/rv/runtime-verification.rst         | 233 ++++++
+ include/linux/rv.h                            |  35 +
+ include/linux/sched.h                         |  11 +
+ include/rv/automata.h                         |  75 ++
+ include/rv/da_monitor.h                       | 524 +++++++++++++
+ include/rv/instrumentation.h                  |  29 +
+ include/rv/rv.h                               |  32 +
+ include/trace/events/rv.h                     | 142 ++++
+ kernel/fork.c                                 |  14 +
+ kernel/trace/Kconfig                          |   2 +
+ kernel/trace/Makefile                         |   1 +
+ kernel/trace/rv/Kconfig                       |  81 ++
+ kernel/trace/rv/Makefile                      |   8 +
+ kernel/trace/rv/monitors/wip/wip.c            |  91 +++
+ kernel/trace/rv/monitors/wip/wip.h            |  46 ++
+ kernel/trace/rv/monitors/wwnr/wwnr.c          |  90 +++
+ kernel/trace/rv/monitors/wwnr/wwnr.h          |  46 ++
+ kernel/trace/rv/reactor_panic.c               |  43 +
+ kernel/trace/rv/reactor_printk.c              |  42 +
+ kernel/trace/rv/rv.c                          | 739 ++++++++++++++++++
+ kernel/trace/rv/rv.h                          |  65 ++
+ kernel/trace/rv/rv_reactors.c                 | 488 ++++++++++++
+ kernel/trace/trace.c                          |   2 +
+ kernel/trace/trace.h                          |   9 +
+ tools/verification/dot2/Makefile              |  26 +
+ tools/verification/dot2/automata.py           | 174 +++++
+ tools/verification/dot2/dot2c                 |  26 +
+ tools/verification/dot2/dot2c.py              | 254 ++++++
+ tools/verification/dot2/dot2k                 |  47 ++
+ tools/verification/dot2/dot2k.py              | 177 +++++
+ .../dot2/dot2k_templates/main_global.c        |  94 +++
+ .../dot2/dot2k_templates/main_per_cpu.c       |  94 +++
+ .../dot2/dot2k_templates/main_per_task.c      |  94 +++
+ tools/verification/models/wip.dot             |  16 +
+ tools/verification/models/wwnr.dot            |  16 +
+ 42 files changed, 4481 insertions(+)
+ create mode 100644 Documentation/trace/rv/da_monitor_instrumentation.rst
+ create mode 100644 Documentation/trace/rv/da_monitor_synthesis.rst
+ create mode 100644 Documentation/trace/rv/deterministic_automata.rst
+ create mode 100644 Documentation/trace/rv/index.rst
+ create mode 100644 Documentation/trace/rv/monitor_wip.rst
+ create mode 100644 Documentation/trace/rv/monitor_wwnr.rst
+ create mode 100644 Documentation/trace/rv/runtime-verification.rst
+ create mode 100644 include/linux/rv.h
+ create mode 100644 include/rv/automata.h
+ create mode 100644 include/rv/da_monitor.h
+ create mode 100644 include/rv/instrumentation.h
+ create mode 100644 include/rv/rv.h
+ create mode 100644 include/trace/events/rv.h
+ create mode 100644 kernel/trace/rv/Kconfig
+ create mode 100644 kernel/trace/rv/Makefile
+ create mode 100644 kernel/trace/rv/monitors/wip/wip.c
+ create mode 100644 kernel/trace/rv/monitors/wip/wip.h
+ create mode 100644 kernel/trace/rv/monitors/wwnr/wwnr.c
+ create mode 100644 kernel/trace/rv/monitors/wwnr/wwnr.h
+ create mode 100644 kernel/trace/rv/reactor_panic.c
+ create mode 100644 kernel/trace/rv/reactor_printk.c
+ create mode 100644 kernel/trace/rv/rv.c
+ create mode 100644 kernel/trace/rv/rv.h
+ create mode 100644 kernel/trace/rv/rv_reactors.c
+ create mode 100644 tools/verification/dot2/Makefile
+ create mode 100644 tools/verification/dot2/automata.py
+ create mode 100644 tools/verification/dot2/dot2c
+ create mode 100644 tools/verification/dot2/dot2c.py
+ create mode 100644 tools/verification/dot2/dot2k
+ create mode 100644 tools/verification/dot2/dot2k.py
+ create mode 100644 tools/verification/dot2/dot2k_templates/main_global.c
+ create mode 100644 tools/verification/dot2/dot2k_templates/main_per_cpu.c
+ create mode 100644 tools/verification/dot2/dot2k_templates/main_per_task.c
+ create mode 100644 tools/verification/models/wip.dot
+ create mode 100644 tools/verification/models/wwnr.dot
+
 -- 
 2.35.1
 
