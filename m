@@ -2,285 +2,165 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1304CC433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 13 Jul 2022 23:30:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0AC97C433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 13 Jul 2022 23:46:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229849AbiGMXaS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 13 Jul 2022 19:30:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44556 "EHLO
+        id S231419AbiGMXqa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 13 Jul 2022 19:46:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55492 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229735AbiGMXaR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Jul 2022 19:30:17 -0400
-Received: from mail-pj1-x1049.google.com (mail-pj1-x1049.google.com [IPv6:2607:f8b0:4864:20::1049])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 100F345F7E
-        for <linux-doc@vger.kernel.org>; Wed, 13 Jul 2022 16:30:17 -0700 (PDT)
-Received: by mail-pj1-x1049.google.com with SMTP id o8-20020a17090ab88800b001ef81869167so2447483pjr.2
-        for <linux-doc@vger.kernel.org>; Wed, 13 Jul 2022 16:30:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
-         :cc;
-        bh=3tMHBHSEGkpqSv57nbQsmTiS9I+Zeaov4FGtseRBzH0=;
-        b=KzcVs9o6ybHk2CbxYA4wIgX5VUTsOSRfjF6+X6RSEertdAVA/wIJa6ZAZO0s/9pp4q
-         19Jqkx6eHuVghSUlCl7KbBsUqOW3TvnkyRT5GdcKRyTCNAosBPywdhcCNqWMfpzqIeQs
-         3VvXHl9DyY6IX9jtfQnrJli1eAJ6A0EzXrQuSgFOtoscbX9badHNn2po02hG15YVbVrw
-         UR7KHyzKibREgkmqjcySQKwYKmhr5eRnPRi7bLEgyiM1wWOZpmHWmO6w8r9xO1FHuPrU
-         spbHga+NlM6Os4+ciVAZ5FT4AJg2qKBdYzFrGHZaKSZcdM6A+MDq9dFgElV69zzdOOQu
-         Ac+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc;
-        bh=3tMHBHSEGkpqSv57nbQsmTiS9I+Zeaov4FGtseRBzH0=;
-        b=JYjCjPLKqt0CBrq/Cocr+Qjrbt8PgUBvrQUDJfmpIISKPPnNnK6G/wIzG5RrPS5nk1
-         7ENE0vVXtTwEOoPV/ifg/nRy7O58+LEsjkXtCQFubhn/9vR2yCsLkXlcIU19I2qSMAsS
-         eI4NdCrXi8oR+dib0bbz1hxrPjn1xHZp7EUXeEWABK2mYhWy0+6dUoTh9xrhqkLygwgI
-         CGfkEtIrY3mAYz7OtD3K0ZDEh+eLrgAuSXBQR9urhvNwIRahgO9N6OeTjoMTIYG+uCdr
-         MWSVH83faKFlIUhbTg4mbgqD6k4+IFM+GIo6gr0ii638Y8j1u9/s91pC5wuwYrZurFUw
-         oPwA==
-X-Gm-Message-State: AJIora/WFh4Gt2GJZyWcvs9Xcg/avD78WxlO5LSxdNQwRHpRYfn6uzly
-        SC5htOHAgVTM81WTJK2bcmNtFHs=
-X-Google-Smtp-Source: AGRyM1u+siN+hD3IeWNUBlRzgszyXkIfKl7nhe36zgbNOGMDb6JZqY4vvPICoOl9GulbflaUNPuroK0=
-X-Received: from sdf.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5935])
- (user=sdf job=sendgmr) by 2002:a17:902:8343:b0:167:8899:2f92 with SMTP id
- z3-20020a170902834300b0016788992f92mr5492603pln.117.1657755016580; Wed, 13
- Jul 2022 16:30:16 -0700 (PDT)
-Date:   Wed, 13 Jul 2022 16:30:15 -0700
-In-Reply-To: <20220713211612.84782-1-donald.hunter@gmail.com>
-Message-Id: <Ys9VhwanEB/T8/Ue@google.com>
-Mime-Version: 1.0
-References: <20220713211612.84782-1-donald.hunter@gmail.com>
-Subject: Re: [PATCH] bpf, docs: document BPF_MAP_TYPE_HASH and variants
-From:   sdf@google.com
-To:     Donald Hunter <donald.hunter@gmail.com>
-Cc:     bpf@vger.kernel.org, linux-doc@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>
-Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
+        with ESMTP id S229598AbiGMXq3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Jul 2022 19:46:29 -0400
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E49DA4D4D3
+        for <linux-doc@vger.kernel.org>; Wed, 13 Jul 2022 16:46:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1657755988; x=1689291988;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Vqewqu+V5/PEFIJYsEWdExeBWYsfJPF7XlXLCyGl8wY=;
+  b=ZAiTlc5A8ACrWj/Ip43Gqof53fJbdEOHgRLu9vzyBgi3FfLNs/9aEjx1
+   CprdSes19fSUpQieX2rAwZEdxS5n9pDZs48sHSdEwTE3P2FBsvW2u2fLY
+   8c256YK3Wfd4+NXztaWbgSpsHhzX2DOBNVtl9VYg+M54F9HztVlQ82vcJ
+   EOqheyH2SPTTQN2qn8QUwN9nTyt4SOVNyl96402oRBkjKFbQmEMk8ojaT
+   Ly6H2wtkGQmG91rLapZKngUTJTYNnDkMKI2hGVKWnJz9Vb8Fje0CliwRG
+   CJpOoXv/WUvzd/aPUjXaSG8SzL3X0gGFAD1k5Ymbbu5JBq4KDTpHQAjW2
+   Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10407"; a="311019013"
+X-IronPort-AV: E=Sophos;i="5.92,269,1650956400"; 
+   d="scan'208";a="311019013"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jul 2022 16:46:28 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.92,269,1650956400"; 
+   d="scan'208";a="595890020"
+Received: from lkp-server02.sh.intel.com (HELO 8708c84be1ad) ([10.239.97.151])
+  by orsmga002.jf.intel.com with ESMTP; 13 Jul 2022 16:46:26 -0700
+Received: from kbuild by 8708c84be1ad with local (Exim 4.95)
+        (envelope-from <lkp@intel.com>)
+        id 1oBm3m-0003v3-1b;
+        Wed, 13 Jul 2022 23:46:26 +0000
+Date:   Thu, 14 Jul 2022 07:45:46 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Xiubo Li <xiubli@redhat.com>
+Cc:     kbuild-all@lists.01.org,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        Ilya Dryomov <idryomov@gmail.com>,
+        David Howells <dhowells@redhat.com>, linux-doc@vger.kernel.org
+Subject: [linux-next:master 9878/10347] htmldocs:
+ Documentation/filesystems/netfs_library.rst:384: WARNING: Inline emphasis
+ start-string without end-string.
+Message-ID: <202207140742.GTPk4U8i-lkp@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 07/13, Donald Hunter wrote:
-> This commit adds documentation for BPF_MAP_TYPE_HASH including kernel
-> version introduced, usage and examples. It also documents
-> BPF_MAP_TYPE_PERCPU_HASH, BPF_MAP_TYPE_LRU_HASH and
-> BPF_MAP_TYPE_LRU_PERCPU_HASH which are similar.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   4662b7adea50bb62e993a67f611f3be625d3df0d
+commit: 157be6ddd9e43835f36264b7bd41a918680ad841 [9878/10347] netfs: do not unlock and put the folio twice
+reproduce: make htmldocs
 
-> Note that this file is included in the BPF documentation by the glob in
-> Documentation/bpf/maps.rst
+If you fix the issue, kindly add following tag where applicable
+Reported-by: kernel test robot <lkp@intel.com>
 
-> Signed-off-by: Donald Hunter <donald.hunter@gmail.com>
-> ---
->   Documentation/bpf/map_hash.rst | 176 +++++++++++++++++++++++++++++++++
->   1 file changed, 176 insertions(+)
->   create mode 100644 Documentation/bpf/map_hash.rst
+All warnings (new ones prefixed by >>):
 
-> diff --git a/Documentation/bpf/map_hash.rst  
-> b/Documentation/bpf/map_hash.rst
-> new file mode 100644
-> index 000000000000..991452e70cc9
-> --- /dev/null
-> +++ b/Documentation/bpf/map_hash.rst
-> @@ -0,0 +1,176 @@
-> +.. SPDX-License-Identifier: GPL-2.0-only
-> +.. Copyright (C) 2021 Red Hat, Inc.
-> +
-> +===============================================
-> +BPF_MAP_TYPE_HASH, with PERCPU and LRU Variants
-> +===============================================
-> +
-> +.. note::
-> +   - ``BPF_MAP_TYPE_HASH`` was introduced in kernel version 3.19
-> +   - ``BPF_MAP_TYPE_PERCPU_HASH`` was introduced in version 4.6
-> +   - Both ``BPF_MAP_TYPE_LRU_HASH`` and ``BPF_MAP_TYPE_LRU_PERCPU_HASH``
-> +     were introduced in version 4.10
-> +
-> +``BPF_MAP_TYPE_HASH`` and ``BPF_MAP_TYPE_PERCPU_HASH`` provide general
-> +purpose hash map storage. Both the key and the value can be structs,
-> +allowing for composite keys and values. The maximum number of entries is
-> +defined in max_entries and is limited to 2^32. The kernel is responsible
+>> Documentation/filesystems/netfs_library.rst:384: WARNING: Inline emphasis start-string without end-string.
+>> Documentation/filesystems/netfs_library:609: fs/netfs/buffered_read.c:318: WARNING: Inline emphasis start-string without end-string.
 
-Do we really need to mention 2^32 limit here? It really depends on
-the key/value sizes, right?
+vim +384 Documentation/filesystems/netfs_library.rst
 
-Instead, might be worth talking about how/when this memory is allocated and
-mention BPF_F_NO_PREALLOC?
+   309	
+   310	 * ``init_request()``
+   311	
+   312	   [Optional] This is called to initialise the request structure.  It is given
+   313	   the file for reference.
+   314	
+   315	 * ``free_request()``
+   316	
+   317	   [Optional] This is called as the request is being deallocated so that the
+   318	   filesystem can clean up any state it has attached there.
+   319	
+   320	 * ``begin_cache_operation()``
+   321	
+   322	   [Optional] This is called to ask the network filesystem to call into the
+   323	   cache (if present) to initialise the caching state for this read.  The netfs
+   324	   library module cannot access the cache directly, so the cache should call
+   325	   something like fscache_begin_read_operation() to do this.
+   326	
+   327	   The cache gets to store its state in ->cache_resources and must set a table
+   328	   of operations of its own there (though of a different type).
+   329	
+   330	   This should return 0 on success and an error code otherwise.  If an error is
+   331	   reported, the operation may proceed anyway, just without local caching (only
+   332	   out of memory and interruption errors cause failure here).
+   333	
+   334	 * ``expand_readahead()``
+   335	
+   336	   [Optional] This is called to allow the filesystem to expand the size of a
+   337	   readahead read request.  The filesystem gets to expand the request in both
+   338	   directions, though it's not permitted to reduce it as the numbers may
+   339	   represent an allocation already made.  If local caching is enabled, it gets
+   340	   to expand the request first.
+   341	
+   342	   Expansion is communicated by changing ->start and ->len in the request
+   343	   structure.  Note that if any change is made, ->len must be increased by at
+   344	   least as much as ->start is reduced.
+   345	
+   346	 * ``clamp_length()``
+   347	
+   348	   [Optional] This is called to allow the filesystem to reduce the size of a
+   349	   subrequest.  The filesystem can use this, for example, to chop up a request
+   350	   that has to be split across multiple servers or to put multiple reads in
+   351	   flight.
+   352	
+   353	   This should return 0 on success and an error code on error.
+   354	
+   355	 * ``issue_read()``
+   356	
+   357	   [Required] The helpers use this to dispatch a subrequest to the server for
+   358	   reading.  In the subrequest, ->start, ->len and ->transferred indicate what
+   359	   data should be read from the server.
+   360	
+   361	   There is no return value; the netfs_subreq_terminated() function should be
+   362	   called to indicate whether or not the operation succeeded and how much data
+   363	   it transferred.  The filesystem also should not deal with setting folios
+   364	   uptodate, unlocking them or dropping their refs - the helpers need to deal
+   365	   with this as they have to coordinate with copying to the local cache.
+   366	
+   367	   Note that the helpers have the folios locked, but not pinned.  It is
+   368	   possible to use the ITER_XARRAY iov iterator to refer to the range of the
+   369	   inode that is being operated upon without the need to allocate large bvec
+   370	   tables.
+   371	
+   372	 * ``is_still_valid()``
+   373	
+   374	   [Optional] This is called to find out if the data just read from the local
+   375	   cache is still valid.  It should return true if it is still valid and false
+   376	   if not.  If it's not still valid, it will be reread from the server.
+   377	
+   378	 * ``check_write_begin()``
+   379	
+   380	   [Optional] This is called from the netfs_write_begin() helper once it has
+   381	   allocated/grabbed the folio to be modified to allow the filesystem to flush
+   382	   conflicting state before allowing it to be modified.
+   383	
+ > 384	   It may unlock and discard the folio it was given and set the caller's folio
+   385	   pointer to NULL.  It should return 0 if everything is now fine (*foliop
+   386	   left set) or the op should be retried (*foliop cleared) and any other error
+   387	   code to abort the operation.
+   388	
+   389	 * ``done``
+   390	
+   391	   [Optional] This is called after the folios in the request have all been
+   392	   unlocked (and marked uptodate if applicable).
+   393	
+   394	
+   395	
 
-> +for allocating and freeing key/value pairs, up to the max_entries limit
-> +that you specify. ``BPF_MAP_TYPE_PERCPU_HASH`` provides a separate hash
-> +table per CPU.
-> +
-> +Values stored in ``BPF_MAP_TYPE_HASH`` can be accessed concurrently by
-> +programs running on different CPUs.  Since Kernel version 5.1, the BPF
-> +infrastructure provides ``struct bpf_spin_lock`` to synchronize access.
-> +
-> +The ``BPF_MAP_TYPE_LRU_HASH`` and ``BPF_MAP_TYPE_LRU_PERCPU_HASH``
-> +variants add LRU semantics to their respective hash tables. An LRU hash
-> +will automatically evict the least recently used entries when the hash
-> +table reaches capacity. An LRU hash maintains an internal LRU list that
-> +is used to select elements for eviction. This internal LRU list is
-> +shared across CPUs but it is possible to request a per CPU LRU list with
-> +the ``BPF_F_NO_COMMON_LRU`` flag when calling ``bpf_map_create``.
-> +
-> +Usage
-> +=====
-> +
-> +.. c:function::
-> +   long bpf_map_update_elem(struct bpf_map *map, const void *key, const  
-> void *value, u60 flags)
-
-s/u60/u64/
-
-> +
-> +Hash entries can be added or updated using the ``bpf_map_update_elem()``
-> +helper. This helper replaces existing elements atomically. The ``flags``
-> +parameter can be used to control the update behaviour:
-> +
-> +- ``BPF_ANY`` will create a new element or update an existing element
-> +- ``BPF_NOTEXIST`` will create a new element only if one did not already
-> +  exist
-> +- ``BPF_EXIST`` will update an existing element
-> +
-> +``bpf_map_update_elem()`` returns 0 on success, or negative error in
-> +case of failure.
-> +
-> +.. c:function::
-> +   void *bpf_map_lookup_elem(struct bpf_map *map, const void *key)
-> +
-> +Hash entries can be retrieved using the ``bpf_map_lookup_elem()``
-> +helper. This helper returns a pointer to the value associated with
-> +``key``, or ``NULL`` if no entry was found.
-> +
-> +.. c:function::
-> +   long bpf_map_delete_elem(struct bpf_map *map, const void *key)
-> +
-> +Hash entries can be deleted using the ``bpf_map_delete_elem()``
-> +helper. This helper will return 0 on success, or negative error in case
-> +of failure.
-> +
-> +Per CPU Hashes
-> +--------------
-> +
-> +For ``BPF_MAP_TYPE_PERCPU_HASH`` and ``BPF_MAP_TYPE_LRU_PERCPU_HASH``
-> +the ``bpf_map_update_elem()`` and ``bpf_map_lookup_elem()`` helpers
-> +automatically access the hash slot for the current CPU.
-> +
-> +.. c:function::
-> +   void *bpf_map_lookup_percpu_elem(struct bpf_map *map, const void  
-> *key, u32 cpu)
-> +
-> +The ``bpf_map_lookup_percpu_elem()`` helper can be used to lookup the
-> +value in the hash slot for a specific CPU. Returns value associated with
-> +``key`` on ``cpu`` , or ``NULL`` if no entry was found or ``cpu`` is
-> +invalid.
-> +
-> +Userspace
-> +---------
-> +
-> +.. c:function::
-> +   int bpf_map_get_next_key (int fd, const void *cur_key, void *next_key)
-> +
-> +In userspace, is possible to iterate through the keys of a hash using
-> +the ``bpf_map_get_next_key()`` function. The first key can be fetched by
-> +calling ``bpf_map_get_next_key()`` with ``cur_key`` set to
-> +``NULL``. Subsequent calls will fetch the next key that follows the
-> +current key. ``bpf_map_get_next_key()`` returns 0 on success, -ENOENT if
-> +cur_key is the last key in the hash, or negative error in case of
-> +failure.
-> +
-> +Examples
-> +========
-> +
-> +Please see the ``tools/testing/selftests/bpf`` directory for functional
-> +examples.  This sample code demonstrates API usage.
-
-[..]
-
-> +Kernel
-> +------
-> +
-> +.. code-block:: c
-> +
-> +    #include <linux/bpf.h>
-> +    #include <bpf/bpf_helpers.h>
-> +
-> +    struct key {
-> +        __u32 srcip;
-> +    };
-> +
-> +    struct value {
-> +        __u64 packets;
-> +        __u64 bytes;
-> +    };
-> +
-> +    struct {
-> +            __uint(type, BPF_MAP_TYPE_LRU_HASH);
-> +            __uint(max_entries, 32);
-> +            __type(key, struct key);
-> +            __type(value, struct value);
-> +    } packet_stats SEC(".maps");
-> +
-> +    static inline void count_by_srcip(__u32 srcip, int bytes)
-> +    {
-> +            struct key key = {
-> +                    .srcip = srcip
-> +            };
-> +            struct value *value = bpf_map_lookup_elem(&packet_stats,  
-> &key);
-> +            if (value) {
-> +                    __sync_fetch_and_add(&value->packets, 1);
-> +                    __sync_fetch_and_add(&value->bytes, bytes);
-> +            } else {
-> +                    struct value newval = { 1, bytes };
-> +                    bpf_map_update_elem(&packet_stats, &key, &newval,  
-> BPF_NOEXIST);
-> +            }
-> +    }
-> +
-> +Userspace
-> +---------
-> +
-> +.. code-block:: c
-> +
-> +    #include <bpf/libbpf.h>
-> +    #include <bpf/bpf.h>
-> +
-> +    static void print_values(int map_fd)
-> +    {
-> +            struct key *cur_key = NULL;
-> +            struct key next_key;
-> +            int next;
-> +            do {
-> +                    next = bpf_map_get_next_key(stats_fd, cur_key,  
-> &next_key);
-> +                    if (next == -ENOENT)
-> +                            break;
-> +                    if (next < 0) {
-> +                            fprintf(stderr, "bpf_map_get_next_key %d  
-> returned %s\n", stats_fd, strerror(-next));
-> +                            break;
-> +                    }
-> +
-> +                    struct in_addr src_addr = {
-> +                            .s_addr = next_key.srcip
-> +                    };
-> +                    char *src_ip = inet_ntoa(src_addr);
-> +
-> +                    struct value value;
-> +                    int ret = bpf_map_lookup_elem(stats_fd, &next_key,  
-> &value);
-> +                    if (ret < 0) {
-> +                            fprintf(stderr, "Failed to lookup elem with  
-> key %s: %s\n", src_ip, strerror(-ret));
-> +                            break;
-> +                    }
-> +                    printf("%s: %lld packets, %lld bytes\n", src_ip,  
-> value.packets, value.bytes);
-> +                    cur_key = &next_key;
-> +            } while (next == 0);
-> +    }
-
-Instead of adding c code, maybe add pointers to specific file within
-tools/testing/selftests/bpf/progs ? That's what we've done for
-prog_cgroup_sockopt; the actual tests are a bit more maintained than
-the doc :-)
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
