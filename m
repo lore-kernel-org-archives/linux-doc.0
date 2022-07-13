@@ -2,45 +2,46 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 29F82C43334
-	for <linux-doc@archiver.kernel.org>; Wed, 13 Jul 2022 19:13:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6290DC43334
+	for <linux-doc@archiver.kernel.org>; Wed, 13 Jul 2022 19:30:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235042AbiGMTNq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 13 Jul 2022 15:13:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38256 "EHLO
+        id S231890AbiGMTa0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 13 Jul 2022 15:30:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46884 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231612AbiGMTNp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Jul 2022 15:13:45 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95D8613F45;
-        Wed, 13 Jul 2022 12:13:44 -0700 (PDT)
+        with ESMTP id S229959AbiGMTaZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Jul 2022 15:30:25 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 885DC2A42C;
+        Wed, 13 Jul 2022 12:30:24 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 3E7BEB8212F;
-        Wed, 13 Jul 2022 19:13:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A7E60C34114;
-        Wed, 13 Jul 2022 19:13:37 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 362D1B82141;
+        Wed, 13 Jul 2022 19:30:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0AA86C34114;
+        Wed, 13 Jul 2022 19:30:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1657739621;
-        bh=4gRkzlpRhfwDwt3txru4R7vN1hWK8tgG6Ph6530NTVo=;
+        s=k20201202; t=1657740621;
+        bh=lH674i9I/fJ6z5VVQUS6ILb0EbbvI8BmEJfY9b/Tpds=;
         h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=UuH0pAnTY9nEcydrnNYcOa5n1c/Q3n+hmxm5Sk2ITyB+Uwc3RwAp7z9Ps05oK1Qwj
-         G/Jpu9PDW2tFbCKugdTVfT5/g0Unp976NCEOtJmzWgSFT29IKehx68gmSEweUprYdw
-         FIi9BBJoE6jlWrP85eNFO9ABl4iS0mPrLEjDDeI+uK4anIlJyirV68Wd4BPC5Ti8wd
-         eEgPgyXI7puyJVJsoA3It7LeDtk06PUUqXUzpMslOZSJ1KhtMxC3gX2kGfLFmJjJQX
-         JovsQTsc5N+8MbMt+tX89dUZYllae7XmiVdlRvJMuRhUEVeRhGl1POtkFjOeeAOZFB
-         o8/4C/5iUAXxA==
-Message-ID: <e53ddfa5-1e6b-a771-bb96-b43640b1d3b2@kernel.org>
-Date:   Wed, 13 Jul 2022 21:13:35 +0200
+        b=QX2vj23qOnvDi45ISYUAqy3Baq466mPPVvU+hUPwn2BmuHoiJgEhFE+KXQfrnOmnl
+         EvkMkVzMFU/mT7MgdwDaRfi4LOlVKOpSTYHSiiIH9ALgF8/w9Q1GGPKogp0A8j/zF6
+         Q7Pwydlh8sgajBlCysvFpkKAXPiMUWt27u2uo0rL8EPIKbj8wWUFKle+BJSYcO6C2H
+         IuG2s7yC/o/fiojnHQsJR1WVf82f1SBUS9GALofbhH49w6t6lTO3Oq9oq5xsVzJlmt
+         24kxoasHDqxHaKSykMSbsngpaRTrkQD2Jx4Q6djeGEmqG5CcJhEmzF7ker1Nf3WZOi
+         oT0Gr9wMJE9VQ==
+Message-ID: <b63f548d-16f4-8aa1-20b0-971d21f55a3e@kernel.org>
+Date:   Wed, 13 Jul 2022 21:30:14 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH V4 18/20] rv/monitor: Add safe watchdog monitor
+Subject: Re: [PATCH V4 14/20] Documentation/rv: Add a basic documentation
 Content-Language: en-US
-To:     Steven Rostedt <rostedt@goodmis.org>,
-        Guenter Roeck <linux@roeck-us.net>
-Cc:     Wim Van Sebroeck <wim@linux-watchdog.org>,
+To:     Bagas Sanjaya <bagasdotme@gmail.com>
+Cc:     Steven Rostedt <rostedt@goodmis.org>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>,
         Jonathan Corbet <corbet@lwn.net>,
         Ingo Molnar <mingo@redhat.com>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -57,43 +58,40 @@ Cc:     Wim Van Sebroeck <wim@linux-watchdog.org>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-trace-devel@vger.kernel.org
 References: <cover.1655368610.git.bristot@kernel.org>
- <6366fdc89d65b8d9b14ccd1e42fa0d793fbe9f73.1655368610.git.bristot@kernel.org>
+ <575554f7bebc0278dd3dfad056d4438c2fbab7b3.1655368610.git.bristot@kernel.org>
+ <YrvIfPPvV7yXrpCf@debian.me>
 From:   Daniel Bristot de Oliveira <bristot@kernel.org>
-In-Reply-To: <6366fdc89d65b8d9b14ccd1e42fa0d793fbe9f73.1655368610.git.bristot@kernel.org>
+In-Reply-To: <YrvIfPPvV7yXrpCf@debian.me>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On 6/29/22 05:35, Bagas Sanjaya wrote:
+>> +  DE OLIVEIRA, Daniel Bristot, et al. *Automata-based formal analysis and
+>> +  verification of the real-time Linux kernel.* Ph.D. Thesis, 2020.
+>> +
+> Shouldn't these references be formatted citations reference syntax?
 
+I improved them, but there is no single syntax. In practice, people find the
+BibTeX "citation" from the place where the paper was published and let the
+venue template do its work, formatting it properly (don't ask me what people
+using word use... I just know that many people have a bad first impression of
+papers made on word haha).
+> 
+>> +For example::
+>> +
+>> +   [root@f32 rv]# cat available_monitors
+>> +   wip
+>> +   wwnr
+>> +
+> I think the prompt should be just `#` (without username and host).
 
-On 6/16/22 10:45, Daniel Bristot de Oliveira wrote:
-> The watchdog is an essential building block for the usage of Linux in
-> safety-critical systems because it allows the system to be monitored from
-> an external element - the watchdog hardware, acting as a safety-monitor.
+Fixed!
 
-Guenter and Steven,
-
-I will move the watchdog monitor to a separated thread, as it will require
-further discussions specific to it, mainly to get feedback from watchdog
-maintainers.
-
-Anyways, I am adding additional information for the sample monitors based on our
-discussions here.
-
-They are:
-
-I added documentation about the automata format and the translation between
-the formal <-> dot -> C.
-
-I am adding the .dot file to the tools/verification/models/ so that one can get
-the .dot file and convert it to other formats, like, a png file. This
-will make it easy to read the automata model.
-
-I am adding a .rst documentation for each model, including details about it.
-
-I will send the v5 of RV without the safe_wtd monitor and then start a new
-one about the watchdog later, after getting the RV interface series ready.
-
+Thanks.
 -- Daniel
+
+> Thanks.
+
