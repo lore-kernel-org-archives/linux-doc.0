@@ -2,110 +2,56 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DE7F8C433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 13 Jul 2022 16:00:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CB067CCA479
+	for <linux-doc@archiver.kernel.org>; Wed, 13 Jul 2022 16:14:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236343AbiGMQAM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 13 Jul 2022 12:00:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37314 "EHLO
+        id S237165AbiGMQOJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 13 Jul 2022 12:14:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49836 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229891AbiGMQAL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Jul 2022 12:00:11 -0400
+        with ESMTP id S237127AbiGMQOG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Jul 2022 12:14:06 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30C002AC4F;
-        Wed, 13 Jul 2022 09:00:10 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2E2C33E30
+        for <linux-doc@vger.kernel.org>; Wed, 13 Jul 2022 09:14:05 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id C2B5E61AB2;
-        Wed, 13 Jul 2022 16:00:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61F17C341C0;
-        Wed, 13 Jul 2022 16:00:05 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 5081A61B03
+        for <linux-doc@vger.kernel.org>; Wed, 13 Jul 2022 16:14:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9AEFC3411E;
+        Wed, 13 Jul 2022 16:14:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1657728009;
-        bh=bFWOI4UxpK/hr5FcAv7o+ieA49JQ3MWwm/BdnMrCFBA=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=thIKBxuQgeGewGAXw1qMeJCP80P9kn4HtEHYl61UoMzMe8GzTcBTD3OJkhorQhXtP
-         WDpB7QbyPBT4OYdPhTMV3g4cCKpS0Ago8Vuso+vCy3i4gwZgPQcmFhN6oiChW9Dxjs
-         w+39X50Ie+Y/H+m5UPHmUWweot1+WlSasKgS4J6AE9esCSkUIl9UdHAWhRNB4K5R/e
-         vukTQCDgGX42wnC0Ge5EABigyRBrfOLxHpp6BcW/s30+BQh1BXREmjFdKJWm5UlptR
-         FauhbldGxQ8S+cKppWsV/O6v8gAGNbdIwXb2GC/CG1AMiVDOaZ1ziaLrQ7CyFFCMC3
-         nTP+LMVfQHxJA==
-Date:   Wed, 13 Jul 2022 17:09:56 +0100
-From:   Jonathan Cameron <jic23@kernel.org>
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     Bagas Sanjaya <bagasdotme@gmail.com>,
-        Linux Documentation List <linux-doc@vger.kernel.org>,
-        kernel test robot <lkp@intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Andrea Merello <andrea.merello@iit.it>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Rob Herring <robh+dt@kernel.org>,
-        Matt Ranostay <matt.ranostay@konsulko.com>,
-        Alexandru Ardelean <ardeleanalex@gmail.com>,
-        jmondi <jacopo@jmondi.org>,
-        linux-iio <linux-iio@vger.kernel.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2] Documentation: bno055: separate SPDX identifier and
- page title
-Message-ID: <20220713170956.3ac9320a@jic23-huawei>
-In-Reply-To: <CAHp75VfEzNJSAJrjcY_cUj7=k4fNL+TcpEWc9k=wSWB5qb8wJg@mail.gmail.com>
-References: <YsGVa8KFmdvGY92e@debian.me>
-        <20220704034041.15448-1-bagasdotme@gmail.com>
-        <CAHp75Vdg=NG9fnd0EQWg5D4WoW9hGJM+MMBRLSacgQUptuGe9Q@mail.gmail.com>
-        <5418fb0b-47e2-d251-a6c7-a9bacbaf3dc1@gmail.com>
-        <CAHp75VfEzNJSAJrjcY_cUj7=k4fNL+TcpEWc9k=wSWB5qb8wJg@mail.gmail.com>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-pc-linux-gnu)
+        s=k20201202; t=1657728844;
+        bh=IZ4lbr0QQR2cpYQsDk6nEI4H4gzY2dXgkKPRchZ7Y98=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=XJBz34iF9w5bg0QVzw34go4EKR99EumNhLBoFIIr8SmA8lFldGTihFVu1CL2nVvDv
+         ZdoK7SmPabp+5GQW2jWisbZO586CaIW3sLm7f81CEe/PfaT3rjwT6YNoJaWZF8bTfl
+         FcMS52z8tc5bGuaXnlDMagy3FXhtNygztY9cZVeTLhBZSTZBZEey2XPEhTyMd/yg+x
+         paYFd1IlP08nxQqwnolFJTt1F0a0kHbbeEZowcVK7hn9LGU6zXnWCYu+cOd2WO+4aR
+         zNkK+msji46zSVFIrSb7ig3cp1jxLrjnVrYFWpVr75iS1lWLpknUyZqQY4UTrREpFw
+         74RvXXryVbLoA==
+From:   Conor Dooley <conor@kernel.org>
+To:     hch@lst.de
+Cc:     Tianyu.Lan@microsoft.com, iommu@lists.linux.dev,
+        linux-doc@vger.kernel.org, lkp@intel.com, lkp@lists.01.org,
+        ltykernel@gmail.com, oliver.sang@intel.com
+Subject: Re: [EXTERNAL] [swiotlb] 44d89f2248: Kernel_panic-not_syncing:swiotlb_init_remap:nslabs=#too_small
+Date:   Wed, 13 Jul 2022 17:11:34 +0100
+Message-Id: <20220713161133.1707380-1-conor@kernel.org>
+X-Mailer: git-send-email 2.37.0
+In-Reply-To: <20220713060246.GA13497@lst.de>
+References: <20220713060246.GA13497@lst.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 5 Jul 2022 11:02:32 +0200
-Andy Shevchenko <andy.shevchenko@gmail.com> wrote:
-
-> On Tue, Jul 5, 2022 at 3:13 AM Bagas Sanjaya <bagasdotme@gmail.com> wrote:
-> > On 7/5/22 02:49, Andy Shevchenko wrote:  
-> 
-> ...
-> 
-> > >> Cc: Jonathan Corbet <corbet@lwn.net>
-> > >> Cc: Andrea Merello <andrea.merello@iit.it>
-> > >> Cc: Jonathan Cameron <jic23@kernel.org>
-> > >> Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> > >> Cc: Lars-Peter Clausen <lars@metafoo.de>
-> > >> Cc: Rob Herring <robh+dt@kernel.org>
-> > >> Cc: Matt Ranostay <matt.ranostay@konsulko.com>
-> > >> Cc: Alexandru Ardelean <ardeleanalex@gmail.com>
-> > >> Cc: jacopo@jmondi.org
-> > >> Cc: linux-iio@vger.kernel.org
-> > >> Cc: devicetree@vger.kernel.org
-> > >> Cc: linux-kernel@vger.kernel.org (open list)  
-> > >
-> > > It's a very noisy Cc list which will go in the git history. Instead,
-> > > use --to and --cc parameters of `git format-patch`. Maintainers
-> > > usually use `b4` tool that adds a Link tag to the patch itself on the
-> > > Lore archive which will keep track on the Cc list anyway.  
-> 
-> > Thanks for reminding me.
-> >
-> > I think something like `b4 am -l`, right?
-> >
-> > Anyway, should I resend (reroll)?  
-> 
-> Depends on the maintainer's wishes. Maybe they can drop them when
-> applying, I dunno.
-> 
-
-At the moment this is a fix to a series we haven't actually accepted.
-Nice to have an all, but up to Andrea on how to handle it.
-One reasonable option would be just to squish it into the original
-patch for v7 with an appropriate note in the patch description / changelog.
+FWIW, I hit this on a PolarFire SoC.
+Was relieved to see that it was not another wacky edge case like my
+last run-in with swiotlb issues! If you could CC me on the fix that'd
+be great.
 
 Thanks,
-
-Jonathan
+Conor.
