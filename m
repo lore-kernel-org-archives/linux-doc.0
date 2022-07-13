@@ -2,61 +2,94 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AA904C43334
-	for <linux-doc@archiver.kernel.org>; Wed, 13 Jul 2022 20:04:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2668DCCA479
+	for <linux-doc@archiver.kernel.org>; Wed, 13 Jul 2022 20:06:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235537AbiGMUEJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 13 Jul 2022 16:04:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41214 "EHLO
+        id S231760AbiGMUGK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 13 Jul 2022 16:06:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42710 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231860AbiGMUEI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Jul 2022 16:04:08 -0400
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0E4CDFF8;
-        Wed, 13 Jul 2022 13:04:06 -0700 (PDT)
+        with ESMTP id S229955AbiGMUGK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 13 Jul 2022 16:06:10 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F9FA21E3F;
+        Wed, 13 Jul 2022 13:06:09 -0700 (PDT)
 Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 8E16A2DC;
-        Wed, 13 Jul 2022 20:04:06 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 8E16A2DC
+        by ms.lwn.net (Postfix) with ESMTPSA id 337E02B2;
+        Wed, 13 Jul 2022 20:06:09 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 337E02B2
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1657742646; bh=EyGDr5V/Nt8GJzbAAi/OLJlDIoto10JJfP1ptrCCEb0=;
+        t=1657742769; bh=f+396u8AhP4c63PIsOuUAfTJE40+bYRHpfyCrl1NdoA=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=SBXTXtodqKS/SXrIKFhsjgX5P+Z+yiCLMy0/ZSVkZ2kwNpBiFfDsfx5U2Do8Vn2b1
-         NJT9UBNqud+wJXJ+PXpEtjIu7r4FHEOnsFFYtKcki70/w+VZQOHgMpjINZk8QY8LCK
-         mYXRkovFcJbb7zKspqKvfsAPlP46T8bc41aR5RGtUtV4nIuuHqEHUBDCsG0/MtwqsV
-         F1hdvofVVp+2uz5PjkKPOo4IJTO7dMHvyqaSvLGaYUJangkL2XuQyZpEskXbwmcKnp
-         UCd2ror2nf70zV8E/KJAn7VQM2CXF7EdDRorNmAVJpHuPDMh7CphgYPtB0CIas8uqO
-         bET8zcUo5q9yg==
+        b=sBewgn4VfGSSd+JyKOCv5KTcABGHRZUrFxzNQb4xMRP4V03mWEPP7m0GdaEWbEnfd
+         1KUdCRVShONAXjxuJwxFuQpLJUStRKzfaLadrVnpcyDBdxgRUAt3QsUkLQ3EE+n8e3
+         F3CuO+xT5BN2VGQEdQo8P2KOedYYH3ar+dYz+LVP9Gv5T1Bfwl0ndfkx73uXGnr48t
+         dqjPjxFzhIm0zJzOLxVDtI36qQseUFhVSTFizjwd+DipoLkXdS1DMfyRG27kkOYYbA
+         yDBGKsNV0bRud9yN6cpjKCFofvP6V7xfSPtKahmGsiXNZ1OSEDrVvEBwhV/cJoD4EU
+         OqVZ0tVyvAtcQ==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Yixuan Cao <caoyixuan2019@email.szu.edu.cn>, siyanteng@loongson.cn
-Cc:     alexs@kernel.org, rppt@kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Yixuan Cao <caoyixuan2019@email.szu.edu.cn>
-Subject: Re: [PATCH] Documentation/translations/zh_CN/mm/page_owner.rst:
- adjust some words
-In-Reply-To: <20220708172351.20928-1-caoyixuan2019@email.szu.edu.cn>
-References: <20220708172351.20928-1-caoyixuan2019@email.szu.edu.cn>
-Date:   Wed, 13 Jul 2022 14:04:05 -0600
-Message-ID: <877d4g4w5m.fsf@meer.lwn.net>
+To:     Wei Liu <wei.liu@kernel.org>,
+        Michael Kelley <mikelley@microsoft.com>
+Cc:     kys@microsoft.com, haiyangz@microsoft.com, sthemmin@microsoft.com,
+        wei.liu@kernel.org, decui@microsoft.com,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-hyperv@vger.kernel.org
+Subject: Re: [PATCH v2 0/3] Documentation: hyperv: Add basic info on Hyper-V
+ enlightenments
+In-Reply-To: <20220711185640.px4bwf4ldqqqw5ij@liuwe-devbox-debian-v2>
+References: <1657561704-12631-1-git-send-email-mikelley@microsoft.com>
+ <20220711185640.px4bwf4ldqqqw5ij@liuwe-devbox-debian-v2>
+Date:   Wed, 13 Jul 2022 14:06:08 -0600
+Message-ID: <8735f44w27.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: base64
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-WWl4dWFuIENhbyA8Y2FveWl4dWFuMjAxOUBlbWFpbC5zenUuZWR1LmNuPiB3cml0ZXM6DQoNCj4g
-SSBub3RpY2VkIHRoYXQgdGhlcmUgYXJlIHNvbWUgQ2hpbmVzZSB3b3JkcyB0aGF0IGNhbiBiZSBt
-b3JlIGFjY3VyYXRlLg0KPiBTbyBJIGZpeCB0aGVtIGFzIGZvbGxvd3MuDQo+DQo+IOmmluWFiO+8
-jOiLseaWh+WOn+aWh+S4reeahCJyZWxlYXNlIiDlnKjov5nkuKror63looPkuIsNCj4g5piv54mp
-55CG6aG16Z2i4oCc6YeK5pS+4oCd55qE5oSP5oCd77yM6ICM5LiN5piv4oCc5Y+R5biD4oCd44CC
-DQo+IOWFtuasoe+8jOagh+WHhuihqOeahOesrOS4gOWIl+WSjOesrOS6jOWIl++8jA0KPiDooajo
-vr7nmoTmmK/igJzplb/nn63plK7igJ3nmoTmhI/mgJ3vvIznrKzkuIDliJfmmK/igJznn63plK7i
-gJ3vvIwNCj4g6ICM56ys5LqM5YiX5piv4oCc6ZW/6ZSu4oCd44CC6L+Z5qC357+76K+R5oiW5Lya
-5pu05riF5pmw5LiA5Lqb44CCDQo+DQo+IFNpZ25lZC1vZmYtYnk6IFlpeHVhbiBDYW8gPGNhb3lp
-eHVhbjIwMTlAZW1haWwuc3p1LmVkdS5jbj4NCj4gLS0tDQo+ICBEb2N1bWVudGF0aW9uL3RyYW5z
-bGF0aW9ucy96aF9DTi9tbS9wYWdlX293bmVyLnJzdCB8IDggKysrKy0tLS0NCj4gIDEgZmlsZSBj
-aGFuZ2VkLCA0IGluc2VydGlvbnMoKyksIDQgZGVsZXRpb25zKC0pDQoNCkFwcGxpZWQsIHRoYW5r
-cy4NCg0Kam9uDQo=
+Wei Liu <wei.liu@kernel.org> writes:
+
+> On Mon, Jul 11, 2022 at 10:48:21AM -0700, Michael Kelley wrote:
+>> This documentation is a high level overview to explain the basics
+>> of Linux running as a guest on Hyper-V. The intent is to document
+>> the forest, not the trees. The Hyper-V Top Level Functional Spec
+>> provides conceptual material and API details for the core Hyper-V
+>> hypervisor, and this documentation provides additional info on
+>> how that functionality is applied to Linux. Also, there's no
+>> public documentation on VMbus or the VMbus synthetic devices, so
+>> this documentation helps fill that gap at a conceptual level. This
+>> documentation is not API-level documentation, which can be seen
+>> in the code and associated comments.
+>> 
+>> More topics will be added in future patches, including:
+>> 
+>> * Miscellaneous synthetic devices like KVP, timesync, VSS, etc.
+>> * Virtual PCI support
+>> * Isolated/Confidential VMs
+>> * UIO driver
+>> 
+>> If you think I'm missing a topic that fits into the overall
+>> approach as described, feel free to suggest text, or let me
+>> know and I can add it to my list.
+>> 
+>> Changes in v2:
+>> * Updated clocks.rst to use section hierarchy that matches
+>>   overview.rst and vmbus.rst [Wei Liu]
+>> 
+>> Michael Kelley (3):
+>>   Documentation: hyperv: Add overview of Hyper-V enlightenments
+>>   Documentation: hyperv: Add overview of VMbus
+>>   Documentation: hyperv: Add overview of clocks and timers
+>
+> Content-wise all patches look good to me.
+>
+> Jonathan, let me know how you would like to handle this series. I'm
+> happy to carry them in hyperv-next.
+
+I went ahead and applied them while I was in the neighborhood.
+
+Thanks,
+
+jon
