@@ -2,141 +2,126 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D87DC433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Jul 2022 08:20:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 60287C433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Jul 2022 08:29:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234480AbiGNIUk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 14 Jul 2022 04:20:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46764 "EHLO
+        id S234909AbiGNI3c (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 14 Jul 2022 04:29:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54140 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234584AbiGNIUe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Jul 2022 04:20:34 -0400
-Received: from mail-vs1-xe30.google.com (mail-vs1-xe30.google.com [IPv6:2607:f8b0:4864:20::e30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB9693A4B6;
-        Thu, 14 Jul 2022 01:20:29 -0700 (PDT)
-Received: by mail-vs1-xe30.google.com with SMTP id w188so646032vsb.6;
-        Thu, 14 Jul 2022 01:20:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=P7yWmbhC5FH2zK57bSWYnmzFw+mWX2gZuUaJyIsrO0E=;
-        b=ZknV4n/4slEsbmUHBmPEpE2ZEFcUauYGyxgcil4DuD7ldrUUYqAN1mi9tv9ydnIB81
-         w4qzko4Cj3dpMxmyurA/GVGtmx1t+IFBSPKoIXBNadS7DFDd6Z1E5IJbKhJFYAcnYnew
-         BKRfUy4qLAdS5R2OJwAr9XK1DrPpUJkGF5uJ/PUaYkYYXZQfkQ5xXNBeQKjIepHfcaMW
-         ISFQY57uJ0lRYX97JbOHqx9jQPwnAsz5iA6FrpJp6wxgvyMfHMCMUIjxUMlojXQuSReG
-         zezQoPCV0uPSwTpX3mLorwUH+ZMg7Ej5f8tAR7ohrPMQO9jgbK7NTmKYNukr1djedvxj
-         VTrQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=P7yWmbhC5FH2zK57bSWYnmzFw+mWX2gZuUaJyIsrO0E=;
-        b=Rdc94h3pcbM4ZRfPwHTPN2Ryu2NjuLz0ORI6gwFXhIJ3ad5uDAUjIxx7XHKjrOWDx9
-         mQvtwTZ/nHbhgptwGYzdfRobF2dPqTAWhEUBcYwhnYWPninFPWYmajglOoLkMV4AFYvf
-         zQd989RAJ4vOHuY0ZlxpYp9dTDpbbrvrh76Xdu13rdRdyBIyNvt/6RsCuulc+93p6kdi
-         mbpCjqhorbdoZRXrCFdjIweU3w7ZPvkz1ZdTDd0UUO0qfRHQnNBT021FOTLLZEmpD0Fg
-         52l0WGlNonhInE2jxGd8LRlDTxNk8hOYkR4TH3p0FybGeZ9ez4/TdZptfqAu+C4IrO/4
-         LABw==
-X-Gm-Message-State: AJIora9E1QxSR4/PgVSoRcyO7rpbaML3VRmTZU40MQSH8sbaOjBT6dGa
-        CH/IdPOci5sWp7HpvtgqhTpBHuRb5QW1CCSdNJI=
-X-Google-Smtp-Source: AGRyM1spoqLWySpk8MeGgfx7AdmQFCz42DEQ17rAreZ88W27SuQVMPg0OsGZVZdB6EygKlIR4lji3MQFOfbDXwsVEeQ=
-X-Received: by 2002:a67:6d86:0:b0:357:3d99:ec77 with SMTP id
- i128-20020a676d86000000b003573d99ec77mr3058519vsc.6.1657786828733; Thu, 14
- Jul 2022 01:20:28 -0700 (PDT)
+        with ESMTP id S234904AbiGNI3b (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Jul 2022 04:29:31 -0400
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46FC21276C;
+        Thu, 14 Jul 2022 01:29:31 -0700 (PDT)
+Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26E7oGNj027583;
+        Thu, 14 Jul 2022 08:29:30 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=3jQ61/O3RHNvo+Uxn3UXtV6mB8X3oEHqZVGcKkyjFmM=;
+ b=DkGoOQEd4Pjna7gj+9ooUVf+ax7155DiMy4BXWLq00tzPAhqWCgm3+9w++fENqs/Ye/q
+ sAyV7hrMQ6V0xfRyRf7NRoaVLx0T1ErReoSw0OdQRb5qQEFqhz/cpk5B2pb8LmhzjRyg
+ Qo9QjW9G67OlOXxIO6zpmPnwcopfU+bn0Zy5CwF/MXx7WNjI2GpC9xutxG9BpPg3jaEI
+ Od3ZMjtGF/4CjVwERz6lZ9b+zehSRZ3k/qjf+f4fEoVmaS+/W0ZSEt8YF8nkAwne8bCH
+ xwqAhDvSHzeJ7vPL1Tj0itVqCL/NDycRWIUO3tQeJ3VhqcYhQY7G6eFPTIISrkVdhJ8v tQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3haf3m13ja-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 14 Jul 2022 08:29:30 +0000
+Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
+        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26E7q4XI031870;
+        Thu, 14 Jul 2022 08:29:30 GMT
+Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com [169.53.41.122])
+        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3haf3m13j4-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 14 Jul 2022 08:29:29 +0000
+Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
+        by ppma04dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 26E8KBRN026528;
+        Thu, 14 Jul 2022 08:29:29 GMT
+Received: from b03cxnp08028.gho.boulder.ibm.com (b03cxnp08028.gho.boulder.ibm.com [9.17.130.20])
+        by ppma04dal.us.ibm.com with ESMTP id 3h9e04vtvh-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 14 Jul 2022 08:29:29 +0000
+Received: from b03ledav006.gho.boulder.ibm.com (b03ledav006.gho.boulder.ibm.com [9.17.130.237])
+        by b03cxnp08028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 26E8TRwp29032822
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 14 Jul 2022 08:29:28 GMT
+Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id D6D76C6057;
+        Thu, 14 Jul 2022 08:29:27 +0000 (GMT)
+Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 466AAC6063;
+        Thu, 14 Jul 2022 08:29:26 +0000 (GMT)
+Received: from [9.65.197.138] (unknown [9.65.197.138])
+        by b03ledav006.gho.boulder.ibm.com (Postfix) with ESMTP;
+        Thu, 14 Jul 2022 08:29:25 +0000 (GMT)
+Message-ID: <d3984f3d-4e28-61fc-879c-ca38b7daa779@linux.ibm.com>
+Date:   Thu, 14 Jul 2022 11:29:09 +0300
 MIME-Version: 1.0
-References: <20220714025649.41871-1-bagasdotme@gmail.com>
-In-Reply-To: <20220714025649.41871-1-bagasdotme@gmail.com>
-From:   Ilya Dryomov <idryomov@gmail.com>
-Date:   Thu, 14 Jul 2022 10:20:03 +0200
-Message-ID: <CAOi1vP__iYzy85CJtxP3qWAKt1OxoLWe3GQPNKwUJ3pmLpRYgg@mail.gmail.com>
-Subject: Re: [PATCH next] Documentation: netfs: Use inline code for *foliop pointer
-To:     Bagas Sanjaya <bagasdotme@gmail.com>
-Cc:     Linux Documentation List <linux-doc@vger.kernel.org>,
-        linux-next <linux-next@vger.kernel.org>,
-        kernel test robot <lkp@intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        David Howells <dhowells@redhat.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-        Xiubo Li <xiubli@redhat.com>, stable@vger.kernel.org,
-        LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH] Documentation: siphash: Fix typo in the name of
+ offsetofend macro
+Content-Language: en-US
+To:     Jonathan Corbet <corbet@lwn.net>,
+        "Jason A. Donenfeld" <Jason@zx2c4.com>
+Cc:     linux-doc@vger.kernel.org, Eric Biggers <ebiggers@google.com>,
+        linux-kernel@vger.kernel.org
+References: <20220712104455.1408150-1-dovmurik@linux.ibm.com>
+ <87fsj6bhwb.fsf@meer.lwn.net> <Ys13bqGuPYBUGg3O@zx2c4.com>
+ <87fsj44w9h.fsf@meer.lwn.net>
+From:   Dov Murik <dovmurik@linux.ibm.com>
+In-Reply-To: <87fsj44w9h.fsf@meer.lwn.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: Hkqn6I2Qm3Ate44xNBFbuyoEWjdELzow
+X-Proofpoint-GUID: 7_QH3cuDFgZZUbM0gwZm0ZMGbaVWd2TG
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-07-14_06,2022-07-13_03,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 phishscore=0
+ bulkscore=0 clxscore=1011 lowpriorityscore=0 malwarescore=0 suspectscore=0
+ mlxscore=0 mlxlogscore=728 priorityscore=1501 impostorscore=0 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2206140000
+ definitions=main-2207140033
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jul 14, 2022 at 4:56 AM Bagas Sanjaya <bagasdotme@gmail.com> wrote:
->
-> Sphinx reported inline emphasis warning on netfs:
->
-> Documentation/filesystems/netfs_library.rst:384: WARNING: Inline emphasis start-string without end-string.
-> Documentation/filesystems/netfs_library.rst:384: WARNING: Inline emphasis start-string without end-string.
-> Documentation/filesystems/netfs_library:609: ./fs/netfs/buffered_read.c:318: WARNING: Inline emphasis start-string without end-string.
->
-> These warnings above are due to unsecaped *foliop, which confuses Sphinx as
-> italics syntax instead.
->
-> Use inline code for the pointer.
->
-> Link: https://lore.kernel.org/linux-doc/202207140742.GTPk4U8i-lkp@intel.com/
-> Fixes: 157be6ddd9e438 ("netfs: do not unlock and put the folio twice")
-> Reported-by: kernel test robot <lkp@intel.com>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: David Howells <dhowells@redhat.com>
-> Cc: Jeff Layton <jlayton@kernel.org>
-> Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>
-> Cc: Xiubo Li <xiubli@redhat.com>
-> Cc: Ilya Dryomov <idryomov@gmail.com>
-> Cc: stable@vger.kernel.org
-> Cc: linux-kernel@vger.kernel.org
-> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> ---
->  Documentation/filesystems/netfs_library.rst | 6 +++---
->  fs/netfs/buffered_read.c                    | 4 ++--
->  2 files changed, 5 insertions(+), 5 deletions(-)
->
-> diff --git a/Documentation/filesystems/netfs_library.rst b/Documentation/filesystems/netfs_library.rst
-> index 8d4cf5d5822de4..73a4176144b3b8 100644
-> --- a/Documentation/filesystems/netfs_library.rst
-> +++ b/Documentation/filesystems/netfs_library.rst
-> @@ -382,9 +382,9 @@ The operations are as follows:
->     conflicting state before allowing it to be modified.
->
->     It may unlock and discard the folio it was given and set the caller's folio
-> -   pointer to NULL.  It should return 0 if everything is now fine (*foliop
-> -   left set) or the op should be retried (*foliop cleared) and any other error
-> -   code to abort the operation.
-> +   pointer to NULL.  It should return 0 if everything is now fine (``*foliop``
-> +   left set) or the op should be retried (``*foliop`` cleared) and any other
-> +   error code to abort the operation.
->
->   * ``done``
->
-> diff --git a/fs/netfs/buffered_read.c b/fs/netfs/buffered_read.c
-> index 8fa0725cd64981..0ce53585215106 100644
-> --- a/fs/netfs/buffered_read.c
-> +++ b/fs/netfs/buffered_read.c
-> @@ -320,8 +320,8 @@ static bool netfs_skip_folio_read(struct folio *folio, loff_t pos, size_t len,
->   * pointer to the fsdata cookie that gets returned to the VM to be passed to
->   * write_end.  It is permitted to sleep.  It should return 0 if the request
->   * should go ahead or it may return an error.  It may also unlock and put the
-> - * folio, provided it sets *foliop to NULL, in which case a return of 0 will
-> - * cause the folio to be re-got and the process to be retried.
-> + * folio, provided it sets ``*foliop`` to NULL, in which case a return of 0
-> + * will cause the folio to be re-got and the process to be retried.
->   *
->   * The calling netfs must initialise a netfs context contiguous to the vfs
->   * inode before calling this.
-> --
-> An old man doll... just what I always wanted! - Clara
->
 
-Hi Bagas,
 
-I folded this fixup into the original patch and added your
-Signed-off-by.  I hope you don't mind.
+On 13/07/2022 23:01, Jonathan Corbet wrote:
+> "Jason A. Donenfeld" <Jason@zx2c4.com> writes:
+> 
+>> Hi Jon,
+>>
+>> On Tue, Jul 12, 2022 at 07:05:40AM -0600, Jonathan Corbet wrote:
+>>> Dov Murik <dovmurik@linux.ibm.com> writes:
+>>>
+>>>> The siphash documentation misspelled "offsetendof" instead of
+>>>> "offsetofend".
+>>>>
+>>>> Fixes: 2c956a60778cbb ("siphash: add cryptographically secure PRF")
+>>>
+>>> When you send a patch with a Fixes tag it's always a good idea to CC the
+>>> author of the patch being fixed.  Adding Jason...let me know if you'd
+>>> like me to grab this.
+>>
+>> Thanks for CC'ing me. Sure, feel free to take this:
+>>
+>>     Acked-by: Jason A. Donenfeld <Jason@zx2c4.com>
+> 
+> Applied, thanks.
 
-Thanks,
+Thank you Jon.
 
-                Ilya
+I'll try to remember your tip about CC the author of the Fixes tag.
+
+-Dov
+
+
+> 
+> jon
