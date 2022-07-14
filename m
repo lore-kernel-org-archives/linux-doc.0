@@ -2,92 +2,127 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 40607C433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Jul 2022 22:41:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 839E0C433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Jul 2022 23:19:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229984AbiGNWl2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 14 Jul 2022 18:41:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50580 "EHLO
+        id S240908AbiGNXTF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 14 Jul 2022 19:19:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43086 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229448AbiGNWl2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Jul 2022 18:41:28 -0400
+        with ESMTP id S232822AbiGNXTC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Jul 2022 19:19:02 -0400
 Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8ED116EE84;
-        Thu, 14 Jul 2022 15:41:27 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2430749B79;
+        Thu, 14 Jul 2022 16:19:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+        Content-Type:In-Reply-To:References:Cc:To:Subject:From:MIME-Version:Date:
         Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-        bh=dF8P5lISOtudOc5lOEvkHblck5rhWyzYdp8lqqJ3+zw=; b=D9FGt5VqSNX0rsos3zTvPMyDFR
-        UZnT82UcOpsn7UobKS+m0vYaem/Z+clRc8Nopat5VtPsgycp0FdSiVnra/1L2ubqgbQHH2CV5SCph
-        LNDnfhyb1OGCSsw3peijBxcBkmH8Hu8xr1KDKfFiFxyuYL4QB/2Jm1NTAn35hRAuldkXQp6V3QSPh
-        QGeAvtLqANohYScyXdwtdTd+d58a6MQW053ls525MD8vqv00Xqa2FgfnX+cRu0eyVZgRYaFcQPv4t
-        QFB6Adm7oFbd+xIM9wcmTpwNfm1cSxXUHqpHT3ejs8WtSJ9KbXxkO186NONdfbRhADxwUGnLh4Mp0
-        OCT9xCTw==;
+        bh=XGpd5T1EafVDLNNMFCoN/oDpo1B2rzHEZsGMSXen9LM=; b=KfoBEIF8M1t65cP6ile0m6SP1y
+        T8b8W3HkhivO5XCW3uhZjImKuZGVAlVciHCyQBl/7fyol0ozTn7CPJNON9QArYvJD0sFaCBLtnvjY
+        uDtmbwvunX+NqDJiW205u5gEQkPMHy97YN1/0Vk+xmgd8znjUfEKLyF9Wfd6+j8Ht1tye7V48IkrW
+        yI2CdXSdtfHXa1zSoPrOS9bfetd2GQJeGsh0hsabb3Ue+f2Qje3b5l0BjjGajzZmzJGVHJas/zkXA
+        KnLmzQ6panSYUocBfUnCqxK8XhLB27qKWeWQZtGx1E70D9sFaeTh6RVLlsaS41hcA9KfJgrXlQ6Yv
+        oUsJQMpw==;
 Received: from [2601:1c0:6280:3f0::a6b3]
         by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1oC7WP-0026H6-JW; Thu, 14 Jul 2022 22:41:25 +0000
-Message-ID: <fb9751d2-0ca1-2d6b-bd3d-e008a7676f43@infradead.org>
-Date:   Thu, 14 Jul 2022 15:41:23 -0700
+        id 1oC86k-002aUy-EM; Thu, 14 Jul 2022 23:18:58 +0000
+Message-ID: <ae06388f-a062-132b-ee61-8ad68f227970@infradead.org>
+Date:   Thu, 14 Jul 2022 16:18:57 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH v2 05/11] virt: gunyah: Add sysfs nodes
-Content-Language: en-US
-To:     Elliot Berman <quic_eberman@quicinc.com>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        linux-kernel@vger.kernel.org
-Cc:     Trilok Soni <quic_tsoni@quicinc.com>,
-        Murali Nalajala <quic_mnalajala@quicinc.com>,
-        Srivatsa Vaddagiri <quic_svaddagiri@quicinc.com>,
-        Carl van Schaik <quic_cvanscha@quicinc.com>,
-        Andy Gross <agross@kernel.org>,
-        linux-arm-kernel@lists.infradead.org,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Marc Zyngier <maz@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Will Deacon <will@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        devicetree@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20220223233729.1571114-1-quic_eberman@quicinc.com>
- <20220714212940.2988436-1-quic_eberman@quicinc.com>
- <20220714212940.2988436-6-quic_eberman@quicinc.com>
 From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20220714212940.2988436-6-quic_eberman@quicinc.com>
+Subject: Re: [PATCH v2] Documentation: process: Update email client
+ instructions for Thunderbird
+To:     sndanailov@gmail.com, corbet@lwn.net
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        bagasdotme@gmail.com
+References: <20220714131152.12709-1-sndanailov@gmail.com>
+Content-Language: en-US
+In-Reply-To: <20220714131152.12709-1-sndanailov@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hi,
 
-
-On 7/14/22 14:29, Elliot Berman wrote:
-> diff --git a/drivers/virt/gunyah/Kconfig b/drivers/virt/gunyah/Kconfig
-> new file mode 100644
-> index 000000000000..e88289963518
-> --- /dev/null
-> +++ b/drivers/virt/gunyah/Kconfig
-> @@ -0,0 +1,13 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
+On 7/14/22 06:11, sndanailov@gmail.com wrote:
+> From: Sotir Danailov <sndanailov@gmail.com>
+> 
+> The instructions don't match with the current Thunderbird interface.
+> Clarification on using external extensions.
+> New information on how to avoid writing HTML emails.
+> 
+> Signed-off-by: Sotir Danailov <sndanailov@gmail.com>
+> ---
+> Changelog since v1:
+>  - better external extensions explanation
+>  - information on avoiding HTML emails
+> 
+> v1: https://lore.kernel.org/linux-doc/20220713225037.1201-1-sndanailov@gmail.com/
+> 
+>  Documentation/process/email-clients.rst | 64 +++++++++++++++++--------
+>  1 file changed, 43 insertions(+), 21 deletions(-)
+> 
+> diff --git a/Documentation/process/email-clients.rst b/Documentation/process/email-clients.rst
+> index 16586f6cc888..229cbde5b62c 100644
+> --- a/Documentation/process/email-clients.rst
+> +++ b/Documentation/process/email-clients.rst
+> @@ -278,35 +278,57 @@ Thunderbird is an Outlook clone that likes to mangle text, but there are ways
+>  to coerce it into behaving.
+>  
+>  - Allow use of an external editor:
+> -  The easiest thing to do with Thunderbird and patches is to use an
+> -  "external editor" extension and then just use your favorite ``$EDITOR``
+> -  for reading/merging patches into the body text.  To do this, download
+> -  and install the extension, then add a button for it using
+> -  :menuselection:`View-->Toolbars-->Customize...` and finally just click on it
+> -  when in the :menuselection:`Compose` dialog.
+> -
+> -  Please note that "external editor" requires that your editor must not
+> -  fork, or in other words, the editor must not return before closing.
+> -  You may have to pass additional flags or change the settings of your
+> -  editor. Most notably if you are using gvim then you must pass the -f
+> -  option to gvim by putting ``/usr/bin/gvim -f`` (if the binary is in
+> -  ``/usr/bin``) to the text editor field in :menuselection:`external editor`
+> -  settings. If you are using some other editor then please read its manual
+> -  to find out how to do this.
 > +
-> +config GUNYAH
-> +	tristate "Gunyah Virtualization drivers"
-> +	depends on ARM64
-> +	select SYS_HYPERVISOR
-> +	help
-> +	  The Gunyah drivers are the helper interfaces that runs in a guest VM
-> +	  such as basic inter-VM IPC and signaling mechanism,s and higher level
-
-	Drop the "comma" ..................................^^^^
-
-> +	  services such as memory/device sharing, IRQ sharing, and so on.
+> +  The easiest thing to do with Thunderbird and patches is to use extensions
+> +  which open your favorite external editor.
 > +
-> +	  Say Y here to enable the drivers needed to interact in a Gunyah
-> +	  virtual environment.
+> +  Here are some example extensions which are capable of doing this.
+> +
+> +  - "External Editor Revived"
+> +
+> +    https://github.com/Frederick888/external-editor-revived
+> +
+> +    https://addons.thunderbird.net/en-GB/thunderbird/addon/external-editor-revived/
+> +
+> +    It requires installing a "native messaging host".
+> +    Please read the wiki which can be found here:
+> +    https://github.com/Frederick888/external-editor-revived/wiki
+
+Does thunderbird v91.11.0 qualify as newer or older?
+
+I tried to use the external-editor-revived yesterday with v1 of the patch..
+no success.
+
+v2 of the patch has more useful info (about native-messaging), so I installed
+that and still not happy.
+After pressing "External Editor" in a tbird reply window, nothing happens.
+
+Wait -- hold everything!  Exiting tbird and reloading it
+fixed all problems. :)
+
+Thanks for all of the updates. (says the file's original author)
+
+Tested-by: Randy Dunlap <rdunlap@infradead.org>
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
+
 
 -- 
 ~Randy
