@@ -2,257 +2,214 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 065EECCA481
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Jul 2022 04:59:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4103DCCA482
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Jul 2022 05:08:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237761AbiGNE7H (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 14 Jul 2022 00:59:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41768 "EHLO
+        id S234224AbiGNFIU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 14 Jul 2022 01:08:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51634 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235107AbiGNE6Z (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Jul 2022 00:58:25 -0400
-Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com [IPv6:2a00:1450:4864:20::52c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7AAE620F7D;
-        Wed, 13 Jul 2022 21:51:58 -0700 (PDT)
-Received: by mail-ed1-x52c.google.com with SMTP id y8so934084eda.3;
-        Wed, 13 Jul 2022 21:51:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=hW7IbWPmYdn2d1NNnyMMYZo7sUWhfXMc3EeZopJnd9s=;
-        b=ixpskF3es1ZmyzgNugOOlVGXEXU01wH8x+O+9c0Hn53VnayTkfg7B02WDNC5tIrO7l
-         iEwg3ca5x42mE2uIM8nqQUrXVwXLpT6ULvvEDEhDoQovcbWbHLnoAwOv78ubyxnHhjrc
-         b+F58wCwdRfZkdz4PEAGwhDlQaXN17a/dAqjH7lRr9IZR6Oxl15yDJPqx5DZqhd1LDca
-         m3K9L9Ce8HJHQ3yTYC00bD8m8HCeZVO9kN8Rn4LXDKPCB1TSqsZxNf0zJQAMyjXyiJ7g
-         cpQu1lJzObpQ/9Off5+y4JJmm1YPuTUAuigqbDyhvyv4ipfIih1IQ2OiwKFqjfHfMEIL
-         9Opw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=hW7IbWPmYdn2d1NNnyMMYZo7sUWhfXMc3EeZopJnd9s=;
-        b=0XNZ6edX/MlZJnCPHdL8URHGPkZlkdWgERrUzeNnvPPFcpgLsJuW6U4Hdh22Tuza17
-         qE/3VQ9BaZOR6EOZCkR2DqUHEm/Oz30c/0Z0W8ZEqyU7tDsATe8jbTus02NLG3Nl1ZS/
-         17oLl4eUR11yBWSqdRGhoJhXpuK/svscV8KgI6vlRXTccT4KLFCe56JAYR7EYz+4Lt50
-         HqW4p0L1EAP+ySYwp2DrAhqGlzUtG5bG/WtyOI0AaQCIt28I/2Wx0kkppmY9c9yFRnRM
-         6+Brv1Ddh2hSz6zy/WTjJpEHdi7uRXq0FvLb8xg6F3MKIez1N19/9k4mQmHGLW48d/yo
-         a4eQ==
-X-Gm-Message-State: AJIora+ALb0YArjHF1GQ908mdTKp1cpMUwFZ2pxjq6f4/icpj+lWSgSA
-        cwDojxe4epbQpPhlBGPJh7J5L1T1QJpHwdekxJM=
-X-Google-Smtp-Source: AGRyM1sCekI8nbaSkEz0wXp62jC4NmfsPr1d7cEeKiuuhPUbnQAKxU8DeX6rgQmQqaqEEOVW9HUjdoQGawmviSj4Nuo=
-X-Received: by 2002:aa7:db9a:0:b0:43a:76bf:5401 with SMTP id
- u26-20020aa7db9a000000b0043a76bf5401mr9638511edt.244.1657774317014; Wed, 13
- Jul 2022 21:51:57 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220711034615.482895-1-21cnbao@gmail.com> <24f5e25b-3946-b92a-975b-c34688005398@linux.alibaba.com>
-In-Reply-To: <24f5e25b-3946-b92a-975b-c34688005398@linux.alibaba.com>
-From:   Barry Song <21cnbao@gmail.com>
-Date:   Thu, 14 Jul 2022 16:51:45 +1200
-Message-ID: <CAGsJ_4zjnmQV6LT3yo--K-qD-92=hBmgfK121=n-Y0oEFX8RnQ@mail.gmail.com>
-Subject: Re: [PATCH v2 0/4] mm: arm64: bring up BATCHED_UNMAP_TLB_FLUSH
-To:     xhao@linux.alibaba.com
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        LAK <linux-arm-kernel@lists.infradead.org>, x86 <x86@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        with ESMTP id S234535AbiGNFHf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Jul 2022 01:07:35 -0400
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2074.outbound.protection.outlook.com [40.107.93.74])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B8702DCA;
+        Wed, 13 Jul 2022 22:06:58 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=cPAvVW3kwFvt5TEpsVSffoRnbbwhJP7ZjTt2vomGLWcY+sbZmr4/xJnczuitUqBPSrguacnR1wn+y5mcgPdIvoGF2Ohjoqg/bBmZ+DVBapBfiJzBnHp9k6doq4gCXuwZzHbCkmW2wPe6oACmSDWf7arMQIoTvz2SlvWpx8gQypJf1HK6CDfNK7va9+BrXqIQSvptMjRMRqpDLy+hGCnMc13lMurTD+CjdtwRFS0foQprrgOfiuBKdPdXfpE78NERWqReGd4u7+v7oLW5m67+v7xN6wHhwt0YH7gm19S3BxTaCMJjpWpXDyKWigmeMaVPFgZiGxWc7KVdvZ28JUaahQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=CYPzFgyLmA1aPeo1fYQuDuOTMDxYO6H6TAqiAsnHhjo=;
+ b=ZP23Pl1NmJSnTTtROcDv9lZ8UWaqbEfbt4xTvjIbBRL86bnZWV4ZWS9NhKoVEd5lsJ3Df25p5vxR0GbpL5q2lUrrrd5MAbIVBMgs2y+oJ/kKdpkWfp6QKiElBNVUNHKFAzn6Vj3dVV7Vq2ZXDx287k1DJp0dPboHt9CSREAs5SIqE3FfLAdmVU9FxuGN4pcwf1OaRg+BrB9cHAttgVxEwkTfAZQpHBeX4Syewy/GOIE3hFW46nmHZWnzv60EUAH9iUOzuO/OM5G5+Y8MgRM09wA5YDtR6TbM+u1Dr4sy+lXTW078HKoy9Lr1y0an8nCA6yI6pctzx5sHWjgP0R7syg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=CYPzFgyLmA1aPeo1fYQuDuOTMDxYO6H6TAqiAsnHhjo=;
+ b=RFDMOr8fwdGxw4fMVWC3204snP0DD8MsPX1e6GdrftXv0jZq3xVoSwTLEtzqZrNOwXu8rfADg+1XLnV2T4x+4CVmyA2Sk3vP2aKdI0F4O4mmCSDn/YlsP+sea7KeKESafUr5vnmeiz6TKa5FCRvDFpUtswjqPqLnQmXxK8/ZRFk=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from CY4PR1201MB0181.namprd12.prod.outlook.com
+ (2603:10b6:910:1f::11) by MWHPR1201MB0125.namprd12.prod.outlook.com
+ (2603:10b6:301:55::12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5417.23; Thu, 14 Jul
+ 2022 05:06:55 +0000
+Received: from CY4PR1201MB0181.namprd12.prod.outlook.com
+ ([fe80::1001:3c79:9504:8d6a]) by CY4PR1201MB0181.namprd12.prod.outlook.com
+ ([fe80::1001:3c79:9504:8d6a%10]) with mapi id 15.20.5417.026; Thu, 14 Jul
+ 2022 05:06:55 +0000
+Message-ID: <666f8764-1681-1244-3b8d-e93bbcda5180@amd.com>
+Date:   Thu, 14 Jul 2022 07:06:42 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v7 00/14] KVM: mm: fd-based approach for supporting KVM
+ guest private memory
+Content-Language: en-US
+From:   "Gupta, Pankaj" <pankaj.gupta@amd.com>
+To:     Chao Peng <chao.p.peng@linux.intel.com>
+Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+        qemu-devel@nongnu.org, linux-kselftest@vger.kernel.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Arnd Bergmann <arnd@arndb.de>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Darren Hart <darren@os.amperecomputing.com>,
-        Yicong Yang <yangyicong@hisilicon.com>, huzhanyuan@oppo.com,
-        =?UTF-8?B?5p2O5Z+56ZSLKHdpbmsp?= <lipeifeng@oppo.com>,
-        =?UTF-8?B?5byg6K+X5piOKFNpbW9uIFpoYW5nKQ==?= 
-        <zhangshiming@oppo.com>, =?UTF-8?B?6YOt5YGl?= <guojian@oppo.com>,
-        real mz <realmz6@gmail.com>, linux-mips@vger.kernel.org,
-        openrisc@lists.librecores.org, linuxppc-dev@lists.ozlabs.org,
-        linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+        Sean Christopherson <seanjc@google.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com,
+        Quentin Perret <qperret@google.com>,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+        Muchun Song <songmuchun@bytedance.com>
+References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
+ <b1c12a4b-46f7-081b-242f-005a8824aad1@amd.com>
+ <20220713075738.GC2831541@chaop.bj.intel.com>
+ <13d25d2e-ff79-5762-ddb8-87df56f5cbcf@amd.com>
+ <20220713235922.GB2881285@chaop.bj.intel.com>
+ <9f868fd3-ae47-d44e-fd55-566793405121@amd.com>
+In-Reply-To: <9f868fd3-ae47-d44e-fd55-566793405121@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: AM7PR02CA0019.eurprd02.prod.outlook.com
+ (2603:10a6:20b:100::29) To CY4PR1201MB0181.namprd12.prod.outlook.com
+ (2603:10b6:910:1f::11)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 384d6231-4352-448a-4deb-08da6556ab9d
+X-MS-TrafficTypeDiagnostic: MWHPR1201MB0125:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: UvpBDozJ4LxwxOzdVJuEivQsrSCzyCNDM0OGrV4MTlbBUPmlGtOf4heNYR3lfa3n0y4tn1ju4Lz3iYvXkaOn9HHmR2Qv/5Ou750spodf2+IxXitArOUHq/CZMFzNl8nETeiAaW9uOSSywhnLaC8N/fLiPK49GYyVYdD2YSN9nHLr+TyQ3eQmEB8w71S6Eobn+onIxAmDdBkeUt3BeRZEbLQjXvaca/JT1CuYswN5r7LT5OlRyYoUWGV2TGx6wGlL/Y+kr/wKlsux8eHsxlUb0NrJJ+9W3iTGo0jwAmf7/iZ3TzYFBxWZbrGM3+A8onO2hDFQzmE2D5dTdf4j3lGsg3J5xDwwSbrWFMRUSf0jEPzMZkLmAgwylTqOjUx23olUykG3fIh3SzpZW0NsSCMYso/S5vo7eoUUVkooTZ//cfMYPn1dv7sHHiOQJZxaHTbSB3zef2IR5h0F7oLpUpJNrvoNHV0E/7w6TcYshibzZFCmG7NhnSlflKW/BoiuTU37QcOZy1tbFUnohPqQRvjmLBa3uluwRaNFxl4PblM1ZfR18WszlHiSMPjsaRdw/JISaBTdiGZyC8v4s0ItYh33aSf3ADCyUHwa8xZXaElMZAZ3cAvvhO0F038WcFbnFrMFDfhfSuI8khqWfWhYupQw0VP+bpQsnovxM4LugNsKtFj9aOfES+URfcJitNZAOmSCIyIOoaxfIemdtpXIWwCKEt+S3a6lta8hYbP6baAU3bG96MUyhbbZ7vPjjKj8rmJgxE/0/sxA+QB3wXg4TGSe7kGbCMtpgyf20baW/jklxIXLUKHz5yN+wzTZiI4mWWelr7Iq8fCDi6GPOkmLz2dLbw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY4PR1201MB0181.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(346002)(136003)(39860400002)(396003)(366004)(376002)(5660300002)(54906003)(6486002)(6506007)(6916009)(478600001)(2906002)(316002)(6666004)(31686004)(26005)(41300700001)(6512007)(36756003)(31696002)(2616005)(38100700002)(4326008)(83380400001)(66556008)(7416002)(8676002)(7406005)(86362001)(8936002)(186003)(66476007)(66946007)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?bzYvdFErOEhMV010dExMejFxUWlyNzBRSEpUQjFvYjU5L3orQUQxVktnVUgv?=
+ =?utf-8?B?bWY3ZjR0aEIvRXRmTzlHVlhvL0lYQVhrMGwwTFN1ZjdPSjhDZnZCc0QyMjRk?=
+ =?utf-8?B?V3lGMys3SkZTMVlrWGkxd2krRXBwR0V4YUQ0SjJBVFpiWmx4OWNrVzRxMWFX?=
+ =?utf-8?B?WGNMN0RuelVkV01keUZCR3RvZzRzSU9SYjBnL3lBN2p6ZWNOL2NWOHFkZzB0?=
+ =?utf-8?B?QmZ3MU5mRi9DTk0wZHdFM3RieU15aWs3ajQvRk9laVNwR3RJSmNvdXowSzZ6?=
+ =?utf-8?B?azJxUlVwOW1WcTBzbUNhY0RwZW9EamVINWlGcld4OXN0Q0ZGYi9hYTA4cVZt?=
+ =?utf-8?B?bTFidk9MT0g0dEdsbWZkaER2R2hGVWUvc2JyVmJTUW1HRnVITGUrYXlMeXJZ?=
+ =?utf-8?B?M2pyOVJySnVtY1lnNGMrTE1QTDYrQ2RKNmdUeGlhL1NlOWErelZtMGpxS0xJ?=
+ =?utf-8?B?dDUwTURwb1VrQWVTcnpxZmFxNjBwaFI4VDl4dzJWN2xpZ2pRaytVTmVxRDVS?=
+ =?utf-8?B?VWRqMjJYL2thU2hDcjVLV2hhZkd4ZFkweVN5UHlmSzlqZjdTalIrajlmTzJW?=
+ =?utf-8?B?R2RyZ1hpa3VjaFVtSktZK0MzRll2ZGlvdWRXU29tdlppUzY4U043a0ZYQkVx?=
+ =?utf-8?B?WnNmVFliUW0xWHFTSWFlODRiNWdYbXlWaUV3OStZbjRtcDRGSzc2NVovdDhi?=
+ =?utf-8?B?SHRRMU81NW5jZ3dyZ3BxdTB1YnVrb1RRYzlOdlR5b29LV1NjRWRRek9xNXh1?=
+ =?utf-8?B?MXZJTjV2bzlkTjl2UDBtUlRjVG1JeTFpeEtUSkR3R285YnpsbWtmWlN6MEF1?=
+ =?utf-8?B?YUV6MVV6aWIyWkZrZmlZRlIzbkhmb21Mdmdnb1krTW5FRkJhZkZXUmg2UnYx?=
+ =?utf-8?B?QXd3TFZ2Y2VBQUwrbTJhSjcydzBjTks1RVlvVGlndmtobm0rMklLQlpidklK?=
+ =?utf-8?B?R1lsY3pmSlVkbGx6RFYwdnFlNzlzSlJvcVVpRlJxeURlVmJRTm5vUHJ0MjlB?=
+ =?utf-8?B?ODEvN3FPTEhrcGZNcG42UXJEQ3czb2xRTklWQmlwcTI0dEhTV3lTemJiV3pl?=
+ =?utf-8?B?UjNLSmo4dW5MNlAyYnFYdkI2M3VmazU3b1hWQjZTV3p4R1BERzhGTWxEbHd2?=
+ =?utf-8?B?ZDJCQVQrNllzL01FOWpReVc1T05SVmVQbDBQSHZJNERuNHdwdU0vZXJTV3l0?=
+ =?utf-8?B?amRjQ3BBZEJsK3RscmsrWFVjRTErUC8yTzdXMmxubGV1bzB4OE1VdEZzWjBu?=
+ =?utf-8?B?Z0xmdmM5eDFQd29VeUxCVVlQNGFHTGkyNnNTdHQ4SDF2cGZxMG93dnF6RGc2?=
+ =?utf-8?B?MHhOVzdrY1M2N0ZvVFJvdHd4MkhVbEczK3d3MkF0Y3hlRjdFTzJRTmppcDl6?=
+ =?utf-8?B?RTZxb0Y0aHBSdGZGTVNFTHY0UjZ1bEF1NzZHb3F0N2tVQU5QNXB2NStKdXRu?=
+ =?utf-8?B?c2VNemRSUENPNDcrQVNkUjVkZ1NETEFhQU5tVG1maGVyYUNKZGNoVGtGNVRN?=
+ =?utf-8?B?OUZwOEVPbWVqYmJXQVYvQVk4SlpxbzkzWkxCL0xOMzNGWGc3NXV5REFmUjVB?=
+ =?utf-8?B?cEJGMFJQNVZBKytOdlJ4MWhXVnduNG1UMGkzQ3JOdlJ5dFE0dGg2VlovWTJv?=
+ =?utf-8?B?NkVJRWJLRmNBVzNtY1g5alk2MXVUU1VDbEd3ZzNXWVFISGY2Mk1MWEF3RGVs?=
+ =?utf-8?B?T1FSN2lrZjMyb09TUUpjTUt6SmhFSzY1K0pFWHJ0d05SRXRrNGh3c0o2U0dz?=
+ =?utf-8?B?dXpObDg2czhIOStaNTUyenBXM0JsV2pVOXZnZDRYVUxOL2NDTG5aazVoeVN2?=
+ =?utf-8?B?MzJBUFY5K1AwWUViUlZyTVdFZ3VTZ0o3ekVnMWViQm1GMVJvQXR2RXRDdkEx?=
+ =?utf-8?B?b2tjQmpXZUZmK2FNcmpycDlyeXg1anlsa1d5YVl2cEU1UzA5WGJjclNTemtl?=
+ =?utf-8?B?eENXK0s2bWtSSkV2Rkk0eGdSVmU1aC93VGdvdlMvRUdnTkgxYUFpeG9WbGxW?=
+ =?utf-8?B?NUdRcWpLRUVTSDVhWWFsaHI3cUs2RHR6ZTJmSWFCT0J4Sy9UbWRjVnFHTHU3?=
+ =?utf-8?B?Mi9raUNxazRtWEtHaGpKZUJNVDRUT3J6b1F5aXVSSDdvRUlzQzhtMFE2WXpT?=
+ =?utf-8?Q?0nguig1SUZ4nY2CKV7/rfY7Bv?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 384d6231-4352-448a-4deb-08da6556ab9d
+X-MS-Exchange-CrossTenant-AuthSource: CY4PR1201MB0181.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jul 2022 05:06:55.1370
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 5CLw+SfWGM5uP2oXDw7M1trQhASw+oYnrEw1r8wqU3abPM3hCNiOomOhB4uHMvZI0hmv0/0BEA8HnuZgRalIKA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR1201MB0125
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jul 14, 2022 at 3:29 PM Xin Hao <xhao@linux.alibaba.com> wrote:
->
-> Hi barry.
->
-> I do some test on Kunpeng arm64 machine use Unixbench.
->
-> The test  result as below.
->
-> One core, we can see the performance improvement above +30%.
 
-I am really pleased to see the 30%+ improvement on unixbench on single core.
+>>>>>> This is the v7 of this series which tries to implement the 
+>>>>>> fd-based KVM
+>>>>>> guest private memory. The patches are based on latest kvm/queue 
+>>>>>> branch
+>>>>>> commit:
+>>>>>>
+>>>>>>      b9b71f43683a (kvm/queue) KVM: x86/mmu: Buffer nested MMU
+>>>>>> split_desc_cache only by default capacity
+>>>>>>
+>>>>>> Introduction
+>>>>>> ------------
+>>>>>> In general this patch series introduce fd-based memslot which 
+>>>>>> provides
+>>>>>> guest memory through memory file descriptor fd[offset,size] 
+>>>>>> instead of
+>>>>>> hva/size. The fd can be created from a supported memory filesystem
+>>>>>> like tmpfs/hugetlbfs etc. which we refer as memory backing store. KVM
+>>>>>
+>>>>> Thinking a bit, As host side fd on tmpfs or shmem will store memory 
+>>>>> on host
+>>>>> page cache instead of mapping pages into userspace address space. 
+>>>>> Can we hit
+>>>>> double (un-coordinated) page cache problem with this when guest 
+>>>>> page cache
+>>>>> is also used?
+>>>>
+>>>> This is my understanding: in host it will be indeed in page cache (in
+>>>> current shmem implementation) but that's just the way it allocates and
+>>>> provides the physical memory for the guest. In guest, guest OS will not
+>>>> see this fd (absolutely), it only sees guest memory, on top of which it
+>>>> can build its own page cache system for its own file-mapped content but
+>>>> that is unrelated to host page cache.
+>>>
+>>> yes. If guest fills its page cache with file backed memory, this at host
+>>> side(on shmem fd backend) will also fill the host page cache fast. 
+>>> This can
+>>> have an impact on performance of guest VM's if host goes to memory 
+>>> pressure
+>>> situation sooner. Or else we end up utilizing way less System RAM.
+>>
+>> (Currently), the file backed guest private memory is long-term pinned
+>> and not reclaimable, it's in page cache anyway once we allocated it for
+>> guest. This does not depend on how guest use it (e.g. use it for guest
+>> page cache or not).
+> 
+> Even if host shmem backed memory always be always un-reclaimable, we end 
+> up utilizing double RAM (both in guest & host page cache) for guest disk 
+> accesses?
 
-> ./Run -c 1 -i 1 shell1
-> w/o
-> System Benchmarks Partial Index              BASELINE RESULT INDEX
-> Shell Scripts (1 concurrent)                     42.4 5481.0 1292.7
-> ========
-> System Benchmarks Index Score (Partial Only)                         1292.7
->
-> w/
-> System Benchmarks Partial Index              BASELINE RESULT INDEX
-> Shell Scripts (1 concurrent)                     42.4 6974.6 1645.0
-> ========
-> System Benchmarks Index Score (Partial Only)                         1645.0
->
->
-> But with whole cores, there have little performance degradation above -5%
+Answering my own question:
 
-That is sad as we might get more concurrency between mprotect(), madvise(),
-mremap(), zap_pte_range() and the deferred tlbi.
+We wont use double RAM, just view of guest & host structures would 
+change as per the code path taken. If we we don't care about reclaim 
+situations we should be good, else we have to think something to 
+coordinate page cache between guest & host (that could be an 
+optimization for later).
 
->
-> ./Run -c 96 -i 1 shell1
-> w/o
-> Shell Scripts (1 concurrent)                  80765.5 lpm   (60.0 s, 1
-> samples)
-> System Benchmarks Partial Index              BASELINE RESULT INDEX
-> Shell Scripts (1 concurrent)                     42.4 80765.5 19048.5
-> ========
-> System Benchmarks Index Score (Partial Only)                        19048.5
->
-> w
-> Shell Scripts (1 concurrent)                  76333.6 lpm   (60.0 s, 1
-> samples)
-> System Benchmarks Partial Index              BASELINE RESULT INDEX
-> Shell Scripts (1 concurrent)                     42.4 76333.6 18003.2
-> ========
-> System Benchmarks Index Score (Partial Only)                        18003.2
->
-> ----------------------------------------------------------------------------------------------
->
->
-> After discuss with you, and do some changes in the patch.
->
-> ndex a52381a680db..1ecba81f1277 100644
-> --- a/mm/rmap.c
-> +++ b/mm/rmap.c
-> @@ -727,7 +727,11 @@ void flush_tlb_batched_pending(struct mm_struct *mm)
->          int flushed = batch >> TLB_FLUSH_BATCH_FLUSHED_SHIFT;
->
->          if (pending != flushed) {
-> +#ifdef CONFIG_ARCH_HAS_MM_CPUMASK
->                  flush_tlb_mm(mm);
-> +#else
-> +               dsb(ish);
-> +#endif
->
+Thanks,
+Pankaj
 
-i was guessing the problem might be flush_tlb_batched_pending()
-so i asked you to change this to verify my guess.
-
-     /*
->                   * If the new TLB flushing is pending during flushing, leave
->                   * mm->tlb_flush_batched as is, to avoid losing flushing.
->
-> there have a performance improvement with whole cores, above +30%
-
-But I don't think it is a proper patch. There is no guarantee the cpu calling
-flush_tlb_batched_pending is exactly the cpu sending the deferred
-tlbi. so the solution is unsafe. But since this temporary code can bring the
-30%+ performance improvement back for high concurrency, we have huge
-potential to finally make it.
-
-Unfortunately I don't have an arm64 server to debug on this. I only have
-8 cores which are unlikely to reproduce regression which happens in
-high concurrency with 96 parallel tasks.
-
-So I'd ask if @yicong or someone else working on kunpeng or other
-arm64 servers  is able to actually debug and figure out a proper
-patch for this, then add the patch as 5/5 into this series?
-
->
-> ./Run -c 96 -i 1 shell1
-> 96 CPUs in system; running 96 parallel copies of tests
->
-> Shell Scripts (1 concurrent)                 109229.0 lpm   (60.0 s, 1 samples)
-> System Benchmarks Partial Index              BASELINE       RESULT    INDEX
-> Shell Scripts (1 concurrent)                     42.4     109229.0  25761.6
->                                                                     ========
-> System Benchmarks Index Score (Partial Only)                        25761.6
->
->
-> Tested-by: Xin Hao<xhao@linux.alibaba.com>
-
-Thanks for your testing!
-
->
-> Looking forward to your next version patch.
->
-> On 7/11/22 11:46 AM, Barry Song wrote:
-> > Though ARM64 has the hardware to do tlb shootdown, the hardware
-> > broadcasting is not free.
-> > A simplest micro benchmark shows even on snapdragon 888 with only
-> > 8 cores, the overhead for ptep_clear_flush is huge even for paging
-> > out one page mapped by only one process:
-> > 5.36%  a.out    [kernel.kallsyms]  [k] ptep_clear_flush
-> >
-> > While pages are mapped by multiple processes or HW has more CPUs,
-> > the cost should become even higher due to the bad scalability of
-> > tlb shootdown.
-> >
-> > The same benchmark can result in 16.99% CPU consumption on ARM64
-> > server with around 100 cores according to Yicong's test on patch
-> > 4/4.
-> >
-> > This patchset leverages the existing BATCHED_UNMAP_TLB_FLUSH by
-> > 1. only send tlbi instructions in the first stage -
-> >       arch_tlbbatch_add_mm()
-> > 2. wait for the completion of tlbi by dsb while doing tlbbatch
-> >       sync in arch_tlbbatch_flush()
-> > My testing on snapdragon shows the overhead of ptep_clear_flush
-> > is removed by the patchset. The micro benchmark becomes 5% faster
-> > even for one page mapped by single process on snapdragon 888.
-> >
-> >
-> > -v2:
-> > 1. Collected Yicong's test result on kunpeng920 ARM64 server;
-> > 2. Removed the redundant vma parameter in arch_tlbbatch_add_mm()
-> >     according to the comments of Peter Zijlstra and Dave Hansen
-> > 3. Added ARCH_HAS_MM_CPUMASK rather than checking if mm_cpumask
-> >     is empty according to the comments of Nadav Amit
-> >
-> > Thanks, Yicong, Peter, Dave and Nadav for your testing or reviewing
-> > , and comments.
-> >
-> > -v1:
-> > https://lore.kernel.org/lkml/20220707125242.425242-1-21cnbao@gmail.com/
-> >
-> > Barry Song (4):
-> >    Revert "Documentation/features: mark BATCHED_UNMAP_TLB_FLUSH doesn't
-> >      apply to ARM64"
-> >    mm: rmap: Allow platforms without mm_cpumask to defer TLB flush
-> >    mm: rmap: Extend tlbbatch APIs to fit new platforms
-> >    arm64: support batched/deferred tlb shootdown during page reclamation
-> >
-> >   Documentation/features/arch-support.txt       |  1 -
-> >   .../features/vm/TLB/arch-support.txt          |  2 +-
-> >   arch/arm/Kconfig                              |  1 +
-> >   arch/arm64/Kconfig                            |  1 +
-> >   arch/arm64/include/asm/tlbbatch.h             | 12 ++++++++++
-> >   arch/arm64/include/asm/tlbflush.h             | 23 +++++++++++++++++--
-> >   arch/loongarch/Kconfig                        |  1 +
-> >   arch/mips/Kconfig                             |  1 +
-> >   arch/openrisc/Kconfig                         |  1 +
-> >   arch/powerpc/Kconfig                          |  1 +
-> >   arch/riscv/Kconfig                            |  1 +
-> >   arch/s390/Kconfig                             |  1 +
-> >   arch/um/Kconfig                               |  1 +
-> >   arch/x86/Kconfig                              |  1 +
-> >   arch/x86/include/asm/tlbflush.h               |  3 ++-
-> >   mm/Kconfig                                    |  3 +++
-> >   mm/rmap.c                                     | 14 +++++++----
-> >   17 files changed, 59 insertions(+), 9 deletions(-)
-> >   create mode 100644 arch/arm64/include/asm/tlbbatch.h
-> >
-> --
-> Best Regards!
-> Xin Hao
->
-
-Thanks
-Barry
