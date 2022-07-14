@@ -2,99 +2,141 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DC3F5C43334
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Jul 2022 08:11:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D87DC433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Jul 2022 08:20:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229951AbiGNILF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 14 Jul 2022 04:11:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36282 "EHLO
+        id S234480AbiGNIUk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 14 Jul 2022 04:20:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46764 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229913AbiGNILE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Jul 2022 04:11:04 -0400
-Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E24622B190;
-        Thu, 14 Jul 2022 01:11:03 -0700 (PDT)
-Received: by mail-pj1-x102c.google.com with SMTP id v4-20020a17090abb8400b001ef966652a3so7752254pjr.4;
-        Thu, 14 Jul 2022 01:11:03 -0700 (PDT)
+        with ESMTP id S234584AbiGNIUe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Jul 2022 04:20:34 -0400
+Received: from mail-vs1-xe30.google.com (mail-vs1-xe30.google.com [IPv6:2607:f8b0:4864:20::e30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB9693A4B6;
+        Thu, 14 Jul 2022 01:20:29 -0700 (PDT)
+Received: by mail-vs1-xe30.google.com with SMTP id w188so646032vsb.6;
+        Thu, 14 Jul 2022 01:20:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=bIXAVB8I8ROQODsmmKeLMFK2VbCiCoPk46ijuVpDRLE=;
-        b=bX/PvdK0iWhA+6NrxXrInHRc+qvbiEfelilGWWqwQjgQzMUnoF6NDAl5D807Ve77B8
-         vNlv6KbmzTRLAFCI8E02lbSESfHJ2dkY3+/S3bhdJTSLwUh7tCD5q81AxFnUlPlRySgn
-         hb0wYd7/WjGXskym9dizQ6VGYBjjEqUn+5XrfQx6lGgVlwY0DGGCdFv/hdRoc0mQUl4N
-         Reo+afrxFqVT5fWgPrzXUxWZmYWqrvxTaKnmciqYcBh422pbBU9mvV4ULVmXpDSTii3h
-         qjGWuwwYwmDAbU8/Icd7v/qYvl7oHmvO8w5g9+JYqatli5vpkfkMlhFI6WoMWQ/hWyoZ
-         EIpA==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=P7yWmbhC5FH2zK57bSWYnmzFw+mWX2gZuUaJyIsrO0E=;
+        b=ZknV4n/4slEsbmUHBmPEpE2ZEFcUauYGyxgcil4DuD7ldrUUYqAN1mi9tv9ydnIB81
+         w4qzko4Cj3dpMxmyurA/GVGtmx1t+IFBSPKoIXBNadS7DFDd6Z1E5IJbKhJFYAcnYnew
+         BKRfUy4qLAdS5R2OJwAr9XK1DrPpUJkGF5uJ/PUaYkYYXZQfkQ5xXNBeQKjIepHfcaMW
+         ISFQY57uJ0lRYX97JbOHqx9jQPwnAsz5iA6FrpJp6wxgvyMfHMCMUIjxUMlojXQuSReG
+         zezQoPCV0uPSwTpX3mLorwUH+ZMg7Ej5f8tAR7ohrPMQO9jgbK7NTmKYNukr1djedvxj
+         VTrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=bIXAVB8I8ROQODsmmKeLMFK2VbCiCoPk46ijuVpDRLE=;
-        b=Vq9p8XryEtX3Z3bI0e6HwFmGl3skhALvCBwCbMAw6r6fYNSZJyLmG0fCkQ5Ef19ES+
-         /t4OGwek5zxvQKyN2MfdhBzNiN2Tf7Lfck1sdJRQQeyKCmdOTVJipNp73cww2Y8ipycl
-         yz/EroOXKsAItEoXcqeOxMT5oAEK3nsBx1ltoafpKbdmunkVqS+JSvaIEd4+06V8v4dJ
-         uP8Aer7N6LefPJHk2zayWoYzCGVebLlMSNH1iao1rHr4rFv2oqcRqGyd7mPl6oVVvLr3
-         sAOuH9WDo5mZvaP/tFSyUK4AYngErtLc62VQ/7e3P1wiSiv1o9AlvU8Lpe/GCGGtB8qw
-         ZNRA==
-X-Gm-Message-State: AJIora9XsSVINirX8xbiKJrV3Mnc6R3tCfKok0DFXlJpYw6e3wAn0q/J
-        lkRw4agIn32ihSkqQYUfbkg=
-X-Google-Smtp-Source: AGRyM1uMe9azVMy5q0a4JiCqLwq96lNXH8Ahpxp6f6cPLXc5EIeN0yWDUF3bPx9Bi0Pw8M3yIt1/aw==
-X-Received: by 2002:a17:903:40cf:b0:16c:6c93:9734 with SMTP id t15-20020a17090340cf00b0016c6c939734mr7720124pld.98.1657786263436;
-        Thu, 14 Jul 2022 01:11:03 -0700 (PDT)
-Received: from [192.168.43.80] (subs02-180-214-232-29.three.co.id. [180.214.232.29])
-        by smtp.gmail.com with ESMTPSA id y5-20020a17090a784500b001ef84cd54b2sm2988734pjl.19.2022.07.14.01.11.01
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 14 Jul 2022 01:11:02 -0700 (PDT)
-Message-ID: <5fd3bc40-61f5-e7bc-6178-cb50b3af4042@gmail.com>
-Date:   Thu, 14 Jul 2022 15:10:56 +0700
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=P7yWmbhC5FH2zK57bSWYnmzFw+mWX2gZuUaJyIsrO0E=;
+        b=Rdc94h3pcbM4ZRfPwHTPN2Ryu2NjuLz0ORI6gwFXhIJ3ad5uDAUjIxx7XHKjrOWDx9
+         mQvtwTZ/nHbhgptwGYzdfRobF2dPqTAWhEUBcYwhnYWPninFPWYmajglOoLkMV4AFYvf
+         zQd989RAJ4vOHuY0ZlxpYp9dTDpbbrvrh76Xdu13rdRdyBIyNvt/6RsCuulc+93p6kdi
+         mbpCjqhorbdoZRXrCFdjIweU3w7ZPvkz1ZdTDd0UUO0qfRHQnNBT021FOTLLZEmpD0Fg
+         52l0WGlNonhInE2jxGd8LRlDTxNk8hOYkR4TH3p0FybGeZ9ez4/TdZptfqAu+C4IrO/4
+         LABw==
+X-Gm-Message-State: AJIora9E1QxSR4/PgVSoRcyO7rpbaML3VRmTZU40MQSH8sbaOjBT6dGa
+        CH/IdPOci5sWp7HpvtgqhTpBHuRb5QW1CCSdNJI=
+X-Google-Smtp-Source: AGRyM1spoqLWySpk8MeGgfx7AdmQFCz42DEQ17rAreZ88W27SuQVMPg0OsGZVZdB6EygKlIR4lji3MQFOfbDXwsVEeQ=
+X-Received: by 2002:a67:6d86:0:b0:357:3d99:ec77 with SMTP id
+ i128-20020a676d86000000b003573d99ec77mr3058519vsc.6.1657786828733; Thu, 14
+ Jul 2022 01:20:28 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH] bpf, docs: document BPF_MAP_TYPE_HASH and variants
-Content-Language: en-US
-To:     =?UTF-8?Q?Daniel_M=c3=bcller?= <deso@posteo.net>
-Cc:     Donald Hunter <donald.hunter@gmail.com>, bpf@vger.kernel.org,
-        linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-References: <20220713211612.84782-1-donald.hunter@gmail.com>
- <99351eee-17b4-66e0-1b9e-7f798756780a@gmail.com>
- <20220714055137.dsatpuyrwdlel2ck@vaio>
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <20220714055137.dsatpuyrwdlel2ck@vaio>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20220714025649.41871-1-bagasdotme@gmail.com>
+In-Reply-To: <20220714025649.41871-1-bagasdotme@gmail.com>
+From:   Ilya Dryomov <idryomov@gmail.com>
+Date:   Thu, 14 Jul 2022 10:20:03 +0200
+Message-ID: <CAOi1vP__iYzy85CJtxP3qWAKt1OxoLWe3GQPNKwUJ3pmLpRYgg@mail.gmail.com>
+Subject: Re: [PATCH next] Documentation: netfs: Use inline code for *foliop pointer
+To:     Bagas Sanjaya <bagasdotme@gmail.com>
+Cc:     Linux Documentation List <linux-doc@vger.kernel.org>,
+        linux-next <linux-next@vger.kernel.org>,
+        kernel test robot <lkp@intel.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        David Howells <dhowells@redhat.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+        Xiubo Li <xiubli@redhat.com>, stable@vger.kernel.org,
+        LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 7/14/22 12:51, Daniel Müller wrote:
-> On Thu, Jul 14, 2022 at 08:12:57AM +0700, Bagas Sanjaya wrote:
->> On 7/14/22 04:16, Donald Hunter wrote:
->>> This commit adds documentation for BPF_MAP_TYPE_HASH including kernel
->>> version introduced, usage and examples. It also documents
->>> BPF_MAP_TYPE_PERCPU_HASH, BPF_MAP_TYPE_LRU_HASH and
->>> BPF_MAP_TYPE_LRU_PERCPU_HASH which are similar.
->>>
->>
->> Please, please use imperative mood instead for patch description
->> (that is, better write like "document BPF_MAP_TYPE_* types").
-> 
-> Can you elaborate why you make that recommendation, please?
-> 
+On Thu, Jul 14, 2022 at 4:56 AM Bagas Sanjaya <bagasdotme@gmail.com> wrote:
+>
+> Sphinx reported inline emphasis warning on netfs:
+>
+> Documentation/filesystems/netfs_library.rst:384: WARNING: Inline emphasis start-string without end-string.
+> Documentation/filesystems/netfs_library.rst:384: WARNING: Inline emphasis start-string without end-string.
+> Documentation/filesystems/netfs_library:609: ./fs/netfs/buffered_read.c:318: WARNING: Inline emphasis start-string without end-string.
+>
+> These warnings above are due to unsecaped *foliop, which confuses Sphinx as
+> italics syntax instead.
+>
+> Use inline code for the pointer.
+>
+> Link: https://lore.kernel.org/linux-doc/202207140742.GTPk4U8i-lkp@intel.com/
+> Fixes: 157be6ddd9e438 ("netfs: do not unlock and put the folio twice")
+> Reported-by: kernel test robot <lkp@intel.com>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: David Howells <dhowells@redhat.com>
+> Cc: Jeff Layton <jlayton@kernel.org>
+> Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>
+> Cc: Xiubo Li <xiubli@redhat.com>
+> Cc: Ilya Dryomov <idryomov@gmail.com>
+> Cc: stable@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
+> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> ---
+>  Documentation/filesystems/netfs_library.rst | 6 +++---
+>  fs/netfs/buffered_read.c                    | 4 ++--
+>  2 files changed, 5 insertions(+), 5 deletions(-)
+>
+> diff --git a/Documentation/filesystems/netfs_library.rst b/Documentation/filesystems/netfs_library.rst
+> index 8d4cf5d5822de4..73a4176144b3b8 100644
+> --- a/Documentation/filesystems/netfs_library.rst
+> +++ b/Documentation/filesystems/netfs_library.rst
+> @@ -382,9 +382,9 @@ The operations are as follows:
+>     conflicting state before allowing it to be modified.
+>
+>     It may unlock and discard the folio it was given and set the caller's folio
+> -   pointer to NULL.  It should return 0 if everything is now fine (*foliop
+> -   left set) or the op should be retried (*foliop cleared) and any other error
+> -   code to abort the operation.
+> +   pointer to NULL.  It should return 0 if everything is now fine (``*foliop``
+> +   left set) or the op should be retried (``*foliop`` cleared) and any other
+> +   error code to abort the operation.
+>
+>   * ``done``
+>
+> diff --git a/fs/netfs/buffered_read.c b/fs/netfs/buffered_read.c
+> index 8fa0725cd64981..0ce53585215106 100644
+> --- a/fs/netfs/buffered_read.c
+> +++ b/fs/netfs/buffered_read.c
+> @@ -320,8 +320,8 @@ static bool netfs_skip_folio_read(struct folio *folio, loff_t pos, size_t len,
+>   * pointer to the fsdata cookie that gets returned to the VM to be passed to
+>   * write_end.  It is permitted to sleep.  It should return 0 if the request
+>   * should go ahead or it may return an error.  It may also unlock and put the
+> - * folio, provided it sets *foliop to NULL, in which case a return of 0 will
+> - * cause the folio to be re-got and the process to be retried.
+> + * folio, provided it sets ``*foliop`` to NULL, in which case a return of 0
+> + * will cause the folio to be re-got and the process to be retried.
+>   *
+>   * The calling netfs must initialise a netfs context contiguous to the vfs
+>   * inode before calling this.
+> --
+> An old man doll... just what I always wanted! - Clara
+>
 
-From Documentation/process/submitting-patches.rst:
+Hi Bagas,
 
-> Describe your changes in imperative mood, e.g. "make xyzzy do frotz"
-> instead of "[This patch] makes xyzzy do frotz" or "[I] changed xyzzy
-> to do frotz", as if you are giving orders to the codebase to change
-> its behaviour.
+I folded this fixup into the original patch and added your
+Signed-off-by.  I hope you don't mind.
 
-The recommendation above is from commit 74a475acea4945
-("SubmittingPatches: add style recommendation to use imperative descriptions")
+Thanks,
 
-Thanks.
-
--- 
-An old man doll... just what I always wanted! - Clara
+                Ilya
