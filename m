@@ -2,171 +2,96 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BA396C43334
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Jul 2022 13:38:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DCDFC43334
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Jul 2022 13:39:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235944AbiGNNiJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 14 Jul 2022 09:38:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34868 "EHLO
+        id S239586AbiGNNjt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 14 Jul 2022 09:39:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37362 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239240AbiGNNiI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Jul 2022 09:38:08 -0400
-Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com [IPv6:2607:f8b0:4864:20::42c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9640054CAE;
-        Thu, 14 Jul 2022 06:38:07 -0700 (PDT)
-Received: by mail-pf1-x42c.google.com with SMTP id y9so1849148pff.12;
-        Thu, 14 Jul 2022 06:38:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=OpmfwN/J8ZTICSzccrhBIpc9ZkfZKVmS0yTPE9OckSU=;
-        b=P8JDkffPEQJ+0PZuxarOGUq/HuVCJaA++tVCBZCJfVuhM8VTaal2y1cnCnHMW4FqPN
-         IDdiIJwCf2/IOvb8PAKpL4Cv1H/hWcMU84KYyFSj8TL8wBeSYxIov1xyLjuIx5cY1r75
-         2m6MO5Z+H6sN5VqelhgzaGIsKPkbkiwkRnX3ULDmhUo40oKKPy7XqGDCu0ux1uGUJSQR
-         aZXfZT8kv2TxP8rzFXKld5bpREnpphvTQBns6gBXF4C515nnfR1IJ5KEeIXv1BptB925
-         N2bHYmilJTyYuH8qSwkmrRaRFbQ3Py6JMtRMFI8MjU0BOROgkj5MGOOBk4WHJA0ewLcI
-         USPA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to;
-        bh=OpmfwN/J8ZTICSzccrhBIpc9ZkfZKVmS0yTPE9OckSU=;
-        b=hL9Vk7Wt3p1Hh9mWNj0or0/TGrncS6O3kcIPpzw7ouGdnVXPbFXn+41HLab1K4p/o0
-         9l2/VC/yjOQ103MTl72Fc3fkvU9ItDoj65KQgJUyw8tLsYjmT4SrwB1Gw8IMRxhLq5Z1
-         PqEPndQYo7F0BZ/4BVBhW8zHV1+fTAC1v2NW/6lAqgFUODWJbt00OoYdk5OcZ/AxY3f8
-         41mYUOg1uL5mxZihS/kQVg+gvuqis4sDM/B11xvsMMSe/22Fqd4QoMGCobSZGtgduB1y
-         9eYOG4XeZRlh/AjSSVI/LQOQtuJGrPGtg/r4pJ7LJE+pUy3dtRg34GJ3Vjcn6TltBsHi
-         0DUA==
-X-Gm-Message-State: AJIora8CBiaT1F9fONeY3c0BRrS9SYBS9hdu+KWMdLT8BQka3g41TE6t
-        VAV0lbyhXrmbk6ejFPz2ONA=
-X-Google-Smtp-Source: AGRyM1vCtckFmC3nc6mMaAk1y5t2v7Ybn8SDjp47SI6V+JOzOavjkwqLvW+ropO8RiT8WLqz/VLpgg==
-X-Received: by 2002:a63:3181:0:b0:417:b4b5:df09 with SMTP id x123-20020a633181000000b00417b4b5df09mr7803649pgx.398.1657805887022;
-        Thu, 14 Jul 2022 06:38:07 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id s7-20020a63ff47000000b0041981461f5dsm1286244pgk.90.2022.07.14.06.38.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Jul 2022 06:38:01 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date:   Thu, 14 Jul 2022 06:38:00 -0700
-From:   Guenter Roeck <linux@roeck-us.net>
-To:     "Kallas, Pawel" <pawel.kallas@intel.com>
-Cc:     jdelvare@suse.com, corbet@lwn.net, linux-hwmon@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        iwona.winiarska@intel.com
-Subject: Re: [PATCH 0/3] hwmon: (pmbus) add power from energy readings
-Message-ID: <20220714133800.GA3916254@roeck-us.net>
-References: <20220706104024.3118590-1-pawel.kallas@intel.com>
- <20220706131758.GA652205@roeck-us.net>
- <dc8771ad-b48b-317d-b132-47208ef58710@intel.com>
- <20220707140952.GB3492673@roeck-us.net>
- <0b776040-c3bd-034f-bbcd-b929f1a4d19a@intel.com>
+        with ESMTP id S232196AbiGNNjs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Jul 2022 09:39:48 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A757060510;
+        Thu, 14 Jul 2022 06:39:47 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 3DAE92DC;
+        Thu, 14 Jul 2022 13:39:47 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 3DAE92DC
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1657805987; bh=6nEqc/8db9cnSBDSgS+CSBHWXQlL3UmK0hfgzuNWVgI=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=mSlq5oswWR02kCA7qjoLfvi5QhFce7TkiQZrNRaXKqoxtxPzCa9UHBBSPUEI+CPK4
+         BhpnLayiPVb3bpxFQdLwohdDzwoPABmO/mtlZiLt4Jxy2CeMqJT4k3mcRCQfi20zey
+         NMj+sIh20fb4bzPApaSE/hfEPlpiFUMnvGTKNQXEIYNfyFJjKmeHGwKO89WH/tDRRo
+         u3RrEU5FqG8x4HT9LuAdWZiW36nMl1yL7G66EbU/224SWffUVrDnIiOyEsu+DIkKCF
+         xs1i0ErZKraw2HUMkMh/IHqL5pfZbYtW/Uu8Di7Aj4VWTPJyvtGpXnXINHSRT0eD7r
+         3bDG1nJsojDGg==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Jiangshan Yi <13667453960@163.com>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jiangshan Yi <yijiangshan@kylinos.cn>,
+        Andrew Morton <akpm@linux-foundation.org>
+Subject: Re: [PATCH] lib/lzo/lzo1x_compress.c: replace ternary operator with
+ min() and min_t()
+In-Reply-To: <20220714015441.1313036-1-13667453960@163.com>
+References: <20220714015441.1313036-1-13667453960@163.com>
+Date:   Thu, 14 Jul 2022 07:39:46 -0600
+Message-ID: <87bktr24pp.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0b776040-c3bd-034f-bbcd-b929f1a4d19a@intel.com>
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jul 07, 2022 at 06:00:45PM +0200, Kallas, Pawel wrote:
-> 
-> On 07-Jul-22 4:09 PM, Guenter Roeck wrote:
-> > On Thu, Jul 07, 2022 at 04:01:54PM +0200, Kallas, Pawel wrote:
-> > > On 06-Jul-22 3:17 PM, Guenter Roeck wrote:
-> > > > On Wed, Jul 06, 2022 at 12:40:21PM +0200, Kallas, Pawel wrote:
-> > > > > Add support for reading EIN or EOUT registers and expose power calculated
-> > > > > from energy. This is more accurate than PIN and POUT power readings.
-> > > > > Readings are exposed in new hwmon files power1_average and power2_average.
-> > > > > Also add support for QUERY command that is needed to check availability
-> > > > > of EIN and EOUT reads and its data format. Only direct data format is
-> > > > > supported due to lack of test devices supporting other formats.
-> > > > > 
-> > > > I don't think this is a good idea. EIN/EOUT report energy consumption,
-> > > > not power.
-> > > According to PMBus-Specification-Rev-1-3-1-Part-II-20150313 "READ_EIN and
-> > > READ_EOUT commands provide information that can be used to calculate power
-> > > consumption". That is accumulator summing instantaneous input power
-> > > expressed in "watt-samples" and counter indicating number of samples.
-> > > The only reasonable thing that can be done with those values is calculating
-> > > power.
-> > Yes, but that is not the responsibility of the kernel. Just like we don't add
-> > up power measurements to calculate energy, we don't take energy measurements
-> > and calculate power consumption. Similar, we don't take voltage and current
-> > measurements and report power consumption from it either.
-> > 
-> > > > The "average" attributes as implemented don't really report
-> > > > a reliable number since the averaging period is not defined.
-> > > Agree, it is calculating average power since last read, which could be
-> > > incorrect with multiple consumers. However, this is the only possibility
-> > > without adding some timer logic.
-> > Another reason for doing it in userspace. Read energy every N seconds, and use
-> > the difference to calculate average power consumption average over that time
-> > period.
-> We cannot "read energy". Raw value from READ_EIN and READ_EOUT is not
-> energy.
+Jiangshan Yi <13667453960@163.com> writes:
 
-Sure, it is an accumulation of power reading samples over time. as such,
-it doesn't really even report a power average. Either case, any value
-derived from it is all but worthless unless a well defined time interval
-is available.  Unfortunately, such a time interval would require a kernel
-timer, which would, at least in low power situations, have impact on the
-power readings and is thus unacceptable. Maybe that is why later PMBus
-specification introduced explicit READ_KWH_IN and READ_KWH_OUT commands.
+> From: Jiangshan Yi <yijiangshan@kylinos.cn>
+>
+> Fix the following coccicheck warning:
+>
+> lib/lzo/lzo1x_compress.c:54: WARNING opportunity for min().
+> lib/lzo/lzo1x_compress.c:329: WARNING opportunity for min().
+>
+> min() and min_t() macro is defined in include/linux/minmax.h. It avoids
+> multiple evaluations of the arguments when non-constant and performs
+> strict type-checking.
+>
+> Signed-off-by: Jiangshan Yi <yijiangshan@kylinos.cn>
+> ---
+>  lib/lzo/lzo1x_compress.c | 6 ++----
+>  1 file changed, 2 insertions(+), 4 deletions(-)
+>
+> diff --git a/lib/lzo/lzo1x_compress.c b/lib/lzo/lzo1x_compress.c
+> index 76758e9296ba..9d31e7126606 100644
+> --- a/lib/lzo/lzo1x_compress.c
+> +++ b/lib/lzo/lzo1x_compress.c
+> @@ -50,9 +50,7 @@ lzo1x_1_do_compress(const unsigned char *in, size_t in_len,
+>  
+>  		if (dv == 0 && bitstream_version) {
+>  			const unsigned char *ir = ip + 4;
+> -			const unsigned char *limit = ip_end
+> -				< (ip + MAX_ZERO_RUN_LENGTH + 1)
+> -				? ip_end : ip + MAX_ZERO_RUN_LENGTH + 1;
+> +			const unsigned char *limit = min(ip_end, ip + MAX_ZERO_RUN_LENGTH + 1);
+>  #if defined(CONFIG_HAVE_EFFICIENT_UNALIGNED_ACCESS) && \
+>  	defined(LZO_FAST_64BIT_MEMORY_ACCESS)
+>  			u64 dv64;
+> @@ -326,7 +324,7 @@ static int lzogeneric1x_1_compress(const unsigned char *in, size_t in_len,
+>  	data_start = op;
+>  
+>  	while (l > 20) {
+> -		size_t ll = l <= (m4_max_offset + 1) ? l : (m4_max_offset + 1);
+> +		size_t ll = min_t(size_t, l, m4_max_offset + 1);
+>  		uintptr_t ll_end = (uintptr_t) ip + ll;
+>  		if ((ll_end + ((t + ll) >> 5)) <= ll_end)
+>  			break;
 
-> > > > Also, kernel
-> > > > drivers should not make up such numbers. I don't mind adding energy
-> > > > attribute support, but that should be reported as what it is, energy.
-> > > > What userspace does with it would then be a userspace concern; it can
-> > > > calculate all kinds of averages from it as much as it wants.
-> > > Returning direct value of read registers would also work for our use case,
-> > > but it is not in line with sysfs interface.
-> > I did not suggest that. Just use the "energyX_in" attributes.
-> Expressing raw value from READ_EIN or READ_EOUT is not in line with
-> sysfs interface, because "energyX_in" should have microJoules as unit.
-> Those commands have very specific format that is not actually energy.
-> Since the only sensible use case for those raw values is calculating power
-> we figured it would be better (and more accurate) to do it in kernel.
-> Also, if we just express raw value, the user would have to know data format
-> of the values for the device and know register format to decode the data.
+So these look like good changes to me, but I am not the maintainer of
+this code.  Maybe Andrew (copied) would have a spot for this patch?
 
-A joule is one watt-second, and the registers accumulate power samples over
-a period of time. Sure, dividing the reported values by the time interval
-results in the average power consumption over that time interval. Just like
-multiplying the average power consumption with the time interval results in
-the energy consumption over that timer interval. If we say we can't
-determine the energy because the accumulated values are just snapshots in
-time, we just as well can't trust the average power calculated from it.
+Thanks,
 
-Anyway, I don't really see an acceptable solution. Reporting the average
-power would require a periodic function running every second or so which
-would at least potentially falsify the reported values, and if you say that
-reporting the energy (which might still require a timer function, but less
-frequently) isn't feasible I take you by your word.
-
-Guenter
-
-> > 
-> > Thanks,
-> > Guenter
-> > 
-> > > > Also, new attributes should not depend on query command support.
-> > > > I don't mind adding support for that, but it would have to be independent
-> > > > of energy attribute support.
-> > > > 
-> > > > Thanks,
-> > > > Guenter
-> > > > 
-> > > > > Kallas, Pawel (3):
-> > > > >     hwmon: (pmbus) add support for QUERY command
-> > > > >     hwmon: (pmbus) refactor sensor initialization
-> > > > >     hwmon: (pmbus) add EIN and EOUT readings
-> > > > > 
-> > > > >    Documentation/hwmon/pmbus-core.rst |   7 +
-> > > > >    drivers/hwmon/pmbus/pmbus.c        |  20 +++
-> > > > >    drivers/hwmon/pmbus/pmbus.h        |  19 +++
-> > > > >    drivers/hwmon/pmbus/pmbus_core.c   | 261 +++++++++++++++++++++++++++--
-> > > > >    4 files changed, 291 insertions(+), 16 deletions(-)
-> > > > > 
-> > > > > 
-> > > > > base-commit: 7c1de25c06f31b04744beae891baf147af9ba0cb
+jon
