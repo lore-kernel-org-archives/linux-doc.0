@@ -2,71 +2,71 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AE8A9C43334
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Jul 2022 19:58:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 62863CCA47B
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Jul 2022 20:04:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240684AbiGNT6T (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 14 Jul 2022 15:58:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53672 "EHLO
+        id S238087AbiGNUEl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 14 Jul 2022 16:04:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58852 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240576AbiGNT6S (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Jul 2022 15:58:18 -0400
-Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E60465B043;
-        Thu, 14 Jul 2022 12:58:16 -0700 (PDT)
-Received: from [127.0.0.1] (dynamic-002-247-249-041.2.247.pool.telefonica.de [2.247.249.41])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id CF8681EC0434;
-        Thu, 14 Jul 2022 21:58:10 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1657828691;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=SLDHu8LrB8hyxxiIBDSSkY5wHsm8HoeB6IqXcX6azAE=;
-        b=KkG0hKZ20oUpDoCGWacTZX6XRWIC7gmitANZlIPsUXcP2oD6jOG3BVHF7Rhk09p6Nc2qOd
-        la5cFd6r9bmkhtBhYriubZ2eRt/WyQTni6+p0wBGoxmam1S/bLe0MRLG3FDZMmk4+L45nZ
-        Sciw6uDM+J5MJOz6ENqs6/2fklGFbtg=
-Date:   Thu, 14 Jul 2022 19:58:08 +0000
-From:   Boris Petkov <bp@alien8.de>
-To:     Daniel Sneddon <daniel.sneddon@linux.intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Ingo Molnar <mingo@redhat.com>,
+        with ESMTP id S239294AbiGNUEj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Jul 2022 16:04:39 -0400
+Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7EF04459B9;
+        Thu, 14 Jul 2022 13:04:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=D0ZF7bGNwfXPpVkRJhiYEDl+fP+Itn4qvemvT7DOAp4=; b=idX7TS06FJtsC5q6fNjIZU+8DK
+        fi6wGmWNsiAkkNaggYUfUdC0UguPwCst7hxBnJ/hWt8KvFcsGCXCbcFYcTGEBymTyJ5FGx+l7OErV
+        VcrCdXglRj1a971GrpKYVEUOl4mjuX76h695iteXLiusgSsijQQ0XN7fOVqtSafvEiDUKGb3d94c4
+        o9aJU89jPXbzYd4tEF6tMWT/ohyqHiRiVMmNU2jbyoaZbYTQdVy4ndiBLzc66GjxvGzevvnkccQWR
+        2o/Tv/M7YwT7HcQF7Qy4cxOl++uIeFgrmxrhywcKUWAaKLk6xcaYMgYrpCZaYoxwao/nfz85vBcSg
+        4p0+1P0g==;
+Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=worktop.programming.kicks-ass.net)
+        by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1oC54Q-003vi2-Ij; Thu, 14 Jul 2022 20:04:23 +0000
+Received: by worktop.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 322D0980185; Thu, 14 Jul 2022 22:04:20 +0200 (CEST)
+Date:   Thu, 14 Jul 2022 22:04:20 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Daniel Sneddon <daniel.sneddon@linux.intel.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org
-CC:     pawan.kumar.gupta@linux.intel.com,
-        antonio.gomez.iglesias@linux.intel.com, linux-doc@vger.kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>, linux-kernel@vger.kernel.org
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+        pawan.kumar.gupta@linux.intel.com,
+        antonio.gomez.iglesias@linux.intel.com,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>
 Subject: Re: [PATCH] x86/speculation: Add BHI_DIS support
-In-Reply-To: <20220714195236.9311-1-daniel.sneddon@linux.intel.com>
+Message-ID: <YtB2xJdsOHSJV7Py@worktop.programming.kicks-ass.net>
 References: <20220714195236.9311-1-daniel.sneddon@linux.intel.com>
-Message-ID: <7D1E33F3-A390-4691-86C2-F7CB3E8309B3@alien8.de>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220714195236.9311-1-daniel.sneddon@linux.intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On July 14, 2022 7:52:35 PM UTC, Daniel Sneddon <daniel=2Esneddon@linux=2Ei=
-ntel=2Ecom> wrote:
->Branch History Injection (BHI) attacks can be mitigated using the
->BHI_DIS_S indirect predictor control bit located in MSR_IA32_SPEC_CTRL
->register=2E Set BHI_DIS in MSR_IA32_SPC_CTRL to prevent predicted
->targets of indirect branches executed in CPL0, CPL1, or CPL2 from
->being selected based on branch history from branches executed in CPL3=2E
->Support for this feature is enumerated by CPUID=2E7=2E2=2EEDX[BHI_CTRL] (=
-bit 4)=2E
->
->Users wanting BHI protection can specify spectre_v2=3Deibrs,bhi_dis to
->enable hardware BHI protections=2E  On platforms where BHI protections
->are not available in the hardware revert to eibrs,retpoline
->mitigations=2E
+On Thu, Jul 14, 2022 at 12:52:35PM -0700, Daniel Sneddon wrote:
+> Branch History Injection (BHI) attacks can be mitigated using the
+> BHI_DIS_S indirect predictor control bit located in MSR_IA32_SPEC_CTRL
+> register. Set BHI_DIS in MSR_IA32_SPC_CTRL to prevent predicted
+> targets of indirect branches executed in CPL0, CPL1, or CPL2 from
+> being selected based on branch history from branches executed in CPL3.
+> Support for this feature is enumerated by CPUID.7.2.EDX[BHI_CTRL] (bit 4).
 
-Why is this a separately selectable option and not automatically enabled?
+What actual hardware will have this?
 
---=20
-Sent from a small device: formatting sux and brevity is inevitable=2E 
+> Users wanting BHI protection can specify spectre_v2=eibrs,bhi_dis to
+> enable hardware BHI protections.  On platforms where BHI protections
+> are not available in the hardware revert to eibrs,retpoline
+> mitigations.
+
+AFAICT this doesn't get auto-selected; how bad is performance for this
+to not be so?
