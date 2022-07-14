@@ -2,62 +2,202 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F148C43334
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Jul 2022 05:53:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E0D52CCA47C
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Jul 2022 07:47:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231630AbiGNFxL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 14 Jul 2022 01:53:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54140 "EHLO
+        id S237389AbiGNHrD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 14 Jul 2022 03:47:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42918 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229453AbiGNFxK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Jul 2022 01:53:10 -0400
-Received: from mout01.posteo.de (mout01.posteo.de [185.67.36.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 224D82C647
-        for <linux-doc@vger.kernel.org>; Wed, 13 Jul 2022 22:53:08 -0700 (PDT)
-Received: from submission (posteo.de [185.67.36.169]) 
-        by mout01.posteo.de (Postfix) with ESMTPS id 72D1E240028
-        for <linux-doc@vger.kernel.org>; Thu, 14 Jul 2022 07:53:06 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.net; s=2017;
-        t=1657777986; bh=6eudJm1GBl6Wx/QDoQZhChO+reUzLPytn8GobX9RbCI=;
-        h=Date:From:To:Cc:Subject:From;
-        b=F7byWUNJz8TGJFtcRGqGsTrvo8mWI9S3PVuMmcCaP5NKsBC38FcUGqLveIqT8fDKY
-         yY5LQkcEXtwfHui+j6RNzZxvULnWSiw6h+EZTqWYUDPHyJBzHda5dH41VOo5o7bIJS
-         0XJ9v1CsvTUiU6P4ZW8UN5shRHRmHdWWpyQD1La7C1hivFI6xf1PpIV+w2so19FIeM
-         BYVNWWzsjy3uqpL+oNkUjHnewfa52ahGKQM84JkRwpk++xwNqLPQ5zMR4UuljH0W0k
-         w9Vcg4hKtlWCucT4e7JBUWRDu1axvJh4reHnfu5VnW8QNrKk+h+wdstcPAep4LTX/4
-         XFVfw0rr/6/6A==
-Received: from customer (localhost [127.0.0.1])
-        by submission (posteo.de) with ESMTPSA id 4Lk3Yr4S5Kz9rxV;
-        Thu, 14 Jul 2022 07:53:04 +0200 (CEST)
-Date:   Thu, 14 Jul 2022 05:51:37 +0000
-From:   Daniel =?utf-8?Q?M=C3=BCller?= <deso@posteo.net>
-To:     Bagas Sanjaya <bagasdotme@gmail.com>
-Cc:     Donald Hunter <donald.hunter@gmail.com>, bpf@vger.kernel.org,
-        linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH] bpf, docs: document BPF_MAP_TYPE_HASH and variants
-Message-ID: <20220714055137.dsatpuyrwdlel2ck@vaio>
-References: <20220713211612.84782-1-donald.hunter@gmail.com>
- <99351eee-17b4-66e0-1b9e-7f798756780a@gmail.com>
+        with ESMTP id S234625AbiGNHq7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Jul 2022 03:46:59 -0400
+Received: from out2.migadu.com (out2.migadu.com [188.165.223.204])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BBAD337196;
+        Thu, 14 Jul 2022 00:46:57 -0700 (PDT)
+Date:   Thu, 14 Jul 2022 15:46:45 +0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+        t=1657784816;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=1TJviPunlwH7RxQV4jVLO1pPXI9F2og9+lwfZ75k6+g=;
+        b=OKMxJzzUX/eSiaPlxOT6jOv1GE3aUntvTUhYa/zLy2CJbOPuL7nAwGJXJ8p5NWffeqB118
+        YTbQyjLtSsm/NH6anB6VLWIOm/CcVlhhocIHHlNwmTBehCgatSEn1F4yO/M8UNl/aXO16n
+        reyCtQJBf8EZKXDfUHbKAMrUCx3bEwQ=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From:   Tao Zhou <tao.zhou@linux.dev>
+To:     Daniel Bristot de Oliveira <bristot@kernel.org>
+Cc:     Steven Rostedt <rostedt@goodmis.org>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Ingo Molnar <mingo@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Will Deacon <will@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Marco Elver <elver@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Gabriele Paoloni <gpaoloni@redhat.com>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Clark Williams <williams@redhat.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-trace-devel@vger.kernel.org, Tao Zhou <tao.zhou@linux.dev>
+Subject: Re: [PATCH V5 01/16] rv: Add Runtime Verification (RV) interface
+Message-ID: <Ys/J5fLaojYeiVzL@geo.homenetwork>
+References: <cover.1657745645.git.bristot@kernel.org>
+ <442b03c687c298b25c79aa5a16ec7fb2aef0f2c9.1657745645.git.bristot@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <99351eee-17b4-66e0-1b9e-7f798756780a@gmail.com>
+In-Reply-To: <442b03c687c298b25c79aa5a16ec7fb2aef0f2c9.1657745645.git.bristot@kernel.org>
+X-Migadu-Flow: FLOW_OUT
+X-Migadu-Auth-User: linux.dev
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jul 14, 2022 at 08:12:57AM +0700, Bagas Sanjaya wrote:
-> On 7/14/22 04:16, Donald Hunter wrote:
-> > This commit adds documentation for BPF_MAP_TYPE_HASH including kernel
-> > version introduced, usage and examples. It also documents
-> > BPF_MAP_TYPE_PERCPU_HASH, BPF_MAP_TYPE_LRU_HASH and
-> > BPF_MAP_TYPE_LRU_PERCPU_HASH which are similar.
-> > 
-> 
-> Please, please use imperative mood instead for patch description
-> (that is, better write like "document BPF_MAP_TYPE_* types").
+On Wed, Jul 13, 2022 at 11:17:17PM +0200,
+Daniel Bristot de Oliveira <bristot@kernel.org> wrote:
 
-Can you elaborate why you make that recommendation, please?
+[...]
+
+> +void put_task_monitor_slot(int slot)
+> +{
+> +	lockdep_assert_held(&rv_interface_lock);
+> +
+> +	if (slot < 0 || slot > RV_PER_TASK_MONITORS) {
+
+slot is the array index that should be 0 here. The up bound is not bigger
+than 0 because the element of array now is RV_PER_TASK_MONITORS. 
+
+So up bound check is 'slot > RV_PER_TASK_MONITORS-1'.
+
+[...]
+
+> +/*
+> + * interface for enabling/disabling a monitor.
+> + */
+> +static ssize_t monitor_enable_write_data(struct file *filp, const char __user *user_buf,
+> +					 size_t count, loff_t *ppos)
+> +{
+> +	struct rv_monitor_def *mdef = filp->private_data;
+> +	int retval;
+> +	bool val;
+> +
+> +	retval = kstrtobool_from_user(user_buf, count, &val);
+> +	if (retval)
+> +		return retval;
+> +
+> +	retval = count;
+> +
+> +	mutex_lock(&rv_interface_lock);
+> +
+> +	if (val)
+> +		retval = enable_monitor(mdef);
+> +	else
+> +		retval = disable_monitor(mdef);
+> +
+> +	mutex_unlock(&rv_interface_lock);
+> +
+> +	return retval ? retval : count;
+
+Feel that this can be written `return retval ? : count;`
+
+[...]
+
+> +static void *enabled_monitors_start(struct seq_file *m, loff_t *pos)
+> +{
+> +	struct rv_monitor_def *m_def;
+> +	loff_t l;
+> +
+> +	mutex_lock(&rv_interface_lock);
+> +
+> +	if (list_empty(&rv_monitors_list))
+> +		return NULL;
+> +
+> +	m_def = list_entry(&rv_monitors_list, struct rv_monitor_def, list);
+> +
+> +	for (l = 0; l <= *pos; ) {
+> +		m_def = enabled_monitors_next(m, m_def, &l);
+> +		if (!m_def)
+> +			break;
+
+Is this check is inversed. enabled_monitors_start() will stop at first
+enabled monitor, then enabled_monitors_next() do loop to next. Check
+like the above, enabled_monitors_start() will loop to the last monitor.
+But I doubt myself I do not mention/see it. Sorry for these.
+
+the check is:
+
+  if (m_def)
+     break;
+
+[...]
+
+> +static ssize_t
+> +enabled_monitors_write(struct file *filp, const char __user *user_buf,
+> +		      size_t count, loff_t *ppos)
+> +{
+> +	char buff[MAX_RV_MONITOR_NAME_SIZE + 2];
+> +	struct rv_monitor_def *mdef;
+> +	int retval = -EINVAL;
+> +	bool enable = true;
+> +	char *ptr = buff;
+> +	int len;
+> +
+> +	if (count < 1 || count > MAX_RV_MONITOR_NAME_SIZE + 2)
+
+@count would not include '\0'. That the max val of @count is
+MAX_RV_MONITOR_NAME_SIZE+1. So the up bound check of @count is
+`count > MAX_RV_MONITOR_NAME_SIZE + 1`.
 
 Thanks,
-Daniel
+Tao
+> +		return -EINVAL;
+> +
+> +	memset(buff, 0, sizeof(buff));
+> +
+> +	retval = simple_write_to_buffer(buff, sizeof(buff) - 1, ppos, user_buf, count);
+> +	if (!retval)
+> +		return -EFAULT;
+> +
+> +	ptr = strim(buff);
+> +
+> +	if (ptr[0] == '!') {
+> +		enable = false;
+> +		ptr++;
+> +	}
+> +
+> +	len = strlen(ptr);
+> +	if (!len)
+> +		return count;
+> +
+> +	mutex_lock(&rv_interface_lock);
+> +
+> +	retval = -EINVAL;
+> +
+> +	list_for_each_entry(mdef, &rv_monitors_list, list) {
+> +		if (strcmp(ptr, mdef->monitor->name) != 0)
+> +			continue;
+> +
+> +		/*
+> +		 * Monitor found!
+> +		 */
+> +		if (enable)
+> +			retval = enable_monitor(mdef);
+> +		else
+> +			retval = disable_monitor(mdef);
+> +
+> +		if (!retval)
+> +			retval = count;
+> +
+> +		break;
+> +	}
+> +
+> +	mutex_unlock(&rv_interface_lock);
+> +	return retval;
+> +}
