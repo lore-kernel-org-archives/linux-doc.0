@@ -2,82 +2,206 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D8005CCA483
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Jul 2022 11:23:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AC794CCA480
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Jul 2022 11:48:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238747AbiGNLW7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 14 Jul 2022 07:22:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59102 "EHLO
+        id S239072AbiGNLsm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 14 Jul 2022 07:48:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33134 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238677AbiGNLWr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Jul 2022 07:22:47 -0400
-Received: from sinmsgout03.his.huawei.com (sinmsgout03.his.huawei.com [119.8.177.38])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59A4157E09;
-        Thu, 14 Jul 2022 04:22:32 -0700 (PDT)
-Received: from fraeml735-chm.china.huawei.com (unknown [172.18.156.148])
-        by sinmsgout03.his.huawei.com (SkyGuard) with ESMTP id 4LkBrf1MBCz9xGQ7;
-        Thu, 14 Jul 2022 19:21:22 +0800 (CST)
-Received: from lhreml724-chm.china.huawei.com (10.201.108.75) by
- fraeml735-chm.china.huawei.com (10.206.15.216) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Thu, 14 Jul 2022 13:22:26 +0200
-Received: from localhost.localdomain (10.69.192.58) by
- lhreml724-chm.china.huawei.com (10.201.108.75) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Thu, 14 Jul 2022 12:22:22 +0100
-From:   John Garry <john.garry@huawei.com>
-To:     <damien.lemoal@opensource.wdc.com>, <joro@8bytes.org>,
-        <will@kernel.org>, <jejb@linux.ibm.com>,
-        <martin.petersen@oracle.com>, <hch@lst.de>,
-        <m.szyprowski@samsung.com>, <robin.murphy@arm.com>
-CC:     <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-ide@vger.kernel.org>, <iommu@lists.linux.dev>,
-        <linux-scsi@vger.kernel.org>, <linuxarm@huawei.com>,
-        John Garry <john.garry@huawei.com>
-Subject: [PATCH v6 6/6] ata: libata-scsi: Cap ata_device->max_sectors according to shost->max_sectors
-Date:   Thu, 14 Jul 2022 19:15:29 +0800
-Message-ID: <1657797329-98541-7-git-send-email-john.garry@huawei.com>
-X-Mailer: git-send-email 2.8.1
-In-Reply-To: <1657797329-98541-1-git-send-email-john.garry@huawei.com>
-References: <1657797329-98541-1-git-send-email-john.garry@huawei.com>
+        with ESMTP id S230423AbiGNLsl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Jul 2022 07:48:41 -0400
+Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com [IPv6:2a00:1450:4864:20::22b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20E3265EF
+        for <linux-doc@vger.kernel.org>; Thu, 14 Jul 2022 04:48:38 -0700 (PDT)
+Received: by mail-lj1-x22b.google.com with SMTP id 19so1864564ljz.4
+        for <linux-doc@vger.kernel.org>; Thu, 14 Jul 2022 04:48:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=KmdkLZQTH7Au+8JqBR3UHKGQf5x82UafUt+CMJrqYow=;
+        b=ykwOYMW0SFy7xWmcHnQ1EXNmukntRLlae+V63adrgl2q5taon6yOi4QBkcZ5yYkq0F
+         rQsfSIfLMlr2bASl8+YqShrkKiUsmjlkMki8jt1v1AJPefxgpNEqfYsi89vCjKrWO1Rj
+         AX6abGCe7KI0Y1er2+nTRmPMc5vjSsiad5Pkuuo9wKclct88rO3JGyiig1nwiUo12CAS
+         BG9jzcvpXGiblYNyiaqNJopPjxPW+NcIpxwZ2Ob3nTWu6AoFjjNQL0Q2uvG/pPmfnP69
+         d3w5KMCdTj/hpHFJZxeTJj74fJ+lO0yYh0LbAuv9Xa0iZrO4TB5ahNUbpnlh47PzcJIt
+         oM8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=KmdkLZQTH7Au+8JqBR3UHKGQf5x82UafUt+CMJrqYow=;
+        b=fkO/ZtZSKr0Gkp6EUhAIl7IR2JrM9RF0Q8yULNgH7X60THGZQGcdCdSDJiP6/mrLLN
+         tiQhFvmw9S8/e9olzaK/oRfqooBoeFIaEfBI5WQNgtAlqevzIWE5nQTA9NUEBRr9oRAt
+         Rp2lIulYU+l43LHkW7e5EPlQFz1PNEr7T0X5DlOvcdRKBIRPqXJWGc5wLQ1x9OgcZvWv
+         B0E5oTpBTqQi12NvZKXLVnGxwKtHEG8rBcGdg0AHlub6u9wHwotCEORbixJBkgF50sPD
+         f2Uv3WBKfLOs30oc0D6lX2Y2Ce0QS7by3ErkvDd2TkMQlCpSeioAvpjaeET3UvA9LNta
+         QSDw==
+X-Gm-Message-State: AJIora8eVXsFU03X6qAsuE1M+kBO0/USvSTxvqotHw67bzNkcpSEGARd
+        1ItjA5X0QkE0mmAQh4khGQjX0A==
+X-Google-Smtp-Source: AGRyM1uU3QSD8JP1L98Wd2/ma9Wp+GjizZuDEBOXcRlIFFWP8JTv+3GmZuQdlVAWpCpJL2ISRPH1Tg==
+X-Received: by 2002:a2e:b892:0:b0:25b:ce73:675f with SMTP id r18-20020a2eb892000000b0025bce73675fmr4185438ljp.67.1657799316481;
+        Thu, 14 Jul 2022 04:48:36 -0700 (PDT)
+Received: from [10.0.0.8] (fwa5da9-171.bb.online.no. [88.93.169.171])
+        by smtp.gmail.com with ESMTPSA id j28-20020ac2551c000000b0048329aa6c92sm318315lfk.139.2022.07.14.04.48.34
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 14 Jul 2022 04:48:35 -0700 (PDT)
+Message-ID: <c129c748-4306-da64-fc18-2d224b2fc97c@linaro.org>
+Date:   Thu, 14 Jul 2022 13:48:33 +0200
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.69.192.58]
-X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
- lhreml724-chm.china.huawei.com (10.201.108.75)
-X-CFilter-Loop: Reflected
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v3 1/2] dt-bindings: power: reset: qcom-pon: update "reg"
+ property details
+Content-Language: en-US
+To:     Anjelique Melendez <quic_amelende@quicinc.com>, corbet@lwn.net,
+        sre@kernel.org, robh+dt@kernel.org, agross@kernel.org,
+        bjorn.andersson@linaro.org
+Cc:     krzysztof.kozlowski+dt@linaro.org, vkoul@kernel.org,
+        linux-doc@vger.kernel.org, linux-pm@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        David Collins <quic_collinsd@quicinc.com>
+References: <20220713193350.29796-1-quic_amelende@quicinc.com>
+ <20220713193350.29796-2-quic_amelende@quicinc.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20220713193350.29796-2-quic_amelende@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-ATA devices (struct ata_device) have a max_sectors field which is
-configured internally in libata. This is then used to (re)configure the
-associated sdev request queue max_sectors value from how it is earlier set
-in __scsi_init_queue(). In __scsi_init_queue() the max_sectors value is set
-according to shost limits, which includes host DMA mapping limits.
+On 13/07/2022 21:33, Anjelique Melendez wrote:
+> From: David Collins <quic_collinsd@quicinc.com>
+> 
+> Update the description of "reg" property to add the PON_PBS base
+> address along with PON_HLOS base address.  Also add "reg-names"
+> property description.
+> 
+> Signed-off-by: David Collins <quic_collinsd@quicinc.com>
+> Signed-off-by: Anjelique Melendez <quic_amelende@quicinc.com>
+> ---
+>  Documentation/devicetree/bindings/power/reset/qcom,pon.yaml | 73 ++++++++++++++++++++++++++++--
+>  1 file changed, 69 insertions(+), 4 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/power/reset/qcom,pon.yaml b/Documentation/devicetree/bindings/power/reset/qcom,pon.yaml
+> index 353f155d..562fe308 100644
+> --- a/Documentation/devicetree/bindings/power/reset/qcom,pon.yaml
+> +++ b/Documentation/devicetree/bindings/power/reset/qcom,pon.yaml
+> @@ -15,18 +15,26 @@ description: |
+>  
+>    This DT node has pwrkey and resin as sub nodes.
+>  
+> -allOf:
+> -  - $ref: reboot-mode.yaml#
+> -
+>  properties:
+>    compatible:
+>      enum:
+>        - qcom,pm8916-pon
+>        - qcom,pms405-pon
+>        - qcom,pm8998-pon
+> +      - qcom,pmk8350-pon
+>  
+>    reg:
+> -    maxItems: 1
+> +    description: |
+> +      Specifies the SPMI base address for the PON (power-on) peripheral.  For
+> +      PMICs that have the PON peripheral (GEN3) split into PON_HLOS and PON_PBS
+> +      (e.g. PMK8350), this can hold addresses of both PON_HLOS and PON_PBS
+> +      peripherals.  In that case, the PON_PBS address needs to be specified to
+> +      facilitate software debouncing on some PMIC.
 
-Cap the ata_device max_sectors according to shost->max_sectors to respect
-this shost limit.
+You miss here min and maxItems
 
-Signed-off-by: John Garry <john.garry@huawei.com>
-Acked-by: Damien Le Moal <damien.lemoal@opensource.wdc.com>
-Acked-by: Martin K. Petersen <martin.petersen@oracle.com>
----
- drivers/ata/libata-scsi.c | 1 +
- 1 file changed, 1 insertion(+)
+> +
+> +  reg-names:
+> +    description: |
+> +      For PON GEN1 and GEN2, it should be "pon". For PON GEN3 it should include
+> +      "hlos" and optionally "pbs".
 
-diff --git a/drivers/ata/libata-scsi.c b/drivers/ata/libata-scsi.c
-index 86dbb1cdfabd..24a43d540d9f 100644
---- a/drivers/ata/libata-scsi.c
-+++ b/drivers/ata/libata-scsi.c
-@@ -1060,6 +1060,7 @@ int ata_scsi_dev_config(struct scsi_device *sdev, struct ata_device *dev)
- 		dev->flags |= ATA_DFLAG_NO_UNLOAD;
- 
- 	/* configure max sectors */
-+	dev->max_sectors = min(dev->max_sectors, sdev->host->max_sectors);
- 	blk_queue_max_hw_sectors(q, dev->max_sectors);
- 
- 	if (dev->class == ATA_DEV_ATAPI) {
--- 
-2.35.3
+Skip description. You miss here min and maxItems.
 
+See
+https://elixir.bootlin.com/linux/v5.19-rc6/source/Documentation/devicetree/bindings/clock/samsung,exynos7-clock.yaml#L57
+for examples.
+
+
+>  
+>    pwrkey:
+>      type: object
+> @@ -42,6 +50,63 @@ required:
+>  
+>  unevaluatedProperties: false
+>  
+> +allOf:
+> +  - $ref: reboot-mode.yaml#
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            const: qcom,pm8916-pon
+> +    then:
+> +      properties:
+> +        reg:
+> +          maxItems: 1
+> +        reg-names:
+> +          items:
+> +            - const: pon
+> +
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            const: qcom,pms405-pon
+> +    then:
+> +      properties:
+> +        reg:
+> +          maxItems: 1
+> +        reg-names:
+> +          items:
+> +            - const: pon
+> +
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            const: qcom,pm8998-pon
+> +    then:
+> +      properties:
+> +        reg:
+> +          maxItems: 1
+> +        reg-names:
+> +          items:
+> +            - const: pon
+
+No clue why you made three if statements. This is one if for all three
+variants.
+
+> +
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            const: qcom,pmk8350-pon
+> +    then:
+> +      properties:
+> +        reg:
+> +          minItems: 1
+> +          maxItems: 2
+> +        reg-names:
+> +          minItems: 1
+> +          items:
+> +            - const: hlos
+> +            - const: pbs
+> +
+>  examples:
+>    - |
+>     #include <dt-bindings/interrupt-controller/irq.h>
+
+
+Best regards,
+Krzysztof
