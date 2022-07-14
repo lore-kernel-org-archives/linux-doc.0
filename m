@@ -2,126 +2,88 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 60287C433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Jul 2022 08:29:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CDEFEC43334
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Jul 2022 09:12:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234909AbiGNI3c (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 14 Jul 2022 04:29:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54140 "EHLO
+        id S231264AbiGNJMF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 14 Jul 2022 05:12:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33046 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234904AbiGNI3b (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Jul 2022 04:29:31 -0400
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46FC21276C;
-        Thu, 14 Jul 2022 01:29:31 -0700 (PDT)
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26E7oGNj027583;
-        Thu, 14 Jul 2022 08:29:30 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=3jQ61/O3RHNvo+Uxn3UXtV6mB8X3oEHqZVGcKkyjFmM=;
- b=DkGoOQEd4Pjna7gj+9ooUVf+ax7155DiMy4BXWLq00tzPAhqWCgm3+9w++fENqs/Ye/q
- sAyV7hrMQ6V0xfRyRf7NRoaVLx0T1ErReoSw0OdQRb5qQEFqhz/cpk5B2pb8LmhzjRyg
- Qo9QjW9G67OlOXxIO6zpmPnwcopfU+bn0Zy5CwF/MXx7WNjI2GpC9xutxG9BpPg3jaEI
- Od3ZMjtGF/4CjVwERz6lZ9b+zehSRZ3k/qjf+f4fEoVmaS+/W0ZSEt8YF8nkAwne8bCH
- xwqAhDvSHzeJ7vPL1Tj0itVqCL/NDycRWIUO3tQeJ3VhqcYhQY7G6eFPTIISrkVdhJ8v tQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3haf3m13ja-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 14 Jul 2022 08:29:30 +0000
-Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
-        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26E7q4XI031870;
-        Thu, 14 Jul 2022 08:29:30 GMT
-Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com [169.53.41.122])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3haf3m13j4-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 14 Jul 2022 08:29:29 +0000
-Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
-        by ppma04dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 26E8KBRN026528;
-        Thu, 14 Jul 2022 08:29:29 GMT
-Received: from b03cxnp08028.gho.boulder.ibm.com (b03cxnp08028.gho.boulder.ibm.com [9.17.130.20])
-        by ppma04dal.us.ibm.com with ESMTP id 3h9e04vtvh-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 14 Jul 2022 08:29:29 +0000
-Received: from b03ledav006.gho.boulder.ibm.com (b03ledav006.gho.boulder.ibm.com [9.17.130.237])
-        by b03cxnp08028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 26E8TRwp29032822
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 14 Jul 2022 08:29:28 GMT
-Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id D6D76C6057;
-        Thu, 14 Jul 2022 08:29:27 +0000 (GMT)
-Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 466AAC6063;
-        Thu, 14 Jul 2022 08:29:26 +0000 (GMT)
-Received: from [9.65.197.138] (unknown [9.65.197.138])
-        by b03ledav006.gho.boulder.ibm.com (Postfix) with ESMTP;
-        Thu, 14 Jul 2022 08:29:25 +0000 (GMT)
-Message-ID: <d3984f3d-4e28-61fc-879c-ca38b7daa779@linux.ibm.com>
-Date:   Thu, 14 Jul 2022 11:29:09 +0300
+        with ESMTP id S237690AbiGNJLt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Jul 2022 05:11:49 -0400
+X-Greylist: delayed 2399 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 14 Jul 2022 02:11:48 PDT
+Received: from sinsgout.his.huawei.com (sinsgout.his.huawei.com [119.8.179.247])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A2FB22B34;
+        Thu, 14 Jul 2022 02:11:48 -0700 (PDT)
+Received: from sinmsgout03.his.huawei.com (unknown [172.28.115.130])
+        by sinsgout.his.huawei.com (SkyGuard) with ESMTP id 4Lk6CX1llBz3Z9D9;
+        Thu, 14 Jul 2022 15:52:24 +0800 (CST)
+Received: from fraeml706-chm.china.huawei.com (unknown [172.18.156.208])
+        by sinmsgout03.his.huawei.com (SkyGuard) with ESMTP id 4Lk6B94QXHz9xGQ7;
+        Thu, 14 Jul 2022 15:51:13 +0800 (CST)
+Received: from lhreml724-chm.china.huawei.com (10.201.108.75) by
+ fraeml706-chm.china.huawei.com (10.206.15.55) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2375.24; Thu, 14 Jul 2022 09:52:14 +0200
+Received: from [10.126.173.191] (10.126.173.191) by
+ lhreml724-chm.china.huawei.com (10.201.108.75) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Thu, 14 Jul 2022 08:52:13 +0100
+Message-ID: <8a9d9c72-65c1-cb7d-80d7-4ac2b65871fe@huawei.com>
+Date:   Thu, 14 Jul 2022 08:52:15 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH] Documentation: siphash: Fix typo in the name of
- offsetofend macro
-Content-Language: en-US
-To:     Jonathan Corbet <corbet@lwn.net>,
-        "Jason A. Donenfeld" <Jason@zx2c4.com>
-Cc:     linux-doc@vger.kernel.org, Eric Biggers <ebiggers@google.com>,
-        linux-kernel@vger.kernel.org
-References: <20220712104455.1408150-1-dovmurik@linux.ibm.com>
- <87fsj6bhwb.fsf@meer.lwn.net> <Ys13bqGuPYBUGg3O@zx2c4.com>
- <87fsj44w9h.fsf@meer.lwn.net>
-From:   Dov Murik <dovmurik@linux.ibm.com>
-In-Reply-To: <87fsj44w9h.fsf@meer.lwn.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: Hkqn6I2Qm3Ate44xNBFbuyoEWjdELzow
-X-Proofpoint-GUID: 7_QH3cuDFgZZUbM0gwZm0ZMGbaVWd2TG
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-07-14_06,2022-07-13_03,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 phishscore=0
- bulkscore=0 clxscore=1011 lowpriorityscore=0 malwarescore=0 suspectscore=0
- mlxscore=0 mlxlogscore=728 priorityscore=1501 impostorscore=0 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2206140000
- definitions=main-2207140033
+ Thunderbird/91.6.1
+Subject: Re: [PATCH v5 0/5] DMA mapping changes for SCSI core
+To:     "Martin K. Petersen" <martin.petersen@oracle.com>
+CC:     Christoph Hellwig <hch@lst.de>, <damien.lemoal@opensource.wdc.com>,
+        <joro@8bytes.org>, <will@kernel.org>, <jejb@linux.ibm.com>,
+        <m.szyprowski@samsung.com>, <robin.murphy@arm.com>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-ide@vger.kernel.org>, <iommu@lists.linux-foundation.org>,
+        <iommu@lists.linux.dev>, <linux-scsi@vger.kernel.org>,
+        <linuxarm@huawei.com>
+References: <1656590892-42307-1-git-send-email-john.garry@huawei.com>
+ <b5f80062-e8ef-9597-1b0c-393140950dfb@huawei.com>
+ <20220706134447.GA23753@lst.de> <yq1y1x47jgn.fsf@ca-mkp.ca.oracle.com>
+ <5fd4814a-81b1-0e71-58e0-57a747eb684e@huawei.com>
+ <yq135f4xul0.fsf@ca-mkp.ca.oracle.com>
+From:   John Garry <john.garry@huawei.com>
+In-Reply-To: <yq135f4xul0.fsf@ca-mkp.ca.oracle.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.126.173.191]
+X-ClientProxiedBy: lhreml725-chm.china.huawei.com (10.201.108.76) To
+ lhreml724-chm.china.huawei.com (10.201.108.75)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On 14/07/2022 04:10, Martin K. Petersen wrote:
 
+Hi Martin,
 
-On 13/07/2022 23:01, Jonathan Corbet wrote:
-> "Jason A. Donenfeld" <Jason@zx2c4.com> writes:
+>> So I set max hw sectors at this ‘opt’ mapping size to ensure that we
+>> get no mappings which exceed this size. Indeed, I think max sectors is
+>> 128Kb today for my host, which would be same as dma_opt_mapping_size()
+>> value with an IOMMU enabled. And I find that only a small % of request
+>> size may exceed this 128kb size, but it still has a big performance
+>> impact.
+> The purpose of the soft limit is to pick the appropriate I/O size
+> (i.e. for best performance). The purpose of the hard limit is to ensure
+> we don't submit something the hardware can't handle or describe.
 > 
->> Hi Jon,
->>
->> On Tue, Jul 12, 2022 at 07:05:40AM -0600, Jonathan Corbet wrote:
->>> Dov Murik <dovmurik@linux.ibm.com> writes:
->>>
->>>> The siphash documentation misspelled "offsetendof" instead of
->>>> "offsetofend".
->>>>
->>>> Fixes: 2c956a60778cbb ("siphash: add cryptographically secure PRF")
->>>
->>> When you send a patch with a Fixes tag it's always a good idea to CC the
->>> author of the patch being fixed.  Adding Jason...let me know if you'd
->>> like me to grab this.
->>
->> Thanks for CC'ing me. Sure, feel free to take this:
->>
->>     Acked-by: Jason A. Donenfeld <Jason@zx2c4.com>
+> IOW, the hard limit is not about performance at all. The hard limit is
+> mainly relevant for things that are way bigger than anything we'd issue
+> as regular filesystem I/O such as multi-megabyte firmware images, etc.
 > 
-> Applied, thanks.
+> It's perfectly fine for firmware download performance to be
+> "suboptimal". What is typically more important in that scenario is that
+> the firmware image makes it inside a single I/O.
 
-Thank you Jon.
+OK, fine. I've improved the next version such that the DMA mapping opt 
+limit only affects the max_sectors default.
 
-I'll try to remember your tip about CC the author of the Fixes tag.
-
--Dov
-
-
-> 
-> jon
+Thanks,
+John
