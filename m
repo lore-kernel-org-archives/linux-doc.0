@@ -2,133 +2,86 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 17E4FC43334
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Jul 2022 05:40:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BF780C433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Jul 2022 05:46:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231570AbiGNFkb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 14 Jul 2022 01:40:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47044 "EHLO
+        id S231537AbiGNFqF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 14 Jul 2022 01:46:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50620 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230024AbiGNFkb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Jul 2022 01:40:31 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31A7528E0A;
-        Wed, 13 Jul 2022 22:40:30 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id D8EA1B82331;
-        Thu, 14 Jul 2022 05:40:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6CB13C34114;
-        Thu, 14 Jul 2022 05:40:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1657777227;
-        bh=sQeo6HldtXN8M4W0pVBmML4XesDPzY/D6bMZad4+vpU=;
-        h=From:To:Cc:Subject:Date:From;
-        b=MTK72L0eGaI3hw+pAexW8Y0mSgy7+ctoJJol7ZJjt0TWT8fxoworx4od1K1fA7UbF
-         TyjulKrVHYktWttXX8gEs0/E5mX7QJEuxaA4cFSYkMmRUHelubjuGB/J/yq4O2DXv5
-         q8h3AQJcVCQUHObrstoAj6qRsKDuxXIcQZ/VSHQ0VEgXatbPvWwnfRrgMssUJhE8qw
-         nB0jULbfnDXc/TbvdOciLuJI4v0xRcgzdB8262WGnN4ykbAVwlCULy0SI708D+rIPP
-         chiBbLPhOVOsFsmwKpMJdThljkoCREb72vQ7RxMXp5siG6SjRDymLACB45Y+3pPkEP
-         hEvExqDBhJqyw==
-From:   alexs@kernel.org
-Cc:     Alex Shi <alexs@kernel.org>, Yanteng Si <siyanteng@loongson.cn>,
-        Jonathan Corbet <corbet@lwn.net>, Hu Haowen <src.res@email.cn>,
-        Jiri Kosina <jkosina@suse.cz>,
-        Thorsten Leemhuis <linux@leemhuis.info>,
-        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
-        Pan Yunwang <panyunwang849@gmail.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc-tw-discuss@lists.sourceforge.net
-Subject: [PATCH] doc/zh_CN: remove submitting-driver reference from docs
-Date:   Thu, 14 Jul 2022 13:40:13 +0800
-Message-Id: <20220714054013.214031-1-alexs@kernel.org>
-X-Mailer: git-send-email 2.25.1
+        with ESMTP id S230024AbiGNFqF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Jul 2022 01:46:05 -0400
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE5C02AC73;
+        Wed, 13 Jul 2022 22:46:03 -0700 (PDT)
+Received: by mail-lf1-x136.google.com with SMTP id bf9so1039226lfb.13;
+        Wed, 13 Jul 2022 22:46:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=vafiOnArmMbdFkw12ZkX8srj9GjEXyE3zEfZk0yyph8=;
+        b=iscXerRkiLLlWMBAYhA8TXE3h5olodsXQDUzlHDh96YOfEf9JHeUR+yq2hn7Jw8R+o
+         +x0HBvlToMU1Z0tcb5vFSAq+GeNVPnsQ3bLdfsHvHjbd63WfPatdE9fqKOUh6PuS6vzI
+         GphVb+HXRxyzKuR9NQiE50Maoti75bkQJ5hT2pI/rC38aOZJxveWEmorzhD2HgznRnwz
+         1PbKIfBtF1dB3yv15M04ZNafaJLYTYip2kwpyq+HoUPTLZjjLv52Dy0taETre4Trom62
+         Mjt++h/NXMnQu/osLBh5kJ3XyfzTYO75O8bnDtRVMJzE14lSkPN17Bq8t9wY11r2uZkL
+         ABrA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=vafiOnArmMbdFkw12ZkX8srj9GjEXyE3zEfZk0yyph8=;
+        b=1fWE8NC9CVrMImU2SJ/RNAvgJW2SY4vPqtPNQClx2NaIyqJ1VPlRImETzza5vsWHn/
+         erhrJHUQcYANUFRnkJ2JeJ34scQwnsUuww4qc188/IOElnH9uut6AU7sTF8p0eK6kTRN
+         olGDVk56xgVRSyhM0+V07vWVqHO7b2jZuiXDEPgYeHLgtbUNAzsZCeSQc4X8iWqF/lyN
+         p/AIXW0HBhX5s/PXlt7IWiCvrB1fyUzB9Snp1wHl5I85FHe3FRk1dtgDrR9kT12xzOdj
+         zmQu5ukFT4hDjKrclgV6rF4k9wIr88kfehobL8J/xMAtsFFyX72IPD9YTxzuxSdxTvUa
+         l5pQ==
+X-Gm-Message-State: AJIora+hec+euTJmG6AxsnM1tbCk9Nrh4jrOVpQ14cdJ4P7iCWwbaTlv
+        wp95nDVx0C6nmOfInXf1J9yWWeiGFU7hkx0JU4fpbVZKG5fblw==
+X-Google-Smtp-Source: AGRyM1vuz7AcEk7yBbzuHjGT3m6seyH+2XU8NoxGTDIkTqbgJg+QqUcC/DHrl4m2eAzwLfUoHy7fWhQUUwenxJxrSa8=
+X-Received: by 2002:a05:6512:3c98:b0:489:dee3:51d0 with SMTP id
+ h24-20020a0565123c9800b00489dee351d0mr4038695lfv.606.1657777562004; Wed, 13
+ Jul 2022 22:46:02 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-To:     unlisted-recipients:; (no To-header on input)
+References: <20220704122537.3407-1-lukas.bulwahn@gmail.com> <87sfn44wk4.fsf@meer.lwn.net>
+In-Reply-To: <87sfn44wk4.fsf@meer.lwn.net>
+From:   Alex Shi <seakeel@gmail.com>
+Date:   Thu, 14 Jul 2022 13:45:25 +0800
+Message-ID: <CAJy-AmnkRRqC25N1imgqRCHymh8J4ZE=LYx=-3tG4bhAggViSA@mail.gmail.com>
+Subject: Re: [PATCH 00/11] docs: remove submitting-drivers.rst
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        Federico Vaga <federico.vaga@vaga.pv.it>,
+        Alex Shi <alexs@kernel.org>,
+        Yanteng Si <siyanteng@loongson.cn>,
+        Hu Haowen <src.res@email.cn>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-doc-tw-discuss@lists.sourceforge.net,
+        Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        linux-hwmon@vger.kernel.org, kernel-janitors@vger.kernel.org,
+        LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Alex Shi <alexs@kernel.org>
+> Alex, can you fix the remaining references in zh_CN?
+>
+> For zh_TW I'm wondering ... that is increasingly looking like an
+> unmaintained drive-by submission.  I suppose we can just brute-force
+> remove the references, but I once again find myself wondering about the
+> value of this translation.  Is there anybody out there who cares about
+> it who could fix this up properly?
 
-The doc is removed, so related reference should be removed too.
+Hi Jon,
 
-Signed-off-by: Alex Shi <alexs@kernel.org>
-Cc: Alex Shi <alexs@kernel.org> 
-Cc: Yanteng Si <siyanteng@loongson.cn> 
-Cc: Jonathan Corbet <corbet@lwn.net> 
-Cc: Hu Haowen <src.res@email.cn> 
-Cc: Jiri Kosina <jkosina@suse.cz> 
-Cc: Thorsten Leemhuis <linux@leemhuis.info> 
-Cc: Konstantin Ryabitsev <konstantin@linuxfoundation.org> 
-Cc: Pan Yunwang <panyunwang849@gmail.com> 
-Cc: linux-doc@vger.kernel.org 
-Cc: linux-kernel@vger.kernel.org 
-Cc: linux-doc-tw-discuss@lists.sourceforge.net 
----
- Documentation/translations/zh_CN/process/8.Conclusion.rst     | 1 -
- .../translations/zh_CN/process/submitting-patches.rst         | 4 +---
- Documentation/translations/zh_TW/process/8.Conclusion.rst     | 1 -
- .../translations/zh_TW/process/submitting-patches.rst         | 4 +---
- 4 files changed, 2 insertions(+), 8 deletions(-)
+Both zh_CN and zh_TW were fixed on
+https://lore.kernel.org/linux-doc/20220714054013.214031-1-alexs@kernel.org/T/#u
 
-diff --git a/Documentation/translations/zh_CN/process/8.Conclusion.rst b/Documentation/translations/zh_CN/process/8.Conclusion.rst
-index 4707f0101964..643b88af97bb 100644
---- a/Documentation/translations/zh_CN/process/8.Conclusion.rst
-+++ b/Documentation/translations/zh_CN/process/8.Conclusion.rst
-@@ -19,7 +19,6 @@
- :ref:`Documentation/translations/zh_CN/process/howto.rst <cn_process_howto>`
- 文件是一个重要的起点；
- :ref:`Documentation/translations/zh_CN/process/submitting-patches.rst <cn_submittingpatches>`
--和 :ref:`Documentation/translations/zh_CN/process/submitting-drivers.rst <cn_submittingdrivers>`
- 也是所有内核开发人员都应该阅读的内容。许多内部内核API都是使用kerneldoc机制
- 记录的；“make htmldocs”或“make pdfdocs”可用于以HTML或PDF格式生成这些文档
- （尽管某些发行版提供的tex版本会遇到内部限制，无法正确处理文档）。
-diff --git a/Documentation/translations/zh_CN/process/submitting-patches.rst b/Documentation/translations/zh_CN/process/submitting-patches.rst
-index a9570165582a..ebb7f37575c1 100644
---- a/Documentation/translations/zh_CN/process/submitting-patches.rst
-+++ b/Documentation/translations/zh_CN/process/submitting-patches.rst
-@@ -23,9 +23,7 @@
- 以下文档含有大量简洁的建议， 具体请见：
- :ref:`Documentation/process <development_process_main>`
- 同样，:ref:`Documentation/translations/zh_CN/process/submit-checklist.rst <cn_submitchecklist>`
--给出在提交代码前需要检查的项目的列表。如果你在提交一个驱动程序，那么
--同时阅读一下:
--:ref:`Documentation/process/submitting-drivers.rst <submittingdrivers>`
-+给出在提交代码前需要检查的项目的列表。
- 
- 其中许多步骤描述了Git版本控制系统的默认行为；如果您使用Git来准备补丁，
- 您将发现它为您完成的大部分机械工作，尽管您仍然需要准备和记录一组合理的
-diff --git a/Documentation/translations/zh_TW/process/8.Conclusion.rst b/Documentation/translations/zh_TW/process/8.Conclusion.rst
-index 7572b17667d9..044fcc118bef 100644
---- a/Documentation/translations/zh_TW/process/8.Conclusion.rst
-+++ b/Documentation/translations/zh_TW/process/8.Conclusion.rst
-@@ -22,7 +22,6 @@
- :ref:`Documentation/translations/zh_TW/process/howto.rst <tw_process_howto>`
- 文件是一個重要的起點；
- :ref:`Documentation/translations/zh_TW/process/submitting-patches.rst <tw_submittingpatches>`
--和 :ref:`Documentation/translations/zh_TW/process/submitting-drivers.rst <tw_submittingdrivers>`
- 也是所有內核開發人員都應該閱讀的內容。許多內部內核API都是使用kerneldoc機制
- 記錄的；「make htmldocs」或「make pdfdocs」可用於以HTML或PDF格式生成這些文檔
- （儘管某些發行版提供的tex版本會遇到內部限制，無法正確處理文檔）。
-diff --git a/Documentation/translations/zh_TW/process/submitting-patches.rst b/Documentation/translations/zh_TW/process/submitting-patches.rst
-index c4fd48f5bd8b..3f77ef5d48a0 100644
---- a/Documentation/translations/zh_TW/process/submitting-patches.rst
-+++ b/Documentation/translations/zh_TW/process/submitting-patches.rst
-@@ -26,9 +26,7 @@
- 以下文檔含有大量簡潔的建議， 具體請見：
- :ref:`Documentation/process <development_process_main>`
- 同樣，:ref:`Documentation/translations/zh_TW/process/submit-checklist.rst <tw_submitchecklist>`
--給出在提交代碼前需要檢查的項目的列表。如果你在提交一個驅動程序，那麼
--同時閱讀一下:
--:ref:`Documentation/process/submitting-drivers.rst <submittingdrivers>`
-+給出在提交代碼前需要檢查的項目的列表。
- 
- 其中許多步驟描述了Git版本控制系統的默認行爲；如果您使用Git來準備補丁，
- 您將發現它爲您完成的大部分機械工作，儘管您仍然需要準備和記錄一組合理的
--- 
-2.25.1
+Sorry for the issue
 
+Thanks
+Alex
