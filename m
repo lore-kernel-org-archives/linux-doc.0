@@ -2,105 +2,86 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 60242C433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Jul 2022 22:15:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E9185C433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Jul 2022 22:26:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229448AbiGNWPY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 14 Jul 2022 18:15:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35722 "EHLO
+        id S232684AbiGNW0l (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 14 Jul 2022 18:26:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43312 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241042AbiGNWPX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Jul 2022 18:15:23 -0400
-Received: from mail-oa1-x34.google.com (mail-oa1-x34.google.com [IPv6:2001:4860:4864:20::34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2E524B0C1;
-        Thu, 14 Jul 2022 15:15:22 -0700 (PDT)
-Received: by mail-oa1-x34.google.com with SMTP id 586e51a60fabf-10c8e8d973eso4197684fac.5;
-        Thu, 14 Jul 2022 15:15:22 -0700 (PDT)
+        with ESMTP id S238023AbiGNW0k (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Jul 2022 18:26:40 -0400
+Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9037D71BD9;
+        Thu, 14 Jul 2022 15:26:39 -0700 (PDT)
+Received: by mail-wr1-x42a.google.com with SMTP id r14so4415586wrg.1;
+        Thu, 14 Jul 2022 15:26:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=date:from:to:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=ng3/X4PelThqjSHpCTGPAN/BVGWWlZ6hoIZsJJT4v7Y=;
-        b=F58ZWzw58v3u/Ep11tkIsNCLmim7u4IKUrhmGA4BSfnvT85un5c2mitiW4qVkQ5mXb
-         wwOafM1aLO3EfDaRiLDDeUUEoHdetODhpnK9ui4uHAvjC/QxEH2WkMSdFW2NykuDtP7i
-         YAOhLfXAsAacUoVrhR/XlZU//q/V4qja3+w+1Y8eLQYvJXG+z7VKwV3j8KKgevogjGwG
-         pyIzA2YqaL8jVUPQRLGfUqaDQLzW98UGjAzY6iqFjJb4tCoXTRITsEBJkM+o+cPIaT3m
-         hQdn11+HugzDnU3pmHrQQBMoeYkQjlTV/EA522n6EjPlIKx72kcDOuPWfYvQKkz75LP1
-         9QPA==
+        h=from:to:cc:subject:in-reply-to:date:message-id:references
+         :user-agent:mime-version;
+        bh=H/Jj7pZPPGF1xEq9pAXzJYyU1Miyhpi/aiyDdUK3nCg=;
+        b=h/NYKrymZ/S05urtQyPWtoVbWeg7qcVUjzj90pe9QPU980mDqCR7Go7CxuaF34E/jn
+         i7Z1Q6LROT46LN5AnN652dF6EJh/plA9z38raD9FKK6Ls2mXbuBQOIWCeM1zOUAv/mI0
+         Ix5+/SX1VMCqxFXTj7XeItXEY9gvzjbgvXgnxhC8yYfys3mdNKwq5YsPwftorOmOES8K
+         HGfaiVD8Fixbf9uaQfk9RHfplgL4+mWqr7eBjvj1diqNRE7P9BXdqqgih9rZhHIzkg7y
+         b0mSGmYVR/CmWijsdIn1gjJPsCMFzf9L6DTF3Jsiyq567yxxsR1dHVfwiOlDnh/hY+WJ
+         FjyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=ng3/X4PelThqjSHpCTGPAN/BVGWWlZ6hoIZsJJT4v7Y=;
-        b=ZkNUUarAlMvppbPzILrZkD5+Xtf2dZUa5OelN44j1tSitOTl5FfktPMKrL1bS8sNfH
-         ViA0QXLoet+h2LlHSa5Tp9geMmqXvYvAK0ntM5BevjtDfosfuZU6IfzZGKDnF+jBCnrq
-         dBn6JFmhf/R6qugJdVtqORu81kD5S9ZxN+bVWeAXrboa7TIyfoNV0ZNQ7pFLS3oov/q2
-         9rVJAfbJKx9JHtL47uA/xepZZVhUFFOphovWBkc4BDVv9qS7mTXKS/C9567s2ZTwrOtg
-         fB6ovd6Qo6H5kl+UGIWfvXbwEjgUikhHFYZQ6lluoRQTKl3AWxl1DUNa+Zi4xvavD/x+
-         qZSg==
-X-Gm-Message-State: AJIora/21HmqtiFGaOa2u2MSyYzLHn4pE3Cbjc40WM6TXaQWWfsfNGup
-        0DRzCURSejFcwyv0xZPlRConCtDpyVHo6w==
-X-Google-Smtp-Source: AGRyM1vVXmOV/Fn33yqyYL2kv3owKqaXip641o/zmVhcrSArz5/BWplK7y5pW+xjNvqdrJrqqnZyOg==
-X-Received: by 2002:a05:6870:c353:b0:101:e7e4:9388 with SMTP id e19-20020a056870c35300b00101e7e49388mr5579381oak.45.1657836922071;
-        Thu, 14 Jul 2022 15:15:22 -0700 (PDT)
-Received: from localhost ([12.97.180.36])
-        by smtp.gmail.com with ESMTPSA id w21-20020a9d5a95000000b0061c68a35fdfsm1192880oth.9.2022.07.14.15.15.21
+        h=x-gm-message-state:from:to:cc:subject:in-reply-to:date:message-id
+         :references:user-agent:mime-version;
+        bh=H/Jj7pZPPGF1xEq9pAXzJYyU1Miyhpi/aiyDdUK3nCg=;
+        b=ITqkEOHTeyusGgRisbaW4c6OukuhYMInn9+GBkXFtQbopkh9nYORTgYys8TQ1XwVX+
+         0+zMw6OSUR0lqzZnplwpWlmZ5kWRxM0JZO74cYOypS3crjjnjQecd+LDWbnEzfHOiZUy
+         dttDn+TUEb4kdy97os6xKNgDdZ5y6zmaSarsjVLBaaubNLwma9eimG5BR9U6p0+pYvLp
+         8yUxopf/o6aK+A+2ry/09i4GslugWfk05P8DnuehqeRN0Zv6JTkEwGW8gDhN17XU8TB8
+         7tjtZPv13lvZo7ERUt6qp8wRTDK1sqFP81p5RnkzVdEpQTxKMC0OOVIhvzvCIX2J62JB
+         GtcA==
+X-Gm-Message-State: AJIora9usXLr64Hf1/1dlgabEy6sS6PaOpLHUMEp6vBASA08Y1nQEfCT
+        wfDx+r1Sm7wNH0QPQ0pNxcY=
+X-Google-Smtp-Source: AGRyM1uICzbizyCz4pfVRHt9cE3HmtPYtDbrO4idqAXHmn/LTI43YJyNnklf2Fb8Tt94b5zCd00Xpw==
+X-Received: by 2002:adf:e187:0:b0:21d:64c6:74f0 with SMTP id az7-20020adfe187000000b0021d64c674f0mr9615376wrb.221.1657837598021;
+        Thu, 14 Jul 2022 15:26:38 -0700 (PDT)
+Received: from imac ([2a02:8010:60a0:0:7cd7:ddd5:b3c7:3e26])
+        by smtp.gmail.com with ESMTPSA id m185-20020a1c26c2000000b003a302fb9df7sm2850707wmm.21.2022.07.14.15.26.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Jul 2022 15:15:21 -0700 (PDT)
-Date:   Thu, 14 Jul 2022 15:15:20 -0700
-From:   Yury Norov <yury.norov@gmail.com>
-To:     linux-kernel@vger.kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        David Howells <dhowells@redhat.com>,
-        Ingo Molnar <mingo@kernel.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        NeilBrown <neilb@suse.de>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Russell King <linux@armlinux.org.uk>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        William Kucharski <william.kucharski@oracle.com>,
-        linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mm@kvack.org
-Subject: Re: [PATCH v2 00/10] lib: cleanup bitmap-related headers
-Message-ID: <YtCVeOGLiQ4gNPSf@yury-laptop>
-References: <20220706174253.4175492-1-yury.norov@gmail.com>
- <CAAH8bW-OcdzetthsBanbkObVQxF1J6CiyBBnab=VXd2wcj517Q@mail.gmail.com>
+        Thu, 14 Jul 2022 15:26:37 -0700 (PDT)
+From:   Donald Hunter <donald.hunter@gmail.com>
+To:     Bagas Sanjaya <bagasdotme@gmail.com>
+Cc:     Daniel =?utf-8?Q?M=C3=BCller?= <deso@posteo.net>,
+        bpf@vger.kernel.org, linux-doc@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH] bpf, docs: document BPF_MAP_TYPE_HASH and variants
+In-Reply-To: <5fd3bc40-61f5-e7bc-6178-cb50b3af4042@gmail.com> (Bagas Sanjaya's
+        message of "Thu, 14 Jul 2022 15:10:56 +0700")
+Date:   Thu, 14 Jul 2022 22:53:13 +0100
+Message-ID: <m235f34b06.fsf@gmail.com>
+References: <20220713211612.84782-1-donald.hunter@gmail.com>
+        <99351eee-17b4-66e0-1b9e-7f798756780a@gmail.com>
+        <20220714055137.dsatpuyrwdlel2ck@vaio>
+        <5fd3bc40-61f5-e7bc-6178-cb50b3af4042@gmail.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.1 (darwin)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAAH8bW-OcdzetthsBanbkObVQxF1J6CiyBBnab=VXd2wcj517Q@mail.gmail.com>
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jul 12, 2022 at 09:28:21AM -0700, Yury Norov wrote:
-> On Wed, Jul 6, 2022 at 10:42 AM Yury Norov <yury.norov@gmail.com> wrote:
-> >
-> > This series unifies declarations of bitmap-related functions and aligns
-> > return types with values that actually returned. Also, it moves one-liner
-> > wrappers around cpumask functions into headers, so that compiler has a
-> > chance to optimize better.
-> >
-> > With this series, GCC 11.2 for ARM64 with kernel v5.19-rc4:
-> > add/remove: 15/7 grow/shrink: 461/164 up/down: 14844/-4580 (10264)
-> >
-> > This +10K didn't surprise me because  modern compilers are more aggressive
-> > in inlining, loop unrolling, and other techniques that increase size of
-> > the image.
-> >
-> > v1: https://lore.kernel.org/linux-mm/YsAzU3g2QpgmIGre@smile.fi.intel.com/T/
-> > v2: - Align whitespaces in headers;
-> >     - Make bitmap_weight() unsigned long consistently;
-> >     - Pick 2 patches from Ingo's sched/headers series [1] that split
-> >       linux/gfp.h, and drop my similar patch for it.
-> 
-> Ping?
+Bagas Sanjaya <bagasdotme@gmail.com> writes:
+>
+> From Documentation/process/submitting-patches.rst:
+>
+>> Describe your changes in imperative mood, e.g. "make xyzzy do frotz"
+>> instead of "[This patch] makes xyzzy do frotz" or "[I] changed xyzzy
+>> to do frotz", as if you are giving orders to the codebase to change
+>> its behaviour.
+>
+> The recommendation above is from commit 74a475acea4945
+> ("SubmittingPatches: add style recommendation to use imperative descriptions")
+>
+> Thanks.
 
-OK, I realize that it's not the very entertaining thing to review a
-headers cleanup.
+Thanks for the pointer. I will follow this guidance for v2.
 
-Adding this into -next because there's no negative feedback (he-he).
+Donald.
