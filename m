@@ -2,79 +2,151 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A7B54C433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Jul 2022 21:14:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 318F0C43334
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Jul 2022 21:30:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240729AbiGNVOS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 14 Jul 2022 17:14:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48254 "EHLO
+        id S240759AbiGNVaH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 14 Jul 2022 17:30:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59044 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240574AbiGNVOR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Jul 2022 17:14:17 -0400
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B10F140BB;
-        Thu, 14 Jul 2022 14:14:16 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 83EC12DC;
-        Thu, 14 Jul 2022 21:14:16 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 83EC12DC
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1657833256; bh=g6UqU9BuI9PKghppGhHSoFS2wGdHPaXOchKv/HB4sG8=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=lv+eaiznJZX9T/gIlxJFnKecOzaNoXIfuvLhye03ADhHGuAIczUheQUwDsO+M0LV+
-         eQSraSXSeeB9V8zX6/0zEwwMGVz32RldKAg+NCAUEkAAVVZV1CKO45UsvZc14l1LQI
-         aIF1dBB+to7MsNsFkxb/TaRMHq7ZXS7gDtzGKF+wLyiT96Zk9T1q63mvKA/yw42pcO
-         kq+2JErBNwo293DNwbgmyxayeNpswXHBPMwZ+EP2j7aNrNj81vWp7rjiavYY37ZrFf
-         0hSRoYPLgtt/D10IdO4I8Au2KwyoJTSU9h3vZYSRfmhRjnXE9rYFzEf1I0URnJ+o6T
-         6uwoBFGeIsFOg==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Alex Shi <seakeel@gmail.com>
-Cc:     Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        Federico Vaga <federico.vaga@vaga.pv.it>,
-        Alex Shi <alexs@kernel.org>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Hu Haowen <src.res@email.cn>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-doc-tw-discuss@lists.sourceforge.net,
-        Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        linux-hwmon@vger.kernel.org, kernel-janitors@vger.kernel.org,
-        LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 00/11] docs: remove submitting-drivers.rst
-In-Reply-To: <CAJy-AmnkRRqC25N1imgqRCHymh8J4ZE=LYx=-3tG4bhAggViSA@mail.gmail.com>
-References: <20220704122537.3407-1-lukas.bulwahn@gmail.com>
- <87sfn44wk4.fsf@meer.lwn.net>
- <CAJy-AmnkRRqC25N1imgqRCHymh8J4ZE=LYx=-3tG4bhAggViSA@mail.gmail.com>
-Date:   Thu, 14 Jul 2022 15:14:15 -0600
-Message-ID: <878rovz9aw.fsf@meer.lwn.net>
+        with ESMTP id S239842AbiGNVaG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Jul 2022 17:30:06 -0400
+Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com [199.106.114.39])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D800D6EE90;
+        Thu, 14 Jul 2022 14:30:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+  t=1657834204; x=1689370204;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=ohTWDd1PCrHN5v0aqrbVJeHwH3BlN0RoL4tMpz77sGI=;
+  b=EeWZ9+1MwOmrN1r/Ec8tq+XZjIwoMHyT6HqSB5Ia0p/nf8Q+uW10J3ew
+   hbVD0ITkHwEw9bGbz/P0Wd7beqNwee0bzc9hNIlUk7xrkO97pUyQ1lA4U
+   HHlSUwS2k/KH3FAJNN6BReBgPL6ySSeU5kcPW6APyr5qSy3gnGtTeKp9L
+   I=;
+Received: from unknown (HELO ironmsg01-sd.qualcomm.com) ([10.53.140.141])
+  by alexa-out-sd-02.qualcomm.com with ESMTP; 14 Jul 2022 14:30:04 -0700
+X-QCInternal: smtphost
+Received: from nasanex01b.na.qualcomm.com ([10.46.141.250])
+  by ironmsg01-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2022 14:30:03 -0700
+Received: from hu-eberman-lv.qualcomm.com (10.49.16.6) by
+ nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Thu, 14 Jul 2022 14:30:03 -0700
+From:   Elliot Berman <quic_eberman@quicinc.com>
+To:     Bjorn Andersson <bjorn.andersson@linaro.org>,
+        <linux-kernel@vger.kernel.org>
+CC:     Elliot Berman <quic_eberman@quicinc.com>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        Murali Nalajala <quic_mnalajala@quicinc.com>,
+        Srivatsa Vaddagiri <quic_svaddagiri@quicinc.com>,
+        Carl van Schaik <quic_cvanscha@quicinc.com>,
+        Andy Gross <agross@kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        "Marc Zyngier" <maz@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+        "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Will Deacon <will@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        <devicetree@vger.kernel.org>, <linux-doc@vger.kernel.org>
+Subject: [PATCH v2 00/11] Gunyah Hypervisor drivers
+Date:   Thu, 14 Jul 2022 14:29:29 -0700
+Message-ID: <20220714212940.2988436-1-quic_eberman@quicinc.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220223233729.1571114-1-quic_eberman@quicinc.com>
+References: <20220223233729.1571114-1-quic_eberman@quicinc.com>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
+X-Originating-IP: [10.49.16.6]
+X-ClientProxiedBy: nalasex01b.na.qualcomm.com (10.47.209.197) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Alex Shi <seakeel@gmail.com> writes:
 
->> Alex, can you fix the remaining references in zh_CN?
->>
->> For zh_TW I'm wondering ... that is increasingly looking like an
->> unmaintained drive-by submission.  I suppose we can just brute-force
->> remove the references, but I once again find myself wondering about the
->> value of this translation.  Is there anybody out there who cares about
->> it who could fix this up properly?
->
-> Hi Jon,
->
-> Both zh_CN and zh_TW were fixed on
-> https://lore.kernel.org/linux-doc/20220714054013.214031-1-alexs@kernel.org/T/#u
->
-> Sorry for the issue
+Gunyah is a Type-1 hypervisor independent of any
+high-level OS kernel, and runs in a higher CPU privilege level. It does
+not depend on any lower-privileged OS kernel/code for its core
+functionality. This increases its security and can support a much smaller
+trusted computing base than Type-2 hypervisors. This series adds the initial
+support for Gunyah hypercalls, IPC via message queues, communication with the
+Gunyah Resource Manager to enable Gunyah's paravirtualized console.
 
-No worries, thanks for dealing with it.  That did the trick, and the
-series is now applied.
+Gunyah is an open source hypervisor. The source repo is available at
+https://github.com/quic/gunyah-hypervisor.
 
-Thanks,
+This series enables guest awareness of Gunyah and establishes the basic
+architecture of Gunyah capabilities in the Linux kernel. As an end-to-end
+use case, a TTY driver for the Gunyah-based console is added which can demonstrate
+communication with the resource manager. In a future series, we intend to add
+support for loading secondary VMs.
 
-jon
+To self-test the console driver without other VMs, reads and writes to
+/dev/ttyGH0 will be sent to /dev/ttyGH1 via the hypervisor. In a system with
+multiple VMs, a secondary VM could use ttyGH0 as its boot console.
+The primary VM would be able to access that secondary VM's console via a ttyGHx.
+
+Changes in v2:
+ - DT bindings clean up
+ - Switch hypercalls to follow SMCCC
+
+Elliot Berman (11):
+  docs: gunyah: Introduce Gunyah Hypervisor
+  dt-bindings: Add binding for gunyah hypervisor
+  arm64: gunyah: Add Gunyah hypercalls ABI
+  gunyah: Common types and error codes for Gunyah hypercalls
+  virt: gunyah: Add sysfs nodes
+  virt: gunyah: Add capabilities bus and devices
+  gunyah: msgq: Add Gunyah message queues
+  gunyah: rsc_mgr: Add resource manager RPC core
+  gunyah: rsc_mgr: Add auxiliary devices for console
+  gunyah: rsc_mgr: Add RPC for console services
+  gunyah: Add tty console driver for RM Console Serivces
+
+ .../ABI/testing/sysfs-hypervisor-gunyah       |  37 +
+ .../bindings/firmware/gunyah-hypervisor.yaml  |  84 +++
+ Documentation/virt/gunyah/index.rst           |  99 +++
+ Documentation/virt/gunyah/message-queue.rst   |  52 ++
+ Documentation/virt/index.rst                  |   1 +
+ MAINTAINERS                                   |  12 +
+ arch/arm64/include/asm/gunyah.h               | 142 ++++
+ drivers/virt/Kconfig                          |   1 +
+ drivers/virt/Makefile                         |   1 +
+ drivers/virt/gunyah/Kconfig                   |  24 +
+ drivers/virt/gunyah/Makefile                  |   8 +
+ drivers/virt/gunyah/device.c                  | 108 +++
+ drivers/virt/gunyah/gunyah_private.h          |  18 +
+ drivers/virt/gunyah/msgq.c                    | 223 ++++++
+ drivers/virt/gunyah/rsc_mgr.c                 | 682 ++++++++++++++++++
+ drivers/virt/gunyah/rsc_mgr.h                 |  56 ++
+ drivers/virt/gunyah/rsc_mgr_console.c         | 405 +++++++++++
+ drivers/virt/gunyah/rsc_mgr_rpc.c             | 151 ++++
+ drivers/virt/gunyah/sysfs.c                   | 176 +++++
+ include/linux/gunyah.h                        | 133 ++++
+ include/linux/gunyah_rsc_mgr.h                |  45 ++
+ 21 files changed, 2458 insertions(+)
+ create mode 100644 Documentation/ABI/testing/sysfs-hypervisor-gunyah
+ create mode 100644 Documentation/devicetree/bindings/firmware/gunyah-hypervisor.yaml
+ create mode 100644 Documentation/virt/gunyah/index.rst
+ create mode 100644 Documentation/virt/gunyah/message-queue.rst
+ create mode 100644 arch/arm64/include/asm/gunyah.h
+ create mode 100644 drivers/virt/gunyah/Kconfig
+ create mode 100644 drivers/virt/gunyah/Makefile
+ create mode 100644 drivers/virt/gunyah/device.c
+ create mode 100644 drivers/virt/gunyah/gunyah_private.h
+ create mode 100644 drivers/virt/gunyah/msgq.c
+ create mode 100644 drivers/virt/gunyah/rsc_mgr.c
+ create mode 100644 drivers/virt/gunyah/rsc_mgr.h
+ create mode 100644 drivers/virt/gunyah/rsc_mgr_console.c
+ create mode 100644 drivers/virt/gunyah/rsc_mgr_rpc.c
+ create mode 100644 drivers/virt/gunyah/sysfs.c
+ create mode 100644 include/linux/gunyah.h
+ create mode 100644 include/linux/gunyah_rsc_mgr.h
+
+-- 
+2.25.1
+
