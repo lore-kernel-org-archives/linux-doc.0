@@ -2,71 +2,79 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 62863CCA47B
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Jul 2022 20:04:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A7B54C433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Jul 2022 21:14:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238087AbiGNUEl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 14 Jul 2022 16:04:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58852 "EHLO
+        id S240729AbiGNVOS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 14 Jul 2022 17:14:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48254 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239294AbiGNUEj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Jul 2022 16:04:39 -0400
-Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7EF04459B9;
-        Thu, 14 Jul 2022 13:04:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=D0ZF7bGNwfXPpVkRJhiYEDl+fP+Itn4qvemvT7DOAp4=; b=idX7TS06FJtsC5q6fNjIZU+8DK
-        fi6wGmWNsiAkkNaggYUfUdC0UguPwCst7hxBnJ/hWt8KvFcsGCXCbcFYcTGEBymTyJ5FGx+l7OErV
-        VcrCdXglRj1a971GrpKYVEUOl4mjuX76h695iteXLiusgSsijQQ0XN7fOVqtSafvEiDUKGb3d94c4
-        o9aJU89jPXbzYd4tEF6tMWT/ohyqHiRiVMmNU2jbyoaZbYTQdVy4ndiBLzc66GjxvGzevvnkccQWR
-        2o/Tv/M7YwT7HcQF7Qy4cxOl++uIeFgrmxrhywcKUWAaKLk6xcaYMgYrpCZaYoxwao/nfz85vBcSg
-        4p0+1P0g==;
-Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=worktop.programming.kicks-ass.net)
-        by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1oC54Q-003vi2-Ij; Thu, 14 Jul 2022 20:04:23 +0000
-Received: by worktop.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 322D0980185; Thu, 14 Jul 2022 22:04:20 +0200 (CEST)
-Date:   Thu, 14 Jul 2022 22:04:20 +0200
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Daniel Sneddon <daniel.sneddon@linux.intel.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-        pawan.kumar.gupta@linux.intel.com,
-        antonio.gomez.iglesias@linux.intel.com,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] x86/speculation: Add BHI_DIS support
-Message-ID: <YtB2xJdsOHSJV7Py@worktop.programming.kicks-ass.net>
-References: <20220714195236.9311-1-daniel.sneddon@linux.intel.com>
+        with ESMTP id S240574AbiGNVOR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Jul 2022 17:14:17 -0400
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B10F140BB;
+        Thu, 14 Jul 2022 14:14:16 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 83EC12DC;
+        Thu, 14 Jul 2022 21:14:16 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 83EC12DC
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1657833256; bh=g6UqU9BuI9PKghppGhHSoFS2wGdHPaXOchKv/HB4sG8=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=lv+eaiznJZX9T/gIlxJFnKecOzaNoXIfuvLhye03ADhHGuAIczUheQUwDsO+M0LV+
+         eQSraSXSeeB9V8zX6/0zEwwMGVz32RldKAg+NCAUEkAAVVZV1CKO45UsvZc14l1LQI
+         aIF1dBB+to7MsNsFkxb/TaRMHq7ZXS7gDtzGKF+wLyiT96Zk9T1q63mvKA/yw42pcO
+         kq+2JErBNwo293DNwbgmyxayeNpswXHBPMwZ+EP2j7aNrNj81vWp7rjiavYY37ZrFf
+         0hSRoYPLgtt/D10IdO4I8Au2KwyoJTSU9h3vZYSRfmhRjnXE9rYFzEf1I0URnJ+o6T
+         6uwoBFGeIsFOg==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Alex Shi <seakeel@gmail.com>
+Cc:     Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        Federico Vaga <federico.vaga@vaga.pv.it>,
+        Alex Shi <alexs@kernel.org>,
+        Yanteng Si <siyanteng@loongson.cn>,
+        Hu Haowen <src.res@email.cn>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-doc-tw-discuss@lists.sourceforge.net,
+        Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        linux-hwmon@vger.kernel.org, kernel-janitors@vger.kernel.org,
+        LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 00/11] docs: remove submitting-drivers.rst
+In-Reply-To: <CAJy-AmnkRRqC25N1imgqRCHymh8J4ZE=LYx=-3tG4bhAggViSA@mail.gmail.com>
+References: <20220704122537.3407-1-lukas.bulwahn@gmail.com>
+ <87sfn44wk4.fsf@meer.lwn.net>
+ <CAJy-AmnkRRqC25N1imgqRCHymh8J4ZE=LYx=-3tG4bhAggViSA@mail.gmail.com>
+Date:   Thu, 14 Jul 2022 15:14:15 -0600
+Message-ID: <878rovz9aw.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220714195236.9311-1-daniel.sneddon@linux.intel.com>
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jul 14, 2022 at 12:52:35PM -0700, Daniel Sneddon wrote:
-> Branch History Injection (BHI) attacks can be mitigated using the
-> BHI_DIS_S indirect predictor control bit located in MSR_IA32_SPEC_CTRL
-> register. Set BHI_DIS in MSR_IA32_SPC_CTRL to prevent predicted
-> targets of indirect branches executed in CPL0, CPL1, or CPL2 from
-> being selected based on branch history from branches executed in CPL3.
-> Support for this feature is enumerated by CPUID.7.2.EDX[BHI_CTRL] (bit 4).
+Alex Shi <seakeel@gmail.com> writes:
 
-What actual hardware will have this?
+>> Alex, can you fix the remaining references in zh_CN?
+>>
+>> For zh_TW I'm wondering ... that is increasingly looking like an
+>> unmaintained drive-by submission.  I suppose we can just brute-force
+>> remove the references, but I once again find myself wondering about the
+>> value of this translation.  Is there anybody out there who cares about
+>> it who could fix this up properly?
+>
+> Hi Jon,
+>
+> Both zh_CN and zh_TW were fixed on
+> https://lore.kernel.org/linux-doc/20220714054013.214031-1-alexs@kernel.org/T/#u
+>
+> Sorry for the issue
 
-> Users wanting BHI protection can specify spectre_v2=eibrs,bhi_dis to
-> enable hardware BHI protections.  On platforms where BHI protections
-> are not available in the hardware revert to eibrs,retpoline
-> mitigations.
+No worries, thanks for dealing with it.  That did the trick, and the
+series is now applied.
 
-AFAICT this doesn't get auto-selected; how bad is performance for this
-to not be so?
+Thanks,
+
+jon
