@@ -2,102 +2,105 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 02B5FC43334
-	for <linux-doc@archiver.kernel.org>; Thu, 14 Jul 2022 21:39:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 60242C433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 14 Jul 2022 22:15:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232617AbiGNVjZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 14 Jul 2022 17:39:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38742 "EHLO
+        id S229448AbiGNWPY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 14 Jul 2022 18:15:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35722 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240995AbiGNVjR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Jul 2022 17:39:17 -0400
-Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com [IPv6:2607:f8b0:4864:20::52a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9F341573D;
-        Thu, 14 Jul 2022 14:39:16 -0700 (PDT)
-Received: by mail-pg1-x52a.google.com with SMTP id s27so2708732pga.13;
-        Thu, 14 Jul 2022 14:39:16 -0700 (PDT)
+        with ESMTP id S241042AbiGNWPX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Jul 2022 18:15:23 -0400
+Received: from mail-oa1-x34.google.com (mail-oa1-x34.google.com [IPv6:2001:4860:4864:20::34])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2E524B0C1;
+        Thu, 14 Jul 2022 15:15:22 -0700 (PDT)
+Received: by mail-oa1-x34.google.com with SMTP id 586e51a60fabf-10c8e8d973eso4197684fac.5;
+        Thu, 14 Jul 2022 15:15:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
+        h=date:from:to:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=DgW9kAXC6VaNn9rU3wnHWjSpTrZ8/AEf3hlkouGTzLM=;
-        b=c8mWRbXSajF588i3rM9y0yyoGZfg0NbyGk3jlGOuAtgVjzANWV6yySZGTzenPaeJqz
-         Lr+Z+hmrpiXr84CYm/40hhnRLEn4MHNCK/RFAquVz5gVQZiZw+yyhlIf/4LnKYhylRfn
-         GKYYF+mE08XAFgo709pRl5qxWjI4qzD1LnNHp18EH9lp8bMCpKrdOekGdDKLFJ9Evhn3
-         oBc0R6SLnmZPDvldLIlZFx/9T07rIP/mKbzeWj4y/nWJn9kVolBIrTaG8RWDs6hOf46U
-         Qd7KMF3lpTGOxcxW3nMB1eBy+aPugcSMQhRm0/gtMQWZeyhd0T1UmjnN6XBZugfMMvrs
-         P4yw==
+        bh=ng3/X4PelThqjSHpCTGPAN/BVGWWlZ6hoIZsJJT4v7Y=;
+        b=F58ZWzw58v3u/Ep11tkIsNCLmim7u4IKUrhmGA4BSfnvT85un5c2mitiW4qVkQ5mXb
+         wwOafM1aLO3EfDaRiLDDeUUEoHdetODhpnK9ui4uHAvjC/QxEH2WkMSdFW2NykuDtP7i
+         YAOhLfXAsAacUoVrhR/XlZU//q/V4qja3+w+1Y8eLQYvJXG+z7VKwV3j8KKgevogjGwG
+         pyIzA2YqaL8jVUPQRLGfUqaDQLzW98UGjAzY6iqFjJb4tCoXTRITsEBJkM+o+cPIaT3m
+         hQdn11+HugzDnU3pmHrQQBMoeYkQjlTV/EA522n6EjPlIKx72kcDOuPWfYvQKkz75LP1
+         9QPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+        h=x-gm-message-state:date:from:to:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=DgW9kAXC6VaNn9rU3wnHWjSpTrZ8/AEf3hlkouGTzLM=;
-        b=ElNKoEb1FkH6wRwiex5RX5kxQcjy2ymSZJ5ECiTNp8pqkvHO8Gw4MolXQ7NqtG2mN/
-         ucH+trAtSFWdTZyMEm5PvZYjDbdgO/nSXIIgE+A9VWnUlBnQV/hUaL+izim2GP0z1+Ou
-         faDM9kbbRQJFbtdFsxSZwGmSt1Qn1PDexJqUYzJISHhJ6vXtsmqoopRka2ETElVSwBCU
-         ilTSxBJV9srdlFkDoHoLtJSjmYmK5t99wkvqY6KYWRUwznLx/uldtFuXp7tPP3e/Vyb1
-         lzhaH5YbspamEapbVaaOT03+tEjVAOeFm1D2Lj/BZSIWlN9hKDijZuJ9qVLKRe06kcWP
-         jRGQ==
-X-Gm-Message-State: AJIora+6GySdmHr4X/mq7d8tmpl5pN8Va8EBPTfOKGOZZ7/lF9DwTQQ8
-        RgGdM2VscMdQLB5Q2KeTiYo=
-X-Google-Smtp-Source: AGRyM1sY/NZRxlCCjWjo5j61Gv+szsCKgzp7/Bjo7JYU8bEO3/CBMFYME2TsUz3zfoxhbUOdAfyDbw==
-X-Received: by 2002:a62:864f:0:b0:52a:be82:6b60 with SMTP id x76-20020a62864f000000b0052abe826b60mr10342092pfd.48.1657834756198;
-        Thu, 14 Jul 2022 14:39:16 -0700 (PDT)
-Received: from MacBook-Pro-3.local ([2620:10d:c090:500::1:697a])
-        by smtp.gmail.com with ESMTPSA id g204-20020a6252d5000000b0052aca106b20sm2165289pfb.202.2022.07.14.14.39.13
+        bh=ng3/X4PelThqjSHpCTGPAN/BVGWWlZ6hoIZsJJT4v7Y=;
+        b=ZkNUUarAlMvppbPzILrZkD5+Xtf2dZUa5OelN44j1tSitOTl5FfktPMKrL1bS8sNfH
+         ViA0QXLoet+h2LlHSa5Tp9geMmqXvYvAK0ntM5BevjtDfosfuZU6IfzZGKDnF+jBCnrq
+         dBn6JFmhf/R6qugJdVtqORu81kD5S9ZxN+bVWeAXrboa7TIyfoNV0ZNQ7pFLS3oov/q2
+         9rVJAfbJKx9JHtL47uA/xepZZVhUFFOphovWBkc4BDVv9qS7mTXKS/C9567s2ZTwrOtg
+         fB6ovd6Qo6H5kl+UGIWfvXbwEjgUikhHFYZQ6lluoRQTKl3AWxl1DUNa+Zi4xvavD/x+
+         qZSg==
+X-Gm-Message-State: AJIora/21HmqtiFGaOa2u2MSyYzLHn4pE3Cbjc40WM6TXaQWWfsfNGup
+        0DRzCURSejFcwyv0xZPlRConCtDpyVHo6w==
+X-Google-Smtp-Source: AGRyM1vVXmOV/Fn33yqyYL2kv3owKqaXip641o/zmVhcrSArz5/BWplK7y5pW+xjNvqdrJrqqnZyOg==
+X-Received: by 2002:a05:6870:c353:b0:101:e7e4:9388 with SMTP id e19-20020a056870c35300b00101e7e49388mr5579381oak.45.1657836922071;
+        Thu, 14 Jul 2022 15:15:22 -0700 (PDT)
+Received: from localhost ([12.97.180.36])
+        by smtp.gmail.com with ESMTPSA id w21-20020a9d5a95000000b0061c68a35fdfsm1192880oth.9.2022.07.14.15.15.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Jul 2022 14:39:15 -0700 (PDT)
-Date:   Thu, 14 Jul 2022 14:39:12 -0700
-From:   Alexei Starovoitov <alexei.starovoitov@gmail.com>
-To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     Greg KH <gregkh@linuxfoundation.org>,
-        Jiri Kosina <jikos@kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>, Shuah Khan <shuah@kernel.org>,
-        Dave Marchevsky <davemarchevsky@fb.com>,
-        Joe Stringer <joe@cilium.io>, Jonathan Corbet <corbet@lwn.net>,
-        Tero Kristo <tero.kristo@linux.intel.com>,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        netdev@vger.kernel.org, bpf@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
-        memxor@gmail.com
-Subject: Re: [PATCH bpf-next v6 00/23] Introduce eBPF support for HID devices
-Message-ID: <20220714213912.zrotlequhpgxzdl4@MacBook-Pro-3.local>
-References: <20220712145850.599666-1-benjamin.tissoires@redhat.com>
+        Thu, 14 Jul 2022 15:15:21 -0700 (PDT)
+Date:   Thu, 14 Jul 2022 15:15:20 -0700
+From:   Yury Norov <yury.norov@gmail.com>
+To:     linux-kernel@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        David Howells <dhowells@redhat.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        NeilBrown <neilb@suse.de>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Russell King <linux@armlinux.org.uk>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        William Kucharski <william.kucharski@oracle.com>,
+        linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mm@kvack.org
+Subject: Re: [PATCH v2 00/10] lib: cleanup bitmap-related headers
+Message-ID: <YtCVeOGLiQ4gNPSf@yury-laptop>
+References: <20220706174253.4175492-1-yury.norov@gmail.com>
+ <CAAH8bW-OcdzetthsBanbkObVQxF1J6CiyBBnab=VXd2wcj517Q@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220712145850.599666-1-benjamin.tissoires@redhat.com>
+In-Reply-To: <CAAH8bW-OcdzetthsBanbkObVQxF1J6CiyBBnab=VXd2wcj517Q@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jul 12, 2022 at 04:58:27PM +0200, Benjamin Tissoires wrote:
-> Hi,
+On Tue, Jul 12, 2022 at 09:28:21AM -0700, Yury Norov wrote:
+> On Wed, Jul 6, 2022 at 10:42 AM Yury Norov <yury.norov@gmail.com> wrote:
+> >
+> > This series unifies declarations of bitmap-related functions and aligns
+> > return types with values that actually returned. Also, it moves one-liner
+> > wrappers around cpumask functions into headers, so that compiler has a
+> > chance to optimize better.
+> >
+> > With this series, GCC 11.2 for ARM64 with kernel v5.19-rc4:
+> > add/remove: 15/7 grow/shrink: 461/164 up/down: 14844/-4580 (10264)
+> >
+> > This +10K didn't surprise me because  modern compilers are more aggressive
+> > in inlining, loop unrolling, and other techniques that increase size of
+> > the image.
+> >
+> > v1: https://lore.kernel.org/linux-mm/YsAzU3g2QpgmIGre@smile.fi.intel.com/T/
+> > v2: - Align whitespaces in headers;
+> >     - Make bitmap_weight() unsigned long consistently;
+> >     - Pick 2 patches from Ingo's sched/headers series [1] that split
+> >       linux/gfp.h, and drop my similar patch for it.
 > 
-> and after a little bit of time, here comes the v6 of the HID-BPF series.
-> 
-> Again, for a full explanation of HID-BPF, please refer to the last patch
-> in this series (23/23).
-> 
-> This version sees some improvements compared to v5 on top of the
-> usual addressing of the previous comments:
-> - now I think every eBPF core change has a matching selftest added
-> - the kfuncs declared in syscall can now actually access the memory of
->   the context
-> - the code to retrieve the BTF ID of the various HID hooks is much
->   simpler (just a plain use of the BTF_ID() API instead of
->   loading/unloading of a tracing program)
-> - I also added my HID Surface Dial example that I use locally to provide
->   a fuller example to users
+> Ping?
 
-Looking great.
-Before another respin to address bits in patch 12 let's land the first ~8 patches,
-since they're generic useful improvements.
+OK, I realize that it's not the very entertaining thing to review a
+headers cleanup.
 
-Kumar, could you please help review the verifier bits?
+Adding this into -next because there's no negative feedback (he-he).
