@@ -2,120 +2,86 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 95DF5C43334
-	for <linux-doc@archiver.kernel.org>; Fri, 15 Jul 2022 18:01:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 58557C43334
+	for <linux-doc@archiver.kernel.org>; Fri, 15 Jul 2022 18:55:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229694AbiGOSBr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 15 Jul 2022 14:01:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33702 "EHLO
+        id S229619AbiGOSzL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 15 Jul 2022 14:55:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36388 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229450AbiGOSBp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Jul 2022 14:01:45 -0400
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A7EF42AD1;
-        Fri, 15 Jul 2022 11:01:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1657908104; x=1689444104;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=2oOfC55LrtmXB2jCaFUlj9F/z3nDDWKlHIARcSj/KtA=;
-  b=eygym2Ej9RJSiINj3CJv99cLya4SEWGmUNGgjrxxy/f9tTYOKv4eA6OY
-   M1O5o88HpRJ/BsizSFJov2C3m5xAkx/by1g9fZr0JZZKAflNkA5gu/2zy
-   MBeoqwWyoZAHVinARRRX4Nb15CH6XZxc2Hb+4BiVW8LM0t0GO+50U/qd1
-   PahFCPedoxr4j6BwwXIk97KAfcLgFZ7llWCpZzC2Ug8dHLJJWGzxtYRPK
-   qLNxDPrRxOY/e7GdZc2e7KWpJYdEHvqCb9r/3ofwRDDNK/OMAccno1p0C
-   zY5IfF7YlwW0uk1xab0zSI/MSZ7ZTiKuPiXtpFXva4YWC8fgktz9eBMYj
-   g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10409"; a="283422717"
-X-IronPort-AV: E=Sophos;i="5.92,274,1650956400"; 
-   d="scan'208";a="283422717"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2022 11:01:43 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.92,274,1650956400"; 
-   d="scan'208";a="546742759"
-Received: from lkp-server02.sh.intel.com (HELO ff137eb26ff1) ([10.239.97.151])
-  by orsmga003.jf.intel.com with ESMTP; 15 Jul 2022 11:01:40 -0700
-Received: from kbuild by ff137eb26ff1 with local (Exim 4.95)
-        (envelope-from <lkp@intel.com>)
-        id 1oCPdD-0000c6-GP;
-        Fri, 15 Jul 2022 18:01:39 +0000
-Date:   Sat, 16 Jul 2022 02:01:20 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Amelie Delaunay <amelie.delaunay@foss.st.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vinod Koul <vkoul@kernel.org>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>
-Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org,
-        linux-doc@vger.kernel.org, dmaengine@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        Marek Vasut <marex@denx.de>,
-        Amelie Delaunay <amelie.delaunay@foss.st.com>
-Subject: Re: [PATCH v2 3/4] dmaengine: stm32-dma: add support to trigger
- STM32 MDMA
-Message-ID: <202207160125.oxFFO8ZQ-lkp@intel.com>
-References: <20220713142148.239253-4-amelie.delaunay@foss.st.com>
+        with ESMTP id S229597AbiGOSzK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Jul 2022 14:55:10 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE1012E6B9;
+        Fri, 15 Jul 2022 11:55:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+        bh=VSI08QL3zOcYcSXc4Zml7HpuS/20FxcTomrvHdgOTaE=; b=c1odVyZNW30ww9ohbjmFkmSTTY
+        sPKVXAMoqxdvFFOjIiw5K8QrsACAD9PaWHFIKpsR1DTQvbhH+X8QlfM7SvVMJMPGCc+EZ/9GWrB9/
+        dH/IOypF29o9QCeoVcdUeuxUgKXYVqSitI33OnGI1Uoi0npv5M7aWmxR8AMjXApOO34r/3WOBv1Ch
+        HxoAk19Py715q9803K+VVVDyetOppFWKbnv6y0QX15Tvxza9+mQDHR+qQpb5e7uCDqucmWXFUMbtx
+        uNOoG7McX4u9QLpKB4Xkcp/rbgbPvOqKtAIBtlifkFw/M5KfBR6HeZtJ3GvMs6shoT322xBnsKCzJ
+        ZkojPzRQ==;
+Received: from [2601:1c0:6280:3f0::a6b3]
+        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1oCQSu-009XtJ-CX; Fri, 15 Jul 2022 18:55:04 +0000
+Message-ID: <1bd8c899-6675-d3cf-3f3b-bea48e216c9f@infradead.org>
+Date:   Fri, 15 Jul 2022 11:55:02 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220713142148.239253-4-amelie.delaunay@foss.st.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v2] Documentation: process: Update email client
+ instructions for Thunderbird
+Content-Language: en-US
+To:     Sotir Danailov <sndanailov@gmail.com>, corbet@lwn.net
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        bagasdotme@gmail.com
+References: <20220714131152.12709-1-sndanailov@gmail.com>
+ <ae06388f-a062-132b-ee61-8ad68f227970@infradead.org>
+ <efca1b16-2492-fa68-119b-8c3cfa05cadb@gmail.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <efca1b16-2492-fa68-119b-8c3cfa05cadb@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Amelie,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on atorgue-stm32/stm32-next]
-[also build test WARNING on lwn-2.6/docs-next vkoul-dmaengine/next linus/master v5.19-rc6 next-20220715]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Amelie-Delaunay/STM32-DMA-MDMA-chaining-feature/20220713-222358
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/atorgue/stm32.git stm32-next
-config: hexagon-buildonly-randconfig-r004-20220715 (https://download.01.org/0day-ci/archive/20220716/202207160125.oxFFO8ZQ-lkp@intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 2da550140aa98cf6a3e96417c87f1e89e3a26047)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/e1f4515659df0475a1e4d6dafd8559771c2b49b0
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Amelie-Delaunay/STM32-DMA-MDMA-chaining-feature/20220713-222358
-        git checkout e1f4515659df0475a1e4d6dafd8559771c2b49b0
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash drivers/dma/ drivers/iio/adc/
-
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
-
-All warnings (new ones prefixed by >>):
-
->> drivers/dma/stm32-dma.c:211: warning: expecting prototype for struct stm32_dma_mdma_cfg. Prototype was for struct stm32_dma_mdma_config instead
 
 
-vim +211 drivers/dma/stm32-dma.c
+On 7/15/22 01:11, Sotir Danailov wrote:
+> Thank you for taking the time!
+> I didn't expect the original author to participate. :D
+> I probably should've sent a cc to you and others as well, sorry about that!
+> Didn't do my research good enough I guess.
+> 
+> On Fri 15 07 2022 01:18, Randy Dunlap wrote:
+>>
+>> Does thunderbird v91.11.0 qualify as newer or older?
+>>
+>> I tried to use the external-editor-revived yesterday with v1 of the patch..
+>> no success.
+> 
+> Do you think that the whole section about the
+> old "External Editor" extension should be removed?
 
-   199	
-   200	/**
-   201	 * struct stm32_dma_mdma_cfg - STM32 DMA MDMA configuration
-   202	 * @stream_id: DMA request to trigger STM32 MDMA transfer
-   203	 * @ifcr: DMA interrupt flag clear register address,
-   204	 *        used by STM32 MDMA to clear DMA Transfer Complete flag
-   205	 * @tcf: DMA Transfer Complete flag
-   206	 */
-   207	struct stm32_dma_mdma_config {
-   208		u32 stream_id;
-   209		u32 ifcr;
-   210		u32 tcf;
- > 211	};
-   212	
+No, I don't. It's useful IMO.
+
+>> v2 of the patch has more useful info (about native-messaging), so I installed
+>> that and still not happy.
+>> After pressing "External Editor" in a tbird reply window, nothing happens.
+>>
+>> Wait -- hold everything!  Exiting tbird and reloading it
+>> fixed all problems. :)
+> 
+> I probably should add in the document that the user should
+> restart Thunderbird after all modifications, just to be sure.
+
+Please.
+
+Thanks.
 
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+~Randy
