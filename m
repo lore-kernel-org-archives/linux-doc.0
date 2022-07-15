@@ -2,150 +2,165 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4FBF1C43334
-	for <linux-doc@archiver.kernel.org>; Fri, 15 Jul 2022 09:57:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 97005C433EF
+	for <linux-doc@archiver.kernel.org>; Fri, 15 Jul 2022 11:04:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232965AbiGOJ5S (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 15 Jul 2022 05:57:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38612 "EHLO
+        id S232312AbiGOLEG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 15 Jul 2022 07:04:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58298 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232744AbiGOJ5K (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Jul 2022 05:57:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id B84D28239F
-        for <linux-doc@vger.kernel.org>; Fri, 15 Jul 2022 02:57:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1657879027;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=8Hrnh4xSI/kevtIOtrai4yHB4Q/NHMbskcGk41P5Ttk=;
-        b=Qoyu4wrfN+GLJWCVESWkvt5jmvENaG7PhGGQujI+rbAE1xTQquKdLrTDvl/QXkB8Oxi1Uz
-        r83ghxLEXUZNMQOYOLcebY05shIPf27b7Wrkndv0cB1Il4lpYIBqG36VTrrURZ3Fnr2TBf
-        AuPEl07NzCPA3Wvd1qnDdJQ0UKQod4c=
-Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com
- [209.85.210.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-316-82hjvDpxPlS6GJfFQYiRDQ-1; Fri, 15 Jul 2022 05:56:59 -0400
-X-MC-Unique: 82hjvDpxPlS6GJfFQYiRDQ-1
-Received: by mail-pf1-f197.google.com with SMTP id cu3-20020a056a00448300b0052ae559108fso2432755pfb.9
-        for <linux-doc@vger.kernel.org>; Fri, 15 Jul 2022 02:56:59 -0700 (PDT)
+        with ESMTP id S229638AbiGOLEF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Jul 2022 07:04:05 -0400
+Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com [IPv6:2607:f8b0:4864:20::1029])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD3921835A
+        for <linux-doc@vger.kernel.org>; Fri, 15 Jul 2022 04:04:03 -0700 (PDT)
+Received: by mail-pj1-x1029.google.com with SMTP id j1-20020a17090aeb0100b001ef777a7befso8129361pjz.0
+        for <linux-doc@vger.kernel.org>; Fri, 15 Jul 2022 04:04:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Valzg4MdQM0s6Xay0/0OhLA2dJ21OLQUFF2eZQYgXgA=;
+        b=m3pDjO4Mg+N5AN7bxsMHxeVwbcfVtID/FmTJdKEfO1F/VozkzhJH2LCAT/bvz69gxY
+         Fk91SyHAClxBFvpCg6KkirrHFB1ErGIXoCJ1Jb9SLim/Sl2nHSv+U5Z37bsfM9I0s2DE
+         YiWRmLLPO/pI/PaQaYPv/lDWLnukIFkFFq6PE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=8Hrnh4xSI/kevtIOtrai4yHB4Q/NHMbskcGk41P5Ttk=;
-        b=TkKAKbFkB+fwFSx81hRWSHXvld0Cgtj4XFClRwVvlI900vEu135/oU0llI5QZVBb+J
-         hjBmErf49Yey4xDW/BMYq0XC87xS/WWtzO7uP+JWJJRtiz5ciUy8uLXZ/0lZedIJ7OC5
-         UTBmE+c7WBF2PE6T81U6vDCWf/xWi69kDEBPwDT6zFhnPMHhuLBClvRn6dO1mT31jwBK
-         D82Cwjxl0HdwD8LA4faBIWm/LF4joy7OjNA2GW73qpwutGwAzStgvlC+EDZ4/yl9MyaB
-         HhWij7xP9V8Wyb0ldRxQIvDfYZeT5/2bascULFk1q71Zo2TDPBqmUIO94n2RcnA9lFKG
-         +fVQ==
-X-Gm-Message-State: AJIora/uw1GQYQ6zH5onf5G42sOI6St1g+cLzQKedqKauwcxVoyrunEx
-        SZcG4yvgVIquyKuwyQtfpyAKz2ckFJhrJP35BH5oG43i+582pXqoFADTH7lWmeFOX2xFwf3JNpQ
-        TXotc5anvw5uKa12CgEt+p/t6kzq09OMdeOtA
-X-Received: by 2002:a17:90a:be0c:b0:1ef:accb:23a5 with SMTP id a12-20020a17090abe0c00b001efaccb23a5mr14728444pjs.113.1657879018490;
-        Fri, 15 Jul 2022 02:56:58 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1vH3VKnUSifYcKOV2DL1yCJLfK4VppjP4mBn1OJIP42LQAI4oYiGA7TAcUy7OJJe7owCfc/M0euZYcsf4hCj2s=
-X-Received: by 2002:a17:90a:be0c:b0:1ef:accb:23a5 with SMTP id
- a12-20020a17090abe0c00b001efaccb23a5mr14728406pjs.113.1657879018230; Fri, 15
- Jul 2022 02:56:58 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Valzg4MdQM0s6Xay0/0OhLA2dJ21OLQUFF2eZQYgXgA=;
+        b=Kq+tIdyUDyNcrFcbv14AH7wZzIfNmQ8Up2UR9321+Dt04c8lKk+dDNyw40ykpyFIee
+         5Pos6xVQ+2mnDN+6Y206EE6kV79uPO3CRF9k9H41Q8XSIGvGRH4+M1E+5Fcq7fmKrg5O
+         fuvXhRPI0d7vtc6TQgkrvUXCneShxDHinHS+pupHCSeA1tux8XPeDFi769/TN3gE0E7K
+         U6qWOEcqLpvBNBIhhYy8i66NRbOzcgSNe98heMOcIzi+BlA2bnHNhnNRMq5uUdZb85OE
+         1x3bxsJ+TRa3iknfgj8cGmIkfzWWZxjVQGhcHJO2bDoja7SP6QH4+Bw054JVnMx2kOAi
+         BVDg==
+X-Gm-Message-State: AJIora/A+hn11f8FFqtrrNzL28ipUQFvuPNxzSydU73XFZ9w8ez2OekH
+        LwTx5BcmEKFj08nDvfELTtKJG3cF0+8GwQ==
+X-Google-Smtp-Source: AGRyM1t2BRN1BkfsijEq10BldIanrGiPn4J9cS4WzJBqn+aEFxDX88MHtIyvymVk/Ix5V1K697sLLg==
+X-Received: by 2002:a17:902:e749:b0:16c:3d6f:aba3 with SMTP id p9-20020a170902e74900b0016c3d6faba3mr12764452plf.135.1657883043108;
+        Fri, 15 Jul 2022 04:04:03 -0700 (PDT)
+Received: from dlunevwfh.roam.corp.google.com (n122-107-196-14.sbr2.nsw.optusnet.com.au. [122.107.196.14])
+        by smtp.gmail.com with ESMTPSA id d64-20020a623643000000b0052b2e8d0894sm2126836pfa.16.2022.07.15.04.03.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 15 Jul 2022 04:04:02 -0700 (PDT)
+From:   Daniil Lunev <dlunev@chromium.org>
+To:     Adrian Hunter <adrian.hunter@intel.com>,
+        Bart Van Assche <bvanassche@acm.org>
+Cc:     Daniil Lunev <dlunev@chromium.org>,
+        Alim Akhtar <alim.akhtar@samsung.com>,
+        Avri Altman <avri.altman@wdc.com>,
+        Bean Huo <beanhuo@micron.com>,
+        "James E.J. Bottomley" <jejb@linux.ibm.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-scsi@vger.kernel.org
+Subject: [PATCH] scsi: ufs: ufshcd: Read device property for ref clock
+Date:   Fri, 15 Jul 2022 21:03:53 +1000
+Message-Id: <20220715210230.1.I365d113d275117dee8fd055ce4fc7e6aebd0bce9@changeid>
+X-Mailer: git-send-email 2.31.0
 MIME-Version: 1.0
-References: <20220712145850.599666-1-benjamin.tissoires@redhat.com>
- <20220712145850.599666-13-benjamin.tissoires@redhat.com> <YtD09KwkxvJAbgCy@kroah.com>
-In-Reply-To: <YtD09KwkxvJAbgCy@kroah.com>
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Fri, 15 Jul 2022 11:56:46 +0200
-Message-ID: <CAO-hwJ+d6mNO2L5kZtOC6QVrDy+LZ6ECoY2f83C93GFPKbSx7g@mail.gmail.com>
-Subject: Re: [PATCH bpf-next v6 12/23] HID: initial BPF implementation
-To:     Greg KH <gregkh@linuxfoundation.org>
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>, Shuah Khan <shuah@kernel.org>,
-        Dave Marchevsky <davemarchevsky@fb.com>,
-        Joe Stringer <joe@cilium.io>, Jonathan Corbet <corbet@lwn.net>,
-        Tero Kristo <tero.kristo@linux.intel.com>,
-        lkml <linux-kernel@vger.kernel.org>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        Networking <netdev@vger.kernel.org>, bpf <bpf@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jul 15, 2022 at 7:02 AM Greg KH <gregkh@linuxfoundation.org> wrote:
->
-> On Tue, Jul 12, 2022 at 04:58:39PM +0200, Benjamin Tissoires wrote:
-> > --- /dev/null
-> > +++ b/drivers/hid/bpf/Kconfig
-> > @@ -0,0 +1,19 @@
-> > +# SPDX-License-Identifier: GPL-2.0-only
-> > +menu "HID-BPF support"
-> > +     #depends on x86_64
-> > +
-> > +config HID_BPF
-> > +     bool "HID-BPF support"
-> > +     default y
->
-> Things are only default y if you can't boot your machine without it.
-> Perhaps just mirror what HID is to start with and do not select HID?
->
-> > +     depends on BPF && BPF_SYSCALL
-> > +     select HID
->
-> select is rough, why not depend?
+UFS storage devices require bRefClkFreq attribute to be set to operate
+correctly at high speed mode. The necessary value is determined by what the
+SoC / board supports. The standard doesn't specify a method to query the
+value, so the information needs to be fed in separately.
 
-Let me try to explain this mess, maybe you can give me the piece that
-I am missing:
+DT information feeds into setting up the clock framework, so platforms
+using DT can get the UFS reference clock frequency from the clock
+framework. A special node "ref_clk" from the clock array for the UFS
+controller node is used as the source for the information.
 
-The requirements I have (or want) are:
-- HID-BPF should be "part" of HID-core (or something similar of "part"):
-  I intend to have device fixes as part of the regular HID flow, so
-allowing distros to opt out seems a little bit dangerous
-- the HID tree is not as clean as some other trees:
-  drivers/hid/ sees both core elements and leaf drivers
-  transport layers are slightly better, they are in their own
-subdirectories, but some transport layers are everywhere in the kernel
-code or directly in drivers/hid (uhid and hid-logitech-dj for
-instance)
-- HID can be loaded as a module (only ubuntu is using that), and this
-is less and less relevant because of all of the various transport
-layers we have basically prevent a clean unloading of the module
+On the platforms that do not use DT (e.g. Intel), the alternative mechanism
+to feed the intended reference clock frequency is necessary. Specifying the
+necessary information in DSD of the UFS controller ACPI node is an
+alternative mechanism proposed in this patch. Those can be accessed via
+firmware property facility in the kernel and in many ways simillar to
+querying properties defined in DT.
 
-These made me think that I should have a separate bpf subdir for
-HID-BPF, to keep things separated, which means I can not include
-HID-BPF in hid.ko directly, it goes into a separate driver. And then I
-have a chicken and egg problem:
-- HID-core needs to call functions from HID-BPF (to hook into it)
-- but HID-BPF needs to also call functions from HID-core (for
-accessing HID internals)
+This patch introduces a small helper function to query a predetermined ACPI
+supplied property of the UFS controller, and uses it to attempt retrieving
+reference clock value, unless that was already done by the clock
+infrastructure.
 
-I have solved that situation with struct hid_bpf_ops but it is not the
-cleanest possible way.
+Signed-off-by: Daniil Lunev <dlunev@chromium.org>
 
-And that's also why I did "select HID", because HID-BPF without HID is
-pointless.
+---
 
-One last bit I should add. hid-bpf.ko should be allowed to be compiled
-in as a module, but I had issues at boot because kfuncs were not
-getting registered properly (though it works for the net test driver).
-So I decided to make hid-bpf a boolean instead of a tristate.
+ Documentation/scsi/ufs.rst | 15 +++++++++++++++
+ drivers/ufs/core/ufshcd.c  | 16 ++++++++++++++++
+ 2 files changed, 31 insertions(+)
 
-As I type all of this, I am starting to wonder if I should not tackle
-the very first point and separate hid-core in its own subdir. This way
-I can have a directory with only the core part, and having hid-bpf in
-here wouldn't be too much of an issue.
-
-Thoughts?
-
-Cheers,
-Benjamin
+diff --git a/Documentation/scsi/ufs.rst b/Documentation/scsi/ufs.rst
+index fbac745b783ce..885b1a736e3f3 100644
+--- a/Documentation/scsi/ufs.rst
++++ b/Documentation/scsi/ufs.rst
+@@ -17,6 +17,8 @@ Universal Flash Storage
+      3.2 UTP Transfer requests
+      3.3 UFS error handling
+      3.4 SCSI Error handling
++   4. BSG Support
++   5. UFS Reference Clock Frequency configuration
+ 
+ 
+ 1. Overview
+@@ -193,3 +195,16 @@ UFS specifications can be found at:
+ 
+ - UFS - http://www.jedec.org/sites/default/files/docs/JESD220.pdf
+ - UFSHCI - http://www.jedec.org/sites/default/files/docs/JESD223.pdf
++
++5. UFS Reference Clock Frequency configuration
++==============================================
++
++Devicetree can define a clock named "ref_clk" under the UFS controller node
++to specify the intended reference clock frequency for the UFS storage
++parts. ACPI-based system can specify the frequency using ACPI
++Device-Specific Data property named "ref-clk-freq". In both ways the value
++is interpreted as frequency in Hz and must match one of the values given in
++the UFS specification. UFS subsystem will attempt to read the value when
++executing common controller initialization. If the value is available, UFS
++subsytem will ensure the bRefClkFreq attribute of the UFS storage device is
++set accordingly and will modify it if there is a mismatch.
+diff --git a/drivers/ufs/core/ufshcd.c b/drivers/ufs/core/ufshcd.c
+index ce86d1b790c05..78242f189f636 100644
+--- a/drivers/ufs/core/ufshcd.c
++++ b/drivers/ufs/core/ufshcd.c
+@@ -8536,6 +8536,19 @@ static int ufshcd_setup_clocks(struct ufs_hba *hba, bool on)
+ 	return ret;
+ }
+ 
++static enum ufs_ref_clk_freq ufshcd_parse_ref_clk_property(struct ufs_hba *hba)
++{
++	u32 freq;
++	int ret = device_property_read_u32(hba->dev, "ref-clk-freq", &freq);
++
++	if (ret) {
++		dev_dbg(hba->dev, "Cannnot query 'ref-clk-freq' property = %d", ret);
++		return REF_CLK_FREQ_INVAL;
++	}
++
++	return ufs_get_bref_clk_from_hz(freq);
++}
++
+ static int ufshcd_init_clocks(struct ufs_hba *hba)
+ {
+ 	int ret = 0;
+@@ -8629,6 +8642,9 @@ static int ufshcd_hba_init(struct ufs_hba *hba)
+ 	if (err)
+ 		goto out_disable_hba_vreg;
+ 
++	if (hba->dev_ref_clk_freq == REF_CLK_FREQ_INVAL)
++		hba->dev_ref_clk_freq = ufshcd_parse_ref_clk_property(hba);
++
+ 	err = ufshcd_setup_clocks(hba, true);
+ 	if (err)
+ 		goto out_disable_hba_vreg;
+-- 
+2.31.0
 
