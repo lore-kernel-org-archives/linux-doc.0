@@ -2,94 +2,150 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D334C43334
-	for <linux-doc@archiver.kernel.org>; Fri, 15 Jul 2022 08:11:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4FBF1C43334
+	for <linux-doc@archiver.kernel.org>; Fri, 15 Jul 2022 09:57:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230236AbiGOILd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 15 Jul 2022 04:11:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39054 "EHLO
+        id S232965AbiGOJ5S (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 15 Jul 2022 05:57:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38612 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229693AbiGOILc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Jul 2022 04:11:32 -0400
-Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com [IPv6:2a00:1450:4864:20::531])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8EA1A7E820;
-        Fri, 15 Jul 2022 01:11:31 -0700 (PDT)
-Received: by mail-ed1-x531.google.com with SMTP id w12so5287482edd.13;
-        Fri, 15 Jul 2022 01:11:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=/WT3O/iaEN8ZI+k9sQWWRlrclbEh4N1aPfEXOoHcef0=;
-        b=QZavUBjxaC4/hGgbODR950XscjvP9bmaeH2lRJBzmMSReOjB9VvfUrmY4K8QWmUn9g
-         LkiEbaJh7T6ph0sMxmpfm0jlTEJ1wpV4UpzO1WTa99klN6zrFEU3TChReJqnXyRj5ifp
-         Cl6mg7/rXqOFUdMa+XmMECQtR4Fx4POGaW0UI9qpxoJTfgJPfDZ0SzzkQYPNcRZt7B2A
-         2MYxNP3NYwQXUik34Nw5ZhXZ6a8eZYY2LbX6U0EuFD1hXjpMRoRYteY4BGLv8aDRJfNn
-         5PggjQawr/XuKWyjvfqbOhfxof2BTqBKezTrJjGmj8eQ+gxLc0r9t/YPjTT/37l4XfoT
-         dFdw==
+        with ESMTP id S232744AbiGOJ5K (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Jul 2022 05:57:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id B84D28239F
+        for <linux-doc@vger.kernel.org>; Fri, 15 Jul 2022 02:57:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1657879027;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=8Hrnh4xSI/kevtIOtrai4yHB4Q/NHMbskcGk41P5Ttk=;
+        b=Qoyu4wrfN+GLJWCVESWkvt5jmvENaG7PhGGQujI+rbAE1xTQquKdLrTDvl/QXkB8Oxi1Uz
+        r83ghxLEXUZNMQOYOLcebY05shIPf27b7Wrkndv0cB1Il4lpYIBqG36VTrrURZ3Fnr2TBf
+        AuPEl07NzCPA3Wvd1qnDdJQ0UKQod4c=
+Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com
+ [209.85.210.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-316-82hjvDpxPlS6GJfFQYiRDQ-1; Fri, 15 Jul 2022 05:56:59 -0400
+X-MC-Unique: 82hjvDpxPlS6GJfFQYiRDQ-1
+Received: by mail-pf1-f197.google.com with SMTP id cu3-20020a056a00448300b0052ae559108fso2432755pfb.9
+        for <linux-doc@vger.kernel.org>; Fri, 15 Jul 2022 02:56:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=/WT3O/iaEN8ZI+k9sQWWRlrclbEh4N1aPfEXOoHcef0=;
-        b=BtjaIr3b1sazmpD1/9j4jJkOMTEct4BvDMTElSOCgv/anm3hgrp+Z8f/vUcmXZmXL8
-         1CbkkM1HDYfu78cbMQAstmfNq62dI+8xfehruI6dDY7VNM7LOgPa7QTvs8UxxIuRuO9q
-         vPbVUlyuIUZya6YOYI34Lj54SNbbY323Uvm8UiJouoLk46MQTlfa+HfQs59ifoJOh1Di
-         NBLmcgP6z2LQrzuJT46nHHnJHWZ2LK7KOImN8om8US3QzIFIhf3Wh2fTJ32xUvSkMF7x
-         CcANwhWw7tizNNidC3gNiuqJagu2I9zHV6kIF1zqNRwC1yEtimcg2ZBztfpEf5k5Xsai
-         FKfw==
-X-Gm-Message-State: AJIora+X+Zn6zBTR5WiSfajLPxvtpj92TGpvnnbRkNyqzCuwBfO03L85
-        H9e6HIW8ri8udWm6qea2Hwo=
-X-Google-Smtp-Source: AGRyM1srrvHd0wd+c0mqmiFtnTU7PpeHR6s6xc/yzdHG2oy+kWoRM9LA5K3cHcZ2ExozHwQ2fXyF8Q==
-X-Received: by 2002:aa7:ce8a:0:b0:43a:7b0e:9950 with SMTP id y10-20020aa7ce8a000000b0043a7b0e9950mr17559858edv.58.1657872690017;
-        Fri, 15 Jul 2022 01:11:30 -0700 (PDT)
-Received: from [192.168.178.23] (h081217087223.dyn.cm.kabsi.at. [81.217.87.223])
-        by smtp.gmail.com with ESMTPSA id v10-20020a1709061dca00b0072b32de7794sm1719447ejh.70.2022.07.15.01.11.29
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 15 Jul 2022 01:11:29 -0700 (PDT)
-Message-ID: <efca1b16-2492-fa68-119b-8c3cfa05cadb@gmail.com>
-Date:   Fri, 15 Jul 2022 10:11:28 +0200
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=8Hrnh4xSI/kevtIOtrai4yHB4Q/NHMbskcGk41P5Ttk=;
+        b=TkKAKbFkB+fwFSx81hRWSHXvld0Cgtj4XFClRwVvlI900vEu135/oU0llI5QZVBb+J
+         hjBmErf49Yey4xDW/BMYq0XC87xS/WWtzO7uP+JWJJRtiz5ciUy8uLXZ/0lZedIJ7OC5
+         UTBmE+c7WBF2PE6T81U6vDCWf/xWi69kDEBPwDT6zFhnPMHhuLBClvRn6dO1mT31jwBK
+         D82Cwjxl0HdwD8LA4faBIWm/LF4joy7OjNA2GW73qpwutGwAzStgvlC+EDZ4/yl9MyaB
+         HhWij7xP9V8Wyb0ldRxQIvDfYZeT5/2bascULFk1q71Zo2TDPBqmUIO94n2RcnA9lFKG
+         +fVQ==
+X-Gm-Message-State: AJIora/uw1GQYQ6zH5onf5G42sOI6St1g+cLzQKedqKauwcxVoyrunEx
+        SZcG4yvgVIquyKuwyQtfpyAKz2ckFJhrJP35BH5oG43i+582pXqoFADTH7lWmeFOX2xFwf3JNpQ
+        TXotc5anvw5uKa12CgEt+p/t6kzq09OMdeOtA
+X-Received: by 2002:a17:90a:be0c:b0:1ef:accb:23a5 with SMTP id a12-20020a17090abe0c00b001efaccb23a5mr14728444pjs.113.1657879018490;
+        Fri, 15 Jul 2022 02:56:58 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1vH3VKnUSifYcKOV2DL1yCJLfK4VppjP4mBn1OJIP42LQAI4oYiGA7TAcUy7OJJe7owCfc/M0euZYcsf4hCj2s=
+X-Received: by 2002:a17:90a:be0c:b0:1ef:accb:23a5 with SMTP id
+ a12-20020a17090abe0c00b001efaccb23a5mr14728406pjs.113.1657879018230; Fri, 15
+ Jul 2022 02:56:58 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v2] Documentation: process: Update email client
- instructions for Thunderbird
-Content-Language: en-US
-To:     Randy Dunlap <rdunlap@infradead.org>, corbet@lwn.net
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        bagasdotme@gmail.com
-References: <20220714131152.12709-1-sndanailov@gmail.com>
- <ae06388f-a062-132b-ee61-8ad68f227970@infradead.org>
-From:   Sotir Danailov <sndanailov@gmail.com>
-In-Reply-To: <ae06388f-a062-132b-ee61-8ad68f227970@infradead.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20220712145850.599666-1-benjamin.tissoires@redhat.com>
+ <20220712145850.599666-13-benjamin.tissoires@redhat.com> <YtD09KwkxvJAbgCy@kroah.com>
+In-Reply-To: <YtD09KwkxvJAbgCy@kroah.com>
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date:   Fri, 15 Jul 2022 11:56:46 +0200
+Message-ID: <CAO-hwJ+d6mNO2L5kZtOC6QVrDy+LZ6ECoY2f83C93GFPKbSx7g@mail.gmail.com>
+Subject: Re: [PATCH bpf-next v6 12/23] HID: initial BPF implementation
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>, Shuah Khan <shuah@kernel.org>,
+        Dave Marchevsky <davemarchevsky@fb.com>,
+        Joe Stringer <joe@cilium.io>, Jonathan Corbet <corbet@lwn.net>,
+        Tero Kristo <tero.kristo@linux.intel.com>,
+        lkml <linux-kernel@vger.kernel.org>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        Networking <netdev@vger.kernel.org>, bpf <bpf@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Thank you for taking the time!
-I didn't expect the original author to participate. :D
-I probably should've sent a cc to you and others as well, sorry about that!
-Didn't do my research good enough I guess.
+On Fri, Jul 15, 2022 at 7:02 AM Greg KH <gregkh@linuxfoundation.org> wrote:
+>
+> On Tue, Jul 12, 2022 at 04:58:39PM +0200, Benjamin Tissoires wrote:
+> > --- /dev/null
+> > +++ b/drivers/hid/bpf/Kconfig
+> > @@ -0,0 +1,19 @@
+> > +# SPDX-License-Identifier: GPL-2.0-only
+> > +menu "HID-BPF support"
+> > +     #depends on x86_64
+> > +
+> > +config HID_BPF
+> > +     bool "HID-BPF support"
+> > +     default y
+>
+> Things are only default y if you can't boot your machine without it.
+> Perhaps just mirror what HID is to start with and do not select HID?
+>
+> > +     depends on BPF && BPF_SYSCALL
+> > +     select HID
+>
+> select is rough, why not depend?
 
-On Fri 15 07 2022 01:18, Randy Dunlap wrote:
-> 
-> Does thunderbird v91.11.0 qualify as newer or older?
-> 
-> I tried to use the external-editor-revived yesterday with v1 of the patch..
-> no success.
+Let me try to explain this mess, maybe you can give me the piece that
+I am missing:
 
-Do you think that the whole section about the
-old "External Editor" extension should be removed?
+The requirements I have (or want) are:
+- HID-BPF should be "part" of HID-core (or something similar of "part"):
+  I intend to have device fixes as part of the regular HID flow, so
+allowing distros to opt out seems a little bit dangerous
+- the HID tree is not as clean as some other trees:
+  drivers/hid/ sees both core elements and leaf drivers
+  transport layers are slightly better, they are in their own
+subdirectories, but some transport layers are everywhere in the kernel
+code or directly in drivers/hid (uhid and hid-logitech-dj for
+instance)
+- HID can be loaded as a module (only ubuntu is using that), and this
+is less and less relevant because of all of the various transport
+layers we have basically prevent a clean unloading of the module
 
-> v2 of the patch has more useful info (about native-messaging), so I installed
-> that and still not happy.
-> After pressing "External Editor" in a tbird reply window, nothing happens.
-> 
-> Wait -- hold everything!  Exiting tbird and reloading it
-> fixed all problems. :)
+These made me think that I should have a separate bpf subdir for
+HID-BPF, to keep things separated, which means I can not include
+HID-BPF in hid.ko directly, it goes into a separate driver. And then I
+have a chicken and egg problem:
+- HID-core needs to call functions from HID-BPF (to hook into it)
+- but HID-BPF needs to also call functions from HID-core (for
+accessing HID internals)
 
-I probably should add in the document that the user should
-restart Thunderbird after all modifications, just to be sure.
+I have solved that situation with struct hid_bpf_ops but it is not the
+cleanest possible way.
+
+And that's also why I did "select HID", because HID-BPF without HID is
+pointless.
+
+One last bit I should add. hid-bpf.ko should be allowed to be compiled
+in as a module, but I had issues at boot because kfuncs were not
+getting registered properly (though it works for the net test driver).
+So I decided to make hid-bpf a boolean instead of a tristate.
+
+As I type all of this, I am starting to wonder if I should not tackle
+the very first point and separate hid-core in its own subdir. This way
+I can have a directory with only the core part, and having hid-bpf in
+here wouldn't be too much of an issue.
+
+Thoughts?
+
+Cheers,
+Benjamin
+
