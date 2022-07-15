@@ -2,111 +2,72 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3EC7AC43334
-	for <linux-doc@archiver.kernel.org>; Fri, 15 Jul 2022 04:50:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9EA25C433EF
+	for <linux-doc@archiver.kernel.org>; Fri, 15 Jul 2022 05:00:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229941AbiGOEut (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 15 Jul 2022 00:50:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35434 "EHLO
+        id S229851AbiGOFAn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 15 Jul 2022 01:00:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41040 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230061AbiGOEuc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Jul 2022 00:50:32 -0400
-Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com [IPv6:2607:f8b0:4864:20::42e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88C13785AF;
-        Thu, 14 Jul 2022 21:50:30 -0700 (PDT)
-Received: by mail-pf1-x42e.google.com with SMTP id y9so3674428pff.12;
-        Thu, 14 Jul 2022 21:50:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=subject:to:references:cc:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding;
-        bh=kRLhZzbGYGaRDYFSzzNmS4CySIoJIiXGprjd8sj9K/0=;
-        b=V+hoi62i9rmotV7C9un25P6iuXZO0dEMik9ZBz3EVv9NVFcXJN95QkPmfBncsjI/Ao
-         FCxOTAqa8wvTsmNa1AOwYKeX3C3rL7cY5bTQBsQJUlcVD/Pkzfv/BmgwYTtEqzlYEqvK
-         CY5SN2DJ0kyd6PoEAxwAOH5Zq2JwJEObsYuI7yoR08OxaaYfAYOE0lTxfzI5VYFrLJAh
-         Ags94LXbQBlnBepEDdYxl8tpSLRTpMcG4ZTbO43dOwIoD56IHTdEMnPGbVG32oDhp5oZ
-         a27iAGk2eDZeSJGEI7gP30qOS/i2Hti3D6xeHqSZ6Na1K9JIY/GvwP3QFrzHEgqACVQj
-         ZSKg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:references:cc:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding;
-        bh=kRLhZzbGYGaRDYFSzzNmS4CySIoJIiXGprjd8sj9K/0=;
-        b=oL1us/M3kjElaTWFVbmBQDXaypBEIbX2OJDRC7/Z4aLjSUIPOzbTbtNElmNrBPPnzv
-         OVpbQWYWztjzEFesGFYU6vEWP4bGfuXkoUJWC1cviJCv80L/wcVn0QEe5iNkTilJePPu
-         +njIogTjgnu0lyktujf3AW2Cq4y1K617grdF2FbsNNIAyyUIH7KnWQZRno1Z4inX5rct
-         Mo5gOfuPb0b77E87XIzny2xCw30gytf+ATF0ohdTG84R58Gpo+CmEWtweD8Lmy/PQE9F
-         PAnrO5Y0AO0B9D1CPSCLoSXUzpW6SDd12g0BtGM81xDgWL5J2Xni2Q/WgBOTQzUgm4T6
-         Ml6A==
-X-Gm-Message-State: AJIora+0FyUUDrbcF50GbHLwSSmiDMEB2l+WywqEApU0ShzA64kg0X0Y
-        UdHvSt89DAvtsLnaThSlE2/af6sC4Ns=
-X-Google-Smtp-Source: AGRyM1u/RDFN0eyZrhqFr7v6lAykVv06aI/n1+Es6yulIiuzxUGnR3jVZSsEy1EL8D33z18/mQCqtA==
-X-Received: by 2002:a05:6a00:8c5:b0:510:6eae:6fa1 with SMTP id s5-20020a056a0008c500b005106eae6fa1mr12333545pfu.12.1657860629806;
-        Thu, 14 Jul 2022 21:50:29 -0700 (PDT)
-Received: from [10.1.1.24] (222-155-0-244-adsl.sparkbb.co.nz. [222.155.0.244])
-        by smtp.gmail.com with ESMTPSA id c18-20020a170902c2d200b0015e8d4eb1dbsm2389411pla.37.2022.07.14.21.50.24
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 14 Jul 2022 21:50:28 -0700 (PDT)
-Subject: Re: [PATCH 00/10] video: fbdev: atari: Miscellaneous fixes and
- cleanups
-To:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        Helge Deller <deller@gmx.de>
-References: <cover.1657554353.git.geert@linux-m68k.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-fbdev@vger.kernel.org,
-        linux-doc@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-m68k@vger.kernel.org, linux-kernel@vger.kernel.org
-From:   Michael Schmitz <schmitzmic@gmail.com>
-Message-ID: <d9af62bf-09f2-cfca-eeda-92dcb539b56e@gmail.com>
-Date:   Fri, 15 Jul 2022 16:50:21 +1200
-User-Agent: Mozilla/5.0 (X11; Linux ppc; rv:45.0) Gecko/20100101
- Icedove/45.4.0
+        with ESMTP id S229706AbiGOFAn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Jul 2022 01:00:43 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E192378581;
+        Thu, 14 Jul 2022 22:00:41 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 77AF462246;
+        Fri, 15 Jul 2022 05:00:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C0E5C3411E;
+        Fri, 15 Jul 2022 05:00:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1657861240;
+        bh=Hek494Yetd3XN90he4BxOJbpQ2dkKLCIYiZNf3+pfA0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Kxxg6dz9/3aBwvkXZ/oAaWLb6NKzJXAis2DXFBUvPhL2zy1R85keS7nHBElPKZbtM
+         O65XQ6pyPng/miykZf3kmYGUkxWYT8HnUnS0tJoIRm/iNm3C7rsel2zNh+gt5VLHIc
+         gDGof+fdyvGyLtLP/cD6fWSDs0clD/lSbI+7NUIg=
+Date:   Fri, 15 Jul 2022 07:00:38 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>, Shuah Khan <shuah@kernel.org>,
+        Dave Marchevsky <davemarchevsky@fb.com>,
+        Joe Stringer <joe@cilium.io>, Jonathan Corbet <corbet@lwn.net>,
+        Tero Kristo <tero.kristo@linux.intel.com>,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        netdev@vger.kernel.org, bpf@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH bpf-next v6 09/23] HID: core: store the unique system
+ identifier in hid_device
+Message-ID: <YtD0dt3MxjSozgXg@kroah.com>
+References: <20220712145850.599666-1-benjamin.tissoires@redhat.com>
+ <20220712145850.599666-10-benjamin.tissoires@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <cover.1657554353.git.geert@linux-m68k.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220712145850.599666-10-benjamin.tissoires@redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Geert,
+On Tue, Jul 12, 2022 at 04:58:36PM +0200, Benjamin Tissoires wrote:
+> This unique identifier is currently used only for ensuring uniqueness in
+> sysfs. However, this could be handful for userspace to refer to a specific
+> hid_device by this id.
+> 
+> 2 use cases are in my mind: LEDs (and their naming convention), and
+> HID-BPF.
+> 
+> Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+> 
 
-somehow this series slipped into my spam folder ... only saw it now.
 
-Am 12.07.2022 um 03:50 schrieb Geert Uytterhoeven:
-> 	Hi all,
->
-> This patch series contains miscellaneous fixes and cleanups for the
-> Atari frame buffer device driver, which were identified while working on
-> the Atari DRM driver.
->
-> Most of them have been tested on ARAnyM, and should be safe to apply,
-> except perhaps for the last one, which is marked RFC.
->
-> Thanks for your comments!
->
-> Geert Uytterhoeven (10):
->   video: fbdev: atari: Simplify atafb_pan_display()
->   video: fbdev: atari: Remove bogus FB_VMODE_YWRAP flags
->   video: fbdev: atari: Fix inverse handling
->   video: fbdev: atari: Fix ext_setcolreg()
->   video: fbdev: atari: Remove unneeded casts from void *
->   video: fbdev: atari: Remove unneeded casts to void *
->   video: fbdev: atari: Fix TT High video mode vertical refresh
->   video: fbdev: atari: Fix VGA modes
->   video: fbdev: atari: Remove unused definitions and variables
->   [RFC] video: fbdev: atari: Remove backward bug-compatibility
->
->  Documentation/m68k/kernel-options.rst |   4 +-
->  drivers/video/fbdev/atafb.c           | 101 +++++++-------------------
->  2 files changed, 29 insertions(+), 76 deletions(-)
->
-
-Looks good to me. (I'll still try to test it on hardware this weekend.)
-
-I'd suggest the last one be applied as well - if the regression can only 
-be triggered by a X server resolution switch, I doubt it'll matter in 
-practice.
-
-Cheers,
-
-	Michael
+Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
