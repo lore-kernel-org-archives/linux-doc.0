@@ -2,281 +2,103 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D7F0C43334
-	for <linux-doc@archiver.kernel.org>; Fri, 15 Jul 2022 16:56:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2BE6FC43334
+	for <linux-doc@archiver.kernel.org>; Fri, 15 Jul 2022 17:35:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234736AbiGOQ4o (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 15 Jul 2022 12:56:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39396 "EHLO
+        id S229436AbiGORfL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 15 Jul 2022 13:35:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41300 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234399AbiGOQ4n (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Jul 2022 12:56:43 -0400
-Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com [IPv6:2607:f8b0:4864:20::631])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C97BD7A505
-        for <linux-doc@vger.kernel.org>; Fri, 15 Jul 2022 09:56:41 -0700 (PDT)
-Received: by mail-pl1-x631.google.com with SMTP id b2so3684385plx.7
-        for <linux-doc@vger.kernel.org>; Fri, 15 Jul 2022 09:56:41 -0700 (PDT)
+        with ESMTP id S229906AbiGORfJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Jul 2022 13:35:09 -0400
+Received: from mail-io1-xd43.google.com (mail-io1-xd43.google.com [IPv6:2607:f8b0:4864:20::d43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05C9F52FF8;
+        Fri, 15 Jul 2022 10:35:09 -0700 (PDT)
+Received: by mail-io1-xd43.google.com with SMTP id h145so4371254iof.9;
+        Fri, 15 Jul 2022 10:35:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
+        d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=3XEQ0eq2X5Wa5fckIJ2U1pnUcWWvOHshGR72RIGx5ow=;
-        b=Hlbvz6k2wOQZAzJzU4emhX64ZAyotb5KZ4ScsvN7pt6bnt7ZR80LKoSkqL5EfdA7vf
-         oiDsYrQeImO9M3zhkqu6Exy04ht4yVl7qYB5DHInC/uIlPNlZwMflFblNHE2jFuUR4zd
-         VW0C3OFmZsKdTDDJDvP2odlVe95vF19mSAyRH/wvdWoWt3vFx1Z63wQrshRPnfAcaqHW
-         xVKe8SCoX+2HmpLvTWqtxjMkqXbp6DTURzmgtOQTiRZVqHnif+SVEeyFO3GWoV8P26SI
-         7iTqsfEkTp+Ju+lffoM7fg1h3wN2aUtwnaEbrZwmyRxKAPirjE9GdhJZ5BB6fXU/6Mtd
-         T89A==
+        bh=x4PyeC7DknSEozr2Rop+Ti8Cfi6yj/0ATtSdVUySwnQ=;
+        b=J1aj53+wNAbEw+IHLK8Z72Y/0Gb/enxKDEJoJCi4kEwUPHNRFo1YVnepiO7k9zjt0O
+         XHj/bdo8LBMk4vsZSQCkVyZLljQkF9AJ5WZNAUlNeAbOWqnC7NE7Ig1U0k5XSWExGfcp
+         KTbUI0jK/K60oYXEtB0xjO2Xgsc1ZwN52sJBRBqM2mjIYxC04NpLbVRz0Wipph4hVYjh
+         KmTDvSI/H1NUeQ6Rp/UrbYqXkCPmifNCWfHwBJP4lDUS8G0fZLZ3a23QFbjrUy5K2xUw
+         jCw2h1G86t5Rsy5e8H6ztxYSpGBE9pc6bA14zrda8bPbR2rDcjfadcynVp+5sLL9xHDQ
+         Wz9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=3XEQ0eq2X5Wa5fckIJ2U1pnUcWWvOHshGR72RIGx5ow=;
-        b=Ceh3hVNTWSpG0aeYDGzPcGxjqTPaPuBZNLiDu5bt9LHbF5yiWYjlMS2a5uKDb6AwNj
-         KbBPC+Zbd/giaijFCYPpn3BO2veAAWZg/uizvjO/aF0z97ZFD+pHGLKNok7lSnMPihG2
-         4ou2qGYhEzG6x4Pq727RVeJYFEa2H9a/RbUERoSEzyA2C+m3ZDL2PEksZDq7LszG7KPu
-         Zrtqj9Pw430bOmzGOLuZdqZ3WTTtndWBgGQGBgZy+QKCi7aph17nYUhF8paTW16eeOzC
-         k5oUUll2coldXEK2MDqXDvZoWqrzbr/6vjtIHBUqM/qsNIf66MKByVb4VtLoctWGCrck
-         aNTw==
-X-Gm-Message-State: AJIora8extoKdM4PD4qZw1HBwHV6Te67pp3HemkR3sHZZJ952DN2iqSa
-        RFIlUMwFYtzsGHgMiW/ZhyGUKj3nlN+4vNJw580mHw==
-X-Google-Smtp-Source: AGRyM1sjB9x56TQ7Rq+b0ELsIsdGKJU1QSExdobi6akar5F/fy9kdrotYnp9OWKSB+C87ddQ4ZTRF8tQJ3JZx3Eqt3g=
-X-Received: by 2002:a17:903:244d:b0:16c:5bfe:2e87 with SMTP id
- l13-20020a170903244d00b0016c5bfe2e87mr14575687pls.148.1657904200945; Fri, 15
- Jul 2022 09:56:40 -0700 (PDT)
+        bh=x4PyeC7DknSEozr2Rop+Ti8Cfi6yj/0ATtSdVUySwnQ=;
+        b=sOa+sAk9v9E6m9IH8Mhml8EWLiZtYHLpFSvh5QX9FQ/hpyAHEw0pyE8bzViZIv1S8c
+         HVw3k2gSYnfGIMdhImDfl8YT+1/VYqybOrRGrq4bypp6qKKMqXlA6m5BFdLn6daRAjky
+         1tcAekFGNeSJww6xarRFYWLR6fMAGb9i1uQzmUHefhtF2ZElNohIrOHxEmoWaMbefa+F
+         vMBbNI9KF0E17nrLbFa8WcbvgBnbmQNvBUYsP4vFzhJPW8dEuC7UOcneJb7/osP2nmX7
+         p7p32C+OW7q60L4MeDI/PxHq+YjAOFiYYX0q18orVx+IgDCH9H0C006QcLbfu9uCKH7m
+         Al6Q==
+X-Gm-Message-State: AJIora9gJD/H6DRUVXZpYQAYQWTUcDR6C3fq5AIy4AiGPUl44digTrv3
+        5E0Ia+AcwnGjY1pEXoqLgcyqmzeE6A+dSKIKAqkj90wg/9g=
+X-Google-Smtp-Source: AGRyM1vXy8j20gHUEsoo8QWPuQvHey3I1meuQx56FZHopAnVEj3jwYjJHzssCdwlGyl/uj0ZRucTt5XsKmZhobZWFis=
+X-Received: by 2002:a05:6602:2e8d:b0:64f:b683:c70d with SMTP id
+ m13-20020a0566022e8d00b0064fb683c70dmr7236737iow.62.1657906508386; Fri, 15
+ Jul 2022 10:35:08 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220715130826.31632-1-donald.hunter@gmail.com> <CAKH8qBsDZLMB29OONaKYBQn8r=HdVTOxog1vXyRFpV2h=6skcA@mail.gmail.com>
-In-Reply-To: <CAKH8qBsDZLMB29OONaKYBQn8r=HdVTOxog1vXyRFpV2h=6skcA@mail.gmail.com>
-From:   Stanislav Fomichev <sdf@google.com>
-Date:   Fri, 15 Jul 2022 09:56:29 -0700
-Message-ID: <CAKH8qBuGrK-2AWe19uTmOVOMv2dFPuGmmZvN99=Yf4MvjNDMYw@mail.gmail.com>
-Subject: Re: [PATCH v2] bpf, docs: document BPF_MAP_TYPE_HASH and variants
-To:     Donald Hunter <donald.hunter@gmail.com>
-Cc:     bpf@vger.kernel.org, linux-doc@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>
+References: <20220712145850.599666-1-benjamin.tissoires@redhat.com> <20220714213912.zrotlequhpgxzdl4@MacBook-Pro-3.local>
+In-Reply-To: <20220714213912.zrotlequhpgxzdl4@MacBook-Pro-3.local>
+From:   Kumar Kartikeya Dwivedi <memxor@gmail.com>
+Date:   Fri, 15 Jul 2022 19:34:32 +0200
+Message-ID: <CAP01T746cSrRgYME75O-NZvf+4NQNvtU8ZhGf5XGmXRqY6jQzQ@mail.gmail.com>
+Subject: Re: [PATCH bpf-next v6 00/23] Introduce eBPF support for HID devices
+To:     Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Jiri Kosina <jikos@kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>, Shuah Khan <shuah@kernel.org>,
+        Dave Marchevsky <davemarchevsky@fb.com>,
+        Joe Stringer <joe@cilium.io>, Jonathan Corbet <corbet@lwn.net>,
+        Tero Kristo <tero.kristo@linux.intel.com>,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        netdev@vger.kernel.org, bpf@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jul 15, 2022 at 9:37 AM Stanislav Fomichev <sdf@google.com> wrote:
+On Thu, 14 Jul 2022 at 23:39, Alexei Starovoitov
+<alexei.starovoitov@gmail.com> wrote:
 >
-> On Fri, Jul 15, 2022 at 6:08 AM Donald Hunter <donald.hunter@gmail.com> wrote:
+> On Tue, Jul 12, 2022 at 04:58:27PM +0200, Benjamin Tissoires wrote:
+> > Hi,
 > >
-> > Add documentation for BPF_MAP_TYPE_HASH including kernel version
-> > introduced, usage and examples. Document BPF_MAP_TYPE_PERCPU_HASH,
-> > BPF_MAP_TYPE_LRU_HASH and BPF_MAP_TYPE_LRU_PERCPU_HASH variations.
+> > and after a little bit of time, here comes the v6 of the HID-BPF series.
 > >
-> > Note that this file is included in the BPF documentation by the glob in
-> > Documentation/bpf/maps.rst
+> > Again, for a full explanation of HID-BPF, please refer to the last patch
+> > in this series (23/23).
 > >
-> > Signed-off-by: Donald Hunter <donald.hunter@gmail.com>
-> > ---
-> >  Documentation/bpf/map_hash.rst | 181 +++++++++++++++++++++++++++++++++
-> >  1 file changed, 181 insertions(+)
-> >  create mode 100644 Documentation/bpf/map_hash.rst
-> >
-> > diff --git a/Documentation/bpf/map_hash.rst b/Documentation/bpf/map_hash.rst
-> > new file mode 100644
-> > index 000000000000..d9e33152dae5
-> > --- /dev/null
-> > +++ b/Documentation/bpf/map_hash.rst
-> > @@ -0,0 +1,181 @@
-> > +.. SPDX-License-Identifier: GPL-2.0-only
-> > +.. Copyright (C) 2022 Red Hat, Inc.
-> > +
-> > +===============================================
-> > +BPF_MAP_TYPE_HASH, with PERCPU and LRU Variants
-> > +===============================================
-> > +
-> > +.. note::
-> > +   - ``BPF_MAP_TYPE_HASH`` was introduced in kernel version 3.19
-> > +   - ``BPF_MAP_TYPE_PERCPU_HASH`` was introduced in version 4.6
-> > +   - Both ``BPF_MAP_TYPE_LRU_HASH`` and ``BPF_MAP_TYPE_LRU_PERCPU_HASH``
-> > +     were introduced in version 4.10
-> > +
-> > +``BPF_MAP_TYPE_HASH`` and ``BPF_MAP_TYPE_PERCPU_HASH`` provide general
-> > +purpose hash map storage. Both the key and the value can be structs,
-> > +allowing for composite keys and values.
-> > +
-> > +The kernel is responsible for allocating and freeing key/value pairs, up
-> > +to the max_entries limit that you specify. Hash maps use pre-allocation
-> > +of hash table elements by default. The ``BPF_F_NO_PREALLOC`` flag can be
-> > +used to disable pre-allocation when it is to memory expensive.
+> > This version sees some improvements compared to v5 on top of the
+> > usual addressing of the previous comments:
+> > - now I think every eBPF core change has a matching selftest added
+> > - the kfuncs declared in syscall can now actually access the memory of
+> >   the context
+> > - the code to retrieve the BTF ID of the various HID hooks is much
+> >   simpler (just a plain use of the BTF_ID() API instead of
+> >   loading/unloading of a tracing program)
+> > - I also added my HID Surface Dial example that I use locally to provide
+> >   a fuller example to users
 >
-> nit:
-> to memory expensive -> too memory expensive?
+> Looking great.
+> Before another respin to address bits in patch 12 let's land the first ~8 patches,
+> since they're generic useful improvements.
 >
-> > +``BPF_MAP_TYPE_PERCPU_HASH`` provides a separate value slot per
-> > +CPU. The per-cpu values are stored internally in an array.
-> > +
-> > +The ``BPF_MAP_TYPE_LRU_HASH`` and ``BPF_MAP_TYPE_LRU_PERCPU_HASH``
-> > +variants add LRU semantics to their respective hash tables. An LRU hash
-> > +will automatically evict the least recently used entries when the hash
-> > +table reaches capacity. An LRU hash maintains an internal LRU list that
-> > +is used to select elements for eviction. This internal LRU list is
-> > +shared across CPUs but it is possible to request a per CPU LRU list with
-> > +the ``BPF_F_NO_COMMON_LRU`` flag when calling ``bpf_map_create``.
-> > +
-> > +Usage
-> > +=====
-> > +
-> > +.. c:function::
-> > +   long bpf_map_update_elem(struct bpf_map *map, const void *key, const void *value, u64 flags)
-> > +
-> > +Hash entries can be added or updated using the ``bpf_map_update_elem()``
-> > +helper. This helper replaces existing elements atomically. The ``flags``
-> > +parameter can be used to control the update behaviour:
-> > +
-> > +- ``BPF_ANY`` will create a new element or update an existing element
-> > +- ``BPF_NOTEXIST`` will create a new element only if one did not already
-> > +  exist
-> > +- ``BPF_EXIST`` will update an existing element
-> > +
-> > +``bpf_map_update_elem()`` returns 0 on success, or negative error in
-> > +case of failure.
-> > +
-> > +.. c:function::
-> > +   void *bpf_map_lookup_elem(struct bpf_map *map, const void *key)
-> > +
-> > +Hash entries can be retrieved using the ``bpf_map_lookup_elem()``
-> > +helper. This helper returns a pointer to the value associated with
-> > +``key``, or ``NULL`` if no entry was found.
-> > +
-> > +.. c:function::
-> > +   long bpf_map_delete_elem(struct bpf_map *map, const void *key)
-> > +
-> > +Hash entries can be deleted using the ``bpf_map_delete_elem()``
-> > +helper. This helper will return 0 on success, or negative error in case
-> > +of failure.
-> > +
-> > +Per CPU Hashes
-> > +--------------
-> > +
-> > +For ``BPF_MAP_TYPE_PERCPU_HASH`` and ``BPF_MAP_TYPE_LRU_PERCPU_HASH``
-> > +the ``bpf_map_update_elem()`` and ``bpf_map_lookup_elem()`` helpers
-> > +automatically access the hash slot for the current CPU.
-> > +
-> > +.. c:function::
-> > +   void *bpf_map_lookup_percpu_elem(struct bpf_map *map, const void *key, u32 cpu)
-> > +
-> > +The ``bpf_map_lookup_percpu_elem()`` helper can be used to lookup the
-> > +value in the hash slot for a specific CPU. Returns value associated with
-> > +``key`` on ``cpu`` , or ``NULL`` if no entry was found or ``cpu`` is
-> > +invalid.
-> > +
-> > +Concurrency
-> > +-----------
-> > +
-> > +Values stored in ``BPF_MAP_TYPE_HASH`` can be accessed concurrently by
-> > +programs running on different CPUs.  Since Kernel version 5.1, the BPF
-> > +infrastructure provides ``struct bpf_spin_lock`` to synchronize access.
-> > +See ``tools/testing/selftests/bpf/progs/test_spin_lock.c``.
-> > +
-> > +Userspace
-> > +---------
-> > +
-> > +.. c:function::
-> > +   int bpf_map_get_next_key (int fd, const void *cur_key, void *next_key)
-> > +
-> > +In userspace, is possible to iterate through the keys of a hash using
-> > +the ``bpf_map_get_next_key()`` function. The first key can be fetched by
-> > +calling ``bpf_map_get_next_key()`` with ``cur_key`` set to
-> > +``NULL``. Subsequent calls will fetch the next key that follows the
-> > +current key. ``bpf_map_get_next_key()`` returns 0 on success, -ENOENT if
-> > +cur_key is the last key in the hash, or negative error in case of
-> > +failure.
-> > +
-> > +Examples
-> > +========
-> > +
-> > +Please see the ``tools/testing/selftests/bpf`` directory for functional
-> > +examples.  The sample code below demonstrates API usage.
->
-> I'd still personally prefer if you link to some existing test instead
-> of having a code sample here. This is the code nobody will keep
-> healthy here. Why do you think it's beneficial? Why not link to some
-> test case or some sample?
+> Kumar, could you please help review the verifier bits?
 
-Ooops, sorry, I somehow missed your original reply, found it. Yeah, if
-you want the examples, let's intentionally make them incomplete and
-small/non-copy-pastable? Otherwise, my concern is that people will
-copy the example, get some compile error and get more puzzled than
-without the example.
-
-> > +This example shows how to declare an LRU Hash with a struct key and a
-> > +struct value.
-> > +
-> > +.. code-block:: c
-> > +
-> > +    #include <linux/bpf.h>
-> > +    #include <bpf/bpf_helpers.h>
-> > +
-> > +    struct key {
-> > +        __u32 srcip;
-> > +    };
-> > +
-> > +    struct value {
-> > +        __u64 packets;
-> > +        __u64 bytes;
-> > +    };
-> > +
-> > +    struct {
-> > +            __uint(type, BPF_MAP_TYPE_LRU_HASH);
-> > +            __uint(max_entries, 32);
-> > +            __type(key, struct key);
-> > +            __type(value, struct value);
-> > +    } packet_stats SEC(".maps");
-> > +
-> > +This example shows how to create or update hash values using atomic
-> > +instructions:
-> > +
-> > +.. code-block:: c
-> > +
-> > +    static inline void (__u32 srcip, int bytes)
-> > +    {
-> > +            struct key key = {
-> > +                    .srcip = srcip
-> > +            };
-> > +            struct value *value = bpf_map_lookup_elem(&packet_stats, &key);
-> > +            if (value) {
-> > +                    __sync_fetch_and_add(&value->packets, 1);
-> > +                    __sync_fetch_and_add(&value->bytes, bytes);
-> > +            } else {
-> > +                    struct value newval = { 1, bytes };
-> > +                    bpf_map_update_elem(&packet_stats, &key, &newval, BPF_NOEXIST);
-> > +            }
-> > +    }
-> > +
-> > +Userspace walking the map elements from the map declared above:
-> > +
-> > +.. code-block:: c
-> > +
-> > +    #include <bpf/libbpf.h>
-> > +    #include <bpf/bpf.h>
-> > +
-> > +    static void walk_hash_elements(int map_fd)
-> > +    {
-> > +            struct key *cur_key = NULL;
-> > +            struct key next_key;
-> > +            int next;
-> > +            do {
-> > +                    // error checking omitted
-> > +                    next = bpf_map_get_next_key(stats_fd, cur_key, &next_key);
-> > +                    if (next == -ENOENT)
-> > +                            break;
-> > +
-> > +                    struct in_addr src_addr = {
-> > +                            .s_addr = next_key.srcip
-> > +                    };
-> > +                    struct value value;
-> > +                    int ret = bpf_map_lookup_elem(stats_fd, &next_key, &value);
-> > +
-> > +                    // Use key and value here
-> > +
-> > +                    cur_key = &next_key;
-> > +            } while (next == 0);
-> > +    }
-> > --
-> > 2.35.1
-> >
+Sure, I'll take a look.
