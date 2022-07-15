@@ -2,107 +2,251 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 549B7C43334
-	for <linux-doc@archiver.kernel.org>; Fri, 15 Jul 2022 01:56:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 05576C43334
+	for <linux-doc@archiver.kernel.org>; Fri, 15 Jul 2022 02:47:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241084AbiGOB4N (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 14 Jul 2022 21:56:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46696 "EHLO
+        id S240916AbiGOCr2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 14 Jul 2022 22:47:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49800 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240987AbiGOB4J (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Jul 2022 21:56:09 -0400
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9279E3334A;
-        Thu, 14 Jul 2022 18:56:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1657850168; x=1689386168;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=rR8IPq1mihslAZhmwuShlj9puubtP4c7sMcs9BiPYsw=;
-  b=IRa4MsvSPXZx5/9BU08+V3QhFku14cGz3HMl+qFdagXnYmdS331hGB49
-   pN0EOcrnILddrkjgR5dvAPZH+HeaMUPRVV/VHxBOeIL3qD1d66Pf1IuvV
-   cPEGW8D8TwF8O+efPdiyJHM1VDUD+UWoB97vlGCv5nX2Ukh2hVqgU0d9I
-   1dMqq9DvttjWjbOy0Kdoz/kzfqFAmOUECFDKXF0ze/sdFvD3R2QvJ2nQ8
-   xnIU6I2VulK05eWlpG/J71cWx5xvg7ZrfvtBdmbXRm5kLpnd9Qk/IYFpS
-   I3HA8yAMTgJ+hzAi/8bAVOlq20QpG6CAfVQpIMS6O0OwYn3rBQBURth0K
-   w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10408"; a="349642815"
-X-IronPort-AV: E=Sophos;i="5.92,272,1650956400"; 
-   d="scan'208";a="349642815"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2022 18:56:08 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.92,272,1650956400"; 
-   d="scan'208";a="628924596"
-Received: from lkp-server01.sh.intel.com (HELO fd2c14d642b4) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 14 Jul 2022 18:55:57 -0700
-Received: from kbuild by fd2c14d642b4 with local (Exim 4.95)
-        (envelope-from <lkp@intel.com>)
-        id 1oCAYe-0001Pl-Dk;
-        Fri, 15 Jul 2022 01:55:56 +0000
-Date:   Fri, 15 Jul 2022 09:55:20 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Andi Kleen <ak@linux.intel.com>
-Cc:     kbuild-all@lists.01.org, linux-kernel@vger.kernel.org,
-        Kuppuswamy Sathyanarayanan 
-        <sathyanarayanan.kuppuswamy@linux.intel.com>,
-        linux-doc@vger.kernel.org
-Subject: [intel-tdx:guest-filter 8/28] htmldocs:
- Documentation/admin-guide/tainted-kernels.rst:82: WARNING: Malformed table.
-Message-ID: <202207150911.eR0W0c9D-lkp@intel.com>
+        with ESMTP id S240927AbiGOCr1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Jul 2022 22:47:27 -0400
+Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F9747539F;
+        Thu, 14 Jul 2022 19:47:25 -0700 (PDT)
+Received: from canpemm500009.china.huawei.com (unknown [172.30.72.55])
+        by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4LkbN218m3zFpxV;
+        Fri, 15 Jul 2022 10:46:26 +0800 (CST)
+Received: from [10.67.102.169] (10.67.102.169) by
+ canpemm500009.china.huawei.com (7.192.105.203) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Fri, 15 Jul 2022 10:47:23 +0800
+CC:     <yangyicong@hisilicon.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        LAK <linux-arm-kernel@lists.infradead.org>, x86 <x86@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Arnd Bergmann <arnd@arndb.de>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Darren Hart <darren@os.amperecomputing.com>,
+        <huzhanyuan@oppo.com>,
+        =?UTF-8?B?5p2O5Z+56ZSLKHdpbmsp?= <lipeifeng@oppo.com>,
+        =?UTF-8?B?5byg6K+X5piOKFNpbW9uIFpoYW5nKQ==?= 
+        <zhangshiming@oppo.com>, =?UTF-8?B?6YOt5YGl?= <guojian@oppo.com>,
+        real mz <realmz6@gmail.com>, <linux-mips@vger.kernel.org>,
+        <openrisc@lists.librecores.org>, <linuxppc-dev@lists.ozlabs.org>,
+        <linux-riscv@lists.infradead.org>, <linux-s390@vger.kernel.org>,
+        "tiantao (H)" <tiantao6@hisilicon.com>
+Subject: Re: [PATCH v2 0/4] mm: arm64: bring up BATCHED_UNMAP_TLB_FLUSH
+To:     Barry Song <21cnbao@gmail.com>, <xhao@linux.alibaba.com>
+References: <20220711034615.482895-1-21cnbao@gmail.com>
+ <24f5e25b-3946-b92a-975b-c34688005398@linux.alibaba.com>
+ <CAGsJ_4zjnmQV6LT3yo--K-qD-92=hBmgfK121=n-Y0oEFX8RnQ@mail.gmail.com>
+From:   Yicong Yang <yangyicong@huawei.com>
+Message-ID: <77e245a3-56b8-d624-187d-d8dacaf8d043@huawei.com>
+Date:   Fri, 15 Jul 2022 10:47:22 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+In-Reply-To: <CAGsJ_4zjnmQV6LT3yo--K-qD-92=hBmgfK121=n-Y0oEFX8RnQ@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.67.102.169]
+X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
+ canpemm500009.china.huawei.com (7.192.105.203)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-tree:   https://github.com/intel/tdx.git guest-filter
-head:   0a555e67b143701a81612d819e693cf5786de418
-commit: 7acbe4e1dcfb9db6c9a886734802ebb13b091e2c [8/28] Add taint flag for TDX overrides
-reproduce: make htmldocs
+On 2022/7/14 12:51, Barry Song wrote:
+> On Thu, Jul 14, 2022 at 3:29 PM Xin Hao <xhao@linux.alibaba.com> wrote:
+>>
+>> Hi barry.
+>>
+>> I do some test on Kunpeng arm64 machine use Unixbench.
+>>
+>> The test  result as below.
+>>
+>> One core, we can see the performance improvement above +30%.
+> 
+> I am really pleased to see the 30%+ improvement on unixbench on single core.
+> 
+>> ./Run -c 1 -i 1 shell1
+>> w/o
+>> System Benchmarks Partial Index              BASELINE RESULT INDEX
+>> Shell Scripts (1 concurrent)                     42.4 5481.0 1292.7
+>> ========
+>> System Benchmarks Index Score (Partial Only)                         1292.7
+>>
+>> w/
+>> System Benchmarks Partial Index              BASELINE RESULT INDEX
+>> Shell Scripts (1 concurrent)                     42.4 6974.6 1645.0
+>> ========
+>> System Benchmarks Index Score (Partial Only)                         1645.0
+>>
+>>
+>> But with whole cores, there have little performance degradation above -5%
+> 
+> That is sad as we might get more concurrency between mprotect(), madvise(),
+> mremap(), zap_pte_range() and the deferred tlbi.
+> 
+>>
+>> ./Run -c 96 -i 1 shell1
+>> w/o
+>> Shell Scripts (1 concurrent)                  80765.5 lpm   (60.0 s, 1
+>> samples)
+>> System Benchmarks Partial Index              BASELINE RESULT INDEX
+>> Shell Scripts (1 concurrent)                     42.4 80765.5 19048.5
+>> ========
+>> System Benchmarks Index Score (Partial Only)                        19048.5
+>>
+>> w
+>> Shell Scripts (1 concurrent)                  76333.6 lpm   (60.0 s, 1
+>> samples)
+>> System Benchmarks Partial Index              BASELINE RESULT INDEX
+>> Shell Scripts (1 concurrent)                     42.4 76333.6 18003.2
+>> ========
+>> System Benchmarks Index Score (Partial Only)                        18003.2
+>>
+>> ----------------------------------------------------------------------------------------------
+>>
+>>
+>> After discuss with you, and do some changes in the patch.
+>>
+>> ndex a52381a680db..1ecba81f1277 100644
+>> --- a/mm/rmap.c
+>> +++ b/mm/rmap.c
+>> @@ -727,7 +727,11 @@ void flush_tlb_batched_pending(struct mm_struct *mm)
+>>          int flushed = batch >> TLB_FLUSH_BATCH_FLUSHED_SHIFT;
+>>
+>>          if (pending != flushed) {
+>> +#ifdef CONFIG_ARCH_HAS_MM_CPUMASK
+>>                  flush_tlb_mm(mm);
+>> +#else
+>> +               dsb(ish);
+>> +#endif
+>>
+> 
+> i was guessing the problem might be flush_tlb_batched_pending()
+> so i asked you to change this to verify my guess.
+> 
+>      /*
+>>                   * If the new TLB flushing is pending during flushing, leave
+>>                   * mm->tlb_flush_batched as is, to avoid losing flushing.
+>>
+>> there have a performance improvement with whole cores, above +30%
+> 
+> But I don't think it is a proper patch. There is no guarantee the cpu calling
+> flush_tlb_batched_pending is exactly the cpu sending the deferred
+> tlbi. so the solution is unsafe. But since this temporary code can bring the
+> 30%+ performance improvement back for high concurrency, we have huge
+> potential to finally make it.
+> 
+> Unfortunately I don't have an arm64 server to debug on this. I only have
+> 8 cores which are unlikely to reproduce regression which happens in
+> high concurrency with 96 parallel tasks.
+> 
+> So I'd ask if @yicong or someone else working on kunpeng or other
+> arm64 servers  is able to actually debug and figure out a proper
+> patch for this, then add the patch as 5/5 into this series?
+> 
 
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
+sure, Tiantao and I will look into this on Kunpeng 920.
 
-All warnings (new ones prefixed by >>):
-
->> Documentation/admin-guide/tainted-kernels.rst:82: WARNING: Malformed table.
-
-vim +82 Documentation/admin-guide/tainted-kernels.rst
-
-896dd323abbf6a Thorsten Leemhuis         2019-01-08   81  
-896dd323abbf6a Thorsten Leemhuis         2019-01-08  @82  ===  ===  ======  ========================================================
-896dd323abbf6a Thorsten Leemhuis         2019-01-08   83  Bit  Log  Number  Reason that got the kernel tainted
-896dd323abbf6a Thorsten Leemhuis         2019-01-08   84  ===  ===  ======  ========================================================
-896dd323abbf6a Thorsten Leemhuis         2019-01-08   85    0  G/P       1  proprietary module was loaded
-896dd323abbf6a Thorsten Leemhuis         2019-01-08   86    1  _/F       2  module was force loaded
-547f574fd9d5e3 Mathieu Chouquet-Stringer 2020-12-02   87    2  _/S       4  kernel running on an out of specification system
-896dd323abbf6a Thorsten Leemhuis         2019-01-08   88    3  _/R       8  module was force unloaded
-896dd323abbf6a Thorsten Leemhuis         2019-01-08   89    4  _/M      16  processor reported a Machine Check Exception (MCE)
-896dd323abbf6a Thorsten Leemhuis         2019-01-08   90    5  _/B      32  bad page referenced or some unexpected page flags
-896dd323abbf6a Thorsten Leemhuis         2019-01-08   91    6  _/U      64  taint requested by userspace application
-896dd323abbf6a Thorsten Leemhuis         2019-01-08   92    7  _/D     128  kernel died recently, i.e. there was an OOPS or BUG
-896dd323abbf6a Thorsten Leemhuis         2019-01-08   93    8  _/A     256  ACPI table overridden by user
-896dd323abbf6a Thorsten Leemhuis         2019-01-08   94    9  _/W     512  kernel issued warning
-896dd323abbf6a Thorsten Leemhuis         2019-01-08   95   10  _/C    1024  staging driver was loaded
-896dd323abbf6a Thorsten Leemhuis         2019-01-08   96   11  _/I    2048  workaround for bug in platform firmware applied
-896dd323abbf6a Thorsten Leemhuis         2019-01-08   97   12  _/O    4096  externally-built ("out-of-tree") module was loaded
-896dd323abbf6a Thorsten Leemhuis         2019-01-08   98   13  _/E    8192  unsigned module was loaded
-896dd323abbf6a Thorsten Leemhuis         2019-01-08   99   14  _/L   16384  soft lockup occurred
-896dd323abbf6a Thorsten Leemhuis         2019-01-08  100   15  _/K   32768  kernel has been live patched
-896dd323abbf6a Thorsten Leemhuis         2019-01-08  101   16  _/X   65536  auxiliary taint, defined for and used by distros
-896dd323abbf6a Thorsten Leemhuis         2019-01-08  102   17  _/T  131072  kernel was built with the struct randomization plugin
-7acbe4e1dcfb9d Andi Kleen                2021-07-14  103   18  _/Y  262144  confidential guest (like TDX guest) without full lockdown
-7acbe4e1dcfb9d Andi Kleen                2021-07-14  104  ===  ===  ======  =========================================================
-896dd323abbf6a Thorsten Leemhuis         2019-01-08  105  
-
-:::::: The code at line 82 was first introduced by commit
-:::::: 896dd323abbf6a9980d8aca2656b6c4bf5352c3b docs: Revamp tainted-kernels.rst to make it more comprehensible
-
-:::::: TO: Thorsten Leemhuis <linux@leemhuis.info>
-:::::: CC: Jonathan Corbet <corbet@lwn.net>
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+>>
+>> ./Run -c 96 -i 1 shell1
+>> 96 CPUs in system; running 96 parallel copies of tests
+>>
+>> Shell Scripts (1 concurrent)                 109229.0 lpm   (60.0 s, 1 samples)
+>> System Benchmarks Partial Index              BASELINE       RESULT    INDEX
+>> Shell Scripts (1 concurrent)                     42.4     109229.0  25761.6
+>>                                                                     ========
+>> System Benchmarks Index Score (Partial Only)                        25761.6
+>>
+>>
+>> Tested-by: Xin Hao<xhao@linux.alibaba.com>
+> 
+> Thanks for your testing!
+> 
+>>
+>> Looking forward to your next version patch.
+>>
+>> On 7/11/22 11:46 AM, Barry Song wrote:
+>>> Though ARM64 has the hardware to do tlb shootdown, the hardware
+>>> broadcasting is not free.
+>>> A simplest micro benchmark shows even on snapdragon 888 with only
+>>> 8 cores, the overhead for ptep_clear_flush is huge even for paging
+>>> out one page mapped by only one process:
+>>> 5.36%  a.out    [kernel.kallsyms]  [k] ptep_clear_flush
+>>>
+>>> While pages are mapped by multiple processes or HW has more CPUs,
+>>> the cost should become even higher due to the bad scalability of
+>>> tlb shootdown.
+>>>
+>>> The same benchmark can result in 16.99% CPU consumption on ARM64
+>>> server with around 100 cores according to Yicong's test on patch
+>>> 4/4.
+>>>
+>>> This patchset leverages the existing BATCHED_UNMAP_TLB_FLUSH by
+>>> 1. only send tlbi instructions in the first stage -
+>>>       arch_tlbbatch_add_mm()
+>>> 2. wait for the completion of tlbi by dsb while doing tlbbatch
+>>>       sync in arch_tlbbatch_flush()
+>>> My testing on snapdragon shows the overhead of ptep_clear_flush
+>>> is removed by the patchset. The micro benchmark becomes 5% faster
+>>> even for one page mapped by single process on snapdragon 888.
+>>>
+>>>
+>>> -v2:
+>>> 1. Collected Yicong's test result on kunpeng920 ARM64 server;
+>>> 2. Removed the redundant vma parameter in arch_tlbbatch_add_mm()
+>>>     according to the comments of Peter Zijlstra and Dave Hansen
+>>> 3. Added ARCH_HAS_MM_CPUMASK rather than checking if mm_cpumask
+>>>     is empty according to the comments of Nadav Amit
+>>>
+>>> Thanks, Yicong, Peter, Dave and Nadav for your testing or reviewing
+>>> , and comments.
+>>>
+>>> -v1:
+>>> https://lore.kernel.org/lkml/20220707125242.425242-1-21cnbao@gmail.com/
+>>>
+>>> Barry Song (4):
+>>>    Revert "Documentation/features: mark BATCHED_UNMAP_TLB_FLUSH doesn't
+>>>      apply to ARM64"
+>>>    mm: rmap: Allow platforms without mm_cpumask to defer TLB flush
+>>>    mm: rmap: Extend tlbbatch APIs to fit new platforms
+>>>    arm64: support batched/deferred tlb shootdown during page reclamation
+>>>
+>>>   Documentation/features/arch-support.txt       |  1 -
+>>>   .../features/vm/TLB/arch-support.txt          |  2 +-
+>>>   arch/arm/Kconfig                              |  1 +
+>>>   arch/arm64/Kconfig                            |  1 +
+>>>   arch/arm64/include/asm/tlbbatch.h             | 12 ++++++++++
+>>>   arch/arm64/include/asm/tlbflush.h             | 23 +++++++++++++++++--
+>>>   arch/loongarch/Kconfig                        |  1 +
+>>>   arch/mips/Kconfig                             |  1 +
+>>>   arch/openrisc/Kconfig                         |  1 +
+>>>   arch/powerpc/Kconfig                          |  1 +
+>>>   arch/riscv/Kconfig                            |  1 +
+>>>   arch/s390/Kconfig                             |  1 +
+>>>   arch/um/Kconfig                               |  1 +
+>>>   arch/x86/Kconfig                              |  1 +
+>>>   arch/x86/include/asm/tlbflush.h               |  3 ++-
+>>>   mm/Kconfig                                    |  3 +++
+>>>   mm/rmap.c                                     | 14 +++++++----
+>>>   17 files changed, 59 insertions(+), 9 deletions(-)
+>>>   create mode 100644 arch/arm64/include/asm/tlbbatch.h
+>>>
+>> --
+>> Best Regards!
+>> Xin Hao
+>>
+> 
+> Thanks
+> Barry
+> .
+> 
