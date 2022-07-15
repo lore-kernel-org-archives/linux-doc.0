@@ -2,227 +2,107 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 204B7C43334
-	for <linux-doc@archiver.kernel.org>; Fri, 15 Jul 2022 01:30:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 549B7C43334
+	for <linux-doc@archiver.kernel.org>; Fri, 15 Jul 2022 01:56:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229996AbiGOBaW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 14 Jul 2022 21:30:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60062 "EHLO
+        id S241084AbiGOB4N (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 14 Jul 2022 21:56:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46696 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229837AbiGOBaV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Jul 2022 21:30:21 -0400
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D67503ED46;
-        Thu, 14 Jul 2022 18:30:20 -0700 (PDT)
+        with ESMTP id S240987AbiGOB4J (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 14 Jul 2022 21:56:09 -0400
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9279E3334A;
+        Thu, 14 Jul 2022 18:56:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1657848620; x=1689384620;
+  t=1657850168; x=1689386168;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=VULQdfb9uIcToxA48uBh48V4LsuTxsYYsa97hl98D9s=;
-  b=CMoRLk/yhbV/65hticH0qkVBTvgZH+TBf+z2ZWFlQ5iUDCbcPajpXtgf
-   2f0+AZ/to5G9wxMoxkFRjFkphX+O8418Ex+3zWMrocGHunMytrgPq1I1v
-   08pgA5DzyLFY0mkmRrSThHpoIdIGS+Oh2t5iBeq4aIz6FDnV0Xl/KbK6y
-   JnC4NeuoKPSEEne4KpD6hHHw76VryAQoJUGY0Da3hj6DQhTYTIzSQ3pDa
-   c/HWpU/k01KcJXucdlP5KbV07R6ThKTwJzRtw2YUqlHR8/JZ/f+Pz3aVy
-   u3abaU1BQjt1rz0QEAnNXRaVScaI6vEj7xo80lSDmsQA/mjCuPrhndAIQ
-   A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10408"; a="268700723"
+  bh=rR8IPq1mihslAZhmwuShlj9puubtP4c7sMcs9BiPYsw=;
+  b=IRa4MsvSPXZx5/9BU08+V3QhFku14cGz3HMl+qFdagXnYmdS331hGB49
+   pN0EOcrnILddrkjgR5dvAPZH+HeaMUPRVV/VHxBOeIL3qD1d66Pf1IuvV
+   cPEGW8D8TwF8O+efPdiyJHM1VDUD+UWoB97vlGCv5nX2Ukh2hVqgU0d9I
+   1dMqq9DvttjWjbOy0Kdoz/kzfqFAmOUECFDKXF0ze/sdFvD3R2QvJ2nQ8
+   xnIU6I2VulK05eWlpG/J71cWx5xvg7ZrfvtBdmbXRm5kLpnd9Qk/IYFpS
+   I3HA8yAMTgJ+hzAi/8bAVOlq20QpG6CAfVQpIMS6O0OwYn3rBQBURth0K
+   w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10408"; a="349642815"
 X-IronPort-AV: E=Sophos;i="5.92,272,1650956400"; 
-   d="scan'208";a="268700723"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2022 18:30:20 -0700
+   d="scan'208";a="349642815"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2022 18:56:08 -0700
+X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.92,272,1650956400"; 
-   d="scan'208";a="600329519"
-Received: from pravinpa-mobl.amr.corp.intel.com (HELO desk) ([10.212.243.89])
-  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2022 18:30:19 -0700
-Date:   Thu, 14 Jul 2022 18:30:18 -0700
-From:   Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        stable@vger.kernel.org, tony.luck@intel.com,
-        antonio.gomez.iglesias@linux.intel.com,
-        Daniel Sneddon <daniel.sneddon@linux.intel.com>,
-        andrew.cooper3@citrix.com, Josh Poimboeuf <jpoimboe@kernel.org>
-Subject: [RESEND RFC PATCH] x86/bugs: Add "unknown" reporting for MMIO Stale
- Data
-Message-ID: <a932c154772f2121794a5f2eded1a11013114711.1657846269.git.pawan.kumar.gupta@linux.intel.com>
+   d="scan'208";a="628924596"
+Received: from lkp-server01.sh.intel.com (HELO fd2c14d642b4) ([10.239.97.150])
+  by orsmga001.jf.intel.com with ESMTP; 14 Jul 2022 18:55:57 -0700
+Received: from kbuild by fd2c14d642b4 with local (Exim 4.95)
+        (envelope-from <lkp@intel.com>)
+        id 1oCAYe-0001Pl-Dk;
+        Fri, 15 Jul 2022 01:55:56 +0000
+Date:   Fri, 15 Jul 2022 09:55:20 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Andi Kleen <ak@linux.intel.com>
+Cc:     kbuild-all@lists.01.org, linux-kernel@vger.kernel.org,
+        Kuppuswamy Sathyanarayanan 
+        <sathyanarayanan.kuppuswamy@linux.intel.com>,
+        linux-doc@vger.kernel.org
+Subject: [intel-tdx:guest-filter 8/28] htmldocs:
+ Documentation/admin-guide/tainted-kernels.rst:82: WARNING: Malformed table.
+Message-ID: <202207150911.eR0W0c9D-lkp@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Older CPUs beyond its Servicing period are not listed in the affected
-processor list for MMIO Stale Data vulnerabilities. These CPUs currently
-report "Not affected" in sysfs, which may not be correct.
+tree:   https://github.com/intel/tdx.git guest-filter
+head:   0a555e67b143701a81612d819e693cf5786de418
+commit: 7acbe4e1dcfb9db6c9a886734802ebb13b091e2c [8/28] Add taint flag for TDX overrides
+reproduce: make htmldocs
 
-Add support for "Unknown" reporting for such CPUs. Mitigation is not
-deployed when the status is "Unknown".
+If you fix the issue, kindly add following tag where applicable
+Reported-by: kernel test robot <lkp@intel.com>
 
-"CPU is beyond its Servicing period" means these CPUs are beyond their
-Servicing [1] period and have reached End of Servicing Updates (ESU) [2].
+All warnings (new ones prefixed by >>):
 
-  [1] Servicing: The process of providing functional and security
-  updates to Intel processors or platforms, utilizing the Intel Platform
-  Update (IPU) process or other similar mechanisms.
+>> Documentation/admin-guide/tainted-kernels.rst:82: WARNING: Malformed table.
 
-  [2] End of Servicing Updates (ESU): ESU is the date at which Intel
-  will no longer provide Servicing, such as through IPU or other similar
-  update processes. ESU dates will typically be aligned to end of
-  quarter.
+vim +82 Documentation/admin-guide/tainted-kernels.rst
 
-Suggested-by: Andrew Cooper <andrew.cooper3@citrix.com>
-Suggested-by: Tony Luck <tony.luck@intel.com>
-Fixes: 8d50cdf8b834 ("x86/speculation/mmio: Add sysfs reporting for Processor MMIO Stale Data")
-Cc: stable@vger.kernel.org
-Signed-off-by: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
----
-CPU vulnerability is unknown if, hardware doesn't set the immunity bits
-and CPU is not in the known-affected-list.
+896dd323abbf6a Thorsten Leemhuis         2019-01-08   81  
+896dd323abbf6a Thorsten Leemhuis         2019-01-08  @82  ===  ===  ======  ========================================================
+896dd323abbf6a Thorsten Leemhuis         2019-01-08   83  Bit  Log  Number  Reason that got the kernel tainted
+896dd323abbf6a Thorsten Leemhuis         2019-01-08   84  ===  ===  ======  ========================================================
+896dd323abbf6a Thorsten Leemhuis         2019-01-08   85    0  G/P       1  proprietary module was loaded
+896dd323abbf6a Thorsten Leemhuis         2019-01-08   86    1  _/F       2  module was force loaded
+547f574fd9d5e3 Mathieu Chouquet-Stringer 2020-12-02   87    2  _/S       4  kernel running on an out of specification system
+896dd323abbf6a Thorsten Leemhuis         2019-01-08   88    3  _/R       8  module was force unloaded
+896dd323abbf6a Thorsten Leemhuis         2019-01-08   89    4  _/M      16  processor reported a Machine Check Exception (MCE)
+896dd323abbf6a Thorsten Leemhuis         2019-01-08   90    5  _/B      32  bad page referenced or some unexpected page flags
+896dd323abbf6a Thorsten Leemhuis         2019-01-08   91    6  _/U      64  taint requested by userspace application
+896dd323abbf6a Thorsten Leemhuis         2019-01-08   92    7  _/D     128  kernel died recently, i.e. there was an OOPS or BUG
+896dd323abbf6a Thorsten Leemhuis         2019-01-08   93    8  _/A     256  ACPI table overridden by user
+896dd323abbf6a Thorsten Leemhuis         2019-01-08   94    9  _/W     512  kernel issued warning
+896dd323abbf6a Thorsten Leemhuis         2019-01-08   95   10  _/C    1024  staging driver was loaded
+896dd323abbf6a Thorsten Leemhuis         2019-01-08   96   11  _/I    2048  workaround for bug in platform firmware applied
+896dd323abbf6a Thorsten Leemhuis         2019-01-08   97   12  _/O    4096  externally-built ("out-of-tree") module was loaded
+896dd323abbf6a Thorsten Leemhuis         2019-01-08   98   13  _/E    8192  unsigned module was loaded
+896dd323abbf6a Thorsten Leemhuis         2019-01-08   99   14  _/L   16384  soft lockup occurred
+896dd323abbf6a Thorsten Leemhuis         2019-01-08  100   15  _/K   32768  kernel has been live patched
+896dd323abbf6a Thorsten Leemhuis         2019-01-08  101   16  _/X   65536  auxiliary taint, defined for and used by distros
+896dd323abbf6a Thorsten Leemhuis         2019-01-08  102   17  _/T  131072  kernel was built with the struct randomization plugin
+7acbe4e1dcfb9d Andi Kleen                2021-07-14  103   18  _/Y  262144  confidential guest (like TDX guest) without full lockdown
+7acbe4e1dcfb9d Andi Kleen                2021-07-14  104  ===  ===  ======  =========================================================
+896dd323abbf6a Thorsten Leemhuis         2019-01-08  105  
 
-In order to report the unknown status, this patch sets the MMIO bug
-for all Intel CPUs that don't have the hardware immunity bits set.
-Based on the known-affected-list of CPUs, mitigation selection then
-deploys the mitigation or sets the "Unknown" status; which is ugly.
+:::::: The code at line 82 was first introduced by commit
+:::::: 896dd323abbf6a9980d8aca2656b6c4bf5352c3b docs: Revamp tainted-kernels.rst to make it more comprehensible
 
-I will appreciate suggestions to improve this.
+:::::: TO: Thorsten Leemhuis <linux@leemhuis.info>
+:::::: CC: Jonathan Corbet <corbet@lwn.net>
 
-Thanks,
-Pawan
-
- .../hw-vuln/processor_mmio_stale_data.rst     |  3 +++
- arch/x86/kernel/cpu/bugs.c                    | 11 +++++++-
- arch/x86/kernel/cpu/common.c                  | 26 +++++++++++++------
- arch/x86/kernel/cpu/cpu.h                     |  1 +
- 4 files changed, 32 insertions(+), 9 deletions(-)
-
-diff --git a/Documentation/admin-guide/hw-vuln/processor_mmio_stale_data.rst b/Documentation/admin-guide/hw-vuln/processor_mmio_stale_data.rst
-index 9393c50b5afc..55524e0798da 100644
---- a/Documentation/admin-guide/hw-vuln/processor_mmio_stale_data.rst
-+++ b/Documentation/admin-guide/hw-vuln/processor_mmio_stale_data.rst
-@@ -230,6 +230,9 @@ The possible values in this file are:
-      * - 'Mitigation: Clear CPU buffers'
-        - The processor is vulnerable and the CPU buffer clearing mitigation is
-          enabled.
-+     * - 'Unknown: CPU is beyond its Servicing period'
-+       - The processor vulnerability status is unknown because it is
-+	 out of Servicing period. Mitigation is not attempted.
- 
- If the processor is vulnerable then the following information is appended to
- the above information:
-diff --git a/arch/x86/kernel/cpu/bugs.c b/arch/x86/kernel/cpu/bugs.c
-index 0dd04713434b..dd6e78d370bc 100644
---- a/arch/x86/kernel/cpu/bugs.c
-+++ b/arch/x86/kernel/cpu/bugs.c
-@@ -416,6 +416,7 @@ enum mmio_mitigations {
- 	MMIO_MITIGATION_OFF,
- 	MMIO_MITIGATION_UCODE_NEEDED,
- 	MMIO_MITIGATION_VERW,
-+	MMIO_MITIGATION_UNKNOWN,
- };
- 
- /* Default mitigation for Processor MMIO Stale Data vulnerabilities */
-@@ -426,12 +427,18 @@ static const char * const mmio_strings[] = {
- 	[MMIO_MITIGATION_OFF]		= "Vulnerable",
- 	[MMIO_MITIGATION_UCODE_NEEDED]	= "Vulnerable: Clear CPU buffers attempted, no microcode",
- 	[MMIO_MITIGATION_VERW]		= "Mitigation: Clear CPU buffers",
-+	[MMIO_MITIGATION_UNKNOWN]	= "Unknown: CPU is beyond its servicing period",
- };
- 
- static void __init mmio_select_mitigation(void)
- {
- 	u64 ia32_cap;
- 
-+	if (mmio_stale_data_unknown()) {
-+		mmio_mitigation = MMIO_MITIGATION_UNKNOWN;
-+		return;
-+	}
-+
- 	if (!boot_cpu_has_bug(X86_BUG_MMIO_STALE_DATA) ||
- 	    cpu_mitigations_off()) {
- 		mmio_mitigation = MMIO_MITIGATION_OFF;
-@@ -1638,6 +1645,7 @@ void cpu_bugs_smt_update(void)
- 			pr_warn_once(MMIO_MSG_SMT);
- 		break;
- 	case MMIO_MITIGATION_OFF:
-+	case MMIO_MITIGATION_UNKNOWN:
- 		break;
- 	}
- 
-@@ -2235,7 +2243,8 @@ static ssize_t tsx_async_abort_show_state(char *buf)
- 
- static ssize_t mmio_stale_data_show_state(char *buf)
- {
--	if (mmio_mitigation == MMIO_MITIGATION_OFF)
-+	if (mmio_mitigation == MMIO_MITIGATION_OFF ||
-+	    mmio_mitigation == MMIO_MITIGATION_UNKNOWN)
- 		return sysfs_emit(buf, "%s\n", mmio_strings[mmio_mitigation]);
- 
- 	if (boot_cpu_has(X86_FEATURE_HYPERVISOR)) {
-diff --git a/arch/x86/kernel/cpu/common.c b/arch/x86/kernel/cpu/common.c
-index 736262a76a12..82088410870e 100644
---- a/arch/x86/kernel/cpu/common.c
-+++ b/arch/x86/kernel/cpu/common.c
-@@ -1286,6 +1286,22 @@ static bool arch_cap_mmio_immune(u64 ia32_cap)
- 		ia32_cap & ARCH_CAP_SBDR_SSDP_NO);
- }
- 
-+bool __init mmio_stale_data_unknown(void)
-+{
-+	u64 ia32_cap = x86_read_arch_cap_msr();
-+
-+	if (boot_cpu_data.x86_vendor != X86_VENDOR_INTEL)
-+		return false;
-+	/*
-+	 * CPU vulnerability is unknown when, hardware doesn't set the
-+	 * immunity bits and CPU is not in the known affected list.
-+	 */
-+	if (!cpu_matches(cpu_vuln_blacklist, MMIO) &&
-+	    !arch_cap_mmio_immune(ia32_cap))
-+		return true;
-+	return false;
-+}
-+
- static void __init cpu_set_bug_bits(struct cpuinfo_x86 *c)
- {
- 	u64 ia32_cap = x86_read_arch_cap_msr();
-@@ -1349,14 +1365,8 @@ static void __init cpu_set_bug_bits(struct cpuinfo_x86 *c)
- 	    cpu_matches(cpu_vuln_blacklist, SRBDS | MMIO_SBDS))
- 		    setup_force_cpu_bug(X86_BUG_SRBDS);
- 
--	/*
--	 * Processor MMIO Stale Data bug enumeration
--	 *
--	 * Affected CPU list is generally enough to enumerate the vulnerability,
--	 * but for virtualization case check for ARCH_CAP MSR bits also, VMM may
--	 * not want the guest to enumerate the bug.
--	 */
--	if (cpu_matches(cpu_vuln_blacklist, MMIO) &&
-+	 /* Processor MMIO Stale Data bug enumeration */
-+	if (boot_cpu_data.x86_vendor == X86_VENDOR_INTEL &&
- 	    !arch_cap_mmio_immune(ia32_cap))
- 		setup_force_cpu_bug(X86_BUG_MMIO_STALE_DATA);
- 
-diff --git a/arch/x86/kernel/cpu/cpu.h b/arch/x86/kernel/cpu/cpu.h
-index 7c9b5893c30a..a2dbfc1bbc49 100644
---- a/arch/x86/kernel/cpu/cpu.h
-+++ b/arch/x86/kernel/cpu/cpu.h
-@@ -82,6 +82,7 @@ unsigned int aperfmperf_get_khz(int cpu);
- 
- extern void x86_spec_ctrl_setup_ap(void);
- extern void update_srbds_msr(void);
-+extern bool mmio_stale_data_unknown(void);
- 
- extern u64 x86_read_arch_cap_msr(void);
- 
-
-base-commit: 4a57a8400075bc5287c5c877702c68aeae2a033d
 -- 
-2.35.3
-
-
+0-DAY CI Kernel Test Service
+https://01.org/lkp
