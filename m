@@ -2,140 +2,177 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D48EAC433EF
-	for <linux-doc@archiver.kernel.org>; Fri, 15 Jul 2022 11:44:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 57BD2C43334
+	for <linux-doc@archiver.kernel.org>; Fri, 15 Jul 2022 11:47:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231414AbiGOLoE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 15 Jul 2022 07:44:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37364 "EHLO
+        id S229669AbiGOLrk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 15 Jul 2022 07:47:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41078 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232756AbiGOLn7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Jul 2022 07:43:59 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 976F01A390;
-        Fri, 15 Jul 2022 04:43:55 -0700 (PDT)
+        with ESMTP id S230055AbiGOLrj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Jul 2022 07:47:39 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66E4E88F0B;
+        Fri, 15 Jul 2022 04:47:38 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 05600B82BAD;
-        Fri, 15 Jul 2022 11:43:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E5981C3411E;
-        Fri, 15 Jul 2022 11:43:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1657885432;
-        bh=hNuEABddL7x5vN/uTy0dXWm4VUZCQSWhovOb0u9EKmw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=VppUYKXdj2C5bnDrc6tbxaHQwx/IVjiAatDyq+Y0Fj3y1NmpwajyHYRktIof1qZd6
-         z8rnMS7Rl4tuvoSNHZRyaXyxmfFMqzClpdPyRjbzL6ThBs8MAXb8rQZcTshnrhl8G4
-         ArOtP/n1bcLuIawHaomRrSL0rPKd/zOWo2VjD61Y=
-Date:   Fri, 15 Jul 2022 13:43:49 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>, Shuah Khan <shuah@kernel.org>,
-        Dave Marchevsky <davemarchevsky@fb.com>,
-        Joe Stringer <joe@cilium.io>, Jonathan Corbet <corbet@lwn.net>,
-        Tero Kristo <tero.kristo@linux.intel.com>,
-        lkml <linux-kernel@vger.kernel.org>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        Networking <netdev@vger.kernel.org>, bpf <bpf@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH bpf-next v6 12/23] HID: initial BPF implementation
-Message-ID: <YtFS9UeLF8ZefT/F@kroah.com>
-References: <20220712145850.599666-1-benjamin.tissoires@redhat.com>
- <20220712145850.599666-13-benjamin.tissoires@redhat.com>
- <YtD09KwkxvJAbgCy@kroah.com>
- <CAO-hwJ+d6mNO2L5kZtOC6QVrDy+LZ6ECoY2f83C93GFPKbSx7g@mail.gmail.com>
+        by dfw.source.kernel.org (Postfix) with ESMTPS id F203562304;
+        Fri, 15 Jul 2022 11:47:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1ACD8C3411E;
+        Fri, 15 Jul 2022 11:47:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1657885657;
+        bh=bOhZ+ZI4CCMrYCxTvYYbqkus2jBN41LpMcdBoZMKp/g=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=SDERY9zqlsrtHlvd/ExgvUcaD4kQ7ZZyzri8/3NQv5dDaUmjeTI8fcSj2HCegu/rP
+         ParWgDunpLCv4CdUCPloAJh5r+witRQgOLd5pBTI+RRRf6GO59dwT7B+qvnEyxY0TH
+         MdTultRbNQ7f6hBEe2na8NbKiNLlePVOnPCIXGImYeNk4sNXNiEpaUqt+110dm/AJd
+         kpT9bvs87G59/CEALa8mJLmKqmY47FQRwTrigRUx2FrXMW8KtLZFC/ieZQ80qJyFfX
+         g1Ynll8wssHbduvEcrfdWL/0c3LVMYxBKfrizfRPI3g9gqgB4y2k1sdekQ1+buwjuq
+         e1qT0xLPbdcpQ==
+Message-ID: <3758d3bd-7272-e907-a51a-44a21d757674@kernel.org>
+Date:   Fri, 15 Jul 2022 13:47:28 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAO-hwJ+d6mNO2L5kZtOC6QVrDy+LZ6ECoY2f83C93GFPKbSx7g@mail.gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH V5 01/16] rv: Add Runtime Verification (RV) interface
+Content-Language: en-US
+To:     Tao Zhou <tao.zhou@linux.dev>
+Cc:     Steven Rostedt <rostedt@goodmis.org>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Ingo Molnar <mingo@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Will Deacon <will@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Marco Elver <elver@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Gabriele Paoloni <gpaoloni@redhat.com>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Clark Williams <williams@redhat.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-trace-devel@vger.kernel.org
+References: <cover.1657745645.git.bristot@kernel.org>
+ <442b03c687c298b25c79aa5a16ec7fb2aef0f2c9.1657745645.git.bristot@kernel.org>
+ <Ys/J5fLaojYeiVzL@geo.homenetwork>
+From:   Daniel Bristot de Oliveira <bristot@kernel.org>
+In-Reply-To: <Ys/J5fLaojYeiVzL@geo.homenetwork>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jul 15, 2022 at 11:56:46AM +0200, Benjamin Tissoires wrote:
-> On Fri, Jul 15, 2022 at 7:02 AM Greg KH <gregkh@linuxfoundation.org> wrote:
-> >
-> > On Tue, Jul 12, 2022 at 04:58:39PM +0200, Benjamin Tissoires wrote:
-> > > --- /dev/null
-> > > +++ b/drivers/hid/bpf/Kconfig
-> > > @@ -0,0 +1,19 @@
-> > > +# SPDX-License-Identifier: GPL-2.0-only
-> > > +menu "HID-BPF support"
-> > > +     #depends on x86_64
-> > > +
-> > > +config HID_BPF
-> > > +     bool "HID-BPF support"
-> > > +     default y
-> >
-> > Things are only default y if you can't boot your machine without it.
-> > Perhaps just mirror what HID is to start with and do not select HID?
-> >
-> > > +     depends on BPF && BPF_SYSCALL
-> > > +     select HID
-> >
-> > select is rough, why not depend?
+On 7/14/22 09:46, Tao Zhou wrote:
+> On Wed, Jul 13, 2022 at 11:17:17PM +0200,
+> Daniel Bristot de Oliveira <bristot@kernel.org> wrote:
 > 
-> Let me try to explain this mess, maybe you can give me the piece that
-> I am missing:
+> [...]
 > 
-> The requirements I have (or want) are:
-> - HID-BPF should be "part" of HID-core (or something similar of "part"):
->   I intend to have device fixes as part of the regular HID flow, so
-> allowing distros to opt out seems a little bit dangerous
-> - the HID tree is not as clean as some other trees:
->   drivers/hid/ sees both core elements and leaf drivers
->   transport layers are slightly better, they are in their own
-> subdirectories, but some transport layers are everywhere in the kernel
-> code or directly in drivers/hid (uhid and hid-logitech-dj for
-> instance)
-> - HID can be loaded as a module (only ubuntu is using that), and this
-> is less and less relevant because of all of the various transport
-> layers we have basically prevent a clean unloading of the module
+>> +void put_task_monitor_slot(int slot)
+>> +{
+>> +	lockdep_assert_held(&rv_interface_lock);
+>> +
+>> +	if (slot < 0 || slot > RV_PER_TASK_MONITORS) {
 > 
-> These made me think that I should have a separate bpf subdir for
-> HID-BPF, to keep things separated, which means I can not include
-> HID-BPF in hid.ko directly, it goes into a separate driver. And then I
-> have a chicken and egg problem:
-> - HID-core needs to call functions from HID-BPF (to hook into it)
-> - but HID-BPF needs to also call functions from HID-core (for
-> accessing HID internals)
+> slot is the array index that should be 0 here. The up bound is not bigger
+> than 0 because the element of array now is RV_PER_TASK_MONITORS. 
 > 
-> I have solved that situation with struct hid_bpf_ops but it is not the
-> cleanest possible way.
-> 
-> And that's also why I did "select HID", because HID-BPF without HID is
-> pointless.
-> 
-> One last bit I should add. hid-bpf.ko should be allowed to be compiled
-> in as a module, but I had issues at boot because kfuncs were not
-> getting registered properly (though it works for the net test driver).
-> So I decided to make hid-bpf a boolean instead of a tristate.
-> 
-> As I type all of this, I am starting to wonder if I should not tackle
-> the very first point and separate hid-core in its own subdir. This way
-> I can have a directory with only the core part, and having hid-bpf in
-> here wouldn't be too much of an issue.
+> So up bound check is 'slot > RV_PER_TASK_MONITORS-1'.
 
-We've had this problem with the USB core in the past, and yes, that was
-the simplest solution (see drivers/usb/core/)
+fixed! (slot >= RV...)
 
-Otherwise you could do:
-	default HID
-as the dependancy here, but that might get messy if hid can be a module.
+> [...]
+> 
+>> +/*
+>> + * interface for enabling/disabling a monitor.
+>> + */
+>> +static ssize_t monitor_enable_write_data(struct file *filp, const char __user *user_buf,
+>> +					 size_t count, loff_t *ppos)
+>> +{
+>> +	struct rv_monitor_def *mdef = filp->private_data;
+>> +	int retval;
+>> +	bool val;
+>> +
+>> +	retval = kstrtobool_from_user(user_buf, count, &val);
+>> +	if (retval)
+>> +		return retval;
+>> +
+>> +	retval = count;
+>> +
+>> +	mutex_lock(&rv_interface_lock);
+>> +
+>> +	if (val)
+>> +		retval = enable_monitor(mdef);
+>> +	else
+>> +		retval = disable_monitor(mdef);
+>> +
+>> +	mutex_unlock(&rv_interface_lock);
+>> +
+>> +	return retval ? retval : count;
+> 
+> Feel that this can be written `return retval ? : count;`
 
-Try splitting the hid core out first, you want to do that anyway and
-that should make this simpler as you found out :)
 
-thanks,
+why not...
 
-greg k-h
+> [...]
+> 
+>> +static void *enabled_monitors_start(struct seq_file *m, loff_t *pos)
+>> +{
+>> +	struct rv_monitor_def *m_def;
+>> +	loff_t l;
+>> +
+>> +	mutex_lock(&rv_interface_lock);
+>> +
+>> +	if (list_empty(&rv_monitors_list))
+>> +		return NULL;
+>> +
+>> +	m_def = list_entry(&rv_monitors_list, struct rv_monitor_def, list);
+>> +
+>> +	for (l = 0; l <= *pos; ) {
+>> +		m_def = enabled_monitors_next(m, m_def, &l);
+>> +		if (!m_def)
+>> +			break;
+> 
+> Is this check is inversed. enabled_monitors_start() will stop at first
+> enabled monitor, then enabled_monitors_next() do loop to next. Check
+> like the above, enabled_monitors_start() will loop to the last monitor.
+> But I doubt myself I do not mention/see it. Sorry for these.
+> 
+> the check is:
+> 
+>   if (m_def)
+>      break;
+> 
+> [...]
+
+
+see kernel/trace/trace_events.c:s_start...
+
+>> +static ssize_t
+>> +enabled_monitors_write(struct file *filp, const char __user *user_buf,
+>> +		      size_t count, loff_t *ppos)
+>> +{
+>> +	char buff[MAX_RV_MONITOR_NAME_SIZE + 2];
+>> +	struct rv_monitor_def *mdef;
+>> +	int retval = -EINVAL;
+>> +	bool enable = true;
+>> +	char *ptr = buff;
+>> +	int len;
+>> +
+>> +	if (count < 1 || count > MAX_RV_MONITOR_NAME_SIZE + 2)
+> 
+> @count would not include '\0'. That the max val of @count is
+> MAX_RV_MONITOR_NAME_SIZE+1. So the up bound check of @count is
+> `count > MAX_RV_MONITOR_NAME_SIZE + 1`.
+
+Fixed for v6...
+
+-- Daniel
