@@ -2,118 +2,94 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AEFF4CCA47C
-	for <linux-doc@archiver.kernel.org>; Fri, 15 Jul 2022 08:09:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D334C43334
+	for <linux-doc@archiver.kernel.org>; Fri, 15 Jul 2022 08:11:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232178AbiGOIJM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 15 Jul 2022 04:09:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37074 "EHLO
+        id S230236AbiGOILd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 15 Jul 2022 04:11:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39054 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232128AbiGOIJL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Jul 2022 04:09:11 -0400
-Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3CA91CB0E;
-        Fri, 15 Jul 2022 01:09:10 -0700 (PDT)
-Received: by mail-pj1-x102d.google.com with SMTP id o31-20020a17090a0a2200b001ef7bd037bbso5460905pjo.0;
-        Fri, 15 Jul 2022 01:09:10 -0700 (PDT)
+        with ESMTP id S229693AbiGOILc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Jul 2022 04:11:32 -0400
+Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com [IPv6:2a00:1450:4864:20::531])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8EA1A7E820;
+        Fri, 15 Jul 2022 01:11:31 -0700 (PDT)
+Received: by mail-ed1-x531.google.com with SMTP id w12so5287482edd.13;
+        Fri, 15 Jul 2022 01:11:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=rdXFs9dhHEmYQ1p1ijyoJFheXKNT53wMg7gaHyHajRs=;
-        b=CMwx5eWilpke9A9U9PysLhgq3oj9UQNtzcPAIT+GD2mwU7iJ5D9avNU4vepTupSqT5
-         Ry3WSe6U/gq91OuuORRb/PwxDxIV46EJ7yJtaxAgQnMfIv3ns8Y76socd7HtbYnes/vY
-         gibUanTNA1O/GuZaS6JvJ41aRLNRg6pFANQTP24fE9L2XNNlM00uKjaaYS59npH5iPf1
-         e6OGfvh9tPZwT4KJuDGDUYA5y0SfexTeU8QJaDPgdkA+SzVPJIZb666muYMf6uLfXwSr
-         Hp/flc16jmPROVMcXhQsS+ZXEY0+VF+sPF6rWzjq8zenyPKrFXYq/ExiPuHJc85+s8F0
-         1yrA==
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=/WT3O/iaEN8ZI+k9sQWWRlrclbEh4N1aPfEXOoHcef0=;
+        b=QZavUBjxaC4/hGgbODR950XscjvP9bmaeH2lRJBzmMSReOjB9VvfUrmY4K8QWmUn9g
+         LkiEbaJh7T6ph0sMxmpfm0jlTEJ1wpV4UpzO1WTa99klN6zrFEU3TChReJqnXyRj5ifp
+         Cl6mg7/rXqOFUdMa+XmMECQtR4Fx4POGaW0UI9qpxoJTfgJPfDZ0SzzkQYPNcRZt7B2A
+         2MYxNP3NYwQXUik34Nw5ZhXZ6a8eZYY2LbX6U0EuFD1hXjpMRoRYteY4BGLv8aDRJfNn
+         5PggjQawr/XuKWyjvfqbOhfxof2BTqBKezTrJjGmj8eQ+gxLc0r9t/YPjTT/37l4XfoT
+         dFdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=rdXFs9dhHEmYQ1p1ijyoJFheXKNT53wMg7gaHyHajRs=;
-        b=pOZtfQdhoe4xW5lrU22I796qCbgFuJ1KjHNUujHuFClYe4BSVgDOl08otnGKwRQpfD
-         f0+5s8Myn6FgW5LtYorMKf3NNiVul/epfkfAylZYOlNSVYCPD6eSG3QDBGoAL73qkTye
-         Nu0dk9bEb8DyKmVfD7jxCfSOYwMhiUa/PM2w7CHyXlkQ6f7F7M6RSmYXWBSGL958eurX
-         eD2/zRsUvZjlzy4Z5Z+JCfpmO5kRCb2v4k723DTlbF3iztrNzRGp+8QkqveMDBS0VXG+
-         Vw8zIFpCv0eHHxL7Bt1EnfngrtH+SYqltTvq6ejSkAhelYbRfVbdlPK6+q6ceQcbxbtF
-         elcw==
-X-Gm-Message-State: AJIora84k56Khabpop5hRdWgGTGiGD8mTUtZ4HktZqbJ8sxGE1Bi9B0E
-        QzJdGCWRJtqSoF1M6fb2PVc=
-X-Google-Smtp-Source: AGRyM1srfbhQP54d3VOBFEBlurpmpSM2rwsylrne55YbDoqcDEgAyDzopM+ftR3vmVuJpDXcCkXP2Q==
-X-Received: by 2002:a17:90b:1bc7:b0:1f0:34e2:5c86 with SMTP id oa7-20020a17090b1bc700b001f034e25c86mr13954875pjb.136.1657872550151;
-        Fri, 15 Jul 2022 01:09:10 -0700 (PDT)
-Received: from debian.me (subs02-180-214-232-22.three.co.id. [180.214.232.22])
-        by smtp.gmail.com with ESMTPSA id a5-20020aa78e85000000b00525b61f4792sm3073193pfr.109.2022.07.15.01.09.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 Jul 2022 01:09:09 -0700 (PDT)
-Received: by debian.me (Postfix, from userid 1000)
-        id 601A51008E0; Fri, 15 Jul 2022 15:09:06 +0700 (WIB)
-Date:   Fri, 15 Jul 2022 15:09:05 +0700
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Yicong Yang <yangyicong@hisilicon.com>
-Cc:     gregkh@linuxfoundation.org, alexander.shishkin@linux.intel.com,
-        leo.yan@linaro.org, james.clark@arm.com, will@kernel.org,
-        robin.murphy@arm.com, acme@kernel.org, peterz@infradead.org,
-        corbet@lwn.net, mathieu.poirier@linaro.org, mark.rutland@arm.com,
-        jonathan.cameron@huawei.com, john.garry@huawei.com,
-        helgaas@kernel.org, lorenzo.pieralisi@arm.com,
-        suzuki.poulose@arm.com, joro@8bytes.org,
-        shameerali.kolothum.thodi@huawei.com, mingo@redhat.com,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-pci@vger.kernel.org, linux-perf-users@vger.kernel.org,
-        iommu@lists.linux-foundation.org, iommu@lists.linux.dev,
-        linux-doc@vger.kernel.org, prime.zeng@huawei.com,
-        liuqi115@huawei.com, zhangshaokun@hisilicon.com,
-        linuxarm@huawei.com
-Subject: Re: [PATCH v10 7/8] docs: trace: Add HiSilicon PTT device driver
- documentation
-Message-ID: <YtEgoZveaZJ3a7+4@debian.me>
-References: <20220714092710.53486-1-yangyicong@hisilicon.com>
- <20220714092710.53486-8-yangyicong@hisilicon.com>
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=/WT3O/iaEN8ZI+k9sQWWRlrclbEh4N1aPfEXOoHcef0=;
+        b=BtjaIr3b1sazmpD1/9j4jJkOMTEct4BvDMTElSOCgv/anm3hgrp+Z8f/vUcmXZmXL8
+         1CbkkM1HDYfu78cbMQAstmfNq62dI+8xfehruI6dDY7VNM7LOgPa7QTvs8UxxIuRuO9q
+         vPbVUlyuIUZya6YOYI34Lj54SNbbY323Uvm8UiJouoLk46MQTlfa+HfQs59ifoJOh1Di
+         NBLmcgP6z2LQrzuJT46nHHnJHWZ2LK7KOImN8om8US3QzIFIhf3Wh2fTJ32xUvSkMF7x
+         CcANwhWw7tizNNidC3gNiuqJagu2I9zHV6kIF1zqNRwC1yEtimcg2ZBztfpEf5k5Xsai
+         FKfw==
+X-Gm-Message-State: AJIora+X+Zn6zBTR5WiSfajLPxvtpj92TGpvnnbRkNyqzCuwBfO03L85
+        H9e6HIW8ri8udWm6qea2Hwo=
+X-Google-Smtp-Source: AGRyM1srrvHd0wd+c0mqmiFtnTU7PpeHR6s6xc/yzdHG2oy+kWoRM9LA5K3cHcZ2ExozHwQ2fXyF8Q==
+X-Received: by 2002:aa7:ce8a:0:b0:43a:7b0e:9950 with SMTP id y10-20020aa7ce8a000000b0043a7b0e9950mr17559858edv.58.1657872690017;
+        Fri, 15 Jul 2022 01:11:30 -0700 (PDT)
+Received: from [192.168.178.23] (h081217087223.dyn.cm.kabsi.at. [81.217.87.223])
+        by smtp.gmail.com with ESMTPSA id v10-20020a1709061dca00b0072b32de7794sm1719447ejh.70.2022.07.15.01.11.29
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 15 Jul 2022 01:11:29 -0700 (PDT)
+Message-ID: <efca1b16-2492-fa68-119b-8c3cfa05cadb@gmail.com>
+Date:   Fri, 15 Jul 2022 10:11:28 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220714092710.53486-8-yangyicong@hisilicon.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v2] Documentation: process: Update email client
+ instructions for Thunderbird
+Content-Language: en-US
+To:     Randy Dunlap <rdunlap@infradead.org>, corbet@lwn.net
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        bagasdotme@gmail.com
+References: <20220714131152.12709-1-sndanailov@gmail.com>
+ <ae06388f-a062-132b-ee61-8ad68f227970@infradead.org>
+From:   Sotir Danailov <sndanailov@gmail.com>
+In-Reply-To: <ae06388f-a062-132b-ee61-8ad68f227970@infradead.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jul 14, 2022 at 05:27:09PM +0800, Yicong Yang wrote:
-> +1. Tx path QoS control
-> +------------------------
-> +
-<snip>
-> +2. Tx path buffer control
-> +-------------------------
-> +
+Thank you for taking the time!
+I didn't expect the original author to participate. :D
+I probably should've sent a cc to you and others as well, sorry about that!
+Didn't do my research good enough I guess.
 
-Shouldn't Tx in the headings above be lowercase (tx)?
+On Fri 15 07 2022 01:18, Randy Dunlap wrote:
+> 
+> Does thunderbird v91.11.0 qualify as newer or older?
+> 
+> I tried to use the external-editor-revived yesterday with v1 of the patch..
+> no success.
 
-> +1. filter
-> +---------
-<snip>
-> +2. type
-> +-------
-<snip>
-> +3. direction
-> +------------
-<snip>
-> +4. format
-> +--------------
-<snip>
-> +5. memory management
-> +--------------------
-<snip>
-> +6. decoding
-> +-----------
+Do you think that the whole section about the
+old "External Editor" extension should be removed?
 
-I think these headings above should use title case instead.
+> v2 of the patch has more useful info (about native-messaging), so I installed
+> that and still not happy.
+> After pressing "External Editor" in a tbird reply window, nothing happens.
+> 
+> Wait -- hold everything!  Exiting tbird and reloading it
+> fixed all problems. :)
 
-Anyway, the documentation (htmldocs) builds successfully without new
-warnings.
-
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
-
--- 
-An old man doll... just what I always wanted! - Clara
+I probably should add in the document that the user should
+restart Thunderbird after all modifications, just to be sure.
