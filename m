@@ -2,123 +2,77 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E8C99C43334
-	for <linux-doc@archiver.kernel.org>; Sat, 16 Jul 2022 03:44:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B7BBC433EF
+	for <linux-doc@archiver.kernel.org>; Sat, 16 Jul 2022 03:54:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230206AbiGPDol (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 15 Jul 2022 23:44:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33768 "EHLO
+        id S229847AbiGPDyD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 15 Jul 2022 23:54:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37844 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230269AbiGPDok (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Jul 2022 23:44:40 -0400
-Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6BAD54D4E2;
-        Fri, 15 Jul 2022 20:44:39 -0700 (PDT)
-Received: by mail-pj1-x102c.google.com with SMTP id i8-20020a17090a4b8800b001ef8a65bfbdso7802806pjh.1;
-        Fri, 15 Jul 2022 20:44:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=EvhfMqDZx/5Jqi9/oIuh1bgwJC6dzv6oFttrqLY1GbQ=;
-        b=nXobtFIIY5a/pltN9remCAJQhSvo2v5qbXrOryONiOZCrpvldhVl9SF1Zh8QUWLIwN
-         JOvZlCA14GeahXFHiho+IfuUIfFBDmq6q2AUCrYj8N/J5BnRy9dT1YwxdaBO5BRbkyat
-         Xm/2ZKVuklYdBxlggZAQvo72R80/qIQVEVfHXlR2PkR+asgc+69D7s8zuwpWEtxYTLz4
-         ZybU+JKb6q8nUokT2mIo31Vz4Ee8kX/FbVoWkUMd3aq7Ovo8gKIoMLZ+OQm7XaC4FAj8
-         ZBQqQBoSTO2VI2TJkohXjyx5vB0JXbHiRQqfCFC2K0GHYWTbIkZcy+SuTpttAXV0Xnc0
-         H8pg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=EvhfMqDZx/5Jqi9/oIuh1bgwJC6dzv6oFttrqLY1GbQ=;
-        b=HHPs4dIx1O8HAt+AsqYYBQ6rwjTbSZ/8R9CtwDzHHDnBhBTdKupTKqeqhGuJKOk0SB
-         fez5C9EDwcQjZq8tb2SBzXTc+RSuta3zMCEGEp0vPijsH73hUjVGrxEiwOr1b9xQyF66
-         FU94W5olGbcVPETj3TfNjvQMMOEVh2mlY39v5PUC4+8+zPNL+pBOJTZrMrl9AVdLjd7S
-         ZWwYUytmNARNGTshELg48XKf45dt0YcPtlcMWFWuDNex94CJ0/6HymWmZ2YNahb3vRsg
-         N1QnI/CqvZR/ztBO/FFNCZoryyUd4lKHCZQFg7mSBIJolyAzeP6ZIunLZH8GIpJy14VR
-         xKxg==
-X-Gm-Message-State: AJIora/g+u2Nzp5yx/es1I7NGyqVSoRwmkhRlsaUa4pcDprCLPzspe+B
-        8j3tARM2dNwp/XaT4w9yBcA=
-X-Google-Smtp-Source: AGRyM1uv/+MMvCaei6sHImm1N1dwo3ObgVHZ7/83WHrRaTIluY5X0aT278OgP4rMFykw2YZM4t18ZQ==
-X-Received: by 2002:a17:902:e0d3:b0:16b:de4d:555b with SMTP id e19-20020a170902e0d300b0016bde4d555bmr17191377pla.79.1657943078966;
-        Fri, 15 Jul 2022 20:44:38 -0700 (PDT)
-Received: from debian.me (subs32-116-206-28-53.three.co.id. [116.206.28.53])
-        by smtp.gmail.com with ESMTPSA id m5-20020a17090a2c0500b001ef8397571asm6422617pjd.35.2022.07.15.20.44.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 Jul 2022 20:44:38 -0700 (PDT)
-Received: by debian.me (Postfix, from userid 1000)
-        id D9F14103843; Sat, 16 Jul 2022 10:44:34 +0700 (WIB)
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     linux-doc@vger.kernel.org
-Cc:     Bagas Sanjaya <bagasdotme@gmail.com>,
-        kernel test robot <lkp@intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kuppuswamy Sathyanarayanan 
-        <sathyanarayanan.kuppuswamy@linux.intel.com>,
-        Andi Kleen <ak@linux.intel.com>, linux-kernel@vger.kernel.org
-Subject: [PATCH] Documentation: tdx: fix tainted kernels table
-Date:   Sat, 16 Jul 2022 10:44:32 +0700
-Message-Id: <20220716034432.207574-1-bagasdotme@gmail.com>
-X-Mailer: git-send-email 2.37.1
-In-Reply-To: <202207150911.eR0W0c9D-lkp@intel.com>
-References: <202207150911.eR0W0c9D-lkp@intel.com>
+        with ESMTP id S229436AbiGPDyC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Jul 2022 23:54:02 -0400
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D33A2ED5E;
+        Fri, 15 Jul 2022 20:53:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1657943639; x=1689479639;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=kZ9ynVEnzgyabIgMweE3DJ5l93w8y9E+zGrLGoc1QH8=;
+  b=QYExSBVa7gU5GUNTudjbfEMD5bKGWDiY5bA5PCPjD1DDESWYFF5SoYtG
+   ubF9P6J9Kjs/fV4FPKBELiG77852eChth0ItUtQoBPJ7Ik+Ick/gW4Vgz
+   igsludkkOnOYQCrxAjCb+iO4/sKajetKWvemJ46g0PRyzbjQxX9rhCjoc
+   oUBR8NHi9vT8ikbn4dlzQD8F4HxL3Yo/iDAxiNeJH6fL5wteAACP1KNBX
+   bNTjnpwpToCR3iFhbGY+ukIcKNEyBuyMlmOw7W4YlaqKv1A0jfFW4PU64
+   d4wbTLR2/BR0ZvUV+XYozalXQk6WNYwT+C+09CNLm8MI3zh7knfalFT6y
+   w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10409"; a="311614328"
+X-IronPort-AV: E=Sophos;i="5.92,275,1650956400"; 
+   d="scan'208";a="311614328"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2022 20:53:58 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.92,275,1650956400"; 
+   d="scan'208";a="923743211"
+Received: from lkp-server02.sh.intel.com (HELO ff137eb26ff1) ([10.239.97.151])
+  by fmsmga005.fm.intel.com with ESMTP; 15 Jul 2022 20:53:57 -0700
+Received: from kbuild by ff137eb26ff1 with local (Exim 4.95)
+        (envelope-from <lkp@intel.com>)
+        id 1oCYsO-000178-I5;
+        Sat, 16 Jul 2022 03:53:56 +0000
+Date:   Sat, 16 Jul 2022 11:52:57 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     kbuild-all@lists.01.org, linux-kernel@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>,
+        linux-doc@vger.kernel.org
+Subject: [mchehab-media-next:master 323/358] htmldocs:
+ Documentation/output/videodev2.h.rst:6: WARNING: undefined label:
+ v4l2-colorspace-last (if the link has no caption the label must precede a
+ section header)
+Message-ID: <202207161116.S0RCaz3D-lkp@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-kernel test robot reported htmldocs warning on guest-filter branch of
-tdx tree:
+tree:   git://linuxtv.org/mchehab/media-next.git master
+head:   ca24fef0f2c857b0533f21f9a8a756f9e73d60fb
+commit: 718d2153ad0de0c7c0b6891eaa7f9918d68b6d5e [323/358] media: v4l2: Make colorspace validity checks more future-proof
+reproduce: make htmldocs
 
-Documentation/admin-guide/tainted-kernels.rst:82: WARNING: Malformed table.
-
-The full warning is:
-
-Documentation/admin-guide/tainted-kernels.rst:82: WARNING: Malformed table.
-Bottom/header table border does not match top border.
-
-===  ===  ======  ========================================================
-Bit  Log  Number  Reason that got the kernel tainted
-===  ===  ======  ========================================================
-<content snipped>
-===  ===  ======  =========================================================
-
-Fix the warning by matching header border length with bottom border.
-
-Link: https://lore.kernel.org/linux-doc/202207150911.eR0W0c9D-lkp@intel.com/
-Fixes: 7acbe4e1dcfb9d ("Add taint flag for TDX overrides")
+If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>
-Cc: Andi Kleen <ak@linux.intel.com>
-Cc: linux-kernel@vger.kernel.org
-Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
----
- tdx tree is at https://github.com/intel/tdx.git
 
- Documentation/admin-guide/tainted-kernels.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+All warnings (new ones prefixed by >>):
 
-diff --git a/Documentation/admin-guide/tainted-kernels.rst b/Documentation/admin-guide/tainted-kernels.rst
-index 65c58092ec354b..1146bce7e32e49 100644
---- a/Documentation/admin-guide/tainted-kernels.rst
-+++ b/Documentation/admin-guide/tainted-kernels.rst
-@@ -79,9 +79,9 @@ which bits are set::
- Table for decoding tainted state
- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- 
--===  ===  ======  ========================================================
-+===  ===  ======  =========================================================
- Bit  Log  Number  Reason that got the kernel tainted
--===  ===  ======  ========================================================
-+===  ===  ======  =========================================================
-   0  G/P       1  proprietary module was loaded
-   1  _/F       2  module was force loaded
-   2  _/S       4  kernel running on an out of specification system
+>> Documentation/output/videodev2.h.rst:6: WARNING: undefined label: v4l2-colorspace-last (if the link has no caption the label must precede a section header)
+>> Documentation/output/videodev2.h.rst:6: WARNING: undefined label: v4l2-xfer-func-last (if the link has no caption the label must precede a section header)
+>> Documentation/output/videodev2.h.rst:6: WARNING: undefined label: v4l2-ycbcr-enc-last (if the link has no caption the label must precede a section header)
 
-base-commit: 0a555e67b143701a81612d819e693cf5786de418
 -- 
-An old man doll... just what I always wanted! - Clara
-
+0-DAY CI Kernel Test Service
+https://01.org/lkp
