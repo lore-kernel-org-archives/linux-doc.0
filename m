@@ -2,56 +2,55 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B7BBC433EF
-	for <linux-doc@archiver.kernel.org>; Sat, 16 Jul 2022 03:54:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 39D02C43334
+	for <linux-doc@archiver.kernel.org>; Sat, 16 Jul 2022 04:04:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229847AbiGPDyD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 15 Jul 2022 23:54:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37844 "EHLO
+        id S231229AbiGPEED (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 16 Jul 2022 00:04:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41960 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229436AbiGPDyC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 15 Jul 2022 23:54:02 -0400
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D33A2ED5E;
-        Fri, 15 Jul 2022 20:53:58 -0700 (PDT)
+        with ESMTP id S231190AbiGPEEB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 16 Jul 2022 00:04:01 -0400
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A472E6344;
+        Fri, 15 Jul 2022 21:03:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1657943639; x=1689479639;
+  t=1657944239; x=1689480239;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=kZ9ynVEnzgyabIgMweE3DJ5l93w8y9E+zGrLGoc1QH8=;
-  b=QYExSBVa7gU5GUNTudjbfEMD5bKGWDiY5bA5PCPjD1DDESWYFF5SoYtG
-   ubF9P6J9Kjs/fV4FPKBELiG77852eChth0ItUtQoBPJ7Ik+Ick/gW4Vgz
-   igsludkkOnOYQCrxAjCb+iO4/sKajetKWvemJ46g0PRyzbjQxX9rhCjoc
-   oUBR8NHi9vT8ikbn4dlzQD8F4HxL3Yo/iDAxiNeJH6fL5wteAACP1KNBX
-   bNTjnpwpToCR3iFhbGY+ukIcKNEyBuyMlmOw7W4YlaqKv1A0jfFW4PU64
-   d4wbTLR2/BR0ZvUV+XYozalXQk6WNYwT+C+09CNLm8MI3zh7knfalFT6y
-   w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10409"; a="311614328"
+  bh=99kKm8rbtPIIR3wdQnreT6tQtUo9WlttywuIkD+dz+A=;
+  b=gKKsz+tobD2jX9N2XYKAeH8ty08sJHeCwsPLeAbvKKbsa6ytJ9qxTJvC
+   1+NG2Z1dsxvxr4wFx7NV7cdW5/MX1LEmuTMHWagnsHVlpg9mhdNFVzqRy
+   uRcr+REIg5NjRxpRWc4Eq+LpiywdNsRHUCJZ1BgL0ndxGHC9vorbgakRF
+   hHxsqVBd9qNEg6X/zDs3g0PUeQmbXOGObUWDzAxIxEh7tEJ28pmhJpon5
+   etxx6GT/C3hFnCg8zEN3JSEASkTalAwW+oMrs0hQ4BL3zdzGMtbHLURLa
+   HKvO7sbdWfp7gY5mV/IO8qUgHbOYYm9fCYM7IjbpAxQr9az5HhBMKJZ7b
+   g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10409"; a="372258437"
 X-IronPort-AV: E=Sophos;i="5.92,275,1650956400"; 
-   d="scan'208";a="311614328"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2022 20:53:58 -0700
+   d="scan'208";a="372258437"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2022 21:03:59 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.92,275,1650956400"; 
-   d="scan'208";a="923743211"
+   d="scan'208";a="546889434"
 Received: from lkp-server02.sh.intel.com (HELO ff137eb26ff1) ([10.239.97.151])
-  by fmsmga005.fm.intel.com with ESMTP; 15 Jul 2022 20:53:57 -0700
+  by orsmga003.jf.intel.com with ESMTP; 15 Jul 2022 21:03:57 -0700
 Received: from kbuild by ff137eb26ff1 with local (Exim 4.95)
         (envelope-from <lkp@intel.com>)
-        id 1oCYsO-000178-I5;
-        Sat, 16 Jul 2022 03:53:56 +0000
-Date:   Sat, 16 Jul 2022 11:52:57 +0800
+        id 1oCZ24-00017d-PD;
+        Sat, 16 Jul 2022 04:03:56 +0000
+Date:   Sat, 16 Jul 2022 12:03:30 +0800
 From:   kernel test robot <lkp@intel.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     kbuild-all@lists.01.org, linux-kernel@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>,
-        linux-doc@vger.kernel.org
-Subject: [mchehab-media-next:master 323/358] htmldocs:
- Documentation/output/videodev2.h.rst:6: WARNING: undefined label:
- v4l2-colorspace-last (if the link has no caption the label must precede a
- section header)
-Message-ID: <202207161116.S0RCaz3D-lkp@intel.com>
+To:     "Darrick J. Wong" <djwong@kernel.org>
+Cc:     kbuild-all@lists.01.org,
+        "Darrick J. Wong" <darrick.wong@oracle.com>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: [djwong-xfs:vectorized-scrub 23/378] htmldocs:
+ Documentation/filesystems/xfs-online-fsck-design.rst:2347: WARNING:
+ undefined label: _quotacheck (if the link has no caption the label must
+ precede a section header)
+Message-ID: <202207161123.gYWDmFFS-lkp@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
@@ -59,9 +58,9 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-tree:   git://linuxtv.org/mchehab/media-next.git master
-head:   ca24fef0f2c857b0533f21f9a8a756f9e73d60fb
-commit: 718d2153ad0de0c7c0b6891eaa7f9918d68b6d5e [323/358] media: v4l2: Make colorspace validity checks more future-proof
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git vectorized-scrub
+head:   ca1f215ce72afdad027367230130cc8d9b49290a
+commit: 8ad3556744361cdde71410906513277e8224895b [23/378] xfs: document technical aspects of kernel space file repair code
 reproduce: make htmldocs
 
 If you fix the issue, kindly add following tag where applicable
@@ -69,9 +68,14 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 All warnings (new ones prefixed by >>):
 
->> Documentation/output/videodev2.h.rst:6: WARNING: undefined label: v4l2-colorspace-last (if the link has no caption the label must precede a section header)
->> Documentation/output/videodev2.h.rst:6: WARNING: undefined label: v4l2-xfer-func-last (if the link has no caption the label must precede a section header)
->> Documentation/output/videodev2.h.rst:6: WARNING: undefined label: v4l2-ycbcr-enc-last (if the link has no caption the label must precede a section header)
+>> Documentation/filesystems/xfs-online-fsck-design.rst:2347: WARNING: undefined label: _quotacheck (if the link has no caption the label must precede a section header)
+
+vim +2347 Documentation/filesystems/xfs-online-fsck-design.rst
+
+  2346	
+> 2347	Quota usage counters are checked and repaired separately by
+  2348	:ref:`live quotacheck <_quotacheck>`.
+  2349	
 
 -- 
 0-DAY CI Kernel Test Service
