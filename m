@@ -2,108 +2,165 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AD622C43334
-	for <linux-doc@archiver.kernel.org>; Sat, 16 Jul 2022 19:45:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 88BFFC43334
+	for <linux-doc@archiver.kernel.org>; Sat, 16 Jul 2022 19:48:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229678AbiGPTph (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 16 Jul 2022 15:45:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56226 "EHLO
+        id S232308AbiGPTsO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 16 Jul 2022 15:48:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57342 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229815AbiGPTph (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 16 Jul 2022 15:45:37 -0400
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B64C11DA69;
-        Sat, 16 Jul 2022 12:45:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1658000735; x=1689536735;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ZN0hQdqAgRa63AaJQs7N1RWNIWr04yZNa39M13Q1EYk=;
-  b=hlVTeqmO6e34+ERzwGPIz6NAFo7ca+WrKySOHmnqX/JlUgmjwwXuTE4S
-   gcOGVQHKZklMuBlz4Bws/MpAGYlRSDBTDIekvY57RrzIjXgBGcgZ2rSCB
-   JOtShR8yQfzzrOI5x4arBl3Gg507EF/vdMcqbmjwMwds6VWtUmJGc9iYs
-   9TAm9TvzMwsuV9ELfy371A60sbg5ptW6c87az4R3fliBGVR4vEGoxUjn/
-   hDQtj2r6wfajtsYSxSWmEvDw30JAOP+u7rZAObS9zKvWJ+H3sEnRcpy0/
-   6WjmWagbTayghmAJ/nKdllp3GUhQ082CQEDmH0xSgmCJ//RcIy0UYjF7L
-   g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10410"; a="283567185"
-X-IronPort-AV: E=Sophos;i="5.92,277,1650956400"; 
-   d="scan'208";a="283567185"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jul 2022 12:45:35 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.92,277,1650956400"; 
-   d="scan'208";a="923882314"
-Received: from lkp-server02.sh.intel.com (HELO ff137eb26ff1) ([10.239.97.151])
-  by fmsmga005.fm.intel.com with ESMTP; 16 Jul 2022 12:45:34 -0700
-Received: from kbuild by ff137eb26ff1 with local (Exim 4.95)
-        (envelope-from <lkp@intel.com>)
-        id 1oCnjJ-00023P-Lg;
-        Sat, 16 Jul 2022 19:45:33 +0000
-Date:   Sun, 17 Jul 2022 03:44:44 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Stephen Kitt <steve@sk2.org>, Jonathan Corbet <corbet@lwn.net>
-Cc:     kbuild-all@lists.01.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Stephen Kitt <steve@sk2.org>
-Subject: Re: [PATCH 5/5] docs: sysctl/fs: re-order, prettify
-Message-ID: <202207170303.ThkAWAGX-lkp@intel.com>
-References: <20220712172619.359052-5-steve@sk2.org>
+        with ESMTP id S229457AbiGPTsO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 16 Jul 2022 15:48:14 -0400
+Received: from mail-io1-xd43.google.com (mail-io1-xd43.google.com [IPv6:2607:f8b0:4864:20::d43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 786D81C101;
+        Sat, 16 Jul 2022 12:48:13 -0700 (PDT)
+Received: by mail-io1-xd43.google.com with SMTP id q14so6355838iod.3;
+        Sat, 16 Jul 2022 12:48:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Z4ccNBeWVPImDHLuhSMEUl7P2+XfQAkGMxLoWz9oAMs=;
+        b=MUcMO0HxCUG8TxgkJwIYYDjnnhga6jwBaNEk+33XIZA/VZBrDlaagvC7/mqfvpZPKY
+         JwbKX4IYv+fLX4r6G7vMdsRPWxsAXAWhfBrb/8ILE1ao3wIRSypWUbIsSkOt1/6tO3qq
+         d1h8Qqxreamtd2ofvtDs30XdLopmcGPSHmoYV08ZUMywF1/W5sNpQNrKt5HRADzVWGXa
+         q40uqgT9rQIAAP/+B4ZsYiZFjkDcPRtejv+Vlq9HXsavSsA6OX+WgqU99QkiJ3J6WUFZ
+         iYjqJwqy66cujVD2cX7q7sIrziw3eYnY4ahHXDU6hmiDGCM+NJ7l8s89orPQmgEFUmO9
+         jgDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Z4ccNBeWVPImDHLuhSMEUl7P2+XfQAkGMxLoWz9oAMs=;
+        b=8MXIKCegq2cXSg7b7hH/gxr59tjp6BEaeu7zvC9rymRabXBV/3hi/jj4u70TdSiBFh
+         WUrBaS1EhoLF4MnKmTAY4ELG16Lsw/0ggoRy74sWqoGvzG3nLDZGdsO846eSHLTxDwDQ
+         Ao7dSNN6Eayw/g5q87+vL/dDx9A8UAXi5bDRxyJyj4duQ3WGPutMNaMF4pfMPbBdqZ+5
+         9Mnu4n4dG2WgbFQjm8RoeEEVUqtOjPhZOrnwDVqnvicJNMchvFCGDWoB7W4Jt/LKy2By
+         x+h99dQSYf4QlfwxbpYYowpAcnCtjflLqtVagTiLfK2D3Rrkda3junlPxBJF7MJQ995g
+         68cw==
+X-Gm-Message-State: AJIora/vUtQ7BUE7SumghXTLduI6qpyTfSlZtQ/lQ/wPFJxunWzCGOxG
+        f/fGeOy5joQiDdxBraGxXtEG57YsOedHu8FB74U=
+X-Google-Smtp-Source: AGRyM1ubmKtb+ja3MY58pjJ8vWMuna7mCIPAwIZwJhkaPNF9GrWbontMdfo8GJHALPm0jw5FkTNANCvte0Mvl9WC5Nw=
+X-Received: by 2002:a05:6602:2e8d:b0:64f:b683:c70d with SMTP id
+ m13-20020a0566022e8d00b0064fb683c70dmr9534049iow.62.1658000892752; Sat, 16
+ Jul 2022 12:48:12 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220712172619.359052-5-steve@sk2.org>
+References: <20220712145850.599666-1-benjamin.tissoires@redhat.com> <20220712145850.599666-3-benjamin.tissoires@redhat.com>
+In-Reply-To: <20220712145850.599666-3-benjamin.tissoires@redhat.com>
+From:   Kumar Kartikeya Dwivedi <memxor@gmail.com>
+Date:   Sat, 16 Jul 2022 21:47:34 +0200
+Message-ID: <CAP01T766-JGd=6twHYhWDmjVBk7wuuvWMLFyDZ656fka6GW8Cw@mail.gmail.com>
+Subject: Re: [PATCH bpf-next v6 02/23] bpf/verifier: allow kfunc to read user
+ provided context
+To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     Greg KH <gregkh@linuxfoundation.org>,
+        Jiri Kosina <jikos@kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>, Shuah Khan <shuah@kernel.org>,
+        Dave Marchevsky <davemarchevsky@fb.com>,
+        Joe Stringer <joe@cilium.io>, Jonathan Corbet <corbet@lwn.net>,
+        Tero Kristo <tero.kristo@linux.intel.com>,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        netdev@vger.kernel.org, bpf@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Stephen,
+On Tue, 12 Jul 2022 at 17:02, Benjamin Tissoires
+<benjamin.tissoires@redhat.com> wrote:
+>
+> When a kfunc was trying to access data from context in a syscall eBPF
+> program, the verifier was rejecting the call.
+> This is because the syscall context is not known at compile time, and
+> so we need to check this when actually accessing it.
+>
+> Check for the valid memory access and allow such situation to happen.
+>
+> Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+>
+> ---
+>
+> new in v6
+> ---
+>  kernel/bpf/verifier.c | 16 ++++++++++++++++
+>  1 file changed, 16 insertions(+)
+>
+> diff --git a/kernel/bpf/verifier.c b/kernel/bpf/verifier.c
+> index 328cfab3af60..f6af57a84247 100644
+> --- a/kernel/bpf/verifier.c
+> +++ b/kernel/bpf/verifier.c
+> @@ -248,6 +248,7 @@ struct bpf_call_arg_meta {
+>         struct bpf_map *map_ptr;
+>         bool raw_mode;
+>         bool pkt_access;
+> +       bool is_kfunc;
+>         u8 release_regno;
+>         int regno;
+>         int access_size;
+> @@ -5170,6 +5171,7 @@ static int check_helper_mem_access(struct bpf_verifier_env *env, int regno,
+>                                    struct bpf_call_arg_meta *meta)
+>  {
+>         struct bpf_reg_state *regs = cur_regs(env), *reg = &regs[regno];
+> +       enum bpf_prog_type prog_type = resolve_prog_type(env->prog);
+>         u32 *max_access;
+>
+>         switch (base_type(reg->type)) {
+> @@ -5223,6 +5225,19 @@ static int check_helper_mem_access(struct bpf_verifier_env *env, int regno,
+>                                 env,
+>                                 regno, reg->off, access_size,
+>                                 zero_size_allowed, ACCESS_HELPER, meta);
+> +       case PTR_TO_CTX:
+> +               /* in case of a kfunc called in a program of type SYSCALL, the context is
+> +                * user supplied, so not computed statically.
+> +                * Dynamically check it now
+> +                */
+> +               if (prog_type == BPF_PROG_TYPE_SYSCALL && meta && meta->is_kfunc) {
+> +                       enum bpf_access_type access_t = meta->raw_mode ? BPF_WRITE : BPF_READ;
 
-Thank you for the patch! Perhaps something to improve:
+small nit: _t suffix is used for types, so you could probably rename
+this. maybe atype?
 
-[auto build test WARNING on 50fd82b3a9a9335df5d50c7ddcb81c81d358c4fc]
+> +
+> +                       return check_mem_access(env, env->insn_idx, regno, access_size, BPF_B,
+> +                                               access_t, -1, false);
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Stephen-Kitt/docs-sysctl-remove-references-to-inode-max/20220713-014344
-base:   50fd82b3a9a9335df5d50c7ddcb81c81d358c4fc
-reproduce: make htmldocs
+If I read the code correctly, this makes the max_ctx_offset of prog
+access_size + 1 (off + size_to_bytes(BPF_B)), which is 1 more than the
+actual size being accessed.
 
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
+This also messes up check_helper_mem_access when it allows NULL, 0
+pair to pass (because check is against actual size + 1). We do allow
+passing NULL when size is 0 for kfuncs (see zero_size_allowed is true
+in check_mem_size_reg), so your hid_hw_request function is missing
+that NULL check for buf too.
 
-All warnings (new ones prefixed by >>):
+In the selftest that checks for failure in loading
++ bpf_kfunc_call_test_mem_len_pass1(&args->data, sizeof(*args) + 1);
+so it will still fail with just sizeof(*args).
 
->> Documentation/admin-guide/sysctl/fs.rst:260: WARNING: undefined label: core_pattern (if the link has no caption the label must precede a section header)
+Also please add coverage for this case in the next version.
 
-vim +260 Documentation/admin-guide/sysctl/fs.rst
-
-   249	
-   250	=   ==========  ===============================================================
-   251	0   (default)	Traditional behaviour. Any process which has changed
-   252			privilege levels or is execute only will not be dumped.
-   253	1   (debug)	All processes dump core when possible. The core dump is
-   254			owned by the current user and no security is applied. This is
-   255			intended for system debugging situations only.
-   256			Ptrace is unchecked.
-   257			This is insecure as it allows regular users to examine the
-   258			memory contents of privileged processes.
-   259	2   (suidsafe)	Any binary which normally would not be dumped is dumped
- > 260			anyway, but only if the ``core_pattern`` kernel sysctl (see
-   261			:ref:`Documentation/admin-guide/sysctl/kernel.rst <core_pattern>`)
-   262			is set to
-   263			either a pipe handler or a fully qualified path. (For more
-   264			details on this limitation, see CVE-2006-2451.) This mode is
-   265			appropriate when administrators are attempting to debug
-   266			problems in a normal environment, and either have a core dump
-   267			pipe handler that knows to treat privileged core dumps with
-   268			care, or specific directory defined for catching core dumps.
-   269			If a core dump happens without a pipe handler or fully
-   270			qualified path, a message will be emitted to syslog warning
-   271			about the lack of a correct setting.
-   272	=   ==========  ===============================================================
-   273	
-   274	
-   275	
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+> +               }
+> +
+> +               fallthrough;
+>         default: /* scalar_value or invalid ptr */
+>                 /* Allow zero-byte read from NULL, regardless of pointer type */
+>                 if (zero_size_allowed && access_size == 0 &&
+> @@ -5335,6 +5350,7 @@ int check_kfunc_mem_size_reg(struct bpf_verifier_env *env, struct bpf_reg_state
+>         WARN_ON_ONCE(regno < BPF_REG_2 || regno > BPF_REG_5);
+>
+>         memset(&meta, 0, sizeof(meta));
+> +       meta.is_kfunc = true;
+>
+>         if (may_be_null) {
+>                 saved_reg = *mem_reg;
+> --
+> 2.36.1
+>
