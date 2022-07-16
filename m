@@ -2,117 +2,185 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 61107CCA479
-	for <linux-doc@archiver.kernel.org>; Sat, 16 Jul 2022 09:33:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3605ECCA483
+	for <linux-doc@archiver.kernel.org>; Sat, 16 Jul 2022 12:42:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229958AbiGPJdp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 16 Jul 2022 05:33:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54520 "EHLO
+        id S231574AbiGPMmY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 16 Jul 2022 08:42:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44006 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232100AbiGPJdo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 16 Jul 2022 05:33:44 -0400
-Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 49AF4182;
-        Sat, 16 Jul 2022 02:33:40 -0700 (PDT)
-Received: by mail-pj1-x1031.google.com with SMTP id x18-20020a17090a8a9200b001ef83b332f5so13722442pjn.0;
-        Sat, 16 Jul 2022 02:33:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=xhq++96SwqP8iCLJj1mxjf4nsafc6aa4I9geuOUsTYc=;
-        b=arQXmVNjfmYBDpNRP5PRNWJoI8kfTbc5ypG0ZQEZDHfwB8FX3FTfhpHVNwRCERCZdR
-         kK7A7fU20oJR6WneJQb8VqwOa5cffhmvzxj+qfyb0+JLNVGJRZ0XsZmX1SKtv7L7V+n2
-         vtdgpsw3g/PFkNb7W0d406eVRYjY2ouuxnzMsy6pI8+7vEU+56+jTMxoNr1FeNQqfpWP
-         fKfyr35Oe78cXWxxXxXngBPY6eRotbwcLmElAhiA3mxvVgYX2d4bbPJw2JbYsUyQEYvJ
-         s/iRQ7ilUZk1qwHgfsGrRrkcknx/yJrF7PLiiKA/57v1TeNeUOoM+bIrj2a8yJ/DovOW
-         Sayg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=xhq++96SwqP8iCLJj1mxjf4nsafc6aa4I9geuOUsTYc=;
-        b=V36ucEBkKQcSuMJGAh+/OnnOBEEHjA5NSOVbxaoV5sWbMO8m+MWg4sxQZQraw5p6j/
-         NwHjEsRRxrfw5Dcmt5tm81r2XHbdBSoGvE5gWi5GWzjuF5SSnJvUSOPkhS5EtoiPBZVv
-         KMPRbcww8T2C6ufEEvoosXb42CgBSg3S9W3ahyVo/AVw9+BXDleYBVGfl7+X79yqrUXb
-         zL8R5q2WTDpFr+8UXALvnmVw2ZcoPUMglMelWZE96P5VAC+T5VEixsSLmBj68P3ZCwtn
-         4NzQ+/U4aatBvFKMOZkpJ+6AMrNXjjGDLbmnvrTa4/4PND9wKIoCsXGC9XJhyxocW8uh
-         cYbg==
-X-Gm-Message-State: AJIora/99K1BZl15jewVC/4U83aqdmeXFWSJmGgzUrFPwNKJOArWXCTr
-        9vpvHCZamwJtq6hSS23HvJE=
-X-Google-Smtp-Source: AGRyM1sCsMunfbPOuymvkXTYD/IzPE6crrGnwwbagMZeRKOYiRRbdJW7sSMgIpbhgwrbS+WipRyRqg==
-X-Received: by 2002:a17:902:eec2:b0:16c:9837:cd4 with SMTP id h2-20020a170902eec200b0016c98370cd4mr15342704plb.132.1657964019824;
-        Sat, 16 Jul 2022 02:33:39 -0700 (PDT)
-Received: from debian.me (subs32-116-206-28-23.three.co.id. [116.206.28.23])
-        by smtp.gmail.com with ESMTPSA id 199-20020a6218d0000000b0052abc2438f1sm5352747pfy.55.2022.07.16.02.33.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 16 Jul 2022 02:33:38 -0700 (PDT)
-Received: by debian.me (Postfix, from userid 1000)
-        id 60BCD103840; Sat, 16 Jul 2022 16:33:33 +0700 (WIB)
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     linux-doc@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Martin Liska <mliska@suse.cz>, Andi Kleen <ak@linux.intel.com>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        linux-kbuild@vger.kernel.org, Bagas Sanjaya <bagasdotme@gmail.com>
-Subject: [PATCH 3/4] Documentation: lto: use bullet lists for external link references list
-Date:   Sat, 16 Jul 2022 16:32:49 +0700
-Message-Id: <20220716093249.19326-4-bagasdotme@gmail.com>
+        with ESMTP id S229606AbiGPMmX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 16 Jul 2022 08:42:23 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 981DF18385;
+        Sat, 16 Jul 2022 05:42:22 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 50BDCB80108;
+        Sat, 16 Jul 2022 12:42:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A6CBCC34114;
+        Sat, 16 Jul 2022 12:42:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1657975340;
+        bh=HjF+NeyLSXs/BPREprBA9T9P63b0wfvdyRWiqF26LnM=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=u23P2EU6qRL1vu6U1ohiYHNRckhBNC8KYLKdsiszyMvWP2H18PzeER3z0ZoCqs8Oz
+         jcDv58i75lMPxVsyThQIDpuusbS1ggqazOvkBjc0XIBMWOOCt6FhnBOHk0SQrwKruJ
+         XSo7j0jgJemcDPs9KTaC7peucwxSOMt4rJMAHkA5uwdtU7P3TVe7D9jWyfRcSJNhkk
+         ZBSZAiI0ucFmL1fK5Dskz6B94ZFS2WZrK5KXL25yE+Q8WIfgxDRTt01tLNXdu4Q7N8
+         DZobomePyEVsHwva8L8DkFKlH7VjnXfoKcEaNJxI9vUeO+aItFS6E/0zfWyfDmlOhH
+         6F5kuracHfOdw==
+From:   Conor Dooley <conor@kernel.org>
+To:     ojeda@kernel.org
+Cc:     gregkh@linuxfoundation.org, jarkko@kernel.org,
+        kunit-dev@googlegroups.com, linux-arm-kernel@lists.infradead.org,
+        linux-doc@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-perf-users@vger.kernel.org,
+        linux-riscv@lists.infradead.org, linux-um@lists.infradead.org,
+        linuxppc-dev@lists.ozlabs.org, live-patching@vger.kernel.org,
+        rust-for-linux@vger.kernel.org, torvalds@linux-foundation.org
+Subject: Re: [PATCH v7 00/25] Rust support
+Date:   Sat, 16 Jul 2022 13:42:14 +0100
+Message-Id: <20220716124214.329949-1-conor@kernel.org>
 X-Mailer: git-send-email 2.37.1
-In-Reply-To: <20220716093249.19326-1-bagasdotme@gmail.com>
-References: <20220716093249.19326-1-bagasdotme@gmail.com>
+In-Reply-To: <20220523020209.11810-1-ojeda@kernel.org>
+References: <20220523020209.11810-1-ojeda@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Similar to the FAQ, use bullet lists in References section since it
-contains list of external reference links.
+Hey,
 
-Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
----
- Documentation/kbuild/lto-build.rst | 21 ++++++++++++---------
- 1 file changed, 12 insertions(+), 9 deletions(-)
+Maybe I am just missing something blatantly obvious here, but trying
+to build rust support in -next fails for me. I am using ClangBuiltLinux
+clang version 15.0.0 5b0788fef86ed7008a11f6ee19b9d86d42b6fcfa and LLD
+15.0.0. Is it just expected that building -next with rust support is
+not a good idea?
+My defconfig is the default RISC-V one plus:
+CONFIG_RUST=y
+CONFIG_SAMPLES=y
+CONFIG_SAMPLES_RUST=y
+CONFIG_SAMPLE_RUST_MINIMAL=y
 
-diff --git a/Documentation/kbuild/lto-build.rst b/Documentation/kbuild/lto-build.rst
-index 9e3e14042dda4c..3fb17342e72fd6 100644
---- a/Documentation/kbuild/lto-build.rst
-+++ b/Documentation/kbuild/lto-build.rst
-@@ -56,17 +56,20 @@ FAQs:
- References:
- -----------
- 
--Presentation on Kernel LTO
--(note, performance numbers/details totally outdated.)
--http://halobates.de/kernel-lto.pdf
-+* Presentation on Kernel LTO
-+  (note, performance numbers/details totally outdated.)
- 
--Generic gcc LTO:
--http://www.ucw.cz/~hubicka/slides/labs2013.pdf
--http://www.hipeac.net/system/files/barcelona.pdf
-+  http://halobates.de/kernel-lto.pdf
- 
--Somewhat outdated too:
--http://gcc.gnu.org/projects/lto/lto.pdf
--http://gcc.gnu.org/projects/lto/whopr.pdf
-+* Generic gcc LTO:
-+
-+  * http://www.ucw.cz/~hubicka/slides/labs2013.pdf
-+  * http://www.hipeac.net/system/files/barcelona.pdf
-+
-+* Somewhat outdated too (from GCC site):
-+
-+  * http://gcc.gnu.org/projects/lto/lto.pdf
-+  * http://gcc.gnu.org/projects/lto/whopr.pdf
- 
- Happy Link-Time-Optimizing!
- 
--- 
-An old man doll... just what I always wanted! - Clara
+Thanks,
+Conor.
 
+Fail log:
+  UPD     rust/target.json
+  BINDGEN rust/bindings_generated.rs
+  BINDGEN rust/bindings_helpers_generated.rs
+  RUSTC L rust/core.o
+  EXPORTS rust/exports_core_generated.h
+  RUSTC P rust/libmacros.so
+  RUSTC L rust/compiler_builtins.o
+  RUSTC L rust/alloc.o
+  RUSTC L rust/build_error.o
+  EXPORTS rust/exports_alloc_generated.h
+  RUSTC L rust/kernel.o
+error[E0428]: the name `maple_enode` is defined multiple times
+     --> linux/rust/bindings_generated.rs:18009:1
+      |
+18006 | pub struct maple_enode {
+      | ---------------------- previous definition of the type `maple_enode` here
+...
+18009 | pub type maple_enode = *mut maple_enode;
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ `maple_enode` redefined here
+      |
+      = note: `maple_enode` must be defined only once in the type namespace of this module
+
+error[E0428]: the name `maple_pnode` is defined multiple times
+     --> linux/rust/bindings_generated.rs:18015:1
+      |
+18012 | pub struct maple_pnode {
+      | ---------------------- previous definition of the type `maple_pnode` here
+...
+18015 | pub type maple_pnode = *mut maple_pnode;
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ `maple_pnode` redefined here
+      |
+      = note: `maple_pnode` must be defined only once in the type namespace of this module
+
+error[E0391]: cycle detected when expanding type alias `bindings::bindings_raw::maple_pnode`
+     --> linux/rust/bindings_generated.rs:18015:29
+      |
+18015 | pub type maple_pnode = *mut maple_pnode;
+      |                             ^^^^^^^^^^^
+      |
+      = note: ...which immediately requires expanding type alias `bindings::bindings_raw::maple_pnode` again
+      = note: type aliases cannot be recursive
+      = help: consider using a struct, enum, or union instead to break the cycle
+      = help: see <https://doc.rust-lang.org/reference/types.html#recursive-types> for more information
+note: cycle used when computing type of `bindings::bindings_raw::maple_range_64::parent`
+     --> linux/rust/bindings_generated.rs:18058:22
+      |
+18058 |     pub parent: *mut maple_pnode,
+      |                      ^^^^^^^^^^^
+
+error[E0391]: cycle detected when expanding type alias `bindings::bindings_raw::maple_enode`
+     --> linux/rust/bindings_generated.rs:18009:29
+      |
+18009 | pub type maple_enode = *mut maple_enode;
+      |                             ^^^^^^^^^^^
+      |
+      = note: ...which immediately requires expanding type alias `bindings::bindings_raw::maple_enode` again
+      = note: type aliases cannot be recursive
+      = help: consider using a struct, enum, or union instead to break the cycle
+      = help: see <https://doc.rust-lang.org/reference/types.html#recursive-types> for more information
+note: cycle used when computing type of `bindings::bindings_raw::maple_topiary::next`
+     --> linux/rust/bindings_generated.rs:18340:20
+      |
+18340 |     pub next: *mut maple_enode,
+      |                    ^^^^^^^^^^^
+
+error[E0117]: only traits defined in the current crate can be implemented for arbitrary types
+     --> linux/rust/bindings_generated.rs:18005:10
+      |
+18005 | #[derive(Copy, Clone)]
+      |          ^^^^
+      |          |
+      |          impl doesn't use only types from inside the current crate
+      |          `*mut [type error]` is not defined in the current crate
+      |
+      = note: define and implement a trait or new type instead
+      = note: this error originates in the derive macro `Copy` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+error[E0117]: only traits defined in the current crate can be implemented for arbitrary types
+     --> linux/rust/bindings_generated.rs:18011:10
+      |
+18011 | #[derive(Copy, Clone)]
+      |          ^^^^
+      |          |
+      |          impl doesn't use only types from inside the current crate
+      |          `*mut [type error]` is not defined in the current crate
+      |
+      = note: define and implement a trait or new type instead
+      = note: this error originates in the derive macro `Copy` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+error[E0117]: only traits defined in the current crate can be implemented for arbitrary types
+     --> linux/rust/bindings_generated.rs:18005:16
+      |
+18005 | #[derive(Copy, Clone)]
+      |                ^^^^^
+      |                |
+      |                impl doesn't use only types from inside the current crate
+      |                `*mut [type error]` is not defined in the current crate
+      |
+      = note: define and implement a trait or new type instead
+      = note: this error originates in the derive macro `Clone` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+error[E0117]: only traits defined in the current crate can be implemented for arbitrary types
+     --> linux/rust/bindings_generated.rs:18011:16
+      |
+18011 | #[derive(Copy, Clone)]
+      |                ^^^^^
+      |                |
+      |                impl doesn't use only types from inside the current crate
+      |                `*mut [type error]` is not defined in the current crate
+      |
+      = note: define and implement a trait or new type instead
+      = note: this error originates in the derive macro `Clone` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+error: aborting due to 8 previous errors
