@@ -2,102 +2,115 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 54FE0C43334
-	for <linux-doc@archiver.kernel.org>; Sun, 17 Jul 2022 23:15:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 709DBCCA481
+	for <linux-doc@archiver.kernel.org>; Sun, 17 Jul 2022 23:53:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232477AbiGQXPG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 17 Jul 2022 19:15:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35164 "EHLO
+        id S231611AbiGQXxM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 17 Jul 2022 19:53:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47826 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232068AbiGQXPF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 17 Jul 2022 19:15:05 -0400
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B007AEE15;
-        Sun, 17 Jul 2022 16:15:01 -0700 (PDT)
-Received: by mail-wm1-f50.google.com with SMTP id x23-20020a05600c179700b003a30e3e7989so4231280wmo.0;
-        Sun, 17 Jul 2022 16:15:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=LH4n7A71z2UtMbdkqz51CcJRsS37ykAzmXuCekcdsw8=;
-        b=e//POZtzkiCGbQkiS0IXf4VTzGgOtKOOHL+lbMWTUxTLR8Z0vDZ1fCSWx1iN69j0Xd
-         OdH33ABjyST00bAkEkRHUKTB4ZucC/XUyrF82RoFVbHFcARhLP4QcYxlrpboX0QdLF6E
-         GSx77Mvs5GY5LRUVwmcnZihPjka02rR+6F4noP9tjxrqAX4G54IHRjKQXrtj1LlReO9+
-         eMo3bEja/C2J2NEllFZtotD/ppmKkeRT3XOJ8sbMvmnIy51xv/+i7HkpMHts+Bx3UrBz
-         JiC1VkAZWRFr1bJandOyIJqZBixVPquJr1z+2hF6zPSi2Urr2AEPxe4NeTWJDjOsra53
-         XNhw==
-X-Gm-Message-State: AJIora++C48F/nwZJeLIxEfcpZH8va9nZefCIfGqu2F2HAWpF7Em6sm0
-        HkuWtw6Gpjo9UEObgTWa1vs=
-X-Google-Smtp-Source: AGRyM1u8fxdRrPu5eHRAitR/Y3qVMxpcFQiHk6KAe4cpvkR7OIrC7QeZwJjDkXwscQ0Zi3ew+B4WBQ==
-X-Received: by 2002:a05:600c:4e54:b0:3a0:4e07:ce with SMTP id e20-20020a05600c4e5400b003a04e0700cemr24563197wmq.37.1658099700314;
-        Sun, 17 Jul 2022 16:15:00 -0700 (PDT)
-Received: from liuwe-devbox-debian-v2 ([51.145.34.42])
-        by smtp.gmail.com with ESMTPSA id c14-20020a5d4cce000000b0021d82a6095bsm9168383wrt.95.2022.07.17.16.14.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 17 Jul 2022 16:14:59 -0700 (PDT)
-Date:   Sun, 17 Jul 2022 23:14:58 +0000
-From:   Wei Liu <wei.liu@kernel.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Wei Liu <wei.liu@kernel.org>,
-        Michael Kelley <mikelley@microsoft.com>, kys@microsoft.com,
-        haiyangz@microsoft.com, sthemmin@microsoft.com,
-        decui@microsoft.com, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-hyperv@vger.kernel.org
-Subject: Re: [PATCH v2 0/3] Documentation: hyperv: Add basic info on Hyper-V
- enlightenments
-Message-ID: <20220717231458.zcapml7bfccw2pjw@liuwe-devbox-debian-v2>
-References: <1657561704-12631-1-git-send-email-mikelley@microsoft.com>
- <20220711185640.px4bwf4ldqqqw5ij@liuwe-devbox-debian-v2>
- <8735f44w27.fsf@meer.lwn.net>
+        with ESMTP id S229535AbiGQXxL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 17 Jul 2022 19:53:11 -0400
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A36A610FF0;
+        Sun, 17 Jul 2022 16:53:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1658101990; x=1689637990;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=9pF+52u5sIt8iKnb9u1XPMvY1nWRTKK736yt0w7idas=;
+  b=Uz1ZdOEWU1ks6zZDlYQyoiUF22njluq3RLkEUgfWOYU8pEF18XMvcn0A
+   I/W/7CvOH3idi0Vsiywpdb+9+imlZzP02iEEN5t6GiKQGd6T+HkyDw4v8
+   EipJKRncXZ0eWgxUB8Y0KDStidoH1GwmTFDYzhIosUh6x73TN1BOeMxU/
+   VpslscMRGEoQGrjDDsERwvQvv0nctdVHRUXJgb9xQ1HxYia2MzAtgxk4s
+   oM7DmHPwS8OojH4vGw6CTMxQn5PGBQKBqZQJ2TAw9LoRo/9ewHWPBnwSI
+   cc2e0dcXPRh7mJVXEDj7vfvYFiO24SgWnac29LMCu9ZOif99ZttlXhdBk
+   Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10411"; a="287245441"
+X-IronPort-AV: E=Sophos;i="5.92,280,1650956400"; 
+   d="scan'208";a="287245441"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2022 16:53:10 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.92,280,1650956400"; 
+   d="scan'208";a="594283394"
+Received: from lkp-server02.sh.intel.com (HELO ff137eb26ff1) ([10.239.97.151])
+  by orsmga007.jf.intel.com with ESMTP; 17 Jul 2022 16:53:05 -0700
+Received: from kbuild by ff137eb26ff1 with local (Exim 4.95)
+        (envelope-from <lkp@intel.com>)
+        id 1oDE4O-0003o3-FB;
+        Sun, 17 Jul 2022 23:53:04 +0000
+Date:   Mon, 18 Jul 2022 07:52:21 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Daniel Bristot de Oliveira <bristot@kernel.org>,
+        Steven Rostedt <rostedt@goodmis.org>
+Cc:     kbuild-all@lists.01.org,
+        Daniel Bristot de Oliveira <bristot@kernel.org>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Ingo Molnar <mingo@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Will Deacon <will@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Marco Elver <elver@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Gabriele Paoloni <gpaoloni@redhat.com>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Clark Williams <williams@redhat.com>,
+        Tao Zhou <tao.zhou@linux.dev>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-trace-devel@vger.kernel.org
+Subject: Re: [PATCH V5 15/16] rv/reactor: Add the printk reactor
+Message-ID: <202207180703.hiH5bbyO-lkp@intel.com>
+References: <5fcf3d21b51bc4c1a6d2968cfd0c60fdbc1d471b.1657745645.git.bristot@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <8735f44w27.fsf@meer.lwn.net>
+In-Reply-To: <5fcf3d21b51bc4c1a6d2968cfd0c60fdbc1d471b.1657745645.git.bristot@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jul 13, 2022 at 02:06:08PM -0600, Jonathan Corbet wrote:
-> Wei Liu <wei.liu@kernel.org> writes:
-> 
-> > On Mon, Jul 11, 2022 at 10:48:21AM -0700, Michael Kelley wrote:
-> >> This documentation is a high level overview to explain the basics
-> >> of Linux running as a guest on Hyper-V. The intent is to document
-> >> the forest, not the trees. The Hyper-V Top Level Functional Spec
-> >> provides conceptual material and API details for the core Hyper-V
-> >> hypervisor, and this documentation provides additional info on
-> >> how that functionality is applied to Linux. Also, there's no
-> >> public documentation on VMbus or the VMbus synthetic devices, so
-> >> this documentation helps fill that gap at a conceptual level. This
-> >> documentation is not API-level documentation, which can be seen
-> >> in the code and associated comments.
-> >> 
-> >> More topics will be added in future patches, including:
-> >> 
-> >> * Miscellaneous synthetic devices like KVP, timesync, VSS, etc.
-> >> * Virtual PCI support
-> >> * Isolated/Confidential VMs
-> >> * UIO driver
-> >> 
-> >> If you think I'm missing a topic that fits into the overall
-> >> approach as described, feel free to suggest text, or let me
-> >> know and I can add it to my list.
-> >> 
-> >> Changes in v2:
-> >> * Updated clocks.rst to use section hierarchy that matches
-> >>   overview.rst and vmbus.rst [Wei Liu]
-> >> 
-> >> Michael Kelley (3):
-> >>   Documentation: hyperv: Add overview of Hyper-V enlightenments
-> >>   Documentation: hyperv: Add overview of VMbus
-> >>   Documentation: hyperv: Add overview of clocks and timers
-> >
-> > Content-wise all patches look good to me.
-> >
-> > Jonathan, let me know how you would like to handle this series. I'm
-> > happy to carry them in hyperv-next.
-> 
-> I went ahead and applied them while I was in the neighborhood.
+Hi Daniel,
 
-Thanks!
+I love your patch! Perhaps something to improve:
+
+[auto build test WARNING on rostedt-trace/for-next]
+[also build test WARNING on tip/sched/core]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Bristot-de-Oliveira/The-Runtime-Verification-RV-interface/20220714-052220
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/rostedt/linux-trace.git for-next
+config: x86_64-allmodconfig (https://download.01.org/0day-ci/archive/20220718/202207180703.hiH5bbyO-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-3) 11.3.0
+reproduce:
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://github.com/intel-lab-lkp/linux/commit/d1746223447deb1d1646f968512a065a1cd63a9c
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Daniel-Bristot-de-Oliveira/The-Runtime-Verification-RV-interface/20220714-052220
+        git checkout d1746223447deb1d1646f968512a065a1cd63a9c
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/misc/lkdtm/ kernel/trace/rv/
+
+If you fix the issue, kindly add following tag where applicable
+Reported-by: kernel test robot <lkp@intel.com>
+
+
+sparse warnings: (new ones prefixed by >>)
+>> kernel/trace/rv/reactor_printk.c:20:19: sparse: sparse: symbol 'rv_printk' was not declared. Should it be static?
+>> kernel/trace/rv/reactor_printk.c:26:5: sparse: sparse: symbol 'register_react_printk' was not declared. Should it be static?
+>> kernel/trace/rv/reactor_printk.c:32:6: sparse: sparse: symbol 'unregister_react_printk' was not declared. Should it be static?
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
