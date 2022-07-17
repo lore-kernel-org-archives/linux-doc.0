@@ -2,114 +2,107 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1BFBBC43334
-	for <linux-doc@archiver.kernel.org>; Sun, 17 Jul 2022 18:57:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C45CC433EF
+	for <linux-doc@archiver.kernel.org>; Sun, 17 Jul 2022 23:02:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229757AbiGQS5H (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 17 Jul 2022 14:57:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51512 "EHLO
+        id S232660AbiGQXCn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 17 Jul 2022 19:02:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59296 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229462AbiGQS5G (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 17 Jul 2022 14:57:06 -0400
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 045FB101F9;
-        Sun, 17 Jul 2022 11:57:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1658084226; x=1689620226;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=mTiA/vrtq0gwBE8+IY0vEqWFd+SHutRTRDePbcfSerA=;
-  b=WVKRwQd9TMYt2gYxCZKH251kCK7/OKtn02wpjYIncwmfPsmW17dtfmDe
-   ye/k8LyAv5wCc4JtIBt/Tw6Mo/egUCHJZOy24uvndF6cqy8Q0U8Kkq2R9
-   /iDcavpYmcVZ8u5+9H41oPZQSniCnDTK0D5tzHvTxpL/6jLop/qrCTVu+
-   aeqZgJsTe9bFhgKioepbJTZON0Xi0/G+ZvghbIBxKn0x8JFeO1tarE8gW
-   e4GAfJm69DTGs4aJMcfgAkZz5QYnwqF20V3I/WQYMp959FoQe7ncJg2Rk
-   gnhtmLdT0RaV78L29JYW2Pz6aKfT613QgL6U2I7TAZK0TZXd+uWPhkmYh
-   A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10411"; a="265868014"
-X-IronPort-AV: E=Sophos;i="5.92,279,1650956400"; 
-   d="scan'208";a="265868014"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2022 11:57:05 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.92,279,1650956400"; 
-   d="scan'208";a="597025744"
-Received: from lkp-server02.sh.intel.com (HELO ff137eb26ff1) ([10.239.97.151])
-  by orsmga002.jf.intel.com with ESMTP; 17 Jul 2022 11:57:00 -0700
-Received: from kbuild by ff137eb26ff1 with local (Exim 4.95)
-        (envelope-from <lkp@intel.com>)
-        id 1oD9Rr-0003ao-R6;
-        Sun, 17 Jul 2022 18:56:59 +0000
-Date:   Mon, 18 Jul 2022 02:56:21 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Daniel Bristot de Oliveira <bristot@kernel.org>,
-        Steven Rostedt <rostedt@goodmis.org>
-Cc:     kbuild-all@lists.01.org,
-        Daniel Bristot de Oliveira <bristot@kernel.org>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Ingo Molnar <mingo@redhat.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Will Deacon <will@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Marco Elver <elver@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Gabriele Paoloni <gpaoloni@redhat.com>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Clark Williams <williams@redhat.com>,
-        Tao Zhou <tao.zhou@linux.dev>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-trace-devel@vger.kernel.org
-Subject: Re: [PATCH V5 02/16] rv: Add runtime reactors interface
-Message-ID: <202207180241.ovP1XE48-lkp@intel.com>
-References: <4a66bc1c858b0a11750321696333d897677eff6b.1657745645.git.bristot@kernel.org>
+        with ESMTP id S229535AbiGQXCn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 17 Jul 2022 19:02:43 -0400
+Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9260312618;
+        Sun, 17 Jul 2022 16:02:42 -0700 (PDT)
+Received: by mail-pj1-x102a.google.com with SMTP id p9so10196109pjd.3;
+        Sun, 17 Jul 2022 16:02:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=9duI1rSpswAXnRq3urEW1hM9QxHEE1skc8fMorpNRtM=;
+        b=Bx419kWJ5uk7pbzZCokXEhQ7DRPh7mtVCaztg7LXosqvEYYqxHD/NfuIYwQfJpz/4i
+         lqPECExSYKWZ9/9zx0mxoHwPZv2d4MtmTZTJEd42aqZQ0fkkWHVogmEXWAjN2sqIvGUk
+         A8b9mCQcU5RUfk+Ln51//K+Sz2mthahh1rAdzDKJVrwYnKGqoNgHuDVmPP/yb50zYnm0
+         GvNLc7XqQkhi0xZaS0+OWmAb6NPRasw5DSnyUcVsYFiv3RQ/qklRt5gDTPIDM0dkPa7h
+         kMHKBIC0F+AozCbKsaGvdsOGOjbbnfqskEYMG1qjgoExvS/sES1Vu+qEajndEYcOq4Ox
+         UXRw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=9duI1rSpswAXnRq3urEW1hM9QxHEE1skc8fMorpNRtM=;
+        b=YhUXjkOMGh97xVG5nN+05q310g220CgXvaDMvBNRWDNHK3MOJqoMxV6iRXZNxgkwzH
+         gV+4RsKl6cTAYGe2ngRT5poZjM/fPFw8GjaXKHQOYgU5PRE/wFgVujwG2BuD7A0O3JGY
+         Q6p9okAqUJeP2uq0ZDhUDlXQXCknzmGV0Cts4w5wg2PMDoHMQoXaYx3Xa9zY1CpZQwaf
+         svBgUsQREP0cN+2DCtPIySBYFesYLdhtxYmbD7AAWkRWRfBmjjxz+dPTehCdHaOjwSGG
+         A1cmZpNnbsTggA7suLrBg7GPKJbUJjj7lADihJxyiDjK/Ems0HkOSbkgMEpnMavYbhIU
+         lXeQ==
+X-Gm-Message-State: AJIora9cbfXBhQHl/8nJQFXP+m8dClbnvadbnf9tMVaz7aQjY2lfD9/s
+        kWGqEVXmsq9UsVAfvPI1Pdo=
+X-Google-Smtp-Source: AGRyM1s2OwobGDzORrPZHucygkybI/3hmpBr8Ni1Lah7murhJ3EfiGFcUanLyWGjdHC/P7DK+DlDgA==
+X-Received: by 2002:a17:90b:3502:b0:1f0:986:e36b with SMTP id ls2-20020a17090b350200b001f00986e36bmr35970479pjb.154.1658098962056;
+        Sun, 17 Jul 2022 16:02:42 -0700 (PDT)
+Received: from ?IPV6:2001:df0:0:200c:6c17:ca15:3733:a6a1? ([2001:df0:0:200c:6c17:ca15:3733:a6a1])
+        by smtp.gmail.com with ESMTPSA id b3-20020a170902650300b0016be96e07d1sm7766371plk.121.2022.07.17.16.02.38
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 17 Jul 2022 16:02:41 -0700 (PDT)
+Message-ID: <77ecffbd-7568-f653-5273-1f3dffb17891@gmail.com>
+Date:   Mon, 18 Jul 2022 11:02:36 +1200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <4a66bc1c858b0a11750321696333d897677eff6b.1657745645.git.bristot@kernel.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH 00/10] video: fbdev: atari: Miscellaneous fixes and
+ cleanups
+Content-Language: en-US
+To:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        Helge Deller <deller@gmx.de>
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-fbdev@vger.kernel.org,
+        linux-doc@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-m68k@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <cover.1657554353.git.geert@linux-m68k.org>
+From:   Michael Schmitz <schmitzmic@gmail.com>
+In-Reply-To: <cover.1657554353.git.geert@linux-m68k.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Daniel,
+Hi Geert,
 
-I love your patch! Perhaps something to improve:
+On 12/07/22 03:50, Geert Uytterhoeven wrote:
+> 	Hi all,
+>
+> This patch series contains miscellaneous fixes and cleanups for the
+> Atari frame buffer device driver, which were identified while working on
+> the Atari DRM driver.
+>
+> Most of them have been tested on ARAnyM, and should be sa<fe to apply,
+> except perhaps for the last one, which is marked RFC.
+>
+> Thanks for your comments!
+>
+> Geert Uytterhoeven (10):
+>    video: fbdev: atari: Simplify atafb_pan_display()
+>    video: fbdev: atari: Remove bogus FB_VMODE_YWRAP flags
+>    video: fbdev: atari: Fix inverse handling
+>    video: fbdev: atari: Fix ext_setcolreg()
+>    video: fbdev: atari: Remove unneeded casts from void *
+>    video: fbdev: atari: Remove unneeded casts to void *
+>    video: fbdev: atari: Fix TT High video mode vertical refresh
+>    video: fbdev: atari: Fix VGA modes
+>    video: fbdev: atari: Remove unused definitions and variables
+>    [RFC] video: fbdev: atari: Remove backward bug-compatibility
+>
+>   Documentation/m68k/kernel-options.rst |   4 +-
+>   drivers/video/fbdev/atafb.c           | 101 +++++++-------------------
+>   2 files changed, 29 insertions(+), 76 deletions(-)
+>
+Works OK on my Falcon (except for the falh* modes, but that is not a 
+regression - might be something I miscoded in these modes, ages ago).
 
-[auto build test WARNING on rostedt-trace/for-next]
-[also build test WARNING on tip/sched/core]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Bristot-de-Oliveira/The-Runtime-Verification-RV-interface/20220714-052220
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rostedt/linux-trace.git for-next
-config: x86_64-allmodconfig (https://download.01.org/0day-ci/archive/20220718/202207180241.ovP1XE48-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-3) 11.3.0
-reproduce:
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://github.com/intel-lab-lkp/linux/commit/aa2ae8ed1dd28e5df7022e89ed27a9a5283647d9
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Daniel-Bristot-de-Oliveira/The-Runtime-Verification-RV-interface/20220714-052220
-        git checkout aa2ae8ed1dd28e5df7022e89ed27a9a5283647d9
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/misc/lkdtm/ kernel/trace/rv/
-
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
+Tested-by: Michael Schmitz <schmitzmic@gmail.com>
 
 
-sparse warnings: (new ones prefixed by >>)
->> kernel/trace/rv/rv_reactors.c:73:1: sparse: sparse: symbol 'rv_reactors_list' was not declared. Should it be static?
->> kernel/trace/rv/rv_reactors.c:451:19: sparse: sparse: symbol 'rv_nop' was not declared. Should it be static?
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
