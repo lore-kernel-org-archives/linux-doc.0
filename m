@@ -2,277 +2,212 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DC489CCA47F
-	for <linux-doc@archiver.kernel.org>; Mon, 18 Jul 2022 13:28:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 308B3C433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 18 Jul 2022 13:34:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231128AbiGRN2g (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 18 Jul 2022 09:28:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52722 "EHLO
+        id S233911AbiGRNex (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 18 Jul 2022 09:34:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58430 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230394AbiGRN2f (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Jul 2022 09:28:35 -0400
-Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34BE8140EC;
-        Mon, 18 Jul 2022 06:28:34 -0700 (PDT)
-Received: from canpemm500009.china.huawei.com (unknown [172.30.72.56])
-        by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4LmjSL1J1JzFq9F;
-        Mon, 18 Jul 2022 21:27:30 +0800 (CST)
-Received: from [10.67.102.169] (10.67.102.169) by
- canpemm500009.china.huawei.com (7.192.105.203) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Mon, 18 Jul 2022 21:28:30 +0800
-CC:     Andrew Morton <akpm@linux-foundation.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        LAK <linux-arm-kernel@lists.infradead.org>, x86 <x86@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        with ESMTP id S233900AbiGRNew (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Jul 2022 09:34:52 -0400
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8CE5C19C3E;
+        Mon, 18 Jul 2022 06:34:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1658151291; x=1689687291;
+  h=date:from:to:cc:subject:message-id:reply-to:references:
+   mime-version:in-reply-to;
+  bh=rHFYZeCUhUEMCyj5v9zq3o/zGTENSXf+B8mm6YmDQ6A=;
+  b=YA9EYCDeqWGfW1UPeaGqPCbNH1VGlfaFYurfw47BjMg/51HVhjZlBkqo
+   3KV7aJ374rocye5HlIm/HEMAaWTi4RSnKoCS2lw1WTMO3EftDEOEUrbTN
+   6jFi3ynXfjcAgvWuWkL1Xq4jsEYK9jjoozTzS4s1ShaseQ3TXehLL3HHV
+   vrEGzA1cQNCj4O36qc0086cNkoXxr4FTbWq/pj9Qv2nK3/outpdbIYPva
+   15l11Eb04u+pZU8eRLlagutnTcKUhN1Ok77sYT2J0nsqM3vhX/5X/5ZU0
+   NMXQjobZssAEmP6p/cnJXNdqprL1e40dS7OMFzxojnVT2s3Tb0kBJ6yWL
+   g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10411"; a="347907674"
+X-IronPort-AV: E=Sophos;i="5.92,281,1650956400"; 
+   d="scan'208";a="347907674"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2022 06:34:51 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.92,281,1650956400"; 
+   d="scan'208";a="624730241"
+Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
+  by orsmga008.jf.intel.com with ESMTP; 18 Jul 2022 06:34:40 -0700
+Date:   Mon, 18 Jul 2022 21:29:50 +0800
+From:   Chao Peng <chao.p.peng@linux.intel.com>
+To:     "Gupta, Pankaj" <pankaj.gupta@amd.com>
+Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+        qemu-devel@nongnu.org, linux-kselftest@vger.kernel.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Arnd Bergmann <arnd@arndb.de>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Darren Hart <darren@os.amperecomputing.com>,
-        <huzhanyuan@oppo.com>,
-        =?UTF-8?B?5p2O5Z+56ZSLKHdpbmsp?= <lipeifeng@oppo.com>,
-        =?UTF-8?B?5byg6K+X5piOKFNpbW9uIFpoYW5nKQ==?= 
-        <zhangshiming@oppo.com>, =?UTF-8?B?6YOt5YGl?= <guojian@oppo.com>,
-        real mz <realmz6@gmail.com>, <linux-mips@vger.kernel.org>,
-        <openrisc@lists.librecores.org>, <linuxppc-dev@lists.ozlabs.org>,
-        <linux-riscv@lists.infradead.org>, <linux-s390@vger.kernel.org>,
-        <yangyicong@hisilicon.com>, "tiantao (H)" <tiantao6@hisilicon.com>
-Subject: Re: [PATCH v2 0/4] mm: arm64: bring up BATCHED_UNMAP_TLB_FLUSH
-To:     Barry Song <21cnbao@gmail.com>, <xhao@linux.alibaba.com>
-References: <20220711034615.482895-1-21cnbao@gmail.com>
- <24f5e25b-3946-b92a-975b-c34688005398@linux.alibaba.com>
- <CAGsJ_4zjnmQV6LT3yo--K-qD-92=hBmgfK121=n-Y0oEFX8RnQ@mail.gmail.com>
-From:   Yicong Yang <yangyicong@huawei.com>
-Message-ID: <8e603deb-7023-5de5-c958-8911971aec24@huawei.com>
-Date:   Mon, 18 Jul 2022 21:28:30 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.1
+        Sean Christopherson <seanjc@google.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com,
+        Quentin Perret <qperret@google.com>,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+        Muchun Song <songmuchun@bytedance.com>
+Subject: Re: [PATCH v7 07/14] KVM: Use gfn instead of hva for
+ mmu_notifier_retry
+Message-ID: <20220718132950.GA38104@chaop.bj.intel.com>
+Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
+References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
+ <20220706082016.2603916-8-chao.p.peng@linux.intel.com>
+ <d480a850-601b-cda2-b671-04d839c98429@amd.com>
 MIME-Version: 1.0
-In-Reply-To: <CAGsJ_4zjnmQV6LT3yo--K-qD-92=hBmgfK121=n-Y0oEFX8RnQ@mail.gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.67.102.169]
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- canpemm500009.china.huawei.com (7.192.105.203)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d480a850-601b-cda2-b671-04d839c98429@amd.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2022/7/14 12:51, Barry Song wrote:
-> On Thu, Jul 14, 2022 at 3:29 PM Xin Hao <xhao@linux.alibaba.com> wrote:
->>
->> Hi barry.
->>
->> I do some test on Kunpeng arm64 machine use Unixbench.
->>
->> The test  result as below.
->>
->> One core, we can see the performance improvement above +30%.
+On Fri, Jul 15, 2022 at 01:36:15PM +0200, Gupta, Pankaj wrote:
+> > Currently in mmu_notifier validate path, hva range is recorded and then
+> > checked in the mmu_notifier_retry_hva() from page fault path. However
+> > for the to be introduced private memory, a page fault may not have a hva
 > 
-> I am really pleased to see the 30%+ improvement on unixbench on single core.
-> 
->> ./Run -c 1 -i 1 shell1
->> w/o
->> System Benchmarks Partial Index              BASELINE RESULT INDEX
->> Shell Scripts (1 concurrent)                     42.4 5481.0 1292.7
->> ========
->> System Benchmarks Index Score (Partial Only)                         1292.7
->>
->> w/
->> System Benchmarks Partial Index              BASELINE RESULT INDEX
->> Shell Scripts (1 concurrent)                     42.4 6974.6 1645.0
->> ========
->> System Benchmarks Index Score (Partial Only)                         1645.0
->>
->>
->> But with whole cores, there have little performance degradation above -5%
-> 
-> That is sad as we might get more concurrency between mprotect(), madvise(),
-> mremap(), zap_pte_range() and the deferred tlbi.
-> 
->>
->> ./Run -c 96 -i 1 shell1
->> w/o
->> Shell Scripts (1 concurrent)                  80765.5 lpm   (60.0 s, 1
->> samples)
->> System Benchmarks Partial Index              BASELINE RESULT INDEX
->> Shell Scripts (1 concurrent)                     42.4 80765.5 19048.5
->> ========
->> System Benchmarks Index Score (Partial Only)                        19048.5
->>
->> w
->> Shell Scripts (1 concurrent)                  76333.6 lpm   (60.0 s, 1
->> samples)
->> System Benchmarks Partial Index              BASELINE RESULT INDEX
->> Shell Scripts (1 concurrent)                     42.4 76333.6 18003.2
->> ========
->> System Benchmarks Index Score (Partial Only)                        18003.2
->>
->> ----------------------------------------------------------------------------------------------
->>
->>
->> After discuss with you, and do some changes in the patch.
->>
->> ndex a52381a680db..1ecba81f1277 100644
->> --- a/mm/rmap.c
->> +++ b/mm/rmap.c
->> @@ -727,7 +727,11 @@ void flush_tlb_batched_pending(struct mm_struct *mm)
->>          int flushed = batch >> TLB_FLUSH_BATCH_FLUSHED_SHIFT;
->>
->>          if (pending != flushed) {
->> +#ifdef CONFIG_ARCH_HAS_MM_CPUMASK
->>                  flush_tlb_mm(mm);
->> +#else
->> +               dsb(ish);
->> +#endif
->>
-> 
-> i was guessing the problem might be flush_tlb_batched_pending()
-> so i asked you to change this to verify my guess.
-> 
+> As this patch appeared in v7, just wondering did you see an actual bug
+> because of it? And not having corresponding 'hva' occurs only with private
+> memory because its not mapped to host userspace?
 
-flush_tlb_batched_pending() looks like the critical path for this issue then the code
-above can mitigate this.
+The addressed problem is not new in this version, previous versions I
+also had code to handle it (just in different way). But the problem is:
+mmu_notifier/memfile_notifier may be in the progress of invalidating a
+pfn that obtained earlier in the page fault handler, when happens, we
+should retry the fault. In v6 I used global mmu_notifier_retry() for
+memfile_notifier but that can block unrelated mmu_notifer invalidation
+which has hva range specified.
 
-I cannot reproduce this on a 2P 128C Kunpeng920 server. The kernel is based on the
-v5.19-rc6 and unixbench of version 5.1.3. The result of `./Run -c 128 -i 1 shell1` is:
-      iter-1      iter-2     iter-3
-w/o  17708.1     17637.1    17630.1
-w    17766.0     17752.3    17861.7
+Sean gave a comment at https://lkml.org/lkml/2022/6/17/1001 to separate
+memfile_notifier from mmu_notifier but during the implementation I
+realized we actually can reuse the same code for shared and private
+memory if both using gpa range and that can simplify the code handling
+in kvm_zap_gfn_range and some other code (e.g. we don't need two
+versions for memfile_notifier/mmu_notifier).
 
-And flush_tlb_batched_pending()isn't the hot spot with the patch:
-   7.00%  sh        [kernel.kallsyms]      [k] ptep_clear_flush
-   4.17%  sh        [kernel.kallsyms]      [k] ptep_set_access_flags
-   2.43%  multi.sh  [kernel.kallsyms]      [k] ptep_clear_flush
-   1.98%  sh        [kernel.kallsyms]      [k] _raw_spin_unlock_irqrestore
-   1.69%  sh        [kernel.kallsyms]      [k] next_uptodate_page
-   1.66%  sort      [kernel.kallsyms]      [k] ptep_clear_flush
-   1.56%  multi.sh  [kernel.kallsyms]      [k] ptep_set_access_flags
-   1.27%  sh        [kernel.kallsyms]      [k] page_counter_cancel
-   1.11%  sh        [kernel.kallsyms]      [k] page_remove_rmap
-   1.06%  sh        [kernel.kallsyms]      [k] perf_event_alloc
+Adding gpa range for private memory invalidation also relieves the
+above blocking issue between private memory page fault and mmu_notifier.
 
-Hi Xin Hao,
-
-I'm not sure the test setup as well as the config is same with yours. (96C vs 128C
-should not be the reason I think). Did you check that the 5% is a fluctuation or
-not? It'll be helpful if more information provided for reproducing this issue.
-
-Thanks.
-
->      /*
->>                   * If the new TLB flushing is pending during flushing, leave
->>                   * mm->tlb_flush_batched as is, to avoid losing flushing.
->>
->> there have a performance improvement with whole cores, above +30%
+Chao
 > 
-> But I don't think it is a proper patch. There is no guarantee the cpu calling
-> flush_tlb_batched_pending is exactly the cpu sending the deferred
-> tlbi. so the solution is unsafe. But since this temporary code can bring the
-> 30%+ performance improvement back for high concurrency, we have huge
-> potential to finally make it.
+> Thanks,
+> Pankaj
 > 
-> Unfortunately I don't have an arm64 server to debug on this. I only have
-> 8 cores which are unlikely to reproduce regression which happens in
-> high concurrency with 96 parallel tasks.
-> 
-> So I'd ask if @yicong or someone else working on kunpeng or other
-> arm64 servers  is able to actually debug and figure out a proper
-> patch for this, then add the patch as 5/5 into this series?
-> 
->>
->> ./Run -c 96 -i 1 shell1
->> 96 CPUs in system; running 96 parallel copies of tests
->>
->> Shell Scripts (1 concurrent)                 109229.0 lpm   (60.0 s, 1 samples)
->> System Benchmarks Partial Index              BASELINE       RESULT    INDEX
->> Shell Scripts (1 concurrent)                     42.4     109229.0  25761.6
->>                                                                     ========
->> System Benchmarks Index Score (Partial Only)                        25761.6
->>
->>
->> Tested-by: Xin Hao<xhao@linux.alibaba.com>
-> 
-> Thanks for your testing!
-> 
->>
->> Looking forward to your next version patch.
->>
->> On 7/11/22 11:46 AM, Barry Song wrote:
->>> Though ARM64 has the hardware to do tlb shootdown, the hardware
->>> broadcasting is not free.
->>> A simplest micro benchmark shows even on snapdragon 888 with only
->>> 8 cores, the overhead for ptep_clear_flush is huge even for paging
->>> out one page mapped by only one process:
->>> 5.36%  a.out    [kernel.kallsyms]  [k] ptep_clear_flush
->>>
->>> While pages are mapped by multiple processes or HW has more CPUs,
->>> the cost should become even higher due to the bad scalability of
->>> tlb shootdown.
->>>
->>> The same benchmark can result in 16.99% CPU consumption on ARM64
->>> server with around 100 cores according to Yicong's test on patch
->>> 4/4.
->>>
->>> This patchset leverages the existing BATCHED_UNMAP_TLB_FLUSH by
->>> 1. only send tlbi instructions in the first stage -
->>>       arch_tlbbatch_add_mm()
->>> 2. wait for the completion of tlbi by dsb while doing tlbbatch
->>>       sync in arch_tlbbatch_flush()
->>> My testing on snapdragon shows the overhead of ptep_clear_flush
->>> is removed by the patchset. The micro benchmark becomes 5% faster
->>> even for one page mapped by single process on snapdragon 888.
->>>
->>>
->>> -v2:
->>> 1. Collected Yicong's test result on kunpeng920 ARM64 server;
->>> 2. Removed the redundant vma parameter in arch_tlbbatch_add_mm()
->>>     according to the comments of Peter Zijlstra and Dave Hansen
->>> 3. Added ARCH_HAS_MM_CPUMASK rather than checking if mm_cpumask
->>>     is empty according to the comments of Nadav Amit
->>>
->>> Thanks, Yicong, Peter, Dave and Nadav for your testing or reviewing
->>> , and comments.
->>>
->>> -v1:
->>> https://lore.kernel.org/lkml/20220707125242.425242-1-21cnbao@gmail.com/
->>>
->>> Barry Song (4):
->>>    Revert "Documentation/features: mark BATCHED_UNMAP_TLB_FLUSH doesn't
->>>      apply to ARM64"
->>>    mm: rmap: Allow platforms without mm_cpumask to defer TLB flush
->>>    mm: rmap: Extend tlbbatch APIs to fit new platforms
->>>    arm64: support batched/deferred tlb shootdown during page reclamation
->>>
->>>   Documentation/features/arch-support.txt       |  1 -
->>>   .../features/vm/TLB/arch-support.txt          |  2 +-
->>>   arch/arm/Kconfig                              |  1 +
->>>   arch/arm64/Kconfig                            |  1 +
->>>   arch/arm64/include/asm/tlbbatch.h             | 12 ++++++++++
->>>   arch/arm64/include/asm/tlbflush.h             | 23 +++++++++++++++++--
->>>   arch/loongarch/Kconfig                        |  1 +
->>>   arch/mips/Kconfig                             |  1 +
->>>   arch/openrisc/Kconfig                         |  1 +
->>>   arch/powerpc/Kconfig                          |  1 +
->>>   arch/riscv/Kconfig                            |  1 +
->>>   arch/s390/Kconfig                             |  1 +
->>>   arch/um/Kconfig                               |  1 +
->>>   arch/x86/Kconfig                              |  1 +
->>>   arch/x86/include/asm/tlbflush.h               |  3 ++-
->>>   mm/Kconfig                                    |  3 +++
->>>   mm/rmap.c                                     | 14 +++++++----
->>>   17 files changed, 59 insertions(+), 9 deletions(-)
->>>   create mode 100644 arch/arm64/include/asm/tlbbatch.h
->>>
->> --
->> Best Regards!
->> Xin Hao
->>
-> 
-> Thanks
-> Barry
-> .
-> 
+> > associated, checking gfn(gpa) makes more sense. For existing non private
+> > memory case, gfn is expected to continue to work.
+> > 
+> > The patch also fixes a potential bug in kvm_zap_gfn_range() which has
+> > already been using gfn when calling kvm_inc/dec_notifier_count() in
+> > current code.
+> > 
+> > Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
+> > ---
+> >   arch/x86/kvm/mmu/mmu.c   |  2 +-
+> >   include/linux/kvm_host.h | 18 ++++++++----------
+> >   virt/kvm/kvm_main.c      |  6 +++---
+> >   3 files changed, 12 insertions(+), 14 deletions(-)
+> > 
+> > diff --git a/arch/x86/kvm/mmu/mmu.c b/arch/x86/kvm/mmu/mmu.c
+> > index f7fa4c31b7c5..0d882fad4bc1 100644
+> > --- a/arch/x86/kvm/mmu/mmu.c
+> > +++ b/arch/x86/kvm/mmu/mmu.c
+> > @@ -4182,7 +4182,7 @@ static bool is_page_fault_stale(struct kvm_vcpu *vcpu,
+> >   		return true;
+> >   	return fault->slot &&
+> > -	       mmu_notifier_retry_hva(vcpu->kvm, mmu_seq, fault->hva);
+> > +	       mmu_notifier_retry_gfn(vcpu->kvm, mmu_seq, fault->gfn);
+> >   }
+> >   static int direct_page_fault(struct kvm_vcpu *vcpu, struct kvm_page_fault *fault)
+> > diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
+> > index 0bdb6044e316..e9153b54e2a4 100644
+> > --- a/include/linux/kvm_host.h
+> > +++ b/include/linux/kvm_host.h
+> > @@ -767,8 +767,8 @@ struct kvm {
+> >   	struct mmu_notifier mmu_notifier;
+> >   	unsigned long mmu_notifier_seq;
+> >   	long mmu_notifier_count;
+> > -	unsigned long mmu_notifier_range_start;
+> > -	unsigned long mmu_notifier_range_end;
+> > +	gfn_t mmu_notifier_range_start;
+> > +	gfn_t mmu_notifier_range_end;
+> >   #endif
+> >   	struct list_head devices;
+> >   	u64 manual_dirty_log_protect;
+> > @@ -1362,10 +1362,8 @@ void kvm_mmu_free_memory_cache(struct kvm_mmu_memory_cache *mc);
+> >   void *kvm_mmu_memory_cache_alloc(struct kvm_mmu_memory_cache *mc);
+> >   #endif
+> > -void kvm_inc_notifier_count(struct kvm *kvm, unsigned long start,
+> > -				   unsigned long end);
+> > -void kvm_dec_notifier_count(struct kvm *kvm, unsigned long start,
+> > -				   unsigned long end);
+> > +void kvm_inc_notifier_count(struct kvm *kvm, gfn_t start, gfn_t end);
+> > +void kvm_dec_notifier_count(struct kvm *kvm, gfn_t start, gfn_t end);
+> >   long kvm_arch_dev_ioctl(struct file *filp,
+> >   			unsigned int ioctl, unsigned long arg);
+> > @@ -1923,9 +1921,9 @@ static inline int mmu_notifier_retry(struct kvm *kvm, unsigned long mmu_seq)
+> >   	return 0;
+> >   }
+> > -static inline int mmu_notifier_retry_hva(struct kvm *kvm,
+> > +static inline int mmu_notifier_retry_gfn(struct kvm *kvm,
+> >   					 unsigned long mmu_seq,
+> > -					 unsigned long hva)
+> > +					 gfn_t gfn)
+> >   {
+> >   	lockdep_assert_held(&kvm->mmu_lock);
+> >   	/*
+> > @@ -1935,8 +1933,8 @@ static inline int mmu_notifier_retry_hva(struct kvm *kvm,
+> >   	 * positives, due to shortcuts when handing concurrent invalidations.
+> >   	 */
+> >   	if (unlikely(kvm->mmu_notifier_count) &&
+> > -	    hva >= kvm->mmu_notifier_range_start &&
+> > -	    hva < kvm->mmu_notifier_range_end)
+> > +	    gfn >= kvm->mmu_notifier_range_start &&
+> > +	    gfn < kvm->mmu_notifier_range_end)
+> >   		return 1;
+> >   	if (kvm->mmu_notifier_seq != mmu_seq)
+> >   		return 1;
+> > diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
+> > index da263c370d00..4d7f0e72366f 100644
+> > --- a/virt/kvm/kvm_main.c
+> > +++ b/virt/kvm/kvm_main.c
+> > @@ -536,8 +536,7 @@ static void kvm_mmu_notifier_invalidate_range(struct mmu_notifier *mn,
+> >   typedef bool (*hva_handler_t)(struct kvm *kvm, struct kvm_gfn_range *range);
+> > -typedef void (*on_lock_fn_t)(struct kvm *kvm, unsigned long start,
+> > -			     unsigned long end);
+> > +typedef void (*on_lock_fn_t)(struct kvm *kvm, gfn_t start, gfn_t end);
+> >   typedef void (*on_unlock_fn_t)(struct kvm *kvm);
+> > @@ -624,7 +623,8 @@ static __always_inline int __kvm_handle_hva_range(struct kvm *kvm,
+> >   				locked = true;
+> >   				KVM_MMU_LOCK(kvm);
+> >   				if (!IS_KVM_NULL_FN(range->on_lock))
+> > -					range->on_lock(kvm, range->start, range->end);
+> > +					range->on_lock(kvm, gfn_range.start,
+> > +							    gfn_range.end);
+> >   				if (IS_KVM_NULL_FN(range->handler))
+> >   					break;
+> >   			}
