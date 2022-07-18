@@ -2,142 +2,139 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C92BDC433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 18 Jul 2022 08:47:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D7489C43334
+	for <linux-doc@archiver.kernel.org>; Mon, 18 Jul 2022 09:33:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233974AbiGRIrD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 18 Jul 2022 04:47:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51694 "EHLO
+        id S233886AbiGRJdR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 18 Jul 2022 05:33:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56574 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233932AbiGRIrC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Jul 2022 04:47:02 -0400
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB2BA6403;
-        Mon, 18 Jul 2022 01:47:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1658134021; x=1689670021;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=OBECoidjbs/b4gjb4vh7yiE3zSs/3k3t1WbIVAmKqjU=;
-  b=KJi/6pG2faldsW2HbVlS/IX4kBma40OhtItBSDFJ0SgCK3AWCaoA/0QO
-   qAhj16cku18y5DNGEmGsDfVOzE0+X2F7EA7waNPx/ueMdCb5cyNoXab8d
-   lsMZH/YHiBTrseR/GGv66ecNjI9ewQ/PIXmA00TwpZlG+SQhOGIw3sAEE
-   0GNAoE0z+A+O8dTNBAxpXKx8rsh6VOut2vypnZoJCBxHe0mw7jml3O71p
-   Tgoqi+mR+6x7NoVYmsgogWtYMWSdJCXRj+Cgbdoofn9kr2E4wLGGvdtwe
-   mMaG5wmhPATMpevkbw7lXeVZqytontrlhvWo6Vm1TINCusUw87/oYmp/K
-   g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10411"; a="265952373"
-X-IronPort-AV: E=Sophos;i="5.92,280,1650956400"; 
-   d="scan'208";a="265952373"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2022 01:47:01 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.92,280,1650956400"; 
-   d="scan'208";a="723785806"
-Received: from lkp-server02.sh.intel.com (HELO ff137eb26ff1) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 18 Jul 2022 01:46:56 -0700
-Received: from kbuild by ff137eb26ff1 with local (Exim 4.95)
-        (envelope-from <lkp@intel.com>)
-        id 1oDMP1-0004Cw-KJ;
-        Mon, 18 Jul 2022 08:46:55 +0000
-Date:   Mon, 18 Jul 2022 16:45:57 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Daniel Bristot de Oliveira <bristot@kernel.org>,
-        Steven Rostedt <rostedt@goodmis.org>
-Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org,
-        Daniel Bristot de Oliveira <bristot@kernel.org>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Ingo Molnar <mingo@redhat.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Will Deacon <will@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Marco Elver <elver@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Gabriele Paoloni <gpaoloni@redhat.com>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Clark Williams <williams@redhat.com>,
-        Tao Zhou <tao.zhou@linux.dev>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-trace-devel@vger.kernel.org
-Subject: Re: [PATCH V5 15/16] rv/reactor: Add the printk reactor
-Message-ID: <202207181646.sRRbkyru-lkp@intel.com>
-References: <5fcf3d21b51bc4c1a6d2968cfd0c60fdbc1d471b.1657745645.git.bristot@kernel.org>
+        with ESMTP id S233190AbiGRJdQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Jul 2022 05:33:16 -0400
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C4DB01A83B;
+        Mon, 18 Jul 2022 02:33:14 -0700 (PDT)
+Received: from [2a02:8108:963f:de38:eca4:7d19:f9a2:22c5]; authenticated
+        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        id 1oDN7o-0004Gz-Cy; Mon, 18 Jul 2022 11:33:12 +0200
+Message-ID: <97e5afd3-77a3-2227-0fbf-da2f9a41520f@leemhuis.info>
+Date:   Mon, 18 Jul 2022 11:33:11 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <5fcf3d21b51bc4c1a6d2968cfd0c60fdbc1d471b.1657745645.git.bristot@kernel.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH] docs: driver-api: firmware: add driver firmware
+ guidelines.
+Content-Language: en-US
+To:     Dave Airlie <airlied@gmail.com>, torvalds@linux-foundation.org,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        gregkh@linuxfoundation.org, Daniel Vetter <daniel@ffwll.ch>,
+        mcgrof@kernel.org
+Cc:     linux-kernel@vger.kernel.org, dri-devel@lists.sf.net,
+        netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
+        alsa-devel@alsa-project.org, linux-media@vger.kernel.org,
+        linux-block@vger.kernel.org, Dave Airlie <airlied@redhat.com>
+References: <20220718072144.2699487-1-airlied@gmail.com>
+From:   Thorsten Leemhuis <linux@leemhuis.info>
+In-Reply-To: <20220718072144.2699487-1-airlied@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1658136794;4a0ff83e;
+X-HE-SMSGID: 1oDN7o-0004Gz-Cy
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Daniel,
 
-I love your patch! Perhaps something to improve:
+On 18.07.22 09:21, Dave Airlie wrote:
+> From: Dave Airlie <airlied@redhat.com>
+> 
+> A recent snafu where Intel ignored upstream feedback on a firmware
+> change, led to a late rc6 fix being required. In order to avoid this
+> in the future we should document some expectations around
+> linux-firmware.
+> 
+> I was originally going to write this for drm, but it seems quite generic
+> advice.
+> 
+> I'm cc'ing this quite widely to reach subsystems which use fw a lot.
 
-[auto build test WARNING on rostedt-trace/for-next]
-[also build test WARNING on tip/sched/core]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Thx for this, I kinda put "add a few words about firmware into
+Documentation/process/handling-regressions.rst" on my todo list already,
+but having a separate document is likely better.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Bristot-de-Oliveira/The-Runtime-Verification-RV-interface/20220714-052220
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rostedt/linux-trace.git for-next
-config: hexagon-allyesconfig (https://download.01.org/0day-ci/archive/20220718/202207181646.sRRbkyru-lkp@intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 07022e6cf9b5b3baa642be53d0b3c3f1c403dbfd)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/d1746223447deb1d1646f968512a065a1cd63a9c
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Daniel-Bristot-de-Oliveira/The-Runtime-Verification-RV-interface/20220714-052220
-        git checkout d1746223447deb1d1646f968512a065a1cd63a9c
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash drivers/net/pcs/ kernel/trace/rv/
+Took a quick look, here are a few suggestions for your consideration.
 
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
+> [...]
+> diff --git a/Documentation/driver-api/firmware/firmware-usage-guidelines.rst b/Documentation/driver-api/firmware/firmware-usage-guidelines.rst
+> new file mode 100644
+> index 000000000000..34d2412e78c6
+> --- /dev/null
+> +++ b/Documentation/driver-api/firmware/firmware-usage-guidelines.rst
+> @@ -0,0 +1,34 @@
+> +===================
+> +Firmware Guidelines
+> +===================
+> +
+> +Drivers that use firmware from linux-firmware should attempt to follow
+> +the rules in this guide.
 
-All warnings (new ones prefixed by >>):
+How about spelling out the main aspect first clearly before going into
+the details about its consequence? Maybe something along these lines:
 
->> kernel/trace/rv/reactor_printk.c:26:5: warning: no previous prototype for function 'register_react_printk' [-Wmissing-prototypes]
-   int register_react_printk(void)
-       ^
-   kernel/trace/rv/reactor_printk.c:26:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   int register_react_printk(void)
-   ^
-   static 
->> kernel/trace/rv/reactor_printk.c:32:6: warning: no previous prototype for function 'unregister_react_printk' [-Wmissing-prototypes]
-   void unregister_react_printk(void)
-        ^
-   kernel/trace/rv/reactor_printk.c:32:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void unregister_react_printk(void)
-   ^
-   static 
-   2 warnings generated.
+```
+Users switching to a newer kernel should *not* have to install newer
+firmware files to keep their hardware working. At the same time updated
+firmware files must not cause any regressions for users of older kernel
+releases.
 
+Drivers that use such firmware (like that in linux-firmware) should thus
+follow these rules:
+```
 
-vim +/register_react_printk +26 kernel/trace/rv/reactor_printk.c
+> +* Firmware should be versioned with at least a major/minor version it
+> +  is suggested that the firmware files in linux-firmware be named with
+> +  some device specific name, and just the major version. The
+> +  major/minor/patch versions should be stored in a header in the
+> +  firmware file for the driver to detect any non-ABI fixes/issues. The
+> +  firmware files in linux-firmware should be overwritten with the newest
+> +  compatible major version. Newer major version firmware should remain
+> +  compatible with all kernels that load that major number.
+> +
+> +* Users should *not* have to install newer firmware to use existing
+> +  hardware when they install a newer kernel. 
 
-    25	
-  > 26	int register_react_printk(void)
-    27	{
-    28		rv_register_reactor(&rv_printk);
-    29		return 0;
-    30	}
-    31	
-  > 32	void unregister_react_printk(void)
-    33	{
-    34		rv_unregister_reactor(&rv_printk);
-    35	}
-    36	
+This will need changes if you pick up the suggestion above.
 
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+> If the hardware isn't
+> +  enabled by default or under development,
+
+Wondering if it might be better to drop the "or under development", as
+the "enabled by default" is the main part afaics. Maybe something like
+"If support for the hardware is normally inactive (e.g. has to be
+enabled manually by a kernel parameter)" would be better anyway.
+
+> this can be ignored, until
+> +  the first kernel release that enables that hardware.  This means no
+> +  major version bumps without the kernel retaining backwards
+> +  compatibility for the older major versions.  Minor version bumps
+> +  should not introduce new features that newer kernels depend on
+> +  non-optionally.
+> +
+> +* If a security fix needs lockstep firmware and kernel fixes in order to
+> +  be successful, then all supported major versions in the linux-firmware
+> +  repo
+
+This made me wonder: what exactly are "all supported major versions" in
+this context? Do you mean something like "all major versions in the
+linux-firmware required by currently supported stable/longterm kernel
+series"? Then it might be wise to write that.
+
+> should be updated with the security fix, and the kernel patches
+> +  should detect if the firmware is new enough to declare if the security
+> +  issue is fixed.  All communications around security fixes should point
+> +  at both the firmware and kernel fixes. If a security fix requires
+> +  deprecating old major versions, then this should only be done as a
+> +  last option, and be stated clearly in all communications.
+> +
+
+HTH, Ciao, Thorsten
