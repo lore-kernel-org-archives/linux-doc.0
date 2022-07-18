@@ -2,119 +2,93 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4404BCCA482
-	for <linux-doc@archiver.kernel.org>; Mon, 18 Jul 2022 07:23:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CCD93C433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 18 Jul 2022 07:54:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233811AbiGRHXL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 18 Jul 2022 03:23:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52116 "EHLO
+        id S230131AbiGRHy1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 18 Jul 2022 03:54:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42578 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233821AbiGRHXK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Jul 2022 03:23:10 -0400
-X-Greylist: delayed 67 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 18 Jul 2022 00:23:08 PDT
-Received: from us-smtp-delivery-44.mimecast.com (us-smtp-delivery-44.mimecast.com [207.211.30.44])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 8F1FD17E0C
-        for <linux-doc@vger.kernel.org>; Mon, 18 Jul 2022 00:23:08 -0700 (PDT)
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-277-AgST6BwiNTG9NjgWcQgQBg-1; Mon, 18 Jul 2022 03:21:54 -0400
-X-MC-Unique: AgST6BwiNTG9NjgWcQgQBg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com [10.11.54.7])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        with ESMTP id S230009AbiGRHy0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Jul 2022 03:54:26 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0051D112F;
+        Mon, 18 Jul 2022 00:54:25 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9F8D7811E80;
-        Mon, 18 Jul 2022 07:21:53 +0000 (UTC)
-Received: from dreadlord.bne.redhat.com (fdacunha.bne.redhat.com [10.64.0.157])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 69304141511A;
-        Mon, 18 Jul 2022 07:21:49 +0000 (UTC)
-From:   Dave Airlie <airlied@gmail.com>
-To:     torvalds@linux-foundation.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org, gregkh@linuxfoundation.org,
-        Daniel Vetter <daniel@ffwll.ch>, mcgrof@kernel.org
-Cc:     linux-kernel@vger.kernel.org, dri-devel@lists.sf.net,
-        netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
-        alsa-devel@alsa-project.org, linux-media@vger.kernel.org,
-        linux-block@vger.kernel.org, Dave Airlie <airlied@redhat.com>
-Subject: [PATCH] docs: driver-api: firmware: add driver firmware guidelines.
-Date:   Mon, 18 Jul 2022 17:21:44 +1000
-Message-Id: <20220718072144.2699487-1-airlied@gmail.com>
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 8E96061366;
+        Mon, 18 Jul 2022 07:54:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 418BCC341C0;
+        Mon, 18 Jul 2022 07:54:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1658130865;
+        bh=tWt1vYWDaTVxwRFLqeGhQ6xsXw83LhS7SS6nHo2L++A=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=PGd1WO1dR1rdIH2fiN+CBoHkIbKQMUkLabEOE/zWsuFuZ6UuEGL7rkfudlsSYo1Jj
+         gaG92VUCo+9XH9rhN5pikSlXD9kiu9dStrvLRufQfQYcgBzYIlZ07PvGRhkSKaUc/A
+         6OWULNC8ouxJIWUgNVDMwi0v+Fuje0GdSEtdzIUXWbFKpUQaKO85DgKp/ZkffoYctk
+         J8dbil1nRSO99qGsF9sOuI8glmcDOTqmtnN5Ag7tu9AlJa2pKnmZoe85rvXbom5ezf
+         nnhyXIVyrmGdsy3e3UFjGmzTSQHV9f3wRQO/8CPy+ZQPHdhCNKhvu/5AdIBknHs4og
+         oJgIcck1Nyhvg==
+Message-ID: <26677d42-337c-8786-f10a-0d87a14ae15c@kernel.org>
+Date:   Mon, 18 Jul 2022 09:54:16 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH V5 04/16] rv/include: Add deterministic automata monitor
+ definition via C macros
+Content-Language: en-US
+To:     Tao Zhou <tao.zhou@linux.dev>
+Cc:     Steven Rostedt <rostedt@goodmis.org>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Ingo Molnar <mingo@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Will Deacon <will@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Marco Elver <elver@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Gabriele Paoloni <gpaoloni@redhat.com>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Clark Williams <williams@redhat.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-trace-devel@vger.kernel.org
+References: <cover.1657745645.git.bristot@kernel.org>
+ <5e0447aa9d114c52fd2bc335de036c61d9625f1c.1657745645.git.bristot@kernel.org>
+ <YtQoYMLHgvTV0lea@geo.homenetwork>
+From:   Daniel Bristot de Oliveira <bristot@kernel.org>
+In-Reply-To: <YtQoYMLHgvTV0lea@geo.homenetwork>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Dave Airlie <airlied@redhat.com>
+On 7/17/22 17:18, Tao Zhou wrote:
+>> +static int task_mon_slot_##name = RV_PER_TASK_MONITOR_INIT;			\
+> In patch1, RV_PER_TASK_MONITOR_INIT is defined as:
+> 
+> #define RV_PER_TASK_MONITORS           1
+> #define RV_PER_TASK_MONITOR_INIT	  (RV_PER_TASK_MONITORS)
+> 
+> RV_PER_TASK_MONITOR_INIT is 1 now, seems not the index of the first only
+> element in vector. Now no map here, one task has one monitor though if I
+> am not wrong.
+> So task_mon_slot_##name must be defined to the index of first element.
+> Modify the macro definition of RV_PER_TASK_MONITOR_INIT to the index of
+> first element in vector.
+> 
+> #define RV_PER_TASK_MONITOR_INIT	  (RV_PER_TASK_MONITORS) - 1
 
-A recent snafu where Intel ignored upstream feedback on a firmware
-change, led to a late rc6 fix being required. In order to avoid this
-in the future we should document some expectations around
-linux-firmware.
+nop, (RV_PER_TASK_MONITORS) is an invalid vector value, so we can detect things like:
+disabling a disabled monitor.
 
-I was originally going to write this for drm, but it seems quite generic
-advice.
+(I forgot to reset it when disabling a monitor... added)
 
-I'm cc'ing this quite widely to reach subsystems which use fw a lot.
-
-Signed-off-by: Dave Airlie <airlied@redhat.com>
----
- Documentation/driver-api/firmware/core.rst    |  1 +
- .../firmware/firmware-usage-guidelines.rst    | 34 +++++++++++++++++++
- 2 files changed, 35 insertions(+)
- create mode 100644 Documentation/driver-api/firmware/firmware-usage-guidelines.rst
-
-diff --git a/Documentation/driver-api/firmware/core.rst b/Documentation/driver-api/firmware/core.rst
-index 1d1688cbc078..803cd574bbd7 100644
---- a/Documentation/driver-api/firmware/core.rst
-+++ b/Documentation/driver-api/firmware/core.rst
-@@ -13,4 +13,5 @@ documents these features.
-    direct-fs-lookup
-    fallback-mechanisms
-    lookup-order
-+   firmware-usage-guidelines
- 
-diff --git a/Documentation/driver-api/firmware/firmware-usage-guidelines.rst b/Documentation/driver-api/firmware/firmware-usage-guidelines.rst
-new file mode 100644
-index 000000000000..34d2412e78c6
---- /dev/null
-+++ b/Documentation/driver-api/firmware/firmware-usage-guidelines.rst
-@@ -0,0 +1,34 @@
-+===================
-+Firmware Guidelines
-+===================
-+
-+Drivers that use firmware from linux-firmware should attempt to follow
-+the rules in this guide.
-+
-+* Firmware should be versioned with at least a major/minor version. It
-+  is suggested that the firmware files in linux-firmware be named with
-+  some device specific name, and just the major version. The
-+  major/minor/patch versions should be stored in a header in the
-+  firmware file for the driver to detect any non-ABI fixes/issues. The
-+  firmware files in linux-firmware should be overwritten with the newest
-+  compatible major version. Newer major version firmware should remain
-+  compatible with all kernels that load that major number.
-+
-+* Users should *not* have to install newer firmware to use existing
-+  hardware when they install a newer kernel.  If the hardware isn't
-+  enabled by default or under development, this can be ignored, until
-+  the first kernel release that enables that hardware.  This means no
-+  major version bumps without the kernel retaining backwards
-+  compatibility for the older major versions.  Minor version bumps
-+  should not introduce new features that newer kernels depend on
-+  non-optionally.
-+
-+* If a security fix needs lockstep firmware and kernel fixes in order to
-+  be successful, then all supported major versions in the linux-firmware
-+  repo should be updated with the security fix, and the kernel patches
-+  should detect if the firmware is new enough to declare if the security
-+  issue is fixed.  All communications around security fixes should point
-+  at both the firmware and kernel fixes. If a security fix requires
-+  deprecating old major versions, then this should only be done as a
-+  last option, and be stated clearly in all communications.
-+
--- 
-2.36.1
-
+-- Daniel
