@@ -2,436 +2,225 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2FC76C43334
-	for <linux-doc@archiver.kernel.org>; Mon, 18 Jul 2022 06:38:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BBC3CCA482
+	for <linux-doc@archiver.kernel.org>; Mon, 18 Jul 2022 06:56:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233550AbiGRGin (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 18 Jul 2022 02:38:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53998 "EHLO
+        id S233208AbiGRG4U (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 18 Jul 2022 02:56:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35462 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233527AbiGRGim (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Jul 2022 02:38:42 -0400
-Received: from mail-io1-xd2b.google.com (mail-io1-xd2b.google.com [IPv6:2607:f8b0:4864:20::d2b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51AB5165A0
-        for <linux-doc@vger.kernel.org>; Sun, 17 Jul 2022 23:38:41 -0700 (PDT)
-Received: by mail-io1-xd2b.google.com with SMTP id x64so186127iof.1
-        for <linux-doc@vger.kernel.org>; Sun, 17 Jul 2022 23:38:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=7rhud6KiWPK9Rg3r2XKY9MM0hek8TuHbkddrs1VaWHY=;
-        b=E1UWZHQhYpnF05lJPCZPs518kYSieCwOrMeOeNFK2zz8yAiEYTE5xXETteyJBMkfcA
-         j//+kGxyjZl0ZIbXxilfZVT7exAQGU01Q3wH0j+Mmkx1QQto1BScd9DR3luyCj/s87BR
-         aR9y1EIav/Yig7Ezw2qPrE+vgBDcUV8mcs7mqAT+eK4aIj7jAjwCslcUkG2/dfkbU3dm
-         zSqS0oh8ApHYv/f4trBfof+StDEDBQaExYyvFsL3BbZTVd2nZ7Symnd5IHQQ/YWpISig
-         3jfulJv9hDHScIH1wbCqJa9pAsIz0G7T78YOhaQoj6srnaf+/S7djta08pPbn2h/0xiK
-         VNwg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=7rhud6KiWPK9Rg3r2XKY9MM0hek8TuHbkddrs1VaWHY=;
-        b=TZ8ve2KUTr0Ps5gVxkpWgq0MD6gtLwmr421F106VVPnLd4hLP7PkSeo3hsF7bNwp+O
-         bBfXSS2ET/nfs9zpsz9jhDvF/+CM6AfE1GfL8c8glOIAAB2s3vpo6RumqlhcbDy+OsCn
-         L9+QJp+nlEDMdbI3p3u8sjzyIAmdceOKDZ+2mXSd54112CF6nGYG23DrMZry3HLwPdXU
-         cQ96VxftWZ27QVSds34WGOfpA3uI9Cl/NM5vy8Zq29bSnY23colzSnqguTlgJeyHXfLh
-         nu2BL97VBNfADzZ3ZNvDAZIKdFae+BhpEeqD8AP5c+LRB8o9qP0wc2t2yQsTg5TE/njD
-         habw==
-X-Gm-Message-State: AJIora+gBhTyLN21ywhgTeuQOt+3KaQklYqdtQFzfCgI3hzz6HbZVSt6
-        /7hYgD9LpYvUvGeGQf8cgiftcL/RBVU=
-X-Google-Smtp-Source: AGRyM1u3gcsyJSmQf3gZqr/jiybtthilOebJxN/AKCid2Bz8ZRRmH2BuQZrmfH+7JtAkM4mb9lgPQQ==
-X-Received: by 2002:a05:6638:150b:b0:341:6ac2:acc4 with SMTP id b11-20020a056638150b00b003416ac2acc4mr2263307jat.111.1658126320575;
-        Sun, 17 Jul 2022 23:38:40 -0700 (PDT)
-Received: from frodo.. (c-73-78-62-130.hsd1.co.comcast.net. [73.78.62.130])
-        by smtp.googlemail.com with ESMTPSA id o12-20020a92a80c000000b002dcd35bb030sm2342604ilh.74.2022.07.17.23.38.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 17 Jul 2022 23:38:40 -0700 (PDT)
-From:   Jim Cromie <jim.cromie@gmail.com>
-To:     jbaron@akamai.com
-Cc:     intel-gfx@lists.freedesktop.org, nouveau@lists.freedesktop.org,
-        dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
-        Jim Cromie <jim.cromie@gmail.com>, linux-doc@vger.kernel.org
-Subject: [PATCH v3 19/41] doc-dyndbg: edit dynamic-debug-howto for brevity, audience
-Date:   Mon, 18 Jul 2022 00:36:03 -0600
-Message-Id: <20220718063641.9179-20-jim.cromie@gmail.com>
-X-Mailer: git-send-email 2.36.1
-In-Reply-To: <20220718063641.9179-1-jim.cromie@gmail.com>
-References: <20220718063641.9179-1-jim.cromie@gmail.com>
+        with ESMTP id S233413AbiGRG4U (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Jul 2022 02:56:20 -0400
+Received: from 7of9.schinagl.nl (7of9.connected.by.freedominter.net [185.238.129.13])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE1C41659E;
+        Sun, 17 Jul 2022 23:56:17 -0700 (PDT)
+Received: from [10.2.12.24] (unknown [10.2.12.24])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by 7of9.schinagl.nl (Postfix) with ESMTPSA id A15BE1854C79;
+        Mon, 18 Jul 2022 08:56:15 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=schinagl.nl; s=7of9;
+        t=1658127375; bh=pDIZI5+3ZaY8w1kvJ6Hn5NAeNyo0zewyITfCXLpRXvo=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To;
+        b=G20NuvpRGxhGBynBq/IG3TYChKLPc66QgWMoIp+pTbxBbT+NSRJuk3hr5tWSV/yGs
+         juQSH+vnQ+GyDLT1rx5L6p87B3WUch+43IuPMlSWXH3j13Bb1oDTX4CW6bnjc+Xml0
+         2+gY9E6KlHvfqqL5JUJYmi2g3MXzz+OWUx2DMJj0=
+Message-ID: <ba8cb315-9d73-2f45-8bf9-d9473d369dca@schinagl.nl>
+Date:   Mon, 18 Jul 2022 08:56:15 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH 00/13] [RFC] Rust support
+Content-Language: nl
+To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Cc:     Miguel Ojeda <ojeda@kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        rust-for-linux <rust-for-linux@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>
+References: <20210414184604.23473-1-ojeda@kernel.org>
+ <fae4873e-2ff9-df35-0ab9-34bf4417b717@schinagl.nl>
+ <CANiq72mRxM-7griYF+0FWqYoSoNL8ad=L-i6a2-GsaCeb0C6qQ@mail.gmail.com>
+From:   Olliver Schinagl <oliver+list@schinagl.nl>
+In-Reply-To: <CANiq72mRxM-7griYF+0FWqYoSoNL8ad=L-i6a2-GsaCeb0C6qQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Rework/modernize docs:
+Hey Miguel,
 
- - use /proc/dynamic_debug/control in examples
-   its *always* there (when dyndbg is config'd), even when <debugfs> is not.
-   drop <debugfs> talk, its a distraction here.
+Sorry for the late reply ;)
 
- - read before write. Viewing before Controlling.
-   control file as Catalog.
+On 27-06-2022 19:44, Miguel Ojeda wrote:
+> Hi Olliver,
+> 
+> On Mon, Jun 20, 2022 at 5:11 PM Olliver Schinagl <oliver@schinagl.nl> wrote:
+>>
+>> I apologize for being late to the party and for potentially using the
+>> wrong thread, but I recall somewhere in v5 that it was best to respond
+>> to the RFC for general comments.
+> 
+> No need to apologize! Feel free to use the latest threads or a new
+> thread in e.g. the rust-for-linux ML.
+> 
+>> On 14-04-2021 20:45, ojeda@kernel.org wrote:
+>>> From: Miguel Ojeda <ojeda@kernel.org>
+>>>
+>>> Moreover, as explained above, we are taking the chance to enforce
+>>> some documentation guidelines. We are also enforcing automatic code
+>>> formatting, a set of Clippy lints, etc. We decided to go with Rust's
+>>> idiomatic style, i.e. keeping `rustfmt` defaults. For instance, this
+>>> means 4 spaces are used for indentation, rather than a tab. We are
+>>> happy to change that if needed -- we think what is important is
+>>> keeping the formatting automated
+>>
+>> Enforcing this is great, but how will you enforce this 'everywhere'?
+>> Right now, you can easily 'bypass' any CI put in place, and while 'for
+>> now' this is only about the Rust infra, where this can be strongly
+>> enforced, once we see actual drivers pop-up; these won't go through the
+>> Rust CI before merging CI forever? A maintainer can 'just merge'
+>> something still, right?
+> 
+> Indeed, but there are workarounds, for instance, we could have a bot
+> checking -next.
+Absolutly, but with the many luitenants, many tree's, and not a single 
+CI source, this would still be tricky in the end; but certainly possible.
 
- - focus on use by a system administrator
-   add an alias to make examples more readable
-   drop grep-101 lessons, admins know this.
+> 
+> Or we could put it in an opt-in compilation mode (i.e. not for users)
+> where extra things are checked (like `W=`) that maintainers use so
+> that e.g. `allmodconfig` builds are kept clean.
+> 
+>> Anyway, what I wanted to criticize, is the so called "keeping with
+>> `rustfmt` defaults". It has been known, that, well Rust's defaults are
+>> pretty biased and opinionated. For the Rust project, that's fair of
+>> course, their code, their rules.
+>>
+>> However, there's two arguments against that. For one, using the Rust
+>> 'style', now means there's 2 different code styles in the Kernel.
+>> Cognitively alone, that can be quite frustrating and annoying. Having to
+>> go back and forth between two styles can be mentally challenging which
+>> only causes mistakes and frustration. So why change something that
+>> already exists? Also, see my first point. Having to constantly
+>> remember/switch to 'in this file/function the curly brace is on a
+>> different line'. Lets try to stay consistent, the rules may not be
+>> perfect (80 columns ;), but so far consistency is tried. OCD and Autism
+>> etc doesn't help with this ;)
+> 
+> Note that the point of using `rustfmt` is that one does not need to
+> care about the details -- one can e.g. run the tool on file save. So
+> no need to remember how to do it when writing Rust.
+And that's great of course, I was mearly speaking of the configuration 
+of rustfmt. I think as a tool it's pretty great!
 
- - use init/main.c as 1st example, thread it thru doc where useful.
-   everybodys kernel boots, runs these.
+> 
+> Now, it is true that the Rust syntax resembles C in many cases, so
+> things like the curly braces for function definitions are similar
+> enough that we could do the same thing in both sides.
+> 
+> However, most Rust code uses `rustfmt` and typically also follow most
+> of its defaults, including the standard library, books, etc.; which
+> helps when reading and reusing other code. This is different from C
+> and C++, where as you know there is no single style (at least as
+> prevalent as `rustfmt`), thus one needs to become accustomed to each
+> project's C style (or ideally use `clang-format` to avoid having to
+> learn it). So while this is not relevant for C, in the case of Rust,
+> there is value in using the `rustfmt` style.
+I think this is a pretty poor argument for following Rust's opinionated 
+view of the world. E.g. it's generally bad to copy/paste code to begin 
+with. How many 'bugs' that we know of are copy/paste bugs?
 
- - add *prdbg* api section
-   to the bottom of the file, its for developers more than admins.
-   move list of api functions there.
+Secondly, and more importantly so; you argue 'who cares about people 
+with disablements, atleast its equally hard to read everywhere' which is 
+a very poor argument :p
 
- - simplify - drop extra words, phrases, sentences.
+Finally, it must of course be mentioned, that rust is really trying to 
+do an XKCD here, https://xkcd.com/927/ though I'm sure we'll get it 
+right this time around ;)
 
- - add "decorator" flags line to unify "prefix", trim fmlt descriptions
+> 
+> As for consistency, one could argue that by using `rustfmt` we are
+> being consistent with the rest of the Rust code out there.
+But you are not, only those that follow rust's biased view. Everybody 
+else that has a different opinion (like die-hard C programmers) that 
+care enough (I'm sure there's plenty) would setup their rustfmt config 
+file to resemble their C code; and thus the entire premisis is broken. 
+Though; yes, in a perfect world it could have worked like this, but xkcd 
+again :)
 
-CC: linux-doc@vger.kernel.org
-Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
----
- .../admin-guide/dynamic-debug-howto.rst       | 238 +++++++++---------
- 1 file changed, 120 insertions(+), 118 deletions(-)
+> This may be
+> important for those that have expressed interest on sharing some code
+> between kernel and userspace; as well as if we end up vendoring some
+> external crates (similar to what we do with `alloc` now).
+This though is a fair argument I understand, it would be weird in having 
+2 styles in user-space and kernel-space code; though I see this 
+happening today as well; where developers follow kernel style for kernel 
+code (obviously) but use their preferred 2 or 3 space style on their 
+userland code. Trying to 'force' this, usually however never gets the 
+intended result ...
 
-diff --git a/Documentation/admin-guide/dynamic-debug-howto.rst b/Documentation/admin-guide/dynamic-debug-howto.rst
-index d8954ab05c7b..cdf1da69e43c 100644
---- a/Documentation/admin-guide/dynamic-debug-howto.rst
-+++ b/Documentation/admin-guide/dynamic-debug-howto.rst
-@@ -5,30 +5,19 @@ Dynamic debug
- Introduction
- ============
- 
--This document describes how to use the dynamic debug (dyndbg) feature.
-+Dynamic debug allows you to dynamically enable/disable kernel
-+debug-print code to obtain additional kernel information.
- 
--Dynamic debug is designed to allow you to dynamically enable/disable
--kernel code to obtain additional kernel information.  Currently, if
--``CONFIG_DYNAMIC_DEBUG`` is set, then all ``pr_debug()``/``dev_dbg()`` and
--``print_hex_dump_debug()``/``print_hex_dump_bytes()`` calls can be dynamically
--enabled per-callsite.
-+If ``/proc/dynamic_debug/control`` exists, your kernel has dynamic debug.
-+You'll need root access (sudo su) to use this.
- 
--If you do not want to enable dynamic debug globally (i.e. in some embedded
--system), you may set ``CONFIG_DYNAMIC_DEBUG_CORE`` as basic support of dynamic
--debug and add ``ccflags := -DDYNAMIC_DEBUG_MODULE`` into the Makefile of any
--modules which you'd like to dynamically debug later.
--
--If ``CONFIG_DYNAMIC_DEBUG`` is not set, ``print_hex_dump_debug()`` is just
--shortcut for ``print_hex_dump(KERN_DEBUG)``.
--
--For ``print_hex_dump_debug()``/``print_hex_dump_bytes()``, format string is
--its ``prefix_str`` argument, if it is constant string; or ``hexdump``
--in case ``prefix_str`` is built dynamically.
-+Dynamic debug provides:
- 
--Dynamic debug has even more useful features:
-+ * a Catalog of all *prdbgs* in your kernel.
-+   ``cat /proc/dynamic_debug/control`` to see them.
- 
-- * Simple query language allows turning on and off debugging
--   statements by matching any combination of 0 or 1 of:
-+ * a Simple query/command language to alter *prdbgs* by selecting on
-+   any combination of 0 or 1 of:
- 
-    - source filename
-    - function name
-@@ -37,107 +26,88 @@ Dynamic debug has even more useful features:
-    - format string
-    - class name (as known/declared by each module)
- 
-- * Provides a debugfs control file: ``<debugfs>/dynamic_debug/control``
--   which can be read to display the complete list of known debug
--   statements, to help guide you
--
--Controlling dynamic debug Behaviour
--===================================
--
--The behaviour of ``pr_debug()``/``dev_dbg()`` are controlled via writing to a
--control file in the 'debugfs' filesystem. Thus, you must first mount
--the debugfs filesystem, in order to make use of this feature.
--Subsequently, we refer to the control file as:
--``<debugfs>/dynamic_debug/control``. For example, if you want to enable
--printing from source file ``svcsock.c``, line 1603 you simply do::
--
--  nullarbor:~ # echo 'file svcsock.c line 1603 +p' >
--				<debugfs>/dynamic_debug/control
--
--If you make a mistake with the syntax, the write will fail thus::
--
--  nullarbor:~ # echo 'file svcsock.c wtf 1 +p' >
--				<debugfs>/dynamic_debug/control
--  -bash: echo: write error: Invalid argument
--
--Note, for systems without 'debugfs' enabled, the control file can be
--found in ``/proc/dynamic_debug/control``.
--
- Viewing Dynamic Debug Behaviour
- ===============================
- 
--You can view the currently configured behaviour of all the debug
--statements via::
-+You can view the currently configured behaviour in the *prdbg* catalog:
- 
--  nullarbor:~ # cat <debugfs>/dynamic_debug/control
-+  :#> head -n7 /proc/dynamic_debug/control
-   # filename:lineno [module]function flags format
--  net/sunrpc/svc_rdma.c:323 [svcxprt_rdma]svc_rdma_cleanup =_ "SVCRDMA Module Removed, deregister RPC RDMA transport\012"
--  net/sunrpc/svc_rdma.c:341 [svcxprt_rdma]svc_rdma_init =_ "\011max_inline       : %d\012"
--  net/sunrpc/svc_rdma.c:340 [svcxprt_rdma]svc_rdma_init =_ "\011sq_depth         : %d\012"
--  net/sunrpc/svc_rdma.c:338 [svcxprt_rdma]svc_rdma_init =_ "\011max_requests     : %d\012"
--  ...
-+  init/main.c:1179 [main]initcall_blacklist =_ "blacklisting initcall %s\012
-+  init/main.c:1218 [main]initcall_blacklisted =_ "initcall %s blacklisted\012"
-+  init/main.c:1424 [main]run_init_process =_ "  with arguments:\012"
-+  init/main.c:1426 [main]run_init_process =_ "    %s\012"
-+  init/main.c:1427 [main]run_init_process =_ "  with environment:\012"
-+  init/main.c:1429 [main]run_init_process =_ "    %s\012"
- 
-+The 3rd space-delimited column shows the current flags, preceded by
-+a ``=`` for easy use with grep/cut. ``=p`` shows enabled callsites.
- 
--You can also apply standard Unix text manipulation filters to this
--data, e.g.::
-+Controlling dynamic debug Behaviour
-+===================================
- 
--  nullarbor:~ # grep -i rdma <debugfs>/dynamic_debug/control  | wc -l
--  62
-+The behaviour of *prdbg* sites are controlled by writing
-+query/commands to the control file.  Example::
- 
--  nullarbor:~ # grep -i tcp <debugfs>/dynamic_debug/control | wc -l
--  42
-+  # grease the interface
-+  :#> alias ddcmd='echo $* > /proc/dynamic_debug/control'
- 
--The third column shows the currently enabled flags for each debug
--statement callsite (see below for definitions of the flags).  The
--default value, with no flags enabled, is ``=_``.  So you can view all
--the debug statement callsites with any non-default flags::
-+  :#> ddcmd '-p; module main func run* +p'
-+  :#> grep =p /proc/dynamic_debug/control
-+  init/main.c:1424 [main]run_init_process =p "  with arguments:\012"
-+  init/main.c:1426 [main]run_init_process =p "    %s\012"
-+  init/main.c:1427 [main]run_init_process =p "  with environment:\012"
-+  init/main.c:1429 [main]run_init_process =p "    %s\012"
- 
--  nullarbor:~ # awk '$3 != "=_"' <debugfs>/dynamic_debug/control
--  # filename:lineno [module]function flags format
--  net/sunrpc/svcsock.c:1603 [sunrpc]svc_send p "svc_process: st_sendto returned %d\012"
-+Error messages go to console/syslog:
-+
-+  :#> ddcmd mode foo +p
-+  dyndbg: unknown keyword "mode"
-+  dyndbg: query parse failed
-+  bash: echo: write error: Invalid argument
-+
-+If debugfs is also enabled and mounted, ``dynamic_debug/control`` is
-+also under the mount-dir, typically ``/sys/kernel/debug/``.
- 
- Command Language Reference
- ==========================
- 
--At the lexical level, a command comprises a sequence of words separated
-+At the basic lexical level, a command is a sequence of words separated
- by spaces or tabs.  So these are all equivalent::
- 
--  nullarbor:~ # echo -n 'file svcsock.c line 1603 +p' >
--				<debugfs>/dynamic_debug/control
--  nullarbor:~ # echo -n '  file   svcsock.c     line  1603 +p  ' >
--				<debugfs>/dynamic_debug/control
--  nullarbor:~ # echo -n 'file svcsock.c line 1603 +p' >
--				<debugfs>/dynamic_debug/control
-+  :#> ddcmd file svcsock.c line 1603 +p
-+  :#> ddcmd "file svcsock.c line 1603 +p"
-+  :#> ddcmd '  file   svcsock.c     line  1603 +p  '
- 
- Command submissions are bounded by a write() system call.
- Multiple commands can be written together, separated by ``;`` or ``\n``::
- 
--  ~# echo "func pnpacpi_get_resources +p; func pnp_assign_mem +p" \
--     > <debugfs>/dynamic_debug/control
-+  :#> ddcmd "func pnpacpi_get_resources +p; func pnp_assign_mem +p"
-+  :#> ddcmd <<"EOC"
-+  func pnpacpi_get_resources +p
-+  func pnp_assign_mem +p
-+  EOC
-+  :#> cat query-batch-file > /proc/dynamic_debug/control
- 
--If your query set is big, you can batch them too::
-+You can also use wildcards in each query term. The match rule supports
-+``*`` (matches zero or more characters) and ``?`` (matches exactly one
-+character). For example, you can match all usb drivers::
- 
--  ~# cat query-batch-file > <debugfs>/dynamic_debug/control
-+  :#> ddcmd file "drivers/usb/*" +p	# "" to suppress shell expansion
- 
--Another way is to use wildcards. The match rule supports ``*`` (matches
--zero or more characters) and ``?`` (matches exactly one character). For
--example, you can match all usb drivers::
--
--  ~# echo "file drivers/usb/* +p" > <debugfs>/dynamic_debug/control
--
--At the syntactical level, a command comprises a sequence of match
--specifications, followed by a flags change specification::
-+Syntactically, a command is pairs of keyword values, followed by a
-+flags change or setting::
- 
-   command ::= match-spec* flags-spec
- 
--The match-spec's are used to choose a subset of the known pr_debug()
--callsites to which to apply the flags-spec.  Think of them as a query
--with implicit ANDs between each pair.  Note that an empty list of
--match-specs will select all debug statement callsites.
-+The match-spec's select *prdbgs* from the catalog, upon which to apply
-+the flags-spec, all constraints are ANDed together.  An absent keyword
-+is the same as keyword "*".
-+
- 
--A match specification comprises a keyword, which controls the
--attribute of the callsite to be compared, and a value to compare
--against.  Possible keywords are:::
-+A match specification is a keyword, which selects the attribute of
-+the callsite to be compared, and a value to compare against.  Possible
-+keywords are:::
- 
-   match-spec ::= 'func' string |
- 		 'file' string |
-@@ -213,6 +183,7 @@ class
- 
- 	class DRM_UT_KMS	# a DRM.debug category
- 	class JUNK		# silent non-match
-+	// class TLD_*		# NOTICE: no wildcard in class names
- 
- line
-     The given line number or range of line numbers is compared
-@@ -239,17 +210,16 @@ of the characters::
- The flags are::
- 
-   p    enables the pr_debug() callsite.
--  f    Include the function name in the printed message
--  l    Include line number in the printed message
--  m    Include module name in the printed message
--  t    Include thread ID in messages not generated from interrupt context
--  _    No flags are set. (Or'd with others on input)
-+  _    enables no flags.
- 
--For ``print_hex_dump_debug()`` and ``print_hex_dump_bytes()``, only ``p`` flag
--have meaning, other flags ignored.
-+  Decorator flags add to the message-prefix, in order:
-+  t    Include thread ID, or <intr>
-+  m    Include module name
-+  f    Include the function name
-+  l    Include line number
- 
--For display, the flags are preceded by ``=``
--(mnemonic: what the flags are currently equal to).
-+For ``print_hex_dump_debug()`` and ``print_hex_dump_bytes()``, only
-+the ``p`` flag has meaning, other flags are ignored.
- 
- Note the regexp ``^[-+=][flmpt_]+$`` matches a flags specification.
- To clear all flags at once, use ``=_`` or ``-flmpt``.
-@@ -324,7 +294,7 @@ For ``CONFIG_DYNAMIC_DEBUG`` kernels, any settings given at boot-time (or
- enabled by ``-DDEBUG`` flag during compilation) can be disabled later via
- the debugfs interface if the debug messages are no longer needed::
- 
--   echo "module module_name -p" > <debugfs>/dynamic_debug/control
-+   echo "module module_name -p" > /proc/dynamic_debug/control
- 
- Examples
- ========
-@@ -332,37 +302,31 @@ Examples
- ::
- 
-   // enable the message at line 1603 of file svcsock.c
--  nullarbor:~ # echo -n 'file svcsock.c line 1603 +p' >
--				<debugfs>/dynamic_debug/control
-+  :#> ddcmd 'file svcsock.c line 1603 +p'
- 
-   // enable all the messages in file svcsock.c
--  nullarbor:~ # echo -n 'file svcsock.c +p' >
--				<debugfs>/dynamic_debug/control
-+  :#> ddcmd 'file svcsock.c +p'
- 
-   // enable all the messages in the NFS server module
--  nullarbor:~ # echo -n 'module nfsd +p' >
--				<debugfs>/dynamic_debug/control
-+  :#> ddcmd 'module nfsd +p'
- 
-   // enable all 12 messages in the function svc_process()
--  nullarbor:~ # echo -n 'func svc_process +p' >
--				<debugfs>/dynamic_debug/control
-+  :#> ddcmd 'func svc_process +p'
- 
-   // disable all 12 messages in the function svc_process()
--  nullarbor:~ # echo -n 'func svc_process -p' >
--				<debugfs>/dynamic_debug/control
-+  :#> ddcmd 'func svc_process -p'
- 
-   // enable messages for NFS calls READ, READLINK, READDIR and READDIR+.
--  nullarbor:~ # echo -n 'format "nfsd: READ" +p' >
--				<debugfs>/dynamic_debug/control
-+  :#> ddcmd 'format "nfsd: READ" +p'
- 
-   // enable messages in files of which the paths include string "usb"
--  nullarbor:~ # echo -n 'file *usb* +p' > <debugfs>/dynamic_debug/control
-+  :#> ddcmd 'file *usb* +p' > /proc/dynamic_debug/control
- 
-   // enable all messages
--  nullarbor:~ # echo -n '+p' > <debugfs>/dynamic_debug/control
-+  :#> ddcmd '+p' > /proc/dynamic_debug/control
- 
-   // add module, function to all enabled messages
--  nullarbor:~ # echo -n '+mf' > <debugfs>/dynamic_debug/control
-+  :#> ddcmd '+mf' > /proc/dynamic_debug/control
- 
-   // boot-args example, with newlines and comments for readability
-   Kernel command line: ...
-@@ -375,3 +339,41 @@ Examples
-     dyndbg="file init/* +p #cmt ; func parse_one +p"
-     // enable pr_debugs in 2 functions in a module loaded later
-     pc87360.dyndbg="func pc87360_init_device +p; func pc87360_find +p"
-+
-+Kernel Configuration
-+====================
-+
-+Dynamic Debug is enabled via kernel config items:
-+
-+  CONFIG_DYNAMIC_DEBUG=y	# build catalog, enables CORE
-+  CONFIG_DYNAMIC_DEBUG_CORE=y	# enable mechanics only, skip catalog
-+
-+Fedora's distro-kernel has both, and has 7250 *prdbgs*.  Each callsite
-+record uses 56 bytes, so the impact on memory is non-trivial.
-+
-+If you do not want to enable dynamic debug globally (i.e. in some embedded
-+system), you may set ``CONFIG_DYNAMIC_DEBUG_CORE`` as basic support of dynamic
-+debug and add ``ccflags := -DDYNAMIC_DEBUG_MODULE`` into the Makefile of any
-+modules which you'd like to dynamically debug later.
-+
-+
-+Kernel *prdbg* API
-+==================
-+
-+The following functions are cataloged and controllable when dynamic
-+debug is enabled::
-+
-+  pr_debug()
-+  dev_dbg()
-+  print_hex_dump_debug()
-+  print_hex_dump_bytes()
-+
-+Otherwise, they are off by default; ``ccflags += -DDEBUG`` or
-+``#define DEBUG`` in a source file will enable them appropriately.
-+
-+If ``CONFIG_DYNAMIC_DEBUG`` is not set, ``print_hex_dump_debug()`` is
-+just a shortcut for ``print_hex_dump(KERN_DEBUG)``.
-+
-+For ``print_hex_dump_debug()``/``print_hex_dump_bytes()``, format string is
-+its ``prefix_str`` argument, if it is constant string; or ``hexdump``
-+in case ``prefix_str`` is built dynamically.
--- 
-2.36.1
+> 
+>> Secondly, and this is really far more important, the Rust default style
+>> is not very inclusive, as it makes readability harder. This has been
+>> brought up by many others in plenty of places, including the `rustfmt`
+>> issue tracker under bug #4067 [0]. While the discussion eventually only
+>> led to the 'fmt-rfcs' [1], where it was basically said 'you could be on
+>> to something, but this ship has sailed 3 years ago (when nobody was
+>> looking caring), and while we hear you, we're not going to change our
+>> defaults anymore.
+>>
+>> But I also agree and share these commenters pain. When the tab character
+>> is used for indenting (and not alignment mind you), then visually
+>> impaired (who can still be amazing coders) can more easily read code by
+>> adjusting the width what works best to them.
+>>
+>> With even git renaming `master` to `main` to be more inclusive, can we
+>> also be more inclusive to us that have a hard time distinguishing narrow
+>> indentations?
+> 
+> As noted in the RFC, we are happy to tweak the style to whatever
+> kernel developers prefer. We think the particular style is not that
+> important. Absent other reasons, the defaults seem OK, so we chose
+> that for simplicity and consistency with as most existing Rust code as
+> possible.
+> 
+> As for accessibility, I am no expert, so that may be a good point,
+> especially if editors cannot solve this on their end (so that everyone
+> could program in all languages/projects regardless of style).
+Yeah, this is a common reasoning. People without disabilities often 
+oversee cases to those with. E.g. Traffic lights being red and green is 
+horrible for colorblind people; luckily enough we have 'order' to help 
+distinguish there for example. While I'm not colorblind myself, I often 
+have to remind UX designers, with their fancy LED based UI's, to think 
+of others as well, which always strikes them as odd first, then of 
+course they only start to realize this.
+
+I'm with you that style is the least important for the functionality, no 
+argument there. Long-term though; this will matter of course, to those 
+like me, have hard times here.
+
+> 
+>> Thanks, and sorry for rubbing any ones nerves, but to "some of us" this
+>> actually matters a great deal.
+> 
+> No nerves were damaged :) Thanks for all the input!
+> 
+>> P.S. would we expect inline C/Rust code mixed? What then?
+> 
+> Everything is possible, e.g. we could have Rust proc macros that parse
+> C and things like that. But if we ended up with such a thing, the
+> solution would be to format each accordingly to its style (indentation
+> could be an exception, I guess).
+The first exception to the rule starts here already :p
+
+Thanks for your thoughts,
+
+Olliver
+> 
+> Cheers,
+> Miguel
 
