@@ -2,139 +2,157 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D7489C43334
-	for <linux-doc@archiver.kernel.org>; Mon, 18 Jul 2022 09:33:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9FF3BC433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 18 Jul 2022 10:47:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233886AbiGRJdR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 18 Jul 2022 05:33:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56574 "EHLO
+        id S233914AbiGRKrg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 18 Jul 2022 06:47:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53326 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233190AbiGRJdQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Jul 2022 05:33:16 -0400
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C4DB01A83B;
-        Mon, 18 Jul 2022 02:33:14 -0700 (PDT)
-Received: from [2a02:8108:963f:de38:eca4:7d19:f9a2:22c5]; authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1oDN7o-0004Gz-Cy; Mon, 18 Jul 2022 11:33:12 +0200
-Message-ID: <97e5afd3-77a3-2227-0fbf-da2f9a41520f@leemhuis.info>
-Date:   Mon, 18 Jul 2022 11:33:11 +0200
+        with ESMTP id S230182AbiGRKrf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Jul 2022 06:47:35 -0400
+Received: from esa3.hgst.iphmx.com (esa3.hgst.iphmx.com [216.71.153.141])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8CBD11457
+        for <linux-doc@vger.kernel.org>; Mon, 18 Jul 2022 03:47:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+  t=1658141253; x=1689677253;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=ICBy3sF/NsNEHPOB6+kzZdomREf/FmWtWHtPkhQaSng=;
+  b=emRyIGG8zcduDMAZMHNnx9W/Up3d93EJ+mTwk7WMUgTOqOezgL+n+OPs
+   uE3xZnq5HM5i6wi3M6WDQhb38XEErIywL/gb1QlcRLurH/S7ult7Ve+Vk
+   VXFs/MtaMNBe5gIhGuZlw9DWxJgvODyb/cmTWmNOnbY0np1nz4CXxgXgv
+   53N0lKobhApWy71HIf9Q42GdrOfPQ9UvK6AXm9impve8/wEcd8rZZK8MQ
+   ZksOoO7kWRTtjyVxT8JOkOUbTi7zKlIIjYC4TW1/02uQ7VFuf462UlTv6
+   3GNCBVeL35XGrNx+DCUcp8hgdkstzcnbvQcggnKTtBFXuleim2hNFAmr8
+   A==;
+X-IronPort-AV: E=Sophos;i="5.92,280,1650902400"; 
+   d="scan'208";a="210984673"
+Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com) ([199.255.45.14])
+  by ob1.hgst.iphmx.com with ESMTP; 18 Jul 2022 18:47:32 +0800
+IronPort-SDR: IicYt3Pv9WkZKV6lXaJ7242+wJzfSg5iIWq9tJ0oB0jdllmDrEshP7iOjs33dFSchmKjYD9lzj
+ MbaoKRa2CyFdgUias3ouZgd2pHHM56Wt+pO5jZf5vpKd9DsEivVDxmzuSH9x3R+A3Ef3JotE+X
+ nzNUiOMDvFY7hKIqope4biVu7h+rcU6tlMMcCHK8/fajmPMPQqGglFFQWv6Vosl79IOoY7tdt2
+ eQ2uXTcGdIwDIT1gwYLLKQf5nzyeTqmlvAYKL46mRGwzcIXmDYFWRIE/wmekSO+SCTIvmVt3Qx
+ zRobqS57Y+cYbb+6O8UsfpBn
+Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
+  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 18 Jul 2022 03:09:00 -0700
+IronPort-SDR: /UVsvpwhgtxhNqIE9fncOnfHsrw/bBQ0iRuahyWosNsjhjmFiKd1zjLmi0TeRU6lihwiRfajdT
+ xPt1xbQjp/WDvCor52nHuAsdbakHLYB0I+6uD92aLeVYPwHy0V+1SofcuDoq+8mBGXx3VtHmqz
+ kNPZJhJNt+o+YdqrwVpFuVHl3XnqfO29xu3NZQjlbXzyGKXOaO6SlxnxkHV9yJ6ojDZt9/WguW
+ n7djzs6FLLAkU6vHwdzLJtW2BwrPeLTqfurdOyvC4KAxYja/7V3Igxg+xat9dxcoLYMaY5I8zl
+ WQw=
+WDCIronportException: Internal
+Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
+  by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 18 Jul 2022 03:47:34 -0700
+Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
+        by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4Lmdvn3St9z1Rwnm
+        for <linux-doc@vger.kernel.org>; Mon, 18 Jul 2022 03:47:33 -0700 (PDT)
+Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
+        reason="pass (just generated, assumed good)"
+        header.d=opensource.wdc.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
+        opensource.wdc.com; h=content-transfer-encoding:content-type
+        :in-reply-to:organization:from:references:to:content-language
+        :subject:user-agent:mime-version:date:message-id; s=dkim; t=
+        1658141252; x=1660733253; bh=ICBy3sF/NsNEHPOB6+kzZdomREf/FmWtWHt
+        PkhQaSng=; b=ffy3r4QzJl2eMxIGeYvZDxhndyaiLEBA6fObdRuA9MXXWuuAuiB
+        zxy2PZue182NyNIs04OSk2RsuUJHRg1ElHOVGtXKOX0xUbQAqa615RJPLSPZbOk6
+        tgjaNfOx5LbKyKliH7H1EJXWmR6bKjTbD2Lsjb0S+1zqNlcakLIYxDDMDF7pgJpm
+        OyOGmOMuDR4RZuFjFX+RVZsMPb0VhGzJ2aDMcdHEUamVC3CuoZt8+m2Mcyb9bHLT
+        malHx8Lm/DEhM60u7f8h6dsj57P5IU0HEjZ83ME2zYrTjqB6SFgHwzkujjGyAuUe
+        WnQPWsMgLhRBfdAGPCNZOXKZ0yxHnoXANag==
+X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
+Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
+        by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id D-t-EwD2kJMZ for <linux-doc@vger.kernel.org>;
+        Mon, 18 Jul 2022 03:47:32 -0700 (PDT)
+Received: from [10.225.163.120] (unknown [10.225.163.120])
+        by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4Lmdvk2p0qz1RtVk;
+        Mon, 18 Jul 2022 03:47:30 -0700 (PDT)
+Message-ID: <6725df4f-4e27-3320-8b7b-22ba15a07866@opensource.wdc.com>
+Date:   Mon, 18 Jul 2022 19:47:29 +0900
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH] docs: driver-api: firmware: add driver firmware
- guidelines.
+Subject: Re: [PATCH v6 4/6] scsi: sd: Allow max_sectors be capped at DMA
+ optimal size limit
 Content-Language: en-US
-To:     Dave Airlie <airlied@gmail.com>, torvalds@linux-foundation.org,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        gregkh@linuxfoundation.org, Daniel Vetter <daniel@ffwll.ch>,
-        mcgrof@kernel.org
-Cc:     linux-kernel@vger.kernel.org, dri-devel@lists.sf.net,
-        netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
-        alsa-devel@alsa-project.org, linux-media@vger.kernel.org,
-        linux-block@vger.kernel.org, Dave Airlie <airlied@redhat.com>
-References: <20220718072144.2699487-1-airlied@gmail.com>
-From:   Thorsten Leemhuis <linux@leemhuis.info>
-In-Reply-To: <20220718072144.2699487-1-airlied@gmail.com>
+To:     John Garry <john.garry@huawei.com>, joro@8bytes.org,
+        will@kernel.org, jejb@linux.ibm.com, martin.petersen@oracle.com,
+        hch@lst.de, m.szyprowski@samsung.com, robin.murphy@arm.com
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-ide@vger.kernel.org, iommu@lists.linux.dev,
+        linux-scsi@vger.kernel.org, linuxarm@huawei.com
+References: <1657797329-98541-1-git-send-email-john.garry@huawei.com>
+ <1657797329-98541-5-git-send-email-john.garry@huawei.com>
+From:   Damien Le Moal <damien.lemoal@opensource.wdc.com>
+Organization: Western Digital Research
+In-Reply-To: <1657797329-98541-5-git-send-email-john.garry@huawei.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1658136794;4a0ff83e;
-X-HE-SMSGID: 1oDN7o-0004Gz-Cy
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-On 18.07.22 09:21, Dave Airlie wrote:
-> From: Dave Airlie <airlied@redhat.com>
+On 7/14/22 20:15, John Garry wrote:
+> Streaming DMA mappings may be considerably slower when mappings go through
+> an IOMMU and the total mapping length is somewhat long. This is because the
+> IOMMU IOVA code allocates and free an IOVA for each mapping, which may
+> affect performance.
 > 
-> A recent snafu where Intel ignored upstream feedback on a firmware
-> change, led to a late rc6 fix being required. In order to avoid this
-> in the future we should document some expectations around
-> linux-firmware.
+> New member Scsi_Host.opt_sectors is added, which is the optimal host
+> max_sectors, and use this value to cap the request queue max_sectors when
+> set.
 > 
-> I was originally going to write this for drm, but it seems quite generic
-> advice.
+> It could be considered to have request queues io_opt value initially
+> set at Scsi_Host.opt_sectors in __scsi_init_queue(), but that is not
+> really the purpose of io_opt.
 > 
-> I'm cc'ing this quite widely to reach subsystems which use fw a lot.
-
-Thx for this, I kinda put "add a few words about firmware into
-Documentation/process/handling-regressions.rst" on my todo list already,
-but having a separate document is likely better.
-
-Took a quick look, here are a few suggestions for your consideration.
-
-> [...]
-> diff --git a/Documentation/driver-api/firmware/firmware-usage-guidelines.rst b/Documentation/driver-api/firmware/firmware-usage-guidelines.rst
-> new file mode 100644
-> index 000000000000..34d2412e78c6
-> --- /dev/null
-> +++ b/Documentation/driver-api/firmware/firmware-usage-guidelines.rst
-> @@ -0,0 +1,34 @@
-> +===================
-> +Firmware Guidelines
-> +===================
-> +
-> +Drivers that use firmware from linux-firmware should attempt to follow
-> +the rules in this guide.
-
-How about spelling out the main aspect first clearly before going into
-the details about its consequence? Maybe something along these lines:
-
-```
-Users switching to a newer kernel should *not* have to install newer
-firmware files to keep their hardware working. At the same time updated
-firmware files must not cause any regressions for users of older kernel
-releases.
-
-Drivers that use such firmware (like that in linux-firmware) should thus
-follow these rules:
-```
-
-> +* Firmware should be versioned with at least a major/minor version it
-> +  is suggested that the firmware files in linux-firmware be named with
-> +  some device specific name, and just the major version. The
-> +  major/minor/patch versions should be stored in a header in the
-> +  firmware file for the driver to detect any non-ABI fixes/issues. The
-> +  firmware files in linux-firmware should be overwritten with the newest
-> +  compatible major version. Newer major version firmware should remain
-> +  compatible with all kernels that load that major number.
-> +
-> +* Users should *not* have to install newer firmware to use existing
-> +  hardware when they install a newer kernel. 
-
-This will need changes if you pick up the suggestion above.
-
-> If the hardware isn't
-> +  enabled by default or under development,
-
-Wondering if it might be better to drop the "or under development", as
-the "enabled by default" is the main part afaics. Maybe something like
-"If support for the hardware is normally inactive (e.g. has to be
-enabled manually by a kernel parameter)" would be better anyway.
-
-> this can be ignored, until
-> +  the first kernel release that enables that hardware.  This means no
-> +  major version bumps without the kernel retaining backwards
-> +  compatibility for the older major versions.  Minor version bumps
-> +  should not introduce new features that newer kernels depend on
-> +  non-optionally.
-> +
-> +* If a security fix needs lockstep firmware and kernel fixes in order to
-> +  be successful, then all supported major versions in the linux-firmware
-> +  repo
-
-This made me wonder: what exactly are "all supported major versions" in
-this context? Do you mean something like "all major versions in the
-linux-firmware required by currently supported stable/longterm kernel
-series"? Then it might be wise to write that.
-
-> should be updated with the security fix, and the kernel patches
-> +  should detect if the firmware is new enough to declare if the security
-> +  issue is fixed.  All communications around security fixes should point
-> +  at both the firmware and kernel fixes. If a security fix requires
-> +  deprecating old major versions, then this should only be done as a
-> +  last option, and be stated clearly in all communications.
+> Finally, even though Scsi_Host.opt_sectors value should never be greater
+> than the request queue max_hw_sectors value, continue to limit to this
+> value for safety.
+> 
+> Signed-off-by: John Garry <john.garry@huawei.com>
+> ---
+>  drivers/scsi/sd.c        | 2 ++
+>  include/scsi/scsi_host.h | 1 +
+>  2 files changed, 3 insertions(+)
+> 
+> diff --git a/drivers/scsi/sd.c b/drivers/scsi/sd.c
+> index a1a2ac09066f..3eaee1f7aaca 100644
+> --- a/drivers/scsi/sd.c
+> +++ b/drivers/scsi/sd.c
+> @@ -3296,6 +3296,8 @@ static int sd_revalidate_disk(struct gendisk *disk)
+>  				      (sector_t)BLK_DEF_MAX_SECTORS);
+>  	}
+>  
+> +	rw_max = min_not_zero(rw_max, sdp->host->opt_sectors);
 > +
 
-HTH, Ciao, Thorsten
+Adding a comment explaining what the cap is would be nice.
+
+>  	/* Do not exceed controller limit */
+>  	rw_max = min(rw_max, queue_max_hw_sectors(q));
+>  
+> diff --git a/include/scsi/scsi_host.h b/include/scsi/scsi_host.h
+> index 667d889b92b5..d32a84b2bb40 100644
+> --- a/include/scsi/scsi_host.h
+> +++ b/include/scsi/scsi_host.h
+> @@ -607,6 +607,7 @@ struct Scsi_Host {
+>  	short unsigned int sg_tablesize;
+>  	short unsigned int sg_prot_tablesize;
+>  	unsigned int max_sectors;
+> +	unsigned int opt_sectors;
+>  	unsigned int max_segment_size;
+>  	unsigned long dma_boundary;
+>  	unsigned long virt_boundary_mask;
+
+Otherwise, looks good.
+
+Reviewed-by: Damien Le Moal <damien.lemoal@opensource.wdc.com>
+
+-- 
+Damien Le Moal
+Western Digital Research
