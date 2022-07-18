@@ -2,195 +2,142 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 776BCCCA481
-	for <linux-doc@archiver.kernel.org>; Mon, 18 Jul 2022 08:42:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C92BDC433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 18 Jul 2022 08:47:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234009AbiGRImh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 18 Jul 2022 04:42:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48072 "EHLO
+        id S233974AbiGRIrD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 18 Jul 2022 04:47:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51694 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233982AbiGRImf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Jul 2022 04:42:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 38D0919C00
-        for <linux-doc@vger.kernel.org>; Mon, 18 Jul 2022 01:42:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1658133752;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=jGouTsNv1lisIVuwecS9yzguYrksQ4eFIjfFj4TU4q0=;
-        b=XbmJj2DXrJiZ43za/ZrcoBwZDpUkaW03ul6l7j2FN7093G/g7tHdfUUNxbO0NODx8YfGkt
-        xEV7ViRE9aQOyNLEZgurH9UV7mlmkGyTjRDGtyU+IEARyXmCNur7U1GJofbT92aZAbmfFM
-        DlZHe+ge2WTB549ZIgPTF6uSFcvRjxE=
-Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com
- [209.85.214.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-145-ZEQKnXtYOlekC8Ty_KTELQ-1; Mon, 18 Jul 2022 04:42:26 -0400
-X-MC-Unique: ZEQKnXtYOlekC8Ty_KTELQ-1
-Received: by mail-pl1-f198.google.com with SMTP id k18-20020a170902c41200b0016c40543af4so6433445plk.0
-        for <linux-doc@vger.kernel.org>; Mon, 18 Jul 2022 01:42:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=jGouTsNv1lisIVuwecS9yzguYrksQ4eFIjfFj4TU4q0=;
-        b=Vz0PI8U+LrU8MNWPBipKa5bgb6C1VSdQUcYLgyJy6+EFtVJS8Q+zjEHdSSQJuTLnYy
-         JsrcEoumfDH0wNF12sLBhBKMFrw7qFws5Pib1oCwi2UqqkhYT0AaZEwSkiIVEToMEfVo
-         5SOg6jAe/2no5dOBTSkQWxVN9GQrqP3WN85jz3g/4S1IIG9q/fc1RRPQVWIKOWXwB36w
-         qeRkvpJmCxvrVkgD5MTAq6iA3A0//TtB/+9jRZVVMOKTUUSRMuhH2oBaxJzYmO+vhqcC
-         id7sSbQyHp+xJZlSgHlw6cxdhETN0Fn49c0CB97Bfqd1k226hW/Uq81SK3RFdMc30zXm
-         o2jg==
-X-Gm-Message-State: AJIora93vBBL5fQonOpCcFquU3dn9GoNsx8AGV+FviXAPSr+QwJwblJi
-        +v0ZfvYI1ftCbUN6+IoVPkHrGeFaWs/dh8Kxji83aBwYcT2/HQdrvS3Vv6RHeAi/IrcsHLOkaC9
-        +o+JYDTxtGV8cY2mQceSSu+p2TpBSoRe/8aES
-X-Received: by 2002:a17:90b:3c0c:b0:1ef:e647:ff48 with SMTP id pb12-20020a17090b3c0c00b001efe647ff48mr37022224pjb.173.1658133744858;
-        Mon, 18 Jul 2022 01:42:24 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1uQCNjvoDfxIqziZqYdDHzUlMEZYuKMP4alAW7pp2XL/lSwJYhrCgB6FbdmGe7ipEOiFq4GD15BG6v9tre5yow=
-X-Received: by 2002:a17:90b:3c0c:b0:1ef:e647:ff48 with SMTP id
- pb12-20020a17090b3c0c00b001efe647ff48mr37022193pjb.173.1658133744537; Mon, 18
- Jul 2022 01:42:24 -0700 (PDT)
+        with ESMTP id S233932AbiGRIrC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Jul 2022 04:47:02 -0400
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB2BA6403;
+        Mon, 18 Jul 2022 01:47:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1658134021; x=1689670021;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=OBECoidjbs/b4gjb4vh7yiE3zSs/3k3t1WbIVAmKqjU=;
+  b=KJi/6pG2faldsW2HbVlS/IX4kBma40OhtItBSDFJ0SgCK3AWCaoA/0QO
+   qAhj16cku18y5DNGEmGsDfVOzE0+X2F7EA7waNPx/ueMdCb5cyNoXab8d
+   lsMZH/YHiBTrseR/GGv66ecNjI9ewQ/PIXmA00TwpZlG+SQhOGIw3sAEE
+   0GNAoE0z+A+O8dTNBAxpXKx8rsh6VOut2vypnZoJCBxHe0mw7jml3O71p
+   Tgoqi+mR+6x7NoVYmsgogWtYMWSdJCXRj+Cgbdoofn9kr2E4wLGGvdtwe
+   mMaG5wmhPATMpevkbw7lXeVZqytontrlhvWo6Vm1TINCusUw87/oYmp/K
+   g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10411"; a="265952373"
+X-IronPort-AV: E=Sophos;i="5.92,280,1650956400"; 
+   d="scan'208";a="265952373"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2022 01:47:01 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.92,280,1650956400"; 
+   d="scan'208";a="723785806"
+Received: from lkp-server02.sh.intel.com (HELO ff137eb26ff1) ([10.239.97.151])
+  by orsmga004.jf.intel.com with ESMTP; 18 Jul 2022 01:46:56 -0700
+Received: from kbuild by ff137eb26ff1 with local (Exim 4.95)
+        (envelope-from <lkp@intel.com>)
+        id 1oDMP1-0004Cw-KJ;
+        Mon, 18 Jul 2022 08:46:55 +0000
+Date:   Mon, 18 Jul 2022 16:45:57 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Daniel Bristot de Oliveira <bristot@kernel.org>,
+        Steven Rostedt <rostedt@goodmis.org>
+Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org,
+        Daniel Bristot de Oliveira <bristot@kernel.org>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Ingo Molnar <mingo@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Will Deacon <will@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Marco Elver <elver@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Gabriele Paoloni <gpaoloni@redhat.com>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Clark Williams <williams@redhat.com>,
+        Tao Zhou <tao.zhou@linux.dev>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-trace-devel@vger.kernel.org
+Subject: Re: [PATCH V5 15/16] rv/reactor: Add the printk reactor
+Message-ID: <202207181646.sRRbkyru-lkp@intel.com>
+References: <5fcf3d21b51bc4c1a6d2968cfd0c60fdbc1d471b.1657745645.git.bristot@kernel.org>
 MIME-Version: 1.0
-References: <20220712145850.599666-1-benjamin.tissoires@redhat.com>
- <20220712145850.599666-7-benjamin.tissoires@redhat.com> <bf56b01d-4c05-0d0b-e85b-219e55606803@fb.com>
-In-Reply-To: <bf56b01d-4c05-0d0b-e85b-219e55606803@fb.com>
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Mon, 18 Jul 2022 10:42:13 +0200
-Message-ID: <CAO-hwJJirS9S8TU9NMXhjmaTeL9PNxeQBg0oT3zLdd63uDp74g@mail.gmail.com>
-Subject: Re: [PATCH bpf-next v6 06/23] selftests/bpf: Add tests for kfunc
- returning a memory pointer
-To:     Yonghong Song <yhs@fb.com>
-Cc:     Greg KH <gregkh@linuxfoundation.org>,
-        Jiri Kosina <jikos@kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>, Shuah Khan <shuah@kernel.org>,
-        Dave Marchevsky <davemarchevsky@fb.com>,
-        Joe Stringer <joe@cilium.io>, Jonathan Corbet <corbet@lwn.net>,
-        Tero Kristo <tero.kristo@linux.intel.com>,
-        lkml <linux-kernel@vger.kernel.org>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        Networking <netdev@vger.kernel.org>, bpf <bpf@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <5fcf3d21b51bc4c1a6d2968cfd0c60fdbc1d471b.1657745645.git.bristot@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Jul 16, 2022 at 6:34 AM Yonghong Song <yhs@fb.com> wrote:
->
->
->
-> On 7/12/22 7:58 AM, Benjamin Tissoires wrote:
-> > We add 2 new kfuncs that are following the RET_PTR_TO_MEM
-> > capability from the previous commit.
-> > Then we test them in selftests:
-> > the first tests are testing valid case, and are not failing,
-> > and the later ones are actually preventing the program to be loaded
-> > because they are wrong.
-> >
-> > To work around that, we mark the failing ones as not autoloaded
-> > (with SEC("?tc")), and we manually enable them one by one, ensuring
-> > the verifier rejects them.
-> >
-> > To be able to use bpf_program__set_autoload() from libbpf, we need
-> > to use a plain skeleton, not a light-skeleton, and this is why we
-> > also change the Makefile to generate both for kfunc_call_test.c
-> >
-> > Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-> >
-> > ---
-> >
-> > new in v6
-> > ---
-> >   include/linux/btf.h                           |  4 +-
-> >   net/bpf/test_run.c                            | 22 +++++
-> >   tools/testing/selftests/bpf/Makefile          |  5 +-
-> >   .../selftests/bpf/prog_tests/kfunc_call.c     | 48 ++++++++++
-> >   .../selftests/bpf/progs/kfunc_call_test.c     | 89 +++++++++++++++++++
-> >   5 files changed, 165 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/include/linux/btf.h b/include/linux/btf.h
-> > index 31da4273c2ec..6f46ff2128ae 100644
-> > --- a/include/linux/btf.h
-> > +++ b/include/linux/btf.h
-> > @@ -422,7 +422,9 @@ static inline int register_btf_id_dtor_kfuncs(const struct btf_id_dtor_kfunc *dt
-> >
-> >   static inline bool btf_type_is_struct_ptr(struct btf *btf, const struct btf_type *t)
-> >   {
-> > -     /* t comes in already as a pointer */
-> > +     if (!btf_type_is_ptr(t))
-> > +             return false;
->
-> Why we have a change here?
+Hi Daniel,
 
-Definitely a mistake while fixing/rebasing the series.
+I love your patch! Perhaps something to improve:
 
-Will bring this hunk in the previous patch in the next revision.
+[auto build test WARNING on rostedt-trace/for-next]
+[also build test WARNING on tip/sched/core]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Thanks for the review!
+url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Bristot-de-Oliveira/The-Runtime-Verification-RV-interface/20220714-052220
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/rostedt/linux-trace.git for-next
+config: hexagon-allyesconfig (https://download.01.org/0day-ci/archive/20220718/202207181646.sRRbkyru-lkp@intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 07022e6cf9b5b3baa642be53d0b3c3f1c403dbfd)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/d1746223447deb1d1646f968512a065a1cd63a9c
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Daniel-Bristot-de-Oliveira/The-Runtime-Verification-RV-interface/20220714-052220
+        git checkout d1746223447deb1d1646f968512a065a1cd63a9c
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash drivers/net/pcs/ kernel/trace/rv/
 
-Cheers,
-Benjamin
+If you fix the issue, kindly add following tag where applicable
+Reported-by: kernel test robot <lkp@intel.com>
 
->
-> > +
-> >       t = btf_type_by_id(btf, t->type);
-> >
-> >       /* allow const */
-> > diff --git a/net/bpf/test_run.c b/net/bpf/test_run.c
-> > index 9da2a42811e8..0b4026ea4652 100644
-> > --- a/net/bpf/test_run.c
-> > +++ b/net/bpf/test_run.c
-> > @@ -606,6 +606,24 @@ noinline void bpf_kfunc_call_memb1_release(struct prog_test_member1 *p)
-> >       WARN_ON_ONCE(1);
-> >   }
-> >
-> > +static int *__bpf_kfunc_call_test_get_mem(struct prog_test_ref_kfunc *p, const int size)
-> > +{
-> > +     if (size > 2 * sizeof(int))
-> > +             return NULL;
-> > +
-> > +     return (int *)p;
-> > +}
-> > +
-> > +noinline int *bpf_kfunc_call_test_get_rdwr_mem(struct prog_test_ref_kfunc *p, const int rdwr_buf_size)
-> > +{
-> > +     return __bpf_kfunc_call_test_get_mem(p, rdwr_buf_size);
-> > +}
-> > +
-> > +noinline int *bpf_kfunc_call_test_get_rdonly_mem(struct prog_test_ref_kfunc *p, const int rdonly_buf_size)
-> > +{
-> > +     return __bpf_kfunc_call_test_get_mem(p, rdonly_buf_size);
-> > +}
-> > +
-> >   noinline struct prog_test_ref_kfunc *
-> >   bpf_kfunc_call_test_kptr_get(struct prog_test_ref_kfunc **pp, int a, int b)
-> >   {
-> > @@ -704,6 +722,8 @@ BTF_ID(func, bpf_kfunc_call_memb_acquire)
-> >   BTF_ID(func, bpf_kfunc_call_test_release)
-> >   BTF_ID(func, bpf_kfunc_call_memb_release)
-> >   BTF_ID(func, bpf_kfunc_call_memb1_release)
-> > +BTF_ID(func, bpf_kfunc_call_test_get_rdwr_mem)
-> > +BTF_ID(func, bpf_kfunc_call_test_get_rdonly_mem)
-> >   BTF_ID(func, bpf_kfunc_call_test_kptr_get)
-> >   BTF_ID(func, bpf_kfunc_call_test_pass_ctx)
-> >   BTF_ID(func, bpf_kfunc_call_test_pass1)
-> > @@ -731,6 +751,8 @@ BTF_SET_END(test_sk_release_kfunc_ids)
-> >   BTF_SET_START(test_sk_ret_null_kfunc_ids)
-> >   BTF_ID(func, bpf_kfunc_call_test_acquire)
-> >   BTF_ID(func, bpf_kfunc_call_memb_acquire)
-> > +BTF_ID(func, bpf_kfunc_call_test_get_rdwr_mem)
-> > +BTF_ID(func, bpf_kfunc_call_test_get_rdonly_mem)
-> >   BTF_ID(func, bpf_kfunc_call_test_kptr_get)
-> >   BTF_SET_END(test_sk_ret_null_kfunc_ids)
-> >
-> [...]
->
+All warnings (new ones prefixed by >>):
 
+>> kernel/trace/rv/reactor_printk.c:26:5: warning: no previous prototype for function 'register_react_printk' [-Wmissing-prototypes]
+   int register_react_printk(void)
+       ^
+   kernel/trace/rv/reactor_printk.c:26:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int register_react_printk(void)
+   ^
+   static 
+>> kernel/trace/rv/reactor_printk.c:32:6: warning: no previous prototype for function 'unregister_react_printk' [-Wmissing-prototypes]
+   void unregister_react_printk(void)
+        ^
+   kernel/trace/rv/reactor_printk.c:32:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   void unregister_react_printk(void)
+   ^
+   static 
+   2 warnings generated.
+
+
+vim +/register_react_printk +26 kernel/trace/rv/reactor_printk.c
+
+    25	
+  > 26	int register_react_printk(void)
+    27	{
+    28		rv_register_reactor(&rv_printk);
+    29		return 0;
+    30	}
+    31	
+  > 32	void unregister_react_printk(void)
+    33	{
+    34		rv_unregister_reactor(&rv_printk);
+    35	}
+    36	
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
