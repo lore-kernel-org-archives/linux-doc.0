@@ -2,141 +2,142 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4FFCAC43334
-	for <linux-doc@archiver.kernel.org>; Mon, 18 Jul 2022 10:48:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A16A2C43334
+	for <linux-doc@archiver.kernel.org>; Mon, 18 Jul 2022 11:50:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234135AbiGRKsE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 18 Jul 2022 06:48:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53766 "EHLO
+        id S234588AbiGRLuu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 18 Jul 2022 07:50:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40540 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234078AbiGRKsE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Jul 2022 06:48:04 -0400
-Received: from esa6.hgst.iphmx.com (esa6.hgst.iphmx.com [216.71.154.45])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 846691ADA9
-        for <linux-doc@vger.kernel.org>; Mon, 18 Jul 2022 03:48:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1658141283; x=1689677283;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=7rBMGEx1YSGdVB6fbYn5Y5KkPOqfQscgrLN9anE2Owo=;
-  b=OIo1ObY9fszzv+GLawt/DRoeY6Da61xLQJZQnDK5hOxgf4KcVbLiteHA
-   v3yG1N7CITx3qPsg6R+yFIsaVEJejS3HGQYbDXYoT9y0k0qSrV4/OsaYN
-   +oLE8AGiCzS8zywzX3jYTjWthzlHGa38w7VRHvSA//BmHlLjRaANWXawY
-   H9b6WncqD3TsqN0jrK0mKfXNs57g/FS9G5WRhL1QDUYT/3WihhUgwTy4N
-   DxqzGFQYj/ByL0M/Xj1kU2oOtTJPeqju/k6Rz2uh10CPUXIokQ8KCUHWq
-   Nvw7vzBWOlfKgSG0tjVbrauIj6ZLvEq//6l3Ac7pjLk+JL4hcbPAYxwL9
-   A==;
-X-IronPort-AV: E=Sophos;i="5.92,280,1650902400"; 
-   d="scan'208";a="206714053"
-Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com) ([199.255.45.15])
-  by ob1.hgst.iphmx.com with ESMTP; 18 Jul 2022 18:48:02 +0800
-IronPort-SDR: O/SBwd+4guJsPFMKxImLVOO2b8tg14PrTy2tqK4l6JW5RgvcrhXfewLYQgYKQqscybzRpQv4qD
- d3JhFRBV0B087Zovjc5LgqiXPbIjiJ3ZvYbMtWVjDn3yPU6g18UHjz5o1DVajTg/AFO4Nc+TmH
- 8iBWCl4ouZMJwFNhPx5IuKUDKh0ZxE9PlJoESGFeRvQM35DaaKdqPvgPRCzq1nRwjRB0FSk7GC
- HR26wEXi/l/GY/BDrAqwXC1PM3GXCNIOQKXysTAqIc46fYB5ZmWmpcChNeIc2SGdisr2C4usq6
- 7EB0HW52IuNJd08oNL8qojmG
-Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
-  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 18 Jul 2022 03:04:46 -0700
-IronPort-SDR: Rs1CmLrWsdosg8rqcSJ/8uIK4EwrtwH0FyEwSViY5srkjclkZ6f7JFADFLpMXgaYsxxq46p2P/
- MJbNmFIyDW9HqvivtNWQTZ5TI88sEb2dhaUaxGkQSIdXFvBTvOpLkQp75XATHvnSufJE8eYht9
- qaDOFLjwK9BcCnVbehffZyfcokHOovBigtogPPYmjUTbzUzggI5Sgb7cwQcBCQ0F63YCPHsIG7
- E0mK/WvBMhFtqL8betv15Z/m2ES7akmb+alMzoZ5bx2eaoO5jMtou2h2qkdIiszJhmi5hqC37+
- HOQ=
-WDCIronportException: Internal
-Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
-  by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 18 Jul 2022 03:48:02 -0700
-Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
-        by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4LmdwK2St0z1Rws7
-        for <linux-doc@vger.kernel.org>; Mon, 18 Jul 2022 03:48:01 -0700 (PDT)
-Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
-        reason="pass (just generated, assumed good)"
-        header.d=opensource.wdc.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
-        opensource.wdc.com; h=content-transfer-encoding:content-type
-        :in-reply-to:organization:from:references:to:content-language
-        :subject:user-agent:mime-version:date:message-id; s=dkim; t=
-        1658141280; x=1660733281; bh=7rBMGEx1YSGdVB6fbYn5Y5KkPOqfQscgrLN
-        9anE2Owo=; b=bjN5B1j0Rkc2vSnTaBg0I6yZlDKb3jC/Ey1Ow71t0OK/WvsEBS6
-        zcLef5xxzvKAk6dN3xoqmSaUtbHCa7GpME+/Gyjh24WSx+3oRTp/RTNJw0MQirr9
-        /HS1V4UnLFvDu+T4pFMk4KY+3/YbTd/C+0K+2mxZS9H9jBJuF+QtICaIVfDFwcoq
-        Xf2U2c1D81NnxfOvu3UB2HOllG4nhOn6akT3u2/VfBdiWtKfjfBzx9y4PQm2k+Ek
-        0JsdZ2kx7xVyP3FIIgro3g3SbxmL5fcX2NKc1Qc5XkWcUaSyDtLMWWgD9RAD5Dqz
-        CmPSh/wyz5ZJehHEEZge/Uqk7PRq0biCTqg==
-X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
-Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
-        by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id GYg7B76Uauew for <linux-doc@vger.kernel.org>;
-        Mon, 18 Jul 2022 03:48:00 -0700 (PDT)
-Received: from [10.225.163.120] (unknown [10.225.163.120])
-        by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4LmdwG3P48z1RtVk;
-        Mon, 18 Jul 2022 03:47:58 -0700 (PDT)
-Message-ID: <dad18548-8487-e059-9538-f34ed46d39c0@opensource.wdc.com>
-Date:   Mon, 18 Jul 2022 19:47:57 +0900
+        with ESMTP id S234589AbiGRLur (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Jul 2022 07:50:47 -0400
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CCA4122BCC;
+        Mon, 18 Jul 2022 04:50:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1658145043; x=1689681043;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=5FOrLIjTNrMgP5wev/cI/BFIYR4iejo/Cv0ax9sgFdE=;
+  b=Y+KBikxyTciaPX+ntgQZt4a6fHPhyGjO6ICkAEt2tIUW0S3uwHAHIcKg
+   pyr6vQgO+OdvbyxFBKZv5yKN0zj+lyH93Ym99+kK8RRzOqwoHWAK4oBMR
+   7Bp2To2A7kbxOf4izPx/g7DejWLhuJIWxiYI6HQmr1XV73FoZ3iauSVZO
+   YVZ9WXZ3LzNteHHZkxgZixlkQA3enk3ZSKLMX+04+WNMukPQ86HZs2/o+
+   1z7GCbuMRKnFLIk3GMrYWlgO7lqc5dN4wy8EAuH/K2UsVl2wAnEVs1wNx
+   BKGI2mBuE/oFtl/wTqcqlKb07Ejx7CC2lzr0aKEu+7+Zpqr6Ja8p0A1EH
+   w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10411"; a="287347962"
+X-IronPort-AV: E=Sophos;i="5.92,281,1650956400"; 
+   d="scan'208";a="287347962"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2022 04:50:43 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.92,281,1650956400"; 
+   d="scan'208";a="843246864"
+Received: from lkp-server02.sh.intel.com (HELO ff137eb26ff1) ([10.239.97.151])
+  by fmsmga006.fm.intel.com with ESMTP; 18 Jul 2022 04:50:38 -0700
+Received: from kbuild by ff137eb26ff1 with local (Exim 4.95)
+        (envelope-from <lkp@intel.com>)
+        id 1oDPGn-0004JW-W6;
+        Mon, 18 Jul 2022 11:50:37 +0000
+Date:   Mon, 18 Jul 2022 19:50:04 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Daniel Bristot de Oliveira <bristot@kernel.org>,
+        Steven Rostedt <rostedt@goodmis.org>
+Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org,
+        Daniel Bristot de Oliveira <bristot@kernel.org>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Ingo Molnar <mingo@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Will Deacon <will@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Marco Elver <elver@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Gabriele Paoloni <gpaoloni@redhat.com>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Clark Williams <williams@redhat.com>,
+        Tao Zhou <tao.zhou@linux.dev>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-trace-devel@vger.kernel.org
+Subject: Re: [PATCH V5 16/16] rv/reactor: Add the panic reactor
+Message-ID: <202207181929.M7O6FDon-lkp@intel.com>
+References: <5b3233ed8c7bd06895cc177da8a4299d764d6f9a.1657745645.git.bristot@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v6 5/6] scsi: scsi_transport_sas: Cap shost opt_sectors
- according to DMA optimal limit
-Content-Language: en-US
-To:     John Garry <john.garry@huawei.com>, joro@8bytes.org,
-        will@kernel.org, jejb@linux.ibm.com, martin.petersen@oracle.com,
-        hch@lst.de, m.szyprowski@samsung.com, robin.murphy@arm.com
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-ide@vger.kernel.org, iommu@lists.linux.dev,
-        linux-scsi@vger.kernel.org, linuxarm@huawei.com
-References: <1657797329-98541-1-git-send-email-john.garry@huawei.com>
- <1657797329-98541-6-git-send-email-john.garry@huawei.com>
-From:   Damien Le Moal <damien.lemoal@opensource.wdc.com>
-Organization: Western Digital Research
-In-Reply-To: <1657797329-98541-6-git-send-email-john.garry@huawei.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <5b3233ed8c7bd06895cc177da8a4299d764d6f9a.1657745645.git.bristot@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 7/14/22 20:15, John Garry wrote:
-> Streaming DMA mappings may be considerably slower when mappings go through
-> an IOMMU and the total mapping length is somewhat long. This is because the
-> IOMMU IOVA code allocates and free an IOVA for each mapping, which may
-> affect performance.
-> 
-> For performance reasons set the request queue max_sectors from
-> dma_opt_mapping_size(), which knows this mapping limit.
-> 
-> Signed-off-by: John Garry <john.garry@huawei.com>
-> ---
->  drivers/scsi/scsi_transport_sas.c | 6 ++++++
->  1 file changed, 6 insertions(+)
-> 
-> diff --git a/drivers/scsi/scsi_transport_sas.c b/drivers/scsi/scsi_transport_sas.c
-> index 12bff64dade6..2f88c61216ee 100644
-> --- a/drivers/scsi/scsi_transport_sas.c
-> +++ b/drivers/scsi/scsi_transport_sas.c
-> @@ -225,6 +225,7 @@ static int sas_host_setup(struct transport_container *tc, struct device *dev,
->  {
->  	struct Scsi_Host *shost = dev_to_shost(dev);
->  	struct sas_host_attrs *sas_host = to_sas_host_attrs(shost);
-> +	struct device *dma_dev = shost->dma_dev;
->  
->  	INIT_LIST_HEAD(&sas_host->rphy_list);
->  	mutex_init(&sas_host->lock);
-> @@ -236,6 +237,11 @@ static int sas_host_setup(struct transport_container *tc, struct device *dev,
->  		dev_printk(KERN_ERR, dev, "fail to a bsg device %d\n",
->  			   shost->host_no);
->  
-> +	if (dma_dev->dma_mask) {
-> +		shost->opt_sectors = min_t(unsigned int, shost->max_sectors,
-> +				dma_opt_mapping_size(dma_dev) >> SECTOR_SHIFT);
-> +	}
-> +
->  	return 0;
->  }
->  
+Hi Daniel,
 
-Reviewed-by: Damien Le Moal <damien.lemoal@opensource.wdc.com>
+I love your patch! Perhaps something to improve:
+
+[auto build test WARNING on rostedt-trace/for-next]
+[also build test WARNING on tip/sched/core]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Bristot-de-Oliveira/The-Runtime-Verification-RV-interface/20220714-052220
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/rostedt/linux-trace.git for-next
+config: hexagon-allyesconfig (https://download.01.org/0day-ci/archive/20220718/202207181929.M7O6FDon-lkp@intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 07022e6cf9b5b3baa642be53d0b3c3f1c403dbfd)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/f83faf07d0dad6cfd8fb22ff38b752dd7619bfc0
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Daniel-Bristot-de-Oliveira/The-Runtime-Verification-RV-interface/20220714-052220
+        git checkout f83faf07d0dad6cfd8fb22ff38b752dd7619bfc0
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash drivers/net/pcs/ kernel/trace/rv/
+
+If you fix the issue, kindly add following tag where applicable
+Reported-by: kernel test robot <lkp@intel.com>
+
+All warnings (new ones prefixed by >>):
+
+>> kernel/trace/rv/reactor_panic.c:27:5: warning: no previous prototype for function 'register_react_panic' [-Wmissing-prototypes]
+   int register_react_panic(void)
+       ^
+   kernel/trace/rv/reactor_panic.c:27:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int register_react_panic(void)
+   ^
+   static 
+>> kernel/trace/rv/reactor_panic.c:33:6: warning: no previous prototype for function 'unregister_react_panic' [-Wmissing-prototypes]
+   void unregister_react_panic(void)
+        ^
+   kernel/trace/rv/reactor_panic.c:33:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   void unregister_react_panic(void)
+   ^
+   static 
+   2 warnings generated.
+
+
+vim +/register_react_panic +27 kernel/trace/rv/reactor_panic.c
+
+    26	
+  > 27	int register_react_panic(void)
+    28	{
+    29		rv_register_reactor(&rv_panic);
+    30		return 0;
+    31	}
+    32	
+  > 33	void unregister_react_panic(void)
+    34	{
+    35		rv_unregister_reactor(&rv_panic);
+    36	}
+    37	
 
 -- 
-Damien Le Moal
-Western Digital Research
+0-DAY CI Kernel Test Service
+https://01.org/lkp
