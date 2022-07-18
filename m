@@ -2,103 +2,115 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8AF78C433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 18 Jul 2022 01:50:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C737C43334
+	for <linux-doc@archiver.kernel.org>; Mon, 18 Jul 2022 02:05:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229783AbiGRBuo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 17 Jul 2022 21:50:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45398 "EHLO
+        id S231429AbiGRCFQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 17 Jul 2022 22:05:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51540 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229536AbiGRBuo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 17 Jul 2022 21:50:44 -0400
-Received: from conssluserg-06.nifty.com (conssluserg-06.nifty.com [210.131.2.91])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 52B3612617;
-        Sun, 17 Jul 2022 18:50:43 -0700 (PDT)
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43]) (authenticated)
-        by conssluserg-06.nifty.com with ESMTP id 26I1oNpJ003576;
-        Mon, 18 Jul 2022 10:50:24 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 26I1oNpJ003576
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1658109024;
-        bh=lhmLp+GypwgvX/iEleEwdXY5F8LazzpdirKNejyUh70=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=kUejGBPiekNwkwWeDpQkzwgpJgQjokGGstOEhiTj+epUmmHWC0Eu1v7fUsbXuzQP9
-         Aicu5fJXjtpJG8q0HBKsyFVLsNYApqHwggTswSdkgUl54kEfA9fOWp/1r71XVeorMq
-         U2jXIOdHFJcA1wO32xGbJIp/HP2DEE/e1gOZwykaeob6Lvoo34z4BDtviLTCkb/ol8
-         YgQuSgMxtLoTwNUoJgLjolePzc/DZO9NzV8Eku+pkYiQH3WH0lNCiYYsvzEeOrzhns
-         ytS8vZMUtyz7bTBW5Vqqaz2Ic4E7YfWxpHRAdUgRc1Y7B6WiBCeOjkQzh/lK0bAO7s
-         mTfpKk0aEx+Qw==
-X-Nifty-SrcIP: [209.85.128.43]
-Received: by mail-wm1-f43.google.com with SMTP id ay11-20020a05600c1e0b00b003a3013da120so6918769wmb.5;
-        Sun, 17 Jul 2022 18:50:24 -0700 (PDT)
-X-Gm-Message-State: AJIora8lOpHSSvhCBKP8P2sI8yRREX0tNNaXk/+877Hm/UzPsXlhCPVv
-        TWXv3OQse/RhTrsDyZ8PNzZ7BGjlJ8qSJswJ3JY=
-X-Google-Smtp-Source: AGRyM1uhKv6UpDeF+V4+PlWw4qGSsEoWbI4ApsTU5kcseJNaD5ObwV6+1zvCPjnBdRBA7PfVkeJBTYjUkGKaDy2GFrE=
-X-Received: by 2002:a05:600c:a42:b0:39c:9086:8a34 with SMTP id
- c2-20020a05600c0a4200b0039c90868a34mr30609166wmq.169.1658109022757; Sun, 17
- Jul 2022 18:50:22 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220716093249.19326-1-bagasdotme@gmail.com>
-In-Reply-To: <20220716093249.19326-1-bagasdotme@gmail.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Mon, 18 Jul 2022 10:49:42 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASvOjn+abQ1196+tpvVYnj9zkPPnuc4on02aQG_YhU_dw@mail.gmail.com>
-Message-ID: <CAK7LNASvOjn+abQ1196+tpvVYnj9zkPPnuc4on02aQG_YhU_dw@mail.gmail.com>
-Subject: Re: [PATCH 0/4] kbuild: lto: documentation fixes
-To:     Bagas Sanjaya <bagasdotme@gmail.com>
-Cc:     "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
+        with ESMTP id S229536AbiGRCFP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 17 Jul 2022 22:05:15 -0400
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19736A1B8;
+        Sun, 17 Jul 2022 19:05:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1658109915; x=1689645915;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=UheU48fkS1ujzAAU4XJMMxMi8YLgZdLzVEy7P4R4JfM=;
+  b=EOPhxQ+wG4lmuuRYjaZxseNc9qlHNuLKFcvq3xu7saX6V1kBmSSLAFRW
+   yutcFQZx9pSzkfBF9QpqW1dwo9mBbj2tS44RD+7JcGa0si1/57ZMdwwgV
+   Ms9UIpRiRGBQ7G9qfGi0EE7SeIgSdXfU42uBKPJhLn4ACQlA6ZlAZugnR
+   gfOLhK5hBZLDCEHpnOaNhovTQoSmWv7Ek7LLRW5Kk/dfz+IihE1lA+Pvk
+   Fck6eYJ0uWJUafMNN4WflngWxZds91bXG1X+i7Ss5FsjUcktItOIhSyIc
+   NAhJ0QPow/uBPVb+23fSp2J+zVkgzWLBJYhU1yvCLen5pf4MzekhLJHmU
+   Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10411"; a="286132200"
+X-IronPort-AV: E=Sophos;i="5.92,280,1650956400"; 
+   d="scan'208";a="286132200"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2022 19:05:14 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.92,280,1650956400"; 
+   d="scan'208";a="547300223"
+Received: from lkp-server02.sh.intel.com (HELO ff137eb26ff1) ([10.239.97.151])
+  by orsmga003.jf.intel.com with ESMTP; 17 Jul 2022 19:05:09 -0700
+Received: from kbuild by ff137eb26ff1 with local (Exim 4.95)
+        (envelope-from <lkp@intel.com>)
+        id 1oDG8C-0003tG-A0;
+        Mon, 18 Jul 2022 02:05:08 +0000
+Date:   Mon, 18 Jul 2022 10:05:04 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Daniel Bristot de Oliveira <bristot@kernel.org>,
+        Steven Rostedt <rostedt@goodmis.org>
+Cc:     kbuild-all@lists.01.org,
+        Daniel Bristot de Oliveira <bristot@kernel.org>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>,
         Jonathan Corbet <corbet@lwn.net>,
-        Martin Liska <mliska@suse.cz>, Andi Kleen <ak@linux.intel.com>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Ingo Molnar <mingo@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Will Deacon <will@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Marco Elver <elver@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Gabriele Paoloni <gpaoloni@redhat.com>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Clark Williams <williams@redhat.com>,
+        Tao Zhou <tao.zhou@linux.dev>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-trace-devel@vger.kernel.org
+Subject: Re: [PATCH V5 16/16] rv/reactor: Add the panic reactor
+Message-ID: <202207180927.O9kBl2xY-lkp@intel.com>
+References: <5b3233ed8c7bd06895cc177da8a4299d764d6f9a.1657745645.git.bristot@kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <5b3233ed8c7bd06895cc177da8a4299d764d6f9a.1657745645.git.bristot@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Jul 16, 2022 at 6:33 PM Bagas Sanjaya <bagasdotme@gmail.com> wrote:
->
-> Here is documentation fixes for kbuild LTO feature tree [1]. Two patches
-> fixes warnings reported by kernel test robot, the others are formatting
-> improvements.
+Hi Daniel,
+
+I love your patch! Perhaps something to improve:
+
+[auto build test WARNING on rostedt-trace/for-next]
+[also build test WARNING on tip/sched/core]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Bristot-de-Oliveira/The-Runtime-Verification-RV-interface/20220714-052220
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/rostedt/linux-trace.git for-next
+config: x86_64-allmodconfig (https://download.01.org/0day-ci/archive/20220718/202207180927.O9kBl2xY-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-3) 11.3.0
+reproduce:
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://github.com/intel-lab-lkp/linux/commit/f83faf07d0dad6cfd8fb22ff38b752dd7619bfc0
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Daniel-Bristot-de-Oliveira/The-Runtime-Verification-RV-interface/20220714-052220
+        git checkout f83faf07d0dad6cfd8fb22ff38b752dd7619bfc0
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/misc/lkdtm/ kernel/trace/rv/
+
+If you fix the issue, kindly add following tag where applicable
+Reported-by: kernel test robot <lkp@intel.com>
 
 
-Please do not submit patches unrelated to the mainline.
-
-This series applies to the individual repository of Jiri Slaby.
-
-
-
-
-
-
-
-
-
->
-> [1]: https://git.kernel.org/pub/scm/linux/kernel/git/jirislaby/linux.git
->
-> Bagas Sanjaya (4):
->   Documentation: lto: add blank line padding before single requirement
->     list
->   Documentation: lto: use bullet list for FAQ
->   Documentation: lto: use bullet lists for external link references list
->   Documentation: lto: add LTO documentation to toc index
->
->  Documentation/kbuild/index.rst     |  2 ++
->  Documentation/kbuild/lto-build.rst | 36 +++++++++++++++++-------------
->  2 files changed, 23 insertions(+), 15 deletions(-)
->
->
-> base-commit: 79a278f10955da2801240f52efb828d158b2b36c
-> --
-> An old man doll... just what I always wanted! - Clara
->
-
+sparse warnings: (new ones prefixed by >>)
+>> kernel/trace/rv/reactor_panic.c:21:19: sparse: sparse: symbol 'rv_panic' was not declared. Should it be static?
+>> kernel/trace/rv/reactor_panic.c:27:5: sparse: sparse: symbol 'register_react_panic' was not declared. Should it be static?
+>> kernel/trace/rv/reactor_panic.c:33:6: sparse: sparse: symbol 'unregister_react_panic' was not declared. Should it be static?
 
 -- 
-Best Regards
-Masahiro Yamada
+0-DAY CI Kernel Test Service
+https://01.org/lkp
