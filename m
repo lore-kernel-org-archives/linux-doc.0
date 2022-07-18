@@ -2,223 +2,314 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B3574C433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 18 Jul 2022 13:56:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8255DCCA479
+	for <linux-doc@archiver.kernel.org>; Mon, 18 Jul 2022 14:37:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235605AbiGRN4E (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 18 Jul 2022 09:56:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53798 "EHLO
+        id S233690AbiGROgh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 18 Jul 2022 10:36:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33142 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235376AbiGRN4D (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Jul 2022 09:56:03 -0400
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC72E2613E;
-        Mon, 18 Jul 2022 06:56:00 -0700 (PDT)
-Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
-        by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26IDZbqL002346;
-        Mon, 18 Jul 2022 13:55:26 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
- subject : date : message-id : references : in-reply-to : content-type :
- content-id : content-transfer-encoding : mime-version; s=corp-2022-7-12;
- bh=RvS5hul98tCd4mNgpOJTIfV3bzlup0M44UU+HZy24CE=;
- b=DFDq36sEK0QD+vDBO21VljnF0i7ivIDNZRML5Qx7EZZgqkJzep+YhIQTZwIzSDcvBYnk
- 2w8qX2Q6pZZIDGgUO4yUQn7aGtk2vI1cbiSos5c6nM9HDnla01WnajE8Rv76DYlipEgq
- ujxtgXqJ3VCPm0YLMQr4pYT9ZcVz0wnvwldUmgJJbfO3O4E2rBuWuA/TQoef9jWmz0uh
- bTi01/k0mJV/6ecqnBIbxLb5Mztu/woWqs4SWx7olW3ZcIcFhdjcnBoVwZr8z/vSsxlx
- oRgSvzbZC7AgC437fP7vmnKChIiEfeON7Eb8lUruLWOVURKZCkiJbKo4r4WTCEmc7ul1 8A== 
-Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
-        by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3hbmxs3amn-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 18 Jul 2022 13:55:25 +0000
-Received: from pps.filterd (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-        by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.5/8.17.1.5) with ESMTP id 26ICOOtZ007940;
-        Mon, 18 Jul 2022 13:55:24 GMT
-Received: from nam11-bn8-obe.outbound.protection.outlook.com (mail-bn8nam11lp2168.outbound.protection.outlook.com [104.47.58.168])
-        by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 3hc1ekm6f8-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 18 Jul 2022 13:55:24 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=WxKut76m3plFvlS6drllRczO1M2lcnun5LFpnPpiOltsaReJeWHP6xgj6lRB+v5lmjzX6IYxi+GXmsbR0bH+56cmpq6alNIbZFIohjSHkH8LV9fxmnYtLSyh6rYV7vReou8nF/P0kK8olj47D2pkImMEUy2hg4BWxwnD7MkzsQqxBtESCwPNJnqQpNynCsUsM8v0uaXX4GLUWG9knZsI4K3ixYcL7kuXMzyWexATNH7oiKa14SARDEp2WUYKRJxmm07qgHxl3HZNi58xfAQD5VkdmhPyKa/huD4ZVQwf25U4VcJBGvKf8IbOaYBI0PDw4lbmE+1giPOzG8P6eTsi8Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=RvS5hul98tCd4mNgpOJTIfV3bzlup0M44UU+HZy24CE=;
- b=Qe65DxXYo6QnRCM6xHi4t9gqgMFAxblQk/T9DQmk6w/r/rbVw89sqQQ6yirjTJEFq7FXZrD4S/WU5dWg7f0XnGdXUFhgTXsehX1omVSMm8TAI6+Pi4PSPOFjvLW0rKsoJUM5VhVyz+6zVetm3D4fXDuOUU6LxYRc2HKtOOxuDzxiBKYnEod5LRgzKUA6IaG4g46HAQ7Ob2gdTjztrkDiffEjTeIhGlycwcNrgpVO8ctzRXAOXwhvb+0efN6VZH71GJ5LiqTib11pVwmNylHo7xukGws/3N0IW2/BTOTOG33c/lyfYc0Z9a8F4/JpY2DugZYjbLK8U7maEofAneKG5Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RvS5hul98tCd4mNgpOJTIfV3bzlup0M44UU+HZy24CE=;
- b=zMlZihTtobeETVN2cFYLNZyxkW+12KkuLn1K6WlN/SpiqBG4reASRbRqRZVSuC+fjhPEdKyyrDJc+WFFQfVyI1rVpfEUJm69J48P0WIelAx0UY5ecuZdcOw060SbIxA2fYNV3buCZjKTIafnxGo+5kFSgVqpGzBb2MaL63KV4vE=
-Received: from SN6PR10MB3022.namprd10.prod.outlook.com (2603:10b6:805:d8::25)
- by MN2PR10MB3581.namprd10.prod.outlook.com (2603:10b6:208:11c::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5438.17; Mon, 18 Jul
- 2022 13:55:22 +0000
-Received: from SN6PR10MB3022.namprd10.prod.outlook.com
- ([fe80::c4d1:edc3:7d21:7c68]) by SN6PR10MB3022.namprd10.prod.outlook.com
- ([fe80::c4d1:edc3:7d21:7c68%6]) with mapi id 15.20.5438.023; Mon, 18 Jul 2022
- 13:55:22 +0000
-From:   Liam Howlett <liam.howlett@oracle.com>
-To:     Andrew Morton <akpm@linux-foundation.org>
-CC:     kernel test robot <lkp@intel.com>,
-        "ntfs3@lists.linux.dev" <ntfs3@lists.linux.dev>,
-        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
-        "linux-ntfs-dev@lists.sourceforge.net" 
-        <linux-ntfs-dev@lists.sourceforge.net>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-can@vger.kernel.org" <linux-can@vger.kernel.org>,
-        "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "bpf@vger.kernel.org" <bpf@vger.kernel.org>
-Subject: Re: [linux-next:master] BUILD REGRESSION
- 4662b7adea50bb62e993a67f611f3be625d3df0d
-Thread-Topic: [linux-next:master] BUILD REGRESSION
- 4662b7adea50bb62e993a67f611f3be625d3df0d
-Thread-Index: AQHYlyUDdSiWUfumoUGI7ehqsq7Up62Bw7eAgAJqAoA=
-Date:   Mon, 18 Jul 2022 13:55:22 +0000
-Message-ID: <20220718135515.vyuy6rozchf755hq@revolver>
-References: <62cf77c3.3T/sxYUjJq0ImGp4%lkp@intel.com>
- <20220716180319.dcb09d8ce9519368695c1108@linux-foundation.org>
-In-Reply-To: <20220716180319.dcb09d8ce9519368695c1108@linux-foundation.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 4211cfab-e53d-47e8-6c87-08da68c5288b
-x-ms-traffictypediagnostic: MN2PR10MB3581:EE_
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: A0eeakOT8BXcpEA9l07jS+zUSpcwP/R2ECBmNZyoqb0L5Dyy2YGk/5fwH3d2fKPj+l0HhnLaNW7M9uyhWtF0JveRXCC1ShAf7nLSAZzZM2wvG6OPZOSlzK0JpsovN9puOyk7Btj6YIpRJ6Q5+SPFHoZCuTMFJIbtNqh9RyNBUjmVdNEzutDOMFDr4MqwWSjuWewz1hcMrY6DhLqkDJRQx2TSfv02qyzSdkY5WuNg1XGf7nTrpxoL+ghNZMiJ+chLGR62sCwGo8gskDb81gZhcctEhsV6goCYriw7WWpWdr72skH81ab0ojIq3KOw/KUG6ayMpcesBRlJHEWnn7e0MPeT9/T1cTUYJWUytv6BmvbvRvHaK4Ry0GuQ30vd2iMaPn/8Np0ZiiJDv8ZTrN0wMPsxmo0V30lNcevWE7mcPkHVTzIzOAcyfnf7us1G3SvSTdFi9HZGAtV9Qhuz7cn1SwdBhtNs7BMd5ibIWKmGiTDmd2fCznly4VWbJuMfeRk4tuMSJc+gu9i9d6fKawMedhNfU6EpGa8cOTTscg5w2PfTYGNZaKFgwEoUzW4Yo4YPFEn/ALi4dyzLa0ZvSHCsOf1OnPed/DagMWgL1SskcQG1QAJuruvlh5lY7hdv6LeBSc8rW2F+IJqG/TBTXO9hjE/9Y/EKw7sbgjy8SkhXyTvMOiBhJ6+ncHI4W6B6kYpehttQbdarBTW+8W2iNFvteGrBB55dh3IYjWbZhrm9roDmdolysAfBHGt0AVazXIiHEBQAO8k5IsI3abhiWBopsAOp1ynHHSH3a1OVr5ONltnFw4dd7ZdGxW1exRkFPxz4HxQEQjHv4wqyfLKv3dMb0g==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR10MB3022.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(7916004)(396003)(346002)(366004)(136003)(376002)(39860400002)(86362001)(8936002)(8676002)(38100700002)(66476007)(4326008)(64756008)(66946007)(66446008)(66556008)(76116006)(91956017)(6506007)(6916009)(54906003)(316002)(38070700005)(26005)(6512007)(44832011)(83380400001)(41300700001)(33716001)(9686003)(1076003)(186003)(478600001)(71200400001)(7416002)(6486002)(2906002)(5660300002)(122000001)(98903001);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?t6WGEh5HneKUaN5BrFM2Wr1HAs5PZCD/bO0HjhXNoql5+WrrjT3KskRgBMNP?=
- =?us-ascii?Q?zgVCcJwxleU1HSmC0pPeJZZ4oTP6eIi1bU9TqibseqclkM8dkMae8kLjZvic?=
- =?us-ascii?Q?k+37RC6lhknU8l+yCAZDF2GBllQUcofXtnXtYL3qbiz8u7/hzkKCb83iBewE?=
- =?us-ascii?Q?eydtdRvdOgBJUcHWq3ZTQ7GaaCMPs+5lvA6PZZsbSM2G0Dt4qeRWpSgxmr5T?=
- =?us-ascii?Q?z+NLmtSRGSUtb52KIhD5xJKcAKxXwHUTZOtLqoUtmj4/6Fg4SkMtz0f3nuPw?=
- =?us-ascii?Q?ALCdVnwGObMEpWtxjlfB5jQcXoKbko4HtvxqMWzk5F6GeSZ5Mq8MpBuNcsdc?=
- =?us-ascii?Q?ovZBQ5sIsXhiHrtJOeyLGwCx+YsE+8BOsKUg+Ybr6ZPSBm1DdqHw/BRJ/0d5?=
- =?us-ascii?Q?t+D07YJjXrqgChYBcU4JdEhuFx+ueWPmpqYVYXeIsqWyj4DzGQrmf5IXaGtm?=
- =?us-ascii?Q?xQatyYd74q9TawOiAivlet/lx59cladOzW6UZnCeAZ2NmYd09wvZhdwKdPUs?=
- =?us-ascii?Q?DY9KF1W6Qd9dhtZ64/ayCTPRz5qPeTaxHko14DBbXsPKv2tc7p20W9X5XK7d?=
- =?us-ascii?Q?nPyRRn1HNn2B4j0toAmdmeS9wLa21o+McyGv8hvA7zeCFPSLPsraradCR1z0?=
- =?us-ascii?Q?QmKq/4vBPSE9XHhXUGQHgsuY4nR0IvKtPkvC5YhGvjeL6nCHftHuxa9e67g2?=
- =?us-ascii?Q?l8caDC+/zU2Z7vAqWbCzTNp/iEx/aVHoGXXEkH6Fyy6fqGuUbD4W/ktSsCBn?=
- =?us-ascii?Q?moFcQiDZ/O89eBGMie/2MPDvPfRc3gcRT8L72RMOniKrOrynzd+aVIilXSHE?=
- =?us-ascii?Q?N3ogJ3hGOzZgSWhXoJZ3zW1UKP167oBlC0r8Qw/EsPEBb079HQYCBCy+wSpQ?=
- =?us-ascii?Q?OsWg47EIGSz4DmoarFMIZLZSnOAPXmCVkxTZi/ix0fE0jWd+QXKRf4KM+ZF6?=
- =?us-ascii?Q?/Okp8/wRsAa5pCicFILanTDf9oBmg1jHDqJzaflzNAXaKDg1qsWVn2YKP8X8?=
- =?us-ascii?Q?La5DyPTR24W3lPDGjyOGEZtakQxwZlf6CCo4qhdpk2v/MeXA/ZCKMq4Fl5N3?=
- =?us-ascii?Q?9jp/dMhNmoMeHZYfME4vatruZlfnH44otHKLZIaY9ZeTM4dqMfbA4+rE5hLp?=
- =?us-ascii?Q?t44tVmuIgvkbZwbGU4aCAP1J6f4MDGpT/SjEfJseI3xXYZK4J/YXU6jmLFq3?=
- =?us-ascii?Q?xuZp7HWjPgUa58t9OGDpiIyBLATa89Q8qnvJ+ptvnfL3gXw/XGR0NCmJv1zN?=
- =?us-ascii?Q?vOzmhcjpIGXV2OX4X+pQ0QiAK2bwjP19YLw/BfHV63BId2vVwGb4LOrqqg1S?=
- =?us-ascii?Q?Bnr3S4CC3Xrljw/lTJSeaCBLhQW/oJseA/gu9+r1I3+rDyMiP24e2ciC5xm3?=
- =?us-ascii?Q?jT6U32+GmRCBfoNa0fWUcY06Q8RvFviTDQzAQ/WGQcyL64edKT/PK1eEwQY9?=
- =?us-ascii?Q?CZ+oF1yPTl7tHnj9VFGJZXAACC47GREUqZTnOfUdoCPeDMED+jndE4lwPTKi?=
- =?us-ascii?Q?KBkbg8sgwaiXPm1Oaw6tf8+XjRq36zExhx/bmkCGckKIiAGRRxpUWNx7bVR6?=
- =?us-ascii?Q?sU/P9ZufL0Pwj6/bggRjalD7u18aYmkzgh2/QPkS5NdKwC3IrhCxR0S9YGX9?=
- =?us-ascii?Q?lA=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <B31AC944B775F44BA58FDEE1E7CA339D@namprd10.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+        with ESMTP id S234458AbiGROgV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Jul 2022 10:36:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 69FA912760
+        for <linux-doc@vger.kernel.org>; Mon, 18 Jul 2022 07:36:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1658154978;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=rFQMscdcwUkaTGb2PKaBiEdNVFGKZ4TJiBENKOnBRwk=;
+        b=EP6TyUv5fHrUQ7Y2sceT71ULPGHb0Aun5yWjraVaLm3tjiyw8iSYGS9dsWBN/mnzGNUu82
+        Nmvc9KzE52NVDlWsspRdv7pYWryDLQGgq02J9+IZkUAZlriOvvxb8TiJmJQ1maLTie7JWa
+        tCwgxXW9nEnQVbc6ykDuBcBjUaHHUQI=
+Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com
+ [209.85.215.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-625-RvKo-zbNPv2nQOAOO2tkyw-1; Mon, 18 Jul 2022 10:36:16 -0400
+X-MC-Unique: RvKo-zbNPv2nQOAOO2tkyw-1
+Received: by mail-pg1-f200.google.com with SMTP id 134-20020a63018c000000b0040cf04213a1so5709263pgb.6
+        for <linux-doc@vger.kernel.org>; Mon, 18 Jul 2022 07:36:16 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=rFQMscdcwUkaTGb2PKaBiEdNVFGKZ4TJiBENKOnBRwk=;
+        b=PUTY2Id0nhjWHVA81nD+N/OvIcjCOa76vjEfxsWmWgxB7Yjig6uRSSifXBuUAnZYux
+         H0X13+6GRxopz/z++srlzk52zCIpWUERhoOR7UH2GAN7anJl6X1SoBSuTFURTO4KozeN
+         OIU25TvwQ9A2lAERYMsv2UKnIe0yDdvyDC6I+7ZUQqoC+KHmIqI8gZSoySPzwkK0rTue
+         Rcem/7LGRHctzKfSJBUlY0VulI0Imt0rUwCXsuCswvmTHJv+h0Xc14+EQmD1+3jcdylz
+         qbc9dcRZb0YN5YGDFzHbZ5/3bYQ0b6+ZBHSjaK/LUVBUlekpNoA3RFNfpXo2vtybXKJb
+         E2Sg==
+X-Gm-Message-State: AJIora8ZZE5HtfJyo4GY+fhGiiNi6cjT8/3ZinIn/l7zhtc6/MZtCsku
+        vIdLsPbsW3jSJac8IxvmORw0C/WlsQ5yRI7aYon6Jika9OjZ4LnfP6wVF046hVYUPPCTlIBRmLo
+        fjW9rkS7ZbG3bagmC9KFSt2uNF8gZ4YXBrsu3
+X-Received: by 2002:a17:90b:4a08:b0:1ef:f36b:18e1 with SMTP id kk8-20020a17090b4a0800b001eff36b18e1mr39392459pjb.246.1658154975478;
+        Mon, 18 Jul 2022 07:36:15 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1uGK9T6cOVFp659SW1DdrZP3gQ+n6vI6T88el9GhA+lj4mOmIFGxU6jOUkfisaABLvRHaU8Fp6cYg+cPkG0fuk=
+X-Received: by 2002:a17:90b:4a08:b0:1ef:f36b:18e1 with SMTP id
+ kk8-20020a17090b4a0800b001eff36b18e1mr39392441pjb.246.1658154975155; Mon, 18
+ Jul 2022 07:36:15 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR10MB3022.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4211cfab-e53d-47e8-6c87-08da68c5288b
-X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Jul 2022 13:55:22.3949
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: XlZwmy65Jkutb8OGo1ZyN9CgPFm4EiXee1SOWUNhWOYzSc1HJXXtYt0FMEBJQJ/2V3kf+4JakjwF2bCzcNrRUQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR10MB3581
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-07-18_13,2022-07-18_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 mlxscore=0 mlxlogscore=999
- suspectscore=0 phishscore=0 adultscore=0 spamscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2206140000
- definitions=main-2207180060
-X-Proofpoint-GUID: 1cVo0n8fMlqeseSSBnE6rIrlqU4J4-8p
-X-Proofpoint-ORIG-GUID: 1cVo0n8fMlqeseSSBnE6rIrlqU4J4-8p
+References: <20220712145850.599666-1-benjamin.tissoires@redhat.com>
+ <20220712145850.599666-6-benjamin.tissoires@redhat.com> <7fc49373-55df-c7fd-4a73-c2cf8a62748d@fb.com>
+In-Reply-To: <7fc49373-55df-c7fd-4a73-c2cf8a62748d@fb.com>
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date:   Mon, 18 Jul 2022 16:36:03 +0200
+Message-ID: <CAO-hwJKwX2LW8wuFzQbWm-ttwqocNBc-evgpn2An-D-92osw0Q@mail.gmail.com>
+Subject: Re: [PATCH bpf-next v6 05/23] bpf/verifier: allow kfunc to return an
+ allocated mem
+To:     Yonghong Song <yhs@fb.com>
+Cc:     Greg KH <gregkh@linuxfoundation.org>,
+        Jiri Kosina <jikos@kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>, Shuah Khan <shuah@kernel.org>,
+        Dave Marchevsky <davemarchevsky@fb.com>,
+        Joe Stringer <joe@cilium.io>, Jonathan Corbet <corbet@lwn.net>,
+        Tero Kristo <tero.kristo@linux.intel.com>,
+        lkml <linux-kernel@vger.kernel.org>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        Networking <netdev@vger.kernel.org>, bpf <bpf@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-* Andrew Morton <akpm@linux-foundation.org> [220716 21:03]:
-> On Thu, 14 Jul 2022 09:56:19 +0800 kernel test robot <lkp@intel.com> wrot=
-e:
->=20
-> > lib/maple_tree.c:1522:52: warning: Parameter 'gaps' can be declared wit=
-h const [constParameter]
-> > lib/maple_tree.c:1871:21: warning: Array index 'split' is used before l=
-imits check. [arrayIndexThenCheck]
-> > lib/maple_tree.c:2033:55: warning: Parameter 'mas' can be declared with=
- const [constParameter]
-> > lib/maple_tree.c:2426:8: warning: Redundant initialization for 'r_tmp'.=
- The initialized value is overwritten before it is read. [redundantInitiali=
-zation]
-> > lib/maple_tree.c:2427:8: warning: Redundant initialization for 'l_tmp'.=
- The initialized value is overwritten before it is read. [redundantInitiali=
-zation]
-> > lib/maple_tree.c:3160:22: warning: Found suspicious operator ',' [const=
-Statement]
-> > lib/maple_tree.c:3208:11: warning: Size of pointer 'pivs' used instead =
-of size of its data. [pointerSize]
-> > lib/maple_tree.c:326:2: warning: Assignment of function parameter has n=
-o effect outside the function. Did you forget dereferencing it? [uselessAss=
-ignmentPtrArg]
-> > lib/maple_tree.c:4266:15: warning: The if condition is the same as the =
-previous if condition [duplicateCondition]
-> > lib/maple_tree.c:4302:23: warning: Boolean result is used in bitwise op=
-eration. Clarify expression with parentheses. [clarifyCondition]
-> > lib/maple_tree.c:694:59: warning: Parameter 'pivots' can be declared wi=
-th const [constParameter]
-> > lib/test_printf.c:415:11: warning: Local variable 'addr' shadows outer =
-function [shadowFunction]
-> > mm/highmem.c:737:13: warning: Uninitialized variable: pam->page [uninit=
-var]
-> > mm/migrate.c:355:53: warning: Parameter 'mapping' can be declared with =
-const [constParameter]
-> > mm/migrate.c:875:7: warning: Redundant initialization for 'rc'. The ini=
-tialized value is overwritten before it is read. [redundantInitialization]
-> > mm/mlock.c:230:20: warning: Using pointer that is a temporary. [danglin=
-gTemporaryLifetime]
-> > mm/slab.c:1635:24: warning: Uninitialized variables: slab.__page_flags,=
- slab.__unused_1, slab.freelist, slab.units, slab.__unused_2, slab.__page_r=
-efcount [uninitvar]
-> > mm/slab.c:3289:7: warning: Redundant assignment of 'objp' to itself. [s=
-elfAssignment]
-> > mm/slab.c:3509:8: warning: Redundant assignment of 'p[i]' to itself. [s=
-elfAssignment]
-> > mm/slab.c:405:9: warning: Local variable 'slab_size' shadows outer func=
-tion [shadowFunction]
-> > mm/vmstat.c:1409:53: warning: Parameter 'pos' can be declared with cons=
-t [constParameter]
-> > mm/vmstat.c:1650:68: warning: Parameter 'zone' can be declared with con=
-st [constParameter]
-> > mm/zsmalloc.c:2019:15: warning: Uninitialized variables: zspage.huge, z=
-spage.fullness, zspage.class, zspage.isolated, zspage.magic, zspage.inuse, =
-zspage.freeobj, zspage.first_page, zspage.lock [uninitvar]
-> > mm/zsmalloc.c:2060:16: warning: Local variable 'obj_allocated' shadows =
-outer function [shadowFunction]
->=20
-> urgh, thanks, lots of stuff to go through here.
->=20
-> Liam, I suggest we worry about the mapletree things at a later time ;)
+On Sat, Jul 16, 2022 at 6:29 AM Yonghong Song <yhs@fb.com> wrote:
+>
+>
+>
+> On 7/12/22 7:58 AM, Benjamin Tissoires wrote:
+> > When a kfunc is not returning a pointer to a struct but to a plain type,
+> > we can consider it is a valid allocated memory assuming that:
+> > - one of the arguments is either called rdonly_buf_size or
+> >    rdwr_buf_size
+> > - and this argument is a const from the caller point of view
+> >
+> > We can then use this parameter as the size of the allocated memory.
+> >
+> > The memory is either read-only or read-write based on the name
+> > of the size parameter.
+>
+> If I understand correctly, this permits a kfunc like
+>     int *kfunc(..., int rdonly_buf_size);
+>     ...
+>     int *p = kfunc(..., 20);
+> so the 'p' points to a memory buffer with size 20.
 
-I'm not sure where we stand with all that goings on here with an rc8 and
-the concerns raised by Hugh, but I can produce a fix for these issues if
-you'd like?
+Yes, exactly.
+
+>
+> This looks like a strange interface although probably there
+> is a valid reason for this as I didn't participated in
+> earlier discussions.
+
+Well, the point is I need to be able to access a memory region that
+was allocated dynamically. For drivers, the incoming data can not
+usually be bound to a static value, and so we can not have the data
+statically defined in the matching struct.
+So this allows defining a kfunc to return any memory properly
+allocated and owned by the device.
+
+>
+> >
+> > Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+> >
+> > ---
+> >
+> > changes in v6:
+> > - code review from Kartikeya:
+> >    - remove comment change that had no reasons to be
+> >    - remove handling of PTR_TO_MEM with kfunc releases
+> >    - introduce struct bpf_kfunc_arg_meta
+> >    - do rdonly/rdwr_buf_size check in btf_check_kfunc_arg_match
+> >    - reverted most of the changes in verifier.c
+> >    - make sure kfunc acquire is using a struct pointer, not just a plain
+> >      pointer
+> >    - also forward ref_obj_id to PTR_TO_MEM in kfunc to not use after free
+> >      the allocated memory
+> >
+> > changes in v5:
+> > - updated PTR_TO_MEM comment in btf.c to match upstream
+> > - make it read-only or read-write based on the name of size
+> >
+> > new in v4
+> > ---
+> >   include/linux/bpf.h   | 10 ++++++-
+> >   include/linux/btf.h   | 12 ++++++++
+> >   kernel/bpf/btf.c      | 67 ++++++++++++++++++++++++++++++++++++++++---
+> >   kernel/bpf/verifier.c | 49 +++++++++++++++++++++++--------
+> >   4 files changed, 121 insertions(+), 17 deletions(-)
+> >
+> > diff --git a/include/linux/bpf.h b/include/linux/bpf.h
+> > index 2b21f2a3452f..5b8eadb6e7bc 100644
+> > --- a/include/linux/bpf.h
+> > +++ b/include/linux/bpf.h
+> > @@ -1916,12 +1916,20 @@ int btf_distill_func_proto(struct bpf_verifier_log *log,
+> >                          const char *func_name,
+> >                          struct btf_func_model *m);
+> >
+> > +struct bpf_kfunc_arg_meta {
+> > +     u64 r0_size;
+> > +     bool r0_rdonly;
+> > +     int ref_obj_id;
+> > +     bool multiple_ref_obj_id;
+> > +};
+> > +
+> >   struct bpf_reg_state;
+> >   int btf_check_subprog_arg_match(struct bpf_verifier_env *env, int subprog,
+> >                               struct bpf_reg_state *regs);
+> >   int btf_check_kfunc_arg_match(struct bpf_verifier_env *env,
+> >                             const struct btf *btf, u32 func_id,
+> > -                           struct bpf_reg_state *regs);
+> > +                           struct bpf_reg_state *regs,
+> > +                           struct bpf_kfunc_arg_meta *meta);
+> >   int btf_prepare_func_args(struct bpf_verifier_env *env, int subprog,
+> >                         struct bpf_reg_state *reg);
+> >   int btf_check_type_match(struct bpf_verifier_log *log, const struct bpf_prog *prog,
+> > diff --git a/include/linux/btf.h b/include/linux/btf.h
+> > index 1bfed7fa0428..31da4273c2ec 100644
+> > --- a/include/linux/btf.h
+> > +++ b/include/linux/btf.h
+> > @@ -420,4 +420,16 @@ static inline int register_btf_id_dtor_kfuncs(const struct btf_id_dtor_kfunc *dt
+> >   }
+> >   #endif
+> >
+> > +static inline bool btf_type_is_struct_ptr(struct btf *btf, const struct btf_type *t)
+> > +{
+> > +     /* t comes in already as a pointer */
+> > +     t = btf_type_by_id(btf, t->type);
+> > +
+> > +     /* allow const */
+> > +     if (BTF_INFO_KIND(t->info) == BTF_KIND_CONST)
+> > +             t = btf_type_by_id(btf, t->type);
+> > +
+> > +     return btf_type_is_struct(t);
+> > +}
+> > +
+> >   #endif
+> > diff --git a/kernel/bpf/btf.c b/kernel/bpf/btf.c
+> > index 4423045b8ff3..552d7bc05a0c 100644
+> > --- a/kernel/bpf/btf.c
+> > +++ b/kernel/bpf/btf.c
+> > @@ -6168,10 +6168,36 @@ static bool is_kfunc_arg_mem_size(const struct btf *btf,
+> >       return true;
+> >   }
+> >
+> > +static bool btf_is_kfunc_arg_mem_size(const struct btf *btf,
+> > +                                   const struct btf_param *arg,
+> > +                                   const struct bpf_reg_state *reg,
+> > +                                   const char *name)
+> > +{
+> > +     int len, target_len = strlen(name);
+> > +     const struct btf_type *t;
+> > +     const char *param_name;
+> > +
+> > +     t = btf_type_skip_modifiers(btf, arg->type, NULL);
+> > +     if (!btf_type_is_scalar(t) || reg->type != SCALAR_VALUE)
+> > +             return false;
+> > +
+> > +     param_name = btf_name_by_offset(btf, arg->name_off);
+> > +     if (str_is_empty(param_name))
+> > +             return false;
+> > +     len = strlen(param_name);
+> > +     if (len != target_len)
+> > +             return false;
+> > +     if (strncmp(param_name, name, target_len))
+>
+> strcmp(param_name, name) is enough. len == target_len and both len and
+> target_len is computed from strlen(...).
+
+Ack, fixed locally
+
+>
+> > +             return false;
+> > +
+> > +     return true;
+> > +}
+> > +
+> >   static int btf_check_func_arg_match(struct bpf_verifier_env *env,
+> >                                   const struct btf *btf, u32 func_id,
+> >                                   struct bpf_reg_state *regs,
+> > -                                 bool ptr_to_mem_ok)
+> > +                                 bool ptr_to_mem_ok,
+> > +                                 struct bpf_kfunc_arg_meta *kfunc_meta)
+> >   {
+> >       enum bpf_prog_type prog_type = resolve_prog_type(env->prog);
+> >       struct bpf_verifier_log *log = &env->log;
+> > @@ -6225,6 +6251,30 @@ static int btf_check_func_arg_match(struct bpf_verifier_env *env,
+> >
+> >               t = btf_type_skip_modifiers(btf, args[i].type, NULL);
+> >               if (btf_type_is_scalar(t)) {
+> > +                     if (is_kfunc && kfunc_meta) {
+> > +                             bool is_buf_size = false;
+> > +
+> > +                             /* check for any const scalar parameter of name "rdonly_buf_size"
+> > +                              * or "rdwr_buf_size"
+> > +                              */
+> > +                             if (btf_is_kfunc_arg_mem_size(btf, &args[i], reg,
+> > +                                                           "rdonly_buf_size")) {
+> > +                                     kfunc_meta->r0_rdonly = true;
+> > +                                     is_buf_size = true;
+> > +                             } else if (btf_is_kfunc_arg_mem_size(btf, &args[i], reg,
+> > +                                                                  "rdwr_buf_size"))
+> > +                                     is_buf_size = true;
+> > +
+> > +                             if (is_buf_size) {
+> > +                                     if (kfunc_meta->r0_size) {
+> > +                                             bpf_log(log, "2 or more rdonly/rdwr_buf_size parameters for kfunc");
+> > +                                             return -EINVAL;
+> > +                                     }
+> > +
+> > +                                     kfunc_meta->r0_size = reg->var_off.value;
+>
+> Did we check 'reg' is a constant somewhere?
+
+I used to check for it in the previous version, but I think it got
+dropped in this revision. Re-adding this thanks to Kumar's help :)
+
+Cheers,
+Benjamin
+
+>
+> > +                             }
+> > +                     }
+> > +
+> >                       if (reg->type == SCALAR_VALUE)
+> >                               continue;
+> >                       bpf_log(log, "R%d is not a scalar\n", regno);
+> > @@ -6246,6 +6296,14 @@ static int btf_check_func_arg_match(struct bpf_verifier_env *env,
+> >               if (ret < 0)
+> >                       return ret;
+> >
+> > +             /* kptr_get is only valid for kfunc */
+> > +             if (kfunc_meta && reg->ref_obj_id) {
+> > +                     /* check for any one ref_obj_id to keep track of memory */
+> > +                     if (kfunc_meta->ref_obj_id)
+> > +                             kfunc_meta->multiple_ref_obj_id = true;
+> > +                     kfunc_meta->ref_obj_id = reg->ref_obj_id;
+> > +             }
+> > +
+> >               /* kptr_get is only true for kfunc */
+> >               if (i == 0 && kptr_get) {
+> >                       struct bpf_map_value_off_desc *off_desc;
+> > @@ -6441,7 +6499,7 @@ int btf_check_subprog_arg_match(struct bpf_verifier_env *env, int subprog,
+> >               return -EINVAL;
+> >
+> >       is_global = prog->aux->func_info_aux[subprog].linkage == BTF_FUNC_GLOBAL;
+> > -     err = btf_check_func_arg_match(env, btf, btf_id, regs, is_global);
+> > +     err = btf_check_func_arg_match(env, btf, btf_id, regs, is_global, NULL);
+> >
+> >       /* Compiler optimizations can remove arguments from static functions
+> >        * or mismatched type can be passed into a global function.
+> [...]
+>
+
