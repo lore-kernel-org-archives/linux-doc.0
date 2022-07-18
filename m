@@ -2,99 +2,119 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D448BC433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 18 Jul 2022 07:17:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4404BCCA482
+	for <linux-doc@archiver.kernel.org>; Mon, 18 Jul 2022 07:23:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233543AbiGRHRw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 18 Jul 2022 03:17:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48308 "EHLO
+        id S233811AbiGRHXL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 18 Jul 2022 03:23:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52116 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230131AbiGRHRv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Jul 2022 03:17:51 -0400
-Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com [IPv6:2607:f8b0:4864:20::42f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2131A175B1;
-        Mon, 18 Jul 2022 00:17:51 -0700 (PDT)
-Received: by mail-pf1-x42f.google.com with SMTP id b133so6073635pfb.6;
-        Mon, 18 Jul 2022 00:17:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=9frmMVgDv0d10SZjPmmu2rF/sm1oZ+hwPYLgP5s6HKA=;
-        b=m0haaQNtPwxpeRdvM8Ie0tqOsa+wlZEaLfySiCVn3eAS9RXg9RbpgrSTAFwlXUN0p2
-         /ar8csDR291Xgl/89K6Isie7MAW57dLXQI1Kay0z1BqOh3KFSLswgCw3cLhjgNo0fxtS
-         tpetAal0/Nd9LoDMObvGLjpW32urAfjrjNegMFs4AHrpte9dmTrpdssLJKRQrgVKxhrn
-         RR2px06dqufZhuWwkwrI543QFnXkBYgl8KLm072TChs+D09vqHK3UCjYyLUDzrHziPPm
-         q/KGFnza+JEKT2JieHrmHbmdIhrvhCpMgOKktYrJYGFlTBh1R5RMwhq5Ne7RiukT+ccL
-         sjRg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=9frmMVgDv0d10SZjPmmu2rF/sm1oZ+hwPYLgP5s6HKA=;
-        b=b+JLpfXDxR0oZm6qlA49k87j/pjYZ0l6jStWO13i+RGXg4hT835EDP7NpajARNT028
-         lNf3JUsPvwUNE3RrnzS6kvGTMZZAnCwH83QhdlevNzVExfRD/dMXAfHMWRR4gkzz7qsg
-         yz03TyaqmB59dYVAawXeNhMjbpObwGDhkc3UdDM/EJupyBweUtMQdm4ru4OMogdgskn+
-         VoJOxCPeCe4popOMrfhNpvo8PdZ1jsz3gbIY2iLqS5EyHhQIuWqSBthibkua/mxCWxPs
-         kJXTAAceCFxb8Z0Ndf5/I0k6ttIy/7qlvkTHkJo+p7wq2kY+mMuJpLc7Vn7sZN1ztZhN
-         AfyA==
-X-Gm-Message-State: AJIora8b8E2UqhejHa1FfQ6M14/AmeXG1J5Ju6mPJBIlaUl5elt6IbDw
-        9P0xF2CfphEXXFJ7mWXTwRc=
-X-Google-Smtp-Source: AGRyM1tK4g3Eh7up61gxd/53rQ0egdVwkMakI4qgTIx4877xco7wSjxk9Ftw95BNeNJjQAcsms7Lzg==
-X-Received: by 2002:a63:6d5:0:b0:412:ac9d:814e with SMTP id 204-20020a6306d5000000b00412ac9d814emr24481342pgg.90.1658128670613;
-        Mon, 18 Jul 2022 00:17:50 -0700 (PDT)
-Received: from [192.168.43.80] (subs03-180-214-233-18.three.co.id. [180.214.233.18])
-        by smtp.gmail.com with ESMTPSA id g26-20020aa796ba000000b0052ab5a740aesm8398857pfk.162.2022.07.18.00.17.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 18 Jul 2022 00:17:50 -0700 (PDT)
-Message-ID: <51c4fbf0-bee9-4326-1ef0-bf2d25bde377@gmail.com>
-Date:   Mon, 18 Jul 2022 14:17:44 +0700
+        with ESMTP id S233821AbiGRHXK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 18 Jul 2022 03:23:10 -0400
+X-Greylist: delayed 67 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 18 Jul 2022 00:23:08 PDT
+Received: from us-smtp-delivery-44.mimecast.com (us-smtp-delivery-44.mimecast.com [207.211.30.44])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 8F1FD17E0C
+        for <linux-doc@vger.kernel.org>; Mon, 18 Jul 2022 00:23:08 -0700 (PDT)
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-277-AgST6BwiNTG9NjgWcQgQBg-1; Mon, 18 Jul 2022 03:21:54 -0400
+X-MC-Unique: AgST6BwiNTG9NjgWcQgQBg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com [10.11.54.7])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9F8D7811E80;
+        Mon, 18 Jul 2022 07:21:53 +0000 (UTC)
+Received: from dreadlord.bne.redhat.com (fdacunha.bne.redhat.com [10.64.0.157])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 69304141511A;
+        Mon, 18 Jul 2022 07:21:49 +0000 (UTC)
+From:   Dave Airlie <airlied@gmail.com>
+To:     torvalds@linux-foundation.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org, gregkh@linuxfoundation.org,
+        Daniel Vetter <daniel@ffwll.ch>, mcgrof@kernel.org
+Cc:     linux-kernel@vger.kernel.org, dri-devel@lists.sf.net,
+        netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
+        alsa-devel@alsa-project.org, linux-media@vger.kernel.org,
+        linux-block@vger.kernel.org, Dave Airlie <airlied@redhat.com>
+Subject: [PATCH] docs: driver-api: firmware: add driver firmware guidelines.
+Date:   Mon, 18 Jul 2022 17:21:44 +1000
+Message-Id: <20220718072144.2699487-1-airlied@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH 0/4] kbuild: lto: documentation fixes
-Content-Language: en-US
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Martin Liska <mliska@suse.cz>, Andi Kleen <ak@linux.intel.com>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
-References: <20220716093249.19326-1-bagasdotme@gmail.com>
- <CAK7LNASvOjn+abQ1196+tpvVYnj9zkPPnuc4on02aQG_YhU_dw@mail.gmail.com>
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <CAK7LNASvOjn+abQ1196+tpvVYnj9zkPPnuc4on02aQG_YhU_dw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 7/18/22 08:49, Masahiro Yamada wrote:
-> On Sat, Jul 16, 2022 at 6:33 PM Bagas Sanjaya <bagasdotme@gmail.com> wrote:
->>
->> Here is documentation fixes for kbuild LTO feature tree [1]. Two patches
->> fixes warnings reported by kernel test robot, the others are formatting
->> improvements.
-> 
-> 
-> Please do not submit patches unrelated to the mainline.
-> 
-> This series applies to the individual repository of Jiri Slaby.
-> 
+From: Dave Airlie <airlied@redhat.com>
 
-Seems like you missed the wording on cover letter, which said:
+A recent snafu where Intel ignored upstream feedback on a firmware
+change, led to a late rc6 fix being required. In order to avoid this
+in the future we should document some expectations around
+linux-firmware.
 
-> Here is documentation fixes for kbuild LTO feature tree [1]
+I was originally going to write this for drm, but it seems quite generic
+advice.
 
-with link to the target tree, which is another way to say "The
-series is applied on top of this tree, not the mainline".
+I'm cc'ing this quite widely to reach subsystems which use fw a lot.
 
-Thanks.
+Signed-off-by: Dave Airlie <airlied@redhat.com>
+---
+ Documentation/driver-api/firmware/core.rst    |  1 +
+ .../firmware/firmware-usage-guidelines.rst    | 34 +++++++++++++++++++
+ 2 files changed, 35 insertions(+)
+ create mode 100644 Documentation/driver-api/firmware/firmware-usage-guidelines.rst
 
+diff --git a/Documentation/driver-api/firmware/core.rst b/Documentation/driver-api/firmware/core.rst
+index 1d1688cbc078..803cd574bbd7 100644
+--- a/Documentation/driver-api/firmware/core.rst
++++ b/Documentation/driver-api/firmware/core.rst
+@@ -13,4 +13,5 @@ documents these features.
+    direct-fs-lookup
+    fallback-mechanisms
+    lookup-order
++   firmware-usage-guidelines
+ 
+diff --git a/Documentation/driver-api/firmware/firmware-usage-guidelines.rst b/Documentation/driver-api/firmware/firmware-usage-guidelines.rst
+new file mode 100644
+index 000000000000..34d2412e78c6
+--- /dev/null
++++ b/Documentation/driver-api/firmware/firmware-usage-guidelines.rst
+@@ -0,0 +1,34 @@
++===================
++Firmware Guidelines
++===================
++
++Drivers that use firmware from linux-firmware should attempt to follow
++the rules in this guide.
++
++* Firmware should be versioned with at least a major/minor version. It
++  is suggested that the firmware files in linux-firmware be named with
++  some device specific name, and just the major version. The
++  major/minor/patch versions should be stored in a header in the
++  firmware file for the driver to detect any non-ABI fixes/issues. The
++  firmware files in linux-firmware should be overwritten with the newest
++  compatible major version. Newer major version firmware should remain
++  compatible with all kernels that load that major number.
++
++* Users should *not* have to install newer firmware to use existing
++  hardware when they install a newer kernel.  If the hardware isn't
++  enabled by default or under development, this can be ignored, until
++  the first kernel release that enables that hardware.  This means no
++  major version bumps without the kernel retaining backwards
++  compatibility for the older major versions.  Minor version bumps
++  should not introduce new features that newer kernels depend on
++  non-optionally.
++
++* If a security fix needs lockstep firmware and kernel fixes in order to
++  be successful, then all supported major versions in the linux-firmware
++  repo should be updated with the security fix, and the kernel patches
++  should detect if the firmware is new enough to declare if the security
++  issue is fixed.  All communications around security fixes should point
++  at both the firmware and kernel fixes. If a security fix requires
++  deprecating old major versions, then this should only be done as a
++  last option, and be stated clearly in all communications.
++
 -- 
-An old man doll... just what I always wanted! - Clara
+2.36.1
+
