@@ -2,66 +2,127 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 63FE6C43334
-	for <linux-doc@archiver.kernel.org>; Tue, 19 Jul 2022 15:49:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 09A8CC433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 19 Jul 2022 16:04:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239275AbiGSPtV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 19 Jul 2022 11:49:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50870 "EHLO
+        id S234265AbiGSQEN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 19 Jul 2022 12:04:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41010 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239143AbiGSPtV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Jul 2022 11:49:21 -0400
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D837A599DA;
-        Tue, 19 Jul 2022 08:49:19 -0700 (PDT)
-Received: from pps.filterd (m0288072.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26JF18n2006836;
-        Tue, 19 Jul 2022 17:49:08 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=selector1;
- bh=xNJ4ErN3u9jkwMCarC2DByfr3qT4TwK9Imt9o2bL5z0=;
- b=GBgzepkdJdsFAckF9I/WRy8sXMFk7VCCjo7Y7HRdF1F76W5b6gsikNP3c+7PLlUGZoQP
- DgKLybIfd/dd/XzIrk7sodntJHPa/do2UvuMDiPJHd/9cI4cUdBQIMYAqv1i+sQE0rSM
- 3ViMAILa5kcIyZmUn6VvAB2B0EzexNri17aJD3gV0DtHvylzakv8JM92s1oXpCSr8aS9
- EAcEtUe5fybPg1YAt6w/dO1PR9nT/rC3OQUoLIlKBhJoa6LatC/j341H4yooZDIksZTz
- 72/e/3Qoq0bcwb8kne9yJdBvA/dj3BJa9ovKz/CWwa4zepmuyuSK3Ikh5/T38E++IslD 9w== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3hbnp60r8v-1
+        with ESMTP id S238893AbiGSQEG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Jul 2022 12:04:06 -0400
+Received: from mx0b-00082601.pphosted.com (mx0b-00082601.pphosted.com [67.231.153.30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 009C751422;
+        Tue, 19 Jul 2022 09:04:05 -0700 (PDT)
+Received: from pps.filterd (m0148460.ppops.net [127.0.0.1])
+        by mx0a-00082601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26JDRAWl030336;
+        Tue, 19 Jul 2022 09:04:02 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com; h=message-id : date :
+ subject : to : cc : references : from : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=facebook;
+ bh=l7docGpi0oXsQWAC64iBFYk20Ki65Ziy8cdgv6lAzIE=;
+ b=qAcAof63+dgmmuK+tRWxJyr80BTgg+xy1P5SI4wSobm+r19qf2YJ/AUNLfD9IgadzAPW
+ 9Z0fBqWHxMBL55QSys0Our3jiuK1pX34mfq0eCM5vUaqkTNI9YMDxsA8qEx+ahlfEbzM
+ RoqtzGBxeQL5n3EZbDav6mK574zzYKqHKR4= 
+Received: from nam12-mw2-obe.outbound.protection.outlook.com (mail-mw2nam12lp2047.outbound.protection.outlook.com [104.47.66.47])
+        by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 3hdvpq1gau-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 19 Jul 2022 17:49:08 +0200
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 09E6610002A;
-        Tue, 19 Jul 2022 17:49:08 +0200 (CEST)
-Received: from Webmail-eu.st.com (shfdag1node2.st.com [10.75.129.70])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 0502522D17D;
-        Tue, 19 Jul 2022 17:49:08 +0200 (CEST)
-Received: from [10.201.20.208] (10.75.127.44) by SHFDAG1NODE2.st.com
- (10.75.129.70) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.2308.20; Tue, 19 Jul
- 2022 17:49:04 +0200
-Message-ID: <011c1254-f3e9-f363-52a5-c71f7b5a2805@foss.st.com>
-Date:   Tue, 19 Jul 2022 17:49:03 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH v3 0/6] STM32 DMA-MDMA chaining feature
+        Tue, 19 Jul 2022 09:04:02 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=nmf1n1StoKRt0ycz11kHkuUsyeFhKOqvCCnfTbUq0+E+NORpzR3paEF6D0SiUewLiwEBQPLq1VaznDlsgpcOkt6xo5A0iJefPHfJravb4t9SNF5aLq0WI0Zs9p1YoZa/M4hwwJWQ96gqf6wSM7ZVwQ/q9plreENPz4lJc3dhq5VbnCyc+N2VgUvdjuCbQ0bqm8lsT4BLmR2gM/JQdyNUOeBVYS5OqQfHavQJLXU1BfZKX1aAR7P8YL/LJib99eSzbzYIBtTovgsgpDWxyBFe/KC6RqM1q51goR+z3hnKEH8Qv0LvKDJ9MNmWDWQldmA7Ys/mmTWZVoFSNuoGvkCb3w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=l7docGpi0oXsQWAC64iBFYk20Ki65Ziy8cdgv6lAzIE=;
+ b=QcPMOrqdSDWeYffCxB3kxSQuBXGG4vzEumONebGtHR6fxEhWON5n8CI1DeYsLrI+N1vpVKTHdeSldmugCtmN5FueowtywT4xAgR9El8zr3GzGmnd9STnv6yKcg54tC0B2HjPogSJP0+3AChycHFdfyh1fH1ovxIeaDiL9zoBfp2EVohhCnpwZ29ZWTDtaVVRVgF0tuN+VRwNbIrLJDn+jZ+Z6py3ImRuDeUWR9kGp5HZUrXAJxvHPO3w9IU/sAeCXpk8lYFW0z0Z5S48kBWmkGW6VuhJoGoc7pDhNFJshBWDvah0ABXrxSKJjg/Vz0CVvmUk0dH4SXkqJR/RGsNKAw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=fb.com; dmarc=pass action=none header.from=fb.com; dkim=pass
+ header.d=fb.com; arc=none
+Received: from SN6PR1501MB2064.namprd15.prod.outlook.com (2603:10b6:805:d::27)
+ by DM5PR15MB1243.namprd15.prod.outlook.com (2603:10b6:3:b3::9) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5438.14; Tue, 19 Jul 2022 16:03:59 +0000
+Received: from SN6PR1501MB2064.namprd15.prod.outlook.com
+ ([fe80::9568:e5d9:b8ab:bb23]) by SN6PR1501MB2064.namprd15.prod.outlook.com
+ ([fe80::9568:e5d9:b8ab:bb23%6]) with mapi id 15.20.5438.023; Tue, 19 Jul 2022
+ 16:03:59 +0000
+Message-ID: <5500f935-f598-7ef1-c80f-6da7f12ef778@fb.com>
+Date:   Tue, 19 Jul 2022 09:03:55 -0700
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.11.0
+Subject: Re: [PATCH v3] bpf, docs: document BPF_MAP_TYPE_HASH and variants
 Content-Language: en-US
-To:     Jonathan Corbet <corbet@lwn.net>, Vinod Koul <vkoul@kernel.org>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>
-CC:     <linux-doc@vger.kernel.org>, <dmaengine@vger.kernel.org>,
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>, Marek Vasut <marex@denx.de>
-References: <20220719153122.620730-1-amelie.delaunay@foss.st.com>
-From:   Amelie Delaunay <amelie.delaunay@foss.st.com>
-In-Reply-To: <20220719153122.620730-1-amelie.delaunay@foss.st.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+To:     Donald Hunter <donald.hunter@gmail.com>, bpf@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Cc:     Jonathan Corbet <corbet@lwn.net>, sdf@google.com
+References: <20220718125847.1390-1-donald.hunter@gmail.com>
+From:   Yonghong Song <yhs@fb.com>
+In-Reply-To: <20220718125847.1390-1-donald.hunter@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.75.127.44]
-X-ClientProxiedBy: SFHDAG2NODE3.st.com (10.75.127.6) To SHFDAG1NODE2.st.com
- (10.75.129.70)
+X-ClientProxiedBy: MW4PR04CA0334.namprd04.prod.outlook.com
+ (2603:10b6:303:8a::9) To SN6PR1501MB2064.namprd15.prod.outlook.com
+ (2603:10b6:805:d::27)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 21bcac36-09cf-444e-5c67-08da69a04aa3
+X-MS-TrafficTypeDiagnostic: DM5PR15MB1243:EE_
+X-FB-Source: Internal
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Lhobm4oqQy1vcGph6lyWvWSLDPgUh62nEdeMelqbPRfmBQ9gQrnBERkhwoy/kAUUSn4TjKVNooXpCqsefG/uTdASD7lPxiMsgrZJ4UriUFLp4l9Neyp4d44CUhXQNdn5m4AUIVO3G7VVEXTa4ILa+Vz+SVtaCktLKZRWGRkcD5EBDXEJ1om+RYxd7RkzKefJL8bc9mwohVb1Wxg72xvI5gry0gCAugN1W+dJjLMlegovygOTpcA/ENiW1x/rsdhDrcGqD96NFvMUpO9cRQrnbHZMdyiY5tlkqaYSn0u/VPApqqGWv3zZ+AWPFC+Etug/MSvHQdy622NlaldUBfwdXgy5dSJF3RnyOSDi0bGmEYI1A+HXhCtEv5274LBSnpcUKwF6yqDSksoqoM4N3BklOtAE0gneTieex18J7lvABNqusjKGqLQH4TaLe48ItMom+TwIyWUClOLE5Wug3KCAncsm3lQ9VtCtdncUFxZb7jTn56giBQUnQp2PcfvgxVNC/ETs5tV7nfGF8H5fTEI+BPj4OebISEcVDbqCQlakOzLHM4WGl0VEW/5S6TmEzfUbQ7YhYmT2R4QtgRKwo2Eu5C0cbWnpy8pc95lpNYDPt5SNqqp/gU1PvY2ymEs/HDr/rSxO2aPJXCZ0QhdF8/lpJtF6t+MuDM3QSWuArHlRyH2dccvgEdIfHkeFauIfwW+Dhiwkr6cON+eGM38cez4jj5L0uXTDMTM/ssQB9Q6E0jEQVZdSken/8LI6GFD4yfQOOojwKynJJjwldXyWIwmDxOmZ4iDXXolNnWgh6V2ubzI5Trd/weulTMhMfkKDpiSRfS+VXdDk88MckcznGi+S9A==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR1501MB2064.namprd15.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(136003)(346002)(39860400002)(366004)(376002)(396003)(31696002)(8936002)(66556008)(38100700002)(86362001)(6506007)(6486002)(53546011)(4744005)(31686004)(478600001)(186003)(6512007)(36756003)(83380400001)(316002)(2616005)(4326008)(66946007)(66476007)(8676002)(6666004)(5660300002)(41300700001)(2906002)(45980500001)(43740500002);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?OUl0ZENGSGdHMEkzam1HbHFnVzNBZHhpNEx2UG5wS1RCV0hHanJDZHo0VU8r?=
+ =?utf-8?B?REI3a3pvY0tQUGM5T2drb0tyUVZGT1g1YnFLY21nMDBDajZVZ3JOck9BR2dU?=
+ =?utf-8?B?Z3RBRkMyQ2k0SUFtN1lHRU5UbEVFYTFNMVBnS0dKeFZMdU4wVHJoaHI0TkZ6?=
+ =?utf-8?B?Y1IvSG5jeGRsRWZxb1pvajFWZit6Y3hMTTR3UTg1ci8vV2dNWXZvdHM3Q1Js?=
+ =?utf-8?B?eU94N3pGTnlwMWRSODFzK1MybGpNYzN2MXlCdUIwUFcxRzlkY1oxa282aEdv?=
+ =?utf-8?B?ZS9LZGZDU0VxMDcyV0FoamdBRkxaRXk1WEpBZ1VRbVYzc2l2L3NobHVqQS9H?=
+ =?utf-8?B?WjdyTTMvUE1tR210blpHczdrakpTM1dmSGJRMFZTem8ySXlsTUo5ZDhLU0s4?=
+ =?utf-8?B?dThnOHRPM3BjdzV2bHFBK21RRG5VUGY2R1pKRVZvWnJkc3hqK3grRmpmYjEz?=
+ =?utf-8?B?Mk1KdWZLSzBISkdPOWpXWlQ2UnFZVWl3SWZ0cVNQQTM1emc4eUFPTUNoVW01?=
+ =?utf-8?B?aTZ6TzRZS3JNYkNubnFXUmcwSlYzRmpjZU5KUytpNURrbWpENXk4elVPZFFh?=
+ =?utf-8?B?ckZSVzd3aUV4ZitCSUJFdlB1cWNhdlo4dU1SbnRZWWZoNVpXWUNSM2xpSERW?=
+ =?utf-8?B?WkdCQWZuTUJRTVJlaVgyWEJJZ2JTQ3pmNklodUZIU3psOEYvbTVPanBUR3NV?=
+ =?utf-8?B?WDgvVGZhcWlZbWVrYjBqb3dZK1RKQ0pNY0dSWld4TVV0OHltekZpSlFBYWdJ?=
+ =?utf-8?B?MkN4MURtUk9IM24zYlBmbWpSWDc5R3JCN0MzRFcvbVFiMTZ1QmJFb25Vai9L?=
+ =?utf-8?B?SjNlb0JWTGNyZS8vLzJxaFNpMEJVa3BHeGp0L1RDbG5NREVFektBQlFac1Z1?=
+ =?utf-8?B?YlBWTHJIRTdhTEwyT3ZHeXRyRko4MURTSWJubXVLdUZtWERKK0RUcFFydk1Y?=
+ =?utf-8?B?MVBiTHBvcmdxWDZKWWNaOTJ5ejgybkZtMzFhUGQ3NUxqcEI2YjdpQlp4U1M0?=
+ =?utf-8?B?blhuM1JFNWxlMDgzRzhHL001LzdZQU1EcTBJK2lsNlNmeVVmS01mTUJBTnJO?=
+ =?utf-8?B?VW0vQ2FiczdRc3JoTks2YTJYRlFXNUJPZmRSV2RneUVXNi9nN1hKUWtPS3J5?=
+ =?utf-8?B?MVFVRjJ6UG9lamRiSGpsUXNCQm81dXBLRzJSUGVSSmp3S3pKY2dvUXdzMHhO?=
+ =?utf-8?B?alh1d01rTFAwMnIvb0dPUzhFb1ZnVUxyOHJOekMzZnNPd1M5QTRpMHV1M1NI?=
+ =?utf-8?B?UXVXVUY4b3hRbEVNZks3WkprOVo4YjI3Um5KZHVXNDNPampjTUlhQy9iemxo?=
+ =?utf-8?B?V3JBVnNIMGIwd21JQ1ozNU1DRnJUSDdTSVR4TnV0YzFRRDFWc1BFeUFnMVVH?=
+ =?utf-8?B?ZDVVRUNpMnZINE9Zb2VRYUtmWEZqVHZsQ0VPQ3NhbERxZ3JTNHJYZEY0VllG?=
+ =?utf-8?B?K2RyazdscUhKSWUyeHBSZzkxNlFWOUNTQjBoQXFFWUNtUzN4cldiWU51cksz?=
+ =?utf-8?B?QXFTR21mbmhuaFJkaTAyYmVqR2FWMlJwSjJiaHBrdlB4Y1dsSW14SjRYOFpp?=
+ =?utf-8?B?cjFWeDgzM0hYZ0tOOGlpdTVpYmZHQjhMYjA4dFJVeDUvellEVVJkcldUUStu?=
+ =?utf-8?B?RXE4bFVrcWhZNnZnWmM4WXFaOFd6eW1qQ2RQWG5QTitjSGl5bW5zUHVoNFZH?=
+ =?utf-8?B?T3cvSU1JLzNlZmxRTWdjU29FOWhCK0RTdmZYRG1wYzQ2L3pVaWdMNDBvV0JX?=
+ =?utf-8?B?ZEJkWmZqQ05MSnNBaTczTHRham5kZUd4Vk15TkZrdWtyOVZ2NkJNQk9OOEZ0?=
+ =?utf-8?B?K1cxOCtxeFVucURNM2JaSHhiSjlKWjZrMktFTVhYaXNMWnlra3l3MW9kZG5i?=
+ =?utf-8?B?SXBIQ1RuZ3FOcjZNa0pFMWNiclZyeWNlT01OWFpqV21xUE1WTll3bWdaT1Ix?=
+ =?utf-8?B?UldjTFNObERTQ2VsQmF3SlJvdHJhdWp0RFUvTGVJSWUyd1NIbmNETjFheGlo?=
+ =?utf-8?B?OS9WYWx5MXpWRng3SHdqTGoybE5QallMa29HWjVNMWZaR3dQam9mb1dCUFlo?=
+ =?utf-8?B?M2tKVkZOY2JUaE5KLzdkRjlVR1JmQjlIem44K1pyWitFb2syaDJHUHNxMStF?=
+ =?utf-8?Q?HpP77eI9Kf1x4nqaaioiFvhBO?=
+X-OriginatorOrg: fb.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 21bcac36-09cf-444e-5c67-08da69a04aa3
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR1501MB2064.namprd15.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jul 2022 16:03:59.5656
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ae927fe-1255-47a7-a2af-5f3a069daaa2
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: it5ckk02a44uQicg7wvhpRT3KHnxwc7C1Dwi8pWsEaoUo4OqIkiD/YCWS8xo/pD4
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR15MB1243
+X-Proofpoint-ORIG-GUID: _7IHGBUJEGjEOrV3JH3ZeR51xmHLzeqV
+X-Proofpoint-GUID: _7IHGBUJEGjEOrV3JH3ZeR51xmHLzeqV
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
  definitions=2022-07-19_04,2022-07-19_01,2022-06-22_01
@@ -69,54 +130,27 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Please drop this malformed patchset, I'll send a new one.
 
-On 7/19/22 17:31, Amelie Delaunay wrote:
-> This patchset (re)introduces STM32 DMA-MDMA chaining feature.
+
+On 7/18/22 5:58 AM, Donald Hunter wrote:
+> Add documentation for BPF_MAP_TYPE_HASH including kernel version
+> introduced, usage and examples. Document BPF_MAP_TYPE_PERCPU_HASH,
+> BPF_MAP_TYPE_LRU_HASH and BPF_MAP_TYPE_LRU_PERCPU_HASH variations.
 > 
-> As the DMA is not able to generate convenient burst transfer on the DDR,
-> it penalises the AXI bus when accessing the DDR. While it accesses
-> optimally the SRAM. The DMA-MDMA chaining then consists in having an SRAM
-> buffer between DMA and MDMA, so the DMA deals with peripheral and SRAM,
-> and the MDMA with SRAM and DDR.
+> Note that this file is included in the BPF documentation by the glob in
+> Documentation/bpf/maps.rst
 > 
-> The feature relies on the fact that DMA channel Transfer Complete signal
-> can trigger a MDMA channel transfer and MDMA can clear the DMA request by
-> writing to DMA Interrupt Clear register.
+> v3:
+> Fix typos reported by Stanislav Fomichev and Yonghong Song.
+> Add note about iteration and deletion as requested by Yonghong Song.
 > 
-> A deeper introduction can be found in patch 1.
+> v2:
+> Describe memory allocation semantics as suggested by Stanislav Fomichev.
+> Fix u64 typo reported by Stanislav Fomichev.
+> Cut down usage examples to only show usage in context.
+> Updated patch description to follow style recommendation, reported by
+> Bagas Sanjaya.
 > 
-> Previous implementation [1] has been dropped as nacked.
-> Unlike this previous implementation (where all the stuff was embedded in
-> stm32-dma driver), the user (in peripheral drivers using dma) has now to
-> configure the MDMA channel.
-> 
-> [1] https://lore.kernel.org/lkml/1538139715-24406-1-git-send-email-pierre-yves.mordret@st.com/
-> 
-> Changes in v3:
-> - introduce two prior patches to help readibility
-> - fix stm32-dma struct stm32_dma_mdma_config documentation
-> 
-> Changes in v2:
-> - wrap to 80-column limit for documentation
-> - add an entry for this documentation in index.rst
-> - use simple table instead of csv-table in documentation
-> 
-> 
-> Amelie Delaunay (6):
->    dmaengine: stm32-dma: introduce 3 helpers to address channel flags
->    dmaengine: stm32-dma: use bitfield helpers
->    docs: arm: stm32: introduce STM32 DMA-MDMA chaining feature
->    dmaengine: stm32-dmamux: set dmamux channel id in dma features
->      bitfield
->    dmaengine: stm32-dma: add support to trigger STM32 MDMA
->    dmaengine: stm32-mdma: add support to be triggered by STM32 DMA
-> 
->   Documentation/arm/index.rst                   |   1 +
->   .../arm/stm32/stm32-dma-mdma-chaining.rst     | 415 ++++++++++++++++++
->   drivers/dma/stm32-dma.c                       | 136 +++---
->   drivers/dma/stm32-dmamux.c                    |   2 +-
->   drivers/dma/stm32-mdma.c                      |  70 ++-
->   5 files changed, 569 insertions(+), 55 deletions(-)
->   create mode 100644 Documentation/arm/stm32/stm32-dma-mdma-chaining.rst
-> 
+> Signed-off-by: Donald Hunter <donald.hunter@gmail.com>
+
+Acked-by: Yonghong Song <yhs@fb.com>
