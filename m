@@ -2,207 +2,203 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D312DC433EF
-	for <linux-doc@archiver.kernel.org>; Tue, 19 Jul 2022 14:34:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9FD0FC43334
+	for <linux-doc@archiver.kernel.org>; Tue, 19 Jul 2022 14:35:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239044AbiGSOeF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 19 Jul 2022 10:34:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51458 "EHLO
+        id S239115AbiGSOfU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 19 Jul 2022 10:35:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52264 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239032AbiGSOdw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Jul 2022 10:33:52 -0400
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2066.outbound.protection.outlook.com [40.107.93.66])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0D5955BC;
-        Tue, 19 Jul 2022 07:24:12 -0700 (PDT)
+        with ESMTP id S239193AbiGSOen (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Jul 2022 10:34:43 -0400
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2089.outbound.protection.outlook.com [40.107.243.89])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1BE864EB;
+        Tue, 19 Jul 2022 07:26:28 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=cBTU1uh8BK6k7Le/YIEDtKouj0FJON4dNZNsCHv78alPsAIol75XExohctHcFqb1YdHbYSQCR0UV/8WU3YnaiNaH+BbEnTj4MFaAYyzTfPNHv7lMtv9exr9E4yqcJ3Qx6CPbAAQg6Im1e8P3DPXcz8lyiQMUAcZAs41514RQXIdsmCJUAZZEWp9v6nPjASZ3OMNTA9+bAh0d1I1jH6sPB2pbjtLJx8bZAAJHlhY37Cb96jYzWsVOX2z7/JQjtJ0IQ5KmyjYBz9YJhVGaTK2IrCztYdsjfop5II4ShfObidQDbSfH/7nI6XlFvjdWJwPQGchepO//8NhcI9hi2jLzTw==
+ b=KXMRT7TCh4xsE8S8HipXxrXZpQQfoFpejIUBZS4+7KgzC3EsHA2DHXWTGbw8ft9HETIPYh1kT67Mp2rawkdQKs81K0NDacqXFzpqFq0XJIGeBXHkQJq41+Xq1umLYYVeI/XScIu86PxegVPk/cc4S7GOECpgc5dca59HsvDZCuBQYWR1/L0DJRW+qZfSccsVD48ceEFIw1BG88UOknodgE0aD27vpvNvls9TC7tp7ejfYii14f1YEAo5dZtRr/xg0fF3TEvW9pVUQPW4VWANMt+EjraZQfGn0gBN333ChwGsbAu12ZqtxeuqOsMAHDf5Mk/aTigu+Vbl3Opnj1XRkQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6gbRxjyTfsNeCyxbMbIfPF0WYPFQW8U1LaRtDaQvFwY=;
- b=F2HfDKxUkxNelE2pSkYZl5qzjgJSMgduKrl+HmJkGYohBmi7sYv1C55tdhFQGvuEJCZy5wgvG6A2d3uRh3CVrpLGd4aaH40jmQwNNS4d44vi8ujPdcrg/S6hexF+6Mw5alyaVnAvBJ/w0opWmTDKbxifBW6IdOc5JMIDjhFuzlkBjgXkw6gvLzxv+9/pJN3CKzQEtPn//wybSrqRVzQnbTRC9lzclxmWgjqFxAArMOTSdGMmcIV+xI6MY9ewZOxEWverAZFrjf2Sq+OV+q1DLAQqoHkWWGc6IARg1Sy0ZbwyNDliTiVmFa1v9Q4zOtRidqd5YH7Y6b1MA9Z1kXGXwA==
+ bh=doythWpDpqccwky73FyTRDCLB54pmj06Wmne+NobIiE=;
+ b=TjtNbpNmhSboabUNH5o98z9PNqLV65HFubJtuJJetVZkDQKvOIMX+AsElZQhcIrLNQY127YwGq19jKdSF80annWoqerDFMNcwBiAWc5V+Kpf6AUAcidXPRQQz3LA1g49AqWA/xKf+04EPYwG1giyLjdocIveFNahawtv3Bu9xmzn3rhUbsUJ8yGd72K7ardBSZNUYaagn+KC+I8V4sg+2AXwuvX33e8ThzHlXbCKV8bIUEQPezYBNm7MeGsAeLTpfqaQn1YCnIJwGhq3Bl0A2OmeOp7irCdprNhIoIMYg7BerAqgS/BP1YFvPf11U8g63hPr4WA7CoaZVEFrAft60g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6gbRxjyTfsNeCyxbMbIfPF0WYPFQW8U1LaRtDaQvFwY=;
- b=ysN1i3C9hz/0qPnMI88vP+EoMA8HqKkwvzTs2xbq5WXkJnvYGgAhcrgs7ciLoZTDslDilAse+XwG52vsBUpesxXpi7oZ7m4cxXemPMMIqM1JQMrhz7/ppY7iqKrlxSfPwxT2McQzYF+YG30uLSPEGQ0sAKn4JVCvGWSazYI+JoI=
+ bh=doythWpDpqccwky73FyTRDCLB54pmj06Wmne+NobIiE=;
+ b=F+LLqlyO3e9a2gwFI5kb240Q2DzjM1xTYvoRPrmhaH2bTqArei2IKEIG6iN316eJyC0O0iUeCsslKlwn8jnt8teAeTHCsgSHYfFmUlwwKJEatO3TeVZ7yobhgDxUQpOxHPL7uD4Q6tO0IZjDi4EopMN3brLNl4FOZ4GwkjkHOn0=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from CY4PR1201MB0181.namprd12.prod.outlook.com
- (2603:10b6:910:1f::11) by SJ1PR12MB6241.namprd12.prod.outlook.com
- (2603:10b6:a03:458::15) with Microsoft SMTP Server (version=TLS1_2,
+Received: from CO6PR12MB5427.namprd12.prod.outlook.com (2603:10b6:5:358::13)
+ by SJ1PR12MB6121.namprd12.prod.outlook.com (2603:10b6:a03:45c::6) with
+ Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5438.23; Tue, 19 Jul
- 2022 14:24:10 +0000
-Received: from CY4PR1201MB0181.namprd12.prod.outlook.com
- ([fe80::1001:3c79:9504:8d6a]) by CY4PR1201MB0181.namprd12.prod.outlook.com
- ([fe80::1001:3c79:9504:8d6a%10]) with mapi id 15.20.5438.023; Tue, 19 Jul
- 2022 14:24:10 +0000
-Message-ID: <36e671d2-6b95-8e4f-c2ac-fee4b2670c6e@amd.com>
-Date:   Tue, 19 Jul 2022 16:23:52 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v7 11/14] KVM: Register/unregister the guest private
- memory regions
+ 2022 14:26:18 +0000
+Received: from CO6PR12MB5427.namprd12.prod.outlook.com
+ ([fe80::6999:13c9:d124:418a]) by CO6PR12MB5427.namprd12.prod.outlook.com
+ ([fe80::6999:13c9:d124:418a%8]) with mapi id 15.20.5438.023; Tue, 19 Jul 2022
+ 14:26:18 +0000
+Message-ID: <2407dbc8-33e3-dff8-3543-a5277558aeed@amd.com>
+Date:   Tue, 19 Jul 2022 10:26:14 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH] docs: driver-api: firmware: add driver firmware
+ guidelines. (v2)
 Content-Language: en-US
-To:     Chao Peng <chao.p.peng@linux.intel.com>
-Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
-        qemu-devel@nongnu.org, linux-kselftest@vger.kernel.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <seanjc@google.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        Muchun Song <songmuchun@bytedance.com>
-References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
- <20220706082016.2603916-12-chao.p.peng@linux.intel.com>
- <f02baa37-8d34-5d07-a0ae-300ffefc7fee@amd.com>
- <20220719140843.GA84779@chaop.bj.intel.com>
-From:   "Gupta, Pankaj" <pankaj.gupta@amd.com>
-In-Reply-To: <20220719140843.GA84779@chaop.bj.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To:     Dave Airlie <airlied@gmail.com>, torvalds@linux-foundation.org,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        gregkh@linuxfoundation.org, Daniel Vetter <daniel@ffwll.ch>,
+        mcgrof@kernel.org
+Cc:     alsa-devel@alsa-project.org, netdev@vger.kernel.org,
+        dri-devel@lists.sf.net, linux-wireless@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Dave Airlie <airlied@redhat.com>, linux-media@vger.kernel.org
+References: <20220719065357.2705918-1-airlied@gmail.com>
+From:   Harry Wentland <harry.wentland@amd.com>
+In-Reply-To: <20220719065357.2705918-1-airlied@gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR3P281CA0114.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:a3::6) To CY4PR1201MB0181.namprd12.prod.outlook.com
- (2603:10b6:910:1f::11)
+X-ClientProxiedBy: YT1PR01CA0053.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:2e::22) To CO6PR12MB5427.namprd12.prod.outlook.com
+ (2603:10b6:5:358::13)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 04a97040-e76e-4e96-e5f2-08da69925885
-X-MS-TrafficTypeDiagnostic: SJ1PR12MB6241:EE_
+X-MS-Office365-Filtering-Correlation-Id: 412b171a-30ed-4e1b-25a5-08da6992a4e9
+X-MS-TrafficTypeDiagnostic: SJ1PR12MB6121:EE_
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: mAM1X9spBJlKwV2ShK3OwFXQS1y8MnAB0v3g4kFFNZYN5/zVon7TIfy69d42gkz5xxWadsBBV18Bk3jG6EiS0/3Yg5Idya37ACe+ljw020EY4YdJWyIraJ3fkEzALzhJ304wKYC0VIaId1HIiae+w0yQIxkjZUBzh+4ZpwLbl0t2/mpXcfAUtX3brbBJ3ORckVnX5hvbF1aCffSocJFlow66eDySpvYwF0qD0R4cNRxR4/h/42NwvMU0CjRBC1nMwjqLA0o+tf0OmNe1LHE1yRrDJLJmUvaDLczcKqYBN2FPd3fRqAQHOiGImbe5VuV8sQ6vbV46F5LJk2K6nAZIoyiXPHhyKh0mtPBAYodumNEwwmz9REbouYANoedQ/e1vJkheYISXOpqHk2yfrz3ja/4uW3Qpe9kodlK9faabZjJWeNm0g7VXIONnMP8AZP6ztssCH3+I9aOedYIgrzqfQolYgxWdzVE9/+ls6VLdqY26W9n+dWYtaKmdZOLJCwS1jFhDw3kyuk+5JqzTS70f6+eweKZnn7nPl5YJR+3iknhLntVrgXyBRuS7+JkKk+xkl0ttOR5J8qpZenL7sX3s7yH8jl+BSmk/HINgWvBuQMooIB34RFogbPPYoDQyPfxziGh5DCPz3GoX7c0Xr1vyBxHOgqwS0iY1109ziEYiifud3KdKBLq0gGNdKsDnTKUMuUgkS0zzaFOuYDxCI6hTep7Z++JZM/rHqh6OuKitdAoxWo1aakOevlk4aNPg5cUn683wEp1BFdsYk1jHRFr+BDYhyF8wi8gfY9Coxa4go8VHEzoW8SZ+W7k0xcFJDxsp3cToy/U2wo+LXL3HYCoIMA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY4PR1201MB0181.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(39860400002)(136003)(376002)(366004)(346002)(396003)(26005)(2906002)(31686004)(6512007)(6666004)(186003)(41300700001)(86362001)(478600001)(6506007)(5660300002)(7416002)(8936002)(7406005)(2616005)(31696002)(6486002)(66946007)(54906003)(6916009)(316002)(38100700002)(4326008)(66476007)(66556008)(36756003)(8676002)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: ujpVV19EC0LOEI1E6ML8PiEPAa28PX8SWu4bmbbaqN9FhYqdc3p1hXwfi+r3Colj0nbdlEcY2CHc3ebOSas9RJXGYa7cLoxwwzBNY4KhoNh1jnb+IZ4QO8cZN7+ydyKxbx7HShXwLRx0tbx3N807myxu7u36vT9XZ/ju8Db0ekUYovbBfK2IkL4p9jkXjxgd4eU38SMrDxPAj1Zg7x9GRqs+gcP9vUwbL4rrauFoPLTxjj+FJQQ8Q2+Igfarm46I8JrjGUxpD+dFp+dH+9kMDogM01bXKrNi/Ie1A0NoNJLyfflRhHU1cKuZeUay+SfYRro8+ic4PyUMv7vYaJvQG465EwTz+0JqNdBFcxwCGnOk/8CenctkeIHnZC9NwNrvfwb9bxJtwkIGK92WjwuLYtnN5evkVg59JPWWm5kKWCsvtvIQSwWq+3Zelc5XJNOP5sR1szakQaLRJGooF8DWeF7zVixy9TDRR9H+aCXR5MrU/nYQHZHgVwVnPF32mx6ZtvMghbFcwpT1sm0fMX67jP16TdoDjsO2CwzPDorNHQ+2EUjlrkUBmhIEbYiVxz7kP/8bmF1E24sWSRwlEfR1Bn9yQ0yvglQag3zN5wfj9NK3xAxI550UsHSD2bdnIN09Ek9dyfpfdQeWytvH1auJgXfsHzdjCBcpa9VqDKlEQbEfuL25tC+HwL1IsrALjytARBleXHvw71DruvQ1j6fMXI/0Zpw77m1KE/qeZ8rycXWY6a5/FWSSCtbnGtMgDzEjyAgt6x28PUlYsRhg+wiP9O76esA/VimKaXYddOmKt29wjTMDsHbdt0Rw2DmLFlf/4E17HYeVLoD1XoO/6TDSlA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR12MB5427.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(39860400002)(366004)(396003)(376002)(346002)(136003)(83380400001)(6512007)(54906003)(26005)(6506007)(53546011)(2616005)(186003)(38100700002)(7416002)(31686004)(66946007)(5660300002)(44832011)(8936002)(2906002)(6666004)(110136005)(66476007)(8676002)(6486002)(36756003)(478600001)(41300700001)(31696002)(66556008)(316002)(86362001)(4326008)(45980500001)(43740500002);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Tk5kN0ZUTVFxcG5KZUlqcGtRQUJHcmFseGs3Y0hxNml0WlROdHhML2NpalVZ?=
- =?utf-8?B?STYrbUtPUWZSbFpEakFPb3VobWw3WDVMdkdVYjZhc2Y5OUVBZzRsdTVRQzBU?=
- =?utf-8?B?TEFzalBZNU9ZM2JmYTZrRE9pd3o2UStrYk5SRjNHQnpLZXVJaFRQWS9CT3U0?=
- =?utf-8?B?cGlIcjBpYnZudGYwTzJ4U3hEeWt4Q2Q3ei9zVUJtU1dDM3FrQkxGYzRtN05I?=
- =?utf-8?B?QXFjbmQ3a3ArOHlYazN4SFRyQnBjdmU2QWdQYUNsaGlZV1JmT2JHL2FQQXc1?=
- =?utf-8?B?L3JKU2ZUdDBpVDVVY3dGSnRVTWFvSlY0bGVGN2x2TXdqUlBaMTBrQldKODZO?=
- =?utf-8?B?RXdhRXlCOUU5MkhvSjhWbk9QekZhTVYvTnREZUUrNnc0TUMyVTNoOHU3U3ZG?=
- =?utf-8?B?NjNHbE1hQnJRV1BYdis5RTF5U2lwQTg3ZDNDWXl0eUlpRmJnWGwxZWRMU3pi?=
- =?utf-8?B?azhLWXJiUnZIWk9wR2thOXlkMHlWdVI0aWVwUG93YVdoUC9vT1ZCMjQxbVBC?=
- =?utf-8?B?NlBRWXVmR2tDMFJXckhmUXJ6dnJZVXc3dENQVWQyOE9jUUx5MlBadms2ZGFU?=
- =?utf-8?B?NHhoOVBJeHpDencrWFVHLzZNL200VkJ4YlVOM29rc1IrR1dUWGJYSGNhSEV0?=
- =?utf-8?B?YmNKa1FxQU5VRG1ZdnVnUkdoSU5DZGU4aG9FY3BOcEx1ZGdSMDhKRk1RKzIr?=
- =?utf-8?B?a1ZDMTVQT0pJcU9ISGJqOXZXTDZzSTBlUm9KOUV6d2VhQU1MZ3pOeVpaemVJ?=
- =?utf-8?B?cHhDZnM1Z2FoY0ZkUG40NUxUdkNGYU1welBnMHAvMFhHNk9MQmV6a3JveFda?=
- =?utf-8?B?TG96K0cxM3JoSmVUTWJzS2EzU016ZHNFalRwV1pRTVNrRlNTVytGNlVmcTZs?=
- =?utf-8?B?WjRtNm9mSzNsbFA1N1FMK3h3b1lBejM3VUpsMzFnV0svUmZvS2JtR0p0RjFh?=
- =?utf-8?B?dWYvMnhzbVJWc2ZMRDhkNmRZOVlFV2w2Q2Y0WG1pV2k2QnMrMUUvOHYrVzNI?=
- =?utf-8?B?RGtsYlI2SzlQWHRqQ1BzWXBsbFZPNGZ3ejltZkgrNmxJNHcrcUpqSG9yZEov?=
- =?utf-8?B?YkRhMlJFaktsMVFjd0dzZzhQeitGWVR2bU1SUCsvNVVwdFhHckFoaHF6SGxr?=
- =?utf-8?B?Q3laTGFMUng0WWRRN3ZDSVVFbDM4UkF6ODVHVDR1UHFuQVM1T2tFQng5dXp0?=
- =?utf-8?B?L2J1SVpYTmRTRGlabjNkbWtJSWN2TFY0TTY1eURaajVBY2VkQzRPc0I2R3VW?=
- =?utf-8?B?MnZyMkovMUZYak9yRExDL0dFVElDQWE4Z0VhMXBFTmdMZzU1MFphdGp1QkRL?=
- =?utf-8?B?WUpGakhYNURhSWJnL21hbExIalUrRHVndjgzRmRWSk1wQjBqT0U2ZUJJRitP?=
- =?utf-8?B?QmVmV2JQVE1zTWxaUUpiMmFxUVErbkhoTk5pZVN4bVJEK0IySDJYbitMMmpY?=
- =?utf-8?B?WmFrMWZQY1BrNTJsampGZmV5RE9VRVdSbDV0U0t1WitFRHRJa2txUHlhc2pL?=
- =?utf-8?B?cll4NGRDQmdVNHBiTkYzaHp2bjcwcXYrKzVFa0l2b0E4UGxNU0pnSjVoZWpa?=
- =?utf-8?B?d28zUm9UajY0cW5FTExITEJkZUxMSy8vYW9DWFZOMGFyZ1FqdlY0YmtpTkV0?=
- =?utf-8?B?NVNvQXdiWWJzckRTV2ZGbTVPWklvL0h3ZUJVZjJrNnh5eHU1ZnA1NHdlWml3?=
- =?utf-8?B?UzNpZXdabWlpWlI2a0F0TnAvbEVLYm45RmowcjQ5UGhDOFcrMlcwM2k1STVY?=
- =?utf-8?B?TDBvWWJLVW42K0p2Nm9wTms4ZkQ3RTdwelMydEtHVUVKbDBma3ExclNpNStS?=
- =?utf-8?B?RUxZakx4S3F4NU1vc3NxczZxcHBNVjhPMEgwOWxOZVcxczR4ZGQxN3p3Y2ly?=
- =?utf-8?B?MUJZMjBqTjZMVExncldIclJ1V3JVemEyUkpJNzVOMUpiUlpvNXd1OUlPT3Jr?=
- =?utf-8?B?a3A4NGNkUzd6VXlJZjlVM255Yk5qM3JmUUpqU0puVGNvREJnSW1BdHRpRkxv?=
- =?utf-8?B?ZStmZHQrWDRPR1lMRERQU0lTUDg0MmxZYUQ4QW1UK0ZTTk5zcjIvNU85WUww?=
- =?utf-8?B?aUdEaVJ0S0ZZMXJWeHQ2VHRsY3lvU3ZWVTlvSkY3U0d4R0lmYWtDdFhMWjFj?=
- =?utf-8?Q?ZO04vLQ6IOC3nZuURa2s2Npoj?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cWJMZTRCcUdMc1l0aFB5L04rU0hJRDlMTEdTZThEbHhEWERkTXM1SjFyaE5U?=
+ =?utf-8?B?eTBiakhUd25WakNHNFd2UEpPS3lKQUhIeHpwa0RrTFcvWFdUWTRLTTBrdnRX?=
+ =?utf-8?B?MzBFdE0xSGFVWmlQSm1XV3lZMHdOb2N1NTV6QjRBYzc3ZHpDN2xqVVRidlNr?=
+ =?utf-8?B?bi9iUUV6THBYams2em9nak9VSnh3ZTFpelg5Rm1iYXpJSkJuZElXYW9BTVdz?=
+ =?utf-8?B?bzRIYmhBZXNsZ1VWWGpSZ1hzNlhyWkI3VlFlSk5zUXUzdWdjaHYxbk9EUWlW?=
+ =?utf-8?B?eGs0ZWZtdFFLb01BTTRrekZ5ckoxek9hN2t3M2N4SGczdFdkUTVnRHd4RFNI?=
+ =?utf-8?B?SkVkRmVkckpFZVU1Mm8wSDdBMnJIaWovOFM4OUdqdU05cEhJQkZnRVdUeEVJ?=
+ =?utf-8?B?SlZDTGJUWi9mU010YlQ0aC8raEd0d3pmcmQ5b2NVd0dUaml3bjdTM0pJV0lK?=
+ =?utf-8?B?bDh4VzdkbmNxQ25iMjZuVFBHVllKN1RKM0tJbEwzbVBhZ2d5MlBJU2loWnB5?=
+ =?utf-8?B?YVAybnBOVEtkeW03S3Z0NnVZWWo2R1VtempkT1dVYmV5RE9kdEViRXVPT29T?=
+ =?utf-8?B?dWZnakFiMzBoU08xSW0xU3cyaFp4bVcvRDlWUlc2SE55c3JXN0xhR243a2p2?=
+ =?utf-8?B?K2NyNzZXQlNVbGhUbTBmcUlQQTNndlBmbWhBNkQ1ZkJxWXE1UTQ2OTFJVnRX?=
+ =?utf-8?B?YVc5dk1IL0pYcmhnekJYOUROaXRORVNjcGlnaUxISHcrNy9heU5DeW1ERjRL?=
+ =?utf-8?B?K240eVhZQXdncU51SU01bHFPMnExU0s5WWUyNVNkcE1QNGQ1QStLcCtBSy9F?=
+ =?utf-8?B?VGZsZE5tbm9pY3o3bzZTZ0F0OHdYaVZ5UXV5TGJXT3BLdjA0bWcyQzdyTVVy?=
+ =?utf-8?B?d0hzSm8weVIwcFg4YmRVYi9RWDVmWnp1akg4Ukx1Ukp4cGRxVkxkZk5oR1p4?=
+ =?utf-8?B?Q25qS1BvNjFFNzhCM0hQWVZGV2NRcVVkc1EwcDAxTGhXVmI1RExSRHNYVFE3?=
+ =?utf-8?B?Tlg2VTVvNEtqSysyOXNFTWJ2bmxDWW9tWjArTnk0QUdqbU02TDk5QytzclV0?=
+ =?utf-8?B?alM1cUVrMjE1aC9acGliS3hlbHRBaSs3cnhlSGZkMldMbGllNFc1eFNMNk5X?=
+ =?utf-8?B?cTZJMDRVU0RhTUNwaUZHRS84aUpOVWxZVE82QnNzNWdnV0xWSVVBSEp1WWlu?=
+ =?utf-8?B?YVhUVWFYMVNOaGh6VVVQQ1FlNVcvdTdKV2ZmbTFXNHhYN29DR21qVWVkMWNW?=
+ =?utf-8?B?WmpYU1U4WnBTb2FITW1nRDk1ZkM2aFZsNlc0N3hHYnJXbkVVbHlJdjdmb0dh?=
+ =?utf-8?B?SVNhNDQ5RWd5ZkpQNTM1cXdGNnZMMVJCbFBrNklOelpIVkMrMUk2WkR6WnBs?=
+ =?utf-8?B?emtnY013MXZBc3djUlYrTE1kLzZkRkVqcWJ1OFQwdUpLajc3RmVzbzZmSHU4?=
+ =?utf-8?B?akp5YWE3VFI5YU1paGNWOE5OZjhzaGovVzNHajFNQnZNOFIvSzVGSS9RSGRZ?=
+ =?utf-8?B?KzJwWXZVWkZFdG8zczNLRUx3c0V0anZQa2RFS2Jyc0NOeVQ1MFJxT0JYa1JU?=
+ =?utf-8?B?NDZnSWdVQjNYWDdYOVYzWCtKUzdzSzljZmhkOTBSZmdQRmVDSDh2cklQWEFq?=
+ =?utf-8?B?TFlQdkN4ck1adDZDYTVsME1tMjhjS3N2S1d1dTNlOHN0SzNzMldVSjY1QSt0?=
+ =?utf-8?B?Q2tsRzFtRmwwOHVKTkErenQrQXJKRTNNcXNGZUxZMXhRRzllMldteVZqQ1Nm?=
+ =?utf-8?B?TzBXTEFYTGVLTmc2MTQzY1QzdHFWSlpsZmJTTlcvM1VGaURONzFHTE9RMDBm?=
+ =?utf-8?B?azBEU2kyOVN0d0xGeUJLSjhDbzZ2VTNZR0ttS2JjWnJnMkY5eVJ0aC9Kdit1?=
+ =?utf-8?B?TmNVMDdhaFVrNmlwRkJrSDBUbmV5YUdIYitRNDVtYkhzaEUxRzNrUWZnUmtt?=
+ =?utf-8?B?cG41MmZBSFh2ZzdhZGVRS09XYUVaYzdFMFlhUmhRa25XWGJqeEJVQ0VjdC9Y?=
+ =?utf-8?B?ak5pWWlvdmZUUW5KL0tFUnluTzB5WmJ2VFVUZE1zdmFmSThyUVkzMUlpWGxv?=
+ =?utf-8?B?WjhRSXRiV0hnQUpaR2dJRE1aSW1oTlhKTUNrQWx2MVppL1FZdjVBMkxsWmJ0?=
+ =?utf-8?Q?WogeUeenzSHV5z8Fc4Z2AADEc?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 04a97040-e76e-4e96-e5f2-08da69925885
-X-MS-Exchange-CrossTenant-AuthSource: CY4PR1201MB0181.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 412b171a-30ed-4e1b-25a5-08da6992a4e9
+X-MS-Exchange-CrossTenant-AuthSource: CO6PR12MB5427.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jul 2022 14:24:10.0939
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jul 2022 14:26:18.1418
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: COYjKWM0CmMZwrGaP/VoN7FkYMKu/zqiLEHbzzhQYkcGfjwvVOJYeB44kjeIFzVbdgzCCqTTNkE4AsW6eNyr1g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR12MB6241
+X-MS-Exchange-CrossTenant-UserPrincipalName: +iRpqHqrJTuKsSPx2/oVkyIZxay3Sb64mHtzHsOv0Hbs4HMmk1xHG0Z32wGVKbZ/o4KUAAde3PSC4KaQEDh/dw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR12MB6121
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
->>> +bool __weak kvm_arch_private_mem_supported(struct kvm *kvm)
->>> +{
->>> +	return false;
->>> +}
->>
->> Does this function has to be overriden by SEV and TDX to support the private
->> regions?
+On 2022-07-19 02:53, Dave Airlie wrote:
+> From: Dave Airlie <airlied@redhat.com>
 > 
-> Yes it should be overridden by architectures which want to support it.
-
-o.k
+> A recent snafu where Intel ignored upstream feedback on a firmware
+> change, led to a late rc6 fix being required. In order to avoid this
+> in the future we should document some expectations around
+> linux-firmware.
 > 
->>
->>> +
->>>    static int check_memory_region_flags(const struct kvm_user_mem_region *mem)
->>>    {
->>>    	u32 valid_flags = KVM_MEM_LOG_DIRTY_PAGES;
->>> @@ -4689,6 +4729,22 @@ static long kvm_vm_ioctl(struct file *filp,
->>>    		r = kvm_vm_ioctl_set_memory_region(kvm, &mem);
->>>    		break;
->>>    	}
->>> +#ifdef CONFIG_HAVE_KVM_PRIVATE_MEM
->>> +	case KVM_MEMORY_ENCRYPT_REG_REGION:
->>> +	case KVM_MEMORY_ENCRYPT_UNREG_REGION: {
->>> +		struct kvm_enc_region region;
->>> +
->>> +		if (!kvm_arch_private_mem_supported(kvm))
->>> +			goto arch_vm_ioctl;
->>> +
->>> +		r = -EFAULT;
->>> +		if (copy_from_user(&region, argp, sizeof(region)))
->>> +			goto out;
->>> +
->>> +		r = kvm_vm_ioctl_set_encrypted_region(kvm, ioctl, &region);
->>
->> this is to store private region metadata not only the encrypted region?
+> I was originally going to write this for drm, but it seems quite generic
+> advice.
 > 
-> Correct.
-
-Sorry for not being clear, was suggesting name change of this function from:
-"kvm_vm_ioctl_set_encrypted_region" to "kvm_vm_ioctl_set_private_region"
-
+> v2: rewritten with suggestions from Thorsten Leemhuis.
 > 
->>
->> Also, seems same ioctl can be used to put other regions (e.g firmware, later
->> maybe DAX backend etc) into private memory?
+> Acked-by: Luis Chamberlain <mcgrof@kernel.org>
+> Acked-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
+
+Acked-by: Harry Wentland <harry.wentland@amd.com>
+
+Harry
+
+> Signed-off-by: Dave Airlie <airlied@redhat.com>
+> ---
+>  Documentation/driver-api/firmware/core.rst    |  1 +
+>  .../firmware/firmware-usage-guidelines.rst    | 34 +++++++++++++++++++
+>  2 files changed, 35 insertions(+)
+>  create mode 100644 Documentation/driver-api/firmware/firmware-usage-guidelines.rst
 > 
-> Possibly. Depends on what exactly the semantics is. If just want to set
-> those regions as private current code already support that.
+> diff --git a/Documentation/driver-api/firmware/core.rst b/Documentation/driver-api/firmware/core.rst
+> index 1d1688cbc078..803cd574bbd7 100644
+> --- a/Documentation/driver-api/firmware/core.rst
+> +++ b/Documentation/driver-api/firmware/core.rst
+> @@ -13,4 +13,5 @@ documents these features.
+>     direct-fs-lookup
+>     fallback-mechanisms
+>     lookup-order
+> +   firmware-usage-guidelines
+>  
+> diff --git a/Documentation/driver-api/firmware/firmware-usage-guidelines.rst b/Documentation/driver-api/firmware/firmware-usage-guidelines.rst
+> new file mode 100644
+> index 000000000000..34d2412e78c6
+> --- /dev/null
+> +++ b/Documentation/driver-api/firmware/firmware-usage-guidelines.rst
+> @@ -0,0 +1,34 @@
+> +===================
+> +Firmware Guidelines
+> +===================
+> +
+> +Drivers that use firmware from linux-firmware should attempt to follow
+> +the rules in this guide.
+> +
+> +* Firmware should be versioned with at least a major/minor version. It
+> +  is suggested that the firmware files in linux-firmware be named with
+> +  some device specific name, and just the major version. The
+> +  major/minor/patch versions should be stored in a header in the
+> +  firmware file for the driver to detect any non-ABI fixes/issues. The
+> +  firmware files in linux-firmware should be overwritten with the newest
+> +  compatible major version. Newer major version firmware should remain
+> +  compatible with all kernels that load that major number.
+> +
+> +* Users should *not* have to install newer firmware to use existing
+> +  hardware when they install a newer kernel.  If the hardware isn't
+> +  enabled by default or under development, this can be ignored, until
+> +  the first kernel release that enables that hardware.  This means no
+> +  major version bumps without the kernel retaining backwards
+> +  compatibility for the older major versions.  Minor version bumps
+> +  should not introduce new features that newer kernels depend on
+> +  non-optionally.
+> +
+> +* If a security fix needs lockstep firmware and kernel fixes in order to
+> +  be successful, then all supported major versions in the linux-firmware
+> +  repo should be updated with the security fix, and the kernel patches
+> +  should detect if the firmware is new enough to declare if the security
+> +  issue is fixed.  All communications around security fixes should point
+> +  at both the firmware and kernel fixes. If a security fix requires
+> +  deprecating old major versions, then this should only be done as a
+> +  last option, and be stated clearly in all communications.
+> +
 
-Agree. Sure!
-
-
-Thanks,
-Pankaj
