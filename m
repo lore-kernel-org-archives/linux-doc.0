@@ -2,407 +2,328 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C237CCA486
-	for <linux-doc@archiver.kernel.org>; Tue, 19 Jul 2022 17:31:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C5B82C43334
+	for <linux-doc@archiver.kernel.org>; Tue, 19 Jul 2022 17:40:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238537AbiGSRbL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 19 Jul 2022 13:31:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54248 "EHLO
+        id S229658AbiGSRki (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 19 Jul 2022 13:40:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40190 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239330AbiGSR27 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Jul 2022 13:28:59 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43B8B5C36B;
-        Tue, 19 Jul 2022 10:28:46 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id AEFCD614D0;
-        Tue, 19 Jul 2022 17:28:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 675DFC341CA;
-        Tue, 19 Jul 2022 17:28:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1658251724;
-        bh=1Dv4d3qJIRO2Q5e65J5bO5ZCfkYIlFqdUJWJ0lKT6KM=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=hFYbRk/P+AzCHZhUwD1yDcinJAh7VOyrPLDXqlvsmUMvrxuMnIKwl8BpdrZfeNCBy
-         +Pr56xI3gv3HRv3qz8Ad1nKKL5IOD8fua77DGaJF+OL/+hKhRJdaNvZPO1Rq+h5Z1e
-         cnqE80UrSuTybmSg1FpzUNrS9MzGw7mQQ2CahzZCY0NGhG5CSKpsEq8r/hIkbDiePQ
-         extLNrhiut/AcEBG6CLu0mqOMssVSRHGidZBeVotuBtnV9Zek5QOFvtNzg2DwoYRX3
-         wkKkIJirMhNmZ5l7ozSWrxZ+bsDffN08qDh04/4wZLEOTUETjFZKd6sJn74gdS6ZlZ
-         VvZX+KM0aMlNg==
-From:   Daniel Bristot de Oliveira <bristot@kernel.org>
-To:     Steven Rostedt <rostedt@goodmis.org>
-Cc:     Daniel Bristot de Oliveira <bristot@kernel.org>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Ingo Molnar <mingo@redhat.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Will Deacon <will@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Marco Elver <elver@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Gabriele Paoloni <gpaoloni@redhat.com>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Clark Williams <williams@redhat.com>,
-        Tao Zhou <tao.zhou@linux.dev>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-trace-devel@vger.kernel.org
-Subject: [PATCH V6 14/16] rv/monitor: Add the wwnr monitor
-Date:   Tue, 19 Jul 2022 19:27:19 +0200
-Message-Id: <a1b9cb1679c6bd7431b0a0072f73c5d6ab353207.1658244826.git.bristot@kernel.org>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <cover.1658244826.git.bristot@kernel.org>
-References: <cover.1658244826.git.bristot@kernel.org>
+        with ESMTP id S232884AbiGSRkh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Jul 2022 13:40:37 -0400
+Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A22D54069;
+        Tue, 19 Jul 2022 10:40:36 -0700 (PDT)
+Received: by mail-ej1-x633.google.com with SMTP id mf4so28588852ejc.3;
+        Tue, 19 Jul 2022 10:40:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=MOSSngbJ0z3lcf48tmRKSi2U1FF0E4dGwt9dmpw2eN8=;
+        b=Lk3jRpOPL/krKhXnFHmxOXi4zqyuovUgV+HY55xm9dq5UzqA0tWiPQpKekRTdbqNXB
+         TfZrLJD3arck23Msw/bOmJT0DSA9rFTSXocoWPDbLGmZ8I3IoNPHq6BaVLHri3P82hoW
+         VQxH2amYVdHaaRKCmWXkv+D0Uy1erCYtRHV0rq2rCygGP2EXZkX/gvXAFwGgdNs9760R
+         eScrbtclmXoWHbN7alyEwgi4EE4KP3a7Uk8/pY7of8obuxqkMmXIdpaYNJX5Y2Ma5pcm
+         8Cugd18QPws7GDMIY1dypcOLJXQw58fIE4D+T/0O9Lxo0hT0F3xqBKyGywYF0o+vM5Uz
+         Y1qQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=MOSSngbJ0z3lcf48tmRKSi2U1FF0E4dGwt9dmpw2eN8=;
+        b=Cx1//jevEYlauuIujx/pz1aNCKYc8fgc0hcLRMClldiZb91+s8GJFhiUOjR05yhiTU
+         jj2Utxs/m4GKk1xzu/xVujTQTljaZdpmSkxba/ZVu/CWponNoHT5r33EPnHGyBf/oibu
+         1OgJE7SG8zQdm002T2OM1j3tKNZF830CLUHPUTyFAw3IFfk4kB27ghCRDDxrFEdCaHGH
+         vNDqvoUwFwqp9nkvVwMrnu2wwzbwSdegUGdz+1qvW9zVC9oYIbOyJs2QwN5auVrHUz1F
+         kzL2wNa/Fx1AHPG9KnV5QiQDXV6UtXRorzr57YUevO3HBIKokmDwAkqn+gGtQSJCMlLd
+         WT9g==
+X-Gm-Message-State: AJIora/niwWkVsJ+alxQrhX4azETF6bUBNknEM+K7nqCR+hqgL1biXvw
+        KjEmE7XYe6DAyHsNuff95hUrhot6OWgDVziAr3o=
+X-Google-Smtp-Source: AGRyM1t5CHF4RVm8eMzDBoraNgUSfBffHuRJOToMSRnC2OsmcyTETqOGrbLeTfJrAG8HEXVqtDhoYSYy0bwAMpil6mg=
+X-Received: by 2002:a17:907:6e02:b0:72b:9f16:1bc5 with SMTP id
+ sd2-20020a1709076e0200b0072b9f161bc5mr31744075ejc.676.1658252434986; Tue, 19
+ Jul 2022 10:40:34 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220718125847.1390-1-donald.hunter@gmail.com>
+In-Reply-To: <20220718125847.1390-1-donald.hunter@gmail.com>
+From:   Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Date:   Tue, 19 Jul 2022 10:40:23 -0700
+Message-ID: <CAADnVQ+JcR-47jvZikwa8XAbqtjUUjEPZ9b8HHdpo-23O1LMOw@mail.gmail.com>
+Subject: Re: [PATCH v3] bpf, docs: document BPF_MAP_TYPE_HASH and variants
+To:     Donald Hunter <donald.hunter@gmail.com>
+Cc:     bpf <bpf@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Stanislav Fomichev <sdf@google.com>, Yonghong Song <yhs@fb.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Per task wakeup while not running (wwnr) monitor.
+On Mon, Jul 18, 2022 at 6:02 AM Donald Hunter <donald.hunter@gmail.com> wrote:
+>
+> Add documentation for BPF_MAP_TYPE_HASH including kernel version
+> introduced, usage and examples. Document BPF_MAP_TYPE_PERCPU_HASH,
+> BPF_MAP_TYPE_LRU_HASH and BPF_MAP_TYPE_LRU_PERCPU_HASH variations.
+>
+> Note that this file is included in the BPF documentation by the glob in
+> Documentation/bpf/maps.rst
+>
+> v3:
+> Fix typos reported by Stanislav Fomichev and Yonghong Song.
+> Add note about iteration and deletion as requested by Yonghong Song.
+>
+> v2:
+> Describe memory allocation semantics as suggested by Stanislav Fomichev.
+> Fix u64 typo reported by Stanislav Fomichev.
+> Cut down usage examples to only show usage in context.
+> Updated patch description to follow style recommendation, reported by
+> Bagas Sanjaya.
+>
+> Signed-off-by: Donald Hunter <donald.hunter@gmail.com>
+> ---
+>  Documentation/bpf/map_hash.rst | 186 +++++++++++++++++++++++++++++++++
+>  1 file changed, 186 insertions(+)
+>  create mode 100644 Documentation/bpf/map_hash.rst
+>
+> diff --git a/Documentation/bpf/map_hash.rst b/Documentation/bpf/map_hash.rst
+> new file mode 100644
+> index 000000000000..b1d6562f36ae
+> --- /dev/null
+> +++ b/Documentation/bpf/map_hash.rst
+> @@ -0,0 +1,186 @@
+> +.. SPDX-License-Identifier: GPL-2.0-only
+> +.. Copyright (C) 2022 Red Hat, Inc.
+> +
+> +===============================================
+> +BPF_MAP_TYPE_HASH, with PERCPU and LRU Variants
+> +===============================================
+> +
+> +.. note::
+> +   - ``BPF_MAP_TYPE_HASH`` was introduced in kernel version 3.19
+> +   - ``BPF_MAP_TYPE_PERCPU_HASH`` was introduced in version 4.6
+> +   - Both ``BPF_MAP_TYPE_LRU_HASH`` and ``BPF_MAP_TYPE_LRU_PERCPU_HASH``
+> +     were introduced in version 4.10
+> +
+> +``BPF_MAP_TYPE_HASH`` and ``BPF_MAP_TYPE_PERCPU_HASH`` provide general
+> +purpose hash map storage. Both the key and the value can be structs,
+> +allowing for composite keys and values.
+> +
+> +The kernel is responsible for allocating and freeing key/value pairs, up
+> +to the max_entries limit that you specify. Hash maps use pre-allocation
+> +of hash table elements by default. The ``BPF_F_NO_PREALLOC`` flag can be
+> +used to disable pre-allocation when it is too memory expensive.
+> +
+> +``BPF_MAP_TYPE_PERCPU_HASH`` provides a separate value slot per
+> +CPU. The per-cpu values are stored internally in an array.
+> +
+> +The ``BPF_MAP_TYPE_LRU_HASH`` and ``BPF_MAP_TYPE_LRU_PERCPU_HASH``
+> +variants add LRU semantics to their respective hash tables. An LRU hash
+> +will automatically evict the least recently used entries when the hash
+> +table reaches capacity. An LRU hash maintains an internal LRU list that
+> +is used to select elements for eviction. This internal LRU list is
+> +shared across CPUs but it is possible to request a per CPU LRU list with
+> +the ``BPF_F_NO_COMMON_LRU`` flag when calling ``bpf_map_create``.
+> +
+> +Usage
+> +=====
+> +
+> +.. c:function::
+> +   long bpf_map_update_elem(struct bpf_map *map, const void *key, const void *value, u64 flags)
+> +
+> +Hash entries can be added or updated using the ``bpf_map_update_elem()``
+> +helper. This helper replaces existing elements atomically. The ``flags``
+> +parameter can be used to control the update behaviour:
+> +
+> +- ``BPF_ANY`` will create a new element or update an existing element
+> +- ``BPF_NOTEXIST`` will create a new element only if one did not already
 
-This model is broken, the reason is that a task can be running in the
-processor without being set as RUNNABLE. Think about a task about to
-sleep:
+typo.
 
-1:      set_current_state(TASK_UNINTERRUPTIBLE);
-2:      schedule();
+> +  exist
+> +- ``BPF_EXIST`` will update an existing element
+> +
+> +``bpf_map_update_elem()`` returns 0 on success, or negative error in
+> +case of failure.
+> +
+> +.. c:function::
+> +   void *bpf_map_lookup_elem(struct bpf_map *map, const void *key)
+> +
+> +Hash entries can be retrieved using the ``bpf_map_lookup_elem()``
+> +helper. This helper returns a pointer to the value associated with
+> +``key``, or ``NULL`` if no entry was found.
+> +
+> +.. c:function::
+> +   long bpf_map_delete_elem(struct bpf_map *map, const void *key)
+> +
+> +Hash entries can be deleted using the ``bpf_map_delete_elem()``
+> +helper. This helper will return 0 on success, or negative error in case
+> +of failure.
+> +
+> +Per CPU Hashes
+> +--------------
+> +
+> +For ``BPF_MAP_TYPE_PERCPU_HASH`` and ``BPF_MAP_TYPE_LRU_PERCPU_HASH``
+> +the ``bpf_map_update_elem()`` and ``bpf_map_lookup_elem()`` helpers
+> +automatically access the hash slot for the current CPU.
+> +
+> +.. c:function::
+> +   void *bpf_map_lookup_percpu_elem(struct bpf_map *map, const void *key, u32 cpu)
+> +
+> +The ``bpf_map_lookup_percpu_elem()`` helper can be used to lookup the
+> +value in the hash slot for a specific CPU. Returns value associated with
+> +``key`` on ``cpu`` , or ``NULL`` if no entry was found or ``cpu`` is
+> +invalid.
+> +
+> +Concurrency
+> +-----------
+> +
+> +Values stored in ``BPF_MAP_TYPE_HASH`` can be accessed concurrently by
+> +programs running on different CPUs.  Since Kernel version 5.1, the BPF
+> +infrastructure provides ``struct bpf_spin_lock`` to synchronise access.
+> +See ``tools/testing/selftests/bpf/progs/test_spin_lock.c``.
+> +
+> +Userspace
+> +---------
+> +
+> +.. c:function::
+> +   int bpf_map_get_next_key (int fd, const void *cur_key, void *next_key)
 
-And then imagine an IRQ happening in between the lines one and two,
-waking the task up. BOOM, the wakeup will happen while the task is
-running.
+unnecessary space.
 
-Q: Why do we need this model, so?
-A: To test the reactors.
+> +
+> +In userspace, it is possible to iterate through the keys of a hash using
+> +the ``bpf_map_get_next_key()`` function. The first key can be fetched by
 
-Cc: Wim Van Sebroeck <wim@linux-watchdog.org>
-Cc: Guenter Roeck <linux@roeck-us.net>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Steven Rostedt <rostedt@goodmis.org>
-Cc: Ingo Molnar <mingo@redhat.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Cc: Peter Zijlstra <peterz@infradead.org>
-Cc: Will Deacon <will@kernel.org>
-Cc: Catalin Marinas <catalin.marinas@arm.com>
-Cc: Marco Elver <elver@google.com>
-Cc: Dmitry Vyukov <dvyukov@google.com>
-Cc: "Paul E. McKenney" <paulmck@kernel.org>
-Cc: Shuah Khan <skhan@linuxfoundation.org>
-Cc: Gabriele Paoloni <gpaoloni@redhat.com>
-Cc: Juri Lelli <juri.lelli@redhat.com>
-Cc: Clark Williams <williams@redhat.com>
-Cc: Tao Zhou <tao.zhou@linux.dev>
-Cc: Randy Dunlap <rdunlap@infradead.org>
-Cc: linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Cc: linux-trace-devel@vger.kernel.org
-Signed-off-by: Daniel Bristot de Oliveira <bristot@kernel.org>
----
- Documentation/trace/rv/index.rst        |  1 +
- Documentation/trace/rv/monitor_wwnr.rst | 45 +++++++++++++
- include/trace/events/rv.h               | 12 ++++
- kernel/trace/rv/Kconfig                 | 12 ++++
- kernel/trace/rv/Makefile                |  1 +
- kernel/trace/rv/monitors/wwnr/wwnr.c    | 90 +++++++++++++++++++++++++
- kernel/trace/rv/monitors/wwnr/wwnr.h    | 46 +++++++++++++
- tools/verification/models/wwnr.dot      | 16 +++++
- 8 files changed, 223 insertions(+)
- create mode 100644 Documentation/trace/rv/monitor_wwnr.rst
- create mode 100644 kernel/trace/rv/monitors/wwnr/wwnr.c
- create mode 100644 kernel/trace/rv/monitors/wwnr/wwnr.h
- create mode 100644 tools/verification/models/wwnr.dot
+clarified that this is libbpf's function.
 
-diff --git a/Documentation/trace/rv/index.rst b/Documentation/trace/rv/index.rst
-index 4cb71ed628b8..15fa966102c0 100644
---- a/Documentation/trace/rv/index.rst
-+++ b/Documentation/trace/rv/index.rst
-@@ -11,3 +11,4 @@ Runtime Verification
-    da_monitor_synthesis.rst
-    da_monitor_instrumentation.rst
-    monitor_wip.rst
-+   monitor_wwnr.rst
-diff --git a/Documentation/trace/rv/monitor_wwnr.rst b/Documentation/trace/rv/monitor_wwnr.rst
-new file mode 100644
-index 000000000000..80f1777b85aa
---- /dev/null
-+++ b/Documentation/trace/rv/monitor_wwnr.rst
-@@ -0,0 +1,45 @@
-+Monitor wwnr
-+============
-+
-+- Name: wwrn - wakeup while not running
-+- Type: per-task deterministic automaton
-+- Author: Daniel Bristot de Oliveira <bristot@kernel.org>
-+
-+Description
-+-----------
-+
-+This is a per-task sample monitor, with the following
-+definition::
-+
-+               |
-+               |
-+               v
-+    wakeup   +-------------+
-+  +--------- |             |
-+  |          | not_running |
-+  +--------> |             | <+
-+             +-------------+  |
-+               |              |
-+               | switch_in    | switch_out
-+               v              |
-+             +-------------+  |
-+             |   running   | -+
-+             +-------------+
-+
-+This model is borken, the reason is that a task can be running
-+in the processor without being set as RUNNABLE. Think about a
-+task about to sleep::
-+
-+  1:      set_current_state(TASK_UNINTERRUPTIBLE);
-+  2:      schedule();
-+
-+And then imagine an IRQ happening in between the lines one and two,
-+waking the task up. BOOM, the wakeup will happen while the task is
-+running.
-+
-+- Why do we need this model, so?
-+- To test the reactors.
-+
-+Specification
-+-------------
-+Grapviz Dot file in tools/verification/models/wwnr.dot
-diff --git a/include/trace/events/rv.h b/include/trace/events/rv.h
-index e972f27d8df3..56592da9301c 100644
---- a/include/trace/events/rv.h
-+++ b/include/trace/events/rv.h
-@@ -122,6 +122,18 @@ DECLARE_EVENT_CLASS(error_da_monitor_id,
- 		__entry->event,
- 		__entry->state)
- );
-+
-+#ifdef CONFIG_RV_MON_WWNR
-+/* id is the pid of the task */
-+DEFINE_EVENT(event_da_monitor_id, event_wwnr,
-+	     TP_PROTO(int id, char *state, char *event, char *next_state, bool final_state),
-+	     TP_ARGS(id, state, event, next_state, final_state));
-+
-+DEFINE_EVENT(error_da_monitor_id, error_wwnr,
-+	     TP_PROTO(int id, char *state, char *event),
-+	     TP_ARGS(id, state, event));
-+#endif /* CONFIG_RV_MON_WWNR */
-+
- #endif /* CONFIG_DA_MON_EVENTS_ID */
- #endif /* _TRACE_RV_H */
- 
-diff --git a/kernel/trace/rv/Kconfig b/kernel/trace/rv/Kconfig
-index 8755ad74ec22..d8c40fd67e88 100644
---- a/kernel/trace/rv/Kconfig
-+++ b/kernel/trace/rv/Kconfig
-@@ -41,6 +41,18 @@ config RV_MON_WIP
- 	  For further information, see:
- 	    Documentation/trace/rv/monitor_wip.rst
- 
-+config RV_MON_WWNR
-+	depends on RV
-+	select DA_MON_EVENTS_ID
-+	bool "wwnr monitor"
-+	help
-+	  Enable wwnr (wakeup while not running) sample monitor, this is a
-+	  sample monitor that illustrates the usage of per-task monitor.
-+	  The model is borken on purpose: it serves to test reactors.
-+
-+	  For further information, see:
-+	    Documentation/trace/rv/monitor_wwnr.rst
-+
- config RV_REACTORS
- 	bool "Runtime verification reactors"
- 	default y
-diff --git a/kernel/trace/rv/Makefile b/kernel/trace/rv/Makefile
-index b41109d2750a..af0ff9a46418 100644
---- a/kernel/trace/rv/Makefile
-+++ b/kernel/trace/rv/Makefile
-@@ -3,3 +3,4 @@
- obj-$(CONFIG_RV) += rv.o
- obj-$(CONFIG_RV_REACTORS) += rv_reactors.o
- obj-$(CONFIG_RV_MON_WIP) += monitors/wip/wip.o
-+obj-$(CONFIG_RV_MON_WWNR) += monitors/wwnr/wwnr.o
-diff --git a/kernel/trace/rv/monitors/wwnr/wwnr.c b/kernel/trace/rv/monitors/wwnr/wwnr.c
-new file mode 100644
-index 000000000000..55028a0fa388
---- /dev/null
-+++ b/kernel/trace/rv/monitors/wwnr/wwnr.c
-@@ -0,0 +1,90 @@
-+// SPDX-License-Identifier: GPL-2.0
-+#include <linux/ftrace.h>
-+#include <linux/tracepoint.h>
-+#include <linux/kernel.h>
-+#include <linux/module.h>
-+#include <linux/init.h>
-+#include <linux/rv.h>
-+#include <rv/instrumentation.h>
-+#include <rv/da_monitor.h>
-+
-+#define MODULE_NAME "wwnr"
-+
-+#include <trace/events/rv.h>
-+#include <trace/events/sched.h>
-+
-+#include "wwnr.h"
-+
-+struct rv_monitor rv_wwnr;
-+DECLARE_DA_MON_PER_TASK(wwnr, unsigned char);
-+
-+static void handle_switch(void *data, bool preempt, struct task_struct *p,
-+			  struct task_struct *n, unsigned int prev_state)
-+{
-+	/* start monitoring only after the first suspension */
-+	if (prev_state == TASK_INTERRUPTIBLE)
-+		da_handle_start_event_wwnr(p, switch_out_wwnr);
-+	else
-+		da_handle_event_wwnr(p, switch_out_wwnr);
-+
-+	da_handle_event_wwnr(n, switch_in_wwnr);
-+}
-+
-+static void handle_wakeup(void *data, struct task_struct *p)
-+{
-+	da_handle_event_wwnr(p, wakeup_wwnr);
-+}
-+
-+static int enable_wwnr(void)
-+{
-+	int retval;
-+
-+	retval = da_monitor_init_wwnr();
-+	if (retval)
-+		return retval;
-+
-+	rv_attach_trace_probe("wwnr", sched_switch, handle_switch);
-+	rv_attach_trace_probe("wwnr", sched_wakeup, handle_wakeup);
-+
-+	return 0;
-+}
-+
-+static void disable_wwnr(void)
-+{
-+	rv_wwnr.enabled = 0;
-+
-+	rv_detach_trace_probe("wwnr", sched_switch, handle_switch);
-+	rv_detach_trace_probe("wwnr", sched_wakeup, handle_wakeup);
-+
-+	da_monitor_destroy_wwnr();
-+}
-+
-+struct rv_monitor rv_wwnr = {
-+	.name = "wwnr",
-+	.description = "wakeup while not running per-task testing model.",
-+	.enable = enable_wwnr,
-+	.disable = disable_wwnr,
-+	.reset = da_monitor_reset_all_wwnr,
-+	.enabled = 0,
-+};
-+
-+static int register_wwnr(void)
-+{
-+	rv_register_monitor(&rv_wwnr);
-+	return 0;
-+}
-+
-+static void unregister_wwnr(void)
-+{
-+	if (rv_wwnr.enabled)
-+		disable_wwnr();
-+
-+	rv_unregister_monitor(&rv_wwnr);
-+}
-+
-+module_init(register_wwnr);
-+module_exit(unregister_wwnr);
-+
-+MODULE_LICENSE("GPL");
-+MODULE_AUTHOR("Daniel Bristot de Oliveira <bristot@kernel.org>");
-+MODULE_DESCRIPTION("wwnr: wakeup while not running monitor");
-diff --git a/kernel/trace/rv/monitors/wwnr/wwnr.h b/kernel/trace/rv/monitors/wwnr/wwnr.h
-new file mode 100644
-index 000000000000..d1afe55cdd4c
---- /dev/null
-+++ b/kernel/trace/rv/monitors/wwnr/wwnr.h
-@@ -0,0 +1,46 @@
-+/*
-+ * Automatically generated C representation of wwnr automaton
-+ * For further information about this format, see kernel documentation:
-+ *   Documentation/trace/rv/deterministic_automata.rst
-+ */
-+
-+enum states_wwnr {
-+	not_running_wwnr = 0,
-+	running_wwnr,
-+	state_max_wwnr
-+};
-+
-+#define INVALID_STATE state_max_wwnr
-+
-+enum events_wwnr {
-+	switch_in_wwnr = 0,
-+	switch_out_wwnr,
-+	wakeup_wwnr,
-+	event_max_wwnr
-+};
-+
-+struct automaton_wwnr {
-+	char *state_names[state_max_wwnr];
-+	char *event_names[event_max_wwnr];
-+	unsigned char function[state_max_wwnr][event_max_wwnr];
-+	unsigned char initial_state;
-+	bool final_states[state_max_wwnr];
-+};
-+
-+struct automaton_wwnr automaton_wwnr = {
-+	.state_names = {
-+		"not_running",
-+		"running"
-+	},
-+	.event_names = {
-+		"switch_in",
-+		"switch_out",
-+		"wakeup"
-+	},
-+	.function = {
-+		{       running_wwnr,      INVALID_STATE,   not_running_wwnr },
-+		{      INVALID_STATE,   not_running_wwnr,      INVALID_STATE },
-+	},
-+	.initial_state = not_running_wwnr,
-+	.final_states = { 1, 0 },
-+};
-diff --git a/tools/verification/models/wwnr.dot b/tools/verification/models/wwnr.dot
-new file mode 100644
-index 000000000000..1b206e83129c
---- /dev/null
-+++ b/tools/verification/models/wwnr.dot
-@@ -0,0 +1,16 @@
-+digraph state_automaton {
-+	{node [shape = plaintext, style=invis, label=""] "__init_not_running"};
-+	{node [shape = ellipse] "not_running"};
-+	{node [shape = plaintext] "not_running"};
-+	{node [shape = plaintext] "running"};
-+	"__init_not_running" -> "not_running";
-+	"not_running" [label = "not_running", color = green3];
-+	"not_running" -> "not_running" [ label = "wakeup" ];
-+	"not_running" -> "running" [ label = "switch_in" ];
-+	"running" [label = "running"];
-+	"running" -> "not_running" [ label = "switch_out" ];
-+	{ rank = min ;
-+		"__init_not_running";
-+		"not_running";
-+	}
-+}
--- 
-2.35.1
+> +calling ``bpf_map_get_next_key()`` with ``cur_key`` set to
+> +``NULL``. Subsequent calls will fetch the next key that follows the
+> +current key. ``bpf_map_get_next_key()`` returns 0 on success, -ENOENT if
+> +cur_key is the last key in the hash, or negative error in case of
+> +failure.
+> +
+> +Note that if ``cur_key`` gets deleted then ``bpf_map_get_next_key()``
+> +will instead return the *first* key in the hash table which is
+> +undesirable. It is recommended to use batched lookup if there is going
+> +to be key deletion intermixed with ``bpf_map_get_next_key()``.
+> +
+> +Examples
+> +========
+> +
+> +Please see the ``tools/testing/selftests/bpf`` directory for functional
+> +examples.  The code snippets below demonstrates API usage.
+> +
+> +This example shows how to declare an LRU Hash with a struct key and a
+> +struct value.
+> +
+> +.. code-block:: c
+> +
+> +    #include <linux/bpf.h>
+> +    #include <bpf/bpf_helpers.h>
+> +
+> +    struct key {
+> +        __u32 srcip;
+> +    };
+> +
+> +    struct value {
+> +        __u64 packets;
+> +        __u64 bytes;
+> +    };
+> +
+> +    struct {
+> +            __uint(type, BPF_MAP_TYPE_LRU_HASH);
+> +            __uint(max_entries, 32);
+> +            __type(key, struct key);
+> +            __type(value, struct value);
+> +    } packet_stats SEC(".maps");
+> +
+> +This example shows how to create or update hash values using atomic
+> +instructions:
+> +
+> +.. code-block:: c
+> +
+> +    static inline void (__u32 srcip, int bytes)
 
+bug. no name function?
+
+called it 'update_stats' and dropped 'inline',
+since it's unnecessary.
+
+> +    {
+> +            struct key key = {
+> +                    .srcip = srcip
+
+added comma
+
+> +            };
+> +            struct value *value = bpf_map_lookup_elem(&packet_stats, &key);
+
+added empty line.
+
+> +            if (value) {
+> +                    __sync_fetch_and_add(&value->packets, 1);
+> +                    __sync_fetch_and_add(&value->bytes, bytes);
+> +            } else {
+> +                    struct value newval = { 1, bytes };
+
+added empty line.
+
+> +                    bpf_map_update_elem(&packet_stats, &key, &newval, BPF_NOEXIST);
+> +            }
+> +    }
+> +
+> +Userspace walking the map elements from the map declared above:
+> +
+> +.. code-block:: c
+> +
+> +    #include <bpf/libbpf.h>
+> +    #include <bpf/bpf.h>
+> +
+> +    static void walk_hash_elements(int map_fd)
+> +    {
+> +            struct key *cur_key = NULL;
+> +            struct key next_key;
+> +            int next;
+
+added empty line
+
+> +            do {
+> +                    // error checking omitted
+> +                    next = bpf_map_get_next_key(stats_fd, cur_key, &next_key);
+
+s/stats_fd/map_fd/
+
+> +                    if (next == -ENOENT)
+> +                            break;
+
+converted to if (err) break;
+since it's a bad idea to use next_key on any error.
+Not just ENOENT.
+
+> +
+> +                    struct in_addr src_addr = {
+> +                            .s_addr = next_key.srcip
+> +                    };
+
+removed. It adds no value. Only confused the reader.
+
+> +                    struct value value;
+
+moved the top
+
+> +                    int ret = bpf_map_lookup_elem(stats_fd, &next_key, &value);
+
+remove 'int ret', since compilers will complain.
+
+> +
+> +                    // Use key and value here
+> +
+> +                    cur_key = &next_key;
+> +            } while (next == 0);
+
+converted to 'for (;;)' since 'err == 0' is already checked.
+
+Please pay attention to such details in the future.
+The doc shouldn't be sloppy.
