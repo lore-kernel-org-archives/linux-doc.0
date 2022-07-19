@@ -2,44 +2,94 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 43ECFC43334
-	for <linux-doc@archiver.kernel.org>; Tue, 19 Jul 2022 07:10:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D3FC1CCA47F
+	for <linux-doc@archiver.kernel.org>; Tue, 19 Jul 2022 07:29:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232634AbiGSHKf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 19 Jul 2022 03:10:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43270 "EHLO
+        id S234127AbiGSH3e (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 19 Jul 2022 03:29:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53604 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234338AbiGSHKe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Jul 2022 03:10:34 -0400
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 368B22BD2;
-        Tue, 19 Jul 2022 00:10:33 -0700 (PDT)
-Received: by verein.lst.de (Postfix, from userid 2407)
-        id D975368AA6; Tue, 19 Jul 2022 09:10:28 +0200 (CEST)
-Date:   Tue, 19 Jul 2022 09:10:28 +0200
-From:   Christoph Hellwig <hch@lst.de>
-To:     John Garry <john.garry@huawei.com>
-Cc:     Damien Le Moal <damien.lemoal@opensource.wdc.com>, joro@8bytes.org,
-        will@kernel.org, jejb@linux.ibm.com, martin.petersen@oracle.com,
-        hch@lst.de, m.szyprowski@samsung.com, robin.murphy@arm.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-ide@vger.kernel.org, iommu@lists.linux.dev,
-        linux-scsi@vger.kernel.org, linuxarm@huawei.com
-Subject: Re: [PATCH v6 4/6] scsi: sd: Allow max_sectors be capped at DMA
- optimal size limit
-Message-ID: <20220719071028.GA28633@lst.de>
-References: <1657797329-98541-1-git-send-email-john.garry@huawei.com> <1657797329-98541-5-git-send-email-john.garry@huawei.com> <6725df4f-4e27-3320-8b7b-22ba15a07866@opensource.wdc.com> <e3dbd78e-95fe-ea61-8bcf-45ea02de1647@huawei.com>
+        with ESMTP id S233598AbiGSH3e (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Jul 2022 03:29:34 -0400
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3EAA731361;
+        Tue, 19 Jul 2022 00:29:33 -0700 (PDT)
+Received: by mail-ed1-f48.google.com with SMTP id y8so18419010eda.3;
+        Tue, 19 Jul 2022 00:29:33 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=A69jVjwpcXy4XlXaFIpNcd6h86BbCjk4wfR3cQladC4=;
+        b=pPqXdGz8gqqAq3CJH7ip2apePZWuQ8zqpIqmAIAdw4FLiD863HyAEIk5JaQyA4zAcK
+         fs2TqGAE0IfuExCwqBEULdFfuyEgkb+yiSZt80/n9sdzJIAjBXnu8NWQlvBK+LLqk6EP
+         OVrQRRMMCaUZGWHt/o2PudcOo7d6O8CzfRolmHSy0eTdX5qA8h1yvUypWjqu8YnheA7n
+         wo67encMML6iPPmKMiYlsix9EQI0Ahh1LdsTM1dB2Yhhblf+C8/bNi/gkAUuuMc1jtWt
+         80vTkvML0XkpTxDChcqUHnlWDiEd/C6rvxy9KBsh63JJceu/zLO+LE0r2Fzx4sw5gDTe
+         slnw==
+X-Gm-Message-State: AJIora+gqF7Y6QIloByEfz4e5ECVRQ/9Y5N6USN4dFz1fYuzaGemJcCl
+        /xCwbMN/wvOm2ck9uZFMl3mZUw8EpaE=
+X-Google-Smtp-Source: AGRyM1uyKJbAeE1LL0/xy8QCy3leak7UxnARBgApJ/NJTOapGYNNOP4BnEZboZViwWEpfLK3PnlWag==
+X-Received: by 2002:a05:6402:3454:b0:43a:86c8:637 with SMTP id l20-20020a056402345400b0043a86c80637mr42068430edc.393.1658215771535;
+        Tue, 19 Jul 2022 00:29:31 -0700 (PDT)
+Received: from ?IPV6:2a0b:e7c0:0:107::70f? ([2a0b:e7c0:0:107::70f])
+        by smtp.gmail.com with ESMTPSA id h9-20020aa7c609000000b0043ab1ad0b6bsm9996135edq.37.2022.07.19.00.29.29
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 19 Jul 2022 00:29:30 -0700 (PDT)
+Message-ID: <292b1e65-6ac3-80c7-1ab6-c0e750fd03f4@kernel.org>
+Date:   Tue, 19 Jul 2022 09:29:28 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <e3dbd78e-95fe-ea61-8bcf-45ea02de1647@huawei.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH 0/4] kbuild: lto: documentation fixes
+Content-Language: en-US
+To:     Bagas Sanjaya <bagasdotme@gmail.com>,
+        Masahiro Yamada <masahiroy@kernel.org>
+Cc:     "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Martin Liska <mliska@suse.cz>, Andi Kleen <ak@linux.intel.com>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>
+References: <20220716093249.19326-1-bagasdotme@gmail.com>
+ <CAK7LNASvOjn+abQ1196+tpvVYnj9zkPPnuc4on02aQG_YhU_dw@mail.gmail.com>
+ <51c4fbf0-bee9-4326-1ef0-bf2d25bde377@gmail.com>
+From:   Jiri Slaby <jirislaby@kernel.org>
+In-Reply-To: <51c4fbf0-bee9-4326-1ef0-bf2d25bde377@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jul 19, 2022 at 08:05:30AM +0100, John Garry wrote:
-> Christoph has now applied this (thanks, BTW), so would you like me to 
-> follow up with a patch on top with a comment?
+On 18. 07. 22, 9:17, Bagas Sanjaya wrote:
+> On 7/18/22 08:49, Masahiro Yamada wrote:
+>> On Sat, Jul 16, 2022 at 6:33 PM Bagas Sanjaya <bagasdotme@gmail.com> wrote:
+>>>
+>>> Here is documentation fixes for kbuild LTO feature tree [1]. Two patches
+>>> fixes warnings reported by kernel test robot, the others are formatting
+>>> improvements.
+>>
+>>
+>> Please do not submit patches unrelated to the mainline.
+>>
+>> This series applies to the individual repository of Jiri Slaby.
+>>
+> 
+> Seems like you missed the wording on cover letter, which said:
+> 
+>> Here is documentation fixes for kbuild LTO feature tree [1]
+> 
+> with link to the target tree, which is another way to say "The
+> series is applied on top of this tree, not the mainline".
 
-Please do.
+Yeah, but why to send the patches to all those people provided they have 
+no idea such a tree and changes exist at all?
+
+Anyway, applied to my tree.
+
+thanks,
+-- 
+js
