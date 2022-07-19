@@ -2,172 +2,211 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D74FCCA482
-	for <linux-doc@archiver.kernel.org>; Tue, 19 Jul 2022 22:46:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0AA4EC433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 19 Jul 2022 23:50:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240382AbiGSWqR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 19 Jul 2022 18:46:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46062 "EHLO
+        id S232291AbiGSXu3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 19 Jul 2022 19:50:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33632 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240356AbiGSWqP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Jul 2022 18:46:15 -0400
-Received: from mail-io1-xd35.google.com (mail-io1-xd35.google.com [IPv6:2607:f8b0:4864:20::d35])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F89B4E869
-        for <linux-doc@vger.kernel.org>; Tue, 19 Jul 2022 15:46:14 -0700 (PDT)
-Received: by mail-io1-xd35.google.com with SMTP id q14so13007744iod.3
-        for <linux-doc@vger.kernel.org>; Tue, 19 Jul 2022 15:46:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=lnuskSEx1rWRFyExO7VDAIyPqC7rs15nNdWPt5ojSJo=;
-        b=MjL9o3vEOb0cC/AOC29+FJHaYEDdp3YF4uPnUKdH2MSDVyDrF7ODr3Ke0Wcy4ilYzf
-         BzCFwxsZ/XHiEHTOzXcQJv3vCytelIwqMbSVQy/FRLtlMuURP6ov3NWCIw8RZPLahcDd
-         C48SeV+unpKZ2XPeGrdmEDCsa6LF6ZASoymNm+TqHMtWQYybbebrFT/9bV5YYeMDLZ4x
-         oaPJRoZ/aZAKBfaZ9E6cpvtaiAhFYSDi9LC7qcvIPN12naTuSVOg+/o2fA2e6EiO7Fa0
-         xHvsR1NLSDdqKv1q7gdh+mZLQNyp7KE54xFUiOdTzB8i+cvo8dMLbT1d0lXkvAObz4G2
-         IAjg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=lnuskSEx1rWRFyExO7VDAIyPqC7rs15nNdWPt5ojSJo=;
-        b=OeTDq0TH1y+7Hu2QekvnL8w/5euMKyxWkT8fkdcy0HoosKXYL/+HKb34gRMkCnS4MJ
-         fGogIMQasETBn+dFmkSn9JQAqVh35r53tDcDzzerPZz6BIfJGGCqu0PWS9olBnUNlDYV
-         hESLGu1vu8RqrzEvIagoJpuLWFq/ndYk4HdC4WIyiQIqTCKCXRrsFqjrYWclOPV/O6l0
-         u2tj8O8yQGc+kXRubZVzFHXmMPtnTCcBatOo6/nepMv7AquNn5UAfehkcI2uufbl7PTc
-         o8RxugO7CESc2orAXd9Zyimad+Kz6eu6/zL/DV1DcCnvshfpvl1/f9RQ6FoIAFmEGB0j
-         x53A==
-X-Gm-Message-State: AJIora9A48KkviAzG5qpZoOB16O6kmTnYtzD0YlofR2oVaCYGsEFbs+U
-        JVT4qNRxMcEpCaLRvWXZpDx6igdtu01SN7SeMeiTvA==
-X-Google-Smtp-Source: AGRyM1scKsvkgjvOBcySMD8ANT00O0TRABCY2NJ0UUBywdxmH7xhFhuqq83FJ/2EITJFvKlSUEurf8W9R+8SpfjeE5I=
-X-Received: by 2002:a05:6602:1644:b0:678:8ba4:8df6 with SMTP id
- y4-20020a056602164400b006788ba48df6mr16243773iow.138.1658270773545; Tue, 19
- Jul 2022 15:46:13 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220719195628.3415852-1-axelrasmussen@google.com>
- <20220719195628.3415852-3-axelrasmussen@google.com> <D43534E1-7982-45EE-8B16-2C4687F49E77@vmware.com>
-In-Reply-To: <D43534E1-7982-45EE-8B16-2C4687F49E77@vmware.com>
-From:   Axel Rasmussen <axelrasmussen@google.com>
-Date:   Tue, 19 Jul 2022 15:45:37 -0700
-Message-ID: <CAJHvVcigVqAibm0JODkiR=Pcd3E14xp0NB6acw2q2enwnrnLSA@mail.gmail.com>
-Subject: Re: [PATCH v4 2/5] userfaultfd: add /dev/userfaultfd for fine grained
- access control
-To:     Nadav Amit <namit@vmware.com>
-Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "Dmitry V . Levin" <ldv@altlinux.org>,
-        Gleb Fotengauer-Malinovskiy <glebfm@altlinux.org>,
-        Hugh Dickins <hughd@google.com>, Jan Kara <jack@suse.cz>,
+        with ESMTP id S232818AbiGSXu2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Jul 2022 19:50:28 -0400
+Received: from EUR05-DB8-obe.outbound.protection.outlook.com (mail-db8eur05on2078.outbound.protection.outlook.com [40.107.20.78])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8473D45981;
+        Tue, 19 Jul 2022 16:50:26 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=XW6LuT/gS92rx9toYcpmwAfy71NvEmQtuETLrlC6V8qSDy6+3rOgRF96X3JB+kD9lI39Q7a3tQ2UQ4AJ0Ybdql4joi4ZzYjFkcCELdXXjgSbALBZ6A66t46V04tahEYJTlG9pa3VeM28dymqOoqh2/T+H58B6Sh2mAwz/+NMIlIFfz5G+MCE0fAMlsSl3ZsW5Y0GqDr4iRAGn16NEiYRNa83p4Pvwub9efF06PTv0WzChB39uMQxmxnLVy59hFBt2vnz5GzUpWxeHi+SBWoDMII7S8+R2NBF+EAwhhlhjpiGZInOQ9qY2HkW3LZhvTQP94cdWWHxpT94ywjQuR3J8Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Fg7FcY8f9NgNKCZJVAYR1TR0Tcabg5CNBnbS0U2aw6o=;
+ b=OkPRI069MCBoWBYh4evgdQNHvI3vOtyjT7u3qQaZCuqK+M2PieSQ1L/azwdxW+jX6Xyg3yXPQmI2xHTXGmMSoIwkDjhF6d/8I8pK/6DCQOPKBzNmuDyroQ6e7Mlc9Ye7Vcfu2ujhA8L9x2ueimVMxZQ26fro0UOj43XRhshRzyR0CkSVYVuU1zjR2g76leOeN3n0yd81pqCjM7agn9SzMh6kS6k9C8e1dQPZRHXUNjv9rdAn8n6aD3FBIzqJFBGnU8huXP8v2JknjVLYhkgHs64nrEfbkMyOLv0vnofbV9SDDMvTLBrGRXE0bN3rEW8wjLUyBM28QENWicCLRg2qOg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=seco.com; dmarc=pass action=none header.from=seco.com;
+ dkim=pass header.d=seco.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=seco.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Fg7FcY8f9NgNKCZJVAYR1TR0Tcabg5CNBnbS0U2aw6o=;
+ b=adm33wrSd0cdyOHuj59aI4s4luoBONTUBNEPnlb1ZGWBaBR4S9kwlRETNk9Bkwh1azqL9X/7hHlAPq9845my288wAOY6VgGaXZUQqtiKnrLxNCwJbqgf2jqrCD5mvA9NMxWsySCbg2E2vuH57AQFjTXmltC/yXxWfq+2/b8S4+tJaWjHpuiXe5aZmErekZUX5HRyqQAEntc2UxKrF+INJMPXlewM2pU06mmIFuhLiLlPJCDy9A2PTp7Avl9ss4b6Y8UCTO71McP5TyVQcBH7UobSYdE/xYBtiqvVWC3Mcm5VTkGQaiwjB965Mn8hDIc1qKY+7J3K9dnwkmVtIHYq+w==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=seco.com;
+Received: from DB7PR03MB4972.eurprd03.prod.outlook.com (2603:10a6:10:7d::22)
+ by DB7PR03MB4811.eurprd03.prod.outlook.com (2603:10a6:10:30::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5438.23; Tue, 19 Jul
+ 2022 23:50:24 +0000
+Received: from DB7PR03MB4972.eurprd03.prod.outlook.com
+ ([fe80::757e:b75f:3449:45b1]) by DB7PR03MB4972.eurprd03.prod.outlook.com
+ ([fe80::757e:b75f:3449:45b1%6]) with mapi id 15.20.5438.023; Tue, 19 Jul 2022
+ 23:50:24 +0000
+From:   Sean Anderson <sean.anderson@seco.com>
+To:     netdev@vger.kernel.org, Andrew Lunn <andrew@lunn.ch>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Russell King <linux@armlinux.org.uk>
+Cc:     Alexandru Marginean <alexandru.marginean@nxp.com>,
+        Paolo Abeni <pabeni@redhat.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        linux-kernel@vger.kernel.org, Vladimir Oltean <olteanv@gmail.com>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Sean Anderson <sean.anderson@seco.com>,
+        Bhadram Varka <vbhadram@nvidia.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Mel Gorman <mgorman@techsingularity.net>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Mike Rapoport <rppt@kernel.org>, Peter Xu <peterx@redhat.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        zhangyi <yi.zhang@huawei.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux MM <linux-mm@kvack.org>,
-        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        Madalin Bucur <madalin.bucur@nxp.com>,
+        linux-doc@vger.kernel.org
+Subject: [PATCH v2 00/11] net: phy: Add support for rate adaptation
+Date:   Tue, 19 Jul 2022 19:49:50 -0400
+Message-Id: <20220719235002.1944800-1-sean.anderson@seco.com>
+X-Mailer: git-send-email 2.35.1.1320.gc452695387.dirty
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: BL1PR13CA0227.namprd13.prod.outlook.com
+ (2603:10b6:208:2bf::22) To DB7PR03MB4972.eurprd03.prod.outlook.com
+ (2603:10a6:10:7d::22)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 8e233c17-c0b1-49fb-f991-08da69e172a4
+X-MS-TrafficTypeDiagnostic: DB7PR03MB4811:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: gaDngFpu9xVSWYztqWxF2wcoUOGr+HFm3vGH8WY1lbY8zx6dJic/wZ6sWqkrp7ETMkGCRelnGWcogdMWZ8D8ZFMpG8l8aS4EwB6idnHBAwzU1u4b5hWuRgNhHJzACInmQ2t/ldlG0tBhjMxJ+JAOeCc+12JSzhu8uhPiEAQrqh/X4FDp7ORNjV7UYkDClMgIk309xIk5IAsFF+ZeMALOhG1FB61tYPLxN4iz1yMug/oMSkQZ1v1ue4xwZRvVSLUu3Z/z/HbFl8pRaNEmAkjOyoakg7Y1KfDicYV+hTio7qfD6tTYAH18dcvhen6RxFBRz5qvr1QZHRVKIvS24HlNnAn+bwEwy5jNkOQ1pWAt5b6CdGoxDTvt0RthoshiYznCdfs03qlZNT1BmazLtKAyisZS/9a5q5XCth/KJdI1KPaK30Ia1e1vokRpZomuR5pTa+yU0rBQCZ7AdXjce+xQirBhh4PA5NDPg0a5j2tx2rmEpTb7HvNu4ausS7xlRNhHe0jzzqlWRYSb6K87R/hvMovpHm2czIMONjAaPdjGg3YzueGGcFfiZAAInwbWx0h0yPN82NcvipYDaCnwSiML0Zw2z10uzH11UbATWI++OViVbWNLLQ2zbXQaO2s97/6Uv5Tt0+XsSa25+0YvCvvByqAguiM2hW0T1ZtLhNbONfYHO52OjrypepBEJdEHmkM+nbf8t1nAgFrM9uB7+LYUFR6wE8SXCxqzswHLLQRLD/T/4Ry5WliQaJmN+neb62WYxYe/XpWWwEdZEo0KgTN7puN7KiVkRlW+MqrxbzaQMgXTbIHmGsO0NLoibhozlBYNiSDWLkFlzdJg/PYyuA82Zw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB7PR03MB4972.eurprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(366004)(136003)(39850400004)(396003)(376002)(346002)(54906003)(2906002)(1076003)(83380400001)(186003)(66476007)(66946007)(966005)(8676002)(6666004)(4326008)(110136005)(36756003)(66556008)(52116002)(26005)(6512007)(6506007)(2616005)(38350700002)(478600001)(86362001)(41300700001)(44832011)(5660300002)(316002)(7416002)(8936002)(38100700002)(6486002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?NfNwkst3JPu/wcaYThYoFo8oU4tvq41Q7VdLoOaOpWcpoB5uPuerfvdYJuye?=
+ =?us-ascii?Q?xs2C85HPz6yo4voHqtnEGQ+GnTtc2otXeE7TZIN4tU+yhuAiseSu204MnqDu?=
+ =?us-ascii?Q?ySitsReGvC+3GzK+Jt+2JQ5lVTfuViSCFRSycF4Uc8YpiOQlmPPUxdKS+95M?=
+ =?us-ascii?Q?Acy6Acbz/cmaUzxLbhLU8ZyTNfiBZFHEeop39UNzn0Rq62u5L0kZx8BcYx2m?=
+ =?us-ascii?Q?lUC/hrOFr7vg5FqaTnIXOegq14hTgY3K+fvE155xhgIT1xzAhJs6bzzSB91B?=
+ =?us-ascii?Q?mYHriF+THZDPcvtcexrvKpqbcDLeidt8de5S+rBUWRYPNsb0DMNjVAqTaxRH?=
+ =?us-ascii?Q?tXDCXVnWcTOFGiCb/Alls2Gqna62TrPXOlBf2Dnd6XK7mYk5OapUP8zejGN8?=
+ =?us-ascii?Q?ft99K97sRIAhT4oKZsYmoLlZsrZfnj1Vyhc/nzZIboFUlz0CtkHk3+4F3KJy?=
+ =?us-ascii?Q?R2eJF6M6OCFPVgkJbgHRwa7PaCQqq4CkzHH/tDp812hStucXAyrKrmJ3eKfH?=
+ =?us-ascii?Q?HFnWceOla4j7tEUGrgzZVOGdD2mEjWD/868w7ZGkpGaq8r2FamSZM3/gG/Av?=
+ =?us-ascii?Q?E67pU0xfU1be44Z8y3CdarYnS2do3fRT26owu1I69/IMSyKAsNIqFkhDfZAX?=
+ =?us-ascii?Q?bCN7pocz4vEHapGkTXMw+ETQf5HmfzMYKocCgHDpFJy2fVIcccByXoRnAI66?=
+ =?us-ascii?Q?0gxAD3i/gYOJNOhtLaIoMOQMsW2W7aYLz3uVSnwEwPKwE96yVYk7ZgyDTeBD?=
+ =?us-ascii?Q?Zf0BmJ1GFKVMliGPwDiYMs10EWYvrcQRcLz6BTB4Ey6Ar7LYUVf8GX8iS88/?=
+ =?us-ascii?Q?LMkLmfWcLWKn+UvylERNZoasPQWuKcYIFnrZS58xi9r8zOdVFnTYLHQ1J2Xg?=
+ =?us-ascii?Q?Zui/1W8uggpZWzwYZU9k+ZZ2gZXa895Tu+jQ9KrUCnuVrjVuuY05SyHQxmMk?=
+ =?us-ascii?Q?K3wDZURJTDjl4/A8quyV8LBagvw1tbJFz0xaV6gsRWxteDGdz4THZRrSgspJ?=
+ =?us-ascii?Q?60WRKHPo6GeB5jiARApzYrj1xfmBPJzuPww/AqznguOmA8UvDCYhQLgw6OC3?=
+ =?us-ascii?Q?Fk4tNieEz1hkcqz0gmX+K+le2XxdSVGUrc9xNX7347fboDm8TF+aPPnZKAYC?=
+ =?us-ascii?Q?kuXSwuBxSM/HpA/M+/so8v2F+iNFr7g47ORWWcO+5iXFjJN1BRdk3b6Wc596?=
+ =?us-ascii?Q?JdQIoh6g1qy5vs6IC2syxENbwrmyfh/sutXxB8iy5SXlCZ6WYldvoEr+wIRl?=
+ =?us-ascii?Q?uwogrrdgGcLHIzjSrGb12H5FknocnOtMRgqWolw6GjzZ4U5/e/dK1k6ub9+k?=
+ =?us-ascii?Q?4WZbPe2K4iwGFEMDLd0oYTy2Hyi1Ad2tZqO+98uFml97ddQqebMQV7UHfywL?=
+ =?us-ascii?Q?+S5W71rEm+kMksHicWG/edChsTMKwIfuuUQlPqECGWWMHD6cLFMrK0JSKGdl?=
+ =?us-ascii?Q?GdSd72XGT+9cgoK2qEb3DrpALIuh+hs75XQZ2e7k4JcQs3j/hk6A+HaT0Jis?=
+ =?us-ascii?Q?EoMspkqk8NqCganowO/fup2czdNxIzjf+1M1OhG6JHsY3fQnKerXOBqbE/fO?=
+ =?us-ascii?Q?kzlUelIK60kO+pi2VBl0edYWsfWQrqe+gbUDWazR9mzrEgM9jB7WdKeSCdyI?=
+ =?us-ascii?Q?TA=3D=3D?=
+X-OriginatorOrg: seco.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8e233c17-c0b1-49fb-f991-08da69e172a4
+X-MS-Exchange-CrossTenant-AuthSource: DB7PR03MB4972.eurprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jul 2022 23:50:24.0193
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: bebe97c3-6438-442e-ade3-ff17aa50e733
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: qA5Dno1HBqxVgupKi9ceVkK1vAlSbhiCBY7uUgzfZp/jqRkejKb7UJUzi1ychNexeDG0Ygsq3kNRc0Xgy16/kA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB7PR03MB4811
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jul 19, 2022 at 3:32 PM Nadav Amit <namit@vmware.com> wrote:
->
-> On Jul 19, 2022, at 12:56 PM, Axel Rasmussen <axelrasmussen@google.com> w=
-rote:
->
-> > Historically, it has been shown that intercepting kernel faults with
-> > userfaultfd (thereby forcing the kernel to wait for an arbitrary amount
-> > of time) can be exploited, or at least can make some kinds of exploits
-> > easier. So, in 37cd0575b8 "userfaultfd: add UFFD_USER_MODE_ONLY" we
-> > changed things so, in order for kernel faults to be handled by
-> > userfaultfd, either the process needs CAP_SYS_PTRACE, or this sysctl
-> > must be configured so that any unprivileged user can do it.
-> >
-> > In a typical implementation of a hypervisor with live migration (take
-> > QEMU/KVM as one such example), we do indeed need to be able to handle
-> > kernel faults. But, both options above are less than ideal:
-> >
-> > - Toggling the sysctl increases attack surface by allowing any
-> >  unprivileged user to do it.
-> >
-> > - Granting the live migration process CAP_SYS_PTRACE gives it this
-> >  ability, but *also* the ability to "observe and control the
-> >  execution of another process [...], and examine and change [its]
-> >  memory and registers" (from ptrace(2)). This isn't something we need
-> >  or want to be able to do, so granting this permission violates the
-> >  "principle of least privilege".
-> >
-> > This is all a long winded way to say: we want a more fine-grained way t=
-o
-> > grant access to userfaultfd, without granting other additional
-> > permissions at the same time.
-> >
-> > To achieve this, add a /dev/userfaultfd misc device. This device
-> > provides an alternative to the userfaultfd(2) syscall for the creation
-> > of new userfaultfds. The idea is, any userfaultfds created this way wil=
-l
-> > be able to handle kernel faults, without the caller having any special
-> > capabilities. Access to this mechanism is instead restricted using e.g.
-> > standard filesystem permissions.
->
-> Are there any other =E2=80=9Cdevices" that when opened by different proce=
-sses
-> provide such isolated interfaces in each process? I.e., devices that if y=
-ou
-> read from them in different processes you get completely unrelated data?
-> (putting aside namespaces).
->
-> It all sounds so wrong to me, that I am going to try again to pushback
-> (sorry).
+This adds support for phy rate adaptation: when a phy adapts between
+differing phy interface and link speeds. It was originally submitted as
+part of [1], which is considered "v1" of this series.
 
-No need to be sorry. :)
+We need support for rate adaptation for two reasons. First, the phy
+consumer needs to know if the phy will perform rate adaptation in order to
+program the correct advertising. An unaware consumer will only program
+support for link modes at the phy interface mode's native speed. This will
+cause autonegotiation to fail if the link partner only advertises support
+for lower speed link modes.
 
->
-> From a semantic point of view - userfaultfd is process specific. It is
-> therefore similar to /proc/[pid]/mem (or /proc/[pid]/pagemap and so on).
->
-> So why can=E2=80=99t we put it there? I saw that you argued against it in=
- your
-> cover-letter, and I think that your argument is you would need
-> CAP_SYS_PTRACE if you want to access userfaultfd of other processes. But
-> this is EXACTLY the way opening /proc/[pid]/mem is performed - see
-> proc_mem_open().
->
-> So instead of having some strange device that behaves differently in the
-> context of each process, you can just have /proc/[pid]/userfaultfd and th=
-en
-> use mm_access() to check if you have permissions to access userfaultfd (j=
-ust
-> like proc_mem_open() does). This would be more intuitive for users as it =
-is
-> similar to other /proc/[pid]/X, and would cover both local and remote
-> use-cases.
+Second, to reduce packet loss it may be desirable to throttle packet
+throughput. In past discussions [2-4], this behavior has been
+controversial. It is the opinion of several developers that it is the
+responsibility of the system integrator or end user to set the link
+settings appropriately for rate adaptation. In particular, it was argued
+that it is difficult to determine whether a particular phy has rate
+adaptation enabled, and it is simpler to keep such determinations out of
+the kernel. Another criticism is that packet loss may happen anyway, such
+as if a faster link is used with a switch or repeater that does not support
+pause frames.
 
-Ah, so actually I find this argument much more compelling.
+I believe that our current approach is limiting, especially when
+considering that rate adaptation (in two forms) has made it into IEEE
+standards. In general, When we have appropriate information we should set
+sensible defaults. To consider use a contrasting example, we enable pause
+frames by default for switches which autonegotiate for them. When it's the
+phy itself generating these frames, we don't even have to autonegotiate to
+know that we should enable pause frames.
 
-I don't find it persuasive that we should put it in /proc for the
-purpose of supporting cross-process memory manipulation, because I
-think the syscall works better for that, and in that case we don't
-mind depending on CAP_SYS_PTRACE.
+Our current approach also encourages workarounds, such as commit
+73a21fa817f0 ("dpaa_eth: support all modes with rate adapting PHYs").
+These workarounds are fine for phylib drivers, but phylink drivers cannot
+use this approach (since there is no direct access to the phy). Note that
+even when we determine (e.g.) the pause settings based on whether rate
+adaptation is enabled, they can still be overridden by userspace (using
+ethtool). It might be prudent to allow disabling of rate adaptation
+generally in ethtool as well.
 
-But, what you've argued here I do find persuasive. :) You are right, I
-can't think of any other example of a device node in /dev that works
-like this, where it is completely independent on a per-process basis.
-The closest I could come up with was /dev/zero or /dev/null or
-similar. You won't affect any other process by touching these, but I
-don't think these are good examples.
+[1] https://lore.kernel.org/netdev/20220715215954.1449214-1-sean.anderson@seco.com/T/#t
+[2] https://lore.kernel.org/netdev/1579701573-6609-1-git-send-email-madalin.bucur@oss.nxp.com/
+[3] https://lore.kernel.org/netdev/1580137671-22081-1-git-send-email-madalin.bucur@oss.nxp.com/
+[4] https://lore.kernel.org/netdev/20200116181933.32765-1-olteanv@gmail.com/
 
-I'll send a v5 which does this. I do worry that cross-process support
-is probably complex to get right, so I might leave that out and only
-allow a process to open its own device for now.
+Changes in v2:
+- Use int/defines instead of enum to allow for use in ioctls/netlink
+- Add locking to phy_get_rate_adaptation
+- Add (read-only) ethtool support for rate adaptation
+- Move part of commit message to cover letter, as it gives a good
+  overview of the whole series, and allows this patch to focus more on
+  the specifics.
+- Support keeping track of link duplex
+- Rewrite commit message for clarity
+- Expand documentation of (link_)?(speed|duplex)
+- Fix handling of speed/duplex gotten from MAC drivers
+- Use the phy's rate adaptation setting to determine whether to use its
+  link speed/duplex or the MAC's speed/duplex with MLO_AN_INBAND.
+- Always use the rate adaptation setting to determine the interface
+  speed/duplex (instead of sometimes using the interface mode).
+- Determine the interface speed and max mac speed directly instead of
+  guessing based on the caps.
+- Add comments clarifying the register defines
+- Reorder variables in aqr107_read_rate
 
->
+Sean Anderson (11):
+  net: dpaa: Fix <1G ethernet on LS1046ARDB
+  net: phy: Add 1000BASE-KX interface mode
+  net: phylink: Export phylink_caps_to_linkmodes
+  net: phylink: Generate caps and convert to linkmodes separately
+  net: phy: Add support for rate adaptation
+  net: phylink: Support differing link/interface speed/duplex
+  net: phylink: Adjust link settings based on rate adaptation
+  net: phylink: Adjust advertisement based on rate adaptation
+  [RFC] net: phylink: Add support for CRS-based rate adaptation
+  net: phy: aquantia: Add some additional phy interfaces
+  net: phy: aquantia: Add support for rate adaptation
+
+ Documentation/networking/ethtool-netlink.rst  |   2 +
+ .../net/ethernet/freescale/dpaa/dpaa_eth.c    |   6 +-
+ drivers/net/phy/aquantia_main.c               |  68 +++-
+ drivers/net/phy/phy-core.c                    |  15 +
+ drivers/net/phy/phy.c                         |  28 ++
+ drivers/net/phy/phylink.c                     | 340 +++++++++++++++---
+ include/linux/phy.h                           |  26 +-
+ include/linux/phylink.h                       |  23 +-
+ include/uapi/linux/ethtool.h                  |  18 +-
+ include/uapi/linux/ethtool_netlink.h          |   1 +
+ net/ethtool/ioctl.c                           |   1 +
+ net/ethtool/linkmodes.c                       |   5 +
+ 12 files changed, 470 insertions(+), 63 deletions(-)
+
+-- 
+2.35.1.1320.gc452695387.dirty
+
