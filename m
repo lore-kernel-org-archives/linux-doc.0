@@ -2,173 +2,177 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8CB31C43334
-	for <linux-doc@archiver.kernel.org>; Tue, 19 Jul 2022 10:18:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2FA63CCA481
+	for <linux-doc@archiver.kernel.org>; Tue, 19 Jul 2022 12:40:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234846AbiGSKSV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 19 Jul 2022 06:18:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42740 "EHLO
+        id S238307AbiGSMkB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 19 Jul 2022 08:40:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50164 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230148AbiGSKSU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Jul 2022 06:18:20 -0400
-Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com [IPv6:2a00:1450:4864:20::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B2271A3A6
-        for <linux-doc@vger.kernel.org>; Tue, 19 Jul 2022 03:18:19 -0700 (PDT)
-Received: by mail-lf1-x133.google.com with SMTP id n18so23979886lfq.1
-        for <linux-doc@vger.kernel.org>; Tue, 19 Jul 2022 03:18:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=X7pXrZ/HDJ3d2asM8pon3/muUlYbN2k/DWcaWmbYWnA=;
-        b=fHLNZ9eWqWv+ABbWlQP9qX9VpPklLsctv3K2LWjcdgVw3VFsfGYA46dkZmDC5PyzM0
-         ovn04kSza5gj2QTJ9SPwFNAsGbwjt7HwA2ML8x4EKZ9viwdqw+ZuMC9/XmXBaA7qb4NO
-         3n8HOY+lN4aF0Vmem+eF5uiMrA7bndBST9Ahw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=X7pXrZ/HDJ3d2asM8pon3/muUlYbN2k/DWcaWmbYWnA=;
-        b=BYmMftlHurQP8pR0EzZqHRd9THe0Ef0xPeIt23tqhm8ikzfKgUAnnIgHERckQrZM2M
-         fmb7uRHNUN8fGROnDo3V9TsQMwDop9swpr4HdrV6ZGiGPkBP+0wePUsQYdogMxX7kfxH
-         OErZDY/R3WdNrm5weRXkwX5Tmwvu0QfCPnDwfOwEiziYHchlV9KBvFc1AgMgQH2A+FWL
-         qitUDl9wC3aUSrqm/AI1g+bXeeOi3O1ozxgwyParumWkZMjy2R31J77m/4/B3qnD9Meq
-         ETnwocacjEIPboZtvq6ZRTaFr8JiqFIiLY8kxw22XObDAzvEvi8u27LI1W/CBgulZbqQ
-         41Pw==
-X-Gm-Message-State: AJIora9ZbsgmyaVy7sHv8cJTImK/kDdP4K+NT9df13N8PQC8KKvIxDFL
-        bcZGKTDW+7kaM0B/mO9Rp4/g1eGBJASnset8kzWgGw==
-X-Google-Smtp-Source: AGRyM1vWZYdf3RxigFOz2S5jXb76kASW4Vsi3luTqT/0DxUcCxPXHuG4L6ZmeF23XXPmputBt2fyE2OyVUybDZnVp5c=
-X-Received: by 2002:a05:6512:230f:b0:489:676f:2705 with SMTP id
- o15-20020a056512230f00b00489676f2705mr16467995lfu.419.1658225897846; Tue, 19
- Jul 2022 03:18:17 -0700 (PDT)
+        with ESMTP id S240659AbiGSMi0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Jul 2022 08:38:26 -0400
+Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9E6B1096;
+        Tue, 19 Jul 2022 05:15:05 -0700 (PDT)
+Received: from fews1.riseup.net (fews1-pn.riseup.net [10.0.1.83])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
+         client-signature RSA-PSS (2048 bits) client-digest SHA256)
+        (Client CN "mail.riseup.net", Issuer "R3" (not verified))
+        by mx1.riseup.net (Postfix) with ESMTPS id 4LnHg40tP6zDr1t;
+        Tue, 19 Jul 2022 12:08:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
+        t=1658232528; bh=Z13t3JOfWBRbGEZspQFZUoMZr2VJ7vNKr43KVUMXLlc=;
+        h=Date:Subject:To:References:From:In-Reply-To:From;
+        b=pWm379O8WhBzqWzedY4Y/sJ+9XR6AK7oaYUmBneLjkVB81aPy/H70yCPZOC5SJ0Hv
+         Atkc9JXBhwY4VYE0689smXDfL2jDJEx8v/1u2btFfQR6TZ4EEvA24vO+gKOnPb1wqq
+         8xGkCeG/v1nUQR7vdXQq4Pe5JUMKYHdMtkHl+GF4=
+X-Riseup-User-ID: CC50CB2FC9280A4B27EC4D83902A937600070A38BFC170A4ECC504A879609B86
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+         by fews1.riseup.net (Postfix) with ESMTPSA id 4LnHg12K6Nz5vW6;
+        Tue, 19 Jul 2022 12:08:45 +0000 (UTC)
+Message-ID: <8e0ad6ee-2542-1049-6106-b5dcc44ec164@riseup.net>
+Date:   Tue, 19 Jul 2022 09:08:41 -0300
 MIME-Version: 1.0
-References: <0220707182950.29348-1-vikas.gupta@broadcom.com>
- <20220718062032.22426-1-vikas.gupta@broadcom.com> <20220718062032.22426-2-vikas.gupta@broadcom.com>
- <20220718203346.6aab5c4e@kernel.org>
-In-Reply-To: <20220718203346.6aab5c4e@kernel.org>
-From:   Vikas Gupta <vikas.gupta@broadcom.com>
-Date:   Tue, 19 Jul 2022 15:48:05 +0530
-Message-ID: <CAHLZf_uLHdz3hxz+ZtkoK_wGLpfPbh_cdkWOnmpRBX6TpNTDEg@mail.gmail.com>
-Subject: Re: [PATCH net-next v3 1/3] devlink: introduce framework for selftests
-To:     Jakub Kicinski <kuba@kernel.org>
-Cc:     Jiri Pirko <jiri@nvidia.com>, netdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        "David S. Miller" <davem@davemloft.net>, dsahern@kernel.org,
-        stephen@networkplumber.org, Eric Dumazet <edumazet@google.com>,
-        pabeni@redhat.com, ast@kernel.org, leon@kernel.org,
-        linux-doc@vger.kernel.org, corbet@lwn.net,
-        Michael Chan <michael.chan@broadcom.com>,
-        Andrew Gospodarek <andrew.gospodarek@broadcom.com>
-Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
-        boundary="0000000000009d7a8e05e425cd05"
+Subject: Re: [PATCH] Documentation: kunit: Add CLI args for kunit_tool
+Content-Language: en-US
+To:     Sadiya Kazi <sadiyakazi@google.com>, brendanhiggins@google.com,
+        davidgow@google.com, skhan@linuxfoundation.org, corbet@lwn.net,
+        linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20220719092214.995965-1-sadiyakazi@google.com>
+From:   =?UTF-8?Q?Ma=c3=adra_Canal?= <mairacanal@riseup.net>
+In-Reply-To: <20220719092214.995965-1-sadiyakazi@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
---0000000000009d7a8e05e425cd05
-Content-Type: text/plain; charset="UTF-8"
+On 7/19/22 06:22, 'Sadiya Kazi' via KUnit Development wrote:
+> Run_wrapper.rst was missing some command line arguments. Added
+> additional args in the file. Included all initial review comments.
+> 
+> Signed-off-by: Sadiya Kazi <sadiyakazi@google.com>
+> ---
+>  Documentation/dev-tools/kunit/run_wrapper.rst | 48 +++++++++++++++++++
+>  1 file changed, 48 insertions(+)
+> 
+> diff --git a/Documentation/dev-tools/kunit/run_wrapper.rst b/Documentation/dev-tools/kunit/run_wrapper.rst
+> index 5e560f2c5fca..91f5dda36e83 100644
+> --- a/Documentation/dev-tools/kunit/run_wrapper.rst
+> +++ b/Documentation/dev-tools/kunit/run_wrapper.rst
+> @@ -257,3 +257,51 @@ command line arguments:
+>              added or modified. Instead, enable all tests
+>              which have satisfied dependencies by adding
+>              ``CONFIG_KUNIT_ALL_TESTS=y`` to your ``.kunitconfig``.
+> +- ``--kunitconfig``: Specifies the path to the ``.kunitconfig`` file.
+> +  This Kconfig fragment enables KUnit tests. The "/.kunitconfig" gets
+> +  appended to the path specified. For example, If a directory path "lib/kunit"
+You might want to change it for a lower-case "if", like: "For example,
+if a directory path "lib/kunit"".
 
-Hi Jakub,
+> +  is given, the complete path will be "lib/kunit/.kunitconfig".
 
-On Tue, Jul 19, 2022 at 9:03 AM Jakub Kicinski <kuba@kernel.org> wrote:
->
-> On Mon, 18 Jul 2022 11:50:30 +0530 Vikas Gupta wrote:
-> > +     for (i = 1; i < DEVLINK_SELFTEST_ATTR_MAX + 1; i++) {
-> > +             u8 res;
-> > +
-> > +             if (nla_get_flag(tb[i])) {
-> > +                     res = devlink->ops->selftest_run(devlink, i,
->
-> Shouldn't we selftest_check() first to make sure the driver supports
-> given test?
- Yes, I`ll add selftest_check() here rather than letting the driver return SKIP.
+This explanation may imply that if I pass `--kunitconfig
+lib/kunit/.kunitconfig` it wouldn't work, as "/.kunitconfig" is always
+appended to the path. But this is not true, both `--kunitconfig
+lib/kunit/.kunitconfig` and `--kunitconfig lib/kunit` are valid options.
 
-Thanks,
-Vikas
+> +
+> +- ``--kconfig_add``: Specifies additional configuration options to be
+> +  appended to the ``.kunitconfig`` file. For example, ``CONFIG_KASAN=y``.
 
->
-> > +     [DEVLINK_ATTR_SELFTESTS_INFO] = { .type = NLA_NESTED },
->
->         ... = NLA_POLICY_NESTED(devlink_selftest_nl_policy),
+You could expand this example to:
+```
+./tools/testing/kunit/kunit.py run --kconfig_add CONFIG_KASAN=y
+```
 
---0000000000009d7a8e05e425cd05
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Description: S/MIME Cryptographic Signature
+> +
+> +- ``--arch``: Runs tests with the specified architecture. The architecture
 
-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
-I7qKxvF8Yo7eGTnHRTa99J+6yTd88AKVuhM5TEhpC8cS7qvrQXJje+Uing2xWC4FH76LEWIFH0Pt
-x8C1WoCU0ClXHU/XfzH2mYrFANBSCeP1Co6QdEfRAgMBAAGjggHZMIIB1TAOBgNVHQ8BAf8EBAMC
-BaAwgaMGCCsGAQUFBwEBBIGWMIGTME4GCCsGAQUFBzAChkJodHRwOi8vc2VjdXJlLmdsb2JhbHNp
-Z24uY29tL2NhY2VydC9nc2djY3IzcGVyc29uYWxzaWduMmNhMjAyMC5jcnQwQQYIKwYBBQUHMAGG
-NWh0dHA6Ly9vY3NwLmdsb2JhbHNpZ24uY29tL2dzZ2NjcjNwZXJzb25hbHNpZ24yY2EyMDIwME0G
-A1UdIARGMEQwQgYKKwYBBAGgMgEoCjA0MDIGCCsGAQUFBwIBFiZodHRwczovL3d3dy5nbG9iYWxz
-aWduLmNvbS9yZXBvc2l0b3J5LzAJBgNVHRMEAjAAMEkGA1UdHwRCMEAwPqA8oDqGOGh0dHA6Ly9j
-cmwuZ2xvYmFsc2lnbi5jb20vZ3NnY2NyM3BlcnNvbmFsc2lnbjJjYTIwMjAuY3JsMCMGA1UdEQQc
-MBqBGHZpa2FzLmd1cHRhQGJyb2FkY29tLmNvbTATBgNVHSUEDDAKBggrBgEFBQcDBDAfBgNVHSME
-GDAWgBSWM9HmWBdbNHWKgVZk1b5I3qGPzzAdBgNVHQ4EFgQUUc6J11rH3s6PyZQ0zIVZHIuP20Yw
-DQYJKoZIhvcNAQELBQADggEBALvCjXn9gy9a2nU/Ey0nphGZefIP33ggiyuKnmqwBt7Wk/uDHIIc
-kkIlqtTbo0x0PqphS9A23CxCDjKqZq2WN34fL5MMW83nrK0vqnPloCaxy9/6yuLbottBY4STNuvA
-mQ//Whh+PE+DZadqiDbxXbos3IH8AeFXH4A1zIqIrc0Um2/CSD/T6pvu9QrchtvemfP0z/f1Bk+8
-QbQ4ARVP93WV1I13US69evWXw+mOv9VnejShU9PMcDK203xjXbBOi9Hm+fthrWfwIyGoC5aEf7vd
-PKkEDt4VZ9RbudZU/c3N8+kURaHNtrvu2K+mQs5w/AF7HYZThqmOzQJnvMRjuL8xggJtMIICaQIB
-ATBrMFsxCzAJBgNVBAYTAkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNhMTEwLwYDVQQDEyhH
-bG9iYWxTaWduIEdDQyBSMyBQZXJzb25hbFNpZ24gMiBDQSAyMDIwAgwYjepatB64S625eswwDQYJ
-YIZIAWUDBAIBBQCggdQwLwYJKoZIhvcNAQkEMSIEIPeRd4ySqSrwDRvaR7uQAXeJPfGMD381HI/X
-ZR+Cjo/1MBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZIhvcNAQkFMQ8XDTIyMDcxOTEw
-MTgxOFowaQYJKoZIhvcNAQkPMVwwWjALBglghkgBZQMEASowCwYJYIZIAWUDBAEWMAsGCWCGSAFl
-AwQBAjAKBggqhkiG9w0DBzALBgkqhkiG9w0BAQowCwYJKoZIhvcNAQEHMAsGCWCGSAFlAwQCATAN
-BgkqhkiG9w0BAQEFAASCAQBGGKJwBUM5c3nK3Jc7Drp2EObFASrrI9baq1lRVGzkl5OS1+BDA5CX
-YDSYVR4Bv8OW4OlyEVZlDLjIRJ5NNYxlfMBQtqIbouM5Lw5aVfJGlskOAj62HrJbrDe4rVeTYZMM
-x9moEVEjmg4C0STTm8Zqsd90pjttnmT3GQppZY0C0qYGzsz364i3I+FNkzxePLNqOKto4/bUQmSA
-qTfeqlcqB5A6nsX/VnfE6k1uplrVdXYEtY4jIN1QcWnVc0i6VAaqJnLtytZHs+xHkuMi4CaE5/bf
-BOORt3rxavcnFGKMeEYCehs/Pmp9QqO5R8GmcYmhyRnVWZp8OqngOZX1nfEO
---0000000000009d7a8e05e425cd05--
+"Runs tests on the specified architecture."
+
+> +  specified must match the string passed to the ARCH make parameter.
+
+ARCH is not a "make parameter", ARCH is a environment variable.
+Therefor, ARCH is not "passed to make", as it a environment variable on
+the shell. Check the ARCH documentation [1].
+
+> +  For example, i386, x86_64, arm, um, etc. Non-UML architectures run on QEMU.
+> +  Default to 'um'.
+> +
+> +- ``--cross_compile``: Specifies the Kbuild toolchain. It passes the
+> +  same argument as passed to the ``CROSS_COMPILE`` variable used by> +  Kbuild. This will be the prefix for the toolchain
+> +  binaries such as GCC. For example:
+> +
+> +  - ``sparc64-linux-gnu`` if we have the sparc toolchain installed on
+> +    our system.
+> +
+> +  - ``$HOME/toolchains/microblaze/gcc-9.2.0-nolibc/microblaze-linux/bin/microblaze-linux``
+> +    if we have downloaded the microblaze toolchain from the 0-day
+> +    website to a specified path in our home directory called toolchains.
+
+This is a copy of the explanation on [2]. You may want to delete the
+previous explanation or change this one.
+
+> +
+> +- ``--qemu_config``: Specifies the path to the file containing a
+
+"Specifies the path to a file containing a"
+
+> +  custom qemu architecture definition. This should be a python file
+> +  containing a QemuArchParams object.
+
+"containing a `QemuArchParams` object."
+
+The qemu_config has also a pretty good documentation on [2].
+
+> +
+> +- ``--qemu_args``: Specifies additional QEMU arguments, for example, "-smp 8".
+> +
+> +- ``--jobs``: Specifies the number of jobs (commands) to run simultaneously.
+> +  By default, this is set to the number of cores on your system.
+
+This CLI argument is already explained on [3]. You may want to delete
+the previous explanation or change this one.
+
+> +
+> +- ``--timeout``: Specifies the maximum number of seconds allowed for all tests to run.
+> +  This does not include the time taken to build the tests.
+
+Same here.
+
+> +
+> +- ``--kernel_args``: Specifies the kernel command-line arguments. Might be repeated.
+> +
+> +- ``--run_isolated``: If set, boots the kernel for each individual suite/test.
+> +  This is useful for debugging a non-hermetic test, one that
+> +  might pass/fail based on what ran before it.
+> +
+> +- ``--raw_output``: If set, generates unformatted output from kernel.
+> +  If set to ``--raw_output=kunit``, filters to just KUnit output.
+
+This command line argument is already explain on the Parse Test Results
+section [4].
+
+> +
+> +- ``--json``: If set, it stores the test results in a JSON format and prints to stdout or
+
+"If set, it stores the test results in a JSON format and prints it to
+`stdout` or"
+
+> +  saves to a file if a filename is specified.
+
+It's great to see new documentation for KUnit!
+
+[1] https://docs.kernel.org/kbuild/kbuild.html#arch
+[2]
+https://docs.kernel.org/dev-tools/kunit/run_wrapper.html#run-tests-on-qemu
+[3]
+https://docs.kernel.org/dev-tools/kunit/run_wrapper.html#run-tests-with-kunit-tool
+[4]
+https://docs.kernel.org/dev-tools/kunit/run_wrapper.html#parse-test-results
+
+Best Regards,
+- Maíra Canal
