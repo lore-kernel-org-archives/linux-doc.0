@@ -2,96 +2,116 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B1FFC43334
-	for <linux-doc@archiver.kernel.org>; Tue, 19 Jul 2022 13:52:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1CA1ECCA47F
+	for <linux-doc@archiver.kernel.org>; Tue, 19 Jul 2022 13:52:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231549AbiGSNwg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 19 Jul 2022 09:52:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56840 "EHLO
+        id S237135AbiGSNwh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 19 Jul 2022 09:52:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56428 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237169AbiGSNwX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Jul 2022 09:52:23 -0400
+        with ESMTP id S237499AbiGSNwY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Jul 2022 09:52:24 -0400
 Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 3062C114161
-        for <linux-doc@vger.kernel.org>; Tue, 19 Jul 2022 06:04:29 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 4760D9CE10
+        for <linux-doc@vger.kernel.org>; Tue, 19 Jul 2022 06:04:30 -0700 (PDT)
 Received: from localhost.localdomain (unknown [112.20.110.136])
-        by mail.loongson.cn (Coremail) with SMTP id AQAAf9Axn+LYq9ZiM4QoAA--.11347S2;
-        Tue, 19 Jul 2022 21:04:25 +0800 (CST)
+        by mail.loongson.cn (Coremail) with SMTP id AQAAf9Axn+LYq9ZiM4QoAA--.11347S5;
+        Tue, 19 Jul 2022 21:04:29 +0800 (CST)
 From:   Binbin Zhou <zhoubinbin@loongson.cn>
 To:     alexs@kernel.org, siyanteng@loongson.cn
 Cc:     corbet@lwn.net, chenhuacai@loongson.cn, bobwxc@email.cn,
         linux-doc@vger.kernel.org, Binbin Zhou <zhoubinbin@loongson.cn>
-Subject: [PATCH v2 0/4] docs/zh_CN: core-api: Add some translations for the "Data structures" section(Part 1)
-Date:   Tue, 19 Jul 2022 21:04:14 +0800
-Message-Id: <cover.1658196777.git.zhoubinbin@loongson.cn>
+Subject: [PATCH v2 3/4] docs/zh_CN: core-api: Add generic-radix-tree Chinese translation
+Date:   Tue, 19 Jul 2022 21:04:17 +0800
+Message-Id: <b19a0f518abb690cedd269be3b0f656d5ec0d3eb.1658196777.git.zhoubinbin@loongson.cn>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <cover.1658196777.git.zhoubinbin@loongson.cn>
+References: <cover.1658196777.git.zhoubinbin@loongson.cn>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9Axn+LYq9ZiM4QoAA--.11347S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7ZFW3ZF1DJF13ZrykWry7trb_yoW8CFWUpF
-        4akr1fJ3WDAFyxCrs3Wry7WFy5JFWfW3s0gws7Xw1SvrWrAayFvrs0yrya9ayxJryvgFyr
-        Zrs3KrWDu34jyrJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUkq14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-        rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-        1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
-        6r4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
-        Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
-        I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
-        4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCY02Avz4vE14v_Xr4l
-        42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJV
-        WUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAK
-        I48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r
-        4UMIIF0xvE42xK8VAvwI8IcIk0rVWrZr1j6s0DMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF
-        0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7VUjHGQDUUUUU==
+X-CM-TRANSID: AQAAf9Axn+LYq9ZiM4QoAA--.11347S5
+X-Coremail-Antispam: 1UD129KBjvJXoW7uw47uF17Jr48GFy5uw1ftFb_yoW8Cw1UpF
+        nagryxG3WxAry7Crs3Wr1DWryUJayxWa15Ka97tw1FqFn5Ja40yr4qgrZxt34fGrW0vayF
+        qrsxKryDC34jy3DanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUBa14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+        rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_JrWl82xGYIkIc2
+        x26xkF7I0E14v26ryj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0
+        Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_Gr1UM2
+        8EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s0DM2AI
+        xVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20x
+        vE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xv
+        r2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxkIecxEwVAFwVW5GwCF04k20x
+        vY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I
+        3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIx
+        AIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAI
+        cVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2js
+        IEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JU-ID7UUUUU=
 X-CM-SenderInfo: p2kr3uplqex0o6or00hjvr0hdfq/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi all:
+Translate core-api/generic-radix-tree.rst into Chinese.
 
-I have translated all the docs for section "Data structures and low-level utilities"
-of the core-api, and I plan to split them into two patchset submissions.
+Last English version used:
 
-This patchset contains the following files:
+commit ba20ba2e3743 ("generic radix trees").
 
-idr.rst
-circular-buffers.rst
-generic-radix-tree.rst
-packing.rst
-
-For more details, please see TODOLIST in core-api/index.rst.
-
-Thanks.
-
-Changes since v1:
-1. Rebase patchset on jc/docs-next.
-2. Take the advices of Xiangcheng and Yanteng, thanks.
-
-Details:
-https://lore.kernel.org/all/6904a35b-6425-36af-66a0-ecd0a222a15f@loongson.cn/
-https://lore.kernel.org/all/35121f9b-4dd7-4114-9242-caf2dcfa8f9c@loongson.cn/
-https://lore.kernel.org/all/86118122-2885-78e3-677e-b3a6ca47a20c@loongson.cn/
-https://lore.kernel.org/all/YtKy+z+iSA6D8r9m@bobwxc.mipc/
-https://lore.kernel.org/all/YtLF2g8fQdi4%2FaKQ@bobwxc.mipc/
-
-Binbin Zhou (4):
-  docs/zh_CN: core-api: Add idr Chinese translation
-  docs/zh_CN: core-api: Add circular-buffers Chinese translation
-  docs/zh_CN: core-api: Add generic-radix-tree Chinese translation
-  docs/zh_CN: core-api: Add packing Chinese translation
-
- .../zh_CN/core-api/circular-buffers.rst       | 209 ++++++++++++++++++
- .../zh_CN/core-api/generic-radix-tree.rst     |  23 ++
- .../translations/zh_CN/core-api/idr.rst       |  77 +++++++
- .../translations/zh_CN/core-api/index.rst     |   8 +-
- .../translations/zh_CN/core-api/packing.rst   | 159 +++++++++++++
- 5 files changed, 472 insertions(+), 4 deletions(-)
- create mode 100644 Documentation/translations/zh_CN/core-api/circular-buffers.rst
+Signed-off-by: Binbin Zhou <zhoubinbin@loongson.cn>
+---
+ .../zh_CN/core-api/generic-radix-tree.rst     | 23 +++++++++++++++++++
+ .../translations/zh_CN/core-api/index.rst     |  2 +-
+ 2 files changed, 24 insertions(+), 1 deletion(-)
  create mode 100644 Documentation/translations/zh_CN/core-api/generic-radix-tree.rst
- create mode 100644 Documentation/translations/zh_CN/core-api/idr.rst
- create mode 100644 Documentation/translations/zh_CN/core-api/packing.rst
 
+diff --git a/Documentation/translations/zh_CN/core-api/generic-radix-tree.rst b/Documentation/translations/zh_CN/core-api/generic-radix-tree.rst
+new file mode 100644
+index 000000000000..eacd1d2ebddc
+--- /dev/null
++++ b/Documentation/translations/zh_CN/core-api/generic-radix-tree.rst
+@@ -0,0 +1,23 @@
++.. SPDX-License-Identifier: GPL-2.0+
++
++.. include:: ../disclaimer-zh_CN.rst
++
++:Original: Documentation/core-api/generic-radix-tree.rst
++
++:翻译:
++
++ 周彬彬 Binbin Zhou <zhoubinbin@loongson.cn>
++
++===================
++通用基数树/稀疏数组
++===================
++
++通用基数树/稀疏数组的相关内容请见include/linux/generic-radix-tree.h文件中的
++“DOC: Generic radix trees/sparse arrays”。
++
++通用基数树函数
++--------------
++
++该API在以下内核代码中:
++
++include/linux/generic-radix-tree.h
+diff --git a/Documentation/translations/zh_CN/core-api/index.rst b/Documentation/translations/zh_CN/core-api/index.rst
+index 854b923f3b30..60f76c83a9d8 100644
+--- a/Documentation/translations/zh_CN/core-api/index.rst
++++ b/Documentation/translations/zh_CN/core-api/index.rst
+@@ -46,12 +46,12 @@
+    rbtree
+    idr
+    circular-buffers
++   generic-radix-tree
+ 
+ Todolist:
+ 
+ 
+ 
+-   generic-radix-tree
+    packing
+    bus-virt-phys-mapping
+    this_cpu_ops
 -- 
 2.20.1
 
