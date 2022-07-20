@@ -2,86 +2,90 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8CFADC43334
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Jul 2022 12:33:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3254FCCA480
+	for <linux-doc@archiver.kernel.org>; Wed, 20 Jul 2022 12:50:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240652AbiGTMdL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 20 Jul 2022 08:33:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32776 "EHLO
+        id S241052AbiGTMul (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 20 Jul 2022 08:50:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52584 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240138AbiGTMc5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Jul 2022 08:32:57 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C6C674E0D;
-        Wed, 20 Jul 2022 05:31:52 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 48231613EF;
-        Wed, 20 Jul 2022 12:31:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 190B6C3411E;
-        Wed, 20 Jul 2022 12:31:51 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
-        dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com header.b="RR7Knc6d"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105;
-        t=1658320309;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=udw1gJ5G/fQb+dSVU3NwYjqsSVcMKC4CPMZmBCkl8tw=;
-        b=RR7Knc6dhS7KqM1MkcjE726i+u7uFWgCnMxcBxgXb8z1Fg2qQ7CdnY/U1gFhfC86G6yibP
-        65NtICLjHFhykOdc85cxHsPySmspjcmI2FMPa6hvjFEb4CB4mup0mzEhIYAhy+aD8wjwNf
-        qKJ9l/0nMUVqYmj1qxCpAP0DeNpFf58=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 4f68cf00 (TLSv1.3:AEAD-AES256-GCM-SHA384:256:NO);
-        Wed, 20 Jul 2022 12:31:49 +0000 (UTC)
-From:   "Jason A. Donenfeld" <Jason@zx2c4.com>
-To:     Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
-Cc:     "Jason A. Donenfeld" <Jason@zx2c4.com>,
-        Simon Sapin <simon.sapin@exyr.org>,
-        Gabriel Somlo <somlo@cmu.edu>
-Subject: [PATCH v2] docs: ABI: correct QEMU fw_cfg spec path
-Date:   Wed, 20 Jul 2022 14:31:31 +0200
-Message-Id: <20220720123131.341755-1-Jason@zx2c4.com>
-In-Reply-To: <CAHmME9rsHKwQ3gDbMLUaN978QaBdNRj87VNgDXc-FUGHZ6APNg@mail.gmail.com>
-References: <CAHmME9rsHKwQ3gDbMLUaN978QaBdNRj87VNgDXc-FUGHZ6APNg@mail.gmail.com>
+        with ESMTP id S240972AbiGTMud (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Jul 2022 08:50:33 -0400
+Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D120B1CFF6;
+        Wed, 20 Jul 2022 05:50:30 -0700 (PDT)
+Received: by mail-ed1-x52f.google.com with SMTP id t3so23665937edd.0;
+        Wed, 20 Jul 2022 05:50:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=qRl4q9lhPIc+egRL8GF1tytRpCK/RtxDVBSeVzDUofc=;
+        b=TzmqSiOWexUMUGe7zHn8xjdzAEOoDhXbWwr8qJImv7tghUupljCPgQbZfV/4+Womlz
+         RaowNhOxXjKYHi/OScJw4KLoEb2AmXPITajTOSM5ryhZnheTktwIPX79O5AnuFSwK48Q
+         +hmVVmhSUxTzqARRaj4AlN9ro81OBhWlxtW2MjFc4q5to6Ip8h/XosRKCOQz1Odx23/p
+         VH7xJCk4O8EY419N9pzMnlxCwb4A4VCsjZ1tIOItVIHvxaPqHZfxywTg76RgFrRwLh6K
+         XIp0nzTxCBxfKBZcH2fFc1c+wbPQXW/PwkiPyusJSFeoAXPk+p6zl2dpnYDl/TZQp3jE
+         lcig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=qRl4q9lhPIc+egRL8GF1tytRpCK/RtxDVBSeVzDUofc=;
+        b=BC1cqtkuzGGViPpvZy/X1cWKckDsDm2YTfopy/1I177N5H+ffVwiCQT7emIjKyTJkW
+         48XCs+aPYH8TJHwIW0hfkFjpB1jCZhsZ0Afrr5Ine17t/UW/ZsTvCCCqF/E6MchzgOUU
+         V4rCJ77I1jtv3rFCeMe4xBtam4PydcTu4vUB9XPwRv49xMAHV9HXa4a3+M/vch2mWkri
+         jp2XoTbrP2RADow5E879qC7u7JJRmBiPPz2wzYXDIx22PrqHoipHnea5+CiloJzl14eu
+         ydBgPF/ikzB37KP+lP8SEJpi1kTn97c9Ptp8mJ6hGE5dqBVP5/f/cUeSIoNEVm6ZJLXG
+         vqvQ==
+X-Gm-Message-State: AJIora+X4oCzwQFqIQrKmTaTF5Ogj4lvQMuer4YSlmBk7WCUtCgdBaBe
+        pltyhRVJj3K/5oHJ3eNFIyPAtzDAIbiSfQ==
+X-Google-Smtp-Source: AGRyM1t5UKIbibQ/Ef58nHHk3Pqc21B3D12JkDi4/a+yHiY4pDALEeELqL2dXv7X65oNsZyjeYXHGA==
+X-Received: by 2002:a05:6402:847:b0:437:62bd:bbc0 with SMTP id b7-20020a056402084700b0043762bdbbc0mr50157087edz.285.1658321429128;
+        Wed, 20 Jul 2022 05:50:29 -0700 (PDT)
+Received: from localhost.localdomain (62-44-238.netrun.cytanet.com.cy. [62.228.44.238])
+        by smtp.gmail.com with ESMTPSA id rk13-20020a170907214d00b006ff0b457cdasm7836754ejb.53.2022.07.20.05.50.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 20 Jul 2022 05:50:28 -0700 (PDT)
+From:   Maxim Devaev <mdevaev@gmail.com>
+To:     linux-doc@vger.kernel.org
+Cc:     linux-next@vger.kernel.org, linux-kernel@vger.kernel.org,
+        mdevaev@gmail.com, stern@rowland.harvard.edu, sfr@canb.auug.org.au
+Subject: [PATCH] docs: fixed table margin in configfs-usb-gadget-mass-storage
+Date:   Wed, 20 Jul 2022 15:50:22 +0300
+Message-Id: <20220720125022.91561-1-mdevaev@gmail.com>
+X-Mailer: git-send-email 2.37.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-A few weeks ago, QEMU switched docs/specs/fw_cfg.txt to be
-docs/specs/fw_cfg.rst, so update the reference in the kernel docs to
-reflect this. Also add a link to the online documentation to make it
-easier to find.
-
-Cc: Simon Sapin <simon.sapin@exyr.org>
-Cc: Gabriel Somlo <somlo@cmu.edu>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
+Fixes: 421c8d9a20da ("usb: gadget: f_mass_storage: forced_eject attribute")
+Signed-off-by: Maxim Devaev <mdevaev@gmail.com>
 ---
- Documentation/ABI/testing/sysfs-firmware-qemu_fw_cfg | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ Documentation/ABI/testing/configfs-usb-gadget-mass-storage | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/ABI/testing/sysfs-firmware-qemu_fw_cfg b/Documentation/ABI/testing/sysfs-firmware-qemu_fw_cfg
-index ee0d6dbc810e..54d1bfd0db12 100644
---- a/Documentation/ABI/testing/sysfs-firmware-qemu_fw_cfg
-+++ b/Documentation/ABI/testing/sysfs-firmware-qemu_fw_cfg
-@@ -12,8 +12,9 @@ Description:
- 		configuration data to the guest userspace.
+diff --git a/Documentation/ABI/testing/configfs-usb-gadget-mass-storage b/Documentation/ABI/testing/configfs-usb-gadget-mass-storage
+index d899adb57e81..fc0328069267 100644
+--- a/Documentation/ABI/testing/configfs-usb-gadget-mass-storage
++++ b/Documentation/ABI/testing/configfs-usb-gadget-mass-storage
+@@ -19,7 +19,7 @@ KernelVersion:	3.13
+ Description:
+ 		The attributes:
  
- 		The authoritative guest-side hardware interface documentation
--		to the fw_cfg device can be found in "docs/specs/fw_cfg.txt"
--		in the QEMU source tree.
-+		to the fw_cfg device can be found in "docs/specs/fw_cfg.rst"
-+		in the QEMU source tree, or online at:
-+		https://qemu-project.gitlab.io/qemu/specs/fw_cfg.html
- 
- 		**SysFS fw_cfg Interface**
- 
+-		===========	==============================================
++		============	==============================================
+ 		file		The path to the backing file for the LUN.
+ 				Required if LUN is not marked as removable.
+ 		ro		Flag specifying access to the LUN shall be
+@@ -38,4 +38,4 @@ Description:
+ 				regardless of whether the host has allowed it.
+ 				Any non-zero number of bytes written will
+ 				result in ejection.
+-		===========	==============================================
++		============	==============================================
 -- 
-2.35.1
+2.37.0
 
