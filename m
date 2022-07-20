@@ -2,97 +2,82 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A2CE3C433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Jul 2022 06:24:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A9013CCA480
+	for <linux-doc@archiver.kernel.org>; Wed, 20 Jul 2022 07:20:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235109AbiGTGYJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 20 Jul 2022 02:24:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59176 "EHLO
+        id S237152AbiGTHU3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 20 Jul 2022 03:20:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40530 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229492AbiGTGYI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Jul 2022 02:24:08 -0400
-Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com [IPv6:2607:f8b0:4864:20::531])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30680459B2;
-        Tue, 19 Jul 2022 23:24:08 -0700 (PDT)
-Received: by mail-pg1-x531.google.com with SMTP id 23so15517423pgc.8;
-        Tue, 19 Jul 2022 23:24:08 -0700 (PDT)
+        with ESMTP id S229636AbiGTHU2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Jul 2022 03:20:28 -0400
+Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39E4C5A46E;
+        Wed, 20 Jul 2022 00:20:27 -0700 (PDT)
+Received: by mail-wm1-x332.google.com with SMTP id h14-20020a1ccc0e000000b0039eff745c53so684737wmb.5;
+        Wed, 20 Jul 2022 00:20:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=qW4cVmX1h5qZcLNtal52XJ6b8VLXyII7R4K8/LUylOY=;
-        b=b9nJbugDE8v6UEtq08WfqdV8g/Ro42CRXvk8R9JRfDaW1nqNrnKYkJznV4y3fyh3jD
-         xU3ZVvaeKxIIMu6B2Xn6kodlPD4H6uT2gPc6XcLTOur+9ur5qFUwKg7pnQID3yyY8aah
-         BUtRjQaC7c16DIm9PUQs349wmd6X7v8+ymhZXLZ9TEPWYXkvTKKzMvQy37gZojABPK2y
-         MzOmy3swv+oTq+t+KzSJXn3YAUd9Kiw0lxQB2CtALKx6MA82zf+J2ozdmB6yh+O9xuwF
-         N3u30wkxj1mucmMQDugX8M41NqLUbGYVaFmHYzkjZaNd3ACPALWTMls57nKDU9Wd+wjV
-         EyxA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Q9b/iC1wjOnRSd8FlI4IMa2e7V3PAbT/u3twpIk4R8I=;
+        b=M9+pMCM5G0yo/uxrB/EZ+dsXsdFh3yOyMpjFg6Xu/o8spFbs1tMk7BzoyAiuybHOqP
+         2J7DPHXtCj/IiZFPPCE/JSUd36oebgawpEnoleo7hl1qzbCuGVzT05ZSJnCt/7vBfv1/
+         tH0z7Cpk19dL+Sq/PRsbl4UMFh6evHAmb0YgdrQU/WG7GoBqnOV4wS5k5rKLnZfRTczK
+         ru8f+RSvJhZFBIpVjKacI4Uqcbh/MhHOUT0/vyNYTJqfKguGJNDi59KY5xJgcyVb+IAE
+         dCAoUi09crOekfrGhKuKgVu2D3qd+bGgRjyAGpItKviWCwh2/BN+Fyr4zqGciGC0hpik
+         mRxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=qW4cVmX1h5qZcLNtal52XJ6b8VLXyII7R4K8/LUylOY=;
-        b=HxQuexyeOpZQWK0ZP3BOyBl5/0khkWbUMWKk9jlvC6oo/3J5FTh7gujvY4IzSsOgnR
-         Nhn1Wa0ccoCPEp2To1xTanc+uPJ4Fb+2ePokk6tuqXf71DsHtEM8qEL89zuG8azzSUcD
-         CgPx0MCGDnp7Mf3TDGHeVe9Gn7rgMwTVgVtghc6gstPgQc/t8hWXBu4W4BOp9hz+G4th
-         uUYnbw+EvoC7t7I0dSLcOkcOE0+XaYpi0UtkOgfktFggVLLa5uqhj5O4D9pZJmtT7Heh
-         80xqjU/1JA4MO5jT5f6180zeSa+1UjXah7G/wHsVpFHYQYYUWowwDDX+MLAzPQNR2Nv/
-         I4Hg==
-X-Gm-Message-State: AJIora9IFFSdW55uOWZeOH+7CLGgy7Z6c/XO+qH7oen+8Lr0WicoFata
-        TQU4YnyHzrGRB9qyqmYyzd0=
-X-Google-Smtp-Source: AGRyM1t20nKvY5mV9uyAaORDu5M6aIvYGVS5ZptGu3bcOMOYwTEMY3j9cRRop4fUq6UWUwH9CnM8jA==
-X-Received: by 2002:a63:8549:0:b0:415:ed3a:a0c with SMTP id u70-20020a638549000000b00415ed3a0a0cmr31889521pgd.448.1658298247575;
-        Tue, 19 Jul 2022 23:24:07 -0700 (PDT)
-Received: from ?IPV6:2404:f801:0:5:8000::75b? ([2404:f801:9000:1a:efea::75b])
-        by smtp.gmail.com with ESMTPSA id a11-20020a170902eccb00b0016a034ae481sm12961967plh.176.2022.07.19.23.24.00
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 19 Jul 2022 23:24:07 -0700 (PDT)
-Message-ID: <020db88c-981f-01fb-9689-3e54824f260a@gmail.com>
-Date:   Wed, 20 Jul 2022 14:23:57 +0800
+        bh=Q9b/iC1wjOnRSd8FlI4IMa2e7V3PAbT/u3twpIk4R8I=;
+        b=mLf9KOnjc8rXAHFgT+LWUr5mW+HyeCEjUTDPfOFxSoFfVvvhSylw3+RstL/AMxSJna
+         UX8e3Q5AU3HPgtQkZ/rS9ZnqNu3yEWkbHVCU0x4brYcLGv9KhRyXpFtgL0O44W99oSi7
+         9/haLsRHpKDmm1aFyZ85hK+akG0aaGUormFUWrcLkjUq4xsItxyIFVy3Mf4eJwivoLwm
+         CX+TFcyZt/xVgKw7Dyw3vq1fT2hQ90cwI+duyV37I9hqBQ6OVEMtcF48yQWEYCy+W8xl
+         quH9lvu9fAFOAqLr3mDs152+71bop+IQMtwQBcJmrv9NePc7kUgV5svd1zR3GXasCPcK
+         /ddA==
+X-Gm-Message-State: AJIora+G1AXNAumkfYTbz/AZkFfcv1Ocx6IDbiCyiuYgn1aB+EearDpS
+        +Xl2tSHd+6M/Y3tru/G4v8Y=
+X-Google-Smtp-Source: AGRyM1vwAtUKKLML5RWsnJMrsfwK6oLn20E/Eacehn+h8zwlfyM/ve7BFlWGIJXnznEo6GW1SAUc9g==
+X-Received: by 2002:a05:600c:4e8d:b0:3a1:2e4d:1dd2 with SMTP id f13-20020a05600c4e8d00b003a12e4d1dd2mr2553332wmq.85.1658301625724;
+        Wed, 20 Jul 2022 00:20:25 -0700 (PDT)
+Received: from caracal.museclub.art (p200300cf9f4d210014d9122df422c4ba.dip0.t-ipconnect.de. [2003:cf:9f4d:2100:14d9:122d:f422:c4ba])
+        by smtp.googlemail.com with ESMTPSA id u16-20020a05600c00d000b003a31c4f6f74sm1452192wmm.32.2022.07.20.00.20.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 20 Jul 2022 00:20:25 -0700 (PDT)
+From:   Eugene Shalygin <eugene.shalygin@gmail.com>
+To:     eugene.shalygin@gmail.com
+Cc:     Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v2 0/1] Remove the deprecated asus_wmi_ec_sensors driver
+Date:   Wed, 20 Jul 2022 09:20:15 +0200
+Message-Id: <20220720072016.102086-1-eugene.shalygin@gmail.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH V4] swiotlb: Split up single swiotlb lock
-Content-Language: en-US
-To:     "hch@infradead.org" <hch@infradead.org>,
-        "Michael Kelley (LINUX)" <mikelley@microsoft.com>
-Cc:     "corbet@lwn.net" <corbet@lwn.net>,
-        "m.szyprowski@samsung.com" <m.szyprowski@samsung.com>,
-        "robin.murphy@arm.com" <robin.murphy@arm.com>,
-        "paulmck@kernel.org" <paulmck@kernel.org>,
-        "bp@suse.de" <bp@suse.de>,
-        "keescook@chromium.org" <keescook@chromium.org>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "pmladek@suse.com" <pmladek@suse.com>,
-        "rdunlap@infradead.org" <rdunlap@infradead.org>,
-        "damien.lemoal@opensource.wdc.com" <damien.lemoal@opensource.wdc.com>,
-        KY Srinivasan <kys@microsoft.com>,
-        Tianyu Lan <Tianyu.Lan@microsoft.com>,
-        "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        vkuznets <vkuznets@redhat.com>,
-        "wei.liu@kernel.org" <wei.liu@kernel.org>,
-        "parri.andrea@gmail.com" <parri.andrea@gmail.com>,
-        "thomas.lendacky@amd.com" <thomas.lendacky@amd.com>,
-        "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
-        "kirill.shutemov@intel.com" <kirill.shutemov@intel.com>,
-        "andi.kleen@intel.com" <andi.kleen@intel.com>,
-        Andi Kleen <ak@linux.intel.com>
-References: <20220708161544.522312-1-ltykernel@gmail.com>
- <PH0PR21MB3025C32C80BFBE8651CF196AD78C9@PH0PR21MB3025.namprd21.prod.outlook.com>
- <YtefA9mZJo5+YzBG@infradead.org>
-From:   Tianyu Lan <ltykernel@gmail.com>
-In-Reply-To: <YtefA9mZJo5+YzBG@infradead.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 7/20/2022 2:21 PM, hch@infradead.org wrote:
-> Tianyu or Michael, can someone please send me a fixup patch for this?
-> 
+Changes in v2: improve commit message.
 
-Sure. I will do this soon.
+Eugene Shalygin (1):
+  hwmon: (asus_wmi_ec_sensors) remove driver
+
+ Documentation/hwmon/asus_wmi_ec_sensors.rst |  38 --
+ Documentation/hwmon/index.rst               |   1 -
+ MAINTAINERS                                 |   7 -
+ drivers/hwmon/Kconfig                       |  15 -
+ drivers/hwmon/Makefile                      |   1 -
+ drivers/hwmon/asus_wmi_ec_sensors.c         | 622 --------------------
+ 6 files changed, 684 deletions(-)
+ delete mode 100644 Documentation/hwmon/asus_wmi_ec_sensors.rst
+ delete mode 100644 drivers/hwmon/asus_wmi_ec_sensors.c
+
+-- 
+2.35.1
+
