@@ -2,207 +2,441 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A3F92C43334
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Jul 2022 15:32:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D981C433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 20 Jul 2022 15:33:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238968AbiGTPcL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 20 Jul 2022 11:32:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39370 "EHLO
+        id S237358AbiGTPdY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 20 Jul 2022 11:33:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41536 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236836AbiGTPcH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Jul 2022 11:32:07 -0400
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2052.outbound.protection.outlook.com [40.107.244.52])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A02BD61DBB;
-        Wed, 20 Jul 2022 08:31:54 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ntNxZ9KmwDGOzZyFOUzo1EpBQe38CHJKP1LgFext6aQvFiBkf3P5z2t8SZKQbmawVfYbhYy2wz7SqtxcdbIonfIbMePGZJgihP845yq2uwu7vE6G0KcvRcQFv1L8Vus0Gd4oQHr7SwmtL7ymjvulHEXBK5cSIzMcHEGtkHtcurU20qbowiH3dfSvh8dKe/tNUQJwZGmf9sEol4os/Y7w2NAXafRxArZpdei/PmHK77wLA/7JkH12c3Wuie2b7uljNLV45yZdisf0XpLbSJc/X3x6AaRFQ+ZzQtIkqLCf5GI/mEjhMSe0lYv61qpMBToOjiU35Uv4DO7DyDp3Dxzt4g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=I8pXgw62BxAIAwbrEYE97Y22msu6xhq7UAzzGX1PsXg=;
- b=Jnamp8t9ZMb8uSVdOyWB/YzpTNtT5LosQ5wLBIMc1RPktEWuV4gOHsqxNl82kqkt/LZ2U2mg2BTGWBOom3Yf39gBqQOUdYnTNjOz/WY+YiSqkDoSxnG0knqhTCQZ7JRpQDvkc0bPVgVZMgaxUsOdcMglE/21T1E/+z4x01GsJjUj0xi/P9om4KGCRvNmPN6g8CH3hDoL55rswYS6s1M4VGcx5hngxCmzkdtE+NM+QYzAyPys7DLi3DTdeU5T/7fUTVDzqLZl7ezYq4zFIngNlETd1pBKnb7flT/F/92MzSMV/mqLzT7wbm5Ulw2v6alOPhaxgwRbbNbGgZZ5lZsHGA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=I8pXgw62BxAIAwbrEYE97Y22msu6xhq7UAzzGX1PsXg=;
- b=afJ/mkAcEENKHjExurQ4I9eqUdS0i+KkCtD+vp7ExrLoAdNTebhiwNGcQcwosGfN1pV7wy27aW54Yww+pmtdNmoeG/I3pWNisdKWqGYWr51inGeEd12yjDwYkH3jrDhLQz+IHlYZOVJhhxVMDsOaJskWRXxbjuwRNXpO3wDf5Z0=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from CY4PR1201MB0181.namprd12.prod.outlook.com
- (2603:10b6:910:1f::11) by MN2PR12MB3998.namprd12.prod.outlook.com
- (2603:10b6:208:16d::19) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5438.14; Wed, 20 Jul
- 2022 15:31:51 +0000
-Received: from CY4PR1201MB0181.namprd12.prod.outlook.com
- ([fe80::1001:3c79:9504:8d6a]) by CY4PR1201MB0181.namprd12.prod.outlook.com
- ([fe80::1001:3c79:9504:8d6a%10]) with mapi id 15.20.5438.023; Wed, 20 Jul
- 2022 15:31:51 +0000
-Message-ID: <d0fd229d-afa6-c66d-3e55-09ac5877453e@amd.com>
-Date:   Wed, 20 Jul 2022 17:31:34 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v7 11/14] KVM: Register/unregister the guest private
- memory regions
-Content-Language: en-US
-To:     Chao Peng <chao.p.peng@linux.intel.com>
-Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
-        qemu-devel@nongnu.org, linux-kselftest@vger.kernel.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <seanjc@google.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        Muchun Song <songmuchun@bytedance.com>
-References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
- <20220706082016.2603916-12-chao.p.peng@linux.intel.com>
- <f02baa37-8d34-5d07-a0ae-300ffefc7fee@amd.com>
- <20220719140843.GA84779@chaop.bj.intel.com>
- <36e671d2-6b95-8e4f-c2ac-fee4b2670c6e@amd.com>
- <20220720150706.GB124133@chaop.bj.intel.com>
-From:   "Gupta, Pankaj" <pankaj.gupta@amd.com>
-In-Reply-To: <20220720150706.GB124133@chaop.bj.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AS8PR04CA0140.eurprd04.prod.outlook.com
- (2603:10a6:20b:127::25) To CY4PR1201MB0181.namprd12.prod.outlook.com
- (2603:10b6:910:1f::11)
+        with ESMTP id S238560AbiGTPdW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Jul 2022 11:33:22 -0400
+Received: from mail-il1-x12f.google.com (mail-il1-x12f.google.com [IPv6:2607:f8b0:4864:20::12f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3773461DBB
+        for <linux-doc@vger.kernel.org>; Wed, 20 Jul 2022 08:33:19 -0700 (PDT)
+Received: by mail-il1-x12f.google.com with SMTP id c17so8464825ilq.5
+        for <linux-doc@vger.kernel.org>; Wed, 20 Jul 2022 08:33:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=ZQNsw/QHjxS78Q0ly9fBWs7YaQPYN4So9Rs+zWabDt8=;
+        b=Opvt3qmcapcjI6pyZG/fYmsALKxZ42X9kLC9whTMxWkxXLoM5+K550tGB/uGus3Ft3
+         bdo5BeHY+y5e4k7g0qKwI60qX9ZEwzGrNVVjjUrk2cfKFatY1WX79rgI7Oy06I9lJY3/
+         IlAdZtyT5YzQJ8pOkailAtBhM3gSKStVpc1oZ1RVzntfomPK5c0qdE2t/M1NFcWLAN9P
+         //z2yeX+WU5EfVrry9th13b9SdfG3jbNMtFXGzqd74ay9oPXjEprxu6rAWkv2ZtVlVSZ
+         d48uEeCpnJZu4OdbsEvoBOkZVef6BeCMGqu7dyFb9a4XUc3g0DxaXcDiIfEyoib7N215
+         bW6w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=ZQNsw/QHjxS78Q0ly9fBWs7YaQPYN4So9Rs+zWabDt8=;
+        b=SkehAZfiUX1mDNAm41SzbPabGwglSIpSvLwco5Msbm/fHBzyw1UI3ndBPUJKTLAS5y
+         GoSvCw2weeBwXKjZ3xNqOr9WHdEY4zGT0UvHNG3nROu/1YI3k5VipXHaE+zUPdNGq4Bw
+         EOjBSne+zjmQSfd++IvdOREqTUdfrpUah2wjpYlNeYkxCVXLfPvlry1XxeiLbBttaLBa
+         fv4o2ZV3y8GZsy5njFOPa7RJyq25Kqaszae/LsEqcew1iSvsnM9OtVY45jdMIat+20Vv
+         bG13Inqm/ZHHaqGrCmVNHUBARntw7AQWg2G1gzk1I4B/8ZYED184tcjLqcxw6IqhwQzD
+         /+hg==
+X-Gm-Message-State: AJIora+EF2JM5bQ66/6VD76Llr5x3dnAorla4VqWZTVN/QV0EyJUFNDz
+        37sHztPcUaDK6a2dNU3B55E=
+X-Google-Smtp-Source: AGRyM1s9V9wrQKd+zwlRCnr7g9K80WQP58FX13sW80aI6u4zFwAFnH5XlMnC+tjUIjSBSlB/AUVCeg==
+X-Received: by 2002:a05:6e02:216c:b0:2dc:f5b9:7ed3 with SMTP id s12-20020a056e02216c00b002dcf5b97ed3mr6507583ilv.0.1658331198187;
+        Wed, 20 Jul 2022 08:33:18 -0700 (PDT)
+Received: from frodo.. (c-73-78-62-130.hsd1.co.comcast.net. [73.78.62.130])
+        by smtp.googlemail.com with ESMTPSA id q1-20020a92d401000000b002dcdb4bbe87sm4579581ilm.22.2022.07.20.08.33.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 20 Jul 2022 08:33:17 -0700 (PDT)
+From:   Jim Cromie <jim.cromie@gmail.com>
+To:     dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+        intel-gvt-dev@lists.freedesktop.org,
+        intel-gfx@lists.freedesktop.org, jbaron@akamai.com,
+        gregkh@linuxfoundation.org, daniel.vetter@ffwll.ch,
+        seanpaul@chromium.org, robdclark@gmail.com
+Cc:     Jim Cromie <jim.cromie@gmail.com>, linux-doc@vger.kernel.org
+Subject: [PATCH v4 19/41] doc-dyndbg: edit dynamic-debug-howto for brevity, audience
+Date:   Wed, 20 Jul 2022 09:32:11 -0600
+Message-Id: <20220720153233.144129-20-jim.cromie@gmail.com>
+X-Mailer: git-send-email 2.36.1
+In-Reply-To: <20220720153233.144129-1-jim.cromie@gmail.com>
+References: <20220720153233.144129-1-jim.cromie@gmail.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 75962c63-7ae6-4e91-704b-08da6a64f763
-X-MS-TrafficTypeDiagnostic: MN2PR12MB3998:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: q/kbsMs1T0nfLKg/Sp4Q06kzwPXO8WR7RHeqONNmzln9heXT5t0tUwdyMI3K7HmzX1gYAWGecAvITErxnLFt6cUDG0KMoJgewDs25sJN3nY46fC0Cnyajpn7rhgX7iAtHq3nmOtaXO0NwpjPqftfoimFMG7erxRDZNYQA7mDa2jMJqH1DXXmiTF9eTKoqoPuqqGlcx/VxN5MMdSp35bux2UmRqlY8CyFh34W3Afhy8Fx7eGOG0sZPZ7nA9LX3UC0/eYws8vSyJ/C5lr+5j3vKyBcSZLTAsR3wgXvh58fW7PNk0o6jFE3zjgPaUpV5IAhQLHZUV7AgWX17snGdDYD+tjfBmLPpZfamXc4vIp0aFooaMT28kPJvczLo0TrJqEFnWDqusUedJL6GWZA4aZL++7Efd+q7RCXWVnmEc9v1bUjGi5E2lXwfsKxLXLW2lXi/ZYfdX0fYXfRVaGGgYeDTyJsb/Ho+DOnM5U+rChYpDnl69+Fomcvf9wXz7HyrpltgNoDMdGpseztuiOmY83Lo2aYN36fX7CWfTkeZhfXVR2SMY9joP7RdafCDC/St2wCHIMlFG8LE4/0LK/E+snl8Ssyt35L2xLoiJY11+PBLQTtNvubIQCFNglCcVr5mFLWEOpTe9rrvk8o6iqCVNDtwLR8Ym/pV+5xdNSiS1wOTPSBpYSagY3ql29oyA2fn2ZObLUfnhTi617VU8n8RysuWQplE4AoSsZtxjV7CwvHieBM4j52XsuTaPjXKaDAKy5Wek4qj7NqpY8OjvM3GgNNwtvj53CUH1Tms8M8n+GKGYmrlxpi87jx0Vlm7Q082AK4ZpaIREW1RuWyvbOlvBzJhA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY4PR1201MB0181.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(396003)(136003)(376002)(346002)(39860400002)(366004)(316002)(54906003)(66476007)(6916009)(66946007)(66556008)(86362001)(186003)(8676002)(5660300002)(4326008)(7416002)(31696002)(7406005)(8936002)(6512007)(38100700002)(6486002)(26005)(2616005)(2906002)(31686004)(36756003)(6666004)(478600001)(41300700001)(6506007)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cmJya1VmeE5OWS93NHBXT2xkMk4zWS9hODV4YUpBTFd1ZERoelRIYUNtQ0FU?=
- =?utf-8?B?ZHBPUG5SdFpaakVRSFhFTytSUU5pbDI5ak5wcVhaRWJGQmNmaE14OTFSOVdz?=
- =?utf-8?B?TjNZbjRkeDQ1dnBpQnJ2by9Jb2RNTVk3bGwweWppRnhTdzBvazdGTEoxNGFN?=
- =?utf-8?B?N3Zua2lWUW9KMUNmbzdCMzNGOWJiT2JoVERDYXhjVlRwbVNGakwwRXMwYVlW?=
- =?utf-8?B?bWU1U1BDWThsQTBUVnRKUFdwQ2hONDVDNjhNRHo5YlZIa2QyU1kvcm5YelFL?=
- =?utf-8?B?bFhJNTI5UDBiYlFwL3dGQWFoWEd2eHJMZ25xVU5OOUhYbndHS2hWQjlSTjZr?=
- =?utf-8?B?SjIrak1FZmtXaCtSV1ZTSXVnZU9VdDJjQjJUU3pYRStiOFIrRVdZYlFOc01K?=
- =?utf-8?B?bHQ2SXQ5dE1sQUVsRUxtWFUyUnNVbWdUdmxwN3Fyb1dBOXJPS1IvZnRuY09j?=
- =?utf-8?B?UE5wWERCMk8yV3QrT1ZmRzlqS2lNNE1FZ3lDRmV0RzJIdDFzbElqaTJmd1cw?=
- =?utf-8?B?d1k2T29YUFdvTkJYRXBiYUloSytOZ1E2YzRGVmZVK3A0RVZrTEo2VTdZcEVZ?=
- =?utf-8?B?OU9VZUJNT1VzQ2ppQTF3cTBTeG9jeUJoVzFrdno3RndwTHdXZVZZcUlPN1ZU?=
- =?utf-8?B?NS8xYnVzdEhUZytwMkdIcHE3UC90Mk1ObjhZVWtlTUtlYWM2enBZYWlzRDZt?=
- =?utf-8?B?OWVxdHVpZkxreWlsamFIMCs3b2MvVUdWTks0Y3hGZmliVm1tYzZwM0M2WU1N?=
- =?utf-8?B?dnF3MUVFN0QrdEZkdTVtVy9tNjFtVlVhanlSOGhFY1Y0bzBGTVZ0Z0FLL1BF?=
- =?utf-8?B?WnlTaGhHSEErcGV0SFgxNzVwdzBXYWpLaklhUGFEVEVPRDZvcnJ1alVmUUVs?=
- =?utf-8?B?R1JHSmEyaUVuT1FYaGk1WHY5b0o3WE5iczNxdGsxdFEzakcwUEx0Sko3cTB2?=
- =?utf-8?B?K3VFRXJiS2VQa3U4YlNlQU11dkUzZkdxZ1dQalloQWZtWkhZUmpKRVFjU3NW?=
- =?utf-8?B?VTRGdktFU2Y0MlVFUStPVlFlQy9yRTFWblFyNnZsM2ZIdmlxMWR0UlR1THZH?=
- =?utf-8?B?a3BKdjUvSjRkS2Vld3k4Z1VZaXY5YlhkM3ozTTZHQnFiWkdEazU3TmM3RVNN?=
- =?utf-8?B?R20wMGxvZVd2V2h2ZWRRYjlDdjRPNWF2UTk4YjVRK2hOZW90b0cxRkVlUG9v?=
- =?utf-8?B?M05HMTNxam5PYlJNQjBoSUo1Njkrend5bGUreUdNMVRKSFM3bEN2dE9BZEVQ?=
- =?utf-8?B?OXlJQkNqajE4ZVFBYXdydVB6Vmw0SkRDZWE1aG5XWG5sbWhGZDQyU3F4MmFF?=
- =?utf-8?B?bzE2RFF4VXZjZCtaNlgxMlRjSW5FbFN6bFk3QmFWSEp3UzVYNi9hNHQ4TzZy?=
- =?utf-8?B?SnA1Qi9wMWxDT0pmbXdrK3dHcVQreERSeGl6TWg4T2tlM3lyUkdPSjNlb1Jr?=
- =?utf-8?B?N0JWcVc3ejRBdjN2Yyt5cld5ZnhxZzBMWGh2eUJ4Y1JEdXJ6YklSbDBoK3do?=
- =?utf-8?B?OGV1YjAzVkRibHE3djJhVVJNWTFlSHYweFBKdWhVRVhEL0tyME1mUG10Vklo?=
- =?utf-8?B?QmdKZXpiSXMzdGgySEk2bHcvUk16aSsxM3FDRCtOU1laRk1KZW1VYTVjd2Ez?=
- =?utf-8?B?WkJBcUFBY3lIenQ2NDVib2NLUkE5d1pHVzZnVm9pTzNRdFNKcjV0V0IzVVhU?=
- =?utf-8?B?U3p5UWxaZnlnR3ZEazQyVytYUG15YjZMcklIcXQ0YnJUT3NPQlY3WGd3ejZ3?=
- =?utf-8?B?TEdFMmo4TWJpOWhEcXFSdnlpV0hYb2gxNDVKQnAvU0hGTjQvNHViTVhYQXlT?=
- =?utf-8?B?YS91UDB4VWxHdzUwTEl3dnZCakloWDdoaGF0anEvUmZIQkVRd0orOFk5TXJ2?=
- =?utf-8?B?YjFNbWtRVmNTRWhXakJlSjVqQy9tWUxJaFVld0hqb3RFYVhyWG84aklCWE54?=
- =?utf-8?B?TG5rczRSZm45MC9jREpKc1lRdnZJTHRVT0xtQXBOaDNlWnRGQUp0aGU3S0px?=
- =?utf-8?B?TUtYU3M0a2tGVUxaOXZmejRScWZYZDNUVnB1M3QvUVMyQ2FCQnRZUW52Ukc1?=
- =?utf-8?B?L2RJYlpyd0F3UVoxNVl0djZDWUdqc01JYmpod1BTZFZBQlJ2d3RzVTRjR2RG?=
- =?utf-8?Q?nGatqrFbk3ZMJUWdQLNUUYIY5?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 75962c63-7ae6-4e91-704b-08da6a64f763
-X-MS-Exchange-CrossTenant-AuthSource: CY4PR1201MB0181.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jul 2022 15:31:50.9859
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: gv/YljjgkS8mtRrJbAASo80kTBH+j1nUXWWwtGyUWcr5UNs8rBKUXKunIkUgWPE7OATmANQceJBiN78kuJhBSA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3998
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Rework/modernize docs:
 
->>>>> +bool __weak kvm_arch_private_mem_supported(struct kvm *kvm)
->>>>> +{
->>>>> +	return false;
->>>>> +}
->>>>
->>>> Does this function has to be overriden by SEV and TDX to support the private
->>>> regions?
->>>
->>> Yes it should be overridden by architectures which want to support it.
->>
->> o.k
->>>
->>>>
->>>>> +
->>>>>     static int check_memory_region_flags(const struct kvm_user_mem_region *mem)
->>>>>     {
->>>>>     	u32 valid_flags = KVM_MEM_LOG_DIRTY_PAGES;
->>>>> @@ -4689,6 +4729,22 @@ static long kvm_vm_ioctl(struct file *filp,
->>>>>     		r = kvm_vm_ioctl_set_memory_region(kvm, &mem);
->>>>>     		break;
->>>>>     	}
->>>>> +#ifdef CONFIG_HAVE_KVM_PRIVATE_MEM
->>>>> +	case KVM_MEMORY_ENCRYPT_REG_REGION:
->>>>> +	case KVM_MEMORY_ENCRYPT_UNREG_REGION: {
->>>>> +		struct kvm_enc_region region;
->>>>> +
->>>>> +		if (!kvm_arch_private_mem_supported(kvm))
->>>>> +			goto arch_vm_ioctl;
->>>>> +
->>>>> +		r = -EFAULT;
->>>>> +		if (copy_from_user(&region, argp, sizeof(region)))
->>>>> +			goto out;
->>>>> +
->>>>> +		r = kvm_vm_ioctl_set_encrypted_region(kvm, ioctl, &region);
->>>>
->>>> this is to store private region metadata not only the encrypted region?
->>>
->>> Correct.
->>
->> Sorry for not being clear, was suggesting name change of this function from:
->> "kvm_vm_ioctl_set_encrypted_region" to "kvm_vm_ioctl_set_private_region"
-> 
-> Though I don't have strong reason to change it, I'm fine with this and
+ - use /proc/dynamic_debug/control in examples
+   its *always* there (when dyndbg is config'd), even when <debugfs> is not.
+   drop <debugfs> talk, its a distraction here.
 
-Yes, no strong reason, just thought "kvm_vm_ioctl_set_private_region" 
-would depict the actual functionality :)
+ - alias ddcmd='echo $* > /proc/dynamic_debug/control
+   declutter, hide boilerplate, focus on args
 
-> this name matches the above kvm_arch_private_mem_supported perfectly.
-BTW could not understand this, how "kvm_vm_ioctl_set_encrypted_region"
-matches "kvm_arch_private_mem_supported"?
+ - move Viewing before Controlling. read before write.
+   control file as Catalog.
 
-Thanks,
-Pankaj
+ - focus on use by a system administrator
+   add an alias to make examples more readable
+   drop grep-101 lessons, admins know this.
+
+ - use init/main.c as 1st example, thread it thru doc where useful.
+   everybodys kernel boots, runs these.
+
+ - add *prdbg* api section
+   to the bottom of the file, its for developers more than admins.
+   move list of api functions there.
+
+ - simplify - drop extra words, phrases, sentences.
+
+ - add "decorator" flags line to unify "prefix", trim fmlt descriptions
+
+CC: linux-doc@vger.kernel.org
+Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
+
+---
+fixup-doc: trailing colons for block headers, trim fedora numbers. Bagas
+---
+ .../admin-guide/dynamic-debug-howto.rst       | 235 +++++++++---------
+ 1 file changed, 117 insertions(+), 118 deletions(-)
+
+diff --git a/Documentation/admin-guide/dynamic-debug-howto.rst b/Documentation/admin-guide/dynamic-debug-howto.rst
+index d8954ab05c7b..faa22f77847a 100644
+--- a/Documentation/admin-guide/dynamic-debug-howto.rst
++++ b/Documentation/admin-guide/dynamic-debug-howto.rst
+@@ -5,30 +5,19 @@ Dynamic debug
+ Introduction
+ ============
+ 
+-This document describes how to use the dynamic debug (dyndbg) feature.
++Dynamic debug allows you to dynamically enable/disable kernel
++debug-print code to obtain additional kernel information.
+ 
+-Dynamic debug is designed to allow you to dynamically enable/disable
+-kernel code to obtain additional kernel information.  Currently, if
+-``CONFIG_DYNAMIC_DEBUG`` is set, then all ``pr_debug()``/``dev_dbg()`` and
+-``print_hex_dump_debug()``/``print_hex_dump_bytes()`` calls can be dynamically
+-enabled per-callsite.
++If ``/proc/dynamic_debug/control`` exists, your kernel has dynamic
++debug.  You'll need root access (sudo su) to use this.
+ 
+-If you do not want to enable dynamic debug globally (i.e. in some embedded
+-system), you may set ``CONFIG_DYNAMIC_DEBUG_CORE`` as basic support of dynamic
+-debug and add ``ccflags := -DDYNAMIC_DEBUG_MODULE`` into the Makefile of any
+-modules which you'd like to dynamically debug later.
++Dynamic debug provides:
+ 
+-If ``CONFIG_DYNAMIC_DEBUG`` is not set, ``print_hex_dump_debug()`` is just
+-shortcut for ``print_hex_dump(KERN_DEBUG)``.
++ * a Catalog of all *prdbgs* in your kernel.
++   ``cat /proc/dynamic_debug/control`` to see them.
+ 
+-For ``print_hex_dump_debug()``/``print_hex_dump_bytes()``, format string is
+-its ``prefix_str`` argument, if it is constant string; or ``hexdump``
+-in case ``prefix_str`` is built dynamically.
+-
+-Dynamic debug has even more useful features:
+-
+- * Simple query language allows turning on and off debugging
+-   statements by matching any combination of 0 or 1 of:
++ * a Simple query/command language to alter *prdbgs* by selecting on
++   any combination of 0 or 1 of:
+ 
+    - source filename
+    - function name
+@@ -37,107 +26,88 @@ Dynamic debug has even more useful features:
+    - format string
+    - class name (as known/declared by each module)
+ 
+- * Provides a debugfs control file: ``<debugfs>/dynamic_debug/control``
+-   which can be read to display the complete list of known debug
+-   statements, to help guide you
+-
+-Controlling dynamic debug Behaviour
+-===================================
+-
+-The behaviour of ``pr_debug()``/``dev_dbg()`` are controlled via writing to a
+-control file in the 'debugfs' filesystem. Thus, you must first mount
+-the debugfs filesystem, in order to make use of this feature.
+-Subsequently, we refer to the control file as:
+-``<debugfs>/dynamic_debug/control``. For example, if you want to enable
+-printing from source file ``svcsock.c``, line 1603 you simply do::
+-
+-  nullarbor:~ # echo 'file svcsock.c line 1603 +p' >
+-				<debugfs>/dynamic_debug/control
+-
+-If you make a mistake with the syntax, the write will fail thus::
+-
+-  nullarbor:~ # echo 'file svcsock.c wtf 1 +p' >
+-				<debugfs>/dynamic_debug/control
+-  -bash: echo: write error: Invalid argument
+-
+-Note, for systems without 'debugfs' enabled, the control file can be
+-found in ``/proc/dynamic_debug/control``.
+-
+ Viewing Dynamic Debug Behaviour
+ ===============================
+ 
+-You can view the currently configured behaviour of all the debug
+-statements via::
++You can view the currently configured behaviour in the *prdbg* catalog::
+ 
+-  nullarbor:~ # cat <debugfs>/dynamic_debug/control
++  :#> head -n7 /proc/dynamic_debug/control
+   # filename:lineno [module]function flags format
+-  net/sunrpc/svc_rdma.c:323 [svcxprt_rdma]svc_rdma_cleanup =_ "SVCRDMA Module Removed, deregister RPC RDMA transport\012"
+-  net/sunrpc/svc_rdma.c:341 [svcxprt_rdma]svc_rdma_init =_ "\011max_inline       : %d\012"
+-  net/sunrpc/svc_rdma.c:340 [svcxprt_rdma]svc_rdma_init =_ "\011sq_depth         : %d\012"
+-  net/sunrpc/svc_rdma.c:338 [svcxprt_rdma]svc_rdma_init =_ "\011max_requests     : %d\012"
+-  ...
++  init/main.c:1179 [main]initcall_blacklist =_ "blacklisting initcall %s\012
++  init/main.c:1218 [main]initcall_blacklisted =_ "initcall %s blacklisted\012"
++  init/main.c:1424 [main]run_init_process =_ "  with arguments:\012"
++  init/main.c:1426 [main]run_init_process =_ "    %s\012"
++  init/main.c:1427 [main]run_init_process =_ "  with environment:\012"
++  init/main.c:1429 [main]run_init_process =_ "    %s\012"
+ 
++The 3rd space-delimited column shows the current flags, preceded by
++a ``=`` for easy use with grep/cut. ``=p`` shows enabled callsites.
+ 
+-You can also apply standard Unix text manipulation filters to this
+-data, e.g.::
++Controlling dynamic debug Behaviour
++===================================
+ 
+-  nullarbor:~ # grep -i rdma <debugfs>/dynamic_debug/control  | wc -l
+-  62
++The behaviour of *prdbg* sites are controlled by writing
++query/commands to the control file.  Example::
+ 
+-  nullarbor:~ # grep -i tcp <debugfs>/dynamic_debug/control | wc -l
+-  42
++  # grease the interface
++  :#> alias ddcmd='echo $* > /proc/dynamic_debug/control'
+ 
+-The third column shows the currently enabled flags for each debug
+-statement callsite (see below for definitions of the flags).  The
+-default value, with no flags enabled, is ``=_``.  So you can view all
+-the debug statement callsites with any non-default flags::
++  :#> ddcmd '-p; module main func run* +p'
++  :#> grep =p /proc/dynamic_debug/control
++  init/main.c:1424 [main]run_init_process =p "  with arguments:\012"
++  init/main.c:1426 [main]run_init_process =p "    %s\012"
++  init/main.c:1427 [main]run_init_process =p "  with environment:\012"
++  init/main.c:1429 [main]run_init_process =p "    %s\012"
+ 
+-  nullarbor:~ # awk '$3 != "=_"' <debugfs>/dynamic_debug/control
+-  # filename:lineno [module]function flags format
+-  net/sunrpc/svcsock.c:1603 [sunrpc]svc_send p "svc_process: st_sendto returned %d\012"
++Error messages go to console/syslog::
++
++  :#> ddcmd mode foo +p
++  dyndbg: unknown keyword "mode"
++  dyndbg: query parse failed
++  bash: echo: write error: Invalid argument
++
++If debugfs is also enabled and mounted, ``dynamic_debug/control`` is
++also under the mount-dir, typically ``/sys/kernel/debug/``.
+ 
+ Command Language Reference
+ ==========================
+ 
+-At the lexical level, a command comprises a sequence of words separated
++At the basic lexical level, a command is a sequence of words separated
+ by spaces or tabs.  So these are all equivalent::
+ 
+-  nullarbor:~ # echo -n 'file svcsock.c line 1603 +p' >
+-				<debugfs>/dynamic_debug/control
+-  nullarbor:~ # echo -n '  file   svcsock.c     line  1603 +p  ' >
+-				<debugfs>/dynamic_debug/control
+-  nullarbor:~ # echo -n 'file svcsock.c line 1603 +p' >
+-				<debugfs>/dynamic_debug/control
++  :#> ddcmd file svcsock.c line 1603 +p
++  :#> ddcmd "file svcsock.c line 1603 +p"
++  :#> ddcmd '  file   svcsock.c     line  1603 +p  '
+ 
+ Command submissions are bounded by a write() system call.
+ Multiple commands can be written together, separated by ``;`` or ``\n``::
+ 
+-  ~# echo "func pnpacpi_get_resources +p; func pnp_assign_mem +p" \
+-     > <debugfs>/dynamic_debug/control
+-
+-If your query set is big, you can batch them too::
+-
+-  ~# cat query-batch-file > <debugfs>/dynamic_debug/control
++  :#> ddcmd "func pnpacpi_get_resources +p; func pnp_assign_mem +p"
++  :#> ddcmd <<"EOC"
++  func pnpacpi_get_resources +p
++  func pnp_assign_mem +p
++  EOC
++  :#> cat query-batch-file > /proc/dynamic_debug/control
+ 
+-Another way is to use wildcards. The match rule supports ``*`` (matches
+-zero or more characters) and ``?`` (matches exactly one character). For
+-example, you can match all usb drivers::
++You can also use wildcards in each query term. The match rule supports
++``*`` (matches zero or more characters) and ``?`` (matches exactly one
++character). For example, you can match all usb drivers::
+ 
+-  ~# echo "file drivers/usb/* +p" > <debugfs>/dynamic_debug/control
++  :#> ddcmd file "drivers/usb/*" +p	# "" to suppress shell expansion
+ 
+-At the syntactical level, a command comprises a sequence of match
+-specifications, followed by a flags change specification::
++Syntactically, a command is pairs of keyword values, followed by a
++flags change or setting::
+ 
+   command ::= match-spec* flags-spec
+ 
+-The match-spec's are used to choose a subset of the known pr_debug()
+-callsites to which to apply the flags-spec.  Think of them as a query
+-with implicit ANDs between each pair.  Note that an empty list of
+-match-specs will select all debug statement callsites.
++The match-spec's select *prdbgs* from the catalog, upon which to apply
++the flags-spec, all constraints are ANDed together.  An absent keyword
++is the same as keyword "*".
+ 
+-A match specification comprises a keyword, which controls the
+-attribute of the callsite to be compared, and a value to compare
+-against.  Possible keywords are:::
++
++A match specification is a keyword, which selects the attribute of
++the callsite to be compared, and a value to compare against.  Possible
++keywords are:::
+ 
+   match-spec ::= 'func' string |
+ 		 'file' string |
+@@ -213,6 +183,7 @@ class
+ 
+ 	class DRM_UT_KMS	# a DRM.debug category
+ 	class JUNK		# silent non-match
++	// class TLD_*		# NOTICE: no wildcard in class names
+ 
+ line
+     The given line number or range of line numbers is compared
+@@ -239,17 +210,16 @@ of the characters::
+ The flags are::
+ 
+   p    enables the pr_debug() callsite.
+-  f    Include the function name in the printed message
+-  l    Include line number in the printed message
+-  m    Include module name in the printed message
+-  t    Include thread ID in messages not generated from interrupt context
+-  _    No flags are set. (Or'd with others on input)
++  _    enables no flags.
+ 
+-For ``print_hex_dump_debug()`` and ``print_hex_dump_bytes()``, only ``p`` flag
+-have meaning, other flags ignored.
++  Decorator flags add to the message-prefix, in order:
++  t    Include thread ID, or <intr>
++  m    Include module name
++  f    Include the function name
++  l    Include line number
+ 
+-For display, the flags are preceded by ``=``
+-(mnemonic: what the flags are currently equal to).
++For ``print_hex_dump_debug()`` and ``print_hex_dump_bytes()``, only
++the ``p`` flag has meaning, other flags are ignored.
+ 
+ Note the regexp ``^[-+=][flmpt_]+$`` matches a flags specification.
+ To clear all flags at once, use ``=_`` or ``-flmpt``.
+@@ -324,7 +294,7 @@ For ``CONFIG_DYNAMIC_DEBUG`` kernels, any settings given at boot-time (or
+ enabled by ``-DDEBUG`` flag during compilation) can be disabled later via
+ the debugfs interface if the debug messages are no longer needed::
+ 
+-   echo "module module_name -p" > <debugfs>/dynamic_debug/control
++   echo "module module_name -p" > /proc/dynamic_debug/control
+ 
+ Examples
+ ========
+@@ -332,37 +302,31 @@ Examples
+ ::
+ 
+   // enable the message at line 1603 of file svcsock.c
+-  nullarbor:~ # echo -n 'file svcsock.c line 1603 +p' >
+-				<debugfs>/dynamic_debug/control
++  :#> ddcmd 'file svcsock.c line 1603 +p'
+ 
+   // enable all the messages in file svcsock.c
+-  nullarbor:~ # echo -n 'file svcsock.c +p' >
+-				<debugfs>/dynamic_debug/control
++  :#> ddcmd 'file svcsock.c +p'
+ 
+   // enable all the messages in the NFS server module
+-  nullarbor:~ # echo -n 'module nfsd +p' >
+-				<debugfs>/dynamic_debug/control
++  :#> ddcmd 'module nfsd +p'
+ 
+   // enable all 12 messages in the function svc_process()
+-  nullarbor:~ # echo -n 'func svc_process +p' >
+-				<debugfs>/dynamic_debug/control
++  :#> ddcmd 'func svc_process +p'
+ 
+   // disable all 12 messages in the function svc_process()
+-  nullarbor:~ # echo -n 'func svc_process -p' >
+-				<debugfs>/dynamic_debug/control
++  :#> ddcmd 'func svc_process -p'
+ 
+   // enable messages for NFS calls READ, READLINK, READDIR and READDIR+.
+-  nullarbor:~ # echo -n 'format "nfsd: READ" +p' >
+-				<debugfs>/dynamic_debug/control
++  :#> ddcmd 'format "nfsd: READ" +p'
+ 
+   // enable messages in files of which the paths include string "usb"
+-  nullarbor:~ # echo -n 'file *usb* +p' > <debugfs>/dynamic_debug/control
++  :#> ddcmd 'file *usb* +p' > /proc/dynamic_debug/control
+ 
+   // enable all messages
+-  nullarbor:~ # echo -n '+p' > <debugfs>/dynamic_debug/control
++  :#> ddcmd '+p' > /proc/dynamic_debug/control
+ 
+   // add module, function to all enabled messages
+-  nullarbor:~ # echo -n '+mf' > <debugfs>/dynamic_debug/control
++  :#> ddcmd '+mf' > /proc/dynamic_debug/control
+ 
+   // boot-args example, with newlines and comments for readability
+   Kernel command line: ...
+@@ -375,3 +339,38 @@ Examples
+     dyndbg="file init/* +p #cmt ; func parse_one +p"
+     // enable pr_debugs in 2 functions in a module loaded later
+     pc87360.dyndbg="func pc87360_init_device +p; func pc87360_find +p"
++
++Kernel Configuration
++====================
++
++Dynamic Debug is enabled via kernel config items::
++
++  CONFIG_DYNAMIC_DEBUG=y	# build catalog, enables CORE
++  CONFIG_DYNAMIC_DEBUG_CORE=y	# enable mechanics only, skip catalog
++
++If you do not want to enable dynamic debug globally (i.e. in some embedded
++system), you may set ``CONFIG_DYNAMIC_DEBUG_CORE`` as basic support of dynamic
++debug and add ``ccflags := -DDYNAMIC_DEBUG_MODULE`` into the Makefile of any
++modules which you'd like to dynamically debug later.
++
++
++Kernel *prdbg* API
++==================
++
++The following functions are cataloged and controllable when dynamic
++debug is enabled::
++
++  pr_debug()
++  dev_dbg()
++  print_hex_dump_debug()
++  print_hex_dump_bytes()
++
++Otherwise, they are off by default; ``ccflags += -DDEBUG`` or
++``#define DEBUG`` in a source file will enable them appropriately.
++
++If ``CONFIG_DYNAMIC_DEBUG`` is not set, ``print_hex_dump_debug()`` is
++just a shortcut for ``print_hex_dump(KERN_DEBUG)``.
++
++For ``print_hex_dump_debug()``/``print_hex_dump_bytes()``, format string is
++its ``prefix_str`` argument, if it is constant string; or ``hexdump``
++in case ``prefix_str`` is built dynamically.
+-- 
+2.36.1
+
