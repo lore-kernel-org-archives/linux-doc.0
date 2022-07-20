@@ -2,142 +2,97 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 85D2FCCA487
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Jul 2022 16:44:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 75E03CCA480
+	for <linux-doc@archiver.kernel.org>; Wed, 20 Jul 2022 16:50:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232173AbiGTQok (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 20 Jul 2022 12:44:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42994 "EHLO
+        id S229495AbiGTQuw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 20 Jul 2022 12:50:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48576 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232850AbiGTQoj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Jul 2022 12:44:39 -0400
-Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 661D1664C3
-        for <linux-doc@vger.kernel.org>; Wed, 20 Jul 2022 09:44:37 -0700 (PDT)
-Received: by mail-pl1-x632.google.com with SMTP id q5so15471911plr.11
-        for <linux-doc@vger.kernel.org>; Wed, 20 Jul 2022 09:44:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=NKI6wQLzSjuIgXqGP/STBDd/io3ztt1cS6FImLHwFp4=;
-        b=aYf105zHRqcKnwIvd6ekmpqruUyQToVuka3h99YqNWRmFXkZ7ZVHV8oWNskzAvMx2F
-         hflOC9nxBStxjqtxvcltphe6Q5E58yJ1G2iJfhXNEqLsdIUxBz1Jghs5U/OLu3mGUc1a
-         JRrnyPRUFOER4kSZYOrYSqnkSlzR3XQAIIqK13/lyE2A23HrMPyXlZiOV822mKgY0tgd
-         nTwYcdRpttHY+A4wo2bLHxYVFSJL0sIrCNfPF0RyUS+KwJ64AABEJ8yX01Hb9NjXpaI/
-         s6Pf48SWnWTxK6vMsYlo9rnJGzIsPUCTu5j+IdeVl1yrYnYpbPzLMaw748Y0j9AcRKUU
-         ZGfw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=NKI6wQLzSjuIgXqGP/STBDd/io3ztt1cS6FImLHwFp4=;
-        b=gOQo6kWUpTnxLecurqJsumV+aG7b9qYnlUKaonihQ5KS6Ct3NhVoDS1/4YGteb9yPt
-         TfC4aCSIHKp7zZMnekP3BXxrtci1XrZSmI0H4T8W4gy65M6PsSgUltDXDh3xvtYVeyM6
-         oG0CMwYF3G7GgGT1Il8zS4GhrW+X1Nk8/mNyGY8yHAbG+l766/OOGaQr9RyqKbOWCgBV
-         yCRsX/omLWJqwRIk69tv8DimIRtEc/jhcyZgOPc3CQF/6qrJ+THeTbXLqL+OiiJhwYzK
-         N2aAiYj2KAFhMWhUDNBP0SCpRzXs/u3eWKoVQgoR5Y8XPRLi6wB+8zFOIXh7CGLmz3v6
-         JMgA==
-X-Gm-Message-State: AJIora/tg6hC7Po8c5WgnAtNOFittYc6Zbv8lRwmc3qd6LoNLI4r7ZcG
-        XB0fm6uzY2QqPwCpGZlBPP/png==
-X-Google-Smtp-Source: AGRyM1utYrsQFWglg8OIUvJRKtR6LVkU7MbzTy7HM7RFQtBExxPfhBWR/u5swtl61L63cUwi4vupQg==
-X-Received: by 2002:a17:90b:3ec1:b0:1f1:edcf:dd2b with SMTP id rm1-20020a17090b3ec100b001f1edcfdd2bmr6535996pjb.156.1658335476747;
-        Wed, 20 Jul 2022 09:44:36 -0700 (PDT)
-Received: from google.com (123.65.230.35.bc.googleusercontent.com. [35.230.65.123])
-        by smtp.gmail.com with ESMTPSA id k6-20020aa79986000000b00528c22038f5sm14345128pfh.14.2022.07.20.09.44.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Jul 2022 09:44:36 -0700 (PDT)
-Date:   Wed, 20 Jul 2022 16:44:32 +0000
-From:   Sean Christopherson <seanjc@google.com>
-To:     Chao Peng <chao.p.peng@linux.intel.com>
-Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
-        qemu-devel@nongnu.org, linux-kselftest@vger.kernel.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        Muchun Song <songmuchun@bytedance.com>
-Subject: Re: [PATCH v7 11/14] KVM: Register/unregister the guest private
- memory regions
-Message-ID: <Ytgw8HAsKTmZaubv@google.com>
-References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
- <20220706082016.2603916-12-chao.p.peng@linux.intel.com>
+        with ESMTP id S229862AbiGTQuw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Jul 2022 12:50:52 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1821866ACF;
+        Wed, 20 Jul 2022 09:50:51 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id C8439B82152;
+        Wed, 20 Jul 2022 16:50:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8AB7BC3411E;
+        Wed, 20 Jul 2022 16:50:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1658335848;
+        bh=99nw1jYbMX7Wt38g13l7SpdSTD6XHu02dXxP8XSMYEI=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=uNkB1dR3O/0qAwSMid/mp2RLnfxMVbkagceLMWQkGb/o2wWbkSCxchNEB/1IBAC5M
+         QpQTpHhAtGNzr8EC8rSKYANGJIV03EHZuBSZbruEvGxUDCmkNaWnk3soVZjJFiMJMV
+         ssx73GabwApJPqL3xhqcHB+dkg84m3h25NQXOpmzSpR1fd/XnhEOS/6jxzgjDfT002
+         tnyJpKKCUdHsLDEl2CC+YR3EjYN7e2cOK1D1CwO9HHPcbUSJOjutJEYYL7GYetlAaz
+         HR2K6rbdLLu6mAE0BOlTnwCMNW5wytLDN2+wroViawZ6o5wPneLTNjbfQ6fxAMhPgo
+         0BJR0uy2Vk+GQ==
+Message-ID: <ba11409a-df46-8fad-61a9-256277c588c0@kernel.org>
+Date:   Wed, 20 Jul 2022 18:50:39 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220706082016.2603916-12-chao.p.peng@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH V6 02/16] rv: Add runtime reactors interface
+Content-Language: en-US
+To:     Steven Rostedt <rostedt@goodmis.org>
+Cc:     Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Ingo Molnar <mingo@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Will Deacon <will@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Marco Elver <elver@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Gabriele Paoloni <gpaoloni@redhat.com>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Clark Williams <williams@redhat.com>,
+        Tao Zhou <tao.zhou@linux.dev>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-trace-devel@vger.kernel.org
+References: <cover.1658244826.git.bristot@kernel.org>
+ <4b5f93e3186b067073c1692d4c2b50d0b42101d5.1658244826.git.bristot@kernel.org>
+ <20220720124133.3cdd2c44@gandalf.local.home>
+From:   Daniel Bristot de Oliveira <bristot@kernel.org>
+In-Reply-To: <20220720124133.3cdd2c44@gandalf.local.home>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jul 06, 2022, Chao Peng wrote:
-> diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
-> index 230c8ff9659c..bb714c2a4b06 100644
-> --- a/virt/kvm/kvm_main.c
-> +++ b/virt/kvm/kvm_main.c
-> @@ -914,6 +914,35 @@ static int kvm_init_mmu_notifier(struct kvm *kvm)
->  
->  #endif /* CONFIG_MMU_NOTIFIER && KVM_ARCH_WANT_MMU_NOTIFIER */
->  
-> +#ifdef CONFIG_HAVE_KVM_PRIVATE_MEM
-> +#define KVM_MEM_ATTR_PRIVATE	0x0001
-> +static int kvm_vm_ioctl_set_encrypted_region(struct kvm *kvm, unsigned int ioctl,
-> +					     struct kvm_enc_region *region)
-> +{
-> +	unsigned long start, end;
+On 7/20/22 18:41, Steven Rostedt wrote:
+> On Tue, 19 Jul 2022 19:27:07 +0200
+> Daniel Bristot de Oliveira <bristot@kernel.org> wrote:
+> 
+>> +/*
+>> + * reacting_on interface.
+>> + */
+>> +static ssize_t reacting_on_read_data(struct file *filp,
+>> +				     char __user *user_buf,
+>> +				     size_t count, loff_t *ppos)
+>> +{
+>> +	char *buff;
+>> +
+>> +	mutex_lock(&rv_interface_lock);
+>> +	buff = reacting_on ? "1\n" : "0\n";
+>> +	mutex_unlock(&rv_interface_lock);
+> Again, no need for the locks, but perhaps just to keep things sane:
+> 
+> 	buf = READ_ONCE(reacting_on) ? "1\n" : "0\n";
 
-As alluded to in a different reply, because this will track GPAs instead of HVAs,
-the type needs to be "gpa_t", not "unsigned long".  Oh, actually, they need to
-be gfn_t, since those are what gets shoved into the xarray.
+So, for all files that only read/write a single variable, use READ_ONCE/WRITE_ONCE without
+locks? (and in all usage of that variable too).
 
-> +	void *entry;
-> +	int r;
-> +
-> +	if (region->size == 0 || region->addr + region->size < region->addr)
-> +		return -EINVAL;
-> +	if (region->addr & (PAGE_SIZE - 1) || region->size & (PAGE_SIZE - 1))
-> +		return -EINVAL;
-> +
-> +	start = region->addr >> PAGE_SHIFT;
-> +	end = (region->addr + region->size - 1) >> PAGE_SHIFT;
-> +
-> +	entry = ioctl == KVM_MEMORY_ENCRYPT_REG_REGION ?
-> +				xa_mk_value(KVM_MEM_ATTR_PRIVATE) : NULL;
-> +
-> +	r = xa_err(xa_store_range(&kvm->mem_attr_array, start, end,
-> +					entry, GFP_KERNEL_ACCOUNT));
+-- Daniel
+> -- Steve
+> 
 
-IIUC, this series treats memory as shared by default.  I think we should invert
-that and have KVM's ABI be that all guest memory as private by default, i.e.
-require the guest to opt into sharing memory instead of opt out of sharing memory.
-
-And then the xarray would track which regions are shared.
-
-Regarding mem_attr_array, it probably makes sense to explicitly include what it's
-tracking in the name, i.e. name it {private,shared}_mem_array depending on whether
-it's used to track private vs. shared memory.  If we ever need to track metadata
-beyond shared/private then we can tweak the name as needed, e.g. if hardware ever
-supports secondary non-ephemeral encryption keys.
