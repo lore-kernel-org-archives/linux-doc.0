@@ -2,259 +2,148 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A09A9C433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Jul 2022 20:06:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 776BEC43334
+	for <linux-doc@archiver.kernel.org>; Wed, 20 Jul 2022 20:10:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229456AbiGTUGN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 20 Jul 2022 16:06:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35268 "EHLO
+        id S229910AbiGTUKy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 20 Jul 2022 16:10:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38100 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229490AbiGTUGM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Jul 2022 16:06:12 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 13729422F1;
-        Wed, 20 Jul 2022 13:06:11 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id A383261C19;
-        Wed, 20 Jul 2022 20:06:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF2D6C3411E;
-        Wed, 20 Jul 2022 20:06:07 +0000 (UTC)
-Date:   Wed, 20 Jul 2022 16:06:06 -0400
-From:   Steven Rostedt <rostedt@goodmis.org>
-To:     Daniel Bristot de Oliveira <bristot@kernel.org>
-Cc:     Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Ingo Molnar <mingo@redhat.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Will Deacon <will@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Marco Elver <elver@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Gabriele Paoloni <gpaoloni@redhat.com>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Clark Williams <williams@redhat.com>,
-        Tao Zhou <tao.zhou@linux.dev>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-trace-devel@vger.kernel.org
-Subject: Re: [PATCH V6 04/16] rv/include: Add deterministic automata monitor
- definition via C macros
-Message-ID: <20220720160606.3e672b55@gandalf.local.home>
-In-Reply-To: <9ffc05b67fff087413143a420373731e0e34eef4.1658244826.git.bristot@kernel.org>
-References: <cover.1658244826.git.bristot@kernel.org>
-        <9ffc05b67fff087413143a420373731e0e34eef4.1658244826.git.bristot@kernel.org>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+        with ESMTP id S229883AbiGTUKu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Jul 2022 16:10:50 -0400
+Received: from mail-io1-xd2b.google.com (mail-io1-xd2b.google.com [IPv6:2607:f8b0:4864:20::d2b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DAF1F1F61B
+        for <linux-doc@vger.kernel.org>; Wed, 20 Jul 2022 13:10:49 -0700 (PDT)
+Received: by mail-io1-xd2b.google.com with SMTP id v185so15174767ioe.11
+        for <linux-doc@vger.kernel.org>; Wed, 20 Jul 2022 13:10:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=ZbB9VnKGJLInuj72DJYZA8o4PYITUT0S6KGJae4KPqw=;
+        b=D3g2EvZhuWnUXeQaneJXywswhO2BPfAAtNguy0zp2A5RQItolJnZk+5TXzZbLv22J1
+         mgwTY9bypAkjnMaz34meIe4XYXvZEnmOoomJmHTnzEgxrk6NXJG1vrRNb9e847rKDeV8
+         qxxOp4Gc5r/Gs0OLVXncyreX8GBO7cxWV65zKQ4bGnac+El3rxT+tWLiEf0ZHBsJHYlR
+         6SkBlISbeozFHbHXgBEnh4FCjPST5VEvVPQ7B9cg9z6F+dcDc0MFObTNzM/boZagIwGf
+         pDxWTHY+8z+Zw/nICI4UG50b1mcX2d/9YMN8DrFDX7ZuNLaGsOnKrL/fptVQs6Xbi7xg
+         +Ydg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=ZbB9VnKGJLInuj72DJYZA8o4PYITUT0S6KGJae4KPqw=;
+        b=ZPgpDoZnZYI8LSM0aeSck98Qv/5Dr3zkuBdOLokRjaID68qf0zwbS3H/jZyeMiGZWR
+         nmH0inxqj+h7lXbAHGThJF2MzjrhG2u7G6gLYgWaXQuzftUd3/4OuHb2KMpY60+wr+D1
+         zNcRrqFXToTlelFzikVXGfNSzgrV5mjn2t2WruJQwcFH//bJd3iVLxsSF91B8pf1iCpz
+         mZ+ZcR4j40JDSTWut4vjt3cGU1Q55SJjK1Ko5xpXuthVD5vx0So9h1tGu3fRxr6ony80
+         QTHfhBCy6p8C6GjgfMc6xXVkJfbUt2ZPKWE4Lw82A3zxxj/8rzmEd5PnsUZH1xRZMH9a
+         4XOQ==
+X-Gm-Message-State: AJIora+2zJX3XuQyAO4v51N+AvrrbW7UxCqOnC09Kc5oNU/eUpqflH+O
+        NPNVk/UIBblgDSWg2R9l428UaBCZR3MwNkqqtBZw6Q==
+X-Google-Smtp-Source: AGRyM1vzHpiGlGt2/iCzYwHXXGPDjI8Pd2dtU3rTuyBSy1cuI2Exos8o8s6qqTFWtm7HAQDTBB7j+C6oDcLY75bACzY=
+X-Received: by 2002:a02:c812:0:b0:33f:4812:4699 with SMTP id
+ p18-20020a02c812000000b0033f48124699mr19570572jao.314.1658347849186; Wed, 20
+ Jul 2022 13:10:49 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20220719195628.3415852-1-axelrasmussen@google.com>
+ <20220719195628.3415852-3-axelrasmussen@google.com> <D43534E1-7982-45EE-8B16-2C4687F49E77@vmware.com>
+ <CAJHvVcigVqAibm0JODkiR=Pcd3E14xp0NB6acw2q2enwnrnLSA@mail.gmail.com>
+ <D8D7C973-1480-4166-86AF-AD179873B2A4@vmware.com> <YtdpQBrAGJwMnssj@xz-m1.local>
+ <3C93275E-B3B8-45CA-808E-0C163DBBB32F@vmware.com>
+In-Reply-To: <3C93275E-B3B8-45CA-808E-0C163DBBB32F@vmware.com>
+From:   Axel Rasmussen <axelrasmussen@google.com>
+Date:   Wed, 20 Jul 2022 13:10:13 -0700
+Message-ID: <CAJHvVcjs_=vbUbXcm1_vAxatEu9inqkVo_geX7pcW1XqWF=gJw@mail.gmail.com>
+Subject: Re: [PATCH v4 2/5] userfaultfd: add /dev/userfaultfd for fine grained
+ access control
+To:     Nadav Amit <namit@vmware.com>
+Cc:     Peter Xu <peterx@redhat.com>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "Dmitry V . Levin" <ldv@altlinux.org>,
+        Gleb Fotengauer-Malinovskiy <glebfm@altlinux.org>,
+        Hugh Dickins <hughd@google.com>, Jan Kara <jack@suse.cz>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mel Gorman <mgorman@techsingularity.net>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Mike Rapoport <rppt@kernel.org>, Shuah Khan <shuah@kernel.org>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        zhangyi <yi.zhang@huawei.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux MM <linux-mm@kvack.org>,
+        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 19 Jul 2022 19:27:09 +0200
-Daniel Bristot de Oliveira <bristot@kernel.org> wrote:
+On Wed, Jul 20, 2022 at 10:42 AM Nadav Amit <namit@vmware.com> wrote:
+>
+> On Jul 19, 2022, at 7:32 PM, Peter Xu <peterx@redhat.com> wrote:
+>
+> > =E2=9A=A0 External Email
+> >
+> > On Tue, Jul 19, 2022 at 11:55:21PM +0000, Nadav Amit wrote:
+> >> Anyhow, I do want to clarify a bit about the =E2=80=9Ccross-process su=
+pport=E2=80=9D
+> >> userfaultfd situation. Basically, you can already get cross-process su=
+pport
+> >> today, by using calling userfaultfd() on the controlled process and ca=
+lling
+> >> pidfd_open() from another process. It does work and I do not remember =
+any
+> >> issues that it introduced (in contrast, for instance, to io-uring, tha=
+t
+> >> would break if you use userfaultfd+iouring+fork today).
+> >
+> > Do you mean to base it on pidof_getfd()?
+>
+> autocorrect? :)
+>
+> I did refer to pidfd_getfd() as a syscall that can be used today by one
+> process to control the address space of another process. I did not intend=
+ to
+> use it for the actual implementation.
+>
+> > Just want to mention that this will still need collaboration of the tar=
+get
+> > process as userfaultfd needs to be created explicitly there.  From that=
+ POV
+> > it's still more similar to general SCM_RIGHTS trick to pass over the fd=
+ but
+> > just to pass it in a different way.
+>
+> There are also some tricks you can do with ptrace in order not to need th=
+e
+> collaboration, but they are admittedly fragile.
+>
+> > IMHO the core change about having /proc/pid/userfaultfd is skipping tha=
+t
+> > only last step to create the handle.
+>
+> Yes. The point that I was trying to make is that there are no open issues
+> with adding support for remote process control through
+> /proc/pid/userfaultfd. This is in contrast, for example, for using io-uri=
+ng
+> with userfaultfd. For instance, if you try to use io-uring TODAY with
+> userfaultfd (without the async support that I need to add), and you try t=
+o
+> monitor the fork event, things would break (the new userfaultfd file
+> descriptor after fork would be installed on the io-worker thread).
+>
+> This is all to say that it is really simple to add support for one proces=
+s
+> monitoring userfaultfd of another process, since I understood that Axel h=
+ad
+> concerned that this might be utterly broken=E2=80=A6
 
-> diff --git a/include/linux/rv.h b/include/linux/rv.h
-> index 4f5b70eee557..31d8b2614eae 100644
-> --- a/include/linux/rv.h
-> +++ b/include/linux/rv.h
-> @@ -7,6 +7,8 @@
->  #ifndef _LINUX_RV_H
->  #define _LINUX_RV_H
->  
-> +#define MAX_DA_NAME_LEN         24
-> +
->  struct rv_reactor {
->  	char			*name;
->  	char			*description;
-> diff --git a/include/rv/da_monitor.h b/include/rv/da_monitor.h
-> new file mode 100644
-> index 000000000000..ef7ee3ffcad6
-> --- /dev/null
-> +++ b/include/rv/da_monitor.h
-> @@ -0,0 +1,507 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +/*
-> + * Copyright (C) 2019-2022 Red Hat, Inc. Daniel Bristot de Oliveira <bristot@kernel.org>
-> + *
-> + * Deterministic automata (DA) monitor functions, to be used together
-> + * with automata models in C generated by the dot2k tool.
-> + *
-> + * The dot2k tool is available at tools/verification/dot2k/
-> + */
-> +
-> +#include <rv/automata.h>
-> +#include <linux/rv.h>
-> +#include <linux/bug.h>
-> +
-> +/*
-> + * Generic helpers for all types of deterministic automata monitors.
-> + */
-> +#define DECLARE_DA_MON_GENERIC_HELPERS(name, type)						\
-> +												\
-> +static char REACT_MSG[1024];									\
-> +												\
-> +static inline char *format_react_msg(type curr_state, type event)				\
+Mostly I was worried it would be nontrivial to implement, and it isn't
+a use case I plan to use so I was hoping to ignore it and defer it to
+some future patches. ;)
 
-You probably want to call this format_react_msg_##name() too.
-
-> +{												\
-> +	snprintf(REACT_MSG, 1024,								\
-> +		 "rv: monitor %s does not allow event %s on state %s\n",			\
-> +		 #name,										\
-> +		 model_get_event_name_##name(event),						\
-> +		 model_get_state_name_##name(curr_state));					\
-> +	return REACT_MSG;									\
-> +}												\
-> +												\
-> +static void cond_react(char *msg)								\
-
-And this cond_react_##name() as well. Otherwise you can have issues with
-the same function being used by multiple monitors. What if two are declared
-in the same file? This will fail to build.
-
-> +{												\
-> +	if (rv_##name.react)									\
-> +		rv_##name.react(msg);								\
-> +}												\
-> +												\
-> +/*												\
-> + * da_monitor_reset_##name - reset a monitor and setting it to init state			\
-> + */												\
-> +static inline void da_monitor_reset_##name(struct da_monitor *da_mon)				\
-> +{												\
-> +	da_mon->monitoring = 0;									\
-> +	da_mon->curr_state = model_get_initial_state_##name();					\
-> +}												\
-> +												\
-> +/*												\
-> + * da_monitor_curr_state_##name - return the current state					\
-> + */												\
-> +static inline type da_monitor_curr_state_##name(struct da_monitor *da_mon)			\
-> +{												\
-> +	return da_mon->curr_state;								\
-> +}												\
-> +												\
-> +/*												\
-> + * da_monitor_set_state_##name - set the new current state					\
-> + */												\
-> +static inline void										\
-> +da_monitor_set_state_##name(struct da_monitor *da_mon, enum states_##name state)		\
-> +{												\
-> +	da_mon->curr_state = state;								\
-> +}												\
-> +												\
-> +/*												\
-> + * da_monitor_start_##name - start monitoring							\
-> + *												\
-> + * The monitor will ignore all events until monitoring is set to true. This			\
-> + * function needs to be called to tell the monitor to start monitoring.				\
-> + */												\
-> +static inline void da_monitor_start_##name(struct da_monitor *da_mon)				\
-> +{												\
-> +	da_mon->monitoring = 1;									\
-> +}												\
-> +												\
-> +/*												\
-> + * da_monitoring_##name - returns true if the monitor is processing events			\
-> + */												\
-> +static inline bool da_monitoring_##name(struct da_monitor *da_mon)				\
-> +{												\
-> +	return da_mon->monitoring;								\
-> +}												\
-> +												\
-> +/*												\
-> + * da_monitor_enabled_##name - checks if the monitor is enabled					\
-> + */												\
-> +static inline bool da_monitor_enabled_##name(void)						\
-> +{												\
-
-Should we add a:
-
-	smp_rmb();
-
-here? And then a smp_wmb() where these switches get updated?
-
-I guess how critical is it that these turn off immediately after the switch
-is flipped?
-
-> +	/* global switch */									\
-> +	if (unlikely(!rv_monitoring_on()))							\
-> +		return 0;									\
-> +												\
-> +	/* monitor enabled */									\
-> +	if (unlikely(!rv_##name.enabled))							\
-> +		return 0;									\
-> +												\
-> +	return 1;										\
-> +}												\
-> +												\
-> +/*												\
-> + * da_monitor_handling_event_##name - checks if the monitor is ready to handle events		\
-> + */												\
-> +static inline bool da_monitor_handling_event_##name(struct da_monitor *da_mon)			\
-> +{												\
-> +												\
-> +	if (!da_monitor_enabled_##name())							\
-> +		return 0;									\
-> +												\
-> +	/* monitor is actually monitoring */							\
-> +	if (unlikely(!da_monitoring_##name(da_mon)))						\
-> +		return 0;									\
-> +												\
-> +	return 1;										\
-> +}
-
-
-> diff --git a/kernel/trace/rv/Kconfig b/kernel/trace/rv/Kconfig
-> index 3eb5d48ab4f6..0123bdf7052a 100644
-> --- a/kernel/trace/rv/Kconfig
-> +++ b/kernel/trace/rv/Kconfig
-> @@ -1,5 +1,19 @@
->  # SPDX-License-Identifier: GPL-2.0-only
->  #
-> +config DA_MON_EVENTS
-> +	default n
-> +	bool
-> +
-> +config DA_MON_EVENTS_IMPLICIT
-> +	select DA_MON_EVENTS
-> +	default n
-> +	bool
-> +
-> +config DA_MON_EVENTS_ID
-> +	select DA_MON_EVENTS
-> +	default n
-> +	bool
-
-The "default n" are not needed. The default is 'n' without it.
-
--- Steve
-
-> +
->  menuconfig RV
->  	bool "Runtime Verification"
->  	depends on TRACING
-> diff --git a/kernel/trace/rv/rv.c b/kernel/trace/rv/rv.c
-> index eb835777a59b..00183e056dfd 100644
-> --- a/kernel/trace/rv/rv.c
-> +++ b/kernel/trace/rv/rv.c
-> @@ -141,6 +141,11 @@
->  #include <linux/slab.h>
->  #include <rv/rv.h>
->  
-> +#ifdef CONFIG_DA_MON_EVENTS
-> +#define CREATE_TRACE_POINTS
-> +#include <trace/events/rv.h>
-> +#endif
-> +
->  #include "rv.h"
->  
->  DEFINE_MUTEX(rv_interface_lock);
-
+But, if it "just works" I'm happy to include it in v5.
