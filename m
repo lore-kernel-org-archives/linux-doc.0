@@ -2,160 +2,259 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AD6DFC43334
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Jul 2022 19:24:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A09A9C433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 20 Jul 2022 20:06:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233300AbiGTTYc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 20 Jul 2022 15:24:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58934 "EHLO
+        id S229456AbiGTUGN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 20 Jul 2022 16:06:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35268 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233630AbiGTTYY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Jul 2022 15:24:24 -0400
-Received: from mail-il1-x130.google.com (mail-il1-x130.google.com [IPv6:2607:f8b0:4864:20::130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3DBE37436C;
-        Wed, 20 Jul 2022 12:24:10 -0700 (PDT)
-Received: by mail-il1-x130.google.com with SMTP id h16so2933737ilc.10;
-        Wed, 20 Jul 2022 12:24:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Hl75daCj6bmszj8wMSbUPV0LQRu+ve1ILCk7lybXe/E=;
-        b=SKm8TkhEPfi/RU5XpslPHkzPuUiswStDsB7SXaiVQCWY1zP5vmMPME52ydkD5hlia3
-         eX6hARWc0vTSROK/HdfzIvDQKRifaLajTYBlr1UmriVcqRMeBdzxSMi+ZWRvf144fbV4
-         PDBSyfFNZI38+eEmL8pN91YVG7PJBUHC+ZfeUUC11CBX6H6/bvrsZyP8d6mdlfFuK8u7
-         zifY6TUZ2a4gNnCOkEf0TC/BunAzdvwVElmHiPU9JhLNBux7HD5j0NrYpzTczto28QPj
-         IyJqO1qU2MQdbKsRI8Gqx04zg9apjs9LM0zw/nR4a7WgkhMmRL7+E8Kv/oMZ5vG0Cp47
-         JH6g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Hl75daCj6bmszj8wMSbUPV0LQRu+ve1ILCk7lybXe/E=;
-        b=6M8yNEIdNKmO233IJivRn2IrJhN/2uvoz5wnDRSFM05riOrbkh1WW8qvZ1BxX+24bY
-         4WB4t0qJqRINip8rMFFd+MYPjlIr1UITyjPmmjCwpAe4OBmBcWeLGuZKbKUtmTB8mW5m
-         xOS1PSR7Ib8FWjKrMzMSiFZ4mGjYLfIMnLFWhnIwVS4bpYW0iSZt861TXqtb444KRYio
-         Wnu9YEp2GbNQBoIcucE7jO90IGLXYWRLbODCb3VhuCsUbYrSLswU/37kEfa+AzKi1ofJ
-         rsE+korkjxH6MQYJIhlQt8gK/iet6ZQzm+nxMjTKDkxs7G0R2+GuREqPnD6WBV6Zk02U
-         Y/dQ==
-X-Gm-Message-State: AJIora/wd9gpSRfZtTpoP6R5Aze8ynmXeT0f9RTx9FcwdcMDDpeZk/pH
-        XPT4+xA5HKKnlVErh3t8sO4qpTCPeFs2abIMJ7XUO/gWRBrMZg==
-X-Google-Smtp-Source: AGRyM1tSMHamXHQVemmB9sJC5cgve9nid3rtOujbVF4Y7tju5ujgFrF/r9OGE56jB/kiVcwZQz+REsBLTVgblsM2JDw=
-X-Received: by 2002:a05:6e02:1c23:b0:2dc:e497:8b12 with SMTP id
- m3-20020a056e021c2300b002dce4978b12mr9260657ilh.151.1658345049872; Wed, 20
- Jul 2022 12:24:09 -0700 (PDT)
+        with ESMTP id S229490AbiGTUGM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Jul 2022 16:06:12 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 13729422F1;
+        Wed, 20 Jul 2022 13:06:11 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id A383261C19;
+        Wed, 20 Jul 2022 20:06:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF2D6C3411E;
+        Wed, 20 Jul 2022 20:06:07 +0000 (UTC)
+Date:   Wed, 20 Jul 2022 16:06:06 -0400
+From:   Steven Rostedt <rostedt@goodmis.org>
+To:     Daniel Bristot de Oliveira <bristot@kernel.org>
+Cc:     Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Ingo Molnar <mingo@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Will Deacon <will@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Marco Elver <elver@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Gabriele Paoloni <gpaoloni@redhat.com>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Clark Williams <williams@redhat.com>,
+        Tao Zhou <tao.zhou@linux.dev>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-trace-devel@vger.kernel.org
+Subject: Re: [PATCH V6 04/16] rv/include: Add deterministic automata monitor
+ definition via C macros
+Message-ID: <20220720160606.3e672b55@gandalf.local.home>
+In-Reply-To: <9ffc05b67fff087413143a420373731e0e34eef4.1658244826.git.bristot@kernel.org>
+References: <cover.1658244826.git.bristot@kernel.org>
+        <9ffc05b67fff087413143a420373731e0e34eef4.1658244826.git.bristot@kernel.org>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-References: <20210414184604.23473-1-ojeda@kernel.org> <fae4873e-2ff9-df35-0ab9-34bf4417b717@schinagl.nl>
- <CANiq72mRxM-7griYF+0FWqYoSoNL8ad=L-i6a2-GsaCeb0C6qQ@mail.gmail.com> <ba8cb315-9d73-2f45-8bf9-d9473d369dca@schinagl.nl>
-In-Reply-To: <ba8cb315-9d73-2f45-8bf9-d9473d369dca@schinagl.nl>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Wed, 20 Jul 2022 21:23:55 +0200
-Message-ID: <CANiq72kz+Txauo+103_-fN_J8PhhCdJUH5XepShUQmJzW6a4tA@mail.gmail.com>
-Subject: Re: [PATCH 00/13] [RFC] Rust support
-To:     Olliver Schinagl <oliver+list@schinagl.nl>
-Cc:     Miguel Ojeda <ojeda@kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        rust-for-linux <rust-for-linux@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Jul 18, 2022 at 8:56 AM Olliver Schinagl
-<oliver+list@schinagl.nl> wrote:
->
-> Absolutly, but with the many luitenants, many tree's, and not a single
-> CI source, this would still be tricky in the end; but certainly possible.
+On Tue, 19 Jul 2022 19:27:09 +0200
+Daniel Bristot de Oliveira <bristot@kernel.org> wrote:
 
-A bot in -next (possibly an existing one) is a single thing to care
-about and the amount of maintainers/trees doesn't have an effect on
-it, thus I don't think it would be tricky.
+> diff --git a/include/linux/rv.h b/include/linux/rv.h
+> index 4f5b70eee557..31d8b2614eae 100644
+> --- a/include/linux/rv.h
+> +++ b/include/linux/rv.h
+> @@ -7,6 +7,8 @@
+>  #ifndef _LINUX_RV_H
+>  #define _LINUX_RV_H
+>  
+> +#define MAX_DA_NAME_LEN         24
+> +
+>  struct rv_reactor {
+>  	char			*name;
+>  	char			*description;
+> diff --git a/include/rv/da_monitor.h b/include/rv/da_monitor.h
+> new file mode 100644
+> index 000000000000..ef7ee3ffcad6
+> --- /dev/null
+> +++ b/include/rv/da_monitor.h
+> @@ -0,0 +1,507 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * Copyright (C) 2019-2022 Red Hat, Inc. Daniel Bristot de Oliveira <bristot@kernel.org>
+> + *
+> + * Deterministic automata (DA) monitor functions, to be used together
+> + * with automata models in C generated by the dot2k tool.
+> + *
+> + * The dot2k tool is available at tools/verification/dot2k/
+> + */
+> +
+> +#include <rv/automata.h>
+> +#include <linux/rv.h>
+> +#include <linux/bug.h>
+> +
+> +/*
+> + * Generic helpers for all types of deterministic automata monitors.
+> + */
+> +#define DECLARE_DA_MON_GENERIC_HELPERS(name, type)						\
+> +												\
+> +static char REACT_MSG[1024];									\
+> +												\
+> +static inline char *format_react_msg(type curr_state, type event)				\
 
-> I think this is a pretty poor argument for following Rust's opinionated
-> view of the world. E.g. it's generally bad to copy/paste code to begin
-> with. How many 'bugs' that we know of are copy/paste bugs?
+You probably want to call this format_react_msg_##name() too.
 
-We will have to disagree. Consistency and simplicity are fine
-arguments in my book, not "pretty poor" ones.
+> +{												\
+> +	snprintf(REACT_MSG, 1024,								\
+> +		 "rv: monitor %s does not allow event %s on state %s\n",			\
+> +		 #name,										\
+> +		 model_get_event_name_##name(event),						\
+> +		 model_get_state_name_##name(curr_state));					\
+> +	return REACT_MSG;									\
+> +}												\
+> +												\
+> +static void cond_react(char *msg)								\
 
-I don't see the relevance of the copy/paste code discussion here. But
-assuming the analogy makes sense, I don't agree that reusing code is
-"generally bad" either.
+And this cond_react_##name() as well. Otherwise you can have issues with
+the same function being used by multiple monitors. What if two are declared
+in the same file? This will fail to build.
 
-Anyway, given you mention "bugs", I think you are implying that the
-defaults are somehow "incorrect" (not accessible?). In that case, to
-improve things for all Rust developers out there, I would suggest
-opening an issue in https://github.com/rust-dev-tools/fmt-rfcs.
+> +{												\
+> +	if (rv_##name.react)									\
+> +		rv_##name.react(msg);								\
+> +}												\
+> +												\
+> +/*												\
+> + * da_monitor_reset_##name - reset a monitor and setting it to init state			\
+> + */												\
+> +static inline void da_monitor_reset_##name(struct da_monitor *da_mon)				\
+> +{												\
+> +	da_mon->monitoring = 0;									\
+> +	da_mon->curr_state = model_get_initial_state_##name();					\
+> +}												\
+> +												\
+> +/*												\
+> + * da_monitor_curr_state_##name - return the current state					\
+> + */												\
+> +static inline type da_monitor_curr_state_##name(struct da_monitor *da_mon)			\
+> +{												\
+> +	return da_mon->curr_state;								\
+> +}												\
+> +												\
+> +/*												\
+> + * da_monitor_set_state_##name - set the new current state					\
+> + */												\
+> +static inline void										\
+> +da_monitor_set_state_##name(struct da_monitor *da_mon, enum states_##name state)		\
+> +{												\
+> +	da_mon->curr_state = state;								\
+> +}												\
+> +												\
+> +/*												\
+> + * da_monitor_start_##name - start monitoring							\
+> + *												\
+> + * The monitor will ignore all events until monitoring is set to true. This			\
+> + * function needs to be called to tell the monitor to start monitoring.				\
+> + */												\
+> +static inline void da_monitor_start_##name(struct da_monitor *da_mon)				\
+> +{												\
+> +	da_mon->monitoring = 1;									\
+> +}												\
+> +												\
+> +/*												\
+> + * da_monitoring_##name - returns true if the monitor is processing events			\
+> + */												\
+> +static inline bool da_monitoring_##name(struct da_monitor *da_mon)				\
+> +{												\
+> +	return da_mon->monitoring;								\
+> +}												\
+> +												\
+> +/*												\
+> + * da_monitor_enabled_##name - checks if the monitor is enabled					\
+> + */												\
+> +static inline bool da_monitor_enabled_##name(void)						\
+> +{												\
 
-> Secondly, and more importantly so; you argue 'who cares about people
-> with disablements, atleast its equally hard to read everywhere' which is
-> a very poor argument :p
+Should we add a:
 
-No, and I want to be __very__ clear about this: at no point I have
-argued "who cares about people with disabilities" or anything like it.
-It is insulting that you even suggest it.
+	smp_rmb();
 
-Likewise, you are the one claiming it is "hard to read", not me.
+here? And then a smp_wmb() where these switches get updated?
 
-And then after constructing those straw men, you call them "a very
-poor argument"...
+I guess how critical is it that these turn off immediately after the switch
+is flipped?
 
-> Finally, it must of course be mentioned, that rust is really trying to
-> do an XKCD here, https://xkcd.com/927/ though I'm sure we'll get it
-> right this time around ;)
+> +	/* global switch */									\
+> +	if (unlikely(!rv_monitoring_on()))							\
+> +		return 0;									\
+> +												\
+> +	/* monitor enabled */									\
+> +	if (unlikely(!rv_##name.enabled))							\
+> +		return 0;									\
+> +												\
+> +	return 1;										\
+> +}												\
+> +												\
+> +/*												\
+> + * da_monitor_handling_event_##name - checks if the monitor is ready to handle events		\
+> + */												\
+> +static inline bool da_monitor_handling_event_##name(struct da_monitor *da_mon)			\
+> +{												\
+> +												\
+> +	if (!da_monitor_enabled_##name())							\
+> +		return 0;									\
+> +												\
+> +	/* monitor is actually monitoring */							\
+> +	if (unlikely(!da_monitoring_##name(da_mon)))						\
+> +		return 0;									\
+> +												\
+> +	return 1;										\
+> +}
 
-How does that even apply here? There is no "standard" for formatting
-across languages, if that is what you are saying.
 
-Actually, what is happening here is that there is an "official" tool,
-called rustfmt, that most Rust code out there uses.
+> diff --git a/kernel/trace/rv/Kconfig b/kernel/trace/rv/Kconfig
+> index 3eb5d48ab4f6..0123bdf7052a 100644
+> --- a/kernel/trace/rv/Kconfig
+> +++ b/kernel/trace/rv/Kconfig
+> @@ -1,5 +1,19 @@
+>  # SPDX-License-Identifier: GPL-2.0-only
+>  #
+> +config DA_MON_EVENTS
+> +	default n
+> +	bool
+> +
+> +config DA_MON_EVENTS_IMPLICIT
+> +	select DA_MON_EVENTS
+> +	default n
+> +	bool
+> +
+> +config DA_MON_EVENTS_ID
+> +	select DA_MON_EVENTS
+> +	default n
+> +	bool
 
-By not using it, it is you the one that may be creating a XKCD
-situation, if anything.
+The "default n" are not needed. The default is 'n' without it.
 
-And to be clear, we don't necessarily follow "Rust's biased view". For
-instance, there is also an "official" build tool, called Cargo, that
-most Rust code out there uses; yet we are not using it for the kernel.
+-- Steve
 
-We are actually doing things how we think are best for the kernel. Not
-because "Rust" (whatever or whoever that is) is "trying to do an
-XKCD". Not because we are "following Rust's opinionated view of the
-world" or "Rust's biased view".
+> +
+>  menuconfig RV
+>  	bool "Runtime Verification"
+>  	depends on TRACING
+> diff --git a/kernel/trace/rv/rv.c b/kernel/trace/rv/rv.c
+> index eb835777a59b..00183e056dfd 100644
+> --- a/kernel/trace/rv/rv.c
+> +++ b/kernel/trace/rv/rv.c
+> @@ -141,6 +141,11 @@
+>  #include <linux/slab.h>
+>  #include <rv/rv.h>
+>  
+> +#ifdef CONFIG_DA_MON_EVENTS
+> +#define CREATE_TRACE_POINTS
+> +#include <trace/events/rv.h>
+> +#endif
+> +
+>  #include "rv.h"
+>  
+>  DEFINE_MUTEX(rv_interface_lock);
 
-> But you are not, only those that follow rust's biased view. Everybody
-> else that has a different opinion (like die-hard C programmers) that
-> care enough (I'm sure there's plenty) would setup their rustfmt config
-> file to resemble their C code; and thus the entire premisis is broken.
-> Though; yes, in a perfect world it could have worked like this, but xkcd
-> again :)
-
-No. I said we are being consistent with the majority of the Rust code
-out there, not with "everybody".
-
-If, instead, we try to be consistent with the kernel C style, then you
-are likely not being consistent with the majority of the Rust code out
-there. And you would have to decide exactly how to map the C style to
-Rust constructs and which particular kernel style.
-
-Again: I personally don't mind what the particular style is. As a
-project, what we value the most is having a single style across it and
-not having to think about formatting. Nevertheless, I think there is
-also value in being consistent with the majority of the Rust code out
-there.
-
-> This though is a fair argument I understand, it would be weird in having
-> 2 styles in user-space and kernel-space code; though I see this
-> happening today as well; where developers follow kernel style for kernel
-> code (obviously) but use their preferred 2 or 3 space style on their
-> userland code. Trying to 'force' this, usually however never gets the
-> intended result ...
-
-If we follow the usual Rust style in the kernel, I would say it is
-more likely that both styles match.
-
-Cheers,
-Miguel
