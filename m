@@ -2,45 +2,46 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7DCDBC433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Jul 2022 11:07:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B9C7C43334
+	for <linux-doc@archiver.kernel.org>; Wed, 20 Jul 2022 11:16:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232049AbiGTLH0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 20 Jul 2022 07:07:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49346 "EHLO
+        id S238678AbiGTLQ0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 20 Jul 2022 07:16:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56204 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231877AbiGTLHY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Jul 2022 07:07:24 -0400
-Received: from mail-m972.mail.163.com (mail-m972.mail.163.com [123.126.97.2])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 7E4BB6EEB8;
-        Wed, 20 Jul 2022 04:07:22 -0700 (PDT)
+        with ESMTP id S239008AbiGTLQK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Jul 2022 07:16:10 -0400
+Received: from mail-m974.mail.163.com (mail-m974.mail.163.com [123.126.97.4])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 887705B799;
+        Wed, 20 Jul 2022 04:15:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-        s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=89CUw
-        D/ltIp7nzFeM1m56hj3ybYhAShEewrK3lMADUo=; b=JrKV/2LOI3sQYaLKf1d9Y
-        PUUGruSx0cRDRyCNI9fif824zt4Dby9Bt9OS9GJyaGKQAUtT6uj7se8VDXLHLszk
-        +Rg0/VC93hhDvZIzPonJMaEsCH49MItKXhh6YF09TuzVCmw4QwY7w+BuNTpVzmyF
-        7GLU8iWOw4kykGr8OMEg38=
+        s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=HaEog
+        rGXBO9W6cWg3CIvTltGLAfoziXsyoiJVv5i5qM=; b=ATNaX1+4SJr5RStOgo/j4
+        JeybmIgtoowIMV1VeCCOLjAgvA6Ng2wUrPLgMlo1LOXnP4EFFCHpTE2Odj6aF2y0
+        Ve/3oauSfO1/SBnlEm8v7rOCwZAk2DSDX0KWsHRSyrbDtox3gpM/HxXEOjkzW3bS
+        6ou9nseLAYWXi2Ahrg7jXc=
 Received: from localhost.localdomain (unknown [112.97.48.93])
-        by smtp2 (Coremail) with SMTP id GtxpCgAHkvTb4ddinkTCQA--.181S2;
-        Wed, 20 Jul 2022 19:07:10 +0800 (CST)
+        by smtp4 (Coremail) with SMTP id HNxpCgDXyNhe49dihuDYPg--.344S2;
+        Wed, 20 Jul 2022 19:13:37 +0800 (CST)
 From:   Slark Xiao <slark_xiao@163.com>
-To:     bhe@redhat.com, vgoyal@redhat.com, dyoung@redhat.com,
-        corbet@lwn.net
-Cc:     kexec@lists.infradead.org, linux-doc@vger.kernel.org,
+To:     martin.lau@linux.dev, yhs@fb.com, song@kernel.org,
+        john.fastabend@gmail.com, kpsingh@kernel.org, sdf@google.com,
+        haoluo@google.com, jolsa@kernel.org, corbet@lwn.net
+Cc:     bpf@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, Slark Xiao <slark_xiao@163.com>
-Subject: [PATCH] docs: admin-guide: ix typo in comment
-Date:   Wed, 20 Jul 2022 19:07:06 +0800
-Message-Id: <20220720110706.16766-1-slark_xiao@163.com>
+Subject: [PATCH] docs: bpf: Fix typo in comment
+Date:   Wed, 20 Jul 2022 19:13:33 +0800
+Message-Id: <20220720111333.17075-1-slark_xiao@163.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: GtxpCgAHkvTb4ddinkTCQA--.181S2
-X-Coremail-Antispam: 1Uf129KBjvdXoW7JrWUCr18CFykZr15XF4UXFb_yoWfXrcEka
-        ykXF4kAa1xJ348tr4rJF90qFy2vw4akrWxuws7Jr42kayxA390kw1kJF9rAw1fGrs7uryr
-        WFyfXryxJrnrWjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-        9fnUUvcSsGvfC2KfnxnUUI43ZEXa7xREb18tUUUUU==
+X-CM-TRANSID: HNxpCgDXyNhe49dihuDYPg--.344S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7ur1DZFWUuF4kWryruF1ftFb_yoW8Gw1kpF
+        nrXwn0g3Z8Z343uFy8t342qa4FgF4kWw4UGrZ8tw1Sya17tFW0vryIyFnYy3WUGFyfAa12
+        vryFyF1UWw1jy3JanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0zRco7NUUUUU=
 X-Originating-IP: [112.97.48.93]
-X-CM-SenderInfo: xvod2y5b0lt0i6rwjhhfrp/1tbivx5EZFWB0iTLLQAAsF
+X-CM-SenderInfo: xvod2y5b0lt0i6rwjhhfrp/xtbBDRVEZFaEKAPoCAACsj
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -49,22 +50,31 @@ Fix typo in the comment
 
 Signed-off-by: Slark Xiao <slark_xiao@163.com>
 ---
- Documentation/admin-guide/kdump/vmcoreinfo.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ Documentation/bpf/map_cgroup_storage.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/admin-guide/kdump/vmcoreinfo.rst b/Documentation/admin-guide/kdump/vmcoreinfo.rst
-index 8419019b6a88..6726f439958c 100644
---- a/Documentation/admin-guide/kdump/vmcoreinfo.rst
-+++ b/Documentation/admin-guide/kdump/vmcoreinfo.rst
-@@ -200,7 +200,7 @@ prb
+diff --git a/Documentation/bpf/map_cgroup_storage.rst b/Documentation/bpf/map_cgroup_storage.rst
+index cab9543017bf..8e5fe532c07e 100644
+--- a/Documentation/bpf/map_cgroup_storage.rst
++++ b/Documentation/bpf/map_cgroup_storage.rst
+@@ -31,7 +31,7 @@ The map uses key of type of either ``__u64 cgroup_inode_id`` or
+     };
  
- A pointer to the printk ringbuffer (struct printk_ringbuffer). This
- may be pointing to the static boot ringbuffer or the dynamically
--allocated ringbuffer, depending on when the the core dump occurred.
-+allocated ringbuffer, depending on when the core dump occurred.
- Used by user-space tools to read the active kernel log buffer.
+ ``cgroup_inode_id`` is the inode id of the cgroup directory.
+-``attach_type`` is the the program's attach type.
++``attach_type`` is the program's attach type.
  
- printk_rb_static
+ Linux 5.9 added support for type ``__u64 cgroup_inode_id`` as the key type.
+ When this key type is used, then all attach types of the particular cgroup and
+@@ -155,7 +155,7 @@ However, the BPF program can still only associate with one map of each type
+ ``BPF_MAP_TYPE_CGROUP_STORAGE`` or more than one
+ ``BPF_MAP_TYPE_PERCPU_CGROUP_STORAGE``.
+ 
+-In all versions, userspace may use the the attach parameters of cgroup and
++In all versions, userspace may use the attach parameters of cgroup and
+ attach type pair in ``struct bpf_cgroup_storage_key`` as the key to the BPF map
+ APIs to read or update the storage for a given attachment. For Linux 5.9
+ attach type shared storages, only the first value in the struct, cgroup inode
 -- 
 2.25.1
 
