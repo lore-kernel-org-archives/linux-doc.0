@@ -2,74 +2,73 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D137EC433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Jul 2022 21:19:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F3BCC43334
+	for <linux-doc@archiver.kernel.org>; Wed, 20 Jul 2022 21:23:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230309AbiGTVTS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 20 Jul 2022 17:19:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46800 "EHLO
+        id S230457AbiGTVXQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 20 Jul 2022 17:23:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49552 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229449AbiGTVTR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Jul 2022 17:19:17 -0400
+        with ESMTP id S231226AbiGTVWe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Jul 2022 17:22:34 -0400
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC9F123152;
-        Wed, 20 Jul 2022 14:19:16 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47CE263937;
+        Wed, 20 Jul 2022 14:22:31 -0700 (PDT)
 Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 92EEE2B0;
-        Wed, 20 Jul 2022 21:19:16 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 92EEE2B0
+        by ms.lwn.net (Postfix) with ESMTPSA id D5D402ED;
+        Wed, 20 Jul 2022 21:22:30 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net D5D402ED
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1658351956; bh=LmYxArYWHdnbHw4VAuZTMP618eo0OL5FzSkSWrD2b5s=;
+        t=1658352151; bh=Kl3uE6oHnNJDSqZS04F8R5YvaQ8LpdjcxdPR59RBQUY=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=HmFCJj51JstREUz496rEFb3/DD56IGLqL09z0tnz3sxistfCGysh+D5p48DLBC8Pi
-         F3dPfdFzyvcalVpO2xsuGRX0ZTzOpDQnXRXdSxFCh6X6ysGSDigdChQR9qRT3Yilo/
-         j+liXDsOyRZq3WzCUeRhUj2VOEg6R2RNfPK0LtdaWoAXVIB7ICVU7kSgPfCLZxbxTk
-         zHhLsk+KGobcsPEhDNzSK/l3g5gz+wduVCni+dyhi//7E8PHxAEOx/oKhRpRHOej6Q
-         KDhk/R0KY9hgiqvl3du9TtOCecNDcFlLTz7miWy9gxUMOQghNpydmb8yRiP4V4UOFs
-         hzn2r/5MbNVEg==
+        b=IOAvDT1AJhiTZ4ANjVdWW62QzMkv0JZTou9CCeqAn5x6YqdFmEflbHQNI9shY2ou2
+         4C5ZY1V5p2S8HnB8YbnQ4WU1sUH4xnMUjrTspUDy9NWza2ayZbV8FNExnQcANacmYM
+         kXiOVUQ8DASqmDR/Ko9uQbK1vYxuBQF1k0GI8vUZFy85oLxTHxRuLhynwTw2iIAmwI
+         gX62oacCzCS0BoxpLWj3CEVSHMfLa49jl/yY9Y3y/7f3LAceA+PSzczr3E4XRnUaym
+         b2t4bfiZ+twZESBOs00pGgCmBUORqNfSbypfLrfue96A0L0tDijlLg9D0TUhZ9ygXw
+         SHcnafa9M088Q==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Sotir Danailov <sndanailov@gmail.com>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        bagasdotme@gmail.com, rdunlap@infradead.org,
-        Sotir Danailov <sndanailov@gmail.com>
-Subject: Re: [PATCH v3] Documentation: process: Update email client
- instructions for Thunderbird
-In-Reply-To: <20220715211307.9358-1-sndanailov@gmail.com>
-References: <20220715211307.9358-1-sndanailov@gmail.com>
-Date:   Wed, 20 Jul 2022 15:19:15 -0600
-Message-ID: <878rono52k.fsf@meer.lwn.net>
+To:     alexs@kernel.org
+Cc:     Alex Shi <alexs@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] doc/vm: move overcommit-accounting doc to admin-guide
+In-Reply-To: <20220714055142.214728-1-alexs@kernel.org>
+References: <20220714055142.214728-1-alexs@kernel.org>
+Date:   Wed, 20 Jul 2022 15:22:30 -0600
+Message-ID: <874jzbo4x5.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Sotir Danailov <sndanailov@gmail.com> writes:
+alexs@kernel.org writes:
 
-> The instructions don't match with the current Thunderbird interface.
-> Clarification on using external extensions.
-> New information on how to avoid writing HTML emails.
-> Tell user to restart Thunderbird after modifications.
+> From: Alex Shi <alexs@kernel.org>
 >
-> Tested-by: Randy Dunlap <rdunlap@infradead.org>
-> Acked-by: Randy Dunlap <rdunlap@infradead.org>
-> Signed-off-by: Sotir Danailov <sndanailov@gmail.com>
+> Since the contents is mainly focus on a sysctl vm.overcommit_memory,
+> it's more suitable for admin-guide dir instead of vm/ dir.
+>
+> Signed-off-by: Alex Shi <alexs@kernel.org>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: linux-doc@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
 > ---
-> Changelog since v2:
->  - tell user to restart Thunderbird after modifications
->  - unnecessary comment on older versions for "External Editor"
->
-> Changelog since v1:
->  - better external extensions explanation
->  - information on avoiding HTML emails
->
-> v2: https://lore.kernel.org/linux-doc/20220714131152.12709-1-sndanailov@gmail.com/
-> v1: https://lore.kernel.org/linux-doc/20220713225037.1201-1-sndanailov@gmail.com/
->
->  Documentation/process/email-clients.rst | 69 +++++++++++++++++--------
->  1 file changed, 47 insertions(+), 22 deletions(-)
+>  Documentation/admin-guide/mm/index.rst                          | 1 +
+>  Documentation/{vm => admin-guide/mm}/overcommit-accounting.rst  | 0
+>  Documentation/admin-guide/sysctl/vm.rst                         | 2 +-
+>  Documentation/filesystems/proc.rst                              | 2 +-
+>  Documentation/translations/zh_CN/admin-guide/mm/index.rst       | 1 +
+>  .../zh_CN/{vm => admin-guide/mm}/overcommit-accounting.rst      | 2 +-
+>  Documentation/translations/zh_CN/vm/index.rst                   | 1 -
+>  Documentation/vm/index.rst                                      | 1 -
+>  8 files changed, 5 insertions(+), 5 deletions(-)
+>  rename Documentation/{vm => admin-guide/mm}/overcommit-accounting.rst (100%)
+>  rename Documentation/translations/zh_CN/{vm => admin-guide/mm}/overcommit-accounting.rst (97%)
 
 Applied, thanks.
 
