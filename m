@@ -2,833 +2,272 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7FF95C433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Jul 2022 07:26:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C43CAC43334
+	for <linux-doc@archiver.kernel.org>; Wed, 20 Jul 2022 07:42:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232496AbiGTH0D (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 20 Jul 2022 03:26:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45854 "EHLO
+        id S235969AbiGTHm0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 20 Jul 2022 03:42:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58412 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231202AbiGTH0D (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Jul 2022 03:26:03 -0400
-Received: from mail-io1-xd31.google.com (mail-io1-xd31.google.com [IPv6:2607:f8b0:4864:20::d31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38BA510FC5;
-        Wed, 20 Jul 2022 00:26:01 -0700 (PDT)
-Received: by mail-io1-xd31.google.com with SMTP id u20so13669057iob.8;
-        Wed, 20 Jul 2022 00:26:01 -0700 (PDT)
+        with ESMTP id S233747AbiGTHmZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Jul 2022 03:42:25 -0400
+Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9D6E4C60D
+        for <linux-doc@vger.kernel.org>; Wed, 20 Jul 2022 00:42:23 -0700 (PDT)
+Received: by mail-wr1-x432.google.com with SMTP id z13so5324690wro.13
+        for <linux-doc@vger.kernel.org>; Wed, 20 Jul 2022 00:42:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
+        d=google.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=UnBdPRUh7djZC7Qw84qgD2HzLnpAORAEXhzxx/+zyLg=;
-        b=qGZy2ZHe99n4ZSHn3c+pvu1QoxUpTp2PENt058J2ENCAvggLSCjduO4NQd6fzPRQzp
-         IiE3Ly6V22dYZelTh8jbinZ+yeSl30x1GhNKIsgR6Ar0BUo5DYgN9YzJUzh+RSojSG3V
-         3rYLYK8XGd4di04a738ol/7HqSRH5CvUHVCZx3Kk3M4403T/eSsyKF2utWpNLcdz+GIh
-         jl/beNhgaeRIXTJ1o1NHpFCeIEp3CEYSODO/EY0G8kMUKcI7pn7a9/9gl7KwgOERmwao
-         MVJzBFbqyPeSIwLYutIcNw+28/bxyJHDHUfyczf8t9pg/bFdsIb5CsR1HZUCg9FlC/WR
-         BN3A==
+        bh=paQ8eSS51eJjO65HC17yc3aR0KDYOaqemANrIilFHQg=;
+        b=V+4EqVJCdbvLZ7PL0aRCfwPJZ9Mapfoq1bpU5HVDlwf6UYdoTD+u1UOimgXvkgM9y9
+         CN8UJRVaMiqWbYpR6PfPRvvOYjfETeHKlWAtis+TCzIC0/qGzaljGpaP7msDro45lsZ4
+         YeFkUVBjRfYYXl0LbD+vXAk2Ezv8H58dxMcZEwWiRMilP1E8SS1igiNlENzIcafNf6bH
+         mW9Zpxh5zbYUttKkihf58LoTklARc4ZrknbVpQzomzeXm1m+p8uFFn0o5qlS7wlqneZX
+         dH/o7GhFiHcZB7bwSE0icDq46CQ2wyreCb4O2sgXiW9f032LnQ+cQeAKauL8PQWtMV8b
+         xSLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=UnBdPRUh7djZC7Qw84qgD2HzLnpAORAEXhzxx/+zyLg=;
-        b=uzPQk5vI4aogpwDqSkWPQMkPqnvThnFwcL1cOe3f/OX0y3RHJb62meeOEyUevVV4XP
-         U+DNf4uYcYSBRuDipSTeARu+7K2iX/Rz8hPzEXU4af3I7JxSsPIhXDlheHdMgLEylZLo
-         X/rwVBsY3u7ZpHI/9MfLsYwVHdOnYLu4eyhm3FeOMKmYnpHA4scte+9CrjILBYwJA1Ol
-         94+HMw6tnpK84o6fN4Y7gSxHdt52vSQaM3jWZl39aTXBbKLpkphgrvbsTg1V00h29dWu
-         0/83qdtObxH8UyDc3aMCX3eHT/kpG4InXqt+VYVCv8F0Lj4OH8yl5PA8WWWcT8I/uv9N
-         tjew==
-X-Gm-Message-State: AJIora+5p8k/pNNlKNC4Cac6FqJRDp74a8duBNwO0yygMj1LqckNnafa
-        r8W18t7Ctdz5E/VMfuEdHwKe+u0DQRT2BFpsMuy6VOtb
-X-Google-Smtp-Source: AGRyM1u9xrMw7O0eeYaZF+PJu4a7fOrlyFMflF4b5zAmbuMXu/Fh0+hXcS8KHxcBRCvlVY4Fs51vbHgMpr4WJf+XNM8=
-X-Received: by 2002:a05:6602:2d4f:b0:67b:f7c9:a3e with SMTP id
- d15-20020a0566022d4f00b0067bf7c90a3emr8283992iow.77.1658301960432; Wed, 20
- Jul 2022 00:26:00 -0700 (PDT)
+        bh=paQ8eSS51eJjO65HC17yc3aR0KDYOaqemANrIilFHQg=;
+        b=k6DCmVD8mHGccV6kV37wDvs2nzCecxMyQfJrSxjtlA81UU4zrM7e/mNH6jqSa0vIaR
+         Ts/P5jVNJ1C50zFbXxsS1I620ndEYkxtu2MjQ7REvAbwjQOG2JzxvLjA0z/5ng4tT34P
+         OvR/oaU50a+3WHNOFTEVgEuY9rkJ/3PEgC4gVgBOCQeaBU3CVk2XkjMIhSG6oyiVEh1O
+         UK1bVRS/mvmn08hNSYz05FfMbguIugxnV3HjtfB+mAZrKraa3UH50l7WGHy6nJJi4CDe
+         5N+XT1XYOD3jo9oi8TkQOJdiIwLBP/o1WPJiK0v36LpEfFzgHfU4m/dNpBLMUU2f+9FH
+         ABeA==
+X-Gm-Message-State: AJIora8yBNNSpc4vSiJ4MR/k1njsFRMQV94u6u5FUn1UAHXqbsj/ANHf
+        o0qjgSRyenuqWF7hKohUOEoySkOqk04ZrjarhCX+1w==
+X-Google-Smtp-Source: AGRyM1vRgR19NCJfJTThyBy72KUy+2l2jUQiKnrXY0BDlmBYKXGX0VUzC3S3g8p+1nnVo40mGHoKiAF4mm2lH8D/lfI=
+X-Received: by 2002:adf:fd4a:0:b0:21d:8b59:dcb1 with SMTP id
+ h10-20020adffd4a000000b0021d8b59dcb1mr29801603wrs.622.1658302942294; Wed, 20
+ Jul 2022 00:42:22 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220719085546.104442-1-eugene.shalygin@gmail.com> <20220719172041.GA2224858@roeck-us.net>
-In-Reply-To: <20220719172041.GA2224858@roeck-us.net>
-From:   Eugene Shalygin <eugene.shalygin@gmail.com>
-Date:   Wed, 20 Jul 2022 09:25:47 +0200
-Message-ID: <CAB95QARF=5QtWcrcL21Jr=LwPMxxTsU8NU+8AV2hO9Dp0B2hog@mail.gmail.com>
-Subject: Re: [PATCH] hwmon: remove deprecated asus_wmi_ec_sensors driver
-To:     Guenter Roeck <linux@roeck-us.net>
-Cc:     Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
-        linux-hwmon@vger.kernel.org,
-        Linux Documentation List <linux-doc@vger.kernel.org>,
+References: <20220719092214.995965-1-sadiyakazi@google.com>
+In-Reply-To: <20220719092214.995965-1-sadiyakazi@google.com>
+From:   David Gow <davidgow@google.com>
+Date:   Wed, 20 Jul 2022 15:42:11 +0800
+Message-ID: <CABVgOSk2PYruRHnU=VnkNo71J_s+0eysNszkFuLY3VD2DpKXGQ@mail.gmail.com>
+Subject: Re: [PATCH] Documentation: kunit: Add CLI args for kunit_tool
+To:     Sadiya Kazi <sadiyakazi@google.com>
+Cc:     Brendan Higgins <brendanhiggins@google.com>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        KUnit Development <kunit-dev@googlegroups.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
+        boundary="000000000000d365e705e437bd16"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-I tried to fix the commit message in v2 by taking other driver
-deleting commits in hwmon as examples.Hope that helped.
+--000000000000d365e705e437bd16
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Eugene
+On Tue, Jul 19, 2022 at 5:22 PM Sadiya Kazi <sadiyakazi@google.com> wrote:
+>
+> Run_wrapper.rst was missing some command line arguments. Added
+> additional args in the file. Included all initial review comments.
+>
+> Signed-off-by: Sadiya Kazi <sadiyakazi@google.com>
+> ---
 
-On Tue, 19 Jul 2022 at 19:20, Guenter Roeck <linux@roeck-us.net> wrote:
+This looks pretty good, save for some minor nitpicks below. I also
+echo Ma=C3=ADra's comments, though I'm not _too_ worried about having a
+little bit of duplication if it means we get a complete (or
+nearly-complete) list of arguments here, but still have them described
+in the appropriate part of the rest of the documentation.
+
+Cheers,
+-- David
+
+>  Documentation/dev-tools/kunit/run_wrapper.rst | 48 +++++++++++++++++++
+>  1 file changed, 48 insertions(+)
 >
-> On Tue, Jul 19, 2022 at 10:55:45AM +0200, Eugene Shalygin wrote:
-> > Please use the asus_ec_sensors driver, which supports more boards, more
-> > sensors, and is faster.
+> diff --git a/Documentation/dev-tools/kunit/run_wrapper.rst b/Documentatio=
+n/dev-tools/kunit/run_wrapper.rst
+> index 5e560f2c5fca..91f5dda36e83 100644
+> --- a/Documentation/dev-tools/kunit/run_wrapper.rst
+> +++ b/Documentation/dev-tools/kunit/run_wrapper.rst
+> @@ -257,3 +257,51 @@ command line arguments:
+>              added or modified. Instead, enable all tests
+>              which have satisfied dependencies by adding
+>              ``CONFIG_KUNIT_ALL_TESTS=3Dy`` to your ``.kunitconfig``.
+> +- ``--kunitconfig``: Specifies the path to the ``.kunitconfig`` file.
+> +  This Kconfig fragment enables KUnit tests. The "/.kunitconfig" gets
+> +  appended to the path specified. For example, If a directory path "lib/=
+kunit"
+> +  is given, the complete path will be "lib/kunit/.kunitconfig".
+
+This is definitely a bit confusing: it seems to describe "how it
+works" more than "what is it, and when do you use it". Perhaps
+something more like:
+
+"Specifies a .kunitconfig file to use to build and run with a
+predefined set of tests and their dependencies. (e.g., to run tests
+for a given subsystem). This can be the path to a file, or to a
+directory (in which case a file named ".kunitconfig" in said directory
+will be used.)"
+
+> +
+> +- ``--kconfig_add``: Specifies additional configuration options to be
+> +  appended to the ``.kunitconfig`` file. For example, ``CONFIG_KASAN=3Dy=
+``.
+> +
+> +- ``--arch``: Runs tests with the specified architecture. The architectu=
+re
+> +  specified must match the string passed to the ARCH make parameter.
+> +  For example, i386, x86_64, arm, um, etc. Non-UML architectures run on =
+QEMU.
+> +  Default to 'um'.
+> +
+> +- ``--cross_compile``: Specifies the Kbuild toolchain. It passes the
+> +  same argument as passed to the ``CROSS_COMPILE`` variable used by
+> +  Kbuild. This will be the prefix for the toolchain
+> +  binaries such as GCC. For example:
+> +
+> +  - ``sparc64-linux-gnu`` if we have the sparc toolchain installed on
+> +    our system.
+
+This example should be ``sparc64-linux-gnu-`` (with the extra
+hyphen-minus at the end). It's concatenated to produce, e.g.,
+sparc64-linux-gnu-gcc.
+
+> +
+> +  - ``$HOME/toolchains/microblaze/gcc-9.2.0-nolibc/microblaze-linux/bin/=
+microblaze-linux``
+> +    if we have downloaded the microblaze toolchain from the 0-day
+> +    website to a specified path in our home directory called toolchains.
+> +
+> +- ``--qemu_config``: Specifies the path to the file containing a
+> +  custom qemu architecture definition. This should be a python file
+> +  containing a QemuArchParams object.
+> +
+> +- ``--qemu_args``: Specifies additional QEMU arguments, for example, "-s=
+mp 8".
+> +
+> +- ``--jobs``: Specifies the number of jobs (commands) to run simultaneou=
+sly.
+> +  By default, this is set to the number of cores on your system.
+> +
+> +- ``--timeout``: Specifies the maximum number of seconds allowed for all=
+ tests to run.
+> +  This does not include the time taken to build the tests.
+> +
+> +- ``--kernel_args``: Specifies the kernel command-line arguments. Might =
+be repeated.
+
+Nit: maybe "Specifies _additional_ kernel command-line arguments".
+kunit_tool already sets some.
+
+> +
+> +- ``--run_isolated``: If set, boots the kernel for each individual suite=
+/test.
+> +  This is useful for debugging a non-hermetic test, one that
+> +  might pass/fail based on what ran before it.
+
+
+
+> +
+> +- ``--raw_output``: If set, generates unformatted output from kernel.
+> +  If set to ``--raw_output=3Dkunit``, filters to just KUnit output.
+
+--raw_output=3Dkunit is the default if just --raw_output is set. You
+need to specify --raw_output=3Dall for the full kernel output.
+
+> +
+> +- ``--json``: If set, it stores the test results in a JSON format and pr=
+ints to stdout or
+> +  saves to a file if a filename is specified.
+
+Nit: let's remove the first 'it' to be consistent with the previous
+entries. i.e., "If set, stores..."
+
+> --
+> 2.37.0.170.g444d1eabd0-goog
 >
-> This isn't really an appropriate commit description, and the
-> Signed-off-by: tag is missing. Other than that, I am open to
-> applying this patch after the next commit window.
->
-> Guenter
->
-> > ---
-> >  Documentation/hwmon/asus_wmi_ec_sensors.rst |  38 --
-> >  Documentation/hwmon/index.rst               |   1 -
-> >  MAINTAINERS                                 |   7 -
-> >  drivers/hwmon/Kconfig                       |  15 -
-> >  drivers/hwmon/Makefile                      |   1 -
-> >  drivers/hwmon/asus_wmi_ec_sensors.c         | 622 --------------------
-> >  6 files changed, 684 deletions(-)
-> >  delete mode 100644 Documentation/hwmon/asus_wmi_ec_sensors.rst
-> >  delete mode 100644 drivers/hwmon/asus_wmi_ec_sensors.c
-> >
-> > diff --git a/Documentation/hwmon/asus_wmi_ec_sensors.rst b/Documentation/hwmon/asus_wmi_ec_sensors.rst
-> > deleted file mode 100644
-> > index 1b287f229e86..000000000000
-> > --- a/Documentation/hwmon/asus_wmi_ec_sensors.rst
-> > +++ /dev/null
-> > @@ -1,38 +0,0 @@
-> > -.. SPDX-License-Identifier: GPL-2.0-or-later
-> > -
-> > -Kernel driver asus_wmi_ec_sensors
-> > -=================================
-> > -
-> > -Supported boards:
-> > - * PRIME X570-PRO,
-> > - * Pro WS X570-ACE,
-> > - * ROG CROSSHAIR VIII DARK HERO,
-> > - * ROG CROSSHAIR VIII FORMULA,
-> > - * ROG CROSSHAIR VIII HERO,
-> > - * ROG STRIX B550-E GAMING,
-> > - * ROG STRIX B550-I GAMING,
-> > - * ROG STRIX X570-E GAMING.
-> > -
-> > -Authors:
-> > -    - Eugene Shalygin <eugene.shalygin@gmail.com>
-> > -
-> > -Description:
-> > -------------
-> > -ASUS mainboards publish hardware monitoring information via Super I/O
-> > -chip and the ACPI embedded controller (EC) registers. Some of the sensors
-> > -are only available via the EC.
-> > -
-> > -ASUS WMI interface provides a method (BREC) to read data from EC registers,
-> > -which is utilized by this driver to publish those sensor readings to the
-> > -HWMON system. The driver is aware of and reads the following sensors:
-> > -
-> > -1. Chipset (PCH) temperature
-> > -2. CPU package temperature
-> > -3. Motherboard temperature
-> > -4. Readings from the T_Sensor header
-> > -5. VRM temperature
-> > -6. CPU_Opt fan RPM
-> > -7. Chipset fan RPM
-> > -8. Readings from the "Water flow meter" header (RPM)
-> > -9. Readings from the "Water In" and "Water Out" temperature headers
-> > -10. CPU current
-> > diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
-> > index f7113b0f8b2a..98fa687b361e 100644
-> > --- a/Documentation/hwmon/index.rst
-> > +++ b/Documentation/hwmon/index.rst
-> > @@ -44,7 +44,6 @@ Hardware Monitoring Kernel Drivers
-> >     asc7621
-> >     aspeed-pwm-tacho
-> >     asus_ec_sensors
-> > -   asus_wmi_ec_sensors
-> >     asus_wmi_sensors
-> >     bcm54140
-> >     bel-pfe
-> > diff --git a/MAINTAINERS b/MAINTAINERS
-> > index 66bffb24a348..71272cbc7c99 100644
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -3162,13 +3162,6 @@ L:     linux-hwmon@vger.kernel.org
-> >  S:   Maintained
-> >  F:   drivers/hwmon/asus_wmi_sensors.c
-> >
-> > -ASUS WMI EC HARDWARE MONITOR DRIVER
-> > -M:   Eugene Shalygin <eugene.shalygin@gmail.com>
-> > -M:   Denis Pauk <pauk.denis@gmail.com>
-> > -L:   linux-hwmon@vger.kernel.org
-> > -S:   Maintained
-> > -F:   drivers/hwmon/asus_wmi_ec_sensors.c
-> > -
-> >  ASUS EC HARDWARE MONITOR DRIVER
-> >  M:   Eugene Shalygin <eugene.shalygin@gmail.com>
-> >  L:   linux-hwmon@vger.kernel.org
-> > diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
-> > index fd2446cf343b..7b26baa9146f 100644
-> > --- a/drivers/hwmon/Kconfig
-> > +++ b/drivers/hwmon/Kconfig
-> > @@ -2341,21 +2341,6 @@ config SENSORS_ASUS_WMI
-> >         This driver can also be built as a module. If so, the module
-> >         will be called asus_wmi_sensors.
-> >
-> > -config SENSORS_ASUS_WMI_EC
-> > -     tristate "ASUS WMI B550/X570"
-> > -     depends on ACPI_WMI && SENSORS_ASUS_EC=n
-> > -     help
-> > -       If you say yes here you get support for the ACPI embedded controller
-> > -       hardware monitoring interface found in B550/X570 ASUS motherboards.
-> > -       This driver will provide readings of fans, voltages and temperatures
-> > -       through the system firmware.
-> > -
-> > -       This driver is deprecated in favor of the ASUS EC Sensors driver
-> > -       which provides fully compatible output.
-> > -
-> > -       This driver can also be built as a module. If so, the module
-> > -       will be called asus_wmi_sensors_ec.
-> > -
-> >  config SENSORS_ASUS_EC
-> >       tristate "ASUS EC Sensors"
-> >       depends on X86
-> > diff --git a/drivers/hwmon/Makefile b/drivers/hwmon/Makefile
-> > index 007e829d1d0d..f62c5c36b276 100644
-> > --- a/drivers/hwmon/Makefile
-> > +++ b/drivers/hwmon/Makefile
-> > @@ -11,7 +11,6 @@ obj-$(CONFIG_SENSORS_ACPI_POWER) += acpi_power_meter.o
-> >  obj-$(CONFIG_SENSORS_ATK0110)        += asus_atk0110.o
-> >  obj-$(CONFIG_SENSORS_ASUS_EC)        += asus-ec-sensors.o
-> >  obj-$(CONFIG_SENSORS_ASUS_WMI)       += asus_wmi_sensors.o
-> > -obj-$(CONFIG_SENSORS_ASUS_WMI_EC)    += asus_wmi_ec_sensors.o
-> >
-> >  # Native drivers
-> >  # asb100, then w83781d go first, as they can override other drivers' addresses.
-> > diff --git a/drivers/hwmon/asus_wmi_ec_sensors.c b/drivers/hwmon/asus_wmi_ec_sensors.c
-> > deleted file mode 100644
-> > index a3a2f014dec0..000000000000
-> > --- a/drivers/hwmon/asus_wmi_ec_sensors.c
-> > +++ /dev/null
-> > @@ -1,622 +0,0 @@
-> > -// SPDX-License-Identifier: GPL-2.0-or-later
-> > -/*
-> > - * HWMON driver for ASUS B550/X570 motherboards that publish sensor
-> > - * values via the embedded controller registers.
-> > - *
-> > - * Copyright (C) 2021 Eugene Shalygin <eugene.shalygin@gmail.com>
-> > - * Copyright (C) 2018-2019 Ed Brindley <kernel@maidavale.org>
-> > - *
-> > - * EC provides:
-> > - * - Chipset temperature
-> > - * - CPU temperature
-> > - * - Motherboard temperature
-> > - * - T_Sensor temperature
-> > - * - VRM temperature
-> > - * - Water In temperature
-> > - * - Water Out temperature
-> > - * - CPU Optional Fan RPM
-> > - * - Chipset Fan RPM
-> > - * - Water Flow Fan RPM
-> > - * - CPU current
-> > - */
-> > -
-> > -#include <linux/acpi.h>
-> > -#include <linux/dmi.h>
-> > -#include <linux/hwmon.h>
-> > -#include <linux/init.h>
-> > -#include <linux/jiffies.h>
-> > -#include <linux/kernel.h>
-> > -#include <linux/module.h>
-> > -#include <linux/mutex.h>
-> > -#include <linux/nls.h>
-> > -#include <linux/units.h>
-> > -#include <linux/wmi.h>
-> > -
-> > -#include <asm/unaligned.h>
-> > -
-> > -#define ASUSWMI_MONITORING_GUID              "466747A0-70EC-11DE-8A39-0800200C9A66"
-> > -#define ASUSWMI_METHODID_BLOCK_READ_EC       0x42524543 /* BREC */
-> > -/* From the ASUS DSDT source */
-> > -#define ASUSWMI_BREC_REGISTERS_MAX   16
-> > -#define ASUSWMI_MAX_BUF_LEN          128
-> > -#define SENSOR_LABEL_LEN             16
-> > -
-> > -static u32 hwmon_attributes[hwmon_max] = {
-> > -     [hwmon_chip]    = HWMON_C_REGISTER_TZ,
-> > -     [hwmon_temp]    = HWMON_T_INPUT | HWMON_T_LABEL,
-> > -     [hwmon_in]      = HWMON_I_INPUT | HWMON_I_LABEL,
-> > -     [hwmon_curr]    = HWMON_C_INPUT | HWMON_C_LABEL,
-> > -     [hwmon_fan]     = HWMON_F_INPUT | HWMON_F_LABEL,
-> > -};
-> > -
-> > -struct asus_wmi_ec_sensor_address {
-> > -     u8 index;
-> > -     u8 bank;
-> > -     u8 size;
-> > -};
-> > -
-> > -#define MAKE_SENSOR_ADDRESS(size_i, bank_i, index_i) {       \
-> > -     .size = size_i,                                 \
-> > -     .bank = bank_i,                                 \
-> > -     .index = index_i,                               \
-> > -}
-> > -
-> > -struct ec_sensor_info {
-> > -     struct asus_wmi_ec_sensor_address addr;
-> > -     char label[SENSOR_LABEL_LEN];
-> > -     enum hwmon_sensor_types type;
-> > -};
-> > -
-> > -#define EC_SENSOR(sensor_label, sensor_type, size, bank, index) {    \
-> > -     .addr = MAKE_SENSOR_ADDRESS(size, bank, index),                 \
-> > -     .label = sensor_label,                                          \
-> > -     .type = sensor_type,                                            \
-> > -}
-> > -
-> > -enum known_ec_sensor {
-> > -     SENSOR_TEMP_CHIPSET,
-> > -     SENSOR_TEMP_CPU,
-> > -     SENSOR_TEMP_MB,
-> > -     SENSOR_TEMP_T_SENSOR,
-> > -     SENSOR_TEMP_VRM,
-> > -     SENSOR_FAN_CPU_OPT,
-> > -     SENSOR_FAN_CHIPSET,
-> > -     SENSOR_FAN_VRM_HS,
-> > -     SENSOR_FAN_WATER_FLOW,
-> > -     SENSOR_CURR_CPU,
-> > -     SENSOR_TEMP_WATER_IN,
-> > -     SENSOR_TEMP_WATER_OUT,
-> > -     SENSOR_MAX
-> > -};
-> > -
-> > -/* All known sensors for ASUS EC controllers */
-> > -static const struct ec_sensor_info known_ec_sensors[] = {
-> > -     [SENSOR_TEMP_CHIPSET]   = EC_SENSOR("Chipset", hwmon_temp, 1, 0x00, 0x3a),
-> > -     [SENSOR_TEMP_CPU]       = EC_SENSOR("CPU", hwmon_temp, 1, 0x00, 0x3b),
-> > -     [SENSOR_TEMP_MB]        = EC_SENSOR("Motherboard", hwmon_temp, 1, 0x00, 0x3c),
-> > -     [SENSOR_TEMP_T_SENSOR]  = EC_SENSOR("T_Sensor", hwmon_temp, 1, 0x00, 0x3d),
-> > -     [SENSOR_TEMP_VRM]       = EC_SENSOR("VRM", hwmon_temp, 1, 0x00, 0x3e),
-> > -     [SENSOR_FAN_CPU_OPT]    = EC_SENSOR("CPU_Opt", hwmon_fan, 2, 0x00, 0xb0),
-> > -     [SENSOR_FAN_VRM_HS]     = EC_SENSOR("VRM HS", hwmon_fan, 2, 0x00, 0xb2),
-> > -     [SENSOR_FAN_CHIPSET]    = EC_SENSOR("Chipset", hwmon_fan, 2, 0x00, 0xb4),
-> > -     [SENSOR_FAN_WATER_FLOW] = EC_SENSOR("Water_Flow", hwmon_fan, 2, 0x00, 0xbc),
-> > -     [SENSOR_CURR_CPU]       = EC_SENSOR("CPU", hwmon_curr, 1, 0x00, 0xf4),
-> > -     [SENSOR_TEMP_WATER_IN]  = EC_SENSOR("Water_In", hwmon_temp, 1, 0x01, 0x00),
-> > -     [SENSOR_TEMP_WATER_OUT] = EC_SENSOR("Water_Out", hwmon_temp, 1, 0x01, 0x01),
-> > -};
-> > -
-> > -struct asus_wmi_data {
-> > -     const enum known_ec_sensor known_board_sensors[SENSOR_MAX + 1];
-> > -};
-> > -
-> > -/* boards with EC support */
-> > -static struct asus_wmi_data sensors_board_PW_X570_P = {
-> > -     .known_board_sensors = {
-> > -             SENSOR_TEMP_CHIPSET, SENSOR_TEMP_CPU, SENSOR_TEMP_MB,
-> > -             SENSOR_TEMP_T_SENSOR, SENSOR_TEMP_VRM,
-> > -             SENSOR_FAN_CHIPSET,
-> > -             SENSOR_MAX
-> > -     },
-> > -};
-> > -
-> > -static struct asus_wmi_data sensors_board_PW_X570_A = {
-> > -     .known_board_sensors = {
-> > -             SENSOR_TEMP_CHIPSET, SENSOR_TEMP_CPU, SENSOR_TEMP_MB, SENSOR_TEMP_VRM,
-> > -             SENSOR_FAN_CHIPSET,
-> > -             SENSOR_CURR_CPU,
-> > -             SENSOR_MAX
-> > -     },
-> > -};
-> > -
-> > -static struct asus_wmi_data sensors_board_R_C8H = {
-> > -     .known_board_sensors = {
-> > -             SENSOR_TEMP_CHIPSET, SENSOR_TEMP_CPU, SENSOR_TEMP_MB,
-> > -             SENSOR_TEMP_T_SENSOR, SENSOR_TEMP_VRM,
-> > -             SENSOR_TEMP_WATER_IN, SENSOR_TEMP_WATER_OUT,
-> > -             SENSOR_FAN_CPU_OPT, SENSOR_FAN_CHIPSET, SENSOR_FAN_WATER_FLOW,
-> > -             SENSOR_CURR_CPU,
-> > -             SENSOR_MAX
-> > -     },
-> > -};
-> > -
-> > -/* Same as Hero but without chipset fan */
-> > -static struct asus_wmi_data sensors_board_R_C8DH = {
-> > -     .known_board_sensors = {
-> > -             SENSOR_TEMP_CHIPSET, SENSOR_TEMP_CPU, SENSOR_TEMP_MB,
-> > -             SENSOR_TEMP_T_SENSOR, SENSOR_TEMP_VRM,
-> > -             SENSOR_TEMP_WATER_IN, SENSOR_TEMP_WATER_OUT,
-> > -             SENSOR_FAN_CPU_OPT, SENSOR_FAN_WATER_FLOW,
-> > -             SENSOR_CURR_CPU,
-> > -             SENSOR_MAX
-> > -     },
-> > -};
-> > -
-> > -/* Same as Hero but without water */
-> > -static struct asus_wmi_data sensors_board_R_C8F = {
-> > -     .known_board_sensors = {
-> > -             SENSOR_TEMP_CHIPSET, SENSOR_TEMP_CPU, SENSOR_TEMP_MB,
-> > -             SENSOR_TEMP_T_SENSOR, SENSOR_TEMP_VRM,
-> > -             SENSOR_FAN_CPU_OPT, SENSOR_FAN_CHIPSET,
-> > -             SENSOR_CURR_CPU,
-> > -             SENSOR_MAX
-> > -     },
-> > -};
-> > -
-> > -static struct asus_wmi_data sensors_board_RS_B550_E_G = {
-> > -     .known_board_sensors = {
-> > -             SENSOR_TEMP_CHIPSET, SENSOR_TEMP_CPU, SENSOR_TEMP_MB,
-> > -             SENSOR_TEMP_T_SENSOR, SENSOR_TEMP_VRM,
-> > -             SENSOR_FAN_CPU_OPT,
-> > -             SENSOR_MAX
-> > -     },
-> > -};
-> > -
-> > -static struct asus_wmi_data sensors_board_RS_B550_I_G = {
-> > -     .known_board_sensors = {
-> > -             SENSOR_TEMP_CHIPSET, SENSOR_TEMP_CPU, SENSOR_TEMP_MB,
-> > -             SENSOR_TEMP_T_SENSOR, SENSOR_TEMP_VRM,
-> > -             SENSOR_FAN_VRM_HS,
-> > -             SENSOR_CURR_CPU,
-> > -             SENSOR_MAX
-> > -     },
-> > -};
-> > -
-> > -static struct asus_wmi_data sensors_board_RS_X570_E_G = {
-> > -     .known_board_sensors = {
-> > -             SENSOR_TEMP_CHIPSET, SENSOR_TEMP_CPU, SENSOR_TEMP_MB,
-> > -             SENSOR_TEMP_T_SENSOR, SENSOR_TEMP_VRM,
-> > -             SENSOR_FAN_CHIPSET,
-> > -             SENSOR_CURR_CPU,
-> > -             SENSOR_MAX
-> > -     },
-> > -};
-> > -
-> > -#define DMI_EXACT_MATCH_ASUS_BOARD_NAME(name, sensors) {                     \
-> > -     .matches = {                                                            \
-> > -             DMI_EXACT_MATCH(DMI_BOARD_VENDOR, "ASUSTeK COMPUTER INC."),     \
-> > -             DMI_EXACT_MATCH(DMI_BOARD_NAME, name),                          \
-> > -     },                                                                      \
-> > -     .driver_data = sensors,                                                 \
-> > -}
-> > -
-> > -static const struct dmi_system_id asus_wmi_ec_dmi_table[] = {
-> > -     DMI_EXACT_MATCH_ASUS_BOARD_NAME("PRIME X570-PRO", &sensors_board_PW_X570_P),
-> > -     DMI_EXACT_MATCH_ASUS_BOARD_NAME("Pro WS X570-ACE", &sensors_board_PW_X570_A),
-> > -     DMI_EXACT_MATCH_ASUS_BOARD_NAME("ROG CROSSHAIR VIII DARK HERO", &sensors_board_R_C8DH),
-> > -     DMI_EXACT_MATCH_ASUS_BOARD_NAME("ROG CROSSHAIR VIII FORMULA", &sensors_board_R_C8F),
-> > -     DMI_EXACT_MATCH_ASUS_BOARD_NAME("ROG CROSSHAIR VIII HERO", &sensors_board_R_C8H),
-> > -     DMI_EXACT_MATCH_ASUS_BOARD_NAME("ROG STRIX B550-E GAMING", &sensors_board_RS_B550_E_G),
-> > -     DMI_EXACT_MATCH_ASUS_BOARD_NAME("ROG STRIX B550-I GAMING", &sensors_board_RS_B550_I_G),
-> > -     DMI_EXACT_MATCH_ASUS_BOARD_NAME("ROG STRIX X570-E GAMING", &sensors_board_RS_X570_E_G),
-> > -     {}
-> > -};
-> > -MODULE_DEVICE_TABLE(dmi, asus_wmi_ec_dmi_table);
-> > -
-> > -struct ec_sensor {
-> > -     enum known_ec_sensor info_index;
-> > -     long cached_value;
-> > -};
-> > -
-> > -/**
-> > - * struct asus_wmi_ec_info - sensor info.
-> > - * @sensors: list of sensors.
-> > - * @read_arg: UTF-16LE string to pass to BRxx() WMI function.
-> > - * @read_buffer: decoded output from WMI result.
-> > - * @nr_sensors: number of board EC sensors.
-> > - * @nr_registers: number of EC registers to read (sensor might span more than 1 register).
-> > - * @last_updated: in jiffies.
-> > - */
-> > -struct asus_wmi_ec_info {
-> > -     struct ec_sensor sensors[SENSOR_MAX];
-> > -     char read_arg[(ASUSWMI_BREC_REGISTERS_MAX * 4 + 1) * 2];
-> > -     u8 read_buffer[ASUSWMI_BREC_REGISTERS_MAX];
-> > -     unsigned int nr_sensors;
-> > -     unsigned int nr_registers;
-> > -     unsigned long last_updated;
-> > -};
-> > -
-> > -struct asus_wmi_sensors {
-> > -     struct asus_wmi_ec_info ec;
-> > -     /* lock access to internal cache */
-> > -     struct mutex lock;
-> > -};
-> > -
-> > -static int asus_wmi_ec_fill_board_sensors(struct asus_wmi_ec_info *ec,
-> > -                                       const enum known_ec_sensor *bsi)
-> > -{
-> > -     struct ec_sensor *s = ec->sensors;
-> > -     int i;
-> > -
-> > -     ec->nr_sensors = 0;
-> > -     ec->nr_registers = 0;
-> > -
-> > -     for (i = 0; bsi[i] != SENSOR_MAX; i++) {
-> > -             s[i].info_index = bsi[i];
-> > -             ec->nr_sensors++;
-> > -             ec->nr_registers += known_ec_sensors[bsi[i]].addr.size;
-> > -     }
-> > -
-> > -     return 0;
-> > -}
-> > -
-> > -/*
-> > - * The next four functions convert to or from BRxx string argument format.
-> > - * The format of the string is as follows:
-> > - * - The string consists of two-byte UTF-16LE characters.
-> > - * - The value of the very first byte in the string is equal to the total
-> > - *   length of the next string in bytes, thus excluding the first two-byte
-> > - *   character.
-> > - * - The rest of the string encodes the pairs of (bank, index) pairs, where
-> > - *   both values are byte-long (0x00 to 0xFF).
-> > - * - Numbers are encoded as UTF-16LE hex values.
-> > - */
-> > -static int asus_wmi_ec_decode_reply_buffer(const u8 *in, u32 length, u8 *out)
-> > -{
-> > -     char buffer[ASUSWMI_MAX_BUF_LEN * 2];
-> > -     u32 len = min_t(u32, get_unaligned_le16(in), length - 2);
-> > -
-> > -     utf16s_to_utf8s((wchar_t *)(in + 2), len / 2, UTF16_LITTLE_ENDIAN, buffer, sizeof(buffer));
-> > -
-> > -     return hex2bin(out, buffer, len / 4);
-> > -}
-> > -
-> > -static void asus_wmi_ec_encode_registers(const u8 *in, u32 len, char *out)
-> > -{
-> > -     char buffer[ASUSWMI_MAX_BUF_LEN * 2];
-> > -
-> > -     bin2hex(buffer, in, len);
-> > -
-> > -     utf8s_to_utf16s(buffer, len * 2, UTF16_LITTLE_ENDIAN, (wchar_t *)(out + 2), len * 2);
-> > -
-> > -     put_unaligned_le16(len * 4, out);
-> > -}
-> > -
-> > -static void asus_wmi_ec_make_block_read_query(struct asus_wmi_ec_info *ec)
-> > -{
-> > -     u8 registers[ASUSWMI_BREC_REGISTERS_MAX * 2];
-> > -     const struct ec_sensor_info *si;
-> > -     int i, j, offset;
-> > -
-> > -     offset = 0;
-> > -     for (i = 0; i < ec->nr_sensors; i++) {
-> > -             si = &known_ec_sensors[ec->sensors[i].info_index];
-> > -             for (j = 0; j < si->addr.size; j++) {
-> > -                     registers[offset++] = si->addr.bank;
-> > -                     registers[offset++] = si->addr.index + j;
-> > -             }
-> > -     }
-> > -
-> > -     asus_wmi_ec_encode_registers(registers, offset, ec->read_arg);
-> > -}
-> > -
-> > -static int asus_wmi_ec_block_read(u32 method_id, char *query, u8 *out)
-> > -{
-> > -     struct acpi_buffer output = { ACPI_ALLOCATE_BUFFER, NULL };
-> > -     struct acpi_buffer input;
-> > -     union acpi_object *obj;
-> > -     acpi_status status;
-> > -     int ret;
-> > -
-> > -     /* The first byte of the BRxx() argument string has to be the string size. */
-> > -     input.length = query[0] + 2;
-> > -     input.pointer = query;
-> > -     status = wmi_evaluate_method(ASUSWMI_MONITORING_GUID, 0, method_id, &input, &output);
-> > -     if (ACPI_FAILURE(status))
-> > -             return -EIO;
-> > -
-> > -     obj = output.pointer;
-> > -     if (!obj)
-> > -             return -EIO;
-> > -
-> > -     if (obj->type != ACPI_TYPE_BUFFER || obj->buffer.length < 2) {
-> > -             ret = -EIO;
-> > -             goto out_free_obj;
-> > -     }
-> > -
-> > -     ret = asus_wmi_ec_decode_reply_buffer(obj->buffer.pointer, obj->buffer.length, out);
-> > -
-> > -out_free_obj:
-> > -     ACPI_FREE(obj);
-> > -     return ret;
-> > -}
-> > -
-> > -static inline long get_sensor_value(const struct ec_sensor_info *si, u8 *data)
-> > -{
-> > -     switch (si->addr.size) {
-> > -     case 1:
-> > -             return *data;
-> > -     case 2:
-> > -             return get_unaligned_be16(data);
-> > -     case 4:
-> > -             return get_unaligned_be32(data);
-> > -     default:
-> > -             return 0;
-> > -     }
-> > -}
-> > -
-> > -static void asus_wmi_ec_update_ec_sensors(struct asus_wmi_ec_info *ec)
-> > -{
-> > -     const struct ec_sensor_info *si;
-> > -     struct ec_sensor *s;
-> > -     u8 i_sensor;
-> > -     u8 *data;
-> > -
-> > -     data = ec->read_buffer;
-> > -     for (i_sensor = 0; i_sensor < ec->nr_sensors; i_sensor++) {
-> > -             s = &ec->sensors[i_sensor];
-> > -             si = &known_ec_sensors[s->info_index];
-> > -             s->cached_value = get_sensor_value(si, data);
-> > -             data += si->addr.size;
-> > -     }
-> > -}
-> > -
-> > -static long asus_wmi_ec_scale_sensor_value(long value, int data_type)
-> > -{
-> > -     switch (data_type) {
-> > -     case hwmon_curr:
-> > -     case hwmon_temp:
-> > -     case hwmon_in:
-> > -             return value * MILLI;
-> > -     default:
-> > -             return value;
-> > -     }
-> > -}
-> > -
-> > -static int asus_wmi_ec_find_sensor_index(const struct asus_wmi_ec_info *ec,
-> > -                                      enum hwmon_sensor_types type, int channel)
-> > -{
-> > -     int i;
-> > -
-> > -     for (i = 0; i < ec->nr_sensors; i++) {
-> > -             if (known_ec_sensors[ec->sensors[i].info_index].type == type) {
-> > -                     if (channel == 0)
-> > -                             return i;
-> > -
-> > -                     channel--;
-> > -             }
-> > -     }
-> > -     return -EINVAL;
-> > -}
-> > -
-> > -static int asus_wmi_ec_get_cached_value_or_update(struct asus_wmi_sensors *sensor_data,
-> > -                                               int sensor_index,
-> > -                                               long *value)
-> > -{
-> > -     struct asus_wmi_ec_info *ec = &sensor_data->ec;
-> > -     int ret = 0;
-> > -
-> > -     mutex_lock(&sensor_data->lock);
-> > -
-> > -     if (time_after(jiffies, ec->last_updated + HZ)) {
-> > -             ret = asus_wmi_ec_block_read(ASUSWMI_METHODID_BLOCK_READ_EC,
-> > -                                          ec->read_arg, ec->read_buffer);
-> > -             if (ret)
-> > -                     goto unlock;
-> > -
-> > -             asus_wmi_ec_update_ec_sensors(ec);
-> > -             ec->last_updated = jiffies;
-> > -     }
-> > -
-> > -     *value = ec->sensors[sensor_index].cached_value;
-> > -
-> > -unlock:
-> > -     mutex_unlock(&sensor_data->lock);
-> > -
-> > -     return ret;
-> > -}
-> > -
-> > -/* Now follow the functions that implement the hwmon interface */
-> > -
-> > -static int asus_wmi_ec_hwmon_read(struct device *dev, enum hwmon_sensor_types type,
-> > -                               u32 attr, int channel, long *val)
-> > -{
-> > -     struct asus_wmi_sensors *sensor_data = dev_get_drvdata(dev);
-> > -     struct asus_wmi_ec_info *ec = &sensor_data->ec;
-> > -     int ret, sidx, info_index;
-> > -     long value = 0;
-> > -
-> > -     sidx = asus_wmi_ec_find_sensor_index(ec, type, channel);
-> > -     if (sidx < 0)
-> > -             return sidx;
-> > -
-> > -     ret = asus_wmi_ec_get_cached_value_or_update(sensor_data, sidx, &value);
-> > -     if (ret)
-> > -             return ret;
-> > -
-> > -     info_index = ec->sensors[sidx].info_index;
-> > -     *val = asus_wmi_ec_scale_sensor_value(value, known_ec_sensors[info_index].type);
-> > -
-> > -     return ret;
-> > -}
-> > -
-> > -static int asus_wmi_ec_hwmon_read_string(struct device *dev,
-> > -                                      enum hwmon_sensor_types type, u32 attr,
-> > -                                      int channel, const char **str)
-> > -{
-> > -     struct asus_wmi_sensors *sensor_data = dev_get_drvdata(dev);
-> > -     struct asus_wmi_ec_info *ec = &sensor_data->ec;
-> > -     int sensor_index;
-> > -
-> > -     sensor_index = asus_wmi_ec_find_sensor_index(ec, type, channel);
-> > -     *str = known_ec_sensors[ec->sensors[sensor_index].info_index].label;
-> > -
-> > -     return 0;
-> > -}
-> > -
-> > -static umode_t asus_wmi_ec_hwmon_is_visible(const void *drvdata,
-> > -                                         enum hwmon_sensor_types type, u32 attr,
-> > -                                         int channel)
-> > -{
-> > -     const struct asus_wmi_sensors *sensor_data = drvdata;
-> > -     const struct asus_wmi_ec_info *ec = &sensor_data->ec;
-> > -     int index;
-> > -
-> > -     index = asus_wmi_ec_find_sensor_index(ec, type, channel);
-> > -
-> > -     return index < 0 ? 0 : 0444;
-> > -}
-> > -
-> > -static int asus_wmi_hwmon_add_chan_info(struct hwmon_channel_info *asus_wmi_hwmon_chan,
-> > -                                     struct device *dev, int num,
-> > -                                     enum hwmon_sensor_types type, u32 config)
-> > -{
-> > -     u32 *cfg;
-> > -
-> > -     cfg = devm_kcalloc(dev, num + 1, sizeof(*cfg), GFP_KERNEL);
-> > -     if (!cfg)
-> > -             return -ENOMEM;
-> > -
-> > -     asus_wmi_hwmon_chan->type = type;
-> > -     asus_wmi_hwmon_chan->config = cfg;
-> > -     memset32(cfg, config, num);
-> > -
-> > -     return 0;
-> > -}
-> > -
-> > -static const struct hwmon_ops asus_wmi_ec_hwmon_ops = {
-> > -     .is_visible = asus_wmi_ec_hwmon_is_visible,
-> > -     .read = asus_wmi_ec_hwmon_read,
-> > -     .read_string = asus_wmi_ec_hwmon_read_string,
-> > -};
-> > -
-> > -static struct hwmon_chip_info asus_wmi_ec_chip_info = {
-> > -     .ops = &asus_wmi_ec_hwmon_ops,
-> > -};
-> > -
-> > -static int asus_wmi_ec_configure_sensor_setup(struct device *dev,
-> > -                                           const enum known_ec_sensor *bsi)
-> > -{
-> > -     struct asus_wmi_sensors *sensor_data = dev_get_drvdata(dev);
-> > -     struct asus_wmi_ec_info *ec = &sensor_data->ec;
-> > -     struct hwmon_channel_info *asus_wmi_hwmon_chan;
-> > -     const struct hwmon_channel_info **asus_wmi_ci;
-> > -     int nr_count[hwmon_max] = {}, nr_types = 0;
-> > -     const struct hwmon_chip_info *chip_info;
-> > -     const struct ec_sensor_info *si;
-> > -     enum hwmon_sensor_types type;
-> > -     struct device *hwdev;
-> > -     int i, ret;
-> > -
-> > -     ret = asus_wmi_ec_fill_board_sensors(ec, bsi);
-> > -     if (ret)
-> > -             return ret;
-> > -
-> > -     if (!sensor_data->ec.nr_sensors)
-> > -             return -ENODEV;
-> > -
-> > -     for (i = 0; i < ec->nr_sensors; i++) {
-> > -             si = &known_ec_sensors[ec->sensors[i].info_index];
-> > -             if (!nr_count[si->type])
-> > -                     nr_types++;
-> > -             nr_count[si->type]++;
-> > -     }
-> > -
-> > -     if (nr_count[hwmon_temp]) {
-> > -             nr_count[hwmon_chip]++;
-> > -             nr_types++;
-> > -     }
-> > -
-> > -     /*
-> > -      * If we can get values for all the registers in a single query,
-> > -      * the query will not change from call to call.
-> > -      */
-> > -     asus_wmi_ec_make_block_read_query(ec);
-> > -
-> > -     asus_wmi_hwmon_chan = devm_kcalloc(dev, nr_types, sizeof(*asus_wmi_hwmon_chan),
-> > -                                        GFP_KERNEL);
-> > -     if (!asus_wmi_hwmon_chan)
-> > -             return -ENOMEM;
-> > -
-> > -     asus_wmi_ci = devm_kcalloc(dev, nr_types + 1, sizeof(*asus_wmi_ci), GFP_KERNEL);
-> > -     if (!asus_wmi_ci)
-> > -             return -ENOMEM;
-> > -
-> > -     asus_wmi_ec_chip_info.info = asus_wmi_ci;
-> > -     chip_info = &asus_wmi_ec_chip_info;
-> > -
-> > -     for (type = 0; type < hwmon_max; type++) {
-> > -             if (!nr_count[type])
-> > -                     continue;
-> > -
-> > -             ret = asus_wmi_hwmon_add_chan_info(asus_wmi_hwmon_chan, dev,
-> > -                                                nr_count[type], type,
-> > -                                                hwmon_attributes[type]);
-> > -             if (ret)
-> > -                     return ret;
-> > -
-> > -             *asus_wmi_ci++ = asus_wmi_hwmon_chan++;
-> > -     }
-> > -
-> > -     dev_dbg(dev, "board has %d EC sensors that span %d registers",
-> > -             ec->nr_sensors, ec->nr_registers);
-> > -
-> > -     hwdev = devm_hwmon_device_register_with_info(dev, "asus_wmi_ec_sensors",
-> > -                                                  sensor_data, chip_info, NULL);
-> > -
-> > -     return PTR_ERR_OR_ZERO(hwdev);
-> > -}
-> > -
-> > -static int asus_wmi_probe(struct wmi_device *wdev, const void *context)
-> > -{
-> > -     struct asus_wmi_sensors *sensor_data;
-> > -     struct asus_wmi_data *board_sensors;
-> > -     const struct dmi_system_id *dmi_id;
-> > -     const enum known_ec_sensor *bsi;
-> > -     struct device *dev = &wdev->dev;
-> > -
-> > -     dmi_id = dmi_first_match(asus_wmi_ec_dmi_table);
-> > -     if (!dmi_id)
-> > -             return -ENODEV;
-> > -
-> > -     board_sensors = dmi_id->driver_data;
-> > -     bsi = board_sensors->known_board_sensors;
-> > -
-> > -     sensor_data = devm_kzalloc(dev, sizeof(*sensor_data), GFP_KERNEL);
-> > -     if (!sensor_data)
-> > -             return -ENOMEM;
-> > -
-> > -     mutex_init(&sensor_data->lock);
-> > -
-> > -     dev_set_drvdata(dev, sensor_data);
-> > -
-> > -     return asus_wmi_ec_configure_sensor_setup(dev, bsi);
-> > -}
-> > -
-> > -static const struct wmi_device_id asus_ec_wmi_id_table[] = {
-> > -     { ASUSWMI_MONITORING_GUID, NULL },
-> > -     { }
-> > -};
-> > -
-> > -static struct wmi_driver asus_sensors_wmi_driver = {
-> > -     .driver = {
-> > -             .name = "asus_wmi_ec_sensors",
-> > -     },
-> > -     .id_table = asus_ec_wmi_id_table,
-> > -     .probe = asus_wmi_probe,
-> > -};
-> > -module_wmi_driver(asus_sensors_wmi_driver);
-> > -
-> > -MODULE_AUTHOR("Ed Brindley <kernel@maidavale.org>");
-> > -MODULE_AUTHOR("Eugene Shalygin <eugene.shalygin@gmail.com>");
-> > -MODULE_DESCRIPTION("Asus WMI Sensors Driver");
-> > -MODULE_LICENSE("GPL");
-> > --
-> > 2.35.1
-> >
+
+--000000000000d365e705e437bd16
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Description: S/MIME Cryptographic Signature
+
+MIIPnwYJKoZIhvcNAQcCoIIPkDCCD4wCAQExDzANBglghkgBZQMEAgEFADALBgkqhkiG9w0BBwGg
+ggz5MIIEtjCCA56gAwIBAgIQeAMYYHb81ngUVR0WyMTzqzANBgkqhkiG9w0BAQsFADBMMSAwHgYD
+VQQLExdHbG9iYWxTaWduIFJvb3QgQ0EgLSBSMzETMBEGA1UEChMKR2xvYmFsU2lnbjETMBEGA1UE
+AxMKR2xvYmFsU2lnbjAeFw0yMDA3MjgwMDAwMDBaFw0yOTAzMTgwMDAwMDBaMFQxCzAJBgNVBAYT
+AkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNhMSowKAYDVQQDEyFHbG9iYWxTaWduIEF0bGFz
+IFIzIFNNSU1FIENBIDIwMjAwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCvLe9xPU9W
+dpiHLAvX7kFnaFZPuJLey7LYaMO8P/xSngB9IN73mVc7YiLov12Fekdtn5kL8PjmDBEvTYmWsuQS
+6VBo3vdlqqXZ0M9eMkjcKqijrmDRleudEoPDzTumwQ18VB/3I+vbN039HIaRQ5x+NHGiPHVfk6Rx
+c6KAbYceyeqqfuJEcq23vhTdium/Bf5hHqYUhuJwnBQ+dAUcFndUKMJrth6lHeoifkbw2bv81zxJ
+I9cvIy516+oUekqiSFGfzAqByv41OrgLV4fLGCDH3yRh1tj7EtV3l2TngqtrDLUs5R+sWIItPa/4
+AJXB1Q3nGNl2tNjVpcSn0uJ7aFPbAgMBAAGjggGKMIIBhjAOBgNVHQ8BAf8EBAMCAYYwHQYDVR0l
+BBYwFAYIKwYBBQUHAwIGCCsGAQUFBwMEMBIGA1UdEwEB/wQIMAYBAf8CAQAwHQYDVR0OBBYEFHzM
+CmjXouseLHIb0c1dlW+N+/JjMB8GA1UdIwQYMBaAFI/wS3+oLkUkrk1Q+mOai97i3Ru8MHsGCCsG
+AQUFBwEBBG8wbTAuBggrBgEFBQcwAYYiaHR0cDovL29jc3AyLmdsb2JhbHNpZ24uY29tL3Jvb3Ry
+MzA7BggrBgEFBQcwAoYvaHR0cDovL3NlY3VyZS5nbG9iYWxzaWduLmNvbS9jYWNlcnQvcm9vdC1y
+My5jcnQwNgYDVR0fBC8wLTAroCmgJ4YlaHR0cDovL2NybC5nbG9iYWxzaWduLmNvbS9yb290LXIz
+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
+z/tQRXr3iPeVmZCr7nttMEwGA1UdIARFMEMwQQYJKwYBBAGgMgEoMDQwMgYIKwYBBQUHAgEWJmh0
+dHBzOi8vd3d3Lmdsb2JhbHNpZ24uY29tL3JlcG9zaXRvcnkvMAwGA1UdEwEB/wQCMAAwgZoGCCsG
+AQUFBwEBBIGNMIGKMD4GCCsGAQUFBzABhjJodHRwOi8vb2NzcC5nbG9iYWxzaWduLmNvbS9jYS9n
+c2F0bGFzcjNzbWltZWNhMjAyMDBIBggrBgEFBQcwAoY8aHR0cDovL3NlY3VyZS5nbG9iYWxzaWdu
+LmNvbS9jYWNlcnQvZ3NhdGxhc3Izc21pbWVjYTIwMjAuY3J0MB8GA1UdIwQYMBaAFHzMCmjXouse
+LHIb0c1dlW+N+/JjMEYGA1UdHwQ/MD0wO6A5oDeGNWh0dHA6Ly9jcmwuZ2xvYmFsc2lnbi5jb20v
+Y2EvZ3NhdGxhc3Izc21pbWVjYTIwMjAuY3JsMA0GCSqGSIb3DQEBCwUAA4IBAQAx+EQjLATc/sze
+VoZkH7OLz+/no1+y31x4BQ3wjW7lKfay9DAAVym896b7ECttSo95GEvS7pYMikzud57WypK7Bjpi
+ep8YLarLRDrvyyvBuYtyDrIewkuASHtV1oy5E6QZZe2VOxMm6e2oJnFFjbflot4A08D3SwqDwV0i
+OOYwT0BUtHYR/3903Dmdx5Alq+NDvUHDjozgo0f6oIkwDXT3yBV36utQ/jFisd36C8RD5mM+NFpu
+3aqLXARRbKtxw29ErCwulof2dcAonG7cd5j+gmS84sLhKU+BhL1OQVXnJ5tj7xZ5Ri5I23brcwk0
+lk/gWqfgs3ppT9Xk7zVit9q8MYICajCCAmYCAQEwaDBUMQswCQYDVQQGEwJCRTEZMBcGA1UEChMQ
+R2xvYmFsU2lnbiBudi1zYTEqMCgGA1UEAxMhR2xvYmFsU2lnbiBBdGxhcyBSMyBTTUlNRSBDQSAy
+MDIwAhABh9LgIPnlfMFHR0Die8n7MA0GCWCGSAFlAwQCAQUAoIHUMC8GCSqGSIb3DQEJBDEiBCCK
+fw6QY6Kbpl+Cx8AvAu8sJw4Y0IIUN2am4pNi4k3wYDAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcB
+MBwGCSqGSIb3DQEJBTEPFw0yMjA3MjAwNzQyMjJaMGkGCSqGSIb3DQEJDzFcMFowCwYJYIZIAWUD
+BAEqMAsGCWCGSAFlAwQBFjALBglghkgBZQMEAQIwCgYIKoZIhvcNAwcwCwYJKoZIhvcNAQEKMAsG
+CSqGSIb3DQEBBzALBglghkgBZQMEAgEwDQYJKoZIhvcNAQEBBQAEggEAEPPwSKQVi/rgYulroxdd
+XW+ennLNOfkbkQG+cUbYoX90edp1zcpJZFKu7xVEC58t9vCHQsY1wPqlEYMrM1JLnlJ1xkDBiT3Z
+LWCbxHFLvTNWTgvqm6rLNOGnZ9xdBkDBL3gmz4++XMS6FibOJ1PNb8MLyiayaQk3Dx8tbqoDTPZk
+PAYuvTIlOTEKJKuW/iO9rO7BWQRtZhcSzFbLx07RLBXFlsC+ZJAWUfz2gTKsbvkJ2pL1wvrx6bxm
+1FGLlp2lKvH5zcCSIkrp5zfTRU1lduxCuX2KqAUghGHpl54hcg2NIH1jkofAMWM4Nvo1GPynw3aU
+O8mK37V9NbZPaLBOFw==
+--000000000000d365e705e437bd16--
