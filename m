@@ -2,92 +2,185 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B34DAC433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Jul 2022 16:03:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CA8C1C43334
+	for <linux-doc@archiver.kernel.org>; Wed, 20 Jul 2022 16:21:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232849AbiGTQDs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 20 Jul 2022 12:03:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37766 "EHLO
+        id S231239AbiGTQVq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 20 Jul 2022 12:21:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52752 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229899AbiGTQDs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Jul 2022 12:03:48 -0400
-Received: from email.cn (m218-171.88.com [110.43.218.171])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35A865467F
-        for <linux-doc@vger.kernel.org>; Wed, 20 Jul 2022 09:03:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.cn;
-        s=dkim; h=Date:From:To; bh=aiDkZlW/MFY03NintcXmMml9eUPIzL1Un/QPz
-        ARI8KE=; b=GWs7rK0iVaDp2hj7bbqjG+o9WuiSMD7IutVxxqnrrH5rFCcfMOPXA
-        m4j6XfVA4j7bSlfORlRRA0D7PswYeUKKz+/5+GFptmN4uevgR56veLzoH6D3POFM
-        ADgWN7q81or9/LsK+XiaWDVPPXrmF1qRyngZfnP6XVrjuRyC5unJNY=
-Received: from bobwxc.mipc (unknown [120.242.68.201])
-        by v_coremail2-frontend-1 (Coremail) with SMTP id LCKnCgC3Z2RVJ9hifhc3AA--.1608S2;
-        Thu, 21 Jul 2022 00:03:34 +0800 (CST)
-Date:   Thu, 21 Jul 2022 00:03:31 +0800
-From:   Wu XiangCheng <bobwxc@email.cn>
-To:     Binbin Zhou <zhoubinbin@loongson.cn>
-Cc:     alexs@kernel.org, siyanteng@loongson.cn, corbet@lwn.net,
-        chenhuacai@loongson.cn, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2 4/4] docs/zh_CN: core-api: Add packing Chinese
- translation
-Message-ID: <YteZiWDxOpNSN742@bobwxc.mipc>
-References: <cover.1658196777.git.zhoubinbin@loongson.cn>
- <4ce40cebea8d95a8abfb0f86efb0ad4730e0cb51.1658196777.git.zhoubinbin@loongson.cn>
+        with ESMTP id S234566AbiGTQVo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Jul 2022 12:21:44 -0400
+Received: from mail-pg1-x535.google.com (mail-pg1-x535.google.com [IPv6:2607:f8b0:4864:20::535])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7CCA261B21
+        for <linux-doc@vger.kernel.org>; Wed, 20 Jul 2022 09:21:42 -0700 (PDT)
+Received: by mail-pg1-x535.google.com with SMTP id g4so16858802pgc.1
+        for <linux-doc@vger.kernel.org>; Wed, 20 Jul 2022 09:21:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=f0adogo0zxbyENycGDyitWJjrMgz2USumvEVtMapSaM=;
+        b=spGLDNQ08YQPqH7UmhIpiHe2RaM2zw7ODEii6vmP7whH0yk8NhoS7QYoLrpacwnfbW
+         S3VkQABUgvOUZAhV+aAm4mnqaDYIZ6zOWmQpK2Ozj1qZ4yEP8IO8Ogxh+e38++9rhFjG
+         Gncn3BStXeB7j7O3s/y/CX20mihB4UWNCG15aOuY2njFY086JqM16L+H4BlY/AN8pWe8
+         s9ex7tY8xz16AMATUg5JkSGjI8FqtQ1JH/Ckd2eXT2/cGJ188i8q7NwsSTtTXSvKMUHc
+         Y4He+Vu/AgyMtaInE+pTo4N4Wc2xqCJOuE/medBD2cHSdxBx52LLtQTesVoUiLmIcCvV
+         AYCw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=f0adogo0zxbyENycGDyitWJjrMgz2USumvEVtMapSaM=;
+        b=QgwUHNl/1ra6Cb6DaKXEpqsGQuSpQ/EH1fvLUCo0NVfOxAVXPjkyFSsNKknR7J1yVF
+         JBDNgoA3o2ibxAyXHHolaW7genpKFjvczDoan3hRJO9gMCDfyhzu4ZRH7+xRhb2DzBCM
+         Gn2YR78+KRBFCvbTFTdBXp7vH1qUsOVoOo/tl5Ef0DEK2PrHn7sWZi2lmbyYam+nGLJU
+         PRnYqApm1GXxHZUxw4br9DGV4l1akzcv/83Y5rSBk/1HwECX+83Tt8/Hx17Mue/eiEI5
+         GHqWUEHU+0SgtKqFP3K1JmXWXIphT7Pgxa/DDvNvXjvkGT5JCYOP/wyRAQLJVTx59deX
+         R7Ng==
+X-Gm-Message-State: AJIora/6MIbkUsB3YKzsi4vPP8D/FUA9CsJvr6yydDy96kx3KM6P2bdf
+        mrJ8Rfs/nM0pRyXsinfJyusXgg==
+X-Google-Smtp-Source: AGRyM1vSVUjKLbGc4Kd7xVml29j/pMq086Pfs5AgzFCjeBxpV+cVQy9BGtwT6tQB+IRvWirFlwJ5Og==
+X-Received: by 2002:a65:6bcc:0:b0:3f6:1815:f541 with SMTP id e12-20020a656bcc000000b003f61815f541mr33324434pgw.183.1658334101831;
+        Wed, 20 Jul 2022 09:21:41 -0700 (PDT)
+Received: from google.com (123.65.230.35.bc.googleusercontent.com. [35.230.65.123])
+        by smtp.gmail.com with ESMTPSA id g5-20020a63dd45000000b0041a4d5e7e5fsm3266314pgj.47.2022.07.20.09.21.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 20 Jul 2022 09:21:41 -0700 (PDT)
+Date:   Wed, 20 Jul 2022 16:21:37 +0000
+From:   Sean Christopherson <seanjc@google.com>
+To:     "Gupta, Pankaj" <pankaj.gupta@amd.com>
+Cc:     Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+        linux-kselftest@vger.kernel.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com,
+        Quentin Perret <qperret@google.com>,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+        Muchun Song <songmuchun@bytedance.com>
+Subject: Re: [PATCH v7 11/14] KVM: Register/unregister the guest private
+ memory regions
+Message-ID: <YtgrkXqP/GIi9ujZ@google.com>
+References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
+ <20220706082016.2603916-12-chao.p.peng@linux.intel.com>
+ <f02baa37-8d34-5d07-a0ae-300ffefc7fee@amd.com>
+ <20220719140843.GA84779@chaop.bj.intel.com>
+ <36e671d2-6b95-8e4f-c2ac-fee4b2670c6e@amd.com>
+ <20220720150706.GB124133@chaop.bj.intel.com>
+ <d0fd229d-afa6-c66d-3e55-09ac5877453e@amd.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <4ce40cebea8d95a8abfb0f86efb0ad4730e0cb51.1658196777.git.zhoubinbin@loongson.cn>
-X-Developer-Signature: v=1; a=openpgp-sha256; l=635; i=bobwxc@yeah.net;
- h=from:subject; bh=65LHRr6fUChkyTWITMKugqopmr87nQUi/S3kkITjK8U=;
- b=owEB7QES/pANAwAKAbZbKBIigrCFAcsmYgBi15lnSwkX2yO1Jo+u4C3oILw4fwpHKJzHExJ3DfL/
- Fhfp80GJAbMEAAEKAB0WIQRFujdTmQmloK0WXU+2WygSIoKwhQUCYteZZwAKCRC2WygSIoKwhX9TDA
- DctqYHynfnHJwQI8eVFRVkUiAvFF11PdysSKaIfnbaEMvris42gYgT7p4rrggrdyG3D4De46BSWgu1
- QRu403wmK/zn0K4x6iDhsjMawM334WHWswQ8h9mjPt7YxI0zY3OZFn0XpUxP7wmNvVwt9CqpNGk0+/
- Cp0wmuhU49bNt5fkr6OZOlyejQLqmQUK42QJyldbyGMVufRAX8C5GeAPHWxTJqbbwWYaVJhIKTdArU
- 1J7qdtJYg5AdsphVs7bBFWeiYNnstpjmpodccZ/QPvKWmbst+22/+tjIZvqlvPyjjnU1ibzsc1NWd/
- X2T+En0kHYyv2MdTmdXjXWx05TVCAvwKsoF5PBWPyc3BvjWnTxM3yfTU6NOcFRqPv5KYVZHAUG5skn
- mYzob4fo6dBWIf62Pwtm9r0KIYxG4hUxbISdOW31U3R/o65rs/VUalTlTBYK3EuIEc28Tgf8ihQsfP
- P2YwZKkPtHS95AsBZ6mmnSe6rR0mvMXI8Yg8XwzkY8/WU=
-X-Developer-Key: i=bobwxc@yeah.net; a=openpgp;
- fpr=2BF2A4AA2F0730C3279ED01D32684A40BCA7AEA7
-X-CM-TRANSID: LCKnCgC3Z2RVJ9hifhc3AA--.1608S2
-X-Coremail-Antispam: 1UD129KBjvdXoWrJw15Kw45Jr45tr4UWry7Awb_yoWxXrg_Z3
-        WktrW0kw47XF1xJayrXw4DJFyxua1Ygw1FkF15t3yUX34kXrZrWa4DXr95ZF4UGFsIqrW3
-        CFnrXr1Syry7WjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-        9fnUUIcSsGvfJTRUUUb0xYjsxI4VW5JwAYFVCjjxCrM7CY07I20VC2zVCF04k26cxKx2IY
-        s7xG6rWj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI
-        8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1l84ACjcxK6I8E
-        87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Jr0_Gr1le2I262IYc4CY6c
-        8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E74AGY7Cv6cx26F4UJr1U
-        McvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCF04k20xvY0x0EwIxGrwCF04k20x
-        vE74AGY7Cv6cx26F4UJr1UMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_
-        Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x
-        0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWU
-        JVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIx
-        AIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjTRRsjbUUUUU
-X-Originating-IP: [120.242.68.201]
-X-CM-SenderInfo: pere453f6hztlloou0/
+In-Reply-To: <d0fd229d-afa6-c66d-3e55-09ac5877453e@amd.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jul 19, 2022 at 09:04:18PM +0800, Binbin Zhou wrote:
-> Translate core-api/packing.rst into Chinese.
+On Wed, Jul 20, 2022, Gupta, Pankaj wrote:
 > 
-> Last English version used:
+> > > > > > +bool __weak kvm_arch_private_mem_supported(struct kvm *kvm)
+
+Use kvm_arch_has_private_mem(), both because "has" makes it obvious this is checking
+a flag of sorts, and to align with other helpers of this nature (and with
+CONFIG_HAVE_KVM_PRIVATE_MEM).
+
+  $ git grep kvm_arch | grep supported | wc -l
+  0
+  $ git grep kvm_arch | grep has | wc -l
+  26
+
+> > > > > > +#ifdef CONFIG_HAVE_KVM_PRIVATE_MEM
+> > > > > > +	case KVM_MEMORY_ENCRYPT_REG_REGION:
+> > > > > > +	case KVM_MEMORY_ENCRYPT_UNREG_REGION: {
+> > > > > > +		struct kvm_enc_region region;
+> > > > > > +
+> > > > > > +		if (!kvm_arch_private_mem_supported(kvm))
+> > > > > > +			goto arch_vm_ioctl;
+> > > > > > +
+> > > > > > +		r = -EFAULT;
+> > > > > > +		if (copy_from_user(&region, argp, sizeof(region)))
+> > > > > > +			goto out;
+> > > > > > +
+> > > > > > +		r = kvm_vm_ioctl_set_encrypted_region(kvm, ioctl, &region);
+> > > > > 
+> > > > > this is to store private region metadata not only the encrypted region?
+> > > > 
+> > > > Correct.
+> > > 
+> > > Sorry for not being clear, was suggesting name change of this function from:
+> > > "kvm_vm_ioctl_set_encrypted_region" to "kvm_vm_ioctl_set_private_region"
+> > 
+> > Though I don't have strong reason to change it, I'm fine with this and
 > 
-> commit 1ec779b9fabc ("docs: packing: move it to core-api book
-> and adjust markups").
+> Yes, no strong reason, just thought "kvm_vm_ioctl_set_private_region" would
+> depict the actual functionality :)
 > 
-> Signed-off-by: Binbin Zhou <zhoubinbin@loongson.cn>
+> > this name matches the above kvm_arch_private_mem_supported perfectly.
+> BTW could not understand this, how "kvm_vm_ioctl_set_encrypted_region"
+> matches "kvm_arch_private_mem_supported"?
 
-Reviewed-by: Wu XiangCheng <bobwxc@email.cn>
+Chao is saying that kvm_vm_ioctl_set_private_region() pairs nicely with
+kvm_arch_private_mem_supported(), not that the "encrypted" variant pairs nicely.
 
-Thanks,
-	Wu
+I also like using "private" instead of "encrypted", though we should probably
+find a different verb than "set", because calling "set_private" when making the
+region shared is confusing.  I'm struggling to come up with a good alternative
+though.
 
-> ---
->  .../translations/zh_CN/core-api/index.rst     |   2 +-
->  .../translations/zh_CN/core-api/packing.rst   | 159 ++++++++++++++++++
->  2 files changed, 160 insertions(+), 1 deletion(-)
->  create mode 100644 Documentation/translations/zh_CN/core-api/packing.rst
+kvm_vm_ioctl_set_memory_region() is already taken by KVM_SET_USER_MEMORY_REGION,
+and that also means that anything with "memory_region" in the name is bound to be
+confusing.
 
+Hmm, and if we move away from "encrypted", it probably makes sense to pass in
+addr+size instead of a kvm_enc_region.
+
+Maybe this?
+
+static int kvm_vm_ioctl_set_or_clear_mem_private(struct kvm *kvm, gpa_t gpa,
+					         gpa_t size, bool set_private)
+
+and then:
+
+#ifdef CONFIG_HAVE_KVM_PRIVATE_MEM
+	case KVM_MEMORY_ENCRYPT_REG_REGION:
+	case KVM_MEMORY_ENCRYPT_UNREG_REGION: {
+		bool set = ioctl == KVM_MEMORY_ENCRYPT_REG_REGION;
+		struct kvm_enc_region region;
+
+		if (!kvm_arch_private_mem_supported(kvm))
+			goto arch_vm_ioctl;
+
+		r = -EFAULT;
+		if (copy_from_user(&region, argp, sizeof(region)))
+			goto out;
+
+		r = kvm_vm_ioctl_set_or_clear_mem_private(kvm, region.addr,
+							  region.size, set);
+		break;
+	}
+#endif
+
+I don't love it, so if someone has a better idea...
