@@ -2,312 +2,116 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AF7C2C433EF
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Jul 2022 02:12:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D1635C43334
+	for <linux-doc@archiver.kernel.org>; Wed, 20 Jul 2022 02:32:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232310AbiGTCMj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 19 Jul 2022 22:12:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38438 "EHLO
+        id S237556AbiGTCcl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 19 Jul 2022 22:32:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36338 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230369AbiGTCMj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Jul 2022 22:12:39 -0400
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB98F599ED
-        for <linux-doc@vger.kernel.org>; Tue, 19 Jul 2022 19:12:36 -0700 (PDT)
-Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.57])
-        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4LnfLj2192zlWFp;
-        Wed, 20 Jul 2022 10:10:53 +0800 (CST)
-Received: from kwepemm600013.china.huawei.com (7.193.23.68) by
- dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Wed, 20 Jul 2022 10:12:18 +0800
-Received: from [10.174.178.156] (10.174.178.156) by
- kwepemm600013.china.huawei.com (7.193.23.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Wed, 20 Jul 2022 10:12:17 +0800
-Message-ID: <8b7d3e9e-342c-6292-0d66-293531abb18b@huawei.com>
-Date:   Wed, 20 Jul 2022 10:12:16 +0800
+        with ESMTP id S237558AbiGTCck (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 19 Jul 2022 22:32:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 36B7442AE3
+        for <linux-doc@vger.kernel.org>; Tue, 19 Jul 2022 19:32:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1658284359;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=3uZbjgFMHeKFjmyd0QEm1xCO2NChsIABolYNiKdJ7Gg=;
+        b=jH3wqkkB823V7dNYv7yTI9mJLkuofcW3gCW56Funar+eTn6YmL4dJwshnKWIxeA6IeUnD7
+        N1HvmClDjmMKBLxkEAy0qiPBy14JkWz2yi7U60CBSZwOipmFHbRbtXEexkDkt3qOJ2H3w1
+        UimgKmYDmXI+rXMtWTbPfZY5I9WC6pY=
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-404-C82NJTECMiGVQ3CBcZNyWw-1; Tue, 19 Jul 2022 22:32:35 -0400
+X-MC-Unique: C82NJTECMiGVQ3CBcZNyWw-1
+Received: by mail-qk1-f199.google.com with SMTP id de4-20020a05620a370400b006a9711bd9f8so13151123qkb.9
+        for <linux-doc@vger.kernel.org>; Tue, 19 Jul 2022 19:32:35 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=3uZbjgFMHeKFjmyd0QEm1xCO2NChsIABolYNiKdJ7Gg=;
+        b=7ZE118HlF3sf4nI3SvHUKccV2hnfzcJQYWpQxm82KDiOA9jU06AcqgRfUNc7f+DX26
+         yhLAPJ3/VXjcpNq5sfT+NB39b9R7LvSHVUg1cC0YLhSO/CysBjN+jsTaedJf8jy5NT6I
+         8medfXavombA2i8g0rV3TcU1dJ4YMgRoHMFA+Ex5YWjqL+0KRy5sDO15eM3erw4/u4nP
+         yuhtVhDxUFBq116iTXAxSh4DywGxG3HQJZTpQWB5WVWo/H+4tc0r+Q6OdvJc8xrRSM7T
+         ymuaMicwdi2vMms0NuAGqkQ9SnB5w2ftFRO6cowkxgL8tQxWZbdpRD0ocotRBo1Q30c7
+         RMqw==
+X-Gm-Message-State: AJIora/qoksZrt6XNyK6Mg1vaADLqq6ov+YHA4rAjMFsOPZqvzvjjf9+
+        bfmLE3LNBIfunmzRoTBA17/lBTSgBqzckbJydWXNEFn5reHc8hH8U0HMASWXmIVNWD7adCb3foB
+        dTrSMiDy16Tx5EzqdvAT4
+X-Received: by 2002:a05:6214:e41:b0:473:915c:3efe with SMTP id o1-20020a0562140e4100b00473915c3efemr27335409qvc.10.1658284355259;
+        Tue, 19 Jul 2022 19:32:35 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1sqsBhXFhvJemKV/jwgAt84OQwS2X59Z2eXZUwYSIfKumUaM4t252ZCPnvZ1VuTZhBaV0SNdQ==
+X-Received: by 2002:a05:6214:e41:b0:473:915c:3efe with SMTP id o1-20020a0562140e4100b00473915c3efemr27335384qvc.10.1658284354992;
+        Tue, 19 Jul 2022 19:32:34 -0700 (PDT)
+Received: from xz-m1.local (bras-base-aurron9127w-grc-37-74-12-30-48.dsl.bell.ca. [74.12.30.48])
+        by smtp.gmail.com with ESMTPSA id s11-20020a05620a0bcb00b006b5c5987ff2sm14701779qki.96.2022.07.19.19.32.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 19 Jul 2022 19:32:34 -0700 (PDT)
+Date:   Tue, 19 Jul 2022 22:32:32 -0400
+From:   Peter Xu <peterx@redhat.com>
+To:     Nadav Amit <namit@vmware.com>
+Cc:     Axel Rasmussen <axelrasmussen@google.com>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "Dmitry V . Levin" <ldv@altlinux.org>,
+        Gleb Fotengauer-Malinovskiy <glebfm@altlinux.org>,
+        Hugh Dickins <hughd@google.com>, Jan Kara <jack@suse.cz>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mel Gorman <mgorman@techsingularity.net>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Mike Rapoport <rppt@kernel.org>, Shuah Khan <shuah@kernel.org>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        zhangyi <yi.zhang@huawei.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux MM <linux-mm@kvack.org>,
+        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>
+Subject: Re: [PATCH v4 2/5] userfaultfd: add /dev/userfaultfd for fine
+ grained access control
+Message-ID: <YtdpQBrAGJwMnssj@xz-m1.local>
+References: <20220719195628.3415852-1-axelrasmussen@google.com>
+ <20220719195628.3415852-3-axelrasmussen@google.com>
+ <D43534E1-7982-45EE-8B16-2C4687F49E77@vmware.com>
+ <CAJHvVcigVqAibm0JODkiR=Pcd3E14xp0NB6acw2q2enwnrnLSA@mail.gmail.com>
+ <D8D7C973-1480-4166-86AF-AD179873B2A4@vmware.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.2
-Subject: Re: [PATCH -next v2] docs/zh_CN: add mm transhuge translation
-To:     <corbet@lwn.net>
-CC:     <xuqiang36@huawei.com>, <zhouguanghui1@huawei.com>,
-        Tang Yizhou <yizhou.tang@shopee.com>,
-        Alex Shi <alexs@kernel.org>,
-        YanTeng Si <siyanteng@loongson.cn>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-References: <20220628133742.91966-1-guomengqi3@huawei.com>
- <20220705141121.73711-1-guomengqi3@huawei.com>
- <c439e285-a395-16a0-4527-3f868c494440@loongson.cn>
-From:   "guomengqi (A)" <guomengqi3@huawei.com>
-In-Reply-To: <c439e285-a395-16a0-4527-3f868c494440@loongson.cn>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.174.178.156]
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- kwepemm600013.china.huawei.com (7.193.23.68)
-X-CFilter-Loop: Reflected
+In-Reply-To: <D8D7C973-1480-4166-86AF-AD179873B2A4@vmware.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Jon,
+On Tue, Jul 19, 2022 at 11:55:21PM +0000, Nadav Amit wrote:
+> Anyhow, I do want to clarify a bit about the “cross-process support”
+> userfaultfd situation. Basically, you can already get cross-process support
+> today, by using calling userfaultfd() on the controlled process and calling
+> pidfd_open() from another process. It does work and I do not remember any
+> issues that it introduced (in contrast, for instance, to io-uring, that
+> would break if you use userfaultfd+iouring+fork today).
 
-Is this patch applied? Is there anything else to be done?
+Do you mean to base it on pidof_getfd()?
 
-Thanks,
+Just want to mention that this will still need collaboration of the target
+process as userfaultfd needs to be created explicitly there.  From that POV
+it's still more similar to general SCM_RIGHTS trick to pass over the fd but
+just to pass it in a different way.
 
-Mengqi
+IMHO the core change about having /proc/pid/userfaultfd is skipping that
+only last step to create the handle.
 
-在 2022/7/7 9:14, YanTeng Si 写道:
->
-> 在 2022/7/5 22:11, Guo Mengqi 写道:
->> Translate .../mm/transhuge.rst into Chinese.
->>
->> Signed-off-by: Guo Mengqi <guomengqi3@huawei.com>
->
-> Reviewed-by: Yanteng Si<siyanteng@loongson.cn>
->
->
-> Thanks,
->
-> Yanteng
->
->
->> ---
->>   Documentation/translations/zh_CN/mm/index.rst |   2 +-
->>   .../translations/zh_CN/mm/transhuge.rst       | 153 ++++++++++++++++++
->>   2 files changed, 154 insertions(+), 1 deletion(-)
->>   create mode 100644 Documentation/translations/zh_CN/mm/transhuge.rst
->>
->> diff --git a/Documentation/translations/zh_CN/mm/index.rst 
->> b/Documentation/translations/zh_CN/mm/index.rst
->> index 2f53e37b8049..d0c80025c3ce 100644
->> --- a/Documentation/translations/zh_CN/mm/index.rst
->> +++ b/Documentation/translations/zh_CN/mm/index.rst
->> @@ -56,6 +56,7 @@ Linux内存管理文档
->>      page_table_check
->>      remap_file_pages
->>      split_page_table_lock
->> +   transhuge
->>      vmalloced-kernel-stacks
->>      z3fold
->>      zsmalloc
->> @@ -65,5 +66,4 @@ TODOLIST:
->>   * free_page_reporting
->>   * hugetlbfs_reserv
->>   * slub
->> -* transhuge
->>   * unevictable-lru
->> diff --git a/Documentation/translations/zh_CN/mm/transhuge.rst 
->> b/Documentation/translations/zh_CN/mm/transhuge.rst
->> new file mode 100644
->> index 000000000000..5204b1113fbf
->> --- /dev/null
->> +++ b/Documentation/translations/zh_CN/mm/transhuge.rst
->> @@ -0,0 +1,153 @@
->> +.. SPDX-License-Identifier: GPL-2.0
->> +.. include:: ../disclaimer-zh_CN.rst
->> +
->> +:Original: Documentation/vm/transhuge.rst
->> +
->> +:翻译:
->> +
->> + 郭梦琪 Guo Mengqi <guomengqi3@huawei.com>
->> +
->> +:校译:
->> +
->> + 司延腾 Yanteng Si <siyanteng@loongson.cn>
->> + 唐艺舟 Tang Yizhou <tangyeechou@gmail.com>
->> + 时奎亮 Alex Shi <alexs@kernel.org>
->> +
->> +==============
->> +透明巨页机制
->> +==============
->> +
->> +本文档描述透明巨页（THP）的设计理念，以及它是如何与内存管理系统的其它部分交互的。 
->>
->> +
->> +设计原则
->> +========
->> +
->> +- 
->> “优雅回退”：有些mm组件不感知透明巨页，它们的回退方法是将PMD页表项拆分成PTE 
->>
->> +  
->> 页表项。必要时还需要拆分透明巨页。这样就可以在常规大小的页或页表项上继续工作。 
->>
->> +
->> +- 
->> 如果内存碎片化导致巨页分配失败，则分配常规页作为替代放入原vma中，此期间不会 
->>
->> +  产生任何失败或明显延迟，也不会引起用户态的注意。
->> +
->> +- 
->> 如果一些进程退出后释放了空闲的巨页（不论在伙伴系统还是在VM），由常规页支持的 
->>
->> +  guest物理内存应该自动重新申请为巨页。(通过khugepaged进程)
->> +
->> +- 
->> 透明巨页不需要预留内存，而是尽可能使用已经存在的巨页。（为避免不可移动的页 
->>
->> +  
->> 将整个内存碎片化，唯一可能的预留是在kernelcore=的设置中。不过这个调整并不仅 
->>
->> +  针对透明巨页，而对内核中所有动态的多级页面申请都适用。）
->> +
->> +get_user_pages和follow_page
->> +===========================
->> +
->> +不论对单个巨页还是hugetlbfs，使用get_user_pages(GUP)和follow_page时，返回的会是 
->>
->> +首页或尾页。大多数情况下调用GUP功能的人不关心页的大小，只关心页的真实物理地址 
->>
->> +以及暂时将页固定，好在I/O结束后将页释放。但在驱动中，在某些情况下有可能访问尾页 
->>
->> +的page_struct（如检查page->mapping字段），这时应该转而检查首页。一旦首页或者尾页 
->>
->> +被引用，巨页就不能再被拆分了。
->> +
->> +.. note::
->> +   以上不是针对GUP 
->> API的新增限制，它们和hugetlbfs的限制保持一致。因此，如果任何
->> +   
->> 驱动能够在hugetlbfs中处理GUP，它们也能在基于透明巨页的映射中很好的工作。
->> +
->> +优雅回退
->> +============
->> +
->> +遍历页表但又不需感知巨页pmd的代码可以这样简单处理：对pmd_offset返回的pmd添加一行 
->>
->> +split_huge_pmd(vma, pmd, addr)调用。只需grep搜索"pmd_offset"，并将
->> +split_huge_pmd添加到所有返回的pmd后面，代码就能够自己处理透明巨页了，非常简单。 
->>
->> +这短短一行的回退函数很巧妙，为我们省去了成百上千行额外的适配代码。
->> +
->> +如果你不是在遍历页表，而是遇到了一个无法直接处理的巨物理页，可以使用
->> +split_huge_page(page)把它拆分成小页。linux 
->> VM就是通过这种方式将巨页换出。
->> +如果页面被pin住了，split_huge_page就会失败。
->> +
->> +例子：添加一行代码使mremap.c支持透明巨页::
->> +
->> +        diff --git a/mm/mremap.c b/mm/mremap.c
->> +        --- a/mm/mremap.c
->> +        +++ b/mm/mremap.c
->> +        @@ -41,6 +41,7 @@ static pmd_t *get_old_pmd(struct mm_stru
->> +                return NULL;
->> +
->> +                pmd = pmd_offset(pud, addr);
->> +        +       split_huge_pmd(vma, pmd, addr);
->> +                if (pmd_none_or_clear_bad(pmd))
->> +                    return NULL;
->> +
->> +巨页支持中的锁使用
->> +==================
->> +
->> +我们还是希望尽可能多的代码能感知透明巨页，因为调用split_huge_page()和
->> +split_huge_pmd()还是有开销的。
->> +
->> +要使遍历页表流程能够感知巨页pmd，只需对pmd_offset返回的pmd调用pmd_trans_huge()。 
->>
->> +一定要持有mmap_lock读锁，以避免khugepaged在此期间申请新的巨页pmd
->> +（khugepaged collapse_huge_page会持有mmap_lock写锁而非anon_vma lock）。
->> +如果pmd_trans_huge返回结果为假，那就回到原来的流程。如果pmd_trans_huge返回结果 
->>
->> +为真，就需要先持有页表锁(pmd_lock())，然后再进行一次pmd_trans_huge判断。持页表锁 
->>
->> +是为了防止巨页pmd被转换成小页（split_huge_pmd是可以跟遍历页表操作同时进行的）。 
->>
->> +如果第二次pmd_trans_huge返回结果为假,那就释放页表锁，依然回到原有流程。如果返回 
->>
->> +结果继续为真，那就按照巨页pmd和巨页来处理，处理完毕再释放页表锁。
->> +
->> +引用计数和透明巨页
->> +==================
->> +
->> +THP的计数跟其他复合页的计数大致相同：
->> +
->> + - get_page()/put_page()和GUP都在首页上进行计数（修改head 
->> page->_refcount）
->> +
->> + - 尾页的_refcount永远是0. get_page_unless_zero()永远无法get到尾页。
->> +
->> + - 映射/解映射特定PTE entry时，增减的是复合页中相应子页的_mapcount.
->> +
->> + - 
->> 映射/解映射整个复合页时，增减的是compound_mapcount属性。该属性保存在第一个 
->>
->> +   
->> 尾页中。对于文件中的巨页，还要增加所有子页中的_mapcount，这样是为了在检测 
->>
->> +   子页的解映射时不需考虑竞争问题。
->> +
->> +PageDoubleMap() 表明巨页 *可能* 被映射为了PTE.
->> +
->> +对匿名页，PageDoubleMap()也表示所有子页的_mapcount都偏移了1.
->> +在页被同时映射为了PMD和PTE的情况下，这个额外的引用可以避免子页解映射时的竞争。 
->>
->> +
->> +这个优化也可以追踪每个子页mapcount所带来的性能开销。另一种解决方法是在每次 
->>
->> +映射/解映射整个复合页时更改所有子页的_mapcount.
->> +
->> +对于匿名页，如果页面的PMD在首次被拆分时同时还具有PMD映射，则设置PG_double_map; 
->>
->> +当compound_mapcount值降为0时，取消设置。
->> +
->> +对于映射到文件的页，在其首次映射PTE时，设置PG_double_map; 
->> 在页面从页缓存中
->> +移除时，取消设置。
->> +
->> +split_huge_page中，在清除page 
->> struct中所有PG_head/tail位之前，需要先将首页中的
->> +引用计数refcount分发到所有其他尾页中。页表项PTE占用的引用计数很好处理，但剩下的 
->>
->> +引用计数来源难以确定（如通过get_user_pages的pin页）。如果巨页被pin住，
->> +split_huge_page()会失败。页的引用计数必须等于所有子页mapcount之和再加一（因为 
->>
->> +split_huge_page的调用者也必须对首页持有一个引用）。
->> +
->> +对匿名页，split_huge_page用页表项迁移（migration 
->> entries）来保持page->_refcount
->> +和page->_mapcount稳定。对文件页则会直接解映射。
->> +
->> +这套机制对物理内存扫描（physical memory 
->> scanners）也安全，scanner唯一合法引用页
->> +的途径就是get_page_unless_zero().
->> +
->> +没调atomic_add()时，所有尾页的_refcount都为0. 
->> 这时scanner无法获取尾页的引用。
->> +调了atomic_add()后，我们也不在乎页的_refcount是多少了。只要知道应该从首页的引用 
->>
->> +计数减去多少即可。
->> +
->> +对首页进行get_page_unless_zero()是可以成功的。此时引用计数的再分配非常明了： 
->>
->> +引用计数将会留在首页中。
->> +
->> +split_huge_pmd()对引用计数没有任何限制，在任何时候都可以拆分PMD，而且永远不会 
->>
->> +失败。
->> +
->> +局部解映射和deferred_split_huge_page()函数
->> +==========================================
->> +
->> +透明巨页通过munmap()或其他方式解映射时，并不会立即释放内存。在page_remove_rmap() 
->>
->> +中检查透明巨页的某个子页是否还在使用，并将透明巨页加入一个预备队列，当内存 
->>
->> +使用需求变大时，把透明巨页拆分，释放已经不用的子页。
->> +
->> +检测到局部解映射时，由于处在锁中，无法立即进行拆页。而且在很多情况下，如果透明 
->>
->> +巨页是跨VMA的, 那么会在exit(2)中进行局部解映射。这时拆页效果适得其反。
->> +
->> +deferred_split_huge_page函数就是用来进行上文所说的将页排队以预备后续的拆分。真正 
->>
->> +的拆页操作是通过内存压力导致的shrinker接口来触发的。
->
-> .
+-- 
+Peter Xu
+
