@@ -2,74 +2,88 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 832D4CCA485
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Jul 2022 17:45:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 22FF3C433EF
+	for <linux-doc@archiver.kernel.org>; Wed, 20 Jul 2022 18:58:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231546AbiGTRpi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 20 Jul 2022 13:45:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42938 "EHLO
+        id S229722AbiGTS5h (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 20 Jul 2022 14:57:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42374 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230280AbiGTRph (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Jul 2022 13:45:37 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C2AC3244C;
-        Wed, 20 Jul 2022 10:45:36 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 0829B6151C;
-        Wed, 20 Jul 2022 17:45:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48216C3411E;
-        Wed, 20 Jul 2022 17:45:33 +0000 (UTC)
-Date:   Wed, 20 Jul 2022 13:45:31 -0400
-From:   Steven Rostedt <rostedt@goodmis.org>
-To:     Daniel Bristot de Oliveira <bristot@kernel.org>
-Cc:     Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Ingo Molnar <mingo@redhat.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Will Deacon <will@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Marco Elver <elver@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Gabriele Paoloni <gpaoloni@redhat.com>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Clark Williams <williams@redhat.com>,
-        Tao Zhou <tao.zhou@linux.dev>,
-        Randy Dunlap <rdunlap@infradead.org>,
+        with ESMTP id S231221AbiGTS52 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Jul 2022 14:57:28 -0400
+Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 101501580C;
+        Wed, 20 Jul 2022 11:57:28 -0700 (PDT)
+Received: from fews1.riseup.net (fews1-pn.riseup.net [10.0.1.83])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
+         client-signature RSA-PSS (2048 bits) client-digest SHA256)
+        (Client CN "mail.riseup.net", Issuer "R3" (not verified))
+        by mx1.riseup.net (Postfix) with ESMTPS id 4Lp4h74H6DzDq8H;
+        Wed, 20 Jul 2022 18:57:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
+        t=1658343447; bh=eRDpkZkxg/n4UPAafm6sWbDOFUUMDUCphAk8sp3lHBk=;
+        h=From:To:Cc:Subject:Date:From;
+        b=MtGvQIvbFtMMIE+z762ncMb7KFAZa7vd6sPMHdDJ2JjtHOgKH0gnNWjvNWU1/x/2n
+         OC0kv68uVc9qxuArJVMdrNlVYX+tEeYXRxW7CVE7q/Qk+qGJI8+loxpZ71TgFdVyrP
+         jaRiyP5nMDDx6hlsdY7lG7mh5fWcuuYmFajMr1dk=
+X-Riseup-User-ID: 304A2BF9BF8D1F82E7470114CDE7E7EF857B6042627B680F7BC554B59E4583D1
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+         by fews1.riseup.net (Postfix) with ESMTPSA id 4Lp4h42klNz5vgM;
+        Wed, 20 Jul 2022 18:57:24 +0000 (UTC)
+From:   =?UTF-8?q?Ma=C3=ADra=20Canal?= <mairacanal@riseup.net>
+To:     Brendan Higgins <brendanhiggins@google.com>,
+        Jonathan Corbet <corbet@lwn.net>, davidgow@google.com
+Cc:     linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-trace-devel@vger.kernel.org
-Subject: Re: [PATCH V6 02/16] rv: Add runtime reactors interface
-Message-ID: <20220720134531.400b87af@gandalf.local.home>
-In-Reply-To: <d168f357-e78e-5dc6-09cd-41e6e41e1f4f@kernel.org>
-References: <cover.1658244826.git.bristot@kernel.org>
-        <4b5f93e3186b067073c1692d4c2b50d0b42101d5.1658244826.git.bristot@kernel.org>
-        <20220720124133.3cdd2c44@gandalf.local.home>
-        <ba11409a-df46-8fad-61a9-256277c588c0@kernel.org>
-        <20220720130209.65f501b1@gandalf.local.home>
-        <d168f357-e78e-5dc6-09cd-41e6e41e1f4f@kernel.org>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+        =?UTF-8?q?Ma=C3=ADra=20Canal?= <mairacanal@riseup.net>
+Subject: [PATCH RESEND v2] Documentation: KUnit: Fix example with compilation error
+Date:   Wed, 20 Jul 2022 15:57:19 -0300
+Message-Id: <20220720185719.273630-1-mairacanal@riseup.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 20 Jul 2022 19:37:58 +0200
-Daniel Bristot de Oliveira <bristot@kernel.org> wrote:
+The Parameterized Testing example contains a compilation error, as the
+signature for the description helper function is void(*)(const struct
+sha1_test_case *, char *), and the struct is non-const. This is
+warned by Clang:
 
-> > That has logic that looks to require a lock to protect things from changing
-> > from underneath.  
-> 
-> ack, so the only variable I see we can use READ_ONCE/WRITE_ONCE is the reacting_on...
+error: initialization of ‘void (*)(struct sha1_test_case *, char *)’
+from incompatible pointer type ‘void (*)(const struct sha1_test_case *,
+char *)’ [-Werror=incompatible-pointer-types]
+33 | KUNIT_ARRAY_PARAM(sha1, cases, case_to_desc);
+   |                                ^~~~~~~~~~~~
+../include/kunit/test.h:1339:70: note: in definition of macro
+‘KUNIT_ARRAY_PARAM’
+1339 |                         void
+   (*__get_desc)(typeof(__next), char *) = get_desc; \
 
-WRITE_ONCE() does not supply memory barriers, which you may need.
+Signed-off-by: Maíra Canal <mairacanal@riseup.net>
+---
+v1 -> v2: https://lore.kernel.org/linux-kselftest/CABVgOSkFKJBNt-AsWmOh2Oni4QO2xdiXJiYD1EVcS-Qz=BjJRw@mail.gmail.com/T/#mf546fc75bf9e5bd27cb3bbd531b51409fbc87a9d
+- Instead of changing the function signature to non-const, makes the cases
+const (David Gow).
+---
+ Documentation/dev-tools/kunit/usage.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I'm only at patch 3, I'm not sure what the full requirements of that is.
+diff --git a/Documentation/dev-tools/kunit/usage.rst b/Documentation/dev-tools/kunit/usage.rst
+index d62a04255c2e..44158eecb51e 100644
+--- a/Documentation/dev-tools/kunit/usage.rst
++++ b/Documentation/dev-tools/kunit/usage.rst
+@@ -505,7 +505,7 @@ By reusing the same ``cases`` array from above, we can write the test as a
+ 		const char *str;
+ 		const char *sha1;
+ 	};
+-	struct sha1_test_case cases[] = {
++	const struct sha1_test_case cases[] = {
+ 		{
+ 			.str = "hello world",
+ 			.sha1 = "2aae6c35c94fcfb415dbe95f408b9ce91ee846ed",
+-- 
+2.36.1
 
--- Steve
