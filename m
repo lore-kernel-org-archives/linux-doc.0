@@ -2,82 +2,82 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8714FC43334
-	for <linux-doc@archiver.kernel.org>; Wed, 20 Jul 2022 20:37:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F1990C43334
+	for <linux-doc@archiver.kernel.org>; Wed, 20 Jul 2022 21:02:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229503AbiGTUhv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 20 Jul 2022 16:37:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53732 "EHLO
+        id S229582AbiGTVCG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 20 Jul 2022 17:02:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37706 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229441AbiGTUhv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Jul 2022 16:37:51 -0400
-X-Greylist: delayed 604 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 20 Jul 2022 13:37:49 PDT
-Received: from pb-smtp1.pobox.com (pb-smtp1.pobox.com [64.147.108.70])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2DF0622BD8;
-        Wed, 20 Jul 2022 13:37:49 -0700 (PDT)
-Received: from pb-smtp1.pobox.com (unknown [127.0.0.1])
-        by pb-smtp1.pobox.com (Postfix) with ESMTP id 761E3125CAF;
-        Wed, 20 Jul 2022 16:21:58 -0400 (EDT)
-        (envelope-from nico@fluxnic.net)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=pobox.com; h=date:from
-        :to:cc:subject:in-reply-to:message-id:references:mime-version
-        :content-type; s=sasl; bh=u+GuoWlBG33c/AK7UMiDpiQVnxq6c+R/USfLvd
-        6Hsb8=; b=AWU9bSoqAulqrt9x8y6d+RZE8+idTvowVlTykIjcY6fwxsHzvpC77s
-        WC0mn6SwNoigg+Z6XbAAVOTxxT16SvRsO3QqLY/TQiNQMWVZr/WIX1dajWyQ0lcb
-        tVCzqshCM7QxPp2LLVUE0lsBDqGyBD5gf9eLRCRsPZulrw0bbx5MA=
-Received: from pb-smtp1.nyi.icgroup.com (unknown [127.0.0.1])
-        by pb-smtp1.pobox.com (Postfix) with ESMTP id 6D2E3125CAE;
-        Wed, 20 Jul 2022 16:21:58 -0400 (EDT)
-        (envelope-from nico@fluxnic.net)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=fluxnic.net;
- h=date:from:to:cc:subject:in-reply-to:message-id:references:mime-version:content-type; s=2016-12.pbsmtp; bh=u+GuoWlBG33c/AK7UMiDpiQVnxq6c+R/USfLvd6Hsb8=; b=tDWbhUKacircgw5p5fNNCe7ds/o2wQYMAlg4Azoo/hugaAKgzjONfyBEhMV/Vu/SUO0BUNMDjYdoxC2/+ZHPeDTqGIczma1B7GFQ0ksGFcPxthKg0Kealixzy3SnFEgwownRy/3UTIQ/tbw9bkCHT/uIV5pdxPKJy/duQ554pHE=
-Received: from yoda.home (unknown [96.21.170.108])
+        with ESMTP id S229555AbiGTVCG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Jul 2022 17:02:06 -0400
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E3CDC3C14E;
+        Wed, 20 Jul 2022 14:02:03 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by pb-smtp1.pobox.com (Postfix) with ESMTPSA id D2FE7125CAD;
-        Wed, 20 Jul 2022 16:21:57 -0400 (EDT)
-        (envelope-from nico@fluxnic.net)
-Received: from xanadu.home (xanadu [192.168.2.2])
-        by yoda.home (Postfix) with ESMTPSA id BA6E336CF17;
-        Wed, 20 Jul 2022 16:21:56 -0400 (EDT)
-Date:   Wed, 20 Jul 2022 16:21:56 -0400 (EDT)
-From:   Nicolas Pitre <nico@fluxnic.net>
-To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-cc:     Olliver Schinagl <oliver+list@schinagl.nl>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        rust-for-linux <rust-for-linux@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 00/13] [RFC] Rust support
-In-Reply-To: <CANiq72kz+Txauo+103_-fN_J8PhhCdJUH5XepShUQmJzW6a4tA@mail.gmail.com>
-Message-ID: <1163467-64s-p66r-r077-35s058258150@syhkavp.arg>
-References: <20210414184604.23473-1-ojeda@kernel.org> <fae4873e-2ff9-df35-0ab9-34bf4417b717@schinagl.nl> <CANiq72mRxM-7griYF+0FWqYoSoNL8ad=L-i6a2-GsaCeb0C6qQ@mail.gmail.com> <ba8cb315-9d73-2f45-8bf9-d9473d369dca@schinagl.nl>
- <CANiq72kz+Txauo+103_-fN_J8PhhCdJUH5XepShUQmJzW6a4tA@mail.gmail.com>
+        by ms.lwn.net (Postfix) with ESMTPSA id 700C22ED;
+        Wed, 20 Jul 2022 21:02:03 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 700C22ED
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1658350923; bh=2YxyRt4qJP+xmoe/MfXy8UaKrRhvw3tZPfjmC5HaeJ8=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=e2k5/n+w9WTcVJL0MX2EAzVXx057NONS5uNmSOHhrm+hjzWtn32mLnyQYJ7dzPmBx
+         HTBP6a+UOJPQz2ua2oIcKVMtse96t5FbpIJpBCMt+YxclwCiWUcxH11WWD8eL189ts
+         jNx2ayoKsXYfBMta5NlJ1PVOTmZVdFBEjt2oiLUCp2p3LBvTmyjbntsHUi/GVZ1Pei
+         COTMi78AmJPMa3O5CByeDav6OHL4HQc/uW1hatmjgVwUYNhEPm2oGtDMocFSbBUq8V
+         T47wM+G75K17Al0L0YDD5zqT0T/4X1HSthjUD10rJLV1QX4aiUywBj+yYKQ6YqYxm9
+         YAA1u2WhtdCNw==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     "Jason A. Donenfeld" <Jason@zx2c4.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>
+Cc:     "Jason A. Donenfeld" <Jason@zx2c4.com>,
+        Simon Sapin <simon.sapin@exyr.org>,
+        Gabriel Somlo <somlo@cmu.edu>
+Subject: Re: [PATCH v2] docs: ABI: correct QEMU fw_cfg spec path
+In-Reply-To: <20220720123131.341755-1-Jason@zx2c4.com>
+References: <CAHmME9rsHKwQ3gDbMLUaN978QaBdNRj87VNgDXc-FUGHZ6APNg@mail.gmail.com>
+ <20220720123131.341755-1-Jason@zx2c4.com>
+Date:   Wed, 20 Jul 2022 15:02:02 -0600
+Message-ID: <87h73bo5v9.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-Pobox-Relay-ID: 9ABA17EC-0869-11ED-AC82-5E84C8D8090B-78420484!pb-smtp1.pobox.com
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 20 Jul 2022, Miguel Ojeda wrote:
+"Jason A. Donenfeld" <Jason@zx2c4.com> writes:
 
-> On Mon, Jul 18, 2022 at 8:56 AM Olliver Schinagl
-> <oliver+list@schinagl.nl> wrote:
-> 
-> > Secondly, and more importantly so; you argue 'who cares about people
-> > with disablements, atleast its equally hard to read everywhere' which is
-> > a very poor argument :p
-> 
-> No, and I want to be __very__ clear about this: at no point I have
-> argued "who cares about people with disabilities" or anything like it.
-> It is insulting that you even suggest it.
+> A few weeks ago, QEMU switched docs/specs/fw_cfg.txt to be
+> docs/specs/fw_cfg.rst, so update the reference in the kernel docs to
+> reflect this. Also add a link to the online documentation to make it
+> easier to find.
+>
+> Cc: Simon Sapin <simon.sapin@exyr.org>
+> Cc: Gabriel Somlo <somlo@cmu.edu>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
+> ---
+>  Documentation/ABI/testing/sysfs-firmware-qemu_fw_cfg | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
+>
+> diff --git a/Documentation/ABI/testing/sysfs-firmware-qemu_fw_cfg b/Documentation/ABI/testing/sysfs-firmware-qemu_fw_cfg
+> index ee0d6dbc810e..54d1bfd0db12 100644
+> --- a/Documentation/ABI/testing/sysfs-firmware-qemu_fw_cfg
+> +++ b/Documentation/ABI/testing/sysfs-firmware-qemu_fw_cfg
+> @@ -12,8 +12,9 @@ Description:
+>  		configuration data to the guest userspace.
+>  
+>  		The authoritative guest-side hardware interface documentation
+> -		to the fw_cfg device can be found in "docs/specs/fw_cfg.txt"
+> -		in the QEMU source tree.
+> +		to the fw_cfg device can be found in "docs/specs/fw_cfg.rst"
+> +		in the QEMU source tree, or online at:
+> +		https://qemu-project.gitlab.io/qemu/specs/fw_cfg.html
+>  
 
-What "people with disablements" have to do with this anyway?
-I don't get it.
+Applied, thanks.
 
-
-Nicolas
+jon
