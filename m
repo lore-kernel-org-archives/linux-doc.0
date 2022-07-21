@@ -2,84 +2,165 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 612C4C43334
-	for <linux-doc@archiver.kernel.org>; Thu, 21 Jul 2022 09:06:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 49B31C433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 21 Jul 2022 09:08:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232755AbiGUJGE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 21 Jul 2022 05:06:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38896 "EHLO
+        id S232265AbiGUJIq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 21 Jul 2022 05:08:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41304 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232762AbiGUJGC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Jul 2022 05:06:02 -0400
-Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 668D8DD4;
-        Thu, 21 Jul 2022 02:06:02 -0700 (PDT)
-Received: by mail-pj1-x102e.google.com with SMTP id f3-20020a17090ac28300b001f22d62bfbcso1074689pjt.0;
-        Thu, 21 Jul 2022 02:06:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
-        bh=/gjSO1P0+ypi+dAbHumtfu+l4RNRaKCVMSATA+gVtK0=;
-        b=p3T08RLMhPYVLW4E0XZ0cpdFZboxHeaywSyKmXZO8funVvxaKNLqzivPCLWnViWlV/
-         XpJHcgjb06ZnXKcktJF2IJ1T7oMSkQUyNGJj4i0JJ7KTf26KGdjS86+zONdShRfa6Fk9
-         ydRw3SVPSoe8c6Yd28Wt+jJDTO5B8+tN2mMihjvW061DB6fSygWBkMb2K6QKbgXiEppF
-         laI+pJ/BCZ6t6/VRO4i6Vga2w8DkZtTmu9+7xlReXNHJ9U3A/oeeCdlPtM2inFtI5XiN
-         NO/cTSRTGSLCQ1QW8JzhN6e8NQa8CxH4h8IzTm+iUHpOZm7W+mel9gUfmdZcvtDj/nLK
-         +wQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition;
-        bh=/gjSO1P0+ypi+dAbHumtfu+l4RNRaKCVMSATA+gVtK0=;
-        b=iqJk+EVmm7iXWND+7AHfXC+bfgLCB/tZeFRLT5LP7Ui80kRde9l2rrRSN6k3XVM1AA
-         vN/QEM1fQd77w83wp9YZEHMumV1yE4hCLnwEwGtmKXy8LZp28M+WRE10453MU3PuF32B
-         CyxiPe7eav/eDfczBZujbN/xgkR8+N2xytQBorYzuC9eSj3CU79DEvFUQyk/Cd5SNj/5
-         g0qrEBzXnnbLWnbb0nUYWnwh01w8oBCbGe/lYrNpHVcC/r563V3Ib6P2bbt89AOsKrp3
-         y9zfDURmFFWSDnz3nYQjIXoB3hnpCirMWkIEuiWTF3KtzuiLq86+4wLAsh0AOIZOg+p2
-         lQuA==
-X-Gm-Message-State: AJIora9eLQPxV+RM3/nJvF4uIRJMe8MD/GRLrqQCLo+ikuceQU1/A4J3
-        CieY+EaDwnlIS88Mt6MTKpM=
-X-Google-Smtp-Source: AGRyM1uY2mE4ZUL4hLTTBA9l8mbeq/De6KlYim4wzHUxD7RfB9QqSwZO426EgW207atAwNPjl6L4Ig==
-X-Received: by 2002:a17:903:2301:b0:16c:58a3:639f with SMTP id d1-20020a170903230100b0016c58a3639fmr43121429plh.122.1658394361834;
-        Thu, 21 Jul 2022 02:06:01 -0700 (PDT)
-Received: from debian.me (subs03-180-214-233-19.three.co.id. [180.214.233.19])
-        by smtp.gmail.com with ESMTPSA id f7-20020a170902684700b0016c33dc879esm1115591pln.113.2022.07.21.02.06.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Jul 2022 02:06:01 -0700 (PDT)
-Received: by debian.me (Postfix, from userid 1000)
-        id C1604103976; Thu, 21 Jul 2022 16:05:57 +0700 (WIB)
-Date:   Thu, 21 Jul 2022 16:05:57 +0700
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     linux-doc@vger.kernel.org
-Cc:     Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        kernel-janitors@vger.kernel.org
-Subject: MAINTAINERS improv suggestion
-Message-ID: <YtkW9awXT3nWyvts@debian.me>
+        with ESMTP id S230047AbiGUJIp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Jul 2022 05:08:45 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E9155D5BC;
+        Thu, 21 Jul 2022 02:08:43 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 262F161F25;
+        Thu, 21 Jul 2022 09:08:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C8EBC3411E;
+        Thu, 21 Jul 2022 09:08:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1658394522;
+        bh=B9iP6qE7nPoeum7kN2F9VsPqrRUG04QNIW0sAV37Y48=;
+        h=From:To:Cc:Subject:Date:From;
+        b=O5Qw8UdFQrpwIBOwk28ekFS4IfjCePHCsug14SEjtFHHM0brqYZB8KVr29icb6WfM
+         OaVJOh7yP90HRo/2/gCeXHiKXPCYrpkp2fvyPKNSyaDfvoVf10UR/aotPI1x1ZjyIo
+         k0AUnoYd7Ij1Q9J8MAJVXt2b42uT00nZijzBTsxJJSfzwxd/MyBFzuf5lVHtsP9hE+
+         rY//IzS69gZA/IcaWggJahZuRUnCkNG5ingspVhEF/QpEGf/XjBSmtUYeqx9RSl9p3
+         6kwEdI61Y7HOOqcM0zPpDc33ui8b15FeIyiyrlllmV5Y9ITpIPfBU82AMsFn1qEajs
+         kU5IXE8Z6GwHQ==
+From:   alexs@kernel.org
+Cc:     Alex Shi <alexs@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v2] doc/mm: move overcommit-accounting doc to admin-guide
+Date:   Thu, 21 Jul 2022 17:08:34 +0800
+Message-Id: <20220721090834.17130-1-alexs@kernel.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Lukas and everyone in linux-doc ML,
+From: Alex Shi <alexs@kernel.org>
 
-Thanks for your work on doc cleanup. However, there's still one thing left:
-MAINTAINERS. The patch submitters tips, IMO, need some work.
+Since the contents is mainly focus on a sysctl vm.overcommit_memory,
+it's more suitable for admin-guide dir instead of mm/ dir.
 
-Here's my notes:
+Signed-off-by: Alex Shi <alexs@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+---
+ Documentation/admin-guide/mm/index.rst                          | 1 +
+ Documentation/{ => admin-guide}/mm/overcommit-accounting.rst    | 0
+ Documentation/admin-guide/sysctl/vm.rst                         | 2 +-
+ Documentation/filesystems/proc.rst                              | 2 +-
+ Documentation/mm/index.rst                                      | 1 -
+ Documentation/translations/zh_CN/admin-guide/mm/index.rst       | 1 +
+ .../zh_CN/{ => admin-guide}/mm/overcommit-accounting.rst        | 2 +-
+ Documentation/translations/zh_CN/mm/index.rst                   | 1 -
+ 8 files changed, 5 insertions(+), 5 deletions(-)
+ rename Documentation/{ => admin-guide}/mm/overcommit-accounting.rst (100%)
+ rename Documentation/translations/zh_CN/{ => admin-guide}/mm/overcommit-accounting.rst (97%)
 
-* Nowadays most drivers (especially on embedded architectures like Arm) were
-  initially developed out-of-tree, then follows mainline inclusion process
-  But the second item read "Try to release a few ALPHA test versions to the
-  net. Announce them onto the kernel channel and await results". These
-  drivers were submitted not as ALPHA-grade, but near-production grade.
-
-* The fifth item mentioned using `diff -u` to generate patches, however
-  since 9f364b605f34e1 ("submitting-patches.rst: presume git will be used"),
-  the documentation elsewhere assumed git would be used.
-
-Thanks.
-
+diff --git a/Documentation/admin-guide/mm/index.rst b/Documentation/admin-guide/mm/index.rst
+index 1bd11118dfb1..9aea816493a5 100644
+--- a/Documentation/admin-guide/mm/index.rst
++++ b/Documentation/admin-guide/mm/index.rst
+@@ -35,6 +35,7 @@ the Linux memory management.
+    nommu-mmap
+    numa_memory_policy
+    numaperf
++   overcommit-accounting
+    pagemap
+    shrinker_debugfs
+    soft-dirty
+diff --git a/Documentation/mm/overcommit-accounting.rst b/Documentation/admin-guide/mm/overcommit-accounting.rst
+similarity index 100%
+rename from Documentation/mm/overcommit-accounting.rst
+rename to Documentation/admin-guide/mm/overcommit-accounting.rst
+diff --git a/Documentation/admin-guide/sysctl/vm.rst b/Documentation/admin-guide/sysctl/vm.rst
+index 9b833e439f09..ec611b8c620c 100644
+--- a/Documentation/admin-guide/sysctl/vm.rst
++++ b/Documentation/admin-guide/sysctl/vm.rst
+@@ -758,7 +758,7 @@ and don't use much of it.
+ 
+ The default value is 0.
+ 
+-See Documentation/mm/overcommit-accounting.rst and
++See Documentation/admin-guide/mm/overcommit-accounting.rst and
+ mm/util.c::__vm_enough_memory() for more information.
+ 
+ 
+diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
+index 47e95dbc820d..0ed8c9777d8c 100644
+--- a/Documentation/filesystems/proc.rst
++++ b/Documentation/filesystems/proc.rst
+@@ -1114,7 +1114,7 @@ CommitLimit
+               yield a CommitLimit of 7.3G.
+ 
+               For more details, see the memory overcommit documentation
+-              in mm/overcommit-accounting.
++              in admin-guide/mm/overcommit-accounting.
+ Committed_AS
+               The amount of memory presently allocated on the system.
+               The committed memory is a sum of all of the memory which
+diff --git a/Documentation/mm/index.rst b/Documentation/mm/index.rst
+index 575ccd40e30c..e5ba30c89552 100644
+--- a/Documentation/mm/index.rst
++++ b/Documentation/mm/index.rst
+@@ -52,7 +52,6 @@ above structured documentation, or deleted if it has served its purpose.
+    memory-model
+    mmu_notifier
+    numa
+-   overcommit-accounting
+    page_migration
+    page_frags
+    page_owner
+diff --git a/Documentation/translations/zh_CN/admin-guide/mm/index.rst b/Documentation/translations/zh_CN/admin-guide/mm/index.rst
+index 702271c5b683..7304924d8131 100644
+--- a/Documentation/translations/zh_CN/admin-guide/mm/index.rst
++++ b/Documentation/translations/zh_CN/admin-guide/mm/index.rst
+@@ -31,6 +31,7 @@ Linux内存管理有它自己的术语，如果你还不熟悉它，请考虑阅
+ 
+    damon/index
+    ksm
++   overcommit-accounting
+ 
+ Todolist:
+ * concepts
+diff --git a/Documentation/translations/zh_CN/mm/overcommit-accounting.rst b/Documentation/translations/zh_CN/admin-guide/mm/overcommit-accounting.rst
+similarity index 97%
+rename from Documentation/translations/zh_CN/mm/overcommit-accounting.rst
+rename to Documentation/translations/zh_CN/admin-guide/mm/overcommit-accounting.rst
+index d8452d8b7fbb..04b6067d711d 100644
+--- a/Documentation/translations/zh_CN/mm/overcommit-accounting.rst
++++ b/Documentation/translations/zh_CN/admin-guide/mm/overcommit-accounting.rst
+@@ -1,4 +1,4 @@
+-:Original: Documentation/mm/overcommit-accounting.rst
++:Original: Documentation/admin-guide/mm/overcommit-accounting.rst
+ 
+ :翻译:
+ 
+diff --git a/Documentation/translations/zh_CN/mm/index.rst b/Documentation/translations/zh_CN/mm/index.rst
+index 2f53e37b8049..3d603c90364c 100644
+--- a/Documentation/translations/zh_CN/mm/index.rst
++++ b/Documentation/translations/zh_CN/mm/index.rst
+@@ -49,7 +49,6 @@ Linux内存管理文档
+    memory-model
+    mmu_notifier
+    numa
+-   overcommit-accounting
+    page_frags
+    page_migration
+    page_owner
 -- 
-An old man doll... just what I always wanted! - Clara
+2.25.1
+
