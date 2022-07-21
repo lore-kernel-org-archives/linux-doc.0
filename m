@@ -2,262 +2,218 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A07B0CCA488
-	for <linux-doc@archiver.kernel.org>; Thu, 21 Jul 2022 07:17:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 291E2C43334
+	for <linux-doc@archiver.kernel.org>; Thu, 21 Jul 2022 07:21:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229780AbiGUHRU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 21 Jul 2022 03:17:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34146 "EHLO
+        id S231381AbiGUHVg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 21 Jul 2022 03:21:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37178 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232383AbiGUHRT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Jul 2022 03:17:19 -0400
-Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 53C247B345
-        for <linux-doc@vger.kernel.org>; Thu, 21 Jul 2022 00:17:18 -0700 (PDT)
-Received: from [192.168.100.8] (unknown [112.20.110.136])
-        by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dxn+N7_dhiKBUsAA--.16031S3;
-        Thu, 21 Jul 2022 15:17:15 +0800 (CST)
-Message-ID: <d45aa02d-0a98-6a86-52c9-f82dc071623a@loongson.cn>
-Date:   Thu, 21 Jul 2022 15:17:15 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v2 4/4] docs/zh_CN: core-api: Add packing Chinese
- translation
-To:     Binbin Zhou <zhoubinbin@loongson.cn>, alexs@kernel.org
-Cc:     corbet@lwn.net, chenhuacai@loongson.cn, bobwxc@email.cn,
-        linux-doc@vger.kernel.org
-References: <cover.1658196777.git.zhoubinbin@loongson.cn>
- <4ce40cebea8d95a8abfb0f86efb0ad4730e0cb51.1658196777.git.zhoubinbin@loongson.cn>
-From:   YanTeng Si <siyanteng@loongson.cn>
-In-Reply-To: <4ce40cebea8d95a8abfb0f86efb0ad4730e0cb51.1658196777.git.zhoubinbin@loongson.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9Dxn+N7_dhiKBUsAA--.16031S3
-X-Coremail-Antispam: 1UD129KBjvJXoW3ArW3uw1xZFW5CF43Cr4Uurg_yoW3uF13pF
-        97K34xCa12yryj9wn3CryUKw1kArWxA3Z29ay8GF18tF1rG39IqrW7KFy5W3y7Wry0ya4j
-        vrs3tr9rA3yayFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUvm14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-        rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-        1l84ACjcxK6xIIjxv20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
-        JVWxJr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26r
-        xl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj
-        6xIIjxv20xvE14v26r126r1DMcIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr
-        0_Gr1lF7xvr2IY64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7Mxk0xIA0c2IEe2xFo4CE
-        bIxvr21lc2xSY4AK67AK6r4xMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r
-        4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF
-        67AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2I
-        x0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Gr0_Zr1lIxAIcVC2
-        z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnU
-        UI43ZEXa7VUbvPfPUUUUU==
-X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
+        with ESMTP id S229724AbiGUHVg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Jul 2022 03:21:36 -0400
+Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8FE73DF21
+        for <linux-doc@vger.kernel.org>; Thu, 21 Jul 2022 00:21:34 -0700 (PDT)
+Received: by mail-pj1-x102a.google.com with SMTP id pc13so790353pjb.4
+        for <linux-doc@vger.kernel.org>; Thu, 21 Jul 2022 00:21:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=broadcom.com; s=google;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=P3xbYTVqFxKf4K/VAI1PcFvMbkcoJLcNswe3QwPtVNk=;
+        b=bailWyhLGZM8ARPMYZO8CWtLjBXmlPp9r4/ZzzY39trGEHCM141PwPy+38Et0+itwZ
+         ZdRQEaOd9sJnDz1zmkOFYeE/YmBZJrneftSEgeZxYHCZjeZmrQF5gqyupQ6zCYKcV3B1
+         sP2zf2KngjoSmjy9/8S3FqKbsI4C8m9qvyo+0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references;
+        bh=P3xbYTVqFxKf4K/VAI1PcFvMbkcoJLcNswe3QwPtVNk=;
+        b=IbMsbAWShpnwr16AmaAknRLZ48dNVlM5HSq4NDL5KIGhSuEVKSPje3PHAupPAHbJ2w
+         UkH1Qpf7j4Slwe3JKffOEzPQiJNW6x9t8gIIOhJHKkHxY13dJn+2gGmRLq0COKkyu0gl
+         KZb026X1Z4DPdhjVng+XTVWuMkELD5z3kKEi0NGOZMP9SgzDxgc8GyAe+zcwViBCoX/Z
+         JBkIAMUYTsuB0FIz2sIghhpbOB33Or+0cTEfKkscpi384XZXeNSR2SHJmTeOuoTA4TcC
+         NWE+vNzGa9C9dLW+UkdMO5BZy8Zow1VefY+iG+PfDW1hdJTDRrxLoCFKV5A5Ce/1dU23
+         pRKA==
+X-Gm-Message-State: AJIora8JTfEe8wMIs+SemLtrFJhj6PUJFR95WbT6P8t+yU7sTOcgYO0P
+        KGWTqbJDSZJwyJM6CVS7AKSrug==
+X-Google-Smtp-Source: AGRyM1v/kb5K/4EGvSTqv4P/3kIH878gQ79BtnnEXX0F1VjWiJJjILcQY36TRdh8PbV+tWZW3lE+qw==
+X-Received: by 2002:a17:90a:e7c4:b0:1f0:78a7:bf37 with SMTP id kb4-20020a17090ae7c400b001f078a7bf37mr10054133pjb.77.1658388094195;
+        Thu, 21 Jul 2022 00:21:34 -0700 (PDT)
+Received: from rahul_yocto_ubuntu18.ibn.broadcom.net ([192.19.234.250])
+        by smtp.gmail.com with ESMTPSA id t8-20020a170902e84800b0016d2959cf37sm823611plg.279.2022.07.21.00.21.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 21 Jul 2022 00:21:33 -0700 (PDT)
+From:   Vikas Gupta <vikas.gupta@broadcom.com>
+To:     jiri@nvidia.com, kuba@kernel.org
+Cc:     netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+        davem@davemloft.net, dsahern@kernel.org,
+        stephen@networkplumber.org, edumazet@google.com, pabeni@redhat.com,
+        ast@kernel.org, leon@kernel.org, linux-doc@vger.kernel.org,
+        corbet@lwn.net, michael.chan@broadcom.com,
+        andrew.gospodarek@broadcom.com,
+        Vikas Gupta <vikas.gupta@broadcom.com>
+Subject: [PATCH net-next v4 0/3] add framework for selftests in devlink
+Date:   Thu, 21 Jul 2022 12:51:18 +0530
+Message-Id: <20220721072121.43648-1-vikas.gupta@broadcom.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20220718062032.22426-1-vikas.gupta@broadcom.com>
+References: <20220718062032.22426-1-vikas.gupta@broadcom.com>
+Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
+        boundary="00000000000048090d05e44b9170"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+--00000000000048090d05e44b9170
 
-在 2022/7/19 21:04, Binbin Zhou 写道:
-> Translate core-api/packing.rst into Chinese.
->
-> Last English version used:
->
-> commit 1ec779b9fabc ("docs: packing: move it to core-api book
-> and adjust markups").
->
-> Signed-off-by: Binbin Zhou <zhoubinbin@loongson.cn>
-Reviewed-by:  Yanteng Si <siyanteng@loongson.cn>
+Hi,
+  This patchset adds support for selftests in the devlink framework.
+  It adds a callback .selftests_check and .selftests_run in devlink_ops.
+  User can add test(s) suite which is subsequently passed to the driver 
+  and driver can opt for running particular tests based on its capabilities.
+
+  Patchset adds a flash based test for the bnxt_en driver.
+
+  Suggested commands at user level would be as below:
+
+changes from:
+v3->v4:
+  Addressed the changes requested by kuba@kernel.org in patch v3.
+
+v2->v3:
+   1)
+   After discussions with jiri@nvidia.com, passing a testmask from
+   user to kernel is removed and a flag based arguments are adopted.
+   This way we can have more than 32/64 selftests defined in the
+   kernel.
+   Below is the format from user to kernel and vice-versa.
+   
+   Kernel to user for show command . Users can know what all tests are
+   supported by the driver. A return from kernel to user if driver
+   supports TEST1, TEST4, and TEST7.
+	______
+	|NEST |
+	|_____ |TEST1|TEST4|TEST7|...
+
+
+    User to kernel to execute test: If user wants to execute test4, test8,
+	test1...
+	______
+	|NEST |
+	|_____ |TEST4|TEST8|TEST1|...
+
+	After executing the tests kernel return to user.
+	|NEST |
+	|_____ | NEST|       |NEST|       |NEST|
+	        TEST4,RES4   TEST8,RES8   TEST1, RES1
+    
+    2) Added dumpit in devlink for list/show command.
+
+v1->v2:
+  Addressed the changes requested by kuba@kernel.org in patch v1.
+  Fixed the style issues. 
 
 
 Thanks,
+Vikas
 
-Yanteng
-> ---
->   .../translations/zh_CN/core-api/index.rst     |   2 +-
->   .../translations/zh_CN/core-api/packing.rst   | 159 ++++++++++++++++++
->   2 files changed, 160 insertions(+), 1 deletion(-)
->   create mode 100644 Documentation/translations/zh_CN/core-api/packing.rst
->
-> diff --git a/Documentation/translations/zh_CN/core-api/index.rst b/Documentation/translations/zh_CN/core-api/index.rst
-> index 60f76c83a9d8..226db52364a6 100644
-> --- a/Documentation/translations/zh_CN/core-api/index.rst
-> +++ b/Documentation/translations/zh_CN/core-api/index.rst
-> @@ -47,12 +47,12 @@
->      idr
->      circular-buffers
->      generic-radix-tree
-> +   packing
->   
->   Todolist:
->   
->   
->   
-> -   packing
->      bus-virt-phys-mapping
->      this_cpu_ops
->      timekeeping
-> diff --git a/Documentation/translations/zh_CN/core-api/packing.rst b/Documentation/translations/zh_CN/core-api/packing.rst
-> new file mode 100644
-> index 000000000000..4f8f77f7e549
-> --- /dev/null
-> +++ b/Documentation/translations/zh_CN/core-api/packing.rst
-> @@ -0,0 +1,159 @@
-> +.. SPDX-License-Identifier: GPL-2.0+
-> +
-> +.. include:: ../disclaimer-zh_CN.rst
-> +
-> +:Original: Documentation/core-api/packing.rst
-> +
-> +:翻译:
-> +
-> + 周彬彬 Binbin Zhou <zhoubinbin@loongson.cn>
-> +
-> +:校译:
-> +
-> + 司延腾 Yanteng Si <siyanteng@loongson.cn>
-> + 吴想成 Wu Xiangcheng <bobwxc@email.cn>
-> +
-> +========================
-> +通用的位域打包和解包函数
-> +========================
-> +
-> +问题陈述
-> +--------
-> +
-> +使用硬件时，必须在几种与其交互的方法之间进行选择。
-> +
-> +可以将指针映射到在硬件设备的内存区上精心设计的结构体，并将其字段作为结构成员（可
-> +能声明为位域）访问。但是由于CPU和硬件设备之间潜在的字节顺序不匹配，以这种方式编写
-> +代码会降低其可移植性。
-> +
-> +此外，必须密切注意将硬件文档中的寄存器定义转换为结构的位域索引。此外，一些硬件
-> +（通常是网络设备）倾向于以违反任何合理字边界（有时甚至是64位）的方式对其寄存器字
-> +段进行分组。这就造成了不得不在结构中定义寄存器字段的“高”和“低”部分的不便。
-> +
-> +结构域定义的更可靠的替代方法是通过移动适当数量的位来提取所需的字段。但这仍然不能
-> +防止字节顺序不匹配，除非所有内存访问都是逐字节执行的。此外，代码很容易变得杂乱无
-> +章，同时可能会在所需的许多位移操作中丢失一些高层次的想法。
-> +
-> +许多驱动程序采用了位移的方法，然后试图用定制的宏来减少杂乱无章的东西，但更多的时
-> +候，这些宏所采用的捷径依旧妨碍了代码真正的可移植性。
-> +
-> +解决方案
-> +--------
-> +
-> +该API涉及2个基本操作：
-> +
-> +  - 将一个CPU可使用的数字打包到内存缓冲区中（具有硬件约束/特殊性）。
-> +  - 将内存缓冲区（具有硬件约束/特殊性）解压缩为一个CPU可使用的数字。
-> +
-> +该API提供了对所述硬件约束和特殊性以及CPU字节序的抽象，因此这两者之间可能不匹配。
-> +
-> +这些API函数的基本单元是u64。从CPU的角度来看，位63总是意味着字节7的位偏移量7，尽管
-> +只是逻辑上的。问题是：我们将这个比特放在内存的什么位置？
-> +
-> +以下示例介绍了打包u64字段的内存布局。打包缓冲区中的字节偏移量始终默认为0，1...7。
-> +示例显示的是逻辑字节和位所在的位置。
-> +
-> +1. 通常情况下（无特殊性），我们会这样做：
-> +
-> +::
-> +
-> +  63 62 61 60 59 58 57 56 55 54 53 52 51 50 49 48 47 46 45 44 43 42 41 40 39 38 37 36 35 34 33 32
-> +  7                       6                       5                        4
-> +  31 30 29 28 27 26 25 24 23 22 21 20 19 18 17 16 15 14 13 12 11 10  9  8  7  6  5  4  3  2  1  0
-> +  3                       2                       1                        0
-> +
-> +也就是说，CPU可使用的u64的MSByte(7)位于内存偏移量0处，而u64的LSByte(0)位于内存偏移量7处。
-> +
-> +这对应于大多数人认为的“大端”，其中位i对应于数字2^i。这在代码注释中也称为“逻辑”符号。
-> +
-> +
-> +2. 如果设置了QUIRK_MSB_ON_THE_RIGHT，我们按如下方式操作：
-> +
-> +::
-> +
-> +  56 57 58 59 60 61 62 63 48 49 50 51 52 53 54 55 40 41 42 43 44 45 46 47 32 33 34 35 36 37 38 39
-> +  7                       6                        5                       4
-> +  24 25 26 27 28 29 30 31 16 17 18 19 20 21 22 23  8  9 10 11 12 13 14 15  0  1  2  3  4  5  6  7
-> +  3                       2                        1                       0
-> +
-> +也就是说，QUIRK_MSB_ON_THE_RIGHT不会影响字节定位，但会反转字节内的位偏移量。
-> +
-> +
-> +3. 如果设置了QUIRK_LITTLE_ENDIAN，我们按如下方式操作：
-> +
-> +::
-> +
-> +  39 38 37 36 35 34 33 32 47 46 45 44 43 42 41 40 55 54 53 52 51 50 49 48 63 62 61 60 59 58 57 56
-> +  4                       5                       6                       7
-> +  7  6  5  4  3  2  1  0  15 14 13 12 11 10  9  8 23 22 21 20 19 18 17 16 31 30 29 28 27 26 25 24
-> +  0                       1                       2                       3
-> +
-> +因此，QUIRK_LITTLE_ENDIAN意味着在内存区域内，每个4字节的字的每个字节都被放置在与
-> +该字的边界相比的镜像位置。
-> +
-> +
-> +4. 如果设置了QUIRK_MSB_ON_THE_RIGHT和QUIRK_LITTLE_ENDIAN，我们这样做：
-> +
-> +::
-> +
-> +  32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63
-> +  4                       5                       6                       7
-> +  0  1  2  3  4  5  6  7  8   9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31
-> +  0                       1                       2                       3
-> +
-> +
-> +5. 如果只设置了QUIRK_LSW32_IS_FIRST，我们这样做：
-> +
-> +::
-> +
-> +  31 30 29 28 27 26 25 24 23 22 21 20 19 18 17 16 15 14 13 12 11 10  9  8  7  6  5  4  3  2  1  0
-> +  3                       2                       1                        0
-> +  63 62 61 60 59 58 57 56 55 54 53 52 51 50 49 48 47 46 45 44 43 42 41 40 39 38 37 36 35 34 33 32
-> +  7                       6                       5                        4
-> +
-> +在这种情况下，8字节内存区域解释如下：前4字节对应最不重要的4字节的字，后4字节对应
-> +更重要的4字节的字。
-> +
-> +6. 如果设置了QUIRK_LSW32_IS_FIRST和QUIRK_MSB_ON_THE_RIGHT，我们这样做：
-> +
-> +::
-> +
-> +  24 25 26 27 28 29 30 31 16 17 18 19 20 21 22 23  8  9 10 11 12 13 14 15  0  1  2  3  4  5  6  7
-> +  3                       2                        1                       0
-> +  56 57 58 59 60 61 62 63 48 49 50 51 52 53 54 55 40 41 42 43 44 45 46 47 32 33 34 35 36 37 38 39
-> +  7                       6                        5                       4
-> +
-> +
-> +7. 如果设置了QUIRK_LSW32_IS_FIRST和QUIRK_LITTLE_ENDIAN，则如下所示：
-> +
-> +::
-> +
-> +  7  6  5  4  3  2  1  0  15 14 13 12 11 10  9  8 23 22 21 20 19 18 17 16 31 30 29 28 27 26 25 24
-> +  0                       1                       2                       3
-> +  39 38 37 36 35 34 33 32 47 46 45 44 43 42 41 40 55 54 53 52 51 50 49 48 63 62 61 60 59 58 57 56
-> +  4                       5                       6                       7
-> +
-> +
-> +8. 如果设置了QUIRK_LSW32_IS_FIRST，QUIRK_LITTLE_ENDIAN和QUIRK_MSB_ON_THE_RIGHT，
-> +   则如下所示：
-> +
-> +::
-> +
-> +  0  1  2  3  4  5  6  7  8   9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31
-> +  0                       1                       2                       3
-> +  32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63
-> +  4                       5                       6                       7
-> +
-> +
-> +我们总是认为我们的偏移量好像没有特殊性，然后在访问内存区域之前翻译它们。
-> +
-> +预期用途
-> +--------
-> +
-> +选择使用该API的驱动程序首先需要确定上述3种quirk组合（共8种）中的哪一种与硬件文档
-> +中描述的相匹配。然后，他们应该封装packing()函数，创建一个新的xxx_packing()，使用
-> +适当的QUIRK_* one-hot 位集合来调用它。
-> +
-> +packing()函数返回一个int类型的错误码，以防止程序员使用不正确的API。这些错误预计不
-> +会在运行时发生，因此xxx_packing()返回void并简单地接受这些错误是合理的。它可以选择
-> +转储栈或打印错误描述。
+Vikas Gupta (3):
+  devlink: introduce framework for selftests
+  bnxt_en: refactor NVM APIs
+  bnxt_en: implement callbacks for devlink selftests
 
+ .../networking/devlink/devlink-selftests.rst  |  38 +++
+ .../net/ethernet/broadcom/bnxt/bnxt_devlink.c |  60 +++++
+ .../net/ethernet/broadcom/bnxt/bnxt_ethtool.c |  24 +-
+ .../net/ethernet/broadcom/bnxt/bnxt_ethtool.h |  12 +
+ include/net/devlink.h                         |  20 ++
+ include/uapi/linux/devlink.h                  |  29 +++
+ net/core/devlink.c                            | 225 ++++++++++++++++++
+ 7 files changed, 396 insertions(+), 12 deletions(-)
+ create mode 100644 Documentation/networking/devlink/devlink-selftests.rst
+
+-- 
+2.31.1
+
+
+--00000000000048090d05e44b9170
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Description: S/MIME Cryptographic Signature
+
+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
+I7qKxvF8Yo7eGTnHRTa99J+6yTd88AKVuhM5TEhpC8cS7qvrQXJje+Uing2xWC4FH76LEWIFH0Pt
+x8C1WoCU0ClXHU/XfzH2mYrFANBSCeP1Co6QdEfRAgMBAAGjggHZMIIB1TAOBgNVHQ8BAf8EBAMC
+BaAwgaMGCCsGAQUFBwEBBIGWMIGTME4GCCsGAQUFBzAChkJodHRwOi8vc2VjdXJlLmdsb2JhbHNp
+Z24uY29tL2NhY2VydC9nc2djY3IzcGVyc29uYWxzaWduMmNhMjAyMC5jcnQwQQYIKwYBBQUHMAGG
+NWh0dHA6Ly9vY3NwLmdsb2JhbHNpZ24uY29tL2dzZ2NjcjNwZXJzb25hbHNpZ24yY2EyMDIwME0G
+A1UdIARGMEQwQgYKKwYBBAGgMgEoCjA0MDIGCCsGAQUFBwIBFiZodHRwczovL3d3dy5nbG9iYWxz
+aWduLmNvbS9yZXBvc2l0b3J5LzAJBgNVHRMEAjAAMEkGA1UdHwRCMEAwPqA8oDqGOGh0dHA6Ly9j
+cmwuZ2xvYmFsc2lnbi5jb20vZ3NnY2NyM3BlcnNvbmFsc2lnbjJjYTIwMjAuY3JsMCMGA1UdEQQc
+MBqBGHZpa2FzLmd1cHRhQGJyb2FkY29tLmNvbTATBgNVHSUEDDAKBggrBgEFBQcDBDAfBgNVHSME
+GDAWgBSWM9HmWBdbNHWKgVZk1b5I3qGPzzAdBgNVHQ4EFgQUUc6J11rH3s6PyZQ0zIVZHIuP20Yw
+DQYJKoZIhvcNAQELBQADggEBALvCjXn9gy9a2nU/Ey0nphGZefIP33ggiyuKnmqwBt7Wk/uDHIIc
+kkIlqtTbo0x0PqphS9A23CxCDjKqZq2WN34fL5MMW83nrK0vqnPloCaxy9/6yuLbottBY4STNuvA
+mQ//Whh+PE+DZadqiDbxXbos3IH8AeFXH4A1zIqIrc0Um2/CSD/T6pvu9QrchtvemfP0z/f1Bk+8
+QbQ4ARVP93WV1I13US69evWXw+mOv9VnejShU9PMcDK203xjXbBOi9Hm+fthrWfwIyGoC5aEf7vd
+PKkEDt4VZ9RbudZU/c3N8+kURaHNtrvu2K+mQs5w/AF7HYZThqmOzQJnvMRjuL8xggJtMIICaQIB
+ATBrMFsxCzAJBgNVBAYTAkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNhMTEwLwYDVQQDEyhH
+bG9iYWxTaWduIEdDQyBSMyBQZXJzb25hbFNpZ24gMiBDQSAyMDIwAgwYjepatB64S625eswwDQYJ
+YIZIAWUDBAIBBQCggdQwLwYJKoZIhvcNAQkEMSIEILCzQpG48Mvqkbi4qFYvdr2K0aV8vvbh4iGQ
+jLYvk2jSMBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZIhvcNAQkFMQ8XDTIyMDcyMTA3
+MjEzNFowaQYJKoZIhvcNAQkPMVwwWjALBglghkgBZQMEASowCwYJYIZIAWUDBAEWMAsGCWCGSAFl
+AwQBAjAKBggqhkiG9w0DBzALBgkqhkiG9w0BAQowCwYJKoZIhvcNAQEHMAsGCWCGSAFlAwQCATAN
+BgkqhkiG9w0BAQEFAASCAQAuzFU0FpJu+yh6aMTS9DQKPmS2tcYHYfDpavFwMZIK8xVYddSAHhaW
+gCtHH5rv568Gub7jkR7lLlkDinIAZB/bKmY+/ufLjuGdx3TmFeX/fYJ7frYkLaDBAlsM7OBTru5o
+IPaYUDmKzHwXUXZt9DxV+qVjNkDCjcSceP4xN0MEJda9o3EZc8NMGtUdBiq5X9o7J8sZ+OrvI5wO
++/g1OTmoSem+9x4ost0xo9RiFjw7TkhW9VqU1D/vQmDxGpg4LV3IGeF7zZUYE5qhaHMJwg3OtR66
+34qSzUVjXOW+xMyyor8GtTFitTSpk9WC/9MZYn1bxQBjRkcrgheSlTcLOEaF
+--00000000000048090d05e44b9170--
