@@ -2,127 +2,165 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B3CE3C43334
-	for <linux-doc@archiver.kernel.org>; Thu, 21 Jul 2022 13:59:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 624C3C433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 21 Jul 2022 14:25:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230258AbiGUN7e (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 21 Jul 2022 09:59:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39356 "EHLO
+        id S231343AbiGUOZE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 21 Jul 2022 10:25:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34764 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229778AbiGUN7c (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Jul 2022 09:59:32 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4DFD33C14A;
-        Thu, 21 Jul 2022 06:59:30 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id CA6F561F5F;
-        Thu, 21 Jul 2022 13:59:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB1D0C3411E;
-        Thu, 21 Jul 2022 13:59:26 +0000 (UTC)
-Date:   Thu, 21 Jul 2022 09:59:24 -0400
-From:   Steven Rostedt <rostedt@goodmis.org>
-To:     Daniel Bristot de Oliveira <bristot@kernel.org>
-Cc:     Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Ingo Molnar <mingo@redhat.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Will Deacon <will@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Marco Elver <elver@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Gabriele Paoloni <gpaoloni@redhat.com>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Clark Williams <williams@redhat.com>,
-        Tao Zhou <tao.zhou@linux.dev>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-trace-devel@vger.kernel.org
-Subject: Re: [PATCH V6 04/16] rv/include: Add deterministic automata monitor
- definition via C macros
-Message-ID: <20220721095924.151c6f5d@gandalf.local.home>
-In-Reply-To: <3c0a4cb5-f88f-ec5f-e614-d1e8ceb036c2@kernel.org>
-References: <cover.1658244826.git.bristot@kernel.org>
-        <9ffc05b67fff087413143a420373731e0e34eef4.1658244826.git.bristot@kernel.org>
-        <20220720160606.3e672b55@gandalf.local.home>
-        <3c0a4cb5-f88f-ec5f-e614-d1e8ceb036c2@kernel.org>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+        with ESMTP id S229716AbiGUOYv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Jul 2022 10:24:51 -0400
+Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6CA385D51
+        for <linux-doc@vger.kernel.org>; Thu, 21 Jul 2022 07:24:25 -0700 (PDT)
+Received: by mail-lf1-x135.google.com with SMTP id m12so1967433lfj.4
+        for <linux-doc@vger.kernel.org>; Thu, 21 Jul 2022 07:24:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=broadcom.com; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=fuqeSEf+EdSLgLqyzDQdOqpVOfdt2rJsdIEa9jCIif8=;
+        b=cTqmb/zgYeRmHkKKj2mzrWkn5CvC17OvRhYCTW6i+W+MYLJmRPdIK/RNEZeipG4iF5
+         /5N6nxK/+vaQSoQnZ9mQig+f3qPFnl+lwKRCVdQzMYcPGZFspiiwVGTsmtCC6YusvwkW
+         cd/JghTEVoGIKdWdHu1W3Q6+PmQD/0iPS3E78=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=fuqeSEf+EdSLgLqyzDQdOqpVOfdt2rJsdIEa9jCIif8=;
+        b=D8/ddH9XiMsz4V8iUH3xv9VgBoaBKOLVkzFcHiTHZPsyZ0wF0uCN/saKXVjeY+6X8j
+         R5MyE++vQRNhyutnJDA0ckutU1c/xk5R3lylJaX0kbyVxG7ge2VLEyo00hPmT2B5CyK1
+         Xx1TtnlJoRYIvW7kz9mAXYoejljZuWw1EcKUgPkrZObb0mhT67fder6SWUVv7Nx+HQR2
+         oiwwLxti5SYMuNwdS+75u0HtDu4Ctpq75Ok7XWcQItGoL2rp81Y9H6AsZ6QlgOy36YrS
+         JlMtjmBCVfOkc8x8fH6J+D2L4XypxlGqug/zUbJUOAlY8LRsvWP4ceJpmCo1d+AOA2mj
+         cXXw==
+X-Gm-Message-State: AJIora+vQscVQcGKnFfSUf0I3gJi31f1n8h8wEu33fFq874shLHcOShk
+        aBjGGeGAc2mh6gEbLsnrdPmMqSs+P+Xf1JERI4xWz2jaYKLqizwv
+X-Google-Smtp-Source: AGRyM1twn+ZpeqCArW6vyrXHHA9mfjzjKNHFiXpboOnax85Dc/+ZbJFl3Jbgp29w6P/lV90ZvOqMkC5rQaUkD/hfqR8=
+X-Received: by 2002:a05:6512:114f:b0:48a:2836:6949 with SMTP id
+ m15-20020a056512114f00b0048a28366949mr14395413lfg.205.1658413463488; Thu, 21
+ Jul 2022 07:24:23 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20220718062032.22426-1-vikas.gupta@broadcom.com>
+ <20220721072121.43648-1-vikas.gupta@broadcom.com> <20220721072121.43648-3-vikas.gupta@broadcom.com>
+ <YtlOcl+xcxYvSsbl@nanopsycho>
+In-Reply-To: <YtlOcl+xcxYvSsbl@nanopsycho>
+From:   Vikas Gupta <vikas.gupta@broadcom.com>
+Date:   Thu, 21 Jul 2022 19:54:11 +0530
+Message-ID: <CAHLZf_up5SUZ=v5bZYU=1ywJe_AgC+i909PRMK8vwVuFhpP=vA@mail.gmail.com>
+Subject: Re: [PATCH net-next v4 2/3] bnxt_en: refactor NVM APIs
+To:     Jiri Pirko <jiri@nvidia.com>
+Cc:     Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        "David S. Miller" <davem@davemloft.net>, dsahern@kernel.org,
+        stephen@networkplumber.org, Eric Dumazet <edumazet@google.com>,
+        pabeni@redhat.com, ast@kernel.org, leon@kernel.org,
+        linux-doc@vger.kernel.org, corbet@lwn.net,
+        Michael Chan <michael.chan@broadcom.com>,
+        Andrew Gospodarek <andrew.gospodarek@broadcom.com>
+Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
+        boundary="0000000000006b62ff05e451798c"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 21 Jul 2022 14:08:38 +0200
-Daniel Bristot de Oliveira <bristot@kernel.org> wrote:
+--0000000000006b62ff05e451798c
+Content-Type: text/plain; charset="UTF-8"
 
-> On 7/20/22 22:06, Steven Rostedt wrote:
-> >> +/*												\
-> >> + * da_monitor_enabled_##name - checks if the monitor is enabled					\
-> >> + */												\
-> >> +static inline bool da_monitor_enabled_##name(void)						\
-> >> +{												\  
-> > Should we add a:
-> > 
-> > 	smp_rmb();
-> > 
-> > here? And then a smp_wmb() where these switches get updated?
-> >  
-> 
-> Makes sense.
-> 
-> Should I also add the READ_ONCE/WRITE_ONCE? like
-> 
-> smp_rmb()
-> READ_ONCE(var)
-> 
-> WRITE_ONCE(var, value)
-> smp_wmb()
+Hi Jiri,
 
-I'm not sure the WRITE_ONCE() is necessary with the memory barriers.
-Because they should also prevent gcc from doing anything after that
-barrier. As Linus once stated, most cases WRITE_ONCE() is useless, but it's
-fine to keep more for annotation (as to pair with the READ_ONCE()) than for
-anything that is critical.
+On Thu, Jul 21, 2022 at 6:32 PM Jiri Pirko <jiri@nvidia.com> wrote:
+>
+> "bnxt_en: refactor NVM APIs" is very odd patch subject name. Please
+> change it to the summary of what the patch is aiming to do.
 
-> 
-> for all these on/off knobs, or just the barriers?
-> 
-> > I guess how critical is it that these turn off immediately after the switch
-> > is flipped?  
-> 
-> It is not critical to continue the execution of those that have already crossed by
-> the variable. Still, waiting for the tracepoints to finish their execution before
-> returning to the user-space task that disabled the variable might be a good thing.
+Seems like this patch might create confusion with this patch series.
+Since this patch is just changing the declarations so that a flash
+based test(patch# 3/3) can be supported, I would rather merge it with
+the next patch(3/3).
 
-You mean after disabling, to wait for the tracepoints that are currently
-running to end?
+Thanks,
+Vikas
 
-> 
-> IIRC, we can do that via RCU... like, synchronize_rcu()?
+--0000000000006b62ff05e451798c
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Description: S/MIME Cryptographic Signature
 
-We have tracepoint_synchronize_unregister() that does that, as some
-traceponits use SRCU and not RCU.
-
--- Steve
-
-
-> 
-> >> +	/* global switch */									\
-> >> +	if (unlikely(!rv_monitoring_on()))							\
-> >> +		return 0;									\
-> >> +												\
-> >> +	/* monitor enabled */									\
-> >> +	if (unlikely(!rv_##name.enabled))							\
-> >> +		return 0;									\
-> >> +												\
-> >> +	return 1;										\
-> >> +}												\
-> >> +												\  
-
+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
+I7qKxvF8Yo7eGTnHRTa99J+6yTd88AKVuhM5TEhpC8cS7qvrQXJje+Uing2xWC4FH76LEWIFH0Pt
+x8C1WoCU0ClXHU/XfzH2mYrFANBSCeP1Co6QdEfRAgMBAAGjggHZMIIB1TAOBgNVHQ8BAf8EBAMC
+BaAwgaMGCCsGAQUFBwEBBIGWMIGTME4GCCsGAQUFBzAChkJodHRwOi8vc2VjdXJlLmdsb2JhbHNp
+Z24uY29tL2NhY2VydC9nc2djY3IzcGVyc29uYWxzaWduMmNhMjAyMC5jcnQwQQYIKwYBBQUHMAGG
+NWh0dHA6Ly9vY3NwLmdsb2JhbHNpZ24uY29tL2dzZ2NjcjNwZXJzb25hbHNpZ24yY2EyMDIwME0G
+A1UdIARGMEQwQgYKKwYBBAGgMgEoCjA0MDIGCCsGAQUFBwIBFiZodHRwczovL3d3dy5nbG9iYWxz
+aWduLmNvbS9yZXBvc2l0b3J5LzAJBgNVHRMEAjAAMEkGA1UdHwRCMEAwPqA8oDqGOGh0dHA6Ly9j
+cmwuZ2xvYmFsc2lnbi5jb20vZ3NnY2NyM3BlcnNvbmFsc2lnbjJjYTIwMjAuY3JsMCMGA1UdEQQc
+MBqBGHZpa2FzLmd1cHRhQGJyb2FkY29tLmNvbTATBgNVHSUEDDAKBggrBgEFBQcDBDAfBgNVHSME
+GDAWgBSWM9HmWBdbNHWKgVZk1b5I3qGPzzAdBgNVHQ4EFgQUUc6J11rH3s6PyZQ0zIVZHIuP20Yw
+DQYJKoZIhvcNAQELBQADggEBALvCjXn9gy9a2nU/Ey0nphGZefIP33ggiyuKnmqwBt7Wk/uDHIIc
+kkIlqtTbo0x0PqphS9A23CxCDjKqZq2WN34fL5MMW83nrK0vqnPloCaxy9/6yuLbottBY4STNuvA
+mQ//Whh+PE+DZadqiDbxXbos3IH8AeFXH4A1zIqIrc0Um2/CSD/T6pvu9QrchtvemfP0z/f1Bk+8
+QbQ4ARVP93WV1I13US69evWXw+mOv9VnejShU9PMcDK203xjXbBOi9Hm+fthrWfwIyGoC5aEf7vd
+PKkEDt4VZ9RbudZU/c3N8+kURaHNtrvu2K+mQs5w/AF7HYZThqmOzQJnvMRjuL8xggJtMIICaQIB
+ATBrMFsxCzAJBgNVBAYTAkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNhMTEwLwYDVQQDEyhH
+bG9iYWxTaWduIEdDQyBSMyBQZXJzb25hbFNpZ24gMiBDQSAyMDIwAgwYjepatB64S625eswwDQYJ
+YIZIAWUDBAIBBQCggdQwLwYJKoZIhvcNAQkEMSIEIDtPMaSqKr9KqiT5cqD5JXbN2atbN/x8iWQp
+XYoyAtFIMBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZIhvcNAQkFMQ8XDTIyMDcyMTE0
+MjQyNFowaQYJKoZIhvcNAQkPMVwwWjALBglghkgBZQMEASowCwYJYIZIAWUDBAEWMAsGCWCGSAFl
+AwQBAjAKBggqhkiG9w0DBzALBgkqhkiG9w0BAQowCwYJKoZIhvcNAQEHMAsGCWCGSAFlAwQCATAN
+BgkqhkiG9w0BAQEFAASCAQAskS/UCSWXySW/DVhrE8y73MqoIl6TbLmPrMVxAvfHtK6WFgKqdfFQ
+evA7pKlBlbm5Kbgf/bJfrhfqHxChQNDlTxExQJ8Tz+rURa0RY9NZRNT9g8V3SX7JF87JEyYfeVGH
+99IJInc9PO/BktE10Dq1SImFc3iJCLpqsk7x0dGMYuin9rmz4lyEEbZPrYjhWaTt2gigP7aGnGay
+005O7W2FhFF5IQzfDjXDQL9McdnJ+aDG6HsQhICDwgQUABbCRvvfjLmCeXIoCxcjMLg896ypT9ff
+WgtV5hTlGagwiU76ayb8RygCiw5B7WxWHI9YdoAQ8wHn5qJxo0kKy0ku91oL
+--0000000000006b62ff05e451798c--
