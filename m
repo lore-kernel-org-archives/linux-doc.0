@@ -2,88 +2,166 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B32DAC433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 21 Jul 2022 18:40:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9179EC43334
+	for <linux-doc@archiver.kernel.org>; Thu, 21 Jul 2022 20:15:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231518AbiGUSkf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 21 Jul 2022 14:40:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59166 "EHLO
+        id S232122AbiGUUPz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 21 Jul 2022 16:15:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50072 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229379AbiGUSke (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Jul 2022 14:40:34 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 058ED19C2E;
-        Thu, 21 Jul 2022 11:40:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-        bh=h/0A4RGH/zY+Ku8k/xauLxj65JhhDPY8gyI7dZDUJxY=; b=r0Y/tgeKdXYQmdSUjAH9KbS93X
-        vneKr4mr3bjCT7CCsam6XRRDD/RKG5jTl6ONbGY1POmL8GodKZ4FvulV0XYKbG8KLVYLODEUaoMOP
-        N55IcydIZ3VgNmD8sYc86zSpBUXVK1xCRMlp2oIPSt4R4S6qVnUGl1RIqCuBrTyM5k+nOBVP3PZrG
-        soBqLHLzM1woHLIT8w66dF7flt8zHo2LGCZgcmVXKG4ByJ6b8RH5fc4ff6b9EHHeZLAdhlkSFzUDb
-        odKzDKOv+AA1SfAedVyrqqa91b2twUjiLWpWcuRTIckeKp5dXNcm8Wtkhyj1CrDWyk/STmtj6Umop
-        SKmMgiOg==;
-Received: from [2601:1c0:6280:3f0::a6b3]
-        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1oEb5k-00BVq1-CS; Thu, 21 Jul 2022 18:40:08 +0000
-Message-ID: <6ca59494-cc64-d85c-98e8-e9bef2a04c15@infradead.org>
-Date:   Thu, 21 Jul 2022 11:40:06 -0700
+        with ESMTP id S232583AbiGUUPy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Jul 2022 16:15:54 -0400
+Received: from mail-io1-xd43.google.com (mail-io1-xd43.google.com [IPv6:2607:f8b0:4864:20::d43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20F183B951;
+        Thu, 21 Jul 2022 13:15:51 -0700 (PDT)
+Received: by mail-io1-xd43.google.com with SMTP id z132so2265647iof.0;
+        Thu, 21 Jul 2022 13:15:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=DdlpYHvySLWZI9PuVVkLLZBH3yjydjUTeDSjiCRAPjg=;
+        b=Emb6nVw/XsXfIS2rg5l909a2QlHcjhWE6BvXTfg7yFiAz4PCoYNtH3W2EfmQ4FRE6y
+         2pzUglyR5engfI0A8axVQUlrS837XKYH84LVFJoqlPal8GV8hRSl1uceuwRPAUHUgPdy
+         YdUPzSnnoxSEC9oOOZbIl3zFV+fqFjUsnUcT+dB6Q23AD3q3yumtw9WPxv775fB/3DTs
+         WP6TpLle3aNXqrUP0buCa+694rc1cDagQd5A5fMaR3rxaQ5Z3XvvMiys9OjY08KU3ibQ
+         fv+sLC6OhAjVZbB5xqlp11/NKOthbaMzt6GxAjDsl5tVgh2KfWVpBSKKAhMwVHs3Nruw
+         vEKQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=DdlpYHvySLWZI9PuVVkLLZBH3yjydjUTeDSjiCRAPjg=;
+        b=fPCPZykZTDkSU6X33lVLNf5JqCp+EaqG4z7JVOPsNnyn9DiEOIEsWNSXYVXZsYkzHr
+         gjqLRID23NtztgrJkrOg+ITkKqnQwKX6f5/5n/Ij/TPA6QEGw/c3AH40FfcDhFVO5L6o
+         1BXCvLmWurG4CD1Qd0rIuvWGCnGI0NYoTv4f8efFESHoFsc6++O96omjiQFIPLAoPBBe
+         whjT4v2ReL+gSlgc0z9qiM6mxaPyHUBirEjWwYEVDwYogTEic+6pQUd3VGrTU49dx+ca
+         uT6wRPm6x4zyxfBzpaqWhxTJUGoGdlEN/Fc3cS+ilnBoGc+m6RjITsJDdgosoF/m8UZt
+         /JbQ==
+X-Gm-Message-State: AJIora+5Q3NY5E71VIOzYuRGRU31+ApiBZuLv7/FZ3huOMjBbrWBugF1
+        OaDok3IcCmz786SbTlzzImPdoX1JZp0BkSYmgQhTsjX2aPk=
+X-Google-Smtp-Source: AGRyM1s1dL2pvG1uxUsYYIrkYW/FJ9oEkL6wAsTSGF52krk09y5ouOvFZX9RoHB/cPeHZ2FTRKUfl2LlvjYLHkJU5/M=
+X-Received: by 2002:a05:6602:150c:b0:67c:149b:a349 with SMTP id
+ g12-20020a056602150c00b0067c149ba349mr74750iow.168.1658434550268; Thu, 21 Jul
+ 2022 13:15:50 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v2] docs: Fix typo in comment
-Content-Language: en-US
-To:     Jonathan Corbet <corbet@lwn.net>, Slark Xiao <slark_xiao@163.com>,
-        kafai <kafai@fb.com>
-Cc:     Baoquan He <bhe@redhat.com>, vgoyal <vgoyal@redhat.com>,
-        dyoung <dyoung@redhat.com>, ast <ast@kernel.org>,
-        daniel <daniel@iogearbox.net>, andrii <andrii@kernel.org>,
-        "martin.lau" <martin.lau@linux.dev>, song <song@kernel.org>,
-        yhs <yhs@fb.com>, "john.fastabend" <john.fastabend@gmail.com>,
-        kpsingh <kpsingh@kernel.org>, sdf <sdf@google.com>,
-        haoluo <haoluo@google.com>, jolsa <jolsa@kernel.org>,
-        "william.gray" <william.gray@linaro.org>,
-        dhowells <dhowells@redhat.com>, peterz <peterz@infradead.org>,
-        mingo <mingo@redhat.com>, will <will@kernel.org>,
-        longman <longman@redhat.com>,
-        "boqun.feng" <boqun.feng@gmail.com>, tglx <tglx@linutronix.de>,
-        bigeasy <bigeasy@linutronix.de>,
-        kexec <kexec@lists.infradead.org>,
-        linux-doc <linux-doc@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        bpf <bpf@vger.kernel.org>,
-        linux-cachefs <linux-cachefs@redhat.com>
-References: <20220721015605.20651-1-slark_xiao@163.com>
- <20220721154110.fqp7n6f7ij22vayp@kafai-mbp.dhcp.thefacebook.com>
- <21cac0ea.18f.182218041f7.Coremail.slark_xiao@163.com>
- <874jzamhxe.fsf@meer.lwn.net>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <874jzamhxe.fsf@meer.lwn.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20220721153625.1282007-1-benjamin.tissoires@redhat.com> <20220721153625.1282007-3-benjamin.tissoires@redhat.com>
+In-Reply-To: <20220721153625.1282007-3-benjamin.tissoires@redhat.com>
+From:   Kumar Kartikeya Dwivedi <memxor@gmail.com>
+Date:   Thu, 21 Jul 2022 22:15:14 +0200
+Message-ID: <CAP01T746d18QjJH1pRaq5Wy2QtrXXKhaJge8sB=q1rNtqjTntA@mail.gmail.com>
+Subject: Re: [PATCH bpf-next v7 02/24] bpf/verifier: allow kfunc to read user
+ provided context
+To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     Greg KH <gregkh@linuxfoundation.org>,
+        Jiri Kosina <jikos@kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>, Shuah Khan <shuah@kernel.org>,
+        Dave Marchevsky <davemarchevsky@fb.com>,
+        Joe Stringer <joe@cilium.io>, Jonathan Corbet <corbet@lwn.net>,
+        Tero Kristo <tero.kristo@linux.intel.com>,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        netdev@vger.kernel.org, bpf@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Thu, 21 Jul 2022 at 17:36, Benjamin Tissoires
+<benjamin.tissoires@redhat.com> wrote:
+>
+> When a kfunc was trying to access data from context in a syscall eBPF
+> program, the verifier was rejecting the call.
+> This is because the syscall context is not known at compile time, and
+> so we need to check this when actually accessing it.
+>
+> Check for the valid memory access and allow such situation to happen.
+>
+> Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+>
+> ---
+>
 
+LGTM, with just a couple more nits.
+Acked-by: Kumar Kartikeya Dwivedi <memxor@gmail.com>
 
-On 7/21/22 11:36, Jonathan Corbet wrote:
-> "Slark Xiao" <slark_xiao@163.com> writes:
-> 
->> May I know the maintainer of one subsystem could merge the changes
->> contains lots of subsystem?  I also know this could be filtered by
->> grep and sed command, but that patch would have dozens of maintainers
->> and reviewers.
-> 
-> Certainly I don't think I can merge a patch touching 166 files across
-> the tree.  This will need to be broken down by subsystem, and you may
-> well find that there are some maintainers who don't want to deal with
-> this type of minor fix.
+> changes in v7:
+> - renamed access_t into atype
+> - allow zero-byte read
+> - check_mem_access() to the correct offset/size
+>
+> new in v6
+> ---
+>  kernel/bpf/verifier.c | 21 +++++++++++++++++++++
+>  1 file changed, 21 insertions(+)
+>
+> diff --git a/kernel/bpf/verifier.c b/kernel/bpf/verifier.c
+> index 7c1e056624f9..d5fe7e618c52 100644
+> --- a/kernel/bpf/verifier.c
+> +++ b/kernel/bpf/verifier.c
+> @@ -248,6 +248,7 @@ struct bpf_call_arg_meta {
+>         struct bpf_map *map_ptr;
+>         bool raw_mode;
+>         bool pkt_access;
+> +       bool is_kfunc;
+>         u8 release_regno;
+>         int regno;
+>         int access_size;
+> @@ -5170,6 +5171,7 @@ static int check_helper_mem_access(struct bpf_verifier_env *env, int regno,
+>                                    struct bpf_call_arg_meta *meta)
+>  {
+>         struct bpf_reg_state *regs = cur_regs(env), *reg = &regs[regno];
+> +       enum bpf_prog_type prog_type = resolve_prog_type(env->prog);
+>         u32 *max_access;
+>
+>         switch (base_type(reg->type)) {
+> @@ -5223,6 +5225,24 @@ static int check_helper_mem_access(struct bpf_verifier_env *env, int regno,
+>                                 env,
+>                                 regno, reg->off, access_size,
+>                                 zero_size_allowed, ACCESS_HELPER, meta);
+> +       case PTR_TO_CTX:
+> +               /* in case of a kfunc called in a program of type SYSCALL, the context is
+> +                * user supplied, so not computed statically.
+> +                * Dynamically check it now
+> +                */
+> +               if (prog_type == BPF_PROG_TYPE_SYSCALL && meta && meta->is_kfunc) {
+> +                       enum bpf_access_type atype = meta->raw_mode ? BPF_WRITE : BPF_READ;
+> +                       int offset = access_size - 1;
+> +
+> +                       /* Allow zero-byte read from NULL or PTR_TO_CTX */
 
-We have also seen cases where "the the" should be replaced by "then the"
-or some other pair of words, so some of these changes could fall into
-that category.
+This will not be handling the case for NULL, only for kfunc(ptr_to_ctx, 0)
+A null pointer has its reg->type as scalar, so it will be handled by
+the default case.
 
--- 
-~Randy
+> +                       if (access_size == 0)
+> +                               return zero_size_allowed ? 0 : -EINVAL;
+
+We should use -EACCES, just to be consistent.
+
+> +
+> +                       return check_mem_access(env, env->insn_idx, regno, offset, BPF_B,
+> +                                               atype, -1, false);
+> +               }
+> +
+> +               fallthrough;
+>         default: /* scalar_value or invalid ptr */
+>                 /* Allow zero-byte read from NULL, regardless of pointer type */
+>                 if (zero_size_allowed && access_size == 0 &&
+> @@ -5335,6 +5355,7 @@ int check_kfunc_mem_size_reg(struct bpf_verifier_env *env, struct bpf_reg_state
+>         WARN_ON_ONCE(regno < BPF_REG_2 || regno > BPF_REG_5);
+>
+>         memset(&meta, 0, sizeof(meta));
+> +       meta.is_kfunc = true;
+>
+>         if (may_be_null) {
+>                 saved_reg = *mem_reg;
+> --
+> 2.36.1
+>
