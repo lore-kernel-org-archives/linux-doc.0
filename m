@@ -2,102 +2,105 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B080FC43334
-	for <linux-doc@archiver.kernel.org>; Thu, 21 Jul 2022 21:06:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D43AC433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 21 Jul 2022 21:13:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229778AbiGUVGl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 21 Jul 2022 17:06:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56414 "EHLO
+        id S233463AbiGUVND (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 21 Jul 2022 17:13:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60926 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231805AbiGUVGj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Jul 2022 17:06:39 -0400
-Received: from mail-io1-xd44.google.com (mail-io1-xd44.google.com [IPv6:2607:f8b0:4864:20::d44])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 353A8904C2;
-        Thu, 21 Jul 2022 14:06:37 -0700 (PDT)
-Received: by mail-io1-xd44.google.com with SMTP id q14so2340405iod.3;
-        Thu, 21 Jul 2022 14:06:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=UD6/PHsX06ls442kfkXr+sBUg1Zo13esPXVZU+zxxXo=;
-        b=lr6SWiF1ovkDnMS4jHw8tSYu3+iWiLSMv3qzm78VAjM7sA8u4bvPxO6vGOdV5nqnwF
-         /+Kw3jadBLbpDWck7WkFc/OJs2qZ6MNLLtRtWyKiQO3A8qLAqUQPCFazamo+5CLx2H1u
-         QcAamcduJ+sznu75aQRU9jGDkc91SnXJYVAOINK2TVJqM52wESGPChkRIeM2RRF9NPPO
-         uf8Tb8zAuDBhNA+SzREO2bI/zYGnnxbNte8DkFTx2ya06y7cnIp/KoCexh2UVcyn13O+
-         oLA9as2GswecUrbZ5Rt8uKbCvhuLlaQyQs137wbHaXP7ok9VGCwn/oQRDsarBXxRUvFT
-         U7Ig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=UD6/PHsX06ls442kfkXr+sBUg1Zo13esPXVZU+zxxXo=;
-        b=koX5wUt/sw4VEwGrQwmn6oODJtt/6VC6PdUVUmScPJKKyfitj/MDYmmT1Y+CkVr71B
-         tJrsi0HRz2PGoWMtvpisPWHQnGjj/+Xjx4M+34dDs2sLV3OdAw4gXwajuQ4u0ND8l1wJ
-         QnFH1tFI91vVvZEpgqPpim5mX8G5VKtUD2SV5eRZkG3shtIrxC8FkJxXvsW6B+hJzI44
-         4MfgZdG+RV8vUQo8uunpaIWUebE+dsvIHm8cKK/QNdqkK5l9bEJQjUWAGFGPqAw1lQ23
-         JeJx2ip5lwiuCD5oxSrEhJyy4wkJ80SbH8Dk19wCqgghQQrA2ZluSoXkBDXuWP/R3NN4
-         uFzQ==
-X-Gm-Message-State: AJIora/REg+X8/QYadrC4lm0pP5wuFbicYXVsJ5e14vo7i0QL4w/EjfL
-        GGOp/CSKpTRTkCRdpQFd0jS07fXVe8Qb3skDTPfIwzqTWyhvtw==
-X-Google-Smtp-Source: AGRyM1uN8l37YfT8hkCKnvwVyvz74b+AfEG+kDrYj5DD7RVMo3dIntZFDDpXM7nlCrOMgEQKChUVSRyOQDvOU3VvY2o=
-X-Received: by 2002:a05:6638:210b:b0:33f:5635:4c4b with SMTP id
- n11-20020a056638210b00b0033f56354c4bmr227538jaj.116.1658437596830; Thu, 21
- Jul 2022 14:06:36 -0700 (PDT)
+        with ESMTP id S229472AbiGUVND (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Jul 2022 17:13:03 -0400
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5260F4E61D;
+        Thu, 21 Jul 2022 14:13:01 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id A6DDB6D9;
+        Thu, 21 Jul 2022 21:13:00 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net A6DDB6D9
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1658437980; bh=A/45P4qm24EYhkCZPmUzYfgAKicEoO+XAjAAD6wsy54=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=LKAzyduD57zhWdrHjbl/08ggRiW0DJJ74HGrZBsBSgkQAAQGO/Z8rckxN5B/J73pD
+         BNNXDRZltmJp7lnEYN/69uKuG0QoIUnaqvlm6AjHNTVZty2SBgHYrKq8bODNoyunHn
+         2iiVemdhPyaDt5BYUqJB8Sr6FhxIb41ZkHeo99XLEK/i5j4DrNvhImOlwMLf1n/Vel
+         VFhImekkYi7ZDTPxsERfxR2E2n19qtOeOpA66iHTRZxZbcxr0sT5bpU3lzVII5jJDg
+         3lDWLZeQ/F9KBEdS+AxlrpccFVJQf/cuw44u4c0IEG2q1ajGrGbOfBlTV2aHvPaOgP
+         w7oWUNhzopvTw==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
+        Ira Weiny <ira.weiny@intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+        Will Deacon <will@kernel.org>,
+        Peter Collingbourne <pcc@google.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Cc:     "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
+        Mike Rapoport <rppt@linux.ibm.com>,
+        Thomas Gleixner <tglx@linutronix.de>
+Subject: Re: [PATCH 3/7] Documentation/mm: Don't kmap*() pages which can't
+ come from HIGHMEM
+In-Reply-To: <20220721210206.13774-4-fmdefrancesco@gmail.com>
+References: <20220721210206.13774-1-fmdefrancesco@gmail.com>
+ <20220721210206.13774-4-fmdefrancesco@gmail.com>
+Date:   Thu, 21 Jul 2022 15:13:00 -0600
+Message-ID: <87czdykw4j.fsf@meer.lwn.net>
 MIME-Version: 1.0
-References: <20220721153625.1282007-1-benjamin.tissoires@redhat.com> <20220721153625.1282007-6-benjamin.tissoires@redhat.com>
-In-Reply-To: <20220721153625.1282007-6-benjamin.tissoires@redhat.com>
-From:   Kumar Kartikeya Dwivedi <memxor@gmail.com>
-Date:   Thu, 21 Jul 2022 23:05:59 +0200
-Message-ID: <CAP01T76_CEGR5Vn+7WCah4oLtv4GUYawhC2X5zUDugG1sTB28Q@mail.gmail.com>
-Subject: Re: [PATCH bpf-next v7 05/24] bpf/verifier: allow kfunc to return an
- allocated mem
-To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     Greg KH <gregkh@linuxfoundation.org>,
-        Jiri Kosina <jikos@kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>, Shuah Khan <shuah@kernel.org>,
-        Dave Marchevsky <davemarchevsky@fb.com>,
-        Joe Stringer <joe@cilium.io>, Jonathan Corbet <corbet@lwn.net>,
-        Tero Kristo <tero.kristo@linux.intel.com>,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        netdev@vger.kernel.org, bpf@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 21 Jul 2022 at 17:38, Benjamin Tissoires
-<benjamin.tissoires@redhat.com> wrote:
->
-> For drivers (outside of network), the incoming data is not statically
-> defined in a struct. Most of the time the data buffer is kzalloc-ed
-> and thus we can not rely on eBPF and BTF to explore the data.
->
-> This commit allows to return an arbitrary memory, previously allocated by
-> the driver.
-> An interesting extra point is that the kfunc can mark the exported
-> memory region as read only or read/write.
->
-> So, when a kfunc is not returning a pointer to a struct but to a plain
-> type, we can consider it is a valid allocated memory assuming that:
-> - one of the arguments is either called rdonly_buf_size or
->   rdwr_buf_size
-> - and this argument is a const from the caller point of view
->
-> We can then use this parameter as the size of the allocated memory.
->
-> The memory is either read-only or read-write based on the name
-> of the size parameter.
->
-> Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
->
-> ---
+"Fabio M. De Francesco" <fmdefrancesco@gmail.com> writes:
 
-Acked-by: Kumar Kartikeya Dwivedi <memxor@gmail.com>
+> There is no need to kmap*() pages which are guaranteed to come from
+> ZONE_NORMAL (or lower). Linux has currently several call sites of
+> kmap{,_atomic,_local_page}() on pages allocated, for instance, with
+> alloc_page(GFP_NOFS) and other similar allocations.
+>
+> Therefore, add a paragraph to highmem.rst, to explain better that a
+> plain page_address() should be used for getting the address of pages
+> which cannot come from ZONE_HIGHMEM.
+>
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: Matthew Wilcox (Oracle) <willy@infradead.org>
+> Cc: Mike Rapoport <rppt@linux.ibm.com>
+> Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+> Cc: Thomas Gleixner <tglx@linutronix.de>
+> Suggested-by: Ira Weiny <ira.weiny@intel.com>
+> Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+> ---
+>  Documentation/vm/highmem.rst | 6 ++++++
+>  1 file changed, 6 insertions(+)
+>
+> diff --git a/Documentation/vm/highmem.rst b/Documentation/vm/highmem.rst
+> index c9887f241c6c..f266354c82ab 100644
+> --- a/Documentation/vm/highmem.rst
+> +++ b/Documentation/vm/highmem.rst
+> @@ -71,6 +71,12 @@ list shows them in order of preference of use.
+>    kmap_local_page() always returns a valid virtual address and it is assumed
+>    that kunmap_local() will never fail.
+>  
+> +  On CONFIG_HIGHMEM=n kernels and for low memory pages this returns the
+> +  virtual address of the direct mapping. Only real highmem pages are
+> +  temporarily mapped. Therefore, users should instead call a plain
+> +  page_address() for getting the address of memory pages which, depending
+> +  on the GFP_* flags, cannot come from ZONE_HIGHMEM.
+> +
+
+Is this good advice?  First, it requires developers to worry about
+whether their pages might be in highmem, which is kind of like worrying
+about having coins in your pocket in case you need a payphone.  But it
+would also run afoul of other semantics for kmap*(), such as PKS, should
+that ever be merged:
+
+  https://lwn.net/Articles/894531/
+
+Thanks,
+
+jon
