@@ -2,182 +2,155 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 635B2C43334
-	for <linux-doc@archiver.kernel.org>; Thu, 21 Jul 2022 07:35:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DD685C433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 21 Jul 2022 08:26:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230057AbiGUHfS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 21 Jul 2022 03:35:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47382 "EHLO
+        id S231416AbiGUI0I (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 21 Jul 2022 04:26:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57052 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229604AbiGUHfS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Jul 2022 03:35:18 -0400
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7590D11B;
-        Thu, 21 Jul 2022 00:35:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1658388917; x=1689924917;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=HDZ5ADD7H00ujzYo8f6UW7EI5DQuY8pQPtvATJDvm4I=;
-  b=ipaVH0A1IdlCM4V/RRcDGYVjn28z9hgpjyJ5fTjgRtAUjrvQuOVd0TVd
-   YhQJEBgvRh8MFAzOhGugYZwNo5KmfcybgQp8kf2TJfrJWYRmoLnl8SNaA
-   cDvmVQJqB+4apfkhqjUDLu4PFyykYClif54JQUOIISzf6tP6+dCUZAUER
-   b5xHxFYIawwVSEHUOQ533k2mNaTUXeVTVgpu7h/d00qaJp6VZU02U5FM5
-   o43/eDAx0eV2kM4e150OHmagnEvgW8XCSQlrvMNb8uTGnIn4v+9E2bPPf
-   qLOazo/vmb9apW0ZksEhrzkJRyim7RtZ4mtw4infkYF+HMXrtHzTsp3Rj
-   w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10414"; a="350963821"
-X-IronPort-AV: E=Sophos;i="5.92,288,1650956400"; 
-   d="scan'208";a="350963821"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2022 00:35:16 -0700
-X-IronPort-AV: E=Sophos;i="5.92,288,1650956400"; 
-   d="scan'208";a="626004190"
-Received: from wangwei-desk.sh.intel.com (HELO [10.239.159.152]) ([10.239.159.152])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2022 00:35:06 -0700
-Message-ID: <45ae9f57-d595-f202-abb5-26a03a2ca131@linux.intel.com>
-Date:   Thu, 21 Jul 2022 15:34:59 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v7 11/14] KVM: Register/unregister the guest private
- memory regions
-Content-Language: en-US
-To:     Sean Christopherson <seanjc@google.com>,
-        "Gupta, Pankaj" <pankaj.gupta@amd.com>
-Cc:     Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
-        linux-kselftest@vger.kernel.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        Muchun Song <songmuchun@bytedance.com>
-References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
- <20220706082016.2603916-12-chao.p.peng@linux.intel.com>
- <f02baa37-8d34-5d07-a0ae-300ffefc7fee@amd.com>
- <20220719140843.GA84779@chaop.bj.intel.com>
- <36e671d2-6b95-8e4f-c2ac-fee4b2670c6e@amd.com>
- <20220720150706.GB124133@chaop.bj.intel.com>
- <d0fd229d-afa6-c66d-3e55-09ac5877453e@amd.com> <YtgrkXqP/GIi9ujZ@google.com>
-From:   Wei Wang <wei.w.wang@linux.intel.com>
-In-Reply-To: <YtgrkXqP/GIi9ujZ@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+        with ESMTP id S230373AbiGUI0H (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Jul 2022 04:26:07 -0400
+Received: from mail-pf1-x44a.google.com (mail-pf1-x44a.google.com [IPv6:2607:f8b0:4864:20::44a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 641402DAAA
+        for <linux-doc@vger.kernel.org>; Thu, 21 Jul 2022 01:26:06 -0700 (PDT)
+Received: by mail-pf1-x44a.google.com with SMTP id c21-20020a624e15000000b0052abf43401fso556581pfb.14
+        for <linux-doc@vger.kernel.org>; Thu, 21 Jul 2022 01:26:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=D/jsDBi2QFOs4Zs9HMSmYJI8zRXb+dPzos0HZwfSzzc=;
+        b=hDrAMBg+Z58759aVRZuEyzgtEevkSBomPALCPlB5FpjqCmKg8B0/ALxrCvYQikj+H5
+         fxst5CjnEkashz8KaxmEkft/H1HJM0q/5JSCTEziGJVfyxDb8Tjqo1FJSXZJmHaSCFFJ
+         Z6k161Kw/1FwBVTD39n/pntZJBIGo4dLkrk8RxqVFcKP5FVn37uScX64N3sZHH383QnV
+         7yjJX6A9ZpFCvoc1YqHM0qqNOuh5VMEDTbpU80qq8Gmw0u7fPJf9odGO03uIMXvljOn1
+         QmjxH/o8StFq9utrr0exokzUQlGoDdEjVLijTC72IRrs36dKf1irONKGhxhL94DIpx1X
+         ZluA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=D/jsDBi2QFOs4Zs9HMSmYJI8zRXb+dPzos0HZwfSzzc=;
+        b=tcGdRMS/z7qOcw/QKHyKFxnSVHAyAaGYhjmjELe3JRBwgDkYrrJZ4sou+dlj1ZnjNm
+         8E8jBw6A7noq3s62DU6xymYk/ztLcla7Jj8DDWYiKRjrW20rGK6mgHmfUHJ8BsZgUtbQ
+         6iqQLIeCKIcQle8wxmsil11dulHmAOfXtPD81qhpQN39v0ZveD2DULXjGMZ9xLgloGtM
+         szGe839W3B+vhWMNirJOtzII2YEs+3VF7WSr+wJJUizA2LUazrU3OWEdaUrRrfD6WQO2
+         Ilxj2oTJSYXrQ94hqEZcdz6OhJPRkCfa/s9+PxnHNaZEuf+ICu4Tx4cEgSr4V9IdZ29u
+         G26Q==
+X-Gm-Message-State: AJIora91qxnExL4HqJqycAqxofdab27/dsrfd39NhTKjtTw2LLJwes8R
+        tHoovRpk4NfJVqOJ8xOKTXif3mUKYF5QRFNm
+X-Google-Smtp-Source: AGRyM1te19it3AE4l9t6OQd4moI7u3bYsVRejG70XLibIb70+UbPjpftAuMZHyGoLFjGdHCu7fLF3uBTDNrUINke
+X-Received: from skazigti.c.googlers.com ([fda3:e722:ac3:cc00:4f:4b78:c0a8:411e])
+ (user=sadiyakazi job=sendgmr) by 2002:a05:6a00:1a:b0:52a:dec1:308c with SMTP
+ id h26-20020a056a00001a00b0052adec1308cmr43268981pfk.52.1658391965893; Thu,
+ 21 Jul 2022 01:26:05 -0700 (PDT)
+Date:   Thu, 21 Jul 2022 08:10:27 +0000
+Message-Id: <20220721081026.1247067-1-sadiyakazi@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.37.0.170.g444d1eabd0-goog
+Subject: [PATCH v2] Documentation: kunit: Add CLI args for kunit_tool
+From:   Sadiya Kazi <sadiyakazi@google.com>
+To:     brendanhiggins@google.com, davidgow@google.com,
+        skhan@linuxfoundation.org, corbet@lwn.net, mairacanal@riseup.net
+Cc:     Sadiya Kazi <sadiyakazi@google.com>,
+        linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Run_wrapper.rst was missing some command line arguments. Added
+additional args in the file.
+
+Signed-off-by: Sadiya Kazi <sadiyakazi@google.com>
+---
+Changes since V1:
+https://lore.kernel.org/linux-kselftest/20220719092214.995965-1-sadiyakazi@google.com/
+- Addressed most of the review comments from Maira and David, except
+  removing the duplicate arguments as I felt its worth keeping them in
+  the reference documentation as well as in context. We can improve them
+  and differentiate their use cases in the future patches.
 
 
-On 7/21/22 00:21, Sean Christopherson wrote:
-> On Wed, Jul 20, 2022, Gupta, Pankaj wrote:
->>>>>>> +bool __weak kvm_arch_private_mem_supported(struct kvm *kvm)
-> Use kvm_arch_has_private_mem(), both because "has" makes it obvious this is checking
-> a flag of sorts, and to align with other helpers of this nature (and with
-> CONFIG_HAVE_KVM_PRIVATE_MEM).
->
->    $ git grep kvm_arch | grep supported | wc -l
->    0
->    $ git grep kvm_arch | grep has | wc -l
->    26
->
->>>>>>> +#ifdef CONFIG_HAVE_KVM_PRIVATE_MEM
->>>>>>> +	case KVM_MEMORY_ENCRYPT_REG_REGION:
->>>>>>> +	case KVM_MEMORY_ENCRYPT_UNREG_REGION: {
->>>>>>> +		struct kvm_enc_region region;
->>>>>>> +
->>>>>>> +		if (!kvm_arch_private_mem_supported(kvm))
->>>>>>> +			goto arch_vm_ioctl;
->>>>>>> +
->>>>>>> +		r = -EFAULT;
->>>>>>> +		if (copy_from_user(&region, argp, sizeof(region)))
->>>>>>> +			goto out;
->>>>>>> +
->>>>>>> +		r = kvm_vm_ioctl_set_encrypted_region(kvm, ioctl, &region);
->>>>>> this is to store private region metadata not only the encrypted region?
->>>>> Correct.
->>>> Sorry for not being clear, was suggesting name change of this function from:
->>>> "kvm_vm_ioctl_set_encrypted_region" to "kvm_vm_ioctl_set_private_region"
->>> Though I don't have strong reason to change it, I'm fine with this and
->> Yes, no strong reason, just thought "kvm_vm_ioctl_set_private_region" would
->> depict the actual functionality :)
->>
->>> this name matches the above kvm_arch_private_mem_supported perfectly.
->> BTW could not understand this, how "kvm_vm_ioctl_set_encrypted_region"
->> matches "kvm_arch_private_mem_supported"?
-> Chao is saying that kvm_vm_ioctl_set_private_region() pairs nicely with
-> kvm_arch_private_mem_supported(), not that the "encrypted" variant pairs nicely.
->
-> I also like using "private" instead of "encrypted", though we should probably
-> find a different verb than "set", because calling "set_private" when making the
-> region shared is confusing.  I'm struggling to come up with a good alternative
-> though.
->
-> kvm_vm_ioctl_set_memory_region() is already taken by KVM_SET_USER_MEMORY_REGION,
-> and that also means that anything with "memory_region" in the name is bound to be
-> confusing.
->
-> Hmm, and if we move away from "encrypted", it probably makes sense to pass in
-> addr+size instead of a kvm_enc_region.
->
-> Maybe this?
->
-> static int kvm_vm_ioctl_set_or_clear_mem_private(struct kvm *kvm, gpa_t gpa,
-> 					         gpa_t size, bool set_private)
->
-> and then:
->
-> #ifdef CONFIG_HAVE_KVM_PRIVATE_MEM
-> 	case KVM_MEMORY_ENCRYPT_REG_REGION:
-> 	case KVM_MEMORY_ENCRYPT_UNREG_REGION: {
-> 		bool set = ioctl == KVM_MEMORY_ENCRYPT_REG_REGION;
-> 		struct kvm_enc_region region;
->
-> 		if (!kvm_arch_private_mem_supported(kvm))
-> 			goto arch_vm_ioctl;
->
-> 		r = -EFAULT;
-> 		if (copy_from_user(&region, argp, sizeof(region)))
-> 			goto out;
->
-> 		r = kvm_vm_ioctl_set_or_clear_mem_private(kvm, region.addr,
-> 							  region.size, set);
-> 		break;
-> 	}
-> #endif
->
-> I don't love it, so if someone has a better idea...
->
-Maybe you could tag it with cgs for all the confidential guest support 
-related stuff:
-e.g. kvm_vm_ioctl_set_cgs_mem()
+---
+ Documentation/dev-tools/kunit/run_wrapper.rst | 60 ++++++++++++++++++-
+ 1 file changed, 59 insertions(+), 1 deletion(-)
 
-bool is_private = ioctl == KVM_MEMORY_ENCRYPT_REG_REGION;
-...
-kvm_vm_ioctl_set_cgs_mem(, is_private)
+diff --git a/Documentation/dev-tools/kunit/run_wrapper.rst b/Documentation/dev-tools/kunit/run_wrapper.rst
+index 5e560f2c5fca..600af7ac5f88 100644
+--- a/Documentation/dev-tools/kunit/run_wrapper.rst
++++ b/Documentation/dev-tools/kunit/run_wrapper.rst
+@@ -233,7 +233,7 @@ Command-Line Arguments
+ ======================
+ 
+ kunit_tool has a number of other command-line arguments which can
+-be useful for our test environment. Below the most commonly used
++be useful for our test environment. Below are the most commonly used
+ command line arguments:
+ 
+ - ``--help``: Lists all available options. To list common options,
+@@ -257,3 +257,61 @@ command line arguments:
+             added or modified. Instead, enable all tests
+             which have satisfied dependencies by adding
+             ``CONFIG_KUNIT_ALL_TESTS=y`` to your ``.kunitconfig``.
++
++- ``--kunitconfig``: Specifies the path or the directory of the ``.kunitconfig``
++  file. For example:
++
++  - ``lib/kunit/.kunitconfig`` can be the path of the file.
++
++  - ``lib/kunit`` can be the directory in which the file is located.
++
++  This file is used to build and run with a predefined set of tests
++  and their dependencies. For example, to run tests for a given subsystem.
++
++- ``--kconfig_add``: Specifies additional configuration options to be
++  appended to the ``.kunitconfig`` file.
++  For example, ``./tools/testing/kunit/kunit.py run --kconfig_add CONFIG_KASAN=y``.
++
++- ``--arch``: Runs tests on the specified architecture. The architecture
++  specified must match the Kbuild ARCH environment variable.
++  For example, i386, x86_64, arm, um, etc. Non-UML architectures run on QEMU.
++  Default is `um`.
++
++- ``--cross_compile``: Specifies the Kbuild toolchain. It passes the
++  same argument as passed to the ``CROSS_COMPILE`` variable used by
++  Kbuild. This will be the prefix for the toolchain
++  binaries such as GCC. For example:
++
++  - ``sparc64-linux-gnu-`` if we have the sparc toolchain installed on
++    our system.
++
++  - ``$HOME/toolchains/microblaze/gcc-9.2.0-nolibc/microblaze-linux/bin/microblaze-linux``
++    if we have downloaded the microblaze toolchain from the 0-day
++    website to a specified path in our home directory called toolchains.
++
++- ``--qemu_config``: Specifies the path to a file containing a
++  custom qemu architecture definition. This should be a python file
++  containing a `QemuArchParams` object.
++
++- ``--qemu_args``: Specifies additional QEMU arguments, for example, "-smp 8".
++
++- ``--jobs``: Specifies the number of jobs (commands) to run simultaneously.
++  By default, this is set to the number of cores on your system.
++
++- ``--timeout``: Specifies the maximum number of seconds allowed for all tests to run.
++  This does not include the time taken to build the tests.
++
++- ``--kernel_args``: Specifies additional kernel command-line arguments. Might be repeated.
++
++- ``--run_isolated``: If set, boots the kernel for each individual suite/test.
++  This is useful for debugging a non-hermetic test, one that
++  might pass/fail based on what ran before it.
++
++- ``--raw_output``: If set, generates unformatted output from kernel. Possible options are:
++
++   - ``all``: To view the full kernel output, use ``--raw_output=all``.
++
++   - ``kunit``: This is the default option and filters to KUnit output. Use ``--raw_output`` or ``--raw_output=kunit``.
++
++- ``--json``: If set, stores the test results in a JSON format and prints to `stdout` or
++  saves to a file if a filename is specified.
+-- 
+2.37.0.170.g444d1eabd0-goog
 
