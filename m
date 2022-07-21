@@ -2,155 +2,84 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DD685C433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 21 Jul 2022 08:26:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 612C4C43334
+	for <linux-doc@archiver.kernel.org>; Thu, 21 Jul 2022 09:06:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231416AbiGUI0I (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 21 Jul 2022 04:26:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57052 "EHLO
+        id S232755AbiGUJGE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 21 Jul 2022 05:06:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38896 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230373AbiGUI0H (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Jul 2022 04:26:07 -0400
-Received: from mail-pf1-x44a.google.com (mail-pf1-x44a.google.com [IPv6:2607:f8b0:4864:20::44a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 641402DAAA
-        for <linux-doc@vger.kernel.org>; Thu, 21 Jul 2022 01:26:06 -0700 (PDT)
-Received: by mail-pf1-x44a.google.com with SMTP id c21-20020a624e15000000b0052abf43401fso556581pfb.14
-        for <linux-doc@vger.kernel.org>; Thu, 21 Jul 2022 01:26:06 -0700 (PDT)
+        with ESMTP id S232762AbiGUJGC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Jul 2022 05:06:02 -0400
+Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 668D8DD4;
+        Thu, 21 Jul 2022 02:06:02 -0700 (PDT)
+Received: by mail-pj1-x102e.google.com with SMTP id f3-20020a17090ac28300b001f22d62bfbcso1074689pjt.0;
+        Thu, 21 Jul 2022 02:06:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=date:message-id:mime-version:subject:from:to:cc;
-        bh=D/jsDBi2QFOs4Zs9HMSmYJI8zRXb+dPzos0HZwfSzzc=;
-        b=hDrAMBg+Z58759aVRZuEyzgtEevkSBomPALCPlB5FpjqCmKg8B0/ALxrCvYQikj+H5
-         fxst5CjnEkashz8KaxmEkft/H1HJM0q/5JSCTEziGJVfyxDb8Tjqo1FJSXZJmHaSCFFJ
-         Z6k161Kw/1FwBVTD39n/pntZJBIGo4dLkrk8RxqVFcKP5FVn37uScX64N3sZHH383QnV
-         7yjJX6A9ZpFCvoc1YqHM0qqNOuh5VMEDTbpU80qq8Gmw0u7fPJf9odGO03uIMXvljOn1
-         QmjxH/o8StFq9utrr0exokzUQlGoDdEjVLijTC72IRrs36dKf1irONKGhxhL94DIpx1X
-         ZluA==
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=/gjSO1P0+ypi+dAbHumtfu+l4RNRaKCVMSATA+gVtK0=;
+        b=p3T08RLMhPYVLW4E0XZ0cpdFZboxHeaywSyKmXZO8funVvxaKNLqzivPCLWnViWlV/
+         XpJHcgjb06ZnXKcktJF2IJ1T7oMSkQUyNGJj4i0JJ7KTf26KGdjS86+zONdShRfa6Fk9
+         ydRw3SVPSoe8c6Yd28Wt+jJDTO5B8+tN2mMihjvW061DB6fSygWBkMb2K6QKbgXiEppF
+         laI+pJ/BCZ6t6/VRO4i6Vga2w8DkZtTmu9+7xlReXNHJ9U3A/oeeCdlPtM2inFtI5XiN
+         NO/cTSRTGSLCQ1QW8JzhN6e8NQa8CxH4h8IzTm+iUHpOZm7W+mel9gUfmdZcvtDj/nLK
+         +wQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
-        bh=D/jsDBi2QFOs4Zs9HMSmYJI8zRXb+dPzos0HZwfSzzc=;
-        b=tcGdRMS/z7qOcw/QKHyKFxnSVHAyAaGYhjmjELe3JRBwgDkYrrJZ4sou+dlj1ZnjNm
-         8E8jBw6A7noq3s62DU6xymYk/ztLcla7Jj8DDWYiKRjrW20rGK6mgHmfUHJ8BsZgUtbQ
-         6iqQLIeCKIcQle8wxmsil11dulHmAOfXtPD81qhpQN39v0ZveD2DULXjGMZ9xLgloGtM
-         szGe839W3B+vhWMNirJOtzII2YEs+3VF7WSr+wJJUizA2LUazrU3OWEdaUrRrfD6WQO2
-         Ilxj2oTJSYXrQ94hqEZcdz6OhJPRkCfa/s9+PxnHNaZEuf+ICu4Tx4cEgSr4V9IdZ29u
-         G26Q==
-X-Gm-Message-State: AJIora91qxnExL4HqJqycAqxofdab27/dsrfd39NhTKjtTw2LLJwes8R
-        tHoovRpk4NfJVqOJ8xOKTXif3mUKYF5QRFNm
-X-Google-Smtp-Source: AGRyM1te19it3AE4l9t6OQd4moI7u3bYsVRejG70XLibIb70+UbPjpftAuMZHyGoLFjGdHCu7fLF3uBTDNrUINke
-X-Received: from skazigti.c.googlers.com ([fda3:e722:ac3:cc00:4f:4b78:c0a8:411e])
- (user=sadiyakazi job=sendgmr) by 2002:a05:6a00:1a:b0:52a:dec1:308c with SMTP
- id h26-20020a056a00001a00b0052adec1308cmr43268981pfk.52.1658391965893; Thu,
- 21 Jul 2022 01:26:05 -0700 (PDT)
-Date:   Thu, 21 Jul 2022 08:10:27 +0000
-Message-Id: <20220721081026.1247067-1-sadiyakazi@google.com>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.37.0.170.g444d1eabd0-goog
-Subject: [PATCH v2] Documentation: kunit: Add CLI args for kunit_tool
-From:   Sadiya Kazi <sadiyakazi@google.com>
-To:     brendanhiggins@google.com, davidgow@google.com,
-        skhan@linuxfoundation.org, corbet@lwn.net, mairacanal@riseup.net
-Cc:     Sadiya Kazi <sadiyakazi@google.com>,
-        linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=/gjSO1P0+ypi+dAbHumtfu+l4RNRaKCVMSATA+gVtK0=;
+        b=iqJk+EVmm7iXWND+7AHfXC+bfgLCB/tZeFRLT5LP7Ui80kRde9l2rrRSN6k3XVM1AA
+         vN/QEM1fQd77w83wp9YZEHMumV1yE4hCLnwEwGtmKXy8LZp28M+WRE10453MU3PuF32B
+         CyxiPe7eav/eDfczBZujbN/xgkR8+N2xytQBorYzuC9eSj3CU79DEvFUQyk/Cd5SNj/5
+         g0qrEBzXnnbLWnbb0nUYWnwh01w8oBCbGe/lYrNpHVcC/r563V3Ib6P2bbt89AOsKrp3
+         y9zfDURmFFWSDnz3nYQjIXoB3hnpCirMWkIEuiWTF3KtzuiLq86+4wLAsh0AOIZOg+p2
+         lQuA==
+X-Gm-Message-State: AJIora9eLQPxV+RM3/nJvF4uIRJMe8MD/GRLrqQCLo+ikuceQU1/A4J3
+        CieY+EaDwnlIS88Mt6MTKpM=
+X-Google-Smtp-Source: AGRyM1uY2mE4ZUL4hLTTBA9l8mbeq/De6KlYim4wzHUxD7RfB9QqSwZO426EgW207atAwNPjl6L4Ig==
+X-Received: by 2002:a17:903:2301:b0:16c:58a3:639f with SMTP id d1-20020a170903230100b0016c58a3639fmr43121429plh.122.1658394361834;
+        Thu, 21 Jul 2022 02:06:01 -0700 (PDT)
+Received: from debian.me (subs03-180-214-233-19.three.co.id. [180.214.233.19])
+        by smtp.gmail.com with ESMTPSA id f7-20020a170902684700b0016c33dc879esm1115591pln.113.2022.07.21.02.06.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 21 Jul 2022 02:06:01 -0700 (PDT)
+Received: by debian.me (Postfix, from userid 1000)
+        id C1604103976; Thu, 21 Jul 2022 16:05:57 +0700 (WIB)
+Date:   Thu, 21 Jul 2022 16:05:57 +0700
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     linux-doc@vger.kernel.org
+Cc:     Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        kernel-janitors@vger.kernel.org
+Subject: MAINTAINERS improv suggestion
+Message-ID: <YtkW9awXT3nWyvts@debian.me>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Run_wrapper.rst was missing some command line arguments. Added
-additional args in the file.
+Hi Lukas and everyone in linux-doc ML,
 
-Signed-off-by: Sadiya Kazi <sadiyakazi@google.com>
----
-Changes since V1:
-https://lore.kernel.org/linux-kselftest/20220719092214.995965-1-sadiyakazi@google.com/
-- Addressed most of the review comments from Maira and David, except
-  removing the duplicate arguments as I felt its worth keeping them in
-  the reference documentation as well as in context. We can improve them
-  and differentiate their use cases in the future patches.
+Thanks for your work on doc cleanup. However, there's still one thing left:
+MAINTAINERS. The patch submitters tips, IMO, need some work.
 
+Here's my notes:
 
----
- Documentation/dev-tools/kunit/run_wrapper.rst | 60 ++++++++++++++++++-
- 1 file changed, 59 insertions(+), 1 deletion(-)
+* Nowadays most drivers (especially on embedded architectures like Arm) were
+  initially developed out-of-tree, then follows mainline inclusion process
+  But the second item read "Try to release a few ALPHA test versions to the
+  net. Announce them onto the kernel channel and await results". These
+  drivers were submitted not as ALPHA-grade, but near-production grade.
 
-diff --git a/Documentation/dev-tools/kunit/run_wrapper.rst b/Documentation/dev-tools/kunit/run_wrapper.rst
-index 5e560f2c5fca..600af7ac5f88 100644
---- a/Documentation/dev-tools/kunit/run_wrapper.rst
-+++ b/Documentation/dev-tools/kunit/run_wrapper.rst
-@@ -233,7 +233,7 @@ Command-Line Arguments
- ======================
- 
- kunit_tool has a number of other command-line arguments which can
--be useful for our test environment. Below the most commonly used
-+be useful for our test environment. Below are the most commonly used
- command line arguments:
- 
- - ``--help``: Lists all available options. To list common options,
-@@ -257,3 +257,61 @@ command line arguments:
-             added or modified. Instead, enable all tests
-             which have satisfied dependencies by adding
-             ``CONFIG_KUNIT_ALL_TESTS=y`` to your ``.kunitconfig``.
-+
-+- ``--kunitconfig``: Specifies the path or the directory of the ``.kunitconfig``
-+  file. For example:
-+
-+  - ``lib/kunit/.kunitconfig`` can be the path of the file.
-+
-+  - ``lib/kunit`` can be the directory in which the file is located.
-+
-+  This file is used to build and run with a predefined set of tests
-+  and their dependencies. For example, to run tests for a given subsystem.
-+
-+- ``--kconfig_add``: Specifies additional configuration options to be
-+  appended to the ``.kunitconfig`` file.
-+  For example, ``./tools/testing/kunit/kunit.py run --kconfig_add CONFIG_KASAN=y``.
-+
-+- ``--arch``: Runs tests on the specified architecture. The architecture
-+  specified must match the Kbuild ARCH environment variable.
-+  For example, i386, x86_64, arm, um, etc. Non-UML architectures run on QEMU.
-+  Default is `um`.
-+
-+- ``--cross_compile``: Specifies the Kbuild toolchain. It passes the
-+  same argument as passed to the ``CROSS_COMPILE`` variable used by
-+  Kbuild. This will be the prefix for the toolchain
-+  binaries such as GCC. For example:
-+
-+  - ``sparc64-linux-gnu-`` if we have the sparc toolchain installed on
-+    our system.
-+
-+  - ``$HOME/toolchains/microblaze/gcc-9.2.0-nolibc/microblaze-linux/bin/microblaze-linux``
-+    if we have downloaded the microblaze toolchain from the 0-day
-+    website to a specified path in our home directory called toolchains.
-+
-+- ``--qemu_config``: Specifies the path to a file containing a
-+  custom qemu architecture definition. This should be a python file
-+  containing a `QemuArchParams` object.
-+
-+- ``--qemu_args``: Specifies additional QEMU arguments, for example, "-smp 8".
-+
-+- ``--jobs``: Specifies the number of jobs (commands) to run simultaneously.
-+  By default, this is set to the number of cores on your system.
-+
-+- ``--timeout``: Specifies the maximum number of seconds allowed for all tests to run.
-+  This does not include the time taken to build the tests.
-+
-+- ``--kernel_args``: Specifies additional kernel command-line arguments. Might be repeated.
-+
-+- ``--run_isolated``: If set, boots the kernel for each individual suite/test.
-+  This is useful for debugging a non-hermetic test, one that
-+  might pass/fail based on what ran before it.
-+
-+- ``--raw_output``: If set, generates unformatted output from kernel. Possible options are:
-+
-+   - ``all``: To view the full kernel output, use ``--raw_output=all``.
-+
-+   - ``kunit``: This is the default option and filters to KUnit output. Use ``--raw_output`` or ``--raw_output=kunit``.
-+
-+- ``--json``: If set, stores the test results in a JSON format and prints to `stdout` or
-+  saves to a file if a filename is specified.
+* The fifth item mentioned using `diff -u` to generate patches, however
+  since 9f364b605f34e1 ("submitting-patches.rst: presume git will be used"),
+  the documentation elsewhere assumed git would be used.
+
+Thanks.
+
 -- 
-2.37.0.170.g444d1eabd0-goog
-
+An old man doll... just what I always wanted! - Clara
