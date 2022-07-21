@@ -2,105 +2,119 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D43AC433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 21 Jul 2022 21:13:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 02E4CC43334
+	for <linux-doc@archiver.kernel.org>; Thu, 21 Jul 2022 21:15:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233463AbiGUVND (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 21 Jul 2022 17:13:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60926 "EHLO
+        id S233685AbiGUVP0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 21 Jul 2022 17:15:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35102 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229472AbiGUVND (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Jul 2022 17:13:03 -0400
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5260F4E61D;
-        Thu, 21 Jul 2022 14:13:01 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id A6DDB6D9;
-        Thu, 21 Jul 2022 21:13:00 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net A6DDB6D9
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1658437980; bh=A/45P4qm24EYhkCZPmUzYfgAKicEoO+XAjAAD6wsy54=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=LKAzyduD57zhWdrHjbl/08ggRiW0DJJ74HGrZBsBSgkQAAQGO/Z8rckxN5B/J73pD
-         BNNXDRZltmJp7lnEYN/69uKuG0QoIUnaqvlm6AjHNTVZty2SBgHYrKq8bODNoyunHn
-         2iiVemdhPyaDt5BYUqJB8Sr6FhxIb41ZkHeo99XLEK/i5j4DrNvhImOlwMLf1n/Vel
-         VFhImekkYi7ZDTPxsERfxR2E2n19qtOeOpA66iHTRZxZbcxr0sT5bpU3lzVII5jJDg
-         3lDWLZeQ/F9KBEdS+AxlrpccFVJQf/cuw44u4c0IEG2q1ajGrGbOfBlTV2aHvPaOgP
-         w7oWUNhzopvTw==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
-        Ira Weiny <ira.weiny@intel.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-        Will Deacon <will@kernel.org>,
-        Peter Collingbourne <pcc@google.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Cc:     "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Thomas Gleixner <tglx@linutronix.de>
-Subject: Re: [PATCH 3/7] Documentation/mm: Don't kmap*() pages which can't
- come from HIGHMEM
-In-Reply-To: <20220721210206.13774-4-fmdefrancesco@gmail.com>
-References: <20220721210206.13774-1-fmdefrancesco@gmail.com>
- <20220721210206.13774-4-fmdefrancesco@gmail.com>
-Date:   Thu, 21 Jul 2022 15:13:00 -0600
-Message-ID: <87czdykw4j.fsf@meer.lwn.net>
+        with ESMTP id S233686AbiGUVPZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Jul 2022 17:15:25 -0400
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15F062FFF7;
+        Thu, 21 Jul 2022 14:15:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1658438123; x=1689974123;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=70dL+TKinMdON+cgvUm+mfjuUHW7dRrlqBQG6XkWacw=;
+  b=R7oBKk5+YgnxBWCZe2geYXh+35SOUDm56OVkAd4iWhR0hB/EjLZ46hSd
+   7b+GiEO548E4DkxUeShBde9u7VMsL2JkpVZ5lXCxWTKyf1KoCdbWEJQLx
+   cphUmMiziioLUmNSdavYzaqvEFrJ8HuNip4iqfwCIjOwqE4BUPUFJDnWC
+   X59rI1iC4PIGvgT/YcvrS4HoPyxLpxAH1kEXbQYqTALPq4OJC2IzO4EBr
+   blorAyOlNaqcJcqzV2TX6HiTxDW3JmXxfD0nG75U8S1puLB/mEswvytbm
+   fGYlLlMu5ejphvGM2Ei+3wV+R2Lgovv93eooAkGs9DONnGGnYgW3GxtJE
+   g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10415"; a="312892753"
+X-IronPort-AV: E=Sophos;i="5.93,183,1654585200"; 
+   d="scan'208";a="312892753"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2022 14:14:58 -0700
+X-IronPort-AV: E=Sophos;i="5.93,183,1654585200"; 
+   d="scan'208";a="925816174"
+Received: from jekeller-desk.amr.corp.intel.com ([10.166.241.7])
+  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2022 14:14:58 -0700
+From:   Jacob Keller <jacob.e.keller@intel.com>
+To:     netdev@vger.kernel.org
+Cc:     Jacob Keller <jacob.e.keller@intel.com>,
+        Jonathan Corbet <corbet@lwn.net>, Jiri Pirko <jiri@nvidia.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Tony Nguyen <anthony.l.nguyen@intel.com>,
+        David Ahern <dsahern@kernel.org>,
+        Stephen Hemminger <stephen@networkplumber.org>,
+        linux-doc@vger.kernel.org, intel-wired-lan@lists.osuosl.org
+Subject: [net-next v2 0/2] devlink: implement dry run support for flash update
+Date:   Thu, 21 Jul 2022 14:14:45 -0700
+Message-Id: <20220721211451.2475600-1-jacob.e.keller@intel.com>
+X-Mailer: git-send-email 2.35.1.456.ga9c7032d4631
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-"Fabio M. De Francesco" <fmdefrancesco@gmail.com> writes:
+This is a re-send of the dry run support I submitted nearly a year ago at
+https://lore.kernel.org/netdev/CO1PR11MB50898047B9C0FAA520505AFDD6B59@CO1PR11MB5089.namprd11.prod.outlook.com/
 
-> There is no need to kmap*() pages which are guaranteed to come from
-> ZONE_NORMAL (or lower). Linux has currently several call sites of
-> kmap{,_atomic,_local_page}() on pages allocated, for instance, with
-> alloc_page(GFP_NOFS) and other similar allocations.
->
-> Therefore, add a paragraph to highmem.rst, to explain better that a
-> plain page_address() should be used for getting the address of pages
-> which cannot come from ZONE_HIGHMEM.
->
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> Cc: Matthew Wilcox (Oracle) <willy@infradead.org>
-> Cc: Mike Rapoport <rppt@linux.ibm.com>
-> Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-> Cc: Thomas Gleixner <tglx@linutronix.de>
-> Suggested-by: Ira Weiny <ira.weiny@intel.com>
-> Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
-> ---
->  Documentation/vm/highmem.rst | 6 ++++++
->  1 file changed, 6 insertions(+)
->
-> diff --git a/Documentation/vm/highmem.rst b/Documentation/vm/highmem.rst
-> index c9887f241c6c..f266354c82ab 100644
-> --- a/Documentation/vm/highmem.rst
-> +++ b/Documentation/vm/highmem.rst
-> @@ -71,6 +71,12 @@ list shows them in order of preference of use.
->    kmap_local_page() always returns a valid virtual address and it is assumed
->    that kunmap_local() will never fail.
->  
-> +  On CONFIG_HIGHMEM=n kernels and for low memory pages this returns the
-> +  virtual address of the direct mapping. Only real highmem pages are
-> +  temporarily mapped. Therefore, users should instead call a plain
-> +  page_address() for getting the address of memory pages which, depending
-> +  on the GFP_* flags, cannot come from ZONE_HIGHMEM.
-> +
+I had delayed sending this because of conflicting work in the ice driver at
+the time, but then forgot about it and never got around to resubmitting it.
 
-Is this good advice?  First, it requires developers to worry about
-whether their pages might be in highmem, which is kind of like worrying
-about having coins in your pocket in case you need a payphone.  But it
-would also run afoul of other semantics for kmap*(), such as PKS, should
-that ever be merged:
+This adds a DEVLINK_ATTR_DRY_RUN which is used to indicate a request to
+validate a potentially destructive operation without performing the actions
+yet. In theory it could be used for other devlink operations in the future.
 
-  https://lwn.net/Articles/894531/
+For flash update, it allows the user to validate a flash image, including
+ensuring the driver for the device is willing to program it, without
+actually committing an update yet.
 
-Thanks,
+There is an accompanying series for iproute2 which allows adding the dry-run
+attribute. It does as Jakub suggested and checks the maximum attribute
+before allowing the dry run in order to avoid accidentally performing a real
+update on older kernels.
 
-jon
+Changes since v1:
+* Added maintainers to Cc (thanks for pointing out the script, Jiri!)
+* Replaced bool in struct with u8 : 1
+* Added kernel doc to devlink_flash_update_params
+* Renamed PLDMFW parameter from dry_run to validate
+* Reduced indentation in devlink.c by using nla_get_flag
+
+Cc: Jacob Keller <jacob.e.keller@intel.com>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Jiri Pirko <jiri@nvidia.com>
+Cc: "David S. Miller" <davem@davemloft.net>
+Cc: Eric Dumazet <edumazet@google.com>
+Cc: Jakub Kicinski <kuba@kernel.org>
+Cc: Paolo Abeni <pabeni@redhat.com>
+Cc: Tony Nguyen <anthony.l.nguyen@intel.com>
+Cc: David Ahern <dsahern@kernel.org>
+Cc: Stephen Hemminger <stephen@networkplumber.org>
+Cc: linux-doc@vger.kernel.org
+Cc: netdev@vger.kernel.org
+Cc: intel-wired-lan@lists.osuosl.org
+
+Jacob Keller (2):
+  devlink: add dry run attribute to flash update
+  ice: support dry run of a flash update to validate firmware file
+
+ Documentation/driver-api/pldmfw/index.rst     | 10 ++++++++
+ .../networking/devlink/devlink-flash.rst      | 23 +++++++++++++++++++
+ drivers/net/ethernet/intel/ice/ice_devlink.c  |  3 ++-
+ .../net/ethernet/intel/ice/ice_fw_update.c    | 14 +++++++----
+ include/linux/pldmfw.h                        |  5 ++++
+ include/net/devlink.h                         |  4 ++++
+ include/uapi/linux/devlink.h                  |  8 +++++++
+ lib/pldmfw/pldmfw.c                           | 12 ++++++++++
+ net/core/devlink.c                            | 17 +++++++++++++-
+ 9 files changed, 90 insertions(+), 6 deletions(-)
+
+
+base-commit: 5588d628027092e66195097bdf6835ddf64418b3
+-- 
+2.35.1.456.ga9c7032d4631
+
