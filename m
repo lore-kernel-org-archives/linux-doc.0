@@ -2,166 +2,164 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9179EC43334
-	for <linux-doc@archiver.kernel.org>; Thu, 21 Jul 2022 20:15:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C1513C43334
+	for <linux-doc@archiver.kernel.org>; Thu, 21 Jul 2022 20:53:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232122AbiGUUPz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 21 Jul 2022 16:15:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50072 "EHLO
+        id S229740AbiGUUxj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 21 Jul 2022 16:53:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45242 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232583AbiGUUPy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Jul 2022 16:15:54 -0400
-Received: from mail-io1-xd43.google.com (mail-io1-xd43.google.com [IPv6:2607:f8b0:4864:20::d43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20F183B951;
-        Thu, 21 Jul 2022 13:15:51 -0700 (PDT)
-Received: by mail-io1-xd43.google.com with SMTP id z132so2265647iof.0;
-        Thu, 21 Jul 2022 13:15:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=DdlpYHvySLWZI9PuVVkLLZBH3yjydjUTeDSjiCRAPjg=;
-        b=Emb6nVw/XsXfIS2rg5l909a2QlHcjhWE6BvXTfg7yFiAz4PCoYNtH3W2EfmQ4FRE6y
-         2pzUglyR5engfI0A8axVQUlrS837XKYH84LVFJoqlPal8GV8hRSl1uceuwRPAUHUgPdy
-         YdUPzSnnoxSEC9oOOZbIl3zFV+fqFjUsnUcT+dB6Q23AD3q3yumtw9WPxv775fB/3DTs
-         WP6TpLle3aNXqrUP0buCa+694rc1cDagQd5A5fMaR3rxaQ5Z3XvvMiys9OjY08KU3ibQ
-         fv+sLC6OhAjVZbB5xqlp11/NKOthbaMzt6GxAjDsl5tVgh2KfWVpBSKKAhMwVHs3Nruw
-         vEKQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=DdlpYHvySLWZI9PuVVkLLZBH3yjydjUTeDSjiCRAPjg=;
-        b=fPCPZykZTDkSU6X33lVLNf5JqCp+EaqG4z7JVOPsNnyn9DiEOIEsWNSXYVXZsYkzHr
-         gjqLRID23NtztgrJkrOg+ITkKqnQwKX6f5/5n/Ij/TPA6QEGw/c3AH40FfcDhFVO5L6o
-         1BXCvLmWurG4CD1Qd0rIuvWGCnGI0NYoTv4f8efFESHoFsc6++O96omjiQFIPLAoPBBe
-         whjT4v2ReL+gSlgc0z9qiM6mxaPyHUBirEjWwYEVDwYogTEic+6pQUd3VGrTU49dx+ca
-         uT6wRPm6x4zyxfBzpaqWhxTJUGoGdlEN/Fc3cS+ilnBoGc+m6RjITsJDdgosoF/m8UZt
-         /JbQ==
-X-Gm-Message-State: AJIora+5Q3NY5E71VIOzYuRGRU31+ApiBZuLv7/FZ3huOMjBbrWBugF1
-        OaDok3IcCmz786SbTlzzImPdoX1JZp0BkSYmgQhTsjX2aPk=
-X-Google-Smtp-Source: AGRyM1s1dL2pvG1uxUsYYIrkYW/FJ9oEkL6wAsTSGF52krk09y5ouOvFZX9RoHB/cPeHZ2FTRKUfl2LlvjYLHkJU5/M=
-X-Received: by 2002:a05:6602:150c:b0:67c:149b:a349 with SMTP id
- g12-20020a056602150c00b0067c149ba349mr74750iow.168.1658434550268; Thu, 21 Jul
- 2022 13:15:50 -0700 (PDT)
+        with ESMTP id S229613AbiGUUxh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Jul 2022 16:53:37 -0400
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D26E8FD52;
+        Thu, 21 Jul 2022 13:53:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1658436816; x=1689972816;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=s0Et3cQbwG0yBZtPgoFYO7VSwsUhLX6CVSLqS3VIZEs=;
+  b=BKHxRyqyHQj7EUp9B7bD4ZxRSzLII3Sc6y2sVH7943jYgmlz/V/S4kMW
+   Bc1TOCu0DMgIqOr7AUEyT2hdiSm4Y4S9nTMK9xwtUvqFKtsR3W/6DmjCN
+   Pb58rSyp1n+M5XacVAgZisoGyqKNgYfHqCcknHPL9niGNfeb6VxA5Lsu+
+   0LxhgTqRGCkG6ePA7fvsNaTbsjLIEM9iklk3NSgN3TRKKv3bt3VcqyU2X
+   g2uTsAH4OpipZod8dN8lLlG02cjfhrEapvTIM0YR/XQ4avl6eQfqwsTgX
+   2AG16e4NlwXKmZLpai0flGoOOZbUL3++ilVUhQZOEBYNw9O4xlsvBi9Db
+   w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10415"; a="348870503"
+X-IronPort-AV: E=Sophos;i="5.93,183,1654585200"; 
+   d="scan'208";a="348870503"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2022 13:53:35 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,183,1654585200"; 
+   d="scan'208";a="656918543"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+  by fmsmga008.fm.intel.com with ESMTP; 21 Jul 2022 13:53:35 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.28; Thu, 21 Jul 2022 13:53:35 -0700
+Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.28 via Frontend Transport; Thu, 21 Jul 2022 13:53:35 -0700
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.176)
+ by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2308.27; Thu, 21 Jul 2022 13:53:34 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=eDOqZI5qhJc3BtCoVbFohUKRHrJgURC1EjEzTyVHRV/RfypRjKGgqv0YN+mI0ki5zjhDrbPLIm7KtdvVQopIY58AEPfYN/Lcokoo78G8lFh03gaVW6Hzr1K160IkKb3aPQ9EU1+vSFTIvHvE7L7mDlY4UepdcoxekHJgm7SE/ISoqdW603tYM3PckST0LC4ZY8YNW7kn/1IqTIY2hunkX/hJE/7GSoY1me/cVS6sDn1NEZwC+b4I29k/FTLzSTEt1Qu7E0RPAXD30f3ve9oiKUZhty3LIKWHA177HnTdP08DqkYjF7KhTa93FfdMDQDbh911BObGl94PBRizOuhrSA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=s0Et3cQbwG0yBZtPgoFYO7VSwsUhLX6CVSLqS3VIZEs=;
+ b=A+n2yA9jW8eVSDeET96rRqp88NXZRqVDkKUG6SXod/Ktv9Z+3ZZ563w0RrbH9yh1B2idimo2DKxIXfvhQI6IpCjt6ptz97QT8n9biPyf9Ex1+z/2zsWBdumI4IG523uzfycM4MlBfw3jvz9xz4kJyu6/hT4+0/ZRXfskJYHm5fIo/StrPfBG/8JUjLeva/L8K1LBYPAET1LjucLYUeqtDC2tD/gznBYmZTh/E7qYVPAl1j9bgKknZoqxdBMsT4hcFGvX5dPKperlIjk4jz1lOtEeFX8+ANBbuDZDTawaXLnO/TuPR9YcEbdCTRZ8F9R2aXrnaxPdiLnwzlHCvHVm2w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from SJ1PR11MB6083.namprd11.prod.outlook.com (2603:10b6:a03:48a::9)
+ by SA1PR11MB6806.namprd11.prod.outlook.com (2603:10b6:806:24d::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5458.18; Thu, 21 Jul
+ 2022 20:53:33 +0000
+Received: from SJ1PR11MB6083.namprd11.prod.outlook.com
+ ([fe80::7c8a:9ebc:e674:796e]) by SJ1PR11MB6083.namprd11.prod.outlook.com
+ ([fe80::7c8a:9ebc:e674:796e%8]) with mapi id 15.20.5458.019; Thu, 21 Jul 2022
+ 20:53:33 +0000
+From:   "Luck, Tony" <tony.luck@intel.com>
+To:     "Bae, Chang Seok" <chang.seok.bae@intel.com>,
+        "Hansen, Dave" <dave.hansen@intel.com>,
+        "Brown, Len" <len.brown@intel.com>,
+        "Wysocki, Rafael J" <rafael.j.wysocki@intel.com>,
+        "Chatre, Reinette" <reinette.chatre@intel.com>,
+        "Williams, Dan J" <dan.j.williams@intel.com>
+CC:     "bagasdotme@gmail.com" <bagasdotme@gmail.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-man@vger.kernel.org" <linux-man@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH v3 0/2] x86: AMX enabling example with new constants
+Thread-Topic: [PATCH v3 0/2] x86: AMX enabling example with new constants
+Thread-Index: AQHYlUrhIQgalduo5UyxpDNPXhizuK2JXENw
+Date:   Thu, 21 Jul 2022 20:53:33 +0000
+Message-ID: <SJ1PR11MB6083E042762320A642D1FC5AFC919@SJ1PR11MB6083.namprd11.prod.outlook.com>
+References: <20220711171347.27309-1-chang.seok.bae@intel.com>
+In-Reply-To: <20220711171347.27309-1-chang.seok.bae@intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-reaction: no-action
+dlp-version: 11.6.500.17
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: c0b4b1f1-f319-4853-110e-08da6b5b1307
+x-ms-traffictypediagnostic: SA1PR11MB6806:EE_
+x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: fHtiIxksxB/nwGATDFMqWzmLRORlV0hmAKzgcMapyFbGkOqvVC9p+KdBscmOUQ7upQTaUYAsYzAOm8kpVhsSI9DTdgWZEycBv2hoIzis1CgmUYyAt5+1Tcw1pg5oiXAU7RNAMP+tSfBbDEGTE9KFNjz6aw4x2vnTZ4uLrWDuiRSgSy09hzK0v1PlMRctcqCaicimvTdXBItBbOwu0T8F66Ov2N2ytnFgoItlpOuOOr1LjLQNxfcn17FW/FT9fYYwQViMFkNwzv6mxF1bFyy4XSub+JZQzLl4VtEpTdtWrArPXsLpKJ3gQp342OSumPdrkKgat2JJXgD3UT5uoZJgUO4xSZwaRIsUqYOJykRIzWrxCBXuNB5wP7XpezjcwLlDCQRxSUT/mldanK3wCpBVEgrk6gV+YHrHdvg7tDMZ/65/U5UHlT+wwAp67OQfBWuRZtQe9W9JWYLrcsL/tA1KBTCn1CDTfVl/pekaPUKWi1VgjMZ57xSKDi0HtYLPkVqTtI5ld9+8mKxcm7nXiVPrpGgnbA28sbesVr8T+zUAPp9a7bsejOINy+3/IhZN5VsunZwsH8pmDzzhkZ3a6XqJd6By9wuKwEKDHpXVyxqvlxIE29qYnIfSHikBBqpffxiyN3mRxHRH7p3Imlf6IEJajnUO8hFmVBVu43qMn+GdqsCyukFofL1SA9TNtaBveNCSx3J8NUV7nO6fjnu69KsYAiUXyB5wkQRyMn2+NautsUcw7sbWMRq5X2Smp4nvCyFwFtN+gjTn0keCm8nIAD23vekvgNLvHVZ0UkExY+fGt+jT+jYUzb6y8mokzF3FdKxXxenFovjaZbjOB2ROc5RvF9wIvX0QmxAncP5S82UsebI=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ1PR11MB6083.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(366004)(39860400002)(396003)(376002)(346002)(136003)(38100700002)(4326008)(66946007)(8676002)(33656002)(76116006)(7696005)(66446008)(122000001)(66556008)(66476007)(64756008)(41300700001)(26005)(966005)(86362001)(6506007)(55016003)(478600001)(71200400001)(38070700005)(52536014)(316002)(9686003)(83380400001)(921005)(5660300002)(6636002)(82960400001)(186003)(2906002)(8936002)(4744005)(110136005)(54906003);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?7tNrEXHqsDw4ld2EO7mXnAxnSzL98gFF6MC3ZNi851IbumIxVDVhjBOAImjD?=
+ =?us-ascii?Q?F5MVbvjsblEu2oL7PyGPdZMpxT+R1RzVk6ERXxeQKIHanAiKLjyTgjnQKrLh?=
+ =?us-ascii?Q?3Ntzga4K/XQ+faPGBL4cshcNUR+E7Nf0mt6T2D5rs6V5X0QjI76ZYD/rJ7LO?=
+ =?us-ascii?Q?JDBTYb9iN1IhzqOxw1weE1DeZF6x32NO1wVrz3xankNeskSDfFrPLH6/r3AH?=
+ =?us-ascii?Q?iQChhBLOxeszLzfEU0PVLoGHMkUv/VE7BY+OV75Nf48q4UQ6wQrTZB/u8e1n?=
+ =?us-ascii?Q?iF4zP8ILhXJwjcsq0LK7duKsQVG3a5YBOIKAuyoBr6QnET4ssFNNPuwLIYEQ?=
+ =?us-ascii?Q?XqkifLd+tgg476GRYrEBWijSFvMPsoUMunuMfOWx9y2fTf5NmH1Z6AscdmTU?=
+ =?us-ascii?Q?EZTG8XY4Pe5CY09IFlAy55KAQtdqnOOrLzZQ7HlcQvDGk3/X5iPXMkgE5gRk?=
+ =?us-ascii?Q?x92AmPFfvJML8gjX3DX4nSYNAe0//p/iIYJDKTumVKiVV8xAHjZFea57JJB4?=
+ =?us-ascii?Q?vyF4hSBmsZW+22+kAfxcJuBIhmwZtbsrbzfakcXHpauLMA+5U4a+LmmJQzwq?=
+ =?us-ascii?Q?0a3duHX81k9ptWxuZSEipRGiscuoLJeF4REKQW7C8q4WNzi3tHI2oxxP9Q/m?=
+ =?us-ascii?Q?1jxH3U1nDlxkS2Eq7R/yCLNJarJMoHgjLmLWbL5YiLUXlYLT7e2k151+8svm?=
+ =?us-ascii?Q?R2xE5QPevgOlTjvUETzqJ4Ij+bK4FBaLB9rfD5zy9VfVT63erFDF99mMVlda?=
+ =?us-ascii?Q?yox5YkzXLyXz/sXr5UkY6VkQhm58Rrcz898fPpu3g41su3sc6h7nNDBZOnEc?=
+ =?us-ascii?Q?UcEwEPVhk9358lprPwZ3RbzfTbcXqCAtLphuMta3g6p/8D7G2aha7jcrN/Dq?=
+ =?us-ascii?Q?cbO3DkmTj80dpeT9oJQ7539oe3P61ZdQqWwxxoS3IAdVqORNabGRcMD/flmc?=
+ =?us-ascii?Q?R8k7jEclkCFy+bgEQOEYeEoNEbbP8ws7TZyPM4YAi7gltllmXPH0Me3YfyEM?=
+ =?us-ascii?Q?PiO2RRruqx6FsZJz0b3FQ/UfY06fhl04Z+QEkisdV6xEYIvtxDuqszX1w/AG?=
+ =?us-ascii?Q?CoiGPAieNNdqDRRdbByk395NTIFplvY6QXECGROOaIDKUhRAgGzYQlbAC0Gj?=
+ =?us-ascii?Q?ZXvjuFPzJQ8D93Ovcwxf4EjLPedzTReN4j4tVJm1swzyx694QTZUJ3xh9eOi?=
+ =?us-ascii?Q?BJaWFeUVlC5S1WyPo6ym4jVplfU7/sgl1kmmnsYYUdyuyVgIQFfvKfRlNrsK?=
+ =?us-ascii?Q?B30wUxP2QYU/JbhPezZ9Qnbx0fKXERSR9VdzX4SX3TJ/HpCfsC/liNgDnAPq?=
+ =?us-ascii?Q?F3fwCvEi2XZscMsBmiT9W/8OF07OTbPsBhlRHgkbewGDxWZMzBT6jYq/kX6u?=
+ =?us-ascii?Q?zek3DpafrcL2fqYMV+1QmCmXRUNf49ZVezDX5RYUZxRVQOxdCA2ddh/3ViO6?=
+ =?us-ascii?Q?wlQkgWrqjv3lGjjy2JuQIUqD8LHjRnxMcoZ/O0i4wXvi2oFvD4G3/6lH062D?=
+ =?us-ascii?Q?XHvUam18e/CbZAGyZoMLrSBIVvDn1rXlpdqQragSAxUwwOoRCT2H6sylYOFw?=
+ =?us-ascii?Q?wWRYs3zPqY1RUCxsV7guz82BSw3hODEBe5PQ6pFg?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-References: <20220721153625.1282007-1-benjamin.tissoires@redhat.com> <20220721153625.1282007-3-benjamin.tissoires@redhat.com>
-In-Reply-To: <20220721153625.1282007-3-benjamin.tissoires@redhat.com>
-From:   Kumar Kartikeya Dwivedi <memxor@gmail.com>
-Date:   Thu, 21 Jul 2022 22:15:14 +0200
-Message-ID: <CAP01T746d18QjJH1pRaq5Wy2QtrXXKhaJge8sB=q1rNtqjTntA@mail.gmail.com>
-Subject: Re: [PATCH bpf-next v7 02/24] bpf/verifier: allow kfunc to read user
- provided context
-To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     Greg KH <gregkh@linuxfoundation.org>,
-        Jiri Kosina <jikos@kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>, Shuah Khan <shuah@kernel.org>,
-        Dave Marchevsky <davemarchevsky@fb.com>,
-        Joe Stringer <joe@cilium.io>, Jonathan Corbet <corbet@lwn.net>,
-        Tero Kristo <tero.kristo@linux.intel.com>,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        netdev@vger.kernel.org, bpf@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SJ1PR11MB6083.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c0b4b1f1-f319-4853-110e-08da6b5b1307
+X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Jul 2022 20:53:33.1304
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 89yUJDbdAq0QFOB/941zRzp4dmIYgIoguJiY2hSOPfkKBeVzZpz/Xsrap4RJ5UPXfYp7/QxwKPWPuxKdKvhDyg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB6806
+X-OriginatorOrg: intel.com
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 21 Jul 2022 at 17:36, Benjamin Tissoires
-<benjamin.tissoires@redhat.com> wrote:
->
-> When a kfunc was trying to access data from context in a syscall eBPF
-> program, the verifier was rejecting the call.
-> This is because the syscall context is not known at compile time, and
-> so we need to check this when actually accessing it.
->
-> Check for the valid memory access and allow such situation to happen.
->
-> Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
->
-> ---
->
+> The arch_prctl(2) manual page [2] is missing these new options. Perhaps,
+> the man-page update follows up along with this.
 
-LGTM, with just a couple more nits.
-Acked-by: Kumar Kartikeya Dwivedi <memxor@gmail.com>
+This isn't the right process to get a manual page updated.
 
-> changes in v7:
-> - renamed access_t into atype
-> - allow zero-byte read
-> - check_mem_access() to the correct offset/size
->
-> new in v6
-> ---
->  kernel/bpf/verifier.c | 21 +++++++++++++++++++++
->  1 file changed, 21 insertions(+)
->
-> diff --git a/kernel/bpf/verifier.c b/kernel/bpf/verifier.c
-> index 7c1e056624f9..d5fe7e618c52 100644
-> --- a/kernel/bpf/verifier.c
-> +++ b/kernel/bpf/verifier.c
-> @@ -248,6 +248,7 @@ struct bpf_call_arg_meta {
->         struct bpf_map *map_ptr;
->         bool raw_mode;
->         bool pkt_access;
-> +       bool is_kfunc;
->         u8 release_regno;
->         int regno;
->         int access_size;
-> @@ -5170,6 +5171,7 @@ static int check_helper_mem_access(struct bpf_verifier_env *env, int regno,
->                                    struct bpf_call_arg_meta *meta)
->  {
->         struct bpf_reg_state *regs = cur_regs(env), *reg = &regs[regno];
-> +       enum bpf_prog_type prog_type = resolve_prog_type(env->prog);
->         u32 *max_access;
->
->         switch (base_type(reg->type)) {
-> @@ -5223,6 +5225,24 @@ static int check_helper_mem_access(struct bpf_verifier_env *env, int regno,
->                                 env,
->                                 regno, reg->off, access_size,
->                                 zero_size_allowed, ACCESS_HELPER, meta);
-> +       case PTR_TO_CTX:
-> +               /* in case of a kfunc called in a program of type SYSCALL, the context is
-> +                * user supplied, so not computed statically.
-> +                * Dynamically check it now
-> +                */
-> +               if (prog_type == BPF_PROG_TYPE_SYSCALL && meta && meta->is_kfunc) {
-> +                       enum bpf_access_type atype = meta->raw_mode ? BPF_WRITE : BPF_READ;
-> +                       int offset = access_size - 1;
-> +
-> +                       /* Allow zero-byte read from NULL or PTR_TO_CTX */
+See:
 
-This will not be handling the case for NULL, only for kfunc(ptr_to_ctx, 0)
-A null pointer has its reg->type as scalar, so it will be handled by
-the default case.
+https://www.kernel.org/doc/man-pages/contributing.html
 
-> +                       if (access_size == 0)
-> +                               return zero_size_allowed ? 0 : -EINVAL;
+then log a bug, write a patch, and submit it to add the AMX options.
 
-We should use -EACCES, just to be consistent.
-
-> +
-> +                       return check_mem_access(env, env->insn_idx, regno, offset, BPF_B,
-> +                                               atype, -1, false);
-> +               }
-> +
-> +               fallthrough;
->         default: /* scalar_value or invalid ptr */
->                 /* Allow zero-byte read from NULL, regardless of pointer type */
->                 if (zero_size_allowed && access_size == 0 &&
-> @@ -5335,6 +5355,7 @@ int check_kfunc_mem_size_reg(struct bpf_verifier_env *env, struct bpf_reg_state
->         WARN_ON_ONCE(regno < BPF_REG_2 || regno > BPF_REG_5);
->
->         memset(&meta, 0, sizeof(meta));
-> +       meta.is_kfunc = true;
->
->         if (may_be_null) {
->                 saved_reg = *mem_reg;
-> --
-> 2.36.1
->
+-Tony
