@@ -2,122 +2,144 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 27759CCA487
-	for <linux-doc@archiver.kernel.org>; Thu, 21 Jul 2022 14:57:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DEA2EC433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 21 Jul 2022 15:05:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230496AbiGUO5c (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 21 Jul 2022 10:57:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44440 "EHLO
+        id S229880AbiGUPFS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 21 Jul 2022 11:05:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52074 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231639AbiGUO51 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Jul 2022 10:57:27 -0400
-Received: from out0.migadu.com (out0.migadu.com [94.23.1.103])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9358686C39;
-        Thu, 21 Jul 2022 07:57:23 -0700 (PDT)
-Date:   Thu, 21 Jul 2022 22:57:12 +0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-        t=1658415441;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=HnJf3a3R/WDtkPI32iClfgBxpOQWUhxqHOYGsZd26QY=;
-        b=GdErNbbWgx1K8NgDU1VOOBBzhzkydujCEG+dIXTO5rqjXdQ4uALRBFSQIlECtB0b10E0n1
-        l3bxbzSgFHWEgMf1CePnOVqX+Qt9nNFm6PeKldh63AQdTpGSfflTCK9+De5fgf/QoHknF1
-        0Q7yHEiFdotNEEqfXVNPX4ergSGbLms=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From:   Tao Zhou <tao.zhou@linux.dev>
-To:     Daniel Bristot de Oliveira <bristot@kernel.org>
-Cc:     Steven Rostedt <rostedt@goodmis.org>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Guenter Roeck <linux@roeck-us.net>,
+        with ESMTP id S229532AbiGUPFR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Jul 2022 11:05:17 -0400
+Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com [IPv6:2607:f8b0:4864:20::42d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9520630C
+        for <linux-doc@vger.kernel.org>; Thu, 21 Jul 2022 08:05:14 -0700 (PDT)
+Received: by mail-pf1-x42d.google.com with SMTP id l124so1990895pfl.8
+        for <linux-doc@vger.kernel.org>; Thu, 21 Jul 2022 08:05:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=+qHP7skd3Cv7XJJygZVSwGskr21EGyWaFJgDdfd1xqA=;
+        b=oQSFR9+MjkkY1ur4gDW1MTlCrXf3uwlJLfESqNwsf2awYRDW0+8aavy8VzAuy9DB0G
+         JDCIQp1vt5BvWbaqkABHrCn9h2qVHzO/SxEDKgSBlbay4FQdznJ6OWnc4Hc0C/769sBL
+         aq7cj8hP0AUHXUTvnue16TNcqCwcMJHJ1Gz4cj7NXbvObCQklTY4pdJ1ZwEWRYUotwWt
+         BRQpaLf82OEJ9tYyxOPCUOLwadWEY7ln+vmIVrCj1MGptoVCZg53AGjaczk8CTfjFYcd
+         x+IeQO2qzB9zjTUGUovD73lL5DdL7DCL3eyEpBmg3MXYdMfYAAsyQOy2T2yk808kuO5O
+         Wxgw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=+qHP7skd3Cv7XJJygZVSwGskr21EGyWaFJgDdfd1xqA=;
+        b=3gT9NXNZhOprDV3IJ0HelK6RGjKdrzK62zn4xMOmA3+Ncf7lSr1N6ifaMpM8zce2GF
+         CYUOAoiE4IM94muRI8WGaitUSP9CiffFTlelZPev4Ox89AoegZeN+mYdtU2bsdWOXLg4
+         itNL6vLHFRKtf1kACod2AslaE4+gfprOKio2p27Fjbj++XqEchxD11OTqQMRlp95s1K2
+         GnWzdxEEUO5b6j34uKasw/7YkAR21lyQsjYXSwlwhBsnI3WbAj4aS75ZCiyZzsZ2MC8O
+         /8A2mVIbaO+EkQxHmXveABt/KxVuELwH8n8wcvThqPqJ7nyy7lA5LMTSjFUyZJTbAtgb
+         UaVQ==
+X-Gm-Message-State: AJIora+VvxRs4aNX+iAi3QODUg3AEsX1g5MpZJg7t19lRLxcST1H3Qc9
+        MDrd9zOHQkS64nOmaXKFOtk1FQ==
+X-Google-Smtp-Source: AGRyM1uCSCT3ljh7PToWudc0PHcaebaKp/GEubhDiVG89ItWbH0HuD55vNtJx6Xaam1ITOer8uSeSA==
+X-Received: by 2002:a63:b56:0:b0:41a:495a:2a26 with SMTP id a22-20020a630b56000000b0041a495a2a26mr13293961pgl.411.1658415913932;
+        Thu, 21 Jul 2022 08:05:13 -0700 (PDT)
+Received: from google.com (123.65.230.35.bc.googleusercontent.com. [35.230.65.123])
+        by smtp.gmail.com with ESMTPSA id a17-20020aa78e91000000b005254e44b748sm1872610pfr.84.2022.07.21.08.05.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 21 Jul 2022 08:05:13 -0700 (PDT)
+Date:   Thu, 21 Jul 2022 15:05:09 +0000
+From:   Sean Christopherson <seanjc@google.com>
+To:     David Hildenbrand <david@redhat.com>
+Cc:     Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+        linux-kselftest@vger.kernel.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Ingo Molnar <mingo@redhat.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Will Deacon <will@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Marco Elver <elver@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Gabriele Paoloni <gpaoloni@redhat.com>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Clark Williams <williams@redhat.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-trace-devel@vger.kernel.org, Tao Zhou <tao.zhou@linux.dev>
-Subject: Re: [PATCH V6 11/16] Documentation/rv: Add deterministic automata
- instrumentation documentation
-Message-ID: <YtlpSGp590YJXT22@geo.homenetwork>
-References: <cover.1658244826.git.bristot@kernel.org>
- <3c915ffd00f033d57dbac2f69e56a87b7b80adba.1658244826.git.bristot@kernel.org>
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+        ak@linux.intel.com, aarcange@redhat.com, ddutile@redhat.com,
+        dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+        Muchun Song <songmuchun@bytedance.com>
+Subject: Re: [PATCH v7 01/14] mm: Add F_SEAL_AUTO_ALLOCATE seal to memfd
+Message-ID: <YtlrJR3uP6940tjd@google.com>
+References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
+ <20220706082016.2603916-2-chao.p.peng@linux.intel.com>
+ <f39c4f63-a511-4beb-b3a4-66589ddb5475@redhat.com>
+ <39067d09-b32b-23a6-ae0e-00ac2fe0466c@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <3c915ffd00f033d57dbac2f69e56a87b7b80adba.1658244826.git.bristot@kernel.org>
-X-Migadu-Flow: FLOW_OUT
-X-Migadu-Auth-User: linux.dev
+In-Reply-To: <39067d09-b32b-23a6-ae0e-00ac2fe0466c@redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Jul 19, 2022 at 07:27:16PM +0200, Daniel Bristot de Oliveira wrote:
+On Thu, Jul 21, 2022, David Hildenbrand wrote:
+> On 21.07.22 11:44, David Hildenbrand wrote:
+> > On 06.07.22 10:20, Chao Peng wrote:
+> >> Normally, a write to unallocated space of a file or the hole of a sparse
+> >> file automatically causes space allocation, for memfd, this equals to
+> >> memory allocation. This new seal prevents such automatically allocating,
+> >> either this is from a direct write() or a write on the previously
+> >> mmap-ed area. The seal does not prevent fallocate() so an explicit
+> >> fallocate() can still cause allocating and can be used to reserve
+> >> memory.
+> >>
+> >> This is used to prevent unintentional allocation from userspace on a
+> >> stray or careless write and any intentional allocation should use an
+> >> explicit fallocate(). One of the main usecases is to avoid memory double
+> >> allocation for confidential computing usage where we use two memfds to
+> >> back guest memory and at a single point only one memfd is alive and we
+> >> want to prevent memory allocation for the other memfd which may have
+> >> been mmap-ed previously. More discussion can be found at:
+> >>
+> >>   https://lkml.org/lkml/2022/6/14/1255
+> >>
+> >> Suggested-by: Sean Christopherson <seanjc@google.com>
+> >> Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
+> >> ---
+> >>  include/uapi/linux/fcntl.h |  1 +
+> >>  mm/memfd.c                 |  3 ++-
+> >>  mm/shmem.c                 | 16 ++++++++++++++--
+> >>  3 files changed, 17 insertions(+), 3 deletions(-)
+> >>
+> >> diff --git a/include/uapi/linux/fcntl.h b/include/uapi/linux/fcntl.h
+> >> index 2f86b2ad6d7e..98bdabc8e309 100644
+> >> --- a/include/uapi/linux/fcntl.h
+> >> +++ b/include/uapi/linux/fcntl.h
+> >> @@ -43,6 +43,7 @@
+> >>  #define F_SEAL_GROW	0x0004	/* prevent file from growing */
+> >>  #define F_SEAL_WRITE	0x0008	/* prevent writes */
+> >>  #define F_SEAL_FUTURE_WRITE	0x0010  /* prevent future writes while mapped */
+> >> +#define F_SEAL_AUTO_ALLOCATE	0x0020  /* prevent allocation for writes */
+> > 
+> > Why only "on writes" and not "on reads". IIRC, shmem doesn't support the
+> > shared zeropage, so you'll simply allocate a new page via read() or on
+> > read faults.
+> 
+> Correction: on read() we don't allocate a fresh page. But on read faults
+> we would. So this comment here needs clarification.
 
-> +Looking at the automata definition, it is possible to see that the system
-> +and the model are expected to return to the initial state after the
-> +preempt_enable execution. Hence, it can be used to synchronize the
-> +system and the model at the initialization of the monitoring section.
-> +
-> +The start is informed via a special handle function, the
-> +"da_handle_start_event_MONITOR_event)", in this case::
-
-da_handle_start_event_$MONITOR(event) the same as the previous version
-should be right.
-
-> +
-> +  da_handle_start_event_wip(preempt_disable_wip);
-
-I didn't see this in last version that the event should be preempt_enable_wip.
-
-> +
-> +So, the callback function will look like::
-> +
-> +  void handle_preempt_enable(void *data, unsigned long ip, unsigned long parent_ip)
-> +  {
-> +        da_handle_start_event_wip(preempt_enable_wip);
-> +  }
-> +
-> +Finally, the "handle_sched_waking()" will look like::
-> +
-> +  void handle_sched_waking(void *data, struct task_struct *task)
-> +  {
-> +        da_handle_event_wip(sched_waking_wip);
-> +  }
-> +
-> +And the explanation is left for the reader as an exercise.
-> +
-> +Start and Stop functions
-
-Start and Stop functions are changed to enable and disable functions.
-
-> +------------------------
-> +
-> +dot2k automatically creates two special functions::
-> +
-> +  enable_MONITOR()
-> +  disable_MONITOR()
-> +
-> +These functions are called when the monitor is enabled and disabled,
-> +respectively.
-> +
-> +They should be used to *attach* and *detach* the instrumentation to the running
-> +system. The developer must add to the relative function all that is needed to
-> +*attach* and *detach* its monitor to the system.
-> +
-> +For the wip case, these functions were named::
-> +
-> + enable_wip()
-> + disable_wip()
-> +
-> +But no change was required because: by default, these functions *attach* and
-> +*detach* the tracepoints_to_attach, which was enough for this case.
+Not just the comment, the code too.  The intent of F_SEAL_AUTO_ALLOCATE is very
+much to block _all_ implicit allocations (or maybe just fault-based allocations
+if "implicit" is too broad of a description).
