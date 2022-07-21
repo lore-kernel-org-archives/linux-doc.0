@@ -2,250 +2,182 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B34F2C433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 21 Jul 2022 07:22:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 635B2C43334
+	for <linux-doc@archiver.kernel.org>; Thu, 21 Jul 2022 07:35:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232442AbiGUHWD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 21 Jul 2022 03:22:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37942 "EHLO
+        id S230057AbiGUHfS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 21 Jul 2022 03:35:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47382 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232388AbiGUHWB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Jul 2022 03:22:01 -0400
-Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96B957BE2C
-        for <linux-doc@vger.kernel.org>; Thu, 21 Jul 2022 00:21:49 -0700 (PDT)
-Received: by mail-pl1-x633.google.com with SMTP id q5so1001648plr.11
-        for <linux-doc@vger.kernel.org>; Thu, 21 Jul 2022 00:21:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=Y6EvIdqoUaS7ls8r32zttj0LNf/eqCV8pbvDg6E6zOY=;
-        b=bx9kiT+hLNfnJogsVT7IBzczks2t4b8Gtx+Q1e2iu1TyBVIaYJLVi5ql38fJGsB1c/
-         JeOiBPBg3YyRW1ay+7BCqYcnMr3ChMFPQpqs90pG01s/xeJJzFz8H7grZ8zzgKTH7oV7
-         AC+LN9Q0/SyDo8ymoG2ghAhcfFp0B+1CDV1Zo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=Y6EvIdqoUaS7ls8r32zttj0LNf/eqCV8pbvDg6E6zOY=;
-        b=QBCkpjwoQ2AncvTaba4KIdWmC1g0os8tQe1GLVHp/44Jd2vCNBXYkwhtIamV4SPbSD
-         wi+pB22vXFbWk+0RXFo+k/n+GjmNw5xzVhsoBCcgOvv1J3ZJsIJ1jV1/Gh/KhoT0am1U
-         Ge5+LZB3+RHTWXG5HIGjaY9FUBvL6TO3KpMitFT+9/jsu1U0+wYzkfM15Zlmb0i5bcRA
-         UkDZwFcmcE+3zJPcNn2NbOlohEFJNZmzRAs5Z9LbWPxFo54P68ykGvzLSCYvC6PlWYUs
-         QxZv6lFd/u396dP+Ir3Jo2bHcxe/9d+UGRFMvSCKQRloAi3ep+vO5Ur20w0TBSedHnsn
-         xcsw==
-X-Gm-Message-State: AJIora+cal/PPAA3hNpbNlyoJEzO3IrkqmrDuvBWX8LVbS1C+jzMLsoO
-        G6icB19Qn+KYmPgtktp/RbT1Hg==
-X-Google-Smtp-Source: AGRyM1t45cSCpetLGdFrKHlD9QNPUQJhFXsNA3QG0U5zvDzOQU6/IqEIWCwtDQkASw6jQv+slMRg7w==
-X-Received: by 2002:a17:902:db02:b0:16c:5568:d740 with SMTP id m2-20020a170902db0200b0016c5568d740mr43110445plx.100.1658388108799;
-        Thu, 21 Jul 2022 00:21:48 -0700 (PDT)
-Received: from rahul_yocto_ubuntu18.ibn.broadcom.net ([192.19.234.250])
-        by smtp.gmail.com with ESMTPSA id t8-20020a170902e84800b0016d2959cf37sm823611plg.279.2022.07.21.00.21.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Jul 2022 00:21:48 -0700 (PDT)
-From:   Vikas Gupta <vikas.gupta@broadcom.com>
-To:     jiri@nvidia.com, kuba@kernel.org
-Cc:     netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-        davem@davemloft.net, dsahern@kernel.org,
-        stephen@networkplumber.org, edumazet@google.com, pabeni@redhat.com,
-        ast@kernel.org, leon@kernel.org, linux-doc@vger.kernel.org,
-        corbet@lwn.net, michael.chan@broadcom.com,
-        andrew.gospodarek@broadcom.com,
-        Vikas Gupta <vikas.gupta@broadcom.com>
-Subject: [PATCH net-next v4 3/3] bnxt_en: implement callbacks for devlink selftests
-Date:   Thu, 21 Jul 2022 12:51:21 +0530
-Message-Id: <20220721072121.43648-4-vikas.gupta@broadcom.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20220721072121.43648-1-vikas.gupta@broadcom.com>
-References: <20220718062032.22426-1-vikas.gupta@broadcom.com>
- <20220721072121.43648-1-vikas.gupta@broadcom.com>
-Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
-        boundary="00000000000026aa7f05e44b92e1"
+        with ESMTP id S229604AbiGUHfS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Jul 2022 03:35:18 -0400
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7590D11B;
+        Thu, 21 Jul 2022 00:35:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1658388917; x=1689924917;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=HDZ5ADD7H00ujzYo8f6UW7EI5DQuY8pQPtvATJDvm4I=;
+  b=ipaVH0A1IdlCM4V/RRcDGYVjn28z9hgpjyJ5fTjgRtAUjrvQuOVd0TVd
+   YhQJEBgvRh8MFAzOhGugYZwNo5KmfcybgQp8kf2TJfrJWYRmoLnl8SNaA
+   cDvmVQJqB+4apfkhqjUDLu4PFyykYClif54JQUOIISzf6tP6+dCUZAUER
+   b5xHxFYIawwVSEHUOQ533k2mNaTUXeVTVgpu7h/d00qaJp6VZU02U5FM5
+   o43/eDAx0eV2kM4e150OHmagnEvgW8XCSQlrvMNb8uTGnIn4v+9E2bPPf
+   qLOazo/vmb9apW0ZksEhrzkJRyim7RtZ4mtw4infkYF+HMXrtHzTsp3Rj
+   w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10414"; a="350963821"
+X-IronPort-AV: E=Sophos;i="5.92,288,1650956400"; 
+   d="scan'208";a="350963821"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2022 00:35:16 -0700
+X-IronPort-AV: E=Sophos;i="5.92,288,1650956400"; 
+   d="scan'208";a="626004190"
+Received: from wangwei-desk.sh.intel.com (HELO [10.239.159.152]) ([10.239.159.152])
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2022 00:35:06 -0700
+Message-ID: <45ae9f57-d595-f202-abb5-26a03a2ca131@linux.intel.com>
+Date:   Thu, 21 Jul 2022 15:34:59 +0800
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v7 11/14] KVM: Register/unregister the guest private
+ memory regions
+Content-Language: en-US
+To:     Sean Christopherson <seanjc@google.com>,
+        "Gupta, Pankaj" <pankaj.gupta@amd.com>
+Cc:     Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+        linux-kselftest@vger.kernel.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com,
+        Quentin Perret <qperret@google.com>,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+        Muchun Song <songmuchun@bytedance.com>
+References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
+ <20220706082016.2603916-12-chao.p.peng@linux.intel.com>
+ <f02baa37-8d34-5d07-a0ae-300ffefc7fee@amd.com>
+ <20220719140843.GA84779@chaop.bj.intel.com>
+ <36e671d2-6b95-8e4f-c2ac-fee4b2670c6e@amd.com>
+ <20220720150706.GB124133@chaop.bj.intel.com>
+ <d0fd229d-afa6-c66d-3e55-09ac5877453e@amd.com> <YtgrkXqP/GIi9ujZ@google.com>
+From:   Wei Wang <wei.w.wang@linux.intel.com>
+In-Reply-To: <YtgrkXqP/GIi9ujZ@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
---00000000000026aa7f05e44b92e1
-
-Add callbacks
-=============
-.selftest_check: returns true for flash selftest.
-.selftest_run: runs a flash selftest.
-
-Signed-off-by: Vikas Gupta <vikas.gupta@broadcom.com>
-Reviewed-by: Michael Chan <michael.chan@broadcom.com>
-Reviewed-by: Andy Gospodarek <andrew.gospodarek@broadcom.com>
----
- .../net/ethernet/broadcom/bnxt/bnxt_devlink.c | 60 +++++++++++++++++++
- 1 file changed, 60 insertions(+)
-
-diff --git a/drivers/net/ethernet/broadcom/bnxt/bnxt_devlink.c b/drivers/net/ethernet/broadcom/bnxt/bnxt_devlink.c
-index 6b3d4f4c2a75..927cf368d856 100644
---- a/drivers/net/ethernet/broadcom/bnxt/bnxt_devlink.c
-+++ b/drivers/net/ethernet/broadcom/bnxt/bnxt_devlink.c
-@@ -20,6 +20,8 @@
- #include "bnxt_ulp.h"
- #include "bnxt_ptp.h"
- #include "bnxt_coredump.h"
-+#include "bnxt_nvm_defs.h"
-+#include "bnxt_ethtool.h"
- 
- static void __bnxt_fw_recover(struct bnxt *bp)
- {
-@@ -610,6 +612,62 @@ static int bnxt_dl_reload_up(struct devlink *dl, enum devlink_reload_action acti
- 	return rc;
- }
- 
-+static bool bnxt_nvm_test(struct bnxt *bp, struct netlink_ext_ack *extack)
-+{
-+	u32 datalen;
-+	u16 index;
-+	u8 *buf;
-+
-+	if (bnxt_find_nvram_item(bp->dev, BNX_DIR_TYPE_VPD,
-+				 BNX_DIR_ORDINAL_FIRST, BNX_DIR_EXT_NONE,
-+				 &index, NULL, &datalen) || !datalen) {
-+		NL_SET_ERR_MSG_MOD(extack, "nvm test vpd entry error");
-+		return false;
-+	}
-+
-+	buf = kzalloc(datalen, GFP_KERNEL);
-+	if (!buf) {
-+		NL_SET_ERR_MSG_MOD(extack, "insufficient memory for nvm test");
-+		return false;
-+	}
-+
-+	if (bnxt_get_nvram_item(bp->dev, index, 0, datalen, buf)) {
-+		NL_SET_ERR_MSG_MOD(extack, "nvm test vpd read error");
-+		goto err;
-+	}
-+
-+	if (bnxt_flash_nvram(bp->dev, BNX_DIR_TYPE_VPD, BNX_DIR_ORDINAL_FIRST,
-+			     BNX_DIR_EXT_NONE, 0, 0, buf, datalen)) {
-+		NL_SET_ERR_MSG_MOD(extack, "nvm test vpd write error");
-+		goto err;
-+	}
-+
-+	return true;
-+
-+err:
-+	kfree(buf);
-+	return false;
-+}
-+
-+static bool bnxt_dl_selftest_check(struct devlink *dl, int test_id,
-+				   struct netlink_ext_ack *extack)
-+{
-+	return (test_id == DEVLINK_SELFTEST_ATTR_FLASH);
-+}
-+
-+static u8 bnxt_dl_selftest_run(struct devlink *dl, int test_id,
-+			       struct netlink_ext_ack *extack)
-+{
-+	struct bnxt *bp = bnxt_get_bp_from_dl(dl);
-+
-+	if (test_id == DEVLINK_SELFTEST_ATTR_FLASH) {
-+		return (bnxt_nvm_test(bp, extack) ? DEVLINK_SELFTEST_PASS :
-+						    DEVLINK_SELFTEST_FAIL);
-+	}
-+
-+	return DEVLINK_SELFTEST_SKIP;
-+}
-+
- static const struct devlink_ops bnxt_dl_ops = {
- #ifdef CONFIG_BNXT_SRIOV
- 	.eswitch_mode_set = bnxt_dl_eswitch_mode_set,
-@@ -622,6 +680,8 @@ static const struct devlink_ops bnxt_dl_ops = {
- 	.reload_limits	  = BIT(DEVLINK_RELOAD_LIMIT_NO_RESET),
- 	.reload_down	  = bnxt_dl_reload_down,
- 	.reload_up	  = bnxt_dl_reload_up,
-+	.selftest_check	  = bnxt_dl_selftest_check,
-+	.selftest_run	  = bnxt_dl_selftest_run,
- };
- 
- static const struct devlink_ops bnxt_vf_dl_ops;
--- 
-2.31.1
 
 
---00000000000026aa7f05e44b92e1
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Description: S/MIME Cryptographic Signature
+On 7/21/22 00:21, Sean Christopherson wrote:
+> On Wed, Jul 20, 2022, Gupta, Pankaj wrote:
+>>>>>>> +bool __weak kvm_arch_private_mem_supported(struct kvm *kvm)
+> Use kvm_arch_has_private_mem(), both because "has" makes it obvious this is checking
+> a flag of sorts, and to align with other helpers of this nature (and with
+> CONFIG_HAVE_KVM_PRIVATE_MEM).
+>
+>    $ git grep kvm_arch | grep supported | wc -l
+>    0
+>    $ git grep kvm_arch | grep has | wc -l
+>    26
+>
+>>>>>>> +#ifdef CONFIG_HAVE_KVM_PRIVATE_MEM
+>>>>>>> +	case KVM_MEMORY_ENCRYPT_REG_REGION:
+>>>>>>> +	case KVM_MEMORY_ENCRYPT_UNREG_REGION: {
+>>>>>>> +		struct kvm_enc_region region;
+>>>>>>> +
+>>>>>>> +		if (!kvm_arch_private_mem_supported(kvm))
+>>>>>>> +			goto arch_vm_ioctl;
+>>>>>>> +
+>>>>>>> +		r = -EFAULT;
+>>>>>>> +		if (copy_from_user(&region, argp, sizeof(region)))
+>>>>>>> +			goto out;
+>>>>>>> +
+>>>>>>> +		r = kvm_vm_ioctl_set_encrypted_region(kvm, ioctl, &region);
+>>>>>> this is to store private region metadata not only the encrypted region?
+>>>>> Correct.
+>>>> Sorry for not being clear, was suggesting name change of this function from:
+>>>> "kvm_vm_ioctl_set_encrypted_region" to "kvm_vm_ioctl_set_private_region"
+>>> Though I don't have strong reason to change it, I'm fine with this and
+>> Yes, no strong reason, just thought "kvm_vm_ioctl_set_private_region" would
+>> depict the actual functionality :)
+>>
+>>> this name matches the above kvm_arch_private_mem_supported perfectly.
+>> BTW could not understand this, how "kvm_vm_ioctl_set_encrypted_region"
+>> matches "kvm_arch_private_mem_supported"?
+> Chao is saying that kvm_vm_ioctl_set_private_region() pairs nicely with
+> kvm_arch_private_mem_supported(), not that the "encrypted" variant pairs nicely.
+>
+> I also like using "private" instead of "encrypted", though we should probably
+> find a different verb than "set", because calling "set_private" when making the
+> region shared is confusing.  I'm struggling to come up with a good alternative
+> though.
+>
+> kvm_vm_ioctl_set_memory_region() is already taken by KVM_SET_USER_MEMORY_REGION,
+> and that also means that anything with "memory_region" in the name is bound to be
+> confusing.
+>
+> Hmm, and if we move away from "encrypted", it probably makes sense to pass in
+> addr+size instead of a kvm_enc_region.
+>
+> Maybe this?
+>
+> static int kvm_vm_ioctl_set_or_clear_mem_private(struct kvm *kvm, gpa_t gpa,
+> 					         gpa_t size, bool set_private)
+>
+> and then:
+>
+> #ifdef CONFIG_HAVE_KVM_PRIVATE_MEM
+> 	case KVM_MEMORY_ENCRYPT_REG_REGION:
+> 	case KVM_MEMORY_ENCRYPT_UNREG_REGION: {
+> 		bool set = ioctl == KVM_MEMORY_ENCRYPT_REG_REGION;
+> 		struct kvm_enc_region region;
+>
+> 		if (!kvm_arch_private_mem_supported(kvm))
+> 			goto arch_vm_ioctl;
+>
+> 		r = -EFAULT;
+> 		if (copy_from_user(&region, argp, sizeof(region)))
+> 			goto out;
+>
+> 		r = kvm_vm_ioctl_set_or_clear_mem_private(kvm, region.addr,
+> 							  region.size, set);
+> 		break;
+> 	}
+> #endif
+>
+> I don't love it, so if someone has a better idea...
+>
+Maybe you could tag it with cgs for all the confidential guest support 
+related stuff:
+e.g. kvm_vm_ioctl_set_cgs_mem()
 
-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
-I7qKxvF8Yo7eGTnHRTa99J+6yTd88AKVuhM5TEhpC8cS7qvrQXJje+Uing2xWC4FH76LEWIFH0Pt
-x8C1WoCU0ClXHU/XfzH2mYrFANBSCeP1Co6QdEfRAgMBAAGjggHZMIIB1TAOBgNVHQ8BAf8EBAMC
-BaAwgaMGCCsGAQUFBwEBBIGWMIGTME4GCCsGAQUFBzAChkJodHRwOi8vc2VjdXJlLmdsb2JhbHNp
-Z24uY29tL2NhY2VydC9nc2djY3IzcGVyc29uYWxzaWduMmNhMjAyMC5jcnQwQQYIKwYBBQUHMAGG
-NWh0dHA6Ly9vY3NwLmdsb2JhbHNpZ24uY29tL2dzZ2NjcjNwZXJzb25hbHNpZ24yY2EyMDIwME0G
-A1UdIARGMEQwQgYKKwYBBAGgMgEoCjA0MDIGCCsGAQUFBwIBFiZodHRwczovL3d3dy5nbG9iYWxz
-aWduLmNvbS9yZXBvc2l0b3J5LzAJBgNVHRMEAjAAMEkGA1UdHwRCMEAwPqA8oDqGOGh0dHA6Ly9j
-cmwuZ2xvYmFsc2lnbi5jb20vZ3NnY2NyM3BlcnNvbmFsc2lnbjJjYTIwMjAuY3JsMCMGA1UdEQQc
-MBqBGHZpa2FzLmd1cHRhQGJyb2FkY29tLmNvbTATBgNVHSUEDDAKBggrBgEFBQcDBDAfBgNVHSME
-GDAWgBSWM9HmWBdbNHWKgVZk1b5I3qGPzzAdBgNVHQ4EFgQUUc6J11rH3s6PyZQ0zIVZHIuP20Yw
-DQYJKoZIhvcNAQELBQADggEBALvCjXn9gy9a2nU/Ey0nphGZefIP33ggiyuKnmqwBt7Wk/uDHIIc
-kkIlqtTbo0x0PqphS9A23CxCDjKqZq2WN34fL5MMW83nrK0vqnPloCaxy9/6yuLbottBY4STNuvA
-mQ//Whh+PE+DZadqiDbxXbos3IH8AeFXH4A1zIqIrc0Um2/CSD/T6pvu9QrchtvemfP0z/f1Bk+8
-QbQ4ARVP93WV1I13US69evWXw+mOv9VnejShU9PMcDK203xjXbBOi9Hm+fthrWfwIyGoC5aEf7vd
-PKkEDt4VZ9RbudZU/c3N8+kURaHNtrvu2K+mQs5w/AF7HYZThqmOzQJnvMRjuL8xggJtMIICaQIB
-ATBrMFsxCzAJBgNVBAYTAkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNhMTEwLwYDVQQDEyhH
-bG9iYWxTaWduIEdDQyBSMyBQZXJzb25hbFNpZ24gMiBDQSAyMDIwAgwYjepatB64S625eswwDQYJ
-YIZIAWUDBAIBBQCggdQwLwYJKoZIhvcNAQkEMSIEILnF94BrX4QbDy6JoUKYQyT1p/qvWlu0d27U
-I5aBpvTbMBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZIhvcNAQkFMQ8XDTIyMDcyMTA3
-MjE0OVowaQYJKoZIhvcNAQkPMVwwWjALBglghkgBZQMEASowCwYJYIZIAWUDBAEWMAsGCWCGSAFl
-AwQBAjAKBggqhkiG9w0DBzALBgkqhkiG9w0BAQowCwYJKoZIhvcNAQEHMAsGCWCGSAFlAwQCATAN
-BgkqhkiG9w0BAQEFAASCAQAKX+vvUDk4EHYspVaLlNbmcTtlhkRfkEGJpyFzcnvNtkJxXYWu/eer
-W8ASyU0GYpokBVGLaxwCxA8FwlkutbUuOZTxZ0GxkQSbry0R0na/mL/eCaBCmpb7rNLyPTdPf4td
-sQK4bJQPu8LIoDBfOTNymqDgoiNVi2og4zD1ma+JAFAUNPCXkHxqBSA3sZPs4Ra3aOBc9ElJirex
-HpT3WNuctAqBPdcNhnD5OAX32xmrOo2j/LCpBSt1rP4fJ7ner4xJI2slcLJ2Wnl3W1QVK/TKmxuF
-yaagj0SC7MQjDzh/YpERqihH9iFwzMS0TM7e2Wi9hxfhxd0oML/1+4QjS8xm
---00000000000026aa7f05e44b92e1--
+bool is_private = ioctl == KVM_MEMORY_ENCRYPT_REG_REGION;
+...
+kvm_vm_ioctl_set_cgs_mem(, is_private)
+
