@@ -2,151 +2,128 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0593DC43334
-	for <linux-doc@archiver.kernel.org>; Thu, 21 Jul 2022 03:43:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3DA63C433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 21 Jul 2022 04:04:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230219AbiGUDne (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 20 Jul 2022 23:43:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58582 "EHLO
+        id S229831AbiGUEE4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 21 Jul 2022 00:04:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43494 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230042AbiGUDnd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Jul 2022 23:43:33 -0400
-Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com [IPv6:2a00:1450:4864:20::52d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86B827821F;
-        Wed, 20 Jul 2022 20:43:31 -0700 (PDT)
-Received: by mail-ed1-x52d.google.com with SMTP id e15so662544edj.2;
-        Wed, 20 Jul 2022 20:43:31 -0700 (PDT)
+        with ESMTP id S229519AbiGUEEz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Jul 2022 00:04:55 -0400
+Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com [IPv6:2607:f8b0:4864:20::42c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04E2478DD3
+        for <linux-doc@vger.kernel.org>; Wed, 20 Jul 2022 21:04:54 -0700 (PDT)
+Received: by mail-pf1-x42c.google.com with SMTP id w185so643491pfb.4
+        for <linux-doc@vger.kernel.org>; Wed, 20 Jul 2022 21:04:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc;
-        bh=6npaS1zRKm+yyU2zCsQvl5XLwT7kKQ+yzE8xge/iXYI=;
-        b=p1MOI/PwyKmAKZLRGUU7wHJ3gwmCfOuMSd9qe8/di7NRgYoQPVattGIm2LLA/5ZRzt
-         UmkU5j7zN1FHuEPODuf5718XISFVfuLHo7rlPOyFt0V58zPmMwJD1kG7cNARq4n1qG1/
-         xWPDaDD+f5JXnDkwiGvO7GhQVNM9VnDE/QT9Wer6VhUl3z6bBcM9aN93BWHJJX/y/Q3I
-         HBozrneJP0gbcCgI0IKl+MyC0FQKZzDHKL02n/9I3eqSk38jOFbMYJk3ShWxQIAokptk
-         0ew9hHw8UUP63i9jplHud3h+FVPCkA0FQyUiO55QiCkqmVKmB+mDy86it0JvXhH0iuM9
-         +ncw==
+        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=nlT8dJ+SuEpxWbwnTjcmhPJvri3/6RijHoI8W5wIpvE=;
+        b=H9ztJ4r8ShB6bSUSZJFMPYUxMNR8vvrsj1vt/lH9VHmmw3uBP3eIA2PcKWgSk5Q1wl
+         K+NcysZKOjHUbek7EISv8xVcQMPs1sTGj0HW5Mfd629xhyR5bdeMHK63uPa4P2L57oRK
+         6WRaAi3FgUrKi1UIeYRSKabGyZ6TMQgKrXM4l13lAGR8uJx+QHl866OES1by3VoRC9ru
+         H5964XviIHKzcr7Dvga63vKjgndZr+u73X1sTIUnWg55XCH3s9pI7mpxugcuy8bS6bnY
+         YBlNIFVCvfxb09i/hJX0Po+LEWPjkjU+RGGh8/5HLywFC3w4wf7/4dARlKHJlXwqtQFN
+         jVsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc;
-        bh=6npaS1zRKm+yyU2zCsQvl5XLwT7kKQ+yzE8xge/iXYI=;
-        b=dHnO52Nrs8NsXSweRjVS5eZfc1Kt7RNuGUa/g/xPB4OJ7PzT3B4tTWmXN6A65WqWde
-         XfMz2J4nCTB67af2Pqnhz6DAPX6zJ3jtKeoB+zaL6MCmgHM1AO4F3wt63tvRfNofY4TA
-         HbgncIAiptQhZpi5krjYrLcVWT2WyohDYSA32h38Y3tx7bzzPj2KW9Ml+XsJE33xAqXY
-         V+4+3+fPcTpGwwP50y5EX5jGSaU7vUFb5qWWUEeDL6hFTX3T4T09gApn+4NCIKEUWEHZ
-         pGxQmpRv3UDJ7tGstTpcNdPNVl7boaWVqRUDl8PWJ/vgqrKRrILNSb0+yI2ypcFEN53z
-         Oyew==
-X-Gm-Message-State: AJIora9P8JU41bewVPddCmr/LPwe89hqB4djJJHxDsrryoa6hAuDDMhP
-        mDnTZcdz0e+k+rnrgGC6fk9ustbJdS9HI6sbnCE=
-X-Google-Smtp-Source: AGRyM1uOI+8BZmBho8NWh0C+///IOSzyEsQPkRoYp57fJlWZ+qY2k+4HwdfPpAVjNR2BGQDSHLue/6IDKdxW5yyntWw=
-X-Received: by 2002:a05:6402:3326:b0:43a:902b:d335 with SMTP id
- e38-20020a056402332600b0043a902bd335mr55228432eda.412.1658375009916; Wed, 20
- Jul 2022 20:43:29 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=nlT8dJ+SuEpxWbwnTjcmhPJvri3/6RijHoI8W5wIpvE=;
+        b=YuPo5u7Ws5HF1V0oK+tQIbZMXQixTWM9YPPkf6AjbMJ3wifbru8SnHSY+MyalrJfBE
+         bOz0NCRbcNluOPunAVA0xoT0boE8H3JcgttSi4EgY+BJ0MGviAoBsvf6YqRen0sOMH1k
+         AMchBsBJPo8+1Suhl+am637M7/9Pun+MUh6fasniJF0aIWh0kK3sw/vEI3cX/7gzrdoy
+         2E2YeCIlFpxOLhBcZfYWDbB3luNSJvSIi7vJMPjRm8/pN7Ax1p6KPivoeb6y4BLq1dTp
+         bRTWHuzypDCCHwIqLe2VfkedMX85JYvLC6/i6Uy7bInc4AmwE7Z55asx90kTPsua2vj/
+         EhRA==
+X-Gm-Message-State: AJIora9hxjXMevHEKSWtfub+JNVCRXd6WNxKPzJEQVmTZcHnZTsYAiic
+        kh7+dbqJjINs/BjnwyM93hkC+w==
+X-Google-Smtp-Source: AGRyM1sBch0MsWSENaHyUgonMPLodkwYZhzX4W5iVZPf7/0S9iIdmJFM115fFOAFhzSInW+UExWjfQ==
+X-Received: by 2002:a62:b617:0:b0:52b:3246:ad98 with SMTP id j23-20020a62b617000000b0052b3246ad98mr33466080pff.3.1658376293466;
+        Wed, 20 Jul 2022 21:04:53 -0700 (PDT)
+Received: from C02CV1DAMD6P.bytedance.net ([139.177.225.228])
+        by smtp.gmail.com with ESMTPSA id f4-20020a170902684400b0016bdf0032b9sm384368pln.110.2022.07.20.21.04.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 20 Jul 2022 21:04:53 -0700 (PDT)
+From:   Chengming Zhou <zhouchengming@bytedance.com>
+To:     hannes@cmpxchg.org, surenb@google.com, mingo@redhat.com,
+        peterz@infradead.org, tj@kernel.org, corbet@lwn.net,
+        akpm@linux-foundation.org, rdunlap@infradead.org
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        songmuchun@bytedance.com, cgroups@vger.kernel.org,
+        Chengming Zhou <zhouchengming@bytedance.com>
+Subject: [PATCH 0/9] sched/psi: some optimization and extension
+Date:   Thu, 21 Jul 2022 12:04:30 +0800
+Message-Id: <20220721040439.2651-1-zhouchengming@bytedance.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-References: <20220719065357.2705918-1-airlied@gmail.com> <20220719094835.52197852@sal.lan>
-In-Reply-To: <20220719094835.52197852@sal.lan>
-From:   Dave Airlie <airlied@gmail.com>
-Date:   Thu, 21 Jul 2022 13:43:18 +1000
-Message-ID: <CAPM=9tzoB_dJXgb9M7y9cJ24Z4vBmy7NRePxJARdYRLag2Vx9g@mail.gmail.com>
-Subject: Re: [PATCH] docs: driver-api: firmware: add driver firmware
- guidelines. (v2)
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        "Luis R. Rodriguez" <mcgrof@kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "dri-devel@lists.sf.net" <dri-devel@lists.sf.net>,
-        Network Development <netdev@vger.kernel.org>,
-        Linux Wireless List <linux-wireless@vger.kernel.org>,
-        alsa-devel@alsa-project.org,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        linux-block@vger.kernel.org, Dave Airlie <airlied@redhat.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> It is hard to enforce how vendors will version their firmware. On media,
-> we have some drivers whose major means different hardware versions. For
-> instance, on xc3028, v3.x means low voltage chips, while v2.x means
-> "normal" voltage. We end changing the file name on Linux to avoid the risk
-> of damaging the hardware, as using v27 firmware on low power chips damage
-> them. So, we have:
->
->         drivers/media/tuners/xc2028.h:#define XC2028_DEFAULT_FIRMWARE "xc3028-v27.fw"
->         drivers/media/tuners/xc2028.h:#define XC3028L_DEFAULT_FIRMWARE "xc3028L-v36.fw"
->
-> As their main market is not Linux - nor PC - as their main sales are on
-> TV sets, and them don't officially support Linux, there's nothing we can
-> do to enforce it.
->
-> IMO we need a more generic text here to indicate that Linux firmware
-> files should be defined in a way that it should be possible to detect
-> when there are incompatibilities with past versions.
-> So, I would say, instead:
->
->         Firmware files shall be designed in a way that it allows
->         checking for firmware ABI version changes. It is recommended
->         that firmware files to be versioned with at least major/minor
->         version.
+Hi all,
 
-This sounds good, will update with this.
+This patch series are some optimization and extension for PSI.
 
->
-> > It
-> > +  is suggested that the firmware files in linux-firmware be named with
-> > +  some device specific name, and just the major version.
->
-> > The
-> > +  major/minor/patch versions should be stored in a header in the
-> > +  firmware file for the driver to detect any non-ABI fixes/issues.
->
-> I would also make this more generic. On media, we ended adding the firmware
-> version indicated at the file name. For instance, xc4000 driver checks for
-> two firmware files:
->
-> drivers/media/tuners/xc4000.c:#define XC4000_DEFAULT_FIRMWARE "dvb-fe-xc4000-1.4.fw"
-> drivers/media/tuners/xc4000.c:#define XC4000_DEFAULT_FIRMWARE_NEW "dvb-fe-xc4000-1.4.1.fw"
+patch 1/9 fix periodic aggregation shut off problem introduced by earlier
+commit 4117cebf1a9f ("psi: Optimize task switch inside shared cgroups").
 
-This is probably fine for products where development never produces
-much firmwares, but it quickly becomes unmanageable when you end up
-with _NEW_NEW_NEW etc.
+patch 2/9 optimize task switch inside shared cgroups when in_memstall status
+of prev task and next task are different.
 
-I'd rather not encourage this sort of thing unless it is totally
-outside our control. So I'd like to keep the guidelines for when we
-have some control what we'd recommend.
+patch 3-4 optimize and simplify PSI status tracking by don't change task
+psi_flags when migrate CPU/cgroup.
 
-In this case I'd have recommended you put the 1.4.1 in the header of
-the fw, and just have it called dvb-fe-xc4000-1.fw and overwrite the
-NEW with the OLD, I understand we likely don't have the control here.
+patch 7-8 introduce new kernel cmdline parameter "psi_inner_cgroup=" to
+configure whether or not to track PSI stall information for inner cgroups.
 
-> > +  firmware files in linux-firmware should be overwritten with the newest
-> > +  compatible major version.
->
-> For me "shall" is mandatory, while "should" is optional.
->
-> In this specific case, I'm not so sure if overriding it is the best thing
-> to do on all subsystems. I mean, even with the same ABI, older firmware
-> usually means that some bugs and/or limitations will be present there.
+patch 9/9 introduce new PSI resource PSI_IRQ to track IRQ/SOFTIRQ pressure
+stall information when CONFIG_IRQ_TIME_ACCOUNTING.
 
-As long as you can detect the minor/patch versions from the firmware
-file after loading it you should be able to do sufficient workarounds.
->
-> That's specially true on codecs: even having the same ABI, older versions
-> won't support decoding newer protocols. We have one case with some
-> digital TV decoders that only support some Cable-TV protocols with
-> newer firmware versions. We have also one case were remote controller
-> decoding is buggy with older firmwares. On both situations, the ABI
-> didn't change.
+Performance test on Intel Xeon Platinum with 3 levels of cgroup, in which
+run mmtests config-scheduler-perfpipe:
 
-If the only way to figure that out is by the filename or minor
-version, then so be it, but where people have some control I'd rather
-provide some harder guidelines.
+                                  tip                    tip                    tip                patched                patched                patched                patched
+                               default   cgroup_disable=pressure  IRQ_TIME_ACCOUNTING              default      psi_inner_cgroup=off             PSI_IRQ    PSI_IRQ + psi_inner_cgroup=off
+Min       Time        9.89 (   0.00%)        8.99 (   9.12%)       10.04 (  -1.53%)        9.63 (   2.58%)        9.27 (   6.22%)       10.09 (  -2.04%)        9.45 (   4.41%)
+1st-qrtle Time       10.01 (   0.00%)        9.15 (   8.66%)       10.16 (  -1.45%)        9.72 (   2.89%)        9.35 (   6.61%)       10.20 (  -1.81%)        9.54 (   4.77%)
+2nd-qrtle Time       10.07 (   0.00%)        9.25 (   8.12%)       10.19 (  -1.21%)        9.79 (   2.73%)        9.38 (   6.78%)       10.24 (  -1.75%)        9.59 (   4.68%)
+3rd-qrtle Time       10.14 (   0.00%)        9.30 (   8.32%)       10.23 (  -0.88%)        9.84 (   3.00%)        9.44 (   6.92%)       10.27 (  -1.21%)        9.62 (   5.18%)
+Max-1     Time        9.89 (   0.00%)        8.99 (   9.12%)       10.04 (  -1.53%)        9.63 (   2.58%)        9.27 (   6.22%)       10.09 (  -2.04%)        9.45 (   4.41%)
+Max-5     Time        9.89 (   0.00%)        8.99 (   9.12%)       10.04 (  -1.53%)        9.63 (   2.58%)        9.27 (   6.22%)       10.09 (  -2.04%)        9.45 (   4.41%)
+Max-10    Time        9.92 (   0.00%)        9.09 (   8.33%)       10.11 (  -1.97%)        9.67 (   2.51%)        9.29 (   6.29%)       10.15 (  -2.30%)        9.48 (   4.46%)
+Max-90    Time       10.20 (   0.00%)        9.33 (   8.53%)       10.33 (  -1.24%)        9.87 (   3.29%)        9.49 (   6.99%)       10.29 (  -0.85%)        9.66 (   5.32%)
+Max-95    Time       10.23 (   0.00%)        9.34 (   8.70%)       10.37 (  -1.39%)        9.94 (   2.83%)        9.53 (   6.88%)       10.30 (  -0.65%)        9.67 (   5.51%)
+Max-99    Time       10.23 (   0.00%)        9.37 (   8.43%)       10.40 (  -1.63%)        9.99 (   2.41%)        9.76 (   4.57%)       10.31 (  -0.74%)        9.69 (   5.25%)
+Max       Time       10.34 (   0.00%)        9.46 (   8.50%)       10.43 (  -0.83%)       17.04 ( -64.80%)        9.79 (   5.36%)       10.32 (   0.20%)        9.71 (   6.07%)
+Amean     Time       10.08 (   0.00%)        9.23 *   8.39%*       10.21 *  -1.33%*       10.03 (   0.47%)        9.41 *   6.59%*       10.23 *  -1.53%*        9.59 *   4.87%*
 
-Dave.
+Thanks!
+
+Chengming Zhou (9):
+  sched/psi: fix periodic aggregation shut off
+  sched/psi: optimize task switch inside shared cgroups again
+  sched/psi: move private helpers to sched/stats.h
+  sched/psi: don't change task psi_flags when migrate CPU/group
+  sched/psi: don't create cgroup PSI files when psi_disabled
+  sched/psi: save percpu memory when !psi_cgroups_enabled
+  sched/psi: cache parent psi_group to speed up groups iterate
+  sched/psi: add kernel cmdline parameter psi_inner_cgroup
+  sched/psi: add PSI_IRQ to track IRQ/SOFTIRQ pressure
+
+ .../admin-guide/kernel-parameters.txt         |  11 +
+ include/linux/psi.h                           |   5 +-
+ include/linux/psi_types.h                     |   9 +-
+ include/linux/sched.h                         |   3 -
+ kernel/cgroup/cgroup.c                        |  30 +++
+ kernel/sched/core.c                           |   2 +
+ kernel/sched/psi.c                            | 194 +++++++++++++-----
+ kernel/sched/stats.h                          |  71 ++++---
+ 8 files changed, 232 insertions(+), 93 deletions(-)
+
+-- 
+2.36.1
+
