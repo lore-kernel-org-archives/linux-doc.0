@@ -2,180 +2,89 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B53A6CCA485
-	for <linux-doc@archiver.kernel.org>; Thu, 21 Jul 2022 17:58:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9FF33C43334
+	for <linux-doc@archiver.kernel.org>; Thu, 21 Jul 2022 18:27:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232017AbiGUR66 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 21 Jul 2022 13:58:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49294 "EHLO
+        id S232179AbiGUS1c (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 21 Jul 2022 14:27:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46622 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229540AbiGUR65 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Jul 2022 13:58:57 -0400
-Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3CD998AEC9
-        for <linux-doc@vger.kernel.org>; Thu, 21 Jul 2022 10:58:56 -0700 (PDT)
-Received: by mail-pj1-x102b.google.com with SMTP id l14-20020a17090a72ce00b001f20ed3c55dso2096689pjk.5
-        for <linux-doc@vger.kernel.org>; Thu, 21 Jul 2022 10:58:56 -0700 (PDT)
+        with ESMTP id S230309AbiGUS1c (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Jul 2022 14:27:32 -0400
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DBB078C756
+        for <linux-doc@vger.kernel.org>; Thu, 21 Jul 2022 11:27:30 -0700 (PDT)
+Received: by mail-ej1-x62c.google.com with SMTP id ss3so4526909ejc.11
+        for <linux-doc@vger.kernel.org>; Thu, 21 Jul 2022 11:27:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=wvI0q5HAql8tMPxcnKbiOi/9NxgmmSwnzAAkVZd1GZE=;
-        b=QeJXriKT9c5kzVC7WwOIhi80ckWM6ug8VcaWprkpELe4t4pSILpTjfg8m+cMtOrWBe
-         jmelByXoDseFjzPN05HlM35WJraOgVD8XBmkQsrB5vGpNrj70IhxBhsBNPglHsEpzekf
-         1kG3W212r4FUnxp6h1itgEO/FJ4Uuo3CeYYXkoiOWqCRXrzKR28+BcJbG5kguyytRjkg
-         rjsFU2rMHcaFZYM7jRBwDx3y4TNjRz8cS5RWMgjh+1ofnV6wnx05hcN9heFlTTNfsAVq
-         qUjZMJxGLa9mHYyEFjkrcwiRRdLtgvROz3H/Z1mIRgvYivxLAzSanUXyi85+4NTaGuJS
-         Ssew==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=IqIVwqhXZpX+36x6ZGQ0nvRNGxQHBFp217j1o3bMiIA=;
+        b=ZxGBqGsinqrzzcne7WCZ4G2F1Aqq0XDS4rmAB3fkzWfgI9dhQF3hiGa9Dnt3+L+DrP
+         cdxOROZtpVL6JngLYFvCMikY8LxvjsG45qx9FCTbVU6xgiZxglGSccDotU9zAJRfN7W3
+         9cx409+nIQ02rQYPmckrH+zh98gfqCEnpzZJExuzjPP9JI3+IDEj1pVESojf2NjOKTKZ
+         0S0SJoDzg+PwjlcTKTczfV89m3lwd8BsJHXRsyQytGf+dP1B+K+NJceiDXmHWbAB8nDy
+         OOwwE8Kzj2sb0VPKcmZCWI7UjuB2bG0Ny1FJ2axC448RZUAeefhNKguqEWG4frPiAMQL
+         s67g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=wvI0q5HAql8tMPxcnKbiOi/9NxgmmSwnzAAkVZd1GZE=;
-        b=WTj+9ikVL7AtLbxOU1m3+M+zB5elNCi4muVAxTCEwwafLd3bsNIjiUhYb/IXZp39kk
-         WdlGQALCQjvVuHMhrp4qeQpg1msUuq6e0/Pe9eIzLDxyQbXr5ao+OUsxfXRi3v/xUGWX
-         6lB6Z7aFuG2wAXsulzuJ36QsiXCNPlxUHTG7j1HswyWVviSXFL49f9y1POCUuBxBmFrX
-         /N5VfwI1nN+VnoACdmiPLO4NYNPZ8q/wQLSSkghLG3wl5/eNL74xj1xbRsG7T1ZzhK+/
-         co6ooJjQK4YcOKlkHxD4UdPP+SBy0WU65tNyfiuDC4dK2Zz5UNyAJJ8jGU2L9FJwv5JY
-         pm5g==
-X-Gm-Message-State: AJIora9f4EtTv3mu30LTK4MpBabqIv7OZDBfX2MCP6uQkahocTGQPx+L
-        kgYe+KY2+WOX6XtgZZI6Nclbbg==
-X-Google-Smtp-Source: AGRyM1sy1sNPIZTfbcs9D/R5onBZFJSx4EAG07fQgd3u5pHjtvT3tSBi6UiM7uRquYtBlR+3qYzZvg==
-X-Received: by 2002:a17:90b:3d84:b0:1ef:9049:9f43 with SMTP id pq4-20020a17090b3d8400b001ef90499f43mr12682443pjb.45.1658426335405;
-        Thu, 21 Jul 2022 10:58:55 -0700 (PDT)
-Received: from google.com (123.65.230.35.bc.googleusercontent.com. [35.230.65.123])
-        by smtp.gmail.com with ESMTPSA id f4-20020a170902684400b0016c1cdd2de3sm1956763pln.281.2022.07.21.10.58.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Jul 2022 10:58:54 -0700 (PDT)
-Date:   Thu, 21 Jul 2022 17:58:50 +0000
-From:   Sean Christopherson <seanjc@google.com>
-To:     Chao Peng <chao.p.peng@linux.intel.com>
-Cc:     Wei Wang <wei.w.wang@linux.intel.com>,
-        "Gupta, Pankaj" <pankaj.gupta@amd.com>, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
-        linux-kselftest@vger.kernel.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        Muchun Song <songmuchun@bytedance.com>
-Subject: Re: [PATCH v7 11/14] KVM: Register/unregister the guest private
- memory regions
-Message-ID: <YtmT2irvgInX1kPp@google.com>
-References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
- <20220706082016.2603916-12-chao.p.peng@linux.intel.com>
- <f02baa37-8d34-5d07-a0ae-300ffefc7fee@amd.com>
- <20220719140843.GA84779@chaop.bj.intel.com>
- <36e671d2-6b95-8e4f-c2ac-fee4b2670c6e@amd.com>
- <20220720150706.GB124133@chaop.bj.intel.com>
- <d0fd229d-afa6-c66d-3e55-09ac5877453e@amd.com>
- <YtgrkXqP/GIi9ujZ@google.com>
- <45ae9f57-d595-f202-abb5-26a03a2ca131@linux.intel.com>
- <20220721092906.GA153288@chaop.bj.intel.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=IqIVwqhXZpX+36x6ZGQ0nvRNGxQHBFp217j1o3bMiIA=;
+        b=fDy7uSyuSazNenFGQGN+Mif3n9pL+F/3qcyum0xvXs1KYHK8f0lIJw7RjNbAel/cil
+         oP+5Ktt+ZGVONQkdzvCK3PSgGYEep+hXD3kdbDb0FSuoHPIZV9xluN/dm7zWbMm5YMT+
+         jPGpRYzw1QnWtYDZ6oU2xZtGMHoX/Or5DhDFA64eVBYlslqPMJzEgIdRzMYzK0JbKPIX
+         5Le8jkA7FpwJPCvjfCtAxfVhaTV3WBCicX5vuKU4qdE+ItA440EqqsvM7L5gfg9t+Wly
+         XdDcuShCVWVO/cOBhM1i1OqPM7DMrwdtXATDoFrCkbPkJQHbSmrPs855xdz9BC/7xO4z
+         Kq/g==
+X-Gm-Message-State: AJIora8taFZcYIXDq+x698xiO7KFHhcanJxMMdB6fdBDuXmPwDPBCmwx
+        GjTkXjn1aDLXgUjas2TpjNuoxPskhduH8f0TVNHsiA==
+X-Google-Smtp-Source: AGRyM1vdqntEj8LkyBBIbv4FHJLbUulkr6FOc+zM1DjEh5SMc/NHp2WIhQhgW+AgPmzcStQl2u3VrB5rqiBgpCRlGmQ=
+X-Received: by 2002:a17:906:98c7:b0:72b:20fe:807d with SMTP id
+ zd7-20020a17090698c700b0072b20fe807dmr42674854ejb.75.1658428049278; Thu, 21
+ Jul 2022 11:27:29 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220721092906.GA153288@chaop.bj.intel.com>
+References: <20220720185719.273630-1-mairacanal@riseup.net>
+In-Reply-To: <20220720185719.273630-1-mairacanal@riseup.net>
+From:   Daniel Latypov <dlatypov@google.com>
+Date:   Thu, 21 Jul 2022 11:27:17 -0700
+Message-ID: <CAGS_qxoY2ohLjcm3WnHXd-j1hyT43v=gUeqqm3S025ayMPw_eg@mail.gmail.com>
+Subject: Re: [PATCH RESEND v2] Documentation: KUnit: Fix example with
+ compilation error
+To:     =?UTF-8?B?TWHDrXJhIENhbmFs?= <mairacanal@riseup.net>
+Cc:     Brendan Higgins <brendanhiggins@google.com>,
+        Jonathan Corbet <corbet@lwn.net>, davidgow@google.com,
+        linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jul 21, 2022, Chao Peng wrote:
-> On Thu, Jul 21, 2022 at 03:34:59PM +0800, Wei Wang wrote:
-> > 
-> > 
-> > On 7/21/22 00:21, Sean Christopherson wrote:
-> > Maybe you could tag it with cgs for all the confidential guest support
-> > related stuff: e.g. kvm_vm_ioctl_set_cgs_mem()
-> > 
-> > bool is_private = ioctl == KVM_MEMORY_ENCRYPT_REG_REGION;
-> > ...
-> > kvm_vm_ioctl_set_cgs_mem(, is_private)
-> 
-> If we plan to widely use such abbr. through KVM (e.g. it's well known),
-> I'm fine.
+On Wed, Jul 20, 2022 at 11:57 AM Ma=C3=ADra Canal <mairacanal@riseup.net> w=
+rote:
+>
+> The Parameterized Testing example contains a compilation error, as the
+> signature for the description helper function is void(*)(const struct
+> sha1_test_case *, char *), and the struct is non-const. This is
+> warned by Clang:
+>
+> error: initialization of =E2=80=98void (*)(struct sha1_test_case *, char =
+*)=E2=80=99
+> from incompatible pointer type =E2=80=98void (*)(const struct sha1_test_c=
+ase *,
+> char *)=E2=80=99 [-Werror=3Dincompatible-pointer-types]
+> 33 | KUNIT_ARRAY_PARAM(sha1, cases, case_to_desc);
+>    |                                ^~~~~~~~~~~~
+> ../include/kunit/test.h:1339:70: note: in definition of macro
+> =E2=80=98KUNIT_ARRAY_PARAM=E2=80=99
+> 1339 |                         void
+>    (*__get_desc)(typeof(__next), char *) =3D get_desc; \
+>
+> Signed-off-by: Ma=C3=ADra Canal <mairacanal@riseup.net>
 
-I'd prefer to stay away from "confidential guest", and away from any VM-scoped
-name for that matter.  User-unmappable memmory has use cases beyond hiding guest
-state from the host, e.g. userspace could use inaccessible/unmappable memory to
-harden itself against unintentional access to guest memory.
+Reviewed-by: Daniel Latypov <dlatypov@google.com>
 
-> I actually use mem_attr in patch: https://lkml.org/lkml/2022/7/20/610
-> But I also don't quite like it, it's so generic and sounds say nothing.
-> 
-> But I do want a name can cover future usages other than just 
-> private/shared (pKVM for example may have a third state).
-
-I don't think there can be a third top-level state.  Memory is either private to
-the guest or it's not.  There can be sub-states, e.g. memory could be selectively
-shared or encrypted with a different key, in which case we'd need metadata to
-track that state.
-
-Though that begs the question of whether or not private_fd is the correct
-terminology.  E.g. if guest memory is backed by a memfd that can't be mapped by
-userspace (currently F_SEAL_INACCESSIBLE), but something else in the kernel plugs
-that memory into a device or another VM, then arguably that memory is shared,
-especially the multi-VM scenario.
-
-For TDX and SNP "private vs. shared" is likely the correct terminology given the
-current specs, but for generic KVM it's probably better to align with whatever
-terminology is used for memfd.  "inaccessible_fd" and "user_inaccessible_fd" are
-a bit odd since the fd itself is accesible.
-
-What about "user_unmappable"?  E.g.
-
-  F_SEAL_USER_UNMAPPABLE, MFD_USER_UNMAPPABLE, KVM_HAS_USER_UNMAPPABLE_MEMORY,
-  MEMFILE_F_USER_INACCESSIBLE, user_unmappable_fd, etc...
-
-that gives us flexibility to map the memory from within the kernel, e.g. into
-other VMs or devices.
-
-Hmm, and then keep your original "mem_attr_array" name?  And probably 
-
- int kvm_vm_ioctl_set_mem_attr(struct kvm *kvm, gpa_t gpa, gpa_t size,
- 			       bool is_user_mappable)
-
-Then the x86/mmu code for TDX/SNP private faults could be:
-
-	is_private = !kvm_is_gpa_user_mappable();
-
-	if (fault->is_private != is_private) {
-
-or if we want to avoid mixing up "user_mappable" and "user_unmappable":
-
-	is_private = kvm_is_gpa_user_unmappable();
-
-	if (fault->is_private != is_private) {
-
-though a helper that returns a negative (not mappable) feels kludgy.  And I like
-kvm_is_gpa_user_mappable() because then when there's not "special" memory, it
-defaults to true, which is more intuitive IMO.
-
-And then if the future needs more precision, e.g. user-unmappable memory isn't
-necessarily guest-exclusive, the uAPI names still work even though KVM internals
-will need to be reworked, but that's unavoidable.  E.g. piggybacking
-KVM_MEMORY_ENCRYPT_(UN)REG_REGION doesn't allow for further differentiation,
-so we'd need to _extend_ the uAPI, but the _existing_ uAPI would still be sane.
+Thanks for fixing this!
