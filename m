@@ -2,89 +2,127 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AC077C433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 21 Jul 2022 13:03:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B3CE3C43334
+	for <linux-doc@archiver.kernel.org>; Thu, 21 Jul 2022 13:59:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233992AbiGUNDs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 21 Jul 2022 09:03:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35008 "EHLO
+        id S230258AbiGUN7e (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 21 Jul 2022 09:59:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39356 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233888AbiGUNDK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Jul 2022 09:03:10 -0400
-Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 823927647B;
-        Thu, 21 Jul 2022 06:02:59 -0700 (PDT)
-Received: from canpemm500009.china.huawei.com (unknown [172.30.72.56])
-        by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4LpXlP1SLLzGp80;
-        Thu, 21 Jul 2022 21:01:53 +0800 (CST)
-Received: from localhost.localdomain (10.67.164.66) by
- canpemm500009.china.huawei.com (7.192.105.203) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Thu, 21 Jul 2022 21:02:56 +0800
-From:   <yangyicong@huawei.com>
-To:     <gregkh@linuxfoundation.org>, <alexander.shishkin@linux.intel.com>,
-        <leo.yan@linaro.org>, <james.clark@arm.com>, <will@kernel.org>,
-        <robin.murphy@arm.com>, <acme@kernel.org>, <peterz@infradead.org>,
-        <corbet@lwn.net>, <mathieu.poirier@linaro.org>,
-        <mark.rutland@arm.com>, <jonathan.cameron@huawei.com>,
-        <john.garry@huawei.com>
-CC:     <helgaas@kernel.org>, <lorenzo.pieralisi@arm.com>,
-        <suzuki.poulose@arm.com>, <joro@8bytes.org>,
-        <shameerali.kolothum.thodi@huawei.com>, <mingo@redhat.com>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-pci@vger.kernel.org>, <linux-perf-users@vger.kernel.org>,
-        <iommu@lists.linux-foundation.org>, <iommu@lists.linux.dev>,
-        <linux-doc@vger.kernel.org>, <prime.zeng@huawei.com>,
-        <liuqi115@huawei.com>, <zhangshaokun@hisilicon.com>,
-        <linuxarm@huawei.com>, <yangyicong@hisilicon.com>,
-        <bagasdotme@gmail.com>
-Subject: [PATCH v11 8/8] MAINTAINERS: Add maintainer for HiSilicon PTT driver
-Date:   Thu, 21 Jul 2022 21:01:16 +0800
-Message-ID: <20220721130116.43366-9-yangyicong@huawei.com>
-X-Mailer: git-send-email 2.31.0
-In-Reply-To: <20220721130116.43366-1-yangyicong@huawei.com>
-References: <20220721130116.43366-1-yangyicong@huawei.com>
+        with ESMTP id S229778AbiGUN7c (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Jul 2022 09:59:32 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4DFD33C14A;
+        Thu, 21 Jul 2022 06:59:30 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id CA6F561F5F;
+        Thu, 21 Jul 2022 13:59:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB1D0C3411E;
+        Thu, 21 Jul 2022 13:59:26 +0000 (UTC)
+Date:   Thu, 21 Jul 2022 09:59:24 -0400
+From:   Steven Rostedt <rostedt@goodmis.org>
+To:     Daniel Bristot de Oliveira <bristot@kernel.org>
+Cc:     Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Ingo Molnar <mingo@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Will Deacon <will@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Marco Elver <elver@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Gabriele Paoloni <gpaoloni@redhat.com>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Clark Williams <williams@redhat.com>,
+        Tao Zhou <tao.zhou@linux.dev>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-trace-devel@vger.kernel.org
+Subject: Re: [PATCH V6 04/16] rv/include: Add deterministic automata monitor
+ definition via C macros
+Message-ID: <20220721095924.151c6f5d@gandalf.local.home>
+In-Reply-To: <3c0a4cb5-f88f-ec5f-e614-d1e8ceb036c2@kernel.org>
+References: <cover.1658244826.git.bristot@kernel.org>
+        <9ffc05b67fff087413143a420373731e0e34eef4.1658244826.git.bristot@kernel.org>
+        <20220720160606.3e672b55@gandalf.local.home>
+        <3c0a4cb5-f88f-ec5f-e614-d1e8ceb036c2@kernel.org>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.67.164.66]
-X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
- canpemm500009.china.huawei.com (7.192.105.203)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Yicong Yang <yangyicong@hisilicon.com>
+On Thu, 21 Jul 2022 14:08:38 +0200
+Daniel Bristot de Oliveira <bristot@kernel.org> wrote:
 
-Add maintainer for driver and documentation of HiSilicon PTT device.
+> On 7/20/22 22:06, Steven Rostedt wrote:
+> >> +/*												\
+> >> + * da_monitor_enabled_##name - checks if the monitor is enabled					\
+> >> + */												\
+> >> +static inline bool da_monitor_enabled_##name(void)						\
+> >> +{												\  
+> > Should we add a:
+> > 
+> > 	smp_rmb();
+> > 
+> > here? And then a smp_wmb() where these switches get updated?
+> >  
+> 
+> Makes sense.
+> 
+> Should I also add the READ_ONCE/WRITE_ONCE? like
+> 
+> smp_rmb()
+> READ_ONCE(var)
+> 
+> WRITE_ONCE(var, value)
+> smp_wmb()
 
-Signed-off-by: Yicong Yang <yangyicong@hisilicon.com>
-Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
----
- MAINTAINERS | 8 ++++++++
- 1 file changed, 8 insertions(+)
+I'm not sure the WRITE_ONCE() is necessary with the memory barriers.
+Because they should also prevent gcc from doing anything after that
+barrier. As Linus once stated, most cases WRITE_ONCE() is useless, but it's
+fine to keep more for annotation (as to pair with the READ_ONCE()) than for
+anything that is critical.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 651616ed8ae2..7efb1b743c9d 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -9036,6 +9036,14 @@ F:	Documentation/admin-guide/perf/hisi-pcie-pmu.rst
- F:	Documentation/admin-guide/perf/hisi-pmu.rst
- F:	drivers/perf/hisilicon
- 
-+HISILICON PTT DRIVER
-+M:	Yicong Yang <yangyicong@hisilicon.com>
-+L:	linux-kernel@vger.kernel.org
-+S:	Maintained
-+F:	Documentation/ABI/testing/sysfs-devices-hisi_ptt
-+F:	Documentation/trace/hisi-ptt.rst
-+F:	drivers/hwtracing/ptt/
-+
- HISILICON QM AND ZIP Controller DRIVER
- M:	Zhou Wang <wangzhou1@hisilicon.com>
- L:	linux-crypto@vger.kernel.org
--- 
-2.24.0
+> 
+> for all these on/off knobs, or just the barriers?
+> 
+> > I guess how critical is it that these turn off immediately after the switch
+> > is flipped?  
+> 
+> It is not critical to continue the execution of those that have already crossed by
+> the variable. Still, waiting for the tracepoints to finish their execution before
+> returning to the user-space task that disabled the variable might be a good thing.
+
+You mean after disabling, to wait for the tracepoints that are currently
+running to end?
+
+> 
+> IIRC, we can do that via RCU... like, synchronize_rcu()?
+
+We have tracepoint_synchronize_unregister() that does that, as some
+traceponits use SRCU and not RCU.
+
+-- Steve
+
+
+> 
+> >> +	/* global switch */									\
+> >> +	if (unlikely(!rv_monitoring_on()))							\
+> >> +		return 0;									\
+> >> +												\
+> >> +	/* monitor enabled */									\
+> >> +	if (unlikely(!rv_##name.enabled))							\
+> >> +		return 0;									\
+> >> +												\
+> >> +	return 1;										\
+> >> +}												\
+> >> +												\  
 
