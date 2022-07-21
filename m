@@ -2,165 +2,117 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CA33FC43334
-	for <linux-doc@archiver.kernel.org>; Thu, 21 Jul 2022 11:08:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DC387C433EF
+	for <linux-doc@archiver.kernel.org>; Thu, 21 Jul 2022 12:08:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232854AbiGULIl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 21 Jul 2022 07:08:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33264 "EHLO
+        id S233326AbiGUMIx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 21 Jul 2022 08:08:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49736 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232377AbiGULIk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Jul 2022 07:08:40 -0400
-Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F6F48320B;
-        Thu, 21 Jul 2022 04:08:39 -0700 (PDT)
-Received: from fews2.riseup.net (fews2-pn.riseup.net [10.0.1.84])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
-         client-signature RSA-PSS (2048 bits) client-digest SHA256)
-        (Client CN "mail.riseup.net", Issuer "R3" (not verified))
-        by mx1.riseup.net (Postfix) with ESMTPS id 4LpVDk4qLxzDr6X;
-        Thu, 21 Jul 2022 11:08:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
-        t=1658401718; bh=Nf1Dgyv2qaHl47cUqOxNgenpTkbTW3KND8cpE9za7yk=;
+        with ESMTP id S232830AbiGUMIw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Jul 2022 08:08:52 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DDC6B85F95;
+        Thu, 21 Jul 2022 05:08:51 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 76A0A61CFF;
+        Thu, 21 Jul 2022 12:08:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 22D1FC3411E;
+        Thu, 21 Jul 2022 12:08:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1658405330;
+        bh=LXie3sbnk8wgU9gzwq8ntIR3HYeqzQkMMgEXBK+44jE=;
         h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=RjKBmBNQbQslRmze9bo/XVKPk77TFgIvcK1Dv8HnaTofJnxTpQcEXxcnLS8Yiwa33
-         tanx5l2Lc6dVK6HJULsCPpwSTwtPZtvkiV2XjNHYD9yEZKcDrnRd0JajOZHgwHbldu
-         XS0lWir6cL85jZ2XLbpjW9phtYqjCtq3DYNHy7iE=
-X-Riseup-User-ID: 3DFB8BB18B9E4F6B665E5F162549BF310BD214B1CF39F868FF7A64C7FB799035
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-         by fews2.riseup.net (Postfix) with ESMTPSA id 4LpVDg3hKDz1xph;
-        Thu, 21 Jul 2022 11:08:35 +0000 (UTC)
-Message-ID: <130be97c-b2cd-5ecc-1549-5b83993843e2@riseup.net>
-Date:   Thu, 21 Jul 2022 08:08:32 -0300
+        b=fipYXFe5tkugtJrcKyXxa51hr12B18OxkCCuzLPicXgcFU20MBvpER5VMZsrll6nS
+         bE8UKSXOLSkCbjARk7NzKSVcLyWkyrSseoI3t3bkI7JqVziq+qyjIP/juaJRuub3Tf
+         VMhNkMUHeBXvBNGGC/rJuA6xQak+5eHNrJD1qP9++LypHnACsuCIefculn2UafC/KO
+         l1RJjkiz/gBrNBlZgiDcHnVTuEMiXElL4mZ/G3kDz93QU66JsHxnnRm3+SiKyn8nhQ
+         5RdyVlwiIpJgzpsuEMRKuQSyfQ9UfunsyPlob3N8oDajqgSMPV/oqtNrMsEb+PaKHJ
+         PkFglKMtlfOUg==
+Message-ID: <3c0a4cb5-f88f-ec5f-e614-d1e8ceb036c2@kernel.org>
+Date:   Thu, 21 Jul 2022 14:08:38 +0200
 MIME-Version: 1.0
-Subject: Re: [PATCH v2] Documentation: kunit: Add CLI args for kunit_tool
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH V6 04/16] rv/include: Add deterministic automata monitor
+ definition via C macros
 Content-Language: en-US
-To:     Sadiya Kazi <sadiyakazi@google.com>, brendanhiggins@google.com,
-        davidgow@google.com, skhan@linuxfoundation.org, corbet@lwn.net
-Cc:     linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20220721081026.1247067-1-sadiyakazi@google.com>
-From:   =?UTF-8?Q?Ma=c3=adra_Canal?= <mairacanal@riseup.net>
-In-Reply-To: <20220721081026.1247067-1-sadiyakazi@google.com>
+To:     Steven Rostedt <rostedt@goodmis.org>
+Cc:     Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Ingo Molnar <mingo@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Will Deacon <will@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Marco Elver <elver@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Gabriele Paoloni <gpaoloni@redhat.com>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Clark Williams <williams@redhat.com>,
+        Tao Zhou <tao.zhou@linux.dev>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-trace-devel@vger.kernel.org
+References: <cover.1658244826.git.bristot@kernel.org>
+ <9ffc05b67fff087413143a420373731e0e34eef4.1658244826.git.bristot@kernel.org>
+ <20220720160606.3e672b55@gandalf.local.home>
+From:   Daniel Bristot de Oliveira <bristot@kernel.org>
+In-Reply-To: <20220720160606.3e672b55@gandalf.local.home>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-
-On 7/21/22 05:10, Sadiya Kazi wrote:
-> Run_wrapper.rst was missing some command line arguments. Added
-> additional args in the file.
+On 7/20/22 22:06, Steven Rostedt wrote:
+>> +/*												\
+>> + * da_monitor_enabled_##name - checks if the monitor is enabled					\
+>> + */												\
+>> +static inline bool da_monitor_enabled_##name(void)						\
+>> +{												\
+> Should we add a:
 > 
-> Signed-off-by: Sadiya Kazi <sadiyakazi@google.com>
-> ---
-> Changes since V1:
-> https://lore.kernel.org/linux-kselftest/20220719092214.995965-1-sadiyakazi@google.com/
-> - Addressed most of the review comments from Maira and David, except
->   removing the duplicate arguments as I felt its worth keeping them in
->   the reference documentation as well as in context. We can improve them
->   and differentiate their use cases in the future patches.
+> 	smp_rmb();
 > 
-> 
-> ---
->  Documentation/dev-tools/kunit/run_wrapper.rst | 60 ++++++++++++++++++-
->  1 file changed, 59 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/dev-tools/kunit/run_wrapper.rst b/Documentation/dev-tools/kunit/run_wrapper.rst
-> index 5e560f2c5fca..600af7ac5f88 100644
-> --- a/Documentation/dev-tools/kunit/run_wrapper.rst
-> +++ b/Documentation/dev-tools/kunit/run_wrapper.rst
-> @@ -233,7 +233,7 @@ Command-Line Arguments
->  ======================
->  
->  kunit_tool has a number of other command-line arguments which can
-> -be useful for our test environment. Below the most commonly used
-> +be useful for our test environment. Below are the most commonly used
->  command line arguments:
->  
->  - ``--help``: Lists all available options. To list common options,
-> @@ -257,3 +257,61 @@ command line arguments:
->              added or modified. Instead, enable all tests
->              which have satisfied dependencies by adding
->              ``CONFIG_KUNIT_ALL_TESTS=y`` to your ``.kunitconfig``.
-> +
-> +- ``--kunitconfig``: Specifies the path or the directory of the ``.kunitconfig``
-> +  file. For example:
-> +
-> +  - ``lib/kunit/.kunitconfig`` can be the path of the file.
-> +
-> +  - ``lib/kunit`` can be the directory in which the file is located.
-> +
-> +  This file is used to build and run with a predefined set of tests
-> +  and their dependencies. For example, to run tests for a given subsystem.
-> +
-> +- ``--kconfig_add``: Specifies additional configuration options to be
-> +  appended to the ``.kunitconfig`` file.
-> +  For example, ``./tools/testing/kunit/kunit.py run --kconfig_add CONFIG_KASAN=y``.
+> here? And then a smp_wmb() where these switches get updated?
+>
 
-Small nit pick: I would rather do:
+Makes sense.
 
-```
-./tools/testing/kunit/kunit.py run --kconfig_add CONFIG_KASAN=y
-```
+Should I also add the READ_ONCE/WRITE_ONCE? like
 
-> +
-> +- ``--arch``: Runs tests on the specified architecture. The architecture
-> +  specified must match the Kbuild ARCH environment variable.
-> +  For example, i386, x86_64, arm, um, etc. Non-UML architectures run on QEMU.
-> +  Default is `um`.
-> +
-> +- ``--cross_compile``: Specifies the Kbuild toolchain. It passes the
-> +  same argument as passed to the ``CROSS_COMPILE`` variable used by
-> +  Kbuild. This will be the prefix for the toolchain
-> +  binaries such as GCC. For example:
-> +
-> +  - ``sparc64-linux-gnu-`` if we have the sparc toolchain installed on
-> +    our system.
-> +
-> +  - ``$HOME/toolchains/microblaze/gcc-9.2.0-nolibc/microblaze-linux/bin/microblaze-linux``
-> +    if we have downloaded the microblaze toolchain from the 0-day
-> +    website to a specified path in our home directory called toolchains.
-> +
-> +- ``--qemu_config``: Specifies the path to a file containing a
-> +  custom qemu architecture definition. This should be a python file
-> +  containing a `QemuArchParams` object.
+smp_rmb()
+READ_ONCE(var)
 
-Nit: choose a standard for referring to qemu. Either "qemu" or "QEMU" is
-great for me, but it is ideal that you chose one and stick with it.
-Here, you used "qemu" and on the next argument, you used "QEMU".
+WRITE_ONCE(var, value)
+smp_wmb()
 
-> +
-> +- ``--qemu_args``: Specifies additional QEMU arguments, for example, "-smp 8".
-> +
-> +- ``--jobs``: Specifies the number of jobs (commands) to run simultaneously.
-> +  By default, this is set to the number of cores on your system.
-> +
-> +- ``--timeout``: Specifies the maximum number of seconds allowed for all tests to run.
-> +  This does not include the time taken to build the tests.
-> +
-> +- ``--kernel_args``: Specifies additional kernel command-line arguments. Might be repeated.
-> +
-> +- ``--run_isolated``: If set, boots the kernel for each individual suite/test.
-> +  This is useful for debugging a non-hermetic test, one that
-> +  might pass/fail based on what ran before it.
-> +
-> +- ``--raw_output``: If set, generates unformatted output from kernel. Possible options are:
-> +
-> +   - ``all``: To view the full kernel output, use ``--raw_output=all``.
-> +
-> +   - ``kunit``: This is the default option and filters to KUnit output. Use ``--raw_output`` or ``--raw_output=kunit``.
-> +
-> +- ``--json``: If set, stores the test results in a JSON format and prints to `stdout` or
-> +  saves to a file if a filename is specified.
+for all these on/off knobs, or just the barriers?
 
-Anyway, the documentation is pretty good and informative! The small nits
-I pointed out are optional. So,
+> I guess how critical is it that these turn off immediately after the switch
+> is flipped?
 
-Reviewed-by: Maíra Canal <mairacanal@riseup.net>
+It is not critical to continue the execution of those that have already crossed by
+the variable. Still, waiting for the tracepoints to finish their execution before
+returning to the user-space task that disabled the variable might be a good thing.
 
-Best Regards,
-- Maíra Canal
+IIRC, we can do that via RCU... like, synchronize_rcu()?
+
+>> +	/* global switch */									\
+>> +	if (unlikely(!rv_monitoring_on()))							\
+>> +		return 0;									\
+>> +												\
+>> +	/* monitor enabled */									\
+>> +	if (unlikely(!rv_##name.enabled))							\
+>> +		return 0;									\
+>> +												\
+>> +	return 1;										\
+>> +}												\
+>> +												\
+
