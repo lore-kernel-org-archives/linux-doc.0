@@ -2,172 +2,151 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 210D6C433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 21 Jul 2022 03:26:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0593DC43334
+	for <linux-doc@archiver.kernel.org>; Thu, 21 Jul 2022 03:43:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229769AbiGUD0B (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 20 Jul 2022 23:26:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48704 "EHLO
+        id S230219AbiGUDne (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 20 Jul 2022 23:43:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58582 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229461AbiGUD0B (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Jul 2022 23:26:01 -0400
-X-Greylist: delayed 934 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 20 Jul 2022 20:25:58 PDT
-Received: from m13114.mail.163.com (m13114.mail.163.com [220.181.13.114])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id D61A2B1F6;
-        Wed, 20 Jul 2022 20:25:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-        s=s110527; h=Date:From:Subject:MIME-Version:Message-ID; bh=uI0Gf
-        q38zZFPLYaDZUJSppt5MdVIwb3DAWhs92WcF70=; b=bpClueia+kFMdQ38hrYB/
-        gog51SE62ZWlY+3iRtVVZWqStr2ho05ANibDJyQTApqrcPEF0v5scm/Xfl1sv49h
-        lf7Yfg7BQvAesKxN08WIWzLys2M7HCkn5TXMj6esi7eCIkfqXgSCRRvJMUsQ1nK0
-        sFQq+4PQ81vdfTAZ1jpxiM=
-Received: from slark_xiao$163.com ( [112.97.57.47] ) by
- ajax-webmail-wmsvr114 (Coremail) ; Thu, 21 Jul 2022 11:08:22 +0800 (CST)
-X-Originating-IP: [112.97.57.47]
-Date:   Thu, 21 Jul 2022 11:08:22 +0800 (CST)
-From:   "Slark Xiao" <slark_xiao@163.com>
-To:     "Baoquan He" <bhe@redhat.com>
-Cc:     corbet@lwn.net, vgoyal@redhat.com, dyoung@redhat.com,
-        ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org,
-        martin.lau@linux.dev, song@kernel.org, yhs@fb.com,
-        john.fastabend@gmail.com, kpsingh@kernel.org, sdf@google.com,
-        haoluo@google.com, jolsa@kernel.org, william.gray@linaro.org,
-        dhowells@redhat.com, peterz@infradead.org, mingo@redhat.com,
-        will@kernel.org, longman@redhat.com, boqun.feng@gmail.com,
-        tglx@linutronix.de, bigeasy@linutronix.de,
-        kexec@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, bpf@vger.kernel.org,
-        linux-cachefs@redhat.com
-Subject: Re:Re: [PATCH v2] docs: Fix typo in comment
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.13 build 20220113(9671e152)
- Copyright (c) 2002-2022 www.mailtech.cn 163com
-In-Reply-To: <Yti+xEJIWeTSqD8n@MiWiFi-R3L-srv>
-References: <20220721015605.20651-1-slark_xiao@163.com>
- <Yti+xEJIWeTSqD8n@MiWiFi-R3L-srv>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=GBK
+        with ESMTP id S230042AbiGUDnd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 20 Jul 2022 23:43:33 -0400
+Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com [IPv6:2a00:1450:4864:20::52d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86B827821F;
+        Wed, 20 Jul 2022 20:43:31 -0700 (PDT)
+Received: by mail-ed1-x52d.google.com with SMTP id e15so662544edj.2;
+        Wed, 20 Jul 2022 20:43:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc;
+        bh=6npaS1zRKm+yyU2zCsQvl5XLwT7kKQ+yzE8xge/iXYI=;
+        b=p1MOI/PwyKmAKZLRGUU7wHJ3gwmCfOuMSd9qe8/di7NRgYoQPVattGIm2LLA/5ZRzt
+         UmkU5j7zN1FHuEPODuf5718XISFVfuLHo7rlPOyFt0V58zPmMwJD1kG7cNARq4n1qG1/
+         xWPDaDD+f5JXnDkwiGvO7GhQVNM9VnDE/QT9Wer6VhUl3z6bBcM9aN93BWHJJX/y/Q3I
+         HBozrneJP0gbcCgI0IKl+MyC0FQKZzDHKL02n/9I3eqSk38jOFbMYJk3ShWxQIAokptk
+         0ew9hHw8UUP63i9jplHud3h+FVPCkA0FQyUiO55QiCkqmVKmB+mDy86it0JvXhH0iuM9
+         +ncw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=6npaS1zRKm+yyU2zCsQvl5XLwT7kKQ+yzE8xge/iXYI=;
+        b=dHnO52Nrs8NsXSweRjVS5eZfc1Kt7RNuGUa/g/xPB4OJ7PzT3B4tTWmXN6A65WqWde
+         XfMz2J4nCTB67af2Pqnhz6DAPX6zJ3jtKeoB+zaL6MCmgHM1AO4F3wt63tvRfNofY4TA
+         HbgncIAiptQhZpi5krjYrLcVWT2WyohDYSA32h38Y3tx7bzzPj2KW9Ml+XsJE33xAqXY
+         V+4+3+fPcTpGwwP50y5EX5jGSaU7vUFb5qWWUEeDL6hFTX3T4T09gApn+4NCIKEUWEHZ
+         pGxQmpRv3UDJ7tGstTpcNdPNVl7boaWVqRUDl8PWJ/vgqrKRrILNSb0+yI2ypcFEN53z
+         Oyew==
+X-Gm-Message-State: AJIora9P8JU41bewVPddCmr/LPwe89hqB4djJJHxDsrryoa6hAuDDMhP
+        mDnTZcdz0e+k+rnrgGC6fk9ustbJdS9HI6sbnCE=
+X-Google-Smtp-Source: AGRyM1uOI+8BZmBho8NWh0C+///IOSzyEsQPkRoYp57fJlWZ+qY2k+4HwdfPpAVjNR2BGQDSHLue/6IDKdxW5yyntWw=
+X-Received: by 2002:a05:6402:3326:b0:43a:902b:d335 with SMTP id
+ e38-20020a056402332600b0043a902bd335mr55228432eda.412.1658375009916; Wed, 20
+ Jul 2022 20:43:29 -0700 (PDT)
 MIME-Version: 1.0
-Message-ID: <25e36ec1.12ce.1821eba4cab.Coremail.slark_xiao@163.com>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID: csGowAC379Imw9hiposjAA--.58861W
-X-CM-SenderInfo: xvod2y5b0lt0i6rwjhhfrp/1tbiRxdFZFc7YwAkRwABsc
-X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+References: <20220719065357.2705918-1-airlied@gmail.com> <20220719094835.52197852@sal.lan>
+In-Reply-To: <20220719094835.52197852@sal.lan>
+From:   Dave Airlie <airlied@gmail.com>
+Date:   Thu, 21 Jul 2022 13:43:18 +1000
+Message-ID: <CAPM=9tzoB_dJXgb9M7y9cJ24Z4vBmy7NRePxJARdYRLag2Vx9g@mail.gmail.com>
+Subject: Re: [PATCH] docs: driver-api: firmware: add driver firmware
+ guidelines. (v2)
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        "Luis R. Rodriguez" <mcgrof@kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "dri-devel@lists.sf.net" <dri-devel@lists.sf.net>,
+        Network Development <netdev@vger.kernel.org>,
+        Linux Wireless List <linux-wireless@vger.kernel.org>,
+        alsa-devel@alsa-project.org,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        linux-block@vger.kernel.org, Dave Airlie <airlied@redhat.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-CgoKCkF0IDIwMjItMDctMjEgMTA6NDk6NDAsICJCYW9xdWFuIEhlIiA8YmhlQHJlZGhhdC5jb20+
-IHdyb3RlOgo+T24gMDcvMjEvMjIgYXQgMDk6NTZhbSwgU2xhcmsgWGlhbyB3cm90ZToKPj4gRml4
-IHR5cG8gaW4gdGhlIGNvbW1lbnQKPgo+QmV0dGVyIHRlbGwgd2hhdCdzIGZpeGVkIHRvIHNhdmUg
-cmV2aWV3ZXJzJyB0aW1lOgo+Cj5GaXggdHlwbyAndGhlIHRoZScgaW4gc2V2ZXJhbCBwbGFjZXMg
-b2YgZG9jdW1lbnQuCj4KPk90aGVyIHRoZW4gdGhpcyBuaXRwaWNrLCBsb29rcyBnb29kIHRvIG1l
-Lgo+Cj5SZXZpZXdlZC1ieTogQmFvcXVhbiBIZSA8YmhlQHJlZGhhdC5jb20+Cj4KVGhhbmtzIGZv
-ciB5b3VyIGFkdmljZS4KSSB3aWxsIHVwZGF0ZSBpdCB0byAgb3RoZXIgY29tbWl0cyBsYXRlci4K
-Cj4+IAo+PiBTaWduZWQtb2ZmLWJ5OiBTbGFyayBYaWFvIDxzbGFya194aWFvQDE2My5jb20+Cj4+
-IC0tLQo+PiB2MjogQWRkIGFsbCAucnN0IGNoYW5nZXMgaW4gRG9jdW1lbnRzIGludG8gMSBzaW5n
-bGUgcGF0Y2gKPj4gLS0tCj4+ICBEb2N1bWVudGF0aW9uL2FkbWluLWd1aWRlL2tkdW1wL3ZtY29y
-ZWluZm8ucnN0ICAgIHwgMiArLQo+PiAgRG9jdW1lbnRhdGlvbi9icGYvbWFwX2Nncm91cF9zdG9y
-YWdlLnJzdCAgICAgICAgICB8IDQgKystLQo+PiAgRG9jdW1lbnRhdGlvbi9jb3JlLWFwaS9jcHVf
-aG90cGx1Zy5yc3QgICAgICAgICAgICB8IDIgKy0KPj4gIERvY3VtZW50YXRpb24vZHJpdmVyLWFw
-aS9pc2EucnN0ICAgICAgICAgICAgICAgICAgfCAyICstCj4+ICBEb2N1bWVudGF0aW9uL2ZpbGVz
-eXN0ZW1zL2NhY2hpbmcvYmFja2VuZC1hcGkucnN0IHwgMiArLQo+PiAgRG9jdW1lbnRhdGlvbi9s
-b2NraW5nL3NlcWxvY2sucnN0ICAgICAgICAgICAgICAgICB8IDIgKy0KPj4gIERvY3VtZW50YXRp
-b24vc3BoaW54L2Nkb21haW4ucHkgICAgICAgICAgICAgICAgICAgfCAyICstCj4+ICA3IGZpbGVz
-IGNoYW5nZWQsIDggaW5zZXJ0aW9ucygrKSwgOCBkZWxldGlvbnMoLSkKPj4gCj4+IGRpZmYgLS1n
-aXQgYS9Eb2N1bWVudGF0aW9uL2FkbWluLWd1aWRlL2tkdW1wL3ZtY29yZWluZm8ucnN0IGIvRG9j
-dW1lbnRhdGlvbi9hZG1pbi1ndWlkZS9rZHVtcC92bWNvcmVpbmZvLnJzdAo+PiBpbmRleCA4NDE5
-MDE5YjZhODguLjY3MjZmNDM5OTU4YyAxMDA2NDQKPj4gLS0tIGEvRG9jdW1lbnRhdGlvbi9hZG1p
-bi1ndWlkZS9rZHVtcC92bWNvcmVpbmZvLnJzdAo+PiArKysgYi9Eb2N1bWVudGF0aW9uL2FkbWlu
-LWd1aWRlL2tkdW1wL3ZtY29yZWluZm8ucnN0Cj4+IEBAIC0yMDAsNyArMjAwLDcgQEAgcHJiCj4+
-ICAKPj4gIEEgcG9pbnRlciB0byB0aGUgcHJpbnRrIHJpbmdidWZmZXIgKHN0cnVjdCBwcmludGtf
-cmluZ2J1ZmZlcikuIFRoaXMKPj4gIG1heSBiZSBwb2ludGluZyB0byB0aGUgc3RhdGljIGJvb3Qg
-cmluZ2J1ZmZlciBvciB0aGUgZHluYW1pY2FsbHkKPj4gLWFsbG9jYXRlZCByaW5nYnVmZmVyLCBk
-ZXBlbmRpbmcgb24gd2hlbiB0aGUgdGhlIGNvcmUgZHVtcCBvY2N1cnJlZC4KPj4gK2FsbG9jYXRl
-ZCByaW5nYnVmZmVyLCBkZXBlbmRpbmcgb24gd2hlbiB0aGUgY29yZSBkdW1wIG9jY3VycmVkLgo+
-PiAgVXNlZCBieSB1c2VyLXNwYWNlIHRvb2xzIHRvIHJlYWQgdGhlIGFjdGl2ZSBrZXJuZWwgbG9n
-IGJ1ZmZlci4KPj4gIAo+PiAgcHJpbnRrX3JiX3N0YXRpYwo+PiBkaWZmIC0tZ2l0IGEvRG9jdW1l
-bnRhdGlvbi9icGYvbWFwX2Nncm91cF9zdG9yYWdlLnJzdCBiL0RvY3VtZW50YXRpb24vYnBmL21h
-cF9jZ3JvdXBfc3RvcmFnZS5yc3QKPj4gaW5kZXggY2FiOTU0MzAxN2JmLi44ZTVmZTUzMmMwN2Ug
-MTAwNjQ0Cj4+IC0tLSBhL0RvY3VtZW50YXRpb24vYnBmL21hcF9jZ3JvdXBfc3RvcmFnZS5yc3QK
-Pj4gKysrIGIvRG9jdW1lbnRhdGlvbi9icGYvbWFwX2Nncm91cF9zdG9yYWdlLnJzdAo+PiBAQCAt
-MzEsNyArMzEsNyBAQCBUaGUgbWFwIHVzZXMga2V5IG9mIHR5cGUgb2YgZWl0aGVyIGBgX191NjQg
-Y2dyb3VwX2lub2RlX2lkYGAgb3IKPj4gICAgICB9Owo+PiAgCj4+ICBgYGNncm91cF9pbm9kZV9p
-ZGBgIGlzIHRoZSBpbm9kZSBpZCBvZiB0aGUgY2dyb3VwIGRpcmVjdG9yeS4KPj4gLWBgYXR0YWNo
-X3R5cGVgYCBpcyB0aGUgdGhlIHByb2dyYW0ncyBhdHRhY2ggdHlwZS4KPj4gK2BgYXR0YWNoX3R5
-cGVgYCBpcyB0aGUgcHJvZ3JhbSdzIGF0dGFjaCB0eXBlLgo+PiAgCj4+ICBMaW51eCA1LjkgYWRk
-ZWQgc3VwcG9ydCBmb3IgdHlwZSBgYF9fdTY0IGNncm91cF9pbm9kZV9pZGBgIGFzIHRoZSBrZXkg
-dHlwZS4KPj4gIFdoZW4gdGhpcyBrZXkgdHlwZSBpcyB1c2VkLCB0aGVuIGFsbCBhdHRhY2ggdHlw
-ZXMgb2YgdGhlIHBhcnRpY3VsYXIgY2dyb3VwIGFuZAo+PiBAQCAtMTU1LDcgKzE1NSw3IEBAIEhv
-d2V2ZXIsIHRoZSBCUEYgcHJvZ3JhbSBjYW4gc3RpbGwgb25seSBhc3NvY2lhdGUgd2l0aCBvbmUg
-bWFwIG9mIGVhY2ggdHlwZQo+PiAgYGBCUEZfTUFQX1RZUEVfQ0dST1VQX1NUT1JBR0VgYCBvciBt
-b3JlIHRoYW4gb25lCj4+ICBgYEJQRl9NQVBfVFlQRV9QRVJDUFVfQ0dST1VQX1NUT1JBR0VgYC4K
-Pj4gIAo+PiAtSW4gYWxsIHZlcnNpb25zLCB1c2Vyc3BhY2UgbWF5IHVzZSB0aGUgdGhlIGF0dGFj
-aCBwYXJhbWV0ZXJzIG9mIGNncm91cCBhbmQKPj4gK0luIGFsbCB2ZXJzaW9ucywgdXNlcnNwYWNl
-IG1heSB1c2UgdGhlIGF0dGFjaCBwYXJhbWV0ZXJzIG9mIGNncm91cCBhbmQKPj4gIGF0dGFjaCB0
-eXBlIHBhaXIgaW4gYGBzdHJ1Y3QgYnBmX2Nncm91cF9zdG9yYWdlX2tleWBgIGFzIHRoZSBrZXkg
-dG8gdGhlIEJQRiBtYXAKPj4gIEFQSXMgdG8gcmVhZCBvciB1cGRhdGUgdGhlIHN0b3JhZ2UgZm9y
-IGEgZ2l2ZW4gYXR0YWNobWVudC4gRm9yIExpbnV4IDUuOQo+PiAgYXR0YWNoIHR5cGUgc2hhcmVk
-IHN0b3JhZ2VzLCBvbmx5IHRoZSBmaXJzdCB2YWx1ZSBpbiB0aGUgc3RydWN0LCBjZ3JvdXAgaW5v
-ZGUKPj4gZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vY29yZS1hcGkvY3B1X2hvdHBsdWcucnN0
-IGIvRG9jdW1lbnRhdGlvbi9jb3JlLWFwaS9jcHVfaG90cGx1Zy5yc3QKPj4gaW5kZXggYzZmNGJh
-MmZiMzJkLi5mNzU3NzhkMzc0ODggMTAwNjQ0Cj4+IC0tLSBhL0RvY3VtZW50YXRpb24vY29yZS1h
-cGkvY3B1X2hvdHBsdWcucnN0Cj4+ICsrKyBiL0RvY3VtZW50YXRpb24vY29yZS1hcGkvY3B1X2hv
-dHBsdWcucnN0Cj4+IEBAIC01NjAsNyArNTYwLDcgQEAgYXZhaWxhYmxlOgo+PiAgICAqIGNwdWhw
-X3N0YXRlX3JlbW92ZV9pbnN0YW5jZShzdGF0ZSwgbm9kZSkKPj4gICAgKiBjcHVocF9zdGF0ZV9y
-ZW1vdmVfaW5zdGFuY2Vfbm9jYWxscyhzdGF0ZSwgbm9kZSkKPj4gIAo+PiAtVGhlIGFyZ3VtZW50
-cyBhcmUgdGhlIHNhbWUgYXMgZm9yIHRoZSB0aGUgY3B1aHBfc3RhdGVfYWRkX2luc3RhbmNlKigp
-Cj4+ICtUaGUgYXJndW1lbnRzIGFyZSB0aGUgc2FtZSBhcyBmb3IgdGhlIGNwdWhwX3N0YXRlX2Fk
-ZF9pbnN0YW5jZSooKQo+PiAgdmFyaWFudHMgYWJvdmUuCj4+ICAKPj4gIFRoZSBmdW5jdGlvbnMg
-ZGlmZmVyIGluIHRoZSB3YXkgaG93IHRoZSBpbnN0YWxsZWQgY2FsbGJhY2tzIGFyZSB0cmVhdGVk
-Ogo+PiBkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi9kcml2ZXItYXBpL2lzYS5yc3QgYi9Eb2N1
-bWVudGF0aW9uL2RyaXZlci1hcGkvaXNhLnJzdAo+PiBpbmRleCBkZWY0YTdiNjkwYjUuLjNkZjFi
-MTY5NjUyNCAxMDA2NDQKPj4gLS0tIGEvRG9jdW1lbnRhdGlvbi9kcml2ZXItYXBpL2lzYS5yc3QK
-Pj4gKysrIGIvRG9jdW1lbnRhdGlvbi9kcml2ZXItYXBpL2lzYS5yc3QKPj4gQEAgLTEwMCw3ICsx
-MDAsNyBAQCBJIGJlbGlldmUgcGxhdGZvcm1fZGF0YSBpcyBhdmFpbGFibGUgZm9yIHRoaXMsIGJ1
-dCBpZiByYXRoZXIgbm90LCBtb3ZpbmcKPj4gIHRoZSBpc2FfZHJpdmVyIHBvaW50ZXIgdG8gdGhl
-IHByaXZhdGUgc3RydWN0IGlzYV9kZXYgaXMgb2Zjb3Vyc2UgZmluZSBhcwo+PiAgd2VsbC4KPj4g
-IAo+PiAtVGhlbiwgaWYgdGhlIHRoZSBkcml2ZXIgZGlkIG5vdCBwcm92aWRlIGEgLm1hdGNoLCBp
-dCBtYXRjaGVzLiBJZiBpdCBkaWQsCj4+ICtUaGVuLCBpZiB0aGUgZHJpdmVyIGRpZCBub3QgcHJv
-dmlkZSBhIC5tYXRjaCwgaXQgbWF0Y2hlcy4gSWYgaXQgZGlkLAo+PiAgdGhlIGRyaXZlciBtYXRj
-aCgpIG1ldGhvZCBpcyBjYWxsZWQgdG8gZGV0ZXJtaW5lIGEgbWF0Y2guCj4+ICAKPj4gIElmIGl0
-IGRpZCAqKm5vdCoqIG1hdGNoLCBkZXYtPnBsYXRmb3JtX2RhdGEgaXMgcmVzZXQgdG8gaW5kaWNh
-dGUgdGhpcyB0bwo+PiBkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi9maWxlc3lzdGVtcy9jYWNo
-aW5nL2JhY2tlbmQtYXBpLnJzdCBiL0RvY3VtZW50YXRpb24vZmlsZXN5c3RlbXMvY2FjaGluZy9i
-YWNrZW5kLWFwaS5yc3QKPj4gaW5kZXggZDc1MDdiZWNmNjc0Li4zYTE5OWZjNTA4MjggMTAwNjQ0
-Cj4+IC0tLSBhL0RvY3VtZW50YXRpb24vZmlsZXN5c3RlbXMvY2FjaGluZy9iYWNrZW5kLWFwaS5y
-c3QKPj4gKysrIGIvRG9jdW1lbnRhdGlvbi9maWxlc3lzdGVtcy9jYWNoaW5nL2JhY2tlbmQtYXBp
-LnJzdAo+PiBAQCAtMTIyLDcgKzEyMiw3IEBAIHZvbHVtZXMsIGNhbGxpbmc6Ogo+PiAgdG8gdGVs
-bCBmc2NhY2hlIHRoYXQgYSB2b2x1bWUgaGFzIGJlZW4gd2l0aGRyYXduLiAgVGhpcyB3YWl0cyBm
-b3IgYWxsCj4+ICBvdXRzdGFuZGluZyBhY2Nlc3NlcyBvbiB0aGUgdm9sdW1lIHRvIGNvbXBsZXRl
-IGJlZm9yZSByZXR1cm5pbmcuCj4+ICAKPj4gLVdoZW4gdGhlIHRoZSBjYWNoZSBpcyBjb21wbGV0
-ZWx5IHdpdGhkcmF3biwgZnNjYWNoZSBzaG91bGQgYmUgbm90aWZpZWQgYnkKPj4gK1doZW4gdGhl
-IGNhY2hlIGlzIGNvbXBsZXRlbHkgd2l0aGRyYXduLCBmc2NhY2hlIHNob3VsZCBiZSBub3RpZmll
-ZCBieQo+PiAgY2FsbGluZzo6Cj4+ICAKPj4gIAl2b2lkIGZzY2FjaGVfcmVsaW5xdWlzaF9jYWNo
-ZShzdHJ1Y3QgZnNjYWNoZV9jYWNoZSAqY2FjaGUpOwo+PiBkaWZmIC0tZ2l0IGEvRG9jdW1lbnRh
-dGlvbi9sb2NraW5nL3NlcWxvY2sucnN0IGIvRG9jdW1lbnRhdGlvbi9sb2NraW5nL3NlcWxvY2su
-cnN0Cj4+IGluZGV4IDY0NDA1ZTVkYTYzZS4uYmZkYTFhNWZlY2FkIDEwMDY0NAo+PiAtLS0gYS9E
-b2N1bWVudGF0aW9uL2xvY2tpbmcvc2VxbG9jay5yc3QKPj4gKysrIGIvRG9jdW1lbnRhdGlvbi9s
-b2NraW5nL3NlcWxvY2sucnN0Cj4+IEBAIC0zOSw3ICszOSw3IEBAIGFzIHRoZSB3cml0ZXIgY2Fu
-IGludmFsaWRhdGUgYSBwb2ludGVyIHRoYXQgdGhlIHJlYWRlciBpcyBmb2xsb3dpbmcuCj4+ICBT
-ZXF1ZW5jZSBjb3VudGVycyAoYGBzZXFjb3VudF90YGApCj4+ICA9PT09PT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09Cj4+ICAKPj4gLVRoaXMgaXMgdGhlIHRoZSByYXcgY291bnRpbmcgbWVj
-aGFuaXNtLCB3aGljaCBkb2VzIG5vdCBwcm90ZWN0IGFnYWluc3QKPj4gK1RoaXMgaXMgdGhlIHJh
-dyBjb3VudGluZyBtZWNoYW5pc20sIHdoaWNoIGRvZXMgbm90IHByb3RlY3QgYWdhaW5zdAo+PiAg
-bXVsdGlwbGUgd3JpdGVycy4gIFdyaXRlIHNpZGUgY3JpdGljYWwgc2VjdGlvbnMgbXVzdCB0aHVz
-IGJlIHNlcmlhbGl6ZWQKPj4gIGJ5IGFuIGV4dGVybmFsIGxvY2suCj4+ICAKPj4gZGlmZiAtLWdp
-dCBhL0RvY3VtZW50YXRpb24vc3BoaW54L2Nkb21haW4ucHkgYi9Eb2N1bWVudGF0aW9uL3NwaGlu
-eC9jZG9tYWluLnB5Cj4+IGluZGV4IGNhOGFjOWU1OWRlZC4uYTdkMTg2NmU3MmZmIDEwMDY0NAo+
-PiAtLS0gYS9Eb2N1bWVudGF0aW9uL3NwaGlueC9jZG9tYWluLnB5Cj4+ICsrKyBiL0RvY3VtZW50
-YXRpb24vc3BoaW54L2Nkb21haW4ucHkKPj4gQEAgLTE1MSw3ICsxNTEsNyBAQCBjbGFzcyBDT2Jq
-ZWN0KEJhc2VfQ09iamVjdCk6Cj4+ICAgICAgZGVmIGhhbmRsZV9mdW5jX2xpa2VfbWFjcm8oc2Vs
-Ziwgc2lnLCBzaWdub2RlKToKPj4gICAgICAgICAgdSIiIkhhbmRsZXMgc2lnbmF0dXJlcyBvZiBm
-dW5jdGlvbi1saWtlIG1hY3Jvcy4KPj4gIAo+PiAtICAgICAgICBJZiB0aGUgb2JqdHlwZSBpcyAn
-ZnVuY3Rpb24nIGFuZCB0aGUgdGhlIHNpZ25hdHVyZSBgYHNpZ2BgIGlzIGEKPj4gKyAgICAgICAg
-SWYgdGhlIG9ianR5cGUgaXMgJ2Z1bmN0aW9uJyBhbmQgdGhlIHNpZ25hdHVyZSBgYHNpZ2BgIGlz
-IGEKPj4gICAgICAgICAgZnVuY3Rpb24tbGlrZSBtYWNybywgdGhlIG5hbWUgb2YgdGhlIG1hY3Jv
-IGlzIHJldHVybmVkLiBPdGhlcndpc2UKPj4gICAgICAgICAgYGBGYWxzZWBgIGlzIHJldHVybmVk
-LiAgIiIiCj4+ICAKPj4gLS0gCj4+IDIuMjUuMQo+PiAKPj4gCj4+IF9fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fCj4+IGtleGVjIG1haWxpbmcgbGlzdAo+PiBr
-ZXhlY0BsaXN0cy5pbmZyYWRlYWQub3JnCj4+IGh0dHA6Ly9saXN0cy5pbmZyYWRlYWQub3JnL21h
-aWxtYW4vbGlzdGluZm8va2V4ZWMKPj4gCg==
+> It is hard to enforce how vendors will version their firmware. On media,
+> we have some drivers whose major means different hardware versions. For
+> instance, on xc3028, v3.x means low voltage chips, while v2.x means
+> "normal" voltage. We end changing the file name on Linux to avoid the risk
+> of damaging the hardware, as using v27 firmware on low power chips damage
+> them. So, we have:
+>
+>         drivers/media/tuners/xc2028.h:#define XC2028_DEFAULT_FIRMWARE "xc3028-v27.fw"
+>         drivers/media/tuners/xc2028.h:#define XC3028L_DEFAULT_FIRMWARE "xc3028L-v36.fw"
+>
+> As their main market is not Linux - nor PC - as their main sales are on
+> TV sets, and them don't officially support Linux, there's nothing we can
+> do to enforce it.
+>
+> IMO we need a more generic text here to indicate that Linux firmware
+> files should be defined in a way that it should be possible to detect
+> when there are incompatibilities with past versions.
+> So, I would say, instead:
+>
+>         Firmware files shall be designed in a way that it allows
+>         checking for firmware ABI version changes. It is recommended
+>         that firmware files to be versioned with at least major/minor
+>         version.
+
+This sounds good, will update with this.
+
+>
+> > It
+> > +  is suggested that the firmware files in linux-firmware be named with
+> > +  some device specific name, and just the major version.
+>
+> > The
+> > +  major/minor/patch versions should be stored in a header in the
+> > +  firmware file for the driver to detect any non-ABI fixes/issues.
+>
+> I would also make this more generic. On media, we ended adding the firmware
+> version indicated at the file name. For instance, xc4000 driver checks for
+> two firmware files:
+>
+> drivers/media/tuners/xc4000.c:#define XC4000_DEFAULT_FIRMWARE "dvb-fe-xc4000-1.4.fw"
+> drivers/media/tuners/xc4000.c:#define XC4000_DEFAULT_FIRMWARE_NEW "dvb-fe-xc4000-1.4.1.fw"
+
+This is probably fine for products where development never produces
+much firmwares, but it quickly becomes unmanageable when you end up
+with _NEW_NEW_NEW etc.
+
+I'd rather not encourage this sort of thing unless it is totally
+outside our control. So I'd like to keep the guidelines for when we
+have some control what we'd recommend.
+
+In this case I'd have recommended you put the 1.4.1 in the header of
+the fw, and just have it called dvb-fe-xc4000-1.fw and overwrite the
+NEW with the OLD, I understand we likely don't have the control here.
+
+> > +  firmware files in linux-firmware should be overwritten with the newest
+> > +  compatible major version.
+>
+> For me "shall" is mandatory, while "should" is optional.
+>
+> In this specific case, I'm not so sure if overriding it is the best thing
+> to do on all subsystems. I mean, even with the same ABI, older firmware
+> usually means that some bugs and/or limitations will be present there.
+
+As long as you can detect the minor/patch versions from the firmware
+file after loading it you should be able to do sufficient workarounds.
+>
+> That's specially true on codecs: even having the same ABI, older versions
+> won't support decoding newer protocols. We have one case with some
+> digital TV decoders that only support some Cable-TV protocols with
+> newer firmware versions. We have also one case were remote controller
+> decoding is buggy with older firmwares. On both situations, the ABI
+> didn't change.
+
+If the only way to figure that out is by the filename or minor
+version, then so be it, but where people have some control I'd rather
+provide some harder guidelines.
+
+Dave.
