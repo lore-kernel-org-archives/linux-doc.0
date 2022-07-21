@@ -2,227 +2,532 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B89AC433EF
-	for <linux-doc@archiver.kernel.org>; Thu, 21 Jul 2022 22:10:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 29CCBC43334
+	for <linux-doc@archiver.kernel.org>; Thu, 21 Jul 2022 23:45:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233463AbiGUWKr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 21 Jul 2022 18:10:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50238 "EHLO
+        id S229684AbiGUXpa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 21 Jul 2022 19:45:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56376 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229498AbiGUWKr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Jul 2022 18:10:47 -0400
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8FA519C2E;
-        Thu, 21 Jul 2022 15:10:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1658441445; x=1689977445;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=gdOUqJSSgIMl0WgQ461EcXHmGxrrwE/9bBqaaRbiOEU=;
-  b=QW0V2pZrHxgurIFsXwhMw4xi7o0/4U2l/bbm4217zK15hAwFqMsw2oJa
-   UZTUAmXLdU/lDKarRpcQa8FiZPYsdus0XlknY2X9Udl4ji6fN5GoLU5qO
-   71R0DjNpkajuYZTtA3RCzjit2xzTf+MguRZfS1xp8BEtZZWZVUV7sUOWV
-   ZRyboJfOPAvg2Njtnovk1a+ubH89lk0LK/e3d7/x3YOBgPsLsItVZTyRb
-   OlN+UYJ/B7A2eIvpDTaZ7vgJweukgL4IV5reubF/djBxe38G7wn8KsLtW
-   ASgQf3GFqalSxCHFqGGyxDi+cayte4hIDAuIWDcF0tEgdhmib5FJlTaLj
-   w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10415"; a="285944942"
-X-IronPort-AV: E=Sophos;i="5.93,184,1654585200"; 
-   d="scan'208";a="285944942"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2022 15:10:45 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,184,1654585200"; 
-   d="scan'208";a="602469269"
-Received: from lkp-server01.sh.intel.com (HELO e0eace57cfef) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 21 Jul 2022 15:10:42 -0700
-Received: from kbuild by e0eace57cfef with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1oEeNV-0000dG-1H;
-        Thu, 21 Jul 2022 22:10:41 +0000
-Date:   Fri, 22 Jul 2022 06:10:13 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Chengming Zhou <zhouchengming@bytedance.com>, hannes@cmpxchg.org,
-        surenb@google.com, mingo@redhat.com, peterz@infradead.org,
-        tj@kernel.org, corbet@lwn.net, akpm@linux-foundation.org,
-        rdunlap@infradead.org
-Cc:     kbuild-all@lists.01.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, songmuchun@bytedance.com,
-        cgroups@vger.kernel.org,
-        Chengming Zhou <zhouchengming@bytedance.com>
-Subject: Re: [PATCH 9/9] sched/psi: add PSI_IRQ to track IRQ/SOFTIRQ pressure
-Message-ID: <202207220642.sbCB4Bcf-lkp@intel.com>
-References: <20220721040439.2651-10-zhouchengming@bytedance.com>
+        with ESMTP id S229501AbiGUXp3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Jul 2022 19:45:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 675BB13E0E
+        for <linux-doc@vger.kernel.org>; Thu, 21 Jul 2022 16:45:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1658447126;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=AC2n/A82yx01Ti1I3w8496rsnt6uMK4t3X+Vt7cja9w=;
+        b=ijSUe5YzPAOXKz10hyqCKdnUO0DHjY0jZi4llVsdjsZPe70wuNK8H2NipZ5VMKhaE+jm+U
+        81nytjRzOS/URJTMm0x2DPmF7Ek1OBgplCQNUdBDGu+Cf7m9AiLKuv/LHfRO8ouEhMqzgB
+        G9+gGicHDBJ/aCcxxXLfz5mteEvpKtg=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-494-2mOxJ8tkPZG8X31SMxOeoQ-1; Thu, 21 Jul 2022 19:45:13 -0400
+X-MC-Unique: 2mOxJ8tkPZG8X31SMxOeoQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 61BF5185A7A4;
+        Thu, 21 Jul 2022 23:45:11 +0000 (UTC)
+Received: from localhost (ovpn-12-60.pek2.redhat.com [10.72.12.60])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 9D91D2166B26;
+        Thu, 21 Jul 2022 23:45:09 +0000 (UTC)
+Date:   Fri, 22 Jul 2022 07:45:06 +0800
+From:   Baoquan He <bhe@redhat.com>
+To:     Randy Dunlap <rdunlap@infradead.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Slark Xiao <slark_xiao@163.com>
+Cc:     kafai <kafai@fb.com>, vgoyal <vgoyal@redhat.com>,
+        dyoung <dyoung@redhat.com>, ast <ast@kernel.org>,
+        daniel <daniel@iogearbox.net>, andrii <andrii@kernel.org>,
+        "martin.lau" <martin.lau@linux.dev>, song <song@kernel.org>,
+        yhs <yhs@fb.com>, "john.fastabend" <john.fastabend@gmail.com>,
+        kpsingh <kpsingh@kernel.org>, sdf <sdf@google.com>,
+        haoluo <haoluo@google.com>, jolsa <jolsa@kernel.org>,
+        "william.gray" <william.gray@linaro.org>,
+        dhowells <dhowells@redhat.com>, peterz <peterz@infradead.org>,
+        mingo <mingo@redhat.com>, will <will@kernel.org>,
+        longman <longman@redhat.com>,
+        "boqun.feng" <boqun.feng@gmail.com>, tglx <tglx@linutronix.de>,
+        bigeasy <bigeasy@linutronix.de>,
+        kexec <kexec@lists.infradead.org>,
+        linux-doc <linux-doc@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        bpf <bpf@vger.kernel.org>,
+        linux-cachefs <linux-cachefs@redhat.com>
+Subject: Re: [PATCH v2] docs: Fix typo in comment
+Message-ID: <YtnlAg6Qhf7fwXXW@MiWiFi-R3L-srv>
+References: <20220721015605.20651-1-slark_xiao@163.com>
+ <20220721154110.fqp7n6f7ij22vayp@kafai-mbp.dhcp.thefacebook.com>
+ <21cac0ea.18f.182218041f7.Coremail.slark_xiao@163.com>
+ <874jzamhxe.fsf@meer.lwn.net>
+ <6ca59494-cc64-d85c-98e8-e9bef2a04c15@infradead.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220721040439.2651-10-zhouchengming@bytedance.com>
+In-Reply-To: <6ca59494-cc64-d85c-98e8-e9bef2a04c15@infradead.org>
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Chengming,
+On 07/21/22 at 11:40am, Randy Dunlap wrote:
+> 
+> 
+> On 7/21/22 11:36, Jonathan Corbet wrote:
+> > "Slark Xiao" <slark_xiao@163.com> writes:
+> > 
+> >> May I know the maintainer of one subsystem could merge the changes
+> >> contains lots of subsystem?  I also know this could be filtered by
+> >> grep and sed command, but that patch would have dozens of maintainers
+> >> and reviewers.
+> > 
+> > Certainly I don't think I can merge a patch touching 166 files across
+> > the tree.  This will need to be broken down by subsystem, and you may
+> > well find that there are some maintainers who don't want to deal with
+> > this type of minor fix.
+> 
+> We have also seen cases where "the the" should be replaced by "then the"
+> or some other pair of words, so some of these changes could fall into
+> that category.
 
-Thank you for the patch! Perhaps something to improve:
+It's possible. I searched in Documentation and went through each place,
+seems no typo of "then the". Below patch should clean up all the 'the the'
+typo under Documentation.
 
-[auto build test WARNING on tip/sched/core]
-[also build test WARNING on akpm-mm/mm-everything linus/master v5.19-rc7]
-[cannot apply to tj-cgroup/for-next next-20220721]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+From 60cacd213ab24981d16c292667283cf7e74f86b1 Mon Sep 17 00:00:00 2001
+From: Baoquan He <bhe@redhat.com>
+Date: Fri, 22 Jul 2022 07:26:48 +0800
+Subject: [PATCH] Documentation: Fix all occurences of the 'the the' typo
+Content-type: text/plain
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Chengming-Zhou/sched-psi-some-optimization-and-extension/20220721-120833
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git 401e4963bf45c800e3e9ea0d3a0289d738005fd4
-config: x86_64-randconfig-s022-20220718 (https://download.01.org/0day-ci/archive/20220722/202207220642.sbCB4Bcf-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-3) 11.3.0
-reproduce:
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://github.com/intel-lab-lkp/linux/commit/d14f2a9ff31fefc5b28a16addaa832dc80d84189
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Chengming-Zhou/sched-psi-some-optimization-and-extension/20220721-120833
-        git checkout d14f2a9ff31fefc5b28a16addaa832dc80d84189
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=x86_64 SHELL=/bin/bash
+The fix is done with below command:
+sed -i "s/the the /the /g" `git grep -l "the the " Documentation`
 
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
+Signed-off-by: Baoquan He <bhe@redhat.com>
+---
+ Documentation/ABI/stable/sysfs-module                         | 2 +-
+ Documentation/ABI/testing/sysfs-class-rtrs-client             | 2 +-
+ Documentation/ABI/testing/sysfs-class-rtrs-server             | 2 +-
+ Documentation/ABI/testing/sysfs-devices-platform-ACPI-TAD     | 2 +-
+ Documentation/ABI/testing/sysfs-devices-power                 | 2 +-
+ Documentation/admin-guide/kdump/vmcoreinfo.rst                | 2 +-
+ Documentation/bpf/map_cgroup_storage.rst                      | 4 ++--
+ Documentation/core-api/cpu_hotplug.rst                        | 2 +-
+ Documentation/devicetree/bindings/arm/msm/qcom,saw2.txt       | 2 +-
+ Documentation/devicetree/bindings/clock/ti/davinci/pll.txt    | 2 +-
+ Documentation/devicetree/bindings/fpga/fpga-region.txt        | 2 +-
+ Documentation/devicetree/bindings/gpio/gpio-pisosr.txt        | 2 +-
+ Documentation/devicetree/bindings/net/qcom-emac.txt           | 2 +-
+ .../bindings/phy/amlogic,meson-axg-mipi-pcie-analog.yaml      | 2 +-
+ .../devicetree/bindings/pinctrl/aspeed,ast2400-pinctrl.yaml   | 2 +-
+ .../devicetree/bindings/pinctrl/aspeed,ast2500-pinctrl.yaml   | 2 +-
+ .../devicetree/bindings/pinctrl/aspeed,ast2600-pinctrl.yaml   | 2 +-
+ .../devicetree/bindings/power/amlogic,meson-ee-pwrc.yaml      | 2 +-
+ Documentation/devicetree/bindings/powerpc/fsl/cpus.txt        | 2 +-
+ Documentation/devicetree/bindings/powerpc/opal/power-mgt.txt  | 2 +-
+ Documentation/devicetree/bindings/remoteproc/qcom,q6v5.txt    | 2 +-
+ Documentation/devicetree/bindings/sound/tlv320adcx140.yaml    | 4 ++--
+ .../devicetree/bindings/thermal/brcm,avs-ro-thermal.yaml      | 2 +-
+ .../devicetree/bindings/thermal/nvidia,tegra124-soctherm.txt  | 2 +-
+ Documentation/devicetree/bindings/thermal/rcar-thermal.yaml   | 2 +-
+ Documentation/driver-api/isa.rst                              | 2 +-
+ Documentation/filesystems/caching/backend-api.rst             | 2 +-
+ Documentation/locking/seqlock.rst                             | 2 +-
+ Documentation/sphinx/cdomain.py                               | 2 +-
+ 29 files changed, 31 insertions(+), 31 deletions(-)
 
-sparse warnings: (new ones prefixed by >>)
->> kernel/sched/core.c:711:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/core.c:711:31: sparse:     expected struct task_struct *curr
-   kernel/sched/core.c:711:31: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/core.c:781:48: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/core.c:781:48: sparse:     expected struct task_struct *p
-   kernel/sched/core.c:781:48: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/core.c:1028:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/core.c:1028:38: sparse:     expected struct task_struct *curr
-   kernel/sched/core.c:1028:38: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/core.c:2192:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/core.c:2192:33: sparse:     expected struct task_struct *p
-   kernel/sched/core.c:2192:33: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/core.c:2192:68: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *tsk @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/core.c:2192:68: sparse:     expected struct task_struct *tsk
-   kernel/sched/core.c:2192:68: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/core.c:5376:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/core.c:5376:38: sparse:     expected struct task_struct *curr
-   kernel/sched/core.c:5376:38: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/core.c:6322:14: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct task_struct *prev @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/core.c:6322:14: sparse:     expected struct task_struct *prev
-   kernel/sched/core.c:6322:14: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/core.c:6848:17: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/core.c:6848:17: sparse:    struct task_struct *
-   kernel/sched/core.c:6848:17: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/core.c:7064:22: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/core.c:7064:22: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/core.c:7064:22: sparse:    struct task_struct *
-   kernel/sched/core.c:11121:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/core.c:11121:25: sparse:     expected struct task_struct *p
-   kernel/sched/core.c:11121:25: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/core.c:537:6: sparse: sparse: context imbalance in 'raw_spin_rq_lock_nested' - wrong count at exit
-   kernel/sched/core.c:570:23: sparse: sparse: context imbalance in 'raw_spin_rq_trylock' - wrong count at exit
-   kernel/sched/core.c:586:6: sparse: sparse: context imbalance in 'raw_spin_rq_unlock' - unexpected unlock
-   kernel/sched/core.c:624:36: sparse: sparse: context imbalance in '__task_rq_lock' - wrong count at exit
-   kernel/sched/core.c:665:36: sparse: sparse: context imbalance in 'task_rq_lock' - wrong count at exit
-   kernel/sched/core.c:781:11: sparse: sparse: dereference of noderef expression
-   kernel/sched/core.c:2183:33: sparse: sparse: dereference of noderef expression
-   kernel/sched/core.c:2184:19: sparse: sparse: dereference of noderef expression
-   kernel/sched/core.c:2185:18: sparse: sparse: dereference of noderef expression
-   kernel/sched/core.c: note: in included file:
-   kernel/sched/sched.h:1592:9: sparse: sparse: context imbalance in 'ttwu_runnable' - wrong count at exit
-   kernel/sched/core.c:4262:9: sparse: sparse: context imbalance in 'task_call_func' - wrong count at exit
-   kernel/sched/sched.h:1592:9: sparse: sparse: context imbalance in 'wake_up_new_task' - wrong count at exit
-   kernel/sched/core.c:5035:9: sparse: sparse: context imbalance in 'finish_task_switch' - wrong count at exit
-   kernel/sched/sched.h:2053:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2053:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2053:25: sparse:    struct task_struct *
-   kernel/sched/sched.h:2210:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2210:9: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2210:9: sparse:    struct task_struct *
-   kernel/sched/sched.h:2210:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2210:9: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2210:9: sparse:    struct task_struct *
-   kernel/sched/sched.h:2053:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2053:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2053:25: sparse:    struct task_struct *
-   kernel/sched/sched.h:2210:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2210:9: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2210:9: sparse:    struct task_struct *
-   kernel/sched/sched.h:2053:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2053:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2053:25: sparse:    struct task_struct *
-   kernel/sched/sched.h:2210:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2210:9: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2210:9: sparse:    struct task_struct *
-   kernel/sched/sched.h:2053:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2053:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2053:25: sparse:    struct task_struct *
-   kernel/sched/sched.h:2210:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2210:9: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2210:9: sparse:    struct task_struct *
-   kernel/sched/sched.h:2053:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2053:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2053:25: sparse:    struct task_struct *
-
-vim +711 kernel/sched/core.c
-
-   675	
-   676	/*
-   677	 * RQ-clock updating methods:
-   678	 */
-   679	
-   680	static void update_rq_clock_task(struct rq *rq, s64 delta)
-   681	{
-   682	/*
-   683	 * In theory, the compile should just see 0 here, and optimize out the call
-   684	 * to sched_rt_avg_update. But I don't trust it...
-   685	 */
-   686		s64 __maybe_unused steal = 0, irq_delta = 0;
-   687	
-   688	#ifdef CONFIG_IRQ_TIME_ACCOUNTING
-   689		irq_delta = irq_time_read(cpu_of(rq)) - rq->prev_irq_time;
-   690	
-   691		/*
-   692		 * Since irq_time is only updated on {soft,}irq_exit, we might run into
-   693		 * this case when a previous update_rq_clock() happened inside a
-   694		 * {soft,}irq region.
-   695		 *
-   696		 * When this happens, we stop ->clock_task and only update the
-   697		 * prev_irq_time stamp to account for the part that fit, so that a next
-   698		 * update will consume the rest. This ensures ->clock_task is
-   699		 * monotonic.
-   700		 *
-   701		 * It does however cause some slight miss-attribution of {soft,}irq
-   702		 * time, a more accurate solution would be to update the irq_time using
-   703		 * the current rq->clock timestamp, except that would require using
-   704		 * atomic ops.
-   705		 */
-   706		if (irq_delta > delta)
-   707			irq_delta = delta;
-   708	
-   709		rq->prev_irq_time += irq_delta;
-   710		delta -= irq_delta;
- > 711		psi_account_irqtime(rq->curr, irq_delta);
-   712	#endif
-   713	#ifdef CONFIG_PARAVIRT_TIME_ACCOUNTING
-   714		if (static_key_false((&paravirt_steal_rq_enabled))) {
-   715			steal = paravirt_steal_clock(cpu_of(rq));
-   716			steal -= rq->prev_steal_time_rq;
-   717	
-   718			if (unlikely(steal > delta))
-   719				steal = delta;
-   720	
-   721			rq->prev_steal_time_rq += steal;
-   722			delta -= steal;
-   723		}
-   724	#endif
-   725	
-   726		rq->clock_task += delta;
-   727	
-
+diff --git a/Documentation/ABI/stable/sysfs-module b/Documentation/ABI/stable/sysfs-module
+index 560b4a3278df..41b1f16e8795 100644
+--- a/Documentation/ABI/stable/sysfs-module
++++ b/Documentation/ABI/stable/sysfs-module
+@@ -38,7 +38,7 @@ What:		/sys/module/<MODULENAME>/srcversion
+ Date:		Jun 2005
+ Description:
+ 		If the module source has MODULE_VERSION, this file will contain
+-		the checksum of the the source code.
++		the checksum of the source code.
+ 
+ What:		/sys/module/<MODULENAME>/version
+ Date:		Jun 2005
+diff --git a/Documentation/ABI/testing/sysfs-class-rtrs-client b/Documentation/ABI/testing/sysfs-class-rtrs-client
+index 49a4157c7bf1..fecc59d1b96f 100644
+--- a/Documentation/ABI/testing/sysfs-class-rtrs-client
++++ b/Documentation/ABI/testing/sysfs-class-rtrs-client
+@@ -78,7 +78,7 @@ What:		/sys/class/rtrs-client/<session-name>/paths/<src@dst>/hca_name
+ Date:		Feb 2020
+ KernelVersion:	5.7
+ Contact:	Jack Wang <jinpu.wang@cloud.ionos.com> Danil Kipnis <danil.kipnis@cloud.ionos.com>
+-Description:	RO, Contains the the name of HCA the connection established on.
++Description:	RO, Contains the name of HCA the connection established on.
+ 
+ What:		/sys/class/rtrs-client/<session-name>/paths/<src@dst>/hca_port
+ Date:		Feb 2020
+diff --git a/Documentation/ABI/testing/sysfs-class-rtrs-server b/Documentation/ABI/testing/sysfs-class-rtrs-server
+index 3b6d5b067df0..b08601d80409 100644
+--- a/Documentation/ABI/testing/sysfs-class-rtrs-server
++++ b/Documentation/ABI/testing/sysfs-class-rtrs-server
+@@ -24,7 +24,7 @@ What:		/sys/class/rtrs-server/<session-name>/paths/<src@dst>/hca_name
+ Date:		Feb 2020
+ KernelVersion:	5.7
+ Contact:	Jack Wang <jinpu.wang@cloud.ionos.com> Danil Kipnis <danil.kipnis@cloud.ionos.com>
+-Description:	RO, Contains the the name of HCA the connection established on.
++Description:	RO, Contains the name of HCA the connection established on.
+ 
+ What:		/sys/class/rtrs-server/<session-name>/paths/<src@dst>/hca_port
+ Date:		Feb 2020
+diff --git a/Documentation/ABI/testing/sysfs-devices-platform-ACPI-TAD b/Documentation/ABI/testing/sysfs-devices-platform-ACPI-TAD
+index f7b360a61b21..bc44bc903bc8 100644
+--- a/Documentation/ABI/testing/sysfs-devices-platform-ACPI-TAD
++++ b/Documentation/ABI/testing/sysfs-devices-platform-ACPI-TAD
+@@ -74,7 +74,7 @@ Description:
+ 
+ 		Reads also cause the AC alarm timer status to be reset.
+ 
+-		Another way to reset the the status of the AC alarm timer is to
++		Another way to reset the status of the AC alarm timer is to
+ 		write (the number) 0 to this file.
+ 
+ 		If the status return value indicates that the timer has expired,
+diff --git a/Documentation/ABI/testing/sysfs-devices-power b/Documentation/ABI/testing/sysfs-devices-power
+index 1b2a2d41ff80..54195530e97a 100644
+--- a/Documentation/ABI/testing/sysfs-devices-power
++++ b/Documentation/ABI/testing/sysfs-devices-power
+@@ -303,5 +303,5 @@ Date:		Apr 2010
+ Contact:	Dominik Brodowski <linux@dominikbrodowski.net>
+ Description:
+ 		Reports the runtime PM children usage count of a device, or
+-		0 if the the children will be ignored.
++		0 if the children will be ignored.
+ 
+diff --git a/Documentation/admin-guide/kdump/vmcoreinfo.rst b/Documentation/admin-guide/kdump/vmcoreinfo.rst
+index 8419019b6a88..6726f439958c 100644
+--- a/Documentation/admin-guide/kdump/vmcoreinfo.rst
++++ b/Documentation/admin-guide/kdump/vmcoreinfo.rst
+@@ -200,7 +200,7 @@ prb
+ 
+ A pointer to the printk ringbuffer (struct printk_ringbuffer). This
+ may be pointing to the static boot ringbuffer or the dynamically
+-allocated ringbuffer, depending on when the the core dump occurred.
++allocated ringbuffer, depending on when the core dump occurred.
+ Used by user-space tools to read the active kernel log buffer.
+ 
+ printk_rb_static
+diff --git a/Documentation/bpf/map_cgroup_storage.rst b/Documentation/bpf/map_cgroup_storage.rst
+index cab9543017bf..8e5fe532c07e 100644
+--- a/Documentation/bpf/map_cgroup_storage.rst
++++ b/Documentation/bpf/map_cgroup_storage.rst
+@@ -31,7 +31,7 @@ The map uses key of type of either ``__u64 cgroup_inode_id`` or
+     };
+ 
+ ``cgroup_inode_id`` is the inode id of the cgroup directory.
+-``attach_type`` is the the program's attach type.
++``attach_type`` is the program's attach type.
+ 
+ Linux 5.9 added support for type ``__u64 cgroup_inode_id`` as the key type.
+ When this key type is used, then all attach types of the particular cgroup and
+@@ -155,7 +155,7 @@ However, the BPF program can still only associate with one map of each type
+ ``BPF_MAP_TYPE_CGROUP_STORAGE`` or more than one
+ ``BPF_MAP_TYPE_PERCPU_CGROUP_STORAGE``.
+ 
+-In all versions, userspace may use the the attach parameters of cgroup and
++In all versions, userspace may use the attach parameters of cgroup and
+ attach type pair in ``struct bpf_cgroup_storage_key`` as the key to the BPF map
+ APIs to read or update the storage for a given attachment. For Linux 5.9
+ attach type shared storages, only the first value in the struct, cgroup inode
+diff --git a/Documentation/core-api/cpu_hotplug.rst b/Documentation/core-api/cpu_hotplug.rst
+index c6f4ba2fb32d..f75778d37488 100644
+--- a/Documentation/core-api/cpu_hotplug.rst
++++ b/Documentation/core-api/cpu_hotplug.rst
+@@ -560,7 +560,7 @@ available:
+   * cpuhp_state_remove_instance(state, node)
+   * cpuhp_state_remove_instance_nocalls(state, node)
+ 
+-The arguments are the same as for the the cpuhp_state_add_instance*()
++The arguments are the same as for the cpuhp_state_add_instance*()
+ variants above.
+ 
+ The functions differ in the way how the installed callbacks are treated:
+diff --git a/Documentation/devicetree/bindings/arm/msm/qcom,saw2.txt b/Documentation/devicetree/bindings/arm/msm/qcom,saw2.txt
+index 94d50a949be1..c0e3c3a42bea 100644
+--- a/Documentation/devicetree/bindings/arm/msm/qcom,saw2.txt
++++ b/Documentation/devicetree/bindings/arm/msm/qcom,saw2.txt
+@@ -10,7 +10,7 @@ system, notifying them when a low power state is entered or exited.
+ Multiple revisions of the SAW hardware are supported using these Device Nodes.
+ SAW2 revisions differ in the register offset and configuration data. Also, the
+ same revision of the SAW in different SoCs may have different configuration
+-data due the the differences in hardware capabilities. Hence the SoC name, the
++data due the differences in hardware capabilities. Hence the SoC name, the
+ version of the SAW hardware in that SoC and the distinction between cpu (big
+ or Little) or cache, may be needed to uniquely identify the SAW register
+ configuration and initialization data. The compatible string is used to
+diff --git a/Documentation/devicetree/bindings/clock/ti/davinci/pll.txt b/Documentation/devicetree/bindings/clock/ti/davinci/pll.txt
+index 36998e184821..c9894538315b 100644
+--- a/Documentation/devicetree/bindings/clock/ti/davinci/pll.txt
++++ b/Documentation/devicetree/bindings/clock/ti/davinci/pll.txt
+@@ -15,7 +15,7 @@ Required properties:
+ 	- for "ti,da850-pll1", shall be "clksrc"
+ 
+ Optional properties:
+-- ti,clkmode-square-wave: Indicates that the the board is supplying a square
++- ti,clkmode-square-wave: Indicates that the board is supplying a square
+ 	wave input on the OSCIN pin instead of using a crystal oscillator.
+ 	This property is only valid when compatible = "ti,da850-pll0".
+ 
+diff --git a/Documentation/devicetree/bindings/fpga/fpga-region.txt b/Documentation/devicetree/bindings/fpga/fpga-region.txt
+index 7d3515264838..6694ef29a267 100644
+--- a/Documentation/devicetree/bindings/fpga/fpga-region.txt
++++ b/Documentation/devicetree/bindings/fpga/fpga-region.txt
+@@ -330,7 +330,7 @@ succeeded.
+ 
+ The Device Tree Overlay will contain:
+  * "target-path" or "target"
+-   The insertion point where the the contents of the overlay will go into the
++   The insertion point where the contents of the overlay will go into the
+    live tree.  target-path is a full path, while target is a phandle.
+  * "ranges"
+     The address space mapping from processor to FPGA bus(ses).
+diff --git a/Documentation/devicetree/bindings/gpio/gpio-pisosr.txt b/Documentation/devicetree/bindings/gpio/gpio-pisosr.txt
+index 414a01cdf715..fba3c61f6a5b 100644
+--- a/Documentation/devicetree/bindings/gpio/gpio-pisosr.txt
++++ b/Documentation/devicetree/bindings/gpio/gpio-pisosr.txt
+@@ -14,7 +14,7 @@ Optional properties:
+  - ngpios		: Number of used GPIO lines (0..n-1), default is 8.
+  - load-gpios		: GPIO pin specifier attached to load enable, this
+ 			  pin is pulsed before reading from the device to
+-			  load input pin values into the the device.
++			  load input pin values into the device.
+ 
+ For other required and optional properties of SPI slave
+ nodes please refer to ../spi/spi-bus.txt.
+diff --git a/Documentation/devicetree/bindings/net/qcom-emac.txt b/Documentation/devicetree/bindings/net/qcom-emac.txt
+index 346e6c7f47b7..e6cb2291471c 100644
+--- a/Documentation/devicetree/bindings/net/qcom-emac.txt
++++ b/Documentation/devicetree/bindings/net/qcom-emac.txt
+@@ -14,7 +14,7 @@ MAC node:
+ - mac-address : The 6-byte MAC address. If present, it is the default
+ 	MAC address.
+ - internal-phy : phandle to the internal PHY node
+-- phy-handle : phandle the the external PHY node
++- phy-handle : phandle the external PHY node
+ 
+ Internal PHY node:
+ - compatible : Should be "qcom,fsm9900-emac-sgmii" or "qcom,qdf2432-emac-sgmii".
+diff --git a/Documentation/devicetree/bindings/phy/amlogic,meson-axg-mipi-pcie-analog.yaml b/Documentation/devicetree/bindings/phy/amlogic,meson-axg-mipi-pcie-analog.yaml
+index 4d01f3124e1c..a90fa1baadab 100644
+--- a/Documentation/devicetree/bindings/phy/amlogic,meson-axg-mipi-pcie-analog.yaml
++++ b/Documentation/devicetree/bindings/phy/amlogic,meson-axg-mipi-pcie-analog.yaml
+@@ -16,7 +16,7 @@ description: |+
+   - compatible: Should be the following:
+                 "amlogic,meson-gx-hhi-sysctrl", "simple-mfd", "syscon"
+ 
+-  Refer to the the bindings described in
++  Refer to the bindings described in
+   Documentation/devicetree/bindings/mfd/syscon.yaml
+ 
+ properties:
+diff --git a/Documentation/devicetree/bindings/pinctrl/aspeed,ast2400-pinctrl.yaml b/Documentation/devicetree/bindings/pinctrl/aspeed,ast2400-pinctrl.yaml
+index c689bea7ce6e..d3a8911728d0 100644
+--- a/Documentation/devicetree/bindings/pinctrl/aspeed,ast2400-pinctrl.yaml
++++ b/Documentation/devicetree/bindings/pinctrl/aspeed,ast2400-pinctrl.yaml
+@@ -16,7 +16,7 @@ description: |+
+   - compatible:     Should be one of the following:
+                     "aspeed,ast2400-scu", "syscon", "simple-mfd"
+ 
+-  Refer to the the bindings described in
++  Refer to the bindings described in
+   Documentation/devicetree/bindings/mfd/syscon.yaml
+ 
+ properties:
+diff --git a/Documentation/devicetree/bindings/pinctrl/aspeed,ast2500-pinctrl.yaml b/Documentation/devicetree/bindings/pinctrl/aspeed,ast2500-pinctrl.yaml
+index 9db904a528ee..5d2c1b1fb7fd 100644
+--- a/Documentation/devicetree/bindings/pinctrl/aspeed,ast2500-pinctrl.yaml
++++ b/Documentation/devicetree/bindings/pinctrl/aspeed,ast2500-pinctrl.yaml
+@@ -17,7 +17,7 @@ description: |+
+   			"aspeed,ast2500-scu", "syscon", "simple-mfd"
+   			"aspeed,g5-scu", "syscon", "simple-mfd"
+ 
+-  Refer to the the bindings described in
++  Refer to the bindings described in
+   Documentation/devicetree/bindings/mfd/syscon.yaml
+ 
+ properties:
+diff --git a/Documentation/devicetree/bindings/pinctrl/aspeed,ast2600-pinctrl.yaml b/Documentation/devicetree/bindings/pinctrl/aspeed,ast2600-pinctrl.yaml
+index 3666ac5b6518..e92686d2f062 100644
+--- a/Documentation/devicetree/bindings/pinctrl/aspeed,ast2600-pinctrl.yaml
++++ b/Documentation/devicetree/bindings/pinctrl/aspeed,ast2600-pinctrl.yaml
+@@ -16,7 +16,7 @@ description: |+
+   - compatible: Should be one of the following:
+                 "aspeed,ast2600-scu", "syscon", "simple-mfd"
+ 
+-  Refer to the the bindings described in
++  Refer to the bindings described in
+   Documentation/devicetree/bindings/mfd/syscon.yaml
+ 
+ properties:
+diff --git a/Documentation/devicetree/bindings/power/amlogic,meson-ee-pwrc.yaml b/Documentation/devicetree/bindings/power/amlogic,meson-ee-pwrc.yaml
+index f005abac7079..4e52ef33a986 100644
+--- a/Documentation/devicetree/bindings/power/amlogic,meson-ee-pwrc.yaml
++++ b/Documentation/devicetree/bindings/power/amlogic,meson-ee-pwrc.yaml
+@@ -17,7 +17,7 @@ description: |+
+   - compatible: Should be the following:
+                 "amlogic,meson-gx-hhi-sysctrl", "simple-mfd", "syscon"
+ 
+-  Refer to the the bindings described in
++  Refer to the bindings described in
+   Documentation/devicetree/bindings/mfd/syscon.yaml
+ 
+ properties:
+diff --git a/Documentation/devicetree/bindings/powerpc/fsl/cpus.txt b/Documentation/devicetree/bindings/powerpc/fsl/cpus.txt
+index d63ab1dec16d..801c66069121 100644
+--- a/Documentation/devicetree/bindings/powerpc/fsl/cpus.txt
++++ b/Documentation/devicetree/bindings/powerpc/fsl/cpus.txt
+@@ -5,7 +5,7 @@ Copyright 2013 Freescale Semiconductor Inc.
+ Power Architecture CPUs in Freescale SOCs are represented in device trees as
+ per the definition in the Devicetree Specification.
+ 
+-In addition to the the Devicetree Specification definitions, the properties
++In addition to the Devicetree Specification definitions, the properties
+ defined below may be present on CPU nodes.
+ 
+ PROPERTIES
+diff --git a/Documentation/devicetree/bindings/powerpc/opal/power-mgt.txt b/Documentation/devicetree/bindings/powerpc/opal/power-mgt.txt
+index 9d619e955576..d6658d3dd15e 100644
+--- a/Documentation/devicetree/bindings/powerpc/opal/power-mgt.txt
++++ b/Documentation/devicetree/bindings/powerpc/opal/power-mgt.txt
+@@ -39,7 +39,7 @@ otherwise. The length of all the property arrays must be the same.
+ 
+ - ibm,cpu-idle-state-flags:
+ 	Array of unsigned 32-bit values containing the values of the
+-	flags associated with the the aforementioned idle-states. The
++	flags associated with the aforementioned idle-states. The
+ 	flag bits are as follows:
+ 		0x00000001 /* Decrementer would stop */
+ 		0x00000002 /* Needs timebase restore */
+diff --git a/Documentation/devicetree/bindings/remoteproc/qcom,q6v5.txt b/Documentation/devicetree/bindings/remoteproc/qcom,q6v5.txt
+index b677900b3aae..658f96fbc4fe 100644
+--- a/Documentation/devicetree/bindings/remoteproc/qcom,q6v5.txt
++++ b/Documentation/devicetree/bindings/remoteproc/qcom,q6v5.txt
+@@ -37,7 +37,7 @@ on the Qualcomm Hexagon core.
+ - interrupt-names:
+ 	Usage: required
+ 	Value type: <stringlist>
+-	Definition: The interrupts needed depends on the the compatible
++	Definition: The interrupts needed depends on the compatible
+ 		    string:
+ 	qcom,q6v5-pil:
+ 	qcom,ipq8074-wcss-pil:
+diff --git a/Documentation/devicetree/bindings/sound/tlv320adcx140.yaml b/Documentation/devicetree/bindings/sound/tlv320adcx140.yaml
+index 2ad17b361db0..bc2fb1a80ed7 100644
+--- a/Documentation/devicetree/bindings/sound/tlv320adcx140.yaml
++++ b/Documentation/devicetree/bindings/sound/tlv320adcx140.yaml
+@@ -68,9 +68,9 @@ properties:
+        array is defined as <PDMIN1 PDMIN2 PDMIN3 PDMIN4>.
+ 
+        0 - (default) Odd channel is latched on the negative edge and even
+-       channel is latched on the the positive edge.
++       channel is latched on the positive edge.
+        1 - Odd channel is latched on the positive edge and even channel is
+-       latched on the the negative edge.
++       latched on the negative edge.
+ 
+        PDMIN1 - PDMCLK latching edge used for channel 1 and 2 data
+        PDMIN2 - PDMCLK latching edge used for channel 3 and 4 data
+diff --git a/Documentation/devicetree/bindings/thermal/brcm,avs-ro-thermal.yaml b/Documentation/devicetree/bindings/thermal/brcm,avs-ro-thermal.yaml
+index 1ab5070c751d..89a2c32c0ab2 100644
+--- a/Documentation/devicetree/bindings/thermal/brcm,avs-ro-thermal.yaml
++++ b/Documentation/devicetree/bindings/thermal/brcm,avs-ro-thermal.yaml
+@@ -16,7 +16,7 @@ description: |+
+   - compatible: Should be one of the following:
+                 "brcm,bcm2711-avs-monitor", "syscon", "simple-mfd"
+ 
+-  Refer to the the bindings described in
++  Refer to the bindings described in
+   Documentation/devicetree/bindings/mfd/syscon.yaml
+ 
+ properties:
+diff --git a/Documentation/devicetree/bindings/thermal/nvidia,tegra124-soctherm.txt b/Documentation/devicetree/bindings/thermal/nvidia,tegra124-soctherm.txt
+index db880e7ed713..aea4a2a178b9 100644
+--- a/Documentation/devicetree/bindings/thermal/nvidia,tegra124-soctherm.txt
++++ b/Documentation/devicetree/bindings/thermal/nvidia,tegra124-soctherm.txt
+@@ -96,7 +96,7 @@ critical trip point is reported back to the thermal framework to implement
+ software shutdown.
+ 
+ - the "hot" type trip points will be set to SOC_THERM hardware as the throttle
+-temperature. Once the the temperature of this thermal zone is higher
++temperature. Once the temperature of this thermal zone is higher
+ than it, it will trigger the HW throttle event.
+ 
+ Example :
+diff --git a/Documentation/devicetree/bindings/thermal/rcar-thermal.yaml b/Documentation/devicetree/bindings/thermal/rcar-thermal.yaml
+index 927de79ab4b5..00dcbdd36144 100644
+--- a/Documentation/devicetree/bindings/thermal/rcar-thermal.yaml
++++ b/Documentation/devicetree/bindings/thermal/rcar-thermal.yaml
+@@ -42,7 +42,7 @@ properties:
+     description:
+       Address ranges of the thermal registers. If more then one range is given
+       the first one must be the common registers followed by each sensor
+-      according the the datasheet.
++      according the datasheet.
+     minItems: 1
+     maxItems: 4
+ 
+diff --git a/Documentation/driver-api/isa.rst b/Documentation/driver-api/isa.rst
+index def4a7b690b5..3df1b1696524 100644
+--- a/Documentation/driver-api/isa.rst
++++ b/Documentation/driver-api/isa.rst
+@@ -100,7 +100,7 @@ I believe platform_data is available for this, but if rather not, moving
+ the isa_driver pointer to the private struct isa_dev is ofcourse fine as
+ well.
+ 
+-Then, if the the driver did not provide a .match, it matches. If it did,
++Then, if the driver did not provide a .match, it matches. If it did,
+ the driver match() method is called to determine a match.
+ 
+ If it did **not** match, dev->platform_data is reset to indicate this to
+diff --git a/Documentation/filesystems/caching/backend-api.rst b/Documentation/filesystems/caching/backend-api.rst
+index d7507becf674..3a199fc50828 100644
+--- a/Documentation/filesystems/caching/backend-api.rst
++++ b/Documentation/filesystems/caching/backend-api.rst
+@@ -122,7 +122,7 @@ volumes, calling::
+ to tell fscache that a volume has been withdrawn.  This waits for all
+ outstanding accesses on the volume to complete before returning.
+ 
+-When the the cache is completely withdrawn, fscache should be notified by
++When the cache is completely withdrawn, fscache should be notified by
+ calling::
+ 
+ 	void fscache_relinquish_cache(struct fscache_cache *cache);
+diff --git a/Documentation/locking/seqlock.rst b/Documentation/locking/seqlock.rst
+index 64405e5da63e..bfda1a5fecad 100644
+--- a/Documentation/locking/seqlock.rst
++++ b/Documentation/locking/seqlock.rst
+@@ -39,7 +39,7 @@ as the writer can invalidate a pointer that the reader is following.
+ Sequence counters (``seqcount_t``)
+ ==================================
+ 
+-This is the the raw counting mechanism, which does not protect against
++This is the raw counting mechanism, which does not protect against
+ multiple writers.  Write side critical sections must thus be serialized
+ by an external lock.
+ 
+diff --git a/Documentation/sphinx/cdomain.py b/Documentation/sphinx/cdomain.py
+index ca8ac9e59ded..a7d1866e72ff 100644
+--- a/Documentation/sphinx/cdomain.py
++++ b/Documentation/sphinx/cdomain.py
+@@ -151,7 +151,7 @@ class CObject(Base_CObject):
+     def handle_func_like_macro(self, sig, signode):
+         u"""Handles signatures of function-like macros.
+ 
+-        If the objtype is 'function' and the the signature ``sig`` is a
++        If the objtype is 'function' and the signature ``sig`` is a
+         function-like macro, the name of the macro is returned. Otherwise
+         ``False`` is returned.  """
+ 
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+2.34.1
+
