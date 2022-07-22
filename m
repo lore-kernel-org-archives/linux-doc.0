@@ -2,172 +2,106 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 25D42C433EF
-	for <linux-doc@archiver.kernel.org>; Fri, 22 Jul 2022 06:42:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E01DACCA491
+	for <linux-doc@archiver.kernel.org>; Fri, 22 Jul 2022 07:14:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234299AbiGVGmB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 22 Jul 2022 02:42:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46694 "EHLO
+        id S234260AbiGVHO1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 22 Jul 2022 03:14:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37300 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234298AbiGVGmA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 22 Jul 2022 02:42:00 -0400
-Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com [IPv6:2a00:1450:4864:20::531])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 263C2823BA
-        for <linux-doc@vger.kernel.org>; Thu, 21 Jul 2022 23:41:58 -0700 (PDT)
-Received: by mail-ed1-x531.google.com with SMTP id y4so4698687edc.4
-        for <linux-doc@vger.kernel.org>; Thu, 21 Jul 2022 23:41:58 -0700 (PDT)
+        with ESMTP id S234414AbiGVHOL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 22 Jul 2022 03:14:11 -0400
+Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BFB0493C1E
+        for <linux-doc@vger.kernel.org>; Fri, 22 Jul 2022 00:14:09 -0700 (PDT)
+Received: by mail-pj1-x1034.google.com with SMTP id gq7so3652242pjb.1
+        for <linux-doc@vger.kernel.org>; Fri, 22 Jul 2022 00:14:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=resnulli-us.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=Nw8tTjTa/PZO5hmV8CKEncBLO7o0ZFuEQVqbEDoX2Ck=;
-        b=1fvxKtPmWT/wdCB8Zd+JYdxs8+jWy+PbYJowMNwMC0gF27ApS2xraSu5yoKuNS1eFQ
-         FHpKRcCJ5H951J+X3Bf+I+Z8a4PujfT2O2p3PYLwnnXWSQMJp9+u4ckAlCwoPyz4D2aS
-         GgHldmwVfW0UP/nqX63iRccR86IclUpNc7E03wnxaYtX6cQzr+F/YR/Sqf34WA+CvUWC
-         fHU2EdJFJYvIwHyJOLRQdHcJMBaoFSPtmiQdzsV9i+oiC/fS1id0RgejZHND1ZhMQxax
-         BtME/F7QoSXo5wwitIRxypt04Az/pyYq1lae0KhapPwib0E3Uc4ORR8DF60NrwX6G0OJ
-         BPLg==
+        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=Gts6QjrIoCSOBmG3jGbKb3eul2uSF3MTCws6wh5quBU=;
+        b=mJWWyyMIyJtter05K23sBP49ExJhHuakrSmup0Lyp7fFs/JwZdkZTej6SwtGfLSlbw
+         7IBUSpZuil8/hRSDzqTvcBb0D7j1YdwogYL82PQWEGpIoIzqQUhR0Po/is6TFlr2Cqu2
+         5NiWDIbUEDBkLP83ixN1UYyRaHSz2ZFs9i8m3uYbL0KLomP2Zo1YrctY4jYMWm8S4toY
+         uTZeuognAbH/dQYexucHsav7T2qcO5sS1ZwIiBvM6BxpN6+CobP0ez5a35e3rQ9KAElV
+         oULecPO8ft5qj+rajgCyb4B4pHFCQ0PV7tCvcl9tMGOCnEy3/1R59RIsGvF3hRIVYj2B
+         fQDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=Nw8tTjTa/PZO5hmV8CKEncBLO7o0ZFuEQVqbEDoX2Ck=;
-        b=q+1KQOafBSmpXuNljMCkpZ3TIwcP+LV+BWbUMgHTW8IccuI8KNS+k9iNF0UFXFZHmm
-         iSj+8eyEsbvrpWNlMIVoF2UYv2UKuPXvyoqFbsgNia0Xmj32WrRXZ/NccFt7IgQrNsxW
-         9D3X3Nd4e8BKBwtLKt6RN6aPsU+UjI54+hP2/qNUSH0lCeIchnKOBsAjMc6t5M869X1r
-         g+OdkQNEj54ofbE+YdCQBr/qRD8vZV0iP6kReDjWv8oPCGethD+K/81o9CHzLbV0O/S1
-         W+pZnAK5c/Q0eWuoB027dhpPkDnvk/Rw+MTJQf3FNVybVSeDZQN7nJhNyP1hIDV8hzGJ
-         eNaQ==
-X-Gm-Message-State: AJIora/+YOPE+nr/rz6WzCHIvKIe9PQqLQzlKYNdhbzyYLXPdxj1/WlY
-        tSdcJrk4ESRp9oyL5j2ETgOLPQ==
-X-Google-Smtp-Source: AGRyM1sj00smfpKwICHzY6SpTgaPGzlA5O2QNHSRwppRFDZebT5XOzOVSijAZ0W9a6cEccpCforGDQ==
-X-Received: by 2002:a05:6402:190e:b0:43a:e914:8c11 with SMTP id e14-20020a056402190e00b0043ae9148c11mr1924522edz.281.1658472116576;
-        Thu, 21 Jul 2022 23:41:56 -0700 (PDT)
-Received: from localhost (host-213-179-129-39.customer.m-online.net. [213.179.129.39])
-        by smtp.gmail.com with ESMTPSA id kw26-20020a170907771a00b0072124df085bsm1680382ejc.15.2022.07.21.23.41.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Jul 2022 23:41:55 -0700 (PDT)
-Date:   Fri, 22 Jul 2022 08:41:54 +0200
-From:   Jiri Pirko <jiri@resnulli.us>
-To:     Vikas Gupta <vikas.gupta@broadcom.com>
-Cc:     Jiri Pirko <jiri@nvidia.com>, Jakub Kicinski <kuba@kernel.org>,
-        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-        "David S. Miller" <davem@davemloft.net>, dsahern@kernel.org,
-        stephen@networkplumber.org, Eric Dumazet <edumazet@google.com>,
-        pabeni@redhat.com, ast@kernel.org, leon@kernel.org,
-        linux-doc@vger.kernel.org, corbet@lwn.net,
-        Michael Chan <michael.chan@broadcom.com>,
-        Andrew Gospodarek <andrew.gospodarek@broadcom.com>
-Subject: Re: [PATCH net-next v4 1/3] devlink: introduce framework for
- selftests
-Message-ID: <YtpGsndCvUIlBLUs@nanopsycho>
-References: <20220718062032.22426-1-vikas.gupta@broadcom.com>
- <20220721072121.43648-1-vikas.gupta@broadcom.com>
- <20220721072121.43648-2-vikas.gupta@broadcom.com>
- <YtlNGWp0D7M3PXvJ@nanopsycho>
- <CAHLZf_tMsZ-K70oUarNXYRnG10WyHNNVO2KpzECoFRy0C0dQpw@mail.gmail.com>
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=Gts6QjrIoCSOBmG3jGbKb3eul2uSF3MTCws6wh5quBU=;
+        b=1WCdXw1hs5WAoCTYkyfim3bjMoPTSbWDAVHK0RQicx+NJii+wlO0aQNz54HPcgOjeF
+         0oYImwDzhmC5QLElrK3XEW69q4nst6XfsafZPQEvROIsXcuaHFzaZ1TqMteU/Tju30x7
+         FaLp93CaflUuXAuqXV7wYc31ULQijwb+hX5zCDOgvxHjAMPZ6WWWycY+YsPDhk4hbhoq
+         E+ov8lg+QBYMSiS1PbAkM0sNBgpZukT3+ES6fdrHSeeG3IW0pEEY1L+JuKfvN5U3EH4K
+         ILITIM/Uj27QTY4uqacyaholYnRiMM15WoN8EGBAv72qrWmlpyAA3H4RLvC2ZOsaUObd
+         L6Sw==
+X-Gm-Message-State: AJIora9zqbGUE/7eoGrUBL9dcnL6ZxUA8IVihVezFVCCLmWlxYaGFIYI
+        3A7Z+d5fQ2TM6QpaaSQlxn+e6w==
+X-Google-Smtp-Source: AGRyM1sJABApEVKk+Q/4KqF+AE/7rMwDeOGGmltspwiEckie8nFl5z667v74WZyz3cKRmw1kjBDbuw==
+X-Received: by 2002:a17:902:ef48:b0:16a:1d4b:22ca with SMTP id e8-20020a170902ef4800b0016a1d4b22camr2071711plx.6.1658474049296;
+        Fri, 22 Jul 2022 00:14:09 -0700 (PDT)
+Received: from [10.94.58.189] ([139.177.225.254])
+        by smtp.gmail.com with ESMTPSA id u8-20020a170902e80800b0016d303f266dsm2930934plg.276.2022.07.22.00.14.02
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 22 Jul 2022 00:14:08 -0700 (PDT)
+Message-ID: <5e5d41e2-5f89-8c52-11e5-0c55c5595a88@bytedance.com>
+Date:   Fri, 22 Jul 2022 15:14:00 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAHLZf_tMsZ-K70oUarNXYRnG10WyHNNVO2KpzECoFRy0C0dQpw@mail.gmail.com>
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.11.0
+Subject: Re: [PATCH 9/9] sched/psi: add PSI_IRQ to track IRQ/SOFTIRQ pressure
+Content-Language: en-US
+To:     Chengming Zhou <zhouchengming@bytedance.com>, hannes@cmpxchg.org,
+        surenb@google.com, mingo@redhat.com, peterz@infradead.org,
+        tj@kernel.org, corbet@lwn.net, akpm@linux-foundation.org,
+        rdunlap@infradead.org
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        songmuchun@bytedance.com, cgroups@vger.kernel.org
+References: <20220721040439.2651-1-zhouchengming@bytedance.com>
+ <20220721040439.2651-10-zhouchengming@bytedance.com>
+ <65d9f79b-be9b-e21e-0624-5c9f2cc0c0b2@bytedance.com>
+ <ce22fa9d-aad0-fc23-d304-14fdd27130f4@bytedance.com>
+From:   Abel Wu <wuyun.abel@bytedance.com>
+In-Reply-To: <ce22fa9d-aad0-fc23-d304-14fdd27130f4@bytedance.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Thu, Jul 21, 2022 at 07:32:08PM CEST, vikas.gupta@broadcom.com wrote:
->Hi Jiri,
->
->
->On Thu, Jul 21, 2022 at 6:27 PM Jiri Pirko <jiri@nvidia.com> wrote:
+On 7/22/22 2:13 PM, Chengming Zhou Wrote:
+> On 2022/7/22 11:30, Abel Wu wrote:
+>> Hi Chengming,
 >>
->> Thu, Jul 21, 2022 at 09:21:19AM CEST, vikas.gupta@broadcom.com wrote:
->> >Add a framework for running selftests.
->> >Framework exposes devlink commands and test suite(s) to the user
->> >to execute and query the supported tests by the driver.
->> >
->> >Below are new entries in devlink_nl_ops
->> >devlink_nl_cmd_selftests_list_doit/dumpit: To query the supported
->> >selftests by the drivers.
->> >devlink_nl_cmd_selftests_run: To execute selftests. Users can
->> >provide a test mask for executing group tests or standalone tests.
->> >
->> >Documentation/networking/devlink/ path is already part of MAINTAINERS &
->> >the new files come under this path. Hence no update needed to the
->> >MAINTAINERS
->> >
->> >Signed-off-by: Vikas Gupta <vikas.gupta@broadcom.com>
->> >Reviewed-by: Michael Chan <michael.chan@broadcom.com>
->> >Reviewed-by: Andy Gospodarek <andrew.gospodarek@broadcom.com>
->> >---
->> > .../networking/devlink/devlink-selftests.rst  |  38 +++
->> > include/net/devlink.h                         |  20 ++
->> > include/uapi/linux/devlink.h                  |  29 +++
->> > net/core/devlink.c                            | 225 ++++++++++++++++++
->> > 4 files changed, 312 insertions(+)
->> > create mode 100644 Documentation/networking/devlink/devlink-selftests.rst
->> >
->> >diff --git a/Documentation/networking/devlink/devlink-selftests.rst b/Documentation/networking/devlink/devlink-selftests.rst
->> >new file mode 100644
->> >index 000000000000..0e9727895987
->> >--- /dev/null
->> >+++ b/Documentation/networking/devlink/devlink-selftests.rst
->> >@@ -0,0 +1,38 @@
->> >+.. SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->> >+
->> >+=================
->> >+Devlink Selftests
->> >+=================
->> >+
->> >+The ``devlink-selftests`` API allows executing selftests on the device.
->> >+
->> >+Tests Mask
->> >+==========
->> >+The ``devlink-selftests`` command should be run with a mask indicating
->> >+the tests to be executed.
->> >+
->> >+Tests Description
->> >+=================
->> >+The following is a list of tests that drivers may execute.
->> >+
->> >+.. list-table:: List of tests
->> >+   :widths: 5 90
->> >+
->> >+   * - Name
->> >+     - Description
->> >+   * - ``DEVLINK_SELFTEST_FLASH``
->> >+     - Devices may have the firmware on non-volatile memory on the board, e.g.
->> >+       flash. This particular test helps to run a flash selftest on the device.
->> >+       Implementation of the test is left to the driver/firmware.
->> >+
->> >+example usage
->> >+-------------
->> >+
->> >+.. code:: shell
->> >+
->> >+    # Query selftests supported on the devlink device
->> >+    $ devlink dev selftests show DEV
->> >+    # Query selftests supported on all devlink devices
->> >+    $ devlink dev selftests show
->> >+    # Executes selftests on the device
->> >+    $ devlink dev selftests run DEV test flash
+>> On 7/21/22 12:04 PM, Chengming Zhou Wrote:
+>>> Now PSI already tracked workload pressure stall information for
+>>> CPU, memory and IO. Apart from these, IRQ/SOFTIRQ could have
+>>> obvious impact on some workload productivity, such as web service
+>>> workload.
+>>>
+>>> When CONFIG_IRQ_TIME_ACCOUNTING, we can get IRQ/SOFTIRQ delta time
+>>> from update_rq_clock_task(), in which we can record that delta
+>>> to CPU curr task's cgroups as PSI_IRQ_FULL status.
 >>
->> "test_id" to be consistend with the attr name and outputs. Please see
->What is "test_id" referring to in this document? Can you please elaborate ?
+>> The {soft,}irq affection should be equal to all the runnable tasks
+>> on that cpu, not only rq->curr. Further I think irqstall is per-cpu
+>> rather than per-cgroup.
+> 
+> Although IRQ/SOFTIRQ is per-cpu, it's the rq->curr who own the CPU at the time
+> and pay for it, meanwhile other groups would be thought as PSI_CPU_FULL.
 
-"test_id" is consistent with the UAPI netlink attribute name, see
-below.
+I don't think rq->curr pays for it if you mean consuming quota here.
+And it doesn't seem appropriate to let other groups treat it as cpu
+stall because the rq->curr is also the victim rather than the one
+causes stall (so it's different from rq->curr causing memstall and
+observed as cpustall by others).
 
->
->> below. Devlink cmdline would accept "test" as well, so you can still use
->Are you mentioning the "test" argument in the above devlink command line option?
-
-Yes, the cmd line accepts shortened option names. So for "test_id", it
-would accept:
-"test_i"
-"test_"
-and "test"
-
-I just wanted to say you, as a user, will be able to still use the
-shortened version, but the option name "test_id" would be consistent
-with UAPI, which is what we usually have.
+> 
+> So I think it's reasonable to account this IRQ/SOFTIRQ delta to rq->curr's groups
+> as PSI_IRQ_FULL pressure stall. And per-cpu IRQ stall can also get from psi_system.
+> 
 
