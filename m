@@ -2,105 +2,91 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B8A61C433EF
-	for <linux-doc@archiver.kernel.org>; Fri, 22 Jul 2022 19:56:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 359E8C43334
+	for <linux-doc@archiver.kernel.org>; Fri, 22 Jul 2022 20:18:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235494AbiGVT42 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 22 Jul 2022 15:56:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52416 "EHLO
+        id S236768AbiGVUSI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 22 Jul 2022 16:18:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45756 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231149AbiGVT40 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 22 Jul 2022 15:56:26 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 354259C27B;
-        Fri, 22 Jul 2022 12:56:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-        bh=ZosF4/sMc0ihmX47ZtSXWJLh9VlS4bzSsfv/BETdwF4=; b=VNhO9L3HEMflnvHx6vsxrwdWR6
-        BeMsUX5k5thgO5ceMSltwRfdDNQWHw+slUvZMJF45URjzjQ5t5orJLjccfNNLVm9hE6NWLyla9sVK
-        DUETIYMZSceOB1HrGZsftTEV9OHhGsKOmWu0qWiWOc4qTm3K06uxzC6at2pm0mP2SkjWzylGhaAsy
-        lTnNeEdIEnfgUc/7nAoeqnAJheKRqrETrRi3SGS3sD8zs/fgcO8TZyt+Y02zuUpLUN4kTq7qSapud
-        zBOQYKE9BXo6z6MRWlVu9REjeS7eiA1KnbqJzHReMVKXPbAYgtT63wFw/+jZThS9GF06guioAuLmt
-        YLCk674g==;
-Received: from [2601:1c0:6280:3f0::a6b3]
-        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1oEykt-009cUn-Fz; Fri, 22 Jul 2022 19:56:11 +0000
-Message-ID: <d0c9c894-bfff-e3ee-c1be-84b7690a7a86@infradead.org>
-Date:   Fri, 22 Jul 2022 12:56:09 -0700
+        with ESMTP id S236362AbiGVUSH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 22 Jul 2022 16:18:07 -0400
+Received: from www62.your-server.de (www62.your-server.de [213.133.104.62])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A1587F50A;
+        Fri, 22 Jul 2022 13:18:06 -0700 (PDT)
+Received: from sslproxy03.your-server.de ([88.198.220.132])
+        by www62.your-server.de with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
+        (Exim 4.92.3)
+        (envelope-from <daniel@iogearbox.net>)
+        id 1oEz62-0001L1-Ni; Fri, 22 Jul 2022 22:18:02 +0200
+Received: from [194.230.146.161] (helo=localhost.localdomain)
+        by sslproxy03.your-server.de with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <daniel@iogearbox.net>)
+        id 1oEz62-0007BH-6C; Fri, 22 Jul 2022 22:18:02 +0200
+Subject: Re: [PATCH bpf 2/2] bpf: Update bpf_design_QA.rst to clarify that
+ attaching to functions is not ABI
+To:     "Paul E. McKenney" <paulmck@kernel.org>, bpf@vger.kernel.org,
+        netdev@vger.kernel.org, linux-doc@vger.kernel.org
+Cc:     corbet@lwn.net, ast@kernel.org, andrii@kernel.org, kafai@fb.com,
+        songliubraving@fb.com, yhs@fb.com, john.fastabend@gmail.com,
+        kpsingh@kernel.org, kernel-team@fb.com
+References: <20220722180641.2902585-1-paulmck@kernel.org>
+ <20220722180641.2902585-2-paulmck@kernel.org>
+From:   Daniel Borkmann <daniel@iogearbox.net>
+Message-ID: <d452fcee-2d15-c3b0-cc44-6b880ecc4722@iogearbox.net>
+Date:   Fri, 22 Jul 2022 22:17:57 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH 2/2] Documentation/filesystems/proc.rst: document procfs
- inode timestamps
+In-Reply-To: <20220722180641.2902585-2-paulmck@kernel.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-To:     Luis Chamberlain <mcgrof@kernel.org>, ebiederm@xmission.com,
-        corbet@lwn.net, keescook@chromium.org, yzaikin@google.com
-Cc:     songmuchun@bytedance.com, zhangyuchen.lcr@bytedance.com,
-        dhowells@redhat.com, deepa.kernel@gmail.com, hch@lst.de,
-        linux-doc@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20220722162934.1888835-1-mcgrof@kernel.org>
- <20220722162934.1888835-3-mcgrof@kernel.org>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20220722162934.1888835-3-mcgrof@kernel.org>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-Authenticated-Sender: daniel@iogearbox.net
+X-Virus-Scanned: Clear (ClamAV 0.103.6/26609/Fri Jul 22 09:56:47 2022)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi--
-
-On 7/22/22 09:29, Luis Chamberlain wrote:
-> The timestamps for procfs files are not well understood and can
-> confuse users and developers [0] in particular for the timestamp
-> for the start time or a process. Clarify what they mean and that
-> they are a reflection of the ephemeral nature of the filesystem
-> inodes.
+On 7/22/22 8:06 PM, Paul E. McKenney wrote:
+> This patch updates bpf_design_QA.rst to clarify that the ability to
+> attach a BPF program to a given function in the kernel does not make
+> that function become part of the Linux kernel's ABI.
 > 
-> The procfs inodes are created when you first read them and then
-> stuffed in the page cache. If the page cache and indodes are
-> reclaimed they can be removed, and re-created with a new timestamp
-> after read again. Document this little bit of tribal knowledge.
-> 
-> [0] https://lkml.kernel.org/r/20220721081617.36103-1-zhangyuchen.lcr@bytedance.com
-> Reported-by: Zhang Yuchen <zhangyuchen.lcr@bytedance.com>
-> Signed-off-by: Luis Chamberlain <mcgrof@kernel.org>
+> Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
 > ---
->  Documentation/filesystems/proc.rst | 16 ++++++++++++++++
->  1 file changed, 16 insertions(+)
+>   Documentation/bpf/bpf_design_QA.rst | 12 ++++++++++++
+>   1 file changed, 12 insertions(+)
 > 
-> diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
-> index 9fd5249f1a5f..9defe9af683a 100644
-> --- a/Documentation/filesystems/proc.rst
-> +++ b/Documentation/filesystems/proc.rst
-> @@ -59,6 +59,15 @@ The proc  file  system acts as an interface to internal data structures in the
->  kernel. It  can  be  used to obtain information about the system and to change
->  certain kernel parameters at runtime (sysctl).
->  
-> +The proc files are dynamic in nature and allow for developers to make the
-
-Awkward. How about:
-
-   The proc files are dynamic and allow for the content to be changed each time
-   a file is read.
-
-> +content to be changed each time a file is read. The proc files and directories
-
-                                                   The proc files and directory
-
-> +inodes are created when someone first reads a respective proc file or directory,
-> +as such the timestamps of the proc files reflect this time. As with other
-> +filesystems, these proc inodes can be removed through reclaim under memory
-> +pressure and so the timestamps of the proc files can change if the proc files
-> +are destroyed and re-created (echo 3 > /proc/sys/vm/drop_caches forces and
-> +illustrate the reclaim of inodes and page cache).
+> diff --git a/Documentation/bpf/bpf_design_QA.rst b/Documentation/bpf/bpf_design_QA.rst
+> index 2ed9128cfbec8..46337a60255e9 100644
+> --- a/Documentation/bpf/bpf_design_QA.rst
+> +++ b/Documentation/bpf/bpf_design_QA.rst
+> @@ -279,3 +279,15 @@ cc (congestion-control) implementations.  If any of these kernel
+>   functions has changed, both the in-tree and out-of-tree kernel tcp cc
+>   implementations have to be changed.  The same goes for the bpf
+>   programs and they have to be adjusted accordingly.
 > +
->  First, we'll  take  a  look  at the read-only parts of /proc. In Chapter 2, we
->  show you how you can use /proc/sys to change settings.
+> +Q: Attaching to kernel functions is an ABI?
 
-Thanks.
--- 
-~Randy
+small nit, I'd change to: Attaching to arbitrary kernel functions [...]
+
+Otherwise I think this could be a bit misunderstood, e.g. most of the networking
+programs (e.g. XDP, tc, sock_addr) have a fixed framework around them where
+attaching programs is part of ABI.
+
+Rest looks good, thanks for writing this up, Paul!
+
+> +-------------------------------------------
+> +Q: BPF programs can be attached to many kernel functions.  Do these
+> +kernel functions become part of the ABI?
+> +
+> +A: NO.
+> +
+> +The kernel function prototypes will change, and BPF programs attaching to
+> +them will need to change.  The BPF compile-once-run-everywhere (CO-RE)
+> +should be used in order to make it easier to adapt your BPF programs to
+> +different versions of the kernel.
+> 
+
