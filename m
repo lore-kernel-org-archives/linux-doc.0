@@ -2,100 +2,224 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9DC87C433EF
-	for <linux-doc@archiver.kernel.org>; Fri, 22 Jul 2022 06:13:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DF022C43334
+	for <linux-doc@archiver.kernel.org>; Fri, 22 Jul 2022 06:22:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234070AbiGVGNO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 22 Jul 2022 02:13:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55112 "EHLO
+        id S233387AbiGVGWG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 22 Jul 2022 02:22:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60594 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234046AbiGVGNN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 22 Jul 2022 02:13:13 -0400
-Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com [IPv6:2607:f8b0:4864:20::532])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7CF3C98216
-        for <linux-doc@vger.kernel.org>; Thu, 21 Jul 2022 23:13:12 -0700 (PDT)
-Received: by mail-pg1-x532.google.com with SMTP id 12so3403189pga.1
-        for <linux-doc@vger.kernel.org>; Thu, 21 Jul 2022 23:13:12 -0700 (PDT)
+        with ESMTP id S229547AbiGVGWF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 22 Jul 2022 02:22:05 -0400
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44E93286FA
+        for <linux-doc@vger.kernel.org>; Thu, 21 Jul 2022 23:22:04 -0700 (PDT)
+Received: by mail-ej1-x62e.google.com with SMTP id tk8so6889013ejc.7
+        for <linux-doc@vger.kernel.org>; Thu, 21 Jul 2022 23:22:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=yARrke6PCvjxCmLFgtGdSSiMEyDwnKvfdAVpDyzSJ2I=;
-        b=z97VqrQ7x/YZUy3zLOEmt/eSRGml+yi+GAd0E/mwSRgY09uWlqSU10IGnHtsGdAbu6
-         daD4LYSn97IZRht2iuQlSqMpPttyG4p2G+Bc62RylwmzTZOwSo6FfZovGWEc3CyTHB0w
-         25UjHWoAv7ytSkjbSQ2BELRLVnx6HotC+I05Z1Hr2bFpvs8fK1YgZUamq2sNPKiFjA3T
-         +zgS2gmr108ZkcOEjMqZN4lWtRakXruUvE7+q7btbhfMb8WyGgtpRmV6Y/khD1tedZHG
-         7plye0Qkp4EMwI50GLN1kARNKrzZNcBISE1cej69hzUUoieuV94Rm1W2H16/pArrnCHP
-         f9pQ==
+        d=resnulli-us.20210112.gappssmtp.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=4teoEu/6jlLuEBrXi44fco9oNrxWO5E3FOKoNlVFqt0=;
+        b=t3B5GXw6DpT2iiC9VZrGPQ9dZdP4it222ntyWbkA7gc7T+Es9QMWLlJF/ExWdrue/p
+         JCXxlpOV6SV2xFbXBfeMUgZvPqLOm852Mg+cWfKgopgnx+R7DJqu6wapWPPbrXhPjCtS
+         FHt0GRAYOe0SMjmmo3QXCE+mLDpgW+Zgqo906IOaFvOlDxY8+/SlruI3ogxOuSuFFNIT
+         JeG4vvXowtlx6IZmrCv/th0ARb2poce+diA8ESZ1TInEXEBlNbAF7m5KkBfYUjYKlZ7r
+         AtF8oxJeHfqG2JJovTTp491EZddMBq0sJwsycE8RR8r+74+/zb4l2LtOQP6J9e2XzSMp
+         9rww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=yARrke6PCvjxCmLFgtGdSSiMEyDwnKvfdAVpDyzSJ2I=;
-        b=KyMDugjaVuF2S4A9zUOibhL3sF3eC1Bv06IH6iQRisUgczF0QvKLjjfkcF7Sw/Wm7i
-         lGzYe2SD5dnfxHqLHnduMJtz2a5yMHDA72JqDOF/xsBDHWz7zBRGbkU0GY/6nJIvWdE7
-         gz9fBVPabMNGyOIbeU0fov2R0FT/9gSWkEFFMWb61nWcE6xPmWL4bhXvJEiLJ9dd5Y2H
-         GSSXsbkGzQKH2oHzGZG7W5Oxfy+1WQuz8WjLCxCFNtvb5sq/2tKxSbCrPfbMdxn9zrrY
-         SPw6KOzZRZPfxKhnXyFEgI/FucHjDmjD8FOBYZs0gkR/5CmhFKwYhUcwZEpnZww3Ym1E
-         vNPA==
-X-Gm-Message-State: AJIora/CV3IOYS8A66tbsmyiYrxufFPwxV5Yw8l+e4BfrPAmimXQuIEB
-        lO0sSSWlUwj+HtyTwUqV0Zsjkw==
-X-Google-Smtp-Source: AGRyM1vHwNHzJRF7/7Py3CdRIp+Wa6Fpdw4wrVosZGyGdi6IkUXQDh/ZwTDjfO7ro7DryX4fOAff1w==
-X-Received: by 2002:a62:140e:0:b0:52b:780d:fb9d with SMTP id 14-20020a62140e000000b0052b780dfb9dmr1883255pfu.65.1658470391585;
-        Thu, 21 Jul 2022 23:13:11 -0700 (PDT)
-Received: from [10.255.164.21] ([139.177.225.239])
-        by smtp.gmail.com with ESMTPSA id a17-20020aa795b1000000b0050dc762816dsm2860788pfk.71.2022.07.21.23.13.05
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 21 Jul 2022 23:13:11 -0700 (PDT)
-Message-ID: <ce22fa9d-aad0-fc23-d304-14fdd27130f4@bytedance.com>
-Date:   Fri, 22 Jul 2022 14:13:02 +0800
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=4teoEu/6jlLuEBrXi44fco9oNrxWO5E3FOKoNlVFqt0=;
+        b=Z7m2OBzmwMHtrmwBBteRxLqh9GJD1thMW6sOyP4oZgYUd772MIgJ1DcGPb9VfC/5h1
+         v5d9WX6uif4to1hbPy+WhcENwm8UShEJ9oVOR5Oqe8GlJdD481PChclkzAGwwQi5yb5y
+         QK5KP3ISiip3MlKptJmrr6DsVM4YKgMGm29tnPPuteqz+qjFp0d0LgthPjUPBjrg/ctj
+         bS/O00UGmQBNUSfabv2QIjgrZU6j1vpm8o9GGkq3JTcA44U6EWc6a1hB3K7ZP6d1I3IY
+         sLrdyFzlbgx7Yga4BW8KhlsikgVFDB98tq3WKLXo+Zw9zBjajXi96ipzNjWvhma88t6p
+         dUQA==
+X-Gm-Message-State: AJIora8C/HzKTcjeOMOSkqi2YQHnIEYQHGrztVNSo5oxPst5fMgphh2F
+        BCMwR/DwhRK0nwztlKfU03yT/ybelvIhbboa
+X-Google-Smtp-Source: AGRyM1tSgeFH8GK9rM+Z8I/XNtKmZF3Zn7iGX2ibiPOuos6BiMjb++c1IXuGJ7/YHhxeWKMWoK0wZQ==
+X-Received: by 2002:a17:907:2d0e:b0:72b:4af7:7ccd with SMTP id gs14-20020a1709072d0e00b0072b4af77ccdmr1839404ejc.209.1658470922733;
+        Thu, 21 Jul 2022 23:22:02 -0700 (PDT)
+Received: from localhost (host-213-179-129-39.customer.m-online.net. [213.179.129.39])
+        by smtp.gmail.com with ESMTPSA id y3-20020aa7ccc3000000b0043577da51f1sm2055425edt.81.2022.07.21.23.22.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 21 Jul 2022 23:22:01 -0700 (PDT)
+Date:   Fri, 22 Jul 2022 08:22:00 +0200
+From:   Jiri Pirko <jiri@resnulli.us>
+To:     Jacob Keller <jacob.e.keller@intel.com>
+Cc:     netdev@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Jiri Pirko <jiri@nvidia.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Tony Nguyen <anthony.l.nguyen@intel.com>,
+        David Ahern <dsahern@kernel.org>,
+        Stephen Hemminger <stephen@networkplumber.org>,
+        linux-doc@vger.kernel.org, intel-wired-lan@lists.osuosl.org
+Subject: Re: [iproute2-next v2 3/3] devlink: add dry run attribute support to
+ devlink flash
+Message-ID: <YtpCCFiXSAFWoUdg@nanopsycho>
+References: <20220721211451.2475600-1-jacob.e.keller@intel.com>
+ <20220721211451.2475600-7-jacob.e.keller@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.0.1
-Subject: Re: [PATCH 9/9] sched/psi: add PSI_IRQ to track IRQ/SOFTIRQ pressure
-Content-Language: en-US
-To:     Abel Wu <wuyun.abel@bytedance.com>, hannes@cmpxchg.org,
-        surenb@google.com, mingo@redhat.com, peterz@infradead.org,
-        tj@kernel.org, corbet@lwn.net, akpm@linux-foundation.org,
-        rdunlap@infradead.org
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        songmuchun@bytedance.com, cgroups@vger.kernel.org
-References: <20220721040439.2651-1-zhouchengming@bytedance.com>
- <20220721040439.2651-10-zhouchengming@bytedance.com>
- <65d9f79b-be9b-e21e-0624-5c9f2cc0c0b2@bytedance.com>
-From:   Chengming Zhou <zhouchengming@bytedance.com>
-In-Reply-To: <65d9f79b-be9b-e21e-0624-5c9f2cc0c0b2@bytedance.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220721211451.2475600-7-jacob.e.keller@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2022/7/22 11:30, Abel Wu wrote:
-> Hi Chengming,
+Thu, Jul 21, 2022 at 11:14:51PM CEST, jacob.e.keller@intel.com wrote:
+>Recent versions of the kernel support the DEVLINK_ATTR_DRY_RUN attribute
+>which allows requesting a dry run of a command. A dry run is simply
+>a request to validate that a command would work, without performing any
+>destructive changes.
+>
+>The attribute is supported by the devlink flash update as a way to
+>validate an update, including potentially the binary image, without
+>modifying the device.
+>
+>Add a "dry_run" option to the command line parsing which will enable
+>this attribute when requested.
+>
+>To avoid potential issues, only allow the attribute to be added to
+>commands when the kernel recognizes it. This is important because some
+>commands do not perform strict validation. If we were to add the
+>attribute without this check, an old kernel may silently accept the
+>command and perform an update even when dry_run was requested.
+>
+>Before adding the attribute, check the maximum attribute from the
+>CTRL_CMD_GETFAMILY and make sure that the kernel recognizes the
+>DEVLINK_ATTR_DRY_RUN attribute.
+>
+>Signed-off-by: Jacob Keller <jacob.e.keller@intel.com>
+>---
+>Changes since v1
+>* Make dl_kernel_supports_dry_run more generic by passing attribute
+>
+> devlink/devlink.c | 45 +++++++++++++++++++++++++++++++++++++++++++--
+> 1 file changed, 43 insertions(+), 2 deletions(-)
+>
+>diff --git a/devlink/devlink.c b/devlink/devlink.c
+>index 1e2cfc3d4285..24f1a70a9656 100644
+>--- a/devlink/devlink.c
+>+++ b/devlink/devlink.c
+>@@ -296,6 +296,7 @@ static void ifname_map_free(struct ifname_map *ifname_map)
+> #define DL_OPT_PORT_FN_RATE_PARENT	BIT(51)
+> #define DL_OPT_LINECARD		BIT(52)
+> #define DL_OPT_LINECARD_TYPE	BIT(53)
+>+#define DL_OPT_DRY_RUN			BIT(54)
 > 
-> On 7/21/22 12:04 PM, Chengming Zhou Wrote:
->> Now PSI already tracked workload pressure stall information for
->> CPU, memory and IO. Apart from these, IRQ/SOFTIRQ could have
->> obvious impact on some workload productivity, such as web service
->> workload.
->>
->> When CONFIG_IRQ_TIME_ACCOUNTING, we can get IRQ/SOFTIRQ delta time
->> from update_rq_clock_task(), in which we can record that delta
->> to CPU curr task's cgroups as PSI_IRQ_FULL status.
+> struct dl_opts {
+> 	uint64_t present; /* flags of present items */
+>@@ -372,6 +373,8 @@ struct dl {
+> 	bool verbose;
+> 	bool stats;
+> 	bool hex;
+>+	bool max_attr_valid;
+>+	uint32_t max_attr;
+> 	struct {
+> 		bool present;
+> 		char *bus_name;
+>@@ -701,6 +704,7 @@ static const enum mnl_attr_data_type devlink_policy[DEVLINK_ATTR_MAX + 1] = {
+> 	[DEVLINK_ATTR_LINECARD_STATE] = MNL_TYPE_U8,
+> 	[DEVLINK_ATTR_LINECARD_TYPE] = MNL_TYPE_STRING,
+> 	[DEVLINK_ATTR_LINECARD_SUPPORTED_TYPES] = MNL_TYPE_NESTED,
+>+	[DEVLINK_ATTR_DRY_RUN] = MNL_TYPE_FLAG,
+> };
 > 
-> The {soft,}irq affection should be equal to all the runnable tasks
-> on that cpu, not only rq->curr. Further I think irqstall is per-cpu
-> rather than per-cgroup.
-
-Although IRQ/SOFTIRQ is per-cpu, it's the rq->curr who own the CPU at the time
-and pay for it, meanwhile other groups would be thought as PSI_CPU_FULL.
-
-So I think it's reasonable to account this IRQ/SOFTIRQ delta to rq->curr's groups
-as PSI_IRQ_FULL pressure stall. And per-cpu IRQ stall can also get from psi_system.
-
-Thanks.
-
+> static const enum mnl_attr_data_type
+>@@ -1522,6 +1526,30 @@ static int dl_args_finding_required_validate(uint64_t o_required,
+> 	return 0;
+> }
 > 
-> Abel
+>+static void dl_get_max_attr(struct dl *dl)
+>+{
+>+	if (!dl->max_attr_valid) {
+
+if (dl->max_attr_valid)
+	return;
+
+and then you can drop the indent.
+
+
+>+		uint32_t max_attr;
+>+		int err;
+>+
+>+		err = mnlg_socket_get_max_attr(&dl->nlg, &max_attr);
+>+		if (err) {
+>+			pr_err("Unable to determine maximum supported devlink attribute\n");
+>+			return;
+>+		}
+>+
+>+		dl->max_attr = max_attr;
+>+		dl->max_attr_valid = true;
+>+	}
+>+}
+>+
+>+static bool dl_kernel_supports_attr(struct dl *dl, enum devlink_attr attr)
+>+{
+>+	dl_get_max_attr(dl);
+>+
+>+	return (dl->max_attr_valid && dl->max_attr >= attr);
+
+Return is not a function. Drop the "()" here.
+
+
+>+}
+>+
+> static int dl_argv_parse(struct dl *dl, uint64_t o_required,
+> 			 uint64_t o_optional)
+> {
+>@@ -2037,6 +2065,16 @@ static int dl_argv_parse(struct dl *dl, uint64_t o_required,
+> 			dl_arg_inc(dl);
+> 			opts->linecard_type = "";
+> 			o_found |= DL_OPT_LINECARD_TYPE;
+>+		} else if (dl_argv_match(dl, "dry_run") &&
+>+			   (o_all & DL_OPT_DRY_RUN)) {
+>+
+>+			if (!dl_kernel_supports_attr(dl, DEVLINK_ATTR_DRY_RUN)) {
+>+				pr_err("Kernel does not support dry_run attribute\n");
+>+				return -EOPNOTSUPP;
+>+			}
+>+
+>+			dl_arg_inc(dl);
+>+			o_found |= DL_OPT_DRY_RUN;
+> 		} else {
+> 			pr_err("Unknown option \"%s\"\n", dl_argv(dl));
+> 			return -EINVAL;
+>@@ -2115,6 +2153,8 @@ static void dl_opts_put(struct nlmsghdr *nlh, struct dl *dl)
+> 		mnl_attr_put_strz(nlh, DEVLINK_ATTR_RATE_NODE_NAME,
+> 				  opts->rate_node_name);
+> 	}
+>+	if (opts->present & DL_OPT_DRY_RUN)
+>+		mnl_attr_put(nlh, DEVLINK_ATTR_DRY_RUN, 0, NULL);
+> 	if (opts->present & DL_OPT_PORT_TYPE)
+> 		mnl_attr_put_u16(nlh, DEVLINK_ATTR_PORT_TYPE,
+> 				 opts->port_type);
+>@@ -2326,7 +2366,7 @@ static void cmd_dev_help(void)
+> 	pr_err("       devlink dev reload DEV [ netns { PID | NAME | ID } ]\n");
+> 	pr_err("                              [ action { driver_reinit | fw_activate } ] [ limit no_reset ]\n");
+> 	pr_err("       devlink dev info [ DEV ]\n");
+>-	pr_err("       devlink dev flash DEV file PATH [ component NAME ] [ overwrite SECTION ]\n");
+>+	pr_err("       devlink dev flash DEV file PATH [ component NAME ] [ overwrite SECTION ] [ dry_run ]\n");
+> }
+> 
+> static bool cmp_arr_last_handle(struct dl *dl, const char *bus_name,
+>@@ -3886,7 +3926,8 @@ static int cmd_dev_flash(struct dl *dl)
+> 			       NLM_F_REQUEST | NLM_F_ACK);
+> 
+> 	err = dl_argv_parse_put(nlh, dl, DL_OPT_HANDLE | DL_OPT_FLASH_FILE_NAME,
+>-				DL_OPT_FLASH_COMPONENT | DL_OPT_FLASH_OVERWRITE);
+>+				DL_OPT_FLASH_COMPONENT | DL_OPT_FLASH_OVERWRITE |
+>+				DL_OPT_DRY_RUN);
+> 	if (err)
+> 		return err;
+> 
+>-- 
+>2.36.1
+>
