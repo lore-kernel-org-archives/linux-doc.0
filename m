@@ -2,62 +2,69 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B53D7CCA489
-	for <linux-doc@archiver.kernel.org>; Fri, 22 Jul 2022 22:11:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 66CD5C43334
+	for <linux-doc@archiver.kernel.org>; Fri, 22 Jul 2022 23:12:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236785AbiGVWLi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 22 Jul 2022 18:11:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39308 "EHLO
+        id S230072AbiGVXM3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 22 Jul 2022 19:12:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58976 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234812AbiGVWLh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 22 Jul 2022 18:11:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 5A80AAF705
-        for <linux-doc@vger.kernel.org>; Fri, 22 Jul 2022 15:11:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1658527894;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=WTAu9Ie82eyCEnPfOUrQ1UYOeYONO590WPWh6n6IMVk=;
-        b=WDOdnPD64wypU5Jv9czfl31On5jo1g2bP//1LHUSVGQhxQx673dyv+Baooe5kyLnTqctuQ
-        olOqYQYV2pxddiJyD4OPIVYkiQUi0I2S2SmX8MtbNc6FkBQoo32Cz18w2GoV8jIVhWmEli
-        405KZov8ffh1NU9Orc5bkhcMsTytC2Y=
-Received: from mail-io1-f71.google.com (mail-io1-f71.google.com
- [209.85.166.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-198-z1bE2xc-MPGX0a6BR57uCQ-1; Fri, 22 Jul 2022 18:11:33 -0400
-X-MC-Unique: z1bE2xc-MPGX0a6BR57uCQ-1
-Received: by mail-io1-f71.google.com with SMTP id z1-20020a6b6501000000b0067c6495c03dso1946641iob.8
-        for <linux-doc@vger.kernel.org>; Fri, 22 Jul 2022 15:11:33 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
-         :references:organization:mime-version:content-transfer-encoding;
-        bh=WTAu9Ie82eyCEnPfOUrQ1UYOeYONO590WPWh6n6IMVk=;
-        b=poIDWLjnf3lCaaeCiRQJXsQMeUS7mUjpbuUutKK0DONS1O+wMsnihkJ/pAmqqpeFtO
-         fb1Y1WgQCd5xP0VA0clyZMZBLZd5rG3x1+tQQL8fbIKfLdCU/+oE3W3wIawXzwxBJbhb
-         eFS3lc+Ob+x5WkgeCxCH7p4lH9NCxnmmR0cm7SPK9nJFjw9xWZYzI7uufvEBfEe/uEAt
-         fbCQzw4LJ+6UeN202dm9uCIbDgnWsbHo0lL5cJDMcAr2wuurkLCm33scdqOexh1FIfNd
-         PhkZMTBG87hjrI49vSe7OPjM3vCCG4gfiKe8gzapmtLWmByUFI/W4ECb/zcHE1SjukYR
-         Ie8A==
-X-Gm-Message-State: AJIora/MjvrXP3DnQqsN+l5AEfwXSNZyfwzhnqwKXwh0m+oNpSfgIz4I
-        EEa9XC+SEMShugLCEVKMF14Q6FGpsL/r9HHWr2Jpa+eU+fCQ4uyxdozHCjBY3SyPePjHyDntQvV
-        yAGwxmP/cIw3Dzt0/wcDm
-X-Received: by 2002:a05:6e02:180d:b0:2dc:2561:4b81 with SMTP id a13-20020a056e02180d00b002dc25614b81mr808835ilv.149.1658527892258;
-        Fri, 22 Jul 2022 15:11:32 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1tQfszjfffkbsvzx/Y2n9I9Nnb9tw/K3y9spbP6QR/C0TjwJrze6wv6O0NmOZWFKAIyPdjySw==
-X-Received: by 2002:a05:6e02:180d:b0:2dc:2561:4b81 with SMTP id a13-20020a056e02180d00b002dc25614b81mr808821ilv.149.1658527891986;
-        Fri, 22 Jul 2022 15:11:31 -0700 (PDT)
-Received: from redhat.com ([38.15.36.239])
-        by smtp.gmail.com with ESMTPSA id o22-20020a02c6b6000000b003415de88347sm2486092jan.123.2022.07.22.15.11.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 Jul 2022 15:11:31 -0700 (PDT)
-Date:   Fri, 22 Jul 2022 16:11:29 -0600
-From:   Alex Williamson <alex.williamson@redhat.com>
-To:     Nicolin Chen <nicolinc@nvidia.com>
-Cc:     <kwankhede@nvidia.com>, <corbet@lwn.net>, <hca@linux.ibm.com>,
+        with ESMTP id S229667AbiGVXM3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 22 Jul 2022 19:12:29 -0400
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com (mail-dm6nam04on2072.outbound.protection.outlook.com [40.107.102.72])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 935DE6EE96;
+        Fri, 22 Jul 2022 16:12:27 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=BxogtJNhAE6uh6SW4KJHeUYwAAexYJABA7qesFTosEmsqn3ZNXeE5L6KF5vbc4c7+XtLPDS+Rex2iGDsIOPPqgFpI2AEOGm2s9Aw+XSjPUX9cLKWIo0ZdtKZB1NLeqlhbGxpieex6GqosPi6mjADKsWqpuEIs2u5CDD465rpRuj1L3uuQLanQ5G9JoHyA3PGkg9VekDRCoH8f+N1Y70gL3mRixspSACHfRQoeX+c6gETiiTS25atULW+TJIYWBSF2dayvEFHcmyh7Rz2Zl3aw8kWCRlXYAj9GRfHxpYMM7/YXcsi5bSsUhIo++wMxmMtjvxPngnJAranJhA18fncpw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=JlXGPBfy12P50MGHfQ5rFXzF/WEhtQSzLJPTTS4+JDI=;
+ b=LD1L1yvIrdDFanNvQvNiC7VB8DmZmeK3lvz98Tqd44F0NvdX+YEkCXK0s+fEUODahKNlDoURvD9HpJhfwvX7voFLrqOyW+2yNxiIGE0mgjC0s4NiRLGJrhsGM1bPkDRgzS6U/IBo7YGyN4rCbCnp0kevtk5L0hU9+kszEBp+WmFtBHzu86KX9daRaOK/xexUnNim7YjzYu8duA5NTEak/UosxL23QYuk1XC6qDFoj10mOT0lY7/Y7jleyIribxdqmz46h+5w2EinAeFDJCZhesdmAJQN9rhMnmEiIocg/yb7JgNc4vn1fmvx194E2Xe3s0DOM6YafDxvXACvnICd1w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 12.22.5.238) smtp.rcpttodomain=linux.ibm.com smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=JlXGPBfy12P50MGHfQ5rFXzF/WEhtQSzLJPTTS4+JDI=;
+ b=tXpGvtVvnZqUgRXqpoV/8f7F4DQHDlsGCXnTTyIqxaDwSH3P5MMYFXXkPeVXHpyMz93U3uY3ByREb5RY9+h9E5RuMVENu1b4jilhP39cCRKplASvseOHxwmDbgQyYiwmuAHYfS7N5JygIS4T9zco4LPhcjqpn5fxsWLwHJbWGSfFkGmJXXHIYuDqiiUTpB7axcg3zGFAxysnl0ppOt8Snd1sjCgiu8SlVhvNV+A1OZCBBFSdQ3rJHK4ECMlQ+xMdnzATb96pY3IoTwRHVKvjbjvXRdtIWcksc1xgkmP7DSl05gh4N4JyOE5rWsRl0RB2GLnPb1d1oLlrTu+auw/ObA==
+Received: from BN8PR04CA0025.namprd04.prod.outlook.com (2603:10b6:408:70::38)
+ by BL0PR12MB4739.namprd12.prod.outlook.com (2603:10b6:208:81::29) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5438.22; Fri, 22 Jul
+ 2022 23:12:25 +0000
+Received: from BN8NAM11FT015.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:408:70:cafe::b) by BN8PR04CA0025.outlook.office365.com
+ (2603:10b6:408:70::38) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5438.21 via Frontend
+ Transport; Fri, 22 Jul 2022 23:12:25 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 12.22.5.238)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 12.22.5.238 as permitted sender) receiver=protection.outlook.com;
+ client-ip=12.22.5.238; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (12.22.5.238) by
+ BN8NAM11FT015.mail.protection.outlook.com (10.13.176.90) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.20.5458.17 via Frontend Transport; Fri, 22 Jul 2022 23:12:25 +0000
+Received: from rnnvmail202.nvidia.com (10.129.68.7) by DRHQMAIL105.nvidia.com
+ (10.27.9.14) with Microsoft SMTP Server (TLS) id 15.0.1497.32; Fri, 22 Jul
+ 2022 23:12:24 +0000
+Received: from rnnvmail202.nvidia.com (10.129.68.7) by rnnvmail202.nvidia.com
+ (10.129.68.7) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.26; Fri, 22 Jul
+ 2022 16:12:23 -0700
+Received: from Asurada-Nvidia (10.127.8.10) by mail.nvidia.com (10.129.68.7)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.26 via Frontend
+ Transport; Fri, 22 Jul 2022 16:12:21 -0700
+Date:   Fri, 22 Jul 2022 16:12:19 -0700
+From:   Nicolin Chen <nicolinc@nvidia.com>
+To:     Alex Williamson <alex.williamson@redhat.com>
+CC:     <kwankhede@nvidia.com>, <corbet@lwn.net>, <hca@linux.ibm.com>,
         <gor@linux.ibm.com>, <agordeev@linux.ibm.com>,
         <borntraeger@linux.ibm.com>, <svens@linux.ibm.com>,
         <zhenyuw@linux.intel.com>, <zhi.a.wang@intel.com>,
@@ -76,133 +83,59 @@ Cc:     <kwankhede@nvidia.com>, <corbet@lwn.net>, <hca@linux.ibm.com>,
         <intel-gfx@lists.freedesktop.org>,
         <dri-devel@lists.freedesktop.org>, <terrence.xu@intel.com>
 Subject: Re: [PATCH v3 00/10] Update vfio_pin/unpin_pages API
-Message-ID: <20220722161129.21059262.alex.williamson@redhat.com>
-In-Reply-To: <20220708224427.1245-1-nicolinc@nvidia.com>
+Message-ID: <Ytsu07eGHS9B7HY8@Asurada-Nvidia>
 References: <20220708224427.1245-1-nicolinc@nvidia.com>
-Organization: Red Hat
+ <20220722161129.21059262.alex.williamson@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20220722161129.21059262.alex.williamson@redhat.com>
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 337f5923-56c2-41af-22b1-08da6c37a3f2
+X-MS-TrafficTypeDiagnostic: BL0PR12MB4739:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: AwhvnXYv5XCXcN7a0URN8Kg6sEoc2euHi0V+kG9pN2hkvl93anJzFkG7KZKYjlLOOWcveeZelupQN1sTHLHuWL5CCdqHARIM6SRDI4eI2JD030L68OY+gYYd8RIqsyC2RbEDNikN1yz0RnRkXdUkesV/YA99ZNv8SUqQUCUu6UQIPPbeGPj3PjuTPj84V0HcTZJX0fgN3mg4X/2y+xCj2RJRPWUAEh4ggE0YJ44lFWsO1q2q536K0C0AiYFfIWD9En8Sa0TH4540Bj2OZk91LfMPCAfB0Zs6cv2IucCMIDhb38wK5QK6tC4/shIlxIjhwVw9yjxzcOEwa835zGXyTxSDLhrl9lzodfiTUXtotZVOuFfO963IQL157fYGxx/VrfnDtggIXUDYm6saD7v/MQwP/pkmrnOrtCK74i8rQI0Td2JFpMW+f4Hb+eOeMeSwzbfZWpLckp8IuJudhs0hGfz6SIbAmKiE2vTb7etmvPjFh2Z38SGZIsN4NpFbcoW+21ElFLrpNwGryzFeCJd9uaKbHO5RWbuo6tie3fJeC8KM8QIBlCsBdvlXWsPQGiovjVcdlVFcqP28EAtb+UFOO2IyrdgNAnUH/DBYRQX/R6HggilsqJ8q+lKKB8yQQPFTl3ZAUF3oyBl25ttQgjBp2BijEf9tpMZJhTuSJd8SlGdL28X+xD+BUMQRm6EO86n871NuijNIv+c3R4POON1cq55+jbvYSOMQBgL0pt0/j11VhMCZ1Uf3AEzBWihjfRx2IWjdiVYjA+SumR0We6HcyLBLlz5sAXk5gqA2400FvJ0P25+6LD6is71uTIIVZQ6ThvGUpT9Bh6KFJe96p0UE2w==
+X-Forefront-Antispam-Report: CIP:12.22.5.238;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:InfoNoRecords;CAT:NONE;SFS:(13230016)(4636009)(376002)(136003)(39860400002)(346002)(396003)(36840700001)(40470700004)(46966006)(82310400005)(40460700003)(33716001)(86362001)(7416002)(81166007)(82740400003)(7406005)(478600001)(8936002)(316002)(36860700001)(356005)(70206006)(47076005)(4326008)(9686003)(8676002)(426003)(186003)(83380400001)(5660300002)(55016003)(70586007)(40480700001)(6916009)(54906003)(2906002)(41300700001)(26005)(336012)(36900700001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jul 2022 23:12:25.4027
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 337f5923-56c2-41af-22b1-08da6c37a3f2
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[12.22.5.238];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT015.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR12MB4739
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 8 Jul 2022 15:44:18 -0700
-Nicolin Chen <nicolinc@nvidia.com> wrote:
+On Fri, Jul 22, 2022 at 04:11:29PM -0600, Alex Williamson wrote:
 
-> This is a preparatory series for IOMMUFD v2 patches. It prepares for
-> replacing vfio_iommu_type1 implementations of vfio_pin/unpin_pages()
-> with IOMMUFD version.
-> 
-> There's a gap between these two versions: the vfio_iommu_type1 version
-> inputs a non-contiguous PFN list and outputs another PFN list for the
-> pinned physical page list, while the IOMMUFD version only supports a
-> contiguous address input by accepting the starting IO virtual address
-> of a set of pages to pin and by outputting to a physical page list.
-> 
-> The nature of existing callers mostly aligns with the IOMMUFD version,
-> except s390's vfio_ccw_cp code where some additional change is needed
-> along with this series. Overall, updating to "iova" and "phys_page"
-> does improve the caller side to some extent.
-> 
-> Also fix a misuse of physical address and virtual address in the s390's
-> crypto code. And update the input naming at the adjacent vfio_dma_rw().
-> 
-> This is on github:
-> https://github.com/nicolinc/iommufd/commits/vfio_pin_pages
-> 
-> Terrence has tested this series on i915; Eric has tested on s390.
-> 
-> Thanks!
-> 
-> Changelog
-> v3:
->  * Added a patch to replace roundup with DIV_ROUND_UP in i915 gvt
->  * Dropped the "driver->ops->unpin_pages" and NULL checks in PATCH-1
->  * Changed to use WARN_ON and separate into lines in PATCH-1
->  * Replaced "guest" words with "user" and fix typo in PATCH-5
->  * Updated commit log of PATCH-1, PATCH-6, and PATCH-10
->  * Added Reviewed/Acked-by from Christoph, Jason, Kirti, Kevin and Eric
->  * Added Tested-by from Terrence (i915) and Eric (s390)
-> v2: https://lore.kernel.org/kvm/20220706062759.24946-1-nicolinc@nvidia.com/
->  * Added a patch to make vfio_unpin_pages return void
->  * Added two patches to remove PFN list from two s390 callers
->  * Renamed "phys_page" parameter to "pages" for vfio_pin_pages
->  * Updated commit log of kmap_local_page() patch
->  * Added Harald's "Reviewed-by" to pa_ind patch
->  * Rebased on top of Alex's extern removal path
-> v1: https://lore.kernel.org/kvm/20220616235212.15185-1-nicolinc@nvidia.com/
-> 
-> Nicolin Chen (10):
->   vfio: Make vfio_unpin_pages() return void
->   drm/i915/gvt: Replace roundup with DIV_ROUND_UP
->   vfio/ap: Pass in physical address of ind to ap_aqic()
->   vfio/ccw: Only pass in contiguous pages
->   vfio: Pass in starting IOVA to vfio_pin/unpin_pages API
->   vfio/ap: Change saved_pfn to saved_iova
->   vfio/ccw: Change pa_pfn list to pa_iova list
->   vfio: Rename user_iova of vfio_dma_rw()
->   vfio/ccw: Add kmap_local_page() for memcpy
->   vfio: Replace phys_pfn with pages for vfio_pin_pages()
-> 
->  .../driver-api/vfio-mediated-device.rst       |   6 +-
->  arch/s390/include/asm/ap.h                    |   6 +-
->  drivers/gpu/drm/i915/gvt/kvmgt.c              |  49 ++---
->  drivers/s390/cio/vfio_ccw_cp.c                | 195 +++++++++++-------
->  drivers/s390/crypto/ap_queue.c                |   2 +-
->  drivers/s390/crypto/vfio_ap_ops.c             |  54 +++--
->  drivers/s390/crypto/vfio_ap_private.h         |   4 +-
->  drivers/vfio/vfio.c                           |  54 ++---
->  drivers/vfio/vfio.h                           |   8 +-
->  drivers/vfio/vfio_iommu_type1.c               |  45 ++--
->  include/linux/vfio.h                          |   9 +-
->  11 files changed, 215 insertions(+), 217 deletions(-)
-> 
+> GVT-g explodes for me with this series on my Broadwell test system,
+> continuously spewing the following:
 
-GVT-g explodes for me with this series on my Broadwell test system,
-continuously spewing the following:
+Thank you for running additional tests.
 
-[   47.344126] ------------[ cut here ]------------
-[   47.348778] WARNING: CPU: 3 PID: 501 at drivers/vfio/vfio_iommu_type1.c:978 vfio_iommu_type1_unpin_pages+0x7b/0x100 [vfio_iommu_type1]
-[   47.360871] Modules linked in: xt_CHECKSUM xt_MASQUERADE xt_conntrack ipt_REJECT nf_reject_ipv4 nft_compat nft_chain_nat nf_nat nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4 nf_tables nfnetlink tun bridge stp llc rfkill sunrpc vfat fat intel_rapl_msr intel_rapl_common x86_pkg_temp_thermal intel_powerclamp coretemp kvm_intel iTCO_wdt at24 mei_wdt mei_hdcp intel_pmc_bxt mei_pxp rapl iTCO_vendor_support intel_cstate pcspkr e1000e mei_me intel_uncore i2c_i801 mei lpc_ich i2c_smbus acpi_pad fuse zram ip_tables kvmgt mdev vfio_iommu_type1 vfio kvm irqbypass i915 crct10dif_pclmul crc32_pclmul crc32c_intel ghash_clmulni_intel pinctrl_lynxpoint i2c_algo_bit drm_buddy video drm_display_helper drm_kms_helper cec ttm drm
-[   47.423398] CPU: 3 PID: 501 Comm: gvt:rcs0 Tainted: G        W         5.19.0-rc4+ #3
-[   47.431228] Hardware name:  /NUC5i5MYBE, BIOS MYBDWi5v.86A.0054.2019.0520.1531 05/20/2019
-[   47.439408] RIP: 0010:vfio_iommu_type1_unpin_pages+0x7b/0x100 [vfio_iommu_type1]
-[   47.446818] Code: 10 00 00 45 31 ed 48 8b 7b 40 48 85 ff 74 12 48 8b 47 18 49 39 c6 77 23 48 8b 7f 10 48 85 ff 75 ee 48 8b 3c 24 e8 45 57 92 e4 <0f> 0b 48 83 c4 08 5b 5d 41 5c 41 5d 41 5e 41 5f c3 48 03 47 28 49
-[   47.465573] RSP: 0018:ffff9ac5806cfbe0 EFLAGS: 00010246
-[   47.470807] RAX: ffff8cb42f4c5180 RBX: ffff8cb4145c03c0 RCX: 0000000000000000
-[   47.477948] RDX: 0000000000000000 RSI: 0000163802000000 RDI: ffff8cb4145c03e0
-[   47.485088] RBP: 0000000000000001 R08: 0000000000000000 R09: ffff9ac581aed000
-[   47.492230] R10: ffff9ac5806cfc58 R11: 00000001b2202000 R12: 0000000000000001
-[   47.499370] R13: 0000000000000000 R14: 0000163802001000 R15: 0000163802000000
-[   47.506513] FS:  0000000000000000(0000) GS:ffff8cb776d80000(0000) knlGS:0000000000000000
-[   47.514608] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[   47.520361] CR2: ffffdc0933f76192 CR3: 0000000118118003 CR4: 00000000003726e0
-[   47.527510] Call Trace:
-[   47.529976]  <TASK>
-[   47.532091]  intel_gvt_dma_unmap_guest_page+0xd5/0x110 [kvmgt]
-[   47.537948]  ppgtt_invalidate_spt+0x323/0x340 [kvmgt]
-[   47.543017]  ppgtt_invalidate_spt+0x173/0x340 [kvmgt]
-[   47.548088]  ppgtt_invalidate_spt+0x173/0x340 [kvmgt]
-[   47.553159]  ppgtt_invalidate_spt+0x173/0x340 [kvmgt]
-[   47.558228]  invalidate_ppgtt_mm+0x5f/0x110 [kvmgt]
-[   47.563124]  _intel_vgpu_mm_release+0xd6/0xe0 [kvmgt]
-[   47.568193]  intel_vgpu_destroy_workload+0x1b7/0x1e0 [kvmgt]
-[   47.573872]  workload_thread+0xa4c/0x19a0 [kvmgt]
-[   47.578613]  ? _raw_spin_rq_lock_irqsave+0x20/0x20
-[   47.583422]  ? dequeue_task_stop+0x70/0x70
-[   47.587530]  ? _raw_spin_lock_irqsave+0x24/0x50
-[   47.592072]  ? intel_vgpu_reset_submission+0x40/0x40 [kvmgt]
-[   47.597746]  kthread+0xe7/0x110
-[   47.600902]  ? kthread_complete_and_exit+0x20/0x20
-[   47.605702]  ret_from_fork+0x22/0x30
-[   47.609293]  </TASK>
-[   47.611503] ---[ end trace 0000000000000000 ]---
+> [   47.348778] WARNING: CPU: 3 PID: 501 at drivers/vfio/vfio_iommu_type1.c:978 vfio_iommu_type1_unpin_pages+0x7b/0x100 [vfio_iommu_type1]
+ 
+> Line 978 is the WARN_ON(i != npage) line.  For the cases where we don't
+> find a matching vfio_dma, I'm seeing addresses that look maybe like
+> we're shifting  a value that's already an iova by PAGE_SHIFT somewhere.
 
-Line 978 is the WARN_ON(i != npage) line.  For the cases where we don't
-find a matching vfio_dma, I'm seeing addresses that look maybe like
-we're shifting  a value that's already an iova by PAGE_SHIFT somewhere.
-Thanks,
+Hmm..I don't understand the PAGE_SHIFT part. Do you mind clarifying?
 
-Alex
+And GVT code initiated an unpin request from gvt_unpin_guest_pag()
+that is currently unpinning one page at a time on a contiguous IOVA
+range, prior to this series. After this series, it leaves the per-
+page routine to the internal loop of vfio_iommu_type1_unpin_pages(),
+which is supposed to do the same.
 
+So, either resulted from the npage input being wrong or some other
+factor weighed in that invoked a vfio_remove_dma on those iovas?
+
+Thanks
+Nic
