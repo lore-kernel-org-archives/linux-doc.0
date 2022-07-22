@@ -2,84 +2,106 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 34039C43334
-	for <linux-doc@archiver.kernel.org>; Fri, 22 Jul 2022 09:48:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EEE40C43334
+	for <linux-doc@archiver.kernel.org>; Fri, 22 Jul 2022 12:02:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236757AbiGVJsD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 22 Jul 2022 05:48:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51976 "EHLO
+        id S233210AbiGVMCs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 22 Jul 2022 08:02:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60690 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236110AbiGVJrf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 22 Jul 2022 05:47:35 -0400
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB59987C29
-        for <linux-doc@vger.kernel.org>; Fri, 22 Jul 2022 02:44:44 -0700 (PDT)
-Received: by mail-wm1-x32f.google.com with SMTP id x23-20020a05600c179700b003a30e3e7989so2187084wmo.0
-        for <linux-doc@vger.kernel.org>; Fri, 22 Jul 2022 02:44:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=resnulli-us.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=E9vcJOsdgIjAaSy7NpDkCxTaNhk4Fnyk07v+Af9hfNE=;
-        b=UEVG9Ul1xV/Pi8+g7CCXwS9rnlt6WG8ar3AAD4WdZyE1jBcnoCLRP7L//NwI1kDL8L
-         ubkFn4w+A7gfw/jnePpdWNkyaKeVPZtHm9VeLeYZZg+1kQHF+pF7jLCensdI/IQTHJW+
-         IpiWa44+MFFgE7ucY8Mr7R2I0+69GyzFe1Y0OwTFvG1k7qj/etUWvzjrFIcbiuYUXGzm
-         QpCV7MFS0hT/5Ln5hXe9baEHC/e5s6zldmt+ypoipKD1yZbVtoc3Yt6jcy+aVP5o3/SJ
-         949wldqEwP8CTzoiiLuCmBHUOubfh47MIzwKABM5FOoC9dNpZrZ8aDK/G81I7fNuQlTr
-         ohPA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=E9vcJOsdgIjAaSy7NpDkCxTaNhk4Fnyk07v+Af9hfNE=;
-        b=ndSTpCHbqZmmXtvkFWQzK5uINgIzXbe2SI4pXPliY2aUeEYpafwzPeGLaIZry9AjLc
-         yKkTFtEqgt9IEzZzG7AxHmuwqN1CmSIJH4tpHpFgS7NDscamIE1kGBHfBV3j0aKLqzw0
-         8YEJRhNHu4VzzeCRFDBUESe/3HXmTxINV+3y4WqdT1KAUo3bLCoV0KzJmpFGtBus3O0I
-         CM2RrELRP2DP6KZZYgeMwI5TOOru+9zJNeTNpXJtyOWGQVmHxPWYx4yWohdykor8Ek+S
-         qp4nuXmWFJWTf6u57uWYmR0+Yfdb5Fm7zXKeTY7Btd4W6VBBbNTZWoyQh6QmxirnNqBY
-         I0dw==
-X-Gm-Message-State: AJIora+3m2hoMBw4JIDFtwZYjkLDiCUysDshtpx7K32DJlr5TbU0WijN
-        XKrwh4tKGgSANbd+qwwx93sSsQ==
-X-Google-Smtp-Source: AGRyM1vZwQho/B7YCxdtN3ZF7W1s7uvwXdN7oMnRkFhmKYK6vvky9qhPo/N4v8mUEX38XsEEorD8wQ==
-X-Received: by 2002:a05:600c:198c:b0:3a2:b440:ed46 with SMTP id t12-20020a05600c198c00b003a2b440ed46mr11773857wmq.110.1658483082901;
-        Fri, 22 Jul 2022 02:44:42 -0700 (PDT)
-Received: from localhost (host-213-179-129-39.customer.m-online.net. [213.179.129.39])
-        by smtp.gmail.com with ESMTPSA id h7-20020a05600c2ca700b003a3253b706esm2417230wmc.34.2022.07.22.02.44.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 Jul 2022 02:44:42 -0700 (PDT)
-Date:   Fri, 22 Jul 2022 11:44:41 +0200
-From:   Jiri Pirko <jiri@resnulli.us>
-To:     Vikas Gupta <vikas.gupta@broadcom.com>
-Cc:     jiri@nvidia.com, kuba@kernel.org, netdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org, davem@davemloft.net,
-        dsahern@kernel.org, stephen@networkplumber.org,
-        edumazet@google.com, pabeni@redhat.com, ast@kernel.org,
-        leon@kernel.org, linux-doc@vger.kernel.org, corbet@lwn.net,
-        michael.chan@broadcom.com, andrew.gospodarek@broadcom.com
-Subject: Re: [PATCH net-next v5 2/2] bnxt_en: implement callbacks for devlink
- selftests
-Message-ID: <YtpxibOCEZrx0KYF@nanopsycho>
-References: <20220722091129.2271-1-vikas.gupta@broadcom.com>
- <20220722091129.2271-3-vikas.gupta@broadcom.com>
+        with ESMTP id S230134AbiGVMCq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 22 Jul 2022 08:02:46 -0400
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B7C121E3E;
+        Fri, 22 Jul 2022 05:02:46 -0700 (PDT)
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26MBNZ8R015014;
+        Fri, 22 Jul 2022 12:02:45 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=date : from : to : cc :
+ subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=pp1; bh=ConxAvz+wtlnAFhhOd/rHqKFx7VizaY3VTM5kHutAA0=;
+ b=jTx0Md22yUog/411ECa0vir5u/IYcgJYqk7n6jiEzqWtm1DQjH14R7fy3E7wDXZSR8ra
+ HH/mIkzd0OCjwxz/F3y6HLRoavkwi3gNjdr8qJ0/78KqZvUqIFgEEpoOeultC0gYEWt7
+ tBhGY5ciC1sH/UcYG5onwapZuGSa8D0162gEAe61A16ZkVOniEnRmVE8pC+7z4ipIlYa
+ Ng285mu45Dho7CzZex8nPUgC0FHiGOXy0CIxl8qlzZBoMzBzozg9C6b9vnUYSgY6H3k/
+ +lmJ3eK78lZ30F6Is7SlAARBw0lVyHdCKMbyNIWgiSDIwJcYzgCAhXaepx5wB9iJHSp7 6Q== 
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hftyw11kb-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 22 Jul 2022 12:02:44 +0000
+Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
+        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26MBQntP025941;
+        Fri, 22 Jul 2022 12:02:44 GMT
+Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com [149.81.74.107])
+        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hftyw11j2-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 22 Jul 2022 12:02:44 +0000
+Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
+        by ppma03fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 26MBpvcp013190;
+        Fri, 22 Jul 2022 12:02:41 GMT
+Received: from b06cxnps4075.portsmouth.uk.ibm.com (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
+        by ppma03fra.de.ibm.com with ESMTP id 3hbmy8p8ba-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 22 Jul 2022 12:02:41 +0000
+Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com [9.149.105.62])
+        by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 26MC2cL424838606
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Fri, 22 Jul 2022 12:02:38 GMT
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 735BAAE04D;
+        Fri, 22 Jul 2022 12:02:38 +0000 (GMT)
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 861F6AE051;
+        Fri, 22 Jul 2022 12:02:37 +0000 (GMT)
+Received: from li-4a3a4a4c-28e5-11b2-a85c-a8d192c6f089.ibm.com (unknown [9.145.22.197])
+        by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+        Fri, 22 Jul 2022 12:02:37 +0000 (GMT)
+Date:   Fri, 22 Jul 2022 14:02:35 +0200
+From:   Alexander Gordeev <agordeev@linux.ibm.com>
+To:     Bagas Sanjaya <bagasdotme@gmail.com>
+Cc:     linux-doc@vger.kernel.org, Heiko Carstens <hca@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Sven Schnelle <svens@linux.ibm.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Halil Pasic <pasic@linux.ibm.com>,
+        Tony Krowiak <akrowiak@linux.ibm.com>,
+        Jason Herne <jjherne@linux.ibm.com>,
+        linux-s390@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/8] Documentation: s390: documentation fixes for vfio_ap
+ driver
+Message-ID: <YtqR22xzZJdGTpPq@li-4a3a4a4c-28e5-11b2-a85c-a8d192c6f089.ibm.com>
+References: <20220722084946.22965-1-bagasdotme@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220722091129.2271-3-vikas.gupta@broadcom.com>
+In-Reply-To: <20220722084946.22965-1-bagasdotme@gmail.com>
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: JbUPWQYxeSzk0eznlXUgXx8WgSwN5w5s
+X-Proofpoint-ORIG-GUID: wb6M0lt-idyvv69x9zvHp06-s9R1ZGHk
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-07-22_03,2022-07-21_02,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 clxscore=1011
+ mlxlogscore=614 adultscore=0 impostorscore=0 mlxscore=0 spamscore=0
+ priorityscore=1501 bulkscore=0 lowpriorityscore=0 suspectscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2206140000 definitions=main-2207220048
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Fri, Jul 22, 2022 at 11:11:29AM CEST, vikas.gupta@broadcom.com wrote:
->Add callbacks
->=============
->.selftest_check: returns true for flash selftest.
->.selftest_run: runs a flash selftest.
->
->Also, refactor NVM APIs so that they can be
->used with devlink and ethtool both.
->
->Signed-off-by: Vikas Gupta <vikas.gupta@broadcom.com>
->Reviewed-by: Michael Chan <michael.chan@broadcom.com>
->Reviewed-by: Andy Gospodarek <andrew.gospodarek@broadcom.com>
+On Fri, Jul 22, 2022 at 03:49:39PM +0700, Bagas Sanjaya wrote:
+> Here is documentation fixes for vfio_ap driver, as recently reported in
+> linux-next.
+> 
+> This series is based on next-20220721.
 
-Reviewed-by: Jiri Pirko <jiri@nvidia.com>
+Hi Bagas,
+
+The warnings have already fixed.
+Please, send your style changes if you find it approprieate.
+
+FWIW, patch #1 causes a whitespace trailing error.
+
+Thanks!
