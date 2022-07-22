@@ -2,57 +2,57 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 43098C43334
-	for <linux-doc@archiver.kernel.org>; Thu, 21 Jul 2022 23:54:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A92C4CCA488
+	for <linux-doc@archiver.kernel.org>; Fri, 22 Jul 2022 00:25:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229551AbiGUXy2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 21 Jul 2022 19:54:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60038 "EHLO
+        id S229671AbiGVAZJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 21 Jul 2022 20:25:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50994 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229938AbiGUXy1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Jul 2022 19:54:27 -0400
-Received: from mail-ua1-x929.google.com (mail-ua1-x929.google.com [IPv6:2607:f8b0:4864:20::929])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF2FD95B14
-        for <linux-doc@vger.kernel.org>; Thu, 21 Jul 2022 16:54:21 -0700 (PDT)
-Received: by mail-ua1-x929.google.com with SMTP id w22so1299811uau.7
-        for <linux-doc@vger.kernel.org>; Thu, 21 Jul 2022 16:54:21 -0700 (PDT)
+        with ESMTP id S229870AbiGVAZH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 21 Jul 2022 20:25:07 -0400
+Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A24731926
+        for <linux-doc@vger.kernel.org>; Thu, 21 Jul 2022 17:25:03 -0700 (PDT)
+Received: by mail-ed1-x52f.google.com with SMTP id y4so4092303edc.4
+        for <linux-doc@vger.kernel.org>; Thu, 21 Jul 2022 17:25:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=jtYczuHhIpE7bWu8QNlaqNlPc/Yb6w4amtZYdihwjGs=;
-        b=aSybbqRteJF9FM1MEcuxfiEKcG3cKkUItxrCLrCsmhgJy4Gb0C5Dp2cgVQ4XUaO+oF
-         xDwSwtlT6oMFmf9vRO40yVSKfuMzw3PoaMIidUQqAmGpY3S6XQH0NfW+lbpGJRehAim5
-         KTQrTPvHhfDa0ykkbFYF/MmHTl8c9euFhC6U7FvGEYv6WwcjUSMwgHKG2oxLmHpz03Eb
-         +6JmxGIcyHYAn6J6jUkavfj7qxiUEKF+TD1hXJVH5vhtd0CTcePdQfUReE/EsGs3ZbBl
-         fLglp7wn7r91YMYgebMMcTDVorqh1ghjEROrlRHLcGaqGdd2l4wInpGWqrjxQaPq1XXh
-         INRQ==
+        bh=T+jSm49KfUYG5RhGRq72Xx7Q+0SpyncIbR4IwkZUcPE=;
+        b=XxZ+xsTfqHc5yjsY1Ryxp5yNP3TbAnty9tQNkC/zAyHdMw9qTL9WknfOc6BYk7CBwr
+         Uo5E2gZzdnaIcbdWbi3Gk1TPuPkh0x9RCKMcwGsxwYKQMowSuD3E66Ou10SASq6e2GqF
+         DXrjW9tGWfObIxDuxZ+hESxFu+/cb9K2qp+l5uoP7l1rLFwiizuxgBwmZo8yXrBYrjyN
+         pNsTC5E0mC0XDiRjridjW023zMNF7ZZuTCTPuDMaVX6blU86/8l/lHvqxH5E6+1ZKQMX
+         hoLWS7dlqn0QYTNkvfQrzP6W3uaFpm6VKIiOuQlePW3vjlrHENCmp9eoZPDCEjIHjftL
+         mefw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=jtYczuHhIpE7bWu8QNlaqNlPc/Yb6w4amtZYdihwjGs=;
-        b=xAJ+koL3sgzIjOeb+sAa88nccFVrKH58Xuv1w3QElV6kEZXAME5dmFQlnxBrU7hv4h
-         GIZwEetWWhrOEP9sk9bc9JLkf52le33lHcro4XLCio0rV3yKI7b2AH6Ah0SwOixlMqhv
-         biKvIsf6R9fECibq27izobbLaii/zcz8V2dJbt8o2UUdA2VvvePI4D4CbYo5OMPqVV9N
-         Pg/0UkUCM+5OAYqs+O8YBTwEZGWRiGJqgkL35/uA4KX2P5ncwljUFbgFB1KCFc/m5hwj
-         zHk1DLQYYfU9IDdyTQ6jxu6VxjpqrCZfqoXWnZYj9z+SbPJDaDi6ob6vBoAEtvDRkbFj
-         a7bQ==
-X-Gm-Message-State: AJIora8RJi/3LYmyleouF4FHOpBajAE3ZRdCzuRPfcEhITdMaJNHH5Ib
-        IxA/BnZYe7Lk8a8+KYMI6udhpGLgq2xM+XVH6q2LFA==
-X-Google-Smtp-Source: AGRyM1tdx8kLjlcV51jrflrWwGExmOREJd4TjCuKF5p8XGFc3o+TklGRnmVssXjDKp+NGaD1drIjrjgkBk9hTuKzyc0=
-X-Received: by 2002:a9f:2f0f:0:b0:384:26c2:ead1 with SMTP id
- x15-20020a9f2f0f000000b0038426c2ead1mr277189uaj.107.1658447660782; Thu, 21
- Jul 2022 16:54:20 -0700 (PDT)
+        bh=T+jSm49KfUYG5RhGRq72Xx7Q+0SpyncIbR4IwkZUcPE=;
+        b=L9ep2GX79Kpx3uUhp3uCYrUVRVZdNas/GJmfJOP0hOT3sXGDukgdIxjZ3Gy1oXBaGy
+         KPqTXarb6UwFHiCTKc3rQSS1OMlkmBYnR+kHnGkUmo4OvYQox2MfSx0gA6jX5WSGo/wN
+         Btlnn/Wl4cH17rEkTL2mgtNidCFbcUKdm2Xf6Nra8vgDoLB9YoxpZd3WFs/KSSvnI2Lp
+         8+ktPQqMMK/PAwR0QWmFX1RQnGEzsJDVUWe0G5SBHfy2J2NU/OxVnj6TvNs45vdtv+Un
+         LfAvKzo0DQYrlCvk7kxrmWwvQNzvQW/FvIiWGAujgaVElm6ROGKgo9tI+tGSzWYjuiqa
+         Vx+w==
+X-Gm-Message-State: AJIora85ob8BUvLJ39vTufdxcgl/kBnSjpCZcI9rgQ6qj5NMUIjVIGJj
+        vjD45UQT9FAWFt/wuYhxy/fNW1262Oihvc1PS4Ka4w==
+X-Google-Smtp-Source: AGRyM1sEecyNIEXWcjY+YZG5ShpQUpGqjIkWEVj6V5QstDHGZLRFssfV9P9uHVtjrqmKV1UbLeMuPVtGv+VVI7lVfVU=
+X-Received: by 2002:a05:6402:2997:b0:43b:247b:89cb with SMTP id
+ eq23-20020a056402299700b0043b247b89cbmr905683edb.91.1658449501795; Thu, 21
+ Jul 2022 17:25:01 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220721081026.1247067-1-sadiyakazi@google.com>
-In-Reply-To: <20220721081026.1247067-1-sadiyakazi@google.com>
-From:   David Gow <davidgow@google.com>
-Date:   Fri, 22 Jul 2022 07:54:09 +0800
-Message-ID: <CABVgOS=iOkquTXEPdS1skRj7Bda-H-REDW8mozziEYjn8RnRnw@mail.gmail.com>
+References: <20220721081026.1247067-1-sadiyakazi@google.com> <CABVgOS=iOkquTXEPdS1skRj7Bda-H-REDW8mozziEYjn8RnRnw@mail.gmail.com>
+In-Reply-To: <CABVgOS=iOkquTXEPdS1skRj7Bda-H-REDW8mozziEYjn8RnRnw@mail.gmail.com>
+From:   Brendan Higgins <brendanhiggins@google.com>
+Date:   Thu, 21 Jul 2022 20:24:50 -0400
+Message-ID: <CAFd5g46ssneHhqg8uXSZZ0=GP8DyqYq2xvQp5tK+cuUV2aVbrA@mail.gmail.com>
 Subject: Re: [PATCH v2] Documentation: kunit: Add CLI args for kunit_tool
-To:     Sadiya Kazi <sadiyakazi@google.com>
-Cc:     Brendan Higgins <brendanhiggins@google.com>,
+To:     David Gow <davidgow@google.com>
+Cc:     Sadiya Kazi <sadiyakazi@google.com>,
         Shuah Khan <skhan@linuxfoundation.org>,
         Jonathan Corbet <corbet@lwn.net>,
         =?UTF-8?B?TWHDrXJhIENhbmFs?= <mairacanal@riseup.net>,
@@ -66,130 +66,91 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jul 21, 2022 at 4:26 PM Sadiya Kazi <sadiyakazi@google.com> wrote:
+On Thu, Jul 21, 2022 at 7:54 PM David Gow <davidgow@google.com> wrote:
 >
-> Run_wrapper.rst was missing some command line arguments. Added
-> additional args in the file.
+> On Thu, Jul 21, 2022 at 4:26 PM Sadiya Kazi <sadiyakazi@google.com> wrote:
+
+[...]
+
+> >  Documentation/dev-tools/kunit/run_wrapper.rst | 60 ++++++++++++++++++-
+> >  1 file changed, 59 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/Documentation/dev-tools/kunit/run_wrapper.rst b/Documentation/dev-tools/kunit/run_wrapper.rst
+> > index 5e560f2c5fca..600af7ac5f88 100644
+> > --- a/Documentation/dev-tools/kunit/run_wrapper.rst
+> > +++ b/Documentation/dev-tools/kunit/run_wrapper.rst
+
+[...]
+
+> > @@ -257,3 +257,61 @@ command line arguments:
+> >              added or modified. Instead, enable all tests
+> >              which have satisfied dependencies by adding
+> >              ``CONFIG_KUNIT_ALL_TESTS=y`` to your ``.kunitconfig``.
+> > +
+> > +- ``--kunitconfig``: Specifies the path or the directory of the ``.kunitconfig``
+> > +  file. For example:
+> > +
+> > +  - ``lib/kunit/.kunitconfig`` can be the path of the file.
+> > +
+> > +  - ``lib/kunit`` can be the directory in which the file is located.
+> > +
+> > +  This file is used to build and run with a predefined set of tests
+> > +  and their dependencies. For example, to run tests for a given subsystem.
+> > +
+> > +- ``--kconfig_add``: Specifies additional configuration options to be
+> > +  appended to the ``.kunitconfig`` file.
+> > +  For example, ``./tools/testing/kunit/kunit.py run --kconfig_add CONFIG_KASAN=y``.
+> > +
 >
-> Signed-off-by: Sadiya Kazi <sadiyakazi@google.com>
-> ---
-> Changes since V1:
-> https://lore.kernel.org/linux-kselftest/20220719092214.995965-1-sadiyakazi@google.com/
-> - Addressed most of the review comments from Maira and David, except
->   removing the duplicate arguments as I felt its worth keeping them in
->   the reference documentation as well as in context. We can improve them
->   and differentiate their use cases in the future patches.
+> Just FYI, this example won't work as-is until KASAN for UML is merged.
+> It's already sitting in uml/next, so this shouldn't be a problem:
+> https://git.kernel.org/pub/scm/linux/kernel/git/uml/linux.git/commit/?h=next&id=5b301409e8bc5d7fad2ee138be44c5c529dd0874
 >
+> But if you want to try it on 5.19 or the current kunit branch, you'll
+> need to add, e.g., --arch=x86_64
 >
-
-Looks good to me. A couple of super-minor suggestions below, and a
-note about how KASAN/UML support hasn't fully landed yet (but I still
-like it as an example, so maybe leave it as-is).
-
-None of these are deal breakers, though, and I'd be okay with this
-going in as-is, as well.
-
-Reviewed-by: David Gow <davidgow@google.com>
-
-Cheers,
--- David
-
-> ---
->  Documentation/dev-tools/kunit/run_wrapper.rst | 60 ++++++++++++++++++-
->  1 file changed, 59 insertions(+), 1 deletion(-)
+> > +- ``--arch``: Runs tests on the specified architecture. The architecture
+> > +  specified must match the Kbuild ARCH environment variable.
 >
-> diff --git a/Documentation/dev-tools/kunit/run_wrapper.rst b/Documentation/dev-tools/kunit/run_wrapper.rst
-> index 5e560f2c5fca..600af7ac5f88 100644
-> --- a/Documentation/dev-tools/kunit/run_wrapper.rst
-> +++ b/Documentation/dev-tools/kunit/run_wrapper.rst
-> @@ -233,7 +233,7 @@ Command-Line Arguments
->  ======================
+> I'm not quite sold on 'must match the Kbuild ARCH environment
+> variable'. That seems to imply to me that you need to set ARCH= _and_
+> use --arch. Instead, --arch itself sets ARCH=, so the values use the
+> same names.
+
+Agreed, I was just about to reply with a comment to the same effect.
+
+> > +  For example, i386, x86_64, arm, um, etc. Non-UML architectures run on QEMU.
+> > +  Default is `um`.
+> > +
+> > +- ``--cross_compile``: Specifies the Kbuild toolchain. It passes the
+> > +  same argument as passed to the ``CROSS_COMPILE`` variable used by
+> > +  Kbuild. This will be the prefix for the toolchain
+> > +  binaries such as GCC. For example:
+> > +
+> > +  - ``sparc64-linux-gnu-`` if we have the sparc toolchain installed on
+> > +    our system.
+> > +
+> > +  - ``$HOME/toolchains/microblaze/gcc-9.2.0-nolibc/microblaze-linux/bin/microblaze-linux``
+> > +    if we have downloaded the microblaze toolchain from the 0-day
+> > +    website to a specified path in our home directory called toolchains.
+> > +
+> > +- ``--qemu_config``: Specifies the path to a file containing a
+> > +  custom qemu architecture definition. This should be a python file
+> > +  containing a `QemuArchParams` object.
+> > +
+> > +- ``--qemu_args``: Specifies additional QEMU arguments, for example, "-smp 8".
+> > +
+> > +- ``--jobs``: Specifies the number of jobs (commands) to run simultaneously.4
+> > +  By default, this is set to the number of cores on your system.
+> > +
+> > +- ``--timeout``: Specifies the maximum number of seconds allowed for all tests to run.
+> > +  This does not include the time taken to build the tests.
+> > +
+> > +- ``--kernel_args``: Specifies additional kernel command-line arguments. Might be repeated.
 >
->  kunit_tool has a number of other command-line arguments which can
-> -be useful for our test environment. Below the most commonly used
-> +be useful for our test environment. Below are the most commonly used
->  command line arguments:
->
->  - ``--help``: Lists all available options. To list common options,
-> @@ -257,3 +257,61 @@ command line arguments:
->              added or modified. Instead, enable all tests
->              which have satisfied dependencies by adding
->              ``CONFIG_KUNIT_ALL_TESTS=y`` to your ``.kunitconfig``.
-> +
-> +- ``--kunitconfig``: Specifies the path or the directory of the ``.kunitconfig``
-> +  file. For example:
-> +
-> +  - ``lib/kunit/.kunitconfig`` can be the path of the file.
-> +
-> +  - ``lib/kunit`` can be the directory in which the file is located.
-> +
-> +  This file is used to build and run with a predefined set of tests
-> +  and their dependencies. For example, to run tests for a given subsystem.
-> +
-> +- ``--kconfig_add``: Specifies additional configuration options to be
-> +  appended to the ``.kunitconfig`` file.
-> +  For example, ``./tools/testing/kunit/kunit.py run --kconfig_add CONFIG_KASAN=y``.
-> +
+> Nit: maybe "can be repeated"? As it's the reader of this documentation
+> who will likely be doing the repeating. Or "may be repeated"?
 
-Just FYI, this example won't work as-is until KASAN for UML is merged.
-It's already sitting in uml/next, so this shouldn't be a problem:
-https://git.kernel.org/pub/scm/linux/kernel/git/uml/linux.git/commit/?h=next&id=5b301409e8bc5d7fad2ee138be44c5c529dd0874
++1
 
-But if you want to try it on 5.19 or the current kunit branch, you'll
-need to add, e.g., --arch=x86_64
-
-> +- ``--arch``: Runs tests on the specified architecture. The architecture
-> +  specified must match the Kbuild ARCH environment variable.
-
-I'm not quite sold on 'must match the Kbuild ARCH environment
-variable'. That seems to imply to me that you need to set ARCH= _and_
-use --arch. Instead, --arch itself sets ARCH=, so the values use the
-same names.
-
-> +  For example, i386, x86_64, arm, um, etc. Non-UML architectures run on QEMU.
-> +  Default is `um`.
-> +
-> +- ``--cross_compile``: Specifies the Kbuild toolchain. It passes the
-> +  same argument as passed to the ``CROSS_COMPILE`` variable used by
-> +  Kbuild. This will be the prefix for the toolchain
-> +  binaries such as GCC. For example:
-> +
-> +  - ``sparc64-linux-gnu-`` if we have the sparc toolchain installed on
-> +    our system.
-> +
-> +  - ``$HOME/toolchains/microblaze/gcc-9.2.0-nolibc/microblaze-linux/bin/microblaze-linux``
-> +    if we have downloaded the microblaze toolchain from the 0-day
-> +    website to a specified path in our home directory called toolchains.
-> +
-> +- ``--qemu_config``: Specifies the path to a file containing a
-> +  custom qemu architecture definition. This should be a python file
-> +  containing a `QemuArchParams` object.
-> +
-> +- ``--qemu_args``: Specifies additional QEMU arguments, for example, "-smp 8".
-> +
-> +- ``--jobs``: Specifies the number of jobs (commands) to run simultaneously.4
-> +  By default, this is set to the number of cores on your system.
-> +
-> +- ``--timeout``: Specifies the maximum number of seconds allowed for all tests to run.
-> +  This does not include the time taken to build the tests.
-> +
-> +- ``--kernel_args``: Specifies additional kernel command-line arguments. Might be repeated.
-
-Nit: maybe "can be repeated"? As it's the reader of this documentation
-who will likely be doing the repeating. Or "may be repeated"?
-> +
-> +- ``--run_isolated``: If set, boots the kernel for each individual suite/test.
-> +  This is useful for debugging a non-hermetic test, one that
-> +  might pass/fail based on what ran before it.
-> +
-> +- ``--raw_output``: If set, generates unformatted output from kernel. Possible options are:
-> +
-> +   - ``all``: To view the full kernel output, use ``--raw_output=all``.
-> +
-> +   - ``kunit``: This is the default option and filters to KUnit output. Use ``--raw_output`` or ``--raw_output=kunit``.
-> +
-> +- ``--json``: If set, stores the test results in a JSON format and prints to `stdout` or
-> +  saves to a file if a filename is specified.
-> --
-> 2.37.0.170.g444d1eabd0-goog
->
+[...]
