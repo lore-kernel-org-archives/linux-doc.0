@@ -2,106 +2,68 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EEE40C43334
-	for <linux-doc@archiver.kernel.org>; Fri, 22 Jul 2022 12:02:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 626B1C43334
+	for <linux-doc@archiver.kernel.org>; Fri, 22 Jul 2022 13:59:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233210AbiGVMCs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 22 Jul 2022 08:02:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60690 "EHLO
+        id S235393AbiGVN7M (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 22 Jul 2022 09:59:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35152 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230134AbiGVMCq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 22 Jul 2022 08:02:46 -0400
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B7C121E3E;
-        Fri, 22 Jul 2022 05:02:46 -0700 (PDT)
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26MBNZ8R015014;
-        Fri, 22 Jul 2022 12:02:45 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=date : from : to : cc :
- subject : message-id : references : mime-version : content-type :
- in-reply-to; s=pp1; bh=ConxAvz+wtlnAFhhOd/rHqKFx7VizaY3VTM5kHutAA0=;
- b=jTx0Md22yUog/411ECa0vir5u/IYcgJYqk7n6jiEzqWtm1DQjH14R7fy3E7wDXZSR8ra
- HH/mIkzd0OCjwxz/F3y6HLRoavkwi3gNjdr8qJ0/78KqZvUqIFgEEpoOeultC0gYEWt7
- tBhGY5ciC1sH/UcYG5onwapZuGSa8D0162gEAe61A16ZkVOniEnRmVE8pC+7z4ipIlYa
- Ng285mu45Dho7CzZex8nPUgC0FHiGOXy0CIxl8qlzZBoMzBzozg9C6b9vnUYSgY6H3k/
- +lmJ3eK78lZ30F6Is7SlAARBw0lVyHdCKMbyNIWgiSDIwJcYzgCAhXaepx5wB9iJHSp7 6Q== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hftyw11kb-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 22 Jul 2022 12:02:44 +0000
-Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
-        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26MBQntP025941;
-        Fri, 22 Jul 2022 12:02:44 GMT
-Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com [149.81.74.107])
-        by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hftyw11j2-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 22 Jul 2022 12:02:44 +0000
-Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
-        by ppma03fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 26MBpvcp013190;
-        Fri, 22 Jul 2022 12:02:41 GMT
-Received: from b06cxnps4075.portsmouth.uk.ibm.com (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
-        by ppma03fra.de.ibm.com with ESMTP id 3hbmy8p8ba-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 22 Jul 2022 12:02:41 +0000
-Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com [9.149.105.62])
-        by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 26MC2cL424838606
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 22 Jul 2022 12:02:38 GMT
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 735BAAE04D;
-        Fri, 22 Jul 2022 12:02:38 +0000 (GMT)
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 861F6AE051;
-        Fri, 22 Jul 2022 12:02:37 +0000 (GMT)
-Received: from li-4a3a4a4c-28e5-11b2-a85c-a8d192c6f089.ibm.com (unknown [9.145.22.197])
-        by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
-        Fri, 22 Jul 2022 12:02:37 +0000 (GMT)
-Date:   Fri, 22 Jul 2022 14:02:35 +0200
-From:   Alexander Gordeev <agordeev@linux.ibm.com>
-To:     Bagas Sanjaya <bagasdotme@gmail.com>
-Cc:     linux-doc@vger.kernel.org, Heiko Carstens <hca@linux.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@linux.ibm.com>,
-        Sven Schnelle <svens@linux.ibm.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Halil Pasic <pasic@linux.ibm.com>,
-        Tony Krowiak <akrowiak@linux.ibm.com>,
-        Jason Herne <jjherne@linux.ibm.com>,
-        linux-s390@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/8] Documentation: s390: documentation fixes for vfio_ap
- driver
-Message-ID: <YtqR22xzZJdGTpPq@li-4a3a4a4c-28e5-11b2-a85c-a8d192c6f089.ibm.com>
-References: <20220722084946.22965-1-bagasdotme@gmail.com>
+        with ESMTP id S235285AbiGVN6v (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 22 Jul 2022 09:58:51 -0400
+Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB3349285D;
+        Fri, 22 Jul 2022 06:58:43 -0700 (PDT)
+Received: from cwcc.thunk.org (pool-173-48-118-63.bstnma.fios.verizon.net [173.48.118.63])
+        (authenticated bits=0)
+        (User authenticated as tytso@ATHENA.MIT.EDU)
+        by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 26MDwRgt016697
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 22 Jul 2022 09:58:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
+        t=1658498310; bh=rwMfSXAuhEWsFUTOygNd9rda0/OfmfBu3Eumm0Mclbo=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References;
+        b=PlF3U8Kn150/Boj/lVTzP1W9sc3hLJv3I3z9WUC6jm49MN6yCyp+K4ZSGovTu2RO5
+         WZBlBsa5lBEyIk4+vEJm0IbCL5FCFVm+k+ygli4YTn9THgzj/1AeOuDIxbXSMwXH90
+         fp27ZkCv1CA8GIZxpEbjoRje8n/iNzk11SlX4xp6HUplAFBK53hr1dvWez1K55uMLC
+         KkDOsD26M9bGMQG+l2Xmx2HJtco7kRqFT2+KWspExsQpNB2NSIgNn6BTeGkJ665bIh
+         TSxab7IedKWQsskiHjGr3l3c3iVBVzwljluBres5s1LZmg5j5ZX46LznHJ9L/ILLJf
+         wYxrtp8z/OkcQ==
+Received: by cwcc.thunk.org (Postfix, from userid 15806)
+        id 6672315C3EF7; Fri, 22 Jul 2022 09:58:27 -0400 (EDT)
+From:   "Theodore Ts'o" <tytso@mit.edu>
+To:     bagasdotme@gmail.com, linux-doc@vger.kernel.org
+Cc:     "Theodore Ts'o" <tytso@mit.edu>, linux-ext4@vger.kernel.org,
+        corbet@lwn.net, Andreas Dilger <adilger.kernel@dilger.ca>,
+        wangjianjian3@huawei.com, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Documentation: ext4: fix cell spacing of table heading on blockmap table
+Date:   Fri, 22 Jul 2022 09:58:11 -0400
+Message-Id: <165849767594.303416.1089496209362973869.b4-ty@mit.edu>
+X-Mailer: git-send-email 2.31.0
+In-Reply-To: <20220619072938.7334-1-bagasdotme@gmail.com>
+References: <20220619072938.7334-1-bagasdotme@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220722084946.22965-1-bagasdotme@gmail.com>
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: JbUPWQYxeSzk0eznlXUgXx8WgSwN5w5s
-X-Proofpoint-ORIG-GUID: wb6M0lt-idyvv69x9zvHp06-s9R1ZGHk
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-07-22_03,2022-07-21_02,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 clxscore=1011
- mlxlogscore=614 adultscore=0 impostorscore=0 mlxscore=0 spamscore=0
- priorityscore=1501 bulkscore=0 lowpriorityscore=0 suspectscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2206140000 definitions=main-2207220048
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jul 22, 2022 at 03:49:39PM +0700, Bagas Sanjaya wrote:
-> Here is documentation fixes for vfio_ap driver, as recently reported in
-> linux-next.
+On Sun, 19 Jun 2022 14:29:39 +0700, Bagas Sanjaya wrote:
+> Commit 3103084afcf234 ("ext4, doc: remove unnecessary escaping") removes
+> redundant underscore escaping, however the cell spacing in heading row of
+> blockmap table became not aligned anymore, hence triggers malformed table
+> warning:
 > 
-> This series is based on next-20220721.
+> Documentation/filesystems/ext4/blockmap.rst:3: WARNING: Malformed table.
+> 
+> [...]
 
-Hi Bagas,
+Applied, thanks!
 
-The warnings have already fixed.
-Please, send your style changes if you find it approprieate.
+[1/1] Documentation: ext4: fix cell spacing of table heading on blockmap table
+      commit: c575a1b2ca24483836031efd717ae94687bc7572
 
-FWIW, patch #1 causes a whitespace trailing error.
-
-Thanks!
+Best regards,
+-- 
+Theodore Ts'o <tytso@mit.edu>
