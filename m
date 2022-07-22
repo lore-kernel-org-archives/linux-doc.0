@@ -2,188 +2,207 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A9E82C433EF
-	for <linux-doc@archiver.kernel.org>; Fri, 22 Jul 2022 21:50:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B53D7CCA489
+	for <linux-doc@archiver.kernel.org>; Fri, 22 Jul 2022 22:11:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229593AbiGVVuG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 22 Jul 2022 17:50:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49686 "EHLO
+        id S236785AbiGVWLi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 22 Jul 2022 18:11:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39308 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235202AbiGVVuE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 22 Jul 2022 17:50:04 -0400
-Received: from mail-qt1-x82e.google.com (mail-qt1-x82e.google.com [IPv6:2607:f8b0:4864:20::82e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC859B8789
-        for <linux-doc@vger.kernel.org>; Fri, 22 Jul 2022 14:50:03 -0700 (PDT)
-Received: by mail-qt1-x82e.google.com with SMTP id y9so4475398qtv.5
-        for <linux-doc@vger.kernel.org>; Fri, 22 Jul 2022 14:50:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=lY5HwzJY1HkC64NTT7rUzz8AV8+0iYgX1A3GOOVUboY=;
-        b=gGSSMB3IuQ03GboemI4CuYy3gKQ3itbdhDripv2Bf+5aLkKcbxEm9Jnu1zZXTRqono
-         TXJSA1bwkt2PbWgNi5oXyZ1jbxHwdKSM9vFC2pDtqwsX9sJ2+RAPB8rYGSyCHM9B+2KE
-         /aw+T4CksZacPn6Na5E9FJpGS9Hc5wZbMmyz0=
+        with ESMTP id S234812AbiGVWLh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 22 Jul 2022 18:11:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 5A80AAF705
+        for <linux-doc@vger.kernel.org>; Fri, 22 Jul 2022 15:11:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1658527894;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=WTAu9Ie82eyCEnPfOUrQ1UYOeYONO590WPWh6n6IMVk=;
+        b=WDOdnPD64wypU5Jv9czfl31On5jo1g2bP//1LHUSVGQhxQx673dyv+Baooe5kyLnTqctuQ
+        olOqYQYV2pxddiJyD4OPIVYkiQUi0I2S2SmX8MtbNc6FkBQoo32Cz18w2GoV8jIVhWmEli
+        405KZov8ffh1NU9Orc5bkhcMsTytC2Y=
+Received: from mail-io1-f71.google.com (mail-io1-f71.google.com
+ [209.85.166.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-198-z1bE2xc-MPGX0a6BR57uCQ-1; Fri, 22 Jul 2022 18:11:33 -0400
+X-MC-Unique: z1bE2xc-MPGX0a6BR57uCQ-1
+Received: by mail-io1-f71.google.com with SMTP id z1-20020a6b6501000000b0067c6495c03dso1946641iob.8
+        for <linux-doc@vger.kernel.org>; Fri, 22 Jul 2022 15:11:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=lY5HwzJY1HkC64NTT7rUzz8AV8+0iYgX1A3GOOVUboY=;
-        b=PyfeKEL6TFp1Q2C1ThNY5JmltePAQKYhXKJ1ERpJnwjrb+pLC4ujLpijxAOGnLJMVF
-         in4OuuzoN2baPPEjCrvr/erxF2G/bLKY/LYBmPJ3d12ssMyHgcIPlalJ/QCDUbePlLOm
-         Hw3YSxaAhdtZOKhiaj/VJbuQP182/1kicM+uJl+Hk2DiY4j1suuk3It5mRyortbuupEs
-         p6yjkcefNtjSHU8BIbaOV3VP/aOs9wk1Zjt4UWAFTnn/ni1wSsCaKpbRR8EDXZ0ipUJQ
-         9zjiaYKRHCQJDXhUg0hRBkOFBCVu8ct8ia/65PRGKAPygf6ZYoNK0ZKZHP+lRQGScULm
-         PSvw==
-X-Gm-Message-State: AJIora8MaoAU9TKLn+Xpt3vDswrvpMMHhTIopzLS010Eq2pQXBowqnSc
-        knimixNZwP/T06yGGLr947twgw==
-X-Google-Smtp-Source: AGRyM1t0bg10Rc1JMRJaH05Q/CdwawRrdAHKfoEN8GtAxOYBq6POcf0qA1/DpBwWt1/i1yyXyEb5Mw==
-X-Received: by 2002:ac8:5e0d:0:b0:31f:239c:99c6 with SMTP id h13-20020ac85e0d000000b0031f239c99c6mr1969906qtx.189.1658526602771;
-        Fri, 22 Jul 2022 14:50:02 -0700 (PDT)
-Received: from jshargo (pool-108-14-42-16.nycmny.fios.verizon.net. [108.14.42.16])
-        by smtp.gmail.com with ESMTPSA id h22-20020ac87156000000b0031ef622a6a2sm3399575qtp.17.2022.07.22.14.50.02
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+         :references:organization:mime-version:content-transfer-encoding;
+        bh=WTAu9Ie82eyCEnPfOUrQ1UYOeYONO590WPWh6n6IMVk=;
+        b=poIDWLjnf3lCaaeCiRQJXsQMeUS7mUjpbuUutKK0DONS1O+wMsnihkJ/pAmqqpeFtO
+         fb1Y1WgQCd5xP0VA0clyZMZBLZd5rG3x1+tQQL8fbIKfLdCU/+oE3W3wIawXzwxBJbhb
+         eFS3lc+Ob+x5WkgeCxCH7p4lH9NCxnmmR0cm7SPK9nJFjw9xWZYzI7uufvEBfEe/uEAt
+         fbCQzw4LJ+6UeN202dm9uCIbDgnWsbHo0lL5cJDMcAr2wuurkLCm33scdqOexh1FIfNd
+         PhkZMTBG87hjrI49vSe7OPjM3vCCG4gfiKe8gzapmtLWmByUFI/W4ECb/zcHE1SjukYR
+         Ie8A==
+X-Gm-Message-State: AJIora/MjvrXP3DnQqsN+l5AEfwXSNZyfwzhnqwKXwh0m+oNpSfgIz4I
+        EEa9XC+SEMShugLCEVKMF14Q6FGpsL/r9HHWr2Jpa+eU+fCQ4uyxdozHCjBY3SyPePjHyDntQvV
+        yAGwxmP/cIw3Dzt0/wcDm
+X-Received: by 2002:a05:6e02:180d:b0:2dc:2561:4b81 with SMTP id a13-20020a056e02180d00b002dc25614b81mr808835ilv.149.1658527892258;
+        Fri, 22 Jul 2022 15:11:32 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1tQfszjfffkbsvzx/Y2n9I9Nnb9tw/K3y9spbP6QR/C0TjwJrze6wv6O0NmOZWFKAIyPdjySw==
+X-Received: by 2002:a05:6e02:180d:b0:2dc:2561:4b81 with SMTP id a13-20020a056e02180d00b002dc25614b81mr808821ilv.149.1658527891986;
+        Fri, 22 Jul 2022 15:11:31 -0700 (PDT)
+Received: from redhat.com ([38.15.36.239])
+        by smtp.gmail.com with ESMTPSA id o22-20020a02c6b6000000b003415de88347sm2486092jan.123.2022.07.22.15.11.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 Jul 2022 14:50:02 -0700 (PDT)
-From:   Jim Shargo <jshargo@chromium.org>
-To:     jshargo@google.com,
-        Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
-        Melissa Wen <melissa.srw@gmail.com>,
-        Haneen Mohammed <hamohammed.sa@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        David Airlie <airlied@linux.ie>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     Jim Shargo <jshargo@chromium.org>, dri-devel@lists.freedesktop.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 0/5] drm/vkms: Add ConfigFS Support
-Date:   Fri, 22 Jul 2022 17:50:01 -0400
-Message-Id: <20220722215001.1380608-1-jshargo@chromium.org>
-X-Mailer: git-send-email 2.37.1.359.gd136c6c3e2-goog
+        Fri, 22 Jul 2022 15:11:31 -0700 (PDT)
+Date:   Fri, 22 Jul 2022 16:11:29 -0600
+From:   Alex Williamson <alex.williamson@redhat.com>
+To:     Nicolin Chen <nicolinc@nvidia.com>
+Cc:     <kwankhede@nvidia.com>, <corbet@lwn.net>, <hca@linux.ibm.com>,
+        <gor@linux.ibm.com>, <agordeev@linux.ibm.com>,
+        <borntraeger@linux.ibm.com>, <svens@linux.ibm.com>,
+        <zhenyuw@linux.intel.com>, <zhi.a.wang@intel.com>,
+        <jani.nikula@linux.intel.com>, <joonas.lahtinen@linux.intel.com>,
+        <rodrigo.vivi@intel.com>, <tvrtko.ursulin@linux.intel.com>,
+        <airlied@linux.ie>, <daniel@ffwll.ch>, <farman@linux.ibm.com>,
+        <mjrosato@linux.ibm.com>, <pasic@linux.ibm.com>,
+        <vneethv@linux.ibm.com>, <oberpar@linux.ibm.com>,
+        <freude@linux.ibm.com>, <akrowiak@linux.ibm.com>,
+        <jjherne@linux.ibm.com>, <cohuck@redhat.com>, <jgg@nvidia.com>,
+        <kevin.tian@intel.com>, <hch@infradead.org>,
+        <jchrist@linux.ibm.com>, <kvm@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-s390@vger.kernel.org>,
+        <intel-gvt-dev@lists.freedesktop.org>,
+        <intel-gfx@lists.freedesktop.org>,
+        <dri-devel@lists.freedesktop.org>, <terrence.xu@intel.com>
+Subject: Re: [PATCH v3 00/10] Update vfio_pin/unpin_pages API
+Message-ID: <20220722161129.21059262.alex.williamson@redhat.com>
+In-Reply-To: <20220708224427.1245-1-nicolinc@nvidia.com>
+References: <20220708224427.1245-1-nicolinc@nvidia.com>
+Organization: Red Hat
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Intro
-=====
+On Fri, 8 Jul 2022 15:44:18 -0700
+Nicolin Chen <nicolinc@nvidia.com> wrote:
 
-This patchset adds basic ConfigFS support to VKMS, allowing users to
-build new DRM devices with user-defined DRM objects and object
-relationships by creating, writing, and symlinking files.
+> This is a preparatory series for IOMMUFD v2 patches. It prepares for
+> replacing vfio_iommu_type1 implementations of vfio_pin/unpin_pages()
+> with IOMMUFD version.
+> 
+> There's a gap between these two versions: the vfio_iommu_type1 version
+> inputs a non-contiguous PFN list and outputs another PFN list for the
+> pinned physical page list, while the IOMMUFD version only supports a
+> contiguous address input by accepting the starting IO virtual address
+> of a set of pages to pin and by outputting to a physical page list.
+> 
+> The nature of existing callers mostly aligns with the IOMMUFD version,
+> except s390's vfio_ccw_cp code where some additional change is needed
+> along with this series. Overall, updating to "iova" and "phys_page"
+> does improve the caller side to some extent.
+> 
+> Also fix a misuse of physical address and virtual address in the s390's
+> crypto code. And update the input naming at the adjacent vfio_dma_rw().
+> 
+> This is on github:
+> https://github.com/nicolinc/iommufd/commits/vfio_pin_pages
+> 
+> Terrence has tested this series on i915; Eric has tested on s390.
+> 
+> Thanks!
+> 
+> Changelog
+> v3:
+>  * Added a patch to replace roundup with DIV_ROUND_UP in i915 gvt
+>  * Dropped the "driver->ops->unpin_pages" and NULL checks in PATCH-1
+>  * Changed to use WARN_ON and separate into lines in PATCH-1
+>  * Replaced "guest" words with "user" and fix typo in PATCH-5
+>  * Updated commit log of PATCH-1, PATCH-6, and PATCH-10
+>  * Added Reviewed/Acked-by from Christoph, Jason, Kirti, Kevin and Eric
+>  * Added Tested-by from Terrence (i915) and Eric (s390)
+> v2: https://lore.kernel.org/kvm/20220706062759.24946-1-nicolinc@nvidia.com/
+>  * Added a patch to make vfio_unpin_pages return void
+>  * Added two patches to remove PFN list from two s390 callers
+>  * Renamed "phys_page" parameter to "pages" for vfio_pin_pages
+>  * Updated commit log of kmap_local_page() patch
+>  * Added Harald's "Reviewed-by" to pa_ind patch
+>  * Rebased on top of Alex's extern removal path
+> v1: https://lore.kernel.org/kvm/20220616235212.15185-1-nicolinc@nvidia.com/
+> 
+> Nicolin Chen (10):
+>   vfio: Make vfio_unpin_pages() return void
+>   drm/i915/gvt: Replace roundup with DIV_ROUND_UP
+>   vfio/ap: Pass in physical address of ind to ap_aqic()
+>   vfio/ccw: Only pass in contiguous pages
+>   vfio: Pass in starting IOVA to vfio_pin/unpin_pages API
+>   vfio/ap: Change saved_pfn to saved_iova
+>   vfio/ccw: Change pa_pfn list to pa_iova list
+>   vfio: Rename user_iova of vfio_dma_rw()
+>   vfio/ccw: Add kmap_local_page() for memcpy
+>   vfio: Replace phys_pfn with pages for vfio_pin_pages()
+> 
+>  .../driver-api/vfio-mediated-device.rst       |   6 +-
+>  arch/s390/include/asm/ap.h                    |   6 +-
+>  drivers/gpu/drm/i915/gvt/kvmgt.c              |  49 ++---
+>  drivers/s390/cio/vfio_ccw_cp.c                | 195 +++++++++++-------
+>  drivers/s390/crypto/ap_queue.c                |   2 +-
+>  drivers/s390/crypto/vfio_ap_ops.c             |  54 +++--
+>  drivers/s390/crypto/vfio_ap_private.h         |   4 +-
+>  drivers/vfio/vfio.c                           |  54 ++---
+>  drivers/vfio/vfio.h                           |   8 +-
+>  drivers/vfio/vfio_iommu_type1.c               |  45 ++--
+>  include/linux/vfio.h                          |   9 +-
+>  11 files changed, 215 insertions(+), 217 deletions(-)
+> 
 
-Usage
-=====
+GVT-g explodes for me with this series on my Broadwell test system,
+continuously spewing the following:
 
-Modprobe VKMS and mount ConfigFS:
+[   47.344126] ------------[ cut here ]------------
+[   47.348778] WARNING: CPU: 3 PID: 501 at drivers/vfio/vfio_iommu_type1.c:978 vfio_iommu_type1_unpin_pages+0x7b/0x100 [vfio_iommu_type1]
+[   47.360871] Modules linked in: xt_CHECKSUM xt_MASQUERADE xt_conntrack ipt_REJECT nf_reject_ipv4 nft_compat nft_chain_nat nf_nat nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4 nf_tables nfnetlink tun bridge stp llc rfkill sunrpc vfat fat intel_rapl_msr intel_rapl_common x86_pkg_temp_thermal intel_powerclamp coretemp kvm_intel iTCO_wdt at24 mei_wdt mei_hdcp intel_pmc_bxt mei_pxp rapl iTCO_vendor_support intel_cstate pcspkr e1000e mei_me intel_uncore i2c_i801 mei lpc_ich i2c_smbus acpi_pad fuse zram ip_tables kvmgt mdev vfio_iommu_type1 vfio kvm irqbypass i915 crct10dif_pclmul crc32_pclmul crc32c_intel ghash_clmulni_intel pinctrl_lynxpoint i2c_algo_bit drm_buddy video drm_display_helper drm_kms_helper cec ttm drm
+[   47.423398] CPU: 3 PID: 501 Comm: gvt:rcs0 Tainted: G        W         5.19.0-rc4+ #3
+[   47.431228] Hardware name:  /NUC5i5MYBE, BIOS MYBDWi5v.86A.0054.2019.0520.1531 05/20/2019
+[   47.439408] RIP: 0010:vfio_iommu_type1_unpin_pages+0x7b/0x100 [vfio_iommu_type1]
+[   47.446818] Code: 10 00 00 45 31 ed 48 8b 7b 40 48 85 ff 74 12 48 8b 47 18 49 39 c6 77 23 48 8b 7f 10 48 85 ff 75 ee 48 8b 3c 24 e8 45 57 92 e4 <0f> 0b 48 83 c4 08 5b 5d 41 5c 41 5d 41 5e 41 5f c3 48 03 47 28 49
+[   47.465573] RSP: 0018:ffff9ac5806cfbe0 EFLAGS: 00010246
+[   47.470807] RAX: ffff8cb42f4c5180 RBX: ffff8cb4145c03c0 RCX: 0000000000000000
+[   47.477948] RDX: 0000000000000000 RSI: 0000163802000000 RDI: ffff8cb4145c03e0
+[   47.485088] RBP: 0000000000000001 R08: 0000000000000000 R09: ffff9ac581aed000
+[   47.492230] R10: ffff9ac5806cfc58 R11: 00000001b2202000 R12: 0000000000000001
+[   47.499370] R13: 0000000000000000 R14: 0000163802001000 R15: 0000163802000000
+[   47.506513] FS:  0000000000000000(0000) GS:ffff8cb776d80000(0000) knlGS:0000000000000000
+[   47.514608] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[   47.520361] CR2: ffffdc0933f76192 CR3: 0000000118118003 CR4: 00000000003726e0
+[   47.527510] Call Trace:
+[   47.529976]  <TASK>
+[   47.532091]  intel_gvt_dma_unmap_guest_page+0xd5/0x110 [kvmgt]
+[   47.537948]  ppgtt_invalidate_spt+0x323/0x340 [kvmgt]
+[   47.543017]  ppgtt_invalidate_spt+0x173/0x340 [kvmgt]
+[   47.548088]  ppgtt_invalidate_spt+0x173/0x340 [kvmgt]
+[   47.553159]  ppgtt_invalidate_spt+0x173/0x340 [kvmgt]
+[   47.558228]  invalidate_ppgtt_mm+0x5f/0x110 [kvmgt]
+[   47.563124]  _intel_vgpu_mm_release+0xd6/0xe0 [kvmgt]
+[   47.568193]  intel_vgpu_destroy_workload+0x1b7/0x1e0 [kvmgt]
+[   47.573872]  workload_thread+0xa4c/0x19a0 [kvmgt]
+[   47.578613]  ? _raw_spin_rq_lock_irqsave+0x20/0x20
+[   47.583422]  ? dequeue_task_stop+0x70/0x70
+[   47.587530]  ? _raw_spin_lock_irqsave+0x24/0x50
+[   47.592072]  ? intel_vgpu_reset_submission+0x40/0x40 [kvmgt]
+[   47.597746]  kthread+0xe7/0x110
+[   47.600902]  ? kthread_complete_and_exit+0x20/0x20
+[   47.605702]  ret_from_fork+0x22/0x30
+[   47.609293]  </TASK>
+[   47.611503] ---[ end trace 0000000000000000 ]---
 
-  $ mkdir -p /config/; mount -t configfs
-  $ modprobe vkms enable_overlay=1 enable_cursor=1 enable_writeback=1
+Line 978 is the WARN_ON(i != npage) line.  For the cases where we don't
+find a matching vfio_dma, I'm seeing addresses that look maybe like
+we're shifting  a value that's already an iova by PAGE_SHIFT somewhere.
+Thanks,
 
-This will create a `/config/vkms` directory, where users may create
-new VKMS devices. The standard default device is still created, so
-existing use-cases should be unaffected.
-
-Creating a new device happens in three stages:
-
-  1) Create a new directory to represent a new device:
-       $ mkdir /config/vkms/dev
-
-  2) Populate the new device with crtcs, planes, connectors, encoders,
-     and CRTCs by mkdir'ing in the appropriate directories. Connect the
-     objects via symlinks.
-
-  3) To register the device:
-       $ echo 1 > /config/vkms/dev/is_registered
-
-If the write is successful, you have a new VKMS device ready to use!
-
-See the updated vkms.rst for more details and a full example.
-
-Changes within VKMS
-===================
-
-The most meaningful change within VKMS is the introduction of a list
-of "cards" representing individual virtual drivers. Each card
-maintains its own devices, arrays of objects, and output/writeback
-machinery.
-
-Until cards are registered, all of their data lives in within the
-ConfigFS tree. Only during registration do we interface with DRM at
-all to create the device.
-
-Due to limitations with ConfigFS, the default device is a special
-case, without all of the objects represented in its ConfigFS
-directory.
-
-Testing
-=======
-
-Suspend tests are not working in my VM, so I skipped those. Otherwise,
-here are the tests that I have been running:
-
-  $ igt-gpu-tools/scripts/run-tests.sh -x ".*suspend.*" \
-        -t ".*kms_flip.*" \
-        -t ".*kms_writeback.*" \
-        -t ".*kms_cursor_crc*" \
-        -t ".*kms_plane.*"
-
-I've observed no changes between passed/failed tests before and after
-my changes on the default device.
-
-IGT revision: eddc67c5c85b8ee6eb4d13752ca43da5073dc985
-
-I'll also note that I've been working on a VKMS test suite in IGT that
-exercises the new ConfigFS behavior, and that it's a work-in-progress.
-
-Future Work
-===========
-
-This should be the biggest and most invasive change in VKMS to make it
-more configurable and able to mimic real devices. That said, it should
-serve as a basis for additional useful features, including:
-
-  - Simulating hot-plugging by keeping the connectors directory live
-    and allowing users to add/remove connectors after the device is
-    registered.
-  - Additional properties could be turned on and off, or tuned, based
-    on files within object directories. For instance, GAMMA/DEGAMMA
-    LUT sizes could be configurable per-device, or support for
-    individual formats could be turned on and off.
-
-Additional Notes
-================
-
-This is my first kernel patchset, and though I've had it reviewed by
-my team (with a lot of of kernel/drm expertise), I recommend reading
-it with a bit of extra scrutiny. As you can tell by the fact this
-didn't get mailed with the other patches :P.
-
-Thanks!
-
-Jim Shargo (5):
-  drm/vkms: Merge default_config and device
-  drm/vkms: VKMS now supports more than one "card"
-  drm/vkms: Support multiple objects (crtcs, etc.) per card
-  drm/vkms: Add ConfigFS scaffolding to VKMS
-  drm/vkms: Support registering configfs devices
-
- Documentation/gpu/vkms.rst            |  76 ++++
- drivers/gpu/drm/Kconfig               |   1 +
- drivers/gpu/drm/vkms/Makefile         |   1 +
- drivers/gpu/drm/vkms/vkms_composer.c  |  28 +-
- drivers/gpu/drm/vkms/vkms_configfs.c  | 546 ++++++++++++++++++++++++++
- drivers/gpu/drm/vkms/vkms_crtc.c      |  88 +++--
- drivers/gpu/drm/vkms/vkms_drv.c       | 204 ++++++----
- drivers/gpu/drm/vkms/vkms_drv.h       | 173 ++++++--
- drivers/gpu/drm/vkms/vkms_output.c    | 335 +++++++++++++---
- drivers/gpu/drm/vkms/vkms_plane.c     |  43 +-
- drivers/gpu/drm/vkms/vkms_writeback.c |  27 +-
- 11 files changed, 1288 insertions(+), 234 deletions(-)
- create mode 100644 drivers/gpu/drm/vkms/vkms_configfs.c
-
--- 
-2.37.1.359.gd136c6c3e2-goog
+Alex
 
