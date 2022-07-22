@@ -2,135 +2,85 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 78020C433EF
-	for <linux-doc@archiver.kernel.org>; Fri, 22 Jul 2022 16:30:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D6D5C43334
+	for <linux-doc@archiver.kernel.org>; Fri, 22 Jul 2022 18:06:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235624AbiGVQaI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 22 Jul 2022 12:30:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57886 "EHLO
+        id S230273AbiGVSG5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 22 Jul 2022 14:06:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56156 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235627AbiGVQaD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 22 Jul 2022 12:30:03 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B61692854;
-        Fri, 22 Jul 2022 09:29:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Sender:Content-Transfer-Encoding:
-        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-        Reply-To:Content-Type:Content-ID:Content-Description;
-        bh=rSECiOLEGBlvE2WTO5CHndncsAeIAvbvizD2cc+Nr8U=; b=Js2WwYV/jaCg+8Z2sPKjo8aXK5
-        cwLzycbqzhe83ZRIMU0ipmsYHzorP4S/eQoCPI49kYdW1D4Rbheydx6IfwQ+J2ZaxKazDlT1uvOTQ
-        6Po64ptbnu8oZB1vlIxcPO3bJIOwiNNKEn5qMN410f2m1DzqT+R1824bgoEKzGbth7hv6Pt2EV4nX
-        rBzs+QA+ljkXb6zL5FdhLT3p2w2A/f8Vtf9wEgPval9K66f9abpdwdfS0ww+V7Eq1yPLhCIJQWBd1
-        qReELijBf6kyUTEZYkNyrZ1MCyPT7Wc27TRmcfrXznZWXm1idu+Okg48KoXqW2VE9E5Wrl0s1IRmu
-        CCvOGPUA==;
-Received: from mcgrof by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1oEvX1-007vOf-As; Fri, 22 Jul 2022 16:29:39 +0000
-From:   Luis Chamberlain <mcgrof@kernel.org>
-To:     ebiederm@xmission.com, corbet@lwn.net, keescook@chromium.org,
-        yzaikin@google.com
-Cc:     songmuchun@bytedance.com, zhangyuchen.lcr@bytedance.com,
-        dhowells@redhat.com, deepa.kernel@gmail.com, hch@lst.de,
-        mcgrof@kernel.org, linux-doc@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH 1/2] Documentation/filesystems/proc.rst: remove ancient boiler plate
-Date:   Fri, 22 Jul 2022 09:29:33 -0700
-Message-Id: <20220722162934.1888835-2-mcgrof@kernel.org>
-X-Mailer: git-send-email 2.35.3
-In-Reply-To: <20220722162934.1888835-1-mcgrof@kernel.org>
-References: <20220722162934.1888835-1-mcgrof@kernel.org>
+        with ESMTP id S230193AbiGVSG5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 22 Jul 2022 14:06:57 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A72182982B;
+        Fri, 22 Jul 2022 11:06:56 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 3F3DD622DD;
+        Fri, 22 Jul 2022 18:06:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88B5BC341C6;
+        Fri, 22 Jul 2022 18:06:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1658513215;
+        bh=3qZhPsUCW3M6g5lJLc7ImRXOgn38VadClP54lmWyOT0=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=JuFwFfn9pqNmL8ZL2uqciYqtG/jn1u7UEEmugHMuVu/0TMAa5xlenJdUsv+VEWKOQ
+         +N2WOzi1iE1L5ahl4Ra5yKq5pm2hCN8rXiccyhOMYUg+Sl6pBe+tCqunMLTgSDLnPV
+         IHV57IT+iDXAs64697timJzgTU4sSfsckuxAhdPJNFQUlT9sC4FcMCmFJ9HpVujz2G
+         qYgNCnh8Cv51hs3W6hsBH72L6bOEo/Lk1ougo5dLiHPifT/zEdagYDYZaxrSud3InO
+         E2qG/+AUVI5icg1Qmoy5IZvx+D42suamaWBBFOKEki+CB0DLZwkO3K6R+yEvpqmQXk
+         P8CL59mqJ2TTQ==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+        id 3669D5C005A; Fri, 22 Jul 2022 11:06:55 -0700 (PDT)
+From:   "Paul E. McKenney" <paulmck@kernel.org>
+To:     bpf@vger.kernel.org, netdev@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Cc:     corbet@lwn.net, ast@kernel.org, daniel@iogearbox.net,
+        andrii@kernel.org, kafai@fb.com, songliubraving@fb.com, yhs@fb.com,
+        john.fastabend@gmail.com, kpsingh@kernel.org, kernel-team@fb.com,
+        "Paul E. McKenney" <paulmck@kernel.org>
+Subject: [PATCH bpf 2/2] bpf: Update bpf_design_QA.rst to clarify that attaching to functions is not ABI
+Date:   Fri, 22 Jul 2022 11:06:41 -0700
+Message-Id: <20220722180641.2902585-2-paulmck@kernel.org>
+X-Mailer: git-send-email 2.31.1.189.g2e36527f23
+In-Reply-To: <20220722180641.2902585-1-paulmck@kernel.org>
+References: <20220722180641.2902585-1-paulmck@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Sender: Luis Chamberlain <mcgrof@infradead.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The proc.rst has some ancient verbiage which dates back to 1999
-which is simply just creating noise at this point for documentation.
-Remove that cruft.
+This patch updates bpf_design_QA.rst to clarify that the ability to
+attach a BPF program to a given function in the kernel does not make
+that function become part of the Linux kernel's ABI.
 
-Signed-off-by: Luis Chamberlain <mcgrof@kernel.org>
+Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
 ---
- Documentation/filesystems/proc.rst | 55 ------------------------------
- 1 file changed, 55 deletions(-)
+ Documentation/bpf/bpf_design_QA.rst | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
-index 47e95dbc820d..9fd5249f1a5f 100644
---- a/Documentation/filesystems/proc.rst
-+++ b/Documentation/filesystems/proc.rst
-@@ -4,22 +4,8 @@
- The /proc Filesystem
- ====================
- 
--=====================  =======================================  ================
--/proc/sys              Terrehon Bowden <terrehon@pacbell.net>,  October 7 1999
--                       Bodo Bauer <bb@ricochet.net>
--2.4.x update	       Jorge Nerin <comandante@zaralinux.com>   November 14 2000
--move /proc/sys	       Shen Feng <shen@cn.fujitsu.com>	        April 1 2009
--fixes/update part 1.1  Stefani Seibold <stefani@seibold.net>    June 9 2009
--=====================  =======================================  ================
--
--
--
- .. Table of Contents
- 
--  0     Preface
--  0.1	Introduction/Credits
--  0.2	Legal Stuff
--
-   1	Collecting System Information
-   1.1	Process-Specific Subdirectories
-   1.2	Kernel data
-@@ -56,47 +42,6 @@ fixes/update part 1.1  Stefani Seibold <stefani@seibold.net>    June 9 2009
- Preface
- =======
- 
--0.1 Introduction/Credits
--------------------------
--
--This documentation is  part of a soon (or  so we hope) to be  released book on
--the SuSE  Linux distribution. As  there is  no complete documentation  for the
--/proc file system and we've used  many freely available sources to write these
--chapters, it  seems only fair  to give the work  back to the  Linux community.
--This work is  based on the 2.2.*  kernel version and the  upcoming 2.4.*. I'm
--afraid it's still far from complete, but we  hope it will be useful. As far as
--we know, it is the first 'all-in-one' document about the /proc file system. It
--is focused  on the Intel  x86 hardware,  so if you  are looking for  PPC, ARM,
--SPARC, AXP, etc., features, you probably  won't find what you are looking for.
--It also only covers IPv4 networking, not IPv6 nor other protocols - sorry. But
--additions and patches  are welcome and will  be added to this  document if you
--mail them to Bodo.
--
--We'd like  to  thank Alan Cox, Rik van Riel, and Alexey Kuznetsov and a lot of
--other people for help compiling this documentation. We'd also like to extend a
--special thank  you to Andi Kleen for documentation, which we relied on heavily
--to create  this  document,  as well as the additional information he provided.
--Thanks to  everybody  else  who contributed source or docs to the Linux kernel
--and helped create a great piece of software... :)
--
--If you  have  any comments, corrections or additions, please don't hesitate to
--contact Bodo  Bauer  at  bb@ricochet.net.  We'll  be happy to add them to this
--document.
--
--The   latest   version    of   this   document   is    available   online   at
--http://tldp.org/LDP/Linux-Filesystem-Hierarchy/html/proc.html
--
--If  the above  direction does  not works  for you,  you could  try the  kernel
--mailing  list  at  linux-kernel@vger.kernel.org  and/or try  to  reach  me  at
--comandante@zaralinux.com.
--
--0.2 Legal Stuff
-----------------
--
--We don't  guarantee  the  correctness  of this document, and if you come to us
--complaining about  how  you  screwed  up  your  system  because  of  incorrect
--documentation, we won't feel responsible...
--
- Chapter 1: Collecting System Information
- ========================================
- 
+diff --git a/Documentation/bpf/bpf_design_QA.rst b/Documentation/bpf/bpf_design_QA.rst
+index 2ed9128cfbec8..46337a60255e9 100644
+--- a/Documentation/bpf/bpf_design_QA.rst
++++ b/Documentation/bpf/bpf_design_QA.rst
+@@ -279,3 +279,15 @@ cc (congestion-control) implementations.  If any of these kernel
+ functions has changed, both the in-tree and out-of-tree kernel tcp cc
+ implementations have to be changed.  The same goes for the bpf
+ programs and they have to be adjusted accordingly.
++
++Q: Attaching to kernel functions is an ABI?
++-------------------------------------------
++Q: BPF programs can be attached to many kernel functions.  Do these
++kernel functions become part of the ABI?
++
++A: NO.
++
++The kernel function prototypes will change, and BPF programs attaching to
++them will need to change.  The BPF compile-once-run-everywhere (CO-RE)
++should be used in order to make it easier to adapt your BPF programs to
++different versions of the kernel.
 -- 
-2.35.1
+2.31.1.189.g2e36527f23
 
