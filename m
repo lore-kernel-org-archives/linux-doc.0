@@ -2,117 +2,189 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A8D33C43334
-	for <linux-doc@archiver.kernel.org>; Fri, 22 Jul 2022 07:33:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EDAE8C433EF
+	for <linux-doc@archiver.kernel.org>; Fri, 22 Jul 2022 08:44:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234364AbiGVHd0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 22 Jul 2022 03:33:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58690 "EHLO
+        id S233417AbiGVIoQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 22 Jul 2022 04:44:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40252 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234070AbiGVHdZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 22 Jul 2022 03:33:25 -0400
-Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com [IPv6:2607:f8b0:4864:20::42d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 277F59822D
-        for <linux-doc@vger.kernel.org>; Fri, 22 Jul 2022 00:33:25 -0700 (PDT)
-Received: by mail-pf1-x42d.google.com with SMTP id 17so3868876pfy.0
-        for <linux-doc@vger.kernel.org>; Fri, 22 Jul 2022 00:33:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=aBbLSX1JockKc7+DXzMhzivNTlzRCnKzS9NOsdu1GjE=;
-        b=FH5lfoYy5vxWwh++51JNpjlucwlsQS4ixmz+0B3NZkoe7RPCjTMHjThSddtl0swkZl
-         9T4ukJZEb1V3D9PIKn1QSBahL4OsSxSyt8Ev8RV4nP+gW5w5H2fIC/DbwpMSiWPA2ABJ
-         9FSCGJfesuGhbecSsxNaGU78fp4xK1ZtEG/Np1qnnavUKZQATQlqlnvHMnPQ00jbhhsT
-         ZaIaZWJolnaAzbuXrVkj8YgfeHBhH8cSKbNy7isQ8DnR22sFEzBY+JDKCN7FQU7X7pO6
-         9kesoGgKTzbUtS+7SlzHe9ECnLkHLRESFh5vhGRoZ0tXFvogf0IDqb82FrSDH0kDDKH0
-         +zyg==
+        with ESMTP id S234462AbiGVIoN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 22 Jul 2022 04:44:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 033AC9EC42
+        for <linux-doc@vger.kernel.org>; Fri, 22 Jul 2022 01:44:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1658479451;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=KPJ7NU0SBJ5IGQBa0MGzAB99cv4bRZOacuI2wl8M0yY=;
+        b=USK83oURTp0W0v5rwxxMYiLJMedPR+yyi8VtVxehBjvtZ4EB7CmnUQwQ6Mz31qOzYiXJHg
+        n1IBbmzak0yZxDTko6McIcS4JcQrs9vHGgjdeoAr8KWzt+C6W0rjS+i0AmIZCLi6Nq/6Ec
+        HzefHtRpdI2T1hOHbphhyIyN7adLS6Q=
+Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com
+ [209.85.216.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-665-SGWCDdweMIGtYvn_LRZPSQ-1; Fri, 22 Jul 2022 04:44:09 -0400
+X-MC-Unique: SGWCDdweMIGtYvn_LRZPSQ-1
+Received: by mail-pj1-f70.google.com with SMTP id ot3-20020a17090b3b4300b001f249f0462cso695975pjb.2
+        for <linux-doc@vger.kernel.org>; Fri, 22 Jul 2022 01:44:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=aBbLSX1JockKc7+DXzMhzivNTlzRCnKzS9NOsdu1GjE=;
-        b=g/1sl8gCek7nXt0wjSEQ4pd7vYQeQYaTrb3BOtBJxm6necRGZdh1bZxb0bamvMDte3
-         /clkSJWumuyA2gcQ18X5cfM5X1fFebiPH1+dsK1ALTLxYYh/87B6zfXKT9cVFGcRQOfN
-         f6aVlcjsoBMuPpNSS0lWrKYhPzPGVCzWUv9PA+haNgS0RMwCcnbL0ANoLq8rO9eS0YpR
-         4Eajl4CCayxeOpI+pD0qcWJZ3TuYFNf2VHgVqQEg7KvqzBMEJE772cW1M6pSbULUEWNR
-         DAugwqrolzEuhTGa5sFkW7o7XHvaFzCUNK3UGbYbNZTCFyUHRfLhd7uME8U7RlDrsfip
-         UEiw==
-X-Gm-Message-State: AJIora+ruH2alUeRPlFVnc+GTk2BXSKh7REQ2/N7i2SThf3vzaxzOVQr
-        Jj1eWa+pXfj+dseNFS/aTqG51g==
-X-Google-Smtp-Source: AGRyM1tIBYKqs//Fx7yUJnJ9z6HtvRCo591eHv4D/RHr1WN4SAHATgGqm640z6NmQmxJ17TqLF2vKg==
-X-Received: by 2002:a65:6a05:0:b0:3db:27cb:9123 with SMTP id m5-20020a656a05000000b003db27cb9123mr2047983pgu.497.1658475202162;
-        Fri, 22 Jul 2022 00:33:22 -0700 (PDT)
-Received: from [10.255.164.21] ([139.177.225.239])
-        by smtp.gmail.com with ESMTPSA id 193-20020a6307ca000000b0041a27e7284bsm2763448pgh.48.2022.07.22.00.33.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 22 Jul 2022 00:33:21 -0700 (PDT)
-Message-ID: <ab445d4d-70d2-9e6f-dd1d-9e71f00c1796@bytedance.com>
-Date:   Fri, 22 Jul 2022 15:33:14 +0800
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=KPJ7NU0SBJ5IGQBa0MGzAB99cv4bRZOacuI2wl8M0yY=;
+        b=boLELDIp/Fe5w+CO2NZTmWFQ3uvEwbfN/WWJqYcJTyVJh7RG8vtmjNV/afY67eSeyF
+         AX7UwoSXJcNmtNpBuox95XZu/kYMVfMzb2P9ENe7NboyWianmpk90GMpn9+meJBQrBGS
+         Rbf/Ge/N4vUZMsJ79RhDNSwOrdpPxHxhcE7ES0895F4+D7fRTa6Mp+FjC04IE69RI4Eu
+         NlM6i3XDXIoh14zhBn7/WsPEL8DXTU3Ne8AQqBNFthUobdq3VUyXhHgRgHi7NSwAKLyl
+         J+OAp6WaV9YkPAVxM9BKf5igQIrl3auxHIn3fp0UYw7MAMhNFAuI0x0DPp1c/z9Y27MA
+         GvzA==
+X-Gm-Message-State: AJIora+cr8PZB4Dm64SlH/I4zOAK0k7KTH1Cp/bNqM9D7161L3FyWgdj
+        RVjPQ8x2nSqSp3tjF0EGS63IzlKcUsorTK2lXeqlr+uUH/LV7MpTL3upT2vq/HVp/SrRG/2Wnix
+        tmfdEU9IHKzpRndzWCjILtq+los7hnc6vb5z8
+X-Received: by 2002:a17:90b:4a08:b0:1ef:f36b:18e1 with SMTP id kk8-20020a17090b4a0800b001eff36b18e1mr16127741pjb.246.1658479448534;
+        Fri, 22 Jul 2022 01:44:08 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1vucvEYBhga7xRfvmO+fpAe+UxKmxIBDDjvW8ENwrZs/TTzp86GPuJSg32bCOVL9jphN7Wm13VUw34PY+/PHI4=
+X-Received: by 2002:a17:90b:4a08:b0:1ef:f36b:18e1 with SMTP id
+ kk8-20020a17090b4a0800b001eff36b18e1mr16127693pjb.246.1658479448127; Fri, 22
+ Jul 2022 01:44:08 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.0.1
-Subject: Re: [PATCH 9/9] sched/psi: add PSI_IRQ to track IRQ/SOFTIRQ pressure
-Content-Language: en-US
-To:     Abel Wu <wuyun.abel@bytedance.com>, hannes@cmpxchg.org,
-        surenb@google.com, mingo@redhat.com, peterz@infradead.org,
-        tj@kernel.org, corbet@lwn.net, akpm@linux-foundation.org,
-        rdunlap@infradead.org
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        songmuchun@bytedance.com, cgroups@vger.kernel.org
-References: <20220721040439.2651-1-zhouchengming@bytedance.com>
- <20220721040439.2651-10-zhouchengming@bytedance.com>
- <65d9f79b-be9b-e21e-0624-5c9f2cc0c0b2@bytedance.com>
- <ce22fa9d-aad0-fc23-d304-14fdd27130f4@bytedance.com>
- <5e5d41e2-5f89-8c52-11e5-0c55c5595a88@bytedance.com>
-From:   Chengming Zhou <zhouchengming@bytedance.com>
-In-Reply-To: <5e5d41e2-5f89-8c52-11e5-0c55c5595a88@bytedance.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20220721153625.1282007-1-benjamin.tissoires@redhat.com>
+ <20220721153625.1282007-3-benjamin.tissoires@redhat.com> <CAP01T746d18QjJH1pRaq5Wy2QtrXXKhaJge8sB=q1rNtqjTntA@mail.gmail.com>
+In-Reply-To: <CAP01T746d18QjJH1pRaq5Wy2QtrXXKhaJge8sB=q1rNtqjTntA@mail.gmail.com>
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date:   Fri, 22 Jul 2022 10:43:57 +0200
+Message-ID: <CAO-hwJJ+SgP4US26qUFAoXxVk00BbT0Ct-3ax5B6XwQ=_vDLLg@mail.gmail.com>
+Subject: Re: [PATCH bpf-next v7 02/24] bpf/verifier: allow kfunc to read user
+ provided context
+To:     Kumar Kartikeya Dwivedi <memxor@gmail.com>
+Cc:     Greg KH <gregkh@linuxfoundation.org>,
+        Jiri Kosina <jikos@kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>, Shuah Khan <shuah@kernel.org>,
+        Dave Marchevsky <davemarchevsky@fb.com>,
+        Joe Stringer <joe@cilium.io>, Jonathan Corbet <corbet@lwn.net>,
+        Tero Kristo <tero.kristo@linux.intel.com>,
+        lkml <linux-kernel@vger.kernel.org>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        Networking <netdev@vger.kernel.org>, bpf <bpf@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2022/7/22 15:14, Abel Wu wrote:
-> On 7/22/22 2:13 PM, Chengming Zhou Wrote:
->> On 2022/7/22 11:30, Abel Wu wrote:
->>> Hi Chengming,
->>>
->>> On 7/21/22 12:04 PM, Chengming Zhou Wrote:
->>>> Now PSI already tracked workload pressure stall information for
->>>> CPU, memory and IO. Apart from these, IRQ/SOFTIRQ could have
->>>> obvious impact on some workload productivity, such as web service
->>>> workload.
->>>>
->>>> When CONFIG_IRQ_TIME_ACCOUNTING, we can get IRQ/SOFTIRQ delta time
->>>> from update_rq_clock_task(), in which we can record that delta
->>>> to CPU curr task's cgroups as PSI_IRQ_FULL status.
->>>
->>> The {soft,}irq affection should be equal to all the runnable tasks
->>> on that cpu, not only rq->curr. Further I think irqstall is per-cpu
->>> rather than per-cgroup.
->>
->> Although IRQ/SOFTIRQ is per-cpu, it's the rq->curr who own the CPU at the time
->> and pay for it, meanwhile other groups would be thought as PSI_CPU_FULL.
-> 
-> I don't think rq->curr pays for it if you mean consuming quota here.
+On Thu, Jul 21, 2022 at 10:15 PM Kumar Kartikeya Dwivedi
+<memxor@gmail.com> wrote:
+>
+> On Thu, 21 Jul 2022 at 17:36, Benjamin Tissoires
+> <benjamin.tissoires@redhat.com> wrote:
+> >
+> > When a kfunc was trying to access data from context in a syscall eBPF
+> > program, the verifier was rejecting the call.
+> > This is because the syscall context is not known at compile time, and
+> > so we need to check this when actually accessing it.
+> >
+> > Check for the valid memory access and allow such situation to happen.
+> >
+> > Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+> >
+> > ---
+> >
+>
+> LGTM, with just a couple more nits.
+> Acked-by: Kumar Kartikeya Dwivedi <memxor@gmail.com>
 
-Yes, it makes rq->curr's groups look more productive than it actually is,
-which are clearly different from other groups.
+Thanks a lot for the quick review.
 
-> And it doesn't seem appropriate to let other groups treat it as cpu
-> stall because the rq->curr is also the victim rather than the one
-> causes stall (so it's different from rq->curr causing memstall and
-> observed as cpustall by others).
+Sending the new version of just this patch now.
 
-IMHO, we don't care who causes stall, instead we care about what affects
-workload productivity.
+Cheers,
+Benjamin
 
+>
+> > changes in v7:
+> > - renamed access_t into atype
+> > - allow zero-byte read
+> > - check_mem_access() to the correct offset/size
+> >
+> > new in v6
+> > ---
+> >  kernel/bpf/verifier.c | 21 +++++++++++++++++++++
+> >  1 file changed, 21 insertions(+)
+> >
+> > diff --git a/kernel/bpf/verifier.c b/kernel/bpf/verifier.c
+> > index 7c1e056624f9..d5fe7e618c52 100644
+> > --- a/kernel/bpf/verifier.c
+> > +++ b/kernel/bpf/verifier.c
+> > @@ -248,6 +248,7 @@ struct bpf_call_arg_meta {
+> >         struct bpf_map *map_ptr;
+> >         bool raw_mode;
+> >         bool pkt_access;
+> > +       bool is_kfunc;
+> >         u8 release_regno;
+> >         int regno;
+> >         int access_size;
+> > @@ -5170,6 +5171,7 @@ static int check_helper_mem_access(struct bpf_verifier_env *env, int regno,
+> >                                    struct bpf_call_arg_meta *meta)
+> >  {
+> >         struct bpf_reg_state *regs = cur_regs(env), *reg = &regs[regno];
+> > +       enum bpf_prog_type prog_type = resolve_prog_type(env->prog);
+> >         u32 *max_access;
+> >
+> >         switch (base_type(reg->type)) {
+> > @@ -5223,6 +5225,24 @@ static int check_helper_mem_access(struct bpf_verifier_env *env, int regno,
+> >                                 env,
+> >                                 regno, reg->off, access_size,
+> >                                 zero_size_allowed, ACCESS_HELPER, meta);
+> > +       case PTR_TO_CTX:
+> > +               /* in case of a kfunc called in a program of type SYSCALL, the context is
+> > +                * user supplied, so not computed statically.
+> > +                * Dynamically check it now
+> > +                */
+> > +               if (prog_type == BPF_PROG_TYPE_SYSCALL && meta && meta->is_kfunc) {
+> > +                       enum bpf_access_type atype = meta->raw_mode ? BPF_WRITE : BPF_READ;
+> > +                       int offset = access_size - 1;
+> > +
+> > +                       /* Allow zero-byte read from NULL or PTR_TO_CTX */
+>
+> This will not be handling the case for NULL, only for kfunc(ptr_to_ctx, 0)
+> A null pointer has its reg->type as scalar, so it will be handled by
+> the default case.
+>
+> > +                       if (access_size == 0)
+> > +                               return zero_size_allowed ? 0 : -EINVAL;
+>
+> We should use -EACCES, just to be consistent.
+>
+> > +
+> > +                       return check_mem_access(env, env->insn_idx, regno, offset, BPF_B,
+> > +                                               atype, -1, false);
+> > +               }
+> > +
+> > +               fallthrough;
+> >         default: /* scalar_value or invalid ptr */
+> >                 /* Allow zero-byte read from NULL, regardless of pointer type */
+> >                 if (zero_size_allowed && access_size == 0 &&
+> > @@ -5335,6 +5355,7 @@ int check_kfunc_mem_size_reg(struct bpf_verifier_env *env, struct bpf_reg_state
+> >         WARN_ON_ONCE(regno < BPF_REG_2 || regno > BPF_REG_5);
+> >
+> >         memset(&meta, 0, sizeof(meta));
+> > +       meta.is_kfunc = true;
+> >
+> >         if (may_be_null) {
+> >                 saved_reg = *mem_reg;
+> > --
+> > 2.36.1
+> >
+>
 
-> 
->>
->> So I think it's reasonable to account this IRQ/SOFTIRQ delta to rq->curr's groups
->> as PSI_IRQ_FULL pressure stall. And per-cpu IRQ stall can also get from psi_system.
->>
-> 
