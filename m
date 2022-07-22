@@ -2,79 +2,150 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A1E1BC43334
-	for <linux-doc@archiver.kernel.org>; Fri, 22 Jul 2022 08:44:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D7A91C43334
+	for <linux-doc@archiver.kernel.org>; Fri, 22 Jul 2022 08:46:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234399AbiGVIof (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 22 Jul 2022 04:44:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40880 "EHLO
+        id S232590AbiGVIqj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 22 Jul 2022 04:46:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42416 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234435AbiGVIob (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 22 Jul 2022 04:44:31 -0400
-Received: from fornost.hmeau.com (helcar.hmeau.com [216.24.177.18])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 522659EC46;
-        Fri, 22 Jul 2022 01:44:28 -0700 (PDT)
-Received: from gwarestrin.arnor.me.apana.org.au ([192.168.103.7])
-        by fornost.hmeau.com with smtp (Exim 4.94.2 #2 (Debian))
-        id 1oEoGP-003HLt-7n; Fri, 22 Jul 2022 18:44:02 +1000
-Received: by gwarestrin.arnor.me.apana.org.au (sSMTP sendmail emulation); Fri, 22 Jul 2022 16:44:01 +0800
-Date:   Fri, 22 Jul 2022 16:44:01 +0800
-From:   Herbert Xu <herbert@gondor.apana.org.au>
-To:     Bagas Sanjaya <bagasdotme@gmail.com>
-Cc:     linux-doc@vger.kernel.org, linux-next@vger.kernel.org,
-        kernel test robot <lkp@intel.com>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        Giovanni Cabiddu <giovanni.cabiddu@intel.com>,
-        Wojciech Ziemba <wojciech.ziemba@intel.com>,
-        Adam Guerin <adam.guerin@intel.com>,
-        Fiona Trahe <fiona.trahe@intel.com>,
-        Vladis Dronov <vdronov@redhat.com>,
-        Tomasz Kowallik <tomaszx.kowalik@intel.com>,
-        linux-crypto@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RESEND v2 1/2] Documentation: qat: Use code block for qat
- sysfs example
-Message-ID: <YtpjUbTZG5R/Y4bW@gondor.apana.org.au>
-References: <20220713085627.175604-1-bagasdotme@gmail.com>
- <20220713085627.175604-2-bagasdotme@gmail.com>
+        with ESMTP id S235003AbiGVIqX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 22 Jul 2022 04:46:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 59C229FE34
+        for <linux-doc@vger.kernel.org>; Fri, 22 Jul 2022 01:46:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1658479567;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=RSXimuUd+71j8JzSdjJ27yBRxj8T4NPAJaqSzLdyIx8=;
+        b=YRTE23413sJ1NgvWddh00IIzEoJcyRhHvQ6mzWlD+X0a+Oa7/A1LJs9lBvJG+y9P1lcmUl
+        v6YhEUGMIxTcmwWg667YKdyYyv3PudlQchYvZpaJQau/532QNAYHOt1T3aTJZDZ2IeRe2F
+        7cmmmoh2CzV3Bdhf6d/QNo0MUs1/u+c=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-657-QBEJYLHdNXuKeJd-ALmdnQ-1; Fri, 22 Jul 2022 04:46:03 -0400
+X-MC-Unique: QBEJYLHdNXuKeJd-ALmdnQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B101A3C1014E;
+        Fri, 22 Jul 2022 08:46:02 +0000 (UTC)
+Received: from plouf.redhat.com (unknown [10.39.194.200])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 420A340CFD0A;
+        Fri, 22 Jul 2022 08:45:59 +0000 (UTC)
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+To:     Greg KH <gregkh@linuxfoundation.org>,
+        Jiri Kosina <jikos@kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        Kumar Kartikeya Dwivedi <memxor@gmail.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>, Shuah Khan <shuah@kernel.org>,
+        Dave Marchevsky <davemarchevsky@fb.com>,
+        Joe Stringer <joe@cilium.io>, Jonathan Corbet <corbet@lwn.net>
+Cc:     Tero Kristo <tero.kristo@linux.intel.com>,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        netdev@vger.kernel.org, bpf@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Subject: [PATCH bpf-next v8 02/24] bpf/verifier: allow kfunc to read user provided context
+Date:   Fri, 22 Jul 2022 10:45:56 +0200
+Message-Id: <20220722084556.1342406-1-benjamin.tissoires@redhat.com>
+In-Reply-To: <20220721153625.1282007-3-benjamin.tissoires@redhat.com>
+References: <20220721153625.1282007-3-benjamin.tissoires@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220713085627.175604-2-bagasdotme@gmail.com>
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jul 13, 2022 at 03:56:27PM +0700, Bagas Sanjaya wrote:
-> kernel test robot and Stephen Rothwell reported htmldocs warning:
-> 
-> Documentation/ABI/testing/sysfs-driver-qat:24: WARNING: Unexpected indentation.
-> 
-> The warning isn't caused by Date: field pointed by the warning, but rather
-> by sysfs example that isn't in literal code block.
-> 
-> Add the code block marker.
-> 
-> Link: https://lore.kernel.org/linux-next/20220711204932.333379b4@canb.auug.org.au/
-> Link: https://lore.kernel.org/linux-doc/202207090803.TEGI95qw-lkp@intel.com/
-> Reported-by: kernel test robot <lkp@intel.com>
-> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-> Fixes: d4cfb144f60551 ("crypto: qat - expose device config through sysfs for 4xxx")
-> Acked-by: Giovanni Cabiddu <giovanni.cabiddu@intel.com>
-> Cc: Wojciech Ziemba <wojciech.ziemba@intel.com>
-> Cc: Adam Guerin <adam.guerin@intel.com>
-> Cc: Fiona Trahe <fiona.trahe@intel.com>
-> Cc: Herbert Xu <herbert@gondor.apana.org.au>
-> Cc: Vladis Dronov <vdronov@redhat.com>
-> Cc: Tomasz Kowallik <tomaszx.kowalik@intel.com>
-> Cc: linux-crypto@vger.kernel.org
-> Cc: linux-kernel@vger.kernel.org
-> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> ---
->  Documentation/ABI/testing/sysfs-driver-qat | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+When a kfunc was trying to access data from context in a syscall eBPF
+program, the verifier was rejecting the call.
+This is because the syscall context is not known at compile time, and
+so we need to check this when actually accessing it.
 
-All applied.  Thanks.
+Check for the valid memory access and allow such situation to happen.
+
+Acked-by: Kumar Kartikeya Dwivedi <memxor@gmail.com>
+Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+
+---
+
+changes in v8:
+- fixup comment
+- return -EACCESS instead of -EINVAL for consistency
+
+changes in v7:
+- renamed access_t into atype
+- allow zero-byte read
+- check_mem_access() to the correct offset/size
+
+new in v6
+---
+ kernel/bpf/verifier.c | 21 +++++++++++++++++++++
+ 1 file changed, 21 insertions(+)
+
+diff --git a/kernel/bpf/verifier.c b/kernel/bpf/verifier.c
+index 7c1e056624f9..c807c5d7085a 100644
+--- a/kernel/bpf/verifier.c
++++ b/kernel/bpf/verifier.c
+@@ -248,6 +248,7 @@ struct bpf_call_arg_meta {
+ 	struct bpf_map *map_ptr;
+ 	bool raw_mode;
+ 	bool pkt_access;
++	bool is_kfunc;
+ 	u8 release_regno;
+ 	int regno;
+ 	int access_size;
+@@ -5170,6 +5171,7 @@ static int check_helper_mem_access(struct bpf_verifier_env *env, int regno,
+ 				   struct bpf_call_arg_meta *meta)
+ {
+ 	struct bpf_reg_state *regs = cur_regs(env), *reg = &regs[regno];
++	enum bpf_prog_type prog_type = resolve_prog_type(env->prog);
+ 	u32 *max_access;
+ 
+ 	switch (base_type(reg->type)) {
+@@ -5223,6 +5225,24 @@ static int check_helper_mem_access(struct bpf_verifier_env *env, int regno,
+ 				env,
+ 				regno, reg->off, access_size,
+ 				zero_size_allowed, ACCESS_HELPER, meta);
++	case PTR_TO_CTX:
++		/* in case of a kfunc called in a program of type SYSCALL, the context is
++		 * user supplied, so not computed statically.
++		 * Dynamically check it now
++		 */
++		if (prog_type == BPF_PROG_TYPE_SYSCALL && meta && meta->is_kfunc) {
++			enum bpf_access_type atype = meta->raw_mode ? BPF_WRITE : BPF_READ;
++			int offset = access_size - 1;
++
++			/* Allow zero-byte read from PTR_TO_CTX */
++			if (access_size == 0)
++				return zero_size_allowed ? 0 : -EACCES;
++
++			return check_mem_access(env, env->insn_idx, regno, offset, BPF_B,
++						atype, -1, false);
++		}
++
++		fallthrough;
+ 	default: /* scalar_value or invalid ptr */
+ 		/* Allow zero-byte read from NULL, regardless of pointer type */
+ 		if (zero_size_allowed && access_size == 0 &&
+@@ -5335,6 +5355,7 @@ int check_kfunc_mem_size_reg(struct bpf_verifier_env *env, struct bpf_reg_state
+ 	WARN_ON_ONCE(regno < BPF_REG_2 || regno > BPF_REG_5);
+ 
+ 	memset(&meta, 0, sizeof(meta));
++	meta.is_kfunc = true;
+ 
+ 	if (may_be_null) {
+ 		saved_reg = *mem_reg;
 -- 
-Email: Herbert Xu <herbert@gondor.apana.org.au>
-Home Page: http://gondor.apana.org.au/~herbert/
-PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
+2.36.1
+
