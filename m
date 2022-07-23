@@ -2,89 +2,143 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AB8B3C433EF
-	for <linux-doc@archiver.kernel.org>; Sat, 23 Jul 2022 10:26:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D56BC43334
+	for <linux-doc@archiver.kernel.org>; Sat, 23 Jul 2022 14:17:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239691AbiGWK0v (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 23 Jul 2022 06:26:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39548 "EHLO
+        id S237458AbiGWORx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 23 Jul 2022 10:17:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49124 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239039AbiGWK0a (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 23 Jul 2022 06:26:30 -0400
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B9CB78DC8;
-        Sat, 23 Jul 2022 03:18:51 -0700 (PDT)
-Received: by mail-wr1-x432.google.com with SMTP id b26so9535075wrc.2;
-        Sat, 23 Jul 2022 03:18:51 -0700 (PDT)
+        with ESMTP id S230005AbiGWORw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 23 Jul 2022 10:17:52 -0400
+Received: from mail-yb1-xb34.google.com (mail-yb1-xb34.google.com [IPv6:2607:f8b0:4864:20::b34])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57D961836E
+        for <linux-doc@vger.kernel.org>; Sat, 23 Jul 2022 07:17:50 -0700 (PDT)
+Received: by mail-yb1-xb34.google.com with SMTP id e69so12521116ybh.2
+        for <linux-doc@vger.kernel.org>; Sat, 23 Jul 2022 07:17:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=2PsGZSWn0bfvtONY6PDPYrkHIwoL8aynVvc2kGa9teo=;
-        b=UBW7PtNXbdPbsimJC+KyVkiUt/Nz+2BDq1KjUxOcLO0OqWIhYuTY9MVgTs4C1PwgbJ
-         IhQSL67p6NBuf78XSZ3W9LnJ7UDSutE2aOqfzVtZ8T2LDMsTfDsjZPLLIp5ec2aH7NFp
-         9r5pbkEnwS7BYBw43OMwZtJZn13b+mIjWg3qznMIA/ZvhqjxkgFY+a8kidt5I8T2QfRa
-         /ykUXrFCPgt3dSeCQmDLhcDH0crvirS44sD03He55SYlL6VlgILxCH/yH1TeE5qarVuN
-         Vn1MPOd61KYArMf0/LzwW+LUs2hS8D1jC5WpnZ3Br8zoZRXwAVgFl32YCQptti6sZ0nP
-         qmHw==
+        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=mEoPEbeOyWxlrBYzTjx3/LLOWXpb1CcPOZICGC0v96M=;
+        b=jr/xvpvbVmNf+xIG0dbLCrMyluMNU3l3gZeFwLtkhnYy/4UleXz2aomwnjH+3TbMKl
+         11dBUhnttUE/J/yKFXfQN03yrN4WFewxF/+VJ/kcL6pFsFUOYhgePHT7kQM1GWHE4cnj
+         J0HF2vx93jhldzsXpN3975BnFyYHwrHhHDTW6S28Y1Bp+thJmDbF88XkOqYjLcRbtVMz
+         EymXnwDWc6excfS/Vg36Y6KXmCjFyN9Fy9ta6W1R+MsF1Y9qT+ckV60hFtIARmjwjo36
+         hhkKLiL31tekMRZqBQY+Ta4faait4JFH08LLjUBAqpKD/CnXK6iHsPwk/7J98gJf2WT9
+         7zEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=2PsGZSWn0bfvtONY6PDPYrkHIwoL8aynVvc2kGa9teo=;
-        b=0pCjehYu6TqrzImnlv9SYv0NghDD0KGvbnzV4cuFI2kawLIHdtW/jHQYIIcerpwvD3
-         KwL8sgfJtGRB06xPC1gU4OQ6lpiQ7yQYMyxJWvJ1TdXIuoneM/FQLmtL/Pp2yjyNzfq4
-         chFAN7/+uGds5tgjsssJbSbE9vASaZJCGmuGtesf7ZmBhpSzpmHL/aijUWMWaG2jgmP6
-         +no0bGZmUzsOPdMZlqKE1JIgAdY5nxSAGvovW0pS9l2ZSmKkI2M4QKNuU8I7w/msENYe
-         g8LPIGRgq7W3otcydKDKf1BVpb1WYXwUgLkICcmS73CdaNiPz3iIKCFdfPH0lj5BhcXa
-         qiBQ==
-X-Gm-Message-State: AJIora9SWh7A5diXzzDN6lNgMwT/rsSsBHvg234Y95I+UuSpxxDRESfs
-        zzamaPy5Zh1phxBi5q8sS14=
-X-Google-Smtp-Source: AGRyM1unTp8g5WHUUH5FU/LcH6liCfcE0kUzkRIkE4yWBS0MVpzyd9Hfh9FMn9D0WeSYwh6MnzysLg==
-X-Received: by 2002:a05:6000:1f0b:b0:21d:6dae:7d04 with SMTP id bv11-20020a0560001f0b00b0021d6dae7d04mr2496059wrb.414.1658571530047;
-        Sat, 23 Jul 2022 03:18:50 -0700 (PDT)
-Received: from reki (62-44-238.netrun.cytanet.com.cy. [62.228.44.238])
-        by smtp.gmail.com with ESMTPSA id q5-20020a1ce905000000b003a0323463absm7849803wmc.45.2022.07.23.03.18.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 23 Jul 2022 03:18:49 -0700 (PDT)
-Date:   Sat, 23 Jul 2022 13:18:47 +0300
-From:   Maxim Devaev <mdevaev@gmail.com>
-To:     Greg KH <gregkh@linuxfoundation.org>
-Cc:     linux-doc@vger.kernel.org, linux-next@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        stern@rowland.harvard.edu, sfr@canb.auug.org.au
-Subject: Re: [PATCH v2] docs: fixed table margin in
- configfs-usb-gadget-mass-storage
-Message-ID: <20220723131847.131a92b5@reki>
-In-Reply-To: <YtvAJGY2jleLodgt@kroah.com>
-References: <20220723074054.54995-1-mdevaev@gmail.com>
-        <YtvAJGY2jleLodgt@kroah.com>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-pc-linux-gnu)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=mEoPEbeOyWxlrBYzTjx3/LLOWXpb1CcPOZICGC0v96M=;
+        b=6nhSyjPfUiG8xRCt/gzPG7vksGicI7NO/hSyMHqM/MXJj6yfBzoPuBLlN82RUVSBD7
+         CRynfLiQXFcWrTiysHZkJK9Plqnese2nkiB0t16mcD0j0VBLmMCyHH6tk86oeAn4RJ8k
+         mmNdcy2RP2tvolxNRX6IIWHSR9AqKf56ZMOfT1gC0eUMhNhCuoR9ep8cTzL1DjgyE4n0
+         OIJUP5GCuaB2W38fEXtq1sC9k5yoMzncKu2BvS9nGPLBGvIk0Cg7YJ0sEzG7NtUZZ+LL
+         637ZlUAuvFIQAELc+TwYEadQIB59qeKrvYKYcOKg/3nbD0CcbOf2yZ065grzA+5RYgh6
+         XtvA==
+X-Gm-Message-State: AJIora8E+Wx4BIQUNorVhlNsJ74Yc9TFYYygO1F0J+in7K72xQSPVW1q
+        7BwpL7/uT+T1qUlSqJL/VzUE17Y4CgHk/5Tk4EeqBA==
+X-Google-Smtp-Source: AGRyM1vMVZvJKOP7aWWuKyr1n74NN+gmMGpp4/ODkk6r1z+KdpVQo9OtmmE4byGdqk74TpSHifmeukWE0kzdATNgfP0=
+X-Received: by 2002:a25:2f4a:0:b0:670:ea89:72b2 with SMTP id
+ v71-20020a252f4a000000b00670ea8972b2mr3546504ybv.427.1658585869576; Sat, 23
+ Jul 2022 07:17:49 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+References: <20220722162934.1888835-1-mcgrof@kernel.org> <20220722162934.1888835-3-mcgrof@kernel.org>
+In-Reply-To: <20220722162934.1888835-3-mcgrof@kernel.org>
+From:   Muchun Song <songmuchun@bytedance.com>
+Date:   Sat, 23 Jul 2022 22:17:12 +0800
+Message-ID: <CAMZfGtV4wC-8uT47v-nYhEi82cqNVNf1CFMM8qRU7Nd3SMyv5w@mail.gmail.com>
+Subject: Re: [PATCH 2/2] Documentation/filesystems/proc.rst: document procfs
+ inode timestamps
+To:     Luis Chamberlain <mcgrof@kernel.org>
+Cc:     "Eric W. Biederman" <ebiederm@xmission.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Iurii Zaikin <yzaikin@google.com>,
+        Zhang Yuchen <zhangyuchen.lcr@bytedance.com>,
+        David Howells <dhowells@redhat.com>,
+        Deepa Dinamani <deepa.kernel@gmail.com>,
+        Christoph Hellwig <hch@lst.de>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-api@vger.kernel.org,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-=D0=92 Sat, 23 Jul 2022 11:32:20 +0200
-Greg KH <gregkh@linuxfoundation.org> =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+On Sat, Jul 23, 2022 at 12:29 AM Luis Chamberlain <mcgrof@kernel.org> wrote:
+>
+> The timestamps for procfs files are not well understood and can
+> confuse users and developers [0] in particular for the timestamp
+> for the start time or a process. Clarify what they mean and that
+> they are a reflection of the ephemeral nature of the filesystem
+> inodes.
+>
+> The procfs inodes are created when you first read them and then
+> stuffed in the page cache. If the page cache and indodes are
+> reclaimed they can be removed, and re-created with a new timestamp
+> after read again. Document this little bit of tribal knowledge.
+>
+> [0] https://lkml.kernel.org/r/20220721081617.36103-1-zhangyuchen.lcr@bytedance.com
+> Reported-by: Zhang Yuchen <zhangyuchen.lcr@bytedance.com>
+> Signed-off-by: Luis Chamberlain <mcgrof@kernel.org>
+> ---
+>  Documentation/filesystems/proc.rst | 16 ++++++++++++++++
+>  1 file changed, 16 insertions(+)
+>
+> diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
+> index 9fd5249f1a5f..9defe9af683a 100644
+> --- a/Documentation/filesystems/proc.rst
+> +++ b/Documentation/filesystems/proc.rst
+> @@ -59,6 +59,15 @@ The proc  file  system acts as an interface to internal data structures in the
+>  kernel. It  can  be  used to obtain information about the system and to change
+>  certain kernel parameters at runtime (sysctl).
+>
+> +The proc files are dynamic in nature and allow for developers to make the
+> +content to be changed each time a file is read. The proc files and directories
+> +inodes are created when someone first reads a respective proc file or directory,
+> +as such the timestamps of the proc files reflect this time. As with other
+> +filesystems, these proc inodes can be removed through reclaim under memory
+> +pressure and so the timestamps of the proc files can change if the proc files
+> +are destroyed and re-created (echo 3 > /proc/sys/vm/drop_caches forces and
+> +illustrate the reclaim of inodes and page cache).
 
-> On Sat, Jul 23, 2022 at 10:40:54AM +0300, Maxim Devaev wrote:
-> > Fixes: 421c8d9a20da ("usb: gadget: f_mass_storage: forced_eject attribu=
-te")
-> > Signed-off-by: Maxim Devaev <mdevaev@gmail.com>
-> > ---
-> >  v1 -> v2: Added Greg KH to CC so that he can accept this into his bran=
-ch =20
->=20
-> For obvious reasons, I can not take a change without any changelog text
-> at all, and neither should any other maintainer.
->=20
-> Also you forgot the reported-by line :(
->=20
-> thanks,
->=20
-> greg k-h
+Thanks for fixing this.
 
-Thank you for your patience. V3 sent.
+> +
+>  First, we'll  take  a  look  at the read-only parts of /proc. In Chapter 2, we
+>  show you how you can use /proc/sys to change settings.
+>
+> @@ -328,6 +337,13 @@ It's slow but very precise.
+>                 system call
+>    ============= ===============================================================
+>
+> +Note that the start_time inside the stat file is different than the timestamp
+> +of the stat file itself. The timestamp of the stat file simply reflects the
+> +first time the stat file was read. The proc inode for this file can be reclaimed
+> +under memory pressure and be recreated after this and so the timestamp can
+> +change. Userspace should rely on the start_time entry in the the stat file to
+> +get a process start time.
+> +
+
+I'm not sure the value of those comments since the above description
+is already enough to tell people the timestamp of /proc files or directories
+can be changed in some cases, which already includes the case of
+/proc/PID/stat.
+
+If we really want to take /proc/PID/stat as an example to show the
+timestamp is unstable, I think it is better to move those comments to the
+above section where you explain why the timestamp can be changed .
+
+Thanks.
+
+>  The /proc/PID/maps file contains the currently mapped memory regions and
+>  their access permissions.
+>
+> --
+> 2.35.1
+>
