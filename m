@@ -2,60 +2,68 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6DB9AC43334
-	for <linux-doc@archiver.kernel.org>; Sat, 23 Jul 2022 07:42:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 027F8C433EF
+	for <linux-doc@archiver.kernel.org>; Sat, 23 Jul 2022 07:56:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236864AbiGWHmH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 23 Jul 2022 03:42:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53458 "EHLO
+        id S230240AbiGWH4F (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 23 Jul 2022 03:56:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34252 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229708AbiGWHmG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 23 Jul 2022 03:42:06 -0400
-Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7836F491ED;
-        Sat, 23 Jul 2022 00:42:04 -0700 (PDT)
-Received: by mail-wm1-x32a.google.com with SMTP id r9-20020a1c4409000000b003a34ac64bdfso442186wma.1;
-        Sat, 23 Jul 2022 00:42:04 -0700 (PDT)
+        with ESMTP id S229770AbiGWH4E (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 23 Jul 2022 03:56:04 -0400
+Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA30378233;
+        Sat, 23 Jul 2022 00:56:03 -0700 (PDT)
+Received: by mail-pl1-x632.google.com with SMTP id g17so6324784plh.2;
+        Sat, 23 Jul 2022 00:56:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=YwmE8iWxtiJIxHdfEka47hXmPR+fBzQvfjsFdeTq40k=;
-        b=dIJNifz9/KyE/gCfpdTeA0jWzmSCHwKo5Fgd6aqTzeWnYxm8KSX8JaXU9ccjTtq9Yc
-         KsDkE5kACZz0wcGBKWpXx+QaU7mX7mxkAL2hi2JqYtbcQJ5YoLYnM3fJybwAgMjjgGbq
-         h04iPNGQvhvvxq+cvpWCaHTZp5iTQP21wGaLsPL2GQ1k9S2DDWYJon/fevd8ZRo8nGp6
-         V9I03uWDF4X3FGyVvTw37leIhDeeAh26jTZgf8wfKgcLOSuF5wQBrF0Ro0a29nnym8Qq
-         OqKbkJG+eV52bG/MI8krNz+5GJOC3bYqRmMHlOAjeBhf2TUOaa2wuc4Lf2uAbvoDLMQQ
-         zrIA==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc;
+        bh=fHVlgOsEdU7End5l0TLqwIBY+nh49Y7umy5UF0akVQk=;
+        b=VyVzoTaN3C5lhOV4/RYikj5T+8lWqLx7rEkIfCCoCQP5Pw5MoojG+bw92WRiP6Gpbk
+         T/Rlsm7t/Qh5XqVRgH3lr9ZEmguNhoEpoHxk1e8YVmQdPZDRbQLoPJsuF5BXZ4tfxWoo
+         /GG2ldd+LVcTz3pbpsSrnEweylkJGbBftC1SABzIV7VSm5zXAoZ4knlB7Vhdb+2I74RJ
+         z6VuNjKfN1g/5/F50mtIxQlbSWIzAyob97jYYrZ3eE4TkF2Zi4lKlbmIqqh7XbK2+Ro4
+         XwMq7+Uo+afm0YSBP8MoV+xpLotgxU7TGzQGzg4waIPOBUimacKVONwqV+SUiMVHXq+w
+         uIOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=YwmE8iWxtiJIxHdfEka47hXmPR+fBzQvfjsFdeTq40k=;
-        b=epL8FPaR+Gv/wmfE9+p6x4hvOPKOs17Iy8vr6UKa2PyX2cGU6w10qrvKHcGoLLoPpN
-         kViGrcAKGPiVwIxhfuBW4d74ta6bMJMzLwyJD9LFL2k6wUwrmbQ179KCu40AN6og8rFY
-         JmOzcOfYyDFxSFlJq39/h+AzKT9OGOHrWowF0XaBfBA0d4M6018ZwEz/fZ8drJHCsjh2
-         HaFDwu3pHOVr1PNduShb6XCuJ3yuxmaKR2AUx3Tg1Ezj6Qm2hKd29QN65CDMoSeH0bKs
-         CRPjgGBkzjDWswwXL3OQKWG3wQlDoquYSFq/IYnRpz/vnWBvTTJjPwd/OcupOmieWBnv
-         q2YA==
-X-Gm-Message-State: AJIora/6csqMDPEYhwcid8Bpa2qxBaBBwpaSVOdbvdxuJxLZFnE9suHj
-        ChZaO3Gucuy1tAk0fRTuaLGPBVsG0QkyyA==
-X-Google-Smtp-Source: AGRyM1tOGdhlSenDO0GdElEkAg8sTjaOGRyHGp/hjm0kiK9Iz8vT2m6yZxFjl0XF/oBxPW7pxT88MA==
-X-Received: by 2002:a05:600c:224c:b0:3a3:17b7:a229 with SMTP id a12-20020a05600c224c00b003a317b7a229mr15098728wmm.1.1658562122620;
-        Sat, 23 Jul 2022 00:42:02 -0700 (PDT)
-Received: from localhost.localdomain (62-44-238.netrun.cytanet.com.cy. [62.228.44.238])
-        by smtp.gmail.com with ESMTPSA id n6-20020adfe346000000b0021d7ad6b9fdsm6322786wrj.57.2022.07.23.00.42.01
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc;
+        bh=fHVlgOsEdU7End5l0TLqwIBY+nh49Y7umy5UF0akVQk=;
+        b=U7YK90sr0OYJ7el2Zl5poNliAzlHsrWEkmq6kwc8PK6QWmnBPI1wgMhVZpKn/1MzFG
+         TkTxhDN7Pg4HyYInV4f+geashwqiOctrlIA1adecnMXEcwDGDcWptap9P5LchHOtGr7f
+         RVFkkOB4sDUpOF1WoWjhNXrnLJkipR/11tPOAv0OipeeBScqlRjF3hoztxzUd0lFixT8
+         o1iq2NwDESTN/etsFpFeqzX+9WfUsWwrRD7pg80Ho4x5+ICWw1Ti4Ag+gCUt+0JYltja
+         KSmxcA6Gv8i2BuyqP9kJk8Q0EplhHVVZuz0V4GGlgh8AeMpO+bLnKcq3ovheepiWj948
+         g1YA==
+X-Gm-Message-State: AJIora8r61iRe7y+D7YU+fXxZIsUpaxfu/znkPCNv19PxOJI1GKy387Q
+        sgOKBx0B+amRcR8r56nMnF8=
+X-Google-Smtp-Source: AGRyM1suKIpte1fxNWYEqpBwC170ic07x31DwlmI77FxjwFQDGoJOFGNB4J8S9iNSQh4YXo5GCsh0A==
+X-Received: by 2002:a17:90b:380b:b0:1f2:5514:9615 with SMTP id mq11-20020a17090b380b00b001f255149615mr3811157pjb.171.1658562962989;
+        Sat, 23 Jul 2022 00:56:02 -0700 (PDT)
+Received: from debian.me (subs03-180-214-233-23.three.co.id. [180.214.233.23])
+        by smtp.gmail.com with ESMTPSA id rm10-20020a17090b3eca00b001ed27d132c1sm17347184pjb.2.2022.07.23.00.56.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 23 Jul 2022 00:42:02 -0700 (PDT)
-From:   Maxim Devaev <mdevaev@gmail.com>
+        Sat, 23 Jul 2022 00:56:02 -0700 (PDT)
+Received: by debian.me (Postfix, from userid 1000)
+        id 419911048F0; Sat, 23 Jul 2022 14:55:58 +0700 (WIB)
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
 To:     linux-doc@vger.kernel.org
-Cc:     linux-next@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org, mdevaev@gmail.com,
-        gregkh@linuxfoundation.org, stern@rowland.harvard.edu,
-        sfr@canb.auug.org.au
-Subject: [PATCH v2] docs: fixed table margin in configfs-usb-gadget-mass-storage
-Date:   Sat, 23 Jul 2022 10:40:54 +0300
-Message-Id: <20220723074054.54995-1-mdevaev@gmail.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Thorsten Leemhuis <linux@leemhuis.info>,
+        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Hannu Hartikainen <hannu@hrtk.in>,
+        Jiri Kosina <jkosina@suse.cz>, Miguel Ojeda <ojeda@kernel.org>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        linux-kernel@vger.kernel.org, Bagas Sanjaya <bagasdotme@gmail.com>
+Subject: [PATCH] MAINTAINERS: remove outdated patch submission guidelines
+Date:   Sat, 23 Jul 2022 14:55:26 +0700
+Message-Id: <20220723075525.210510-1-bagasdotme@gmail.com>
 X-Mailer: git-send-email 2.37.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -63,33 +71,125 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Fixes: 421c8d9a20da ("usb: gadget: f_mass_storage: forced_eject attribute")
-Signed-off-by: Maxim Devaev <mdevaev@gmail.com>
+The patch submission guidelines in MAINTAINERS are redundant, since
+submitting-patches does the job and more up-to-date to current kernel
+development process.
+
+Remove the guidelines, while also move trivial patch suggestion to
+submitting-patches.
+
+Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
 ---
- v1 -> v2: Added Greg KH to CC so that he can accept this into his branch
+ Documentation/process/submitting-patches.rst |  4 +-
+ MAINTAINERS                                  | 78 +-------------------
+ 2 files changed, 6 insertions(+), 76 deletions(-)
 
- Documentation/ABI/testing/configfs-usb-gadget-mass-storage | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/Documentation/ABI/testing/configfs-usb-gadget-mass-storage b/Documentation/ABI/testing/configfs-usb-gadget-mass-storage
-index d899adb57e81..fc0328069267 100644
---- a/Documentation/ABI/testing/configfs-usb-gadget-mass-storage
-+++ b/Documentation/ABI/testing/configfs-usb-gadget-mass-storage
-@@ -19,7 +19,7 @@ KernelVersion:	3.13
- Description:
- 		The attributes:
+diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
+index a1cb6280fbcf4e..bb720c057de7d7 100644
+--- a/Documentation/process/submitting-patches.rst
++++ b/Documentation/process/submitting-patches.rst
+@@ -15,7 +15,9 @@ Documentation/process/submit-checklist.rst
+ for a list of items to check before submitting code.  If you are submitting
+ a driver, also read Documentation/process/submitting-drivers.rst; for device
+ tree binding patches, read
+-Documentation/devicetree/bindings/submitting-patches.rst.
++Documentation/devicetree/bindings/submitting-patches.rst. Not all suggestions
++presented here matter on every patch (including trivial ones), so apply
++some common sense.
  
--		===========	==============================================
-+		============	==============================================
- 		file		The path to the backing file for the LUN.
- 				Required if LUN is not marked as removable.
- 		ro		Flag specifying access to the LUN shall be
-@@ -38,4 +38,4 @@ Description:
- 				regardless of whether the host has allowed it.
- 				Any non-zero number of bytes written will
- 				result in ejection.
--		===========	==============================================
-+		============	==============================================
+ This documentation assumes that you're using ``git`` to prepare your patches.
+ If you're unfamiliar with ``git``, you would be well-advised to learn how to
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 64379c699903bc..8d668a0ec903e4 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1,81 +1,9 @@
+ List of maintainers and how to submit kernel changes
+ ====================================================
+ 
+-Please try to follow the guidelines below.  This will make things
+-easier on the maintainers.  Not all of these guidelines matter for every
+-trivial patch so apply some common sense.
+-
+-Tips for patch submitters
+--------------------------
+-
+-1.	Always *test* your changes, however small, on at least 4 or
+-	5 people, preferably many more.
+-
+-2.	Try to release a few ALPHA test versions to the net. Announce
+-	them onto the kernel channel and await results. This is especially
+-	important for device drivers, because often that's the only way
+-	you will find things like the fact version 3 firmware needs
+-	a magic fix you didn't know about, or some clown changed the
+-	chips on a board and not its name.  (Don't laugh!  Look at the
+-	SMC etherpower for that.)
+-
+-3.	Make sure your changes compile correctly in multiple
+-	configurations. In particular check that changes work both as a
+-	module and built into the kernel.
+-
+-4.	When you are happy with a change make it generally available for
+-	testing and await feedback.
+-
+-5.	Make a patch available to the relevant maintainer in the list. Use
+-	``diff -u`` to make the patch easy to merge. Be prepared to get your
+-	changes sent back with seemingly silly requests about formatting
+-	and variable names.  These aren't as silly as they seem. One
+-	job the maintainers (and especially Linus) do is to keep things
+-	looking the same. Sometimes this means that the clever hack in
+-	your driver to get around a problem actually needs to become a
+-	generalized kernel feature ready for next time.
+-
+-	PLEASE check your patch with the automated style checker
+-	(scripts/checkpatch.pl) to catch trivial style violations.
+-	See Documentation/process/coding-style.rst for guidance here.
+-
+-	PLEASE CC: the maintainers and mailing lists that are generated
+-	by ``scripts/get_maintainer.pl.`` The results returned by the
+-	script will be best if you have git installed and are making
+-	your changes in a branch derived from Linus' latest git tree.
+-	See Documentation/process/submitting-patches.rst for details.
+-
+-	PLEASE try to include any credit lines you want added with the
+-	patch. It avoids people being missed off by mistake and makes
+-	it easier to know who wants adding and who doesn't.
+-
+-	PLEASE document known bugs. If it doesn't work for everything
+-	or does something very odd once a month document it.
+-
+-	PLEASE remember that submissions must be made under the terms
+-	of the Linux Foundation certificate of contribution and should
+-	include a Signed-off-by: line.  The current version of this
+-	"Developer's Certificate of Origin" (DCO) is listed in the file
+-	Documentation/process/submitting-patches.rst.
+-
+-6.	Make sure you have the right to send any changes you make. If you
+-	do changes at work you may find your employer owns the patch
+-	not you.
+-
+-7.	When sending security related changes or reports to a maintainer
+-	please Cc: security@kernel.org, especially if the maintainer
+-	does not respond. Please keep in mind that the security team is
+-	a small set of people who can be efficient only when working on
+-	verified bugs. Please only Cc: this list when you have identified
+-	that the bug would present a short-term risk to other users if it
+-	were publicly disclosed. For example, reports of address leaks do
+-	not represent an immediate threat and are better handled publicly,
+-	and ideally, should come with a patch proposal. Please do not send
+-	automated reports to this list either. Such bugs will be handled
+-	better and faster in the usual public places. See
+-	Documentation/admin-guide/security-bugs.rst for details.
+-
+-8.	Happy hacking.
++If you'd like to submit kernel changes (patches), refer to
++:ref:`submittingpatches` for the guidelines, and
++:ref:`development_process_main` for detailed guide on development process.
+ 
+ Descriptions of section entries and preferred order
+ ---------------------------------------------------
+
+base-commit: 70664fc10c0d722ec79d746d8ac1db8546c94114
 -- 
-2.37.1
+An old man doll... just what I always wanted! - Clara
 
