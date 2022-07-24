@@ -2,92 +2,105 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4EA3AC43334
-	for <linux-doc@archiver.kernel.org>; Sun, 24 Jul 2022 02:49:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 209D7C43334
+	for <linux-doc@archiver.kernel.org>; Sun, 24 Jul 2022 15:22:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230197AbiGXCtk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 23 Jul 2022 22:49:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34222 "EHLO
+        id S230501AbiGXPWH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 24 Jul 2022 11:22:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33424 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229602AbiGXCtj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 23 Jul 2022 22:49:39 -0400
-Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com [IPv6:2607:f8b0:4864:20::42d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CDB7139B;
-        Sat, 23 Jul 2022 19:49:38 -0700 (PDT)
-Received: by mail-pf1-x42d.google.com with SMTP id y9so7534768pff.12;
-        Sat, 23 Jul 2022 19:49:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc;
-        bh=gSZBqo+GJpbLxWO7KUPdX/NIEOZXi3uHA6I5/h9Ae88=;
-        b=JpptwV03fN+pOYghJzEYoh4JLL/XC8Ly3sK+VAc2fYzO9PLQ5aWJUp31mjVV9FqupM
-         33uZjBtqtSBi/98glrdRi2L3R1j+cI5YqMUMWUo0K6Zm01IgQPbn5UL8fIMgRhLpqZLk
-         d76O9uR8bDjfrNgvSoKaxk+QLT1TD0LUFxzq9DHurAq5zVQavTyqSgrW1VMpXDQ6i3Gr
-         NoEPi0xun6zF+LZCDSVyNHwiuYIMQ38ot0X959afjv88i4mByuNumOfJbieL0MDHQ2dx
-         LN0kphXd2WxeAvmYyIMyPFuSf8KbdqdWj+6Irtm0BPlJcSrxw+oYLGUtT+Dn0ur6psSU
-         dDUA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc;
-        bh=gSZBqo+GJpbLxWO7KUPdX/NIEOZXi3uHA6I5/h9Ae88=;
-        b=KF5ykfctosdrnLdPTUEG+R0xomxdK1a/+ahtBkuc0l2ctwxurXPtnPSIuq3lGxHEEQ
-         mk9NHq/kU+Vft/6R9AX2kp8t//ckQo8yUcfpQfT94RqHDTUQcRxRUTYzzbPg2D6gZ6R4
-         0xcsgQwO6TYoWS2HzO9ut/iXaVfFhgaT23FYGBv6wusIYD6ymAqoDw/c+MDfGMRotv39
-         4Zo2D26pxs42ZT0ij7X/31udvpOfiaoEGjApgvfmR+DPmyRKO27c0QTaALeQ9SiPWBRP
-         fquABb1+nM7jDK4gendiikEZ8dHYBe9qNiW/WfwNhWTtAcHYDWXnlq8uBeyyX1EvjcZB
-         9D3w==
-X-Gm-Message-State: AJIora9VIAmnAQYnubOFfGIM9WSdBH4yn27UQsOzpUl65hA6IsORDqbv
-        yE6LnaSuC+R+63TWAIbhtew=
-X-Google-Smtp-Source: AGRyM1soUkXAdCXAvC/wf3HF5Sb42PzXzKJdqZxcowDy2J3LxksJuS4HfcKY1yxdZlNZoo/Ul4XJGw==
-X-Received: by 2002:a63:4b62:0:b0:41a:e5be:fe23 with SMTP id k34-20020a634b62000000b0041ae5befe23mr1290555pgl.140.1658630978263;
-        Sat, 23 Jul 2022 19:49:38 -0700 (PDT)
-Received: from [192.168.43.80] (subs03-180-214-233-16.three.co.id. [180.214.233.16])
-        by smtp.gmail.com with ESMTPSA id o42-20020a17090a0a2d00b001f21f0f6d7csm7819116pjo.25.2022.07.23.19.49.35
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 23 Jul 2022 19:49:37 -0700 (PDT)
-Message-ID: <5e13ade3-10a5-4eaf-2d9c-aa03fc23a374@gmail.com>
-Date:   Sun, 24 Jul 2022 09:49:33 +0700
+        with ESMTP id S229640AbiGXPWH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 24 Jul 2022 11:22:07 -0400
+Received: from sipsolutions.net (s3.sipsolutions.net [IPv6:2a01:4f8:191:4433::2])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DEAA811C07;
+        Sun, 24 Jul 2022 08:22:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=sipsolutions.net; s=mail; h=MIME-Version:Content-Transfer-Encoding:
+        Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-To:
+        Resent-Cc:Resent-Message-ID; bh=RG/BJ3Nv9HakG4zVWqCXWL3uZp6IBIbE/vdVZRgFNzw=;
+        t=1658676126; x=1659885726; b=hyxJq9tjqYBSUs+yl2lXhjEasadf4QDDhUQtDVBgBTsOCXy
+        dXAS1NdbzZAH8t2GUlNLJhRhD49LM6qQYr6ikt7VEwb372PnhXfEw2eIErL3/1g/NmcQS7A1MmBoj
+        M7sI/c7TKKmGWAVMuqOX0QISRHvCSzFTYdLMvn4EDRAsr7qLMVn4yGnhfPIrpN9AlVZXuznPdF7KL
+        MRGo6/1aZIACWmI+uYVqBv6MGHPydotxxqBIszWJT+2aLy/cMHaEc5ZyPntvis9Hxxu9S7XG2Yi0g
+        ypD4kw1ai5Re/1SorP2ClE+MC/OBt+Q4GXVXOTKFomMo1MmltlwK5AiDCvwoP4Gg==;
+Received: by sipsolutions.net with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+        (Exim 4.96)
+        (envelope-from <johannes@sipsolutions.net>)
+        id 1oFdQP-006zmj-2a;
+        Sun, 24 Jul 2022 17:21:45 +0200
+Message-ID: <4f8ab262d98ba2a4d0e106e127c171e75b52ad47.camel@sipsolutions.net>
+Subject: Re: [PATCH] docs: driver-api: firmware: add driver firmware
+ guidelines. (v3)
+From:   Johannes Berg <johannes@sipsolutions.net>
+To:     Dave Airlie <airlied@gmail.com>, torvalds@linux-foundation.org,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        gregkh@linuxfoundation.org, Daniel Vetter <daniel@ffwll.ch>,
+        mcgrof@kernel.org
+Cc:     linux-kernel@vger.kernel.org, dri-devel@lists.sf.net,
+        netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
+        alsa-devel@alsa-project.org, linux-media@vger.kernel.org,
+        linux-block@vger.kernel.org, Dave Airlie <airlied@redhat.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Harry Wentland <harry.wentland@amd.com>
+Date:   Sun, 24 Jul 2022 17:21:43 +0200
+In-Reply-To: <20220721044352.3110507-1-airlied@gmail.com>
+References: <20220721044352.3110507-1-airlied@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.3 (3.44.3-1.fc36) 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v3] docs: fixed table margin in
- configfs-usb-gadget-mass-storage
-Content-Language: en-US
-To:     Maxim Devaev <mdevaev@gmail.com>, linux-doc@vger.kernel.org
-Cc:     linux-next@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org, gregkh@linuxfoundation.org,
-        stern@rowland.harvard.edu, sfr@canb.auug.org.au
-References: <20220723101432.72178-1-mdevaev@gmail.com>
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <20220723101432.72178-1-mdevaev@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-malware-bazaar: not-scanned
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 7/23/22 17:14, Maxim Devaev wrote:
-> After merging forced_eject patch, there was a broken margin
-> in the configfs parameters table in the ABI documentation.
-> This patch fixes it.
-> 
+On Thu, 2022-07-21 at 14:43 +1000, Dave Airlie wrote:
+>=20
+> +Users switching to a newer kernel should *not* have to install newer
+> +firmware files to keep their hardware working. At the same time updated
+> +firmware files must not cause any regressions for users of older kernel
+> +releases.
 
-Hi Maxim,
+That seems sane, and certainly something we've done in wireless in the
+past.
 
-I think the patch message can be improved, like:
+> +* Firmware files shall be designed in a way that it allows checking for
+> +  firmware ABI version changes. It is recommended that firmware files be
+> +  versioned with at least a major/minor version. It is suggested that
+> +  the firmware files in linux-firmware be named with some device
+> +  specific name, and just the major version. The firmware version should
+> +  be stored in the firmware header, or as an exception, as part of the
+> +  firmware file name,
 
-"Commit 421c8d9a20da ("usb: gadget: f_mass_storage: forced_eject attribute")
- adds force_eject entry to config-usb-gadget-mass-storage table.
- However, the table border for attribute name is short by one `=`,
- which triggers Sphinx warning.
+Eh, I went to write a whole paragraph here and then read it again ...
+Maybe this should say "[t]he _full_ firmware version", to contrast with
+the previous sentence mentioning the "major version".
 
- Extend the border to cover the now-longest entry."
+>  in order to let the driver detact any non-ABI
 
-Thanks.
+typo - 'detect'
 
--- 
-An old man doll... just what I always wanted! - Clara
+> +  fixes/changes. The firmware files in linux-firmware should be
+> +  overwritten with the newest compatible major version.
+>=20
+
+That's also a bit confusing IMHO - did that mean "minor version"? Or
+something? I mean ... if you overwrite a file that has the major version
+in the filename then by definition it is the same major version?
+
+> +  This means no major version bumps without the kernel retaining
+> +  backwards compatibility for the older major versions.
+
+Strictly reading this might require aeons of support for firmware
+version, if you have a release cadence of them like every 6 weeks for a
+new _major_ version (yes, because APIs change), then that's rather
+harsh. In practice we've often done this, but I think some reasonable
+cut-off could/should be there, such as dropping support after a
+reasonably long time frame (say a year?)
+
+Often though that's less a question of "does it still work" and rather
+one of "do I still support that" and the answer for the latter is
+obviously "no" much quicker than the former.
+
+johannes
