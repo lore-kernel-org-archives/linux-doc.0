@@ -2,114 +2,175 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BFCD4C433EF
-	for <linux-doc@archiver.kernel.org>; Sun, 24 Jul 2022 18:12:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B71FDC43334
+	for <linux-doc@archiver.kernel.org>; Sun, 24 Jul 2022 18:49:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229542AbiGXSMU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 24 Jul 2022 14:12:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45598 "EHLO
+        id S231912AbiGXStf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 24 Jul 2022 14:49:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35396 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229456AbiGXSMT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 24 Jul 2022 14:12:19 -0400
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 85B17DEF8;
-        Sun, 24 Jul 2022 11:12:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1658686338; x=1690222338;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=BjvRcMWl7wunZxrZm/S9IY/AhIjTpZkTi/HKbixiWb0=;
-  b=K5hdtLLye6Tdtq2aX6cI1JTZI54V0+oxaNUI3pwctV8ixTvPK7hXY6eL
-   zGlIGLiKLNYW0nhrSa+BwbbIsk2st6RGbDDxXguaYgQ5vBFjKDFbX7ky7
-   zXbzZlrgyUIJrSpuavczojxwQXWifV2YC2nw3Dqiqz8WafLVgSHHfgRCu
-   jcjUtq2V6Fs0V2y8eZzoQKbqV76BGj6QXTzqKcdWgkZiizr0j4NGKedI0
-   EAqwL/GpOHQjrWRlsuRpftrRZSvFgflVIEtVbM3fAFzf3RVInAJRTue6c
-   KpRpJFk02dsTNb95iqS4NiBHFI4VOlEGrSCR7Mq7f9bknoxhm/tFVsH5S
-   Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10418"; a="270598022"
-X-IronPort-AV: E=Sophos;i="5.93,190,1654585200"; 
-   d="scan'208";a="270598022"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jul 2022 11:12:17 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,190,1654585200"; 
-   d="scan'208";a="688813740"
-Received: from lkp-server01.sh.intel.com (HELO e0eace57cfef) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 24 Jul 2022 11:12:12 -0700
-Received: from kbuild by e0eace57cfef with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1oFg5M-00045f-0E;
-        Sun, 24 Jul 2022 18:12:12 +0000
-Date:   Mon, 25 Jul 2022 02:12:06 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Daniel Bristot de Oliveira <bristot@kernel.org>,
-        Steven Rostedt <rostedt@goodmis.org>
-Cc:     kbuild-all@lists.01.org,
-        Daniel Bristot de Oliveira <bristot@kernel.org>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Ingo Molnar <mingo@redhat.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Will Deacon <will@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Marco Elver <elver@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Gabriele Paoloni <gpaoloni@redhat.com>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Clark Williams <williams@redhat.com>,
-        Tao Zhou <tao.zhou@linux.dev>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-trace-devel@vger.kernel.org
-Subject: Re: [PATCH V6 14/16] rv/monitor: Add the wwnr monitor
-Message-ID: <202207250209.ICMKu9h0-lkp@intel.com>
-References: <a1b9cb1679c6bd7431b0a0072f73c5d6ab353207.1658244826.git.bristot@kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a1b9cb1679c6bd7431b0a0072f73c5d6ab353207.1658244826.git.bristot@kernel.org>
+        with ESMTP id S229552AbiGXStd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 24 Jul 2022 14:49:33 -0400
+Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A74A11A0A
+        for <linux-doc@vger.kernel.org>; Sun, 24 Jul 2022 11:49:32 -0700 (PDT)
+Received: by mail-yb1-xb49.google.com with SMTP id q75-20020a25d94e000000b00670834a0102so7161945ybg.8
+        for <linux-doc@vger.kernel.org>; Sun, 24 Jul 2022 11:49:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=date:message-id:mime-version:subject:from:to:cc
+         :content-transfer-encoding;
+        bh=CyQL7MKXYchL5tTvsD0JYNk64GMjDP+y6COH4opWt5c=;
+        b=K2NrJLardIVtCkzGxfGyx9w1e2G0DqV8NySM2KRf0YX2f0MSi17pGB+ccX3gLyghAm
+         kGxEDos9vuwGOOWLNROiY/5KyRpLYNQBi31BLJ9lmThyzhO30UKYrv56fdvYU0BGET3N
+         96Q4GKwALa/7Mso6+sGGhzrLXU/7RwviZJHvlxC6R4aBm1sln/RZh/rRJKV27iJ+nQJ4
+         9EcaUBIC0Ty+fcKleQ3zriOi61B5YaomxY6DBO3H7gmwI5t2R0Mjay61zY8GgoXflfIF
+         NyGL6aNG/itTJj1kP53lyeuyPLJADvyqIAx4ExskkNpRZvuQzgEOc3Q3SybEOFVX53N5
+         APtg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc
+         :content-transfer-encoding;
+        bh=CyQL7MKXYchL5tTvsD0JYNk64GMjDP+y6COH4opWt5c=;
+        b=fJESochA0S9X6el4wJB/QckqcwrPrLon3vIo/BJZqngh08QUIl8u5s1F7xwFugzBKP
+         sINIjlWT1MW+SJYB1jxEmB75pXsiMrRG14DmVRJbZh/thTitp3ed+iAoVkV9+tnj83y/
+         IPPN7aTLIZdN7S0gps8jigTGjI1Ep0Q0yMQphO5bczfwXmkFPA0Yb2LF/AEhtPHIHky0
+         Mz4spxZeoEqokB6X1azsV1Q7YfdCIwWoSfm5jI83QLkV7d/iE/SiV5rrsFxkD34ZgHab
+         vt62Xo5KaAeIJZO8DfOndWhqC8T8yjGJIs7nfbrNcg9MLLrQqYr0zK1akZ/kz3st3lxW
+         13zg==
+X-Gm-Message-State: AJIora/cZN537BhUDic8eo51Y+RHQ7tDAjXDBJF5aeGpTjOQ2vlGGdtt
+        1Ntz7F3vPY/ZDphk/kncOXJjUNzvc9HxxXlW
+X-Google-Smtp-Source: AGRyM1tDodNaX42YIwcy2DTouI3cFX/Tf78qtdwkGH4a003LwEodYVqIB2UmB0DXTxg8beRYHlhQ/9ZGfAYMhnI1
+X-Received: from skazigti.c.googlers.com ([fda3:e722:ac3:cc00:4f:4b78:c0a8:411e])
+ (user=sadiyakazi job=sendgmr) by 2002:a81:5404:0:b0:31c:c24d:94b0 with SMTP
+ id i4-20020a815404000000b0031cc24d94b0mr7175739ywb.502.1658688571667; Sun, 24
+ Jul 2022 11:49:31 -0700 (PDT)
+Date:   Sun, 24 Jul 2022 18:47:59 +0000
+Message-Id: <20220724184758.1723925-1-sadiyakazi@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.37.1.359.gd136c6c3e2-goog
+Subject: [PATCH v3] Documentation: kunit: Add CLI args for kunit_tool
+From:   Sadiya Kazi <sadiyakazi@google.com>
+To:     brendanhiggins@google.com, davidgow@google.com,
+        skhan@linuxfoundation.org, corbet@lwn.net, mairacanal@riseup.net
+Cc:     Sadiya Kazi <sadiyakazi@google.com>,
+        linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Daniel,
+Run_wrapper.rst was missing some command line arguments. Added
+additional args in the file.
 
-I love your patch! Yet something to improve:
+Signed-off-by: Sadiya Kazi <sadiyakazi@google.com>
+---
+Changes since v2:
+https://lore.kernel.org/linux-kselftest/20220721081026.1247067-1-sadiyakazi=
+@google.com/
+-Added a code block for =E2=80=94kconfig_add argument to make the styling c=
+onsistent
+-Slightly changed the words for =E2=80=94arch argument
+-Changed QEMU to qemu wherever applicable for the cli args
+-Changed the style for ``-smp 8``
+-Changed "Might be repeated" to "may be repeated=E2=80=9D for kernel_args
 
-[auto build test ERROR on rostedt-trace/for-next]
-[also build test ERROR on tip/sched/core lwn-2.6/docs-next linus/master v5.19-rc7 next-20220722]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Bristot-de-Oliveira/The-Runtime-Verification-RV-interface/20220720-013343
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rostedt/linux-trace.git for-next
-config: riscv-randconfig-c034-20220721 (https://download.01.org/0day-ci/archive/20220725/202207250209.ICMKu9h0-lkp@intel.com/config)
-compiler: riscv32-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/57c7d3b13625be619ed3759350904bfa0d5a307d
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Daniel-Bristot-de-Oliveira/The-Runtime-Verification-RV-interface/20220720-013343
-        git checkout 57c7d3b13625be619ed3759350904bfa0d5a307d
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash
 
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
+---
+ Documentation/dev-tools/kunit/run_wrapper.rst | 61 ++++++++++++++++++-
+ 1 file changed, 60 insertions(+), 1 deletion(-)
 
-All errors (new ones prefixed by >>):
+diff --git a/Documentation/dev-tools/kunit/run_wrapper.rst b/Documentation/=
+dev-tools/kunit/run_wrapper.rst
+index 5e560f2c5fca..ed3715fef32d 100644
+--- a/Documentation/dev-tools/kunit/run_wrapper.rst
++++ b/Documentation/dev-tools/kunit/run_wrapper.rst
+@@ -233,7 +233,7 @@ Command-Line Arguments
+ =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+=20
+ kunit_tool has a number of other command-line arguments which can
+-be useful for our test environment. Below the most commonly used
++be useful for our test environment. Below are the most commonly used
+ command line arguments:
+=20
+ - ``--help``: Lists all available options. To list common options,
+@@ -257,3 +257,62 @@ command line arguments:
+             added or modified. Instead, enable all tests
+             which have satisfied dependencies by adding
+             ``CONFIG_KUNIT_ALL_TESTS=3Dy`` to your ``.kunitconfig``.
++
++- ``--kunitconfig``: Specifies the path or the directory of the ``.kunitco=
+nfig``
++  file. For example:
++
++  - ``lib/kunit/.kunitconfig`` can be the path of the file.
++
++  - ``lib/kunit`` can be the directory in which the file is located.
++
++  This file is used to build and run with a predefined set of tests
++  and their dependencies. For example, to run tests for a given subsystem.
++
++- ``--kconfig_add``: Specifies additional configuration options to be
++  appended to the ``.kunitconfig`` file. For example:
++  .. code-block::
++	./tools/testing/kunit/kunit.py run --kconfig_add CONFIG_KASAN=3Dy
++
++- ``--arch``: Runs tests on the specified architecture. The architecture
++  argument is same as the Kbuild ARCH environment variable.
++  For example, i386, x86_64, arm, um, etc. Non-UML architectures run on qe=
+mu.
++  Default is `um`.
++
++- ``--cross_compile``: Specifies the Kbuild toolchain. It passes the
++  same argument as passed to the ``CROSS_COMPILE`` variable used by
++  Kbuild. This will be the prefix for the toolchain
++  binaries such as GCC. For example:
++
++  - ``sparc64-linux-gnu-`` if we have the sparc toolchain installed on
++    our system.
++
++  - ``$HOME/toolchains/microblaze/gcc-9.2.0-nolibc/microblaze-linux/bin/mi=
+croblaze-linux``
++    if we have downloaded the microblaze toolchain from the 0-day
++    website to a specified path in our home directory called toolchains.
++
++- ``--qemu_config``: Specifies the path to a file containing a
++  custom qemu architecture definition. This should be a python file
++  containing a `QemuArchParams` object.
++
++- ``--qemu_args``: Specifies additional qemu arguments, for example, ``-sm=
+p 8``.
++
++- ``--jobs``: Specifies the number of jobs (commands) to run simultaneousl=
+y.
++  By default, this is set to the number of cores on your system.
++
++- ``--timeout``: Specifies the maximum number of seconds allowed for all t=
+ests to run.
++  This does not include the time taken to build the tests.
++
++- ``--kernel_args``: Specifies additional kernel command-line arguments. M=
+ay be repeated.
++
++- ``--run_isolated``: If set, boots the kernel for each individual suite/t=
+est.
++  This is useful for debugging a non-hermetic test, one that
++  might pass/fail based on what ran before it.
++
++- ``--raw_output``: If set, generates unformatted output from kernel. Poss=
+ible options are:
++
++   - ``all``: To view the full kernel output, use ``--raw_output=3Dall``.
++
++   - ``kunit``: This is the default option and filters to KUnit output. Us=
+e ``--raw_output`` or ``--raw_output=3Dkunit``.
++
++- ``--json``: If set, stores the test results in a JSON format and prints =
+to `stdout` or
++  saves to a file if a filename is specified.
+--=20
+2.37.1.359.gd136c6c3e2-goog
 
-   riscv32-linux-ld: kernel/trace/rv/monitors/wwnr/wwnr.o: in function `.L32':
->> wwnr.c:(.text+0x26c): undefined reference to `rv_reacting_on'
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
