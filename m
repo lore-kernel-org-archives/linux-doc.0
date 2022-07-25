@@ -2,92 +2,262 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9459BCCA48A
-	for <linux-doc@archiver.kernel.org>; Mon, 25 Jul 2022 01:46:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 45D38C433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 25 Jul 2022 06:24:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232095AbiGYBp7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 24 Jul 2022 21:45:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51076 "EHLO
+        id S230052AbiGYGYM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 25 Jul 2022 02:24:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49740 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232138AbiGYBp4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 24 Jul 2022 21:45:56 -0400
-Received: from out30-56.freemail.mail.aliyun.com (out30-56.freemail.mail.aliyun.com [115.124.30.56])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE0EC130;
-        Sun, 24 Jul 2022 18:45:54 -0700 (PDT)
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R131e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018046059;MF=xianting.tian@linux.alibaba.com;NM=1;PH=DS;RN=22;SR=0;TI=SMTPD_---0VKFpxwI_1658713548;
-Received: from localhost(mailfrom:xianting.tian@linux.alibaba.com fp:SMTPD_---0VKFpxwI_1658713548)
-          by smtp.aliyun-inc.com;
-          Mon, 25 Jul 2022 09:45:49 +0800
-From:   Xianting Tian <xianting.tian@linux.alibaba.com>
-To:     paul.walmsley@sifive.com, palmer@dabbelt.com,
-        aou@eecs.berkeley.edu, anup@brainfault.org, heiko@sntech.de,
-        guoren@kernel.org, mick@ics.forth.gr,
-        alexandre.ghiti@canonical.com, bhe@redhat.com, vgoyal@redhat.com,
-        dyoung@redhat.com, corbet@lwn.net
-Cc:     kexec@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
-        crash-utility@redhat.com, huanyi.xj@alibaba-inc.com,
-        heinrich.schuchardt@canonical.com, k-hagio-ab@nec.com,
-        hschauhan@nulltrace.org,
-        Xianting Tian <xianting.tian@linux.alibaba.com>
-Subject: [RESEND PATCH V2 5/5] riscv: crash_core: Export kernel vm layout, phys_ram_base
-Date:   Mon, 25 Jul 2022 09:45:39 +0800
-Message-Id: <20220725014539.1037627-6-xianting.tian@linux.alibaba.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20220725014539.1037627-1-xianting.tian@linux.alibaba.com>
-References: <20220725014539.1037627-1-xianting.tian@linux.alibaba.com>
+        with ESMTP id S229552AbiGYGYK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Jul 2022 02:24:10 -0400
+Received: from mail-il1-x135.google.com (mail-il1-x135.google.com [IPv6:2607:f8b0:4864:20::135])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C05FBC99;
+        Sun, 24 Jul 2022 23:24:09 -0700 (PDT)
+Received: by mail-il1-x135.google.com with SMTP id h14so5213879ilq.12;
+        Sun, 24 Jul 2022 23:24:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=j5/JypyxvVlxlidcsWJKdXpWO2vAS4k2kNj6OGsjgtI=;
+        b=mVER7Gx/6qOnFKLkcXvc2BsbuEhsXApDnOU4vF9Ecf6OJPnU82XZeB3UTjEmQ9V4cQ
+         gFuv0MNlCjxsir8JFw91Dpi+bcaSd2NWGIxl2sAbIPXo7dgMWnj2d46t3wvDlUHrQk4K
+         xkarz1VQayYCLA5+wWwxbDshXU/3EPzrQw3WI6nyMdiavF0sipzrK6nFhEcQqrQ+ioo6
+         dklGJOU62cwoJgSr/HfkK7BpOSYDQ9+BOnKL+MDKtMgoL7WNcG157tTkCcSOumyAoxmJ
+         HPinChTlQWrz5/gCXxghUP/8LjQvw7LW3yRNSLx5RKz86bHQOGDLGFeiisc5LwashyLh
+         KSYg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=j5/JypyxvVlxlidcsWJKdXpWO2vAS4k2kNj6OGsjgtI=;
+        b=u6+q7wNKiy69y/XeZhIbwq6iIMVjRk5CXFMQTCnQ5uAVKXSlBrWAWlAfWf6ZnAebdo
+         u0Vxo/kjQpQ77iM0Zh061xwVbVGaVC7gVyzETdViZbTSYRBqpaZ/bwmHA8FMurnCuljq
+         rNOw+jE6G7A1nYUdjKXw4pi2YwhLuolUNe2NK2tkhYYSRWgHkxWUkeQoYIkACGE4NCHo
+         V016l1AmmE5XkWf5q44RoMB0B7wrJzOBzT7R4cANgacKJOWGQISM96YGeRMcJtAKslio
+         vzpUp4HaqS+exTRnvCwp/UQZUMQM30tEOH/3cX05RciJXFibhIeyQw6oiYVLUWNr8sSx
+         O4gQ==
+X-Gm-Message-State: AJIora8MazGG5lb/e2/8ZNlW1w9qmjS80wf7v2h7pjT9nmyV1T4z3r44
+        7P7EJvMJaW7tmCQmMkvbYRo=
+X-Google-Smtp-Source: AGRyM1tE5y9nmeYAd42dHV2NoF4w5sW/npfaEaTkd9UJyp7vUUAf204njZYbdlgbf1YfADrLkC7+/A==
+X-Received: by 2002:a05:6e02:194d:b0:2dc:6c56:a522 with SMTP id x13-20020a056e02194d00b002dc6c56a522mr4300954ilu.203.1658730248484;
+        Sun, 24 Jul 2022 23:24:08 -0700 (PDT)
+Received: from ip-172-31-23-7.us-east-2.compute.internal (ec2-18-118-36-142.us-east-2.compute.amazonaws.com. [18.118.36.142])
+        by smtp.googlemail.com with ESMTPSA id c1-20020a929401000000b002dd0d081fcesm4356616ili.0.2022.07.24.23.24.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 24 Jul 2022 23:24:08 -0700 (PDT)
+From:   Jianlin Lv <iecedge@gmail.com>
+To:     corbet@lwn.net, rostedt@goodmis.org, mingo@redhat.com
+Cc:     iecedge@gmail.com, jianlv@ebay.com, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: [PATCH v2] tracing/kprobes: Add method to display private kprobes in tracefs
+Date:   Mon, 25 Jul 2022 06:23:34 +0000
+Message-Id: <20220725062334.1778-1-iecedge@gmail.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-These infos are needed by the kdump crash tool. Since these values change
-from time to time, it is preferable to export them via vmcoreinfo than to
-change the crash's code frequently.
+The private kprobes are not added to the global list dyn_event_list,
+so there is a missing interface to show probe hit and probe miss.
+This patch adds a profiling interface to check the number of hits or
+misses for private kprobes.
 
-Signed-off-by: Xianting Tian <xianting.tian@linux.alibaba.com>
+Signed-off-by: Jianlin Lv <iecedge@gmail.com>
 ---
- .../admin-guide/kdump/vmcoreinfo.rst          | 31 +++++++++++++++++++
- 1 file changed, 31 insertions(+)
+v2: update commit message
+---
+ Documentation/trace/kprobetrace.rst |  6 +++-
+ kernel/trace/trace_dynevent.c       | 20 +++++++++++
+ kernel/trace/trace_dynevent.h       | 37 ++++++++++++++++++++
+ kernel/trace/trace_kprobe.c         | 54 +++++++++++++++++++++++++++++
+ 4 files changed, 116 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/admin-guide/kdump/vmcoreinfo.rst b/Documentation/admin-guide/kdump/vmcoreinfo.rst
-index 8419019b6a88..6b76284a503c 100644
---- a/Documentation/admin-guide/kdump/vmcoreinfo.rst
-+++ b/Documentation/admin-guide/kdump/vmcoreinfo.rst
-@@ -595,3 +595,34 @@ X2TLB
- -----
+diff --git a/Documentation/trace/kprobetrace.rst b/Documentation/trace/kprobetrace.rst
+index b175d88f31eb..8815d64dd8a6 100644
+--- a/Documentation/trace/kprobetrace.rst
++++ b/Documentation/trace/kprobetrace.rst
+@@ -146,7 +146,11 @@ trigger:
+ Event Profiling
+ ---------------
+ You can check the total number of probe hits and probe miss-hits via
+-/sys/kernel/debug/tracing/kprobe_profile.
++/sys/kernel/debug/tracing/kprobe_profile or
++/sys/kernel/debug/tracing/kprobe_local_profile.
++All kprobe events created by kprobe_events will be added to the global
++list, you can get their profiling via kprobe_profile; kprobe_local_profile
++shows profiling for private kprobe events created by perf_kprobe pmu.
+ The first column is event name, the second is the number of probe hits,
+ the third is the number of probe miss-hits.
  
- Indicates whether the crashed kernel enabled SH extended mode.
+diff --git a/kernel/trace/trace_dynevent.c b/kernel/trace/trace_dynevent.c
+index 076b447a1b88..70ec99cd9c53 100644
+--- a/kernel/trace/trace_dynevent.c
++++ b/kernel/trace/trace_dynevent.c
+@@ -181,6 +181,26 @@ static const struct seq_operations dyn_event_seq_op = {
+ 	.show	= dyn_event_seq_show
+ };
+ 
++#ifdef CONFIG_KPROBE_EVENTS
++LIST_HEAD(local_event_list);
 +
-+RISCV64
-+=======
++void *local_event_seq_start(struct seq_file *m, loff_t *pos)
++{
++	mutex_lock(&event_mutex);
++	return seq_list_start(&local_event_list, *pos);
++}
 +
-+VA_BITS
-+-------
++void *local_event_seq_next(struct seq_file *m, void *v, loff_t *pos)
++{
++	return seq_list_next(v, &local_event_list, pos);
++}
 +
-+The maximum number of bits for virtual addresses. Used to compute the
-+virtual memory ranges.
++void local_event_seq_stop(struct seq_file *m, void *v)
++{
++	mutex_unlock(&event_mutex);
++}
++#endif /* CONFIG_KPROBE_EVENTS */
 +
-+PAGE_OFFSET
-+-----------
+ /*
+  * dyn_events_release_all - Release all specific events
+  * @type:	the dyn_event_operations * which filters releasing events
+diff --git a/kernel/trace/trace_dynevent.h b/kernel/trace/trace_dynevent.h
+index 936477a111d3..e30193470295 100644
+--- a/kernel/trace/trace_dynevent.h
++++ b/kernel/trace/trace_dynevent.h
+@@ -101,6 +101,43 @@ void dyn_event_seq_stop(struct seq_file *m, void *v);
+ int dyn_events_release_all(struct dyn_event_operations *type);
+ int dyn_event_release(const char *raw_command, struct dyn_event_operations *type);
+ 
++#ifdef CONFIG_KPROBE_EVENTS
++extern struct list_head local_event_list;
 +
-+Indicates the virtual kernel start address of direct-mapped RAM region.
++static inline
++int local_event_init(struct dyn_event *ev, struct dyn_event_operations *ops)
++{
++	if (!ev || !ops)
++		return -EINVAL;
 +
-+phys_ram_base
-+-------------
++	INIT_LIST_HEAD(&ev->list);
++	ev->ops = ops;
++	return 0;
++}
 +
-+Indicates the start physical RAM address.
++static inline int local_event_add(struct dyn_event *ev)
++{
++	lockdep_assert_held(&event_mutex);
 +
-+MODULES_VADDR|MODULES_END|VMALLOC_START|VMALLOC_END|VMEMMAP_START|VMEMMAP_END
-+-----------------------------------------------------------------------------
-+KASAN_SHADOW_START|KASAN_SHADOW_END|KERNEL_LINK_ADDR|ADDRESS_SPACE_END
-+----------------------------------------------------------------------
++	if (!ev || !ev->ops)
++		return -EINVAL;
 +
-+Used to get the correct ranges:
-+	MODULES_VADDR ~ MODULES_END : Kernel module space.
-+	VMALLOC_START ~ VMALLOC_END : vmalloc() / ioremap() space.
-+	VMEMMAP_START ~ VMEMMAP_END : vmemmap region, used for struct page array.
-+	KASAN_SHADOW_START ~ KASAN_SHADOW_END : kasan shadow space.
-+	KERNEL_LINK_ADDR ~ ADDRESS_SPACE_END : Kernel link and BPF space.
++	list_add_tail(&ev->list, &local_event_list);
++	return 0;
++}
++
++static inline void local_event_remove(struct dyn_event *ev)
++{
++	lockdep_assert_held(&event_mutex);
++	list_del_init(&ev->list);
++}
++
++void *local_event_seq_start(struct seq_file *m, loff_t *pos);
++void *local_event_seq_next(struct seq_file *m, void *v, loff_t *pos);
++void local_event_seq_stop(struct seq_file *m, void *v);
++
++#endif /* CONFIG_KPROBE_EVENTS */
++
+ /*
+  * for_each_dyn_event	-	iterate over the dyn_event list
+  * @pos:	the struct dyn_event * to use as a loop cursor
+diff --git a/kernel/trace/trace_kprobe.c b/kernel/trace/trace_kprobe.c
+index a245ea673715..76f500b17b46 100644
+--- a/kernel/trace/trace_kprobe.c
++++ b/kernel/trace/trace_kprobe.c
+@@ -1213,6 +1213,52 @@ static const struct file_operations kprobe_profile_ops = {
+ 	.release        = seq_release,
+ };
+ 
++#ifdef CONFIG_KPROBE_EVENTS
++/* kprobe Local profile  */
++static int local_probes_profile_seq_show(struct seq_file *m, void *v)
++{
++	struct dyn_event *ev = v;
++	struct trace_kprobe *tk;
++
++	if (!is_trace_kprobe(ev))
++		return 0;
++
++	tk = to_trace_kprobe(ev);
++	seq_printf(m, "  %-44s %15lu %15lu\n",
++		trace_probe_name(&tk->tp),
++		trace_kprobe_nhit(tk),
++		tk->rp.kp.nmissed);
++
++	return 0;
++}
++
++static const struct seq_operations local_profile_seq_op = {
++	.start  = local_event_seq_start,
++	.next   = local_event_seq_next,
++	.stop   = local_event_seq_stop,
++	.show   = local_probes_profile_seq_show
++};
++
++static int local_profile_open(struct inode *inode, struct file *file)
++{
++	int ret;
++
++	ret = security_locked_down(LOCKDOWN_TRACEFS);
++	if (ret)
++		return ret;
++
++	return seq_open(file, &local_profile_seq_op);
++}
++
++static const struct file_operations kprobe_local_profile_ops = {
++	.owner          = THIS_MODULE,
++	.open           = local_profile_open,
++	.read           = seq_read,
++	.llseek         = seq_lseek,
++	.release        = seq_release,
++};
++#endif /* CONFIG_KPROBE_EVENTS */
++
+ /* Kprobe specific fetch functions */
+ 
+ /* Return the length of string -- including null terminal byte */
+@@ -1830,6 +1876,7 @@ create_local_trace_kprobe(char *func, void *addr, unsigned long offs,
+ 	if (ret < 0)
+ 		goto error;
+ 
++	local_event_add(&tk->devent);
+ 	return trace_probe_event_call(&tk->tp);
+ error:
+ 	free_trace_kprobe(tk);
+@@ -1849,6 +1896,7 @@ void destroy_local_trace_kprobe(struct trace_event_call *event_call)
+ 		return;
+ 	}
+ 
++	local_event_remove(&tk->devent);
+ 	__unregister_trace_kprobe(tk);
+ 
+ 	free_trace_kprobe(tk);
+@@ -1929,6 +1977,12 @@ static __init int init_kprobe_trace(void)
+ 	trace_create_file("kprobe_profile", TRACE_MODE_READ,
+ 			  NULL, NULL, &kprobe_profile_ops);
+ 
++#ifdef CONFIG_KPROBE_EVENTS
++	/* kprobe Local profile */
++	tracefs_create_file("kprobe_local_profile", TRACE_MODE_READ,
++			  NULL, NULL, &kprobe_local_profile_ops);
++#endif /* CONFIG_KPROBE_EVENTS */
++
+ 	setup_boot_kprobe_events();
+ 
+ 	return 0;
 -- 
-2.17.1
+2.25.1
 
