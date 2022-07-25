@@ -2,21 +2,21 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 87C14C43334
-	for <linux-doc@archiver.kernel.org>; Mon, 25 Jul 2022 09:23:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4FF92C43334
+	for <linux-doc@archiver.kernel.org>; Mon, 25 Jul 2022 09:23:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231127AbiGYJX3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 25 Jul 2022 05:23:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32770 "EHLO
+        id S230192AbiGYJXl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 25 Jul 2022 05:23:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32818 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230192AbiGYJX2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Jul 2022 05:23:28 -0400
+        with ESMTP id S231189AbiGYJXk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Jul 2022 05:23:40 -0400
 Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 36109BE0C
-        for <linux-doc@vger.kernel.org>; Mon, 25 Jul 2022 02:23:27 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 8A9EFBE0C
+        for <linux-doc@vger.kernel.org>; Mon, 25 Jul 2022 02:23:39 -0700 (PDT)
 Received: from localhost.localdomain (unknown [112.20.110.136])
-        by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dxn+MFYd5iDV02AA--.29501S2;
-        Mon, 25 Jul 2022 17:23:17 +0800 (CST)
+        by mail.loongson.cn (Coremail) with SMTP id AQAAf9BxI9AUYd5iLF02AA--.13233S2;
+        Mon, 25 Jul 2022 17:23:33 +0800 (CST)
 From:   Yanteng Si <siyanteng@loongson.cn>
 To:     alexs@kernel.org, bobwxc@email.cn, seakeel@gmail.com
 Cc:     Yanteng Si <siyanteng@loongson.cn>, corbet@lwn.net,
@@ -24,78 +24,60 @@ Cc:     Yanteng Si <siyanteng@loongson.cn>, corbet@lwn.net,
         linux-doc@vger.kernel.org, siyanteng01@gmail.com,
         zhoubinbin@loongson.cn, yizhou.tang@shopee.com,
         wanjiabing@vivo.com, leoyang.li@nxp.com, src.res@email.cn
-Subject: [PATCH 4/8] Docs/zh_CN: Update the translation of testing-overview to 5.19-rc8
-Date:   Mon, 25 Jul 2022 17:23:55 +0800
-Message-Id: <61d805454b69bebfcba7b6df1b94d3811edefddc.1658740151.git.siyanteng@loongson.cn>
+Subject: [PATCH 5/8] Docs/zh_CN: Update the translation of usage to 5.19-rc8
+Date:   Mon, 25 Jul 2022 17:24:11 +0800
+Message-Id: <59c1792d8a9cdf8fd6a83301efa955de4657346b.1658740151.git.siyanteng@loongson.cn>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1658740151.git.siyanteng@loongson.cn>
 References: <cover.1658740151.git.siyanteng@loongson.cn>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9Dxn+MFYd5iDV02AA--.29501S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxWry5Xw1rWw47KryxtF47urg_yoW5WF17pF
-        ZFk3s3KF129ry7J34IkFyDZryrCF97Xw13KF97G3WSvr18JFWkKwsrt34qqa9rWryfAFya
-        vFWrWrW09r12kFUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUBY14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+X-CM-TRANSID: AQAAf9BxI9AUYd5iLF02AA--.13233S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxJr15tFyDCr18Kw1kur43Awb_yoW8JFW3pa
+        s2kryIg3W7AFn09r4UWFy3Aa17Za1kCws8JFZY9an3Jrn5tw4vqFW2gF15tr9Ivr1fJa4x
+        ZFZ5K34kuFy2yFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUB014x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
         rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
         1l84ACjcxK6xIIjxv20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
         JVWxJr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26r
         xl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj
-        6xIIjxv20xvE14v26r106r15McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr
+        6xIIjxv20xvE14v26r1Y6r17McIj6I8E87Iv67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr
         0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E
         8cxan2IY04v7MxkIecxEwVAFwVW8uwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbV
         WUJVW8JwCFI7km07C267AKxVWUXVWUAwC20s026c02F40E14v26r1j6r18MI8I3I0E7480
         Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7
-        IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Cr0_Gr1UMIIF0xvE42xK
-        8VAvwI8IcIk0rVW3JVWrJr1lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x
-        0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUbgyCJUUUUU==
+        IYx2IY67AKxVWUCVW8JwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Cr0_Gr1UMIIF0xvE42xK
+        8VAvwI8IcIk0rVW8JVW3JwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I
+        0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfU09NVDUUUU
 X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Update to commit 12379401c000 ("Documentation: dev-tools:
-Add a section for static analysis tools")
+Update to commit b57e39a743e4 ("Docs/admin-guide
+/damon/sysfs: document 'LRU_DEPRIO' scheme action")
+
+0bcba960b1fa ("Docs/admin-guide/damon/sysfs: document 'LRU_PRIO' scheme action")
 
 Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
 ---
- .../zh_CN/dev-tools/testing-overview.rst      | 25 +++++++++++++++++++
- 1 file changed, 25 insertions(+)
+ Documentation/translations/zh_CN/admin-guide/mm/damon/usage.rst | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/Documentation/translations/zh_CN/dev-tools/testing-overview.rst b/Documentation/translations/zh_CN/dev-tools/testing-overview.rst
-index b7a1d13da6c6..d6f2c65ed511 100644
---- a/Documentation/translations/zh_CN/dev-tools/testing-overview.rst
-+++ b/Documentation/translations/zh_CN/dev-tools/testing-overview.rst
-@@ -107,3 +107,28 @@ Documentation/dev-tools/kcov.rst 是能够构建在内核之中，用于在每
- 之后你就能确保这些错误在测试过程中都不会发生了。
+diff --git a/Documentation/translations/zh_CN/admin-guide/mm/damon/usage.rst b/Documentation/translations/zh_CN/admin-guide/mm/damon/usage.rst
+index cd41ada4fdad..aeae2ab65dd8 100644
+--- a/Documentation/translations/zh_CN/admin-guide/mm/damon/usage.rst
++++ b/Documentation/translations/zh_CN/admin-guide/mm/damon/usage.rst
+@@ -210,6 +210,8 @@ schemes/<N>/
+  - ``pageout``: 为具有 ``MADV_PAGEOUT`` 的区域调用 ``madvise()`` 。
+  - ``hugepage``: 为带有 ``MADV_HUGEPAGE`` 的区域调用 ``madvise()`` 。
+  - ``nohugepage``: 为带有 ``MADV_NOHUGEPAGE`` 的区域调用 ``madvise()``。
++ - ``lru_prio``: 在其LRU列表上对区域进行优先排序。
++ - ``lru_deprio``: 对区域的LRU列表进行降低优先处理。
+  - ``stat``: 什么都不做，只计算统计数据
  
- 一些工具与KUnit和kselftest集成，并且在检测到问题时会自动打断测试。
-+
-+静态分析工具
-+============
-+
-+除了测试运行中的内核，我们还可以使用**静态分析**工具直接分析内核的源代
-+码（**在编译时**）。内核中常用的工具允许人们检查整个源代码树或其中的特
-+定文件。它们使得在开发过程中更容易发现和修复问题。
-+
-+ Sparse可以通过执行类型检查、锁检查、值范围检查来帮助测试内核，此外还
-+ 可以在检查代码时报告各种错误和警告。关于如何使用它的细节，请参阅
-+ Documentation/translations/zh_CN/dev-tools/sparse.rst。
-+
-+ Smatch扩展了Sparse，并提供了对编程逻辑错误的额外检查，如开关语句中
-+ 缺少断点，错误检查中未使用的返回值，忘记在错误路径的返回中设置错误代
-+ 码等。Smatch也有针对更严重问题的测试，如整数溢出、空指针解除引用和内
-+ 存泄漏。见项目页面http://smatch.sourceforge.net/。
-+
-+ Coccinelle是我们可以使用的另一个静态分析器。Coccinelle经常被用来
-+ 帮助源代码的重构和并行演化，但它也可以帮助避免常见代码模式中出现的某
-+ 些错误。可用的测试类型包括API测试、内核迭代器的正确使用测试、自由操
-+ 作的合理性检查、锁定行为的分析，以及已知的有助于保持内核使用一致性的
-+ 进一步测试。详情请见Documentation/dev-tools/coccinelle.rst。
-+
-+ 不过要注意的是，静态分析工具存在**假阳性**的问题。在试图修复错误和警
-+ 告之前，需要仔细评估它们。
+ schemes/<N>/access_pattern/
 -- 
 2.31.1
 
