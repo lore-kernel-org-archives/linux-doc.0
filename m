@@ -2,149 +2,261 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BF6DDC433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 25 Jul 2022 13:59:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B9A7C43334
+	for <linux-doc@archiver.kernel.org>; Mon, 25 Jul 2022 14:33:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235191AbiGYN7T (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 25 Jul 2022 09:59:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41066 "EHLO
+        id S235609AbiGYOdH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 25 Jul 2022 10:33:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60092 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232800AbiGYN7S (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Jul 2022 09:59:18 -0400
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 462DA12D32;
-        Mon, 25 Jul 2022 06:59:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1658757557; x=1690293557;
-  h=date:from:to:cc:subject:message-id:reply-to:references:
-   mime-version:in-reply-to;
-  bh=SebOtSYgmnmuVPxznPkmfUK1/G0u2P5tlySsXcB/PUU=;
-  b=bGcXY2/4z6O36tgR4Qp4AkcncqVM9WjWWKP13Jtdprf3Rv04RZr6IG27
-   908goCVErrot272ELiKmXSprrPGadPOPb9RZnBkO74LNVHsN+LDPPsjnw
-   Ep496qkywxaXVhCPIg2rV5asi+cLp+QC0kCEvEZnAdvqw5T3/dkVF3qt/
-   TNQ227GbNqoK8+GZqheBQmxDQYnCwwd+vygVXqEA30dtbdHXgnX4s/qDk
-   aVpWiDgVyj2Lo2OOhCZ9OhJb4sv4uQAYEd5C7b+YWtza6UoQ+ThWZdD4C
-   U6w9Hd3WmrfMezHSdFXXc0BRg6nk+6m0E4AEvyT36UF9D6WC3CEVkPmmG
-   Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10418"; a="274567920"
-X-IronPort-AV: E=Sophos;i="5.93,193,1654585200"; 
-   d="scan'208";a="274567920"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jul 2022 06:59:16 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,193,1654585200"; 
-   d="scan'208";a="627460234"
-Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
-  by orsmga008.jf.intel.com with ESMTP; 25 Jul 2022 06:59:04 -0700
-Date:   Mon, 25 Jul 2022 21:54:16 +0800
-From:   Chao Peng <chao.p.peng@linux.intel.com>
-To:     "Gupta, Pankaj" <pankaj.gupta@amd.com>
-Cc:     David Hildenbrand <david@redhat.com>, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
-        linux-kselftest@vger.kernel.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <seanjc@google.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, aarcange@redhat.com, ddutile@redhat.com,
-        dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        Muchun Song <songmuchun@bytedance.com>
-Subject: Re: [PATCH v7 01/14] mm: Add F_SEAL_AUTO_ALLOCATE seal to memfd
-Message-ID: <20220725135416.GD304216@chaop.bj.intel.com>
-Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
-References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
- <20220706082016.2603916-2-chao.p.peng@linux.intel.com>
- <f39c4f63-a511-4beb-b3a4-66589ddb5475@redhat.com>
- <c59fca89-cd0c-1724-210e-d9b01b375103@amd.com>
+        with ESMTP id S235590AbiGYOdC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Jul 2022 10:33:02 -0400
+Received: from mail-yw1-x1133.google.com (mail-yw1-x1133.google.com [IPv6:2607:f8b0:4864:20::1133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2D7717AA1
+        for <linux-doc@vger.kernel.org>; Mon, 25 Jul 2022 07:33:00 -0700 (PDT)
+Received: by mail-yw1-x1133.google.com with SMTP id 00721157ae682-31f41584236so3489837b3.5
+        for <linux-doc@vger.kernel.org>; Mon, 25 Jul 2022 07:33:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=co9T2j4fIM1ZH3gXxAHTI60xfHFgHbaMpFRuKb9I9mA=;
+        b=LiHjSSpfGMiVTnmOFY9QDuMQykTrxxXoASPsoaO5EV/5dKssAFUpuTGFe00f2SSjlN
+         FOAW0BvfJH9OaIKi6uM4OtBwaiBHLECXKHkZx9Mcx2TTQ3cbCdJjxiKKfScEaYk1gJbD
+         K0sQ8A9k9KEnGVfXaCGPsugcWwLxkvMnPyGYH6gT3oZ34m5oZU4s5SHfmBnGjiZx0/k/
+         35QMlOjRK3tMlQ57OVC7eaAxkXZQECOcOy0VOLMWVw+jVfhzDa9TkqIpCPRwCNhs83IQ
+         s64QtI+WTk5RkVEos1i/OK/Qf/F2N/p9Lz9YmUujR1ZBuZx2HpvouVX1RW78Jrdvof7S
+         Hplw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=co9T2j4fIM1ZH3gXxAHTI60xfHFgHbaMpFRuKb9I9mA=;
+        b=xXsOcvqiJoSF4wAIslz+dLsIBkaInLsPMfbyIAUPdcB5unWOZRUAPGSM0rZm3uZ0zJ
+         wjZh8FYC+T11iFKVpeuNa3S9/NZ+CGMLHNdIku9ZTUSTqdWTziaj0rW48HRhlb/v1uEp
+         GE9DpYTmyG1hjfU9MwCmVRklPcOMHYVUjjfNPy3lt3VKXCEacSqtNg/Ya2zd1JLF4ZXV
+         knHJWyK3GAq135SFVojKxzET4viu4k0Q3h3wjCf3YMjXxHiHm/E5ll9Oe7FfMZOA9MiE
+         kR2tv0mL/hQuvGkp8gR4emgJHgtF3HG83OW1xpoj3y5tWbuCaOvSDxyutG2/LUIvb3fg
+         1jUw==
+X-Gm-Message-State: AJIora+AzjbcsPqY5XgRybWmmwc0I7r9VIOb1WDzyjefrpvbPWDi8sPM
+        W9R6Hi9HEnO4Qqy2TwuydtlKG/41+OX7scbihLsrfQ==
+X-Google-Smtp-Source: AGRyM1sEQioLrd2kbDc3KyAQ0mWTBmoFsUxmuJGmnt7G9LaIPuFOzPcwpT04J7Se+2FZTpOmyE+j2tW3pFTDbd+QT0A=
+X-Received: by 2002:a0d:ea57:0:b0:31e:55f4:a03d with SMTP id
+ t84-20020a0dea57000000b0031e55f4a03dmr10146248ywe.425.1658759579699; Mon, 25
+ Jul 2022 07:32:59 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <c59fca89-cd0c-1724-210e-d9b01b375103@amd.com>
+References: <20220721130116.43366-1-yangyicong@huawei.com> <CANLsYkwMsmnj4CaqGigmBa4snn75iGkvE6tUDgHiMNsP3003zA@mail.gmail.com>
+ <7adf0c72-521d-f117-5b5f-f8ce0ada44bd@gmail.com>
+In-Reply-To: <7adf0c72-521d-f117-5b5f-f8ce0ada44bd@gmail.com>
+From:   Mathieu Poirier <mathieu.poirier@linaro.org>
+Date:   Mon, 25 Jul 2022 08:32:47 -0600
+Message-ID: <CANLsYkwkUXU6NO1f48dDSDWAf9=bdzTyrPvcf1YuhiKzWFtu+g@mail.gmail.com>
+Subject: Re: [PATCH v11 0/8] Add support for HiSilicon PCIe Tune and Trace device
+To:     Yicong Yang <yangyccccc@gmail.com>
+Cc:     alexander.shishkin@linux.intel.com, gregkh@linuxfoundation.org,
+        leo.yan@linaro.org, james.clark@arm.com, will@kernel.org,
+        robin.murphy@arm.com, acme@kernel.org, peterz@infradead.org,
+        corbet@lwn.net, mark.rutland@arm.com, jonathan.cameron@huawei.com,
+        john.garry@huawei.com, helgaas@kernel.org,
+        lorenzo.pieralisi@arm.com, suzuki.poulose@arm.com, joro@8bytes.org,
+        shameerali.kolothum.thodi@huawei.com, mingo@redhat.com,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-pci@vger.kernel.org, linux-perf-users@vger.kernel.org,
+        iommu@lists.linux-foundation.org, iommu@lists.linux.dev,
+        linux-doc@vger.kernel.org, prime.zeng@huawei.com,
+        liuqi115@huawei.com, zhangshaokun@hisilicon.com,
+        linuxarm@huawei.com, yangyicong@hisilicon.com, bagasdotme@gmail.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jul 21, 2022 at 12:27:03PM +0200, Gupta, Pankaj wrote:
-> 
-> > > Normally, a write to unallocated space of a file or the hole of a sparse
-> > > file automatically causes space allocation, for memfd, this equals to
-> > > memory allocation. This new seal prevents such automatically allocating,
-> > > either this is from a direct write() or a write on the previously
-> > > mmap-ed area. The seal does not prevent fallocate() so an explicit
-> > > fallocate() can still cause allocating and can be used to reserve
-> > > memory.
-> > > 
-> > > This is used to prevent unintentional allocation from userspace on a
-> > > stray or careless write and any intentional allocation should use an
-> > > explicit fallocate(). One of the main usecases is to avoid memory double
-> > > allocation for confidential computing usage where we use two memfds to
-> > > back guest memory and at a single point only one memfd is alive and we
-> > > want to prevent memory allocation for the other memfd which may have
-> > > been mmap-ed previously. More discussion can be found at:
-> > > 
-> > >    https://lkml.org/lkml/2022/6/14/1255
-> > > 
-> > > Suggested-by: Sean Christopherson <seanjc@google.com>
-> > > Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
-> > > ---
-> > >   include/uapi/linux/fcntl.h |  1 +
-> > >   mm/memfd.c                 |  3 ++-
-> > >   mm/shmem.c                 | 16 ++++++++++++++--
-> > >   3 files changed, 17 insertions(+), 3 deletions(-)
-> > > 
-> > > diff --git a/include/uapi/linux/fcntl.h b/include/uapi/linux/fcntl.h
-> > > index 2f86b2ad6d7e..98bdabc8e309 100644
-> > > --- a/include/uapi/linux/fcntl.h
-> > > +++ b/include/uapi/linux/fcntl.h
-> > > @@ -43,6 +43,7 @@
-> > >   #define F_SEAL_GROW	0x0004	/* prevent file from growing */
-> > >   #define F_SEAL_WRITE	0x0008	/* prevent writes */
-> > >   #define F_SEAL_FUTURE_WRITE	0x0010  /* prevent future writes while mapped */
-> > > +#define F_SEAL_AUTO_ALLOCATE	0x0020  /* prevent allocation for writes */
-> > 
-> > Why only "on writes" and not "on reads". IIRC, shmem doesn't support the
-> > shared zeropage, so you'll simply allocate a new page via read() or on
-> > read faults.
-> > 
-> > 
-> > Also, I *think* you can place pages via userfaultfd into shmem. Not sure
-> > if that would count "auto alloc", but it would certainly bypass fallocate().
-> 
-> I was also thinking this at the same time, but for different reason:
-> 
-> "Want to populate private preboot memory with firmware payload", so was
-> thinking userfaulftd could be an option as direct writes are restricted?
+On Fri, 22 Jul 2022 at 08:53, Yicong Yang <yangyccccc@gmail.com> wrote:
+>
+> =E5=9C=A8 7/21/2022 11:43 PM, Mathieu Poirier =E5=86=99=E9=81=93:
+> > On Thu, 21 Jul 2022 at 07:03, <yangyicong@huawei.com> wrote:
+> >> From: Yicong Yang <yangyicong@hisilicon.com>
+> >>
+> >> HiSilicon PCIe tune and trace device (PTT) is a PCIe Root Complex
+> >> integrated Endpoint (RCiEP) device, providing the capability
+> >> to dynamically monitor and tune the PCIe traffic (tune),
+> >> and trace the TLP headers (trace).
+> >>
+> >> PTT tune is designed for monitoring and adjusting PCIe link parameters=
+.
+> >> We provide several parameters of the PCIe link. Through the driver,
+> >> user can adjust the value of certain parameter to affect the PCIe link
+> >> for the purpose of enhancing the performance in certian situation.
+> >>
+> >> PTT trace is designed for dumping the TLP headers to the memory, which
+> >> can be used to analyze the transactions and usage condition of the PCI=
+e
+> >> Link. Users can choose filters to trace headers, by either requester
+> >> ID, or those downstream of a set of Root Ports on the same core of the
+> >> PTT device. It's also supported to trace the headers of certain type a=
+nd
+> >> of certain direction.
+> >>
+> >> The driver registers a PMU device for each PTT device. The trace can
+> >> be used through `perf record` and the traced headers can be decoded
+> >> by `perf report`. The perf command support for the device is also
+> >> added in this patchset. The tune can be used through the sysfs
+> >> attributes of related PMU device. See the documentation for the
+> >> detailed usage.
+> >>
+> >> Change since v10:
+> >> - Use title case in the documentation
+> >> - Add RB from Bagas, thanks.
+> >> Link: https://lore.kernel.org/lkml/20220714092710.53486-1-yangyicong@h=
+isilicon.com/
+> >>
+> >> Change since v9:
+> >> - Add sysfs ABI description documentation
+> >> - Remove the controversial available_{root_port, requester}_filters sy=
+sfs file
+> >> - Shorten 2 tune sysfs attributes name and add some comments
+> >> - Move hisi_ptt_process_auxtrace_info() to Patch 6.
+> >> - Add RB from Leo and Ack-by from Mathieu, thanks!
+> > You can add my Ack-by to patch 03 as well.  See below for another comme=
+nt.
+>
+> Thanks!
+>
+> >> Link: https://lore.kernel.org/lkml/20220606115555.41103-1-yangyicong@h=
+isilicon.com/
+> >>
+> >> Change since v8:
+> >> - Cleanups and one minor fix from Jonathan and John, thanks
+> >> Link: https://lore.kernel.org/lkml/20220516125223.32012-1-yangyicong@h=
+isilicon.com/
+> >>
+> >> Change since v7:
+> >> - Configure the DMA in probe rather than in runtime. Also use devres t=
+o manage
+> >>   PMU device as we have no order problem now
+> >> - Refactor the config validation function per John and Leo
+> >> - Use a spinlock hisi_ptt::pmu_lock instead of mutex to serialize the =
+perf process
+> >>   in pmu::start as it's in atomic context
+> >> - Only commit the traced data when stop, per Leo and James
+> >> - Drop the filter dynamically updating patch from this series to simpl=
+y the review
+> >>   of the driver. That patch will be send separately.
+> >> - add a cpumask sysfs attribute and handle the cpu hotplug events, fol=
+low the
+> >>   uncore PMU convention
+> >> - Other cleanups and fixes, both in driver and perf tool
+> >> Link: https://lore.kernel.org/lkml/20220407125841.3678-1-yangyicong@hi=
+silicon.com/
+> >>
+> >> Change since v6:
+> >> - Fix W=3D1 errors reported by lkp test, thanks
+> >>
+> >> Change since v5:
+> >> - Squash the PMU patch into PATCH 2 suggested by John
+> >> - refine the commit message of PATCH 1 and some comments
+> >> Link: https://lore.kernel.org/lkml/20220308084930.5142-1-yangyicong@hi=
+silicon.com/
+> >>
+> >> Change since v4:
+> >> Address the comments from Jonathan, John and Ma Ca, thanks.
+> >> - Use devm* also for allocating the DMA buffers
+> >> - Remove the IRQ handler stub in Patch 2
+> >> - Make functions waiting for hardware state return boolean
+> >> - Manual remove the PMU device as it should be removed first
+> >> - Modifier the orders in probe and removal to make them matched well
+> >> - Make available {directions,type,format} array const and non-global
+> >> - Using the right filter list in filters show and well protect the
+> >>   list with mutex
+> >> - Record the trace status with a boolean @started rather than enum
+> >> - Optimize the process of finding the PTT devices of the perf-tool
+> >> Link: https://lore.kernel.org/linux-pci/20220221084307.33712-1-yangyic=
+ong@hisilicon.com/
+> >>
+> >> Change since v3:
+> >> Address the comments from Jonathan and John, thanks.
+> >> - drop members in the common struct which can be get on the fly
+> >> - reduce buffer struct and organize the buffers with array instead of =
+list
+> >> - reduce the DMA reset wait time to avoid long time busy loop
+> >> - split the available_filters sysfs attribute into two files, for root=
+ port
+> >>   and requester respectively. Update the documentation accordingly
+> >> - make IOMMU mapping check earlier in probe to avoid race condition. A=
+lso
+> >>   make IOMMU quirk patch prior to driver in the series
+> >> - Cleanups and typos fixes from John and Jonathan
+> >> Link: https://lore.kernel.org/linux-pci/20220124131118.17887-1-yangyic=
+ong@hisilicon.com/
+> >>
+> >> Change since v2:
+> >> - address the comments from Mathieu, thanks.
+> >>   - rename the directory to ptt to match the function of the device
+> >>   - spinoff the declarations to a separate header
+> >>   - split the trace function to several patches
+> >>   - some other comments.
+> >> - make default smmu domain type of PTT device to identity
+> >>   Drop the RMR as it's not recommended and use an iommu_def_domain_typ=
+e
+> >>   quirk to passthrough the device DMA as suggested by Robin.
+> >> Link: https://lore.kernel.org/linux-pci/20211116090625.53702-1-yangyic=
+ong@hisilicon.com/
+> >>
+> >> Change since v1:
+> >> - switch the user interface of trace to perf from debugfs
+> >> - switch the user interface of tune to sysfs from debugfs
+> >> - add perf tool support to start trace and decode the trace data
+> >> - address the comments of documentation from Bjorn
+> >> - add RMR[1] support of the device as trace works in RMR mode or
+> >>   direct DMA mode. RMR support is achieved by common APIs rather
+> >>   than the APIs implemented in [1].
+> >> Link: https://lore.kernel.org/lkml/1618654631-42454-1-git-send-email-y=
+angyicong@hisilicon.com/
+> >> [1] https://lore.kernel.org/linux-acpi/20210805080724.480-1-shameerali=
+.kolothum.thodi@huawei.com/
+> >>
+> >> Qi Liu (3):
+> >>   perf tool: arm: Refactor event list iteration in
+> >>     auxtrace_record__init()
+> >>   perf tool: Add support for HiSilicon PCIe Tune and Trace device driv=
+er
+> >>   perf tool: Add support for parsing HiSilicon PCIe Trace packet
+> >>
+> >> Yicong Yang (5):
+> >>   iommu/arm-smmu-v3: Make default domain type of HiSilicon PTT device =
+to
+> >>     identity
+> >>   hwtracing: hisi_ptt: Add trace function support for HiSilicon PCIe
+> >>     Tune and Trace device
+> >>   hwtracing: hisi_ptt: Add tune function support for HiSilicon PCIe Tu=
+ne
+> >>     and Trace device
+> >>   docs: trace: Add HiSilicon PTT device driver documentation
+> >>   MAINTAINERS: Add maintainer for HiSilicon PTT driver
+> >>
+> >>  .../ABI/testing/sysfs-devices-hisi_ptt        |   61 +
+> >>  Documentation/trace/hisi-ptt.rst              |  298 +++++
+> >>  Documentation/trace/index.rst                 |    1 +
+> >>  MAINTAINERS                                   |    8 +
+> >>  drivers/Makefile                              |    1 +
+> >>  drivers/hwtracing/Kconfig                     |    2 +
+> >>  drivers/hwtracing/ptt/Kconfig                 |   12 +
+> >>  drivers/hwtracing/ptt/Makefile                |    2 +
+> >>  drivers/hwtracing/ptt/hisi_ptt.c              | 1032 ++++++++++++++++=
++
+> >>  drivers/hwtracing/ptt/hisi_ptt.h              |  200 ++++
+> >>  drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c   |   21 +
+> > Everything above needs to go in one patchset and everything below in
+> > another one.  The first patchset will need to be merged before the
+> > second one.  Someone already commented on that.
+>
+> ok. I put them together to provide an overall view of this and thought ma=
+intainers can take
+> them separately. Will spilt the driver part and perf tool patches.
+>
+> I still don't know who will finally take the driver part. It should be Al=
+exander from maintainer
+> list but I got no response yet for a long time. Any hint for this?
 
-If that can be a side effect, I definitely glad to see it, though I'm
-still not clear how userfaultfd can be particularly helpful for that.
-
-Chao
-> 
-> Thanks,
-> Pankaj
-> 
-> 
-> 
-> 
+It will either be Peter, Greg or myself.  We'll see when we get there.
