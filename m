@@ -2,101 +2,123 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 66559CCA48A
-	for <linux-doc@archiver.kernel.org>; Mon, 25 Jul 2022 19:15:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 21806C43334
+	for <linux-doc@archiver.kernel.org>; Mon, 25 Jul 2022 19:53:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236396AbiGYTPo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 25 Jul 2022 15:15:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40524 "EHLO
+        id S232013AbiGYTxB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 25 Jul 2022 15:53:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33664 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236407AbiGYTPl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Jul 2022 15:15:41 -0400
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 531A2BF42;
-        Mon, 25 Jul 2022 12:15:40 -0700 (PDT)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26PHfwZS013891;
-        Mon, 25 Jul 2022 19:15:36 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding : content-type; s=qcppdkim1;
- bh=h02mNx2EPfukJ8KeZkU7qKUi1nlfwjxtfdCaxPTiFIY=;
- b=bOj65xAtvIMU4zBbv8wMLWODJbGfCY4Al5wQh7jFO6kpTSZWT5svELn29Gfe1aQfi1KH
- HWc+NcG6z5WRChU+kwjJ8NCuJZwWOngLsKOZHiaC4QF56XKuyitjZ7NDIMf/08Ey7IeI
- ilMzFaY0EmC6Tl1kKkQ7Dx3eEbXSh8YSAdk4wgrylwA1S3Jfetc4ljBlO84eyJ4O25IE
- T1foe0v/KRiEicnb4+LRRu45E2ExXM5ZZCEUUHgCjnbXLnqAPMRg2i5j85xQtP3pbZzi
- caHBlzz8W+ZBfjgoFVWH3UBajXd0Ro+wLf0m5mIF1tbV0AJLws7tFUnrVBFi/Osc9pX/ XA== 
-Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3hhs84hkuc-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 25 Jul 2022 19:15:35 +0000
-Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com [10.47.97.222])
-        by NASANPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 26PJFY58025021
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 25 Jul 2022 19:15:34 GMT
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Mon, 25 Jul 2022 12:15:34 -0700
-Received: from hu-amelende-lv.qualcomm.com (10.49.16.6) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Mon, 25 Jul 2022 12:15:33 -0700
-From:   Anjelique Melendez <quic_amelende@quicinc.com>
-To:     <corbet@lwn.net>, <sre@kernel.org>, <robh+dt@kernel.org>,
-        <agross@kernel.org>, <bjorn.andersson@linaro.org>
-CC:     <krzysztof.kozlowski+dt@linaro.org>, <vkoul@kernel.org>,
-        <linux-doc@vger.kernel.org>, <linux-pm@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        Anjelique Melendez <quic_amelende@quicinc.com>
-Subject: [PATCH v4 2/2] power: reset: qcom-pon: add support for qcom,pmk8350-pon compatible string
-Date:   Mon, 25 Jul 2022 12:13:17 -0700
-Message-ID: <20220725191314.19456-3-quic_amelende@quicinc.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220725191314.19456-1-quic_amelende@quicinc.com>
-References: <20220725191314.19456-1-quic_amelende@quicinc.com>
+        with ESMTP id S236292AbiGYTw7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Jul 2022 15:52:59 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D85620BED;
+        Mon, 25 Jul 2022 12:52:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+        bh=xhDv8lrZ7JZzktF72+HO7I2n3HoF061cSX25xeglrIQ=; b=IhdonFyhiRYeek1iAdVHNM7qgV
+        SLvK7TXbLNUjNVYNBraWW7BNnrnh2nDadm7ssG+dCYioo1V2JQgJZ4u5j5pLDSQ1XYFpBDUVqJxNQ
+        AmLfEr7HbT25DXEx5/3+fxlustfm37IEVlF8Kmw86flU2LcQoEwBI3AhEZ43P1CqzmGKtZ/0oZcvr
+        1plqfBklFjB+TIA8Sx6loIlUUlx1oIU/1t0rO3sFoMk/Ygbn+LD8nK4bvKdVcV2rX0/M5nRdANaaU
+        MmMuU1hJiYBVdz1+uXUPtKA4OZbYi+VSAxV3RDQVd+77iXmo+AaG99OlCv1upU6eYnnjG/2xE3QVe
+        6Zs4WItg==;
+Received: from [2601:1c0:6280:3f0::a6b3]
+        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1oG47s-001ATt-W2; Mon, 25 Jul 2022 19:52:25 +0000
+Message-ID: <d146f3d6-9b2a-5b54-4ae3-733047ef210e@infradead.org>
+Date:   Mon, 25 Jul 2022 12:52:22 -0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.49.16.6]
-X-ClientProxiedBy: nalasex01c.na.qualcomm.com (10.47.97.35) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: EiJhH14w0cmPmt5JsHZJffy4bbJ7qYF7
-X-Proofpoint-GUID: EiJhH14w0cmPmt5JsHZJffy4bbJ7qYF7
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-07-25_12,2022-07-25_03,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- impostorscore=0 mlxlogscore=999 lowpriorityscore=0 bulkscore=0
- clxscore=1015 suspectscore=0 phishscore=0 mlxscore=0 spamscore=0
- adultscore=0 malwarescore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2206140000 definitions=main-2207250079
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v2] docs: Fix typo in comment
+Content-Language: en-US
+To:     William Breathitt Gray <william.gray@linaro.org>,
+        Joe Perches <joe@perches.com>
+Cc:     Baoquan He <bhe@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+        Slark Xiao <slark_xiao@163.com>, kafai <kafai@fb.com>,
+        vgoyal <vgoyal@redhat.com>, dyoung <dyoung@redhat.com>,
+        ast <ast@kernel.org>, daniel <daniel@iogearbox.net>,
+        andrii <andrii@kernel.org>, "martin.lau" <martin.lau@linux.dev>,
+        song <song@kernel.org>, yhs <yhs@fb.com>,
+        "john.fastabend" <john.fastabend@gmail.com>,
+        kpsingh <kpsingh@kernel.org>, sdf <sdf@google.com>,
+        haoluo <haoluo@google.com>, jolsa <jolsa@kernel.org>,
+        dhowells <dhowells@redhat.com>, peterz <peterz@infradead.org>,
+        mingo <mingo@redhat.com>, will <will@kernel.org>,
+        longman <longman@redhat.com>,
+        "boqun.feng" <boqun.feng@gmail.com>, tglx <tglx@linutronix.de>,
+        bigeasy <bigeasy@linutronix.de>,
+        kexec <kexec@lists.infradead.org>,
+        linux-doc <linux-doc@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        bpf <bpf@vger.kernel.org>,
+        linux-cachefs <linux-cachefs@redhat.com>
+References: <20220721015605.20651-1-slark_xiao@163.com>
+ <20220721154110.fqp7n6f7ij22vayp@kafai-mbp.dhcp.thefacebook.com>
+ <21cac0ea.18f.182218041f7.Coremail.slark_xiao@163.com>
+ <874jzamhxe.fsf@meer.lwn.net>
+ <6ca59494-cc64-d85c-98e8-e9bef2a04c15@infradead.org>
+ <YtnlAg6Qhf7fwXXW@MiWiFi-R3L-srv>
+ <5bd85a7241e6ccac7fe5647cb9cf7ef22b228943.camel@perches.com>
+ <Yt6hMD+HIaERgrqg@fedora>
+From:   Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <Yt6hMD+HIaERgrqg@fedora>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add support for the new "qcom,pmk8350-pon" comptaible string.
 
-Signed-off-by: Anjelique Melendez <quic_amelende@quicinc.com>
----
- drivers/power/reset/qcom-pon.c | 1 +
- 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/power/reset/qcom-pon.c b/drivers/power/reset/qcom-pon.c
-index 4a688741a88a..16bc01738be9 100644
---- a/drivers/power/reset/qcom-pon.c
-+++ b/drivers/power/reset/qcom-pon.c
-@@ -82,6 +82,7 @@ static const struct of_device_id pm8916_pon_id_table[] = {
- 	{ .compatible = "qcom,pm8916-pon", .data = (void *)GEN1_REASON_SHIFT },
- 	{ .compatible = "qcom,pms405-pon", .data = (void *)GEN1_REASON_SHIFT },
- 	{ .compatible = "qcom,pm8998-pon", .data = (void *)GEN2_REASON_SHIFT },
-+	{ .compatible = "qcom,pmk8350-pon", .data = (void *)GEN2_REASON_SHIFT },
- 	{ }
- };
- MODULE_DEVICE_TABLE(of, pm8916_pon_id_table);
+On 7/25/22 06:57, William Breathitt Gray wrote:
+> On Mon, Jul 25, 2022 at 06:52:15AM -0700, Joe Perches wrote:
+>> On Fri, 2022-07-22 at 07:45 +0800, Baoquan He wrote:
+>>> On 07/21/22 at 11:40am, Randy Dunlap wrote:
+>>>> On 7/21/22 11:36, Jonathan Corbet wrote:
+>>>>> "Slark Xiao" <slark_xiao@163.com> writes:
+>>>>>> May I know the maintainer of one subsystem could merge the changes
+>>>>>> contains lots of subsystem?  I also know this could be filtered by
+>>>>>> grep and sed command, but that patch would have dozens of maintainers
+>>>>>> and reviewers.
+>>>>>
+>>>>> Certainly I don't think I can merge a patch touching 166 files across
+>>>>> the tree.  This will need to be broken down by subsystem, and you may
+>>>>> well find that there are some maintainers who don't want to deal with
+>>>>> this type of minor fix.
+>>>>
+>>>> We have also seen cases where "the the" should be replaced by "then the"
+>>>> or some other pair of words, so some of these changes could fall into
+>>>> that category.
+>>>
+>>> It's possible. I searched in Documentation and went through each place,
+>>> seems no typo of "then the". Below patch should clean up all the 'the the'
+>>> typo under Documentation.
+>> []
+>>> The fix is done with below command:
+>>> sed -i "s/the the /the /g" `git grep -l "the the " Documentation`
+>>
+>> This command misses entries at EOL:
+>>
+>> Documentation/trace/histogram.rst:  Here's an example where we use a compound key composed of the the
+>>
+>> Perhaps a better conversion would be 's/\bthe the\b/the/g'
+> 
+> It would be good to check for instances that cross newlines as well;
+> i.e. "the" at the end of a line followed by "the" at the start of the
+> next line. However, this would require some thought to properly account
+> for comment blocks ("*") and other similar prefixes that should be
+> ignored.
+
+Yeah, the script that I posted last year (?) does that, but it's noisy --
+results need to be hand-checked.
+
+It's not clear how people are finding these repeated words, other than
+something like
+$ grep "the the" *
+
+
 -- 
-2.35.1
-
+~Randy
