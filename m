@@ -2,82 +2,146 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DDED4C43334
-	for <linux-doc@archiver.kernel.org>; Mon, 25 Jul 2022 13:32:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F52DC43334
+	for <linux-doc@archiver.kernel.org>; Mon, 25 Jul 2022 13:47:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235142AbiGYNcS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 25 Jul 2022 09:32:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52964 "EHLO
+        id S234859AbiGYNrO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 25 Jul 2022 09:47:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33364 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234994AbiGYNcR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Jul 2022 09:32:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id EF4DADEA2
-        for <linux-doc@vger.kernel.org>; Mon, 25 Jul 2022 06:32:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1658755936;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=JyZo0WxiL5oXBoeMfzl8+8hKmuMVqE5C0/+Gga0ddkY=;
-        b=JLkVDJezh/GaswVEkbqz0xMQZcTeuKVKYsvCsE+xkMrheuyVH5oe4XXG1JcI19H2oGRrAj
-        UXYQpbTH2HW+5D8N5uhwDuoeVLHWnxFPRJoqd38z4XVi6vkrJvxFi5+hX181BBXTWzIE1j
-        hmK/2bqHtzmxwhm29tJP1f1BEZ886DE=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-103--Zr6J0TZO1qRWRxqH02CyQ-1; Mon, 25 Jul 2022 09:32:10 -0400
-X-MC-Unique: -Zr6J0TZO1qRWRxqH02CyQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com [10.11.54.2])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 87EE980418F;
-        Mon, 25 Jul 2022 13:32:08 +0000 (UTC)
-Received: from localhost (ovpn-12-90.pek2.redhat.com [10.72.12.90])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 841DB40E80E0;
-        Mon, 25 Jul 2022 13:32:07 +0000 (UTC)
-Date:   Mon, 25 Jul 2022 21:32:04 +0800
-From:   Baoquan He <bhe@redhat.com>
-To:     David Howells <dhowells@redhat.com>
-Cc:     corbet@lwn.net, Slark Xiao <slark_xiao@163.com>, vgoyal@redhat.com,
-        dyoung@redhat.com, ast@kernel.org, daniel@iogearbox.net,
-        andrii@kernel.org, martin.lau@linux.dev, song@kernel.org,
-        yhs@fb.com, john.fastabend@gmail.com, kpsingh@kernel.org,
-        sdf@google.com, haoluo@google.com, jolsa@kernel.org,
-        william.gray@linaro.org, peterz@infradead.org, mingo@redhat.com,
-        will@kernel.org, longman@redhat.com, boqun.feng@gmail.com,
-        tglx@linutronix.de, bigeasy@linutronix.de,
-        kexec@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, bpf@vger.kernel.org,
-        linux-cachefs@redhat.com
-Subject: Re: [PATCH v2] docs: Fix typo in comment
-Message-ID: <Yt6bVIoRa0nIvxei@MiWiFi-R3L-srv>
-References: <YtlyDZEsOZHt6tRs@MiWiFi-R3L-srv>
- <20220721015605.20651-1-slark_xiao@163.com>
- <2778505.1658746506@warthog.procyon.org.uk>
+        with ESMTP id S234519AbiGYNrM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Jul 2022 09:47:12 -0400
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B84E2F5B2;
+        Mon, 25 Jul 2022 06:47:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1658756831; x=1690292831;
+  h=date:from:to:cc:subject:message-id:reply-to:references:
+   mime-version:in-reply-to;
+  bh=Bdlz/iQMAncTEc31gSNH4MyviKpdF4xPNxVdJTjrNtE=;
+  b=jyN/Qt8oZ61OMT0b0U0mnnEakPBTAWBW9ROL5Qj4YTDFH9l2EgzmUoMx
+   mGz71MPcXmWxojD/4KFgXIHqNaHAGQQIW853CVEODOPb5H4XpIZEHdmky
+   IgwzodsJs56ayZ2MsLBwA7+sMyJOUqdbBuvL/Qw6w93f9xf8BsRljj6VO
+   ZIbAOn/trWBfhFNNEtOx+fbL3VOy575YHIrxesI8VaSfjssT2VgMO1Ly7
+   ga6j91+pIudRPtfWG/fduvEjc+h2qsKf623E6LemlrK6s5g0QbAQoaE05
+   pczw7liTC4e5nXyS9lKvncmenfCWYrZjd3gYDKkjH3rySv97QF4hxR4Vd
+   g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10418"; a="274565644"
+X-IronPort-AV: E=Sophos;i="5.93,193,1654585200"; 
+   d="scan'208";a="274565644"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jul 2022 06:47:11 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,193,1654585200"; 
+   d="scan'208";a="627457285"
+Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
+  by orsmga008.jf.intel.com with ESMTP; 25 Jul 2022 06:47:01 -0700
+Date:   Mon, 25 Jul 2022 21:42:12 +0800
+From:   Chao Peng <chao.p.peng@linux.intel.com>
+To:     David Hildenbrand <david@redhat.com>
+Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+        qemu-devel@nongnu.org, linux-kselftest@vger.kernel.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sean Christopherson <seanjc@google.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+        ak@linux.intel.com, aarcange@redhat.com, ddutile@redhat.com,
+        dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+        Muchun Song <songmuchun@bytedance.com>
+Subject: Re: [PATCH v7 01/14] mm: Add F_SEAL_AUTO_ALLOCATE seal to memfd
+Message-ID: <20220725134212.GB304216@chaop.bj.intel.com>
+Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
+References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
+ <20220706082016.2603916-2-chao.p.peng@linux.intel.com>
+ <f39c4f63-a511-4beb-b3a4-66589ddb5475@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <2778505.1658746506@warthog.procyon.org.uk>
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+In-Reply-To: <f39c4f63-a511-4beb-b3a4-66589ddb5475@redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 07/25/22 at 11:55am, David Howells wrote:
-> Baoquan He <bhe@redhat.com> wrote:
+On Thu, Jul 21, 2022 at 11:44:11AM +0200, David Hildenbrand wrote:
+> On 06.07.22 10:20, Chao Peng wrote:
+> > Normally, a write to unallocated space of a file or the hole of a sparse
+> > file automatically causes space allocation, for memfd, this equals to
+> > memory allocation. This new seal prevents such automatically allocating,
+> > either this is from a direct write() or a write on the previously
+> > mmap-ed area. The seal does not prevent fallocate() so an explicit
+> > fallocate() can still cause allocating and can be used to reserve
+> > memory.
+> > 
+> > This is used to prevent unintentional allocation from userspace on a
+> > stray or careless write and any intentional allocation should use an
+> > explicit fallocate(). One of the main usecases is to avoid memory double
+> > allocation for confidential computing usage where we use two memfds to
+> > back guest memory and at a single point only one memfd is alive and we
+> > want to prevent memory allocation for the other memfd which may have
+> > been mmap-ed previously. More discussion can be found at:
+> > 
+> >   https://lkml.org/lkml/2022/6/14/1255
+> > 
+> > Suggested-by: Sean Christopherson <seanjc@google.com>
+> > Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
+> > ---
+> >  include/uapi/linux/fcntl.h |  1 +
+> >  mm/memfd.c                 |  3 ++-
+> >  mm/shmem.c                 | 16 ++++++++++++++--
+> >  3 files changed, 17 insertions(+), 3 deletions(-)
+> > 
+> > diff --git a/include/uapi/linux/fcntl.h b/include/uapi/linux/fcntl.h
+> > index 2f86b2ad6d7e..98bdabc8e309 100644
+> > --- a/include/uapi/linux/fcntl.h
+> > +++ b/include/uapi/linux/fcntl.h
+> > @@ -43,6 +43,7 @@
+> >  #define F_SEAL_GROW	0x0004	/* prevent file from growing */
+> >  #define F_SEAL_WRITE	0x0008	/* prevent writes */
+> >  #define F_SEAL_FUTURE_WRITE	0x0010  /* prevent future writes while mapped */
+> > +#define F_SEAL_AUTO_ALLOCATE	0x0020  /* prevent allocation for writes */
 > 
-> > sed -i "s/the the /the /g" `git grep -l "the the "`
+> Why only "on writes" and not "on reads". IIRC, shmem doesn't support the
+> shared zeropage, so you'll simply allocate a new page via read() or on
+> read faults.
+
+Right, it also prevents read faults.
+
 > 
-> You might want to clarify the first "the" with a preceding boundary marker.
-> There are some English words ending in "the" that can be used as verbs, though
-> I'm not sure you'd find any of them here - clothe for example.
+> 
+> Also, I *think* you can place pages via userfaultfd into shmem. Not sure
+> if that would count "auto alloc", but it would certainly bypass fallocate().
 
-Right. I plan to split this big one into patches corresponding to
-different component as Jonathan suggested, and will consider how to mark
-the first 'the' as you suggested, and wrap Slark's pathces which
-includes typo fix of "then the".
+Userfaultfd sounds interesting, will further investigate it. But a rough
+look sounds it only faults to usrspace for write/read fault, not
+write()? Also sounds it operates on vma and userfaultfd_register() takes
+mmap_lock which is what we want to avoid for frequent
+register/unregister during private/shared memory conversion.
 
-Thanks
-Baoquan
-
+Chao
+> 
+> -- 
+> Thanks,
+> 
+> David / dhildenb
