@@ -2,116 +2,210 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C961FC43334
-	for <linux-doc@archiver.kernel.org>; Mon, 25 Jul 2022 07:53:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D49CCC43334
+	for <linux-doc@archiver.kernel.org>; Mon, 25 Jul 2022 08:48:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231910AbiGYHx1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 25 Jul 2022 03:53:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43474 "EHLO
+        id S233858AbiGYIsz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 25 Jul 2022 04:48:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60820 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231841AbiGYHx0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Jul 2022 03:53:26 -0400
-Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com [IPv6:2a00:1450:4864:20::62b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8369312ABF
-        for <linux-doc@vger.kernel.org>; Mon, 25 Jul 2022 00:53:24 -0700 (PDT)
-Received: by mail-ej1-x62b.google.com with SMTP id z23so18906425eju.8
-        for <linux-doc@vger.kernel.org>; Mon, 25 Jul 2022 00:53:24 -0700 (PDT)
+        with ESMTP id S233368AbiGYIsy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Jul 2022 04:48:54 -0400
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0915A13F89
+        for <linux-doc@vger.kernel.org>; Mon, 25 Jul 2022 01:48:53 -0700 (PDT)
+Received: by mail-lf1-x136.google.com with SMTP id p11so12169784lfu.5
+        for <linux-doc@vger.kernel.org>; Mon, 25 Jul 2022 01:48:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=resnulli-us.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=jQHpcE4C1nH2GCEZXh7ETSpGDaBL6cwEwh9j7gNMWo8=;
-        b=OM55UTg0wu+CluQkSUuA01YFDEdR/y4F20whcdzU1hU38os/ei31zozZ3nG+vpyapL
-         C4sqPhvVwG2PGmrj2cqmelAHQZjlR2xb+0rcheIVoEhxmBIqe+DaXqmCPnws0bttvYDM
-         D89CQaUgpv7QHiWFeRnMIGfTUhLaA+sSrNNlQ2lGk5vBhH85BV8zYTEEb6f7J6x954Ik
-         ghxFRwdsElN3pAwFnlfnGAiygd7hZ7un3sZnwbSXymco13wqi4JHyXtohzFegCUej9vR
-         IzoaoYzpzs/Y6OsEkHqDtgppAfiM4auffmbGS9I8nRLK4ITgHl+kV21CjuinMnBydi0u
-         n2gA==
+        d=broadcom.com; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=skJlh7oEyNZVF9a4um/4HbqRvlVj96BxuDQSiF82/uE=;
+        b=WnHlpX+EvIQ35Xv0YU8PBQIOBvMmgdLLBl3HJ/qbclkPQbu6NXsDv0O7sa9VPRf9ES
+         Lf2KCv31RxqksNOmwah1/FwruPugnMtD7tHo8J5JtM41hOGPfpLVfntJP58MZ3YVmIjE
+         lS4X61pwdWezdQWfdG0EJjgDAD1hQeHU1e3Dw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=jQHpcE4C1nH2GCEZXh7ETSpGDaBL6cwEwh9j7gNMWo8=;
-        b=KA0GYmR0CFspHYqBZDeQ/r8Kfp7oy8QNcAzgbQSWU/uAKxTSyqZCWCOezADGIGVt58
-         IascJs7KZ0PUvZu5N99rQfDMddbkaz1unQiDrz5emYU/3TbVoD6dYE6rVw3E/kudVBR1
-         /01/pTTBRvTeNn5RRIv8MNSER6h3iMeFR/PHdnRtuR4YFjBeai3W0QT0jrSNKSH9lelW
-         nwjWg8/fSszr2dZ99y3Xa38eWffFfiUBjP4Vvlcmz8XD4dMtKPXmHWwht8VzKNpTBdcr
-         7lkUDG+zNQe7nPa4WdBJxQc4JH/XnUJ6OlHz2IO7RkhooDBP8HvODCdVkZSg2f2qj9m7
-         8oUg==
-X-Gm-Message-State: AJIora84UnfvB4MExmKsEavC97Kh0co119KKcEzJiMVnXkcabABq+pSx
-        7bSWK5y0eNgxjYPRKHjc+gHpOw==
-X-Google-Smtp-Source: AGRyM1vwhwdAD1fhToosegZ6HJzjjm2A8TIJxILfbOsGmaHcNrwR3F9IeMC7GUh0LFKO8elVo9fdoA==
-X-Received: by 2002:a17:906:c781:b0:726:c967:8d1b with SMTP id cw1-20020a170906c78100b00726c9678d1bmr9205707ejb.54.1658735602996;
-        Mon, 25 Jul 2022 00:53:22 -0700 (PDT)
-Received: from localhost ([85.163.43.78])
-        by smtp.gmail.com with ESMTPSA id ot11-20020a170906cccb00b0072af4af2f46sm5008824ejb.74.2022.07.25.00.53.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 Jul 2022 00:53:22 -0700 (PDT)
-Date:   Mon, 25 Jul 2022 09:53:21 +0200
-From:   Jiri Pirko <jiri@resnulli.us>
-To:     Jakub Kicinski <kuba@kernel.org>
-Cc:     Vikas Gupta <vikas.gupta@broadcom.com>, jiri@nvidia.com,
-        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-        davem@davemloft.net, dsahern@kernel.org,
-        stephen@networkplumber.org, edumazet@google.com, pabeni@redhat.com,
-        ast@kernel.org, leon@kernel.org, linux-doc@vger.kernel.org,
-        corbet@lwn.net, michael.chan@broadcom.com,
-        andrew.gospodarek@broadcom.com
-Subject: Re: [PATCH net-next v6 1/2] devlink: introduce framework for
- selftests
-Message-ID: <Yt5L8TbzTwthnrl7@nanopsycho>
-References: <20220723042206.8104-1-vikas.gupta@broadcom.com>
- <20220723042206.8104-2-vikas.gupta@broadcom.com>
- <20220723091600.1277e903@kernel.org>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=skJlh7oEyNZVF9a4um/4HbqRvlVj96BxuDQSiF82/uE=;
+        b=1/I1ASOabqPJmvHQC39Dy0DKBjINOc6gOWwWkJJVJNa+uZeq/zjWopS16uaAg0K0W5
+         Xbtfyfa50Co8IHOCIVk7B6SNeJKk/RVR04plZnGGNRD0c69h8m//wP4WIc/jkzIDjYwv
+         zGPCv9sAFF+9OlCGbkKf6qq+Qh7DNAavUAJNHMv7C85mSQIvz+8Yr99AhHRxdKBi/1JA
+         pZMSxrRV209JhikDf5FbjID3BRGIISe3iYnwAaK9S4il78zjrT1XH4I31Xt0baJlrOD1
+         QZIS1lRxCC3e/d0v4FvDwMRBOnFCRNHQRCBgF2qn+7LTMXDq1GzWaXS32aMB3iYaA9rm
+         8B3Q==
+X-Gm-Message-State: AJIora+qFzCS4fFhfRPsgpF/jGSKCBMJmzqQkYLTBBIAC8AXgbnm+S0u
+        0SIVqaBAr0gHKa2VmXwl2IGzFflJ8nN/AOrutd8RuQ==
+X-Google-Smtp-Source: AGRyM1voXjxeDP2zWasG/Lf+fjsU3sa+t6jhMdKgzv9dRNb6MxviXOsqY2x7Urj7zWBtz8hQjkUGlbWiFGQaLw/aCsE=
+X-Received: by 2002:a05:6512:1594:b0:48a:874f:535 with SMTP id
+ bp20-20020a056512159400b0048a874f0535mr2228851lfb.320.1658738931148; Mon, 25
+ Jul 2022 01:48:51 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220723091600.1277e903@kernel.org>
+References: <20220723042206.8104-1-vikas.gupta@broadcom.com>
+ <20220723042206.8104-2-vikas.gupta@broadcom.com> <20220723091600.1277e903@kernel.org>
+ <Yt5L8TbzTwthnrl7@nanopsycho>
+In-Reply-To: <Yt5L8TbzTwthnrl7@nanopsycho>
+From:   Vikas Gupta <vikas.gupta@broadcom.com>
+Date:   Mon, 25 Jul 2022 14:18:39 +0530
+Message-ID: <CAHLZf_uWxnS5Voc6h7pnS=dRq96JV1wq9zVXKhVbyrRva9=b0g@mail.gmail.com>
+Subject: Re: [PATCH net-next v6 1/2] devlink: introduce framework for selftests
+To:     Jiri Pirko <jiri@resnulli.us>
+Cc:     Jakub Kicinski <kuba@kernel.org>, Jiri Pirko <jiri@nvidia.com>,
+        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+        "David S. Miller" <davem@davemloft.net>, dsahern@kernel.org,
+        stephen@networkplumber.org, Eric Dumazet <edumazet@google.com>,
+        pabeni@redhat.com, ast@kernel.org, leon@kernel.org,
+        linux-doc@vger.kernel.org, corbet@lwn.net,
+        Michael Chan <michael.chan@broadcom.com>,
+        Andrew Gospodarek <andrew.gospodarek@broadcom.com>
+Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
+        boundary="000000000000ca847b05e49d4031"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Sat, Jul 23, 2022 at 06:16:00PM CEST, kuba@kernel.org wrote:
->On Sat, 23 Jul 2022 09:52:05 +0530 Vikas Gupta wrote:
->> +enum devlink_attr_selftest_test_id {
->> +	DEVLINK_ATTR_SELFTEST_TEST_ID_UNSPEC,
->> +	DEVLINK_ATTR_SELFTEST_TEST_ID_FLASH,	/* flag */
->> +
->> +	__DEVLINK_ATTR_SELFTEST_TEST_ID_MAX,
->> +	DEVLINK_ATTR_SELFTEST_TEST_ID_MAX = __DEVLINK_ATTR_SELFTEST_TEST_ID_MAX - 1
->> +};
->> +
->> +enum devlink_selftest_test_status {
->> +	DEVLINK_SELFTEST_TEST_STATUS_SKIP,
->> +	DEVLINK_SELFTEST_TEST_STATUS_PASS,
->> +	DEVLINK_SELFTEST_TEST_STATUS_FAIL
->> +};
->> +
->> +enum devlink_attr_selftest_result {
->> +	DEVLINK_ATTR_SELFTEST_RESULT_UNSPEC,
->> +	DEVLINK_ATTR_SELFTEST_RESULT,			/* nested */
->> +	DEVLINK_ATTR_SELFTEST_RESULT_TEST_ID,		/* u32,
->> +							 * enum devlink_attr_selftest_test_id
->> +							 */
->> +	DEVLINK_ATTR_SELFTEST_RESULT_TEST_STATUS,	/* u8,
->> +							 * enum devlink_selftest_test_status
->> +							 */
->> +
->> +	__DEVLINK_ATTR_SELFTEST_RESULT_MAX,
->> +	DEVLINK_ATTR_SELFTEST_RESULT_MAX = __DEVLINK_ATTR_SELFTEST_RESULT_MAX - 1
->
->Any thoughts on running:
->
->	sed -i '/_SELFTEST/ {s/_TEST_/_/g}' $patch
+--000000000000ca847b05e49d4031
+Content-Type: text/plain; charset="UTF-8"
 
-Sure, why not. But please make sure you keep all other related things
-(variables, cmdline opts) consistent.
+Hi Jiri,
 
-Thanks!
+On Mon, Jul 25, 2022 at 1:23 PM Jiri Pirko <jiri@resnulli.us> wrote:
+>
+> Sat, Jul 23, 2022 at 06:16:00PM CEST, kuba@kernel.org wrote:
+> >On Sat, 23 Jul 2022 09:52:05 +0530 Vikas Gupta wrote:
+> >> +enum devlink_attr_selftest_test_id {
+> >> +    DEVLINK_ATTR_SELFTEST_TEST_ID_UNSPEC,
+> >> +    DEVLINK_ATTR_SELFTEST_TEST_ID_FLASH,    /* flag */
+> >> +
+> >> +    __DEVLINK_ATTR_SELFTEST_TEST_ID_MAX,
+> >> +    DEVLINK_ATTR_SELFTEST_TEST_ID_MAX = __DEVLINK_ATTR_SELFTEST_TEST_ID_MAX - 1
+> >> +};
+> >> +
+> >> +enum devlink_selftest_test_status {
+> >> +    DEVLINK_SELFTEST_TEST_STATUS_SKIP,
+> >> +    DEVLINK_SELFTEST_TEST_STATUS_PASS,
+> >> +    DEVLINK_SELFTEST_TEST_STATUS_FAIL
+> >> +};
+> >> +
+> >> +enum devlink_attr_selftest_result {
+> >> +    DEVLINK_ATTR_SELFTEST_RESULT_UNSPEC,
+> >> +    DEVLINK_ATTR_SELFTEST_RESULT,                   /* nested */
+> >> +    DEVLINK_ATTR_SELFTEST_RESULT_TEST_ID,           /* u32,
+> >> +                                                     * enum devlink_attr_selftest_test_id
+> >> +                                                     */
+> >> +    DEVLINK_ATTR_SELFTEST_RESULT_TEST_STATUS,       /* u8,
+> >> +                                                     * enum devlink_selftest_test_status
+> >> +                                                     */
+> >> +
+> >> +    __DEVLINK_ATTR_SELFTEST_RESULT_MAX,
+> >> +    DEVLINK_ATTR_SELFTEST_RESULT_MAX = __DEVLINK_ATTR_SELFTEST_RESULT_MAX - 1
+> >
+> >Any thoughts on running:
+> >
+> >       sed -i '/_SELFTEST/ {s/_TEST_/_/g}' $patch
+>
+> Sure, why not. But please make sure you keep all other related things
+> (variables, cmdline opts) consistent.
+>
+> Thanks!
+Does the 'test_id' in command line
+ 'devlink dev selftests run DEV test_id flash'
+will still hold good if DEVLINK_ATTR_SELFTEST_RESULT_TEST_ID changes
+to DEVLINK_ATTR_SELFTEST_RESULT_ID ?
+or it should be
+'devlink dev selftests run DEV selftest_id flash' ?
+
+Thanks,
+Vikas
 
 
 >
->on this patch? For example DEVLINK_ATTR_SELFTEST_RESULT_TEST_STATUS
->is 40 characters long, ain't nobody typing that, and _TEST is repeated..
 >
->Otherwise LGTM!
+> >
+> >on this patch? For example DEVLINK_ATTR_SELFTEST_RESULT_TEST_STATUS
+> >is 40 characters long, ain't nobody typing that, and _TEST is repeated..
+> >
+> >Otherwise LGTM!
+
+--000000000000ca847b05e49d4031
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Description: S/MIME Cryptographic Signature
+
+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
+I7qKxvF8Yo7eGTnHRTa99J+6yTd88AKVuhM5TEhpC8cS7qvrQXJje+Uing2xWC4FH76LEWIFH0Pt
+x8C1WoCU0ClXHU/XfzH2mYrFANBSCeP1Co6QdEfRAgMBAAGjggHZMIIB1TAOBgNVHQ8BAf8EBAMC
+BaAwgaMGCCsGAQUFBwEBBIGWMIGTME4GCCsGAQUFBzAChkJodHRwOi8vc2VjdXJlLmdsb2JhbHNp
+Z24uY29tL2NhY2VydC9nc2djY3IzcGVyc29uYWxzaWduMmNhMjAyMC5jcnQwQQYIKwYBBQUHMAGG
+NWh0dHA6Ly9vY3NwLmdsb2JhbHNpZ24uY29tL2dzZ2NjcjNwZXJzb25hbHNpZ24yY2EyMDIwME0G
+A1UdIARGMEQwQgYKKwYBBAGgMgEoCjA0MDIGCCsGAQUFBwIBFiZodHRwczovL3d3dy5nbG9iYWxz
+aWduLmNvbS9yZXBvc2l0b3J5LzAJBgNVHRMEAjAAMEkGA1UdHwRCMEAwPqA8oDqGOGh0dHA6Ly9j
+cmwuZ2xvYmFsc2lnbi5jb20vZ3NnY2NyM3BlcnNvbmFsc2lnbjJjYTIwMjAuY3JsMCMGA1UdEQQc
+MBqBGHZpa2FzLmd1cHRhQGJyb2FkY29tLmNvbTATBgNVHSUEDDAKBggrBgEFBQcDBDAfBgNVHSME
+GDAWgBSWM9HmWBdbNHWKgVZk1b5I3qGPzzAdBgNVHQ4EFgQUUc6J11rH3s6PyZQ0zIVZHIuP20Yw
+DQYJKoZIhvcNAQELBQADggEBALvCjXn9gy9a2nU/Ey0nphGZefIP33ggiyuKnmqwBt7Wk/uDHIIc
+kkIlqtTbo0x0PqphS9A23CxCDjKqZq2WN34fL5MMW83nrK0vqnPloCaxy9/6yuLbottBY4STNuvA
+mQ//Whh+PE+DZadqiDbxXbos3IH8AeFXH4A1zIqIrc0Um2/CSD/T6pvu9QrchtvemfP0z/f1Bk+8
+QbQ4ARVP93WV1I13US69evWXw+mOv9VnejShU9PMcDK203xjXbBOi9Hm+fthrWfwIyGoC5aEf7vd
+PKkEDt4VZ9RbudZU/c3N8+kURaHNtrvu2K+mQs5w/AF7HYZThqmOzQJnvMRjuL8xggJtMIICaQIB
+ATBrMFsxCzAJBgNVBAYTAkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNhMTEwLwYDVQQDEyhH
+bG9iYWxTaWduIEdDQyBSMyBQZXJzb25hbFNpZ24gMiBDQSAyMDIwAgwYjepatB64S625eswwDQYJ
+YIZIAWUDBAIBBQCggdQwLwYJKoZIhvcNAQkEMSIEIFb7W2PfZkbdDA1OIDb0jwzpNjNZS8HVzBUQ
+C5+aDCT6MBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZIhvcNAQkFMQ8XDTIyMDcyNTA4
+NDg1MVowaQYJKoZIhvcNAQkPMVwwWjALBglghkgBZQMEASowCwYJYIZIAWUDBAEWMAsGCWCGSAFl
+AwQBAjAKBggqhkiG9w0DBzALBgkqhkiG9w0BAQowCwYJKoZIhvcNAQEHMAsGCWCGSAFlAwQCATAN
+BgkqhkiG9w0BAQEFAASCAQA5x2oe0Q3zif482GkqX0iu025ez751xSNMhArZhh4m6hLjWe5oG0hr
+uIpIUzTndJ4tqRd64fAQCzSTIddh8X3R+rBZ9kFZ/ZbSWNIS3S8Xzp2xA8I/e/OTN73Rh8aFZAU4
+XMPPSXmvvP0qCeisgHoduk/6prTUUy+/Oc4z0NrjMUK+J6skTRhVFVq+atsx+rtnp7VKOdyb5qlt
+2WJVDAAvpGuQp4ILjZvIPFPLOXFzwE0vKIqJHV1REDBS9t8jtsKRupSjIgL0uv6xgIQyXOeuAdCu
+dinKmVvxmtfudXqgzgACyIZlgHhXnlvyrnvHfDqdIvEUXPgOyTMBNqFbMkIZ
+--000000000000ca847b05e49d4031--
