@@ -2,21 +2,21 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 14C58C433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 25 Jul 2022 09:24:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0FB37C43334
+	for <linux-doc@archiver.kernel.org>; Mon, 25 Jul 2022 09:24:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231789AbiGYJYG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 25 Jul 2022 05:24:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33146 "EHLO
+        id S233445AbiGYJYS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 25 Jul 2022 05:24:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33264 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234142AbiGYJYE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Jul 2022 05:24:04 -0400
+        with ESMTP id S231654AbiGYJYR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Jul 2022 05:24:17 -0400
 Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id A59DA15FE5
-        for <linux-doc@vger.kernel.org>; Mon, 25 Jul 2022 02:24:03 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 9B7A2BE0C
+        for <linux-doc@vger.kernel.org>; Mon, 25 Jul 2022 02:24:16 -0700 (PDT)
 Received: from localhost.localdomain (unknown [112.20.110.136])
-        by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxH9IsYd5iS102AA--.13367S2;
-        Mon, 25 Jul 2022 17:23:58 +0800 (CST)
+        by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dxn9I5Yd5iYF02AA--.31732S2;
+        Mon, 25 Jul 2022 17:24:10 +0800 (CST)
 From:   Yanteng Si <siyanteng@loongson.cn>
 To:     alexs@kernel.org, bobwxc@email.cn, seakeel@gmail.com
 Cc:     Yanteng Si <siyanteng@loongson.cn>, corbet@lwn.net,
@@ -24,19 +24,19 @@ Cc:     Yanteng Si <siyanteng@loongson.cn>, corbet@lwn.net,
         linux-doc@vger.kernel.org, siyanteng01@gmail.com,
         zhoubinbin@loongson.cn, yizhou.tang@shopee.com,
         wanjiabing@vivo.com, leoyang.li@nxp.com, src.res@email.cn
-Subject: [PATCH 7/8] Docs/zh_CN: Update the translation of pci to 5.19-rc8
-Date:   Mon, 25 Jul 2022 17:24:35 +0800
-Message-Id: <d6b56714f443f13fed9ed6618fb0788fe7d3caaa.1658740151.git.siyanteng@loongson.cn>
+Subject: [PATCH 8/8] Docs/zh_CN: Update the translation of sched-stats to 5.19-rc8
+Date:   Mon, 25 Jul 2022 17:24:47 +0800
+Message-Id: <d46c5dfb2b6a138ba418b04f41f5bd73ebd7248d.1658740151.git.siyanteng@loongson.cn>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1658740151.git.siyanteng@loongson.cn>
 References: <cover.1658740151.git.siyanteng@loongson.cn>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9DxH9IsYd5iS102AA--.13367S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7CF4fZry3Wr1xJr1kuw47CFg_yoW8tr47pr
-        Z7Ga4xGa17Z3WIqr1F93yxXw1xWa9a9F1UCr4UK3ZxAr1vq3ykAw1YyF12gFyxXryIvFWv
-        qan2krWYvry7ur7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+X-CM-TRANSID: AQAAf9Dxn9I5Yd5iYF02AA--.31732S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7Kw4UAry3tF47AF4rAF15CFg_yoW8Aw4rp3
+        srWr4xKr18AF90yw1Iqw13GFW8WryxAw4UtryDJa4Yqr4rta10qF1jkF9xXFW2gFWrZF9I
+        qwsYg347u3yjyrDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
         9KBjDU0xBIdaVrnRJUUUBF14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
         rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
         1l84ACjcxK6xIIjxv20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
@@ -55,38 +55,43 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Update to commit f21949c14968 ("PCI/doc:Update
-obsolete pci_set_dma_mask() references")
+Update to commit 6c757e9f55f0 ("docs/scheduler:
+fix unit error")
 
-05b0ebd06ae6 ("PCI/doc: cleanup references to
-the legacy PCI DMA API")
+ddb21d27a6a5 ("docs/scheduler: Change unit of
+cpu_time and rq_time to nanoseconds")
 
 Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
 ---
- Documentation/translations/zh_CN/PCI/pci.rst | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ .../translations/zh_CN/scheduler/sched-stats.rst          | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/Documentation/translations/zh_CN/PCI/pci.rst b/Documentation/translations/zh_CN/PCI/pci.rst
-index 520707787256..83c2a41d38d3 100644
---- a/Documentation/translations/zh_CN/PCI/pci.rst
-+++ b/Documentation/translations/zh_CN/PCI/pci.rst
-@@ -255,13 +255,13 @@ pci_set_master()将通过设置PCI_COMMAND寄存器中的总线主控位来启
+diff --git a/Documentation/translations/zh_CN/scheduler/sched-stats.rst b/Documentation/translations/zh_CN/scheduler/sched-stats.rst
+index 1c68c3d1c283..c5e0be663837 100644
+--- a/Documentation/translations/zh_CN/scheduler/sched-stats.rst
++++ b/Documentation/translations/zh_CN/scheduler/sched-stats.rst
+@@ -57,8 +57,8 @@ cpu<N> 1 2 3 4 5 6 7 8 9
  
- 虽然所有的驱动程序都应该明确指出PCI总线主控的DMA功能（如32位或64位），但对于流式
- 数据来说，具有超过32位总线主站功能的设备需要驱动程序通过调用带有适当参数的
--``pci_set_dma_mask()`` 来“注册”这种功能。一般来说，在系统RAM高于4G物理地址的情
-+``dma_set_mask()`` 来“注册”这种功能。一般来说，在系统RAM高于4G物理地址的情
- 况下，这允许更有效的DMA。
+ 接下来的三个统计数据描述了调度延迟：
  
--所有PCI-X和PCIe兼容设备的驱动程序必须调用 ``pci_set_dma_mask()`` ，因为它们
-+所有PCI-X和PCIe兼容设备的驱动程序必须调用 ``dma_set_mask()`` ，因为它们
- 是64位DMA设备。
+-     7) 本处理器运行任务的总时间，单位是jiffies
+-     8) 本处理器任务等待运行的时间，单位是jiffies
++     7) 本处理器运行任务的总时间，单位是纳秒
++     8) 本处理器任务等待运行的时间，单位是纳秒
+      9) 本CPU运行了#个时间片
  
--同样，如果设备可以通过调用 ``pci_set_consistent_dma_mask()`` 直接寻址到
-+同样，如果设备可以通过调用 ``dma_set_coherent_mask()`` 直接寻址到
- 4G物理地址以上的系统RAM中的“一致性内存”，那么驱动程序也必须“注册”这种功能。同
- 样，这包括所有PCI-X和PCIe兼容设备的驱动程序。许多64位“PCI”设备（在PCI-X之前）
- 和一些PCI-X设备对有效载荷（“流式”）数据具有64位DMA功能，但对控制（“一致性”）数
+ 域统计数据
+@@ -146,8 +146,8 @@ domain<N> <cpumask> 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23
+ schedstats还添加了一个新的/proc/<pid>/schedstat文件，来提供一些进程级的
+ 相同信息。这个文件中，有三个字段与该进程相关：
+ 
+-     1) 在CPU上运行花费的时间
+-     2) 在运行队列上等待的时间
++     1) 在CPU上运行花费的时间(单位是纳秒)
++     2) 在运行队列上等待的时间(单位是纳秒)
+      3) 在CPU上运行了#个时间片
+ 
+ 可以很容易地编写一个程序，利用这些额外的字段来报告一个特定的进程或一组进程在
 -- 
 2.31.1
 
