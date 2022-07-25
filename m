@@ -2,165 +2,311 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3CD06CCA48A
-	for <linux-doc@archiver.kernel.org>; Mon, 25 Jul 2022 19:55:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6100AC43334
+	for <linux-doc@archiver.kernel.org>; Mon, 25 Jul 2022 20:11:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230299AbiGYTzu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 25 Jul 2022 15:55:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35424 "EHLO
+        id S229733AbiGYULx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 25 Jul 2022 16:11:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44938 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229727AbiGYTzu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Jul 2022 15:55:50 -0400
-Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E03B1FCD4;
-        Mon, 25 Jul 2022 12:55:49 -0700 (PDT)
-Received: from fews1.riseup.net (fews1-pn.riseup.net [10.0.1.83])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
-         client-signature RSA-PSS (2048 bits) client-digest SHA256)
-        (Client CN "mail.riseup.net", Issuer "R3" (not verified))
-        by mx1.riseup.net (Postfix) with ESMTPS id 4Ls9l850sgzDqp7;
-        Mon, 25 Jul 2022 19:55:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
-        t=1658778948; bh=mpReOiN/RY75zoMf4n89mpn8nYOfilNXT1Bz9nVZHtM=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=rAOeofzZIFJw8oDhuu0BZeu2ckd7lmZm8zNsIJEIA9AbdBVQI0W1sTbVNuh/U3bRw
-         grCwSfIovVE5E6/eu/tm0eTqIaRHi7LeeGvDETVni3smPsCMj4qbq8cS+y4Mt3MfEN
-         7hlLTnszUc6/pV86yJeeJn2eEJDjmfwzcoBXfPX8=
-X-Riseup-User-ID: 4F0FA5B3531717062ABA367EF50A7BB26B56809C141FF3EF210042EAAD284977
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-         by fews1.riseup.net (Postfix) with ESMTPSA id 4Ls9l56ht1z5vgM;
-        Mon, 25 Jul 2022 19:55:45 +0000 (UTC)
-Message-ID: <bd697df8-7482-ec77-4b95-e97d6f4df959@riseup.net>
-Date:   Mon, 25 Jul 2022 16:55:42 -0300
+        with ESMTP id S229491AbiGYULw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Jul 2022 16:11:52 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4C9020F73;
+        Mon, 25 Jul 2022 13:11:50 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 713B76114C;
+        Mon, 25 Jul 2022 20:11:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 158A0C341C8;
+        Mon, 25 Jul 2022 20:11:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1658779909;
+        bh=3DgoIQ2ka7gg3ZlNLS7U8anre4conVYByApEe4IZRtM=;
+        h=From:To:Cc:Subject:Date:From;
+        b=foIATQWvaDCnonVRM3Fhou78CGaTiOcsySD/3/DCKO/fhMIU4EAADeGTevCat3EKO
+         9KYSFtFoDkuZMOGkWwcXgOwgFGI/4UPwogy3BJZvDpxsMmPWQYIDqkStqhES3SKJJE
+         eLI88+rQYr+waRyVN8y0eAns+AGaYI57SvMFuLrH7Ksr4dzxGLMEqSFqezi1BzKhuz
+         YGLya0a/8q7jRn7q9Zl8NSlCLAGRdZ9gWCW3VNmh7fdsBYL4+TbG4j4ivsA4v0y5ov
+         S1QZm9duHKX9UsyNfBWOxPRVseTSRNVMpyB3uAEqdRLbYILeDF5ukPIRGczPet86eI
+         XpPwxopHyQACA==
+From:   Daniel Bristot de Oliveira <bristot@kernel.org>
+To:     Steven Rostedt <rostedt@goodmis.org>
+Cc:     Daniel Bristot de Oliveira <bristot@kernel.org>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Ingo Molnar <mingo@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Will Deacon <will@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Marco Elver <elver@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Gabriele Paoloni <gpaoloni@redhat.com>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Clark Williams <williams@redhat.com>,
+        Tao Zhou <tao.zhou@linux.dev>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-trace-devel@vger.kernel.org
+Subject: [PATCH V7 00/16] The Runtime Verification (RV) interface
+Date:   Mon, 25 Jul 2022 22:11:12 +0200
+Message-Id: <cover.1658778484.git.bristot@kernel.org>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Subject: Re: [PATCH v3] Documentation: kunit: Add CLI args for kunit_tool
-Content-Language: en-US
-To:     Sadiya Kazi <sadiyakazi@google.com>, brendanhiggins@google.com,
-        davidgow@google.com, skhan@linuxfoundation.org, corbet@lwn.net
-Cc:     linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20220724184758.1723925-1-sadiyakazi@google.com>
-From:   =?UTF-8?Q?Ma=c3=adra_Canal?= <mairacanal@riseup.net>
-In-Reply-To: <20220724184758.1723925-1-sadiyakazi@google.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Sadiya,
+Over the last years, I've been exploring the possibility of
+verifying the Linux kernel behavior using Runtime Verification.
 
-On 7/24/22 15:47, Sadiya Kazi wrote:
-> Run_wrapper.rst was missing some command line arguments. Added
-> additional args in the file.
-> 
-> Signed-off-by: Sadiya Kazi <sadiyakazi@google.com>
+Runtime Verification (RV) is a lightweight (yet rigorous) method that
+complements classical exhaustive verification techniques (such as model
+checking and theorem proving) with a more practical approach for complex
+systems.
 
-Usually, when people send their Reviewed-by on a previous version, we
-send the next version with their tags in chronological order [1].
+Instead of relying on a fine-grained model of a system (e.g., a
+re-implementation a instruction level), RV works by analyzing the trace of the
+system's actual execution, comparing it against a formal specification of
+the system behavior.
 
-> ---
-> Changes since v2:
-> https://lore.kernel.org/linux-kselftest/20220721081026.1247067-1-sadiyakazi@google.com/
-> -Added a code block for —kconfig_add argument to make the styling consistent
-> -Slightly changed the words for —arch argument
-> -Changed QEMU to qemu wherever applicable for the cli args
-> -Changed the style for ``-smp 8``
-> -Changed "Might be repeated" to "may be repeated” for kernel_args
-> 
+The usage of deterministic automaton for RV is a well-established
+approach. In the specific case of the Linux kernel, you can check how
+to model complex behavior of the Linux kernel with this paper:
 
-Also, it is a common practice to keep the entire changelog here [1].
+  De Oliveira, Daniel Bristot; Cucinotta, Tommaso; De Oliveira, Romulo Silva.
+  *Efficient formal verification for the Linux kernel.* In: International
+  Conference on Software Engineering and Formal Methods. Springer, Cham, 2019.
+  p. 315-332.
 
-Other than the error reported-by kernel test robot, looks good to me.
+And how efficient is this approach here:
 
-Reviewed-by: Maíra Canal <mairacanal@riseup.net>
+  De Oliveira, Daniel B.; De Oliveira, Romulo S.; Cucinotta, Tommaso. *A thread
+  synchronization model for the PREEMPT_RT Linux kernel.* Journal of Systems
+  Architecture, 2020, 107: 101729.
 
-[1]
-https://docs.kernel.org/process/submitting-patches.html#the-canonical-patch-format
+tlrd: it is possible to model complex behaviors in a modular way, with
+an acceptable overhead (even for production systems). See this
+presentation at 2019's ELCE: https://www.youtube.com/watch?v=BfTuEHafNgg
 
-Best Regards,
-- Maíra Canal
+Here I am proposing a more practical approach for the usage of deterministic
+automata for runtime verification, and it includes:
 
-> 
-> 
-> ---
->  Documentation/dev-tools/kunit/run_wrapper.rst | 61 ++++++++++++++++++-
->  1 file changed, 60 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/dev-tools/kunit/run_wrapper.rst b/Documentation/dev-tools/kunit/run_wrapper.rst
-> index 5e560f2c5fca..ed3715fef32d 100644
-> --- a/Documentation/dev-tools/kunit/run_wrapper.rst
-> +++ b/Documentation/dev-tools/kunit/run_wrapper.rst
-> @@ -233,7 +233,7 @@ Command-Line Arguments
->  ======================
->  
->  kunit_tool has a number of other command-line arguments which can
-> -be useful for our test environment. Below the most commonly used
-> +be useful for our test environment. Below are the most commonly used
->  command line arguments:
->  
->  - ``--help``: Lists all available options. To list common options,
-> @@ -257,3 +257,62 @@ command line arguments:
->              added or modified. Instead, enable all tests
->              which have satisfied dependencies by adding
->              ``CONFIG_KUNIT_ALL_TESTS=y`` to your ``.kunitconfig``.
-> +
-> +- ``--kunitconfig``: Specifies the path or the directory of the ``.kunitconfig``
-> +  file. For example:
-> +
-> +  - ``lib/kunit/.kunitconfig`` can be the path of the file.
-> +
-> +  - ``lib/kunit`` can be the directory in which the file is located.
-> +
-> +  This file is used to build and run with a predefined set of tests
-> +  and their dependencies. For example, to run tests for a given subsystem.
-> +
-> +- ``--kconfig_add``: Specifies additional configuration options to be
-> +  appended to the ``.kunitconfig`` file. For example:
-> +  .. code-block::
-> +	./tools/testing/kunit/kunit.py run --kconfig_add CONFIG_KASAN=y
-> +
-> +- ``--arch``: Runs tests on the specified architecture. The architecture
-> +  argument is same as the Kbuild ARCH environment variable.
-> +  For example, i386, x86_64, arm, um, etc. Non-UML architectures run on qemu.
-> +  Default is `um`.
-> +
-> +- ``--cross_compile``: Specifies the Kbuild toolchain. It passes the
-> +  same argument as passed to the ``CROSS_COMPILE`` variable used by
-> +  Kbuild. This will be the prefix for the toolchain
-> +  binaries such as GCC. For example:
-> +
-> +  - ``sparc64-linux-gnu-`` if we have the sparc toolchain installed on
-> +    our system.
-> +
-> +  - ``$HOME/toolchains/microblaze/gcc-9.2.0-nolibc/microblaze-linux/bin/microblaze-linux``
-> +    if we have downloaded the microblaze toolchain from the 0-day
-> +    website to a specified path in our home directory called toolchains.
-> +
-> +- ``--qemu_config``: Specifies the path to a file containing a
-> +  custom qemu architecture definition. This should be a python file
-> +  containing a `QemuArchParams` object.
-> +
-> +- ``--qemu_args``: Specifies additional qemu arguments, for example, ``-smp 8``.
-> +
-> +- ``--jobs``: Specifies the number of jobs (commands) to run simultaneously.
-> +  By default, this is set to the number of cores on your system.
-> +
-> +- ``--timeout``: Specifies the maximum number of seconds allowed for all tests to run.
-> +  This does not include the time taken to build the tests.
-> +
-> +- ``--kernel_args``: Specifies additional kernel command-line arguments. May be repeated.
-> +
-> +- ``--run_isolated``: If set, boots the kernel for each individual suite/test.
-> +  This is useful for debugging a non-hermetic test, one that
-> +  might pass/fail based on what ran before it.
-> +
-> +- ``--raw_output``: If set, generates unformatted output from kernel. Possible options are:
-> +
-> +   - ``all``: To view the full kernel output, use ``--raw_output=all``.
-> +
-> +   - ``kunit``: This is the default option and filters to KUnit output. Use ``--raw_output`` or ``--raw_output=kunit``.
-> +
-> +- ``--json``: If set, stores the test results in a JSON format and prints to `stdout` or
-> +  saves to a file if a filename is specified.
+	- An interface for controlling the verification;
+	- A tool and set of headers that enables the automatic code
+	  generation of the RV monitor (Monitor Synthesis);
+	- Sample monitors to evaluate the interface;
+
+Given that RV is a tracing consumer, the code is being placed inside the
+tracing subsystem (Steven and I have been talking about it for a while).
+
+Features to be added after this patchset:
+	- safe_wtd monitor (requires further discussion with watchdog maintainers)
+	- Export symbols for external modules
+	- dot2bpf
+	- Add a reactor that enables the visualization of the visited
+	  states via KCOV (Marco Elver & Dmitry Vyukov)
+	- Add a CRC method to check from user-space if the values
+	  exported by the monitor were not corrupted by any other
+	  kernel task (Gabriele Paoloni)
+
+Changes from v6:
+	- Remove lock protection when reading static data (Steven)
+	- Add lock protection in disable_all_monitors() (Steven)
+	- Re-arrange enable_monitor (Steven/Tao)
+	- Fix monitor_desc_read_data() Description (Tao)
+	- Actually use reactor's count to avoid control usage
+	  (Tao)
+	- Wait for tracepoint_synchronize_unregister() anytime a monitor
+	  is Disabled (daniel)
+	- Add memory barriers around monitoring_on and reacting_on (Steven)
+	- Make rv reactor name and description const char * (Tao)
+	- Append missing _##name for some da_automata functions/variables (Steven)
+	- rv_unregister_monitor() will disable the monitor if necessary, and
+	  take care of synchronization (Daniel)
+	- Fixed da_monitor_instrumentation.rst (Tao)
+	- Fix !CONFIG_RV_REACTORS (kbuild test)
+	- Moved struct rv/rv.h to linux/rv.h (Daniel)
+	- Add rv_ prefix on get/put task slot (Daniel)
+Changes from v5:
+	- Add task monitor slot checks (Daniel/Tao)
+	- Reset the monitors only after initializing the data (Daniel)
+	- Add static for static data (Daniel/0-day)
+	- Change start/stop *functions to enable/disable (like the user-
+	  interface (Daniel)
+	- s/init/start/ for the functions starting the monitoring (Daniel)
+	- Access monitoring_on and reacting_on via functions (Daniel)
+	- Improved vector access checks (Tao)
+	- cleanups (Daniel/Tao)
+Changes from v4:
+	- The watchdog monitor will be discussed on another thread (Daniel)
+	- s/safe/final/ in the tracepoint definition (Daniel)
+	- Improved error handling at __init functions (Daniel)
+	- Remove the hostname from example of commands in a shell (Bagas Sanjaya)
+	- Added documentation about automata representation in C/DOT/Formal
+	  and this documentation is cited in a comment on all model.h
+	  (Steven)
+	- Make wwnr a single patch (Daniel/Steven)
+	- Add the .dot file for each monitor (Daniel)
+	- Add a document for each monitor (Daniel)
+	- Add an order for documentation in the index.rst (Daniel)
+	- Add wip/wwnr/... long description (Steven/Randy)
+	- Add comments for helper functions (Steven)
+	- Improve checks in da_monitor.h (Tao Zhou)
+	- Change final states set to bool (Tao/Daniel)
+	- Adjust indentation on enabling monitor/reactor (Steven)
+	- Use strim on buffers from user-space (Steven)
+	- Remove ifdefs inside functions (Steven)
+	- Adjust depends on RV in Kconfig (Steven)
+	- Check empty enabled monitor list (Tao Zhou)
+	- Fixed Copyright (Steven)
+	- Adjusted structures' indentation (Steven)
+	- Fix rv/monitors/$monitor/enabled return value (Song Liu)
+	- Typos (Punit Agrawal/Randy)
+	- Improved python scripts w.r.t. consistency (Steve)
+	- Blamed myself for so many problems :-) (Daniel's mind)
+Changes from v3:
+	- Rebased on 5.19
+	(rostedt's request were made on 1x1 meetings)
+	- Moved monitors to monitors/$name/ (Rostedt)
+	- Consolidate the tracepoints into a single include file in the default
+	  directory (trace/events/rv.h) (Rostedt)
+	- The tracepoints now record the entire string to the buffer.
+	- Change the enable_monitors to disable monitors with ! (instead of -).
+	  (Rostedt)
+	- Add a suffix to the state/events enums, to avoid conflict in the
+	  vmlinux.h used by eBPF.
+	- The models are now placed in the $name.h (it used to store the
+	  tracepoints, but they are now consolidated in a single file)
+	- dot2c and dot2k updated to the changes
+	- models re-generated with these new standards.
+	- user-space tools moved to an directory outside of tools/tracing as
+	  other methods of verification/log sources are planned.
+Changes from v2:
+	- Tons of checkpatch and kernel test robot
+	- Moved files to better places
+	- Adjusted watchdog tracepoints patch (Guenter Roeck)
+	- Added pretimeout watchdog events (Peter Enderborg) 
+	- Used task struct to store per-task monitors (Peter Zijlstra)
+	- Changed the instrumentation to use internal definition of tracepoint
+	  and check the callback signature (Steven Rostedt)
+	- Used printk_deferred() and removed the comment about deadlocks
+	  (Shuah Khan/John Ogness)
+	- Some simplifications:
+		- Removed the safe watchdog nowayout for now (myself)
+		- Removed export symbols for now (myself)
+Changes from V1:
+	- rebased to the latest kernel;
+	- code cleanup;
+	- the watchdog dev monitor;
+	- safety app;
+
+
+
+
+Daniel Bristot de Oliveira (16):
+  rv: Add Runtime Verification (RV) interface
+  rv: Add runtime reactors interface
+  rv/include: Add helper functions for deterministic automata
+  rv/include: Add deterministic automata monitor definition via C macros
+  rv/include: Add instrumentation helper functions
+  Documentation/rv: Add a basic documentation
+  tools/rv: Add dot2c
+  Documentation/rv: Add deterministic automaton documentation
+  tools/rv: Add dot2k
+  Documentation/rv: Add deterministic automata monitor synthesis
+    documentation
+  Documentation/rv: Add deterministic automata instrumentation
+    documentation
+  rv/monitor: Add the wip monitor skeleton created by dot2k
+  rv/monitor: Add the wip monitor
+  rv/monitor: Add the wwnr monitor
+  rv/reactor: Add the printk reactor
+  rv/reactor: Add the panic reactor
+
+ Documentation/trace/index.rst                 |   1 +
+ .../trace/rv/da_monitor_instrumentation.rst   | 171 ++++
+ .../trace/rv/da_monitor_synthesis.rst         | 147 ++++
+ .../trace/rv/deterministic_automata.rst       | 184 ++++
+ Documentation/trace/rv/index.rst              |  14 +
+ Documentation/trace/rv/monitor_wip.rst        |  55 ++
+ Documentation/trace/rv/monitor_wwnr.rst       |  45 +
+ .../trace/rv/runtime-verification.rst         | 231 ++++++
+ include/linux/rv.h                            |  70 ++
+ include/linux/sched.h                         |  11 +
+ include/rv/automata.h                         |  75 ++
+ include/rv/da_monitor.h                       | 539 ++++++++++++
+ include/rv/instrumentation.h                  |  29 +
+ include/trace/events/rv.h                     | 142 ++++
+ kernel/fork.c                                 |  14 +
+ kernel/trace/Kconfig                          |   2 +
+ kernel/trace/Makefile                         |   1 +
+ kernel/trace/rv/Kconfig                       |  78 ++
+ kernel/trace/rv/Makefile                      |   8 +
+ kernel/trace/rv/monitors/wip/wip.c            |  88 ++
+ kernel/trace/rv/monitors/wip/wip.h            |  46 +
+ kernel/trace/rv/monitors/wwnr/wwnr.c          |  87 ++
+ kernel/trace/rv/monitors/wwnr/wwnr.h          |  46 +
+ kernel/trace/rv/reactor_panic.c               |  43 +
+ kernel/trace/rv/reactor_printk.c              |  42 +
+ kernel/trace/rv/rv.c                          | 784 ++++++++++++++++++
+ kernel/trace/rv/rv.h                          |  69 ++
+ kernel/trace/rv/rv_reactors.c                 | 506 +++++++++++
+ kernel/trace/trace.c                          |   2 +
+ kernel/trace/trace.h                          |   9 +
+ tools/verification/dot2/Makefile              |  26 +
+ tools/verification/dot2/automata.py           | 174 ++++
+ tools/verification/dot2/dot2c                 |  26 +
+ tools/verification/dot2/dot2c.py              | 254 ++++++
+ tools/verification/dot2/dot2k                 |  47 ++
+ tools/verification/dot2/dot2k.py              | 177 ++++
+ .../dot2/dot2k_templates/main_global.c        |  91 ++
+ .../dot2/dot2k_templates/main_per_cpu.c       |  91 ++
+ .../dot2/dot2k_templates/main_per_task.c      |  91 ++
+ tools/verification/models/wip.dot             |  16 +
+ tools/verification/models/wwnr.dot            |  16 +
+ 41 files changed, 4548 insertions(+)
+ create mode 100644 Documentation/trace/rv/da_monitor_instrumentation.rst
+ create mode 100644 Documentation/trace/rv/da_monitor_synthesis.rst
+ create mode 100644 Documentation/trace/rv/deterministic_automata.rst
+ create mode 100644 Documentation/trace/rv/index.rst
+ create mode 100644 Documentation/trace/rv/monitor_wip.rst
+ create mode 100644 Documentation/trace/rv/monitor_wwnr.rst
+ create mode 100644 Documentation/trace/rv/runtime-verification.rst
+ create mode 100644 include/linux/rv.h
+ create mode 100644 include/rv/automata.h
+ create mode 100644 include/rv/da_monitor.h
+ create mode 100644 include/rv/instrumentation.h
+ create mode 100644 include/trace/events/rv.h
+ create mode 100644 kernel/trace/rv/Kconfig
+ create mode 100644 kernel/trace/rv/Makefile
+ create mode 100644 kernel/trace/rv/monitors/wip/wip.c
+ create mode 100644 kernel/trace/rv/monitors/wip/wip.h
+ create mode 100644 kernel/trace/rv/monitors/wwnr/wwnr.c
+ create mode 100644 kernel/trace/rv/monitors/wwnr/wwnr.h
+ create mode 100644 kernel/trace/rv/reactor_panic.c
+ create mode 100644 kernel/trace/rv/reactor_printk.c
+ create mode 100644 kernel/trace/rv/rv.c
+ create mode 100644 kernel/trace/rv/rv.h
+ create mode 100644 kernel/trace/rv/rv_reactors.c
+ create mode 100644 tools/verification/dot2/Makefile
+ create mode 100644 tools/verification/dot2/automata.py
+ create mode 100644 tools/verification/dot2/dot2c
+ create mode 100644 tools/verification/dot2/dot2c.py
+ create mode 100644 tools/verification/dot2/dot2k
+ create mode 100644 tools/verification/dot2/dot2k.py
+ create mode 100644 tools/verification/dot2/dot2k_templates/main_global.c
+ create mode 100644 tools/verification/dot2/dot2k_templates/main_per_cpu.c
+ create mode 100644 tools/verification/dot2/dot2k_templates/main_per_task.c
+ create mode 100644 tools/verification/models/wip.dot
+ create mode 100644 tools/verification/models/wwnr.dot
+
+-- 
+2.35.1
+
