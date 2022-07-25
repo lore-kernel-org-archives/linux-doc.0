@@ -2,262 +2,116 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 45D38C433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 25 Jul 2022 06:24:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C961FC43334
+	for <linux-doc@archiver.kernel.org>; Mon, 25 Jul 2022 07:53:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230052AbiGYGYM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 25 Jul 2022 02:24:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49740 "EHLO
+        id S231910AbiGYHx1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 25 Jul 2022 03:53:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43474 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229552AbiGYGYK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Jul 2022 02:24:10 -0400
-Received: from mail-il1-x135.google.com (mail-il1-x135.google.com [IPv6:2607:f8b0:4864:20::135])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C05FBC99;
-        Sun, 24 Jul 2022 23:24:09 -0700 (PDT)
-Received: by mail-il1-x135.google.com with SMTP id h14so5213879ilq.12;
-        Sun, 24 Jul 2022 23:24:09 -0700 (PDT)
+        with ESMTP id S231841AbiGYHx0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Jul 2022 03:53:26 -0400
+Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com [IPv6:2a00:1450:4864:20::62b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8369312ABF
+        for <linux-doc@vger.kernel.org>; Mon, 25 Jul 2022 00:53:24 -0700 (PDT)
+Received: by mail-ej1-x62b.google.com with SMTP id z23so18906425eju.8
+        for <linux-doc@vger.kernel.org>; Mon, 25 Jul 2022 00:53:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=j5/JypyxvVlxlidcsWJKdXpWO2vAS4k2kNj6OGsjgtI=;
-        b=mVER7Gx/6qOnFKLkcXvc2BsbuEhsXApDnOU4vF9Ecf6OJPnU82XZeB3UTjEmQ9V4cQ
-         gFuv0MNlCjxsir8JFw91Dpi+bcaSd2NWGIxl2sAbIPXo7dgMWnj2d46t3wvDlUHrQk4K
-         xkarz1VQayYCLA5+wWwxbDshXU/3EPzrQw3WI6nyMdiavF0sipzrK6nFhEcQqrQ+ioo6
-         dklGJOU62cwoJgSr/HfkK7BpOSYDQ9+BOnKL+MDKtMgoL7WNcG157tTkCcSOumyAoxmJ
-         HPinChTlQWrz5/gCXxghUP/8LjQvw7LW3yRNSLx5RKz86bHQOGDLGFeiisc5LwashyLh
-         KSYg==
+        d=resnulli-us.20210112.gappssmtp.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=jQHpcE4C1nH2GCEZXh7ETSpGDaBL6cwEwh9j7gNMWo8=;
+        b=OM55UTg0wu+CluQkSUuA01YFDEdR/y4F20whcdzU1hU38os/ei31zozZ3nG+vpyapL
+         C4sqPhvVwG2PGmrj2cqmelAHQZjlR2xb+0rcheIVoEhxmBIqe+DaXqmCPnws0bttvYDM
+         D89CQaUgpv7QHiWFeRnMIGfTUhLaA+sSrNNlQ2lGk5vBhH85BV8zYTEEb6f7J6x954Ik
+         ghxFRwdsElN3pAwFnlfnGAiygd7hZ7un3sZnwbSXymco13wqi4JHyXtohzFegCUej9vR
+         IzoaoYzpzs/Y6OsEkHqDtgppAfiM4auffmbGS9I8nRLK4ITgHl+kV21CjuinMnBydi0u
+         n2gA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=j5/JypyxvVlxlidcsWJKdXpWO2vAS4k2kNj6OGsjgtI=;
-        b=u6+q7wNKiy69y/XeZhIbwq6iIMVjRk5CXFMQTCnQ5uAVKXSlBrWAWlAfWf6ZnAebdo
-         u0Vxo/kjQpQ77iM0Zh061xwVbVGaVC7gVyzETdViZbTSYRBqpaZ/bwmHA8FMurnCuljq
-         rNOw+jE6G7A1nYUdjKXw4pi2YwhLuolUNe2NK2tkhYYSRWgHkxWUkeQoYIkACGE4NCHo
-         V016l1AmmE5XkWf5q44RoMB0B7wrJzOBzT7R4cANgacKJOWGQISM96YGeRMcJtAKslio
-         vzpUp4HaqS+exTRnvCwp/UQZUMQM30tEOH/3cX05RciJXFibhIeyQw6oiYVLUWNr8sSx
-         O4gQ==
-X-Gm-Message-State: AJIora8MazGG5lb/e2/8ZNlW1w9qmjS80wf7v2h7pjT9nmyV1T4z3r44
-        7P7EJvMJaW7tmCQmMkvbYRo=
-X-Google-Smtp-Source: AGRyM1tE5y9nmeYAd42dHV2NoF4w5sW/npfaEaTkd9UJyp7vUUAf204njZYbdlgbf1YfADrLkC7+/A==
-X-Received: by 2002:a05:6e02:194d:b0:2dc:6c56:a522 with SMTP id x13-20020a056e02194d00b002dc6c56a522mr4300954ilu.203.1658730248484;
-        Sun, 24 Jul 2022 23:24:08 -0700 (PDT)
-Received: from ip-172-31-23-7.us-east-2.compute.internal (ec2-18-118-36-142.us-east-2.compute.amazonaws.com. [18.118.36.142])
-        by smtp.googlemail.com with ESMTPSA id c1-20020a929401000000b002dd0d081fcesm4356616ili.0.2022.07.24.23.24.07
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=jQHpcE4C1nH2GCEZXh7ETSpGDaBL6cwEwh9j7gNMWo8=;
+        b=KA0GYmR0CFspHYqBZDeQ/r8Kfp7oy8QNcAzgbQSWU/uAKxTSyqZCWCOezADGIGVt58
+         IascJs7KZ0PUvZu5N99rQfDMddbkaz1unQiDrz5emYU/3TbVoD6dYE6rVw3E/kudVBR1
+         /01/pTTBRvTeNn5RRIv8MNSER6h3iMeFR/PHdnRtuR4YFjBeai3W0QT0jrSNKSH9lelW
+         nwjWg8/fSszr2dZ99y3Xa38eWffFfiUBjP4Vvlcmz8XD4dMtKPXmHWwht8VzKNpTBdcr
+         7lkUDG+zNQe7nPa4WdBJxQc4JH/XnUJ6OlHz2IO7RkhooDBP8HvODCdVkZSg2f2qj9m7
+         8oUg==
+X-Gm-Message-State: AJIora84UnfvB4MExmKsEavC97Kh0co119KKcEzJiMVnXkcabABq+pSx
+        7bSWK5y0eNgxjYPRKHjc+gHpOw==
+X-Google-Smtp-Source: AGRyM1vwhwdAD1fhToosegZ6HJzjjm2A8TIJxILfbOsGmaHcNrwR3F9IeMC7GUh0LFKO8elVo9fdoA==
+X-Received: by 2002:a17:906:c781:b0:726:c967:8d1b with SMTP id cw1-20020a170906c78100b00726c9678d1bmr9205707ejb.54.1658735602996;
+        Mon, 25 Jul 2022 00:53:22 -0700 (PDT)
+Received: from localhost ([85.163.43.78])
+        by smtp.gmail.com with ESMTPSA id ot11-20020a170906cccb00b0072af4af2f46sm5008824ejb.74.2022.07.25.00.53.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 24 Jul 2022 23:24:08 -0700 (PDT)
-From:   Jianlin Lv <iecedge@gmail.com>
-To:     corbet@lwn.net, rostedt@goodmis.org, mingo@redhat.com
-Cc:     iecedge@gmail.com, jianlv@ebay.com, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: [PATCH v2] tracing/kprobes: Add method to display private kprobes in tracefs
-Date:   Mon, 25 Jul 2022 06:23:34 +0000
-Message-Id: <20220725062334.1778-1-iecedge@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        Mon, 25 Jul 2022 00:53:22 -0700 (PDT)
+Date:   Mon, 25 Jul 2022 09:53:21 +0200
+From:   Jiri Pirko <jiri@resnulli.us>
+To:     Jakub Kicinski <kuba@kernel.org>
+Cc:     Vikas Gupta <vikas.gupta@broadcom.com>, jiri@nvidia.com,
+        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+        davem@davemloft.net, dsahern@kernel.org,
+        stephen@networkplumber.org, edumazet@google.com, pabeni@redhat.com,
+        ast@kernel.org, leon@kernel.org, linux-doc@vger.kernel.org,
+        corbet@lwn.net, michael.chan@broadcom.com,
+        andrew.gospodarek@broadcom.com
+Subject: Re: [PATCH net-next v6 1/2] devlink: introduce framework for
+ selftests
+Message-ID: <Yt5L8TbzTwthnrl7@nanopsycho>
+References: <20220723042206.8104-1-vikas.gupta@broadcom.com>
+ <20220723042206.8104-2-vikas.gupta@broadcom.com>
+ <20220723091600.1277e903@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220723091600.1277e903@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The private kprobes are not added to the global list dyn_event_list,
-so there is a missing interface to show probe hit and probe miss.
-This patch adds a profiling interface to check the number of hits or
-misses for private kprobes.
+Sat, Jul 23, 2022 at 06:16:00PM CEST, kuba@kernel.org wrote:
+>On Sat, 23 Jul 2022 09:52:05 +0530 Vikas Gupta wrote:
+>> +enum devlink_attr_selftest_test_id {
+>> +	DEVLINK_ATTR_SELFTEST_TEST_ID_UNSPEC,
+>> +	DEVLINK_ATTR_SELFTEST_TEST_ID_FLASH,	/* flag */
+>> +
+>> +	__DEVLINK_ATTR_SELFTEST_TEST_ID_MAX,
+>> +	DEVLINK_ATTR_SELFTEST_TEST_ID_MAX = __DEVLINK_ATTR_SELFTEST_TEST_ID_MAX - 1
+>> +};
+>> +
+>> +enum devlink_selftest_test_status {
+>> +	DEVLINK_SELFTEST_TEST_STATUS_SKIP,
+>> +	DEVLINK_SELFTEST_TEST_STATUS_PASS,
+>> +	DEVLINK_SELFTEST_TEST_STATUS_FAIL
+>> +};
+>> +
+>> +enum devlink_attr_selftest_result {
+>> +	DEVLINK_ATTR_SELFTEST_RESULT_UNSPEC,
+>> +	DEVLINK_ATTR_SELFTEST_RESULT,			/* nested */
+>> +	DEVLINK_ATTR_SELFTEST_RESULT_TEST_ID,		/* u32,
+>> +							 * enum devlink_attr_selftest_test_id
+>> +							 */
+>> +	DEVLINK_ATTR_SELFTEST_RESULT_TEST_STATUS,	/* u8,
+>> +							 * enum devlink_selftest_test_status
+>> +							 */
+>> +
+>> +	__DEVLINK_ATTR_SELFTEST_RESULT_MAX,
+>> +	DEVLINK_ATTR_SELFTEST_RESULT_MAX = __DEVLINK_ATTR_SELFTEST_RESULT_MAX - 1
+>
+>Any thoughts on running:
+>
+>	sed -i '/_SELFTEST/ {s/_TEST_/_/g}' $patch
 
-Signed-off-by: Jianlin Lv <iecedge@gmail.com>
----
-v2: update commit message
----
- Documentation/trace/kprobetrace.rst |  6 +++-
- kernel/trace/trace_dynevent.c       | 20 +++++++++++
- kernel/trace/trace_dynevent.h       | 37 ++++++++++++++++++++
- kernel/trace/trace_kprobe.c         | 54 +++++++++++++++++++++++++++++
- 4 files changed, 116 insertions(+), 1 deletion(-)
+Sure, why not. But please make sure you keep all other related things
+(variables, cmdline opts) consistent.
 
-diff --git a/Documentation/trace/kprobetrace.rst b/Documentation/trace/kprobetrace.rst
-index b175d88f31eb..8815d64dd8a6 100644
---- a/Documentation/trace/kprobetrace.rst
-+++ b/Documentation/trace/kprobetrace.rst
-@@ -146,7 +146,11 @@ trigger:
- Event Profiling
- ---------------
- You can check the total number of probe hits and probe miss-hits via
--/sys/kernel/debug/tracing/kprobe_profile.
-+/sys/kernel/debug/tracing/kprobe_profile or
-+/sys/kernel/debug/tracing/kprobe_local_profile.
-+All kprobe events created by kprobe_events will be added to the global
-+list, you can get their profiling via kprobe_profile; kprobe_local_profile
-+shows profiling for private kprobe events created by perf_kprobe pmu.
- The first column is event name, the second is the number of probe hits,
- the third is the number of probe miss-hits.
- 
-diff --git a/kernel/trace/trace_dynevent.c b/kernel/trace/trace_dynevent.c
-index 076b447a1b88..70ec99cd9c53 100644
---- a/kernel/trace/trace_dynevent.c
-+++ b/kernel/trace/trace_dynevent.c
-@@ -181,6 +181,26 @@ static const struct seq_operations dyn_event_seq_op = {
- 	.show	= dyn_event_seq_show
- };
- 
-+#ifdef CONFIG_KPROBE_EVENTS
-+LIST_HEAD(local_event_list);
-+
-+void *local_event_seq_start(struct seq_file *m, loff_t *pos)
-+{
-+	mutex_lock(&event_mutex);
-+	return seq_list_start(&local_event_list, *pos);
-+}
-+
-+void *local_event_seq_next(struct seq_file *m, void *v, loff_t *pos)
-+{
-+	return seq_list_next(v, &local_event_list, pos);
-+}
-+
-+void local_event_seq_stop(struct seq_file *m, void *v)
-+{
-+	mutex_unlock(&event_mutex);
-+}
-+#endif /* CONFIG_KPROBE_EVENTS */
-+
- /*
-  * dyn_events_release_all - Release all specific events
-  * @type:	the dyn_event_operations * which filters releasing events
-diff --git a/kernel/trace/trace_dynevent.h b/kernel/trace/trace_dynevent.h
-index 936477a111d3..e30193470295 100644
---- a/kernel/trace/trace_dynevent.h
-+++ b/kernel/trace/trace_dynevent.h
-@@ -101,6 +101,43 @@ void dyn_event_seq_stop(struct seq_file *m, void *v);
- int dyn_events_release_all(struct dyn_event_operations *type);
- int dyn_event_release(const char *raw_command, struct dyn_event_operations *type);
- 
-+#ifdef CONFIG_KPROBE_EVENTS
-+extern struct list_head local_event_list;
-+
-+static inline
-+int local_event_init(struct dyn_event *ev, struct dyn_event_operations *ops)
-+{
-+	if (!ev || !ops)
-+		return -EINVAL;
-+
-+	INIT_LIST_HEAD(&ev->list);
-+	ev->ops = ops;
-+	return 0;
-+}
-+
-+static inline int local_event_add(struct dyn_event *ev)
-+{
-+	lockdep_assert_held(&event_mutex);
-+
-+	if (!ev || !ev->ops)
-+		return -EINVAL;
-+
-+	list_add_tail(&ev->list, &local_event_list);
-+	return 0;
-+}
-+
-+static inline void local_event_remove(struct dyn_event *ev)
-+{
-+	lockdep_assert_held(&event_mutex);
-+	list_del_init(&ev->list);
-+}
-+
-+void *local_event_seq_start(struct seq_file *m, loff_t *pos);
-+void *local_event_seq_next(struct seq_file *m, void *v, loff_t *pos);
-+void local_event_seq_stop(struct seq_file *m, void *v);
-+
-+#endif /* CONFIG_KPROBE_EVENTS */
-+
- /*
-  * for_each_dyn_event	-	iterate over the dyn_event list
-  * @pos:	the struct dyn_event * to use as a loop cursor
-diff --git a/kernel/trace/trace_kprobe.c b/kernel/trace/trace_kprobe.c
-index a245ea673715..76f500b17b46 100644
---- a/kernel/trace/trace_kprobe.c
-+++ b/kernel/trace/trace_kprobe.c
-@@ -1213,6 +1213,52 @@ static const struct file_operations kprobe_profile_ops = {
- 	.release        = seq_release,
- };
- 
-+#ifdef CONFIG_KPROBE_EVENTS
-+/* kprobe Local profile  */
-+static int local_probes_profile_seq_show(struct seq_file *m, void *v)
-+{
-+	struct dyn_event *ev = v;
-+	struct trace_kprobe *tk;
-+
-+	if (!is_trace_kprobe(ev))
-+		return 0;
-+
-+	tk = to_trace_kprobe(ev);
-+	seq_printf(m, "  %-44s %15lu %15lu\n",
-+		trace_probe_name(&tk->tp),
-+		trace_kprobe_nhit(tk),
-+		tk->rp.kp.nmissed);
-+
-+	return 0;
-+}
-+
-+static const struct seq_operations local_profile_seq_op = {
-+	.start  = local_event_seq_start,
-+	.next   = local_event_seq_next,
-+	.stop   = local_event_seq_stop,
-+	.show   = local_probes_profile_seq_show
-+};
-+
-+static int local_profile_open(struct inode *inode, struct file *file)
-+{
-+	int ret;
-+
-+	ret = security_locked_down(LOCKDOWN_TRACEFS);
-+	if (ret)
-+		return ret;
-+
-+	return seq_open(file, &local_profile_seq_op);
-+}
-+
-+static const struct file_operations kprobe_local_profile_ops = {
-+	.owner          = THIS_MODULE,
-+	.open           = local_profile_open,
-+	.read           = seq_read,
-+	.llseek         = seq_lseek,
-+	.release        = seq_release,
-+};
-+#endif /* CONFIG_KPROBE_EVENTS */
-+
- /* Kprobe specific fetch functions */
- 
- /* Return the length of string -- including null terminal byte */
-@@ -1830,6 +1876,7 @@ create_local_trace_kprobe(char *func, void *addr, unsigned long offs,
- 	if (ret < 0)
- 		goto error;
- 
-+	local_event_add(&tk->devent);
- 	return trace_probe_event_call(&tk->tp);
- error:
- 	free_trace_kprobe(tk);
-@@ -1849,6 +1896,7 @@ void destroy_local_trace_kprobe(struct trace_event_call *event_call)
- 		return;
- 	}
- 
-+	local_event_remove(&tk->devent);
- 	__unregister_trace_kprobe(tk);
- 
- 	free_trace_kprobe(tk);
-@@ -1929,6 +1977,12 @@ static __init int init_kprobe_trace(void)
- 	trace_create_file("kprobe_profile", TRACE_MODE_READ,
- 			  NULL, NULL, &kprobe_profile_ops);
- 
-+#ifdef CONFIG_KPROBE_EVENTS
-+	/* kprobe Local profile */
-+	tracefs_create_file("kprobe_local_profile", TRACE_MODE_READ,
-+			  NULL, NULL, &kprobe_local_profile_ops);
-+#endif /* CONFIG_KPROBE_EVENTS */
-+
- 	setup_boot_kprobe_events();
- 
- 	return 0;
--- 
-2.25.1
+Thanks!
 
+
+>
+>on this patch? For example DEVLINK_ATTR_SELFTEST_RESULT_TEST_STATUS
+>is 40 characters long, ain't nobody typing that, and _TEST is repeated..
+>
+>Otherwise LGTM!
