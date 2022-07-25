@@ -2,175 +2,88 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B71FDC43334
-	for <linux-doc@archiver.kernel.org>; Sun, 24 Jul 2022 18:49:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 24525C43334
+	for <linux-doc@archiver.kernel.org>; Mon, 25 Jul 2022 01:45:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231912AbiGXStf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 24 Jul 2022 14:49:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35396 "EHLO
+        id S230382AbiGYBpt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 24 Jul 2022 21:45:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50980 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229552AbiGXStd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 24 Jul 2022 14:49:33 -0400
-Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A74A11A0A
-        for <linux-doc@vger.kernel.org>; Sun, 24 Jul 2022 11:49:32 -0700 (PDT)
-Received: by mail-yb1-xb49.google.com with SMTP id q75-20020a25d94e000000b00670834a0102so7161945ybg.8
-        for <linux-doc@vger.kernel.org>; Sun, 24 Jul 2022 11:49:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=date:message-id:mime-version:subject:from:to:cc
-         :content-transfer-encoding;
-        bh=CyQL7MKXYchL5tTvsD0JYNk64GMjDP+y6COH4opWt5c=;
-        b=K2NrJLardIVtCkzGxfGyx9w1e2G0DqV8NySM2KRf0YX2f0MSi17pGB+ccX3gLyghAm
-         kGxEDos9vuwGOOWLNROiY/5KyRpLYNQBi31BLJ9lmThyzhO30UKYrv56fdvYU0BGET3N
-         96Q4GKwALa/7Mso6+sGGhzrLXU/7RwviZJHvlxC6R4aBm1sln/RZh/rRJKV27iJ+nQJ4
-         9EcaUBIC0Ty+fcKleQ3zriOi61B5YaomxY6DBO3H7gmwI5t2R0Mjay61zY8GgoXflfIF
-         NyGL6aNG/itTJj1kP53lyeuyPLJADvyqIAx4ExskkNpRZvuQzgEOc3Q3SybEOFVX53N5
-         APtg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc
-         :content-transfer-encoding;
-        bh=CyQL7MKXYchL5tTvsD0JYNk64GMjDP+y6COH4opWt5c=;
-        b=fJESochA0S9X6el4wJB/QckqcwrPrLon3vIo/BJZqngh08QUIl8u5s1F7xwFugzBKP
-         sINIjlWT1MW+SJYB1jxEmB75pXsiMrRG14DmVRJbZh/thTitp3ed+iAoVkV9+tnj83y/
-         IPPN7aTLIZdN7S0gps8jigTGjI1Ep0Q0yMQphO5bczfwXmkFPA0Yb2LF/AEhtPHIHky0
-         Mz4spxZeoEqokB6X1azsV1Q7YfdCIwWoSfm5jI83QLkV7d/iE/SiV5rrsFxkD34ZgHab
-         vt62Xo5KaAeIJZO8DfOndWhqC8T8yjGJIs7nfbrNcg9MLLrQqYr0zK1akZ/kz3st3lxW
-         13zg==
-X-Gm-Message-State: AJIora/cZN537BhUDic8eo51Y+RHQ7tDAjXDBJF5aeGpTjOQ2vlGGdtt
-        1Ntz7F3vPY/ZDphk/kncOXJjUNzvc9HxxXlW
-X-Google-Smtp-Source: AGRyM1tDodNaX42YIwcy2DTouI3cFX/Tf78qtdwkGH4a003LwEodYVqIB2UmB0DXTxg8beRYHlhQ/9ZGfAYMhnI1
-X-Received: from skazigti.c.googlers.com ([fda3:e722:ac3:cc00:4f:4b78:c0a8:411e])
- (user=sadiyakazi job=sendgmr) by 2002:a81:5404:0:b0:31c:c24d:94b0 with SMTP
- id i4-20020a815404000000b0031cc24d94b0mr7175739ywb.502.1658688571667; Sun, 24
- Jul 2022 11:49:31 -0700 (PDT)
-Date:   Sun, 24 Jul 2022 18:47:59 +0000
-Message-Id: <20220724184758.1723925-1-sadiyakazi@google.com>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.37.1.359.gd136c6c3e2-goog
-Subject: [PATCH v3] Documentation: kunit: Add CLI args for kunit_tool
-From:   Sadiya Kazi <sadiyakazi@google.com>
-To:     brendanhiggins@google.com, davidgow@google.com,
-        skhan@linuxfoundation.org, corbet@lwn.net, mairacanal@riseup.net
-Cc:     Sadiya Kazi <sadiyakazi@google.com>,
-        linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        with ESMTP id S229694AbiGYBpt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 24 Jul 2022 21:45:49 -0400
+Received: from out30-45.freemail.mail.aliyun.com (out30-45.freemail.mail.aliyun.com [115.124.30.45])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5181130;
+        Sun, 24 Jul 2022 18:45:47 -0700 (PDT)
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R131e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018045170;MF=xianting.tian@linux.alibaba.com;NM=1;PH=DS;RN=22;SR=0;TI=SMTPD_---0VKFpxuy_1658713541;
+Received: from localhost(mailfrom:xianting.tian@linux.alibaba.com fp:SMTPD_---0VKFpxuy_1658713541)
+          by smtp.aliyun-inc.com;
+          Mon, 25 Jul 2022 09:45:42 +0800
+From:   Xianting Tian <xianting.tian@linux.alibaba.com>
+To:     paul.walmsley@sifive.com, palmer@dabbelt.com,
+        aou@eecs.berkeley.edu, anup@brainfault.org, heiko@sntech.de,
+        guoren@kernel.org, mick@ics.forth.gr,
+        alexandre.ghiti@canonical.com, bhe@redhat.com, vgoyal@redhat.com,
+        dyoung@redhat.com, corbet@lwn.net
+Cc:     kexec@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
+        crash-utility@redhat.com, huanyi.xj@alibaba-inc.com,
+        heinrich.schuchardt@canonical.com, k-hagio-ab@nec.com,
+        hschauhan@nulltrace.org,
+        Xianting Tian <xianting.tian@linux.alibaba.com>
+Subject: [RESEND PATCH V2 0/5] Fixups to work with crash tool
+Date:   Mon, 25 Jul 2022 09:45:34 +0800
+Message-Id: <20220725014539.1037627-1-xianting.tian@linux.alibaba.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Run_wrapper.rst was missing some command line arguments. Added
-additional args in the file.
+I ever sent the patch 1 in the link:
+https://patchwork.kernel.org/project/linux-riscv/patch/20220708073150.352830-3-xianting.tian@linux.alibaba.com/
+And patch 2,3 in the link:
+https://patchwork.kernel.org/project/linux-riscv/patch/20220714113300.367854-2-xianting.tian@linux.alibaba.com/
+https://patchwork.kernel.org/project/linux-riscv/patch/20220714113300.367854-3-xianting.tian@linux.alibaba.com/
 
-Signed-off-by: Sadiya Kazi <sadiyakazi@google.com>
----
-Changes since v2:
-https://lore.kernel.org/linux-kselftest/20220721081026.1247067-1-sadiyakazi=
-@google.com/
--Added a code block for =E2=80=94kconfig_add argument to make the styling c=
-onsistent
--Slightly changed the words for =E2=80=94arch argument
--Changed QEMU to qemu wherever applicable for the cli args
--Changed the style for ``-smp 8``
--Changed "Might be repeated" to "may be repeated=E2=80=9D for kernel_args
+This patch series just put these patches together, and with two new patch 4, 5.
+these five patches are the fixups for machine_kexec, kernel mode PC for vmcore
+and improvements for vmcoreinfo and memory layout dump.
 
+The main changes in the five patchs as below,
+Patch 1: use __smp_processor_id() instead of smp_processor_id() to cleanup
+	 the console prints.
+Patch 2: Add VM layout, va bits, ram base to vmcoreinfo, which can simplify
+	 the development of crash tool as ARM64 already did
+	 (arch/arm64/kernel/crash_core.c).
+Patch 3: Add modules to virtual kernel memory layout dump.
+Patch 4: Fixup to get correct kernel mode PC for vmcore.
+Patch 5: Updates vmcoreinfo.rst.
 
+With these 5 patches(patch 2 is must), crash tool can work well to analyze
+a vmcore. The patches for crash tool for RISCV64 is in the link:
+https://lore.kernel.org/linux-riscv/20220718025346.411758-1-xianting.tian@linux.alibaba.com/
 
----
- Documentation/dev-tools/kunit/run_wrapper.rst | 61 ++++++++++++++++++-
- 1 file changed, 60 insertions(+), 1 deletion(-)
+Changes v1 -> v2:
+ 1, remove the patch "Add a fast call path of crash_kexec()" from this series
+ of patches, as it already applied to riscv git.
+ https://git.kernel.org/pub/scm/linux/kernel/git/riscv/linux.git/commit/?h=for-next&id=3f1901110a89b0e2e13adb2ac8d1a7102879ea98
+ 2, add 'Reviewed-by' based on the comments of v1.  
 
-diff --git a/Documentation/dev-tools/kunit/run_wrapper.rst b/Documentation/=
-dev-tools/kunit/run_wrapper.rst
-index 5e560f2c5fca..ed3715fef32d 100644
---- a/Documentation/dev-tools/kunit/run_wrapper.rst
-+++ b/Documentation/dev-tools/kunit/run_wrapper.rst
-@@ -233,7 +233,7 @@ Command-Line Arguments
- =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-=20
- kunit_tool has a number of other command-line arguments which can
--be useful for our test environment. Below the most commonly used
-+be useful for our test environment. Below are the most commonly used
- command line arguments:
-=20
- - ``--help``: Lists all available options. To list common options,
-@@ -257,3 +257,62 @@ command line arguments:
-             added or modified. Instead, enable all tests
-             which have satisfied dependencies by adding
-             ``CONFIG_KUNIT_ALL_TESTS=3Dy`` to your ``.kunitconfig``.
-+
-+- ``--kunitconfig``: Specifies the path or the directory of the ``.kunitco=
-nfig``
-+  file. For example:
-+
-+  - ``lib/kunit/.kunitconfig`` can be the path of the file.
-+
-+  - ``lib/kunit`` can be the directory in which the file is located.
-+
-+  This file is used to build and run with a predefined set of tests
-+  and their dependencies. For example, to run tests for a given subsystem.
-+
-+- ``--kconfig_add``: Specifies additional configuration options to be
-+  appended to the ``.kunitconfig`` file. For example:
-+  .. code-block::
-+	./tools/testing/kunit/kunit.py run --kconfig_add CONFIG_KASAN=3Dy
-+
-+- ``--arch``: Runs tests on the specified architecture. The architecture
-+  argument is same as the Kbuild ARCH environment variable.
-+  For example, i386, x86_64, arm, um, etc. Non-UML architectures run on qe=
-mu.
-+  Default is `um`.
-+
-+- ``--cross_compile``: Specifies the Kbuild toolchain. It passes the
-+  same argument as passed to the ``CROSS_COMPILE`` variable used by
-+  Kbuild. This will be the prefix for the toolchain
-+  binaries such as GCC. For example:
-+
-+  - ``sparc64-linux-gnu-`` if we have the sparc toolchain installed on
-+    our system.
-+
-+  - ``$HOME/toolchains/microblaze/gcc-9.2.0-nolibc/microblaze-linux/bin/mi=
-croblaze-linux``
-+    if we have downloaded the microblaze toolchain from the 0-day
-+    website to a specified path in our home directory called toolchains.
-+
-+- ``--qemu_config``: Specifies the path to a file containing a
-+  custom qemu architecture definition. This should be a python file
-+  containing a `QemuArchParams` object.
-+
-+- ``--qemu_args``: Specifies additional qemu arguments, for example, ``-sm=
-p 8``.
-+
-+- ``--jobs``: Specifies the number of jobs (commands) to run simultaneousl=
-y.
-+  By default, this is set to the number of cores on your system.
-+
-+- ``--timeout``: Specifies the maximum number of seconds allowed for all t=
-ests to run.
-+  This does not include the time taken to build the tests.
-+
-+- ``--kernel_args``: Specifies additional kernel command-line arguments. M=
-ay be repeated.
-+
-+- ``--run_isolated``: If set, boots the kernel for each individual suite/t=
-est.
-+  This is useful for debugging a non-hermetic test, one that
-+  might pass/fail based on what ran before it.
-+
-+- ``--raw_output``: If set, generates unformatted output from kernel. Poss=
-ible options are:
-+
-+   - ``all``: To view the full kernel output, use ``--raw_output=3Dall``.
-+
-+   - ``kunit``: This is the default option and filters to KUnit output. Us=
-e ``--raw_output`` or ``--raw_output=3Dkunit``.
-+
-+- ``--json``: If set, stores the test results in a JSON format and prints =
-to `stdout` or
-+  saves to a file if a filename is specified.
---=20
-2.37.1.359.gd136c6c3e2-goog
+Xianting Tian (5):
+  RISC-V: use __smp_processor_id() instead of smp_processor_id()
+  RISC-V: Add arch_crash_save_vmcoreinfo support
+  riscv: Add modules to virtual kernel memory layout dump
+  RISC-V: Fixup getting correct current pc
+  riscv64: crash_core: Export kernel vm layout, phys_ram_base
+
+ .../admin-guide/kdump/vmcoreinfo.rst          | 31 +++++++++++++++++++
+ arch/riscv/kernel/Makefile                    |  1 +
+ arch/riscv/kernel/crash_core.c                | 29 +++++++++++++++++
+ arch/riscv/kernel/crash_save_regs.S           |  2 +-
+ arch/riscv/kernel/machine_kexec.c             |  2 +-
+ arch/riscv/mm/init.c                          |  4 +++
+ 6 files changed, 67 insertions(+), 2 deletions(-)
+ create mode 100644 arch/riscv/kernel/crash_core.c
+
+-- 
+2.17.1
 
