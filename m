@@ -2,175 +2,121 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F957C433EF
-	for <linux-doc@archiver.kernel.org>; Mon, 25 Jul 2022 20:14:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 451ABC43334
+	for <linux-doc@archiver.kernel.org>; Mon, 25 Jul 2022 20:56:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237117AbiGYUOs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 25 Jul 2022 16:14:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46674 "EHLO
+        id S231225AbiGYU4i (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 25 Jul 2022 16:56:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55326 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237144AbiGYUOI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Jul 2022 16:14:08 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A8B7522533;
-        Mon, 25 Jul 2022 13:13:13 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 2EC34B810F7;
-        Mon, 25 Jul 2022 20:13:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57129C36AE2;
-        Mon, 25 Jul 2022 20:13:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1658779990;
-        bh=b8X+BFzH2iCZK+xpE2p+40Q5LRHdNFPjgm8yK8trTBQ=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=AMgwab7LYctG/3RHLwj4NLkVhPcNl8F//ulGEjpVplYrixmBJkG9TkvmRNsqLmdD7
-         qLN4L/xenYZ5fs4fss7sqROP6qBPJAdIX3jihGSBP6CcsESxQ4e4gBP9cHS/+vsaZZ
-         r+vOcyeETQriLPkpmp5L642B1YMB4xKewS04czeYMKIXud1oQtANi06yVj5ygr4bvL
-         B6Z4biKifOgHaiMj0NdmclZu66YeEEEovYz0uNbL+cndT3Tb0HWZPYa6Nj78S5ZjP0
-         WudNGdNsg3/ozSWleb/CrXPp7LlOV9R6wWuiTdRedRxIil5IBF/7FNSjpcQeLZwp05
-         hlggO3ns1zl4A==
-From:   Daniel Bristot de Oliveira <bristot@kernel.org>
-To:     Steven Rostedt <rostedt@goodmis.org>
-Cc:     Daniel Bristot de Oliveira <bristot@kernel.org>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Ingo Molnar <mingo@redhat.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Will Deacon <will@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Marco Elver <elver@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Gabriele Paoloni <gpaoloni@redhat.com>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Clark Williams <williams@redhat.com>,
-        Tao Zhou <tao.zhou@linux.dev>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-trace-devel@vger.kernel.org
-Subject: [PATCH V7 16/16] rv/reactor: Add the panic reactor
-Date:   Mon, 25 Jul 2022 22:11:28 +0200
-Message-Id: <8ea3fc5185e63c95d35ef7abd8c436e8a1730d8d.1658778484.git.bristot@kernel.org>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <cover.1658778484.git.bristot@kernel.org>
-References: <cover.1658778484.git.bristot@kernel.org>
+        with ESMTP id S229536AbiGYU4h (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Jul 2022 16:56:37 -0400
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6BF022BEC;
+        Mon, 25 Jul 2022 13:56:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1658782596; x=1690318596;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=OD9ZmETWABUq2Z2k95JhOwopvpHsK0NcZdkU94kL2HE=;
+  b=nQEfd61IDIwA9Gr2EzRc8EKW6k6WyGdjC4RtTUklQTx4uySrB+17ldFE
+   fAX84Etav6hQel2vD5CF7AEs0cA2AqeIBTay1M3reP7Qe0iH5QMgGNPfk
+   rA6/5Tz4xcHQn0UB92pJFWJwB9TeiHFwdOkRRVE/yeOYmer5Gd2/0+uus
+   ShQiSW0aVet6NMgDS1ojTEo0S9rgBoEaNNuo11ozw7zI4w8YhVcGo+ySw
+   VWhw7N4PSaRxZf828H2KMCQb4NWFqJJlPxLgHZgjDwWYV9Y8aDir41Tjx
+   qg7WOyin76v0mK9KrjuWLhpYTCj8U5BqP/VLPB+O0MObT0pX2Gl4Pw4BD
+   g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10419"; a="267564329"
+X-IronPort-AV: E=Sophos;i="5.93,193,1654585200"; 
+   d="scan'208";a="267564329"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jul 2022 13:56:36 -0700
+X-IronPort-AV: E=Sophos;i="5.93,193,1654585200"; 
+   d="scan'208";a="689191011"
+Received: from jekeller-desk.amr.corp.intel.com ([10.166.241.7])
+  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jul 2022 13:56:36 -0700
+From:   Jacob Keller <jacob.e.keller@intel.com>
+To:     netdev@vger.kernel.org
+Cc:     Jacob Keller <jacob.e.keller@intel.com>,
+        Jonathan Corbet <corbet@lwn.net>, Jiri Pirko <jiri@nvidia.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Tony Nguyen <anthony.l.nguyen@intel.com>,
+        David Ahern <dsahern@kernel.org>,
+        Stephen Hemminger <stephen@networkplumber.org>,
+        linux-doc@vger.kernel.org
+Subject: [net-next v3 0/4] devlink: implement dry run support for flash update
+Date:   Mon, 25 Jul 2022 13:56:25 -0700
+Message-Id: <20220725205629.3993766-1-jacob.e.keller@intel.com>
+X-Mailer: git-send-email 2.37.1.208.ge72d93e88cb2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Sample reactor that panics the system when an exception is found. This
-is useful both to capture a vmcore, or to fail-safe a critical system.
+This adds a DEVLINK_ATTR_DRY_RUN which is used to indicate a request to
+validate a potentially destructive operation without performing the actions
+yet. In theory it could be used for other devlink operations in the future.
 
-Cc: Wim Van Sebroeck <wim@linux-watchdog.org>
-Cc: Guenter Roeck <linux@roeck-us.net>
+For flash update, it allows the user to validate a flash image, including
+ensuring the driver for the device is willing to program it, without
+actually committing an update yet.
+
+There is an accompanying series for iproute2 which allows adding the dry-run
+attribute. It does as Jakub suggested and checks the maximum attribute
+before allowing the dry run in order to avoid accidentally performing a real
+update on older kernels.
+
+Changes since v1:
+* Added maintainers to Cc (thanks for pointing out the script, Jiri!)
+* Replaced bool in struct with u8 : 1
+* Added kernel doc to devlink_flash_update_params
+* Renamed PLDMFW parameter from dry_run to validate
+* Reduced indentation in devlink.c by using nla_get_flag
+
+Changes since v2:
+* Split the fix for overwrite_mask doc to its own patch
+* Split pldmfw changes to their own patch
+* Fix lib/pldmfw.c code mentioning dry_run
+* Name the pldmfw context parameter "only_validate" for clarity
+* Dropped the comment about dry run
+
+Cc: Jacob Keller <jacob.e.keller@intel.com>
 Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Steven Rostedt <rostedt@goodmis.org>
-Cc: Ingo Molnar <mingo@redhat.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Cc: Peter Zijlstra <peterz@infradead.org>
-Cc: Will Deacon <will@kernel.org>
-Cc: Catalin Marinas <catalin.marinas@arm.com>
-Cc: Marco Elver <elver@google.com>
-Cc: Dmitry Vyukov <dvyukov@google.com>
-Cc: "Paul E. McKenney" <paulmck@kernel.org>
-Cc: Shuah Khan <skhan@linuxfoundation.org>
-Cc: Gabriele Paoloni <gpaoloni@redhat.com>
-Cc: Juri Lelli <juri.lelli@redhat.com>
-Cc: Clark Williams <williams@redhat.com>
-Cc: Tao Zhou <tao.zhou@linux.dev>
-Cc: Randy Dunlap <rdunlap@infradead.org>
+Cc: Jiri Pirko <jiri@nvidia.com>
+Cc: "David S. Miller" <davem@davemloft.net>
+Cc: Eric Dumazet <edumazet@google.com>
+Cc: Jakub Kicinski <kuba@kernel.org>
+Cc: Paolo Abeni <pabeni@redhat.com>
+Cc: Tony Nguyen <anthony.l.nguyen@intel.com>
+Cc: David Ahern <dsahern@kernel.org>
+Cc: Stephen Hemminger <stephen@networkplumber.org>
 Cc: linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Cc: linux-trace-devel@vger.kernel.org
-Signed-off-by: Daniel Bristot de Oliveira <bristot@kernel.org>
----
- kernel/trace/rv/Kconfig         |  8 ++++++
- kernel/trace/rv/Makefile        |  1 +
- kernel/trace/rv/reactor_panic.c | 43 +++++++++++++++++++++++++++++++++
- 3 files changed, 52 insertions(+)
- create mode 100644 kernel/trace/rv/reactor_panic.c
+Cc: netdev@vger.kernel.org
 
-diff --git a/kernel/trace/rv/Kconfig b/kernel/trace/rv/Kconfig
-index e82d5015e6ab..831779607e84 100644
---- a/kernel/trace/rv/Kconfig
-+++ b/kernel/trace/rv/Kconfig
-@@ -68,3 +68,11 @@ config RV_REACT_PRINTK
- 	help
- 	  Enables the printk reactor. The printk reactor emits a printk()
- 	  message if an exception is found.
-+
-+config RV_REACT_PANIC
-+	bool "Panic reactor"
-+	depends on RV_REACTORS
-+	default y
-+	help
-+	  Enables the panic reactor. The panic reactor emits a printk()
-+	  message if an exception is found and panic()s the system.
-diff --git a/kernel/trace/rv/Makefile b/kernel/trace/rv/Makefile
-index a13c750a35c1..963d14875b45 100644
---- a/kernel/trace/rv/Makefile
-+++ b/kernel/trace/rv/Makefile
-@@ -5,3 +5,4 @@ obj-$(CONFIG_RV_MON_WIP) += monitors/wip/wip.o
- obj-$(CONFIG_RV_MON_WWNR) += monitors/wwnr/wwnr.o
- obj-$(CONFIG_RV_REACTORS) += rv_reactors.o
- obj-$(CONFIG_RV_REACT_PRINTK) += reactor_printk.o
-+obj-$(CONFIG_RV_REACT_PANIC) += reactor_panic.o
-diff --git a/kernel/trace/rv/reactor_panic.c b/kernel/trace/rv/reactor_panic.c
-new file mode 100644
-index 000000000000..b698d05dd069
---- /dev/null
-+++ b/kernel/trace/rv/reactor_panic.c
-@@ -0,0 +1,43 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (C) 2019-2022 Red Hat, Inc. Daniel Bristot de Oliveira <bristot@kernel.org>
-+ *
-+ * Panic RV reactor:
-+ *   Prints the exception msg to the kernel message log and panic().
-+ */
-+
-+#include <linux/ftrace.h>
-+#include <linux/tracepoint.h>
-+#include <linux/kernel.h>
-+#include <linux/module.h>
-+#include <linux/init.h>
-+#include <linux/rv.h>
-+
-+static void rv_panic_reaction(char *msg)
-+{
-+	panic(msg);
-+}
-+
-+static struct rv_reactor rv_panic = {
-+	.name = "panic",
-+	.description = "panic the system if an exception is found.",
-+	.react = rv_panic_reaction
-+};
-+
-+static int register_react_panic(void)
-+{
-+	rv_register_reactor(&rv_panic);
-+	return 0;
-+}
-+
-+static void unregister_react_panic(void)
-+{
-+	rv_unregister_reactor(&rv_panic);
-+}
-+
-+module_init(register_react_panic);
-+module_exit(unregister_react_panic);
-+
-+MODULE_LICENSE("GPL");
-+MODULE_AUTHOR("Daniel Bristot de Oliveira");
-+MODULE_DESCRIPTION("panic rv reactor: panic if an exception is found.");
+Jacob Keller (4):
+  devlink: add missing kdoc for overwrite mask
+  devlink: add dry run attribute to flash update
+  pldmfw: offer option to only validate in image but not update
+  ice: support dry run of a flash update to validate firmware file
+
+ Documentation/driver-api/pldmfw/index.rst     | 10 ++++++++
+ .../networking/devlink/devlink-flash.rst      | 23 +++++++++++++++++++
+ drivers/net/ethernet/intel/ice/ice_devlink.c  |  3 ++-
+ .../net/ethernet/intel/ice/ice_fw_update.c    | 14 +++++++----
+ include/linux/pldmfw.h                        |  5 ++++
+ include/net/devlink.h                         |  4 ++++
+ include/uapi/linux/devlink.h                  |  8 +++++++
+ lib/pldmfw/pldmfw.c                           | 12 ++++++++++
+ net/core/devlink.c                            | 17 +++++++++++++-
+ 9 files changed, 90 insertions(+), 6 deletions(-)
+
+
+base-commit: 5588d628027092e66195097bdf6835ddf64418b3
 -- 
-2.35.1
+2.35.1.456.ga9c7032d4631
 
