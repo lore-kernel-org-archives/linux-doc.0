@@ -2,254 +2,236 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AF4CBC43334
-	for <linux-doc@archiver.kernel.org>; Mon, 25 Jul 2022 17:13:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B977C433EF
+	for <linux-doc@archiver.kernel.org>; Mon, 25 Jul 2022 18:26:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236617AbiGYRNm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 25 Jul 2022 13:13:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34162 "EHLO
+        id S229753AbiGYS0I (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 25 Jul 2022 14:26:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41634 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229824AbiGYRNl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Jul 2022 13:13:41 -0400
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B088813F45;
-        Mon, 25 Jul 2022 10:13:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1658769220; x=1690305220;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:content-transfer-encoding:
-   mime-version;
-  bh=uIS2Z0754OVZPJKP6eU9oUjVor489KVnvIg1alOMzv0=;
-  b=Ci2WLpkg/21zoSXE9jucrLeeznbN4nEtgMvFBfSr7pYJ03YdQCBhw2tG
-   ToK0JfxV2O2MLWWmdTgUZ6pA7e0yHKSQp53aiM3BjynuskpWRmDGit7bE
-   S+kt+zcMcpLx7o2ma9ypWXMfWiBw+FRqqNCvn8uxqOTVagC5UgLNfG0uS
-   Sh3wLQyPf/ubRCLlX1rS4Fa+XgPHWZ/D/Kln7FmyTLcEMuEo73vB+ySlT
-   QlDJVbiRroP3RvBL2EGUorVpLJ/TTtopAitA0T44rxAOj2lHbd9MhWJwW
-   Xpa3cGf2fHaTGD2l0QLjaPJeZugxwFP05fKzz4o56dHMLacVesLdP2MrX
-   w==;
-X-IronPort-AV: E=Sophos;i="5.93,193,1654585200"; 
-   d="scan'208";a="183655534"
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa1.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 25 Jul 2022 10:13:38 -0700
-Received: from chn-vm-ex02.mchp-main.com (10.10.85.144) by
- chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.28; Mon, 25 Jul 2022 10:13:38 -0700
-Received: from NAM02-BN1-obe.outbound.protection.outlook.com (10.10.215.89) by
- email.microchip.com (10.10.87.72) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.17 via Frontend
- Transport; Mon, 25 Jul 2022 10:13:38 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=lidB9q0eWz++g0ioS3AOg8GgzKHFUy0bYf11C7qshkJPYupBP2bJyzC1aBrZd336UT73wmPouUSRlkTFufviLA1Bucs8FngPsGkM8Y1Kz4BAmMCDcITHoDEt5n6rT24RJowIhnnSc3SAbIV1trz84EfdYkKFrrIxQM2h1I7fsl5ELmQOGx+7LlKmJPXQ43GaZnZdUvoEepu0Mfwef9C1qdDBhZmqNplkBS64AO0ciDUPOHbxzQojTYYNDofbYsxq65BFSK3MgKHAtlKOT1ZG3SoCX3L5oXLjjLgrch3gzQrXAJrLUGkUjBsW7K+ukcRHuYVIPl6nB1MYxHqzcqfPxw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=uIS2Z0754OVZPJKP6eU9oUjVor489KVnvIg1alOMzv0=;
- b=UE5zTebNcm6AIgO25YJ/joeVkjLsTaSx5wIzBTTJP9IVZOV+0+6GrR4+msRc4+lXeVlWauw06rLvA3qr9OhQj1RfHEKm+dXT8wW/mtBtoor88baVx3wRyqr6nhusZBbMtQ3mWaG21jM6EI7M93Ic4A2DUaUOAiIKjSY9gKsO5yac1Xzds1mkoaxWI3XSD8UR+uGurGtP46OnOnNFnU5FkfZNqXQejI9M5P/GvkIH2D8/gc3jFewf8uoJFGMQ12sUhe5dgDCqaOgDBHoqQrm6glBilFydzRYhkB9GJDJK13i72GUEXNphikQ1HP4JMmcqC+wDqy2Vf1plM6jRCZ//+Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=microchip.com; dmarc=pass action=none
- header.from=microchip.com; dkim=pass header.d=microchip.com; arc=none
+        with ESMTP id S232561AbiGYS0H (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Jul 2022 14:26:07 -0400
+Received: from mail-qk1-x72e.google.com (mail-qk1-x72e.google.com [IPv6:2607:f8b0:4864:20::72e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 052345FEE
+        for <linux-doc@vger.kernel.org>; Mon, 25 Jul 2022 11:26:05 -0700 (PDT)
+Received: by mail-qk1-x72e.google.com with SMTP id c3so9366217qko.1
+        for <linux-doc@vger.kernel.org>; Mon, 25 Jul 2022 11:26:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=microchiptechnology.onmicrosoft.com;
- s=selector2-microchiptechnology-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=uIS2Z0754OVZPJKP6eU9oUjVor489KVnvIg1alOMzv0=;
- b=gfKzXSjONAKRQx7pphB1taBECbFp5VY92vifR7KQndadFknH4bTMdv/Gzep9QKd1nlVTGtyKswI/KhnHPk/UQEF0J5ETqaigK9Q3tGh0Rht7c/au34pn9ruWex1RhSh16M2LeTH7IHI9+ESAS/yp2w+XQvWuGwmHueh0mUxNyTM=
-Received: from CO1PR11MB5154.namprd11.prod.outlook.com (2603:10b6:303:99::15)
- by BN7PR11MB2802.namprd11.prod.outlook.com (2603:10b6:406:b7::25) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5458.18; Mon, 25 Jul
- 2022 17:13:36 +0000
-Received: from CO1PR11MB5154.namprd11.prod.outlook.com
- ([fe80::ac89:75cd:26e0:51c3]) by CO1PR11MB5154.namprd11.prod.outlook.com
- ([fe80::ac89:75cd:26e0:51c3%7]) with mapi id 15.20.5458.024; Mon, 25 Jul 2022
- 17:13:36 +0000
-From:   <Conor.Dooley@microchip.com>
-To:     <xianting.tian@linux.alibaba.com>, <paul.walmsley@sifive.com>,
-        <palmer@dabbelt.com>, <aou@eecs.berkeley.edu>,
-        <anup@brainfault.org>, <heiko@sntech.de>, <guoren@kernel.org>,
-        <mick@ics.forth.gr>, <alexandre.ghiti@canonical.com>,
-        <bhe@redhat.com>, <vgoyal@redhat.com>, <dyoung@redhat.com>,
-        <corbet@lwn.net>
-CC:     <kexec@lists.infradead.org>, <linux-doc@vger.kernel.org>,
-        <linux-riscv@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-        <crash-utility@redhat.com>, <huanyi.xj@alibaba-inc.com>,
-        <heinrich.schuchardt@canonical.com>, <k-hagio-ab@nec.com>,
-        <hschauhan@nulltrace.org>
-Subject: Re: [RESEND PATCH V2 0/5] Fixups to work with crash tool
-Thread-Topic: [RESEND PATCH V2 0/5] Fixups to work with crash tool
-Thread-Index: AQHYn8ha2kj2737WV0S8+zJVPZvaC62PVC6A
-Date:   Mon, 25 Jul 2022 17:13:36 +0000
-Message-ID: <51c97da7-422f-1b5b-03d3-dc36c9132c2a@microchip.com>
-References: <20220725014539.1037627-1-xianting.tian@linux.alibaba.com>
-In-Reply-To: <20220725014539.1037627-1-xianting.tian@linux.alibaba.com>
-Accept-Language: en-IE, en-US
-Content-Language: en-IE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=microchip.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 783b37fa-48ff-48ec-34b0-08da6e6102cd
-x-ms-traffictypediagnostic: BN7PR11MB2802:EE_
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: =?utf-8?B?VnAyK2FuQStVNDZoTmVPRTVvNlAxM1p2dWF6em5NOFN3djNvbnEzM0VROWQx?=
- =?utf-8?B?eGZmU3NjWXV3RHRHRTBkRlorajlvVERpQ0liTmk0WUdpc3UvZGo4dU9lTFBo?=
- =?utf-8?B?VHBzenAvNVBEdHg3NmVVdFBJcFowVitBMURFQUwwbW83TVJOTDhwYSsyMG5i?=
- =?utf-8?B?RG5uWVNGQmpuRnpTNk1BL20yZXdORWNlWFdjbDJ1T1Zadkp2RitXUTIxcDUr?=
- =?utf-8?B?N3pHbXFPNWRwdnh3bERHeTg2L2VQTTdmQ3llRDczUGxNdnhleTNtYkorczBa?=
- =?utf-8?B?bTJDYmlVeHhEN0tLeFlYQWxLY2R6allHWjBvUG1CbUh0aDl6SkxoMisrZ0ZZ?=
- =?utf-8?B?VGRBand4Szh0cGZFQUd0c3BJMjBpM3lsTExwMjgvTnZnYnNsMDI5TWpNK1NT?=
- =?utf-8?B?UUJWUEV2MzlMbmFhbUVrYkt6VmE4eTJmazI5UStJWkFhVk9jMW5jVTc5YTZx?=
- =?utf-8?B?M21pSkJPcVUwdHFkb1U2UVVpanloZVg1eUR5QUpSV2ZPSEtnbk9kUnZXK1d3?=
- =?utf-8?B?Q2ltdmVkMWZ2TkRVdmJQOHVhRFlDQ1NMZkl2cUdlNjlvWGZ0QjcwclhiZVNM?=
- =?utf-8?B?Mm9MNCtlSUFNdnIrbTZUYjlub1NTK0owa1I1Y1Vsdkt0dWNBTitTREFXUlBQ?=
- =?utf-8?B?aWxkc2k4WjZpUUNvMlVGZG9NU1doaHMwTHlPdG04d0FMV1psMytZZlZPYU1Q?=
- =?utf-8?B?Vy9LTmFVRVBHOEhpeTdpWkkwcjAwSlp0S1JYRUo2UHNKV0FVWjBnMDMwYU9Q?=
- =?utf-8?B?KzRtYmphVk5Qdm1ORWNCZjBpNXgvR09ibGNPN3NlWWpWWno4Y3RRcWV5clQ2?=
- =?utf-8?B?a2RGWFYyS0x5WVZpaDk0YTRzTUkxMGZTRjJzZWh6bUtkNGtaNFVIOEpGdS9v?=
- =?utf-8?B?aUQ1aW9SaS92ZWpidkxxMVJTcFZaVmxXdk5yM3JjSzdyQ1FLUlZvZjdjTHEy?=
- =?utf-8?B?SDRHbTF0dU1lbjEveDJvRmVpdC9RQWZTNndiOGF0eEROYmNaNDd5L1lrU1ZF?=
- =?utf-8?B?VkpHbzdzcjFoMDlOMVY2Z2FWTnl4NEF1ekpnQ2lVUjJxNGFKMk1NOU9LTktU?=
- =?utf-8?B?UDI1LzhYZE5ZdEJVdUMzeVFrZk5mWFJWSkYrVTZPYlBJUzhvSyt4Mk5BMjhM?=
- =?utf-8?B?Y1d5QUk5cVU3TjNya2lIbkZJM05OditydHhiS3pXb2t1SW5ia2syb0k3VUVx?=
- =?utf-8?B?aHVuRXFSWDFzeW5xeUY3L3dKTVVmM2F0Tmd2d3N5UENCS2tpQzZCOC8vUWdl?=
- =?utf-8?B?NEhIR3UxRWlkUUlkVmxjMVFPM2JBZzF2WWp2QmpvbmJOanBuZz09?=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO1PR11MB5154.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(366004)(396003)(39860400002)(376002)(136003)(346002)(76116006)(8936002)(5660300002)(66946007)(66476007)(64756008)(66446008)(4326008)(66556008)(7416002)(8676002)(31686004)(38100700002)(2906002)(91956017)(122000001)(921005)(38070700005)(86362001)(31696002)(110136005)(478600001)(53546011)(36756003)(54906003)(41300700001)(6506007)(6486002)(966005)(26005)(83380400001)(71200400001)(6512007)(2616005)(84970400001)(186003)(316002)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?RFFYZHVUVHJKaHYweVhCMmxzaTZ6Nm9DdjZEWW5RMDZvNjdETVNQNE9QaXcx?=
- =?utf-8?B?KzNpbTRsOU0zOVdnMmJPRXFOUDllVmlzdGVkSklueHM5Y3RjNUNhK3ZUUzZv?=
- =?utf-8?B?SXN6VEhJbDJ1Z2tpYnJ5a2dNaFhrKzBsNHFOb1BudVJJRytGNEs1NHJheXRS?=
- =?utf-8?B?elMzOWlkTUQwUGtDZ0RQOGY0M0diYUJnQ3FES0g3RE1JZTNsdlRyV1kycDFz?=
- =?utf-8?B?bnJiY1QwcENHZURScVdjVVRaNDNlZ1lKOXZxTDhjbDBsSlZaakpiVnZRby9p?=
- =?utf-8?B?ZkNtQ2h6Q0JkMncyVFZRSWdmZW9qYnJ1ekIyQkVuYVBTYW1SZXJKQ1V0QTFx?=
- =?utf-8?B?VUNqOWVnNlZ5b29IRFg4OE5TaTBxb1VNc3pSOTJnRVN4SHBXbVR6RGQrdkYx?=
- =?utf-8?B?VlF3SnFKRWFWdy9Mc2NzdGM5VlZvQjFsOVp5YjFPVkhkekdHT0l0Y00rUUFi?=
- =?utf-8?B?eXRwTmNtVnU3SG00eTNUR3pja1JtUGtPS1k2eE9NODFaUWd3WGlzaGF3eUdw?=
- =?utf-8?B?Q2pUYkRQcm1OcENSZUtRV2FKb2JHQzJGTkU3cUxhaVpvcHRyM1RxRVBzYUpS?=
- =?utf-8?B?REU1S2dNYXduTDVkU3RaYjBuY2xrdE5YdDIrRkdTZ0JaOWZGenJ4V2lkY1Nx?=
- =?utf-8?B?YmN4RUw5UndDbmVuaWdIa3hrRTVtTFlWS1BXbDI2UEtjNWY4T2c3Zjl5aVo0?=
- =?utf-8?B?UWsrRi9BTG9SaXh1UUJzYjd3cXlGUGhJeW40QUVLakhoUC9BWjU4TFY1WGpq?=
- =?utf-8?B?S2owTUx2SzFYczVneXd4bkwzL3liek1vcXRqelRhckVtcksvZUpMU1FFSnJo?=
- =?utf-8?B?T1hHS3NjVjdkbzhVNkFnaE1mcnRyZGJQcURxdjV3VnM3RnNSRkpIcnNVVk0r?=
- =?utf-8?B?UFp6aDlsR1Uwd1BZbkJrRUJ4ai9LeE0xN2xxeWRxNHRPbk9teFh4Wi9NZmQ1?=
- =?utf-8?B?K1JPNFNQU3R4ajhlQkE3WXhaYnVSQVkwWDZhYUczSjdLRlRjN1J6ek9zRjBu?=
- =?utf-8?B?N2tjMHpxdnpOcmxpRDdPWnUySEFLWGlGNFo4RHNyRG51NmRkdVA3Z1Y5Nklr?=
- =?utf-8?B?RnRpcHR5WnlPVm9NSEtDOTlFNzAxcyttbm4vczhMNi81di9raWZPNnBtejBw?=
- =?utf-8?B?bmgxUlVXNWQwc0NMZ3QrWHMrVklkbjB1RGJ4Z3FNVTU4dnE1RGE1bExDazE3?=
- =?utf-8?B?Z0QyVFFaTmZ1amtLbFl0NXduc1lZNEdYQWMxWDU4Yy9yU2JwVnVkKytQNTU5?=
- =?utf-8?B?OXBIRjNXalhmb0lkb3A4YzNzYXNQalZrUmdYc29FVXo5blRGVlA5eG52Rkc0?=
- =?utf-8?B?dld5UnFqWno1YldNOW1Wa0ljT1E5QWdKbFVLWVlJMzZNeEZrSDNZcHNheFVJ?=
- =?utf-8?B?QkpSeUxQWUVTOVRqQkVZOVlNVVBSWGVMMHB4Q0t3a3IwSVc0aDVMT1NYbjg3?=
- =?utf-8?B?VExuM2ZjVExsVzhzT3pkaE9jZDQ2N1ZpbjBTcUFHcjFHT2VmRkZFZ0dBNE41?=
- =?utf-8?B?dWlWbDNTZkIzRi9rUGhCUmZlUjE5eDQrNWU1dFdPeUFpUnpFZTY4QkRORVMx?=
- =?utf-8?B?YURHbGJmN0tzVFNRQU1wQW9xV2NKMkhXbG5pVGdZTnFhRmhONTc4Q3E3MjJN?=
- =?utf-8?B?TDNKS2FzZkNKUng3bUFCRjAzam56aVcwYTJUMFhEdVJoRzJ1MmhLR1VoUVY5?=
- =?utf-8?B?K0xlL0E2aTZURUthNklWN1hxREtjeFp6ZjVSVnRnM0xuNUJxQUVYSk9jWVln?=
- =?utf-8?B?NTFrMGNZOGZuUHNkZEFKNUxwRkk3MDk1czl4U29OaGYzR1l1dm1SM3RJb2hG?=
- =?utf-8?B?a2V1Z3MzU3l0czNxa2RMWWUrdTVQVEh3UUtROFBLQlV0bkt0YXkrcDZzUjJW?=
- =?utf-8?B?QUxEQkg4U0dmMlBEMXE2NlVaa00venFDR0FnZ09xVXRnNENzS3VvWkpWdkgw?=
- =?utf-8?B?TTYzaU5RT2FKMU9CYzRCSU0yTWRCbEk2NmROS1o4MnIydG1vakRWMG9uaENZ?=
- =?utf-8?B?V1Nxc1hTd1JHYzg5dXFxNlJBNERFeXlQMHNhZnArSWk5UDNiZXVybmQzMTJQ?=
- =?utf-8?B?UG1CTE03eWJZalVEK2VEczRRcjlCZnJ6VFN4dkplWi9XMWxDVTcvUDdKdGNM?=
- =?utf-8?B?WDh4eDNYZGptTzNGS29JcFZWNzlzVS9VRU5nQmVhRkpweGpRUXpoekFvajJ1?=
- =?utf-8?B?WFE9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <5CED7591D487974497F33A8247E3F8C0@namprd11.prod.outlook.com>
-Content-Transfer-Encoding: base64
+        d=cmpxchg-org.20210112.gappssmtp.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=SJ5ATteDCNi/4BY4PNgsMgCW15cD92wrz0tkARQ7vKY=;
+        b=5Il4a5zJ8mZ7Jsn+zAu4/T22MYYX/u7qfLg1Hhhzz0CR+QXMWP33kGSYR882OgzOpj
+         OVKFcnRluW7I3M2Boby0n7KYmrHRJY9hbe2IthGoVb8QE8dqPRn0yL2jlgwpnww/JzAi
+         9ZCF4+UJ4cKy5QQNJTPy8INVEWIGwPK9fti7YVVatWk2z38K0SHkYiN6o8odYEpivsuC
+         46zLsxTLQaeMxELrYNDQviXs4I482h4Abw+SPw4NfqjinXzzGFF49XmksFoLrWWwfJqz
+         GPIouRxslZ70CAnHJKQRcyU5sQztNc/x4Uc3Ji0+iaFoOXtPdUwJO6PVQ43mUJ1f+Qgu
+         Dc4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=SJ5ATteDCNi/4BY4PNgsMgCW15cD92wrz0tkARQ7vKY=;
+        b=aqT32AkRhtIvH7kVQMCl3J9WN5oEtlh9GnF0H7IEiy5b/0SeVAgXTMTCdrBGDE+OEF
+         K4htPpc3FGuBIGu3sY7+yqob12teeYVTXWTYhMB3WIvpHMEbMFsuZ2HhZcK7/YWw8okY
+         B3bl9iMTteBov9RA9Ab1prPVpxTAkIWSRsfOT21NkMDbG6Bk8qQ2PeWWIVMoS/VfxI1m
+         AyU+gwkHZ19rDUBqfP06hb61GcCyRD0KjGjAlGVkb3jn8vH5ELCDHFXirK6DiQm2Utue
+         I5U4HAIw7muimlsByD9vzLf7ATcKTxhA9RPCk6BokMf/D1L6h/4gC5KVoTvJFzX+G/m0
+         ptCw==
+X-Gm-Message-State: AJIora/gH3VhwNWI1XXw6bCxxbzzX+r4MaVymdFk5htzzYwOn6cFsNn3
+        koxVT7eDMPsLQO3lARRlftSiIw==
+X-Google-Smtp-Source: AGRyM1uTbBMqG1BBBhxK8bht1t4dDpel1BDmUmM/Bbft6w+1tQQNObfPJpb1/O+P5QI/qbOpdjwsMw==
+X-Received: by 2002:a05:620a:1478:b0:6b5:e085:9c03 with SMTP id j24-20020a05620a147800b006b5e0859c03mr10127245qkl.550.1658773564133;
+        Mon, 25 Jul 2022 11:26:04 -0700 (PDT)
+Received: from localhost ([2620:10d:c091:480::1:994f])
+        by smtp.gmail.com with ESMTPSA id c7-20020a05622a058700b0031f0cfc5645sm8255859qtb.28.2022.07.25.11.26.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 25 Jul 2022 11:26:03 -0700 (PDT)
+Date:   Mon, 25 Jul 2022 14:26:02 -0400
+From:   Johannes Weiner <hannes@cmpxchg.org>
+To:     Chengming Zhou <zhouchengming@bytedance.com>
+Cc:     surenb@google.com, mingo@redhat.com, peterz@infradead.org,
+        tj@kernel.org, corbet@lwn.net, akpm@linux-foundation.org,
+        rdunlap@infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, songmuchun@bytedance.com,
+        cgroups@vger.kernel.org
+Subject: Re: [PATCH 9/9] sched/psi: add PSI_IRQ to track IRQ/SOFTIRQ pressure
+Message-ID: <Yt7gOhbqYzIKyhfv@cmpxchg.org>
+References: <20220721040439.2651-1-zhouchengming@bytedance.com>
+ <20220721040439.2651-10-zhouchengming@bytedance.com>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CO1PR11MB5154.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 783b37fa-48ff-48ec-34b0-08da6e6102cd
-X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Jul 2022 17:13:36.3763
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3f4057f3-b418-4d4e-ba84-d55b4e897d88
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: By2KDSKm/JFL7m0cTSUBNDgLQuIddkqFQTpxlXoUuoG89Iaix2x6VLOCuC7sKXK4eG1aBVe1XHuebApVcKnxLpG+wiIwXi3w19yuh/zxPec=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN7PR11MB2802
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220721040439.2651-10-zhouchengming@bytedance.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-T24gMjUvMDcvMjAyMiAwMjo0NSwgWGlhbnRpbmcgVGlhbiB3cm90ZToNCj4gW1JFU0VORCBQQVRD
-SCBWMiAwLzVdIEZpeHVwcyB0byB3b3JrIHdpdGggY3Jhc2ggdG9vbA0KDQpGV0lXLCB0aGlzIGlz
-IG5vdCBhICJyZXNlbmQiIC0gdGhlcmUncyBhdCBsZWFzdCBhIGNvbW1pdCBtZXNzYWdlDQpkaWZm
-ZXJlbmNlIGhlcmUgc28gdGhpcyBzaG91bGQgaGF2ZSBiZWVuIHYzLiBBbHNvIHlvdXIgY292ZXIg
-bGV0dGVyDQp3YXMgbm90IHRoZSBvbmUgZ2VuZXJhdGVkIGZvciB0aGUgcGF0Y2hlcyB5b3UgYWN0
-dWFsbHkgc2VudCBzaW5jZQ0KaXQgc3RpbGwgbWVudGlvbnMgInJpc2N2NjQiIGluIHRoZSBzdWJq
-ZWN0IGxpbmUgZm9yIHBhdGNoIDUuDQoNClRoYXQgc2FpZCwgdGhpcyBkb2VzIG5vdCBhcHBseSB0
-byByaXNjdi9mb3ItbmV4dDoNCmI0IHNoYXphbSAyMDIyMDcyNTAxNDUzOS4xMDM3NjI3LTEteGlh
-bnRpbmcudGlhbkBsaW51eC5hbGliYWJhLmNvbQ0KR3JhYmJpbmcgdGhyZWFkIGZyb20gbG9yZS5r
-ZXJuZWwub3JnL2FsbC8yMDIyMDcyNTAxNDUzOS4xMDM3NjI3LTEteGlhbnRpbmcudGlhbiU0MGxp
-bnV4LmFsaWJhYmEuY29tL3QubWJveC5neg0KQ2hlY2tpbmcgZm9yIG5ld2VyIHJldmlzaW9ucyBv
-biBodHRwczovL2xvcmUua2VybmVsLm9yZy9hbGwvDQpBbmFseXppbmcgNiBtZXNzYWdlcyBpbiB0
-aGUgdGhyZWFkDQpDaGVja2luZyBhdHRlc3RhdGlvbiBvbiBhbGwgbWVzc2FnZXMsIG1heSB0YWtl
-IGEgbW9tZW50Li4uDQotLS0NCiAgW1BBVENIIHYyIDEvNV0gUklTQy1WOiB1c2UgX19zbXBfcHJv
-Y2Vzc29yX2lkKCkgaW5zdGVhZCBvZiBzbXBfcHJvY2Vzc29yX2lkKCkNCiAgW1BBVENIIHYyIDIv
-NV0gUklTQy1WOiBBZGQgYXJjaF9jcmFzaF9zYXZlX3ZtY29yZWluZm8gc3VwcG9ydA0KICBbUEFU
-Q0ggdjIgMy81XSByaXNjdjogQWRkIG1vZHVsZXMgdG8gdmlydHVhbCBrZXJuZWwgbWVtb3J5IGxh
-eW91dCBkdW1wDQogIFtQQVRDSCB2MiA0LzVdIFJJU0MtVjogRml4dXAgZ2V0dGluZyBjb3JyZWN0
-IGN1cnJlbnQgcGMNCiAgW1BBVENIIHYyIDUvNV0gcmlzY3Y6IGNyYXNoX2NvcmU6IEV4cG9ydCBr
-ZXJuZWwgdm0gbGF5b3V0LCBwaHlzX3JhbV9iYXNlDQotLS0NClRvdGFsIHBhdGNoZXM6IDUNCi0t
-LQ0KQXBwbHlpbmc6IFJJU0MtVjogdXNlIF9fc21wX3Byb2Nlc3Nvcl9pZCgpIGluc3RlYWQgb2Yg
-c21wX3Byb2Nlc3Nvcl9pZCgpDQpBcHBseWluZzogUklTQy1WOiBBZGQgYXJjaF9jcmFzaF9zYXZl
-X3ZtY29yZWluZm8gc3VwcG9ydA0KUGF0Y2ggZmFpbGVkIGF0IDAwMDIgUklTQy1WOiBBZGQgYXJj
-aF9jcmFzaF9zYXZlX3ZtY29yZWluZm8gc3VwcG9ydA0KDQpXaGVuIHlvdSBmaXggdGhhdCwgY291
-bGQgeW91IGFsc28gcGljayBlaXRoZXIgInJpc2N2IiBvciAiUklTQy1WIiBhcyBhDQpwcmVmaXgg
-dGhlIHNlcmllcz8NCg0KVGhhbmtzLA0KQ29ub3IuDQoNCj4gRVhURVJOQUwgRU1BSUw6IERvIG5v
-dCBjbGljayBsaW5rcyBvciBvcGVuIGF0dGFjaG1lbnRzIHVubGVzcyB5b3Uga25vdyB0aGUgY29u
-dGVudCBpcyBzYWZlDQo+IA0KPiBJIGV2ZXIgc2VudCB0aGUgcGF0Y2ggMSBpbiB0aGUgbGluazoN
-Cj4gaHR0cHM6Ly9wYXRjaHdvcmsua2VybmVsLm9yZy9wcm9qZWN0L2xpbnV4LXJpc2N2L3BhdGNo
-LzIwMjIwNzA4MDczMTUwLjM1MjgzMC0zLXhpYW50aW5nLnRpYW5AbGludXguYWxpYmFiYS5jb20v
-DQo+IEFuZCBwYXRjaCAyLDMgaW4gdGhlIGxpbms6DQo+IGh0dHBzOi8vcGF0Y2h3b3JrLmtlcm5l
-bC5vcmcvcHJvamVjdC9saW51eC1yaXNjdi9wYXRjaC8yMDIyMDcxNDExMzMwMC4zNjc4NTQtMi14
-aWFudGluZy50aWFuQGxpbnV4LmFsaWJhYmEuY29tLw0KPiBodHRwczovL3BhdGNod29yay5rZXJu
-ZWwub3JnL3Byb2plY3QvbGludXgtcmlzY3YvcGF0Y2gvMjAyMjA3MTQxMTMzMDAuMzY3ODU0LTMt
-eGlhbnRpbmcudGlhbkBsaW51eC5hbGliYWJhLmNvbS8NCj4gDQo+IFRoaXMgcGF0Y2ggc2VyaWVz
-IGp1c3QgcHV0IHRoZXNlIHBhdGNoZXMgdG9nZXRoZXIsIGFuZCB3aXRoIHR3byBuZXcgcGF0Y2gg
-NCwgNS4NCj4gdGhlc2UgZml2ZSBwYXRjaGVzIGFyZSB0aGUgZml4dXBzIGZvciBtYWNoaW5lX2tl
-eGVjLCBrZXJuZWwgbW9kZSBQQyBmb3Igdm1jb3JlDQo+IGFuZCBpbXByb3ZlbWVudHMgZm9yIHZt
-Y29yZWluZm8gYW5kIG1lbW9yeSBsYXlvdXQgZHVtcC4NCj4gDQo+IFRoZSBtYWluIGNoYW5nZXMg
-aW4gdGhlIGZpdmUgcGF0Y2hzIGFzIGJlbG93LA0KPiBQYXRjaCAxOiB1c2UgX19zbXBfcHJvY2Vz
-c29yX2lkKCkgaW5zdGVhZCBvZiBzbXBfcHJvY2Vzc29yX2lkKCkgdG8gY2xlYW51cA0KPiAgICAg
-ICAgICB0aGUgY29uc29sZSBwcmludHMuDQo+IFBhdGNoIDI6IEFkZCBWTSBsYXlvdXQsIHZhIGJp
-dHMsIHJhbSBiYXNlIHRvIHZtY29yZWluZm8sIHdoaWNoIGNhbiBzaW1wbGlmeQ0KPiAgICAgICAg
-ICB0aGUgZGV2ZWxvcG1lbnQgb2YgY3Jhc2ggdG9vbCBhcyBBUk02NCBhbHJlYWR5IGRpZA0KPiAg
-ICAgICAgICAoYXJjaC9hcm02NC9rZXJuZWwvY3Jhc2hfY29yZS5jKS4NCj4gUGF0Y2ggMzogQWRk
-IG1vZHVsZXMgdG8gdmlydHVhbCBrZXJuZWwgbWVtb3J5IGxheW91dCBkdW1wLg0KPiBQYXRjaCA0
-OiBGaXh1cCB0byBnZXQgY29ycmVjdCBrZXJuZWwgbW9kZSBQQyBmb3Igdm1jb3JlLg0KPiBQYXRj
-aCA1OiBVcGRhdGVzIHZtY29yZWluZm8ucnN0Lg0KPiANCj4gV2l0aCB0aGVzZSA1IHBhdGNoZXMo
-cGF0Y2ggMiBpcyBtdXN0KSwgY3Jhc2ggdG9vbCBjYW4gd29yayB3ZWxsIHRvIGFuYWx5emUNCj4g
-YSB2bWNvcmUuIFRoZSBwYXRjaGVzIGZvciBjcmFzaCB0b29sIGZvciBSSVNDVjY0IGlzIGluIHRo
-ZSBsaW5rOg0KPiBodHRwczovL2xvcmUua2VybmVsLm9yZy9saW51eC1yaXNjdi8yMDIyMDcxODAy
-NTM0Ni40MTE3NTgtMS14aWFudGluZy50aWFuQGxpbnV4LmFsaWJhYmEuY29tLw0KPiANCj4gQ2hh
-bmdlcyB2MSAtPiB2MjoNCj4gIDEsIHJlbW92ZSB0aGUgcGF0Y2ggIkFkZCBhIGZhc3QgY2FsbCBw
-YXRoIG9mIGNyYXNoX2tleGVjKCkiIGZyb20gdGhpcyBzZXJpZXMNCj4gIG9mIHBhdGNoZXMsIGFz
-IGl0IGFscmVhZHkgYXBwbGllZCB0byByaXNjdiBnaXQuDQo+ICBodHRwczovL2dpdC5rZXJuZWwu
-b3JnL3B1Yi9zY20vbGludXgva2VybmVsL2dpdC9yaXNjdi9saW51eC5naXQvY29tbWl0Lz9oPWZv
-ci1uZXh0JmlkPTNmMTkwMTExMGE4OWIwZTJlMTNhZGIyYWM4ZDFhNzEwMjg3OWVhOTgNCj4gIDIs
-IGFkZCAnUmV2aWV3ZWQtYnknIGJhc2VkIG9uIHRoZSBjb21tZW50cyBvZiB2MS4NCj4gDQo+IFhp
-YW50aW5nIFRpYW4gKDUpOg0KPiAgIFJJU0MtVjogdXNlIF9fc21wX3Byb2Nlc3Nvcl9pZCgpIGlu
-c3RlYWQgb2Ygc21wX3Byb2Nlc3Nvcl9pZCgpDQo+ICAgUklTQy1WOiBBZGQgYXJjaF9jcmFzaF9z
-YXZlX3ZtY29yZWluZm8gc3VwcG9ydA0KPiAgIHJpc2N2OiBBZGQgbW9kdWxlcyB0byB2aXJ0dWFs
-IGtlcm5lbCBtZW1vcnkgbGF5b3V0IGR1bXANCj4gICBSSVNDLVY6IEZpeHVwIGdldHRpbmcgY29y
-cmVjdCBjdXJyZW50IHBjDQo+ICAgcmlzY3Y2NDogY3Jhc2hfY29yZTogRXhwb3J0IGtlcm5lbCB2
-bSBsYXlvdXQsIHBoeXNfcmFtX2Jhc2UNCj4gDQo+ICAuLi4vYWRtaW4tZ3VpZGUva2R1bXAvdm1j
-b3JlaW5mby5yc3QgICAgICAgICAgfCAzMSArKysrKysrKysrKysrKysrKysrDQo+ICBhcmNoL3Jp
-c2N2L2tlcm5lbC9NYWtlZmlsZSAgICAgICAgICAgICAgICAgICAgfCAgMSArDQo+ICBhcmNoL3Jp
-c2N2L2tlcm5lbC9jcmFzaF9jb3JlLmMgICAgICAgICAgICAgICAgfCAyOSArKysrKysrKysrKysr
-KysrKw0KPiAgYXJjaC9yaXNjdi9rZXJuZWwvY3Jhc2hfc2F2ZV9yZWdzLlMgICAgICAgICAgIHwg
-IDIgKy0NCj4gIGFyY2gvcmlzY3Yva2VybmVsL21hY2hpbmVfa2V4ZWMuYyAgICAgICAgICAgICB8
-ICAyICstDQo+ICBhcmNoL3Jpc2N2L21tL2luaXQuYyAgICAgICAgICAgICAgICAgICAgICAgICAg
-fCAgNCArKysNCj4gIDYgZmlsZXMgY2hhbmdlZCwgNjcgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlv
-bnMoLSkNCj4gIGNyZWF0ZSBtb2RlIDEwMDY0NCBhcmNoL3Jpc2N2L2tlcm5lbC9jcmFzaF9jb3Jl
-LmMNCj4gDQo+IC0tDQo+IDIuMTcuMQ0KPiANCj4gDQo+IF9fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fDQo+IGxpbnV4LXJpc2N2IG1haWxpbmcgbGlzdA0KPiBs
-aW51eC1yaXNjdkBsaXN0cy5pbmZyYWRlYWQub3JnDQo+IGh0dHA6Ly9saXN0cy5pbmZyYWRlYWQu
-b3JnL21haWxtYW4vbGlzdGluZm8vbGludXgtcmlzY3YNCg0K
+On Thu, Jul 21, 2022 at 12:04:39PM +0800, Chengming Zhou wrote:
+> Now PSI already tracked workload pressure stall information for
+> CPU, memory and IO. Apart from these, IRQ/SOFTIRQ could have
+> obvious impact on some workload productivity, such as web service
+> workload.
+> 
+> When CONFIG_IRQ_TIME_ACCOUNTING, we can get IRQ/SOFTIRQ delta time
+> from update_rq_clock_task(), in which we can record that delta
+> to CPU curr task's cgroups as PSI_IRQ_FULL status.
+>
+> Note we don't use PSI_IRQ_SOME since IRQ/SOFTIRQ always happen in
+> the current task on the CPU, make nothing productive could run
+> even if it were runnable, so we only use PSI_IRQ_FULL.
+
+That sounds reasonable.
+
+> For performance impact consideration, this is enabled by default when
+> CONFIG_IRQ_TIME_ACCOUNTING, but can be disabled by kernel cmdline
+> parameter "psi_irq=".
+
+If there isn't a concrete usecase already, let's not add another
+commandline parameter for now.
+
+> @@ -63,9 +64,11 @@ enum psi_states {
+>  	PSI_MEM_FULL,
+>  	PSI_CPU_SOME,
+>  	PSI_CPU_FULL,
+> +	PSI_IRQ_SOME,
+> +	PSI_IRQ_FULL,
+>  	/* Only per-CPU, to weigh the CPU in the global average: */
+>  	PSI_NONIDLE,
+> -	NR_PSI_STATES = 7,
+> +	NR_PSI_STATES = 9,
+>  };
+
+Unfortunately, this grows the psi state touched by the scheduler into
+a second cacheline. :( Please reclaim space first.
+
+I think we can remove the NR_CPU task count, which frees up one
+u32. Something like the below diff should work (untested!)
+
+And you should be able to remove PSI_IRQ_SOME, since it's not used
+anyway. Then we'd be good to go.
+
+diff --git a/include/linux/psi_types.h b/include/linux/psi_types.h
+index c7fe7c089718..31dc76e2d8ea 100644
+--- a/include/linux/psi_types.h
++++ b/include/linux/psi_types.h
+@@ -15,13 +15,6 @@ enum psi_task_count {
+ 	NR_IOWAIT,
+ 	NR_MEMSTALL,
+ 	NR_RUNNING,
+-	/*
+-	 * This can't have values other than 0 or 1 and could be
+-	 * implemented as a bit flag. But for now we still have room
+-	 * in the first cacheline of psi_group_cpu, and this way we
+-	 * don't have to special case any state tracking for it.
+-	 */
+-	NR_ONCPU,
+ 	/*
+ 	 * For IO and CPU stalls the presence of running/oncpu tasks
+ 	 * in the domain means a partial rather than a full stall.
+@@ -39,9 +32,11 @@ enum psi_task_count {
+ #define TSK_IOWAIT	(1 << NR_IOWAIT)
+ #define TSK_MEMSTALL	(1 << NR_MEMSTALL)
+ #define TSK_RUNNING	(1 << NR_RUNNING)
+-#define TSK_ONCPU	(1 << NR_ONCPU)
+ #define TSK_MEMSTALL_RUNNING	(1 << NR_MEMSTALL_RUNNING)
+ 
++/* Only one task can be scheduled, no corresponding task count */
++#define TSK_ONCPU	(1 << NR_PSI_TASK_COUNTS)
++
+ /* Resources that workloads could be stalled on */
+ enum psi_res {
+ 	PSI_IO,
+diff --git a/kernel/sched/psi.c b/kernel/sched/psi.c
+index a4fa3aadfcba..232e1dbfad46 100644
+--- a/kernel/sched/psi.c
++++ b/kernel/sched/psi.c
+@@ -215,7 +215,7 @@ void __init psi_init(void)
+ 	group_init(&psi_system);
+ }
+ 
+-static bool test_state(unsigned int *tasks, enum psi_states state)
++static bool test_state(unsigned int *tasks, enum psi_states state, bool oncpu)
+ {
+ 	switch (state) {
+ 	case PSI_IO_SOME:
+@@ -228,9 +228,9 @@ static bool test_state(unsigned int *tasks, enum psi_states state)
+ 		return unlikely(tasks[NR_MEMSTALL] &&
+ 			tasks[NR_RUNNING] == tasks[NR_MEMSTALL_RUNNING]);
+ 	case PSI_CPU_SOME:
+-		return unlikely(tasks[NR_RUNNING] > tasks[NR_ONCPU]);
++		return unlikely(tasks[NR_RUNNING] > oncpu);
+ 	case PSI_CPU_FULL:
+-		return unlikely(tasks[NR_RUNNING] && !tasks[NR_ONCPU]);
++		return unlikely(tasks[NR_RUNNING] && !oncpu);
+ 	case PSI_NONIDLE:
+ 		return tasks[NR_IOWAIT] || tasks[NR_MEMSTALL] ||
+ 			tasks[NR_RUNNING];
+@@ -692,9 +692,9 @@ static void psi_group_change(struct psi_group *group, int cpu,
+ 			     bool wake_clock)
+ {
+ 	struct psi_group_cpu *groupc;
+-	u32 state_mask = 0;
+ 	unsigned int t, m;
+ 	enum psi_states s;
++	u32 state_mask;
+ 
+ 	groupc = per_cpu_ptr(group->pcpu, cpu);
+ 
+@@ -710,6 +710,26 @@ static void psi_group_change(struct psi_group *group, int cpu,
+ 
+ 	record_times(groupc, now);
+ 
++	/*
++	 * Start with TSK_ONCPU, which doesn't have a corresponding
++	 * task count - it's just a boolean flag directly encoded in
++	 * the state mask. Clear, set, or carry the current state if
++	 * no changes are requested.
++	 */
++	if (clear & TSK_ONCPU) {
++		state_mask = 0;
++		clear &= ~TSK_ONCPU;
++	} else if (set & TSK_ONCPU) {
++		state_mask = TSK_ONCPU;
++		set &= ~TSK_ONCPU;
++	} else {
++		state_mask = groupc->state_mask & TSK_ONCPU;
++	}
++
++	/*
++	 * The rest of the state mask is calculated based on the task
++	 * counts. Update those first, then construct the mask.
++	 */
+ 	for (t = 0, m = clear; m; m &= ~(1 << t), t++) {
+ 		if (!(m & (1 << t)))
+ 			continue;
+@@ -729,9 +749,8 @@ static void psi_group_change(struct psi_group *group, int cpu,
+ 		if (set & (1 << t))
+ 			groupc->tasks[t]++;
+ 
+-	/* Calculate state mask representing active states */
+ 	for (s = 0; s < NR_PSI_STATES; s++) {
+-		if (test_state(groupc->tasks, s))
++		if (test_state(groupc->tasks, s, state_mask & TSK_ONCPU))
+ 			state_mask |= (1 << s);
+ 	}
+ 
+@@ -743,7 +762,7 @@ static void psi_group_change(struct psi_group *group, int cpu,
+ 	 * task in a cgroup is in_memstall, the corresponding groupc
+ 	 * on that cpu is in PSI_MEM_FULL state.
+ 	 */
+-	if (unlikely(groupc->tasks[NR_ONCPU] && cpu_curr(cpu)->in_memstall))
++	if (unlikely((state_mask & TSK_ONCPU) && cpu_curr(cpu)->in_memstall))
+ 		state_mask |= (1 << PSI_MEM_FULL);
+ 
+ 	groupc->state_mask = state_mask;
+@@ -847,7 +866,8 @@ void psi_task_switch(struct task_struct *prev, struct task_struct *next,
+ 		iter = NULL;
+ 		while ((group = iterate_groups(next, &iter))) {
+ 			if (identical_state &&
+-			    per_cpu_ptr(group->pcpu, cpu)->tasks[NR_ONCPU]) {
++			    (per_cpu_ptr(group->pcpu, cpu)->state_mask &
++			     TSK_ONCPU)) {
+ 				common = group;
+ 				break;
+ 			}
