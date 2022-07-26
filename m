@@ -2,61 +2,200 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 93017C43334
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Jul 2022 02:54:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0FB33C433EF
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Jul 2022 04:13:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230489AbiGZCyC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 25 Jul 2022 22:54:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47428 "EHLO
+        id S230398AbiGZENT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 26 Jul 2022 00:13:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59980 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231724AbiGZCyB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Jul 2022 22:54:01 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E0ED63C0;
-        Mon, 25 Jul 2022 19:54:00 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 51DCC614E6;
-        Tue, 26 Jul 2022 02:54:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B35BC341C6;
-        Tue, 26 Jul 2022 02:53:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1658804039;
-        bh=VAwM0Pukcei9J+HLXOrH7tgP0PnsOl9w/ECuXeSfQCY=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=nXV1tOduPvxTFYnv5fQcSFpPmueFO9M4S3LwPvnShrcHqIWC3R0vPCVQKAK2jQLmT
-         d2GTMTuAfSycaeiuTp9PsaWFmykUNvj9ZacinvLzSEDAqS9rdxZFoZSHWUiiID3edX
-         czRII5wq+i/oKFjNCjSTY8zJJIZVMM2jYxxMeX898msaWVOoZGVici82HLxWUyHpN0
-         jXkDmHMJH65idgY9BzO5o0SRDtZQiKIHMn7NJ0gjUWPp9vW13DpW8a4Sk1wBF1h3il
-         DSj5FcGzOTFZ0qMI6UzNJfwKG0cuBgfcLYhZgHB/XVrJbaOWrtBtwRUda+6KCYJTVq
-         MzEtMBs1BeQcg==
-Date:   Mon, 25 Jul 2022 19:53:58 -0700
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     Jacob Keller <jacob.e.keller@intel.com>
-Cc:     netdev@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Jiri Pirko <jiri@nvidia.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Tony Nguyen <anthony.l.nguyen@intel.com>,
-        David Ahern <dsahern@kernel.org>,
-        Stephen Hemminger <stephen@networkplumber.org>,
-        linux-doc@vger.kernel.org
-Subject: Re: [net-next v3 2/4] devlink: add dry run attribute to flash
- update
-Message-ID: <20220725195358.05dbbd49@kernel.org>
-In-Reply-To: <20220725205629.3993766-3-jacob.e.keller@intel.com>
-References: <20220725205629.3993766-1-jacob.e.keller@intel.com>
-        <20220725205629.3993766-3-jacob.e.keller@intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        with ESMTP id S231607AbiGZENS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Jul 2022 00:13:18 -0400
+Received: from mail-pl1-x649.google.com (mail-pl1-x649.google.com [IPv6:2607:f8b0:4864:20::649])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C92A20BC2
+        for <linux-doc@vger.kernel.org>; Mon, 25 Jul 2022 21:13:13 -0700 (PDT)
+Received: by mail-pl1-x649.google.com with SMTP id n15-20020a170902d2cf00b0016d68b4fcc0so3542439plc.8
+        for <linux-doc@vger.kernel.org>; Mon, 25 Jul 2022 21:13:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=date:message-id:mime-version:subject:from:to:cc
+         :content-transfer-encoding;
+        bh=VOgQF+G8SNdxv9KXxlnj8cWs1UtKcyFM/CeLPL1cf7A=;
+        b=qLZlSfzMGHj5dcZe2ZQFJyIeQ06FEbm0g27vehG1XYchRmx7b7dFsEJRhLVb8BUQZF
+         0JgQCGyPdVEFFFuhga7lHZebVqdL5fe8YG1dAlgsvgJkgDsmkHNXBtOr4pewYVd331GR
+         BAtr3f9upswaSut4UsqvHYu/To8Slq2GxHDR/Bp8thuQRHXqCniZqli8OqU1PPIXMKu3
+         DweGNS7NoFDDvFSrJTO1egKraeAQ/kM5SE2OuKExQyE2wmO3pVABWgYBIkN5spPdVud9
+         fVyrLBerlex3++Ff0OvH3+Vc7rZU/wzxkTmV3lk2i0IJqhpjNRpUFvkBw8mOa6xt1mNs
+         3e+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc
+         :content-transfer-encoding;
+        bh=VOgQF+G8SNdxv9KXxlnj8cWs1UtKcyFM/CeLPL1cf7A=;
+        b=X/6w2WRhzst0/DlNnW4sL7ZdksVFv37V0KKkMJ74iPd/nN2arVPT+249z4iLL6HWR0
+         /kEfNefViYriHWAI/Sqfo0gFZkJm7DjJzBCrBQKJFFxgONjONu2oRW2+tnMT1zvwBs+f
+         mBC8IxNoAkRqUab7tgM/Y33hn+ZE0IOmMdiBAXThlaKPlp0CPRZA2i5/Ugb8ikyxgk+T
+         eqnuZ41XQagftNO80Uo/W8FdjAscjgI1+d26byGMgPG2KLo6ee5uw8VHDayfsqKb+oMF
+         TCntoOENLHEeJxaFz/ZziZRccaWhKjVnLowFo+d5/z2sLB9KnuBjw/phNzhSRsreENZf
+         SS/A==
+X-Gm-Message-State: AJIora9mnYTaT/yaFm/2UA0jAO10nHZpNQOTgNICX485d7drCrEUDb5m
+        UHSaGa5P3V7GZIA7f2jdoe7z89+DqGlEOFKq
+X-Google-Smtp-Source: AGRyM1vg1d/+z8ikDa8GdVjfcnaomA/orA9VGjZIdsqU/f5WKSvEZAKhcNt2ka+zCtEWu5HA4j956NpCVzrAQJai
+X-Received: from skazigti.c.googlers.com ([fda3:e722:ac3:cc00:4f:4b78:c0a8:411e])
+ (user=sadiyakazi job=sendgmr) by 2002:a17:90b:3509:b0:1f2:dc98:5976 with SMTP
+ id ls9-20020a17090b350900b001f2dc985976mr4344862pjb.154.1658808792908; Mon,
+ 25 Jul 2022 21:13:12 -0700 (PDT)
+Date:   Tue, 26 Jul 2022 04:12:50 +0000
+Message-Id: <20220726041250.1905521-1-sadiyakazi@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.37.1.359.gd136c6c3e2-goog
+Subject: [PATCH v4] Documentation: kunit: Add CLI args for kunit_tool
+From:   Sadiya Kazi <sadiyakazi@google.com>
+To:     brendanhiggins@google.com, davidgow@google.com,
+        skhan@linuxfoundation.org, corbet@lwn.net, mairacanal@riseup.net
+Cc:     Sadiya Kazi <sadiyakazi@google.com>,
+        linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        kernel test robot <lkp@intel.com>,
+        Daniel Latypov <dlatypov@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 25 Jul 2022 13:56:27 -0700 Jacob Keller wrote:
-> +		NL_SET_ERR_MSG_ATTR(info->extack, nla_dry_run,
+Some kunit_tool command line arguments are missing in run_wrapper.rst.
+Document them.
 
-nla_dry_run is not initialized now (credit: clang)
+Reported-by: Bagas Sanjaya <bagasdotme@gmail.com>
+Reported-by: kernel test robot <lkp@intel.com>
+Reviewed-by: David Gow <davidgow@google.com>
+Reviewed-by: Brendan Higgins <brendanhiggins@google.com>
+Reviewed-by: Daniel Latypov <dlatypov@google.com>
+Reviewed-by: Ma=C3=ADra Canal <mairacanal@riseup.net>
+Signed-off-by: Sadiya Kazi <sadiyakazi@google.com>
+---
+
+Changes since v3:
+https://lore.kernel.org/linux-kselftest/20220724184758.1723925-1-sadiyakazi=
+@google.com/
+-Fixed the indention bug in the run_wrapper.rst file. Thanks for
+catching that(Kernel test robot, Bagas).
+-Updated the commit message.
+
+Changes since v2:
+https://lore.kernel.org/linux-kselftest/20220721081026.1247067-1-sadiyakazi=
+@google.com/
+-Added a code block for =E2=80=94kconfig_add argument to make the styling c=
+onsistent
+-Slightly changed the words for =E2=80=94arch argument
+-Changed QEMU to qemu wherever applicable for the cli args
+-Changed the style for ``-smp 8``
+-Changed "Might be repeated" to "may be repeated=E2=80=9D for kernel_args
+
+Changes since V1:
+https://lore.kernel.org/linux-kselftest/20220719092214.995965-1-sadiyakazi@=
+google.com/
+- Addressed most of the review comments from Maira and David, except
+  removing the duplicate arguments as I felt its worth keeping them in
+  the reference documentation as well as in context. We can improve them
+  and differentiate their use cases in the future patches.
+
+---
+ Documentation/dev-tools/kunit/run_wrapper.rst | 63 ++++++++++++++++++-
+ 1 file changed, 62 insertions(+), 1 deletion(-)
+
+diff --git a/Documentation/dev-tools/kunit/run_wrapper.rst b/Documentation/=
+dev-tools/kunit/run_wrapper.rst
+index 5e560f2c5fca..cce203138fb7 100644
+--- a/Documentation/dev-tools/kunit/run_wrapper.rst
++++ b/Documentation/dev-tools/kunit/run_wrapper.rst
+@@ -233,7 +233,7 @@ Command-Line Arguments
+ =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+=20
+ kunit_tool has a number of other command-line arguments which can
+-be useful for our test environment. Below the most commonly used
++be useful for our test environment. Below are the most commonly used
+ command line arguments:
+=20
+ - ``--help``: Lists all available options. To list common options,
+@@ -257,3 +257,64 @@ command line arguments:
+             added or modified. Instead, enable all tests
+             which have satisfied dependencies by adding
+             ``CONFIG_KUNIT_ALL_TESTS=3Dy`` to your ``.kunitconfig``.
++
++- ``--kunitconfig``: Specifies the path or the directory of the ``.kunitco=
+nfig``
++  file. For example:
++
++  - ``lib/kunit/.kunitconfig`` can be the path of the file.
++
++  - ``lib/kunit`` can be the directory in which the file is located.
++
++  This file is used to build and run with a predefined set of tests
++  and their dependencies. For example, to run tests for a given subsystem.
++
++- ``--kconfig_add``: Specifies additional configuration options to be
++  appended to the ``.kunitconfig`` file. For example:
++
++  .. code-block::
++
++	./tools/testing/kunit/kunit.py run --kconfig_add CONFIG_KASAN=3Dy
++
++- ``--arch``: Runs tests on the specified architecture. The architecture
++  argument is same as the Kbuild ARCH environment variable.
++  For example, i386, x86_64, arm, um, etc. Non-UML architectures run on qe=
+mu.
++  Default is `um`.
++
++- ``--cross_compile``: Specifies the Kbuild toolchain. It passes the
++  same argument as passed to the ``CROSS_COMPILE`` variable used by
++  Kbuild. This will be the prefix for the toolchain
++  binaries such as GCC. For example:
++
++  - ``sparc64-linux-gnu-`` if we have the sparc toolchain installed on
++    our system.
++
++  - ``$HOME/toolchains/microblaze/gcc-9.2.0-nolibc/microblaze-linux/bin/mi=
+croblaze-linux``
++    if we have downloaded the microblaze toolchain from the 0-day
++    website to a specified path in our home directory called toolchains.
++
++- ``--qemu_config``: Specifies the path to a file containing a
++  custom qemu architecture definition. This should be a python file
++  containing a `QemuArchParams` object.
++
++- ``--qemu_args``: Specifies additional qemu arguments, for example, ``-sm=
+p 8``.
++
++- ``--jobs``: Specifies the number of jobs (commands) to run simultaneousl=
+y.
++  By default, this is set to the number of cores on your system.
++
++- ``--timeout``: Specifies the maximum number of seconds allowed for all t=
+ests to run.
++  This does not include the time taken to build the tests.
++
++- ``--kernel_args``: Specifies additional kernel command-line arguments. M=
+ay be repeated.
++
++- ``--run_isolated``: If set, boots the kernel for each individual suite/t=
+est.
++  This is useful for debugging a non-hermetic test, one that
++  might pass/fail based on what ran before it.
++
++- ``--raw_output``: If set, generates unformatted output from kernel. Poss=
+ible options are:
++
++   - ``all``: To view the full kernel output, use ``--raw_output=3Dall``.
++
++   - ``kunit``: This is the default option and filters to KUnit output. Us=
+e ``--raw_output`` or ``--raw_output=3Dkunit``.
++
++- ``--json``: If set, stores the test results in a JSON format and prints =
+to `stdout` or
++  saves to a file if a filename is specified.
+--=20
+2.37.1.359.gd136c6c3e2-goog
+
