@@ -2,207 +2,462 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EEC5AC00140
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Jul 2022 18:21:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 31DABC04A68
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Jul 2022 20:01:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231818AbiGZSVe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 26 Jul 2022 14:21:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41834 "EHLO
+        id S238973AbiGZUBG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 26 Jul 2022 16:01:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43084 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229631AbiGZSVc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Jul 2022 14:21:32 -0400
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB26A23BEA;
-        Tue, 26 Jul 2022 11:21:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1658859690; x=1690395690;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=IMYsh6noWjN71ZkurHBxR4gpg2KN9PeeEKfgqagn0iQ=;
-  b=I8k3VNNrK/GdwyUGi3Su8qHh9tOy1zIQGgUuC9HoBxck95GX5ocKRhiF
-   p8KIoTT0ez0q8nf39QY1QIpFB4/Lw8CY/ftjhBZUQ8KvGRhdlo8F9KIZJ
-   nLk1ej7EeJzw2DaHddUIgL+94W1hB9luOsZiLxkfso9nOmEYHklaFfYD3
-   4liNqQeB6fRQv/JiVA1odGNSwcp9d0znU3I5yN6fHz+7UkAD6JYsOgS4K
-   BvoXtu8gnR1UMqKxXzn8UqIXB6DAXmY6WSkBuC6zK302NRZl/jDarWLIC
-   m2+/ksIKZztBiqZt9kpX5BKluXqQP3D3LnolWQ+jFmRO1Il4RZRFvh8Hr
-   g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10420"; a="374325406"
-X-IronPort-AV: E=Sophos;i="5.93,194,1654585200"; 
-   d="scan'208";a="374325406"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jul 2022 11:21:30 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,194,1654585200"; 
-   d="scan'208";a="632862792"
-Received: from orsmsx606.amr.corp.intel.com ([10.22.229.19])
-  by orsmga001.jf.intel.com with ESMTP; 26 Jul 2022 11:21:30 -0700
-Received: from orsmsx604.amr.corp.intel.com (10.22.229.17) by
- ORSMSX606.amr.corp.intel.com (10.22.229.19) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.28; Tue, 26 Jul 2022 11:21:29 -0700
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx604.amr.corp.intel.com (10.22.229.17) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.28 via Frontend Transport; Tue, 26 Jul 2022 11:21:29 -0700
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.171)
- by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2375.28; Tue, 26 Jul 2022 11:21:29 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Re+JPTR9PrLkTweO5HjeU6OsFC9F65LuRfEtVMGO8HQ0OX4gzGk2x63AYBf7ALa04I1sCif3ZnSyaHrJuqgslIf96DBIn/fqStY3wH8PwOzDnHgMIM8EJVPCp7b99VDGsTmTrwYf7fyV+Vpfp7RtGBpQZRyENrG0faxFJ09cpPDaJ5Y280WIik/IBsDCkgI0q6yqQHHbl7xJ+jxEbf7gymVVrTouO7MeLg6lzpn2bpLvItNmcrVxXnyB684qkhRKQyLm3GAofWhFr/VL4ImZvsAPPMLtm1YB64L7szyJwf9Ni1rdknrMzKym4zg2p37j+FjztC3z1EwuUE8Ks3xWdQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=IMYsh6noWjN71ZkurHBxR4gpg2KN9PeeEKfgqagn0iQ=;
- b=F0SRD3VO/EqiQw5/iZonKJmjBvqysTaR4ctKPQ2B3PBApcL/2WrVvq2JQhr3EF0YZwT1JxVUVBi3ejMc5N6lTZaR2Zpn5SFQz/at56CZKBLOsAX4fB7LcV37y0masKXCKgSptWUtpN0pB7OI6MI5QRxFJCLOflvRi+TYxd2wTb98Da9zGXRwkN0c8PTdu5gcYLyE4coqK0GQmgI6NiXovc7uaKqf9DaJwyoOVSzlb9kvaqal3a8WiECkoi1GCFMOvxYp2Mlb+ICKpq3bFItGVk1LSZZGVXlWLDRIX7F6OcYzUIJF8MF3fdR5zejCNNwPq8m5gXAii3SykAgr+/3AJg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from SA2PR11MB5100.namprd11.prod.outlook.com (2603:10b6:806:119::11)
- by BYAPR11MB2806.namprd11.prod.outlook.com (2603:10b6:a02:c7::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5458.19; Tue, 26 Jul
- 2022 18:21:27 +0000
-Received: from SA2PR11MB5100.namprd11.prod.outlook.com
- ([fe80::f97c:8114:1f0c:f811]) by SA2PR11MB5100.namprd11.prod.outlook.com
- ([fe80::f97c:8114:1f0c:f811%6]) with mapi id 15.20.5458.025; Tue, 26 Jul 2022
- 18:21:27 +0000
-From:   "Keller, Jacob E" <jacob.e.keller@intel.com>
-To:     Jakub Kicinski <kuba@kernel.org>,
-        Stephen Hemminger <stephen@networkplumber.org>
-CC:     Jiri Pirko <jiri@resnulli.us>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        "Nguyen, Anthony L" <anthony.l.nguyen@intel.com>,
-        David Ahern <dsahern@kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Subject: RE: [net-next PATCH 1/2] devlink: add dry run attribute to flash
- update
-Thread-Topic: [net-next PATCH 1/2] devlink: add dry run attribute to flash
- update
-Thread-Index: AQHYnGds4JyoDr5oaE22k7ooTa/97q2IU/QAgAD0rTCAAKRdgIAA9+uwgAE35ICAA1xV4IAACoOAgAAM5bCAAAIMAIAAACQQgABOTYCAAR1N0A==
-Date:   Tue, 26 Jul 2022 18:21:27 +0000
-Message-ID: <SA2PR11MB5100E97945A244CA88598F23D6949@SA2PR11MB5100.namprd11.prod.outlook.com>
-References: <20220720183433.2070122-1-jacob.e.keller@intel.com>
-        <20220720183433.2070122-2-jacob.e.keller@intel.com>
-        <YtjqJjIceW+fProb@nanopsycho>
-        <SA2PR11MB51001777DC391C7E2626E84AD6919@SA2PR11MB5100.namprd11.prod.outlook.com>
-        <YtpBR2ZnR2ieOg5E@nanopsycho>
-        <CO1PR11MB508957F06BB96DD765A7580FD6909@CO1PR11MB5089.namprd11.prod.outlook.com>
-        <YtwW4aMU96JSXIPw@nanopsycho>
-        <SA2PR11MB5100E125B66263046B322DC1D6959@SA2PR11MB5100.namprd11.prod.outlook.com>
-        <20220725123917.78863f79@kernel.org>
-        <SA2PR11MB5100005E9FEB757A6364C2CFD6959@SA2PR11MB5100.namprd11.prod.outlook.com>
-        <20220725133246.251e51b9@kernel.org>
-        <SA2PR11MB510047D98AFFDEE572B375E0D6959@SA2PR11MB5100.namprd11.prod.outlook.com>
- <20220725181331.2603bd26@kernel.org>
-In-Reply-To: <20220725181331.2603bd26@kernel.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-reaction: no-action
-dlp-version: 11.6.500.17
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 418cab29-17b8-4138-af5e-08da6f33a792
-x-ms-traffictypediagnostic: BYAPR11MB2806:EE_
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 2bMF+psTt5Y8WqTOkyo+4czQc/EpCUoR1WlSbRK4wFTPigL1oz4zRkYsn0cD1zi5xQc9lvxrwJdMjJfwYlvoZO5Ts5j9D9tEVnVI2nsilUFY/3pz1nbf+ll/8wW4+dKc4w8TzQAhl76Y1Lt7S/hWOwSbzWoy9uj4rVLs+EiHXvJx42UQBNcN72ydOr9c5ijX0zWxL4EiHrN2NxVSow9Ds2v2tTNrSpkZ6tGoifUnzt5yFY7ympHAunLEqtbw/Le4UxhiO1mMMqD9VOkYnQ2H6d6VNtd4w4+/VSB4hEEHZeEJ6D630q2pwDHaDNMhBqorYZtwGFFa/7SsbfXFF6xDrtk1iqqhapADIufXNe7hQJF75XNqSXresykeRilffonH2sbf37ccEoa6kR01k0iaoWcYSj3i2nb+fF8kxCv/TVRMr7gVM0KeUYQz3mNHpCPUHgjPwvw7cljG2hlsXTJLPjoEZ3he2h4FSqkxmBG1BG3Dhr/iD2q6mHy6+q559I+qtcoAfKg9KuLZBPqAJT6u6G3NPZtTlngmHZY8cTVnWpS8FFuNsEFVJnnyIiumE3VqhfCEGa2iOlBgzwVv1QqTjzkMEVjx04xwN760PeLtSELl2OLnmAQOj4QCjJoXi/ZBvumyIl4BJnwABHDmVFy/h52OYmRd7pl7JrUfiArSJXw5fKA/k4jsUVGO1Jc/ge71vRAG7XzXCv4TXr7mgx/6tkjo5hpuwxcZusBVxwv7pUj2S/IjhBAPvYSeAm4ck6nyMSfaplJGoHOo+5vDaG9qJrLVvFDqiIrk2PtD3k7zF8t4cvXPPE4eLBiRENdyzYM0
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA2PR11MB5100.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(376002)(396003)(346002)(366004)(39860400002)(136003)(83380400001)(86362001)(478600001)(5660300002)(186003)(7416002)(316002)(55016003)(54906003)(110136005)(52536014)(8936002)(64756008)(4326008)(38070700005)(82960400001)(26005)(9686003)(53546011)(8676002)(33656002)(41300700001)(6506007)(7696005)(122000001)(2906002)(71200400001)(66946007)(66476007)(66446008)(38100700002)(76116006)(66556008)(15650500001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?KWURQ/Pa/FOByW6OIts18B+6uuraYQ6vCalaln6uAIPc+dSw9gD4YOUYAxzk?=
- =?us-ascii?Q?Rj/laLUYh/fyhBlBpQqcRIsbPoUTH14YLYIyIeujwXTk9Hax/Ve1ry3XY1au?=
- =?us-ascii?Q?wOLVmh5hJkUT2kHCbJv7AFo8sntSjxtJUcW3tMcKG8jW27jD7OfEqPVVS7II?=
- =?us-ascii?Q?dZk9r57BW2pM5xRSn3XCbO187/3FbTAsC8YtmXWQdJBkPdZbIpSMGHQeEvKF?=
- =?us-ascii?Q?R5Wl4RLaI+B/ZYXcQhX3qGDihelyU9WbTi9p/CWkhiHsxtlGYX+fvDEXQWvY?=
- =?us-ascii?Q?K9uciyTx92rrYM5+RawZdAC8u5U2nsApPXOrdxFu4mNbCkcvjfATp0TnkBxP?=
- =?us-ascii?Q?VqUMzW7rRS39qPoKppDiG+B+/T87yO/2r0fAMclRRkK3lezDPXcFrh8ppYPr?=
- =?us-ascii?Q?nEzOizwrkLMPKkmaAmtVP00l38DDZQmoaAy2m5d5cuRKXYlmCd7Or7pTYy/r?=
- =?us-ascii?Q?lo55f0uCfMVgxtu4Yvq1wgp0+WZL3NF4bO5SSQsxblgvP7qyn+fLu/6VMSeV?=
- =?us-ascii?Q?fqTAJE3L8X0Abqlcfz3a+TXLmnunaD/64uE8xOpOXrAz7fZog8SwZ2NSUvDt?=
- =?us-ascii?Q?uVukq46Q2aBVW8AEwQ2ui1telHzugb1HosD1n3o8h07GhqHrsvT9I4UjYeuk?=
- =?us-ascii?Q?dCuc8YtS/ZGZSRkhT3VzKvLiaR9gGVhmdMVNAKVMq18IG7L+nsBSpP1/X7ZW?=
- =?us-ascii?Q?+A1U2z+KSz0sypWlMfzmf/IX0wNz5HtOO5ytAeHikn0l5kaSCvU6ZtukN9yG?=
- =?us-ascii?Q?bq4UFETTL1TZX5k9iXW/PrtXnTTp0/h2HiBcxsE1i0L7kBZEp+zxfTFJ7Qg9?=
- =?us-ascii?Q?Fa9ANkHVV3h+U6c5OCs8jc856R7QW6MCXoNOiEIbfqPeFyIAdbWkUynER+Fz?=
- =?us-ascii?Q?nOd1wRYNBPQWHClTbtQjR5Yqfw2g3TKRcgaiEuIrbGpe6FgJrL/bnqrNNKo3?=
- =?us-ascii?Q?gjXFieftv2h/Asaf/73GR+WKCxxZCQvvHUDQ4u3EiFvZjH6SyIBe/MVGYQyE?=
- =?us-ascii?Q?n9Rf0m9m63q7Bv3YfzfTO+AZLBPcYmnlr23KvUgKPlNbe734WefPcGJtrUL7?=
- =?us-ascii?Q?pZVUzfK9OUQJuFsaTioqBfDv901HetMUchepkuwOsj0TuyHN8gVB3t0rKImL?=
- =?us-ascii?Q?po45FPwlwCU7cwQyY0jGQcCs0YeQMmyj5XZ1N1mJ0RetzF2RP/XOgBH6YXg4?=
- =?us-ascii?Q?+4x+yOX8fD25s96SHjLZ1MIuLHG/BRn6aP02ojlSfHWmjWkkI9m/1PUyLYkV?=
- =?us-ascii?Q?H802oKZkexUV7aJ2GXpo5ZkZBPOAaHmwYwIEUCT4n1OufTTOOhPeJgDbt1P3?=
- =?us-ascii?Q?g+rFRU3OUGuGm8VUpulNTPicBnfPt2KFR+VpZ0JzNPCdxAERQXn2HS9k0dOq?=
- =?us-ascii?Q?3wVWZzGei5oEmvI+zH2zolHcGpq9LtJfZErbhl/bZPuEojSEpH2FClchsYCm?=
- =?us-ascii?Q?Bt99Q/R8iMM619goq/Q3Q+QiNA3PAZIlo6TbJ3a5pkNUUuW9QBtx+SMF3d8a?=
- =?us-ascii?Q?ACL8IXezaH+qssb5Mh8kqIBM6MKgCKAcBj33Bbls/SQPSbpZ5WXMFU3cEKtJ?=
- =?us-ascii?Q?4dDGCtdh93LLPolr6ZI60VkuFAqrABz037w/nj5M?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        with ESMTP id S229591AbiGZUBG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Jul 2022 16:01:06 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A5B7A326ED;
+        Tue, 26 Jul 2022 13:01:04 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 2C51D615ED;
+        Tue, 26 Jul 2022 20:01:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A976C433D6;
+        Tue, 26 Jul 2022 20:00:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1658865663;
+        bh=6NJeN+D2hyZGUBQf9aBrKUNEkQeh2q4YMWMFPDmf+TI=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=RI4bN6mG8As74Nv4gtBr+NSqX5qQBew+CJzVVUxZW2dHI3/+FJiCpXFsiodCD1ih1
+         OIiCMhq7uHZ609/bupE8cYfUE84R9PKf0nO2Q3oEfMuYl9n7PZZVtAInMyDOXm9zRI
+         /6Dh8C0gLvX6ypcZ0wiFKeV8NkVsNiniNEYL59tnosbeP7ukaYHKxg40IgpHXlTsxB
+         TLT4JK8QY+h7k4IfDtArNpTM6QGn/pDLXo7UbkRP2jLUuKXEVVcn99BltQOJOUe3X+
+         78M1hDTXGRGmuXps/HXXx8NpaXs7yjuRy59Lladov9DPcX1QWcr/n8G/gwaLBas8zY
+         JZSAezSbxljPw==
+Message-ID: <1e03adf9-2aea-63ab-93ae-a73836a7081a@kernel.org>
+Date:   Tue, 26 Jul 2022 22:00:55 +0200
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SA2PR11MB5100.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 418cab29-17b8-4138-af5e-08da6f33a792
-X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Jul 2022 18:21:27.1145
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: xJSScAkn6Ya+M8k+XtHyi+D8eW/ItTCv99mK5Kz00fb27NaveP32Es27F+yY7Yd3nAKZ89u1OXnlwYrefg38PoL80yNQWFd5WYT8Bt1Ca8M=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR11MB2806
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH V7 01/16] rv: Add Runtime Verification (RV) interface
+Content-Language: en-US
+To:     Steven Rostedt <rostedt@goodmis.org>
+Cc:     Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Ingo Molnar <mingo@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Will Deacon <will@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Marco Elver <elver@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Gabriele Paoloni <gpaoloni@redhat.com>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Clark Williams <williams@redhat.com>,
+        Tao Zhou <tao.zhou@linux.dev>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-trace-devel@vger.kernel.org
+References: <cover.1658778484.git.bristot@kernel.org>
+ <2aa3b18239f170ba23263f18d166d08634ed65dd.1658778484.git.bristot@kernel.org>
+ <20220726122237.44386359@gandalf.local.home>
+From:   Daniel Bristot de Oliveira <bristot@kernel.org>
+In-Reply-To: <20220726122237.44386359@gandalf.local.home>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On 7/26/22 18:22, Steven Rostedt wrote:
+> On Mon, 25 Jul 2022 22:11:13 +0200
+> Daniel Bristot de Oliveira <bristot@kernel.org> wrote:
+> 
+> 
+>> +/**
+>> + * rv_disable_monitor - disable a given runtime monitor
+>> + *
+>> + * Returns 0 on success.
+>> + */
+>> +int rv_disable_monitor(struct rv_monitor_def *mdef)
+>> +{
+>> +	int enabled;
+>> +
+>> +	enabled = __rv_disable_monitor(mdef);
+>> +
+> 
+> Does this function need to be holding any locks when called?
+> 
+> Because it is not static, and that means something can call it without
+> locks. If needed, you need to add a lockdep_assert() helper.
+
+Ooops, yes, it needs!
+
+I reworked this function so it gets the lock, and __rv_disabled_monitor() now checks
+lockdep_assert().
+
+>> +	if (enabled) {
+>> +		/*
+>> +		 * Wait for the execution of all previous events.
+>> +		 */
+>> +		tracepoint_synchronize_unregister();
+>> +	}
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +/**
+>> + * rv_enable_monitor - enable a given runtime monitor
+>> + *
+>> + * Returns 0 on success, error otherwise.
+>> + */
+>> +int rv_enable_monitor(struct rv_monitor_def *mdef)
+>> +{
+>> +	int retval;
+>> +
+>> +	if (mdef->monitor->enabled)
+>> +		return 0;
+>> +
+>> +	retval = mdef->monitor->enable();
+>> +
+>> +	if (!retval)
+>> +		mdef->monitor->enabled = 1;
+>> +
+>> +	return retval;
+>> +}
+>> +
+>> +/*
+>> + * interface for enabling/disabling a monitor.
+>> + */
+>> +static ssize_t monitor_enable_write_data(struct file *filp, const char __user *user_buf,
+>> +					 size_t count, loff_t *ppos)
+>> +{
+>> +	struct rv_monitor_def *mdef = filp->private_data;
+>> +	int retval;
+>> +	bool val;
+>> +
+>> +	retval = kstrtobool_from_user(user_buf, count, &val);
+>> +	if (retval)
+>> +		return retval;
+>> +
+>> +	retval = count;
+>> +
+>> +	mutex_lock(&rv_interface_lock);
+>> +
+>> +	if (val)
+>> +		retval = rv_enable_monitor(mdef);
+>> +	else
+>> +		retval = rv_disable_monitor(mdef);
+
+and these call __rv_disabled/__rv_enable... as the lock is taken.
+
+>> +
+>> +	mutex_unlock(&rv_interface_lock);
+>> +
+>> +	return retval ? : count;
+>> +}
+>> +
+> 
+> [..]
+> 
+>> +
+>> +/*
+>> + * enabled_monitors interface.
+>> + */
+>> +static void disable_all_monitors(void)
+>> +{
+>> +	struct rv_monitor_def *mdef;
+>> +	int enabled = 0;
+>> +
+>> +	mutex_lock(&rv_interface_lock);
+>> +
+>> +	list_for_each_entry(mdef, &rv_monitors_list, list)
+>> +		enabled += __rv_disable_monitor(mdef);
+>> +
+>> +	if (enabled) {
+>> +		/*
+>> +		 * Wait for the execution of all current events.
+>> +		 */
+> 
+> And do we really need to hold the locks when calling the synchronization?
+> 
+> I think we only care if the caller sees a synchronized view of changes, the
+> locks will help synchronize the internal code.
+
+I think we need. For instance:
+
+CPU 0:				CPU 1:
+disable_monitor(x)              enable_monitor(x)
+   lock()
+	disable()
+   unlock()      		lock()
+   wait without the lock  	    enable()
+   	
+        <old preempted events with inconsistent data>
+
+so by holding the lock we avoid this case...
+
+no?
+
+>> +		tracepoint_synchronize_unregister();
+>> +	}
+>> +
+>> +	mutex_unlock(&rv_interface_lock);
+>> +}
+>> +
+> 
+> [..]
+> 
+>> +/**
+>> + * rv_monitoring_on - checks if monitoring is on
+>> + *
+>> + * Returns 1 if on, 0 otherwise.
+>> + */
+>> +bool rv_monitoring_on(void)
+>> +{
+>> +	/* monitoring_on */
+> 
+> You need a better comment than that.
+> 
+> What is this synchronizing?
 
 
-> -----Original Message-----
-> From: Jakub Kicinski <kuba@kernel.org>
-> Sent: Monday, July 25, 2022 6:14 PM
-> To: Keller, Jacob E <jacob.e.keller@intel.com>
-> Cc: Jiri Pirko <jiri@resnulli.us>; netdev@vger.kernel.org
-> Subject: Re: [net-next PATCH 1/2] devlink: add dry run attribute to flash=
- update
->=20
-> Hm, yes. Don't invest too much effort into rendering per-cmd policies
-> right now, tho. I've started working on putting the parsing policies
-> in YAML last Friday. This way we can auto-gen the policy for the kernel
-> and user space can auto-gen the parser/nl TLV writer. Long story short
-> we can kill two birds with one stone if you hold off until I have the
-> format ironed out. For now maybe just fork the policies into two -
-> with and without dry run attr. We'll improve the granularity later
-> when doing the YAML conversion.
+like:
+	/* Ensures that concurrent monitors reads a consistent data */
 
-I'm also worried about the process for transitioning from the existing non-=
-strict policy to a strict validation of per-command policies. How does that=
- impact backwards compatibilty, and will we need to introduce new ops or no=
-t?
+But I wonder if it is needed, given that we now wait for all the events
+to be processed before switching it back again, e.g., having the
+monitoring_on as old data is not a problem.
 
-I know we had to introduce new ops for the strict versions of the PTP ioctl=
-s. However those were dealing with (possibly) uninitialized values, where-i=
-n userspace may have been accidentally sending values so we could no longer=
- extend the reserved fields.
+>> +	smp_rmb();
+>> +	return READ_ONCE(monitoring_on);
+>> +}
+>> +
+>> +/*
+>> + * monitoring_on general switcher.
+>> + */
+>> +static ssize_t monitoring_on_read_data(struct file *filp, char __user *user_buf,
+>> +				       size_t count, loff_t *ppos)
+>> +{
+>> +	const char *buff;
+>> +
+>> +	buff = rv_monitoring_on() ? "1\n" : "0\n";
+>> +
+>> +	return simple_read_from_buffer(user_buf, count, ppos, buff, strlen(buff) + 1);
+>> +}
+>> +
+>> +static void turn_monitoring_off(void)
+>> +{
+>> +	WRITE_ONCE(monitoring_on, false);
+>> +	/* monitoring_on */
+> 
+> Same here.
+> 
+>> +	smp_wmb();
+>> +}
+>> +
+>> +static void reset_all_monitors(void)
+>> +{
+>> +	struct rv_monitor_def *mdef;
+>> +
+>> +	list_for_each_entry(mdef, &rv_monitors_list, list) {
+>> +		if (mdef->monitor->enabled)
+>> +			mdef->monitor->reset();
+>> +	}
+>> +}
+>> +
+>> +static void turn_monitoring_on(void)
+>> +{
+>> +	reset_all_monitors();
+> 
+> Why does this reset all monitors but turn_monitoring_off() does not?
 
-For netlink, in this case the userspace code would need to be intentionally=
- adding netlink attributes. I would think that well behaved userspace would=
- rather get an error when the command isn't honoring an attribute...
+When we turn monitoring off, the monitors will stop monitoring while yet
+in sync with the events generated by the system, i.e., all the events after
+the start were processed.
 
-But in a technical sense that would still be breaking backwards compatibili=
-ty, since it would cause an application that used to "work" to break. Ofcou=
-rse in the case of something like DEVLINK_ATTR_DRY_RUN, the userspace may n=
-ot be working as intended, and it might be considered a bug.
+But if we disabled the monitor, and some events get ignored, the monitors
+will be out of sync with the system. Thus, resetting the monitor to
+for a synchronization between the monitors and the system is needed, before
+enabling monitoring back.
 
-In short: for backwards compatibility, it seems like we might not be able t=
-o migrate existing ops to strict validation and would need to replace them?=
- That seems like a very big step...
+> You should keep that out.
+
+did not get :-(
+
+>> +	WRITE_ONCE(monitoring_on, true);
+>> +	/* monitoring_on */
+>> +	smp_wmb();
+>> +}
+>> +
+>> +static ssize_t monitoring_on_write_data(struct file *filp, const char __user *user_buf,
+>> +					size_t count, loff_t *ppos)
+>> +{
+>> +	int retval;
+>> +	bool val;
+>> +
+>> +	retval = kstrtobool_from_user(user_buf, count, &val);
+>> +	if (retval)
+>> +		return retval;
+>> +
+>> +	mutex_lock(&rv_interface_lock);
+>> +
+>> +	if (val)
+>> +		turn_monitoring_on();
+>> +	else
+>> +		turn_monitoring_off();
+>> +
+>> +	/*
+>> +	 * Wait for the execution of all current events to notice
+>> +	 * the change before returning to user-space.
+>> +	 */
+>> +	tracepoint_synchronize_unregister();
+> 
+> Again, I think we want this outside the lock.
+
+I fear a problem similar to the one I said before could happen. For
+instance, turning monitoring off and on could result on monitors with
+old data being back enable with "reseted" data...
+
+>> +
+>> +	mutex_unlock(&rv_interface_lock);
+>> +
+>> +	return count;
+>> +}
+>> +
+>> +static const struct file_operations monitoring_on_fops = {
+>> +	.open   = simple_open,
+>> +	.llseek = no_llseek,
+>> +	.write  = monitoring_on_write_data,
+>> +	.read   = monitoring_on_read_data,
+>> +};
+>> +
+>> +static void destroy_monitor_dir(struct rv_monitor_def *mdef)
+>> +{
+>> +	rv_remove(mdef->root_d);
+>> +}
+>> +
+>> +/**
+>> + * rv_register_monitor - register a rv monitor.
+>> + * @monitor:    The rv_monitor to be registered.
+>> + *
+>> + * Returns 0 if successful, error otherwise.
+>> + */
+>> +int rv_register_monitor(struct rv_monitor *monitor)
+>> +{
+>> +	struct rv_monitor_def *r;
+>> +	int retval = 0;
+>> +
+>> +	if (strlen(monitor->name) >= MAX_RV_MONITOR_NAME_SIZE) {
+>> +		pr_info("Monitor %s has a name longer than %d\n", monitor->name,
+>> +			MAX_RV_MONITOR_NAME_SIZE);
+>> +		return -1;
+>> +	}
+>> +
+>> +	mutex_lock(&rv_interface_lock);
+>> +
+>> +	list_for_each_entry(r, &rv_monitors_list, list) {
+>> +		if (strcmp(monitor->name, r->monitor->name) == 0) {
+>> +			pr_info("Monitor %s is already registered\n", monitor->name);
+>> +			retval = -1;
+>> +			goto out_unlock;
+>> +		}
+>> +	}
+>> +
+>> +	r = kzalloc(sizeof(struct rv_monitor_def), GFP_KERNEL);
+>> +	if (!r) {
+>> +		retval = -ENOMEM;
+>> +		goto out_unlock;
+>> +	}
+>> +
+>> +	r->monitor = monitor;
+>> +
+>> +	retval = create_monitor_dir(r);
+>> +	if (retval) {
+>> +		kfree(r);
+>> +		goto out_unlock;
+>> +	}
+>> +
+>> +	list_add_tail(&r->list, &rv_monitors_list);
+>> +
+>> +out_unlock:
+>> +	mutex_unlock(&rv_interface_lock);
+>> +	return retval;
+>> +}
+>> +
+>> +/**
+>> + * rv_unregister_monitor - unregister a rv monitor.
+>> + * @monitor:    The rv_monitor to be unregistered.
+>> + *
+>> + * Returns 0 if successful, error otherwise.
+>> + */
+>> +int rv_unregister_monitor(struct rv_monitor *monitor)
+>> +{
+>> +	struct rv_monitor_def *ptr, *next;
+>> +
+>> +	mutex_lock(&rv_interface_lock);
+>> +
+>> +	list_for_each_entry_safe(ptr, next, &rv_monitors_list, list) {
+>> +		if (strcmp(monitor->name, ptr->monitor->name) == 0) {
+>> +			rv_disable_monitor(ptr);
+>> +			list_del(&ptr->list);
+>> +			destroy_monitor_dir(ptr);
+>> +		}
+>> +	}
+>> +
+>> +	mutex_unlock(&rv_interface_lock);
+>> +	return 0;
+>> +}
+>> +
+>> +int __init rv_init_interface(void)
+>> +{
+>> +	struct dentry *tmp;
+>> +
+>> +	rv_root.root_dir = rv_create_dir("rv", NULL);
+>> +	if (!rv_root.root_dir)
+>> +		goto out_err;
+>> +
+>> +	rv_root.monitors_dir = rv_create_dir("monitors", rv_root.root_dir);
+>> +	if (!rv_root.monitors_dir)
+>> +		goto out_err;
+>> +
+>> +	tmp = rv_create_file("available_monitors", RV_MODE_READ, rv_root.root_dir, NULL,
+>> +			     &available_monitors_ops);
+>> +	if (!tmp)
+>> +		goto out_err;
+>> +
+>> +	tmp = rv_create_file("enabled_monitors", RV_MODE_WRITE, rv_root.root_dir, NULL,
+>> +			     &enabled_monitors_ops);
+>> +	if (!tmp)
+>> +		goto out_err;
+>> +
+>> +	tmp = rv_create_file("monitoring_on", RV_MODE_WRITE, rv_root.root_dir, NULL,
+>> +			     &monitoring_on_fops);
+>> +	if (!tmp)
+>> +		goto out_err;
+>> +
+> 
+> This should call "turn_monitoriing_on()" instead of open coding it,
+> especially since it includes a memory barrier (another reason to not
+> reset the monitors in that function.
+
+Here we do not need to reset monitors... but monitors would not be enabled anyway as
+they are not loaded yet.... and so I wonder if we need the barrier here...
+
+-- Daniel
+> 
+> -- Steve
+> 
+> 
+>> +	WRITE_ONCE(monitoring_on, true);
+>> +	/* monitoring_on */
+>> +	smp_wmb();
+>> +
+>> +	return 0;
+>> +
+>> +out_err:
+>> +	rv_remove(rv_root.root_dir);
+>> +	printk(KERN_ERR "RV: Error while creating the RV interface\n");
+>> +	return 1;
+>> +}
+
