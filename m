@@ -2,80 +2,110 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C954FC00140
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Jul 2022 13:58:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 57C75C19F21
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Jul 2022 15:06:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238925AbiGZN6X (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 26 Jul 2022 09:58:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41132 "EHLO
+        id S239515AbiGZPGc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 26 Jul 2022 11:06:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39780 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238863AbiGZN6W (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Jul 2022 09:58:22 -0400
-Received: from out30-43.freemail.mail.aliyun.com (out30-43.freemail.mail.aliyun.com [115.124.30.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD875BF53;
-        Tue, 26 Jul 2022 06:58:20 -0700 (PDT)
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R131e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04400;MF=xianting.tian@linux.alibaba.com;NM=1;PH=DS;RN=22;SR=0;TI=SMTPD_---0VKVecKN_1658843892;
-Received: from 192.168.1.4(mailfrom:xianting.tian@linux.alibaba.com fp:SMTPD_---0VKVecKN_1658843892)
-          by smtp.aliyun-inc.com;
-          Tue, 26 Jul 2022 21:58:14 +0800
-Subject: Re: [PATCH V4 0/5] RISC-V fixups to work with crash tool
-To:     Conor.Dooley@microchip.com, paul.walmsley@sifive.com,
-        palmer@dabbelt.com, aou@eecs.berkeley.edu, anup@brainfault.org,
-        heiko@sntech.de, guoren@kernel.org, mick@ics.forth.gr,
-        alexandre.ghiti@canonical.com, bhe@redhat.com, vgoyal@redhat.com,
-        dyoung@redhat.com, corbet@lwn.net
-Cc:     kexec@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
-        crash-utility@redhat.com, huanyi.xj@alibaba-inc.com,
-        heinrich.schuchardt@canonical.com, k-hagio-ab@nec.com,
-        hschauhan@nulltrace.org
-References: <20220726093729.1231867-1-xianting.tian@linux.alibaba.com>
- <651b552d-8954-e58c-e994-4a9782f1112a@microchip.com>
-From:   Xianting Tian <xianting.tian@linux.alibaba.com>
-Message-ID: <0f723ce0-48b4-b31d-e590-94b45cef8fa5@linux.alibaba.com>
-Date:   Tue, 26 Jul 2022 21:58:12 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
- Gecko/20100101 Thunderbird/78.14.0
+        with ESMTP id S239502AbiGZPGb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Jul 2022 11:06:31 -0400
+Received: from email.cn (m218-153.88.com [110.43.218.153])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ABE6210FEC
+        for <linux-doc@vger.kernel.org>; Tue, 26 Jul 2022 08:06:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.cn;
+        s=dkim; h=Date:From:To; bh=/ZqJi1toepBVp5SIIKaOCT58f3wKbnuv+0u7o
+        Rzhf7w=; b=k/9JBDTQ1b1avrr/X5RGAXIOnJtWOedj+8NIKggdMmAK5Re9w1YGC
+        NwLqmarfdr82vTwJFd1X2XJpiyqFfN6RklnvCf6vfbwzGYdj9RUPOnJddX15pkzl
+        af65fcfh7CcbM+ePNxMXGV2j4jQhaUnKH2ys1vctslgY53ZndnpvSo=
+Received: from bobwxc.mipc (unknown [120.242.71.147])
+        by v_coremail2-frontend-2 (Coremail) with SMTP id GiKnCgAnzxPYAuBiewBiAA--.45525S2;
+        Tue, 26 Jul 2022 23:06:02 +0800 (CST)
+Date:   Tue, 26 Jul 2022 23:06:00 +0800
+From:   Wu XiangCheng <bobwxc@email.cn>
+To:     Yanteng Si <siyanteng@loongson.cn>
+Cc:     alexs@kernel.org, seakeel@gmail.com, corbet@lwn.net,
+        chenhuacai@kernel.org, jiaxun.yang@flygoat.com,
+        linux-doc@vger.kernel.org, siyanteng01@gmail.com,
+        zhoubinbin@loongson.cn, yizhou.tang@shopee.com,
+        wanjiabing@vivo.com, leoyang.li@nxp.com, src.res@email.cn
+Subject: Re: [PATCH 8/8] Docs/zh_CN: Update the translation of sched-stats to
+ 5.19-rc8
+Message-ID: <YuAC2JmisthCIb7U@bobwxc.mipc>
+References: <cover.1658740151.git.siyanteng@loongson.cn>
+ <d46c5dfb2b6a138ba418b04f41f5bd73ebd7248d.1658740151.git.siyanteng@loongson.cn>
 MIME-Version: 1.0
-In-Reply-To: <651b552d-8954-e58c-e994-4a9782f1112a@microchip.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <d46c5dfb2b6a138ba418b04f41f5bd73ebd7248d.1658740151.git.siyanteng@loongson.cn>
+X-CM-TRANSID: GiKnCgAnzxPYAuBiewBiAA--.45525S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7CryxKr1fZFWxWw4xuFyUZFb_yoW8ZrW8pr
+        9rWr4xGr18AF90kwn2gw15GFW8GF47Aw4Utr1DZa4Yqr93tF4IgFyjkF98XFW2grWrZF9I
+        qa9Yga47u3yjyrDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUymb7Iv0xC_Cr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
+        cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
+        v20xvE14v26r1I6r4UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j6F4UM28EF7xvwVC2
+        z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4UJVWxJr1le2I262IYc4
+        CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E74AGY7Cv6cx26F4U
+        Jr1UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwACI402YVCY1x02628vn2kIc2
+        xKxwCY02Avz4vE14v_XrWl42xK82IYc2Ij64vIr41l42xK82IY6x8ErcxFaVAv8VWxJr1U
+        JwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4
+        vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IY
+        x2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26c
+        xKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAF
+        wI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07U2Ap5UUUUU=
+X-Originating-IP: [120.242.71.147]
+X-CM-SenderInfo: pere453f6hztlloou0/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Mon, Jul 25, 2022 at 05:24:47PM +0800, Yanteng Si wrote:
+> Update to commit 6c757e9f55f0 ("docs/scheduler:
+> fix unit error")
+> 
+> ddb21d27a6a5 ("docs/scheduler: Change unit of
+> cpu_time and rq_time to nanoseconds")
+> 
+> Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
 
-在 2022/7/26 下午5:52, Conor.Dooley@microchip.com 写道:
-> On 26/07/2022 10:37, Xianting Tian wrote:
->> EXTERNAL EMAIL: Do not click links or open attachments unless you know the content is safe
-> Ah I see you've already sent a v4.
->
->> Changes v1 -> v2:
->>    1, remove the patch "Add a fast call path of crash_kexec()" from this series
->>    of patches, as it already applied to riscv git.
->>    https://git.kernel.org/pub/scm/linux/kernel/git/riscv/linux.git/commit/?h=for-next&id=3f1901110a89b0e2e13adb2ac8d1a7102879ea98
->>    2, add 'Reviewed-by' based on the comments of v1.
->> Changes v2 -> v3:
->>    use "riscv" instead of "riscv64" in patch 5 subject line.
->> Changes v3 -> v4:
->>    use "riscv" instead of "riscv64" in the summary of patch 5 subject line.
-> There's no need to respin a series for the sake 3 characters in the cover
-> letter (so sorry if you misunderstood me!)...
->
->> Xianting Tian (5):
->>     RISC-V: use __smp_processor_id() instead of smp_processor_id()
->>     RISC-V: Add arch_crash_save_vmcoreinfo support
->>     riscv: Add modules to virtual kernel memory layout dump
->>     RISC-V: Fixup getting correct current pc
->>     riscv: crash_core: Export kernel vm layout, phys_ram_base
-> ...but it would've been good to align these to either "riscv:" or
-> "RISC-V:" & not mix the two in a series. Don't do this right away,
-> it is okay to wait for more significant changes before sending out
-> a new version as this sort of thing could easily be changed when
-> being applied.
-Many thanks, I got it, waiting these patches to be applied:)
->
-> Thanks,
-> Conor.
->
->
+Reviewed-by: Wu XiangCheng <bobwxc@email.cn>
+
+Thanks,
+	Wu
+
+> ---
+>  .../translations/zh_CN/scheduler/sched-stats.rst          | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/Documentation/translations/zh_CN/scheduler/sched-stats.rst b/Documentation/translations/zh_CN/scheduler/sched-stats.rst
+> index 1c68c3d1c283..c5e0be663837 100644
+> --- a/Documentation/translations/zh_CN/scheduler/sched-stats.rst
+> +++ b/Documentation/translations/zh_CN/scheduler/sched-stats.rst
+> @@ -57,8 +57,8 @@ cpu<N> 1 2 3 4 5 6 7 8 9
+>  
+>  接下来的三个统计数据描述了调度延迟：
+>  
+> -     7) 本处理器运行任务的总时间，单位是jiffies
+> -     8) 本处理器任务等待运行的时间，单位是jiffies
+> +     7) 本处理器运行任务的总时间，单位是纳秒
+> +     8) 本处理器任务等待运行的时间，单位是纳秒
+>       9) 本CPU运行了#个时间片
+>  
+>  域统计数据
+> @@ -146,8 +146,8 @@ domain<N> <cpumask> 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23
+>  schedstats还添加了一个新的/proc/<pid>/schedstat文件，来提供一些进程级的
+>  相同信息。这个文件中，有三个字段与该进程相关：
+>  
+> -     1) 在CPU上运行花费的时间
+> -     2) 在运行队列上等待的时间
+> +     1) 在CPU上运行花费的时间(单位是纳秒)
+> +     2) 在运行队列上等待的时间(单位是纳秒)
+>       3) 在CPU上运行了#个时间片
+>  
+>  可以很容易地编写一个程序，利用这些额外的字段来报告一个特定的进程或一组进程在
+> -- 
+> 2.31.1
+
