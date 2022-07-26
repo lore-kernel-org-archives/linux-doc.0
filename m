@@ -2,91 +2,114 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 49797C00140
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Jul 2022 16:31:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 96964C00140
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Jul 2022 17:55:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229998AbiGZQb5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 26 Jul 2022 12:31:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44418 "EHLO
+        id S239737AbiGZRzZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 26 Jul 2022 13:55:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45598 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229804AbiGZQb4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Jul 2022 12:31:56 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9845F765A;
-        Tue, 26 Jul 2022 09:31:55 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 1F23161513;
-        Tue, 26 Jul 2022 16:31:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5BD8BC433C1;
-        Tue, 26 Jul 2022 16:31:52 +0000 (UTC)
-Date:   Tue, 26 Jul 2022 12:31:50 -0400
-From:   Steven Rostedt <rostedt@goodmis.org>
-To:     Daniel Bristot de Oliveira <bristot@kernel.org>
-Cc:     Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Ingo Molnar <mingo@redhat.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Will Deacon <will@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Marco Elver <elver@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Gabriele Paoloni <gpaoloni@redhat.com>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Clark Williams <williams@redhat.com>,
-        Tao Zhou <tao.zhou@linux.dev>,
-        Randy Dunlap <rdunlap@infradead.org>,
+        with ESMTP id S239732AbiGZRy6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Jul 2022 13:54:58 -0400
+Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC81B32D96;
+        Tue, 26 Jul 2022 10:54:37 -0700 (PDT)
+Received: by mail-pj1-x1036.google.com with SMTP id y1so5985375pja.4;
+        Tue, 26 Jul 2022 10:54:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc;
+        bh=DFgeZNTjRjBYgNmkhdouEdidU0qh0nBq3Cx2lZF1bjo=;
+        b=CwrXMvt6/2k2vhgXq2Vb5DoxMilL8fBFiWso9p0CwMybnJwusgl9XqfCmfL15TCl/f
+         YO5t7j9otoleOuTxlsKptSB13ABGonnW0GPUIS+uJYv/KPEJI3j4aJ/DtNBD8Pm0JAxr
+         dBjWNczvJno4T49bQoez0qCGdPbHxMN/MSz3IvTKlsDq6A/StReJkCFryjZ9J/mjme06
+         sXd0PRLlqo6DYc57xeeYIBSiV6psMdtqGem+lhK6UtyvHa1s2UFzW3Y2xnRvTScWajy1
+         qVHrNKaL1jqhqbmuoEooMh2JbJgjKpWnzfD58J0gqQf58R3RPlcvmbjpNbpRi+zPEh/H
+         29Xg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc;
+        bh=DFgeZNTjRjBYgNmkhdouEdidU0qh0nBq3Cx2lZF1bjo=;
+        b=Do7zoDzmKq3mTqykYOz/A7O2zRdIaGjqY/5rdMynZ0k4Y6Ek3/t9DSMELqWNOe0p1F
+         38RzLamfPUctuMIrS3ycxW/30jM5XkgvaFg7rWTlu8Hfr0KgLdMZwabI7JmH9Ol0mD6v
+         qXfekNJUkt+TyLWRlqwrlcPWY3noXmUtuuAPKAEp/qYO/ICC1qvLcP/kkWdLJpCC2d+y
+         G9wTwbKvKOASWpGINDhQZFtOJV2/M0+OZ3GgQPv1GQXpexphNFxMdVEeYNIVLBhfq3bX
+         Lkt4G26zGi+CFmqhFb+ArcLhONkl3mfq41CNY9Rqq3TOPakMwmiWakZ21cySoihf6Guu
+         NIMg==
+X-Gm-Message-State: AJIora/kXcbJOpAK5VTkEn6sKj1N000/RjZSRP60HCNXFv0S6owYndrJ
+        ryPzltkLdhp7fiaGPzYSj/4=
+X-Google-Smtp-Source: AGRyM1ud25FajCVCktAoc541/7Za4Wpo53h5rofIYfCdMuUyIOw0RhCVOBbsOD8yCzUyfX1E6liCSw==
+X-Received: by 2002:a17:902:ec8c:b0:16d:4644:950d with SMTP id x12-20020a170902ec8c00b0016d4644950dmr17679208plg.141.1658858077176;
+        Tue, 26 Jul 2022 10:54:37 -0700 (PDT)
+Received: from localhost ([2620:10d:c090:400::5:370d])
+        by smtp.gmail.com with ESMTPSA id v2-20020a1709029a0200b0016d2db82962sm11720422plp.16.2022.07.26.10.54.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 26 Jul 2022 10:54:35 -0700 (PDT)
+Sender: Tejun Heo <htejun@gmail.com>
+Date:   Tue, 26 Jul 2022 07:54:34 -1000
+From:   Tejun Heo <tj@kernel.org>
+To:     Johannes Weiner <hannes@cmpxchg.org>
+Cc:     Chengming Zhou <zhouchengming@bytedance.com>, surenb@google.com,
+        mingo@redhat.com, peterz@infradead.org, corbet@lwn.net,
+        akpm@linux-foundation.org, rdunlap@infradead.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-trace-devel@vger.kernel.org
-Subject: Re: [PATCH V7 11/16] Documentation/rv: Add deterministic automata
- instrumentation documentation
-Message-ID: <20220726123150.208e7a17@gandalf.local.home>
-In-Reply-To: <9ed16a6d24b9d993e09755d6e18ff5e7d5434636.1658778484.git.bristot@kernel.org>
-References: <cover.1658778484.git.bristot@kernel.org>
-        <9ed16a6d24b9d993e09755d6e18ff5e7d5434636.1658778484.git.bristot@kernel.org>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+        songmuchun@bytedance.com, cgroups@vger.kernel.org
+Subject: Re: [PATCH 8/9] sched/psi: add kernel cmdline parameter
+ psi_inner_cgroup
+Message-ID: <YuAqWprKd6NsWs7C@slm.duckdns.org>
+References: <20220721040439.2651-1-zhouchengming@bytedance.com>
+ <20220721040439.2651-9-zhouchengming@bytedance.com>
+ <Yt7KQc0nnOypB2b2@cmpxchg.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Yt7KQc0nnOypB2b2@cmpxchg.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 25 Jul 2022 22:11:23 +0200
-Daniel Bristot de Oliveira <bristot@kernel.org> wrote:
+Hello,
 
-> +++ b/Documentation/trace/rv/da_monitor_instrumentation.rst
-> @@ -0,0 +1,171 @@
+On Mon, Jul 25, 2022 at 12:52:17PM -0400, Johannes Weiner wrote:
+> On Thu, Jul 21, 2022 at 12:04:38PM +0800, Chengming Zhou wrote:
+> > PSI accounts stalls for each cgroup separately and aggregates it
+> > at each level of the hierarchy. This may case non-negligible overhead
+> > for some workloads when under deep level of the hierarchy.
+> > 
+> > commit 3958e2d0c34e ("cgroup: make per-cgroup pressure stall tracking configurable")
+> > make PSI to skip per-cgroup stall accounting, only account system-wide
+> > to avoid this each level overhead.
+> > 
+> > For our use case, we also want leaf cgroup PSI accounted for userspace
+> > adjustment on that cgroup, apart from only system-wide management.
+> 
+> I hear the overhead argument. But skipping accounting in intermediate
+> levels is a bit odd and unprecedented in the cgroup interface. Once we
+> do this, it's conceivable people would like to do the same thing for
+> other stats and accounting, like for instance memory.stat.
+> 
+> Tejun, what are your thoughts on this?
 
+Given that PSI requires on-the-spot recursive accumulation unlike other
+stats, it can add quite a bit of overhead, so I'm sympathetic to the
+argument because PSI can't be made cheaper by kernel being better (or at
+least we don't know how to yet).
 
-> +Finally, the "handle_sched_waking()" will look like::
-> +
-> +  void handle_sched_waking(void *data, struct task_struct *task)
-> +  {
-> +        da_handle_event_wip(sched_waking_wip);
-> +  }
-> +
-> +And the explanation is left for the reader as an exercise.
-> +
-> +enable and disable functions
-> +------------------------
+That said, "leaf-only" feels really hacky to me. My memory is hazy but
+there's nothing preventing any cgroup from being skipped over when updating
+PSI states, right? The state count propagation is recursive but it's each
+task's state being propagated upwards not the child cgroup's, so we can skip
+over any cgroup arbitrarily. ie. we can at least turn off PSI reporting on
+any given cgroup without worrying about affecting others. Am I correct?
 
-The doc processing requires that the '-' count matches the above string
-count. And you may want to capitalize the first letter:
+Assuming the above isn't wrong, if we can figure out how we can re-enable
+it, which is more difficult as the counters need to be resynchronized with
+the current state, that'd be ideal. Then, we can just allow each cgroup to
+enable / disable PSI reporting dynamically as they see fit.
 
-Enable and disable functions
-----------------------------
+Thanks.
 
--- Steve
-
-> +
-> +dot2k automatically creates two special functions::
-> +
-> +  enable_$(MONITOR_NAME)()
-> +  disable_$(MONITOR_NAME)()
-> +
+-- 
+tejun
