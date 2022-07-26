@@ -2,129 +2,61 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5823BC43334
-	for <linux-doc@archiver.kernel.org>; Tue, 26 Jul 2022 02:03:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 93017C43334
+	for <linux-doc@archiver.kernel.org>; Tue, 26 Jul 2022 02:54:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230033AbiGZCD2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 25 Jul 2022 22:03:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48888 "EHLO
+        id S230489AbiGZCyC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 25 Jul 2022 22:54:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47428 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229609AbiGZCD1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Jul 2022 22:03:27 -0400
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9DD02529E;
-        Mon, 25 Jul 2022 19:03:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1658801006; x=1690337006;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=nGXce4BEiuO3MY3YTJ0jEz9ehzkLTWYcY9aS9F+R5ec=;
-  b=YO3jem2z7TU34aPIeZSr1IiLlHdDYgj23rbfy76sCEj7fZyRwl0fJDFI
-   EGN/2TfJIGL1jQoijdT6Jnk4zKmsxgFuqHndzA6qlNi4wzgdXcAJZxfJM
-   mdEzZug0jv1ej1M8rLL75IqiV3lmKmw8ZP4RMEvjqA3OplvN/LMlWnpG/
-   gbCo+NZQxiwGndR8+fFIXCpNsc7UN7l0riBPdBuKk4ebcrY2kbKXxfSqM
-   2hkmlcAnoPS+qEkA0GJ2DTFE26g7zYzFLWsEfxrmgqc4owKyyKmbBJkcS
-   miksatyIn1KvkghX04HG+nPmJ4prIHt/zRN+mXSTDi6gm2E4khai0YZvo
-   g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10419"; a="374139248"
-X-IronPort-AV: E=Sophos;i="5.93,193,1654585200"; 
-   d="scan'208";a="374139248"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jul 2022 19:03:26 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,193,1654585200"; 
-   d="scan'208";a="627698116"
-Received: from lkp-server01.sh.intel.com (HELO e0eace57cfef) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 25 Jul 2022 19:03:25 -0700
-Received: from kbuild by e0eace57cfef with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1oG9uu-0005qC-1G;
-        Tue, 26 Jul 2022 02:03:24 +0000
-Date:   Tue, 26 Jul 2022 10:02:57 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     SeongJae Park <sjpark@amazon.de>
-Cc:     kbuild-all@lists.01.org, linux-kernel@vger.kernel.org,
+        with ESMTP id S231724AbiGZCyB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 25 Jul 2022 22:54:01 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E0ED63C0;
+        Mon, 25 Jul 2022 19:54:00 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 51DCC614E6;
+        Tue, 26 Jul 2022 02:54:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B35BC341C6;
+        Tue, 26 Jul 2022 02:53:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1658804039;
+        bh=VAwM0Pukcei9J+HLXOrH7tgP0PnsOl9w/ECuXeSfQCY=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=nXV1tOduPvxTFYnv5fQcSFpPmueFO9M4S3LwPvnShrcHqIWC3R0vPCVQKAK2jQLmT
+         d2GTMTuAfSycaeiuTp9PsaWFmykUNvj9ZacinvLzSEDAqS9rdxZFoZSHWUiiID3edX
+         czRII5wq+i/oKFjNCjSTY8zJJIZVMM2jYxxMeX898msaWVOoZGVici82HLxWUyHpN0
+         jXkDmHMJH65idgY9BzO5o0SRDtZQiKIHMn7NJ0gjUWPp9vW13DpW8a4Sk1wBF1h3il
+         DSj5FcGzOTFZ0qMI6UzNJfwKG0cuBgfcLYhZgHB/XVrJbaOWrtBtwRUda+6KCYJTVq
+         MzEtMBs1BeQcg==
+Date:   Mon, 25 Jul 2022 19:53:58 -0700
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     Jacob Keller <jacob.e.keller@intel.com>
+Cc:     netdev@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Jiri Pirko <jiri@nvidia.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Tony Nguyen <anthony.l.nguyen@intel.com>,
+        David Ahern <dsahern@kernel.org>,
+        Stephen Hemminger <stephen@networkplumber.org>,
         linux-doc@vger.kernel.org
-Subject: [sj:damon/next 22/25] htmldocs: Documentation/PCI/index.rst:
- WARNING: document isn't included in any toctree
-Message-ID: <202207261047.AMrNATOY-lkp@intel.com>
+Subject: Re: [net-next v3 2/4] devlink: add dry run attribute to flash
+ update
+Message-ID: <20220725195358.05dbbd49@kernel.org>
+In-Reply-To: <20220725205629.3993766-3-jacob.e.keller@intel.com>
+References: <20220725205629.3993766-1-jacob.e.keller@intel.com>
+        <20220725205629.3993766-3-jacob.e.keller@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sj/linux.git damon/next
-head:   7b095128a1a8d7cd001d16012bd33216b7c89b6c
-commit: 5e8617bff7f858577368516ec457f51d18ea940f [22/25] Docs: Modify for DAMON only
-reproduce: make htmldocs
+On Mon, 25 Jul 2022 13:56:27 -0700 Jacob Keller wrote:
+> +		NL_SET_ERR_MSG_ATTR(info->extack, nla_dry_run,
 
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
-
-All warnings (new ones prefixed by >>):
-
->> Documentation/PCI/index.rst: WARNING: document isn't included in any toctree
->> Documentation/accounting/index.rst: WARNING: document isn't included in any toctree
->> Documentation/admin-guide/index.rst: WARNING: document isn't included in any toctree
->> Documentation/arch.rst: WARNING: document isn't included in any toctree
->> Documentation/asm-annotations.rst: WARNING: document isn't included in any toctree
->> Documentation/block/index.rst: WARNING: document isn't included in any toctree
->> Documentation/bpf/index.rst: WARNING: document isn't included in any toctree
->> Documentation/cdrom/index.rst: WARNING: document isn't included in any toctree
->> Documentation/core-api/index.rst: WARNING: document isn't included in any toctree
->> Documentation/cpu-freq/index.rst: WARNING: document isn't included in any toctree
->> Documentation/crypto/index.rst: WARNING: document isn't included in any toctree
->> Documentation/dev-tools/index.rst: WARNING: document isn't included in any toctree
->> Documentation/devicetree/index.rst: WARNING: document isn't included in any toctree
->> Documentation/doc-guide/index.rst: WARNING: document isn't included in any toctree
->> Documentation/driver-api/index.rst: WARNING: document isn't included in any toctree
->> Documentation/fault-injection/index.rst: WARNING: document isn't included in any toctree
->> Documentation/fb/index.rst: WARNING: document isn't included in any toctree
->> Documentation/filesystems/index.rst: WARNING: document isn't included in any toctree
->> Documentation/firmware-guide/index.rst: WARNING: document isn't included in any toctree
->> Documentation/fpga/index.rst: WARNING: document isn't included in any toctree
->> Documentation/gpu/index.rst: WARNING: document isn't included in any toctree
->> Documentation/hid/index.rst: WARNING: document isn't included in any toctree
->> Documentation/hwmon/index.rst: WARNING: document isn't included in any toctree
->> Documentation/i2c/index.rst: WARNING: document isn't included in any toctree
->> Documentation/iio/index.rst: WARNING: document isn't included in any toctree
->> Documentation/infiniband/index.rst: WARNING: document isn't included in any toctree
->> Documentation/input/index.rst: WARNING: document isn't included in any toctree
->> Documentation/isdn/index.rst: WARNING: document isn't included in any toctree
->> Documentation/kbuild/index.rst: WARNING: document isn't included in any toctree
->> Documentation/kernel-hacking/index.rst: WARNING: document isn't included in any toctree
->> Documentation/leds/index.rst: WARNING: document isn't included in any toctree
->> Documentation/livepatch/index.rst: WARNING: document isn't included in any toctree
->> Documentation/locking/index.rst: WARNING: document isn't included in any toctree
->> Documentation/maintainer/index.rst: WARNING: document isn't included in any toctree
->> Documentation/mhi/index.rst: WARNING: document isn't included in any toctree
->> Documentation/misc-devices/index.rst: WARNING: document isn't included in any toctree
->> Documentation/mm/index.rst: WARNING: document isn't included in any toctree
->> Documentation/netlabel/index.rst: WARNING: document isn't included in any toctree
->> Documentation/networking/index.rst: WARNING: document isn't included in any toctree
->> Documentation/pcmcia/index.rst: WARNING: document isn't included in any toctree
->> Documentation/peci/index.rst: WARNING: document isn't included in any toctree
->> Documentation/power/index.rst: WARNING: document isn't included in any toctree
->> Documentation/process/index.rst: WARNING: document isn't included in any toctree
->> Documentation/scheduler/index.rst: WARNING: document isn't included in any toctree
->> Documentation/scsi/index.rst: WARNING: document isn't included in any toctree
->> Documentation/security/index.rst: WARNING: document isn't included in any toctree
->> Documentation/sound/index.rst: WARNING: document isn't included in any toctree
->> Documentation/spi/index.rst: WARNING: document isn't included in any toctree
->> Documentation/staging/index.rst: WARNING: document isn't included in any toctree
->> Documentation/target/index.rst: WARNING: document isn't included in any toctree
->> Documentation/timers/index.rst: WARNING: document isn't included in any toctree
->> Documentation/tools/index.rst: WARNING: document isn't included in any toctree
->> Documentation/trace/index.rst: WARNING: document isn't included in any toctree
->> Documentation/translations/index.rst: WARNING: document isn't included in any toctree
->> Documentation/usb/index.rst: WARNING: document isn't included in any toctree
->> Documentation/userspace-api/index.rst: WARNING: document isn't included in any toctree
->> Documentation/virt/index.rst: WARNING: document isn't included in any toctree
->> Documentation/w1/index.rst: WARNING: document isn't included in any toctree
->> Documentation/watchdog/index.rst: WARNING: document isn't included in any toctree
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+nla_dry_run is not initialized now (credit: clang)
