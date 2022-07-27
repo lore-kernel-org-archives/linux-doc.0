@@ -2,102 +2,260 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C67CC04A68
-	for <linux-doc@archiver.kernel.org>; Wed, 27 Jul 2022 11:18:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D418C04A68
+	for <linux-doc@archiver.kernel.org>; Wed, 27 Jul 2022 11:28:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231894AbiG0LSd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 27 Jul 2022 07:18:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40206 "EHLO
+        id S231793AbiG0L2r (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 27 Jul 2022 07:28:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46858 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230366AbiG0LSd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Jul 2022 07:18:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id AD2D6BC23
-        for <linux-doc@vger.kernel.org>; Wed, 27 Jul 2022 04:18:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1658920708;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type;
-        bh=7k3HVTGSRUsrBZNnvZlAI9Am+2qyRQXYx0CQhkFznuM=;
-        b=gdlrH/kNSJqhIMBWQPeMb5VKNxqsSMZ78CFpwFhBmb5+hpNdXaQPY6me4G6ZCoCDblmEsD
-        q2xDzz0AXd3+dzaAehE1QATMXiyuTBG2nRRaGw7XZlyp4mifDe6TXi3QOq/2SMWkzlflc7
-        mIlqDW4qqxJRNyS+za20KqByWREJFBk=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-422-F_84IFqsNmmODmvDdAlCLA-1; Wed, 27 Jul 2022 07:18:25 -0400
-X-MC-Unique: F_84IFqsNmmODmvDdAlCLA-1
-Received: by mail-wr1-f72.google.com with SMTP id t12-20020adfa2cc000000b0021e564cde06so2742242wra.17
-        for <linux-doc@vger.kernel.org>; Wed, 27 Jul 2022 04:18:25 -0700 (PDT)
+        with ESMTP id S229489AbiG0L2r (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Jul 2022 07:28:47 -0400
+Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com [IPv6:2607:f8b0:4864:20::52d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C07942ACF
+        for <linux-doc@vger.kernel.org>; Wed, 27 Jul 2022 04:28:44 -0700 (PDT)
+Received: by mail-pg1-x52d.google.com with SMTP id h132so15661795pgc.10
+        for <linux-doc@vger.kernel.org>; Wed, 27 Jul 2022 04:28:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=mOyq3zutjmlDgkHuGtMojLjTlne/bTAyxYnADeLcF+E=;
+        b=DgbacfYUt9CLDz5edyqEw0KnHHV1OQSeEgXDSUOcRuUElGGYZYGwkRarpqoWpcJGuH
+         ZJmZcvHxKF+zt8JAhGLIDwHplkEGpmWePFnLHuAiH3kf81eIXm/cfgajh6A2mC+lGCrF
+         oMO96KT+CyXKoqtXxyiE5wdQJaHrUlB91c9KJQ24rEYXDt/xlNlOz9MTS3b0EC6HmyaZ
+         ysl8H/qAyR/VFsSCpgtYLHXcanNyqWLqaVnwoI8LGmm+X0pKQCBH1N5HgHs9WIV+5zOX
+         G73gDekUPMsZNXJfARBXWEANEsEs7NvMp3/KU0Z2P/7KjUpDbP8HKgPktrVuH0aztC3R
+         PLrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition;
-        bh=7k3HVTGSRUsrBZNnvZlAI9Am+2qyRQXYx0CQhkFznuM=;
-        b=UhD8Oe5ME+AHaJUFFMzDK3zubrySvZtbfAk45qdz8Xno3ydy77jzAG2/lvd/cpI6vV
-         KUV8+73M4pGim+UOpjX6vRaNf+Y6DeJni4NRaWjdcVlDWtYw+JFJXmALOEDDO6Dz7jrk
-         k/JQmUj2g4byd+ffoUaeocjOWxAAuu4/pwcL5Duf9cO0zL3TyQ+n9cMHpVwXuUL7fWj/
-         Qk+RnsdY9mQna5TQuXmT3S41MVoxnhewE/1j6gI8AcSV781KzJnxnmuws63Jd/wlxya0
-         oWmyUXOXNSVhnfuMo9IMzM3GwbV99svHCBYHXMLvxnIf2C0ZP0DH5ekJ8cRTZ1GjryOz
-         HBDA==
-X-Gm-Message-State: AJIora9JiWD04DxPzYgIsk33fvQqruXRxXFqOjpjql8g2Ff9b8XRXSf5
-        DFtO7x2uzc9GnkI4QRFWF1//U77njAAABlPFu0DVS3bc/8def8rKMrsS5JxS+ww8avElOGkbkZg
-        iDicng/S6PYJEte95/QfF
-X-Received: by 2002:adf:d1c6:0:b0:21e:4f40:9029 with SMTP id b6-20020adfd1c6000000b0021e4f409029mr14239247wrd.719.1658920704511;
-        Wed, 27 Jul 2022 04:18:24 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1sa2gsQ6BbGLQeaNowdO7UHKQMe23+XbkAKMQ7BtzS25GGP9sppnD4ZAGn8edtOiIsqQs3wjA==
-X-Received: by 2002:adf:d1c6:0:b0:21e:4f40:9029 with SMTP id b6-20020adfd1c6000000b0021e4f409029mr14239232wrd.719.1658920704190;
-        Wed, 27 Jul 2022 04:18:24 -0700 (PDT)
-Received: from pc-4.home (2a01cb058918ce00dd1a5a4f9908f2d5.ipv6.abo.wanadoo.fr. [2a01:cb05:8918:ce00:dd1a:5a4f:9908:f2d5])
-        by smtp.gmail.com with ESMTPSA id z18-20020a05600c0a1200b003a03185231bsm2137499wmp.31.2022.07.27.04.18.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Jul 2022 04:18:23 -0700 (PDT)
-Date:   Wed, 27 Jul 2022 13:18:21 +0200
-From:   Guillaume Nault <gnault@redhat.com>
-To:     David Miller <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Eric Dumazet <edumazet@google.com>
-Cc:     netdev@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org
-Subject: [PATCH net-next] Documentation: Describe net.ipv4.tcp_reflect_tos.
-Message-ID: <4376126910096258f0a9da93ec53cad99a072afc.1658920560.git.gnault@redhat.com>
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=mOyq3zutjmlDgkHuGtMojLjTlne/bTAyxYnADeLcF+E=;
+        b=EQaSFOOvRvXG7PWULJ6IMcSkSICBQsfkQuJjP5BbR3kqTQ210hXX0YSrBg+cyRzxCz
+         aLiyogNdWCaUEuWSBlxUagOs++52hqa6vOJY1DRjZqMQwHuqj9OvICZdQ72A1Yp4n8D0
+         ROjLzu4ysBlPnjbQKkSShQr72JAT+M927vTdbxVF2iP2IL89bZza3KGvicTSnmfwXWLw
+         Ujcx7uYHaLZXYMZXZ+hyRDpwtkmvmpJDJi4yFde2y6oqLFkmDzYDkYwQswX+poeG1iRA
+         ItCxNd4yNDf8AvKbH7DPALz1KU/XQwL+ksz7NRNtbhefqnJxPS/J0cex1UF27bDczkkY
+         Akaw==
+X-Gm-Message-State: AJIora/oVZ4wwsB2bMZED7YYlFfRNaN+lN8osPO0G4LV1MTpNoViysK3
+        cPuK2DDDlGrWXnocwUPgZ8VaPQ==
+X-Google-Smtp-Source: AGRyM1vpUAG4RMDSZ/dv4EOf5/KFxZTo1fEJ5mvpkhnXNnrfj0tb2GJb5foe4KwII0BBA4BhCcPmIw==
+X-Received: by 2002:a63:fc0c:0:b0:41a:8177:35f with SMTP id j12-20020a63fc0c000000b0041a8177035fmr18410796pgi.285.1658921324126;
+        Wed, 27 Jul 2022 04:28:44 -0700 (PDT)
+Received: from [10.4.228.171] ([139.177.225.235])
+        by smtp.gmail.com with ESMTPSA id u16-20020a170902e5d000b0015e8d4eb219sm13652430plf.99.2022.07.27.04.28.39
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 27 Jul 2022 04:28:43 -0700 (PDT)
+Message-ID: <5f91e194-439a-12c0-4987-5dea0e68a60a@bytedance.com>
+Date:   Wed, 27 Jul 2022 19:28:37 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.0.3
+Subject: Re: [PATCH 9/9] sched/psi: add PSI_IRQ to track IRQ/SOFTIRQ pressure
+Content-Language: en-US
+To:     Johannes Weiner <hannes@cmpxchg.org>
+Cc:     surenb@google.com, mingo@redhat.com, peterz@infradead.org,
+        tj@kernel.org, corbet@lwn.net, akpm@linux-foundation.org,
+        rdunlap@infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, songmuchun@bytedance.com,
+        cgroups@vger.kernel.org
+References: <20220721040439.2651-1-zhouchengming@bytedance.com>
+ <20220721040439.2651-10-zhouchengming@bytedance.com>
+ <Yt7gOhbqYzIKyhfv@cmpxchg.org>
+From:   Chengming Zhou <zhouchengming@bytedance.com>
+In-Reply-To: <Yt7gOhbqYzIKyhfv@cmpxchg.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The tcp_reflect_tos option was introduced in Linux 5.10 but was still
-undocumented.
+On 2022/7/26 02:26, Johannes Weiner wrote:
+> On Thu, Jul 21, 2022 at 12:04:39PM +0800, Chengming Zhou wrote:
+>> Now PSI already tracked workload pressure stall information for
+>> CPU, memory and IO. Apart from these, IRQ/SOFTIRQ could have
+>> obvious impact on some workload productivity, such as web service
+>> workload.
+>>
+>> When CONFIG_IRQ_TIME_ACCOUNTING, we can get IRQ/SOFTIRQ delta time
+>> from update_rq_clock_task(), in which we can record that delta
+>> to CPU curr task's cgroups as PSI_IRQ_FULL status.
+>>
+>> Note we don't use PSI_IRQ_SOME since IRQ/SOFTIRQ always happen in
+>> the current task on the CPU, make nothing productive could run
+>> even if it were runnable, so we only use PSI_IRQ_FULL.
+> 
+> That sounds reasonable.
+> 
+>> For performance impact consideration, this is enabled by default when
+>> CONFIG_IRQ_TIME_ACCOUNTING, but can be disabled by kernel cmdline
+>> parameter "psi_irq=".
+> 
+> If there isn't a concrete usecase already, let's not add another
+> commandline parameter for now.
+> 
+>> @@ -63,9 +64,11 @@ enum psi_states {
+>>  	PSI_MEM_FULL,
+>>  	PSI_CPU_SOME,
+>>  	PSI_CPU_FULL,
+>> +	PSI_IRQ_SOME,
+>> +	PSI_IRQ_FULL,
+>>  	/* Only per-CPU, to weigh the CPU in the global average: */
+>>  	PSI_NONIDLE,
+>> -	NR_PSI_STATES = 7,
+>> +	NR_PSI_STATES = 9,
+>>  };
+> 
+> Unfortunately, this grows the psi state touched by the scheduler into
+> a second cacheline. :( Please reclaim space first.
+> 
+> I think we can remove the NR_CPU task count, which frees up one
+> u32. Something like the below diff should work (untested!)
 
-Signed-off-by: Guillaume Nault <gnault@redhat.com>
----
- Documentation/networking/ip-sysctl.rst | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+Hi, I tested ok, would you mind if I put this patch in this series?
 
-diff --git a/Documentation/networking/ip-sysctl.rst b/Documentation/networking/ip-sysctl.rst
-index 5879ef3bc2cb..70f009f75e74 100644
---- a/Documentation/networking/ip-sysctl.rst
-+++ b/Documentation/networking/ip-sysctl.rst
-@@ -636,6 +636,16 @@ tcp_recovery - INTEGER
- 
- 	Default: 0x1
- 
-+tcp_reflect_tos - BOOLEAN
-+	For listening sockets, reuse the DSCP value of the initial SYN message
-+	for outgoing packets. This allows to have both directions of a TCP
-+	stream to use the same DSCP value, assuming DSCP remains unchanged for
-+	the lifetime of the connection.
-+
-+	This options affects both IPv4 and IPv6.
-+
-+	Default: 0 (disabled)
-+
- tcp_reordering - INTEGER
- 	Initial reordering level of packets in a TCP stream.
- 	TCP stack can then dynamically adjust flow reordering level
--- 
-2.21.3
 
+Subject: [PATCH] sched/psi: remove NR_ONCPU task accounting
+
+We put all fields updated by the scheduler in the first cacheline of
+struct psi_group_cpu for performance.
+
+Since we want add another PSI_IRQ_FULL to track IRQ/SOFTIRQ pressure,
+we need to reclaim space first. This patch remove NR_ONCPU task accounting
+in struct psi_group_cpu, use TSK_ONCPU in state_mask to track instead.
+
+Signed-off-by: Johannes Weiner <hannes@cmpxchg.org>
+Reviewed-by: Chengming Zhou <zhouchengming@bytedance.com>
+Tested-by: Chengming Zhou <zhouchengming@bytedance.com>
+
+
+> 
+> And you should be able to remove PSI_IRQ_SOME, since it's not used
+> anyway. Then we'd be good to go.
+> 
+> diff --git a/include/linux/psi_types.h b/include/linux/psi_types.h
+> index c7fe7c089718..31dc76e2d8ea 100644
+> --- a/include/linux/psi_types.h
+> +++ b/include/linux/psi_types.h
+> @@ -15,13 +15,6 @@ enum psi_task_count {
+>  	NR_IOWAIT,
+>  	NR_MEMSTALL,
+>  	NR_RUNNING,
+> -	/*
+> -	 * This can't have values other than 0 or 1 and could be
+> -	 * implemented as a bit flag. But for now we still have room
+> -	 * in the first cacheline of psi_group_cpu, and this way we
+> -	 * don't have to special case any state tracking for it.
+> -	 */
+> -	NR_ONCPU,
+>  	/*
+>  	 * For IO and CPU stalls the presence of running/oncpu tasks
+>  	 * in the domain means a partial rather than a full stall.
+> @@ -39,9 +32,11 @@ enum psi_task_count {
+>  #define TSK_IOWAIT	(1 << NR_IOWAIT)
+>  #define TSK_MEMSTALL	(1 << NR_MEMSTALL)
+>  #define TSK_RUNNING	(1 << NR_RUNNING)
+> -#define TSK_ONCPU	(1 << NR_ONCPU)
+>  #define TSK_MEMSTALL_RUNNING	(1 << NR_MEMSTALL_RUNNING)
+>  
+> +/* Only one task can be scheduled, no corresponding task count */
+> +#define TSK_ONCPU	(1 << NR_PSI_TASK_COUNTS)
+> +
+>  /* Resources that workloads could be stalled on */
+>  enum psi_res {
+>  	PSI_IO,
+> diff --git a/kernel/sched/psi.c b/kernel/sched/psi.c
+> index a4fa3aadfcba..232e1dbfad46 100644
+> --- a/kernel/sched/psi.c
+> +++ b/kernel/sched/psi.c
+> @@ -215,7 +215,7 @@ void __init psi_init(void)
+>  	group_init(&psi_system);
+>  }
+>  
+> -static bool test_state(unsigned int *tasks, enum psi_states state)
+> +static bool test_state(unsigned int *tasks, enum psi_states state, bool oncpu)
+>  {
+>  	switch (state) {
+>  	case PSI_IO_SOME:
+> @@ -228,9 +228,9 @@ static bool test_state(unsigned int *tasks, enum psi_states state)
+>  		return unlikely(tasks[NR_MEMSTALL] &&
+>  			tasks[NR_RUNNING] == tasks[NR_MEMSTALL_RUNNING]);
+>  	case PSI_CPU_SOME:
+> -		return unlikely(tasks[NR_RUNNING] > tasks[NR_ONCPU]);
+> +		return unlikely(tasks[NR_RUNNING] > oncpu);
+>  	case PSI_CPU_FULL:
+> -		return unlikely(tasks[NR_RUNNING] && !tasks[NR_ONCPU]);
+> +		return unlikely(tasks[NR_RUNNING] && !oncpu);
+>  	case PSI_NONIDLE:
+>  		return tasks[NR_IOWAIT] || tasks[NR_MEMSTALL] ||
+>  			tasks[NR_RUNNING];
+> @@ -692,9 +692,9 @@ static void psi_group_change(struct psi_group *group, int cpu,
+>  			     bool wake_clock)
+>  {
+>  	struct psi_group_cpu *groupc;
+> -	u32 state_mask = 0;
+>  	unsigned int t, m;
+>  	enum psi_states s;
+> +	u32 state_mask;
+>  
+>  	groupc = per_cpu_ptr(group->pcpu, cpu);
+>  
+> @@ -710,6 +710,26 @@ static void psi_group_change(struct psi_group *group, int cpu,
+>  
+>  	record_times(groupc, now);
+>  
+> +	/*
+> +	 * Start with TSK_ONCPU, which doesn't have a corresponding
+> +	 * task count - it's just a boolean flag directly encoded in
+> +	 * the state mask. Clear, set, or carry the current state if
+> +	 * no changes are requested.
+> +	 */
+> +	if (clear & TSK_ONCPU) {
+> +		state_mask = 0;
+> +		clear &= ~TSK_ONCPU;
+> +	} else if (set & TSK_ONCPU) {
+> +		state_mask = TSK_ONCPU;
+> +		set &= ~TSK_ONCPU;
+> +	} else {
+> +		state_mask = groupc->state_mask & TSK_ONCPU;
+> +	}
+> +
+> +	/*
+> +	 * The rest of the state mask is calculated based on the task
+> +	 * counts. Update those first, then construct the mask.
+> +	 */
+>  	for (t = 0, m = clear; m; m &= ~(1 << t), t++) {
+>  		if (!(m & (1 << t)))
+>  			continue;
+> @@ -729,9 +749,8 @@ static void psi_group_change(struct psi_group *group, int cpu,
+>  		if (set & (1 << t))
+>  			groupc->tasks[t]++;
+>  
+> -	/* Calculate state mask representing active states */
+>  	for (s = 0; s < NR_PSI_STATES; s++) {
+> -		if (test_state(groupc->tasks, s))
+> +		if (test_state(groupc->tasks, s, state_mask & TSK_ONCPU))
+>  			state_mask |= (1 << s);
+>  	}
+>  
+> @@ -743,7 +762,7 @@ static void psi_group_change(struct psi_group *group, int cpu,
+>  	 * task in a cgroup is in_memstall, the corresponding groupc
+>  	 * on that cpu is in PSI_MEM_FULL state.
+>  	 */
+> -	if (unlikely(groupc->tasks[NR_ONCPU] && cpu_curr(cpu)->in_memstall))
+> +	if (unlikely((state_mask & TSK_ONCPU) && cpu_curr(cpu)->in_memstall))
+>  		state_mask |= (1 << PSI_MEM_FULL);
+>  
+>  	groupc->state_mask = state_mask;
+> @@ -847,7 +866,8 @@ void psi_task_switch(struct task_struct *prev, struct task_struct *next,
+>  		iter = NULL;
+>  		while ((group = iterate_groups(next, &iter))) {
+>  			if (identical_state &&
+> -			    per_cpu_ptr(group->pcpu, cpu)->tasks[NR_ONCPU]) {
+> +			    (per_cpu_ptr(group->pcpu, cpu)->state_mask &
+> +			     TSK_ONCPU)) {
+>  				common = group;
+>  				break;
+>  			}
