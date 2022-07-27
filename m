@@ -2,327 +2,315 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AF3FEC04A68
-	for <linux-doc@archiver.kernel.org>; Wed, 27 Jul 2022 09:22:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F76CC04A68
+	for <linux-doc@archiver.kernel.org>; Wed, 27 Jul 2022 10:07:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231877AbiG0JWk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 27 Jul 2022 05:22:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36054 "EHLO
+        id S231810AbiG0KHx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 27 Jul 2022 06:07:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45344 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231829AbiG0JW3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Jul 2022 05:22:29 -0400
-Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D18D3474EF
-        for <linux-doc@vger.kernel.org>; Wed, 27 Jul 2022 02:22:18 -0700 (PDT)
-Received: by mail-pj1-x1031.google.com with SMTP id b10so15827559pjq.5
-        for <linux-doc@vger.kernel.org>; Wed, 27 Jul 2022 02:22:18 -0700 (PDT)
+        with ESMTP id S229622AbiG0KHw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Jul 2022 06:07:52 -0400
+Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2308D205FF;
+        Wed, 27 Jul 2022 03:07:51 -0700 (PDT)
+Received: by mail-ej1-x633.google.com with SMTP id j22so30646710ejs.2;
+        Wed, 27 Jul 2022 03:07:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=JMiohqp3iQtkVzvh/AcUrpZO+sy+u+XIdsYeyd5EHeg=;
-        b=N+QUS9oQxPtLDYt4ThEwRBfkvn1jF4M0bpqVeb41RPugcJ7ucHTP/EjP5L5+CdEaT1
-         9MFHsKhwirepuNYPwKDojpsHxU+bwR6OQeoLqbk3hh/BDyuWnZ+JoEWoPeaWQbPqcUmS
-         7YgqN5W6JlpvmuOtRGJUnpoM6+HN0j6y8BjdY=
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=DEFFbVE5fkcHwDG06EcZfk/hymgox/YXRHkwB4f1AUE=;
+        b=eHxqf11IawgeQLRLAfpJeCkGZCpCaS6xCkIklYHl8Y/hoU8bxhacXPQkUoVI1U2rst
+         9cdSWj/J/1T0iPpPNvylrfq3pUQcaQ04ZsGOG54xFM0ZpJRbGg6qJ+6jRUiw9vwMbBFF
+         2WvydI91lgEC6FQv262k9xVZDN4HdrcY8aKvcB5lcwRkkhtRbWadewrp002vypqrSIIU
+         qzYJNIPwtoWzn58BYZT5wJc5rJN5bly8lE8J81iyJZMbGcDgBdNhmaMFKMyMjlG0JN0y
+         s9UJyZKgr/33J+/YnKUq1aw6YUn1rg1yryltfJeoLmNWmxcKf1LPyFrNTM0BHQetMFnY
+         ftSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=JMiohqp3iQtkVzvh/AcUrpZO+sy+u+XIdsYeyd5EHeg=;
-        b=fDlSBB+S3JluCZlrb4132V4xA1fy2cVjIpBNxMI06QmZNALKElz8O1av9dkGAaZQ5a
-         UGhHpa/kyNQfyvFZyRV6SXeJU8UhdRJ+Hr6nKWbDCT5C95Vgq19uz6MEnpdZNF3TM3rG
-         zTl4VLlsY0TOXzSSLxvD8V4GQyq1kXPslCZVuy2XhuYlUzxfYq+LBQqauhhSAHnDv1Gq
-         EviAU9ib9LSij3LGf8IfShWKMcAhBG1lXxw+FgMbl/LSQibREjYq59TdiZ5PmSOJIoMB
-         BlSNyfJgNKQcX2j2TSWQDS7rVxwJBRSJ27TP8HgwQ2zpYde8ohKLtHtl3L7paM6Mwg78
-         +LPw==
-X-Gm-Message-State: AJIora8SuwDQGLMajMzaykjpZjVPkCNX/qPW7kopM8nGUhegklQPBd12
-        oWtwNSqFbc3S2vvaEQQZjUxrOg==
-X-Google-Smtp-Source: AGRyM1tMaBEnAYaZQH9vsA0PFPHMOW5MBtON/xw5Zk6L1JLxD3c1ly8OhFWkDYZb3WVsdcjjRdplxQ==
-X-Received: by 2002:a17:902:e811:b0:16d:684a:eb3a with SMTP id u17-20020a170902e81100b0016d684aeb3amr15867087plg.54.1658913738180;
-        Wed, 27 Jul 2022 02:22:18 -0700 (PDT)
-Received: from rahul_yocto_ubuntu18.ibn.broadcom.net ([192.19.234.250])
-        by smtp.gmail.com with ESMTPSA id w15-20020a17090a380f00b001efa332d365sm1159189pjb.33.2022.07.27.02.22.10
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=DEFFbVE5fkcHwDG06EcZfk/hymgox/YXRHkwB4f1AUE=;
+        b=6ayeizq3ZfOOrx6fqF/QBxbrjL6MsJmXZbgVhya62Ud14eRBYwdJ81a6446dssU90L
+         QHFrOEePds9qB8sG0Ct0M4Tn+/NOdVy7DJFLIEsONMA0C2Bj94BhI6b81ixdoH+Bb94y
+         kPCfgThKMmCXbMdqNM+vsIl8RniAQnQGgbHZ2fCbckjbZ3ezugKSogSzBxCRPU2Ac9aX
+         SJoXKZULmkx/s+HirnJYvb/nLr903aHONPReGsrhnAqjDKtr8W+0JBidHakIMIK2KTGy
+         Sczc54AOh1wTrHRba8cbnhFvYDAgybDf9DQ9j6RJGuzWf2l3krEXRbvIkK/2Tdb75b2K
+         m2LA==
+X-Gm-Message-State: AJIora9g77b8R+YWj69og/c0kQDy551oU5JpHyjhaD+0Hzdyo0GUB27s
+        lYs3xk8az7JW5Fb9DeVtLU6ArLL0Kro/Pw==
+X-Google-Smtp-Source: AGRyM1tQjJ86pmeA3B0d5d4yKEfeaHLpzqhLN7jp+wFhZtGQPqh6bFxhbabTOicANyth0cUCI8NkLg==
+X-Received: by 2002:a17:906:cc15:b0:72b:5e0d:9a2a with SMTP id ml21-20020a170906cc1500b0072b5e0d9a2amr16331658ejb.614.1658916469148;
+        Wed, 27 Jul 2022 03:07:49 -0700 (PDT)
+Received: from DESKTOP-A98GP49.. (cable-178-148-254-8.dynamic.sbb.rs. [178.148.254.8])
+        by smtp.gmail.com with ESMTPSA id 9-20020a170906318900b0072b31123174sm7460777ejy.62.2022.07.27.03.07.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Jul 2022 02:22:14 -0700 (PDT)
-From:   Vikas Gupta <vikas.gupta@broadcom.com>
-To:     jiri@nvidia.com, kuba@kernel.org
-Cc:     netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-        davem@davemloft.net, dsahern@kernel.org,
-        stephen@networkplumber.org, edumazet@google.com, pabeni@redhat.com,
-        ast@kernel.org, leon@kernel.org, linux-doc@vger.kernel.org,
-        corbet@lwn.net, michael.chan@broadcom.com,
-        andrew.gospodarek@broadcom.com, vikas <vikas.gupta@broadcom.com>
-Subject: [PATCH net-next v8 2/2] bnxt_en: implement callbacks for devlink selftests
-Date:   Wed, 27 Jul 2022 14:50:35 +0530
-Message-Id: <20220727092035.35938-3-vikas.gupta@broadcom.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20220727092035.35938-1-vikas.gupta@broadcom.com>
-References: <20220727092035.35938-1-vikas.gupta@broadcom.com>
-Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
-        boundary="00000000000019ec3005e4c5f4b1"
+        Wed, 27 Jul 2022 03:07:48 -0700 (PDT)
+From:   Aleksa Savic <savicaleksa83@gmail.com>
+To:     linux-hwmon@vger.kernel.org
+Cc:     leonard.anderweit@gmail.com,
+        Aleksa Savic <savicaleksa83@gmail.com>,
+        Jack Doan <me@jackdoan.com>, Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] hwmon: (aquacomputer_d5next) Add support for Aquacomputer Quadro fan controller
+Date:   Wed, 27 Jul 2022 12:06:05 +0200
+Message-Id: <20220727100606.9328-1-savicaleksa83@gmail.com>
+X-Mailer: git-send-email 2.37.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
---00000000000019ec3005e4c5f4b1
+Extend aquacomputer_d5next driver to expose hardware temperature sensors
+and fans of the Aquacomputer Quadro fan controller, which communicates
+through a proprietary USB HID protocol. Implemented by Jack Doan [1].
 
-From: vikas <vikas.gupta@broadcom.com>
+Four temperature sensors and PWM controllable fans are available. The
+liquid flow sensor is also exposed, implemented by Leonard Anderweit [2].
 
-Add callbacks
-=============
-.selftest_check: returns true for flash selftest.
-.selftest_run: runs a flash selftest.
+Additionally, serial number, firmware version and power-on count are
+exposed through debugfs.
 
-Also, refactor NVM APIs so that they can be
-used with devlink and ethtool both.
+This driver has been tested on x86_64.
 
-Signed-off-by: vikas <vikas.gupta@broadcom.com>
-Signed-off-by: Vikas Gupta <vikas.gupta@broadcom.com>
+[1] https://github.com/aleksamagicka/aquacomputer_d5next-hwmon/pull/5
+[2] https://github.com/aleksamagicka/aquacomputer_d5next-hwmon/pull/9
+
+Originally-from: Jack Doan <me@jackdoan.com>
+Originally-from: Leonard Anderweit <leonard.anderweit@gmail.com>
+Signed-off-by: Aleksa Savic <savicaleksa83@gmail.com>
 ---
- .../net/ethernet/broadcom/bnxt/bnxt_devlink.c | 61 +++++++++++++++++++
- .../net/ethernet/broadcom/bnxt/bnxt_ethtool.c | 24 ++++----
- .../net/ethernet/broadcom/bnxt/bnxt_ethtool.h | 12 ++++
- 3 files changed, 85 insertions(+), 12 deletions(-)
+ Documentation/hwmon/aquacomputer_d5next.rst | 17 +++--
+ drivers/hwmon/Kconfig                       |  6 +-
+ drivers/hwmon/aquacomputer_d5next.c         | 69 +++++++++++++++++++--
+ 3 files changed, 78 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/net/ethernet/broadcom/bnxt/bnxt_devlink.c b/drivers/net/ethernet/broadcom/bnxt/bnxt_devlink.c
-index 6b3d4f4c2a75..14df8cfc2946 100644
---- a/drivers/net/ethernet/broadcom/bnxt/bnxt_devlink.c
-+++ b/drivers/net/ethernet/broadcom/bnxt/bnxt_devlink.c
-@@ -20,6 +20,8 @@
- #include "bnxt_ulp.h"
- #include "bnxt_ptp.h"
- #include "bnxt_coredump.h"
-+#include "bnxt_nvm_defs.h"
-+#include "bnxt_ethtool.h"
+diff --git a/Documentation/hwmon/aquacomputer_d5next.rst b/Documentation/hwmon/aquacomputer_d5next.rst
+index 717e28226cde..33649a1e3a05 100644
+--- a/Documentation/hwmon/aquacomputer_d5next.rst
++++ b/Documentation/hwmon/aquacomputer_d5next.rst
+@@ -9,6 +9,7 @@ Supported devices:
+ * Aquacomputer Farbwerk RGB controller
+ * Aquacomputer Farbwerk 360 RGB controller
+ * Aquacomputer Octo fan controller
++* Aquacomputer Quadro fan controller
  
- static void __bnxt_fw_recover(struct bnxt *bp)
- {
-@@ -610,6 +612,63 @@ static int bnxt_dl_reload_up(struct devlink *dl, enum devlink_reload_action acti
- 	return rc;
- }
+ Author: Aleksa Savic
  
-+static bool bnxt_nvm_test(struct bnxt *bp, struct netlink_ext_ack *extack)
-+{
-+	u32 datalen;
-+	u16 index;
-+	u8 *buf;
+@@ -33,6 +34,9 @@ better suited for userspace tools.
+ The Octo exposes four temperature sensors and eight PWM controllable fans, along
+ with their speed (in RPM), power, voltage and current.
+ 
++The Quadro exposes four temperature sensors, a flow sensor and four PWM controllable
++fans, along with their speed (in RPM), power, voltage and current.
 +
-+	if (bnxt_find_nvram_item(bp->dev, BNX_DIR_TYPE_VPD,
-+				 BNX_DIR_ORDINAL_FIRST, BNX_DIR_EXT_NONE,
-+				 &index, NULL, &datalen) || !datalen) {
-+		NL_SET_ERR_MSG_MOD(extack, "nvm test vpd entry error");
-+		return false;
-+	}
-+
-+	buf = kzalloc(datalen, GFP_KERNEL);
-+	if (!buf) {
-+		NL_SET_ERR_MSG_MOD(extack, "insufficient memory for nvm test");
-+		return false;
-+	}
-+
-+	if (bnxt_get_nvram_item(bp->dev, index, 0, datalen, buf)) {
-+		NL_SET_ERR_MSG_MOD(extack, "nvm test vpd read error");
-+		goto err;
-+	}
-+
-+	if (bnxt_flash_nvram(bp->dev, BNX_DIR_TYPE_VPD, BNX_DIR_ORDINAL_FIRST,
-+			     BNX_DIR_EXT_NONE, 0, 0, buf, datalen)) {
-+		NL_SET_ERR_MSG_MOD(extack, "nvm test vpd write error");
-+		goto err;
-+	}
-+
-+	return true;
-+
-+err:
-+	kfree(buf);
-+	return false;
-+}
-+
-+static bool bnxt_dl_selftest_check(struct devlink *dl, unsigned int id,
-+				   struct netlink_ext_ack *extack)
-+{
-+	return id == DEVLINK_ATTR_SELFTEST_ID_FLASH;
-+}
-+
-+static enum devlink_selftest_status bnxt_dl_selftest_run(struct devlink *dl,
-+							 unsigned int id,
-+							 struct netlink_ext_ack *extack)
-+{
-+	struct bnxt *bp = bnxt_get_bp_from_dl(dl);
-+
-+	if (id == DEVLINK_ATTR_SELFTEST_ID_FLASH)
-+		return bnxt_nvm_test(bp, extack) ?
-+				DEVLINK_SELFTEST_STATUS_PASS :
-+				DEVLINK_SELFTEST_STATUS_FAIL;
-+
-+	return DEVLINK_SELFTEST_STATUS_SKIP;
-+}
-+
- static const struct devlink_ops bnxt_dl_ops = {
- #ifdef CONFIG_BNXT_SRIOV
- 	.eswitch_mode_set = bnxt_dl_eswitch_mode_set,
-@@ -622,6 +681,8 @@ static const struct devlink_ops bnxt_dl_ops = {
- 	.reload_limits	  = BIT(DEVLINK_RELOAD_LIMIT_NO_RESET),
- 	.reload_down	  = bnxt_dl_reload_down,
- 	.reload_up	  = bnxt_dl_reload_up,
-+	.selftest_check	  = bnxt_dl_selftest_check,
-+	.selftest_run	  = bnxt_dl_selftest_run,
+ The Farbwerk and Farbwerk 360 expose four temperature sensors. Depending on the device,
+ not all sysfs and debugfs entries will be available.
+ 
+@@ -45,13 +49,14 @@ the kernel and supports hotswapping.
+ Sysfs entries
+ -------------
+ 
+-================ =============================================
++================ ==============================================
+ temp[1-4]_input  Temperature sensors (in millidegrees Celsius)
+-fan[1-2]_input   Pump/fan speed (in RPM)
+-power[1-2]_input Pump/fan power (in micro Watts)
+-in[0-2]_input    Pump/fan voltage (in milli Volts)
+-curr[1-2]_input  Pump/fan current (in milli Amperes)
+-================ =============================================
++fan[1-8]_input   Pump/fan speed (in RPM) / Flow speed (in dL/h)
++power[1-8]_input Pump/fan power (in micro Watts)
++in[0-7]_input    Pump/fan voltage (in milli Volts)
++curr[1-8]_input  Pump/fan current (in milli Amperes)
++pwm[1-8]         Fan PWM (0 - 255)
++================ ==============================================
+ 
+ Debugfs entries
+ ---------------
+diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
+index fd2446cf343b..e70d9614bec2 100644
+--- a/drivers/hwmon/Kconfig
++++ b/drivers/hwmon/Kconfig
+@@ -257,13 +257,13 @@ config SENSORS_AHT10
+ 	  will be called aht10.
+ 
+ config SENSORS_AQUACOMPUTER_D5NEXT
+-	tristate "Aquacomputer D5 Next, Octo, Farbwerk, and Farbwerk 360"
++	tristate "Aquacomputer D5 Next, Octo, Quadro, Farbwerk, and Farbwerk 360"
+ 	depends on USB_HID
+ 	select CRC16
+ 	help
+ 	  If you say yes here you get support for sensors and fans of
+-	  the Aquacomputer D5 Next watercooling pump, Octo fan
+-	  controller, Farbwerk and Farbwerk 360 RGB controllers, where
++	  the Aquacomputer D5 Next watercooling pump, Octo and Quadro fan
++	  controllers, Farbwerk and Farbwerk 360 RGB controllers, where
+ 	  available.
+ 
+ 	  This driver can also be built as a module. If so, the module
+diff --git a/drivers/hwmon/aquacomputer_d5next.c b/drivers/hwmon/aquacomputer_d5next.c
+index 738a1df8eae6..66430553cc45 100644
+--- a/drivers/hwmon/aquacomputer_d5next.c
++++ b/drivers/hwmon/aquacomputer_d5next.c
+@@ -1,6 +1,7 @@
+ // SPDX-License-Identifier: GPL-2.0+
+ /*
+- * hwmon driver for Aquacomputer devices (D5 Next, Farbwerk, Farbwerk 360, Octo)
++ * hwmon driver for Aquacomputer devices (D5 Next, Farbwerk, Farbwerk 360, Octo,
++ * Quadro)
+  *
+  * Aquacomputer devices send HID reports (with ID 0x01) every second to report
+  * sensor values.
+@@ -21,17 +22,19 @@
+ 
+ #define USB_VENDOR_ID_AQUACOMPUTER	0x0c70
+ #define USB_PRODUCT_ID_FARBWERK		0xf00a
++#define USB_PRODUCT_ID_QUADRO		0xf00d
+ #define USB_PRODUCT_ID_D5NEXT		0xf00e
+ #define USB_PRODUCT_ID_FARBWERK360	0xf010
+ #define USB_PRODUCT_ID_OCTO		0xf011
+ 
+-enum kinds { d5next, farbwerk, farbwerk360, octo };
++enum kinds { d5next, farbwerk, farbwerk360, octo, quadro };
+ 
+ static const char *const aqc_device_names[] = {
+ 	[d5next] = "d5next",
+ 	[farbwerk] = "farbwerk",
+ 	[farbwerk360] = "farbwerk360",
+-	[octo] = "octo"
++	[octo] = "octo",
++	[quadro] = "quadro"
  };
  
- static const struct devlink_ops bnxt_vf_dl_ops;
-diff --git a/drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.c b/drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.c
-index 7191e5d74208..87eb5362ad70 100644
---- a/drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.c
-+++ b/drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.c
-@@ -2176,14 +2176,14 @@ static void bnxt_print_admin_err(struct bnxt *bp)
- 	netdev_info(bp->dev, "PF does not have admin privileges to flash or reset the device\n");
- }
+ #define DRIVER_NAME			"aquacomputer_d5next"
+@@ -97,6 +100,18 @@ static u8 octo_sensor_fan_offsets[] = { 0x7D, 0x8A, 0x97, 0xA4, 0xB1, 0xBE, 0xCB
+ /* Fan speed registers in Octo control report (from 0-100%) */
+ static u16 octo_ctrl_fan_offsets[] = { 0x5B, 0xB0, 0x105, 0x15A, 0x1AF, 0x204, 0x259, 0x2AE };
  
--static int bnxt_find_nvram_item(struct net_device *dev, u16 type, u16 ordinal,
--				u16 ext, u16 *index, u32 *item_length,
--				u32 *data_length);
-+int bnxt_find_nvram_item(struct net_device *dev, u16 type, u16 ordinal,
-+			 u16 ext, u16 *index, u32 *item_length,
-+			 u32 *data_length);
++/* Register offsets for the Quadro fan controller */
++#define QUADRO_POWER_CYCLES		0x18
++#define QUADRO_NUM_FANS			4
++#define QUADRO_NUM_SENSORS		4
++#define QUADRO_SENSOR_START		0x34
++#define QUADRO_CTRL_REPORT_SIZE		0x3c1
++#define QUADRO_FLOW_SENSOR_OFFSET	0x6e
++static u8 quadro_sensor_fan_offsets[] = { 0x70, 0x7D, 0x8A, 0x97 };
++
++/* Fan speed registers in Quadro control report (from 0-100%) */
++static u16 quadro_ctrl_fan_offsets[] = { 0x36, 0x8b, 0xe0, 0x135 };
++
+ /* Labels for D5 Next */
+ static const char *const label_d5next_temp[] = {
+ 	"Coolant temp"
+@@ -124,7 +139,7 @@ static const char *const label_d5next_current[] = {
+ 	"Fan current"
+ };
  
--static int bnxt_flash_nvram(struct net_device *dev, u16 dir_type,
--			    u16 dir_ordinal, u16 dir_ext, u16 dir_attr,
--			    u32 dir_item_len, const u8 *data,
--			    size_t data_len)
-+int bnxt_flash_nvram(struct net_device *dev, u16 dir_type,
-+		     u16 dir_ordinal, u16 dir_ext, u16 dir_attr,
-+		     u32 dir_item_len, const u8 *data,
-+		     size_t data_len)
- {
- 	struct bnxt *bp = netdev_priv(dev);
- 	struct hwrm_nvm_write_input *req;
-@@ -2836,8 +2836,8 @@ static int bnxt_get_nvram_directory(struct net_device *dev, u32 len, u8 *data)
- 	return rc;
- }
+-/* Labels for Farbwerk, Farbwerk 360 and Octo temperature sensors */
++/* Labels for Farbwerk, Farbwerk 360 and Octo and Quadro temperature sensors */
+ static const char *const label_temp_sensors[] = {
+ 	"Sensor 1",
+ 	"Sensor 2",
+@@ -132,7 +147,7 @@ static const char *const label_temp_sensors[] = {
+ 	"Sensor 4"
+ };
  
--static int bnxt_get_nvram_item(struct net_device *dev, u32 index, u32 offset,
--			       u32 length, u8 *data)
-+int bnxt_get_nvram_item(struct net_device *dev, u32 index, u32 offset,
-+			u32 length, u8 *data)
- {
- 	struct bnxt *bp = netdev_priv(dev);
- 	int rc;
-@@ -2871,9 +2871,9 @@ static int bnxt_get_nvram_item(struct net_device *dev, u32 index, u32 offset,
- 	return rc;
- }
+-/* Labels for Octo */
++/* Labels for Octo and Quadro (except speed) */
+ static const char *const label_fan_speed[] = {
+ 	"Fan 1 speed",
+ 	"Fan 2 speed",
+@@ -177,6 +192,15 @@ static const char *const label_fan_current[] = {
+ 	"Fan 8 current"
+ };
  
--static int bnxt_find_nvram_item(struct net_device *dev, u16 type, u16 ordinal,
--				u16 ext, u16 *index, u32 *item_length,
--				u32 *data_length)
-+int bnxt_find_nvram_item(struct net_device *dev, u16 type, u16 ordinal,
-+			 u16 ext, u16 *index, u32 *item_length,
-+			 u32 *data_length)
- {
- 	struct hwrm_nvm_find_dir_entry_output *output;
- 	struct hwrm_nvm_find_dir_entry_input *req;
-diff --git a/drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.h b/drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.h
-index a59284215e78..a8ecef8ab82c 100644
---- a/drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.h
-+++ b/drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.h
-@@ -58,5 +58,17 @@ int bnxt_flash_package_from_fw_obj(struct net_device *dev, const struct firmware
- int bnxt_get_pkginfo(struct net_device *dev, char *ver, int size);
- void bnxt_ethtool_init(struct bnxt *bp);
- void bnxt_ethtool_free(struct bnxt *bp);
-+int bnxt_find_nvram_item(struct net_device *dev, u16 type, u16 ordinal,
-+			 u16 ext, u16 *index, u32 *item_length,
-+			 u32 *data_length);
-+int bnxt_find_nvram_item(struct net_device *dev, u16 type, u16 ordinal,
-+			 u16 ext, u16 *index, u32 *item_length,
-+			 u32 *data_length);
-+int bnxt_flash_nvram(struct net_device *dev, u16 dir_type,
-+		     u16 dir_ordinal, u16 dir_ext, u16 dir_attr,
-+		     u32 dir_item_len, const u8 *data,
-+		     size_t data_len);
-+int bnxt_get_nvram_item(struct net_device *dev, u32 index, u32 offset,
-+			u32 length, u8 *data);
++/* Labels for Quadro fan speeds */
++static const char *const label_quadro_speeds[] = {
++	"Fan 1 speed",
++	"Fan 2 speed",
++	"Fan 3 speed",
++	"Fan 4 speed",
++	"Flow speed [dL/h]"
++};
++
+ struct aqc_data {
+ 	struct hid_device *hdev;
+ 	struct device *hwmon_dev;
+@@ -197,6 +221,7 @@ struct aqc_data {
+ 	int num_temp_sensors;
+ 	int temp_sensor_start_offset;
+ 	u16 power_cycle_count_offset;
++	u8 flow_sensor_offset;
  
- #endif
+ 	/* General info, same across all devices */
+ 	u32 serial_number[2];
+@@ -334,6 +359,18 @@ static umode_t aqc_is_visible(const void *data, enum hwmon_sensor_types type, u3
+ 		}
+ 		break;
+ 	case hwmon_fan:
++		switch (priv->kind) {
++		case quadro:
++			/* Special case to support flow sensor */
++			if (channel < priv->num_fans + 1)
++				return 0444;
++			break;
++		default:
++			if (channel < priv->num_fans)
++				return 0444;
++			break;
++		}
++		break;
+ 	case hwmon_power:
+ 	case hwmon_curr:
+ 		if (channel < priv->num_fans)
+@@ -578,6 +615,9 @@ static int aqc_raw_event(struct hid_device *hdev, struct hid_report *report, u8
+ 		priv->voltage_input[2] = get_unaligned_be16(data + D5NEXT_5V_VOLTAGE) * 10;
+ 		priv->voltage_input[3] = get_unaligned_be16(data + D5NEXT_12V_VOLTAGE) * 10;
+ 		break;
++	case quadro:
++		priv->speed_input[4] = get_unaligned_be16(data + priv->flow_sensor_offset);
++		break;
+ 	default:
+ 		break;
+ 	}
+@@ -719,6 +759,24 @@ static int aqc_probe(struct hid_device *hdev, const struct hid_device_id *id)
+ 		priv->voltage_label = label_fan_voltage;
+ 		priv->current_label = label_fan_current;
+ 		break;
++	case USB_PRODUCT_ID_QUADRO:
++		priv->kind = quadro;
++
++		priv->num_fans = QUADRO_NUM_FANS;
++		priv->fan_sensor_offsets = quadro_sensor_fan_offsets;
++		priv->fan_ctrl_offsets = quadro_ctrl_fan_offsets;
++		priv->num_temp_sensors = QUADRO_NUM_SENSORS;
++		priv->temp_sensor_start_offset = QUADRO_SENSOR_START;
++		priv->power_cycle_count_offset = QUADRO_POWER_CYCLES;
++		priv->buffer_size = QUADRO_CTRL_REPORT_SIZE;
++		priv->flow_sensor_offset = QUADRO_FLOW_SENSOR_OFFSET;
++
++		priv->temp_label = label_temp_sensors;
++		priv->speed_label = label_quadro_speeds;
++		priv->power_label = label_fan_power;
++		priv->voltage_label = label_fan_voltage;
++		priv->current_label = label_fan_current;
++		break;
+ 	default:
+ 		break;
+ 	}
+@@ -774,6 +832,7 @@ static const struct hid_device_id aqc_table[] = {
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_AQUACOMPUTER, USB_PRODUCT_ID_FARBWERK) },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_AQUACOMPUTER, USB_PRODUCT_ID_FARBWERK360) },
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_AQUACOMPUTER, USB_PRODUCT_ID_OCTO) },
++	{ HID_USB_DEVICE(USB_VENDOR_ID_AQUACOMPUTER, USB_PRODUCT_ID_QUADRO) },
+ 	{ }
+ };
+ 
 -- 
-2.31.1
+2.37.1
 
-
---00000000000019ec3005e4c5f4b1
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Description: S/MIME Cryptographic Signature
-
-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
-I7qKxvF8Yo7eGTnHRTa99J+6yTd88AKVuhM5TEhpC8cS7qvrQXJje+Uing2xWC4FH76LEWIFH0Pt
-x8C1WoCU0ClXHU/XfzH2mYrFANBSCeP1Co6QdEfRAgMBAAGjggHZMIIB1TAOBgNVHQ8BAf8EBAMC
-BaAwgaMGCCsGAQUFBwEBBIGWMIGTME4GCCsGAQUFBzAChkJodHRwOi8vc2VjdXJlLmdsb2JhbHNp
-Z24uY29tL2NhY2VydC9nc2djY3IzcGVyc29uYWxzaWduMmNhMjAyMC5jcnQwQQYIKwYBBQUHMAGG
-NWh0dHA6Ly9vY3NwLmdsb2JhbHNpZ24uY29tL2dzZ2NjcjNwZXJzb25hbHNpZ24yY2EyMDIwME0G
-A1UdIARGMEQwQgYKKwYBBAGgMgEoCjA0MDIGCCsGAQUFBwIBFiZodHRwczovL3d3dy5nbG9iYWxz
-aWduLmNvbS9yZXBvc2l0b3J5LzAJBgNVHRMEAjAAMEkGA1UdHwRCMEAwPqA8oDqGOGh0dHA6Ly9j
-cmwuZ2xvYmFsc2lnbi5jb20vZ3NnY2NyM3BlcnNvbmFsc2lnbjJjYTIwMjAuY3JsMCMGA1UdEQQc
-MBqBGHZpa2FzLmd1cHRhQGJyb2FkY29tLmNvbTATBgNVHSUEDDAKBggrBgEFBQcDBDAfBgNVHSME
-GDAWgBSWM9HmWBdbNHWKgVZk1b5I3qGPzzAdBgNVHQ4EFgQUUc6J11rH3s6PyZQ0zIVZHIuP20Yw
-DQYJKoZIhvcNAQELBQADggEBALvCjXn9gy9a2nU/Ey0nphGZefIP33ggiyuKnmqwBt7Wk/uDHIIc
-kkIlqtTbo0x0PqphS9A23CxCDjKqZq2WN34fL5MMW83nrK0vqnPloCaxy9/6yuLbottBY4STNuvA
-mQ//Whh+PE+DZadqiDbxXbos3IH8AeFXH4A1zIqIrc0Um2/CSD/T6pvu9QrchtvemfP0z/f1Bk+8
-QbQ4ARVP93WV1I13US69evWXw+mOv9VnejShU9PMcDK203xjXbBOi9Hm+fthrWfwIyGoC5aEf7vd
-PKkEDt4VZ9RbudZU/c3N8+kURaHNtrvu2K+mQs5w/AF7HYZThqmOzQJnvMRjuL8xggJtMIICaQIB
-ATBrMFsxCzAJBgNVBAYTAkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNhMTEwLwYDVQQDEyhH
-bG9iYWxTaWduIEdDQyBSMyBQZXJzb25hbFNpZ24gMiBDQSAyMDIwAgwYjepatB64S625eswwDQYJ
-YIZIAWUDBAIBBQCggdQwLwYJKoZIhvcNAQkEMSIEIEoNDlfSL2Z+a0/6kiYapPiDRjnqzJ63uykO
-oYQuYYlPMBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZIhvcNAQkFMQ8XDTIyMDcyNzA5
-MjIxOFowaQYJKoZIhvcNAQkPMVwwWjALBglghkgBZQMEASowCwYJYIZIAWUDBAEWMAsGCWCGSAFl
-AwQBAjAKBggqhkiG9w0DBzALBgkqhkiG9w0BAQowCwYJKoZIhvcNAQEHMAsGCWCGSAFlAwQCATAN
-BgkqhkiG9w0BAQEFAASCAQB2P5T3jzoQQA9zNSsKY+IZ/cZGZhwdnzEQrxkTEDCsDuHE7PBXtsni
-VNjNBg7qR7Vdg+94i7EO5V0Ne42isHSUjTECbuevYnkFQwk9fyYpA+cUKQyt8jWxgy2Q/k2ba4z4
-qaaVxm0OsRspdvcxxHCay/3CLs4JEVQVZZTNmEKZJna6b8pktdw2GWVyppiKwUnh9GV8122Qy6al
-4VH8jdoHJSakCeAOfmh+FoG1sN3XnWO8fgzZrbsa79VajtLfQ90j90wGszoGuI6Umfeu5m03k9zn
-vNEX29CrncUsy96zFZTeiOgQnn07mIzPAY6wleLn+Abfl8tv14vRMF6r71s9
---00000000000019ec3005e4c5f4b1--
