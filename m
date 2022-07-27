@@ -2,103 +2,285 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A3CE6C04A68
-	for <linux-doc@archiver.kernel.org>; Wed, 27 Jul 2022 15:10:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EE416C3F6B0
+	for <linux-doc@archiver.kernel.org>; Wed, 27 Jul 2022 15:29:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233143AbiG0PKF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 27 Jul 2022 11:10:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52842 "EHLO
+        id S232716AbiG0P3w (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 27 Jul 2022 11:29:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38158 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232494AbiG0PKE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Jul 2022 11:10:04 -0400
-Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D79DA45F70
-        for <linux-doc@vger.kernel.org>; Wed, 27 Jul 2022 08:10:02 -0700 (PDT)
-Received: by mail-pj1-x1034.google.com with SMTP id 15-20020a17090a098f00b001f305b453feso2516078pjo.1
-        for <linux-doc@vger.kernel.org>; Wed, 27 Jul 2022 08:10:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=DejOeyc5Bty+6/iRLEMvFvVGs80thD2zi1F/z5KtilQ=;
-        b=S4xk6iuqrK2V6O+FNHAsu2C7x4XJs+23oGUi5oHWTWQnBlli+yAG+HZmiWeLLlbpbM
-         RtHNKyzYNQ98X6FHE7uMEGImP/fIXqGsdoSBUoLrmG1K2yz3+KjnFpBbq2yvEkc/tlWn
-         zUTEw1Sl3/zTmYldqoh6SVe8Zabq4bwGO6R++U5wbsWMatVsJ3lWm7r72s1N0W31yKiC
-         gz2M30fO7at6a+e80cvKZaQ9wByQaqZgUHjfyGOJUxVy6NoZKYyJAP3nEHZkbYXOjMJu
-         qmDLVLKFFge0qg9+DNv4gYYiAzMT2+1fUuDMBSqcFglBV4wbKrWaxKIK6ZdRgTO08ldB
-         Pb9g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=DejOeyc5Bty+6/iRLEMvFvVGs80thD2zi1F/z5KtilQ=;
-        b=qNE2kbytiY9GBb0yX/7/mrhBm+GMtV0r0QfbMviEIoFv32Kg9mn+fxPLF3HP/pVVan
-         j/AsHxnZZOrm1ZYYsoXrtPjh7CE7UiJooOXtve0E+qxm/jw56afhHGGSJsUulVPRbmgz
-         DNiQnvhoNsfgM7Cl5/5O+7vAoWJfOJPPUrYUuzEqnSdKKCOQNsi82WSf9QSNseP9nq/z
-         KI8XtJE0wsdiQCqf6A0yxXzOk/et/35Y4b3KOtFimt+F49pgSrgvJ/ItDN4GA+1E59BI
-         oIb31Z+nhpxQqkQBnUI+tXcTxFD5oiHSR+u4Jb6E0V567EwjIfMujkO/C3vqx4vPo0fU
-         FTkw==
-X-Gm-Message-State: AJIora/fLuFRGspu6QJGtxemqWLe1mgSWfQTXrWnoHc/sBY8xYkyNVAG
-        4ZlzgWw2SeXjzJ9XVrOLYOUCnA==
-X-Google-Smtp-Source: AGRyM1tJGcZbBWUjLKGbseXoJr5i9c7RB6dIOx70sfvMv3NlaLdAQvu5MhRh9in6aMFTdo++OnqdXA==
-X-Received: by 2002:a17:90b:3d05:b0:1f3:e80:7b30 with SMTP id pt5-20020a17090b3d0500b001f30e807b30mr2957028pjb.185.1658934601992;
-        Wed, 27 Jul 2022 08:10:01 -0700 (PDT)
-Received: from [10.4.228.171] ([139.177.225.235])
-        by smtp.gmail.com with ESMTPSA id k5-20020a17090ad08500b001ef87123615sm1815996pju.37.2022.07.27.08.09.57
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 27 Jul 2022 08:10:01 -0700 (PDT)
-Message-ID: <0a1f7ce7-2869-c189-3703-89bff2198874@bytedance.com>
-Date:   Wed, 27 Jul 2022 23:09:53 +0800
+        with ESMTP id S232685AbiG0P3v (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Jul 2022 11:29:51 -0400
+Received: from out0.migadu.com (out0.migadu.com [IPv6:2001:41d0:2:267::])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D45A543E46;
+        Wed, 27 Jul 2022 08:29:48 -0700 (PDT)
+Date:   Wed, 27 Jul 2022 23:29:30 +0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+        t=1658935786;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=XQrejTaMYuUHoomdqjHX2mOE0j2mTbj/6H4sN0Zrsqw=;
+        b=BDLGgqLijSSSZxT6bO95BcJxqoGAdzhHhq076epoxblFTz57dpT680fRFihm/k6DRVmQn+
+        k64E9CrW4YAR7xvhae+LO1EruFcoctTRLGaoFNn6DR9nI3mKl9/6Ae85IV1PlTc+CLZufn
+        1EoRHMBJkOFzXiTNXGD/+imhcw+EHK8=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From:   Tao Zhou <tao.zhou@linux.dev>
+To:     Daniel Bristot de Oliveira <bristot@kernel.org>
+Cc:     Steven Rostedt <rostedt@goodmis.org>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Ingo Molnar <mingo@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Will Deacon <will@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Marco Elver <elver@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Gabriele Paoloni <gpaoloni@redhat.com>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Clark Williams <williams@redhat.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-trace-devel@vger.kernel.org, Tao Zhou <tao.zhou@linux.dev>
+Subject: Re: [PATCH V7 04/16] rv/include: Add deterministic automata monitor
+ definition via C macros
+Message-ID: <YuFZ2scVb658mhoq@geo.homenetwork>
+References: <cover.1658778484.git.bristot@kernel.org>
+ <75d14829c5234c2ff43aff744ac41f246b970ed8.1658778484.git.bristot@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.0.3
-Subject: Re: [PATCH 9/9] sched/psi: add PSI_IRQ to track IRQ/SOFTIRQ pressure
-Content-Language: en-US
-To:     Johannes Weiner <hannes@cmpxchg.org>
-Cc:     surenb@google.com, mingo@redhat.com, peterz@infradead.org,
-        tj@kernel.org, corbet@lwn.net, akpm@linux-foundation.org,
-        rdunlap@infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, songmuchun@bytedance.com,
-        cgroups@vger.kernel.org
-References: <20220721040439.2651-1-zhouchengming@bytedance.com>
- <20220721040439.2651-10-zhouchengming@bytedance.com>
- <Yt7gOhbqYzIKyhfv@cmpxchg.org>
- <5f91e194-439a-12c0-4987-5dea0e68a60a@bytedance.com>
- <YuE26+jMjnE4GZZ2@cmpxchg.org>
-From:   Chengming Zhou <zhouchengming@bytedance.com>
-In-Reply-To: <YuE26+jMjnE4GZZ2@cmpxchg.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <75d14829c5234c2ff43aff744ac41f246b970ed8.1658778484.git.bristot@kernel.org>
+X-Migadu-Flow: FLOW_OUT
+X-Migadu-Auth-User: linux.dev
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2022/7/27 21:00, Johannes Weiner wrote:
-> On Wed, Jul 27, 2022 at 07:28:37PM +0800, Chengming Zhou wrote:
->> On 2022/7/26 02:26, Johannes Weiner wrote:
->>> I think we can remove the NR_CPU task count, which frees up one
->>> u32. Something like the below diff should work (untested!)
->>
->> Hi, I tested ok, would you mind if I put this patch in this series?
->>
->> Subject: [PATCH] sched/psi: remove NR_ONCPU task accounting
->>
->> We put all fields updated by the scheduler in the first cacheline of
->> struct psi_group_cpu for performance.
->>
->> Since we want add another PSI_IRQ_FULL to track IRQ/SOFTIRQ pressure,
->> we need to reclaim space first. This patch remove NR_ONCPU task accounting
->> in struct psi_group_cpu, use TSK_ONCPU in state_mask to track instead.
-> 
-> Thanks for testing it, that sounds good.
-> 
->> Signed-off-by: Johannes Weiner <hannes@cmpxchg.org>
->> Reviewed-by: Chengming Zhou <zhouchengming@bytedance.com>
->> Tested-by: Chengming Zhou <zhouchengming@bytedance.com>
-> 
-> Since you're handling the patch, you need to add your own
-> Signed-off-by: as well. And keep From: Johannes (git commit --author).
+On Mon, Jul 25, 2022 at 10:11:16PM +0200, Daniel Bristot de Oliveira wrote:
 
-Got it. Thanks!
+> +/*
+> + * Event handler for per_task monitors.
+> + */
+> +#define DECLARE_DA_MON_MODEL_HANDLER_PER_TASK(name, type)					\
+> +												\
+> +static inline type da_event_##name(struct da_monitor *da_mon, struct task_struct *tsk,		\
 
+Not sure here the type `type` why not the bool. The return value is ture/false.
+I checked the caller of this function, the return value is stored on `int`.
+
+> +				   enum events_##name event)					\
+> +{												\
+> +	type curr_state = da_monitor_curr_state_##name(da_mon);					\
+> +	type next_state = model_get_next_state_##name(curr_state, event);			\
+> +												\
+> +	if (next_state != INVALID_STATE) {							\
+> +		da_monitor_set_state_##name(da_mon, next_state);				\
+> +												\
+> +		trace_event_##name(tsk->pid,							\
+> +				   model_get_state_name_##name(curr_state),			\
+> +				   model_get_event_name_##name(event),				\
+> +				   model_get_state_name_##name(next_state),			\
+> +				   model_is_final_state_##name(next_state));			\
+> +												\
+> +		return true;									\
+> +	}											\
+> +												\
+> +	if (rv_reacting_on_##name())								\
+> +		cond_react_##name(format_react_msg_##name(curr_state, event));			\
+> +												\
+> +	trace_error_##name(tsk->pid,								\
+> +			   model_get_state_name_##name(curr_state),				\
+> +			   model_get_event_name_##name(event));					\
+> +												\
+> +	return false;										\
+> +}
+
+[snip]
+
+> +/*
+> + * Handle event for implicit monitor: da_get_monitor_##name() will figure out
+> + * the monitor.
+> + */
+> +#define DECLARE_DA_MON_MONITOR_HANDLER_IMPLICIT(name, type)					\
+> +												\
+> +static inline void __da_handle_event_##name(struct da_monitor *da_mon,				\
+> +					    enum events_##name event)				\
+> +{												\
+> +	int retval;										\
+> +												\
+> +	retval = da_monitor_handling_event_##name(da_mon);					\
+> +	if (!retval)										\
+> +		return;										\
+
+I checked the callers of __da_handle_event_##name():
+da_handle_event_##name() for all cases need the above check.
+da_handle_start_event_##name() for all cases may not need this check.
+(this function checked the enable first and the da_monitoring later and if
+it is not monitoring it will start monitoring and return, the later event
+handler will not be called. Otherwise enable is enabled, da_monitoring is
+monitoring)
+da_handle_start_run_event_##name() for implicit case may not need this check.
+(almost the same with the above, the difference is if da-monitor is not
+monitoring, it will start monitoring and not return and do the event handler,
+here enable is enabled and da_monitoring is monitoring, if I am not wrong)
+So after another(v7) looking at this patch, I realized that this check can
+be omited in two cases(all three cases). Just in fuction da_handle_event_##name()
+we need to do da_monitor_handling_event_##name().
+So I'd write like this:
+static inline void __da_handle_event_##name(struct da_monitor *da_mon,				\
+					    enum events_##name event)				\
+{												\
+	int retval;										\
+                                                    \
+    retval = da_event_##name(da_mon, event);						\
+    if (!retval)										\
+        da_monitor_reset_##name(da_mon);						\
+}												\
+
+static inline void da_handle_event_##name(enum events_##name event)				\
+{												\
+    struct da_monitor *da_mon = da_get_monitor_##name();					\
+	int retval;										\
+                                                    \
+    retval = da_monitor_handling_event_##name(da_mon);					\
+    if (!retval)										\
+        return;										\
+                                                    \
+    __da_handle_event_##name(da_mon, event);						\
+
+}												\
+
+> +												\
+> +	retval = da_event_##name(da_mon, event);						\
+> +	if (!retval)										\
+> +		da_monitor_reset_##name(da_mon);						\
+> +}												\
+> +												\
+> +/*												\
+> + * da_handle_event_##name - handle an event							\
+> + */												\
+> +static inline void da_handle_event_##name(enum events_##name event)				\
+> +{												\
+> +	struct da_monitor *da_mon = da_get_monitor_##name();					\
+> +	__da_handle_event_##name(da_mon, event);						\
+> +}												\
+> +												\
+> +/*												\
+> + * da_handle_start_event_##name - start monitoring or handle event				\
+> + *												\
+> + * This function is used notify the monitor that the system is returning			\
+
+/used/used to/ :-) My wording is not well, sorry for not convenience, Thanks,
+
+> + * to the initial state, so the monitor can start monitoring in the next event.			\
+> + * Thus:											\
+> + *												\
+> + * If the monitor already started, handle the event.						\
+> + * If the monitor did not start yet, start the monitor but skip the event.			\
+> + */												\
+> +static inline bool da_handle_start_event_##name(enum events_##name event)			\
+> +{												\
+> +	struct da_monitor *da_mon;								\
+> +												\
+> +	if (!da_monitor_enabled_##name())							\
+> +		return 0;									\
+> +												\
+> +	da_mon = da_get_monitor_##name();							\
+> +												\
+> +	if (unlikely(!da_monitoring_##name(da_mon))) {						\
+> +		da_monitor_start_##name(da_mon);						\
+> +		return 0;									\
+> +	}											\
+> +												\
+> +	__da_handle_event_##name(da_mon, event);						\
+> +												\
+> +	return 1;										\
+> +}												\
+> +												\
+> +/*												\
+> + * da_handle_start_run_event_##name - start monitoring and handle event				\
+> + *												\
+> + * This function is used notify the monitor that the system is in the				\
+> + * initial state, so the monitor can start monitoring and handling event.			\
+> + */												\
+> +static inline bool da_handle_start_run_event_##name(enum events_##name event)			\
+> +{												\
+> +	struct da_monitor *da_mon;								\
+> +												\
+> +	if (!da_monitor_enabled_##name())							\
+> +		return 0;									\
+> +												\
+> +	da_mon = da_get_monitor_##name();							\
+> +												\
+> +	if (unlikely(!da_monitoring_##name(da_mon)))						\
+> +		da_monitor_start_##name(da_mon);						\
+> +												\
+> +	__da_handle_event_##name(da_mon, event);						\
+> +												\
+> +	return 1;										\
+> +}
+> +
+> +/*
+> + * Handle event for per task.
+> + */
+> +#define DECLARE_DA_MON_MONITOR_HANDLER_PER_TASK(name, type)					\
+> +												\
+> +static inline void										\
+> +__da_handle_event_##name(struct da_monitor *da_mon, struct task_struct *tsk,			\
+> +			 enum events_##name event)						\
+> +{												\
+> +	int retval;										\
+> +												\
+> +	retval = da_monitor_handling_event_##name(da_mon);					\
+> +	if (!retval)										\
+> +		return;										\
+> +												\
+> +	retval = da_event_##name(da_mon, tsk, event);						\
+> +	if (!retval)										\
+> +		da_monitor_reset_##name(da_mon);						\
+> +}												\
+> +												\
+> +/*												\
+> + * da_handle_event_##name - handle an event							\
+> + */												\
+> +static inline void										\
+> +da_handle_event_##name(struct task_struct *tsk, enum events_##name event)			\
+> +{												\
+> +	struct da_monitor *da_mon = da_get_monitor_##name(tsk);					\
+> +	__da_handle_event_##name(da_mon, tsk, event);						\
+> +}												\
+> +												\
+> +/*												\
+> + * da_handle_start_event_##name - start monitoring or handle event				\
+> + *												\
+> + * This function is used notify the monitor that the system is returning			\
+> + * to the initial state, so the monitor can start monitoring in the next event.			\
+> + * Thus:											\
+> + *												\
+> + * If the monitor already started, handle the event.						\
+> + * If the monitor did not start yet, start the monitor but skip the event.			\
+> + */												\
+> +static inline bool										\
+> +da_handle_start_event_##name(struct task_struct *tsk, enum events_##name event)			\
+> +{												\
+> +	struct da_monitor *da_mon;								\
+> +												\
+> +	if (!da_monitor_enabled_##name())							\
+> +		return 0;									\
+> +												\
+> +	da_mon = da_get_monitor_##name(tsk);							\
+> +												\
+> +	if (unlikely(!da_monitoring_##name(da_mon))) {						\
+> +		da_monitor_start_##name(da_mon);						\
+> +		return 0;									\
+> +	}											\
+> +												\
+> +	__da_handle_event_##name(da_mon, tsk, event);						\
+> +												\
+> +	return 1;										\
+> +}
