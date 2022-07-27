@@ -2,101 +2,107 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6427AC04A68
-	for <linux-doc@archiver.kernel.org>; Wed, 27 Jul 2022 13:33:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 50ED1C3F6B0
+	for <linux-doc@archiver.kernel.org>; Wed, 27 Jul 2022 13:42:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233899AbiG0NdC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 27 Jul 2022 09:33:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41444 "EHLO
+        id S232246AbiG0NmY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 27 Jul 2022 09:42:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47676 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234004AbiG0Nc7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Jul 2022 09:32:59 -0400
-Received: from pb-smtp1.pobox.com (pb-smtp1.pobox.com [64.147.108.70])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C7DE37F97;
-        Wed, 27 Jul 2022 06:32:55 -0700 (PDT)
-Received: from pb-smtp1.pobox.com (unknown [127.0.0.1])
-        by pb-smtp1.pobox.com (Postfix) with ESMTP id A6A7A143E90;
-        Wed, 27 Jul 2022 09:32:54 -0400 (EDT)
-        (envelope-from nico@fluxnic.net)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=pobox.com; h=date:from
-        :to:cc:subject:in-reply-to:message-id:references:mime-version
-        :content-type; s=sasl; bh=hYGcEqXMoE7YuRbz2nqgGqP2jqxHEnASS/bBzS
-        kbW2E=; b=alU5UUps47goAM5SMBuyh6KZWnF/IzJaCRTkvwHY9g7ubeMziltikU
-        7vViC25PioyUaC6qvNrWgnMEZZejU7zW1rfvaOdqt0jLPsCQ/fcKSVHr0CuyGM4K
-        wt9Fmw/hNtF0K1sf7SWjYqCu8So274NSeTZChigyCUiWt0TzJkngA=
-Received: from pb-smtp1.nyi.icgroup.com (unknown [127.0.0.1])
-        by pb-smtp1.pobox.com (Postfix) with ESMTP id 9E27D143E8F;
-        Wed, 27 Jul 2022 09:32:54 -0400 (EDT)
-        (envelope-from nico@fluxnic.net)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=fluxnic.net;
- h=date:from:to:cc:subject:in-reply-to:message-id:references:mime-version:content-type; s=2016-12.pbsmtp; bh=hYGcEqXMoE7YuRbz2nqgGqP2jqxHEnASS/bBzSkbW2E=; b=Y7BdnpufVgUhwyYf1xd2NSE40g4zoZTmmpLMJZ819RqkNBGbHxs/mjVNSq5IVAAqBdAKt2ucAcmhX/9DbqgmlyQtP5BiBsrWnnfSeBMJ/xLxXXFYtwHdH95JMF2jbM8ayf28Zejtw37AEisP+z9pnEgauBI7Tj+5WvsHNHitSXs=
-Received: from yoda.home (unknown [96.21.170.108])
+        with ESMTP id S231716AbiG0NmX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Jul 2022 09:42:23 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C68642CE27;
+        Wed, 27 Jul 2022 06:42:22 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by pb-smtp1.pobox.com (Postfix) with ESMTPSA id 1DF35143E8E;
-        Wed, 27 Jul 2022 09:32:54 -0400 (EDT)
-        (envelope-from nico@fluxnic.net)
-Received: from xanadu.home (xanadu [192.168.2.2])
-        by yoda.home (Postfix) with ESMTPSA id 23574386C75;
-        Wed, 27 Jul 2022 09:32:53 -0400 (EDT)
-Date:   Wed, 27 Jul 2022 09:32:52 -0400 (EDT)
-From:   Nicolas Pitre <nico@fluxnic.net>
-To:     Olliver Schinagl <oliver+list@schinagl.nl>
-cc:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        rust-for-linux <rust-for-linux@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 00/13] [RFC] Rust support
-In-Reply-To: <f77a82ec-e970-d8d6-5196-6253bc72bdc2@schinagl.nl>
-Message-ID: <n87r7173-n782-6p12-4768-723qp8ppno4@syhkavp.arg>
-References: <20210414184604.23473-1-ojeda@kernel.org> <fae4873e-2ff9-df35-0ab9-34bf4417b717@schinagl.nl> <CANiq72mRxM-7griYF+0FWqYoSoNL8ad=L-i6a2-GsaCeb0C6qQ@mail.gmail.com> <ba8cb315-9d73-2f45-8bf9-d9473d369dca@schinagl.nl>
- <CANiq72kz+Txauo+103_-fN_J8PhhCdJUH5XepShUQmJzW6a4tA@mail.gmail.com> <1163467-64s-p66r-r077-35s058258150@syhkavp.arg> <f77a82ec-e970-d8d6-5196-6253bc72bdc2@schinagl.nl>
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 6526E6176A;
+        Wed, 27 Jul 2022 13:42:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D5D8CC433D6;
+        Wed, 27 Jul 2022 13:42:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1658929341;
+        bh=BR6lIHvQshH5awQxKKtysghwmE9IJ6ziXFKne10F1nc=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=cVRK/DFsk6dcXr5N/ybmT3hdsYYM4ETKpBjLl1B/sAYwhIUEGRKuY4CRC3floG565
+         nyQA05qKYk2N7wRuAl+2zyqepUQCmU7lWvDLNYhZ0lOoh2xuqkvlezLvF9KssEe2M0
+         n4ypLKGSJ7cyUOOq6c6QsVNYclwVoHiQx+oLQFNNh+KPzuM+n9PNT1l3YPYXEcl3jP
+         3SIPm5oJwEx2juJthSbwDWQZMSifprUduxcdmPC1kbYNYVfmlFcMVdLVXtk+OT0X0p
+         vr6M2UTgWqivwfd4nB3oTw3mK28aPND2qSx/E8YATZEDz2O1CZR2yemMnB1LJ6rgRy
+         Y6z79XUyhng5A==
+Message-ID: <1dad74ee-2d82-c8b1-7367-cbc6ea124785@kernel.org>
+Date:   Wed, 27 Jul 2022 15:42:12 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-Pobox-Relay-ID: 9E693B92-0DB0-11ED-909A-5E84C8D8090B-78420484!pb-smtp1.pobox.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH V7 01/16] rv: Add Runtime Verification (RV) interface
+Content-Language: en-US
+To:     Steven Rostedt <rostedt@goodmis.org>
+Cc:     Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Ingo Molnar <mingo@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Will Deacon <will@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Marco Elver <elver@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Gabriele Paoloni <gpaoloni@redhat.com>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Clark Williams <williams@redhat.com>,
+        Tao Zhou <tao.zhou@linux.dev>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-trace-devel@vger.kernel.org
+References: <cover.1658778484.git.bristot@kernel.org>
+ <2aa3b18239f170ba23263f18d166d08634ed65dd.1658778484.git.bristot@kernel.org>
+ <20220726122237.44386359@gandalf.local.home>
+ <1e03adf9-2aea-63ab-93ae-a73836a7081a@kernel.org>
+ <20220726165903.262a0a65@gandalf.local.home>
+From:   Daniel Bristot de Oliveira <bristot@kernel.org>
+In-Reply-To: <20220726165903.262a0a65@gandalf.local.home>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 27 Jul 2022, Olliver Schinagl wrote:
-
-> Hey Nicolas,
+On 7/26/22 22:59, Steven Rostedt wrote:
+>>>> +static void turn_monitoring_on(void)
+>>>> +{
+>>>> +	reset_all_monitors();  
+>>> Why does this reset all monitors but turn_monitoring_off() does not?  
+>> When we turn monitoring off, the monitors will stop monitoring while yet
+>> in sync with the events generated by the system, i.e., all the events after
+>> the start were processed.
+>>
+>> But if we disabled the monitor, and some events get ignored, the monitors
+>> will be out of sync with the system. Thus, resetting the monitor to
+>> for a synchronization between the monitors and the system is needed, before
+>> enabling monitoring back.
+>>
+>>> You should keep that out.  
+>> did not get :-(
+> I don't like the way the _on() and _off() are different.
 > 
-> On 20-07-2022 22:21, Nicolas Pitre wrote:
-> > On Wed, 20 Jul 2022, Miguel Ojeda wrote:
-> > 
-> >> On Mon, Jul 18, 2022 at 8:56 AM Olliver Schinagl
-> >> <oliver+list@schinagl.nl> wrote:
-> >>
-> >>> Secondly, and more importantly so; you argue 'who cares about people
-> >>> with disablements, atleast its equally hard to read everywhere' which is
-> >>> a very poor argument :p
-> >>
-> >> No, and I want to be __very__ clear about this: at no point I have
-> >> argued "who cares about people with disabilities" or anything like it.
-> >> It is insulting that you even suggest it.
-> > 
-> > What "people with disablements" have to do with this anyway?
-> > I don't get it.
-> If you are talking to me; simple, reading disabilities (dyslexia being the
-> most common one) are real :) and code-style heavily impacts those.
+> Have the _on() just turn in on *without* the reset.
 > 
-> For example, I have a really really hard time reading 2 space indent,
-> especially in larger code bases. Also, CamelCase is very very hard for me to
-> read also, as is statements without spaces `if((x<y&0xf)||z>a)` for example.
+> If you need the reset, then make a separate function called:
+> 
+> static void turn_monitoring_on_with_reset(void)
+> {
+> 	reset_all_monitors();
+> 	turn_monitoring_on();
+> }
+> 
 
-OK, that's a good point.
+as usual... https://www.youtube.com/watch?v=qYo0lVVH2wU
 
-I asked because such arguments are often brought up in the context of 
-sight impairment by people who are not affected, and in this regard I'm 
-well positioned to call those arguments unfounded.
+Fixed in v8, along with all other changes.
 
-> So codestyle affects those with reading disabilities, but not well known to
-> the people without these, which is why I was raising awareness.
-
-
-Nicolas
+Thanks
+-- Daniel
