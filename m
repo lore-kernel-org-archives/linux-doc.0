@@ -2,241 +2,148 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 05895C19F29
-	for <linux-doc@archiver.kernel.org>; Wed, 27 Jul 2022 08:05:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A031C04A68
+	for <linux-doc@archiver.kernel.org>; Wed, 27 Jul 2022 08:24:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230035AbiG0IFg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 27 Jul 2022 04:05:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58516 "EHLO
+        id S229933AbiG0IYh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 27 Jul 2022 04:24:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43552 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229507AbiG0IFf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Jul 2022 04:05:35 -0400
-Received: from 7of9.schinagl.nl (7of9.connected.by.freedominter.net [185.238.129.13])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B9FBDFCF;
-        Wed, 27 Jul 2022 01:05:33 -0700 (PDT)
-Received: from [10.2.12.24] (unknown [10.2.12.24])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by 7of9.schinagl.nl (Postfix) with ESMTPSA id A6319185A249;
-        Wed, 27 Jul 2022 10:05:31 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=schinagl.nl; s=7of9;
-        t=1658909131; bh=vWWwngdIeafeNuKPj4NmPnUKMGjnhw3F41ZrxQKTl4c=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To;
-        b=MN+4/W3g0i9UELUIqhWTuK9tfsosfhq0gp4jZJr2hR7QE6k+haCkPKwHgLwWUiUkw
-         AEeY0s+V0rQXdPRfUlGWwqQX6ncgMkgZoDc+NO9+HQQPuQ2JPTHlnT9TiK/OTCrup0
-         SuyrX3KmrDth5PH4Nip2XsoaevocUC5QCsoCAAps=
-Message-ID: <5c0bb1db-5589-32ca-ac22-4aafb3c15751@schinagl.nl>
-Date:   Wed, 27 Jul 2022 10:05:31 +0200
+        with ESMTP id S229604AbiG0IYg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Jul 2022 04:24:36 -0400
+Received: from mx.kolabnow.com (mx.kolabnow.com [212.103.80.153])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E9E542ADE;
+        Wed, 27 Jul 2022 01:24:33 -0700 (PDT)
+Received: from localhost (unknown [127.0.0.1])
+        by mx.kolabnow.com (Postfix) with ESMTP id B770C418F9;
+        Wed, 27 Jul 2022 10:24:31 +0200 (CEST)
+Authentication-Results: ext-mx-out003.mykolab.com (amavisd-new);
+        dkim=pass (4096-bit key) reason="pass (just generated, assumed good)"
+        header.d=kolabnow.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
+        message-id:references:in-reply-to:subject:subject:from:from:date
+        :date:content-transfer-encoding:content-type:content-type
+        :mime-version:received:received:received; s=dkim20160331; t=
+        1658910271; x=1660724672; bh=5Fqp+Ei7acFfHfu2chlfgxDJ2muQzoDt9uB
+        RB1fZA0I=; b=DrkBLv/LoJZXQJ5jew1wQLy/oBA24L6rcEyuaDCyT3p9VLG7t7M
+        AC0/pMR6glzLV77JYNuwdm+q2msVMatuXaqggNVBbee3OTuQLHCw0jxIa3o/dd77
+        OfT5pgkz9qKYUAD4HB2Jscfu4xHq8iqKZtPjX7xzaUcaHW9+IG6nYu5onGY6Xlrz
+        cIFZVw5UpyFhfhSFe8+L1Adb3V8cPOKTt8uOEXWy9HLtAjymCU5qy1Zg0XhLuqys
+        i/KSmjmOw9yUY9tnujz1xCWCLo91WICPsA97lmjdT/gIGdSbDpMm8Zb1jAo8nFT1
+        Bw0o3WokHsJS8xgAaZJZKR2JN9heRFun1WonnISYmdzCdd14+D7D8oV3AFp7M77V
+        B+mkD1jR0kMT9WA7g4taLFqgu1kGb7t1pzeT9tFs0vhE/SFb7di6SQdTh5vAQ/mH
+        xUlkbPsBsj+jMCzuecfGGZYfshi3wTPR5CSAp+5hGly2MWFun5gaANz/KBXeotqM
+        dT3KfklEOT4BSXmbQgIXrPkw3tM7lEGNgUYOenYMyNKEfPlnyl1153oeHJ4V+qUx
+        FPxxnJfc73fVZSeZnLi661d/u4tI0XXwklUMMdfulHIx8d52ZTD3mZ6d3ZwzxpmV
+        HO80AncObTsWCGCvCNyDkp/SbO86txKGPLvrt5f6tezapA7InR4b6E0E=
+X-Virus-Scanned: amavisd-new at mykolab.com
+Received: from mx.kolabnow.com ([127.0.0.1])
+        by localhost (ext-mx-out003.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id J7D8uo3HKmMz; Wed, 27 Jul 2022 10:24:31 +0200 (CEST)
+Received: from int-mx002.mykolab.com (unknown [10.9.13.2])
+        by mx.kolabnow.com (Postfix) with ESMTPS id 4583E418E7;
+        Wed, 27 Jul 2022 10:24:30 +0200 (CEST)
+Received: from int-subm003.mykolab.com (unknown [10.9.37.3])
+        by int-mx002.mykolab.com (Postfix) with ESMTPS id DEAD93AF2;
+        Wed, 27 Jul 2022 10:24:29 +0200 (CEST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH 00/13] [RFC] Rust support
-Content-Language: nl
-To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc:     Miguel Ojeda <ojeda@kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        rust-for-linux <rust-for-linux@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>
-References: <20210414184604.23473-1-ojeda@kernel.org>
- <fae4873e-2ff9-df35-0ab9-34bf4417b717@schinagl.nl>
- <CANiq72mRxM-7griYF+0FWqYoSoNL8ad=L-i6a2-GsaCeb0C6qQ@mail.gmail.com>
- <ba8cb315-9d73-2f45-8bf9-d9473d369dca@schinagl.nl>
- <CANiq72kz+Txauo+103_-fN_J8PhhCdJUH5XepShUQmJzW6a4tA@mail.gmail.com>
-From:   Olliver Schinagl <oliver+list@schinagl.nl>
-In-Reply-To: <CANiq72kz+Txauo+103_-fN_J8PhhCdJUH5XepShUQmJzW6a4tA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
 Content-Transfer-Encoding: 7bit
+Date:   Wed, 27 Jul 2022 10:24:28 +0200
+From:   Federico Vaga <federico.vaga@vaga.pv.it>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] doc:it_IT: align Italian documentation
+In-Reply-To: <20220702210820.13118-1-federico.vaga@vaga.pv.it>
+References: <20220702210820.13118-1-federico.vaga@vaga.pv.it>
+Message-ID: <647c4d53ee57113a60d8f517eb5d32e8@vaga.pv.it>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hey Miguel,
+Hi Jon,
 
-Just to make it very clear from the beginning, while this is a sensitive 
-subject, and I am very passionate about it; In no way, I am being 
-offensive, insulting or rude. This would be obvious in a f2f discussion 
-of course, but alas. I do try to format my text as friendly as I can, 
-but some things get lost in translation ;)
+is there something wrong with this v2 patch? I did not get any feedback.
 
-On 20-07-2022 21:23, Miguel Ojeda wrote:
-> On Mon, Jul 18, 2022 at 8:56 AM Olliver Schinagl
-> <oliver+list@schinagl.nl> wrote:
->>
->> Absolutly, but with the many luitenants, many tree's, and not a single
->> CI source, this would still be tricky in the end; but certainly possible.
-> 
-> A bot in -next (possibly an existing one) is a single thing to care
-> about and the amount of maintainers/trees doesn't have an effect on
-> it, thus I don't think it would be tricky.
-> 
->> I think this is a pretty poor argument for following Rust's opinionated
->> view of the world. E.g. it's generally bad to copy/paste code to begin
->> with. How many 'bugs' that we know of are copy/paste bugs?
-> 
-> We will have to disagree. Consistency and simplicity are fine
-> arguments in my book, not "pretty poor" ones.
-Consitency is absolutly important! Zero argument there. My argument is, 
-the consistency should be within the kernel tree, not 'but the rest of 
-the world is using style X/Y/Z, lets be consistent with that. In an 
-utopia, maybe, but the real world doesn't work that way, sadly. So in an 
-attempt to standardize (rustfmt) they just "invented" a new standard. 
-Which btw is common, we see this happening every so often, right?
+Thanks
 
+On 2022-07-02 23:08, Federico Vaga wrote:
+> Translation for the following patches
 > 
-> I don't see the relevance of the copy/paste code discussion here. But
-> assuming the analogy makes sense, I don't agree that reusing code is
-> "generally bad" either.
-Copy/pasting is known to cause bugs. There's actually research from NASA 
-on that. Code-reuse (libraries/functions) are not bad. But (worst kind 
-of example) copy paste from stack-overflow, or copy/pasting stuff 
-without actually looking at the content and forgetting to rename 
-something, causes bugs. Why is this relevant? The whole 'lets be 
-consistent with the rust codebase of the wrold' argument. E.g. if 
-everybody uses the same style (which is idealistic and great) then 
-copy/pasting becomes consistent. Where I say, try to be careful when 
-copy/pasting code.
+> commit df05c0e9496c ("Documentation: Raise the minimum supported
+> version of LLVM to 11.0.0")
+> commit 333b11e541fe ("Documentation: Add minimum pahole version")
+> commit 6d6a8d6a4ed0 ("docs: Update Sphinx requirements")
+> commit 76ae847497bc ("Documentation: raise minimum supported version
+> of GCC to 5.1")
+> commit 59c6a716b14b ("Documentation/process/maintainer-pgp-guide:
+> Replace broken link to PGP path finder")
+> commit 85eafc63d032 ("docs: update file link location")
+> commit 869f496e1aa6 ("docs: process: submitting-patches: Clarify the
+> Reported-by usage")
+> commit 6c5ccd24ff17 ("Remove mentions of the Trivial Patch Monkey")
+> commit aa9b5e0df226 ("Documentation/process: fix self reference")
+> commit b96ff02ab2be ("Documentation/process: fix a cross reference")
+> commit 1f57bd42b77c ("docs: submitting-patches: make section about the
+> Link: tag more explicit")
+> commit a9d85efb25fb ("docs: use the lore redirector everywhere")
+> commit 31c9d7c82975 ("Documentation/process: Add tip tree handbook")
+> commit 604370e106cc ("Documentation/process: Add maintainer handbooks 
+> section")
+> commit bf33a9d42d0c ("docs: 5.Posting.rst: describe Fixes: and Link: 
+> tags")
+> commit c04639a7d2fb ("coding-style.rst: trivial: fix location of
+> driver model macros")
+> commit d5b421fe0282 ("docs: Explain the desired position of function
+> attributes")
+> commit 3577cdb23b8f ("docs: deprecated.rst: Clarify open-coded
+> arithmetic with literals")
+> commit db67eb748e7a ("docs: discourage use of list tables")
+> commit 0e805b118662 ("docs: address some text issues with css/theme 
+> support")
+> commit 135707d3765e ("docs: allow to pass extra DOCS_CSS themes via 
+> make")
+> commit fe450eeb4e6f ("Documentation: in_irq() cleanup")
+> commit 10855b45a428 ("docs: fix typo in
+> Documentation/kernel-hacking/locking.rst")
+> commit bc67f1c454fb ("docs: futex: Fix kernel-doc references")
+> commit abf36fe0be7d ("docs: kernel-hacking: Remove inappropriate text")
+> commit f35cf1a59e9a ("Documentation: kernel-hacking: minor edits for 
+> style")
+> commit f35cf1a59e9a ("Documentation: kernel-hacking: minor edits for 
+> style")
+> commit 980c3799c500 ("Documentation: kernel-doc: Promote two chapter
+> headings to page title")
+> commit e1be43d9b5d0 ("overflow: Implement size_t saturating arithmetic 
+> helpers")
+> commit 615f3eea0d5f ("Documentation: add note block surrounding
+> security patch note")
+> commit 587d39b260c4 ("Documentation: add link to stable release 
+> candidate tree")
+> commit 555d44932c67 ("Documentation: update stable tree link")
+> commit 88d99e870143 ("Documentation: update stable review cycle 
+> documentation")
+> commit 0c603a5c704f ("Documentation/process: mention patch changelog
+> in review process")
+> commit 6d5aa418b3bd ("docs: submitting-patches: Fix crossref to 'The
+> canonical patch format'")
+> commit f1a693994b1c ("Documentation/process: use
+> scripts/get_maintainer.pl on patches")
+> commit 69ef0920bdd3 ("Docs: Add cpio requirement to changes.rst")
+> commit 5a5866c28b43 ("Docs: Replace version by 'current' in 
+> changes.rst")
+> commit 9b5a7f4a2a8d ("x86/configs: Add x86 debugging Kconfig fragment
+> plus docs")
+> commit f1a693994b1c ("Documentation/process: use
+> scripts/get_maintainer.pl on patches")
+> commit e8c07082a810 ("Kbuild: move to -std=gnu11")
+> 
+> Signed-off-by: Federico Vaga <federico.vaga@vaga.pv.it>
+> ---
+> 
+> v1 -> v2
+> Fix wornings about duplicated use of `maintainers-include`
 
-> 
-> Anyway, given you mention "bugs", I think you are implying that the
-> defaults are somehow "incorrect" (not accessible?). In that case, to
-> improve things for all Rust developers out there, I would suggest
-> opening an issue in https://github.com/rust-dev-tools/fmt-rfcs.
-There have been, I've linked them in my first post; the devs basically 
-say 'you are right, we are sorry; but this discussion is over' which 
-reads as 'we love our style, we think its great, we're not changing it 
-for people with reading-disabilitles, figure it out' (yes, I paraphrase 
-it much harsher then what they state, but like with people in 
-wheelchairs that run into a small staircase (1 or 2 treads), and then 
-are being told, sorry, it is what it is, we can't fix this, it's been 
-like this for years, it is what it is)
-
-> 
->> Secondly, and more importantly so; you argue 'who cares about people
->> with disablements, atleast its equally hard to read everywhere' which is
->> a very poor argument :p
-> 
-> No, and I want to be __very__ clear about this: at no point I have
-> argued "who cares about people with disabilities" or anything like it.
-> It is insulting that you even suggest it.
-I appose for feeling insulted, that was surely not my intend! What I am 
-stating however is, that by stating 'but rustfmt is great, their 
-standard is consistent and simple and amazing', the message implies 
-(nofi!) that reading disabilities do not matter, because this new 
-standard is so great.
-
-> 
-> Likewise, you are the one claiming it is "hard to read", not me.
-Yes, as I do suffer from a reading disability, so I know how hard this 
-is :) but fear not, I'm not alone, just vocal.
-
-> 
-> And then after constructing those straw men, you call them "a very
-> poor argument"...
-Obviously I do not intend to cunstruct straw-men, as to me, this is all 
-very real and painful :)
-
-> 
->> Finally, it must of course be mentioned, that rust is really trying to
->> do an XKCD here, https://xkcd.com/927/ though I'm sure we'll get it
->> right this time around ;)
-> 
-> How does that even apply here? There is no "standard" for formatting
-> across languages, if that is what you are saying.
-I'm not, I'm saying 'every language has its own standard(s), lets make 
-one that is better then the others'. So instead of rust for example 
-following the linux kernel standard (or the Go coding standard, or 
-X/Y/Z), they came up with their own. Not bad, but as mentioned earlier, 
-requires careful thinking. But it is of course their choice!
-
-> 
-> Actually, what is happening here is that there is an "official" tool,
-> called rustfmt, that most Rust code out there uses.
-> 
-> By not using it, it is you the one that may be creating a XKCD
-> situation, if anything.
-No, do use it! rustfmt is pretty amazing. And rustfmt knows there's not 
-a single answer on coding style, so the rustfmt tool, is super 
-configurable trying to match any code-base needs, without forcing 
-anybodies style. It is actually like you say, below, the defauflts that 
-come from the rust group itself.
-
-> 
-> And to be clear, we don't necessarily follow "Rust's biased view". For
-> instance, there is also an "official" build tool, called Cargo, that
-> most Rust code out there uses; yet we are not using it for the kernel.
-I'd prefer if we keep it to style and readability (rustfmt) :p as cargo 
-is more a technical direction, and not relevant; but point noted.
-
-> 
-> We are actually doing things how we think are best for the kernel. Not
-> because "Rust" (whatever or whoever that is) is "trying to do an
-> XKCD". Not because we are "following Rust's opinionated view of the
-> world" or "Rust's biased view".
-But if that is the case, why not try to follow the kernels existing 
-code-style as close as possible with the rust-fmt configuration? I know 
-code-style has been discussed a few times over the decades; but not many 
-changes have been done, surely, if there's some codestyle changes that 
-are best for the kernel, they would have been 'advised'? '4 space 
-indents are better then 8-size tabs, on new code, try to use them' for 
-example :p
-
-> 
->> But you are not, only those that follow rust's biased view. Everybody
->> else that has a different opinion (like die-hard C programmers) that
->> care enough (I'm sure there's plenty) would setup their rustfmt config
->> file to resemble their C code; and thus the entire premisis is broken.
->> Though; yes, in a perfect world it could have worked like this, but xkcd
->> again :)
-> 
-> No. I said we are being consistent with the majority of the Rust code
-> out there, not with "everybody".
-But why? Why should we not be consistent with the kernels' code-base 
-(while yes, that is not rust, but C, but we can follow the same style?)
-
-> 
-> If, instead, we try to be consistent with the kernel C style, then you
-> are likely not being consistent with the majority of the Rust code out
-> there. And you would have to decide exactly how to map the C style to
-> Rust constructs and which particular kernel style.
-But is this a bad thing? Being consistent within the kernel repo? Who 
-cares what the rest of the ruts code does? I know it matters for 
-user-space; but I know that my user-space rust code (be it linux, or 
-micro) actually follows the kernel style, not the rust style :p becaues 
-of my disability, the rust format is not easy to read/parse in my head 
-due to small inconsistencies.
-
-> 
-> Again: I personally don't mind what the particular style is. As a
-> project, what we value the most is having a single style across it and
-> not having to think about formatting. Nevertheless, I think there is
-> also value in being consistent with the majority of the Rust code out
-> there.
-So I fully agree with the first part; but not with the last part :p As 
-the rust code style, is poor on readability for people with 
-reading-disabilities.
-
-
-> 
->> This though is a fair argument I understand, it would be weird in having
->> 2 styles in user-space and kernel-space code; though I see this
->> happening today as well; where developers follow kernel style for kernel
->> code (obviously) but use their preferred 2 or 3 space style on their
->> userland code. Trying to 'force' this, usually however never gets the
->> intended result ...
-> 
-> If we follow the usual Rust style in the kernel, I would say it is
-> more likely that both styles match.
-That is of course the downside, that if user-space is writing their own 
-code in their own style, it will either be rust-style, or something 
-completly different, we have no control of this anyway; but having it 
-'match' is 'nice' from a consistency pov;
-
-Sadly, I've seen so much vendor code (yeah, I know) which doesn't even 
-have consistency in their own files ...
-
-> Cheers,
-> Miguel
-
+-- 
+Federico Vaga
