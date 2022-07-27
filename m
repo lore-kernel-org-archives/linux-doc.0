@@ -2,107 +2,93 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 50ED1C3F6B0
-	for <linux-doc@archiver.kernel.org>; Wed, 27 Jul 2022 13:42:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DE2E4C04A68
+	for <linux-doc@archiver.kernel.org>; Wed, 27 Jul 2022 14:06:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232246AbiG0NmY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 27 Jul 2022 09:42:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47676 "EHLO
+        id S233147AbiG0OF7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 27 Jul 2022 10:05:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35696 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231716AbiG0NmX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Jul 2022 09:42:23 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C68642CE27;
-        Wed, 27 Jul 2022 06:42:22 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 6526E6176A;
-        Wed, 27 Jul 2022 13:42:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D5D8CC433D6;
-        Wed, 27 Jul 2022 13:42:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1658929341;
-        bh=BR6lIHvQshH5awQxKKtysghwmE9IJ6ziXFKne10F1nc=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=cVRK/DFsk6dcXr5N/ybmT3hdsYYM4ETKpBjLl1B/sAYwhIUEGRKuY4CRC3floG565
-         nyQA05qKYk2N7wRuAl+2zyqepUQCmU7lWvDLNYhZ0lOoh2xuqkvlezLvF9KssEe2M0
-         n4ypLKGSJ7cyUOOq6c6QsVNYclwVoHiQx+oLQFNNh+KPzuM+n9PNT1l3YPYXEcl3jP
-         3SIPm5oJwEx2juJthSbwDWQZMSifprUduxcdmPC1kbYNYVfmlFcMVdLVXtk+OT0X0p
-         vr6M2UTgWqivwfd4nB3oTw3mK28aPND2qSx/E8YATZEDz2O1CZR2yemMnB1LJ6rgRy
-         Y6z79XUyhng5A==
-Message-ID: <1dad74ee-2d82-c8b1-7367-cbc6ea124785@kernel.org>
-Date:   Wed, 27 Jul 2022 15:42:12 +0200
+        with ESMTP id S231204AbiG0OF6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Jul 2022 10:05:58 -0400
+Received: from mail-qv1-xf2a.google.com (mail-qv1-xf2a.google.com [IPv6:2607:f8b0:4864:20::f2a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 98E5E5F58;
+        Wed, 27 Jul 2022 07:05:57 -0700 (PDT)
+Received: by mail-qv1-xf2a.google.com with SMTP id mh14so12977947qvb.1;
+        Wed, 27 Jul 2022 07:05:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=g7sXk1x+mAlIVnjI6mSnBUc3PosDoepD30XFI2Dsmk8=;
+        b=o03vaz9SgZGF20HFejqu8j4uk14t+1+Ntu8f8HX38wHE6fda2DYCQTbuj2RG5re4ll
+         CZAinx0CB9KAOb6xR72buzUfZqho5Vg3XXffxwUrvYdC/lrwabGCRM4bEG4hPe6JEOV/
+         4E4ginhpyjdaE20FIubMwiaPeIRIReKh9QChah53hBBb6g7mVPTbeBdUrwarbtq3PWm8
+         KVqjnJ5zDWt7D4aSLMhLc0kFp6dUvMXmmv6EsPZYsr9wLeUqEfm+xgl+tYaifsP+aiRq
+         NQnIARacSJgYXRzG+qsTuv7W9mxZoEy0MTB4pYDDpg0rz4dlTDOeCWBQj6i4QXqOA3Ji
+         rvJg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=g7sXk1x+mAlIVnjI6mSnBUc3PosDoepD30XFI2Dsmk8=;
+        b=EM25ENfm3w1R6lQIKG384aV7i7j5TSDgWCy2JTjT+dypYQufUuUvUwYuQkNdFnyLHJ
+         UmCyhlgxi8xrUX3tJcUn4kih2Wzwpopn5lLPW9iPqezG5QQn9bkCmnd3Uuju9zFoa4Vg
+         C2l8AQcVe8bnV/FSUcCV8ZAp9I3t448UEKKTKcpelfygd0V5sHibGEI5n/8oOBMQrdk7
+         gY+TWDGo1uE0tQxJfZjZBQlF/5ESKp5xjuHP3hDprvlPzwV49PgnVEB0feiILyPMWiIz
+         58UnZTmTIkiM9xMr7Bmxbrf3HroKaMJRQxQ7GxQcVqsQoxhFuetEQ3+OKqL5k/rMj9pR
+         YGjQ==
+X-Gm-Message-State: AJIora8ixmN+h2SUiipo75XAyPIp50MJwKRqNE0VnTUDUGcgtxsXaRYv
+        dg3F945el6msHmJ5BrYp0gMfq1DD/Ws=
+X-Google-Smtp-Source: AGRyM1vhQ8zosTUVzYGVDlCdLsHQaHX3U9IIZfJxtNNoYlp4pYrpAnjXqd+GZ9j7fGo2+Ke8o74/Qg==
+X-Received: by 2002:a0c:b2d0:0:b0:473:2c19:f1ee with SMTP id d16-20020a0cb2d0000000b004732c19f1eemr19103337qvf.130.1658930756307;
+        Wed, 27 Jul 2022 07:05:56 -0700 (PDT)
+Received: from mimieux.lan ([38.126.102.198])
+        by smtp.gmail.com with ESMTPSA id ci23-20020a05622a261700b0031ed8ef7982sm10829015qtb.22.2022.07.27.07.05.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 27 Jul 2022 07:05:56 -0700 (PDT)
+From:   "=?UTF-8?q?Jo=C3=A3o=20Paulo=20Rechi=20Vita?=" <jprvita@gmail.com>
+X-Google-Original-From: =?UTF-8?q?Jo=C3=A3o=20Paulo=20Rechi=20Vita?= <jprvita@endlessos.org>
+To:     Ard Biesheuvel <ardb@kernel.org>, Jonathan Corbet <corbet@lwn.net>
+Cc:     linux@endlessos.org,
+        =?UTF-8?q?Jo=C3=A3o=20Paulo=20Rechi=20Vita?= 
+        <jprvita@endlessos.org>, linux-efi@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] docs: efi-stub: Fix paths for x86 / arm stubs
+Date:   Wed, 27 Jul 2022 10:05:39 -0400
+Message-Id: <20220727140539.10021-1-jprvita@endlessos.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH V7 01/16] rv: Add Runtime Verification (RV) interface
-Content-Language: en-US
-To:     Steven Rostedt <rostedt@goodmis.org>
-Cc:     Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Ingo Molnar <mingo@redhat.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Will Deacon <will@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Marco Elver <elver@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Gabriele Paoloni <gpaoloni@redhat.com>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Clark Williams <williams@redhat.com>,
-        Tao Zhou <tao.zhou@linux.dev>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-trace-devel@vger.kernel.org
-References: <cover.1658778484.git.bristot@kernel.org>
- <2aa3b18239f170ba23263f18d166d08634ed65dd.1658778484.git.bristot@kernel.org>
- <20220726122237.44386359@gandalf.local.home>
- <1e03adf9-2aea-63ab-93ae-a73836a7081a@kernel.org>
- <20220726165903.262a0a65@gandalf.local.home>
-From:   Daniel Bristot de Oliveira <bristot@kernel.org>
-In-Reply-To: <20220726165903.262a0a65@gandalf.local.home>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 7/26/22 22:59, Steven Rostedt wrote:
->>>> +static void turn_monitoring_on(void)
->>>> +{
->>>> +	reset_all_monitors();  
->>> Why does this reset all monitors but turn_monitoring_off() does not?  
->> When we turn monitoring off, the monitors will stop monitoring while yet
->> in sync with the events generated by the system, i.e., all the events after
->> the start were processed.
->>
->> But if we disabled the monitor, and some events get ignored, the monitors
->> will be out of sync with the system. Thus, resetting the monitor to
->> for a synchronization between the monitors and the system is needed, before
->> enabling monitoring back.
->>
->>> You should keep that out.  
->> did not get :-(
-> I don't like the way the _on() and _off() are different.
-> 
-> Have the _on() just turn in on *without* the reset.
-> 
-> If you need the reset, then make a separate function called:
-> 
-> static void turn_monitoring_on_with_reset(void)
-> {
-> 	reset_all_monitors();
-> 	turn_monitoring_on();
-> }
-> 
+This fixes the paths of x86 / arm efi-stub source files.
 
-as usual... https://www.youtube.com/watch?v=qYo0lVVH2wU
+Signed-off-by: João Paulo Rechi Vita <jprvita@endlessos.org>
+---
+ Documentation/admin-guide/efi-stub.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Fixed in v8, along with all other changes.
+diff --git a/Documentation/admin-guide/efi-stub.rst b/Documentation/admin-guide/efi-stub.rst
+index 833edb0d0bc4..b24e7c40d832 100644
+--- a/Documentation/admin-guide/efi-stub.rst
++++ b/Documentation/admin-guide/efi-stub.rst
+@@ -7,10 +7,10 @@ as a PE/COFF image, thereby convincing EFI firmware loaders to load
+ it as an EFI executable. The code that modifies the bzImage header,
+ along with the EFI-specific entry point that the firmware loader
+ jumps to are collectively known as the "EFI boot stub", and live in
+-arch/x86/boot/header.S and arch/x86/boot/compressed/eboot.c,
++arch/x86/boot/header.S and drivers/firmware/efi/libstub/x86-stub.c,
+ respectively. For ARM the EFI stub is implemented in
+ arch/arm/boot/compressed/efi-header.S and
+-arch/arm/boot/compressed/efi-stub.c. EFI stub code that is shared
++drivers/firmware/efi/libstub/arm32-stub.c. EFI stub code that is shared
+ between architectures is in drivers/firmware/efi/libstub.
+ 
+ For arm64, there is no compressed kernel support, so the Image itself
+-- 
+2.20.1
 
-Thanks
--- Daniel
