@@ -2,121 +2,94 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 556F1C19F2B
-	for <linux-doc@archiver.kernel.org>; Wed, 27 Jul 2022 16:07:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 411B4C19F2B
+	for <linux-doc@archiver.kernel.org>; Wed, 27 Jul 2022 16:10:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234505AbiG0QHm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 27 Jul 2022 12:07:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38256 "EHLO
+        id S234723AbiG0QK1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 27 Jul 2022 12:10:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40890 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232297AbiG0QHl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Jul 2022 12:07:41 -0400
-Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 538182A71C;
-        Wed, 27 Jul 2022 09:07:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=w9r9iD1+VJ1bB5BUofHhTNtVicBr0akZlYlPe4WCSQQ=; b=lvZsnsMXIad6IuUpCnGPnR81q2
-        acnY8KBBOU1hGSV7O0ISRk6vrJNFl/RF2gWT57/zETylrGdz0kZotBUWTPyxYZkRRefybX1Zc3PMM
-        OS/zAgpdVMu6hShabM3s88zg7aZWoAGhmJRap+XqlOdif7iB/6s6HyThVCwY1Gy1xbYX6U4GUSU8y
-        eenB9BdltjQlPKr5ZSxn8CH1RSQ6oHLkErzSEYeYnyVqBG6KbNXc7Ipgay4x4IaYfFa6IXLqENYcI
-        lZ49/7TVmlRFOWE8wJMSRk2EtilZ6o0Sx/tOtqDxsMVt2+LJXmySQ8r5lIDvmsJAuk793m0L+l/Xe
-        Uhd2GcCA==;
-Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=worktop.programming.kicks-ass.net)
-        by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1oGjZ7-000kBA-BG; Wed, 27 Jul 2022 16:07:19 +0000
-Received: by worktop.programming.kicks-ass.net (Postfix, from userid 1000)
-        id EA6A2980403; Wed, 27 Jul 2022 18:07:16 +0200 (CEST)
-Date:   Wed, 27 Jul 2022 18:07:16 +0200
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Chengming Zhou <zhouchengming@bytedance.com>
-Cc:     hannes@cmpxchg.org, surenb@google.com, mingo@redhat.com,
-        tj@kernel.org, corbet@lwn.net, akpm@linux-foundation.org,
-        rdunlap@infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, songmuchun@bytedance.com,
-        cgroups@vger.kernel.org
-Subject: Re: [PATCH 9/9] sched/psi: add PSI_IRQ to track IRQ/SOFTIRQ pressure
-Message-ID: <YuFitL6KuCfuqujn@worktop.programming.kicks-ass.net>
-References: <20220721040439.2651-1-zhouchengming@bytedance.com>
- <20220721040439.2651-10-zhouchengming@bytedance.com>
+        with ESMTP id S234563AbiG0QK0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Jul 2022 12:10:26 -0400
+Received: from out1.migadu.com (out1.migadu.com [91.121.223.63])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89C44E0DA;
+        Wed, 27 Jul 2022 09:10:25 -0700 (PDT)
+Date:   Thu, 28 Jul 2022 00:10:10 +0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+        t=1658938223;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=vDTc2P3W0cdpqM6y0cdrKPPqHIzlLdGjU1Vo1e/Da/8=;
+        b=YaH+br3IhFwvw+NOWW8DYs8wG8Ahb3j41ozaHCskwVDzcCFo00PH3xdZfUUcqB/s6k1pet
+        Oc4bbVysDNsEBRsBdAcSvLR4GJ/e3QOXmbkiTD3OX5wF+Rn2QWB10gIde6YX1cLiUF2jNA
+        zI5l//nodSfPHEOaTR2YicOI+a1f0FY=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From:   Tao Zhou <tao.zhou@linux.dev>
+To:     Daniel Bristot de Oliveira <bristot@kernel.org>
+Cc:     Steven Rostedt <rostedt@goodmis.org>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Ingo Molnar <mingo@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Will Deacon <will@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Marco Elver <elver@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Gabriele Paoloni <gpaoloni@redhat.com>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Clark Williams <williams@redhat.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-trace-devel@vger.kernel.org, Tao Zhou <tao.zhou@linux.dev>
+Subject: Re: [PATCH V7 01/16] rv: Add Runtime Verification (RV) interface
+Message-ID: <YuFjGK53HH7pjdlv@geo.homenetwork>
+References: <cover.1658778484.git.bristot@kernel.org>
+ <2aa3b18239f170ba23263f18d166d08634ed65dd.1658778484.git.bristot@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220721040439.2651-10-zhouchengming@bytedance.com>
+In-Reply-To: <2aa3b18239f170ba23263f18d166d08634ed65dd.1658778484.git.bristot@kernel.org>
+X-Migadu-Flow: FLOW_OUT
+X-Migadu-Auth-User: linux.dev
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jul 21, 2022 at 12:04:39PM +0800, Chengming Zhou wrote:
-> diff --git a/include/linux/psi_types.h b/include/linux/psi_types.h
-> index c124f7d186d0..195f123b1cd1 100644
-> --- a/include/linux/psi_types.h
-> +++ b/include/linux/psi_types.h
-> @@ -47,7 +47,8 @@ enum psi_res {
->  	PSI_IO,
->  	PSI_MEM,
->  	PSI_CPU,
-> -	NR_PSI_RESOURCES = 3,
-> +	PSI_IRQ,
-> +	NR_PSI_RESOURCES = 4,
->  };
->  
->  /*
-> @@ -63,9 +64,11 @@ enum psi_states {
->  	PSI_MEM_FULL,
->  	PSI_CPU_SOME,
->  	PSI_CPU_FULL,
-> +	PSI_IRQ_SOME,
-> +	PSI_IRQ_FULL,
->  	/* Only per-CPU, to weigh the CPU in the global average: */
->  	PSI_NONIDLE,
-> -	NR_PSI_STATES = 7,
-> +	NR_PSI_STATES = 9,
->  };
->  
->  enum psi_aggregators {
+On Mon, Jul 25, 2022 at 10:11:13PM +0200, Daniel Bristot de Oliveira wrote:
 
-$ pahole -EC psi_group_cpu defconfig-build/kernel/sched/build_utility.o
-struct psi_group_cpu {
-        /* typedef seqcount_t */ struct seqcount {
-                unsigned int       sequence;                                             /*     0     4 */
-        } seq __attribute__((__aligned__(64))); /*     0     4 */
-        unsigned int               tasks[5];                                             /*     4    20 */
-        /* typedef u32 -> __u32 */ unsigned int               state_mask;                /*    24     4 */
-        /* typedef u32 -> __u32 */ unsigned int               times[7];                  /*    28    28 */
-        /* typedef u64 -> __u64 */ long long unsigned int     state_start;               /*    56     8 */
-        /* --- cacheline 1 boundary (64 bytes) --- */
-        /* typedef u32 -> __u32 */ unsigned int               times_prev[2][7] __attribute__((__aligned__(64))); /*    64    56 */
+> +void rv_put_task_monitor_slot(int slot)
+> +{
+> +	lockdep_assert_held(&rv_interface_lock);
+> +
+> +	if (slot < 0 || slot >= RV_PER_TASK_MONITORS) {
+> +		WARN_ONCE(1, "RV releasing an invalid slot!: %d\n", slot);
+> +		return;
+> +	}
+> +
+> +	WARN_ONCE(!task_monitor_slots[slot], "RV releasing unused task_monitor_slots: %d\n",
+> +		  slot);
+> +
+> +	task_monitor_count--;
+> +	task_monitor_slots[slot] = false;
+> +}
 
-        /* size: 128, cachelines: 2, members: 6 */
-        /* padding: 8 */
-        /* forced alignments: 2 */
-} __attribute__((__aligned__(64)));
+I would say this can be implemented using bits. Also is an optimization.
+But now here just use bool and seems not that needed.
 
+> +static void turn_monitoring_off(void)
+> +{
+> +	WRITE_ONCE(monitoring_on, false);
+> +	/* monitoring_on */
+> +	smp_wmb();
 
-$ pahole -EC psi_group_cpu defconfig-build/kernel/sched/build_utility.o
-struct psi_group_cpu {
-        /* typedef seqcount_t */ struct seqcount {
-                unsigned int       sequence;                                             /*     0     4 */
-        } seq __attribute__((__aligned__(64))); /*     0     4 */
-        unsigned int               tasks[5];                                             /*     4    20 */
-        /* typedef u32 -> __u32 */ unsigned int               state_mask;                /*    24     4 */
-        /* typedef u32 -> __u32 */ unsigned int               times[9];                  /*    28    36 */
-        /* --- cacheline 1 boundary (64 bytes) --- */
-        /* typedef u64 -> __u64 */ long long unsigned int     state_start;               /*    64     8 */
-
-        /* XXX 56 bytes hole, try to pack */
-
-        /* --- cacheline 2 boundary (128 bytes) --- */
-        /* typedef u32 -> __u32 */ unsigned int               times_prev[2][9] __attribute__((__aligned__(64))); /*   128    72 */
-
-        /* size: 256, cachelines: 4, members: 6 */
-        /* sum members: 144, holes: 1, sum holes: 56 */
-        /* padding: 56 */
-        /* forced alignments: 2, forced holes: 1, sum forced holes: 56 */
-} __attribute__((__aligned__(64)));
-
-
-So yeah, I think not.
+Absolutely the sync I can not see.
+If not store another after smp_wmb(), even you have smp_wmb() pair,
+it is not valid in my poor mind that there is no another load before
+loading of monitoring_on that ensure something like if the another
+load is *what* then the after load is ensured to be *what* statement
+(I am sure I am poor on these, but just some words input yeah).
