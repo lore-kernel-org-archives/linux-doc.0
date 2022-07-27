@@ -2,107 +2,99 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 982E3C00144
-	for <linux-doc@archiver.kernel.org>; Wed, 27 Jul 2022 02:20:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B7145C19F2B
+	for <linux-doc@archiver.kernel.org>; Wed, 27 Jul 2022 03:16:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240072AbiG0CUj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 26 Jul 2022 22:20:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43568 "EHLO
+        id S240330AbiG0DQt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 26 Jul 2022 23:16:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46998 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231476AbiG0CUj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Jul 2022 22:20:39 -0400
-Received: from mail-ot1-x336.google.com (mail-ot1-x336.google.com [IPv6:2607:f8b0:4864:20::336])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8779463E4
-        for <linux-doc@vger.kernel.org>; Tue, 26 Jul 2022 19:20:38 -0700 (PDT)
-Received: by mail-ot1-x336.google.com with SMTP id l9-20020a056830268900b006054381dd35so12083936otu.4
-        for <linux-doc@vger.kernel.org>; Tue, 26 Jul 2022 19:20:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=saKN+GmSH8P4jFeHGCwsX1I7N+IGrsdOgET4K/bAJwk=;
-        b=Uelyt5ESJ5DqrdtD4sIJbYnlACxshpSzFC9EtmS/BdH/tO5RfHPGT5HCrSe1pbG01s
-         K1xpMT/ePu9DAi2cE+2somFHxIE+gS+CP5k2mTzHMOkXOh3v28aafDZ40lQE8p/tkD9H
-         KjdvjPE3ZCz2eQjxFTd3/lvSHWWmgVosElyIX8JNJUi9hiQrXcrKeRznjZPpbOCs+Q2f
-         aRVEuv+TCwDMDbc9nf26TOjZJ+49tP+TE2Rs11ciJv/zK8nDSk+qpRrzkX451okEsHyL
-         D8QzIDoCi9Ph7pC0da6NHDsEZdeOR7ZkPPZUT1Tyh7YcLWYHCbhV663atymAmXhBbMtM
-         T6ZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=saKN+GmSH8P4jFeHGCwsX1I7N+IGrsdOgET4K/bAJwk=;
-        b=qRIBTcFWvJ6ik+noBTfH31+xsvvvbAT7zHu5HcwDQ3WuTZj1wsTNZpEV4zaQY2zULI
-         smSh4ZB97zjBXYCkYE+JkoB5BDukin3fQYqYGAVZqkW7nxQk3+OeL9QSy61IjgmUky0C
-         9M5jJHAJN6Q0st6bfR8jhjTMboesrfMexncX8W/7nwG8/ZM0754FeLDMmBurgy1NxJpd
-         kDjTxXj0QaTlrApApp06kkPLGV5DOrfWubSm/wNBIndEJA1m1CAzVMd6eOZ5PgFzpvzY
-         DQc2xUUyx+U/626F2NxAiuV1ZkMJRXDjoiL2/BizjpiQDqkln0Ea5oCwiDIIGtHqcSrb
-         8UPQ==
-X-Gm-Message-State: AJIora/J64sG62IR+I55hm6Zn+JX9oUg7vkeJNxQ54nZ76MsrN6yJtgS
-        WCa1ebaGdLNpXzufMQxG9lE=
-X-Google-Smtp-Source: AGRyM1snYiA60E7PA3X5sboWAQcdEPJC9C+kSkDmQJU8rrOAMMQNcPrOKdgHUxsNNJsPIQ7f6RWt0Q==
-X-Received: by 2002:a9d:2602:0:b0:61c:30c1:fa03 with SMTP id a2-20020a9d2602000000b0061c30c1fa03mr8030952otb.86.1658888437892;
-        Tue, 26 Jul 2022 19:20:37 -0700 (PDT)
-Received: from [192.168.2.225] (93.179.119.173.16clouds.com. [93.179.119.173])
-        by smtp.gmail.com with ESMTPSA id k11-20020a9d4b8b000000b0061cac699458sm6928301otf.38.2022.07.26.19.20.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 26 Jul 2022 19:20:37 -0700 (PDT)
-Message-ID: <b670b01c-4507-db90-55db-1fff6bcbbeb7@gmail.com>
-Date:   Wed, 27 Jul 2022 10:20:28 +0800
+        with ESMTP id S240334AbiG0DQX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Jul 2022 23:16:23 -0400
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B56C03DBC0;
+        Tue, 26 Jul 2022 20:16:22 -0700 (PDT)
+Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
+        by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26R2phCC029985;
+        Wed, 27 Jul 2022 03:16:04 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
+ subject : date : message-id : in-reply-to : references : mime-version :
+ content-type : content-transfer-encoding; s=corp-2022-7-12;
+ bh=J2vBu1m4zTDwawbCKsSD5AhIF5f7bJkTK1Ll+UnC+HY=;
+ b=RUcztjtvY/ykesoOqjVdG4iyE/6+UStvTWw66FgfulNYdS1LOamC5Acow0D2gPIgzmz4
+ AL5uLFIgh/111E/lHojNbYCYjKY4FOZr8x3xUNKbVI+OULVoRNlFx0Zruix/pnbA15l0
+ tq/2fYhEq5law2ghx6BVmga6aromdWvdPBCSXiQb+A7u6MFwN1mKIxmty86PdZm1UseS
+ 5gmr5IrMXr/XoUqWAp9NaFwd+Et2cluzn1HkmxFbInzCDgLslza9UwZUSzzvQHKaFifG
+ /5aVQ8f9FlyPCZyrhQuatnLIwyNH8vPkCOFekpBpvVhI8rK2giErvY5Z9XTifj9+o15b 6w== 
+Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
+        by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3hg9hsrbrx-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 27 Jul 2022 03:16:04 +0000
+Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+        by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.5/8.17.1.5) with ESMTP id 26R0XEvs034456;
+        Wed, 27 Jul 2022 03:16:03 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+        by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3hh633p3w2-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 27 Jul 2022 03:16:02 +0000
+Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+        by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26R3E0gw008228;
+        Wed, 27 Jul 2022 03:16:02 GMT
+Received: from ca-mkp.mkp.ca.oracle.com (ca-mkp.ca.oracle.com [10.156.108.201])
+        by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id 3hh633p3uc-3;
+        Wed, 27 Jul 2022 03:16:02 +0000
+From:   "Martin K. Petersen" <martin.petersen@oracle.com>
+To:     Adrian Hunter <adrian.hunter@intel.com>,
+        Daniil Lunev <dlunev@chromium.org>,
+        Bart Van Assche <bvanassche@acm.org>
+Cc:     "Martin K . Petersen" <martin.petersen@oracle.com>,
+        Bean Huo <beanhuo@micron.com>,
+        Alim Akhtar <alim.akhtar@samsung.com>,
+        Avri Altman <avri.altman@wdc.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-scsi@vger.kernel.org,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "James E.J. Bottomley" <jejb@linux.ibm.com>
+Subject: Re: [PATCH] scsi: ufs: ufshcd: Read device property for ref clock
+Date:   Tue, 26 Jul 2022 23:15:56 -0400
+Message-Id: <165889172881.804.1367014483116861516.b4-ty@oracle.com>
+X-Mailer: git-send-email 2.36.1
+In-Reply-To: <20220715210230.1.I365d113d275117dee8fd055ce4fc7e6aebd0bce9@changeid>
+References: <20220715210230.1.I365d113d275117dee8fd055ce4fc7e6aebd0bce9@changeid>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH 7/8] Docs/zh_CN: Update the translation of pci to 5.19-rc8
-Content-Language: en-US
-To:     Yanteng Si <siyanteng@loongson.cn>, alexs@kernel.org,
-        bobwxc@email.cn
-Cc:     corbet@lwn.net, chenhuacai@kernel.org, jiaxun.yang@flygoat.com,
-        linux-doc@vger.kernel.org, siyanteng01@gmail.com,
-        zhoubinbin@loongson.cn, yizhou.tang@shopee.com,
-        wanjiabing@vivo.com, leoyang.li@nxp.com, src.res@email.cn
-References: <cover.1658740151.git.siyanteng@loongson.cn>
- <d6b56714f443f13fed9ed6618fb0788fe7d3caaa.1658740151.git.siyanteng@loongson.cn>
-From:   Alex Shi <seakeel@gmail.com>
-In-Reply-To: <d6b56714f443f13fed9ed6618fb0788fe7d3caaa.1658740151.git.siyanteng@loongson.cn>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-07-26_07,2022-07-26_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 bulkscore=0 malwarescore=0
+ adultscore=0 mlxscore=0 mlxlogscore=999 suspectscore=0 spamscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2206140000
+ definitions=main-2207270009
+X-Proofpoint-ORIG-GUID: ox54HQOKDaSm-QN1emBiExysxKFBZJ_p
+X-Proofpoint-GUID: ox54HQOKDaSm-QN1emBiExysxKFBZJ_p
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Reviewed-by: Alex Shi <alexs@kernel.org>
+On Fri, 15 Jul 2022 21:03:53 +1000, Daniil Lunev wrote:
 
-On 7/25/22 17:24, Yanteng Si wrote:
-> Update to commit f21949c14968 ("PCI/doc:Update
-> obsolete pci_set_dma_mask() references")
+> UFS storage devices require bRefClkFreq attribute to be set to operate
+> correctly at high speed mode. The necessary value is determined by what the
+> SoC / board supports. The standard doesn't specify a method to query the
+> value, so the information needs to be fed in separately.
 > 
-> 05b0ebd06ae6 ("PCI/doc: cleanup references to
-> the legacy PCI DMA API")
+> DT information feeds into setting up the clock framework, so platforms
+> using DT can get the UFS reference clock frequency from the clock
+> framework. A special node "ref_clk" from the clock array for the UFS
+> controller node is used as the source for the information.
 > 
-> Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
-> ---
->  Documentation/translations/zh_CN/PCI/pci.rst | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/Documentation/translations/zh_CN/PCI/pci.rst b/Documentation/translations/zh_CN/PCI/pci.rst
-> index 520707787256..83c2a41d38d3 100644
-> --- a/Documentation/translations/zh_CN/PCI/pci.rst
-> +++ b/Documentation/translations/zh_CN/PCI/pci.rst
-> @@ -255,13 +255,13 @@ pci_set_master()将通过设置PCI_COMMAND寄存器中的总线主控位来启
->  
->  虽然所有的驱动程序都应该明确指出PCI总线主控的DMA功能（如32位或64位），但对于流式
->  数据来说，具有超过32位总线主站功能的设备需要驱动程序通过调用带有适当参数的
-> -``pci_set_dma_mask()`` 来“注册”这种功能。一般来说，在系统RAM高于4G物理地址的情
-> +``dma_set_mask()`` 来“注册”这种功能。一般来说，在系统RAM高于4G物理地址的情
->  况下，这允许更有效的DMA。
->  
-> -所有PCI-X和PCIe兼容设备的驱动程序必须调用 ``pci_set_dma_mask()`` ，因为它们
-> +所有PCI-X和PCIe兼容设备的驱动程序必须调用 ``dma_set_mask()`` ，因为它们
->  是64位DMA设备。
->  
-> -同样，如果设备可以通过调用 ``pci_set_consistent_dma_mask()`` 直接寻址到
-> +同样，如果设备可以通过调用 ``dma_set_coherent_mask()`` 直接寻址到
->  4G物理地址以上的系统RAM中的“一致性内存”，那么驱动程序也必须“注册”这种功能。同
->  样，这包括所有PCI-X和PCIe兼容设备的驱动程序。许多64位“PCI”设备（在PCI-X之前）
->  和一些PCI-X设备对有效载荷（“流式”）数据具有64位DMA功能，但对控制（“一致性”）数
+> [...]
+
+Applied to 5.20/scsi-queue, thanks!
+
+[1/1] scsi: ufs: ufshcd: Read device property for ref clock
+      https://git.kernel.org/mkp/scsi/c/ca452621b829
+
+-- 
+Martin K. Petersen	Oracle Linux Engineering
