@@ -2,51 +2,51 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CA63EC19F2B
-	for <linux-doc@archiver.kernel.org>; Wed, 27 Jul 2022 18:19:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3988BC04A68
+	for <linux-doc@archiver.kernel.org>; Wed, 27 Jul 2022 18:21:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243023AbiG0STu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 27 Jul 2022 14:19:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34412 "EHLO
+        id S243410AbiG0SVL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 27 Jul 2022 14:21:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35190 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243542AbiG0ST3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Jul 2022 14:19:29 -0400
-Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9227D214
-        for <linux-doc@vger.kernel.org>; Wed, 27 Jul 2022 10:19:51 -0700 (PDT)
-Received: by mail-pl1-x635.google.com with SMTP id w10so5062472plq.0
-        for <linux-doc@vger.kernel.org>; Wed, 27 Jul 2022 10:19:51 -0700 (PDT)
+        with ESMTP id S234608AbiG0SUm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Jul 2022 14:20:42 -0400
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34C499A69C
+        for <linux-doc@vger.kernel.org>; Wed, 27 Jul 2022 10:20:42 -0700 (PDT)
+Received: by mail-pj1-x102c.google.com with SMTP id t2-20020a17090a4e4200b001f21572f3a4so2819851pjl.0
+        for <linux-doc@vger.kernel.org>; Wed, 27 Jul 2022 10:20:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=broadcom.com; s=google;
         h=from:date:to:cc:subject:message-id:references:mime-version
          :in-reply-to;
-        bh=K0uF6/PoRYGE+K/AUeyFb5MUeOGHba3WmqfqkbSEw2M=;
-        b=MTMxPe+49eZkdkbs+1X9jtoHMlu4xGwj5jE2mtNHaBREKElf0HqI2Nk56xRJw1VWP1
-         zuy9pyo7UDyUi1eEgqUlzsr02ZFc++XJirR2qMkLThl9FduFcLIlLDQLEuixPmFToXkQ
-         O2Rtwsdo+CVEMMrsLhyf+DnFuTEVxx0IfJMMk=
+        bh=RpP4GCdQ75lpJC8qIxyNp6sadaqBogmb+NKsTZz7Q4E=;
+        b=cdPTmlQJf+dd6uSioocIy2fP/O3SkkWxPk36KpyPLv8NdU405KphZ1VymIEx/5wXP7
+         BMLpnfHvynGondSP/Ccr/4JP4hiALFQrdyV/SUA5QgaA9vDRmWOcO5vdDZRRHzXA45+S
+         Uv+CKwMauEVKTViRvan+1rokxwe9cf7jWdDPw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:date:to:cc:subject:message-id:references
          :mime-version:in-reply-to;
-        bh=K0uF6/PoRYGE+K/AUeyFb5MUeOGHba3WmqfqkbSEw2M=;
-        b=3qmaSj3MOMv/K2gi82nTSJanzh89wzNSQu9Dwd/vvRvLlRLI6gJY423L9MhcBbRuoG
-         vcxan7gMQgotMzPCTyVu4JBRC4WfZBRPqLuhg43GMEwP20ClZX1lfUlaBszh3VgCNzn1
-         oo9gaD7B+PCOU+xUdNK2Q0fTKokJ5AmPfosBfBF5zgum3XvDsD0pf7k+HSyNJIt2jH+H
-         KukxsWl5YIMaqlVzaGdwAOUR0YvX3FGWtU8VqJSZHe/fDNHawnYUHIASVJzlMDWWlawL
-         08QWl930myaJhLIp8BZPvS8VRPAGQvpcsK6NHhBxp9VF+0EUgSgR/5qtEWF69t83cEXf
-         xz5Q==
-X-Gm-Message-State: AJIora900NLkKBUeAVUC/jBPiV338GAA1hubonR1AelvIOfLQiO+0CO3
-        trft2voxylxpjoeuAtyJWRjcOQ==
-X-Google-Smtp-Source: AGRyM1u4XBcCtpAsrDVNa3RcUuIQr2kRoS4CEuBsLCgfIgWIc6zhzaXw3BiD2XZGdF4kGQgjmnjUuA==
-X-Received: by 2002:a17:902:ce83:b0:16c:2e89:d640 with SMTP id f3-20020a170902ce8300b0016c2e89d640mr22324410plg.23.1658942390950;
-        Wed, 27 Jul 2022 10:19:50 -0700 (PDT)
+        bh=RpP4GCdQ75lpJC8qIxyNp6sadaqBogmb+NKsTZz7Q4E=;
+        b=RD+GWppCELQL/tEInQalw0gmPa4sunlIyzU7iPInX7ktOodwvZQHGFcxceutNzmb00
+         bB2JDda8zxBd58H3v6JMptvmbgQVRXI2V3FpkVdfBDaOyH9p9DyPQS/etOe2zjLOXHvy
+         KSvnGLzl2UFGOoXA5qBpVWrHgBaSp7WtVFeIg6CxQM9f+mc777etJcp9ELw1JVk7ZQ2t
+         WIeUQwcP6ufBEPB09y1pRxVhVxXUhnY02au/lPB9585fzAHgIoxmB4ZM9JjYVYsaJiu7
+         Zp2oi2mvsWoi8XUXDjQzUxKd2zi1BnEk1xBvYGwnsLwq/8s3hKzzZ7tNd8ehFM0Kwrpl
+         aVrg==
+X-Gm-Message-State: AJIora/kFLFKRXH1Pxn2s7G+yJYC/dEjGUzBGemgHRzvmqsMZqWX5yfE
+        aLtmJ8R+NWuZkdDMddzpfnn2Zw==
+X-Google-Smtp-Source: AGRyM1uPaExlNCd0RDT2CusQ+PPUHml1jrjSD0NO8XmNHd85coDYSGQ5Arvt8yuzkXbtcjwieFB6OA==
+X-Received: by 2002:a17:902:d651:b0:16b:f55e:c626 with SMTP id y17-20020a170902d65100b0016bf55ec626mr22708740plh.78.1658942441058;
+        Wed, 27 Jul 2022 10:20:41 -0700 (PDT)
 Received: from C02YVCJELVCG.dhcp.broadcom.net ([192.19.144.250])
-        by smtp.gmail.com with ESMTPSA id x28-20020aa78f1c000000b0052ba859da14sm13999161pfr.184.2022.07.27.10.19.47
+        by smtp.gmail.com with ESMTPSA id x28-20020aa78f1c000000b0052ba859da14sm14000068pfr.184.2022.07.27.10.20.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Jul 2022 10:19:50 -0700 (PDT)
+        Wed, 27 Jul 2022 10:20:40 -0700 (PDT)
 From:   Andy Gospodarek <andrew.gospodarek@broadcom.com>
 X-Google-Original-From: Andy Gospodarek <gospo@broadcom.com>
-Date:   Wed, 27 Jul 2022 13:19:37 -0400
+Date:   Wed, 27 Jul 2022 13:20:35 -0400
 To:     Vikas Gupta <vikas.gupta@broadcom.com>
 Cc:     jiri@nvidia.com, kuba@kernel.org, netdev@vger.kernel.org,
         linux-kernel@vger.kernel.org, davem@davemloft.net,
@@ -54,44 +54,40 @@ Cc:     jiri@nvidia.com, kuba@kernel.org, netdev@vger.kernel.org,
         edumazet@google.com, pabeni@redhat.com, ast@kernel.org,
         leon@kernel.org, linux-doc@vger.kernel.org, corbet@lwn.net,
         michael.chan@broadcom.com, andrew.gospodarek@broadcom.com
-Subject: Re: [PATCH net-next v9 1/2] devlink: introduce framework for
+Subject: Re: [PATCH net-next v9 2/2] bnxt_en: implement callbacks for devlink
  selftests
-Message-ID: <YuFzqb6HK+2gLqsF@C02YVCJELVCG.dhcp.broadcom.net>
+Message-ID: <YuFz488QqY3L1PxF@C02YVCJELVCG.dhcp.broadcom.net>
 References: <20220727165721.37959-1-vikas.gupta@broadcom.com>
- <20220727165721.37959-2-vikas.gupta@broadcom.com>
+ <20220727165721.37959-3-vikas.gupta@broadcom.com>
 MIME-Version: 1.0
-In-Reply-To: <20220727165721.37959-2-vikas.gupta@broadcom.com>
+In-Reply-To: <20220727165721.37959-3-vikas.gupta@broadcom.com>
 Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
-        boundary="000000000000f09b2205e4cc9f85"
+        boundary="000000000000ec7adb05e4cca21c"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
---000000000000f09b2205e4cc9f85
+--000000000000ec7adb05e4cca21c
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On Wed, Jul 27, 2022 at 10:27:20PM +0530, Vikas Gupta wrote:
-> Add a framework for running selftests.
-> Framework exposes devlink commands and test suite(s) to the user
-> to execute and query the supported tests by the driver.
+On Wed, Jul 27, 2022 at 10:27:21PM +0530, Vikas Gupta wrote:
+> From: vikas <vikas.gupta@broadcom.com>
 > 
-> Below are new entries in devlink_nl_ops
-> devlink_nl_cmd_selftests_show_doit/dumpit: To query the supported
-> selftests by the drivers.
-> devlink_nl_cmd_selftests_run: To execute selftests. Users can
-> provide a test mask for executing group tests or standalone tests.
+> Add callbacks
+> =============
+> .selftest_check: returns true for flash selftest.
+> .selftest_run: runs a flash selftest.
 > 
-> Documentation/networking/devlink/ path is already part of MAINTAINERS &
-> the new files come under this path. Hence no update needed to the
-> MAINTAINERS
+> Also, refactor NVM APIs so that they can be
+> used with devlink and ethtool both.
 > 
 > Signed-off-by: Vikas Gupta <vikas.gupta@broadcom.com>
 
 Reviewed-by: Andy Gospodarek <gospo@broadcom.com>
 
 
---000000000000f09b2205e4cc9f85
+--000000000000ec7adb05e4cca21c
 Content-Type: application/pkcs7-signature; name="smime.p7s"
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="smime.p7s"
@@ -162,14 +158,14 @@ nb7IGM3v/Nb7NTFH8/KUVg33xw829ztuGrOvfrHfBbeVcUoOHEHObXoaofYOJjtmSOQdMeJIiBgP
 XEpJG8/HB8t4FF6A8W++4cHhv0+ayyEnznrbOCn6WUmIvV2WiJymRpvRG7Hhdlk0zA97MRpqK5yn
 ai3dQ6VvMYICbTCCAmkCAQEwazBbMQswCQYDVQQGEwJCRTEZMBcGA1UEChMQR2xvYmFsU2lnbiBu
 di1zYTExMC8GA1UEAxMoR2xvYmFsU2lnbiBHQ0MgUjMgUGVyc29uYWxTaWduIDIgQ0EgMjAyMAIM
-E90b6DQq048oqwEJMA0GCWCGSAFlAwQCAQUAoIHUMC8GCSqGSIb3DQEJBDEiBCBxFfHHaxfjBUvx
-h0ocx6wlduTKTiLXkhTU5r0AO+H0vjAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcBMBwGCSqGSIb3
-DQEJBTEPFw0yMjA3MjcxNzE5NTFaMGkGCSqGSIb3DQEJDzFcMFowCwYJYIZIAWUDBAEqMAsGCWCG
+E90b6DQq048oqwEJMA0GCWCGSAFlAwQCAQUAoIHUMC8GCSqGSIb3DQEJBDEiBCA6DbHmWiISz3AF
+j6LGxtKrYD6yc9gS9ATTWE6GpkENfzAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcBMBwGCSqGSIb3
+DQEJBTEPFw0yMjA3MjcxNzIwNDFaMGkGCSqGSIb3DQEJDzFcMFowCwYJYIZIAWUDBAEqMAsGCWCG
 SAFlAwQBFjALBglghkgBZQMEAQIwCgYIKoZIhvcNAwcwCwYJKoZIhvcNAQEKMAsGCSqGSIb3DQEB
-BzALBglghkgBZQMEAgEwDQYJKoZIhvcNAQEBBQAEggEAUDUDzI02QZL9cyUig1Gas85f4yHpM0QD
-Q/5IFk71xWKQOPchGDWJBMutdmNm/SnzImZHF1FtAnSDN4V3wzP41itJKWz7YqAynIjh+WeS+s9M
-Fp4JdS76m/zeptmAKreDsV/eCM0316EnNU4iJnDUFc+a497tlW4Jr25ncdwym0DX3KxKKDpTXRPU
-LdoHOCK0N+hH1ep4MFrAfAxV16METhJV8sLK9xufLyZnDF9qheBbMeZBVBSqNr/mThMXZlUNVB7P
-G7LVy+PLD4vt53vo+T1Ol4kPXlaQ9FkQkAtJJd0OjuuWOr+bYVSqu/FhOEMDvgLouWExPZvaF4XN
-+k2ITA==
---000000000000f09b2205e4cc9f85--
+BzALBglghkgBZQMEAgEwDQYJKoZIhvcNAQEBBQAEggEALyo9djY2rirWjRhNjh5DNq1CS/gW+FXv
+zciO3q2APpS2b87J1cMpkVEtoKqBWCqWpkNFWgOrAn7nqdCEUEAuAj2XaXFvInF8xEyzo2rCfIO1
+kuh4BWqEHynLWZC1V2OU9ztgLBc7P/sYR63grBzD6+PFoM4LmofizlYMBOBXwJAtOg0pTqRgj4Ws
+0b7mf1/5jtOlHTKsqadHA4hpy2Qy3e7Wa4ZmytGrn7a86adGE+XY9pZc3z7YRR09d9UGuzNtLXWe
+NePDiVX4u27ttJn6PnMGO/K/IZxN++8aTaX34YkStUFF56Y8HR6ZWCxkjL9fFbjgbr94jBqSyBV6
+aVGdfw==
+--000000000000ec7adb05e4cca21c--
