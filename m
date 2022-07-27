@@ -2,59 +2,59 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 91D9AC00144
-	for <linux-doc@archiver.kernel.org>; Wed, 27 Jul 2022 02:19:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A544CC00144
+	for <linux-doc@archiver.kernel.org>; Wed, 27 Jul 2022 02:20:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240064AbiG0CTP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 26 Jul 2022 22:19:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42714 "EHLO
+        id S240067AbiG0CUd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 26 Jul 2022 22:20:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43528 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231476AbiG0CTO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Jul 2022 22:19:14 -0400
-Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2FA7E3C17E
-        for <linux-doc@vger.kernel.org>; Tue, 26 Jul 2022 19:19:14 -0700 (PDT)
-Received: by mail-pl1-x632.google.com with SMTP id w7so14929781ply.12
-        for <linux-doc@vger.kernel.org>; Tue, 26 Jul 2022 19:19:14 -0700 (PDT)
+        with ESMTP id S231476AbiG0CUd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 26 Jul 2022 22:20:33 -0400
+Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com [IPv6:2607:f8b0:4864:20::52c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB32663E4
+        for <linux-doc@vger.kernel.org>; Tue, 26 Jul 2022 19:20:29 -0700 (PDT)
+Received: by mail-pg1-x52c.google.com with SMTP id bf13so14704603pgb.11
+        for <linux-doc@vger.kernel.org>; Tue, 26 Jul 2022 19:20:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=message-id:date:mime-version:user-agent:subject:content-language:to
          :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=XdtxV5PUc8mqpRLGH6OcFCqXOP3hCqc1bBEBO57LxXg=;
-        b=E1L32aZuBzUgZVTRhRREzRz51hkeKXGJU4xy9XKdli52YgdkcRhPZ25OAqqpYwfW4q
-         GfstfZ90mxzIC1R2BRcd57ZBDpeJ6XSz+VHtqMVNi3+LWbCCNAmRECwF597ru5lIjhUK
-         Cf5N2TwLLFOtLYXGAAApYAY3teL+1xfSGVWvDXLihCJfpLNNYp90+2hG2NwHxe/HN+Dc
-         Z6aF7mRUuDO+9sKfeW9NlC6ZUi5d8dUaEb4EQLmzsuUXDoE9qFfdXDJIUFVXyjvh+3Vy
-         qHIdcA1qUbduxuIgtdCjhbyCFnXbJp4JdS9WmXMmjCK2ktgVRIrvxi8KMUtraN8KZ2Ub
-         5Rlg==
+        bh=2dI0w5TkEFKgnirYxhvSnjBRfynV9y7DH7W3YbcaTk0=;
+        b=ODilX5fC2JGXnwqoqAdLGM1ZSJB0BhWFkIBkpoS7fbqJcvqhmajEkeLgk4q4ELOjuc
+         u3EjUhABAZRVniO+9/sHYNSBWj3r6KJ/HQLqgEtvv9S55cPjaw2MS55Kkm5c4EMfEhOk
+         djFMMlyRhr2z4xF4zQUxVuvdgLVG/GqG71ool/99zCGGu3pE9q2zuipPyw+r+PDWvK5h
+         R8RTU8S3k2O0G9KS4UQqRfwptddLy3+c5oD6M0GM6SSWIBol4aNMdFS7lmStXQa7vHsD
+         ryQb1f56YHIKpmmrBNlhLQeziGcpxfUDNry5vTbSaUv7X3mZoBdSXK1SJHqybSzdfyTp
+         HSGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
          :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=XdtxV5PUc8mqpRLGH6OcFCqXOP3hCqc1bBEBO57LxXg=;
-        b=DdSVe4grBEWv+JZMQ+X6KkVLNiHH3EGWTEfyWfhpc702wNu6k7VCwDwzD99Gj7WP4I
-         VzQJFt6J/976C5HEEXnP/3rAY2h91Wm7+ryU8RSs4q3Zc8vWMnVK2GbCfgHOetjdy/UN
-         7WW4unXZBBReyTOtSfIokktu0sv9bKqqoZe6+sEBvXYvzYSGFyyTZnhAhnazzxKv93oq
-         9UHGAzflrkCu9sjYgwcfXP0mC3pD0vNf53d/oBli4gsqjdMltDHedWUD9xLmsAvN4sz2
-         udZiana01DnVbG6LbWVvQG5a0FwPuinG9hBxb6iywLtFCcQCyb7wGWIJS3bqN1COjoKd
-         qOTQ==
-X-Gm-Message-State: AJIora9MBzebcAnQMPCelUxtosNdVoDhFK4IbPIRAs6G5A3NP2+AwSln
-        59JMOowknNP7ZEeBHkimux4=
-X-Google-Smtp-Source: AGRyM1tj85CmQyN8IjuNGedjgn1DA3Jwd5PvY6f7RMUaDgw3AcVWSqNhXdHSKtyPGKpNgO46jngVXQ==
-X-Received: by 2002:a17:90a:1c01:b0:1f1:bf54:67ff with SMTP id s1-20020a17090a1c0100b001f1bf5467ffmr1982919pjs.172.1658888353756;
-        Tue, 26 Jul 2022 19:19:13 -0700 (PDT)
+        bh=2dI0w5TkEFKgnirYxhvSnjBRfynV9y7DH7W3YbcaTk0=;
+        b=cdBY+FQK7rssW86dwGq2/n+seqtEJG2lxeCKd0L6IePXqVnruxRWsNhCkYf/DLkHe4
+         TNhAH79WqVb/K7SsljI5Oxz2fXsC2xRbbOOchQthJnuL9/gc9TB+gMKUP4SGdjhdV3tH
+         SORZnKVC1MHK6UP7aA7qBEvHGCO7T7lQgSLfqOJrQopsYRAgeAnIornsS0ALSXi4OxOy
+         bcDJ1D1V29/11iONQD7hraS3ezDE7CD6x2uRqLnx+sbG9ewDuB+MyjdoWugTpNjMJ9lC
+         mypQ426zgWGISDvcAsymApWxPqY2yegP3GXO0roHyB8Lmv472YYaN3hJZ+ZxclKeQtjy
+         wrRg==
+X-Gm-Message-State: AJIora+z62Rw1dLT1EMQV7sKCKGwePNgtRph6+BXBb9lN6kBL4Q8Pg6U
+        eh2spbneZQ84zHp1EebB4Uc=
+X-Google-Smtp-Source: AGRyM1stByDIAKfCCnCsUkafHVVcXT4D2scl65oZenoQYf20JUSn6urKtVJei5aJLHqAr38IEzTM1g==
+X-Received: by 2002:a05:6a02:302:b0:415:fa99:e0aa with SMTP id bn2-20020a056a02030200b00415fa99e0aamr16687459pgb.516.1658888429229;
+        Tue, 26 Jul 2022 19:20:29 -0700 (PDT)
 Received: from [192.168.2.225] (93.179.119.173.16clouds.com. [93.179.119.173])
-        by smtp.gmail.com with ESMTPSA id i67-20020a62c146000000b005289fbef7c4sm12638512pfg.140.2022.07.26.19.19.07
+        by smtp.gmail.com with ESMTPSA id f34-20020a17090a702500b001f254ec83aesm89356pjk.38.2022.07.26.19.20.21
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 26 Jul 2022 19:19:12 -0700 (PDT)
-Message-ID: <dc6719f9-e41b-8a4e-7cfa-fe9c6f53537b@gmail.com>
-Date:   Wed, 27 Jul 2022 10:19:04 +0800
+        Tue, 26 Jul 2022 19:20:27 -0700 (PDT)
+Message-ID: <e9f57c4e-90ba-f419-4d30-46386a898143@gmail.com>
+Date:   Wed, 27 Jul 2022 10:20:17 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.1
-Subject: Re: [PATCH 6/8] Docs/zh_CN: Update the translation of pci-iov-howto
- to 5.19-rc8
+Subject: Re: [PATCH 8/8] Docs/zh_CN: Update the translation of sched-stats to
+ 5.19-rc8
 Content-Language: en-US
 To:     Yanteng Si <siyanteng@loongson.cn>, alexs@kernel.org,
         bobwxc@email.cn
@@ -63,9 +63,9 @@ Cc:     corbet@lwn.net, chenhuacai@kernel.org, jiaxun.yang@flygoat.com,
         zhoubinbin@loongson.cn, yizhou.tang@shopee.com,
         wanjiabing@vivo.com, leoyang.li@nxp.com, src.res@email.cn
 References: <cover.1658740151.git.siyanteng@loongson.cn>
- <e235ea1d60809647971b5d3e89aa44e30d212336.1658740151.git.siyanteng@loongson.cn>
+ <d46c5dfb2b6a138ba418b04f41f5bd73ebd7248d.1658740151.git.siyanteng@loongson.cn>
 From:   Alex Shi <seakeel@gmail.com>
-In-Reply-To: <e235ea1d60809647971b5d3e89aa44e30d212336.1658740151.git.siyanteng@loongson.cn>
+In-Reply-To: <d46c5dfb2b6a138ba418b04f41f5bd73ebd7248d.1658740151.git.siyanteng@loongson.cn>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
@@ -75,42 +75,40 @@ X-Mailing-List: linux-doc@vger.kernel.org
 Reviewed-by: Alex Shi <alexs@kernel.org>
 
 On 7/25/22 17:24, Yanteng Si wrote:
-> Update to commit 4f23bd5d09af ("PCI/doc: Convert
-> examples to generic power management")
-> 
+> Update to commit 6c757e9f55f0 ("docs/scheduler:
+> fix unit error")
+>
+> ddb21d27a6a5 ("docs/scheduler: Change unit of
+> cpu_time and rq_time to nanoseconds")
+>
 > Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
 > ---
->  Documentation/translations/zh_CN/PCI/pci-iov-howto.rst | 7 +++----
->  1 file changed, 3 insertions(+), 4 deletions(-)
-> 
-> diff --git a/Documentation/translations/zh_CN/PCI/pci-iov-howto.rst b/Documentation/translations/zh_CN/PCI/pci-iov-howto.rst
-> index fbc83dfdcead..fb023ea1374d 100644
-> --- a/Documentation/translations/zh_CN/PCI/pci-iov-howto.rst
-> +++ b/Documentation/translations/zh_CN/PCI/pci-iov-howto.rst
-> @@ -123,14 +123,14 @@ nr_virtfn'是要启用的VF的编号。
->  		...
->  	}
+>  .../translations/zh_CN/scheduler/sched-stats.rst          | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+>
+> diff --git a/Documentation/translations/zh_CN/scheduler/sched-stats.rst b/Documentation/translations/zh_CN/scheduler/sched-stats.rst
+> index 1c68c3d1c283..c5e0be663837 100644
+> --- a/Documentation/translations/zh_CN/scheduler/sched-stats.rst
+> +++ b/Documentation/translations/zh_CN/scheduler/sched-stats.rst
+> @@ -57,8 +57,8 @@ cpu<N> 1 2 3 4 5 6 7 8 9
 >  
-> -	static int dev_suspend(struct pci_dev *dev, pm_message_t state)
-> +	static int dev_suspend(struct device *dev)
->  	{
->  		...
+>  接下来的三个统计数据描述了调度延迟：
 >  
->  		return 0;
->  	}
+> -     7) 本处理器运行任务的总时间，单位是jiffies
+> -     8) 本处理器任务等待运行的时间，单位是jiffies
+> +     7) 本处理器运行任务的总时间，单位是纳秒
+> +     8) 本处理器任务等待运行的时间，单位是纳秒
+>       9) 本CPU运行了#个时间片
 >  
-> -	static int dev_resume(struct pci_dev *dev)
-> +	static int dev_resume(struct device *dev)
->  	{
->  		...
+>  域统计数据
+> @@ -146,8 +146,8 @@ domain<N> <cpumask> 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23
+>  schedstats还添加了一个新的/proc/<pid>/schedstat文件，来提供一些进程级的
+>  相同信息。这个文件中，有三个字段与该进程相关：
 >  
-> @@ -163,8 +163,7 @@ nr_virtfn'是要启用的VF的编号。
->  		.id_table =	dev_id_table,
->  		.probe =	dev_probe,
->  		.remove =	dev_remove,
-> -		.suspend =	dev_suspend,
-> -		.resume =	dev_resume,
-> +		.driver.pm =    &dev_pm_ops
->  		.shutdown =	dev_shutdown,
->  		.sriov_configure = dev_sriov_configure,
->  	};
+> -     1) 在CPU上运行花费的时间
+> -     2) 在运行队列上等待的时间
+> +     1) 在CPU上运行花费的时间(单位是纳秒)
+> +     2) 在运行队列上等待的时间(单位是纳秒)
+>       3) 在CPU上运行了#个时间片
+>  
+>  可以很容易地编写一个程序，利用这些额外的字段来报告一个特定的进程或一组进程在
