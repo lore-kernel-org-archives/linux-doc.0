@@ -2,70 +2,98 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ADB74C3F6B0
-	for <linux-doc@archiver.kernel.org>; Thu, 28 Jul 2022 15:13:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 405C3C04A68
+	for <linux-doc@archiver.kernel.org>; Thu, 28 Jul 2022 15:15:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229751AbiG1PNi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 28 Jul 2022 11:13:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55256 "EHLO
+        id S229692AbiG1PP4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 28 Jul 2022 11:15:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57880 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229508AbiG1PNi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Jul 2022 11:13:38 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A70C650076;
-        Thu, 28 Jul 2022 08:13:37 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        with ESMTP id S229508AbiG1PP4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Jul 2022 11:15:56 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9670243319;
+        Thu, 28 Jul 2022 08:15:55 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 4645261AF8;
-        Thu, 28 Jul 2022 15:13:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 215B6C433D7;
-        Thu, 28 Jul 2022 15:13:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1659021216;
-        bh=i9oduQQVXavAe/KC8oBpGCp7ggtnA6YfRbWCof8rmJQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=1zR4d+Tz3sQ0TFPmqhLihvShhdUmwPfQmEkNSCQ7UcYTY79R8OOTT7T8FbV+BOjke
-         ul8MmQkClrrThCKzLyYr9C/5w2do2dnnQ+IQ+L3NsgGjvqiATeilsHDf49vUVtdVq+
-         gUovVbsIiKixWut4+TJgZYDXYVFsCvodj4/nvXSo=
-Date:   Thu, 28 Jul 2022 17:13:33 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        Kumar Kartikeya Dwivedi <memxor@gmail.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>, Shuah Khan <shuah@kernel.org>,
-        Dave Marchevsky <davemarchevsky@fb.com>,
-        Joe Stringer <joe@cilium.io>, Jonathan Corbet <corbet@lwn.net>,
-        Tero Kristo <tero.kristo@linux.intel.com>,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        netdev@vger.kernel.org, bpf@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH bpf-next v7 22/24] samples/bpf: add new hid_mouse example
-Message-ID: <YuKnnV8c5nlBzMkK@kroah.com>
-References: <20220721153625.1282007-1-benjamin.tissoires@redhat.com>
- <20220721153625.1282007-23-benjamin.tissoires@redhat.com>
+        by ms.lwn.net (Postfix) with ESMTPSA id 3EF2821F;
+        Thu, 28 Jul 2022 15:15:55 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 3EF2821F
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1659021355; bh=quglmyTcDMfNz+EfwOq2c2h7dkjzivKLmZ5MAUxgYMI=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=pIh2JIW7idg1XWwuau6ucRm6OwuugZHSiduyzmXbOq/ulhQuNrOlW+80Ex3VAN+QD
+         T/c5jWiEVuDDKeW07AWlpPnLlidWLq8EwIoynp+0JQvcaIKghPsZWnhubBY3EvLvox
+         0QM6hcgizZez3xMaSoIpHGsBfYHO1UUuS5njHAiqHEEvynKtMVGXkvLnESRA6GX4tJ
+         eU0KIazJIfSogC15ej847o1VDT2ISC9JFPUMgISIhlKRYeUA48JLQ1jrOid9z1smOv
+         84Y2xbiFfs3UWEoHKS1T1hTEaeyjacWr8sorvgGDhdllWslY9ASANWHSjps3lUZSue
+         FrGbpxeSFEXSQ==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     fslongjin <longjin@RinGoTek.cn>, twoerner@gmail.com,
+        keescook@chromium.org
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        fslongjin <fslongjin@vip.qq.com>, longjin <longjin@RinGoTek.cn>
+Subject: Re: [PATCH] Documentation: Fixed errors in the title level of
+ coding style documents
+In-Reply-To: <20220728074224.155298-1-longjin@RinGoTek.cn>
+References: <20220728074224.155298-1-longjin@RinGoTek.cn>
+Date:   Thu, 28 Jul 2022 09:15:54 -0600
+Message-ID: <8735elclp1.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220721153625.1282007-23-benjamin.tissoires@redhat.com>
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jul 21, 2022 at 05:36:23PM +0200, Benjamin Tissoires wrote:
-> Everything should be available in the selftest part of the tree, but
-> providing an example without uhid and hidraw will be more easy to
-> follow for users.
+fslongjin <longjin@RinGoTek.cn> writes:
 
-A hint as to what the program is supposed to be doing would also be nice
-in the usage section.
+> From: fslongjin <fslongjin@vip.qq.com>
+>
+> In Section 3, `Placing Braces and Spaces`. In the previous document, only
+> `Spaces` is written in the subtitle without the `Braces`. I think this
+>  may be a format error caused by negligence, so I fixed it.
+>
+> Signed-off-by: longjin <longjin@RinGoTek.cn>
+> Signed-off-by: fslongjin <fslongjin@vip.qq.com>
 
-thanks,
+I don't understand this signoff chain; did both of you work on this
+small patch?
 
-greg k-h
+Signoffs should also have full legal names in them.
+
+> ---
+>  Documentation/process/coding-style.rst | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
+>
+> diff --git a/Documentation/process/coding-style.rst b/Documentation/process/coding-style.rst
+> index 03eb53fd029a..2a26bcb9f391 100644
+> --- a/Documentation/process/coding-style.rst
+> +++ b/Documentation/process/coding-style.rst
+> @@ -120,6 +120,9 @@ that breaks the ability to grep for them.
+>  3) Placing Braces and Spaces
+>  ----------------------------
+>  
+> +3.1) Braces
+> +***********
+> +
+>  The other issue that always comes up in C styling is the placement of
+>  braces.  Unlike the indent size, there are few technical reasons to
+>  choose one placement strategy over the other, but the preferred way, as
+> @@ -231,7 +234,7 @@ Also, use braces when a loop contains more than a single simple statement:
+>  			do_something();
+>  	}
+>  
+> -3.1) Spaces
+> +3.2) Spaces
+>  ***********
+
+This seems like a fine change but, as you notice here, putting section
+numbers into the text leads to ongoing update problems.  Sphinx can add
+those nicely, so I generally suggest just removing them entirely.  I
+wouldn't insist on that, but if you felt so inclined, that would be a
+good improvement to the patch.
+
+Thanks,
+
+jon
