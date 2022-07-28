@@ -2,103 +2,73 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B93E0C04A68
-	for <linux-doc@archiver.kernel.org>; Thu, 28 Jul 2022 15:01:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D94AC19F2B
+	for <linux-doc@archiver.kernel.org>; Thu, 28 Jul 2022 15:10:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229751AbiG1PBc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 28 Jul 2022 11:01:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45984 "EHLO
+        id S229513AbiG1PKO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 28 Jul 2022 11:10:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51138 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230172AbiG1PB3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Jul 2022 11:01:29 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12F212F663;
-        Thu, 28 Jul 2022 08:01:28 -0700 (PDT)
+        with ESMTP id S230143AbiG1PKN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Jul 2022 11:10:13 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 786D6F02;
+        Thu, 28 Jul 2022 08:10:11 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 64805619A0;
-        Thu, 28 Jul 2022 15:01:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F0B4C433C1;
-        Thu, 28 Jul 2022 15:01:27 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 1EABAB8247E;
+        Thu, 28 Jul 2022 15:10:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 504D5C433D6;
+        Thu, 28 Jul 2022 15:10:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1659020487;
-        bh=AnGfT+ICsOyh5alSICQ2W481AGcoHD5Y+3Yjrk8MoK8=;
+        s=korg; t=1659021008;
+        bh=l0bE4KitRMr4TS8LjYN+oqMjkbk1ANtyRmk5pvk0GEY=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=JWDZDXIRbUZ/IoBQeMzzoHOc5I2XHIwsTCKOeb2aQomZWw6DzieJDUzQEbGaqLe+0
-         GuKlglVyhlolxfqdliF2m8KVh6DVDom4+rgyjGJ2nPulYrYgxdsVOFP7ZsA6/8nN09
-         7rHvsufLcp53MTiIJcJGydPBj/k+wfMofQWXFGSo=
-Date:   Thu, 28 Jul 2022 17:01:25 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Markuss Broks <markuss.broks@gmail.com>
-Cc:     linux-kernel@vger.kernel.org,
-        ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        Helge Deller <deller@gmx.de>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Borislav Petkov <bp@suse.de>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Kees Cook <keescook@chromium.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Javier Martinez Canillas <javierm@redhat.com>,
-        Michal Suchanek <msuchanek@suse.de>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Wei Ming Chen <jj251510319013@gmail.com>,
-        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
-        Tony Lindgren <tony@atomide.com>, linux-doc@vger.kernel.org,
-        linux-efi@vger.kernel.org, linux-serial@vger.kernel.org,
-        linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH 2/2] efi: earlycon: Add support for generic framebuffers
- and move to fbdev subsystem
-Message-ID: <YuKkxb7u3piHytJ8@kroah.com>
-References: <20220728142824.3836-1-markuss.broks@gmail.com>
- <20220728142824.3836-3-markuss.broks@gmail.com>
- <YuKfnAjB4gV0ki4A@kroah.com>
- <30ce6f21-0a91-81cb-8b03-5acff17c59ee@gmail.com>
+        b=cANvheKnSwNeSdnN6ZjkQoN0h+IrxefvySkStaNLzzF1OrvK75HhIN6ObMIHzy7oW
+         Hg+8NSfUfgqiVrbY8zBL+VelIhGsB1a0nq/D8O4kvqBHAmeAIndgq/sjYtha6l3et6
+         7nOnhN9KSxtwk+76yU4VKLoarUxSon3uFS4WB3Hc=
+Date:   Thu, 28 Jul 2022 17:10:06 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     Jiri Kosina <jikos@kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        Kumar Kartikeya Dwivedi <memxor@gmail.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>, Shuah Khan <shuah@kernel.org>,
+        Dave Marchevsky <davemarchevsky@fb.com>,
+        Joe Stringer <joe@cilium.io>, Jonathan Corbet <corbet@lwn.net>,
+        Tero Kristo <tero.kristo@linux.intel.com>,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        netdev@vger.kernel.org, bpf@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH bpf-next v7 15/24] HID: bpf: allocate data memory for
+ device_event BPF programs
+Message-ID: <YuKmznAzAi2w9a/3@kroah.com>
+References: <20220721153625.1282007-1-benjamin.tissoires@redhat.com>
+ <20220721153625.1282007-16-benjamin.tissoires@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <30ce6f21-0a91-81cb-8b03-5acff17c59ee@gmail.com>
+In-Reply-To: <20220721153625.1282007-16-benjamin.tissoires@redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jul 28, 2022 at 05:52:04PM +0300, Markuss Broks wrote:
-> Hi Greg,
+On Thu, Jul 21, 2022 at 05:36:16PM +0200, Benjamin Tissoires wrote:
+> We need to also be able to change the size of the report.
+> Reducing it is easy, because we already have the incoming buffer that is
+> big enough, but extending it is harder.
 > 
-> On 7/28/22 17:39, Greg Kroah-Hartman wrote:
-> > On Thu, Jul 28, 2022 at 05:28:19PM +0300, Markuss Broks wrote:
-> > > Add early console support for generic linear framebuffer devices.
-> > > This driver supports probing from cmdline early parameters
-> > > or from the device-tree using information in simple-framebuffer node.
-> > > The EFI functionality should be retained in whole.
-> > > The driver was disabled on ARM because of a bug in early_ioremap
-> > > implementation on ARM.
-> > > 
-> > > Signed-off-by: Markuss Broks <markuss.broks@gmail.com>
-> > > ---
-> > >   .../admin-guide/kernel-parameters.txt         |  12 +-
-> > >   MAINTAINERS                                   |   5 +
-> > >   drivers/firmware/efi/Kconfig                  |   6 +-
-> > >   drivers/firmware/efi/Makefile                 |   1 -
-> > >   drivers/firmware/efi/earlycon.c               | 246 --------------
-> > >   drivers/video/fbdev/Kconfig                   |  11 +
-> > >   drivers/video/fbdev/Makefile                  |   1 +
-> > >   drivers/video/fbdev/earlycon.c                | 301 ++++++++++++++++++
-> > >   8 files changed, 327 insertions(+), 256 deletions(-)
-> > >   delete mode 100644 drivers/firmware/efi/earlycon.c
-> > >   create mode 100644 drivers/video/fbdev/earlycon.c
-> > 
-> > That should be a rename, not a delete/create, right?
+> Pre-allocate a buffer that is big enough to handle all reports of the
+> device, and use that as the primary buffer for BPF programs.
+> To be able to change the size of the buffer, we change the device_event
+> API and request it to return the size of the buffer.
 > 
-> Should this change be split into two separate commits,
-> one for moving the file and the second for making changes?
+> Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
 
-Git will show a rename and modification properly, if you use -M to git
-format-patch, so it should be fine.
+Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
