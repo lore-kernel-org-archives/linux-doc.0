@@ -2,117 +2,189 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C6C60C04A68
-	for <linux-doc@archiver.kernel.org>; Thu, 28 Jul 2022 21:07:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CEF14C3F6B0
+	for <linux-doc@archiver.kernel.org>; Thu, 28 Jul 2022 21:20:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229620AbiG1VHp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 28 Jul 2022 17:07:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37356 "EHLO
+        id S233025AbiG1VUh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 28 Jul 2022 17:20:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45886 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232353AbiG1VHm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Jul 2022 17:07:42 -0400
-Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com [IPv6:2607:f8b0:4864:20::430])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A96917820D
-        for <linux-doc@vger.kernel.org>; Thu, 28 Jul 2022 14:07:40 -0700 (PDT)
-Received: by mail-pf1-x430.google.com with SMTP id g12so2966063pfb.3
-        for <linux-doc@vger.kernel.org>; Thu, 28 Jul 2022 14:07:40 -0700 (PDT)
+        with ESMTP id S229620AbiG1VUf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Jul 2022 17:20:35 -0400
+Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA5DB51434;
+        Thu, 28 Jul 2022 14:20:34 -0700 (PDT)
+Received: by mail-ej1-x633.google.com with SMTP id ss3so5207032ejc.11;
+        Thu, 28 Jul 2022 14:20:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
-        h=to:from:cc:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:to:cc;
-        bh=20zO2FT2JEdVmGgde/EIUF8PTTirUHSwEDYNPZ44Pgg=;
-        b=p5F2+1uekipyQTSPfAX9HTNnh+s8rs4JzMcbfmP2rciMhLOLs/BJ1lT1wlNCW75IaJ
-         TeGKO8/VEM62witITuWamrO7mM80bTZFgorffYUiNIT63txY3XDLKmKOGb4ODk8UxcIB
-         SAoyzVUd3k8qRJNDBkq+fqiZkEtHAYtOyeRY0uGQAQZLyiu1nv4K1m89/k9M2o/jo2xQ
-         UZcoLSRsTl082ii08jfcUVbn8LlcgSLA12uEkLPClKzvZP9R+grPWetSS3FndjOUut3s
-         Cbz+RZAsKPZJuTL2dB1V3AOsaKBUOyVqUSlcJXeYHikSzjXltwt9b9gwoiczKJ/zjfwC
-         RkzA==
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc;
+        bh=jAkPCigVLHrBtqVHphR26WDxi2DiUpnm1/Y0dqLKCmQ=;
+        b=KbVm0qMVYx6vAxplpGdfXideOWadbCD17AoB6s1oPdJt9SKVU6HKNYR+4upp5Hraox
+         rKn4Zxp0+fUK/toeW5i8cJnWIhfI0ZlJoGYsTejB23pW7LPgvi2BEHFLsCJ30EI6/tpC
+         Ub2FuHYTmWrmJiwVXW5rd62zdJeSf3dY11EDMoJeJs90LjYKh3CbamhFS7B6ycXjB3kp
+         L35BWmWGVi7yBMK/dodfGmDAXhcPMSzTNNe8Eu9EKUMyWYxlTEztLZ+xLdQy1jL+hyX1
+         lt6JMpN1t2Uam6JuAofdK4MkGDtJ7PppBxIsmz5MPyCUsCNCQeKHqF/tMphkBPD43xWL
+         Nlzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=to:from:cc:content-transfer-encoding:mime-version:message-id:date
-         :subject:x-gm-message-state:from:to:cc;
-        bh=20zO2FT2JEdVmGgde/EIUF8PTTirUHSwEDYNPZ44Pgg=;
-        b=ezMnPlhYOwVzQhS7/wJa35/GZvXcYqVO+B1Sw+ZL7ushPMQjOoQW2tJzOYGUkUU8VQ
-         SkFeip/WTxxEFigsrU1fuYc+itwRF3592zzV2L0sDFEznvKoy5E6OycSZhCnm6gUC6Qq
-         37FrzT16I0Ph9xwy4Hd86vH9/tGQwEfzbukY7+zAZAbuXfKNJYtA5j8iej099Y9xdfZp
-         jN8BnVZ0mGrANg26mJcbTqTzFW4eE0jOYEKciwm0stTg6qah96x8lTfVBx31GWUBEK1w
-         698UtzFORiXSHFbgzOUubNddTvOZmvylVHyQ9ZihwWEHHFnbzCh4zNt8v+wkSwqLfd7U
-         135A==
-X-Gm-Message-State: AJIora/WH2HAzqQhUPD+J8H+qKOboJAXN9Kp4yd+jk43fbruXTQf9Lny
-        Pnm5uTCxJTvu16q5TZFCX1tw3Q==
-X-Google-Smtp-Source: AGRyM1v2M7Q1YpIsy9H18azfAtgYtbvNwBK7Xc1E6c9U2gGjQ5VCipBScMYENZ2vwWNXuW8n8/ceiA==
-X-Received: by 2002:a65:5a05:0:b0:41a:ea25:a631 with SMTP id y5-20020a655a05000000b0041aea25a631mr495385pgs.46.1659042460013;
-        Thu, 28 Jul 2022 14:07:40 -0700 (PDT)
-Received: from localhost ([50.221.140.186])
-        by smtp.gmail.com with ESMTPSA id n3-20020a1709026a8300b0016b81679c31sm1704066plk.213.2022.07.28.14.07.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 Jul 2022 14:07:38 -0700 (PDT)
-Subject: [PATCH] doc: RISC-V: Document that misaligned accesses are supported
-Date:   Thu, 28 Jul 2022 14:07:15 -0700
-Message-Id: <20220728210715.17214-1-palmer@rivosinc.com>
-X-Mailer: git-send-email 2.34.1
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=jAkPCigVLHrBtqVHphR26WDxi2DiUpnm1/Y0dqLKCmQ=;
+        b=XDew0GcjYuavl/cd3wQcgFkuf1xZmb9gBt9MFhTiWhmOTlcvOvQ2AQ5P/IppKurunR
+         K3hrIcICoW7sgeieFzXqiQnm2Wi167NbpIjFV3tmBsnhFuecw75G/KpptR4TkgyHngaN
+         WMcTn6qZTQDbfFt6nUdd9uJct5r7S4a8Sk9Aa+pkUMKyBRebZCAv7KzEI18/A8bmclE/
+         wgIyg1MM+GWTGzxlatV0LlZcU4IRMp6TYTwp+Bp6lT9vHU0XZ84iKj9hU9JO2aLk4rRM
+         LghoYj+6pB42phIVM9dxV6X3fY5jNNViIpa1aMDXEmVhTdxTGyop8km/uBHZJfA/1g2P
+         Egag==
+X-Gm-Message-State: AJIora+ZwR2RRYoMFm5nYsb6LoVXg7bVzWfefQ2pFOWEQ0fLjU4pMXOm
+        zjG3GI4/0LPhcMd68o5TfTD6k7EwpEOUS9cg7tg=
+X-Google-Smtp-Source: AGRyM1te7Y5AHT6zHCE8M+M/Z37sGPGv8DKdrNYWIqZIHSDo7p9FDRZzoAwJaLCAER4a8q5/V+tMn3CP6GPk0Cf8U7Q=
+X-Received: by 2002:a17:907:28d6:b0:72b:7497:76b with SMTP id
+ en22-20020a17090728d600b0072b7497076bmr559720ejc.365.1659043232735; Thu, 28
+ Jul 2022 14:20:32 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Cc:     Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>, aou@eecs.berkeley.edu,
-        bagasdotme@gmail.com, linux-doc@vger.kernel.org,
-        linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux@rivosinc.com, Palmer Dabbelt <palmer@rivosinc.com>
-From:   Palmer Dabbelt <palmer@rivosinc.com>
-To:     corbet@lwn.net
+References: <20220728142824.3836-1-markuss.broks@gmail.com> <20220728142824.3836-3-markuss.broks@gmail.com>
+In-Reply-To: <20220728142824.3836-3-markuss.broks@gmail.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Thu, 28 Jul 2022 23:19:55 +0200
+Message-ID: <CAHp75VdaDyyqRw9fAkUOhNjsyifeozVx6JuYXSU1HpoO+VHDNA@mail.gmail.com>
+Subject: Re: [PATCH 2/2] efi: earlycon: Add support for generic framebuffers
+ and move to fbdev subsystem
+To:     Markuss Broks <markuss.broks@gmail.com>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Helge Deller <deller@gmx.de>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Borislav Petkov <bp@suse.de>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Kees Cook <keescook@chromium.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Javier Martinez Canillas <javierm@redhat.com>,
+        Michal Suchanek <msuchanek@suse.de>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Wei Ming Chen <jj251510319013@gmail.com>,
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+        Tony Lindgren <tony@atomide.com>,
+        Linux Documentation List <linux-doc@vger.kernel.org>,
+        linux-efi <linux-efi@vger.kernel.org>,
+        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
+        "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Rob Herring <robh@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Palmer Dabbelt <palmer@rivosinc.com>
+On Thu, Jul 28, 2022 at 4:32 PM Markuss Broks <markuss.broks@gmail.com> wrote:
+>
+> Add early console support for generic linear framebuffer devices.
+> This driver supports probing from cmdline early parameters
+> or from the device-tree using information in simple-framebuffer node.
+> The EFI functionality should be retained in whole.
+> The driver was disabled on ARM because of a bug in early_ioremap
+> implementation on ARM.
 
-The RISC-V ISA manual used to mandate that misaligned accesses were
-supported in user mode, but that requirement was removed in 2018 via
-riscv-isa-manual commit 61cadb9 ("Provide new description of misaligned
-load/store behavior compatible with privileged architecture.").  Since
-the Linux uABI was already frozen at that point it's just been demoted
-to part of the uABI, but that was never written down.
+...
 
-Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
+> -               efifb,[options]
+> +               efifb
+>                         Start an early, unaccelerated console on the EFI
+> -                       memory mapped framebuffer (if available). On cache
+> -                       coherent non-x86 systems that use system memory for
+> -                       the framebuffer, pass the 'ram' option so that it is
+> -                       mapped with the correct attributes.
+> +                       memory mapped framebuffer (if available).
 
----
+If somebody passes those (legacy) options, what will happen?
 
-We currently rely on either hardware or M-mode to support misaligned
-accesses.  It's probably worth supporting the PR_SET_UNALIGN so
-userspace can opt out of the emulation routines, but we can't break the
-uABI so we're stuck with defaulting to them on for now.  Doing so would
-also require some way of informing M-mode that unsupported accesses
-shouldn't be emulated.
----
- Documentation/riscv/index.rst | 1 +
- Documentation/riscv/uabi.rst  | 6 ++++++
- 2 files changed, 7 insertions(+)
- create mode 100644 Documentation/riscv/uabi.rst
+...
 
-diff --git a/Documentation/riscv/index.rst b/Documentation/riscv/index.rst
-index e23b876ad6eb..2e5b18fbb145 100644
---- a/Documentation/riscv/index.rst
-+++ b/Documentation/riscv/index.rst
-@@ -8,6 +8,7 @@ RISC-V architecture
-     boot-image-header
-     vm-layout
-     patch-acceptance
-+    uabi
- 
-     features
- 
-diff --git a/Documentation/riscv/uabi.rst b/Documentation/riscv/uabi.rst
-new file mode 100644
-index 000000000000..21a82cfb6c4d
---- /dev/null
-+++ b/Documentation/riscv/uabi.rst
-@@ -0,0 +1,6 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+RISC-V Linux User ABI
-+=====================
-+
-+Misaligned accesses are supported in userspace, but they may perform poorly.
+>  config EFI_EARLYCON
+> -       def_bool y
+> -       depends on SERIAL_EARLYCON && !ARM && !IA64
+> -       select FONT_SUPPORT
+> -       select ARCH_USE_MEMREMAP_PROT
+> +       bool "EFI early console support"
+> +       depends on FB_EARLYCON && !IA64
+
+This doesn't sound right. Previously on my configuration it was
+selected automatically, now I need to select it explicitly? I mean
+that for me EFI_EARLYCON should be selected by default as it was
+before.
+
+...
+
+> +static int __init simplefb_earlycon_remap_fb(void)
+> +{
+> +       int is_ram;
+
++ blank line.
+
+> +       /* bail if there is no bootconsole or it has been disabled already */
+> +       if (!earlycon_console || !(earlycon_console->flags & CON_ENABLED))
+> +               return 0;
+> +
+> +       is_ram = region_intersects(info.phys_base, info.size,
+> +                                  IORESOURCE_SYSTEM_RAM, IORES_DESC_NONE);
+> +       is_ram = is_ram == REGION_INTERSECTS;
+
+Was it in the original code? Otherwise, I would go with plain conditional:
+
+  if (region_intersects())
+    base = ...
+  else
+    base = ...
+
+> +       info.virt_base = memremap(info.phys_base, info.size,
+> +                                 is_ram ? MEMREMAP_WB : MEMREMAP_WC);
+> +
+> +       return info.virt_base ? 0 : -ENOMEM;
+> +}
+
+...
+
+> +static void simplefb_earlycon_write_char(u8 *dst, unsigned char c, unsigned int h)
+> +{
+> +       const u8 *src;
+> +       int m, n, bytes;
+> +       u8 x;
+> +
+> +       bytes = BITS_TO_BYTES(font->width);
+> +       src = font->data + c * font->height * bytes + h * bytes;
+> +
+> +       for (m = 0; m < font->width; m++) {
+> +               n = m % 8;
+> +               x = *(src + m / 8);
+> +               if ((x >> (7 - n)) & 1)
+> +                       memset(dst, 0xff, (info.depth / 8));
+> +               else
+> +                       memset(dst, 0, (info.depth / 8));
+> +               dst += (info.depth / 8);
+> +       }
+> +}
+
+Wondering if we already have something like this in DRM/fbdev and can
+split into a generic helper.
+
+...
+
+> +       ret = sscanf(device->options, "%u,%u,%u", &info.x, &info.y, &info.depth);
+> +       if (ret != 3)
+> +               return -ENODEV;
+
+Don't we have some standard template of this, something like XxYxD,
+where X, Y, and D are respective decimal numbers?
+
 -- 
-2.34.1
-
+With Best Regards,
+Andy Shevchenko
