@@ -2,217 +2,230 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9EA48C19F29
-	for <linux-doc@archiver.kernel.org>; Thu, 28 Jul 2022 18:13:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 453D3C04A68
+	for <linux-doc@archiver.kernel.org>; Thu, 28 Jul 2022 19:08:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232270AbiG1SNS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 28 Jul 2022 14:13:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46226 "EHLO
+        id S230012AbiG1TIl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 28 Jul 2022 15:08:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34568 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229506AbiG1SNR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Jul 2022 14:13:17 -0400
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1601774DD5;
-        Thu, 28 Jul 2022 11:13:15 -0700 (PDT)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id 295ED1F9D9;
-        Thu, 28 Jul 2022 18:13:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1659031994; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=/sPBOHCizRxOcqIb2C1bdSrs3Qlw/FAQ05Po6tZjRhc=;
-        b=AzXm5XX+MC3UpWh+dlZAGeBXIz9gtd5DL11I8CE4k4Uj+Ea5iloRIU7uu7hvohsSuWHfSZ
-        1BcBkSPHEArrqBThIL25ZWTj/JynCsD+yi0+l4EnxyZ+OZaTacmh0THOt2zk3bNf2nl1zC
-        nuKk2iH3xD34osg+BxgtE3F/+rZXMSI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1659031994;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=/sPBOHCizRxOcqIb2C1bdSrs3Qlw/FAQ05Po6tZjRhc=;
-        b=DmEe4Ew8LWlNDlcIY7yZRYQhduz1tPWT79uNYPs2IKb+ina/TRIg14kvxAwqbHpbZO3xlK
-        IBKf2z+4plUYrBAw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A0CEF13427;
-        Thu, 28 Jul 2022 18:13:13 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id uAtRJrnR4mI5NwAAMHmgww
-        (envelope-from <tzimmermann@suse.de>); Thu, 28 Jul 2022 18:13:13 +0000
-Message-ID: <ad66bc12-ff8c-33fe-739c-879ddd3be117@suse.de>
-Date:   Thu, 28 Jul 2022 20:13:13 +0200
+        with ESMTP id S229660AbiG1TIl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Jul 2022 15:08:41 -0400
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32D0676960;
+        Thu, 28 Jul 2022 12:08:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1659035320; x=1690571320;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=mwYRhPt/qNkJg8iTUFWz1cbb29drUFK9eTaW+3vHFUE=;
+  b=YVkoVxC+xm3MfepcJuS9NbyQFOIt+M3dNvPmt5CLNPTx4GlWM5PdK6l/
+   u5hX5GqTqLfZkftR7HsqJyvx6RPuov48hH2OJvcuRitk7pK7xiPlGJB4J
+   SMNFB4hh2+EY0zxzxEaTaYtlhHHYL0YN27XdgONFDA72J2TtDTx4Iyipt
+   /Py6eXKf44YOWrw3PDGP8V6BIu+1BN+R8JkFLA2RtMj1aB6MK9AVr69WQ
+   EQhPjAu9fxcn0fpEBO7M/M32PS8CsF2dFK/9HVVHwdUbh24ovw3Zts9Ba
+   6AmQbiTx36LYBKr6AiZQ7XoCGpikrNxCY6Rxo5s43Gb3+K5qKtg9rhpH7
+   A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10422"; a="271636652"
+X-IronPort-AV: E=Sophos;i="5.93,199,1654585200"; 
+   d="scan'208";a="271636652"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2022 12:08:39 -0700
+X-IronPort-AV: E=Sophos;i="5.93,199,1654585200"; 
+   d="scan'208";a="551440101"
+Received: from bbandar7-mobl1.amr.corp.intel.com (HELO [10.209.124.46]) ([10.209.124.46])
+  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2022 12:08:39 -0700
+Message-ID: <f173a7c0-b4f8-17f3-a65d-e581fed32368@intel.com>
+Date:   Thu, 28 Jul 2022 12:08:39 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH 2/2] efi: earlycon: Add support for generic framebuffers
- and move to fbdev subsystem
+Subject: Re: [RESEND RFC PATCH] x86/bugs: Add "unknown" reporting for MMIO
+ Stale Data
 Content-Language: en-US
-To:     Arnd Bergmann <arnd@arndb.de>,
-        Markuss Broks <markuss.broks@gmail.com>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
+To:     Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        Helge Deller <deller@gmx.de>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Borislav Petkov <bp@suse.de>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Kees Cook <keescook@chromium.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-        Javier Martinez Canillas <javierm@redhat.com>,
-        Michal Suchanek <msuchanek@suse.de>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Wei Ming Chen <jj251510319013@gmail.com>,
-        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
-        Tony Lindgren <tony@atomide.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-efi <linux-efi@vger.kernel.org>,
-        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
-        Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Rob Herring <robh@kernel.org>
-References: <20220728142824.3836-1-markuss.broks@gmail.com>
- <20220728142824.3836-3-markuss.broks@gmail.com>
- <CAK8P3a2fZ9O6vSEyxY1KW71pG_Oyvwxp3zTbW2GuaSD6aj+Qfw@mail.gmail.com>
- <8e694cb6-c3dc-74e3-6804-fc532f108523@gmail.com>
- <CAK8P3a2vJFCJmeMj-vuasUhwa2=2P+hAr=ScGhT21TcjQ1Z8Aw@mail.gmail.com>
-From:   Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <CAK8P3a2vJFCJmeMj-vuasUhwa2=2P+hAr=ScGhT21TcjQ1Z8Aw@mail.gmail.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------fka0dzGSHEDzxZIPDv0yrwbG"
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        stable@vger.kernel.org, tony.luck@intel.com,
+        antonio.gomez.iglesias@linux.intel.com,
+        Daniel Sneddon <daniel.sneddon@linux.intel.com>,
+        andrew.cooper3@citrix.com, Josh Poimboeuf <jpoimboe@kernel.org>
+References: <a932c154772f2121794a5f2eded1a11013114711.1657846269.git.pawan.kumar.gupta@linux.intel.com>
+From:   Dave Hansen <dave.hansen@intel.com>
+In-Reply-To: <a932c154772f2121794a5f2eded1a11013114711.1657846269.git.pawan.kumar.gupta@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------fka0dzGSHEDzxZIPDv0yrwbG
-Content-Type: multipart/mixed; boundary="------------wOfAjdQVOctUaTt2fnh0VO0v";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Arnd Bergmann <arnd@arndb.de>, Markuss Broks <markuss.broks@gmail.com>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
- Jonathan Corbet <corbet@lwn.net>, Ard Biesheuvel <ardb@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jiri Slaby <jirislaby@kernel.org>, Helge Deller <deller@gmx.de>,
- "Paul E. McKenney" <paulmck@kernel.org>, Borislav Petkov <bp@suse.de>,
- Andrew Morton <akpm@linux-foundation.org>, Kees Cook
- <keescook@chromium.org>, Randy Dunlap <rdunlap@infradead.org>,
- Damien Le Moal <damien.lemoal@opensource.wdc.com>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Michal Suchanek <msuchanek@suse.de>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Wei Ming Chen <jj251510319013@gmail.com>,
- Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- Tony Lindgren <tony@atomide.com>,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- linux-efi <linux-efi@vger.kernel.org>,
- "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
- Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, Rob Herring <robh@kernel.org>
-Message-ID: <ad66bc12-ff8c-33fe-739c-879ddd3be117@suse.de>
-Subject: Re: [PATCH 2/2] efi: earlycon: Add support for generic framebuffers
- and move to fbdev subsystem
-References: <20220728142824.3836-1-markuss.broks@gmail.com>
- <20220728142824.3836-3-markuss.broks@gmail.com>
- <CAK8P3a2fZ9O6vSEyxY1KW71pG_Oyvwxp3zTbW2GuaSD6aj+Qfw@mail.gmail.com>
- <8e694cb6-c3dc-74e3-6804-fc532f108523@gmail.com>
- <CAK8P3a2vJFCJmeMj-vuasUhwa2=2P+hAr=ScGhT21TcjQ1Z8Aw@mail.gmail.com>
-In-Reply-To: <CAK8P3a2vJFCJmeMj-vuasUhwa2=2P+hAr=ScGhT21TcjQ1Z8Aw@mail.gmail.com>
+On 7/14/22 18:30, Pawan Gupta wrote:
+> Older CPUs beyond its Servicing period are not listed in the affected
+> processor list for MMIO Stale Data vulnerabilities. These CPUs currently
+> report "Not affected" in sysfs, which may not be correct.
 
---------------wOfAjdQVOctUaTt2fnh0VO0v
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+I'd kinda like to remove the talk about the "servicing period" in this
+patch.  First, it's a moving target.  CPUs can move in and out of their
+servicing period as Intel changes its mind, or simply as time passes.
 
-SGkNCg0KQW0gMjguMDcuMjIgdW0gMTc6MTYgc2NocmllYiBBcm5kIEJlcmdtYW5uOg0KPiBP
-biBUaHUsIEp1bCAyOCwgMjAyMiBhdCA0OjU3IFBNIE1hcmt1c3MgQnJva3MgPG1hcmt1c3Mu
-YnJva3NAZ21haWwuY29tPiB3cm90ZToNCj4+IE9uIDcvMjgvMjIgMTc6NDgsIEFybmQgQmVy
-Z21hbm4gd3JvdGU6DQo+Pj4gT24gVGh1LCBKdWwgMjgsIDIwMjIgYXQgNDoyOCBQTSBNYXJr
-dXNzIEJyb2tzIDxtYXJrdXNzLmJyb2tzQGdtYWlsLmNvbT4gd3JvdGU6DQo+Pj4+DQo+Pj4+
-IEFkZCBlYXJseSBjb25zb2xlIHN1cHBvcnQgZm9yIGdlbmVyaWMgbGluZWFyIGZyYW1lYnVm
-ZmVyIGRldmljZXMuDQo+Pj4+IFRoaXMgZHJpdmVyIHN1cHBvcnRzIHByb2JpbmcgZnJvbSBj
-bWRsaW5lIGVhcmx5IHBhcmFtZXRlcnMNCj4+Pj4gb3IgZnJvbSB0aGUgZGV2aWNlLXRyZWUg
-dXNpbmcgaW5mb3JtYXRpb24gaW4gc2ltcGxlLWZyYW1lYnVmZmVyIG5vZGUuDQo+Pj4+IFRo
-ZSBFRkkgZnVuY3Rpb25hbGl0eSBzaG91bGQgYmUgcmV0YWluZWQgaW4gd2hvbGUuDQo+Pj4+
-IFRoZSBkcml2ZXIgd2FzIGRpc2FibGVkIG9uIEFSTSBiZWNhdXNlIG9mIGEgYnVnIGluIGVh
-cmx5X2lvcmVtYXANCj4+Pj4gaW1wbGVtZW50YXRpb24gb24gQVJNLg0KPj4+Pg0KPj4+PiBT
-aWduZWQtb2ZmLWJ5OiBNYXJrdXNzIEJyb2tzIDxtYXJrdXNzLmJyb2tzQGdtYWlsLmNvbT4N
-Cj4+Pj4gLS0tDQo+Pj4+ICAgIC4uLi9hZG1pbi1ndWlkZS9rZXJuZWwtcGFyYW1ldGVycy50
-eHQgICAgICAgICB8ICAxMiArLQ0KPj4+PiAgICBNQUlOVEFJTkVSUyAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgfCAgIDUgKw0KPj4+PiAgICBkcml2ZXJzL2Zpcm13YXJl
-L2VmaS9LY29uZmlnICAgICAgICAgICAgICAgICAgfCAgIDYgKy0NCj4+Pj4gICAgZHJpdmVy
-cy9maXJtd2FyZS9lZmkvTWFrZWZpbGUgICAgICAgICAgICAgICAgIHwgICAxIC0NCj4+Pj4g
-ICAgZHJpdmVycy9maXJtd2FyZS9lZmkvZWFybHljb24uYyAgICAgICAgICAgICAgIHwgMjQ2
-IC0tLS0tLS0tLS0tLS0tDQo+Pj4+ICAgIGRyaXZlcnMvdmlkZW8vZmJkZXYvS2NvbmZpZyAg
-ICAgICAgICAgICAgICAgICB8ICAxMSArDQo+Pj4+ICAgIGRyaXZlcnMvdmlkZW8vZmJkZXYv
-TWFrZWZpbGUgICAgICAgICAgICAgICAgICB8ICAgMSArDQo+Pj4+ICAgIGRyaXZlcnMvdmlk
-ZW8vZmJkZXYvZWFybHljb24uYyAgICAgICAgICAgICAgICB8IDMwMSArKysrKysrKysrKysr
-KysrKysNCj4+Pg0KPj4+IEl0IGxvb2tzIGxpa2UgdGhpcyBpcyBub3QgYWN0dWFsbHkgcmVs
-YXRlZCB0byBmYmRldiwgYW5kIHNpbmNlIGRyaXZlcnMgYXJlDQo+Pj4gbW92aW5nIGZyb20g
-ZmJkZXYvc2ltcGxlZmIgdG93YXJkcyBkcm0vc2ltcGxlZHJtLCBtYXliZSBpdCB3b3VsZCBi
-ZQ0KPj4+IGJldHRlciB0byBwdXQgdGhpcyBpbnRvIGVpdGhlciBkcml2ZXJzL2dwdS9kcm0v
-dGlueS8gb3IgcG9zc2libHkNCj4+PiBkcml2ZXJzL3ZpZGVvL2NvbnNvbGUgdG8gbGV0IHRo
-aXMgYmUgdXNlZCB3aXRob3V0IGVuYWJsaW5nIGZiZGV2Pw0KPj4NCj4+IElkZWFsbHkgdGhp
-cyBzaG91bGRuJ3QgZGVwZW5kIG9uIGFueXRoaW5nLCBiZWNhdXNlIGl0IGlzbid0IHV0aWxp
-emluZw0KPj4gYW55IG9mIGZiZGV2IGNvZGUgYW5kIHdvbid0IGJlIHV0aWxpemluZyBhbnkg
-b2YgZHJtL2NvbnNvbGUgY29kZS4gSQ0KPj4gYWdyZWUgdGhhdCBlaXRoZXIgb2YgdGhvc2Ug
-d291bGQgYmUgYSBiZXR0ZXIgcGxhY2UgZm9yIGl0LCBidXQgd2hpY2ggb25lDQo+PiBkbyB5
-b3UgdGhpbmsgd291bGQgc3VpdCBtb3JlIGZvciB0aGlzIGRyaXZlcj8NCj4gDQo+IEkgdGhp
-bmsgaWRlYWxseSB0aGlzIHdvdWxkIGJlIGludGVncmF0ZWQgd2l0aCBzaW1wbGVkcm0gaW4g
-dGhlIGxvbmcgcnVuLA0KPiBidXQgSSBoYXZlIG5vIGlkZWEgd2hhdCB0aGF0IG1lYW5zIGlu
-IHRlcm1zIG9mIGZ1dHVyZSBjb2RlIGNoYW5nZXMuDQo+IA0KPiBNYXliZSBUaG9tYXMgWmlt
-bWVybWFubiBoYXMgYW4gaWRlYSBoZXJlLg0KDQpJdCdzIG5vdCBhIGdyYXBoaWNzIGRyaXZl
-ciwgc28gaXQgZG9lc24ndCBiZWxvbmcgdG8gZmJkZXYgb3IgRFJNLiBJJ2QgDQpwdXQgdGhl
-IGNvZGUgdW5kZXIgZHJpdmVycy92aWRlby9jb25zb2xlLg0KDQpEaXJlY3QgaW50ZWdyYXRp
-b24gd2l0aCBzaW1wbGVkcm0gKG9yIGFueSBvdGhlciBmaXJtd2FyZSBncmFwaGljcyANCmRy
-aXZlcikgaXMgcHJvYmFibHkgbm90IGFuIG9wdGlvbi4gVGhvc2UgZHJpdmVycyBvcGVyYXRl
-IG9uIHBsYXRmb3JtIA0KZGV2aWNlcywgd2hpY2ggYXJlbid0IGF2YWlsYWJsZSB3aGVuIGVh
-cmx5Y29uIHJ1bnMuDQoNClRoZXJlJ3Mgbm8gbWFuYWdlbWVudCBvZiBmcmFtZWJ1ZmZlciBv
-d25lcnNoaXAgQUZBSUNUPyBGb3IgZmJkZXYgYW5kIA0KRFJNLCB3ZSBtYW5hZ2UgdGhlIG93
-bmVyc2hpcCBvZiB0aGUgZnJhbWVidWZmZXIgbWVtb3J5LiBXaGVuIGEgZHJpdmVyIA0KdGFr
-ZXMgb3ZlciB0aGUgZnJhbWVidWZmZXIsIGl0IGZpcnN0IGhhcyB0byByZW1vdmUgYW55IGRy
-aXZlciBwcmV2aW91c2x5IA0Kb3duaW5nIHRoYXQgbWVtb3J5LiAgVGhhdCBhcHBhcmVudGx5
-IGhhc24ndCBiZWVuIGEgbmVlZCBmb3IgZWFybHkgDQpjb25zb2xlcyBzbyBmYXIgKD8pIE1h
-eWJlIHdlIHNob3VsZCBpbnRlZ3JhdGUgdGhlbSBpbnRvIHRoZSBvd25lcnNoaXAgDQptYW5h
-Z2VtZW50IChzZWUgZHJpdmVycy92aWRlby9hcGVydHVyZS5jKS4NCg0KQmVzdCByZWdhcmRz
-DQpUaG9tYXMNCg0KPiANCj4gICAgICAgICAgQXJuZA0KDQotLSANClRob21hcyBaaW1tZXJt
-YW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNvbHV0aW9u
-cyBHZXJtYW55IEdtYkgNCk1heGZlbGRzdHIuIDUsIDkwNDA5IE7DvHJuYmVyZywgR2VybWFu
-eQ0KKEhSQiAzNjgwOSwgQUcgTsO8cm5iZXJnKQ0KR2VzY2jDpGZ0c2bDvGhyZXI6IEl2byBU
-b3Rldg0K
+Intel could also totally choose to report a CPU as vulnerable *AND* have
+it be outside its service period.  Or, some good Samaritan community
+member might be able to test a crusty old CPU and determine if it's
+vulnerable.
 
---------------wOfAjdQVOctUaTt2fnh0VO0v--
+> diff --git a/Documentation/admin-guide/hw-vuln/processor_mmio_stale_data.rst b/Documentation/admin-guide/hw-vuln/processor_mmio_stale_data.rst
+> index 9393c50b5afc..55524e0798da 100644
+> --- a/Documentation/admin-guide/hw-vuln/processor_mmio_stale_data.rst
+> +++ b/Documentation/admin-guide/hw-vuln/processor_mmio_stale_data.rst
+> @@ -230,6 +230,9 @@ The possible values in this file are:
+>       * - 'Mitigation: Clear CPU buffers'
+>         - The processor is vulnerable and the CPU buffer clearing mitigation is
+>           enabled.
+> +     * - 'Unknown: CPU is beyond its Servicing period'
+> +       - The processor vulnerability status is unknown because it is
+> +	 out of Servicing period. Mitigation is not attempted.
 
---------------fka0dzGSHEDzxZIPDv0yrwbG
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+Unknown: Processor vendor did not provide vulnerability status.
 
------BEGIN PGP SIGNATURE-----
+>  If the processor is vulnerable then the following information is appended to
+>  the above information:
+> diff --git a/arch/x86/kernel/cpu/bugs.c b/arch/x86/kernel/cpu/bugs.c
+> index 0dd04713434b..dd6e78d370bc 100644
+> --- a/arch/x86/kernel/cpu/bugs.c
+> +++ b/arch/x86/kernel/cpu/bugs.c
+> @@ -416,6 +416,7 @@ enum mmio_mitigations {
+>  	MMIO_MITIGATION_OFF,
+>  	MMIO_MITIGATION_UCODE_NEEDED,
+>  	MMIO_MITIGATION_VERW,
+> +	MMIO_MITIGATION_UNKNOWN,
+>  };
+>  
+>  /* Default mitigation for Processor MMIO Stale Data vulnerabilities */
+> @@ -426,12 +427,18 @@ static const char * const mmio_strings[] = {
+>  	[MMIO_MITIGATION_OFF]		= "Vulnerable",
+>  	[MMIO_MITIGATION_UCODE_NEEDED]	= "Vulnerable: Clear CPU buffers attempted, no microcode",
+>  	[MMIO_MITIGATION_VERW]		= "Mitigation: Clear CPU buffers",
+> +	[MMIO_MITIGATION_UNKNOWN]	= "Unknown: CPU is beyond its servicing period",
+>  };
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmLi0bkFAwAAAAAACgkQlh/E3EQov+B0
-sA//U3PXzUAbSYFqCHnF//0Eu06L7FmUbkLuFwZLHUFEugcVusx0d81xpinBhNLmxKqABWfl6vj0
-qfGznuHNoSFB0tA40/piKAa4XTPL7zFuUqKocfywJfxuqLEVg2Xni1phXMX4iWXXMoUiZU9dyooH
-NXH9+5OkrHnhkANWckiwXnfdeyze1PaOZCQA5gv37J5icYz77JNOEl5wNuu619EpxZb+yIGoFHe2
-kjo4hqPKUf6DtYmQ/XYRCaUK8ulWPpgtubnM72zrdTyBqyBtXcF10rRqepVNfJoeRNoz9aINVgwI
-9YUmGIfG2mu+VXfXCVUsplQHjTIviSP6yJdKAD+Y0tN1LhgzUaojrPL6AIHtWmRUhKFOcOomqv5s
-qWmOsZ5SdUrENkzcXsYsyFdxFck3lLfljwssyC5ucQ4e1+8CK9Yb4FqqQrsovAPKsP7LatV0/FUu
-T0KThUmmIORfvPNJi/7UwuzRLcn9ynTzL38DnZxrGGQu4McaqffAbDaq1wnDZBavtvcI1OrEF71m
-nbPZ0TeYZYfNI4ewFBfL69vR56ifRx73ptnWbA72XzZ5PxR1Uz3OYen6cZIUD/WB93MO9qsuTjIk
-IsHHmA5WShkgwyoiJ+fMMcgFaHik0ak4jjcgM3XfCvVpHPondGlN27Wy1DMxiFyzNS579V7geW3f
-9wo=
-=9erw
------END PGP SIGNATURE-----
+Let's just say:
 
---------------fka0dzGSHEDzxZIPDv0yrwbG--
+	Unknown: no mitigations
+
+or even just: "Unknown"
+
+>  static void __init mmio_select_mitigation(void)
+>  {
+>  	u64 ia32_cap;
+>  
+> +	if (mmio_stale_data_unknown()) {
+> +		mmio_mitigation = MMIO_MITIGATION_UNKNOWN;
+> +		return;
+> +	}
+> +
+>  	if (!boot_cpu_has_bug(X86_BUG_MMIO_STALE_DATA) ||
+>  	    cpu_mitigations_off()) {
+>  		mmio_mitigation = MMIO_MITIGATION_OFF;
+> @@ -1638,6 +1645,7 @@ void cpu_bugs_smt_update(void)
+>  			pr_warn_once(MMIO_MSG_SMT);
+>  		break;
+>  	case MMIO_MITIGATION_OFF:
+> +	case MMIO_MITIGATION_UNKNOWN:
+>  		break;
+>  	}
+>  
+> @@ -2235,7 +2243,8 @@ static ssize_t tsx_async_abort_show_state(char *buf)
+>  
+>  static ssize_t mmio_stale_data_show_state(char *buf)
+>  {
+> -	if (mmio_mitigation == MMIO_MITIGATION_OFF)
+> +	if (mmio_mitigation == MMIO_MITIGATION_OFF ||
+> +	    mmio_mitigation == MMIO_MITIGATION_UNKNOWN)
+>  		return sysfs_emit(buf, "%s\n", mmio_strings[mmio_mitigation]);
+>  
+>  	if (boot_cpu_has(X86_FEATURE_HYPERVISOR)) {
+> diff --git a/arch/x86/kernel/cpu/common.c b/arch/x86/kernel/cpu/common.c
+> index 736262a76a12..82088410870e 100644
+> --- a/arch/x86/kernel/cpu/common.c
+> +++ b/arch/x86/kernel/cpu/common.c
+> @@ -1286,6 +1286,22 @@ static bool arch_cap_mmio_immune(u64 ia32_cap)
+>  		ia32_cap & ARCH_CAP_SBDR_SSDP_NO);
+>  }
+>  
+> +bool __init mmio_stale_data_unknown(void)
+> +{
+> +	u64 ia32_cap = x86_read_arch_cap_msr();
+> +
+> +	if (boot_cpu_data.x86_vendor != X86_VENDOR_INTEL)
+> +		return false;
+
+Let's say why Intel is the special snowflake.  Maybe:
+
+	/*
+	 * Intel does not document vulnerability information for old
+	 * CPUs.  This means that only Intel CPUs can have unknown
+	 * vulnerability state.
+	 */
+
+> +	/*
+> +	 * CPU vulnerability is unknown when, hardware doesn't set the
+> +	 * immunity bits and CPU is not in the known affected list.
+> +	 */
+> +	if (!cpu_matches(cpu_vuln_blacklist, MMIO) &&
+> +	    !arch_cap_mmio_immune(ia32_cap))
+> +		return true;
+> +	return false;
+> +}
+> +
+>  static void __init cpu_set_bug_bits(struct cpuinfo_x86 *c)
+>  {
+>  	u64 ia32_cap = x86_read_arch_cap_msr();
+> @@ -1349,14 +1365,8 @@ static void __init cpu_set_bug_bits(struct cpuinfo_x86 *c)
+>  	    cpu_matches(cpu_vuln_blacklist, SRBDS | MMIO_SBDS))
+>  		    setup_force_cpu_bug(X86_BUG_SRBDS);
+>  
+> -	/*
+> -	 * Processor MMIO Stale Data bug enumeration
+> -	 *
+> -	 * Affected CPU list is generally enough to enumerate the vulnerability,
+> -	 * but for virtualization case check for ARCH_CAP MSR bits also, VMM may
+> -	 * not want the guest to enumerate the bug.
+> -	 */
+> -	if (cpu_matches(cpu_vuln_blacklist, MMIO) &&
+> +	 /* Processor MMIO Stale Data bug enumeration */
+> +	if (boot_cpu_data.x86_vendor == X86_VENDOR_INTEL &&
+>  	    !arch_cap_mmio_immune(ia32_cap))
+>  		setup_force_cpu_bug(X86_BUG_MMIO_STALE_DATA);
+
+Yeah, this is all looking a little clunky.
+
+Maybe we just need a third state of cpu_has_bug() for all this and we
+shouldn't try cramming it in the MMIO-specific code and diluting the
+specificity of boot_cpu_has_bug().
+
+Then the selection logic becomes simple:
+
+	if (!arch_cap_mmio_immune(ia32_cap))) {
+		if (cpu_matches(cpu_vuln_blacklist, MMIO))
+			setup_force_cpu_bug(X86_BUG_MMIO_STALE_DATA);
+		else if (x86_vendor == X86_VENDOR_INTEL)
+			setup_force_unknown_bug(X86_BUG_MMIO...);
+	}
+
+... and then spit out the "Unknown" in the common code, just like the
+treatment "Not affected" gets.
+
+static ssize_t cpu_show_common(...)
+{
+        if (!boot_cpu_has_bug(bug))
+                return sprintf(buf, "Not affected\n");
++
++       if (!boot_cpu_unknown_bug(bug))
++               return sprintf(buf, "Unknown\n");
+
+Thoughts?
