@@ -2,136 +2,102 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 91034C04A68
-	for <linux-doc@archiver.kernel.org>; Thu, 28 Jul 2022 02:23:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E8D2AC04A68
+	for <linux-doc@archiver.kernel.org>; Thu, 28 Jul 2022 03:34:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232882AbiG1CXn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 27 Jul 2022 22:23:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53506 "EHLO
+        id S237017AbiG1De2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 27 Jul 2022 23:34:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48386 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231327AbiG1CXl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Jul 2022 22:23:41 -0400
-Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com [IPv6:2607:f8b0:4864:20::531])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0EB4526AEC;
-        Wed, 27 Jul 2022 19:23:41 -0700 (PDT)
-Received: by mail-pg1-x531.google.com with SMTP id f65so394485pgc.12;
-        Wed, 27 Jul 2022 19:23:41 -0700 (PDT)
+        with ESMTP id S234588AbiG1DeY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 27 Jul 2022 23:34:24 -0400
+Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 719B35A2F7;
+        Wed, 27 Jul 2022 20:34:22 -0700 (PDT)
+Received: by mail-pl1-x632.google.com with SMTP id iw1so689977plb.6;
+        Wed, 27 Jul 2022 20:34:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:to:cc:references:subject
-         :content-language:from:in-reply-to:content-transfer-encoding;
-        bh=xyw7j0g2KRT16wsuVZKE8r3rotsnuHRNHRCOngZhLXo=;
-        b=UuFF+xMdty8ykiTDHXKEc0pvwioDzU/J5Y/+J3y4u2ZH0nwXhxMEfAbj6iepDH5rfU
-         0NFIwCcyCV1+qmQDjo8ZRKkLvx9U8hdKG222UuzRehSkjt7gez5fEpNYLYaBYYL+Jvob
-         WY7/P8YoE6/0qnZafIQ7nU9aVSaTt+qYF/Y3OORMVfWsHl7HlbXMQFYzt91oc5fzFCb4
-         cXuIMR7kVawoeYYYHko+oKhyTyY41ZE/lK5lc8uUi3KVmceaxE06AeBuptuxftol1kwa
-         x8Syy2KlZEmb7ZziIMT+4XrLLJP0mvBOMHWqBh8ttq1Xy4net91tGv0SzctLDhyEed8d
-         DDIg==
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc;
+        bh=v5iO3DJsdBPM2eAKiUQEswEd2u5joVshDOWMCkBSEWI=;
+        b=WopjFI8tRQsKj7xA9eC0fUlEFtVpR2QGFKPdVL1gXuQFz/suaXcXYnPrqJhZyD/MgM
+         xPzRiKv2v6pruqFlUGtoK/cL3gvLBxtKYOupZ8Hrp0fjirRR1Kxb6diOiS4CwhdCl36x
+         hXl7jt3dOgauNq9ttRk/Pn2iJJ/gJ/7M/6uj4HKWYUwv/29yFPgeXIDCGeBQCerpJegW
+         TlbRGpXiokQGKtPRQQX2ZH6VUz9uW3j5VQ3b35UNwQIBvCUIGTKbkzmmXFC+HJoQt3IY
+         WKFQnNsLkQlJBU9i6/kRoPfhvR5PAJ0DyJOj33iB+6DYmkQ+m7//Ik9S+FeEXisYJe9J
+         OkZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:to:cc
-         :references:subject:content-language:from:in-reply-to
-         :content-transfer-encoding;
-        bh=xyw7j0g2KRT16wsuVZKE8r3rotsnuHRNHRCOngZhLXo=;
-        b=BJneVChgG6kJJ7GUKPcclEgTtPaMQgqskJ3UEKKAu6seF54t5X2zL/u4D9LO6Y7UCf
-         myTCY6vQzOAACdDAixmURlKrQ0EUq4lCKXJLABdDgYWXQ6FaDLIO2G4XkRervk6PikY0
-         R0dYORrRtunX0J5xfl2361HzV0eLuKVPmN9ApXBjWGjkzvyfxol6u6xjnlb+IX8r8IW9
-         KHY5o2IZ85NapqZpI9dUVij1jAXFocAbWI+j6Ty1JWJb4GYl6Y2+FqrX8o7f51P3eJHI
-         K4GUYQs0/8/DTnfZWuH7pqOSn4MgTuWwWXwbj0LeINfuN9mk7YJoghDnFH4YCRNmQnp4
-         tcIw==
-X-Gm-Message-State: AJIora8bVjPflfKLx5SB3BQh7Sg2ris836tRI9/ArEL7P6Cuv26Jhhzs
-        9MHFBOuQthiPD2eGzYgUzHY=
-X-Google-Smtp-Source: AGRyM1sT9SvPu5Of46GAV94gca362Ake5Nh/hXddYEM8VgjL+CZlsIT8OZcWUqoiaUo8whNZKLaIBA==
-X-Received: by 2002:a05:6a00:bc5:b0:52b:49c9:d26c with SMTP id x5-20020a056a000bc500b0052b49c9d26cmr24551795pfu.73.1658975020400;
-        Wed, 27 Jul 2022 19:23:40 -0700 (PDT)
-Received: from [192.168.11.9] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id cp17-20020a170902e79100b0016c0c82e85csm14310373plb.75.2022.07.27.19.23.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 27 Jul 2022 19:23:39 -0700 (PDT)
-Message-ID: <8a3a24b5-1f2f-d2bd-f2c9-2bda9298e23c@gmail.com>
-Date:   Thu, 28 Jul 2022 11:23:34 +0900
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
+        bh=v5iO3DJsdBPM2eAKiUQEswEd2u5joVshDOWMCkBSEWI=;
+        b=GeS0joJLabDNBx+6P5iH+X8iX9s0Ustogl7FFLdnSrL5wStz7eN/sUMq9TlXuBfZoT
+         tMeDDQXAP6b7l43JoEPTbb0n81zucTC4mGSkYy2/ax8dJU4c7nekRR9a++uZg3IJcSUD
+         QfplXdYr1YVLAsa+eUgNSM8XMw64MCkvz/LfmBNqgOcgDoF/lqeJfwd9U/Z66L52zISD
+         U5zis4L/XLOt4U07bqjLAmZ8eNWZrkwtA+I7mTIofy38BIMXvMbu/f5NV/NFOUy1o/Su
+         w5CiCC1T//6U03E0qHDVvR8bYz/MPhKqpKsl1QL9ExzH91JGZ5bAgrPeZUPxOb1+iRa/
+         76AA==
+X-Gm-Message-State: AJIora+DopQd3v5RnJNncH3l7RaT6jdFcFM9rXnstS0KdKtsXInQKMnH
+        CsNalCv1iscctC52cB8LnUU=
+X-Google-Smtp-Source: AGRyM1vrkYDWEh+Q5CKXwHq6PQq+SAM34S/j5zh3ymhk2nd7NrnqZNL26drZbsS7S6b+1oQNZRzfMQ==
+X-Received: by 2002:a17:902:ef46:b0:168:bac3:2fd4 with SMTP id e6-20020a170902ef4600b00168bac32fd4mr24230479plx.132.1658979261953;
+        Wed, 27 Jul 2022 20:34:21 -0700 (PDT)
+Received: from debian.me (subs28-116-206-12-54.three.co.id. [116.206.12.54])
+        by smtp.gmail.com with ESMTPSA id d8-20020a17090a7bc800b001f2ef3c7956sm2598035pjl.25.2022.07.27.20.34.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 27 Jul 2022 20:34:21 -0700 (PDT)
+Received: by debian.me (Postfix, from userid 1000)
+        id E106D104A91; Thu, 28 Jul 2022 10:34:16 +0700 (WIB)
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     linux-doc@vger.kernel.org, linux-next@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linuxppc-dev@lists.ozlabs.org,
+        linux-doc-tw-discuss@lists.sourceforge.net
+Cc:     linux-kernel@vger.kernel.org,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>, Alex Shi <alexs@kernel.org>,
+        Yanteng Si <siyanteng@loongson.cn>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Segher Boessenkool <segher@kernel.crashing.org>,
+        Bagas Sanjaya <bagasdotme@gmail.com>
+Subject: [PATCH 0/3] Documentation: powerpc: documentation fixes for Documentation/powerpc/elf_hwcaps.rst
+Date:   Thu, 28 Jul 2022 10:33:30 +0700
+Message-Id: <20220728033332.27836-1-bagasdotme@gmail.com>
+X-Mailer: git-send-email 2.37.1
+In-Reply-To: <20220727220050.549db613@canb.auug.org.au>
+References: <20220727220050.549db613@canb.auug.org.au>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-To:     Logan Gunthorpe <logang@deltatee.com>
-Cc:     corbet@lwn.net, hch@lst.de, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-next@vger.kernel.org,
-        sfr@canb.auug.org.au
-References: <838314fe-a85d-19be-71b6-264cad7e83c9@deltatee.com>
-Subject: Re: linux-next: build warning after merge of the dma-mapping tree
-Content-Language: en-US
-From:   Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <838314fe-a85d-19be-71b6-264cad7e83c9@deltatee.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+After merging powerpc tree for linux-next integration testing, Stephen
+Rothwell reported htmldocs warnings at [1]. Fix these with self-explanatory
+fixes in the shortlog below.
 
-On Wed, 27 Jul 2022 12:32:12 -0600, Logan Gunthorpe wrote:
-> On 2022-07-27 05:48, Stephen Rothwell wrote:
->> Hi all,
->> 
->> After merging the dma-mapping tree, today's linux-next build (htmldocs)
->> produced this warning:
->> 
->> Documentation/driver-api/infrastructure:50: kernel/dma/mapping.c:258: WARNING: Option list ends without a blank line; unexpected unindent.
->> 
->> Introduced by commit
->> 
->>   7c2645a2a30a ("dma-mapping: allow EREMOTEIO return code for P2PDMA transfers")
-> 
-> 
-> Oh, hmm, I thought I addressed this when I added the extra line at the
-> end of the comment, but it seems the htmldocs is a bit fussier than that
-> with the white space. 
-> 
-> The only way I can seem to suppress that error is by adding another tab
-> character in the list; see below.
+[1]: https://lore.kernel.org/linuxppc-dev/20220727220050.549db613@canb.auug.org.au/
 
-I think all you need is to see the reference at:
-https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html#option-lists
+Bagas Sanjaya (3):
+  Documentation: powerpc: fix indentation warnings
+  Documentation: use different label names for each arch's
+    elf_hwcaps.rst
+  Documentation: powerpc: add elf_hwcaps to table of contents
 
-There are examples for long options.
+ Documentation/arm64/elf_hwcaps.rst              |  2 +-
+ Documentation/powerpc/elf_hwcaps.rst            | 17 +++++++----------
+ Documentation/powerpc/index.rst                 |  1 +
+ .../translations/zh_CN/arm64/elf_hwcaps.rst     |  2 +-
+ .../translations/zh_TW/arm64/elf_hwcaps.rst     |  2 +-
+ 5 files changed, 11 insertions(+), 13 deletions(-)
 
-        Thanks, Akira
 
-> 
-> I'll send a full patch shortly.
-> 
-> Logan
-> 
-> --
-> 
-> diff --git a/kernel/dma/mapping.c b/kernel/dma/mapping.c
-> index 746d46825d08..99e1e0c9a295 100644
-> --- a/kernel/dma/mapping.c
-> +++ b/kernel/dma/mapping.c
-> @@ -249,15 +249,15 @@ EXPORT_SYMBOL(dma_map_sg_attrs);
->   * Returns 0 on success or a negative error code on error. The following
->   * error codes are supported with the given meaning:
->   *
-> - *   -EINVAL	An invalid argument, unaligned access or other error
-> - *		in usage. Will not succeed if retried.
-> - *   -ENOMEM	Insufficient resources (like memory or IOVA space) to
-> - *		complete the mapping. Should succeed if retried later.
-> - *   -EIO	Legacy error code with an unknown meaning. eg. this is
-> - *		returned if a lower level call returned DMA_MAPPING_ERROR.
-> - *   -EREMOTEIO	The DMA device cannot access P2PDMA memory specified in
-> - *		the sg_table. This will not succeed if retried.
-> - *
-> + *   -EINVAL		An invalid argument, unaligned access or other error
-> + *			in usage. Will not succeed if retried.
-> + *   -ENOMEM		Insufficient resources (like memory or IOVA space) to
-> + *			complete the mapping. Should succeed if retried later.
-> + *   -EIO		Legacy error code with an unknown meaning. eg. this is
-> + *			returned if a lower level call returned
-> + *			DMA_MAPPING_ERROR.
-> + *   -EREMOTEIO		The DMA device cannot access P2PDMA memory specified
-> + *			in the sg_table. This will not succeed if retried.
->   */
->  int dma_map_sgtable(struct device *dev, struct sg_table *sgt,
->  		    enum dma_data_direction dir, unsigned long attrs)
+base-commit: d6b551b8f90cc92c7d3c09cf38c748efe305ecb4
+-- 
+An old man doll... just what I always wanted! - Clara
 
