@@ -2,187 +2,117 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C02AC19F2B
-	for <linux-doc@archiver.kernel.org>; Thu, 28 Jul 2022 14:19:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 31AADC19F2B
+	for <linux-doc@archiver.kernel.org>; Thu, 28 Jul 2022 14:28:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229698AbiG1OT6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 28 Jul 2022 10:19:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48094 "EHLO
+        id S231678AbiG1O2o (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 28 Jul 2022 10:28:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56462 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229484AbiG1OT5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Jul 2022 10:19:57 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45C2852E7B;
-        Thu, 28 Jul 2022 07:19:56 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id D997660CF5;
-        Thu, 28 Jul 2022 14:19:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B743CC433C1;
-        Thu, 28 Jul 2022 14:19:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1659017995;
-        bh=U5iozSv/8RP3dsBx9k6LZep1YUm9fKbhqK00jFLY6MM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=PSaiytatvrk5GSUslwFa5vrteSRxZWvGSSS3IJrNjkht2SCbj6v4HHbWgwpFYpeZF
-         sqFC/VVHrn1wkSpMEsHGQvYJcEYfSxYgCU8sdL75lXqIqXcDDoZWUHLhXxf8tncm4f
-         bAVq+OXuSLiOqXXaPJvC2mlQq0+4bSklCLZcTlRM=
-Date:   Thu, 28 Jul 2022 16:19:52 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     Jiri Kosina <jikos@kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        Kumar Kartikeya Dwivedi <memxor@gmail.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>, Shuah Khan <shuah@kernel.org>,
-        Dave Marchevsky <davemarchevsky@fb.com>,
-        Joe Stringer <joe@cilium.io>, Jonathan Corbet <corbet@lwn.net>,
-        Tero Kristo <tero.kristo@linux.intel.com>,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        netdev@vger.kernel.org, bpf@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH bpf-next v7 13/24] HID: initial BPF implementation
-Message-ID: <YuKbCCOAtSvUlI3z@kroah.com>
-References: <20220721153625.1282007-1-benjamin.tissoires@redhat.com>
- <20220721153625.1282007-14-benjamin.tissoires@redhat.com>
+        with ESMTP id S229531AbiG1O2n (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Jul 2022 10:28:43 -0400
+Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com [IPv6:2a00:1450:4864:20::62a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0AE3065D48;
+        Thu, 28 Jul 2022 07:28:42 -0700 (PDT)
+Received: by mail-ej1-x62a.google.com with SMTP id sz17so3446369ejc.9;
+        Thu, 28 Jul 2022 07:28:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=gvXbeuK/nDPmsZZTRnDVNdv3SfvIgHhFwFU2kIzHG68=;
+        b=UUn+zotXHe6ND+iqyztenRNM6eQqekQZejLSPdmR7TqJ/qPLS7+rJB6KdPHJxTiZK+
+         q3BotwxEHcUR0oxFWmR8c3559LeGfizKqWvCE/alvuJctwxRL+0/gyKCu9GT2leHLrOY
+         x6tXIjp7tGWh5atJIbhoXTGnFxQq658fGLd3SHG4ZCyiHaQh+hZLHXksYqUzfQJzK2cv
+         Y0LACEGoBZWEGxcBTk5kV+NcgEpQ30wdddhf+ysl1YBNQjYAYClayxzS9uXCs2IkNZnR
+         OOT27cxCpxgBMtOTuQyLc9fuI8ymnflO2gnBwmGQSNljurU5u2C3BQ7S9PDmoZyfO6h9
+         e0mg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=gvXbeuK/nDPmsZZTRnDVNdv3SfvIgHhFwFU2kIzHG68=;
+        b=A+k/JTpdFYWttticERrj01uw8e9nqMOqqqpofWA0LmqhYEaJXKjcRmBHKv0OL9XvJ4
+         iQ6S/42SF1CQXTZ9GX0xoVzW6rL3i2GO4v2SJ684AOoBvvViD2ONAcxI6te3CtrBX25k
+         ih/skHD17aNktL81ZVopS7p2wMdhfVXn23sS0Y+7xQwbL2sEKkk5bQNPkwAnNV8H+Z3Y
+         uzGNQDarxtp2JSrY+zIMGDTSRPOdDWaITFeabPHqMHv0nU1/nZniYd33Auc7dARAYnmV
+         zZbENdAHNJYm+LICSaxUh74cMdt9/Y0g8LpWGvL5KkYs91KbuAbyHMicIxrjeL1Ow8jK
+         a11A==
+X-Gm-Message-State: AJIora/6Pq+lV3lD5k8eX79+IjxQTbXHAxNj/d7To7xG6sYa5BTjeEzO
+        rOLPITw9Dw4JAWEDoTEtUC4AuxP/qecyApbz
+X-Google-Smtp-Source: AGRyM1usb4SPM3cGqtqin0Wwas0cy7iM0Lq2zERxvCAmcTEakP2TyeXIbIB/uwiXZ00pIE3dJWi/UQ==
+X-Received: by 2002:a17:907:6d01:b0:72f:53f:7a25 with SMTP id sa1-20020a1709076d0100b0072f053f7a25mr20932970ejc.126.1659018519713;
+        Thu, 28 Jul 2022 07:28:39 -0700 (PDT)
+Received: from nergzd-desktop.localdomain ([23.154.177.9])
+        by smtp.gmail.com with ESMTPSA id y1-20020aa7d501000000b0043cce1d3a0fsm755949edq.87.2022.07.28.07.28.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 28 Jul 2022 07:28:39 -0700 (PDT)
+From:   Markuss Broks <markuss.broks@gmail.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
+        Markuss Broks <markuss.broks@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Helge Deller <deller@gmx.de>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Borislav Petkov <bp@suse.de>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Kees Cook <keescook@chromium.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Javier Martinez Canillas <javierm@redhat.com>,
+        Michal Suchanek <msuchanek@suse.de>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Wei Ming Chen <jj251510319013@gmail.com>,
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+        Tony Lindgren <tony@atomide.com>, linux-doc@vger.kernel.org,
+        linux-efi@vger.kernel.org, linux-serial@vger.kernel.org,
+        linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
+Subject: [PATCH 0/2] Add generic framebuffer support to EFI earlycon driver
+Date:   Thu, 28 Jul 2022 17:28:17 +0300
+Message-Id: <20220728142824.3836-1-markuss.broks@gmail.com>
+X-Mailer: git-send-email 2.37.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220721153625.1282007-14-benjamin.tissoires@redhat.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jul 21, 2022 at 05:36:14PM +0200, Benjamin Tissoires wrote:
-> --- /dev/null
-> +++ b/include/linux/hid_bpf.h
-> @@ -0,0 +1,102 @@
-> +/* SPDX-License-Identifier: GPL-2.0+ WITH Linux-syscall-note */
+Make the EFI earlycon driver be suitable for any linear framebuffers.
+This should be helpful for early porting of boards with no other means of
+output, like smartphones/tablets. There seems to be an issue with early_ioremap
+function on ARM32, but I am unable to find the exact cause. It appears the mappings
+returned by it are somehow incorrect, thus the driver is disabled on ARM. EFI early
+console was disabled on IA64 previously, so I kept it in EFI earlycon Kconfig.
 
-This is not a uapi .h file, so the "WITH Linux-syscall-note" should not
-be here, right?
+This patch also changes behavior on EFI systems, by selecting the mapping type
+based on if the framebuffer region intersects with system RAM. If it does, it's
+common sense that it should be in RAM as a whole, and so the system RAM mapping is
+used. It was tested to be working on my PC (Intel Z490 platform).
 
+Markuss Broks (2):
+  drivers: serial: earlycon: Pass device-tree node
+  efi: earlycon: Add support for generic framebuffers and move to fbdev
+    subsystem
 
-> +
-> +#ifndef __HID_BPF_H
-> +#define __HID_BPF_H
-> +
-> +#include <linux/spinlock.h>
-> +#include <uapi/linux/hid.h>
-> +#include <uapi/linux/hid_bpf.h>
-> +
-> +struct hid_device;
-> +
-> +/*
-> + * The following is the HID BPF API.
-> + *
-> + * It should be treated as UAPI, so extra care is required
-> + * when making change to this file.
+ .../admin-guide/kernel-parameters.txt         |  12 +-
+ MAINTAINERS                                   |   5 +
+ drivers/firmware/efi/Kconfig                  |   6 +-
+ drivers/firmware/efi/Makefile                 |   1 -
+ drivers/firmware/efi/earlycon.c               | 246 --------------
+ drivers/tty/serial/earlycon.c                 |   3 +
+ drivers/video/fbdev/Kconfig                   |  11 +
+ drivers/video/fbdev/Makefile                  |   1 +
+ drivers/video/fbdev/earlycon.c                | 301 ++++++++++++++++++
+ include/linux/serial_core.h                   |   1 +
+ 10 files changed, 331 insertions(+), 256 deletions(-)
+ delete mode 100644 drivers/firmware/efi/earlycon.c
+ create mode 100644 drivers/video/fbdev/earlycon.c
 
-So is this uapi?  If so, shouldn't it go into a uapi include directory
-so we know this and properly track it and maintain it that way?
+-- 
+2.37.0
 
-> + */
-> +
-> +/**
-> + * struct hid_bpf_ctx - User accessible data for all HID programs
-> + *
-> + * ``data`` is not directly accessible from the context. We need to issue
-> + * a call to ``hid_bpf_get_data()`` in order to get a pointer to that field.
-> + *
-> + * All of these fields are currently read-only.
-> + *
-> + * @index: program index in the jump table. No special meaning (a smaller index
-> + *         doesn't mean the program will be executed before another program with
-> + *         a bigger index).
-> + * @hid: the ``struct hid_device`` representing the device itself
-> + * @report_type: used for ``hid_bpf_device_event()``
-> + * @size: Valid data in the data field.
-> + *
-> + *        Programs can get the available valid size in data by fetching this field.
-> + */
-> +struct hid_bpf_ctx {
-> +	__u32 index;
-> +	const struct hid_device *hid;
-> +	enum hid_report_type report_type;
-> +	__s32 size;
-> +};
-> +
-> +/* Following functions are tracepoints that BPF programs can attach to */
-> +int hid_bpf_device_event(struct hid_bpf_ctx *ctx);
-> +
-> +/* Following functions are kfunc that we export to BPF programs */
-> +/* only available in tracing */
-> +__u8 *hid_bpf_get_data(struct hid_bpf_ctx *ctx, unsigned int offset, const size_t __sz);
-> +
-> +/* only available in syscall */
-> +int hid_bpf_attach_prog(unsigned int hid_id, int prog_fd, __u32 flags);
-> +
-> +/*
-> + * Below is HID internal
-> + */
-> +
-> +/* internal function to call eBPF programs, not to be used by anybody */
-> +int __hid_bpf_tail_call(struct hid_bpf_ctx *ctx);
-> +
-> +#define HID_BPF_MAX_PROGS_PER_DEV 64
-> +#define HID_BPF_FLAG_MASK (((HID_BPF_FLAG_MAX - 1) << 1) - 1)
-> +
-> +/* types of HID programs to attach to */
-> +enum hid_bpf_prog_type {
-> +	HID_BPF_PROG_TYPE_UNDEF = -1,
-> +	HID_BPF_PROG_TYPE_DEVICE_EVENT,			/* an event is emitted from the device */
-> +	HID_BPF_PROG_TYPE_MAX,
-> +};
-> +
-> +struct hid_bpf_ops {
-> +	struct module *owner;
-> +	struct bus_type *bus_type;
-> +};
-> +
-> +extern struct hid_bpf_ops *hid_bpf_ops;
-> +
-> +struct hid_bpf_prog_list {
-> +	u16 prog_idx[HID_BPF_MAX_PROGS_PER_DEV];
-> +	u8 prog_cnt;
-> +};
-> +
-> +/* stored in each device */
-> +struct hid_bpf {
-> +	struct hid_bpf_prog_list __rcu *progs[HID_BPF_PROG_TYPE_MAX];	/* attached BPF progs */
-> +	bool destroyed;			/* prevents the assignment of any progs */
-> +
-> +	spinlock_t progs_lock;		/* protects RCU update of progs */
-> +};
-> +
-> +#ifdef CONFIG_HID_BPF
-> +int dispatch_hid_bpf_device_event(struct hid_device *hid, enum hid_report_type type, u8 *data,
-> +				  u32 size, int interrupt);
-> +void hid_bpf_destroy_device(struct hid_device *hid);
-> +void hid_bpf_device_init(struct hid_device *hid);
-> +#else /* CONFIG_HID_BPF */
-> +static inline int dispatch_hid_bpf_device_event(struct hid_device *hid, enum hid_report_type type, u8 *data,
-> +						u32 size, int interrupt) { return 0; }
-> +static inline void hid_bpf_destroy_device(struct hid_device *hid) {}
-> +static inline void hid_bpf_device_init(struct hid_device *hid) {}
-> +#endif /* CONFIG_HID_BPF */
-> +
-> +#endif /* __HID_BPF_H */
-> diff --git a/include/uapi/linux/hid_bpf.h b/include/uapi/linux/hid_bpf.h
-> new file mode 100644
-> index 000000000000..ba8caf9b60ee
-> --- /dev/null
-> +++ b/include/uapi/linux/hid_bpf.h
-> @@ -0,0 +1,25 @@
-> +/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
-
-This is fine, it is in include/uapi/
-
-Other than those minor comments, this all looks good to me!
-
-Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
