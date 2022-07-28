@@ -2,165 +2,132 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 35890C04A68
-	for <linux-doc@archiver.kernel.org>; Thu, 28 Jul 2022 14:52:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B8877C19F2B
+	for <linux-doc@archiver.kernel.org>; Thu, 28 Jul 2022 14:58:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230302AbiG1Owx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 28 Jul 2022 10:52:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60684 "EHLO
+        id S231580AbiG1O6b (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 28 Jul 2022 10:58:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41958 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229550AbiG1Oww (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Jul 2022 10:52:52 -0400
-Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4EDCC5E320;
-        Thu, 28 Jul 2022 07:52:51 -0700 (PDT)
-Received: by mail-wm1-x332.google.com with SMTP id b6so1082689wmq.5;
-        Thu, 28 Jul 2022 07:52:51 -0700 (PDT)
+        with ESMTP id S230469AbiG1O61 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Jul 2022 10:58:27 -0400
+Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com [IPv6:2a00:1450:4864:20::62b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB80B10F3;
+        Thu, 28 Jul 2022 07:58:22 -0700 (PDT)
+Received: by mail-ej1-x62b.google.com with SMTP id mf4so3625945ejc.3;
+        Thu, 28 Jul 2022 07:58:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=LeWUujqUUuiOXJGzjNUETMmb8nohrj2ZZRb1epQbHFk=;
-        b=moPHxaWXP3cr7Si6/x+QRMQbL6jeZTgh0WL8q+R3F86u3P098i6+0rFsoV0tqigSnQ
-         zH/f0FnGyWQQ8div8AovHJ9+SJWIqvzwJuiYugZs53e+H2K4E2QAsRVul7O/IBvE0m8N
-         +Fway6zrPNVG+LHr+fLr+7fujrggd7hLzXI2hSVljE3WeFNfEXTwNabYKIVUGNsQsVw7
-         w4q7DB4WuBkzXJX1GfLKyZdQjv+SPottmch25I+47q8lIUadGf3PU265/iNLZRam7Uq6
-         vO9pNjaCQpzfrxKK7UbDV0kBUPVZisvS6i7dPW/hyEep20OPhVE0ROU1jKBMrsRMDevn
-         Gqpg==
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=tTSXNaw/6JZLwn2P0PGnuQ0WLB4Qu3elZxHzblM8fpU=;
+        b=c1vY1amK3SSb5Sk378Tzj2r3I4dfUYqRyR9XZ9mgTFi9sNzZ23GuRdYijNYiu2eX53
+         fdsboL/PunLjY5acbyZT/0UEAs/liP15aCEuppzTzwjXwLcsMMG5jUeuBECGpO9nnuUX
+         zXpoNt5vlZnf/4pVrX/7785OC8FVRcxwc0TqmFIbS3cqjDUejPDzp/8oEdwWPd363GbD
+         0+UmnBhekSdZkddQnF1bwWpmJ7EQAIdBvhqlsKgwl01vpePNvsgcCfHirsTZTdhj3Ady
+         NAWy/pA/+lGohtpaER7TXv1dWORYSk4JeTwNjJx2pzEAFaZ8Yj+Nqowj9RPJbPa7Qiaw
+         HazQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=LeWUujqUUuiOXJGzjNUETMmb8nohrj2ZZRb1epQbHFk=;
-        b=HrHu8uSEna8TeVwS+3VRqWsoicDc1NsjSMTvqiXf7OsSnxLo5YZnme+kCTfSL5y8mE
-         JHwLsNFChA0yTXaDMZn3nIv6soBydkntajReht1XLrDfYL92tD8nxM+llS/sQGO+8D3d
-         Y7siuuW6b6qqWjgZ4Etcw0QNwKKpaymhle3ycP9Ku5PN2WGDpiwhvWc+7VrAQB/WOatg
-         JqocZmCqtVWdaRnw/HzbYM1gjXp1IuUqYy4zOLY4hvYPoQ2xx4Jt7X2krBLOWFYDVRTs
-         vK07tANHSfVoN8a9c2yNuDJ32spu/IU68vJojkmHPptML2agAbh+PsO0waqL3dUJYLvP
-         r6MQ==
-X-Gm-Message-State: AJIora+pMJ4cqV/iJBqHZBfCn3y2JP/G8H6KJztBqBYztO74qQr1p8Gu
-        oIVd6kISmdepe9YXZQ1ZuQA=
-X-Google-Smtp-Source: AGRyM1tDgKjTqzIVR9eANcLwwwOjNs5YN+u0THQUFjYz7G8PROY+O+6EjLMN8+fA0mjwP+9QiKAnGg==
-X-Received: by 2002:a05:600c:21d7:b0:3a3:2088:bbc6 with SMTP id x23-20020a05600c21d700b003a32088bbc6mr6768686wmj.68.1659019969612;
-        Thu, 28 Jul 2022 07:52:49 -0700 (PDT)
-Received: from opensuse.localnet (host-79-56-6-250.retail.telecomitalia.it. [79.56.6.250])
-        by smtp.gmail.com with ESMTPSA id p6-20020a1c5446000000b003a2f96935c0sm6840625wmi.9.2022.07.28.07.52.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 Jul 2022 07:52:48 -0700 (PDT)
-From:   "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
-To:     Ira Weiny <ira.weiny@intel.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-        Will Deacon <will@kernel.org>,
-        Peter Collingbourne <pcc@google.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     Mike Rapoport <rppt@linux.ibm.com>,
-        Thomas Gleixner <tglx@linutronix.de>
-Subject: Re: [PATCH 3/7] Documentation/mm: Don't kmap*() pages which can't come from HIGHMEM
-Date:   Thu, 28 Jul 2022 16:52:45 +0200
-Message-ID: <7426546.EvYhyI6sBW@opensuse>
-In-Reply-To: <87czdykw4j.fsf@meer.lwn.net>
-References: <20220721210206.13774-1-fmdefrancesco@gmail.com> <20220721210206.13774-4-fmdefrancesco@gmail.com> <87czdykw4j.fsf@meer.lwn.net>
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=tTSXNaw/6JZLwn2P0PGnuQ0WLB4Qu3elZxHzblM8fpU=;
+        b=s6F7Zmp294qtsm2h1ZfBixL4+zzDGEz1JY0mIur2HPLg1I9onFMreYl0u5Ni1/mdwb
+         nxPa+ejm2WfYkiWg0dnHp9fMhxkcCIpmS4/BpjAfUYp4VYM9rCbijyqYc/qoZuZjUJkP
+         osz/4LxEcv/HJ4Dio13nkCZDWzbp9hWp17UcALJh3Dc17+l/vREGccUB1lTeLXLvS2uy
+         qknuLzb9GXuR5iaQpmpEme0xQ2elVPkxtFrKCISFXbQyKXQ/lyQ+vX3byOzK63hGfWJm
+         E4SgOm+o7DsR+r5hQee9ejn9bcLF1U/6OgvkN5xdCxImVrzZEFLE7JHPMPF8VTMQBLdO
+         3C+Q==
+X-Gm-Message-State: AJIora8hC0YE7FZ7FNksR2RxDtVIytXmvgSZ00X2H5f8GLzM1TBdfuNv
+        cUai5ke/A3Wp4emKcO1DHqM=
+X-Google-Smtp-Source: AGRyM1upxJMWgGwceVicP+qb2cN5gr+enz0dwc0rY8PAmdQ62kOzzpZJEXUWQxNPjQhxhTMGjnE7kA==
+X-Received: by 2002:a17:907:6818:b0:72b:5bac:c3a3 with SMTP id qz24-20020a170907681800b0072b5bacc3a3mr20623516ejc.139.1659020301357;
+        Thu, 28 Jul 2022 07:58:21 -0700 (PDT)
+Received: from [0.0.0.0] (tor-exit-60.for-privacy.net. [185.220.101.60])
+        by smtp.gmail.com with ESMTPSA id cq3-20020a056402220300b0043bc300c499sm827109edb.79.2022.07.28.07.58.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 28 Jul 2022 07:58:21 -0700 (PDT)
+Message-ID: <8e694cb6-c3dc-74e3-6804-fc532f108523@gmail.com>
+Date:   Thu, 28 Jul 2022 17:57:58 +0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH 2/2] efi: earlycon: Add support for generic framebuffers
+ and move to fbdev subsystem
+Content-Language: en-US
+To:     Arnd Bergmann <arnd@arndb.de>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Helge Deller <deller@gmx.de>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Borislav Petkov <bp@suse.de>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Kees Cook <keescook@chromium.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Javier Martinez Canillas <javierm@redhat.com>,
+        Michal Suchanek <msuchanek@suse.de>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Wei Ming Chen <jj251510319013@gmail.com>,
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+        Tony Lindgren <tony@atomide.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-efi <linux-efi@vger.kernel.org>,
+        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
+        Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Rob Herring <robh@kernel.org>
+References: <20220728142824.3836-1-markuss.broks@gmail.com>
+ <20220728142824.3836-3-markuss.broks@gmail.com>
+ <CAK8P3a2fZ9O6vSEyxY1KW71pG_Oyvwxp3zTbW2GuaSD6aj+Qfw@mail.gmail.com>
+From:   Markuss Broks <markuss.broks@gmail.com>
+In-Reply-To: <CAK8P3a2fZ9O6vSEyxY1KW71pG_Oyvwxp3zTbW2GuaSD6aj+Qfw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On gioved=C3=AC 21 luglio 2022 23:13:00 CEST Jonathan Corbet wrote:
-> "Fabio M. De Francesco" <fmdefrancesco@gmail.com> writes:
->=20
-> > There is no need to kmap*() pages which are guaranteed to come from
-> > ZONE_NORMAL (or lower). Linux has currently several call sites of
-> > kmap{,_atomic,_local_page}() on pages allocated, for instance, with
-> > alloc_page(GFP_NOFS) and other similar allocations.
-> >
-> > Therefore, add a paragraph to highmem.rst, to explain better that a
-> > plain page_address() should be used for getting the address of pages
-> > which cannot come from ZONE_HIGHMEM.
-> >
-> > Cc: Andrew Morton <akpm@linux-foundation.org>
-> > Cc: Matthew Wilcox (Oracle) <willy@infradead.org>
-> > Cc: Mike Rapoport <rppt@linux.ibm.com>
-> > Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-> > Cc: Thomas Gleixner <tglx@linutronix.de>
-> > Suggested-by: Ira Weiny <ira.weiny@intel.com>
-> > Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
-> > ---
-> >  Documentation/vm/highmem.rst | 6 ++++++
-> >  1 file changed, 6 insertions(+)
-> >
-> > diff --git a/Documentation/vm/highmem.rst b/Documentation/vm/
-highmem.rst
-> > index c9887f241c6c..f266354c82ab 100644
-> > --- a/Documentation/vm/highmem.rst
-> > +++ b/Documentation/vm/highmem.rst
-> > @@ -71,6 +71,12 @@ list shows them in order of preference of use.
-> >    kmap_local_page() always returns a valid virtual address and it is=20
-assumed
-> >    that kunmap_local() will never fail.
-> > =20
-> > +  On CONFIG_HIGHMEM=3Dn kernels and for low memory pages this returns=
-=20
-the
-> > +  virtual address of the direct mapping. Only real highmem pages are
-> > +  temporarily mapped. Therefore, users should instead call a plain
-> > +  page_address() for getting the address of memory pages which,=20
-depending
-> > +  on the GFP_* flags, cannot come from ZONE_HIGHMEM.
-> > +
->=20
-> Is this good advice?
+Hi Arnd,
 
-Well... yes and no :-)=20
+On 7/28/22 17:48, Arnd Bergmann wrote:
+> On Thu, Jul 28, 2022 at 4:28 PM Markuss Broks <markuss.broks@gmail.com> wrote:
+>>
+>> Add early console support for generic linear framebuffer devices.
+>> This driver supports probing from cmdline early parameters
+>> or from the device-tree using information in simple-framebuffer node.
+>> The EFI functionality should be retained in whole.
+>> The driver was disabled on ARM because of a bug in early_ioremap
+>> implementation on ARM.
+>>
+>> Signed-off-by: Markuss Broks <markuss.broks@gmail.com>
+>> ---
+>>   .../admin-guide/kernel-parameters.txt         |  12 +-
+>>   MAINTAINERS                                   |   5 +
+>>   drivers/firmware/efi/Kconfig                  |   6 +-
+>>   drivers/firmware/efi/Makefile                 |   1 -
+>>   drivers/firmware/efi/earlycon.c               | 246 --------------
+>>   drivers/video/fbdev/Kconfig                   |  11 +
+>>   drivers/video/fbdev/Makefile                  |   1 +
+>>   drivers/video/fbdev/earlycon.c                | 301 ++++++++++++++++++
+> 
+> It looks like this is not actually related to fbdev, and since drivers are
+> moving from fbdev/simplefb towards drm/simpledrm, maybe it would be
+> better to put this into either drivers/gpu/drm/tiny/ or possibly
+> drivers/video/console to let this be used without enabling fbdev?
 
-However yours is a legit objection.=20
+Ideally this shouldn't depend on anything, because it isn't utilizing 
+any of fbdev code and won't be utilizing any of drm/console code. I 
+agree that either of those would be a better place for it, but which one 
+do you think would suit more for this driver?
 
-I'm taking most of the suggestion from Ira (from an email in this same=20
-thread) and send the v2 of this series.
+> 
+>          Arnd
 
-My intention was to avoid things like those I encountered when converting=20
-fs/btrfs:
-
-page =3D alloc_page(GFP_NOFS);
-kaddr =3D kmap(page);
-
-Why one should kmap*() pages allocated one or two lines above with=20
-GFP_NOFS?=20
-
-=46urthermore, since nesting kmap_local_page() / kunmap_local() is last in=
-=20
-first out (LIFO), I had several problems with several un-mappings until=20
-David Sterba made me notice that GFP_NOFS is not OR'ed with __GFP_HIGHMEM=20
-and suggested to use plain page_address() instead of those unnecessary=20
-mappings.
-
-However, you are right about the fact that, with most of other allocations,=
-=20
-it is not so clear where and how pages are being allocated.
-
-Thanks,
-
-=46abio=20
-
-> First, it requires developers to worry about
-> whether their pages might be in highmem, which is kind of like worrying
-> about having coins in your pocket in case you need a payphone.  But it
-> would also run afoul of other semantics for kmap*(), such as PKS, should
-> that ever be merged:
->=20
->   https://lwn.net/Articles/894531/
->
-> Thanks,
->=20
-> jon
->=20
-
-
-
-
+- Markuss
