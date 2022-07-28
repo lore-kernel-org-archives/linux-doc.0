@@ -2,65 +2,180 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8CCD9C19F2B
-	for <linux-doc@archiver.kernel.org>; Thu, 28 Jul 2022 15:43:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A3494C04A68
+	for <linux-doc@archiver.kernel.org>; Thu, 28 Jul 2022 15:47:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232141AbiG1Pn0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 28 Jul 2022 11:43:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55386 "EHLO
+        id S229484AbiG1Pr2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 28 Jul 2022 11:47:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58414 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231177AbiG1PnV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Jul 2022 11:43:21 -0400
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E51D369F34;
-        Thu, 28 Jul 2022 08:43:20 -0700 (PDT)
+        with ESMTP id S229483AbiG1Pr0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Jul 2022 11:47:26 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2779683F0;
+        Thu, 28 Jul 2022 08:47:25 -0700 (PDT)
 Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 8E2F921F;
-        Thu, 28 Jul 2022 15:43:20 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 8E2F921F
+        by ms.lwn.net (Postfix) with ESMTPSA id 7F3896E2;
+        Thu, 28 Jul 2022 15:47:25 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 7F3896E2
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1659023000; bh=1neTIY3xm1jMdQv4l8CARyFeD/JU7RMIRvBQJkl+k4U=;
+        t=1659023245; bh=WPWb6jFvYHnp035wflsqDUw6T4C3asd++u8JRPqJZtc=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=Oc+ipWN+ZMIMDIN+9A3Sd+rKhJFA4etg9GIP3wlVmgO4ayqQGlOUwoTJ/UqgrJKWy
-         NEw6jTeIS28IiB47d3J3DmDLZkGv/86T8RFgbbQkSRPt37xGtz7U0V8GKTW1ZtsiTh
-         SzpG9LNQSEziGS1WmFZN9LXSIomDUYFykqu5WRawgKjw7yUtoWmRGK/cnU9UCYIW8t
-         wc9gwcUUfLaVjfqvU4gd/tl17OTDZuD2XPOM8CM5GQKpVVE83AbyR9Hs1GmucT97WL
-         fGQscttJviUTPHr2CccrkW8c5qzfgmsJm/gh656IbRG5k6tEOe88efLIntEgJaPM+I
-         w+XOLIXdzaH4A==
+        b=EoIXXCwINM+f9Mj90XoejMDuPwaYBPdUcv647F9dfCEHfppP+cFVfr1mIR8MS9mu3
+         zEP20G6u2BCWGN7k3yEi96u4AdcdeVSHdriWW77lYPB3RfDrvkgTlBOIHCitY1Mc+H
+         t7TQbeZM+7bQymtQBL3gaqGjaeBzQneqviq4uqZNZjzRjhHbkY5kb9TNIObXKHDfAO
+         7k0jDRcPEfC3WSHvaSppyHaxb+NhjDeJSd/kh0w1o7IVBONWwidBlV+Z8dWkkHfK7U
+         Jcj3rgc1sLOCTTne0MJ9vaMPfkLBSffV48KGq9Oj2E4TXpeai3cvo8FxWHtdKsJLwS
+         yEUwsU4NwjYpQ==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Ard Biesheuvel <ardb@kernel.org>,
-        =?utf-8?Q?Jo=C3=A3o?= Paulo Rechi Vita <jprvita@gmail.com>
-Cc:     linux@endlessos.org,
-        =?utf-8?Q?Jo=C3=A3o?= Paulo Rechi Vita 
-        <jprvita@endlessos.org>, linux-efi <linux-efi@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] docs: efi-stub: Fix paths for x86 / arm stubs
-In-Reply-To: <CAMj1kXH4fOqdj4EN8r+=SvRLcn_ky1hKWqHzOG5csAc8P5QVog@mail.gmail.com>
-References: <20220727140539.10021-1-jprvita@endlessos.org>
- <CAMj1kXH4fOqdj4EN8r+=SvRLcn_ky1hKWqHzOG5csAc8P5QVog@mail.gmail.com>
-Date:   Thu, 28 Jul 2022 09:43:20 -0600
-Message-ID: <87lesdb5uv.fsf@meer.lwn.net>
+To:     Bagas Sanjaya <bagasdotme@gmail.com>, linux-doc@vger.kernel.org
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Thorsten Leemhuis <linux@leemhuis.info>,
+        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Hannu Hartikainen <hannu@hrtk.in>,
+        Jiri Kosina <jkosina@suse.cz>, Miguel Ojeda <ojeda@kernel.org>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        linux-kernel@vger.kernel.org, Bagas Sanjaya <bagasdotme@gmail.com>
+Subject: Re: [PATCH] MAINTAINERS: remove outdated patch submission guidelines
+In-Reply-To: <20220723075525.210510-1-bagasdotme@gmail.com>
+References: <20220723075525.210510-1-bagasdotme@gmail.com>
+Date:   Thu, 28 Jul 2022 09:47:24 -0600
+Message-ID: <87h731b5o3.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Ard Biesheuvel <ardb@kernel.org> writes:
+Bagas Sanjaya <bagasdotme@gmail.com> writes:
 
-> On Wed, 27 Jul 2022 at 07:06, Jo=C3=A3o Paulo Rechi Vita <jprvita@gmail.c=
-om> wrote:
->>
->> This fixes the paths of x86 / arm efi-stub source files.
->>
->> Signed-off-by: Jo=C3=A3o Paulo Rechi Vita <jprvita@endlessos.org>
+> The patch submission guidelines in MAINTAINERS are redundant, since
+> submitting-patches does the job and more up-to-date to current kernel
+> development process.
 >
-> Reviewed-by: Ard Biesheuvel <ardb@kernel.org>
+> Remove the guidelines, while also move trivial patch suggestion to
+> submitting-patches.
+>
+> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> ---
+>  Documentation/process/submitting-patches.rst |  4 +-
+>  MAINTAINERS                                  | 78 +-------------------
+>  2 files changed, 6 insertions(+), 76 deletions(-)
 
-Applied, thanks.
+So I'm generally in favor of this change, but ...
+
+> diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
+> index a1cb6280fbcf4e..bb720c057de7d7 100644
+> --- a/Documentation/process/submitting-patches.rst
+> +++ b/Documentation/process/submitting-patches.rst
+> @@ -15,7 +15,9 @@ Documentation/process/submit-checklist.rst
+>  for a list of items to check before submitting code.  If you are submitting
+>  a driver, also read Documentation/process/submitting-drivers.rst; for device
+>  tree binding patches, read
+
+This won't apply - submitting-drivers.rst is gone.
+
+> -Documentation/devicetree/bindings/submitting-patches.rst.
+> +Documentation/devicetree/bindings/submitting-patches.rst. Not all suggestions
+> +presented here matter on every patch (including trivial ones), so apply
+> +some common sense.
+>  
+>  This documentation assumes that you're using ``git`` to prepare your patches.
+>  If you're unfamiliar with ``git``, you would be well-advised to learn how to
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 64379c699903bc..8d668a0ec903e4 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -1,81 +1,9 @@
+>  List of maintainers and how to submit kernel changes
+>  ====================================================
+>  
+> -Please try to follow the guidelines below.  This will make things
+> -easier on the maintainers.  Not all of these guidelines matter for every
+> -trivial patch so apply some common sense.
+> -
+> -Tips for patch submitters
+> --------------------------
+> -
+> -1.	Always *test* your changes, however small, on at least 4 or
+> -	5 people, preferably many more.
+> -
+> -2.	Try to release a few ALPHA test versions to the net. Announce
+> -	them onto the kernel channel and await results. This is especially
+> -	important for device drivers, because often that's the only way
+> -	you will find things like the fact version 3 firmware needs
+> -	a magic fix you didn't know about, or some clown changed the
+> -	chips on a board and not its name.  (Don't laugh!  Look at the
+> -	SMC etherpower for that.)
+> -
+> -3.	Make sure your changes compile correctly in multiple
+> -	configurations. In particular check that changes work both as a
+> -	module and built into the kernel.
+> -
+> -4.	When you are happy with a change make it generally available for
+> -	testing and await feedback.
+> -
+> -5.	Make a patch available to the relevant maintainer in the list. Use
+> -	``diff -u`` to make the patch easy to merge. Be prepared to get your
+> -	changes sent back with seemingly silly requests about formatting
+> -	and variable names.  These aren't as silly as they seem. One
+> -	job the maintainers (and especially Linus) do is to keep things
+> -	looking the same. Sometimes this means that the clever hack in
+> -	your driver to get around a problem actually needs to become a
+> -	generalized kernel feature ready for next time.
+> -
+> -	PLEASE check your patch with the automated style checker
+> -	(scripts/checkpatch.pl) to catch trivial style violations.
+> -	See Documentation/process/coding-style.rst for guidance here.
+> -
+> -	PLEASE CC: the maintainers and mailing lists that are generated
+> -	by ``scripts/get_maintainer.pl.`` The results returned by the
+> -	script will be best if you have git installed and are making
+> -	your changes in a branch derived from Linus' latest git tree.
+> -	See Documentation/process/submitting-patches.rst for details.
+> -
+> -	PLEASE try to include any credit lines you want added with the
+> -	patch. It avoids people being missed off by mistake and makes
+> -	it easier to know who wants adding and who doesn't.
+> -
+> -	PLEASE document known bugs. If it doesn't work for everything
+> -	or does something very odd once a month document it.
+> -
+> -	PLEASE remember that submissions must be made under the terms
+> -	of the Linux Foundation certificate of contribution and should
+> -	include a Signed-off-by: line.  The current version of this
+> -	"Developer's Certificate of Origin" (DCO) is listed in the file
+> -	Documentation/process/submitting-patches.rst.
+> -
+> -6.	Make sure you have the right to send any changes you make. If you
+> -	do changes at work you may find your employer owns the patch
+> -	not you.
+> -
+> -7.	When sending security related changes or reports to a maintainer
+> -	please Cc: security@kernel.org, especially if the maintainer
+> -	does not respond. Please keep in mind that the security team is
+> -	a small set of people who can be efficient only when working on
+> -	verified bugs. Please only Cc: this list when you have identified
+> -	that the bug would present a short-term risk to other users if it
+> -	were publicly disclosed. For example, reports of address leaks do
+> -	not represent an immediate threat and are better handled publicly,
+> -	and ideally, should come with a patch proposal. Please do not send
+> -	automated reports to this list either. Such bugs will be handled
+> -	better and faster in the usual public places. See
+> -	Documentation/admin-guide/security-bugs.rst for details.
+> -
+> -8.	Happy hacking.
+> +If you'd like to submit kernel changes (patches), refer to
+> +:ref:`submittingpatches` for the guidelines, and
+> +:ref:`development_process_main` for detailed guide on development process.
+
+Let's not put RST directives into MAINTAINERS, which isn't an RST file.
+Just mention Documentation/whatever and all will be good.
+
+Thanks,
 
 jon
