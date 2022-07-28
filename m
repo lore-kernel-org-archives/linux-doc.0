@@ -2,138 +2,114 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E88FC19F2C
-	for <linux-doc@archiver.kernel.org>; Thu, 28 Jul 2022 20:57:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 51F2CC19F2A
+	for <linux-doc@archiver.kernel.org>; Thu, 28 Jul 2022 21:05:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233050AbiG1U5e (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 28 Jul 2022 16:57:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55840 "EHLO
+        id S231804AbiG1VFH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 28 Jul 2022 17:05:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34114 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233213AbiG1U5c (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Jul 2022 16:57:32 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9795877574;
-        Thu, 28 Jul 2022 13:57:29 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 39698B82593;
-        Thu, 28 Jul 2022 20:57:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A97C0C4347C;
-        Thu, 28 Jul 2022 20:57:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1659041846;
-        bh=KVD7HjeOiAY1TaMMP3/tdJDHP/1E9ZXiaHqWbd9BwC8=;
-        h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-        b=qUzKWxt6XuxavOPFtS4QkQiLSW4OtJ75MRWfn3aahgjuFdq9qjG/gdUHuDlXsn3OI
-         w6xIv4GLgzTGVP0t3AAEe7B+lrrX3cW9bkreUQravZOTLErOfdyX7+0z5jKkzpARTW
-         EHbt1xYoHC0NJPwOtRfrC8G70SFGiN058FC4mzog=
-From:   Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-Date:   Thu, 28 Jul 2022 16:57:07 -0400
-Subject: [PATCH v1 4/5] maintainer-pgp-guide: add a section on PGP-signed patches
+        with ESMTP id S229735AbiG1VFF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Jul 2022 17:05:05 -0400
+Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com [IPv6:2a00:1450:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0BA706246;
+        Thu, 28 Jul 2022 14:05:04 -0700 (PDT)
+Received: by mail-ej1-x632.google.com with SMTP id j22so5209472ejs.2;
+        Thu, 28 Jul 2022 14:05:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc;
+        bh=MGd+LwdnoFiDkdx9krfKLdtj5Dt+fVCB4Sh2nY5wr3c=;
+        b=XF5dl8tQGdES7zL4V8n959l0CmDhfnXFccMVTbYlBUZLfCjQCW2qPMmfbke3Yd/FlX
+         9fABsmDUHF7O04RUphiNEmVpnNa0o23+ZIp6qz2Az2maaFB95cUS2ePsseQJdQ3OSfP2
+         DThFEvF+SzgTIl3wbZG0rnpOug+EUOHtBqSFTlOlcuBSXE6F8myfgnBWOZOVb8hoCvRn
+         8p7q8CTOwd6agOrclnY9O5I0Se3vNDlRCzTK7hrjbwu0o0sJN6ID6fRP9CHGgWB+HAAs
+         Xnv1Czpa6LOkvjKxnkvJ9XZjINUpRvoqhTQCCbHWn+wKOjPVhKAQyOeKNsajyvA2Tl0o
+         /GCA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=MGd+LwdnoFiDkdx9krfKLdtj5Dt+fVCB4Sh2nY5wr3c=;
+        b=Uug6i2tfZ03Hlh9SFk2zAHtDZwCS6JWrhQNFoo7vdXqvbFhmDjO9G4U1u0E8T3fqHZ
+         PFQF8lJzzPqGIQxuQBAbdqQJPXANtzHypvPy4CQGy18ntT0Rz/2kX9voFB16SdzDV2HF
+         eFDPeiMxMEKOTgI4iOlvfFEJzKlbddVw2H5gJ0zePX3wJtbPZB2M7gtEuMMwqUdQLz1d
+         qB9RTon9rD84AQ+t4uSUCtCRErUP5+M78pJbMOPrM4YCPwXe5OmodZTnBwixkiskSg+2
+         21ZUeH97Da58eeuPZIZvphN6ZYbp5pdMky6sntxiXTtzFXQs2//lDm/KsgeXDbFSGAEd
+         H55A==
+X-Gm-Message-State: AJIora/ZF89RFcqf8JtHEwd/NuaiySMZf9sVCmZjUSgtNFtHzcTNiEpN
+        mmFMJ1/XXTHafzrwcVbAyrSTCv+9yZt3B3zVJEAQzEF6
+X-Google-Smtp-Source: AGRyM1vIJyFbUCmOiimEZBEdct0ZkX1TyGOZoJ6hXXMz38/QWz/mBQddZF4BdD7EfWT5LvGdGdK4c7G8zYJPWMb/alg=
+X-Received: by 2002:a17:907:28d6:b0:72b:7497:76b with SMTP id
+ en22-20020a17090728d600b0072b7497076bmr523196ejc.365.1659042302373; Thu, 28
+ Jul 2022 14:05:02 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20220727-docs-pgp-guide-v1-4-c48fb06cb9af@linuxfoundation.org>
-References: <20220727-docs-pgp-guide-v1-0-c48fb06cb9af@linuxfoundation.org>
-In-Reply-To: <20220727-docs-pgp-guide-v1-0-c48fb06cb9af@linuxfoundation.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-X-Mailer: b4 0.10.0-dev-49460
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3027;
- i=konstantin@linuxfoundation.org; h=from:subject:message-id;
- bh=KVD7HjeOiAY1TaMMP3/tdJDHP/1E9ZXiaHqWbd9BwC8=;
- b=owGbwMvMwCW27YjM47CUmTmMp9WSGJIe/TDLevMkkymqWD2AWXWNpu0GroQYzda9YeKHFimmX96t
- 7lrRUcrCIMbFICumyFK2L3ZTUOFDD7n0HlOYOaxMIEMYuDgFYCKRfYwMM5bOvz8latqRqvolvpmxSb
- 36V7P+39rY8O9w7pVjQQ5HrzMyXJNaL6PYYu1nyLigqfj63aydt7SU/9WVFazZm9Tge2w6DwA=
-X-Developer-Key: i=konstantin@linuxfoundation.org; a=openpgp;
- fpr=DE0E66E32F1FDD0902666B96E63EDCA9329DD07E
+References: <20220728142824.3836-1-markuss.broks@gmail.com>
+ <20220728142824.3836-2-markuss.broks@gmail.com> <YuKfaVG/ZbYtFjS/@kroah.com>
+In-Reply-To: <YuKfaVG/ZbYtFjS/@kroah.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Thu, 28 Jul 2022 23:04:24 +0200
+Message-ID: <CAHp75Vfz8e1j4qZ6XY6WqMR4E9fKFxrTxj7P6KraXzSLk_NhxQ@mail.gmail.com>
+Subject: Re: [PATCH 1/2] drivers: serial: earlycon: Pass device-tree node
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Markuss Broks <markuss.broks@gmail.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Helge Deller <deller@gmx.de>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Borislav Petkov <bp@suse.de>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Kees Cook <keescook@chromium.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Javier Martinez Canillas <javierm@redhat.com>,
+        Michal Suchanek <msuchanek@suse.de>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Wei Ming Chen <jj251510319013@gmail.com>,
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+        Tony Lindgren <tony@atomide.com>,
+        Linux Documentation List <linux-doc@vger.kernel.org>,
+        linux-efi <linux-efi@vger.kernel.org>,
+        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
+        "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Petr Mladek <pmladek@suse.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-With more developers beginning to use b4 and patatt, add a section to
-the guide that talks about setting up and using patatt for PGP-signing
-patch submissions.
+On Thu, Jul 28, 2022 at 4:41 PM Greg Kroah-Hartman
+<gregkh@linuxfoundation.org> wrote:
+> On Thu, Jul 28, 2022 at 05:28:18PM +0300, Markuss Broks wrote:
+> > Pass a pointer to device-tree node in case the driver probed from
+> > OF. This makes early console drivers able to fetch options from
+> > device-tree node properties.
 
-Signed-off-by: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+...
 
-diff --git a/Documentation/process/maintainer-pgp-guide.rst b/Documentation/process/maintainer-pgp-guide.rst
-index 62b0bab5d7c5..2ce38e5d547d 100644
---- a/Documentation/process/maintainer-pgp-guide.rst
-+++ b/Documentation/process/maintainer-pgp-guide.rst
-@@ -674,6 +674,7 @@ remote end.
- 
- .. _`Agent Forwarding over SSH`: https://wiki.gnupg.org/AgentForwarding
- 
-+.. _pgp_with_git:
- 
- Using PGP with Git
- ==================
-@@ -817,6 +818,63 @@ You can tell git to always sign commits::
- 
- .. _verify_identities:
- 
-+
-+How to work with signed patches
-+-------------------------------
-+
-+It is possible to use your PGP key to sign patches sent to kernel
-+developer mailing lists. Since existing email signature mechanisms
-+(PGP-Mime or PGP-inline) tend to cause problems with regular code
-+review tasks, you should use the tool kernel.org created for this
-+purpose that puts cryptographic attestation signatures into message
-+headers (a-la DKIM):
-+
-+- `Patatt Patch Attestation`_
-+
-+.. _`Patatt Patch Attestation`: https://pypi.org/project/patatt/
-+
-+Installing and configuring patatt
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+Patatt is packaged for many distributions already, so please check there
-+first. You can also install it from pypi using "``pip install patatt``".
-+
-+If you already have your PGP key configured with git (via the
-+``user.signingKey`` configuration parameter), then patatt requires no
-+further configuration. You can start signing your patches by installing
-+the git-send-email hook in the repository you want::
-+
-+    patatt install-hook
-+
-+Now any patches you send with ``git send-email`` will be automatically
-+signed with your cryptographic signature.
-+
-+Checking patatt signatures
-+~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+If you are using ``b4`` to retrieve and apply patches, then it will
-+automatically attempt to verify all DKIM and patatt signatures it
-+encounters, for example::
-+
-+    $ b4 am 20220720205013.890942-1-broonie@kernel.org
-+    [...]
-+    Checking attestation on all messages, may take a moment...
-+    ---
-+      ✓ [PATCH v1 1/3] kselftest/arm64: Correct buffer allocation for SVE Z registers
-+      ✓ [PATCH v1 2/3] arm64/sve: Document our actual ABI for clearing registers on syscall
-+      ✓ [PATCH v1 3/3] kselftest/arm64: Enforce actual ABI for SVE syscalls
-+      ---
-+      ✓ Signed: openpgp/broonie@kernel.org
-+      ✓ Signed: DKIM/kernel.org
-+
-+.. note::
-+
-+    Patatt and b4 are still in active development and you should check
-+    the latest documentation for these projects for any new or updated
-+    features.
-+
-+.. _kernel_identities:
-+
- How to verify kernel developer identities
- =========================================
- 
+> > +     unsigned long node;
+>
+> That should not be an unsigned long, but rather an 'int'.  Something got
+> messed up, of_setup_earlycon() should be changed to reflect this before
+> propagating the error to other places in the kernel.
+
+It's a pointer, but what puzzles me, why it can't be declared as a such:
+
+ struct device_node *node;
+
+?
+
+> And it's not really a "node" but an "offset", right?
+
+Seems no.
 
 -- 
-b4 0.10.0-dev-49460
+With Best Regards,
+Andy Shevchenko
