@@ -2,55 +2,55 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E9C38C04A68
-	for <linux-doc@archiver.kernel.org>; Thu, 28 Jul 2022 23:46:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DC918C00140
+	for <linux-doc@archiver.kernel.org>; Thu, 28 Jul 2022 23:55:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231881AbiG1XqD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 28 Jul 2022 19:46:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60052 "EHLO
+        id S229631AbiG1Xzf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 28 Jul 2022 19:55:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38250 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231761AbiG1XqC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Jul 2022 19:46:02 -0400
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9BE283D5B4
-        for <linux-doc@vger.kernel.org>; Thu, 28 Jul 2022 16:45:59 -0700 (PDT)
-Received: by mail-ej1-x629.google.com with SMTP id j22so5725028ejs.2
-        for <linux-doc@vger.kernel.org>; Thu, 28 Jul 2022 16:45:59 -0700 (PDT)
+        with ESMTP id S231959AbiG1XzS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Jul 2022 19:55:18 -0400
+Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12B4F1903E
+        for <linux-doc@vger.kernel.org>; Thu, 28 Jul 2022 16:55:17 -0700 (PDT)
+Received: by mail-ed1-x529.google.com with SMTP id w5so3983048edd.13
+        for <linux-doc@vger.kernel.org>; Thu, 28 Jul 2022 16:55:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=pqrs.dk; s=google;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc;
-        bh=M7/jd+TmiWFhj3BgYNw38FFZtKKvi/KFHz2HsNXDs8o=;
-        b=ab7KO9rNYMJ04eu1ovs3n627vErNyTn4Qr0ffBAeHoPwjoWKJfzhmJSZht3uFKDOIy
-         BsA5Axw+QLm8T0svdAoKAFsTMVj3dKdzlWIWUc0kD+3s0Lg0kVS9sPVA9WnkZfW+mQll
-         SsMdT1lzJhwdxGyebu/q7bLiOoicJ5XHtkWzI=
+        bh=PR2g7EG7sP3ZrKB5jtxwTJwCSPOaOLj4Nh76QscH7Q0=;
+        b=C94F3jKJb6dzeORs7XX/pGVTpxhjREhHluNRo9dqoQEx9YnN4qsCcY6GRdCa/8j4DI
+         +iIQt1T2yzhkNLYedmfrfmdBJsOPDg5u1CyaXD5xbA9/OpDecgOFJNosiGdBlN3W367U
+         uLhyCcWZ4otNM3/bp50wHK31vUP+eJ0YxFDR0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc;
-        bh=M7/jd+TmiWFhj3BgYNw38FFZtKKvi/KFHz2HsNXDs8o=;
-        b=EdB5Bh0aTaEVHZUD45F3QOWLSk3dVn8gpUdVM3mCpqp4GzJjfTB+h6OBDL2bFHnksB
-         4twdMPSkJhURcPI3Rsxuy4TYXwXE8yaVlmWocmF0L5+KDIResnCbOcSmsPLyObhv2xjS
-         H3SxHtr4uGm6+MUl2Pkxe5O3jo3ka5AxBafrPrQ2vGfcIbwdP4X20TZrvBCYDj2/hRi0
-         iueFGpKiRA4wVGf18sr7HXazdW0qfjZ6W6QDCAtCrbQM7487BRzslbYQ7G9dvrVgegHx
-         VIUNJ48ao+Y+JZokgS6t+5JyzIjBt/bIjnG8vyWM3lwRmW8bttKeClZAiw1C97kxz9aU
-         WpwA==
-X-Gm-Message-State: AJIora8p1iF9nAU6fWRcmNhw6KpWXST0Qy69DgiPT/uDoN98zGxnOG1F
-        ODDrQGsMvgWIquK75TkXosWarg==
-X-Google-Smtp-Source: AGRyM1spKku6z28jzABhGX8ROE6i2B6rgImRJKGH2zUtcivOilPVr8PR7m9m8IUElAd2rSBvfkx+Nw==
-X-Received: by 2002:a17:907:8a1d:b0:72b:9e7b:802a with SMTP id sc29-20020a1709078a1d00b0072b9e7b802amr924882ejc.189.1659051957926;
-        Thu, 28 Jul 2022 16:45:57 -0700 (PDT)
+        bh=PR2g7EG7sP3ZrKB5jtxwTJwCSPOaOLj4Nh76QscH7Q0=;
+        b=WN/6qrO1YS1ZlfzuwMCJZpx9rIUXdb3tQjgg8qaFMjXNLy4hZUBHNNMEbu0KJlzxUe
+         69MTW8RCGJHMoc/3yKyaM14IAiGcy0qA9a1T4f0jl38+v0lsEYl7spX3SSGMdnK+4hvX
+         MEFo3ulVFRKMCMyG4rY/qkn+Xl9C6012dOij3qlxUFFGY8kt4YvM0P7N0b/EtBYO22Jh
+         IgjFSS331nxtc8f9sHrE6GhwTSBxjvvljNoBq+z83+ogMWqmjshGDZ4ySJY0/ZZMICss
+         vvxHvqPPJLJ+Tz4adwoUNl2cm5jp7Ex5VR0lKGg9E3w0hTf4L1bKAOK1d3l2rYdCi1VH
+         G8BA==
+X-Gm-Message-State: AJIora9TBYkmyPNgdNHlAz09EWoYdxQ5PZ8nTGjc4YrWe2LQuZQGZyOx
+        1L9lP9NpplAtQdtNV3vfj9FCuA==
+X-Google-Smtp-Source: AGRyM1vqW8H84F0zeaHSSa6xgxseUIZe6OkYYIVJveO7Ku6P+EHynMnmekorcGus6dCFNxce5Mghnw==
+X-Received: by 2002:aa7:cd84:0:b0:43c:532b:65e9 with SMTP id x4-20020aa7cd84000000b0043c532b65e9mr1271957edv.330.1659052515697;
+        Thu, 28 Jul 2022 16:55:15 -0700 (PDT)
 Received: from localhost.localdomain (80.71.142.18.ipv4.parknet.dk. [80.71.142.18])
-        by smtp.gmail.com with ESMTPSA id v23-20020a1709062f1700b0072ff4515792sm934822eji.54.2022.07.28.16.45.57
+        by smtp.gmail.com with ESMTPSA id 5-20020a170906308500b0072b32de7794sm950648ejv.70.2022.07.28.16.55.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 Jul 2022 16:45:57 -0700 (PDT)
+        Thu, 28 Jul 2022 16:55:15 -0700 (PDT)
 From:   =?UTF-8?q?Alvin=20=C5=A0ipraga?= <alvin@pqrs.dk>
 To:     Jonathan Corbet <corbet@lwn.net>
 Cc:     =?UTF-8?q?Alvin=20=C5=A0ipraga?= <alsi@bang-olufsen.dk>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] documentation: debufs: add a missing closing parenthesis
-Date:   Fri, 29 Jul 2022 01:45:47 +0200
-Message-Id: <20220728234547.647691-1-alvin@pqrs.dk>
+Subject: [PATCH v2] documentation: debugfs: add a missing closing parenthesis
+Date:   Fri, 29 Jul 2022 01:55:03 +0200
+Message-Id: <20220728235503.651254-1-alvin@pqrs.dk>
 X-Mailer: git-send-email 2.37.0
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -65,6 +65,11 @@ The two impacted sentences ought to be one, concatenated at the point of
 the missing parenthesis that has been added.
 
 Signed-off-by: Alvin Šipraga <alsi@bang-olufsen.dk>
+---
+v1 -> v2:
+
+In disgrace, I made typo in the subject of v1. Here is a v2 without that
+typo.
 ---
  Documentation/filesystems/debugfs.rst | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
