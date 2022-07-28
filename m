@@ -2,180 +2,112 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A3494C04A68
-	for <linux-doc@archiver.kernel.org>; Thu, 28 Jul 2022 15:47:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A2F4C04A68
+	for <linux-doc@archiver.kernel.org>; Thu, 28 Jul 2022 15:48:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229484AbiG1Pr2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 28 Jul 2022 11:47:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58414 "EHLO
+        id S229613AbiG1Psw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 28 Jul 2022 11:48:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59500 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229483AbiG1Pr0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Jul 2022 11:47:26 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2779683F0;
-        Thu, 28 Jul 2022 08:47:25 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 7F3896E2;
-        Thu, 28 Jul 2022 15:47:25 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 7F3896E2
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1659023245; bh=WPWb6jFvYHnp035wflsqDUw6T4C3asd++u8JRPqJZtc=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=EoIXXCwINM+f9Mj90XoejMDuPwaYBPdUcv647F9dfCEHfppP+cFVfr1mIR8MS9mu3
-         zEP20G6u2BCWGN7k3yEi96u4AdcdeVSHdriWW77lYPB3RfDrvkgTlBOIHCitY1Mc+H
-         t7TQbeZM+7bQymtQBL3gaqGjaeBzQneqviq4uqZNZjzRjhHbkY5kb9TNIObXKHDfAO
-         7k0jDRcPEfC3WSHvaSppyHaxb+NhjDeJSd/kh0w1o7IVBONWwidBlV+Z8dWkkHfK7U
-         Jcj3rgc1sLOCTTne0MJ9vaMPfkLBSffV48KGq9Oj2E4TXpeai3cvo8FxWHtdKsJLwS
-         yEUwsU4NwjYpQ==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Bagas Sanjaya <bagasdotme@gmail.com>, linux-doc@vger.kernel.org
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Thorsten Leemhuis <linux@leemhuis.info>,
-        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Hannu Hartikainen <hannu@hrtk.in>,
-        Jiri Kosina <jkosina@suse.cz>, Miguel Ojeda <ojeda@kernel.org>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        linux-kernel@vger.kernel.org, Bagas Sanjaya <bagasdotme@gmail.com>
-Subject: Re: [PATCH] MAINTAINERS: remove outdated patch submission guidelines
-In-Reply-To: <20220723075525.210510-1-bagasdotme@gmail.com>
-References: <20220723075525.210510-1-bagasdotme@gmail.com>
-Date:   Thu, 28 Jul 2022 09:47:24 -0600
-Message-ID: <87h731b5o3.fsf@meer.lwn.net>
+        with ESMTP id S229494AbiG1Psv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Jul 2022 11:48:51 -0400
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8597168DC6;
+        Thu, 28 Jul 2022 08:48:50 -0700 (PDT)
+Received: by mail-ej1-x62f.google.com with SMTP id mf4so3874620ejc.3;
+        Thu, 28 Jul 2022 08:48:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=NrXXUlA72mLwPl3oAk4hUgRmIIhHL59XBsnYMRfeqVE=;
+        b=NqagBMgbyNgtyR49hnsdizviW+Es+0tf0pejD6z2HOyFzkeTGZn3npG03E2+BESDsm
+         CboGjJ+Uy3XP3QHCxYvdi7xA5rcQ6HpDLElFChVGo9t0MyqQXGeMA+Ml8N2lOQl8ipwx
+         NFx2Flq1i666usHInqux5vhFqJbQlltzIk8AtEnSpLD0EUde+h5RxeRbKbfvjPUuAsC9
+         Ax/eWMBaz+49PkHLMPTSqqKnTmbSehJ178P+eVC1MB1S2hngGEz0DIe2m8V8Fk3/Um7e
+         2vGJG9W1LysiS0T/ZfQejmWY95pCJkszNOzMvHb8WW110Wu2zTizSuGXpR1xhVXERTNE
+         ZRDQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=NrXXUlA72mLwPl3oAk4hUgRmIIhHL59XBsnYMRfeqVE=;
+        b=6BDOnrLFaKST+ixxvIao1wU8+qs1oyAyLQ6TzEhX77L7FmaXqHGujI4ENFRIaeYvY4
+         Y5NN+TN7pm7qOFffVo6RjDGLVVbTrovw8TgbgtTv87H+EKz8sFZWEN8A9L6S+cl5p+vm
+         aBy2QCDSqzJmQmuLvgsRCAb3iJDy4wnWk3ahQ6OE6S52/7N0gKpHPtFcIJ+9yIdr/14T
+         hgFp8qmiAVJK38C9BzABm44lD5DlsthvRBUIeN+8lXpbVyOghSDcL2KZVUCgTbF/vHJJ
+         PoO4Sb6JzGgR57s5BH/U0Mn2B+POza/n1pGTcQjhuGrRgFbLXyqWDmuxitxGoLfhHj5z
+         iXHw==
+X-Gm-Message-State: AJIora+mQeNcDqHXvlZ4gNtPaI6k/DOOOeRUlZug0fTF2j3NaSMZ1Ygs
+        yY9IzD0+Qnv9fEIYtLjcVPk=
+X-Google-Smtp-Source: AGRyM1u7EeU+2cFHVHR6y1OHkYelmsRxVbrsR8TBIwjTP6Iz7jP3deEi+NWfMMQ7F0RHmB8UWkg9CA==
+X-Received: by 2002:a17:907:3e11:b0:72b:49d1:2054 with SMTP id hp17-20020a1709073e1100b0072b49d12054mr22057461ejc.78.1659023329102;
+        Thu, 28 Jul 2022 08:48:49 -0700 (PDT)
+Received: from localhost.localdomain (host-79-56-6-250.retail.telecomitalia.it. [79.56.6.250])
+        by smtp.gmail.com with ESMTPSA id f7-20020a056402068700b0043adc6552d6sm902487edy.20.2022.07.28.08.48.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 28 Jul 2022 08:48:47 -0700 (PDT)
+From:   "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+To:     Mike Rapoport <rppt@linux.ibm.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ira Weiny <ira.weiny@intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+        Will Deacon <will@kernel.org>,
+        Peter Collingbourne <pcc@google.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Cc:     "Fabio M. De Francesco" <fmdefrancesco@gmail.com>
+Subject: [PATCH v2 0/7] highmem: Extend kmap_local_page() documentation
+Date:   Thu, 28 Jul 2022 17:48:37 +0200
+Message-Id: <20220728154844.10874-1-fmdefrancesco@gmail.com>
+X-Mailer: git-send-email 2.37.1
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Bagas Sanjaya <bagasdotme@gmail.com> writes:
+The Highmem's interface is evolving and the current documentation does not
+reflect the intended uses of each of the calls. Furthermore, after a
+recent series of reworks, the differences of the calls can still be
+confusing and may lead to the expanded use of calls which are deprecated.
 
-> The patch submission guidelines in MAINTAINERS are redundant, since
-> submitting-patches does the job and more up-to-date to current kernel
-> development process.
->
-> Remove the guidelines, while also move trivial patch suggestion to
-> submitting-patches.
->
-> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> ---
->  Documentation/process/submitting-patches.rst |  4 +-
->  MAINTAINERS                                  | 78 +-------------------
->  2 files changed, 6 insertions(+), 76 deletions(-)
+This series is the second round of changes towards an enhanced
+documentation of the Highmem's interface; at this stage the patches are
+only focused to kmap_local_page().
 
-So I'm generally in favor of this change, but ...
+In addition it also contains some minor clean ups.
 
-> diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
-> index a1cb6280fbcf4e..bb720c057de7d7 100644
-> --- a/Documentation/process/submitting-patches.rst
-> +++ b/Documentation/process/submitting-patches.rst
-> @@ -15,7 +15,9 @@ Documentation/process/submit-checklist.rst
->  for a list of items to check before submitting code.  If you are submitting
->  a driver, also read Documentation/process/submitting-drivers.rst; for device
->  tree binding patches, read
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Matthew Wilcox (Oracle) <willy@infradead.org>
+Cc: Mike Rapoport <rppt@linux.ibm.com>
+Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Suggested-by: Ira Weiny <ira.weiny@intel.com>
+Signed-off-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
 
-This won't apply - submitting-drivers.rst is gone.
+v1->v2: According to a comment from Jonathan Corbet and some
+modifications suggested by Ira Weiny, change a couple of phrases in 3/7.
+1,2,4-7/7 have no changes since v1.
 
-> -Documentation/devicetree/bindings/submitting-patches.rst.
-> +Documentation/devicetree/bindings/submitting-patches.rst. Not all suggestions
-> +presented here matter on every patch (including trivial ones), so apply
-> +some common sense.
->  
->  This documentation assumes that you're using ``git`` to prepare your patches.
->  If you're unfamiliar with ``git``, you would be well-advised to learn how to
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 64379c699903bc..8d668a0ec903e4 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -1,81 +1,9 @@
->  List of maintainers and how to submit kernel changes
->  ====================================================
->  
-> -Please try to follow the guidelines below.  This will make things
-> -easier on the maintainers.  Not all of these guidelines matter for every
-> -trivial patch so apply some common sense.
-> -
-> -Tips for patch submitters
-> --------------------------
-> -
-> -1.	Always *test* your changes, however small, on at least 4 or
-> -	5 people, preferably many more.
-> -
-> -2.	Try to release a few ALPHA test versions to the net. Announce
-> -	them onto the kernel channel and await results. This is especially
-> -	important for device drivers, because often that's the only way
-> -	you will find things like the fact version 3 firmware needs
-> -	a magic fix you didn't know about, or some clown changed the
-> -	chips on a board and not its name.  (Don't laugh!  Look at the
-> -	SMC etherpower for that.)
-> -
-> -3.	Make sure your changes compile correctly in multiple
-> -	configurations. In particular check that changes work both as a
-> -	module and built into the kernel.
-> -
-> -4.	When you are happy with a change make it generally available for
-> -	testing and await feedback.
-> -
-> -5.	Make a patch available to the relevant maintainer in the list. Use
-> -	``diff -u`` to make the patch easy to merge. Be prepared to get your
-> -	changes sent back with seemingly silly requests about formatting
-> -	and variable names.  These aren't as silly as they seem. One
-> -	job the maintainers (and especially Linus) do is to keep things
-> -	looking the same. Sometimes this means that the clever hack in
-> -	your driver to get around a problem actually needs to become a
-> -	generalized kernel feature ready for next time.
-> -
-> -	PLEASE check your patch with the automated style checker
-> -	(scripts/checkpatch.pl) to catch trivial style violations.
-> -	See Documentation/process/coding-style.rst for guidance here.
-> -
-> -	PLEASE CC: the maintainers and mailing lists that are generated
-> -	by ``scripts/get_maintainer.pl.`` The results returned by the
-> -	script will be best if you have git installed and are making
-> -	your changes in a branch derived from Linus' latest git tree.
-> -	See Documentation/process/submitting-patches.rst for details.
-> -
-> -	PLEASE try to include any credit lines you want added with the
-> -	patch. It avoids people being missed off by mistake and makes
-> -	it easier to know who wants adding and who doesn't.
-> -
-> -	PLEASE document known bugs. If it doesn't work for everything
-> -	or does something very odd once a month document it.
-> -
-> -	PLEASE remember that submissions must be made under the terms
-> -	of the Linux Foundation certificate of contribution and should
-> -	include a Signed-off-by: line.  The current version of this
-> -	"Developer's Certificate of Origin" (DCO) is listed in the file
-> -	Documentation/process/submitting-patches.rst.
-> -
-> -6.	Make sure you have the right to send any changes you make. If you
-> -	do changes at work you may find your employer owns the patch
-> -	not you.
-> -
-> -7.	When sending security related changes or reports to a maintainer
-> -	please Cc: security@kernel.org, especially if the maintainer
-> -	does not respond. Please keep in mind that the security team is
-> -	a small set of people who can be efficient only when working on
-> -	verified bugs. Please only Cc: this list when you have identified
-> -	that the bug would present a short-term risk to other users if it
-> -	were publicly disclosed. For example, reports of address leaks do
-> -	not represent an immediate threat and are better handled publicly,
-> -	and ideally, should come with a patch proposal. Please do not send
-> -	automated reports to this list either. Such bugs will be handled
-> -	better and faster in the usual public places. See
-> -	Documentation/admin-guide/security-bugs.rst for details.
-> -
-> -8.	Happy hacking.
-> +If you'd like to submit kernel changes (patches), refer to
-> +:ref:`submittingpatches` for the guidelines, and
-> +:ref:`development_process_main` for detailed guide on development process.
+Fabio M. De Francesco (7):
+  highmem: Remove unneeded spaces in kmap_local_page() kdocs
+  highmem: Specify that kmap_local_page() is callable from interrupts
+  Documentation/mm: Don't kmap*() pages which can't come from HIGHMEM
+  Documentation/mm: Avoid invalid use of addresses from
+    kmap_local_page()
+  Documentation/mm: Prefer kmap_local_page() and avoid kmap()
+  highmem: Delete a sentence from kmap_local_page() kdocs
+  Documentation/mm: Add details about kmap_local_page() and preemption
 
-Let's not put RST directives into MAINTAINERS, which isn't an RST file.
-Just mention Documentation/whatever and all will be good.
+ Documentation/vm/highmem.rst | 31 +++++++++++++++++++++++++++----
+ include/linux/highmem.h      |  7 +++----
+ 2 files changed, 30 insertions(+), 8 deletions(-)
 
-Thanks,
+-- 
+2.37.1
 
-jon
