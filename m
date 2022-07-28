@@ -2,197 +2,230 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 35123C19F2B
-	for <linux-doc@archiver.kernel.org>; Thu, 28 Jul 2022 19:53:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 50B95C04A68
+	for <linux-doc@archiver.kernel.org>; Thu, 28 Jul 2022 20:43:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231921AbiG1TxX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 28 Jul 2022 15:53:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37038 "EHLO
+        id S231163AbiG1Unb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 28 Jul 2022 16:43:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43310 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229502AbiG1TxX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Jul 2022 15:53:23 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D3481CFD5;
-        Thu, 28 Jul 2022 12:53:22 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        with ESMTP id S229456AbiG1Una (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Jul 2022 16:43:30 -0400
+Received: from 7of9.schinagl.nl (7of9.connected.by.freedominter.net [185.238.129.13])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D61016BD74;
+        Thu, 28 Jul 2022 13:43:28 -0700 (PDT)
+Received: from [10.2.12.24] (unknown [10.2.12.24])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 170AB61E26;
-        Thu, 28 Jul 2022 19:53:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9935AC433D6;
-        Thu, 28 Jul 2022 19:53:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1659038001;
-        bh=+y6opbN7WD1OrVOWmvnLM/pFLYkbXR/iL3cSrSYb7VM=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=INr1tGg8pxuO+MgtZfzXRIQKpYtPIr3gaSms9ac5wnKSSZ5AqIBdQIQhLJGIo5nlC
-         SujJUylOGhDoh8UXJ0+1RP/ciIixq7ZY3gqJvXMuZSNYYwGdo2YKaY+ScFwaWYaDgl
-         jA3GM52qm6ounJ1u0vJ3P3fKUO2GOj8eLDabzbUWFOIp2+6gW/bi+jK5wwySl58YzK
-         0ExCcQKjnKtecaHcHAguC46siqQ/BltXJcNHc7XBY0MhyrjPlFNL7EXtr5lE+lj3B6
-         Hn++zsb7El7iQYSJ4NPIaisWLT0Sks4g7IVMDIUD0iEEOxma/YRQFfZTQS7dQbgT0C
-         6r0lZ8kUwX5OQ==
-Message-ID: <c56991fe-5028-3a5a-3dc6-85f70864f184@kernel.org>
-Date:   Thu, 28 Jul 2022 21:53:13 +0200
+        by 7of9.schinagl.nl (Postfix) with ESMTPSA id B88AF185B6D2;
+        Thu, 28 Jul 2022 22:43:26 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=schinagl.nl; s=7of9;
+        t=1659041006; bh=qJaWk8qC2P2wd1+jPTHWOuz/2sxRSrXZLFhJIMpTHm4=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To;
+        b=EroUtAL77q6ozM32v6QihqjYwnlGD/YWR3ydh2DoDZb6khRDKrt8oR/70Dax/B6h4
+         MnAp2seHAt+egV3r9YtsQWz0XrsEmbgwgr3sUXV1gYzo7va2AFlg8e4aYx47gBqAUs
+         JxxGKSaLyNNZ33UBE3epA+HUcsfYCDSjx4porpds=
+Message-ID: <a4803f2e-2e46-1c7d-0e89-96f5cbb0ad11@schinagl.nl>
+Date:   Thu, 28 Jul 2022 22:43:26 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH V8 01/16] rv: Add Runtime Verification (RV) interface
-Content-Language: en-US
-To:     Tao Zhou <tao.zhou@linux.dev>
-Cc:     Steven Rostedt <rostedt@goodmis.org>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Ingo Molnar <mingo@redhat.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Will Deacon <will@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Marco Elver <elver@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Gabriele Paoloni <gpaoloni@redhat.com>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Clark Williams <williams@redhat.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-trace-devel@vger.kernel.org
-References: <cover.1658940828.git.bristot@kernel.org>
- <04fcaacb8c1e8dc0fd0289ceca8e3b1d29747c30.1658940828.git.bristot@kernel.org>
- <YuLJL7CoSYsStdsV@geo.homenetwork>
-From:   Daniel Bristot de Oliveira <bristot@kernel.org>
-In-Reply-To: <YuLJL7CoSYsStdsV@geo.homenetwork>
-Content-Type: text/plain; charset=UTF-8
+Subject: Re: [PATCH 00/13] [RFC] Rust support
+Content-Language: nl
+To:     Gary Guo <gary@garyguo.net>
+Cc:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        rust-for-linux <rust-for-linux@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>
+References: <20210414184604.23473-1-ojeda@kernel.org>
+ <fae4873e-2ff9-df35-0ab9-34bf4417b717@schinagl.nl>
+ <CANiq72mRxM-7griYF+0FWqYoSoNL8ad=L-i6a2-GsaCeb0C6qQ@mail.gmail.com>
+ <ba8cb315-9d73-2f45-8bf9-d9473d369dca@schinagl.nl>
+ <CANiq72kz+Txauo+103_-fN_J8PhhCdJUH5XepShUQmJzW6a4tA@mail.gmail.com>
+ <5c0bb1db-5589-32ca-ac22-4aafb3c15751@schinagl.nl>
+ <20220728112114.0000003a@garyguo.net>
+From:   Olliver Schinagl <oliver+list@schinagl.nl>
+In-Reply-To: <20220728112114.0000003a@garyguo.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 7/28/22 19:36, Tao Zhou wrote:
-> On Wed, Jul 27, 2022 at 07:11:29PM +0200, Daniel Bristot de Oliveira wrote:
-> 
->> +static ssize_t enabled_monitors_write(struct file *filp, const char __user *user_buf,
->> +				      size_t count, loff_t *ppos)
->> +{
->> +	char buff[MAX_RV_MONITOR_NAME_SIZE + 2];
-> 
-> If I am not wrong, but "joke" from myself is very possible.
-> 
-> char buff[MAX_RV_MONITOR_NAME_SIZE + 1];
-> 
-> +1 is for one '\0'. The above have '\0\0'. One '\0' is enough.
+Hey Gary,
 
-!
-
->> +	struct rv_monitor_def *mdef;
->> +	int retval = -EINVAL;
->> +	bool enable = true;
->> +	char *ptr = buff;
->> +	int len;
->> +
->> +	if (count < 1 || count > MAX_RV_MONITOR_NAME_SIZE + 1)
+On 28-07-2022 12:21, Gary Guo wrote:
+> Hi Olliver,
 > 
-> Use `count > MAX_RV_MONITOR_NAME_SIZE` check the up bound.
+> On Wed, 27 Jul 2022 10:05:31 +0200
+> Olliver Schinagl <oliver+list@schinagl.nl> wrote:
 > 
->> +		return -EINVAL;
->> +
->> +	memset(buff, 0, sizeof(buff));
->> +
->> +	retval = simple_write_to_buffer(buff, sizeof(buff) - 1, ppos, user_buf, count);
+>> Consitency is absolutly important! Zero argument there. My argument
+>> is, the consistency should be within the kernel tree, not 'but the
+>> rest of the world is using style X/Y/Z, lets be consistent with that.
+>> In an utopia, maybe, but the real world doesn't work that way, sadly.
+>> So in an attempt to standardize (rustfmt) they just "invented" a new
+>> standard. Which btw is common, we see this happening every so often,
+>> right?
 > 
-> simple_write_to_buffer(buff, sizeof(buff), ppos, user_buf, count)
-> 
->> +	if (retval < 0)
->> +		return -EFAULT;
->> +
->> +	ptr = strim(buff);
-> 
-> I see isspace() that the mask `_S` is for space/lf/tab, but I do
-> not know if the lf stands for being able to strim the '\n'. If so
-> there is no problem here. if use buffer is "wip\n\n", we should
-> treat it the same as "wip", no?
-
-no.
+> Difference languages have different characteristics and I don't think
+> it's necessarily good (and often isn't) to blindly apply coding style
+> of one language onto another. So I don't see rustfmt as "inventing yet
+> another standard" really, because there aren't many conflicting coding
+> style standards in Rust world; almost everyone just settled on using
+> rustfmt, mostly using the default, maybe with a few small
+> project-specific configuration tweaks.
+I was mostly arguing about a) lets look at this and b) having said 
+configuration tweaks, rather then blindly (pun not really intended) 
+going with rust's defaults :)
 
 > 
->> +/*
->> + * Monitoring on global switcher!
->> + */
->> +static bool __read_mostly monitoring_on;
->> +
->> +/**
->> + * rv_monitoring_on - checks if monitoring is on
->> + *
->> + * Returns 1 if on, 0 otherwise.
->> + */
->> +bool rv_monitoring_on(void)
->> +{
->> +	/* Ensures that concurrent monitors read consistent monitoring_on */
->> +	smp_rmb();
+> A small example for C and Rust differences:
 > 
-> Here invalidate message will be processed and send the read message
-> and get updated monitoring_on from another cpu. I feel confused
-> because there is half part of the memory barrier pair. But this half
-> way from my mind in this case has effect. This is the first time that
-> I know it can be synced this way. Let me guess this way.
+> Rust requires braces around branches of if expression, and C doesn't.
+> So in kernel coding style you often have:
 > 
->> +	return READ_ONCE(monitoring_on);
->> +}
+> 	if (condition) do_something();
 > 
-> I checked the load of monitoring_on, there are three cases:
-> file read     file write(call load self)     event handler check
-> Store of monitoring_on: one in init rv, another is file write after
-> call load self.
-> The file is created before the turn_monitoring_on() called in 
-> rv_init_interface(). So there may be existing the store race
-> at the init part. Just after the monitoring_on file created,
-> and other cpus do monitoring_on flips operations and at the
-> same time the init code do turn_monitor_on(). Or the enabled
-> file be writen to enable/disable monitors happening before
-> monitoring_on is set in init rv. That means the event handler
-> can be start before the monitoring_on is turned on in init rv.
-> The turn_monitoring_on() in rv_init_interface() is not a switcher
-> because it may has been beated by file flips operations before.
-
-there will be no monitors loaded at this point during boot time.
-
->> +
->> +/*
->> + * monitoring_on general switcher.
->> + */
->> +static ssize_t monitoring_on_read_data(struct file *filp, char __user *user_buf,
->> +				       size_t count, loff_t *ppos)
->> +{
->> +	const char *buff;
->> +
->> +	buff = rv_monitoring_on() ? "1\n" : "0\n";
+> Or
 > 
-> I hope this will not be inlined..
-
-Even if I add a lock, the value can change after the lock is unlocked before
-returning to user-space...
+> 	if (condition)
+> 		do_something();
+> 
+> But in Rust it will be:
+> 
+> 	if condition {
+> 	    do_something();
+> 	}
+So kernel style kind of says 'no braces around single statements'; but 
+if your rust compiler doesn't allow this; well then there's nothing to 
+do. You could even argue to update the kernel C style on this to make it 
+consistent again. BUT, this inconsistency makes it cognative 'hard'. If 
+this if a C or a rust function? for example during a review. During 
+authoring, when writing both C and rust code (due to nececity, not 
+constant context switching) you cognitivly constantly have to go 
+back/foward. While I'm sure there's people here that can do this all day 
+without problem, some of of find this harder then needs to be. Hence the 
+request to _try_ to keep consistency within the kernel tree.
 
 > 
->> +
->> +	return simple_read_from_buffer(user_buf, count, ppos, buff, strlen(buff) + 1);
->> +}
->> +static void destroy_monitor_dir(struct rv_monitor_def *mdef)
->> +{
->> +	reactor_cleanup_monitor(mdef);
+> That's just an example of one control flow constructions. There are
+> differences between Rust match and C switch, etc. Rust's official
+> coding style takes properties of Rust into consideration, so in many
+> regards it's a more suitable coding style for Rust code in kernel, then
+> applying kernel's C coding standard directly on kernel's Rust code.
 > 
-> reactor_cleanup_monitor() appear in this patch but not defined.
-
-I will have to send a v9 only fixing this because it breaks bisect.
-
-It was caused by a last minute change... (boooh, Daniel!)
-
->> +	rv_remove(mdef->root_d);
->> +}
->> +struct dentry *get_monitors_root(void);
->> +int init_rv_monitors(struct dentry *root_dir);
+> Your earlier email in the thread also mentions about indentation, and I
+> have a few things to point out as well.
 > 
-> init_rv_monitors() definition do not appear in this patch. Thanks,
+> First, Rust code typically requires more levels of indentation than C
+> code. For example, many functions might be methods and they are inside
+> an impl block, which creates one extra level of indentation.
+> Statements inside match arms' block are two levels more indented than
+> the match statement itself, as opposed to C's switch (as kernel coding
+> style doesn't indent the case labels). As a result, 8 spaces for 1 level
+> can be a bit excessive for Rust code, and thus the 4 space indentation
+> used in rustfmt default.
+> 
+> Secondly, I don't think the argument about tabs being customisable
+> holds; in kernel coding style tabs are strictly 8 characters. For line
+Sure, this rule implies that for alignment, tabs should be set to 8 so 
+things align nicely. However, nobody forces people to set their editor 
+to 8 character width. Not doing so, doesn't break anything. At worst, 
+you may commit something that is poorly aligned (but we _should_ be 
+using tabs to indent, spaces to align anyway :p, tab == indent has meaning).
 
-Thanks!
--- Daniel
+With non-tab indentation, this is no longer really possible, or at 
+least, editors haven't solved that problem yet, as it tends to still 
+break (due to the mixing of indentation and alignment using a single 
+character). Maybe once we have AI and ML in our editors though :p
+
+> continuation it's not uncommon to use a series of tabs followed by a
+> few spaces, e.g.
+> 
+> 	int function_name(int first_argument,
+> 	< tab  >< tab  >..int second_argument)
+> 
+> changing tab into 4 spaces will break the layout. (and I'll not go into
+> well-known reasons about non-4-space-tab messing up code in terminal
+> etc).
+> 
+>> Copy/pasting is known to cause bugs. There's actually research from
+>> NASA on that. Code-reuse (libraries/functions) are not bad. But
+>> (worst kind of example) copy paste from stack-overflow, or
+>> copy/pasting stuff without actually looking at the content and
+>> forgetting to rename something, causes bugs. Why is this relevant?
+>> The whole 'lets be consistent with the rust codebase of the wrold'
+>> argument. E.g. if everybody uses the same style (which is idealistic
+>> and great) then copy/pasting becomes consistent. Where I say, try to
+>> be careful when copy/pasting code.
+> 
+> When we vendor in code as a whole (e.g. like we currently do for
+> alloc crate), it is proper code reuse. With different coding style the
+> vendored code either diverges from upstream (which makes upstreaming
+> much more difficult) or diverge from rest of kernel's Rust code base.
+Very fair point of course. Though really, we should fix the upstream 
+rust preferred format, but there it was already stated, that 'too bad, 
+sorry' which from a developer point of view is fine, your project, your 
+choice. From a disabilities point of view, sucks of course.
+
+> 
+>> But if that is the case, why not try to follow the kernels existing
+>> code-style as close as possible with the rust-fmt configuration? I
+>> know code-style has been discussed a few times over the decades; but
+>> not many changes have been done, surely, if there's some codestyle
+>> changes that are best for the kernel, they would have been 'advised'?
+>> '4 space indents are better then 8-size tabs, on new code, try to use
+>> them' for example :p
+> 
+> You do realize that you are creating a new coding style by doing this,
+> right? It feels like creating problems rather than solving problems.
+> 
+> My personal feeling is that it's easier for me to adapt to different
+> coding style when switching between languages, but it's rather awkward
+> for me when trying to use different coding styles with the same
+> language. I find myself no problem switching between 2 spaces when
+> coding JavaScript to 4 spaces when coding Rust to 8 spaces(tab) when
+> coding C, but it's rather painful to switch between C projects with
+> different coding styles. I certainly don't want to switch between Rust
+> projects with vastly different coding styles.
+And I'm happy for you that you can easily take in 2 and 4 spaces. For 
+me, it is extremly hard to read. So it's not a 'personal preference' 
+thing. But I suggest to read the earlier posted links, where others at 
+length explain it as well, how it is like to feel excluded becaues its 
+just hard to read.
+
+> 
+>> But why? Why should we not be consistent with the kernels' code-base
+>> (while yes, that is not rust, but C, but we can follow the same
+>> style?)
+> 
+> Difference languages have different characteristics, and one size
+> doesn't fit them all :)
+I'm not even arguing this at all :)
+
+I think the biggest issues i'm speaking of really are the braces and the 
+spaces really, where the braces can be argued for/against, it's 
+cognitive harder, but can be dealth with (and we can expect 
+inconsitencies; but the sapces vs tabs thing, personal configuration vs 
+forced with is the point I was trying to raise.
+
+As said before, 'every building is different, some offer wheelchair 
+ramps, others do' kind of point, not like 'this building is red, and 
+that one is blue, and not every color fits all :p
+
+> 
+>> Sadly, I've seen so much vendor code (yeah, I know) which doesn't
+>> even have consistency in their own files ...
+> 
+> That's very true. So when all other Rust code currently follow
+> (roughly) the same coding style and this situation doesn't currently
+> exist, let's not make it worse...
+> 
+> Best,
+> Gary
+
