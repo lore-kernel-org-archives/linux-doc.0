@@ -2,85 +2,169 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 82BE6C19F29
-	for <linux-doc@archiver.kernel.org>; Thu, 28 Jul 2022 15:56:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 79058C19F2B
+	for <linux-doc@archiver.kernel.org>; Thu, 28 Jul 2022 17:37:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230393AbiG1P4q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 28 Jul 2022 11:56:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40918 "EHLO
+        id S230180AbiG1RhD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 28 Jul 2022 13:37:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45774 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232011AbiG1P4W (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Jul 2022 11:56:22 -0400
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E007652DC0;
-        Thu, 28 Jul 2022 08:56:20 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 6EBDF21F;
-        Thu, 28 Jul 2022 15:56:20 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 6EBDF21F
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1659023780; bh=Fdz/aB00PMrpIGOtZ/f4nnm4cHA+314fJvDTvpvlkbY=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=aO7nC7rNH86DCNoWuAYMNivOT6HBQkFj8b/fK+OtZ7gCUv+1XjcFsZpNfeB7ePNCf
-         2Vm3pzw7efIR+opcI1xOS5s+ONzJmQ8J54oXor/6CwzUuAhMj/Fz0uNU7M1DNgBR6q
-         go97rDcBgU/Q30dXNKtmSrgSvH6qdD7hpSV2+n4aj8gjVY8HkMLEASAv2yqGHAOt/W
-         /6DTT2Fs0m3RcHSDdkJ0ng9cUMoX56kjpNxYLgzPxL3ug3eIiUL6OnLK20mcO9wqTk
-         mDq8qT43QKIQbG4bsfoe+qbDtildb4h1p7FKJ59cXMvenJBbExVo+q0tIR3MeatSSq
-         SSpilxR2LNwpw==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        Thorsten Leemhuis <linux@leemhuis.info>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-doc@vger.kernel.org
-Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Subject: Re: [RFC PATCH 0/2] Rework the kernel's README.rst
-In-Reply-To: <20220720041325.15693-1-lukas.bulwahn@gmail.com>
-References: <20220720041325.15693-1-lukas.bulwahn@gmail.com>
-Date:   Thu, 28 Jul 2022 09:56:19 -0600
-Message-ID: <87czdpb598.fsf@meer.lwn.net>
+        with ESMTP id S229812AbiG1RhC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Jul 2022 13:37:02 -0400
+Received: from out0.migadu.com (out0.migadu.com [94.23.1.103])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3EEC172EFD;
+        Thu, 28 Jul 2022 10:37:00 -0700 (PDT)
+Date:   Fri, 29 Jul 2022 01:36:47 +0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+        t=1659029818;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=Z/gD77iBWAmP0iFyKbJGfmuQG5oMbvIdK0lmYGXsIgI=;
+        b=PVFk5TY/nwvFPboBA8dO0TKpcHWxBvMH94ORXrY4ttcYjnHYU2Iex/pGZyC1eboD8NZ7Jd
+        ipfAq/WXCCo7amQmlwdJtQOgBP1q/KQTlqLpXn10Twr/7oO+kyHQLddvIqCgWG0yaycZMS
+        u6/1QCwhyR7/zYWcwLmnlmnebj/YTMI=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From:   Tao Zhou <tao.zhou@linux.dev>
+To:     Daniel Bristot de Oliveira <bristot@kernel.org>
+Cc:     Steven Rostedt <rostedt@goodmis.org>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Ingo Molnar <mingo@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Will Deacon <will@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Marco Elver <elver@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Gabriele Paoloni <gpaoloni@redhat.com>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Clark Williams <williams@redhat.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-trace-devel@vger.kernel.org, Tao Zhou <tao.zhou@linux.dev>
+Subject: Re: [PATCH V8 01/16] rv: Add Runtime Verification (RV) interface
+Message-ID: <YuLJL7CoSYsStdsV@geo.homenetwork>
+References: <cover.1658940828.git.bristot@kernel.org>
+ <04fcaacb8c1e8dc0fd0289ceca8e3b1d29747c30.1658940828.git.bristot@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <04fcaacb8c1e8dc0fd0289ceca8e3b1d29747c30.1658940828.git.bristot@kernel.org>
+X-Migadu-Flow: FLOW_OUT
+X-Migadu-Auth-User: linux.dev
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Lukas Bulwahn <lukas.bulwahn@gmail.com> writes:
+On Wed, Jul 27, 2022 at 07:11:29PM +0200, Daniel Bristot de Oliveira wrote:
 
-> As far as I see, the README.rst file in Documentation/admin-guide/ covers
-> three rather outdated (or subsumed) aspects:
->
->   1. mentioning that it is possible to "run a.out user programs with this kernel"
->
->   2. how to report a kernel bug
->
->   3. the explanations around the use of LILO as a boot loader
->
-> This patch series addressed the first two aspects; the third one simply
-> first needs some more experimenting/experience on my side to update
-> the description of the setup with a GRUB boot loader.
->
-> I am happy if anyone else contributes or helps with this rework task on
-> the third aspect.
->
-> I am also adding Linus as recipient, as he seems to be the original author,
-> i.e., in the text, 'me' refers to Linus.
->
-> Please let me know if you are generally fine with this approach, and
-> if there is something on the other documentation to be done to get this
-> patch accepted.
+> +static ssize_t enabled_monitors_write(struct file *filp, const char __user *user_buf,
+> +				      size_t count, loff_t *ppos)
+> +{
+> +	char buff[MAX_RV_MONITOR_NAME_SIZE + 2];
 
-The changes seem fine to me; I'll apply them after the merge window if
-nobody objects.
+If I am not wrong, but "joke" from myself is very possible.
 
-Longer term it's probably worth thinking about what the README.rst file
-is for.  It seems like we should have one starting point for somebody's
-first encounter with the docs; that would likely either be this file or
-Documentation/index.rst but not both.  I keep meaning to try to improve
-the initial documentation experience, but haven't found the time yet...
+char buff[MAX_RV_MONITOR_NAME_SIZE + 1];
 
-Thanks,
++1 is for one '\0'. The above have '\0\0'. One '\0' is enough.
 
-jon
+> +	struct rv_monitor_def *mdef;
+> +	int retval = -EINVAL;
+> +	bool enable = true;
+> +	char *ptr = buff;
+> +	int len;
+> +
+> +	if (count < 1 || count > MAX_RV_MONITOR_NAME_SIZE + 1)
+
+Use `count > MAX_RV_MONITOR_NAME_SIZE` check the up bound.
+
+> +		return -EINVAL;
+> +
+> +	memset(buff, 0, sizeof(buff));
+> +
+> +	retval = simple_write_to_buffer(buff, sizeof(buff) - 1, ppos, user_buf, count);
+
+simple_write_to_buffer(buff, sizeof(buff), ppos, user_buf, count)
+
+> +	if (retval < 0)
+> +		return -EFAULT;
+> +
+> +	ptr = strim(buff);
+
+I see isspace() that the mask `_S` is for space/lf/tab, but I do
+not know if the lf stands for being able to strim the '\n'. If so
+there is no problem here. if use buffer is "wip\n\n", we should
+treat it the same as "wip", no?
+
+> +/*
+> + * Monitoring on global switcher!
+> + */
+> +static bool __read_mostly monitoring_on;
+> +
+> +/**
+> + * rv_monitoring_on - checks if monitoring is on
+> + *
+> + * Returns 1 if on, 0 otherwise.
+> + */
+> +bool rv_monitoring_on(void)
+> +{
+> +	/* Ensures that concurrent monitors read consistent monitoring_on */
+> +	smp_rmb();
+
+Here invalidate message will be processed and send the read message
+and get updated monitoring_on from another cpu. I feel confused
+because there is half part of the memory barrier pair. But this half
+way from my mind in this case has effect. This is the first time that
+I know it can be synced this way. Let me guess this way.
+
+> +	return READ_ONCE(monitoring_on);
+> +}
+
+I checked the load of monitoring_on, there are three cases:
+file read     file write(call load self)     event handler check
+Store of monitoring_on: one in init rv, another is file write after
+call load self.
+The file is created before the turn_monitoring_on() called in 
+rv_init_interface(). So there may be existing the store race
+at the init part. Just after the monitoring_on file created,
+and other cpus do monitoring_on flips operations and at the
+same time the init code do turn_monitor_on(). Or the enabled
+file be writen to enable/disable monitors happening before
+monitoring_on is set in init rv. That means the event handler
+can be start before the monitoring_on is turned on in init rv.
+The turn_monitoring_on() in rv_init_interface() is not a switcher
+because it may has been beated by file flips operations before.
+
+> +
+> +/*
+> + * monitoring_on general switcher.
+> + */
+> +static ssize_t monitoring_on_read_data(struct file *filp, char __user *user_buf,
+> +				       size_t count, loff_t *ppos)
+> +{
+> +	const char *buff;
+> +
+> +	buff = rv_monitoring_on() ? "1\n" : "0\n";
+
+I hope this will not be inlined..
+
+> +
+> +	return simple_read_from_buffer(user_buf, count, ppos, buff, strlen(buff) + 1);
+> +}
+> +static void destroy_monitor_dir(struct rv_monitor_def *mdef)
+> +{
+> +	reactor_cleanup_monitor(mdef);
+
+reactor_cleanup_monitor() appear in this patch but not defined.
+
+> +	rv_remove(mdef->root_d);
+> +}
+> +struct dentry *get_monitors_root(void);
+> +int init_rv_monitors(struct dentry *root_dir);
+
+init_rv_monitors() definition do not appear in this patch. Thanks,
