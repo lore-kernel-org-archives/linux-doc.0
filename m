@@ -2,75 +2,260 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 95653C00144
-	for <linux-doc@archiver.kernel.org>; Fri, 29 Jul 2022 20:37:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 431B7C19F2A
+	for <linux-doc@archiver.kernel.org>; Fri, 29 Jul 2022 20:58:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229931AbiG2Uh1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 29 Jul 2022 16:37:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40084 "EHLO
+        id S239029AbiG2U6s (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 29 Jul 2022 16:58:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53614 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229529AbiG2Uh0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Jul 2022 16:37:26 -0400
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2123D6553;
-        Fri, 29 Jul 2022 13:37:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1659127046; x=1690663046;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=BwLHPzr/dhNUDvI8Eh1ojBnr9YBQM1nsFP8p168BfKc=;
-  b=chAZuk+0e8zo4pz77M7esMsJaHAoFpUIQsaaIhgHOrmMMH9sdo2jlM6t
-   1rvPshmWSGn3ZdlHvoFS2svKuaQ17+tJoyXISvVp1ZzLogmz+h99A+bci
-   s6scs7Xl2lzqEATOn6jZIZox+01TWq9I8g2P4GZipe1h1IVR61loivMru
-   QQsH3zO01Bave3PkuZ/35k3oRSE1kYSylqGFHgqwWjjsmEB2dfReIZE+m
-   qk6Uc4bPT+oNhSLXpLrBBkDYnUDWIJNK2WX5C2STUjg9pwSt7cZyqd1aS
-   WYi7M13ANlq3joIAiH+CJEIWSeTuKvcunnzRfQgNAM6ctQ4PwxBYe7GR/
-   A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10423"; a="288857804"
-X-IronPort-AV: E=Sophos;i="5.93,202,1654585200"; 
-   d="scan'208";a="288857804"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2022 13:37:25 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,202,1654585200"; 
-   d="scan'208";a="577078192"
-Received: from lkp-server01.sh.intel.com (HELO e0eace57cfef) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 29 Jul 2022 13:37:21 -0700
-Received: from kbuild by e0eace57cfef with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1oHWjZ-000C4n-0t;
-        Fri, 29 Jul 2022 20:37:21 +0000
-Date:   Sat, 30 Jul 2022 04:37:02 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Vikas Gupta <vikas.gupta@broadcom.com>
-Cc:     kbuild-all@lists.01.org, Ammar Faizi <ammarfaizi2@gnuweeb.org>,
-        GNU/Weeb Mailing List <gwml@vger.gnuweeb.org>,
-        linux-kernel@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
-        Andy Gospodarek <gospo@broadcom.com>,
-        Jiri Pirko <jiri@nvidia.com>, linux-doc@vger.kernel.org
-Subject: [ammarfaizi2-block:netdev/net-next/main 16/29] htmldocs:
- Documentation/networking/devlink/devlink-selftests.rst: WARNING: document
- isn't included in any toctree
-Message-ID: <202207300406.CUBuyN5i-lkp@intel.com>
+        with ESMTP id S230089AbiG2U6r (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Jul 2022 16:58:47 -0400
+Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com [IPv6:2607:f8b0:4864:20::534])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01A088B4A2
+        for <linux-doc@vger.kernel.org>; Fri, 29 Jul 2022 13:58:46 -0700 (PDT)
+Received: by mail-pg1-x534.google.com with SMTP id f11so4880664pgj.7
+        for <linux-doc@vger.kernel.org>; Fri, 29 Jul 2022 13:58:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc;
+        bh=xSUX4n5EOZoO6EmWZ2h+wwgMii0Rl96zCog8KMwNDpE=;
+        b=IQa/2kQ54sNuJFQTlEtNq5TKTdwkdwyj7A2Lk5GyapXGPHgft6Y4da5hKX8JyLKYUF
+         dxIS0jRo9GG3npqy+Pg4Ln4aI12jIIGtLZP0/UBLco+CF9pVQjURcXwHKbpgIaL6oDo2
+         oHPrpODdXTv5tU6hp5fnQVQaLEOG2clh+Dv38QypiPr2SiCugTXODzmnkYiEw9xwIygg
+         /6eAHyLwoYiqcdVMdT02I9kG8osr3/FmkjgMjspXUgU4nrIqcp177Bu4fYi5UEuFgXNu
+         aPQZj8BQskDnwF3+n8m72EOF8vqFzF/UzjAX2l1tE6KGgebsxuoKxNou4XR1uAj2Xvn9
+         2H6g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
+        bh=xSUX4n5EOZoO6EmWZ2h+wwgMii0Rl96zCog8KMwNDpE=;
+        b=Xz3HyFYS2/ulPQskldLFuYxF3XZu4J4crEt3HY7kpqILk5sJzwmWNnbqpmZODcNL3G
+         nFMmDs3sz078+sFU/bZfdzn3GMVIwv/Xn1XZsdkym0x9tAGF0aH91VTpEGQ1XP8vJu07
+         eBi3qUo8Hqc4BeSn0UeX0zLrIjdJRurraYBIA3ayp2L4SDGiNs1Z6H9kzpUgsQbs0eRS
+         5ubDi0fkJj5ZYVnvlFIwWRG1uNwMVM9/3wJ7RaWnfJ+S6djrhUaELfIWc5zlt8QtlD4M
+         SiafjaORCLMfCcmCXNIBx/zLZAYQkMazMjt597BE3bkXSedFBTLJFZSaS7K6fCf6R7IH
+         qD6w==
+X-Gm-Message-State: AJIora9NVwpQW+nOhxlxhpR4N6ihx9duU3sfu/RWd6/bv2zuRAuhtmCP
+        AJD1Fq5eDJ6YKwxTmWr+b6hBOQ==
+X-Google-Smtp-Source: AGRyM1vN6zx5wsr5GVVc5ytEEhaS3cRKGvLGbuTs4y/gxM5vty96tVvmJRlSNJfUJgonhSJqKrn69g==
+X-Received: by 2002:a63:535f:0:b0:41a:ee1c:a15f with SMTP id t31-20020a63535f000000b0041aee1ca15fmr4299865pgl.265.1659128325266;
+        Fri, 29 Jul 2022 13:58:45 -0700 (PDT)
+Received: from google.com (7.104.168.34.bc.googleusercontent.com. [34.168.104.7])
+        by smtp.gmail.com with ESMTPSA id b10-20020a1709027e0a00b0016d295888e3sm3999789plm.241.2022.07.29.13.58.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 29 Jul 2022 13:58:44 -0700 (PDT)
+Date:   Fri, 29 Jul 2022 20:58:41 +0000
+From:   Sean Christopherson <seanjc@google.com>
+To:     Chao Peng <chao.p.peng@linux.intel.com>
+Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+        qemu-devel@nongnu.org, linux-kselftest@vger.kernel.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com,
+        Quentin Perret <qperret@google.com>,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+        Muchun Song <songmuchun@bytedance.com>
+Subject: Re: [PATCH v7 12/14] KVM: Handle page fault for private memory
+Message-ID: <YuRKAcT3cuEE4GgF@google.com>
+References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
+ <20220706082016.2603916-13-chao.p.peng@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20220706082016.2603916-13-chao.p.peng@linux.intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-tree:   https://github.com/ammarfaizi2/linux-block netdev/net-next/main
-head:   6957730e20389a63eb333afb6fcf38b45f549ea8
-commit: 08f588fa301bef264576fc915da6bf31b585a824 [16/29] devlink: introduce framework for selftests
-reproduce: make htmldocs
+On Wed, Jul 06, 2022, Chao Peng wrote:
+> A page fault can carry the private/shared information for
+> KVM_MEM_PRIVATE memslot, this can be filled by architecture code(like
+> TDX code). To handle page fault for such access, KVM maps the page only
+> when this private property matches the host's view on the page.
+> 
+> For a successful match, private pfn is obtained with memfile_notifier
+> callbacks from private fd and shared pfn is obtained with existing
+> get_user_pages.
+> 
+> For a failed match, KVM causes a KVM_EXIT_MEMORY_FAULT exit to
+> userspace. Userspace then can convert memory between private/shared from
+> host's view then retry the access.
+> 
+> Co-developed-by: Yu Zhang <yu.c.zhang@linux.intel.com>
+> Signed-off-by: Yu Zhang <yu.c.zhang@linux.intel.com>
+> Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
+> ---
+>  arch/x86/kvm/mmu/mmu.c          | 60 ++++++++++++++++++++++++++++++++-
+>  arch/x86/kvm/mmu/mmu_internal.h | 18 ++++++++++
+>  arch/x86/kvm/mmu/mmutrace.h     |  1 +
+>  include/linux/kvm_host.h        | 35 ++++++++++++++++++-
+>  4 files changed, 112 insertions(+), 2 deletions(-)
+> 
+> diff --git a/arch/x86/kvm/mmu/mmu.c b/arch/x86/kvm/mmu/mmu.c
+> index 545eb74305fe..27dbdd4fe8d1 100644
+> --- a/arch/x86/kvm/mmu/mmu.c
+> +++ b/arch/x86/kvm/mmu/mmu.c
+> @@ -3004,6 +3004,9 @@ int kvm_mmu_max_mapping_level(struct kvm *kvm,
+>  	if (max_level == PG_LEVEL_4K)
+>  		return PG_LEVEL_4K;
+>  
+> +	if (kvm_mem_is_private(kvm, gfn))
+> +		return max_level;
+> +
+>  	host_level = host_pfn_mapping_level(kvm, gfn, pfn, slot);
+>  	return min(host_level, max_level);
+>  }
+> @@ -4101,10 +4104,52 @@ void kvm_arch_async_page_ready(struct kvm_vcpu *vcpu, struct kvm_async_pf *work)
+>  	kvm_mmu_do_page_fault(vcpu, work->cr2_or_gpa, 0, true);
+>  }
+>  
+> +static inline u8 order_to_level(int order)
+> +{
+> +	enum pg_level level;
+> +
+> +	for (level = KVM_MAX_HUGEPAGE_LEVEL; level > PG_LEVEL_4K; level--)
 
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
+Curly braces needed for the for-loop.
 
-All warnings (new ones prefixed by >>):
+And I think it makes sense to take in the fault->max_level, that way this is
+slightly more performant when the guest mapping is smaller than the host, e.g.
 
->> Documentation/networking/devlink/devlink-selftests.rst: WARNING: document isn't included in any toctree
+	for (level = max_level; level > PG_LEVEL_4K; level--)
+		...
 
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+	return level;
+
+Though I think I'd vote to avoid a loop entirely and do:
+
+	BUILD_BUG_ON(KVM_MAX_HUGEPAGE_LEVEL > PG_LEVEL_1G);
+
+	if (order > ???)
+		return PG_LEVEL_1G;
+	
+	if (order > ???)
+		return PG_LEVEL_2M;
+
+	return PG_LEVEL_4K;
+
+
+> +		if (order >= page_level_shift(level) - PAGE_SHIFT)
+> +			return level;
+> +	return level;
+> +}
+> +
+> +static int kvm_faultin_pfn_private(struct kvm_vcpu *vcpu,
+> +				   struct kvm_page_fault *fault)
+> +{
+> +	int order;
+> +	struct kvm_memory_slot *slot = fault->slot;
+> +	bool private_exist = kvm_mem_is_private(vcpu->kvm, fault->gfn);
+> +
+> +	if (fault->is_private != private_exist) {
+> +		vcpu->run->exit_reason = KVM_EXIT_MEMORY_FAULT;
+> +		if (fault->is_private)
+> +			vcpu->run->memory.flags = KVM_MEMORY_EXIT_FLAG_PRIVATE;
+> +		else
+> +			vcpu->run->memory.flags = 0;
+> +		vcpu->run->memory.padding = 0;
+> +		vcpu->run->memory.gpa = fault->gfn << PAGE_SHIFT;
+> +		vcpu->run->memory.size = PAGE_SIZE;
+> +		return RET_PF_USER;
+> +	}
+> +
+> +	if (fault->is_private) {
+> +		if (kvm_private_mem_get_pfn(slot, fault->gfn, &fault->pfn, &order))
+> +			return RET_PF_RETRY;
+> +		fault->max_level = min(order_to_level(order), fault->max_level);
+> +		fault->map_writable = !(slot->flags & KVM_MEM_READONLY);
+> +		return RET_PF_FIXED;
+> +	}
+> +
+> +	/* Fault is shared, fallthrough. */
+> +	return RET_PF_CONTINUE;
+> +}
+> +
+>  static int kvm_faultin_pfn(struct kvm_vcpu *vcpu, struct kvm_page_fault *fault)
+>  {
+>  	struct kvm_memory_slot *slot = fault->slot;
+>  	bool async;
+> +	int r;
+>  
+>  	/*
+>  	 * Retry the page fault if the gfn hit a memslot that is being deleted
+> @@ -4133,6 +4178,12 @@ static int kvm_faultin_pfn(struct kvm_vcpu *vcpu, struct kvm_page_fault *fault)
+>  			return RET_PF_EMULATE;
+>  	}
+>  
+> +	if (kvm_slot_can_be_private(slot)) {
+> +		r = kvm_faultin_pfn_private(vcpu, fault);
+> +		if (r != RET_PF_CONTINUE)
+> +			return r == RET_PF_FIXED ? RET_PF_CONTINUE : r;
+
+I apologize if I've given you conflicting feedback in the past.  Now that this
+returns RET_PF_* directly, I definitely think it makes sense to do:
+
+	if (kvm_slot_can_be_private(slot) &&
+	    fault->is_private != kvm_mem_is_private(vcpu->kvm, fault->gfn)) {
+		vcpu->run->exit_reason = KVM_EXIT_MEMORY_FAULT;
+		if (fault->is_private)
+			vcpu->run->memory.flags = KVM_MEMORY_EXIT_FLAG_PRIVATE;
+		else
+			vcpu->run->memory.flags = 0;
+		vcpu->run->memory.padding = 0;
+		vcpu->run->memory.gpa = fault->gfn << PAGE_SHIFT;
+		vcpu->run->memory.size = PAGE_SIZE;
+		return RET_PF_USER;
+	}
+
+	if (fault->is_private)
+		return kvm_faultin_pfn_private(vcpu, fault);
+
+That way kvm_faultin_pfn_private() only handles private faults, and this doesn't
+need to play games with RET_PF_FIXED.
+
+
+> +	}
+> +
+>  	async = false;
+>  	fault->pfn = __gfn_to_pfn_memslot(slot, fault->gfn, false, &async,
+>  					  fault->write, &fault->map_writable,
+> @@ -4241,7 +4292,11 @@ static int direct_page_fault(struct kvm_vcpu *vcpu, struct kvm_page_fault *fault
+>  		read_unlock(&vcpu->kvm->mmu_lock);
+>  	else
+>  		write_unlock(&vcpu->kvm->mmu_lock);
+> -	kvm_release_pfn_clean(fault->pfn);
+> +
+> +	if (fault->is_private)
+> +		kvm_private_mem_put_pfn(fault->slot, fault->pfn);
+> +	else
+> +		kvm_release_pfn_clean(fault->pfn);
+
+AFAIK, we never bottomed out on whether or not this is needed[*].  Can you follow
+up with Kirill to get an answer before posting v8?
+
+[*] https://lore.kernel.org/all/20220620141647.GC2016793@chaop.bj.intel.com
