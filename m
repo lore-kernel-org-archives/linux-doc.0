@@ -2,124 +2,111 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EC948C00144
-	for <linux-doc@archiver.kernel.org>; Fri, 29 Jul 2022 09:58:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CB0AC00144
+	for <linux-doc@archiver.kernel.org>; Fri, 29 Jul 2022 10:07:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234371AbiG2J6T (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 29 Jul 2022 05:58:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54552 "EHLO
+        id S235660AbiG2KHw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 29 Jul 2022 06:07:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34154 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229572AbiG2J6S (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Jul 2022 05:58:18 -0400
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 584F739BBC;
-        Fri, 29 Jul 2022 02:58:16 -0700 (PDT)
-Received: from canpemm500009.china.huawei.com (unknown [172.30.72.57])
-        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4LvNDP3QxmzjXTx;
-        Fri, 29 Jul 2022 17:55:17 +0800 (CST)
-Received: from [10.67.102.169] (10.67.102.169) by
- canpemm500009.china.huawei.com (7.192.105.203) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Fri, 29 Jul 2022 17:58:13 +0800
-CC:     <yangyicong@hisilicon.com>, <alexander.shishkin@linux.intel.com>,
-        <leo.yan@linaro.org>, <james.clark@arm.com>, <will@kernel.org>,
-        <robin.murphy@arm.com>, <acme@kernel.org>, <peterz@infradead.org>,
-        <corbet@lwn.net>, <mathieu.poirier@linaro.org>,
-        <mark.rutland@arm.com>, <jonathan.cameron@huawei.com>,
-        <john.garry@huawei.com>, <helgaas@kernel.org>,
-        <lorenzo.pieralisi@arm.com>, <suzuki.poulose@arm.com>,
-        <joro@8bytes.org>, <shameerali.kolothum.thodi@huawei.com>,
-        <mingo@redhat.com>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-pci@vger.kernel.org>, <linux-perf-users@vger.kernel.org>,
-        <iommu@lists.linux-foundation.org>, <iommu@lists.linux.dev>,
-        <linux-doc@vger.kernel.org>, <prime.zeng@huawei.com>,
-        <liuqi115@huawei.com>, <zhangshaokun@hisilicon.com>,
-        <linuxarm@huawei.com>, <bagasdotme@gmail.com>
-Subject: Re: [PATCH v11 2/8] hwtracing: hisi_ptt: Add trace function support
- for HiSilicon PCIe Tune and Trace device
-To:     Greg KH <gregkh@linuxfoundation.org>
-References: <20220721130116.43366-1-yangyicong@huawei.com>
- <20220721130116.43366-3-yangyicong@huawei.com> <YuKZKGKMz+UcbETM@kroah.com>
- <33f372f6-36bf-f84e-bca0-86347fa4d579@huawei.com>
- <YuOi3i0XHV++z1YI@kroah.com>
-From:   Yicong Yang <yangyicong@huawei.com>
-Message-ID: <db1beba9-8db8-b14a-9078-99750a9f49a3@huawei.com>
-Date:   Fri, 29 Jul 2022 17:58:12 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.1
+        with ESMTP id S235617AbiG2KHv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Jul 2022 06:07:51 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9A5181B03;
+        Fri, 29 Jul 2022 03:07:50 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 5E53E61DCC;
+        Fri, 29 Jul 2022 10:07:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35CD9C433D6;
+        Fri, 29 Jul 2022 10:07:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1659089269;
+        bh=jLXNpvbkVuc/riRik6wZTWlkdiGTxaidgr+pFRiWClQ=;
+        h=From:To:Cc:Subject:Date:From;
+        b=QBTbupyOTG/Ea7N6OY7UOKTXGz5fBm8BpNtscabjRy9M8w+LKzQWRoWtKfuTUbUgP
+         PVABGXZ5c2D/n2n/SSvd7qqaK9R+wq8W3nNtWXYEB9dvD2BQpPfUjYLz0KXAR9oyS3
+         wh1Hulj3cl6AiyiyzZBVO3x1wX6/tvOGa10XG+3Q=
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     linux-doc@vger.kernel.org,
+        linux-doc-tw-discuss@lists.sourceforge.net,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
+        Yanteng Si <siyanteng@loongson.cn>,
+        Hu Haowen <src.res@email.cn>
+Subject: [PATCH] docs: embargoed-hardware-issues: remove bouncing AMD contact info
+Date:   Fri, 29 Jul 2022 12:07:45 +0200
+Message-Id: <20220729100745.2225558-1-gregkh@linuxfoundation.org>
+X-Mailer: git-send-email 2.37.1
 MIME-Version: 1.0
-In-Reply-To: <YuOi3i0XHV++z1YI@kroah.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.67.102.169]
-X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
- canpemm500009.china.huawei.com (7.192.105.203)
-X-CFilter-Loop: Reflected
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2862; i=gregkh@linuxfoundation.org; h=from:subject; bh=jLXNpvbkVuc/riRik6wZTWlkdiGTxaidgr+pFRiWClQ=; b=owGbwMvMwCRo6H6F97bub03G02pJDEmPN+ZetA37xTJHV9fLTOaiQt2/O/dyn3GtmM5yimGl3M25 IkmnO2JZGASZGGTFFFm+bOM5ur/ikKKXoe1pmDmsTCBDGLg4BWAikgYM8yx8WHsZH60S4sth6VWYfW vl5O3n/zMsWLhEalJb5bM6/8Pv/d/Per4tdlVvIAA=
+X-Developer-Key: i=gregkh@linuxfoundation.org; a=openpgp; fpr=F4B60CC5BF78C2214A313DCB3147D40DDB2DFB29
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-[ reply again in plain text, sorry for the wrong format ]
+The current AMD contact info in the embargoed-hardware-issues.rst file
+is bouncing as an invalid address, so remove it from the documentation.
 
-On 2022/7/29 17:05, Greg KH wrote:
-> On Fri, Jul 29, 2022 at 03:29:14PM +0800, Yicong Yang wrote:
->>>> +	/*
->>>> +	 * Handle the interrupt on the same cpu which starts the trace to avoid
->>>> +	 * context mismatch. Otherwise we'll trigger the WARN from the perf
->>>> +	 * core in event_function_local().
->>>> +	 */
->>>> +	WARN_ON(irq_set_affinity(pci_irq_vector(hisi_ptt->pdev, HISI_PTT_TRACE_DMA_IRQ),
->>>> +				 cpumask_of(cpu)));
->>>
->>> If this hits, you just crashed the machine :(
->>>
->>
->> We'll likely to have a calltrace here without crash the machine and reboot in
->> most time, unless user has set panic_on_warn.
-> 
-> Again, please do not use WARN_ON for this, please read:
-> 	https://elixir.bootlin.com/linux/v5.19-rc8/source/include/asm-generic/bug.h#L74
-> 
-> If you want a traceback (what would you do with that?), then call the
-> function to give you that.  Don't crash people's boxes.
-> 
+At this point in time, the kernel community has no way to contact AMD
+for any hardware-specific problems.  Hopefully they can resolve this
+issue soon, or maybe they just don't have any hardware bugs and do not
+need to worry about this.
 
-ok, will change to a dev_warn/err() per documented.
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Alex Shi <alexs@kernel.org>
+Cc: Yanteng Si <siyanteng@loongson.cn>
+Cc: Hu Haowen <src.res@email.cn>
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ Documentation/process/embargoed-hardware-issues.rst             | 2 +-
+ .../translations/zh_CN/process/embargoed-hardware-issues.rst    | 2 +-
+ .../translations/zh_TW/process/embargoed-hardware-issues.rst    | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
->>> Please properly recover from errors if you hit them, like this.  Don't
->>> just give up and throw a message to userspace and watch the machine
->>> reboot with all data lost.
->>>
->>> Same for the other WARN_ON() instances here.  Handle the error and
->>> report it properly up the call chain.
->>>
->>
->> The driver use WARN_ON() in two places, once in pmu::start() and another in cpu teardown's
->> callback, both when the irq_set_affinity() failed. This is common to behave so when driver
->> fails to set irq affinity in pmu::start() and cpu_teardown():
-> 
-> Don't repeat broken patterns please.
-> 
->> yangyicong@ubuntu:~/mainline_linux/linux/drivers$ grep -rn WARN_ON ./ | grep irq_set_affinity
->> ./perf/arm_smmuv3_pmu.c:649:    WARN_ON(irq_set_affinity(smmu_pmu->irq, cpumask_of(target)));
->> ./perf/arm_smmuv3_pmu.c:895:    WARN_ON(irq_set_affinity(smmu_pmu->irq, cpumask_of(smmu_pmu->on_cpu)));
->> ./perf/arm-ccn.c:1214:          WARN_ON(irq_set_affinity(ccn->irq, cpumask_of(dt->cpu)));
->> ./perf/qcom_l2_pmu.c:796:       WARN_ON(irq_set_affinity(cluster->irq, cpumask_of(cpu)));
->> ./perf/qcom_l2_pmu.c:834:       WARN_ON(irq_set_affinity(cluster->irq, cpumask_of(target)));
->> ./perf/arm_dmc620_pmu.c:624:    WARN_ON(irq_set_affinity(irq->irq_num, cpumask_of(target)));
->> ./perf/fsl_imx8_ddr_perf.c:674: WARN_ON(irq_set_affinity(pmu->irq, cpumask_of(pmu->cpu)));
->> ./perf/xgene_pmu.c:1793:        WARN_ON(irq_set_affinity(xgene_pmu->irq, &xgene_pmu->cpu));
->> ./perf/xgene_pmu.c:1826:        WARN_ON(irq_set_affinity(xgene_pmu->irq, &xgene_pmu->cpu));
->> ./perf/hisilicon/hisi_pcie_pmu.c:658:           WARN_ON(irq_set_affinity(pcie_pmu->irq, cpumask_of(cpu)));
->> ./perf/hisilicon/hisi_pcie_pmu.c:684:   WARN_ON(irq_set_affinity(pcie_pmu->irq, cpumask_of(target)));
->> ./perf/hisilicon/hisi_uncore_pmu.c:495: WARN_ON(irq_set_affinity(hisi_pmu->irq, cpumask_of(cpu)));
->> ./perf/hisilicon/hisi_uncore_pmu.c:528: WARN_ON(irq_set_affinity(hisi_pmu->irq, cpumask_of(target)));
-> 
-> Great, you can fix all of these up as well any time :)
-> 
-
-will have a look on this.
-
-Thanks.
+diff --git a/Documentation/process/embargoed-hardware-issues.rst b/Documentation/process/embargoed-hardware-issues.rst
+index 95999302d279..a8c38e1c40dc 100644
+--- a/Documentation/process/embargoed-hardware-issues.rst
++++ b/Documentation/process/embargoed-hardware-issues.rst
+@@ -244,7 +244,7 @@ disclosure of a particular issue, unless requested by a response team or by
+ an involved disclosed party. The current ambassadors list:
+ 
+   ============= ========================================================
+-  AMD		Tom Lendacky <tom.lendacky@amd.com>
++  AMD
+   Ampere	Darren Hart <darren@os.amperecomputing.com>
+   ARM		Catalin Marinas <catalin.marinas@arm.com>
+   IBM Power	Anton Blanchard <anton@linux.ibm.com>
+diff --git a/Documentation/translations/zh_CN/process/embargoed-hardware-issues.rst b/Documentation/translations/zh_CN/process/embargoed-hardware-issues.rst
+index 88273ebe7823..a59d6e311cc2 100644
+--- a/Documentation/translations/zh_CN/process/embargoed-hardware-issues.rst
++++ b/Documentation/translations/zh_CN/process/embargoed-hardware-issues.rst
+@@ -174,7 +174,7 @@ CVE分配
+ 
+   ============= ========================================================
+   ARM
+-  AMD		Tom Lendacky <tom.lendacky@amd.com>
++  AMD
+   IBM
+   Intel		Tony Luck <tony.luck@intel.com>
+   Qualcomm	Trilok Soni <tsoni@codeaurora.org>
+diff --git a/Documentation/translations/zh_TW/process/embargoed-hardware-issues.rst b/Documentation/translations/zh_TW/process/embargoed-hardware-issues.rst
+index 6c76fc96131a..b4a594320c69 100644
+--- a/Documentation/translations/zh_TW/process/embargoed-hardware-issues.rst
++++ b/Documentation/translations/zh_TW/process/embargoed-hardware-issues.rst
+@@ -177,7 +177,7 @@ CVE分配
+ 
+   ============= ========================================================
+   ARM
+-  AMD		Tom Lendacky <tom.lendacky@amd.com>
++  AMD
+   IBM
+   Intel		Tony Luck <tony.luck@intel.com>
+   Qualcomm	Trilok Soni <tsoni@codeaurora.org>
+-- 
+2.37.1
 
