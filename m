@@ -2,93 +2,88 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C342C00140
-	for <linux-doc@archiver.kernel.org>; Fri, 29 Jul 2022 01:08:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C03FDC00140
+	for <linux-doc@archiver.kernel.org>; Fri, 29 Jul 2022 01:47:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233026AbiG2BIl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 28 Jul 2022 21:08:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51306 "EHLO
+        id S233698AbiG2BrH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 28 Jul 2022 21:47:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46278 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232851AbiG2BIk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Jul 2022 21:08:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id BDB8A4BD1A
-        for <linux-doc@vger.kernel.org>; Thu, 28 Jul 2022 18:08:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1659056918;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=UjK8WA9LgJeF558MQ4KdA6R8ULeQdKQ4U739a03eHPA=;
-        b=HivwTJ8dJ9XE/ctdoOhKx4iU66bX7Gp97cZivvzXcjUTsz4JM3GtE0KLtXj1HRr4XQQFac
-        AcEWqDcKscAS8vI+1gQclSQHuNIlBt/idfge7nZztotidfKtE82pJC+/6Q5m348hggUx/p
-        BJXS7JXGuVrJPPkBd90zHAcot/rRXMU=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-182-KERh3ai6P0WoM82ksuelGw-1; Thu, 28 Jul 2022 21:08:33 -0400
-X-MC-Unique: KERh3ai6P0WoM82ksuelGw-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 39BCA85A588;
-        Fri, 29 Jul 2022 01:08:32 +0000 (UTC)
-Received: from localhost (ovpn-13-195.pek2.redhat.com [10.72.13.195])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 13655492C3B;
-        Fri, 29 Jul 2022 01:08:31 +0000 (UTC)
-Date:   Fri, 29 Jul 2022 09:08:26 +0800
-From:   Baoquan He <bhe@redhat.com>
-To:     Slark Xiao <slark_xiao@163.com>
-Cc:     David Howells <dhowells@redhat.com>, corbet@lwn.net,
-        vgoyal@redhat.com, dyoung@redhat.com, ast@kernel.org,
-        daniel@iogearbox.net, andrii@kernel.org, martin.lau@linux.dev,
-        song@kernel.org, yhs@fb.com, john.fastabend@gmail.com,
-        kpsingh@kernel.org, sdf@google.com, haoluo@google.com,
-        jolsa@kernel.org, william.gray@linaro.org, peterz@infradead.org,
-        mingo@redhat.com, will@kernel.org, longman@redhat.com,
-        boqun.feng@gmail.com, tglx@linutronix.de, bigeasy@linutronix.de,
-        kexec@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, bpf@vger.kernel.org,
-        linux-cachefs@redhat.com
-Subject: Re: [PATCH v2] docs: Fix typo in comment
-Message-ID: <YuMzClsPIl47Ox5/@MiWiFi-R3L-srv>
-References: <YtlyDZEsOZHt6tRs@MiWiFi-R3L-srv>
- <20220721015605.20651-1-slark_xiao@163.com>
- <2778505.1658746506@warthog.procyon.org.uk>
- <Yt6bVIoRa0nIvxei@MiWiFi-R3L-srv>
- <55d366e4.486.1823808de32.Coremail.slark_xiao@163.com>
+        with ESMTP id S231720AbiG2BrG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Jul 2022 21:47:06 -0400
+Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com [IPv6:2607:f8b0:4864:20::433])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 284AC17596;
+        Thu, 28 Jul 2022 18:47:06 -0700 (PDT)
+Received: by mail-pf1-x433.google.com with SMTP id e16so3394433pfm.11;
+        Thu, 28 Jul 2022 18:47:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc;
+        bh=Pv6W8Maka4VAZeV92WQ+4edaVOyQNGXitAaHP7ckb1s=;
+        b=DQNYIaXwn/HtUMIALq8u0oVCo5V+VpcyXVyvdU4QTb52/TlE7QNu4RklQ1TKWGXNPu
+         BfkbTzmzHuyWjOkb6iDxCmd6NnPXwh5FU4hYo9/jTauIDVTpdVI/uR69yAF00d7OHhLG
+         YvPDTsH11PT3nqyg47vL9vDveEtEwaVErSBORvxyGuqQb0Zs1MK04YnDBmBfkIl5+6Ld
+         rQiYvD6Zy1HhwYIGSVAoy/0gC8Df/Qi1HOqHsiOazm5bOu/0hIee8fwtD4z4aXhzCseW
+         lH0mt1cgM+PwYTAmKASvcH37vTLv9Ms5lRXvvFripyzP7ABayW4tV4VI00uxNTI5pWVi
+         EJ3Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc;
+        bh=Pv6W8Maka4VAZeV92WQ+4edaVOyQNGXitAaHP7ckb1s=;
+        b=vL5KH/P8Hpd7Q//u4/PUIpfVG9ZOuCF6NbDgasdnMg6ZiSfi7nycbGA/bzg21JjqDv
+         W6StElb4azOKoSG9GgS552wDRI5gntfM5BfCrEfJEcHjdakj0KrXltC2HE4pTqMZvHKS
+         ao4f7vNqUSDWV+Mz7Q7qDj0EJLY/3CbYi1Wt98X0w9aKuTzrPf8FAZDAoxPJOPhc1h0P
+         tiwd6PQU+Y7Yf5wzs+L4ZnayZ5R4Sm1rRuWtDVfVeGI41pLCODHjEmCN9PXJPpVMCb52
+         b5uuL1KwzZf9jJtBSsMF9ZuqF9pO/cJlv7RnqdoUhM3AerGdrIlRvkmlE9xjlye3vDw1
+         xfAQ==
+X-Gm-Message-State: AJIora+/7qsB7MN/WouTmIBX91QsAlYQr3nJ6nStqTHyAeq0UN1tqZyK
+        xQgQFV8rw1c9hhm9Mm7QngI=
+X-Google-Smtp-Source: AGRyM1tMQ+yLoJhQ+H5u56wIqUt4cuZjOlPGsZir9KwDdJ+xtEdWwKn8HuCV5UlzjGRn3BbniqNFaw==
+X-Received: by 2002:a63:451e:0:b0:40d:c602:4e with SMTP id s30-20020a63451e000000b0040dc602004emr1119796pga.453.1659059225609;
+        Thu, 28 Jul 2022 18:47:05 -0700 (PDT)
+Received: from [192.168.43.80] (subs03-180-214-233-65.three.co.id. [180.214.233.65])
+        by smtp.gmail.com with ESMTPSA id g18-20020aa796b2000000b0052ab5a740aesm1416661pfk.162.2022.07.28.18.47.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 28 Jul 2022 18:47:05 -0700 (PDT)
+Message-ID: <78f782da-1af9-a068-3aa5-1d6102f5e8c1@gmail.com>
+Date:   Fri, 29 Jul 2022 08:47:02 +0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <55d366e4.486.1823808de32.Coremail.slark_xiao@163.com>
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v1 2/5] maintainer-pgp-guide: remove keyserver
+ instructions
+Content-Language: en-US
+To:     Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20220727-docs-pgp-guide-v1-0-c48fb06cb9af@linuxfoundation.org>
+ <20220727-docs-pgp-guide-v1-2-c48fb06cb9af@linuxfoundation.org>
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <20220727-docs-pgp-guide-v1-2-c48fb06cb9af@linuxfoundation.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 07/26/22 at 09:04am, Slark Xiao wrote:
-> At 2022-07-25 21:32:04, "Baoquan He" <bhe@redhat.com> wrote:
-> >On 07/25/22 at 11:55am, David Howells wrote:
-> >> Baoquan He <bhe@redhat.com> wrote:
-> >> 
-> >> > sed -i "s/the the /the /g" `git grep -l "the the "`
-> >> 
-> >> You might want to clarify the first "the" with a preceding boundary marker.
-> >> There are some English words ending in "the" that can be used as verbs, though
-> >> I'm not sure you'd find any of them here - clothe for example.
-> >
-> >Right. I plan to split this big one into patches corresponding to
-> >different component as Jonathan suggested, and will consider how to mark
-> >the first 'the' as you suggested, and wrap Slark's pathces which
-> >includes typo fix of "then the".
-> >
-> >Thanks
-> >Baoquan
+On 7/29/22 03:57, Konstantin Ryabitsev wrote:
+> Keyservers are largely a thing of the past with the replacement systems
+> like keys.openpgp.net specifically designed to offer no support for the
+> web of trust. Remove all sections that talk about keyservers and add a
+> small section with the link to kernel.org documentation that talks about
+> using the kernel.org public key repository.
 > 
-> Actually I have committed all changes which were listed in your previous list.
-> I committed it one by one and checked if any other typo is included.
-> If possible, you can try other double typo issue like "and and " or "or or" or something else.
 
-That's good, I take leave this week to be babysitter, please go ahead to
-handle all of them you found out.
+AFAIK, keyservers are synchronized (federated). For example, when I submit
+my key to keys.openpgp.net, other keyservers (like keyserver.ubuntu.com
+that I use) also gets a copy of my key. So "replacement systems" in
+this case is referred to kernel.org key repository (using git). The
+wording should be "Replace keyservers section with kernel.org public
+key repository usage".
 
+-- 
+An old man doll... just what I always wanted! - Clara
