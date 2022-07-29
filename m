@@ -2,106 +2,75 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 42145C00144
-	for <linux-doc@archiver.kernel.org>; Fri, 29 Jul 2022 20:30:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 95653C00144
+	for <linux-doc@archiver.kernel.org>; Fri, 29 Jul 2022 20:37:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239252AbiG2Ua5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 29 Jul 2022 16:30:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35018 "EHLO
+        id S229931AbiG2Uh1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 29 Jul 2022 16:37:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40084 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239250AbiG2Uaz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Jul 2022 16:30:55 -0400
-Received: from mail.skyhub.de (mail.skyhub.de [5.9.137.197])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E8CE81BEA0;
-        Fri, 29 Jul 2022 13:30:48 -0700 (PDT)
-Received: from zn.tnic (p57969665.dip0.t-ipconnect.de [87.150.150.101])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 260A81EC06C1;
-        Fri, 29 Jul 2022 22:30:43 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1659126643;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=Reva7c533rvViROlencOmIQvzuYlzhCaWdAsP+xz+QM=;
-        b=DgUX22PSlqWuOAtG4DrDV1QmWPRHYB4omO7lDFv3A7P+FPsbl4tg9KNrU+dwi9B3eUyLSD
-        55gFZu+S7B+Sxu1a8NAhxime5YCGlcdlvYNA6bhdwFwSpZdR56cXbZGPbzYErWUSzRu7+q
-        tTcN1t6mL1Mya1vmA9pnQ4i5P1djT70=
-Date:   Fri, 29 Jul 2022 22:30:38 +0200
-From:   Borislav Petkov <bp@alien8.de>
-To:     Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, stable@vger.kernel.org,
-        tony.luck@intel.com, antonio.gomez.iglesias@linux.intel.com,
-        Daniel Sneddon <daniel.sneddon@linux.intel.com>,
-        andrew.cooper3@citrix.com, Josh Poimboeuf <jpoimboe@kernel.org>
-Subject: Re: [RESEND RFC PATCH] x86/bugs: Add "unknown" reporting for MMIO
- Stale Data
-Message-ID: <YuRDbuQPYiYBZghm@zn.tnic>
-References: <a932c154772f2121794a5f2eded1a11013114711.1657846269.git.pawan.kumar.gupta@linux.intel.com>
- <YuJ6TQpSTIeXLNfB@zn.tnic>
- <20220729022851.mdj3wuevkztspodh@desk>
- <YuPpKa6OsG9e9nTj@zn.tnic>
- <20220729173609.45o7lllpvsgjttqt@desk>
+        with ESMTP id S229529AbiG2Uh0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Jul 2022 16:37:26 -0400
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2123D6553;
+        Fri, 29 Jul 2022 13:37:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1659127046; x=1690663046;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=BwLHPzr/dhNUDvI8Eh1ojBnr9YBQM1nsFP8p168BfKc=;
+  b=chAZuk+0e8zo4pz77M7esMsJaHAoFpUIQsaaIhgHOrmMMH9sdo2jlM6t
+   1rvPshmWSGn3ZdlHvoFS2svKuaQ17+tJoyXISvVp1ZzLogmz+h99A+bci
+   s6scs7Xl2lzqEATOn6jZIZox+01TWq9I8g2P4GZipe1h1IVR61loivMru
+   QQsH3zO01Bave3PkuZ/35k3oRSE1kYSylqGFHgqwWjjsmEB2dfReIZE+m
+   qk6Uc4bPT+oNhSLXpLrBBkDYnUDWIJNK2WX5C2STUjg9pwSt7cZyqd1aS
+   WYi7M13ANlq3joIAiH+CJEIWSeTuKvcunnzRfQgNAM6ctQ4PwxBYe7GR/
+   A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10423"; a="288857804"
+X-IronPort-AV: E=Sophos;i="5.93,202,1654585200"; 
+   d="scan'208";a="288857804"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2022 13:37:25 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,202,1654585200"; 
+   d="scan'208";a="577078192"
+Received: from lkp-server01.sh.intel.com (HELO e0eace57cfef) ([10.239.97.150])
+  by orsmga006.jf.intel.com with ESMTP; 29 Jul 2022 13:37:21 -0700
+Received: from kbuild by e0eace57cfef with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1oHWjZ-000C4n-0t;
+        Fri, 29 Jul 2022 20:37:21 +0000
+Date:   Sat, 30 Jul 2022 04:37:02 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Vikas Gupta <vikas.gupta@broadcom.com>
+Cc:     kbuild-all@lists.01.org, Ammar Faizi <ammarfaizi2@gnuweeb.org>,
+        GNU/Weeb Mailing List <gwml@vger.gnuweeb.org>,
+        linux-kernel@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
+        Andy Gospodarek <gospo@broadcom.com>,
+        Jiri Pirko <jiri@nvidia.com>, linux-doc@vger.kernel.org
+Subject: [ammarfaizi2-block:netdev/net-next/main 16/29] htmldocs:
+ Documentation/networking/devlink/devlink-selftests.rst: WARNING: document
+ isn't included in any toctree
+Message-ID: <202207300406.CUBuyN5i-lkp@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220729173609.45o7lllpvsgjttqt@desk>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jul 29, 2022 at 10:36:09AM -0700, Pawan Gupta wrote:
-> Does this look okay:
-> 
-> -       if (cpu_matches(cpu_vuln_blacklist, MMIO) &&
-> -           !arch_cap_mmio_immune(ia32_cap))
-> -               setup_force_cpu_bug(X86_BUG_MMIO_STALE_DATA);
-> +       if (!boot_cpu_has_bug(X86_BUG_MMIO_UNKNOWN)) {
-> +               if (cpu_matches(cpu_vuln_blacklist, MMIO) &&
-> +                   !arch_cap_mmio_immune(ia32_cap)) {
-> +                       setup_force_cpu_bug(X86_BUG_MMIO_STALE_DATA);
-> +               }
-> +       }
+tree:   https://github.com/ammarfaizi2/linux-block netdev/net-next/main
+head:   6957730e20389a63eb333afb6fcf38b45f549ea8
+commit: 08f588fa301bef264576fc915da6bf31b585a824 [16/29] devlink: introduce framework for selftests
+reproduce: make htmldocs
 
-Yeah, I had initially X86_BUG_MMIO_UNKNOWN set unconditionally on all.
+If you fix the issue, kindly add following tag where applicable
+Reported-by: kernel test robot <lkp@intel.com>
 
-Then I thought I should set it only on older but as dhansen said, Intel
-is going in and out of servicing period so we better set it on all
-initially and then clear it when the CPU is not in the vuln blacklist.
+All warnings (new ones prefixed by >>):
 
-> 
-> >  	if (!cpu_has(c, X86_FEATURE_BTC_NO)) {
-> >  		if (cpu_matches(cpu_vuln_blacklist, RETBLEED) || (ia32_cap & ARCH_CAP_RSBA))
-> > diff --git a/arch/x86/kernel/cpu/intel.c b/arch/x86/kernel/cpu/intel.c
-> > index 663f6e6dd288..5b2508adc38a 100644
-> > --- a/arch/x86/kernel/cpu/intel.c
-> > +++ b/arch/x86/kernel/cpu/intel.c
-> > @@ -372,6 +372,10 @@ static void early_init_intel(struct cpuinfo_x86 *c)
-> >  static void bsp_init_intel(struct cpuinfo_x86 *c)
-> >  {
-> >  	resctrl_cpu_detect(c);
-> > +
-> > +	/* Set on older crap */
-> > +	if (c->x86_model < INTEL_FAM6_IVYBRIDGE)
-
-i.e., remove this check.
-
-> > +		setup_force_cpu_bug(X86_BUG_MMIO_UNKNOWN);
-> 
-> Thanks for suggesting this approach.
-
-You're welcome. I'm assuming you're gonna finish it or should I?
-
-Thx.
+>> Documentation/networking/devlink/devlink-selftests.rst: WARNING: document isn't included in any toctree
 
 -- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+0-DAY CI Kernel Test Service
+https://01.org/lkp
