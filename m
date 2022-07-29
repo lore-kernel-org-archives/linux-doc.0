@@ -2,43 +2,35 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 36182C19F2B
-	for <linux-doc@archiver.kernel.org>; Fri, 29 Jul 2022 21:46:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 73061C00144
+	for <linux-doc@archiver.kernel.org>; Fri, 29 Jul 2022 22:02:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230335AbiG2Vqb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 29 Jul 2022 17:46:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59264 "EHLO
+        id S238807AbiG2WCr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 29 Jul 2022 18:02:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41032 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229529AbiG2Vqa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Jul 2022 17:46:30 -0400
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A67E28B4BB;
-        Fri, 29 Jul 2022 14:46:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1659131189; x=1690667189;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=yuBKFOjdVhm5xzW7H39ySAdNm5fv6KOJ8EcoqSoFYzU=;
-  b=THCA0SQ1LA5dwrX08XtGDLW9+oZrOJHcfy43kbwYuIIa+G//7fin0buK
-   qZS7BA4Bqoo95V9h6hlRyumzKN42BhvdXMA4GCJaMYgoSnhFqxWatWB5l
-   Q9yThBJJaodwTL9iFxkOUiNMO3+Ir88d4wWIKMDRAeCnIpp/tRfZ7SL2X
-   FRYNq+1fkx3tr2rP3PLvGbPjdrwLWU+60/yETplXEJ95ajb1B7/wh3Ljt
-   I2af0PcUwTr2FAYua2cqBKhKVDehQ95va/8Ql+UbpLNOXnamIIROjm1f2
-   ElHZs8uJhi7YB9vblDicA/ofnJ7+y4gHtvccTyUsEel7uWAqby6rGa3Kr
-   Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10423"; a="375157939"
-X-IronPort-AV: E=Sophos;i="5.93,202,1654585200"; 
-   d="scan'208";a="375157939"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2022 14:46:29 -0700
-X-IronPort-AV: E=Sophos;i="5.93,202,1654585200"; 
-   d="scan'208";a="598375994"
-Received: from unknown (HELO desk) ([10.252.135.102])
-  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2022 14:46:28 -0700
-Date:   Fri, 29 Jul 2022 14:46:27 -0700
-From:   Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
-To:     Borislav Petkov <bp@alien8.de>
+        with ESMTP id S229579AbiG2WCq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Jul 2022 18:02:46 -0400
+Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 694CA8BA9A;
+        Fri, 29 Jul 2022 15:02:45 -0700 (PDT)
+Received: from zn.tnic (p57969665.dip0.t-ipconnect.de [87.150.150.101])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 853D51EC0138;
+        Sat, 30 Jul 2022 00:02:39 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1659132159;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=wrKILRxKPGwT6wk7Ajnr1TkkdTUDvWFahFhfVMdrEgo=;
+        b=pF1+1BfCwH1/XXlJBgjJaV3EOTk7Sb+S85dpADswCkM4pOFd9M1e5rnX5mLTii8V7XMaZM
+        tlVZsJmBjozOkuVowGtAo+7tV7vNoCfN3CZRuy90COxQzqHWmY3c79eWu9xL6gM+npY3pG
+        Xta7lO/9dqvyipNeTNUNOfck0CH2Df0=
+Date:   Sat, 30 Jul 2022 00:02:34 +0200
+From:   Borislav Petkov <bp@alien8.de>
+To:     Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
 Cc:     Jonathan Corbet <corbet@lwn.net>,
         Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>,
@@ -50,76 +42,37 @@ Cc:     Jonathan Corbet <corbet@lwn.net>,
         andrew.cooper3@citrix.com, Josh Poimboeuf <jpoimboe@kernel.org>
 Subject: Re: [RESEND RFC PATCH] x86/bugs: Add "unknown" reporting for MMIO
  Stale Data
-Message-ID: <20220729214627.wowu5sny226c5pe4@desk>
+Message-ID: <YuRY+rKaocoV8ECn@zn.tnic>
 References: <a932c154772f2121794a5f2eded1a11013114711.1657846269.git.pawan.kumar.gupta@linux.intel.com>
  <YuJ6TQpSTIeXLNfB@zn.tnic>
  <20220729022851.mdj3wuevkztspodh@desk>
  <YuPpKa6OsG9e9nTj@zn.tnic>
  <20220729173609.45o7lllpvsgjttqt@desk>
  <YuRDbuQPYiYBZghm@zn.tnic>
+ <20220729214627.wowu5sny226c5pe4@desk>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <YuRDbuQPYiYBZghm@zn.tnic>
+In-Reply-To: <20220729214627.wowu5sny226c5pe4@desk>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jul 29, 2022 at 10:30:38PM +0200, Borislav Petkov wrote:
-> On Fri, Jul 29, 2022 at 10:36:09AM -0700, Pawan Gupta wrote:
-> > Does this look okay:
-> > 
-> > -       if (cpu_matches(cpu_vuln_blacklist, MMIO) &&
-> > -           !arch_cap_mmio_immune(ia32_cap))
-> > -               setup_force_cpu_bug(X86_BUG_MMIO_STALE_DATA);
-> > +       if (!boot_cpu_has_bug(X86_BUG_MMIO_UNKNOWN)) {
-> > +               if (cpu_matches(cpu_vuln_blacklist, MMIO) &&
-> > +                   !arch_cap_mmio_immune(ia32_cap)) {
-> > +                       setup_force_cpu_bug(X86_BUG_MMIO_STALE_DATA);
-> > +               }
-> > +       }
+On Fri, Jul 29, 2022 at 02:46:27PM -0700, Pawan Gupta wrote:
+> Let me see if there is a way to distinguish between 4. and 5. below:
 > 
-> Yeah, I had initially X86_BUG_MMIO_UNKNOWN set unconditionally on all.
-> 
-> Then I thought I should set it only on older but as dhansen said, Intel
-> is going in and out of servicing period so we better set it on all
-> initially and then clear it when the CPU is not in the vuln blacklist.
+>    CPU category				  X86_BUG_MMIO_STALE_DATA	X86_BUG_MMIO_UNKNOWN
+> -----------------------------------------------------------------------------------------------
+> 1. Known affected (in cpu list)			1				0
+> 2. CPUs with HW immunity (MMIO_NO=1)		0				0
+> 3. Other vendors				0				0
+> 4. Older Intel CPUs				0				1
+> 5. Not affected current CPUs (but MMIO_NO=0)	0				?
 
-Setting all to "unknown" initially can lead to some CPUs incorrectly
-reporting "Unknown".
+Not affected current CPUs should be arch_cap_mmio_immune() == true, no?
 
-Let me see if there is a way to distinguish between 4. and 5. below:
+-- 
+Regards/Gruss,
+    Boris.
 
-   CPU category				  X86_BUG_MMIO_STALE_DATA	X86_BUG_MMIO_UNKNOWN
------------------------------------------------------------------------------------------------
-1. Known affected (in cpu list)			1				0
-2. CPUs with HW immunity (MMIO_NO=1)		0				0
-3. Other vendors				0				0
-4. Older Intel CPUs				0				1
-5. Not affected current CPUs (but MMIO_NO=0)	0				?
-
-> > >  	if (!cpu_has(c, X86_FEATURE_BTC_NO)) {
-> > >  		if (cpu_matches(cpu_vuln_blacklist, RETBLEED) || (ia32_cap & ARCH_CAP_RSBA))
-> > > diff --git a/arch/x86/kernel/cpu/intel.c b/arch/x86/kernel/cpu/intel.c
-> > > index 663f6e6dd288..5b2508adc38a 100644
-> > > --- a/arch/x86/kernel/cpu/intel.c
-> > > +++ b/arch/x86/kernel/cpu/intel.c
-> > > @@ -372,6 +372,10 @@ static void early_init_intel(struct cpuinfo_x86 *c)
-> > >  static void bsp_init_intel(struct cpuinfo_x86 *c)
-> > >  {
-> > >  	resctrl_cpu_detect(c);
-> > > +
-> > > +	/* Set on older crap */
-> > > +	if (c->x86_model < INTEL_FAM6_IVYBRIDGE)
-> 
-> i.e., remove this check.
-
-This check actually solves the above problem, but consider it gone.
-
-> > > +		setup_force_cpu_bug(X86_BUG_MMIO_UNKNOWN);
-> > 
-> > Thanks for suggesting this approach.
-> 
-> You're welcome. I'm assuming you're gonna finish it or should I?
-
-I will finish it, working on it.
+https://people.kernel.org/tglx/notes-about-netiquette
