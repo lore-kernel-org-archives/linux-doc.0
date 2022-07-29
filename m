@@ -2,93 +2,93 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DC918C00140
-	for <linux-doc@archiver.kernel.org>; Thu, 28 Jul 2022 23:55:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C342C00140
+	for <linux-doc@archiver.kernel.org>; Fri, 29 Jul 2022 01:08:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229631AbiG1Xzf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 28 Jul 2022 19:55:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38250 "EHLO
+        id S233026AbiG2BIl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 28 Jul 2022 21:08:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51306 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231959AbiG1XzS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Jul 2022 19:55:18 -0400
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12B4F1903E
-        for <linux-doc@vger.kernel.org>; Thu, 28 Jul 2022 16:55:17 -0700 (PDT)
-Received: by mail-ed1-x529.google.com with SMTP id w5so3983048edd.13
-        for <linux-doc@vger.kernel.org>; Thu, 28 Jul 2022 16:55:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=pqrs.dk; s=google;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc;
-        bh=PR2g7EG7sP3ZrKB5jtxwTJwCSPOaOLj4Nh76QscH7Q0=;
-        b=C94F3jKJb6dzeORs7XX/pGVTpxhjREhHluNRo9dqoQEx9YnN4qsCcY6GRdCa/8j4DI
-         +iIQt1T2yzhkNLYedmfrfmdBJsOPDg5u1CyaXD5xbA9/OpDecgOFJNosiGdBlN3W367U
-         uLhyCcWZ4otNM3/bp50wHK31vUP+eJ0YxFDR0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc;
-        bh=PR2g7EG7sP3ZrKB5jtxwTJwCSPOaOLj4Nh76QscH7Q0=;
-        b=WN/6qrO1YS1ZlfzuwMCJZpx9rIUXdb3tQjgg8qaFMjXNLy4hZUBHNNMEbu0KJlzxUe
-         69MTW8RCGJHMoc/3yKyaM14IAiGcy0qA9a1T4f0jl38+v0lsEYl7spX3SSGMdnK+4hvX
-         MEFo3ulVFRKMCMyG4rY/qkn+Xl9C6012dOij3qlxUFFGY8kt4YvM0P7N0b/EtBYO22Jh
-         IgjFSS331nxtc8f9sHrE6GhwTSBxjvvljNoBq+z83+ogMWqmjshGDZ4ySJY0/ZZMICss
-         vvxHvqPPJLJ+Tz4adwoUNl2cm5jp7Ex5VR0lKGg9E3w0hTf4L1bKAOK1d3l2rYdCi1VH
-         G8BA==
-X-Gm-Message-State: AJIora9TBYkmyPNgdNHlAz09EWoYdxQ5PZ8nTGjc4YrWe2LQuZQGZyOx
-        1L9lP9NpplAtQdtNV3vfj9FCuA==
-X-Google-Smtp-Source: AGRyM1vqW8H84F0zeaHSSa6xgxseUIZe6OkYYIVJveO7Ku6P+EHynMnmekorcGus6dCFNxce5Mghnw==
-X-Received: by 2002:aa7:cd84:0:b0:43c:532b:65e9 with SMTP id x4-20020aa7cd84000000b0043c532b65e9mr1271957edv.330.1659052515697;
-        Thu, 28 Jul 2022 16:55:15 -0700 (PDT)
-Received: from localhost.localdomain (80.71.142.18.ipv4.parknet.dk. [80.71.142.18])
-        by smtp.gmail.com with ESMTPSA id 5-20020a170906308500b0072b32de7794sm950648ejv.70.2022.07.28.16.55.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 Jul 2022 16:55:15 -0700 (PDT)
-From:   =?UTF-8?q?Alvin=20=C5=A0ipraga?= <alvin@pqrs.dk>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     =?UTF-8?q?Alvin=20=C5=A0ipraga?= <alsi@bang-olufsen.dk>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2] documentation: debugfs: add a missing closing parenthesis
-Date:   Fri, 29 Jul 2022 01:55:03 +0200
-Message-Id: <20220728235503.651254-1-alvin@pqrs.dk>
-X-Mailer: git-send-email 2.37.0
+        with ESMTP id S232851AbiG2BIk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Jul 2022 21:08:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id BDB8A4BD1A
+        for <linux-doc@vger.kernel.org>; Thu, 28 Jul 2022 18:08:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1659056918;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=UjK8WA9LgJeF558MQ4KdA6R8ULeQdKQ4U739a03eHPA=;
+        b=HivwTJ8dJ9XE/ctdoOhKx4iU66bX7Gp97cZivvzXcjUTsz4JM3GtE0KLtXj1HRr4XQQFac
+        AcEWqDcKscAS8vI+1gQclSQHuNIlBt/idfge7nZztotidfKtE82pJC+/6Q5m348hggUx/p
+        BJXS7JXGuVrJPPkBd90zHAcot/rRXMU=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-182-KERh3ai6P0WoM82ksuelGw-1; Thu, 28 Jul 2022 21:08:33 -0400
+X-MC-Unique: KERh3ai6P0WoM82ksuelGw-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 39BCA85A588;
+        Fri, 29 Jul 2022 01:08:32 +0000 (UTC)
+Received: from localhost (ovpn-13-195.pek2.redhat.com [10.72.13.195])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 13655492C3B;
+        Fri, 29 Jul 2022 01:08:31 +0000 (UTC)
+Date:   Fri, 29 Jul 2022 09:08:26 +0800
+From:   Baoquan He <bhe@redhat.com>
+To:     Slark Xiao <slark_xiao@163.com>
+Cc:     David Howells <dhowells@redhat.com>, corbet@lwn.net,
+        vgoyal@redhat.com, dyoung@redhat.com, ast@kernel.org,
+        daniel@iogearbox.net, andrii@kernel.org, martin.lau@linux.dev,
+        song@kernel.org, yhs@fb.com, john.fastabend@gmail.com,
+        kpsingh@kernel.org, sdf@google.com, haoluo@google.com,
+        jolsa@kernel.org, william.gray@linaro.org, peterz@infradead.org,
+        mingo@redhat.com, will@kernel.org, longman@redhat.com,
+        boqun.feng@gmail.com, tglx@linutronix.de, bigeasy@linutronix.de,
+        kexec@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, bpf@vger.kernel.org,
+        linux-cachefs@redhat.com
+Subject: Re: [PATCH v2] docs: Fix typo in comment
+Message-ID: <YuMzClsPIl47Ox5/@MiWiFi-R3L-srv>
+References: <YtlyDZEsOZHt6tRs@MiWiFi-R3L-srv>
+ <20220721015605.20651-1-slark_xiao@163.com>
+ <2778505.1658746506@warthog.procyon.org.uk>
+ <Yt6bVIoRa0nIvxei@MiWiFi-R3L-srv>
+ <55d366e4.486.1823808de32.Coremail.slark_xiao@163.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <55d366e4.486.1823808de32.Coremail.slark_xiao@163.com>
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Alvin Šipraga <alsi@bang-olufsen.dk>
+On 07/26/22 at 09:04am, Slark Xiao wrote:
+> At 2022-07-25 21:32:04, "Baoquan He" <bhe@redhat.com> wrote:
+> >On 07/25/22 at 11:55am, David Howells wrote:
+> >> Baoquan He <bhe@redhat.com> wrote:
+> >> 
+> >> > sed -i "s/the the /the /g" `git grep -l "the the "`
+> >> 
+> >> You might want to clarify the first "the" with a preceding boundary marker.
+> >> There are some English words ending in "the" that can be used as verbs, though
+> >> I'm not sure you'd find any of them here - clothe for example.
+> >
+> >Right. I plan to split this big one into patches corresponding to
+> >different component as Jonathan suggested, and will consider how to mark
+> >the first 'the' as you suggested, and wrap Slark's pathces which
+> >includes typo fix of "then the".
+> >
+> >Thanks
+> >Baoquan
+> 
+> Actually I have committed all changes which were listed in your previous list.
+> I committed it one by one and checked if any other typo is included.
+> If possible, you can try other double typo issue like "and and " or "or or" or something else.
 
-The two impacted sentences ought to be one, concatenated at the point of
-the missing parenthesis that has been added.
-
-Signed-off-by: Alvin Šipraga <alsi@bang-olufsen.dk>
----
-v1 -> v2:
-
-In disgrace, I made typo in the subject of v1. Here is a v2 without that
-typo.
----
- Documentation/filesystems/debugfs.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/Documentation/filesystems/debugfs.rst b/Documentation/filesystems/debugfs.rst
-index 71b1fee56d2a..a810eee40a8b 100644
---- a/Documentation/filesystems/debugfs.rst
-+++ b/Documentation/filesystems/debugfs.rst
-@@ -155,8 +155,8 @@ any code which does so in the mainline.  Note that all files created with
- debugfs_create_blob() are read-only.
- 
- If you want to dump a block of registers (something that happens quite
--often during development, even if little such code reaches mainline.
--Debugfs offers two functions: one to make a registers-only file, and
-+often during development, even if little such code reaches mainline),
-+debugfs offers two functions: one to make a registers-only file, and
- another to insert a register block in the middle of another sequential
- file::
- 
--- 
-2.37.0
+That's good, I take leave this week to be babysitter, please go ahead to
+handle all of them you found out.
 
