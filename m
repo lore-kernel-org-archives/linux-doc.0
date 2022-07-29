@@ -2,111 +2,87 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CB0AC00144
-	for <linux-doc@archiver.kernel.org>; Fri, 29 Jul 2022 10:07:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E033FC00144
+	for <linux-doc@archiver.kernel.org>; Fri, 29 Jul 2022 10:20:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235660AbiG2KHw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 29 Jul 2022 06:07:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34154 "EHLO
+        id S230272AbiG2KUf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 29 Jul 2022 06:20:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46026 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235617AbiG2KHv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Jul 2022 06:07:51 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9A5181B03;
-        Fri, 29 Jul 2022 03:07:50 -0700 (PDT)
+        with ESMTP id S229925AbiG2KUe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Jul 2022 06:20:34 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 526074AD61;
+        Fri, 29 Jul 2022 03:20:33 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 5E53E61DCC;
-        Fri, 29 Jul 2022 10:07:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35CD9C433D6;
-        Fri, 29 Jul 2022 10:07:49 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id B47E161DEC;
+        Fri, 29 Jul 2022 10:20:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9090FC433D6;
+        Fri, 29 Jul 2022 10:20:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1659089269;
-        bh=jLXNpvbkVuc/riRik6wZTWlkdiGTxaidgr+pFRiWClQ=;
-        h=From:To:Cc:Subject:Date:From;
-        b=QBTbupyOTG/Ea7N6OY7UOKTXGz5fBm8BpNtscabjRy9M8w+LKzQWRoWtKfuTUbUgP
-         PVABGXZ5c2D/n2n/SSvd7qqaK9R+wq8W3nNtWXYEB9dvD2BQpPfUjYLz0KXAR9oyS3
-         wh1Hulj3cl6AiyiyzZBVO3x1wX6/tvOGa10XG+3Q=
+        s=korg; t=1659090032;
+        bh=T5X54hI0Wtlb7oHjJG9VCX4+WnI6m6WZJ0F+TdyKmpU=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=IHGM28zhnWgluDKd3aCiVNEchXDOLoL+JtPOVw+KsyM6Dc+Me8ST9R2zTOhvT3AMo
+         dbXTX8/V880dnc+8v7q8CobLKjTMwIMP4Wn6iyabJ9yE7zPEGXgEebpTWYtEcnFyJ5
+         42bKVSRmoHZYZ1ejfOGLQZyPgEtowSED8bZ9klwo=
+Date:   Fri, 29 Jul 2022 12:20:29 +0200
 From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     linux-kernel@vger.kernel.org
+To:     Tom Lendacky <thomas.lendacky@amd.com>,
+        linux-kernel@vger.kernel.org
 Cc:     linux-doc@vger.kernel.org,
         linux-doc-tw-discuss@lists.sourceforge.net,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
         Yanteng Si <siyanteng@loongson.cn>,
         Hu Haowen <src.res@email.cn>
-Subject: [PATCH] docs: embargoed-hardware-issues: remove bouncing AMD contact info
-Date:   Fri, 29 Jul 2022 12:07:45 +0200
-Message-Id: <20220729100745.2225558-1-gregkh@linuxfoundation.org>
-X-Mailer: git-send-email 2.37.1
+Subject: Re: [PATCH] docs: embargoed-hardware-issues: remove bouncing AMD
+ contact info
+Message-ID: <YuO0bY7xMqFtrKCj@kroah.com>
+References: <20220729100745.2225558-1-gregkh@linuxfoundation.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2862; i=gregkh@linuxfoundation.org; h=from:subject; bh=jLXNpvbkVuc/riRik6wZTWlkdiGTxaidgr+pFRiWClQ=; b=owGbwMvMwCRo6H6F97bub03G02pJDEmPN+ZetA37xTJHV9fLTOaiQt2/O/dyn3GtmM5yimGl3M25 IkmnO2JZGASZGGTFFFm+bOM5ur/ikKKXoe1pmDmsTCBDGLg4BWAikgYM8yx8WHsZH60S4sth6VWYfW vl5O3n/zMsWLhEalJb5bM6/8Pv/d/Per4tdlVvIAA=
-X-Developer-Key: i=gregkh@linuxfoundation.org; a=openpgp; fpr=F4B60CC5BF78C2214A313DCB3147D40DDB2DFB29
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220729100745.2225558-1-gregkh@linuxfoundation.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The current AMD contact info in the embargoed-hardware-issues.rst file
-is bouncing as an invalid address, so remove it from the documentation.
+On Fri, Jul 29, 2022 at 12:07:45PM +0200, Greg Kroah-Hartman wrote:
+> The current AMD contact info in the embargoed-hardware-issues.rst file
+> is bouncing as an invalid address, so remove it from the documentation.
+> 
+> At this point in time, the kernel community has no way to contact AMD
+> for any hardware-specific problems.  Hopefully they can resolve this
+> issue soon, or maybe they just don't have any hardware bugs and do not
+> need to worry about this.
+> 
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Alex Shi <alexs@kernel.org>
+> Cc: Yanteng Si <siyanteng@loongson.cn>
+> Cc: Hu Haowen <src.res@email.cn>
+> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> ---
+>  Documentation/process/embargoed-hardware-issues.rst             | 2 +-
+>  .../translations/zh_CN/process/embargoed-hardware-issues.rst    | 2 +-
+>  .../translations/zh_TW/process/embargoed-hardware-issues.rst    | 2 +-
+>  3 files changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/Documentation/process/embargoed-hardware-issues.rst b/Documentation/process/embargoed-hardware-issues.rst
+> index 95999302d279..a8c38e1c40dc 100644
+> --- a/Documentation/process/embargoed-hardware-issues.rst
+> +++ b/Documentation/process/embargoed-hardware-issues.rst
+> @@ -244,7 +244,7 @@ disclosure of a particular issue, unless requested by a response team or by
+>  an involved disclosed party. The current ambassadors list:
+>  
+>    ============= ========================================================
+> -  AMD		Tom Lendacky <tom.lendacky@amd.com>
+> +  AMD
 
-At this point in time, the kernel community has no way to contact AMD
-for any hardware-specific problems.  Hopefully they can resolve this
-issue soon, or maybe they just don't have any hardware bugs and do not
-need to worry about this.
+Wait, Tom, is this just the wrong email address for you?  And the one
+above I used in the To: the correct one?
 
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Alex Shi <alexs@kernel.org>
-Cc: Yanteng Si <siyanteng@loongson.cn>
-Cc: Hu Haowen <src.res@email.cn>
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
----
- Documentation/process/embargoed-hardware-issues.rst             | 2 +-
- .../translations/zh_CN/process/embargoed-hardware-issues.rst    | 2 +-
- .../translations/zh_TW/process/embargoed-hardware-issues.rst    | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+confused,
 
-diff --git a/Documentation/process/embargoed-hardware-issues.rst b/Documentation/process/embargoed-hardware-issues.rst
-index 95999302d279..a8c38e1c40dc 100644
---- a/Documentation/process/embargoed-hardware-issues.rst
-+++ b/Documentation/process/embargoed-hardware-issues.rst
-@@ -244,7 +244,7 @@ disclosure of a particular issue, unless requested by a response team or by
- an involved disclosed party. The current ambassadors list:
- 
-   ============= ========================================================
--  AMD		Tom Lendacky <tom.lendacky@amd.com>
-+  AMD
-   Ampere	Darren Hart <darren@os.amperecomputing.com>
-   ARM		Catalin Marinas <catalin.marinas@arm.com>
-   IBM Power	Anton Blanchard <anton@linux.ibm.com>
-diff --git a/Documentation/translations/zh_CN/process/embargoed-hardware-issues.rst b/Documentation/translations/zh_CN/process/embargoed-hardware-issues.rst
-index 88273ebe7823..a59d6e311cc2 100644
---- a/Documentation/translations/zh_CN/process/embargoed-hardware-issues.rst
-+++ b/Documentation/translations/zh_CN/process/embargoed-hardware-issues.rst
-@@ -174,7 +174,7 @@ CVE分配
- 
-   ============= ========================================================
-   ARM
--  AMD		Tom Lendacky <tom.lendacky@amd.com>
-+  AMD
-   IBM
-   Intel		Tony Luck <tony.luck@intel.com>
-   Qualcomm	Trilok Soni <tsoni@codeaurora.org>
-diff --git a/Documentation/translations/zh_TW/process/embargoed-hardware-issues.rst b/Documentation/translations/zh_TW/process/embargoed-hardware-issues.rst
-index 6c76fc96131a..b4a594320c69 100644
---- a/Documentation/translations/zh_TW/process/embargoed-hardware-issues.rst
-+++ b/Documentation/translations/zh_TW/process/embargoed-hardware-issues.rst
-@@ -177,7 +177,7 @@ CVE分配
- 
-   ============= ========================================================
-   ARM
--  AMD		Tom Lendacky <tom.lendacky@amd.com>
-+  AMD
-   IBM
-   Intel		Tony Luck <tony.luck@intel.com>
-   Qualcomm	Trilok Soni <tsoni@codeaurora.org>
--- 
-2.37.1
-
+greg k-h
