@@ -2,87 +2,102 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E033FC00144
-	for <linux-doc@archiver.kernel.org>; Fri, 29 Jul 2022 10:20:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 236B1C3F6B0
+	for <linux-doc@archiver.kernel.org>; Fri, 29 Jul 2022 10:40:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230272AbiG2KUf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 29 Jul 2022 06:20:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46026 "EHLO
+        id S235712AbiG2Kk2 convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 29 Jul 2022 06:40:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37300 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229925AbiG2KUe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Jul 2022 06:20:34 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 526074AD61;
-        Fri, 29 Jul 2022 03:20:33 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id B47E161DEC;
-        Fri, 29 Jul 2022 10:20:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9090FC433D6;
-        Fri, 29 Jul 2022 10:20:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1659090032;
-        bh=T5X54hI0Wtlb7oHjJG9VCX4+WnI6m6WZJ0F+TdyKmpU=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=IHGM28zhnWgluDKd3aCiVNEchXDOLoL+JtPOVw+KsyM6Dc+Me8ST9R2zTOhvT3AMo
-         dbXTX8/V880dnc+8v7q8CobLKjTMwIMP4Wn6iyabJ9yE7zPEGXgEebpTWYtEcnFyJ5
-         42bKVSRmoHZYZ1ejfOGLQZyPgEtowSED8bZ9klwo=
-Date:   Fri, 29 Jul 2022 12:20:29 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Tom Lendacky <thomas.lendacky@amd.com>,
-        linux-kernel@vger.kernel.org
-Cc:     linux-doc@vger.kernel.org,
-        linux-doc-tw-discuss@lists.sourceforge.net,
-        Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Hu Haowen <src.res@email.cn>
-Subject: Re: [PATCH] docs: embargoed-hardware-issues: remove bouncing AMD
- contact info
-Message-ID: <YuO0bY7xMqFtrKCj@kroah.com>
-References: <20220729100745.2225558-1-gregkh@linuxfoundation.org>
+        with ESMTP id S235143AbiG2Kk1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Jul 2022 06:40:27 -0400
+Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.86.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 591AC12ACE
+        for <linux-doc@vger.kernel.org>; Fri, 29 Jul 2022 03:40:25 -0700 (PDT)
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ uk-mta-55-5dMw4K_ePdyLrUnYWn3eJw-1; Fri, 29 Jul 2022 11:40:22 +0100
+X-MC-Unique: 5dMw4K_ePdyLrUnYWn3eJw-1
+Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
+ AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
+ Server (TLS) id 15.0.1497.36; Fri, 29 Jul 2022 11:40:20 +0100
+Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
+ AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
+ 15.00.1497.036; Fri, 29 Jul 2022 11:40:20 +0100
+From:   David Laight <David.Laight@ACULAB.COM>
+To:     'Pawan Gupta' <pawan.kumar.gupta@linux.intel.com>,
+        Borislav Petkov <bp@alien8.de>
+CC:     Jonathan Corbet <corbet@lwn.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "stable@vger.kernel.org" <stable@vger.kernel.org>,
+        "tony.luck@intel.com" <tony.luck@intel.com>,
+        "antonio.gomez.iglesias@linux.intel.com" 
+        <antonio.gomez.iglesias@linux.intel.com>,
+        Daniel Sneddon <daniel.sneddon@linux.intel.com>,
+        "andrew.cooper3@citrix.com" <andrew.cooper3@citrix.com>,
+        Josh Poimboeuf <jpoimboe@kernel.org>
+Subject: RE: [RESEND RFC PATCH] x86/bugs: Add "unknown" reporting for MMIO
+ Stale Data
+Thread-Topic: [RESEND RFC PATCH] x86/bugs: Add "unknown" reporting for MMIO
+ Stale Data
+Thread-Index: AQHYovL4+baeEq2rDkCp4WwQq32ghq2VJ0xw
+Date:   Fri, 29 Jul 2022 10:40:20 +0000
+Message-ID: <e7ba00885fca4ec9849d8525cbc46f7b@AcuMS.aculab.com>
+References: <a932c154772f2121794a5f2eded1a11013114711.1657846269.git.pawan.kumar.gupta@linux.intel.com>
+ <YuJ6TQpSTIeXLNfB@zn.tnic> <20220729022851.mdj3wuevkztspodh@desk>
+In-Reply-To: <20220729022851.mdj3wuevkztspodh@desk>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220729100745.2225558-1-gregkh@linuxfoundation.org>
+Authentication-Results: relay.mimecast.com;
+        auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jul 29, 2022 at 12:07:45PM +0200, Greg Kroah-Hartman wrote:
-> The current AMD contact info in the embargoed-hardware-issues.rst file
-> is bouncing as an invalid address, so remove it from the documentation.
+From: Pawan Gupta
+> Sent: 29 July 2022 03:29
 > 
-> At this point in time, the kernel community has no way to contact AMD
-> for any hardware-specific problems.  Hopefully they can resolve this
-> issue soon, or maybe they just don't have any hardware bugs and do not
-> need to worry about this.
-> 
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: Alex Shi <alexs@kernel.org>
-> Cc: Yanteng Si <siyanteng@loongson.cn>
-> Cc: Hu Haowen <src.res@email.cn>
-> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> ---
->  Documentation/process/embargoed-hardware-issues.rst             | 2 +-
->  .../translations/zh_CN/process/embargoed-hardware-issues.rst    | 2 +-
->  .../translations/zh_TW/process/embargoed-hardware-issues.rst    | 2 +-
->  3 files changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/Documentation/process/embargoed-hardware-issues.rst b/Documentation/process/embargoed-hardware-issues.rst
-> index 95999302d279..a8c38e1c40dc 100644
-> --- a/Documentation/process/embargoed-hardware-issues.rst
-> +++ b/Documentation/process/embargoed-hardware-issues.rst
-> @@ -244,7 +244,7 @@ disclosure of a particular issue, unless requested by a response team or by
->  an involved disclosed party. The current ambassadors list:
->  
->    ============= ========================================================
-> -  AMD		Tom Lendacky <tom.lendacky@amd.com>
-> +  AMD
+> On Thu, Jul 28, 2022 at 02:00:13PM +0200, Borislav Petkov wrote:
+> > On Thu, Jul 14, 2022 at 06:30:18PM -0700, Pawan Gupta wrote:
+> > > Older CPUs beyond its Servicing period are not listed in the affected
+> > > processor list for MMIO Stale Data vulnerabilities. These CPUs currently
+> > > report "Not affected" in sysfs, which may not be correct.
 
-Wait, Tom, is this just the wrong email address for you?  And the one
-above I used in the To: the correct one?
+I looked this up....
 
-confused,
+The mitigations seem to rely on unprivileged code not being able
+to do MMIO accesses.
+That isn't true, device drivers can mmap PCIe addresses directly
+into user program address space.
+While unlikely, there is no reason this can't be supported for
+non-root processes.
+So if the underlying hardware doesn't correctly validate the
+byte enables then stale data can be read.
 
-greg k-h
+It has to be said that I can't actually imagine getting anything
+useful unless you have co-operating processes using it as a
+security bypass side channel.
+
+	David
+
+-
+Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
+Registration No: 1397386 (Wales)
+
