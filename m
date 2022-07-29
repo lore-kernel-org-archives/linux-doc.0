@@ -2,71 +2,116 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4AFD8C00144
-	for <linux-doc@archiver.kernel.org>; Fri, 29 Jul 2022 09:05:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 65569C00144
+	for <linux-doc@archiver.kernel.org>; Fri, 29 Jul 2022 09:05:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234861AbiG2JFZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 29 Jul 2022 05:05:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40566 "EHLO
+        id S235531AbiG2JFs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 29 Jul 2022 05:05:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41600 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234757AbiG2JFY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Jul 2022 05:05:24 -0400
-Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 123FB13E32;
-        Fri, 29 Jul 2022 02:05:23 -0700 (PDT)
-Received: from dggpemm500021.china.huawei.com (unknown [172.30.72.56])
-        by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4LvM5N30FJz9t1S;
-        Fri, 29 Jul 2022 17:04:08 +0800 (CST)
-Received: from dggpemm500018.china.huawei.com (7.185.36.111) by
- dggpemm500021.china.huawei.com (7.185.36.109) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Fri, 29 Jul 2022 17:05:15 +0800
-Received: from huawei.com (10.174.176.191) by dggpemm500018.china.huawei.com
- (7.185.36.111) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Fri, 29 Jul
- 2022 17:05:14 +0800
-From:   l00581214 <liutie4@huawei.com>
-To:     <paul@paul-moore.com>, <eparis@redhat.com>
-CC:     <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <hewenliang4@huawei.com>, <linfeilong@huawei.com>
-Subject: [PATCH] audit: Modifying indentation issue.
-Date:   Fri, 29 Jul 2022 17:05:13 +0800
-Message-ID: <20220729090513.1467-1-liutie4@huawei.com>
-X-Mailer: git-send-email 2.28.0.windows.1
+        with ESMTP id S235485AbiG2JFm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Jul 2022 05:05:42 -0400
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D2D177A65;
+        Fri, 29 Jul 2022 02:05:41 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by sin.source.kernel.org (Postfix) with ESMTPS id 6A75ECE2586;
+        Fri, 29 Jul 2022 09:05:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F2401C433C1;
+        Fri, 29 Jul 2022 09:05:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1659085537;
+        bh=wvE5EHGmPigV4oD45oTwiHHUQ4e3yEtd8+Rek83/iZI=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=u4XFhk2DKQ9ZhFdCgE/O1FOABLAVZrwk5XV7UmcIVw0wNVMKeJ8oCvvhbPIuruugH
+         lVJ16TpQyhX33sT2ppx+Igx96tQu+Ozi3VhO8Fp70k/RFxgMPRPKZr5MSGiWsvJ9GD
+         Wn1kY+HYPAecHr7gurrqG2aWeXQUfEWMgIiVr7Ps=
+Date:   Fri, 29 Jul 2022 11:05:34 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Yicong Yang <yangyicong@huawei.com>
+Cc:     yangyicong@hisilicon.com, alexander.shishkin@linux.intel.com,
+        leo.yan@linaro.org, james.clark@arm.com, will@kernel.org,
+        robin.murphy@arm.com, acme@kernel.org, peterz@infradead.org,
+        corbet@lwn.net, mathieu.poirier@linaro.org, mark.rutland@arm.com,
+        jonathan.cameron@huawei.com, john.garry@huawei.com,
+        helgaas@kernel.org, lorenzo.pieralisi@arm.com,
+        suzuki.poulose@arm.com, joro@8bytes.org,
+        shameerali.kolothum.thodi@huawei.com, mingo@redhat.com,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-pci@vger.kernel.org, linux-perf-users@vger.kernel.org,
+        iommu@lists.linux-foundation.org, iommu@lists.linux.dev,
+        linux-doc@vger.kernel.org, prime.zeng@huawei.com,
+        liuqi115@huawei.com, zhangshaokun@hisilicon.com,
+        linuxarm@huawei.com, bagasdotme@gmail.com
+Subject: Re: [PATCH v11 2/8] hwtracing: hisi_ptt: Add trace function support
+ for HiSilicon PCIe Tune and Trace device
+Message-ID: <YuOi3i0XHV++z1YI@kroah.com>
+References: <20220721130116.43366-1-yangyicong@huawei.com>
+ <20220721130116.43366-3-yangyicong@huawei.com>
+ <YuKZKGKMz+UcbETM@kroah.com>
+ <33f372f6-36bf-f84e-bca0-86347fa4d579@huawei.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.174.176.191]
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- dggpemm500018.china.huawei.com (7.185.36.111)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <33f372f6-36bf-f84e-bca0-86347fa4d579@huawei.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Tie Liu <liutie4@huawei.com>
+On Fri, Jul 29, 2022 at 03:29:14PM +0800, Yicong Yang wrote:
+> >> +	/*
+> >> +	 * Handle the interrupt on the same cpu which starts the trace to avoid
+> >> +	 * context mismatch. Otherwise we'll trigger the WARN from the perf
+> >> +	 * core in event_function_local().
+> >> +	 */
+> >> +	WARN_ON(irq_set_affinity(pci_irq_vector(hisi_ptt->pdev, HISI_PTT_TRACE_DMA_IRQ),
+> >> +				 cpumask_of(cpu)));
+> > 
+> > If this hits, you just crashed the machine :(
+> > 
+> 
+> We'll likely to have a calltrace here without crash the machine and reboot in
+> most time, unless user has set panic_on_warn.
 
-Modifying indentation issue in audit_rate_check().
+Again, please do not use WARN_ON for this, please read:
+	https://elixir.bootlin.com/linux/v5.19-rc8/source/include/asm-generic/bug.h#L74
 
-Signed-off-by: Tie Liu <liutie4@huawei.com>
----
- kernel/audit.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+If you want a traceback (what would you do with that?), then call the
+function to give you that.  Don't crash people's boxes.
 
-diff --git a/kernel/audit.c b/kernel/audit.c
-index 7690c29d4..deeede166 100644
---- a/kernel/audit.c
-+++ b/kernel/audit.c
-@@ -324,7 +324,8 @@ static inline int audit_rate_check(void)
- 	unsigned long		elapsed;
- 	int			retval	   = 0;
- 
--	if (!audit_rate_limit) return 1;
-+	if (!audit_rate_limit)
-+		return 1;
- 
- 	spin_lock_irqsave(&lock, flags);
- 	if (++messages < audit_rate_limit) {
--- 
-2.27.0
+> > Please properly recover from errors if you hit them, like this.  Don't
+> > just give up and throw a message to userspace and watch the machine
+> > reboot with all data lost.
+> > 
+> > Same for the other WARN_ON() instances here.  Handle the error and
+> > report it properly up the call chain.
+> > 
+> 
+> The driver use WARN_ON() in two places, once in pmu::start() and another in cpu teardown's
+> callback, both when the irq_set_affinity() failed. This is common to behave so when driver
+> fails to set irq affinity in pmu::start() and cpu_teardown():
 
+Don't repeat broken patterns please.
+
+> yangyicong@ubuntu:~/mainline_linux/linux/drivers$ grep -rn WARN_ON ./ | grep irq_set_affinity
+> ./perf/arm_smmuv3_pmu.c:649:    WARN_ON(irq_set_affinity(smmu_pmu->irq, cpumask_of(target)));
+> ./perf/arm_smmuv3_pmu.c:895:    WARN_ON(irq_set_affinity(smmu_pmu->irq, cpumask_of(smmu_pmu->on_cpu)));
+> ./perf/arm-ccn.c:1214:          WARN_ON(irq_set_affinity(ccn->irq, cpumask_of(dt->cpu)));
+> ./perf/qcom_l2_pmu.c:796:       WARN_ON(irq_set_affinity(cluster->irq, cpumask_of(cpu)));
+> ./perf/qcom_l2_pmu.c:834:       WARN_ON(irq_set_affinity(cluster->irq, cpumask_of(target)));
+> ./perf/arm_dmc620_pmu.c:624:    WARN_ON(irq_set_affinity(irq->irq_num, cpumask_of(target)));
+> ./perf/fsl_imx8_ddr_perf.c:674: WARN_ON(irq_set_affinity(pmu->irq, cpumask_of(pmu->cpu)));
+> ./perf/xgene_pmu.c:1793:        WARN_ON(irq_set_affinity(xgene_pmu->irq, &xgene_pmu->cpu));
+> ./perf/xgene_pmu.c:1826:        WARN_ON(irq_set_affinity(xgene_pmu->irq, &xgene_pmu->cpu));
+> ./perf/hisilicon/hisi_pcie_pmu.c:658:           WARN_ON(irq_set_affinity(pcie_pmu->irq, cpumask_of(cpu)));
+> ./perf/hisilicon/hisi_pcie_pmu.c:684:   WARN_ON(irq_set_affinity(pcie_pmu->irq, cpumask_of(target)));
+> ./perf/hisilicon/hisi_uncore_pmu.c:495: WARN_ON(irq_set_affinity(hisi_pmu->irq, cpumask_of(cpu)));
+> ./perf/hisilicon/hisi_uncore_pmu.c:528: WARN_ON(irq_set_affinity(hisi_pmu->irq, cpumask_of(target)));
+
+Great, you can fix all of these up as well any time :)
+
+thanks,
+
+greg k-h
