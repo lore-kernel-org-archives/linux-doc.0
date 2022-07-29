@@ -2,101 +2,71 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A9AC5C19F2B
-	for <linux-doc@archiver.kernel.org>; Fri, 29 Jul 2022 08:05:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4AFD8C00144
+	for <linux-doc@archiver.kernel.org>; Fri, 29 Jul 2022 09:05:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230241AbiG2IFB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 29 Jul 2022 04:05:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45606 "EHLO
+        id S234861AbiG2JFZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 29 Jul 2022 05:05:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40566 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229784AbiG2IFB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Jul 2022 04:05:01 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83D8319C0E;
-        Fri, 29 Jul 2022 01:04:59 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 1ECB261B7A;
-        Fri, 29 Jul 2022 08:04:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02DCBC433C1;
-        Fri, 29 Jul 2022 08:04:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1659081898;
-        bh=x5iwixgmr+VlHTq5scaZuKlrBeunluPiau3t1p/QL+s=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=z29jy6PIELGGQT8XQSEzLMZZ5GLdTrUTDj7XQovl+Q/4gaRXiykfo/ePYeA1z/GN8
-         G8zBCFz0o/lX+RMFz6y6kP+HgOkPMf2cbgt713Nki676wrHFLvjWsTQPk5hmrgT7H/
-         g1nv7G+mLKURrlGg0ixEZOAWfgYbIFgAZyA/IZiM=
-Date:   Fri, 29 Jul 2022 10:04:55 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Olliver Schinagl <oliver+list@schinagl.nl>
-Cc:     Gary Guo <gary@garyguo.net>,
-        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        rust-for-linux <rust-for-linux@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 00/13] [RFC] Rust support
-Message-ID: <YuOUp+7gam0UUu1+@kroah.com>
-References: <20210414184604.23473-1-ojeda@kernel.org>
- <fae4873e-2ff9-df35-0ab9-34bf4417b717@schinagl.nl>
- <CANiq72mRxM-7griYF+0FWqYoSoNL8ad=L-i6a2-GsaCeb0C6qQ@mail.gmail.com>
- <ba8cb315-9d73-2f45-8bf9-d9473d369dca@schinagl.nl>
- <CANiq72kz+Txauo+103_-fN_J8PhhCdJUH5XepShUQmJzW6a4tA@mail.gmail.com>
- <5c0bb1db-5589-32ca-ac22-4aafb3c15751@schinagl.nl>
- <20220728112114.0000003a@garyguo.net>
- <YuJ8lWGKXEk03u3M@kroah.com>
- <5bd688b0-7694-0a96-67e6-7137c018c9a5@schinagl.nl>
+        with ESMTP id S234757AbiG2JFY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Jul 2022 05:05:24 -0400
+Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 123FB13E32;
+        Fri, 29 Jul 2022 02:05:23 -0700 (PDT)
+Received: from dggpemm500021.china.huawei.com (unknown [172.30.72.56])
+        by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4LvM5N30FJz9t1S;
+        Fri, 29 Jul 2022 17:04:08 +0800 (CST)
+Received: from dggpemm500018.china.huawei.com (7.185.36.111) by
+ dggpemm500021.china.huawei.com (7.185.36.109) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Fri, 29 Jul 2022 17:05:15 +0800
+Received: from huawei.com (10.174.176.191) by dggpemm500018.china.huawei.com
+ (7.185.36.111) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Fri, 29 Jul
+ 2022 17:05:14 +0800
+From:   l00581214 <liutie4@huawei.com>
+To:     <paul@paul-moore.com>, <eparis@redhat.com>
+CC:     <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <hewenliang4@huawei.com>, <linfeilong@huawei.com>
+Subject: [PATCH] audit: Modifying indentation issue.
+Date:   Fri, 29 Jul 2022 17:05:13 +0800
+Message-ID: <20220729090513.1467-1-liutie4@huawei.com>
+X-Mailer: git-send-email 2.28.0.windows.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <5bd688b0-7694-0a96-67e6-7137c018c9a5@schinagl.nl>
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.174.176.191]
+X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
+ dggpemm500018.china.huawei.com (7.185.36.111)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jul 28, 2022 at 10:45:08PM +0200, Olliver Schinagl wrote:
-> Hey Greg,
-> 
-> On 28-07-2022 14:09, Greg Kroah-Hartman wrote:
-> > On Thu, Jul 28, 2022 at 11:21:14AM +0100, Gary Guo wrote:
-> > > Rust requires braces around branches of if expression, and C doesn't.
-> > > So in kernel coding style you often have:
-> > > 
-> > > 	if (condition) do_something();
-> > 
-> > That is not a valid kernel coding style, and our tools should catch this
-> > and prevent it from being added to the kernel tree.
-> Are you sure? I'm not sure if this isn't true today, but I've certainly seen
-> old code where this definitely was done. Was all of this cleaned up in the
-> last 2+ years?
+From: Tie Liu <liutie4@huawei.com>
 
-Given that I wrote about this back in 2002, and it was true then:
-	https://www.linuxjournal.com/article/5780
-and:
-	https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.2.8887&rep=rep1&type=pdf
+Modifying indentation issue in audit_rate_check().
 
-that is not anything new at all.
+Signed-off-by: Tie Liu <liutie4@huawei.com>
+---
+ kernel/audit.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Yes, old code still survives that might not be correct, and some
-subsystems might have added code over time without the proper style, but
-our tools check that the above is not correct, you can check it
-yourself:
+diff --git a/kernel/audit.c b/kernel/audit.c
+index 7690c29d4..deeede166 100644
+--- a/kernel/audit.c
++++ b/kernel/audit.c
+@@ -324,7 +324,8 @@ static inline int audit_rate_check(void)
+ 	unsigned long		elapsed;
+ 	int			retval	   = 0;
+ 
+-	if (!audit_rate_limit) return 1;
++	if (!audit_rate_limit)
++		return 1;
+ 
+ 	spin_lock_irqsave(&lock, flags);
+ 	if (++messages < audit_rate_limit) {
+-- 
+2.27.0
 
-$ cat foo.c
-// SPDX-License-Identifier: GPL-2.0
-int foo(int baz)
-{
-	if (baz == 1) do_something();
-}
-
-$ ./scripts/checkpatch.pl --file --terse foo.c
-foo.c:4: ERROR: trailing statements should be on next line
-total: 1 errors, 0 warnings, 6 lines checked
-
-thanks,
-
-greg k-h
