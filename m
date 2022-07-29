@@ -2,111 +2,101 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B488C00144
-	for <linux-doc@archiver.kernel.org>; Fri, 29 Jul 2022 07:57:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A9AC5C19F2B
+	for <linux-doc@archiver.kernel.org>; Fri, 29 Jul 2022 08:05:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235134AbiG2H5c (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 29 Jul 2022 03:57:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39434 "EHLO
+        id S230241AbiG2IFB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 29 Jul 2022 04:05:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45606 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235036AbiG2H5b (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Jul 2022 03:57:31 -0400
+        with ESMTP id S229784AbiG2IFB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Jul 2022 04:05:01 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12DD07E027;
-        Fri, 29 Jul 2022 00:57:31 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83D8319C0E;
+        Fri, 29 Jul 2022 01:04:59 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id A2F5D61BF8;
-        Fri, 29 Jul 2022 07:57:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7CEAAC433D6;
-        Fri, 29 Jul 2022 07:57:29 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 1ECB261B7A;
+        Fri, 29 Jul 2022 08:04:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02DCBC433C1;
+        Fri, 29 Jul 2022 08:04:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1659081450;
-        bh=kGpstCAAwPkGYsBYA0Sv1cWBhpQqBl9cZdq6KbVZpIc=;
+        s=korg; t=1659081898;
+        bh=x5iwixgmr+VlHTq5scaZuKlrBeunluPiau3t1p/QL+s=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=C5ZbaoWIRXMrNQTc535bsP0zIPJb4o4x7G+72avOewl26tmgUH0fnYcLGAm1TRjkG
-         wqEuTzdTP5GGSarwRrwLDIPmR7ZtpH/JQSaxOqnbgevhFJYaZFL/c+mM1lO2blfykq
-         e/98jXo2dQ75Q6EsD/pRVQ6C38alFpyauc3p8dHA=
-Date:   Fri, 29 Jul 2022 09:57:27 +0200
+        b=z29jy6PIELGGQT8XQSEzLMZZ5GLdTrUTDj7XQovl+Q/4gaRXiykfo/ePYeA1z/GN8
+         G8zBCFz0o/lX+RMFz6y6kP+HgOkPMf2cbgt713Nki676wrHFLvjWsTQPk5hmrgT7H/
+         g1nv7G+mLKURrlGg0ixEZOAWfgYbIFgAZyA/IZiM=
+Date:   Fri, 29 Jul 2022 10:04:55 +0200
 From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     Markuss Broks <markuss.broks@gmail.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        Helge Deller <deller@gmx.de>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Borislav Petkov <bp@suse.de>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Kees Cook <keescook@chromium.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Javier Martinez Canillas <javierm@redhat.com>,
-        Michal Suchanek <msuchanek@suse.de>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Wei Ming Chen <jj251510319013@gmail.com>,
-        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
-        Tony Lindgren <tony@atomide.com>,
-        Linux Documentation List <linux-doc@vger.kernel.org>,
-        linux-efi <linux-efi@vger.kernel.org>,
-        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
-        "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Petr Mladek <pmladek@suse.com>
-Subject: Re: [PATCH 1/2] drivers: serial: earlycon: Pass device-tree node
-Message-ID: <YuOS5yUfNlTOtI6U@kroah.com>
-References: <20220728142824.3836-1-markuss.broks@gmail.com>
- <20220728142824.3836-2-markuss.broks@gmail.com>
- <YuKfaVG/ZbYtFjS/@kroah.com>
- <CAHp75Vfz8e1j4qZ6XY6WqMR4E9fKFxrTxj7P6KraXzSLk_NhxQ@mail.gmail.com>
+To:     Olliver Schinagl <oliver+list@schinagl.nl>
+Cc:     Gary Guo <gary@garyguo.net>,
+        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        rust-for-linux <rust-for-linux@vger.kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 00/13] [RFC] Rust support
+Message-ID: <YuOUp+7gam0UUu1+@kroah.com>
+References: <20210414184604.23473-1-ojeda@kernel.org>
+ <fae4873e-2ff9-df35-0ab9-34bf4417b717@schinagl.nl>
+ <CANiq72mRxM-7griYF+0FWqYoSoNL8ad=L-i6a2-GsaCeb0C6qQ@mail.gmail.com>
+ <ba8cb315-9d73-2f45-8bf9-d9473d369dca@schinagl.nl>
+ <CANiq72kz+Txauo+103_-fN_J8PhhCdJUH5XepShUQmJzW6a4tA@mail.gmail.com>
+ <5c0bb1db-5589-32ca-ac22-4aafb3c15751@schinagl.nl>
+ <20220728112114.0000003a@garyguo.net>
+ <YuJ8lWGKXEk03u3M@kroah.com>
+ <5bd688b0-7694-0a96-67e6-7137c018c9a5@schinagl.nl>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAHp75Vfz8e1j4qZ6XY6WqMR4E9fKFxrTxj7P6KraXzSLk_NhxQ@mail.gmail.com>
+In-Reply-To: <5bd688b0-7694-0a96-67e6-7137c018c9a5@schinagl.nl>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jul 28, 2022 at 11:04:24PM +0200, Andy Shevchenko wrote:
-> On Thu, Jul 28, 2022 at 4:41 PM Greg Kroah-Hartman
-> <gregkh@linuxfoundation.org> wrote:
-> > On Thu, Jul 28, 2022 at 05:28:18PM +0300, Markuss Broks wrote:
-> > > Pass a pointer to device-tree node in case the driver probed from
-> > > OF. This makes early console drivers able to fetch options from
-> > > device-tree node properties.
+On Thu, Jul 28, 2022 at 10:45:08PM +0200, Olliver Schinagl wrote:
+> Hey Greg,
 > 
-> ...
-> 
-> > > +     unsigned long node;
-> >
-> > That should not be an unsigned long, but rather an 'int'.  Something got
-> > messed up, of_setup_earlycon() should be changed to reflect this before
-> > propagating the error to other places in the kernel.
-> 
-> It's a pointer, but what puzzles me, why it can't be declared as a such:
-> 
->  struct device_node *node;
-> 
-> ?
+> On 28-07-2022 14:09, Greg Kroah-Hartman wrote:
+> > On Thu, Jul 28, 2022 at 11:21:14AM +0100, Gary Guo wrote:
+> > > Rust requires braces around branches of if expression, and C doesn't.
+> > > So in kernel coding style you often have:
+> > > 
+> > > 	if (condition) do_something();
+> > 
+> > That is not a valid kernel coding style, and our tools should catch this
+> > and prevent it from being added to the kernel tree.
+> Are you sure? I'm not sure if this isn't true today, but I've certainly seen
+> old code where this definitely was done. Was all of this cleaned up in the
+> last 2+ years?
 
-It should not be a pointer, trace things backwards, it comes from a call
-to of_setup_earlycon() from early_init_dt_scan_chosen_stdout() which has
-offset declared as an int, and then does:
-	if (of_setup_earlycon(match, offset, options) == 0)
+Given that I wrote about this back in 2002, and it was true then:
+	https://www.linuxjournal.com/article/5780
+and:
+	https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.2.8887&rep=rep1&type=pdf
 
-So why would it be a node?
+that is not anything new at all.
 
-> > And it's not really a "node" but an "offset", right?
-> 
-> Seems no.
+Yes, old code still survives that might not be correct, and some
+subsystems might have added code over time without the proper style, but
+our tools check that the above is not correct, you can check it
+yourself:
 
-Really?  What am I missing here?
+$ cat foo.c
+// SPDX-License-Identifier: GPL-2.0
+int foo(int baz)
+{
+	if (baz == 1) do_something();
+}
 
-confused,
+$ ./scripts/checkpatch.pl --file --terse foo.c
+foo.c:4: ERROR: trailing statements should be on next line
+total: 1 errors, 0 warnings, 6 lines checked
+
+thanks,
 
 greg k-h
