@@ -2,68 +2,83 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 56A74C00140
-	for <linux-doc@archiver.kernel.org>; Fri, 29 Jul 2022 02:36:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CA005C19F2A
+	for <linux-doc@archiver.kernel.org>; Fri, 29 Jul 2022 05:30:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233937AbiG2CgV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 28 Jul 2022 22:36:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53822 "EHLO
+        id S234369AbiG2Faa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 29 Jul 2022 01:30:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57206 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233595AbiG2CgU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Jul 2022 22:36:20 -0400
-Received: from out20-85.mail.aliyun.com (out20-85.mail.aliyun.com [115.124.20.85])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 784BA52FE3;
-        Thu, 28 Jul 2022 19:36:11 -0700 (PDT)
-X-Alimail-AntiSpam: AC=CONTINUE;BC=0.1142877|-1;CH=green;DM=|CONTINUE|false|;DS=CONTINUE|ham_regular_dialog|0.091604-0.000316197-0.90808;FP=11801277814066224926|4|1|5|0|-1|-1|-1;HT=ay29a033018047205;MF=longjin@ringotek.cn;NM=1;PH=DS;RN=6;RT=6;SR=0;TI=SMTPD_---.OgOkP57_1659062123;
-Received: from localhost.localdomain(mailfrom:longjin@RinGoTek.cn fp:SMTPD_---.OgOkP57_1659062123)
-          by smtp.aliyun-inc.com;
-          Fri, 29 Jul 2022 10:35:38 +0800
-From:   fslongjin <longjin@RinGoTek.cn>
-To:     corbet@lwn.net, twoerner@gmail.com, keescook@chromium.org
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        fslongjin <longjin@RinGoTek.cn>
-Subject: [PATCH] Documentation: Fixed errors in the title level of coding style documents
-Date:   Fri, 29 Jul 2022 10:34:54 +0800
-Message-Id: <20220729023454.18085-1-longjin@RinGoTek.cn>
-X-Mailer: git-send-email 2.20.1
+        with ESMTP id S234392AbiG2Fa0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Jul 2022 01:30:26 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 349371A3A6;
+        Thu, 28 Jul 2022 22:30:23 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id CC10AB826F7;
+        Fri, 29 Jul 2022 05:30:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 0891CC43144;
+        Fri, 29 Jul 2022 05:30:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1659072620;
+        bh=fquHH0Brp5sK5TXFacCxIR2XEa8azd6MKqqJmtPAvhI=;
+        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+        b=iBv81L8McUP9YKjyl2YM0sAS4kAelPNi5O/S1OsWbvJsx0RdUeqgpeZY+Typs0I0A
+         VYAQ8QZFRkuZQt+uKNjbS52ltvUtog1eUakeTFiDJb9skY5zXDFcN+rVMylUcgXfb2
+         sXIbUq5iKAhGtsocl74iOTv9UNyaKjxKYM1vaJuLpEq+EEYu5jEoPEwt8PIt6nRAE+
+         GOzWlEP1hWvfvLYLrZ7kEHoO3Artm5K2qdwhkoeoigHE49RFCErivw7VkkSPsQYD0n
+         q/l8AlVpN+gC2btK6zw3BKgONSK290CQ43yNJSR12gdSYe0/AOevezEpjrSOv9vinj
+         d2bxIx4yUpBRg==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id E8F3DC43148;
+        Fri, 29 Jul 2022 05:30:19 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net-next v9 0/2] add framework for selftests in devlink
+From:   patchwork-bot+netdevbpf@kernel.org
+Message-Id: <165907261994.17632.8400006268893599861.git-patchwork-notify@kernel.org>
+Date:   Fri, 29 Jul 2022 05:30:19 +0000
+References: <20220727165721.37959-1-vikas.gupta@broadcom.com>
+In-Reply-To: <20220727165721.37959-1-vikas.gupta@broadcom.com>
+To:     Vikas Gupta <vikas.gupta@broadcom.com>
+Cc:     jiri@nvidia.com, kuba@kernel.org, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org, davem@davemloft.net,
+        dsahern@kernel.org, stephen@networkplumber.org,
+        edumazet@google.com, pabeni@redhat.com, ast@kernel.org,
+        leon@kernel.org, linux-doc@vger.kernel.org, corbet@lwn.net,
+        michael.chan@broadcom.com, andrew.gospodarek@broadcom.com
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-In Section 3, `Placing Braces and Spaces`. In the previous document, only
-`Spaces` is written in the subtitle without the `Braces`. I think this
- may be a format error caused by negligence, so I fixed it.
+Hello:
 
-Signed-off-by: fslongjin <longjin@RinGoTek.cn>
----
- Documentation/process/coding-style.rst | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+This series was applied to netdev/net-next.git (master)
+by Jakub Kicinski <kuba@kernel.org>:
 
-diff --git a/Documentation/process/coding-style.rst b/Documentation/process/coding-style.rst
-index 03eb53fd029a..2a26bcb9f391 100644
---- a/Documentation/process/coding-style.rst
-+++ b/Documentation/process/coding-style.rst
-@@ -120,6 +120,9 @@ that breaks the ability to grep for them.
- 3) Placing Braces and Spaces
- ----------------------------
- 
-+3.1) Braces
-+***********
-+
- The other issue that always comes up in C styling is the placement of
- braces.  Unlike the indent size, there are few technical reasons to
- choose one placement strategy over the other, but the preferred way, as
-@@ -231,7 +234,7 @@ Also, use braces when a loop contains more than a single simple statement:
- 			do_something();
- 	}
- 
--3.1) Spaces
-+3.2) Spaces
- ***********
- 
- Linux kernel style for use of spaces depends (mostly) on
+On Wed, 27 Jul 2022 22:27:19 +0530 you wrote:
+> Hi,
+>   This patchset adds support for selftests in the devlink framework.
+>   It adds a callback .selftests_check and .selftests_run in devlink_ops.
+>   User can add test(s) suite which is subsequently passed to the driver
+>   and driver can opt for running particular tests based on its capabilities.
+> 
+>   Patchset adds a flash based test for the bnxt_en driver.
+> 
+> [...]
+
+Here is the summary with links:
+  - [net-next,v9,1/2] devlink: introduce framework for selftests
+    https://git.kernel.org/netdev/net-next/c/08f588fa301b
+  - [net-next,v9,2/2] bnxt_en: implement callbacks for devlink selftests
+    https://git.kernel.org/netdev/net-next/c/5b6ff128fdf6
+
+You are awesome, thank you!
 -- 
-2.20.1
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 
