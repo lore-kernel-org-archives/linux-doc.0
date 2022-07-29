@@ -2,210 +2,169 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 08C92C19F2B
-	for <linux-doc@archiver.kernel.org>; Fri, 29 Jul 2022 11:58:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 00C7FC3F6B0
+	for <linux-doc@archiver.kernel.org>; Fri, 29 Jul 2022 12:59:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230456AbiG2L6Z (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 29 Jul 2022 07:58:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37308 "EHLO
+        id S235851AbiG2M7s (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 29 Jul 2022 08:59:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47582 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235886AbiG2L6Y (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Jul 2022 07:58:24 -0400
-Received: from smtp-190d.mail.infomaniak.ch (smtp-190d.mail.infomaniak.ch [IPv6:2001:1600:3:17::190d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A91AE87F51
-        for <linux-doc@vger.kernel.org>; Fri, 29 Jul 2022 04:58:21 -0700 (PDT)
-Received: from smtp-2-0001.mail.infomaniak.ch (unknown [10.5.36.108])
-        by smtp-2-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4LvQyL3Vf0zMqPRv;
-        Fri, 29 Jul 2022 13:58:18 +0200 (CEST)
-Received: from ns3096276.ip-94-23-54.eu (unknown [23.97.221.149])
-        by smtp-2-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4LvQyL0XFJzlq6Mv;
-        Fri, 29 Jul 2022 13:58:18 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=digikod.net;
-        s=20191114; t=1659095898;
-        bh=CsI5Svm/rgvYVqv6A6gv4agjS5R+C2dOfunzOYx5hO0=;
-        h=Date:To:Cc:References:From:Subject:In-Reply-To:From;
-        b=UN/8F/QnPv2hyHVHpTcv+AXImbZ3k+JzFEf/rfmGOOF0wTcI8oW58zDpPXofoo/+7
-         qGB4M7X9VPM15cOul6HyoQGRxa6Q//VlL79WUgo/F8ptll41EKNUlXCYg61fJYmFIj
-         wRSEP70AfMFR3EyOibgPAqWjhKLQmIQZ0eaLSNzI=
-Message-ID: <b7ee2d01-2e33-bf9c-3b56-b649e2fde0fb@digikod.net>
-Date:   Fri, 29 Jul 2022 13:58:17 +0200
-MIME-Version: 1.0
-User-Agent: 
+        with ESMTP id S230438AbiG2M7r (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Jul 2022 08:59:47 -0400
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2079.outbound.protection.outlook.com [40.107.220.79])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 921EF4F183;
+        Fri, 29 Jul 2022 05:59:46 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=BmGS0hd9IBlY8KVWKzqoozP6JAk0pC+pQMGjAdsHuH3UTIrLSZLkwGaFHsI6UEIjA+YZYMoHB4mQvT0kClj6BAKd1ZmeV2oiAziLNsfloKQpVjwWyiTwXhsfG3WatrRslc66tF3phJHFTJ9mK64rEB0jy/dIhZuK8cZKvJF7Ym3ip09eQXtA6NtuEalmXDnRlGY9H8WuZ0SU0dP+WuPBpUTfNbb1Ccws5s0cKenx1PQCSh4Mod+1YEPcqrTuwryE5Tmgi3+AEpAP9k93dEzOyHErWRxvJ0CX6GXG1S8i5ggw8bow28S1OSkPi63wnSQhAgemwPrKmiRpbV7TsztEdw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=jg5enGrYOxBAoHGjrpTvNcRXeIvRhu2u17BJqjc1m10=;
+ b=Xu8t67Ceb5Q8QX8Ufr/IJu2jYr2ImuSQupoFsgfBSsj1gcnY21wwXSkPc9BKKdQlzqtZgHFpn/9ZBtP1UoBS0Fv/6u95WVk4ovlFQs94s1KrdJApm/w3qyfdQxuKwqXPQVzlhvX331sNBzHqB2xzSR3gQ5jKvT1uB2PIOK3hyZCnjSRrc4qFejViFJ+BKBjmZTBUQ0G8HkX4lGuob6MEIQnjN5FkNj9sEgKFxKgg/MmOdGqiJGVDISNFud6qjFyyWYr+Lr+BcEPdXcP4X3lz9E7QRur9HKnNGPnc+CkrC3WnqtiPFnu53p5zo1RwMM7yGCERpz7q9btzqLCfQGC65A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=jg5enGrYOxBAoHGjrpTvNcRXeIvRhu2u17BJqjc1m10=;
+ b=gc6iL+wngktTJRm6EkRGMA8smiZiq4nA80p3JTcc7FIBbeBJjrNtk2EX+Anp30zrcDFPcAvJoeOAXU45UiEvNGA9bNVYbxgl2RsHt9PhakcW5Az4GENlhhfv9qxEGh6/WwauqlNKB+9DBRc8mhdkWVncm2dkFxtiMOg4aCSKO5M=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DM4PR12MB5229.namprd12.prod.outlook.com (2603:10b6:5:398::12)
+ by DM6PR12MB4075.namprd12.prod.outlook.com (2603:10b6:5:21d::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5482.6; Fri, 29 Jul
+ 2022 12:59:44 +0000
+Received: from DM4PR12MB5229.namprd12.prod.outlook.com
+ ([fe80::1dac:1301:78a3:c0d0]) by DM4PR12MB5229.namprd12.prod.outlook.com
+ ([fe80::1dac:1301:78a3:c0d0%4]) with mapi id 15.20.5482.012; Fri, 29 Jul 2022
+ 12:59:44 +0000
+Message-ID: <7da72334-f3ea-fe73-b4b4-bec97ae15946@amd.com>
+Date:   Fri, 29 Jul 2022 07:59:42 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH] docs: embargoed-hardware-issues: remove bouncing AMD
+ contact info
 Content-Language: en-US
-To:     =?UTF-8?Q?G=c3=bcnther_Noack?= <gnoack3000@gmail.com>
-Cc:     linux-security-module@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org,
-        Konstantin Meskhidze <konstantin.meskhidze@huawei.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        "Alejandro Colomar (man-pages)" <alx.manpages@gmail.com>
-References: <20220707200612.132705-1-gnoack3000@gmail.com>
- <dbb0cd04-72a8-b014-b442-a85075314464@digikod.net> <YsqihF0387fBeiVa@nuc>
-From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
-Subject: Re: [PATCH 0/2] landlock: truncate(2) support
-In-Reply-To: <YsqihF0387fBeiVa@nuc>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-kernel@vger.kernel.org
+Cc:     linux-doc@vger.kernel.org,
+        linux-doc-tw-discuss@lists.sourceforge.net,
+        Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
+        Yanteng Si <siyanteng@loongson.cn>,
+        Hu Haowen <src.res@email.cn>
+References: <20220729100745.2225558-1-gregkh@linuxfoundation.org>
+ <YuO0bY7xMqFtrKCj@kroah.com>
+From:   Tom Lendacky <thomas.lendacky@amd.com>
+In-Reply-To: <YuO0bY7xMqFtrKCj@kroah.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SN7PR04CA0018.namprd04.prod.outlook.com
+ (2603:10b6:806:f2::23) To DM4PR12MB5229.namprd12.prod.outlook.com
+ (2603:10b6:5:398::12)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 559bf85b-3806-478f-6c17-08da71623540
+X-MS-TrafficTypeDiagnostic: DM6PR12MB4075:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: rne5lwYgklt4oGEcCBa3bnHAUD71xfFBLOl6YSmr3ejC0ELMrgjoBEpzVxp6GBdPa011TjRt5OcD/pAfZUrEcXLvaNsPsYo5NKCQ19LxiExvGHglNFkQ5nPm9jgIb7RiVk9qgGoN0e6uHEm94XisMkb1d7c9WWT0t+xvRWstNzBRwZuhlKgXq6AbgYRrL1vmxwzfu4ODZBsNtQ/uwPpCE6T0cmQB/1TctY96V+lyLqYB0cRrOcNP584DNNiGEwmD+5vJf4NSICF8srGdMdpry673yvB0uu3rg+ZIgkdt0IjpEYhvbSQKr33/lK4nFx/TtZYI/vaonD4Yc1nyGrEuBuxTcy6A29l268SFjWIAx0TfWTRoX49hLBwb8Kh2m0JjAHxAqtKXcTdy20VPKYuviFNmCv/8DOGF18y6SkOmK2QmGqmURFde0szgcdvpjIeq6Tqfc/WHXNGTAbUF4hOekob718xXFRbnlDjYWo9CiDohsTRsmk1fZoYCsRdebBn2Nr7cXumG/JpQC0h5kggDTFerz+t9+q0EdLSAx/nc/QWiSsf5dW6p3wm/nWuLzf0+oRS3WdNzeEeKJgC7sqnbcNZ80ds8WreBSYqDd3E4iJnFTlR8JxH1pqjT0bGAyc3AKYyvc3bxJvf5CGUIrejHogrfETrpKtQJrWzv4Y2hAiE+QbovDoi88yZmRm507i20QaGB9/YSHijdTMOF6akimDEt8v+kohfr+BZjgDeospcewuzM/QF0e7CZWO/ct95QnQEKxUw9+H8SjXkS17LGKOFmOR2Y3MK6ixObmXDUmFqDZvzaUrkc+j7amJ5Dx6awNdViSS/u5Qe6cP/YGh5V2A==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR12MB5229.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(39860400002)(396003)(376002)(346002)(136003)(366004)(66946007)(316002)(54906003)(6486002)(478600001)(38100700002)(31686004)(31696002)(86362001)(36756003)(186003)(83380400001)(26005)(53546011)(41300700001)(6512007)(2616005)(6506007)(5660300002)(8936002)(2906002)(66556008)(66476007)(8676002)(4326008)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UmlucmI1VzMyWC9ZSlZYWXlBVGZWQjU1RzJNVVVzNmdZNHlCQVlORGZ6ZU51?=
+ =?utf-8?B?RXJMb3hkdW12QWpxcmZ5SHlGMEIxVFVoTFRISjNiLytYeTV6R2Q0dTE2TVo1?=
+ =?utf-8?B?aUZTaEMxQitndWx1eGNmcjBuT2NQSkg1bXp2NW54U2ZQU1B6L0M4TmpBWnpa?=
+ =?utf-8?B?eTZCWG54OVJyS244MklmYkZoaURld0J0L2tua2dZQzdhZEdkRnZ6eXcyamJE?=
+ =?utf-8?B?MC82WDBqQUlyc20vc3c5S3NqdFd6Q2gydWo3eEZpM0QzS3MyYjFGVUc5SzlO?=
+ =?utf-8?B?c2tkMG9yWTJjZEF6YjFyYU1HTDdkNjY5TVZ6MVVFTmNGRmx5UVI1WnhBbEZl?=
+ =?utf-8?B?cVNhSElQRXp6SlRpQTNVNCtNM2JGb2ZiemZxN2JXV3JSNnF0TzZrbDJzUkVY?=
+ =?utf-8?B?VG9QQjZLRHhReHNDRlJpckdGUUQzUk5SS1dtd1RnOWwreWo1T0tpVzZ6eVBu?=
+ =?utf-8?B?VHFZRVdrSjAxV3R4a2xaNGdBK0hyUlJoYXdySW9YSzF1MGVFVzlvbkJjS1I2?=
+ =?utf-8?B?d3N0NFh2S0srOXc5V2JBdlcwZlJsdWhGdklNT3R5Z2xjblJiOUQ3RWJoVHlX?=
+ =?utf-8?B?L3RyaUFMVTJuclNNL3hVTkowQ3NpOWw1NFlYUTEybHBHc1dscDFJbFA1OVBx?=
+ =?utf-8?B?dnFzbFlWYUZBZVBOanJ2bDJWY3BhRllidzJHTUx2MUNwNmRiVDZIZmZwUC9S?=
+ =?utf-8?B?QzVkZjg5Mml4dG9MNHBtTS9VVExGYkNiSlVwWWI1VnM3cXBlLzRSMUtuZlIv?=
+ =?utf-8?B?c0tVWWF6clBMQmhEUy96QjFuQXR5amFXaFNEWmY4OUM3MDNzMG53MDUxOVM1?=
+ =?utf-8?B?c3I3Zko3dDgzN2JGR00xRkd4Z3VVL2NDK1kvU0hFbVdvRHRrYVpsc1VJcWRY?=
+ =?utf-8?B?NGVUU0o0T2dhM1pDSzl1YURVVUZIWGFjQnZOdk1ZY2pDT3F1WmpON280WFBB?=
+ =?utf-8?B?SnpZZ3pNbzd5dWZzQmxQRmF2LzZSS2lINlNKbEIrK3J6K1VGcnozRlVtdko5?=
+ =?utf-8?B?M2MzcFdsN3BSVDV0d1JCQXJaRUZFZDFzbTNzeW5DdVcvUmNkL3ZtOE1NMVhs?=
+ =?utf-8?B?c3A4LytKQjZxZmFjdVJNV2dwNzMzYWs3b0JkV1Y4U3pDUXJBMU9kdllPdEtS?=
+ =?utf-8?B?V1g2K2cxY0RINnBVTlN2VU9nandWSFJUVHhtWFhJNnNEQVJHcDIwbEdXR2Ra?=
+ =?utf-8?B?OStiaDRKOFlDZkI1ekhsMjEyQ1RMdTg2T2xvd1BvVFNtUjVDZXlYbHlXcGEz?=
+ =?utf-8?B?bTYvRVBLc2d0YWI2RVpJa2plT0JVWkhzSTdEZ29EVHZDM3ZxbURGa2oveTZw?=
+ =?utf-8?B?b0p3N2FiUDNZelZzV3ZWVjJkSDRBdks0Q1Iyd2M2YTR5YkVjTDhNUnBoU3FV?=
+ =?utf-8?B?d2hYU1hYd3hYNWVSQ1crNGNqTVZKTUVYMWtFMGNvSDdzWHVyYnRLV2d6TFZO?=
+ =?utf-8?B?RE05M2VHTDF2TDV3NUxySjI5WVllVDUzNW00eldLYmJWcnVRb2lMNkNybmlS?=
+ =?utf-8?B?WndNQnlGWThGUzNYNHYveEFpMXRtT2UrWXpuTG1EYW1oeW9ZYlpVZkl3VDd2?=
+ =?utf-8?B?Y1c2eDlqekQzUFYyNElGVkRHUk9teEpUT3ROcHZqRldpdmhvTDZZdzVIczFy?=
+ =?utf-8?B?UXhlOFJnOW5NK29TTDBIVUxiallxTVBweUYwem9oQjFjUG1pZTByT25Zakx1?=
+ =?utf-8?B?VVc1Yk00cEw5UW42dEF0OXo5RHFLelBpaHREdkpWN3RhM1F3TTlJeS9IUVBu?=
+ =?utf-8?B?cVNGZXVVcjIzNHpEM09sVGpCTEJieW9YNTJBYTVVNmh2U2F3dVdSbnZ3aENk?=
+ =?utf-8?B?cHZraHRvWnZHanVGL0RPRU1ZdWpRY3UwK2s5VEF3MlBGbkI1QlJQTGQ3azNO?=
+ =?utf-8?B?bEtaSjdCQ01Bd2ZrdXY1TTM2aUF3N3dZKzdDcVlzZFB0THl6Tnkwby84Q09h?=
+ =?utf-8?B?R3FaUGxaVHJ4aS9RTXNpcDkwVG1KaEdvRFh4TmZhclJxNXh2Y1N6NE1pUFU1?=
+ =?utf-8?B?NG9Rd3NYdlhzelhTVEh6WVRsOStsN0w4VTFzc3oySlBoRnY0dlc3R0diMUEx?=
+ =?utf-8?B?UDRSYjh2MlJFZ2NSVFhTWVIxZTFUOFhPM3R1WmdQRFJwbGpoQjBpL3hJdHhX?=
+ =?utf-8?Q?O2tnXLnwPf2M415HfnAh4Srpc?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 559bf85b-3806-478f-6c17-08da71623540
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB5229.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jul 2022 12:59:44.2680
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: DeuRqEFPeyEdJDAfC+vPVumt/77e2CrAFzvmXMxHawaxnJ2WhOKiLyscNnglzHzlkDIqznaJJWdUhC4S5vlnWg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4075
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-On 10/07/2022 11:57, Günther Noack wrote:
-> Hello Mickaël!
-> 
-> Thank you for the fast feedback! I'm looking into your comments from
-> this mail and the rest of the thread and am working on an updated
-> patch set.
-> 
-> On Fri, Jul 08, 2022 at 01:16:29PM +0200, Mickaël Salaün wrote:
->> Hi Günther, this looks good!
+On 7/29/22 05:20, Greg Kroah-Hartman wrote:
+> On Fri, Jul 29, 2022 at 12:07:45PM +0200, Greg Kroah-Hartman wrote:
+>> The current AMD contact info in the embargoed-hardware-issues.rst file
+>> is bouncing as an invalid address, so remove it from the documentation.
 >>
->> Added linux-fsdevel@vger.kernel.org
+>> At this point in time, the kernel community has no way to contact AMD
+>> for any hardware-specific problems.  Hopefully they can resolve this
+>> issue soon, or maybe they just don't have any hardware bugs and do not
+>> need to worry about this.
 >>
->> On 07/07/2022 22:06, Günther Noack wrote:
->>> The goal of these patches is to work towards a more complete coverage
->>> of file system operations that are restrictable with Landlock.
->>>
->>> The known set of currently unsupported file system operations in
->>> Landlock is described at [1]. Out of the operations listed there,
->>> truncate is the only one that modifies file contents, so these patches
->>> should make it possible to prevent the direct modification of file
->>> contents with Landlock.
->>>
->>> The patch introduces the truncate(2) restriction feature as an
->>> additional bit in the access_mask_t bitmap, in line with the existing
->>> supported operations.
->>>
->>> Apart from Landlock, the truncate(2) and ftruncate(2) family of system
->>> calls can also be restricted using seccomp-bpf, but it is a
->>> complicated mechanism (requires BPF, requires keeping up-to-date
->>> syscall lists) and it also is not configurable by file hierarchy, as
->>> Landlock is. The simplicity and flexibility of the Landlock approach
->>> makes it worthwhile adding.
->>>
->>> I am aware that the documentation and samples/landlock/sandboxer.c
->>> tool still need corresponding updates; I'm hoping to get some early
->>> feedback this way.
->> Yes, that's a good approach.
+>> Cc: Jonathan Corbet <corbet@lwn.net>
+>> Cc: Alex Shi <alexs@kernel.org>
+>> Cc: Yanteng Si <siyanteng@loongson.cn>
+>> Cc: Hu Haowen <src.res@email.cn>
+>> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+>> ---
+>>   Documentation/process/embargoed-hardware-issues.rst             | 2 +-
+>>   .../translations/zh_CN/process/embargoed-hardware-issues.rst    | 2 +-
+>>   .../translations/zh_TW/process/embargoed-hardware-issues.rst    | 2 +-
+>>   3 files changed, 3 insertions(+), 3 deletions(-)
 >>
->> Extending the sandboxer should be straightforward, you can just extend the
->> scope of LL_FS_RW, taking into account the system Landlock ABI because there
->> is no "contract" for this sample.
+>> diff --git a/Documentation/process/embargoed-hardware-issues.rst b/Documentation/process/embargoed-hardware-issues.rst
+>> index 95999302d279..a8c38e1c40dc 100644
+>> --- a/Documentation/process/embargoed-hardware-issues.rst
+>> +++ b/Documentation/process/embargoed-hardware-issues.rst
+>> @@ -244,7 +244,7 @@ disclosure of a particular issue, unless requested by a response team or by
+>>   an involved disclosed party. The current ambassadors list:
+>>   
+>>     ============= ========================================================
+>> -  AMD		Tom Lendacky <tom.lendacky@amd.com>
+>> +  AMD
 > 
-> Sounds good, I'll extend the sample tool like this for the updated patch set.
-> 
-> (On the side, as you know from the discussion on the go-landlock
-> library, I have some suspicion that the "best effort"
-> backwards-compatibility approach in the sample tool is not the right
-> one for the "refer" right, but that might be better suited for a
-> separate patch. Maybe it'll be simpler to just not support a
-> best-effort downgrade in the sample tool.)
+> Wait, Tom, is this just the wrong email address for you?  And the one
+> above I used in the To: the correct one?
 
-Please share your though about the "refer" right.
+Wow, yes, I can't believe I made that mistake and haven't noticed it! You 
+are correct, it should be thomas.lendacky@amd.com.
 
-
-> 
->> You'll need to remove the warning about truncate(2) in the documentation,
->> and maybe to move it to the "previous limitations" section, with the
->> LANDLOCK_ACCESS_TRUNCATE doc pointing to it. I think it would be nice to
->> extend the LANDLOCK_ACCESS_FS_WRITE documentation to point to
->> LANDLOCK_ACCESS_FS_TRUNCATE because this distinction could be disturbing for
->> users. Indeed, all inode-based LSMs (SELinux and Smack) deny such action if
->> the inode is not writable (with the inode_permission check), which is not
->> the case for path-based LSMs (AppArmor and Tomoyo).
-> 
-> This makes a lot of sense, I'll work on the documentation to point this out.
-> 
-> I suspect that for many common use cases, the
-> LANDLOCK_ACCESS_FS_TRUNCATE right will anyway only be used together
-> with LANDLOCK_ACCESS_FS_FILE_WRITE in practice. (See below for more
-> detail.)
-
-Agree
-
+Thanks,
+Tom
 
 > 
->> While we may question whether a dedicated access right should be added for
->> the Landlock use case, two arguments are in favor of this approach:
->> - For compatibility reasons, the kernel must follow the semantic of a
->> specific Landlock ABI, otherwise it could break user space. We could still
->> backport this patch and merge it with the ABI 1 and treat it as a bug, but
->> the initial version of Landlock was meant to be an MVP, hence this lack of
->> access right.
->> - There is a specific access right for Capsicum (CAP_FTRUNCATE) that could
->> makes more sense in the future.
->>
->> Following the Capsicum semantic, I think it would be a good idea to also
->> check for the O_TRUNC open flag:
->> https://www.freebsd.org/cgi/man.cgi?query=rights
+> confused,
 > 
-> open() with O_TRUNC was indeed a case I had not thought about - thanks
-> for pointing it out.
-> 
-> I started adding some tests for it, and found to my surprise that
-> open() *is* already checking security_path_truncate() when it is
-> truncating files. So there is a chance that we can get away without a
-> special check for O_TRUNC in the security_file_open hook.
-> 
-> The exact semantics might be slightly different to Capsicum though -
-> in particular, the creat() call (= open with O_TRUNC|O_CREAT|O_WRONLY)
-> will require the Landlock truncate right when it's overwriting an
-> existing regular file, but it will not require the Landlock truncate
-> right when it's creating a new file.
-
-Is the creat() check really different from what is done by Capsicum?
-
-
-> 
-> I'm not fully sure how this is done in Capsicum. I assume that the
-> Comparison with Capsicum is mostly for inspiration, but there is no
-> goal of being fully compatible with that model?
-
-I think Landlock has all the technical requirements to implement a 
-Capsicum-like on Linux: unprivileged access control (which implies 
-scoped access control, policies composition, only new restrictions, 
-nesting, dedicated syscalls…). The main difference with the actual 
-Landlock sandboxing would be that restrictions would apply to all 
-processes doing actions on a specific kind of file descriptor (i.e. 
-capability). Instead of checking the current thread's domain, Landlock 
-could check the "file descriptor's domain". We're definitely not there 
-yet but let's keep this in mind. ;)
-
-
-> 
-> The creat() behaviour is non-intuitive from userspace, I think:
-> creat() is a pretty common way to create new files, and it might come
-> as a surprise to people that this can require the truncate right,
-> because:
-> 
-> - The function creat() doesn't have "truncate" in its name, and you
->    might be tempted to think that the LANDLOCK_ACCESS_FS_MAKE_REG is
->    sufficient for calling it.
-> 
-> - Users can work around the need for the truncate right by unlinking
->    the existing regular file with the same name and creating a new one.
->    So for the most common use case (where users do not care about the
->    file's inode identity or race conditions), it is surprising that
->    the truncate right is required.
-
-These are useful information to put in the documentation. Explaining why 
-it is required should help users. From my point of view, the logic 
-behind is that replacing a file modifies its content (i.e. shrink it to 
-zero), while unlinking a file doesn't change its content but makes it 
-unreachable (removes it) from a directory (and it might not be deleted 
-if linked elsewhere).
-
-
-> 
-> Summarizing this, I also think that the truncate right needs to be a
-> separate flag, even if just for backwards compatibility reasons.
-> 
-> But at the same time, I suspect that in practice, the truncate right
-> will probably have to usually go together with the file_write right,
-> so that the very common creat() use case (and possibly others) does
-> not yield surprising behaviour.
-
-Agree. User space libraries might (and probably should) have a different 
-interface than the raw syscalls. The Landlock syscalls are meant to 
-provide a flexible interface for different use cases. We should keep in 
-mind that the goal of libraries is to help developers. ;)
+> greg k-h
