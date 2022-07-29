@@ -2,72 +2,95 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 392EBC00144
-	for <linux-doc@archiver.kernel.org>; Fri, 29 Jul 2022 13:11:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E62AC00144
+	for <linux-doc@archiver.kernel.org>; Fri, 29 Jul 2022 13:40:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236187AbiG2NLL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 29 Jul 2022 09:11:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33920 "EHLO
+        id S236602AbiG2NkX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 29 Jul 2022 09:40:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56450 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236501AbiG2NKr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Jul 2022 09:10:47 -0400
-Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2EB5565AF;
-        Fri, 29 Jul 2022 06:10:44 -0700 (PDT)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        with ESMTP id S235451AbiG2NkW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Jul 2022 09:40:22 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C06111180C;
+        Fri, 29 Jul 2022 06:40:20 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.ozlabs.org (Postfix) with ESMTPSA id 4LvSYs5qW8z4x1d;
-        Fri, 29 Jul 2022 23:10:41 +1000 (AEST)
-From:   Michael Ellerman <patch-notifications@ellerman.id.au>
-To:     linux-doc-tw-discuss@lists.sourceforge.net,
-        linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        linux-next@vger.kernel.org, linuxppc-dev@lists.ozlabs.org
-Cc:     Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 5D90861F4C;
+        Fri, 29 Jul 2022 13:40:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 378BCC433D6;
+        Fri, 29 Jul 2022 13:40:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1659102019;
+        bh=0OSNx2MkLas4Uvqd32G0wnYPkqwVOT8GaNmWvKmuHQQ=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=VGi+dc17KprHrHpJ2H3pemHcy6c4NC2hK7DSwjiSMUlz7QJR6WZotCcvqZ3F4AJi6
+         TeNza7yxrPninBAzA3R1493aUPyUVtu2uh0m620SFqZT8jpoQm/L1xmOLgOiDJZK4P
+         WEDImwpAf+c6DSV8QEh7d/H+OOZetid+l9lWc1mU=
+Date:   Fri, 29 Jul 2022 15:40:16 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Tom Lendacky <thomas.lendacky@amd.com>
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-doc-tw-discuss@lists.sourceforge.net,
+        Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
         Yanteng Si <siyanteng@loongson.cn>,
-        Alex Shi <alexs@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        Segher Boessenkool <segher@kernel.crashing.org>,
-        linux-kernel@vger.kernel.org, Nicholas Piggin <npiggin@gmail.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>
-In-Reply-To: <20220728033332.27836-1-bagasdotme@gmail.com>
-References: <20220727220050.549db613@canb.auug.org.au> <20220728033332.27836-1-bagasdotme@gmail.com>
-Subject: Re: [PATCH 0/3] Documentation: powerpc: documentation fixes for Documentation/powerpc/elf_hwcaps.rst
-Message-Id: <165909979455.253830.7633506902686535863.b4-ty@ellerman.id.au>
-Date:   Fri, 29 Jul 2022 23:03:14 +1000
+        Hu Haowen <src.res@email.cn>
+Subject: Re: [PATCH] docs: embargoed-hardware-issues: remove bouncing AMD
+ contact info
+Message-ID: <YuPjQF11kf+8JYxv@kroah.com>
+References: <20220729100745.2225558-1-gregkh@linuxfoundation.org>
+ <YuO0bY7xMqFtrKCj@kroah.com>
+ <7da72334-f3ea-fe73-b4b4-bec97ae15946@amd.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <7da72334-f3ea-fe73-b4b4-bec97ae15946@amd.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 28 Jul 2022 10:33:30 +0700, Bagas Sanjaya wrote:
-> After merging powerpc tree for linux-next integration testing, Stephen
-> Rothwell reported htmldocs warnings at [1]. Fix these with self-explanatory
-> fixes in the shortlog below.
+On Fri, Jul 29, 2022 at 07:59:42AM -0500, Tom Lendacky wrote:
+> On 7/29/22 05:20, Greg Kroah-Hartman wrote:
+> > On Fri, Jul 29, 2022 at 12:07:45PM +0200, Greg Kroah-Hartman wrote:
+> > > The current AMD contact info in the embargoed-hardware-issues.rst file
+> > > is bouncing as an invalid address, so remove it from the documentation.
+> > > 
+> > > At this point in time, the kernel community has no way to contact AMD
+> > > for any hardware-specific problems.  Hopefully they can resolve this
+> > > issue soon, or maybe they just don't have any hardware bugs and do not
+> > > need to worry about this.
+> > > 
+> > > Cc: Jonathan Corbet <corbet@lwn.net>
+> > > Cc: Alex Shi <alexs@kernel.org>
+> > > Cc: Yanteng Si <siyanteng@loongson.cn>
+> > > Cc: Hu Haowen <src.res@email.cn>
+> > > Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > > ---
+> > >   Documentation/process/embargoed-hardware-issues.rst             | 2 +-
+> > >   .../translations/zh_CN/process/embargoed-hardware-issues.rst    | 2 +-
+> > >   .../translations/zh_TW/process/embargoed-hardware-issues.rst    | 2 +-
+> > >   3 files changed, 3 insertions(+), 3 deletions(-)
+> > > 
+> > > diff --git a/Documentation/process/embargoed-hardware-issues.rst b/Documentation/process/embargoed-hardware-issues.rst
+> > > index 95999302d279..a8c38e1c40dc 100644
+> > > --- a/Documentation/process/embargoed-hardware-issues.rst
+> > > +++ b/Documentation/process/embargoed-hardware-issues.rst
+> > > @@ -244,7 +244,7 @@ disclosure of a particular issue, unless requested by a response team or by
+> > >   an involved disclosed party. The current ambassadors list:
+> > >     ============= ========================================================
+> > > -  AMD		Tom Lendacky <tom.lendacky@amd.com>
+> > > +  AMD
+> > 
+> > Wait, Tom, is this just the wrong email address for you?  And the one
+> > above I used in the To: the correct one?
 > 
-> [1]: https://lore.kernel.org/linuxppc-dev/20220727220050.549db613@canb.auug.org.au/
-> 
-> Bagas Sanjaya (3):
->   Documentation: powerpc: fix indentation warnings
->   Documentation: use different label names for each arch's
->     elf_hwcaps.rst
->   Documentation: powerpc: add elf_hwcaps to table of contents
-> 
-> [...]
+> Wow, yes, I can't believe I made that mistake and haven't noticed it! You
+> are correct, it should be thomas.lendacky@amd.com.
 
-Applied to powerpc/next.
+Ok, let me go fix this up and change the address in the files and redo
+this patch.
 
-[1/3] Documentation: powerpc: fix indentation warnings
-      https://git.kernel.org/powerpc/c/4515862b66d3bdaf681cade1c72f047c93d94d01
-[2/3] Documentation: use different label names for each arch's elf_hwcaps.rst
-      https://git.kernel.org/powerpc/c/0595a216920cb035030c73cec3ab9fe413ef1d77
-[3/3] Documentation: powerpc: add elf_hwcaps to table of contents
-      https://git.kernel.org/powerpc/c/a05aae92f84ba6d2705f6dac206ef5dcf097ea96
+thanks,
 
-cheers
+greg k-h
