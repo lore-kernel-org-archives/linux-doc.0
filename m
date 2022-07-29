@@ -2,88 +2,213 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C03FDC00140
-	for <linux-doc@archiver.kernel.org>; Fri, 29 Jul 2022 01:47:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6AF1BC00140
+	for <linux-doc@archiver.kernel.org>; Fri, 29 Jul 2022 02:28:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233698AbiG2BrH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 28 Jul 2022 21:47:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46278 "EHLO
+        id S233577AbiG2C2z (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 28 Jul 2022 22:28:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46808 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231720AbiG2BrG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Jul 2022 21:47:06 -0400
-Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com [IPv6:2607:f8b0:4864:20::433])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 284AC17596;
-        Thu, 28 Jul 2022 18:47:06 -0700 (PDT)
-Received: by mail-pf1-x433.google.com with SMTP id e16so3394433pfm.11;
-        Thu, 28 Jul 2022 18:47:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc;
-        bh=Pv6W8Maka4VAZeV92WQ+4edaVOyQNGXitAaHP7ckb1s=;
-        b=DQNYIaXwn/HtUMIALq8u0oVCo5V+VpcyXVyvdU4QTb52/TlE7QNu4RklQ1TKWGXNPu
-         BfkbTzmzHuyWjOkb6iDxCmd6NnPXwh5FU4hYo9/jTauIDVTpdVI/uR69yAF00d7OHhLG
-         YvPDTsH11PT3nqyg47vL9vDveEtEwaVErSBORvxyGuqQb0Zs1MK04YnDBmBfkIl5+6Ld
-         rQiYvD6Zy1HhwYIGSVAoy/0gC8Df/Qi1HOqHsiOazm5bOu/0hIee8fwtD4z4aXhzCseW
-         lH0mt1cgM+PwYTAmKASvcH37vTLv9Ms5lRXvvFripyzP7ABayW4tV4VI00uxNTI5pWVi
-         EJ3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc;
-        bh=Pv6W8Maka4VAZeV92WQ+4edaVOyQNGXitAaHP7ckb1s=;
-        b=vL5KH/P8Hpd7Q//u4/PUIpfVG9ZOuCF6NbDgasdnMg6ZiSfi7nycbGA/bzg21JjqDv
-         W6StElb4azOKoSG9GgS552wDRI5gntfM5BfCrEfJEcHjdakj0KrXltC2HE4pTqMZvHKS
-         ao4f7vNqUSDWV+Mz7Q7qDj0EJLY/3CbYi1Wt98X0w9aKuTzrPf8FAZDAoxPJOPhc1h0P
-         tiwd6PQU+Y7Yf5wzs+L4ZnayZ5R4Sm1rRuWtDVfVeGI41pLCODHjEmCN9PXJPpVMCb52
-         b5uuL1KwzZf9jJtBSsMF9ZuqF9pO/cJlv7RnqdoUhM3AerGdrIlRvkmlE9xjlye3vDw1
-         xfAQ==
-X-Gm-Message-State: AJIora+/7qsB7MN/WouTmIBX91QsAlYQr3nJ6nStqTHyAeq0UN1tqZyK
-        xQgQFV8rw1c9hhm9Mm7QngI=
-X-Google-Smtp-Source: AGRyM1tMQ+yLoJhQ+H5u56wIqUt4cuZjOlPGsZir9KwDdJ+xtEdWwKn8HuCV5UlzjGRn3BbniqNFaw==
-X-Received: by 2002:a63:451e:0:b0:40d:c602:4e with SMTP id s30-20020a63451e000000b0040dc602004emr1119796pga.453.1659059225609;
-        Thu, 28 Jul 2022 18:47:05 -0700 (PDT)
-Received: from [192.168.43.80] (subs03-180-214-233-65.three.co.id. [180.214.233.65])
-        by smtp.gmail.com with ESMTPSA id g18-20020aa796b2000000b0052ab5a740aesm1416661pfk.162.2022.07.28.18.47.03
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 28 Jul 2022 18:47:05 -0700 (PDT)
-Message-ID: <78f782da-1af9-a068-3aa5-1d6102f5e8c1@gmail.com>
-Date:   Fri, 29 Jul 2022 08:47:02 +0700
+        with ESMTP id S229535AbiG2C2z (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 28 Jul 2022 22:28:55 -0400
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24E7D7B1F4;
+        Thu, 28 Jul 2022 19:28:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1659061734; x=1690597734;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=12gKVngtqnjv+QPw8p8qTC74M0DQ2NH3SlFgYl5vsoQ=;
+  b=GOFV5TQyBSl8WuneX8oGHNn9c0iIHCd8LtAy+syRT3pC/7VVlFzrQEiY
+   RoxItuoRBhWYGCkTJxOG+uq93MWiWn4azOaRrLUMdeEcfstuG0oharIum
+   9tSf/stDTLvWnootubaRPBk0hHOmMp/ANbHW2PXvOUZNjLgc4cjSJx1Br
+   eY5vaP15eQWBuYsHiaLJS88diZ4U8rOxjF0eeFTrR651rwYq1TtDXX783
+   7answ6K2XeVCygpLH9kSfOk9Dw3m9KUnbvA+ytUpBwibcIJY7I1U5UyPW
+   wMEKsaao694wSTpFXST139wXxguq1977leqDMpYIaA/YPc+TWz6lXfcIc
+   Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10422"; a="275555809"
+X-IronPort-AV: E=Sophos;i="5.93,200,1654585200"; 
+   d="scan'208";a="275555809"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2022 19:28:53 -0700
+X-IronPort-AV: E=Sophos;i="5.93,200,1654585200"; 
+   d="scan'208";a="669120036"
+Received: from astallix-mobl.amr.corp.intel.com (HELO desk) ([10.212.148.249])
+  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2022 19:28:52 -0700
+Date:   Thu, 28 Jul 2022 19:28:51 -0700
+From:   Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
+To:     Borislav Petkov <bp@alien8.de>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+        tony.luck@intel.com, antonio.gomez.iglesias@linux.intel.com,
+        Daniel Sneddon <daniel.sneddon@linux.intel.com>,
+        andrew.cooper3@citrix.com, Josh Poimboeuf <jpoimboe@kernel.org>
+Subject: Re: [RESEND RFC PATCH] x86/bugs: Add "unknown" reporting for MMIO
+ Stale Data
+Message-ID: <20220729022851.mdj3wuevkztspodh@desk>
+References: <a932c154772f2121794a5f2eded1a11013114711.1657846269.git.pawan.kumar.gupta@linux.intel.com>
+ <YuJ6TQpSTIeXLNfB@zn.tnic>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v1 2/5] maintainer-pgp-guide: remove keyserver
- instructions
-Content-Language: en-US
-To:     Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20220727-docs-pgp-guide-v1-0-c48fb06cb9af@linuxfoundation.org>
- <20220727-docs-pgp-guide-v1-2-c48fb06cb9af@linuxfoundation.org>
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <20220727-docs-pgp-guide-v1-2-c48fb06cb9af@linuxfoundation.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YuJ6TQpSTIeXLNfB@zn.tnic>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 7/29/22 03:57, Konstantin Ryabitsev wrote:
-> Keyservers are largely a thing of the past with the replacement systems
-> like keys.openpgp.net specifically designed to offer no support for the
-> web of trust. Remove all sections that talk about keyservers and add a
-> small section with the link to kernel.org documentation that talks about
-> using the kernel.org public key repository.
+On Thu, Jul 28, 2022 at 02:00:13PM +0200, Borislav Petkov wrote:
+> On Thu, Jul 14, 2022 at 06:30:18PM -0700, Pawan Gupta wrote:
+> > Older CPUs beyond its Servicing period are not listed in the affected
+> > processor list for MMIO Stale Data vulnerabilities. These CPUs currently
+> > report "Not affected" in sysfs, which may not be correct.
+> > 
+> > Add support for "Unknown" reporting for such CPUs. Mitigation is not
+> > deployed when the status is "Unknown".
+> > 
+> > "CPU is beyond its Servicing period" means these CPUs are beyond their
+> > Servicing [1] period and have reached End of Servicing Updates (ESU) [2].
+> > 
+> >   [1] Servicing: The process of providing functional and security
+> >   updates to Intel processors or platforms, utilizing the Intel Platform
+> >   Update (IPU) process or other similar mechanisms.
+> > 
+> >   [2] End of Servicing Updates (ESU): ESU is the date at which Intel
+> >   will no longer provide Servicing, such as through IPU or other similar
+> >   update processes. ESU dates will typically be aligned to end of
+> >   quarter.
 > 
+> The explanations of those things need to be...
+> 
+> > Suggested-by: Andrew Cooper <andrew.cooper3@citrix.com>
+> > Suggested-by: Tony Luck <tony.luck@intel.com>
+> > Fixes: 8d50cdf8b834 ("x86/speculation/mmio: Add sysfs reporting for Processor MMIO Stale Data")
+> > Cc: stable@vger.kernel.org
+> > Signed-off-by: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
+> > ---
+> > CPU vulnerability is unknown if, hardware doesn't set the immunity bits
+> > and CPU is not in the known-affected-list.
+> > 
+> > In order to report the unknown status, this patch sets the MMIO bug
+> > for all Intel CPUs that don't have the hardware immunity bits set.
+> > Based on the known-affected-list of CPUs, mitigation selection then
+> > deploys the mitigation or sets the "Unknown" status; which is ugly.
+> > 
+> > I will appreciate suggestions to improve this.
+> > 
+> > Thanks,
+> > Pawan
+> > 
+> >  .../hw-vuln/processor_mmio_stale_data.rst     |  3 +++
+> >  arch/x86/kernel/cpu/bugs.c                    | 11 +++++++-
+> >  arch/x86/kernel/cpu/common.c                  | 26 +++++++++++++------
+> >  arch/x86/kernel/cpu/cpu.h                     |  1 +
+> >  4 files changed, 32 insertions(+), 9 deletions(-)
+> > 
+> > diff --git a/Documentation/admin-guide/hw-vuln/processor_mmio_stale_data.rst b/Documentation/admin-guide/hw-vuln/processor_mmio_stale_data.rst
+> > index 9393c50b5afc..55524e0798da 100644
+> > --- a/Documentation/admin-guide/hw-vuln/processor_mmio_stale_data.rst
+> > +++ b/Documentation/admin-guide/hw-vuln/processor_mmio_stale_data.rst
+> > @@ -230,6 +230,9 @@ The possible values in this file are:
+> >       * - 'Mitigation: Clear CPU buffers'
+> >         - The processor is vulnerable and the CPU buffer clearing mitigation is
+> >           enabled.
+> > +     * - 'Unknown: CPU is beyond its Servicing period'
+> > +       - The processor vulnerability status is unknown because it is
+> > +	 out of Servicing period. Mitigation is not attempted.
+> 
+> ... here.
 
-AFAIK, keyservers are synchronized (federated). For example, when I submit
-my key to keys.openpgp.net, other keyservers (like keyserver.ubuntu.com
-that I use) also gets a copy of my key. So "replacement systems" in
-this case is referred to kernel.org key repository (using git). The
-wording should be "Replace keyservers section with kernel.org public
-key repository usage".
+Sure, I will move it here.
 
--- 
-An old man doll... just what I always wanted! - Clara
+> > diff --git a/arch/x86/kernel/cpu/common.c b/arch/x86/kernel/cpu/common.c
+> > index 736262a76a12..82088410870e 100644
+> > --- a/arch/x86/kernel/cpu/common.c
+> > +++ b/arch/x86/kernel/cpu/common.c
+> > @@ -1286,6 +1286,22 @@ static bool arch_cap_mmio_immune(u64 ia32_cap)
+> >  		ia32_cap & ARCH_CAP_SBDR_SSDP_NO);
+> >  }
+> >  
+> > +bool __init mmio_stale_data_unknown(void)
+> 
+> This function need to go to ...cpu/intel.c
+
+It will be big churn to move this function to ...cpu/intel.c.
+
+cpu/intel.c is not compiled for !CONFIG_CPU_SUP_INTEL, and bugs.c
+depends on this function. For bugs.c to compile there needs to be
+another version of this function for !CONFIG_CPU_SUP_INTEL.
+
+Secondly, this function relies on cpu_vuln_blacklist and
+arch_cap_mmio_immune(), both are in cpu/common.c and defined static.
+They would also need to made available in cpu/intel.c.
+
+To keep things simple, can this stay in cpu/common.c? And if there is a
+compelling reason, I am willing to make the required changes.
+
+> > +{
+> > +	u64 ia32_cap = x86_read_arch_cap_msr();
+> > +
+> > +	if (boot_cpu_data.x86_vendor != X86_VENDOR_INTEL)
+> > +		return false;
+> 
+> <---- newline here.
+> 
+> > +	/*
+> > +	 * CPU vulnerability is unknown when, hardware doesn't set the
+> 
+> no comma after the "when"
+> 
+> > +	 * immunity bits and CPU is not in the known affected list.
+> > +	 */
+> > +	if (!cpu_matches(cpu_vuln_blacklist, MMIO) &&
+> > +	    !arch_cap_mmio_immune(ia32_cap))
+> > +		return true;
+> 
+> <---- newline here.
+
+Will do this, and above changes.
+
+> > +	return false;
+> > +}
+> > +
+> >  static void __init cpu_set_bug_bits(struct cpuinfo_x86 *c)
+> >  {
+> >  	u64 ia32_cap = x86_read_arch_cap_msr();
+> > @@ -1349,14 +1365,8 @@ static void __init cpu_set_bug_bits(struct cpuinfo_x86 *c)
+> >  	    cpu_matches(cpu_vuln_blacklist, SRBDS | MMIO_SBDS))
+> >  		    setup_force_cpu_bug(X86_BUG_SRBDS);
+> >  
+> > -	/*
+> > -	 * Processor MMIO Stale Data bug enumeration
+> > -	 *
+> > -	 * Affected CPU list is generally enough to enumerate the vulnerability,
+> > -	 * but for virtualization case check for ARCH_CAP MSR bits also, VMM may
+> > -	 * not want the guest to enumerate the bug.
+> > -	 */
+> > -	if (cpu_matches(cpu_vuln_blacklist, MMIO) &&
+> > +	 /* Processor MMIO Stale Data bug enumeration */
+> > +	if (boot_cpu_data.x86_vendor == X86_VENDOR_INTEL &&
+> 
+> Why is that vendor check here? We have the cpu_vuln_blacklist for a
+> reason.
+
+cpu_vuln_blacklist only has in-support MMIO vulnerable CPUs.
+
+There is no easy way to report unknown status for older CPUs. This
+patch sets the MMIO bug for all Intel CPUs that don't have the hardware
+immunity bits set.
+
+Later, mmio_select_mitigation() deploys the mitigation or sets the
+"Unknown" status based on the known-affected-list of CPUs i.e.
+cpu_vuln_blacklist.
+
+The vendor check is required, otherwise MMIO bug will be set for
+non-Intel CPUs also.
+
+Thanks,
+Pawan
