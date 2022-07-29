@@ -2,126 +2,76 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 868CAC19F2B
-	for <linux-doc@archiver.kernel.org>; Fri, 29 Jul 2022 10:57:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 168C3C00144
+	for <linux-doc@archiver.kernel.org>; Fri, 29 Jul 2022 11:20:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230264AbiG2K5K (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 29 Jul 2022 06:57:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52132 "EHLO
+        id S235959AbiG2LUV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 29 Jul 2022 07:20:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38690 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231454AbiG2K5J (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Jul 2022 06:57:09 -0400
-X-Greylist: delayed 559 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 29 Jul 2022 03:57:09 PDT
-Received: from smtp-8faf.mail.infomaniak.ch (smtp-8faf.mail.infomaniak.ch [IPv6:2001:1600:3:17::8faf])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C41C4D825
-        for <linux-doc@vger.kernel.org>; Fri, 29 Jul 2022 03:57:08 -0700 (PDT)
-Received: from smtp-2-0000.mail.infomaniak.ch (unknown [10.5.36.107])
-        by smtp-2-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4LvPNz6xXbzMqGY5;
-        Fri, 29 Jul 2022 12:47:47 +0200 (CEST)
-Received: from ns3096276.ip-94-23-54.eu (unknown [23.97.221.149])
-        by smtp-2-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4LvPNz2Wl7zlqwsf;
-        Fri, 29 Jul 2022 12:47:47 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=digikod.net;
-        s=20191114; t=1659091667;
-        bh=IS0wWDEaxm7J7hz3ql/Wib6XtD72c6ZqUxK9nr111ag=;
-        h=Date:To:Cc:References:From:Subject:In-Reply-To:From;
-        b=XwPx6zBNxtuRzJBSMd+xpVXK84RuQKYpALLhAUmvDpJWdOS7kVTscTy0qCbwS3iYq
-         E6665NowVi8On0NZdTpLaBXz1jutAGM+MygPS2fDQTTc0VYTQjqZt34pWgSkFYzGy+
-         xfrVe1+IV2qbQ6mqOF51+1sV8nGQ98tJAYG4jXOE=
-Message-ID: <d198d2b4-ebf4-c7a2-cf95-f028d48c09e5@digikod.net>
-Date:   Fri, 29 Jul 2022 12:47:46 +0200
+        with ESMTP id S235950AbiG2LUU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Jul 2022 07:20:20 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E1869FD7;
+        Fri, 29 Jul 2022 04:20:17 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 14B92B8277A;
+        Fri, 29 Jul 2022 11:20:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id C8063C43143;
+        Fri, 29 Jul 2022 11:20:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1659093614;
+        bh=Y57jwLF17yKH6ire5XQJto2UeyP9tKC9ZU+RXx+jAGk=;
+        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+        b=Pfy4CLPHAIwi5MkFwPPlZmCie+1khVGK8OkW4Lddf5LRFLyWfiTFcTmj6HI3zAfPA
+         LP8AlPw3EmQ7B6JDU6LPLIsb3W2d+EWnfDpbRRn2vd36+mDAyqyDwR5M2xZiYSJXs5
+         ueA+AU78PnHKAd8BbKiAyzAfOXTdO+ScQJUZtsNDbh/6O+HPYMqjQUBL7CJ3CFsyn3
+         5ExZlLcYTadL8V2ljMS5lIboazRaz9zE59N8eNfcs4U5JlRVhAFZJ5MVHJTg5zG+SH
+         /0QgZnfhp3Apnag3v/ttTaCMuI+WNWJrQvjA21WZQq1EOa5epTAkv+6rqSOpZ4hWXV
+         0brdSNPyHWF3A==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id A4E14C43143;
+        Fri, 29 Jul 2022 11:20:14 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-User-Agent: 
-Content-Language: en-US
-To:     =?UTF-8?Q?G=c3=bcnther_Noack?= <gnoack3000@gmail.com>,
-        linux-security-module@vger.kernel.org
-Cc:     James Morris <jmorris@namei.org>, Paul Moore <paul@paul-moore.com>,
-        "Serge E . Hallyn" <serge@hallyn.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-References: <20220712211405.14705-1-gnoack3000@gmail.com>
- <20220712211405.14705-5-gnoack3000@gmail.com>
-From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
-Subject: Re: [PATCH v2 4/4] landlock: Document Landlock's file truncation
- support
-In-Reply-To: <20220712211405.14705-5-gnoack3000@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net-next] Documentation: Describe net.ipv4.tcp_reflect_tos.
+From:   patchwork-bot+netdevbpf@kernel.org
+Message-Id: <165909361467.23060.8772702357602230882.git-patchwork-notify@kernel.org>
+Date:   Fri, 29 Jul 2022 11:20:14 +0000
+References: <4376126910096258f0a9da93ec53cad99a072afc.1658920560.git.gnault@redhat.com>
+In-Reply-To: <4376126910096258f0a9da93ec53cad99a072afc.1658920560.git.gnault@redhat.com>
+To:     Guillaume Nault <gnault@redhat.com>
+Cc:     davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com,
+        edumazet@google.com, netdev@vger.kernel.org, corbet@lwn.net,
+        linux-doc@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hello:
 
-On 12/07/2022 23:14, Günther Noack wrote:
-> Use the LANDLOCK_ACCESS_FS_TRUNCATE flag in the tutorial.
+This patch was applied to netdev/net-next.git (master)
+by David S. Miller <davem@davemloft.net>:
+
+On Wed, 27 Jul 2022 13:18:21 +0200 you wrote:
+> The tcp_reflect_tos option was introduced in Linux 5.10 but was still
+> undocumented.
 > 
-> Adapt the backwards compatibility example and discussion to remove the
-> truncation flag if needed.
-> 
-> Signed-off-by: Günther Noack <gnoack3000@gmail.com>
-> Link: https://lore.kernel.org/all/20220707200612.132705-1-gnoack3000@gmail.com/
+> Signed-off-by: Guillaume Nault <gnault@redhat.com>
 > ---
->   Documentation/userspace-api/landlock.rst | 19 ++++++++++++++-----
->   1 file changed, 14 insertions(+), 5 deletions(-)
-> 
-> diff --git a/Documentation/userspace-api/landlock.rst b/Documentation/userspace-api/landlock.rst
-> index b86fd94ae797..41fa464cc8b8 100644
-> --- a/Documentation/userspace-api/landlock.rst
-> +++ b/Documentation/userspace-api/landlock.rst
-> @@ -60,7 +60,8 @@ the need to be explicit about the denied-by-default access rights.
->               LANDLOCK_ACCESS_FS_MAKE_FIFO |
->               LANDLOCK_ACCESS_FS_MAKE_BLOCK |
->               LANDLOCK_ACCESS_FS_MAKE_SYM |
-> -            LANDLOCK_ACCESS_FS_REFER,
-> +            LANDLOCK_ACCESS_FS_REFER |
-> +            LANDLOCK_ACCESS_FS_TRUNCATE,
->       };
->   
->   Because we may not know on which kernel version an application will be
-> @@ -69,14 +70,22 @@ should try to protect users as much as possible whatever the kernel they are
->   using.  To avoid binary enforcement (i.e. either all security features or
->   none), we can leverage a dedicated Landlock command to get the current version
->   of the Landlock ABI and adapt the handled accesses.  Let's check if we should
-> -remove the `LANDLOCK_ACCESS_FS_REFER` access right which is only supported
-> -starting with the second version of the ABI.
-> +remove the `LANDLOCK_ACCESS_FS_REFER` and `LANDLOCK_ACCESS_FS_TRUNCATE` access
-> +rights, which are only supported starting with the second and third version of
-> +the ABI.
->   
->   .. code-block:: c
->   
->       int abi;
->   
->       abi = landlock_create_ruleset(NULL, 0, LANDLOCK_CREATE_RULESET_VERSION);
-> +    if (abi == -1) {
-> +        perror("Landlock is unsupported on this kernel");
+>  Documentation/networking/ip-sysctl.rst | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
 
-"Landlock is not supported with the running kernel"?
+Here is the summary with links:
+  - [net-next] Documentation: Describe net.ipv4.tcp_reflect_tos.
+    https://git.kernel.org/netdev/net-next/c/1c7249e4af8e
+
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
 
-> +        return 1;
-> +    }
-> +    if (abi < 3) {
-> +        ruleset_attr.handled_access_fs &= ~LANDLOCK_ACCESS_FS_TRUNCATE;
-> +    }
-
-I guess we could use the same switch/case code as for the sample. I'm 
-not sure what would be the less confusing for users though.
-
-
->       if (abi < 2) {
->           ruleset_attr.handled_access_fs &= ~LANDLOCK_ACCESS_FS_REFER;
->       }
-> @@ -127,8 +136,8 @@ descriptor.
->   
->   It may also be required to create rules following the same logic as explained
->   for the ruleset creation, by filtering access rights according to the Landlock
-> -ABI version.  In this example, this is not required because
-> -`LANDLOCK_ACCESS_FS_REFER` is not allowed by any rule.
-> +ABI version.  In this example, this is not required because all of the requested
-> +``allowed_access`` rights are already available in ABI 1.
-
-Good!
-
->   
->   We now have a ruleset with one rule allowing read access to ``/usr`` while
->   denying all other handled accesses for the filesystem.  The next step is to
