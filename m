@@ -2,83 +2,108 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CA005C19F2A
-	for <linux-doc@archiver.kernel.org>; Fri, 29 Jul 2022 05:30:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C9008C00144
+	for <linux-doc@archiver.kernel.org>; Fri, 29 Jul 2022 06:43:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234369AbiG2Faa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 29 Jul 2022 01:30:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57206 "EHLO
+        id S233892AbiG2Gnr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 29 Jul 2022 02:43:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32878 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234392AbiG2Fa0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Jul 2022 01:30:26 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 349371A3A6;
-        Thu, 28 Jul 2022 22:30:23 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id CC10AB826F7;
-        Fri, 29 Jul 2022 05:30:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 0891CC43144;
-        Fri, 29 Jul 2022 05:30:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1659072620;
-        bh=fquHH0Brp5sK5TXFacCxIR2XEa8azd6MKqqJmtPAvhI=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=iBv81L8McUP9YKjyl2YM0sAS4kAelPNi5O/S1OsWbvJsx0RdUeqgpeZY+Typs0I0A
-         VYAQ8QZFRkuZQt+uKNjbS52ltvUtog1eUakeTFiDJb9skY5zXDFcN+rVMylUcgXfb2
-         sXIbUq5iKAhGtsocl74iOTv9UNyaKjxKYM1vaJuLpEq+EEYu5jEoPEwt8PIt6nRAE+
-         GOzWlEP1hWvfvLYLrZ7kEHoO3Artm5K2qdwhkoeoigHE49RFCErivw7VkkSPsQYD0n
-         q/l8AlVpN+gC2btK6zw3BKgONSK290CQ43yNJSR12gdSYe0/AOevezEpjrSOv9vinj
-         d2bxIx4yUpBRg==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id E8F3DC43148;
-        Fri, 29 Jul 2022 05:30:19 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        with ESMTP id S233813AbiG2Gnq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Jul 2022 02:43:46 -0400
+Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 3DD5980488
+        for <linux-doc@vger.kernel.org>; Thu, 28 Jul 2022 23:43:45 -0700 (PDT)
+Received: from [192.168.100.8] (unknown [112.20.110.136])
+        by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dxj9CUgeNiflFBAA--.28016S3;
+        Fri, 29 Jul 2022 14:43:33 +0800 (CST)
+Message-ID: <b5b7b215-5603-611e-78be-5fca79b3300f@loongson.cn>
+Date:   Fri, 29 Jul 2022 14:43:32 +0800
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v2 0/8] Docs/zh_CN: Update some translation to 5.19-rc8
+To:     Jonathan Corbet <corbet@lwn.net>, alexs@kernel.org,
+        bobwxc@email.cn, seakeel@gmail.com
+Cc:     chenhuacai@kernel.org, jiaxun.yang@flygoat.com,
+        linux-doc@vger.kernel.org, siyanteng01@gmail.com,
+        zhoubinbin@loongson.cn, yizhou.tang@shopee.com,
+        wanjiabing@vivo.com, leoyang.li@nxp.com, src.res@email.cn
+References: <cover.1658983157.git.siyanteng@loongson.cn>
+ <87pmhpb608.fsf@meer.lwn.net>
+From:   YanTeng Si <siyanteng@loongson.cn>
+In-Reply-To: <87pmhpb608.fsf@meer.lwn.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net-next v9 0/2] add framework for selftests in devlink
-From:   patchwork-bot+netdevbpf@kernel.org
-Message-Id: <165907261994.17632.8400006268893599861.git-patchwork-notify@kernel.org>
-Date:   Fri, 29 Jul 2022 05:30:19 +0000
-References: <20220727165721.37959-1-vikas.gupta@broadcom.com>
-In-Reply-To: <20220727165721.37959-1-vikas.gupta@broadcom.com>
-To:     Vikas Gupta <vikas.gupta@broadcom.com>
-Cc:     jiri@nvidia.com, kuba@kernel.org, netdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org, davem@davemloft.net,
-        dsahern@kernel.org, stephen@networkplumber.org,
-        edumazet@google.com, pabeni@redhat.com, ast@kernel.org,
-        leon@kernel.org, linux-doc@vger.kernel.org, corbet@lwn.net,
-        michael.chan@broadcom.com, andrew.gospodarek@broadcom.com
+X-CM-TRANSID: AQAAf9Dxj9CUgeNiflFBAA--.28016S3
+X-Coremail-Antispam: 1UD129KBjvJXoWxJrykAw47XF4fWrWxAFWfuFg_yoW8AF48pF
+        ZxKFyIk3WrtFy5Zr40krW8XFs5ZFs7J3y5Aw17twnYvr4vqr18tF17Jry7K3yIqrWIvFya
+        yw4rAFZru3WUur7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUBj14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+        rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+        1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
+        6r4UJwA2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
+        CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
+        2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
+        W8JwACjcxG0xvEwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2Y2ka
+        0xkIwI1lc7I2V7IY0VAS07AlzVAYIcxG8wCY02Avz4vE14v_GF1l42xK82IYc2Ij64vIr4
+        1l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK
+        67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI
+        8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAv
+        wI8IcIk0rVWrZr1j6s0DMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxV
+        AFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JU-J5rUUUUU=
+X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello:
 
-This series was applied to netdev/net-next.git (master)
-by Jakub Kicinski <kuba@kernel.org>:
+在 2022/7/28 23:40, Jonathan Corbet 写道:
+> Yanteng Si <siyanteng@loongson.cn> writes:
+>
+>> v2:
+>> *Take Alex's advice and modify "狗粮测试" to "自我测试" .
+>>
+>> v1:
+>> * Update the following Chinese documents to 5.19-rc8:
+>>
+>> iio
+>> dev-tools
+>> mm/damon
+>> PCI
+>> scheduler
+>>
+>> Yanteng Si (8):
+>>    Docs/zh_CN: Update the translation of iio_configfs to 5.19-rc8
+>>    Docs/zh_CN: Update the translation of kasan to 5.19-rc8
+>>    Docs/zh_CN: Update the translation of sparse to 5.19-rc8
+>>    Docs/zh_CN: Update the translation of testing-overview to 5.19-rc8
+>>    Docs/zh_CN: Update the translation of usage to 5.19-rc8
+>>    Docs/zh_CN: Update the translation of pci-iov-howto to 5.19-rc8
+>>    Docs/zh_CN: Update the translation of pci to 5.19-rc8
+>>    Docs/zh_CN: Update the translation of sched-stats to 5.19-rc8
+>>
+>>   .../translations/zh_CN/PCI/pci-iov-howto.rst  |   7 +-
+>>   Documentation/translations/zh_CN/PCI/pci.rst  |   6 +-
+>>   .../zh_CN/admin-guide/mm/damon/usage.rst      |   2 +
+>>   .../translations/zh_CN/dev-tools/kasan.rst    | 117 ++++++++++++------
+>>   .../translations/zh_CN/dev-tools/sparse.rst   |   2 +
+>>   .../zh_CN/dev-tools/testing-overview.rst      |  25 ++++
+>>   .../translations/zh_CN/iio/iio_configfs.rst   |  12 +-
+>>   .../zh_CN/scheduler/sched-stats.rst           |   8 +-
+>>   8 files changed, 123 insertions(+), 56 deletions(-)
+> So these patches create a number of checkpatch warnings:
+>
+>    ERROR: Please use git commit description style 'commit <12+ chars of sha1> ("<title line>")' - ie: 'commit c1d82dbcb0a6 ("docs: iio: fix example formatting")'
+>
+> I've gone ahead and applied them anyway, but that might be a good thing
+> to watch out for in the future.
 
-On Wed, 27 Jul 2022 22:27:19 +0530 you wrote:
-> Hi,
->   This patchset adds support for selftests in the devlink framework.
->   It adds a callback .selftests_check and .selftests_run in devlink_ops.
->   User can add test(s) suite which is subsequently passed to the driver
->   and driver can opt for running particular tests based on its capabilities.
-> 
->   Patchset adds a flash based test for the bnxt_en driver.
-> 
-> [...]
+Sorry, I will keep this in mind.
 
-Here is the summary with links:
-  - [net-next,v9,1/2] devlink: introduce framework for selftests
-    https://git.kernel.org/netdev/net-next/c/08f588fa301b
-  - [net-next,v9,2/2] bnxt_en: implement callbacks for devlink selftests
-    https://git.kernel.org/netdev/net-next/c/5b6ff128fdf6
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+Thanks
+
+Yanteng
 
 
