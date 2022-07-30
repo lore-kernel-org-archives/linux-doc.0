@@ -2,83 +2,102 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 35DD7C00144
-	for <linux-doc@archiver.kernel.org>; Fri, 29 Jul 2022 23:19:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C0285C00144
+	for <linux-doc@archiver.kernel.org>; Sat, 30 Jul 2022 02:22:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232132AbiG2XTA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 29 Jul 2022 19:19:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60330 "EHLO
+        id S232937AbiG3CWJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 29 Jul 2022 22:22:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47360 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231536AbiG2XS7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Jul 2022 19:18:59 -0400
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 02CF04E854;
-        Fri, 29 Jul 2022 16:18:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1659136738; x=1690672738;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=1Fw0WZLKvo2oyc4VCQcZ7xgjGE2qBBBrJnQzUXlechQ=;
-  b=KAyPx2QdeJvE8s9kkoUSUmhNGZ9LkDQ9B0I+D22eC1ZjS1RxOR6H1Alh
-   eDDsiFmLSvT6WGLZ9XV8IwoxGfIg/Hc6nNIx0oJV6pZsdfdJ8EZfiP7a/
-   17zNewnGgqPkraxMfGyKkvw5s5mp1NvJVrySVF9PfX5w+3JLaJ0tFEV6I
-   RyoWaV+/zpAl3YhTjxaN36dPriljP0G8fswXa3VgGw7MU/kBIOt89bkxi
-   SIg2PNIteD9sV4gy9Y9U0pJTuWUWSMlUdHK+k6AOkfMD8uqqCrmZ6XgXw
-   7iHRk9RSL+Ft6TKtZ/N68jA11QasnN1Is4lOrenhDs0jXbU1pIRLioFWK
-   Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10423"; a="314674424"
-X-IronPort-AV: E=Sophos;i="5.93,202,1654585200"; 
-   d="scan'208";a="314674424"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2022 16:18:58 -0700
-X-IronPort-AV: E=Sophos;i="5.93,202,1654585200"; 
-   d="scan'208";a="601431913"
-Received: from svdas-mobl.amr.corp.intel.com (HELO [10.209.20.175]) ([10.209.20.175])
-  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2022 16:18:58 -0700
-Message-ID: <31d026f3-a356-d7bd-26f1-32d163a7f5b4@intel.com>
-Date:   Fri, 29 Jul 2022 16:18:58 -0700
+        with ESMTP id S231201AbiG3CWJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 29 Jul 2022 22:22:09 -0400
+Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7AC0678DDC;
+        Fri, 29 Jul 2022 19:22:08 -0700 (PDT)
+Received: by mail-pj1-x1033.google.com with SMTP id p14-20020a17090a74ce00b001f4d04492faso633330pjl.4;
+        Fri, 29 Jul 2022 19:22:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc;
+        bh=qvlSFDuVcQPe2p0wkv4esqHUa+wl6CPqM/sYrzmNhGU=;
+        b=atcUj8Zj1KTXktZ9QtZDtVOMLD+wIgTB4dcVks8OTQpLNoj2QLy/fxRHkILV89lfeP
+         PrSFWciKs7bl/LHqA2g0sQFGsvevnle5vHPPZ/I27jRQmJ/jo1obg3D0RLGzsNElQw1n
+         Wa2zMYSh5fo47RBG++1V0apR0P2Hr10z6XY3OVCuYVJLlCOaNjCdNXp+w3e5z7/3Xi69
+         RnUhb+5R8yeh9SrcQahZmd2MczvKm1iOnukP6mGTutKsvpJlHg+jeUkMmRAEAKZtDfth
+         kCf4M9Vi3dXjYUoUZNyvGy6Iyeur04eipuY2RmJusxcUyuG3MArNYXZ9CaSFhxNY6gbT
+         aPcQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc;
+        bh=qvlSFDuVcQPe2p0wkv4esqHUa+wl6CPqM/sYrzmNhGU=;
+        b=Jw0Vwmn+reGpE0CBP7ABDRwJmueOy7x5PU/bcX0zZG1uK6k9geMdSzL8Ca5Tv8JMiX
+         s6IDRoU4avi4bFVTb42Tp6FzKSkGqnC+MbfbAlOy2+885zbn3UK+B3a9HeSCcxQEP8ch
+         9FL0VBR6/tk1KLMsYAjVXnzBmlebaxjgpnjir4gnZ6/JagVFdQMH/q4LCLuK0MSHz/d7
+         bvPWHiZIanSKnSvHrc3WJqvsjrpsKVM81Y06j0/nQqSNdxBBTBEBRUISg7EljWNIBAD/
+         j5xKAouQhjrE55iUNYCf14Vveluhp8p/uGbryj8V+aPQ65yVytOSNMtutGMRAQz7h6z3
+         NnDA==
+X-Gm-Message-State: ACgBeo0it89MyPkzbW6yu0FlZ2PO86MEYApn9ndN8ARdvg33Irl+EUok
+        UQoEU0KOSlL8Ov5YwL2nwvc=
+X-Google-Smtp-Source: AA6agR5/NqhgsA5YXYUibbZAKLuh8ntUvo92HXKUk6pLDvfnQJuY4Yohu25+jtwPDIQcUCz6V6Q8mg==
+X-Received: by 2002:a17:902:cccf:b0:168:c4c3:e8ca with SMTP id z15-20020a170902cccf00b00168c4c3e8camr6643718ple.40.1659147727930;
+        Fri, 29 Jul 2022 19:22:07 -0700 (PDT)
+Received: from debian.me (subs03-180-214-233-86.three.co.id. [180.214.233.86])
+        by smtp.gmail.com with ESMTPSA id o24-20020a170902779800b0016bd8f66ca0sm4283096pll.162.2022.07.29.19.22.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 29 Jul 2022 19:22:07 -0700 (PDT)
+Received: by debian.me (Postfix, from userid 1000)
+        id 1C9C210495F; Sat, 30 Jul 2022 09:21:13 +0700 (WIB)
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     netdev@vger.kernel.org, linux-doc@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, Jiri Pirko <jiri@nvidia.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Vikas Gupta <vikas.gupta@broadcom.com>,
+        Andy Gospodarek <gospo@broadcom.com>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        kernel test robot <lkp@intel.com>
+Subject: [PATCH net-next] Documentation: devlink: add add devlink-selftests to the table of contents
+Date:   Sat, 30 Jul 2022 09:20:57 +0700
+Message-Id: <20220730022058.16813-1-bagasdotme@gmail.com>
+X-Mailer: git-send-email 2.37.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [RESEND RFC PATCH] x86/bugs: Add "unknown" reporting for MMIO
- Stale Data
-Content-Language: en-US
-To:     Tony Luck <tony.luck@intel.com>
-Cc:     Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, stable@vger.kernel.org,
-        antonio.gomez.iglesias@linux.intel.com,
-        Daniel Sneddon <daniel.sneddon@linux.intel.com>,
-        andrew.cooper3@citrix.com, Josh Poimboeuf <jpoimboe@kernel.org>
-References: <a932c154772f2121794a5f2eded1a11013114711.1657846269.git.pawan.kumar.gupta@linux.intel.com>
- <YuJ6TQpSTIeXLNfB@zn.tnic> <20220729022851.mdj3wuevkztspodh@desk>
- <YuPpKa6OsG9e9nTj@zn.tnic> <20220729173609.45o7lllpvsgjttqt@desk>
- <YuRDbuQPYiYBZghm@zn.tnic> <20220729214627.wowu5sny226c5pe4@desk>
- <1bcf0b54-6ddf-b343-87c5-f7fd7538759c@intel.com>
- <YuRoOCUxGUJ/8QVH@agluck-desk3.sc.intel.com>
-From:   Dave Hansen <dave.hansen@intel.com>
-In-Reply-To: <YuRoOCUxGUJ/8QVH@agluck-desk3.sc.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 7/29/22 16:07, Tony Luck wrote:
-> https://www.intel.com/content/www/us/en/developer/topic-technology/software-security-guidance/processors-affected-consolidated-product-cpu-model.html
-> 
-> Click to the 2022 tab. The MMIO affected/not-affected status is there
-> (you'll need to use the horizontal scroll to shift over to see those
-> columns).
-> 
-> This table lists all the CPUs that were not "older".
-> 
-> Any CPU not on that list is out of servicing period.
+Commit 08f588fa301bef ("devlink: introduce framework for selftests") adds
+documentation for devlink selftests framework, but it is missing from
+table of contents.
 
-Perfect!  Thanks, Tony!
+Add it.
+
+Link: https://lore.kernel.org/linux-doc/202207300406.CUBuyN5i-lkp@intel.com/
+Fixes: 08f588fa301bef ("devlink: introduce framework for selftests")
+Reported-by: kernel test robot <lkp@intel.com>
+Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+---
+ Documentation/networking/devlink/index.rst | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/Documentation/networking/devlink/index.rst b/Documentation/networking/devlink/index.rst
+index 85071551229362..e3a5f985673efd 100644
+--- a/Documentation/networking/devlink/index.rst
++++ b/Documentation/networking/devlink/index.rst
+@@ -38,6 +38,7 @@ general.
+    devlink-region
+    devlink-resource
+    devlink-reload
++   devlink-selftests
+    devlink-trap
+    devlink-linecard
+ 
+
+base-commit: 6957730e20389a63eb333afb6fcf38b45f549ea8
+-- 
+An old man doll... just what I always wanted! - Clara
+
