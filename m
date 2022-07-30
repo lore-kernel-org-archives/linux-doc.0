@@ -2,176 +2,218 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B558DC04A68
-	for <linux-doc@archiver.kernel.org>; Sat, 30 Jul 2022 13:13:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 32F64C19F29
+	for <linux-doc@archiver.kernel.org>; Sat, 30 Jul 2022 14:08:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234691AbiG3NM7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 30 Jul 2022 09:12:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42422 "EHLO
+        id S232230AbiG3OIf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 30 Jul 2022 10:08:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37712 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234456AbiG3NM7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 30 Jul 2022 09:12:59 -0400
-Received: from out1.migadu.com (out1.migadu.com [IPv6:2001:41d0:2:863f::])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8724615A0A;
-        Sat, 30 Jul 2022 06:12:57 -0700 (PDT)
-Date:   Sat, 30 Jul 2022 21:12:35 +0800
+        with ESMTP id S231386AbiG3OIf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 30 Jul 2022 10:08:35 -0400
+Received: from out2.migadu.com (out2.migadu.com [IPv6:2001:41d0:2:aacc::])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 782D365E4;
+        Sat, 30 Jul 2022 07:08:33 -0700 (PDT)
+Date:   Sat, 30 Jul 2022 22:08:12 +0800
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-        t=1659186775;
+        t=1659190111;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=q38RJUhn9dbppGBkcF33/s/m8/eyOb95WDu7MLC++5s=;
-        b=oiaF8bwsZc2QrELYuw4dyt3fd1azGXn+Y31CtCH6xWLRqRUMaR1XdQWB1+VDViWFJKtcRh
-        q+dnkfK6uk8lHgNzQ/IoWbKZHFPQJT8A7zGXPDPOOgD+11+64i77TYtdZQwVqakawiTqkr
-        YlDDtyI10QcfaMEJrM7keEub39Ye8dU=
+        bh=aBYLAsIhH4mwp5o5uoSAwIrusJjB9Ddupw2CLZ90Kcs=;
+        b=O0DiYrv8Xj+vPnWGJxX9QpcVQmfKVvdfRI5TB00miyqZZBkhhH1JB5dT7gJKrCK984V1NB
+        bQ3njTIbw+JNItkBf6TmN2PjWZ8MleIMETmiRuFvi7c39mzDYwQGqsCuhgXZVjiE48ACo/
+        zQR8BRdiBE2dL7+D4OIDCDDaZ7WxmPU=
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From:   Wu XiangCheng <wu.xiangcheng@linux.dev>
-To:     Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH v1 1/5] maintainer-pgp-guide: use key terminology
- consistent with upstream
-Message-ID: <YuUuQ9shkkY7gco4@bobwxc.mipc>
-References: <20220727-docs-pgp-guide-v1-0-c48fb06cb9af@linuxfoundation.org>
- <20220727-docs-pgp-guide-v1-1-c48fb06cb9af@linuxfoundation.org>
+From:   Tao Zhou <tao.zhou@linux.dev>
+To:     Daniel Bristot de Oliveira <bristot@kernel.org>
+Cc:     Steven Rostedt <rostedt@goodmis.org>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Ingo Molnar <mingo@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Will Deacon <will@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Marco Elver <elver@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Gabriele Paoloni <gpaoloni@redhat.com>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Clark Williams <williams@redhat.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-trace-devel@vger.kernel.org, Tao Zhou <tao.zhou@linux.dev>
+Subject: Re: [PATCH V9 01/16] rv: Add Runtime Verification (RV) interface
+Message-ID: <YuU7TGxm5pzmBFTx@geo.homenetwork>
+References: <cover.1659052063.git.bristot@kernel.org>
+ <a4bfe038f50cb047bfb343ad0e12b0e646ab308b.1659052063.git.bristot@kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="2sDGTIi8ecJO0e6Z"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220727-docs-pgp-guide-v1-1-c48fb06cb9af@linuxfoundation.org>
+In-Reply-To: <a4bfe038f50cb047bfb343ad0e12b0e646ab308b.1659052063.git.bristot@kernel.org>
 X-Migadu-Flow: FLOW_OUT
 X-Migadu-Auth-User: linux.dev
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Fri, Jul 29, 2022 at 11:38:40AM +0200, Daniel Bristot de Oliveira wrote:
 
---2sDGTIi8ecJO0e6Z
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi,
-
-=E8=AF=9D=E8=AF=B4 Konstantin Ryabitsev =E4=BA=8E 2022-07-28 (=E5=9B=9B) 16=
-:57:04 -0400 =E6=9B=B0=E8=BF=87=EF=BC=9A
-> GnuPG does not use the word "master key" when referring to the subkey
-> marked with the "certification" capability. Our use of this term was not
-> only inconsistent, but also misleading, because in real life "master
-> keys" are able to open multiple locks made for different keys, while PGP
-> Certify key has no such capability.
-
-They use "primary key" in their interface and document.
-
-For example in their .po file:
-
-msgid "Note: The public primary key and all its subkeys will be deleted.\n"
-msgid "using subkey %s instead of primary key %s\n"
-
-Also in gnupg/doc/gpg.texi:
-
-By specifying the key to export using a key ID or a fingerprint
-suffixed with an exclamation mark (!), a specific subkey or the
-primary key can be exported.  This does not even require that the key
-has the authentication capability flag set.
-
-Using the new word?
-
->=20
-> Signed-off-by: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
->=20
-> diff --git a/Documentation/process/maintainer-pgp-guide.rst b/Documentati=
-on/process/maintainer-pgp-guide.rst
-> index 29e7d7b1cd44..cdd108f50fe7 100644
-> --- a/Documentation/process/maintainer-pgp-guide.rst
-> +++ b/Documentation/process/maintainer-pgp-guide.rst
-[...]
+> +static int __rv_disable_monitor(struct rv_monitor_def *mdef, bool sync)
+> +{
+> +	lockdep_assert_held(&rv_interface_lock);
 > +
-> +Understanding PGP Subkeys
-> +-------------------------
-> +
-> +A PGP key rarely consists of a single keypair -- usually it is a
-> +collection of independent subkeys that can be used for different
-> +purposes based on their capabilities, assigned at their creation time.
-> +PGP defined four capabilities that a key can have:
-> +
-> +- **[S]** keys can be used for signing
-> +- **[E]** keys can be used for encryption
-> +- **[A]** keys can be used for authentication
-> +- **[C]** keys can be used for certifying other keys
-> +
-> +The **[C]** (certification) key is often called the "master" key, but
+> +	if (mdef->monitor->enabled) {
+> +		mdef->monitor->enabled = 0;
+> +		mdef->monitor->disable();
 
-Maybe "The key carrying the **[C]**" is better, match the following
-description. As your said, gpg always create a [SC] key by default.
-
-> +this terminology is misleading because it implies that the Certify key
-> +can be used in place of any of other subkey on the same chain (like a
-> +physical "master key" would). For this reason, this guide will refer to
-> +it as "the Certify key" to avoid any ambiguity.
-> +
-> +It is critical to fully understand the following:
-> +
-> +1. All subkeys are fully independent from each other. If you lose a
-> +   private subkey, it cannot be restored or recreated from any other
-> +   private key on your chain.
-> +2. With the exception of the Certify key, there can be multiple subkeys
-> +   with identical capabilities (e.g. you can have 2 valid encryption
-> +   subkeys, 3 valid signing subkeys, but only one valid certification
-> +   subkey). All subkeys are fully independent -- a message encrypted to
-> +   one **[E]** subkey cannot be decrypted with any other **[E]** subkey
-> +   you may also have.
-> +3. A single subkey may have multiple capabilities (e.g. your **[C]** key
-> +   can also be your **[S]** key).
-
-Reminding the limit of algorithms' capabilities by the way?
-Like: As long as under the algorithm's capabilities.
+If call disable(), the @enabled is set 0 there.
 
 > +
-> +The key carrying the **[C]** (certify) capability is the only key that
-> +can be used to indicate relationship with other keys. Only the **[C]**
-> +key can be used to:
-> =20
->  - add or revoke other keys (subkeys) with S/E/A capabilities
->  - add, change or revoke identities (uids) associated with the key
-> @@ -180,7 +190,7 @@ relationship with other keys. Only the **[C]** key ca=
-n be used to:
-> =20
->  By default, GnuPG creates the following when generating new keys:
-> =20
-> -- A master key carrying both Certify and Sign capabilities (**[SC]**)
-> +- One subkey carrying both Certify and Sign capabilities (**[SC]**)
+> +		/*
+> +		 * Wait for the execution of all events to finish.
+> +		 * Otherwise, the data used by the monitor could
+> +		 * be inconsistent. i.e., if the monitor is re-enabled.
+> +		 */
+> +		if (sync)
+> +			tracepoint_synchronize_unregister();
+> +		return 1;
 
-I suggest to use "primary key" here. Gnupg use it in their doc, and it is
-really shown differently when typing --list-keys.
+Return 0 indicate the actually disabling and successed.
 
->  - A separate subkey with the Encryption capability (**[E]**)
-> =20
->  If you used the default parameters when generating your key, then that
-[...]
+> +	}
+> +	return 0;
 
---=20
-Thanks,
-Wu XiangCheng=20
-0x32684A40BCA7AEA7
+If disable a diabled monitor, return error(negative).
 
+> +}
+> +
+> +/**
+> + * rv_disable_monitor - disable a given runtime monitor
+> + *
+> + * Returns 0 on success.
+> + */
+> +int rv_disable_monitor(struct rv_monitor_def *mdef)
+> +{
+> +	__rv_disable_monitor(mdef, true);
+> +	return 0;
 
---2sDGTIi8ecJO0e6Z
-Content-Type: application/pgp-signature; name="signature.asc"
+Always return 0 here, whatever the return value of __rv_disable_monitor().
+And this enforce me to look more here, see below.
 
------BEGIN PGP SIGNATURE-----
+> +}
 
-iQGzBAABCgAdFiEERbo3U5kJpaCtFl1PtlsoEiKCsIUFAmLlLjMACgkQtlsoEiKC
-sIWHAAv/ZAIbv7OYc29TGzAHJgafx3/hl3STUxE/P0YjFc/PeqN/pajS1Rw3p504
-o6H06Cu6GtNc5p9pH9FMvmYXozb3+3QTOkbDiKZA7KgApnWWSg2+lr+nBq/Iwzb+
-eJtdTZA0t7veS4n0/awU3bpQ4DhyKjR/05YK8wa3Xv+CBV6OGaSguzCGTcwb8MSr
-aayk5vo0Z4RAXWckVTo9zA31yfMyxMLO7JVhfTZZQWYVV9DeWi72U3f0X8ncLz0n
-9ggc7N//w/K1l6x61AcRvfHeIuNrRJDASZQ4ib5w3NG4EmcA1nDPSQAWE+pK0haY
-G+rnXKDfxHGzKBQV3LK8SrEwP9gFJGgxn/vbyGUBHRSRCkGXgiUKVEf5y86JQAsw
-2rMhF3IXsC0bEtyWZhmGKWfXCeuaYx5GePhNXaPYeewiefvX7uL3GTsTTbIeXDVf
-aD8lIjIpc5qKgY0oI9oWSGMedS8wyhWgYvvOpn0oVYY0eTB3PAfhxNqA0Rw4MpWT
-X8VMJD0x
-=gUlN
------END PGP SIGNATURE-----
+> +static ssize_t enabled_monitors_write(struct file *filp, const char __user *user_buf,
+> +				      size_t count, loff_t *ppos)
+> +{
+> +	char buff[MAX_RV_MONITOR_NAME_SIZE + 2];
+> +	struct rv_monitor_def *mdef;
+> +	int retval = -EINVAL;
+> +	bool enable = true;
+> +	char *ptr = buff;
+> +	int len;
+> +
+> +	if (count < 1 || count > MAX_RV_MONITOR_NAME_SIZE + 1)
+> +		return -EINVAL;
+> +
+> +	memset(buff, 0, sizeof(buff));
+> +
+> +	retval = simple_write_to_buffer(buff, sizeof(buff) - 1, ppos, user_buf, count);
+> +	if (retval < 0)
+> +		return -EFAULT;
+> +
+> +	ptr = strim(buff);
+> +
+> +	if (ptr[0] == '!') {
+> +		enable = false;
+> +		ptr++;
+> +	}
+> +
+> +	len = strlen(ptr);
+> +	if (!len)
+> +		return count;
+> +
+> +	mutex_lock(&rv_interface_lock);
+> +
+> +	retval = -EINVAL;
+> +
+> +	list_for_each_entry(mdef, &rv_monitors_list, list) {
+> +		if (strcmp(ptr, mdef->monitor->name) != 0)
+> +			continue;
+> +
+> +		/*
+> +		 * Monitor found!
+> +		 */
+> +		if (enable)
+> +			retval = rv_enable_monitor(mdef);
+> +		else
+> +			retval = rv_disable_monitor(mdef);
 
---2sDGTIi8ecJO0e6Z--
+About the retval here. If count == 1 and retval == 0, then
+`retval = count` --> retval == 1. This retval will be returned to 
+user space and dedicate that how many character read and success
+If retval is 1(it is not possiable, the return value of
+da_monitor_init_*() called in enable callback in rv_enable_monitor()
+will be 0, so that return value check is not needed, or any other functions
+called in enable callback need to check the return value then, so I checked
+the WARN_ONCE() called in macro rv_attach_trace_probe() which is called in
+enable callback, if the WARN_ONCE is called, it means that something go wrong.
+We need to check the return value of WARN_ONCE() in enable callback), the
+return value will be returned to user space but actually the error(warn) happened.
+User space do not know. They treat the two kind of return value 1 the same
+but one is the write count value successed and another is the write error
+value returned.
+In enable callback, check rv_attach_trace_probe():
+
+static int enable_wip(void)
+{
+      int retval = 1;
+ 	  
+      /* 
+       * Delete the check of return value of da_monitor_init_wip()
+       * because it is always 0
+       */
+      da_monitor_init_wip();
+
+      retval &= rv_attach_trace_probe("wip", preempt_enable, handle_preempt_enable);
+      retval &= rv_attach_trace_probe("wip", sched_waking, handle_sched_waking);
+      retval &= rv_attach_trace_probe("wip", preempt_disable, handle_preempt_disable);
+
+      /* 
+       * If the retval is not 0, it mean at least one rv_attach_trace_probe()
+       * is WARN_ONCE(). I am not sure that if the first WARN_ONCE() happened,
+       * then return directly or at here after all rv_attach_trace_probe() is
+       * called and check the retval is 0 or 1.
+       */
+      if (retval)
+             return -1;
+      return retval;
+}
+
+> +
+> +		if (!retval)
+> +			retval = count;
+> +
+> +		break;
+> +	}
+
+> +/**
+> + * rv_register_monitor - register a rv monitor.
+> + * @monitor:    The rv_monitor to be registered.
+> + *
+> + * Returns 0 if successful, error otherwise.
+> + */
+> +int rv_register_monitor(struct rv_monitor *monitor)
+> +{
+> +	struct rv_monitor_def *r;
+> +	int retval = 0;
+> +
+> +	if (strlen(monitor->name) >= MAX_RV_MONITOR_NAME_SIZE) {
+
+s/>=/>/ no? The same check happened in patch 2. Thanks,
+
+> +		pr_info("Monitor %s has a name longer than %d\n", monitor->name,
+> +			MAX_RV_MONITOR_NAME_SIZE);
