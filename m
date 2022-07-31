@@ -2,172 +2,124 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 63FBAC19F2B
-	for <linux-doc@archiver.kernel.org>; Sun, 31 Jul 2022 19:04:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B9CEC19F2C
+	for <linux-doc@archiver.kernel.org>; Sun, 31 Jul 2022 19:16:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237936AbiGaTE4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 31 Jul 2022 15:04:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49542 "EHLO
+        id S237745AbiGaTP6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 31 Jul 2022 15:15:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58956 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237587AbiGaTEp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 31 Jul 2022 15:04:45 -0400
+        with ESMTP id S230351AbiGaTP6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 31 Jul 2022 15:15:58 -0400
 Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E43B10563;
-        Sun, 31 Jul 2022 12:04:39 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7B64644D;
+        Sun, 31 Jul 2022 12:15:56 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id B9AA8B80DC5;
-        Sun, 31 Jul 2022 19:04:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 764D5C433D7;
-        Sun, 31 Jul 2022 19:04:36 +0000 (UTC)
-Received: from rostedt by gandalf.local.home with local (Exim 4.96)
-        (envelope-from <rostedt@goodmis.org>)
-        id 1oIEEt-007GCp-1v;
-        Sun, 31 Jul 2022 15:04:35 -0400
-Message-ID: <20220731190435.430671181@goodmis.org>
-User-Agent: quilt/0.66
-Date:   Sun, 31 Jul 2022 15:03:49 -0400
-From:   Steven Rostedt <rostedt@goodmis.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Ingo Molnar <mingo@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Ingo Molnar <mingo@redhat.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Will Deacon <will@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Marco Elver <elver@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
+        by ams.source.kernel.org (Postfix) with ESMTPS id 8B7BCB80D11;
+        Sun, 31 Jul 2022 19:15:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 33937C433D7;
+        Sun, 31 Jul 2022 19:15:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1659294954;
+        bh=wZPiOmb/8y3eGL/2h6/nS4c4cbBrC5BVAnNHwWdf0GU=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=T9jGZEBnUXLfaa8X7PKLziwJ0/gtSigoQGvVgA14bEv3XngpVWIXW8iksAjIMqSav
+         4WfoTj7ox8y9lP3t1dusu++r8cFwf/tf8PrbfwSPUAA07RjC+/uTe5h7uINWx6eP9m
+         czT313x97GQnnWiUz9oSONS3V1P5iqus9MVAr+VbYyB6+YJ27X56fsTF2Kx1mSfdh5
+         11eHqxXr4IDxrxksfrnc0A2YCNqabIB3vbZRK0GejO1qfVDJE7ezzxLQirWm2d6o1G
+         EKnfF0rHw4RHjqtNTXRHDkEgKAx4AwjERSjAybhUArQGdxXnWUBriayLi9pLhmdpOO
+         xx2EZNtgZDN7Q==
+Received: by pali.im (Postfix)
+        id 388B36E8; Sun, 31 Jul 2022 21:15:51 +0200 (CEST)
+Date:   Sun, 31 Jul 2022 21:15:51 +0200
+From:   Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>
+To:     Stephen Hemminger <stephen@networkplumber.org>
+Cc:     netdev@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>,
+        Pablo Neira Ayuso <pablo@netfilter.org>,
+        Jozsef Kadlecsik <kadlec@netfilter.org>,
+        Florian Westphal <fw@strlen.de>, Borislav Petkov <bp@suse.de>,
         "Paul E. McKenney" <paulmck@kernel.org>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Gabriele Paoloni <gpaoloni@redhat.com>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Clark Williams <williams@redhat.com>,
-        Tao Zhou <tao.zhou@linux.dev>,
+        Kees Cook <keescook@chromium.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
         Randy Dunlap <rdunlap@infradead.org>,
-        linux-doc@vger.kernel.org, linux-trace-devel@vger.kernel.org,
-        Daniel Bristot de Oliveira <bristot@kernel.org>
-Subject: [for-next][PATCH 20/21] rv/reactor: Add the panic reactor
-References: <20220731190329.641602282@goodmis.org>
+        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+        Xin Long <lucien.xin@gmail.com>,
+        Akhmat Karakotov <hmukos@yandex-team.ru>,
+        Antoine Tenart <atenart@kernel.org>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Juergen Gross <jgross@suse.com>, Jens Axboe <axboe@kernel.dk>,
+        Xie Yongji <xieyongji@bytedance.com>,
+        Chen Yu <yu.c.chen@intel.com>,
+        William Breathitt Gray <vilhelm.gray@gmail.com>,
+        Suma Hegde <suma.hegde@amd.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        Chuck Lever <chuck.lever@oracle.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Alexandre Ghiti <alexandre.ghiti@canonical.com>,
+        Scott Wood <oss@buserror.net>,
+        Paul Gortmaker <paul.gortmaker@windriver.com>,
+        Nikolay Aleksandrov <razor@blackwall.org>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Menglong Dong <imagedong@tencent.com>,
+        Petr Machata <petrm@nvidia.com>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        David Ahern <dsahern@kernel.org>,
+        Roopa Prabhu <roopa@nvidia.com>,
+        Yajun Deng <yajun.deng@linux.dev>,
+        Yuwei Wang <wangyuweihx@gmail.com>,
+        Shakeel Butt <shakeelb@google.com>,
+        Soheil Hassas Yeganeh <soheil@google.com>,
+        Kuniyuki Iwashima <kuniyu@amazon.com>,
+        Marc Kleine-Budde <mkl@pengutronix.de>,
+        Stefano Garzarella <sgarzare@redhat.com>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Wang Qing <wangqing@vivo.com>, Yu Zhe <yuzhe@nfschina.com>,
+        Benjamin Poirier <bpoirier@nvidia.com>,
+        Victor Erminpour <victor.erminpour@oracle.com>,
+        "GONG, Ruiqi" <gongruiqi1@huawei.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        "open list:MIPS" <linux-mips@vger.kernel.org>,
+        "open list:LINUX FOR POWERPC (32-BIT AND 64-BIT)" 
+        <linuxppc-dev@lists.ozlabs.org>,
+        "open list:NETFILTER" <netfilter-devel@vger.kernel.org>,
+        "open list:NETFILTER" <coreteam@netfilter.org>
+Subject: Re: [RFC] Remove DECNET support from kernel
+Message-ID: <20220731191551.5m7ql3ysozi3owrl@pali>
+References: <20220731190646.97039-1-stephen@networkplumber.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220731190646.97039-1-stephen@networkplumber.org>
+User-Agent: NeoMutt/20180716
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Daniel Bristot de Oliveira <bristot@kernel.org>
+On Sunday 31 July 2022 12:06:10 Stephen Hemminger wrote:
+> diff --git a/Documentation/admin-guide/sysctl/net.rst b/Documentation/admin-guide/sysctl/net.rst
+> index 805f2281e000..299d9c3407d3 100644
+> --- a/Documentation/admin-guide/sysctl/net.rst
+> +++ b/Documentation/admin-guide/sysctl/net.rst
+> @@ -39,7 +39,6 @@ Table : Subdirectories in /proc/sys/net
+>   802       E802 protocol         ax25       AX25
+>   ethernet  Ethernet protocol     rose       X.25 PLP layer
+>   ipv4      IP version 4          x25        X.25 protocol
+> - bridge    Bridging              decnet     DEC net
+>   ipv6      IP version 6          tipc       TIPC
+>   ========= =================== = ========== ==================
+>  
 
-Sample reactor that panics the system when an exception is found. This
-is useful both to capture a vmcore, or to fail-safe a critical system.
-
-Link: https://lkml.kernel.org/r/729aae3aba95f35738b8f8180e626d747d1d9da2.1659052063.git.bristot@kernel.org
-
-Cc: Wim Van Sebroeck <wim@linux-watchdog.org>
-Cc: Guenter Roeck <linux@roeck-us.net>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Ingo Molnar <mingo@redhat.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Cc: Peter Zijlstra <peterz@infradead.org>
-Cc: Will Deacon <will@kernel.org>
-Cc: Catalin Marinas <catalin.marinas@arm.com>
-Cc: Marco Elver <elver@google.com>
-Cc: Dmitry Vyukov <dvyukov@google.com>
-Cc: "Paul E. McKenney" <paulmck@kernel.org>
-Cc: Shuah Khan <skhan@linuxfoundation.org>
-Cc: Gabriele Paoloni <gpaoloni@redhat.com>
-Cc: Juri Lelli <juri.lelli@redhat.com>
-Cc: Clark Williams <williams@redhat.com>
-Cc: Tao Zhou <tao.zhou@linux.dev>
-Cc: Randy Dunlap <rdunlap@infradead.org>
-Cc: linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Cc: linux-trace-devel@vger.kernel.org
-Signed-off-by: Daniel Bristot de Oliveira <bristot@kernel.org>
-Signed-off-by: Steven Rostedt (Google) <rostedt@goodmis.org>
----
- kernel/trace/rv/Kconfig         |  8 ++++++
- kernel/trace/rv/Makefile        |  1 +
- kernel/trace/rv/reactor_panic.c | 43 +++++++++++++++++++++++++++++++++
- 3 files changed, 52 insertions(+)
- create mode 100644 kernel/trace/rv/reactor_panic.c
-
-diff --git a/kernel/trace/rv/Kconfig b/kernel/trace/rv/Kconfig
-index e82d5015e6ab..831779607e84 100644
---- a/kernel/trace/rv/Kconfig
-+++ b/kernel/trace/rv/Kconfig
-@@ -68,3 +68,11 @@ config RV_REACT_PRINTK
- 	help
- 	  Enables the printk reactor. The printk reactor emits a printk()
- 	  message if an exception is found.
-+
-+config RV_REACT_PANIC
-+	bool "Panic reactor"
-+	depends on RV_REACTORS
-+	default y
-+	help
-+	  Enables the panic reactor. The panic reactor emits a printk()
-+	  message if an exception is found and panic()s the system.
-diff --git a/kernel/trace/rv/Makefile b/kernel/trace/rv/Makefile
-index a13c750a35c1..963d14875b45 100644
---- a/kernel/trace/rv/Makefile
-+++ b/kernel/trace/rv/Makefile
-@@ -5,3 +5,4 @@ obj-$(CONFIG_RV_MON_WIP) += monitors/wip/wip.o
- obj-$(CONFIG_RV_MON_WWNR) += monitors/wwnr/wwnr.o
- obj-$(CONFIG_RV_REACTORS) += rv_reactors.o
- obj-$(CONFIG_RV_REACT_PRINTK) += reactor_printk.o
-+obj-$(CONFIG_RV_REACT_PANIC) += reactor_panic.o
-diff --git a/kernel/trace/rv/reactor_panic.c b/kernel/trace/rv/reactor_panic.c
-new file mode 100644
-index 000000000000..b698d05dd069
---- /dev/null
-+++ b/kernel/trace/rv/reactor_panic.c
-@@ -0,0 +1,43 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (C) 2019-2022 Red Hat, Inc. Daniel Bristot de Oliveira <bristot@kernel.org>
-+ *
-+ * Panic RV reactor:
-+ *   Prints the exception msg to the kernel message log and panic().
-+ */
-+
-+#include <linux/ftrace.h>
-+#include <linux/tracepoint.h>
-+#include <linux/kernel.h>
-+#include <linux/module.h>
-+#include <linux/init.h>
-+#include <linux/rv.h>
-+
-+static void rv_panic_reaction(char *msg)
-+{
-+	panic(msg);
-+}
-+
-+static struct rv_reactor rv_panic = {
-+	.name = "panic",
-+	.description = "panic the system if an exception is found.",
-+	.react = rv_panic_reaction
-+};
-+
-+static int register_react_panic(void)
-+{
-+	rv_register_reactor(&rv_panic);
-+	return 0;
-+}
-+
-+static void unregister_react_panic(void)
-+{
-+	rv_unregister_reactor(&rv_panic);
-+}
-+
-+module_init(register_react_panic);
-+module_exit(unregister_react_panic);
-+
-+MODULE_LICENSE("GPL");
-+MODULE_AUTHOR("Daniel Bristot de Oliveira");
-+MODULE_DESCRIPTION("panic rv reactor: panic if an exception is found.");
--- 
-2.35.1
+Hello! You should remove only decnet from the list, not bridge.
+This is two columns table.
