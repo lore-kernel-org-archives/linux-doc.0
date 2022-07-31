@@ -2,45 +2,29 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3FB6AC19F29
-	for <linux-doc@archiver.kernel.org>; Sun, 31 Jul 2022 16:03:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A5BAAC19F29
+	for <linux-doc@archiver.kernel.org>; Sun, 31 Jul 2022 16:47:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237441AbiGaQC7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 31 Jul 2022 12:02:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53470 "EHLO
+        id S233290AbiGaQrk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 31 Jul 2022 12:47:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46346 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231424AbiGaQC6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 31 Jul 2022 12:02:58 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9DF44F5BC;
-        Sun, 31 Jul 2022 09:02:57 -0700 (PDT)
+        with ESMTP id S229558AbiGaQrj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 31 Jul 2022 12:47:39 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B097DE011;
+        Sun, 31 Jul 2022 09:47:38 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 5DEEDB80D86;
-        Sun, 31 Jul 2022 16:02:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE0BEC433D6;
-        Sun, 31 Jul 2022 16:02:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1659283375;
-        bh=JnzgGcVBp807cZAqx6W/5ioAlDkM6Mambx7xHyw/NGw=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=Gf80AnxnSXZmm4AIyKASiuPlDUxT/SDON7V0hl3ALuFUujbzgo2YFxTbuYxL+39Bd
-         8jGaY18welZMgukxZExsknB+zoFnuiujyTmRQXI5bH2OxkQ53U9S+TusP8Tpvia98z
-         9GDt4KdopGWTxHh7YcdNqKzM1dr6LR6Plqr5owuqROgfVzcVlwJIun3xqVsmSWzTlc
-         wmGWlQBQvFQT3XrVCEBZAOqRQ4LBBpIx1qvOLDX1XyosrODH0xsAOqkpeRwwvgUG64
-         VIGVEL8DDnLG+M9JDi+o51wijEb4E3+CIxM2qTER1qz/qa3xGvrL8kYuEkz3iVM/3j
-         l3eaIo3ZLOtmA==
-Message-ID: <7b3f7ec1-a479-f3ed-42b3-ddead0f9b427@kernel.org>
-Date:   Sun, 31 Jul 2022 18:02:47 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH V9 03/16] rv/include: Add helper functions for
- deterministic automata
-Content-Language: en-US
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 4A57360F68;
+        Sun, 31 Jul 2022 16:47:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C4F1AC433C1;
+        Sun, 31 Jul 2022 16:47:36 +0000 (UTC)
+Date:   Sun, 31 Jul 2022 12:47:30 -0400
+From:   Steven Rostedt <rostedt@goodmis.org>
 To:     Tao Zhou <tao.zhou@linux.dev>
-Cc:     Steven Rostedt <rostedt@goodmis.org>,
+Cc:     Daniel Bristot de Oliveira <bristot@kernel.org>,
         Wim Van Sebroeck <wim@linux-watchdog.org>,
         Guenter Roeck <linux@roeck-us.net>,
         Jonathan Corbet <corbet@lwn.net>,
@@ -59,33 +43,58 @@ Cc:     Steven Rostedt <rostedt@goodmis.org>,
         Randy Dunlap <rdunlap@infradead.org>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-trace-devel@vger.kernel.org
+Subject: Re: [PATCH V9 01/16] rv: Add Runtime Verification (RV) interface
+Message-ID: <20220731124730.311c8207@rorschach.local.home>
+In-Reply-To: <YuaadlzgSJLtzOUw@geo.homenetwork>
 References: <cover.1659052063.git.bristot@kernel.org>
- <563234f2bfa84b540f60cf9e39c2d9f0eea95a55.1659052063.git.bristot@kernel.org>
- <YuacJsPya8PSE8qt@geo.homenetwork>
-From:   Daniel Bristot de Oliveira <bristot@kernel.org>
-In-Reply-To: <YuacJsPya8PSE8qt@geo.homenetwork>
-Content-Type: text/plain; charset=UTF-8
+        <a4bfe038f50cb047bfb343ad0e12b0e646ab308b.1659052063.git.bristot@kernel.org>
+        <YuU7TGxm5pzmBFTx@geo.homenetwork>
+        <0197dd47-ea15-4d8b-5fc7-e466d8a501a7@kernel.org>
+        <YuaadlzgSJLtzOUw@geo.homenetwork>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 7/31/22 17:13, Tao Zhou wrote:
-> On Fri, Jul 29, 2022 at 11:38:42AM +0200, Daniel Bristot de Oliveira wrote:
-> 
-> [...]
-> 
->> +static inline type model_get_next_state_##name(enum states_##name curr_state,	\
->> +					       enum events_##name event)	\
->> +{										\
->> +	if ((curr_state < 0) || (curr_state >= state_max_##name))		\
->> +		return INVALID_STATE;						\
->> +										\
->> +	if ((event < 0) || (event >= event_max_##name))				\
->> +		return INVALID_STATE;						\
-> 
-> Should define the INVALID_EVENT corresponding to event invalid case.
+On Sun, 31 Jul 2022 23:06:31 +0800
+Tao Zhou <tao.zhou@linux.dev> wrote:
 
-no.
+> > All things above are misled by the first interpretation but,,,  
+> 
+> Yeah, this is not that clear from my above words expression. I said the return
+> value of da_monitor_init_*() will be 0, but it is not right. Global and per-cpu
+> monitor will return 0, per-task monitor may return a positive value when the
+> slot is equal or greater than RV_PER_TASK_MONITOR_INIT(how possible this will
+> happen I do know yet). This is from reading the current code implementation.
+> I just want to say that there may be a bug here.
 
--- Daniel
+Well, rv_get_monitor_slot() can currently only return 0 or negative.
+This is because PER_TASK_MONITORS is just 1 and we can not return that
+or greater.
+
+> If rv_enable_monitor() return a positive value and the error happened(as above
+
+With the current code this can not happen, as we only allow for a
+single PER_TASK_MONITORS.
+
+But in the future, if we increment this, then you are correct. We can
+not just check retval, but need to check retval < 0.
+
+This does need to be fixed. But because it currently isn't an issue
+because we they can only return 0 or negative, I'm going to pull this
+series in.
+
+But Daniel, these checks do need to be updated. Please send patches on
+top of this series to address it.
+
+-- Steve
+
+
+> said), user space will not know this is a error return value, but regard it as a
+> right writing. Even if the return value(the slot value not in [0..RV_PER_TASK_MONITOR_INIT))
+> is equal to count of charaters that are writen to the file(the string length of monitor name),
+> it will still be not a right writing.
+> 
