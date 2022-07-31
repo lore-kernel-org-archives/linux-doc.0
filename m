@@ -2,36 +2,39 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 47369C19F2C
-	for <linux-doc@archiver.kernel.org>; Sun, 31 Jul 2022 06:18:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F1621C00140
+	for <linux-doc@archiver.kernel.org>; Sun, 31 Jul 2022 07:06:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236214AbiGaGSb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 31 Jul 2022 02:18:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43500 "EHLO
+        id S232200AbiGaHG5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 31 Jul 2022 03:06:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35828 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232003AbiGaGSa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 31 Jul 2022 02:18:30 -0400
-Received: from smtp.smtpout.orange.fr (smtp04.smtpout.orange.fr [80.12.242.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC86013D6B
-        for <linux-doc@vger.kernel.org>; Sat, 30 Jul 2022 23:18:28 -0700 (PDT)
+        with ESMTP id S231362AbiGaHG4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 31 Jul 2022 03:06:56 -0400
+Received: from smtp.smtpout.orange.fr (smtp-24.smtpout.orange.fr [80.12.242.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AAD0311801
+        for <linux-doc@vger.kernel.org>; Sun, 31 Jul 2022 00:06:54 -0700 (PDT)
 Received: from pop-os.home ([90.11.190.129])
         by smtp.orange.fr with ESMTPA
-        id I2HRo3vdL5V1hI2HRokPDz; Sun, 31 Jul 2022 08:18:27 +0200
+        id I32HoEw4QxFTAI32IoiMKa; Sun, 31 Jul 2022 09:06:53 +0200
 X-ME-Helo: pop-os.home
 X-ME-Auth: YWZlNiIxYWMyZDliZWIzOTcwYTEyYzlhMmU3ZiQ1M2U2MzfzZDfyZTMxZTBkMTYyNDBjNDJlZmQ3ZQ==
-X-ME-Date: Sun, 31 Jul 2022 08:18:27 +0200
+X-ME-Date: Sun, 31 Jul 2022 09:06:53 +0200
 X-ME-IP: 90.11.190.129
 From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-To:     "Theodore Ts'o" <tytso@mit.edu>,
-        Andreas Dilger <adilger.kernel@dilger.ca>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Wang Jianjian <wangjianjian3@huawei.com>
+To:     Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Mike Leach <mike.leach@linaro.org>,
+        Leo Yan <leo.yan@linaro.org>, Jonathan Corbet <corbet@lwn.net>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Rob Herring <robh@kernel.org>
 Cc:     linux-kernel@vger.kernel.org,
         Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-        linux-ext4@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: [PATCH] ext4, doc: Fix a broken layout
-Date:   Sun, 31 Jul 2022 08:18:24 +0200
-Message-Id: <d3ec14afe2396272da6353162b3081a0c92de313.1659248273.git.christophe.jaillet@wanadoo.fr>
+        coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
+        linux-doc@vger.kernel.org
+Subject: [PATCH] coresight: docs: Fix a broken reference
+Date:   Sun, 31 Jul 2022 09:06:48 +0200
+Message-Id: <c7f864854e9e03916017712017ff59132c51c338.1659251193.git.christophe.jaillet@wanadoo.fr>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -39,30 +42,31 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The commit in Fixes: has removed an escaping character without updating
-the layout of the table.
+Since the commit in Fixes: tag, "coresight-cpu-debug.txt" has been turned
+into "arm,coresight-cpu-debug.yaml".
 
-Add the missing space.
+Update the doc accordingly to avoid a 'make htmldocs' warning
 
-Fixes: 3103084afcf2 ("ext4, doc: remove unnecessary escaping")
+Fixes: 66d052047ca8 ("dt-bindings: arm: Convert CoreSight CPU debug to DT schema")
 Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 ---
- Documentation/filesystems/ext4/blockmap.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ Documentation/trace/coresight/coresight-cpu-debug.rst | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/filesystems/ext4/blockmap.rst b/Documentation/filesystems/ext4/blockmap.rst
-index 2bd990402a5c..cc596541ce79 100644
---- a/Documentation/filesystems/ext4/blockmap.rst
-+++ b/Documentation/filesystems/ext4/blockmap.rst
-@@ -1,7 +1,7 @@
- .. SPDX-License-Identifier: GPL-2.0
+diff --git a/Documentation/trace/coresight/coresight-cpu-debug.rst b/Documentation/trace/coresight/coresight-cpu-debug.rst
+index 993dd294b81b..836b35532667 100644
+--- a/Documentation/trace/coresight/coresight-cpu-debug.rst
++++ b/Documentation/trace/coresight/coresight-cpu-debug.rst
+@@ -117,7 +117,8 @@ divide into below cases:
+ Device Tree Bindings
+ --------------------
  
- +---------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
--| i.i_block Offset   | Where It Points                                                                                                                                                                                                              |
-+| i.i_block Offset    | Where It Points                                                                                                                                                                                                              |
- +=====================+==============================================================================================================================================================================================================================+
- | 0 to 11             | Direct map to file blocks 0 to 11.                                                                                                                                                                                           |
- +---------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+-See Documentation/devicetree/bindings/arm/coresight-cpu-debug.txt for details.
++See Documentation/devicetree/bindings/arm/arm,coresight-cpu-debug.yaml for
++details.
+ 
+ 
+ How to use the module
 -- 
 2.34.1
 
