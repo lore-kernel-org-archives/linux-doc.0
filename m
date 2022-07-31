@@ -2,75 +2,87 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 65377C19F28
-	for <linux-doc@archiver.kernel.org>; Sat, 30 Jul 2022 22:05:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 50451C00140
+	for <linux-doc@archiver.kernel.org>; Sun, 31 Jul 2022 06:06:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235265AbiG3WFo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 30 Jul 2022 18:05:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38296 "EHLO
+        id S231360AbiGaGGs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 31 Jul 2022 02:06:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39424 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229562AbiG3WFk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 30 Jul 2022 18:05:40 -0400
-Received: from out0.migadu.com (out0.migadu.com [IPv6:2001:41d0:2:267::])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94D36645D;
-        Sat, 30 Jul 2022 15:05:38 -0700 (PDT)
-Date:   Sun, 31 Jul 2022 06:05:23 +0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-        t=1659218736;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=O6t8U9DPpS42ZsZYWrBzNl2G1omnGmJa9yVgTrzYG2s=;
-        b=IE1YYEdm60OSB67r/4j9d5Xmprt5S27Wr0IOdncXMCbeeTA3nPOmc7AdmudBzKiBexuZtS
-        aMTaV48EUy8yITnlMAI5ZSkZh9MUkkRl3pWwxMI4ritrsN0OxxEyhHbExb8pvj0RZ4PRvQ
-        /67pTtE6XbGoavK6gURFmzNgXYhz5Q4=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From:   Tao Zhou <tao.zhou@linux.dev>
-To:     Steven Rostedt <rostedt@goodmis.org>
-Cc:     Daniel Bristot de Oliveira <bristot@kernel.org>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Guenter Roeck <linux@roeck-us.net>,
+        with ESMTP id S231243AbiGaGGr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 31 Jul 2022 02:06:47 -0400
+X-Greylist: delayed 450 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sat, 30 Jul 2022 23:06:46 PDT
+Received: from smtp.smtpout.orange.fr (smtp-26.smtpout.orange.fr [80.12.242.26])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id AB53411443
+        for <linux-doc@vger.kernel.org>; Sat, 30 Jul 2022 23:06:45 -0700 (PDT)
+Received: from pop-os.home ([90.11.190.129])
+        by smtp.orange.fr with ESMTPA
+        id I1ypo1mN3ghoJI1ypop3be; Sun, 31 Jul 2022 07:59:13 +0200
+X-ME-Helo: pop-os.home
+X-ME-Auth: YWZlNiIxYWMyZDliZWIzOTcwYTEyYzlhMmU3ZiQ1M2U2MzfzZDfyZTMxZTBkMTYyNDBjNDJlZmQ3ZQ==
+X-ME-Date: Sun, 31 Jul 2022 07:59:13 +0200
+X-ME-IP: 90.11.190.129
+From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To:     "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Ingo Molnar <mingo@redhat.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Will Deacon <will@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Marco Elver <elver@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Gabriele Paoloni <gpaoloni@redhat.com>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Clark Williams <williams@redhat.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-trace-devel@vger.kernel.org, Tao Zhou <tao.zhou@linux.dev>
-Subject: Re: [PATCH V9 01/16] rv: Add Runtime Verification (RV) interface
-Message-ID: <YuWrI18qjmnOOPEE@geo.homenetwork>
-References: <cover.1659052063.git.bristot@kernel.org>
- <a4bfe038f50cb047bfb343ad0e12b0e646ab308b.1659052063.git.bristot@kernel.org>
- <YuU7TGxm5pzmBFTx@geo.homenetwork>
- <20220730130145.46f0d57c@rorschach.local.home>
+        Russell King <linux@armlinux.org.uk>,
+        Ioana Ciornei <ioana.ciornei@nxp.com>,
+        Rob Herring <robh@kernel.org>
+Cc:     linux-kernel@vger.kernel.org,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+        netdev@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: [PATCH] doc: sfp-phylink: Fix a broken reference
+Date:   Sun, 31 Jul 2022 07:59:00 +0200
+Message-Id: <be3c7e87ca7f027703247eccfe000b8e34805094.1659247114.git.christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220730130145.46f0d57c@rorschach.local.home>
-X-Migadu-Flow: FLOW_OUT
-X-Migadu-Auth-User: linux.dev
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Jul 30, 2022 at 01:01:45PM -0400, Steven Rostedt wrote:
-> #define rv_attach_trace_probe(monitor, tp, rv_handler)                                  \
->         ({                                                                            \
->                 check_trace_callback_type_##tp(rv_handler);                             \
->                 WARN_ONCE(register_trace_##tp(rv_handler, NULL),                        \
->                                 "fail attaching " #monitor " " #tp "handler");          \
->         })
-> 
-> Where the macro returns the result of the WARN_ONCE() which is zero on
-> success (no warning) and non-zero otherwise.
+The commit in Fixes: has changed a .txt file into a .yaml file. Update the
+documentation accordingly.
 
-The modification of macro make sense to me even though I do not know trace enough. Thanks,
+While at it add some `` around some file names to improve the output.
+
+Fixes: 70991f1e6858 ("dt-bindings: net: convert sff,sfp to dtschema")
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+---
+ Documentation/networking/sfp-phylink.rst | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/Documentation/networking/sfp-phylink.rst b/Documentation/networking/sfp-phylink.rst
+index 328f8d39eeb3..55b65f607a64 100644
+--- a/Documentation/networking/sfp-phylink.rst
++++ b/Documentation/networking/sfp-phylink.rst
+@@ -203,7 +203,7 @@ this documentation.
+    The :c:func:`validate` method should mask the supplied supported mask,
+    and ``state->advertising`` with the supported ethtool link modes.
+    These are the new ethtool link modes, so bitmask operations must be
+-   used. For an example, see drivers/net/ethernet/marvell/mvneta.c.
++   used. For an example, see ``drivers/net/ethernet/marvell/mvneta.c``.
+ 
+    The :c:func:`mac_link_state` method is used to read the link state
+    from the MAC, and report back the settings that the MAC is currently
+@@ -224,7 +224,7 @@ this documentation.
+    function should modify the state and only take the link down when
+    absolutely necessary to change the MAC configuration.  An example
+    of how to do this can be found in :c:func:`mvneta_mac_config` in
+-   drivers/net/ethernet/marvell/mvneta.c.
++   ``drivers/net/ethernet/marvell/mvneta.c``.
+ 
+    For further information on these methods, please see the inline
+    documentation in :c:type:`struct phylink_mac_ops <phylink_mac_ops>`.
+@@ -281,4 +281,4 @@ as necessary.
+ 
+ For information describing the SFP cage in DT, please see the binding
+ documentation in the kernel source tree
+-``Documentation/devicetree/bindings/net/sff,sfp.txt``
++``Documentation/devicetree/bindings/net/sff,sfp.yaml``.
+-- 
+2.34.1
+
