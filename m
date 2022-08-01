@@ -2,170 +2,163 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D101C19F2C
-	for <linux-doc@archiver.kernel.org>; Mon,  1 Aug 2022 22:33:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2DB6CC19F29
+	for <linux-doc@archiver.kernel.org>; Mon,  1 Aug 2022 22:51:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235437AbiHAWdu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 1 Aug 2022 18:33:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45228 "EHLO
+        id S235042AbiHAWve (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 1 Aug 2022 18:51:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54292 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235426AbiHAWdl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 Aug 2022 18:33:41 -0400
-Received: from mail-oi1-x22f.google.com (mail-oi1-x22f.google.com [IPv6:2607:f8b0:4864:20::22f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5359B2228E
-        for <linux-doc@vger.kernel.org>; Mon,  1 Aug 2022 15:33:39 -0700 (PDT)
-Received: by mail-oi1-x22f.google.com with SMTP id u9so14603831oiv.12
-        for <linux-doc@vger.kernel.org>; Mon, 01 Aug 2022 15:33:39 -0700 (PDT)
+        with ESMTP id S234760AbiHAWvd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 Aug 2022 18:51:33 -0400
+Received: from mail-io1-xd2a.google.com (mail-io1-xd2a.google.com [IPv6:2607:f8b0:4864:20::d2a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ADBB326558
+        for <linux-doc@vger.kernel.org>; Mon,  1 Aug 2022 15:51:31 -0700 (PDT)
+Received: by mail-io1-xd2a.google.com with SMTP id e69so9503114iof.5
+        for <linux-doc@vger.kernel.org>; Mon, 01 Aug 2022 15:51:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=LI7JfBTHXcIfr/9UgMaMzqcZcXHkE1NiQIHzTU9OMbY=;
-        b=cF+PM2YAd/AUT5qzQ0nJgW7ok1vFg9j5ZWOyJvGxFUYr7Zvy6AanzGkLbB529Gl+Qc
-         YO0AcazHdcSnFyDrtq047WoUQLzvGI1DZh5TKK7xC0VpxBOn4CICGP0cnP5x/zklP9Qi
-         99CZwd4H+SfwuCwqCcvmMHs1IXVcieCMIfit0=
+        d=google.com; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc;
+        bh=glcOCUJ/+awLcSG8X5QxtUVosWAHdrRlN7P8qFCy/KU=;
+        b=VgjLNHr1hMbP7jz5VD9tM4tHHUdeWiE6jv/PZZxVCEl8oCfbeuNfGwRZv+sM+Wf2i5
+         oNtEEDp7KV0lDn8cKVruat3XxxQpJMcYjwbPK6y/MVRRPL11HHL0qSFaA+lfpHzZBha0
+         nLWIVaLCa21JIuOinIDkNS5w6493rVMBjMsIoJBEJyiHzTbqwHr8PtBHwPGlSVsZYhnF
+         QZ0bwchCYRMq8Xg6oV57EE21VLo09Sr7nwNLOc9tMa0EkmmzqE6+UV6VMx2SxN+hUzky
+         CnA8w+UFJxkOejBgEvFvCIaDj3nOXOQ57P4poCq6zqCOaJrsgvvPN50y3wl4tui1yenO
+         Uz4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=LI7JfBTHXcIfr/9UgMaMzqcZcXHkE1NiQIHzTU9OMbY=;
-        b=s4wgVrGxXpW3mUmY5XynfLKaZK77/KnD55Gyuon+saEqO5PaLz8HwWURfMZZKm64k8
-         s8EIXDvrBQ1iAdxyePUvVk91ed48oaVahP2wnrQnkl5ul63A9SSpyMqYyqpTnrb/Uz2Q
-         iGuoRPO32xMPdCAErmSFSMaTw3D27AtMfVA5x6lNR0khsZk0IUdnxw6HNViXcVFCJILD
-         PCynpkXvfKkl6W1MqgGx5VDCygCg2uFusQpZeYPKCS1lO5sgFV0SdUbIhRtTk4a/4Avj
-         ljJzk4s1SzTpG6CIeUXKrRN3mH1FsXigVbFI+VUS9C+bdCofZJ/xLPZ95XvlgxiiyXS+
-         VWZg==
-X-Gm-Message-State: AJIora9ow9709RFtsbQ6rEJZMP1AZZfsNWxwR0gUA+l/Y4dQGvQadPm5
-        Qt92ifjw3tqEC41jTzPFjb1yJbol+9FrUA==
-X-Google-Smtp-Source: AGRyM1uA/P6CsCRLbRC6Sy5b/JVo8KlixZQazamKa7L5gFftxQCaRnTuL3esLehiKkFUdm1IW9kOow==
-X-Received: by 2002:a05:6808:1520:b0:33a:9e5c:d323 with SMTP id u32-20020a056808152000b0033a9e5cd323mr7072687oiw.210.1659393218354;
-        Mon, 01 Aug 2022 15:33:38 -0700 (PDT)
-Received: from mail-oa1-f48.google.com (mail-oa1-f48.google.com. [209.85.160.48])
-        by smtp.gmail.com with ESMTPSA id el31-20020a056870f69f00b0010e3f390ecasm3369526oab.16.2022.08.01.15.33.38
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 01 Aug 2022 15:33:38 -0700 (PDT)
-Received: by mail-oa1-f48.google.com with SMTP id 586e51a60fabf-10cf9f5b500so15342531fac.2
-        for <linux-doc@vger.kernel.org>; Mon, 01 Aug 2022 15:33:38 -0700 (PDT)
-X-Received: by 2002:a05:6808:14d4:b0:33b:1489:8752 with SMTP id
- f20-20020a05680814d400b0033b14898752mr7607300oiw.174.1659393206929; Mon, 01
- Aug 2022 15:33:26 -0700 (PDT)
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
+        bh=glcOCUJ/+awLcSG8X5QxtUVosWAHdrRlN7P8qFCy/KU=;
+        b=dYekDhNYUbGFKoNGrWle62ZvujyZ4Qigwn+Chitef+p6PwVCnG+9SjEYbtwA04SSp0
+         WaLyPI7CrgIHyNuedm6hDD6kIDCpqsBG15hzG7LMUU71MIMj8G5XC4M7i/eEOTiXxxu2
+         oXbGll8/GuYfteTPz6SoIiLpr5Rl8OTT5d4VrQeVZLr6k2fotLYcIa8Oj1NIRkuml/vS
+         9Fs5YHQ99GkFWelT3OgElJ95g8ZjiKppIYhOPUJbuemsJODkQkAZ62uDL3MJSCODDL7l
+         PyGzQBkH40gemPThjQSD3dn9roOHm8J7/JVNtOTYE+XvVlegPZ3s3NOkpgBc9QizywFS
+         gwwQ==
+X-Gm-Message-State: AJIora+46R8ySATQ2oodbeyepsnxHaCtToX/ypTuBV8BQmBSml4p5oM2
+        S6veSIYTo++EFcR22Jw02MH1Wf4oEXonhwU9vy8gzA==
+X-Google-Smtp-Source: AGRyM1uNtkg5Y2IRmGnxo1RbFLJVbjJuAEzaSRiEXHBPKJ+mQGbRVw11UEmSKc0sWqWF8C25CpekbWeNsTatl+C7xk4=
+X-Received: by 2002:a05:6602:15c8:b0:67c:45c7:40c9 with SMTP id
+ f8-20020a05660215c800b0067c45c740c9mr6287785iow.138.1659394290961; Mon, 01
+ Aug 2022 15:51:30 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220504232102.469959-1-evgreen@chromium.org> <20220506160807.GA1060@bug>
- <CAE=gft6m75T0UC2DBhfFhuSMW6TK7aatD_04sQ18WosgGVsATw@mail.gmail.com>
- <CAJZ5v0gxq=EA_WWUiCR_w8o87iTHDR7OC5wi=GRBaAQS2ofd5w@mail.gmail.com>
- <CAE=gft6V6RLc-d4AOuRUVU2u1jMGghDRSrFqiCqMCLxemui8Pw@mail.gmail.com> <CAE=gft5OYAgosqmwNkk=Cwoooeg93Njmnzfz=gwCaLB0Ts+=sw@mail.gmail.com>
-In-Reply-To: <CAE=gft5OYAgosqmwNkk=Cwoooeg93Njmnzfz=gwCaLB0Ts+=sw@mail.gmail.com>
-From:   Evan Green <evgreen@chromium.org>
-Date:   Mon, 1 Aug 2022 15:32:50 -0700
-X-Gmail-Original-Message-ID: <CAE=gft6sPkhNcz7+fJuDzQo2f8fM_0Wv_OWC9W2LyvXd6M6zeQ@mail.gmail.com>
-Message-ID: <CAE=gft6sPkhNcz7+fJuDzQo2f8fM_0Wv_OWC9W2LyvXd6M6zeQ@mail.gmail.com>
-Subject: Re: [PATCH 00/10] Encrypted Hibernation
-To:     "Rafael J. Wysocki" <rafael@kernel.org>
-Cc:     Pavel Machek <pavel@ucw.cz>, LKML <linux-kernel@vger.kernel.org>,
-        Matthew Garrett <mgarrett@aurora.tech>,
-        Daniil Lunev <dlunev@google.com>, zohar@linux.ibm.com,
-        "James E.J. Bottomley" <jejb@linux.ibm.com>,
-        linux-integrity@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Gwendal Grignou <gwendal@chromium.org>,
-        Jarkko Sakkinen <jarkko@kernel.org>,
-        Linux PM <linux-pm@vger.kernel.org>,
-        David Howells <dhowells@redhat.com>,
-        Hao Wu <hao.wu@rubrik.com>, James Morris <jmorris@namei.org>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Len Brown <len.brown@intel.com>,
-        Peter Huewe <peterhuewe@gmx.de>,
-        "Serge E. Hallyn" <serge@hallyn.com>, axelj <axelj@axis.com>,
-        keyrings@vger.kernel.org,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-security-module@vger.kernel.org
+References: <20220719195628.3415852-1-axelrasmussen@google.com>
+ <PH7PR11MB6353950F607F7B8F274A3550FD8E9@PH7PR11MB6353.namprd11.prod.outlook.com>
+ <CAJHvVchusMjvhLxYkWpa+iTaHvXYPFHcX7JGP=bW60e_O1jFGA@mail.gmail.com>
+ <7EF50BE4-84EA-4D57-B58C-6697F1B74904@vmware.com> <CAJHvVcghaZjgU6YhoGMehQTDU36S-UL5djG+Bym6Uax=VVoX7g@mail.gmail.com>
+ <DDE06635-71B4-46B9-9635-97E35E0B5482@vmware.com>
+In-Reply-To: <DDE06635-71B4-46B9-9635-97E35E0B5482@vmware.com>
+From:   Axel Rasmussen <axelrasmussen@google.com>
+Date:   Mon, 1 Aug 2022 15:50:55 -0700
+Message-ID: <CAJHvVcgR63YNyGYj1Z-XAj5WP631P0DSEK8Mx=f9E=QGJBeRug@mail.gmail.com>
+Subject: Re: [PATCH v4 0/5] userfaultfd: add /dev/userfaultfd for fine grained
+ access control
+To:     Nadav Amit <namit@vmware.com>
+Cc:     "Schaufler, Casey" <casey.schaufler@intel.com>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "Dmitry V . Levin" <ldv@altlinux.org>,
+        Gleb Fotengauer-Malinovskiy <glebfm@altlinux.org>,
+        Hugh Dickins <hughd@google.com>, Jan Kara <jack@suse.cz>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mel Gorman <mgorman@techsingularity.net>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Mike Rapoport <rppt@kernel.org>, Peter Xu <peterx@redhat.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        zhangyi <yi.zhang@huawei.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
+        Andrea Arcangeli <aarcange@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jun 16, 2022 at 8:42 AM Evan Green <evgreen@chromium.org> wrote:
+On Mon, Aug 1, 2022 at 12:53 PM Nadav Amit <namit@vmware.com> wrote:
 >
-> On Tue, May 17, 2022 at 10:34 AM Evan Green <evgreen@chromium.org> wrote:
-> >
-> > Hi Rafael,
-> >
-> > On Tue, May 17, 2022 at 9:06 AM Rafael J. Wysocki <rafael@kernel.org> wrote:
-> > >
-> > > On Mon, May 9, 2022 at 6:44 PM Evan Green <evgreen@chromium.org> wrote:
-> > > >
-> > > > On Fri, May 6, 2022 at 9:08 AM Pavel Machek <pavel@ucw.cz> wrote:
-> > > > >
-> > > > > Hi!
-> > > > >
-> > > > > > We are exploring enabling hibernation in some new scenarios. However,
-> > > > > > our security team has a few requirements, listed below:
-> > > > > > 1. The hibernate image must be encrypted with protection derived from
-> > > > > >    both the platform (eg TPM) and user authentication data (eg
-> > > > > >    password).
-> > > > > > 2. Hibernation must not be a vector by which a malicious userspace can
-> > > > > >    escalate to the kernel.
-> > > > >
-> > > > > Can you (or your security team) explain why requirement 2. is needed?
-> > > > >
-> > > > > On normal systems, trusted userspace handles kernel upgrades (for example),
-> > > > > so it can escalate to kernel priviledges.
-> > > > >
-> > > >
-> > > > Our systems are a little more sealed up than a normal distro, we use
-> > > > Verified Boot [1]. To summarize, RO firmware with an embedded public
-> > > > key verifies that the kernel+commandline was signed by Google. The
-> > > > commandline includes the root hash of the rootfs as well (where the
-> > > > modules live). So when an update is applied (A/B style, including the
-> > > > whole rootfs), assuming the RO firmware stayed RO (which requires
-> > > > physical measures to defeat), we can guarantee that the kernel,
-> > > > commandline, and rootfs have not been tampered with.
-> > > >
-> > > > Verified boot gives us confidence that on each boot, we're at least
-> > > > starting from known code. This makes it more challenging for an
-> > > > attacker to persist an exploit across reboot. With the kernel and
-> > > > modules verified, we try to make it non-trivial for someone who does
-> > > > manage to gain root execution once from escalating to kernel
-> > > > execution. Hibernation would be one obvious escalation route, so we're
-> > > > hoping to find a way to enable it without handing out that easy
-> > > > primitive.
-> > > >
-> > > > [1] https://www.chromium.org/chromium-os/chromiumos-design-docs/verified-boot/
-> > >
-> > > So I guess this really is an RFC.
-> >
-> > Yes, I suppose it is.
-> >
-> > >
-> > > Honestly, I need more time to go through this and there are pieces of
-> > > it that need to be looked at other people (like the TPM-related
-> > > changes).
-> >
-> > No problem, thanks for the reply to let me know. I expect some back
-> > and forth in terms of what should be hidden behind abstractions and
-> > where exactly things should live. But I wanted to get this out to
-> > upstream as early as I could, just to get initial reactions on the
-> > overall concept and design. Looking forward to hearing your thoughts
-> > when you get a chance, and let me know if there are others I should be
-> > adding that I've missed.
+> On Aug 1, 2022, at 10:13 AM, Axel Rasmussen <axelrasmussen@google.com> wr=
+ote:
 >
-> Gentle bump in case this dropped off of radars, I'd still appreciate
-> any feedback folks had on this series.
+> > =E2=9A=A0 External Email
+> >
+> > I finished up some other work and got around to writing a v5 today,
+> > but I ran into a problem with /proc/[pid]/userfaultfd.
+> >
+> > Files in /proc/[pid]/* are owned by the user/group which started the
+> > process, and they don't support being chmod'ed.
+> >
+> > For the userfaultfd device, I think we want the following semantics:
+> > - For UFFDs created via the device, we want to always allow handling
+> > kernel mode faults
+> > - For security, the device should be owned by root:root by default, so
+> > unprivileged users don't have default access to handle kernel faults
+> > - But, the system administrator should be able to chown/chmod it, to
+> > grant access to handling kernel faults for this process more widely.
+> >
+> > It could be made to work like that but I think it would involve at leas=
+t:
+> >
+> > - Special casing userfaultfd in proc_pid_make_inode
+> > - Updating setattr/getattr for /proc/[pid] to meaningfully store and
+> > then retrieve uid/gid different from the task's, again probably
+> > special cased for userfautlfd since we don't want this behavior for
+> > other files
+> >
+> > It seems to me such a change might raise eyebrows among procfs folks.
+> > Before I spend the time to write this up, does this seem like
+> > something that would obviously be nack'ed?
+>
+> [ Please avoid top-posting in the future ]
 
-One more bump here, as we'd really love to get encrypted hibernation
-to a form upstream would accept if at all possible. We were
-considering landing this in our Chrome OS tree for now, then coming
-back in a couple months with a "we've been baking this ourselves and
-it's going so great, oooh yeah". I'm not sure if upstream would find
-that compelling or not. But in any case, some guidance towards making
-this more upstream friendly would be well appreciated.
+I will remember this. Gmail's default behavior is annoying. :/
 
-One thing I realized in attempting to pick this myself is that the
-trusted key blob format has moved to ASN.1. So I should really move
-the creation ticket to the new ASN.1 format (if I can figure out the
-right OID for that piece), which would allow me to drop a lot of the
-ugly stuff in tpm2_unpack_blob(). Maybe if I get no other comments
-I'll work on that and resend.
+>
+> I have no interest in making your life harder than it should be. If you
+> cannot find a suitable alternative, I will not fight against it.
+>
+> How about this alternative: how about following KVM usage-model?
+>
+> IOW: You open /dev/userfaultfd, but this is not the file-descriptor that =
+you
+> use for most operations. Instead you first issue an ioctl - similarly to
+> KVM_CREATE_VM - to get a file-descriptor for your specific process. You t=
+hen
+> use this new file-descriptor to perform your operations (read/ioctl/etc).
+>
+> This would make the fact that ioctls/reads from different processes refer=
+ to
+> different contexts (i.e., file-descriptors) much more natural.
+>
+> Does it sound better?
 
--Evan
+Ah, that I think is more or less what my series already proposes, if I
+understand you correctly.
+
+The usage is:
+
+fd =3D open(/dev/userfaultfd) /* This FD is only useful for creating new
+userfaultfds */
+uffd =3D ioctl(fd, USERFAULTFD_IOC_NEW) /* Now you get a real uffd */
+close(fd); /* No longer needed now that we have a real uffd */
+
+/* Use uffd to register, COPY, CONTINUE, whatever */
+
+One thing we could do now or in the future is extend
+USERFAULTFD_IOC_NEW to take a pid as an argument, to support creating
+uffds for remote processes.
+
+
+
+And then we get the benefit of permissions for /dev nodes working very
+naturally - they default to root, but can be configured by the
+sysadmin via chown/chmod, or udev rules, or whatever.
