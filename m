@@ -2,37 +2,37 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5BC4EC2BB41
-	for <linux-doc@archiver.kernel.org>; Mon,  1 Aug 2022 21:14:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3AB69C25B0F
+	for <linux-doc@archiver.kernel.org>; Mon,  1 Aug 2022 21:14:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232288AbiHAVOE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 1 Aug 2022 17:14:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41068 "EHLO
+        id S234444AbiHAVOG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 1 Aug 2022 17:14:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41080 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234994AbiHAVOB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 Aug 2022 17:14:01 -0400
+        with ESMTP id S235085AbiHAVOD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 Aug 2022 17:14:03 -0400
 Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com [199.106.114.38])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 41C853C161;
-        Mon,  1 Aug 2022 14:14:00 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 143EB3C161;
+        Mon,  1 Aug 2022 14:14:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
-  t=1659388440; x=1690924440;
+  t=1659388442; x=1690924442;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=SWnaPKeSYzf43pvBC3iC3Et/H+kvep4Pqvwdek+EBCk=;
-  b=tmc8mXPW6v1FlPhY2cwwmULwXrlhz7VwyBUybtlnmqItf6pf6NH130yF
-   lwnj4pmrcPHTzl9TcCt3TzGQoXesDDGJ1s22HZrmYMSc5odXnPdKxxuXQ
-   JytBwSLmwbQudikNzQhtTtHwY/lvzmQ9rOoNp7zlly1uPU4tNdR5fmEVv
-   Q=;
-Received: from unknown (HELO ironmsg-SD-alpha.qualcomm.com) ([10.53.140.30])
-  by alexa-out-sd-01.qualcomm.com with ESMTP; 01 Aug 2022 14:14:00 -0700
+  bh=z7EpwCPH7kpklNw4k3PRnXjN7KwyE+imFag8eqKdl+0=;
+  b=k98/MMzsNs/Bo++eUtZf77a/2elYRD9v2+QQrur+9zfm/9FTuz0Fujub
+   l5I6TFQa5/9QOk2uzwHq9T6OOVPkYtS3mzpp3wa2zasShK0RpElLJjEw8
+   bTkiWMqkdhhxg6/JdpNuP5A9G0xDWIoopuU0bAKiRGWhLta99/tSr5hLn
+   A=;
+Received: from unknown (HELO ironmsg03-sd.qualcomm.com) ([10.53.140.143])
+  by alexa-out-sd-01.qualcomm.com with ESMTP; 01 Aug 2022 14:14:01 -0700
 X-QCInternal: smtphost
 Received: from nasanex01b.na.qualcomm.com ([10.46.141.250])
-  by ironmsg-SD-alpha.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Aug 2022 14:13:59 -0700
+  by ironmsg03-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Aug 2022 14:14:01 -0700
 Received: from hu-eberman-lv.qualcomm.com (10.49.16.6) by
  nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Mon, 1 Aug 2022 14:13:58 -0700
+ 15.2.986.22; Mon, 1 Aug 2022 14:14:00 -0700
 From:   Elliot Berman <quic_eberman@quicinc.com>
 To:     Bjorn Andersson <bjorn.andersson@linaro.org>
 CC:     Elliot Berman <quic_eberman@quicinc.com>,
@@ -51,9 +51,9 @@ CC:     Elliot Berman <quic_eberman@quicinc.com>,
         Catalin Marinas <catalin.marinas@arm.com>,
         <devicetree@vger.kernel.org>, <linux-doc@vger.kernel.org>,
         <linux-arm-msm@vger.kernel.org>
-Subject: [PATCH v2 07/11] gunyah: msgq: Add Gunyah message queues
-Date:   Mon, 1 Aug 2022 14:12:36 -0700
-Message-ID: <20220801211240.597859-8-quic_eberman@quicinc.com>
+Subject: [PATCH v2 10/11] gunyah: rsc_mgr: Add RPC for console services
+Date:   Mon, 1 Aug 2022 14:12:39 -0700
+Message-ID: <20220801211240.597859-11-quic_eberman@quicinc.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220801211240.597859-1-quic_eberman@quicinc.com>
 References: <20220801211240.597859-1-quic_eberman@quicinc.com>
@@ -67,357 +67,252 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Gunyah message queues are unidirectional pipelines to communicate
-between 2 virtual machines, but are typically paired to allow
-bidirectional communication. The intended use case is for small control
-messages between 2 VMs, as they support a maximum of 240 bytes.
+Gunyah resource manager defines a simple API for virtual machine log
+sharing with the console service. A VM's own log can be opened by using
+GH_VMID_SELF. Another VM's log can be accessed via its VMID. Once
+opened, characters can be written to the log with a write command.
+Characters are received with resource manager notifications (using ID
+GH_RM_NOTIF_VM_CONSOLE_CHARS).
 
-Message queues can be discovered either by resource manager or on the
-devicetree. To support discovery on the devicetree, client drivers can
-use gh_msgq_platform_host_attach to allocate the tx and rx message
-queues according to
-Documentation/devicetree/bindings/gunyah/qcom,hypervisor.yml.
+These high level rpc calls are kept in
+drivers/virt/gunyah/rsc_mgr_rpc.c. Future RPC calls, e.g. to launch a VM
+will also be maintained in this file.
 
 Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
 ---
- arch/arm64/include/asm/gunyah.h      |   4 +
- drivers/virt/gunyah/Makefile         |   2 +-
- drivers/virt/gunyah/gunyah_private.h |   3 +
- drivers/virt/gunyah/msgq.c           | 223 +++++++++++++++++++++++++++
- drivers/virt/gunyah/sysfs.c          |   9 ++
- include/linux/gunyah.h               |  13 ++
- 6 files changed, 253 insertions(+), 1 deletion(-)
- create mode 100644 drivers/virt/gunyah/msgq.c
+ drivers/virt/gunyah/Makefile      |   4 +-
+ drivers/virt/gunyah/rsc_mgr.h     |  22 +++++
+ drivers/virt/gunyah/rsc_mgr_rpc.c | 151 ++++++++++++++++++++++++++++++
+ include/linux/gunyah_rsc_mgr.h    |  16 ++++
+ 4 files changed, 191 insertions(+), 2 deletions(-)
+ create mode 100644 drivers/virt/gunyah/rsc_mgr_rpc.c
 
-diff --git a/arch/arm64/include/asm/gunyah.h b/arch/arm64/include/asm/gunyah.h
-index 3aee35009910..ba7398bd851b 100644
---- a/arch/arm64/include/asm/gunyah.h
-+++ b/arch/arm64/include/asm/gunyah.h
-@@ -27,6 +27,10 @@
- 							| ((fn) & GH_CALL_FUNCTION_NUM_MASK))
- 
- #define GH_HYPERCALL_HYP_IDENTIFY		GH_HYPERCALL(0x0000)
-+#define GH_HYPERCALL_MSGQ_SEND			GH_HYPERCALL(0x001B)
-+#define GH_HYPERCALL_MSGQ_RECV			GH_HYPERCALL(0x001C)
-+
-+#define GH_HYPERCALL_MSGQ_SEND_FLAGS_PUSH	BIT(0)
- 
- #define ___gh_count_args(_0, _1, _2, _3, _4, _5, _6, _7, _8, x, ...) x
- 
 diff --git a/drivers/virt/gunyah/Makefile b/drivers/virt/gunyah/Makefile
-index 3869fb7371df..94dc8e738911 100644
+index 86655bca8944..b3f15c052297 100644
 --- a/drivers/virt/gunyah/Makefile
 +++ b/drivers/virt/gunyah/Makefile
-@@ -1,4 +1,4 @@
+@@ -1,5 +1,5 @@
  # SPDX-License-Identifier: GPL-2.0-only
  
--gunyah-y += sysfs.o device.o
-+gunyah-y += sysfs.o device.o msgq.o
- obj-$(CONFIG_GUNYAH) += gunyah.o
+ gunyah-y += sysfs.o device.o msgq.o
+-gunyah-y += rsc_mgr.o
+-obj-$(CONFIG_GUNYAH) += gunyah.o
 \ No newline at end of file
-diff --git a/drivers/virt/gunyah/gunyah_private.h b/drivers/virt/gunyah/gunyah_private.h
-index 5f3832608020..2ade32bd9bdf 100644
---- a/drivers/virt/gunyah/gunyah_private.h
-+++ b/drivers/virt/gunyah/gunyah_private.h
-@@ -9,4 +9,7 @@
- int __init gunyah_bus_init(void);
- void gunyah_bus_exit(void);
++gunyah-y += rsc_mgr.o rsc_mgr_rpc.o
++obj-$(CONFIG_GUNYAH) += gunyah.o
+diff --git a/drivers/virt/gunyah/rsc_mgr.h b/drivers/virt/gunyah/rsc_mgr.h
+index e4f2499267bf..c82a2e97ad49 100644
+--- a/drivers/virt/gunyah/rsc_mgr.h
++++ b/drivers/virt/gunyah/rsc_mgr.h
+@@ -28,6 +28,28 @@
+ #define GH_RM_ERROR_IRQ_INUSE		0x10
+ #define GH_RM_ERROR_IRQ_RELEASED	0x11
  
-+int __init gh_msgq_init(void);
-+void gh_msgq_exit(void);
++/* Message IDs: VM Management */
++#define GH_RM_RPC_VM_GET_VMID			0x56000024
 +
- #endif
-diff --git a/drivers/virt/gunyah/msgq.c b/drivers/virt/gunyah/msgq.c
++/* Message IDs: VM Services */
++#define GH_RM_RPC_VM_CONSOLE_OPEN_ID		0x56000081
++#define GH_RM_RPC_VM_CONSOLE_CLOSE_ID		0x56000082
++#define GH_RM_RPC_VM_CONSOLE_WRITE_ID		0x56000083
++#define GH_RM_RPC_VM_CONSOLE_FLUSH_ID		0x56000084
++
++/* Call: CONSOLE_OPEN, CONSOLE_CLOSE, CONSOLE_FLUSH */
++struct gh_vm_console_common_req {
++	gh_vmid_t vmid;
++	u16 reserved0;
++} __packed;
++
++/* Call: CONSOLE_WRITE */
++struct gh_vm_console_write_req {
++	gh_vmid_t vmid;
++	u16 num_bytes;
++	u8 data[0];
++} __packed;
++
+ int gh_rm_call(u32 message_id, void *req_buff, size_t req_buff_size,
+ 		void **resp_buf, size_t *resp_buff_size);
+ 
+diff --git a/drivers/virt/gunyah/rsc_mgr_rpc.c b/drivers/virt/gunyah/rsc_mgr_rpc.c
 new file mode 100644
-index 000000000000..afc2572d3e7d
+index 000000000000..be9317968537
 --- /dev/null
-+++ b/drivers/virt/gunyah/msgq.c
-@@ -0,0 +1,223 @@
++++ b/drivers/virt/gunyah/rsc_mgr_rpc.c
+@@ -0,0 +1,151 @@
 +// SPDX-License-Identifier: GPL-2.0-only
 +/*
 + * Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
 + */
 +
-+#include <linux/interrupt.h>
-+#include <linux/gunyah.h>
-+#include <linux/module.h>
-+#include <linux/printk.h>
-+#include <linux/init.h>
++#define pr_fmt(fmt) "gh_rsc_mgr: " fmt
++
 +#include <linux/slab.h>
-+#include <linux/wait.h>
++#include <linux/types.h>
++#include <linux/printk.h>
++#include <linux/gunyah_rsc_mgr.h>
 +
-+#include "gunyah_private.h"
-+
-+struct gh_msgq {
-+	bool ready;
-+	wait_queue_head_t wq;
-+	spinlock_t lock;
-+};
-+
-+static irqreturn_t gh_msgq_irq_handler(int irq, void *dev)
-+{
-+	struct gh_msgq *msgq = dev;
-+
-+	spin_lock(&msgq->lock);
-+	msgq->ready = true;
-+	spin_unlock(&msgq->lock);
-+	wake_up_interruptible_all(&msgq->wq);
-+
-+	return IRQ_HANDLED;
-+}
-+
-+static int __gh_msgq_send(struct gunyah_device *ghdev, void *buff, size_t size, u64 tx_flags)
-+{
-+	unsigned long flags, gh_error;
-+	struct gh_msgq *msgq = ghdev_get_drvdata(ghdev);
-+	ssize_t ret;
-+	bool ready;
-+
-+	spin_lock_irqsave(&msgq->lock, flags);
-+	arch_gh_hypercall(GH_HYPERCALL_MSGQ_SEND, 5,
-+			  ghdev->capid, size, (uintptr_t)buff, tx_flags, 0,
-+			  gh_error, ready);
-+	switch (gh_error) {
-+	case GH_ERROR_OK:
-+		ret = 0;
-+		msgq->ready = ready;
-+		break;
-+	case GH_ERROR_MSGQUEUE_FULL:
-+		ret = -EAGAIN;
-+		msgq->ready = false;
-+		break;
-+	default:
-+		ret = gh_remap_error(gh_error);
-+		break;
-+	}
-+	spin_unlock_irqrestore(&msgq->lock, flags);
-+
-+	return ret;
-+}
++#include "rsc_mgr.h"
 +
 +/**
-+ * gh_msgq_send() - Send a message to the client running on a different VM
-+ * @client: The client descriptor that was obtained via gh_msgq_register()
-+ * @buff: Pointer to the buffer where the received data must be placed
-+ * @buff_size: The size of the buffer space available
-+ * @flags: Optional flags to pass to receive the data. For the list of flags,
-+ *         see linux/gunyah/gh_msgq.h
-+ *
-+ * Returns: The number of bytes copied to buff. <0 if there was an error.
-+ *
-+ * Note: this function may sleep and should not be called from interrupt context
++ * gh_rm_get_vmid: Retrieve VMID of this virtual machine
++ * @vmid: Filled with the VMID of this VM
 + */
-+ssize_t gh_msgq_send(struct gunyah_device *ghdev, void *buff, size_t size,
-+		     const unsigned long flags)
++int gh_rm_get_vmid(gh_vmid_t *vmid)
 +{
-+	struct gh_msgq *msgq = ghdev_get_drvdata(ghdev);
-+	ssize_t ret;
-+	u64 tx_flags = 0;
-+
-+	if (flags & GH_MSGQ_TX_PUSH)
-+		tx_flags |= GH_HYPERCALL_MSGQ_SEND_FLAGS_PUSH;
-+
-+	do {
-+		ret = __gh_msgq_send(ghdev, buff, size, tx_flags);
-+
-+		if (ret == -EAGAIN) {
-+			if (flags & GH_MSGQ_NONBLOCK)
-+				goto out;
-+			if (wait_event_interruptible(msgq->wq, msgq->ready))
-+				ret = -ERESTARTSYS;
-+		}
-+	} while (ret == -EAGAIN);
-+
-+out:
-+	return ret;
-+}
-+EXPORT_SYMBOL_GPL(gh_msgq_send);
-+
-+static ssize_t __gh_msgq_recv(struct gunyah_device *ghdev, void *buff, size_t size)
-+{
-+	unsigned long flags, gh_error;
-+	size_t recv_size;
-+	struct gh_msgq *msgq = ghdev_get_drvdata(ghdev);
-+	ssize_t ret;
-+	bool ready;
-+
-+	spin_lock_irqsave(&msgq->lock, flags);
-+
-+	arch_gh_hypercall(GH_HYPERCALL_MSGQ_RECV, 4,
-+			  ghdev->capid, (uintptr_t)buff, size, 0,
-+			  gh_error, recv_size, ready);
-+	switch (gh_error) {
-+	case GH_ERROR_OK:
-+		ret = recv_size;
-+		msgq->ready = ready;
-+		break;
-+	case GH_ERROR_MSGQUEUE_EMPTY:
-+		ret = -EAGAIN;
-+		msgq->ready = false;
-+		break;
-+	default:
-+		ret = gh_remap_error(gh_error);
-+		break;
-+	}
-+	spin_unlock_irqrestore(&msgq->lock, flags);
-+
-+	return ret;
-+}
-+
-+/**
-+ * gh_msgq_recv() - Receive a message from the client running on a different VM
-+ * @client: The client descriptor that was obtained via gh_msgq_register()
-+ * @buff: Pointer to the buffer where the received data must be placed
-+ * @buff_size: The size of the buffer space available
-+ * @flags: Optional flags to pass to receive the data. For the list of flags,
-+ *         see linux/gunyah/gh_msgq.h
-+ *
-+ * Returns: The number of bytes copied to buff. <0 if there was an error.
-+ *
-+ * Note: this function may sleep and should not be called from interrupt context
-+ */
-+ssize_t gh_msgq_recv(struct gunyah_device *ghdev, void *buff, size_t size,
-+		     const unsigned long flags)
-+{
-+	struct gh_msgq *msgq = ghdev_get_drvdata(ghdev);
-+	ssize_t ret;
-+
-+	do {
-+		ret = __gh_msgq_recv(ghdev, buff, size);
-+
-+		if (ret == -EAGAIN) {
-+			if (flags & GH_MSGQ_NONBLOCK)
-+				goto out;
-+			if (wait_event_interruptible(msgq->wq, msgq->ready))
-+				ret = -ERESTARTSYS;
-+		}
-+	} while (ret == -EAGAIN);
-+
-+out:
-+	return ret;
-+}
-+EXPORT_SYMBOL_GPL(gh_msgq_recv);
-+
-+static int gh_msgq_probe(struct gunyah_device *ghdev)
-+{
-+	struct gh_msgq *msgq;
-+
-+	msgq = devm_kzalloc(&ghdev->dev, sizeof(*msgq), GFP_KERNEL);
-+	if (!msgq)
-+		return -ENOMEM;
-+	ghdev_set_drvdata(ghdev, msgq);
-+
-+	msgq->ready = true; /* Assume we can use the message queue right away */
-+	init_waitqueue_head(&msgq->wq);
-+	spin_lock_init(&msgq->lock);
-+
-+	return devm_request_irq(&ghdev->dev, ghdev->irq, gh_msgq_irq_handler, 0,
-+				dev_name(&ghdev->dev), msgq);
-+}
-+
-+static struct gunyah_driver gh_msgq_tx_driver = {
-+	.driver = {
-+		.name = "gh_msgq_tx",
-+		.owner = THIS_MODULE,
-+	},
-+	.type = GUNYAH_DEVICE_TYPE_MSGQ_TX,
-+	.probe = gh_msgq_probe,
-+};
-+
-+static struct gunyah_driver gh_msgq_rx_driver = {
-+	.driver = {
-+		.name = "gh_msgq_rx",
-+		.owner = THIS_MODULE,
-+	},
-+	.type = GUNYAH_DEVICE_TYPE_MSGQ_RX,
-+	.probe = gh_msgq_probe,
-+};
-+
-+int __init gh_msgq_init(void)
-+{
++	void *resp;
++	size_t resp_size;
 +	int ret;
++	int payload = 0;
 +
-+	ret = gunyah_register_driver(&gh_msgq_tx_driver);
++	ret = gh_rm_call(GH_RM_RPC_VM_GET_VMID, &payload, sizeof(payload), &resp, &resp_size);
 +	if (ret)
 +		return ret;
 +
-+	ret = gunyah_register_driver(&gh_msgq_rx_driver);
-+	if (ret)
-+		goto err_rx;
++	if (resp_size != sizeof(*vmid))
++		return -EIO;
++	*vmid = *(gh_vmid_t *)resp;
++	kfree(resp);
 +
-+	return ret;
-+err_rx:
-+	gunyah_unregister_driver(&gh_msgq_tx_driver);
 +	return ret;
 +}
 +
-+void gh_msgq_exit(void)
++/**
++ * gh_rm_console_open: Open a console with a VM
++ * @vmid: VMID of the other vmid whose console to open. If VMID is GH_VMID_SELF, the
++ *        console associated with this VM is opened.
++ */
++int gh_rm_console_open(gh_vmid_t vmid)
 +{
-+	gunyah_unregister_driver(&gh_msgq_rx_driver);
-+	gunyah_unregister_driver(&gh_msgq_tx_driver);
++	void *resp;
++	struct gh_vm_console_common_req req_payload = {0};
++	size_t resp_size;
++	int ret;
++
++	req_payload.vmid = vmid;
++
++	ret = gh_rm_call(GH_RM_RPC_VM_CONSOLE_OPEN_ID,
++			  &req_payload, sizeof(req_payload),
++			  &resp, &resp_size);
++	kfree(resp);
++
++	if (!ret && resp_size)
++		pr_warn("Received unexpected payload for CONSOLE_OPEN: %lu\n", resp_size);
++
++	return ret;
 +}
-diff --git a/drivers/virt/gunyah/sysfs.c b/drivers/virt/gunyah/sysfs.c
-index 220560cb3b1c..7589689e5e92 100644
---- a/drivers/virt/gunyah/sysfs.c
-+++ b/drivers/virt/gunyah/sysfs.c
-@@ -73,6 +73,8 @@ static ssize_t features_show(struct kobject *kobj, struct kobj_attribute *attr,
- 
- 	if (GH_IDENTIFY_PARTITION_CSPACE(gunyah_api.flags))
- 		len += sysfs_emit_at(buffer, len, "cspace ");
-+	if (GH_IDENTIFY_MSGQUEUE(gunyah_api.flags))
-+		len += sysfs_emit_at(buffer, len, "message-queue ");
- 
- 	len += sysfs_emit_at(buffer, len, "\n");
- 	return len;
-@@ -142,7 +144,13 @@ static int __init gunyah_init(void)
- 	if (ret)
- 		goto err_sysfs;
- 
-+	ret = gh_msgq_init();
-+	if (ret)
-+		goto err_bus;
++EXPORT_SYMBOL_GPL(gh_rm_console_open);
 +
- 	return ret;
-+err_bus:
-+	gunyah_bus_exit();
- err_sysfs:
- 	gh_sysfs_unregister();
- 	return ret;
-@@ -151,6 +159,7 @@ module_init(gunyah_init);
- 
- static void __exit gunyah_exit(void)
- {
-+	gh_msgq_exit();
- 	gunyah_bus_exit();
- 	gh_sysfs_unregister();
- }
-diff --git a/include/linux/gunyah.h b/include/linux/gunyah.h
-index ce35f4491773..099224f9d6d1 100644
---- a/include/linux/gunyah.h
-+++ b/include/linux/gunyah.h
-@@ -6,6 +6,7 @@
- #ifndef _GUNYAH_H
- #define _GUNYAH_H
- 
-+#include <linux/platform_device.h>
- #include <linux/device.h>
- #include <linux/types.h>
- #include <linux/errno.h>
-@@ -117,4 +118,16 @@ struct gunyah_driver {
- int gunyah_register_driver(struct gunyah_driver *ghdrv);
- void gunyah_unregister_driver(struct gunyah_driver *ghdrv);
- 
-+#define GH_MSGQ_MAX_MSG_SIZE	1024
++/**
++ * gh_rm_console_close: Close a console with a VM
++ * @vmid: The vmid of the vm whose console to close.
++ */
++int gh_rm_console_close(gh_vmid_t vmid)
++{
++	void *resp;
++	struct gh_vm_console_common_req req_payload = {0};
++	size_t resp_size;
++	int ret;
 +
-+/* Possible flags to pass for Tx or Rx */
-+#define GH_MSGQ_TX_PUSH		BIT(0)
-+#define GH_MSGQ_NONBLOCK	BIT(32)
++	req_payload.vmid = vmid;
 +
-+ssize_t gh_msgq_send(struct gunyah_device *ghdev, void *buff, size_t size,
-+		     const unsigned long flags);
-+ssize_t gh_msgq_recv(struct gunyah_device *ghdev, void *buff, size_t size,
-+		     const unsigned long flags);
++	ret = gh_rm_call(GH_RM_RPC_VM_CONSOLE_CLOSE_ID,
++			  &req_payload, sizeof(req_payload),
++			  &resp, &resp_size);
++	kfree(resp);
 +
++	if (!ret && resp_size)
++		pr_warn("Received unexpected payload for CONSOLE_CLOSE: %lu\n", resp_size);
++
++	return ret;
++}
++EXPORT_SYMBOL_GPL(gh_rm_console_close);
++
++/**
++ * gh_rm_console_write: Write to a VM's console
++ * @vmid: The vmid of the vm whose console to write to.
++ * @buf: Buffer to write to the VM's console
++ * @size: Size of the buffer
++ */
++int gh_rm_console_write(gh_vmid_t vmid, const char *buf, size_t size)
++{
++	void *resp;
++	struct gh_vm_console_write_req *req_payload;
++	size_t resp_size;
++	int ret = 0;
++	size_t req_payload_size = sizeof(*req_payload) + size;
++
++	if (size < 1 || size > (U32_MAX - sizeof(*req_payload)))
++		return -EINVAL;
++
++	req_payload = kzalloc(req_payload_size, GFP_KERNEL);
++
++	if (!req_payload)
++		return -ENOMEM;
++
++	req_payload->vmid = vmid;
++	req_payload->num_bytes = size;
++	memcpy(req_payload->data, buf, size);
++
++	ret = gh_rm_call(GH_RM_RPC_VM_CONSOLE_WRITE_ID,
++		   req_payload, req_payload_size,
++		   &resp, &resp_size);
++	kfree(req_payload);
++	kfree(resp);
++
++	if (!ret && resp_size)
++		pr_warn("Received unexpected payload for CONSOLE_WRITE: %lu\n", resp_size);
++
++	return ret;
++}
++EXPORT_SYMBOL_GPL(gh_rm_console_write);
++
++/**
++ * gh_rm_console_flush: Flush a console with a VM
++ * @vmid: The vmid of the vm whose console to flush
++ */
++int gh_rm_console_flush(gh_vmid_t vmid)
++{
++	void *resp;
++	struct gh_vm_console_common_req req_payload = {0};
++	size_t resp_size;
++	int ret;
++
++	req_payload.vmid = vmid;
++
++	ret = gh_rm_call(GH_RM_RPC_VM_CONSOLE_FLUSH_ID,
++			  &req_payload, sizeof(req_payload),
++			  &resp, &resp_size);
++	kfree(resp);
++
++	if (!ret && resp_size)
++		pr_warn("Received unexpected payload for CONSOLE_FLUSH: %lu\n", resp_size);
++
++	return ret;
++}
++EXPORT_SYMBOL_GPL(gh_rm_console_flush);
+diff --git a/include/linux/gunyah_rsc_mgr.h b/include/linux/gunyah_rsc_mgr.h
+index 015bd851e1a3..4211ac9a219c 100644
+--- a/include/linux/gunyah_rsc_mgr.h
++++ b/include/linux/gunyah_rsc_mgr.h
+@@ -26,4 +26,20 @@ struct gh_rm_notification {
+ int gh_rm_register_notifier(struct notifier_block *nb);
+ int gh_rm_unregister_notifier(struct notifier_block *nb);
+ 
++/* Notification type Message IDs */
++#define GH_RM_NOTIF_VM_CONSOLE_CHARS	0x56100080
++
++struct gh_rm_notif_vm_console_chars {
++	gh_vmid_t vmid;
++	u16 num_bytes;
++	u8 bytes[0];
++} __packed;
++
++/* RPC Calls */
++int gh_rm_get_vmid(gh_vmid_t *vmid);
++int gh_rm_console_open(gh_vmid_t vmid);
++int gh_rm_console_close(gh_vmid_t vmid);
++int gh_rm_console_write(gh_vmid_t vmid, const char *buf, size_t size);
++int gh_rm_console_flush(gh_vmid_t vmid);
 +
  #endif
 -- 
