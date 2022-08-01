@@ -2,85 +2,83 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E415C3F6B0
-	for <linux-doc@archiver.kernel.org>; Mon,  1 Aug 2022 18:10:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 93C8CC00144
+	for <linux-doc@archiver.kernel.org>; Mon,  1 Aug 2022 19:30:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231769AbiHASKz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 1 Aug 2022 14:10:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49672 "EHLO
+        id S233067AbiHATaU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 1 Aug 2022 15:30:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51024 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234168AbiHASKm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 Aug 2022 14:10:42 -0400
-Received: from mail-ot1-x334.google.com (mail-ot1-x334.google.com [IPv6:2607:f8b0:4864:20::334])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B072114D35;
-        Mon,  1 Aug 2022 11:10:41 -0700 (PDT)
-Received: by mail-ot1-x334.google.com with SMTP id cb12-20020a056830618c00b00616b871cef3so8768330otb.5;
-        Mon, 01 Aug 2022 11:10:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:to:from:date
-         :from:to:cc;
-        bh=t6ktmqB/P+iluSUoepFDW78LdbJE+Fu7Yw/Iev2hh+0=;
-        b=G3vDEWAVfZhvAhqzNmPb7hGt0UmFSl5MbSUIKNUKbWEavHVKbUv8EFbdxwWA3BV5Zm
-         4AA1O9X2FZ1l7Haew5HvtPBuyBjIZrYxIJXDshJ0tMzgQZo1AJ8RzVjzLwtHnTwNAtrH
-         xFCLimvaq8KdHsXFbshY93wKdkAuLSgZcMI5LjtVq2tUqXz47CVs0Dupa+gFM/UWZV2+
-         LaeabaGWvyLyMvdQUFCcT4gh6uoam589Qb40hpoq6xgywAU/XVdPhg8WGKziheYJkVmz
-         Sla583hf8d6zY7AJXAJGgNl66WfwzF/oplDlR9XN7XyPrL7PbuF+lOlQbgw9mK2fqHvX
-         Prsg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-disposition:mime-version:message-id:subject:to:from:date
-         :x-gm-message-state:from:to:cc;
-        bh=t6ktmqB/P+iluSUoepFDW78LdbJE+Fu7Yw/Iev2hh+0=;
-        b=RFy31ox0Dcd7Ni47Gssh8HGq1szeK3PeITzK7yidsWdbJ8/BomH3Dr572p1lSx3jMU
-         Hvhn9o9dqFfeuoOOX81uwzl3AaEQBWwdkByt7RjW5wjsXIqO/r+ob77RnMexujfSPfmp
-         b4rzT6EE9s8G3SepufREYMhfapbNOr++JvUWY5EUDhkf9eaGoeDqeys4bLYPgNbky9Jk
-         vaFimbA76Lt+YQeO7LZUpXyEDWba12oUW++R8bDpDnhcwu2/n1LpLEwRFv7NczCi22/e
-         C0K0BgEyfsjnm2GSC2Atk9wizU5f6+/wBeBacwEgiQKuQQFSa/Iqa9TFG+ykjmPFwNtr
-         NOTg==
-X-Gm-Message-State: AJIora/g0p7F6pvL5dpzmMdA8fecarRJAO91XaqkcfetdhnFYYhOJAIf
-        84tVNULbZoTle9SWjRvy0OG6kRpKm5r+35CU
-X-Google-Smtp-Source: AGRyM1v7szvswPwf09KMfvoE2EGaTFPnWuf7OyKEK4JiU9jIlFZJVEMli8qPqx2glC6iLP1T0xUrZw==
-X-Received: by 2002:a9d:4c8:0:b0:61c:a6d0:c2a6 with SMTP id 66-20020a9d04c8000000b0061ca6d0c2a6mr6289779otm.273.1659377441058;
-        Mon, 01 Aug 2022 11:10:41 -0700 (PDT)
-Received: from DESKTOP-GSR5SR7.localdomain (097-093-024-013.res.spectrum.com. [97.93.24.13])
-        by smtp.gmail.com with ESMTPSA id m13-20020a4aab8d000000b004354d726305sm2823245oon.8.2022.08.01.11.10.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Aug 2022 11:10:40 -0700 (PDT)
-Date:   Mon, 1 Aug 2022 11:10:38 -0700
-From:   Max Dunbar <mdsurfing4@gmail.com>
-To:     jdelvare@suse.com, linux@roeck-us.net, corbet@lwn.net,
-        linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] docs: Fix Typo
-Message-ID: <20220801181038.GA957@DESKTOP-GSR5SR7.localdomain>
+        with ESMTP id S232136AbiHATaT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 Aug 2022 15:30:19 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 856FD330;
+        Mon,  1 Aug 2022 12:30:16 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 9B653B81674;
+        Mon,  1 Aug 2022 19:30:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 30731C433D6;
+        Mon,  1 Aug 2022 19:30:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1659382214;
+        bh=ssT8OTv2i1c2xMK1/QiGETQ9VivKbrU9Iou5OuLvaLo=;
+        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+        b=BBXNniCMsZFHga5EOOfi6ZH804GxFPl6s5PrgfhZeVk8BKIXyrmQFWiylWLN2M1pS
+         2cd9nPHsJ2wFvJK1mdHa6OIE3T0nYj6WT1hnj6WrK9l5w6xwyYVoYgwb2fLcw8u/9t
+         4ij3XP6D9/xa4tHO+Kc3EXSAdk28vHaq1cRD8Ke86APpPkMdqI659aBL2CPq2c0QTf
+         8+/cdihzpzjUV6YS6Zw2Wzi1YKrEZLS+mzVCwsUCoT3Zk9pIJFraPDPtzP65sZIcnz
+         DFtXlxeXpQXBafZVbLTOf/s9fIxz/uTi+BoXUe2Iek0vXJeE/1uHfDY843GcAXG5E5
+         WNTQOHHeOJouA==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 124EDC43140;
+        Mon,  1 Aug 2022 19:30:14 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net-next] Documentation: devlink: add add devlink-selftests to
+ the table of contents
+From:   patchwork-bot+netdevbpf@kernel.org
+Message-Id: <165938221407.30942.11853092153259357010.git-patchwork-notify@kernel.org>
+Date:   Mon, 01 Aug 2022 19:30:14 +0000
+References: <20220730022058.16813-1-bagasdotme@gmail.com>
+In-Reply-To: <20220730022058.16813-1-bagasdotme@gmail.com>
+To:     Bagas Sanjaya <bagasdotme@gmail.com>
+Cc:     netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, jiri@nvidia.com, davem@davemloft.net,
+        edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+        vikas.gupta@broadcom.com, gospo@broadcom.com, lkp@intel.com
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Correcting "wil" to "will" in the hwmon documentation
+Hello:
 
-Signed-off-by: Max Dunbar <mdsurfing4@gmail.com>
----
- Documentation/hwmon/hwmon-kernel-api.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+This patch was applied to netdev/net-next.git (master)
+by Jakub Kicinski <kuba@kernel.org>:
 
-diff --git a/Documentation/hwmon/hwmon-kernel-api.rst b/Documentation/hwmon/hwmon-kernel-api.rst
-index f3276b3a381a..a4755a5a24af 100644
---- a/Documentation/hwmon/hwmon-kernel-api.rst
-+++ b/Documentation/hwmon/hwmon-kernel-api.rst
-@@ -57,7 +57,7 @@ register/unregister functions::
- hwmon_device_register_with_groups registers a hardware monitoring device.
- The first parameter of this function is a pointer to the parent device.
- The name parameter is a pointer to the hwmon device name. The registration
--function wil create a name sysfs attribute pointing to this name.
-+function will create a name sysfs attribute pointing to this name.
- The drvdata parameter is the pointer to the local driver data.
- hwmon_device_register_with_groups will attach this pointer to the newly
- allocated hwmon device. The pointer can be retrieved by the driver using
+On Sat, 30 Jul 2022 09:20:57 +0700 you wrote:
+> Commit 08f588fa301bef ("devlink: introduce framework for selftests") adds
+> documentation for devlink selftests framework, but it is missing from
+> table of contents.
+> 
+> Add it.
+> 
+> Link: https://lore.kernel.org/linux-doc/202207300406.CUBuyN5i-lkp@intel.com/
+> Fixes: 08f588fa301bef ("devlink: introduce framework for selftests")
+> Reported-by: kernel test robot <lkp@intel.com>
+> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> 
+> [...]
+
+Here is the summary with links:
+  - [net-next] Documentation: devlink: add add devlink-selftests to the table of contents
+    https://git.kernel.org/netdev/net-next/c/4ff7c8fc81ce
+
+You are awesome, thank you!
 -- 
-2.25.1
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 
