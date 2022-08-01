@@ -2,62 +2,45 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2DB6CC19F29
-	for <linux-doc@archiver.kernel.org>; Mon,  1 Aug 2022 22:51:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A01FC00144
+	for <linux-doc@archiver.kernel.org>; Mon,  1 Aug 2022 23:19:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235042AbiHAWve (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 1 Aug 2022 18:51:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54292 "EHLO
+        id S233923AbiHAXTx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 1 Aug 2022 19:19:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40798 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234760AbiHAWvd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 Aug 2022 18:51:33 -0400
-Received: from mail-io1-xd2a.google.com (mail-io1-xd2a.google.com [IPv6:2607:f8b0:4864:20::d2a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ADBB326558
-        for <linux-doc@vger.kernel.org>; Mon,  1 Aug 2022 15:51:31 -0700 (PDT)
-Received: by mail-io1-xd2a.google.com with SMTP id e69so9503114iof.5
-        for <linux-doc@vger.kernel.org>; Mon, 01 Aug 2022 15:51:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc;
-        bh=glcOCUJ/+awLcSG8X5QxtUVosWAHdrRlN7P8qFCy/KU=;
-        b=VgjLNHr1hMbP7jz5VD9tM4tHHUdeWiE6jv/PZZxVCEl8oCfbeuNfGwRZv+sM+Wf2i5
-         oNtEEDp7KV0lDn8cKVruat3XxxQpJMcYjwbPK6y/MVRRPL11HHL0qSFaA+lfpHzZBha0
-         nLWIVaLCa21JIuOinIDkNS5w6493rVMBjMsIoJBEJyiHzTbqwHr8PtBHwPGlSVsZYhnF
-         QZ0bwchCYRMq8Xg6oV57EE21VLo09Sr7nwNLOc9tMa0EkmmzqE6+UV6VMx2SxN+hUzky
-         CnA8w+UFJxkOejBgEvFvCIaDj3nOXOQ57P4poCq6zqCOaJrsgvvPN50y3wl4tui1yenO
-         Uz4Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
-        bh=glcOCUJ/+awLcSG8X5QxtUVosWAHdrRlN7P8qFCy/KU=;
-        b=dYekDhNYUbGFKoNGrWle62ZvujyZ4Qigwn+Chitef+p6PwVCnG+9SjEYbtwA04SSp0
-         WaLyPI7CrgIHyNuedm6hDD6kIDCpqsBG15hzG7LMUU71MIMj8G5XC4M7i/eEOTiXxxu2
-         oXbGll8/GuYfteTPz6SoIiLpr5Rl8OTT5d4VrQeVZLr6k2fotLYcIa8Oj1NIRkuml/vS
-         9Fs5YHQ99GkFWelT3OgElJ95g8ZjiKppIYhOPUJbuemsJODkQkAZ62uDL3MJSCODDL7l
-         PyGzQBkH40gemPThjQSD3dn9roOHm8J7/JVNtOTYE+XvVlegPZ3s3NOkpgBc9QizywFS
-         gwwQ==
-X-Gm-Message-State: AJIora+46R8ySATQ2oodbeyepsnxHaCtToX/ypTuBV8BQmBSml4p5oM2
-        S6veSIYTo++EFcR22Jw02MH1Wf4oEXonhwU9vy8gzA==
-X-Google-Smtp-Source: AGRyM1uNtkg5Y2IRmGnxo1RbFLJVbjJuAEzaSRiEXHBPKJ+mQGbRVw11UEmSKc0sWqWF8C25CpekbWeNsTatl+C7xk4=
-X-Received: by 2002:a05:6602:15c8:b0:67c:45c7:40c9 with SMTP id
- f8-20020a05660215c800b0067c45c740c9mr6287785iow.138.1659394290961; Mon, 01
- Aug 2022 15:51:30 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220719195628.3415852-1-axelrasmussen@google.com>
- <PH7PR11MB6353950F607F7B8F274A3550FD8E9@PH7PR11MB6353.namprd11.prod.outlook.com>
- <CAJHvVchusMjvhLxYkWpa+iTaHvXYPFHcX7JGP=bW60e_O1jFGA@mail.gmail.com>
- <7EF50BE4-84EA-4D57-B58C-6697F1B74904@vmware.com> <CAJHvVcghaZjgU6YhoGMehQTDU36S-UL5djG+Bym6Uax=VVoX7g@mail.gmail.com>
- <DDE06635-71B4-46B9-9635-97E35E0B5482@vmware.com>
-In-Reply-To: <DDE06635-71B4-46B9-9635-97E35E0B5482@vmware.com>
-From:   Axel Rasmussen <axelrasmussen@google.com>
-Date:   Mon, 1 Aug 2022 15:50:55 -0700
-Message-ID: <CAJHvVcgR63YNyGYj1Z-XAj5WP631P0DSEK8Mx=f9E=QGJBeRug@mail.gmail.com>
-Subject: Re: [PATCH v4 0/5] userfaultfd: add /dev/userfaultfd for fine grained
- access control
-To:     Nadav Amit <namit@vmware.com>
-Cc:     "Schaufler, Casey" <casey.schaufler@intel.com>,
+        with ESMTP id S230362AbiHAXTw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 Aug 2022 19:19:52 -0400
+Received: from na01-obe.outbound.protection.outlook.com (mail-bgr052101064006.outbound.protection.outlook.com [52.101.64.6])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B5782A40F;
+        Mon,  1 Aug 2022 16:19:51 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Q/vpHL9Qp+WFR07KuWXYwsyzAnzzcgE2Xw71iWOLVjeh9BTGHdiNcZV4PnyzKSbvHyRofY4OhVUkEF4Q4HANS26Glzh2t8vbvdkBmTcbAyaZD5Uk3yZF+DxM3ecsORXxGJEiocpZ8sEG3/Ycw5bOcWc//+nF6XSW1aQDBWz01LtjWJJQocGOJSnSRORzxonVu+qgG6+h9FgJZ8nlYFV0NZx5mURoPvpYOKiiUlU7wOCqBTiUIOh7Igy5nhLRbpMS3IDY0j8BGQrbTYTzqfKOwLEEU3RptpCelLv2e1910Hj8qzlpnH+KKImmgchqT1uTISe24YfGvUTsPjN5YMBdFA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=v4ivXbwyhchz2gX03GAcBD6zzDIW5+sem5beLSjDLMY=;
+ b=Hy3EN3kSoG6h+iFck+snW45nZi6ld0Pclbj4iN61cHFwBCpsHRWPQamWSfOqs49dslixyVlYGlEeulxHTj7zi5k5bfbYTG5W1dXvMK6tE7EAiJDQvofE7fJhIcBaXjtvqGHEibmZxozkVKIPpguTuetnH7Z5m4rz0QWYbVGLHpNywMqJTDmaTqlOPm2LWd1YE1fAFbCHxoO/y6ldRZ9Ixo01ryBl4PJX/XXMkzAY4LPk3OlqVihtw74iNYjAwOlgfMwzXypZ4mR5Qvx0Vp0/Y6UY0aM6siM9x/zyRR2RJcKT9RiHAKONQLaFMlw7ZxaoN3AdWYYveZ0JQ3/cKGhRLA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vmware.com; dmarc=pass action=none header.from=vmware.com;
+ dkim=pass header.d=vmware.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vmware.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=v4ivXbwyhchz2gX03GAcBD6zzDIW5+sem5beLSjDLMY=;
+ b=mYomdPqq/0wM7lqWYcgpEZpOs8apW3HbXjrwvkD5jmcjjFf9TbChQGM52jNUEo9KTrOiCFdhAwv2nK0xLfu7XiZAWg0XvhUTF3JH2MTx7ZglYZYtP1bKJlFzr5RzboA41KG0Fe0ogrtRACjrJL8xf2hYsgzsev7MwJPA/X0OHEU=
+Received: from BY3PR05MB8531.namprd05.prod.outlook.com (2603:10b6:a03:3ce::6)
+ by PH0PR05MB8057.namprd05.prod.outlook.com (2603:10b6:510:76::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5504.12; Mon, 1 Aug
+ 2022 23:19:49 +0000
+Received: from BY3PR05MB8531.namprd05.prod.outlook.com
+ ([fe80::d813:9300:4877:39d0]) by BY3PR05MB8531.namprd05.prod.outlook.com
+ ([fe80::d813:9300:4877:39d0%8]) with mapi id 15.20.5504.014; Mon, 1 Aug 2022
+ 23:19:48 +0000
+From:   Nadav Amit <namit@vmware.com>
+To:     Axel Rasmussen <axelrasmussen@google.com>
+CC:     "Schaufler, Casey" <casey.schaufler@intel.com>,
         Alexander Viro <viro@zeniv.linux.org.uk>,
         Andrew Morton <akpm@linux-foundation.org>,
         Dave Hansen <dave.hansen@linux.intel.com>,
@@ -78,87 +61,111 @@ Cc:     "Schaufler, Casey" <casey.schaufler@intel.com>,
         "linux-mm@kvack.org" <linux-mm@kvack.org>,
         "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
         Andrea Arcangeli <aarcange@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v4 0/5] userfaultfd: add /dev/userfaultfd for fine grained
+ access control
+Thread-Topic: [PATCH v4 0/5] userfaultfd: add /dev/userfaultfd for fine
+ grained access control
+Thread-Index: AQHYm6moVvUxeU2aLUSjhWg4PqcU4q2H1VIAgAANjICAAASjgIASdSEAgAAsz4CAADGMgIAACBIA
+Date:   Mon, 1 Aug 2022 23:19:48 +0000
+Message-ID: <858CC870-B061-4ADC-B5F4-C95E72F72CEC@vmware.com>
+References: <20220719195628.3415852-1-axelrasmussen@google.com>
+ <PH7PR11MB6353950F607F7B8F274A3550FD8E9@PH7PR11MB6353.namprd11.prod.outlook.com>
+ <CAJHvVchusMjvhLxYkWpa+iTaHvXYPFHcX7JGP=bW60e_O1jFGA@mail.gmail.com>
+ <7EF50BE4-84EA-4D57-B58C-6697F1B74904@vmware.com>
+ <CAJHvVcghaZjgU6YhoGMehQTDU36S-UL5djG+Bym6Uax=VVoX7g@mail.gmail.com>
+ <DDE06635-71B4-46B9-9635-97E35E0B5482@vmware.com>
+ <CAJHvVcgR63YNyGYj1Z-XAj5WP631P0DSEK8Mx=f9E=QGJBeRug@mail.gmail.com>
+In-Reply-To: <CAJHvVcgR63YNyGYj1Z-XAj5WP631P0DSEK8Mx=f9E=QGJBeRug@mail.gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3696.120.41.1.1)
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=vmware.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 07896e4f-26d5-47bd-0e3e-08da74145440
+x-ms-traffictypediagnostic: PH0PR05MB8057:EE_
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: zMUTKgYo+obp60m9HklnU5bPaEOcDqw9foAxZMSAMzS8srNL1PzJr8tgIhQjUiyrqjhpxDHR80FHCnr3p4GrjjmGC31uUE52ThYuYyrrZcHZV4x7B48GA1UtckA7/PvswWbfF6H2B28PLYL3gm/T/w0kKEdh9MchbuSvzIpNNN2+Rq8Dr8pai0pavazAXCHuIi616thCIgJjklH92cBOtXBfhv/0CdsZ6i2LAagxO/fkrhZKqEJye8Ggi8XHNCOIspfswEUUi2+BZsBNj9XTRZhP3ghmLEvdxg5U2Fsyk3bXSjbfV1huYuTy5S/olJFUs7+wo4xH34WfUlp+V99FMUfZmiDpElDsBbq8dhC1JXL6AJaE+3aKO/7hw1+RYvPxxczL0E6u6vu5jlsB3Cb/ZuxGrtiAQw3wq/9RTY1xL/MSuT2b48WQnvCbdwUZP7xEcWWRymXX1M+htK6f6cCMY1Y3Qq8VVba6rvUcr8ZkYIlraXT6VQSmoin4x/vv8PNLx3Iu3U+9KnDNpnGs/1mx6Rc4kNUM480wijfcelGCYlpc5wtdmgPM/22y/Ul6M9GOZaSbgYGogqucbdSNz/czseJ4ouDsWFniE6O2fJzkQGNlqTOBxD8qC/vzbh33XFXa08plWv4ivhU8Mc8hl5dSzql62aGz1BAzM6Nx4Gg77jgHKjMyJQkYq82Vhjwcn0mV7rHqc9/HLNpiD/fcsOWqPpmGLV2/GwnGjEpilCDdUqcYNbJyoqw0cKMUUHpAPrFwHMZs64Oa4DMHyvTmMpqPfj852NzKZLjt4LUEyKTD9eHaNDBSuxnuodlZUzdN8I8lUjvQyhT4mLHlBfj10qAMsQ==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY3PR05MB8531.namprd05.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(39860400002)(376002)(396003)(136003)(366004)(346002)(8936002)(66446008)(6486002)(64756008)(478600001)(66556008)(4326008)(8676002)(66476007)(71200400001)(186003)(83380400001)(7416002)(36756003)(86362001)(54906003)(6916009)(38070700005)(2616005)(2906002)(41300700001)(6506007)(316002)(53546011)(6512007)(33656002)(76116006)(5660300002)(66946007)(26005)(38100700002)(122000001)(45980500001);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?MXFqUEh1cWpkU0ExaEhhU016MUlCU0RwZS9zTGlsYkpCOHFGMEk0N0Z6Vzdy?=
+ =?utf-8?B?c1VzUWF3Vkxlc2xsZmZzdDZJdnRjREtyUFhIZXQvUEYzdmt3Wk41MFpKOVRH?=
+ =?utf-8?B?NjlHdm5vWVZheXdUeDdCQUJ1cGUyV0Nud3dhaG1pS1YrdG4xeVN1MGRSYmJU?=
+ =?utf-8?B?amFHYWoxZlJYa0pQNkE4TkRmeDVMb0theGo1Y2ZhRldvQ0dNUDFFbGZwZXln?=
+ =?utf-8?B?T0JBd3RlM056YWRrSjcyaUtERW1RNTlIZ2xOSzMzR0xZenM5bzBVczZaTDF0?=
+ =?utf-8?B?dGpRMTZBRlR4WktVamxCQnNqMXR2Z2dZdVFyc0RjWGxZbDJHWnAyT2kyU3FX?=
+ =?utf-8?B?ZWttdVF3SFZGY3llYWtmWTJOT0Z5dGtkV0tZdVhud1kxUithYTZyaEVrL2Fw?=
+ =?utf-8?B?Zk5HTEFQa2VRUXAxTk1QRHdIQ0xGRWpGaGFxVzFXd1prajZwR0tkcVlucnpY?=
+ =?utf-8?B?Y3RtOG5zemhyRmxJZGcwWmZaNTR4MUhHUU80S0Zrc1RXQlNhK0h6MWQ1c0Js?=
+ =?utf-8?B?cUd4ejdPTTc2SWV0WmpGTG9QQ2pHS2lQNHNXSWFjY0RRKzhSRUdHM21GWHF6?=
+ =?utf-8?B?TndYaUF2TFZqUVNHQmtJakMvc3VJRE5rSDYyOUVVMTFrYUEwWG40M0lybzRW?=
+ =?utf-8?B?Uk9JS3dWYVBINzhCUWNSaXhVV3M2Qmp6MHdVMEJ6RGtrRmVoUzllZ0xqdWVX?=
+ =?utf-8?B?cDNSMkNOSnBuRWlZYnhvdTBJa2JPMkVnSVYyZytPYTVKV3NHcDF4Smh3eWJj?=
+ =?utf-8?B?SXVlVEd3UUdxWnE5KzlncEVLMGRlUW1RNklzOFcrT0JQQnZrRUNHdnVTT1VC?=
+ =?utf-8?B?SU1yQ0Y0WVpRSnhXTS9zcldwVWM0LzVtMThrYUpScHRmWDRXSFl2WEcyNDdY?=
+ =?utf-8?B?SGVHL3kzU0RnNFI1ZllIVW0xMTkydmZNZG93Y01RVUZaVWtQOFJZbU5lbGJH?=
+ =?utf-8?B?OVdIU2c3aUdjR0UvOVYvWHh6R1NNRFM5NkhCMHBNcWxjdDBSZ0VjbWhkSkRW?=
+ =?utf-8?B?a2FuQk5VZVBWVkprL1o3VW1WZVVXeENyNTd1NGNucCtlRHVpdk9iMzR2Slp4?=
+ =?utf-8?B?ZERLL3RGWTYwS1RDc0tsRk1HanFsMitjcjgrSy9MMkNsTDNiVGhkdG9CQ3BE?=
+ =?utf-8?B?UWFEVUZGL1p3OXM5K3lJcWxOK1MvaFhRaHp0dUQ2eU44TFRlQ0xZZkVLREZL?=
+ =?utf-8?B?MGxveWZRd2VoUTNhZTE0UVFoYkVyc3hTdXVmdGxWS0JMbExCaThnNkxrM1Rj?=
+ =?utf-8?B?TW1ZV1hRQzRocW15aTRFMjBsNGNkamRtdm1aQUhWNVZzWFFmNHJ5b0pOVjNz?=
+ =?utf-8?B?QUJFOFQ0WEYxZHhITGgrVVFSeTB0OHN4dmI2TU1HYklIeWNaMkI0RVR4bFZU?=
+ =?utf-8?B?OGNFRFA1VjU2Mndpdk5iVW1ELzVEY1hVUHlNUUYwUW81Y00ySEpRVXdjcSt4?=
+ =?utf-8?B?VGRFYUFRYXlBZjNlckFkV3BlbTAxOXFDNS9VdXExN3hYNHJVdHN0U21nbXZJ?=
+ =?utf-8?B?ekNpbzBIZEo3MkZvWjdld01SbHcrYTNra1RMNk1zbk9TWDBjZm9nUU56T3lE?=
+ =?utf-8?B?eVkvVXBlYWxEVzVjN0QxR3pjdEVGSFlCV2Y5K0pmQlFBaWh5ek9JYnRsdStO?=
+ =?utf-8?B?YnZ4SkV3MFQ3ZzYvTGp1TmVPMFpYV1kwT1ltaTBkMWtGWEZCRTNwY2IxVEo0?=
+ =?utf-8?B?L0FWQVY3Mm1KWElndHZBcjNXcmdBNmxobGFFNWdDSmROMXk5TWxhaVpOc3lS?=
+ =?utf-8?B?TStwNHBlU1BvSi9hUDIyMmNzUjF2clROSm1hakhmaCs2aVkvTVpnc1ZBRDFY?=
+ =?utf-8?B?dDhvVm9jVG5LQ0pxeHJuMmRBUmd6MDVMTlBmc0paSGhhS0hlWC9jVENwTDQ3?=
+ =?utf-8?B?dkVEcTN1NG5zV2w3bkllS0lBNEZpdlphSTV4RWxMVkJzTzkwVmJ3Vi9xdVYx?=
+ =?utf-8?B?QlZiQnN3aGFKZ2FxZnNXRjdSVlFCUmVoTGkzQW1tN24yaUhOcGVNOTVxcUJp?=
+ =?utf-8?B?aE95bW03ZkxVS0xOR3BIOWs5cmdKMyt1ekxSMjdPbTdTYzZVbjNJTm1LSjZT?=
+ =?utf-8?B?VDlOT3g0ZHFFTWVEdkJtSTNIYjJSUmx0VFoxc21IYXdPSzJveUY0TGZ0aUVE?=
+ =?utf-8?Q?Kbx5fUuefrkRTwNsr8qlVWi3L?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <216C0BC7B275ED4BBDC0BBACB713FDF3@namprd05.prod.outlook.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: vmware.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BY3PR05MB8531.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 07896e4f-26d5-47bd-0e3e-08da74145440
+X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Aug 2022 23:19:48.7685
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b39138ca-3cee-4b4a-a4d6-cd83d9dd62f0
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: JjWv36TGD8mvMhoQcIxy8Nezi28+QFH4mhJe6sztoredkOwWZtXY8RyKG2I61U+u11sP8DwnA0W6t0sU1KsM0A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR05MB8057
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Aug 1, 2022 at 12:53 PM Nadav Amit <namit@vmware.com> wrote:
->
-> On Aug 1, 2022, at 10:13 AM, Axel Rasmussen <axelrasmussen@google.com> wr=
-ote:
->
-> > =E2=9A=A0 External Email
-> >
-> > I finished up some other work and got around to writing a v5 today,
-> > but I ran into a problem with /proc/[pid]/userfaultfd.
-> >
-> > Files in /proc/[pid]/* are owned by the user/group which started the
-> > process, and they don't support being chmod'ed.
-> >
-> > For the userfaultfd device, I think we want the following semantics:
-> > - For UFFDs created via the device, we want to always allow handling
-> > kernel mode faults
-> > - For security, the device should be owned by root:root by default, so
-> > unprivileged users don't have default access to handle kernel faults
-> > - But, the system administrator should be able to chown/chmod it, to
-> > grant access to handling kernel faults for this process more widely.
-> >
-> > It could be made to work like that but I think it would involve at leas=
-t:
-> >
-> > - Special casing userfaultfd in proc_pid_make_inode
-> > - Updating setattr/getattr for /proc/[pid] to meaningfully store and
-> > then retrieve uid/gid different from the task's, again probably
-> > special cased for userfautlfd since we don't want this behavior for
-> > other files
-> >
-> > It seems to me such a change might raise eyebrows among procfs folks.
-> > Before I spend the time to write this up, does this seem like
-> > something that would obviously be nack'ed?
->
-> [ Please avoid top-posting in the future ]
-
-I will remember this. Gmail's default behavior is annoying. :/
-
->
-> I have no interest in making your life harder than it should be. If you
-> cannot find a suitable alternative, I will not fight against it.
->
-> How about this alternative: how about following KVM usage-model?
->
-> IOW: You open /dev/userfaultfd, but this is not the file-descriptor that =
-you
-> use for most operations. Instead you first issue an ioctl - similarly to
-> KVM_CREATE_VM - to get a file-descriptor for your specific process. You t=
-hen
-> use this new file-descriptor to perform your operations (read/ioctl/etc).
->
-> This would make the fact that ioctls/reads from different processes refer=
- to
-> different contexts (i.e., file-descriptors) much more natural.
->
-> Does it sound better?
-
-Ah, that I think is more or less what my series already proposes, if I
-understand you correctly.
-
-The usage is:
-
-fd =3D open(/dev/userfaultfd) /* This FD is only useful for creating new
-userfaultfds */
-uffd =3D ioctl(fd, USERFAULTFD_IOC_NEW) /* Now you get a real uffd */
-close(fd); /* No longer needed now that we have a real uffd */
-
-/* Use uffd to register, COPY, CONTINUE, whatever */
-
-One thing we could do now or in the future is extend
-USERFAULTFD_IOC_NEW to take a pid as an argument, to support creating
-uffds for remote processes.
-
-
-
-And then we get the benefit of permissions for /dev nodes working very
-naturally - they default to root, but can be configured by the
-sysadmin via chown/chmod, or udev rules, or whatever.
+T24gQXVnIDEsIDIwMjIsIGF0IDM6NTAgUE0sIEF4ZWwgUmFzbXVzc2VuIDxheGVscmFzbXVzc2Vu
+QGdvb2dsZS5jb20+IHdyb3RlOg0KDQo+IOKaoCBFeHRlcm5hbCBFbWFpbA0KPiANCj4gT24gTW9u
+LCBBdWcgMSwgMjAyMiBhdCAxMjo1MyBQTSBOYWRhdiBBbWl0IDxuYW1pdEB2bXdhcmUuY29tPiB3
+cm90ZToNCj4+IE9uIEF1ZyAxLCAyMDIyLCBhdCAxMDoxMyBBTSwgQXhlbCBSYXNtdXNzZW4gPGF4
+ZWxyYXNtdXNzZW5AZ29vZ2xlLmNvbT4gd3JvdGU6DQo+IA0KPiBBaCwgdGhhdCBJIHRoaW5rIGlz
+IG1vcmUgb3IgbGVzcyB3aGF0IG15IHNlcmllcyBhbHJlYWR5IHByb3Bvc2VzLCBpZiBJDQo+IHVu
+ZGVyc3RhbmQgeW91IGNvcnJlY3RseS4NCj4gDQo+IFRoZSB1c2FnZSBpczoNCj4gDQo+IGZkID0g
+b3BlbigvZGV2L3VzZXJmYXVsdGZkKSAvKiBUaGlzIEZEIGlzIG9ubHkgdXNlZnVsIGZvciBjcmVh
+dGluZyBuZXcNCj4gdXNlcmZhdWx0ZmRzICovDQo+IHVmZmQgPSBpb2N0bChmZCwgVVNFUkZBVUxU
+RkRfSU9DX05FVykgLyogTm93IHlvdSBnZXQgYSByZWFsIHVmZmQgKi8NCj4gY2xvc2UoZmQpOyAv
+KiBObyBsb25nZXIgbmVlZGVkIG5vdyB0aGF0IHdlIGhhdmUgYSByZWFsIHVmZmQgKi8NCj4gDQo+
+IC8qIFVzZSB1ZmZkIHRvIHJlZ2lzdGVyLCBDT1BZLCBDT05USU5VRSwgd2hhdGV2ZXIgKi8NCj4g
+DQo+IE9uZSB0aGluZyB3ZSBjb3VsZCBkbyBub3cgb3IgaW4gdGhlIGZ1dHVyZSBpcyBleHRlbmQN
+Cj4gVVNFUkZBVUxURkRfSU9DX05FVyB0byB0YWtlIGEgcGlkIGFzIGFuIGFyZ3VtZW50LCB0byBz
+dXBwb3J0IGNyZWF0aW5nDQo+IHVmZmRzIGZvciByZW1vdGUgcHJvY2Vzc2VzLg0KPiANCj4gDQo+
+IA0KPiBBbmQgdGhlbiB3ZSBnZXQgdGhlIGJlbmVmaXQgb2YgcGVybWlzc2lvbnMgZm9yIC9kZXYg
+bm9kZXMgd29ya2luZyB2ZXJ5DQo+IG5hdHVyYWxseSAtIHRoZXkgZGVmYXVsdCB0byByb290LCBi
+dXQgY2FuIGJlIGNvbmZpZ3VyZWQgYnkgdGhlDQo+IHN5c2FkbWluIHZpYSBjaG93bi9jaG1vZCwg
+b3IgdWRldiBydWxlcywgb3Igd2hhdGV2ZXIuDQoNCk9oLiBTdHVwaWQgbWUuIFRoZW4geWVzLCB1
+c2luZyB0aGUgL2Rldi91c2VyZmF1bHRmZCBpcyBpbiBsaW5lIHdpdGggb3RoZXINCnVzYWdlIG1v
+ZGVscywgc3VjaCBhcyBLVk0uIEFuZCByZWFkaW5nIGZyb20gZWFjaCBmaWxlIGRlc2NyaXB0b3Ig
+aXMgaW5kZWVkDQpwcm92aWRpbmcgZGlmZmVyZW50IG91dHB1dC4NCg0K
