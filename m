@@ -2,122 +2,73 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 110F2C19F2C
-	for <linux-doc@archiver.kernel.org>; Mon,  1 Aug 2022 08:20:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5165BC00144
+	for <linux-doc@archiver.kernel.org>; Mon,  1 Aug 2022 08:34:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230030AbiHAIUp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 1 Aug 2022 04:20:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38312 "EHLO
+        id S230146AbiHAIeb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 1 Aug 2022 04:34:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46644 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230089AbiHAIUj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 Aug 2022 04:20:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 881982870E
-        for <linux-doc@vger.kernel.org>; Mon,  1 Aug 2022 01:20:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1659342037;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=pJH07x8QvE4r/0Wcvdf2EaLzPedOQZnkWNurVPoZ0fI=;
-        b=Bl1/G+MQfJHeYJjvnoZ9GM6VKpcnFq+bAI2Tr9rmEUGywxWAn3TftofWdF4fFdi2y2ykwZ
-        vb51IIWU/y0jwz3uDL0jlgVqUkLIureqsBpu0ORapVwGaDJ15SAwO43A6SR7Po2rIoRybw
-        k/3l1D79ygXS56/5TAdzZD8HVpVAVAk=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-398-wsEDCQC2NEKteI_g3du0kQ-1; Mon, 01 Aug 2022 04:20:32 -0400
-X-MC-Unique: wsEDCQC2NEKteI_g3du0kQ-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9434B1C14488;
-        Mon,  1 Aug 2022 08:20:31 +0000 (UTC)
-Received: from localhost (ovpn-12-103.pek2.redhat.com [10.72.12.103])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 10BDE492C3B;
-        Mon,  1 Aug 2022 08:20:29 +0000 (UTC)
-Date:   Mon, 1 Aug 2022 16:20:25 +0800
-From:   Baoquan He <bhe@redhat.com>
-To:     Zhen Lei <thunder.leizhen@huawei.com>
-Cc:     Dave Young <dyoung@redhat.com>, Vivek Goyal <vgoyal@redhat.com>,
-        kexec@lists.infradead.org, linux-kernel@vger.kernel.org,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        linux-arm-kernel@lists.infradead.org,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        "Eric W . Biederman" <ebiederm@xmission.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Feng Zhou <zhoufeng.zf@bytedance.com>,
-        Kefeng Wang <wangkefeng.wang@huawei.com>,
-        Chen Zhou <dingguo.cz@antgroup.com>,
-        John Donnelly <John.p.donnelly@oracle.com>,
-        Dave Kleikamp <dave.kleikamp@oracle.com>
-Subject: Re: [PATCH v3 0/2] arm64: kdump: Function supplement and performance
- optimization
-Message-ID: <YueMyUqannVg7l9v@MiWiFi-R3L-srv>
-References: <20220711090319.1604-1-thunder.leizhen@huawei.com>
+        with ESMTP id S229727AbiHAIea (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 Aug 2022 04:34:30 -0400
+Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3AA026D6;
+        Mon,  1 Aug 2022 01:34:29 -0700 (PDT)
+Received: from canpemm500009.china.huawei.com (unknown [172.30.72.55])
+        by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4LxBGH2LZDzGpHj;
+        Mon,  1 Aug 2022 16:33:11 +0800 (CST)
+Received: from huawei.com (10.67.174.191) by canpemm500009.china.huawei.com
+ (7.192.105.203) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Mon, 1 Aug
+ 2022 16:34:26 +0800
+From:   Li Hua <hucool.lihua@huawei.com>
+To:     <akpm@linux-foundation.org>, <mail@christoph.anton.mitterer.name>,
+        <hannes@cmpxchg.org>, <kaleshsingh@google.com>,
+        <shy828301@gmail.com>, <rppt@kernel.org>,
+        <paul.gortmaker@windriver.co>
+CC:     <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>
+Subject: [PATCH -next] Documentation/filesystems/proc.rst: Change the document about cputime
+Date:   Tue, 2 Aug 2022 06:30:46 +0800
+Message-ID: <20220801223046.35178-1-hucool.lihua@huawei.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220711090319.1604-1-thunder.leizhen@huawei.com>
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
+Content-Type: text/plain
+X-Originating-IP: [10.67.174.191]
+X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
+ canpemm500009.china.huawei.com (7.192.105.203)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Catalin,
+Because the values of utime, stime, and delta are temporarily
+written to cpustat in kcpustat_cpu_fetch_vtime. Therefore, there are two
+problems read from /proc/stat:
+1. The value read the second time may be less than the first time.
+2. When there are many tasks, the statistics are not imprecise when utime
+and stime do not exceed one tick.
 
-On 07/11/22 at 05:03pm, Zhen Lei wrote:
-> v2 --> v3:
-> 1. Discard patch 3 in v2, a cleanup patch.
-> 
-> v1 --> v2:
-> 1. Update the commit message of Patch 1, explicitly indicates that "crashkernel=X,high"
->    is specified but "crashkernel=Y,low" is not specified.
-> 2. Drop Patch 4-5. Currently, focus on function integrity, performance optimization
->    will be considered in later versions.
-> 3. Patch 3 is not mandatory, it's just a cleanup now, although it is a must for patch 4-5.
->    But to avoid subsequent duplication of effort, I'm glad it was accepted.
-> 
-> 
-> v1:
-> After the basic functions of "support reserving crashkernel above 4G on arm64
-> kdump"(see https://lkml.org/lkml/2022/5/6/428) are implemented, we still have
-> three features to be improved.
-> 1. When crashkernel=X,high is specified but crashkernel=Y,low is not specified,
->    the default crash low memory size is provided.
-> 2. For crashkernel=X without '@offset', if the low memory fails to be allocated,
->    fall back to reserve region from high memory(above DMA zones).
-> 3. If crashkernel=X,high is used, page mapping is performed only for the crash
->    high memory, and block mapping is still used for other linear address spaces.
->    Compared to the previous version:
->    (1) For crashkernel=X[@offset], the memory above 4G is not changed to block
->        mapping, leave it to the next time.
->    (2) The implementation method is modified. Now the implementation is simpler
->        and clearer.
+Signed-off-by: Li Hua <hucool.lihua@huawei.com>
+---
+ Documentation/filesystems/proc.rst | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-Do you have plan to pick this series so that it can be taken into 5.20
-rc-1~3?
-
-We have back ported the basic crashkernel=high, low, support into our
-distros and have taken wide testing on arm64 servers, need this patchset
-to back port for more testing. 
-
-Thanks
-Baoquan
-
-> 
-> Zhen Lei (2):
->   arm64: kdump: Provide default size when crashkernel=Y,low is not
->     specified
->   arm64: kdump: Support crashkernel=X fall back to reserve region above
->     DMA zones
-> 
->  .../admin-guide/kernel-parameters.txt         | 10 ++-----
->  arch/arm64/mm/init.c                          | 28 +++++++++++++++++--
->  2 files changed, 28 insertions(+), 10 deletions(-)
-> 
-> -- 
-> 2.25.1
-> 
+diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
+index 47e95dbc820d..b6625e83c994 100644
+--- a/Documentation/filesystems/proc.rst
++++ b/Documentation/filesystems/proc.rst
+@@ -1459,6 +1459,10 @@ second).  The meanings of the columns are as follows, from left to right:
+ - user: normal processes executing in user mode
+ - nice: niced processes executing in user mode
+ - system: processes executing in kernel mode
++  The amount of time reading from /proc/stat is not reliable, because the value
++  of utime, stime, and delta are temporarily written to cpustat in
++  kcpustat_cpu_fetch_vtime().
++
+ - idle: twiddling thumbs
+ - iowait: In a word, iowait stands for waiting for I/O to complete. But there
+   are several problems:
+-- 
+2.17.1
 
