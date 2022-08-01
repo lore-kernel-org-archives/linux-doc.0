@@ -2,1174 +2,184 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E7F19C00144
-	for <linux-doc@archiver.kernel.org>; Mon,  1 Aug 2022 20:07:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A75F9C00144
+	for <linux-doc@archiver.kernel.org>; Mon,  1 Aug 2022 20:56:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232936AbiHAUHV convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 1 Aug 2022 16:07:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52240 "EHLO
+        id S234754AbiHAU4D (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 1 Aug 2022 16:56:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57432 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230229AbiHAUHU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 Aug 2022 16:07:20 -0400
-Received: from mx0a-00082601.pphosted.com (mx0b-00082601.pphosted.com [67.231.153.30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B24B9275F6
-        for <linux-doc@vger.kernel.org>; Mon,  1 Aug 2022 13:07:17 -0700 (PDT)
-Received: from pps.filterd (m0089730.ppops.net [127.0.0.1])
-        by m0089730.ppops.net (8.17.1.5/8.17.1.5) with ESMTP id 271FqIcZ003739
-        for <linux-doc@vger.kernel.org>; Mon, 1 Aug 2022 13:07:17 -0700
-Received: from mail.thefacebook.com ([163.114.132.120])
-        by m0089730.ppops.net (PPS) with ESMTPS id 3hn057ph3s-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Mon, 01 Aug 2022 13:07:16 -0700
-Received: from twshared31479.05.prn5.facebook.com (2620:10d:c085:108::4) by
- mail.thefacebook.com (2620:10d:c085:21d::5) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.28; Mon, 1 Aug 2022 13:07:15 -0700
-Received: by devvm3365.prn0.facebook.com (Postfix, from userid 415935)
-        id D1606E81E743; Mon,  1 Aug 2022 12:55:21 -0700 (PDT)
-From:   Adel Abouchaev <adel.abushaev@gmail.com>
-To:     <kuba@kernel.org>
-CC:     <davem@davemloft.net>, <edumazet@google.com>, <pabeni@redhat.com>,
-        <corbet@lwn.net>, <dsahern@kernel.org>, <shuah@kernel.org>,
-        <imagedong@tencent.com>, <netdev@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
-        Adel Abouchaev <adel.abushaev@gmail.com>
-Subject: [RFC net-next 6/6] net: Add self tests for ULP operations, flow setup and crypto tests
-Date:   Mon, 1 Aug 2022 12:52:28 -0700
-Message-ID: <20220801195228.723273-7-adel.abushaev@gmail.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220801195228.723273-1-adel.abushaev@gmail.com>
-References: <Adel Abouchaev <adel.abushaev@gmail.com>
- <20220801195228.723273-1-adel.abushaev@gmail.com>
+        with ESMTP id S234746AbiHAUz7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 Aug 2022 16:55:59 -0400
+Received: from NAM02-DM3-obe.outbound.protection.outlook.com (mail-dm3nam02on2050.outbound.protection.outlook.com [40.107.95.50])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E1D0402E3;
+        Mon,  1 Aug 2022 13:55:56 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ApBo0oy10rxg+jlf6HG/rlQzcQtE3XK89l2qMZlr686ykGithH+nQii+wPdLo71sXjGhK3dmsjpuJMxxALErjHilz89ZKTImb+htnhQbLy5TQkeD6shWSgoPGHZIdCcmFEk29gHlLKLwta/8ZRMHVlcoiAu30izoKvlSQRyX7SIBLzGFqvPwvzKI/IZWQ8gP3M1kHDWuznJ79wg4BWbGpj0uiDlyGAh21yvhf8vbD6Zd7l8/YzT3CCWfpdjmto96en6YEjY87yg83F3EzQIrB1evq68clGcB3J/w0+zuyIbJ33LQgG45QfWpBXvNXGXmXAc5Zns+0fG1FzDGG+kE9A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=xUTJaVFr9zeTUfYJTGvwQ3bqgyfIjbUmjqlPaaPRahU=;
+ b=fnPvWiziYtd/CGm4S3fuM09gDu7XWFR+lGhr9yMCUMs3hHZTzGKzNLEjNJtM3Ojv4xM15qPEWEl/UuKYmZCDQO9MaQlT7BN1B++ZjF4Phgk26RIAZI/wibVkrh285FfAbIgtLbL+RDy6LEiOQBnJ6uzoF2xQx6mwf7AEDj4GKId6txhAiLOlJMQfhxbj0wxSZfP7yCIlUjZFd9GVoRdtpbg8LMO6uH9pQXrk+POqavbRuCjvcmwqSVmKNTeAdfikoVZs/9tVvaQWcJf/8nKRn6XbQbuJaI/wOg9sqQV66/P5ubcmoy5KLiGYMuX7sfM6EIVwE2vwBTrwO4i+Zu7bEw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=amd.com;
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=xUTJaVFr9zeTUfYJTGvwQ3bqgyfIjbUmjqlPaaPRahU=;
+ b=Ae5HRwchn6q1uod0YxCRY7Fef6NEOqh2Q2WMGOI/F9y4a1zZy9UGHw+kXaLj+vM8iz6tJbcedS6CQsxone8aUHJ3dnMp0PTVivCPqNpbfKZqfaoF0U5x2ha2mG6Y66UqWh7fxkK1dFc/cMfS6E0hmzG7MI4wATYHNudVkCCCnHw=
+Received: from BN8PR04CA0023.namprd04.prod.outlook.com (2603:10b6:408:70::36)
+ by DS7PR12MB5885.namprd12.prod.outlook.com (2603:10b6:8:78::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5482.6; Mon, 1 Aug
+ 2022 20:55:53 +0000
+Received: from BN8NAM11FT050.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:408:70:cafe::a8) by BN8PR04CA0023.outlook.office365.com
+ (2603:10b6:408:70::36) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5482.12 via Frontend
+ Transport; Mon, 1 Aug 2022 20:55:53 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ BN8NAM11FT050.mail.protection.outlook.com (10.13.177.5) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.5482.10 via Frontend Transport; Mon, 1 Aug 2022 20:55:53 +0000
+Received: from [127.0.1.1] (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.28; Mon, 1 Aug
+ 2022 15:55:47 -0500
+Subject: [PATCH v2 01/10] x86/resctrl: Fix min_cbm_bits for AMD
+From:   Babu Moger <babu.moger@amd.com>
+To:     <fenghua.yu@intel.com>, <reinette.chatre@intel.com>,
+        <tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>
+CC:     <eranian@google.com>, <dave.hansen@linux.intel.com>,
+        <x86@kernel.org>, <hpa@zytor.com>, <corbet@lwn.net>,
+        <hpa@zytor.com>, <linux-kernel@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>
+Date:   Mon, 1 Aug 2022 15:55:47 -0500
+Message-ID: <165938734704.724959.15776618190142591928.stgit@bmoger-ubuntu>
+In-Reply-To: <165938717220.724959.10931629283087443782.stgit@bmoger-ubuntu>
+References: <165938717220.724959.10931629283087443782.stgit@bmoger-ubuntu>
+User-Agent: StGit/1.1.dev103+g5369f4c
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-X-FB-Internal: Safe
-Content-Type: text/plain
-X-Proofpoint-GUID: 1T2LV49kLd714MfrkjcS38CjLUAy8bf7
-X-Proofpoint-ORIG-GUID: 1T2LV49kLd714MfrkjcS38CjLUAy8bf7
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-08-01_11,2022-08-01_01,2022-06-22_01
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: fe049a26-5ce4-4afa-b409-08da74003902
+X-MS-TrafficTypeDiagnostic: DS7PR12MB5885:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: cRpp4jD9kHBoCoCUtkhvCfxL7unNUGLTad3WPZi7vQR3AGv6ollZnbjiDM+zx+vxMGSiQeFFl74TlfCQwIn6YFHk2X3P+DucWDZWNFGrICVrIncfNTkq8Nez2DYrlRBqZsVgQ7TUtQNJ3c3ddm2cPMOHD1LIfF+n06ca076mC24O+t7ZGEV7q9H1W6hDL1kswjrSCRLLcFEcf6AFNSV0gYIeKsXE+5FI/+4GClqyZHrXsu1tYlqfhdemCq7uW2V7ocJNLmBJEjESX6FnITy58iVDf5pwFYNYSLb775b+w38CXi8LkWCGaYI1LssTcGdGv2hZZ1fVyg95V3hfgtgToh+Iqxo+V4DzCzF/vdbVHUJOU4ui2epm61X9v/L0g9O+aKQuvr2zN5SWQr2M45/sXNJsUCtbBRjmNxKeLjLKhiFxrnb+zbDI27aFmmSs1fGTM11YOyBTuwh7VF5rmI/bdTnhSj4ONkdPXm7wXEWSzUI2z6Z9otTQCwS2/UpHJm7jzOtOpZeWbP5dXRdUiHMHizpIEUPy8GkysfPxHDj481+Wr8mixE1BHlrAWUKp4Hkir0HNUi8NYw6VmYk4RPFNHj6Cql1qlcC3sbPmQZ+pebP6f84hbvDatbOihC6JZssMfRBq0LSlBW8sAf0K4NiJxxLsCdiGP2Gl2lLCJmClm2pHoB7TNZjdi2a/fvBw+UfhmS0IG1sdCzMt0Onma9C1ik0oEX3EJfoTF3u2hyadVLSNSSbC/o+1F1eV0vYW+kBH1tBATbwJbz14C7nDavMf2NTE/i4tlAvjZaSHaxMappp0C1pFBBNN/Zc5Q7aUZ/uiwqT8K7at6iCfZIr7v/n/4f4ojKYa9xhopLsc7DaQbibnSz+I54Zuv04oc8TVdQefExKXvZyMRQaAjGeAGzhrpA==
+X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230016)(4636009)(7916004)(396003)(136003)(346002)(39860400002)(376002)(36840700001)(40470700004)(46966006)(5660300002)(7416002)(8936002)(70206006)(33716001)(186003)(16526019)(2906002)(40480700001)(70586007)(356005)(40460700003)(4326008)(36860700001)(44832011)(83380400001)(82310400005)(82740400003)(103116003)(86362001)(966005)(81166007)(8676002)(316002)(426003)(54906003)(110136005)(47076005)(41300700001)(336012)(26005)(9686003)(16576012)(478600001)(71626007)(36900700001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Aug 2022 20:55:53.0865
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: fe049a26-5ce4-4afa-b409-08da74003902
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT050.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB5885
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add self tests for ULP operations, flow setup and crypto tests.
-
-Signed-off-by: Adel Abouchaev <adel.abushaev@gmail.com>
----
- tools/testing/selftests/net/.gitignore |    1 +
- tools/testing/selftests/net/Makefile   |    2 +-
- tools/testing/selftests/net/quic.c     | 1024 ++++++++++++++++++++++++
- tools/testing/selftests/net/quic.sh    |   45 ++
- 4 files changed, 1071 insertions(+), 1 deletion(-)
- create mode 100644 tools/testing/selftests/net/quic.c
- create mode 100755 tools/testing/selftests/net/quic.sh
-
-diff --git a/tools/testing/selftests/net/.gitignore b/tools/testing/selftests/net/.gitignore
-index ffc35a22e914..bd4967e57803 100644
---- a/tools/testing/selftests/net/.gitignore
-+++ b/tools/testing/selftests/net/.gitignore
-@@ -38,3 +38,4 @@ ioam6_parser
- toeplitz
- tun
- cmsg_sender
-+quic
-diff --git a/tools/testing/selftests/net/Makefile b/tools/testing/selftests/net/Makefile
-index db05b3764b77..aee89b0458b4 100644
---- a/tools/testing/selftests/net/Makefile
-+++ b/tools/testing/selftests/net/Makefile
-@@ -54,7 +54,7 @@ TEST_GEN_FILES += ipsec
- TEST_GEN_FILES += ioam6_parser
- TEST_GEN_FILES += gro
- TEST_GEN_PROGS = reuseport_bpf reuseport_bpf_cpu reuseport_bpf_numa
--TEST_GEN_PROGS += reuseport_dualstack reuseaddr_conflict tls tun
-+TEST_GEN_PROGS += reuseport_dualstack reuseaddr_conflict tls tun quic
- TEST_GEN_FILES += toeplitz
- TEST_GEN_FILES += cmsg_sender
- TEST_GEN_FILES += stress_reuseport_listen
-diff --git a/tools/testing/selftests/net/quic.c b/tools/testing/selftests/net/quic.c
-new file mode 100644
-index 000000000000..20e425003fcb
---- /dev/null
-+++ b/tools/testing/selftests/net/quic.c
-@@ -0,0 +1,1024 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+#define _GNU_SOURCE
-+
-+#include <arpa/inet.h>
-+#include <errno.h>
-+#include <error.h>
-+#include <fcntl.h>
-+#include <poll.h>
-+#include <sched.h>
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <unistd.h>
-+
-+#include <linux/limits.h>
-+#include <linux/quic.h>
-+#include <linux/socket.h>
-+#include <linux/tls.h>
-+#include <linux/tcp.h>
-+#include <linux/types.h>
-+#include <linux/udp.h>
-+
-+#include <sys/ioctl.h>
-+#include <sys/types.h>
-+#include <sys/sendfile.h>
-+#include <sys/socket.h>
-+#include <sys/stat.h>
-+
-+#include "../kselftest_harness.h"
-+
-+#define UDP_ULP		105
-+
-+#ifndef SOL_UDP
-+#define SOL_UDP		17
-+#endif
-+
-+// 1. QUIC ULP Registration Test
-+
-+FIXTURE(quic_ulp)
-+{
-+	int sfd;
-+	socklen_t len_s;
-+	union {
-+		struct sockaddr_in addr;
-+		struct sockaddr_in6 addr6;
-+	} server;
-+	int default_net_ns_fd;
-+	int server_net_ns_fd;
-+};
-+
-+FIXTURE_VARIANT(quic_ulp)
-+{
-+	unsigned int af_server;
-+	char *server_address;
-+	unsigned short server_port;
-+};
-+
-+FIXTURE_VARIANT_ADD(quic_ulp, ipv4)
-+{
-+	.af_server = AF_INET,
-+	.server_address = "10.0.0.2",
-+	.server_port = 7101,
-+};
-+
-+FIXTURE_VARIANT_ADD(quic_ulp, ipv6)
-+{
-+	.af_server = AF_INET6,
-+	.server_address = "2001::2",
-+	.server_port = 7102,
-+};
-+
-+FIXTURE_SETUP(quic_ulp)
-+{
-+	char path[PATH_MAX];
-+	int optval = 1;
-+
-+	snprintf(path, sizeof(path), "/proc/%d/ns/net", getpid());
-+	self->default_net_ns_fd = open(path, O_RDONLY);
-+	ASSERT_GE(self->default_net_ns_fd, 0);
-+	strcpy(path, "/var/run/netns/ns2");
-+	self->server_net_ns_fd = open(path, O_RDONLY);
-+	ASSERT_GE(self->server_net_ns_fd, 0);
-+
-+	ASSERT_NE(setns(self->server_net_ns_fd, 0), -1);
-+	self->sfd = socket(variant->af_server, SOCK_DGRAM, 0);
-+	ASSERT_NE(setsockopt(self->sfd, SOL_SOCKET, SO_REUSEPORT, &optval,
-+		   sizeof(optval)), -1);
-+	if (variant->af_server == AF_INET) {
-+		self->len_s = sizeof(self->server.addr);
-+		self->server.addr.sin_family = variant->af_server;
-+		inet_pton(variant->af_server, variant->server_address,
-+			  &self->server.addr.sin_addr);
-+		self->server.addr.sin_port = htons(variant->server_port);
-+		ASSERT_EQ(bind(self->sfd, &self->server.addr, self->len_s), 0);
-+		ASSERT_EQ(getsockname(self->sfd, &self->server.addr,
-+				      &self->len_s), 0);
-+	} else {
-+		self->len_s = sizeof(self->server.addr6);
-+		self->server.addr6.sin6_family = variant->af_server;
-+		inet_pton(variant->af_server, variant->server_address,
-+			  &self->server.addr6.sin6_addr);
-+		self->server.addr6.sin6_port = htons(variant->server_port);
-+		ASSERT_EQ(bind(self->sfd, &self->server.addr6, self->len_s), 0);
-+		ASSERT_EQ(getsockname(self->sfd, &self->server.addr6,
-+				      &self->len_s), 0);
-+	}
-+	ASSERT_NE(setns(self->default_net_ns_fd, 0), -1);
-+};
-+
-+FIXTURE_TEARDOWN(quic_ulp)
-+{
-+	ASSERT_NE(setns(self->server_net_ns_fd, 0), -1);
-+	close(self->sfd);
-+	ASSERT_NE(setns(self->default_net_ns_fd, 0), -1);
-+};
-+
-+TEST_F(quic_ulp, request_nonexistent_udp_ulp)
-+{
-+	ASSERT_NE(setns(self->server_net_ns_fd, 0), -1);
-+	ASSERT_EQ(setsockopt(self->sfd, SOL_UDP, UDP_ULP,
-+			     "nonexistent", sizeof("nonexistent")), -1);
-+	// If UDP_ULP option is not present, the error would be ENOPROTOOPT.
-+	ASSERT_EQ(errno, ENOENT);
-+	ASSERT_NE(setns(self->default_net_ns_fd, 0), -1);
-+};
-+
-+TEST_F(quic_ulp, request_quic_crypto_udp_ulp)
-+{
-+	ASSERT_NE(setns(self->server_net_ns_fd, 0), -1);
-+	ASSERT_EQ(setsockopt(self->sfd, SOL_UDP, UDP_ULP,
-+			     "quic-crypto", sizeof("quic-crypto")), 0);
-+	ASSERT_NE(setns(self->default_net_ns_fd, 0), -1);
-+};
-+
-+// 2. QUIC Data Path Operation Tests
-+
-+#define DO_NOT_SETUP_FLOW 0
-+#define SETUP_FLOW 1
-+
-+#define DO_NOT_USE_CLIENT 0
-+#define USE_CLIENT 1
-+
-+FIXTURE(quic_data)
-+{
-+	int sfd, c1fd, c2fd;
-+	socklen_t len_c1;
-+	socklen_t len_c2;
-+	socklen_t len_s;
-+
-+	union {
-+		struct sockaddr_in addr;
-+		struct sockaddr_in6 addr6;
-+	} client_1;
-+	union {
-+		struct sockaddr_in addr;
-+		struct sockaddr_in6 addr6;
-+	} client_2;
-+	union {
-+		struct sockaddr_in addr;
-+		struct sockaddr_in6 addr6;
-+	} server;
-+	int default_net_ns_fd;
-+	int client_1_net_ns_fd;
-+	int client_2_net_ns_fd;
-+	int server_net_ns_fd;
-+};
-+
-+FIXTURE_VARIANT(quic_data)
-+{
-+	unsigned int af_client_1;
-+	char *client_1_address;
-+	unsigned short client_1_port;
-+	uint8_t conn_id_1[8];
-+	uint8_t conn_1_key[16];
-+	uint8_t conn_1_iv[12];
-+	uint8_t conn_1_hdr_key[16];
-+	size_t conn_id_1_len;
-+	bool setup_flow_1;
-+	bool use_client_1;
-+	unsigned int af_client_2;
-+	char *client_2_address;
-+	unsigned short client_2_port;
-+	uint8_t conn_id_2[8];
-+	uint8_t conn_2_key[16];
-+	uint8_t conn_2_iv[12];
-+	uint8_t conn_2_hdr_key[16];
-+	size_t conn_id_2_len;
-+	bool setup_flow_2;
-+	bool use_client_2;
-+	unsigned int af_server;
-+	char *server_address;
-+	unsigned short server_port;
-+};
-+
-+FIXTURE_VARIANT_ADD(quic_data, ipv4)
-+{
-+	.af_client_1 = AF_INET,
-+	.client_1_address = "10.0.0.1",
-+	.client_1_port = 6667,
-+	.conn_id_1 = {0x11, 0x12, 0x13, 0x14},
-+	.conn_id_1_len = 4,
-+	.setup_flow_1 = SETUP_FLOW,
-+	.use_client_1 = USE_CLIENT,
-+	.af_client_2 = AF_INET,
-+	.client_2_address = "10.0.0.3",
-+	.client_2_port = 6668,
-+	.conn_id_2 = {0x21, 0x22, 0x23, 0x24},
-+	.conn_id_2_len = 4,
-+	.setup_flow_2 = SETUP_FLOW,
-+	//.use_client_2 = USE_CLIENT,
-+	.af_server = AF_INET,
-+	.server_address = "10.0.0.2",
-+	.server_port = 6669,
-+};
-+
-+FIXTURE_VARIANT_ADD(quic_data, ipv6_mapped_ipv4_two_conns)
-+{
-+	.af_client_1 = AF_INET6,
-+	.client_1_address = "::ffff:10.0.0.1",
-+	.client_1_port = 6670,
-+	.conn_id_1 = {0x11, 0x12, 0x13, 0x14},
-+	.conn_id_1_len = 4,
-+	.setup_flow_1 = SETUP_FLOW,
-+	.use_client_1 = USE_CLIENT,
-+	.af_client_2 = AF_INET6,
-+	.client_2_address = "::ffff:10.0.0.3",
-+	.client_2_port = 6671,
-+	.conn_id_2 = {0x21, 0x22, 0x23, 0x24},
-+	.conn_id_2_len = 4,
-+	.setup_flow_2 = SETUP_FLOW,
-+	.use_client_2 = USE_CLIENT,
-+	.af_server = AF_INET6,
-+	.server_address = "::ffff:10.0.0.2",
-+	.server_port = 6672,
-+};
-+
-+FIXTURE_VARIANT_ADD(quic_data, ipv6_mapped_ipv4_setup_ipv4_one_conn)
-+{
-+	.af_client_1 = AF_INET,
-+	.client_1_address = "10.0.0.3",
-+	.client_1_port = 6676,
-+	.conn_id_1 = {0x11, 0x12, 0x13, 0x14},
-+	.conn_id_1_len = 4,
-+	.setup_flow_1 = SETUP_FLOW,
-+	.use_client_1 = DO_NOT_USE_CLIENT,
-+	.af_client_2 = AF_INET6,
-+	.client_2_address = "::ffff:10.0.0.3",
-+	.client_2_port = 6676,
-+	.conn_id_2 = {0x11, 0x12, 0x13, 0x14},
-+	.conn_id_2_len = 4,
-+	.setup_flow_2 = DO_NOT_SETUP_FLOW,
-+	.use_client_2 = USE_CLIENT,
-+	.af_server = AF_INET6,
-+	.server_address = "::ffff:10.0.0.2",
-+	.server_port = 6677,
-+};
-+
-+FIXTURE_VARIANT_ADD(quic_data, ipv6_mapped_ipv4_setup_ipv6_one_conn)
-+{
-+	.af_client_1 = AF_INET6,
-+	.client_1_address = "::ffff:10.0.0.3",
-+	.client_1_port = 6678,
-+	.conn_id_1 = {0x11, 0x12, 0x13, 0x14},
-+	.setup_flow_1 = SETUP_FLOW,
-+	.use_client_1 = DO_NOT_USE_CLIENT,
-+	.af_client_2 = AF_INET,
-+	.client_2_address = "10.0.0.3",
-+	.client_2_port = 6678,
-+	.conn_id_2 = {0x11, 0x12, 0x13, 0x14},
-+	.setup_flow_2 = DO_NOT_SETUP_FLOW,
-+	.use_client_2 = USE_CLIENT,
-+	.af_server = AF_INET6,
-+	.server_address = "::ffff:10.0.0.2",
-+	.server_port = 6679,
-+};
-+
-+FIXTURE_SETUP(quic_data)
-+{
-+	char path[PATH_MAX];
-+	int optval = 1;
-+
-+	if (variant->af_client_1 == AF_INET) {
-+		self->len_c1 = sizeof(self->client_1.addr);
-+		self->client_1.addr.sin_family = variant->af_client_1;
-+		inet_pton(variant->af_client_1, variant->client_1_address,
-+			  &self->client_1.addr.sin_addr);
-+		self->client_1.addr.sin_port = htons(variant->client_1_port);
-+	} else {
-+		self->len_c1 = sizeof(self->client_1.addr6);
-+		self->client_1.addr6.sin6_family = variant->af_client_1;
-+		inet_pton(variant->af_client_1, variant->client_1_address,
-+			  &self->client_1.addr6.sin6_addr);
-+		self->client_1.addr6.sin6_port = htons(variant->client_1_port);
-+	}
-+
-+	if (variant->af_client_2 == AF_INET) {
-+		self->len_c2 = sizeof(self->client_2.addr);
-+		self->client_2.addr.sin_family = variant->af_client_2;
-+		inet_pton(variant->af_client_2, variant->client_2_address,
-+			  &self->client_2.addr.sin_addr);
-+		self->client_2.addr.sin_port = htons(variant->client_2_port);
-+	} else {
-+		self->len_c2 = sizeof(self->client_2.addr6);
-+		self->client_2.addr6.sin6_family = variant->af_client_2;
-+		inet_pton(variant->af_client_2, variant->client_2_address,
-+			  &self->client_2.addr6.sin6_addr);
-+		self->client_2.addr6.sin6_port = htons(variant->client_2_port);
-+	}
-+
-+	if (variant->af_server == AF_INET) {
-+		self->len_s = sizeof(self->server.addr);
-+		self->server.addr.sin_family = variant->af_server;
-+		inet_pton(variant->af_server, variant->server_address,
-+			  &self->server.addr.sin_addr);
-+		self->server.addr.sin_port = htons(variant->server_port);
-+	} else {
-+		self->len_s = sizeof(self->server.addr6);
-+		self->server.addr6.sin6_family = variant->af_server;
-+		inet_pton(variant->af_server, variant->server_address,
-+			  &self->server.addr6.sin6_addr);
-+		self->server.addr6.sin6_port = htons(variant->server_port);
-+	}
-+
-+	snprintf(path, sizeof(path), "/proc/%d/ns/net", getpid());
-+	self->default_net_ns_fd = open(path, O_RDONLY);
-+	ASSERT_GE(self->default_net_ns_fd, 0);
-+	strcpy(path, "/var/run/netns/ns11");
-+	self->client_1_net_ns_fd = open(path, O_RDONLY);
-+	ASSERT_GE(self->client_1_net_ns_fd, 0);
-+	strcpy(path, "/var/run/netns/ns12");
-+	self->client_2_net_ns_fd = open(path, O_RDONLY);
-+	ASSERT_GE(self->client_2_net_ns_fd, 0);
-+	strcpy(path, "/var/run/netns/ns2");
-+	self->server_net_ns_fd = open(path, O_RDONLY);
-+	ASSERT_GE(self->server_net_ns_fd, 0);
-+
-+	if (variant->use_client_1) {
-+		ASSERT_NE(setns(self->client_1_net_ns_fd, 0), -1);
-+		self->c1fd = socket(variant->af_client_1, SOCK_DGRAM, 0);
-+		ASSERT_NE(setsockopt(self->c1fd, SOL_SOCKET, SO_REUSEPORT, &optval,
-+		   sizeof(optval)), -1);
-+		if (variant->af_client_1 == AF_INET) {
-+			ASSERT_EQ(bind(self->c1fd, &self->client_1.addr,
-+				       self->len_c1), 0);
-+			ASSERT_EQ(getsockname(self->c1fd, &self->client_1.addr,
-+					      &self->len_c1), 0);
-+		} else {
-+			ASSERT_EQ(bind(self->c1fd, &self->client_1.addr6,
-+				       self->len_c1), 0);
-+			ASSERT_EQ(getsockname(self->c1fd, &self->client_1.addr6,
-+					      &self->len_c1), 0);
-+		}
-+	}
-+
-+	if (variant->use_client_2) {
-+		ASSERT_NE(setns(self->client_2_net_ns_fd, 0), -1);
-+		self->c2fd = socket(variant->af_client_2, SOCK_DGRAM, 0);
-+		ASSERT_NE(setsockopt(self->c2fd, SOL_SOCKET, SO_REUSEPORT, &optval,
-+		   sizeof(optval)), -1);
-+		if (variant->af_client_2 == AF_INET) {
-+			ASSERT_EQ(bind(self->c2fd, &self->client_2.addr,
-+				       self->len_c2), 0);
-+			ASSERT_EQ(getsockname(self->c2fd, &self->client_2.addr,
-+					      &self->len_c2), 0);
-+		} else {
-+			ASSERT_EQ(bind(self->c2fd, &self->client_2.addr6,
-+				       self->len_c2), 0);
-+			ASSERT_EQ(getsockname(self->c2fd, &self->client_2.addr6,
-+					      &self->len_c2), 0);
-+		}
-+	}
-+
-+	ASSERT_NE(setns(self->server_net_ns_fd, 0), -1);
-+	self->sfd = socket(variant->af_server, SOCK_DGRAM, 0);
-+	ASSERT_NE(setsockopt(self->sfd, SOL_SOCKET, SO_REUSEPORT, &optval,
-+	   sizeof(optval)), -1);
-+	if (variant->af_server == AF_INET) {
-+		ASSERT_EQ(bind(self->sfd, &self->server.addr, self->len_s), 0);
-+		ASSERT_EQ(getsockname(self->sfd, &self->server.addr,
-+				      &self->len_s), 0);
-+	} else {
-+		ASSERT_EQ(bind(self->sfd, &self->server.addr6, self->len_s), 0);
-+		ASSERT_EQ(getsockname(self->sfd, &self->server.addr6,
-+				      &self->len_s), 0);
-+	}
-+
-+	ASSERT_EQ(setsockopt(self->sfd, IPPROTO_UDP, UDP_ULP,
-+			     "quic-crypto", sizeof("quic-crypto")), 0);
-+
-+	ASSERT_NE(setns(self->default_net_ns_fd, 0), -1);
-+}
-+
-+FIXTURE_TEARDOWN(quic_data)
-+{
-+	ASSERT_NE(setns(self->server_net_ns_fd, 0), -1);
-+	close(self->sfd);
-+	ASSERT_NE(setns(self->client_1_net_ns_fd, 0), -1);
-+	close(self->c1fd);
-+	ASSERT_NE(setns(self->client_2_net_ns_fd, 0), -1);
-+	close(self->c2fd);
-+	ASSERT_NE(setns(self->default_net_ns_fd, 0), -1);
-+}
-+
-+TEST_F(quic_data, send_fail_no_flow)
-+{
-+	char const *test_str = "test_read";
-+	int send_len = 10;
-+
-+	ASSERT_EQ(strlen(test_str) + 1, send_len);
-+	EXPECT_EQ(sendto(self->sfd, test_str, send_len, 0,
-+			 &self->client_1.addr, self->len_c1), -1);
-+};
-+
-+TEST_F(quic_data, encrypt_two_conn_gso_1200_iov_2_size_9000_aesgcm128)
-+{
-+	size_t cmsg_tx_len = sizeof(struct quic_tx_ancillary_data);
-+	uint8_t cmsg_buf[CMSG_SPACE(cmsg_tx_len)];
-+	struct quic_connection_info conn_1_info;
-+	struct quic_connection_info conn_2_info;
-+	struct quic_tx_ancillary_data *anc_data;
-+	socklen_t recv_addr_len_1;
-+	socklen_t recv_addr_len_2;
-+	struct cmsghdr *cmsg_hdr;
-+	int frag_size = 1200;
-+	int send_len = 9000;
-+	struct iovec iov[2];
-+	int msg_len = 4500;
-+	struct msghdr msg;
-+	char *test_str_1;
-+	char *test_str_2;
-+	char *buf_1;
-+	char *buf_2;
-+	int i;
-+
-+	test_str_1 = (char *)malloc(9000);
-+	test_str_2 = (char *)malloc(9000);
-+	memset(test_str_1, 0, 9000);
-+	memset(test_str_2, 0, 9000);
-+
-+	buf_1 = (char *)malloc(10000);
-+	buf_2 = (char *)malloc(10000);
-+	for (i = 0; i < 9000; i += (1200 - 16)) {
-+		test_str_1[i] = 0x40;
-+		memcpy(&test_str_1[i + 1], &variant->conn_id_1,
-+		       variant->conn_id_1_len);
-+		test_str_1[i + 1 + variant->conn_id_1_len] = 0xca;
-+
-+		test_str_2[i] = 0x40;
-+		memcpy(&test_str_2[i + 1], &variant->conn_id_2,
-+		       variant->conn_id_2_len);
-+		test_str_2[i + 1 + variant->conn_id_2_len] = 0xca;
-+	}
-+
-+	// program the connection into the offload
-+	conn_1_info.cipher_type = TLS_CIPHER_AES_GCM_128;
-+	memset(&conn_1_info.key, 0, sizeof(struct quic_connection_info_key));
-+	conn_1_info.key.conn_id_length = variant->conn_id_1_len;
-+	memcpy(conn_1_info.key.conn_id,
-+	       &variant->conn_id_1,
-+	       variant->conn_id_1_len);
-+
-+	conn_2_info.cipher_type = TLS_CIPHER_AES_GCM_128;
-+	memset(&conn_2_info.key, 0, sizeof(struct quic_connection_info_key));
-+	conn_2_info.key.conn_id_length = variant->conn_id_2_len;
-+	memcpy(conn_2_info.key.conn_id,
-+	       &variant->conn_id_2,
-+	       variant->conn_id_2_len);
-+
-+	memcpy(&conn_1_info.crypto_info_aes_gcm_128.packet_encryption_key,
-+	       &variant->conn_1_key, 16);
-+	memcpy(&conn_1_info.crypto_info_aes_gcm_128.packet_encryption_iv,
-+	       &variant->conn_1_iv, 12);
-+	memcpy(&conn_1_info.crypto_info_aes_gcm_128.header_encryption_key,
-+	       &variant->conn_1_hdr_key, 16);
-+	memcpy(&conn_2_info.crypto_info_aes_gcm_128.packet_encryption_key,
-+	       &variant->conn_2_key, 16);
-+	memcpy(&conn_2_info.crypto_info_aes_gcm_128.packet_encryption_iv,
-+	       &variant->conn_2_iv, 12);
-+	memcpy(&conn_2_info.crypto_info_aes_gcm_128.header_encryption_key,
-+	       &variant->conn_2_hdr_key,
-+	       16);
-+
-+	ASSERT_NE(setns(self->server_net_ns_fd, 0), -1);
-+
-+	ASSERT_EQ(setsockopt(self->sfd, SOL_UDP, UDP_SEGMENT, &frag_size,
-+			     sizeof(frag_size)), 0);
-+
-+	if (variant->setup_flow_1)
-+		ASSERT_EQ(setsockopt(self->sfd, SOL_UDP,
-+				     UDP_QUIC_ADD_TX_CONNECTION,
-+				     &conn_1_info, sizeof(conn_1_info)), 0);
-+
-+	if (variant->setup_flow_2)
-+		ASSERT_EQ(setsockopt(self->sfd, SOL_UDP,
-+				     UDP_QUIC_ADD_TX_CONNECTION,
-+				     &conn_2_info, sizeof(conn_2_info)), 0);
-+
-+	recv_addr_len_1 = self->len_c1;
-+	recv_addr_len_2 = self->len_c2;
-+
-+	iov[0].iov_base = test_str_1;
-+	iov[0].iov_len = msg_len;
-+	iov[1].iov_base = (void *)test_str_1 + 4500;
-+	iov[1].iov_len = msg_len;
-+
-+	msg.msg_name = (self->client_1.addr.sin_family == AF_INET)
-+		       ? (void *)&self->client_1.addr
-+		       : (void *)&self->client_1.addr6;
-+	msg.msg_namelen = self->len_c1;
-+	msg.msg_iov = iov;
-+	msg.msg_iovlen = 2;
-+	msg.msg_control = cmsg_buf;
-+	msg.msg_controllen = sizeof(cmsg_buf);
-+	cmsg_hdr = CMSG_FIRSTHDR(&msg);
-+	cmsg_hdr->cmsg_level = IPPROTO_UDP;
-+	cmsg_hdr->cmsg_type = UDP_QUIC_ENCRYPT;
-+	cmsg_hdr->cmsg_len = CMSG_LEN(cmsg_tx_len);
-+	anc_data = (struct quic_tx_ancillary_data *)CMSG_DATA(cmsg_hdr);
-+	anc_data->next_pkt_num = 0x0d65c9;
-+	anc_data->flags = 0;
-+	anc_data->conn_id_length = variant->conn_id_1_len;
-+
-+	if (variant->use_client_1)
-+		EXPECT_EQ(sendmsg(self->sfd, &msg, 0), send_len);
-+
-+	iov[0].iov_base = test_str_2;
-+	iov[0].iov_len = msg_len;
-+	iov[1].iov_base = (void *)test_str_2 + 4500;
-+	iov[1].iov_len = msg_len;
-+	msg.msg_name = (self->client_2.addr.sin_family == AF_INET)
-+		       ? (void *)&self->client_2.addr
-+		       : (void *)&self->client_2.addr6;
-+	msg.msg_namelen = self->len_c2;
-+	cmsg_hdr = CMSG_FIRSTHDR(&msg);
-+	anc_data = (struct quic_tx_ancillary_data *)CMSG_DATA(cmsg_hdr);
-+	anc_data->next_pkt_num = 0x0d65c9;
-+	anc_data->conn_id_length = variant->conn_id_2_len;
-+	anc_data->flags = 0;
-+
-+	if (variant->use_client_2)
-+		EXPECT_EQ(sendmsg(self->sfd, &msg, 0), send_len);
-+
-+	if (variant->use_client_1) {
-+		ASSERT_NE(setns(self->client_1_net_ns_fd, 0), -1);
-+		if (variant->af_client_1 == AF_INET) {
-+			for (i = 0; i < 7; ++i) {
-+				EXPECT_EQ(recvfrom(self->c1fd, buf_1, 9000, 0,
-+						   &self->client_1.addr,
-+						   &recv_addr_len_1),
-+					  1200);
-+				// Validate framing is intact.
-+				EXPECT_EQ(memcmp((void *)buf_1 + 1,
-+						 &variant->conn_id_1,
-+						 variant->conn_id_1_len), 0);
-+			}
-+			EXPECT_EQ(recvfrom(self->c1fd, buf_1, 9000, 0,
-+					   &self->client_1.addr,
-+					   &recv_addr_len_1),
-+				  728);
-+			EXPECT_EQ(memcmp((void *)buf_1 + 1,
-+					 &variant->conn_id_1,
-+					 variant->conn_id_1_len), 0);
-+		} else {
-+			for (i = 0; i < 7; ++i) {
-+				EXPECT_EQ(recvfrom(self->c1fd, buf_1, 9000, 0,
-+						   &self->client_1.addr6,
-+						   &recv_addr_len_1),
-+					1200);
-+			}
-+			EXPECT_EQ(recvfrom(self->c1fd, buf_1, 9000, 0,
-+					   &self->client_1.addr6,
-+					   &recv_addr_len_1),
-+				  728);
-+			EXPECT_EQ(memcmp((void *)buf_1 + 1,
-+					 &variant->conn_id_1,
-+					 variant->conn_id_1_len), 0);
-+		}
-+		EXPECT_NE(memcmp(buf_1, test_str_1, send_len), 0);
-+	}
-+
-+	if (variant->use_client_2) {
-+		ASSERT_NE(setns(self->client_2_net_ns_fd, 0), -1);
-+		if (variant->af_client_2 == AF_INET) {
-+			for (i = 0; i < 7; ++i) {
-+				EXPECT_EQ(recvfrom(self->c2fd, buf_2, 9000, 0,
-+						   &self->client_2.addr,
-+						   &recv_addr_len_2),
-+					  1200);
-+				EXPECT_EQ(memcmp((void *)buf_2 + 1,
-+						 &variant->conn_id_2,
-+						 variant->conn_id_2_len), 0);
-+			}
-+			EXPECT_EQ(recvfrom(self->c2fd, buf_2, 9000, 0,
-+					   &self->client_2.addr,
-+					   &recv_addr_len_2),
-+				  728);
-+			EXPECT_EQ(memcmp((void *)buf_2 + 1,
-+					 &variant->conn_id_2,
-+					 variant->conn_id_2_len), 0);
-+		} else {
-+			for (i = 0; i < 7; ++i) {
-+				EXPECT_EQ(recvfrom(self->c2fd, buf_2, 9000, 0,
-+						   &self->client_2.addr6,
-+						   &recv_addr_len_2),
-+					  1200);
-+				EXPECT_EQ(memcmp((void *)buf_2 + 1,
-+						 &variant->conn_id_2,
-+						 variant->conn_id_2_len), 0);
-+			}
-+			EXPECT_EQ(recvfrom(self->c2fd, buf_2, 9000, 0,
-+					   &self->client_2.addr6,
-+					   &recv_addr_len_2),
-+				  728);
-+			EXPECT_EQ(memcmp((void *)buf_2 + 1,
-+					 &variant->conn_id_2,
-+					 variant->conn_id_2_len), 0);
-+		}
-+		EXPECT_NE(memcmp(buf_2, test_str_2, send_len), 0);
-+	}
-+
-+	if (variant->use_client_1 && variant->use_client_2)
-+		EXPECT_NE(memcmp(buf_1, buf_2, send_len), 0);
-+
-+	ASSERT_NE(setns(self->server_net_ns_fd, 0), -1);
-+	if (variant->setup_flow_1) {
-+		ASSERT_EQ(setsockopt(self->sfd, SOL_UDP,
-+				     UDP_QUIC_DEL_TX_CONNECTION,
-+				     &conn_1_info, sizeof(conn_1_info)),
-+			  0);
-+	}
-+	if (variant->setup_flow_2) {
-+		ASSERT_EQ(setsockopt(self->sfd, SOL_UDP,
-+				     UDP_QUIC_DEL_TX_CONNECTION,
-+				     &conn_2_info, sizeof(conn_2_info)),
-+			  0);
-+	}
-+	free(test_str_1);
-+	free(test_str_2);
-+	free(buf_1);
-+	free(buf_2);
-+	ASSERT_NE(setns(self->default_net_ns_fd, 0), -1);
-+}
-+
-+// 3. QUIC Encryption Tests
-+
-+FIXTURE(quic_crypto)
-+{
-+	int sfd, cfd;
-+	socklen_t len_c;
-+	socklen_t len_s;
-+	union {
-+		struct sockaddr_in addr;
-+		struct sockaddr_in6 addr6;
-+	} client;
-+	union {
-+		struct sockaddr_in addr;
-+		struct sockaddr_in6 addr6;
-+	} server;
-+	int default_net_ns_fd;
-+	int client_net_ns_fd;
-+	int server_net_ns_fd;
-+};
-+
-+FIXTURE_VARIANT(quic_crypto)
-+{
-+	unsigned int af_client;
-+	char *client_address;
-+	unsigned short client_port;
-+	uint32_t algo;
-+	uint8_t conn_id[8];
-+	uint8_t conn_key[16];
-+	uint8_t conn_iv[12];
-+	uint8_t conn_hdr_key[16];
-+	size_t conn_id_len;
-+	bool setup_flow;
-+	bool use_client;
-+	unsigned int af_server;
-+	char *server_address;
-+	unsigned short server_port;
-+};
-+
-+FIXTURE_SETUP(quic_crypto)
-+{
-+	char path[PATH_MAX];
-+	int optval = 1;
-+
-+	if (variant->af_client == AF_INET) {
-+		self->len_c = sizeof(self->client.addr);
-+		self->client.addr.sin_family = variant->af_client;
-+		inet_pton(variant->af_client, variant->client_address,
-+			  &self->client.addr.sin_addr);
-+		self->client.addr.sin_port = htons(variant->client_port);
-+	} else {
-+		self->len_c = sizeof(self->client.addr6);
-+		self->client.addr6.sin6_family = variant->af_client;
-+		inet_pton(variant->af_client, variant->client_address,
-+			  &self->client.addr6.sin6_addr);
-+		self->client.addr6.sin6_port = htons(variant->client_port);
-+	}
-+
-+	if (variant->af_server == AF_INET) {
-+		self->len_s = sizeof(self->server.addr);
-+		self->server.addr.sin_family = variant->af_server;
-+		inet_pton(variant->af_server, variant->server_address,
-+			  &self->server.addr.sin_addr);
-+		self->server.addr.sin_port = htons(variant->server_port);
-+	} else {
-+		self->len_s = sizeof(self->server.addr6);
-+		self->server.addr6.sin6_family = variant->af_server;
-+		inet_pton(variant->af_server, variant->server_address,
-+			  &self->server.addr6.sin6_addr);
-+		self->server.addr6.sin6_port = htons(variant->server_port);
-+	}
-+
-+	snprintf(path, sizeof(path), "/proc/%d/ns/net", getpid());
-+	self->default_net_ns_fd = open(path, O_RDONLY);
-+	ASSERT_GE(self->default_net_ns_fd, 0);
-+	strcpy(path, "/var/run/netns/ns11");
-+	self->client_net_ns_fd = open(path, O_RDONLY);
-+	ASSERT_GE(self->client_net_ns_fd, 0);
-+	strcpy(path, "/var/run/netns/ns2");
-+	self->server_net_ns_fd = open(path, O_RDONLY);
-+	ASSERT_GE(self->server_net_ns_fd, 0);
-+
-+	if (variant->use_client) {
-+		ASSERT_NE(setns(self->client_net_ns_fd, 0), -1);
-+		self->cfd = socket(variant->af_client, SOCK_DGRAM, 0);
-+		ASSERT_NE(setsockopt(self->cfd, SOL_SOCKET, SO_REUSEPORT, &optval,
-+			sizeof(optval)), -1);
-+		if (variant->af_client == AF_INET) {
-+			ASSERT_EQ(bind(self->cfd, &self->client.addr,
-+				       self->len_c), 0);
-+			ASSERT_EQ(getsockname(self->cfd, &self->client.addr,
-+					      &self->len_c), 0);
-+		} else {
-+			ASSERT_EQ(bind(self->cfd, &self->client.addr6,
-+				       self->len_c), 0);
-+			ASSERT_EQ(getsockname(self->cfd, &self->client.addr6,
-+					      &self->len_c), 0);
-+		}
-+	}
-+
-+	ASSERT_NE(setns(self->server_net_ns_fd, 0), -1);
-+	self->sfd = socket(variant->af_server, SOCK_DGRAM, 0);
-+	ASSERT_NE(setsockopt(self->sfd, SOL_SOCKET, SO_REUSEPORT, &optval,
-+	   sizeof(optval)), -1);
-+	if (variant->af_server == AF_INET) {
-+		ASSERT_EQ(bind(self->sfd, &self->server.addr, self->len_s), 0);
-+		ASSERT_EQ(getsockname(self->sfd, &self->server.addr,
-+				      &self->len_s),
-+			  0);
-+	} else {
-+		ASSERT_EQ(bind(self->sfd, &self->server.addr6, self->len_s), 0);
-+		ASSERT_EQ(getsockname(self->sfd, &self->server.addr6,
-+				      &self->len_s),
-+			  0);
-+	}
-+
-+	ASSERT_EQ(setsockopt(self->sfd, IPPROTO_UDP, UDP_ULP,
-+			     "quic-crypto", sizeof("quic-crypto")), 0);
-+
-+	ASSERT_NE(setns(self->default_net_ns_fd, 0), -1);
-+}
-+
-+FIXTURE_TEARDOWN(quic_crypto)
-+{
-+	ASSERT_NE(setns(self->server_net_ns_fd, 0), -1);
-+	close(self->sfd);
-+	ASSERT_NE(setns(self->client_net_ns_fd, 0), -1);
-+	close(self->cfd);
-+	ASSERT_NE(setns(self->default_net_ns_fd, 0), -1);
-+}
-+
-+FIXTURE_VARIANT_ADD(quic_crypto, ipv4)
-+{
-+	.af_client = AF_INET,
-+	.client_address = "10.0.0.1",
-+	.client_port = 7667,
-+	.conn_id = {0x08, 0x6b, 0xbf, 0x88, 0x82, 0xb9, 0x12, 0x49},
-+	.conn_key = {0x87, 0x71, 0xEA, 0x1D, 0xFB, 0xBE, 0x7A, 0x45, 0xBB,
-+		0xE2, 0x7E, 0xBC, 0x0B, 0x53, 0x94, 0x99},
-+	.conn_iv = {0x3A, 0xA7, 0x46, 0x72, 0xE9, 0x83, 0x6B, 0x55, 0xDA,
-+		0x66, 0x7B, 0xDA},
-+	.conn_hdr_key = {0xC9, 0x8E, 0xFD, 0xF2, 0x0B, 0x64, 0x8C, 0x57,
-+		0xB5, 0x0A, 0xB2, 0xD2, 0x21, 0xD3, 0x66, 0xA5},
-+	.conn_id_len = 8,
-+	.setup_flow = SETUP_FLOW,
-+	.use_client = USE_CLIENT,
-+	.af_server = AF_INET6,
-+	.server_address = "10.0.0.2",
-+	.server_port = 7669,
-+};
-+
-+FIXTURE_VARIANT_ADD(quic_crypto, ipv6)
-+{
-+	.af_client = AF_INET6,
-+	.client_address = "2001::1",
-+	.client_port = 7673,
-+	.conn_id = {0x08, 0x6b, 0xbf, 0x88, 0x82, 0xb9, 0x12, 0x49},
-+	.conn_key = {0x87, 0x71, 0xEA, 0x1D, 0xFB, 0xBE, 0x7A, 0x45, 0xBB,
-+		0xE2, 0x7E, 0xBC, 0x0B, 0x53, 0x94, 0x99},
-+	.conn_iv = {0x3A, 0xA7, 0x46, 0x72, 0xE9, 0x83, 0x6B, 0x55, 0xDA,
-+		0x66, 0x7B, 0xDA},
-+	.conn_hdr_key = {0xC9, 0x8E, 0xFD, 0xF2, 0x0B, 0x64, 0x8C, 0x57,
-+		0xB5, 0x0A, 0xB2, 0xD2, 0x21, 0xD3, 0x66, 0xA5},
-+	.conn_id_len = 8,
-+	.setup_flow = SETUP_FLOW,
-+	.use_client = USE_CLIENT,
-+	.af_server = AF_INET6,
-+	.server_address = "2001::2",
-+	.server_port = 7675,
-+};
-+
-+TEST_F(quic_crypto, encrypt_test_vector_aesgcm128_single_flow_gso_in_control)
-+{
-+	char test_str[37] = {// Header, conn id and pkt num
-+			     0x40, 0x08, 0x6B, 0xBF, 0x88, 0x82, 0xB9, 0x12,
-+			     0x49, 0xCA,
-+			     // Payload
-+			     0x02, 0x80, 0xDE, 0x40, 0x39, 0x40, 0xF6, 0x00,
-+			     0x01, 0x0B, 0x00, 0x0F, 0x65, 0x63, 0x68, 0x6F,
-+			     0x20, 0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36,
-+			     0x37, 0x38, 0x39
-+	};
-+
-+	char match_str[53] = {
-+			     0x46, 0x08, 0x6B, 0xBF, 0x88, 0x82, 0xB9, 0x12,
-+			     0x49, 0x1C, 0x44, 0xB8, 0x41, 0xBB, 0xCF, 0x6E,
-+			     0x0A, 0x2A, 0x24, 0xFB, 0xB4, 0x79, 0x62, 0xEA,
-+			     0x59, 0x38, 0x1A, 0x0E, 0x50, 0x1E, 0x59, 0xED,
-+			     0x3F, 0x8E, 0x7E, 0x5A, 0x70, 0xE4, 0x2A, 0xBC,
-+			     0x2A, 0xFA, 0x2B, 0x54, 0xEB, 0x89, 0xC3, 0x2C,
-+			     0xB6, 0x8C, 0x1E, 0xAB, 0x2D
-+	};
-+
-+	size_t cmsg_tx_len = sizeof(struct quic_tx_ancillary_data);
-+	uint8_t cmsg_buf[CMSG_SPACE(cmsg_tx_len)
-+			 + CMSG_SPACE(sizeof(uint16_t))];
-+	struct quic_tx_ancillary_data *anc_data;
-+	struct quic_connection_info conn_info;
-+	int send_len = sizeof(test_str);
-+	int msg_len = sizeof(test_str);
-+	uint16_t frag_size = 1200;
-+	struct cmsghdr *cmsg_hdr;
-+	int wrong_frag_size = 26;
-+	socklen_t recv_addr_len;
-+	struct iovec iov[2];
-+	struct msghdr msg;
-+	char *buf;
-+
-+	buf = (char *)malloc(1024);
-+	conn_info.cipher_type = TLS_CIPHER_AES_GCM_128;
-+	memset(&conn_info.key, 0, sizeof(struct quic_connection_info_key));
-+	conn_info.key.conn_id_length = variant->conn_id_len;
-+	memcpy(conn_info.key.conn_id,
-+	       &variant->conn_id,
-+	       variant->conn_id_len);
-+	memcpy(&conn_info.crypto_info_aes_gcm_128.packet_encryption_key,
-+	       &variant->conn_key, 16);
-+	memcpy(&conn_info.crypto_info_aes_gcm_128.packet_encryption_iv,
-+	       &variant->conn_iv, 12);
-+	memcpy(&conn_info.crypto_info_aes_gcm_128.header_encryption_key,
-+	       &variant->conn_hdr_key,
-+	       16);
-+
-+	ASSERT_NE(setns(self->server_net_ns_fd, 0), -1);
-+	ASSERT_EQ(setsockopt(self->sfd, SOL_UDP, UDP_SEGMENT, &wrong_frag_size,
-+			     sizeof(wrong_frag_size)), 0);
-+
-+	ASSERT_EQ(setsockopt(self->sfd, SOL_UDP, UDP_QUIC_ADD_TX_CONNECTION,
-+			     &conn_info, sizeof(conn_info)), 0);
-+
-+	recv_addr_len = self->len_c;
-+
-+	iov[0].iov_base = test_str;
-+	iov[0].iov_len = msg_len;
-+
-+	memset(cmsg_buf, 0, sizeof(cmsg_buf));
-+	msg.msg_name = (self->client.addr.sin_family == AF_INET)
-+		       ? (void *)&self->client.addr
-+		       : (void *)&self->client.addr6;
-+	msg.msg_namelen = self->len_c;
-+	msg.msg_iov = iov;
-+	msg.msg_iovlen = 1;
-+	msg.msg_control = cmsg_buf;
-+	msg.msg_controllen = sizeof(cmsg_buf);
-+	cmsg_hdr = CMSG_FIRSTHDR(&msg);
-+	cmsg_hdr->cmsg_level = IPPROTO_UDP;
-+	cmsg_hdr->cmsg_type = UDP_QUIC_ENCRYPT;
-+	cmsg_hdr->cmsg_len = CMSG_LEN(cmsg_tx_len);
-+	anc_data = (struct quic_tx_ancillary_data *)CMSG_DATA(cmsg_hdr);
-+	anc_data->flags = 0;
-+	anc_data->next_pkt_num = 0x0d65c9;
-+	anc_data->conn_id_length = variant->conn_id_len;
-+
-+	cmsg_hdr = CMSG_NXTHDR(&msg, cmsg_hdr);
-+	cmsg_hdr->cmsg_level = IPPROTO_UDP;
-+	cmsg_hdr->cmsg_type = UDP_SEGMENT;
-+	cmsg_hdr->cmsg_len = CMSG_LEN(sizeof(uint16_t));
-+	memcpy(CMSG_DATA(cmsg_hdr), (void *)&frag_size, sizeof(frag_size));
-+
-+	EXPECT_EQ(sendmsg(self->sfd, &msg, 0), send_len);
-+	ASSERT_NE(setns(self->client_net_ns_fd, 0), -1);
-+	if (variant->af_client == AF_INET) {
-+		EXPECT_EQ(recvfrom(self->cfd, buf, 1024, 0,
-+				   &self->client.addr, &recv_addr_len),
-+			  sizeof(match_str));
-+	} else {
-+		EXPECT_EQ(recvfrom(self->cfd, buf, 9000, 0,
-+				   &self->client.addr6, &recv_addr_len),
-+			  sizeof(match_str));
-+	}
-+	EXPECT_STREQ(buf, match_str);
-+
-+	ASSERT_NE(setns(self->server_net_ns_fd, 0), -1);
-+	ASSERT_EQ(setsockopt(self->sfd, SOL_UDP, UDP_QUIC_DEL_TX_CONNECTION,
-+			     &conn_info, sizeof(conn_info)), 0);
-+	free(buf);
-+	ASSERT_NE(setns(self->default_net_ns_fd, 0), -1);
-+}
-+
-+TEST_F(quic_crypto, encrypt_test_vector_aesgcm128_single_flow_gso_in_setsockopt)
-+{
-+	char test_str[37] = {// Header, conn id and pkt num
-+			     0x40, 0x08, 0x6B, 0xBF, 0x88, 0x82, 0xB9, 0x12,
-+			     0x49, 0xCA,
-+			     // Payload
-+			     0x02, 0x80, 0xDE, 0x40, 0x39, 0x40, 0xF6, 0x00,
-+			     0x01, 0x0B, 0x00, 0x0F, 0x65, 0x63, 0x68, 0x6F,
-+			     0x20, 0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36,
-+			     0x37, 0x38, 0x39
-+	};
-+
-+	char match_str[53] = {
-+			     0x46, 0x08, 0x6B, 0xBF, 0x88, 0x82, 0xB9, 0x12,
-+			     0x49, 0x1C, 0x44, 0xB8, 0x41, 0xBB, 0xCF, 0x6E,
-+			     0x0A, 0x2A, 0x24, 0xFB, 0xB4, 0x79, 0x62, 0xEA,
-+			     0x59, 0x38, 0x1A, 0x0E, 0x50, 0x1E, 0x59, 0xED,
-+			     0x3F, 0x8E, 0x7E, 0x5A, 0x70, 0xE4, 0x2A, 0xBC,
-+			     0x2A, 0xFA, 0x2B, 0x54, 0xEB, 0x89, 0xC3, 0x2C,
-+			     0xB6, 0x8C, 0x1E, 0xAB, 0x2D
-+	};
-+
-+	size_t cmsg_tx_len = sizeof(struct quic_tx_ancillary_data);
-+	uint8_t cmsg_buf[CMSG_SPACE(cmsg_tx_len)];
-+	struct quic_tx_ancillary_data *anc_data;
-+	struct quic_connection_info conn_info;
-+	int send_len = sizeof(test_str);
-+	int msg_len = sizeof(test_str);
-+	struct cmsghdr *cmsg_hdr;
-+	socklen_t recv_addr_len;
-+	int frag_size = 1200;
-+	struct iovec iov[2];
-+	struct msghdr msg;
-+	char *buf;
-+
-+	buf = (char *)malloc(1024);
-+
-+	conn_info.cipher_type = TLS_CIPHER_AES_GCM_128;
-+	memset(&conn_info.key, 0, sizeof(struct quic_connection_info_key));
-+	conn_info.key.conn_id_length = variant->conn_id_len;
-+	memcpy(&conn_info.key.conn_id,
-+	       &variant->conn_id,
-+	       variant->conn_id_len);
-+	memcpy(&conn_info.crypto_info_aes_gcm_128.packet_encryption_key,
-+	       &variant->conn_key, 16);
-+	memcpy(&conn_info.crypto_info_aes_gcm_128.packet_encryption_iv,
-+	       &variant->conn_iv, 12);
-+	memcpy(&conn_info.crypto_info_aes_gcm_128.header_encryption_key,
-+	       &variant->conn_hdr_key,
-+	       16);
-+
-+	ASSERT_NE(setns(self->server_net_ns_fd, 0), -1);
-+	ASSERT_EQ(setsockopt(self->sfd, SOL_UDP, UDP_SEGMENT, &frag_size,
-+			     sizeof(frag_size)),
-+		  0);
-+
-+	ASSERT_EQ(setsockopt(self->sfd, SOL_UDP, UDP_QUIC_ADD_TX_CONNECTION,
-+			     &conn_info, sizeof(conn_info)),
-+		  0);
-+
-+	recv_addr_len = self->len_c;
-+
-+	iov[0].iov_base = test_str;
-+	iov[0].iov_len = msg_len;
-+
-+	msg.msg_name = (self->client.addr.sin_family == AF_INET)
-+		       ? (void *)&self->client.addr
-+		       : (void *)&self->client.addr6;
-+	msg.msg_namelen = self->len_c;
-+	msg.msg_iov = iov;
-+	msg.msg_iovlen = 1;
-+	msg.msg_control = cmsg_buf;
-+	msg.msg_controllen = sizeof(cmsg_buf);
-+	cmsg_hdr = CMSG_FIRSTHDR(&msg);
-+	cmsg_hdr->cmsg_level = IPPROTO_UDP;
-+	cmsg_hdr->cmsg_type = UDP_QUIC_ENCRYPT;
-+	cmsg_hdr->cmsg_len = CMSG_LEN(cmsg_tx_len);
-+	anc_data = (struct quic_tx_ancillary_data *)CMSG_DATA(cmsg_hdr);
-+	anc_data->flags = 0;
-+	anc_data->next_pkt_num = 0x0d65c9;
-+	anc_data->conn_id_length = variant->conn_id_len;
-+
-+	EXPECT_EQ(sendmsg(self->sfd, &msg, 0), send_len);
-+	ASSERT_NE(setns(self->client_net_ns_fd, 0), -1);
-+	if (variant->af_client == AF_INET) {
-+		EXPECT_EQ(recvfrom(self->cfd, buf, 1024, 0,
-+				   &self->client.addr, &recv_addr_len),
-+			  sizeof(match_str));
-+	} else {
-+		EXPECT_EQ(recvfrom(self->cfd, buf, 9000, 0,
-+				   &self->client.addr6, &recv_addr_len),
-+			  sizeof(match_str));
-+	}
-+	EXPECT_STREQ(buf, match_str);
-+
-+	ASSERT_NE(setns(self->server_net_ns_fd, 0), -1);
-+	ASSERT_EQ(setsockopt(self->sfd, SOL_UDP, UDP_QUIC_DEL_TX_CONNECTION,
-+			     &conn_info, sizeof(conn_info)), 0);
-+	free(buf);
-+	ASSERT_NE(setns(self->default_net_ns_fd, 0), -1);
-+}
-+
-+TEST_HARNESS_MAIN
-diff --git a/tools/testing/selftests/net/quic.sh b/tools/testing/selftests/net/quic.sh
-new file mode 100755
-index 000000000000..6c684e670e82
---- /dev/null
-+++ b/tools/testing/selftests/net/quic.sh
-@@ -0,0 +1,45 @@
-+#!/bin/bash
-+
-+sudo ip netns add ns11
-+sudo ip netns add ns12
-+sudo ip netns add ns2
-+sudo ip link add veth11 type veth peer name br-veth11
-+sudo ip link add veth12 type veth peer name br-veth12
-+sudo ip link add veth2 type veth peer name br-veth2
-+sudo ip link set veth11 netns ns11
-+sudo ip link set veth12 netns ns12
-+sudo ip link set veth2 netns ns2
-+sudo ip netns exec ns11 ip addr add 10.0.0.1/24 dev veth11
-+sudo ip netns exec ns11 ip addr add ::ffff:10.0.0.1/96 dev veth11
-+sudo ip netns exec ns11 ip addr add 2001::1/64 dev veth11
-+sudo ip netns exec ns12 ip addr add 10.0.0.3/24 dev veth12
-+sudo ip netns exec ns12 ip addr add ::ffff:10.0.0.3/96 dev veth12
-+sudo ip netns exec ns12 ip addr add 2001::3/64 dev veth12
-+sudo ip netns exec ns2 ip addr add 10.0.0.2/24 dev veth2
-+sudo ip netns exec ns2 ip addr add ::ffff:10.0.0.2/96 dev veth2
-+sudo ip netns exec ns2 ip addr add 2001::2/64 dev veth2
-+sudo ip link add name br1 type bridge forward_delay 0
-+sudo ip link set br1 up
-+sudo ip link set br-veth11 up
-+sudo ip link set br-veth12 up
-+sudo ip link set br-veth2 up
-+sudo ip netns exec ns11 ip link set veth11 up
-+sudo ip netns exec ns12 ip link set veth12 up
-+sudo ip netns exec ns2 ip link set veth2 up
-+sudo ip link set br-veth11 master br1
-+sudo ip link set br-veth12 master br1
-+sudo ip link set br-veth2 master br1
-+sudo ip netns exec ns2 cat /proc/net/quic_stat
-+
-+printf "%s" "Waiting for bridge to start fowarding ..."
-+while ! timeout 0.5 sudo ip netns exec ns2 ping -c 1 -n 2001::1 &> /dev/null
-+do
-+	printf "%c" "."
-+done
-+printf "\n%s\n"  "Bridge is operational"
-+
-+sudo ./quic
-+sudo ip netns exec ns2 cat /proc/net/quic_stat
-+sudo ip netns delete ns2
-+sudo ip netns delete ns12
-+sudo ip netns delete ns11
--- 
-2.30.2
+AMD systems support zero CBM (capacity bit mask) for L3 allocation.=0A=
+That is reflected in rdt_init_res_defs_amd() by:=0A=
+=0A=
+	r->cache.arch_has_empty_bitmaps =3D true;=0A=
+=0A=
+However given the unified code in cbm_validate(), checking for:=0A=
+	val =3D=3D 0 && !arch_has_empty_bitmaps=0A=
+=0A=
+is not enough because of another check in cbm_validate():=0A=
+=0A=
+	if ((zero_bit - first_bit) < r->cache.min_cbm_bits)=0A=
+=0A=
+The default value of r->cache.min_cbm_bits =3D 1.=0A=
+=0A=
+Leading to:=0A=
+=0A=
+	$ cd /sys/fs/resctrl=0A=
+	$ mkdir foo=0A=
+	$ cd foo=0A=
+	$ echo L3:0=3D0 > schemata=0A=
+          -bash: echo: write error: Invalid argument=0A=
+	$ cat /sys/fs/resctrl/info/last_cmd_status=0A=
+	  Need at least 1 bits in the mask=0A=
+=0A=
+Fix the issue by initializing the min_cbm_bits to 0 for AMD. Also remove=0A=
+the default setting of min_cbm_bits and initialize it separately.=0A=
+=0A=
+After the fix=0A=
+	$ cd /sys/fs/resctrl=0A=
+	$ mkdir foo=0A=
+	$ cd foo=0A=
+	$ echo L3:0=3D0 > schemata=0A=
+	$ cat /sys/fs/resctrl/info/last_cmd_status=0A=
+	  ok=0A=
+=0A=
+Link: https://lore.kernel.org/lkml/20220517001234.3137157-1-eranian@google.=
+com/=0A=
+Fixes: 316e7f901f5a ("x86/resctrl: Add struct rdt_cache::arch_has_{sparse, =
+empty}_bitmaps")=0A=
+Signed-off-by: Stephane Eranian <eranian@google.com>=0A=
+Signed-off-by: Babu Moger <babu.moger@amd.com>=0A=
+---=0A=
+ arch/x86/kernel/cpu/resctrl/core.c |    8 ++------=0A=
+ 1 file changed, 2 insertions(+), 6 deletions(-)=0A=
+=0A=
+diff --git a/arch/x86/kernel/cpu/resctrl/core.c b/arch/x86/kernel/cpu/resct=
+rl/core.c=0A=
+index bb1c3f5f60c8..a5c51a14fbce 100644=0A=
+--- a/arch/x86/kernel/cpu/resctrl/core.c=0A=
++++ b/arch/x86/kernel/cpu/resctrl/core.c=0A=
+@@ -66,9 +66,6 @@ struct rdt_hw_resource rdt_resources_all[] =3D {=0A=
+ 			.rid			=3D RDT_RESOURCE_L3,=0A=
+ 			.name			=3D "L3",=0A=
+ 			.cache_level		=3D 3,=0A=
+-			.cache =3D {=0A=
+-				.min_cbm_bits	=3D 1,=0A=
+-			},=0A=
+ 			.domains		=3D domain_init(RDT_RESOURCE_L3),=0A=
+ 			.parse_ctrlval		=3D parse_cbm,=0A=
+ 			.format_str		=3D "%d=3D%0*x",=0A=
+@@ -83,9 +80,6 @@ struct rdt_hw_resource rdt_resources_all[] =3D {=0A=
+ 			.rid			=3D RDT_RESOURCE_L2,=0A=
+ 			.name			=3D "L2",=0A=
+ 			.cache_level		=3D 2,=0A=
+-			.cache =3D {=0A=
+-				.min_cbm_bits	=3D 1,=0A=
+-			},=0A=
+ 			.domains		=3D domain_init(RDT_RESOURCE_L2),=0A=
+ 			.parse_ctrlval		=3D parse_cbm,=0A=
+ 			.format_str		=3D "%d=3D%0*x",=0A=
+@@ -877,6 +871,7 @@ static __init void rdt_init_res_defs_intel(void)=0A=
+ 			r->cache.arch_has_sparse_bitmaps =3D false;=0A=
+ 			r->cache.arch_has_empty_bitmaps =3D false;=0A=
+ 			r->cache.arch_has_per_cpu_cfg =3D false;=0A=
++			r->cache.min_cbm_bits =3D 1;=0A=
+ 		} else if (r->rid =3D=3D RDT_RESOURCE_MBA) {=0A=
+ 			hw_res->msr_base =3D MSR_IA32_MBA_THRTL_BASE;=0A=
+ 			hw_res->msr_update =3D mba_wrmsr_intel;=0A=
+@@ -897,6 +892,7 @@ static __init void rdt_init_res_defs_amd(void)=0A=
+ 			r->cache.arch_has_sparse_bitmaps =3D true;=0A=
+ 			r->cache.arch_has_empty_bitmaps =3D true;=0A=
+ 			r->cache.arch_has_per_cpu_cfg =3D true;=0A=
++			r->cache.min_cbm_bits =3D 0;=0A=
+ 		} else if (r->rid =3D=3D RDT_RESOURCE_MBA) {=0A=
+ 			hw_res->msr_base =3D MSR_IA32_MBA_BW_BASE;=0A=
+ 			hw_res->msr_update =3D mba_wrmsr_amd;=0A=
+=0A=
 
