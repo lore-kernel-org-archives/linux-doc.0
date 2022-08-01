@@ -2,187 +2,122 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D52CC00140
-	for <linux-doc@archiver.kernel.org>; Mon,  1 Aug 2022 02:52:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 110F2C19F2C
+	for <linux-doc@archiver.kernel.org>; Mon,  1 Aug 2022 08:20:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233331AbiHACwc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 31 Jul 2022 22:52:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35902 "EHLO
+        id S230030AbiHAIUp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 1 Aug 2022 04:20:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38312 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239429AbiHACwa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 31 Jul 2022 22:52:30 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F1B8313D79;
-        Sun, 31 Jul 2022 19:52:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
-        Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
-        Content-Description:In-Reply-To:References;
-        bh=aZW1wqHmfz7XNwPKKQpc+N4pkoIsPNtk2djlN8qJmTo=; b=mCFw/G270QdzOtOjtl2vh0Pdk2
-        0WsZCDH9m+4+RBgsCSsTKo1yEOR/KlfF0uz8nJ1XWziqZJkNNwAU9nfQN4XIEzF2wl3BfRKEO38uN
-        nAA/dc99CKRdk7/brkcEOAfftPqKHqhzt8zJw2Ctp+xhSiwLurCyma7VnXCwc77IB6f/Y8ILpWgCn
-        Oze8mgbNo7FKNWRkVfEeQbjtGlkAP447euL97ZZuxaj+zS13JNAezxjYCM0uO6ZFR6qPXWgBRycw2
-        +FZOn7ntvAaYpZb0Mgm3am35kHy8zFT76RlyWjXf2WzXWc9XkXIYMAO1g/MoyFmiHf9oPfv2kdqtY
-        4anECbeQ==;
-Received: from [2601:1c0:6280:3f0::a6b3] (helo=casper.infradead.org)
-        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1oILXd-006ltg-Jd; Mon, 01 Aug 2022 02:52:26 +0000
-From:   Randy Dunlap <rdunlap@infradead.org>
-To:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        devicetree@vger.kernel.org
-Subject: [PATCH] devicetree/bindings: correct possessive "its" typos
-Date:   Sun, 31 Jul 2022 19:52:21 -0700
-Message-Id: <20220801025221.30563-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.37.1
+        with ESMTP id S230089AbiHAIUj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 Aug 2022 04:20:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 881982870E
+        for <linux-doc@vger.kernel.org>; Mon,  1 Aug 2022 01:20:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1659342037;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=pJH07x8QvE4r/0Wcvdf2EaLzPedOQZnkWNurVPoZ0fI=;
+        b=Bl1/G+MQfJHeYJjvnoZ9GM6VKpcnFq+bAI2Tr9rmEUGywxWAn3TftofWdF4fFdi2y2ykwZ
+        vb51IIWU/y0jwz3uDL0jlgVqUkLIureqsBpu0ORapVwGaDJ15SAwO43A6SR7Po2rIoRybw
+        k/3l1D79ygXS56/5TAdzZD8HVpVAVAk=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-398-wsEDCQC2NEKteI_g3du0kQ-1; Mon, 01 Aug 2022 04:20:32 -0400
+X-MC-Unique: wsEDCQC2NEKteI_g3du0kQ-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9434B1C14488;
+        Mon,  1 Aug 2022 08:20:31 +0000 (UTC)
+Received: from localhost (ovpn-12-103.pek2.redhat.com [10.72.12.103])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 10BDE492C3B;
+        Mon,  1 Aug 2022 08:20:29 +0000 (UTC)
+Date:   Mon, 1 Aug 2022 16:20:25 +0800
+From:   Baoquan He <bhe@redhat.com>
+To:     Zhen Lei <thunder.leizhen@huawei.com>
+Cc:     Dave Young <dyoung@redhat.com>, Vivek Goyal <vgoyal@redhat.com>,
+        kexec@lists.infradead.org, linux-kernel@vger.kernel.org,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        linux-arm-kernel@lists.infradead.org,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Feng Zhou <zhoufeng.zf@bytedance.com>,
+        Kefeng Wang <wangkefeng.wang@huawei.com>,
+        Chen Zhou <dingguo.cz@antgroup.com>,
+        John Donnelly <John.p.donnelly@oracle.com>,
+        Dave Kleikamp <dave.kleikamp@oracle.com>
+Subject: Re: [PATCH v3 0/2] arm64: kdump: Function supplement and performance
+ optimization
+Message-ID: <YueMyUqannVg7l9v@MiWiFi-R3L-srv>
+References: <20220711090319.1604-1-thunder.leizhen@huawei.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220711090319.1604-1-thunder.leizhen@huawei.com>
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Correct all uses of "it's" that are meant to be possessive "its".
+Hi Catalin,
 
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Rob Herring <robh+dt@kernel.org>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Cc: devicetree@vger.kernel.org
----
- Documentation/devicetree/bindings/clock/st/st,flexgen.txt        |    2 +-
- Documentation/devicetree/bindings/clock/ti/dra7-atl.txt          |    2 +-
- Documentation/devicetree/bindings/hwmon/adt7475.yaml             |    2 +-
- Documentation/devicetree/bindings/input/touchscreen/ektf2127.txt |    2 +-
- Documentation/devicetree/bindings/mfd/rohm,bd71815-pmic.yaml     |    2 +-
- Documentation/devicetree/bindings/mips/lantiq/rcu.txt            |    2 +-
- Documentation/devicetree/bindings/net/altera_tse.txt             |    2 +-
- Documentation/devicetree/bindings/net/cpsw.txt                   |    2 +-
- Documentation/devicetree/bindings/powerpc/fsl/mpc5200.txt        |    2 +-
- Documentation/devicetree/bindings/soc/qcom/qcom,aoss-qmp.yaml    |    2 +-
- Documentation/devicetree/bindings/sound/da9055.txt               |    2 +-
- 11 files changed, 11 insertions(+), 11 deletions(-)
+On 07/11/22 at 05:03pm, Zhen Lei wrote:
+> v2 --> v3:
+> 1. Discard patch 3 in v2, a cleanup patch.
+> 
+> v1 --> v2:
+> 1. Update the commit message of Patch 1, explicitly indicates that "crashkernel=X,high"
+>    is specified but "crashkernel=Y,low" is not specified.
+> 2. Drop Patch 4-5. Currently, focus on function integrity, performance optimization
+>    will be considered in later versions.
+> 3. Patch 3 is not mandatory, it's just a cleanup now, although it is a must for patch 4-5.
+>    But to avoid subsequent duplication of effort, I'm glad it was accepted.
+> 
+> 
+> v1:
+> After the basic functions of "support reserving crashkernel above 4G on arm64
+> kdump"(see https://lkml.org/lkml/2022/5/6/428) are implemented, we still have
+> three features to be improved.
+> 1. When crashkernel=X,high is specified but crashkernel=Y,low is not specified,
+>    the default crash low memory size is provided.
+> 2. For crashkernel=X without '@offset', if the low memory fails to be allocated,
+>    fall back to reserve region from high memory(above DMA zones).
+> 3. If crashkernel=X,high is used, page mapping is performed only for the crash
+>    high memory, and block mapping is still used for other linear address spaces.
+>    Compared to the previous version:
+>    (1) For crashkernel=X[@offset], the memory above 4G is not changed to block
+>        mapping, leave it to the next time.
+>    (2) The implementation method is modified. Now the implementation is simpler
+>        and clearer.
 
---- a/Documentation/devicetree/bindings/net/altera_tse.txt
-+++ b/Documentation/devicetree/bindings/net/altera_tse.txt
-@@ -15,7 +15,7 @@ Required properties:
-   "rx_desc":      MSGDMA Rx dispatcher descriptor space region
-   "rx_resp":      MSGDMA Rx dispatcher response space region
-   "s1":		  SGDMA descriptor memory
--- interrupts: Should contain the TSE interrupts and it's mode.
-+- interrupts: Should contain the TSE interrupts and its mode.
- - interrupt-names: Should contain the interrupt names
-   "rx_irq":       xDMA Rx dispatcher interrupt
-   "tx_irq":       xDMA Tx dispatcher interrupt
---- a/Documentation/devicetree/bindings/net/cpsw.txt
-+++ b/Documentation/devicetree/bindings/net/cpsw.txt
-@@ -20,7 +20,7 @@ Required properties:
- - active_slave		: Specifies the slave to use for time stamping,
- 			  ethtool and SIOCGMIIPHY
- - cpsw-phy-sel		: Specifies the phandle to the CPSW phy mode selection
--			  device. See also cpsw-phy-sel.txt for it's binding.
-+			  device. See also cpsw-phy-sel.txt for its binding.
- 			  Note that in legacy cases cpsw-phy-sel may be
- 			  a child device instead of a phandle
- 			  (DEPRECATED, use phys property instead).
---- a/Documentation/devicetree/bindings/sound/da9055.txt
-+++ b/Documentation/devicetree/bindings/sound/da9055.txt
-@@ -2,7 +2,7 @@
- 
- DA9055 provides Audio CODEC support (I2C only).
- 
--The Audio CODEC device in DA9055 has it's own I2C address which is configurable,
-+The Audio CODEC device in DA9055 has its own I2C address which is configurable,
- so the device is instantiated separately from the PMIC (MFD) device.
- 
- For details on accompanying PMIC I2C device, see the following:
---- a/Documentation/devicetree/bindings/clock/st/st,flexgen.txt
-+++ b/Documentation/devicetree/bindings/clock/st/st,flexgen.txt
-@@ -78,7 +78,7 @@ Required properties:
- - #clock-cells : from common clock binding; shall be set to 1 (multiple clock
-   outputs).
- 
--- clocks : must be set to the parent's phandle. it's could be output clocks of
-+- clocks : must be set to the parent's phandle. it could be output clocks of
-   a quadsfs or/and a pll or/and clk_sysin (up to 7 clocks)
- 
- - clock-output-names : List of strings used to name the clock outputs.
---- a/Documentation/devicetree/bindings/clock/ti/dra7-atl.txt
-+++ b/Documentation/devicetree/bindings/clock/ti/dra7-atl.txt
-@@ -6,7 +6,7 @@ functional clock but can be configured t
- ATL can maintain a clock averages to some desired frequency based on the bws/aws
- signals - can compensate the drift between the two ws signal.
- 
--In order to provide the support for ATL and it's output clocks (which can be used
-+In order to provide the support for ATL and its output clocks (which can be used
- internally within the SoC or external components) two sets of bindings is needed:
- 
- Clock tree binding:
---- a/Documentation/devicetree/bindings/hwmon/adt7475.yaml
-+++ b/Documentation/devicetree/bindings/hwmon/adt7475.yaml
-@@ -57,7 +57,7 @@ patternProperties:
-       Configures bypassing the individual voltage input attenuator. If
-       set to 1 the attenuator is bypassed if set to 0 the attenuator is
-       not bypassed. If the property is absent then the attenuator
--      retains it's configuration from the bios/bootloader.
-+      retains its configuration from the bios/bootloader.
-     $ref: /schemas/types.yaml#/definitions/uint32
-     enum: [0, 1]
- 
---- a/Documentation/devicetree/bindings/soc/qcom/qcom,aoss-qmp.yaml
-+++ b/Documentation/devicetree/bindings/soc/qcom/qcom,aoss-qmp.yaml
-@@ -13,7 +13,7 @@ description:
-   This binding describes the hardware component responsible for side channel
-   requests to the always-on subsystem (AOSS), used for certain power management
-   requests that is not handled by the standard RPMh interface. Each client in the
--  SoC has it's own block of message RAM and IRQ for communication with the AOSS.
-+  SoC has its own block of message RAM and IRQ for communication with the AOSS.
-   The protocol used to communicate in the message RAM is known as Qualcomm
-   Messaging Protocol (QMP)
- 
---- a/Documentation/devicetree/bindings/input/touchscreen/ektf2127.txt
-+++ b/Documentation/devicetree/bindings/input/touchscreen/ektf2127.txt
-@@ -6,7 +6,7 @@ Required properties:
-  - interrupts		  : interrupt specification for the ektf2127 interrupt
-  - power-gpios		  : GPIO specification for the pin connected to the
- 			    ektf2127's wake input. This needs to be driven high
--			    to take ektf2127 out of it's low power state
-+			    to take ektf2127 out of its low power state
- 
- For additional optional properties see: touchscreen.txt
- 
---- a/Documentation/devicetree/bindings/mfd/rohm,bd71815-pmic.yaml
-+++ b/Documentation/devicetree/bindings/mfd/rohm,bd71815-pmic.yaml
-@@ -74,7 +74,7 @@ properties:
-   rohm,enable-hidden-gpo:
-     description: |
-       The BD71815 has undocumented GPO at pin E5. Pin is marked as GND at the
--      data-sheet as it's location in the middle of GND pins makes it hard to
-+      data-sheet as its location in the middle of GND pins makes it hard to
-       use on PCB. If your board has managed to use this pin you can enable the
-       second GPO by defining this property. Dont enable this if you are unsure
-       about how the E5 pin is connected on your board.
---- a/Documentation/devicetree/bindings/mips/lantiq/rcu.txt
-+++ b/Documentation/devicetree/bindings/mips/lantiq/rcu.txt
-@@ -2,7 +2,7 @@ Lantiq XWAY SoC RCU binding
- ===========================
- 
- This binding describes the RCU (reset controller unit) multifunction device,
--where each sub-device has it's own set of registers.
-+where each sub-device has its own set of registers.
- 
- The RCU register range is used for multiple purposes. Mostly one device
- uses one or multiple register exclusively, but for some registers some
---- a/Documentation/devicetree/bindings/powerpc/fsl/mpc5200.txt
-+++ b/Documentation/devicetree/bindings/powerpc/fsl/mpc5200.txt
-@@ -172,7 +172,7 @@ Interrupt controller (fsl,mpc5200-pic) n
- The mpc5200 pic binding splits hardware IRQ numbers into two levels.  The
- split reflects the layout of the PIC hardware itself, which groups
- interrupts into one of three groups; CRIT, MAIN or PERP.  Also, the
--Bestcomm dma engine has it's own set of interrupt sources which are
-+Bestcomm dma engine has its own set of interrupt sources which are
- cascaded off of peripheral interrupt 0, which the driver interprets as a
- fourth group, SDMA.
- 
+Do you have plan to pick this series so that it can be taken into 5.20
+rc-1~3?
+
+We have back ported the basic crashkernel=high, low, support into our
+distros and have taken wide testing on arm64 servers, need this patchset
+to back port for more testing. 
+
+Thanks
+Baoquan
+
+> 
+> Zhen Lei (2):
+>   arm64: kdump: Provide default size when crashkernel=Y,low is not
+>     specified
+>   arm64: kdump: Support crashkernel=X fall back to reserve region above
+>     DMA zones
+> 
+>  .../admin-guide/kernel-parameters.txt         | 10 ++-----
+>  arch/arm64/mm/init.c                          | 28 +++++++++++++++++--
+>  2 files changed, 28 insertions(+), 10 deletions(-)
+> 
+> -- 
+> 2.25.1
+> 
+
