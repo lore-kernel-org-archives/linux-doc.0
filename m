@@ -2,90 +2,80 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E3AFC19F2C
-	for <linux-doc@archiver.kernel.org>; Mon,  1 Aug 2022 14:40:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3DEBBC00144
+	for <linux-doc@archiver.kernel.org>; Mon,  1 Aug 2022 15:16:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232700AbiHAOkj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 1 Aug 2022 10:40:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52892 "EHLO
+        id S231317AbiHAPQT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 1 Aug 2022 11:16:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50868 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230109AbiHAOkg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 Aug 2022 10:40:36 -0400
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A726537185;
-        Mon,  1 Aug 2022 07:40:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1659364835; x=1690900835;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=fpTxLnSKdCefwrmog3N//MC/2iEi6i+ELgFRyAQC2bY=;
-  b=CcKfsnBbDxrQw/JPAV5/oLhwLCN3+yfeVnWxi1kZq4TyBdMYfjyvus6W
-   L4PFME/aKttHbdrMFNCo4+VaUWnUtJhv6+i8nHOkOQpgaXdoutTJNT6xi
-   5IE0SPCW9EQ61H3apE+zrNNT7KSKKAEZBvNU4q6eIsB3XWXzntIu5zGWP
-   h9aYJXdjtzC2Daey1dUZk54fFjqpUF5HxAZOYPvKSATHdU3UlmqNBV/9k
-   T/az2tNUI3hvwUVa3oGVy7/IcfnbtxEzBWD/JA5oM8brPY4Q5pkCfqJ4C
-   7VnIMCeIeOjw0O4jGacgPg8B9iVJmNpw6D0ei/kj2SpcvPOL6ojdpR2ey
-   g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10426"; a="276062502"
-X-IronPort-AV: E=Sophos;i="5.93,208,1654585200"; 
-   d="scan'208";a="276062502"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Aug 2022 07:40:35 -0700
-X-IronPort-AV: E=Sophos;i="5.93,208,1654585200"; 
-   d="scan'208";a="744281754"
-Received: from cdthomas-mobl2.amr.corp.intel.com (HELO [10.209.57.155]) ([10.209.57.155])
-  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Aug 2022 07:40:32 -0700
-Message-ID: <dc878e6c-c1d2-c291-00ef-11cff6cb03ec@intel.com>
-Date:   Mon, 1 Aug 2022 07:40:32 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v7 14/14] memfd_create.2: Describe MFD_INACCESSIBLE flag
-Content-Language: en-US
-To:     Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
-        linux-kselftest@vger.kernel.org
-Cc:     Paolo Bonzini <pbonzini@redhat.com>,
+        with ESMTP id S231444AbiHAPQR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 Aug 2022 11:16:17 -0400
+Received: from mail-il1-f179.google.com (mail-il1-f179.google.com [209.85.166.179])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D69AD10FF8;
+        Mon,  1 Aug 2022 08:16:16 -0700 (PDT)
+Received: by mail-il1-f179.google.com with SMTP id s16so2013982ilp.3;
+        Mon, 01 Aug 2022 08:16:16 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
+        bh=HOzPqmgULZoG1/y97IP7LGvfzYRQUc7XYUea7CGLp8U=;
+        b=YAvN+t2HBbzsvdIjZDeT1ZpwzLcB4Jd3YTv3N1PbPqg/krzPmKqZbqKY+eqkaNjF3f
+         5z+DOO/4m9v2+vzKdw07TV6p5kt99Sd4sZk4+FbHk6OQ/rW7hTqVoTRazq+vKosmMo6b
+         fGA8OpcYnY6Q59dUkljiHyJh2Vovzc1pRzMz0JQErFiAlYQOzear54F8Qrs8uq+okjDa
+         RoNS4jOiUGXFzvOEd0fVERGQBxfkpEMsX2TEwoSRR1wNAHfW5CQyfdnKHxE/ye7w0mpZ
+         Rn7h4vJZZa/ukH+pa4xbFvZ0pOo4kDeMP2dtIxfFISm1jByxywGmcqMASRjkbmnNPEOy
+         bK8Q==
+X-Gm-Message-State: AJIora/MJyExVKkN8p9GBoCxxU9TSiL2rcK/r+L3qID+NRfPzltYOt5B
+        zgS0JBlKjm2bXYlB7XzTh3kH8G/3tg==
+X-Google-Smtp-Source: AGRyM1tBT8uzEoN/IPycG1TaNi4r8WsAWJy+p/L9JRkw66xWTFSVYLTTw/cSKPf2yP4onj4R6IzOZw==
+X-Received: by 2002:a05:6e02:1847:b0:2dd:18c7:51c3 with SMTP id b7-20020a056e02184700b002dd18c751c3mr6610384ilv.29.1659366975972;
+        Mon, 01 Aug 2022 08:16:15 -0700 (PDT)
+Received: from robh.at.kernel.org ([64.188.179.248])
+        by smtp.gmail.com with ESMTPSA id g10-20020a05660226ca00b0067bcbb0d258sm5779349ioo.46.2022.08.01.08.16.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 01 Aug 2022 08:16:15 -0700 (PDT)
+Received: (nullmailer pid 1035626 invoked by uid 1000);
+        Mon, 01 Aug 2022 15:16:14 -0000
+Date:   Mon, 1 Aug 2022 09:16:14 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     linux-doc@vger.kernel.org, devicetree@vger.kernel.org,
+        Rob Herring <robh+dt@kernel.org>, linux-kernel@vger.kernel.org,
         Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <seanjc@google.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, ak@linux.intel.com,
-        david@redhat.com, aarcange@redhat.com, ddutile@redhat.com,
-        dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        Muchun Song <songmuchun@bytedance.com>
-References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
- <20220706082016.2603916-15-chao.p.peng@linux.intel.com>
-From:   Dave Hansen <dave.hansen@intel.com>
-In-Reply-To: <20220706082016.2603916-15-chao.p.peng@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Subject: Re: [PATCH] devicetree/bindings: correct possessive "its" typos
+Message-ID: <20220801151614.GA1031441-robh@kernel.org>
+References: <20220801025221.30563-1-rdunlap@infradead.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220801025221.30563-1-rdunlap@infradead.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This patch does not belong in this series.  It's not a patch to the
-kernel.  This is a kernel series.
+On Sun, 31 Jul 2022 19:52:21 -0700, Randy Dunlap wrote:
+> Correct all uses of "it's" that are meant to be possessive "its".
+> 
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Rob Herring <robh+dt@kernel.org>
+> Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+> Cc: devicetree@vger.kernel.org
+> ---
+>  Documentation/devicetree/bindings/clock/st/st,flexgen.txt        |    2 +-
+>  Documentation/devicetree/bindings/clock/ti/dra7-atl.txt          |    2 +-
+>  Documentation/devicetree/bindings/hwmon/adt7475.yaml             |    2 +-
+>  Documentation/devicetree/bindings/input/touchscreen/ektf2127.txt |    2 +-
+>  Documentation/devicetree/bindings/mfd/rohm,bd71815-pmic.yaml     |    2 +-
+>  Documentation/devicetree/bindings/mips/lantiq/rcu.txt            |    2 +-
+>  Documentation/devicetree/bindings/net/altera_tse.txt             |    2 +-
+>  Documentation/devicetree/bindings/net/cpsw.txt                   |    2 +-
+>  Documentation/devicetree/bindings/powerpc/fsl/mpc5200.txt        |    2 +-
+>  Documentation/devicetree/bindings/soc/qcom/qcom,aoss-qmp.yaml    |    2 +-
+>  Documentation/devicetree/bindings/sound/da9055.txt               |    2 +-
+>  11 files changed, 11 insertions(+), 11 deletions(-)
 
-It would be much more appropriate to put a link to a separately posted
-manpage patch in the cover letter.
+Its a great fix. Applied, thanks!
