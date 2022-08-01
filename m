@@ -2,141 +2,94 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 83413C19F29
-	for <linux-doc@archiver.kernel.org>; Mon,  1 Aug 2022 08:37:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9891DC19F29
+	for <linux-doc@archiver.kernel.org>; Mon,  1 Aug 2022 09:16:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229689AbiHAIhQ convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 1 Aug 2022 04:37:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48734 "EHLO
+        id S230374AbiHAJQK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 1 Aug 2022 05:16:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42682 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229978AbiHAIhP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 Aug 2022 04:37:15 -0400
-Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.85.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 283942ED4F
-        for <linux-doc@vger.kernel.org>; Mon,  1 Aug 2022 01:37:13 -0700 (PDT)
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- uk-mta-60-CksiPPRtPA6w1mXQckakNQ-1; Mon, 01 Aug 2022 09:37:09 +0100
-X-MC-Unique: CksiPPRtPA6w1mXQckakNQ-1
-Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
- AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
- Server (TLS) id 15.0.1497.36; Mon, 1 Aug 2022 09:37:04 +0100
-Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
- AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
- 15.00.1497.036; Mon, 1 Aug 2022 09:37:04 +0100
-From:   David Laight <David.Laight@ACULAB.COM>
-To:     'Stephen Hemminger' <stephen@networkplumber.org>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>
-CC:     Jonathan Corbet <corbet@lwn.net>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        "Paolo Abeni" <pabeni@redhat.com>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>,
-        "Pablo Neira Ayuso" <pablo@netfilter.org>,
-        Jozsef Kadlecsik <kadlec@netfilter.org>,
-        "Florian Westphal" <fw@strlen.de>, Borislav Petkov <bp@suse.de>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        "Randy Dunlap" <rdunlap@infradead.org>,
-        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-        Xin Long <lucien.xin@gmail.com>,
-        "Akhmat Karakotov" <hmukos@yandex-team.ru>,
-        Antoine Tenart <atenart@kernel.org>,
-        "Hans de Goede" <hdegoede@redhat.com>,
-        Juergen Gross <jgross@suse.com>, Jens Axboe <axboe@kernel.dk>,
-        Xie Yongji <xieyongji@bytedance.com>,
-        Chen Yu <yu.c.chen@intel.com>,
-        William Breathitt Gray <vilhelm.gray@gmail.com>,
-        "Suma Hegde" <suma.hegde@amd.com>,
-        =?iso-8859-1?Q?Pali_Roh=E1r?= <pali@kernel.org>,
-        Jeff Layton <jlayton@kernel.org>,
-        Chuck Lever <chuck.lever@oracle.com>,
-        "Arnd Bergmann" <arnd@arndb.de>,
-        Alexandre Ghiti <alexandre.ghiti@canonical.com>,
-        Scott Wood <oss@buserror.net>,
-        Paul Gortmaker <paul.gortmaker@windriver.com>,
-        Nikolay Aleksandrov <razor@blackwall.org>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Menglong Dong <imagedong@tencent.com>,
-        Petr Machata <petrm@nvidia.com>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        David Ahern <dsahern@kernel.org>,
-        Roopa Prabhu <roopa@nvidia.com>,
-        Yajun Deng <yajun.deng@linux.dev>,
-        Yuwei Wang <wangyuweihx@gmail.com>,
-        Shakeel Butt <shakeelb@google.com>,
-        Soheil Hassas Yeganeh <soheil@google.com>,
-        "Kuniyuki Iwashima" <kuniyu@amazon.com>,
-        Marc Kleine-Budde <mkl@pengutronix.de>,
-        "Stefano Garzarella" <sgarzare@redhat.com>,
-        Alexei Starovoitov <ast@kernel.org>,
-        "Wang Qing" <wangqing@vivo.com>, Yu Zhe <yuzhe@nfschina.com>,
-        Benjamin Poirier <bpoirier@nvidia.com>,
-        Victor Erminpour <victor.erminpour@oracle.com>,
-        "GONG, Ruiqi" <gongruiqi1@huawei.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "open list:MIPS" <linux-mips@vger.kernel.org>,
-        "open list:LINUX FOR POWERPC (32-BIT AND 64-BIT)" 
-        <linuxppc-dev@lists.ozlabs.org>,
-        "open list:NETFILTER" <netfilter-devel@vger.kernel.org>,
-        "open list:NETFILTER" <coreteam@netfilter.org>
-Subject: RE: [RFC] Remove DECNET support from kernel
-Thread-Topic: [RFC] Remove DECNET support from kernel
-Thread-Index: AQHYpREB8DXx1AZd/0ac5Son0/agPK2ZuBOg
-Date:   Mon, 1 Aug 2022 08:37:03 +0000
-Message-ID: <c43f221d8e824cd2bf9746596423befc@AcuMS.aculab.com>
-References: <20220731190646.97039-1-stephen@networkplumber.org>
-In-Reply-To: <20220731190646.97039-1-stephen@networkplumber.org>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+        with ESMTP id S230356AbiHAJQJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 Aug 2022 05:16:09 -0400
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB3221928B;
+        Mon,  1 Aug 2022 02:16:07 -0700 (PDT)
+Received: by mail-wr1-x434.google.com with SMTP id k8so11167782wrd.5;
+        Mon, 01 Aug 2022 02:16:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:sender:from:to:cc;
+        bh=Tja2EFPyR9iUy4sMrbNy5to4k8GjJT+Iqt2a+ErBpQA=;
+        b=RNjdWdTQnqA+kebxOhQ5HcdRkjHgz+MNIIvVy8F8eoO5eqhXky9IrC+7nP1kJuHcs6
+         1YweMHre0ez39ofM4CRIH/R5EyND3ZEecr0sWh/3zleGtFaAG0/srG8zjcI+q4paSIbS
+         OzrP6/x8OXFcxy69dDiMoEa5vHPZDmDAJkZMepyhdZFNM0Ab6kQoxIcbZx+MpcVRNIwm
+         OwISfMLblyJbhC36kOWBsGkFhrcVyT04xUEMfZLgtZDici/hL6qMhV+kPAJfT8Vd2c9+
+         sSFwxXhsmRFm7AEDFDheSHEBEYtiAl90IQlMpxiN3jldTY2PNO4HwkPEVUCuQTOWEVQr
+         B2NA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:sender:x-gm-message-state:from:to:cc;
+        bh=Tja2EFPyR9iUy4sMrbNy5to4k8GjJT+Iqt2a+ErBpQA=;
+        b=fVyYYGEedq9BrJOIjxMdfU08FJaiA/qP5jgYY34h1ipih+BW/h4Qx1sGJ0QZ5DQT/p
+         6h3l4v9G3kK1Xfo1qlTniVhOfzH9H1PnO2GajtyBitLlUZ9FkkQ3VNHxERlR715Nsnw3
+         gGJSrm6rXmODip0DLnQwDMr4tIqZmoMczugmM1rXOsXxLHcb/0DMUEwhhM2p+kyD8P1T
+         v55wwiVdR4YWbbS2yXrawcEquML7Nm9uHrXpMpAFKn1/q9tx11emNy99NcFexXhBeMka
+         e8pocBk29ipxaVKTnkmNY5kKb70p3Xkq7kdhKGV7IiVNvKKpymr5qLu1vdharBhqIT27
+         T59g==
+X-Gm-Message-State: ACgBeo393Y68/cBrxkr6P7vuWweWfSJN7IAo7NKmy/VvDybgjFxWocRI
+        i6ICEYm8GklUxHE6T4KY4ew=
+X-Google-Smtp-Source: AA6agR5jObBw61r1YAVTh8d/hD+OVUCxxp2UOweoA/p2sxcm1ChkdM6elCJIxvT5KlVuLtdb6qB5LA==
+X-Received: by 2002:a5d:6b12:0:b0:21f:1568:c7e1 with SMTP id v18-20020a5d6b12000000b0021f1568c7e1mr8145250wrw.532.1659345366272;
+        Mon, 01 Aug 2022 02:16:06 -0700 (PDT)
+Received: from eldamar (c-82-192-242-114.customer.ggaweb.ch. [82.192.242.114])
+        by smtp.gmail.com with ESMTPSA id bh16-20020a05600c3d1000b003a326ba4e99sm14500266wmb.34.2022.08.01.02.16.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 01 Aug 2022 02:16:05 -0700 (PDT)
+Sender: Salvatore Bonaccorso <salvatore.bonaccorso@gmail.com>
+From:   Salvatore Bonaccorso <carnil@debian.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     Peter Zijlstra <peterz@infradead.org>,
+        Borislav Petkov <bp@suse.de>,
+        Alexandre Chartre <alexandre.chartre@oracle.com>,
+        Kim Phillips <kim.phillips@amd.com>,
+        Josh Poimboeuf <jpoimboe@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        Salvatore Bonaccorso <carnil@debian.org>
+Subject: [RESEND PATCH] Documentation: ABI: Mention retbleed vulnerability info file for sysfs
+Date:   Mon,  1 Aug 2022 11:15:30 +0200
+Message-Id: <20220801091529.325327-1-carnil@debian.org>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
-        auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Stephen Hemminger
-> Sent: 31 July 2022 20:06
-> To: netdev@vger.kernel.org
-> 
-> Decnet is an obsolete network protocol that receives more attention
-> from kernel janitors than users. It belongs in computer protocol
-> history museum not in Linux kernel.
-> 
-> It has been Orphaned in kernel since 2010.
-> And the documentation link on Sourceforge says it is abandoned there.
+While reporting for the AMD retbleed vulnerability was added in
+6b80b59b3555 ("x86/bugs: Report AMD retbleed vulnerability") the new
+sysfs file was not mentioned so far in the ABI documentation for
+sysfs-devices-system-cpu.
 
-It was pretty much obsolete when I was writing ethernet drivers
-in the early 1990's.
-Sort of surprising support ever got into Linux in the first place!
+Fixes: 6b80b59b3555 ("x86/bugs: Report AMD retbleed vulnerability")
+Signed-off-by: Salvatore Bonaccorso <carnil@debian.org>
+---
+ Documentation/ABI/testing/sysfs-devices-system-cpu | 1 +
+ 1 file changed, 1 insertion(+)
 
-Remember it requires the ethernet MAC address be set to a
-locally assigned value that is the machine's 'node number'.
-
-Does this remove some/most/all of the [gs]et_sockopt() calls
-where the length is ignored/
-
-	David
-
--
-Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
-Registration No: 1397386 (Wales)
+diff --git a/Documentation/ABI/testing/sysfs-devices-system-cpu b/Documentation/ABI/testing/sysfs-devices-system-cpu
+index bcc974d276dc..3cda940108f6 100644
+--- a/Documentation/ABI/testing/sysfs-devices-system-cpu
++++ b/Documentation/ABI/testing/sysfs-devices-system-cpu
+@@ -527,6 +527,7 @@ What:		/sys/devices/system/cpu/vulnerabilities
+ 		/sys/devices/system/cpu/vulnerabilities/tsx_async_abort
+ 		/sys/devices/system/cpu/vulnerabilities/itlb_multihit
+ 		/sys/devices/system/cpu/vulnerabilities/mmio_stale_data
++		/sys/devices/system/cpu/vulnerabilities/retbleed
+ Date:		January 2018
+ Contact:	Linux kernel mailing list <linux-kernel@vger.kernel.org>
+ Description:	Information about CPU vulnerabilities
+-- 
+2.36.1
 
