@@ -2,37 +2,37 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 456C4C19F29
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D83A5C2BB43
 	for <linux-doc@archiver.kernel.org>; Mon,  1 Aug 2022 21:14:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235099AbiHAVOD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 1 Aug 2022 17:14:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41060 "EHLO
+        id S235104AbiHAVOF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 1 Aug 2022 17:14:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41100 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232288AbiHAVOB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 Aug 2022 17:14:01 -0400
+        with ESMTP id S235059AbiHAVOC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 Aug 2022 17:14:02 -0400
 Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com [199.106.114.38])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3734417E09;
-        Mon,  1 Aug 2022 14:14:00 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C03639BA0;
+        Mon,  1 Aug 2022 14:14:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
-  t=1659388440; x=1690924440;
+  t=1659388441; x=1690924441;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=wckTDe8qexURvwCtE2aZc4qm1X8M+6zM/y6Z0jnbyIo=;
-  b=KFlAlfllooZ5fD+YLt95YXbLEMajZLw8JAn6RdHR5sv0lRngWeMZz0fx
-   /jCRObeNY6lBmuUW7XkHbkBwVKkewwz6QgKzmtRIaMtVm4cbluwL8yPFV
-   L0ZknvNadzHhq28mMXyho+Bvbb7fHyaV65Lyt23cGHq875kKSeBQh1i81
-   o=;
-Received: from unknown (HELO ironmsg03-sd.qualcomm.com) ([10.53.140.143])
-  by alexa-out-sd-01.qualcomm.com with ESMTP; 01 Aug 2022 14:13:59 -0700
+  bh=yzAyPrU/qCIlo6Cf2CdARPBaTkg8+aYwmjRonAsM36o=;
+  b=aD5ruyvfjuJ+9FFS5GQRHn+It4/gdAvP7OL8ybcouD3etPzpl1aPF9zB
+   WJsXttkMswxmmjUBZT89KHFfJexBs69kddbg+Nn2cOIZX46meTACXkW7t
+   9OdcCyxnmXKr/GBXDZZhe9Ykfd3ZtxAe7tPMy/3ttvW2m6MWeWjGp5KBZ
+   E=;
+Received: from unknown (HELO ironmsg05-sd.qualcomm.com) ([10.53.140.145])
+  by alexa-out-sd-01.qualcomm.com with ESMTP; 01 Aug 2022 14:14:01 -0700
 X-QCInternal: smtphost
 Received: from nasanex01b.na.qualcomm.com ([10.46.141.250])
-  by ironmsg03-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Aug 2022 14:13:59 -0700
+  by ironmsg05-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Aug 2022 14:14:01 -0700
 Received: from hu-eberman-lv.qualcomm.com (10.49.16.6) by
  nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Mon, 1 Aug 2022 14:13:58 -0700
+ 15.2.986.22; Mon, 1 Aug 2022 14:14:00 -0700
 From:   Elliot Berman <quic_eberman@quicinc.com>
 To:     Bjorn Andersson <bjorn.andersson@linaro.org>
 CC:     Elliot Berman <quic_eberman@quicinc.com>,
@@ -51,9 +51,9 @@ CC:     Elliot Berman <quic_eberman@quicinc.com>,
         Catalin Marinas <catalin.marinas@arm.com>,
         <devicetree@vger.kernel.org>, <linux-doc@vger.kernel.org>,
         <linux-arm-msm@vger.kernel.org>
-Subject: [PATCH v2 06/11] virt: gunyah: Add capabilities bus and devices
-Date:   Mon, 1 Aug 2022 14:12:35 -0700
-Message-ID: <20220801211240.597859-7-quic_eberman@quicinc.com>
+Subject: [PATCH v2 09/11] gunyah: rsc_mgr: Add auxiliary devices for console
+Date:   Mon, 1 Aug 2022 14:12:38 -0700
+Message-ID: <20220801211240.597859-10-quic_eberman@quicinc.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220801211240.597859-1-quic_eberman@quicinc.com>
 References: <20220801211240.597859-1-quic_eberman@quicinc.com>
@@ -67,299 +67,135 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Some resources provided by the Gunyah hypervisor are described as
-objects. The objects are identified with a capability ID. For instance,
-Inter-VM communication is performed with doorbells and message queues.
-Each doorbell and message queue endpoint can be described consisely as a
-Linux device.
-
-These resources are discovered either on the devicetree or reported by
-the Resource Manager. Devices on the Gunyah bus are matched with drivers
-according to the type ID reported by resource manager. Most resources
-will be discovered directly from the resource manager, so matching
-directly on type ID seems like sensible design.
-
-Each resource may also optionally have an interrupt associated with it
-and a known partner VM (e.g. which VM is the receiver of a message
-queue).
+Gunyah resource manager exposes a concrete functionalities which
+complicate a single resource manager driver. Use auxiliary bus
+to help split high level functions for the resource manager and keep the
+primary resource manager driver focused on the RPC with RM itself.
+Delegate Resource Manager's console functionality to the auxiliary bus.
 
 Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
 ---
- drivers/virt/gunyah/Makefile         |   2 +-
- drivers/virt/gunyah/device.c         | 108 +++++++++++++++++++++++++++
- drivers/virt/gunyah/gunyah_private.h |  12 +++
- drivers/virt/gunyah/sysfs.c          |  25 ++++++-
- include/linux/gunyah.h               |  45 +++++++++++
- 5 files changed, 189 insertions(+), 3 deletions(-)
- create mode 100644 drivers/virt/gunyah/device.c
- create mode 100644 drivers/virt/gunyah/gunyah_private.h
+ drivers/virt/gunyah/rsc_mgr.c | 61 ++++++++++++++++++++++++++++++++++-
+ 1 file changed, 60 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/virt/gunyah/Makefile b/drivers/virt/gunyah/Makefile
-index 0aa086f9149f..3869fb7371df 100644
---- a/drivers/virt/gunyah/Makefile
-+++ b/drivers/virt/gunyah/Makefile
-@@ -1,4 +1,4 @@
- # SPDX-License-Identifier: GPL-2.0-only
+diff --git a/drivers/virt/gunyah/rsc_mgr.c b/drivers/virt/gunyah/rsc_mgr.c
+index b8268ee02fab..44b22cef7d44 100644
+--- a/drivers/virt/gunyah/rsc_mgr.c
++++ b/drivers/virt/gunyah/rsc_mgr.c
+@@ -91,6 +91,11 @@ struct gh_rm_notif_complete {
+ 	struct work_struct work;
+ };
  
--gunyah-y += sysfs.o
-+gunyah-y += sysfs.o device.o
- obj-$(CONFIG_GUNYAH) += gunyah.o
-\ No newline at end of file
-diff --git a/drivers/virt/gunyah/device.c b/drivers/virt/gunyah/device.c
-new file mode 100644
-index 000000000000..93595f9a65b9
---- /dev/null
-+++ b/drivers/virt/gunyah/device.c
-@@ -0,0 +1,108 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
-+ */
-+
-+#define pr_fmt(fmt) "ghdev: " fmt
-+
-+#include <linux/interrupt.h>
-+#include <linux/gunyah.h>
-+#include <linux/device.h>
-+#include <linux/init.h>
-+#include <linux/slab.h>
-+
-+#include "gunyah_private.h"
-+
-+static int gunyah_match(struct device *dev, struct device_driver *drv)
-+{
-+	struct gunyah_device *ghdev = to_gunyah_device(dev);
-+	struct gunyah_driver *ghdrv = to_gunyah_driver(drv);
-+
-+	return ghdev->type == ghdrv->type;
-+}
-+
-+static int gunyah_probe(struct device *dev)
-+{
-+	struct gunyah_device *ghdev = to_gunyah_device(dev);
-+	struct gunyah_driver *ghdrv = to_gunyah_driver(dev->driver);
-+
-+	return ghdrv->probe ? ghdrv->probe(ghdev) : 0;
-+}
-+
-+static void gunyah_remove(struct device *dev)
-+{
-+	struct gunyah_device *ghdev = to_gunyah_device(dev);
-+	struct gunyah_driver *ghdrv = to_gunyah_driver(dev->driver);
-+
-+	if (ghdrv->remove)
-+		ghdrv->remove(ghdev);
-+}
-+
-+static struct bus_type gunyah_bus = {
-+	.name	= "gunyah",
-+	.match	= gunyah_match,
-+	.probe	= gunyah_probe,
-+	.remove	= gunyah_remove,
++struct gh_rsc_mgr_adev {
++	struct auxiliary_device adev;
++	struct list_head list;
 +};
 +
-+int gunyah_register_driver(struct gunyah_driver *ghdrv)
-+{
-+	ghdrv->driver.bus = &gunyah_bus;
-+	return driver_register(&ghdrv->driver);
-+}
-+
-+void gunyah_unregister_driver(struct gunyah_driver *ghdrv)
-+{
-+	driver_unregister(&ghdrv->driver);
-+}
-+
-+static void gunyah_device_release(struct device *dev)
-+{
-+	struct gunyah_device *ghdev = to_gunyah_device(dev);
-+
-+	kfree(ghdev);
-+}
-+
-+struct gunyah_device *gunyah_device_alloc(struct device *parent, gh_capid_t capid, u8 type)
-+{
-+	struct gunyah_device *ghdev;
-+
-+	ghdev = kzalloc(sizeof(*ghdev), GFP_KERNEL);
-+	if (!ghdev)
-+		return NULL;
-+
-+	ghdev->capid = capid;
-+	ghdev->type = type;
-+	ghdev->irq = IRQ_NOTCONNECTED;
-+	ghdev->dev.parent = parent;
-+	ghdev->dev.release = gunyah_device_release;
-+	ghdev->dev.bus = &gunyah_bus;
-+	device_initialize(&ghdev->dev);
-+	return ghdev;
-+}
-+
-+int gunyah_device_add(struct gunyah_device *ghdev)
-+{
-+	int ret;
-+
-+	ret = dev_set_name(&ghdev->dev, "%u.%08llx", ghdev->type, ghdev->capid);
-+	if (ret)
-+		return ret;
-+
-+	return device_add(&ghdev->dev);
-+}
-+
-+void gunyah_device_remove(struct gunyah_device *ghdev)
-+{
-+	device_unregister(&ghdev->dev);
-+}
-+
-+int __init gunyah_bus_init(void)
-+{
-+	return bus_register(&gunyah_bus);
-+}
-+
-+void gunyah_bus_exit(void)
-+{
-+	bus_unregister(&gunyah_bus);
-+}
-diff --git a/drivers/virt/gunyah/gunyah_private.h b/drivers/virt/gunyah/gunyah_private.h
-new file mode 100644
-index 000000000000..5f3832608020
---- /dev/null
-+++ b/drivers/virt/gunyah/gunyah_private.h
-@@ -0,0 +1,12 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+/*
-+ * Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
-+ */
-+
-+#ifndef _GUNYAH_PRIVATE_H
-+#define _GUNYAH_PRIVATE_H
-+
-+int __init gunyah_bus_init(void);
-+void gunyah_bus_exit(void);
-+
-+#endif
-diff --git a/drivers/virt/gunyah/sysfs.c b/drivers/virt/gunyah/sysfs.c
-index 253433a939cf..220560cb3b1c 100644
---- a/drivers/virt/gunyah/sysfs.c
-+++ b/drivers/virt/gunyah/sysfs.c
-@@ -12,6 +12,8 @@
- #include <linux/init.h>
- #include <linux/of.h>
+ struct gh_rsc_mgr {
+ 	struct task_struct *recv_task;
+ 	struct gunyah_device *msgq_tx, *msgq_rx;
+@@ -99,6 +104,13 @@ struct gh_rsc_mgr {
+ 	struct mutex call_idr_lock;
  
-+#include "gunyah_private.h"
+ 	struct mutex send_lock;
 +
- #define QC_HYP_UID0 0x19bd54bd
- #define QC_HYP_UID1 0x0b37571b
- #define QC_HYP_UID2 0x946f609b
-@@ -67,7 +69,13 @@ static struct kobj_attribute variant_attr = __ATTR_RO(variant);
++	struct list_head adevs;
++};
++
++/* List of auxiliary devices which resource manager creates */
++static const char * const adev_names[] = {
++	"console",
+ };
  
- static ssize_t features_show(struct kobject *kobj, struct kobj_attribute *attr, char *buffer)
- {
--	return sysfs_emit(buffer, "\n");
-+	int len = 0;
-+
-+	if (GH_IDENTIFY_PARTITION_CSPACE(gunyah_api.flags))
-+		len += sysfs_emit_at(buffer, len, "cspace ");
-+
-+	len += sysfs_emit_at(buffer, len, "\n");
-+	return len;
+ static struct gh_rsc_mgr *__rsc_mgr;
+@@ -516,6 +528,14 @@ int gh_rm_unregister_notifier(struct notifier_block *nb)
  }
- static struct kobj_attribute features_attr = __ATTR_RO(features);
+ EXPORT_SYMBOL_GPL(gh_rm_unregister_notifier);
  
-@@ -105,6 +113,7 @@ static void gh_sysfs_unregister(void)
- 
- static int __init gunyah_init(void)
- {
-+	int ret;
- 	unsigned long uid[4];
- 
- 	arch_gh_hypercall(GH_HYPERCALL_CALL_UID, 0, uid[0], uid[1], uid[2], uid[3]);
-@@ -125,12 +134,24 @@ static int __init gunyah_init(void)
- 		  GH_API_INFO_API_VERSION(gunyah_api.api_info),
- 		  GH_API_INFO_VARIANT(gunyah_api.api_info));
- 
--	return gh_sysfs_register();
-+	ret = gh_sysfs_register();
-+	if (ret)
-+		return ret;
++static void gh_rm_adev_release(struct device *dev)
++{
++	struct gh_rsc_mgr_adev *rm_adev = container_of(dev, struct gh_rsc_mgr_adev, adev.dev);
 +
-+	ret = gunyah_bus_init();
-+	if (ret)
-+		goto err_sysfs;
++	list_del(&rm_adev->list);
++	kfree(rm_adev);
++}
 +
-+	return ret;
-+err_sysfs:
-+	gh_sysfs_unregister();
-+	return ret;
- }
- module_init(gunyah_init);
- 
- static void __exit gunyah_exit(void)
+ static struct gunyah_device *gh_msgq_platform_probe_direction(struct platform_device *pdev,
+ 				u8 gh_type, int idx)
  {
-+	gunyah_bus_exit();
- 	gh_sysfs_unregister();
- }
- module_exit(gunyah_exit);
-diff --git a/include/linux/gunyah.h b/include/linux/gunyah.h
-index 69931a0f5736..ce35f4491773 100644
---- a/include/linux/gunyah.h
-+++ b/include/linux/gunyah.h
-@@ -6,6 +6,7 @@
- #ifndef _GUNYAH_H
- #define _GUNYAH_H
+@@ -550,7 +570,9 @@ static struct gunyah_device *gh_msgq_platform_probe_direction(struct platform_de
+ static int gh_rm_drv_probe(struct platform_device *pdev)
+ {
+ 	struct gh_rsc_mgr *rsc_mgr;
+-	int ret;
++	struct gh_rsc_mgr_adev *rm_adev;
++	struct list_head *l, *n;
++	int ret, i;
  
-+#include <linux/device.h>
- #include <linux/types.h>
- #include <linux/errno.h>
- #include <asm/gunyah.h>
-@@ -72,4 +73,48 @@ static inline int gh_remap_error(int gh_error)
+ 	rsc_mgr = devm_kzalloc(&pdev->dev, sizeof(*rsc_mgr), GFP_KERNEL);
+ 	if (!rsc_mgr)
+@@ -560,6 +582,7 @@ static int gh_rm_drv_probe(struct platform_device *pdev)
+ 	mutex_init(&rsc_mgr->call_idr_lock);
+ 	idr_init(&rsc_mgr->call_idr);
+ 	mutex_init(&rsc_mgr->send_lock);
++	INIT_LIST_HEAD(&rsc_mgr->adevs);
+ 
+ 	rsc_mgr->msgq_tx = gh_msgq_platform_probe_direction(pdev, GUNYAH_DEVICE_TYPE_MSGQ_TX, 0);
+ 	if (IS_ERR(rsc_mgr->msgq_tx))
+@@ -576,10 +599,38 @@ static int gh_rm_drv_probe(struct platform_device *pdev)
+ 		goto err_msgq;
  	}
- }
  
-+/* Follows resource manager's resource types for VM_GET_HYP_RESOURCES */
-+#define GUNYAH_DEVICE_TYPE_BELL_TX	0
-+#define GUNYAH_DEVICE_TYPE_BELL_RX	1
-+#define GUNYAH_DEVICE_TYPE_MSGQ_TX	2
-+#define GUNYAH_DEVICE_TYPE_MSGQ_RX	3
-+#define GUNYAH_DEVICE_TYPE_VCPU		4
++	for (i = 0; i < ARRAY_SIZE(adev_names); i++) {
++		rm_adev = kzalloc(sizeof(*rm_adev), GFP_KERNEL);
 +
-+struct gunyah_device {
-+	u8 type;
-+	gh_capid_t capid;
-+	int irq;
++		rm_adev->adev.dev.parent = &pdev->dev;
++		rm_adev->adev.dev.release = gh_rm_adev_release;
++		rm_adev->adev.name = adev_names[i];
++		ret = auxiliary_device_init(&rm_adev->adev);
++		if (ret) {
++			kfree(rm_adev);
++			goto err_adevs;
++		}
 +
-+	struct device dev;
-+};
++		list_add(&rm_adev->list, &rsc_mgr->adevs);
 +
-+#define to_gunyah_device(dev) container_of(dev, struct gunyah_device, dev)
++		ret = auxiliary_device_add(&rm_adev->adev);
++		if (ret) {
++			auxiliary_device_uninit(&rm_adev->adev);
++			goto err_adevs;
++		}
++	}
 +
-+static inline void *ghdev_get_drvdata(const struct gunyah_device *ghdev)
-+{
-+	return dev_get_drvdata(&ghdev->dev);
-+}
+ 	__rsc_mgr = rsc_mgr;
+ 
+ 	return 0;
+ 
++err_adevs:
++	list_for_each_safe(l, n, &rsc_mgr->adevs) {
++		rm_adev = container_of(l, struct gh_rsc_mgr_adev, list);
++		auxiliary_device_delete(&rm_adev->adev);
++		auxiliary_device_uninit(&rm_adev->adev);
++	}
 +
-+static inline void ghdev_set_drvdata(struct gunyah_device *ghdev, void *data)
-+{
-+	dev_set_drvdata(&ghdev->dev, data);
-+}
+ err_msgq:
+ 	gunyah_device_remove(rsc_mgr->msgq_rx);
+ err_msgq_tx:
+@@ -590,6 +641,14 @@ static int gh_rm_drv_probe(struct platform_device *pdev)
+ static int gh_rm_drv_remove(struct platform_device *pdev)
+ {
+ 	struct gh_rsc_mgr *rsc_mgr = platform_get_drvdata(pdev);
++	struct gh_rsc_mgr_adev *rm_adev;
++	struct list_head *l, *n;
 +
-+struct gunyah_device *gunyah_device_alloc(struct device *parent, gh_capid_t capid, u8 type);
-+
-+int gunyah_device_add(struct gunyah_device *ghdev);
-+void gunyah_device_remove(struct gunyah_device *ghdev);
-+
-+struct gunyah_driver {
-+	struct device_driver driver;
-+	u8 type;
-+	int (*probe)(struct gunyah_device *ghdev);
-+	int (*remove)(struct gunyah_device *ghdev);
-+};
-+
-+#define to_gunyah_driver(drv) container_of(drv, struct gunyah_driver, driver)
-+
-+int gunyah_register_driver(struct gunyah_driver *ghdrv);
-+void gunyah_unregister_driver(struct gunyah_driver *ghdrv);
-+
- #endif
++	list_for_each_safe(l, n, &rsc_mgr->adevs) {
++		rm_adev = container_of(l, struct gh_rsc_mgr_adev, list);
++		auxiliary_device_delete(&rm_adev->adev);
++		auxiliary_device_uninit(&rm_adev->adev);
++	}
+ 
+ 	gunyah_device_remove(rsc_mgr->msgq_tx);
+ 	gunyah_device_remove(rsc_mgr->msgq_rx);
 -- 
 2.25.1
 
