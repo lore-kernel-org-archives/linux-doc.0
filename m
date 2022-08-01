@@ -2,125 +2,112 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A732C19F2A
-	for <linux-doc@archiver.kernel.org>; Mon,  1 Aug 2022 02:20:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E850FC00140
+	for <linux-doc@archiver.kernel.org>; Mon,  1 Aug 2022 02:52:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238434AbiHACUp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 31 Jul 2022 22:20:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41052 "EHLO
+        id S238784AbiHACwT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 31 Jul 2022 22:52:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35644 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238437AbiHACUm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 31 Jul 2022 22:20:42 -0400
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B1F912ABB;
-        Sun, 31 Jul 2022 19:20:38 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id 038D8CE0F0E;
-        Mon,  1 Aug 2022 02:20:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6678CC433D6;
-        Mon,  1 Aug 2022 02:20:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1659320435;
-        bh=8+H9rIFxtVXMLizyjzjdfAN5H4rrg+kZwIAaizE2yzQ=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=qbHrryCgLDT40La7RvFNZvpswRq37MotxkwMrnSgvThg10C5P0Wuvbhb+kgAW2IV/
-         7l9AinfPyV+s0mp74V/lgRfNNWtXpVcoBhJZq6nNU0+Y+uztq9mnx8qZUNJtGfOmBy
-         z9E4MQQrlRBjePrgwRm5wkSRkYp1eh67rIz1eWdsjiCrWjEg7KPlp9UuuRYFvVdF4H
-         AG5ozENZQdt/UaSewznbAtfMQ42eqJ8Aijum4zvDsoNX31z1VJqC3WWFB8VpixZRdN
-         eZ7vzT+qAn+vAnbV2YEMFy6M4I4SzFXOjvGZzYicWbyrhI6mijE08eH8oBJNpMbil5
-         HrwTfHKih8DWg==
-Message-ID: <65fb5e26-2000-ffa5-5a3b-21db87da9e3b@kernel.org>
-Date:   Sun, 31 Jul 2022 20:20:31 -0600
+        with ESMTP id S233331AbiHACwS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 31 Jul 2022 22:52:18 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74C9AAE7B;
+        Sun, 31 Jul 2022 19:52:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
+        Content-Description:In-Reply-To:References;
+        bh=s8ez/7VBHWxgBY5IeBuqe1BKoB7CELG95CXU6zGOg1o=; b=jWAn3xKJGIL6pGz3sLsDFipQK2
+        hW2UVrS44R9I+JxXFYC05STHuAuTfUe1M9v0PXF0dqLgpDksiFU/4IdEZCph11K4/m2kV4r2o1MGB
+        pm4HEcZczeXYMEt2Fj+ThLloem4rSL/LKIkTQS04MBu6+wz3pCBu9zlv1ya/igZ1q5jdoQCiSsc/4
+        Wu7wjkRpeNgELPsCEPtftpj1FI1mJkc/evaTkdO+EoUMzBerNpDMZz9RD9FP5ubncpqRzZmJzPnrl
+        9L02k/rn0nDIacuhsYBOfPZ/TqZHH9B3UoKQOKPMVOVeEV0I6obXJMVDRF0LarRpNE5VOU7+uu4d5
+        iNjmGS3g==;
+Received: from [2601:1c0:6280:3f0::a6b3] (helo=casper.infradead.org)
+        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1oILXQ-006ltP-68; Mon, 01 Aug 2022 02:52:13 +0000
+From:   Randy Dunlap <rdunlap@infradead.org>
+To:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: [PATCH] Documentation/ABI: correct possessive "its" typos
+Date:   Sun, 31 Jul 2022 19:52:07 -0700
+Message-Id: <20220801025207.29971-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.37.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.11.0
-Subject: Re: [RFC] Remove DECNET support from kernel
-Content-Language: en-US
-To:     Stephen Hemminger <stephen@networkplumber.org>,
-        netdev@vger.kernel.org
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>,
-        Pablo Neira Ayuso <pablo@netfilter.org>,
-        Jozsef Kadlecsik <kadlec@netfilter.org>,
-        Florian Westphal <fw@strlen.de>, Borislav Petkov <bp@suse.de>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-        Xin Long <lucien.xin@gmail.com>,
-        Akhmat Karakotov <hmukos@yandex-team.ru>,
-        Antoine Tenart <atenart@kernel.org>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Juergen Gross <jgross@suse.com>, Jens Axboe <axboe@kernel.dk>,
-        Xie Yongji <xieyongji@bytedance.com>,
-        Chen Yu <yu.c.chen@intel.com>,
-        William Breathitt Gray <vilhelm.gray@gmail.com>,
-        Suma Hegde <suma.hegde@amd.com>,
-        =?UTF-8?Q?Pali_Roh=c3=a1r?= <pali@kernel.org>,
-        Jeff Layton <jlayton@kernel.org>,
-        Chuck Lever <chuck.lever@oracle.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Alexandre Ghiti <alexandre.ghiti@canonical.com>,
-        Scott Wood <oss@buserror.net>,
-        Paul Gortmaker <paul.gortmaker@windriver.com>,
-        Nikolay Aleksandrov <razor@blackwall.org>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Menglong Dong <imagedong@tencent.com>,
-        Petr Machata <petrm@nvidia.com>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Roopa Prabhu <roopa@nvidia.com>,
-        Yajun Deng <yajun.deng@linux.dev>,
-        Yuwei Wang <wangyuweihx@gmail.com>,
-        Shakeel Butt <shakeelb@google.com>,
-        Soheil Hassas Yeganeh <soheil@google.com>,
-        Kuniyuki Iwashima <kuniyu@amazon.com>,
-        Marc Kleine-Budde <mkl@pengutronix.de>,
-        Stefano Garzarella <sgarzare@redhat.com>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Wang Qing <wangqing@vivo.com>, Yu Zhe <yuzhe@nfschina.com>,
-        Benjamin Poirier <bpoirier@nvidia.com>,
-        Victor Erminpour <victor.erminpour@oracle.com>,
-        "GONG, Ruiqi" <gongruiqi1@huawei.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "open list:MIPS" <linux-mips@vger.kernel.org>,
-        "open list:LINUX FOR POWERPC (32-BIT AND 64-BIT)" 
-        <linuxppc-dev@lists.ozlabs.org>,
-        "open list:NETFILTER" <netfilter-devel@vger.kernel.org>,
-        "open list:NETFILTER" <coreteam@netfilter.org>
-References: <20220731190646.97039-1-stephen@networkplumber.org>
-From:   David Ahern <dsahern@kernel.org>
-In-Reply-To: <20220731190646.97039-1-stephen@networkplumber.org>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 7/31/22 1:06 PM, Stephen Hemminger wrote:
-> Decnet is an obsolete network protocol that receives more attention
-> from kernel janitors than users. It belongs in computer protocol
-> history museum not in Linux kernel.
-> 
-> It has been Orphaned in kernel since 2010.
-> And the documentation link on Sourceforge says it is abandoned there.
-> 
-> Leave the UAPI alone to keep userspace programs compiling.
-> 
-> Signed-off-by: Stephen Hemminger <stephen@networkplumber.org>
-> ---
+Correct all uses of "it's" that are meant to be possessive "its".
 
-Acked-by: David Ahern <dsahern@kernel.org>
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ Documentation/ABI/testing/sysfs-bus-bcma           |    2 +-
+ Documentation/ABI/testing/sysfs-bus-fcoe           |    2 +-
+ Documentation/ABI/testing/sysfs-bus-iio-proximity  |    2 +-
+ Documentation/ABI/testing/sysfs-devices-system-cpu |    2 +-
+ Documentation/ABI/testing/sysfs-power              |    2 +-
+ 5 files changed, 5 insertions(+), 5 deletions(-)
 
-
+--- a/Documentation/ABI/testing/sysfs-devices-system-cpu
++++ b/Documentation/ABI/testing/sysfs-devices-system-cpu
+@@ -296,7 +296,7 @@ Description:	Processor frequency boostin
+ 
+ 		This switch controls the boost setting for the whole system.
+ 		Boosting allows the CPU and the firmware to run at a frequency
+-		beyond it's nominal limit.
++		beyond its nominal limit.
+ 
+ 		More details can be found in
+ 		Documentation/admin-guide/pm/cpufreq.rst
+--- a/Documentation/ABI/testing/sysfs-bus-fcoe
++++ b/Documentation/ABI/testing/sysfs-bus-fcoe
+@@ -31,7 +31,7 @@ Description:	'FCoE Controller' instances
+ 		1) Write interface name to ctlr_create 2) Configure the FCoE
+ 		Controller (ctlr_X) 3) Enable the FCoE Controller to begin
+ 		discovery and login. The FCoE Controller is destroyed by
+-		writing it's name, i.e. ctlr_X to the ctlr_delete file.
++		writing its name, i.e. ctlr_X to the ctlr_delete file.
+ 
+ Attributes:
+ 
+--- a/Documentation/ABI/testing/sysfs-bus-bcma
++++ b/Documentation/ABI/testing/sysfs-bus-bcma
+@@ -3,7 +3,7 @@ Date:		May 2011
+ KernelVersion:	3.0
+ Contact:	Rafał Miłecki <zajec5@gmail.com>
+ Description:
+-		Each BCMA core has it's manufacturer id. See
++		Each BCMA core has its manufacturer id. See
+ 		include/linux/bcma/bcma.h for possible values.
+ 
+ What:		/sys/bus/bcma/devices/.../id
+--- a/Documentation/ABI/testing/sysfs-bus-iio-proximity
++++ b/Documentation/ABI/testing/sysfs-bus-iio-proximity
+@@ -18,7 +18,7 @@ Description:
+ 		on the signal from which time of flight measurements are
+ 		taken.
+ 		The appropriate values to take is dependent on both the
+-		sensor and it's operating environment:
++		sensor and its operating environment:
+ 		* as3935 (0-31 range)
+ 		18 = indoors (default)
+ 		14 = outdoors
+--- a/Documentation/ABI/testing/sysfs-power
++++ b/Documentation/ABI/testing/sysfs-power
+@@ -152,7 +152,7 @@ Description:
+ 		case further investigation is required to determine which
+ 		device is causing the problem.  Note that genuine RTC clock
+ 		values (such as when pm_trace has not been used), can still
+-		match a device and output it's name here.
++		match a device and output its name here.
+ 
+ What:		/sys/power/pm_async
+ Date:		January 2009
