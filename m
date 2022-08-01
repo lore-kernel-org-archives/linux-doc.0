@@ -2,106 +2,90 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8CB70C00144
-	for <linux-doc@archiver.kernel.org>; Mon,  1 Aug 2022 11:38:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E3AFC19F2C
+	for <linux-doc@archiver.kernel.org>; Mon,  1 Aug 2022 14:40:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230192AbiHALiv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 1 Aug 2022 07:38:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53246 "EHLO
+        id S232700AbiHAOkj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 1 Aug 2022 10:40:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52892 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229903AbiHALiv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 Aug 2022 07:38:51 -0400
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06AED31928;
-        Mon,  1 Aug 2022 04:38:50 -0700 (PDT)
-Received: from dggpemm500024.china.huawei.com (unknown [172.30.72.53])
-        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4LxGKM6tWSzlW4H;
-        Mon,  1 Aug 2022 19:36:07 +0800 (CST)
-Received: from dggpemm500018.china.huawei.com (7.185.36.111) by
- dggpemm500024.china.huawei.com (7.185.36.203) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Mon, 1 Aug 2022 19:38:48 +0800
-Received: from huawei.com (10.174.176.191) by dggpemm500018.china.huawei.com
- (7.185.36.111) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Mon, 1 Aug
- 2022 19:38:47 +0800
-From:   l00581214 <liutie4@huawei.com>
-To:     <jstultz@google.com>, <tglx@linutronix.de>, <sboyd@kernel.org>
-CC:     <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <hewenliang4@huawei.com>, <linfeilong@huawei.com>
-Subject: [PATCH] clocksource: Resolve some coding specification issues about spaces
-Date:   Mon, 1 Aug 2022 19:38:44 +0800
-Message-ID: <20220801113844.982-1-liutie4@huawei.com>
-X-Mailer: git-send-email 2.28.0.windows.1
+        with ESMTP id S230109AbiHAOkg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 Aug 2022 10:40:36 -0400
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A726537185;
+        Mon,  1 Aug 2022 07:40:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1659364835; x=1690900835;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=fpTxLnSKdCefwrmog3N//MC/2iEi6i+ELgFRyAQC2bY=;
+  b=CcKfsnBbDxrQw/JPAV5/oLhwLCN3+yfeVnWxi1kZq4TyBdMYfjyvus6W
+   L4PFME/aKttHbdrMFNCo4+VaUWnUtJhv6+i8nHOkOQpgaXdoutTJNT6xi
+   5IE0SPCW9EQ61H3apE+zrNNT7KSKKAEZBvNU4q6eIsB3XWXzntIu5zGWP
+   h9aYJXdjtzC2Daey1dUZk54fFjqpUF5HxAZOYPvKSATHdU3UlmqNBV/9k
+   T/az2tNUI3hvwUVa3oGVy7/IcfnbtxEzBWD/JA5oM8brPY4Q5pkCfqJ4C
+   7VnIMCeIeOjw0O4jGacgPg8B9iVJmNpw6D0ei/kj2SpcvPOL6ojdpR2ey
+   g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10426"; a="276062502"
+X-IronPort-AV: E=Sophos;i="5.93,208,1654585200"; 
+   d="scan'208";a="276062502"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Aug 2022 07:40:35 -0700
+X-IronPort-AV: E=Sophos;i="5.93,208,1654585200"; 
+   d="scan'208";a="744281754"
+Received: from cdthomas-mobl2.amr.corp.intel.com (HELO [10.209.57.155]) ([10.209.57.155])
+  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Aug 2022 07:40:32 -0700
+Message-ID: <dc878e6c-c1d2-c291-00ef-11cff6cb03ec@intel.com>
+Date:   Mon, 1 Aug 2022 07:40:32 -0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.174.176.191]
-X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
- dggpemm500018.china.huawei.com (7.185.36.111)
-X-CFilter-Loop: Reflected
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v7 14/14] memfd_create.2: Describe MFD_INACCESSIBLE flag
+Content-Language: en-US
+To:     Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+        linux-kselftest@vger.kernel.org
+Cc:     Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sean Christopherson <seanjc@google.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        luto@kernel.org, jun.nakajima@intel.com, ak@linux.intel.com,
+        david@redhat.com, aarcange@redhat.com, ddutile@redhat.com,
+        dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+        Muchun Song <songmuchun@bytedance.com>
+References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
+ <20220706082016.2603916-15-chao.p.peng@linux.intel.com>
+From:   Dave Hansen <dave.hansen@intel.com>
+In-Reply-To: <20220706082016.2603916-15-chao.p.peng@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Tie Liu <liutie4@huawei.com>
+This patch does not belong in this series.  It's not a patch to the
+kernel.  This is a kernel series.
 
-When I read the code, I noticed that some spaces were not used in accordance with current encoding specifications, so I tried to modify them.
-
-Signed-off-by: Liu Tie <liutie4@huawei.com>
----
- kernel/time/clocksource.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
-
-diff --git a/kernel/time/clocksource.c b/kernel/time/clocksource.c
-index cee5da1e5..46b738696 100644
---- a/kernel/time/clocksource.c
-+++ b/kernel/time/clocksource.c
-@@ -47,7 +47,7 @@ void
- clocks_calc_mult_shift(u32 *mult, u32 *shift, u32 from, u32 to, u32 maxsec)
- {
- 	u64 tmp;
--	u32 sft, sftacc= 32;
-+	u32 sft, sftacc = 32;
- 
- 	/*
- 	 * Calculate the shift factor which is limiting the conversion
-@@ -55,7 +55,7 @@ clocks_calc_mult_shift(u32 *mult, u32 *shift, u32 from, u32 to, u32 maxsec)
- 	 */
- 	tmp = ((u64)maxsec * from) >> 32;
- 	while (tmp) {
--		tmp >>=1;
-+		tmp >>= 1;
- 		sftacc--;
- 	}
- 
-@@ -863,7 +863,7 @@ static u32 clocksource_max_adjustment(struct clocksource *cs)
- 	 * We won't try to correct for more than 11% adjustments (110,000 ppm),
- 	 */
- 	ret = (u64)cs->mult * 11;
--	do_div(ret,100);
-+	do_div(ret, 100);
- 	return (u32)ret;
- }
- 
-@@ -1446,7 +1446,7 @@ device_initcall(init_clocksource_sysfs);
-  * Takes a clocksource= boot argument and uses it
-  * as the clocksource override name.
-  */
--static int __init boot_override_clocksource(char* str)
-+static int __init boot_override_clocksource(char *str)
- {
- 	mutex_lock(&clocksource_mutex);
- 	if (str)
-@@ -1464,7 +1464,7 @@ __setup("clocksource=", boot_override_clocksource);
-  * DEPRECATED! Takes a clock= boot argument and uses it
-  * as the clocksource override name
-  */
--static int __init boot_override_clock(char* str)
-+static int __init boot_override_clock(char *str)
- {
- 	if (!strcmp(str, "pmtmr")) {
- 		pr_warn("clock=pmtmr is deprecated - use clocksource=acpi_pm\n");
--- 
-2.27.0
-
+It would be much more appropriate to put a link to a separately posted
+manpage patch in the cover letter.
