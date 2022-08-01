@@ -2,42 +2,39 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BA6D5C00144
-	for <linux-doc@archiver.kernel.org>; Mon,  1 Aug 2022 21:14:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DFFD6C282E7
+	for <linux-doc@archiver.kernel.org>; Mon,  1 Aug 2022 21:14:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234939AbiHAVOA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 1 Aug 2022 17:14:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41028 "EHLO
+        id S235055AbiHAVOC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 1 Aug 2022 17:14:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41036 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232288AbiHAVOA (ORCPT
+        with ESMTP id S231152AbiHAVOA (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Mon, 1 Aug 2022 17:14:00 -0400
-Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com [199.106.114.38])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B10CF19008;
+Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com [199.106.114.39])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11A0A39BA0;
         Mon,  1 Aug 2022 14:13:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
-  t=1659388438; x=1690924438;
+  t=1659388439; x=1690924439;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=2wwXDsSDy8neRX8+Ed9SYEvVYy0LIc3XuXU/Jlw0R6s=;
-  b=tgr4LxBa118J6DWD8goSlOwTRpVS7oVuyDqsM94xPFcWNdfG5qD0FqAY
-   oHI/vtPTIx3mouoO/QsmQFEp335+G7fVNgoL/CgnsuSwmp/0pIBhUce83
-   eVD9w23amelnaMUNIxre5O/mm8H7zNPG2IugX/Gy6h5s09XgZgTGOepBl
+  bh=J9519SgLqABIUbX23vSTKPiAzykXv5PmWxk67sQPv0w=;
+  b=y7Qm6VPecl0if6lnJhERAp5lmIpxHgdmJX7ZR7qf1ss8k3aTRbGPVoTK
+   kYHuLUbgFl7x8FncFA8XfQloxpStMtqlLphqhOVh1e4CoCCI9NDH4zA7t
+   iZrb+GUPNigJQdeUJK3LuIPBgvYTFlPgR9r0TgKAAgpqPbb8HRr1li4dE
    0=;
-Received: from unknown (HELO ironmsg04-sd.qualcomm.com) ([10.53.140.144])
-  by alexa-out-sd-01.qualcomm.com with ESMTP; 01 Aug 2022 14:13:57 -0700
+Received: from unknown (HELO ironmsg01-sd.qualcomm.com) ([10.53.140.141])
+  by alexa-out-sd-02.qualcomm.com with ESMTP; 01 Aug 2022 14:13:58 -0700
 X-QCInternal: smtphost
 Received: from nasanex01b.na.qualcomm.com ([10.46.141.250])
-  by ironmsg04-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Aug 2022 14:13:57 -0700
+  by ironmsg01-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Aug 2022 14:13:58 -0700
 Received: from hu-eberman-lv.qualcomm.com (10.49.16.6) by
  nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Mon, 1 Aug 2022 14:13:56 -0700
+ 15.2.986.22; Mon, 1 Aug 2022 14:13:57 -0700
 From:   Elliot Berman <quic_eberman@quicinc.com>
-To:     Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        "Marc Zyngier" <maz@kernel.org>
+To:     Bjorn Andersson <bjorn.andersson@linaro.org>
 CC:     Elliot Berman <quic_eberman@quicinc.com>,
         Murali Nalajala <quic_mnalajal@quicinc.com>,
         Trilok Soni <quic_tsoni@quicinc.com>,
@@ -45,16 +42,18 @@ CC:     Elliot Berman <quic_eberman@quicinc.com>,
         Carl van Schaik <quic_cvanscha@quicinc.com>,
         Andy Gross <agross@kernel.org>,
         <linux-arm-kernel@lists.infradead.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        "Marc Zyngier" <maz@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+        "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
         Jonathan Corbet <corbet@lwn.net>,
         Will Deacon <will@kernel.org>,
         Catalin Marinas <catalin.marinas@arm.com>,
         <devicetree@vger.kernel.org>, <linux-doc@vger.kernel.org>,
         <linux-arm-msm@vger.kernel.org>
-Subject: [PATCH v2 03/11] arm64: gunyah: Add Gunyah hypercalls ABI
-Date:   Mon, 1 Aug 2022 14:12:32 -0700
-Message-ID: <20220801211240.597859-4-quic_eberman@quicinc.com>
+Subject: [PATCH v2 05/11] virt: gunyah: Add sysfs nodes
+Date:   Mon, 1 Aug 2022 14:12:34 -0700
+Message-ID: <20220801211240.597859-6-quic_eberman@quicinc.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220801211240.597859-1-quic_eberman@quicinc.com>
 References: <20220801211240.597859-1-quic_eberman@quicinc.com>
@@ -68,168 +67,303 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add initial support to perform Gunyah hypercalls. The arm64 ABI for
-Gunyah hypercalls generally follows the SMC Calling Convention.
+Add /sys/hypervisor support when detecting that Linux is running in a
+Gunyah environment. Export the version of Gunyah which is reported via
+the hyp_identify hypercall.
 
 Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
 ---
- MAINTAINERS                     |   1 +
- arch/arm64/include/asm/gunyah.h | 134 ++++++++++++++++++++++++++++++++
- 2 files changed, 135 insertions(+)
- create mode 100644 arch/arm64/include/asm/gunyah.h
+ .../ABI/testing/sysfs-hypervisor-gunyah       |  37 +++++
+ MAINTAINERS                                   |   2 +
+ arch/arm64/include/asm/gunyah.h               |   4 +
+ drivers/virt/Kconfig                          |   1 +
+ drivers/virt/Makefile                         |   1 +
+ drivers/virt/gunyah/Kconfig                   |  13 ++
+ drivers/virt/gunyah/Makefile                  |   4 +
+ drivers/virt/gunyah/sysfs.c                   | 139 ++++++++++++++++++
+ 8 files changed, 201 insertions(+)
+ create mode 100644 Documentation/ABI/testing/sysfs-hypervisor-gunyah
+ create mode 100644 drivers/virt/gunyah/Kconfig
+ create mode 100644 drivers/virt/gunyah/Makefile
+ create mode 100644 drivers/virt/gunyah/sysfs.c
 
+diff --git a/Documentation/ABI/testing/sysfs-hypervisor-gunyah b/Documentation/ABI/testing/sysfs-hypervisor-gunyah
+new file mode 100644
+index 000000000000..41bce1965c91
+--- /dev/null
++++ b/Documentation/ABI/testing/sysfs-hypervisor-gunyah
+@@ -0,0 +1,37 @@
++What:		/sys/hypervisor/type
++Date:		August 2022
++KernelVersion:	5.20
++Contact:	linux-arm-msm@vger.kernel.org
++Description:	If running under Gunyah:
++		Type of hypervisor:
++		"gunyah": Gunyah hypervisor
++
++What:		/sys/hypervisor/features
++Date:		August 2022
++KernelVersion:	5.20
++Contact:	linux-arm-msm@vger.kernel.org
++Description:	If running under Gunyah:
++		Space separated list of features supported by Linux and Gunyah:
++		"cspace": Gunyah devices
++		"doorbell": Sending/receiving virtual interrupts via Gunyah doorbells
++		"message-queue": Sending/receiving messages via Gunyah message queues
++		"vic": Interrupt lending
++		"vpm": Virtual platform management
++		"vcpu": Virtual CPU management
++		"memextent": Memory lending/management
++		"trace": Gunyah hypervisor tracing
++
++
++What:		/sys/hypervisor/version/api
++Date:		August 2022
++KernelVersion:	5.20
++Contact:	linux-arm-msm@vger.kernel.org
++Description:	If running under Gunyah:
++		The Gunyah API version.
++
++What:		/sys/hypervisor/version/variant
++Date:		August 2022
++KernelVersion:	5.20
++Contact:	linux-arm-msm@vger.kernel.org
++Description:	If running under Gunyah:
++		The Gunyah variant (build) version.
+\ No newline at end of file
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 0cd12ea6c11c..02f97ac90cdf 100644
+index 2e4f1d9ed47b..e63c51ee1a2a 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -8743,6 +8743,7 @@ L:	linux-arm-msm@vger.kernel.org
+@@ -8741,9 +8741,11 @@ M:	Elliot Berman <quic_eberman@quicinc.com>
+ M:	Murali Nalajala <quic_mnalajal@quicinc.com>
+ L:	linux-arm-msm@vger.kernel.org
  S:	Maintained
++F:	Documentation/ABI/testing/sysfs-hypervisor-gunyah
  F:	Documentation/devicetree/bindings/firmware/gunyah-hypervisor.yaml
  F:	Documentation/virt/gunyah/
-+F:	arch/arm64/include/asm/gunyah.h
+ F:	arch/arm64/include/asm/gunyah.h
++F:	drivers/virt/gunyah/
+ F:	include/linux/gunyah.h
  
  HABANALABS PCI DRIVER
- M:	Oded Gabbay <ogabbay@kernel.org>
 diff --git a/arch/arm64/include/asm/gunyah.h b/arch/arm64/include/asm/gunyah.h
-new file mode 100644
-index 000000000000..4820e9389f40
---- /dev/null
+index 4820e9389f40..3aee35009910 100644
+--- a/arch/arm64/include/asm/gunyah.h
 +++ b/arch/arm64/include/asm/gunyah.h
-@@ -0,0 +1,134 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
+@@ -19,11 +19,15 @@
+ 						   (GH_CALL_TYPE_SERVICE << GH_CALL_TYPE_SHIFT) \
+ 							| ((fn) & GH_CALL_FUNCTION_NUM_MASK))
+ 
++#define GH_HYPERCALL_CALL_UID			GH_SERVICE(0x3f01)
++
+ #define GH_HYPERCALL(fn)	ARM_SMCCC_CALL_VAL(ARM_SMCCC_FAST_CALL, ARM_SMCCC_SMC_64, \
+ 						   ARM_SMCCC_OWNER_VENDOR_HYP, \
+ 						   (GH_CALL_TYPE_HYPERCALL << GH_CALL_TYPE_SHIFT) \
+ 							| ((fn) & GH_CALL_FUNCTION_NUM_MASK))
+ 
++#define GH_HYPERCALL_HYP_IDENTIFY		GH_HYPERCALL(0x0000)
++
+ #define ___gh_count_args(_0, _1, _2, _3, _4, _5, _6, _7, _8, x, ...) x
+ 
+ #define __gh_count_args(...)						\
+diff --git a/drivers/virt/Kconfig b/drivers/virt/Kconfig
+index 87ef258cec64..259dc2be6cad 100644
+--- a/drivers/virt/Kconfig
++++ b/drivers/virt/Kconfig
+@@ -52,4 +52,5 @@ source "drivers/virt/coco/efi_secret/Kconfig"
+ 
+ source "drivers/virt/coco/sev-guest/Kconfig"
+ 
++source "drivers/virt/gunyah/Kconfig"
+ endif
+diff --git a/drivers/virt/Makefile b/drivers/virt/Makefile
+index 093674e05c40..ec4fdfa8eef1 100644
+--- a/drivers/virt/Makefile
++++ b/drivers/virt/Makefile
+@@ -6,6 +6,7 @@
+ obj-$(CONFIG_FSL_HV_MANAGER)	+= fsl_hypervisor.o
+ obj-$(CONFIG_VMGENID)		+= vmgenid.o
+ obj-y				+= vboxguest/
++obj-$(CONFIG_GUNYAH)		+= gunyah/
+ 
+ obj-$(CONFIG_NITRO_ENCLAVES)	+= nitro_enclaves/
+ obj-$(CONFIG_ACRN_HSM)		+= acrn/
+diff --git a/drivers/virt/gunyah/Kconfig b/drivers/virt/gunyah/Kconfig
+new file mode 100644
+index 000000000000..1e493017885e
+--- /dev/null
++++ b/drivers/virt/gunyah/Kconfig
+@@ -0,0 +1,13 @@
++# SPDX-License-Identifier: GPL-2.0-only
++
++config GUNYAH
++	tristate "Gunyah Virtualization drivers"
++	depends on ARM64
++	select SYS_HYPERVISOR
++	help
++	  The Gunyah drivers are the helper interfaces that runs in a guest VM
++	  such as basic inter-VM IPC and signaling mechanisms and higher level
++	  services such as memory/device sharing, IRQ sharing, and so on.
++
++	  Say Y here to enable the drivers needed to interact in a Gunyah
++	  virtual environment.
+diff --git a/drivers/virt/gunyah/Makefile b/drivers/virt/gunyah/Makefile
+new file mode 100644
+index 000000000000..0aa086f9149f
+--- /dev/null
++++ b/drivers/virt/gunyah/Makefile
+@@ -0,0 +1,4 @@
++# SPDX-License-Identifier: GPL-2.0-only
++
++gunyah-y += sysfs.o
++obj-$(CONFIG_GUNYAH) += gunyah.o
+\ No newline at end of file
+diff --git a/drivers/virt/gunyah/sysfs.c b/drivers/virt/gunyah/sysfs.c
+new file mode 100644
+index 000000000000..253433a939cf
+--- /dev/null
++++ b/drivers/virt/gunyah/sysfs.c
+@@ -0,0 +1,139 @@
++// SPDX-License-Identifier: GPL-2.0-only
 +/*
 + * Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
 + */
-+#ifndef __ASM_GUNYAH_H
-+#define __ASM_GUNYAH_H
 +
-+#include <linux/arm-smccc.h>
-+#include <linux/types.h>
++#define pr_fmt(fmt) "gunyah: " fmt
 +
-+#define GH_CALL_TYPE_PLATFORM_CALL		0
-+#define GH_CALL_TYPE_HYPERCALL			2
-+#define GH_CALL_TYPE_SERVICE			3
-+#define GH_CALL_TYPE_SHIFT			14
-+#define GH_CALL_FUNCTION_NUM_MASK		0x3fff
++#include <linux/kobject.h>
++#include <linux/gunyah.h>
++#include <linux/module.h>
++#include <linux/printk.h>
++#include <linux/init.h>
++#include <linux/of.h>
 +
-+#define GH_SERVICE(fn)		ARM_SMCCC_CALL_VAL(ARM_SMCCC_FAST_CALL, ARM_SMCCC_SMC_32, \
-+						   ARM_SMCCC_OWNER_VENDOR_HYP, \
-+						   (GH_CALL_TYPE_SERVICE << GH_CALL_TYPE_SHIFT) \
-+							| ((fn) & GH_CALL_FUNCTION_NUM_MASK))
++#define QC_HYP_UID0 0x19bd54bd
++#define QC_HYP_UID1 0x0b37571b
++#define QC_HYP_UID2 0x946f609b
++#define QC_HYP_UID3 0x54539de6
 +
-+#define GH_HYPERCALL(fn)	ARM_SMCCC_CALL_VAL(ARM_SMCCC_FAST_CALL, ARM_SMCCC_SMC_64, \
-+						   ARM_SMCCC_OWNER_VENDOR_HYP, \
-+						   (GH_CALL_TYPE_HYPERCALL << GH_CALL_TYPE_SHIFT) \
-+							| ((fn) & GH_CALL_FUNCTION_NUM_MASK))
++#define GUNYAH_UID0 0x673d5f14
++#define GUNYAH_UID1 0x9265ce36
++#define GUNYAH_UID2 0xa4535fdb
++#define GUNYAH_UID3 0xc1d58fcd
 +
-+#define ___gh_count_args(_0, _1, _2, _3, _4, _5, _6, _7, _8, x, ...) x
++#define gh_uid_matches(prefix, uid)	\
++	((uid)[0] == prefix ## _UID0 && (uid)[1] == prefix ## _UID1 && \
++	 (uid)[2] == prefix ## _UID2 && (uid)[3] == prefix ## _UID3)
 +
-+#define __gh_count_args(...)						\
-+	___gh_count_args(_, ## __VA_ARGS__, 8, 7, 6, 5, 4, 3, 2, 1, 0)
++#define GH_API_INFO_API_VERSION(x)	(((x) >> 0) & 0x3fff)
++#define GH_API_INFO_BIG_ENDIAN(x)	(((x) >> 14) & 1)
++#define GH_API_INFO_IS_64BIT(x)		(((x) >> 15) & 1)
++#define GH_API_INFO_VARIANT(x)		(((x) >> 56) & 0xff)
 +
-+#define __gh_skip_0(...)		__VA_ARGS__
-+#define __gh_skip_1(a, ...)	__VA_ARGS__
-+#define __gh_skip_2(a, b, ...)	__VA_ARGS__
-+#define __gh_skip_3(a, b, c, ...)	__VA_ARGS__
-+#define __gh_skip_4(a, b, c, d, ...)	__VA_ARGS__
-+#define __gh_skip_5(a, b, c, d, e, ...)	__VA_ARGS__
-+#define __gh_skip_6(a, b, c, d, e, f, ...)	__VA_ARGS__
-+#define __gh_skip_7(a, b, c, d, e, f, g, ...)	__VA_ARGS__
-+#define __gh_skip_8(a, b, c, d, e, f, g, h, ...)	__VA_ARGS__
-+#define __gh_to_res(nargs, ...)		__gh_skip_ ## nargs (__VA_ARGS__)
++#define GH_IDENTIFY_PARTITION_CSPACE(flags)	(((flags)[0] >> 0) & 1)
++#define GH_IDENTIFY_DOORBELL(flags)		(((flags)[0] >> 1) & 1)
++#define GH_IDENTIFY_MSGQUEUE(flags)		(((flags)[0] >> 2) & 1)
++#define GH_IDENTIFY_VIC(flags)			(((flags)[0] >> 3) & 1)
++#define GH_IDENTIFY_VPM(flags)			(((flags)[0] >> 4) & 1)
++#define GH_IDENTIFY_VCPU(flags)			(((flags)[0] >> 5) & 1)
++#define GH_IDENTIFY_MEMEXTENT(flags)		(((flags)[0] >> 6) & 1)
++#define GH_IDENTIFY_TRACE_CTRL(flags)		(((flags)[0] >> 7) & 1)
 +
-+#define __gh_declare_arg_0(...)
++struct gh_hypercall_hyp_identify_resp {
++	u64 api_info;
++	u64 flags[3];
++};
 +
-+#define __gh_declare_arg_1(arg1, ...)						\
-+	.a1 = (arg1)
++static struct gh_hypercall_hyp_identify_resp gunyah_api;
 +
-+#define __gh_declare_arg_2(arg1, arg2, ...)					\
-+	__gh_declare_arg_1(arg1),						\
-+	.a2 = (arg2)
++static ssize_t type_show(struct kobject *kobj, struct kobj_attribute *attr, char *buffer)
++{
++	return sysfs_emit(buffer, "gunyah\n");
++}
++static struct kobj_attribute type_attr = __ATTR_RO(type);
 +
-+#define __gh_declare_arg_3(arg1, arg2, arg3, ...)				\
-+	__gh_declare_arg_2(arg1, arg2),						\
-+	.a3 = (arg3)
++static ssize_t api_show(struct kobject *kobj, struct kobj_attribute *attr, char *buffer)
++{
++	return sysfs_emit(buffer, "%d\n", (int)GH_API_INFO_API_VERSION(gunyah_api.api_info));
++}
++static struct kobj_attribute api_attr = __ATTR_RO(api);
 +
-+#define __gh_declare_arg_4(arg1, arg2, arg3, arg4, ...)				\
-+	__gh_declare_arg_3(arg1, arg2, arg3),					\
-+	.a4 = (arg4)
++static ssize_t variant_show(struct kobject *kobj, struct kobj_attribute *attr, char *buffer)
++{
++	return sysfs_emit(buffer, "%d\n", (int)GH_API_INFO_VARIANT(gunyah_api.api_info));
++}
++static struct kobj_attribute variant_attr = __ATTR_RO(variant);
 +
-+#define __gh_declare_arg_5(arg1, arg2, arg3, arg4, arg5, ...)			\
-+	__gh_declare_arg_4(arg1, arg2, arg3, arg4),				\
-+	.a5 = (arg5)
++static ssize_t features_show(struct kobject *kobj, struct kobj_attribute *attr, char *buffer)
++{
++	return sysfs_emit(buffer, "\n");
++}
++static struct kobj_attribute features_attr = __ATTR_RO(features);
 +
-+#define __gh_declare_arg_6(arg1, arg2, arg3, arg4, arg5, arg6, ...)		\
-+	__gh_declare_arg_5(arg1, arg2, arg3, arg4, arg5),			\
-+	.a6 = (arg6)
++static struct attribute *version_attrs[] = {
++	&api_attr.attr,
++	&variant_attr.attr,
++	NULL
++};
 +
-+#define __gh_declare_arg_7(arg1, arg2, arg3, arg4, arg5, arg6, arg7, ...)	\
-+	__gh_declare_arg_6(arg1, arg2, arg3, arg4, arg5, arg6),			\
-+	.a7 = (arg7)
++static const struct attribute_group version_group = {
++	.name = "version",
++	.attrs = version_attrs,
++};
 +
-+#define __gh_declare_arg_8(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, ...)	\
-+	__gh_declare_arg_7(arg1, arg2, arg3, arg4, arg5, arg6, arg7),		\
-+	.a8 = (arg8)
++static int __init gh_sysfs_register(void)
++{
++	int ret;
 +
-+#define ___gh_declare_args(nargs)	__gh_declare_arg_ ## nargs
-+#define __gh_declare_args(nargs)	___gh_declare_args(nargs)
-+#define _gh_declare_args(nargs, ...) __gh_declare_args(nargs)(__VA_ARGS__)
++	ret = sysfs_create_file(hypervisor_kobj, &type_attr.attr);
++	if (ret)
++		return ret;
 +
-+#define __gh_assign_res_0(...)
++	ret = sysfs_create_group(hypervisor_kobj, &version_group);
++	if (ret)
++		return ret;
 +
-+#define __gh_assign_res_1(r1)					\
-+	r1 = __res.a0
++	return sysfs_create_file(hypervisor_kobj, &features_attr.attr);
++}
 +
-+#define __gh_assign_res_2(r1, r2)				\
-+	__gh_assign_res_1(r1);					\
-+	r2 = __res.a1
++static void gh_sysfs_unregister(void)
++{
++	sysfs_remove_file(hypervisor_kobj, &type_attr.attr);
++	sysfs_remove_group(hypervisor_kobj, &version_group);
++}
 +
-+#define __gh_assign_res_3(r1, r2, r3)				\
-+	__gh_assign_res_2(r1, r2);				\
-+	r3 = __res.a2
++static int __init gunyah_init(void)
++{
++	unsigned long uid[4];
 +
-+#define __gh_assign_res_4(r1, r2, r3, r4)			\
-+	__gh_assign_res_3(r1, r2, r3);				\
-+	r4 = __res.a3
++	arch_gh_hypercall(GH_HYPERCALL_CALL_UID, 0, uid[0], uid[1], uid[2], uid[3]);
 +
-+#define __gh_assign_res_5(r1, r2, r3, r4, r5)			\
-+	__gh_assign_res_4(r1, r2, r3, r4);			\
-+	r5 = __res.a4
++	if (!(gh_uid_matches(GUNYAH, uid) || gh_uid_matches(QC_HYP, uid)))
++		return 0;
 +
-+#define __gh_assign_res_6(r1, r2, r3, r4, r5, r6)		\
-+	__gh_assign_res_5(r1, r2, r3, r4, r5);			\
-+	r6 = __res.a5
++	arch_gh_hypercall(GH_HYPERCALL_HYP_IDENTIFY, 0, gunyah_api.api_info,
++		gunyah_api.flags[0], gunyah_api.flags[1], gunyah_api.flags[2]);
 +
-+#define __gh_assign_res_7(r1, r2, r3, r4, r5, r6, r7)		\
-+	__gh_assign_res_6(r1, r2, r3, r4, r5, r6);		\
-+	r7 = __res.a6
++	if (GH_API_INFO_API_VERSION(gunyah_api.api_info) != 1) {
++		pr_warn("Unrecognized gunyah version: %llu. Currently supported: 1\n",
++			GH_API_INFO_API_VERSION(gunyah_api.api_info));
++		return 0;
++	}
 +
-+#define __gh_assign_res_8(r1, r2, r3, r4, r5, r6, r7, r8)	\
-+	__gh_assign_res_7(r1, r2, r3, r4, r5, r6, r7);		\
-+	r8 = __res.a7
++	pr_notice("Running under Gunyah hypervisor v%lld/%llx\n",
++		  GH_API_INFO_API_VERSION(gunyah_api.api_info),
++		  GH_API_INFO_VARIANT(gunyah_api.api_info));
 +
-+#define ___gh_assign_res(nargs)	__gh_assign_res_ ## nargs
-+#define __gh_assign_res(nargs)	___gh_assign_res(nargs)
-+#define _gh_assign_res(...) __gh_assign_res(__gh_count_args(__VA_ARGS__))(__VA_ARGS__)
++	return gh_sysfs_register();
++}
++module_init(gunyah_init);
 +
-+/**
-+ * arch_gh_hypercall() - Performs an AArch64-specific call into hypervisor using Gunyah ABI
-+ * @hcall_num: Hypercall function ID to invoke
-+ * @nargs: Number of input arguments
-+ * @...: First nargs are the input arguments. Remaining arguments are output variables.
-+ */
-+#define arch_gh_hypercall(hcall_num, nargs, ...)				\
-+	do {									\
-+		struct arm_smccc_1_2_regs __res;					\
-+		struct arm_smccc_1_2_regs __args = {				\
-+			.a0 = hcall_num,					\
-+			_gh_declare_args(nargs, __VA_ARGS__)			\
-+		};								\
-+		arm_smccc_1_2_hvc(&__args, &__res);					\
-+		_gh_assign_res(__gh_to_res(nargs, __VA_ARGS__));		\
-+	} while (0)
++static void __exit gunyah_exit(void)
++{
++	gh_sysfs_unregister();
++}
++module_exit(gunyah_exit);
 +
-+#endif
++MODULE_LICENSE("GPL");
++MODULE_DESCRIPTION("Gunyah Hypervisor Driver");
 -- 
 2.25.1
 
