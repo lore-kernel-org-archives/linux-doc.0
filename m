@@ -2,42 +2,39 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E6FA9C25B07
-	for <linux-doc@archiver.kernel.org>; Mon,  1 Aug 2022 21:14:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F3DEC25B0F
+	for <linux-doc@archiver.kernel.org>; Mon,  1 Aug 2022 21:14:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234850AbiHAVOA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 1 Aug 2022 17:14:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41020 "EHLO
+        id S235030AbiHAVOB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 1 Aug 2022 17:14:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41038 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234719AbiHAVN7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 Aug 2022 17:13:59 -0400
+        with ESMTP id S234487AbiHAVOA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 Aug 2022 17:14:00 -0400
 Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com [199.106.114.38])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA0BF17E09;
-        Mon,  1 Aug 2022 14:13:58 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 887573C150;
+        Mon,  1 Aug 2022 14:13:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
-  t=1659388438; x=1690924438;
+  t=1659388439; x=1690924439;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=vIfmWBafylqnlRoEuinALPR3jmyroFOxK4aJ7M4ecys=;
-  b=cIn3RmqYxCKUVcyE8Km+7ed9DGJPXolWux/VXATmMPBlmd+UeToO9JN/
-   QOLbooFgFJmAgDEjD0TsvNqBHKsO2xPxF3xtVMUBRmSi8tjCPmGILlprz
-   ZGZ2zK0d+57cbA+C50y0zMtdtwZmB3audsUAwJg9FTEO3Lu1vVNacmIx0
-   k=;
-Received: from unknown (HELO ironmsg02-sd.qualcomm.com) ([10.53.140.142])
-  by alexa-out-sd-01.qualcomm.com with ESMTP; 01 Aug 2022 14:13:57 -0700
+  bh=8Zu1w/0V0h7dug7aLTMZQuEKcNOe7CoCHzakPAKWRP0=;
+  b=tAw8LVSOdTCRaKgM3QipjQk3tmpjQgAP3SPTxPRaG61M1ci4Z6q3Vbs2
+   S5/H57SjIL+Ke/bwBCK2LN5D3TXMZLhnr/eCD1h+oGL+9WGOaTfdH0uua
+   +0aT6xA7rtJbsnrbdQ0yKtaoH/ej91lIt3i+HcxsjpwYVymeQPTYW4rFd
+   4=;
+Received: from unknown (HELO ironmsg05-sd.qualcomm.com) ([10.53.140.145])
+  by alexa-out-sd-01.qualcomm.com with ESMTP; 01 Aug 2022 14:13:58 -0700
 X-QCInternal: smtphost
 Received: from nasanex01b.na.qualcomm.com ([10.46.141.250])
-  by ironmsg02-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Aug 2022 14:13:56 -0700
+  by ironmsg05-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Aug 2022 14:13:58 -0700
 Received: from hu-eberman-lv.qualcomm.com (10.49.16.6) by
  nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Mon, 1 Aug 2022 14:13:56 -0700
+ 15.2.986.22; Mon, 1 Aug 2022 14:13:57 -0700
 From:   Elliot Berman <quic_eberman@quicinc.com>
-To:     Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        <devicetree@vger.kernel.org>
+To:     Bjorn Andersson <bjorn.andersson@linaro.org>
 CC:     Elliot Berman <quic_eberman@quicinc.com>,
         Murali Nalajala <quic_mnalajal@quicinc.com>,
         Trilok Soni <quic_tsoni@quicinc.com>,
@@ -47,13 +44,16 @@ CC:     Elliot Berman <quic_eberman@quicinc.com>,
         <linux-arm-kernel@lists.infradead.org>,
         Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
         Sudeep Holla <sudeep.holla@arm.com>,
-        "Marc Zyngier" <maz@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        "Marc Zyngier" <maz@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+        "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
         Will Deacon <will@kernel.org>,
         Catalin Marinas <catalin.marinas@arm.com>,
-        <linux-doc@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>
-Subject: [PATCH v2 02/11] dt-bindings: Add binding for gunyah hypervisor
-Date:   Mon, 1 Aug 2022 14:12:31 -0700
-Message-ID: <20220801211240.597859-3-quic_eberman@quicinc.com>
+        <devicetree@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>
+Subject: [PATCH v2 04/11] gunyah: Common types and error codes for Gunyah hypercalls
+Date:   Mon, 1 Aug 2022 14:12:33 -0700
+Message-ID: <20220801211240.597859-5-quic_eberman@quicinc.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220801211240.597859-1-quic_eberman@quicinc.com>
 References: <20220801211240.597859-1-quic_eberman@quicinc.com>
@@ -67,121 +67,109 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-When Linux is booted as a guest under the Gunyah hypervisor, Gunyah
-applies a devicetree overlay describing the virtual platform
-configuration of the guest VM, such as the message queue capability IDs
-for communicating with the Resource Manager. Add the DT bindings that
-Gunyah adheres for the hypervisor node and message queues.
+Add architecture-independent standard error codes, types, and macros for
+Gunyah hypercalls.
 
 Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
 ---
- .../bindings/firmware/gunyah-hypervisor.yaml  | 84 +++++++++++++++++++
- MAINTAINERS                                   |  1 +
- 2 files changed, 85 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/firmware/gunyah-hypervisor.yaml
+ MAINTAINERS            |  1 +
+ include/linux/gunyah.h | 75 ++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 76 insertions(+)
+ create mode 100644 include/linux/gunyah.h
 
-diff --git a/Documentation/devicetree/bindings/firmware/gunyah-hypervisor.yaml b/Documentation/devicetree/bindings/firmware/gunyah-hypervisor.yaml
-new file mode 100644
-index 000000000000..e50d932e768c
---- /dev/null
-+++ b/Documentation/devicetree/bindings/firmware/gunyah-hypervisor.yaml
-@@ -0,0 +1,84 @@
-+# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/firmware/gunyah-hypervisor.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Gunyah Hypervisor
-+
-+maintainers:
-+  - Murali Nalajala <quic_mnalajal@quicinc.com>
-+  - Elliot Berman <quic_eberman@quicinc.com>
-+
-+description: |+
-+  On systems which support devicetree, Gunyah generates and overlays a deviceetree overlay which
-+  describes the basic configuration of the hypervisor. Virtual machines use this information for
-+  initial discovery that they are running as a Gunyah guest VM.
-+  See also: https://github.com/quic/gunyah-resource-manager/blob/develop/src/vm_creation/dto_construct.c
-+
-+properties:
-+  compatible:
-+    oneOf:
-+      - items:
-+          - const: gunyah-hypervisor-1.0
-+          - const: gunyah-hypervisor
-+
-+  "#address-cells":
-+    description: Number of cells needed to represent 64-bit capability IDs.
-+    const: 2
-+  "#size-cells":
-+    description: must be 0, because capability IDs are not memory address
-+                  ranges and do not have a size.
-+    const: 0
-+
-+patternProperties:
-+  "^gunyah-resource-mgr(@.*)?":
-+    type: object
-+    description:
-+      Resource Manager node which is required to communicate to Resource
-+      Manager VM using Gunyah Message Queues.
-+
-+    properties:
-+      compatible:
-+        oneOf:
-+          - items:
-+              - const: gunyah-resource-manager-1-0
-+              - const: gunyah-resource-manager
-+      reg:
-+        items:
-+          - description: Gunyah capability ID of the TX message queue
-+          - description: Gunyah capability ID of the RX message queue
-+      interrupts:
-+        items:
-+          - description: Interrupt for the TX message queue
-+          - description: Interrupt for the RX message queue
-+    additionalProperties: false
-+    required:
-+      - compatible
-+      - reg
-+      - interrupts
-+
-+additionalProperties: false
-+
-+required:
-+  - compatible
-+  - "#address-cells"
-+  - "#size-cells"
-+
-+examples:
-+  - |
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+
-+    hypervisor {
-+        #address-cells = <2>;
-+        #size-cells = <0>;
-+        compatible = "gunyah-hypervisor-1.0", "gunyah-hypervisor";
-+
-+        gunyah-resource-mgr@1 {
-+            compatible = "gunyah-resource-manager-1-0", "gunyah-resource-manager";
-+            interrupts = <GIC_SPI 3 IRQ_TYPE_EDGE_RISING>, /* TX full IRQ */
-+                         <GIC_SPI 4 IRQ_TYPE_EDGE_RISING>; /* RX empty IRQ */
-+            reg = <0x00000000 0x00000000>, <0x00000000 0x00000001>;
-+                  /* TX, RX cap ids */
-+        };
-+    };
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 18fb034526e1..0cd12ea6c11c 100644
+index 02f97ac90cdf..2e4f1d9ed47b 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -8741,6 +8741,7 @@ M:	Elliot Berman <quic_eberman@quicinc.com>
- M:	Murali Nalajala <quic_mnalajal@quicinc.com>
- L:	linux-arm-msm@vger.kernel.org
- S:	Maintained
-+F:	Documentation/devicetree/bindings/firmware/gunyah-hypervisor.yaml
+@@ -8744,6 +8744,7 @@ S:	Maintained
+ F:	Documentation/devicetree/bindings/firmware/gunyah-hypervisor.yaml
  F:	Documentation/virt/gunyah/
+ F:	arch/arm64/include/asm/gunyah.h
++F:	include/linux/gunyah.h
  
  HABANALABS PCI DRIVER
+ M:	Oded Gabbay <ogabbay@kernel.org>
+diff --git a/include/linux/gunyah.h b/include/linux/gunyah.h
+new file mode 100644
+index 000000000000..69931a0f5736
+--- /dev/null
++++ b/include/linux/gunyah.h
+@@ -0,0 +1,75 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++/*
++ * Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
++ */
++
++#ifndef _GUNYAH_H
++#define _GUNYAH_H
++
++#include <linux/types.h>
++#include <linux/errno.h>
++#include <asm/gunyah.h>
++
++typedef u64 gh_capid_t;
++
++/* Common Gunyah macros */
++#define GH_CAPID_INVAL	U64_MAX
++
++#define GH_ERROR_OK			0
++#define GH_ERROR_UNIMPLEMENTED		-1
++#define GH_ERROR_RETRY			-2
++
++#define GH_ERROR_ARG_INVAL		1
++#define GH_ERROR_ARG_SIZE		2
++#define GH_ERROR_ARG_ALIGN		3
++
++#define GH_ERROR_NOMEM			10
++
++#define GH_ERROR_ADDR_OVFL		20
++#define GH_ERROR_ADDR_UNFL		21
++#define GH_ERROR_ADDR_INVAL		22
++
++#define GH_ERROR_DENIED			30
++#define GH_ERROR_BUSY			31
++#define GH_ERROR_IDLE			32
++
++#define GH_ERROR_IRQ_BOUND		40
++#define GH_ERROR_IRQ_UNBOUND		41
++
++#define GH_ERROR_CSPACE_CAP_NULL	50
++#define GH_ERROR_CSPACE_CAP_REVOKED	51
++#define GH_ERROR_CSPACE_WRONG_OBJ_TYPE	52
++#define GH_ERROR_CSPACE_INSUF_RIGHTS	53
++#define GH_ERROR_CSPACE_FULL		54
++
++#define GH_ERROR_MSGQUEUE_EMPTY		60
++#define GH_ERROR_MSGQUEUE_FULL		61
++
++static inline int gh_remap_error(int gh_error)
++{
++	switch (gh_error) {
++	case GH_ERROR_OK:
++		return 0;
++	case GH_ERROR_NOMEM:
++		return -ENOMEM;
++	case GH_ERROR_DENIED:
++	case GH_ERROR_CSPACE_CAP_NULL:
++	case GH_ERROR_CSPACE_CAP_REVOKED:
++	case GH_ERROR_CSPACE_WRONG_OBJ_TYPE:
++	case GH_ERROR_CSPACE_INSUF_RIGHTS:
++	case GH_ERROR_CSPACE_FULL:
++		return -EACCES;
++	case GH_ERROR_BUSY:
++	case GH_ERROR_IDLE:
++		return -EBUSY;
++	case GH_ERROR_IRQ_BOUND:
++	case GH_ERROR_IRQ_UNBOUND:
++	case GH_ERROR_MSGQUEUE_FULL:
++	case GH_ERROR_MSGQUEUE_EMPTY:
++		return -EPERM;
++	default:
++		return -EINVAL;
++	}
++}
++
++#endif
 -- 
 2.25.1
 
