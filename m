@@ -2,73 +2,141 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5165BC00144
-	for <linux-doc@archiver.kernel.org>; Mon,  1 Aug 2022 08:34:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 83413C19F29
+	for <linux-doc@archiver.kernel.org>; Mon,  1 Aug 2022 08:37:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230146AbiHAIeb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 1 Aug 2022 04:34:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46644 "EHLO
+        id S229689AbiHAIhQ convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 1 Aug 2022 04:37:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48734 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229727AbiHAIea (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 Aug 2022 04:34:30 -0400
-Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3AA026D6;
-        Mon,  1 Aug 2022 01:34:29 -0700 (PDT)
-Received: from canpemm500009.china.huawei.com (unknown [172.30.72.55])
-        by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4LxBGH2LZDzGpHj;
-        Mon,  1 Aug 2022 16:33:11 +0800 (CST)
-Received: from huawei.com (10.67.174.191) by canpemm500009.china.huawei.com
- (7.192.105.203) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Mon, 1 Aug
- 2022 16:34:26 +0800
-From:   Li Hua <hucool.lihua@huawei.com>
-To:     <akpm@linux-foundation.org>, <mail@christoph.anton.mitterer.name>,
-        <hannes@cmpxchg.org>, <kaleshsingh@google.com>,
-        <shy828301@gmail.com>, <rppt@kernel.org>,
-        <paul.gortmaker@windriver.co>
-CC:     <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>
-Subject: [PATCH -next] Documentation/filesystems/proc.rst: Change the document about cputime
-Date:   Tue, 2 Aug 2022 06:30:46 +0800
-Message-ID: <20220801223046.35178-1-hucool.lihua@huawei.com>
-X-Mailer: git-send-email 2.17.1
+        with ESMTP id S229978AbiHAIhP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 Aug 2022 04:37:15 -0400
+Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.85.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 283942ED4F
+        for <linux-doc@vger.kernel.org>; Mon,  1 Aug 2022 01:37:13 -0700 (PDT)
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ uk-mta-60-CksiPPRtPA6w1mXQckakNQ-1; Mon, 01 Aug 2022 09:37:09 +0100
+X-MC-Unique: CksiPPRtPA6w1mXQckakNQ-1
+Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
+ AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
+ Server (TLS) id 15.0.1497.36; Mon, 1 Aug 2022 09:37:04 +0100
+Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
+ AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
+ 15.00.1497.036; Mon, 1 Aug 2022 09:37:04 +0100
+From:   David Laight <David.Laight@ACULAB.COM>
+To:     'Stephen Hemminger' <stephen@networkplumber.org>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>
+CC:     Jonathan Corbet <corbet@lwn.net>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        "Paolo Abeni" <pabeni@redhat.com>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Paul Mackerras <paulus@samba.org>,
+        "Pablo Neira Ayuso" <pablo@netfilter.org>,
+        Jozsef Kadlecsik <kadlec@netfilter.org>,
+        "Florian Westphal" <fw@strlen.de>, Borislav Petkov <bp@suse.de>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        "Randy Dunlap" <rdunlap@infradead.org>,
+        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+        Xin Long <lucien.xin@gmail.com>,
+        "Akhmat Karakotov" <hmukos@yandex-team.ru>,
+        Antoine Tenart <atenart@kernel.org>,
+        "Hans de Goede" <hdegoede@redhat.com>,
+        Juergen Gross <jgross@suse.com>, Jens Axboe <axboe@kernel.dk>,
+        Xie Yongji <xieyongji@bytedance.com>,
+        Chen Yu <yu.c.chen@intel.com>,
+        William Breathitt Gray <vilhelm.gray@gmail.com>,
+        "Suma Hegde" <suma.hegde@amd.com>,
+        =?iso-8859-1?Q?Pali_Roh=E1r?= <pali@kernel.org>,
+        Jeff Layton <jlayton@kernel.org>,
+        Chuck Lever <chuck.lever@oracle.com>,
+        "Arnd Bergmann" <arnd@arndb.de>,
+        Alexandre Ghiti <alexandre.ghiti@canonical.com>,
+        Scott Wood <oss@buserror.net>,
+        Paul Gortmaker <paul.gortmaker@windriver.com>,
+        Nikolay Aleksandrov <razor@blackwall.org>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Menglong Dong <imagedong@tencent.com>,
+        Petr Machata <petrm@nvidia.com>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        David Ahern <dsahern@kernel.org>,
+        Roopa Prabhu <roopa@nvidia.com>,
+        Yajun Deng <yajun.deng@linux.dev>,
+        Yuwei Wang <wangyuweihx@gmail.com>,
+        Shakeel Butt <shakeelb@google.com>,
+        Soheil Hassas Yeganeh <soheil@google.com>,
+        "Kuniyuki Iwashima" <kuniyu@amazon.com>,
+        Marc Kleine-Budde <mkl@pengutronix.de>,
+        "Stefano Garzarella" <sgarzare@redhat.com>,
+        Alexei Starovoitov <ast@kernel.org>,
+        "Wang Qing" <wangqing@vivo.com>, Yu Zhe <yuzhe@nfschina.com>,
+        Benjamin Poirier <bpoirier@nvidia.com>,
+        Victor Erminpour <victor.erminpour@oracle.com>,
+        "GONG, Ruiqi" <gongruiqi1@huawei.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        "open list:MIPS" <linux-mips@vger.kernel.org>,
+        "open list:LINUX FOR POWERPC (32-BIT AND 64-BIT)" 
+        <linuxppc-dev@lists.ozlabs.org>,
+        "open list:NETFILTER" <netfilter-devel@vger.kernel.org>,
+        "open list:NETFILTER" <coreteam@netfilter.org>
+Subject: RE: [RFC] Remove DECNET support from kernel
+Thread-Topic: [RFC] Remove DECNET support from kernel
+Thread-Index: AQHYpREB8DXx1AZd/0ac5Son0/agPK2ZuBOg
+Date:   Mon, 1 Aug 2022 08:37:03 +0000
+Message-ID: <c43f221d8e824cd2bf9746596423befc@AcuMS.aculab.com>
+References: <20220731190646.97039-1-stephen@networkplumber.org>
+In-Reply-To: <20220731190646.97039-1-stephen@networkplumber.org>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.67.174.191]
-X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
- canpemm500009.china.huawei.com (7.192.105.203)
-X-CFilter-Loop: Reflected
+Authentication-Results: relay.mimecast.com;
+        auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Because the values of utime, stime, and delta are temporarily
-written to cpustat in kcpustat_cpu_fetch_vtime. Therefore, there are two
-problems read from /proc/stat:
-1. The value read the second time may be less than the first time.
-2. When there are many tasks, the statistics are not imprecise when utime
-and stime do not exceed one tick.
+From: Stephen Hemminger
+> Sent: 31 July 2022 20:06
+> To: netdev@vger.kernel.org
+> 
+> Decnet is an obsolete network protocol that receives more attention
+> from kernel janitors than users. It belongs in computer protocol
+> history museum not in Linux kernel.
+> 
+> It has been Orphaned in kernel since 2010.
+> And the documentation link on Sourceforge says it is abandoned there.
 
-Signed-off-by: Li Hua <hucool.lihua@huawei.com>
----
- Documentation/filesystems/proc.rst | 4 ++++
- 1 file changed, 4 insertions(+)
+It was pretty much obsolete when I was writing ethernet drivers
+in the early 1990's.
+Sort of surprising support ever got into Linux in the first place!
 
-diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
-index 47e95dbc820d..b6625e83c994 100644
---- a/Documentation/filesystems/proc.rst
-+++ b/Documentation/filesystems/proc.rst
-@@ -1459,6 +1459,10 @@ second).  The meanings of the columns are as follows, from left to right:
- - user: normal processes executing in user mode
- - nice: niced processes executing in user mode
- - system: processes executing in kernel mode
-+  The amount of time reading from /proc/stat is not reliable, because the value
-+  of utime, stime, and delta are temporarily written to cpustat in
-+  kcpustat_cpu_fetch_vtime().
-+
- - idle: twiddling thumbs
- - iowait: In a word, iowait stands for waiting for I/O to complete. But there
-   are several problems:
--- 
-2.17.1
+Remember it requires the ethernet MAC address be set to a
+locally assigned value that is the machine's 'node number'.
+
+Does this remove some/most/all of the [gs]et_sockopt() calls
+where the length is ignored/
+
+	David
+
+-
+Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
+Registration No: 1397386 (Wales)
 
