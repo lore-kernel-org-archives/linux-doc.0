@@ -2,109 +2,131 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A841C19F2B
-	for <linux-doc@archiver.kernel.org>; Tue,  2 Aug 2022 08:31:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BE3A3C00140
+	for <linux-doc@archiver.kernel.org>; Tue,  2 Aug 2022 08:37:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235113AbiHBIbT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 2 Aug 2022 04:31:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35720 "EHLO
+        id S236292AbiHBIhQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 2 Aug 2022 04:37:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39766 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235818AbiHBIbS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Aug 2022 04:31:18 -0400
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9BDD926559
-        for <linux-doc@vger.kernel.org>; Tue,  2 Aug 2022 01:31:16 -0700 (PDT)
-Received: by mail-lf1-x12d.google.com with SMTP id e15so10879845lfs.0
-        for <linux-doc@vger.kernel.org>; Tue, 02 Aug 2022 01:31:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc;
-        bh=tm9i8Ca6FK9a6ZQOggffT5qJ+C77bjSS2WfM7QIVfdo=;
-        b=azwS2h42mZGSBdjobuObfSo6ZuoD+/OU2OJXRzbv56w7gw3DK/mcr1sh9zHBQ6/3sQ
-         IQOViz6XnPT8rQncPNNsfZ7ABbLAfoUKFcw6AYqyp9LEAW5Ozl1Ro+oS6WeLeliYSy7j
-         jEb9YQkRB30ea0zSHArFfDaCyqsXtukDdlsM/TEI+8n/9wAWu7DtFtrfLCceK10NaJBm
-         JTT68ZX8fYNsVoGzcnvoj01eH8XUl7Os2xYm69pCAUVEvY2bF4baFMwYrdlrMifFXFT7
-         3Xj7bREip5bIbu14t8VLK58VwmV73XJN3sbkxj4teEBKUCNieos6ThW0Lbo6LayvhKzH
-         LOqw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc;
-        bh=tm9i8Ca6FK9a6ZQOggffT5qJ+C77bjSS2WfM7QIVfdo=;
-        b=k+pohZlEvBLUOAyvR2DqzNiSfZntRF32D4ufZe/8Agk0SbRAFKTffLo30S3KAuiP0a
-         3SXNDSIOFj6stjrw7rOAeRDbsTbB8G25+8iUm3L0FHrTj2KH3npiLINLGc8OFThO0PJE
-         icTVzv1PP1Cuzd7eVz5ZsqXzUO4E5p15+spe5iESP4RtQLtSNk+aeavzQFq2GgxS173S
-         yYIzp0OQIdS+PUIyzS2u49DqOk+uPiGdwzn6Pqn6FqmeTCOoIO6GqxQ7mc1B+4korBuh
-         7ZrYHzlkLeqGY3ssrySyfuJxOzA7h+nl1Djt0RWReHc8RAoQn94OqZoAwR785xVSLIav
-         hwbg==
-X-Gm-Message-State: ACgBeo1jI7+9h/spifRMpBNEnGcHDcgTbAWl9N4aC/EG0iD15FFhW6Ra
-        7c72ZfaDsnobcFE0778dXkSP5A==
-X-Google-Smtp-Source: AA6agR77riBL0TF26fwrGfG3qjaYYiLA8HeiMgBQ2jo3Fv1EKYOG23WEFPgxus1COrP2aVEqaBV3KA==
-X-Received: by 2002:a05:6512:1095:b0:48b:6f2:6f3a with SMTP id j21-20020a056512109500b0048b06f26f3amr1401771lfg.646.1659429074920;
-        Tue, 02 Aug 2022 01:31:14 -0700 (PDT)
-Received: from [192.168.1.211] ([37.153.55.125])
-        by smtp.gmail.com with ESMTPSA id v4-20020a056512348400b0048b08f0c4ddsm222421lfr.253.2022.08.02.01.31.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 02 Aug 2022 01:31:14 -0700 (PDT)
-Message-ID: <6388dd1e-ef17-dd64-36da-4e6cc69358ba@linaro.org>
-Date:   Tue, 2 Aug 2022 11:31:13 +0300
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v2 11/11] gunyah: Add tty console driver for RM Console
- Serivces
-Content-Language: en-GB
-To:     Elliot Berman <quic_eberman@quicinc.com>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>
-Cc:     Murali Nalajala <quic_mnalajal@quicinc.com>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
-        Carl van Schaik <quic_cvanscha@quicinc.com>,
-        Andy Gross <agross@kernel.org>,
-        linux-arm-kernel@lists.infradead.org,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Marc Zyngier <maz@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Will Deacon <will@kernel.org>,
+        with ESMTP id S234034AbiHBIhP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Aug 2022 04:37:15 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6CA42DF77;
+        Tue,  2 Aug 2022 01:37:14 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 15F76B819A6;
+        Tue,  2 Aug 2022 08:37:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 722ECC433D6;
+        Tue,  2 Aug 2022 08:37:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1659429431;
+        bh=yVMVoT/6Mw0lk1hw42cWt6ofhqaPBU8Dsd54VMW97C0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=JxAhykuX9sQh9v8UcR46j9w+XNKe2vsiSm9sJevrJ9SG1m7eWpi7old3zWBjXpK9Q
+         mj0HjrQcZ8jsCD6iuqulqWBsc3XxGE5mJaBliv/6diaCiFF91bUspCtTZI3IHcJil7
+         1SGlOBi7D7dxOwsL45QWamyd5NU7Y6bGIsY62nIMsxJGB91uTKHQopl6I0v+nh1DZB
+         g/PVaSJHAUf7CZRPGaESiyC1oG/6lTuE8YnWtPHQj1uu8Ag3lV4O4W4/KKGANQN4cD
+         qiPFXtM2pigOX43aHjwoPVNlnuEGbu7o1k2oGI0gP1n2qWxu8W5ErLfBN3Bj68OPn9
+         GNJMedzFw75kw==
+Date:   Tue, 2 Aug 2022 09:37:04 +0100
+From:   Will Deacon <will@kernel.org>
+To:     Zhen Lei <thunder.leizhen@huawei.com>
+Cc:     Dave Young <dyoung@redhat.com>, Baoquan He <bhe@redhat.com>,
+        Vivek Goyal <vgoyal@redhat.com>, kexec@lists.infradead.org,
+        linux-kernel@vger.kernel.org,
         Catalin Marinas <catalin.marinas@arm.com>,
-        devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org
-References: <20220801211240.597859-1-quic_eberman@quicinc.com>
- <20220801211240.597859-12-quic_eberman@quicinc.com>
-From:   Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <20220801211240.597859-12-quic_eberman@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+        linux-arm-kernel@lists.infradead.org,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Feng Zhou <zhoufeng.zf@bytedance.com>,
+        Kefeng Wang <wangkefeng.wang@huawei.com>,
+        Chen Zhou <dingguo.cz@antgroup.com>,
+        John Donnelly <John.p.donnelly@oracle.com>,
+        Dave Kleikamp <dave.kleikamp@oracle.com>, ardb@kernel.org
+Subject: Re: [PATCH v3 1/2] arm64: kdump: Provide default size when
+ crashkernel=Y,low is not specified
+Message-ID: <20220802083703.GA26962@willie-the-truck>
+References: <20220711090319.1604-1-thunder.leizhen@huawei.com>
+ <20220711090319.1604-2-thunder.leizhen@huawei.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220711090319.1604-2-thunder.leizhen@huawei.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 02/08/2022 00:12, Elliot Berman wrote:
-> Gunyah provides a console for each VM using the VM console resource
-> manager APIs. This driver allows console data from other
-> VMs to be accessed via a TTY device and exports a console device to dump
-> Linux's own logs to our console.
-
-Is such 'console' an unidirectional stream of chars or bidirection one? 
-IOW, can I have getty on such console?
-
+On Mon, Jul 11, 2022 at 05:03:18PM +0800, Zhen Lei wrote:
+> To be consistent with the implementation of x86 and improve cross-platform
+> user experience. Try to allocate at least 256 MiB low memory automatically
+> for the case that crashkernel=,high is explicitly specified, while
+> crashkenrel=,low is omitted.
 > 
-> Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
+> Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
+> Acked-by: Baoquan He <bhe@redhat.com>
 > ---
->   Documentation/virt/gunyah/index.rst   |   7 +
->   drivers/virt/gunyah/Kconfig           |  10 +
->   drivers/virt/gunyah/Makefile          |   3 +
->   drivers/virt/gunyah/rsc_mgr_console.c | 405 ++++++++++++++++++++++++++
->   4 files changed, 425 insertions(+)
->   create mode 100644 drivers/virt/gunyah/rsc_mgr_console.c
->
+>  Documentation/admin-guide/kernel-parameters.txt |  8 +-------
+>  arch/arm64/mm/init.c                            | 12 +++++++++++-
+>  2 files changed, 12 insertions(+), 8 deletions(-)
+> 
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index 2522b11e593f239..65a2c3a22a4b57d 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -843,7 +843,7 @@
+>  			available.
+>  			It will be ignored if crashkernel=X is specified.
+>  	crashkernel=size[KMG],low
+> -			[KNL, X86-64] range under 4G. When crashkernel=X,high
+> +			[KNL, X86-64, ARM64] range under 4G. When crashkernel=X,high
+>  			is passed, kernel could allocate physical memory region
+>  			above 4G, that cause second kernel crash on system
+>  			that require some amount of low memory, e.g. swiotlb
+> @@ -857,12 +857,6 @@
+>  			It will be ignored when crashkernel=X,high is not used
+>  			or memory reserved is below 4G.
+>  
+> -			[KNL, ARM64] range in low memory.
+> -			This one lets the user specify a low range in the
+> -			DMA zone for the crash dump kernel.
+> -			It will be ignored when crashkernel=X,high is not used
+> -			or memory reserved is located in the DMA zones.
+> -
+>  	cryptomgr.notests
+>  			[KNL] Disable crypto self-tests
+>  
+> diff --git a/arch/arm64/mm/init.c b/arch/arm64/mm/init.c
+> index 339ee84e5a61a0b..5390f361208ccf7 100644
+> --- a/arch/arm64/mm/init.c
+> +++ b/arch/arm64/mm/init.c
+> @@ -96,6 +96,14 @@ phys_addr_t __ro_after_init arm64_dma_phys_limit = PHYS_MASK + 1;
+>  #define CRASH_ADDR_LOW_MAX		arm64_dma_phys_limit
+>  #define CRASH_ADDR_HIGH_MAX		(PHYS_MASK + 1)
+>  
+> +/*
+> + * This is an empirical value in x86_64 and taken here directly. Please
+> + * refer to the code comment in reserve_crashkernel_low() of x86_64 for more
+> + * details.
 
--- 
-With best wishes
-Dmitry
+Honestly, I read that comment and I'm none the wiser. What does "due to
+mapping restrictions" mean? The remainder of the comment appears to be
+specific to x86 and refers to jump ranges with 5-level page-tables.
+
+> +#define DEFAULT_CRASH_KERNEL_LOW_SIZE	\
+> +	max(swiotlb_size_or_default() + (8UL << 20), 256UL << 20)
+
+So why does this value make sense for arm64? We have considerable platform
+fragmentation^Wdiversity compared to x86 and picking a one-size-fits-all
+default is more likely to cause weird problems when it doesn't work imo. I'd
+actually prefer that the default is something that fails obviously (e.g. 0)
+and we force an appropriate size to be specified.
+
+On the other hand, if you can convince me that having a global constant is
+the right way forward, then please move this out of the arch code.
+
+Will
