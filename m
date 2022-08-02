@@ -2,188 +2,94 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8823BC19F29
-	for <linux-doc@archiver.kernel.org>; Tue,  2 Aug 2022 09:24:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CCE91C00140
+	for <linux-doc@archiver.kernel.org>; Tue,  2 Aug 2022 09:39:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232021AbiHBJY1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 2 Aug 2022 05:24:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47530 "EHLO
+        id S236202AbiHBJje (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 2 Aug 2022 05:39:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58250 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232773AbiHBJY0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Aug 2022 05:24:26 -0400
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9B2A32EEA
-        for <linux-doc@vger.kernel.org>; Tue,  2 Aug 2022 02:24:24 -0700 (PDT)
-Received: by mail-lf1-x12a.google.com with SMTP id t1so21071412lft.8
-        for <linux-doc@vger.kernel.org>; Tue, 02 Aug 2022 02:24:24 -0700 (PDT)
+        with ESMTP id S232727AbiHBJjd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Aug 2022 05:39:33 -0400
+Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com [IPv6:2a00:1450:4864:20::52c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7194130F55;
+        Tue,  2 Aug 2022 02:39:32 -0700 (PDT)
+Received: by mail-ed1-x52c.google.com with SMTP id w3so1223082edc.2;
+        Tue, 02 Aug 2022 02:39:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc;
-        bh=1n1ZKC51PL7oA8qvseMiLtJyJ6uxOwh3lLvNachyl1g=;
-        b=SkPaGq8iz1oHc+v7esobJprt9PJgk67NAJHJdsKvxA4Kb40e4boROTAcUc2xJkDOtP
-         feiZ4DFggiNTTdytEx5RqfqnF9zoj0Ovv/NDSwuP+Qt0gSOM4kTxBz9LaBBmjh3gYcI8
-         om5PBZP8AbVCWg0xSi5ruxNf2iyyRdZ6CY6rsQhR1zD0h/wCidH1BKH47KOcQMNSiZ1N
-         PDGarGTsjYrWojQ6gq85qllU6HPIBbbsDHui241G6b21VvTZmfSgB3jGRCj7C0tgt98M
-         VyA5lbHDlWTfKlqOFAmu36bhGTfFSSzXVtOIqwgMAJG6jd9t9YyBW54hF1K3wE0OYD3g
-         ZvsA==
+        d=gmail.com; s=20210112;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=cFQwqqqznTGEXjJGP0GCqKukfQLdTRB/jDpu9UVZUWs=;
+        b=JRAJRY44ZuzRpshknUC7cIWE8hqPhZLVESaoKq6M+kYFcJ28mAN5ySLU8hUfVs++E7
+         MEdCyR4eKoXAsg3uNwnKRWw97LrAWAfPxc74r5w/1AfUY6enrn31vlujsfyM+OLolT6e
+         0silr0d2hlVQupQz/Jz2biFW4kKEA4BUsIMQskN96mstkLEnrV8bvdvFmBRJzMvBDwWF
+         DlXxsZzPPSIhtsb2qEIwBAPdC54rjUIeVVzZTHX0P+pndNeDqDB3oJLGDvMQvi2RIFKm
+         zLUUViMY+Q0TVoVjmLlScYOWXV+rC8N+AEzuiljhgaLxR0QeT4ldO68CXJCkKery4HJ0
+         uwVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc;
-        bh=1n1ZKC51PL7oA8qvseMiLtJyJ6uxOwh3lLvNachyl1g=;
-        b=Myys9/6PGpT9Vy5XU9Vakxx+Cy2l4RJhyMhpIwlTZ/EurcKQuK0YA/1FnCHcdeBtaN
-         VYlgcUgVUVxP3VI8IuMmx7nrusMlVjUJffDQxNN/QCUgRKlQxgZPho1hs+obsPiGBwaT
-         MU4+dIikAL/Rwrc1JNJGiRHGbPZ/sA+E5RZykRTg8uD2rzY6TJICJyzsjpdDKFfKul58
-         d6cJFRuwC3PDd3BOeX9ls2LUHTgCc8vZoe032KRk+DbJ4e2xA55GCXuOPtBDUf3EaCR9
-         djqy/1eW+qdobh1yYWM0GZ0p0IB1/7QViiWBF5fTgvBecEBsq8g+9AP7hiMfsPWXvb0v
-         Ki2g==
-X-Gm-Message-State: AJIora/+YzdiiUdJJ5dp6r6/nQoHMYWsek6M4czJCNgGZOrafSiz6woW
-        n4+ZC8sslpWW/k5UWuEKBnNMFw==
-X-Google-Smtp-Source: AGRyM1uBK8mjLp2Dc3a0wZ5cXTLENaz5MzrxfwZV1SGtxG45Quj5zu+tMF8YQMQoSC9KIbWP1jib7Q==
-X-Received: by 2002:a19:f004:0:b0:48a:bf41:1e70 with SMTP id p4-20020a19f004000000b0048abf411e70mr6530388lfc.342.1659432263152;
-        Tue, 02 Aug 2022 02:24:23 -0700 (PDT)
-Received: from [192.168.1.211] ([37.153.55.125])
-        by smtp.gmail.com with ESMTPSA id z13-20020a2eb52d000000b0025dc0adf38csm119052ljm.61.2022.08.02.02.24.22
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 02 Aug 2022 02:24:22 -0700 (PDT)
-Message-ID: <50230652-c1ae-4ce2-907c-9bdc6b827f8e@linaro.org>
-Date:   Tue, 2 Aug 2022 12:24:21 +0300
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to;
+        bh=cFQwqqqznTGEXjJGP0GCqKukfQLdTRB/jDpu9UVZUWs=;
+        b=dwN9v/cQNbFYWgyfb3mvkgrtfY8CShm6tGYgErKzFF/dcqrfXXxz0jImInKmI+r3+T
+         kUpnVc87HPdo0oKfsGtIWz/nXyqn4ZtNxVTvOi0Pnidv5jSTqLPVu/9y9jNvorWBABNQ
+         xDeBqA8yEG0AQES5r2u3Cwpi9uTWEjOuEUmjPnHdE0oaWfv6fA//h55K8fDfbncno4UK
+         wof4QmR6ZWYvFIWMd9pDDjEb5vJYViBT0AUgQKWw2mtZTaQkex3G0iuBimFZ0bh0FFBp
+         ylRFI2IOM5CaDjk8/k98rinqtPxK2/iNOX3UWzi5NsMF+q17oa0f8wvTajeVaWq1UbOr
+         n6sg==
+X-Gm-Message-State: ACgBeo1YAYFhpqSin2zO/W5LOWJdot+3SEv14O9tg5oFtm/7ZhcYpYQw
+        1tbE84jjfSuhwuWe8QMp6qI=
+X-Google-Smtp-Source: AA6agR4p5uaDWMAjWS724wffcK/PfHf6PF/eO8Rv9jiiBPYTbI5uudmhUbMNrPUqbDeI/D05fl89OA==
+X-Received: by 2002:a05:6402:40c9:b0:43d:cc0d:e9de with SMTP id z9-20020a05640240c900b0043dcc0de9demr6087800edb.319.1659433170946;
+        Tue, 02 Aug 2022 02:39:30 -0700 (PDT)
+Received: from gmail.com (84-236-113-167.pool.digikabel.hu. [84.236.113.167])
+        by smtp.gmail.com with ESMTPSA id r9-20020a1709061ba900b0071cef8bafc3sm6028201ejg.1.2022.08.02.02.39.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 02 Aug 2022 02:39:30 -0700 (PDT)
+Sender: Ingo Molnar <mingo.kernel.org@gmail.com>
+Date:   Tue, 2 Aug 2022 11:39:28 +0200
+From:   Ingo Molnar <mingo@kernel.org>
+To:     Bagas Sanjaya <bagasdotme@gmail.com>
+Cc:     Babu Moger <babu.moger@amd.com>, fenghua.yu@intel.com,
+        reinette.chatre@intel.com, tglx@linutronix.de, mingo@redhat.com,
+        bp@alien8.de, eranian@google.com, dave.hansen@linux.intel.com,
+        x86@kernel.org, hpa@zytor.com, corbet@lwn.net,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 00/10] x86/resctrl: Support for AMD QoS new features
+ and bug fix
+Message-ID: <Yujw0FOMj3tS0f3k@gmail.com>
+References: <165938717220.724959.10931629283087443782.stgit@bmoger-ubuntu>
+ <13d16a59-0b13-8484-380c-21deb864f0f2@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v2 00/11] Drivers for gunyah hypervisor
-Content-Language: en-GB
-To:     Elliot Berman <quic_eberman@quicinc.com>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>
-Cc:     Murali Nalajala <quic_mnalajal@quicinc.com>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
-        Carl van Schaik <quic_cvanscha@quicinc.com>,
-        Andy Gross <agross@kernel.org>,
-        linux-arm-kernel@lists.infradead.org,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Marc Zyngier <maz@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Will Deacon <will@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org
-References: <20220801211240.597859-1-quic_eberman@quicinc.com>
-From:   Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <20220801211240.597859-1-quic_eberman@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <13d16a59-0b13-8484-380c-21deb864f0f2@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 02/08/2022 00:12, Elliot Berman wrote:
-> Gunyah is a Type-1 hypervisor independent of any
-> high-level OS kernel, and runs in a higher CPU privilege level. It does
-> not depend on any lower-privileged OS kernel/code for its core
-> functionality. This increases its security and can support a much smaller
-> trusted computing base than a Type-2 hypervisor.
+
+* Bagas Sanjaya <bagasdotme@gmail.com> wrote:
+
+> On 8/2/22 03:55, Babu Moger wrote:
+> > v2:
+> >   a. Rebased the patches to latest stable tree (v5.18.15). Resolved some conflicts.
+> >   b. Added the patch to fix CBM issue on AMD. This was originally discussed
+> >      https://lore.kernel.org/lkml/20220517001234.3137157-1-eranian@google.com/
+> > 
 > 
-> Gunyah is an open source hypervisor. The source repo is available at
-> https://github.com/quic/gunyah-hypervisor.
-> 
-> The diagram below shows the architecture.
-> 
-> ::
-> 
->          Primary VM           Secondary VMs
+> Shouldn't this series be rebased on tip tree? I think it's odd to base 
+> new feature series on stable tree, since patches on the latter are mostly 
+> bugfixes backported from mainline.
 
-Is there any significant difference between Primary VM and other VMs?
+Normally that's true, but AFAICS the patchset applies cleanly to latest 
+-tip as well, so 'stable == tip' in this regard.
 
->       +-----+ +-----+  | +-----+ +-----+ +-----+
->       |     | |     |  | |     | |     | |     |
->   EL0 | APP | | APP |  | | APP | | APP | | APP |
->       |     | |     |  | |     | |     | |     |
->       +-----+ +-----+  | +-----+ +-----+ +-----+
->   ---------------------|-------------------------
->       +--------------+ | +----------------------+
->       |              | | |                      |
->   EL1 | Linux Kernel | | |Linux kernel/Other OS |   ...
->       |              | | |                      |
->       +--------------+ | +----------------------+
->   --------hvc/smc------|------hvc/smc------------
->       +----------------------------------------+
->       |                                        |
->   EL2 |            Gunyah Hypervisor           |
->       |                                        |
->       +----------------------------------------+
-> 
-> Gunyah provides these following features.
-> 
-> - Threads and Scheduling: The scheduler schedules virtual CPUs (VCPUs) on
-> physical CPUs and enables time-sharing of the CPUs.
+Series looks good to me (without having tested it):
 
-Is the scheduling provided behind the back of the OS or does it require 
-cooperation?
+  Reviewed-by: Ingo Molnar <mingo@kernel.org>
 
-> - Memory Management: Gunyah tracks memory ownership and use of all memory
-> under its control. Memory partitioning between VMs is a fundamental
-> security feature.
-> - Interrupt Virtualization: All interrupts are handled in the hypervisor
-> and routed to the assigned VM.
-> - Inter-VM Communication: There are several different mechanisms provided
-> for communicating between VMs.
-> - Device Virtualization: Para-virtualization of devices is supported using
-> inter-VM communication. Low level system features and devices such as
-> interrupt controllers are supported with emulation where required.
+Thanks,
 
-After reviewing some of the patches from the series, I'd like to 
-understand, what does it provide (and can be provided) to the VMs.
-
-I'd like to understand it first, before going deep into the API issues.
-
-1) The hypervisor provides message queues, doorbells and vCPUs
-
-Each of resources has it's own capability ID.
-Why is it called capability? Is it just a misname for the resource ID, 
-or has it any other meaning behind? If it is a capability, who is 
-capable of what?
-
-At this moment you create allocate two message queues with fixed IDs for 
-communication with resource manager. Then you use these message queues 
-to organize a console and a pack of tty devices.
-
-What other kinds of services does RM provide to the guest OS?
-Do you expect any other drivers to be calling into the RM?
-
-What is the usecase for the doorbells? Who provides doorbells?
-
-You mentioned that the RM generates DT overlays. What kind of 
-information goes to the overlay?
-
-My current impression of this series is that you have misused the 
-concept of devices. Rather than exporting MSGQs and BELLs as 
-gunyah_devices and then using them from other drivers, I'd suggest 
-turning them into resources provided by the gunyah driver core. I 
-mentioned using the mailbox API for this. Another subsystem that might 
-ring the bell for you is the remoteproc, especially the rproc_subdev.
-
-I might be completely wrong about this, but if my in-mind picture of 
-Gunyah is correct, I'd have implemented the gunyah core subsytem as 
-mailbox provider, RM as a separate platform driver consuming these 
-mailboxes and in turn being a remoteproc driver, and consoles as 
-remoteproc subdevices.
-
-I can assume that at some point you would like to use Gunyah to boot 
-secondary VMs from the primary VM by calling into RM, etc.
-Most probably at this moment a VM would be allocated other bells, 
-message queues, etc. If this assumption is correct, them the VM can 
-become a separate device (remoteproc?) in the Linux device tree.
-
-I might be wrong in any of the assumptions above. Please feel free to 
-correct me. We can then think about a better API for your usecase.
-
--- 
-With best wishes
-Dmitry
+	Ingo
