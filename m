@@ -2,94 +2,154 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CCE91C00140
-	for <linux-doc@archiver.kernel.org>; Tue,  2 Aug 2022 09:39:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B726AC00140
+	for <linux-doc@archiver.kernel.org>; Tue,  2 Aug 2022 10:12:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236202AbiHBJje (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 2 Aug 2022 05:39:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58250 "EHLO
+        id S236519AbiHBKMy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 2 Aug 2022 06:12:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53692 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232727AbiHBJjd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Aug 2022 05:39:33 -0400
-Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com [IPv6:2a00:1450:4864:20::52c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7194130F55;
-        Tue,  2 Aug 2022 02:39:32 -0700 (PDT)
-Received: by mail-ed1-x52c.google.com with SMTP id w3so1223082edc.2;
-        Tue, 02 Aug 2022 02:39:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=cFQwqqqznTGEXjJGP0GCqKukfQLdTRB/jDpu9UVZUWs=;
-        b=JRAJRY44ZuzRpshknUC7cIWE8hqPhZLVESaoKq6M+kYFcJ28mAN5ySLU8hUfVs++E7
-         MEdCyR4eKoXAsg3uNwnKRWw97LrAWAfPxc74r5w/1AfUY6enrn31vlujsfyM+OLolT6e
-         0silr0d2hlVQupQz/Jz2biFW4kKEA4BUsIMQskN96mstkLEnrV8bvdvFmBRJzMvBDwWF
-         DlXxsZzPPSIhtsb2qEIwBAPdC54rjUIeVVzZTHX0P+pndNeDqDB3oJLGDvMQvi2RIFKm
-         zLUUViMY+Q0TVoVjmLlScYOWXV+rC8N+AEzuiljhgaLxR0QeT4ldO68CXJCkKery4HJ0
-         uwVA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to;
-        bh=cFQwqqqznTGEXjJGP0GCqKukfQLdTRB/jDpu9UVZUWs=;
-        b=dwN9v/cQNbFYWgyfb3mvkgrtfY8CShm6tGYgErKzFF/dcqrfXXxz0jImInKmI+r3+T
-         kUpnVc87HPdo0oKfsGtIWz/nXyqn4ZtNxVTvOi0Pnidv5jSTqLPVu/9y9jNvorWBABNQ
-         xDeBqA8yEG0AQES5r2u3Cwpi9uTWEjOuEUmjPnHdE0oaWfv6fA//h55K8fDfbncno4UK
-         wof4QmR6ZWYvFIWMd9pDDjEb5vJYViBT0AUgQKWw2mtZTaQkex3G0iuBimFZ0bh0FFBp
-         ylRFI2IOM5CaDjk8/k98rinqtPxK2/iNOX3UWzi5NsMF+q17oa0f8wvTajeVaWq1UbOr
-         n6sg==
-X-Gm-Message-State: ACgBeo1YAYFhpqSin2zO/W5LOWJdot+3SEv14O9tg5oFtm/7ZhcYpYQw
-        1tbE84jjfSuhwuWe8QMp6qI=
-X-Google-Smtp-Source: AA6agR4p5uaDWMAjWS724wffcK/PfHf6PF/eO8Rv9jiiBPYTbI5uudmhUbMNrPUqbDeI/D05fl89OA==
-X-Received: by 2002:a05:6402:40c9:b0:43d:cc0d:e9de with SMTP id z9-20020a05640240c900b0043dcc0de9demr6087800edb.319.1659433170946;
-        Tue, 02 Aug 2022 02:39:30 -0700 (PDT)
-Received: from gmail.com (84-236-113-167.pool.digikabel.hu. [84.236.113.167])
-        by smtp.gmail.com with ESMTPSA id r9-20020a1709061ba900b0071cef8bafc3sm6028201ejg.1.2022.08.02.02.39.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Aug 2022 02:39:30 -0700 (PDT)
-Sender: Ingo Molnar <mingo.kernel.org@gmail.com>
-Date:   Tue, 2 Aug 2022 11:39:28 +0200
-From:   Ingo Molnar <mingo@kernel.org>
-To:     Bagas Sanjaya <bagasdotme@gmail.com>
-Cc:     Babu Moger <babu.moger@amd.com>, fenghua.yu@intel.com,
-        reinette.chatre@intel.com, tglx@linutronix.de, mingo@redhat.com,
-        bp@alien8.de, eranian@google.com, dave.hansen@linux.intel.com,
-        x86@kernel.org, hpa@zytor.com, corbet@lwn.net,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2 00/10] x86/resctrl: Support for AMD QoS new features
- and bug fix
-Message-ID: <Yujw0FOMj3tS0f3k@gmail.com>
-References: <165938717220.724959.10931629283087443782.stgit@bmoger-ubuntu>
- <13d16a59-0b13-8484-380c-21deb864f0f2@gmail.com>
+        with ESMTP id S233387AbiHBKMx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Aug 2022 06:12:53 -0400
+Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 072F24B487;
+        Tue,  2 Aug 2022 03:12:51 -0700 (PDT)
+Received: from dggpemm500021.china.huawei.com (unknown [172.30.72.56])
+        by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4LxrMK1cbwz1M8Kp;
+        Tue,  2 Aug 2022 18:09:49 +0800 (CST)
+Received: from dggpemm500006.china.huawei.com (7.185.36.236) by
+ dggpemm500021.china.huawei.com (7.185.36.109) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Tue, 2 Aug 2022 18:12:50 +0800
+Received: from [10.174.178.55] (10.174.178.55) by
+ dggpemm500006.china.huawei.com (7.185.36.236) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Tue, 2 Aug 2022 18:12:49 +0800
+Subject: Re: [PATCH v3 1/2] arm64: kdump: Provide default size when
+ crashkernel=Y,low is not specified
+To:     Will Deacon <will@kernel.org>
+CC:     Dave Young <dyoung@redhat.com>, Baoquan He <bhe@redhat.com>,
+        Vivek Goyal <vgoyal@redhat.com>, <kexec@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        <linux-arm-kernel@lists.infradead.org>,
+        Jonathan Corbet <corbet@lwn.net>, <linux-doc@vger.kernel.org>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Feng Zhou <zhoufeng.zf@bytedance.com>,
+        Kefeng Wang <wangkefeng.wang@huawei.com>,
+        Chen Zhou <dingguo.cz@antgroup.com>,
+        John Donnelly <John.p.donnelly@oracle.com>,
+        "Dave Kleikamp" <dave.kleikamp@oracle.com>, <ardb@kernel.org>
+References: <20220711090319.1604-1-thunder.leizhen@huawei.com>
+ <20220711090319.1604-2-thunder.leizhen@huawei.com>
+ <20220802083703.GA26962@willie-the-truck>
+From:   "Leizhen (ThunderTown)" <thunder.leizhen@huawei.com>
+Message-ID: <bc2830f7-7c3c-30ea-0178-ad86922f8f5c@huawei.com>
+Date:   Tue, 2 Aug 2022 18:12:37 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <13d16a59-0b13-8484-380c-21deb864f0f2@gmail.com>
+In-Reply-To: <20220802083703.GA26962@willie-the-truck>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.174.178.55]
+X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
+ dggpemm500006.china.huawei.com (7.185.36.236)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
-* Bagas Sanjaya <bagasdotme@gmail.com> wrote:
 
-> On 8/2/22 03:55, Babu Moger wrote:
-> > v2:
-> >   a. Rebased the patches to latest stable tree (v5.18.15). Resolved some conflicts.
-> >   b. Added the patch to fix CBM issue on AMD. This was originally discussed
-> >      https://lore.kernel.org/lkml/20220517001234.3137157-1-eranian@google.com/
-> > 
+On 2022/8/2 16:37, Will Deacon wrote:
+> On Mon, Jul 11, 2022 at 05:03:18PM +0800, Zhen Lei wrote:
+>> To be consistent with the implementation of x86 and improve cross-platform
+>> user experience. Try to allocate at least 256 MiB low memory automatically
+>> for the case that crashkernel=,high is explicitly specified, while
+>> crashkenrel=,low is omitted.
+>>
+>> Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
+>> Acked-by: Baoquan He <bhe@redhat.com>
+>> ---
+>>  Documentation/admin-guide/kernel-parameters.txt |  8 +-------
+>>  arch/arm64/mm/init.c                            | 12 +++++++++++-
+>>  2 files changed, 12 insertions(+), 8 deletions(-)
+>>
+>> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+>> index 2522b11e593f239..65a2c3a22a4b57d 100644
+>> --- a/Documentation/admin-guide/kernel-parameters.txt
+>> +++ b/Documentation/admin-guide/kernel-parameters.txt
+>> @@ -843,7 +843,7 @@
+>>  			available.
+>>  			It will be ignored if crashkernel=X is specified.
+>>  	crashkernel=size[KMG],low
+>> -			[KNL, X86-64] range under 4G. When crashkernel=X,high
+>> +			[KNL, X86-64, ARM64] range under 4G. When crashkernel=X,high
+>>  			is passed, kernel could allocate physical memory region
+>>  			above 4G, that cause second kernel crash on system
+>>  			that require some amount of low memory, e.g. swiotlb
+>> @@ -857,12 +857,6 @@
+>>  			It will be ignored when crashkernel=X,high is not used
+>>  			or memory reserved is below 4G.
+>>  
+>> -			[KNL, ARM64] range in low memory.
+>> -			This one lets the user specify a low range in the
+>> -			DMA zone for the crash dump kernel.
+>> -			It will be ignored when crashkernel=X,high is not used
+>> -			or memory reserved is located in the DMA zones.
+>> -
+>>  	cryptomgr.notests
+>>  			[KNL] Disable crypto self-tests
+>>  
+>> diff --git a/arch/arm64/mm/init.c b/arch/arm64/mm/init.c
+>> index 339ee84e5a61a0b..5390f361208ccf7 100644
+>> --- a/arch/arm64/mm/init.c
+>> +++ b/arch/arm64/mm/init.c
+>> @@ -96,6 +96,14 @@ phys_addr_t __ro_after_init arm64_dma_phys_limit = PHYS_MASK + 1;
+>>  #define CRASH_ADDR_LOW_MAX		arm64_dma_phys_limit
+>>  #define CRASH_ADDR_HIGH_MAX		(PHYS_MASK + 1)
+>>  
+>> +/*
+>> + * This is an empirical value in x86_64 and taken here directly. Please
+>> + * refer to the code comment in reserve_crashkernel_low() of x86_64 for more
+>> + * details.
 > 
-> Shouldn't this series be rebased on tip tree? I think it's odd to base 
-> new feature series on stable tree, since patches on the latter are mostly 
-> bugfixes backported from mainline.
+> Honestly, I read that comment and I'm none the wiser. What does "due to
+> mapping restrictions" mean? The remainder of the comment appears to be
 
-Normally that's true, but AFAICS the patchset applies cleanly to latest 
--tip as well, so 'stable == tip' in this regard.
+Because the comments you read is addressed to CRASH_ADDR_LOW_MAX, not
+for DEFAULT_CRASH_KERNEL_LOW_SIZE. Please see the following patch:
 
-Series looks good to me (without having tested it):
+94fb9334182284 x86/crash: Allocate enough low memory when crashkernel=high
 
-  Reviewed-by: Ingo Molnar <mingo@kernel.org>
+> specific to x86 and refers to jump ranges with 5-level page-tables.
+> 
+>> +#define DEFAULT_CRASH_KERNEL_LOW_SIZE	\
+>> +	max(swiotlb_size_or_default() + (8UL << 20), 256UL << 20)
+> 
+> So why does this value make sense for arm64? We have considerable platform
+> fragmentation^Wdiversity compared to x86 and picking a one-size-fits-all
+> default is more likely to cause weird problems when it doesn't work imo. I'd
+> actually prefer that the default is something that fails obviously (e.g. 0)
+> and we force an appropriate size to be specified.
+> 
+> On the other hand, if you can convince me that having a global constant is
+> the right way forward, then please move this out of the arch code.
 
-Thanks,
+Yes, the default value may not be the same as that of x86. For example,
+128 MB may be sufficient.
 
-	Ingo
+So we need to discuss first, do we need a default value? Personally, I
+don't think it hurts.
+
+> 
+> Will
+> .
+> 
+
+-- 
+Regards,
+  Zhen Lei
