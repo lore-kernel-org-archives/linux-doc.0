@@ -2,54 +2,129 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 49673C19F28
-	for <linux-doc@archiver.kernel.org>; Tue,  2 Aug 2022 15:56:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8EF4DC19F29
+	for <linux-doc@archiver.kernel.org>; Tue,  2 Aug 2022 16:39:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237206AbiHBP4v (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 2 Aug 2022 11:56:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33882 "EHLO
+        id S239089AbiHBQj2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 2 Aug 2022 12:39:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43268 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235146AbiHBP4v (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Aug 2022 11:56:51 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C8FC30B
-        for <linux-doc@vger.kernel.org>; Tue,  2 Aug 2022 08:56:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Transfer-Encoding:
-        Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
-        Sender:Reply-To:Content-ID:Content-Description;
-        bh=2YTEddQgV3eve/kjK7FvWj0CYDE8kF529gnIudt05K8=; b=durJ8rzTa5TjusG/D0VqOozZ73
-        0TBxrRR8NanWNRXemQHlc2AgiYZb0Q+sdFUDzIdsoULMtTQvZewla/ipoGW8tCDVptb9rPxndT9hJ
-        /WkOQiwQ9qH/ucJzkCSVBcBx1J4KZkw4sUmAVHsstE/ihi5+HmnbepmyM1ASsmGytCYotSz7T/CR4
-        zwEKEB9pGa82SctZmbEQwO+kCWpRCszUZdPjZ4AyOqobn6Cep4YlFzq4spg+bVzquTU0aLGRTGHh/
-        vQfmZFDs9DS4zxnj9bCTaPJsh7iVnhi12RifV0ZhtEIzqTXvXHCnmNFM5gr1zJaepfhsVT8su8ClV
-        d00mF7kg==;
-Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1oIuGG-008Tko-1l; Tue, 02 Aug 2022 15:56:48 +0000
-Date:   Tue, 2 Aug 2022 16:56:48 +0100
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Ricardo =?iso-8859-1?Q?Ca=F1uelo?= <ricardo.canuelo@collabora.com>
-Cc:     linux-doc@vger.kernel.org,
-        virtualization@lists.linux-foundation.org, mst@redhat.com,
-        jasowang@redhat.com, kernel@collabora.com
-Subject: Re: [PATCH] docs: driver-api: virtio: virtio on Linux
-Message-ID: <YulJQKL22sB31lfU@casper.infradead.org>
-References: <20220802124222.3563378-1-ricardo.canuelo@collabora.com>
+        with ESMTP id S239094AbiHBQjL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Aug 2022 12:39:11 -0400
+Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com [IPv6:2607:f8b0:4864:20::634])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD7EDF51
+        for <linux-doc@vger.kernel.org>; Tue,  2 Aug 2022 09:39:00 -0700 (PDT)
+Received: by mail-pl1-x634.google.com with SMTP id w10so13998088plq.0
+        for <linux-doc@vger.kernel.org>; Tue, 02 Aug 2022 09:39:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc;
+        bh=YLolmPC/4W6Ekt5KXSGhTlaQ+SvTrN9uL1784FHTktA=;
+        b=DEczoNtVTMwIsaw8yg11wYkQuI9LeTuQwFeOQ0oJ03m1tMW/YgHdOnTv17v8+A6WTV
+         U7hpMystc0MLLmDXYDMaROWkoGrECN3+IY7Ia+Z09cQyp/+2thONhPGLIYnqECJRrXhr
+         dDHRlXhlBA0o0w24sHNoK99DkncCME85F/XcNTjXnZbY1/vtUg34rxTUMG/OWYQ4HMcI
+         iIFe/Qw/lNcBgMnxPgPuAhy90CFyCy84wOdE8NkRPB91ulC5zTuJcdVgjk8H0EgOjoUm
+         FnlRd5MiMQxVvv/M1kuZRL91q7QvdBIT05QOREIPMw2HWyehKvsTbH9WC464J4D8ov37
+         YsWg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
+        bh=YLolmPC/4W6Ekt5KXSGhTlaQ+SvTrN9uL1784FHTktA=;
+        b=o8BBLxLVOwsX+ODgx6cL/Xv8fcGG2uUYe4s8bfE0450DIcsFi4LCWB/EWX+WkX6ini
+         +0zeoXEzdnxWfr/WyjxoOj8PXD66re9BOjPthDII+oXcD1ffzpUy5x3KvqTg1GXWGddG
+         /YSQhrojaumXQbjqNxxkHZr2l0MOhOuIPwX745UBCPjjRXCVg+r8YgsbRbOf0+FShAs2
+         CdrsT5nxPeATJE9yi14rrEgvtSJfuM/W6PwJPzH20SEVcGgrp4lC47pKlOBLZsFlYuAn
+         M/hKikuATFEL35VpVKRtPxec4IFqHuysyC53nDE1oKJhIP8dJ6KWHYyuseyEvg2bqBxk
+         cU/g==
+X-Gm-Message-State: ACgBeo0o8psJGMjJmUiYUqJyfmvmPpXXzOYd4PaYuuct8JFFRfQf5K6L
+        uJByggQInkcTrYOIwfzVWmFQRQ==
+X-Google-Smtp-Source: AA6agR5iAjFP2q7X1PbZvwrW6P6B4ILkh92ieVBGwE4LPz6Qma2k0ZREMBEhxOJKazpAhnjrSGkWTg==
+X-Received: by 2002:a17:902:dac6:b0:16d:bdf5:7084 with SMTP id q6-20020a170902dac600b0016dbdf57084mr22165713plx.55.1659458340177;
+        Tue, 02 Aug 2022 09:39:00 -0700 (PDT)
+Received: from google.com (7.104.168.34.bc.googleusercontent.com. [34.168.104.7])
+        by smtp.gmail.com with ESMTPSA id l15-20020a17090aec0f00b001f216407204sm11136513pjy.36.2022.08.02.09.38.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 02 Aug 2022 09:38:59 -0700 (PDT)
+Date:   Tue, 2 Aug 2022 16:38:55 +0000
+From:   Sean Christopherson <seanjc@google.com>
+To:     Chao Peng <chao.p.peng@linux.intel.com>
+Cc:     Wei Wang <wei.w.wang@linux.intel.com>,
+        "Gupta, Pankaj" <pankaj.gupta@amd.com>, kvm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+        linux-kselftest@vger.kernel.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com,
+        Quentin Perret <qperret@google.com>,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+        Muchun Song <songmuchun@bytedance.com>
+Subject: Re: [PATCH v7 11/14] KVM: Register/unregister the guest private
+ memory regions
+Message-ID: <YulTH7bL4MwT5v5K@google.com>
+References: <36e671d2-6b95-8e4f-c2ac-fee4b2670c6e@amd.com>
+ <20220720150706.GB124133@chaop.bj.intel.com>
+ <d0fd229d-afa6-c66d-3e55-09ac5877453e@amd.com>
+ <YtgrkXqP/GIi9ujZ@google.com>
+ <45ae9f57-d595-f202-abb5-26a03a2ca131@linux.intel.com>
+ <20220721092906.GA153288@chaop.bj.intel.com>
+ <YtmT2irvgInX1kPp@google.com>
+ <20220725130417.GA304216@chaop.bj.intel.com>
+ <YuQ64RgWqdoAAGdY@google.com>
+ <Yuh0ikhoh+tCK6VW@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220802124222.3563378-1-ricardo.canuelo@collabora.com>
+In-Reply-To: <Yuh0ikhoh+tCK6VW@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Aug 02, 2022 at 02:42:22PM +0200, Ricardo Cañuelo wrote:
-> +In this case, when the interrupt arrives :c:func:`vp_interrupt` will be
-> +called and it will ultimately lead to a call to
-> +:c:func:`vring_interrupt`, which ends up calling the virtqueue callback
-> +function::
+On Tue, Aug 02, 2022, Sean Christopherson wrote:
+> I think we should avoid UNMAPPABLE even on the KVM side of things for the core
+> memslots functionality and instead be very literal, e.g.
+> 
+> 	KVM_HAS_FD_BASED_MEMSLOTS
+> 	KVM_MEM_FD_VALID
+> 
+> We'll still need KVM_HAS_USER_UNMAPPABLE_MEMORY, but it won't be tied directly to
+> the memslot.  Decoupling the two thingis will require a bit of extra work, but the
+> code impact should be quite small, e.g. explicitly query and propagate
+> MEMFILE_F_USER_INACCESSIBLE to kvm_memory_slot to track if a memslot can be private.
+> And unless I'm missing something, it won't require an additional memslot flag.
+> The biggest oddity (if we don't also add KVM_MEM_PRIVATE) is that KVM would
+> effectively ignore the hva for fd-based memslots for VM types that don't support
+> private memory, i.e. userspace can't opt out of using the fd-based backing, but that
+> doesn't seem like a deal breaker.
 
-You don't need to use :c:func:`foo`.  You can just write foo() and the
-tooling will convert it into :c:func:`foo` for you.
+Hrm, but basing private memory on top of a generic FD_VALID would effectively require
+shared memory to use hva-based memslots for confidential VMs.  That'd yield a very
+weird API, e.g. non-confidential VMs could be backed entirely by fd-based memslots,
+but confidential VMs would be forced to use hva-based memslots.
 
+Ignore this idea for now.  If there's an actual use case for generic fd-based memory
+then we'll want a separate flag, fd, and offset, i.e. that support could be added
+independent of KVM_MEM_PRIVATE.
