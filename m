@@ -2,213 +2,846 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E2B4FC3F6B0
-	for <linux-doc@archiver.kernel.org>; Tue,  2 Aug 2022 00:49:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 44900C3F6B0
+	for <linux-doc@archiver.kernel.org>; Tue,  2 Aug 2022 01:51:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234620AbiHBAt1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 1 Aug 2022 20:49:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32938 "EHLO
+        id S235399AbiHBBve (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 1 Aug 2022 21:51:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37366 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235356AbiHBAtZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 Aug 2022 20:49:25 -0400
-Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D340733422
-        for <linux-doc@vger.kernel.org>; Mon,  1 Aug 2022 17:49:19 -0700 (PDT)
-Received: by mail-pj1-x102f.google.com with SMTP id t2-20020a17090a4e4200b001f21572f3a4so13798751pjl.0
-        for <linux-doc@vger.kernel.org>; Mon, 01 Aug 2022 17:49:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc;
-        bh=fYrbrS8yv9H/RvUOOyuHQrSi1loIQEHWMZ/8CZZ3RXc=;
-        b=gO0RsnmpomRU40aaGuswU5stzk1dV4NDc3pxJ6zSc9zcDzvqVHJEsaTU46TCCnnEDM
-         VIM2Q44ozglwDHGobO6GUhmj4taro6Si7I5uJlkeFvBIDIYNgCZMO9DNDT/Fr4nlOf8j
-         FKfGYbL8I576CFY482PM+hUdjOGAEqqzJXYVPR8s7R687SE/sN2YRJ0jIEeCCsAk1y6f
-         DVn0KhP6WN2ELlJd8pOY+UaucR7IsHDggLN+juJdfB22mcm/n8UKO1ldaQKA7IYzA1tt
-         upHroORCIR8C9toovIJlWRMZF59BNixyWef3Z9805sHHgrSaCK+JCYEP+TBUe8H+AEPS
-         tz/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
-        bh=fYrbrS8yv9H/RvUOOyuHQrSi1loIQEHWMZ/8CZZ3RXc=;
-        b=7BNTNLh5yPr4AHuv7eNWtVwWlgO9t6BEPN4/ke+YUHVlYRNmFQ6mpz6i6ECNDPvXIV
-         x6ShSUBXdNisiZuH75wGPTHrgHkFIIUzhYP58M0cd4bJpSF+1iM6QAPCPccX2OhOVorY
-         NmPzvybpacPSuebD9ySH+Fl6rLu8Pf8amV8ZdtsZ20Fk0525jaeOorKKeIjv0UzimgSV
-         x2h0ddTs05w82K82eZNFwxOXWN0jaEU19dhbaGhjmdUTLzzBUfcymlrg4Kh7MmjpkFBo
-         8yPNCpXuXMY4n5+wNYl9nYADOC47eonAQ8az9WN6Q4p0FXO6Bf4DtywnLQv43Z1A1iVk
-         c86g==
-X-Gm-Message-State: ACgBeo2sBvr+T2FMmvwZ/eUQh8lSzxf74LzBPGuUjTI+X02i1BSs6kaP
-        3ckuE2L8vUwuYBPJJVlXvuqL9w==
-X-Google-Smtp-Source: AA6agR5NFcyJ/Eqf8Y9BodOFj30Va8ngMe4AFfAM05tfz+rj1jrOYkiljXtYcYQIlQH1KwHfCRTqmw==
-X-Received: by 2002:a17:903:1209:b0:16c:ece7:f68b with SMTP id l9-20020a170903120900b0016cece7f68bmr19190691plh.112.1659401359068;
-        Mon, 01 Aug 2022 17:49:19 -0700 (PDT)
-Received: from google.com (7.104.168.34.bc.googleusercontent.com. [34.168.104.7])
-        by smtp.gmail.com with ESMTPSA id o1-20020a170902d4c100b0016c4147e48asm5966869plg.219.2022.08.01.17.49.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Aug 2022 17:49:18 -0700 (PDT)
-Date:   Tue, 2 Aug 2022 00:49:14 +0000
-From:   Sean Christopherson <seanjc@google.com>
-To:     Chao Peng <chao.p.peng@linux.intel.com>
-Cc:     Wei Wang <wei.w.wang@linux.intel.com>,
-        "Gupta, Pankaj" <pankaj.gupta@amd.com>, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
-        linux-kselftest@vger.kernel.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        Muchun Song <songmuchun@bytedance.com>
-Subject: Re: [PATCH v7 11/14] KVM: Register/unregister the guest private
- memory regions
-Message-ID: <Yuh0ikhoh+tCK6VW@google.com>
-References: <20220719140843.GA84779@chaop.bj.intel.com>
- <36e671d2-6b95-8e4f-c2ac-fee4b2670c6e@amd.com>
- <20220720150706.GB124133@chaop.bj.intel.com>
- <d0fd229d-afa6-c66d-3e55-09ac5877453e@amd.com>
- <YtgrkXqP/GIi9ujZ@google.com>
- <45ae9f57-d595-f202-abb5-26a03a2ca131@linux.intel.com>
- <20220721092906.GA153288@chaop.bj.intel.com>
- <YtmT2irvgInX1kPp@google.com>
- <20220725130417.GA304216@chaop.bj.intel.com>
- <YuQ64RgWqdoAAGdY@google.com>
+        with ESMTP id S232281AbiHBBve (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 Aug 2022 21:51:34 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BCECC13E9B;
+        Mon,  1 Aug 2022 18:51:30 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 4244961043;
+        Tue,  2 Aug 2022 01:51:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C087AC433D6;
+        Tue,  2 Aug 2022 01:51:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1659405089;
+        bh=3xVDpblfOW7CRBHtYe2gNVEKPz4HST8R7lJSNE6BaVE=;
+        h=From:To:Cc:Subject:Date:From;
+        b=GVKBjD1EJN4dOLawblA1z8mMlS1FDXGh2nbXJ/tOvHoLFcgGwcyIEfnaOnDsfo1ce
+         gNtXgUcCnaFdG2kL6xTigY1xJHR/EvTD2f+fv45wtjK76opvDViK6FgkmkYn++RSSj
+         vU/OlgZV9zEI8z+Vgppc3bWsCWF+QsehqAiVd17dMbAsx7QJAzHBGYcgYgKi/Ax0Mc
+         gCtkFh1ScY2phKKmSeDZQSJh1FWwybHhMK1j2IrTsSmKGbvhNs0odtcK+tOJgtXroU
+         OxnZfC2VWvt2/OTCg6FuqeVyx4SWCVhisFEcI1LURYsHYyxqhxlKqsWzizpNzr9qN6
+         mcmhY+Y9LnIdQ==
+From:   Miguel Ojeda <ojeda@kernel.org>
+To:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jarkko Sakkinen <jarkko@kernel.org>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-gpio@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-perf-users@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-riscv@lists.infradead.org, linux-um@lists.infradead.org,
+        live-patching@vger.kernel.org
+Subject: [PATCH v8 00/31] Rust support
+Date:   Tue,  2 Aug 2022 03:49:47 +0200
+Message-Id: <20220802015052.10452-1-ojeda@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YuQ64RgWqdoAAGdY@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jul 29, 2022, Sean Christopherson wrote:
-> On Mon, Jul 25, 2022, Chao Peng wrote:
-> > On Thu, Jul 21, 2022 at 05:58:50PM +0000, Sean Christopherson wrote:
-> > > On Thu, Jul 21, 2022, Chao Peng wrote:
-> > > > On Thu, Jul 21, 2022 at 03:34:59PM +0800, Wei Wang wrote:
-> > > > > 
-> > > > > 
-> > > > > On 7/21/22 00:21, Sean Christopherson wrote:
-> > > > > Maybe you could tag it with cgs for all the confidential guest support
-> > > > > related stuff: e.g. kvm_vm_ioctl_set_cgs_mem()
-> > > > > 
-> > > > > bool is_private = ioctl == KVM_MEMORY_ENCRYPT_REG_REGION;
-> > > > > ...
-> > > > > kvm_vm_ioctl_set_cgs_mem(, is_private)
-> > > > 
-> > > > If we plan to widely use such abbr. through KVM (e.g. it's well known),
-> > > > I'm fine.
-> > > 
-> > > I'd prefer to stay away from "confidential guest", and away from any VM-scoped
-> > > name for that matter.  User-unmappable memmory has use cases beyond hiding guest
-> > > state from the host, e.g. userspace could use inaccessible/unmappable memory to
-> > > harden itself against unintentional access to guest memory.
-> > > 
-> > > > I actually use mem_attr in patch: https://lkml.org/lkml/2022/7/20/610
-> > > > But I also don't quite like it, it's so generic and sounds say nothing.
-> > > > 
-> > > > But I do want a name can cover future usages other than just 
-> > > > private/shared (pKVM for example may have a third state).
-> > > 
-> > > I don't think there can be a third top-level state.  Memory is either private to
-> > > the guest or it's not.  There can be sub-states, e.g. memory could be selectively
-> > > shared or encrypted with a different key, in which case we'd need metadata to
-> > > track that state.
-> > > 
-> > > Though that begs the question of whether or not private_fd is the correct
-> > > terminology.  E.g. if guest memory is backed by a memfd that can't be mapped by
-> > > userspace (currently F_SEAL_INACCESSIBLE), but something else in the kernel plugs
-> > > that memory into a device or another VM, then arguably that memory is shared,
-> > > especially the multi-VM scenario.
-> > > 
-> > > For TDX and SNP "private vs. shared" is likely the correct terminology given the
-> > > current specs, but for generic KVM it's probably better to align with whatever
-> > > terminology is used for memfd.  "inaccessible_fd" and "user_inaccessible_fd" are
-> > > a bit odd since the fd itself is accesible.
-> > > 
-> > > What about "user_unmappable"?  E.g.
-> > > 
-> > >   F_SEAL_USER_UNMAPPABLE, MFD_USER_UNMAPPABLE, KVM_HAS_USER_UNMAPPABLE_MEMORY,
-> > >   MEMFILE_F_USER_INACCESSIBLE, user_unmappable_fd, etc...
-> > 
-> > For KVM I also think user_unmappable looks better than 'private', e.g.
-> > user_unmappable_fd/KVM_HAS_USER_UNMAPPABLE_MEMORY sounds more
-> > appropriate names. For memfd however, I don't feel that strong to change
-> > it from current 'inaccessible' to 'user_unmappable', one of the reason
-> > is it's not just about unmappable, but actually also inaccessible
-> > through direct ioctls like read()/write().
-> 
-> Heh, I _knew_ there had to be a catch.  I agree that INACCESSIBLE is better for
-> memfd.
+Rust support
 
-Thought about this some more...
+This is the patch series (v8) to add support for Rust as a second
+language to the Linux kernel.
 
-I think we should avoid UNMAPPABLE even on the KVM side of things for the core
-memslots functionality and instead be very literal, e.g.
+If you are interested in following this effort, please join us in
+the mailing list at:
 
-	KVM_HAS_FD_BASED_MEMSLOTS
-	KVM_MEM_FD_VALID
+    rust-for-linux@vger.kernel.org
 
-We'll still need KVM_HAS_USER_UNMAPPABLE_MEMORY, but it won't be tied directly to
-the memslot.  Decoupling the two thingis will require a bit of extra work, but the
-code impact should be quite small, e.g. explicitly query and propagate
-MEMFILE_F_USER_INACCESSIBLE to kvm_memory_slot to track if a memslot can be private.
-And unless I'm missing something, it won't require an additional memslot flag.
-The biggest oddity (if we don't also add KVM_MEM_PRIVATE) is that KVM would
-effectively ignore the hva for fd-based memslots for VM types that don't support
-private memory, i.e. userspace can't opt out of using the fd-based backing, but that
-doesn't seem like a deal breaker.
+and take a look at the project itself at:
 
-Decoupling private memory from fd-based memslots will allow using fd-based memslots
-for backing VMs even if the memory is user mappable, which opens up potentially
-interesting use cases.  It would also allow testing some parts of fd-based memslots
-with existing VMs.
+    https://github.com/Rust-for-Linux
 
-The big advantage of KVM's hva-based memslots is that KVM doesn't care what's backing
-a memslot, and so (in thoery) enabling new backing stores for KVM is free.  It's not
-always free, but at this point I think we've eliminated most of the hiccups, e.g. x86's
-MMU should no longer require additional enlightenment to support huge pages for new
-backing types.
+As usual, special thanks go to ISRG (Internet Security Research
+Group) and Google for their financial support on this endeavor.
 
-On the flip-side, a big disadvantage of hva-based memslots is that KVM doesn't
-_know_ what's backing a memslot.  This is one of the major reasons, if not _the_
-main reason at this point, why KVM binds a VM to a single virtual address space.
-Running with different hva=>pfn mappings would either be completely unsafe or
-prohibitively expensive (nearly impossible?) to ensure.
+Cheers,
+Miguel
 
-With fd-based memslots, KVM essentially binds a memslot directly to the backing
-store.  This allows KVM to do a "deep" comparison of a memslot between two address
-spaces simply by checking that the backing store is the same.  For intra-host/copyless
-migration (to upgrade the userspace VMM), being able to do a deep comparison would
-theoretically allow transferring KVM's page tables between VMs instead of forcing
-the target VM to rebuild the page tables.  There are memcg complications (and probably
-many others) for transferring page tables, but I'm pretty sure it could work.
+--
 
-I don't have a concrete use case (this is a recent idea on my end), but since we're
-already adding fd-based memory, I can't think of a good reason not make it more generic
-for not much extra cost.  And there are definitely classes of VMs for which fd-based
-memory would Just Work, e.g. large VMs that are never oversubscribed on memory don't
-need to support reclaim, so the fact that fd-based memslots won't support page aging
-(among other things) right away is a non-issue.
+# Rust support
+
+This cover letter explains the major changes and updates done since
+the previous ones. For those, please see:
+
+    RFC: https://lore.kernel.org/lkml/20210414184604.23473-1-ojeda@kernel.org/
+    v1:  https://lore.kernel.org/lkml/20210704202756.29107-1-ojeda@kernel.org/
+    v2:  https://lore.kernel.org/lkml/20211206140313.5653-1-ojeda@kernel.org/
+    v3:  https://lore.kernel.org/lkml/20220117053349.6804-1-ojeda@kernel.org/
+    v4:  https://lore.kernel.org/lkml/20220212130410.6901-1-ojeda@kernel.org/
+    v5:  https://lore.kernel.org/lkml/20220317181032.15436-1-ojeda@kernel.org/
+    v6:  https://lore.kernel.org/lkml/20220507052451.12890-1-ojeda@kernel.org/
+    v7:  https://lore.kernel.org/lkml/20220523020209.11810-1-ojeda@kernel.org/
+
+
+## Infrastructure updates
+
+There have been several improvements to the overall Rust support:
+
+  - Upgraded toolchain and `alloc` to Rust 1.62.0 from 1.60.0.
+    Rust 1.61.0 stabilized `feature(const_fn_trait_bound)` that
+    we are using.
+
+  - Moved bindings into their own crate, `bindings`. This greatly
+    improves build time when only the `kernel` crate changes (which
+    previously contained the bindings).
+
+  - Disabled unused `bindgen`'s layout test generation, which makes
+    rust-analyzer significantly faster to run.
+
+  - `bindgen` can now be detected via the `__BINDGEN__` macro, which
+    we currently use to workaround an issue with the `btf_type_tag`
+    attribute.
+
+  - Reimplemented `concat_idents!` (an unstable standard library
+    macro) as a proc macro, which means we no longer rely on
+    `feature(concat_idents)`. Furthermore, the proc macro allows
+    to refer to local variables.
+
+  - Reimplemented `static_assert!` in a more idiomatic way, now that
+    `core::assert!()` is supported in const contexts.
+
+  - Made `build_error!`' work under `RUST_BUILD_ASSERT_{WARN,ALLOW}`
+    for modules.
+
+  - Removed `__mulodi4` panicking stub.
+
+  - Added `kernel/configs/rust.config`.
+
+  - Added a (temporary) self-test module for "pure" Rust tests.
+
+  - Changed `.i` macro expanded files to the `.rsi` extension and
+    clarified that they are not intended to be compilable.
+
+  - Dropped support for compiling the Rust side with a different
+    optimization level than the C side.
+
+  - The Linux/Tux SVG logo (recently upstreamed) is used for
+    the generated Rust documentation, instead of the GIF one.
+    The `COPYING-logo` file is bundled too.
+
+  - Other cleanups, fixes and improvements.
+
+
+## Abstractions and driver updates
+
+Some of the improvements to the abstractions and example drivers are:
+
+  - Filesystem support (`fs` module), including:
+
+      + `INode` type (which wraps `struct inode`).
+      + `DEntry` type (which wraps `struct dentry`).
+      + `Filename` type (which wraps `struct filename`).
+      + `Registration` type.
+      + `Type` and `Context` traits.
+      + `SuperBlock` type (which wraps `struct super_block` and takes
+        advantage of typestates for its initialization).
+      + File system parameters support (with a `Value` enum; `Spec*`
+        and `Constant*` types, `define_fs_params!` macro...).
+      + File system flags.
+      + `module_fs!` macro to simplify registering kernel modules that
+        only implement a single file system.
+      + A file system sample.
+
+  - Workqueues support (`workqueue` module), including a `Work` type
+    (which wraps `struct work_struct`), a `Queue` type (which wraps
+    `struct workqueue_struct`), access to different system queues as
+    well as macros to simplify usage, e.g.:
+
+        spawn_work_item!(workqueue::system(), || pr_info!("Hi!\n"))?;
+
+  - More asynchronous support (`kasync` module), including:
+
+      + Executor support (including `Task` and `Executor` traits, a
+        `AutoStopHandle` type that automatically stops the executor on
+        drop, a `spawn_task!` macro that automatically defines a new
+        lockdep lock class...).
+
+      + A workqueue-based executor, which allows to run tasks on
+        dedicated or shared thread pools that are managed by existing
+        C kernel infrastructure, e.g.:
+
+            let mut handle = Executor::try_new(workqueue::system())?;
+
+            spawn_task!(handle.executor(), async {
+                pr_info!("First workqueue task\n");
+            })?;
+
+            spawn_task!(handle.executor(), async {
+                pr_info!("Second workqueue task\n");
+            })?;
+
+            handle.detach();
+
+      + A `yield_now()` function that yields execution of the current
+        task so that other ones may execute (but keeps it runnable so
+        that it will run again as soon as the executor is available
+        again), e.g.:
+
+            async fn example() {
+                pr_info!("Before yield\n");
+                yield_now().await;
+                pr_info!("After yield\n");
+            }
+
+      + `AsyncRevocable` type (in the `revocable` module), which
+        allows access to objects to be revoked without having to wait
+        for existing users to complete. This is useful to drop futures
+        in tasks when executors are being torn down.
+
+      + An asynchronous TCP echo server sample.
+
+  - Introduced support for handling interrupts: `[Threaded]Handler`
+    traits, `[Threaded]Registration` types, a `Return` enum (as the
+    return value from handlers) and flags:
+
+        struct Example;
+
+        impl irq::Handler for Example {
+            type Data = Box<u32>;
+
+            fn handle_irq(_data: &u32) -> irq::Return {
+                irq::Return::None
+            }
+        }
+
+        fn request_irq(irq: u32, data: Box<u32>)
+          -> Result<irq::Registration<Example>> {
+            irq::Registration::try_new(
+                irq, data, irq::flags::SHARED,
+                fmt!("example_{irq}")
+            )
+        }
+
+  - Introduced the `#[vtable]` proc macro attribute to simplify how
+    function pointer tables like `struct file_operations` are used
+    by Rust kernel modules.
+
+    Previously, users had to call a `declare_*_operations!` macro
+    which required passing the defined operations:
+
+        impl file::Operations for SomeFile {
+            ...
+            declare_file_operations!(read, write, ioctl, ...);
+            ...
+        }
+
+    Instead, now it is only required that they annotate the `impl`
+    block with the attribute:
+
+        #[vtable]
+        impl file::Operations for SomeFile {
+            ...
+        }
+
+    The proc macro will generate a boolean `HAS_*` associated constant
+    for each method in the trait, indicating if the implementer has
+    overridden a method.
+
+  - Added `unsafe_list::List`, an intrusive circular doubly-linked
+    list, meant to be used as the basis for other linked lists.
+
+    It is also used in the workqueue-based executor to keep track of
+    all tasks since it is cheaper than other options.
+
+  - Initial RCU support: a `Guard` type that represents evidence that
+    the RCU read side lock is held on the current thread/CPU.
+
+    In addition, `Revocable` now uses this new abstraction so that
+    users can provide evidence of the RCU read side lock being held
+    when accessing the protected object, e.g.:
+
+        fn add_pair(value: &Revocable<(u32, u32)>) -> Option<u32> {
+            let guard = rcu::read_lock();
+            let pair = value.try_access_with_guard(&guard)?;
+            Some(pair.0 + pair.1)
+        }
+
+  - Added `StaticRef` which allows the creation of "reference-counted"
+    globals; i.e. allows to define static variables that can be used
+    when `Ref<T>` or `RefBorrow<'_, T>` are expected.
+
+    This, in turn, allows to have functions that return shared
+    resources (e.g. a global workqueue) without allocations (the
+    shared object is statically allocated).
+
+  - Added `Task::spawn()` function to create and automatically run
+    kernel threads easily, e.g.:
+
+        for i in 0..10 {
+            Task::spawn(fmt!("test{i}"), threadfn).unwrap();
+        }
+
+  - Added `Task::wake_up()` method.
+
+  - Converted `Task` to use `ARef` to unify the usage of all
+    ref-counted C structures.
+
+  - Initial support for delays/sleeps (`delay` module) with a basic
+    `coarse_sleep()` function that wraps the C side `msleep()` and
+    takes advantage of the `Duration` standard library type:
+
+        coarse_sleep(Duration::from_millis(20));
+
+  - Added file flags (to further reduce `bindings::*` usage), e.g.:
+
+        let blocking = (file.flags() & file::flags::O_NONBLOCK) == 0;
+
+  - Added `gpio_chip_register!` and `gpio_irq_chip_register!` macros
+    which automatically define the required lock classes.
+
+  - Removal of `bindings::lock_class_key` from drivers. This gets us
+    closer to eventually make bindings private to the `kernel` crate.
+
+  - Moved usage of `ManuallyDrop` to `MaybeUninit` in `Revocable`,
+    which was unsound.
+
+  - Other cleanups, fixes and improvements.
+
+
+## Patch series updates
+
+The patch series has been reorganized a bit since last time:
+
+  - The `include/linux/` changes for the C helpers have been moved
+    into their own small patches, which can be taken independently
+    as prerequisite patches if needed.
+
+  - Now that the bindings are in their own `bindings` crate,
+    they also get their own patch.
+
+  - There is a new patch that adds the `kernel/configs/rust.config`.
+
+  - One of the `kallsyms` patches has been split into three smaller
+    ones.
+
+  - Cleaned up some "exceeds 100 columns" `checkpatch.pl` warnings.
+    With this final cleanup, the remaining warnings (of all kinds)
+    are either false positives, or cannot be changed without diverging
+    with upstream `alloc` or would make things look worse.
+
+
+## Patch series status
+
+The Rust support is still to be considered experimental. However,
+support is good enough that kernel developers can start working on the
+Rust abstractions for subsystems and write drivers and other modules.
+
+The current series will appear in the next `linux-next`, as usual.
+Similarly, the preview docs for this series can be seen at:
+
+    https://rust-for-linux.github.io/docs/kernel/
+
+As usual, please see the following link for the live list of unstable
+Rust features we are using:
+
+    https://github.com/Rust-for-Linux/linux/issues/2
+
+
+## Conferences, meetings and liaisons
+
+Join us in LPC 2022 (Linux Plumbers Conference) for the Rust MC
+(microconference)! The schedule is available at:
+
+    https://lpc.events/event/16/sessions/150/
+
+We will be talking about GCC Rust (the Rust frontend for GCC),
+`rustc_codegen_gcc` (the GCC backend for `rustc`), Rust for Linux,
+the Rust NVMe driver, the integration of Rust with the Kernel Testing
+Service and Rust in the Kernel (via eBPF).
+
+In addition, I would like to personally thank Google and ISRG
+(Internet Security Research Group) for sponsoring Kangrejos,
+the Rust for Linux workshop:
+
+    https://kangrejos.com
+
+Furthermore, we would like to thank the venues we were invited to:
+
+  - Linux Foundation Live Mentorship Series
+  - Open Source Summit North America
+  - Huawei Global Software Technology Summit
+
+
+## Related news
+
+The GCC Steering Committee accepted the contribution of the Rust
+frontend (GCC Rust). Its first released version (experimental,
+disabled by default) should appear in GCC 13. The first round of
+patches has been posted to the gcc-patches mailing list.
+
+`rustc_codegen_gcc` (the GCC backend for `rustc`) has seen enough
+progress on SIMD support to compile `stdarch`. In addition, more
+prerequisite patches are making their way into GCC.
+
+
+## Acknowledgements
+
+The signatures in the main commits correspond to the people that
+wrote code that has ended up in them at the present time. For details
+on contributions to code and discussions, please see our repository:
+
+    https://github.com/Rust-for-Linux/linux
+
+However, we would like to give credit to everyone that has contributed
+in one way or another to the Rust for Linux project. Since the
+previous cover letter:
+
+  - Nick Desaulniers, Joe Perches, Masahiro Yamada and Jarkko Sakkinen
+    for their reviews of some of the v7 patches.
+
+  - Daniel Latypov, Brendan Higgins and Shuah Khan for picking up
+    the KUnit prerequisite patch.
+
+  - As usual, Björn Roy Baron (bjorn3) and Gary Guo for all the input
+    on Rust compiler details, reviews and suggestions.
+
+  - Andreas Hindborg for working on the NVMe driver, as well as
+    adding atomic allocations for `Box` and allowing to use GFP flags
+    for `KernelAllocator`.
+
+  - Li Hongyu for working on a virtio abstraction.
+
+  - Boqun Feng for working on adding an alloc alignment test.
+
+  - Andreas Reindl for working on adding missing `SAFETY` comments.
+
+  - Anhad Singh for working on adding the `new_with_flags` method
+    to `Pages`.
+
+  - Finn Behrens for working on making it possible to compile
+    the kernel on macOS with Rust enabled.
+
+  - Roel Kluin for working on code refactorings.
+
+  - Wei Liu for taking the time to answer questions from newcomers
+    in Zulip.
+
+  - Philip Li, Yujie Liu et al. for continuing their work on adding
+    Rust support to the Intel 0DAY/LKP kernel test robot.
+
+  - Philip Herron and Arthur Cohen (and his supporters Open Source
+    Security and Embecosm) et al. for their ongoing work on GCC Rust.
+
+  - Antoni Boucher (and his supporters) et al. for their ongoing
+    work on `rustc_codegen_gcc`.
+
+  - Emilio Cobos Álvarez et. al. for their work on `bindgen`,
+    including on issues that affect the kernel.
+
+  - Mats Larsen, Marc Poulhiès et al. for their ongoing work on
+    improving Rust support in Compiler Explorer.
+
+  - Many folks that have reported issues, tested the project,
+    helped spread the word, joined discussions and contributed in
+    other ways!
+
+Please see also the acknowledgements on the previous cover letters.
+
+
+Boqun Feng (2):
+  kallsyms: use `sizeof` instead of hardcoded size
+  kallsyms: avoid hardcoding buffer size
+
+Gary Guo (2):
+  rust: add `build_error` crate
+  vsprintf: add new `%pA` format specifier
+
+Miguel Ojeda (19):
+  kallsyms: add static relationship between `KSYM_NAME_LEN{,_BUFFER}`
+  kallsyms: support "big" kernel symbols
+  kallsyms: increase maximum kernel symbol length to 512
+  rust: add C helpers
+  rust: add `compiler_builtins` crate
+  rust: import upstream `alloc` crate
+  rust: adapt `alloc` crate to the kernel
+  rust: add `macros` crate
+  rust: add `bindings` crate
+  rust: export generated symbols
+  scripts: checkpatch: diagnose uses of `%pA` in the C side as errors
+  scripts: checkpatch: enable language-independent checks for Rust
+  scripts: add `rustdoc_test_{builder,gen}.py` scripts
+  scripts: add `generate_rust_analyzer.py` scripts
+  scripts: decode_stacktrace: demangle Rust symbols
+  docs: add Rust documentation
+  Kbuild: add Rust support
+  samples: add Rust examples
+  MAINTAINERS: Rust
+
+Wedson Almeida Filho (8):
+  workqueue: introduce `__INIT_WORK_WITH_KEY`
+  locking/spinlock: introduce `__spin_lock_init`
+  locking/spinlock: introduce `_raw_spin_lock_init`
+  rust: add `kernel` crate's `sync` module
+  rust: add `kernel` crate
+  configs: add `rust` config
+  [RFC] drivers: gpio: PrimeCell PL061 in Rust
+  [RFC] drivers: android: Binder IPC in Rust
+
+ .gitignore                                   |    6 +
+ .rustfmt.toml                                |   12 +
+ Documentation/core-api/printk-formats.rst    |   10 +
+ Documentation/doc-guide/kernel-doc.rst       |    3 +
+ Documentation/index.rst                      |    1 +
+ Documentation/kbuild/kbuild.rst              |   17 +
+ Documentation/kbuild/makefiles.rst           |   50 +-
+ Documentation/process/changes.rst            |   41 +
+ Documentation/rust/arch-support.rst          |   23 +
+ Documentation/rust/coding-guidelines.rst     |  216 ++
+ Documentation/rust/general-information.rst   |   79 +
+ Documentation/rust/index.rst                 |   22 +
+ Documentation/rust/quick-start.rst           |  232 ++
+ MAINTAINERS                                  |   15 +
+ Makefile                                     |  172 +-
+ arch/Kconfig                                 |    6 +
+ arch/arm/Kconfig                             |    1 +
+ arch/arm64/Kconfig                           |    1 +
+ arch/powerpc/Kconfig                         |    1 +
+ arch/riscv/Kconfig                           |    1 +
+ arch/riscv/Makefile                          |    5 +
+ arch/um/Kconfig                              |    1 +
+ arch/x86/Kconfig                             |    1 +
+ arch/x86/Makefile                            |   10 +
+ drivers/android/Kconfig                      |    6 +
+ drivers/android/Makefile                     |    2 +
+ drivers/android/allocation.rs                |  266 ++
+ drivers/android/context.rs                   |   80 +
+ drivers/android/defs.rs                      |   99 +
+ drivers/android/node.rs                      |  476 +++
+ drivers/android/process.rs                   |  961 +++++
+ drivers/android/range_alloc.rs               |  189 +
+ drivers/android/rust_binder.rs               |  106 +
+ drivers/android/thread.rs                    |  871 +++++
+ drivers/android/transaction.rs               |  326 ++
+ drivers/gpio/Kconfig                         |    8 +
+ drivers/gpio/Makefile                        |    1 +
+ drivers/gpio/gpio_pl061_rust.rs              |  367 ++
+ include/linux/compiler_types.h               |    6 +-
+ include/linux/kallsyms.h                     |    2 +-
+ include/linux/spinlock.h                     |   17 +-
+ include/linux/workqueue.h                    |   21 +-
+ include/uapi/linux/android/binder.h          |   30 +-
+ init/Kconfig                                 |   46 +-
+ kernel/configs/rust.config                   |    1 +
+ kernel/kallsyms.c                            |   26 +-
+ kernel/livepatch/core.c                      |    4 +-
+ lib/Kconfig.debug                            |   82 +
+ lib/vsprintf.c                               |   13 +
+ rust/.gitignore                              |   10 +
+ rust/Makefile                                |  415 +++
+ rust/alloc/README.md                         |   33 +
+ rust/alloc/alloc.rs                          |  440 +++
+ rust/alloc/borrow.rs                         |  498 +++
+ rust/alloc/boxed.rs                          | 2026 +++++++++++
+ rust/alloc/boxed/thin.rs                     |  219 ++
+ rust/alloc/collections/mod.rs                |  156 +
+ rust/alloc/ffi/c_str.rs                      | 1203 ++++++
+ rust/alloc/ffi/mod.rs                        |   93 +
+ rust/alloc/fmt.rs                            |  614 ++++
+ rust/alloc/lib.rs                            |  239 ++
+ rust/alloc/macros.rs                         |  128 +
+ rust/alloc/raw_vec.rs                        |  567 +++
+ rust/alloc/slice.rs                          | 1295 +++++++
+ rust/alloc/str.rs                            |  641 ++++
+ rust/alloc/string.rs                         | 2944 +++++++++++++++
+ rust/alloc/vec/drain.rs                      |  186 +
+ rust/alloc/vec/drain_filter.rs               |  145 +
+ rust/alloc/vec/into_iter.rs                  |  365 ++
+ rust/alloc/vec/is_zero.rs                    |  120 +
+ rust/alloc/vec/mod.rs                        | 3420 ++++++++++++++++++
+ rust/alloc/vec/partial_eq.rs                 |   49 +
+ rust/alloc/vec/set_len_on_drop.rs            |   30 +
+ rust/alloc/vec/spec_extend.rs                |  174 +
+ rust/bindgen_parameters                      |   21 +
+ rust/bindings/bindings_helper.h              |   49 +
+ rust/bindings/lib.rs                         |   57 +
+ rust/build_error.rs                          |   29 +
+ rust/compiler_builtins.rs                    |   79 +
+ rust/exports.c                               |   21 +
+ rust/helpers.c                               |  679 ++++
+ rust/kernel/allocator.rs                     |   64 +
+ rust/kernel/amba.rs                          |  261 ++
+ rust/kernel/build_assert.rs                  |   83 +
+ rust/kernel/chrdev.rs                        |  206 ++
+ rust/kernel/clk.rs                           |   79 +
+ rust/kernel/cred.rs                          |   46 +
+ rust/kernel/delay.rs                         |  104 +
+ rust/kernel/device.rs                        |  527 +++
+ rust/kernel/driver.rs                        |  442 +++
+ rust/kernel/error.rs                         |  564 +++
+ rust/kernel/file.rs                          |  887 +++++
+ rust/kernel/fs.rs                            |  846 +++++
+ rust/kernel/fs/param.rs                      |  553 +++
+ rust/kernel/gpio.rs                          |  505 +++
+ rust/kernel/hwrng.rs                         |  210 ++
+ rust/kernel/io_buffer.rs                     |  153 +
+ rust/kernel/io_mem.rs                        |  278 ++
+ rust/kernel/iov_iter.rs                      |   81 +
+ rust/kernel/irq.rs                           |  681 ++++
+ rust/kernel/kasync.rs                        |   50 +
+ rust/kernel/kasync/executor.rs               |  154 +
+ rust/kernel/kasync/executor/workqueue.rs     |  291 ++
+ rust/kernel/kasync/net.rs                    |  322 ++
+ rust/kernel/kunit.rs                         |   91 +
+ rust/kernel/lib.rs                           |  267 ++
+ rust/kernel/linked_list.rs                   |  247 ++
+ rust/kernel/miscdev.rs                       |  290 ++
+ rust/kernel/mm.rs                            |  149 +
+ rust/kernel/module_param.rs                  |  499 +++
+ rust/kernel/net.rs                           |  392 ++
+ rust/kernel/net/filter.rs                    |  447 +++
+ rust/kernel/of.rs                            |   63 +
+ rust/kernel/pages.rs                         |  144 +
+ rust/kernel/platform.rs                      |  223 ++
+ rust/kernel/power.rs                         |  118 +
+ rust/kernel/prelude.rs                       |   36 +
+ rust/kernel/print.rs                         |  406 +++
+ rust/kernel/random.rs                        |   42 +
+ rust/kernel/raw_list.rs                      |  361 ++
+ rust/kernel/rbtree.rs                        |  563 +++
+ rust/kernel/revocable.rs                     |  425 +++
+ rust/kernel/security.rs                      |   38 +
+ rust/kernel/static_assert.rs                 |   34 +
+ rust/kernel/std_vendor.rs                    |  161 +
+ rust/kernel/str.rs                           |  597 +++
+ rust/kernel/sync.rs                          |  169 +
+ rust/kernel/sync/arc.rs                      |  582 +++
+ rust/kernel/sync/condvar.rs                  |  140 +
+ rust/kernel/sync/guard.rs                    |  159 +
+ rust/kernel/sync/locked_by.rs                |  111 +
+ rust/kernel/sync/mutex.rs                    |  149 +
+ rust/kernel/sync/nowait.rs                   |  188 +
+ rust/kernel/sync/rcu.rs                      |   52 +
+ rust/kernel/sync/revocable.rs                |  246 ++
+ rust/kernel/sync/rwsem.rs                    |  196 +
+ rust/kernel/sync/seqlock.rs                  |  201 +
+ rust/kernel/sync/smutex.rs                   |  290 ++
+ rust/kernel/sync/spinlock.rs                 |  357 ++
+ rust/kernel/sysctl.rs                        |  199 +
+ rust/kernel/task.rs                          |  239 ++
+ rust/kernel/types.rs                         |  705 ++++
+ rust/kernel/unsafe_list.rs                   |  680 ++++
+ rust/kernel/user_ptr.rs                      |  175 +
+ rust/kernel/workqueue.rs                     |  512 +++
+ rust/macros/concat_idents.rs                 |   23 +
+ rust/macros/helpers.rs                       |   79 +
+ rust/macros/lib.rs                           |  191 +
+ rust/macros/module.rs                        |  655 ++++
+ rust/macros/vtable.rs                        |   95 +
+ samples/Kconfig                              |    2 +
+ samples/Makefile                             |    1 +
+ samples/rust/Kconfig                         |  165 +
+ samples/rust/Makefile                        |   19 +
+ samples/rust/hostprogs/.gitignore            |    3 +
+ samples/rust/hostprogs/Makefile              |    5 +
+ samples/rust/hostprogs/a.rs                  |    7 +
+ samples/rust/hostprogs/b.rs                  |    5 +
+ samples/rust/hostprogs/single.rs             |   12 +
+ samples/rust/rust_chrdev.rs                  |   49 +
+ samples/rust/rust_echo_server.rs             |   60 +
+ samples/rust/rust_fs.rs                      |   59 +
+ samples/rust/rust_minimal.rs                 |   35 +
+ samples/rust/rust_miscdev.rs                 |  142 +
+ samples/rust/rust_module_parameters.rs       |   69 +
+ samples/rust/rust_netfilter.rs               |   54 +
+ samples/rust/rust_platform.rs                |   22 +
+ samples/rust/rust_print.rs                   |   54 +
+ samples/rust/rust_random.rs                  |   60 +
+ samples/rust/rust_selftests.rs               |   99 +
+ samples/rust/rust_semaphore.rs               |  170 +
+ samples/rust/rust_semaphore_c.c              |  212 ++
+ samples/rust/rust_stack_probing.rs           |   36 +
+ samples/rust/rust_sync.rs                    |   93 +
+ scripts/.gitignore                           |    1 +
+ scripts/Kconfig.include                      |    6 +-
+ scripts/Makefile                             |    3 +
+ scripts/Makefile.build                       |   60 +
+ scripts/Makefile.debug                       |   10 +
+ scripts/Makefile.host                        |   34 +-
+ scripts/Makefile.lib                         |   12 +
+ scripts/Makefile.modfinal                    |    8 +-
+ scripts/cc-version.sh                        |   12 +-
+ scripts/checkpatch.pl                        |   12 +-
+ scripts/decode_stacktrace.sh                 |   14 +
+ scripts/generate_rust_analyzer.py            |  141 +
+ scripts/generate_rust_target.rs              |  232 ++
+ scripts/is_rust_module.sh                    |   16 +
+ scripts/kallsyms.c                           |   47 +-
+ scripts/kconfig/confdata.c                   |   75 +
+ scripts/min-tool-version.sh                  |    6 +
+ scripts/rust-is-available-bindgen-libclang.h |    2 +
+ scripts/rust-is-available.sh                 |  160 +
+ scripts/rustdoc_test_builder.py              |   59 +
+ scripts/rustdoc_test_gen.py                  |  164 +
+ tools/include/linux/kallsyms.h               |    2 +-
+ tools/lib/perf/include/perf/event.h          |    2 +-
+ tools/lib/symbol/kallsyms.h                  |    2 +-
+ 198 files changed, 43688 insertions(+), 75 deletions(-)
+ create mode 100644 .rustfmt.toml
+ create mode 100644 Documentation/rust/arch-support.rst
+ create mode 100644 Documentation/rust/coding-guidelines.rst
+ create mode 100644 Documentation/rust/general-information.rst
+ create mode 100644 Documentation/rust/index.rst
+ create mode 100644 Documentation/rust/quick-start.rst
+ create mode 100644 drivers/android/allocation.rs
+ create mode 100644 drivers/android/context.rs
+ create mode 100644 drivers/android/defs.rs
+ create mode 100644 drivers/android/node.rs
+ create mode 100644 drivers/android/process.rs
+ create mode 100644 drivers/android/range_alloc.rs
+ create mode 100644 drivers/android/rust_binder.rs
+ create mode 100644 drivers/android/thread.rs
+ create mode 100644 drivers/android/transaction.rs
+ create mode 100644 drivers/gpio/gpio_pl061_rust.rs
+ create mode 100644 kernel/configs/rust.config
+ create mode 100644 rust/.gitignore
+ create mode 100644 rust/Makefile
+ create mode 100644 rust/alloc/README.md
+ create mode 100644 rust/alloc/alloc.rs
+ create mode 100644 rust/alloc/borrow.rs
+ create mode 100644 rust/alloc/boxed.rs
+ create mode 100644 rust/alloc/boxed/thin.rs
+ create mode 100644 rust/alloc/collections/mod.rs
+ create mode 100644 rust/alloc/ffi/c_str.rs
+ create mode 100644 rust/alloc/ffi/mod.rs
+ create mode 100644 rust/alloc/fmt.rs
+ create mode 100644 rust/alloc/lib.rs
+ create mode 100644 rust/alloc/macros.rs
+ create mode 100644 rust/alloc/raw_vec.rs
+ create mode 100644 rust/alloc/slice.rs
+ create mode 100644 rust/alloc/str.rs
+ create mode 100644 rust/alloc/string.rs
+ create mode 100644 rust/alloc/vec/drain.rs
+ create mode 100644 rust/alloc/vec/drain_filter.rs
+ create mode 100644 rust/alloc/vec/into_iter.rs
+ create mode 100644 rust/alloc/vec/is_zero.rs
+ create mode 100644 rust/alloc/vec/mod.rs
+ create mode 100644 rust/alloc/vec/partial_eq.rs
+ create mode 100644 rust/alloc/vec/set_len_on_drop.rs
+ create mode 100644 rust/alloc/vec/spec_extend.rs
+ create mode 100644 rust/bindgen_parameters
+ create mode 100644 rust/bindings/bindings_helper.h
+ create mode 100644 rust/bindings/lib.rs
+ create mode 100644 rust/build_error.rs
+ create mode 100644 rust/compiler_builtins.rs
+ create mode 100644 rust/exports.c
+ create mode 100644 rust/helpers.c
+ create mode 100644 rust/kernel/allocator.rs
+ create mode 100644 rust/kernel/amba.rs
+ create mode 100644 rust/kernel/build_assert.rs
+ create mode 100644 rust/kernel/chrdev.rs
+ create mode 100644 rust/kernel/clk.rs
+ create mode 100644 rust/kernel/cred.rs
+ create mode 100644 rust/kernel/delay.rs
+ create mode 100644 rust/kernel/device.rs
+ create mode 100644 rust/kernel/driver.rs
+ create mode 100644 rust/kernel/error.rs
+ create mode 100644 rust/kernel/file.rs
+ create mode 100644 rust/kernel/fs.rs
+ create mode 100644 rust/kernel/fs/param.rs
+ create mode 100644 rust/kernel/gpio.rs
+ create mode 100644 rust/kernel/hwrng.rs
+ create mode 100644 rust/kernel/io_buffer.rs
+ create mode 100644 rust/kernel/io_mem.rs
+ create mode 100644 rust/kernel/iov_iter.rs
+ create mode 100644 rust/kernel/irq.rs
+ create mode 100644 rust/kernel/kasync.rs
+ create mode 100644 rust/kernel/kasync/executor.rs
+ create mode 100644 rust/kernel/kasync/executor/workqueue.rs
+ create mode 100644 rust/kernel/kasync/net.rs
+ create mode 100644 rust/kernel/kunit.rs
+ create mode 100644 rust/kernel/lib.rs
+ create mode 100644 rust/kernel/linked_list.rs
+ create mode 100644 rust/kernel/miscdev.rs
+ create mode 100644 rust/kernel/mm.rs
+ create mode 100644 rust/kernel/module_param.rs
+ create mode 100644 rust/kernel/net.rs
+ create mode 100644 rust/kernel/net/filter.rs
+ create mode 100644 rust/kernel/of.rs
+ create mode 100644 rust/kernel/pages.rs
+ create mode 100644 rust/kernel/platform.rs
+ create mode 100644 rust/kernel/power.rs
+ create mode 100644 rust/kernel/prelude.rs
+ create mode 100644 rust/kernel/print.rs
+ create mode 100644 rust/kernel/random.rs
+ create mode 100644 rust/kernel/raw_list.rs
+ create mode 100644 rust/kernel/rbtree.rs
+ create mode 100644 rust/kernel/revocable.rs
+ create mode 100644 rust/kernel/security.rs
+ create mode 100644 rust/kernel/static_assert.rs
+ create mode 100644 rust/kernel/std_vendor.rs
+ create mode 100644 rust/kernel/str.rs
+ create mode 100644 rust/kernel/sync.rs
+ create mode 100644 rust/kernel/sync/arc.rs
+ create mode 100644 rust/kernel/sync/condvar.rs
+ create mode 100644 rust/kernel/sync/guard.rs
+ create mode 100644 rust/kernel/sync/locked_by.rs
+ create mode 100644 rust/kernel/sync/mutex.rs
+ create mode 100644 rust/kernel/sync/nowait.rs
+ create mode 100644 rust/kernel/sync/rcu.rs
+ create mode 100644 rust/kernel/sync/revocable.rs
+ create mode 100644 rust/kernel/sync/rwsem.rs
+ create mode 100644 rust/kernel/sync/seqlock.rs
+ create mode 100644 rust/kernel/sync/smutex.rs
+ create mode 100644 rust/kernel/sync/spinlock.rs
+ create mode 100644 rust/kernel/sysctl.rs
+ create mode 100644 rust/kernel/task.rs
+ create mode 100644 rust/kernel/types.rs
+ create mode 100644 rust/kernel/unsafe_list.rs
+ create mode 100644 rust/kernel/user_ptr.rs
+ create mode 100644 rust/kernel/workqueue.rs
+ create mode 100644 rust/macros/concat_idents.rs
+ create mode 100644 rust/macros/helpers.rs
+ create mode 100644 rust/macros/lib.rs
+ create mode 100644 rust/macros/module.rs
+ create mode 100644 rust/macros/vtable.rs
+ create mode 100644 samples/rust/Kconfig
+ create mode 100644 samples/rust/Makefile
+ create mode 100644 samples/rust/hostprogs/.gitignore
+ create mode 100644 samples/rust/hostprogs/Makefile
+ create mode 100644 samples/rust/hostprogs/a.rs
+ create mode 100644 samples/rust/hostprogs/b.rs
+ create mode 100644 samples/rust/hostprogs/single.rs
+ create mode 100644 samples/rust/rust_chrdev.rs
+ create mode 100644 samples/rust/rust_echo_server.rs
+ create mode 100644 samples/rust/rust_fs.rs
+ create mode 100644 samples/rust/rust_minimal.rs
+ create mode 100644 samples/rust/rust_miscdev.rs
+ create mode 100644 samples/rust/rust_module_parameters.rs
+ create mode 100644 samples/rust/rust_netfilter.rs
+ create mode 100644 samples/rust/rust_platform.rs
+ create mode 100644 samples/rust/rust_print.rs
+ create mode 100644 samples/rust/rust_random.rs
+ create mode 100644 samples/rust/rust_selftests.rs
+ create mode 100644 samples/rust/rust_semaphore.rs
+ create mode 100644 samples/rust/rust_semaphore_c.c
+ create mode 100644 samples/rust/rust_stack_probing.rs
+ create mode 100644 samples/rust/rust_sync.rs
+ create mode 100755 scripts/generate_rust_analyzer.py
+ create mode 100644 scripts/generate_rust_target.rs
+ create mode 100755 scripts/is_rust_module.sh
+ create mode 100644 scripts/rust-is-available-bindgen-libclang.h
+ create mode 100755 scripts/rust-is-available.sh
+ create mode 100755 scripts/rustdoc_test_builder.py
+ create mode 100755 scripts/rustdoc_test_gen.py
+
+
+base-commit: 3d7cb6b04c3f3115719235cc6866b10326de34cd
+-- 
+2.37.1
+
