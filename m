@@ -2,132 +2,73 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B56BC00140
-	for <linux-doc@archiver.kernel.org>; Tue,  2 Aug 2022 12:18:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 557C3C19F2B
+	for <linux-doc@archiver.kernel.org>; Tue,  2 Aug 2022 12:26:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236958AbiHBMSm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 2 Aug 2022 08:18:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39006 "EHLO
+        id S236262AbiHBM05 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 2 Aug 2022 08:26:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47552 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236949AbiHBMSj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Aug 2022 08:18:39 -0400
-Received: from out30-57.freemail.mail.aliyun.com (out30-57.freemail.mail.aliyun.com [115.124.30.57])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A56C4F688;
-        Tue,  2 Aug 2022 05:18:36 -0700 (PDT)
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R381e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018045192;MF=xianting.tian@linux.alibaba.com;NM=1;PH=DS;RN=24;SR=0;TI=SMTPD_---0VLBrrdu_1659442706;
-Received: from localhost(mailfrom:xianting.tian@linux.alibaba.com fp:SMTPD_---0VLBrrdu_1659442706)
-          by smtp.aliyun-inc.com;
-          Tue, 02 Aug 2022 20:18:27 +0800
-From:   Xianting Tian <xianting.tian@linux.alibaba.com>
-To:     paul.walmsley@sifive.com, palmer@dabbelt.com,
-        aou@eecs.berkeley.edu, anup@brainfault.org, heiko@sntech.de,
-        guoren@kernel.org, mick@ics.forth.gr,
-        alexandre.ghiti@canonical.com, bhe@redhat.com, vgoyal@redhat.com,
-        dyoung@redhat.com, corbet@lwn.net, Conor.Dooley@microchip.com
-Cc:     kexec@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
-        crash-utility@redhat.com, huanyi.xj@alibaba-inc.com,
-        heinrich.schuchardt@canonical.com, k-hagio-ab@nec.com,
-        hschauhan@nulltrace.org, yixun.lan@gmail.com,
-        Xianting Tian <xianting.tian@linux.alibaba.com>
-Subject: [PATCH V5 4/6] RISC-V: Fixup getting correct current pc
-Date:   Tue,  2 Aug 2022 20:18:16 +0800
-Message-Id: <20220802121818.2201268-5-xianting.tian@linux.alibaba.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20220802121818.2201268-1-xianting.tian@linux.alibaba.com>
-References: <20220802121818.2201268-1-xianting.tian@linux.alibaba.com>
+        with ESMTP id S231732AbiHBM04 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Aug 2022 08:26:56 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 78B83D85;
+        Tue,  2 Aug 2022 05:26:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=i+Zl91q4t+AZoHrEuNohjOyc7HDaxjH2xIeIWp7puuQ=; b=wBqS2CGpTw57Y88TURyJ4aTzj8
+        8rA9zlyUQVdeZi0SP6WeltO8x64WM2LPUJbZVVC9vyEvcTQAvLSqpCU4SHM0zaQY9o9OrcdaBHZUh
+        chmVGrmleKNL5N3TDrjg+ibrLYbwS53UAzvK3KElODt+f7h/w5gi+6ldrpx7Tm/yeEUiofU0dBDeX
+        FbHeAzOiq9gf3BwXU38L2H1pGh5PUVyhGn6vnq+zYqs/YA3Pvf7oi7Z7cPZG0u/xpO9Hz/Tp1HGwz
+        oL5k2sD1WrQc2lLN3YLU266NK2sWUfhJXbwwljK9tqmKmI8tRrOhN3HJGG+3q4+Epob0XnjfJ2x5S
+        xfW/iZZw==;
+Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1oIqz1-008LTX-CP; Tue, 02 Aug 2022 12:26:47 +0000
+Date:   Tue, 2 Aug 2022 13:26:47 +0100
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Miguel Ojeda <ojeda@kernel.org>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jarkko Sakkinen <jarkko@kernel.org>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-gpio@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-perf-users@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-riscv@lists.infradead.org, linux-um@lists.infradead.org,
+        live-patching@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v8 00/31] Rust support
+Message-ID: <YukYByl76DKqa+iD@casper.infradead.org>
+References: <20220802015052.10452-1-ojeda@kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220802015052.10452-1-ojeda@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-When use 'echo c > /proc/sysrq-trigger' to trigger kdump, riscv_crash_save_regs()
-will be called to save regs to vmcore, we found "epc" value 00ffffffa5537400
-is not a valid kernel virtual address, but is a user virtual address. Other
-regs(eg, ra, sp, gp...) are correct kernel virtual address.
-Actually 0x00ffffffb0dd9400 is the user mode PC of 'PID: 113 Comm: sh', which
-is saved in the task's stack.
+On Tue, Aug 02, 2022 at 03:49:47AM +0200, Miguel Ojeda wrote:
+> Some of the improvements to the abstractions and example drivers are:
+> 
+>   - Filesystem support (`fs` module), including:
+> 
+>       + `INode` type (which wraps `struct inode`).
+>       + `DEntry` type (which wraps `struct dentry`).
+>       + `Filename` type (which wraps `struct filename`).
+>       + `Registration` type.
+>       + `Type` and `Context` traits.
+>       + `SuperBlock` type (which wraps `struct super_block` and takes
+>         advantage of typestates for its initialization).
+>       + File system parameters support (with a `Value` enum; `Spec*`
+>         and `Constant*` types, `define_fs_params!` macro...).
+>       + File system flags.
+>       + `module_fs!` macro to simplify registering kernel modules that
+>         only implement a single file system.
+>       + A file system sample.
 
-[   21.201701] CPU: 0 PID: 113 Comm: sh Kdump: loaded Not tainted 5.18.9 #45
-[   21.201979] Hardware name: riscv-virtio,qemu (DT)
-[   21.202160] epc : 00ffffffa5537400 ra : ffffffff80088640 sp : ff20000010333b90
-[   21.202435]  gp : ffffffff810dde38 tp : ff6000000226c200 t0 : ffffffff8032be7c
-[   21.202707]  t1 : 0720072007200720 t2 : 30203a7375746174 s0 : ff20000010333cf0
-[   21.202973]  s1 : 0000000000000000 a0 : ff20000010333b98 a1 : 0000000000000001
-[   21.203243]  a2 : 0000000000000010 a3 : 0000000000000000 a4 : 28c8f0aeffea4e00
-[   21.203519]  a5 : 28c8f0aeffea4e00 a6 : 0000000000000009 a7 : ffffffff8035c9b8
-[   21.203794]  s2 : ffffffff810df0a8 s3 : ffffffff810df718 s4 : ff20000010333b98
-[   21.204062]  s5 : 0000000000000000 s6 : 0000000000000007 s7 : ffffffff80c4a468
-[   21.204331]  s8 : 00ffffffef451410 s9 : 0000000000000007 s10: 00aaaaaac0510700
-[   21.204606]  s11: 0000000000000001 t3 : ff60000001218f00 t4 : ff60000001218f00
-[   21.204876]  t5 : ff60000001218000 t6 : ff200000103338b8
-[   21.205079] status: 0000000200000020 badaddr: 0000000000000000 cause: 0000000000000008
-
-With the incorrect PC, the backtrace showed by crash tool as below, the first
-stack frame is abnormal,
-
-crash> bt
-PID: 113      TASK: ff60000002269600  CPU: 0    COMMAND: "sh"
- #0 [ff2000001039bb90] __efistub_.Ldebug_info0 at 00ffffffa5537400 <-- Abnormal
- #1 [ff2000001039bcf0] panic at ffffffff806578ba
- #2 [ff2000001039bd50] sysrq_reset_seq_param_set at ffffffff8038c030
- #3 [ff2000001039bda0] __handle_sysrq at ffffffff8038c5f8
- #4 [ff2000001039be00] write_sysrq_trigger at ffffffff8038cad8
- #5 [ff2000001039be20] proc_reg_write at ffffffff801b7edc
- #6 [ff2000001039be40] vfs_write at ffffffff80152ba6
- #7 [ff2000001039be80] ksys_write at ffffffff80152ece
- #8 [ff2000001039bed0] sys_write at ffffffff80152f46
-
-With the patch, we can get current kernel mode PC, the output as below,
-
-[   17.607658] CPU: 0 PID: 113 Comm: sh Kdump: loaded Not tainted 5.18.9 #42
-[   17.607937] Hardware name: riscv-virtio,qemu (DT)
-[   17.608150] epc : ffffffff800078f8 ra : ffffffff8008862c sp : ff20000010333b90
-[   17.608441]  gp : ffffffff810dde38 tp : ff6000000226c200 t0 : ffffffff8032be68
-[   17.608741]  t1 : 0720072007200720 t2 : 666666666666663c s0 : ff20000010333cf0
-[   17.609025]  s1 : 0000000000000000 a0 : ff20000010333b98 a1 : 0000000000000001
-[   17.609320]  a2 : 0000000000000010 a3 : 0000000000000000 a4 : 0000000000000000
-[   17.609601]  a5 : ff60000001c78000 a6 : 000000000000003c a7 : ffffffff8035c9a4
-[   17.609894]  s2 : ffffffff810df0a8 s3 : ffffffff810df718 s4 : ff20000010333b98
-[   17.610186]  s5 : 0000000000000000 s6 : 0000000000000007 s7 : ffffffff80c4a468
-[   17.610469]  s8 : 00ffffffca281410 s9 : 0000000000000007 s10: 00aaaaaab5bb6700
-[   17.610755]  s11: 0000000000000001 t3 : ff60000001218f00 t4 : ff60000001218f00
-[   17.611041]  t5 : ff60000001218000 t6 : ff20000010333988
-[   17.611255] status: 0000000200000020 badaddr: 0000000000000000 cause: 0000000000000008
-
-With the correct PC, the backtrace showed by crash tool as below,
-
-crash> bt
-PID: 113      TASK: ff6000000226c200  CPU: 0    COMMAND: "sh"
- #0 [ff20000010333b90] riscv_crash_save_regs at ffffffff800078f8 <--- Normal
- #1 [ff20000010333cf0] panic at ffffffff806578c6
- #2 [ff20000010333d50] sysrq_reset_seq_param_set at ffffffff8038c03c
- #3 [ff20000010333da0] __handle_sysrq at ffffffff8038c604
- #4 [ff20000010333e00] write_sysrq_trigger at ffffffff8038cae4
- #5 [ff20000010333e20] proc_reg_write at ffffffff801b7ee8
- #6 [ff20000010333e40] vfs_write at ffffffff80152bb2
- #7 [ff20000010333e80] ksys_write at ffffffff80152eda
- #8 [ff20000010333ed0] sys_write at ffffffff80152f52
-
-Fixes: e53d28180d4d ("RISC-V: Add kdump support")
-Co-developed-by: Guo Ren <guoren@kernel.org>
-Signed-off-by: Xianting Tian <xianting.tian@linux.alibaba.com>
----
- arch/riscv/kernel/crash_save_regs.S | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/arch/riscv/kernel/crash_save_regs.S b/arch/riscv/kernel/crash_save_regs.S
-index 7832fb763aba..b2a1908c0463 100644
---- a/arch/riscv/kernel/crash_save_regs.S
-+++ b/arch/riscv/kernel/crash_save_regs.S
-@@ -44,7 +44,7 @@ SYM_CODE_START(riscv_crash_save_regs)
- 	REG_S t6,  PT_T6(a0)	/* x31 */
- 
- 	csrr t1, CSR_STATUS
--	csrr t2, CSR_EPC
-+	auipc t2, 0x0
- 	csrr t3, CSR_TVAL
- 	csrr t4, CSR_CAUSE
- 
--- 
-2.17.1
-
+None of this (afaict) has been discussed on linux-fsdevel.  And I may
+have missed somethiing, but I don't see the fs module in this series
+of patches.  Could linux-fsdevel be cc'd on the development of Rust
+support for filesystems in the future?
