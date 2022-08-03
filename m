@@ -2,140 +2,95 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B4CE5C19F28
-	for <linux-doc@archiver.kernel.org>; Wed,  3 Aug 2022 16:58:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1ADF1C19F28
+	for <linux-doc@archiver.kernel.org>; Wed,  3 Aug 2022 17:58:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237236AbiHCQ61 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 3 Aug 2022 12:58:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43162 "EHLO
+        id S233102AbiHCR6r (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 3 Aug 2022 13:58:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34224 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233814AbiHCQ61 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Aug 2022 12:58:27 -0400
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1802ADFA8;
-        Wed,  3 Aug 2022 09:58:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1659545906; x=1691081906;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+B1vsLU39VGsTpHwlt0Hln8FAe8XY68mIqJ4Xlv+sJo=;
-  b=F7DHFSD3b6M9nJMGS7G/8ZD/zZiWYdW0jWtQaqGDGmmBmxMmaTcrvTI7
-   zHv+RfWeknlGI2sozQ6IJ4aZO5QiXUOH0wb8fCGcTPsj6jaf/arJCmHS2
-   7fPHHgIXXHth6/G8oNxhhqdZhQzQG9QZONdQ8epxgWWMkzm2Fkg8U0sVI
-   5D9Ob6fqteaFRoPv0MvX7tIV67YDm+mS+2wgOdeqO6mb4bq6v1h4g14Fm
-   5WiVvA9cLWsk6UtYG4IXdMzE+SGzhnQf3vcoEECtg4u5jp6Q2twOTiGY9
-   v16+9511aH9pd7KRF6JMS9DPrZ/W6hFDZ8SOy2LhFG7YVKhQ5pd3FpEz+
-   w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10428"; a="290943484"
-X-IronPort-AV: E=Sophos;i="5.93,214,1654585200"; 
-   d="scan'208";a="290943484"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Aug 2022 09:58:21 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,214,1654585200"; 
-   d="scan'208";a="692312968"
-Received: from lkp-server01.sh.intel.com (HELO e0eace57cfef) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 03 Aug 2022 09:58:14 -0700
-Received: from kbuild by e0eace57cfef with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1oJHhF-000HTV-1t;
-        Wed, 03 Aug 2022 16:58:13 +0000
-Date:   Thu, 4 Aug 2022 00:57:20 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Schspa Shi <schspa@gmail.com>
-Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org,
-        linux-kernel@vger.kernel.org, David Sterba <dsterba@suse.com>,
-        linux-doc@vger.kernel.org
-Subject: fs/btrfs/zstd.c:98: warning: This comment starts with '/**', but
- isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-Message-ID: <202208040057.KEoGGTvs-lkp@intel.com>
+        with ESMTP id S238184AbiHCR6c (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Aug 2022 13:58:32 -0400
+Received: from mail-pg1-x530.google.com (mail-pg1-x530.google.com [IPv6:2607:f8b0:4864:20::530])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24C2D5A178;
+        Wed,  3 Aug 2022 10:58:29 -0700 (PDT)
+Received: by mail-pg1-x530.google.com with SMTP id i71so10252837pge.9;
+        Wed, 03 Aug 2022 10:58:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc;
+        bh=0F2KsgjThkMHJsCvW8q0mHWxfELmkopPA/c2rKsFWiQ=;
+        b=irnvtNDIhFfQ5STKu/5oLxnXV9W5JZmn1EV32OigTb/j1H7T4y30vulOjAKaAlbI5P
+         Cm8ZuZ0CLfsw55nypOyeR4PB2evi7h7MSyRZlw2hdAK/MSdj19G7f7D4dwdj5BHqiD6U
+         x6EU71FTrPaqJBTtm5+s7omP3SqaHD8Fpnd3cQtNbMfSN/TnOC96P4qwRn+GINwaSJB5
+         1usP0fEwBYFkR34DhK/fe6Yjff1IrmHA9CfJsgmjttZGEL1V+Ka/S6h/WISxaAyhpUwN
+         g7av/flBcnUgkS5cXSDC/nKHPXOaaKUPksJkwn9uYjVcMhLDXTI+ghaJNfe1Ajwb74hh
+         JXHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc;
+        bh=0F2KsgjThkMHJsCvW8q0mHWxfELmkopPA/c2rKsFWiQ=;
+        b=tkIN4AGQdUUsGkRwuxZfZxxt8mM61kYs/8zS5QMfKnXbO+o+pT9Fo40CtEtaWK9VXV
+         uzFjWbFo2Axw1ZVhrpjDKk32LvW4yfkBv2pSks/edkOLy17WJSgN4v6lw6q6HEL6cdwL
+         y4IJneTj3aNGz9SgCR2CtCEVAkcLsUuxk90/YUtUNWRIynYtsiLbHbbEBVfPDGokZp3W
+         v2WUbO4C070PBTLtxeiWkjlnW0NeN7cvUB0Mmf5AIm/Ib8MxDtUpeUVdnCYnfyfg3j7V
+         WwCbfv12OeWFHUG63uCbF2yY7F4RbZakiJoDZzF0e9kuSG0RaPx/GEUrbYLrQFADcZ47
+         PX5g==
+X-Gm-Message-State: AJIora9I1MC7z4fKj8RJsDvIFiHAYxKIslGyyCoKccWdVk04BUYQhsmi
+        gJkV+LFr7E3xLWChXvzJe/Q=
+X-Google-Smtp-Source: AGRyM1tCpII40sPNaHdhKgqmNluFYhaR17/ZC6haTluSNFmmikP70DA5/RnueUxwV0Ye25rWMiBpLA==
+X-Received: by 2002:a65:5207:0:b0:3fb:c00f:f6e4 with SMTP id o7-20020a655207000000b003fbc00ff6e4mr22436056pgp.415.1659549509177;
+        Wed, 03 Aug 2022 10:58:29 -0700 (PDT)
+Received: from localhost ([2620:10d:c090:400::5:83dc])
+        by smtp.gmail.com with ESMTPSA id s2-20020a625e02000000b005251c6fbd0csm13344644pfb.29.2022.08.03.10.58.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 03 Aug 2022 10:58:28 -0700 (PDT)
+Sender: Tejun Heo <htejun@gmail.com>
+Date:   Wed, 3 Aug 2022 07:58:27 -1000
+From:   Tejun Heo <tj@kernel.org>
+To:     Chengming Zhou <zhouchengming@bytedance.com>
+Cc:     Johannes Weiner <hannes@cmpxchg.org>, surenb@google.com,
+        mingo@redhat.com, peterz@infradead.org, corbet@lwn.net,
+        akpm@linux-foundation.org, rdunlap@infradead.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        songmuchun@bytedance.com, cgroups@vger.kernel.org
+Subject: Re: [PATCH 8/9] sched/psi: add kernel cmdline parameter
+ psi_inner_cgroup
+Message-ID: <Yuq3Q6Y9dRnjjcPt@slm.duckdns.org>
+References: <20220721040439.2651-1-zhouchengming@bytedance.com>
+ <20220721040439.2651-9-zhouchengming@bytedance.com>
+ <Yt7KQc0nnOypB2b2@cmpxchg.org>
+ <YuAqWprKd6NsWs7C@slm.duckdns.org>
+ <5a3410d6-428d-9ad1-3e5a-01ca805ceeeb@bytedance.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <5a3410d6-428d-9ad1-3e5a-01ca805ceeeb@bytedance.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   e2b542100719a93f8cdf6d90185410d38a57a4c1
-commit: dd7382a2a7da91a475703810a87a80d6eae14645 btrfs: use non-bh spin_lock in zstd timer callback
-date:   3 months ago
-config: hexagon-randconfig-r002-20220803 (https://download.01.org/0day-ci/archive/20220804/202208040057.KEoGGTvs-lkp@intel.com/config)
-compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 495519e5f8232d144ed26e9c18dbcbac6a5f25eb)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=dd7382a2a7da91a475703810a87a80d6eae14645
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout dd7382a2a7da91a475703810a87a80d6eae14645
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash fs/btrfs/
+Hello,
 
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
+On Wed, Aug 03, 2022 at 08:17:22PM +0800, Chengming Zhou wrote:
+> > Assuming the above isn't wrong, if we can figure out how we can re-enable
+> > it, which is more difficult as the counters need to be resynchronized with
+> > the current state, that'd be ideal. Then, we can just allow each cgroup to
+> > enable / disable PSI reporting dynamically as they see fit.
+> 
+> This method is more fine-grained but more difficult like you said above.
+> I think it may meet most needs to disable PSI stats in intermediate cgroups?
 
-All warnings (new ones prefixed by >>):
+So, I'm not necessarily against implementing something easier but we at
+least wanna get the interface right, so that if we decide to do the full
+thing later we can easily expand on the existing interface. ie. let's please
+not be too hacky. I don't think it'd be that difficult to implement
+per-cgroup disable-only operation that we can later expand to allow
+re-enabling, right?
 
->> fs/btrfs/zstd.c:98: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Timer callback to free unused workspaces.
-
-
-vim +98 fs/btrfs/zstd.c
-
-    96	
-    97	/**
-  > 98	 * Timer callback to free unused workspaces.
-    99	 *
-   100	 * @t: timer
-   101	 *
-   102	 * This scans the lru_list and attempts to reclaim any workspace that hasn't
-   103	 * been used for ZSTD_BTRFS_RECLAIM_JIFFIES.
-   104	 *
-   105	 * The context is softirq and does not need the _bh locking primitives.
-   106	 */
-   107	static void zstd_reclaim_timer_fn(struct timer_list *timer)
-   108	{
-   109		unsigned long reclaim_threshold = jiffies - ZSTD_BTRFS_RECLAIM_JIFFIES;
-   110		struct list_head *pos, *next;
-   111	
-   112		spin_lock(&wsm.lock);
-   113	
-   114		if (list_empty(&wsm.lru_list)) {
-   115			spin_unlock(&wsm.lock);
-   116			return;
-   117		}
-   118	
-   119		list_for_each_prev_safe(pos, next, &wsm.lru_list) {
-   120			struct workspace *victim = container_of(pos, struct workspace,
-   121								lru_list);
-   122			unsigned int level;
-   123	
-   124			if (time_after(victim->last_used, reclaim_threshold))
-   125				break;
-   126	
-   127			/* workspace is in use */
-   128			if (victim->req_level)
-   129				continue;
-   130	
-   131			level = victim->level;
-   132			list_del(&victim->lru_list);
-   133			list_del(&victim->list);
-   134			zstd_free_workspace(&victim->list);
-   135	
-   136			if (list_empty(&wsm.idle_ws[level - 1]))
-   137				clear_bit(level - 1, &wsm.active_map);
-   138	
-   139		}
-   140	
-   141		if (!list_empty(&wsm.lru_list))
-   142			mod_timer(&wsm.timer, jiffies + ZSTD_BTRFS_RECLAIM_JIFFIES);
-   143	
-   144		spin_unlock(&wsm.lock);
-   145	}
-   146	
+Thanks.
 
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+tejun
