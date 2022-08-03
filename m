@@ -2,96 +2,125 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6DFEDC19F28
-	for <linux-doc@archiver.kernel.org>; Wed,  3 Aug 2022 19:48:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A8A85C19F2C
+	for <linux-doc@archiver.kernel.org>; Wed,  3 Aug 2022 20:49:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237795AbiHCTsX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 3 Aug 2022 15:48:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45870 "EHLO
+        id S238620AbiHCUtR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 3 Aug 2022 16:49:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53172 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233409AbiHCTsW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Aug 2022 15:48:22 -0400
-Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C37A20BD9;
-        Wed,  3 Aug 2022 12:48:21 -0700 (PDT)
-Received: by mail-pj1-x1035.google.com with SMTP id e8-20020a17090a280800b001f2fef7886eso3198166pjd.3;
-        Wed, 03 Aug 2022 12:48:21 -0700 (PDT)
+        with ESMTP id S238706AbiHCUtR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Aug 2022 16:49:17 -0400
+Received: from mail-oa1-x2f.google.com (mail-oa1-x2f.google.com [IPv6:2001:4860:4864:20::2f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BCDA65C960
+        for <linux-doc@vger.kernel.org>; Wed,  3 Aug 2022 13:49:15 -0700 (PDT)
+Received: by mail-oa1-x2f.google.com with SMTP id 586e51a60fabf-10ec41637b3so13925930fac.4
+        for <linux-doc@vger.kernel.org>; Wed, 03 Aug 2022 13:49:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc;
-        bh=/TnexTjdFrc/Gu2edl42Moooc6kFX3TgYFD+N6FTpm4=;
-        b=QDt3cfQte/Zl4k0s/nJQy5IJo4lGn44+dOrM6ddgvuwo9jKvKLbbnFoL0T8cgQYOoj
-         uyUgupOxmCC9zuOi67Jlg1e05mjmaBm5vyCdVxr8VZ+3I3kbNaPxUxd5pndHkzsGdXVR
-         n6bZmfKul/vPUIzryzxQ2Ft1gRS7bSyHNWqwz9AgtmOVYtR25fuSYtUDLA+QVH8PZ2Pk
-         7HRvQUPlLZBaBFjljW4kobGO084v6+zwuGGUoLlSx6QX8wCQBzBMrxxbP81PFCwFzTvl
-         8wxBz+pFiD2rTjn1YZJw3IIgfYhVurD3fyzwJJ324pEp5BArGPhMHE4/0WcYjnYCgi7v
-         gV0w==
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=qCvjB0XOGwom3VuKpUHiorVjWdQfyMRzQDadmEnUHfo=;
+        b=iH2cHiyXqK9lCPc7UF2E5siG7sE1VBvgiD6bj0XQ2XOZEaHWJVTEvWFzAA+rrjMZ7J
+         83IqAOQGL8q5iEALOWpLAFFRpwoS2W0T5hAzgenMRyTvAkanoMjyTA1vMnKZDjkRagYa
+         mZErqeI7eut841LPwAGXKQTDKHa/GLL+Sd9GY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc;
-        bh=/TnexTjdFrc/Gu2edl42Moooc6kFX3TgYFD+N6FTpm4=;
-        b=vCyfse7aBBn9wj0bj6Z9cTDuFsMtu0KvaoSzoPtFOS6Laxy00VDBy2LKPOUTuYgHM8
-         UB2EL2gy+ROZfh3IGu0JXYFsWg4ubtiXU19GdsLrk1CeIpxbBqhsIFrO0ujbbL2+l6bk
-         bakFQTCoQfJrgjP7tx8hCiLyIwVCOP1ZB9CZ+O2Qf5xHX4rgXSRe1wlSzNxMqMq/Y8J7
-         AcZxG7NR8CkHv697eyFy/2lfdCRPIrZ5HwHPXRmzffrhNZuxZD29lfvYkxHfnwMdNx//
-         LLlBqN9/RJMbSwltDHRLSgWMCJPCijfRv/YZDX4Y+xZ7SWk2uUY2A1F9E5qyLvVKg+Pm
-         SmZA==
-X-Gm-Message-State: ACgBeo0R1HakEI0SbXDCHRZOlNWVCiOzWwPUIiJHEaVJ836mK49hmfd8
-        9sWXL8/NMYTE/qFPTI0Fzro=
-X-Google-Smtp-Source: AA6agR4MAA7iZXP0Vp6HgNcIKaEx75jEF2GI4Q5XeVva0iVZGej1zllK3JXKe+IVCW9uLC3y4JNyJQ==
-X-Received: by 2002:a17:902:d4c2:b0:16d:c317:ee9d with SMTP id o2-20020a170902d4c200b0016dc317ee9dmr26053515plg.25.1659556100608;
-        Wed, 03 Aug 2022 12:48:20 -0700 (PDT)
-Received: from localhost ([2620:10d:c090:400::5:7c3a])
-        by smtp.gmail.com with ESMTPSA id w1-20020a656941000000b0041a919ed63dsm11347439pgq.3.2022.08.03.12.48.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Aug 2022 12:48:20 -0700 (PDT)
-Sender: Tejun Heo <htejun@gmail.com>
-Date:   Wed, 3 Aug 2022 09:48:18 -1000
-From:   Tejun Heo <tj@kernel.org>
-To:     Johannes Weiner <hannes@cmpxchg.org>
-Cc:     Chengming Zhou <zhouchengming@bytedance.com>, surenb@google.com,
-        mingo@redhat.com, peterz@infradead.org, corbet@lwn.net,
-        akpm@linux-foundation.org, rdunlap@infradead.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        songmuchun@bytedance.com, cgroups@vger.kernel.org
-Subject: Re: [PATCH 8/9] sched/psi: add kernel cmdline parameter
- psi_inner_cgroup
-Message-ID: <YurRAnUEloaYMx0W@slm.duckdns.org>
-References: <20220721040439.2651-1-zhouchengming@bytedance.com>
- <20220721040439.2651-9-zhouchengming@bytedance.com>
- <Yt7KQc0nnOypB2b2@cmpxchg.org>
- <YuAqWprKd6NsWs7C@slm.duckdns.org>
- <5a3410d6-428d-9ad1-3e5a-01ca805ceeeb@bytedance.com>
- <Yuq3Q6Y9dRnjjcPt@slm.duckdns.org>
- <YurK6MXdJPrV2VYS@cmpxchg.org>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=qCvjB0XOGwom3VuKpUHiorVjWdQfyMRzQDadmEnUHfo=;
+        b=DnqqHcv/rhMMqdQNWua1tqlgVameySKct/5y8mSFpTPpc1z21SrNjAJ18JMAqqHsq6
+         iv7Y0FtJaHBLQz07dqxNgHrWj/2O03icdvFQPLAoJdfQOVT/HJn8aIibLjXkdF/yW9Zg
+         aCJUwSKZnqzhHqvHsx8uDg1DgpyhF96IWg1rGfX67jbyF0eMyr5qvvn8NDuZxoLf4OeR
+         +r4EpM1S+Q3y4EZMECWpH1l6VPhjQqzojvsgm5AtBb5JsKspgQSwCHNgERXGlPYt6DNV
+         udRmKd701sW69ciA9nYqffZgu+hGfsr+hRezLeTe16hIzgeOkrBa2zyHjkBMlWH2kuv5
+         N3Ew==
+X-Gm-Message-State: ACgBeo1uPknVwWWlLGLbotOes2kfRLiTYbWatiuDDAoyFLxsS1IUO3tc
+        b7nTIFucp/u8OPIZXUwGJ0EFb4Ryi0Aflw==
+X-Google-Smtp-Source: AA6agR6mlehOaL926luW7zhuInDvAGTk+inG9YB+4m0iLv277B9qPg062uh4l5zDCnETGyb6U+Mi6w==
+X-Received: by 2002:a05:6870:a548:b0:10e:aeeb:a14d with SMTP id p8-20020a056870a54800b0010eaeeba14dmr2815365oal.17.1659559754870;
+        Wed, 03 Aug 2022 13:49:14 -0700 (PDT)
+Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com. [209.85.210.53])
+        by smtp.gmail.com with ESMTPSA id 94-20020a9d0ee7000000b006368d4ec202sm280187otj.16.2022.08.03.13.49.13
+        for <linux-doc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 03 Aug 2022 13:49:14 -0700 (PDT)
+Received: by mail-ot1-f53.google.com with SMTP id m22-20020a0568301e7600b006369227f745so1029030otr.7
+        for <linux-doc@vger.kernel.org>; Wed, 03 Aug 2022 13:49:13 -0700 (PDT)
+X-Received: by 2002:a05:6830:290a:b0:618:b519:53f5 with SMTP id
+ z10-20020a056830290a00b00618b51953f5mr9795854otu.237.1659559753343; Wed, 03
+ Aug 2022 13:49:13 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YurK6MXdJPrV2VYS@cmpxchg.org>
+References: <20220504232102.469959-1-evgreen@chromium.org> <20220504161439.4.I32591db064b6cdc91850d777f363c9d05c985b39@changeid>
+ <Yumskea9UJ9n0uPz@sol.localdomain>
+In-Reply-To: <Yumskea9UJ9n0uPz@sol.localdomain>
+From:   Evan Green <evgreen@chromium.org>
+Date:   Wed, 3 Aug 2022 13:48:37 -0700
+X-Gmail-Original-Message-ID: <CAE=gft4jTQY1N5X=Yyg6g6-e0EBPHKhnQxcX02NZU0mZxaTvwA@mail.gmail.com>
+Message-ID: <CAE=gft4jTQY1N5X=Yyg6g6-e0EBPHKhnQxcX02NZU0mZxaTvwA@mail.gmail.com>
+Subject: Re: [PATCH 04/10] security: keys: trusted: Allow storage of PCR
+ values in creation data
+To:     Eric Biggers <ebiggers@kernel.org>
+Cc:     LKML <linux-kernel@vger.kernel.org>,
+        Matthew Garrett <mgarrett@aurora.tech>,
+        Daniil Lunev <dlunev@google.com>, zohar@linux.ibm.com,
+        "James E.J. Bottomley" <jejb@linux.ibm.com>,
+        linux-integrity@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Gwendal Grignou <gwendal@chromium.org>,
+        Jarkko Sakkinen <jarkko@kernel.org>,
+        Linux PM <linux-pm@vger.kernel.org>,
+        Matthew Garrett <matthewgarrett@google.com>,
+        Matthew Garrett <mjg59@google.com>,
+        David Howells <dhowells@redhat.com>,
+        James Morris <jmorris@namei.org>,
+        "Serge E. Hallyn" <serge@hallyn.com>, keyrings@vger.kernel.org,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-security-module@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello,
+On Tue, Aug 2, 2022 at 4:00 PM Eric Biggers <ebiggers@kernel.org> wrote:
+>
+> On Wed, May 04, 2022 at 04:20:56PM -0700, Evan Green wrote:
+> > diff --git a/security/keys/trusted-keys/trusted_tpm1.c b/security/keys/trusted-keys/trusted_tpm1.c
+> > index aa108bea6739b3..2975827c01bec0 100644
+> > --- a/security/keys/trusted-keys/trusted_tpm1.c
+> > +++ b/security/keys/trusted-keys/trusted_tpm1.c
+> > @@ -713,6 +713,7 @@ enum {
+> >       Opt_hash,
+> >       Opt_policydigest,
+> >       Opt_policyhandle,
+> > +     Opt_creationpcrs,
+> >  };
+> >
+> >  static const match_table_t key_tokens = {
+> > @@ -725,6 +726,7 @@ static const match_table_t key_tokens = {
+> >       {Opt_hash, "hash=%s"},
+> >       {Opt_policydigest, "policydigest=%s"},
+> >       {Opt_policyhandle, "policyhandle=%s"},
+> > +     {Opt_creationpcrs, "creationpcrs=%s"},
+> >       {Opt_err, NULL}
+> >  };
+> >
+> > @@ -858,6 +860,13 @@ static int getoptions(char *c, struct trusted_key_payload *pay,
+> >                               return -EINVAL;
+> >                       opt->policyhandle = handle;
+> >                       break;
+> > +             case Opt_creationpcrs:
+> > +                     if (!tpm2)
+> > +                             return -EINVAL;
+> > +                     res = kstrtoint(args[0].from, 16, &opt->creation_pcrs);
+> > +                     if (res < 0)
+> > +                             return -EINVAL;
+> > +                     break;
+>
+> I thought that TPM1 is deprecated.  Are you sure you need more TPM1 features?
 
-On Wed, Aug 03, 2022 at 03:22:16PM -0400, Johannes Weiner wrote:
-> Where it gets trickier is also stopping the tracking of task counts in
-> a cgroup. For re-enabling afterwards, we'd have to freeze scheduler
-> and cgroup state and find all tasks of interest across all CPUs for
-> the given cgroup to recreate the counts. I'm not quite sure whether
-> that's feasible, and if so, whether it's worth the savings.
+It seems that trusted_tpm1.c is not just TPM1 functions, but also
+common functions that call TPM2 primitives. A few of these functions
+(like this getoptions()) seem to even error out if !tpm_is_tpm2(chip).
 
-If this turns out to be necessary, I wonder whether we can just be
-opportunistic. ie. don't bother with walking all the tasks but only remember
-whether a task is accounted at a given level or not (this can be a bitmap
-which is allocated at cgroup attach type and in most caess will be pretty
-small). Then, maybe we can just start accounting them as they cycle through
-state transitions - we ignore the ones leaving states that they weren't
-accounted for and start remembering the new states they enter.
-
-Thanks.
-
--- 
-tejun
+-Evan
