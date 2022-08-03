@@ -2,75 +2,150 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AE525C19F28
-	for <linux-doc@archiver.kernel.org>; Wed,  3 Aug 2022 08:10:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 37EF6C19F2A
+	for <linux-doc@archiver.kernel.org>; Wed,  3 Aug 2022 09:54:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233103AbiHCIK3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 3 Aug 2022 04:10:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54052 "EHLO
+        id S237901AbiHCJyC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 3 Aug 2022 05:54:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60944 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232447AbiHCIK2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Aug 2022 04:10:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 4C322101FC
-        for <linux-doc@vger.kernel.org>; Wed,  3 Aug 2022 01:10:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1659514225;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=ZFeFt7/Q6YyFCUhtAPK93QqSOTH5I5qZoSCr2HzCN+4=;
-        b=hMgk4XMCMlSAm9ghQZavvQx0vkfTbR0R4TGcF4wdBFnqONva6grm9YQuFNNzZhQEQPhxEV
-        plcd4O11SuPSjb6zvlcsGaPsgCVBAcRVM5s6Huy9FofVNzLSv07t82ty0Q/Q8ebFAaw3Dw
-        f/vKV9Tnrhq0dhcOKhVAeE2dhNtCqIE=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-178-lpc0aCF5MumlR01nZTgtzQ-1; Wed, 03 Aug 2022 04:10:24 -0400
-X-MC-Unique: lpc0aCF5MumlR01nZTgtzQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7B947811E87;
-        Wed,  3 Aug 2022 08:10:24 +0000 (UTC)
-Received: from localhost (unknown [10.39.193.21])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 2EEAF90A00;
-        Wed,  3 Aug 2022 08:10:24 +0000 (UTC)
-From:   Cornelia Huck <cohuck@redhat.com>
-To:     Ricardo =?utf-8?Q?Ca=C3=B1uelo?= <ricardo.canuelo@collabora.com>,
-        linux-doc@vger.kernel.org
-Cc:     mst@redhat.com, kernel@collabora.com,
-        virtualization@lists.linux-foundation.org
-Subject: Re: [PATCH] docs: driver-api: virtio: virtio on Linux
-In-Reply-To: <87tu6trcrs.fsf@rcn-XPS-13-9305.i-did-not-set--mail-host-address--so-tickle-me>
-Organization: Red Hat GmbH
-References: <20220802124222.3563378-1-ricardo.canuelo@collabora.com>
- <87pmhi8wsg.fsf@redhat.com>
- <87tu6trcrs.fsf@rcn-XPS-13-9305.i-did-not-set--mail-host-address--so-tickle-me>
-User-Agent: Notmuch/0.36 (https://notmuchmail.org)
-Date:   Wed, 03 Aug 2022 10:10:22 +0200
-Message-ID: <87mtcl928h.fsf@redhat.com>
+        with ESMTP id S237602AbiHCJxh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Aug 2022 05:53:37 -0400
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 18CC81F62F;
+        Wed,  3 Aug 2022 02:53:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1659520405; x=1691056405;
+  h=date:from:to:cc:subject:message-id:reply-to:references:
+   mime-version:in-reply-to;
+  bh=+aPcfNfpscocEOQ9jmuyTbo+RfEvHrVOwXoeE1Ifd/w=;
+  b=j0N3CPDfs4Hl5SCNF8eDyc5hqJe0BCeYqvjbJc19KzrSbKCp6uIuuPF9
+   r83PtLqpqkef+mVD+pG/l3bNMkBvYLbc5l5y0mrko/7AeLN5W6nlxZWRP
+   MizYNmmjbhuphOt06/7XsZpGdZBKL0XFOdOh1qSfwyyioiw26iEhh0dL/
+   yAhwhaG31uz8Xbw+K7t395p+t7Q3and99QW7zYy1CijNkdp0OD0TvYESO
+   dMKTxRZ7GyEoik9yvfQj5rAbp6xpqXNN4FXo8z/yvznY88vuFeJhqjm0E
+   +aX4soEHDtZY/Ss+cLIMCEBzvRVf2iPu4JQUumjdblrBJODZftY27BH4e
+   g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10427"; a="272679939"
+X-IronPort-AV: E=Sophos;i="5.93,213,1654585200"; 
+   d="scan'208";a="272679939"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Aug 2022 02:53:24 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,213,1654585200"; 
+   d="scan'208";a="599588924"
+Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
+  by orsmga007.jf.intel.com with ESMTP; 03 Aug 2022 02:53:14 -0700
+Date:   Wed, 3 Aug 2022 17:48:27 +0800
+From:   Chao Peng <chao.p.peng@linux.intel.com>
+To:     Sean Christopherson <seanjc@google.com>
+Cc:     Wei Wang <wei.w.wang@linux.intel.com>,
+        "Gupta, Pankaj" <pankaj.gupta@amd.com>, kvm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+        linux-kselftest@vger.kernel.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com,
+        Quentin Perret <qperret@google.com>,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+        Muchun Song <songmuchun@bytedance.com>
+Subject: Re: [PATCH v7 11/14] KVM: Register/unregister the guest private
+ memory regions
+Message-ID: <20220803094827.GA607465@chaop.bj.intel.com>
+Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
+References: <20220720150706.GB124133@chaop.bj.intel.com>
+ <d0fd229d-afa6-c66d-3e55-09ac5877453e@amd.com>
+ <YtgrkXqP/GIi9ujZ@google.com>
+ <45ae9f57-d595-f202-abb5-26a03a2ca131@linux.intel.com>
+ <20220721092906.GA153288@chaop.bj.intel.com>
+ <YtmT2irvgInX1kPp@google.com>
+ <20220725130417.GA304216@chaop.bj.intel.com>
+ <YuQ64RgWqdoAAGdY@google.com>
+ <Yuh0ikhoh+tCK6VW@google.com>
+ <YulTH7bL4MwT5v5K@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YulTH7bL4MwT5v5K@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Aug 03 2022, Ricardo Ca=C3=B1uelo <ricardo.canuelo@collabora.com> w=
-rote:
+On Tue, Aug 02, 2022 at 04:38:55PM +0000, Sean Christopherson wrote:
+> On Tue, Aug 02, 2022, Sean Christopherson wrote:
+> > I think we should avoid UNMAPPABLE even on the KVM side of things for the core
+> > memslots functionality and instead be very literal, e.g.
+> > 
+> > 	KVM_HAS_FD_BASED_MEMSLOTS
+> > 	KVM_MEM_FD_VALID
+> > 
+> > We'll still need KVM_HAS_USER_UNMAPPABLE_MEMORY, but it won't be tied directly to
+> > the memslot.  Decoupling the two thingis will require a bit of extra work, but the
+> > code impact should be quite small, e.g. explicitly query and propagate
+> > MEMFILE_F_USER_INACCESSIBLE to kvm_memory_slot to track if a memslot can be private.
+> > And unless I'm missing something, it won't require an additional memslot flag.
+> > The biggest oddity (if we don't also add KVM_MEM_PRIVATE) is that KVM would
+> > effectively ignore the hva for fd-based memslots for VM types that don't support
+> > private memory, i.e. userspace can't opt out of using the fd-based backing, but that
+> > doesn't seem like a deal breaker.
 
->> v1.2 is out now :)
->>
->> (I think it would be better to refer to the base spec directory?)
->
-> Do you mean this? https://docs.oasis-open.org/virtio/virtio/
-> Or should I link the source repo instead?
-> https://github.com/oasis-tcs/virtio-spec
+I actually love this idea. I don't mind adding extra code for potential
+usage other than confidential VMs if we can have a workable solution for
+it.
 
-Hm... this should refer to the OASIS site, but the base directory
-listing is a bit ugly. Maybe refer to v1.2, and add a note that there
-might be later versions available?
+> 
+> Hrm, but basing private memory on top of a generic FD_VALID would effectively require
+> shared memory to use hva-based memslots for confidential VMs.  That'd yield a very
+> weird API, e.g. non-confidential VMs could be backed entirely by fd-based memslots,
+> but confidential VMs would be forced to use hva-based memslots.
 
+It would work if we can treat userspace_addr as optional for
+KVM_MEM_FD_VALID, e.g. userspace can opt in to decide whether needing
+the mappable part or not for a regular VM and we can enforce KVM for
+confidential VMs. But the u64 type of userspace_addr doesn't allow us to
+express a 'null' value so sounds like we will end up needing another
+flag anyway.
+
+In concept, we could have three cofigurations here:
+  1. hva-only: without any flag and use userspace_addr;
+  2. fd-only:  another new flag is needed and use fd/offset;
+  3. hva/fd mixed: both userspace_addr and fd/offset is effective.
+     KVM_MEM_PRIVATE is a subset of it for confidential VMs. Not sure
+     regular VM also wants this.
+
+There is no direct relationship between unmappable and fd-based since
+even fd-based can also be mappable for regular VM?
+
+> 
+> Ignore this idea for now.  If there's an actual use case for generic fd-based memory
+> then we'll want a separate flag, fd, and offset, i.e. that support could be added
+> independent of KVM_MEM_PRIVATE.
+
+If we ignore this idea now (which I'm also fine), do you still think we
+need change KVM_MEM_PRIVATE to KVM_MEM_USER_UNMAPPBLE?
+
+Thanks,
+Chao
