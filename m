@@ -2,125 +2,99 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A8A85C19F2C
-	for <linux-doc@archiver.kernel.org>; Wed,  3 Aug 2022 20:49:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C80A1C19F2C
+	for <linux-doc@archiver.kernel.org>; Wed,  3 Aug 2022 21:15:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238620AbiHCUtR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 3 Aug 2022 16:49:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53172 "EHLO
+        id S236853AbiHCVPf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 3 Aug 2022 17:15:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41084 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238706AbiHCUtR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Aug 2022 16:49:17 -0400
-Received: from mail-oa1-x2f.google.com (mail-oa1-x2f.google.com [IPv6:2001:4860:4864:20::2f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BCDA65C960
-        for <linux-doc@vger.kernel.org>; Wed,  3 Aug 2022 13:49:15 -0700 (PDT)
-Received: by mail-oa1-x2f.google.com with SMTP id 586e51a60fabf-10ec41637b3so13925930fac.4
-        for <linux-doc@vger.kernel.org>; Wed, 03 Aug 2022 13:49:15 -0700 (PDT)
+        with ESMTP id S236629AbiHCVPe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Aug 2022 17:15:34 -0400
+Received: from alexa-out-sd-01.qualcomm.com (alexa-out-sd-01.qualcomm.com [199.106.114.38])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7A266438;
+        Wed,  3 Aug 2022 14:15:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=qCvjB0XOGwom3VuKpUHiorVjWdQfyMRzQDadmEnUHfo=;
-        b=iH2cHiyXqK9lCPc7UF2E5siG7sE1VBvgiD6bj0XQ2XOZEaHWJVTEvWFzAA+rrjMZ7J
-         83IqAOQGL8q5iEALOWpLAFFRpwoS2W0T5hAzgenMRyTvAkanoMjyTA1vMnKZDjkRagYa
-         mZErqeI7eut841LPwAGXKQTDKHa/GLL+Sd9GY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=qCvjB0XOGwom3VuKpUHiorVjWdQfyMRzQDadmEnUHfo=;
-        b=DnqqHcv/rhMMqdQNWua1tqlgVameySKct/5y8mSFpTPpc1z21SrNjAJ18JMAqqHsq6
-         iv7Y0FtJaHBLQz07dqxNgHrWj/2O03icdvFQPLAoJdfQOVT/HJn8aIibLjXkdF/yW9Zg
-         aCJUwSKZnqzhHqvHsx8uDg1DgpyhF96IWg1rGfX67jbyF0eMyr5qvvn8NDuZxoLf4OeR
-         +r4EpM1S+Q3y4EZMECWpH1l6VPhjQqzojvsgm5AtBb5JsKspgQSwCHNgERXGlPYt6DNV
-         udRmKd701sW69ciA9nYqffZgu+hGfsr+hRezLeTe16hIzgeOkrBa2zyHjkBMlWH2kuv5
-         N3Ew==
-X-Gm-Message-State: ACgBeo1uPknVwWWlLGLbotOes2kfRLiTYbWatiuDDAoyFLxsS1IUO3tc
-        b7nTIFucp/u8OPIZXUwGJ0EFb4Ryi0Aflw==
-X-Google-Smtp-Source: AA6agR6mlehOaL926luW7zhuInDvAGTk+inG9YB+4m0iLv277B9qPg062uh4l5zDCnETGyb6U+Mi6w==
-X-Received: by 2002:a05:6870:a548:b0:10e:aeeb:a14d with SMTP id p8-20020a056870a54800b0010eaeeba14dmr2815365oal.17.1659559754870;
-        Wed, 03 Aug 2022 13:49:14 -0700 (PDT)
-Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com. [209.85.210.53])
-        by smtp.gmail.com with ESMTPSA id 94-20020a9d0ee7000000b006368d4ec202sm280187otj.16.2022.08.03.13.49.13
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 03 Aug 2022 13:49:14 -0700 (PDT)
-Received: by mail-ot1-f53.google.com with SMTP id m22-20020a0568301e7600b006369227f745so1029030otr.7
-        for <linux-doc@vger.kernel.org>; Wed, 03 Aug 2022 13:49:13 -0700 (PDT)
-X-Received: by 2002:a05:6830:290a:b0:618:b519:53f5 with SMTP id
- z10-20020a056830290a00b00618b51953f5mr9795854otu.237.1659559753343; Wed, 03
- Aug 2022 13:49:13 -0700 (PDT)
+  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+  t=1659561332; x=1691097332;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=0w88LZuPDXSZwsBSm1gnwJoM1Sx1Hf9Wz1DWZUbtL9s=;
+  b=lFKbJN8GG1F27J9xJMb/sQ6Bbm+kbYMlLDI7PzezCzmHOUeLlOd7cifZ
+   xX48seR1ZLJfraHmNmoI1jqIiGcoJv9CNIgRb7jUKQ+xncYnKpBx3xLGT
+   zpg0gQoXxmncAiiIarVF8ljw6dFeR4nHP6qda0YY1ngMjqaThCTjMSgxB
+   c=;
+Received: from unknown (HELO ironmsg01-sd.qualcomm.com) ([10.53.140.141])
+  by alexa-out-sd-01.qualcomm.com with ESMTP; 03 Aug 2022 14:15:31 -0700
+X-QCInternal: smtphost
+Received: from nasanex01b.na.qualcomm.com ([10.46.141.250])
+  by ironmsg01-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Aug 2022 14:15:31 -0700
+Received: from [10.134.65.5] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Wed, 3 Aug 2022
+ 14:15:30 -0700
+Message-ID: <0f9afb39-83a9-96ec-2ee0-f511d4fa3403@quicinc.com>
+Date:   Wed, 3 Aug 2022 14:15:30 -0700
 MIME-Version: 1.0
-References: <20220504232102.469959-1-evgreen@chromium.org> <20220504161439.4.I32591db064b6cdc91850d777f363c9d05c985b39@changeid>
- <Yumskea9UJ9n0uPz@sol.localdomain>
-In-Reply-To: <Yumskea9UJ9n0uPz@sol.localdomain>
-From:   Evan Green <evgreen@chromium.org>
-Date:   Wed, 3 Aug 2022 13:48:37 -0700
-X-Gmail-Original-Message-ID: <CAE=gft4jTQY1N5X=Yyg6g6-e0EBPHKhnQxcX02NZU0mZxaTvwA@mail.gmail.com>
-Message-ID: <CAE=gft4jTQY1N5X=Yyg6g6-e0EBPHKhnQxcX02NZU0mZxaTvwA@mail.gmail.com>
-Subject: Re: [PATCH 04/10] security: keys: trusted: Allow storage of PCR
- values in creation data
-To:     Eric Biggers <ebiggers@kernel.org>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
-        Matthew Garrett <mgarrett@aurora.tech>,
-        Daniil Lunev <dlunev@google.com>, zohar@linux.ibm.com,
-        "James E.J. Bottomley" <jejb@linux.ibm.com>,
-        linux-integrity@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Gwendal Grignou <gwendal@chromium.org>,
-        Jarkko Sakkinen <jarkko@kernel.org>,
-        Linux PM <linux-pm@vger.kernel.org>,
-        Matthew Garrett <matthewgarrett@google.com>,
-        Matthew Garrett <mjg59@google.com>,
-        David Howells <dhowells@redhat.com>,
-        James Morris <jmorris@namei.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>, keyrings@vger.kernel.org,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-security-module@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH v2 03/11] arm64: gunyah: Add Gunyah hypercalls ABI
+Content-Language: en-US
+To:     Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        Marc Zyngier <maz@kernel.org>
+CC:     Murali Nalajala <quic_mnalajal@quicinc.com>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
+        Carl van Schaik <quic_cvanscha@quicinc.com>,
+        Andy Gross <agross@kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Will Deacon <will@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        <devicetree@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>
+References: <20220801211240.597859-1-quic_eberman@quicinc.com>
+ <20220801211240.597859-4-quic_eberman@quicinc.com>
+ <e1a93490-7deb-8221-f3f8-83546946c61a@linaro.org>
+From:   Elliot Berman <quic_eberman@quicinc.com>
+In-Reply-To: <e1a93490-7deb-8221-f3f8-83546946c61a@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Aug 2, 2022 at 4:00 PM Eric Biggers <ebiggers@kernel.org> wrote:
->
-> On Wed, May 04, 2022 at 04:20:56PM -0700, Evan Green wrote:
-> > diff --git a/security/keys/trusted-keys/trusted_tpm1.c b/security/keys/trusted-keys/trusted_tpm1.c
-> > index aa108bea6739b3..2975827c01bec0 100644
-> > --- a/security/keys/trusted-keys/trusted_tpm1.c
-> > +++ b/security/keys/trusted-keys/trusted_tpm1.c
-> > @@ -713,6 +713,7 @@ enum {
-> >       Opt_hash,
-> >       Opt_policydigest,
-> >       Opt_policyhandle,
-> > +     Opt_creationpcrs,
-> >  };
-> >
-> >  static const match_table_t key_tokens = {
-> > @@ -725,6 +726,7 @@ static const match_table_t key_tokens = {
-> >       {Opt_hash, "hash=%s"},
-> >       {Opt_policydigest, "policydigest=%s"},
-> >       {Opt_policyhandle, "policyhandle=%s"},
-> > +     {Opt_creationpcrs, "creationpcrs=%s"},
-> >       {Opt_err, NULL}
-> >  };
-> >
-> > @@ -858,6 +860,13 @@ static int getoptions(char *c, struct trusted_key_payload *pay,
-> >                               return -EINVAL;
-> >                       opt->policyhandle = handle;
-> >                       break;
-> > +             case Opt_creationpcrs:
-> > +                     if (!tpm2)
-> > +                             return -EINVAL;
-> > +                     res = kstrtoint(args[0].from, 16, &opt->creation_pcrs);
-> > +                     if (res < 0)
-> > +                             return -EINVAL;
-> > +                     break;
->
-> I thought that TPM1 is deprecated.  Are you sure you need more TPM1 features?
+Hi Dmitry,
 
-It seems that trusted_tpm1.c is not just TPM1 functions, but also
-common functions that call TPM2 primitives. A few of these functions
-(like this getoptions()) seem to even error out if !tpm_is_tpm2(chip).
+On 8/2/2022 6:34 AM, Dmitry Baryshkov wrote:
+> On 02/08/2022 00:12, Elliot Berman wrote:
+>> Add initial support to perform Gunyah hypercalls. The arm64 ABI for
+>> Gunyah hypercalls generally follows the SMC Calling Convention.
+> 
+> Seeing a c&p (or c&rework) from arm-smccc.h, could you please describe:
+> 
+> 1) Why can't you use the existing arm_smccc_1_1_hvc()? I checked, you 
+> don't seem to be getting more than 4 values back.
+> 
 
--Evan
+The Gunyah APIs can return up to 8 values. As you observed though, these 
+initial patches are only using the first 4 values back. I'd like to use 
+the larger v1.2 so I don't need to update later.
+
+> 2) If #1 is not possible, why can't you add necessary glue code to the 
+> arm-smccc.h (as your code to support nargs/multiple return values is 
+> generic enough) and use corresponding macro in asm/gunyah.h ?
+> 
+
+I think the code here may be considered Gunyah-specific as I am limiting 
+to 8 arguments and return values. If I add to arm-smccc.h, I would need 
+to expand out to x17. Does it make sense to add another SMCCC 1.2 
+interface to arm-smccc.h?
