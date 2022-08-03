@@ -2,110 +2,57 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 37544C19F2C
-	for <linux-doc@archiver.kernel.org>; Wed,  3 Aug 2022 10:18:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 58C54C19F28
+	for <linux-doc@archiver.kernel.org>; Wed,  3 Aug 2022 10:43:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234360AbiHCKSG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 3 Aug 2022 06:18:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56630 "EHLO
+        id S232892AbiHCKnc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 3 Aug 2022 06:43:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50072 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233057AbiHCKSD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Aug 2022 06:18:03 -0400
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB8E0B3C;
-        Wed,  3 Aug 2022 03:18:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1659521882; x=1691057882;
-  h=date:from:to:cc:subject:message-id:reply-to:references:
-   mime-version:in-reply-to;
-  bh=wFam+LDcRbKILr0ubXYReeOGRVLmWUy4n8feDpXT4KY=;
-  b=jixmJUcG97PKX5ZUa28+bVmJitLlvDDyE5XCz7Ngn6Sxs2fCCk346OQh
-   /e7FPrzxv/OdN4siefyhkCmDrmkJFuKi1quptgBEu6/s5XmygcajKBJyS
-   ZrsivssBk6Q7Shs30NldTHjA62ZsniOd/HXGIDXlrTKGtCc5gAS4ZwvNo
-   qo42XvQaBejZVxpSQUtCDI1QrL1sCc3Xo8xti8W/but3T4lGXOid1a2+Z
-   es7fB9RoKojXChzirRk7Rdgt+2K7OkYwaS65MVYx5fSlXPS65iNPv2qhQ
-   +W/GCziMYhi4xBvRcr6NoRpWxw/cDdJjsMT1swi02fnY9YKHgpQp6glME
-   Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10427"; a="351350449"
-X-IronPort-AV: E=Sophos;i="5.93,213,1654585200"; 
-   d="scan'208";a="351350449"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Aug 2022 03:18:02 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,213,1654585200"; 
-   d="scan'208";a="631095811"
-Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
-  by orsmga008.jf.intel.com with ESMTP; 03 Aug 2022 03:17:51 -0700
-Date:   Wed, 3 Aug 2022 18:13:04 +0800
-From:   Chao Peng <chao.p.peng@linux.intel.com>
-To:     Sean Christopherson <seanjc@google.com>
-Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
-        qemu-devel@nongnu.org, linux-kselftest@vger.kernel.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        Muchun Song <songmuchun@bytedance.com>
-Subject: Re: [PATCH v7 08/14] KVM: Rename mmu_notifier_*
-Message-ID: <20220803101304.GE607465@chaop.bj.intel.com>
-Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
-References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
- <20220706082016.2603916-9-chao.p.peng@linux.intel.com>
- <YuQutJAhKWcsrrYl@google.com>
+        with ESMTP id S233605AbiHCKnc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Aug 2022 06:43:32 -0400
+X-Greylist: delayed 562 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 03 Aug 2022 03:43:30 PDT
+Received: from sv7767.xserver.jp (sv7767.xserver.jp [183.181.79.128])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D046F22296
+        for <linux-doc@vger.kernel.org>; Wed,  3 Aug 2022 03:43:30 -0700 (PDT)
+X-Virus-Status: clean(F-Secure/fsigk_smtp/521/virusgw7005.xserver.jp)
+Received: by sv7767.xserver.jp (Postfix, from userid 20069)
+        id 143F318152F839; Wed,  3 Aug 2022 19:34:07 +0900 (JST)
+To:     linux-doc@vger.kernel.org
+Subject: =?UTF-8?B?ZmxhZyBzcG9ydHMgbWFya2V0aW5nICLjgYrllY/jgYTlkIg=?=  =?UTF-8?B?44KP44Gb44OV44Kp44O844Og44GL44KJ6YCB5L+hIg==?=
+Date:   Wed, 3 Aug 2022 10:34:07 +0000
+From:   flag sports marketing <noreply@flagsports-mktg.co.jp>
+Reply-To: sbd@flag-pictures.co.jp
+Message-ID: <usl5eF8CDMs1xDn91UMPSGNAkZGqTybnJ5PTa5IsEk@flagsports-mktg.co.jp>
+X-Mailer: PHPMailer 6.6.0 (https://github.com/PHPMailer/PHPMailer)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YuQutJAhKWcsrrYl@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jul 29, 2022 at 07:02:12PM +0000, Sean Christopherson wrote:
-> On Wed, Jul 06, 2022, Chao Peng wrote:
-> > The sync mechanism between mmu_notifier and page fault handler employs
-> > fields mmu_notifier_seq/count and mmu_notifier_range_start/end. For the
-> > to be added private memory, there is the same mechanism needed but not
-> > rely on mmu_notifier (It uses new introduced memfile_notifier). This
-> > patch renames the existing fields and related helper functions to a
-> > neutral name mmu_updating_* so private memory can reuse.
-> 
-> mmu_updating_* is too broad of a term, e.g. page faults and many other operations
-> also update the mmu.  Although the name most definitely came from the mmu_notifier,
-> it's not completely inaccurate for other sources, e.g. KVM's MMU is still being
-> notified of something, even if the source is not the actual mmu_notifier.
-> 
-> If we really want a different name, I'd vote for nomenclature that captures the
-> invalidation aspect, which is really what the variables are all trackng, e.g.
-> 
->   mmu_invalidate_seq
->   mmu_invalidate_in_progress
->   mmu_invalidate_range_start
->   mmu_invalidate_range_end
+以下の内容で、お問い合わせフォームからのご入力内容が送信されました。
+順次担当からご連絡させていただきますので、しばらくお待ちください。
 
-Looks good to me. Thanks.
+----------
 
-Chao
+会社名：
+🍓 All the girls from next door are here with their cams! Visit Cam: https://letsg0dancing.page.link/go?1zqt 🍓
+
+お名前：
+brq4ck
+
+メールアドレス：
+linux-doc@vger.kernel.org
+
+電話番号：
+739403913931
+
+ご要件:
+z97d3e
+
+----------
+
+このメールは flag sports marketing (https://flagsports-mktg.co.jp) のお問い合わせフォームから自動送信されました
+
