@@ -2,206 +2,440 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 322D7C19F28
-	for <linux-doc@archiver.kernel.org>; Wed,  3 Aug 2022 15:53:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 07DDBC19F2C
+	for <linux-doc@archiver.kernel.org>; Wed,  3 Aug 2022 16:00:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236321AbiHCPxA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 3 Aug 2022 11:53:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50556 "EHLO
+        id S233529AbiHCP77 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 3 Aug 2022 11:59:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60600 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238410AbiHCPwf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Aug 2022 11:52:35 -0400
-Received: from mail-pg1-x52f.google.com (mail-pg1-x52f.google.com [IPv6:2607:f8b0:4864:20::52f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6EA585596
-        for <linux-doc@vger.kernel.org>; Wed,  3 Aug 2022 08:51:30 -0700 (PDT)
-Received: by mail-pg1-x52f.google.com with SMTP id 77so725218pgb.0
-        for <linux-doc@vger.kernel.org>; Wed, 03 Aug 2022 08:51:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc;
-        bh=nQ/PVBdgsWcgdstxLD2wNHSv0oGBQkwDPYWARWt/BZk=;
-        b=UqknoREV8mEy68zQSBU2lbsWwGYJTvDQqRAleSTHvyIJ9duv+KK5mptQRpjJ4+gqwT
-         NxHvbORsCprsREjtYZh1buxFH+7EmVZpQLTV3+hYE+0dFCTXjJEnC3b96X8evdOb5AvE
-         k4iA+m9355bZUR/pB9mbPpAtkahMb5UJRUeDN+StvBc9wiJ05Fv5gikb+f1UBTkXZ9Wb
-         T3uxjZMlPupTU7GmMz1t23PVXrEuoowTqTk0zL5Hyru097c+kpaUrTX0+tZJiyZrRiOO
-         fkDHAGmtMrFQ7XABTAs6+c7PxqPyw3Ku9zCqwf6gSHK8zwJF3t1nJjjVSt++BhLBcJPe
-         c9cg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
-        bh=nQ/PVBdgsWcgdstxLD2wNHSv0oGBQkwDPYWARWt/BZk=;
-        b=w4bMtCLuUb3xug/9TLJQRt9AS75pEf5HpqllCBsGL4yGhFopqYNlJWUaade6tjPAt0
-         VHd83IHfN7zLI+j8f6T1X58B1r+pri1Qa+AUGtsn9bzxlZ1LUgy3cgx7l1spNSDt3jUs
-         res8jJ0xBdxQuQmx1mmwatZ8xZf0f1HuxsOu72CjbEjOLpfsDHUFxHrUva0Tj4xd4Log
-         mHupZtHkMC4m8kOWFpsjP72WrlUsfv/uExQ+80eQN8wYDQzIZ6IwTwaofULsExZJGcto
-         CAUD22zdMDcJLAFqLusdU5IG4U3EJqP2HpliigPnyKbdZikpNdTGj3DACJT5zhr2zSPt
-         SIwQ==
-X-Gm-Message-State: AJIora/jPrmT0SJjCr+2v8D2xv2jpUnTjZ8Ngz+P/Aj2JgU7JFP0ZxjU
-        7r/0uqTyZUOKWkr5zE3Hm4jwZA==
-X-Google-Smtp-Source: AGRyM1uDNFXI+kxeHIg+ULHnKLrtLVM3YAsuBREDsfvLxR8PwpGaMsjug1I+UmNiUr91nJEzTB4ZRg==
-X-Received: by 2002:a63:d014:0:b0:41a:13b3:69d9 with SMTP id z20-20020a63d014000000b0041a13b369d9mr21261764pgf.202.1659541889184;
-        Wed, 03 Aug 2022 08:51:29 -0700 (PDT)
-Received: from google.com (7.104.168.34.bc.googleusercontent.com. [34.168.104.7])
-        by smtp.gmail.com with ESMTPSA id x187-20020a6231c4000000b0052c4b3e6f6asm13535782pfx.97.2022.08.03.08.51.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Aug 2022 08:51:28 -0700 (PDT)
-Date:   Wed, 3 Aug 2022 15:51:24 +0000
-From:   Sean Christopherson <seanjc@google.com>
-To:     Chao Peng <chao.p.peng@linux.intel.com>
-Cc:     Wei Wang <wei.w.wang@linux.intel.com>,
-        "Gupta, Pankaj" <pankaj.gupta@amd.com>, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
-        linux-kselftest@vger.kernel.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        Muchun Song <songmuchun@bytedance.com>
-Subject: Re: [PATCH v7 11/14] KVM: Register/unregister the guest private
- memory regions
-Message-ID: <YuqZfPvRo+3GvLF1@google.com>
-References: <d0fd229d-afa6-c66d-3e55-09ac5877453e@amd.com>
- <YtgrkXqP/GIi9ujZ@google.com>
- <45ae9f57-d595-f202-abb5-26a03a2ca131@linux.intel.com>
- <20220721092906.GA153288@chaop.bj.intel.com>
- <YtmT2irvgInX1kPp@google.com>
- <20220725130417.GA304216@chaop.bj.intel.com>
- <YuQ64RgWqdoAAGdY@google.com>
- <Yuh0ikhoh+tCK6VW@google.com>
- <YulTH7bL4MwT5v5K@google.com>
- <20220803094827.GA607465@chaop.bj.intel.com>
+        with ESMTP id S229487AbiHCP76 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Aug 2022 11:59:58 -0400
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2041.outbound.protection.outlook.com [40.107.236.41])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DDF313890;
+        Wed,  3 Aug 2022 08:59:55 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=cItAfpAC6lbzEaaz4GlMQB+KokJX4iqX4wQIYZveF4rmOB5q1c2AegoKiKfW+isnsFN/gSLZw8O3YWCFNfaq1oFam1Xv+PUklkAWSdX9KaSL66A7c86ihuFzTYbssjYzLTHKkhu4qPVE8r7pLv4joreqC90+548ckmPUvx9SKhEiGNFt0PVXmE2oRXyAWKLV/1xIyIJ78OIwXpMwcXggXg6GO+KkUQzuLvd6XNo19FEUz72f+nEfkDB1KaHUlb10XJIz+7/pZpN8O4qp+pskaPq9UiQEiXVlfyRpArew0F14sYT9uhdsseBd5JCOGTwLMKQXTx3B8Ph0wgGkcpoiYQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=GpyKNF0o4wm2GjTEi7Xi9sEHyULX28uNIq6YMRZjOxg=;
+ b=Hql87sb8+Y3Zap5C2HNudd2MizYY+PolJiYBTpSj8M25U11daES7g0xfzLkUOv4DH5tzpP/gYp3HOMD6FxGsjt762wiV2qK8uHWII4jSZMUfXUvUbjqrxqgu/hV9No9Qkmsad56B5NyzClGSXnjqZQSxF2xmijeOsJACc+SV7f834sP1DECG+9g72ZVnwcqV4z0g/KKiBjyaxG9hODLfRFad/vSDneA0o1dEoK2oqsq4V8OhG6WtnlTZgOM0j856UlQKPebMES/WRmJfGtKuJF5aQJEhgwzcL5PRwZH83MSQfCjGHQGe/Js/ab/limYdAMPPAsvbd3Sk6533RMsqOw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=GpyKNF0o4wm2GjTEi7Xi9sEHyULX28uNIq6YMRZjOxg=;
+ b=X+F+oJIEZycnTspQIHMT0wzQ/viTuVg+KM9BVztATuM21qnIEcf9+6iwFpfX8E936jXU3QEsZ0t+wwK+VDGbMhru4yyiv1++kEMViwgwxMLG2QDpy+MO1kqYSPcSXuBbP3Zpsp8SBhrleLGn1wriDA7Ybn69LT6XHElscsk6HpQ=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from SA0PR12MB4557.namprd12.prod.outlook.com (2603:10b6:806:9d::10)
+ by MN0PR12MB5762.namprd12.prod.outlook.com (2603:10b6:208:375::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5438.20; Wed, 3 Aug
+ 2022 15:59:53 +0000
+Received: from SA0PR12MB4557.namprd12.prod.outlook.com
+ ([fe80::9cd6:1681:8b67:cdcd]) by SA0PR12MB4557.namprd12.prod.outlook.com
+ ([fe80::9cd6:1681:8b67:cdcd%3]) with mapi id 15.20.5482.016; Wed, 3 Aug 2022
+ 15:59:53 +0000
+Message-ID: <0c3721ba-b564-733a-16d5-5150d2b7a885@amd.com>
+Date:   Wed, 3 Aug 2022 10:59:50 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Reply-To: babu.moger@amd.com
+Subject: Re: [PATCH v2 10/10] Documentation/x86: Update resctrl_ui.rst for new
+ features
+Content-Language: en-US
+To:     Bagas Sanjaya <bagasdotme@gmail.com>
+Cc:     fenghua.yu@intel.com, reinette.chatre@intel.com,
+        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+        eranian@google.com, dave.hansen@linux.intel.com, x86@kernel.org,
+        hpa@zytor.com, corbet@lwn.net, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+References: <165938717220.724959.10931629283087443782.stgit@bmoger-ubuntu>
+ <165938740360.724959.7059659465268246182.stgit@bmoger-ubuntu>
+ <YunwoDwcy7GZoKXA@debian.me>
+From:   "Moger, Babu" <babu.moger@amd.com>
+In-Reply-To: <YunwoDwcy7GZoKXA@debian.me>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: CH2PR14CA0054.namprd14.prod.outlook.com
+ (2603:10b6:610:56::34) To SA0PR12MB4557.namprd12.prod.outlook.com
+ (2603:10b6:806:9d::10)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220803094827.GA607465@chaop.bj.intel.com>
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 117c6905-3bc2-4d9a-2854-08da756933fd
+X-MS-TrafficTypeDiagnostic: MN0PR12MB5762:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: HMROTjBWAs5SZCcfvFxj/GvsHyzpXVyYuZ44fMQwLGJhzcTIA6kFdEz+UaQVRLUpADFT3VwgExrTEwYUP1rk9e6Zvo+09bGX4EwSaY7GEkIFNYeKgmy26r8nx70j09xHsx/9poFxS9PwoewoMhJBgUil9+Y8Wg9UWd+z7pCNWSqIaODvtYg7r+meB776oItgzFDAOGNpr7CJiEA9MHCQkaMenOyU5YE5zOHr4wrMrQ2BDOVwEWcALxiNgHuL96x6UepqQ4D+MJ2mjtZl/H+s5jrFaG96OwJoT6Jj8bc8zoYIyocqGJEpZtXmUcgPxez8HkS227RCTGXV32jXsQExZQ4FwdIQZe92oM9OxdGQgkY+dZgvDHUM+dnq6ZYR1vrfPmSusc1RH8kCQzBujfNLBMsUcR4A8Jcxa56D/J4KUrgFsSUkKQMQTUUT1M8wYENmgiclfPrK1jkFYPNsUpnwFRX8+/ZfqTvGtDAmtmZp1mRPX3Wndao7P/dGiM4o82avwI+bnUzBeUQnMUN73a70liiLAbnd+85sqYOR1eIFfuolS5pVC9skCE+9Rv1/TC/1SU6Enl03ghaueneJYd9gb5F28xuBnePWCBs/ltDl/MFXbRxGcuENsbRgXSSfuFkVnxQMI7kNljEjtrqmBAYHlDpIljbh9UhQkmV/lpsoZ/8WGWCL+aD3Kvgab2N6mH524AiA53QFZYvSxoJf9Og4XbRm94JM+FqtJRg7MVQyqDcTQ+sJqmuzjWMb15IailpTHTSsRTBakgci7ueLKvZZtb3KyYqY1ncAnP2BWbOo6VN5004m1ewEPrmvkYRwO4rjyoR9or5mjKjdynoX5TQfEg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA0PR12MB4557.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(39860400002)(136003)(366004)(396003)(376002)(346002)(3450700001)(15650500001)(6506007)(316002)(53546011)(6916009)(2906002)(31696002)(4326008)(66556008)(8676002)(5660300002)(66946007)(7416002)(83380400001)(66476007)(8936002)(30864003)(86362001)(41300700001)(478600001)(38100700002)(36756003)(186003)(6512007)(26005)(2616005)(31686004)(6486002)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Mk5MTTRwbjdQbnYvaUNOYk44L2xsWE0zV0ZCa29vZnovdjdvVFRHTi93bFVS?=
+ =?utf-8?B?NUMzcG1MRDZ0Q1Z4Vnpkd2JnYVBkOW5jK2tNTEVXQzNsemtrYkVmT2xYQnAz?=
+ =?utf-8?B?azhwUjQ1RFVHa21ZZHB0dktsenVxQ0lNUTN1RTk2SUpWZ3F0VUFlZFVBanpz?=
+ =?utf-8?B?TTNVSFdhOEgzWWl2b24yRUp4YkVselRxbk5TZWFBVFQrRnNpOVBUWjFDWldj?=
+ =?utf-8?B?ZFN0WUg5QWg3NnJMckVwNzFQN00vV1JwYjBreEJHNlJvcW0rb2kzYXRkT1FU?=
+ =?utf-8?B?T2NOeFp4dlhaemRpZlBwNnA2WFdTd0RxR1R4ZVRSYS9mclpMZGlYYjlhaWlh?=
+ =?utf-8?B?SWlWWTBlbk4xbjZ3OXlsWWZWeFFnaVpuQ0RCUDFOTHQxNm8vanJFVXB0MXBF?=
+ =?utf-8?B?Z3JJTTB0MUZIRnVBMkI2NWF4QThLYkl3K2labm5GM2NUcXNOZ2VBQmlHYjI0?=
+ =?utf-8?B?Q283Zk1SN01xcHNrRVN3R1F2UFhuYzRuRXdPRjdPYUlyZ2FiRy9TdnV1WTJQ?=
+ =?utf-8?B?KzFVNVpndERVNHg3ZDRFbnFFNDBxU3VqL1RuOG1UdzFrUGEzbmwraGxGTTBw?=
+ =?utf-8?B?TThnYWVoSXd4RjhsSlhiRStOd0ZDcjF4cTNmcFo3U055Y1Z4dWtGbWE4LzEw?=
+ =?utf-8?B?SDJiZG4zc1FzNnBMaVJiRUxraVN0UTF0eUxVQW1hKzV1bGtOTmFuODdhdzVk?=
+ =?utf-8?B?MWROdzB1UDZQSlpVY1owZjQ2R1BhSnVTaFZ3RkRkMnRqSzhHK2xNM1lmZGdS?=
+ =?utf-8?B?VDg1U0RZczYyRC9nQWRJWUdJdXFXc3J5ZmU1Vjl2TkRYemhuNmxwRWlmc1dN?=
+ =?utf-8?B?eGR0VmRFVkxVVEtSK1YvY0NUYXpqd1dRWUtWeURlMHJrQVNBTFVub05OUVNv?=
+ =?utf-8?B?MWhPc2hPbS9Oak9hL2dOM1ZDcXBsTSsrUHl1OXlUZDZpSWNnVVdTNjc0N25G?=
+ =?utf-8?B?aWZMejQ2YVAzWStyNWQ5OXNvNC9jeGE5WUk4bWpQbC9xNVA3ZnhDc2wyV3JP?=
+ =?utf-8?B?TnBQU3VFdFAxblRqWVhlYkNBKzh6Sk0xOFVhem10UStSekpUekF0UHpDNXpE?=
+ =?utf-8?B?dEUrY1VnbGRsZUNlNHBUejY1RkRkV1VZc242QXlWSWZYUTdmbnhqN08xc2xB?=
+ =?utf-8?B?eHNlK3RPWVkzK0xTNHFkTGtxZ05uY0RCVVhid0RxcWhNUGZGU0dDR2lNNkVn?=
+ =?utf-8?B?YUFxb2hlY3NKNjFzSGpZb0d3TUFiWUVPOVJ3c0t3aC9iNUhxVzRZc0tGOVhB?=
+ =?utf-8?B?SlRsZUdyZkN6VDBVeVVIV1pCZTdEWHVyTWcrTFI1akZpc2tYSitEaWVkU0Vr?=
+ =?utf-8?B?R2tUempTWTFiR3VYcFRINm1XUmp0MTQrd1MwcmJmS3VTb3owbWR0cGozc1VQ?=
+ =?utf-8?B?dnU5N2ExNXZxRTNIMlJqcE9lZTJlWDYvVVpDMnpoNGhMaUV4T2FSTGNCMnkw?=
+ =?utf-8?B?M1FnM3l2eTltNHA0RHJhQTF6THl5K1d2aERtL2txV2lSelJNbk9WYUVHcG9s?=
+ =?utf-8?B?UmVZcFM0NkFSTmRQS0RVRHg5TEtnTSt2dmdmai9scEVJczZTNHZyUm1tSnFK?=
+ =?utf-8?B?Q0UyaEdoTlF5Uzk0a3hGV2FmWnRmRWJDMUhwZkdvU3hpMDNlTlkyWlZSdk02?=
+ =?utf-8?B?WXQ1UlU4aXVHMU5iVXNOVjAydmRJNmlwa0dIcVhWWFEyMVdPSU1seWw1VTZR?=
+ =?utf-8?B?NXhGNjIremRGODRsWkQwSEVkaWhhVi9ZeHBmbHR4RjdGd09WZUpkSElRVENa?=
+ =?utf-8?B?Wm5oSzhMRENPTXI2YlY5QjVyQndPVXorb2FkWUZRVTU4VlllK21GdWd0U3p0?=
+ =?utf-8?B?VDlVRk9peWwzblp4Q28rd0dWdThYZkZ2TVhzT21vS2FjejkxU1k3aHNxbWRF?=
+ =?utf-8?B?cXdqenVVZlh4T2pPSUZUVjhaYTJQZDhaOWNZbXcyNG5FSzlWbHlkRkpUaW0y?=
+ =?utf-8?B?TnVhTmpiME5lUThyQnJuamRzaGx0U0U5MHR2T2ZTTS9teXN1RGRlcU9KbEgz?=
+ =?utf-8?B?UFVEM000VlBaQWE5OC9uRkxwZEdWb0huV0ozait4RHFPY2U2SUxsTkIxRHlz?=
+ =?utf-8?B?NW1yak91VjJWT1c3aHpnUytpQ21XSUs1OHhlaGdQeFlOSWx6RFEzM1pHbXJ0?=
+ =?utf-8?Q?r/PI=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 117c6905-3bc2-4d9a-2854-08da756933fd
+X-MS-Exchange-CrossTenant-AuthSource: SA0PR12MB4557.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Aug 2022 15:59:53.2622
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: UHcw6dogTmDH8Unh0WbDGUitDiryTNR9juhvm4uwCYp7KuRSi1UdJC+emROSuM+a
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB5762
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Aug 03, 2022, Chao Peng wrote:
-> On Tue, Aug 02, 2022 at 04:38:55PM +0000, Sean Christopherson wrote:
-> > On Tue, Aug 02, 2022, Sean Christopherson wrote:
-> > > I think we should avoid UNMAPPABLE even on the KVM side of things for the core
-> > > memslots functionality and instead be very literal, e.g.
-> > > 
-> > > 	KVM_HAS_FD_BASED_MEMSLOTS
-> > > 	KVM_MEM_FD_VALID
-> > > 
-> > > We'll still need KVM_HAS_USER_UNMAPPABLE_MEMORY, but it won't be tied directly to
-> > > the memslot.  Decoupling the two thingis will require a bit of extra work, but the
-> > > code impact should be quite small, e.g. explicitly query and propagate
-> > > MEMFILE_F_USER_INACCESSIBLE to kvm_memory_slot to track if a memslot can be private.
-> > > And unless I'm missing something, it won't require an additional memslot flag.
-> > > The biggest oddity (if we don't also add KVM_MEM_PRIVATE) is that KVM would
-> > > effectively ignore the hva for fd-based memslots for VM types that don't support
-> > > private memory, i.e. userspace can't opt out of using the fd-based backing, but that
-> > > doesn't seem like a deal breaker.
-> 
-> I actually love this idea. I don't mind adding extra code for potential
-> usage other than confidential VMs if we can have a workable solution for
-> it.
-> 
-> > 
-> > Hrm, but basing private memory on top of a generic FD_VALID would effectively require
-> > shared memory to use hva-based memslots for confidential VMs.  That'd yield a very
-> > weird API, e.g. non-confidential VMs could be backed entirely by fd-based memslots,
-> > but confidential VMs would be forced to use hva-based memslots.
-> 
-> It would work if we can treat userspace_addr as optional for
-> KVM_MEM_FD_VALID, e.g. userspace can opt in to decide whether needing
-> the mappable part or not for a regular VM and we can enforce KVM for
-> confidential VMs. But the u64 type of userspace_addr doesn't allow us to
-> express a 'null' value so sounds like we will end up needing another
-> flag anyway.
-> 
-> In concept, we could have three cofigurations here:
->   1. hva-only: without any flag and use userspace_addr;
->   2. fd-only:  another new flag is needed and use fd/offset;
->   3. hva/fd mixed: both userspace_addr and fd/offset is effective.
->      KVM_MEM_PRIVATE is a subset of it for confidential VMs. Not sure
->      regular VM also wants this.
+Hi Bagas,
 
-My mental model breaks things down slightly differently, though the end result is
-more or less the same. 
+On 8/2/22 22:50, Bagas Sanjaya wrote:
+> On Mon, Aug 01, 2022 at 03:56:43PM -0500, Babu Moger wrote:
+>> Update the documentation for the new features:
+>> 1. Slow Memory Bandwidth allocation.
+>>    With this feature, the QOS  enforcement policies can be applied
+>>    to the external slow memory connected to the host. QOS enforcement
+>>    is accomplished by assigning a Class Of Service (COS) to a processor
+>>    and specifying allocations or limits for that COS for each resource
+>>    to be allocated.
+>>
+>> 2. Bandwidth Monitoring Event Configuration (BMEC).
+>>    The bandwidth monitoring events mbm_total_bytes and mbm_local_bytes
+>>    are set to count all the total and local reads/writes respectively.
+>>    With the introduction of slow memory, the two counters are not
+>>    enough to count all the different types are memory events. With the
+>>    feature BMEC, the users have the option to configure mbm_total_bytes
+>>    and mbm_local_bytes to count the specific type of events.
+>>
+>> Added the instructions to configure with examples.
+>>
+> Say "Also add configuration instructions with examples" instead.
+Sure.
+>
+>> Signed-off-by: Babu Moger <babu.moger@amd.com>
+>> ---
+>>  Documentation/x86/resctrl.rst |  123 +++++++++++++++++++++++++++++++++++++++++
+>>  1 file changed, 123 insertions(+)
+>>
+>> diff --git a/Documentation/x86/resctrl.rst b/Documentation/x86/resctrl.rst
+>> index 71a531061e4e..ba6833171c0a 100644
+>> --- a/Documentation/x86/resctrl.rst
+>> +++ b/Documentation/x86/resctrl.rst
+>> @@ -167,6 +167,12 @@ with the following files:
+>>  		bytes) at which a previously used LLC_occupancy
+>>  		counter can be considered for re-use.
+>>  
+>> +"mon_configurable":
+>> +                Provides the information if the events mbm_total and
+>> +                mbm_local are configurable. See the configuration
+>> +                details for "mbm_total_config" and "mbm_local_config"
+>> +                for more information.
+>> +
+>>  Finally, in the top level of the "info" directory there is a file
+>>  named "last_cmd_status". This is reset with every "command" issued
+>>  via the file system (making new directories or writing to any of the
+>> @@ -264,6 +270,29 @@ When monitoring is enabled all MON groups will also contain:
+>>  	the sum for all tasks in the CTRL_MON group and all tasks in
+>>  	MON groups. Please see example section for more details on usage.
+>>  
+>> +"mbm_total_config":
+>> +"mbm_local_config":
+>> +        This contains the current event configuration for the events
+>> +        mbm_total_bytes and mbm_local_bytes, respectively, when the
+>> +        Bandwidth Monitoring Event Configuration (BMEC) feature is supported.
+>> +        These files are organized by L3 domains under the subdirectories
+>> +        "mon_L3_00" and "mon_L3_01". When BMEC is supported, the events
+>> +        mbm_local_bytes and mbm_total_bytes are configurable.
+>> +
+>> +        Following are the types of events supported.
+>> +        Bits    Description
+>> +        6       Dirty Victims from the QOS domain to all types of memory
+>> +        5       Reads to slow memory in the non-local NUMA domain
+>> +        4       Reads to slow memory in the local NUMA domain
+>> +        3       Non-temporal writes to non-local NUMA domain
+>> +        2       Non-temporal writes to local NUMA domain
+>> +        1       Reads to memory in the non-local NUMA domain
+>> +        0       Reads to memory in the local NUMA domain
+>> +
+> Why not use table?
 
-After this series, there will be two types of memory: private and "regular" (I'm
-trying to avoid "shared").  "Regular" memory is always hva-based (userspace_addr),
-and private always fd-based (fd+offset).
+I have not used the table in vim. But pulled your diff. Now it looks like
+table.
 
-In the future, if we want to support fd-based memory for "regular" memory, then
-as you said we'd need to add a new flag, and a new fd+offset pair.
+Hope that works.
 
-At that point, we'd have two new (relatively to current) flags:
+>
+>> +        By default, the mbm_total_bytes configuration is set to 0x7f to count
+>> +        all the event types and the mbm_local_bytes configuration is set to
+>> +        0x15 to count all the local memory events.
+>> +
+>>  Resource allocation rules
+>>  -------------------------
+>>  
+>> @@ -464,6 +493,14 @@ Memory bandwidth domain is L3 cache.
+>>  
+>>  	MB:<cache_id0>=bw_MBps0;<cache_id1>=bw_MBps1;...
+>>  
+>> +Slow Memory bandwidth Allocation (when supported)
+>> +------------------------------------------
+>> +
+>> +Slow Memory b/w domain is L3 cache.
+>> +::
+>> +
+>> +	SB:<cache_id0>=bandwidth0;<cache_id1>=bandwidth1;...
+>> +
+>>  Reading/writing the schemata file
+>>  ---------------------------------
+>>  Reading the schemata file will show the state of all resources
+>> @@ -479,6 +516,44 @@ which you wish to change.  E.g.
+>>    L3DATA:0=fffff;1=fffff;2=3c0;3=fffff
+>>    L3CODE:0=fffff;1=fffff;2=fffff;3=fffff
+>>  
+>> +Reading/writing the schemata file (on AMD systems)
+>> +---------------------------------------------------------------
+>> +Reading the schemata file will show the state of all resources
+>> +on all domains. When writing the memory bandwidth allocation you
+>> +only need to specify those values in an absolute number expressed
+>> +in 1/8 GB/s increments. To allocate bandwidth limit of 2GB, you
+>> +need to specify the value 16 (16 * 1/8 = 2).  E.g.
+>> +::
+>> +
+>> +  # cat schemata
+>> +    MB:0=2048;1=2048;2=2048;3=2048
+>> +    L3:0=ffff;1=ffff;2=ffff;3=ffff
+>> +
+>> +  # echo "MB:1=16" > schemata
+>> +  # cat schemata
+>> +    MB:0=2048;1=  16;2=2048;3=2048
+>> +    L3:0=ffff;1=ffff;2=ffff;3=ffff
+>> +
+>> +Reading/writing the schemata file (on AMD systems) with slow memory
+>> +---------------------------------------------------------------
+>> +Reading the schemata file will show the state of all resources
+>> +on all domains. When writing the memory bandwidth allocation you
+>> +only need to specify those values in an absolute number expressed
+>> +in 1/8 GB/s increments. To allocate bandwidth limit of 8GB, you
+>> +need to specify the value 64 (64 * 1/8 = 8).  E.g.
+>> +::
+>> +
+>> +  # cat schemata
+>> +    SB:0=2048;1=2048;2=2048;3=2048
+>> +    MB:0=2048;1=2048;2=2048;3=2048
+>> +    L3:0=ffff;1=ffff;2=ffff;3=ffff
+>> +
+>> +  # echo "SB:1=64" > schemata
+>> +  # cat schemata
+>> +    SB:0=2048;1=  64;2=2048;3=2048
+>> +    MB:0=2048;1=2048;2=2048;3=2048
+>> +    L3:0=ffff;1=ffff;2=ffff;3=ffff
+>> +
+>>  Cache Pseudo-Locking
+>>  ====================
+>>  CAT enables a user to specify the amount of cache space that an
+>> @@ -1210,6 +1285,54 @@ View the llc occupancy snapshot::
+>>    # cat /sys/fs/resctrl/p1/mon_data/mon_L3_00/llc_occupancy
+>>    11234000
+>>  
+>> +Example 5 (Configure and Monitor specific event types)
+>> +-------------------------------------------------
+>> +
+>> +A single socket system which has real time tasks running on cores 0-4
+>> +and non real time tasks on other CPUs. We want to monitor the memory
+>> +bandwidth allocation for specific events.
+>> +::
+>> +
+>> +  # mount -t resctrl resctrl /sys/fs/resctrl
+>> +  # cd /sys/fs/resctrl
+>> +  # mkdir p1
+>> +
+>> +Move the CPUs 0-4 over to p1::
+>> +
+>> +  # echo 0xf > p1/cpus
+>> +
+>> +View the current mbm_local_bytes::
+>> +
+>> +  # cat /sys/fs/resctrl/p1/mon_data/mon_L3_00/mbm_local_bytes
+>> +  112501
+>> +
+>> +Change the mbm_local_bytes to count mon-temporal writes to both local
+>> +and non-local NUMA domain. Refer to event supported bitmap under
+>> +mbm_local_config::
+>> +
+>> +  # echo 0xc > /sys/fs/resctrl/p1/mon_data/mon_L3_00/mbm_local_config
+>> +
+>> +View the updated mbm_local_bytes::
+>> +
+>> +  # cat /sys/fs/resctrl/p1/mon_data/mon_L3_00/mbm_local_bytes
+>> +  12601
+>> +
+>> +Similar experiment on mbm_total_bytes. First view the current mbm_total_bytes::
+>> +
+>> +  # cat /sys/fs/resctrl/p1/mon_data/mon_L3_00/mbm_total_bytes
+>> +  1532501
+>> +
+>> +Change the mbm_total_bytes to count only reads to slow memory on both local
+>> +and non-local NUMA domain. Refer to event supported bitmap under
+>> +mbm_total_config::
+>> +
+>> +  # echo 0x30 > /sys/fs/resctrl/p1/mon_data/mon_L3_00/mbm_total_config
+>> +
+>> +View the updated mbm_total_bytes::
+>> +
+>> +  # cat /sys/fs/resctrl/p1/mon_data/mon_L3_00/mbm_total_bytes
+>> +  104562
+>> +
+>>  Intel RDT Errata
+>>  ================
+>>  
+>>
+>>
+> When building this documentation, I get new warnings:
+Is there a command I can use to build? That would be helpful next time.
+>
+> Documentation/x86/resctrl.rst:275: WARNING: Unexpected indentation.
+> Documentation/x86/resctrl.rst:497: WARNING: Title underline too short.
+>
+> Slow Memory bandwidth Allocation (when supported)
+> ------------------------------------------
+> Documentation/x86/resctrl.rst:497: WARNING: Title underline too short.
+>
+> Slow Memory bandwidth Allocation (when supported)
+> ------------------------------------------
+> Documentation/x86/resctrl.rst:538: WARNING: Title underline too short.
+>
+> Reading/writing the schemata file (on AMD systems) with slow memory
+> ---------------------------------------------------------------
+> Documentation/x86/resctrl.rst:538: WARNING: Title underline too short.
+>
+> Reading/writing the schemata file (on AMD systems) with slow memory
+> ---------------------------------------------------------------
+> Documentation/x86/resctrl.rst:1289: WARNING: Title underline too short.
+>
+> Example 5 (Configure and Monitor specific event types)
+> -------------------------------------------------
+> Documentation/x86/resctrl.rst:1289: WARNING: Title underline too short.
+>
+> Example 5 (Configure and Monitor specific event types)
+> -------------------------------------------------
+>
+> I have to apply the fixup:
+>
+> ---- >8 ----
+>
+> diff --git a/Documentation/x86/resctrl.rst b/Documentation/x86/resctrl.rst
+> index ba6833171c0a39..886cb9bd7a181c 100644
+> --- a/Documentation/x86/resctrl.rst
+> +++ b/Documentation/x86/resctrl.rst
+> @@ -270,8 +270,7 @@ When monitoring is enabled all MON groups will also contain:
+>  	the sum for all tasks in the CTRL_MON group and all tasks in
+>  	MON groups. Please see example section for more details on usage.
+>  
+> -"mbm_total_config":
+> -"mbm_local_config":
+> +"mbm_total_config", "mbm_local_config":
+>          This contains the current event configuration for the events
+>          mbm_total_bytes and mbm_local_bytes, respectively, when the
+>          Bandwidth Monitoring Event Configuration (BMEC) feature is supported.
+> @@ -279,8 +278,11 @@ When monitoring is enabled all MON groups will also contain:
+>          "mon_L3_00" and "mon_L3_01". When BMEC is supported, the events
+>          mbm_local_bytes and mbm_total_bytes are configurable.
+>  
+> -        Following are the types of events supported.
+> +        Following are the types of events supported:
+> +
+> +        ====    ========================================================
+>          Bits    Description
+> +        ====    ========================================================
+>          6       Dirty Victims from the QOS domain to all types of memory
+>          5       Reads to slow memory in the non-local NUMA domain
+>          4       Reads to slow memory in the local NUMA domain
+> @@ -288,6 +290,7 @@ When monitoring is enabled all MON groups will also contain:
+>          2       Non-temporal writes to local NUMA domain
+>          1       Reads to memory in the non-local NUMA domain
+>          0       Reads to memory in the local NUMA domain
+> +        ====    ========================================================
+>  
+>          By default, the mbm_total_bytes configuration is set to 0x7f to count
+>          all the event types and the mbm_local_bytes configuration is set to
+> @@ -494,7 +497,7 @@ Memory bandwidth domain is L3 cache.
+>  	MB:<cache_id0>=bw_MBps0;<cache_id1>=bw_MBps1;...
+>  
+>  Slow Memory bandwidth Allocation (when supported)
+> -------------------------------------------
+> +-------------------------------------------------
+>  
+>  Slow Memory b/w domain is L3 cache.
+>  ::
+> @@ -517,7 +520,7 @@ which you wish to change.  E.g.
+>    L3CODE:0=fffff;1=fffff;2=fffff;3=fffff
+>  
+>  Reading/writing the schemata file (on AMD systems)
+> ----------------------------------------------------------------
+> +--------------------------------------------------
+>  Reading the schemata file will show the state of all resources
+>  on all domains. When writing the memory bandwidth allocation you
+>  only need to specify those values in an absolute number expressed
+> @@ -535,7 +538,7 @@ need to specify the value 16 (16 * 1/8 = 2).  E.g.
+>      L3:0=ffff;1=ffff;2=ffff;3=ffff
+>  
+>  Reading/writing the schemata file (on AMD systems) with slow memory
+> ----------------------------------------------------------------
+> +-------------------------------------------------------------------
+>  Reading the schemata file will show the state of all resources
+>  on all domains. When writing the memory bandwidth allocation you
+>  only need to specify those values in an absolute number expressed
+> @@ -1286,7 +1289,7 @@ View the llc occupancy snapshot::
+>    11234000
+>  
+>  Example 5 (Configure and Monitor specific event types)
+> --------------------------------------------------
+> +------------------------------------------------------
+>  
+>  A single socket system which has real time tasks running on cores 0-4
+>  and non real time tasks on other CPUs. We want to monitor the memory
+>
+> Thanks.
+>
+I have pulled your diff now. Thank you
 
-  KVM_MEM_PRIVATE_FD_VALID
-  KVM_MEM_FD_VALID
+-- 
+Thanks
+Babu Moger
 
-along with two new pairs of fd+offset (private_* and "regular").  Mapping those
-to your above list:
-  
-  1.  Neither *_FD_VALID flag set.
-  2a. Both PRIVATE_FD_VALID and FD_VALID are set
-  2b. FD_VALID is set and the VM doesn't support private memory
-  3.  Only PRIVATE_FD_VALID is set (which private memory support in the VM).
-
-Thus, "regular" VMs can't have a mix in a single memslot because they can't use
-private memory.
-
-> There is no direct relationship between unmappable and fd-based since
-> even fd-based can also be mappable for regular VM?
-
-Yep.
-
-> > Ignore this idea for now.  If there's an actual use case for generic fd-based memory
-> > then we'll want a separate flag, fd, and offset, i.e. that support could be added
-> > independent of KVM_MEM_PRIVATE.
-> 
-> If we ignore this idea now (which I'm also fine), do you still think we
-> need change KVM_MEM_PRIVATE to KVM_MEM_USER_UNMAPPBLE?
-
-Hmm, no.  After working through this, I think it's safe to say KVM_MEM_USER_UNMAPPABLE
-is bad name because we could end up with "regular" memory that's backed by an
-inaccessible (unmappable) file.
-
-One alternative would be to call it KVM_MEM_PROTECTED.  That shouldn't cause
-problems for the known use of "private" (TDX and SNP), and it gives us a little
-wiggle room, e.g. if we ever get a use case where VMs can share memory that is
-otherwise protected.
-
-That's a pretty big "if" though, and odds are good we'd need more memslot flags and
-fd+offset pairs to allow differentiating "private" vs. "protected-shared" without
-forcing userspace to punch holes in memslots, so I don't know that hedging now will
-buy us anything.
-
-So I'd say that if people think KVM_MEM_PRIVATE brings additional and meaningful
-clarity over KVM_MEM_PROTECTECD, then lets go with PRIVATE.  But if PROTECTED is
-just as good, go with PROTECTED as it gives us a wee bit of wiggle room for the
-future.
-
-Note, regardless of what name we settle on, I think it makes to do the
-KVM_PRIVATE_MEM_SLOTS => KVM_INTERNAL_MEM_SLOTS rename.
