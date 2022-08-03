@@ -2,68 +2,208 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A74D3C19F28
-	for <linux-doc@archiver.kernel.org>; Wed,  3 Aug 2022 07:24:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D28BFC19F2D
+	for <linux-doc@archiver.kernel.org>; Wed,  3 Aug 2022 07:42:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233565AbiHCHY4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 3 Aug 2022 03:24:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50310 "EHLO
+        id S234467AbiHCHmd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 3 Aug 2022 03:42:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33682 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230166AbiHCHYz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Aug 2022 03:24:55 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 507D71CFF8
-        for <linux-doc@vger.kernel.org>; Wed,  3 Aug 2022 00:24:54 -0700 (PDT)
-Received: from localhost (unknown [213.194.152.135])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: rcn)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id BCC186601B45;
-        Wed,  3 Aug 2022 08:24:52 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1659511493;
-        bh=gSmhm9TIwih38Vl9DKl93qZxb8KLW+ot4iOOQ1QMDvk=;
-        h=From:To:Cc:Subject:References:In-reply-to:Date:From;
-        b=jWATBpIRNp/PmHfDO1PLpFcdyBrMoGHff4tvVgOGCmLv+DXVR3fOpniZznliaQW0L
-         BdKnjAVBRVo/tUHw5YgAuokJakwdCJtLAY1C0dNtNfmCYSHww1QQ6nf4XK2AXkyUVv
-         9t6TRMmYKHyCgz/UEPNLPmJej9BRf4m7+uI5c5GwcI3wMFsj0PF71y9ZEt4ZhCLvw6
-         1EnqZg0uahGntvcPbAMpDgH58GtZZdENWqXaNBO5NZyqlG7rfsr57uHMC4coFPjYJ8
-         9ytRc29QXDO4XIGPpLWHfK3I4tB1PsJDQr8mefSCMdDBycQyGHW+Wu98VAkF/NyLkW
-         PXAm8fxp2uquw==
-From:   Ricardo =?utf-8?Q?Ca=C3=B1uelo?= <ricardo.canuelo@collabora.com>
-To:     Matthew Wilcox <willy@infradead.org>
-Cc:     linux-doc@vger.kernel.org,
-        virtualization@lists.linux-foundation.org, mst@redhat.com,
-        jasowang@redhat.com, kernel@collabora.com
-Subject: Re: [PATCH] docs: driver-api: virtio: virtio on Linux
-References: <20220802124222.3563378-1-ricardo.canuelo@collabora.com> <YulJQKL22sB31lfU@casper.infradead.org>
-In-reply-to: <YulJQKL22sB31lfU@casper.infradead.org>
-Date:   Wed, 03 Aug 2022 09:24:49 +0200
-Message-ID: <87y1w5rdq6.fsf@rcn-XPS-13-9305.i-did-not-set--mail-host-address--so-tickle-me>
+        with ESMTP id S229480AbiHCHma (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Aug 2022 03:42:30 -0400
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C3BC51FCE3;
+        Wed,  3 Aug 2022 00:42:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1659512548; x=1691048548;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=bPBTAmFItJli/FgJ5QFwiA9bwcWk7H1U0xpUswriSnI=;
+  b=A/wfslUEPTKWtCbYUpgHlF/ZPIfpuAdnozf2duO8J200RajbBJSPcLMq
+   Rc4XDjJon1RKlkmWu+YgBfJsRso+luKsjruvXMpicpOlML0fiXqyGqcen
+   f6HD9dHM74h/uHm4Eip6wcHB3C0zVZCou220GcVxBRfi9VPPGLMWFd9nq
+   FnPvU11HKPMv0SGO1Ki7jG4ewB590eaOFIz5SQPja3cUYgMII865dNRGq
+   9uOpNNaTcqfwUKN2NNH0jeN/IkjrS41tgbB0KyvQuE67GEPn3KArROGYB
+   IoN6K3n0DS/2cQydgZQknKkUk2xtF3scAQh1cmVorCpkBXAIHPnasJ5wc
+   Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10427"; a="353614222"
+X-IronPort-AV: E=Sophos;i="5.93,213,1654585200"; 
+   d="scan'208";a="353614222"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Aug 2022 00:42:28 -0700
+X-IronPort-AV: E=Sophos;i="5.93,213,1654585200"; 
+   d="scan'208";a="599557794"
+Received: from mpaulits-mobl.ger.corp.intel.com (HELO [10.252.59.205]) ([10.252.59.205])
+  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Aug 2022 00:42:22 -0700
+Message-ID: <9d298ab7-4ad4-7849-6a64-6e1bdd5f18c3@linux.intel.com>
+Date:   Wed, 3 Aug 2022 10:41:56 +0300
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH bpf-next v7 00/24] Introduce eBPF support for HID devices
+Content-Language: en-US
+To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Jiri Kosina <jikos@kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        Kumar Kartikeya Dwivedi <memxor@gmail.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>, Shuah Khan <shuah@kernel.org>,
+        Dave Marchevsky <davemarchevsky@fb.com>,
+        Joe Stringer <joe@cilium.io>, Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        netdev@vger.kernel.org, bpf@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20220721153625.1282007-1-benjamin.tissoires@redhat.com>
+From:   Tero Kristo <tero.kristo@linux.intel.com>
+In-Reply-To: <20220721153625.1282007-1-benjamin.tissoires@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Matthew,
+Hello,
 
-On mar, ago 02 2022 at 16:56:48, Matthew Wilcox <willy@infradead.org> wrote:
-> You don't need to use :c:func:`foo`.  You can just write foo() and the
-> tooling will convert it into :c:func:`foo` for you.
+Tried this out with my USI support eBPF code, and it works fine with the 
+single patch I had to apply on top of i2c-hid (not related to the 
+hid-bpf support itself.)
 
-Thanks for the tip. However, I did some tests and the results aren't
-quite the same. For functions with kerneldocs that are referenced in the
-same document (.. kernel-doc::) the tool does efectively link to the
-generated documentation, but for all the other functions using
-c:func:`foo` generates a different formatting than `foo`, which does no
-formatting at all.
+For the whole series:
 
-I don't know if the extra semantic info can be used by the tooling in
-any other way, in case it doesn't the fancy formatting might not be
-worth it in exchange for a noisier source text, but I've seen it been
-used in other driver-api docs.
+Tested-by: Tero Kristo <tero.kristo@linux.intel.com>
 
-Cheers,
-Ricardo
+-Tero
+
+On 21/07/2022 18:36, Benjamin Tissoires wrote:
+> Hi,
+>
+> here comes the v7 of the HID-BPF series.
+>
+> Again, for a full explanation of HID-BPF, please refer to the last patch
+> in this series (24/24).
+>
+> This version sees some minor improvements compared to v6, only
+> focusing on the reviews I got.
+>
+> I also wanted to mention that I have started working on the userspace
+> side to "see" how the BPF programs would look when automatically loaded.
+> See the udev-hid-bpf project[0] for the code.
+>
+> The idea is to define the HID-BPF userspace programs so we can reuse
+> the same semantic in the kernel.
+> I am quite happy with the results: this looks pretty similar to a kernel
+> module in term of design. The .bpf.c file is a standalone compilation
+> unit, and instead of having a table of ids, the filename is used (based
+> on the modalias). This allows to have a "probe" like function that we
+> can run to decide if the program needs to be attached or not.
+>
+> All in all, the end result is that we can write the bpf program, compile
+> it locally, and send the result to the user. The user needs to drop the
+> .bpf.o in a local folder, and udev-hid-bpf will pick it up the next time
+> the device is plugged in. No other operations is required.
+>
+> Next step will be to drop the same source file in the kernel source
+> tree, and have some magic to automatically load the compiled program
+> when the device is loaded.
+>
+> Cheers,
+> Benjamin
+>
+> [0] https://gitlab.freedesktop.org/bentiss/udev-hid-bpf (warning: probably
+> not the best rust code ever)
+>
+> Benjamin Tissoires (24):
+>    selftests/bpf: fix config for CLS_BPF
+>    bpf/verifier: allow kfunc to read user provided context
+>    bpf/verifier: do not clear meta in check_mem_size
+>    selftests/bpf: add test for accessing ctx from syscall program type
+>    bpf/verifier: allow kfunc to return an allocated mem
+>    selftests/bpf: Add tests for kfunc returning a memory pointer
+>    bpf: prepare for more bpf syscall to be used from kernel and user
+>      space.
+>    libbpf: add map_get_fd_by_id and map_delete_elem in light skeleton
+>    HID: core: store the unique system identifier in hid_device
+>    HID: export hid_report_type to uapi
+>    HID: convert defines of HID class requests into a proper enum
+>    HID: Kconfig: split HID support and hid-core compilation
+>    HID: initial BPF implementation
+>    selftests/bpf: add tests for the HID-bpf initial implementation
+>    HID: bpf: allocate data memory for device_event BPF programs
+>    selftests/bpf/hid: add test to change the report size
+>    HID: bpf: introduce hid_hw_request()
+>    selftests/bpf: add tests for bpf_hid_hw_request
+>    HID: bpf: allow to change the report descriptor
+>    selftests/bpf: add report descriptor fixup tests
+>    selftests/bpf: Add a test for BPF_F_INSERT_HEAD
+>    samples/bpf: add new hid_mouse example
+>    HID: bpf: add Surface Dial example
+>    Documentation: add HID-BPF docs
+>
+>   Documentation/hid/hid-bpf.rst                 | 512 +++++++++
+>   Documentation/hid/index.rst                   |   1 +
+>   drivers/Makefile                              |   2 +-
+>   drivers/hid/Kconfig                           |  20 +-
+>   drivers/hid/Makefile                          |   2 +
+>   drivers/hid/bpf/Kconfig                       |  18 +
+>   drivers/hid/bpf/Makefile                      |  11 +
+>   drivers/hid/bpf/entrypoints/Makefile          |  93 ++
+>   drivers/hid/bpf/entrypoints/README            |   4 +
+>   drivers/hid/bpf/entrypoints/entrypoints.bpf.c |  66 ++
+>   .../hid/bpf/entrypoints/entrypoints.lskel.h   | 682 ++++++++++++
+>   drivers/hid/bpf/hid_bpf_dispatch.c            | 553 ++++++++++
+>   drivers/hid/bpf/hid_bpf_dispatch.h            |  28 +
+>   drivers/hid/bpf/hid_bpf_jmp_table.c           | 577 ++++++++++
+>   drivers/hid/hid-core.c                        |  49 +-
+>   include/linux/bpf.h                           |   9 +-
+>   include/linux/btf.h                           |  10 +
+>   include/linux/hid.h                           |  38 +-
+>   include/linux/hid_bpf.h                       | 148 +++
+>   include/uapi/linux/hid.h                      |  26 +-
+>   include/uapi/linux/hid_bpf.h                  |  25 +
+>   kernel/bpf/btf.c                              |  91 +-
+>   kernel/bpf/syscall.c                          |  10 +-
+>   kernel/bpf/verifier.c                         |  65 +-
+>   net/bpf/test_run.c                            |  23 +
+>   samples/bpf/.gitignore                        |   2 +
+>   samples/bpf/Makefile                          |  27 +
+>   samples/bpf/hid_mouse.bpf.c                   | 134 +++
+>   samples/bpf/hid_mouse.c                       | 147 +++
+>   samples/bpf/hid_surface_dial.bpf.c            | 161 +++
+>   samples/bpf/hid_surface_dial.c                | 212 ++++
+>   tools/include/uapi/linux/hid.h                |  62 ++
+>   tools/include/uapi/linux/hid_bpf.h            |  25 +
+>   tools/lib/bpf/skel_internal.h                 |  23 +
+>   tools/testing/selftests/bpf/Makefile          |   5 +-
+>   tools/testing/selftests/bpf/config            |   5 +-
+>   tools/testing/selftests/bpf/prog_tests/hid.c  | 990 ++++++++++++++++++
+>   .../selftests/bpf/prog_tests/kfunc_call.c     |  76 ++
+>   tools/testing/selftests/bpf/progs/hid.c       | 206 ++++
+>   .../selftests/bpf/progs/kfunc_call_test.c     | 125 +++
+>   40 files changed, 5184 insertions(+), 79 deletions(-)
+>   create mode 100644 Documentation/hid/hid-bpf.rst
+>   create mode 100644 drivers/hid/bpf/Kconfig
+>   create mode 100644 drivers/hid/bpf/Makefile
+>   create mode 100644 drivers/hid/bpf/entrypoints/Makefile
+>   create mode 100644 drivers/hid/bpf/entrypoints/README
+>   create mode 100644 drivers/hid/bpf/entrypoints/entrypoints.bpf.c
+>   create mode 100644 drivers/hid/bpf/entrypoints/entrypoints.lskel.h
+>   create mode 100644 drivers/hid/bpf/hid_bpf_dispatch.c
+>   create mode 100644 drivers/hid/bpf/hid_bpf_dispatch.h
+>   create mode 100644 drivers/hid/bpf/hid_bpf_jmp_table.c
+>   create mode 100644 include/linux/hid_bpf.h
+>   create mode 100644 include/uapi/linux/hid_bpf.h
+>   create mode 100644 samples/bpf/hid_mouse.bpf.c
+>   create mode 100644 samples/bpf/hid_mouse.c
+>   create mode 100644 samples/bpf/hid_surface_dial.bpf.c
+>   create mode 100644 samples/bpf/hid_surface_dial.c
+>   create mode 100644 tools/include/uapi/linux/hid.h
+>   create mode 100644 tools/include/uapi/linux/hid_bpf.h
+>   create mode 100644 tools/testing/selftests/bpf/prog_tests/hid.c
+>   create mode 100644 tools/testing/selftests/bpf/progs/hid.c
+>
