@@ -2,83 +2,217 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3DA70C19F2B
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Aug 2022 07:57:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 25C11C19F2B
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Aug 2022 08:03:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236826AbiHDH53 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 4 Aug 2022 03:57:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45704 "EHLO
+        id S239323AbiHDIDa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 4 Aug 2022 04:03:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50280 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231965AbiHDH52 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Aug 2022 03:57:28 -0400
-Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99C0C6335;
-        Thu,  4 Aug 2022 00:57:27 -0700 (PDT)
-Received: by mail-pj1-x1033.google.com with SMTP id d65-20020a17090a6f4700b001f303a97b14so4737352pjk.1;
-        Thu, 04 Aug 2022 00:57:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc;
-        bh=B5ShB1FMDcSOC6vlt1FTAf9Cnw9dE9FUOP5cnHnXKSM=;
-        b=dF7Gh8AP5VyjFSoJdF1MJbwvdrvHEMNkvPD/rUMzqukFyNPcn1/uOevoOE4U12cg7W
-         5iY3/nrYqcWvf/MliZj9CRAUA8aP2ajxz6AyVD+MHSv+D+QR09mEnEl6yUmqC5qSCvzQ
-         K80g5WdczDXsi2JnA/f0Kq4CM3LFIUfXL4KjnSRO2PJlfqus7ZXiaSKtz9XGgsS6hEki
-         nnSAF1HyoMxKGSDKI7RuXyOA0LNQUZvaj0Aco+rlOSMbAJf3aYTziRsRqeXBjSs4clEf
-         t2foOiQkj/93mM9McEEmRgkV+mMxSqgpehDzt6MLjU/4G+fSKSoFF+iDGE0r3vMPwt/Z
-         uWlA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc;
-        bh=B5ShB1FMDcSOC6vlt1FTAf9Cnw9dE9FUOP5cnHnXKSM=;
-        b=H0ompg0SZt1t+lYY7U2dDnX2hVycXKkD/MRRmv7NUcmQZ6Zz6DMXJFqzIYmoQn2u1N
-         LeIexmEwUVxIF7M+xtlL2Av7khEoJJojigB0POxf6/67d1dWGr/69OgUM/ysEU+VNdNV
-         LLFqnvAK4XMfDoczb98e6elDJVblCqVNN5/OqpyEsbFJeHDGFDAzVnHbRHf3paD5K3F+
-         QlXDkuF2YZikmWYf1IAKe4gvo84bZkqE+H6f+Z5WA/uze5QaeOTX1S6y5X+7j3HrOYBu
-         vivdKBvqYkbgyass0Jl3TAQWlhXzqa2phcycH55Pu7rgXbo8QhVA7DR1Td0U1iIb/4my
-         0Ssg==
-X-Gm-Message-State: ACgBeo1kKlZa9Qelbdsc2RIFqJW76Sk+Mif0Q147BGPglFnOZqHfrrCx
-        qfhqGSACnKH0la5ZSrQWcng=
-X-Google-Smtp-Source: AA6agR4K9kXEsbApykItiq/orOgQ5vrCLFndla99LPDrlpkl5KA7WpFIQqoV2qRJ9IwsmkO08uSrTg==
-X-Received: by 2002:a17:90b:3b85:b0:1f4:f595:b0fe with SMTP id pc5-20020a17090b3b8500b001f4f595b0femr9025186pjb.61.1659599847121;
-        Thu, 04 Aug 2022 00:57:27 -0700 (PDT)
-Received: from [192.168.43.80] (subs02-180-214-232-23.three.co.id. [180.214.232.23])
-        by smtp.gmail.com with ESMTPSA id h7-20020a170902f54700b0016db1b67fb9sm147421plf.224.2022.08.04.00.57.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 04 Aug 2022 00:57:26 -0700 (PDT)
-Message-ID: <ed2de577-416d-24a7-a780-846a0ccac87a@gmail.com>
-Date:   Thu, 4 Aug 2022 14:57:21 +0700
+        with ESMTP id S231782AbiHDID3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Aug 2022 04:03:29 -0400
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB37361DAD;
+        Thu,  4 Aug 2022 01:03:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1659600208; x=1691136208;
+  h=date:from:to:cc:subject:message-id:reply-to:references:
+   mime-version:in-reply-to;
+  bh=n6vj1E+K6IGerPlEyIy+T8JA9iaBmJsVY3SC0cCq/5I=;
+  b=kI7egYbOvMahyhUNcbWWU/Sh/50H7H0GJ+QDCwuBCzrQc5D4o65w7DyJ
+   767egw8Svkz76V5teVSOzOxjNKnrWmgaYRe02rGDfixym1aZrL4h4klzX
+   RO2Fs31YhmsvAmuhU14VgtbzlmustEppJ0buZ8jNoDGoS5dApEIK6XKOW
+   teVaQnLpCBtFK37IUEv6tkyyZ6MX5ZMOxmWbYMHfaEkh5OzMYBeQ64ErK
+   9ZcoHSP6HD39Df4HUCRtEgjixxBSf4C+YfzEI1QI36ZC6bwUjr8Ee/Fz4
+   7JStrUeZkx4ml4n2iGuLjHvsTHCnj1Wz1o8INRMSwACt6kJNwFKt+viAN
+   w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10428"; a="288627961"
+X-IronPort-AV: E=Sophos;i="5.93,215,1654585200"; 
+   d="scan'208";a="288627961"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2022 01:03:28 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,215,1654585200"; 
+   d="scan'208";a="631482938"
+Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
+  by orsmga008.jf.intel.com with ESMTP; 04 Aug 2022 01:03:17 -0700
+Date:   Thu, 4 Aug 2022 15:58:30 +0800
+From:   Chao Peng <chao.p.peng@linux.intel.com>
+To:     Sean Christopherson <seanjc@google.com>
+Cc:     Wei Wang <wei.w.wang@linux.intel.com>,
+        "Gupta, Pankaj" <pankaj.gupta@amd.com>, kvm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+        linux-kselftest@vger.kernel.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com,
+        Quentin Perret <qperret@google.com>,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+        Muchun Song <songmuchun@bytedance.com>
+Subject: Re: [PATCH v7 11/14] KVM: Register/unregister the guest private
+ memory regions
+Message-ID: <20220804075830.GA645378@chaop.bj.intel.com>
+Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
+References: <YtgrkXqP/GIi9ujZ@google.com>
+ <45ae9f57-d595-f202-abb5-26a03a2ca131@linux.intel.com>
+ <20220721092906.GA153288@chaop.bj.intel.com>
+ <YtmT2irvgInX1kPp@google.com>
+ <20220725130417.GA304216@chaop.bj.intel.com>
+ <YuQ64RgWqdoAAGdY@google.com>
+ <Yuh0ikhoh+tCK6VW@google.com>
+ <YulTH7bL4MwT5v5K@google.com>
+ <20220803094827.GA607465@chaop.bj.intel.com>
+ <YuqZfPvRo+3GvLF1@google.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v2 10/10] Documentation/x86: Update resctrl_ui.rst for new
- features
-Content-Language: en-US
-To:     babu.moger@amd.com
-Cc:     fenghua.yu@intel.com, reinette.chatre@intel.com,
-        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-        eranian@google.com, dave.hansen@linux.intel.com, x86@kernel.org,
-        hpa@zytor.com, corbet@lwn.net, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-References: <165938717220.724959.10931629283087443782.stgit@bmoger-ubuntu>
- <165938740360.724959.7059659465268246182.stgit@bmoger-ubuntu>
- <YunwoDwcy7GZoKXA@debian.me> <0c3721ba-b564-733a-16d5-5150d2b7a885@amd.com>
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <0c3721ba-b564-733a-16d5-5150d2b7a885@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YuqZfPvRo+3GvLF1@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 8/3/22 22:59, Moger, Babu wrote:
->> When building this documentation, I get new warnings:
-> Is there a command I can use to build? That would be helpful next time.
+On Wed, Aug 03, 2022 at 03:51:24PM +0000, Sean Christopherson wrote:
+> On Wed, Aug 03, 2022, Chao Peng wrote:
+> > On Tue, Aug 02, 2022 at 04:38:55PM +0000, Sean Christopherson wrote:
+> > > On Tue, Aug 02, 2022, Sean Christopherson wrote:
+> > > > I think we should avoid UNMAPPABLE even on the KVM side of things for the core
+> > > > memslots functionality and instead be very literal, e.g.
+> > > > 
+> > > > 	KVM_HAS_FD_BASED_MEMSLOTS
+> > > > 	KVM_MEM_FD_VALID
+> > > > 
+> > > > We'll still need KVM_HAS_USER_UNMAPPABLE_MEMORY, but it won't be tied directly to
+> > > > the memslot.  Decoupling the two thingis will require a bit of extra work, but the
+> > > > code impact should be quite small, e.g. explicitly query and propagate
+> > > > MEMFILE_F_USER_INACCESSIBLE to kvm_memory_slot to track if a memslot can be private.
+> > > > And unless I'm missing something, it won't require an additional memslot flag.
+> > > > The biggest oddity (if we don't also add KVM_MEM_PRIVATE) is that KVM would
+> > > > effectively ignore the hva for fd-based memslots for VM types that don't support
+> > > > private memory, i.e. userspace can't opt out of using the fd-based backing, but that
+> > > > doesn't seem like a deal breaker.
+> > 
+> > I actually love this idea. I don't mind adding extra code for potential
+> > usage other than confidential VMs if we can have a workable solution for
+> > it.
+> > 
+> > > 
+> > > Hrm, but basing private memory on top of a generic FD_VALID would effectively require
+> > > shared memory to use hva-based memslots for confidential VMs.  That'd yield a very
+> > > weird API, e.g. non-confidential VMs could be backed entirely by fd-based memslots,
+> > > but confidential VMs would be forced to use hva-based memslots.
+> > 
+> > It would work if we can treat userspace_addr as optional for
+> > KVM_MEM_FD_VALID, e.g. userspace can opt in to decide whether needing
+> > the mappable part or not for a regular VM and we can enforce KVM for
+> > confidential VMs. But the u64 type of userspace_addr doesn't allow us to
+> > express a 'null' value so sounds like we will end up needing another
+> > flag anyway.
+> > 
+> > In concept, we could have three cofigurations here:
+> >   1. hva-only: without any flag and use userspace_addr;
+> >   2. fd-only:  another new flag is needed and use fd/offset;
+> >   3. hva/fd mixed: both userspace_addr and fd/offset is effective.
+> >      KVM_MEM_PRIVATE is a subset of it for confidential VMs. Not sure
+> >      regular VM also wants this.
+> 
+> My mental model breaks things down slightly differently, though the end result is
+> more or less the same. 
+> 
+> After this series, there will be two types of memory: private and "regular" (I'm
+> trying to avoid "shared").  "Regular" memory is always hva-based (userspace_addr),
+> and private always fd-based (fd+offset).
+> 
+> In the future, if we want to support fd-based memory for "regular" memory, then
+> as you said we'd need to add a new flag, and a new fd+offset pair.
+> 
+> At that point, we'd have two new (relatively to current) flags:
+> 
+>   KVM_MEM_PRIVATE_FD_VALID
+>   KVM_MEM_FD_VALID
+> 
+> along with two new pairs of fd+offset (private_* and "regular").  Mapping those
+> to your above list:
 
-Use `make htmldocs`.
+I previously thought we could reuse the private_fd (name should be
+changed) for regular VM as well so only need one pair of fd+offset, the
+meaning of the fd can be decided by the flag. But introducing two pairs
+of them may support extra usages like one fd for regular memory and
+another private_fd for private memory, though unsure this is a useful
+configuration.
 
--- 
-An old man doll... just what I always wanted! - Clara
+>   
+>   1.  Neither *_FD_VALID flag set.
+>   2a. Both PRIVATE_FD_VALID and FD_VALID are set
+>   2b. FD_VALID is set and the VM doesn't support private memory
+>   3.  Only PRIVATE_FD_VALID is set (which private memory support in the VM).
+> 
+> Thus, "regular" VMs can't have a mix in a single memslot because they can't use
+> private memory.
+> 
+> > There is no direct relationship between unmappable and fd-based since
+> > even fd-based can also be mappable for regular VM?
+
+Hmm, yes, for private memory we have special treatment in page fault
+handler and that is not applied to regular VM.
+
+> 
+> Yep.
+> 
+> > > Ignore this idea for now.  If there's an actual use case for generic fd-based memory
+> > > then we'll want a separate flag, fd, and offset, i.e. that support could be added
+> > > independent of KVM_MEM_PRIVATE.
+> > 
+> > If we ignore this idea now (which I'm also fine), do you still think we
+> > need change KVM_MEM_PRIVATE to KVM_MEM_USER_UNMAPPBLE?
+> 
+> Hmm, no.  After working through this, I think it's safe to say KVM_MEM_USER_UNMAPPABLE
+> is bad name because we could end up with "regular" memory that's backed by an
+> inaccessible (unmappable) file.
+> 
+> One alternative would be to call it KVM_MEM_PROTECTED.  That shouldn't cause
+> problems for the known use of "private" (TDX and SNP), and it gives us a little
+> wiggle room, e.g. if we ever get a use case where VMs can share memory that is
+> otherwise protected.
+> 
+> That's a pretty big "if" though, and odds are good we'd need more memslot flags and
+> fd+offset pairs to allow differentiating "private" vs. "protected-shared" without
+> forcing userspace to punch holes in memslots, so I don't know that hedging now will
+> buy us anything.
+> 
+> So I'd say that if people think KVM_MEM_PRIVATE brings additional and meaningful
+> clarity over KVM_MEM_PROTECTECD, then lets go with PRIVATE.  But if PROTECTED is
+> just as good, go with PROTECTED as it gives us a wee bit of wiggle room for the
+> future.
+
+Then I'd stay with PRIVATE.
+
+> 
+> Note, regardless of what name we settle on, I think it makes to do the
+> KVM_PRIVATE_MEM_SLOTS => KVM_INTERNAL_MEM_SLOTS rename.
+
+Agreed.
+
+Chao
