@@ -2,134 +2,156 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B075CC19F2A
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Aug 2022 16:45:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D6D26C19F2A
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Aug 2022 16:56:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232054AbiHDQp4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 4 Aug 2022 12:45:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53600 "EHLO
+        id S236087AbiHDQ4m (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 4 Aug 2022 12:56:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58906 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230177AbiHDQp4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Aug 2022 12:45:56 -0400
-Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E502AFD2D;
-        Thu,  4 Aug 2022 09:45:54 -0700 (PDT)
-Received: by mail-ej1-x62f.google.com with SMTP id tl27so370730ejc.1;
-        Thu, 04 Aug 2022 09:45:54 -0700 (PDT)
+        with ESMTP id S233360AbiHDQ4k (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Aug 2022 12:56:40 -0400
+Received: from mail-qt1-x82a.google.com (mail-qt1-x82a.google.com [IPv6:2607:f8b0:4864:20::82a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D91272558D
+        for <linux-doc@vger.kernel.org>; Thu,  4 Aug 2022 09:56:38 -0700 (PDT)
+Received: by mail-qt1-x82a.google.com with SMTP id u12so293940qtk.0
+        for <linux-doc@vger.kernel.org>; Thu, 04 Aug 2022 09:56:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=LvrnXCwtv5XHtMInXUKtDOn3It9BRLTfFYtNjh6ssqk=;
-        b=XEHGgov0RYLghH9FXzXqDRL+IMOdobJ10apI0VhCUxMt8Hw9mb7wh1m6IYu0YYDup1
-         WT+2x7RsovYzx6QWjqrGj1pj6QqCbGpMmOiaWa5FiTgnpI95Wp2UUKxm/gOwvvFPIb5b
-         m523pl2Hl5y2NxOF64KpwluJvuogzSeeGeutvH2o0YtvGFUi1+08jGksb8OIdJu0LpC8
-         S2yofSQm8EagzfEZm93aXGg8DVRaxIlbk8ZOsmwep7q2gWGc3hvLNVtOsh2jfCUQ9+Ae
-         znimak4uRWGFomYLg5tmtgxpDXHHeVSJbuuf1nF8tbx9RSOfJpU81xL1BdM6NCtaesKg
-         1L4A==
+        d=cmpxchg-org.20210112.gappssmtp.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc;
+        bh=2IfFvaqIAb3sUtS3vl0hfysQvE8nkRK4dXUfA9HeU1c=;
+        b=lld8bLFJEzHSiOXE8dUIcAFqeINLHHTaJxuZkKmUuLhszrVFhi4ZCdyJtYWJNrk+BN
+         3M1IoqDvZnGmJN/fl3PUrUqGJETgxVf94wPZH3+8YCmXIDF9+COkle9j6BLIkD9kmM6Q
+         fAC+EqXFhHuFxi9AjMLo7Q/qM7MLKi1kkLrBNc37Y+/86EgYV+wj0jI23Jagvfo2GSCj
+         flzBqpHyAqsWbI8ciADtfByA+J43zsddfZb9qiCtfD3AAVLXtGXBl9//LYixwYkvRO7I
+         DM6OPP115O7Y3uoCuiT70jkUovXqs+Y2yJLbIVfEGGfbLnRuJFXtbfRmEUf8KLz046kj
+         oXLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=LvrnXCwtv5XHtMInXUKtDOn3It9BRLTfFYtNjh6ssqk=;
-        b=eeSmGqe2HTG9MdgO3YpmHREIwFz5YUuvaMDsF0yVJwq0DsqfXGS6aawxRK+sTiQ38/
-         WjOrd/kUGnjEmrA2Gbp2TMPrL91rv+67lblEfN0sAbJ1FyXuZKzjYXZjv/2W8TvSaMG6
-         ejJTwdgCRn+fpT7Il//9VEMqdKD5L6aW4yVcVFATTvKwIPvL+3VI0tH6b5Kv8nE9roEk
-         yHfHXoniUzBaxXizMTuJST3VKbCfW7KXYxIwGX9zGTsxyZKvWGgEA3fCO/iHKogcUOwg
-         yPTtmSKd+mN7p53h5LxjCJfU/vPVxb5TW8uaED77nTqbNDOuMnM9HzuQYtWXEhnsAmdg
-         5KhQ==
-X-Gm-Message-State: ACgBeo0Kfu716gmrFynn4Wj7prGNdGyznrcy4Lt1VrRCsuKfIAgfkqZU
-        IVw9KAL2DYsjMmz8bkRXdRA=
-X-Google-Smtp-Source: AA6agR6WbdMBoJ1rxIgQWinbQTwv5zfPEdGzVlp7VnGWHgjI/Mpjn623/U0h88RuCPkRAvOcDwqbSw==
-X-Received: by 2002:a17:907:2bc4:b0:730:aa9c:bd86 with SMTP id gv4-20020a1709072bc400b00730aa9cbd86mr2064543ejc.341.1659631553514;
-        Thu, 04 Aug 2022 09:45:53 -0700 (PDT)
-Received: from nuc ([2a02:168:633b:1:1e69:7aff:fe05:97e6])
-        by smtp.gmail.com with ESMTPSA id e13-20020a170906314d00b00730948cd6c9sm515761eje.118.2022.08.04.09.45.52
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
+        bh=2IfFvaqIAb3sUtS3vl0hfysQvE8nkRK4dXUfA9HeU1c=;
+        b=vLjNMI0rQi5hOE4TH6j8x2xHlRLGxPfU0A5dUj8WF5Fg3WgyRVCtQAgVpum/cmFEKc
+         NF2/TK/oCv7g1qrkhDMa4NgSWvBLB4WXyCcSwj34iHGmZCU0rWBgDi7zequPACYVg/M3
+         Z5HTNrRgUgxQCtY5ILWxfpL23FxpsZIBPEQH5c6gN1eBvoKEf1CFfnHyxL21foIOJsqt
+         Ergw887+G7jaB8y0J4uNFG6zG6t3Ow/oynLljOPiqACcPyHV/DmOA2yvI4dsVNULF5iU
+         8wnHVtiIAPFCXe2PV18/HEhFQtSzybX+nRzijjq5+VH3VNhm33uMWipJSUutsOFZ3LC0
+         NnfA==
+X-Gm-Message-State: ACgBeo0dAc6NWhn5Ia1zxnOvpS2VG/avIaakdumanEts4fuTxtJ9W14B
+        0bM8CCT9vWNt5qg5zSe85C7KmA==
+X-Google-Smtp-Source: AA6agR4ucw3JsXuDN3v9VebA4uXtfn5U9BDGDOSS/aCIAHKAbcY9SjifajrjubtBrbbRIRKg2iNHww==
+X-Received: by 2002:ac8:5809:0:b0:33d:f8e6:350e with SMTP id g9-20020ac85809000000b0033df8e6350emr2324289qtg.682.1659632197970;
+        Thu, 04 Aug 2022 09:56:37 -0700 (PDT)
+Received: from localhost ([2620:10d:c091:480::77e5])
+        by smtp.gmail.com with ESMTPSA id c25-20020ac84e19000000b00338ae1f5421sm971855qtw.0.2022.08.04.09.56.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Aug 2022 09:45:52 -0700 (PDT)
-Date:   Thu, 4 Aug 2022 18:45:50 +0200
-From:   =?iso-8859-1?Q?G=FCnther?= Noack <gnoack3000@gmail.com>
-To:     =?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>
-Cc:     linux-security-module@vger.kernel.org,
-        James Morris <jmorris@namei.org>,
-        Paul Moore <paul@paul-moore.com>,
-        "Serge E . Hallyn" <serge@hallyn.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v2 4/4] landlock: Document Landlock's file truncation
- support
-Message-ID: <Yuv3vte5eMCuIULv@nuc>
-References: <20220712211405.14705-1-gnoack3000@gmail.com>
- <20220712211405.14705-5-gnoack3000@gmail.com>
- <d198d2b4-ebf4-c7a2-cf95-f028d48c09e5@digikod.net>
+        Thu, 04 Aug 2022 09:56:37 -0700 (PDT)
+Date:   Thu, 4 Aug 2022 12:56:36 -0400
+From:   Johannes Weiner <hannes@cmpxchg.org>
+To:     Chengming Zhou <zhouchengming@bytedance.com>
+Cc:     Tejun Heo <tj@kernel.org>, surenb@google.com, mingo@redhat.com,
+        peterz@infradead.org, corbet@lwn.net, akpm@linux-foundation.org,
+        rdunlap@infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, songmuchun@bytedance.com,
+        cgroups@vger.kernel.org
+Subject: Re: [PATCH 8/9] sched/psi: add kernel cmdline parameter
+ psi_inner_cgroup
+Message-ID: <Yuv6RHY0GRGBw+as@cmpxchg.org>
+References: <20220721040439.2651-1-zhouchengming@bytedance.com>
+ <20220721040439.2651-9-zhouchengming@bytedance.com>
+ <Yt7KQc0nnOypB2b2@cmpxchg.org>
+ <YuAqWprKd6NsWs7C@slm.duckdns.org>
+ <5a3410d6-428d-9ad1-3e5a-01ca805ceeeb@bytedance.com>
+ <Yuq3Q6Y9dRnjjcPt@slm.duckdns.org>
+ <YurK6MXdJPrV2VYS@cmpxchg.org>
+ <f8444db4-3235-d108-698a-6772e03a6b67@bytedance.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <d198d2b4-ebf4-c7a2-cf95-f028d48c09e5@digikod.net>
+In-Reply-To: <f8444db4-3235-d108-698a-6772e03a6b67@bytedance.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jul 29, 2022 at 12:47:46PM +0200, Mickaël Salaün wrote:
->
-> On 12/07/2022 23:14, Günther Noack wrote:
-> > Use the LANDLOCK_ACCESS_FS_TRUNCATE flag in the tutorial.
-> >
-> > Adapt the backwards compatibility example and discussion to remove the
-> > truncation flag if needed.
-> >
-> > Signed-off-by: Günther Noack <gnoack3000@gmail.com>
-> > Link: https://lore.kernel.org/all/20220707200612.132705-1-gnoack3000@gmail.com/
-> > ---
-> >   Documentation/userspace-api/landlock.rst | 19 ++++++++++++++-----
-> >   1 file changed, 14 insertions(+), 5 deletions(-)
-> >
-> > diff --git a/Documentation/userspace-api/landlock.rst b/Documentation/userspace-api/landlock.rst
-> > index b86fd94ae797..41fa464cc8b8 100644
-> > --- a/Documentation/userspace-api/landlock.rst
-> > +++ b/Documentation/userspace-api/landlock.rst
-> > @@ -60,7 +60,8 @@ the need to be explicit about the denied-by-default access rights.
-> >               LANDLOCK_ACCESS_FS_MAKE_FIFO |
-> >               LANDLOCK_ACCESS_FS_MAKE_BLOCK |
-> >               LANDLOCK_ACCESS_FS_MAKE_SYM |
-> > -            LANDLOCK_ACCESS_FS_REFER,
-> > +            LANDLOCK_ACCESS_FS_REFER |
-> > +            LANDLOCK_ACCESS_FS_TRUNCATE,
-> >       };
-> >   Because we may not know on which kernel version an application will be
-> > @@ -69,14 +70,22 @@ should try to protect users as much as possible whatever the kernel they are
-> >   using.  To avoid binary enforcement (i.e. either all security features or
-> >   none), we can leverage a dedicated Landlock command to get the current version
-> >   of the Landlock ABI and adapt the handled accesses.  Let's check if we should
-> > -remove the `LANDLOCK_ACCESS_FS_REFER` access right which is only supported
-> > -starting with the second version of the ABI.
-> > +remove the `LANDLOCK_ACCESS_FS_REFER` and `LANDLOCK_ACCESS_FS_TRUNCATE` access
-> > +rights, which are only supported starting with the second and third version of
-> > +the ABI.
-> >   .. code-block:: c
-> >       int abi;
-> >       abi = landlock_create_ruleset(NULL, 0, LANDLOCK_CREATE_RULESET_VERSION);
-> > +    if (abi == -1) {
-> > +        perror("Landlock is unsupported on this kernel");
->
-> "Landlock is not supported with the running kernel"?
+On Thu, Aug 04, 2022 at 09:51:31PM +0800, Chengming Zhou wrote:
+> On 2022/8/4 03:22, Johannes Weiner wrote:
+> > On Wed, Aug 03, 2022 at 07:58:27AM -1000, Tejun Heo wrote:
+> >> Hello,
+> >>
+> >> On Wed, Aug 03, 2022 at 08:17:22PM +0800, Chengming Zhou wrote:
+> >>>> Assuming the above isn't wrong, if we can figure out how we can re-enable
+> >>>> it, which is more difficult as the counters need to be resynchronized with
+> >>>> the current state, that'd be ideal. Then, we can just allow each cgroup to
+> >>>> enable / disable PSI reporting dynamically as they see fit.
+> >>>
+> >>> This method is more fine-grained but more difficult like you said above.
+> >>> I think it may meet most needs to disable PSI stats in intermediate cgroups?
+> >>
+> >> So, I'm not necessarily against implementing something easier but we at
+> >> least wanna get the interface right, so that if we decide to do the full
+> >> thing later we can easily expand on the existing interface. ie. let's please
+> >> not be too hacky. I don't think it'd be that difficult to implement
+> >> per-cgroup disable-only operation that we can later expand to allow
+> >> re-enabling, right?
+> > 
+> > It should be relatively straight-forward to disable and re-enable
+> > state aggregation, time tracking, averaging on a per-cgroup level, if
+> > we can live with losing history from while it was disabled. I.e. the
+> > avgs will restart from 0, total= will have gaps - should be okay, IMO.
+> > 
+> > Where it gets trickier is also stopping the tracking of task counts in
+> > a cgroup. For re-enabling afterwards, we'd have to freeze scheduler
+> > and cgroup state and find all tasks of interest across all CPUs for
+> > the given cgroup to recreate the counts. I'm not quite sure whether
+> > that's feasible, and if so, whether it's worth the savings.
+> > 
+> > It might be good to benchmark the two disabling steps independently.
+> > Maybe stopping aggregation while keeping task counts is good enough,
+> > and we can commit to a disable/re-enable interface from the start.
+> > 
+> > Or maybe it's all in the cachelines and iteration, and stopping the
+> > aggregation while still writing task counts isn't saving much. In that
+> > case we'd have to look closer at reconstructing task counts, to see if
+> > later re-enabling is actually a practical option or whether a one-off
+> > kill switch is more realistic.
+> > 
+> > Chengming, can you experiment with disabling: record_times(), the
+> > test_state() loop and state_mask construction, and the averaging
+> > worker - while keeping the groupc->tasks updates?
+> 
+> Hello,
+> 
+> I did this experiment today with disabling record_times(), test_state()
+> loop and averaging worker, while only keeping groupc->tasks[] updates,
+> the results look promising.
+> 
+> mmtests/config-scheduler-perfpipe on Intel Xeon Platinum with 3 levels of cgroup:
+> 
+> perfpipe
+>                                   tip                    tip                patched
+>                               psi=off                 psi=on      only groupc->tasks[]
+> Min       Time        7.99 (   0.00%)        8.86 ( -10.95%)        8.31 (  -4.08%)
+> 1st-qrtle Time        8.11 (   0.00%)        8.94 ( -10.22%)        8.39 (  -3.46%)
+> 2nd-qrtle Time        8.17 (   0.00%)        9.02 ( -10.42%)        8.44 (  -3.37%)
+> 3rd-qrtle Time        8.20 (   0.00%)        9.08 ( -10.72%)        8.48 (  -3.43%)
+> Max-1     Time        7.99 (   0.00%)        8.86 ( -10.95%)        8.31 (  -4.08%)
+> Max-5     Time        7.99 (   0.00%)        8.86 ( -10.95%)        8.31 (  -4.08%)
+> Max-10    Time        8.09 (   0.00%)        8.89 (  -9.96%)        8.35 (  -3.22%)
+> Max-90    Time        8.31 (   0.00%)        9.13 (  -9.90%)        8.55 (  -2.95%)
+> Max-95    Time        8.32 (   0.00%)        9.14 (  -9.88%)        8.55 (  -2.81%)
+> Max-99    Time        8.39 (   0.00%)        9.26 ( -10.30%)        8.57 (  -2.09%)
+> Max       Time        8.56 (   0.00%)        9.26 (  -8.23%)        8.72 (  -1.90%)
+> Amean     Time        8.19 (   0.00%)        9.03 * -10.26%*        8.45 *  -3.27%*
 
-Done.
+Fantastic!
 
->
->
-> > +        return 1;
-> > +    }
-> > +    if (abi < 3) {
-> > +        ruleset_attr.handled_access_fs &= ~LANDLOCK_ACCESS_FS_TRUNCATE;
-> > +    }
->
-> I guess we could use the same switch/case code as for the sample. I'm not
-> sure what would be the less confusing for users though.
+> Tejun suggested using a bitmap in task to remember whether the task is accounted
+> at a given level or not, which I think also is a very good idea, but I haven't
+> clearly figure out how to do it.
+> 
+> The above performance test result looks good to me, so I think we can implement this
+> per-cgroup "cgroup.psi" interface to disable/re-enable PSI stats from the start,
+> and we can change to a better implementation if needed later?
 
-Done. (Both are mildly confusing, IMHO %-))
-
-> [...]
-
---
+Yes, that sounds good to me.
