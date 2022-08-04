@@ -2,99 +2,181 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D64BBC25B06
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Aug 2022 18:46:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ABDD8C19F21
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Aug 2022 19:00:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239763AbiHDSqA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 4 Aug 2022 14:46:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41126 "EHLO
+        id S232130AbiHDTAi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 4 Aug 2022 15:00:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50654 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240020AbiHDSp7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Aug 2022 14:45:59 -0400
-Received: from mail-yb1-xb33.google.com (mail-yb1-xb33.google.com [IPv6:2607:f8b0:4864:20::b33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 48104140B1
-        for <linux-doc@vger.kernel.org>; Thu,  4 Aug 2022 11:45:56 -0700 (PDT)
-Received: by mail-yb1-xb33.google.com with SMTP id 199so441576ybl.9
-        for <linux-doc@vger.kernel.org>; Thu, 04 Aug 2022 11:45:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=pv+wsFrh4DdUVERLr5V/KNAtkHdf/ae8g7mRWoQV2vE=;
-        b=fxkQU+2WZZjRVLr2eroyYKPm8AgKG3xp6FGuMxFlzJoag3W2VMzQxlONAnfvpzmo7A
-         zEOBlh5AZWpF/ZDj6GEbZ3tjLUdZtpzayMZfofQ/acWOX8+OItwS8faaxhtd50Tn7huX
-         YtHEEcoY0Mcg0mPQn977qxZ+QL2FuZI++O0PfuHxbldjX5ERnI5+f2zuLIO4mKHgWOvF
-         vz39cdiHqTk/FGzOh7vbciLJ9a6m434ukZlslque7GoksIUaXqngFT3gU5viRICLpbT+
-         1Sp5vQ+nPNEr4uyc+g/XSBLjkvqlv9Qz5FPHuKXcFw7dyEm2G0OarCx32/SHVqPpVcJ/
-         OYwA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=pv+wsFrh4DdUVERLr5V/KNAtkHdf/ae8g7mRWoQV2vE=;
-        b=Hzso7x/U5FStxuBDO2Uzx85lKjm8xeQr8RaSZQICO7CHmniomZq6OjxUeO9BaLzmTC
-         vRJ6hEb3fJukILcenTcoU8SP7D6HtJlTCvTpdWndG4yI6lrJJ3lWd4WMTcGlHwhEaRNI
-         rX13LrsJMpwzNBzhCWNoY0C39v1FK8rj15V8JK7FQWKdKhi6ATG5UDakwQywiozr8F7r
-         zsPQXCO2Svs3P84P+q3rIyESich+CNi6NDw6k9NwAE999tK4Hd3e95nHmDey39Zelws9
-         yXFm01R+INmrtA6unqDm1Wi8Dh8hxPRo5Wz6K2DQGspDAt/MMZLp6v2h0UdA5rEjTB0W
-         yBkw==
-X-Gm-Message-State: ACgBeo3EzOEUTO0wJxtCwhMXLnlzIHgO5heJCjPn3dt2nGc372V2SOOV
-        FJl/qBrY7fPeXR9V7OujYmj3jQgwlhLvPGMMRYTOLA==
-X-Google-Smtp-Source: AA6agR4uqEh3ACmlnwmuqh3zCaHN34o5K3HksL/9bk1AQobkkYCs30No26gdFLPAH1rvm4lKSxFg1rZsjRNvT9M1b2A=
-X-Received: by 2002:a25:ab84:0:b0:671:748b:ffab with SMTP id
- v4-20020a25ab84000000b00671748bffabmr2283018ybi.427.1659638755187; Thu, 04
- Aug 2022 11:45:55 -0700 (PDT)
+        with ESMTP id S229678AbiHDTAi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Aug 2022 15:00:38 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36C113138D;
+        Thu,  4 Aug 2022 12:00:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+        bh=9an68t6elSEcOxsuHOeSkwUdZXoYQKoxZyn8P9hztAI=; b=HCuiLBk7YM6RDFcdi3JYetDCyB
+        NDuwb/yZ2K8aMah3/uI8gMzJ60yAbY1qmiefbsrKvkQOp684ftVjAZfgJvbYPfl4w4odz1P7cUb78
+        ZR+Z92l79j+5neCTzVefLEU5klvKgrmI/vpjL/4t5yWoC9T/04YDoVj9n7KYjsO9vw6Dmzz/GH1XE
+        1F50Mbkp5HEs1cBSWW4ekedmFq/otFqGs4wWVoD06nhCnhs4Jv/lKPYZe2ysV4mK9OQ1QoQlNKy1D
+        qs+3Was90u4oPEwk80aveBjRTM5e1UNpcUc4dlWGnmBoUPBuYQx/ozeAxit+qHLuH4OpYHtj9XO6y
+        dQAaI0hQ==;
+Received: from [2601:1c0:6280:3f0::a6b3]
+        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1oJg52-008PmV-0P; Thu, 04 Aug 2022 19:00:24 +0000
+Message-ID: <0698c5a5-3bf2-daa4-e10e-2715f9b0d080@infradead.org>
+Date:   Thu, 4 Aug 2022 12:00:22 -0700
 MIME-Version: 1.0
-References: <adel.abushaev@gmail.com> <20220803164045.3585187-1-adel.abushaev@gmail.com>
- <20220803164045.3585187-2-adel.abushaev@gmail.com> <Yuq9PMIfmX0UsYtL@lunn.ch>
- <4a757ba1-7b8e-6012-458e-217056eaee63@gmail.com> <Yuvl9uKX8z0dh5YY@lunn.ch>
- <7c42bf11-8a30-3220-9d52-34b46b68888f@gmail.com> <CANn89iJMCrLBbPPEnk2U7ja58AawCrDe01JmBStN9btBPQQgOQ@mail.gmail.com>
- <20220804110945.08c5d58b@kernel.org>
-In-Reply-To: <20220804110945.08c5d58b@kernel.org>
-From:   Eric Dumazet <edumazet@google.com>
-Date:   Thu, 4 Aug 2022 11:45:44 -0700
-Message-ID: <CANn89iKv1oLKwOi4USR+bGsWLuBGz+1EnAwz-pbodNsxp9JN5w@mail.gmail.com>
-Subject: Re: [RFC net-next 1/6] net: Documentation on QUIC kernel Tx crypto.
-To:     Jakub Kicinski <kuba@kernel.org>
-Cc:     Adel Abouchaev <adel.abushaev@gmail.com>,
-        Andrew Lunn <andrew@lunn.ch>,
-        David Miller <davem@davemloft.net>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        David Ahern <dsahern@kernel.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Menglong Dong <imagedong@tencent.com>,
-        netdev <netdev@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v3 3/3] drm/i915/gt: document TLB cache invalidation
+ functions
+Content-Language: en-US
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>,
+        Andi Shyti <andi.shyti@linux.intel.com>,
+        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+        Chris Wilson <chris.p.wilson@intel.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        David Airlie <airlied@linux.ie>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <cover.1659598090.git.mchehab@kernel.org>
+ <cc68d62a1979ea859b447b94413e100472331f57.1659598090.git.mchehab@kernel.org>
+From:   Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <cc68d62a1979ea859b447b94413e100472331f57.1659598090.git.mchehab@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Aug 4, 2022 at 11:09 AM Jakub Kicinski <kuba@kernel.org> wrote:
->
-> On Thu, 4 Aug 2022 10:00:37 -0700 Eric Dumazet wrote:
-> > On Thu, Aug 4, 2022 at 9:58 AM Adel Abouchaev <adel.abushaev@gmail.com> wrote:
-> > > Looking at
-> > > https://github.com/shemminger/iproute2/blob/main/misc/ss.c#L589 the ss.c
-> > > still uses proc/.
-> >
-> > Only for legacy reasons.
->
-> That but in all honesty also the fact that a proc file is pretty easy
-> and self-describing while the historic netlink families are undocumented
-> code salads.
->
-> > ss -t for sure will use netlink first, then fallback to /proc
-> >
-> > New counters should use netlink, please.
->
-> Just to be sure I'm not missing anything - we're talking about some
-> new netlink, right? Is there an existing place for "overall prot family
-> stats" over netlink today?
+Hi Mauro,
 
-I thought we were speaking of dumping ULP info on a per UDP socket basis.
+On 8/4/22 00:37, Mauro Carvalho Chehab wrote:
+> Add a description for the TLB cache invalidation algorithm and for
+> the related kAPI functions.
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+> ---
+> 
+> To avoid mailbombing on a large number of people, only mailing lists were C/C on the cover.
+> See [PATCH v3 0/3] at: https://lore.kernel.org/all/cover.1659598090.git.mchehab@kernel.org/
+> 
+>  Documentation/gpu/i915.rst          |  7 ++
+>  drivers/gpu/drm/i915/gt/intel_tlb.c | 25 ++++++++
+>  drivers/gpu/drm/i915/gt/intel_tlb.h | 99 +++++++++++++++++++++++++++++
+>  3 files changed, 131 insertions(+)
+> 
 
-If this is about new SNMP counters, then sure, /proc is fine I guess.
+> diff --git a/drivers/gpu/drm/i915/gt/intel_tlb.c b/drivers/gpu/drm/i915/gt/intel_tlb.c
+> index af8cae979489..16b918ffe824 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_tlb.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_tlb.c
+> @@ -145,6 +145,18 @@ static void mmio_invalidate_full(struct intel_gt *gt)
+>  	intel_uncore_forcewake_put_delayed(uncore, FORCEWAKE_ALL);
+>  }
+>  
+> +/**
+> + * intel_gt_invalidate_tlb_full - do full TLB cache invalidation
+> + * @gt: GT structure
+
+In multiple places (here and below) it would be nice to know what a
+GT structure is. I looked thru multiple C and header files yesterday
+and didn't find any comments about it.
+
+Just saying that @gt is a GT structure isn't very helpful, other
+than making kernel-doc shut up.
+
+> + * @seqno: sequence number
+> + *
+> + * Do a full TLB cache invalidation if the @seqno is bigger than the last
+> + * full TLB cache invalidation.
+> + *
+> + * Note:
+> + * The TLB cache invalidation logic depends on GEN-specific registers.
+> + * It currently supports MMIO-based TLB flush for GEN8 to GEN12.
+> + */
+>  void intel_gt_invalidate_tlb_full(struct intel_gt *gt, u32 seqno)
+>  {
+>  	intel_wakeref_t wakeref;
+> @@ -171,12 +183,25 @@ void intel_gt_invalidate_tlb_full(struct intel_gt *gt, u32 seqno)
+>  	}
+>  }
+>  
+> +/**
+> + * intel_gt_init_tlb - initialize TLB-specific vars
+> + * @gt: GT structure
+> + *
+> + * TLB cache invalidation logic internally uses some resources that require
+> + * initialization. Should be called before doing any TLB cache invalidation.
+> + */
+>  void intel_gt_init_tlb(struct intel_gt *gt)
+>  {
+>  	mutex_init(&gt->tlb.invalidate_lock);
+>  	seqcount_mutex_init(&gt->tlb.seqno, &gt->tlb.invalidate_lock);
+>  }
+>  
+> +/**
+> + * intel_gt_fini_tlb - free TLB-specific vars
+> + * @gt: GT structure
+> + *
+> + * Frees any resources needed by TLB cache invalidation logic.
+> + */
+>  void intel_gt_fini_tlb(struct intel_gt *gt)
+>  {
+>  	mutex_destroy(&gt->tlb.invalidate_lock);
+> diff --git a/drivers/gpu/drm/i915/gt/intel_tlb.h b/drivers/gpu/drm/i915/gt/intel_tlb.h
+> index 46ce25bf5afe..2838c051f872 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_tlb.h
+> +++ b/drivers/gpu/drm/i915/gt/intel_tlb.h
+> @@ -11,16 +11,115 @@
+>  
+>  #include "intel_gt_types.h"
+>  
+> +/**
+> + * DOC: TLB cache invalidation logic
+> + *
+...
+> +
+>  void intel_gt_invalidate_tlb_full(struct intel_gt *gt, u32 seqno);
+>  
+>  void intel_gt_init_tlb(struct intel_gt *gt);
+>  void intel_gt_fini_tlb(struct intel_gt *gt);
+>  
+> +/**
+> + * intel_gt_tlb_seqno - Returns the current TLB invlidation sequence number
+> + * @gt: GT structure
+> + *
+> + * There's no need to lock while calling it, as seqprop_sequence is thread-safe
+> + */
+>  static inline u32 intel_gt_tlb_seqno(const struct intel_gt *gt)
+>  {
+>  	return seqprop_sequence(&gt->tlb.seqno);
+>  }
+>  
+> +/**
+> + * intel_gt_next_invalidate_tlb_full - Returns the next TLB full invalidation
+> + *	sequence number
+> + * @gt: GT structure
+> + *
+> + * There's no need to lock while calling it, as seqprop_sequence is thread-safe
+> + */
+>  static inline u32 intel_gt_next_invalidate_tlb_full(const struct intel_gt *gt)
+>  {
+>  	return intel_gt_tlb_seqno(gt) | 1;
+
+thanks.
+
+-- 
+~Randy
