@@ -2,134 +2,128 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AB470C25B06
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Aug 2022 21:49:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D09FCC25B08
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Aug 2022 21:56:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229813AbiHDVtB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 4 Aug 2022 17:49:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58306 "EHLO
+        id S239667AbiHDV40 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 4 Aug 2022 17:56:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35994 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229559AbiHDVtB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Aug 2022 17:49:01 -0400
-Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com [199.106.114.39])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75C0315FE0;
-        Thu,  4 Aug 2022 14:49:00 -0700 (PDT)
+        with ESMTP id S234184AbiHDV4Z (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Aug 2022 17:56:25 -0400
+Received: from mail-oi1-x235.google.com (mail-oi1-x235.google.com [IPv6:2607:f8b0:4864:20::235])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DAAC21B794
+        for <linux-doc@vger.kernel.org>; Thu,  4 Aug 2022 14:56:22 -0700 (PDT)
+Received: by mail-oi1-x235.google.com with SMTP id u9so831347oiv.12
+        for <linux-doc@vger.kernel.org>; Thu, 04 Aug 2022 14:56:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
-  t=1659649740; x=1691185740;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=J/3brDRmssbtuPOPqEk5mTfaCo1M13+DdM0SNU2zs1s=;
-  b=aUlbfWbwiynrC6KSlWQ9V+DJCpEIyxUBGzZIxKnayBMEk1TKS0d3GyxB
-   /pxRNjaD8W2PMqEt3ggfbe89CMiIZL382ylxVoMJPNjmylsbCOZC+Z1Gv
-   4DgvdL/abmsN7RlWWdPlJaoz5VS6/kpQ0RM/ZagUNghZ6L/ijHq7JuvgY
-   M=;
-Received: from unknown (HELO ironmsg05-sd.qualcomm.com) ([10.53.140.145])
-  by alexa-out-sd-02.qualcomm.com with ESMTP; 04 Aug 2022 14:49:00 -0700
-X-QCInternal: smtphost
-Received: from nasanex01b.na.qualcomm.com ([10.46.141.250])
-  by ironmsg05-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2022 14:48:59 -0700
-Received: from [10.110.78.233] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Thu, 4 Aug 2022
- 14:48:58 -0700
-Message-ID: <3dd4b206-8771-972b-7f4d-4935c5fbea3e@quicinc.com>
-Date:   Thu, 4 Aug 2022 14:48:58 -0700
+        d=chromium.org; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc;
+        bh=A3KaqbTDvr6yI86EPzA1l0NOPWv07KWx997g85QsDx4=;
+        b=V06sSFt2ksPjM8k6wnSbaG2QkPaVwvcAPAKnSzq34sTv9ksxh2OqhTuqg8SpivF9Y0
+         BeAYJPw9WS7SWCrlAS2ZuZhlUV0Va814LRQgaD8u4FmAed6qJn5lA7YVe7jiuQtzViV2
+         U2pdwnl+QBpBXtgGdP1BnbBo3Ok4S5SQTNkLc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=A3KaqbTDvr6yI86EPzA1l0NOPWv07KWx997g85QsDx4=;
+        b=kDqfo1gqVRN9yy+j+qKameQW8Agk5G6iLpgHdthTmzsALXrrBcJlDHWmT9V9M5BULa
+         //craJ983ShjSUinU/GyJEW8bz9mEfT6d3rq2Zslst6+CkNwQDawW8Oh8WnODIAaq2Jo
+         EZL6jsiVT2UjQo7kfwWGEeDL8KTau4MEqknaX+/Y4iKZGtd1yXXFVTtYFKKolysufgGM
+         1VE0KhPA0ad9ia4Ku2HmzVZX60XdTlHimNOhX3TfaWQ459wKzoqIUkLO/tcDHphDeIBB
+         5aFTCtV2H8y6ojR6TlNqBJfkY8KJ1bUBZSamlENqDlvsY2bf+CaN9PJcN3KQIKfgDKzx
+         vjvw==
+X-Gm-Message-State: ACgBeo3Lc9zgmYrMynvu6QxslsbdSCwDBTAbmGxagrAKjqnqBrJzuv+U
+        kUEmzZUWODt/HSRGkd4Uz6jPCq2YXnh93g==
+X-Google-Smtp-Source: AA6agR5dKONA8t1cxXRwCEZ7HCl2cYN45Ne8BR/z782rel09YUA0G8M7v6rZofLWNlgwEQqKVIhGsQ==
+X-Received: by 2002:a05:6808:2206:b0:340:98c5:a89 with SMTP id bd6-20020a056808220600b0034098c50a89mr4716456oib.211.1659650182054;
+        Thu, 04 Aug 2022 14:56:22 -0700 (PDT)
+Received: from mail-oa1-f42.google.com (mail-oa1-f42.google.com. [209.85.160.42])
+        by smtp.gmail.com with ESMTPSA id e70-20020a4a5549000000b00435c055e4e9sm361470oob.32.2022.08.04.14.56.21
+        for <linux-doc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 04 Aug 2022 14:56:21 -0700 (PDT)
+Received: by mail-oa1-f42.google.com with SMTP id 586e51a60fabf-10ee900cce0so1047990fac.5
+        for <linux-doc@vger.kernel.org>; Thu, 04 Aug 2022 14:56:21 -0700 (PDT)
+X-Received: by 2002:a05:6870:b4a1:b0:10e:50b8:50aa with SMTP id
+ y33-20020a056870b4a100b0010e50b850aamr1952047oap.174.1659650171298; Thu, 04
+ Aug 2022 14:56:11 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH v2 00/11] Drivers for gunyah hypervisor
-Content-Language: en-US
-To:     Bagas Sanjaya <bagasdotme@gmail.com>
-CC:     Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Murali Nalajala <quic_mnalajal@quicinc.com>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        "Srivatsa Vaddagiri" <quic_svaddagi@quicinc.com>,
-        Carl van Schaik <quic_cvanscha@quicinc.com>,
-        Andy Gross <agross@kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        "Marc Zyngier" <maz@kernel.org>, Rob Herring <robh+dt@kernel.org>,
-        "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Will Deacon <will@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        <devicetree@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>
-References: <20220801211240.597859-1-quic_eberman@quicinc.com>
- <YuuC0NISKFVIhUD1@debian.me>
-From:   Elliot Berman <quic_eberman@quicinc.com>
-In-Reply-To: <YuuC0NISKFVIhUD1@debian.me>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
+References: <20220504232102.469959-1-evgreen@chromium.org> <20220506160807.GA1060@bug>
+ <CAE=gft6m75T0UC2DBhfFhuSMW6TK7aatD_04sQ18WosgGVsATw@mail.gmail.com>
+ <CAJZ5v0gxq=EA_WWUiCR_w8o87iTHDR7OC5wi=GRBaAQS2ofd5w@mail.gmail.com>
+ <CAE=gft6V6RLc-d4AOuRUVU2u1jMGghDRSrFqiCqMCLxemui8Pw@mail.gmail.com>
+ <CAE=gft5OYAgosqmwNkk=Cwoooeg93Njmnzfz=gwCaLB0Ts+=sw@mail.gmail.com>
+ <CAE=gft6sPkhNcz7+fJuDzQo2f8fM_0Wv_OWC9W2LyvXd6M6zeQ@mail.gmail.com>
+ <CAHSSk05JEcZfS2tc22F+m76T3vZt-mZ7zUQaGRgSanKaFc5xBg@mail.gmail.com> <YusZ8gD/LjiAXadR@kernel.org>
+In-Reply-To: <YusZ8gD/LjiAXadR@kernel.org>
+From:   Evan Green <evgreen@chromium.org>
+Date:   Thu, 4 Aug 2022 14:55:35 -0700
+X-Gmail-Original-Message-ID: <CAE=gft6LaNZLTK72n_Z7an0VA1FxxFFgGk6rmUF_Jvf=JinG3A@mail.gmail.com>
+Message-ID: <CAE=gft6LaNZLTK72n_Z7an0VA1FxxFFgGk6rmUF_Jvf=JinG3A@mail.gmail.com>
+Subject: Re: [PATCH 00/10] Encrypted Hibernation
+To:     Jarkko Sakkinen <jarkko@kernel.org>
+Cc:     Matthew Garrett <mgarrett@aurora.tech>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Pavel Machek <pavel@ucw.cz>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Daniil Lunev <dlunev@google.com>, zohar@linux.ibm.com,
+        "James E.J. Bottomley" <jejb@linux.ibm.com>,
+        linux-integrity@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Gwendal Grignou <gwendal@chromium.org>,
+        Linux PM <linux-pm@vger.kernel.org>,
+        David Howells <dhowells@redhat.com>,
+        Hao Wu <hao.wu@rubrik.com>, James Morris <jmorris@namei.org>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Len Brown <len.brown@intel.com>,
+        Peter Huewe <peterhuewe@gmx.de>,
+        "Serge E. Hallyn" <serge@hallyn.com>, axelj <axelj@axis.com>,
+        keyrings@vger.kernel.org,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-security-module@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Wed, Aug 3, 2022 at 5:59 PM Jarkko Sakkinen <jarkko@kernel.org> wrote:
+>
+> On Tue, Aug 02, 2022 at 11:36:43AM -0700, Matthew Garrett wrote:
+> > On Mon, Aug 1, 2022 at 3:33 PM Evan Green <evgreen@chromium.org> wrote:
+> >
+> > > One more bump here, as we'd really love to get encrypted hibernation
+> > > to a form upstream would accept if at all possible. We were
+> > > considering landing this in our Chrome OS tree for now, then coming
+> > > back in a couple months with a "we've been baking this ourselves and
+> > > it's going so great, oooh yeah". I'm not sure if upstream would find
+> > > that compelling or not. But in any case, some guidance towards making
+> > > this more upstream friendly would be well appreciated.
+> > >
+> > > One thing I realized in attempting to pick this myself is that the
+> > > trusted key blob format has moved to ASN.1. So I should really move
+> > > the creation ticket to the new ASN.1 format (if I can figure out the
+> > > right OID for that piece), which would allow me to drop a lot of the
+> > > ugly stuff in tpm2_unpack_blob(). Maybe if I get no other comments
+> > > I'll work on that and resend.
+> >
+> > I've been revamping my TPM-backed verified hibernation implementation
+> > based on this work, so I'd definitely be enthusiastic about it being
+> > mergeable.
+>
+> BTW, is it tested with QEMU + swtpm?
 
+For myself, so far I've been testing on a recent Intel Chromebook. The
+H1 (aka cr50) security chip on modern chromebooks implements a subset
+[1] of TPM2.0, and is exposed through the standard TPM APIs in the
+kernel. I can make sure to test on Qemu as well, is there anything in
+particular I should look out for?
 
-On 8/4/2022 1:26 AM, Bagas Sanjaya wrote:
-> On Mon, Aug 01, 2022 at 02:12:29PM -0700, Elliot Berman wrote:
->> Gunyah is a Type-1 hypervisor independent of any
->> high-level OS kernel, and runs in a higher CPU privilege level. It does
->> not depend on any lower-privileged OS kernel/code for its core
->> functionality. This increases its security and can support a much smaller
->> trusted computing base than a Type-2 hypervisor.
->>
->> Gunyah is an open source hypervisor. The source repo is available at
->> https://github.com/quic/gunyah-hypervisor.
->>
->> The diagram below shows the architecture.
->>
->> ::
->>
->>          Primary VM           Secondary VMs
->>       +-----+ +-----+  | +-----+ +-----+ +-----+
->>       |     | |     |  | |     | |     | |     |
->>   EL0 | APP | | APP |  | | APP | | APP | | APP |
->>       |     | |     |  | |     | |     | |     |
->>       +-----+ +-----+  | +-----+ +-----+ +-----+
->>   ---------------------|-------------------------
->>       +--------------+ | +----------------------+
->>       |              | | |                      |
->>   EL1 | Linux Kernel | | |Linux kernel/Other OS |   ...
->>       |              | | |                      |
->>       +--------------+ | +----------------------+
->>   --------hvc/smc------|------hvc/smc------------
->>       +----------------------------------------+
->>       |                                        |
->>   EL2 |            Gunyah Hypervisor           |
->>       |                                        |
->>       +----------------------------------------+
->>
->> Gunyah provides these following features.
->>
->> - Threads and Scheduling: The scheduler schedules virtual CPUs (VCPUs) on
->> physical CPUs and enables time-sharing of the CPUs.
->> - Memory Management: Gunyah tracks memory ownership and use of all memory
->> under its control. Memory partitioning between VMs is a fundamental
->> security feature.
->> - Interrupt Virtualization: All interrupts are handled in the hypervisor
->> and routed to the assigned VM.
->> - Inter-VM Communication: There are several different mechanisms provided
->> for communicating between VMs.
->> - Device Virtualization: Para-virtualization of devices is supported using
->> inter-VM communication. Low level system features and devices such as
->> interrupt controllers are supported with emulation where required.
->>
-> 
-> Hi,
-> 
-> I can't apply this series on top of mainline or linux-next. On what tree
-> (and what commit) this series is based on? I'd like to do htmldocs test.
-> 
+-Evan
 
-The series should apply cleanly on commit 4a57a8400075 ("vf/remap: 
-return the amount of bytes actually deduplicated") from Linus's tree.
+[1] https://chromium-review.googlesource.com/c/chromiumos/third_party/tpm2/+/3373466
 
-> Thanks.
-> 
+>
+> BR, Jarkko
