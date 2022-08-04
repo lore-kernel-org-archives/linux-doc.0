@@ -2,120 +2,147 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 68C41C19F2D
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Aug 2022 07:05:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1AD67C19F2C
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Aug 2022 07:10:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238884AbiHDHFO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 4 Aug 2022 03:05:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34446 "EHLO
+        id S236920AbiHDHKx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 4 Aug 2022 03:10:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39610 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237783AbiHDHFN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Aug 2022 03:05:13 -0400
-Received: from mail-qk1-x736.google.com (mail-qk1-x736.google.com [IPv6:2607:f8b0:4864:20::736])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62D98B7F
-        for <linux-doc@vger.kernel.org>; Thu,  4 Aug 2022 00:05:12 -0700 (PDT)
-Received: by mail-qk1-x736.google.com with SMTP id m7so14424255qkk.6
-        for <linux-doc@vger.kernel.org>; Thu, 04 Aug 2022 00:05:12 -0700 (PDT)
+        with ESMTP id S230001AbiHDHKv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Aug 2022 03:10:51 -0400
+Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com [IPv6:2607:f8b0:4864:20::531])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 550862CE04;
+        Thu,  4 Aug 2022 00:10:47 -0700 (PDT)
+Received: by mail-pg1-x531.google.com with SMTP id j17so2849222pgl.5;
+        Thu, 04 Aug 2022 00:10:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc;
-        bh=uD+oKDSdjeuj/x+J4VpWwCNMihrBqS4okZLqrGLp+oU=;
-        b=KJIuSp3xFRoIfccZKnqM693LSOM6w20XEVpxV9nRanvLv8W+nOvTGeQkWOKoobaGWw
-         0y67qVZTIRVKrh1J3yueI/px+rWHxv3lHSQWBdMpYSXwzFwBbiePKBsRSxPeXdvcIlJW
-         eUSPnK0VbjXGt/0h8Z7eXPaMyGUOGzn026kEAf+h2701FnYozszagguE22GDaJgk0EXy
-         WRkUXi8zL1ZWX8pppPgRgXAPXizaqnGsW3wfg2FfzdvM9K8oTiTBsUrJE9XY05Xdj2VA
-         LiFShI6ntPecTxZ9x5E6tZHNfLtirwAX7JgLTdJxfcROgG8/UnBBZdDnJ7gB7rQgda0x
-         dK4w==
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=Msx+MTdWqnPNVUHp+3FfvLfdSxDAnztRmbALqvTfmJc=;
+        b=ee2B6ZmuD7w/b216B4sfnS7nxgF19nbbPD5seH0PzGR35P0l0m9VVe9qFY5joUzJwv
+         iGIgbUoJeOoPnK8RYddMDCWsam2EAdTDUk+2AAnJFInausC/w4mQ2e9JWHj5oNqpLmJM
+         ZmraEjxD8qh3F/SCH81nNk09N2xF+KP95AbrPc1phVtNBvj5AX3qcNeulUAWJ7Hymogk
+         VqWvw5PYeg9pv95ntmSIiWZUY7COS9mMSx+VnBuEmtTMpgIUnMguWM3fOELjfqr08cB9
+         YBCc9XKnWP8+/2JP25FF31wt0Z5iUujxqEQEuxCTiUrEDXf51d/LCk8VLAdiABIOIjqV
+         3uTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc;
-        bh=uD+oKDSdjeuj/x+J4VpWwCNMihrBqS4okZLqrGLp+oU=;
-        b=ctTSyt+AkkH8Lp5no9I8IvDqjoVqI+QNi6Hi90L4tFuy0lVCAMX4Qk3eENGDbgfbr/
-         1aGDNufJQMVnwmy6sAqC8YygkosEHc8UHIlb3Af8tOjjU5tcnvfb3/lYlP8giLSGc7ZF
-         Z09PGulyfrHg9SMNDwDLGXKKhv/u+U4cuPwfIcBranKkdxX1IETGTvaF2ZuQCq73cwiY
-         5C/FuZ1NMnDwIJmf/iV7WZ1PW6etP5UjcArleUCIW2frQFaZWcLa9UR7Sv6pw3HRBVQ0
-         dSUL4L97Z+CMw5ZJY6qh1r6wnnGLRLz2TGPDwXcZ2hoJ1J4lIsAEtRnS6qwfDzk3d4hl
-         bIew==
-X-Gm-Message-State: ACgBeo3Ar9CKAS/NKTytJQde/qdAeyL9A61aDW0v8IWVOKYIubBMosDH
-        d/C9mt3HKPLPvikW7S1mwxzG0Za0g6ka/MGuektNYw==
-X-Google-Smtp-Source: AA6agR4ePnHG7rHeMl5Py0nAvETcIQ4KSdWFDeuK5QHJQAe9Sps2HxxlWGqyY7gSNp/Xj7m9MDvi4eZwL/+yxQEsWc4=
-X-Received: by 2002:a37:de18:0:b0:6b8:f2f3:f917 with SMTP id
- h24-20020a37de18000000b006b8f2f3f917mr321801qkj.203.1659596711365; Thu, 04
- Aug 2022 00:05:11 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220801211240.597859-1-quic_eberman@quicinc.com>
- <20220801211240.597859-4-quic_eberman@quicinc.com> <e1a93490-7deb-8221-f3f8-83546946c61a@linaro.org>
- <0f9afb39-83a9-96ec-2ee0-f511d4fa3403@quicinc.com>
-In-Reply-To: <0f9afb39-83a9-96ec-2ee0-f511d4fa3403@quicinc.com>
-From:   Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date:   Thu, 4 Aug 2022 10:04:59 +0300
-Message-ID: <CAA8EJprQ9Nc=6ms0VNVhO1rg6UXDHDrCb7WRwwkfLhxKrJBqjQ@mail.gmail.com>
-Subject: Re: [PATCH v2 03/11] arm64: gunyah: Add Gunyah hypercalls ABI
-To:     Elliot Berman <quic_eberman@quicinc.com>
-Cc:     Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Marc Zyngier <maz@kernel.org>,
-        Murali Nalajala <quic_mnalajal@quicinc.com>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
-        Carl van Schaik <quic_cvanscha@quicinc.com>,
-        Andy Gross <agross@kernel.org>,
-        linux-arm-kernel@lists.infradead.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=Msx+MTdWqnPNVUHp+3FfvLfdSxDAnztRmbALqvTfmJc=;
+        b=MT1h+TG2A44d4eNya5+1LTqanxdXxxTxNmEerBcgl7JFD9bC9Q75X89Yfb0Lvfmuml
+         qTfgFiq8DTX73f1YH6q1rgqdvursgeQ3bZ9lNhfir1eK0PdLTJ7YkaUMCZSER93WhTSi
+         oEOyDEgF9cyWSqNo4YrdBh/iOUfGGRJK6n80smwonPR/wzJIZhTjWCRSDkIKHHpalrw/
+         VP5bGqjaN2tpfwrB0A4d2YoxLn2AJQgdU5bUeuiWmWDUhi2LfxpOsi+TLR6mQryo+FuG
+         /33rK0j0lMQN1Y29cy+68KPXAkUZVxG2EF9jFsjNaf9xt8pDf4jIQ+yZxV+4/JJdtjFF
+         GoPQ==
+X-Gm-Message-State: ACgBeo3+WmETvhCNOpd8cbLkeWTKEUIVfAZjqWbDfwJWrqws9MwBYB84
+        VQ3Xv9EGg91MSI3jdewWT1k=
+X-Google-Smtp-Source: AA6agR4epr3dQoXSYo3tVKgoUy+uKNO2hxFagEdJ8l6v4De0QEoIfT716hYj4Pnm1/vc1DQPzChKgQ==
+X-Received: by 2002:a63:e343:0:b0:41c:d5cd:a39 with SMTP id o3-20020a63e343000000b0041cd5cd0a39mr562084pgj.512.1659597046489;
+        Thu, 04 Aug 2022 00:10:46 -0700 (PDT)
+Received: from localhost ([192.55.54.49])
+        by smtp.gmail.com with ESMTPSA id n15-20020a056a00212f00b0052deda6e3d2sm137803pfj.98.2022.08.04.00.10.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 04 Aug 2022 00:10:45 -0700 (PDT)
+Date:   Thu, 4 Aug 2022 00:10:44 -0700
+From:   Isaku Yamahata <isaku.yamahata@gmail.com>
+To:     Chao Peng <chao.p.peng@linux.intel.com>
+Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+        qemu-devel@nongnu.org, linux-kselftest@vger.kernel.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Will Deacon <will@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+        Sean Christopherson <seanjc@google.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com,
+        Quentin Perret <qperret@google.com>,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+        Muchun Song <songmuchun@bytedance.com>,
+        isaku.yamahata@gmail.com
+Subject: Re: [PATCH v7 07/14] KVM: Use gfn instead of hva for
+ mmu_notifier_retry
+Message-ID: <20220804071044.GA4091749@ls.amr.corp.intel.com>
+References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
+ <20220706082016.2603916-8-chao.p.peng@linux.intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220706082016.2603916-8-chao.p.peng@linux.intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 4 Aug 2022 at 00:15, Elliot Berman <quic_eberman@quicinc.com> wrote:
->
-> Hi Dmitry,
->
-> On 8/2/2022 6:34 AM, Dmitry Baryshkov wrote:
-> > On 02/08/2022 00:12, Elliot Berman wrote:
-> >> Add initial support to perform Gunyah hypercalls. The arm64 ABI for
-> >> Gunyah hypercalls generally follows the SMC Calling Convention.
-> >
-> > Seeing a c&p (or c&rework) from arm-smccc.h, could you please describe:
-> >
-> > 1) Why can't you use the existing arm_smccc_1_1_hvc()? I checked, you
-> > don't seem to be getting more than 4 values back.
-> >
->
-> The Gunyah APIs can return up to 8 values. As you observed though, these
-> initial patches are only using the first 4 values back. I'd like to use
-> the larger v1.2 so I don't need to update later.
+On Wed, Jul 06, 2022 at 04:20:09PM +0800,
+Chao Peng <chao.p.peng@linux.intel.com> wrote:
 
-I'd suggest following the hyperv example here. It uses arm_smccc_1_1
-when possible and 1_2 only when required. Note, that if you are using
-the 1_2 call all the times, you are somewhat wasting the cpu cycles by
-always copying x0...x17 instead of just x0...x3.
+> diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
+> index 0bdb6044e316..e9153b54e2a4 100644
+> --- a/include/linux/kvm_host.h
+> +++ b/include/linux/kvm_host.h
+> @@ -1362,10 +1362,8 @@ void kvm_mmu_free_memory_cache(struct kvm_mmu_memory_cache *mc);
+>  void *kvm_mmu_memory_cache_alloc(struct kvm_mmu_memory_cache *mc);
+>  #endif
+>  
+> -void kvm_inc_notifier_count(struct kvm *kvm, unsigned long start,
+> -				   unsigned long end);
+> -void kvm_dec_notifier_count(struct kvm *kvm, unsigned long start,
+> -				   unsigned long end);
+> +void kvm_inc_notifier_count(struct kvm *kvm, gfn_t start, gfn_t end);
+> +void kvm_dec_notifier_count(struct kvm *kvm, gfn_t start, gfn_t end);
+>  
+>  long kvm_arch_dev_ioctl(struct file *filp,
+>  			unsigned int ioctl, unsigned long arg);
 
-> > 2) If #1 is not possible, why can't you add necessary glue code to the
-> > arm-smccc.h (as your code to support nargs/multiple return values is
-> > generic enough) and use corresponding macro in asm/gunyah.h ?
-> >
->
-> I think the code here may be considered Gunyah-specific as I am limiting
-> to 8 arguments and return values. If I add to arm-smccc.h, I would need
-> to expand out to x17. Does it make sense to add another SMCCC 1.2
-> interface to arm-smccc.h?
+The corresponding changes in kvm_main.c are missing.
 
-You do not need to handle 8 arguments at this moment, until the moment
-you really need this code, I'd suggest postponing this change. And
-when you need it, having the generic code is better than having the
-gh-specific code.
+diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
+index b2c79bef61bd..0184e327f6f5 100644
+--- a/virt/kvm/kvm_main.c
++++ b/virt/kvm/kvm_main.c
+@@ -711,8 +711,7 @@ static void kvm_mmu_notifier_change_pte(struct mmu_notifier *mn,
+        kvm_handle_hva_range(mn, address, address + 1, pte, kvm_set_spte_gfn);
+ }
+ 
+-void kvm_inc_notifier_count(struct kvm *kvm, unsigned long start,
+-                                  unsigned long end)
++void kvm_inc_notifier_count(struct kvm *kvm, gfn_t start, gfn_t end)
+ {
+        /*
+         * The count increase must become visible at unlock time as no
+@@ -786,8 +785,7 @@ static int kvm_mmu_notifier_invalidate_range_start(struct mmu_notifier *mn,
+        return 0;
+ }
+ 
+-void kvm_dec_notifier_count(struct kvm *kvm, unsigned long start,
+-                                  unsigned long end)
++void kvm_dec_notifier_count(struct kvm *kvm, gfn_t start, gfn_t end)
+ {
+        /*
+         * This sequence increase will notify the kvm page fault that
 
 
 -- 
-With best wishes
-Dmitry
+Isaku Yamahata <isaku.yamahata@gmail.com>
