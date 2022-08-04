@@ -2,38 +2,60 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E202C25B06
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Aug 2022 18:09:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D64BBC25B06
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Aug 2022 18:46:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235499AbiHDSJv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 4 Aug 2022 14:09:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46904 "EHLO
+        id S239763AbiHDSqA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 4 Aug 2022 14:46:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41126 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233114AbiHDSJu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Aug 2022 14:09:50 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7FF5B6BD6D;
-        Thu,  4 Aug 2022 11:09:49 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 41008B82659;
-        Thu,  4 Aug 2022 18:09:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E61DC433D6;
-        Thu,  4 Aug 2022 18:09:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1659636587;
-        bh=BCuL3wPihFZ4RUzoccGQX5On9lEl6ElteDBDW7ANNsM=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=mwTp9Mhxec4JRfepApvLoPZX27LJuI4/rVNS4bl8bcyjchZv6R07mAljpnWXc+nnY
-         aXKYDb46s/IrEnaHJBF/Qwft4o9f9lPDP/y6vUfHvMod0plK7spQWi0N58c3HTM9j3
-         oFFLmUdd+8rFp3RyLEZAVEov0wUruqsfTTHyxtjnNybI4mdrZfwnSUygtq7GjB0eoW
-         bxkMoJ5pHmt/0Le+b757zXlLR08r6GzsAgbGX8U+SsIYSRXN6EWPPzUDx/duCgyg6+
-         f17sfafaogbH7XLx8M+3xITmZTqjDeAIp8PsT1NIuu7Np7ns9bXWFbOe5Ei8WsdI+J
-         bmQxg2a03G8bQ==
-Date:   Thu, 4 Aug 2022 11:09:45 -0700
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     Eric Dumazet <edumazet@google.com>
+        with ESMTP id S240020AbiHDSp7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Aug 2022 14:45:59 -0400
+Received: from mail-yb1-xb33.google.com (mail-yb1-xb33.google.com [IPv6:2607:f8b0:4864:20::b33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 48104140B1
+        for <linux-doc@vger.kernel.org>; Thu,  4 Aug 2022 11:45:56 -0700 (PDT)
+Received: by mail-yb1-xb33.google.com with SMTP id 199so441576ybl.9
+        for <linux-doc@vger.kernel.org>; Thu, 04 Aug 2022 11:45:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=pv+wsFrh4DdUVERLr5V/KNAtkHdf/ae8g7mRWoQV2vE=;
+        b=fxkQU+2WZZjRVLr2eroyYKPm8AgKG3xp6FGuMxFlzJoag3W2VMzQxlONAnfvpzmo7A
+         zEOBlh5AZWpF/ZDj6GEbZ3tjLUdZtpzayMZfofQ/acWOX8+OItwS8faaxhtd50Tn7huX
+         YtHEEcoY0Mcg0mPQn977qxZ+QL2FuZI++O0PfuHxbldjX5ERnI5+f2zuLIO4mKHgWOvF
+         vz39cdiHqTk/FGzOh7vbciLJ9a6m434ukZlslque7GoksIUaXqngFT3gU5viRICLpbT+
+         1Sp5vQ+nPNEr4uyc+g/XSBLjkvqlv9Qz5FPHuKXcFw7dyEm2G0OarCx32/SHVqPpVcJ/
+         OYwA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=pv+wsFrh4DdUVERLr5V/KNAtkHdf/ae8g7mRWoQV2vE=;
+        b=Hzso7x/U5FStxuBDO2Uzx85lKjm8xeQr8RaSZQICO7CHmniomZq6OjxUeO9BaLzmTC
+         vRJ6hEb3fJukILcenTcoU8SP7D6HtJlTCvTpdWndG4yI6lrJJ3lWd4WMTcGlHwhEaRNI
+         rX13LrsJMpwzNBzhCWNoY0C39v1FK8rj15V8JK7FQWKdKhi6ATG5UDakwQywiozr8F7r
+         zsPQXCO2Svs3P84P+q3rIyESich+CNi6NDw6k9NwAE999tK4Hd3e95nHmDey39Zelws9
+         yXFm01R+INmrtA6unqDm1Wi8Dh8hxPRo5Wz6K2DQGspDAt/MMZLp6v2h0UdA5rEjTB0W
+         yBkw==
+X-Gm-Message-State: ACgBeo3EzOEUTO0wJxtCwhMXLnlzIHgO5heJCjPn3dt2nGc372V2SOOV
+        FJl/qBrY7fPeXR9V7OujYmj3jQgwlhLvPGMMRYTOLA==
+X-Google-Smtp-Source: AA6agR4uqEh3ACmlnwmuqh3zCaHN34o5K3HksL/9bk1AQobkkYCs30No26gdFLPAH1rvm4lKSxFg1rZsjRNvT9M1b2A=
+X-Received: by 2002:a25:ab84:0:b0:671:748b:ffab with SMTP id
+ v4-20020a25ab84000000b00671748bffabmr2283018ybi.427.1659638755187; Thu, 04
+ Aug 2022 11:45:55 -0700 (PDT)
+MIME-Version: 1.0
+References: <adel.abushaev@gmail.com> <20220803164045.3585187-1-adel.abushaev@gmail.com>
+ <20220803164045.3585187-2-adel.abushaev@gmail.com> <Yuq9PMIfmX0UsYtL@lunn.ch>
+ <4a757ba1-7b8e-6012-458e-217056eaee63@gmail.com> <Yuvl9uKX8z0dh5YY@lunn.ch>
+ <7c42bf11-8a30-3220-9d52-34b46b68888f@gmail.com> <CANn89iJMCrLBbPPEnk2U7ja58AawCrDe01JmBStN9btBPQQgOQ@mail.gmail.com>
+ <20220804110945.08c5d58b@kernel.org>
+In-Reply-To: <20220804110945.08c5d58b@kernel.org>
+From:   Eric Dumazet <edumazet@google.com>
+Date:   Thu, 4 Aug 2022 11:45:44 -0700
+Message-ID: <CANn89iKv1oLKwOi4USR+bGsWLuBGz+1EnAwz-pbodNsxp9JN5w@mail.gmail.com>
+Subject: Re: [RFC net-next 1/6] net: Documentation on QUIC kernel Tx crypto.
+To:     Jakub Kicinski <kuba@kernel.org>
 Cc:     Adel Abouchaev <adel.abushaev@gmail.com>,
         Andrew Lunn <andrew@lunn.ch>,
         David Miller <davem@davemloft.net>,
@@ -46,40 +68,33 @@ Cc:     Adel Abouchaev <adel.abushaev@gmail.com>,
         "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
         "open list:KERNEL SELFTEST FRAMEWORK" 
         <linux-kselftest@vger.kernel.org>
-Subject: Re: [RFC net-next 1/6] net: Documentation on QUIC kernel Tx crypto.
-Message-ID: <20220804110945.08c5d58b@kernel.org>
-In-Reply-To: <CANn89iJMCrLBbPPEnk2U7ja58AawCrDe01JmBStN9btBPQQgOQ@mail.gmail.com>
-References: <adel.abushaev@gmail.com>
-        <20220803164045.3585187-1-adel.abushaev@gmail.com>
-        <20220803164045.3585187-2-adel.abushaev@gmail.com>
-        <Yuq9PMIfmX0UsYtL@lunn.ch>
-        <4a757ba1-7b8e-6012-458e-217056eaee63@gmail.com>
-        <Yuvl9uKX8z0dh5YY@lunn.ch>
-        <7c42bf11-8a30-3220-9d52-34b46b68888f@gmail.com>
-        <CANn89iJMCrLBbPPEnk2U7ja58AawCrDe01JmBStN9btBPQQgOQ@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 4 Aug 2022 10:00:37 -0700 Eric Dumazet wrote:
-> On Thu, Aug 4, 2022 at 9:58 AM Adel Abouchaev <adel.abushaev@gmail.com> wrote:
-> > Looking at
-> > https://github.com/shemminger/iproute2/blob/main/misc/ss.c#L589 the ss.c
-> > still uses proc/.
-> 
-> Only for legacy reasons.
+On Thu, Aug 4, 2022 at 11:09 AM Jakub Kicinski <kuba@kernel.org> wrote:
+>
+> On Thu, 4 Aug 2022 10:00:37 -0700 Eric Dumazet wrote:
+> > On Thu, Aug 4, 2022 at 9:58 AM Adel Abouchaev <adel.abushaev@gmail.com> wrote:
+> > > Looking at
+> > > https://github.com/shemminger/iproute2/blob/main/misc/ss.c#L589 the ss.c
+> > > still uses proc/.
+> >
+> > Only for legacy reasons.
+>
+> That but in all honesty also the fact that a proc file is pretty easy
+> and self-describing while the historic netlink families are undocumented
+> code salads.
+>
+> > ss -t for sure will use netlink first, then fallback to /proc
+> >
+> > New counters should use netlink, please.
+>
+> Just to be sure I'm not missing anything - we're talking about some
+> new netlink, right? Is there an existing place for "overall prot family
+> stats" over netlink today?
 
-That but in all honesty also the fact that a proc file is pretty easy
-and self-describing while the historic netlink families are undocumented
-code salads.
+I thought we were speaking of dumping ULP info on a per UDP socket basis.
 
-> ss -t for sure will use netlink first, then fallback to /proc
-> 
-> New counters should use netlink, please.
-
-Just to be sure I'm not missing anything - we're talking about some 
-new netlink, right? Is there an existing place for "overall prot family
-stats" over netlink today?
+If this is about new SNMP counters, then sure, /proc is fine I guess.
