@@ -2,347 +2,162 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D7170C19F29
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Aug 2022 01:12:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7528BC19F29
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Aug 2022 01:48:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237097AbiHDBM5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 3 Aug 2022 21:12:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41802 "EHLO
+        id S238079AbiHDBsl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 3 Aug 2022 21:48:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59048 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236360AbiHDBMy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Aug 2022 21:12:54 -0400
-Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 6677240BD3
-        for <linux-doc@vger.kernel.org>; Wed,  3 Aug 2022 18:12:52 -0700 (PDT)
-Received: from [192.168.100.119] (unknown [112.20.110.136])
-        by mail.loongson.cn (Coremail) with SMTP id AQAAf9AxCs0QHetiU7gEAA--.5454S3;
-        Thu, 04 Aug 2022 09:12:49 +0800 (CST)
-Message-ID: <d56e5f57-66be-f052-7711-1762270d3961@loongson.cn>
-Date:   Thu, 4 Aug 2022 09:12:48 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.1.0
-Subject: Re: [PATCH v2 2/4] docs/zh_CN: core-api: Add circular-buffers Chinese
- translation
-To:     Alex Shi <seakeel@gmail.com>
-Cc:     Alex Shi <alexs@kernel.org>, Yanteng Si <siyanteng@loongson.cn>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Huacai Chen <chenhuacai@loongson.cn>,
-        "Wu X.C." <bobwxc@email.cn>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-References: <cover.1658196777.git.zhoubinbin@loongson.cn>
- <945ab16a062dd6f832633fec0eccbde1899fa705.1658196777.git.zhoubinbin@loongson.cn>
- <CAJy-AmkZFxNPL52M6Yuxu9prgdPSxkaO-FUs=tfY7ZB=YHoR1w@mail.gmail.com>
-From:   Binbin Zhou <zhoubinbin@loongson.cn>
-In-Reply-To: <CAJy-AmkZFxNPL52M6Yuxu9prgdPSxkaO-FUs=tfY7ZB=YHoR1w@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+        with ESMTP id S229596AbiHDBsk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Aug 2022 21:48:40 -0400
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2107.outbound.protection.outlook.com [40.107.94.107])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16DF15F10D;
+        Wed,  3 Aug 2022 18:48:37 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=bwFpyDOkrcmhGLTvWI2gbNvEyyLNHQoQH5OLD4k23aiA8Kz37YIlzS71Fc5u9xeuoB9YthzbUN5/SJDGHEbnTz/BBnBHOHDDjUZyMnu8S3EREWmdkC6LJzHtk4YPWE86mGOt5N9gYjd3xyfgbrpFaFAtPHrtdL6Yw78htIbdIc3AiRCyZl88eUCk0MQxhQ+5BOQ5IgOAlCSOzXiEjNDFdHXr3ZUQ/vPUY66PrkVOMFnOwF9fScufsfLLl9vTfuceOdNr1q82INeexBLBBfaDkah1zxkYkFRFE+ivUGV9ckDfcMBQW0u++AN9ozh2GMqIwSeRBXxEzlLyagQoKz5SoQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=urbUIPd9Cik0C5kD5S69kP3XzxRa2GiocManyWSuA9A=;
+ b=ZKG8IHRKWqy+3mviLDuZxUmjhv+DNkKFCzD02vsgE/AZN8Ei68Zgcpv4eK3gUzrraaFP5PeD9xz/KMdYnDrZSfjmOyPAclDa6Rrbb423764wovP4pJ46SrtQ1nuCo/CiodRhwJxoEcDcQSOdRJ5IGzmXZTw59+HYVJb2IgfgfNGeehyxQhYQrBuHkjuek95OCofde2QL1wvNvJjwlGXZb/0AsKAPfOtnFx4Gtna6WB4EIFyI8pI7cmGUqd9CjsalLL9NRsM0ydrpDcdt9NPIviOpsZzlW8OIQxBDiI1NZ+b2gEdhurE6Knsrjs6iD8znvIffeEDqCPvQBgjd8LIyUg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=os.amperecomputing.com; dmarc=pass action=none
+ header.from=os.amperecomputing.com; dkim=pass
+ header.d=os.amperecomputing.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=os.amperecomputing.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=urbUIPd9Cik0C5kD5S69kP3XzxRa2GiocManyWSuA9A=;
+ b=Aq95Uqo3jsrMD9t+xQI2bOMqmDDPzzFW2BMHjssiYIEJBbrmHkKAmepPGfTCbb70X6lBzm+v55Y6EG1c1hEsBK9Ea8uddqVp6x7zil8Qs/SOT2sZCZhBmTWrIFqBPJ7DvQed+DrtnhLHJgYPANgg0GuwUnJRVMorSkqCxzKyS5o=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=os.amperecomputing.com;
+Received: from DM8PR01MB6824.prod.exchangelabs.com (2603:10b6:8:23::24) by
+ CH2PR01MB6086.prod.exchangelabs.com (2603:10b6:610:45::24) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5482.14; Thu, 4 Aug 2022 01:48:33 +0000
+Received: from DM8PR01MB6824.prod.exchangelabs.com
+ ([fe80::7058:9dd4:aa01:614a]) by DM8PR01MB6824.prod.exchangelabs.com
+ ([fe80::7058:9dd4:aa01:614a%5]) with mapi id 15.20.5504.014; Thu, 4 Aug 2022
+ 01:48:33 +0000
+From:   Huang Shijie <shijie@os.amperecomputing.com>
+To:     bhelgaas@google.com
+Cc:     patches@amperecomputing.com, zwang@amperecomputing.com,
+        darren@os.amperecomputing.com, corbet@lwn.net,
+        yangyicong@hisilicon.com, linux-pci@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Huang Shijie <shijie@os.amperecomputing.com>
+Subject: [PATCH] PCI: fix the invalid aer-inject git tree
+Date:   Thu,  4 Aug 2022 09:47:55 +0000
+Message-Id: <20220804094755.1885603-1-shijie@os.amperecomputing.com>
+X-Mailer: git-send-email 2.30.2
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9AxCs0QHetiU7gEAA--.5454S3
-X-Coremail-Antispam: 1UD129KBjvJXoW3Kry8Zr4rCFy5Wry5Cw4rXwb_yoWkWw4DpF
-        9Fga9akFn2y340y3s8KFy5WFnFka48AF17Kws7KFyUWF4vywn3Xr9Fk3429F1fW34xAFyD
-        AFWqkryIkFyUA37anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUvl14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-        rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-        1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
-        6r4UJwA2z4x0Y4vEx4A2jsIE14v26F4j6r4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr
-        1j6F4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv
-        7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r
-        1j6r4UM4x0Y48IcVAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCYjI0SjxkI62AI1cAE
-        67vIY487MxkIecxEwVAFwVWkMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r
-        4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF
-        67AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2I
-        x0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_WFyUJVCq3wCI42IY
-        6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxhVjvj
-        DU0xZFpf9x0JUHpB-UUUUU=
-X-CM-SenderInfo: p2kr3uplqex0o6or00hjvr0hdfq/
+Content-Type: text/plain
+X-ClientProxiedBy: CH2PR02CA0003.namprd02.prod.outlook.com
+ (2603:10b6:610:4e::13) To DM8PR01MB6824.prod.exchangelabs.com
+ (2603:10b6:8:23::24)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: d47650c2-fcb6-46c2-3b11-08da75bb704f
+X-MS-TrafficTypeDiagnostic: CH2PR01MB6086:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: WWm5kTzIjrrelyoW55LMEHoUjvVwdK2PpwYyz7JInpVF8ufCdDIK18tij7X23T5kMqHXKjXff+IVn1Vcmi+67bwrRZLDvi40sISfLTsVWuLDKM0D1LTifs5AUhyPuoqc7eAQiPlrkQFcumVhuiOjFD8aTrBr6bzMgL42Vkm1lZTd3SOWM+DXPhMZQT9awDhvPVuBo06GZHTze35+07IA/AIJYIIF0SJCHQqm0sGKhHSx4kn2tMk5TK6nSXeMcN5OdS+5Sk3C2To0NZTJrMAPlhlbnNySrg2NADcb2VoBWGOGkN3KoudYx6zNZHY8pW3IfCA7pB9p9nHI6ZekrBqmQLDBFD/spYtAxFt29sFEW1EekKdJB4A2TQDr04PXUVovfwgV9oZ3pcfiKLlct/Ghw6San5oMcGjf9HKXFVQQL7WjOqBRaQfZ6gzjAKIo6hWC48FlakS0Po7YlaYd1x81gMlM7tU4koLgEn/EUz4YI4zM/pOQD2oLfonlPLWhte4bPEB+XyEvnlAVBLc5Qw77LkIbj2C5ntQYxRYgqDHg5UMJNNFF9/D8lHtGH67k0REZ2gyRvQQ9pB6PVZP5zxAv58R+lnyPJwLvJY/jWOS1F8xojY+1LhVZkJMAWGA8kURMVzT/RdOYo5sJNz0OCfxA6AYpIHgaWyNG4z1By/HyDLgDvLpo1qwyNN0X1mQtfpJqI1ePqvxFP3yaHQl3gBNqSSbHaOVwutOeeHqTc4mHA5PTRp69Ra44qpU2keMo5c3H4yRvw2PNihwxbyvrpzZHAS6Md4ow8YoSfFURG9VZCq4v8+GBGq4M2Z7iVrlykrQp
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM8PR01MB6824.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(366004)(136003)(396003)(376002)(346002)(39850400004)(83380400001)(5660300002)(2616005)(107886003)(186003)(8936002)(66946007)(4326008)(2906002)(66556008)(1076003)(66476007)(8676002)(316002)(966005)(478600001)(6486002)(52116002)(6916009)(6512007)(6506007)(41300700001)(86362001)(26005)(6666004)(38350700002)(38100700002);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?D2Hb16XGGg0ewkLcGHyZLXtmtpVkpuyulx1wt1gkSSaXd6ubZP6HPZYOk1SU?=
+ =?us-ascii?Q?60bnwU2VFw7s3tlX3y91FB6MWnPiru7J3Li49JSe/+BHe4ZbAJolYke8HApV?=
+ =?us-ascii?Q?tjY+8FxOzRNKezd8AIa1wxwoXtWGcQpqTj4FkR8fBVB0UwctL3YbMvvUzIkT?=
+ =?us-ascii?Q?tCvPcCiaYnQO87MuH3Xag4Cdy1WdWpC7xgsTILGec1ExnrL5z250iMMP3Yc6?=
+ =?us-ascii?Q?M6c2DFA6+y9vxGcvv0PU23GNQos6skoMiX5pPDX71HkTaokHpzt6VviccCAE?=
+ =?us-ascii?Q?s+VOmfuILkYArvll3/dlNWv3S10tWlTpg32cxYQLbCk979l2uz0uWep39D+u?=
+ =?us-ascii?Q?O1H8/XRnyBppOZT3c4O94Zqzi4dyBGZsFwt6ZnPnfUv8iOxKlXzqZ0y/h8bW?=
+ =?us-ascii?Q?uDx6JhjUs4uNrm4owX3geb1+kxOPIcTIysgI1RIqVs+FqxD17xmFfaEbQwse?=
+ =?us-ascii?Q?qILOqR7h/kWQ9dPufvfaB28ldSMVxKhyxIEjqQWBvePJSoUAENNWiPExGYl7?=
+ =?us-ascii?Q?j4MqSXEyTQLPmqYE/PNwcUg/rmbF8PLAHgp/tmTk/uBC81oJvk0s9hkuiMfy?=
+ =?us-ascii?Q?D7a770ftdWTBbXwKofNvYCO4lqjlN6+XSILdkCtd26qBOQ43gsZympwyjETu?=
+ =?us-ascii?Q?VgAL26lm7hhocbD4X5ob3Sz8tKUyp+AyVyRyOOauGHCgS8LaAaOCnVtp5Oq3?=
+ =?us-ascii?Q?wt2zGrDGHDSLLpyz5P4OEHGYfFOvcPcdIUzKSsIFWdJ9Kg6Gne8cNQQV/2Wz?=
+ =?us-ascii?Q?Qh2MIsrYAzL6g9d4Mdi7cS3vQiM9oum0WqT1YUkVA4V7zf0eCytog//qVoXG?=
+ =?us-ascii?Q?yT3AYYhCz7dxvAUbcWX8H5F7H/8lVMClPdtFzFEMVqL7MSqoio9MtFthwviW?=
+ =?us-ascii?Q?s/dmpyjvAQNs3ncMbDtoTGmdCGqAF57u23OIb3xQkAtTRpvTrM44k1wrkNaf?=
+ =?us-ascii?Q?zqBY5KmEWQ1XY28iHWw7hCBpCfgSdV2IaQtzUvPVeEB4hTJO2AxlVwJqmqSt?=
+ =?us-ascii?Q?FyV57Vgoks6c1z//75b9FxB+v5ORFbVuaYsbPTj/2M7IC1Ih8NAsHlw/RwV/?=
+ =?us-ascii?Q?1OoS44vYOnCkTM8QKaBKofDMcVAs2BxLaWYFcLoqsnnhq6ffCi4aDFAhzHJs?=
+ =?us-ascii?Q?fHGEWENK9QTH3TTerpTWzuvDTnMe+uYyliqj82/lcL13143HalhYUPZj5t/u?=
+ =?us-ascii?Q?chLdMXIJNTcqmnJh0yZfyCzNrghXWTmNUcdbjet+44b2qaJmijsrC7J3BS8D?=
+ =?us-ascii?Q?UZ9Vmfk4UdEvEt/MjPpuqbwEl/A2XKb14e4v02XO6ZOUN6o6DW5HHeLwAjTJ?=
+ =?us-ascii?Q?cs6JSClYCLTkOczAmkGONnhLPPXpy7ax9NqEk0LSY54p4QWHbh7Ac5fmvZQt?=
+ =?us-ascii?Q?IGvqmJqpMYjbd0k5TBgnfRRo2c8FwdcsmnqcSMZk9Fer9ESEi4lR9EyPsb/H?=
+ =?us-ascii?Q?3fkcooE/RpursL3NLMyVfc24U9MFH6lpGgyScH9kzGKpgLqcw/m6MJD1cSCj?=
+ =?us-ascii?Q?H2CZEehQgcU5DLb7mXVX0P1v3XzSCW4DadB9T7mRcbYFHwAncw+WrByCAH59?=
+ =?us-ascii?Q?4Da67THr0T4OndeBUkX0c9FUM7Lzyx2tHDZwz3AXMbXULFaZj64me8LxNYHA?=
+ =?us-ascii?Q?vShEdFInm515S5tXWzknPPU=3D?=
+X-OriginatorOrg: os.amperecomputing.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d47650c2-fcb6-46c2-3b11-08da75bb704f
+X-MS-Exchange-CrossTenant-AuthSource: DM8PR01MB6824.prod.exchangelabs.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Aug 2022 01:48:33.4776
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3bc2b170-fd94-476d-b0ce-4229bdc904a7
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: NtzAMhxGYDlNm+p18B5a1fQ9an78iAZyQlP6XFpFBnCiesVUUZIujASXZCkThK52RSTATEWfPXDvrrRZ/dJZBEmBhbpxOW9wlSsRdbqXwKXWemu4udAcpOpNqod7euCq
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR01MB6086
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi, Alex:
+The old tree is invalid now, fix it with the right git tree:
+    https://git.kernel.org/pub/scm/linux/kernel/git/gong.chen/aer-inject.git
 
+Signed-off-by: Huang Shijie <shijie@os.amperecomputing.com>
+---
+ Documentation/PCI/pcieaer-howto.rst | 2 +-
+ drivers/pci/pcie/Kconfig            | 2 +-
+ drivers/pci/pcie/aer_inject.c       | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-在 2022/8/3 15:11, Alex Shi 写道:
-> On Tue, Jul 19, 2022 at 9:04 PM Binbin Zhou <zhoubinbin@loongson.cn> wrote:
->>
->> Translate core-api/circular-buffers.rst into Chinese.
->>
->> Last English version used:
->>
->> commit 714b6904e23e ("doc: Remove ".vnet" from paulmck email addresses").
->>
->> Signed-off-by: Binbin Zhou <zhoubinbin@loongson.cn>
->> ---
->>   .../zh_CN/core-api/circular-buffers.rst       | 209 ++++++++++++++++++
->>   .../translations/zh_CN/core-api/index.rst     |   2 +-
->>   2 files changed, 210 insertions(+), 1 deletion(-)
->>   create mode 100644 Documentation/translations/zh_CN/core-api/circular-buffers.rst
->>
->> diff --git a/Documentation/translations/zh_CN/core-api/circular-buffers.rst b/Documentation/translations/zh_CN/core-api/circular-buffers.rst
->> new file mode 100644
->> index 000000000000..7c7eab7c386f
->> --- /dev/null
->> +++ b/Documentation/translations/zh_CN/core-api/circular-buffers.rst
->> @@ -0,0 +1,209 @@
->> +.. SPDX-License-Identifier: GPL-2.0+
->> +
->> +.. include:: ../disclaimer-zh_CN.rst
->> +
->> +:Original: Documentation/core-api/circular-buffers.rst
->> +
->> +:翻译:
->> +
->> + 周彬彬 Binbin Zhou <zhoubinbin@loongson.cn>
->> +
->> +:校译:
->> +
->> + 司延腾 Yanteng Si <siyanteng@loongson.cn>
->> + 吴想成 Wu Xiangcheng <bobwxc@email.cn>
->> +
->> +==========
->> +环形缓冲区
->> +==========
->> +
->> +:作者: David Howells <dhowells@redhat.com>
->> +:作者: Paul E. McKenney <paulmck@linux.ibm.com>
->> +
->> +
->> +Linux 提供了许多可用于实现循环缓冲的特性。有两组这样的特性：
->> +
->> + (1) 用于确定2次方大小的缓冲区信息的便利函数。
->> +
->> + (2) 当缓冲区中对象的生产者和消费者不想共享一个锁时的内存屏障。
-> 
-> the word by word translation maybe hard to understand in another
-> language, So let try:
-> 
-> 可以代替缓冲区中对象的生产者和消费者共享锁的内存屏障
-OK, I see and try to avoid word by word translations in the future.
-> 
->> +
->> +如下所述，要使用这些设施，只需要一个生产者和一个消费者。可以通过序列化来处理多个
->> +生产者，并通过序列化来处理多个消费者。
->> +
->> +.. Contents:
->> +
->> + (*) 什么是环形缓冲区？
->> +
->> + (*) 测量2次幂缓冲区
->> +
->> + (*) 内存屏障与环形缓冲区的结合使用
->> +     - 生产者
->> +     - 消费者
->> +
->> + (*) 延伸阅读
->> +
->> +
->> +
->> +什么是环形缓冲区？
->> +==================
->> +
->> +首先，什么是环形缓冲区？环形缓冲区是具有固定的有限大小的缓冲区，它有两个索引：
->> +
->> + (1) 'head'索引 - 生产者将元素插入缓冲区的位置。
->> +
->> + (2) 'tail'索引 - 消费者在缓冲区中找到下一个元素的位置。
->> +
->> +通常，当tail指针等于head指针时，表明缓冲区是空的；而当head指针比tail指针少一个时，
->> +表明缓冲区是满的。
->> +
->> +添加元素时，递增head索引；删除元素时，递增tail索引。tail索引不应该跳过head索引，
->> +两个索引在到达缓冲区末端时都应该被赋值为0，从而允许海量的数据流过缓冲区。
->> +
->> +通常情况下，元素都有相同的单元大小，但这并不是使用以下技术的严格要求。如果要在缓
->> +冲区中包含多个元素或可变大小的元素，则索引可以增加超过1，前提是两个索引都没有超过
->> +另一个。然而，实现者必须小心，因为超过一个单位大小的区域可能会覆盖缓冲区的末端并
->> +且缓冲区会被分成两段。
->> +
->> +测量2次幂缓冲区
->> +===============
->> +
->> +计算任意大小的环形缓冲区的占用或剩余容量通常是一个费时的操作，需要使用模（除法）
->> +指令。但是如果缓冲区的大小为2次幂，则可以使用更快的按位与指令代替。
->> +
->> +Linux提供了一组用于处理2次幂环形缓冲区的宏。可以通过以下方式使用::
->> +
->> +       #include <linux/circ_buf.h>
->> +
->> +这些宏包括：
->> +
->> + (#) 测量缓冲区的剩余容量::
->> +
->> +       CIRC_SPACE(head_index, tail_index, buffer_size);
->> +
->> +     返回缓冲区[1]中可插入元素的剩余空间大小。
->> +
->> +
->> + (#) 测量缓冲区中的最大连续即时空间::
-> 
-> 测量缓冲区中的最大连续立即可用空间
-> 
->> +
->> +       CIRC_SPACE_TO_END(head_index, tail_index, buffer_size);
->> +
->> +     返回缓冲区[1]中剩余的连续空间的大小，元素可以立即插入其中，而不必绕回到缓冲
->> +     区的开头。
->> +
->> +
->> + (#) 测量缓冲区的占用率::
-> 
-> 测量缓冲区的使用数
-> There has no 'rate' meaning.Yes, It's better.
-> 
->> +
->> +       CIRC_CNT(head_index, tail_index, buffer_size);
->> +
->> +     返回当前占用缓冲区[2]的元素数量。
->> +
->> +
->> + (#) 测量缓冲区的非覆盖占用率::
-> 
->   测量缓冲区的连续使用数
-OK..
-> 
->> +
->> +       CIRC_CNT_TO_END(head_index, tail_index, buffer_size);
->> +
->> +     返回可以从缓冲区中提取的连续元素[2]的数量，而不必绕回到缓冲区的开头。
->> +
->> +这里的每一个宏名义上都会返回一个介于0和buffer_size-1之间的值，但是：
->> +
->> + (1) CIRC_SPACE*()是为了在生产者中使用。对生产者来说，它们将返回一个下限，因为生
->> +     产者控制着head索引，但消费者可能仍然在另一个CPU上耗尽缓冲区并移动tail索引。
->> +
->> +     对消费者来说，它将显示一个上限，因为生产者可能正忙于耗尽空间。
->> +
->> + (2) CIRC_CNT*()是为了在消费者中使用。对消费者来说，它们将返回一个下限，因为消费
->> +     者控制着tail索引，但生产者可能仍然在另一个CPU上填充缓冲区并移动head索引。
->> +
->> +     对于生产者，它将显示一个上限，因为消费者可能正忙于清空缓冲区。
->> +
->> + (3) 对于第三方来说，生产者和消费者对索引的写入顺序是无法保证的，因为它们是独立的，
->> +     而且可能是在不同的CPU上进行的，所以在这种情况下的结果只是一种猜测，甚至可能
->> +     是错误的。
->> +
->> +内存屏障与环形缓冲区的结合使用
->> +==============================
->> +
->> +通过将内存屏障与环形缓冲区结合使用，可以避免以下需求：
->> +
->> + (1) 使用单个锁来控制对缓冲区两端的访问，从而允许同时填充和清空缓冲区；以及
->> +
->> + (2) 使用原子计数器操作。
->> +
->> +这有两个方面：填充缓冲区的生产者和清空缓冲区的消费者。在任何时候，只应有一个生产
->> +者在填充缓冲区，同样的也只应有一个消费者在清空缓冲区，但双方可以同时操作。
->> +
->> +
->> +生产者
->> +------
->> +
->> +生产者看起来像这样::
->> +
->> +       spin_lock(&producer_lock);
->> +
->> +       unsigned long head = buffer->head;
->> +       /* spin_unlock()和下一个spin_lock()提供必要的排序。 */
->> +       unsigned long tail = READ_ONCE(buffer->tail);
->> +
->> +       if (CIRC_SPACE(head, tail, buffer->size) >= 1) {
->> +               /* 添加一个元素到缓冲区 */
->> +               struct item *item = buffer[head];
->> +
->> +               produce_item(item);
->> +
->> +               smp_store_release(buffer->head,
->> +                                 (head + 1) & (buffer->size - 1));
->> +
->> +               /* wake_up()将确保在唤醒任何人之前提交head */
->> +               wake_up(consumer);
->> +       }
->> +
->> +       spin_unlock(&producer_lock);
->> +
->> +这将表明CPU必须在head索引使其对消费者可用之前写入新项目的内容，同时CPU必须在唤醒
->> +消费者之前写入修改后的head索引。
->> +
->> +请注意，wake_up()并不保证任何形式的屏障，除非确实唤醒了某些东西。因此我们不能依靠
->> +它来进行排序。但是数组中始终有一个元素留空，因此生产者必须产生两个元素，然后才可
->> +能破坏消费者当前正在读取的元素。同时，消费者连续调用之间成对的解锁-加锁提供了索引
->> +读取（指示消费者已清空给定元素）和生产者对该相同元素的写入之间的必要顺序。
->> +
->> +
->> +消费者
->> +------
->> +
->> +消费者看起来像这样::
->> +
->> +       spin_lock(&consumer_lock);
->> +
->> +       /* 读取该索引处的内容之前，先读取索引 */
->> +       unsigned long head = smp_load_acquire(buffer->head);
->> +       unsigned long tail = buffer->tail;
->> +
->> +       if (CIRC_CNT(head, tail, buffer->size) >= 1) {
->> +
->> +               /* 从缓冲区中提取一个元素 */
->> +               struct item *item = buffer[tail];
->> +
->> +               consume_item(item);
->> +
->> +               /* 在递增tail之前完成对描述符的读取。 */
->> +               smp_store_release(buffer->tail,
->> +                                 (tail + 1) & (buffer->size - 1));
->> +       }
->> +
->> +       spin_unlock(&consumer_lock);
->> +
->> +这表明CPU在读取新元素之前确保索引是最新的，然后在写入新的尾指针之前应确保CPU已完
->> +成读取该元素，这将擦除该元素。
->> +
->> +请注意，使用READ_ONCE()和smp_load_acquire()来读取反向索引。这可以防止编译器丢弃并
->> +重新加载其缓存值。如果您能确定反向索引将仅使用一次，则这不是严格需要的。
-> 
-> 反向索引。==> 反向（head）索引。
-> 则这不是严格需要的 ==> 则这不是必须的。OK, I got it.
-
-Thanks for review.
-
-Binbin
-
-> 
-> Fot the left:
-> Reviewed-by: Alex Shi <alexs@kernel.org>
-> 
-> 
->> +smp_load_acquire()还可以强制CPU对后续的内存引用进行排序。类似地，两种算法都使用
->> +smp_store_release()来写入线程的索引。这记录了我们正在写入可以并发读取的内容的事实，
->> +以防止编译器破坏存储，并强制对以前的访问进行排序。
->> +
->> +
->> +延伸阅读
->> +========
->> +
->> +关于Linux的内存屏障设施的描述，请查看Documentation/memory-barriers.txt。
->> diff --git a/Documentation/translations/zh_CN/core-api/index.rst b/Documentation/translations/zh_CN/core-api/index.rst
->> index 94eeef20c042..854b923f3b30 100644
->> --- a/Documentation/translations/zh_CN/core-api/index.rst
->> +++ b/Documentation/translations/zh_CN/core-api/index.rst
->> @@ -45,12 +45,12 @@
->>      xarray
->>      rbtree
->>      idr
->> +   circular-buffers
->>
->>   Todolist:
->>
->>
->>
->> -   circular-buffers
->>      generic-radix-tree
->>      packing
->>      bus-virt-phys-mapping
->> --
->> 2.20.1
->>
+diff --git a/Documentation/PCI/pcieaer-howto.rst b/Documentation/PCI/pcieaer-howto.rst
+index 0b36b9ebfa4b..b31fc9a0edbc 100644
+--- a/Documentation/PCI/pcieaer-howto.rst
++++ b/Documentation/PCI/pcieaer-howto.rst
+@@ -294,7 +294,7 @@ After reboot with new kernel or insert the module, a device file named
+ Then, you need a user space tool named aer-inject, which can be gotten
+ from:
+ 
+-    https://git.kernel.org/cgit/linux/kernel/git/gong.chen/aer-inject.git/
++    https://git.kernel.org/pub/scm/linux/kernel/git/gong.chen/aer-inject.git/
+ 
+ More information about aer-inject can be found in the document comes
+ with its source code.
+diff --git a/drivers/pci/pcie/Kconfig b/drivers/pci/pcie/Kconfig
+index 788ac8df3f9d..d6ea0fd9892d 100644
+--- a/drivers/pci/pcie/Kconfig
++++ b/drivers/pci/pcie/Kconfig
+@@ -43,7 +43,7 @@ config PCIEAER_INJECT
+ 	  error injection can fake almost all kinds of errors with the
+ 	  help of a user space helper tool aer-inject, which can be
+ 	  gotten from:
+-	     https://git.kernel.org/cgit/linux/kernel/git/gong.chen/aer-inject.git/
++            https://git.kernel.org/pub/scm/linux/kernel/git/gong.chen/aer-inject.git/
+ 
+ #
+ # PCI Express ECRC
+diff --git a/drivers/pci/pcie/aer_inject.c b/drivers/pci/pcie/aer_inject.c
+index 2dab275d252f..262b06b0dc1d 100644
+--- a/drivers/pci/pcie/aer_inject.c
++++ b/drivers/pci/pcie/aer_inject.c
+@@ -6,7 +6,7 @@
+  * trigger various real hardware errors. Software based error
+  * injection can fake almost all kinds of errors with the help of a
+  * user space helper tool aer-inject, which can be gotten from:
+- *   https://git.kernel.org/cgit/linux/kernel/git/gong.chen/aer-inject.git/
++ *   https://git.kernel.org/pub/scm/linux/kernel/git/gong.chen/aer-inject.git/
+  *
+  * Copyright 2009 Intel Corporation.
+  *     Huang Ying <ying.huang@intel.com>
+-- 
+2.30.2
 
