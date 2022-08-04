@@ -2,181 +2,134 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ABDD8C19F21
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Aug 2022 19:00:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AB470C25B06
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Aug 2022 21:49:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232130AbiHDTAi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 4 Aug 2022 15:00:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50654 "EHLO
+        id S229813AbiHDVtB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 4 Aug 2022 17:49:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58306 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229678AbiHDTAi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Aug 2022 15:00:38 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36C113138D;
-        Thu,  4 Aug 2022 12:00:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-        bh=9an68t6elSEcOxsuHOeSkwUdZXoYQKoxZyn8P9hztAI=; b=HCuiLBk7YM6RDFcdi3JYetDCyB
-        NDuwb/yZ2K8aMah3/uI8gMzJ60yAbY1qmiefbsrKvkQOp684ftVjAZfgJvbYPfl4w4odz1P7cUb78
-        ZR+Z92l79j+5neCTzVefLEU5klvKgrmI/vpjL/4t5yWoC9T/04YDoVj9n7KYjsO9vw6Dmzz/GH1XE
-        1F50Mbkp5HEs1cBSWW4ekedmFq/otFqGs4wWVoD06nhCnhs4Jv/lKPYZe2ysV4mK9OQ1QoQlNKy1D
-        qs+3Was90u4oPEwk80aveBjRTM5e1UNpcUc4dlWGnmBoUPBuYQx/ozeAxit+qHLuH4OpYHtj9XO6y
-        dQAaI0hQ==;
-Received: from [2601:1c0:6280:3f0::a6b3]
-        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1oJg52-008PmV-0P; Thu, 04 Aug 2022 19:00:24 +0000
-Message-ID: <0698c5a5-3bf2-daa4-e10e-2715f9b0d080@infradead.org>
-Date:   Thu, 4 Aug 2022 12:00:22 -0700
+        with ESMTP id S229559AbiHDVtB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Aug 2022 17:49:01 -0400
+Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com [199.106.114.39])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75C0315FE0;
+        Thu,  4 Aug 2022 14:49:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+  t=1659649740; x=1691185740;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=J/3brDRmssbtuPOPqEk5mTfaCo1M13+DdM0SNU2zs1s=;
+  b=aUlbfWbwiynrC6KSlWQ9V+DJCpEIyxUBGzZIxKnayBMEk1TKS0d3GyxB
+   /pxRNjaD8W2PMqEt3ggfbe89CMiIZL382ylxVoMJPNjmylsbCOZC+Z1Gv
+   4DgvdL/abmsN7RlWWdPlJaoz5VS6/kpQ0RM/ZagUNghZ6L/ijHq7JuvgY
+   M=;
+Received: from unknown (HELO ironmsg05-sd.qualcomm.com) ([10.53.140.145])
+  by alexa-out-sd-02.qualcomm.com with ESMTP; 04 Aug 2022 14:49:00 -0700
+X-QCInternal: smtphost
+Received: from nasanex01b.na.qualcomm.com ([10.46.141.250])
+  by ironmsg05-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2022 14:48:59 -0700
+Received: from [10.110.78.233] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Thu, 4 Aug 2022
+ 14:48:58 -0700
+Message-ID: <3dd4b206-8771-972b-7f4d-4935c5fbea3e@quicinc.com>
+Date:   Thu, 4 Aug 2022 14:48:58 -0700
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v3 3/3] drm/i915/gt: document TLB cache invalidation
- functions
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH v2 00/11] Drivers for gunyah hypervisor
 Content-Language: en-US
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>,
-        Andi Shyti <andi.shyti@linux.intel.com>,
-        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-        Chris Wilson <chris.p.wilson@intel.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        David Airlie <airlied@linux.ie>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <cover.1659598090.git.mchehab@kernel.org>
- <cc68d62a1979ea859b447b94413e100472331f57.1659598090.git.mchehab@kernel.org>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <cc68d62a1979ea859b447b94413e100472331f57.1659598090.git.mchehab@kernel.org>
-Content-Type: text/plain; charset=UTF-8
+To:     Bagas Sanjaya <bagasdotme@gmail.com>
+CC:     Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Murali Nalajala <quic_mnalajal@quicinc.com>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        "Srivatsa Vaddagiri" <quic_svaddagi@quicinc.com>,
+        Carl van Schaik <quic_cvanscha@quicinc.com>,
+        Andy Gross <agross@kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        "Marc Zyngier" <maz@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+        "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Will Deacon <will@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        <devicetree@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>
+References: <20220801211240.597859-1-quic_eberman@quicinc.com>
+ <YuuC0NISKFVIhUD1@debian.me>
+From:   Elliot Berman <quic_eberman@quicinc.com>
+In-Reply-To: <YuuC0NISKFVIhUD1@debian.me>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Mauro,
 
-On 8/4/22 00:37, Mauro Carvalho Chehab wrote:
-> Add a description for the TLB cache invalidation algorithm and for
-> the related kAPI functions.
+
+On 8/4/2022 1:26 AM, Bagas Sanjaya wrote:
+> On Mon, Aug 01, 2022 at 02:12:29PM -0700, Elliot Berman wrote:
+>> Gunyah is a Type-1 hypervisor independent of any
+>> high-level OS kernel, and runs in a higher CPU privilege level. It does
+>> not depend on any lower-privileged OS kernel/code for its core
+>> functionality. This increases its security and can support a much smaller
+>> trusted computing base than a Type-2 hypervisor.
+>>
+>> Gunyah is an open source hypervisor. The source repo is available at
+>> https://github.com/quic/gunyah-hypervisor.
+>>
+>> The diagram below shows the architecture.
+>>
+>> ::
+>>
+>>          Primary VM           Secondary VMs
+>>       +-----+ +-----+  | +-----+ +-----+ +-----+
+>>       |     | |     |  | |     | |     | |     |
+>>   EL0 | APP | | APP |  | | APP | | APP | | APP |
+>>       |     | |     |  | |     | |     | |     |
+>>       +-----+ +-----+  | +-----+ +-----+ +-----+
+>>   ---------------------|-------------------------
+>>       +--------------+ | +----------------------+
+>>       |              | | |                      |
+>>   EL1 | Linux Kernel | | |Linux kernel/Other OS |   ...
+>>       |              | | |                      |
+>>       +--------------+ | +----------------------+
+>>   --------hvc/smc------|------hvc/smc------------
+>>       +----------------------------------------+
+>>       |                                        |
+>>   EL2 |            Gunyah Hypervisor           |
+>>       |                                        |
+>>       +----------------------------------------+
+>>
+>> Gunyah provides these following features.
+>>
+>> - Threads and Scheduling: The scheduler schedules virtual CPUs (VCPUs) on
+>> physical CPUs and enables time-sharing of the CPUs.
+>> - Memory Management: Gunyah tracks memory ownership and use of all memory
+>> under its control. Memory partitioning between VMs is a fundamental
+>> security feature.
+>> - Interrupt Virtualization: All interrupts are handled in the hypervisor
+>> and routed to the assigned VM.
+>> - Inter-VM Communication: There are several different mechanisms provided
+>> for communicating between VMs.
+>> - Device Virtualization: Para-virtualization of devices is supported using
+>> inter-VM communication. Low level system features and devices such as
+>> interrupt controllers are supported with emulation where required.
+>>
 > 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
-> ---
+> Hi,
 > 
-> To avoid mailbombing on a large number of people, only mailing lists were C/C on the cover.
-> See [PATCH v3 0/3] at: https://lore.kernel.org/all/cover.1659598090.git.mchehab@kernel.org/
-> 
->  Documentation/gpu/i915.rst          |  7 ++
->  drivers/gpu/drm/i915/gt/intel_tlb.c | 25 ++++++++
->  drivers/gpu/drm/i915/gt/intel_tlb.h | 99 +++++++++++++++++++++++++++++
->  3 files changed, 131 insertions(+)
+> I can't apply this series on top of mainline or linux-next. On what tree
+> (and what commit) this series is based on? I'd like to do htmldocs test.
 > 
 
-> diff --git a/drivers/gpu/drm/i915/gt/intel_tlb.c b/drivers/gpu/drm/i915/gt/intel_tlb.c
-> index af8cae979489..16b918ffe824 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_tlb.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_tlb.c
-> @@ -145,6 +145,18 @@ static void mmio_invalidate_full(struct intel_gt *gt)
->  	intel_uncore_forcewake_put_delayed(uncore, FORCEWAKE_ALL);
->  }
->  
-> +/**
-> + * intel_gt_invalidate_tlb_full - do full TLB cache invalidation
-> + * @gt: GT structure
+The series should apply cleanly on commit 4a57a8400075 ("vf/remap: 
+return the amount of bytes actually deduplicated") from Linus's tree.
 
-In multiple places (here and below) it would be nice to know what a
-GT structure is. I looked thru multiple C and header files yesterday
-and didn't find any comments about it.
-
-Just saying that @gt is a GT structure isn't very helpful, other
-than making kernel-doc shut up.
-
-> + * @seqno: sequence number
-> + *
-> + * Do a full TLB cache invalidation if the @seqno is bigger than the last
-> + * full TLB cache invalidation.
-> + *
-> + * Note:
-> + * The TLB cache invalidation logic depends on GEN-specific registers.
-> + * It currently supports MMIO-based TLB flush for GEN8 to GEN12.
-> + */
->  void intel_gt_invalidate_tlb_full(struct intel_gt *gt, u32 seqno)
->  {
->  	intel_wakeref_t wakeref;
-> @@ -171,12 +183,25 @@ void intel_gt_invalidate_tlb_full(struct intel_gt *gt, u32 seqno)
->  	}
->  }
->  
-> +/**
-> + * intel_gt_init_tlb - initialize TLB-specific vars
-> + * @gt: GT structure
-> + *
-> + * TLB cache invalidation logic internally uses some resources that require
-> + * initialization. Should be called before doing any TLB cache invalidation.
-> + */
->  void intel_gt_init_tlb(struct intel_gt *gt)
->  {
->  	mutex_init(&gt->tlb.invalidate_lock);
->  	seqcount_mutex_init(&gt->tlb.seqno, &gt->tlb.invalidate_lock);
->  }
->  
-> +/**
-> + * intel_gt_fini_tlb - free TLB-specific vars
-> + * @gt: GT structure
-> + *
-> + * Frees any resources needed by TLB cache invalidation logic.
-> + */
->  void intel_gt_fini_tlb(struct intel_gt *gt)
->  {
->  	mutex_destroy(&gt->tlb.invalidate_lock);
-> diff --git a/drivers/gpu/drm/i915/gt/intel_tlb.h b/drivers/gpu/drm/i915/gt/intel_tlb.h
-> index 46ce25bf5afe..2838c051f872 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_tlb.h
-> +++ b/drivers/gpu/drm/i915/gt/intel_tlb.h
-> @@ -11,16 +11,115 @@
->  
->  #include "intel_gt_types.h"
->  
-> +/**
-> + * DOC: TLB cache invalidation logic
-> + *
-...
-> +
->  void intel_gt_invalidate_tlb_full(struct intel_gt *gt, u32 seqno);
->  
->  void intel_gt_init_tlb(struct intel_gt *gt);
->  void intel_gt_fini_tlb(struct intel_gt *gt);
->  
-> +/**
-> + * intel_gt_tlb_seqno - Returns the current TLB invlidation sequence number
-> + * @gt: GT structure
-> + *
-> + * There's no need to lock while calling it, as seqprop_sequence is thread-safe
-> + */
->  static inline u32 intel_gt_tlb_seqno(const struct intel_gt *gt)
->  {
->  	return seqprop_sequence(&gt->tlb.seqno);
->  }
->  
-> +/**
-> + * intel_gt_next_invalidate_tlb_full - Returns the next TLB full invalidation
-> + *	sequence number
-> + * @gt: GT structure
-> + *
-> + * There's no need to lock while calling it, as seqprop_sequence is thread-safe
-> + */
->  static inline u32 intel_gt_next_invalidate_tlb_full(const struct intel_gt *gt)
->  {
->  	return intel_gt_tlb_seqno(gt) | 1;
-
-thanks.
-
--- 
-~Randy
+> Thanks.
+> 
