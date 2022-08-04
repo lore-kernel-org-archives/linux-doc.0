@@ -2,91 +2,155 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 349ADC3F6B0
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Aug 2022 13:35:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D325AC19F2A
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Aug 2022 13:51:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239938AbiHDNft (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 4 Aug 2022 09:35:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40330 "EHLO
+        id S240000AbiHDNvs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 4 Aug 2022 09:51:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50912 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239915AbiHDNfp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Aug 2022 09:35:45 -0400
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79FDC3B972;
-        Thu,  4 Aug 2022 06:35:44 -0700 (PDT)
-Received: from fraeml711-chm.china.huawei.com (unknown [172.18.147.207])
-        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Lz8kJ2RzGz67NKF;
-        Thu,  4 Aug 2022 21:30:48 +0800 (CST)
-Received: from lhrpeml500005.china.huawei.com (7.191.163.240) by
- fraeml711-chm.china.huawei.com (10.206.15.60) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Thu, 4 Aug 2022 15:35:42 +0200
-Received: from localhost (10.202.226.42) by lhrpeml500005.china.huawei.com
- (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Thu, 4 Aug
- 2022 14:35:41 +0100
-Date:   Thu, 4 Aug 2022 14:35:40 +0100
-From:   Jonathan Cameron <Jonathan.Cameron@huawei.com>
-To:     Bagas Sanjaya <bagasdotme@gmail.com>
-CC:     <linux-doc@vger.kernel.org>, <linux-cxl@vger.kernel.org>,
-        <linux-next@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Alison Schofield <alison.schofield@intel.com>,
-        "Vishal Verma" <vishal.l.verma@intel.com>,
-        Ira Weiny <ira.weiny@intel.com>,
-        "Ben Widawsky" <bwidawsk@kernel.org>,
-        Dan Williams <dan.j.williams@intel.com>
-Subject: Re: [PATCH 2/3] cxl/region: describe targets and nr_targets members
- of cxl_region_params
-Message-ID: <20220804143540.000041c2@huawei.com>
-In-Reply-To: <20220804075448.98241-3-bagasdotme@gmail.com>
-References: <20220804075448.98241-1-bagasdotme@gmail.com>
-        <20220804075448.98241-3-bagasdotme@gmail.com>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; i686-w64-mingw32)
+        with ESMTP id S240005AbiHDNvk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Aug 2022 09:51:40 -0400
+Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33EC9193C1
+        for <linux-doc@vger.kernel.org>; Thu,  4 Aug 2022 06:51:39 -0700 (PDT)
+Received: by mail-pl1-x636.google.com with SMTP id z19so19395957plb.1
+        for <linux-doc@vger.kernel.org>; Thu, 04 Aug 2022 06:51:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=zD3BFnts15iHCWRPhU8Gog+NmQ8cf5xvVsVfiuX4De0=;
+        b=b4Os43C6zAFVcQDrf81Rv4I14peZHBpxPHbuzw/tn6Xt6vcEPzx/MDxvcsgBz/k3pF
+         Ud8rYDGlvKEV5xE1EAgv/vECXgT+weHHFj4avDCpDfGGk+sO8n5NbivCvkI7W1sfveYO
+         oS/F/KV7FWRRJ0hciFdksYAl/U8a1lBHE1NJuq1BN9ivJlmF0p6bCNALwXr44pQHbmgy
+         o3y3sA2IpTktoadQBylIQavSHbDuu3ZbBrK304Dfjq70B4f4D5QlUj893p/iYWz9Pf0A
+         pxq/q2tQVM+E91JOPQOoy7WwRQDTOJPMfnNjnqQuNyYuLzrvq0UBBf0x6V/TWeCVsRj6
+         S2Ig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=zD3BFnts15iHCWRPhU8Gog+NmQ8cf5xvVsVfiuX4De0=;
+        b=D1nYrcRX+JjtdYksrmmpl+VkN4O9SXH0c6nIMUekX6gqezVft957cOoeQ/6Aao7nS0
+         AvNq08zUqw3HA1HMXzj1Ie7z9gBXWGL6K9kaAP+f3V+ijY1g4ZHErYDZQa/UASVz3JI9
+         rpB0hkM0B75wIWHm5Zxu+rFaP4MOv9XhLnCKLvRt/2nKjIvMS2u4e0N5C+xcrdowRcQE
+         GHMXLTuoQY9OTuXx0Vg3N+MoypCU+FpObdeVWGNnrgZ4YaCI6IIEG6yV1z8u7xsY/Vyx
+         zsz4Yo12vbpL5f8RewreWELRenLiWdwvczCNoboE+09ioEpck7yei34CILqbDj99YVsz
+         pLvg==
+X-Gm-Message-State: ACgBeo3JTLB+dHueWwXHhmuNyzmbMdmOOOvZpfLlEbgJfS775OY9aot4
+        gB8hviifyZMpU+EL2YpZYWRLDw==
+X-Google-Smtp-Source: AA6agR6K+4+6LuC7G5BQ1B5QYUcEO3ystRbiiSbPk85O+0hba2twThU42ORCydz3NXR9yWNuateAmw==
+X-Received: by 2002:a17:90b:1e0f:b0:1f5:37f5:159c with SMTP id pg15-20020a17090b1e0f00b001f537f5159cmr2230830pjb.189.1659621098633;
+        Thu, 04 Aug 2022 06:51:38 -0700 (PDT)
+Received: from [10.4.84.52] ([139.177.225.240])
+        by smtp.gmail.com with ESMTPSA id r7-20020a634407000000b0041c9a4001ebsm1154689pga.21.2022.08.04.06.51.34
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 04 Aug 2022 06:51:38 -0700 (PDT)
+Message-ID: <f8444db4-3235-d108-698a-6772e03a6b67@bytedance.com>
+Date:   Thu, 4 Aug 2022 21:51:31 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.1.0
+Subject: Re: [PATCH 8/9] sched/psi: add kernel cmdline parameter
+ psi_inner_cgroup
+Content-Language: en-US
+To:     Johannes Weiner <hannes@cmpxchg.org>, Tejun Heo <tj@kernel.org>
+Cc:     surenb@google.com, mingo@redhat.com, peterz@infradead.org,
+        corbet@lwn.net, akpm@linux-foundation.org, rdunlap@infradead.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        songmuchun@bytedance.com, cgroups@vger.kernel.org
+References: <20220721040439.2651-1-zhouchengming@bytedance.com>
+ <20220721040439.2651-9-zhouchengming@bytedance.com>
+ <Yt7KQc0nnOypB2b2@cmpxchg.org> <YuAqWprKd6NsWs7C@slm.duckdns.org>
+ <5a3410d6-428d-9ad1-3e5a-01ca805ceeeb@bytedance.com>
+ <Yuq3Q6Y9dRnjjcPt@slm.duckdns.org> <YurK6MXdJPrV2VYS@cmpxchg.org>
+From:   Chengming Zhou <zhouchengming@bytedance.com>
+In-Reply-To: <YurK6MXdJPrV2VYS@cmpxchg.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.202.226.42]
-X-ClientProxiedBy: lhreml731-chm.china.huawei.com (10.201.108.82) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
-X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu,  4 Aug 2022 14:54:47 +0700
-Bagas Sanjaya <bagasdotme@gmail.com> wrote:
-
-> Sphinx reported undescribed parameters in cxl_region_params struct:
+On 2022/8/4 03:22, Johannes Weiner wrote:
+> On Wed, Aug 03, 2022 at 07:58:27AM -1000, Tejun Heo wrote:
+>> Hello,
+>>
+>> On Wed, Aug 03, 2022 at 08:17:22PM +0800, Chengming Zhou wrote:
+>>>> Assuming the above isn't wrong, if we can figure out how we can re-enable
+>>>> it, which is more difficult as the counters need to be resynchronized with
+>>>> the current state, that'd be ideal. Then, we can just allow each cgroup to
+>>>> enable / disable PSI reporting dynamically as they see fit.
+>>>
+>>> This method is more fine-grained but more difficult like you said above.
+>>> I think it may meet most needs to disable PSI stats in intermediate cgroups?
+>>
+>> So, I'm not necessarily against implementing something easier but we at
+>> least wanna get the interface right, so that if we decide to do the full
+>> thing later we can easily expand on the existing interface. ie. let's please
+>> not be too hacky. I don't think it'd be that difficult to implement
+>> per-cgroup disable-only operation that we can later expand to allow
+>> re-enabling, right?
 > 
-> ./drivers/cxl/cxl.h:376: warning: Function parameter or member 'targets' not described in 'cxl_region_params'
-> ./drivers/cxl/cxl.h:376: warning: Function parameter or member 'nr_targets' not described in 'cxl_region_params'
+> It should be relatively straight-forward to disable and re-enable
+> state aggregation, time tracking, averaging on a per-cgroup level, if
+> we can live with losing history from while it was disabled. I.e. the
+> avgs will restart from 0, total= will have gaps - should be okay, IMO.
 > 
-> Describe these members.
+> Where it gets trickier is also stopping the tracking of task counts in
+> a cgroup. For re-enabling afterwards, we'd have to freeze scheduler
+> and cgroup state and find all tasks of interest across all CPUs for
+> the given cgroup to recreate the counts. I'm not quite sure whether
+> that's feasible, and if so, whether it's worth the savings.
 > 
-> Fixes: dd5ba0ebbdc414 ("cxl/region: Add a 'uuid' attribute")
-That seems unlikely to be right tag. Probably b9686e8c8e39
-
-With that tidied up.
-
-Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-
-> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> ---
->  drivers/cxl/cxl.h | 2 ++
->  1 file changed, 2 insertions(+)
+> It might be good to benchmark the two disabling steps independently.
+> Maybe stopping aggregation while keeping task counts is good enough,
+> and we can commit to a disable/re-enable interface from the start.
 > 
-> diff --git a/drivers/cxl/cxl.h b/drivers/cxl/cxl.h
-> index 75674400cc8d41..65aaf15aa17e29 100644
-> --- a/drivers/cxl/cxl.h
-> +++ b/drivers/cxl/cxl.h
-> @@ -362,6 +362,8 @@ enum cxl_config_state {
->   * @interleave_ways: number of endpoints in the region
->   * @interleave_granularity: capacity each endpoint contributes to a stripe
->   * @res: allocated iomem capacity for this region
-> + * @targets: active ordered targets in current decoder configuration
-> + * @nr_targets: number of targets
->   *
->   * State transitions are protected by the cxl_region_rwsem
->   */
+> Or maybe it's all in the cachelines and iteration, and stopping the
+> aggregation while still writing task counts isn't saving much. In that
+> case we'd have to look closer at reconstructing task counts, to see if
+> later re-enabling is actually a practical option or whether a one-off
+> kill switch is more realistic.
+> 
+> Chengming, can you experiment with disabling: record_times(), the
+> test_state() loop and state_mask construction, and the averaging
+> worker - while keeping the groupc->tasks updates?
+
+Hello,
+
+I did this experiment today with disabling record_times(), test_state()
+loop and averaging worker, while only keeping groupc->tasks[] updates,
+the results look promising.
+
+mmtests/config-scheduler-perfpipe on Intel Xeon Platinum with 3 levels of cgroup:
+
+perfpipe
+                                  tip                    tip                patched
+                              psi=off                 psi=on      only groupc->tasks[]
+Min       Time        7.99 (   0.00%)        8.86 ( -10.95%)        8.31 (  -4.08%)
+1st-qrtle Time        8.11 (   0.00%)        8.94 ( -10.22%)        8.39 (  -3.46%)
+2nd-qrtle Time        8.17 (   0.00%)        9.02 ( -10.42%)        8.44 (  -3.37%)
+3rd-qrtle Time        8.20 (   0.00%)        9.08 ( -10.72%)        8.48 (  -3.43%)
+Max-1     Time        7.99 (   0.00%)        8.86 ( -10.95%)        8.31 (  -4.08%)
+Max-5     Time        7.99 (   0.00%)        8.86 ( -10.95%)        8.31 (  -4.08%)
+Max-10    Time        8.09 (   0.00%)        8.89 (  -9.96%)        8.35 (  -3.22%)
+Max-90    Time        8.31 (   0.00%)        9.13 (  -9.90%)        8.55 (  -2.95%)
+Max-95    Time        8.32 (   0.00%)        9.14 (  -9.88%)        8.55 (  -2.81%)
+Max-99    Time        8.39 (   0.00%)        9.26 ( -10.30%)        8.57 (  -2.09%)
+Max       Time        8.56 (   0.00%)        9.26 (  -8.23%)        8.72 (  -1.90%)
+Amean     Time        8.19 (   0.00%)        9.03 * -10.26%*        8.45 *  -3.27%*
+
+
+Tejun suggested using a bitmap in task to remember whether the task is accounted
+at a given level or not, which I think also is a very good idea, but I haven't
+clearly figure out how to do it.
+
+The above performance test result looks good to me, so I think we can implement this
+per-cgroup "cgroup.psi" interface to disable/re-enable PSI stats from the start,
+and we can change to a better implementation if needed later?
+
+Thanks!
 
