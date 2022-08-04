@@ -2,147 +2,327 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1AD67C19F2C
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Aug 2022 07:10:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CCAE8C00144
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Aug 2022 07:24:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236920AbiHDHKx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 4 Aug 2022 03:10:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39610 "EHLO
+        id S231463AbiHDHYb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 4 Aug 2022 03:24:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46734 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230001AbiHDHKv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Aug 2022 03:10:51 -0400
-Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com [IPv6:2607:f8b0:4864:20::531])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 550862CE04;
-        Thu,  4 Aug 2022 00:10:47 -0700 (PDT)
-Received: by mail-pg1-x531.google.com with SMTP id j17so2849222pgl.5;
-        Thu, 04 Aug 2022 00:10:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=Msx+MTdWqnPNVUHp+3FfvLfdSxDAnztRmbALqvTfmJc=;
-        b=ee2B6ZmuD7w/b216B4sfnS7nxgF19nbbPD5seH0PzGR35P0l0m9VVe9qFY5joUzJwv
-         iGIgbUoJeOoPnK8RYddMDCWsam2EAdTDUk+2AAnJFInausC/w4mQ2e9JWHj5oNqpLmJM
-         ZmraEjxD8qh3F/SCH81nNk09N2xF+KP95AbrPc1phVtNBvj5AX3qcNeulUAWJ7Hymogk
-         VqWvw5PYeg9pv95ntmSIiWZUY7COS9mMSx+VnBuEmtTMpgIUnMguWM3fOELjfqr08cB9
-         YBCc9XKnWP8+/2JP25FF31wt0Z5iUujxqEQEuxCTiUrEDXf51d/LCk8VLAdiABIOIjqV
-         3uTw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=Msx+MTdWqnPNVUHp+3FfvLfdSxDAnztRmbALqvTfmJc=;
-        b=MT1h+TG2A44d4eNya5+1LTqanxdXxxTxNmEerBcgl7JFD9bC9Q75X89Yfb0Lvfmuml
-         qTfgFiq8DTX73f1YH6q1rgqdvursgeQ3bZ9lNhfir1eK0PdLTJ7YkaUMCZSER93WhTSi
-         oEOyDEgF9cyWSqNo4YrdBh/iOUfGGRJK6n80smwonPR/wzJIZhTjWCRSDkIKHHpalrw/
-         VP5bGqjaN2tpfwrB0A4d2YoxLn2AJQgdU5bUeuiWmWDUhi2LfxpOsi+TLR6mQryo+FuG
-         /33rK0j0lMQN1Y29cy+68KPXAkUZVxG2EF9jFsjNaf9xt8pDf4jIQ+yZxV+4/JJdtjFF
-         GoPQ==
-X-Gm-Message-State: ACgBeo3+WmETvhCNOpd8cbLkeWTKEUIVfAZjqWbDfwJWrqws9MwBYB84
-        VQ3Xv9EGg91MSI3jdewWT1k=
-X-Google-Smtp-Source: AA6agR4epr3dQoXSYo3tVKgoUy+uKNO2hxFagEdJ8l6v4De0QEoIfT716hYj4Pnm1/vc1DQPzChKgQ==
-X-Received: by 2002:a63:e343:0:b0:41c:d5cd:a39 with SMTP id o3-20020a63e343000000b0041cd5cd0a39mr562084pgj.512.1659597046489;
-        Thu, 04 Aug 2022 00:10:46 -0700 (PDT)
-Received: from localhost ([192.55.54.49])
-        by smtp.gmail.com with ESMTPSA id n15-20020a056a00212f00b0052deda6e3d2sm137803pfj.98.2022.08.04.00.10.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Aug 2022 00:10:45 -0700 (PDT)
-Date:   Thu, 4 Aug 2022 00:10:44 -0700
-From:   Isaku Yamahata <isaku.yamahata@gmail.com>
-To:     Chao Peng <chao.p.peng@linux.intel.com>
-Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
-        qemu-devel@nongnu.org, linux-kselftest@vger.kernel.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
+        with ESMTP id S229794AbiHDHYb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Aug 2022 03:24:31 -0400
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 065D660517;
+        Thu,  4 Aug 2022 00:24:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1659597870; x=1691133870;
+  h=date:from:to:cc:subject:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=XFXZ6nPS/wW61CR4TyXoN1VHQPghXBw2a0IwCOPSs/A=;
+  b=cSoZ0f3v1mDNE79CnTZajoMmbQ5mhkNSAxfl27SZZsIuJoqqy2t8kPox
+   NX9MKybbp+TDlcO3qIPmIaB8lFUwnmyLUXDbq63Leo8yu9gPbfgkGW/uu
+   //6qOjdWspPvrlklQ+s/BmnLCggCU+0TQ0uXyuXQ3sy/8R+8ny+OmuuHr
+   aAaK/yJ0sCVYfPtWJDIR+Cfri4J4Wwa9fT+xb2wYnAEhMJWOMsygReIA+
+   ceeTAJlGgxfMF3EbldGZ6XwpHYx1VyHROcaKerMaMLQE6H9oYHSEQAz4E
+   sbCxIQtvfEG/HWQwGHPe04NoBhVXvZa0bs0a/PAZ2HPXgoU96o6TV7rbQ
+   A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10428"; a="289872205"
+X-IronPort-AV: E=Sophos;i="5.93,215,1654585200"; 
+   d="scan'208";a="289872205"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2022 00:24:29 -0700
+X-IronPort-AV: E=Sophos;i="5.93,215,1654585200"; 
+   d="scan'208";a="662415569"
+Received: from maurocar-mobl2.ger.corp.intel.com (HELO maurocar-mobl2) ([10.252.62.103])
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2022 00:24:26 -0700
+Date:   Thu, 4 Aug 2022 09:24:24 +0200
+From:   Mauro Carvalho Chehab <mauro.chehab@linux.intel.com>
+To:     Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Chris Wilson <chris.p.wilson@intel.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <seanjc@google.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        Muchun Song <songmuchun@bytedance.com>,
-        isaku.yamahata@gmail.com
-Subject: Re: [PATCH v7 07/14] KVM: Use gfn instead of hva for
- mmu_notifier_retry
-Message-ID: <20220804071044.GA4091749@ls.amr.corp.intel.com>
-References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
- <20220706082016.2603916-8-chao.p.peng@linux.intel.com>
+        David Airlie <airlied@linux.ie>,
+        intel-gfx@lists.freedesktop.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>
+Subject: Re: [Intel-gfx] [PATCH v2 2/2] drm/i915/gt: document TLB cache
+ invalidation functions
+Message-ID: <20220804092424.6a7f1772@maurocar-mobl2>
+In-Reply-To: <20220802223042.GL14039@nvishwa1-DESK>
+References: <cover.1659077372.git.mchehab@kernel.org>
+        <ebb5f34f223626038f241fdf00a0dcfd33a19606.1659077372.git.mchehab@kernel.org>
+        <20220802223042.GL14039@nvishwa1-DESK>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220706082016.2603916-8-chao.p.peng@linux.intel.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Jul 06, 2022 at 04:20:09PM +0800,
-Chao Peng <chao.p.peng@linux.intel.com> wrote:
+On Tue, 2 Aug 2022 15:30:44 -0700
+Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com> wrote:
 
-> diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
-> index 0bdb6044e316..e9153b54e2a4 100644
-> --- a/include/linux/kvm_host.h
-> +++ b/include/linux/kvm_host.h
-> @@ -1362,10 +1362,8 @@ void kvm_mmu_free_memory_cache(struct kvm_mmu_memory_cache *mc);
->  void *kvm_mmu_memory_cache_alloc(struct kvm_mmu_memory_cache *mc);
->  #endif
->  
-> -void kvm_inc_notifier_count(struct kvm *kvm, unsigned long start,
-> -				   unsigned long end);
-> -void kvm_dec_notifier_count(struct kvm *kvm, unsigned long start,
-> -				   unsigned long end);
-> +void kvm_inc_notifier_count(struct kvm *kvm, gfn_t start, gfn_t end);
-> +void kvm_dec_notifier_count(struct kvm *kvm, gfn_t start, gfn_t end);
->  
->  long kvm_arch_dev_ioctl(struct file *filp,
->  			unsigned int ioctl, unsigned long arg);
+> On Fri, Jul 29, 2022 at 09:03:55AM +0200, Mauro Carvalho Chehab wrote:
+> >Add a description for the TLB cache invalidation algorithm and for
+> >the related kAPI functions.
+> >
+> >Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+> >---
+> >
+> >To avoid mailbombing on a large number of people, only mailing lists were C/C on the cover.
+> >See [PATCH v2 0/2] at: https://lore.kernel.org/all/cover.1659077372.git.mchehab@kernel.org/
+> >
+> > Documentation/gpu/i915.rst          |   7 ++
+> > drivers/gpu/drm/i915/gt/intel_tlb.c |  25 +++++++
+> > drivers/gpu/drm/i915/gt/intel_tlb.h | 101 ++++++++++++++++++++++++++++
+> > 3 files changed, 133 insertions(+)
+> >
+> >diff --git a/Documentation/gpu/i915.rst b/Documentation/gpu/i915.rst
+> >index 4e59db1cfb00..46911fdd79e8 100644
+> >--- a/Documentation/gpu/i915.rst
+> >+++ b/Documentation/gpu/i915.rst
+> >@@ -58,6 +58,13 @@ Intel GVT-g Host Support(vGPU device model)
+> > .. kernel-doc:: drivers/gpu/drm/i915/intel_gvt.c
+> >    :internal:
+> >
+> >+TLB cache invalidation
+> >+----------------------
+> >+
+> >+.. kernel-doc:: drivers/gpu/drm/i915/gt/intel_tlb.h
+> >+
+> >+.. kernel-doc:: drivers/gpu/drm/i915/gt/intel_tlb.c
+> >+
+> > Workarounds
+> > -----------
+> >
+> >diff --git a/drivers/gpu/drm/i915/gt/intel_tlb.c b/drivers/gpu/drm/i915/gt/intel_tlb.c
+> >index af8cae979489..4873b7ecc015 100644
+> >--- a/drivers/gpu/drm/i915/gt/intel_tlb.c
+> >+++ b/drivers/gpu/drm/i915/gt/intel_tlb.c
+> >@@ -145,6 +145,18 @@ static void mmio_invalidate_full(struct intel_gt *gt)
+> > 	intel_uncore_forcewake_put_delayed(uncore, FORCEWAKE_ALL);
+> > }
+> >
+> >+/**
+> >+ * intel_gt_invalidate_tlb_full - do full TLB cache invalidation
+> >+ * @gt: GT structure
+> >+ * @seqno: sequence number
+> >+ *
+> >+ * Do a full TLB cache invalidation if the @seqno is bigger than the last
+> >+ * full TLB cache invalidation.
+> >+ *
+> >+ * Note:
+> >+ * The TLB cache invalidation logic depends on GEN-specific registers.
+> >+ * It currently supports MMIO-based TLB flush for GEN8 to GEN12.
+> >+ */
+> > void intel_gt_invalidate_tlb_full(struct intel_gt *gt, u32 seqno)
+> > {
+> > 	intel_wakeref_t wakeref;
+> >@@ -171,12 +183,25 @@ void intel_gt_invalidate_tlb_full(struct intel_gt *gt, u32 seqno)
+> > 	}
+> > }
+> >
+> >+/**
+> >+ * intel_gt_init_tlb - initialize TLB-specific vars
+> >+ * @gt: GT structure
+> >+ *
+> >+ * TLB cache invalidation logic internally uses some resources that require
+> >+ * initialization. Should be called before doing any TLB cache invalidation.
+> >+ */
+> > void intel_gt_init_tlb(struct intel_gt *gt)
+> > {
+> > 	mutex_init(&gt->tlb.invalidate_lock);
+> > 	seqcount_mutex_init(&gt->tlb.seqno, &gt->tlb.invalidate_lock);
+> > }
+> >
+> >+/**
+> >+ * intel_gt_fini_tlb - initialize TLB-specific vars  
+> 
+> Free TLB-specific vars
 
-The corresponding changes in kvm_main.c are missing.
+OK.
 
-diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
-index b2c79bef61bd..0184e327f6f5 100644
---- a/virt/kvm/kvm_main.c
-+++ b/virt/kvm/kvm_main.c
-@@ -711,8 +711,7 @@ static void kvm_mmu_notifier_change_pte(struct mmu_notifier *mn,
-        kvm_handle_hva_range(mn, address, address + 1, pte, kvm_set_spte_gfn);
- }
- 
--void kvm_inc_notifier_count(struct kvm *kvm, unsigned long start,
--                                  unsigned long end)
-+void kvm_inc_notifier_count(struct kvm *kvm, gfn_t start, gfn_t end)
- {
-        /*
-         * The count increase must become visible at unlock time as no
-@@ -786,8 +785,7 @@ static int kvm_mmu_notifier_invalidate_range_start(struct mmu_notifier *mn,
-        return 0;
- }
- 
--void kvm_dec_notifier_count(struct kvm *kvm, unsigned long start,
--                                  unsigned long end)
-+void kvm_dec_notifier_count(struct kvm *kvm, gfn_t start, gfn_t end)
- {
-        /*
-         * This sequence increase will notify the kvm page fault that
+> 
+> >+ * @gt: GT structure
+> >+ *
+> >+ * Frees any resources needed by TLB cache invalidation logic.
+> >+ */
+> > void intel_gt_fini_tlb(struct intel_gt *gt)
+> > {
+> > 	mutex_destroy(&gt->tlb.invalidate_lock);
+> >diff --git a/drivers/gpu/drm/i915/gt/intel_tlb.h b/drivers/gpu/drm/i915/gt/intel_tlb.h
+> >index 46ce25bf5afe..dca70c33bd61 100644
+> >--- a/drivers/gpu/drm/i915/gt/intel_tlb.h
+> >+++ b/drivers/gpu/drm/i915/gt/intel_tlb.h
+> >@@ -11,16 +11,117 @@
+> >
+> > #include "intel_gt_types.h"
+> >
+> >+/**
+> >+ * DOC: TLB cache invalidation logic
+> >+ *
+> >+ * The way the current algorithm works is that a struct drm_i915_gem_object can
+> >+ * be created on any order. At unbind/evict time, the object is warranted that
+> >+ * it won't be used anymore. So, a sequence number provided by
+> >+ * intel_gt_next_invalidate_tlb_full() is stored on it. This can happen either
+> >+ * at __vma_put_pages() - for VMA sync unbind, or at ppgtt_unbind_vma() - for
+> >+ * VMA async VMA bind.
+> >+ *
+> >+ * At __i915_gem_object_unset_pages(), intel_gt_invalidate_tlb_full() is called,
+> >+ * where it checks if the sequence number of the object was already invalidated
+> >+ * or not. If not, it flushes the TLB and increments the sequence number::
+> >+ *
+> >+ *   void intel_gt_invalidate_tlb_full(struct intel_gt *gt, u32 seqno)
+> >+ *   {
+> >+ *   ...
+> >+ * 	with_intel_gt_pm_if_awake(gt, wakeref) {
+> >+ * 		mutex_lock(&gt->tlb.invalidate_lock);
+> >+ * 		if (tlb_seqno_passed(gt, seqno))
+> >+ * 				goto unlock;
+> >+ *
+> >+ * 		// Some code to do TLB invalidation
+> >+ *   ...
+> >+ *
+> >+ * 		write_seqcount_invalidate(&gt->tlb.seqno); // increment seqno
+> >+ * 		mutex_lock(&gt->tlb.invalidate_lock);
+> >+ *      }
+> >+ *
+> >+ * So, let's say the current seqno is 2 and 3 new objects were created,
+> >+ * on this order::
+> >+ *
+> >+ * 	obj1
+> >+ * 	obj2
+> >+ * 	obj3
+> >+ *
+> >+ * They can be unbind/evict on a different order. At unbind/evict time,
+> >+ * the mm.tlb will be stamped with the sequence number, using the number
+> >+ * from the last TLB flush, plus 1.  
+> 
+> I am trying to get my head around the below function.
+> 
+> void vma_invalidate_tlb(struct i915_address_space *vm, u32 tlb)
+> {
+>         WRITE_ONCE(tlb, intel_gt_next_invalidate_tlb_full(vm->gt));
+> }
+> 
+> Though we pass obj->mm.tlb for 'tlb' while calling this function,
+> aren't we writing to local 'tlb' variable here instead of obj->mm.tlb?
 
+It should be passing a pointer. I wrote such fix after a review,
+but somehow it ended getting lost. I'll send the fix at v3.
 
--- 
-Isaku Yamahata <isaku.yamahata@gmail.com>
+> >+ *
+> >+ * Different threads may be used on unbind/evict and/or unset pages.
+> >+ * As the logic at void intel_gt_invalidate_tlb_full() is protected by a mutex,  
+> 
+> May be we can skip 'void' and just keep function name here.
+
+Sure.
+
+> >+ * for simplicity, let's consider just two threads:
+> >+ *
+> >+ * +-------------------+-------------------------+---------------------------------+
+> >+ * | sequence number   | Thread 0                | Thread 1                        +
+> >+ * +===================+=========================+=================================+
+> >+ * | seqno=2           |                         |                                 |
+> >+ * |                   +-------------------------+---------------------------------+
+> >+ * |                   | unbind/evict obj3.      |                                 |
+> >+ * |                   |                         |                                 |
+> >+ * |                   | obj3.mm.tlb = seqno | 1 |                                 |
+> >+ * |                   | // obj3.mm.tlb = 3      |                                 |
+> >+ * |                   +-------------------------+---------------------------------+
+> >+ * |                   | unbind/evict obj1.      |                                 |
+> >+ * |                   |                         |                                 |
+> >+ * |                   | obj1.mm.tlb = seqno | 1 |                                 |
+> >+ * |                   | // obj1.mm.tlb = 3      |                                 |
+> >+ * |                   +-------------------------+---------------------------------+
+> >+ * |                   |                         | __i915_gem_object_unset_pages() |
+> >+ * |                   |                         | called for obj3 => TLB flush    |
+> >+ * |                   |                         | invalidating both obj1 and obj2.|
+> >+ * |                   |                         |                                 |
+> >+ * |                   |                         | seqno += 2                      |
+> >+ * +-------------------+-------------------------+---------------------------------+
+> >+ * | seqno=4           |                         |                                 |
+> >+ * |                   +-------------------------+---------------------------------+
+> >+ * |                   | unbind/evict obj2.      |                                 |
+> >+ * |                   |                         |                                 |
+> >+ * |                   | obj2.mm.tlb = seqno | 1 |                                 |
+> >+ * |                   | // obj2.mm.tlb = 5      |                                 |
+> >+ * |                   +-------------------------+---------------------------------+
+> >+ * |                   |                         | __i915_gem_object_unset_pages() |
+> >+ * |                   |                         | called for obj1, don't flush    |
+> >+ * |                   |                         | as past flush invalidated obj1. |
+> >+ * |                   +-------------------------+---------------------------------+
+> >+ * |                   |                         | __i915_gem_object_unset_pages() |
+> >+ * |                   |                         | called for obj2 => TLB flush.   |
+> >+ * |                   |                         | invalidating obj2.              |
+> >+ * |                   |                         |                                 |
+> >+ * |                   |                         | seqno += 2                      |
+> >+ * +-------------------+-------------------------+---------------------------------+
+> >+ * | seqno=6           |                         |                                 |
+> >+ * +-------------------+-------------------------+---------------------------------+
+> >+ */
+> >+
+> > void intel_gt_invalidate_tlb_full(struct intel_gt *gt, u32 seqno);
+> >
+> > void intel_gt_init_tlb(struct intel_gt *gt);
+> > void intel_gt_fini_tlb(struct intel_gt *gt);
+> >
+> >+/**
+> >+ * intel_gt_tlb_seqno - Returns the current TLB invlidation sequence number
+> >+ *  
+> 
+> Probably this empty comment line needs to be removed before the parameter
+> description below?
+
+Kernel-doc actually accepts both with or without a blank line. My
+personal preference is to place a blank line, because sometimes the
+function description plus function name is bigger than one line.
+So, it is usually clearer when adding a blank line than doing
+something like this (perfectly valid kerneldoc markup):
+
+	/**
+	 * long_function_name_foo - Lorem ipsum dolor sit amet, consectetur
+	 * adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore.
+	 * @bar: some parameter
+	 *  ...
+
+But yeah, kernel-doc documentation example doesn't have a blank
+line. So, I'll drop it.
+
+> 
+> >+ * @gt: GT structure
+> >+ *
+> >+ * There's no need to lock while calling it, as seqprop_sequence is thread-safe
+> >+ */
+> > static inline u32 intel_gt_tlb_seqno(const struct intel_gt *gt)
+> > {
+> > 	return seqprop_sequence(&gt->tlb.seqno);
+> > }
+> >
+> >+/**
+> >+ * intel_gt_next_invalidate_tlb_full - Returns the next TLB full invalidation
+> >+ *	sequence number
+> >+ *  
+> 
+> Same here.
+> 
+> -Niranjana
+> 
+> >+ * @gt: GT structure
+> >+ *
+> >+ * There's no need to lock while calling it, as seqprop_sequence is thread-safe
+> >+ */
+> > static inline u32 intel_gt_next_invalidate_tlb_full(const struct intel_gt *gt)
+> > {
+> > 	return intel_gt_tlb_seqno(gt) | 1;
+> >-- 
+> >2.36.1
+> >  
+
+Thanks!
+Mauro
