@@ -2,139 +2,132 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DEFE6C19F2B
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Aug 2022 08:27:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 518E9C19F2C
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Aug 2022 08:27:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237494AbiHDI1F (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 4 Aug 2022 04:27:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38522 "EHLO
+        id S239014AbiHDI16 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 4 Aug 2022 04:27:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38770 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235042AbiHDI1D (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Aug 2022 04:27:03 -0400
-Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com [IPv6:2607:f8b0:4864:20::434])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C4801275E;
-        Thu,  4 Aug 2022 01:27:02 -0700 (PDT)
-Received: by mail-pf1-x434.google.com with SMTP id d20so11297310pfq.5;
-        Thu, 04 Aug 2022 01:27:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc;
-        bh=xzya3EEe/6JYylod91x6WeKO85+rGgr8KWB4/fkcxRs=;
-        b=XvuVmJKEG0C1dlPIOSAvTQze7oZ2YPb9VLpcZXMGcxiKUbc4bmGSj8VE6Gq45ktneS
-         PaThxMtpW4qu8tkowEPKlxNX9Z7NRUWb/vPvlQoZFmayQ9p1Eam49aCSKFg9N3JHTG2K
-         trvehHpMumAZPlGN0mPKyytdBmeAyc+ZCdDjGCyF7zio70B4PlLEdtn0C//4FBJ6B5vM
-         VBwKOzjZJ9b6ahb4QEHFiB2o3Oj7jdmAsYy/r0jtEkRIipeJwypjYlOp2VPVZhSu0/b5
-         L1hxkL6Z5OonbnKSbkv1IA6XiYdV24vA9GQWb3CXhrNWDeFIIEJBKdkPi5FrXLEy18Dh
-         zQ1g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
-        bh=xzya3EEe/6JYylod91x6WeKO85+rGgr8KWB4/fkcxRs=;
-        b=0rYsHadh9NmMK0Q1bmTtQq6kO0qQvnxdQtBl/ok93TaNIZggyNfwvLfAzLGj/imvlU
-         NzODl5FzGmqgSVUKdl6jTfbaioy2dDp0U1bluHWwSdg4JyuQj5o2wWj58EM46N27K1ge
-         n/0sqwsbrSJ8XOWvbwauCzltHrW7jiYkazPUcYU3dTNl0J/oqxPsXld8qSkANuLFzsMl
-         7ZJNnObklSrP+bgdE0McZtQgysvma9ITjC1Gg88ppKBMyzQtm1x2hYUzU/4CjDr1U3Qs
-         icL/Us2zx5N1KCDZ/cUmjU8hzVm57/uvkvkgo0ljJ3DxNid6+FdukguR4l/m2+8X3SOV
-         3eCg==
-X-Gm-Message-State: ACgBeo04aCE0Be8EXq/78U51ZPnecuH6h5eBJ0cxS4R4Vk89/sFZh3eN
-        5Z3S4HFJOHwEzw6bFdDjaFU=
-X-Google-Smtp-Source: AA6agR55AQyYzN/vrL8QYskLo3qoQKJDAEEqsjk7HyuP/9jgXg5I9CZXhcTXrarZcKWKwvdSjG46XA==
-X-Received: by 2002:a63:e258:0:b0:41a:d92b:64f9 with SMTP id y24-20020a63e258000000b0041ad92b64f9mr750319pgj.148.1659601622103;
-        Thu, 04 Aug 2022 01:27:02 -0700 (PDT)
-Received: from debian.me (subs02-180-214-232-23.three.co.id. [180.214.232.23])
-        by smtp.gmail.com with ESMTPSA id s3-20020a170902ea0300b0016bf803341asm267477plg.146.2022.08.04.01.27.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Aug 2022 01:27:01 -0700 (PDT)
-Received: by debian.me (Postfix, from userid 1000)
-        id 2A4CB103A42; Thu,  4 Aug 2022 15:26:57 +0700 (WIB)
-Date:   Thu, 4 Aug 2022 15:26:56 +0700
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Elliot Berman <quic_eberman@quicinc.com>
-Cc:     Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Murali Nalajala <quic_mnalajal@quicinc.com>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
-        Carl van Schaik <quic_cvanscha@quicinc.com>,
-        Andy Gross <agross@kernel.org>,
-        linux-arm-kernel@lists.infradead.org,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Marc Zyngier <maz@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        with ESMTP id S235042AbiHDI15 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Aug 2022 04:27:57 -0400
+Received: from out2.migadu.com (out2.migadu.com [IPv6:2001:41d0:2:aacc::])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C554E1275E
+        for <linux-doc@vger.kernel.org>; Thu,  4 Aug 2022 01:27:56 -0700 (PDT)
+Date:   Thu, 4 Aug 2022 16:27:40 +0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+        t=1659601675;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=/WX5B31tQ907msGuYNjSL8T/0nXndja25We6EMCLAHo=;
+        b=qMJ1dt2eucb52n+/ODxKzbuArp5qhcrRjyDPdLTUeqBksxkqoy5qFXI46e2hBkDlZ3pF9a
+        sKWSUhbU1j2LkW7Ua6f4zsz7NsxqT1Xs8TIqQKPVvYSPcWpvNOmLxRPE2dU84iLpaykfCe
+        ElZ/XLHAe/W7dJnHoV60FFuU0xQYTv0=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From:   Wu XiangCheng <wu.xiangcheng@linux.dev>
+To:     YanTeng Si <siyanteng@loongson.cn>
+Cc:     Alex Shi <alexs@kernel.org>, Li Yang <leoyang.li@nxp.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Will Deacon <will@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org
-Subject: Re: [PATCH v2 00/11] Drivers for gunyah hypervisor
-Message-ID: <YuuC0NISKFVIhUD1@debian.me>
-References: <20220801211240.597859-1-quic_eberman@quicinc.com>
+        linux-doc <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH 0/2] docs/zh_CN: Update two file in zh_CN/process to 5.19
+Message-ID: <YuuC/A1blhskY+OR@bobwxc.mipc>
+References: <cover.1659406843.git.bobwxc@email.cn>
+ <42fd6e8d-62ab-911c-f84c-9b47eacd9b4d@loongson.cn>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220801211240.597859-1-quic_eberman@quicinc.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <42fd6e8d-62ab-911c-f84c-9b47eacd9b4d@loongson.cn>
+X-Migadu-Flow: FLOW_OUT
+X-Migadu-Auth-User: linux.dev
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Aug 01, 2022 at 02:12:29PM -0700, Elliot Berman wrote:
-> Gunyah is a Type-1 hypervisor independent of any
-> high-level OS kernel, and runs in a higher CPU privilege level. It does
-> not depend on any lower-privileged OS kernel/code for its core
-> functionality. This increases its security and can support a much smaller
-> trusted computing base than a Type-2 hypervisor.
+话说 YanTeng Si 于 2022-08-04 (四) 14:37:16 +0800 曰过：
 > 
-> Gunyah is an open source hypervisor. The source repo is available at
-> https://github.com/quic/gunyah-hypervisor.
+> 在 2022/8/2 11:02, Wu XiangCheng 写道:
+> > Hi all,
+> > 
+> > This set of patches aims to
+> > 
+> >      * Update zh_CN/process/email-clients.rst to 5.19
+> >      * Update zh_CN/process/submitting-patches.rst to 5.19
+> > 
+> > Also deep clean these two files. I highly recommend to use a word-by-word
+> > diff viewer like VS Code or Emacs to read such big diff files.
+> > 
+> > Note:
+> > 
+> >      Due to the special content of PATCH 2/2, checkpatch.pl will give a
+> >      lot of warnings and errors, all be fine.
 > 
-> The diagram below shows the architecture.
+> However, with some build warnings.  :)
 > 
-> ::
 > 
->         Primary VM           Secondary VMs
->      +-----+ +-----+  | +-----+ +-----+ +-----+
->      |     | |     |  | |     | |     | |     |
->  EL0 | APP | | APP |  | | APP | | APP | | APP |
->      |     | |     |  | |     | |     | |     |
->      +-----+ +-----+  | +-----+ +-----+ +-----+
->  ---------------------|-------------------------
->      +--------------+ | +----------------------+
->      |              | | |                      |
->  EL1 | Linux Kernel | | |Linux kernel/Other OS |   ...
->      |              | | |                      |
->      +--------------+ | +----------------------+
->  --------hvc/smc------|------hvc/smc------------
->      +----------------------------------------+
->      |                                        |
->  EL2 |            Gunyah Hypervisor           |
->      |                                        |
->      +----------------------------------------+
+> sphinx_2.4.4 ❯ make htmldocs
 > 
-> Gunyah provides these following features.
+> ...
 > 
-> - Threads and Scheduling: The scheduler schedules virtual CPUs (VCPUs) on
-> physical CPUs and enables time-sharing of the CPUs.
-> - Memory Management: Gunyah tracks memory ownership and use of all memory
-> under its control. Memory partitioning between VMs is a fundamental
-> security feature.
-> - Interrupt Virtualization: All interrupts are handled in the hypervisor
-> and routed to the assigned VM.
-> - Inter-VM Communication: There are several different mechanisms provided
-> for communicating between VMs.
-> - Device Virtualization: Para-virtualization of devices is supported using
-> inter-VM communication. Low level system features and devices such as
-> interrupt controllers are supported with emulation where required.
+> linux-next/Documentation/translations/zh_CN/process/5.Posting.rst:18:
+> WARNING: undefined label: cn_submittingpatches (if the link has no caption
+> the label must precede a section header)
+> linux-next/Documentation/translations/zh_CN/process/5.Posting.rst:153:
+> WARNING: undefined label: cn_submittingpatches (if the link has no caption
+> the label must precede a section header)
+> linux-next/Documentation/translations/zh_CN/process/5.Posting.rst:163:
+> WARNING: undefined label: cn_submittingpatches (if the link has no caption
+> the label must precede a section header)
+> linux-next/Documentation/translations/zh_CN/process/5.Posting.rst:168:
+> WARNING: undefined label: cn_submittingpatches (if the link has no caption
+> the label must precede a section header)
+> linux-next/Documentation/translations/zh_CN/process/5.Posting.rst:179:
+> WARNING: undefined label: cn_submittingpatches (if the link has no caption
+> the label must precede a section header)
+> linux-next/Documentation/translations/zh_CN/process/5.Posting.rst:197:
+> WARNING: undefined label: cn_email_clients (if the link has no caption the
+> label must precede a section header)
+> linux-next/Documentation/translations/zh_CN/process/8.Conclusion.rst:17:
+> WARNING: undefined label: cn_submittingpatches (if the link has no caption
+> the label must precede a section header)
+> linux-next/Documentation/translations/zh_CN/process/howto.rst:98: WARNING:
+> undefined label: cn_submittingpatches (if the link has no caption the label
+> must precede a section header)
+> linux-next/Documentation/translations/zh_CN/process/howto.rst:334: WARNING:
+> undefined label: cn_submittingpatches (if the link has no caption the label
+> must precede a section header)
+> linux-next/Documentation/translations/zh_CN/process/submit-checklist.rst:14:
+> WARNING: undefined label: cn_submittingpatches (if the link has no caption
+> the label must precede a section header)
 > 
+> 
+> Thanks,
+> 
+> Yanteng
 
-Hi,
+Yes, have been fixed here. Forgot to remove prefix _ when grep, ha.
+v2 will be sent after rc1.
 
-I can't apply this series on top of mainline or linux-next. On what tree
-(and what commit) this series is based on? I'd like to do htmldocs test.
+Thank you ;)
 
-Thanks.
+	Wu
+
+> 
+> > 
+> > Thanks!
+> > 
+> > Wu XiangCheng (2):
+> >    docs/zh_CN: Update zh_CN/process/email-clients.rst to 5.19
+> >    docs/zh_CN: Update zh_CN/process/submitting-patches.rst to 5.19
+> > 
+> >   .../zh_CN/process/email-clients.rst           | 263 ++++---
+> >   .../zh_CN/process/submitting-patches.rst      | 701 +++++++++---------
+> >   2 files changed, 518 insertions(+), 446 deletions(-)
+> > 
+> 
 
 -- 
-An old man doll... just what I always wanted! - Clara
+Wu XiangCheng	0x32684A40BCA7AEA7
+
