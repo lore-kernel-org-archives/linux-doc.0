@@ -2,149 +2,105 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 92256C3F6B0
-	for <linux-doc@archiver.kernel.org>; Fri,  5 Aug 2022 03:18:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E860AC00140
+	for <linux-doc@archiver.kernel.org>; Fri,  5 Aug 2022 03:37:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235863AbiHEDS3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 4 Aug 2022 23:18:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44272 "EHLO
+        id S232779AbiHEDhd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 4 Aug 2022 23:37:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55168 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231240AbiHEDS1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Aug 2022 23:18:27 -0400
-Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 81B2B1ADBD;
-        Thu,  4 Aug 2022 20:18:26 -0700 (PDT)
-Received: by mail-pj1-x102f.google.com with SMTP id p14-20020a17090a74ce00b001f4d04492faso1588739pjl.4;
-        Thu, 04 Aug 2022 20:18:26 -0700 (PDT)
+        with ESMTP id S231169AbiHEDhc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Aug 2022 23:37:32 -0400
+Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com [IPv6:2607:f8b0:4864:20::532])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 276DE402CA;
+        Thu,  4 Aug 2022 20:37:31 -0700 (PDT)
+Received: by mail-pg1-x532.google.com with SMTP id 73so1601398pgb.9;
+        Thu, 04 Aug 2022 20:37:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc;
-        bh=dGYMCOz7SHHXIGnQZJoT2yL9F7+ItkeSLAYiEd5KAOI=;
-        b=ELs5vsFdsHHaBNhkddTaTNfbgVIbnI2C2d1WpHhJSbxQVMworf7ODpv8biIDO1XwDJ
-         WapH7MXVx9tx+txZqCvysNg/wPD9koNRG8MIjNn5NO+xiW1mSAIGPGRj29orr3K+nQQr
-         1c2gXJNo6lHzrcD2OZ/MWaGupThdmAIk4i8xtrNVAuWmFBIxW0Ps2uCnRDsSJaMm67tH
-         E2BGYGzJQsN0skjyGVCXKqYg3cCwIVFkAeZBzUfZ0BF33utsDcNCRFyM3W3dytgzpSlZ
-         l9y5i3h2jUnsBj7moErUp9HV2NHD67xNZtnI5ozvNE1CpxoEZyAruvpFiBCMgMV5RSum
-         a4mQ==
+        bh=7gYv8IMV91W9y/lcsTiz87dVJJBW1JRelvY6T6GX6L4=;
+        b=hENNQgpKrEI+hW7pjDNc0ybLrgcN8NHOupZ3nHmLpaYslXr8fcCw0XCSTqh+UOFnhy
+         kEePYoiQUvwfECIrstCMZOW8+XdEO1Q31IV2QlbEIBXinOPofYtEMVFBWjG2zAy4szOu
+         ieY7jsue3JUMuJeUMIAc1x6xkBydZKUqQCbZ8OPtZ9o4Dvdq95QOZEjs/LKDb7JTt7+o
+         8pxCxO6hU0e/Sj1B4hwXOSzBFIGlA0SWg66xQ9r3axVeEB3xxPDyvNPbDRxRLVmNf5S1
+         xIfpBWgffeFHgMzUsb15UF7Vy+RbqIzMljY4PaWuj6ndS+ac94r6ZKgtyTxKxu/D67Ng
+         9ZUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
-        bh=dGYMCOz7SHHXIGnQZJoT2yL9F7+ItkeSLAYiEd5KAOI=;
-        b=q2mF1A6wXcg2wiOejZAo8UvcjqbpgONEuKp1D753K9DUG/OEU0gNL3gIP+p/n2CjKo
-         WfouFGU5ZKtLEsUMo1OB3n2RqWy+DGu7l/RvOXz35YTgx70c+ErGwV+k2c7n2zV+/UEO
-         bvBdNJDwTk+rlFw22AhLMoOavpYBkty3s5QA9FDs6J2ncPd7DsLJGSu63Iy6qiPPjeMV
-         6xOyFrVDRkMR5hkKazrbMgNzF9xbwMsCkHIWZ2J82EflMCVpYuao2+CcQiGDxRfyYBed
-         DhlDU6TbnhlZwNnSZHVqv7qgcMbJ8mlWsuKHK1IJDPQJOHjWlh8KaCOL+isSgG7AZUc4
-         BWNw==
-X-Gm-Message-State: ACgBeo0o2lvTYA07fqHuN2IwtoCcF/dBET52qpUL6hgRz9PCSvku+aI5
-        1bAM5KRlg9CO8tO7Z9yMfjU=
-X-Google-Smtp-Source: AA6agR7wqzg/IAW3j2aI3DIRX0dQJZG84zUNQ3wTDJZQ7py6klBJvNNGqj5JveAZz4Mo/yzbIsCmpw==
-X-Received: by 2002:a17:902:aa4b:b0:164:11ad:af0f with SMTP id c11-20020a170902aa4b00b0016411adaf0fmr4759329plr.54.1659669506007;
-        Thu, 04 Aug 2022 20:18:26 -0700 (PDT)
-Received: from debian.me (subs02-180-214-232-7.three.co.id. [180.214.232.7])
-        by smtp.gmail.com with ESMTPSA id z12-20020a170903018c00b0016f9355c12csm146644plg.288.2022.08.04.20.18.25
+        bh=7gYv8IMV91W9y/lcsTiz87dVJJBW1JRelvY6T6GX6L4=;
+        b=Nq+2Aiu2/X1QZrRJBaskrIP+9rGdw+mD7FML+An/YXBULHK3Yu9cQbSsVYLQ48xbfx
+         2mgkSeuct08ja5Pml6HVDq7Av4ewLeSgogIQv8fV8vCcXiRQ1vbtCDw8/7YaRWjLJg+Y
+         yNTLPV6UltSBTtROfCbP0o47sIxkcbdBHVv+z4jLrbOupSVG6W95NpIlzdpD0/wx34Vu
+         hBwN1hMa/CYjPAZ2GdOHDjplPfavW2i0kQq/gg8j2iGTAGD3hucWNOPgEwzlyQyeBmNJ
+         o9hE65C8dG/GQOMA5TuWYxkMOvVKgkvS2pCyB+b6VyHYeC6Bd3wAoWNZxeaQZytC5oOQ
+         lVeQ==
+X-Gm-Message-State: ACgBeo1jNB1N/ypYhpYqbooVT30XOht1nfSEvEFXVPQZdHmQO5Iwiwvk
+        gYfJNkFZeQ3aQCk5heuvzxQ=
+X-Google-Smtp-Source: AA6agR5+I9peXzqIMLZOPVwpQwXGqZExtS4C/K3Vc0d6mhzL5s/asNcYSS4pW+Lwfz7Hm7uCMPctdA==
+X-Received: by 2002:a05:6a00:2195:b0:52e:6157:904d with SMTP id h21-20020a056a00219500b0052e6157904dmr4900948pfi.44.1659670650557;
+        Thu, 04 Aug 2022 20:37:30 -0700 (PDT)
+Received: from debian.me (subs03-180-214-233-92.three.co.id. [180.214.233.92])
+        by smtp.gmail.com with ESMTPSA id e15-20020a170902784f00b0016c59b38254sm1753982pln.127.2022.08.04.20.37.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Aug 2022 20:18:25 -0700 (PDT)
+        Thu, 04 Aug 2022 20:37:30 -0700 (PDT)
 Received: by debian.me (Postfix, from userid 1000)
-        id 43913103D6D; Fri,  5 Aug 2022 10:18:22 +0700 (WIB)
-Date:   Fri, 5 Aug 2022 10:18:21 +0700
+        id C9CF2103824; Fri,  5 Aug 2022 10:37:26 +0700 (WIB)
+Date:   Fri, 5 Aug 2022 10:37:26 +0700
 From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Elliot Berman <quic_eberman@quicinc.com>
-Cc:     Bjorn Andersson <bjorn.andersson@linaro.org>,
-        linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Murali Nalajala <quic_mnalajal@quicinc.com>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
-        Carl van Schaik <quic_cvanscha@quicinc.com>,
-        Andy Gross <agross@kernel.org>,
-        linux-arm-kernel@lists.infradead.org,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Marc Zyngier <maz@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Will Deacon <will@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org
-Subject: Re: [PATCH v2 01/11] docs: gunyah: Introduce Gunyah Hypervisor
-Message-ID: <YuyL/ThXq5FTdDF/@debian.me>
-References: <20220801211240.597859-1-quic_eberman@quicinc.com>
- <20220801211240.597859-2-quic_eberman@quicinc.com>
+To:     Adel Abouchaev <adel.abushaev@gmail.com>
+Cc:     kuba@kernel.org, davem@davemloft.net, edumazet@google.com,
+        pabeni@redhat.com, corbet@lwn.net, dsahern@kernel.org,
+        shuah@kernel.org, imagedong@tencent.com, netdev@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
+Subject: Re: [RFC net-next 0/6] net: support QUIC crypto
+Message-ID: <YuyQdjEu01sxZA5e@debian.me>
+References: <adel.abushaev@gmail.com>
+ <20220801195228.723273-1-adel.abushaev@gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-        protocol="application/pgp-signature"; boundary="CDe3ZMtaoNUi6bsc"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220801211240.597859-2-quic_eberman@quicinc.com>
+In-Reply-To: <20220801195228.723273-1-adel.abushaev@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Mon, Aug 01, 2022 at 12:52:22PM -0700, Adel Abouchaev wrote:
+> QUIC requires end to end encryption of the data. The application usually
+> prepares the data in clear text, encrypts and calls send() which implies
+> multiple copies of the data before the packets hit the networking stack.
+> Similar to kTLS, QUIC kernel offload of cryptography reduces the memory
+> pressure by reducing the number of copies.
+> 
+> The scope of kernel support is limited to the symmetric cryptography,
+> leaving the handshake to the user space library. For QUIC in particular,
+> the application packets that require symmetric cryptography are the 1RTT
+> packets with short headers. Kernel will encrypt the application packets
+> on transmission and decrypt on receive. This series implements Tx only,
+> because in QUIC server applications Tx outweighs Rx by orders of
+> magnitude.
+> 
+> Supporting the combination of QUIC and GSO requires the application to
+> correctly place the data and the kernel to correctly slice it. The
+> encryption process appends an arbitrary number of bytes (tag) to the end
+> of the message to authenticate it. The GSO value should include this
+> overhead, the offload would then subtract the tag size to parse the
+> input on Tx before chunking and encrypting it.
+> 
+> With the kernel cryptography, the buffer copy operation is conjoined
+> with the encryption operation. The memory bandwidth is reduced by 5-8%.
+> When devices supporting QUIC encryption in hardware come to the market,
+> we will be able to free further 7% of CPU utilization which is used
+> today for crypto operations.
+> 
 
---CDe3ZMtaoNUi6bsc
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Mon, Aug 01, 2022 at 02:12:30PM -0700, Elliot Berman wrote:
-> +Communication with the resource manager from each guest VM happens with =
-message-queue.rst. Details
-> +about the specific messages can be found in drivers/virt/gunyah/rsc_mgr.c
-> +
-> +::
-> +  +-------+   +--------+   +--------+
-> +  |  RM   |   |  VM_A  |   |  VM_B  |
-> +  +-.-.-.-+   +---.----+   +---.----+
-> +    | |           |            |
-> +  +-.-.-----------.------------.----+
-> +  | | \=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D/             |    |
-> +  |  \=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D/     |
-> +  |            Gunyah               |
-> +  +---------------------------------+
-> +
-=20
 Hi,
 
-The diagram above triggers htmldocs warnings:
+I can't apply this series on top of current net-next. On what commit on
+net-next this series is based?
 
-Documentation/virt/gunyah/index.rst:71: WARNING: Unexpected indentation.
-Documentation/virt/gunyah/index.rst:72: WARNING: Block quote ends without a=
- blank line; unexpected unindent.
-
-I have applied the fixup:
-
-diff --git a/Documentation/virt/gunyah/index.rst b/Documentation/virt/gunya=
-h/index.rst
-index 95ba9b71ab30d2..b74f7a6f9d4904 100644
---- a/Documentation/virt/gunyah/index.rst
-+++ b/Documentation/virt/gunyah/index.rst
-@@ -65,6 +65,7 @@ Communication with the resource manager from each guest V=
-M happens with message-
- about the specific messages can be found in drivers/virt/gunyah/rsc_mgr.c
-=20
- ::
-+
-   +-------+   +--------+   +--------+
-   |  RM   |   |  VM_A  |   |  VM_B  |
-   +-.-.-.-+   +---.----+   +---.----+
-
-Thanks.
-
---=20
+-- 
 An old man doll... just what I always wanted! - Clara
-
---CDe3ZMtaoNUi6bsc
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTsebsWCPCpxY9T92n/R0PGQ3AzwAUCYuyL8QAKCRD/R0PGQ3Az
-wIH4AXwMEGCNxDAFPNOHop9sYqB9aXN0jkTDhEyMg2yMS/FmHyc3YpZWZzibpTNO
-vpSWGswBgLHuROnpjtQaE+LrM3t1yFcRPbTqSAq0SROAboKu1LFGQBkZNScxtMvK
-4VnHdleViQ==
-=PK/l
------END PGP SIGNATURE-----
-
---CDe3ZMtaoNUi6bsc--
