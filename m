@@ -2,105 +2,159 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E860AC00140
-	for <linux-doc@archiver.kernel.org>; Fri,  5 Aug 2022 03:37:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 56D75C25B08
+	for <linux-doc@archiver.kernel.org>; Fri,  5 Aug 2022 03:39:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232779AbiHEDhd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 4 Aug 2022 23:37:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55168 "EHLO
+        id S234738AbiHEDj3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 4 Aug 2022 23:39:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55770 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231169AbiHEDhc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Aug 2022 23:37:32 -0400
-Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com [IPv6:2607:f8b0:4864:20::532])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 276DE402CA;
-        Thu,  4 Aug 2022 20:37:31 -0700 (PDT)
-Received: by mail-pg1-x532.google.com with SMTP id 73so1601398pgb.9;
-        Thu, 04 Aug 2022 20:37:31 -0700 (PDT)
+        with ESMTP id S229477AbiHEDj1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Aug 2022 23:39:27 -0400
+Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com [IPv6:2607:f8b0:4864:20::1029])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 250F952DFD;
+        Thu,  4 Aug 2022 20:39:27 -0700 (PDT)
+Received: by mail-pj1-x1029.google.com with SMTP id a8so1549079pjg.5;
+        Thu, 04 Aug 2022 20:39:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc;
-        bh=7gYv8IMV91W9y/lcsTiz87dVJJBW1JRelvY6T6GX6L4=;
-        b=hENNQgpKrEI+hW7pjDNc0ybLrgcN8NHOupZ3nHmLpaYslXr8fcCw0XCSTqh+UOFnhy
-         kEePYoiQUvwfECIrstCMZOW8+XdEO1Q31IV2QlbEIBXinOPofYtEMVFBWjG2zAy4szOu
-         ieY7jsue3JUMuJeUMIAc1x6xkBydZKUqQCbZ8OPtZ9o4Dvdq95QOZEjs/LKDb7JTt7+o
-         8pxCxO6hU0e/Sj1B4hwXOSzBFIGlA0SWg66xQ9r3axVeEB3xxPDyvNPbDRxRLVmNf5S1
-         xIfpBWgffeFHgMzUsb15UF7Vy+RbqIzMljY4PaWuj6ndS+ac94r6ZKgtyTxKxu/D67Ng
-         9ZUg==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc;
+        bh=8sfhr26tDeV/L6Ozp357rvkDwH/uFe9BTr+eNIF+xXU=;
+        b=X1hd/w3YEpI3L9ZDpSiZE2PikM1J7Pe3b8stV716zhBQWlz5e/jFp5EH4iS8/6rGkk
+         TKOdqWCPnjrkfyLSGL5pvtbR3/A2S+XuCZ+urLJfRtlj599saXjaXOlWWHvnxRpWNd/b
+         QZLzHt9z5becYsv0gERZb+yxWXpU2B954h/wAUSJ08jYBNg2lJ8cdVQ2RCD+u/LflDVE
+         PE8t4Zn6TnS0BM99pdboDpgOC62MN9l+nJqRbVoR3P80Nqr15VlGnHEy1d02qmr0zGyw
+         Z6oZ/B6G60t/z4fwAmgRk9PhXW4VUNyiDBeVjA7vmHbEQo5MutdenqAGulC9XBaH0AQi
+         kxow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
-        bh=7gYv8IMV91W9y/lcsTiz87dVJJBW1JRelvY6T6GX6L4=;
-        b=Nq+2Aiu2/X1QZrRJBaskrIP+9rGdw+mD7FML+An/YXBULHK3Yu9cQbSsVYLQ48xbfx
-         2mgkSeuct08ja5Pml6HVDq7Av4ewLeSgogIQv8fV8vCcXiRQ1vbtCDw8/7YaRWjLJg+Y
-         yNTLPV6UltSBTtROfCbP0o47sIxkcbdBHVv+z4jLrbOupSVG6W95NpIlzdpD0/wx34Vu
-         hBwN1hMa/CYjPAZ2GdOHDjplPfavW2i0kQq/gg8j2iGTAGD3hucWNOPgEwzlyQyeBmNJ
-         o9hE65C8dG/GQOMA5TuWYxkMOvVKgkvS2pCyB+b6VyHYeC6Bd3wAoWNZxeaQZytC5oOQ
-         lVeQ==
-X-Gm-Message-State: ACgBeo1jNB1N/ypYhpYqbooVT30XOht1nfSEvEFXVPQZdHmQO5Iwiwvk
-        gYfJNkFZeQ3aQCk5heuvzxQ=
-X-Google-Smtp-Source: AA6agR5+I9peXzqIMLZOPVwpQwXGqZExtS4C/K3Vc0d6mhzL5s/asNcYSS4pW+Lwfz7Hm7uCMPctdA==
-X-Received: by 2002:a05:6a00:2195:b0:52e:6157:904d with SMTP id h21-20020a056a00219500b0052e6157904dmr4900948pfi.44.1659670650557;
-        Thu, 04 Aug 2022 20:37:30 -0700 (PDT)
-Received: from debian.me (subs03-180-214-233-92.three.co.id. [180.214.233.92])
-        by smtp.gmail.com with ESMTPSA id e15-20020a170902784f00b0016c59b38254sm1753982pln.127.2022.08.04.20.37.29
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc;
+        bh=8sfhr26tDeV/L6Ozp357rvkDwH/uFe9BTr+eNIF+xXU=;
+        b=XcPsSmfk9dHebbX4wxiKpBc/zTKZKqUOESEqTg8eZuOZebWkUIrzOo27LL33HR+LjW
+         lJzqeAGIiNkGYaa3eGrk4QgmztoeCpq+qovz5O9Zv/ODnSb7kYpUsDhQizm80n1gOVuP
+         NckhgzCTq/3fQAAIIyC1c7Hyu4ujPWa2UZ3h847Fw4wwkJlJIfkJnXJuiBva4XqefXv/
+         xoVtat1Lxb2iOglVCbeH0mv9PyfaGIl60RASX/xEZFSjge7CkTZqCRabhFruydQOGkm3
+         P41iYOe73BT3ZgweVfetMvYG+6ydA5GWSbOODvC+amLSOM35YMMAFPuzKTup/1TfWtz4
+         1PYA==
+X-Gm-Message-State: ACgBeo2PgWbja+sE5oOge+Lin4rBtdNMNeNwK2eGEnVi9GPFTKItNUgu
+        r8wNhCBobNHwt3S6SonP07o=
+X-Google-Smtp-Source: AA6agR5923Jd70u1CMa/1BKAWCZxfqiG1OIy0Fvu624VKXl6nFsBzl39y13ZzjHWnaJxGJnh1AsWbA==
+X-Received: by 2002:a17:902:8693:b0:16c:db86:1c86 with SMTP id g19-20020a170902869300b0016cdb861c86mr4805594plo.9.1659670766619;
+        Thu, 04 Aug 2022 20:39:26 -0700 (PDT)
+Received: from localhost.localdomain ([193.203.214.57])
+        by smtp.gmail.com with ESMTPSA id n15-20020a170903110f00b0016ef1e058e5sm1683706plh.295.2022.08.04.20.39.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Aug 2022 20:37:30 -0700 (PDT)
-Received: by debian.me (Postfix, from userid 1000)
-        id C9CF2103824; Fri,  5 Aug 2022 10:37:26 +0700 (WIB)
-Date:   Fri, 5 Aug 2022 10:37:26 +0700
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Adel Abouchaev <adel.abushaev@gmail.com>
-Cc:     kuba@kernel.org, davem@davemloft.net, edumazet@google.com,
-        pabeni@redhat.com, corbet@lwn.net, dsahern@kernel.org,
-        shuah@kernel.org, imagedong@tencent.com, netdev@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
-Subject: Re: [RFC net-next 0/6] net: support QUIC crypto
-Message-ID: <YuyQdjEu01sxZA5e@debian.me>
-References: <adel.abushaev@gmail.com>
- <20220801195228.723273-1-adel.abushaev@gmail.com>
+        Thu, 04 Aug 2022 20:39:26 -0700 (PDT)
+From:   cgel.zte@gmail.com
+X-Google-Original-From: yang.yang29@zte.com.cn
+To:     akpm@linux-foundation.org, bsingharora@gmail.com
+Cc:     corbet@lwn.net, willy@infradead.org, yang.yang29@zte.com.cn,
+        david@redhat.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-mm@kvack.org, CGEL ZTE <cgel.zte@gmail.com>
+Subject: [PATCH] filemap: Make the accounting of thrashing more consistent
+Date:   Fri,  5 Aug 2022 03:38:39 +0000
+Message-Id: <20220805033838.1714674-1-yang.yang29@zte.com.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220801195228.723273-1-adel.abushaev@gmail.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Aug 01, 2022 at 12:52:22PM -0700, Adel Abouchaev wrote:
-> QUIC requires end to end encryption of the data. The application usually
-> prepares the data in clear text, encrypts and calls send() which implies
-> multiple copies of the data before the packets hit the networking stack.
-> Similar to kTLS, QUIC kernel offload of cryptography reduces the memory
-> pressure by reducing the number of copies.
-> 
-> The scope of kernel support is limited to the symmetric cryptography,
-> leaving the handshake to the user space library. For QUIC in particular,
-> the application packets that require symmetric cryptography are the 1RTT
-> packets with short headers. Kernel will encrypt the application packets
-> on transmission and decrypt on receive. This series implements Tx only,
-> because in QUIC server applications Tx outweighs Rx by orders of
-> magnitude.
-> 
-> Supporting the combination of QUIC and GSO requires the application to
-> correctly place the data and the kernel to correctly slice it. The
-> encryption process appends an arbitrary number of bytes (tag) to the end
-> of the message to authenticate it. The GSO value should include this
-> overhead, the offload would then subtract the tag size to parse the
-> input on Tx before chunking and encrypting it.
-> 
-> With the kernel cryptography, the buffer copy operation is conjoined
-> with the encryption operation. The memory bandwidth is reduced by 5-8%.
-> When devices supporting QUIC encryption in hardware come to the market,
-> we will be able to free further 7% of CPU utilization which is used
-> today for crypto operations.
-> 
+From: Yang Yang <yang.yang29@zte.com.cn>
 
-Hi,
+Once upon a time, we only support accounting thrashing of page cache.
+Then Joonsoo introduced workingset detection for anonymous pages and
+we gained the ability to account thrashing of them[1].
 
-I can't apply this series on top of current net-next. On what commit on
-net-next this series is based?
+So let delayacct account both the thrashing of page cache and anonymous
+pages, this could make the codes more consistent and simpler.
 
+[1] commit aae466b0052e ("mm/swap: implement workingset detection for anonymous LRU")
+
+Signed-off-by: Yang Yang <yang.yang29@zte.com.cn>
+Signed-off-by: CGEL ZTE <cgel.zte@gmail.com>
+---
+ Documentation/accounting/delay-accounting.rst |  2 +-
+ mm/filemap.c                                  | 18 ++++--------------
+ 2 files changed, 5 insertions(+), 15 deletions(-)
+
+diff --git a/Documentation/accounting/delay-accounting.rst b/Documentation/accounting/delay-accounting.rst
+index 241d1a87f2cd..7103b62ba6d7 100644
+--- a/Documentation/accounting/delay-accounting.rst
++++ b/Documentation/accounting/delay-accounting.rst
+@@ -13,7 +13,7 @@ a) waiting for a CPU (while being runnable)
+ b) completion of synchronous block I/O initiated by the task
+ c) swapping in pages
+ d) memory reclaim
+-e) thrashing page cache
++e) thrashing
+ f) direct compact
+ g) write-protect copy
+ 
+diff --git a/mm/filemap.c b/mm/filemap.c
+index 15800334147b..cfe15e89b3c2 100644
+--- a/mm/filemap.c
++++ b/mm/filemap.c
+@@ -1221,15 +1221,11 @@ static inline int folio_wait_bit_common(struct folio *folio, int bit_nr,
+ 	struct wait_page_queue wait_page;
+ 	wait_queue_entry_t *wait = &wait_page.wait;
+ 	bool thrashing = false;
+-	bool delayacct = false;
+ 	unsigned long pflags;
+ 
+ 	if (bit_nr == PG_locked &&
+ 	    !folio_test_uptodate(folio) && folio_test_workingset(folio)) {
+-		if (!folio_test_swapbacked(folio)) {
+-			delayacct_thrashing_start();
+-			delayacct = true;
+-		}
++		delayacct_thrashing_start();
+ 		psi_memstall_enter(&pflags);
+ 		thrashing = true;
+ 	}
+@@ -1329,8 +1325,7 @@ static inline int folio_wait_bit_common(struct folio *folio, int bit_nr,
+ 	finish_wait(q, wait);
+ 
+ 	if (thrashing) {
+-		if (delayacct)
+-			delayacct_thrashing_end();
++		delayacct_thrashing_end();
+ 		psi_memstall_leave(&pflags);
+ 	}
+ 
+@@ -1378,17 +1373,13 @@ void migration_entry_wait_on_locked(swp_entry_t entry, pte_t *ptep,
+ 	struct wait_page_queue wait_page;
+ 	wait_queue_entry_t *wait = &wait_page.wait;
+ 	bool thrashing = false;
+-	bool delayacct = false;
+ 	unsigned long pflags;
+ 	wait_queue_head_t *q;
+ 	struct folio *folio = page_folio(pfn_swap_entry_to_page(entry));
+ 
+ 	q = folio_waitqueue(folio);
+ 	if (!folio_test_uptodate(folio) && folio_test_workingset(folio)) {
+-		if (!folio_test_swapbacked(folio)) {
+-			delayacct_thrashing_start();
+-			delayacct = true;
+-		}
++		delayacct_thrashing_start();
+ 		psi_memstall_enter(&pflags);
+ 		thrashing = true;
+ 	}
+@@ -1435,8 +1426,7 @@ void migration_entry_wait_on_locked(swp_entry_t entry, pte_t *ptep,
+ 	finish_wait(q, wait);
+ 
+ 	if (thrashing) {
+-		if (delayacct)
+-			delayacct_thrashing_end();
++		delayacct_thrashing_end();
+ 		psi_memstall_leave(&pflags);
+ 	}
+ }
 -- 
-An old man doll... just what I always wanted! - Clara
+2.25.1
+
