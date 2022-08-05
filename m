@@ -2,65 +2,65 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F0C8CC00140
-	for <linux-doc@archiver.kernel.org>; Fri,  5 Aug 2022 13:26:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A1D44C25B0C
+	for <linux-doc@archiver.kernel.org>; Fri,  5 Aug 2022 13:29:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240845AbiHEN0M (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 5 Aug 2022 09:26:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42810 "EHLO
+        id S236071AbiHEN27 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 5 Aug 2022 09:28:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44454 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229475AbiHEN0K (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 Aug 2022 09:26:10 -0400
+        with ESMTP id S236073AbiHEN26 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 Aug 2022 09:28:58 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 322A926118
-        for <linux-doc@vger.kernel.org>; Fri,  5 Aug 2022 06:26:09 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 8C79028705
+        for <linux-doc@vger.kernel.org>; Fri,  5 Aug 2022 06:28:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1659705968;
+        s=mimecast20190719; t=1659706135;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=mJBXhzmt1GniFe2smeou8x6jmkkaotxI6ROvs4HpGEk=;
-        b=bpkEz2iOjvmYkH6VqnaDfNHgqGT0ELkwEQZ5jkL78af+dgRHHpcOoV2AW8YnkXOv88YBxe
-        pow/GbzO5yzeeGp0L+WWtlFxnAPz5tYfNIF5Zj0kRdan0EV2SfzYBgl1LHxlv+mF8DOQFj
-        5xAP6JdktNElst8eIPeD5hyZxMDL9xA=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=5LwXiW7Z9fPKOQuP6mWqJcS8w+uYP/AKU9h+QKQOqfY=;
+        b=Q/oPvAzm+yT65mDJtPfKoMpPCpfPjnFDUuV6lK5QIEG6VR7qMSPeMULzI7G7SSndrJ3eNt
+        YcF95heURkfGhPDALn/p1Cf77Hl/EqWjuLOSUmD6a+c/ErxQ2IXrKWUHMmjs9uP4RtPIEM
+        /qehMpaCcDkneZ1dwAq8lyYDSWnIJGE=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-656-7eyPTY5tNV2kVSPpcrSOKA-1; Fri, 05 Aug 2022 09:26:07 -0400
-X-MC-Unique: 7eyPTY5tNV2kVSPpcrSOKA-1
-Received: by mail-wm1-f71.google.com with SMTP id i186-20020a1c3bc3000000b003a4fe025c91so1272950wma.4
-        for <linux-doc@vger.kernel.org>; Fri, 05 Aug 2022 06:26:06 -0700 (PDT)
+ us-mta-306-xAp4a1AwPNutMDYiBqmGVw-1; Fri, 05 Aug 2022 09:28:54 -0400
+X-MC-Unique: xAp4a1AwPNutMDYiBqmGVw-1
+Received: by mail-wr1-f72.google.com with SMTP id c20-20020adfa314000000b0021f1757ea8aso501028wrb.2
+        for <linux-doc@vger.kernel.org>; Fri, 05 Aug 2022 06:28:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:organization:from:references
          :cc:to:content-language:subject:user-agent:mime-version:date
          :message-id:x-gm-message-state:from:to:cc;
-        bh=mJBXhzmt1GniFe2smeou8x6jmkkaotxI6ROvs4HpGEk=;
-        b=rqwTSIEtbIOnmK6IVer3xelsEZIrkH4BMIUBfZMmk5WKTCwd8hFpe9cq4efHNQM0Jb
-         NFWlDLofURr2xWPw3fYCL5R45I+rZB249OhSCVjc1waGP7pdcQgPgQnT/x0ffVFL19es
-         O3QBLXuGpSchyL5qveet8DgjsxuYyBXfQRu0bO7sT2DAgAUgnsHYCrrrOIGE5IMkHifF
-         XlX+xJykOmJQpnxKLKWsktEqfBztKfK6e4VMTuMxLUA4msP2wf9p/s0w/t1N3CtV382A
-         dxwQ4MgdCC91qJ3jL838chLvUGEBY0p7XzRXFbClmf94w8bzhU0D3rCgIOtWJ0SG0WEB
-         Y6DQ==
-X-Gm-Message-State: ACgBeo1oFBKnoKGy4cncDAbDxfIvXKLd9ghveHbWjfZDtHvgFnqj5EFA
-        rT8mZ+zVPpD7u5sYkg1Gh9NzgGJrRleCgQ1bX/fmXbMj+NJTl7VdKJgM/DibKQc3tXCPM4xwca9
-        UosF8ntciHLYQcMck5LXA
-X-Received: by 2002:a5d:588f:0:b0:220:761a:6894 with SMTP id n15-20020a5d588f000000b00220761a6894mr4409172wrf.406.1659705965740;
-        Fri, 05 Aug 2022 06:26:05 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR6ajxOjPYt9fURAvT4aPqpXXmNPivXi3/PkheqDod4RApDXYAPhtZxZHk1xvMFDF/irKdR08g==
-X-Received: by 2002:a5d:588f:0:b0:220:761a:6894 with SMTP id n15-20020a5d588f000000b00220761a6894mr4409161wrf.406.1659705965445;
-        Fri, 05 Aug 2022 06:26:05 -0700 (PDT)
+        bh=5LwXiW7Z9fPKOQuP6mWqJcS8w+uYP/AKU9h+QKQOqfY=;
+        b=4aS7rKcBldTh4Vli1oUnojD1BohrhiPHJ/a4/lry4UommyTk0tKs7yGS3KLo31p7ZC
+         DxGs254N+xGKqeBnPom64PsaGwNedwSgQ8Ie//APAbvMi1oMEx5iOGhSnTYtyzNRfSed
+         P8CpyRJFvrGvLniTrYPW9A8eToQRuzQfneHyscCHi5mygf0Bra+by1wMRfWv6g4yF46g
+         cEyztYbLsfCixY9otC/GOsCjwe6MqND8xY1nffqu+JVV3XEUAHJTSk0/oIJ1Z4SBE5BQ
+         JoPsLe8/Puhkm7GwI5h2gAoV5cKMs191oY3VxsfBo6tmSFv2Zn7LUZx9a7g7UD0bAP+Z
+         /fCg==
+X-Gm-Message-State: ACgBeo2RymOz/JgcqaAr8Zu2ccwauye4vrhzwPXX5vZ8p2YCJL2Njkux
+        RkpSu8HH5mewltUOITSIvn4DtCcZKg8PaGDk0KVKWyGI/DJ6dJx8ywgn5+aZj7thAL009F034xh
+        22DzS7cYrlR8NmBDm7EA+
+X-Received: by 2002:a05:6000:1acf:b0:21d:b410:599a with SMTP id i15-20020a0560001acf00b0021db410599amr4119468wry.123.1659706133365;
+        Fri, 05 Aug 2022 06:28:53 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR4rDbFbn4pE0ENzxm72PrKdoCqlUokRwvGeNDRUB01hSQV7gEIr0bukiPJi7Qq8c2+e4UOfGA==
+X-Received: by 2002:a05:6000:1acf:b0:21d:b410:599a with SMTP id i15-20020a0560001acf00b0021db410599amr4119438wry.123.1659706133086;
+        Fri, 05 Aug 2022 06:28:53 -0700 (PDT)
 Received: from ?IPV6:2003:cb:c706:fb00:f5c3:24b2:3d03:9d52? (p200300cbc706fb00f5c324b23d039d52.dip0.t-ipconnect.de. [2003:cb:c706:fb00:f5c3:24b2:3d03:9d52])
-        by smtp.gmail.com with ESMTPSA id o6-20020a05600c4fc600b003a32490c95dsm9887725wmq.35.2022.08.05.06.26.03
+        by smtp.gmail.com with ESMTPSA id ck19-20020a5d5e93000000b0021ee65426a2sm3893063wrb.65.2022.08.05.06.28.51
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 05 Aug 2022 06:26:05 -0700 (PDT)
-Message-ID: <a34d88b9-a4b9-cb9e-91d9-c5a89449fcd5@redhat.com>
-Date:   Fri, 5 Aug 2022 15:26:02 +0200
+        Fri, 05 Aug 2022 06:28:52 -0700 (PDT)
+Message-ID: <203c752f-9439-b5ae-056c-27b2631dcb81@redhat.com>
+Date:   Fri, 5 Aug 2022 15:28:50 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH v7 04/14] mm/shmem: Support memfile_notifier
+Subject: Re: [PATCH v7 05/14] mm/memfd: Introduce MFD_INACCESSIBLE flag
 Content-Language: en-US
 To:     Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-mm@kvack.org,
@@ -94,10 +94,10 @@ Cc:     Paolo Bonzini <pbonzini@redhat.com>,
         Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
         Muchun Song <songmuchun@bytedance.com>
 References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
- <20220706082016.2603916-5-chao.p.peng@linux.intel.com>
+ <20220706082016.2603916-6-chao.p.peng@linux.intel.com>
 From:   David Hildenbrand <david@redhat.com>
 Organization: Red Hat
-In-Reply-To: <20220706082016.2603916-5-chao.p.peng@linux.intel.com>
+In-Reply-To: <20220706082016.2603916-6-chao.p.peng@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
@@ -105,94 +105,28 @@ List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 On 06.07.22 10:20, Chao Peng wrote:
-> From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
+> Introduce a new memfd_create() flag indicating the content of the
+> created memfd is inaccessible from userspace through ordinary MMU
+> access (e.g., read/write/mmap). However, the file content can be
+> accessed via a different mechanism (e.g. KVM MMU) indirectly.
 > 
-> Implement shmem as a memfile_notifier backing store. Essentially it
-> interacts with the memfile_notifier feature flags for userspace
-> access/page migration/page reclaiming and implements the necessary
-> memfile_backing_store callbacks.
+> It provides semantics required for KVM guest private memory support
+> that a file descriptor with this flag set is going to be used as the
+> source of guest memory in confidential computing environments such
+> as Intel TDX/AMD SEV but may not be accessible from host userspace.
 > 
-> Signed-off-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
-> Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
-> ---
+> The flag can not coexist with MFD_ALLOW_SEALING, future sealing is
+> also impossible for a memfd created with this flag.
 
-[...]
+It's kind of weird to have it that way. Why should the user have to
+care? It's the notifier requirement to have that, no?
 
-> +#ifdef CONFIG_MEMFILE_NOTIFIER
-> +static struct memfile_node *shmem_lookup_memfile_node(struct file *file)
-> +{
-> +	struct inode *inode = file_inode(file);
-> +
-> +	if (!shmem_mapping(inode->i_mapping))
-> +		return NULL;
-> +
-> +	return  &SHMEM_I(inode)->memfile_node;
-> +}
-> +
-> +
-> +static int shmem_get_pfn(struct file *file, pgoff_t offset, pfn_t *pfn,
-> +			 int *order)
-> +{
-> +	struct page *page;
-> +	int ret;
-> +
-> +	ret = shmem_getpage(file_inode(file), offset, &page, SGP_WRITE);
-> +	if (ret)
-> +		return ret;
-> +
-> +	unlock_page(page);
-> +	*pfn = page_to_pfn_t(page);
-> +	*order = thp_order(compound_head(page));
-> +	return 0;
-> +}
-> +
-> +static void shmem_put_pfn(pfn_t pfn)
-> +{
-> +	struct page *page = pfn_t_to_page(pfn);
-> +
-> +	if (!page)
-> +		return;
-> +
-> +	put_page(page);
+Why can't we handle that when register a notifier? If anything is
+already mapped, fail registering the notifier if the notifier has these
+demands. If registering succeeds, block it internally.
 
-
-Why do we export shmem_get_pfn/shmem_put_pfn and not simply
-
-get_folio()
-
-and let the caller deal with putting the folio? What's the reason to
-
-a) Operate on PFNs and not folios
-b) Have these get/put semantics?
-
-> +}
-> +
-> +static struct memfile_backing_store shmem_backing_store = {
-> +	.lookup_memfile_node = shmem_lookup_memfile_node,
-> +	.get_pfn = shmem_get_pfn,
-> +	.put_pfn = shmem_put_pfn,
-> +};
-> +#endif /* CONFIG_MEMFILE_NOTIFIER */
-> +
->  void __init shmem_init(void)
->  {
->  	int error;
-> @@ -3956,6 +4059,10 @@ void __init shmem_init(void)
->  	else
->  		shmem_huge = SHMEM_HUGE_NEVER; /* just in case it was patched */
->  #endif
-> +
-> +#ifdef CONFIG_MEMFILE_NOTIFIER
-> +	memfile_register_backing_store(&shmem_backing_store);
-
-Can we instead prove a dummy function that does nothing without
-CONFIG_MEMFILE_NOTIFIER?
-
-> +#endif
->  	return;
->  
->  out1:
-
+Or what am I missing? We might not need the memfile set flag semantics
+eventually and would not have to expose such a flag to user space.
 
 -- 
 Thanks,
