@@ -2,114 +2,113 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 55726C3F6B0
-	for <linux-doc@archiver.kernel.org>; Fri,  5 Aug 2022 19:54:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F646C00140
+	for <linux-doc@archiver.kernel.org>; Fri,  5 Aug 2022 20:35:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240859AbiHETyq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 5 Aug 2022 15:54:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58340 "EHLO
+        id S233844AbiHEUfO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 5 Aug 2022 16:35:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52808 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230098AbiHETyp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 Aug 2022 15:54:45 -0400
-Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B4D2E10FFB;
-        Fri,  5 Aug 2022 12:54:40 -0700 (PDT)
-Received: by mail-ej1-x631.google.com with SMTP id tl27so6800338ejc.1;
-        Fri, 05 Aug 2022 12:54:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=sender:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=uNNCMzM6wGgvKylIcV8lYZcNxMUBwXushcdpJCRFwXA=;
-        b=e6zKPWvo6IkiM49qZMgVKOQWfbZ4SrSe6FffLSmDWP8fLIdlY1yC8OE/wQSvLo7meO
-         H+G1B1j8KGTDWa3VYpZ9mL+EiFelSvWjLwXE7DG8n8DQ+D5rzmDidw5gGMSxEtzBTYay
-         CLtkEm9skbWSrqajt3PPDuzophplCTD2rEc2ozvNuGxaWnQx2yPBCEFUqeaSi77JFMf/
-         Lw2RNp9XxDE8YMazE5oWBsI9D+FoaBUwg1aWZoHlGg3LGNcIATEAW1twLhw3HNGCMwn7
-         vwJyZXFiNu98nw+DG5ql1wkGSRaTKJ8FnxsEEAQxBwk2IlQrhE2vSCh672yBPBlGzRGv
-         RtWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
-         :subject:content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=uNNCMzM6wGgvKylIcV8lYZcNxMUBwXushcdpJCRFwXA=;
-        b=0RjUpMCrVyar1nwWqr9Ws+duYx/0HXjYpl9Gj+cHR8FF0sGcMPNSQojNtf3pK70SFA
-         qUqmfGosMBcTfQX2abSfGkgwx6BfejzYqep4JuGHA2nNREckc5FgtXReQYPvXS0Rprpi
-         hjh5/X1mY2DALri16RMatRMSQqhiM1W1yALcAiSCEfUDgOQmK1oKYS3YuSr0StSA/DzV
-         fzPh7axUsMX/B61swxVJlULayT+NGaVbO2OZFAmkP3cMtEBZSG9rH3WXGbT0T/AEOa/U
-         h4KpqHaH9nDrRB9KyRln2RS0VCX7l3b/8mWRi+rtFnk8qKPv2eOR60BMsOCB2Yj0+Fzh
-         nfkw==
-X-Gm-Message-State: ACgBeo07GdJoqRg7dh+8WskaxfZe6Nj9naSGF454IgCZEgZZ4KTO8heJ
-        7Rb/CIR3ReR+TT2aY3Q++vc=
-X-Google-Smtp-Source: AA6agR69gHdIOk66u3DOAUGxbgd3W9IYbjKGJ4TRriMkRlw9SK3I2HFpGUjJDA71iNteqeGQVxRwjg==
-X-Received: by 2002:a17:907:2719:b0:730:a5e7:9da7 with SMTP id w25-20020a170907271900b00730a5e79da7mr6558802ejk.26.1659729279246;
-        Fri, 05 Aug 2022 12:54:39 -0700 (PDT)
-Received: from ?IPV6:2001:b07:6468:f312:9af8:e5f5:7516:fa89? ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
-        by smtp.googlemail.com with ESMTPSA id 2-20020a170906200200b0073100dfa7b0sm947743ejo.8.2022.08.05.12.54.35
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 05 Aug 2022 12:54:38 -0700 (PDT)
-Sender: Paolo Bonzini <paolo.bonzini@gmail.com>
-Message-ID: <ec3fe997-37d8-22b5-65f1-72f08a16474f@redhat.com>
-Date:   Fri, 5 Aug 2022 21:54:35 +0200
+        with ESMTP id S240175AbiHEUfJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 Aug 2022 16:35:09 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67A36491E3;
+        Fri,  5 Aug 2022 13:35:07 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id E733C61AB9;
+        Fri,  5 Aug 2022 20:35:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 269A5C433B5;
+        Fri,  5 Aug 2022 20:35:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1659731706;
+        bh=zP7E6kgu1qc+50yVif6a7UHQC7yTSPxs4G5vpQLKDFA=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=Bjh87kmme4lPaWHfOnB8kXIzdZk+rGZPojv46PmRslSv9T60QlgkIBjvthZnQeEoA
+         zGyUxKoeQFd6KQv9g+MCF5uKBrGvUDpwDjCMg1HBPIiqUHFEA2dtZzlKqCdXhj5zZ1
+         g63R1hcdAP+m7z7soTl/97luvdVhCK6FOHAxIYkDYxDXjjSXB7QLVcHwgWkEyJ7ra2
+         TJO5g4LKRsl8VGB93lINFJx1kE1c6QjGcTxiKJ1BxKdPwQVb+HrRA9Ys13uPzN6rY/
+         qMl9XnopP/sZg0+ZY0BCBDYcSGoZKJlIwuvwr3l74SieNh55EpHbV6y1Gr9SeDf9Ti
+         UPe9gezwDIsYw==
+Date:   Fri, 5 Aug 2022 22:35:01 +0200
+From:   Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     Akira Yokosawa <akiyks@gmail.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 2/3] docs/conf.py: Respect env variable LOAD_IMGMATH
+Message-ID: <20220805223501.27429692@coco.lan>
+In-Reply-To: <aeb5e6fc-4af9-8e3e-a9db-bbcb22d9d913@gmail.com>
+References: <12d078f5-6995-b039-7076-bdb1f372a799@gmail.com>
+        <aeb5e6fc-4af9-8e3e-a9db-bbcb22d9d913@gmail.com>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v7 08/14] KVM: Rename mmu_notifier_*
-Content-Language: en-US
-To:     Sean Christopherson <seanjc@google.com>,
-        Chao Peng <chao.p.peng@linux.intel.com>
-Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
-        qemu-devel@nongnu.org, linux-kselftest@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        Muchun Song <songmuchun@bytedance.com>
-References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
- <20220706082016.2603916-9-chao.p.peng@linux.intel.com>
- <YuQutJAhKWcsrrYl@google.com>
-From:   Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <YuQutJAhKWcsrrYl@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 7/29/22 21:02, Sean Christopherson wrote:
-> If we really want a different name, I'd vote for nomenclature that captures the
-> invalidation aspect, which is really what the variables are all trackng, e.g.
-> 
->    mmu_invalidate_seq
->    mmu_invalidate_in_progress
->    mmu_invalidate_range_start
->    mmu_invalidate_range_end
-> 
+Em Fri, 5 Aug 2022 23:24:46 +0900
+Akira Yokosawa <akiyks@gmail.com> escreveu:
 
-Agreed, and this can of course be committed separately if Chao Peng 
-sends it outside this series.
+> On some distros with coarse-grained packaging policy, dvipng is
+> installed along with latex.  In such cases, math rendering will
+> use imgmath by default.  It is possible to override the choice by
+> specifying the option string of "-D html_math_renderer='mathjax'"
+> to sphinx-build (Sphinx >= 1.8).
+> 
+> To provide developers an easier-to-use knob, add code for an env
+> variable "LOAD_IMGMATH" which overrides the automatic choice
+> of math renderer for html docs.
+> 
+>     LOAD_IMGMATH=yes : Load imgmath even if dvipng is not found
+>     LOAD_IMGMATH=no  : Don't load imgmath (fall back to mathjax)
 
-Paolo
+I would use a var name starting with SPHINX, like SPHINX_IMGMATH.
+
+Anyway, for this entire series:
+
+Acked-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+
+> 
+> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+> ---
+>  Documentation/conf.py | 16 ++++++++++++++--
+>  1 file changed, 14 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/conf.py b/Documentation/conf.py
+> index 3ec1f845c839..03613eb59578 100644
+> --- a/Documentation/conf.py
+> +++ b/Documentation/conf.py
+> @@ -128,8 +128,20 @@ autosectionlabel_maxdepth = 2
+>  # mathjax is the default math renderer since Sphinx 1.8.
+>  have_latex =  have_command('latex', '--version', 'pdfTeX')
+>  have_dvipng = have_command('dvipng', '--version', 'dvipng')
+> -load_imgmath = ((have_latex and have_dvipng)
+> -                or (major == 1 and minor < 8)
+> +load_imgmath = have_latex and have_dvipng
+> +
+> +# Respect LOAD_IMGMATH (for html docs only)
+> +if 'LOAD_IMGMATH' in os.environ:
+> +    opt_load_imgmath = os.environ['LOAD_IMGMATH']
+> +    if 'yes' in opt_load_imgmath:
+> +        load_imgmath = True
+> +    elif 'no' in opt_load_imgmath:
+> +        load_imgmath = False
+> +    else: # otherwide, auto selection
+> +        pass
+> +
+> +# Always load imgmath for Sphinx <1.8 or for epub docs
+> +load_imgmath = (load_imgmath or (major == 1 and minor < 8)
+>                  or 'epub' in sys.argv)
+>  
+>  if load_imgmath:
+
+
+
+Thanks,
+Mauro
