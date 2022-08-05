@@ -2,48 +2,53 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D85CBC00140
-	for <linux-doc@archiver.kernel.org>; Fri,  5 Aug 2022 09:08:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C242C00140
+	for <linux-doc@archiver.kernel.org>; Fri,  5 Aug 2022 09:26:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240259AbiHEJIP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 5 Aug 2022 05:08:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47306 "EHLO
+        id S235466AbiHEJ0o (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 5 Aug 2022 05:26:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33494 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235839AbiHEJIO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 Aug 2022 05:08:14 -0400
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8BC9F21E10;
-        Fri,  5 Aug 2022 02:08:13 -0700 (PDT)
+        with ESMTP id S229767AbiHEJ0n (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 Aug 2022 05:26:43 -0400
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 902B27821F;
+        Fri,  5 Aug 2022 02:26:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1659690493; x=1691226493;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=VCbk/q9Wd0lGTGIEGbC69VxKX0QDmTy8SvpJ1KoCfF0=;
-  b=biSEyLDpCGbC085vqq4/C7VcR++Gz//BsrGNyI6UYr4FpmOL3E1o6lR2
-   TikNhO5QuSbvVNEFVIt3KNTiCwKRxvcBluqyClmMyYPHpmwrRFoX/RW+V
-   LHG6mD4MDTWoUi+QO5WBxylKaYOYMmZ6VrZjCKzU2tZzrHq9ZKFgZWTuD
-   obUhfGUVuGRwjMrTy5OsaY4LS/Tw66zzFebJOax3Qcx9rAylKisq2lMIt
-   zdnjoxFDc3BGrF+hES5qwMEnAbaVJQw0HJYF20W9ldCk6senONYh1/dLk
-   9nECiHfPoOE/fadh/BNwz0PQbZ6uqc5+kg7o0xtvw/Sp9Nl5WXIJBIg1F
-   Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10429"; a="316045584"
+  t=1659691602; x=1691227602;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=tG8kUD3ji7GDYQSEFarrC17CSyndXtVIb31RNBiVtX4=;
+  b=NHhh/conhaMMFuyUXq59VQLp7q9d/bX9y4mM9GMXSOLkLoSx6KVTq2Gx
+   U9u4HvBQQz3fTiG7+PZDwpMcxlZdyWVHLhtHxYqbtQjUiULZQoEea2c2n
+   UUz/CEZXzF6I82wwamyAxZtZL7zT0BHltESUX7YcPPq832r84yhNXDTni
+   jcSYmw8UCREjCurfq3U6QpO7z2rUuS3YTMumGBHfNGnRUDvHRRo2mVa47
+   xgihbM70jaY1YIdadrqqs3lkyhJX3Oq9qRvWpLbvOvZ/zWrw/uFDPfMeI
+   sr5lR5/Zd7PE7hyagM0w43nQCQO0TpwftmKMsCdtKC/R55Fm5LgtrJj1U
+   g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10429"; a="351874347"
 X-IronPort-AV: E=Sophos;i="5.93,216,1654585200"; 
-   d="scan'208";a="316045584"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2022 02:08:13 -0700
+   d="scan'208";a="351874347"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2022 02:24:31 -0700
 X-IronPort-AV: E=Sophos;i="5.93,216,1654585200"; 
-   d="scan'208";a="631945398"
-Received: from mborg-mobl1.ger.corp.intel.com (HELO intel.com) ([10.251.214.158])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2022 02:08:07 -0700
-Date:   Fri, 5 Aug 2022 11:08:05 +0200
-From:   Andi Shyti <andi.shyti@linux.intel.com>
-To:     Randy Dunlap <rdunlap@infradead.org>
+   d="scan'208";a="554052121"
+Received: from bfglenno-mobl.ger.corp.intel.com (HELO [10.213.238.183]) ([10.213.238.183])
+  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2022 02:24:27 -0700
+Message-ID: <7156b3bd-69d7-de53-dd2b-96e82a8cf0f7@linux.intel.com>
+Date:   Fri, 5 Aug 2022 10:24:25 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v3 3/3] drm/i915/gt: document TLB cache invalidation
+ functions
+Content-Language: en-US
+To:     Andi Shyti <andi.shyti@linux.intel.com>,
+        Randy Dunlap <rdunlap@infradead.org>
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
         Niranjana Vishwanathapura <niranjana.vishwanathapura@intel.com>,
-        Andi Shyti <andi.shyti@linux.intel.com>,
-        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
         Chris Wilson <chris.p.wilson@intel.com>,
         Daniel Vetter <daniel@ffwll.ch>,
         David Airlie <airlied@linux.ie>,
@@ -55,38 +60,45 @@ Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Thomas Zimmermann <tzimmermann@suse.de>,
         dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 3/3] drm/i915/gt: document TLB cache invalidation
- functions
-Message-ID: <Yuzd9Ysc3BDQHuSW@alfio.lan>
 References: <cover.1659598090.git.mchehab@kernel.org>
  <cc68d62a1979ea859b447b94413e100472331f57.1659598090.git.mchehab@kernel.org>
  <0698c5a5-3bf2-daa4-e10e-2715f9b0d080@infradead.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0698c5a5-3bf2-daa4-e10e-2715f9b0d080@infradead.org>
+ <Yuzd9Ysc3BDQHuSW@alfio.lan>
+From:   Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+In-Reply-To: <Yuzd9Ysc3BDQHuSW@alfio.lan>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Randy,
 
-> > +/**
-> > + * intel_gt_invalidate_tlb_full - do full TLB cache invalidation
-> > + * @gt: GT structure
+On 05/08/2022 10:08, Andi Shyti wrote:
+> Hi Randy,
 > 
-> In multiple places (here and below) it would be nice to know what a
-> GT structure is. I looked thru multiple C and header files yesterday
-> and didn't find any comments about it.
+>>> +/**
+>>> + * intel_gt_invalidate_tlb_full - do full TLB cache invalidation
+>>> + * @gt: GT structure
+>>
+>> In multiple places (here and below) it would be nice to know what a
+>> GT structure is. I looked thru multiple C and header files yesterday
+>> and didn't find any comments about it.
+>>
+>> Just saying that @gt is a GT structure isn't very helpful, other
+>> than making kernel-doc shut up.
 > 
-> Just saying that @gt is a GT structure isn't very helpful, other
-> than making kernel-doc shut up.
+> the 'gt' belongs to the drivers/gpu/drm/i915/gt/ subsystem and
+> it's widely used a throughout i915.
+> 
+> I think it's inappropriate to describe it just here. On the other
+> hand I agree that a better documentation is required for the GT
+> itself where other parts can point to.
 
-the 'gt' belongs to the drivers/gpu/drm/i915/gt/ subsystem and
-it's widely used a throughout i915.
+Yeah agreed there is no point of copy pasting some explanation all over 
+the place. Could we just do s/GT structure/struct intel_gt/, or "pointer 
+to struct intel_gt to operate on", would that be good enough?
 
-I think it's inappropriate to describe it just here. On the other
-hand I agree that a better documentation is required for the GT
-itself where other parts can point to.
+Regards,
 
-Andi
+Tvrtko
