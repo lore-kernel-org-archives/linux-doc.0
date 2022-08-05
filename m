@@ -2,159 +2,106 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 56D75C25B08
-	for <linux-doc@archiver.kernel.org>; Fri,  5 Aug 2022 03:39:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 67D38C00140
+	for <linux-doc@archiver.kernel.org>; Fri,  5 Aug 2022 07:47:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234738AbiHEDj3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 4 Aug 2022 23:39:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55770 "EHLO
+        id S237424AbiHEHrk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 5 Aug 2022 03:47:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47864 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229477AbiHEDj1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Aug 2022 23:39:27 -0400
-Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com [IPv6:2607:f8b0:4864:20::1029])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 250F952DFD;
-        Thu,  4 Aug 2022 20:39:27 -0700 (PDT)
-Received: by mail-pj1-x1029.google.com with SMTP id a8so1549079pjg.5;
-        Thu, 04 Aug 2022 20:39:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc;
-        bh=8sfhr26tDeV/L6Ozp357rvkDwH/uFe9BTr+eNIF+xXU=;
-        b=X1hd/w3YEpI3L9ZDpSiZE2PikM1J7Pe3b8stV716zhBQWlz5e/jFp5EH4iS8/6rGkk
-         TKOdqWCPnjrkfyLSGL5pvtbR3/A2S+XuCZ+urLJfRtlj599saXjaXOlWWHvnxRpWNd/b
-         QZLzHt9z5becYsv0gERZb+yxWXpU2B954h/wAUSJ08jYBNg2lJ8cdVQ2RCD+u/LflDVE
-         PE8t4Zn6TnS0BM99pdboDpgOC62MN9l+nJqRbVoR3P80Nqr15VlGnHEy1d02qmr0zGyw
-         Z6oZ/B6G60t/z4fwAmgRk9PhXW4VUNyiDBeVjA7vmHbEQo5MutdenqAGulC9XBaH0AQi
-         kxow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc;
-        bh=8sfhr26tDeV/L6Ozp357rvkDwH/uFe9BTr+eNIF+xXU=;
-        b=XcPsSmfk9dHebbX4wxiKpBc/zTKZKqUOESEqTg8eZuOZebWkUIrzOo27LL33HR+LjW
-         lJzqeAGIiNkGYaa3eGrk4QgmztoeCpq+qovz5O9Zv/ODnSb7kYpUsDhQizm80n1gOVuP
-         NckhgzCTq/3fQAAIIyC1c7Hyu4ujPWa2UZ3h847Fw4wwkJlJIfkJnXJuiBva4XqefXv/
-         xoVtat1Lxb2iOglVCbeH0mv9PyfaGIl60RASX/xEZFSjge7CkTZqCRabhFruydQOGkm3
-         P41iYOe73BT3ZgweVfetMvYG+6ydA5GWSbOODvC+amLSOM35YMMAFPuzKTup/1TfWtz4
-         1PYA==
-X-Gm-Message-State: ACgBeo2PgWbja+sE5oOge+Lin4rBtdNMNeNwK2eGEnVi9GPFTKItNUgu
-        r8wNhCBobNHwt3S6SonP07o=
-X-Google-Smtp-Source: AA6agR5923Jd70u1CMa/1BKAWCZxfqiG1OIy0Fvu624VKXl6nFsBzl39y13ZzjHWnaJxGJnh1AsWbA==
-X-Received: by 2002:a17:902:8693:b0:16c:db86:1c86 with SMTP id g19-20020a170902869300b0016cdb861c86mr4805594plo.9.1659670766619;
-        Thu, 04 Aug 2022 20:39:26 -0700 (PDT)
-Received: from localhost.localdomain ([193.203.214.57])
-        by smtp.gmail.com with ESMTPSA id n15-20020a170903110f00b0016ef1e058e5sm1683706plh.295.2022.08.04.20.39.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Aug 2022 20:39:26 -0700 (PDT)
-From:   cgel.zte@gmail.com
-X-Google-Original-From: yang.yang29@zte.com.cn
-To:     akpm@linux-foundation.org, bsingharora@gmail.com
-Cc:     corbet@lwn.net, willy@infradead.org, yang.yang29@zte.com.cn,
-        david@redhat.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-mm@kvack.org, CGEL ZTE <cgel.zte@gmail.com>
-Subject: [PATCH] filemap: Make the accounting of thrashing more consistent
-Date:   Fri,  5 Aug 2022 03:38:39 +0000
-Message-Id: <20220805033838.1714674-1-yang.yang29@zte.com.cn>
-X-Mailer: git-send-email 2.25.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        with ESMTP id S240425AbiHEHpl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 Aug 2022 03:45:41 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 658FE6316;
+        Fri,  5 Aug 2022 00:45:38 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id DB388616E4;
+        Fri,  5 Aug 2022 07:45:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46F47C433D6;
+        Fri,  5 Aug 2022 07:45:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1659685537;
+        bh=WTsZVOhy8UINvvU6B34tZEK7L2rz5HxDD4IhL7e6o7c=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=R1LlXQDVY81assRL6w8F0vO/KQ1J0/xiF2hY/rgsbtV0SyiwNU165kthYEaLWEtKs
+         yGaCKQUHFIAMG5XX6KF5a2c18nM6VyRTvpbajl/k/DplwgIYNFOACH460C+pjnNDHC
+         mFyknTxNvSs8Twq5UAQ5MRQevm33JBPOYeJ3ozTDjasM8AyyBTjg0gZnSiU+J8SnpQ
+         1b3dRzCZsydJZy2wdS7d3GEWqbWktv8qpIKQaACAIFzeOLaSxYLM2imiK70wiz34wv
+         URwsEhCNWOfdgQ1ms0ktapYg+Qs6e19l383YC6PPLGZufGu+dKFJI7UgKcZ9BksGM6
+         ateg3n4blMizg==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=why.misterjones.org)
+        by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.95)
+        (envelope-from <maz@kernel.org>)
+        id 1oJs1W-0016yT-RF;
+        Fri, 05 Aug 2022 08:45:34 +0100
+Date:   Fri, 05 Aug 2022 08:45:34 +0100
+Message-ID: <87les3w2u9.wl-maz@kernel.org>
+From:   Marc Zyngier <maz@kernel.org>
+To:     Bagas Sanjaya <bagasdotme@gmail.com>
+Cc:     Elliot Berman <quic_eberman@quicinc.com>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Murali Nalajala <quic_mnalajal@quicinc.com>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
+        Carl van Schaik <quic_cvanscha@quicinc.com>,
+        Andy Gross <agross@kernel.org>,
+        linux-arm-kernel@lists.infradead.org,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Will Deacon <will@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org
+Subject: Re: [PATCH v2 00/11] Drivers for gunyah hypervisor
+In-Reply-To: <Yux9PO0x+9aAVNj6@debian.me>
+References: <20220801211240.597859-1-quic_eberman@quicinc.com>
+        <YuuC0NISKFVIhUD1@debian.me>
+        <3dd4b206-8771-972b-7f4d-4935c5fbea3e@quicinc.com>
+        <Yux9PO0x+9aAVNj6@debian.me>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
+ (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: bagasdotme@gmail.com, quic_eberman@quicinc.com, bjorn.andersson@linaro.org, quic_mnalajal@quicinc.com, quic_tsoni@quicinc.com, quic_svaddagi@quicinc.com, quic_cvanscha@quicinc.com, agross@kernel.org, linux-arm-kernel@lists.infradead.org, lorenzo.pieralisi@arm.com, sudeep.holla@arm.com, robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, corbet@lwn.net, will@kernel.org, catalin.marinas@arm.com, devicetree@vger.kernel.org, linux-doc@vger.kernel.org, linux-arm-msm@vger.kernel.org
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Yang Yang <yang.yang29@zte.com.cn>
+On Fri, 05 Aug 2022 03:15:24 +0100,
+Bagas Sanjaya <bagasdotme@gmail.com> wrote:
+> 
+> On Thu, Aug 04, 2022 at 02:48:58PM -0700, Elliot Berman wrote:
+> > > 
+> > > Hi,
+> > > 
+> > > I can't apply this series on top of mainline or linux-next. On what tree
+> > > (and what commit) this series is based on? I'd like to do htmldocs test.
+> > > 
+> > 
+> > The series should apply cleanly on commit 4a57a8400075 ("vf/remap: return
+> > the amount of bytes actually deduplicated") from Linus's tree.
+> > 
+> 
+> Applied, thanks.
+> 
+> Next time, don't forget to specify --base when using git-format-patch.
 
-Once upon a time, we only support accounting thrashing of page cache.
-Then Joonsoo introduced workingset detection for anonymous pages and
-we gained the ability to account thrashing of them[1].
+Or even better, use a tagged release as the base (an early -rc would
+do), and not some random commit.
 
-So let delayacct account both the thrashing of page cache and anonymous
-pages, this could make the codes more consistent and simpler.
+Thanks,
 
-[1] commit aae466b0052e ("mm/swap: implement workingset detection for anonymous LRU")
+	M.
 
-Signed-off-by: Yang Yang <yang.yang29@zte.com.cn>
-Signed-off-by: CGEL ZTE <cgel.zte@gmail.com>
----
- Documentation/accounting/delay-accounting.rst |  2 +-
- mm/filemap.c                                  | 18 ++++--------------
- 2 files changed, 5 insertions(+), 15 deletions(-)
-
-diff --git a/Documentation/accounting/delay-accounting.rst b/Documentation/accounting/delay-accounting.rst
-index 241d1a87f2cd..7103b62ba6d7 100644
---- a/Documentation/accounting/delay-accounting.rst
-+++ b/Documentation/accounting/delay-accounting.rst
-@@ -13,7 +13,7 @@ a) waiting for a CPU (while being runnable)
- b) completion of synchronous block I/O initiated by the task
- c) swapping in pages
- d) memory reclaim
--e) thrashing page cache
-+e) thrashing
- f) direct compact
- g) write-protect copy
- 
-diff --git a/mm/filemap.c b/mm/filemap.c
-index 15800334147b..cfe15e89b3c2 100644
---- a/mm/filemap.c
-+++ b/mm/filemap.c
-@@ -1221,15 +1221,11 @@ static inline int folio_wait_bit_common(struct folio *folio, int bit_nr,
- 	struct wait_page_queue wait_page;
- 	wait_queue_entry_t *wait = &wait_page.wait;
- 	bool thrashing = false;
--	bool delayacct = false;
- 	unsigned long pflags;
- 
- 	if (bit_nr == PG_locked &&
- 	    !folio_test_uptodate(folio) && folio_test_workingset(folio)) {
--		if (!folio_test_swapbacked(folio)) {
--			delayacct_thrashing_start();
--			delayacct = true;
--		}
-+		delayacct_thrashing_start();
- 		psi_memstall_enter(&pflags);
- 		thrashing = true;
- 	}
-@@ -1329,8 +1325,7 @@ static inline int folio_wait_bit_common(struct folio *folio, int bit_nr,
- 	finish_wait(q, wait);
- 
- 	if (thrashing) {
--		if (delayacct)
--			delayacct_thrashing_end();
-+		delayacct_thrashing_end();
- 		psi_memstall_leave(&pflags);
- 	}
- 
-@@ -1378,17 +1373,13 @@ void migration_entry_wait_on_locked(swp_entry_t entry, pte_t *ptep,
- 	struct wait_page_queue wait_page;
- 	wait_queue_entry_t *wait = &wait_page.wait;
- 	bool thrashing = false;
--	bool delayacct = false;
- 	unsigned long pflags;
- 	wait_queue_head_t *q;
- 	struct folio *folio = page_folio(pfn_swap_entry_to_page(entry));
- 
- 	q = folio_waitqueue(folio);
- 	if (!folio_test_uptodate(folio) && folio_test_workingset(folio)) {
--		if (!folio_test_swapbacked(folio)) {
--			delayacct_thrashing_start();
--			delayacct = true;
--		}
-+		delayacct_thrashing_start();
- 		psi_memstall_enter(&pflags);
- 		thrashing = true;
- 	}
-@@ -1435,8 +1426,7 @@ void migration_entry_wait_on_locked(swp_entry_t entry, pte_t *ptep,
- 	finish_wait(q, wait);
- 
- 	if (thrashing) {
--		if (delayacct)
--			delayacct_thrashing_end();
-+		delayacct_thrashing_end();
- 		psi_memstall_leave(&pflags);
- 	}
- }
 -- 
-2.25.1
-
+Without deviation from the norm, progress is not possible.
