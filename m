@@ -2,136 +2,165 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B9C74C00140
-	for <linux-doc@archiver.kernel.org>; Fri,  5 Aug 2022 13:31:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0FF30C00140
+	for <linux-doc@archiver.kernel.org>; Fri,  5 Aug 2022 14:21:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233279AbiHENbq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 5 Aug 2022 09:31:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46286 "EHLO
+        id S240636AbiHEOVV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 5 Aug 2022 10:21:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51202 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233133AbiHENbo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 Aug 2022 09:31:44 -0400
-Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com [IPv6:2607:f8b0:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 972DB3ED65;
-        Fri,  5 Aug 2022 06:31:43 -0700 (PDT)
-Received: by mail-pf1-x42a.google.com with SMTP id y141so2267013pfb.7;
-        Fri, 05 Aug 2022 06:31:43 -0700 (PDT)
+        with ESMTP id S230095AbiHEOVU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 Aug 2022 10:21:20 -0400
+Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com [IPv6:2607:f8b0:4864:20::432])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 688BA15820;
+        Fri,  5 Aug 2022 07:21:19 -0700 (PDT)
+Received: by mail-pf1-x432.google.com with SMTP id f28so2408572pfk.1;
+        Fri, 05 Aug 2022 07:21:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc;
-        bh=fqcWmY1mBve1L/uK9Q+d74rl0xxAsTmgo1FtwEWwwi0=;
-        b=SODgQsLFaA7548Zpjjv2VLPVl/UV/irb9dxu/w/+UjNZXjR1BeMD/bU4PhxF9c+LYZ
-         1vdp8emXzb70f3ki8I3WdxH1vp6Go0YNphh2930b3OaaXAqwqHx/tvWLDEFQaFBvZawy
-         TrUfn1vyWnpBHZT7qTCk4JOWF6y5ZAfBK2wEDMlYG5KKXmHpAzauLMj/wjAnR8rfS2XZ
-         qT7sQ/NHML+jFqwHwMbAIcCCyxHJ2LLDrlzZcFTjM+W5VTu34UrKajSFohAH2M1Bt9/P
-         CouzaEnd2CnpGoZ2VT6QzxsV6xWmF4IS7sWtJZBnPpChNwee00yrvt8VWGWGWLTmPpJ8
-         47kQ==
+        h=message-id:date:mime-version:user-agent:content-language:from
+         :subject:to:cc:content-transfer-encoding;
+        bh=rXNow5gqUbkKynqjVClwEN34zi5YChlSfSC++OuolEw=;
+        b=lA0Hi0Qls8/HOM+mQD/3xoGxtOv7xgkXVWE+jOuOUMFTFboUlWTL6enIowiLc3kN/0
+         RZ4aZRZBmUSS4+HhgcdqVXyl2EMdTz01kl2XxZZxf9V6SxwiN6cBnYnpuOtoQPX/XOqF
+         0B1NxEUOeHYwcKdbVJOiOU9R9T3/wlZhu2rXcd1HQyYaZ0oTwsVBC6/SBfX/BOWm+g59
+         6iQt+IYisL68tUrjz3m7y3FUuJIjuRV4UUtduZQKQauJO99ycYy5U3fR1400Pht4Ux2O
+         FBEd1Ch4OHA05BLvsM3wiixqFOvVVLj4/R60/CGgRgfccj8HuNFAXdpR5tA2awGi17Hr
+         wnsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc;
-        bh=fqcWmY1mBve1L/uK9Q+d74rl0xxAsTmgo1FtwEWwwi0=;
-        b=V1TELQ0MGEVLYQD6xaDrEhVfmPcdkYzq30qIVMGAGRkftsQucLR7BOroHnsgRU96P3
-         ZXCCJroeJuEP9iAXswVbeElQO9exHxIRXUdkJVDucozocb68u6wUV7f8LxG725P8y475
-         C4siroiw3UVVUyU25HVMmSfqaLCjJJy4NXc8pDOY7E82s3103ySEwkCxwxKVFH6z1c9Y
-         q3UR4Va5YgzwV0chjJIf8Kb3lgM+uMSxv8nUbiuuq1XhjQykNEijRmPTyGmlnMEaMv4M
-         coIpTfLMCvPGSVLOyte62eJI6IyOlWC7uRRE5rC+i6yvotyDyKKwDbLZd5kJGCuTceLM
-         WJKg==
-X-Gm-Message-State: ACgBeo1SdiXLuFQzZFtYPmZn8ULxvUEsETT7su0n+AfqggTVGN4a+kuc
-        Z7N2nMOtRZ8GTaSLjw74izA=
-X-Google-Smtp-Source: AA6agR6KuhQSga1/p3WOwML8vH6DRegVLh9KAFWWEKI7bOc+i+Zc0lA261DTS0lb5MDl1Xf44fiPrg==
-X-Received: by 2002:a05:6a00:2a7:b0:52d:7d79:b836 with SMTP id q7-20020a056a0002a700b0052d7d79b836mr7063001pfs.52.1659706302895;
-        Fri, 05 Aug 2022 06:31:42 -0700 (PDT)
-Received: from [192.168.43.80] (subs02-180-214-232-75.three.co.id. [180.214.232.75])
-        by smtp.gmail.com with ESMTPSA id nn16-20020a17090b38d000b001efa35356besm5678374pjb.28.2022.08.05.06.31.39
+        h=x-gm-message-state:message-id:date:mime-version:user-agent
+         :content-language:from:subject:to:cc:content-transfer-encoding;
+        bh=rXNow5gqUbkKynqjVClwEN34zi5YChlSfSC++OuolEw=;
+        b=1F8lU8zH57dHoMdsszprT0+P3ObN1wxHoGfFCdf+W2ExvzDnJrBARv15JkSBjnHOHT
+         dqlGfgZdNc/Cg7/tbG5i2BDYNhXtKNL6AnnnU+fn6v0mfqpAX6UYT4LIbMDeGNYk6LKs
+         blXHtudVYTCqjLYZngSx0D/bkbZPEJrTpEw3SpenCac67MHYtvmnkRnE9Ve1lt9P+yA8
+         kPiki/31LVhP4asRzob3rKf1w9/IITlRBy9ADvAc7EbUZOaOEHKEzkhAZNmM6iTF9rmi
+         RsAHEwnbStLjdby7ELLW3VQb+vUIHJztRb9wjas6/dBZ9ZLie5tISZWbcA2Pe92Nxg9/
+         sxQw==
+X-Gm-Message-State: ACgBeo0GuWY8X5gj64et9Stk4Aa8xlpJZDDPAWIoDhQWkUVLdqOg9t2g
+        9sepP9IGzEGy5KZpB4Sect/b+oDsZ7w=
+X-Google-Smtp-Source: AA6agR7ced9Eh7JPfY+hYio26XKmu+deIOW7HuHiOXeA+Q4q+GnuBdiVERgR1eUKVio0td+dekqSpw==
+X-Received: by 2002:a05:6a00:4147:b0:52e:2d56:17c8 with SMTP id bv7-20020a056a00414700b0052e2d5617c8mr7095103pfb.51.1659709278870;
+        Fri, 05 Aug 2022 07:21:18 -0700 (PDT)
+Received: from [192.168.11.9] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id f11-20020aa79d8b000000b00528c3ad8e09sm3059969pfq.66.2022.08.05.07.21.16
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 05 Aug 2022 06:31:42 -0700 (PDT)
-Message-ID: <6556c478-976c-27f1-ad9b-606fe47f7ce1@gmail.com>
-Date:   Fri, 5 Aug 2022 20:31:33 +0700
+        Fri, 05 Aug 2022 07:21:18 -0700 (PDT)
+Message-ID: <12d078f5-6995-b039-7076-bdb1f372a799@gmail.com>
+Date:   Fri, 5 Aug 2022 23:21:13 +0900
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH v3] PCI: update the links for aer-inject git tree
+ Thunderbird/91.11.0
 Content-Language: en-US
-To:     Huang Shijie <shijie@os.amperecomputing.com>, bhelgaas@google.com
-Cc:     patches@amperecomputing.com, zwang@amperecomputing.com,
-        darren@os.amperecomputing.com, corbet@lwn.net,
-        yangyicong@hisilicon.com, linux-pci@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20220805105238.345599-1-shijie@os.amperecomputing.com>
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <20220805105238.345599-1-shijie@os.amperecomputing.com>
+From:   Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH 0/3] docs: conf.py: Reduce texlive dependency
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Akira Yokosawa <akiyks@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 8/5/22 17:52, Huang Shijie wrote:
-> The aer-inject tree has been moved to:
->     https://git.kernel.org/pub/scm/linux/kernel/git/gong.chen/aer-inject.git
-> Update the links.
-> 
-> Signed-off-by: Huang Shijie <shijie@os.amperecomputing.com>
-> ---
-> v1 --> v2: Modified the commit message and the title.
-> v2 --> v3: Change the commit message again.
-> ---
+This was inspired from the discussion on the expected behavior of
+sphinx-pre-install [1].
 
-The change log could have been before the diffstat below (so it won't be
-displayed on git log when applied).
+There was a mismatch between Mauro's intent and my expectation for
+the --no-pdf option of sphinx-pre-install.
 
->  Documentation/PCI/pcieaer-howto.rst | 2 +-
->  drivers/pci/pcie/Kconfig            | 2 +-
->  drivers/pci/pcie/aer_inject.c       | 2 +-
->  3 files changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/Documentation/PCI/pcieaer-howto.rst b/Documentation/PCI/pcieaer-howto.rst
-> index 0b36b9ebfa4b..b31fc9a0edbc 100644
-> --- a/Documentation/PCI/pcieaer-howto.rst
-> +++ b/Documentation/PCI/pcieaer-howto.rst
-> @@ -294,7 +294,7 @@ After reboot with new kernel or insert the module, a device file named
->  Then, you need a user space tool named aer-inject, which can be gotten
->  from:
->  
-> -    https://git.kernel.org/cgit/linux/kernel/git/gong.chen/aer-inject.git/
-> +    https://git.kernel.org/pub/scm/linux/kernel/git/gong.chen/aer-inject.git/
->  
->  More information about aer-inject can be found in the document comes
->  with its source code.
-> diff --git a/drivers/pci/pcie/Kconfig b/drivers/pci/pcie/Kconfig
-> index 788ac8df3f9d..d6ea0fd9892d 100644
-> --- a/drivers/pci/pcie/Kconfig
-> +++ b/drivers/pci/pcie/Kconfig
-> @@ -43,7 +43,7 @@ config PCIEAER_INJECT
->  	  error injection can fake almost all kinds of errors with the
->  	  help of a user space helper tool aer-inject, which can be
->  	  gotten from:
-> -	     https://git.kernel.org/cgit/linux/kernel/git/gong.chen/aer-inject.git/
-> +            https://git.kernel.org/pub/scm/linux/kernel/git/gong.chen/aer-inject.git/
->  
->  #
->  # PCI Express ECRC
-> diff --git a/drivers/pci/pcie/aer_inject.c b/drivers/pci/pcie/aer_inject.c
-> index 2dab275d252f..262b06b0dc1d 100644
-> --- a/drivers/pci/pcie/aer_inject.c
-> +++ b/drivers/pci/pcie/aer_inject.c
-> @@ -6,7 +6,7 @@
->   * trigger various real hardware errors. Software based error
->   * injection can fake almost all kinds of errors with the help of a
->   * user space helper tool aer-inject, which can be gotten from:
-> - *   https://git.kernel.org/cgit/linux/kernel/git/gong.chen/aer-inject.git/
-> + *   https://git.kernel.org/pub/scm/linux/kernel/git/gong.chen/aer-inject.git/
->   *
->   * Copyright 2009 Intel Corporation.
->   *     Huang Ying <ying.huang@intel.com>
+My thought was if I installed all the packages suggested from
+"./scripts/sphinx-pre-install --no-pdf", "make htmldocs" should run
+free of complaints of missing commands or packages.
 
-Otherwise looks OK.
+However, I got this warning when I tried the procedure on a debian-
+based container image:
 
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+    WARNING: LaTeX command 'latex' cannot be run (needed for math display),
+    check the imgmath_latex setting
 
+, or:
+
+    WARNING: dvipng command 'dvipng' cannot be run (needed for math display),
+    check the imgmath_dvipng setting
+
+Mauro's response to my complaint was this:
+
+> The idea of using --no-pdf is to setup an environment without LaTeX,
+> meaning that math tags would only be partially parsed: basically, the
+> output would be html with LaTeX-like math expressions (at least last
+> time I tried).
+
+The mismatch can be resolved by using "mathjax" for math rendering
+and making "make htmldocs" be free of texlive packages.
+
+mathjax is the default math renderer since Sphinx 1.8.  It delegates
+math rendering to web browsers.  
+
+As Mauro has pointed out, "make epubdocs" requires imgmath.
+
+So this patch set treats mathjax as a fallback math renderer for html
+docs when imgmath requirements are not met.
+Existing systems which meet imgmath requirements are not affected by
+this change.
+
+Summary of math rendering in html:
+
+         dvipng, browser             before           after
+    ==========================  ===============  ================
+    dvipng                      imgmath (png)    <--
+    no divpng, with javascript  raw math:: code  mathjax
+    no dvipng, w/o javascript   raw math:: code  raw mathjax code
+
+Patch 1/3 adds code in conf.py so that for html docs, the imgmath
+extension will be loaded only when both latex and dvipng are available.
+For epub docs, imgmath will always be loaded (no change).
+
+Patch 2/3 adds code respecting a new env variable "LOAD_IMGMATH" which
+will override the math renderer choice. This variable can be helpful
+on distros such as Arch linux, Mageia, etc. whose packaging policy is
+coarse-grained.
+
+E.g., to test math rendering by mathjax, run:
+    make LOAD_IMGMATH=no htmldocs
+
+I mentioned in the thread of [1] that imgmath can generate scalable
+math images in SVG.
+
+My plan was to implement that option as well.  But during tests under
+Fedora/CentOS/openSUSE, I encountered a couple of warnings from dvisvgm.
+That would be regressions on existing systems which happen to have
+not-working dvisvgm along with working dvipng.  I'm thinking of adding
+the SVG option later if I can figure out the minimal requirement for
+dvisvgm under imgmath.
+
+Patch 3/3 is an independent change in the LaTeX preamble for pdf docs.
+Currently, xeCJK.sty provided for RHEL 9 (and its clones) is broken
+due to the lack of new dependency.  As a workaround, treat the absence
+of xeCJK.sty as the additional knob for skipping CJK contents.
+
+Note: Generated LaTeX sources will be the same regardless of existence
+of the "Noto Sans CJK SC" font and xeCJK.sty.
+
+[1]: https://lore.kernel.org/r/3ba5a52e-cab6-05cf-a66e-adc58c467e1f@gmail.com/
+
+        Thanks, Akira
+--
+Akira Yokosawa (3):
+  docs/conf.py: Treat mathjax as fallback math renderer
+  docs/conf.py: Respect env variable LOAD_IMGMATH
+  docs: kerneldoc-preamble: Test xeCJK.sty before loading
+
+ Documentation/conf.py                       | 46 ++++++++++++++++++++-
+ Documentation/sphinx/kerneldoc-preamble.sty | 22 +++++++---
+ 2 files changed, 61 insertions(+), 7 deletions(-)
+
+
+base-commit: 339170d8d3da5685762619080263abb78700ab4c
 -- 
-An old man doll... just what I always wanted! - Clara
+2.25.1
+
