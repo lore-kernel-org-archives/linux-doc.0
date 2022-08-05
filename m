@@ -2,148 +2,106 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B0688C00140
-	for <linux-doc@archiver.kernel.org>; Fri,  5 Aug 2022 14:26:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EDC82C00140
+	for <linux-doc@archiver.kernel.org>; Fri,  5 Aug 2022 14:53:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240931AbiHEO0d (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 5 Aug 2022 10:26:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55424 "EHLO
+        id S235203AbiHEOxd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 5 Aug 2022 10:53:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40250 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238458AbiHEO0c (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 Aug 2022 10:26:32 -0400
-Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com [IPv6:2607:f8b0:4864:20::52d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC4F922515;
-        Fri,  5 Aug 2022 07:26:31 -0700 (PDT)
-Received: by mail-pg1-x52d.google.com with SMTP id bf13so2788204pgb.11;
-        Fri, 05 Aug 2022 07:26:31 -0700 (PDT)
+        with ESMTP id S232185AbiHEOxc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 Aug 2022 10:53:32 -0400
+Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0AD7D27B2A;
+        Fri,  5 Aug 2022 07:53:30 -0700 (PDT)
+Received: by mail-pj1-x1036.google.com with SMTP id t2-20020a17090a4e4200b001f21572f3a4so3126765pjl.0;
+        Fri, 05 Aug 2022 07:53:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=/J9uJtMk8fswjqJJI+2F/RdYBU5Fl+RhmlsOaGGHJAA=;
-        b=RTLqnBc8q9hqj4XC8sQaCRGNX5qoT53WlKdoXF7hYyE1/ohzrefiGYOlfYtasjIDCy
-         QD/sXUXknXXcSKBFkczM6ka+ZlZ/emuMYFliwBhD6PrC+hVblOJMefVM6kEJF+MID7Xs
-         Tp+LeG73iAllx7f32H6cuMwZwFc10CzA/5mMitSeLlsB/LxaDelOwE/Z4cAeLDkcxnMY
-         UjeegazX/9NyT1CYj+GWsakl9djWXBYiuwQMQMBVmdhTN1AEmmjYYP1qSpkeWAivMPDM
-         4EtJ8OtWdiKFxrSd9HqtNIgZifBLy1aml4DlSizoINwsQmR//yBAdjtMaUmff043CEFS
-         qjig==
+        h=message-id:date:mime-version:user-agent:to:cc:references:subject
+         :content-language:from:in-reply-to:content-transfer-encoding;
+        bh=33AZt7ymDP4nFwb3HoRxIJj1gr2kC1zCUk6/IWw48yE=;
+        b=TLwTF1vdMyAUqMHSboElOLVaAalCTo0wu68+EKsDUDSnc+prYVb0/ScfgXXfT783kq
+         Pb7rPiryzdSBDR96vTPk+JfTyvIdROsEl2/0yrIAMUP5vBunzxkxlwYj1Ttp9OtjrhPl
+         QIH4WA4K1UG7x9Z15ZAYu3vuLDfhA4kz092U3Imdi2lgHgaoqMuxkytofSJ1ClbfjapD
+         ihZs1YbOthi73/THKIXHv8b4ReNAfeS6nSyp3wcw8dwSytyJm0edPLE9EMNJ6JSQrB7d
+         RwVqT37lr7tDaK0Ky6qJbSaF51zx51e0D8qkwIYHzvyHxChjzOYkQmuYYEXPn0OeNuxo
+         HOQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:to:cc
+         :references:subject:content-language:from:in-reply-to
          :content-transfer-encoding;
-        bh=/J9uJtMk8fswjqJJI+2F/RdYBU5Fl+RhmlsOaGGHJAA=;
-        b=4/YyaQVbU8l8+RwxMGXONgkMBh5Vm54lgCaUF/Y7jHM7bvJGXPK6UnqmZgyCzIiEc0
-         TrN+Td8PEPbuttD3u/inbjFs/M9zPWifFqo7MkfZGRH+2jrYgj1PoFbdCOVPf7RBvqlY
-         chetoxio7TIRzsjmnmX/0dGJ6QSjCTQiNaoRkamh1piPiuWJd/qR2uEptNejaXLrqqCW
-         MtkA/39ErQsM5SACltoTgjT9W8RH8acrVYgBJF8ivXEXQzm6n1GzreBsQDnOtwaGvrhG
-         Tp1yaSJyIM0LAXZKxy9eWLzGK2F5V+Hnx/Rtyqwip1CZy483YL4K0Wid16YtMzeGd7m1
-         92iw==
-X-Gm-Message-State: ACgBeo2+HkyajKuKKIc3FiNdmY5F/5XGJEGI2oYsDZxB5TPtgQjpozSY
-        3wqjBWdmDVbIURZkaSmmHVo=
-X-Google-Smtp-Source: AA6agR7hReDusRnc9VbiqCn7hUq/+mjqT/W104BgtoJ05QnwcI7cvIGwu3P3gNkqwUBCAndMfyXE1w==
-X-Received: by 2002:a65:5381:0:b0:415:f0ec:ac70 with SMTP id x1-20020a655381000000b00415f0ecac70mr6159294pgq.473.1659709591379;
-        Fri, 05 Aug 2022 07:26:31 -0700 (PDT)
+        bh=33AZt7ymDP4nFwb3HoRxIJj1gr2kC1zCUk6/IWw48yE=;
+        b=lH/cfSICsc6fYZtu2OqEA9XEzYOwNYTdypEwOEDwPbDuoz72TkWrAKF9H+VCXA4MxL
+         rFeCC5LJnDfbO3XqOjo+pb85MVvuO0H1PEOwUFPtebPD7Vv91PVWonvE0DKzLa2lMhoY
+         qT3NwmqfXm+N195LForzX/BRP8aqmkYGWYKSisbW3KnKLVID3dLe0xbNC0TTnDbDAyJl
+         piaB5bTXHtOusdEpZAweAczmTQlbQYYEgQ1zcjgcdbcWRLJKjVkUb9e8pp9F5UoH6lQ2
+         TB7OrYsKDXbvRBlp7zioCVrF+rJjyFifcsU5pVoXCliTtFFPwCFCYsuUKmOUCCjv1LiZ
+         4pVA==
+X-Gm-Message-State: ACgBeo3mbwwubTY00/yuGfRy+VjJWJes/iaLeBBO64/pgxAmFPymMgBO
+        JVUEmLjnMc57wmMuQsyP3Y0=
+X-Google-Smtp-Source: AA6agR6CWsFqFxK/1Qgoi9OqNggL10FVM8/rDylB+Vqe15zY26HgqewrSu5O5pCifAnUgHs8F9L1Cg==
+X-Received: by 2002:a17:903:234e:b0:16e:e279:913c with SMTP id c14-20020a170903234e00b0016ee279913cmr7044716plh.47.1659711209559;
+        Fri, 05 Aug 2022 07:53:29 -0700 (PDT)
 Received: from [192.168.11.9] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id w1-20020a1709026f0100b0016dd667d511sm2998311plk.252.2022.08.05.07.26.29
+        by smtp.gmail.com with ESMTPSA id j15-20020a170902da8f00b0016f04c098ddsm3114520plx.226.2022.08.05.07.53.26
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 05 Aug 2022 07:26:30 -0700 (PDT)
-Message-ID: <484ac87f-565b-d445-0384-e6522a27fe2e@gmail.com>
-Date:   Fri, 5 Aug 2022 23:26:27 +0900
+        Fri, 05 Aug 2022 07:53:28 -0700 (PDT)
+Message-ID: <7c61db45-8e40-9918-ec7c-69a6deb8f71a@gmail.com>
+Date:   Fri, 5 Aug 2022 23:53:24 +0900
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: [PATCH 3/3] docs: kerneldoc-preamble: Test xeCJK.sty before loading
+To:     bagasdotme@gmail.com
+Cc:     bhelgaas@google.com, corbet@lwn.net, darren@os.amperecomputing.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-pci@vger.kernel.org, patches@amperecomputing.com,
+        shijie@os.amperecomputing.com, yangyicong@hisilicon.com,
+        zwang@amperecomputing.com
+References: <6556c478-976c-27f1-ad9b-606fe47f7ce1@gmail.com>
+Subject: Re: [PATCH v3] PCI: update the links for aer-inject git tree
 Content-Language: en-US
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Akira Yokosawa <akiyks@gmail.com>
-References: <12d078f5-6995-b039-7076-bdb1f372a799@gmail.com>
 From:   Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <12d078f5-6995-b039-7076-bdb1f372a799@gmail.com>
+In-Reply-To: <6556c478-976c-27f1-ad9b-606fe47f7ce1@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On distros whose texlive packaging is fine-grained, texlive-xecjk
-can be installed/removed independently of other texlive packages.
-Conditionally loading xeCJK.sty depending only on the existence of
-the "Noto Sans CJK SC" font might end up in xelatex error of
-"xeCJK.sty not found!".
+Fri, 5 Aug 2022 20:31:33 +0700, Bagas Sanjaya wrote:
+> On 8/5/22 17:52, Huang Shijie wrote:
+>> The aer-inject tree has been moved to:
+>>     https://git.kernel.org/pub/scm/linux/kernel/git/gong.chen/aer-inject.git
+>> Update the links.
+>> 
+>> Signed-off-by: Huang Shijie <shijie@os.amperecomputing.com>
+>> ---
+>> v1 --> v2: Modified the commit message and the title.
+>> v2 --> v3: Change the commit message again.
+>> ---
+> 
+> The change log could have been before the diffstat below (so it won't be
+> displayed on git log when applied).
+Are you sure Bagas?  :-)
 
-Improve the situation by testing existence of xeCJK.sty before
-loading it.
+>> Signed-off-by: Huang Shijie <shijie@os.amperecomputing.com>
+>> ---
 
-This is useful on RHEL 9 and its clone distros where texlive-xecjk
-doesn't work at the moment due to the missing dependency [1].
-"make pdfdocs" for non-CJK contents should work after removing
-texlive-xecjk.
+I guess this "---" should work as the end marker of changelog.
 
-Link: [1] https://bugzilla.redhat.com/show_bug.cgi?id=2086254
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
----
- Documentation/sphinx/kerneldoc-preamble.sty | 22 +++++++++++++++------
- 1 file changed, 16 insertions(+), 6 deletions(-)
+>> v1 --> v2: Modified the commit message and the title.
+>> v2 --> v3: Change the commit message again.
+>> ---
 
-diff --git a/Documentation/sphinx/kerneldoc-preamble.sty b/Documentation/sphinx/kerneldoc-preamble.sty
-index 2a29cbe51396..9707e033c8c4 100644
---- a/Documentation/sphinx/kerneldoc-preamble.sty
-+++ b/Documentation/sphinx/kerneldoc-preamble.sty
-@@ -70,8 +70,16 @@
- 
- % Translations have Asian (CJK) characters which are only displayed if
- % xeCJK is used
-+\usepackage{ifthen}
-+\newboolean{enablecjk}
-+\setboolean{enablecjk}{false}
- \IfFontExistsTF{Noto Sans CJK SC}{
--    % Load xeCJK when CJK font is available
-+    \IfFileExists{xeCJK.sty}{
-+	\setboolean{enablecjk}{true}
-+    }{}
-+}{}
-+\ifthenelse{\boolean{enablecjk}}{
-+    % Load xeCJK when both the Noto Sans CJK font and xeCJK.sty are available.
-     \usepackage{xeCJK}
-     % Noto CJK fonts don't provide slant shape. [AutoFakeSlant] permits
-     % its emulation.
-@@ -196,7 +204,7 @@
-     % Inactivate CJK after tableofcontents
-     \apptocmd{\sphinxtableofcontents}{\kerneldocCJKoff}{}{}
-     \xeCJKsetup{CJKspace = true}% For inter-phrase space of Korean TOC
--}{ % No CJK font found
-+}{ % Don't enable CJK
-     % Custom macros to on/off CJK and switch CJK fonts (Dummy)
-     \newcommand{\kerneldocCJKon}{}
-     \newcommand{\kerneldocCJKoff}{}
-@@ -204,14 +212,16 @@
-     %% and ignore the argument (#1) in their definitions, whole contents of
-     %% CJK chapters can be ignored.
-     \newcommand{\kerneldocBeginSC}[1]{%
--	%% Put a note on missing CJK fonts in place of zh_CN translation.
--	\begin{sphinxadmonition}{note}{Note on missing fonts:}
-+	%% Put a note on missing CJK fonts or the xecjk package in place of
-+	%% zh_CN translation.
-+	\begin{sphinxadmonition}{note}{Note on missing fonts and a package:}
- 	    Translations of Simplified Chinese (zh\_CN), Traditional Chinese
- 	    (zh\_TW), Korean (ko\_KR), and Japanese (ja\_JP) were skipped
--	    due to the lack of suitable font families.
-+	    due to the lack of suitable font families and/or the texlive-xecjk
-+	    package.
- 
- 	    If you want them, please install ``Noto Sans CJK'' font families
--	    by following instructions from
-+	    along with the texlive-xecjk package by following instructions from
- 	    \sphinxcode{./scripts/sphinx-pre-install}.
- 	    Having optional ``Noto Serif CJK'' font families will improve
- 	    the looks of those translations.
--- 
-2.25.1
+Another "---" here does no harm.
 
+        Thanks, Akira
+
+> 
+>>  Documentation/PCI/pcieaer-howto.rst | 2 +-
+>>  drivers/pci/pcie/Kconfig            | 2 +-
+>>  drivers/pci/pcie/aer_inject.c       | 2 +-
+>>  3 files changed, 3 insertions(+), 3 deletions(-)
 
