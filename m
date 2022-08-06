@@ -2,458 +2,341 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1CFD1C00140
-	for <linux-doc@archiver.kernel.org>; Sat,  6 Aug 2022 01:44:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C9B9C25B08
+	for <linux-doc@archiver.kernel.org>; Sat,  6 Aug 2022 03:05:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238693AbiHFBoE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 5 Aug 2022 21:44:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53980 "EHLO
+        id S237011AbiHFDFa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 5 Aug 2022 23:05:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35054 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237456AbiHFBoD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 Aug 2022 21:44:03 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D726011471;
-        Fri,  5 Aug 2022 18:44:01 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 7239761593;
-        Sat,  6 Aug 2022 01:44:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 482DFC433C1;
-        Sat,  6 Aug 2022 01:44:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1659750240;
-        bh=EO4KPee/02ngsNQxKe+YCPGH0iJnUb6OQ3jJ/XW6sfY=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=RV1o3wX9SMUkkd1GFeWnhNfV2wFsw1bRxyoxZ1P0cXBLgm8Cmqk8vZ3gHqtuUxJ+n
-         aY0Clc5/SeDmfmFz6k77MAd+Ibkbf5Z+m/IwpthYKDWpCAilsz2fnpY8Z9aqpAssW0
-         gcNZTqMtbacFNZdn5/7IUnuOtALjEGbWCjBCQxxyx/90e10G5ip2P8rQG0xxzicNwu
-         +FsC86frj94Bx6YeeuBAStrkLTyafovOeGtq+uzvEzc6xsgv2+IKzyGP0GUvzPFOzf
-         GwBpTzt4SC4t2BlkaiAPS8Yvm5pFZCRqPXUbt30eM8qW4Y4oV/KyxThq+Qv4O4UrfT
-         Qkd4FOeFN6V8g==
-Date:   Fri, 5 Aug 2022 18:43:59 -0700
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     <ecree@xilinx.com>
-Cc:     <netdev@vger.kernel.org>, <davem@davemloft.net>,
-        <pabeni@redhat.com>, <edumazet@google.com>, <corbet@lwn.net>,
-        <linux-doc@vger.kernel.org>, Edward Cree <ecree.xilinx@gmail.com>,
-        <linux-net-drivers@amd.com>,
-        Jacob Keller <jacob.e.keller@intel.com>,
-        Jesse Brandeburg <jesse.brandeburg@intel.com>,
-        Michael Chan <michael.chan@broadcom.com>,
-        Andy Gospodarek <andy@greyhouse.net>,
-        Saeed Mahameed <saeed@kernel.org>,
-        Jiri Pirko <jiri@resnulli.us>,
-        Shannon Nelson <snelson@pensando.io>,
-        Simon Horman <simon.horman@corigine.com>,
-        Alexander Duyck <alexander.duyck@gmail.com>
-Subject: Re: [RFC PATCH net-next] docs: net: add an explanation of VF (and
- other) Representors
-Message-ID: <20220805184359.5c55ca0d@kernel.org>
-In-Reply-To: <20220805165850.50160-1-ecree@xilinx.com>
-References: <20220805165850.50160-1-ecree@xilinx.com>
+        with ESMTP id S237883AbiHFDF3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 Aug 2022 23:05:29 -0400
+Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com [IPv6:2607:f8b0:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E4AF64E7;
+        Fri,  5 Aug 2022 20:05:28 -0700 (PDT)
+Received: by mail-pf1-x431.google.com with SMTP id h28so3703097pfq.11;
+        Fri, 05 Aug 2022 20:05:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc;
+        bh=n8+NipbWf5CWfrx8TWjHTrF2OSwrvOKYX0gdYlyE18s=;
+        b=bwYBu4cJI+oS6w8DfxAZJ+BPnr1rph8YlalgAVpgFmLEEuEjt7QQz+eAuAfslm5d38
+         d8s/L4uufpveOI04Nlqvj/MatovUFco/zMIfvQ64nE8SgUnUWfCePeNpmrHfIvFR7IVa
+         KxM8DLeL5q7QTbEpZi6ZpEHxQ4nuYfu05teDBTHJ6oRCy9AUoUt8ke53G4Wv4o0InnAk
+         fN3ZXDZDXRA39MbOatQ4k/Vzh1mowqpqAAWkIai8CrsSOV+WB6FGlvqUynwuXvGt5O8K
+         rP0KUdSEMF6MnJAF4ERReEuUa12KmDkiM+bVT0aEceQnE1ogoqTuAPdbEncTw5u8J7T/
+         LONg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
+        bh=n8+NipbWf5CWfrx8TWjHTrF2OSwrvOKYX0gdYlyE18s=;
+        b=LlbI00pB7/Y51lnMXimR3W4heB76MCjImJs1cswl1JzCDLAM1ai22SK5dndWJ6RLeP
+         yaqNeVunGE+RKgxHHhh2qV7BNP0W8aRFgqFz12A50gwuCvAWDMnxDK2UAvSeqvUcNdtx
+         UBJDiGeUPCaRyWyz2AFNu0cmTFRlbJe5+MvmF1Jxs1ogkIpzhzCu59foUIfvyMyaZqx1
+         bTg0BqSgiqhAw6+4fW+mBqqRBHvCNF3VGKOXmv7WMa/HhwcUAv4rKWvNkNIqDdi59nn2
+         G/fvXxvQat+tI4Vxz61dNIOJ042JcFax0Wuz1G2R4oX+HYpWOg5h/3aEa0Wsq4a+O7Sm
+         W6bQ==
+X-Gm-Message-State: ACgBeo28TPPm+Yts5A3RpeniVT55CRqbRVgK0oPVuCXSaEpcKps1l4RI
+        pGca0DtC7stucpCerH9mdHxyZN+q3DWuIA==
+X-Google-Smtp-Source: AA6agR7JM3+A4pqK31PRlWohLglDPElRKVIbnsggDucP6UdSPQVF1qMguMCUZHO5L2rtr0gTi/rcaw==
+X-Received: by 2002:a05:6a00:23d0:b0:52e:74be:d52 with SMTP id g16-20020a056a0023d000b0052e74be0d52mr9508368pfc.62.1659755127673;
+        Fri, 05 Aug 2022 20:05:27 -0700 (PDT)
+Received: from debian.me (subs02-180-214-232-80.three.co.id. [180.214.232.80])
+        by smtp.gmail.com with ESMTPSA id o190-20020a6341c7000000b0040c40b022fbsm2102035pga.94.2022.08.05.20.05.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 05 Aug 2022 20:05:27 -0700 (PDT)
+Received: by debian.me (Postfix, from userid 1000)
+        id 7FEFC1006CD; Sat,  6 Aug 2022 10:05:21 +0700 (WIB)
+Date:   Sat, 6 Aug 2022 10:05:21 +0700
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     Adel Abouchaev <adel.abushaev@gmail.com>
+Cc:     kuba@kernel.org, davem@davemloft.net, edumazet@google.com,
+        pabeni@redhat.com, corbet@lwn.net, dsahern@kernel.org,
+        shuah@kernel.org, imagedong@tencent.com, netdev@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        kernel test robot <lkp@intel.com>
+Subject: Re: [RFC net-next v2 1/6] Documentation on QUIC kernel Tx crypto.
+Message-ID: <Yu3acQf/xS6g/bdH@debian.me>
+References: <adel.abushaev@gmail.com>
+ <20220806001153.1461577-1-adel.abushaev@gmail.com>
+ <20220806001153.1461577-2-adel.abushaev@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha384;
+        protocol="application/pgp-signature"; boundary="A3X+hUfrymK5EW66"
+Content-Disposition: inline
+In-Reply-To: <20220806001153.1461577-2-adel.abushaev@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 5 Aug 2022 17:58:50 +0100 ecree@xilinx.com wrote:
-> From: Edward Cree <ecree.xilinx@gmail.com>
+
+--A3X+hUfrymK5EW66
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Fri, Aug 05, 2022 at 05:11:48PM -0700, Adel Abouchaev wrote:
+> Adding Documentation/networking/quic.rst file to describe kernel QUIC
+> code.
 >=20
-> There's no clear explanation of what VF Representors are for, their
->  semantics, etc., outside of vendor docs and random conference slides.
-> Add a document explaining Representors and defining what drivers that
->  implement them are expected to do.
->=20
-> Signed-off-by: Edward Cree <ecree.xilinx@gmail.com>
-> ---
-> This documents representors as I understand them, but I suspect others
->  (including other vendors) might disagree (particularly with the "what
->  functions should have a rep" section).  I'm hoping that through review
->  of this doc we can converge on a consensus.
 
-Thanks for doing this, we need to CC people tho. Otherwise they won't
-pay attention. (adding semi-non-exhaustively those I have in my address
-book)
+Better say "Add documentation for kernel QUIC code".
 
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D
-> +Network Function Representors
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D
+> diff --git a/Documentation/networking/index.rst b/Documentation/networkin=
+g/index.rst
+> index 03b215bddde8..656fa1dac26b 100644
+> --- a/Documentation/networking/index.rst
+> +++ b/Documentation/networking/index.rst
+> @@ -90,6 +90,7 @@ Contents:
+>     plip
+>     ppp_generic
+>     proc_net_tcp
+> +   quic
+>     radiotap-headers
+>     rds
+>     regulatory
+> diff --git a/Documentation/networking/quic.rst b/Documentation/networking=
+/quic.rst
+> new file mode 100644
+> index 000000000000..416099b80e60
+> --- /dev/null
+> +++ b/Documentation/networking/quic.rst
+> @@ -0,0 +1,186 @@
+> +.. _kernel_quic:
 > +
-> +This document describes the semantics and usage of representor netdevice=
-s, as
-> +used to control internal switching on SmartNICs.  For the closely-relate=
-d port
-> +representors on physical (multi-port) switches, see
-> +:ref:`Documentation/networking/switchdev.rst <switchdev>`.
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +KERNEL QUIC
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
 > +
-> +Motivation
-> +----------
+> +Overview
+> +=3D=3D=3D=3D=3D=3D=3D=3D
 > +
-> +Since the mid-2010s, network cards have started offering more complex
-> +virtualisation capabilities than the legacy SR-IOV approach (with its si=
-mple
-> +MAC/VLAN-based switching model) can support.  This led to a desire to of=
-fload
-> +software-defined networks (such as OpenVSwitch) to these NICs to specify=
- the
-> +network connectivity of each function.  The resulting designs are variou=
-sly
-> +called SmartNICs or DPUs.
+> +QUIC is a secure general-purpose transport protocol that creates a state=
+ful
+> +interaction between a client and a server. QUIC provides end-to-end inte=
+grity
+> +and confidentiality. Refer to RFC 9000 for more information on QUIC.
 > +
-> +Network function representors provide the mechanism by which network fun=
-ctions
-> +on an internal switch are managed. They are used both to configure the
-> +corresponding function ('representee') and to handle slow-path traffic t=
-o and
-> +from the representee for which no fast-path switching rule is matched.
-
-I think we should just describe how those netdevs bring SR-IOV
-forwarding into Linux networking stack. This section reads too much
-like it's a hack rather than an obvious choice. Perhaps:
-
-The representors bring the standard Linux networking stack to IOV
-functions. Same as each port of a Linux-controlled switch has a
-separate netdev, each virtual function has one. When system boots=20
-and before any offload is configured all packets from the virtual
-functions appear in the networking stack of the PF via the representors.
-PF can thus always communicate freely with the virtual functions.=20
-PF can configure standard Linux forwarding between representors,=20
-the uplink or any other netdev (routing, bridging, TC classifiers).
-
-> +That is, a representor is both a control plane object (representing the =
-function
-> +in administrative commands) and a data plane object (one end of a virtua=
-l pipe).
-> +As a virtual link endpoint, the representor can be configured like any o=
-ther
-> +netdevice; in some cases (e.g. link state) the representee will follow t=
+> +The kernel Tx side offload covers the encryption of the application stre=
+ams
+> +in the kernel rather than in the application. These packets are 1RTT pac=
+kets
+> +in QUIC connection. Encryption of every other packets is still done by t=
 he
-> +representor's configuration, while in others there are separate APIs to
-> +configure the representee.
+> +QUIC library in user space.
 > +
-> +What does a representor do?
-> +---------------------------
 > +
-> +A representor has three main r=C3=B4les.
 > +
-> +1. It is used to configure the representee's virtual MAC, e.g. link up/d=
-own,
-> +   MTU, etc.  For instance, bringing the representor administratively UP=
- should
-> +   cause the representee to see a link up / carrier on event.
-
-I presume you're trying to start a discussion here, rather than stating
-the existing behavior. Or the "virtual MAC" means something else than I
-think it means?
-
-> +2. It provides the slow path for traffic which does not hit any offloaded
-> +   fast-path rules in the virtual switch.  Packets transmitted on the
-> +   representor netdevice should be delivered to the representee; packets
-> +   transmitted to the representee which fail to match any switching rule=
- should
-> +   be received on the representor netdevice.  (That is, there is a virtu=
-al pipe
-> +   connecting the representor to the representee, similar in concept to =
-a veth
-> +   pair.)
+> +User Interface
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
 > +
-> +   This allows software switch implementations (such as OpenVSwitch or a=
- Linux
-> +   bridge) to forward packets between representees and the rest of the n=
-etwork.
-> +3. It acts as a handle by which switching rules (such as TC filters) can=
- refer
-> +   to the representee, allowing these rules to be offloaded.
+> +Creating a QUIC connection
+> +--------------------------
 > +
-> +The combination of 2) and 3) means that the behaviour (apart from perfor=
-mance)
-> +should be the same whether a TC filter is offloaded or not.  E.g. a TC r=
-ule
-> +on a VF representor applies in software to packets received on that repr=
-esentor
-> +netdevice, while in hardware offload it would apply to packets transmitt=
-ed by
-> +the representee VF.  Conversely, a mirred egress redirect to a VF repres=
-entor
-> +corresponds in hardware to delivery directly to the representee VF.
+> +QUIC connection originates and terminates in the application, using one =
+of many
+> +available QUIC libraries. The code instantiates QUIC client and QUIC ser=
+ver in
+> +some form and configures them to use certain addresses and ports for the
+> +source and destination. The client and server negotiate the set of keys =
+to
+> +protect the communication during different phases of the connection, mai=
+ntain
+> +the connection and perform congestion control.
 > +
-> +What functions should have a representor?
-> +-----------------------------------------
+> +Requesting to add QUIC Tx kernel encryption to the connection
+> +-------------------------------------------------------------
 > +
-> +Essentially, for each virtual port on the device's internal switch, there
-> +should be a representor.
-> +The only exceptions are the management PF (whose port is used for traffi=
-c to
-> +and from all other representors)=20
-
-AFAIK there's no "management PF" in the Linux model.
-
-> and perhaps the physical network port (for
-> +which the management PF may act as a kind of port representor.  Devices =
-that
-> +combine multiple physical ports and SR-IOV capability may need to have p=
-ort
-> +representors in addition to PF/VF representors).
-
-That doesn't generalize well. If we just say that all uplinks and PFs
-should have a repr we don't have to make exceptions for all the cases
-where that's the case.
-
-> +Thus, the following should all have representors:
+> +Each flow that should be encrypted by the kernel needs to be registered =
+with
+> +the kernel using socket API. A setsockopt() call on the socket creates an
+> +association between the QUIC connection ID of the flow with the encrypti=
+on
+> +parameters for the crypto operations:
 > +
-> + - VFs belonging to the management PF.
-
-management PF -> /dev/null
-
-> + - Other PFs on the PCIe controller, and any VFs belonging to them.
-
-What is "the PCIe controller" here? I presume you've seen the
-devlink-port doc.
-
-> + - PFs and VFs on other PCIe controllers on the device (e.g. for any emb=
-edded
-> +   System-on-Chip within the SmartNIC).
-> + - PFs and VFs with other personalities, including network block devices=
- (such
-> +   as a vDPA virtio-blk PF backed by remote/distributed storage).
-
-IDK how you can configure block forwarding (which is DMAs of command
-+ data blocks, not packets AFAIU) with the networking concepts..
-I've not used the storage functions tho, so I could be wrong.
-
-> + - Subfunctions (SFs) belonging to any of the above PFs or VFs, if they =
-have
-> +   their own port on the switch (as opposed to using their parent PF's p=
-ort).
-> + - Any accelerators or plugins on the device whose interface to the netw=
-ork is
-> +   through a virtual switch port, even if they do not have a correspondi=
-ng PCIe
-> +   PF or VF.
+> +.. code-block:: c
 > +
-> +This allows the entire switching behaviour of the NIC to be controlled t=
-hrough
-> +representor TC rules.
+> +	struct quic_connection_info conn_info;
+> +	char conn_id[5] =3D {0x01, 0x02, 0x03, 0x04, 0x05};
+> +	const size_t conn_id_len =3D sizeof(conn_id);
+> +	char conn_key[16] =3D {0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
+> +			     0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f};
+> +	char conn_iv[12] =3D {0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
+> +			    0x08, 0x09, 0x0a, 0x0b};
+> +	char conn_hdr_key[16] =3D {0x10, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x=
+17,
+> +				 0x18, 0x19, 0x1a, 0x1b, 0x1c, 0x1d, 0x1e, 0x1f
+> +				};
 > +
-> +An example of a PCIe function that should *not* have a representor is, o=
-n an
-> +FPGA-based NIC, a PF which is only used to deploy a new bitstream to the=
- FPGA,
-> +and which cannot create RX and TX queues.
-
-What's the thinking here? We're letting everyone add their own
-exceptions to the doc?
-
->  Since such a PF does not have network
-> +access through the internal switch, not even indirectly via a distributed
-> +storage endpoint, there is no switch virtual port for the representor to
-> +configure or to be the other end of the virtual pipe.
-
-Does it have a netdev?
-
-> +How are representors created?
+> +	conn_info.cipher_type =3D TLS_CIPHER_AES_GCM_128;
+> +
+> +	memset(&conn_info.key, 0, sizeof(struct quic_connection_info_key));
+> +	conn_info.key.conn_id_length =3D 5;
+> +	memcpy(&conn_info.key.conn_id[QUIC_MAX_CONNECTION_ID_SIZE
+> +				      - conn_id_len],
+> +	       &conn_id, conn_id_len);
+> +
+> +	memcpy(&conn_info.payload_key, conn_key, sizeof(conn_key));
+> +	memcpy(&conn_info.payload_iv, conn_iv, sizeof(conn_iv));
+> +	memcpy(&conn_info.header_key, conn_hdr_key, sizeof(conn_hdr_key));
+> +
+> +	setsockopt(fd, SOL_UDP, UDP_QUIC_ADD_TX_CONNECTION, &conn_info,
+> +		   sizeof(conn_info));
+> +
+> +
+> +Requesting to remove QUIC Tx kernel crypto offload control messages
+> +-------------------------------------------------------------------
+> +
+> +All flows are removed when the socket is closed. To request an explicit =
+remove
+> +of the offload for the connection during the lifetime of the socket the =
+process
+> +is similar to adding the flow. Only the connection ID and its length are
+> +necessary to supply to remove the connection from the offload:
+> +
+> +.. code-block:: c
+> +
+> +	memset(&conn_info.key, 0, sizeof(struct quic_connection_info_key));
+> +	conn_info.key.conn_id_length =3D 5;
+> +	memcpy(&conn_info.key.conn_id[QUIC_MAX_CONNECTION_ID_SIZE
+> +				      - conn_id_len],
+> +	       &conn_id, conn_id_len);
+> +	setsockopt(fd, SOL_UDP, UDP_QUIC_DEL_TX_CONNECTION, &conn_info,
+> +		   sizeof(conn_info));
+> +
+> +Sending QUIC application data
 > +-----------------------------
 > +
-> +The driver instance attached to the management PF should enumerate the v=
-irtual
-> +ports on the switch, and for each representee, create a pure-software ne=
-tdevice
-> +which has some form of in-kernel reference to the PF's own netdevice or =
-driver
-> +private data (``netdev_priv()``).
-> +If switch ports can dynamically appear/disappear, the PF driver should c=
-reate
-> +and destroy representors appropriately.
-> +The operations of the representor netdevice will generally involve acting
-> +through the management PF.  For example, ``ndo_start_xmit()`` might send=
+> +For QUIC Tx encryption offload, the application should use sendmsg() soc=
+ket
+> +call and provide ancillary data with information on connection ID length=
+ and
+> +offload flags for the kernel to perform the encryption and GSO support if
+> +requested.
+> +
+> +.. code-block:: c
+> +
+> +	size_t cmsg_tx_len =3D sizeof(struct quic_tx_ancillary_data);
+> +	uint8_t cmsg_buf[CMSG_SPACE(cmsg_tx_len)];
+> +	struct quic_tx_ancillary_data * anc_data;
+> +	size_t quic_data_len =3D 4500;
+> +	struct cmsghdr * cmsg_hdr;
+> +	char quic_data[9000];
+> +	struct iovec iov[2];
+> +	int send_len =3D 9000;
+> +	struct msghdr msg;
+> +	int err;
+> +
+> +	iov[0].iov_base =3D quic_data;
+> +	iov[0].iov_len =3D quic_data_len;
+> +	iov[1].iov_base =3D quic_data + 4500;
+> +	iov[1].iov_len =3D quic_data_len;
+> +
+> +	if (client.addr.sin_family =3D=3D AF_INET) {
+> +		msg.msg_name =3D &client.addr;
+> +		msg.msg_namelen =3D sizeof(client.addr);
+> +	} else {
+> +		msg.msg_name =3D &client.addr6;
+> +		msg.msg_namelen =3D sizeof(client.addr6);
+> +	}
+> +
+> +	msg.msg_iov =3D iov;
+> +	msg.msg_iovlen =3D 2;
+> +	msg.msg_control =3D cmsg_buf;
+> +	msg.msg_controllen =3D sizeof(cmsg_buf);
+> +	cmsg_hdr =3D CMSG_FIRSTHDR(&msg);
+> +	cmsg_hdr->cmsg_level =3D IPPROTO_UDP;
+> +	cmsg_hdr->cmsg_type =3D UDP_QUIC_ENCRYPT;
+> +	cmsg_hdr->cmsg_len =3D CMSG_LEN(cmsg_tx_len);
+> +	anc_data =3D CMSG_DATA(cmsg_hdr);
+> +	anc_data->flags =3D 0;
+> +	anc_data->next_pkt_num =3D 0x0d65c9;
+> +	anc_data->conn_id_length =3D conn_id_len;
+> +	err =3D sendmsg(self->sfd, &msg, 0);
+> +
+> +QUIC Tx offload in kernel will read the data from userspace, encrypt and
+> +copy it to the ciphertext within the same operation.
+> +
+> +
+> +Sending QUIC application data with GSO
+> +--------------------------------------
+> +When GSO is in use, the kernel will use the GSO fragment size as the tar=
+get
+> +for ciphertext. The packets from the user space should align on the boun=
+dary
+> +of GSO fragment size minus the size of the tag for the chosen cipher. Fo=
+r the
+> +GSO fragment 1200, the plain packets should follow each other at every 1=
+184
+> +bytes, given the tag size of 16. After the encryption, the rest of the U=
+DP
+> +and IP stacks will follow the defined value of GSO fragment which will i=
+nclude
+> +the trailing tag bytes.
+> +
+> +To set up GSO fragmentation:
+> +
+> +.. code-block:: c
+> +
+> +	setsockopt(self->sfd, SOL_UDP, UDP_SEGMENT, &frag_size,
+> +		   sizeof(frag_size));
+> +
+> +If the GSO fragment size is provided in ancillary data within the sendms=
+g()
+> +call, the value in ancillary data will take precedence over the segment =
+size
+> +provided in setsockopt to split the payload into packets. This is consis=
+tent
+> +with the UDP stack behavior.
+> +
+> +Integrating to userspace QUIC libraries
+> +---------------------------------------
+> +
+> +Userspace QUIC libraries integration would depend on the implementation =
+of the
+> +QUIC protocol. For MVFST library, the control plane is integrated into t=
+he
+> +handshake callbacks to properly configure the flows into the socket; and=
  the
-> +packet, specially marked for delivery to the representee, through a TX q=
-ueue
-> +attached to the management PF.
+> +data plane is integrated into the methods that perform encryption and se=
+nd
+> +the packets to the batch scheduler for transmissions to the socket.
+> +
+> +MVFST library can be found at https://github.com/facebookincubator/mvfst.
+> +
+> +Statistics
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +QUIC Tx offload to the kernel has counters
+> +(``/proc/net/quic_stat``):
+> +
+> +- ``QuicCurrTxSw`` -
+> +  number of currently active kernel offloaded QUIC connections
+> +- ``QuicTxSw`` -
+> +  accumulative total number of offloaded QUIC connections
+> +- ``QuicTxSwError`` -
+> +  accumulative total number of errors during QUIC Tx offload to kernel
+> +
 
-IDK how common that is, RDMA NICs will likely do the "dedicated queue
-per repr" thing since they pretend to have infinite queues.
+The documentation looks OK (no new warnings).
 
-> +How are representors identified?
-> +--------------------------------
-> +
-> +The representor netdevice should *not* directly refer to a PCIe device (=
-e.g.
-> +through ``net_dev->dev.parent`` / ``SET_NETDEV_DEV()``), either of the
-> +representee or of the management PF.
+Thanks.
 
-Do we know how many existing ones do?=20
+--=20
+An old man doll... just what I always wanted! - Clara
 
-> +Instead, it should implement the ``ndo_get_port_parent_id()`` and
-> +``ndo_get_phys_port_name()`` netdevice ops (corresponding to the
-> +``phys_switch_id`` and ``phys_port_name`` sysfs nodes).
-> +``ndo_get_port_parent_id()`` should return a string identical to that re=
-turned
-> +by the management PF's ``ndo_get_phys_port_id()`` (typically the MAC add=
-ress of
-> +the physical port), while ``ndo_get_phys_port_name()`` should return a s=
-tring
-> +describing the representee's relation to the management PF.
-> +
-> +For instance, if the management PF has a ``phys_port_name`` of ``p0`` (p=
-hysical
-> +port 0), then the representor for the third VF on the second PF should t=
-ypically
-> +be ``p0pf1vf2`` (i.e. "port 0, PF 1, VF 2").  More generally, the
-> +``phys_port_name`` for a PCIe function should be the concatenation of on=
-e or
-> +more of:
-> +
-> + - ``p<N>``, physical port number *N*.
-> + - ``if<N>``, PCIe controller number *N*.  The semantics of these number=
-s are
-> +   vendor-defined, and controller 0 need not correspond to the controlle=
-r on
-> +   which the management PF resides.
+--A3X+hUfrymK5EW66
+Content-Type: application/pgp-signature; name="signature.asc"
 
-/me checks in horror if this is already upstream
+-----BEGIN PGP SIGNATURE-----
 
-> + - ``pf<N>``, PCIe physical function index *N*.
-> + - ``vf<N>``, PCIe virtual function index *N*.
-> + - ``sf<N>``, Subfunction index *N*.
+iJUEABMJAB0WIQTsebsWCPCpxY9T92n/R0PGQ3AzwAUCYu3aZgAKCRD/R0PGQ3Az
+wPHCAXsHJlkoC4SvIiMU7ZdQdMPDxZwiHOCbcuky0UhYBzntVQ1MOsfx1jly/6Fz
+7iAwAJEBgK2BgMFiyRoOhzqY3c3rlMCIejvb2x856Zjrg1aM8FyhR2lSx20HLxXW
+x3ZXNjiIRw==
+=Y0/a
+-----END PGP SIGNATURE-----
 
-Yeah, nah... implement devlink port, please. This is done by the core,
-you shouldn't have to document this.
-
-> +It is expected that userland will use this information (e.g. through ude=
-v rules)
-> +to construct an appropriately informative name or alias for the netdevic=
-e.  For
-> +instance if the management PF is ``eth4`` then our representor with a
-> +``phys_port_name`` of ``p0pf1vf2`` might be renamed ``eth4pf1vf2rep``.
-> +
-> +There are as yet no established conventions for naming representors whic=
-h do not
-> +correspond to PCIe functions (e.g. accelerators and plugins).
-> +
-> +How do representors interact with TC rules?
-> +-------------------------------------------
-> +
-> +Any TC rule on a representor applies (in software TC) to packets receive=
-d by
-> +that representor netdevice.  Thus, if the delivery part of the rule corr=
-esponds
-> +to another port on the virtual switch, the driver may choose to offload =
-it to
-> +hardware, applying it to packets transmitted by the representee.
-> +
-> +Similarly, since a TC mirred egress action targeting the representor wou=
-ld (in
-> +software) send the packet through the representor (and thus indirectly d=
-eliver
-> +it to the representee), hardware offload should interpret this as delive=
-ry to
-> +the representee.
-> +
-> +As a simple example, if ``eth0`` is the management PF's netdevice and ``=
-eth1``
-> +is a VF representor, the following rules::
-> +
-> +    tc filter add dev eth1 parent ffff: protocol ipv4 flower \
-> +        action mirred egress redirect dev eth0
-> +    tc filter add dev eth0 parent ffff: protocol ipv4 flower \
-> +        action mirred egress mirror dev eth1
-> +
-> +would mean that all IPv4 packets from the VF are sent out the physical p=
-ort, and
-> +all IPv4 packets received on the physical port are delivered to the VF in
-> +addition to the management PF.
-> +
-> +Of course the rules can (if supported by the NIC) include packet-modifyi=
-ng
-> +actions (e.g. VLAN push/pop), which should be performed by the virtual s=
-witch.
-> +
-> +Tunnel encapsulation and decapsulation are rather more complicated, as t=
-hey
-> +involve a third netdevice (a tunnel netdev operating in metadata mode, s=
-uch as
-> +a VxLAN device created with ``ip link add vxlan0 type vxlan external``) =
-and
-> +require an IP address to be bound to the underlay device (e.g. managemen=
-t PF or
-> +port representor).  TC rules such as::
-> +
-> +    tc filter add dev eth1 parent ffff: flower \
-> +        action tunnel_key set id $VNI src_ip $LOCAL_IP dst_ip $REMOTE_IP=
- \
-> +                              dst_port 4789 \
-> +        action mirred egress redirect dev vxlan0
-> +    tc filter add dev vxlan0 parent ffff: flower enc_src_ip $REMOTE_IP \
-> +        enc_dst_ip $LOCAL_IP enc_key_id $VNI enc_dst_port 4789 \
-> +        action tunnel_key unset action mirred egress redirect dev eth1
-> +
-> +where ``LOCAL_IP`` is an IP address bound to ``eth0``, and ``REMOTE_IP``=
- is
-> +another IP address on the same subnet, mean that packets sent by the VF =
-should
-> +be VxLAN encapsulated and sent out the physical port (the driver has to =
-deduce
-> +this by a route lookup of ``LOCAL_IP`` leading to ``eth0``, and also per=
-form an
-> +ARP/neighbour table lookup to find the MAC addresses to use in the outer
-> +Ethernet frame), while UDP packets received on the physical port with UD=
-P port
-> +4789 should be parsed as VxLAN and, if their VSID matches ``$VNI``, deca=
-psulated
-> +and forwarded to the VF.
-> +
-> +If this all seems complicated, just remember the 'golden rule' of TC off=
-load:
-> +the hardware should ensure the same final results as if the packets were
-> +processed through the slow path, traversed software TC and were transmit=
-ted or
-> +received through the representor netdevices.
-> +
-> +Configuring the representee's MAC
-> +---------------------------------
-> +
-> +The representee's link state is controlled through the representor.  Set=
-ting the
-> +representor administratively UP or DOWN should cause carrier ON or OFF a=
-t the
-> +representee.
-> +
-> +Setting an MTU on the representor should cause that same MTU to be repor=
-ted to
-> +the representee.
-> +(On hardware that allows configuring separate and distinct MTU and MRU v=
-alues,
-> +the representor MTU should correspond to the representee's MRU and vice-=
-versa.)
-
-Why worry about that?
-
-> +Currently there is no way to use the representor to set the station perm=
-anent
-> +MAC address of the representee; other methods available to do this inclu=
-de:
-> +
-> + - legacy SR-IOV (``ip link set DEVICE vf NUM mac LLADDR``)
-> + - devlink port function (see **devlink-port(8)** and
-> +   :ref:`Documentation/networking/devlink/devlink-port.rst <devlink_port=
->`)
-> diff --git a/Documentation/networking/switchdev.rst b/Documentation/netwo=
-rking/switchdev.rst
-> index f1f4e6a85a29..21e80c8e661b 100644
-> --- a/Documentation/networking/switchdev.rst
-> +++ b/Documentation/networking/switchdev.rst
-> @@ -1,5 +1,6 @@
->  .. SPDX-License-Identifier: GPL-2.0
->  .. include:: <isonum.txt>
-> +.. _switchdev:
-> =20
->  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->  Ethernet switch device driver model (switchdev)
-
+--A3X+hUfrymK5EW66--
