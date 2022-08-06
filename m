@@ -2,110 +2,187 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B7FFC25B0C
-	for <linux-doc@archiver.kernel.org>; Sat,  6 Aug 2022 18:21:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 28466C25B0C
+	for <linux-doc@archiver.kernel.org>; Sat,  6 Aug 2022 21:38:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232782AbiHFSVz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 6 Aug 2022 14:21:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50006 "EHLO
+        id S231364AbiHFViQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 6 Aug 2022 17:38:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60214 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241657AbiHFSVk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 6 Aug 2022 14:21:40 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A74D1E25;
-        Sat,  6 Aug 2022 11:21:05 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 42BC461221;
-        Sat,  6 Aug 2022 18:21:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 271BAC433C1;
-        Sat,  6 Aug 2022 18:21:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1659810064;
-        bh=orcjVHFk4lFBov1ujUSmqLHsLoO2iIvfGgGHJHlIh7A=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=FWMhuXFJSleNWQKkiPFl4VU6fLgJgg6NLKSQrAlEY/EFTQ9ut+LINlEq4+P8A76ir
-         IvyBzut+gNS7PLgDqedD3Lom2EzymAV2djRK1XpPyawrVNmOacohakfCykPAhI8xbb
-         Y8SnjOMZWNinwDaIqEUVGkxQlmlIciOCeYQ/r4VeVn/N/FXRdtUd3W1fJGX7qUfjvG
-         eSMWVoal7Q1bqcQbqRZCy3pbAPd90fAtGG81LEqp8ofNdOI3Y9onRrpPZEvacpHvDJ
-         Hl38QHCxXBh3JLj/eY20OJYs7ADgNsiFMtAyfyJW2Ne2V3Pii9H1HZAHJJLRXJACXZ
-         dDFGHS6h1Yfdw==
-Date:   Sat, 6 Aug 2022 21:21:01 +0300
-From:   Jarkko Sakkinen <jarkko@kernel.org>
-To:     Evan Green <evgreen@chromium.org>
-Cc:     Matthew Garrett <mgarrett@aurora.tech>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Pavel Machek <pavel@ucw.cz>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Daniil Lunev <dlunev@google.com>, zohar@linux.ibm.com,
-        "James E.J. Bottomley" <jejb@linux.ibm.com>,
-        linux-integrity@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Gwendal Grignou <gwendal@chromium.org>,
-        Linux PM <linux-pm@vger.kernel.org>,
-        David Howells <dhowells@redhat.com>,
-        Hao Wu <hao.wu@rubrik.com>, James Morris <jmorris@namei.org>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Len Brown <len.brown@intel.com>,
-        Peter Huewe <peterhuewe@gmx.de>,
-        "Serge E. Hallyn" <serge@hallyn.com>, axelj <axelj@axis.com>,
-        keyrings@vger.kernel.org,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-security-module@vger.kernel.org
-Subject: Re: [PATCH 00/10] Encrypted Hibernation
-Message-ID: <Yu6xDf9ejxHbLyJ6@kernel.org>
-References: <20220504232102.469959-1-evgreen@chromium.org>
- <20220506160807.GA1060@bug>
- <CAE=gft6m75T0UC2DBhfFhuSMW6TK7aatD_04sQ18WosgGVsATw@mail.gmail.com>
- <CAJZ5v0gxq=EA_WWUiCR_w8o87iTHDR7OC5wi=GRBaAQS2ofd5w@mail.gmail.com>
- <CAE=gft6V6RLc-d4AOuRUVU2u1jMGghDRSrFqiCqMCLxemui8Pw@mail.gmail.com>
- <CAE=gft5OYAgosqmwNkk=Cwoooeg93Njmnzfz=gwCaLB0Ts+=sw@mail.gmail.com>
- <CAE=gft6sPkhNcz7+fJuDzQo2f8fM_0Wv_OWC9W2LyvXd6M6zeQ@mail.gmail.com>
- <CAHSSk05JEcZfS2tc22F+m76T3vZt-mZ7zUQaGRgSanKaFc5xBg@mail.gmail.com>
- <YusZ8gD/LjiAXadR@kernel.org>
- <CAE=gft6LaNZLTK72n_Z7an0VA1FxxFFgGk6rmUF_Jvf=JinG3A@mail.gmail.com>
+        with ESMTP id S229740AbiHFViP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 6 Aug 2022 17:38:15 -0400
+Received: from mail-qk1-x730.google.com (mail-qk1-x730.google.com [IPv6:2607:f8b0:4864:20::730])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE53FB1CB;
+        Sat,  6 Aug 2022 14:38:13 -0700 (PDT)
+Received: by mail-qk1-x730.google.com with SMTP id o1so4166653qkg.9;
+        Sat, 06 Aug 2022 14:38:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc;
+        bh=MfKNCdoirxc2xo2dJ2ZnrKHYVycXxfrXH8JNH8fm1Y8=;
+        b=YBzle4Bzk8bMM2eG1wG0QftAx91m2KHC2NzsZY+bkn3ddnh1U940M/jxSnYcV7UjIc
+         pKdr3JCm6dxKjr9Hb2YoyGGOlso4bztjd2UILk6zq6O2FGtlS2u6FlMhyadpHXVi+OQ4
+         VLFnXJt0xdQYzrfMfNi5GuvEG+2nm5LIWyd/WwVe/+vURptktX6hP5gZ+kqvBnq5GW/x
+         uOYMEySPd9JJ4EjR9eel8ie2TJuDeTQgonSosqk441GIXY39IMjaq9ezX4siGpJPGaNe
+         dumUqe4+XqL9xkAHhTVD7Bi6ZhQIocYnNbNY/wY9R8aWANkblzYAgHFibHzxlMWRpxl6
+         C9vw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=MfKNCdoirxc2xo2dJ2ZnrKHYVycXxfrXH8JNH8fm1Y8=;
+        b=jhXM5SpUEo1eSYdwewxz8vqPPgQxhOtjLvk2RQ9XT9GeovHojp1n8IyQhoWaoDt351
+         NtFkS1z8g9qheIUKE14Z81XNPmrjf/+qQSIV4EMzYCoGYkiniaxgrSVXmggwBtGIzxWG
+         0ig8eQpBDnnFvtH/Mj/FUGC79hnEDLtp0XPC+iceRWD9Wd9L5uOzN6rXhtmfbBy0zcZ1
+         dIjmLThx4kmW0zhugu+YCSgfQEBxFTOlsUBOxlUVjktITgacOobFYRiFQ+IfNQjTnsvJ
+         ketooLWNvWJdU4KyJVMx2JbcC3DO7GnQzi/ios7D9k2wPtuBMJduQfF4itSX+fvQAt2k
+         2Xhg==
+X-Gm-Message-State: ACgBeo3rPao2uXUDYvenAs/rDHa+mMWQbEiQmDPj36DVQZAO7IEcw+QD
+        PX9Hg1x/2sUV7resEc7qTaNHSevmmAo3RY6VfL8=
+X-Google-Smtp-Source: AA6agR56Da74aJjiF+4nLUKRTvJqjbVZJG6Bbd44zgX3ASwhuBBjAStAwYDAMCCSp6ij5AOPtil/tLlaj2OWYcKKILA=
+X-Received: by 2002:a05:620a:8018:b0:6b6:5df:977 with SMTP id
+ ee24-20020a05620a801800b006b605df0977mr9477710qkb.320.1659821892589; Sat, 06
+ Aug 2022 14:38:12 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAE=gft6LaNZLTK72n_Z7an0VA1FxxFFgGk6rmUF_Jvf=JinG3A@mail.gmail.com>
+References: <20220806163255.10404-1-markuss.broks@gmail.com> <20220806163255.10404-4-markuss.broks@gmail.com>
+In-Reply-To: <20220806163255.10404-4-markuss.broks@gmail.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Sat, 6 Aug 2022 23:37:35 +0200
+Message-ID: <CAHp75VcMgFQJoFC68GCTej--44+iFWXEpjh2Q7O0XbHk588OCw@mail.gmail.com>
+Subject: Re: [PATCH v2 3/3] efi: earlycon: Add support for generic
+ framebuffers and move to console subsystem
+To:     Markuss Broks <markuss.broks@gmail.com>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Helge Deller <deller@gmx.de>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Borislav Petkov <bp@suse.de>,
+        Kees Cook <keescook@chromium.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Michal Suchanek <msuchanek@suse.de>,
+        Javier Martinez Canillas <javierm@redhat.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Wei Ming Chen <jj251510319013@gmail.com>,
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+        Tony Lindgren <tony@atomide.com>,
+        Linux Documentation List <linux-doc@vger.kernel.org>,
+        linux-efi <linux-efi@vger.kernel.org>,
+        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
+        "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Aug 04, 2022 at 02:55:35PM -0700, Evan Green wrote:
-> On Wed, Aug 3, 2022 at 5:59 PM Jarkko Sakkinen <jarkko@kernel.org> wrote:
-> >
-> > On Tue, Aug 02, 2022 at 11:36:43AM -0700, Matthew Garrett wrote:
-> > > On Mon, Aug 1, 2022 at 3:33 PM Evan Green <evgreen@chromium.org> wrote:
-> > >
-> > > > One more bump here, as we'd really love to get encrypted hibernation
-> > > > to a form upstream would accept if at all possible. We were
-> > > > considering landing this in our Chrome OS tree for now, then coming
-> > > > back in a couple months with a "we've been baking this ourselves and
-> > > > it's going so great, oooh yeah". I'm not sure if upstream would find
-> > > > that compelling or not. But in any case, some guidance towards making
-> > > > this more upstream friendly would be well appreciated.
-> > > >
-> > > > One thing I realized in attempting to pick this myself is that the
-> > > > trusted key blob format has moved to ASN.1. So I should really move
-> > > > the creation ticket to the new ASN.1 format (if I can figure out the
-> > > > right OID for that piece), which would allow me to drop a lot of the
-> > > > ugly stuff in tpm2_unpack_blob(). Maybe if I get no other comments
-> > > > I'll work on that and resend.
-> > >
-> > > I've been revamping my TPM-backed verified hibernation implementation
-> > > based on this work, so I'd definitely be enthusiastic about it being
-> > > mergeable.
-> >
-> > BTW, is it tested with QEMU + swtpm?
-> 
-> For myself, so far I've been testing on a recent Intel Chromebook. The
-> H1 (aka cr50) security chip on modern chromebooks implements a subset
-> [1] of TPM2.0, and is exposed through the standard TPM APIs in the
-> kernel. I can make sure to test on Qemu as well, is there anything in
-> particular I should look out for?
+On Sat, Aug 6, 2022 at 6:38 PM Markuss Broks <markuss.broks@gmail.com> wrote:
+>
+> Add early console support for generic linear framebuffer devices.
+> This driver supports probing from cmdline early parameters
+> or from the device-tree using information in simple-framebuffer node.
+> The EFI functionality should be retained in whole.
+> The driver was disabled on ARM because of a bug in early_ioremap
 
-I was just thinking what I could use for testing
+We refer to functions like func().
 
-BR, Jarkko
+> implementation on ARM and on IA64 because of lack of early_memremap_prot.
+
+Ditto.
+
+...
+
+> +#include <asm/early_ioremap.h>
+
+Can it be placed after linux/* ones?
+
+> +#include <linux/console.h>
+> +#include <linux/efi.h>
+> +#include <linux/font.h>
+> +#include <linux/io.h>
+> +#include <linux/kernel.h>
+> +#include <linux/mm.h>
+> +#include <linux/of.h>
+> +#include <linux/of_fdt.h>
+> +#include <linux/serial_core.h>
+> +#include <linux/screen_info.h>
+
+...
+
+> +static int __init simplefb_earlycon_remap_fb(void)
+> +{
+> +       unsigned long mapping;
+
++ Blank line.
+
+> +       /* bail if there is no bootconsole or it has been disabled already */
+> +       if (!earlycon_console || !(earlycon_console->flags & CON_ENABLED))
+> +               return 0;
+> +
+> +       if (region_intersects(info.phys_base, info.size,
+> +                             IORESOURCE_SYSTEM_RAM, IORES_DESC_NONE) == REGION_INTERSECTS)
+> +               mapping = MEMREMAP_WB;
+> +       else
+> +               mapping = MEMREMAP_WC;
+
+> +       info.virt_base = memremap(info.phys_base, info.size, mapping);
+> +
+> +       return info.virt_base ? 0 : -ENOMEM;
+
+Easier to read the standard pattern:
+
+  if (!info.virt_base)
+    return -ENOMEM;
+
+  return 0;
+
+> +}
+
+...
+
+> +static void simplefb_earlycon_write_char(u8 *dst, unsigned char c, unsigned int h)
+> +{
+> +       const u8 *src;
+> +       int m, n, bytes;
+> +       u8 x;
+> +
+> +       bytes = BITS_TO_BYTES(font->width);
+> +       src = font->data + c * font->height * bytes + h * bytes;
+> +
+> +       for (m = 0; m < font->width; m++) {
+> +               n = m % 8;
+> +               x = *(src + m / 8);
+
+I would write it as
+
+  x = src[m / 8];
+
+> +               if ((x >> (7 - n)) & 1)
+
+> +                       memset(dst, 0xff, (info.depth / 8));
+
+Too many parentheses.
+
+> +               else
+> +                       memset(dst, 0, (info.depth / 8));
+
+Ditto.
+
+> +               dst += (info.depth / 8);
+
+Ditto.
+
+> +       }
+> +}
+
+-- 
+With Best Regards,
+Andy Shevchenko
