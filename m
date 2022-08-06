@@ -2,133 +2,126 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 90721C19F2D
-	for <linux-doc@archiver.kernel.org>; Sat,  6 Aug 2022 12:40:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B8696C25B0E
+	for <linux-doc@archiver.kernel.org>; Sat,  6 Aug 2022 15:25:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230064AbiHFMky (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 6 Aug 2022 08:40:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53828 "EHLO
+        id S232679AbiHFPZ0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 6 Aug 2022 11:25:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46788 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229853AbiHFMky (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 6 Aug 2022 08:40:54 -0400
-Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com [IPv6:2607:f8b0:4864:20::52d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CFD66637C;
-        Sat,  6 Aug 2022 05:40:52 -0700 (PDT)
-Received: by mail-pg1-x52d.google.com with SMTP id bh13so4785906pgb.4;
-        Sat, 06 Aug 2022 05:40:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc;
-        bh=o6pt3V1ha9yMo8oPh0RhSV7A5lQkFUBOGwSJxIjKq5Y=;
-        b=K3zZNGyQzBOJGo9GHJ77B64dvtlpK4HGVReHiflBNDRpOjaH5sqOdA8CSpHY5CKTyf
-         jMxciE0uAHt180KJ/Y+huKoZL4LmZDsa6WkKOyCwoxB/ThJX4uVJEg7ZTShFI/az0Ar2
-         z7gP6VTnSFHOO3nyj7PfGi5h2pn3jkcI30MOA4gJBLa6ZPkeSr1jNi+ni+/957EXpVKE
-         8cMH0A3oIzRK5Ii74+i2xFTbbdfg/VV4lJGKX03EHlP6Q0ikAumdp8EVEn0EXa//V+ro
-         7vXPHclNzVW+zRBDjtu+d19HsGrRLP2TD974QnRupiahEXDmXn0SLRi8PGivCy1jVQMg
-         wXwg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
-        bh=o6pt3V1ha9yMo8oPh0RhSV7A5lQkFUBOGwSJxIjKq5Y=;
-        b=MuBhcaN1sy6pV/Eqib90wu6mq4X9exrknzIt6r/5Lboiv/kWeTUoRcoyQwzic31Lrt
-         +hRxKMynQUo2hhRN/6CmIG6Q97xtJnLfdhkSOCy+zhFgryoJjiNATBV5PhpOI/y/J7Ye
-         5n+FvHt3dfM0oH/Nyb+IVKk8dKxsM+kQ0TcjziQig4ZbZTRhpcoBh1pgYI/MPxec4A4e
-         iNAKydSf1obiV6qHyXlNqWhlnd9zQ3ZOATd/Iz4JL9+/vQFSUU0GrIly5DKUDuUEaj2K
-         TDjGcvflPA8yKlCSFvtRQ1QJul0OJ6/b0+bHp/3kjTpmC8XRNxmvNWOW4CAmn7hx9C2K
-         8fxw==
-X-Gm-Message-State: ACgBeo3sRzCO6lBRQ0AuiwzbcMO4UVNsNYzN068b67bvwKA1jAT2fWWl
-        JrbkAnNyrVe+HlHRTN1MmHA=
-X-Google-Smtp-Source: AA6agR4HVXRr5ozE4MZULCJYLmm+yzEtIzOb6rNsc6/YEix1fRqJBoSHmvvrRwFlh1pZPSou+4rtrw==
-X-Received: by 2002:a63:d555:0:b0:41b:ca49:54c3 with SMTP id v21-20020a63d555000000b0041bca4954c3mr9091265pgi.360.1659789652285;
-        Sat, 06 Aug 2022 05:40:52 -0700 (PDT)
-Received: from debian.me (subs02-180-214-232-10.three.co.id. [180.214.232.10])
-        by smtp.gmail.com with ESMTPSA id r19-20020a634413000000b0040c9df2b060sm3072702pga.30.2022.08.06.05.40.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 06 Aug 2022 05:40:51 -0700 (PDT)
-Received: by debian.me (Postfix, from userid 1000)
-        id 80D7A103B77; Sat,  6 Aug 2022 19:40:46 +0700 (WIB)
-Date:   Sat, 6 Aug 2022 19:40:46 +0700
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Jim Cromie <jim.cromie@gmail.com>
-Cc:     linux-kernel@vger.kernel.org, jbaron@akamai.com,
-        gregkh@linuxfoundation.org, dri-devel@lists.freedesktop.org,
-        amd-gfx@lists.freedesktop.org, intel-gvt-dev@lists.freedesktop.org,
-        intel-gfx@lists.freedesktop.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-arm-msm@vger.kernel.org, daniel.vetter@ffwll.ch,
-        seanpaul@chromium.org, robdclark@gmail.com,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH v5 19/33] doc-dyndbg: edit dynamic-debug-howto for
- brevity, audience
-Message-ID: <Yu5hTr6qcLwiPRNp@debian.me>
-References: <20220805215355.3509287-1-jim.cromie@gmail.com>
- <20220805215355.3509287-20-jim.cromie@gmail.com>
+        with ESMTP id S232360AbiHFPZZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 6 Aug 2022 11:25:25 -0400
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6673DBE26;
+        Sat,  6 Aug 2022 08:25:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1659799524; x=1691335524;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=kbBuaKEL5Eapwb44NRKZmmeZ/n+9y6E91HvPfKTfkzw=;
+  b=Gj46FZRn4tkjhZcXS53ejOf7BWZyBajO5x4O4aiTR9MxjDidwlSxHNrU
+   Ek7qI8ujvqbhvIN0jmI2hu2CeGoxnyU7S+XUrcIm1ptiKlzfyXCMbZ4Ef
+   GtnRMhVDAE0J+QXlJR3zLbueyp57LaRJkmuog2yM3euFCLzgyl2RNB234
+   uNZiVMqxNYO4FxGPEmRnuQ+GFTSWd96plXVtLL/ci3hha0RswxzfEKvjw
+   SDQbjp0uOpxRKLXyVExps1HpU5HqPQCj1CHNgHYBfsvSNPH/pBdFitn6y
+   cjl/LO6UYqhurrJAsGcpmpKn6IDKnCL1bQ56Ti6Qj0IzDUZ633YV4n612
+   A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10431"; a="289131958"
+X-IronPort-AV: E=Sophos;i="5.93,217,1654585200"; 
+   d="scan'208";a="289131958"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2022 08:25:24 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,217,1654585200"; 
+   d="scan'208";a="607432285"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by fmsmga007.fm.intel.com with ESMTP; 06 Aug 2022 08:25:21 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+        id E4ED317E7; Sat,  6 Aug 2022 18:25:32 +0300 (EEST)
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Guenter Roeck <linux@roeck-us.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-pwm@vger.kernel.org,
+        linux-hwmon@vger.kernel.org
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jean Delvare <jdelvare@suse.com>,
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+Subject: [PATCH v1 3/3] pwm: core: Make of_pwm_get() static
+Date:   Sat,  6 Aug 2022 18:25:17 +0300
+Message-Id: <20220806152517.78159-3-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220806152517.78159-1-andriy.shevchenko@linux.intel.com>
+References: <20220806152517.78159-1-andriy.shevchenko@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-        protocol="application/pgp-signature"; boundary="zCnbKQzWNc0slIHJ"
-Content-Disposition: inline
-In-Reply-To: <20220805215355.3509287-20-jim.cromie@gmail.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+There are no users outside of PWM core of the of_pwm_get().
+Make it static.
 
---zCnbKQzWNc0slIHJ
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+---
+ drivers/pwm/core.c  |  5 ++---
+ include/linux/pwm.h | 10 ----------
+ 2 files changed, 2 insertions(+), 13 deletions(-)
 
-On Fri, Aug 05, 2022 at 03:53:41PM -0600, Jim Cromie wrote:
-> Rework/modernize docs:
->=20
->  - use /proc/dynamic_debug/control in examples
->    its *always* there (when dyndbg is config'd), even when <debugfs> is n=
-ot.
->    drop <debugfs> talk, its a distraction here.
->=20
->  - alias ddcmd=3D'echo $* > /proc/dynamic_debug/control
->    focus on args: declutter, hide boilerplate, make pwd independent.
->=20
->  - swap sections: Viewing before Controlling. control file as Catalog.
->=20
->  - focus on use by a system administrator
->    add an alias to make examples more readable
->    drop grep-101 lessons, admins know this.
->=20
->  - use init/main.c as 1st example, thread it thru doc where useful.
->    everybodys kernel boots, runs these.
->=20
->  - add *prdbg* api section
->    to the bottom of the file, its for developers more than admins.
->    move list of api functions there.
->=20
->  - simplify - drop extra words, phrases, sentences.
->=20
->  - add "decorator" flags line to unify "prefix", trim fmlt descriptions
->=20
-> CC: linux-doc@vger.kernel.org
-> Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
->=20
+diff --git a/drivers/pwm/core.c b/drivers/pwm/core.c
+index dc1b7263a0b0..cfe3a0327471 100644
+--- a/drivers/pwm/core.c
++++ b/drivers/pwm/core.c
+@@ -734,8 +734,8 @@ static struct device_link *pwm_device_link_add(struct device *dev,
+  * Returns: A pointer to the requested PWM device or an ERR_PTR()-encoded
+  * error code on failure.
+  */
+-struct pwm_device *of_pwm_get(struct device *dev, struct device_node *np,
+-			      const char *con_id)
++static struct pwm_device *of_pwm_get(struct device *dev, struct device_node *np,
++				     const char *con_id)
+ {
+ 	struct pwm_device *pwm = NULL;
+ 	struct of_phandle_args args;
+@@ -797,7 +797,6 @@ struct pwm_device *of_pwm_get(struct device *dev, struct device_node *np,
+ 
+ 	return pwm;
+ }
+-EXPORT_SYMBOL_GPL(of_pwm_get);
+ 
+ /**
+  * acpi_pwm_get() - request a PWM via parsing "pwms" property in ACPI
+diff --git a/include/linux/pwm.h b/include/linux/pwm.h
+index 572ba92e4206..d70c6e5a839d 100644
+--- a/include/linux/pwm.h
++++ b/include/linux/pwm.h
+@@ -403,8 +403,6 @@ struct pwm_device *of_pwm_single_xlate(struct pwm_chip *pc,
+ 				       const struct of_phandle_args *args);
+ 
+ struct pwm_device *pwm_get(struct device *dev, const char *con_id);
+-struct pwm_device *of_pwm_get(struct device *dev, struct device_node *np,
+-			      const char *con_id);
+ void pwm_put(struct pwm_device *pwm);
+ 
+ struct pwm_device *devm_pwm_get(struct device *dev, const char *con_id);
+@@ -495,14 +493,6 @@ static inline struct pwm_device *pwm_get(struct device *dev,
+ 	return ERR_PTR(-ENODEV);
+ }
+ 
+-static inline struct pwm_device *of_pwm_get(struct device *dev,
+-					    struct device_node *np,
+-					    const char *con_id)
+-{
+-	might_sleep();
+-	return ERR_PTR(-ENODEV);
+-}
+-
+ static inline void pwm_put(struct pwm_device *pwm)
+ {
+ 	might_sleep();
+-- 
+2.35.1
 
-The documentation LGTM (no new warnings).
-
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---zCnbKQzWNc0slIHJ
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTsebsWCPCpxY9T92n/R0PGQ3AzwAUCYu5hNQAKCRD/R0PGQ3Az
-wGuzAYDy/O8VqIX4dB6ItFwNHJm1rs7Qg4OuYgYbKFvhP69MPdWx64MR4soFNSUx
-y/x/+HABgNTyMUR8QKMtJnT6K443IFX7iqf6bs05/IbT4PqLQjZXkpc+PQBWALvU
-6LjFercp5g==
-=Aeer
------END PGP SIGNATURE-----
-
---zCnbKQzWNc0slIHJ--
