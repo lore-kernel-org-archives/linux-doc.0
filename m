@@ -2,98 +2,110 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 79EFAC25B0C
-	for <linux-doc@archiver.kernel.org>; Sat,  6 Aug 2022 16:57:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B7FFC25B0C
+	for <linux-doc@archiver.kernel.org>; Sat,  6 Aug 2022 18:21:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233249AbiHFQ5N (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 6 Aug 2022 12:57:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38720 "EHLO
+        id S232782AbiHFSVz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 6 Aug 2022 14:21:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50006 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233100AbiHFQ5M (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 6 Aug 2022 12:57:12 -0400
-Received: from mail-qt1-x82d.google.com (mail-qt1-x82d.google.com [IPv6:2607:f8b0:4864:20::82d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB437DEDB;
-        Sat,  6 Aug 2022 09:57:11 -0700 (PDT)
-Received: by mail-qt1-x82d.google.com with SMTP id cr9so717490qtb.13;
-        Sat, 06 Aug 2022 09:57:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc;
-        bh=wj6684H6Kpz2ZtSUodC0U0fU86f1YKlziRI4r3cW+HI=;
-        b=BtpSlh2x5s/SOJglV0bbuGknHlFtC17/SdHTJmS3uZdZurl45R2Le81dNFTaKIU6Od
-         NXfBR45JX5zUQEBNwnkmNwVGrnem8k97ff2spSUq73FY6s+kv8gM/Ru8ze2xYNcDLMWt
-         NsPHERX877627zE1v4BgU9NYY4jNndt7MBzqQ3NF4LA5pe/aFNJhYrfB/2iSJN3dvZ2k
-         T3Xo23bCjCQu8n82clu06hLqSSDFmUayNmcBvRq7fAN2NcRPJulq530HBdfcA9SdaNbJ
-         Cy/0MQvzHjcYAQFuGtPP1miEIcsPS2jiffpfEm4jbpjIbITcbE9I9CO0LGfjyuVWFsBk
-         ls7w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc;
-        bh=wj6684H6Kpz2ZtSUodC0U0fU86f1YKlziRI4r3cW+HI=;
-        b=VfX65Zu63iQ7E9F23P24qG523c+WtDDPbQnoW2SoGKpoBYaKJw4D2cOVPdj2cVYlt3
-         lXNCjPFoDAZv9gFbXjJUJqSiq7N24oKWdZVtzHqKcpa750/l3H4e6hWfJvnI497O7O3y
-         xkCA38F28LIth5eWNpp7Hr8T2Vc3PghzK8lCBMosCZ1REqb0U4HikcxsiqT2Tg9tsnXE
-         /uwqm2qsiYOCnqnkg94ANEmKiUF+ET44u8VtvWN/VhIm81zV3QE8uEszt7CY5QSZ5aHL
-         u2tNWIuJgDj4s5GBLTJh0V2SwS37FUkz3ExcMJa8ijRzIVzXYGDMMtpipJhzalQOArww
-         nj/g==
-X-Gm-Message-State: ACgBeo3Ao7pgaoosVqe4qHqZwc3WacBLDQIotTiXuvpMvfPzicp5ttfr
-        h3BmfI8bTPjlN84eaxu0JUhC4aHgcDqsziWR+v4=
-X-Google-Smtp-Source: AA6agR61xEI/w29pHlhpS9FZx9xdp0DX1Dk2bnjIJClh7I1yqul0PbHxwiEEgwD3NG9K2UtdJlDmFS2nsKEkKIZ0lIs=
-X-Received: by 2002:ac8:5784:0:b0:31f:24e:93f5 with SMTP id
- v4-20020ac85784000000b0031f024e93f5mr10304276qta.429.1659805030863; Sat, 06
- Aug 2022 09:57:10 -0700 (PDT)
+        with ESMTP id S241657AbiHFSVk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 6 Aug 2022 14:21:40 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A74D1E25;
+        Sat,  6 Aug 2022 11:21:05 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 42BC461221;
+        Sat,  6 Aug 2022 18:21:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 271BAC433C1;
+        Sat,  6 Aug 2022 18:21:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1659810064;
+        bh=orcjVHFk4lFBov1ujUSmqLHsLoO2iIvfGgGHJHlIh7A=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=FWMhuXFJSleNWQKkiPFl4VU6fLgJgg6NLKSQrAlEY/EFTQ9ut+LINlEq4+P8A76ir
+         IvyBzut+gNS7PLgDqedD3Lom2EzymAV2djRK1XpPyawrVNmOacohakfCykPAhI8xbb
+         Y8SnjOMZWNinwDaIqEUVGkxQlmlIciOCeYQ/r4VeVn/N/FXRdtUd3W1fJGX7qUfjvG
+         eSMWVoal7Q1bqcQbqRZCy3pbAPd90fAtGG81LEqp8ofNdOI3Y9onRrpPZEvacpHvDJ
+         Hl38QHCxXBh3JLj/eY20OJYs7ADgNsiFMtAyfyJW2Ne2V3Pii9H1HZAHJJLRXJACXZ
+         dDFGHS6h1Yfdw==
+Date:   Sat, 6 Aug 2022 21:21:01 +0300
+From:   Jarkko Sakkinen <jarkko@kernel.org>
+To:     Evan Green <evgreen@chromium.org>
+Cc:     Matthew Garrett <mgarrett@aurora.tech>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Pavel Machek <pavel@ucw.cz>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Daniil Lunev <dlunev@google.com>, zohar@linux.ibm.com,
+        "James E.J. Bottomley" <jejb@linux.ibm.com>,
+        linux-integrity@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Gwendal Grignou <gwendal@chromium.org>,
+        Linux PM <linux-pm@vger.kernel.org>,
+        David Howells <dhowells@redhat.com>,
+        Hao Wu <hao.wu@rubrik.com>, James Morris <jmorris@namei.org>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Len Brown <len.brown@intel.com>,
+        Peter Huewe <peterhuewe@gmx.de>,
+        "Serge E. Hallyn" <serge@hallyn.com>, axelj <axelj@axis.com>,
+        keyrings@vger.kernel.org,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-security-module@vger.kernel.org
+Subject: Re: [PATCH 00/10] Encrypted Hibernation
+Message-ID: <Yu6xDf9ejxHbLyJ6@kernel.org>
+References: <20220504232102.469959-1-evgreen@chromium.org>
+ <20220506160807.GA1060@bug>
+ <CAE=gft6m75T0UC2DBhfFhuSMW6TK7aatD_04sQ18WosgGVsATw@mail.gmail.com>
+ <CAJZ5v0gxq=EA_WWUiCR_w8o87iTHDR7OC5wi=GRBaAQS2ofd5w@mail.gmail.com>
+ <CAE=gft6V6RLc-d4AOuRUVU2u1jMGghDRSrFqiCqMCLxemui8Pw@mail.gmail.com>
+ <CAE=gft5OYAgosqmwNkk=Cwoooeg93Njmnzfz=gwCaLB0Ts+=sw@mail.gmail.com>
+ <CAE=gft6sPkhNcz7+fJuDzQo2f8fM_0Wv_OWC9W2LyvXd6M6zeQ@mail.gmail.com>
+ <CAHSSk05JEcZfS2tc22F+m76T3vZt-mZ7zUQaGRgSanKaFc5xBg@mail.gmail.com>
+ <YusZ8gD/LjiAXadR@kernel.org>
+ <CAE=gft6LaNZLTK72n_Z7an0VA1FxxFFgGk6rmUF_Jvf=JinG3A@mail.gmail.com>
 MIME-Version: 1.0
-References: <20220806163255.10404-1-markuss.broks@gmail.com> <20220806163255.10404-2-markuss.broks@gmail.com>
-In-Reply-To: <20220806163255.10404-2-markuss.broks@gmail.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Sat, 6 Aug 2022 18:56:34 +0200
-Message-ID: <CAHp75VfizQY3kw3qk0des42uAwnYmv94aWQC+fVq_QQJGp-QYQ@mail.gmail.com>
-Subject: Re: [PATCH v2 1/3] drivers: serial: earlycon: Correct argument name
-To:     Markuss Broks <markuss.broks@gmail.com>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        Helge Deller <deller@gmx.de>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Borislav Petkov <bp@suse.de>,
-        Kees Cook <keescook@chromium.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Michal Suchanek <msuchanek@suse.de>,
-        Javier Martinez Canillas <javierm@redhat.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Wei Ming Chen <jj251510319013@gmail.com>,
-        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
-        Tony Lindgren <tony@atomide.com>,
-        Linux Documentation List <linux-doc@vger.kernel.org>,
-        linux-efi <linux-efi@vger.kernel.org>,
-        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
-        "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Rob Herring <robh@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAE=gft6LaNZLTK72n_Z7an0VA1FxxFFgGk6rmUF_Jvf=JinG3A@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Aug 6, 2022 at 6:37 PM Markuss Broks <markuss.broks@gmail.com> wrote:
->
-> The "node" argument is actually an offset, and it's also
-> an "int", and not "unsigned long". Correct the of_setup_earlycon
-> function.
+On Thu, Aug 04, 2022 at 02:55:35PM -0700, Evan Green wrote:
+> On Wed, Aug 3, 2022 at 5:59 PM Jarkko Sakkinen <jarkko@kernel.org> wrote:
+> >
+> > On Tue, Aug 02, 2022 at 11:36:43AM -0700, Matthew Garrett wrote:
+> > > On Mon, Aug 1, 2022 at 3:33 PM Evan Green <evgreen@chromium.org> wrote:
+> > >
+> > > > One more bump here, as we'd really love to get encrypted hibernation
+> > > > to a form upstream would accept if at all possible. We were
+> > > > considering landing this in our Chrome OS tree for now, then coming
+> > > > back in a couple months with a "we've been baking this ourselves and
+> > > > it's going so great, oooh yeah". I'm not sure if upstream would find
+> > > > that compelling or not. But in any case, some guidance towards making
+> > > > this more upstream friendly would be well appreciated.
+> > > >
+> > > > One thing I realized in attempting to pick this myself is that the
+> > > > trusted key blob format has moved to ASN.1. So I should really move
+> > > > the creation ticket to the new ASN.1 format (if I can figure out the
+> > > > right OID for that piece), which would allow me to drop a lot of the
+> > > > ugly stuff in tpm2_unpack_blob(). Maybe if I get no other comments
+> > > > I'll work on that and resend.
+> > >
+> > > I've been revamping my TPM-backed verified hibernation implementation
+> > > based on this work, so I'd definitely be enthusiastic about it being
+> > > mergeable.
+> >
+> > BTW, is it tested with QEMU + swtpm?
+> 
+> For myself, so far I've been testing on a recent Intel Chromebook. The
+> H1 (aka cr50) security chip on modern chromebooks implements a subset
+> [1] of TPM2.0, and is exposed through the standard TPM APIs in the
+> kernel. I can make sure to test on Qemu as well, is there anything in
+> particular I should look out for?
 
-Suggested-by: Greg KH?
+I was just thinking what I could use for testing
 
-> Signed-off-by: Markuss Broks <markuss.broks@gmail.com>
-
--- 
-With Best Regards,
-Andy Shevchenko
+BR, Jarkko
