@@ -2,40 +2,120 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 72D8AC19F2D
-	for <linux-doc@archiver.kernel.org>; Sun,  7 Aug 2022 01:35:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B451C25B07
+	for <linux-doc@archiver.kernel.org>; Sun,  7 Aug 2022 06:53:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230203AbiHGBfb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 6 Aug 2022 21:35:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41930 "EHLO
+        id S233514AbiHGGxW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 7 Aug 2022 02:53:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54112 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229551AbiHGBfb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 6 Aug 2022 21:35:31 -0400
-X-Greylist: delayed 4720 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sat, 06 Aug 2022 18:35:28 PDT
-Received: from ns4004258.ip-142-4-213.net (unknown [IPv6:2607:5300:60:12d4::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id D522A389
-        for <linux-doc@vger.kernel.org>; Sat,  6 Aug 2022 18:35:28 -0700 (PDT)
-Received: by ns4004258.ip-142-4-213.net (Postfix, from userid 1002)
-        id DB58D2F0EC; Sat,  6 Aug 2022 19:22:45 -0400 (EDT)
-To:     linux-doc@vger.kernel.org
-Subject: Copie de : BITCOIN WILL MAKE YOU A MILLIONAIRE
-X-PHP-Originating-Script: 1002:phpmailer.php
-Date:   Sat, 6 Aug 2022 19:22:45 -0400
-From:   CGT Spectacle Languedoc-Roussillon <yvan@cgtspectaclelr.org>
-Message-ID: <f65c7d513e281b565ade1fb8a0a407c3@yvangodard.me>
-X-Priority: 3
-X-Mailer: PHPMailer (phpmailer.sourceforge.net) [version 2.0.4]
+        with ESMTP id S230156AbiHGGxV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 7 Aug 2022 02:53:21 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B22CFA18A;
+        Sat,  6 Aug 2022 23:53:20 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 4ACCF60DE5;
+        Sun,  7 Aug 2022 06:53:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD489C433C1;
+        Sun,  7 Aug 2022 06:53:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1659855199;
+        bh=1rYnTrs8I+byhJUYy1LkYsWKoVp5KrJVR6dYtv8Vmns=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=o+CoSJGNVIdkrVFDrhcI5xDcQ26g4ahZYt48v/0JnrfwwtzFxzlvGMlUYbp9lg4l2
+         7Cu3gJZ8YISWrf5+pwl4mOEanmykz2H2/MAEnDe1IzYaFHrRRZ4l64u7laKd7dI1cL
+         inrk+YcYvwRxXEnrhhsW7slK8v309gDbKzyuqovQ=
+Date:   Sun, 7 Aug 2022 08:53:14 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Markuss Broks <markuss.broks@gmail.com>
+Cc:     linux-kernel@vger.kernel.org,
+        ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Helge Deller <deller@gmx.de>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Borislav Petkov <bp@suse.de>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Kees Cook <keescook@chromium.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Javier Martinez Canillas <javierm@redhat.com>,
+        Michal Suchanek <msuchanek@suse.de>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Wei Ming Chen <jj251510319013@gmail.com>,
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+        Tony Lindgren <tony@atomide.com>, linux-doc@vger.kernel.org,
+        linux-efi@vger.kernel.org, linux-serial@vger.kernel.org,
+        linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH 2/2] efi: earlycon: Add support for generic framebuffers
+ and move to fbdev subsystem
+Message-ID: <Yu9hWu8IseJlpCUK@kroah.com>
+References: <20220728142824.3836-1-markuss.broks@gmail.com>
+ <20220728142824.3836-3-markuss.broks@gmail.com>
+ <YuKfnAjB4gV0ki4A@kroah.com>
+ <30ce6f21-0a91-81cb-8b03-5acff17c59ee@gmail.com>
+ <YuKkxb7u3piHytJ8@kroah.com>
+ <27b40940-b8a7-2755-1ef5-e97d6b35dd2a@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <27b40940-b8a7-2755-1ef5-e97d6b35dd2a@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Copie de :
+On Sat, Aug 06, 2022 at 07:26:07PM +0300, Markuss Broks wrote:
+> Hi Greg,
+> 
+> On 7/28/22 18:01, Greg Kroah-Hartman wrote:
+> > On Thu, Jul 28, 2022 at 05:52:04PM +0300, Markuss Broks wrote:
+> > > Hi Greg,
+> > > 
+> > > On 7/28/22 17:39, Greg Kroah-Hartman wrote:
+> > > > On Thu, Jul 28, 2022 at 05:28:19PM +0300, Markuss Broks wrote:
+> > > > > Add early console support for generic linear framebuffer devices.
+> > > > > This driver supports probing from cmdline early parameters
+> > > > > or from the device-tree using information in simple-framebuffer node.
+> > > > > The EFI functionality should be retained in whole.
+> > > > > The driver was disabled on ARM because of a bug in early_ioremap
+> > > > > implementation on ARM.
+> > > > > 
+> > > > > Signed-off-by: Markuss Broks <markuss.broks@gmail.com>
+> > > > > ---
+> > > > >    .../admin-guide/kernel-parameters.txt         |  12 +-
+> > > > >    MAINTAINERS                                   |   5 +
+> > > > >    drivers/firmware/efi/Kconfig                  |   6 +-
+> > > > >    drivers/firmware/efi/Makefile                 |   1 -
+> > > > >    drivers/firmware/efi/earlycon.c               | 246 --------------
+> > > > >    drivers/video/fbdev/Kconfig                   |  11 +
+> > > > >    drivers/video/fbdev/Makefile                  |   1 +
+> > > > >    drivers/video/fbdev/earlycon.c                | 301 ++++++++++++++++++
+> > > > >    8 files changed, 327 insertions(+), 256 deletions(-)
+> > > > >    delete mode 100644 drivers/firmware/efi/earlycon.c
+> > > > >    create mode 100644 drivers/video/fbdev/earlycon.c
+> > > > 
+> > > > That should be a rename, not a delete/create, right?
+> > > 
+> > > Should this change be split into two separate commits,
+> > > one for moving the file and the second for making changes?
+> > 
+> > Git will show a rename and modification properly, if you use -M to git
+> > format-patch, so it should be fine.
+> 
+> It appears that there are so many changes Git would refuse to make it a
+> "move" no matter what I do. What should be done here: should it be two
+> separate commits for move/change or should it just be kept as delete/create?
 
-Une demande de contact a été formulée par e-mail via http://yvangodard.me/ de la part de :
-Charleskix <linux-doc@vger.kernel.org>
+One commit to move the file, and then add your changes on top of it
+might be the easiest to review, right?
 
-INVEST TODAY AND BECOME THE NEXT BILLIONAIRE... https://telegra.ph/Cryptocurrency-makes-people-millionaires-at-15-people-per-hour---Page-540689-08-02
+thanks,
 
+greg k-h
