@@ -2,120 +2,109 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B451C25B07
-	for <linux-doc@archiver.kernel.org>; Sun,  7 Aug 2022 06:53:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0241BC19F2A
+	for <linux-doc@archiver.kernel.org>; Sun,  7 Aug 2022 08:34:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233514AbiHGGxW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 7 Aug 2022 02:53:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54112 "EHLO
+        id S232889AbiHGIez (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 7 Aug 2022 04:34:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41820 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230156AbiHGGxV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 7 Aug 2022 02:53:21 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B22CFA18A;
-        Sat,  6 Aug 2022 23:53:20 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 4ACCF60DE5;
-        Sun,  7 Aug 2022 06:53:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD489C433C1;
-        Sun,  7 Aug 2022 06:53:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1659855199;
-        bh=1rYnTrs8I+byhJUYy1LkYsWKoVp5KrJVR6dYtv8Vmns=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=o+CoSJGNVIdkrVFDrhcI5xDcQ26g4ahZYt48v/0JnrfwwtzFxzlvGMlUYbp9lg4l2
-         7Cu3gJZ8YISWrf5+pwl4mOEanmykz2H2/MAEnDe1IzYaFHrRRZ4l64u7laKd7dI1cL
-         inrk+YcYvwRxXEnrhhsW7slK8v309gDbKzyuqovQ=
-Date:   Sun, 7 Aug 2022 08:53:14 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Markuss Broks <markuss.broks@gmail.com>
-Cc:     linux-kernel@vger.kernel.org,
-        ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        Helge Deller <deller@gmx.de>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Borislav Petkov <bp@suse.de>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Kees Cook <keescook@chromium.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Javier Martinez Canillas <javierm@redhat.com>,
-        Michal Suchanek <msuchanek@suse.de>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Wei Ming Chen <jj251510319013@gmail.com>,
-        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
-        Tony Lindgren <tony@atomide.com>, linux-doc@vger.kernel.org,
-        linux-efi@vger.kernel.org, linux-serial@vger.kernel.org,
-        linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH 2/2] efi: earlycon: Add support for generic framebuffers
- and move to fbdev subsystem
-Message-ID: <Yu9hWu8IseJlpCUK@kroah.com>
-References: <20220728142824.3836-1-markuss.broks@gmail.com>
- <20220728142824.3836-3-markuss.broks@gmail.com>
- <YuKfnAjB4gV0ki4A@kroah.com>
- <30ce6f21-0a91-81cb-8b03-5acff17c59ee@gmail.com>
- <YuKkxb7u3piHytJ8@kroah.com>
- <27b40940-b8a7-2755-1ef5-e97d6b35dd2a@gmail.com>
+        with ESMTP id S231887AbiHGIey (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 7 Aug 2022 04:34:54 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6CBEBD101
+        for <linux-doc@vger.kernel.org>; Sun,  7 Aug 2022 01:34:52 -0700 (PDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1oKbk9-0000Qr-CE; Sun, 07 Aug 2022 10:34:41 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1oKbk4-002G32-Pe; Sun, 07 Aug 2022 10:34:39 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1oKbk6-00A6DT-67; Sun, 07 Aug 2022 10:34:38 +0200
+Date:   Sun, 7 Aug 2022 10:34:38 +0200
+From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     Guenter Roeck <linux@roeck-us.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-pwm@vger.kernel.org,
+        linux-hwmon@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jean Delvare <jdelvare@suse.com>
+Subject: Re: [PATCH v1 1/3] hwmon: (pwm-fan) Make use of device properties
+Message-ID: <20220807083438.qqe3mzp43aytxbcl@pengutronix.de>
+References: <20220806152517.78159-1-andriy.shevchenko@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="cyr72olrnz2pj6sn"
 Content-Disposition: inline
-In-Reply-To: <27b40940-b8a7-2755-1ef5-e97d6b35dd2a@gmail.com>
+In-Reply-To: <20220806152517.78159-1-andriy.shevchenko@linux.intel.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Aug 06, 2022 at 07:26:07PM +0300, Markuss Broks wrote:
-> Hi Greg,
-> 
-> On 7/28/22 18:01, Greg Kroah-Hartman wrote:
-> > On Thu, Jul 28, 2022 at 05:52:04PM +0300, Markuss Broks wrote:
-> > > Hi Greg,
-> > > 
-> > > On 7/28/22 17:39, Greg Kroah-Hartman wrote:
-> > > > On Thu, Jul 28, 2022 at 05:28:19PM +0300, Markuss Broks wrote:
-> > > > > Add early console support for generic linear framebuffer devices.
-> > > > > This driver supports probing from cmdline early parameters
-> > > > > or from the device-tree using information in simple-framebuffer node.
-> > > > > The EFI functionality should be retained in whole.
-> > > > > The driver was disabled on ARM because of a bug in early_ioremap
-> > > > > implementation on ARM.
-> > > > > 
-> > > > > Signed-off-by: Markuss Broks <markuss.broks@gmail.com>
-> > > > > ---
-> > > > >    .../admin-guide/kernel-parameters.txt         |  12 +-
-> > > > >    MAINTAINERS                                   |   5 +
-> > > > >    drivers/firmware/efi/Kconfig                  |   6 +-
-> > > > >    drivers/firmware/efi/Makefile                 |   1 -
-> > > > >    drivers/firmware/efi/earlycon.c               | 246 --------------
-> > > > >    drivers/video/fbdev/Kconfig                   |  11 +
-> > > > >    drivers/video/fbdev/Makefile                  |   1 +
-> > > > >    drivers/video/fbdev/earlycon.c                | 301 ++++++++++++++++++
-> > > > >    8 files changed, 327 insertions(+), 256 deletions(-)
-> > > > >    delete mode 100644 drivers/firmware/efi/earlycon.c
-> > > > >    create mode 100644 drivers/video/fbdev/earlycon.c
-> > > > 
-> > > > That should be a rename, not a delete/create, right?
-> > > 
-> > > Should this change be split into two separate commits,
-> > > one for moving the file and the second for making changes?
-> > 
-> > Git will show a rename and modification properly, if you use -M to git
-> > format-patch, so it should be fine.
-> 
-> It appears that there are so many changes Git would refuse to make it a
-> "move" no matter what I do. What should be done here: should it be two
-> separate commits for move/change or should it just be kept as delete/create?
 
-One commit to move the file, and then add your changes on top of it
-might be the easiest to review, right?
+--cyr72olrnz2pj6sn
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-thanks,
+Hello,
 
-greg k-h
+[dropped Bartlomiej Zolnierkiewicz from Cc:, the address bounced in the
+past]
+
+at a quick glance this looks nice. I wonder if it makes sense to split
+the patch. For example the change
+
+-	ctx->pwm =3D devm_of_pwm_get(dev, dev->of_node, NULL);
++	ctx->pwm =3D devm_pwm_get(dev, NULL);
+
+could stand alone. Also I think this change is the relevant part in
+patch #1 that makes patches #2 and #3 possible.
+
+When this patch doesn't get split, the series needs some coordination,
+as patch #1 is for hwmon and patches #2 and #3 are for pwm.
+
+Splitting the series into:
+
+	hwmon: (pwm-fan) Use of devm_pwm_get() instead of devm_of_pwm_get()
+	pwm: core: Get rid of unused devm_of_pwm_get()
+	pwm: core: Make of_pwm_get() static
+
+for pwm and the remainder of this patch for hwmon might make application
+of the changes here easier to coordinate.
+
+But still: Thanks for your effort and
+Acked-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
+
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--cyr72olrnz2pj6sn
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmLveRsACgkQwfwUeK3K
+7AlYvAf9Fs6FxfhGO/8+92dqWG12KLB3savGpw7vewwC23P4tEeDe47oGyush1I+
+dtNJIS7tOxBRoAFOHGkhSXVTW6tT/lDpA41tzt7mZ8mQvBpbeFR4UM1YeSEDs+m8
+o0x680woxrqdtqmwNvNyOa7ssUuxL0VpNVIOCXAoUsjKlFPEljvG/0hEofXpWoSa
+BG5t68iIXjTcAC60DpqPE8ww9Gk5qD/BnMqp//nNS20r0EfPO/BBooeKvV8Du1XZ
+PqM4TqPpwZk1GlKrMS9OIFlyNCbD/Qya8AJKAKmKqCMzARw+Sm+0aTsI8bkK6jC5
+UJbLdfFNuY2z4iKJ13TUo3ewsMQ1Tg==
+=/6F+
+-----END PGP SIGNATURE-----
+
+--cyr72olrnz2pj6sn--
