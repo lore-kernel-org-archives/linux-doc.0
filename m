@@ -2,58 +2,59 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BD1F4C00140
-	for <linux-doc@archiver.kernel.org>; Mon,  8 Aug 2022 08:52:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 33239C00140
+	for <linux-doc@archiver.kernel.org>; Mon,  8 Aug 2022 08:54:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230127AbiHHIw6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 8 Aug 2022 04:52:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36080 "EHLO
+        id S239232AbiHHIyI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 8 Aug 2022 04:54:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37026 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231861AbiHHIw6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 Aug 2022 04:52:58 -0400
-Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com [IPv6:2607:f8b0:4864:20::1029])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EBBD89FFB;
-        Mon,  8 Aug 2022 01:52:56 -0700 (PDT)
-Received: by mail-pj1-x1029.google.com with SMTP id gj1so8223287pjb.0;
-        Mon, 08 Aug 2022 01:52:56 -0700 (PDT)
+        with ESMTP id S237320AbiHHIyC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 Aug 2022 04:54:02 -0400
+Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com [IPv6:2607:f8b0:4864:20::62d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0EB513E38;
+        Mon,  8 Aug 2022 01:54:01 -0700 (PDT)
+Received: by mail-pl1-x62d.google.com with SMTP id m2so7967785pls.4;
+        Mon, 08 Aug 2022 01:54:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=message-id:date:mime-version:user-agent:subject:content-language:to
          :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=CM2guZb6Hn0pwfDRg7CFUO0ej/Lsp2LuT1wX5l0Jt8g=;
-        b=k45ypWaGJAvcx1jVTyF1lwQ5Ncs9Htz0s/AN7ToMcU1XIJo3Qj8955IS9iiUTMTg9o
-         hPISvzy2/4mtnH31tDJEpdrUjfSjwUkbg+EmNNR7VZCSj3soYoZvxgi8M/1gN3TaqMNY
-         c/l0OFymbBzRN3mC0ZUimIKWqKn9AzujwnbTo0ukJAYZ3Z0MZCuDgMLVqpjzGfEfvamb
-         Hdsq3xJ15UwDUNjcHBXiAWZYMY6wCp03poVljLyiAOAF9SadfAYj1DPuCVTEY6FxihIH
-         n9ywsfmXWU/wXp2FJY8rrBenCEkdBYjIm6y8eYVIBTXNMGRL3jGFqXmjMvyJVdfyfEiM
-         LSNQ==
+        bh=89RXExJvICSdGLslAQ+t5/WCvotGC3pEcqn9PBFWRu8=;
+        b=KeKpTWsRUHIOzuDbn0dVtsxGdBBxXqTgwdHV7hmaCDUaZyKhU4M8oW9E+D2XQRZC5l
+         yVth9gnxB3uZB394DZp5OMUKKsnQaajdzEV8oYOYEIxsWAQ4XKotImR4x0bU+NAlB283
+         mLd+x4xnLac+wj5EnJHKejB6/Vpt6LiPoJsefE271USQVXVs29tu20X8LDfPYvU1g9Gj
+         IcDukjidWM4v21u4KoDVIxDDgK8zw3xDjyAkhrJpB9ZTMjBFP+E59bwlfGe6rtxoHATQ
+         O7ALj/8mtifQU26prXNaJQrJI+FG7TN0zTHiVUyCiYLl3xgNHz/9N+vei0jpHlrW5OES
+         Ur8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
          :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=CM2guZb6Hn0pwfDRg7CFUO0ej/Lsp2LuT1wX5l0Jt8g=;
-        b=fNOpOA1xp50tG1gQg9R9WyR/smuBC7H42O8rEQY44x5XrluqIPUPReUep3D8GdWrq7
-         Xh4xyYzLQrKtIUsRE6KIGgbuO7cny3CeQvNuoSk8DKjPAc7E8/Un70fYSFokvNsH8SiV
-         yCr14KP9F+LUOS/mc19zzA4oGUqBsPKUdWxwur5lZUhCZXp2d0TZfqZoU7VSjFQEaDkC
-         XcMBZ6yHmittSDdAW9crFO61YJyCL9DRj8/Ad417Sdq6WHlkehM/zN97hJu8A1Z0Gty2
-         Zsu0zddcFbWDdYrvJbIm7l4A67tyPkHzAKRePO6zhN72gr+avX3FkkgMug/qLRvt2r5q
-         YDXA==
-X-Gm-Message-State: ACgBeo3IQpGowjJIZ3QM4b1CbrHvbVkskxHNgiQydjqsyyrHcPD4N5lX
-        Uwpqb/n/FyPlQUdAnPa6tiA=
-X-Google-Smtp-Source: AA6agR5HFR3R02lOfrMcBsBKgjA+us7p2/6lea3lBBqeCWq6Hpd/S9k2kAhbzLEohbBqWWcg6S9PCg==
-X-Received: by 2002:a17:902:848b:b0:16d:4c6b:bf00 with SMTP id c11-20020a170902848b00b0016d4c6bbf00mr17628923plo.58.1659948776412;
-        Mon, 08 Aug 2022 01:52:56 -0700 (PDT)
+        bh=89RXExJvICSdGLslAQ+t5/WCvotGC3pEcqn9PBFWRu8=;
+        b=Cve2Xqmg4r3o1QdUOZfIY30+0DFTUvD/6xFQjLFQnfEk/ZDQlWFL5nQDiUO/x1U52F
+         9MsFN1D2FcTTjxS1Yr199iLOH1L2xeEkgRX84HypHzQSijx2Pn1PbuyDg/tup9qzvm47
+         DScWutoYaP+d3ujippljFeai9aEyq8jfhQaIMknOW5qdhNWSLzwmrp9dQwd+RkidDGyB
+         sy3nm7Cc1g/+Q0FFZKxKq8f6hFawSsFDS3eKoi9mI3qSjS/t6ZN3P6hmYO7OXQkNg6GK
+         mb+DP2dVtmrVydhw1yPZMBwIhp3FgkhjtBJZUEqUXwxZt/ZBKDj2sNdtU3KG8/Be9zoD
+         BMng==
+X-Gm-Message-State: ACgBeo0TZNVL1vuiQOyaAUQJj8MVpIov5XRYvNnZIF3rA+309FbSRiNS
+        qmvPZZIXyuJn8WJdZNa7KpI=
+X-Google-Smtp-Source: AA6agR5nQdHpiWToQQjE8bHyLPjZ+oNt57nNTovn52WQM6ec8XfuEYv78ihtO6vhlE0zFF6basg9NA==
+X-Received: by 2002:a17:902:8f8a:b0:170:8df4:eebd with SMTP id z10-20020a1709028f8a00b001708df4eebdmr9622323plo.116.1659948840811;
+        Mon, 08 Aug 2022 01:54:00 -0700 (PDT)
 Received: from [192.168.11.9] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id n15-20020a056a00212f00b0052deda6e3d2sm8260417pfj.98.2022.08.08.01.52.54
+        by smtp.gmail.com with ESMTPSA id e15-20020a170902784f00b0016c59b38254sm8175092pln.127.2022.08.08.01.53.58
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 08 Aug 2022 01:52:55 -0700 (PDT)
-Message-ID: <736e39fd-b068-80dd-b383-70e061e71bf5@gmail.com>
-Date:   Mon, 8 Aug 2022 17:52:52 +0900
+        Mon, 08 Aug 2022 01:54:00 -0700 (PDT)
+Message-ID: <c24c2a87-70b2-5342-bcc9-de467940466e@gmail.com>
+Date:   Mon, 8 Aug 2022 17:53:57 +0900
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: [PATCH v2 2/3] docs/conf.py: Respect env variable SPHINX_IMGMATH
+Subject: [PATCH v2 3/3] docs: kerneldoc-preamble: Test xeCJK.sty before
+ loading
 Content-Language: en-US
 To:     Jonathan Corbet <corbet@lwn.net>,
         Mauro Carvalho Chehab <mchehab@kernel.org>
@@ -69,60 +70,83 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On some distros with coarse-grained packaging policy, dvipng is
-installed along with latex.  In such cases, math rendering will
-use imgmath by default.  It is possible to override the choice by
-specifying the option string of "-D html_math_renderer='mathjax'"
-to sphinx-build (Sphinx >= 1.8).
+On distros whose texlive packaging is fine-grained, texlive-xecjk
+can be installed/removed independently of other texlive packages.
+Conditionally loading xeCJK depending only on the existence of the
+"Noto Sans CJK SC" font might end up in xelatex error of
+"xeCJK.sty not found!".
 
-To provide developers an easier-to-use knob, add code for an env
-variable "SPHINX_IMGMATH" which overrides the automatic choice
-of math renderer for html docs.
+Improve the situation by testing existence of xeCJK.sty before
+loading it.
 
-    SPHINX_IMGMATH=yes : Load imgmath even if dvipng is not found
-    SPHINX_IMGMATH=no  : Don't load imgmath (fall back to mathjax)
+This is useful on RHEL 9 and its clone distros where texlive-xecjk
+doesn't work at the moment due to a missing dependency [1].
+"make pdfdocs" for non-CJK contents should work after removing
+texlive-xecjk.
 
+Link: [1] https://bugzilla.redhat.com/show_bug.cgi?id=2086254
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 Acked-by: Mauro Carvalho Chehab <mchehab@kernel.org>
 ---
 Changes since v1:
- - No logical changes.
- - Renames:
-     LOAD_IMGMATH -> SPHINX_IMGMATH (Mauro),
-     opt_load_imgmath -> env_sphinx_imgmath.
  - Acked-by from Mauro.
 
 --
- Documentation/conf.py | 16 ++++++++++++++--
- 1 file changed, 14 insertions(+), 2 deletions(-)
+ Documentation/sphinx/kerneldoc-preamble.sty | 22 +++++++++++++++------
+ 1 file changed, 16 insertions(+), 6 deletions(-)
 
-diff --git a/Documentation/conf.py b/Documentation/conf.py
-index 3ec1f845c839..0b8f20e8e22c 100644
---- a/Documentation/conf.py
-+++ b/Documentation/conf.py
-@@ -128,8 +128,20 @@ autosectionlabel_maxdepth = 2
- # mathjax is the default math renderer since Sphinx 1.8.
- have_latex =  have_command('latex', '--version', 'pdfTeX')
- have_dvipng = have_command('dvipng', '--version', 'dvipng')
--load_imgmath = ((have_latex and have_dvipng)
--                or (major == 1 and minor < 8)
-+load_imgmath = have_latex and have_dvipng
-+
-+# Respect SPHINX_IMGMATH (for html docs only)
-+if 'SPHINX_IMGMATH' in os.environ:
-+    env_sphinx_imgmath = os.environ['SPHINX_IMGMATH']
-+    if 'yes' in env_sphinx_imgmath:
-+        load_imgmath = True
-+    elif 'no' in env_sphinx_imgmath:
-+        load_imgmath = False
-+    else: # otherwide, auto selection
-+        pass
-+
-+# Always load imgmath for Sphinx <1.8 or for epub docs
-+load_imgmath = (load_imgmath or (major == 1 and minor < 8)
-                 or 'epub' in sys.argv)
+diff --git a/Documentation/sphinx/kerneldoc-preamble.sty b/Documentation/sphinx/kerneldoc-preamble.sty
+index 2a29cbe51396..9707e033c8c4 100644
+--- a/Documentation/sphinx/kerneldoc-preamble.sty
++++ b/Documentation/sphinx/kerneldoc-preamble.sty
+@@ -70,8 +70,16 @@
  
- if load_imgmath:
+ % Translations have Asian (CJK) characters which are only displayed if
+ % xeCJK is used
++\usepackage{ifthen}
++\newboolean{enablecjk}
++\setboolean{enablecjk}{false}
+ \IfFontExistsTF{Noto Sans CJK SC}{
+-    % Load xeCJK when CJK font is available
++    \IfFileExists{xeCJK.sty}{
++	\setboolean{enablecjk}{true}
++    }{}
++}{}
++\ifthenelse{\boolean{enablecjk}}{
++    % Load xeCJK when both the Noto Sans CJK font and xeCJK.sty are available.
+     \usepackage{xeCJK}
+     % Noto CJK fonts don't provide slant shape. [AutoFakeSlant] permits
+     % its emulation.
+@@ -196,7 +204,7 @@
+     % Inactivate CJK after tableofcontents
+     \apptocmd{\sphinxtableofcontents}{\kerneldocCJKoff}{}{}
+     \xeCJKsetup{CJKspace = true}% For inter-phrase space of Korean TOC
+-}{ % No CJK font found
++}{ % Don't enable CJK
+     % Custom macros to on/off CJK and switch CJK fonts (Dummy)
+     \newcommand{\kerneldocCJKon}{}
+     \newcommand{\kerneldocCJKoff}{}
+@@ -204,14 +212,16 @@
+     %% and ignore the argument (#1) in their definitions, whole contents of
+     %% CJK chapters can be ignored.
+     \newcommand{\kerneldocBeginSC}[1]{%
+-	%% Put a note on missing CJK fonts in place of zh_CN translation.
+-	\begin{sphinxadmonition}{note}{Note on missing fonts:}
++	%% Put a note on missing CJK fonts or the xecjk package in place of
++	%% zh_CN translation.
++	\begin{sphinxadmonition}{note}{Note on missing fonts and a package:}
+ 	    Translations of Simplified Chinese (zh\_CN), Traditional Chinese
+ 	    (zh\_TW), Korean (ko\_KR), and Japanese (ja\_JP) were skipped
+-	    due to the lack of suitable font families.
++	    due to the lack of suitable font families and/or the texlive-xecjk
++	    package.
+ 
+ 	    If you want them, please install ``Noto Sans CJK'' font families
+-	    by following instructions from
++	    along with the texlive-xecjk package by following instructions from
+ 	    \sphinxcode{./scripts/sphinx-pre-install}.
+ 	    Having optional ``Noto Serif CJK'' font families will improve
+ 	    the looks of those translations.
 -- 
 2.25.1
 
