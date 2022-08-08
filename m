@@ -2,35 +2,35 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A683C19F2A
-	for <linux-doc@archiver.kernel.org>; Mon,  8 Aug 2022 01:44:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 27EA5C19F2A
+	for <linux-doc@archiver.kernel.org>; Mon,  8 Aug 2022 01:52:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242949AbiHHBo1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 7 Aug 2022 21:44:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43452 "EHLO
+        id S243210AbiHHBwS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 7 Aug 2022 21:52:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37818 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242768AbiHHBmi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 7 Aug 2022 21:42:38 -0400
+        with ESMTP id S243326AbiHHBui (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 7 Aug 2022 21:50:38 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5C70DF59;
-        Sun,  7 Aug 2022 18:35:56 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4D6E18B29;
+        Sun,  7 Aug 2022 18:37:45 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 6EAD260DFF;
-        Mon,  8 Aug 2022 01:35:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5C3DC433D6;
-        Mon,  8 Aug 2022 01:35:53 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 98A4C60E06;
+        Mon,  8 Aug 2022 01:37:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28C00C433C1;
+        Mon,  8 Aug 2022 01:37:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1659922555;
-        bh=8ShKdM//abOJwn9BoY7nE11m3+dm8Ihcu8SgmPluy/Y=;
+        s=k20201202; t=1659922665;
+        bh=KVk0CHZx/pAaRKcwo899uhFfJT+WzqPT+Dh7CqWHa40=;
         h=From:To:Cc:Subject:Date:From;
-        b=K7qx8MDljHCJLDpZUlnCIX3W4W2EiBVCkU7Eh2bMzJsasasHDIvda1Gd7Vh04uZFl
-         iPWnZmuS7t7t5QH82iNqg75EaYXyu+6EnywoVOrL8egg+NlUeKDMJY32x9vKdpL3mA
-         dvlAqqBhqlmjf8uK/ztG6WMmbWfA11fdinOSX9f9jGwal8yyq0aJ8uxpLfMxXMjTVU
-         e3c2fy553V4TJAcVT9CkXcCySZRP/Kg3E3ISBTCfEwLMVcy124jI0MaF5enF+5+A0k
-         JnztuoXv2ork5Re/ShcT1CpCey2MczQwCAsTzpCtuar33QhKhA58dz6GWli0F6cApU
-         N8c84PJHSP9FQ==
+        b=C5JKwd4OZrMLH90vZJ9vuYmaWpts/cEM4Ds4K/KweiAN5ucWwD4mi7EaTz3uPg5W2
+         +8BVPnjLSP3jVXFLK2KDo6AI61kPZRqpXEVJUY1cojiztUjzhAcEWijfY5pXrTir7L
+         j75eZUAlYULgAXzWKcLLqLJ77Zd9AprajhD00tl3WU/yYbWGjNKwVoH4NAALV3nWO8
+         KRHYrxBOQtWpwBvVn6xxaSYiSWVsvbsK1zW5dhNZFZ7WtU1r0dktEhMGfya8KCGH+s
+         9NA8gcf4oLrNbW6waJPtqY6dEC17o+mba+yWNuA5/VCiPD/eXkFTmNJ/oA0ghtlDjq
+         U6HgM0SD1xFBQ==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Wyes Karny <wyes.karny@amd.com>,
@@ -42,9 +42,9 @@ Cc:     Wyes Karny <wyes.karny@amd.com>,
         peterz@infradead.org, chang.seok.bae@intel.com,
         ebiederm@xmission.com, zhengqi.arch@bytedance.com,
         linux-pm@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 01/45] x86: Handle idle=nomwait cmdline properly for x86_idle
-Date:   Sun,  7 Aug 2022 21:35:05 -0400
-Message-Id: <20220808013551.315446-1-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 01/29] x86: Handle idle=nomwait cmdline properly for x86_idle
+Date:   Sun,  7 Aug 2022 21:37:11 -0400
+Message-Id: <20220808013741.316026-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
 X-stable: review
@@ -84,10 +84,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  2 files changed, 15 insertions(+), 9 deletions(-)
 
 diff --git a/Documentation/admin-guide/pm/cpuidle.rst b/Documentation/admin-guide/pm/cpuidle.rst
-index aec2cd2aaea7..19754beb5a4e 100644
+index 10fde58d0869..3596e3714ec1 100644
 --- a/Documentation/admin-guide/pm/cpuidle.rst
 +++ b/Documentation/admin-guide/pm/cpuidle.rst
-@@ -612,8 +612,8 @@ the ``menu`` governor to be used on the systems that use the ``ladder`` governor
+@@ -685,8 +685,8 @@ the ``menu`` governor to be used on the systems that use the ``ladder`` governor
  by default this way, for example.
  
  The other kernel command line parameters controlling CPU idle time management
@@ -98,7 +98,7 @@ index aec2cd2aaea7..19754beb5a4e 100644
  
  The *x86* architecture support code recognizes three kernel command line
  options related to CPU idle time management: ``idle=poll``, ``idle=halt``,
-@@ -635,10 +635,13 @@ idle, so it very well may hurt single-thread computations performance as well as
+@@ -708,10 +708,13 @@ idle, so it very well may hurt single-thread computations performance as well as
  energy-efficiency.  Thus using it for performance reasons may not be a good idea
  at all.]
  
@@ -117,10 +117,10 @@ index aec2cd2aaea7..19754beb5a4e 100644
  In addition to the architecture-level kernel command line options affecting CPU
  idle time management, there are parameters affecting individual ``CPUIdle``
 diff --git a/arch/x86/kernel/process.c b/arch/x86/kernel/process.c
-index 8d9d72fc27a2..707376453525 100644
+index a2823682d64e..4505d845daba 100644
 --- a/arch/x86/kernel/process.c
 +++ b/arch/x86/kernel/process.c
-@@ -805,6 +805,10 @@ static void amd_e400_idle(void)
+@@ -777,6 +777,10 @@ static void amd_e400_idle(void)
   */
  static int prefer_mwait_c1_over_halt(const struct cpuinfo_x86 *c)
  {
@@ -131,7 +131,7 @@ index 8d9d72fc27a2..707376453525 100644
  	if (c->x86_vendor != X86_VENDOR_INTEL)
  		return 0;
  
-@@ -913,9 +917,8 @@ static int __init idle_setup(char *str)
+@@ -885,9 +889,8 @@ static int __init idle_setup(char *str)
  	} else if (!strcmp(str, "nomwait")) {
  		/*
  		 * If the boot option of "idle=nomwait" is added,
