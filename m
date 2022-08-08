@@ -2,238 +2,219 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A512C00140
-	for <linux-doc@archiver.kernel.org>; Mon,  8 Aug 2022 11:06:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F208C00140
+	for <linux-doc@archiver.kernel.org>; Mon,  8 Aug 2022 11:40:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242921AbiHHLGU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 8 Aug 2022 07:06:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50742 "EHLO
+        id S242816AbiHHLkZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 8 Aug 2022 07:40:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44746 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242966AbiHHLFp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 Aug 2022 07:05:45 -0400
-Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E75914D2E
-        for <linux-doc@vger.kernel.org>; Mon,  8 Aug 2022 04:05:31 -0700 (PDT)
-Received: by mail-pj1-x102d.google.com with SMTP id h21-20020a17090aa89500b001f31a61b91dso14153441pjq.4
-        for <linux-doc@vger.kernel.org>; Mon, 08 Aug 2022 04:05:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=dgu0QebApDasttKV3uGy+5ar/hOmMsIwTE7SF/rUsQE=;
-        b=JQAfgMqTw1Wij8iFsPNSvejYSeAmgSkLt4FTBNAQfJJz6xO0iZLYdaLQsJBxP/qmyG
-         gHZ3Ei3C58TnGKPQNLjxv1tzHeYev80QU7LKN9qCwi9oEFml9xpyDRuhtekGLAZtbrRR
-         OwykBPrFL9pJitjJRrCW1AhRYCW0G0Mz54X+WpshocbCa1Wp4QuBaR0Wc6+i8lHgzffY
-         ZvCYBpUXUoyi1anfoTbnoUJzwGvnNYqw0ZexB6uvUPhzxn9SZaaObTBErCu9CDZp65jd
-         mcDur1rEwRPwOkOacd/1Iw5VCCLMGJib50ZXPMNWsH284FcJ2BzlRyGhA0WvZY/hpHJr
-         5mig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=dgu0QebApDasttKV3uGy+5ar/hOmMsIwTE7SF/rUsQE=;
-        b=2H4sWlgPR/1S5VkO64kJxRE/pGUNxcDfjWYOWO/RADP6yAnQIBUxUu8WAhbmJlapT0
-         u17bK+IeubN8ATAMr9tBGF9kYmhX2gk1WU4k7AHw63Lqu/v1uVFkTxDT4mCFUvVX4NIF
-         GpdEsDWia6sMnlw9N/aeZJ3L5MiRy6y9H5mBiDzz95/z+OPXJatWduk1w6paZwwHoQC+
-         r7bjKO9mAOmR0t4W5tWCgjc2YWGRxCljOOW+k/6tZBnYBdzFh8WIXBpuq1gNZecXumqI
-         GsAI0NZ6FyYo9wCXre8WvWerXUOCxHNHTXgSI4Q6GRBPdD1jBlcE5NYGJsYqchlDpsOF
-         Aa/w==
-X-Gm-Message-State: ACgBeo2laekOTNQmPkDDsnxMwHcBxSamxRS66MwOI1t+GHSdloZtzJie
-        37YBbnr1m0VWo9Vp54+RhmAtdg==
-X-Google-Smtp-Source: AA6agR7QRD8QV8oQ0lebhQrjGgnbIJTfLXmW6Y9k2ZDa83FrSr/HRZ3TFY9D/tzmq7opX7MyAW3uvA==
-X-Received: by 2002:a17:902:e744:b0:16e:f6c2:3731 with SMTP id p4-20020a170902e74400b0016ef6c23731mr18328588plf.104.1659956730459;
-        Mon, 08 Aug 2022 04:05:30 -0700 (PDT)
-Received: from C02CV1DAMD6P.bytedance.net ([139.177.225.240])
-        by smtp.gmail.com with ESMTPSA id o12-20020aa7978c000000b0052dbad1ea2esm8393180pfp.6.2022.08.08.04.05.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Aug 2022 04:05:30 -0700 (PDT)
-From:   Chengming Zhou <zhouchengming@bytedance.com>
-To:     hannes@cmpxchg.org, tj@kernel.org, corbet@lwn.net,
-        surenb@google.com, mingo@redhat.com, peterz@infradead.org,
-        vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
-        rostedt@goodmis.org, bsegall@google.com
-Cc:     cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, songmuchun@bytedance.com,
-        Chengming Zhou <zhouchengming@bytedance.com>
-Subject: [PATCH v2 10/10] sched/psi: cache parent psi_group to speed up groups iterate
-Date:   Mon,  8 Aug 2022 19:03:41 +0800
-Message-Id: <20220808110341.15799-11-zhouchengming@bytedance.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220808110341.15799-1-zhouchengming@bytedance.com>
-References: <20220808110341.15799-1-zhouchengming@bytedance.com>
+        with ESMTP id S242699AbiHHLkW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 Aug 2022 07:40:22 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21DD32BDA;
+        Mon,  8 Aug 2022 04:40:21 -0700 (PDT)
+Received: from localhost.localdomain (unknown [39.46.64.186])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: usama.anjum)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 97B426601C27;
+        Mon,  8 Aug 2022 12:40:16 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1659958819;
+        bh=NABXr45P299DN/2txxUii3Yn/eCVqoWtHDq/GPwndk8=;
+        h=From:To:Cc:Subject:Date:From;
+        b=fYNy0f8FvAj4A8hmcHbVxS54ZMzVune13gUjXYchzLFDeM8J1DXiX0lDjZRk+Mrmy
+         IQhdd8/szZQuCC5liBCRMmfbLoe7BPmUeS09pzNgfrG6AKJCjL9yfVhRltH9jFjiPo
+         zNe2bCa8SKNzq0tBbNQRQdKJLCYjgX8p579I/aIDGQ7Z65mbfk+oEcSdvvI2GH+wkz
+         7YfcT4TX+q0ZCOwV6THhCc6kBfeA9frLz0P5BWfGCsCtIphk04eAmkE655EwazKCfA
+         WnvyqcZ36bYDKRWjuy2wxaAlymAss+apyuseoJky4x3WpbkUlJnmhoqXUtFHt4jD5G
+         juicVl5T6jUhQ==
+From:   Muhammad Usama Anjum <usama.anjum@collabora.com>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        x86@kernel.org (maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)),
+        "H. Peter Anvin" <hpa@zytor.com>,
+        linux-doc@vger.kernel.org (open list:DOCUMENTATION),
+        linux-kernel@vger.kernel.org (open list)
+Cc:     Steven Noonan <steven@uplinklabs.net>, usama.anjum@collabora.com,
+        kernel@collabora.com
+Subject: [PATCH 1/3] x86/tsc: implement tsc=directsync for systems without IA32_TSC_ADJUST
+Date:   Mon,  8 Aug 2022 16:39:52 +0500
+Message-Id: <20220808113954.345579-1-usama.anjum@collabora.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-We use iterate_groups() to iterate each level psi_group to update
-PSI stats, which is a very hot path.
+From: Steven Noonan <steven@uplinklabs.net>
 
-In current code, iterate_groups() have to use multiple branches and
-cgroup_parent() to get parent psi_group for each level, which is not
-very efficient.
+AMD processors don't implement any mechanism like Intel's
+IA32_TSC_ADJUST MSR to sync the TSC. Instead of just relying on the
+BIOS, TSC can be synced by calculating the difference and directly
+writing it to the TSC MSR.
 
-This patch cache parent psi_group in struct psi_group, only need to get
-psi_group of task itself first, then just use group->parent to iterate.
+Add directsync flag to turn on the TSC sync when IA32_TSC_MSR isn't
+available. Attempt 1000 times or for 30 seconds before giving up.
 
-Signed-off-by: Chengming Zhou <zhouchengming@bytedance.com>
+Signed-off-by: Steven Noonan <steven@uplinklabs.net>
+Signed-off-by: Muhammad Usama Anjum <usama.anjum@collabora.com>
 ---
- include/linux/psi_types.h |  1 +
- kernel/sched/psi.c        | 51 ++++++++++++++++++++-------------------
- 2 files changed, 27 insertions(+), 25 deletions(-)
+ .../admin-guide/kernel-parameters.txt         |  4 +-
+ arch/x86/include/asm/tsc.h                    |  1 +
+ arch/x86/kernel/tsc.c                         |  3 ++
+ arch/x86/kernel/tsc_sync.c                    | 46 +++++++++++++++----
+ 4 files changed, 43 insertions(+), 11 deletions(-)
 
-diff --git a/include/linux/psi_types.h b/include/linux/psi_types.h
-index fced39e255aa..7459a47fcb1f 100644
---- a/include/linux/psi_types.h
-+++ b/include/linux/psi_types.h
-@@ -148,6 +148,7 @@ struct psi_trigger {
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index db5de5f0b9d3..f0e6ea580e68 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -6271,7 +6271,7 @@
+ 			If not specified, "default" is used. In this case,
+ 			the RNG's choice is left to each individual trust source.
  
- struct psi_group {
- 	bool enabled;
-+	struct psi_group *parent;
+-	tsc=		Disable clocksource stability checks for TSC.
++	tsc=		Disable clocksource stability checks for TSC or sync the TSC.
+ 			Format: <string>
+ 			[x86] reliable: mark tsc clocksource as reliable, this
+ 			disables clocksource verification at runtime, as well
+@@ -6289,6 +6289,8 @@
+ 			in situations with strict latency requirements (where
+ 			interruptions from clocksource watchdog are not
+ 			acceptable).
++			[x86] directsync: attempt to sync the tsc via direct
++			writes if MSR_IA32_TSC_ADJUST isn't available
  
- 	/* Protects data used by the aggregator */
- 	struct mutex avgs_lock;
-diff --git a/kernel/sched/psi.c b/kernel/sched/psi.c
-index 9df1686ee02d..d3c1c49b9bcf 100644
---- a/kernel/sched/psi.c
-+++ b/kernel/sched/psi.c
-@@ -786,30 +786,22 @@ static void psi_group_change(struct psi_group *group, int cpu,
- 		schedule_delayed_work(&group->avgs_work, PSI_FREQ);
+ 	tsc_early_khz=  [X86] Skip early TSC calibration and use the given
+ 			value instead. Useful when the early TSC frequency discovery
+diff --git a/arch/x86/include/asm/tsc.h b/arch/x86/include/asm/tsc.h
+index fbdc3d951494..dc70909119e8 100644
+--- a/arch/x86/include/asm/tsc.h
++++ b/arch/x86/include/asm/tsc.h
+@@ -42,6 +42,7 @@ extern unsigned long native_calibrate_tsc(void);
+ extern unsigned long long native_sched_clock_from_tsc(u64 tsc);
+ 
+ extern int tsc_clocksource_reliable;
++extern int tsc_allow_direct_sync;
+ #ifdef CONFIG_X86_TSC
+ extern bool tsc_async_resets;
+ #else
+diff --git a/arch/x86/kernel/tsc.c b/arch/x86/kernel/tsc.c
+index cafacb2e58cc..6345af65a549 100644
+--- a/arch/x86/kernel/tsc.c
++++ b/arch/x86/kernel/tsc.c
+@@ -47,6 +47,7 @@ static unsigned int __initdata tsc_early_khz;
+ static DEFINE_STATIC_KEY_FALSE(__use_tsc);
+ 
+ int tsc_clocksource_reliable;
++int tsc_allow_direct_sync;
+ 
+ static u32 art_to_tsc_numerator;
+ static u32 art_to_tsc_denominator;
+@@ -303,6 +304,8 @@ static int __init tsc_setup(char *str)
+ 		mark_tsc_unstable("boot parameter");
+ 	if (!strcmp(str, "nowatchdog"))
+ 		no_tsc_watchdog = 1;
++	if (!strcmp(str, "directsync"))
++		tsc_allow_direct_sync = 1;
+ 	return 1;
  }
  
--static struct psi_group *iterate_groups(struct task_struct *task, void **iter)
-+static inline struct psi_group *task_psi_group(struct task_struct *task)
+diff --git a/arch/x86/kernel/tsc_sync.c b/arch/x86/kernel/tsc_sync.c
+index 9452dc9664b5..2a855991f982 100644
+--- a/arch/x86/kernel/tsc_sync.c
++++ b/arch/x86/kernel/tsc_sync.c
+@@ -340,6 +340,8 @@ static cycles_t check_tsc_warp(unsigned int timeout)
+  */
+ static inline unsigned int loop_timeout(int cpu)
  {
--	if (*iter == &psi_system)
--		return NULL;
--
- #ifdef CONFIG_CGROUPS
- 	if (static_branch_likely(&psi_cgroups_enabled)) {
--		struct cgroup *cgroup = NULL;
--
--		if (!*iter)
--			cgroup = task->cgroups->dfl_cgrp;
--		else
--			cgroup = cgroup_parent(*iter);
-+		struct cgroup *cgroup = task_dfl_cgroup(task);
- 
--		if (cgroup && cgroup_parent(cgroup)) {
--			*iter = cgroup;
-+		if (cgroup && cgroup_parent(cgroup))
- 			return cgroup_psi(cgroup);
--		}
- 	}
- #endif
--	*iter = &psi_system;
- 	return &psi_system;
++	if (!boot_cpu_has(X86_FEATURE_TSC_ADJUST))
++		return 30;
+ 	return (cpumask_weight(topology_core_cpumask(cpu)) > 1) ? 2 : 20;
  }
  
-+#define for_each_psi_group(group) \
-+	for (; group; group = group->parent)
-+
- static void psi_flags_change(struct task_struct *task, int clear, int set)
- {
- 	if (((task->psi_flags & set) ||
-@@ -827,12 +819,11 @@ static void psi_flags_change(struct task_struct *task, int clear, int set)
+@@ -360,13 +362,16 @@ void check_tsc_sync_source(int cpu)
  
- void psi_change_groups(struct task_struct *task, int clear, int set)
- {
-+	struct psi_group *group = task_psi_group(task);
- 	int cpu = task_cpu(task);
--	struct psi_group *group;
--	void *iter = NULL;
- 	u64 now = cpu_clock(cpu);
- 
--	while ((group = iterate_groups(task, &iter)))
-+	for_each_psi_group(group)
- 		psi_group_change(group, cpu, clear, set, now, true);
- }
- 
-@@ -850,7 +841,6 @@ void psi_task_switch(struct task_struct *prev, struct task_struct *next,
- {
- 	struct psi_group *group, *common = NULL;
- 	int cpu = task_cpu(prev);
--	void *iter;
- 	u64 now = cpu_clock(cpu);
- 
- 	if (next->pid) {
-@@ -861,8 +851,8 @@ void psi_task_switch(struct task_struct *prev, struct task_struct *next,
- 		 * we reach the first common ancestor. Iterate @next's
- 		 * ancestors only until we encounter @prev's ONCPU.
- 		 */
--		iter = NULL;
--		while ((group = iterate_groups(next, &iter))) {
-+		group = task_psi_group(next);
-+		for_each_psi_group(group) {
- 			if (per_cpu_ptr(group->pcpu, cpu)->state_mask &
- 			    PSI_ONCPU) {
- 				common = group;
-@@ -903,9 +893,12 @@ void psi_task_switch(struct task_struct *prev, struct task_struct *next,
- 
- 		psi_flags_change(prev, clear, set);
- 
--		iter = NULL;
--		while ((group = iterate_groups(prev, &iter)) && group != common)
-+		group = task_psi_group(prev);
-+		for_each_psi_group(group) {
-+			if (group == common)
-+				break;
- 			psi_group_change(group, cpu, clear, set, now, wake_clock);
-+		}
- 
- 		/*
- 		 * TSK_ONCPU is handled up to the common ancestor. If we're tasked
-@@ -913,7 +906,7 @@ void psi_task_switch(struct task_struct *prev, struct task_struct *next,
- 		 */
- 		if (sleep || unlikely(prev->in_memstall != next->in_memstall)) {
- 			clear &= ~TSK_ONCPU;
--			for (; group; group = iterate_groups(prev, &iter))
-+			for_each_psi_group(group)
- 				psi_group_change(group, cpu, clear, set, now, wake_clock);
- 		}
- 	}
-@@ -922,7 +915,6 @@ void psi_task_switch(struct task_struct *prev, struct task_struct *next,
- void psi_account_irqtime(struct task_struct *task, u32 delta)
- {
- 	int cpu = task_cpu(task);
--	void *iter = NULL;
- 	struct psi_group *group;
- 	struct psi_group_cpu *groupc;
- 	u64 now;
-@@ -932,7 +924,8 @@ void psi_account_irqtime(struct task_struct *task, u32 delta)
- 
- 	now = cpu_clock(cpu);
- 
--	while ((group = iterate_groups(task, &iter))) {
-+	group = task_psi_group(task);
-+	for_each_psi_group(group) {
- 		groupc = per_cpu_ptr(group->pcpu, cpu);
- 
- 		write_seqcount_begin(&groupc->seq);
-@@ -1010,6 +1003,8 @@ void psi_memstall_leave(unsigned long *flags)
- #ifdef CONFIG_CGROUPS
- int psi_cgroup_alloc(struct cgroup *cgroup)
- {
-+	struct cgroup *parent;
-+
- 	if (!static_branch_likely(&psi_cgroups_enabled))
- 		return 0;
- 
-@@ -1017,6 +1012,12 @@ int psi_cgroup_alloc(struct cgroup *cgroup)
- 	if (!cgroup->psi.pcpu)
- 		return -ENOMEM;
- 	group_init(&cgroup->psi);
-+
-+	parent = cgroup_parent(cgroup);
-+	if (parent && cgroup_parent(parent))
-+		cgroup->psi.parent = cgroup_psi(parent);
+ 	/*
+ 	 * Set the maximum number of test runs to
+-	 *  1 if the CPU does not provide the TSC_ADJUST MSR
+-	 *  3 if the MSR is available, so the target can try to adjust
++	 *  3 if TSC_ADJUST MSR is available, so the target can try to adjust
++	 *  1000 if TSC MSR can be written to compensate
++	 *  1 if MSRs cannot be written
+ 	 */
+-	if (!boot_cpu_has(X86_FEATURE_TSC_ADJUST))
+-		atomic_set(&test_runs, 1);
+-	else
++	if (boot_cpu_has(X86_FEATURE_TSC_ADJUST))
+ 		atomic_set(&test_runs, 3);
++	else if (tsc_allow_direct_sync)
++		atomic_set(&test_runs, 1000);
 +	else
-+		cgroup->psi.parent = &psi_system;
- 	return 0;
++		atomic_set(&test_runs, 1);
+ retry:
+ 	/*
+ 	 * Wait for the target to start or to skip the test:
+@@ -434,6 +439,21 @@ void check_tsc_sync_source(int cpu)
+ 		goto retry;
  }
  
++static inline cycles_t write_tsc_adjustment(cycles_t adjustment)
++{
++	cycles_t adjval, nextval;
++
++	rdmsrl(MSR_IA32_TSC, adjval);
++	adjval += adjustment;
++	wrmsrl(MSR_IA32_TSC, adjval);
++	rdmsrl(MSR_IA32_TSC, nextval);
++
++	/*
++	 * Estimated clock cycle overhead for wrmsr + rdmsr
++	 */
++	return nextval - adjval;
++}
++
+ /*
+  * Freshly booted CPUs call into this:
+  */
+@@ -441,7 +461,7 @@ void check_tsc_sync_target(void)
+ {
+ 	struct tsc_adjust *cur = this_cpu_ptr(&tsc_adjust);
+ 	unsigned int cpu = smp_processor_id();
+-	cycles_t cur_max_warp, gbl_max_warp;
++	cycles_t cur_max_warp, gbl_max_warp, est_overhead = 0;
+ 	int cpus = 2;
+ 
+ 	/* Also aborts if there is no TSC. */
+@@ -521,12 +541,18 @@ void check_tsc_sync_target(void)
+ 	 * value is used. In the worst case the adjustment needs to go
+ 	 * through a 3rd run for fine tuning.
+ 	 */
+-	cur->adjusted += cur_max_warp;
++	if (boot_cpu_has(X86_FEATURE_TSC_ADJUST)) {
++		cur->adjusted += cur_max_warp;
+ 
+-	pr_warn("TSC ADJUST compensate: CPU%u observed %lld warp. Adjust: %lld\n",
+-		cpu, cur_max_warp, cur->adjusted);
++		pr_warn("TSC ADJUST compensate: CPU%u observed %lld warp. Adjust: %lld\n",
++			cpu, cur_max_warp, cur->adjusted);
+ 
+-	wrmsrl(MSR_IA32_TSC_ADJUST, cur->adjusted);
++		wrmsrl(MSR_IA32_TSC_ADJUST, cur->adjusted);
++	} else {
++		pr_debug("TSC direct sync: CPU%u observed %lld warp. Overhead: %lld\n",
++			cpu, cur_max_warp, est_overhead);
++		est_overhead = write_tsc_adjustment(cur_max_warp + est_overhead);
++	}
+ 	goto retry;
+ 
+ }
 -- 
-2.36.1
+2.30.2
 
