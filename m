@@ -2,42 +2,42 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CF034C25B0F
-	for <linux-doc@archiver.kernel.org>; Mon,  8 Aug 2022 14:17:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 20B5AC28B2B
+	for <linux-doc@archiver.kernel.org>; Mon,  8 Aug 2022 14:17:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243455AbiHHOR4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 8 Aug 2022 10:17:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46500 "EHLO
+        id S243535AbiHHOR5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 8 Aug 2022 10:17:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46760 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243451AbiHHORr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 Aug 2022 10:17:47 -0400
+        with ESMTP id S243477AbiHHORy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 Aug 2022 10:17:54 -0400
 Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::222])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 273DDE1F;
-        Mon,  8 Aug 2022 07:17:46 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7977E2185;
+        Mon,  8 Aug 2022 07:17:48 -0700 (PDT)
 Received: from booty.fritz.box (unknown [77.244.183.192])
         (Authenticated sender: luca.ceresoli@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPA id 239F740023;
-        Mon,  8 Aug 2022 14:17:43 +0000 (UTC)
+        by mail.gandi.net (Postfix) with ESMTPA id D91B840021;
+        Mon,  8 Aug 2022 14:17:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1659968264;
+        t=1659968266;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=f/RQOfRAEuYlxpaBgdy2xoxxpuzSBGjIuj6Pa8upvDM=;
-        b=Ffxeb1YNIarNews4CIJI8cbgm+UCqX/TGrmYlyB/rCOk1uWvq55WRCeN3a0RuY2dPp6M62
-        SHKNDJ2+dfVWf18dIIYC02PZ+G1I7HJZ6nCctaPGvJ3t6C9xsc58g/D+uQuwflqMRi5ZCv
-        7b6AIaMG9Wpjw8JvqB+YAX/yxlAtw37fHzvAdNUEYSEeC3s+5ujZTCorvsxtsxUYON8YYT
-        3jLXduWrSzCR8R3O+d5P8h0pR/e0FUgjN2cl2Nn0pTnq8GUchOSCD3AkL06DWq83yOaQ3A
-        3c8xQiEfaSDSg0qj2nQAE2dEqZaJvW2GSY6lq+w/kWFisf0xj9lUVeFsfrvUtg==
+        bh=Vse0PXbfgREFWzjPw765Sr7JMn/or8fQexoNuL2Z1o0=;
+        b=JvAV4ABjljWyPhGQmfuWo0DDdGgRa7hTwWhoRFvR8yOJ/F4s2ObP8kRPNGMdQNXlMs0XAn
+        HxjqQXzBDPg0hUQvu73Rc6XnEl+bOZ62B5LrGVbnOXSkt+u72GojJd9un6W/f3D5nlSkVW
+        XJRbYOoxl5FAEvlhucoTh7sQQAQmctzDTvzZsMo6aYoJ3oW9HoqYeaXlX8wToM7toTa2rH
+        6jaZWtBT1khCKHLqRGCNZv60HcPT7IFWLNuXFzSxhM0MuRb6CKZJnaW/UtLVFdlBuOC1BQ
+        AHMasrELZKsw1Mi0XTBmjgbTNgozw+a78W+x3I55y0EVFOOSVjkcJCKmTPG5Eg==
 From:   luca.ceresoli@bootlin.com
 To:     linux-doc@vger.kernel.org, linux-i2c@vger.kernel.org
 Cc:     Luca Ceresoli <luca.ceresoli@bootlin.com>,
         Wolfram Sang <wsa@kernel.org>, Peter Rosin <peda@axentia.se>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 6/9] docs: i2c: i2c-topology: fix incorrect heading
-Date:   Mon,  8 Aug 2022 16:17:05 +0200
-Message-Id: <20220808141708.1021103-7-luca.ceresoli@bootlin.com>
+Subject: [PATCH 8/9] docs: i2c: i2c-sysfs: improve wording
+Date:   Mon,  8 Aug 2022 16:17:07 +0200
+Message-Id: <20220808141708.1021103-9-luca.ceresoli@bootlin.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220808141708.1021103-1-luca.ceresoli@bootlin.com>
 References: <20220808141708.1021103-1-luca.ceresoli@bootlin.com>
@@ -49,42 +49,41 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
 
-"Etc" here was never meant to be a heading, it became one while converting
-to ReST.
+Improve wording in a couple sentences.
 
-It would be easy to just convert it to plain text, but rather remove it and
-add an introductory text before the list that conveys the same meaning but
-with a better reading flow.
-
-Fixes: ccf988b66d69 ("docs: i2c: convert to ReST and add to driver-api bookset")
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 ---
- Documentation/i2c/i2c-topology.rst | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ Documentation/i2c/i2c-sysfs.rst | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
 
-diff --git a/Documentation/i2c/i2c-topology.rst b/Documentation/i2c/i2c-topology.rst
-index 7cb53819778e..1b11535c8946 100644
---- a/Documentation/i2c/i2c-topology.rst
-+++ b/Documentation/i2c/i2c-topology.rst
-@@ -5,6 +5,8 @@ I2C muxes and complex topologies
- There are a couple of reasons for building more complex I2C topologies
- than a straight-forward I2C bus with one adapter and one or more devices.
+diff --git a/Documentation/i2c/i2c-sysfs.rst b/Documentation/i2c/i2c-sysfs.rst
+index 6b68b95cd427..d816a23b80f2 100644
+--- a/Documentation/i2c/i2c-sysfs.rst
++++ b/Documentation/i2c/i2c-sysfs.rst
+@@ -51,11 +51,10 @@ Google Pixel 3 phone for example::
+ ``i2c-2`` is an I2C bus whose number is 2, and ``2-0049`` is an I2C device
+ on bus 2 address 0x49 bound with a kernel driver.
  
-+Some example use cases are:
-+
- 1. A mux may be needed on the bus to prevent address collisions.
+-Terminologies
+-=============
++Terminology
++===========
  
- 2. The bus may be accessible from some external bus master, and arbitration
-@@ -14,9 +16,6 @@ than a straight-forward I2C bus with one adapter and one or more devices.
-    from the I2C bus, at least most of the time, and sits behind a gate
-    that has to be operated before the device can be accessed.
+-First, let us define a couple of terminologies to avoid confusions in the later
+-sections.
++First, let us define some terms to avoid confusions in the later sections.
  
--Etc
--===
--
- These constructs are represented as I2C adapter trees by Linux, where
- each adapter has a parent adapter (except the root adapter) and zero or
- more child adapters. The root adapter is the actual adapter that issues
+ (Physical) I2C Bus Controller
+ -----------------------------
+@@ -117,7 +116,7 @@ Walk through Logical I2C Bus
+ 
+ For the following content, we will use a more complex I2C topology as an
+ example. Here is a brief graph for the I2C topology. If you do not understand
+-this graph at the first glance, do not be afraid to continue reading this doc
++this graph at first glance, do not be afraid to continue reading this doc
+ and review it when you finish reading.
+ 
+ ::
 -- 
 2.34.1
 
