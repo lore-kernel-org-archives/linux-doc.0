@@ -2,147 +2,175 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 55618C25B0D
-	for <linux-doc@archiver.kernel.org>; Mon,  8 Aug 2022 01:52:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AF449C00140
+	for <linux-doc@archiver.kernel.org>; Mon,  8 Aug 2022 08:49:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243220AbiHHBwT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 7 Aug 2022 21:52:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38686 "EHLO
+        id S232192AbiHHItq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 8 Aug 2022 04:49:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33942 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243745AbiHHBvn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 7 Aug 2022 21:51:43 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5D20D128;
-        Sun,  7 Aug 2022 18:38:37 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id D66EA60E65;
-        Mon,  8 Aug 2022 01:38:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2243BC433D6;
-        Mon,  8 Aug 2022 01:38:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1659922716;
-        bh=bSH9y4Ku8CoRj6uH7czVHGtvbannl6YjNvwomyXlUIs=;
-        h=From:To:Cc:Subject:Date:From;
-        b=B6mSes8nSlvOcXYF5bu5FVzh7LpauZIsBv8GzrPsi0c427idqFP9i0htLavWFQeIF
-         qBrzUXDMPZz09ePRVATjHYVEWswB4z8YRPfJTumD2QhUMA6nYbsZv3Wa0UwVOFWDhH
-         6qz+o6HmIZbUzh4vV74EJumjiQo9gbKSXqUv+d1EbGsXjGJKZdsgkGH+0zOcVwHVG3
-         4POFBu0iDJPF7KbXJ/TML821+SCZolGID+mp6DLRMRdE7T4sS4pZMPalbskbttBi/O
-         8xdK7+VPjkT8LKbDOsKPXSynFDR4riHo17wNF8u2wF5UVkHP0bd9I6LxZkoOLaC6Kx
-         UhqtB490o5gVw==
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Wyes Karny <wyes.karny@amd.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Zhang Rui <rui.zhang@intel.com>,
-        Sasha Levin <sashal@kernel.org>, rafael@kernel.org,
-        daniel.lezcano@linaro.org, corbet@lwn.net, tglx@linutronix.de,
-        mingo@redhat.com, bp@alien8.de, x86@kernel.org,
-        peterz@infradead.org, chang.seok.bae@intel.com,
-        ebiederm@xmission.com, zhengqi.arch@bytedance.com,
-        linux-pm@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 01/23] x86: Handle idle=nomwait cmdline properly for x86_idle
-Date:   Sun,  7 Aug 2022 21:38:08 -0400
-Message-Id: <20220808013832.316381-1-sashal@kernel.org>
-X-Mailer: git-send-email 2.35.1
+        with ESMTP id S230127AbiHHItp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 Aug 2022 04:49:45 -0400
+Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1F096363;
+        Mon,  8 Aug 2022 01:49:40 -0700 (PDT)
+Received: by mail-pl1-x632.google.com with SMTP id d16so7923805pll.11;
+        Mon, 08 Aug 2022 01:49:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:content-language:from
+         :subject:to:cc:content-transfer-encoding;
+        bh=oFbfW+6eBoSd9lHzaSWXN4qCai+JIjJq05pd6OQMU5E=;
+        b=JxZrR1+OnBtNim0vw7zXSz+LUKhlwQmPhmpSfbr9kARInimgkF2VIQsY24jCyFjFGh
+         UhU4ixxym3zxmvc9BIOExrHt8b2qTigTSlOF0n4dOSmsqUQi6j0KDUmlJ7QsSmTo5CFx
+         qwY2ilpVj+Wywr4DWyabDX5NScuF4EdtjDTVjE4jViO4AOsNQOBxNfOst2C/8fGZLncM
+         /1ak/gDZ6qnMDjwxmZ9MwIC4FyQy3M7EVPUVOWzX5FaXzLAhcYAdANXV0Zuq2YN0rbw0
+         jOqF+6BL3RP7Nu1cefla25ldHZO1VK99NuoTkDJI0ZMC5Vztmq2ad4SiuQhyUQTKMhHx
+         MdOA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent
+         :content-language:from:subject:to:cc:content-transfer-encoding;
+        bh=oFbfW+6eBoSd9lHzaSWXN4qCai+JIjJq05pd6OQMU5E=;
+        b=vp295VGEK8xuqG+BVBALut/hfa5vyqzESdOSH34b7y5fhWY+0A8941Y0UPIE1uGqWa
+         Ad+bBIDRfETeEWwm467ypDuw0kefyKLfatjsdL3U4FeX4N7hZEl4+Ci/I+4gg/1FIe12
+         8pHH+2M2mn/3SRT2RXXMmzcxSa2XFL3LxEcC6TCb6G0vrwU31uvj24xEUvF0oA5NMpiA
+         zrtsU1iVr8Vx6ptmep13zVSvMpx0sB0YvqvTlmuqcGnWWkW1sqoOhpvGzYiY2qd9lq1l
+         Iku3x3dSAUa8PXw9Zn6VjO0NdVFxCDVQ2WuTFgTFx/3LVOdPFCSQ+t5564ytqz26SDjt
+         3T+g==
+X-Gm-Message-State: ACgBeo2mXB5w16vZ6SKKBdKDZ0ThamcsOYx1pJVQ33AbIYO+G8cTLfc4
+        RSFwGTkGAn19si4tcNKqrWxWJIzlfQA=
+X-Google-Smtp-Source: AA6agR4sJC8tHznMpaiSUY2aqAw6/FBTROKgm+C906VThCVw97Nl+HlHp+apVkT7b7nQm4Id4V/cnQ==
+X-Received: by 2002:a17:90b:3d85:b0:1f7:6a32:3576 with SMTP id pq5-20020a17090b3d8500b001f76a323576mr286044pjb.187.1659948580241;
+        Mon, 08 Aug 2022 01:49:40 -0700 (PDT)
+Received: from [192.168.11.9] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id i11-20020a17090332cb00b0016d1b708729sm8200661plr.132.2022.08.08.01.49.38
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 08 Aug 2022 01:49:39 -0700 (PDT)
+Message-ID: <c41cab17-afd6-bc99-56a1-e4e73b8c1ef6@gmail.com>
+Date:   Mon, 8 Aug 2022 17:49:36 +0900
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Content-Language: en-US
+From:   Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH v2 0/3] docs: conf.py: Reduce texlive dependency
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-doc@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-kernel@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Wyes Karny <wyes.karny@amd.com>
+Hi,
 
-[ Upstream commit 8bcedb4ce04750e1ccc9a6b6433387f6a9166a56 ]
+This is v2 with the env variable of SPHINX_IMGMATH as suggested by
+Mauro.
 
-When kernel is booted with idle=nomwait do not use MWAIT as the
-default idle state.
+Changes since v1 [1]:
+ - Patch 2/3: Rename LOAD_IMGMATH -> SPHINX_IMGMATH (Mauro).
+ - For the series: Acked-bys from Mauro.
 
-If the user boots the kernel with idle=nomwait, it is a clear
-direction to not use mwait as the default idle state.
-However, the current code does not take this into consideration
-while selecting the default idle state on x86.
+This was inspired from the discussion on the expected behavior of
+sphinx-pre-install [2].
 
-Fix it by checking for the idle=nomwait boot option in
-prefer_mwait_c1_over_halt().
+There was a mismatch between Mauro's intent and my expectation for
+the --no-pdf option of sphinx-pre-install.
 
-Also update the documentation around idle=nomwait appropriately.
+My thought was if I installed all the packages suggested from
+"./scripts/sphinx-pre-install --no-pdf", "make htmldocs" should run
+free of complaints of missing commands or packages.
 
-[ dhansen: tweak commit message ]
+However, I got this warning when I tried the procedure on a debian-
+based container image:
 
-Signed-off-by: Wyes Karny <wyes.karny@amd.com>
-Signed-off-by: Dave Hansen <dave.hansen@linux.intel.com>
-Tested-by: Zhang Rui <rui.zhang@intel.com>
-Link: https://lkml.kernel.org/r/fdc2dc2d0a1bc21c2f53d989ea2d2ee3ccbc0dbe.1654538381.git-series.wyes.karny@amd.com
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- Documentation/admin-guide/pm/cpuidle.rst | 15 +++++++++------
- arch/x86/kernel/process.c                |  9 ++++++---
- 2 files changed, 15 insertions(+), 9 deletions(-)
+    WARNING: LaTeX command 'latex' cannot be run (needed for math display),
+    check the imgmath_latex setting
 
-diff --git a/Documentation/admin-guide/pm/cpuidle.rst b/Documentation/admin-guide/pm/cpuidle.rst
-index e70b365dbc60..80cf2ef2a506 100644
---- a/Documentation/admin-guide/pm/cpuidle.rst
-+++ b/Documentation/admin-guide/pm/cpuidle.rst
-@@ -676,8 +676,8 @@ the ``menu`` governor to be used on the systems that use the ``ladder`` governor
- by default this way, for example.
- 
- The other kernel command line parameters controlling CPU idle time management
--described below are only relevant for the *x86* architecture and some of
--them affect Intel processors only.
-+described below are only relevant for the *x86* architecture and references
-+to ``intel_idle`` affect Intel processors only.
- 
- The *x86* architecture support code recognizes three kernel command line
- options related to CPU idle time management: ``idle=poll``, ``idle=halt``,
-@@ -699,10 +699,13 @@ idle, so it very well may hurt single-thread computations performance as well as
- energy-efficiency.  Thus using it for performance reasons may not be a good idea
- at all.]
- 
--The ``idle=nomwait`` option disables the ``intel_idle`` driver and causes
--``acpi_idle`` to be used (as long as all of the information needed by it is
--there in the system's ACPI tables), but it is not allowed to use the
--``MWAIT`` instruction of the CPUs to ask the hardware to enter idle states.
-+The ``idle=nomwait`` option prevents the use of ``MWAIT`` instruction of
-+the CPU to enter idle states. When this option is used, the ``acpi_idle``
-+driver will use the ``HLT`` instruction instead of ``MWAIT``. On systems
-+running Intel processors, this option disables the ``intel_idle`` driver
-+and forces the use of the ``acpi_idle`` driver instead. Note that in either
-+case, ``acpi_idle`` driver will function only if all the information needed
-+by it is in the system's ACPI tables.
- 
- In addition to the architecture-level kernel command line options affecting CPU
- idle time management, there are parameters affecting individual ``CPUIdle``
-diff --git a/arch/x86/kernel/process.c b/arch/x86/kernel/process.c
-index 571e38c9ee1d..068715a52ac1 100644
---- a/arch/x86/kernel/process.c
-+++ b/arch/x86/kernel/process.c
-@@ -659,6 +659,10 @@ static void amd_e400_idle(void)
-  */
- static int prefer_mwait_c1_over_halt(const struct cpuinfo_x86 *c)
- {
-+	/* User has disallowed the use of MWAIT. Fallback to HALT */
-+	if (boot_option_idle_override == IDLE_NOMWAIT)
-+		return 0;
-+
- 	if (c->x86_vendor != X86_VENDOR_INTEL)
- 		return 0;
- 
-@@ -769,9 +773,8 @@ static int __init idle_setup(char *str)
- 	} else if (!strcmp(str, "nomwait")) {
- 		/*
- 		 * If the boot option of "idle=nomwait" is added,
--		 * it means that mwait will be disabled for CPU C2/C3
--		 * states. In such case it won't touch the variable
--		 * of boot_option_idle_override.
-+		 * it means that mwait will be disabled for CPU C1/C2/C3
-+		 * states.
- 		 */
- 		boot_option_idle_override = IDLE_NOMWAIT;
- 	} else
+, or:
+
+    WARNING: dvipng command 'dvipng' cannot be run (needed for math display),
+    check the imgmath_dvipng setting
+
+Mauro's response to my complaint was this:
+
+> The idea of using --no-pdf is to setup an environment without LaTeX,
+> meaning that math tags would only be partially parsed: basically, the
+> output would be html with LaTeX-like math expressions (at least last
+> time I tried).
+
+The mismatch can be resolved by using "mathjax" for math rendering
+and making "make htmldocs" be free of texlive packages.
+
+mathjax is the default math renderer since Sphinx 1.8.  It delegates
+math rendering to web browsers.  
+
+As Mauro has pointed out, "make epubdocs" requires imgmath.
+
+So this patch set treats mathjax as a fallback math renderer for html
+docs when imgmath requirements are not met.
+Existing systems which meet imgmath requirements are not affected by
+this change.
+
+Summary of math rendering in html:
+
+         dvipng, browser             before           after
+    ==========================  ===============  ================
+    dvipng                      imgmath (png)    <--
+    no divpng, with javascript  raw math:: code  mathjax
+    no dvipng, w/o javascript   raw math:: code  raw mathjax code
+
+Patch 1/3 adds code in conf.py so that for html docs, the imgmath
+extension will be loaded only when both latex and dvipng are available.
+For epub docs, imgmath will always be loaded (no change).
+
+Patch 2/3 adds code respecting a new env variable "SPHINX_IMGMATH" which
+will override the math renderer choice. This variable can be helpful
+on distros such as Arch linux, Mageia, etc. whose packaging policy is
+coarse-grained.
+
+E.g., to test math rendering by mathjax, run:
+    make SPHINX_IMGMATH=no htmldocs
+
+I mentioned in the thread of [2] that imgmath can generate scalable
+math images in SVG.
+
+My plan was to implement that option as well.  But during tests under
+Fedora/CentOS/openSUSE, I encountered a couple of warnings from dvisvgm.
+That would be regressions on existing systems which happen to have
+not-working dvisvgm along with working dvipng.  I'm thinking of adding
+the SVG option later if I can figure out the minimal requirement for
+dvisvgm under imgmath.
+
+Patch 3/3 is an independent change in the LaTeX preamble for pdf docs.
+Currently, xeCJK.sty provided for RHEL 9 (and its clones) is broken
+due to the lack of new dependency.  As a workaround, treat the absence
+of xeCJK.sty as the additional knob for skipping CJK contents.
+
+Note: Generated LaTeX sources will be the same regardless of existence
+of the "Noto Sans CJK SC" font and xeCJK.sty.
+
+[1] v1: https://lore.kernel.org/r/12d078f5-6995-b039-7076-bdb1f372a799@gmail.com/
+[2]: https://lore.kernel.org/r/3ba5a52e-cab6-05cf-a66e-adc58c467e1f@gmail.com/
+
+        Thanks, Akira
+
+--
+Akira Yokosawa (3):
+  docs/conf.py: Treat mathjax as fallback math renderer
+  docs/conf.py: Respect env variable SPHINX_IMGMATH
+  docs: kerneldoc-preamble: Test xeCJK.sty before loading
+
+ Documentation/conf.py                       | 46 ++++++++++++++++++++-
+ Documentation/sphinx/kerneldoc-preamble.sty | 22 +++++++---
+ 2 files changed, 61 insertions(+), 7 deletions(-)
+
+
+base-commit: 339170d8d3da5685762619080263abb78700ab4c
 -- 
-2.35.1
+2.25.1
 
