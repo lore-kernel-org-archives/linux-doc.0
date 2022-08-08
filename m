@@ -2,152 +2,102 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 33239C00140
-	for <linux-doc@archiver.kernel.org>; Mon,  8 Aug 2022 08:54:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C2499C00140
+	for <linux-doc@archiver.kernel.org>; Mon,  8 Aug 2022 09:07:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239232AbiHHIyI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 8 Aug 2022 04:54:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37026 "EHLO
+        id S238055AbiHHJHH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 8 Aug 2022 05:07:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47374 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237320AbiHHIyC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 Aug 2022 04:54:02 -0400
-Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com [IPv6:2607:f8b0:4864:20::62d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0EB513E38;
-        Mon,  8 Aug 2022 01:54:01 -0700 (PDT)
-Received: by mail-pl1-x62d.google.com with SMTP id m2so7967785pls.4;
-        Mon, 08 Aug 2022 01:54:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=89RXExJvICSdGLslAQ+t5/WCvotGC3pEcqn9PBFWRu8=;
-        b=KeKpTWsRUHIOzuDbn0dVtsxGdBBxXqTgwdHV7hmaCDUaZyKhU4M8oW9E+D2XQRZC5l
-         yVth9gnxB3uZB394DZp5OMUKKsnQaajdzEV8oYOYEIxsWAQ4XKotImR4x0bU+NAlB283
-         mLd+x4xnLac+wj5EnJHKejB6/Vpt6LiPoJsefE271USQVXVs29tu20X8LDfPYvU1g9Gj
-         IcDukjidWM4v21u4KoDVIxDDgK8zw3xDjyAkhrJpB9ZTMjBFP+E59bwlfGe6rtxoHATQ
-         O7ALj/8mtifQU26prXNaJQrJI+FG7TN0zTHiVUyCiYLl3xgNHz/9N+vei0jpHlrW5OES
-         Ur8g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=89RXExJvICSdGLslAQ+t5/WCvotGC3pEcqn9PBFWRu8=;
-        b=Cve2Xqmg4r3o1QdUOZfIY30+0DFTUvD/6xFQjLFQnfEk/ZDQlWFL5nQDiUO/x1U52F
-         9MsFN1D2FcTTjxS1Yr199iLOH1L2xeEkgRX84HypHzQSijx2Pn1PbuyDg/tup9qzvm47
-         DScWutoYaP+d3ujippljFeai9aEyq8jfhQaIMknOW5qdhNWSLzwmrp9dQwd+RkidDGyB
-         sy3nm7Cc1g/+Q0FFZKxKq8f6hFawSsFDS3eKoi9mI3qSjS/t6ZN3P6hmYO7OXQkNg6GK
-         mb+DP2dVtmrVydhw1yPZMBwIhp3FgkhjtBJZUEqUXwxZt/ZBKDj2sNdtU3KG8/Be9zoD
-         BMng==
-X-Gm-Message-State: ACgBeo0TZNVL1vuiQOyaAUQJj8MVpIov5XRYvNnZIF3rA+309FbSRiNS
-        qmvPZZIXyuJn8WJdZNa7KpI=
-X-Google-Smtp-Source: AA6agR5nQdHpiWToQQjE8bHyLPjZ+oNt57nNTovn52WQM6ec8XfuEYv78ihtO6vhlE0zFF6basg9NA==
-X-Received: by 2002:a17:902:8f8a:b0:170:8df4:eebd with SMTP id z10-20020a1709028f8a00b001708df4eebdmr9622323plo.116.1659948840811;
-        Mon, 08 Aug 2022 01:54:00 -0700 (PDT)
-Received: from [192.168.11.9] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id e15-20020a170902784f00b0016c59b38254sm8175092pln.127.2022.08.08.01.53.58
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 08 Aug 2022 01:54:00 -0700 (PDT)
-Message-ID: <c24c2a87-70b2-5342-bcc9-de467940466e@gmail.com>
-Date:   Mon, 8 Aug 2022 17:53:57 +0900
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: [PATCH v2 3/3] docs: kerneldoc-preamble: Test xeCJK.sty before
- loading
-Content-Language: en-US
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
+        with ESMTP id S234382AbiHHJHG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 Aug 2022 05:07:06 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7592812AE2
+        for <linux-doc@vger.kernel.org>; Mon,  8 Aug 2022 02:07:05 -0700 (PDT)
+Received: from localhost (unknown [213.194.152.135])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: rcn)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 33D276601C24;
+        Mon,  8 Aug 2022 10:07:03 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1659949623;
+        bh=aT4Y4PRWFqoLXt9oUFCYxJFzPEP2F0zu3T57vKLD24o=;
+        h=From:To:Cc:Subject:References:In-reply-to:Date:From;
+        b=nHT6gKCAsZ4JxG+TFwUKRhh/hjFC+mVec4ufjzbnSR1DnTAQLdf61/NP0tajrTQkE
+         k3F7UI1dY3NJlENaiWDg03Dqb5PdJfnigKXFMAQQAImzfQTxvKNPLgB0q5pf6pO/QZ
+         BC4HxJEFgc3H/80sjLeSVDkY2Fq62MQhYzIwxpJ1osunJyLAH0JIE6keSBFdfdRA6f
+         rfw6pZy3rWtg9d1T325t+l5tgqZdWVPU64wPhI4gvaWaWh/2gisV0MrXuftdSL1m6P
+         iIbN6GSQXZV0IMs66DGrBu2nHqFwv2nb5NERmFhKKUeqs6LXDoG2xflX/VZHE2nBwp
+         A2cDpqYbdVngg==
+From:   Ricardo =?utf-8?Q?Ca=C3=B1uelo?= <ricardo.canuelo@collabora.com>
+To:     Bagas Sanjaya <bagasdotme@gmail.com>
 Cc:     linux-doc@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-kernel@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
-References: <c41cab17-afd6-bc99-56a1-e4e73b8c1ef6@gmail.com>
-From:   Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <c41cab17-afd6-bc99-56a1-e4e73b8c1ef6@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+        virtualization@lists.linux-foundation.org, mst@redhat.com,
+        jasowang@redhat.com, kernel@collabora.com, cohuck@redhat.com
+Subject: Re: [PATCH v2 2/2] docs: driver-api: virtio: virtio on Linux
+References: <20220804105914.3707389-1-ricardo.canuelo@collabora.com> <20220804105914.3707389-3-ricardo.canuelo@collabora.com> <Yu4fEEDMVrC7eNY1@debian.me>
+In-reply-to: <Yu4fEEDMVrC7eNY1@debian.me>
+Date:   Mon, 08 Aug 2022 11:06:59 +0200
+Message-ID: <87o7wvqf2k.fsf@rcn-XPS-13-9305.i-did-not-set--mail-host-address--so-tickle-me>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On distros whose texlive packaging is fine-grained, texlive-xecjk
-can be installed/removed independently of other texlive packages.
-Conditionally loading xeCJK depending only on the existence of the
-"Noto Sans CJK SC" font might end up in xelatex error of
-"xeCJK.sty not found!".
+Hi Bagas,
 
-Improve the situation by testing existence of xeCJK.sty before
-loading it.
+Thanks for reviewing the patch, comments below:
 
-This is useful on RHEL 9 and its clone distros where texlive-xecjk
-doesn't work at the moment due to a missing dependency [1].
-"make pdfdocs" for non-CJK contents should work after removing
-texlive-xecjk.
+On s=C3=A1b, ago 06 2022 at 14:58:08, Bagas Sanjaya <bagasdotme@gmail.com> =
+wrote:
+> Sphinx citation syntax can be used for external references, like:
+>
+> diff --git a/Documentation/driver-api/virtio/virtio.rst b/Documentation/d=
+river-api/virtio/virtio.rst
+> index 4b73c705c94c61..abd682cfd41eda 100644
+> --- a/Documentation/driver-api/virtio/virtio.rst
+> +++ b/Documentation/driver-api/virtio/virtio.rst
+> @@ -50,8 +50,8 @@ similar to the ones used in a network device:
+>  All the buffers the descriptors point to are allocated by the guest and
+>  used by the host either for reading or for writing but not for both.
+>=20=20
+> -Refer to Chapter 2.5 ("Virtqueues") of the virtio spec [1] for the
+> -reference definitions of virtqueues and to [2] for an illustrated
+> +Refer to Chapter 2.5 ("Virtqueues") of the virtio spec [1]_ for the
+> +reference definitions of virtqueues and to [2]_ for an illustrated
+>  overview of how the host device and the guest driver communicate.
+>=20=20
+>  The :c:type:`vring_virtqueue` struct models a virtqueue, including the
+> @@ -138,13 +138,13 @@ calling a transport-specific ``find_vqs`` method.
+>  References
+>  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>=20=20
+> -[1] Virtio Spec v1.2:
+> -https://docs.oasis-open.org/virtio/virtio/v1.2/virtio-v1.2.html
+> +.. [1] Virtio Spec v1.2:
+> +   https://docs.oasis-open.org/virtio/virtio/v1.2/virtio-v1.2.html
+>=20=20
+> -Check for later versions of the spec as well.
+> +   Check for later versions of the spec as well.
+>=20=20
+> -[2] Virtqueues and virtio ring: How the data travels
+> -https://www.redhat.com/en/blog/virtqueues-and-virtio-ring-how-data-trave=
+ls
+> +.. [2] Virtqueues and virtio ring: How the data travels
+> +   https://www.redhat.com/en/blog/virtqueues-and-virtio-ring-how-data-tr=
+avels
+>=20=20
+>  .. rubric:: Footnotes
 
-Link: [1] https://bugzilla.redhat.com/show_bug.cgi?id=2086254
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
-Acked-by: Mauro Carvalho Chehab <mchehab@kernel.org>
----
-Changes since v1:
- - Acked-by from Mauro.
+Is that the preferred way to do it? I didn't find any guidelines about
+it and the existing docs don't seem to settle on any specific
+style. Personally I prefer to keep it as it is in the patch because I
+like the bibliography references to look different than footnote links
+([] vs superscript).
 
---
- Documentation/sphinx/kerneldoc-preamble.sty | 22 +++++++++++++++------
- 1 file changed, 16 insertions(+), 6 deletions(-)
-
-diff --git a/Documentation/sphinx/kerneldoc-preamble.sty b/Documentation/sphinx/kerneldoc-preamble.sty
-index 2a29cbe51396..9707e033c8c4 100644
---- a/Documentation/sphinx/kerneldoc-preamble.sty
-+++ b/Documentation/sphinx/kerneldoc-preamble.sty
-@@ -70,8 +70,16 @@
- 
- % Translations have Asian (CJK) characters which are only displayed if
- % xeCJK is used
-+\usepackage{ifthen}
-+\newboolean{enablecjk}
-+\setboolean{enablecjk}{false}
- \IfFontExistsTF{Noto Sans CJK SC}{
--    % Load xeCJK when CJK font is available
-+    \IfFileExists{xeCJK.sty}{
-+	\setboolean{enablecjk}{true}
-+    }{}
-+}{}
-+\ifthenelse{\boolean{enablecjk}}{
-+    % Load xeCJK when both the Noto Sans CJK font and xeCJK.sty are available.
-     \usepackage{xeCJK}
-     % Noto CJK fonts don't provide slant shape. [AutoFakeSlant] permits
-     % its emulation.
-@@ -196,7 +204,7 @@
-     % Inactivate CJK after tableofcontents
-     \apptocmd{\sphinxtableofcontents}{\kerneldocCJKoff}{}{}
-     \xeCJKsetup{CJKspace = true}% For inter-phrase space of Korean TOC
--}{ % No CJK font found
-+}{ % Don't enable CJK
-     % Custom macros to on/off CJK and switch CJK fonts (Dummy)
-     \newcommand{\kerneldocCJKon}{}
-     \newcommand{\kerneldocCJKoff}{}
-@@ -204,14 +212,16 @@
-     %% and ignore the argument (#1) in their definitions, whole contents of
-     %% CJK chapters can be ignored.
-     \newcommand{\kerneldocBeginSC}[1]{%
--	%% Put a note on missing CJK fonts in place of zh_CN translation.
--	\begin{sphinxadmonition}{note}{Note on missing fonts:}
-+	%% Put a note on missing CJK fonts or the xecjk package in place of
-+	%% zh_CN translation.
-+	\begin{sphinxadmonition}{note}{Note on missing fonts and a package:}
- 	    Translations of Simplified Chinese (zh\_CN), Traditional Chinese
- 	    (zh\_TW), Korean (ko\_KR), and Japanese (ja\_JP) were skipped
--	    due to the lack of suitable font families.
-+	    due to the lack of suitable font families and/or the texlive-xecjk
-+	    package.
- 
- 	    If you want them, please install ``Noto Sans CJK'' font families
--	    by following instructions from
-+	    along with the texlive-xecjk package by following instructions from
- 	    \sphinxcode{./scripts/sphinx-pre-install}.
- 	    Having optional ``Noto Serif CJK'' font families will improve
- 	    the looks of those translations.
--- 
-2.25.1
-
-
+Cheers,
+Ricardo
