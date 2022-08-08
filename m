@@ -2,102 +2,129 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C2499C00140
-	for <linux-doc@archiver.kernel.org>; Mon,  8 Aug 2022 09:07:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3544FC00140
+	for <linux-doc@archiver.kernel.org>; Mon,  8 Aug 2022 11:04:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238055AbiHHJHH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 8 Aug 2022 05:07:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47374 "EHLO
+        id S241944AbiHHLE0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 8 Aug 2022 07:04:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48664 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234382AbiHHJHG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 Aug 2022 05:07:06 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7592812AE2
-        for <linux-doc@vger.kernel.org>; Mon,  8 Aug 2022 02:07:05 -0700 (PDT)
-Received: from localhost (unknown [213.194.152.135])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: rcn)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 33D276601C24;
-        Mon,  8 Aug 2022 10:07:03 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1659949623;
-        bh=aT4Y4PRWFqoLXt9oUFCYxJFzPEP2F0zu3T57vKLD24o=;
-        h=From:To:Cc:Subject:References:In-reply-to:Date:From;
-        b=nHT6gKCAsZ4JxG+TFwUKRhh/hjFC+mVec4ufjzbnSR1DnTAQLdf61/NP0tajrTQkE
-         k3F7UI1dY3NJlENaiWDg03Dqb5PdJfnigKXFMAQQAImzfQTxvKNPLgB0q5pf6pO/QZ
-         BC4HxJEFgc3H/80sjLeSVDkY2Fq62MQhYzIwxpJ1osunJyLAH0JIE6keSBFdfdRA6f
-         rfw6pZy3rWtg9d1T325t+l5tgqZdWVPU64wPhI4gvaWaWh/2gisV0MrXuftdSL1m6P
-         iIbN6GSQXZV0IMs66DGrBu2nHqFwv2nb5NERmFhKKUeqs6LXDoG2xflX/VZHE2nBwp
-         A2cDpqYbdVngg==
-From:   Ricardo =?utf-8?Q?Ca=C3=B1uelo?= <ricardo.canuelo@collabora.com>
-To:     Bagas Sanjaya <bagasdotme@gmail.com>
-Cc:     linux-doc@vger.kernel.org,
-        virtualization@lists.linux-foundation.org, mst@redhat.com,
-        jasowang@redhat.com, kernel@collabora.com, cohuck@redhat.com
-Subject: Re: [PATCH v2 2/2] docs: driver-api: virtio: virtio on Linux
-References: <20220804105914.3707389-1-ricardo.canuelo@collabora.com> <20220804105914.3707389-3-ricardo.canuelo@collabora.com> <Yu4fEEDMVrC7eNY1@debian.me>
-In-reply-to: <Yu4fEEDMVrC7eNY1@debian.me>
-Date:   Mon, 08 Aug 2022 11:06:59 +0200
-Message-ID: <87o7wvqf2k.fsf@rcn-XPS-13-9305.i-did-not-set--mail-host-address--so-tickle-me>
+        with ESMTP id S236117AbiHHLEZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 Aug 2022 07:04:25 -0400
+Received: from mail-pg1-x535.google.com (mail-pg1-x535.google.com [IPv6:2607:f8b0:4864:20::535])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69AF1640B
+        for <linux-doc@vger.kernel.org>; Mon,  8 Aug 2022 04:04:24 -0700 (PDT)
+Received: by mail-pg1-x535.google.com with SMTP id bh13so8265172pgb.4
+        for <linux-doc@vger.kernel.org>; Mon, 08 Aug 2022 04:04:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ZuKaLhLa5tbyftaj2zqrE8vh2E3RCbHj+YPIfBePDGE=;
+        b=JAQoR2JLXXcFnQ+8VpKRcSa7MZKg44EUwQQjW+f+SUR7Y8Few/TDsJ9Ogq4yvpQkwW
+         8+B3YBQuZUiDJnBaB5UNAWggMNoZ5zgoDgeNyV5SWJhDp7xaX+a3KRoq2sdt5+pGHiJj
+         J2lXpcXgMUPbB1AC9mG57fI+Sxg38YAQJhb1DOd5BCeB9F7C40I8dXP1YsPOmieLh+oC
+         TSHR6XDNtwsjfy9f8dKalMpr+LlGpfkvb+jfGp7y1I7JyLeohHqLtXJ1fuyNgJ5n8XZR
+         wOvzJ5RUbwKdSolOiqm1o2NHdMgOAtOgCOcdsIUM5E6c85XAzgaTHhj3kM8MH6J13fKI
+         xeRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ZuKaLhLa5tbyftaj2zqrE8vh2E3RCbHj+YPIfBePDGE=;
+        b=ODkuIdqsdN4ZgxbYfx8B9DqrYYuj5l5UIFD+LUmIlvVZXMhyeFl4+V4BTPYK3RSsyi
+         VXKMtv8OvbyMoTDVQcZztsBb9kxv0bFioLUb0wwK9puJWf+Nz0dBbPDEL2u+Ud4oRaq7
+         bYr3qHyO+trfBujpGWGiW4Wm/airi3v+mroMqaajBu322jToWTzrGXlT2rmY5gvpXAq1
+         HzS/8WrhPAb9E5i9Jh4p7iFg9kaBX3dG4Rg/wsSvDmiAQjoAEV46PHu9ow9okBRKoZlR
+         55QeI06bI5NlYu4pXmQ8T+mMNLSqp7VkfNTaskEKHk7VcppqrdtolCgCUjuus3uflRlQ
+         5qpA==
+X-Gm-Message-State: ACgBeo3Ia7gJGRs7V1XiSozklNWkEnGCQcDD81rrhqapU2IB5pfMNBJq
+        SZ4vsriXfT3A4XDHSgEgMoxw7Q==
+X-Google-Smtp-Source: AA6agR6zDPXQY3Pw1hQQ2D5P5qZ7Io4Bha6vxRoupYISbJY9B7ar2YM4dAemZajGV+OvlSLIWAZBog==
+X-Received: by 2002:a05:6a00:a08:b0:52b:fd6e:b198 with SMTP id p8-20020a056a000a0800b0052bfd6eb198mr18177801pfh.53.1659956663580;
+        Mon, 08 Aug 2022 04:04:23 -0700 (PDT)
+Received: from C02CV1DAMD6P.bytedance.net ([139.177.225.240])
+        by smtp.gmail.com with ESMTPSA id o12-20020aa7978c000000b0052dbad1ea2esm8393180pfp.6.2022.08.08.04.04.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 08 Aug 2022 04:04:22 -0700 (PDT)
+From:   Chengming Zhou <zhouchengming@bytedance.com>
+To:     hannes@cmpxchg.org, tj@kernel.org, corbet@lwn.net,
+        surenb@google.com, mingo@redhat.com, peterz@infradead.org,
+        vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
+        rostedt@goodmis.org, bsegall@google.com
+Cc:     cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, songmuchun@bytedance.com,
+        Chengming Zhou <zhouchengming@bytedance.com>
+Subject: [PATCH v2 00/10] sched/psi: some optimization and extension
+Date:   Mon,  8 Aug 2022 19:03:31 +0800
+Message-Id: <20220808110341.15799-1-zhouchengming@bytedance.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Bagas,
+Hi all,
 
-Thanks for reviewing the patch, comments below:
+This patch series are some optimization and extension for PSI, based on
+the tip/sched/core branch.
 
-On s=C3=A1b, ago 06 2022 at 14:58:08, Bagas Sanjaya <bagasdotme@gmail.com> =
-wrote:
-> Sphinx citation syntax can be used for external references, like:
->
-> diff --git a/Documentation/driver-api/virtio/virtio.rst b/Documentation/d=
-river-api/virtio/virtio.rst
-> index 4b73c705c94c61..abd682cfd41eda 100644
-> --- a/Documentation/driver-api/virtio/virtio.rst
-> +++ b/Documentation/driver-api/virtio/virtio.rst
-> @@ -50,8 +50,8 @@ similar to the ones used in a network device:
->  All the buffers the descriptors point to are allocated by the guest and
->  used by the host either for reading or for writing but not for both.
->=20=20
-> -Refer to Chapter 2.5 ("Virtqueues") of the virtio spec [1] for the
-> -reference definitions of virtqueues and to [2] for an illustrated
-> +Refer to Chapter 2.5 ("Virtqueues") of the virtio spec [1]_ for the
-> +reference definitions of virtqueues and to [2]_ for an illustrated
->  overview of how the host device and the guest driver communicate.
->=20=20
->  The :c:type:`vring_virtqueue` struct models a virtqueue, including the
-> @@ -138,13 +138,13 @@ calling a transport-specific ``find_vqs`` method.
->  References
->  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->=20=20
-> -[1] Virtio Spec v1.2:
-> -https://docs.oasis-open.org/virtio/virtio/v1.2/virtio-v1.2.html
-> +.. [1] Virtio Spec v1.2:
-> +   https://docs.oasis-open.org/virtio/virtio/v1.2/virtio-v1.2.html
->=20=20
-> -Check for later versions of the spec as well.
-> +   Check for later versions of the spec as well.
->=20=20
-> -[2] Virtqueues and virtio ring: How the data travels
-> -https://www.redhat.com/en/blog/virtqueues-and-virtio-ring-how-data-trave=
-ls
-> +.. [2] Virtqueues and virtio ring: How the data travels
-> +   https://www.redhat.com/en/blog/virtqueues-and-virtio-ring-how-data-tr=
-avels
->=20=20
->  .. rubric:: Footnotes
+patch 1/10 fix periodic aggregation shut off problem introduced by earlier
+commit 4117cebf1a9f ("psi: Optimize task switch inside shared cgroups").
 
-Is that the preferred way to do it? I didn't find any guidelines about
-it and the existing docs don't seem to settle on any specific
-style. Personally I prefer to keep it as it is in the patch because I
-like the bibliography references to look different than footnote links
-([] vs superscript).
+patch 2/10 optimize task switch inside shared cgroups when in_memstall status
+of prev task and next task are different.
 
-Cheers,
-Ricardo
+patch 3-4 optimize and simplify PSI status tracking by don't change task
+psi_flags when migrate CPU/cgroup.
+
+patch 7/10 remove NR_ONCPU task accounting to save 4 bytes in the first
+cacheline to be used by the following patch 8/10, which introduce new
+PSI resource PSI_IRQ to track IRQ/SOFTIRQ pressure stall information.
+
+patch 9/10 introduce a per-cgroup interface "cgroup.psi" to disable
+or re-enable PSI stats accounting in the cgroup level.
+
+patch 10/10 cache parent psi_group in struct psi_group to speed up
+the hot iteration path.
+
+Thanks!
+
+Changes in v2:
+ - Add Acked-by tags from Johannes Weiner. Thanks for review!
+ - Fix periodic aggregation wakeup for common ancestors in
+   psi_task_switch().
+ - Add patch 7/10 from Johannes Weiner, which remove NR_ONCPU
+   task accounting to save 4 bytes in the first cacheline.
+ - Remove "psi_irq=" kernel cmdline parameter in last version.
+ - Add per-cgroup interface "cgroup.psi" to disable/re-enable
+   PSI stats accounting in the cgroup level.
+
+Chengming Zhou (9):
+  sched/psi: fix periodic aggregation shut off
+  sched/psi: optimize task switch inside shared cgroups again
+  sched/psi: move private helpers to sched/stats.h
+  sched/psi: don't change task psi_flags when migrate CPU/group
+  sched/psi: don't create cgroup PSI files when psi_disabled
+  sched/psi: save percpu memory when !psi_cgroups_enabled
+  sched/psi: add PSI_IRQ to track IRQ/SOFTIRQ pressure
+  sched/psi: per-cgroup PSI stats disable/re-enable interface
+  sched/psi: cache parent psi_group to speed up groups iterate
+
+Johannes Weiner (1):
+  sched/psi: remove NR_ONCPU task accounting
+
+ Documentation/admin-guide/cgroup-v2.rst |  13 ++
+ include/linux/psi.h                     |   6 +-
+ include/linux/psi_types.h               |  25 +--
+ include/linux/sched.h                   |   3 -
+ kernel/cgroup/cgroup.c                  |  73 +++++++
+ kernel/sched/core.c                     |   2 +
+ kernel/sched/psi.c                      | 247 +++++++++++++++++-------
+ kernel/sched/stats.h                    |  60 +++---
+ 8 files changed, 313 insertions(+), 116 deletions(-)
+
+-- 
+2.36.1
+
