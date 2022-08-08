@@ -2,82 +2,305 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D825AC00140
-	for <linux-doc@archiver.kernel.org>; Mon,  8 Aug 2022 20:48:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C722C00140
+	for <linux-doc@archiver.kernel.org>; Mon,  8 Aug 2022 21:32:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244110AbiHHUss (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 8 Aug 2022 16:48:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33218 "EHLO
+        id S244337AbiHHVcF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 8 Aug 2022 17:32:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54754 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236712AbiHHUsr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 Aug 2022 16:48:47 -0400
-Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com [IPv6:2a00:1450:4864:20::634])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10ABF63A7;
-        Mon,  8 Aug 2022 13:48:45 -0700 (PDT)
-Received: by mail-ej1-x634.google.com with SMTP id i14so18744928ejg.6;
-        Mon, 08 Aug 2022 13:48:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:content-language:in-reply-to:mime-version
-         :user-agent:date:message-id:from:references:cc:to:subject:from:to:cc;
-        bh=aMa8ybms4DKHEHWfzHWmIDW7vZz8sp4m4Xhax705u54=;
-        b=o6BAEcY3jCb4GKTNzkURHE2/YyeSCBuKD10W+WptJikeFY1PmbDUt9Flxrh5lMsnOj
-         6JcO2PmBDN2HARTuxcddMNXs2Y46oc3Or0qZquH01jmJAYG1y8ffe3KaDIe7LBe8pqKr
-         luRqaoNQWN/cvGStsVhOkXJkgvwZmnf3F2H2D73KKcuARVn3BpxaWz2p7tusZr185gk+
-         sBkGuvNM8wtrjUmXJWEvBRVSlFa+t+woeFRN3ooyGRVwHPOe68362KTRS3/LIszJOTaw
-         D2gc83J6cFXYcfRCLEk3PSIBFpvrwQ3k83yyqMEWS0xYwhqs1MQxhpBI3HnPyFVyKZvY
-         M7sw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:content-language:in-reply-to:mime-version
-         :user-agent:date:message-id:from:references:cc:to:subject
-         :x-gm-message-state:from:to:cc;
-        bh=aMa8ybms4DKHEHWfzHWmIDW7vZz8sp4m4Xhax705u54=;
-        b=q30mUYOQ2NecOTMm1rS8bseX2aWQU6pa9KOESVsq+cdkkWsmaCNs8Sdh0xgiFdWN0/
-         uF+4dw7RwGeZ6585GPrKLVGFrGGb+fQxu1DJuzRPxlaLTOJfwV5/pzuyzxXsi55GxbVW
-         MbR1TbSDt7RTYrUVU4tbDlCwYetNqCc8U0aAW6ktxIxhGmloAjAN17b6ddD6SK1m3Aj/
-         zYTCJERcDaBYBFtkwCzXCiPhFW8msynS0gHMYM+t8YiZCdJ+r9HH6Gjnih6ERsIzsifI
-         OTsekKMoimV5cCilv76Bw0LWrd3NBrMPM3/wn8qvKBx5jyTVgMEkRwcmHEC0ZPb7q0DB
-         2i9A==
-X-Gm-Message-State: ACgBeo3XO/fHd5xW3UoutCUiw1lJ0qAGDJgzxbcEIx4MhIvWCPyT89bg
-        bAEA1hw5kwOTY2FxJLUuXFo=
-X-Google-Smtp-Source: AA6agR5+zZbiYpwWES8+S+DGSCABYSlwYrpvaTvcJdaoTznf6nES6CY+ySi6PmHsyCpqdwFDexYvfA==
-X-Received: by 2002:a17:906:6a28:b0:731:48a0:71d with SMTP id qw40-20020a1709066a2800b0073148a0071dmr6229075ejc.249.1659991723717;
-        Mon, 08 Aug 2022 13:48:43 -0700 (PDT)
-Received: from [192.168.1.122] (cpc159313-cmbg20-2-0-cust161.5-4.cable.virginm.net. [82.0.78.162])
-        by smtp.gmail.com with ESMTPSA id r25-20020a056402019900b0043d7923af6esm4983363edv.95.2022.08.08.13.48.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 08 Aug 2022 13:48:43 -0700 (PDT)
-Subject: Re: [RFC PATCH net-next] docs: net: add an explanation of VF (and
- other) Representors
-To:     Randy Dunlap <rdunlap@infradead.org>, ecree@xilinx.com,
-        netdev@vger.kernel.org
-Cc:     davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com,
-        edumazet@google.com, corbet@lwn.net, linux-doc@vger.kernel.org,
-        linux-net-drivers@amd.com
-References: <20220805165850.50160-1-ecree@xilinx.com>
- <c389fb10-6eaf-7a86-6d50-f195eb29dd38@infradead.org>
-From:   Edward Cree <ecree.xilinx@gmail.com>
-Message-ID: <fc280c2e-0024-4af2-ed6f-920f36245eb6@gmail.com>
-Date:   Mon, 8 Aug 2022 21:48:42 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+        with ESMTP id S238069AbiHHVcE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 Aug 2022 17:32:04 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 91B0FDFB8;
+        Mon,  8 Aug 2022 14:32:03 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id CD73C60EFC;
+        Mon,  8 Aug 2022 21:32:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F2B99C433C1;
+        Mon,  8 Aug 2022 21:32:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1659994322;
+        bh=CkFamQElMBdW/Xk/iv1dKAw5mdgxBh9BRwVx32FpGJI=;
+        h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+        b=eWbYrGQKRn+/0f9GiAuFn7ZfmRm2Z7wwcpM/GHuA00OgHsWeNBirXCHmt81YV8alP
+         AC4un/zyrjCjeiNHJVjl9q4FzmPMfXE6UjeQhBqG7UQUTm2bpEhQdLR+a+rEKVvjN1
+         fdFdbV+pfYPtg86fSMT987uV63SZGyhUgk2WhzDE=
+From:   Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+Date:   Mon, 08 Aug 2022 17:31:49 -0400
+Subject: [PATCH v2 1/5] maintainer-pgp-guide: use key terminology consistent with
+ upstream
 MIME-Version: 1.0
-In-Reply-To: <c389fb10-6eaf-7a86-6d50-f195eb29dd38@infradead.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+Message-Id: <20220727-docs-pgp-guide-v2-1-e3e6954affb6@linuxfoundation.org>
+References: <20220727-docs-pgp-guide-v2-0-e3e6954affb6@linuxfoundation.org>
+In-Reply-To: <20220727-docs-pgp-guide-v2-0-e3e6954affb6@linuxfoundation.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+X-Mailer: b4 0.10.0-dev-fe10a
+X-Developer-Signature: v=1; a=openpgp-sha256; l=11348;
+ i=konstantin@linuxfoundation.org; h=from:subject:message-id;
+ bh=CkFamQElMBdW/Xk/iv1dKAw5mdgxBh9BRwVx32FpGJI=;
+ b=owGbwMvMwCW27YjM47CUmTmMp9WSGJI+Nly0qv46cetyAdbcENPcX6xSFaU39m9+fvz2yj8/LGtl
+ V1zP7yhlYRDjYpAVU2Qp2xe7KajwoYdceo8pzBxWJpAhDFycAjAR3okM/8wmR5/LNHgSkFex9Xfwvv
+ 68XA+bOjPblBsaTvP2SsV1vmRkuLRBeIHG3tQ43aw3j5+b+F2qDAn9ZmZ8NfFYRd7Nmivs3AA=
+X-Developer-Key: i=konstantin@linuxfoundation.org; a=openpgp;
+ fpr=DE0E66E32F1FDD0902666B96E63EDCA9329DD07E
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 05/08/2022 20:15, Randy Dunlap wrote:
-> On 8/5/22 09:58, ecree@xilinx.com wrote:
->> +A representor has three main rôles.
-> 
-> Just use "roles". dict.org and m-w.com are happy with that.
-> m-w.com says for "role":
->   variants: or less commonly rôle
+GnuPG does not use the word "master key" when referring to the subkey
+marked with the "certification" capability. Our use of this term was not
+only inconsistent, but also misleading, because in real life "master
+keys" are able to open multiple locks made for different keys, while PGP
+Certify key has no such capability.
 
-Okay, will do.
--ed
+Signed-off-by: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+
+diff --git a/Documentation/process/maintainer-pgp-guide.rst b/Documentation/process/maintainer-pgp-guide.rst
+index 29e7d7b1cd44..7dada4eaedca 100644
+--- a/Documentation/process/maintainer-pgp-guide.rst
++++ b/Documentation/process/maintainer-pgp-guide.rst
+@@ -133,45 +133,56 @@ daily cronjob::
+ Check the full path to your ``gpg`` or ``gpg2`` command and use the
+ ``gpg2`` command if regular ``gpg`` for you is the legacy GnuPG v.1.
+ 
+-.. _master_key:
++.. _protect_your_key:
+ 
+-Protect your master PGP key
+-===========================
++Protect your PGP key
++====================
+ 
+ This guide assumes that you already have a PGP key that you use for Linux
+ kernel development purposes. If you do not yet have one, please see the
+ "`Protecting Code Integrity`_" document mentioned earlier for guidance
+ on how to create a new one.
+ 
+-You should also make a new key if your current one is weaker than 2048 bits
+-(RSA).
+-
+-Master key vs. Subkeys
+-----------------------
+-
+-Subkeys are fully independent PGP keypairs that are tied to the "master"
+-key using certifying key signatures (certificates). It is important to
+-understand the following:
+-
+-1. There are no technical differences between the "master key" and "subkeys."
+-2. At creation time, we assign functional limitations to each key by
+-   giving it specific capabilities.
+-3. A PGP key can have 4 capabilities:
+-
+-   - **[S]** key can be used for signing
+-   - **[E]** key can be used for encryption
+-   - **[A]** key can be used for authentication
+-   - **[C]** key can be used for certifying other keys
+-
+-4. A single key may have multiple capabilities.
+-5. A subkey is fully independent from the master key. A message
+-   encrypted to a subkey cannot be decrypted with the master key. If you
+-   lose your private subkey, it cannot be recreated from the master key
+-   in any way.
+-
+-The key carrying the **[C]** (certify) capability is considered the
+-"master" key because it is the only key that can be used to indicate
+-relationship with other keys. Only the **[C]** key can be used to:
++You should also make a new key if your current one is weaker than 2048
++bits (RSA).
++
++Understanding PGP Subkeys
++-------------------------
++
++A PGP key rarely consists of a single keypair -- usually it is a
++collection of independent subkeys that can be used for different
++purposes based on their capabilities, assigned at their creation time.
++PGP defines four capabilities that a key can have:
++
++- **[S]** keys can be used for signing
++- **[E]** keys can be used for encryption
++- **[A]** keys can be used for authentication
++- **[C]** keys can be used for certifying other keys
++
++The key with the **[C]** capability is often called the "master" key,
++but this terminology is misleading because it implies that the Certify
++key can be used in place of any of other subkey on the same chain (like
++a physical "master key" can be used to open the locks made for other
++keys). Since this is not the case, this guide will refer to it as "the
++Certify key" to avoid any ambiguity.
++
++It is critical to fully understand the following:
++
++1. All subkeys are fully independent from each other. If you lose a
++   private subkey, it cannot be restored or recreated from any other
++   private key on your chain.
++2. With the exception of the Certify key, there can be multiple subkeys
++   with identical capabilities (e.g. you can have 2 valid encryption
++   subkeys, 3 valid signing subkeys, but only one valid certification
++   subkey). All subkeys are fully independent -- a message encrypted to
++   one **[E]** subkey cannot be decrypted with any other **[E]** subkey
++   you may also have.
++3. A single subkey may have multiple capabilities (e.g. your **[C]** key
++   can also be your **[S]** key).
++
++The key carrying the **[C]** (certify) capability is the only key that
++can be used to indicate relationship with other keys. Only the **[C]**
++key can be used to:
+ 
+ - add or revoke other keys (subkeys) with S/E/A capabilities
+ - add, change or revoke identities (uids) associated with the key
+@@ -180,7 +191,7 @@ relationship with other keys. Only the **[C]** key can be used to:
+ 
+ By default, GnuPG creates the following when generating new keys:
+ 
+-- A master key carrying both Certify and Sign capabilities (**[SC]**)
++- One subkey carrying both Certify and Sign capabilities (**[SC]**)
+ - A separate subkey with the Encryption capability (**[E]**)
+ 
+ If you used the default parameters when generating your key, then that
+@@ -192,9 +203,6 @@ for example::
+     uid           [ultimate] Alice Dev <adev@kernel.org>
+     ssb   rsa2048 2018-01-23 [E] [expires: 2020-01-23]
+ 
+-Any key carrying the **[C]** capability is your master key, regardless
+-of any other capabilities it may have assigned to it.
+-
+ The long line under the ``sec`` entry is your key fingerprint --
+ whenever you see ``[fpr]`` in the examples below, that 40-character
+ string is what it refers to.
+@@ -215,9 +223,9 @@ strong passphrase. To set it or change it, use::
+ Create a separate Signing subkey
+ --------------------------------
+ 
+-Our goal is to protect your master key by moving it to offline media, so
+-if you only have a combined **[SC]** key, then you should create a separate
+-signing subkey::
++Our goal is to protect your Certify key by moving it to offline media,
++so if you only have a combined **[SC]** key, then you should create a
++separate signing subkey::
+ 
+     $ gpg --quick-addkey [fpr] ed25519 sign
+ 
+@@ -230,8 +238,8 @@ your new subkey::
+ 
+     GnuPG 2.1 and later has full support for Elliptic Curve
+     Cryptography, with ability to combine ECC subkeys with traditional
+-    RSA master keys. The main upside of ECC cryptography is that it is
+-    much faster computationally and creates much smaller signatures when
++    RSA keys. The main upside of ECC cryptography is that it is much
++    faster computationally and creates much smaller signatures when
+     compared byte for byte with 2048+ bit RSA keys. Unless you plan on
+     using a smartcard device that does not support ECC operations, we
+     recommend that you create an ECC signing subkey for your kernel
+@@ -244,8 +252,8 @@ your new subkey::
+     "nistp256" instead or "ed25519."
+ 
+ 
+-Back up your master key for disaster recovery
+----------------------------------------------
++Back up your Certify key for disaster recovery
++----------------------------------------------
+ 
+ The more signatures you have on your PGP key from other developers, the
+ more reasons you have to create a backup version that lives on something
+@@ -300,7 +308,7 @@ will use for backup purposes. You will need to encrypt them using LUKS
+ -- refer to your distro's documentation on how to accomplish this.
+ 
+ For the encryption passphrase, you can use the same one as on your
+-master key.
++PGP key.
+ 
+ Once the encryption process is over, re-insert the USB drive and make
+ sure it gets properly mounted. Copy your entire ``.gnupg`` directory
+@@ -319,7 +327,7 @@ far away, because you'll need to use it every now and again for things
+ like editing identities, adding or revoking subkeys, or signing other
+ people's keys.
+ 
+-Remove the master key from  your homedir
++Remove the Certify key from your homedir
+ ----------------------------------------
+ 
+ The files in our home directory are not as well protected as we like to
+@@ -334,7 +342,7 @@ think.  They can be leaked or stolen via many different means:
+ Protecting your key with a good passphrase greatly helps reduce the risk
+ of any of the above, but passphrases can be discovered via keyloggers,
+ shoulder-surfing, or any number of other means. For this reason, the
+-recommended setup is to remove your master key from your home directory
++recommended setup is to remove your Certify key from your home directory
+ and store it on offline storage.
+ 
+ .. warning::
+@@ -343,7 +351,7 @@ and store it on offline storage.
+     your GnuPG directory in its entirety. What we are about to do will
+     render your key useless if you do not have a usable backup!
+ 
+-First, identify the keygrip of your master key::
++First, identify the keygrip of your Certify key::
+ 
+     $ gpg --with-keygrip --list-key [fpr]
+ 
+@@ -359,7 +367,7 @@ The output will be something like this::
+           Keygrip = 3333000000000000000000000000000000000000
+ 
+ Find the keygrip entry that is beneath the ``pub`` line (right under the
+-master key fingerprint). This will correspond directly to a file in your
++Certify key fingerprint). This will correspond directly to a file in your
+ ``~/.gnupg`` directory::
+ 
+     $ cd ~/.gnupg/private-keys-v1.d
+@@ -369,13 +377,13 @@ master key fingerprint). This will correspond directly to a file in your
+     3333000000000000000000000000000000000000.key
+ 
+ All you have to do is simply remove the .key file that corresponds to
+-the master keygrip::
++the Certify key keygrip::
+ 
+     $ cd ~/.gnupg/private-keys-v1.d
+     $ rm 1111000000000000000000000000000000000000.key
+ 
+ Now, if you issue the ``--list-secret-keys`` command, it will show that
+-the master key is missing (the ``#`` indicates it is not available)::
++the Certify key is missing (the ``#`` indicates it is not available)::
+ 
+     $ gpg --list-secret-keys
+     sec#  rsa2048 2018-01-24 [SC] [expires: 2020-01-24]
+@@ -404,7 +412,7 @@ file, which still contains your private keys.
+ Move the subkeys to a dedicated crypto device
+ =============================================
+ 
+-Even though the master key is now safe from being leaked or stolen, the
++Even though the Certify key is now safe from being leaked or stolen, the
+ subkeys are still in your home directory. Anyone who manages to get
+ their hands on those will be able to decrypt your communication or fake
+ your signatures (if they know the passphrase). Furthermore, each time a
+@@ -627,10 +635,10 @@ Other common GnuPG operations
+ Here is a quick reference for some common operations you'll need to do
+ with your PGP key.
+ 
+-Mounting your master key offline storage
+-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++Mounting your safe offline storage
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 
+-You will need your master key for any of the operations below, so you
++You will need your Certify key for any of the operations below, so you
+ will first need to mount your backup offline storage and tell GnuPG to
+ use it::
+ 
+@@ -644,7 +652,7 @@ your regular home directory location).
+ Extending key expiration date
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 
+-The master key has the default expiration date of 2 years from the date
++The Certify key has the default expiration date of 2 years from the date
+ of creation. This is done both for security reasons and to make obsolete
+ keys eventually disappear from keyservers.
+ 
+
+-- 
+b4 0.10.0-dev-fe10a
