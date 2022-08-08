@@ -2,96 +2,98 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AA289C25B08
-	for <linux-doc@archiver.kernel.org>; Mon,  8 Aug 2022 15:56:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 76ED7C25B0C
+	for <linux-doc@archiver.kernel.org>; Mon,  8 Aug 2022 16:00:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243359AbiHHP4L (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 8 Aug 2022 11:56:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60062 "EHLO
+        id S243825AbiHHP77 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 8 Aug 2022 11:59:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34514 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236569AbiHHP4K (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 Aug 2022 11:56:10 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24086A47B;
-        Mon,  8 Aug 2022 08:56:10 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id CEF8EB80FCD;
-        Mon,  8 Aug 2022 15:56:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E36DC43149;
-        Mon,  8 Aug 2022 15:56:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1659974167;
-        bh=v2lgBXjNZtsYzCboM1GnlUy05vvC9EjJee5FKw0cYsQ=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=mIHwvx+tj2BxsPEjBZ0vinsl4KXkSc+hUHjGOo+mlAFTJmKRMbMY/LMLgKCe1QNv4
-         nWVNNWJGt7Id3daVXh9gG0kGjCNCY90Ec8lpHmpiS1DGviiH1Ye9GbbRrGb+16XcTk
-         luRIciiAM6aSFU/64rT51FuMNb4ojhjb2dLoLIYZ+W9kTOL0L7kKvRP7p2k9OZgB3Z
-         GtVeNG5fVpg6X/jx4l8owP7xHWDcjmfsPc734Gi4Kp9fRvQ5uBJr6nArf2AwQYpBwM
-         SN13eiIZoUhJYu5L0DT1feKn/7/6/FgwtFdgCYbKqZXXmX4XC/KvDmagMFJjHVaUCk
-         W3BZthQ+6i1fg==
-Received: by mail-vk1-f179.google.com with SMTP id x128so1554356vke.3;
-        Mon, 08 Aug 2022 08:56:07 -0700 (PDT)
-X-Gm-Message-State: ACgBeo0LKoPn+86gdnjt8QxyNSMi8FgwachBS1wcPtvnAN2QD9BgOtHz
-        zZ3EmJYhrO/f1C0WUxy9g+VwzkqwBcXFCasTCg==
-X-Google-Smtp-Source: AA6agR6IlSvPTzHVkYtc/Dl9eo8Po13k4nQJVZL4SY2rHsdelBv+y2wXVK/2+5kYFhsWJQqicxm/4R8FPkDt1nisypg=
-X-Received: by 2002:a1f:2dc2:0:b0:377:84fa:dbe5 with SMTP id
- t185-20020a1f2dc2000000b0037784fadbe5mr8008232vkt.15.1659974166257; Mon, 08
- Aug 2022 08:56:06 -0700 (PDT)
+        with ESMTP id S243283AbiHHP77 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 Aug 2022 11:59:59 -0400
+Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com [IPv6:2607:f8b0:4864:20::42e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A05F15815;
+        Mon,  8 Aug 2022 08:59:58 -0700 (PDT)
+Received: by mail-pf1-x42e.google.com with SMTP id h28so8447576pfq.11;
+        Mon, 08 Aug 2022 08:59:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :sender:from:to:cc;
+        bh=JbzYiMV30iu8zw8Tghw9STeClB50yjw9lFy+lFDjXQk=;
+        b=KF+ziXIIUeepZsz2vpxRP9JOJ1zcN0RlZqdMGqKMi+62UJZ2UWsf0++AY3Oen0Ooim
+         PUHFDROjotI47cQgMTp3fg78GgXhkOjzHOn/h14lN8euzHFCH8BQDge8bbBIu0jSYukS
+         JM/4TghT6zVn98H+f44qfaG7yu1/o/W2v1oGH/QbbUZ5in/sXUz8UKFt33heROzBCFrr
+         ENzl2zrB1HkNphdkreh8Ch4Rw7l2Vcpz+0M4vyuwI8wEay8RwD1teZ5Ac8eslILJNdOi
+         ndCVLkiQvULULaX/HnxZkgsK4e0+6EnAUC7rFOOwZ6sOS0slPe5IkvqTSwLO3y6FlYRF
+         q/Ww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :sender:x-gm-message-state:from:to:cc;
+        bh=JbzYiMV30iu8zw8Tghw9STeClB50yjw9lFy+lFDjXQk=;
+        b=fdFJaEmOhpItnaozR/RrMHYeU8FKwVkN7ayiHJUAPHTlMpCris0OHfGCzUErBacEZB
+         ZoJrzMki0ktWZvVbxPKIEEim53mBtGo2OqqbLN3NXQQhFaME0b5FMfeZkX/rJVAkqCM/
+         zwVC9L5i6VfThwyu7HUgJzNhSu9ngTKncdEM1LI5CSNYUh6l5TfYBn/7W4mtaT03NxoW
+         aY82aW84mQNKYwnQ6hGr4JOaZMbh1A8ITGjHOB3dHLR9eHrnro1Kw2Ix+gY6Y23GGEzN
+         17hbek7u/hUj+RrezkJfUxzUy209+vSepkmk4dthzjLzyYHeEI4Fzl8wMVutbG+wTHgM
+         WizQ==
+X-Gm-Message-State: ACgBeo0qheGIS/KnFidOlftUSNq2qJG+icV9iso9uhXVo8tioDtbYKTU
+        2suzD9VX5dmV4ZQtFmswv8UkDPHQeB8=
+X-Google-Smtp-Source: AA6agR7QWtm6tn/DRxjg6mmfWyD5tC8UAbWAogfC7NlLqQZN+r1KKmJhreN/hZ35MHqTyGn+x6vHmg==
+X-Received: by 2002:a63:c106:0:b0:419:b303:2343 with SMTP id w6-20020a63c106000000b00419b3032343mr15518586pgf.166.1659974397604;
+        Mon, 08 Aug 2022 08:59:57 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id u11-20020a17090341cb00b0016d3935eff0sm8965520ple.176.2022.08.08.08.59.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 08 Aug 2022 08:59:56 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <bfedd32c-d274-3fb6-7134-9bf09c8e8dba@roeck-us.net>
+Date:   Mon, 8 Aug 2022 08:59:54 -0700
 MIME-Version: 1.0
-References: <20220806163255.10404-1-markuss.broks@gmail.com> <20220806163255.10404-2-markuss.broks@gmail.com>
-In-Reply-To: <20220806163255.10404-2-markuss.broks@gmail.com>
-From:   Rob Herring <robh@kernel.org>
-Date:   Mon, 8 Aug 2022 09:55:54 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqJE7VzqdcoDDNw2QkDHyKr4WgOrgLwsHWJa+BwPTb=A8w@mail.gmail.com>
-Message-ID: <CAL_JsqJE7VzqdcoDDNw2QkDHyKr4WgOrgLwsHWJa+BwPTb=A8w@mail.gmail.com>
-Subject: Re: [PATCH v2 1/3] drivers: serial: earlycon: Correct argument name
-To:     Markuss Broks <markuss.broks@gmail.com>
-Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS
-        <devicetree@vger.kernel.org>, Hans de Goede <hdegoede@redhat.com>, Andy
-        Shevchenko <andy.shevchenko@gmail.com>," 
-        <~postmarketos/upstreaming@lists.sr.ht>,
-        phone-devel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        Helge Deller <deller@gmx.de>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Borislav Petkov <bp@suse.de>,
-        Kees Cook <keescook@chromium.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Michal Suchanek <msuchanek@suse.de>,
-        Javier Martinez Canillas <javierm@redhat.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Wei Ming Chen <jj251510319013@gmail.com>,
-        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
-        Tony Lindgren <tony@atomide.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-efi <linux-efi@vger.kernel.org>,
-        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
-        Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH] docs: Fix Typo
+Content-Language: en-US
+To:     Max Dunbar <mdsurfing4@gmail.com>, jdelvare@suse.com,
+        corbet@lwn.net, linux-hwmon@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20220801181038.GA957@DESKTOP-GSR5SR7.localdomain>
+From:   Guenter Roeck <linux@roeck-us.net>
+In-Reply-To: <20220801181038.GA957@DESKTOP-GSR5SR7.localdomain>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Aug 6, 2022 at 10:34 AM Markuss Broks <markuss.broks@gmail.com> wrote:
->
-> The "node" argument is actually an offset,
+On 8/1/22 11:10, Max Dunbar wrote:
+> Correcting "wil" to "will" in the hwmon documentation
+> 
+> Signed-off-by: Max Dunbar <mdsurfing4@gmail.com>
 
-It's an offset to a node in the FDT. The fact that it is an offset is
-an internal implementation detail of the FDT format. So really, it's a
-handle to a node. 'node' is more descriptive to its purpose.
+Please at least use a proper subject indicating the affected subsystem
+if you really have to make those cosmetic changes.
 
-> and it's also an "int", and not "unsigned long".
+Guenter
 
-Uh, no it's not. of_flat_dt_*() functions all take an unsigned long.
+> ---
+>   Documentation/hwmon/hwmon-kernel-api.rst | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/hwmon/hwmon-kernel-api.rst b/Documentation/hwmon/hwmon-kernel-api.rst
+> index f3276b3a381a..a4755a5a24af 100644
+> --- a/Documentation/hwmon/hwmon-kernel-api.rst
+> +++ b/Documentation/hwmon/hwmon-kernel-api.rst
+> @@ -57,7 +57,7 @@ register/unregister functions::
+>   hwmon_device_register_with_groups registers a hardware monitoring device.
+>   The first parameter of this function is a pointer to the parent device.
+>   The name parameter is a pointer to the hwmon device name. The registration
+> -function wil create a name sysfs attribute pointing to this name.
+> +function will create a name sysfs attribute pointing to this name.
+>   The drvdata parameter is the pointer to the local driver data.
+>   hwmon_device_register_with_groups will attach this pointer to the newly
+>   allocated hwmon device. The pointer can be retrieved by the driver using
 
-Rob
