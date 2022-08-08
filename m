@@ -2,51 +2,50 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AC87AC3F6B0
-	for <linux-doc@archiver.kernel.org>; Mon,  8 Aug 2022 01:33:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D84CAC25B0C
+	for <linux-doc@archiver.kernel.org>; Mon,  8 Aug 2022 01:38:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241970AbiHHBdQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 7 Aug 2022 21:33:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57776 "EHLO
+        id S242598AbiHHBio (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 7 Aug 2022 21:38:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43196 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241967AbiHHBci (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 7 Aug 2022 21:32:38 -0400
+        with ESMTP id S242445AbiHHBiI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 7 Aug 2022 21:38:08 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0357BF7E;
-        Sun,  7 Aug 2022 18:32:22 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3CB0E099;
+        Sun,  7 Aug 2022 18:33:55 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 2B4DE60DDF;
-        Mon,  8 Aug 2022 01:32:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 801D9C433D6;
-        Mon,  8 Aug 2022 01:32:19 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id B242760DE1;
+        Mon,  8 Aug 2022 01:33:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E787C433C1;
+        Mon,  8 Aug 2022 01:33:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1659922341;
-        bh=jnn30AfPZAzYSSts8XORpIHjnuS3kGs44JVpxLkT0ZQ=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=odj3GWAi57t92PwAZOZnrtHiwVSxGWdIXjpxIJ7KKrR9dPaNnux4Ag99GqBZAY8a8
-         veHcsnW2n2YJJJMktwyiyP2HOnVAen9Fsmh468OE5TiYKK3rtX9PhTMZlsFnrbx3x6
-         KGpM6NuMvFvYAqRSvk0Uu3NQROdW6l8hh+W0dmIO6y0kqnJ7/eqmYNpx1eNTGbnVSV
-         5bVrIzwHgC66oyltjmcJ6ofSZyoEuNjEJ32dE+a1a5wvuZ5HT3TO9rcTgQjumN4GYX
-         6JgZ/he7F9HZpEs/YNcBQkgSh17Zv7hKUVIuKRw4nN/foTMuRZhW4PuFsN3Inhqb8l
-         V7swUbzAO5Zag==
+        s=k20201202; t=1659922434;
+        bh=FWv5uPftX5X9X1NDJjuD0spInpQjykRjrgL+U5sBl1E=;
+        h=From:To:Cc:Subject:Date:From;
+        b=pX9BDYyxAd9JvU3xGyU8/uD6k6j5BWYhBt05dKlW7RIHIRsWH3f7D+TTU7KRBnvhP
+         LciVozSZy+dEp3b+MvKFaFhJvskcIIKSyrOIT84XJUodTMgrC9AHz3GG+Kwm6ICSKH
+         yd8QuSBWwQo4P4d2deSCopN2C23jI/NHG+KmBMRQlFAWXftLrcPMcupvmVcVXtx4xv
+         eLSB8/dZXLsYyAvFy9YHL47Eo9DCH+x+m1KrHJxTBeQdPCClTSBDuZIOJCNBqudk/i
+         GxUDs9g4++KROBZFDiKFXU/NV4xaUw3TtkV+OZjpwF9YOQpFrKEI0NbIAhuglX6INd
+         VXfGHGXskQAog==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     James Morse <james.morse@arm.com>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        Will Deacon <will@kernel.org>, Sasha Levin <sashal@kernel.org>,
-        catalin.marinas@arm.com, corbet@lwn.net, anshuman.khandual@arm.com,
-        suzuki.poulose@arm.com, mathieu.poirier@linaro.org,
-        lcherian@marvell.com, arnd@arndb.de, broonie@kernel.org,
-        maz@kernel.org, vladimir.murzin@arm.com,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.19 14/58] arm64: errata: Remove AES hwcap for COMPAT tasks
-Date:   Sun,  7 Aug 2022 21:30:32 -0400
-Message-Id: <20220808013118.313965-14-sashal@kernel.org>
+Cc:     Wyes Karny <wyes.karny@amd.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Zhang Rui <rui.zhang@intel.com>,
+        Sasha Levin <sashal@kernel.org>, rafael@kernel.org,
+        daniel.lezcano@linaro.org, corbet@lwn.net, tglx@linutronix.de,
+        mingo@redhat.com, bp@alien8.de, x86@kernel.org,
+        peterz@infradead.org, chang.seok.bae@intel.com,
+        ebiederm@xmission.com, zhengqi.arch@bytedance.com,
+        linux-pm@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.18 01/53] x86: Handle idle=nomwait cmdline properly for x86_idle
+Date:   Sun,  7 Aug 2022 21:32:56 -0400
+Message-Id: <20220808013350.314757-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220808013118.313965-1-sashal@kernel.org>
-References: <20220808013118.313965-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -55,174 +54,95 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: James Morse <james.morse@arm.com>
+From: Wyes Karny <wyes.karny@amd.com>
 
-[ Upstream commit 44b3834b2eed595af07021b1c64e6f9bc396398b ]
+[ Upstream commit 8bcedb4ce04750e1ccc9a6b6433387f6a9166a56 ]
 
-Cortex-A57 and Cortex-A72 have an erratum where an interrupt that
-occurs between a pair of AES instructions in aarch32 mode may corrupt
-the ELR. The task will subsequently produce the wrong AES result.
+When kernel is booted with idle=nomwait do not use MWAIT as the
+default idle state.
 
-The AES instructions are part of the cryptographic extensions, which are
-optional. User-space software will detect the support for these
-instructions from the hwcaps. If the platform doesn't support these
-instructions a software implementation should be used.
+If the user boots the kernel with idle=nomwait, it is a clear
+direction to not use mwait as the default idle state.
+However, the current code does not take this into consideration
+while selecting the default idle state on x86.
 
-Remove the hwcap bits on affected parts to indicate user-space should
-not use the AES instructions.
+Fix it by checking for the idle=nomwait boot option in
+prefer_mwait_c1_over_halt().
 
-Acked-by: Ard Biesheuvel <ardb@kernel.org>
-Signed-off-by: James Morse <james.morse@arm.com>
-Link: https://lore.kernel.org/r/20220714161523.279570-3-james.morse@arm.com
-Signed-off-by: Will Deacon <will@kernel.org>
+Also update the documentation around idle=nomwait appropriately.
+
+[ dhansen: tweak commit message ]
+
+Signed-off-by: Wyes Karny <wyes.karny@amd.com>
+Signed-off-by: Dave Hansen <dave.hansen@linux.intel.com>
+Tested-by: Zhang Rui <rui.zhang@intel.com>
+Link: https://lkml.kernel.org/r/fdc2dc2d0a1bc21c2f53d989ea2d2ee3ccbc0dbe.1654538381.git-series.wyes.karny@amd.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- Documentation/arm64/silicon-errata.rst |  4 ++++
- arch/arm64/Kconfig                     | 16 ++++++++++++++++
- arch/arm64/kernel/cpu_errata.c         | 16 ++++++++++++++++
- arch/arm64/kernel/cpufeature.c         | 14 +++++++++++++-
- arch/arm64/tools/cpucaps               |  1 +
- 5 files changed, 50 insertions(+), 1 deletion(-)
+ Documentation/admin-guide/pm/cpuidle.rst | 15 +++++++++------
+ arch/x86/kernel/process.c                |  9 ++++++---
+ 2 files changed, 15 insertions(+), 9 deletions(-)
 
-diff --git a/Documentation/arm64/silicon-errata.rst b/Documentation/arm64/silicon-errata.rst
-index d27db84d585e..0b4235b1f8c4 100644
---- a/Documentation/arm64/silicon-errata.rst
-+++ b/Documentation/arm64/silicon-errata.rst
-@@ -82,10 +82,14 @@ stable kernels.
- +----------------+-----------------+-----------------+-----------------------------+
- | ARM            | Cortex-A57      | #1319537        | ARM64_ERRATUM_1319367       |
- +----------------+-----------------+-----------------+-----------------------------+
-+| ARM            | Cortex-A57      | #1742098        | ARM64_ERRATUM_1742098       |
-++----------------+-----------------+-----------------+-----------------------------+
- | ARM            | Cortex-A72      | #853709         | N/A                         |
- +----------------+-----------------+-----------------+-----------------------------+
- | ARM            | Cortex-A72      | #1319367        | ARM64_ERRATUM_1319367       |
- +----------------+-----------------+-----------------+-----------------------------+
-+| ARM            | Cortex-A72      | #1655431        | ARM64_ERRATUM_1742098       |
-++----------------+-----------------+-----------------+-----------------------------+
- | ARM            | Cortex-A73      | #858921         | ARM64_ERRATUM_858921        |
- +----------------+-----------------+-----------------+-----------------------------+
- | ARM            | Cortex-A76      | #1188873,1418040| ARM64_ERRATUM_1418040       |
-diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
-index 1652a9800ebe..3ad734de8e49 100644
---- a/arch/arm64/Kconfig
-+++ b/arch/arm64/Kconfig
-@@ -503,6 +503,22 @@ config ARM64_ERRATUM_834220
+diff --git a/Documentation/admin-guide/pm/cpuidle.rst b/Documentation/admin-guide/pm/cpuidle.rst
+index aec2cd2aaea7..19754beb5a4e 100644
+--- a/Documentation/admin-guide/pm/cpuidle.rst
++++ b/Documentation/admin-guide/pm/cpuidle.rst
+@@ -612,8 +612,8 @@ the ``menu`` governor to be used on the systems that use the ``ladder`` governor
+ by default this way, for example.
  
- 	  If unsure, say Y.
+ The other kernel command line parameters controlling CPU idle time management
+-described below are only relevant for the *x86* architecture and some of
+-them affect Intel processors only.
++described below are only relevant for the *x86* architecture and references
++to ``intel_idle`` affect Intel processors only.
  
-+config ARM64_ERRATUM_1742098
-+	bool "Cortex-A57/A72: 1742098: ELR recorded incorrectly on interrupt taken between cryptographic instructions in a sequence"
-+	depends on COMPAT
-+	default y
-+	help
-+	  This option removes the AES hwcap for aarch32 user-space to
-+	  workaround erratum 1742098 on Cortex-A57 and Cortex-A72.
-+
-+	  Affected parts may corrupt the AES state if an interrupt is
-+	  taken between a pair of AES instructions. These instructions
-+	  are only present if the cryptography extensions are present.
-+	  All software should have a fallback implementation for CPUs
-+	  that don't implement the cryptography extensions.
-+
-+	  If unsure, say Y.
-+
- config ARM64_ERRATUM_845719
- 	bool "Cortex-A53: 845719: a load might read incorrect data"
- 	depends on COMPAT
-diff --git a/arch/arm64/kernel/cpu_errata.c b/arch/arm64/kernel/cpu_errata.c
-index c05cc3b6162e..6b92989f4cc2 100644
---- a/arch/arm64/kernel/cpu_errata.c
-+++ b/arch/arm64/kernel/cpu_errata.c
-@@ -395,6 +395,14 @@ static struct midr_range trbe_write_out_of_range_cpus[] = {
- };
- #endif /* CONFIG_ARM64_WORKAROUND_TRBE_WRITE_OUT_OF_RANGE */
+ The *x86* architecture support code recognizes three kernel command line
+ options related to CPU idle time management: ``idle=poll``, ``idle=halt``,
+@@ -635,10 +635,13 @@ idle, so it very well may hurt single-thread computations performance as well as
+ energy-efficiency.  Thus using it for performance reasons may not be a good idea
+ at all.]
  
-+#ifdef CONFIG_ARM64_ERRATUM_1742098
-+static struct midr_range broken_aarch32_aes[] = {
-+	MIDR_RANGE(MIDR_CORTEX_A57, 0, 1, 0xf, 0xf),
-+	MIDR_ALL_VERSIONS(MIDR_CORTEX_A72),
-+	{},
-+};
-+#endif /* CONFIG_ARM64_WORKAROUND_TRBE_WRITE_OUT_OF_RANGE */
-+
- const struct arm64_cpu_capabilities arm64_errata[] = {
- #ifdef CONFIG_ARM64_WORKAROUND_CLEAN_CACHE
- 	{
-@@ -657,6 +665,14 @@ const struct arm64_cpu_capabilities arm64_errata[] = {
- 		/* Cortex-A510 r0p0 - r0p1 */
- 		ERRATA_MIDR_REV_RANGE(MIDR_CORTEX_A510, 0, 0, 1)
- 	},
-+#endif
-+#ifdef CONFIG_ARM64_ERRATUM_1742098
-+	{
-+		.desc = "ARM erratum 1742098",
-+		.capability = ARM64_WORKAROUND_1742098,
-+		CAP_MIDR_RANGE_LIST(broken_aarch32_aes),
-+		.type = ARM64_CPUCAP_LOCAL_CPU_ERRATUM,
-+	},
- #endif
- 	{
- 	}
-diff --git a/arch/arm64/kernel/cpufeature.c b/arch/arm64/kernel/cpufeature.c
-index a97913d19709..eef3c18a5e46 100644
---- a/arch/arm64/kernel/cpufeature.c
-+++ b/arch/arm64/kernel/cpufeature.c
-@@ -79,6 +79,7 @@
- #include <asm/cpufeature.h>
- #include <asm/cpu_ops.h>
- #include <asm/fpsimd.h>
-+#include <asm/hwcap.h>
- #include <asm/insn.h>
- #include <asm/kvm_host.h>
- #include <asm/mmu_context.h>
-@@ -1971,6 +1972,14 @@ static void cpu_enable_mte(struct arm64_cpu_capabilities const *cap)
- }
- #endif /* CONFIG_ARM64_MTE */
+-The ``idle=nomwait`` option disables the ``intel_idle`` driver and causes
+-``acpi_idle`` to be used (as long as all of the information needed by it is
+-there in the system's ACPI tables), but it is not allowed to use the
+-``MWAIT`` instruction of the CPUs to ask the hardware to enter idle states.
++The ``idle=nomwait`` option prevents the use of ``MWAIT`` instruction of
++the CPU to enter idle states. When this option is used, the ``acpi_idle``
++driver will use the ``HLT`` instruction instead of ``MWAIT``. On systems
++running Intel processors, this option disables the ``intel_idle`` driver
++and forces the use of the ``acpi_idle`` driver instead. Note that in either
++case, ``acpi_idle`` driver will function only if all the information needed
++by it is in the system's ACPI tables.
  
-+static void elf_hwcap_fixup(void)
-+{
-+#ifdef CONFIG_ARM64_ERRATUM_1742098
-+	if (cpus_have_const_cap(ARM64_WORKAROUND_1742098))
-+		compat_elf_hwcap2 &= ~COMPAT_HWCAP2_AES;
-+#endif /* ARM64_ERRATUM_1742098 */
-+}
-+
- #ifdef CONFIG_KVM
- static bool is_kvm_protected_mode(const struct arm64_cpu_capabilities *entry, int __unused)
+ In addition to the architecture-level kernel command line options affecting CPU
+ idle time management, there are parameters affecting individual ``CPUIdle``
+diff --git a/arch/x86/kernel/process.c b/arch/x86/kernel/process.c
+index 622dc3673c37..8011536ba5c4 100644
+--- a/arch/x86/kernel/process.c
++++ b/arch/x86/kernel/process.c
+@@ -824,6 +824,10 @@ static void amd_e400_idle(void)
+  */
+ static int prefer_mwait_c1_over_halt(const struct cpuinfo_x86 *c)
  {
-@@ -3143,8 +3152,10 @@ void __init setup_cpu_features(void)
- 	setup_system_capabilities();
- 	setup_elf_hwcaps(arm64_elf_hwcaps);
++	/* User has disallowed the use of MWAIT. Fallback to HALT */
++	if (boot_option_idle_override == IDLE_NOMWAIT)
++		return 0;
++
+ 	if (c->x86_vendor != X86_VENDOR_INTEL)
+ 		return 0;
  
--	if (system_supports_32bit_el0())
-+	if (system_supports_32bit_el0()) {
- 		setup_elf_hwcaps(compat_elf_hwcaps);
-+		elf_hwcap_fixup();
-+	}
- 
- 	if (system_uses_ttbr0_pan())
- 		pr_info("emulated: Privileged Access Never (PAN) using TTBR0_EL1 switching\n");
-@@ -3197,6 +3208,7 @@ static int enable_mismatched_32bit_el0(unsigned int cpu)
- 							 cpu_active_mask);
- 	get_cpu_device(lucky_winner)->offline_disabled = true;
- 	setup_elf_hwcaps(compat_elf_hwcaps);
-+	elf_hwcap_fixup();
- 	pr_info("Asymmetric 32-bit EL0 support detected on CPU %u; CPU hot-unplug disabled on CPU %u\n",
- 		cpu, lucky_winner);
- 	return 0;
-diff --git a/arch/arm64/tools/cpucaps b/arch/arm64/tools/cpucaps
-index 507b20373953..8809e14cf86a 100644
---- a/arch/arm64/tools/cpucaps
-+++ b/arch/arm64/tools/cpucaps
-@@ -61,6 +61,7 @@ WORKAROUND_1418040
- WORKAROUND_1463225
- WORKAROUND_1508412
- WORKAROUND_1542419
-+WORKAROUND_1742098
- WORKAROUND_1902691
- WORKAROUND_2038923
- WORKAROUND_2064142
+@@ -932,9 +936,8 @@ static int __init idle_setup(char *str)
+ 	} else if (!strcmp(str, "nomwait")) {
+ 		/*
+ 		 * If the boot option of "idle=nomwait" is added,
+-		 * it means that mwait will be disabled for CPU C2/C3
+-		 * states. In such case it won't touch the variable
+-		 * of boot_option_idle_override.
++		 * it means that mwait will be disabled for CPU C1/C2/C3
++		 * states.
+ 		 */
+ 		boot_option_idle_override = IDLE_NOMWAIT;
+ 	} else
 -- 
 2.35.1
 
