@@ -2,117 +2,111 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EC32CC19F2D
-	for <linux-doc@archiver.kernel.org>; Tue,  9 Aug 2022 15:03:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D3FBC25B0C
+	for <linux-doc@archiver.kernel.org>; Tue,  9 Aug 2022 15:58:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231344AbiHIPDa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 9 Aug 2022 11:03:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45804 "EHLO
+        id S244819AbiHIP6O (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 9 Aug 2022 11:58:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54292 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244741AbiHIPDJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Aug 2022 11:03:09 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D57F51DA5A;
-        Tue,  9 Aug 2022 08:03:04 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id A1034B81142;
-        Tue,  9 Aug 2022 15:03:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4197FC433C1;
-        Tue,  9 Aug 2022 15:03:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1660057381;
-        bh=NBq6napXG6yp0GreuqrjVaa3HKFO1O0qhx88aTuW3so=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=k3CJ2VAsE/P3e/6Awu7a5hwA2cgqTZYph+IRL/K2O6nb9OKyUqdiGi6mgcre2UIJ4
-         zea/rxr/HZHh0ukjJIq9iLAHSXJPytM1+hDttloxeLub5iNyMOaG+aiaxAXbF9yn0z
-         o8QpO85n+K6W7X2PFfOj9vN9dEhK1fLH0hvZq8yslNW06ZQEBNLeJUUoVxEyzbQqz7
-         a5CLLZXx2MLA1YvdwkeZB4cGakFzNatMDnV4bfSjMvzU3PeYHZUndyDjOL1pbqivy7
-         Hu/B+IaheFsMRoF27OojXWULe3fyhZLRNShHynd4EIOjHbVSmxzjbYyOhqE/A/4ya+
-         26Tv+4tob7o5Q==
-Date:   Tue, 9 Aug 2022 08:03:00 -0700
-From:   "Darrick J. Wong" <djwong@kernel.org>
-To:     Bagas Sanjaya <bagasdotme@gmail.com>
-Cc:     linux-doc@vger.kernel.org, stable@kernel.org,
-        Andreas Dilger <adilger.kernel@dilger.ca>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Wang Jianjian <wangjianjian3@huawei.com>,
-        linux-ext4@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Theodore Ts'o <tytso@mit.edu>
-Subject: Re: [PATCH 5.19] Documentation: ext4: fix cell spacing of table
- heading on blockmap table
-Message-ID: <YvJ3JPFQfzbhph89@magnolia>
-References: <20220809080827.108363-1-bagasdotme@gmail.com>
+        with ESMTP id S244753AbiHIP6L (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Aug 2022 11:58:11 -0400
+Received: from mail-oi1-x22b.google.com (mail-oi1-x22b.google.com [IPv6:2607:f8b0:4864:20::22b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 91C151901E
+        for <linux-doc@vger.kernel.org>; Tue,  9 Aug 2022 08:58:09 -0700 (PDT)
+Received: by mail-oi1-x22b.google.com with SMTP id h125so14311335oif.8
+        for <linux-doc@vger.kernel.org>; Tue, 09 Aug 2022 08:58:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=tyhicks-com.20210112.gappssmtp.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=HUXaYVwE6orHodeBsCAxKkSFqqLupHxNZ2roYGcQJ3U=;
+        b=qLwOZH9UT3mHrvDuf0QBZ8Am9wtvtBRS7umuarT0r9UbJrssHJXWIg3h17TiycX1dn
+         qNENXZ3y9l8gp9q5l7k7gVd+1kToWHoZlaQeyXGNtDa1Fjdv5FtAHWLTAuo0i/HDTXtu
+         Ka+AzCyLNZ4IjM1vO/jXPagJT2MvcrqGBhTMTrTQldfvo9C7x7+I66tQNMdXJ+/72K87
+         yjjt59mRZjWUoigeMet/tlZrmNdPLPYXuEJpvtVGq7r0+3OrCGBlvcaO0FKvBuZHkbhU
+         n5a3agXQ6rwmxQV5QaRqMGukQA9NhloWit2Ndwft7b6D9v0HCU8O44NqoCkfz80MYgoW
+         8ghw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=HUXaYVwE6orHodeBsCAxKkSFqqLupHxNZ2roYGcQJ3U=;
+        b=3mgbPiZRwMWOWEW6z4M8Kn4lRLwxG5pkt7PqD0Wnl/M0jArfZ4X8H1rOlgIKKSW4ks
+         dVLoeoFDgmOenajH3dyoE1FcPJl6EgrorApVnqjis1xCLgxO7wJJj4PW92WWSmsyVY/5
+         +P6dvFNaAm7GEp3MCxiKMUIbUUBDbzg99/Mv5sUpjnEajbuooat7Q/H6nXmobn1m5iLf
+         IkUyDvkiu0CQyTzrt6YpQGeSO5UyaylWhY+TEGkdKicJB4ONOQc7IFPRKvPrSY6G8+LE
+         exYZ5kWIWZx9aPnAGvNFmZbqDu8Hpp9G4vA/F6Tgt2FILUz16QEZnCUIRmvmJzRIHNdt
+         +e9Q==
+X-Gm-Message-State: ACgBeo0Gw0pvNX6Lq8uW5lv6IVHp9XPqsLIo/U4zzGvm0pBoLCU448Qs
+        g4O/lOgmWhev84Y2bjGljK9S9A==
+X-Google-Smtp-Source: AA6agR5yALJSQiqpyuDxfVXadUjpSlKzadaxwr3uRwJCazGWMfl76Mg96IgJ2CaNNqe5ceJ+1WIb5A==
+X-Received: by 2002:a05:6808:1889:b0:33b:2f70:cca0 with SMTP id bi9-20020a056808188900b0033b2f70cca0mr10801550oib.253.1660060688904;
+        Tue, 09 Aug 2022 08:58:08 -0700 (PDT)
+Received: from sequoia (162-237-133-238.lightspeed.rcsntx.sbcglobal.net. [162.237.133.238])
+        by smtp.gmail.com with ESMTPSA id c4-20020a056870c08400b0010e81e27b99sm3179258oad.17.2022.08.09.08.58.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 09 Aug 2022 08:58:08 -0700 (PDT)
+Date:   Tue, 9 Aug 2022 10:57:50 -0500
+From:   Tyler Hicks <code@tyhicks.com>
+To:     Deven Bowers <deven.desai@linux.microsoft.com>
+Cc:     corbet@lwn.net, zohar@linux.ibm.com, jmorris@namei.org,
+        serge@hallyn.com, tytso@mit.edu, ebiggers@kernel.org,
+        axboe@kernel.dk, agk@redhat.com, snitzer@kernel.org,
+        eparis@redhat.com, paul@paul-moore.com, dm-devel@redhat.com,
+        linux-doc@vger.kernel.org, roberto.sassu@huawei.com,
+        linux-security-module@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
+        linux-fscrypt@vger.kernel.org, linux-audit@redhat.com,
+        linux-integrity@vger.kernel.org
+Subject: Re: [RFC PATCH v8 07/17] ipe: add auditing support
+Message-ID: <20220809155737.GA39351@sequoia>
+References: <1654714889-26728-1-git-send-email-deven.desai@linux.microsoft.com>
+ <1654714889-26728-8-git-send-email-deven.desai@linux.microsoft.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220809080827.108363-1-bagasdotme@gmail.com>
+In-Reply-To: <1654714889-26728-8-git-send-email-deven.desai@linux.microsoft.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Aug 09, 2022 at 03:08:28PM +0700, Bagas Sanjaya wrote:
-> commit 442ec1e5bb7c46c72c41898e13a5744c84cadf51 upstream.
-> 
-> Commit 3103084afcf234 ("ext4, doc: remove unnecessary escaping") removes
-> redundant underscore escaping, however the cell spacing in heading row of
-> blockmap table became not aligned anymore, hence triggers malformed table
-> warning:
-> 
-> Documentation/filesystems/ext4/blockmap.rst:3: WARNING: Malformed table.
-> 
-> +---------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-> | i.i_block Offset   | Where It Points                                                                                                                                                                                                              |
-> <snipped>...
-> 
-> The warning caused the table not being loaded.
-> 
-> Realign the heading row cell by adding missing space at the first cell
-> to fix the warning.
-> 
-> Fixes: 3103084afcf234 ("ext4, doc: remove unnecessary escaping")
-> Cc: stable@kernel.org
-> Cc: Andreas Dilger <adilger.kernel@dilger.ca>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: Wang Jianjian <wangjianjian3@huawei.com>
-> Cc: linux-ext4@vger.kernel.org
-> Cc: linux-kernel@vger.kernel.org
-> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> Link: https://lore.kernel.org/r/20220619072938.7334-1-bagasdotme@gmail.com
-> Signed-off-by: Theodore Ts'o <tytso@mit.edu>
-> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> ---
-> 
->  Seems like this patch is merged to Linus's tree as merge window
->  material for 6.0, but it should have been -rc fix material for 5.19
->  cycle. Now that the version have been stabilized (and now on 6.0 merge
->  window), it should be logical to submit this backport for 5.19 tree.
-> 
->  Documentation/filesystems/ext4/blockmap.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/filesystems/ext4/blockmap.rst b/Documentation/filesystems/ext4/blockmap.rst
-> index 2bd990402a5c49..cc596541ce7921 100644
-> --- a/Documentation/filesystems/ext4/blockmap.rst
-> +++ b/Documentation/filesystems/ext4/blockmap.rst
-> @@ -1,7 +1,7 @@
->  .. SPDX-License-Identifier: GPL-2.0
->  
->  +---------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-> -| i.i_block Offset   | Where It Points                                                                                                                                                                                                              |
-> +| i.i_block Offset    | Where It Points                                                                                                                                                                                                              |
+On 2022-06-08 12:01:19, Deven Bowers wrote:
+> +/**
+> + * getaudit: Read handler for the securityfs node, "ipe/success_audit"
+> + * @f: Supplies a file structure representing the securityfs node.
+> + * @data: Supplies a buffer passed to the read syscall
+> + * @len: Supplies the length of @data
+> + * @offset: unused.
+> + *
+> + * Return:
+> + * >0 - Success, Length of buffer written
+> + * <0 - Error
+> + */
+> +static ssize_t getaudit(struct file *f, char __user *data,
+> +			size_t len, loff_t *offset)
+> +{
+> +	const char *result;
+> +	struct ipe_context *ctx;
+> +
+> +	ctx = ipe_current_ctx();
+> +
+> +	rcu_read_lock();
+> +	result = ((READ_ONCE(ctx->success_audit)) ? "1" : "0");
+> +	rcu_read_unlock();
+> +
+> +	ipe_put_ctx(ctx);
+> +	return simple_read_from_buffer(data, len, offset, result, 2);
 
-AHA, that's why I kept getting screenfuls of sphinx complaints when I
-was building the XFS documentation.  Thanks for fixing this...
+While doing some internal testing, I noticed that some of the IPE files
+in securityfs (ipe/audit, ipe/enforce, and ipe/policies/*/active) are
+including the NULL terminator (size of 2) in the securityfs file
+contents. This is not common to do and this busybox build that my test
+machine is using even has some trouble when displaying those files with
+cat. I see all three instances of this pattern with this command:
 
-Reviewed-by: Darrick J. Wong <djwong@kernel.org>
+ $ git grep simple_read_from_buffer\(.*,\ 2\) security/ipe
 
---D
+I think going to a length of 1 would be best.
 
->  +=====================+==============================================================================================================================================================================================================================+
->  | 0 to 11             | Direct map to file blocks 0 to 11.                                                                                                                                                                                           |
->  +---------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-> -- 
-> An old man doll... just what I always wanted! - Clara
-> 
+Tyler
