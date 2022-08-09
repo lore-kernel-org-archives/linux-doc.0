@@ -2,111 +2,104 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D3FBC25B0C
-	for <linux-doc@archiver.kernel.org>; Tue,  9 Aug 2022 15:58:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D5AAC3F6B0
+	for <linux-doc@archiver.kernel.org>; Tue,  9 Aug 2022 16:20:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244819AbiHIP6O (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 9 Aug 2022 11:58:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54292 "EHLO
+        id S244952AbiHIQUT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 9 Aug 2022 12:20:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39666 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244753AbiHIP6L (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Aug 2022 11:58:11 -0400
-Received: from mail-oi1-x22b.google.com (mail-oi1-x22b.google.com [IPv6:2607:f8b0:4864:20::22b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 91C151901E
-        for <linux-doc@vger.kernel.org>; Tue,  9 Aug 2022 08:58:09 -0700 (PDT)
-Received: by mail-oi1-x22b.google.com with SMTP id h125so14311335oif.8
-        for <linux-doc@vger.kernel.org>; Tue, 09 Aug 2022 08:58:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tyhicks-com.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=HUXaYVwE6orHodeBsCAxKkSFqqLupHxNZ2roYGcQJ3U=;
-        b=qLwOZH9UT3mHrvDuf0QBZ8Am9wtvtBRS7umuarT0r9UbJrssHJXWIg3h17TiycX1dn
-         qNENXZ3y9l8gp9q5l7k7gVd+1kToWHoZlaQeyXGNtDa1Fjdv5FtAHWLTAuo0i/HDTXtu
-         Ka+AzCyLNZ4IjM1vO/jXPagJT2MvcrqGBhTMTrTQldfvo9C7x7+I66tQNMdXJ+/72K87
-         yjjt59mRZjWUoigeMet/tlZrmNdPLPYXuEJpvtVGq7r0+3OrCGBlvcaO0FKvBuZHkbhU
-         n5a3agXQ6rwmxQV5QaRqMGukQA9NhloWit2Ndwft7b6D9v0HCU8O44NqoCkfz80MYgoW
-         8ghw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=HUXaYVwE6orHodeBsCAxKkSFqqLupHxNZ2roYGcQJ3U=;
-        b=3mgbPiZRwMWOWEW6z4M8Kn4lRLwxG5pkt7PqD0Wnl/M0jArfZ4X8H1rOlgIKKSW4ks
-         dVLoeoFDgmOenajH3dyoE1FcPJl6EgrorApVnqjis1xCLgxO7wJJj4PW92WWSmsyVY/5
-         +P6dvFNaAm7GEp3MCxiKMUIbUUBDbzg99/Mv5sUpjnEajbuooat7Q/H6nXmobn1m5iLf
-         IkUyDvkiu0CQyTzrt6YpQGeSO5UyaylWhY+TEGkdKicJB4ONOQc7IFPRKvPrSY6G8+LE
-         exYZ5kWIWZx9aPnAGvNFmZbqDu8Hpp9G4vA/F6Tgt2FILUz16QEZnCUIRmvmJzRIHNdt
-         +e9Q==
-X-Gm-Message-State: ACgBeo0Gw0pvNX6Lq8uW5lv6IVHp9XPqsLIo/U4zzGvm0pBoLCU448Qs
-        g4O/lOgmWhev84Y2bjGljK9S9A==
-X-Google-Smtp-Source: AA6agR5yALJSQiqpyuDxfVXadUjpSlKzadaxwr3uRwJCazGWMfl76Mg96IgJ2CaNNqe5ceJ+1WIb5A==
-X-Received: by 2002:a05:6808:1889:b0:33b:2f70:cca0 with SMTP id bi9-20020a056808188900b0033b2f70cca0mr10801550oib.253.1660060688904;
-        Tue, 09 Aug 2022 08:58:08 -0700 (PDT)
-Received: from sequoia (162-237-133-238.lightspeed.rcsntx.sbcglobal.net. [162.237.133.238])
-        by smtp.gmail.com with ESMTPSA id c4-20020a056870c08400b0010e81e27b99sm3179258oad.17.2022.08.09.08.58.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Aug 2022 08:58:08 -0700 (PDT)
-Date:   Tue, 9 Aug 2022 10:57:50 -0500
-From:   Tyler Hicks <code@tyhicks.com>
-To:     Deven Bowers <deven.desai@linux.microsoft.com>
-Cc:     corbet@lwn.net, zohar@linux.ibm.com, jmorris@namei.org,
-        serge@hallyn.com, tytso@mit.edu, ebiggers@kernel.org,
-        axboe@kernel.dk, agk@redhat.com, snitzer@kernel.org,
-        eparis@redhat.com, paul@paul-moore.com, dm-devel@redhat.com,
-        linux-doc@vger.kernel.org, roberto.sassu@huawei.com,
-        linux-security-module@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
-        linux-fscrypt@vger.kernel.org, linux-audit@redhat.com,
-        linux-integrity@vger.kernel.org
-Subject: Re: [RFC PATCH v8 07/17] ipe: add auditing support
-Message-ID: <20220809155737.GA39351@sequoia>
-References: <1654714889-26728-1-git-send-email-deven.desai@linux.microsoft.com>
- <1654714889-26728-8-git-send-email-deven.desai@linux.microsoft.com>
+        with ESMTP id S244942AbiHIQUS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Aug 2022 12:20:18 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2813DCB;
+        Tue,  9 Aug 2022 09:20:16 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id A0008B81627;
+        Tue,  9 Aug 2022 16:20:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 5148CC433D6;
+        Tue,  9 Aug 2022 16:20:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1660062014;
+        bh=pH94ZgNSPsft0KMGKgNtAAy5I1z5p+RQ7sS2YK/gSFA=;
+        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+        b=KzaIq/DjAPWWMODx0NABsh615wiKrLh3RKkH1WfZpnARD84xYVrv2HCtf+SNjD7tx
+         OJ03GVvaQjO1E9TZ5PMAhlhG4SIkummt3jUGCPyxynksYTlamx3y/BSraS8+09CuX/
+         ywBaMi7L/xRaKm3lpN//DKdEuLhbz6p34ZTAk1i4ZHARb6DSOSXhlA+lFoH+olJ0aq
+         tOf9OEQS6eQZFaDgZBQS65RW9bwIAjAuA8pLMEN0iIrWPiNTglaXsMWXXEveanGbTG
+         C1xjhCiJ1Dcaw/kmR2O+qqDU7YSV5TU8hbg2FtDoRJMYpIZR0hMI8sUNAtNR5xYstN
+         i1ti62C1lp60w==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 35F78C43140;
+        Tue,  9 Aug 2022 16:20:14 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1654714889-26728-8-git-send-email-deven.desai@linux.microsoft.com>
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v9 00/10] bpf: Add kfuncs for PKCS#7 signature verification
+From:   patchwork-bot+netdevbpf@kernel.org
+Message-Id: <166006201421.29142.5957999549167447991.git-patchwork-notify@kernel.org>
+Date:   Tue, 09 Aug 2022 16:20:14 +0000
+References: <20220809134603.1769279-1-roberto.sassu@huawei.com>
+In-Reply-To: <20220809134603.1769279-1-roberto.sassu@huawei.com>
+To:     Roberto Sassu <roberto.sassu@huawei.com>
+Cc:     ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org,
+        martin.lau@linux.dev, song@kernel.org, yhs@fb.com,
+        john.fastabend@gmail.com, kpsingh@kernel.org, sdf@google.com,
+        haoluo@google.com, jolsa@kernel.org, corbet@lwn.net,
+        dhowells@redhat.com, jarkko@kernel.org, rostedt@goodmis.org,
+        mingo@redhat.com, paul@paul-moore.com, jmorris@namei.org,
+        serge@hallyn.com, shuah@kernel.org, bpf@vger.kernel.org,
+        linux-doc@vger.kernel.org, keyrings@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2022-06-08 12:01:19, Deven Bowers wrote:
-> +/**
-> + * getaudit: Read handler for the securityfs node, "ipe/success_audit"
-> + * @f: Supplies a file structure representing the securityfs node.
-> + * @data: Supplies a buffer passed to the read syscall
-> + * @len: Supplies the length of @data
-> + * @offset: unused.
-> + *
-> + * Return:
-> + * >0 - Success, Length of buffer written
-> + * <0 - Error
-> + */
-> +static ssize_t getaudit(struct file *f, char __user *data,
-> +			size_t len, loff_t *offset)
-> +{
-> +	const char *result;
-> +	struct ipe_context *ctx;
-> +
-> +	ctx = ipe_current_ctx();
-> +
-> +	rcu_read_lock();
-> +	result = ((READ_ONCE(ctx->success_audit)) ? "1" : "0");
-> +	rcu_read_unlock();
-> +
-> +	ipe_put_ctx(ctx);
-> +	return simple_read_from_buffer(data, len, offset, result, 2);
+Hello:
 
-While doing some internal testing, I noticed that some of the IPE files
-in securityfs (ipe/audit, ipe/enforce, and ipe/policies/*/active) are
-including the NULL terminator (size of 2) in the securityfs file
-contents. This is not common to do and this busybox build that my test
-machine is using even has some trouble when displaying those files with
-cat. I see all three instances of this pattern with this command:
+This series was applied to bpf/bpf-next.git (master)
+by Alexei Starovoitov <ast@kernel.org>:
 
- $ git grep simple_read_from_buffer\(.*,\ 2\) security/ipe
+On Tue, 9 Aug 2022 15:45:53 +0200 you wrote:
+> One of the desirable features in security is the ability to restrict import
+> of data to a given system based on data authenticity. If data import can be
+> restricted, it would be possible to enforce a system-wide policy based on
+> the signing keys the system owner trusts.
+> 
+> This feature is widely used in the kernel. For example, if the restriction
+> is enabled, kernel modules can be plugged in only if they are signed with a
+> key whose public part is in the primary or secondary keyring.
+> 
+> [...]
 
-I think going to a length of 1 would be best.
+Here is the summary with links:
+  - [v9,01/10] btf: Add a new kfunc flag which allows to mark a function to be sleepable
+    https://git.kernel.org/bpf/bpf-next/c/fa96b24204af
+  - [v9,02/10] bpf: Allow kfuncs to be used in LSM programs
+    (no matching commit)
+  - [v9,03/10] btf: Handle dynamic pointer parameter in kfuncs
+    (no matching commit)
+  - [v9,04/10] bpf: Export bpf_dynptr_get_size()
+    (no matching commit)
+  - [v9,05/10] KEYS: Move KEY_LOOKUP_ to include/linux/key.h
+    (no matching commit)
+  - [v9,06/10] bpf: Add bpf_lookup_*_key() and bpf_key_put() kfuncs
+    (no matching commit)
+  - [v9,07/10] bpf: Add bpf_verify_pkcs7_signature() kfunc
+    (no matching commit)
+  - [v9,08/10] selftests/bpf: Add verifier tests for bpf_lookup_*_key() and bpf_key_put()
+    (no matching commit)
+  - [v9,09/10] selftests/bpf: Add additional tests for bpf_lookup_*_key()
+    (no matching commit)
+  - [v9,10/10] selftests/bpf: Add test for bpf_verify_pkcs7_signature() kfunc
+    (no matching commit)
 
-Tyler
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
