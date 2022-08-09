@@ -2,95 +2,117 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 68F1AC19F2D
-	for <linux-doc@archiver.kernel.org>; Tue,  9 Aug 2022 14:28:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EC32CC19F2D
+	for <linux-doc@archiver.kernel.org>; Tue,  9 Aug 2022 15:03:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229715AbiHIO2r (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 9 Aug 2022 10:28:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51656 "EHLO
+        id S231344AbiHIPDa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 9 Aug 2022 11:03:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45804 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229653AbiHIO2r (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Aug 2022 10:28:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 76532B1DF
-        for <linux-doc@vger.kernel.org>; Tue,  9 Aug 2022 07:28:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1660055325;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=QoOWzRRd0gXzzd5MjvJGUJ8tTQa3lBXK43u6AGIzVrM=;
-        b=M8nIlK1YwzimVzR2NMIRYO1NMrME9+T88ET+BxgFFWRG3DEV3sqBJEJqT5Vuy1BrGEkjd5
-        3qe1kVG9mguAhP6zhInV0tLJEePZn0Dxr834gyynwpucza8QQYBBXBZyivxwbeK7kvici7
-        HiqspwcXyhgVFoQ1UfjMWs7WbgK/cik=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-382-IknCk1rBNTiMBIW7bg8vmQ-1; Tue, 09 Aug 2022 10:28:42 -0400
-X-MC-Unique: IknCk1rBNTiMBIW7bg8vmQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        with ESMTP id S244741AbiHIPDJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Aug 2022 11:03:09 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D57F51DA5A;
+        Tue,  9 Aug 2022 08:03:04 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0539F802D1C;
-        Tue,  9 Aug 2022 14:28:42 +0000 (UTC)
-Received: from localhost (unknown [10.39.193.230])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id A66EEC15BA1;
-        Tue,  9 Aug 2022 14:28:41 +0000 (UTC)
-From:   Cornelia Huck <cohuck@redhat.com>
-To:     Ricardo =?utf-8?Q?Ca=C3=B1uelo?= <ricardo.canuelo@collabora.com>,
-        linux-doc@vger.kernel.org
-Cc:     virtualization@lists.linux-foundation.org, mst@redhat.com,
-        jasowang@redhat.com, kernel@collabora.com, bagasdotme@gmail.com
-Subject: Re: [PATCH v2 2/2] docs: driver-api: virtio: virtio on Linux
-In-Reply-To: <87iln1r2hv.fsf@rcn-XPS-13-9305.i-did-not-set--mail-host-address--so-tickle-me>
-Organization: Red Hat GmbH
-References: <20220804105914.3707389-1-ricardo.canuelo@collabora.com>
- <20220804105914.3707389-3-ricardo.canuelo@collabora.com>
- <87bksuetk5.fsf@redhat.com>
- <87iln1r2hv.fsf@rcn-XPS-13-9305.i-did-not-set--mail-host-address--so-tickle-me>
-User-Agent: Notmuch/0.36 (https://notmuchmail.org)
-Date:   Tue, 09 Aug 2022 16:28:40 +0200
-Message-ID: <87wnbhcwyv.fsf@redhat.com>
+        by ams.source.kernel.org (Postfix) with ESMTPS id A1034B81142;
+        Tue,  9 Aug 2022 15:03:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4197FC433C1;
+        Tue,  9 Aug 2022 15:03:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1660057381;
+        bh=NBq6napXG6yp0GreuqrjVaa3HKFO1O0qhx88aTuW3so=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=k3CJ2VAsE/P3e/6Awu7a5hwA2cgqTZYph+IRL/K2O6nb9OKyUqdiGi6mgcre2UIJ4
+         zea/rxr/HZHh0ukjJIq9iLAHSXJPytM1+hDttloxeLub5iNyMOaG+aiaxAXbF9yn0z
+         o8QpO85n+K6W7X2PFfOj9vN9dEhK1fLH0hvZq8yslNW06ZQEBNLeJUUoVxEyzbQqz7
+         a5CLLZXx2MLA1YvdwkeZB4cGakFzNatMDnV4bfSjMvzU3PeYHZUndyDjOL1pbqivy7
+         Hu/B+IaheFsMRoF27OojXWULe3fyhZLRNShHynd4EIOjHbVSmxzjbYyOhqE/A/4ya+
+         26Tv+4tob7o5Q==
+Date:   Tue, 9 Aug 2022 08:03:00 -0700
+From:   "Darrick J. Wong" <djwong@kernel.org>
+To:     Bagas Sanjaya <bagasdotme@gmail.com>
+Cc:     linux-doc@vger.kernel.org, stable@kernel.org,
+        Andreas Dilger <adilger.kernel@dilger.ca>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Wang Jianjian <wangjianjian3@huawei.com>,
+        linux-ext4@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Theodore Ts'o <tytso@mit.edu>
+Subject: Re: [PATCH 5.19] Documentation: ext4: fix cell spacing of table
+ heading on blockmap table
+Message-ID: <YvJ3JPFQfzbhph89@magnolia>
+References: <20220809080827.108363-1-bagasdotme@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220809080827.108363-1-bagasdotme@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Aug 09 2022, Ricardo Ca=C3=B1uelo <ricardo.canuelo@collabora.com> w=
-rote:
+On Tue, Aug 09, 2022 at 03:08:28PM +0700, Bagas Sanjaya wrote:
+> commit 442ec1e5bb7c46c72c41898e13a5744c84cadf51 upstream.
+> 
+> Commit 3103084afcf234 ("ext4, doc: remove unnecessary escaping") removes
+> redundant underscore escaping, however the cell spacing in heading row of
+> blockmap table became not aligned anymore, hence triggers malformed table
+> warning:
+> 
+> Documentation/filesystems/ext4/blockmap.rst:3: WARNING: Malformed table.
+> 
+> +---------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+> | i.i_block Offset   | Where It Points                                                                                                                                                                                                              |
+> <snipped>...
+> 
+> The warning caused the table not being loaded.
+> 
+> Realign the heading row cell by adding missing space at the first cell
+> to fix the warning.
+> 
+> Fixes: 3103084afcf234 ("ext4, doc: remove unnecessary escaping")
+> Cc: stable@kernel.org
+> Cc: Andreas Dilger <adilger.kernel@dilger.ca>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Wang Jianjian <wangjianjian3@huawei.com>
+> Cc: linux-ext4@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
+> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> Link: https://lore.kernel.org/r/20220619072938.7334-1-bagasdotme@gmail.com
+> Signed-off-by: Theodore Ts'o <tytso@mit.edu>
+> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> ---
+> 
+>  Seems like this patch is merged to Linus's tree as merge window
+>  material for 6.0, but it should have been -rc fix material for 5.19
+>  cycle. Now that the version have been stabilized (and now on 6.0 merge
+>  window), it should be logical to submit this backport for 5.19 tree.
+> 
+>  Documentation/filesystems/ext4/blockmap.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/filesystems/ext4/blockmap.rst b/Documentation/filesystems/ext4/blockmap.rst
+> index 2bd990402a5c49..cc596541ce7921 100644
+> --- a/Documentation/filesystems/ext4/blockmap.rst
+> +++ b/Documentation/filesystems/ext4/blockmap.rst
+> @@ -1,7 +1,7 @@
+>  .. SPDX-License-Identifier: GPL-2.0
+>  
+>  +---------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+> -| i.i_block Offset   | Where It Points                                                                                                                                                                                                              |
+> +| i.i_block Offset    | Where It Points                                                                                                                                                                                                              |
 
-> How about this as an introduction?
->
->     Virtio is an open standard that defines a protocol to communicate
->     drivers and devices of different types, see Chapter 5 ("Device
+AHA, that's why I kept getting screenfuls of sphinx complaints when I
+was building the XFS documentation.  Thanks for fixing this...
 
-"...that defines a protocol for communication between drivers and
-devices of different device types, see..."
+Reviewed-by: Darrick J. Wong <djwong@kernel.org>
 
->     Types") of the virtio spec `[1]`_. Originally developed as a
->     standard for paravirtualized devices implemented by a hypervisor, it
->     can be used to interface any compliant device (real or emulated)
->     with a driver.
->
->     For illustrative purposes, this document will focus on the common
->     case of a Linux kernel running in a virtual machine and using
->     paravirtualized devices provided by the hypervisor, which exposes
->     them as virtio devices via standard mechanisms such as PCI.
+--D
 
-Sounds good to me.
-
-(...)
-
-> Ok, I'll simplify the intro to this:
->
->     This document serves as a basic guideline for driver programmers
->     that need to hack a new virtio driver or understand the essentials
->     of the existing ones. See :ref:`Virtio on Linux <virtio>` for a
->     general overview of virtio.
-
-Ok.
-
+>  +=====================+==============================================================================================================================================================================================================================+
+>  | 0 to 11             | Direct map to file blocks 0 to 11.                                                                                                                                                                                           |
+>  +---------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+> -- 
+> An old man doll... just what I always wanted! - Clara
+> 
