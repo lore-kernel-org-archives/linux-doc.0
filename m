@@ -2,196 +2,209 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7DF7DC25B06
-	for <linux-doc@archiver.kernel.org>; Tue,  9 Aug 2022 10:33:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F327C25B07
+	for <linux-doc@archiver.kernel.org>; Tue,  9 Aug 2022 10:41:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242323AbiHIKdA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 9 Aug 2022 06:33:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46318 "EHLO
+        id S242643AbiHIKlr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 9 Aug 2022 06:41:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52898 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242268AbiHIKc6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Aug 2022 06:32:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id CA84B22BDD
-        for <linux-doc@vger.kernel.org>; Tue,  9 Aug 2022 03:32:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1660041176;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=4/nlumMUczp73apm8CZRUgaBYhutP5eXhEt6NxdNHlY=;
-        b=SA5OnrPjJ88WvuJNVmqACSY35UFM0OEmYEz2cIT516svt+qBpGDwhyIkahj5UV9IvvXmkE
-        2F6csFhewmtu0ct8Au/XvAY36at6Lc4tapPDJ6oheeTL9a03OIgVyGP80AGao6j3LXF8bi
-        ZmVkLwp6PsX4p8PqyHnu684jUnobeto=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-557-TADLkHvXOeuWN7QceAX8Sw-1; Tue, 09 Aug 2022 06:32:53 -0400
-X-MC-Unique: TADLkHvXOeuWN7QceAX8Sw-1
-Received: by mail-ed1-f70.google.com with SMTP id o2-20020a056402438200b0043d552deb2aso7025962edc.0
-        for <linux-doc@vger.kernel.org>; Tue, 09 Aug 2022 03:32:53 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
-        bh=4/nlumMUczp73apm8CZRUgaBYhutP5eXhEt6NxdNHlY=;
-        b=QCvSFQXjHL0EH90UXaC9ZN1OboGeGICJHpaqtX2Up55AptNjURBfVmwHOECjRkIL5Y
-         RoyoXp9COd3T50cQBqRcZMMI0HP1DaF0VUMrNdQE/GKMR9qWMU9FxUx5yHqvKzDLOQSx
-         v4sPz3gaEid2oJjDOBZ+Iv2Vyn+NRRrpEpvVk7BtQEOCwZu2wN1SXLhN35D0snH2ENYO
-         +G4MZvCBetoKg+jpUT/tz6FLx97xbPDPSlf2dIeqQRn7Vd51BT+fILB40uI0ncu/jHRz
-         3a1Hqs6XTtE9vPRkrKs4tPStc0B1tviP5tzTRa/OkwKimkcd5gIDRdRWH0KcIWQ6q/df
-         tdRg==
-X-Gm-Message-State: ACgBeo2WYaTX4UPhDTjMtUe1uD6Ze7qM9ayEf37xalwZOtw3d1Hgi7UH
-        IIbk1lDtN0m29PHUzZ5sJvK8mHlJZD9s97ZHtV4aH/m+62gvwhesvw/AOSLQJBRZBonwA4uUoH5
-        UQnUnrjQ7BVczNHW4Lnb2
-X-Received: by 2002:a05:6402:278c:b0:43d:cd35:db25 with SMTP id b12-20020a056402278c00b0043dcd35db25mr21160266ede.44.1660041172534;
-        Tue, 09 Aug 2022 03:32:52 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR7kHfqy2K3ZZ0VU1/IEtq20+vgUMc90FDejB9zNFwNsrjyA2JfUM7Qy1rx71dvSPaxNUXUPVA==
-X-Received: by 2002:a05:6402:278c:b0:43d:cd35:db25 with SMTP id b12-20020a056402278c00b0043dcd35db25mr21160248ede.44.1660041172290;
-        Tue, 09 Aug 2022 03:32:52 -0700 (PDT)
-Received: from redhat.com ([2.52.152.113])
-        by smtp.gmail.com with ESMTPSA id n6-20020aa7c786000000b0043a554818afsm5801531eds.42.2022.08.09.03.32.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Aug 2022 03:32:51 -0700 (PDT)
-Date:   Tue, 9 Aug 2022 06:32:47 -0400
-From:   "Michael S. Tsirkin" <mst@redhat.com>
-To:     Alexander Atanasov <alexander.atanasov@virtuozzo.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>, kernel@openvz.org,
-        David Hildenbrand <david@redhat.com>,
-        Wei Liu <wei.liu@kernel.org>, Nadav Amit <namit@vmware.com>,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [PATCH v1 1/2] Enable balloon drivers to report inflated memory
-Message-ID: <20220809063111-mutt-send-email-mst@kernel.org>
-References: <7bfac48d-2e50-641b-6523-662ea4df0240@virtuozzo.com>
- <20220809094933.2203087-1-alexander.atanasov@virtuozzo.com>
+        with ESMTP id S242671AbiHIKlp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Aug 2022 06:41:45 -0400
+Received: from pegase2.c-s.fr (pegase2.c-s.fr [93.17.235.10])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A8F3F240B0;
+        Tue,  9 Aug 2022 03:41:42 -0700 (PDT)
+Received: from localhost (mailhub3.si.c-s.fr [172.26.127.67])
+        by localhost (Postfix) with ESMTP id 4M28kq4Mkpz9sj9;
+        Tue,  9 Aug 2022 12:41:39 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from pegase2.c-s.fr ([172.26.127.65])
+        by localhost (pegase2.c-s.fr [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id bwunTC9zQdnT; Tue,  9 Aug 2022 12:41:39 +0200 (CEST)
+Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
+        by pegase2.c-s.fr (Postfix) with ESMTP id 4M28kq3KFwz9sTf;
+        Tue,  9 Aug 2022 12:41:39 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+        by messagerie.si.c-s.fr (Postfix) with ESMTP id 618598B778;
+        Tue,  9 Aug 2022 12:41:39 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from messagerie.si.c-s.fr ([127.0.0.1])
+        by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
+        with ESMTP id OgfyrO3Jg3AT; Tue,  9 Aug 2022 12:41:39 +0200 (CEST)
+Received: from PO20335.IDSI0.si.c-s.fr (unknown [192.168.234.255])
+        by messagerie.si.c-s.fr (Postfix) with ESMTP id 1C0FF8B763;
+        Tue,  9 Aug 2022 12:41:39 +0200 (CEST)
+Received: from PO20335.IDSI0.si.c-s.fr (localhost [127.0.0.1])
+        by PO20335.IDSI0.si.c-s.fr (8.17.1/8.16.1) with ESMTPS id 279AfUiP098284
+        (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+        Tue, 9 Aug 2022 12:41:30 +0200
+Received: (from chleroy@localhost)
+        by PO20335.IDSI0.si.c-s.fr (8.17.1/8.17.1/Submit) id 279AfSLO098283;
+        Tue, 9 Aug 2022 12:41:28 +0200
+X-Authentication-Warning: PO20335.IDSI0.si.c-s.fr: chleroy set sender to christophe.leroy@csgroup.eu using -f
+From:   Christophe Leroy <christophe.leroy@csgroup.eu>
+To:     Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Russell King <linux@armlinux.org.uk>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        x86@kernel.org (maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)),
+        "H. Peter Anvin" <hpa@zytor.com>, Arnd Bergmann <arnd@arndb.de>
+Cc:     Christophe Leroy <christophe.leroy@csgroup.eu>,
+        linux-gpio@vger.kernel.org (open list:GPIO SUBSYSTEM),
+        linux-doc@vger.kernel.org (open list:DOCUMENTATION),
+        linux-kernel@vger.kernel.org (open list),
+        linux-arm-kernel@lists.infradead.org (moderated list:ARM PORT),
+        linux-arch@vger.kernel.org (open list:GENERIC INCLUDE/ASM HEADER FILES)
+Subject: [PATCH] gpio: Allow user to customise maximum number of GPIOs
+Date:   Tue,  9 Aug 2022 12:40:38 +0200
+Message-Id: <f31b818cf8d682de61c74b133beffcc8a8202478.1660041358.git.christophe.leroy@csgroup.eu>
+X-Mailer: git-send-email 2.37.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220809094933.2203087-1-alexander.atanasov@virtuozzo.com>
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1660041632; l=4893; s=20211009; h=from:subject:message-id; bh=ejR9oy9Pzrb8cgNZizsVlepvN45Ei2h0wt6+agIKtnw=; b=iINNvBE7QtjOKvB5PfN++erBtPsIhPMmqt/Z3lpvNjlBik2I3AaHxITPd0hsvJrpISp2eGMVSXs7 k8V7YsxYANQW8OT/GDp2OZUhMBB4TXFze5pWuYa7YMXL3wOm+uOE
+X-Developer-Key: i=christophe.leroy@csgroup.eu; a=ed25519; pk=HIzTzUj91asvincQGOFx6+ZF5AoUuP9GdOtQChs7Mm0=
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Aug 09, 2022 at 12:49:32PM +0300, Alexander Atanasov wrote:
-> Display reported in /proc/meminfo as:
-> 
-> Inflated(total) or Inflated(free)
-> 
-> depending on the driver.
-> 
-> Drivers use the sign bit to indicate where they do account
-> the inflated memory.
-> 
-> Amount of inflated memory can be used by:
->  - as a hint for the oom a killer
->  - user space software that monitors memory pressure
-> 
-> Cc: David Hildenbrand <david@redhat.com>
-> Cc: Wei Liu <wei.liu@kernel.org>
-> Cc: Nadav Amit <namit@vmware.com>
-> 
-> Signed-off-by: Alexander Atanasov <alexander.atanasov@virtuozzo.com>
-> ---
->  Documentation/filesystems/proc.rst |  5 +++++
->  fs/proc/meminfo.c                  | 11 +++++++++++
->  include/linux/mm.h                 |  4 ++++
->  mm/page_alloc.c                    |  4 ++++
->  4 files changed, 24 insertions(+)
-> 
-> diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
-> index 1bc91fb8c321..064b5b3d5bd8 100644
-> --- a/Documentation/filesystems/proc.rst
-> +++ b/Documentation/filesystems/proc.rst
-> @@ -986,6 +986,7 @@ Example output. You may not have all of these fields.
->      VmallocUsed:       40444 kB
->      VmallocChunk:          0 kB
->      Percpu:            29312 kB
-> +    Inflated(total):  2097152 kB
->      HardwareCorrupted:     0 kB
->      AnonHugePages:   4149248 kB
->      ShmemHugePages:        0 kB
-> @@ -1133,6 +1134,10 @@ VmallocChunk
->  Percpu
->                Memory allocated to the percpu allocator used to back percpu
->                allocations. This stat excludes the cost of metadata.
-> +Inflated(total) or Inflated(free)
-> +               Amount of memory that is inflated by the balloon driver.
-> +               Due to differences among balloon drivers inflated memory
-> +               is either subtracted from TotalRam or from MemFree.
->  HardwareCorrupted
->                The amount of RAM/memory in KB, the kernel identifies as
->                corrupted.
-> diff --git a/fs/proc/meminfo.c b/fs/proc/meminfo.c
-> index 6e89f0e2fd20..ebbe52ccbb93 100644
-> --- a/fs/proc/meminfo.c
-> +++ b/fs/proc/meminfo.c
-> @@ -38,6 +38,9 @@ static int meminfo_proc_show(struct seq_file *m, void *v)
->  	unsigned long pages[NR_LRU_LISTS];
->  	unsigned long sreclaimable, sunreclaim;
->  	int lru;
-> +#ifdef CONFIG_MEMORY_BALLOON
-> +	long inflated_kb;
-> +#endif
->  
->  	si_meminfo(&i);
->  	si_swapinfo(&i);
-> @@ -153,6 +156,14 @@ static int meminfo_proc_show(struct seq_file *m, void *v)
->  		    global_zone_page_state(NR_FREE_CMA_PAGES));
->  #endif
->  
-> +#ifdef CONFIG_MEMORY_BALLOON
-> +	inflated_kb = atomic_long_read(&mem_balloon_inflated_kb);
-> +	if (inflated_kb >= 0)
-> +		seq_printf(m,  "Inflated(total): %8ld kB\n", inflated_kb);
-> +	else
-> +		seq_printf(m,  "Inflated(free): %8ld kB\n", -inflated_kb);
-> +#endif
-> +
->  	hugetlb_report_meminfo(m);
->  
->  	arch_report_meminfo(m);
+At the time being, the default maximum number of GPIOs is set to 512
+and can only get customised via an architecture specific
+CONFIG_ARCH_NR_GPIO.
 
+The maximum number of GPIOs might be dependent on the number of
+interface boards and is somewhat independent of architecture.
 
-This seems too baroque for my taste.
-Why not just have two counters for the two pruposes?
-And is there any value in having this atomic?
-We want a consistent value but just READ_ONCE seems sufficient ...
+Allow the user to select that maximum number outside of any
+architecture configuration. To enable that, re-define a
+core CONFIG_ARCH_NR_GPIO for architectures which don't already
+define one. Guard it with a new hidden CONFIG_ARCH_HAS_NR_GPIO.
 
+Only two architectures will need CONFIG_ARCH_HAS_NR_GPIO: x86 and arm.
 
-> diff --git a/include/linux/mm.h b/include/linux/mm.h
-> index 7898e29bcfb5..b190811dc16e 100644
-> --- a/include/linux/mm.h
-> +++ b/include/linux/mm.h
-> @@ -2582,6 +2582,10 @@ extern int watermark_boost_factor;
->  extern int watermark_scale_factor;
->  extern bool arch_has_descending_max_zone_pfns(void);
->  
-> +#ifdef CONFIG_MEMORY_BALLOON
-> +extern atomic_long_t mem_balloon_inflated_kb;
-> +#endif
-> +
->  /* nommu.c */
->  extern atomic_long_t mmap_pages_allocated;
->  extern int nommu_shrink_inode_mappings(struct inode *, size_t, size_t);
-> diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-> index b0bcab50f0a3..12359179a3a2 100644
-> --- a/mm/page_alloc.c
-> +++ b/mm/page_alloc.c
-> @@ -194,6 +194,10 @@ EXPORT_SYMBOL(init_on_alloc);
->  DEFINE_STATIC_KEY_MAYBE(CONFIG_INIT_ON_FREE_DEFAULT_ON, init_on_free);
->  EXPORT_SYMBOL(init_on_free);
->  
-> +#ifdef CONFIG_MEMORY_BALLOON
-> +atomic_long_t mem_balloon_inflated_kb = ATOMIC_LONG_INIT(0);
-> +#endif
-> +
->  static bool _init_on_alloc_enabled_early __read_mostly
->  				= IS_ENABLED(CONFIG_INIT_ON_ALLOC_DEFAULT_ON);
->  static int __init early_init_on_alloc(char *buf)
-> -- 
-> 2.31.1
-> 
-> 
+On arm, do like x86 and set 512 as the default instead of 0, that
+allows simplifying the logic in asm-generic/gpio.h
+
+Signed-off-by: Christophe Leroy <christophe.leroy@csgroup.eu>
+---
+ Documentation/driver-api/gpio/legacy.rst |  2 +-
+ arch/arm/Kconfig                         |  3 ++-
+ arch/arm/include/asm/gpio.h              |  1 -
+ arch/x86/Kconfig                         |  1 +
+ drivers/gpio/Kconfig                     | 14 ++++++++++++++
+ include/asm-generic/gpio.h               |  6 ------
+ 6 files changed, 18 insertions(+), 9 deletions(-)
+
+diff --git a/Documentation/driver-api/gpio/legacy.rst b/Documentation/driver-api/gpio/legacy.rst
+index 9b12eeb89170..566b06a584cf 100644
+--- a/Documentation/driver-api/gpio/legacy.rst
++++ b/Documentation/driver-api/gpio/legacy.rst
+@@ -558,7 +558,7 @@ Platform Support
+ To force-enable this framework, a platform's Kconfig will "select" GPIOLIB,
+ else it is up to the user to configure support for GPIO.
+ 
+-It may also provide a custom value for ARCH_NR_GPIOS, so that it better
++It may also provide a custom value for CONFIG_ARCH_NR_GPIO, so that it better
+ reflects the number of GPIOs in actual use on that platform, without
+ wasting static table space.  (It should count both built-in/SoC GPIOs and
+ also ones on GPIO expanders.
+diff --git a/arch/arm/Kconfig b/arch/arm/Kconfig
+index 53e6a1da9af5..e55b6560fe4f 100644
+--- a/arch/arm/Kconfig
++++ b/arch/arm/Kconfig
+@@ -14,6 +14,7 @@ config ARM
+ 	select ARCH_HAS_KCOV
+ 	select ARCH_HAS_MEMBARRIER_SYNC_CORE
+ 	select ARCH_HAS_NON_OVERLAPPING_ADDRESS_SPACE
++	select ARCH_HAS_NR_GPIO
+ 	select ARCH_HAS_PTE_SPECIAL if ARM_LPAE
+ 	select ARCH_HAS_PHYS_TO_DMA
+ 	select ARCH_HAS_SETUP_DMA_OPS
+@@ -1243,7 +1244,7 @@ config ARCH_NR_GPIO
+ 	default 352 if ARCH_VT8500
+ 	default 288 if ARCH_ROCKCHIP
+ 	default 264 if MACH_H4700
+-	default 0
++	default 512
+ 	help
+ 	  Maximum number of GPIOs in the system.
+ 
+diff --git a/arch/arm/include/asm/gpio.h b/arch/arm/include/asm/gpio.h
+index f3bb8a2bf788..4ebbb58f06ea 100644
+--- a/arch/arm/include/asm/gpio.h
++++ b/arch/arm/include/asm/gpio.h
+@@ -2,7 +2,6 @@
+ #ifndef _ARCH_ARM_GPIO_H
+ #define _ARCH_ARM_GPIO_H
+ 
+-/* Note: this may rely upon the value of ARCH_NR_GPIOS set in mach/gpio.h */
+ #include <asm-generic/gpio.h>
+ 
+ /* The trivial gpiolib dispatchers */
+diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
+index f9920f1341c8..a8c956abc21e 100644
+--- a/arch/x86/Kconfig
++++ b/arch/x86/Kconfig
+@@ -82,6 +82,7 @@ config X86
+ 	select ARCH_HAS_MEM_ENCRYPT
+ 	select ARCH_HAS_MEMBARRIER_SYNC_CORE
+ 	select ARCH_HAS_NON_OVERLAPPING_ADDRESS_SPACE
++	select ARCH_HAS_NR_GPIO
+ 	select ARCH_HAS_PMEM_API		if X86_64
+ 	select ARCH_HAS_PTE_DEVMAP		if X86_64
+ 	select ARCH_HAS_PTE_SPECIAL
+diff --git a/drivers/gpio/Kconfig b/drivers/gpio/Kconfig
+index 0642f579196f..250b50ed44e1 100644
+--- a/drivers/gpio/Kconfig
++++ b/drivers/gpio/Kconfig
+@@ -11,6 +11,9 @@ config ARCH_HAVE_CUSTOM_GPIO_H
+ 	  overriding the default implementations.  New uses of this are
+ 	  strongly discouraged.
+ 
++config ARCH_HAS_NR_GPIO
++	bool
++
+ menuconfig GPIOLIB
+ 	bool "GPIO Support"
+ 	help
+@@ -22,6 +25,17 @@ menuconfig GPIOLIB
+ 
+ if GPIOLIB
+ 
++config ARCH_NR_GPIO
++	int "Maximum number of GPIOs" if EXPERT
++	depends on !ARCH_HAS_NR_GPIO
++	default 512
++	help
++	  This allows the user to select the maximum number of GPIOs the
++	  kernel must support. When the architecture defines a number
++	  through CONFIG_ARCH_NR_GPIO, that value is taken and the user
++	  cannot change it. Otherwise it defaults to 512 and the user
++	  can change it when CONFIG_EXPERT is set.
++
+ config GPIOLIB_FASTPATH_LIMIT
+ 	int "Maximum number of GPIOs for fast path"
+ 	range 32 512
+diff --git a/include/asm-generic/gpio.h b/include/asm-generic/gpio.h
+index aea9aee1f3e9..ee090f534ab8 100644
+--- a/include/asm-generic/gpio.h
++++ b/include/asm-generic/gpio.h
+@@ -24,13 +24,7 @@
+  * actually an estimate of a board-specific value.
+  */
+ 
+-#ifndef ARCH_NR_GPIOS
+-#if defined(CONFIG_ARCH_NR_GPIO) && CONFIG_ARCH_NR_GPIO > 0
+ #define ARCH_NR_GPIOS CONFIG_ARCH_NR_GPIO
+-#else
+-#define ARCH_NR_GPIOS		512
+-#endif
+-#endif
+ 
+ /*
+  * "valid" GPIO numbers are nonnegative and may be passed to
+-- 
+2.37.1
 
