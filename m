@@ -2,86 +2,131 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B9E9EC19F2D
-	for <linux-doc@archiver.kernel.org>; Tue,  9 Aug 2022 12:55:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C1EA1C19F2D
+	for <linux-doc@archiver.kernel.org>; Tue,  9 Aug 2022 13:05:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239028AbiHIMzD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 9 Aug 2022 08:55:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48528 "EHLO
+        id S232070AbiHINFj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 9 Aug 2022 09:05:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55684 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234379AbiHIMzD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Aug 2022 08:55:03 -0400
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4AEE13D04;
-        Tue,  9 Aug 2022 05:55:01 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        with ESMTP id S229653AbiHINFi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Aug 2022 09:05:38 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E0CBE82
+        for <linux-doc@vger.kernel.org>; Tue,  9 Aug 2022 06:05:37 -0700 (PDT)
+Received: from localhost (unknown [213.194.152.135])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id CB09637F;
-        Tue,  9 Aug 2022 12:55:00 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net CB09637F
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1660049701; bh=zJzaVstWdqCzZEUwLBmwdRMqEN2u+PciwoZk6yl1nKw=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=i2EWFk+48wT2XX0jL3ONglkhqo+M/dVpLV/Ujw/LBa6SZj6+EA142sO96UKzFaY/m
-         DiAhsmnfrpdvJn7jR1BsenPVzm25X4I3OzwGTs7yLMMuOGfzEUkO0JrO2/aEAeveKr
-         ajcshfzk3Bs9CwJbAUQZ8Jy50sF1PO0VjqnNl5an70aMfl4bKh4ug1PbJyMG43QXhd
-         OcHibaU4Z65pjgdNe6+vXNELsiwTgXdDeKxe9jC3yDYYFScDiB7ZbaqEnwGyFJAQog
-         PvCbD1nQjib+UDSkrPjI6i5Noqj3ooH2/Q0HndPz1JLYeTzJVmT8BTHBVLrKzNlI7X
-         W2CoSIRyWCgpA==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Salvatore Bonaccorso <carnil@debian.org>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Sasha Levin <sashal@kernel.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Salvatore Bonaccorso <carnil@debian.org>
-Subject: Re: [PATCH] Documentation: stable: Document alternative for
- referring upstream commit hash
-In-Reply-To: <20220809045543.2049293-1-carnil@debian.org>
-References: <20220809045543.2049293-1-carnil@debian.org>
-Date:   Tue, 09 Aug 2022 06:54:59 -0600
-Message-ID: <8735e5a864.fsf@meer.lwn.net>
+        (Authenticated sender: rcn)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id C0F396601B74;
+        Tue,  9 Aug 2022 14:05:35 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1660050336;
+        bh=HK0BOWSTH7SArfF741Tlu+HbhbXeozeCNYG03+glmmU=;
+        h=From:To:Cc:Subject:References:In-reply-to:Date:From;
+        b=fScbxKCc1KL844qndBP7YKjxm2MyYvv4p1ENKlEFsYgibKoP5FdrWUZ1HOe2ULfMc
+         bm0lGej1HKfeWw9oMPAUDw5U02WMLZ593MEawdxKk2i9Lqg352mzzsanPJr1jwDuPs
+         BjFfrTst7zQdWrQuGJwq7BnvXulcqpCFTRKlC+d2A4bPQapMVtJqGFskAaqE4WLESA
+         Pd8T1Gu3Cel52/dp/X6YncX5cNP6yAmmwJgCskZVs2f6cXXSQX0AXht6dp0aTpqchD
+         le/O4t9SlZYKNTog2O4VdYjNFM2nx8iZvvW4za5SARLfCGn6vqaDVYRm/FZ02cF2H0
+         EMNWd7ISfAOdA==
+From:   Ricardo =?utf-8?Q?Ca=C3=B1uelo?= <ricardo.canuelo@collabora.com>
+To:     Cornelia Huck <cohuck@redhat.com>, linux-doc@vger.kernel.org
+Cc:     virtualization@lists.linux-foundation.org, mst@redhat.com,
+        jasowang@redhat.com, kernel@collabora.com, bagasdotme@gmail.com
+Subject: Re: [PATCH v2 2/2] docs: driver-api: virtio: virtio on Linux
+References: <20220804105914.3707389-1-ricardo.canuelo@collabora.com> <20220804105914.3707389-3-ricardo.canuelo@collabora.com> <87bksuetk5.fsf@redhat.com>
+In-reply-to: <87bksuetk5.fsf@redhat.com>
+Date:   Tue, 09 Aug 2022 15:05:32 +0200
+Message-ID: <87iln1r2hv.fsf@rcn-XPS-13-9305.i-did-not-set--mail-host-address--so-tickle-me>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Salvatore Bonaccorso <carnil@debian.org> writes:
+Hi Cornelia,
 
-> Additionally to the "commit <sha1> upstream." variant, "[ Upstream
-> commit <sha1> ]" is used as well as alternative to refer to the upstream
-> commit hash.
+Thanks for the insightful comments and ideas. Answers below:
+
+On lun, ago 08 2022 at 15:47:06, Cornelia Huck <cohuck@redhat.com> wrote:
+> Hm... so I'm not quite happy with those two paragraphs, but I'm not sure
+> how to make it better.
 >
-> Signed-off-by: Salvatore Bonaccorso <carnil@debian.org>
-> ---
->  Documentation/process/stable-kernel-rules.rst | 6 ++++++
->  1 file changed, 6 insertions(+)
+> - While the origins of virtio are hypervisor implementations, the
+>   standard is describing the mechanisms of device <-> driver
+>   communication, regardless whether the device is a hardware entity or
+>   something emulated by a hypervisor.
+> - I'm not quite sure what you are referring to with "real host
+>   devices". We can have e.g. a real disk that is handed to a guest via
+>   virtio-blk as a whole, or we can have some kind of file that is
+>   exposed via virtio-blk. Other device types can also be completely
+>   emulated.
+> - The OS picks the driver depending on what device is discovers; virtio
+>   device drivers are not any different from other device drivers in that
+>   regard.
+>
+> So I think the key pieces of virtio are the following:
+>
+> - it is an open standard
+> - it describes a protocol, which can be used to implement a lot of
+>   different device types
+> - those devices are exposed to the operating system via standard
+>   mechanisms such as PCI
+> - virtio devices can be implemented in various ways, such as in
+>   hypervisors (more common) or as a real hardware device
+>
+> For the remainder of this document, it is probably fine to focus on the
+> hypervisor use case.
 
-So this is a nit but...
+How about this as an introduction?
 
-> diff --git a/Documentation/process/stable-kernel-rules.rst b/Documentation/process/stable-kernel-rules.rst
-> index c61865e91f52..2fd8aa593a28 100644
-> --- a/Documentation/process/stable-kernel-rules.rst
-> +++ b/Documentation/process/stable-kernel-rules.rst
-> @@ -97,6 +97,12 @@ text, like this:
->  
->      commit <sha1> upstream.
->  
-> +or alternatively:
-> +
-> +.. code-block:: none
-> +
-> +    [ Upstream commit <sha1> ]
+    Virtio is an open standard that defines a protocol to communicate
+    drivers and devices of different types, see Chapter 5 ("Device
+    Types") of the virtio spec `[1]`_. Originally developed as a
+    standard for paravirtualized devices implemented by a hypervisor, it
+    can be used to interface any compliant device (real or emulated)
+    with a driver.
 
-Can this just be:
+    For illustrative purposes, this document will focus on the common
+    case of a Linux kernel running in a virtual machine and using
+    paravirtualized devices provided by the hypervisor, which exposes
+    them as virtio devices via standard mechanisms such as PCI.
 
-  or alternatively::
+> s/in/on/ ?
+> s/RedHat/Red Hat/ :)
 
-    [ Upstream commit <sha1> ]
+Got it.
 
-That extra RST markup just clutters things without any advantage.
+> See my comments above, virtio devices can also be fully emulated or real
+> hardware devices.
+>
+> [...]
+>
+> I think we should not make any statement regarding frequency of new
+> additions; sometimes, there's a flurry of activity, sometimes, there's
+> nothing for ages :)
 
-Thanks,
+Ok, I'll simplify the intro to this:
 
-jon
+    This document serves as a basic guideline for driver programmers
+    that need to hack a new virtio driver or understand the essentials
+    of the existing ones. See :ref:`Virtio on Linux <virtio>` for a
+    general overview of virtio.
+
+> s/should/needs to/ ?
+
+Ack.
+
+> s/defined/added/ ?
+
+Ack.
+
+> Maybe "Device ids need to be at least reserved in the virtio spec before
+> being added to that file." ?
+
+Sure, I'll add all of these to the next version.
+
+Cheers,
+Ricardo
