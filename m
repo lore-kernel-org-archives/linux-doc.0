@@ -2,165 +2,95 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3CB33C282E7
-	for <linux-doc@archiver.kernel.org>; Tue,  9 Aug 2022 13:49:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 68F1AC19F2D
+	for <linux-doc@archiver.kernel.org>; Tue,  9 Aug 2022 14:28:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244574AbiHINtl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 9 Aug 2022 09:49:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54914 "EHLO
+        id S229715AbiHIO2r (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 9 Aug 2022 10:28:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51656 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244351AbiHINsB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Aug 2022 09:48:01 -0400
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6D63193C9;
-        Tue,  9 Aug 2022 06:48:00 -0700 (PDT)
-Received: from fraeml714-chm.china.huawei.com (unknown [172.18.147.207])
-        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4M2Dph5fjRz687XH;
-        Tue,  9 Aug 2022 21:45:16 +0800 (CST)
-Received: from roberto-ThinkStation-P620.huawei.com (10.204.63.22) by
- fraeml714-chm.china.huawei.com (10.206.15.33) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Tue, 9 Aug 2022 15:47:57 +0200
-From:   Roberto Sassu <roberto.sassu@huawei.com>
-To:     <ast@kernel.org>, <daniel@iogearbox.net>, <andrii@kernel.org>,
-        <martin.lau@linux.dev>, <song@kernel.org>, <yhs@fb.com>,
-        <john.fastabend@gmail.com>, <kpsingh@kernel.org>, <sdf@google.com>,
-        <haoluo@google.com>, <jolsa@kernel.org>, <corbet@lwn.net>,
-        <dhowells@redhat.com>, <jarkko@kernel.org>, <rostedt@goodmis.org>,
-        <mingo@redhat.com>, <paul@paul-moore.com>, <jmorris@namei.org>,
-        <serge@hallyn.com>, <shuah@kernel.org>
-CC:     <bpf@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <keyrings@vger.kernel.org>,
-        <linux-security-module@vger.kernel.org>,
-        <linux-kselftest@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        Roberto Sassu <roberto.sassu@huawei.com>
-Subject: [PATCH v9 07/10] bpf: Add bpf_verify_pkcs7_signature() kfunc
-Date:   Tue, 9 Aug 2022 15:46:00 +0200
-Message-ID: <20220809134603.1769279-8-roberto.sassu@huawei.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220809134603.1769279-1-roberto.sassu@huawei.com>
-References: <20220809134603.1769279-1-roberto.sassu@huawei.com>
+        with ESMTP id S229653AbiHIO2r (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Aug 2022 10:28:47 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 76532B1DF
+        for <linux-doc@vger.kernel.org>; Tue,  9 Aug 2022 07:28:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1660055325;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=QoOWzRRd0gXzzd5MjvJGUJ8tTQa3lBXK43u6AGIzVrM=;
+        b=M8nIlK1YwzimVzR2NMIRYO1NMrME9+T88ET+BxgFFWRG3DEV3sqBJEJqT5Vuy1BrGEkjd5
+        3qe1kVG9mguAhP6zhInV0tLJEePZn0Dxr834gyynwpucza8QQYBBXBZyivxwbeK7kvici7
+        HiqspwcXyhgVFoQ1UfjMWs7WbgK/cik=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-382-IknCk1rBNTiMBIW7bg8vmQ-1; Tue, 09 Aug 2022 10:28:42 -0400
+X-MC-Unique: IknCk1rBNTiMBIW7bg8vmQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0539F802D1C;
+        Tue,  9 Aug 2022 14:28:42 +0000 (UTC)
+Received: from localhost (unknown [10.39.193.230])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id A66EEC15BA1;
+        Tue,  9 Aug 2022 14:28:41 +0000 (UTC)
+From:   Cornelia Huck <cohuck@redhat.com>
+To:     Ricardo =?utf-8?Q?Ca=C3=B1uelo?= <ricardo.canuelo@collabora.com>,
+        linux-doc@vger.kernel.org
+Cc:     virtualization@lists.linux-foundation.org, mst@redhat.com,
+        jasowang@redhat.com, kernel@collabora.com, bagasdotme@gmail.com
+Subject: Re: [PATCH v2 2/2] docs: driver-api: virtio: virtio on Linux
+In-Reply-To: <87iln1r2hv.fsf@rcn-XPS-13-9305.i-did-not-set--mail-host-address--so-tickle-me>
+Organization: Red Hat GmbH
+References: <20220804105914.3707389-1-ricardo.canuelo@collabora.com>
+ <20220804105914.3707389-3-ricardo.canuelo@collabora.com>
+ <87bksuetk5.fsf@redhat.com>
+ <87iln1r2hv.fsf@rcn-XPS-13-9305.i-did-not-set--mail-host-address--so-tickle-me>
+User-Agent: Notmuch/0.36 (https://notmuchmail.org)
+Date:   Tue, 09 Aug 2022 16:28:40 +0200
+Message-ID: <87wnbhcwyv.fsf@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.204.63.22]
-X-ClientProxiedBy: lhrpeml500006.china.huawei.com (7.191.161.198) To
- fraeml714-chm.china.huawei.com (10.206.15.33)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add the bpf_verify_pkcs7_signature() kfunc, to give eBPF security modules
-the ability to check the validity of a signature against supplied data, by
-using user-provided or system-provided keys as trust anchor.
+On Tue, Aug 09 2022, Ricardo Ca=C3=B1uelo <ricardo.canuelo@collabora.com> w=
+rote:
 
-The new kfunc makes it possible to enforce mandatory policies, as eBPF
-programs might be allowed to make security decisions only based on data
-sources the system administrator approves.
+> How about this as an introduction?
+>
+>     Virtio is an open standard that defines a protocol to communicate
+>     drivers and devices of different types, see Chapter 5 ("Device
 
-The caller should provide the data to be verified and the signature as eBPF
-dynamic pointers (to minimize the number of parameters) and a bpf_key
-structure containing a reference to the keyring with keys trusted for
-signature verification, obtained from bpf_lookup_user_key() or
-bpf_lookup_system_key().
+"...that defines a protocol for communication between drivers and
+devices of different device types, see..."
 
-For bpf_key structures obtained from the former lookup function,
-bpf_verify_pkcs7_signature() completes the permission check deferred by
-that function by calling key_validate(). key_task_permission() is already
-called by the PKCS#7 code.
+>     Types") of the virtio spec `[1]`_. Originally developed as a
+>     standard for paravirtualized devices implemented by a hypervisor, it
+>     can be used to interface any compliant device (real or emulated)
+>     with a driver.
+>
+>     For illustrative purposes, this document will focus on the common
+>     case of a Linux kernel running in a virtual machine and using
+>     paravirtualized devices provided by the hypervisor, which exposes
+>     them as virtio devices via standard mechanisms such as PCI.
 
-Signed-off-by: Roberto Sassu <roberto.sassu@huawei.com>
----
- kernel/trace/bpf_trace.c | 56 ++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 56 insertions(+)
+Sounds good to me.
 
-diff --git a/kernel/trace/bpf_trace.c b/kernel/trace/bpf_trace.c
-index 33ca4cfe6e26..79ba8c96735a 100644
---- a/kernel/trace/bpf_trace.c
-+++ b/kernel/trace/bpf_trace.c
-@@ -21,6 +21,7 @@
- #include <linux/bsearch.h>
- #include <linux/sort.h>
- #include <linux/key.h>
-+#include <linux/verification.h>
- 
- #include <net/bpf_sk_storage.h>
- 
-@@ -1290,6 +1291,47 @@ noinline __weak void bpf_key_put(struct bpf_key *bkey)
- 	kfree(bkey);
- }
- 
-+#ifdef CONFIG_SYSTEM_DATA_VERIFICATION
-+/**
-+ * bpf_verify_pkcs7_signature - verify a PKCS#7 signature
-+ * @data_ptr: data to verify
-+ * @sig_ptr: signature of the data
-+ * @trusted_keyring: keyring with keys trusted for signature verification
-+ *
-+ * Verify the PKCS#7 signature *sig_ptr* against the supplied *data_ptr*
-+ * with keys in a keyring referenced by *trusted_keyring*.
-+ *
-+ * Return: 0 on success, a negative value on error.
-+ */
-+noinline __weak int bpf_verify_pkcs7_signature(struct bpf_dynptr_kern *data_ptr,
-+					       struct bpf_dynptr_kern *sig_ptr,
-+					       struct bpf_key *trusted_keyring)
-+{
-+	int ret;
-+
-+	if (trusted_keyring->valid_ptr) {
-+		/*
-+		 * Do the permission check deferred in bpf_lookup_user_key().
-+		 *
-+		 * A call to key_task_permission() here would be redundant, as
-+		 * it is already done by keyring_search() called by
-+		 * find_asymmetric_key().
-+		 */
-+		ret = key_validate(trusted_keyring->key);
-+		if (ret < 0)
-+			return ret;
-+	}
-+
-+	return verify_pkcs7_signature(data_ptr->data,
-+				      bpf_dynptr_get_size(data_ptr),
-+				      sig_ptr->data,
-+				      bpf_dynptr_get_size(sig_ptr),
-+				      trusted_keyring->key,
-+				      VERIFYING_UNSPECIFIED_SIGNATURE, NULL,
-+				      NULL);
-+}
-+#endif /* CONFIG_SYSTEM_DATA_VERIFICATION */
-+
- __diag_pop();
- 
- BTF_SET8_START(key_kfunc_set)
-@@ -1303,11 +1345,25 @@ static const struct btf_kfunc_id_set bpf_key_kfunc_set = {
- 	.owner = THIS_MODULE,
- 	.set = &key_kfunc_set,
- };
-+
-+#ifdef CONFIG_SYSTEM_DATA_VERIFICATION
-+BTF_SET8_START(verify_sig_kfunc_set)
-+BTF_ID_FLAGS(func, bpf_verify_pkcs7_signature, KF_SLEEPABLE)
-+BTF_SET8_END(verify_sig_kfunc_set)
-+
-+static const struct btf_kfunc_id_set bpf_verify_sig_kfunc_set = {
-+	.owner = THIS_MODULE,
-+	.set = &verify_sig_kfunc_set,
-+};
-+#endif /* CONFIG_SYSTEM_DATA_VERIFICATION */
- #endif /* CONFIG_KEYS */
- 
- const struct btf_kfunc_id_set *kfunc_sets[] = {
- #ifdef CONFIG_KEYS
- 	&bpf_key_kfunc_set,
-+#ifdef CONFIG_SYSTEM_DATA_VERIFICATION
-+	&bpf_verify_sig_kfunc_set,
-+#endif /* CONFIG_SYSTEM_DATA_VERIFICATION */
- #endif /* CONFIG_KEYS */
- };
- 
--- 
-2.25.1
+(...)
+
+> Ok, I'll simplify the intro to this:
+>
+>     This document serves as a basic guideline for driver programmers
+>     that need to hack a new virtio driver or understand the essentials
+>     of the existing ones. See :ref:`Virtio on Linux <virtio>` for a
+>     general overview of virtio.
+
+Ok.
 
