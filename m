@@ -2,131 +2,91 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C1EA1C19F2D
-	for <linux-doc@archiver.kernel.org>; Tue,  9 Aug 2022 13:05:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E839C19F2D
+	for <linux-doc@archiver.kernel.org>; Tue,  9 Aug 2022 13:14:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232070AbiHINFj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 9 Aug 2022 09:05:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55684 "EHLO
+        id S243620AbiHINN7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 9 Aug 2022 09:13:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33400 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229653AbiHINFi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Aug 2022 09:05:38 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E0CBE82
-        for <linux-doc@vger.kernel.org>; Tue,  9 Aug 2022 06:05:37 -0700 (PDT)
-Received: from localhost (unknown [213.194.152.135])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: rcn)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id C0F396601B74;
-        Tue,  9 Aug 2022 14:05:35 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1660050336;
-        bh=HK0BOWSTH7SArfF741Tlu+HbhbXeozeCNYG03+glmmU=;
-        h=From:To:Cc:Subject:References:In-reply-to:Date:From;
-        b=fScbxKCc1KL844qndBP7YKjxm2MyYvv4p1ENKlEFsYgibKoP5FdrWUZ1HOe2ULfMc
-         bm0lGej1HKfeWw9oMPAUDw5U02WMLZ593MEawdxKk2i9Lqg352mzzsanPJr1jwDuPs
-         BjFfrTst7zQdWrQuGJwq7BnvXulcqpCFTRKlC+d2A4bPQapMVtJqGFskAaqE4WLESA
-         Pd8T1Gu3Cel52/dp/X6YncX5cNP6yAmmwJgCskZVs2f6cXXSQX0AXht6dp0aTpqchD
-         le/O4t9SlZYKNTog2O4VdYjNFM2nx8iZvvW4za5SARLfCGn6vqaDVYRm/FZ02cF2H0
-         EMNWd7ISfAOdA==
-From:   Ricardo =?utf-8?Q?Ca=C3=B1uelo?= <ricardo.canuelo@collabora.com>
-To:     Cornelia Huck <cohuck@redhat.com>, linux-doc@vger.kernel.org
-Cc:     virtualization@lists.linux-foundation.org, mst@redhat.com,
-        jasowang@redhat.com, kernel@collabora.com, bagasdotme@gmail.com
-Subject: Re: [PATCH v2 2/2] docs: driver-api: virtio: virtio on Linux
-References: <20220804105914.3707389-1-ricardo.canuelo@collabora.com> <20220804105914.3707389-3-ricardo.canuelo@collabora.com> <87bksuetk5.fsf@redhat.com>
-In-reply-to: <87bksuetk5.fsf@redhat.com>
-Date:   Tue, 09 Aug 2022 15:05:32 +0200
-Message-ID: <87iln1r2hv.fsf@rcn-XPS-13-9305.i-did-not-set--mail-host-address--so-tickle-me>
+        with ESMTP id S239452AbiHINN6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Aug 2022 09:13:58 -0400
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 2E791140D8;
+        Tue,  9 Aug 2022 06:13:58 -0700 (PDT)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A0B7323A;
+        Tue,  9 Aug 2022 06:13:58 -0700 (PDT)
+Received: from [10.57.74.141] (unknown [10.57.74.141])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 095A83F5A1;
+        Tue,  9 Aug 2022 06:13:54 -0700 (PDT)
+Message-ID: <a71bea49-130f-61d8-2692-23ab9a8fe939@arm.com>
+Date:   Tue, 9 Aug 2022 14:13:49 +0100
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: [PATCH v2 00/11] Drivers for gunyah hypervisor
+Content-Language: en-GB
+To:     Elliot Berman <quic_eberman@quicinc.com>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>
+Cc:     Murali Nalajala <quic_mnalajal@quicinc.com>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
+        Carl van Schaik <quic_cvanscha@quicinc.com>,
+        Andy Gross <agross@kernel.org>,
+        linux-arm-kernel@lists.infradead.org,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        Marc Zyngier <maz@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Will Deacon <will@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org
+References: <20220801211240.597859-1-quic_eberman@quicinc.com>
+ <50230652-c1ae-4ce2-907c-9bdc6b827f8e@linaro.org>
+ <62073cb8-0211-3b49-11cb-aceea6df0845@quicinc.com>
+From:   Robin Murphy <robin.murphy@arm.com>
+In-Reply-To: <62073cb8-0211-3b49-11cb-aceea6df0845@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Cornelia,
+[drive-by observation since one thing caught my interest...]
 
-Thanks for the insightful comments and ideas. Answers below:
+On 2022-08-09 00:38, Elliot Berman wrote:
+>> I might be completely wrong about this, but if my in-mind picture of 
+>> Gunyah is correct, I'd have implemented the gunyah core subsytem as 
+>> mailbox provider, RM as a separate platform driver consuming these 
+>> mailboxes and in turn being a remoteproc driver, and consoles as 
+>> remoteproc subdevices. >
+> 
+> The mailbox framework can only fit with message queues and not doorbells 
+> or vCPUs.
 
-On lun, ago 08 2022 at 15:47:06, Cornelia Huck <cohuck@redhat.com> wrote:
-> Hm... so I'm not quite happy with those two paragraphs, but I'm not sure
-> how to make it better.
->
-> - While the origins of virtio are hypervisor implementations, the
->   standard is describing the mechanisms of device <-> driver
->   communication, regardless whether the device is a hardware entity or
->   something emulated by a hypervisor.
-> - I'm not quite sure what you are referring to with "real host
->   devices". We can have e.g. a real disk that is handed to a guest via
->   virtio-blk as a whole, or we can have some kind of file that is
->   exposed via virtio-blk. Other device types can also be completely
->   emulated.
-> - The OS picks the driver depending on what device is discovers; virtio
->   device drivers are not any different from other device drivers in that
->   regard.
->
-> So I think the key pieces of virtio are the following:
->
-> - it is an open standard
-> - it describes a protocol, which can be used to implement a lot of
->   different device types
-> - those devices are exposed to the operating system via standard
->   mechanisms such as PCI
-> - virtio devices can be implemented in various ways, such as in
->   hypervisors (more common) or as a real hardware device
->
-> For the remainder of this document, it is probably fine to focus on the
-> hypervisor use case.
+Is that so? There was a whole long drawn-out saga around the SCMI 
+protocol using the Arm MHU mailbox as a set of doorbells for 
+shared-memory payloads, but it did eventually get merged as the separate 
+arm_mhu_db.c driver, so unless we're talking about some completely 
+different notion of "doorbell"... :/
 
-How about this as an introduction?
+> The mailbox framework also relies on the mailbox being defined 
+> in the devicetree. RM is an exceptional case in that it is described in 
+> the devicetree. Message queues for other VMs would be dynamically 
+> created at runtime as/when that VM is created. Thus, the client of the 
+> message queue would need to "own" both the controller and client ends of 
+> the mailbox.
 
-    Virtio is an open standard that defines a protocol to communicate
-    drivers and devices of different types, see Chapter 5 ("Device
-    Types") of the virtio spec `[1]`_. Originally developed as a
-    standard for paravirtualized devices implemented by a hypervisor, it
-    can be used to interface any compliant device (real or emulated)
-    with a driver.
+FWIW, if the mailbox API does fit conceptually then it looks like it 
+shouldn't be *too* hard to better abstract the DT details in the 
+framework itself and allow providers to offer additional means to 
+validate channel requests, which might be more productive than inventing 
+a whole new thing.
 
-    For illustrative purposes, this document will focus on the common
-    case of a Linux kernel running in a virtual machine and using
-    paravirtualized devices provided by the hypervisor, which exposes
-    them as virtio devices via standard mechanisms such as PCI.
-
-> s/in/on/ ?
-> s/RedHat/Red Hat/ :)
-
-Got it.
-
-> See my comments above, virtio devices can also be fully emulated or real
-> hardware devices.
->
-> [...]
->
-> I think we should not make any statement regarding frequency of new
-> additions; sometimes, there's a flurry of activity, sometimes, there's
-> nothing for ages :)
-
-Ok, I'll simplify the intro to this:
-
-    This document serves as a basic guideline for driver programmers
-    that need to hack a new virtio driver or understand the essentials
-    of the existing ones. See :ref:`Virtio on Linux <virtio>` for a
-    general overview of virtio.
-
-> s/should/needs to/ ?
-
-Ack.
-
-> s/defined/added/ ?
-
-Ack.
-
-> Maybe "Device ids need to be at least reserved in the virtio spec before
-> being added to that file." ?
-
-Sure, I'll add all of these to the next version.
-
-Cheers,
-Ricardo
+Thanks,
+Robin.
