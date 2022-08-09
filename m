@@ -2,90 +2,69 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D344CC25B06
-	for <linux-doc@archiver.kernel.org>; Tue,  9 Aug 2022 08:30:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1995AC19F2D
+	for <linux-doc@archiver.kernel.org>; Tue,  9 Aug 2022 08:44:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236512AbiHIIay (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 9 Aug 2022 04:30:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36456 "EHLO
+        id S239708AbiHIIoo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 9 Aug 2022 04:44:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46360 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236481AbiHIIax (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Aug 2022 04:30:53 -0400
-Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com [IPv6:2607:f8b0:4864:20::531])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A35212AFF;
-        Tue,  9 Aug 2022 01:30:52 -0700 (PDT)
-Received: by mail-pg1-x531.google.com with SMTP id r22so8361994pgm.5;
-        Tue, 09 Aug 2022 01:30:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc;
-        bh=Q4L5FOTMe4AJdJJMn6Pl0PtIME6CYddRd63dmOS6kRQ=;
-        b=YehJQcfbdLP1a3hj8YEzB5kB0Fo89XPMrfdI9hqQIQ3C5RiKO3DTShPd8MnAB0m7nW
-         pYz4R3GtB8B862AnFkYOZLWALW6YVklqRx0T4gW3f+QnBBDfC2YfklPzXhtOFyPGMMRP
-         kKQHtHiKWwHrAyW9cW5kQdjf2KYVknfJ4e5CvRTaaFb+CJJCjeW11CsWmWljbL0BVpQy
-         2Qq5oEDh/720VY31hW6YBk8+o3kWA+QzWPqwcdeSOdmlgtMGIp4f1Uil3l7ud4eaCBqk
-         FmLbzkzQfRSXsc8Y7vqpV1B5/de0Tqaw2YfkE+dB8nIdvcrtiezpFlgIUofAfglKNnyE
-         qfjg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc;
-        bh=Q4L5FOTMe4AJdJJMn6Pl0PtIME6CYddRd63dmOS6kRQ=;
-        b=0ztFBiB5XNOCK5hh8omQ+0a2Uvoa/d4LntvcmkZpZI5Z61UGZLDHMHYRp/bRjb/cyV
-         s1MabU+pTh4XNHhe0HOZiuAXHIX0yABM/K+DOByGq81D3RSV+MVfTUPmcLA1ZIFbHpOq
-         dcnQSMPZHRcTb7vJDthaXPUahTwEzOBg5Ooh57K86/+QtsHPq2tSxlWVASjAv3967oJ7
-         60OcEhSEZSLPcEd0gGtsnjVQmIHllwViNbjAIBrQY3P8gVcsgZRj8/b/fgDdlBg88i8j
-         B/PmfFm/Hh+90oaWqBkYBujlPHDMCUwlGKpMkl2f2RVOKv47dAW1eLZN9W1mUuwN5L64
-         WcKw==
-X-Gm-Message-State: ACgBeo28m911zSORhnpGmS4xOs+pibjFpdTwV6WvrKq0TDv49KYT6P+n
-        TAe/EgdK8X+2w5kYtiAWrCg=
-X-Google-Smtp-Source: AA6agR40vlVtmWsCZ0vzwxc1xMptLC9rc82nSSYCshTc1G5a+IoniYvNLPNDWSRN15NcWfx3G8BhCQ==
-X-Received: by 2002:a05:6a00:1490:b0:52d:9ccb:bf96 with SMTP id v16-20020a056a00149000b0052d9ccbbf96mr21807639pfu.31.1660033851954;
-        Tue, 09 Aug 2022 01:30:51 -0700 (PDT)
-Received: from [192.168.43.80] (subs28-116-206-12-42.three.co.id. [116.206.12.42])
-        by smtp.gmail.com with ESMTPSA id o10-20020a170902d4ca00b0016bcc35000asm10155043plg.302.2022.08.09.01.30.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 09 Aug 2022 01:30:51 -0700 (PDT)
-Message-ID: <9046f8b3-2bd7-64c6-5da8-d1c4b935b1e9@gmail.com>
-Date:   Tue, 9 Aug 2022 15:30:46 +0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH] Documentation: stable: Document alternative for referring
- upstream commit hash
-Content-Language: en-US
-To:     Salvatore Bonaccorso <carnil@debian.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        with ESMTP id S230519AbiHIIon (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Aug 2022 04:44:43 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7BA3A6359;
+        Tue,  9 Aug 2022 01:44:42 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 3D58AB80B89;
+        Tue,  9 Aug 2022 08:44:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3FD9FC433D6;
+        Tue,  9 Aug 2022 08:44:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1660034679;
+        bh=v6x5YSo+MYRPYBb0bdL5D5uuk27k9Q9WDC74TuJhB1A=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=qZijWVCMpgsqkkZXpzDLO20UsDAhGMmFlg1gZQl2I6rmQkEQhthQa4XiyXcdlHrz/
+         W2vUcCiTRDLH7wJImuev3HgCoInRzdLWK6zCXOcyItyoYl5NL172zl6QDqS4Vn1Gqm
+         F5yYtwzdr958JrENQwmi/k60xZtTGykR1piBXfgk=
+Date:   Tue, 9 Aug 2022 10:44:32 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Bagas Sanjaya <bagasdotme@gmail.com>
+Cc:     Salvatore Bonaccorso <carnil@debian.org>,
+        Jonathan Corbet <corbet@lwn.net>,
         Sasha Levin <sashal@kernel.org>, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Documentation: stable: Document alternative for
+ referring upstream commit hash
+Message-ID: <YvIecDUYcrW9vVZC@kroah.com>
 References: <20220809045543.2049293-1-carnil@debian.org>
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <20220809045543.2049293-1-carnil@debian.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+ <9046f8b3-2bd7-64c6-5da8-d1c4b935b1e9@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <9046f8b3-2bd7-64c6-5da8-d1c4b935b1e9@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 8/9/22 11:55, Salvatore Bonaccorso wrote:
-> @@ -97,6 +97,12 @@ text, like this:
->  
->      commit <sha1> upstream.
->  
-> +or alternatively:
-> +
-> +.. code-block:: none
-> +
-> +    [ Upstream commit <sha1> ]
-> +
+On Tue, Aug 09, 2022 at 03:30:46PM +0700, Bagas Sanjaya wrote:
+> On 8/9/22 11:55, Salvatore Bonaccorso wrote:
+> > @@ -97,6 +97,12 @@ text, like this:
+> >  
+> >      commit <sha1> upstream.
+> >  
+> > +or alternatively:
+> > +
+> > +.. code-block:: none
+> > +
+> > +    [ Upstream commit <sha1> ]
+> > +
+> 
+> Looks OK. Indeed Sasha uses the alternative style.
+> 
+> Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
-Looks OK. Indeed Sasha uses the alternative style.
+Thanks, I'll queue this up after -rc1 is out.
 
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
-
--- 
-An old man doll... just what I always wanted! - Clara
+greg k-h
