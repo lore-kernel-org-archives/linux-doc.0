@@ -2,91 +2,96 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E839C19F2D
-	for <linux-doc@archiver.kernel.org>; Tue,  9 Aug 2022 13:14:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A4C89C19F2D
+	for <linux-doc@archiver.kernel.org>; Tue,  9 Aug 2022 13:37:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243620AbiHINN7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 9 Aug 2022 09:13:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33400 "EHLO
+        id S235660AbiHINhC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 9 Aug 2022 09:37:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47522 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239452AbiHINN6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Aug 2022 09:13:58 -0400
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 2E791140D8;
-        Tue,  9 Aug 2022 06:13:58 -0700 (PDT)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A0B7323A;
-        Tue,  9 Aug 2022 06:13:58 -0700 (PDT)
-Received: from [10.57.74.141] (unknown [10.57.74.141])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 095A83F5A1;
-        Tue,  9 Aug 2022 06:13:54 -0700 (PDT)
-Message-ID: <a71bea49-130f-61d8-2692-23ab9a8fe939@arm.com>
-Date:   Tue, 9 Aug 2022 14:13:49 +0100
+        with ESMTP id S235573AbiHINhB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Aug 2022 09:37:01 -0400
+Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com [IPv6:2a00:1450:4864:20::235])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 526E210AB;
+        Tue,  9 Aug 2022 06:36:59 -0700 (PDT)
+Received: by mail-lj1-x235.google.com with SMTP id w15so13036493ljw.1;
+        Tue, 09 Aug 2022 06:36:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:sender:from:to:cc;
+        bh=2cmYg+dq7t0/+vlcTjrhmxMyOhXFDdKVoPEbwy8Q0NE=;
+        b=mhwPoFmZPKYXEMScxx8/vMlyt2z4qTQ8TgRHwrvOcBrbkT0SFbJBWVMcJ6zj2wAye1
+         FbilLQEdufY22g0FdRTteHn60CUaNWtFGUoQL6DdgtoRUm93Umhn3kv9dofmUNJvACZ1
+         4zvadaOox4+LlNYIGcgvOYLQ8qd3kuPbbTgvaJpWuJ5jjmtbJWBFfgaqBKgYSCbxLWNe
+         w1UyZNy+YVV+eUKJOL0DgXtbeD1tBpu/J1Eb1gcYRvxQ9ORVmgK3mdZmESXHx278jKV3
+         BDFbCX1+gbe78Ku5gAtaaFKB2Qh0G+OBiWkbqIxOMHw+ogroycb4zK9ysIZ1Ql63hfuz
+         2BdQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:sender:x-gm-message-state:from:to:cc;
+        bh=2cmYg+dq7t0/+vlcTjrhmxMyOhXFDdKVoPEbwy8Q0NE=;
+        b=OA/DCeInBN7ORS5Ba9KmftnNZiitugz2KkyAwQdqrep0QjOWOzZ2kSly/RHJw7NN6q
+         2gjMQMozqFxpzjZ+fIfMtwddGceoXLRxw/ZB7HaBAEXkWR/hoaC/DrcgebUbeJ85yEaZ
+         XHm0eHPvinDmSrKzvHMkq/HMy4m9AMX1z2WOvyl/mulRoDi+3oL8T/SeBJ5OYBSBG7tS
+         yNdDEui8+PTnT/56pT3nyXGIQtVRSLufOROQaHzOeZOgfMiDrQ39DcMNmnM8LFrxZV+U
+         hWPctb9iZZcSNPUv9CPtOuUYGBrj6J1VFz+fwcCzjvvKpo0j3hMXkfamfmo8Dzr5sXG+
+         x1Hw==
+X-Gm-Message-State: ACgBeo1ZIAW6X/n5emMPX47UPuGfk+Shmhi86XdZQHw+Snzw4dDpM91+
+        Vlfc+t+jtG+hTk6FpRR2XL0=
+X-Google-Smtp-Source: AA6agR7g1XBteOUR51MJjix2gbrN6cNqU38bYGyx9V0y/1aq+hz/vgt1ZnPO2My4RrblepoZeGfuzA==
+X-Received: by 2002:a2e:aa26:0:b0:25e:8d08:8d2b with SMTP id bf38-20020a2eaa26000000b0025e8d088d2bmr5553409ljb.93.1660052217649;
+        Tue, 09 Aug 2022 06:36:57 -0700 (PDT)
+Received: from elende (elende.valinor.li. [2a01:4f9:6a:1c47::2])
+        by smtp.gmail.com with ESMTPSA id w18-20020ac25d52000000b0048afa5daaf3sm1768511lfd.123.2022.08.09.06.36.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 09 Aug 2022 06:36:56 -0700 (PDT)
+Sender: Salvatore Bonaccorso <salvatore.bonaccorso@gmail.com>
+From:   Salvatore Bonaccorso <carnil@debian.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Sasha Levin <sashal@kernel.org>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Salvatore Bonaccorso <carnil@debian.org>
+Subject: [PATCH v2] Documentation: stable: Document alternative for referring upstream commit hash
+Date:   Tue,  9 Aug 2022 15:36:49 +0200
+Message-Id: <20220809133649.2235524-1-carnil@debian.org>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH v2 00/11] Drivers for gunyah hypervisor
-Content-Language: en-GB
-To:     Elliot Berman <quic_eberman@quicinc.com>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>
-Cc:     Murali Nalajala <quic_mnalajal@quicinc.com>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
-        Carl van Schaik <quic_cvanscha@quicinc.com>,
-        Andy Gross <agross@kernel.org>,
-        linux-arm-kernel@lists.infradead.org,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Marc Zyngier <maz@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Will Deacon <will@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org
-References: <20220801211240.597859-1-quic_eberman@quicinc.com>
- <50230652-c1ae-4ce2-907c-9bdc6b827f8e@linaro.org>
- <62073cb8-0211-3b49-11cb-aceea6df0845@quicinc.com>
-From:   Robin Murphy <robin.murphy@arm.com>
-In-Reply-To: <62073cb8-0211-3b49-11cb-aceea6df0845@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-[drive-by observation since one thing caught my interest...]
+Additionally to the "commit <sha1> upstream." variant, "[ Upstream
+commit <sha1> ]" is used as well as alternative to refer to the upstream
+commit hash.
 
-On 2022-08-09 00:38, Elliot Berman wrote:
->> I might be completely wrong about this, but if my in-mind picture of 
->> Gunyah is correct, I'd have implemented the gunyah core subsytem as 
->> mailbox provider, RM as a separate platform driver consuming these 
->> mailboxes and in turn being a remoteproc driver, and consoles as 
->> remoteproc subdevices. >
-> 
-> The mailbox framework can only fit with message queues and not doorbells 
-> or vCPUs.
+Signed-off-by: Salvatore Bonaccorso <carnil@debian.org>
+---
+Changes in v2:
+ - Drop extra RST markup which just only clutters things without any
+   advantage.
 
-Is that so? There was a whole long drawn-out saga around the SCMI 
-protocol using the Arm MHU mailbox as a set of doorbells for 
-shared-memory payloads, but it did eventually get merged as the separate 
-arm_mhu_db.c driver, so unless we're talking about some completely 
-different notion of "doorbell"... :/
+ Documentation/process/stable-kernel-rules.rst | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-> The mailbox framework also relies on the mailbox being defined 
-> in the devicetree. RM is an exceptional case in that it is described in 
-> the devicetree. Message queues for other VMs would be dynamically 
-> created at runtime as/when that VM is created. Thus, the client of the 
-> message queue would need to "own" both the controller and client ends of 
-> the mailbox.
+diff --git a/Documentation/process/stable-kernel-rules.rst b/Documentation/process/stable-kernel-rules.rst
+index c61865e91f52..beef21280d88 100644
+--- a/Documentation/process/stable-kernel-rules.rst
++++ b/Documentation/process/stable-kernel-rules.rst
+@@ -97,6 +97,10 @@ text, like this:
+ 
+     commit <sha1> upstream.
+ 
++or alternatively::
++
++    [ Upstream commit <sha1> ]
++
+ Additionally, some patches submitted via :ref:`option_1` may have additional
+ patch prerequisites which can be cherry-picked. This can be specified in the
+ following format in the sign-off area:
+-- 
+2.36.1
 
-FWIW, if the mailbox API does fit conceptually then it looks like it 
-shouldn't be *too* hard to better abstract the DT details in the 
-framework itself and allow providers to offer additional means to 
-validate channel requests, which might be more productive than inventing 
-a whole new thing.
-
-Thanks,
-Robin.
