@@ -2,101 +2,237 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C1E5C00140
-	for <linux-doc@archiver.kernel.org>; Tue,  9 Aug 2022 02:10:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B8CEEC19F2D
+	for <linux-doc@archiver.kernel.org>; Tue,  9 Aug 2022 03:41:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231574AbiHICKo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 8 Aug 2022 22:10:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55088 "EHLO
+        id S229674AbiHIDlp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 8 Aug 2022 23:41:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44236 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240114AbiHICIH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 Aug 2022 22:08:07 -0400
-Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2FD351A393;
-        Mon,  8 Aug 2022 19:08:07 -0700 (PDT)
-Received: by mail-pj1-x102b.google.com with SMTP id o5-20020a17090a3d4500b001ef76490983so10883931pjf.2;
-        Mon, 08 Aug 2022 19:08:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc;
-        bh=petxK778XPOlaFMZPaOnKvyoyQ6Ir54E3r1P1GqcORs=;
-        b=E0fKpa412B1eeW/w8yZbW8kc81xIugoTeV9AoQrbSu5HYELK4QgNUoWMRJjooQAaU3
-         v9ebho0Mq8TMHfqtw+YKKjIjro82OW0KnGdzC9XxCiU5kptGkneC4N2F3iCA/stylUrK
-         QAeUguwh+8bKNCMSgUClyapUHpKga7a+tM0Z9Nf1rt4DM++yUkwRf9gZdzYM7vfM448y
-         aCuZ196529B+tV0xRlZSxocyiRO/2Jxn2Edmb5joBT/ScOJFnM/ulhvlHAXja3zyidvH
-         bEM4vWp+4H4RyJTCBT8ebAeXtfJnaqWqYIDDgfucs4ry3gOjMWZnKR5S1m7TfUiFy5O3
-         spMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc;
-        bh=petxK778XPOlaFMZPaOnKvyoyQ6Ir54E3r1P1GqcORs=;
-        b=LcTqcEtJopYkvYXXYWMo3H/+PCLWDti/q44U9ph7L8QrzSvv1oqjuT7nSmrAIIlsJR
-         EEyzMdHnI5qoGRqeUQkTEWNEPO3wfGTNdDuZNwijBt1heNl+0okAX7dDd3ZTOXKMrEiN
-         xfot9kDQnY1w5PvMYFG8qxuseu73jQY9B23qAkRIy4VgVCfNBCG60X3dUhp0SO3sVORo
-         eSBkciSaEmbqaad3HEsMFYw41bOrj9mc9sgYAJzcIL93kxZerFgt6fc3TsCsDmtrVnU3
-         y/F+l78imF+OZi66kouIwFo1khuhwx8kLlGUEQSfOV2xG7lAX+hn8bDz+fpNfcZao1hU
-         xD8g==
-X-Gm-Message-State: ACgBeo3oRCKqu3AcvkxDBf41cefWH72xsNLNdLtpSOmnj8MfVgd6tPUG
-        7fMkMGPIircxG2WCWf6Dzw249C2tsCc=
-X-Google-Smtp-Source: AA6agR6CBZfiuOELuRj1c20hbg78hjsciqTTia/FqVLqST+0lgVWxucU26a9+K7Qv5CWVJt5c/cTEw==
-X-Received: by 2002:a17:902:70c7:b0:170:9030:8219 with SMTP id l7-20020a17090270c700b0017090308219mr12335025plt.163.1660010886674;
-        Mon, 08 Aug 2022 19:08:06 -0700 (PDT)
-Received: from [192.168.43.80] (subs03-180-214-233-70.three.co.id. [180.214.233.70])
-        by smtp.gmail.com with ESMTPSA id x18-20020a170902ec9200b0016892555955sm9427970plg.179.2022.08.08.19.08.04
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 08 Aug 2022 19:08:06 -0700 (PDT)
-Message-ID: <3971c298-9c9a-83a1-8dc7-5d59dd0e1a05@gmail.com>
-Date:   Tue, 9 Aug 2022 09:08:03 +0700
+        with ESMTP id S229600AbiHIDln (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 Aug 2022 23:41:43 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99C3E1DA41;
+        Mon,  8 Aug 2022 20:41:39 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 46A6BB8113A;
+        Tue,  9 Aug 2022 03:41:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 568D2C433D7;
+        Tue,  9 Aug 2022 03:41:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1660016496;
+        bh=TIZFdRQlgXbmimfCbQz8qcn4tib36jWhm+S9ipfzK9M=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=GZj5tje3MZvLt64+KkNV+4AICGsB6B+06qCIaU/zW7HEPcEmo9YK5PaJBwQ+4h+8O
+         0F1qxJfY0kzH4aaBIbp5ZsvFizH24SAvWDr668gb9kfTPqaR1PFK6axZhOgtgo4pKp
+         TRKp7CXHeQgFADnjtvmc7Jn0Wv6ZrE3U/JmXMytMPj80QGrRmqAYDhsGNaN+Bby9D7
+         J1sW0iDizkaS3DpiGgjhjc861AuWAaPsK3zjN9hFjAhFBbfXLTNuWhX6SfvWtQKWds
+         1zKuytelsklEafRawxkoMAWYiCFaM9d2gssXjU66dRvjm0YBcIbiiLDaJXE7t4QY1u
+         +4qZq85Hgt8jg==
+Date:   Mon, 8 Aug 2022 20:41:35 -0700
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     Edward Cree <ecree.xilinx@gmail.com>
+Cc:     ecree@xilinx.com, netdev@vger.kernel.org, davem@davemloft.net,
+        pabeni@redhat.com, edumazet@google.com, corbet@lwn.net,
+        linux-doc@vger.kernel.org, linux-net-drivers@amd.com,
+        Jacob Keller <jacob.e.keller@intel.com>,
+        Jesse Brandeburg <jesse.brandeburg@intel.com>,
+        Michael Chan <michael.chan@broadcom.com>,
+        Andy Gospodarek <andy@greyhouse.net>,
+        Saeed Mahameed <saeed@kernel.org>,
+        Jiri Pirko <jiri@resnulli.us>,
+        Shannon Nelson <snelson@pensando.io>,
+        Simon Horman <simon.horman@corigine.com>,
+        Alexander Duyck <alexander.duyck@gmail.com>
+Subject: Re: [RFC PATCH net-next] docs: net: add an explanation of VF (and
+ other) Representors
+Message-ID: <20220808204135.040a4516@kernel.org>
+In-Reply-To: <71af8654-ca69-c492-7e12-ed7ff455a2f1@gmail.com>
+References: <20220805165850.50160-1-ecree@xilinx.com>
+        <20220805184359.5c55ca0d@kernel.org>
+        <71af8654-ca69-c492-7e12-ed7ff455a2f1@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH 7/9] docs: i2c: i2c-topology: reorder sections more
- logically
-Content-Language: en-US
-To:     luca.ceresoli@bootlin.com, linux-doc@vger.kernel.org,
-        linux-i2c@vger.kernel.org
-Cc:     Wolfram Sang <wsa@kernel.org>, Peter Rosin <peda@axentia.se>,
-        linux-kernel@vger.kernel.org
-References: <20220808141708.1021103-1-luca.ceresoli@bootlin.com>
- <20220808141708.1021103-8-luca.ceresoli@bootlin.com>
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <20220808141708.1021103-8-luca.ceresoli@bootlin.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 8/8/22 21:17, luca.ceresoli@bootlin.com wrote:
-> +Mux-locked caveats
-> +~~~~~~~~~~~~~~~~~~
-> +
-> +When using a mux-locked mux, be aware of the following restrictions:
-> +
-> +* If you build a topology with a mux-locked mux being the parent
-> +  of a parent-locked mux, this might break the expectation from the
-> +  parent-locked mux that the root adapter is locked during the
-> +  transaction.
-> +
-> +* It is not safe to build arbitrary topologies with two (or more)
-> +  mux-locked muxes that are not siblings, when there are address
-> +  collisions between the devices on the child adapters of these
-> +  non-sibling muxes.
-> +
-> +  I.e. the select-transfer-deselect transaction targeting e.g. device
-> +  address 0x42 behind mux-one may be interleaved with a similar
-> +  operation targeting device address 0x42 behind mux-two. The
-> +  intension with such a topology would in this hypothetical example
-> +  be that mux-one and mux-two should not be selected simultaneously,
-> +  but mux-locked muxes do not guarantee that in all topologies.
-> +
+On Mon, 8 Aug 2022 21:44:45 +0100 Edward Cree wrote:
+> >> +What functions should have a representor?
+> >> +-----------------------------------------
+> >> +
+> >> +Essentially, for each virtual port on the device's internal switch, t=
+here
+> >> +should be a representor.
+> >> +The only exceptions are the management PF (whose port is used for tra=
+ffic to
+> >> +and from all other representors)  =20
+> >=20
+> > AFAIK there's no "management PF" in the Linux model. =20
+>=20
+> Maybe a bad word choice.  I'm referring to whichever PF (which likely
+>  also has an ordinary netdevice) has administrative rights over the NIC /
+>  internal switch at a firmware level.  Other names I've seen tossed
+>  around include "primary PF", "admin PF".
 
-These two sentences in n. 2) can be combined into a single paragraph.
-Also, did you mean s/intension/intention/?
+I believe someone (mellanox?) used the term eswitch manager.
+I'd use "host PF", somehow that makes most sense to me.
 
--- 
-An old man doll... just what I always wanted! - Clara
+> >> and perhaps the physical network port (for
+> >> +which the management PF may act as a kind of port representor.  Devic=
+es that
+> >> +combine multiple physical ports and SR-IOV capability may need to hav=
+e port
+> >> +representors in addition to PF/VF representors). =20
+> >=20
+> > That doesn't generalize well. If we just say that all uplinks and PFs
+> > should have a repr we don't have to make exceptions for all the cases
+> > where that's the case. =20
+>=20
+> We could, but AFAIK that's not how existing drivers behave.  At least
+>  when I experimented with a mlx NIC a couple of years ago I don't
+>  recall it creating a repr for the primary PF or for the physical port,
+>  only reprs for the VFs.
+
+Mellanox is not the best example, I think they don't even support
+uplink to uplink forwarding cleanly.
+
+> >> + - Other PFs on the PCIe controller, and any VFs belonging to them. =
+=20
+> >=20
+> > What is "the PCIe controller" here? I presume you've seen the
+> > devlink-port doc. =20
+>=20
+> Yes, that's where I got this terminology from.
+> "the" PCIe controller here is the one on which the mgmt PF lives.  For
+>  instance you might have a NIC where you run OVS on a SoC inside the
+>  chip, that has its own PCIe controller including a PF it uses to drive
+>  the hardware v-switch (so it can offload OVS rules), in addition to
+>  the PCIe controller that exposes PFs & VFs to the host you plug it
+>  into through the physical PCIe socket / edge connector.
+> In that case this bullet would refer to any additional PFs the SoC has
+>  besides the management one...
+
+IMO the model where there's a overall controller for the entire device
+is also a mellanox limitation, due to lack of support for nested
+switches.
+
+Say I pay for a bare metal instance in my favorite public could.=20
+Why would the forwarding between VFs I spawn be controlled by the cloud
+provider and not me?!
+
+But perhaps Netronome was the only vendor capable of nested switching.
+
+> >> + - PFs and VFs on other PCIe controllers on the device (e.g. for any =
+embedded
+> >> +   System-on-Chip within the SmartNIC). =20
+>=20
+> ... and this bullet to the PFs the host sees.
+>=20
+> >> + - PFs and VFs with other personalities, including network block devi=
+ces (such
+> >> +   as a vDPA virtio-blk PF backed by remote/distributed storage). =20
+> >=20
+> > IDK how you can configure block forwarding (which is DMAs of command
+> > + data blocks, not packets AFAIU) with the networking concepts..
+> > I've not used the storage functions tho, so I could be wrong. =20
+>=20
+> Maybe I'm way off the beam here, but my understanding is that this
+>  sort of thing involves a block interface between the host and the
+>  NIC, but then something internal to the NIC converts those
+>  operations into network operations (e.g. RDMA traffic or Ceph TCP
+>  packets), which then go out on the network to access the actual
+>  data.  In that case the back-end has to have network connectivity,
+>  and the obvious=E2=84=A2 way to do that is give it a v-port on the v-swi=
+tch
+>  just like anyone else.
+
+I see. I don't think this covers all implementations.=20
+
+> >> +An example of a PCIe function that should *not* have a representor is=
+, on an
+> >> +FPGA-based NIC, a PF which is only used to deploy a new bitstream to =
+the FPGA,
+> >> +and which cannot create RX and TX queues. =20
+> >=20
+> > What's the thinking here? We're letting everyone add their own
+> > exceptions to the doc? =20
+>=20
+> It was just the only example I could come up with of the more general
+>  rule: if it doesn't have the ability to send and receive packets over
+>  the network (directly or indirectly), then it won't have a virtual
+>  port on the virtual switch, and so it doesn't make sense for it to
+>  have a representor.
+> No way to TX =3D nothing will ever be RXed on the rep; no way to RX =3D no
+>  way to deliver anything you TX from the rep.  And nothing for TC
+>  offload to act upon either for the same reasons.
+
+No need to mention that, I'd think. Seems obvious.
+
+> >> For example, ``ndo_start_xmit()`` might send the
+> >> +packet, specially marked for delivery to the representee, through a T=
+X queue
+> >> +attached to the management PF. =20
+> >=20
+> > IDK how common that is, RDMA NICs will likely do the "dedicated queue
+> > per repr" thing since they pretend to have infinite queues. =20
+>=20
+> Right.  But the queue is still created by the driver bound to the mgmt
+>  PF, and using that PF for whatever BAR accesses it uses to create and
+>  administer the queue, no?
+> That's the important bit, and the details of how the NIC knows which
+>  representee to deliver it to (dedicated queue, special TX descriptor,
+>  whatever) are vendor-specific magic.  Better ways of phrasing that
+>  are welcome :)
+
+"TX queue attached to" made me think of a netdev Tx queue with a qdisc
+rather than just a HW queue. No better ideas tho.
+
+> >> +How are representors identified?
+> >> +--------------------------------
+> >> +
+> >> +The representor netdevice should *not* directly refer to a PCIe devic=
+e (e.g.
+> >> +through ``net_dev->dev.parent`` / ``SET_NETDEV_DEV()``), either of the
+> >> +representee or of the management PF. =20
+> >=20
+> > Do we know how many existing ones do?  =20
+>=20
+> Idk.  From a quick look on lxr, mlx5 and ice do; as far as I can tell
+>  nfp/flower does for "phy_reprs" but not "vnic_reprs".  nfp/abm does.
+>=20
+> My reasoning for this "should not" here is that a repr is a pure
+>  software device; compare e.g. if you build a vlan netdev on top of
+>  eth0 it doesn't inherit eth0's device.
+> Also, at least in theory this should avoid the problem with OpenStack
+>  picking the wrong netdevice that you mentioned in [2], as this is
+>  what controls the 'device' symlink in sysfs.
+
+It makes sense. The thought I had was "what if a user reads this and
+assumes it's never the case". But to be fair "should not" !=3D "must not"
+so we're probably good with your wording as is.
+
+> >> + - ``pf<N>``, PCIe physical function index *N*.
+> >> + - ``vf<N>``, PCIe virtual function index *N*.
+> >> + - ``sf<N>``, Subfunction index *N*. =20
+> >=20
+> > Yeah, nah... implement devlink port, please. This is done by the core,
+> > you shouldn't have to document this. =20
+>=20
+> Oh huh, I didn't know about __devlink_port_phys_port_name_get().
+> Last time I looked, the drivers all had their own
+>  .ndo_get_phys_port_name implementations (which is why I did one for
+>  sfc), and any similarity between their string formats was purely an
+>  (undocumented) convention.  TIL!
+> (And it looks like the core uses `c<N>` for my `if<N>` that you were
+>  so horrified by.  Devlink-port documentation doesn't make it super
+>  clear whether controller 0 is "the controller that's in charge" or
+>  "the controller from which we're viewing things", though I think in
+>  practice it comes to the same thing.)
+
+I think we had a bit. Perhaps @external? The controller which doesn't
+have @external =3D=3D true should be the local one IIRC. And by extension
+presumably in charge.
