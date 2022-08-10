@@ -2,187 +2,194 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 85D04C25B0C
-	for <linux-doc@archiver.kernel.org>; Wed, 10 Aug 2022 02:41:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AB3F6C3F6B0
+	for <linux-doc@archiver.kernel.org>; Wed, 10 Aug 2022 03:07:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229986AbiHJCl5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 9 Aug 2022 22:41:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51352 "EHLO
+        id S229990AbiHJDGr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 9 Aug 2022 23:06:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38350 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229797AbiHJCl4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Aug 2022 22:41:56 -0400
-Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 49D2CB7C8;
-        Tue,  9 Aug 2022 19:41:54 -0700 (PDT)
-Received: by mail-pl1-x630.google.com with SMTP id d16so13010980pll.11;
-        Tue, 09 Aug 2022 19:41:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc;
-        bh=nj31zRAcKvVnp3PgbO4ukzFmFeztnmbSMQraO9gq1VE=;
-        b=GlVlmgaXgKkOszzcjWlNMF0Brvnp8/3rYUyIKZ77MkT4tssDCq5itH57hGBSs9hpPp
-         2f42P8MA6+VIE46i9QP4m3KDP/ZcVgQV8HCHeJ7L+bFYjWA1ug5ppTYJIR2GVKABiayX
-         r5x17WWVy2F54aDwr65loSQkzk4k5EgWOpUH7ohAhm+8l6DW9/HVvVX47xdkvf1UbNT6
-         b4mDp5WO9vukyNKydz85F+bDa6OfYadtBALQwrzSG4KxHByOeFU0q9Q3Yx3mews61JNt
-         /QBMq/vmDT1koH9LHdKmQCPBCBLR9LI0MjRxqCumxs+f2geqSKvbhhoO10soNiVau0TO
-         +vrg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
-        bh=nj31zRAcKvVnp3PgbO4ukzFmFeztnmbSMQraO9gq1VE=;
-        b=hyWOV9DBRgH/Oa54dgZrppyKxokhpDdHDTyvJXne08k5MnZsygNODrBmG9Kljz06V/
-         do77+cAhK8bKykuH7YUFM2uPvmbMUHgl3RDk5vvEtzOUPLrXVvtYe43ep8pCa0UujORx
-         pYO6Yk4W0VZVDrbk8xt3QXMo6CEl5TbpEwTHoPpvOZ78PuBkPmBFAW/arOwSNQrE1xNu
-         raAXOSf3YoyzLvVzEils21BpMcyaMO67oSB+hNMQN1YTGeYI3maB8Z/jyx4YtTQLA0eb
-         wbJdQ1AjhT4F5MGUndIMxvIt7w6ZACmW7Z7qzBoErksYPr8k4T1BxOCm/OOoUz7YpNc2
-         4Lyg==
-X-Gm-Message-State: ACgBeo3jTYwDNLfzBl+hBwIpR4jKABOCXGQIdKkxR7t7vnlYp1fKqwRM
-        QZgqDTZjT0VFXpS8exAgrs8=
-X-Google-Smtp-Source: AA6agR64j1huylvw0Y1mqBNgafi4nxg6R9Vq19nYKoI4ywCsIOrdnjlJxQpjBCzqlb3H+tfPUYSxPg==
-X-Received: by 2002:a17:90a:de8a:b0:1f4:f1ef:816d with SMTP id n10-20020a17090ade8a00b001f4f1ef816dmr1399941pjv.104.1660099313565;
-        Tue, 09 Aug 2022 19:41:53 -0700 (PDT)
-Received: from macbook-pro-3.dhcp.thefacebook.com ([2620:10d:c090:400::5:3fd1])
-        by smtp.gmail.com with ESMTPSA id b3-20020a62a103000000b0052e6854e665sm596286pff.109.2022.08.09.19.41.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Aug 2022 19:41:52 -0700 (PDT)
-Date:   Tue, 9 Aug 2022 19:41:48 -0700
-From:   Alexei Starovoitov <alexei.starovoitov@gmail.com>
-To:     Roberto Sassu <roberto.sassu@huawei.com>
-Cc:     ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org,
-        martin.lau@linux.dev, song@kernel.org, yhs@fb.com,
-        john.fastabend@gmail.com, kpsingh@kernel.org, sdf@google.com,
-        haoluo@google.com, jolsa@kernel.org, corbet@lwn.net,
-        dhowells@redhat.com, jarkko@kernel.org, rostedt@goodmis.org,
-        mingo@redhat.com, paul@paul-moore.com, jmorris@namei.org,
-        serge@hallyn.com, shuah@kernel.org, bpf@vger.kernel.org,
-        linux-doc@vger.kernel.org, keyrings@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v9 07/10] bpf: Add bpf_verify_pkcs7_signature() kfunc
-Message-ID: <20220810024148.e73df6dyurwt5d4u@macbook-pro-3.dhcp.thefacebook.com>
-References: <20220809134603.1769279-1-roberto.sassu@huawei.com>
- <20220809134603.1769279-8-roberto.sassu@huawei.com>
+        with ESMTP id S230062AbiHJDGS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Aug 2022 23:06:18 -0400
+Received: from out2.migadu.com (out2.migadu.com [IPv6:2001:41d0:2:aacc::])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0BF844B4BA;
+        Tue,  9 Aug 2022 20:06:14 -0700 (PDT)
+Content-Type: text/plain;
+        charset=us-ascii
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+        t=1660100772;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=poXfwcF0BrvCKSPuMgzRYQ+R/ggHdZys0JOO62ypZUE=;
+        b=HAEhHMGt0RlVh9X1rxBMt6JNhwraY3Pmfc0x5nYCXBN5m53DsvmL2AuYr1PnzVHE6ZKv88
+        Nhg0YVQm3ne/8Nvgr445z5Of+EyzzhwXVGoaG+35w9LnCaSmdHRhWb1FC5kol4+CsA7qi8
+        EslGoVQzrApl/VIbg+pAdft59oeVqpE=
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220809134603.1769279-8-roberto.sassu@huawei.com>
+Subject: Re: [PATCH v1 1/2] Enable balloon drivers to report inflated memory
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From:   Muchun Song <muchun.song@linux.dev>
+In-Reply-To: <20220809094933.2203087-1-alexander.atanasov@virtuozzo.com>
+Date:   Wed, 10 Aug 2022 11:05:40 +0800
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Andrew Morton <akpm@linux-foundation.org>, kernel@openvz.org,
+        David Hildenbrand <david@redhat.com>,
+        Wei Liu <wei.liu@kernel.org>, Nadav Amit <namit@vmware.com>,
+        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <5EFFFB23-9F73-4F07-B6FF-3BD05976D427@linux.dev>
+References: <7bfac48d-2e50-641b-6523-662ea4df0240@virtuozzo.com>
+ <20220809094933.2203087-1-alexander.atanasov@virtuozzo.com>
+To:     Alexander Atanasov <alexander.atanasov@virtuozzo.com>
+X-Migadu-Flow: FLOW_OUT
+X-Migadu-Auth-User: linux.dev
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Aug 09, 2022 at 03:46:00PM +0200, Roberto Sassu wrote:
-> Add the bpf_verify_pkcs7_signature() kfunc, to give eBPF security modules
-> the ability to check the validity of a signature against supplied data, by
-> using user-provided or system-provided keys as trust anchor.
-> 
-> The new kfunc makes it possible to enforce mandatory policies, as eBPF
-> programs might be allowed to make security decisions only based on data
-> sources the system administrator approves.
-> 
-> The caller should provide the data to be verified and the signature as eBPF
-> dynamic pointers (to minimize the number of parameters) and a bpf_key
-> structure containing a reference to the keyring with keys trusted for
-> signature verification, obtained from bpf_lookup_user_key() or
-> bpf_lookup_system_key().
-> 
-> For bpf_key structures obtained from the former lookup function,
-> bpf_verify_pkcs7_signature() completes the permission check deferred by
-> that function by calling key_validate(). key_task_permission() is already
-> called by the PKCS#7 code.
-> 
-> Signed-off-by: Roberto Sassu <roberto.sassu@huawei.com>
-> ---
->  kernel/trace/bpf_trace.c | 56 ++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 56 insertions(+)
-> 
-> diff --git a/kernel/trace/bpf_trace.c b/kernel/trace/bpf_trace.c
-> index 33ca4cfe6e26..79ba8c96735a 100644
-> --- a/kernel/trace/bpf_trace.c
-> +++ b/kernel/trace/bpf_trace.c
-> @@ -21,6 +21,7 @@
->  #include <linux/bsearch.h>
->  #include <linux/sort.h>
->  #include <linux/key.h>
-> +#include <linux/verification.h>
->  
->  #include <net/bpf_sk_storage.h>
->  
-> @@ -1290,6 +1291,47 @@ noinline __weak void bpf_key_put(struct bpf_key *bkey)
->  	kfree(bkey);
->  }
->  
-> +#ifdef CONFIG_SYSTEM_DATA_VERIFICATION
-> +/**
-> + * bpf_verify_pkcs7_signature - verify a PKCS#7 signature
-> + * @data_ptr: data to verify
-> + * @sig_ptr: signature of the data
-> + * @trusted_keyring: keyring with keys trusted for signature verification
-> + *
-> + * Verify the PKCS#7 signature *sig_ptr* against the supplied *data_ptr*
-> + * with keys in a keyring referenced by *trusted_keyring*.
-> + *
-> + * Return: 0 on success, a negative value on error.
-> + */
-> +noinline __weak int bpf_verify_pkcs7_signature(struct bpf_dynptr_kern *data_ptr,
-> +					       struct bpf_dynptr_kern *sig_ptr,
-> +					       struct bpf_key *trusted_keyring)
-> +{
-> +	int ret;
-> +
-> +	if (trusted_keyring->valid_ptr) {
-> +		/*
-> +		 * Do the permission check deferred in bpf_lookup_user_key().
-> +		 *
-> +		 * A call to key_task_permission() here would be redundant, as
-> +		 * it is already done by keyring_search() called by
-> +		 * find_asymmetric_key().
-> +		 */
-> +		ret = key_validate(trusted_keyring->key);
-> +		if (ret < 0)
-> +			return ret;
-> +	}
-> +
-> +	return verify_pkcs7_signature(data_ptr->data,
-> +				      bpf_dynptr_get_size(data_ptr),
-> +				      sig_ptr->data,
-> +				      bpf_dynptr_get_size(sig_ptr),
-> +				      trusted_keyring->key,
-> +				      VERIFYING_UNSPECIFIED_SIGNATURE, NULL,
-> +				      NULL);
-> +}
-> +#endif /* CONFIG_SYSTEM_DATA_VERIFICATION */
-> +
->  __diag_pop();
->  
->  BTF_SET8_START(key_kfunc_set)
-> @@ -1303,11 +1345,25 @@ static const struct btf_kfunc_id_set bpf_key_kfunc_set = {
->  	.owner = THIS_MODULE,
->  	.set = &key_kfunc_set,
->  };
-> +
-> +#ifdef CONFIG_SYSTEM_DATA_VERIFICATION
-> +BTF_SET8_START(verify_sig_kfunc_set)
-> +BTF_ID_FLAGS(func, bpf_verify_pkcs7_signature, KF_SLEEPABLE)
-> +BTF_SET8_END(verify_sig_kfunc_set)
-> +
-> +static const struct btf_kfunc_id_set bpf_verify_sig_kfunc_set = {
-> +	.owner = THIS_MODULE,
-> +	.set = &verify_sig_kfunc_set,
-> +};
-> +#endif /* CONFIG_SYSTEM_DATA_VERIFICATION */
->  #endif /* CONFIG_KEYS */
->  
->  const struct btf_kfunc_id_set *kfunc_sets[] = {
->  #ifdef CONFIG_KEYS
->  	&bpf_key_kfunc_set,
-> +#ifdef CONFIG_SYSTEM_DATA_VERIFICATION
-> +	&bpf_verify_sig_kfunc_set,
-> +#endif /* CONFIG_SYSTEM_DATA_VERIFICATION */
->  #endif /* CONFIG_KEYS */
->  };
 
-Why different sets?
-The loop over the set from the previous patch can be removed if it's just one set.
-Each kfunc can be ifdef-ed independently.
+
+> On Aug 9, 2022, at 17:49, Alexander Atanasov =
+<alexander.atanasov@virtuozzo.com> wrote:
+>=20
+> Display reported in /proc/meminfo as:
+
+Hi,
+
+I am not sure if this is a right place (meminfo) to put this statistic =
+in since
+it is the accounting from a specific driver. IIUC, this driver is only =
+installed
+in a VM, then this accounting will always be zero if this driver is not =
+installed.
+Is this possible to put it in a driver-specific sysfs file (maybe it is =
+better)?
+Just some thoughts from me.
+
+Muchun,
+Thanks.
+
+>=20
+> Inflated(total) or Inflated(free)
+>=20
+> depending on the driver.
+>=20
+> Drivers use the sign bit to indicate where they do account
+> the inflated memory.
+>=20
+> Amount of inflated memory can be used by:
+> - as a hint for the oom a killer
+> - user space software that monitors memory pressure
+>=20
+> Cc: David Hildenbrand <david@redhat.com>
+> Cc: Wei Liu <wei.liu@kernel.org>
+> Cc: Nadav Amit <namit@vmware.com>
+>=20
+> Signed-off-by: Alexander Atanasov <alexander.atanasov@virtuozzo.com>
+> ---
+> Documentation/filesystems/proc.rst |  5 +++++
+> fs/proc/meminfo.c                  | 11 +++++++++++
+> include/linux/mm.h                 |  4 ++++
+> mm/page_alloc.c                    |  4 ++++
+> 4 files changed, 24 insertions(+)
+>=20
+> diff --git a/Documentation/filesystems/proc.rst =
+b/Documentation/filesystems/proc.rst
+> index 1bc91fb8c321..064b5b3d5bd8 100644
+> --- a/Documentation/filesystems/proc.rst
+> +++ b/Documentation/filesystems/proc.rst
+> @@ -986,6 +986,7 @@ Example output. You may not have all of these =
+fields.
+>     VmallocUsed:       40444 kB
+>     VmallocChunk:          0 kB
+>     Percpu:            29312 kB
+> +    Inflated(total):  2097152 kB
+>     HardwareCorrupted:     0 kB
+>     AnonHugePages:   4149248 kB
+>     ShmemHugePages:        0 kB
+> @@ -1133,6 +1134,10 @@ VmallocChunk
+> Percpu
+>               Memory allocated to the percpu allocator used to back =
+percpu
+>               allocations. This stat excludes the cost of metadata.
+> +Inflated(total) or Inflated(free)
+> +               Amount of memory that is inflated by the balloon =
+driver.
+> +               Due to differences among balloon drivers inflated =
+memory
+> +               is either subtracted from TotalRam or from MemFree.
+> HardwareCorrupted
+>               The amount of RAM/memory in KB, the kernel identifies as
+>               corrupted.
+> diff --git a/fs/proc/meminfo.c b/fs/proc/meminfo.c
+> index 6e89f0e2fd20..ebbe52ccbb93 100644
+> --- a/fs/proc/meminfo.c
+> +++ b/fs/proc/meminfo.c
+> @@ -38,6 +38,9 @@ static int meminfo_proc_show(struct seq_file *m, =
+void *v)
+> 	unsigned long pages[NR_LRU_LISTS];
+> 	unsigned long sreclaimable, sunreclaim;
+> 	int lru;
+> +#ifdef CONFIG_MEMORY_BALLOON
+> +	long inflated_kb;
+> +#endif
+>=20
+> 	si_meminfo(&i);
+> 	si_swapinfo(&i);
+> @@ -153,6 +156,14 @@ static int meminfo_proc_show(struct seq_file *m, =
+void *v)
+> 		    global_zone_page_state(NR_FREE_CMA_PAGES));
+> #endif
+>=20
+> +#ifdef CONFIG_MEMORY_BALLOON
+> +	inflated_kb =3D atomic_long_read(&mem_balloon_inflated_kb);
+> +	if (inflated_kb >=3D 0)
+> +		seq_printf(m,  "Inflated(total): %8ld kB\n", =
+inflated_kb);
+> +	else
+> +		seq_printf(m,  "Inflated(free): %8ld kB\n", =
+-inflated_kb);
+> +#endif
+> +
+> 	hugetlb_report_meminfo(m);
+>=20
+> 	arch_report_meminfo(m);
+> diff --git a/include/linux/mm.h b/include/linux/mm.h
+> index 7898e29bcfb5..b190811dc16e 100644
+> --- a/include/linux/mm.h
+> +++ b/include/linux/mm.h
+> @@ -2582,6 +2582,10 @@ extern int watermark_boost_factor;
+> extern int watermark_scale_factor;
+> extern bool arch_has_descending_max_zone_pfns(void);
+>=20
+> +#ifdef CONFIG_MEMORY_BALLOON
+> +extern atomic_long_t mem_balloon_inflated_kb;
+> +#endif
+> +
+> /* nommu.c */
+> extern atomic_long_t mmap_pages_allocated;
+> extern int nommu_shrink_inode_mappings(struct inode *, size_t, =
+size_t);
+> diff --git a/mm/page_alloc.c b/mm/page_alloc.c
+> index b0bcab50f0a3..12359179a3a2 100644
+> --- a/mm/page_alloc.c
+> +++ b/mm/page_alloc.c
+> @@ -194,6 +194,10 @@ EXPORT_SYMBOL(init_on_alloc);
+> DEFINE_STATIC_KEY_MAYBE(CONFIG_INIT_ON_FREE_DEFAULT_ON, init_on_free);
+> EXPORT_SYMBOL(init_on_free);
+>=20
+> +#ifdef CONFIG_MEMORY_BALLOON
+> +atomic_long_t mem_balloon_inflated_kb =3D ATOMIC_LONG_INIT(0);
+> +#endif
+> +
+> static bool _init_on_alloc_enabled_early __read_mostly
+> 				=3D =
+IS_ENABLED(CONFIG_INIT_ON_ALLOC_DEFAULT_ON);
+> static int __init early_init_on_alloc(char *buf)
+> --=20
+> 2.31.1
+>=20
+>=20
+
