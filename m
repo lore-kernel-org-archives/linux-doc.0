@@ -2,92 +2,132 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 936FBC00140
-	for <linux-doc@archiver.kernel.org>; Wed, 10 Aug 2022 17:27:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E66C0C00140
+	for <linux-doc@archiver.kernel.org>; Wed, 10 Aug 2022 17:58:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233394AbiHJR1R (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 10 Aug 2022 13:27:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34170 "EHLO
+        id S232823AbiHJR6P (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 10 Aug 2022 13:58:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37906 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232538AbiHJR1Q (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 Aug 2022 13:27:16 -0400
-Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 140EE7B1F6;
-        Wed, 10 Aug 2022 10:27:14 -0700 (PDT)
-Received: by mail-pl1-x635.google.com with SMTP id x10so14838237plb.3;
-        Wed, 10 Aug 2022 10:27:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc;
-        bh=lPqOojcmdOAU79rFEpjfZKvBUO43nFGE73fllT7UubM=;
-        b=eyIMIlC3NT7t/M/JASfHlCFAM/ZU0pftD5lYftV9y52nfgtwB67ojBpqf2XsOJyPSE
-         myoOkkToXgt6K3WrTFoFZsHIpdtUfS60IWEMULjtaEAE+TjV+RuhH4obNjaaAnckuTC6
-         BA8od9MxEGi7eaZv3+xOdXOZnJG8xOpM61nKy+o20Apn56jqN9sCRN20JqYq4Pv+iw65
-         HK2ViXVajAEPsYsQna5Rtt5YlPAEu3ZDWGIAtarHArRoEI4B1VFOHV8Y8a57Fcozd92H
-         RiqaFV32hD0ryvy5JOdno8MAxtJFWUmXq0AKTETBfUdepAD+T8BmAmE4OsqE3afLYwij
-         OsGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc;
-        bh=lPqOojcmdOAU79rFEpjfZKvBUO43nFGE73fllT7UubM=;
-        b=pgvjHmGHgZhMPDKtnFCauGtCbSe+qrfsJjhO6+V2kL6tdrr7/5O8dGHzRBJVpvItV+
-         KNB0pwOqDz61qtD4G0xA6op5ItDeTBHFwP8l3yMiJ7ulGEv+ip5ZgrZO0al0JmdNGF4L
-         13ReKXjG7SYBllQgLbQXUr59LhuKrj+YSC6IqwiwUiZYjBpE2xzdcJ5UrvO57yVqLIex
-         Q94CdudkDWvjSFff5ZcKyC461glMWq6vt5zN7T5Y4uVrC1ESVRQplgXPRAkKNDgDPBH+
-         5cjffiCyXJIoYbnbNNQklstxvSpaf6onr65CANohzN+q8AcFKgMA0IMdEuJvZo0dF/yY
-         FyyQ==
-X-Gm-Message-State: ACgBeo1KAJKvQ1aK1Z8YkBd2jVBRQE8fwTnO8bJSgdc81wnjTbCwT6vp
-        RD4A9ji+TTu3Bxvr/fncCHs=
-X-Google-Smtp-Source: AA6agR6HimZCFCXcilZTgRuOlMb+mEEd0Usepl+nOvNphpTCT8ioe8FrPaDEA5NtEG5DEwW+MzXylg==
-X-Received: by 2002:a17:903:230e:b0:16f:784:ea3f with SMTP id d14-20020a170903230e00b0016f0784ea3fmr28892311plh.160.1660152434248;
-        Wed, 10 Aug 2022 10:27:14 -0700 (PDT)
-Received: from localhost ([2620:10d:c090:400::5:237b])
-        by smtp.gmail.com with ESMTPSA id v12-20020a17090a458c00b001f5513f6fb9sm1961423pjg.14.2022.08.10.10.27.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Aug 2022 10:27:13 -0700 (PDT)
-Sender: Tejun Heo <htejun@gmail.com>
-Date:   Wed, 10 Aug 2022 07:27:12 -1000
-From:   Tejun Heo <tj@kernel.org>
-To:     Johannes Weiner <hannes@cmpxchg.org>
-Cc:     Chengming Zhou <zhouchengming@bytedance.com>, corbet@lwn.net,
-        surenb@google.com, mingo@redhat.com, peterz@infradead.org,
-        vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
-        rostedt@goodmis.org, bsegall@google.com, cgroups@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        songmuchun@bytedance.com
-Subject: Re: [PATCH v2 09/10] sched/psi: per-cgroup PSI stats
- disable/re-enable interface
-Message-ID: <YvPqcJh5Ffv4Yga9@slm.duckdns.org>
-References: <20220808110341.15799-1-zhouchengming@bytedance.com>
- <20220808110341.15799-10-zhouchengming@bytedance.com>
- <YvKd6dezPM6UxfD/@slm.duckdns.org>
- <fcd0bd39-3049-a279-23e6-a6c02b4680a7@bytedance.com>
- <b89155d3-9315-fefc-408b-4cf538360a1c@bytedance.com>
- <YvPN07UlaPFAdlet@cmpxchg.org>
+        with ESMTP id S232178AbiHJR6O (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 Aug 2022 13:58:14 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8FF53642C5;
+        Wed, 10 Aug 2022 10:58:13 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 2908461359;
+        Wed, 10 Aug 2022 17:58:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8542C433D7;
+        Wed, 10 Aug 2022 17:58:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1660154292;
+        bh=xrnvXvsN6JJpjJ1ongLGsCqRkrCfXBIT3fG/GR+LTMY=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=MW3OBIG1ULi6loJyXfTVjtOf14dvFe0Os/NqOGogPM6bg/YKmAxvhwSv0o0Ur/Ivh
+         e0L072ACVBaGE9lfTS/UoVC5xGFMfQdZDkb6+RFpzDnJOdG/IbMMUbj6XZE5CD5b+7
+         pE6qYNrEAgzYPMfCibQcgTPo2wkNhHIaI/uPTJgiqN9wgp0XjmKStuZ3P6ixNBqPe9
+         bpAtyPxCIKAF8V3kZqjLfpompiLeBtMb7RGH+w68t6hvMyd1+/YD+kEW4TL3UQVtVx
+         nF3lMSxyOLibViUEFOn4m/kzuIi3Obk+0W8UEnls0wgrwxYfrFSOm9IjxqP1fiBHk0
+         IBRYSdCwj+RCA==
+Date:   Wed, 10 Aug 2022 10:58:11 -0700
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     Edward Cree <ecree.xilinx@gmail.com>
+Cc:     ecree@xilinx.com, netdev@vger.kernel.org, davem@davemloft.net,
+        pabeni@redhat.com, edumazet@google.com, corbet@lwn.net,
+        linux-doc@vger.kernel.org, linux-net-drivers@amd.com,
+        Jacob Keller <jacob.e.keller@intel.com>,
+        Jesse Brandeburg <jesse.brandeburg@intel.com>,
+        Michael Chan <michael.chan@broadcom.com>,
+        Andy Gospodarek <andy@greyhouse.net>,
+        Saeed Mahameed <saeed@kernel.org>,
+        Jiri Pirko <jiri@resnulli.us>,
+        Shannon Nelson <snelson@pensando.io>,
+        Simon Horman <simon.horman@corigine.com>,
+        Alexander Duyck <alexander.duyck@gmail.com>
+Subject: Re: [RFC PATCH net-next] docs: net: add an explanation of VF (and
+ other) Representors
+Message-ID: <20220810105811.6423f188@kernel.org>
+In-Reply-To: <572c50b0-2f10-50d5-76fc-dfa409350dbe@gmail.com>
+References: <20220805165850.50160-1-ecree@xilinx.com>
+        <20220805184359.5c55ca0d@kernel.org>
+        <71af8654-ca69-c492-7e12-ed7ff455a2f1@gmail.com>
+        <20220808204135.040a4516@kernel.org>
+        <572c50b0-2f10-50d5-76fc-dfa409350dbe@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YvPN07UlaPFAdlet@cmpxchg.org>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello,
-
-On Wed, Aug 10, 2022 at 11:25:07AM -0400, Johannes Weiner wrote:
-> How about just cgroup.pressure? Too ambiguous?
+On Wed, 10 Aug 2022 17:02:33 +0100 Edward Cree wrote:
+> On 09/08/2022 04:41, Jakub Kicinski wrote:
+> >> Maybe a bad word choice.  I'm referring to whichever PF (which likely
+> >>  also has an ordinary netdevice) has administrative rights over the NIC /
+> >>  internal switch at a firmware level.  Other names I've seen tossed
+> >>  around include "primary PF", "admin PF".  
+> > 
+> > I believe someone (mellanox?) used the term eswitch manager.
+> > I'd use "host PF", somehow that makes most sense to me.  
 > 
-> cgroup.pressure.enable sounds good to me too. Or, because it's
-> default-enabled and that likely won't change, cgroup.pressure.disable.
+> Not sure about that, I've seen "host" used as antonym of "SoC", so
+>  if the device is configured with the SoC as the admin this could
+>  confuse people.
 
-.disable sounds more logical but I like .enable better for some reason. As
-for just cgroup.pressure, yeah, maybe? The conundrum is that the prettiness
-order is the exact reverse of the logical order. So, I'm okay with any of
-the three.
+In the literal definition of the word "host" it is the entity which
+"owns the place".
 
-Thanks.
+> I think whatever term we settle on, this document might need to
+>  have a 'Definitions' section to make it clear :S
 
--- 
-tejun
+Ack, to perhaps clarify my concern further, I've seen the term
+"management PF" refer to a PF which is not a netdev PF, it only
+performs management functions. Which I don't believe is what we
+are describing here. So a perfect term would describe the privilege
+not the function (as the primary function of such PF should still
+networking).
+
+> >> Yes, that's where I got this terminology from.
+> >> "the" PCIe controller here is the one on which the mgmt PF lives.  For
+> >>  instance you might have a NIC where you run OVS on a SoC inside the
+> >>  chip, that has its own PCIe controller including a PF it uses to drive
+> >>  the hardware v-switch (so it can offload OVS rules), in addition to
+> >>  the PCIe controller that exposes PFs & VFs to the host you plug it
+> >>  into through the physical PCIe socket / edge connector.
+> >> In that case this bullet would refer to any additional PFs the SoC has
+> >>  besides the management one...  
+> > 
+> > IMO the model where there's a overall controller for the entire device
+> > is also a mellanox limitation, due to lack of support for nested
+> > switches  
+> Instead of "the PCIe controller" I should probably say "the local PCIe
+>  controller", since that's the wording the devlink-port doc uses.
+
+SG!
+
+> > "TX queue attached to" made me think of a netdev Tx queue with a qdisc
+> > rather than just a HW queue. No better ideas tho.  
+> 
+> Would adding the word "hardware" before "TX queue" help?  Have to
+>  admit the netdev-queue interpretation hadn't occurred to me.
+
+It would!
+
+> >> (And it looks like the core uses `c<N>` for my `if<N>` that you were
+> >>  so horrified by.  Devlink-port documentation doesn't make it super
+> >>  clear whether controller 0 is "the controller that's in charge" or
+> >>  "the controller from which we're viewing things", though I think in
+> >>  practice it comes to the same thing.)  
+> > 
+> > I think we had a bit. Perhaps @external? The controller which doesn't
+> > have @external == true should be the local one IIRC. And by extension
+> > presumably in charge.  
+> 
+> Yes, and that should work fine per se.  It's just not reflected in the
+>  phys_port_name string in any way, so legacy userland that relies on
+>  that won't have that piece of info (but it never did) and probably
+>  assumes that c0 is local.
+
+Ack, we could check the archive but I think that's indeed the case.
