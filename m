@@ -2,191 +2,90 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 39B3AC25B06
-	for <linux-doc@archiver.kernel.org>; Wed, 10 Aug 2022 09:30:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 20CB9C00140
+	for <linux-doc@archiver.kernel.org>; Wed, 10 Aug 2022 09:40:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232097AbiHJJae (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 10 Aug 2022 05:30:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56648 "EHLO
+        id S231228AbiHJJki (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 10 Aug 2022 05:40:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40678 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232099AbiHJJab (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 Aug 2022 05:30:31 -0400
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3FBD1260A;
-        Wed, 10 Aug 2022 02:30:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1660123830; x=1691659830;
-  h=date:from:to:cc:subject:message-id:reply-to:references:
-   mime-version:in-reply-to;
-  bh=zHygXbTWCyPOJ+4aJpksT5a9YTzKkpyV1mfD/3Fs2Cg=;
-  b=JpAhHRjiVNQiy83F70gwisr6MF3gEDtSJy+qDfOk2lHMyEsCRxI/aosk
-   lYaVYequjkGeOsXkEQXgB8ebcVeovnXl0uXqPLEioH9NesaT+4VFQIOV0
-   blTcyJKDJTneMm5mouhbl4ME+zMoRU5D1I7YxHfZPoL09mVr5NdiTeDCK
-   l3fLPrLCTv71x8qb+f+GWjxZrCe4s+1tRJwxRlVgAy+PEEDzXYiLl7kLb
-   HHcaY+4oeZ1VvpPeEyFviJfs9HS4qfPbeuWYMGo6MM4kgM3CRjM8qeD1M
-   BfysjD5+GcBKVJdH9TyFPgqNe/gvQOv57xn43ITFbRk61T3y8+skcytIK
-   Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10434"; a="316987586"
-X-IronPort-AV: E=Sophos;i="5.93,227,1654585200"; 
-   d="scan'208";a="316987586"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Aug 2022 02:30:29 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,227,1654585200"; 
-   d="scan'208";a="664821304"
-Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
-  by fmsmga008.fm.intel.com with ESMTP; 10 Aug 2022 02:30:18 -0700
-Date:   Wed, 10 Aug 2022 17:25:32 +0800
-From:   Chao Peng <chao.p.peng@linux.intel.com>
-To:     David Hildenbrand <david@redhat.com>
-Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
-        qemu-devel@nongnu.org, linux-kselftest@vger.kernel.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <seanjc@google.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, aarcange@redhat.com, ddutile@redhat.com,
-        dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        Muchun Song <songmuchun@bytedance.com>
-Subject: Re: [PATCH v7 04/14] mm/shmem: Support memfile_notifier
-Message-ID: <20220810092532.GD862421@chaop.bj.intel.com>
-Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
-References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
- <20220706082016.2603916-5-chao.p.peng@linux.intel.com>
- <a34d88b9-a4b9-cb9e-91d9-c5a89449fcd5@redhat.com>
+        with ESMTP id S232182AbiHJJkg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 Aug 2022 05:40:36 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45ADBB3F
+        for <linux-doc@vger.kernel.org>; Wed, 10 Aug 2022 02:40:28 -0700 (PDT)
+Received: from localhost.localdomain (unknown [213.194.152.135])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: rcn)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id DDBAC6601BAA;
+        Wed, 10 Aug 2022 10:40:26 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1660124427;
+        bh=YZX+kiIG4cpbYyR+Bn8w24YD+SYOlAt7Tw6up4li+iw=;
+        h=From:To:Cc:Subject:Date:From;
+        b=gHLcINrw7JjoyZee1siZFL6E1O6XKFzOIv/AP6JtubcafdMt9Kox07B7qQs+gvYMl
+         LlV1F1OWuAEIlEtZ6C+Z5Xaa+kpc4RMCmMpw6YkmslquRyKom66x3tc04yAKVMzmw9
+         t1J/F57a0Pef7uJv97PtsJgaqxYd/ViOPm4Sn53egxvUGt/zp2MryI5op23eCBi+Bw
+         8s8iiMhI6KYRlzmwMDYo8MmxqrSTQULznIZ+KSJdotEMp9jg3WhHomWCDNlk1MPY+V
+         FSL8JN5fx/e6lvWMOfOiQSdwPGMeSvMzQM+S/LjNwzVFuzxd/vg83eXrGi0uzvA0Ru
+         QJGPPKsN5TAUg==
+From:   =?UTF-8?q?Ricardo=20Ca=C3=B1uelo?= <ricardo.canuelo@collabora.com>
+To:     linux-doc@vger.kernel.org
+Cc:     virtualization@lists.linux-foundation.org, mst@redhat.com,
+        jasowang@redhat.com, kernel@collabora.com, cohuck@redhat.com,
+        bagasdotme@gmail.com
+Subject: [PATCH v4 0/2] docs: driver-api: virtio: virtio on Linux
+Date:   Wed, 10 Aug 2022 11:40:02 +0200
+Message-Id: <20220810094004.1250-1-ricardo.canuelo@collabora.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a34d88b9-a4b9-cb9e-91d9-c5a89449fcd5@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Aug 05, 2022 at 03:26:02PM +0200, David Hildenbrand wrote:
-> On 06.07.22 10:20, Chao Peng wrote:
-> > From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
-> > 
-> > Implement shmem as a memfile_notifier backing store. Essentially it
-> > interacts with the memfile_notifier feature flags for userspace
-> > access/page migration/page reclaiming and implements the necessary
-> > memfile_backing_store callbacks.
-> > 
-> > Signed-off-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
-> > Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
-> > ---
-> 
-> [...]
-> 
-> > +#ifdef CONFIG_MEMFILE_NOTIFIER
-> > +static struct memfile_node *shmem_lookup_memfile_node(struct file *file)
-> > +{
-> > +	struct inode *inode = file_inode(file);
-> > +
-> > +	if (!shmem_mapping(inode->i_mapping))
-> > +		return NULL;
-> > +
-> > +	return  &SHMEM_I(inode)->memfile_node;
-> > +}
-> > +
-> > +
-> > +static int shmem_get_pfn(struct file *file, pgoff_t offset, pfn_t *pfn,
-> > +			 int *order)
-> > +{
-> > +	struct page *page;
-> > +	int ret;
-> > +
-> > +	ret = shmem_getpage(file_inode(file), offset, &page, SGP_WRITE);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	unlock_page(page);
-> > +	*pfn = page_to_pfn_t(page);
-> > +	*order = thp_order(compound_head(page));
-> > +	return 0;
-> > +}
-> > +
-> > +static void shmem_put_pfn(pfn_t pfn)
-> > +{
-> > +	struct page *page = pfn_t_to_page(pfn);
-> > +
-> > +	if (!page)
-> > +		return;
-> > +
-> > +	put_page(page);
-> 
-> 
-> Why do we export shmem_get_pfn/shmem_put_pfn and not simply
-> 
-> get_folio()
-> 
-> and let the caller deal with putting the folio? What's the reason to
-> 
-> a) Operate on PFNs and not folios
-> b) Have these get/put semantics?
+Basic documentation about virtio in the kernel and a small tutorial for
+virtio drivers.
 
-We have a design assumption that somedays this can even support non-page
-based backing stores. There are some discussions:
-  https://lkml.org/lkml/2022/3/28/1440
-I should add document for this two callbacks.
+Tested on linux-next (next-20220802)
 
-> 
-> > +}
-> > +
-> > +static struct memfile_backing_store shmem_backing_store = {
-> > +	.lookup_memfile_node = shmem_lookup_memfile_node,
-> > +	.get_pfn = shmem_get_pfn,
-> > +	.put_pfn = shmem_put_pfn,
-> > +};
-> > +#endif /* CONFIG_MEMFILE_NOTIFIER */
-> > +
-> >  void __init shmem_init(void)
-> >  {
-> >  	int error;
-> > @@ -3956,6 +4059,10 @@ void __init shmem_init(void)
-> >  	else
-> >  		shmem_huge = SHMEM_HUGE_NEVER; /* just in case it was patched */
-> >  #endif
-> > +
-> > +#ifdef CONFIG_MEMFILE_NOTIFIER
-> > +	memfile_register_backing_store(&shmem_backing_store);
-> 
-> Can we instead prove a dummy function that does nothing without
-> CONFIG_MEMFILE_NOTIFIER?
+Changes in v4:
+  - reword the intro paragraphs
+  - grammar fixes
 
-Sounds good.
+Changes in v3:
+  - fix commit message in patch 1
+  - minor additional fixes to virtio kerneldocs
+  - use proper Sphinx markup for links to references
 
-Chao
-> 
-> > +#endif
-> >  	return;
-> >  
-> >  out1:
-> 
-> 
-> -- 
-> Thanks,
-> 
-> David / dhildenb
-> 
+Changes in v2:
+  - virtio spec links updated to v1.2
+  - simplify virtio.rst and remove most low level parts that are
+    already covered by the spec
+  - split the kerneldocs fixes to a separate patch
+  - remove :c:func: rst formatting
+
+Ricardo Cañuelo (2):
+  virtio: kerneldocs fixes and enhancements
+  docs: driver-api: virtio: virtio on Linux
+
+ Documentation/driver-api/index.rst            |   1 +
+ Documentation/driver-api/virtio/index.rst     |  11 ++
+ Documentation/driver-api/virtio/virtio.rst    | 144 ++++++++++++++
+ .../virtio/writing_virtio_drivers.rst         | 186 ++++++++++++++++++
+ MAINTAINERS                                   |   1 +
+ drivers/virtio/virtio_ring.c                  |   8 +
+ include/linux/virtio.h                        |   6 +-
+ include/linux/virtio_config.h                 |   6 +-
+ include/uapi/linux/virtio_ring.h              |  16 +-
+ 9 files changed, 368 insertions(+), 11 deletions(-)
+ create mode 100644 Documentation/driver-api/virtio/index.rst
+ create mode 100644 Documentation/driver-api/virtio/virtio.rst
+ create mode 100644 Documentation/driver-api/virtio/writing_virtio_drivers.rst
+
+-- 
+2.25.1
+
