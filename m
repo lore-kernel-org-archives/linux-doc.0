@@ -2,127 +2,111 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7EBEFC25B07
-	for <linux-doc@archiver.kernel.org>; Wed, 10 Aug 2022 06:05:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 060B2C00140
+	for <linux-doc@archiver.kernel.org>; Wed, 10 Aug 2022 06:30:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231134AbiHJGFX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 10 Aug 2022 02:05:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38374 "EHLO
+        id S230183AbiHJGaC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 10 Aug 2022 02:30:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33730 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231197AbiHJGFT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 Aug 2022 02:05:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id F34D621251
-        for <linux-doc@vger.kernel.org>; Tue,  9 Aug 2022 23:05:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1660111517;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=sBlUQH9ZYI87QjLCL8xa8WoZuHTUiJ4rE7hGqowqg5w=;
-        b=JFt5yGjCjReLu2WbPSarLgcUcw/Hf+AKe7EKg7E5d2qHAVolYkkj2qQft8jUfLj8ghQlOb
-        AdcD78bz6YcX8pjO282e33xTRm9euYbhACb2/gJpvaGS8PHkFSeLp1jro9e3MyhWXbeRLS
-        KkozRAGZWzyYhlGkMJ0kTyUlTgYdGmU=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-600-06xJyrRiNbasfk_UdASCHA-1; Wed, 10 Aug 2022 02:05:15 -0400
-X-MC-Unique: 06xJyrRiNbasfk_UdASCHA-1
-Received: by mail-ed1-f71.google.com with SMTP id v19-20020a056402349300b0043d42b7ddefso8523050edc.13
-        for <linux-doc@vger.kernel.org>; Tue, 09 Aug 2022 23:05:15 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
-        bh=sBlUQH9ZYI87QjLCL8xa8WoZuHTUiJ4rE7hGqowqg5w=;
-        b=IBLw4AtWGLyfhPPyyc97qdks7QYelNerQS5a8E1TiXdroTnGhhrGOl5z9JSh490V0A
-         XPaerlPy6bUglYz9eLiu1cNKrGAHYCmzB1vZ9FO555FElj17mOpUzMAlTNwREOcBd105
-         StTNgwohCEjuhsq3FeXLx+//Bb42bUXDrKskRC5uO1/wyvDuZaDUWgR4qkUV4sQ8XE3p
-         ScHigXsrrDYOi6+0Jpqo7hB++uppUCrSyTGnPW0uwchk/Q5zzly8L6GqRv6e8ek/24/J
-         YE3SKmwDrkAjUuvJwyj6XrSIGWOsDIM9RkMVoPtwZ2mq0XKnoUSEXQ6SRStBgx2GM9pw
-         Z18A==
-X-Gm-Message-State: ACgBeo2YkQR735xB1dpohYIkYTct+/ds5XwkxzvJrF1lGre1VteO1xk9
-        mvAc5n8tnzkXB5XLdnJOe1VspcawWnw79wHet8dxtD3samk3f+AaNf8s1p+ix7qENWI4RS23weL
-        FmwFX8UQYcmsRz5mtNobI
-X-Received: by 2002:a17:906:fd84:b0:730:acee:d067 with SMTP id xa4-20020a170906fd8400b00730aceed067mr19393953ejb.206.1660111514487;
-        Tue, 09 Aug 2022 23:05:14 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR4zsECaQisdchCePlp4yUAvq88BKlsK7g/FdrfvnijgIa0+CeZxy11peJJUHhW3QeKUTE6NCQ==
-X-Received: by 2002:a17:906:fd84:b0:730:acee:d067 with SMTP id xa4-20020a170906fd8400b00730aceed067mr19393941ejb.206.1660111514262;
-        Tue, 09 Aug 2022 23:05:14 -0700 (PDT)
-Received: from redhat.com ([2.52.152.113])
-        by smtp.gmail.com with ESMTPSA id b18-20020a17090630d200b00732a5b3d09csm1658020ejb.89.2022.08.09.23.05.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Aug 2022 23:05:13 -0700 (PDT)
-Date:   Wed, 10 Aug 2022 02:05:09 -0400
-From:   "Michael S. Tsirkin" <mst@redhat.com>
-To:     Alexander Atanasov <alexander.atanasov@virtuozzo.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>, kernel@openvz.org,
-        David Hildenbrand <david@redhat.com>,
-        Wei Liu <wei.liu@kernel.org>, Nadav Amit <namit@vmware.com>,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [PATCH v1 1/2] Enable balloon drivers to report inflated memory
-Message-ID: <20220810020330-mutt-send-email-mst@kernel.org>
-References: <7bfac48d-2e50-641b-6523-662ea4df0240@virtuozzo.com>
- <20220809094933.2203087-1-alexander.atanasov@virtuozzo.com>
- <20220809063111-mutt-send-email-mst@kernel.org>
- <d8fd3251-898d-89fe-226e-e166606c6983@virtuozzo.com>
+        with ESMTP id S231299AbiHJGaB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 Aug 2022 02:30:01 -0400
+Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id A23D46D9E4
+        for <linux-doc@vger.kernel.org>; Tue,  9 Aug 2022 23:29:57 -0700 (PDT)
+Received: from [192.168.100.8] (unknown [112.20.110.237])
+        by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxvyNgUPNi2AQMAA--.7073S3;
+        Wed, 10 Aug 2022 14:29:53 +0800 (CST)
+Message-ID: <10a10e7a-5af1-562e-4812-ff8cb826d3ef@loongson.cn>
+Date:   Wed, 10 Aug 2022 14:29:53 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d8fd3251-898d-89fe-226e-e166606c6983@virtuozzo.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: [PATCH v2] LoongArch: Add I14 description in documentation
+To:     Tiezhu Yang <yangtiezhu@loongson.cn>,
+        Huacai Chen <chenhuacai@kernel.org>,
+        WANG Xuerui <kernel@xen0n.name>,
+        Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>
+Cc:     loongarch@lists.linux.dev, linux-doc@vger.kernel.org
+References: <1660111423-24633-1-git-send-email-yangtiezhu@loongson.cn>
+From:   YanTeng Si <siyanteng@loongson.cn>
+In-Reply-To: <1660111423-24633-1-git-send-email-yangtiezhu@loongson.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf9DxvyNgUPNi2AQMAA--.7073S3
+X-Coremail-Antispam: 1UD129KBjvJXoWxWry8ArWxtFy5Xr4UGr47CFg_yoW5Jw17pF
+        yvkrWfXF1Uury7KaykJw47GF17JF1xWa17CF1rJr18WrsxAws5KF1xtryqva4xGw10yFWI
+        qr4rKryYyFySy3JanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUvl14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+        rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+        1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
+        6r4UJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r
+        xl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj
+        6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr
+        0_Gr1lF7xvr2IY64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7Mxk0xIA0c2IEe2xFo4CE
+        bIxvr21lc2xSY4AK67AK6r47MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r
+        4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF
+        67AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2I
+        x0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_WFyUJVCq3wCI42IY
+        6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxhVjvj
+        DU0xZFpf9x0JU-J5rUUUUU=
+X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Aug 10, 2022 at 08:54:52AM +0300, Alexander Atanasov wrote:
-> On 9.08.22 13:32, Michael S. Tsirkin wrote:
-> > On Tue, Aug 09, 2022 at 12:49:32PM +0300, Alexander Atanasov wrote:
-> > > @@ -153,6 +156,14 @@ static int meminfo_proc_show(struct seq_file *m, void *v)
-> > >   		    global_zone_page_state(NR_FREE_CMA_PAGES));
-> > >   #endif
-> > > +#ifdef CONFIG_MEMORY_BALLOON
-> > > +	inflated_kb = atomic_long_read(&mem_balloon_inflated_kb);
-> > > +	if (inflated_kb >= 0)
-> > > +		seq_printf(m,  "Inflated(total): %8ld kB\n", inflated_kb);
-> > > +	else
-> > > +		seq_printf(m,  "Inflated(free): %8ld kB\n", -inflated_kb);
-> > > +#endif
-> > > +
-> > >   	hugetlb_report_meminfo(m);
-> > >   	arch_report_meminfo(m);
-> > 
-> > 
-> > This seems too baroque for my taste.
-> > Why not just have two counters for the two pruposes?
-> 
-> I agree it is not good but it reflects the current situation.
-> Dirvers account in only one way - either used or total - which i don't like.
-> So to save space and to avoid the possibility that some driver starts to use
-> both at the same time. I suggest to be only one value.
 
-I don't see what would be wrong if some driver used both
-at some point.
+在 2022/8/10 14:03, Tiezhu Yang 写道:
+> I14 is also immediate operand, like I8/I12/I16/I21/I26.
+>
+> Signed-off-by: Tiezhu Yang <yangtiezhu@loongson.cn>
+> ---
+>
+> v2: Modify the Chinese documentation.
+>
+>   Documentation/loongarch/introduction.rst                    | 2 +-
+>   Documentation/translations/zh_CN/loongarch/introduction.rst | 4 ++--
+>   2 files changed, 3 insertions(+), 3 deletions(-)
 
-> 
-> > And is there any value in having this atomic?
-> > We want a consistent value but just READ_ONCE seems sufficient ...
-> 
-> I do not see this as only a value that is going to be displayed.
-> I tried to be defensive here and to avoid premature optimization.
-> One possible scenario is OOM killer(using the value) vs balloon deflate on
-> oom will need it. But any other user of that value will likely need it
-> atomic too. Drivers use spin_locks for calculations they might find a way to
-> reduce the spin lock usage and use the atomic.
-> While making it a long could only bring bugs without benefits.
-> It is not on a fast path too so i prefer to be safe.
+Hi Tiezhu
 
-Well we do not normally spread atomics around just because we
-can, it does not magically make the code safe.
-If this needs atomics we need to document why.
 
-> -- 
-> Regards,
-> Alexander Atanasov
+You can split it into two patches， i.e. one for English and one for 
+Chinese.
+
+
+Thanks,
+
+Yanteng
+
+
+>
+> diff --git a/Documentation/loongarch/introduction.rst b/Documentation/loongarch/introduction.rst
+> index 216b3f3..6c9160c 100644
+> --- a/Documentation/loongarch/introduction.rst
+> +++ b/Documentation/loongarch/introduction.rst
+> @@ -221,7 +221,7 @@ I26         Opcode + I26L + I26H
+>   =========== ==========================
+>   
+>   Rd is the destination register operand, while Rj, Rk and Ra ("a" stands for
+> -"additional") are the source register operands. I8/I12/I16/I21/I26 are
+> +"additional") are the source register operands. I8/I12/I14/I16/I21/I26 are
+>   immediate operands of respective width. The longer I21 and I26 are stored
+>   in separate higher and lower parts in the instruction word, denoted by the "L"
+>   and "H" suffixes.
+> diff --git a/Documentation/translations/zh_CN/loongarch/introduction.rst b/Documentation/translations/zh_CN/loongarch/introduction.rst
+> index 11686ee..128878f 100644
+> --- a/Documentation/translations/zh_CN/loongarch/introduction.rst
+> +++ b/Documentation/translations/zh_CN/loongarch/introduction.rst
+> @@ -190,8 +190,8 @@ I26         Opcode + I26L + I26H
+>   =========== ==========================
+>   
+>   Opcode是指令操作码，Rj和Rk是源操作数（寄存器），Rd是目标操作数（寄存器），Ra是
+> -4R-type格式特有的附加操作数（寄存器）。I8/I12/I16/I21/I26分别是8位/12位/16位/
+> -21位/26位的立即数。其中较长的21位和26位立即数在指令字中被分割为高位部分与低位
+> +4R-type格式特有的附加操作数（寄存器）。I8/I12/I14/I16/I21/I26分别是8位/12位/14位/
+> +16位/21位/26位的立即数。其中较长的21位和26位立即数在指令字中被分割为高位部分与低位
+>   部分，所以你们在这里的格式描述中能够看到I21L/I21H和I26L/I26H这样带后缀的表述。
+>   
+>   指令列表
 
