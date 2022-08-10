@@ -2,105 +2,96 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 72E74C25B06
-	for <linux-doc@archiver.kernel.org>; Wed, 10 Aug 2022 08:14:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 46434C00140
+	for <linux-doc@archiver.kernel.org>; Wed, 10 Aug 2022 08:24:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230208AbiHJIO0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 10 Aug 2022 04:14:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34314 "EHLO
+        id S231495AbiHJIYM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 10 Aug 2022 04:24:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44226 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229969AbiHJIOZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 Aug 2022 04:14:25 -0400
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB08E82FB0;
-        Wed, 10 Aug 2022 01:14:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1660119264; x=1691655264;
-  h=date:from:to:cc:subject:message-id:reply-to:references:
-   mime-version:in-reply-to;
-  bh=E0g83rEnLU+9yWmv16RmjNOqjZtTTbUeUZHLBrUwL7c=;
-  b=guxSelHBZKvw3kWVu/PCc2t6nE6juFIi4qwHX13ikjX+U2vzSL7ehNwQ
-   iZ56Y/JiluVIoCZKWlSCWZnABIj6gtD8q5GFLdon8AgWCQGkfkNKWp/lj
-   X4vs1jdOWAOxegPhqdl/OEsi/Xdz5SgCxtn5zsS5iBUYE3fPop5mqUfIz
-   Mnqtz4S07twlw8f3ssrOndCjTfvgXWJeiaiy9ih122V8GCkK1NIhVBD3H
-   bpktsn2c/WxQJ9Yav+3JofMpabCVWWeVWGiApuA2Zay3EWr5u3HzzLh0D
-   7/KXCJyil3cmpjv+fkcSDu6JKfPsdYXl8JwhYRlNx/z2IVqQC6I0wG8am
-   Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10434"; a="291816766"
-X-IronPort-AV: E=Sophos;i="5.93,226,1654585200"; 
-   d="scan'208";a="291816766"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Aug 2022 01:14:21 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,226,1654585200"; 
-   d="scan'208";a="601736291"
-Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
-  by orsmga007.jf.intel.com with ESMTP; 10 Aug 2022 01:14:11 -0700
-Date:   Wed, 10 Aug 2022 16:09:25 +0800
-From:   Chao Peng <chao.p.peng@linux.intel.com>
-To:     Paolo Bonzini <pbonzini@redhat.com>
-Cc:     Sean Christopherson <seanjc@google.com>, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
-        linux-kselftest@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        Muchun Song <songmuchun@bytedance.com>
-Subject: Re: [PATCH v7 08/14] KVM: Rename mmu_notifier_*
-Message-ID: <20220810080925.GA862421@chaop.bj.intel.com>
-Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
-References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
- <20220706082016.2603916-9-chao.p.peng@linux.intel.com>
- <YuQutJAhKWcsrrYl@google.com>
- <ec3fe997-37d8-22b5-65f1-72f08a16474f@redhat.com>
+        with ESMTP id S229806AbiHJIYL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 Aug 2022 04:24:11 -0400
+Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC4F784EF6;
+        Wed, 10 Aug 2022 01:24:10 -0700 (PDT)
+Received: by mail-pj1-x1034.google.com with SMTP id w11-20020a17090a380b00b001f73f75a1feso1442247pjb.2;
+        Wed, 10 Aug 2022 01:24:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc;
+        bh=272ESQ/TJvqbzmGNO1DYDFezOW0N15ikyzzMmugZCto=;
+        b=WkaQJO8c/tULKBCQUDfuoZCFVuf54swglpgYEJK+1F3jbd6T0VihyN7M/a7Ife9RQt
+         B7jVJRPGbqWxzE5L/yVhV/BSmNuOBJL7ZIa2okoFhVllXC4UtaZkoQL19aoYdi4O3gP+
+         7zQ3Yv0bEQRX6Ar2LtXIVW4XA7pN4Ytd54ucjxXbpjqzQzzIG2A+J2519uwDKgH0/CoS
+         shqT/udJiWJGeI4AtAwer5+yqqKlYVYW/fKuKS92Mjbw3e2RIGf9qLDqfiBj3qFgknYf
+         awbYZ6ZZlmr/o8ejnHRE08c6sFD6XWEdueniDElZVopSVCKYWa+CvJ4hzaigkQM4f+MA
+         74lg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc;
+        bh=272ESQ/TJvqbzmGNO1DYDFezOW0N15ikyzzMmugZCto=;
+        b=MWQmAjh5ZxdCa5T6riB46no+4Xct7/hQ3nGKikIuQ+ALiuQANTwZa+GAB2bGV1BBxL
+         1nNG78Z+ngEsYN2q/lgS0jH8cG0Ju3qjZ7BeBpEuhkYQuzm0pZxwsZk1BrQUFEpmDyQi
+         IEtnRhSs8MunKASH66BWyTj0y3eBfNB7PibaYC06NgdAb9OHMTwlQc8yphTt9T9/Mmn5
+         nJvmL0W7tHXEYb5Mw/s+NOCyKc9pwZ76HcpMh7i2AkjF+EDLhLv9jXCOVu38QhsRnHNv
+         YRrer1vLh+fTOaOmpA/lH3IRuDjOtLZotlUh1yL3WouUplcaI+vS41rUw+P+y4f0bqPr
+         gnng==
+X-Gm-Message-State: ACgBeo3/ITUmmCRNRfwYTU/p7J8q0N7X48dlzoeNt/npnPh0HB6F8BPU
+        pt32BN67MwZ2ZezREK4osbw=
+X-Google-Smtp-Source: AA6agR6L85XV08Ih5UkNK28Uw9lgBbUEouKsbNuBsA4K2xUuQRnf6FWyam9M19d1L8Mb6aNl0wsLdw==
+X-Received: by 2002:a17:902:e752:b0:16e:f6c2:3739 with SMTP id p18-20020a170902e75200b0016ef6c23739mr26813693plf.123.1660119850447;
+        Wed, 10 Aug 2022 01:24:10 -0700 (PDT)
+Received: from [192.168.43.80] (subs02-180-214-232-30.three.co.id. [180.214.232.30])
+        by smtp.gmail.com with ESMTPSA id g27-20020aa796bb000000b00525496442ccsm1239818pfk.216.2022.08.10.01.24.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 10 Aug 2022 01:24:10 -0700 (PDT)
+Message-ID: <bcc9e248-5df3-f4d2-13cb-1ea63b355978@gmail.com>
+Date:   Wed, 10 Aug 2022 15:24:04 +0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ec3fe997-37d8-22b5-65f1-72f08a16474f@redhat.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: [PATCH 5.19] Documentation: ext4: fix cell spacing of table
+ heading on blockmap table
+Content-Language: en-US
+To:     Theodore Ts'o <tytso@mit.edu>,
+        "Darrick J. Wong" <djwong@kernel.org>
+Cc:     linux-doc@vger.kernel.org, stable@kernel.org,
+        Andreas Dilger <adilger.kernel@dilger.ca>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Wang Jianjian <wangjianjian3@huawei.com>,
+        linux-ext4@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20220809080827.108363-1-bagasdotme@gmail.com>
+ <YvJ3JPFQfzbhph89@magnolia> <YvKggkBKw/jUb+SP@mit.edu>
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <YvKggkBKw/jUb+SP@mit.edu>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Aug 05, 2022 at 09:54:35PM +0200, Paolo Bonzini wrote:
-> On 7/29/22 21:02, Sean Christopherson wrote:
-> > If we really want a different name, I'd vote for nomenclature that captures the
-> > invalidation aspect, which is really what the variables are all trackng, e.g.
-> > 
-> >    mmu_invalidate_seq
-> >    mmu_invalidate_in_progress
-> >    mmu_invalidate_range_start
-> >    mmu_invalidate_range_end
-> > 
+On 8/10/22 00:59, Theodore Ts'o wrote:
+> Begas,
 > 
-> Agreed, and this can of course be committed separately if Chao Peng sends it
-> outside this series.
-
-I will do that, probably also includes:
-  06/14 KVM: Rename KVM_PRIVATE_MEM_SLOT
-
-Chao
+> You sent me a patch to address this and it's fixed upstream, landing
+> in Linus's tree after 5.19 release during the current merge window.
+> It's cc'ed to stable@kernel.org, so it's not necessary for you to send
+> it to stable@ as a separate patch.
 > 
-> Paolo
+> This upstream commit is 442ec1e5bb7c ("Documentation: ext4: fix cell
+> spacing of table heading on blockmap table").
+> 
+> 					- Ted
+
+Hi Ted, thanks for reminding me.
+
+As stated earlier, I was wonder why 442ec1e5bb7c is applied as 6.0 merge
+window material, although the problem had been identified in 5.19 release
+cycle.
+
+-- 
+An old man doll... just what I always wanted! - Clara
