@@ -2,95 +2,171 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 254A2C00140
-	for <linux-doc@archiver.kernel.org>; Wed, 10 Aug 2022 15:25:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 36F5FC19F2A
+	for <linux-doc@archiver.kernel.org>; Wed, 10 Aug 2022 16:04:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233293AbiHJPZW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 10 Aug 2022 11:25:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45278 "EHLO
+        id S233157AbiHJQES (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 10 Aug 2022 12:04:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60878 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233440AbiHJPZL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 Aug 2022 11:25:11 -0400
-Received: from mail-qt1-x832.google.com (mail-qt1-x832.google.com [IPv6:2607:f8b0:4864:20::832])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3FC67823A
-        for <linux-doc@vger.kernel.org>; Wed, 10 Aug 2022 08:25:09 -0700 (PDT)
-Received: by mail-qt1-x832.google.com with SMTP id a4so6707311qto.10
-        for <linux-doc@vger.kernel.org>; Wed, 10 Aug 2022 08:25:09 -0700 (PDT)
+        with ESMTP id S233304AbiHJQD4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 Aug 2022 12:03:56 -0400
+Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com [IPv6:2a00:1450:4864:20::62b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90FAA6582C;
+        Wed, 10 Aug 2022 09:03:53 -0700 (PDT)
+Received: by mail-ej1-x62b.google.com with SMTP id qn6so16718317ejc.11;
+        Wed, 10 Aug 2022 09:03:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cmpxchg-org.20210112.gappssmtp.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc;
-        bh=XKSHwFSFM1Cfz7cdR5obhEJYaVPc+IY05aklvSLeQmw=;
-        b=e25AVASdPskhVxulzpOYgaM3vGiYCxw8t0zkJEcYGUk7Fx/Mq8TE82UTUMm1fMJjVJ
-         +eQqkzIQtuQ3Xt94VFmavIu2BAbiC/+oGnTH5+DCvd3jY+Tqabjep1pmpm/SXb8nex/A
-         /j6SqUkQQs2pAQbRfRMOyQOcuQgo77JpaJjLIvmv7AVsaBadJL1snWWmn0oQ7Z9bDpLN
-         K9GiCya8kI8O2Ly2d26O96W/pja52lx6vvKnqSoq5WH1mypXZrvJnWZ9g3p3L8ZdIPTU
-         YYXBaxvP1uUq0TSvFpBrEt3YPzMVQjZZ5RhrUlBB9wTSOKi3mTgDWCYXz8j3nkwzOy+f
-         g1JA==
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:content-language:in-reply-to:mime-version
+         :user-agent:date:message-id:from:references:cc:to:subject:from:to:cc;
+        bh=AOVR+FZiSzTKEgE6QjcPCLhOAklIanQVpyFR+Tk5+Ik=;
+        b=IEnFjBXSdoKMopYXDcDI4lVjhzlB6jUuBmYf1RtMJNog/YTNe3lI0/QEy4faFrfaIu
+         prT1UYqaeoc7hPPDqrTXsJLE05czMC5d790YC1+TyBsogiLVkqIMxOcXC9AEOmTKE5xC
+         vMjo3bBe6x4DWPPzfZnUwu0xsdMYHF+RPwGEeA2WM1ni+J5EkxG7vJYCYc3AuHXGELMR
+         XLF+3yRmfyHKgiOHPaPIHakoSGaqi58UvzWOb1fl+y4ZeNv/8hAult4BeXIsOVGmVCx5
+         1Irgjolf/rPj953oAkYtf+2sz4bT0qU3s+tBotncsn9VqY4N0b/EcaLU+J2kXXBB1NKX
+         egug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
-        bh=XKSHwFSFM1Cfz7cdR5obhEJYaVPc+IY05aklvSLeQmw=;
-        b=50QjSNJ29YRtdoLlBcLQ4879JFEeeKqwFSFyakS82aQXYnUKAPyBmO5nImw6VNZTOg
-         Ozc6T9YMZhl8WraTePV4U6KoxGNOcBlTr6RN4VhjPE+tTZ7T/vqUtUcbVqNFK29ZVOTK
-         Bg+m5o043RQ8r//+hzajj+F76nx8vp6NOk/8Y+SP8A7JXbkLA6wT5+htBDAqf4XBM1Wv
-         eD/0+oYdgtuVkYXkn/9udniQb/P1dVlGqo006Esb08PMELyG0MS7AM1aw4mNgUGwRYGm
-         zpdxQ431Gg4DcY7nKqai6a7vUQpRndhzRdak8aTWDd5Trhu4QzWuJasjGqP89MKx7Xv3
-         50iQ==
-X-Gm-Message-State: ACgBeo2YqO0QGCv7TOHWlib1Csk8tekj6CqX3uB+BCVvELYgx98Gk+xm
-        hsGEqVZfVj/OgdovkUjnzFTzgQ==
-X-Google-Smtp-Source: AA6agR46ug8UE3bYlB04A3SaIp/ibz+lpypnAxWFbEaslJRTYlIrUQVKmD1HMBGmneR10958O2lyjw==
-X-Received: by 2002:a05:622a:1c4:b0:342:f653:bdb with SMTP id t4-20020a05622a01c400b00342f6530bdbmr14334728qtw.31.1660145108572;
-        Wed, 10 Aug 2022 08:25:08 -0700 (PDT)
-Received: from localhost (2603-7000-0c01-2716-00ea-7f88-5fd9-01cd.res6.spectrum.com. [2603:7000:c01:2716:ea:7f88:5fd9:1cd])
-        by smtp.gmail.com with ESMTPSA id f7-20020a05622a114700b0033c36ef019esm11938634qty.63.2022.08.10.08.25.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Aug 2022 08:25:08 -0700 (PDT)
-Date:   Wed, 10 Aug 2022 11:25:07 -0400
-From:   Johannes Weiner <hannes@cmpxchg.org>
-To:     Chengming Zhou <zhouchengming@bytedance.com>
-Cc:     Tejun Heo <tj@kernel.org>, corbet@lwn.net, surenb@google.com,
-        mingo@redhat.com, peterz@infradead.org, vincent.guittot@linaro.org,
-        dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
-        cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, songmuchun@bytedance.com
-Subject: Re: [PATCH v2 09/10] sched/psi: per-cgroup PSI stats
- disable/re-enable interface
-Message-ID: <YvPN07UlaPFAdlet@cmpxchg.org>
-References: <20220808110341.15799-1-zhouchengming@bytedance.com>
- <20220808110341.15799-10-zhouchengming@bytedance.com>
- <YvKd6dezPM6UxfD/@slm.duckdns.org>
- <fcd0bd39-3049-a279-23e6-a6c02b4680a7@bytedance.com>
- <b89155d3-9315-fefc-408b-4cf538360a1c@bytedance.com>
+        h=content-transfer-encoding:content-language:in-reply-to:mime-version
+         :user-agent:date:message-id:from:references:cc:to:subject
+         :x-gm-message-state:from:to:cc;
+        bh=AOVR+FZiSzTKEgE6QjcPCLhOAklIanQVpyFR+Tk5+Ik=;
+        b=2XoDFswM/kVwxjfvyKFExs75E1GfwgwRa3CJN7WRr645wIIYg8lRJDVODkODC+MYS8
+         FoFZFLK6QpxdXSGsuE/kr+Gak/0fF0ukclqKThNuPSTwKi5WdT1bGk+GfxKF25u7mwAf
+         +lK40+PtI/v06D8QqjEM6qyVneXC4yZ20a7JJZy0mKPQ/BjmWbu6yP5P2MaXzxAgPKo+
+         T7SmYNl3jBZ+U7HDtvpafrIqUre2LAGbeQEtaR+S4UVzfm+9X4h0mtvxA7CtIn4i/btI
+         xgHvvnrZLKC+G9vpoPm8AIOtSZpcDK4ZBOC/xN/fur1GB7mNALltpyCCXyK++vBQ1V/h
+         P8zw==
+X-Gm-Message-State: ACgBeo1K5xehTKu1rX6bXZI0qdoWZrXzSuyjNck4HrvQ8M7A2idR1bOg
+        ybSPoS/7fk0VdhLF5ZQNIrY=
+X-Google-Smtp-Source: AA6agR64XA+40H/MjnCQFOVB+71sI7xUxFta5WUhOvUuRQ6/A3czn2HWx4U3FOa3gGghDLXb2p2qkw==
+X-Received: by 2002:a17:907:a063:b0:730:750b:bb62 with SMTP id ia3-20020a170907a06300b00730750bbb62mr20899007ejc.612.1660147432187;
+        Wed, 10 Aug 2022 09:03:52 -0700 (PDT)
+Received: from [192.168.1.122] (cpc159313-cmbg20-2-0-cust161.5-4.cable.virginm.net. [82.0.78.162])
+        by smtp.gmail.com with ESMTPSA id et13-20020a056402378d00b0043ba24a26casm7677455edb.23.2022.08.10.09.02.42
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 10 Aug 2022 09:03:21 -0700 (PDT)
+Subject: Re: [RFC PATCH net-next] docs: net: add an explanation of VF (and
+ other) Representors
+To:     Jakub Kicinski <kuba@kernel.org>
+Cc:     ecree@xilinx.com, netdev@vger.kernel.org, davem@davemloft.net,
+        pabeni@redhat.com, edumazet@google.com, corbet@lwn.net,
+        linux-doc@vger.kernel.org, linux-net-drivers@amd.com,
+        Jacob Keller <jacob.e.keller@intel.com>,
+        Jesse Brandeburg <jesse.brandeburg@intel.com>,
+        Michael Chan <michael.chan@broadcom.com>,
+        Andy Gospodarek <andy@greyhouse.net>,
+        Saeed Mahameed <saeed@kernel.org>,
+        Jiri Pirko <jiri@resnulli.us>,
+        Shannon Nelson <snelson@pensando.io>,
+        Simon Horman <simon.horman@corigine.com>,
+        Alexander Duyck <alexander.duyck@gmail.com>
+References: <20220805165850.50160-1-ecree@xilinx.com>
+ <20220805184359.5c55ca0d@kernel.org>
+ <71af8654-ca69-c492-7e12-ed7ff455a2f1@gmail.com>
+ <20220808204135.040a4516@kernel.org>
+From:   Edward Cree <ecree.xilinx@gmail.com>
+Message-ID: <572c50b0-2f10-50d5-76fc-dfa409350dbe@gmail.com>
+Date:   Wed, 10 Aug 2022 17:02:33 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b89155d3-9315-fefc-408b-4cf538360a1c@bytedance.com>
+In-Reply-To: <20220808204135.040a4516@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Aug 10, 2022 at 09:30:59AM +0800, Chengming Zhou wrote:
-> On 2022/8/10 08:39, Chengming Zhou wrote:
-> > On 2022/8/10 01:48, Tejun Heo wrote:
-> >> Hello,
-> >>
-> >> On Mon, Aug 08, 2022 at 07:03:40PM +0800, Chengming Zhou wrote:
-> >>> So this patch introduce a per-cgroup PSI stats disable/re-enable
-> >>> interface "cgroup.psi", which is a read-write single value file that
-> >>> allowed values are "0" and "1", the defaults is "1" so per-cgroup
-> >>> PSI stats is enabled by default.
-> >>
-> >> Given that the knobs are named {cpu|memory|io}.pressure, I wonder whether
-> >> "cgroup.psi" is the best name. Also, it doesn't convey that it's the
-> >> enable/disable knob. I think it needs a better name.
-> > 
-> > Yes, "cgroup.psi" is not good. What abort "pressure.enable" or "cgroup.psi_enable"?
+On 09/08/2022 04:41, Jakub Kicinski wrote:
+>>> AFAIK there's no "management PF" in the Linux model.  
+>>
+>> Maybe a bad word choice.  I'm referring to whichever PF (which likely
+>>  also has an ordinary netdevice) has administrative rights over the NIC /
+>>  internal switch at a firmware level.  Other names I've seen tossed
+>>  around include "primary PF", "admin PF".
 > 
-> Doesn't look good either, what do you think of "cgroup.pressure.enable"?
+> I believe someone (mellanox?) used the term eswitch manager.
+> I'd use "host PF", somehow that makes most sense to me.
 
-How about just cgroup.pressure? Too ambiguous?
+Not sure about that, I've seen "host" used as antonym of "SoC", so
+ if the device is configured with the SoC as the admin this could
+ confuse people.
+I think whatever term we settle on, this document might need to
+ have a 'Definitions' section to make it clear :S
 
-cgroup.pressure.enable sounds good to me too. Or, because it's
-default-enabled and that likely won't change, cgroup.pressure.disable.
+>>> What is "the PCIe controller" here? I presume you've seen the
+>>> devlink-port doc.  
+>>
+>> Yes, that's where I got this terminology from.
+>> "the" PCIe controller here is the one on which the mgmt PF lives.  For
+>>  instance you might have a NIC where you run OVS on a SoC inside the
+>>  chip, that has its own PCIe controller including a PF it uses to drive
+>>  the hardware v-switch (so it can offload OVS rules), in addition to
+>>  the PCIe controller that exposes PFs & VFs to the host you plug it
+>>  into through the physical PCIe socket / edge connector.
+>> In that case this bullet would refer to any additional PFs the SoC has
+>>  besides the management one...
+> 
+> IMO the model where there's a overall controller for the entire device
+> is also a mellanox limitation, due to lack of support for nested
+> switches
+Instead of "the PCIe controller" I should probably say "the local PCIe
+ controller", since that's the wording the devlink-port doc uses.
+
+> Say I pay for a bare metal instance in my favorite public could. 
+> Why would the forwarding between VFs I spawn be controlled by the cloud
+> provider and not me?!
+> 
+> But perhaps Netronome was the only vendor capable of nested switching.
+
+Quite possibly.  Current EF100 NICs can't do nested switching either.
+
+>>>> + - PFs and VFs with other personalities, including network block devices (such
+>>>> +   as a vDPA virtio-blk PF backed by remote/distributed storage).  
+>>>
+>>> IDK how you can configure block forwarding (which is DMAs of command
+>>> + data blocks, not packets AFAIU) with the networking concepts..
+>>> I've not used the storage functions tho, so I could be wrong.  
+>>
+>> Maybe I'm way off the beam here, but my understanding is that this
+>>  sort of thing involves a block interface between the host and the
+>>  NIC, but then something internal to the NIC converts those
+>>  operations into network operations (e.g. RDMA traffic or Ceph TCP
+>>  packets), which then go out on the network to access the actual
+>>  data.  In that case the back-end has to have network connectivity,
+>>  and the obvious™ way to do that is give it a v-port on the v-switch
+>>  just like anyone else.
+> 
+> I see. I don't think this covers all implementations. 
+
+Right, I should probably make it more clear that this isn't the only
+ way it could be done.
+I'm merely trying to make clear that things that don't look like
+ netdevices might still have a v-port and hence need a repr.
+
+> "TX queue attached to" made me think of a netdev Tx queue with a qdisc
+> rather than just a HW queue. No better ideas tho.
+
+Would adding the word "hardware" before "TX queue" help?  Have to
+ admit the netdev-queue interpretation hadn't occurred to me.
+
+>> (And it looks like the core uses `c<N>` for my `if<N>` that you were
+>>  so horrified by.  Devlink-port documentation doesn't make it super
+>>  clear whether controller 0 is "the controller that's in charge" or
+>>  "the controller from which we're viewing things", though I think in
+>>  practice it comes to the same thing.)
+> 
+> I think we had a bit. Perhaps @external? The controller which doesn't
+> have @external == true should be the local one IIRC. And by extension
+> presumably in charge.
+
+Yes, and that should work fine per se.  It's just not reflected in the
+ phys_port_name string in any way, so legacy userland that relies on
+ that won't have that piece of info (but it never did) and probably
+ assumes that c0 is local.
+
+-ed
