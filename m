@@ -2,124 +2,189 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 739BAC00140
-	for <linux-doc@archiver.kernel.org>; Wed, 10 Aug 2022 12:00:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0DBA6C00140
+	for <linux-doc@archiver.kernel.org>; Wed, 10 Aug 2022 13:44:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229501AbiHJMAc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 10 Aug 2022 08:00:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57482 "EHLO
+        id S232371AbiHJNoe convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 10 Aug 2022 09:44:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54248 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231675AbiHJMAb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 Aug 2022 08:00:31 -0400
-Received: from out30-45.freemail.mail.aliyun.com (out30-45.freemail.mail.aliyun.com [115.124.30.45])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74F02B37;
-        Wed, 10 Aug 2022 05:00:29 -0700 (PDT)
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R121e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018046051;MF=xianting.tian@linux.alibaba.com;NM=1;PH=DS;RN=23;SR=0;TI=SMTPD_---0VLv5JNk_1660132822;
-Received: from B-LB6YLVDL-0141.local(mailfrom:xianting.tian@linux.alibaba.com fp:SMTPD_---0VLv5JNk_1660132822)
-          by smtp.aliyun-inc.com;
-          Wed, 10 Aug 2022 20:00:23 +0800
-Subject: Re: [PATCH V5 5/6] riscv: crash_core: Export kernel vm layout,
- phys_ram_base
-To:     Conor.Dooley@microchip.com, paul.walmsley@sifive.com,
-        palmer@dabbelt.com, aou@eecs.berkeley.edu, anup@brainfault.org,
-        heiko@sntech.de, guoren@kernel.org, mick@ics.forth.gr,
-        alexandre.ghiti@canonical.com, bhe@redhat.com, vgoyal@redhat.com,
-        dyoung@redhat.com, corbet@lwn.net
-Cc:     kexec@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
-        crash-utility@redhat.com, huanyi.xj@alibaba-inc.com,
-        heinrich.schuchardt@canonical.com, k-hagio-ab@nec.com,
-        hschauhan@nulltrace.org, yixun.lan@gmail.com
-References: <20220802121818.2201268-1-xianting.tian@linux.alibaba.com>
- <20220802121818.2201268-6-xianting.tian@linux.alibaba.com>
- <cf03285d-62e7-c70a-4197-8519fe9effe0@microchip.com>
-From:   Xianting Tian <xianting.tian@linux.alibaba.com>
-Message-ID: <31231d21-7d23-9412-01d4-b2d4aa73cfc9@linux.alibaba.com>
-Date:   Wed, 10 Aug 2022 20:00:22 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
- Gecko/20100101 Thunderbird/78.14.0
+        with ESMTP id S229680AbiHJNod (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 Aug 2022 09:44:33 -0400
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D27876714A;
+        Wed, 10 Aug 2022 06:44:31 -0700 (PDT)
+Received: from fraeml715-chm.china.huawei.com (unknown [172.18.147.201])
+        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4M2rh82TQLz67wDW;
+        Wed, 10 Aug 2022 21:41:44 +0800 (CST)
+Received: from fraeml714-chm.china.huawei.com (10.206.15.33) by
+ fraeml715-chm.china.huawei.com (10.206.15.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Wed, 10 Aug 2022 15:44:29 +0200
+Received: from fraeml714-chm.china.huawei.com ([10.206.15.33]) by
+ fraeml714-chm.china.huawei.com ([10.206.15.33]) with mapi id 15.01.2375.024;
+ Wed, 10 Aug 2022 15:44:29 +0200
+From:   Roberto Sassu <roberto.sassu@huawei.com>
+To:     Jarkko Sakkinen <jarkko@kernel.org>
+CC:     "ast@kernel.org" <ast@kernel.org>,
+        "daniel@iogearbox.net" <daniel@iogearbox.net>,
+        "andrii@kernel.org" <andrii@kernel.org>,
+        "martin.lau@linux.dev" <martin.lau@linux.dev>,
+        "song@kernel.org" <song@kernel.org>, "yhs@fb.com" <yhs@fb.com>,
+        "john.fastabend@gmail.com" <john.fastabend@gmail.com>,
+        "kpsingh@kernel.org" <kpsingh@kernel.org>,
+        "sdf@google.com" <sdf@google.com>,
+        "haoluo@google.com" <haoluo@google.com>,
+        "jolsa@kernel.org" <jolsa@kernel.org>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "dhowells@redhat.com" <dhowells@redhat.com>,
+        "rostedt@goodmis.org" <rostedt@goodmis.org>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "paul@paul-moore.com" <paul@paul-moore.com>,
+        "jmorris@namei.org" <jmorris@namei.org>,
+        "serge@hallyn.com" <serge@hallyn.com>,
+        "shuah@kernel.org" <shuah@kernel.org>,
+        "bpf@vger.kernel.org" <bpf@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "keyrings@vger.kernel.org" <keyrings@vger.kernel.org>,
+        "linux-security-module@vger.kernel.org" 
+        <linux-security-module@vger.kernel.org>,
+        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Yosry Ahmed <yosryahmed@google.com>
+Subject: RE: [PATCH v9 01/10] btf: Add a new kfunc flag which allows to mark a
+ function to be sleepable
+Thread-Topic: [PATCH v9 01/10] btf: Add a new kfunc flag which allows to mark
+ a function to be sleepable
+Thread-Index: AQHYq/aDa3kCDLsk5EK6T80CaXl/sK2mqA6AgAF8nfA=
+Date:   Wed, 10 Aug 2022 13:44:28 +0000
+Message-ID: <c9e73d7aa51a47c585b935a41dbf1924@huawei.com>
+References: <20220809134603.1769279-1-roberto.sassu@huawei.com>
+ <20220809134603.1769279-2-roberto.sassu@huawei.com>
+ <YvKRYRjJdXbAWL6Y@kernel.org>
+In-Reply-To: <YvKRYRjJdXbAWL6Y@kernel.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.45.144.193]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 8BIT
 MIME-Version: 1.0
-In-Reply-To: <cf03285d-62e7-c70a-4197-8519fe9effe0@microchip.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+> From: Jarkko Sakkinen [mailto:jarkko@kernel.org]
+> Sent: Tuesday, August 9, 2022 6:55 PM
+> On Tue, Aug 09, 2022 at 03:45:54PM +0200, Roberto Sassu wrote:
+> > From: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+> >
+> > From: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+> >
+> > This allows to declare a kfunc as sleepable and prevents its use in
+> > a non sleepable program.
+> 
+> Nit: "Declare a kfunc as sleepable and prevent its use in a
+> non-sleepable program."
+> 
+> It's missing the part *how* the patch accomplishes its goals.
 
-在 2022/8/10 上午5:20, Conor.Dooley@microchip.com 写道:
-> On 02/08/2022 13:18, Xianting Tian wrote:
->> riscv: crash_core: Export kernel vm layout, phys_ram_base
-> Can you please just use RISC-V: for the whole series, my OCD
-> hates the mix haha.
+I will add:
 
-Sorry, I missed it,  you ever pointed out this poblem in the comments of 
-V3, I will definitely fix the issue in V6.
+If an eBPF program is going to call a kfunc declared as sleepable,
+eBPF will look at the eBPF program flags. If BPF_F_SLEEPABLE is
+not set, execution of that program is denied.
 
->
->> These infos are needed by the kdump crash tool. Since these values change
->> from time to time, it is preferable to export them via vmcoreinfo than to
->> change the crash's code frequently.
-> This commit description doesn't seem to match the patches at all.
-> I don't see any exporting happening here at all - this is documenting
-The real export code is in 2/6 patch, yes this is the document just 
-describe the exporting contents
-> the export. Maybe I am just misunderstanding, but this commit message
-> just doesn't seem to match the change. Secondly, should the subject not
-> be something like "docs: admin-guide: add riscv crash kernel yada yada"?
-the commit log for the file 
-'Documentation/admin-guide/kdump/vmcoreinfo.rst' is not unified in the 
-commit history of the file. I agree with you 'docs: admin-guide: xxx' is 
-better,  will fix it V6.
-> Maybe the current subject lime that explains the lack of a review from
-> the docs maintainer?
-yes, it is possible :)
->
-> Thanks,
-> Conor.
-For your comments for other patches, I will fix it in v6, thanks
->
->> Signed-off-by: Xianting Tian <xianting.tian@linux.alibaba.com>
->> ---
->>   .../admin-guide/kdump/vmcoreinfo.rst          | 31 +++++++++++++++++++
->>   1 file changed, 31 insertions(+)
->>
->> diff --git a/Documentation/admin-guide/kdump/vmcoreinfo.rst b/Documentation/admin-guide/kdump/vmcoreinfo.rst
->> index 8419019b6a88..6b76284a503c 100644
->> --- a/Documentation/admin-guide/kdump/vmcoreinfo.rst
->> +++ b/Documentation/admin-guide/kdump/vmcoreinfo.rst
->> @@ -595,3 +595,34 @@ X2TLB
->>   -----
->>   
->>   Indicates whether the crashed kernel enabled SH extended mode.
->> +
->> +RISCV64
->> +=======
->> +
->> +VA_BITS
->> +-------
->> +
->> +The maximum number of bits for virtual addresses. Used to compute the
->> +virtual memory ranges.
->> +
->> +PAGE_OFFSET
->> +-----------
->> +
->> +Indicates the virtual kernel start address of direct-mapped RAM region.
->> +
->> +phys_ram_base
->> +-------------
->> +
->> +Indicates the start physical RAM address.
->> +
->> +MODULES_VADDR|MODULES_END|VMALLOC_START|VMALLOC_END|VMEMMAP_START|VMEMMAP_END
->> +-----------------------------------------------------------------------------
->> +KASAN_SHADOW_START|KASAN_SHADOW_END|KERNEL_LINK_ADDR|ADDRESS_SPACE_END
->> +----------------------------------------------------------------------
->> +
->> +Used to get the correct ranges:
->> +	MODULES_VADDR ~ MODULES_END : Kernel module space.
->> +	VMALLOC_START ~ VMALLOC_END : vmalloc() / ioremap() space.
->> +	VMEMMAP_START ~ VMEMMAP_END : vmemmap region, used for struct page array.
->> +	KASAN_SHADOW_START ~ KASAN_SHADOW_END : kasan shadow space.
->> +	KERNEL_LINK_ADDR ~ ADDRESS_SPACE_END : Kernel link and BPF space.
+Roberto
+
+> > Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+> > Co-developed-by: Yosry Ahmed <yosryahmed@google.com>
+> > Signed-off-by: Yosry Ahmed <yosryahmed@google.com>
+> > Signed-off-by: Hao Luo <haoluo@google.com>
+> > ---
+> >  Documentation/bpf/kfuncs.rst | 6 ++++++
+> >  include/linux/btf.h          | 1 +
+> >  kernel/bpf/btf.c             | 9 +++++++++
+> >  3 files changed, 16 insertions(+)
+> >
+> > diff --git a/Documentation/bpf/kfuncs.rst b/Documentation/bpf/kfuncs.rst
+> > index c0b7dae6dbf5..c8b21de1c772 100644
+> > --- a/Documentation/bpf/kfuncs.rst
+> > +++ b/Documentation/bpf/kfuncs.rst
+> > @@ -146,6 +146,12 @@ that operate (change some property, perform some
+> operation) on an object that
+> >  was obtained using an acquire kfunc. Such kfuncs need an unchanged pointer
+> to
+> >  ensure the integrity of the operation being performed on the expected object.
+> >
+> > +2.4.6 KF_SLEEPABLE flag
+> > +-----------------------
+> > +
+> > +The KF_SLEEPABLE flag is used for kfuncs that may sleep. Such kfuncs can
+> only
+> > +be called by sleepable BPF programs (BPF_F_SLEEPABLE).
+> > +
+> >  2.5 Registering the kfuncs
+> >  --------------------------
+> >
+> > diff --git a/include/linux/btf.h b/include/linux/btf.h
+> > index cdb376d53238..976cbdd2981f 100644
+> > --- a/include/linux/btf.h
+> > +++ b/include/linux/btf.h
+> > @@ -49,6 +49,7 @@
+> >   * for this case.
+> >   */
+> >  #define KF_TRUSTED_ARGS (1 << 4) /* kfunc only takes trusted pointer
+> arguments */
+> > +#define KF_SLEEPABLE   (1 << 5) /* kfunc may sleep */
+> >
+> >  struct btf;
+> >  struct btf_member;
+> > diff --git a/kernel/bpf/btf.c b/kernel/bpf/btf.c
+> > index 7e64447659f3..d3e4c86b8fcd 100644
+> > --- a/kernel/bpf/btf.c
+> > +++ b/kernel/bpf/btf.c
+> > @@ -6175,6 +6175,7 @@ static int btf_check_func_arg_match(struct
+> bpf_verifier_env *env,
+> >  {
+> >  	enum bpf_prog_type prog_type = resolve_prog_type(env->prog);
+> >  	bool rel = false, kptr_get = false, trusted_arg = false;
+> > +	bool sleepable = false;
+> >  	struct bpf_verifier_log *log = &env->log;
+> >  	u32 i, nargs, ref_id, ref_obj_id = 0;
+> >  	bool is_kfunc = btf_is_kernel(btf);
+> > @@ -6212,6 +6213,7 @@ static int btf_check_func_arg_match(struct
+> bpf_verifier_env *env,
+> >  		rel = kfunc_flags & KF_RELEASE;
+> >  		kptr_get = kfunc_flags & KF_KPTR_GET;
+> >  		trusted_arg = kfunc_flags & KF_TRUSTED_ARGS;
+> > +		sleepable = kfunc_flags & KF_SLEEPABLE;
+> >  	}
+> >
+> >  	/* check that BTF function arguments match actual types that the
+> > @@ -6419,6 +6421,13 @@ static int btf_check_func_arg_match(struct
+> bpf_verifier_env *env,
+> >  			func_name);
+> >  		return -EINVAL;
+> >  	}
+> > +
+> > +	if (sleepable && !env->prog->aux->sleepable) {
+> > +		bpf_log(log, "kernel function %s is sleepable but the program is
+> not\n",
+> > +			func_name);
+> > +		return -EINVAL;
+> > +	}
+> > +
+> >  	/* returns argument register number > 0 in case of reference release
+> kfunc */
+> >  	return rel ? ref_regno : 0;
+> >  }
+> > --
+> > 2.25.1
+> >
+> 
+> BR, Jarkko
