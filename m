@@ -2,181 +2,92 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4977AC19F2A
-	for <linux-doc@archiver.kernel.org>; Wed, 10 Aug 2022 17:05:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 936FBC00140
+	for <linux-doc@archiver.kernel.org>; Wed, 10 Aug 2022 17:27:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231687AbiHJRFX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 10 Aug 2022 13:05:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38736 "EHLO
+        id S233394AbiHJR1R (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 10 Aug 2022 13:27:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34170 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229522AbiHJRFW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 Aug 2022 13:05:22 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B46E20F5A;
-        Wed, 10 Aug 2022 10:05:21 -0700 (PDT)
-Received: from localhost (modemcable141.102-20-96.mc.videotron.ca [96.20.102.141])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: krisman)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 227CD66019C1;
-        Wed, 10 Aug 2022 18:05:19 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1660151120;
-        bh=4xdK5anslBOIhnkqGW81pncrZ4JdPy+zW5SIE/JLnRY=;
-        h=From:To:Cc:Subject:References:Date:In-Reply-To:From;
-        b=h3/E9F9xuu0PQBdbIIIowMiztInzpGA0Sr0/+ERtIQ9Vaj8xol3qxBdNobdQ5OFOQ
-         lAbYHUygoM5LQQ5pucfxCdpxQTPn06tCWpoSfjKHlvwjjlSxcMj8Ew2NicpOm1AvJ3
-         roEcd73rt3wd9yGwbKMRSMKfTRLj6KFgYIfZ2F4vNor+cpy8eB6hytQGEFPfzNo5Md
-         msk+2xH6Fdmd57XrQPJRtVBSL67QF0eySoRR2reLPDjb1MJQU/w+xrfqcTVAbkf3vT
-         XqEyOLcJ5t7UXVh9WHIGLYw/NAFIeHfZKTVCtl5iayQ/V09KExOQ4SdIqXZDjGHMtJ
-         +LprGiO7NYsdA==
-From:   Gabriel Krisman Bertazi <krisman@collabora.com>
-To:     David Hildenbrand <david@redhat.com>
-Cc:     Muhammad Usama Anjum <usama.anjum@collabora.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Andy Lutomirski <luto@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>, Arnd Bergmann <arnd@arndb.de>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Jiri Olsa <jolsa@kernel.org>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Shuah Khan <shuah@kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "open list:PROC FILESYSTEM" <linux-fsdevel@vger.kernel.org>,
-        "open list:ABI/API" <linux-api@vger.kernel.org>,
-        "open list:GENERIC INCLUDE/ASM HEADER FILES" 
-        <linux-arch@vger.kernel.org>,
-        "open list:MEMORY MANAGEMENT" <linux-mm@kvack.org>,
-        "open list:PERFORMANCE EVENTS SUBSYSTEM" 
-        <linux-perf-users@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>, kernel@collabora.com
-Subject: Re: [PATCH 0/5] Add process_memwatch syscall
-References: <20220726161854.276359-1-usama.anjum@collabora.com>
-        <95ed1a81-ff8e-2c48-8838-4b3995af51b7@redhat.com>
-Date:   Wed, 10 Aug 2022 13:05:13 -0400
-In-Reply-To: <95ed1a81-ff8e-2c48-8838-4b3995af51b7@redhat.com> (David
-        Hildenbrand's message of "Wed, 10 Aug 2022 11:03:11 +0200")
-Message-ID: <87pmh8ghbq.fsf@collabora.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.1 (gnu/linux)
+        with ESMTP id S232538AbiHJR1Q (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 Aug 2022 13:27:16 -0400
+Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 140EE7B1F6;
+        Wed, 10 Aug 2022 10:27:14 -0700 (PDT)
+Received: by mail-pl1-x635.google.com with SMTP id x10so14838237plb.3;
+        Wed, 10 Aug 2022 10:27:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc;
+        bh=lPqOojcmdOAU79rFEpjfZKvBUO43nFGE73fllT7UubM=;
+        b=eyIMIlC3NT7t/M/JASfHlCFAM/ZU0pftD5lYftV9y52nfgtwB67ojBpqf2XsOJyPSE
+         myoOkkToXgt6K3WrTFoFZsHIpdtUfS60IWEMULjtaEAE+TjV+RuhH4obNjaaAnckuTC6
+         BA8od9MxEGi7eaZv3+xOdXOZnJG8xOpM61nKy+o20Apn56jqN9sCRN20JqYq4Pv+iw65
+         HK2ViXVajAEPsYsQna5Rtt5YlPAEu3ZDWGIAtarHArRoEI4B1VFOHV8Y8a57Fcozd92H
+         RiqaFV32hD0ryvy5JOdno8MAxtJFWUmXq0AKTETBfUdepAD+T8BmAmE4OsqE3afLYwij
+         OsGQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc;
+        bh=lPqOojcmdOAU79rFEpjfZKvBUO43nFGE73fllT7UubM=;
+        b=pgvjHmGHgZhMPDKtnFCauGtCbSe+qrfsJjhO6+V2kL6tdrr7/5O8dGHzRBJVpvItV+
+         KNB0pwOqDz61qtD4G0xA6op5ItDeTBHFwP8l3yMiJ7ulGEv+ip5ZgrZO0al0JmdNGF4L
+         13ReKXjG7SYBllQgLbQXUr59LhuKrj+YSC6IqwiwUiZYjBpE2xzdcJ5UrvO57yVqLIex
+         Q94CdudkDWvjSFff5ZcKyC461glMWq6vt5zN7T5Y4uVrC1ESVRQplgXPRAkKNDgDPBH+
+         5cjffiCyXJIoYbnbNNQklstxvSpaf6onr65CANohzN+q8AcFKgMA0IMdEuJvZo0dF/yY
+         FyyQ==
+X-Gm-Message-State: ACgBeo1KAJKvQ1aK1Z8YkBd2jVBRQE8fwTnO8bJSgdc81wnjTbCwT6vp
+        RD4A9ji+TTu3Bxvr/fncCHs=
+X-Google-Smtp-Source: AA6agR6HimZCFCXcilZTgRuOlMb+mEEd0Usepl+nOvNphpTCT8ioe8FrPaDEA5NtEG5DEwW+MzXylg==
+X-Received: by 2002:a17:903:230e:b0:16f:784:ea3f with SMTP id d14-20020a170903230e00b0016f0784ea3fmr28892311plh.160.1660152434248;
+        Wed, 10 Aug 2022 10:27:14 -0700 (PDT)
+Received: from localhost ([2620:10d:c090:400::5:237b])
+        by smtp.gmail.com with ESMTPSA id v12-20020a17090a458c00b001f5513f6fb9sm1961423pjg.14.2022.08.10.10.27.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 10 Aug 2022 10:27:13 -0700 (PDT)
+Sender: Tejun Heo <htejun@gmail.com>
+Date:   Wed, 10 Aug 2022 07:27:12 -1000
+From:   Tejun Heo <tj@kernel.org>
+To:     Johannes Weiner <hannes@cmpxchg.org>
+Cc:     Chengming Zhou <zhouchengming@bytedance.com>, corbet@lwn.net,
+        surenb@google.com, mingo@redhat.com, peterz@infradead.org,
+        vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
+        rostedt@goodmis.org, bsegall@google.com, cgroups@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        songmuchun@bytedance.com
+Subject: Re: [PATCH v2 09/10] sched/psi: per-cgroup PSI stats
+ disable/re-enable interface
+Message-ID: <YvPqcJh5Ffv4Yga9@slm.duckdns.org>
+References: <20220808110341.15799-1-zhouchengming@bytedance.com>
+ <20220808110341.15799-10-zhouchengming@bytedance.com>
+ <YvKd6dezPM6UxfD/@slm.duckdns.org>
+ <fcd0bd39-3049-a279-23e6-a6c02b4680a7@bytedance.com>
+ <b89155d3-9315-fefc-408b-4cf538360a1c@bytedance.com>
+ <YvPN07UlaPFAdlet@cmpxchg.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YvPN07UlaPFAdlet@cmpxchg.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-David Hildenbrand <david@redhat.com> writes:
+Hello,
 
-> On 26.07.22 18:18, Muhammad Usama Anjum wrote:
->> Hello,
->
-> Hi,
->
->> 
->> This patch series implements a new syscall, process_memwatch. Currently,
->> only the support to watch soft-dirty PTE bit is added. This syscall is
->> generic to watch the memory of the process. There is enough room to add
->> more operations like this to watch memory in the future.
->> 
->> Soft-dirty PTE bit of the memory pages can be viewed by using pagemap
->> procfs file. The soft-dirty PTE bit for the memory in a process can be
->> cleared by writing to the clear_refs file. This series adds features that
->> weren't possible through the Proc FS interface.
->> - There is no atomic get soft-dirty PTE bit status and clear operation
->>   possible.
->
-> Such an interface might be easy to add, no?
->
->> - The soft-dirty PTE bit of only a part of memory cannot be cleared.
->
-> Same.
->
-> So I'm curious why we need a new syscall for that.
+On Wed, Aug 10, 2022 at 11:25:07AM -0400, Johannes Weiner wrote:
+> How about just cgroup.pressure? Too ambiguous?
+> 
+> cgroup.pressure.enable sounds good to me too. Or, because it's
+> default-enabled and that likely won't change, cgroup.pressure.disable.
 
-Hi David,
+.disable sounds more logical but I like .enable better for some reason. As
+for just cgroup.pressure, yeah, maybe? The conundrum is that the prettiness
+order is the exact reverse of the logical order. So, I'm okay with any of
+the three.
 
-Yes, sure. Though it has to be through an ioctl since we need both input
-and output semantics at the same call to keep the atomic semantics.
-
-I answered Peter Enderborg about our concerns when turning this into an
-ioctl.  But they are possible to overcome.
-
->> project. The Proc FS interface is enough for that as I think the process
->> is frozen. We have the use case where we need to track the soft-dirty
->> PTE bit for running processes. We need this tracking and clear mechanism
->> of a region of memory while the process is running to emulate the
->> getWriteWatch() syscall of Windows. This syscall is used by games to keep
->> track of dirty pages and keep processing only the dirty pages. This
->> syscall can be used by the CRIU project and other applications which
->> require soft-dirty PTE bit information.
->> 
->> As in the current kernel there is no way to clear a part of memory (instead
->> of clearing the Soft-Dirty bits for the entire processi) and get+clear
->> operation cannot be performed atomically, there are other methods to mimic
->> this information entirely in userspace with poor performance:
->> - The mprotect syscall and SIGSEGV handler for bookkeeping
->> - The userfaultfd syscall with the handler for bookkeeping
->
-> You write "poor performance". Did you actually implement a prototype
-> using userfaultfd-wp? Can you share numbers for comparison?
-
-Yes, we did.  I think Usama can share some numbers.
-
-The problem with userfaultfd, as far as I understand, is that it will
-require a second userspace process to be called in order to handle the
-annotation that a page was touched, before remapping the page to make it
-accessible to the originating process, every time a page is touched.
-This context switch is prohibitively expensive to our use case, where
-Windows applications might invoke it quite often.  Soft-dirty bit
-instead, allows the page tracking to be done entirely in kernelspace.
-
-If I understand correctly, userfaultfd is usefull for VM/container
-migration, where the cost of the context switch is not a real concern,
-since there are much bigger costs from the migration itself.
-
-Maybe we're missing some feature about userfaultfd that would allow us
-to avoid the cost, but from our observations we didn't find a way to
-overcome it.
-
->>         long process_memwatch(int pidfd, unsigned long start, int len,
->>                               unsigned int flags, void *vec, int vec_len);
->> 
->> This syscall can be used by the CRIU project and other applications which
->> require soft-dirty PTE bit information. The following operations are
->> supported in this syscall:
->> - Get the pages that are soft-dirty.
->> - Clear the pages which are soft-dirty.
->> - The optional flag to ignore the VM_SOFTDIRTY and only track per page
->> soft-dirty PTE bit
->
-> Huh, why? VM_SOFTDIRTY is an internal implementation detail and should
-> remain such.
-> VM_SOFTDIRTY translates to "all pages in this VMA are soft-dirty".
-
-That is something very specific about our use case, and we should
-explain it a bit better.  The problem is that VM_SOFTDIRTY modifications
-introduce the overhead of the mm write lock acquisition, which is very
-visible in our benchmarks of Windows games running over Wine.
-
-Since the main reason for VM_SOFTDIRTY to exist, as far as we understand
-it, is to track vma remapping, and this is a use case we don't need to
-worry about when implementing windows semantics, we'd like to be able to
-avoid this extra overhead, optionally, iff userspace knows it can be
-done safely.
-
-VM_SOFTDIRTY is indeed an internal interface.  Which is why we are
-proposing to expose the feature in terms of tracking VMA reuse.
-
-Thanks,
+Thanks.
 
 -- 
-Gabriel Krisman Bertazi
+tejun
