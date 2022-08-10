@@ -2,148 +2,316 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 27BB1C25B08
-	for <linux-doc@archiver.kernel.org>; Wed, 10 Aug 2022 10:05:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 69405C25B06
+	for <linux-doc@archiver.kernel.org>; Wed, 10 Aug 2022 10:47:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231559AbiHJKFv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 10 Aug 2022 06:05:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40240 "EHLO
+        id S231504AbiHJKrv convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 10 Aug 2022 06:47:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45270 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231517AbiHJKFu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 Aug 2022 06:05:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 2169356B94
-        for <linux-doc@vger.kernel.org>; Wed, 10 Aug 2022 03:05:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1660125947;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=83RYZm97KNj9NYPWWYz4fzmlCpq267m27613RMfC+Pg=;
-        b=UHeEaq1VsJh0smxEW5O4pSxnHz5WOcUVkyByN8C1d/kkzrKLEagB5waD//NXUY/Eks+7xT
-        B6VDiPUTtQMxQZdd3KuyHXxKqbBCF2GtO/RkMcwSQVIOQeygDAhyNeh4naClHzUuT3Hh+W
-        iXrFgrt7f/IEYgpEnELBjnbQetKS9Bw=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-590-Dkv9OLytNVue3wi3eNJlwg-1; Wed, 10 Aug 2022 06:05:45 -0400
-X-MC-Unique: Dkv9OLytNVue3wi3eNJlwg-1
-Received: by mail-wm1-f70.google.com with SMTP id v64-20020a1cac43000000b003a4bea31b4dso877172wme.3
-        for <linux-doc@vger.kernel.org>; Wed, 10 Aug 2022 03:05:45 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:subject:organization:from
-         :references:cc:to:content-language:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc;
-        bh=83RYZm97KNj9NYPWWYz4fzmlCpq267m27613RMfC+Pg=;
-        b=nH5s3vsglbJ276oRTdNM6BUQ8WoiTJYOUWX3L5orVQ6f9DGztiauhO9lTx7klPU1Nc
-         egTMqrAISNGDnxJINXk4VI/uBdjV2J1lB/45w68cRXPNUt3XuPnfixGtbHLWoHv+imf2
-         cNnBro7v/8eTr/eY2gngnAU40cTuxesLhfd6cSttkm9Vy9MAAee0jBtbeHuRp+I86i+8
-         V+b5sw8HLbC9cck+AAwwk/XpZNU7bEBit9daN80e6zObEahiLzw8e1NeTuBZSjVT1v07
-         TTCbmaddjJV9cSEdvsCsUy8ZBwa62M3t1HJUqAMIEqvl3p4xW1ES+n0y9dRkrZVvq/ga
-         W47Q==
-X-Gm-Message-State: ACgBeo1dbLN8E6LkkijQJR3hLDg+NdCJn5RgDNi6ClfruqWu/B/mtDxM
-        BP0Z/e5MjXwtxTbrIGWmlsQTzuO0HpMj3ATg6honydGw3qR6mXLaNCu8gBekF8hTcF9Zv1W3EHT
-        zVW+FrWTcWW9Lsyr6Z4yl
-X-Received: by 2002:a5d:64ae:0:b0:220:6c4c:5a60 with SMTP id m14-20020a5d64ae000000b002206c4c5a60mr17058828wrp.636.1660125944514;
-        Wed, 10 Aug 2022 03:05:44 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR5i72uisBNMVtDIvVDVfSxV1hzWrZROoCbvcTeBej4J7CIdnSDFuFoSBTJk3opG5+sXP+xgow==
-X-Received: by 2002:a5d:64ae:0:b0:220:6c4c:5a60 with SMTP id m14-20020a5d64ae000000b002206c4c5a60mr17058769wrp.636.1660125944245;
-        Wed, 10 Aug 2022 03:05:44 -0700 (PDT)
-Received: from ?IPV6:2003:cb:c707:1600:a3ce:b459:ef57:7b93? (p200300cbc7071600a3ceb459ef577b93.dip0.t-ipconnect.de. [2003:cb:c707:1600:a3ce:b459:ef57:7b93])
-        by smtp.gmail.com with ESMTPSA id t188-20020a1c46c5000000b003a327f19bf9sm1793951wma.14.2022.08.10.03.05.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 10 Aug 2022 03:05:43 -0700 (PDT)
-Message-ID: <00f1aa03-bc82-ffce-569b-e2d5c459992c@redhat.com>
-Date:   Wed, 10 Aug 2022 12:05:42 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
+        with ESMTP id S231424AbiHJKru (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 Aug 2022 06:47:50 -0400
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF1C585FAF;
+        Wed, 10 Aug 2022 03:47:48 -0700 (PDT)
+Received: from fraeml709-chm.china.huawei.com (unknown [172.18.147.201])
+        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4M2mqM0h5Hz67qSS;
+        Wed, 10 Aug 2022 18:47:43 +0800 (CST)
+Received: from fraeml714-chm.china.huawei.com (10.206.15.33) by
+ fraeml709-chm.china.huawei.com (10.206.15.37) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Wed, 10 Aug 2022 12:47:46 +0200
+Received: from fraeml714-chm.china.huawei.com ([10.206.15.33]) by
+ fraeml714-chm.china.huawei.com ([10.206.15.33]) with mapi id 15.01.2375.024;
+ Wed, 10 Aug 2022 12:47:46 +0200
+From:   Roberto Sassu <roberto.sassu@huawei.com>
+To:     Jarkko Sakkinen <jarkko@kernel.org>
+CC:     "ast@kernel.org" <ast@kernel.org>,
+        "daniel@iogearbox.net" <daniel@iogearbox.net>,
+        "andrii@kernel.org" <andrii@kernel.org>,
+        "martin.lau@linux.dev" <martin.lau@linux.dev>,
+        "song@kernel.org" <song@kernel.org>, "yhs@fb.com" <yhs@fb.com>,
+        "john.fastabend@gmail.com" <john.fastabend@gmail.com>,
+        "kpsingh@kernel.org" <kpsingh@kernel.org>,
+        "sdf@google.com" <sdf@google.com>,
+        "haoluo@google.com" <haoluo@google.com>,
+        "jolsa@kernel.org" <jolsa@kernel.org>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "dhowells@redhat.com" <dhowells@redhat.com>,
+        "rostedt@goodmis.org" <rostedt@goodmis.org>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "paul@paul-moore.com" <paul@paul-moore.com>,
+        "jmorris@namei.org" <jmorris@namei.org>,
+        "serge@hallyn.com" <serge@hallyn.com>,
+        "shuah@kernel.org" <shuah@kernel.org>,
+        "bpf@vger.kernel.org" <bpf@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "keyrings@vger.kernel.org" <keyrings@vger.kernel.org>,
+        "linux-security-module@vger.kernel.org" 
+        <linux-security-module@vger.kernel.org>,
+        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH v9 00/10] bpf: Add kfuncs for PKCS#7 signature
+ verification
+Thread-Topic: [PATCH v9 00/10] bpf: Add kfuncs for PKCS#7 signature
+ verification
+Thread-Index: AQHYq/ZxvSq1kKhJ80GMpi61nzH0dK2mp4mAgAFNcKA=
+Date:   Wed, 10 Aug 2022 10:47:46 +0000
+Message-ID: <5ed88c6209a1435dbe6cd479edc1cacd@huawei.com>
+References: <20220809134603.1769279-1-roberto.sassu@huawei.com>
+ <YvKQ8WWJgWSJB9FC@kernel.org>
+In-Reply-To: <YvKQ8WWJgWSJB9FC@kernel.org>
+Accept-Language: en-US
 Content-Language: en-US
-To:     Chao Peng <chao.p.peng@linux.intel.com>
-Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
-        qemu-devel@nongnu.org, linux-kselftest@vger.kernel.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <seanjc@google.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, aarcange@redhat.com, ddutile@redhat.com,
-        dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        Muchun Song <songmuchun@bytedance.com>
-References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
- <20220706082016.2603916-4-chao.p.peng@linux.intel.com>
- <13394075-fca0-6f2b-92a2-f1291fcec9a3@redhat.com>
- <20220810092232.GC862421@chaop.bj.intel.com>
-From:   David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Subject: Re: [PATCH v7 03/14] mm: Introduce memfile_notifier
-In-Reply-To: <20220810092232.GC862421@chaop.bj.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.81.210.169]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 8BIT
+MIME-Version: 1.0
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10.08.22 11:22, Chao Peng wrote:
-> On Fri, Aug 05, 2022 at 03:22:58PM +0200, David Hildenbrand wrote:
->> On 06.07.22 10:20, Chao Peng wrote:
->>> This patch introduces memfile_notifier facility so existing memory file
->>> subsystems (e.g. tmpfs/hugetlbfs) can provide memory pages to allow a
->>> third kernel component to make use of memory bookmarked in the memory
->>> file and gets notified when the pages in the memory file become
->>> invalidated.
->>
->> Stupid question, but why is this called "memfile_notifier" and not
->> "memfd_notifier". We're only dealing with memfd's after all ... which
->> are anonymous files essentially. Or what am I missing? Are there any
->> other plans for fs than plain memfd support that I am not aware of?
+> From: Jarkko Sakkinen [mailto:jarkko@kernel.org]
+> Sent: Tuesday, August 9, 2022 6:53 PM
+> On Tue, Aug 09, 2022 at 03:45:53PM +0200, Roberto Sassu wrote:
+> > One of the desirable features in security is the ability to restrict import
+> > of data to a given system based on data authenticity. If data import can be
+> > restricted, it would be possible to enforce a system-wide policy based on
+> > the signing keys the system owner trusts.
+> >
+> > This feature is widely used in the kernel. For example, if the restriction
+> > is enabled, kernel modules can be plugged in only if they are signed with a
+> > key whose public part is in the primary or secondary keyring.
+> >
+> > For eBPF, it can be useful as well. For example, it might be useful to
+> > authenticate data an eBPF program makes security decisions on.
 > 
-> There were some discussions on this in v3.
->   https://lkml.org/lkml/2021/12/28/484
-> Sean commented it's OK to abstract it from memfd but he also wants the
-> kAPI (name) should not bind to memfd to make room for future non-memfd
-> usages.
+> Security decision in LSM BPF?
 
-Sorry, but how is "memfile" any better? memfd abstracted to memfile?! :)
+Yes, based on the eBPF programs attached to it.
 
-I understand Sean's suggestion about abstracting, but if the new name
-makes it harder to grasp and there isn't really an alternative to memfd
-in sight, I'm not so sure I enjoy the tried abstraction here.
+Roberto
 
-Otherwise we'd have to get creative now and discuss something like
-"file_population_notifer" or "mapping_population_notifer" and I am not
-sure that our time is well spent doing so right now.
-
-... as this is kernel-internal, we can always adjust the name as we
-please later, once we *actually* now what the abstraction should be.
-Until then I'd suggest to KIS and soft-glue this to memfd.
-
-Or am I missing something important?
-
--- 
-Thanks,
-
-David / dhildenb
-
+> > After a discussion in the eBPF mailing list, it was decided that the stated
+> > goal should be accomplished by introducing four new kfuncs:
+> > bpf_lookup_user_key() and bpf_lookup_system_key(), for retrieving a keyring
+> > with keys trusted for signature verification, respectively from its serial
+> > and from a pre-determined ID; bpf_key_put(), to release the reference
+> > obtained with the former two kfuncs, bpf_verify_pkcs7_signature(), for
+> > verifying PKCS#7 signatures.
+> >
+> > Other than the key serial, bpf_lookup_user_key() also accepts key lookup
+> > flags, that influence the behavior of the lookup. bpf_lookup_system_key()
+> > accepts pre-determined IDs defined in include/linux/verification.h.
+> >
+> > bpf_key_put() accepts the new bpf_key structure, introduced to tell whether
+> > the other structure member, a key pointer, is valid or not. The reason is
+> > that verify_pkcs7_signature() also accepts invalid pointers, set with the
+> > pre-determined ID, to select a system-defined keyring. key_put() must be
+> > called only for valid key pointers.
+> >
+> > Since the two key lookup functions allocate memory and one increments a key
+> > reference count, they must be used in conjunction with bpf_key_put(). The
+> > latter must be called only if the lookup functions returned a non-NULL
+> > pointer. The verifier denies the execution of eBPF programs that don't
+> > respect this rule.
+> >
+> > The two key lookup functions should be used in alternative, depending on
+> > the use case. While bpf_lookup_user_key() provides great flexibility, it
+> > seems suboptimal in terms of security guarantees, as even if the eBPF
+> > program is assumed to be trusted, the serial used to obtain the key pointer
+> > might come from untrusted user space not choosing one that the system
+> > administrator approves to enforce a mandatory policy.
+> >
+> > bpf_lookup_system_key() instead provides much stronger guarantees,
+> > especially if the pre-determined ID is not passed by user space but is
+> > hardcoded in the eBPF program, and that program is signed. In this case,
+> > bpf_verify_pkcs7_signature() will always perform signature verification
+> > with a key that the system administrator approves, i.e. the primary,
+> > secondary or platform keyring.
+> >
+> > Nevertheless, key permission checks need to be done accurately. Since
+> > bpf_lookup_user_key() cannot determine how a key will be used by other
+> > kfuncs, it has to defer the permission check to the actual kfunc using the
+> > key. It does it by calling lookup_user_key() with KEY_DEFER_PERM_CHECK as
+> > needed permission. Later, bpf_verify_pkcs7_signature(), if called,
+> > completes the permission check by calling key_validate(). It does not need
+> > to call key_task_permission() with permission KEY_NEED_SEARCH, as it is
+> > already done elsewhere by the key subsystem. Future kfuncs using the
+> > bpf_key structure need to implement the proper checks as well.
+> >
+> > Finally, the last kfunc, bpf_verify_pkcs7_signature(), accepts the data and
+> > signature to verify as eBPF dynamic pointers, to minimize the number of
+> > kfunc parameters, and the keyring with keys for signature verification as a
+> > bpf_key structure, returned by one of the two key lookup functions.
+> >
+> > All kfuncs except bpf_key_put() can be called only from sleepable programs,
+> > because of memory allocation and crypto operations. For example, the
+> > lsm.s/bpf attach point is suitable, fexit/array_map_update_elem is not.
+> >
+> > The correctness of implementation of the new kfuncs and of their usage is
+> > checked with the introduced tests.
+> >
+> > The patch set includes patches from other authors (dependencies) for sake
+> > of completeness. It is organized as follows.
+> >
+> > Patch 1 from Benjamin Tissoires introduces the new KF_SLEEPABLE kfunc flag.
+> > Patch 2 from KP Singh allows kfuncs to be used by LSM programs. Patch 3
+> > allows dynamic pointers to be used as kfunc parameters. Patch 4 exports
+> > bpf_dynptr_get_size(), to obtain the real size of data carried by a dynamic
+> > pointer. Patch 5 makes available for new eBPF kfuncs some key-related
+> > definitions. Patch 6 introduces the bpf_lookup_*_key() and bpf_key_put()
+> > kfuncs. Patch 7 introduces the bpf_verify_pkcs7_signature() kfunc. Finally,
+> > patches 8-10 introduce the tests.
+> >
+> > Changelog
+> >
+> > v8:
+> >  - Define the new bpf_key structure to carry the key pointer and whether
+> >    that pointer is valid or not (suggested by Daniel)
+> >  - Drop patch to mark a kfunc parameter with the __maybe_null suffix
+> >  - Improve documentation of kfuncs
+> >  - Introduce bpf_lookup_system_key() to obtain a key pointer suitable for
+> >    verify_pkcs7_signature() (suggested by Daniel)
+> >  - Use the new kfunc registration API
+> >  - Drop patch to test the __maybe_null suffix
+> >  - Add tests for bpf_lookup_system_key()
+> >
+> > v7:
+> >  - Add support for using dynamic and NULL pointers in kfunc (suggested by
+> >    Alexei)
+> >  - Add new kfunc-related tests
+> >
+> > v6:
+> >  - Switch back to key lookup helpers + signature verification (until v5),
+> >    and defer permission check from bpf_lookup_user_key() to
+> >    bpf_verify_pkcs7_signature()
+> >  - Add additional key lookup test to illustrate the usage of the
+> >    KEY_LOOKUP_CREATE flag and validate the flags (suggested by Daniel)
+> >  - Make description of flags of bpf_lookup_user_key() more user-friendly
+> >    (suggested by Daniel)
+> >  - Fix validation of flags parameter in bpf_lookup_user_key() (reported by
+> >    Daniel)
+> >  - Rename bpf_verify_pkcs7_signature() keyring-related parameters to
+> >    user_keyring and system_keyring to make their purpose more clear
+> >  - Accept keyring-related parameters of bpf_verify_pkcs7_signature() as
+> >    alternatives (suggested by KP)
+> >  - Replace unsigned long type with u64 in helper declaration (suggested by
+> >    Daniel)
+> >  - Extend the bpf_verify_pkcs7_signature() test by calling the helper
+> >    without data, by ensuring that the helper enforces the keyring-related
+> >    parameters as alternatives, by ensuring that the helper rejects
+> >    inaccessible and expired keyrings, and by checking all system keyrings
+> >  - Move bpf_lookup_user_key() and bpf_key_put() usage tests to
+> >    ref_tracking.c (suggested by John)
+> >  - Call bpf_lookup_user_key() and bpf_key_put() only in sleepable programs
+> >
+> > v5:
+> >  - Move KEY_LOOKUP_ to include/linux/key.h
+> >    for validation of bpf_verify_pkcs7_signature() parameter
+> >  - Remove bpf_lookup_user_key() and bpf_key_put() helpers, and the
+> >    corresponding tests
+> >  - Replace struct key parameter of bpf_verify_pkcs7_signature() with the
+> >    keyring serial and lookup flags
+> >  - Call lookup_user_key() and key_put() in bpf_verify_pkcs7_signature()
+> >    code, to ensure that the retrieved key is used according to the
+> >    permission requested at lookup time
+> >  - Clarified keyring precedence in the description of
+> >    bpf_verify_pkcs7_signature() (suggested by John)
+> >  - Remove newline in the second argument of ASSERT_
+> >  - Fix helper prototype regular expression in bpf_doc.py
+> >
+> > v4:
+> >  - Remove bpf_request_key_by_id(), don't return an invalid pointer that
+> >    other helpers can use
+> >  - Pass the keyring ID (without ULONG_MAX, suggested by Alexei) to
+> >    bpf_verify_pkcs7_signature()
+> >  - Introduce bpf_lookup_user_key() and bpf_key_put() helpers (suggested by
+> >    Alexei)
+> >  - Add lookup_key_norelease test, to ensure that the verifier blocks eBPF
+> >    programs which don't decrement the key reference count
+> >  - Parse raw PKCS#7 signature instead of module-style signature in the
+> >    verify_pkcs7_signature test (suggested by Alexei)
+> >  - Parse kernel module in user space and pass raw PKCS#7 signature to the
+> >    eBPF program for signature verification
+> >
+> > v3:
+> >  - Rename bpf_verify_signature() back to bpf_verify_pkcs7_signature() to
+> >    avoid managing different parameters for each signature verification
+> >    function in one helper (suggested by Daniel)
+> >  - Use dynamic pointers and export bpf_dynptr_get_size() (suggested by
+> >    Alexei)
+> >  - Introduce bpf_request_key_by_id() to give more flexibility to the caller
+> >    of bpf_verify_pkcs7_signature() to retrieve the appropriate keyring
+> >    (suggested by Alexei)
+> >  - Fix test by reordering the gcc command line, always compile sign-file
+> >  - Improve helper support check mechanism in the test
+> >
+> > v2:
+> >  - Rename bpf_verify_pkcs7_signature() to a more generic
+> >    bpf_verify_signature() and pass the signature type (suggested by KP)
+> >  - Move the helper and prototype declaration under #ifdef so that user
+> >    space can probe for support for the helper (suggested by Daniel)
+> >  - Describe better the keyring types (suggested by Daniel)
+> >  - Include linux/bpf.h instead of vmlinux.h to avoid implicit or
+> >    redeclaration
+> >  - Make the test selfcontained (suggested by Alexei)
+> >
+> > v1:
+> >  - Don't define new map flag but introduce simple wrapper of
+> >    verify_pkcs7_signature() (suggested by Alexei and KP)
+> >
+> > Benjamin Tissoires (1):
+> >   btf: Add a new kfunc flag which allows to mark a function to be
+> >     sleepable
+> >
+> > KP Singh (1):
+> >   bpf: Allow kfuncs to be used in LSM programs
+> >
+> > Roberto Sassu (8):
+> >   btf: Handle dynamic pointer parameter in kfuncs
+> >   bpf: Export bpf_dynptr_get_size()
+> >   KEYS: Move KEY_LOOKUP_ to include/linux/key.h
+> >   bpf: Add bpf_lookup_*_key() and bpf_key_put() kfuncs
+> >   bpf: Add bpf_verify_pkcs7_signature() kfunc
+> >   selftests/bpf: Add verifier tests for bpf_lookup_*_key() and
+> >     bpf_key_put()
+> >   selftests/bpf: Add additional tests for bpf_lookup_*_key()
+> >   selftests/bpf: Add test for bpf_verify_pkcs7_signature() kfunc
+> >
+> >  Documentation/bpf/kfuncs.rst                  |   6 +
+> >  include/linux/bpf.h                           |   7 +
+> >  include/linux/bpf_verifier.h                  |   3 +
+> >  include/linux/btf.h                           |   1 +
+> >  include/linux/key.h                           |   3 +
+> >  kernel/bpf/btf.c                              |  27 ++
+> >  kernel/bpf/helpers.c                          |   2 +-
+> >  kernel/bpf/verifier.c                         |   4 +-
+> >  kernel/trace/bpf_trace.c                      | 207 +++++++++
+> >  security/keys/internal.h                      |   2 -
+> >  tools/testing/selftests/bpf/Makefile          |  14 +-
+> >  tools/testing/selftests/bpf/config            |   2 +
+> >  .../selftests/bpf/prog_tests/lookup_key.c     | 112 +++++
+> >  .../bpf/prog_tests/verify_pkcs7_sig.c         | 399 ++++++++++++++++++
+> >  .../selftests/bpf/progs/test_lookup_key.c     |  46 ++
+> >  .../bpf/progs/test_verify_pkcs7_sig.c         | 100 +++++
+> >  tools/testing/selftests/bpf/test_verifier.c   |   3 +-
+> >  .../selftests/bpf/verifier/ref_tracking.c     | 139 ++++++
+> >  .../testing/selftests/bpf/verify_sig_setup.sh | 104 +++++
+> >  19 files changed, 1172 insertions(+), 9 deletions(-)
+> >  create mode 100644 tools/testing/selftests/bpf/prog_tests/lookup_key.c
+> >  create mode 100644
+> tools/testing/selftests/bpf/prog_tests/verify_pkcs7_sig.c
+> >  create mode 100644 tools/testing/selftests/bpf/progs/test_lookup_key.c
+> >  create mode 100644
+> tools/testing/selftests/bpf/progs/test_verify_pkcs7_sig.c
+> >  create mode 100755 tools/testing/selftests/bpf/verify_sig_setup.sh
+> >
+> > --
+> > 2.25.1
+> 
+> BR, Jarkko
