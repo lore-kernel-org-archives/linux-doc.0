@@ -2,48 +2,53 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 32A9EC19F2A
-	for <linux-doc@archiver.kernel.org>; Thu, 11 Aug 2022 19:35:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9FF91C19F2A
+	for <linux-doc@archiver.kernel.org>; Thu, 11 Aug 2022 19:42:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234636AbiHKTfX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 11 Aug 2022 15:35:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45824 "EHLO
+        id S235402AbiHKTmu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 11 Aug 2022 15:42:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53658 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235403AbiHKTfV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Aug 2022 15:35:21 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 798426548;
-        Thu, 11 Aug 2022 12:35:19 -0700 (PDT)
+        with ESMTP id S234698AbiHKTmt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Aug 2022 15:42:49 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 518D523BF5;
+        Thu, 11 Aug 2022 12:42:48 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 05B6DB82206;
-        Thu, 11 Aug 2022 19:35:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B70FC433D6;
-        Thu, 11 Aug 2022 19:35:16 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 15B8BB8200A;
+        Thu, 11 Aug 2022 19:42:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64B02C433D6;
+        Thu, 11 Aug 2022 19:42:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1660246516;
-        bh=sFqhIMSSxdlo/T1Wkm8sX5wGxJE29nTmQH6IHS/4K5c=;
+        s=k20201202; t=1660246965;
+        bh=/Z5JO62QRcw9PN+qiv1je4iFkrsxHarqJZOZ+PuLgI8=;
         h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=qG1br2jGBwM3ym7YJ9k/wxwSkHV8Cpc6Q4IML7aDanhZvyejogyxLLYLmguKJfuaS
-         ezK6Lv+Vo3hTI32I3jUjrF/fjIkkfAhL6Q5JyeBMPxjm/raA8a9+63extJHgHoHb24
-         cElkvnB3NyrXNCq+NFpsIPGS8C5QK4uTcnfvgavSXMF2rclrM58ZKlOcyArCosvZGS
-         XWByXkTlUJh514EkXM8wF+bBmnF//OF2mhEfGu1Ad0VU3OfZa6qepVM5tK1qTIIv8n
-         eejhAuvdOoKsSZhLSt2XxlhyYXIiAFHjLJbuX38ULWIDWX0V8x2IqrghAunm1G5/vN
-         Yjv2Nks2JY7xw==
-Date:   Thu, 11 Aug 2022 12:35:15 -0700
+        b=PjRMAWierwHCQj5xoYTF3u0AKmy9efK/2iDjcK1Qd0CYhfSgHLy2KM6iO88hBCaBt
+         dQ330fPz46AM/DEiUoyueFwdUXbpZTQ4WuVGOCNQKc5sApBQU0DKl72ErHndGO+p4t
+         c4BUHZVR0ZnFqJ9vtXYV4n6lnjzBtcLurGWTrS+dZcWwilkCcYX/M407uTO7c1RlJy
+         Bj4PPvdmRuFTIJ4Sz6V1D0/VKkhblfZKeY1ePW6lS7DgimIkYdkcW+1TbF4E+YB7ix
+         rtVEPzKfV8rDoHBv3nTkOlJOl9AC9y6vBfY742AecMoaNo65tZ5ilwLiHv/8MUK+r4
+         02c4TcHcny7rA==
+Date:   Thu, 11 Aug 2022 12:42:44 -0700
 From:   Jakub Kicinski <kuba@kernel.org>
 To:     sdf@google.com
-Cc:     netdev@vger.kernel.org, davem@davemloft.net, edumazet@google.com,
+Cc:     Stephen Hemminger <stephen@networkplumber.org>,
+        netdev@vger.kernel.org, davem@davemloft.net, edumazet@google.com,
         pabeni@redhat.com, jacob.e.keller@intel.com, vadfed@fb.com,
         johannes@sipsolutions.net, jiri@resnulli.us, dsahern@kernel.org,
-        stephen@networkplumber.org, fw@strlen.de, linux-doc@vger.kernel.org
-Subject: Re: [RFC net-next 4/4] ynl: add a sample user for ethtool
-Message-ID: <20220811123515.4ef1a715@kernel.org>
-In-Reply-To: <YvUru3QvN/LuYgnq@google.com>
+        fw@strlen.de, linux-doc@vger.kernel.org,
+        Michal Kubecek <mkubecek@suse.cz>
+Subject: Re: [RFC net-next 0/4] ynl: YAML netlink protocol descriptions
+Message-ID: <20220811124244.37a66b98@kernel.org>
+In-Reply-To: <YvUuPU8dMSvv2tdJ@google.com>
 References: <20220811022304.583300-1-kuba@kernel.org>
-        <20220811022304.583300-5-kuba@kernel.org>
-        <YvUru3QvN/LuYgnq@google.com>
+        <20220810211534.0e529a06@hermes.local>
+        <20220810214701.46565016@kernel.org>
+        <20220811080152.2dbd82c2@hermes.local>
+        <20220811083435.1b271c7f@kernel.org>
+        <YvUuPU8dMSvv2tdJ@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
@@ -51,134 +56,13 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 11 Aug 2022 09:18:03 -0700 sdf@google.com wrote:
-> > +attr-cnt-suffix: CNT  
-> 
-> Is it a hack to make the generated header fit into existing
-> implementation?
+On Thu, 11 Aug 2022 09:28:45 -0700 sdf@google.com wrote:
+> Putting it into iproute2 will make it carry a 'networking' badge on it
+> meaning no other subsystem would look into it.
 
-Yup.
+Good point.
 
-> Should we #define ETHTOOL_XXX_CNT ETHTOOL_XXX in
-> the implementation instead? (or s/ETHTOOL_XXX_CNT/ETHTOOL_XXX/ the
-> source itself?)
+> I'd rather make netlink more generic (s/netlink/kernelink/?) and remove
+> CONFIG_NET dependency to address https://lwn.net/Articles/897202/
 
-We could, I guess. To be clear this controls the count, IOW:
-
-enum {
-	PREFIX_A_BLA_ATTR = 1,
-	PREFIX_A_ANOTHER_ATTR,
-	PREFIX_A_AND_ONEMORE,
-	__PFREIX_A_CNT, // <--- This thing
-};
-#define PREFIX_A_MAX (__PFREIX_A_CNT - 1)
-
-It's not used in the generated code, only if we codegen the uAPI,
-AFAIR. So we'd need a way to tell the generator of the uAPI about
-the situation, anyway. I could be misremembering.
-
-> > +attribute-spaces:  
-> 
-> Are you open to bike shedding? :-)
-
-I can't make promises that I'll change things but I'm curious 
-to hear it!
-
-> I like how ethtool_netlink.h calls these 'message types'.
-
-It calls operation types message types, not attr spaces.
-I used ops because that's what genetlink calls things.
-
-> > +  -
-> > +    name: header
-> > +    name-prefix: ETHTOOL_A_HEADER_  
-> 
-> Any issue with name-prefix+name-suffix being non-greppable? Have you tried
-> something like this instead:
-> 
-> - name: ETHTOOL_A_HEADER # this is fake, for ynl reference only
->    attributes:
->      - name: ETHTOOL_A_HEADER_DEV_INDEX
->        val:
->        type:
->      - name ETHTOOL_A_HEADER_DEV_NAME
->        ..
-> 
-> It seems a bit easier to map the spec into what it's going to produce.
-> For example, it took me a while to translate 'channels_get' below into
-> ETHTOOL_MSG_CHANNELS_GET.
-> 
-> Or is it too much ETHTOOL_A_HEADER_?
-
-Dunno, that'd mean that the Python method is called
-ETHTOOL_MSG_CHANNELS_GET rather than just channels_get.
-I don't want to force all languages to use the C naming.
-The C naming just leads to silly copy'n'paste issues like
-f329a0ebeab.
-
-> > +        len: ALTIFNAMSIZ - 1  
-> 
-> Not sure how strict you want to be here. ALTIFNAMSIZ is defined
-> somewhere else it seems? (IOW, do we want to have implicit dependencies
-> on external/uapi headers?)
-
-Good catch, I'm aware. I was planning to add a "header constants" 
-section or some such. A section in "headers" which defines the 
-constants which C code will get from the headers.
-
-For Python it does not matter, as we don't have to size arrays.
-I was wondering if it will matter for other languages, like Rust?
-
-> > +            - header
-> > +            - rx_count
-> > +            - tx_count
-> > +            - other_count
-> > +            - combined_count  
-> 
-> My netlink is super rusty, might be worth mentioning in the spec: these
-> are possible attributes, but are all of them required?
-
-Right, will do, nothing is required, or rather requirements are kinda
-hard to express and checked by the code in the kernel.
-
-> You also mention the validation part in the cover letter, do you plan
-> add some of these policy properties to the spec or everything is
-> there already? (I'm assuming we care about the types which we have above and
-> optional/required attribute indication?)
-
-Yeah, my initial plan was to encode requirement in the policy but its
-not trivial. So I left it as future extension. Besides things which are
-required today may not be tomorrow, so its a bit of a strange thing.
-
-Regarding policy properties I'm intending to support all of the stuff
-that the kernel policies recognize... but somehow most families I
-converted don't have validation (only mask and length :S).
-
-Actually for DPLL I have a nice validation trick. You can define an
-enum:
-
-constants:
-  -
-    type: flags
-    name: genl_get_flags
-    value-prefix: DPLL_FLAG_
-    values: [ sources, outputs, status ]
-
-Then for an attribute you link it:
-
-      -
-        name: flags
-        type: u32
-        flags-mask: genl_get_flags
-
-And that will auto an enum:
-
-enum dpll_genl_get_flags {
-	DPLL_FLAG_SOURCES = 1,
-	DPLL_FLAG_OUTPUTS = 2,
-	DPLL_FLAG_STATUS = 4,
-};
-
-And a policy with a mask:
-
-	[DPLLA_FLAGS] = NLA_POLICY_MASK(NLA_U32, 0x7),
+I think people just use that as an excuse, TBH.
