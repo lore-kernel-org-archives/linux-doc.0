@@ -2,124 +2,106 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B858CC25B0C
-	for <linux-doc@archiver.kernel.org>; Thu, 11 Aug 2022 13:44:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D51CCC19F2A
+	for <linux-doc@archiver.kernel.org>; Thu, 11 Aug 2022 13:47:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234946AbiHKNoM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 11 Aug 2022 09:44:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54330 "EHLO
+        id S235024AbiHKNrB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 11 Aug 2022 09:47:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57540 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234939AbiHKNoL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Aug 2022 09:44:11 -0400
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A369661D5B;
-        Thu, 11 Aug 2022 06:44:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1660225450; x=1691761450;
-  h=date:from:to:cc:subject:message-id:reply-to:references:
-   mime-version:in-reply-to;
-  bh=6G1vjfFDPRBJq3hrus4RUCAj1Ik6SbGGx7LGPLT4CKc=;
-  b=d4c4cnSceeeu7pOr1M6yPJGfJ3fVRak7yxgC47zNN1IUy5Tdxab8FQpQ
-   cnBQ7gPpd/hvDbuy5gyByOuMb4lwo8Im4oHMUbzDm0qlCTHn/ijQFZOvj
-   Mq3lq+LDZMrEPRr48zUj5FDkcV8nz5k9ctL5KIPNwWcpCtzi1hkz1qA6q
-   pWtjiYJKJbCH2SMClUXcoA9fT++42hoDozM5J4GtXDH6azUGtBvupYHp5
-   MElZW9qgLRhScPlvOPYRA8D2igtaz9uCPWI1Q3gwwFAcoWWRDjFf8DJPw
-   0BgRP0lvXbrnQokLfItXaKv0DQOp2FbifwnxcSyaisiM8C2qnOGVb1Sxb
-   A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10435"; a="271731755"
-X-IronPort-AV: E=Sophos;i="5.93,230,1654585200"; 
-   d="scan'208";a="271731755"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2022 06:44:10 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,230,1654585200"; 
-   d="scan'208";a="665377410"
-Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
-  by fmsmga008.fm.intel.com with ESMTP; 11 Aug 2022 06:43:59 -0700
-Date:   Thu, 11 Aug 2022 21:39:14 +0800
-From:   Chao Peng <chao.p.peng@linux.intel.com>
-To:     Quentin Perret <qperret@google.com>
-Cc:     Sean Christopherson <seanjc@google.com>,
-        David Hildenbrand <david@redhat.com>, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
-        linux-kselftest@vger.kernel.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, aarcange@redhat.com, ddutile@redhat.com,
-        dhildenb@redhat.com, Michael Roth <michael.roth@amd.com>,
-        mhocko@suse.com, Muchun Song <songmuchun@bytedance.com>,
-        Will Deacon <will@kernel.org>, Fuad Tabba <tabba@google.com>
-Subject: Re: [PATCH v7 03/14] mm: Introduce memfile_notifier
-Message-ID: <20220811133914.GC916119@chaop.bj.intel.com>
-Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
-References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
- <20220706082016.2603916-4-chao.p.peng@linux.intel.com>
- <13394075-fca0-6f2b-92a2-f1291fcec9a3@redhat.com>
- <20220810092232.GC862421@chaop.bj.intel.com>
- <00f1aa03-bc82-ffce-569b-e2d5c459992c@redhat.com>
- <YvPC87FMgF7uac7z@google.com>
- <YvT1zOQtTQl2t300@google.com>
+        with ESMTP id S235091AbiHKNq7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Aug 2022 09:46:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 311406C74D
+        for <linux-doc@vger.kernel.org>; Thu, 11 Aug 2022 06:46:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1660225617;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=YnYbZn3d/ZVf9YlldbRuOvAvqpY0e39cFa9Me7K6+LI=;
+        b=SMbU+2xfDCRU6Z4AEE0/nGOyOPVdgKEOxbYU5sFaTinG+R7vjnA6XMl8t93ZjYhwmqtocZ
+        C+OSTr2P6vLU4vsXJbWybY003btbqAcOkAxiwlrpFlavFsnhg7fpjv+VGvXNSI36p1oTgG
+        699gRIQJ+XbO12WuGeiJBX/S0DaZGHw=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-281-9_1xxhzHMm-uNSyY4kamkA-1; Thu, 11 Aug 2022 09:46:49 -0400
+X-MC-Unique: 9_1xxhzHMm-uNSyY4kamkA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 10FCC18E0BF9;
+        Thu, 11 Aug 2022 13:46:48 +0000 (UTC)
+Received: from localhost (unknown [10.39.193.95])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id B8032C15BA6;
+        Thu, 11 Aug 2022 13:46:47 +0000 (UTC)
+From:   Cornelia Huck <cohuck@redhat.com>
+To:     Ricardo =?utf-8?Q?Ca=C3=B1uelo?= <ricardo.canuelo@collabora.com>,
+        linux-doc@vger.kernel.org
+Cc:     virtualization@lists.linux-foundation.org, mst@redhat.com,
+        jasowang@redhat.com, kernel@collabora.com, bagasdotme@gmail.com
+Subject: Re: [PATCH v4 2/2] docs: driver-api: virtio: virtio on Linux
+In-Reply-To: <20220810094004.1250-3-ricardo.canuelo@collabora.com>
+Organization: Red Hat GmbH
+References: <20220810094004.1250-1-ricardo.canuelo@collabora.com>
+ <20220810094004.1250-3-ricardo.canuelo@collabora.com>
+User-Agent: Notmuch/0.36 (https://notmuchmail.org)
+Date:   Thu, 11 Aug 2022 15:46:46 +0200
+Message-ID: <87czd6dha1.fsf@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YvT1zOQtTQl2t300@google.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Aug 11, 2022 at 12:27:56PM +0000, Quentin Perret wrote:
-> +CC Fuad
-> 
-> On Wednesday 10 Aug 2022 at 14:38:43 (+0000), Sean Christopherson wrote:
-> > > I understand Sean's suggestion about abstracting, but if the new name
-> > > makes it harder to grasp and there isn't really an alternative to memfd
-> > > in sight, I'm not so sure I enjoy the tried abstraction here.
-> > 
-> > ARM's pKVM implementation is potentially (hopefully) going to switch to this API
-> > (as a consumer) sooner than later.  If they anticipate being able to use memfd,
-> > then there's unlikely to be a second backing type any time soon.
-> > 
-> > Quentin, Will?
-> 
-> Yep, Fuad is currently trying to port the pKVM mm stuff on top of this
-> series to see how well it fits, so stay tuned.
+On Wed, Aug 10 2022, Ricardo Ca=C3=B1uelo <ricardo.canuelo@collabora.com> w=
+rote:
 
-Good to hear that.
+> Basic doc about Virtio on Linux and a short tutorial on Virtio drivers.
+>
+> Signed-off-by: Ricardo Ca=C3=B1uelo <ricardo.canuelo@collabora.com>
+> ---
+>  Documentation/driver-api/index.rst            |   1 +
+>  Documentation/driver-api/virtio/index.rst     |  11 ++
+>  Documentation/driver-api/virtio/virtio.rst    | 144 ++++++++++++++
+>  .../virtio/writing_virtio_drivers.rst         | 186 ++++++++++++++++++
+>  MAINTAINERS                                   |   1 +
+>  5 files changed, 343 insertions(+)
+>  create mode 100644 Documentation/driver-api/virtio/index.rst
+>  create mode 100644 Documentation/driver-api/virtio/virtio.rst
+>  create mode 100644 Documentation/driver-api/virtio/writing_virtio_driver=
+s.rst
+>
 
->I think there is still
-> some room for discussion around page conversions (private->shared etc),
-> and we'll need a clearer idea of what the code might look like to have a
-> constructive discussion,
+(...)
 
-That's fine. Looking forward to your feedbacks.
+> +.. rubric:: Footnotes
+> +
+> +.. [#f1] that's why they may be also referred as virtrings.
 
->but so far it does seem like using a memfd (the
-> new private one or perhaps just memfd_secret, to be discussed) + memfd
-> notifiers is a promising option.
+"referred to"
 
-If it still memfd (even memfd_secret), maybe we can use the name
-memfd_notifier?
+(...)
 
-Chao
+> +The ``probe`` method does the minimum driver setup in this case
+> +(memory allocation for the device data) and initializes the
+> +virtqueue. The virtqueues are automatically enabled after ``probe``
+> +returns, sending the appropriate "DRIVER_OK" status signal to the
+> +device. If the virtqueues need to be enabled before ``probe`` ends, they
+> +can be manually enabled by calling virtio_device_ready():
+> +
+> +.. kernel-doc:: include/linux/virtio_config.h
+> +    :identifiers: virtio_device_ready
+
+Hm, not quite sure what the actual expectations are here: Should the
+driver set DRIVER_OK in its probe function, and the core only set it as
+a fallback? Michael, Jason?
+
+(...)
+
+LGTM in general.
+
