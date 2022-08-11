@@ -2,86 +2,117 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 609DDC19F2A
-	for <linux-doc@archiver.kernel.org>; Thu, 11 Aug 2022 16:04:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 898B2C3F6B0
+	for <linux-doc@archiver.kernel.org>; Thu, 11 Aug 2022 16:21:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237147AbiHKQEM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 11 Aug 2022 12:04:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58172 "EHLO
+        id S237276AbiHKQVP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 11 Aug 2022 12:21:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58362 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236098AbiHKQDt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Aug 2022 12:03:49 -0400
-Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 027A99E11B;
-        Thu, 11 Aug 2022 08:50:35 -0700 (PDT)
+        with ESMTP id S237713AbiHKQUE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Aug 2022 12:20:04 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC5F69C516;
+        Thu, 11 Aug 2022 09:01:57 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id 39835CE2238;
-        Thu, 11 Aug 2022 15:50:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15FC5C433C1;
-        Thu, 11 Aug 2022 15:50:31 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 72D6060F39;
+        Thu, 11 Aug 2022 16:01:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 231FCC433D6;
+        Thu, 11 Aug 2022 16:01:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1660233031;
-        bh=GIreWXw0dGBiaMbBB9V8St1d59z1e5wKB1rMCzUPCZU=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=BLejlDjOLzySpOPLfxEksdTbfFTpZ6NWg9VYblnhCO/gJax7nuOeLaJHJtmctL2PI
-         uKtZXLswxXpqwcnDtedTrWMVhHEr5rBKjldZzTvCe0NxGpF+5JOjxcj8kwOFnTFAtB
-         CwpugiHPsQJPN+fLsQTtr+pIJLdKrwlWmLVes+FZityYL9imncj/rEpwNIpxSA7Vrj
-         uzL1vlqmuiaU58PqUykbLmJiu5ZOw/fN+/jdvI4PoOrIQnuX4I3Ur7Kc4BOBML7mC4
-         pPO/S9oUyb5rkMdDOhtrNPWotxrq0/13f9cSnRY3c6Ju3PscO89qKeofS458gZJtcs
-         DnLMWIdVkm03w==
-Date:   Thu, 11 Aug 2022 08:50:22 -0700
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     Benjamin Poirier <benjamin.poirier@gmail.com>
-Cc:     netdev@vger.kernel.org, davem@davemloft.net, edumazet@google.com,
-        pabeni@redhat.com, sdf@google.com, jacob.e.keller@intel.com,
-        vadfed@fb.com, johannes@sipsolutions.net, jiri@resnulli.us,
-        dsahern@kernel.org, stephen@networkplumber.org, fw@strlen.de,
-        linux-doc@vger.kernel.org
-Subject: Re: [RFC net-next 3/4] ynl: add a sample python library
-Message-ID: <20220811085022.1539f0e3@kernel.org>
-In-Reply-To: <YvSYQe58MwWh4x+q@d3>
-References: <20220811022304.583300-1-kuba@kernel.org>
-        <20220811022304.583300-4-kuba@kernel.org>
-        <YvSYQe58MwWh4x+q@d3>
+        s=k20201202; t=1660233716;
+        bh=qsShld15yanExGZz6tj+YI1xZMgoDwaENHBqd2mx4bU=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=E2WANIV4ZXRQHPcyqKilcuedh5gOdoRzznHCx+Sh+VKdU/j5CWPYhRbBHIzNuSnA/
+         81RdEsuqUSlXuYxPJo/ixtWTdXL+bFopkH9SBWl2ahvGyTYZynCVUUJDesSyeu7EtS
+         /XB2yc3HCJecYqHJeaJMJd4LJg8KJyQOXInokAciO6xu5rM63vV1H9xk1xaDS52+H7
+         t1MNKFT3vfT0AYPJ/y2r+MBAcQmqH5VknzqXHRuqaQ5zyIhRNUliZm7MYkUBOKE52M
+         Ygjj4IfmGdv+HaygKixK5Prb2wwWOhPMcHAa8gGMhZLLrgLLBmAUIxQSmhjvgKNDob
+         kmMHQnn2/dDsg==
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sasha Levin <sashal@kernel.org>, linux-doc@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.15 47/69] scripts: sphinx-pre-install: fix venv version check logic
+Date:   Thu, 11 Aug 2022 11:55:56 -0400
+Message-Id: <20220811155632.1536867-47-sashal@kernel.org>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220811155632.1536867-1-sashal@kernel.org>
+References: <20220811155632.1536867-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 11 Aug 2022 14:48:49 +0900 Benjamin Poirier wrote:
-> The schema validation part was not working. I got it going with the
-> following changes. It then flags some problems in ethtool.yaml.
-> 
-> diff --git a/tools/net/ynl/samples/ethtool.py b/tools/net/ynl/samples/ethtool.py
-> index 63c8e29f8e5d..4c5a4629748d 100755
-> --- a/tools/net/ynl/samples/ethtool.py
-> +++ b/tools/net/ynl/samples/ethtool.py
-> @@ -14,7 +14,7 @@ def main():
->      parser.add_argument('--ifindex', dest='ifindex', type=str)
->      args = parser.parse_args()
->  
-> -    ynl = YnlFamily(args.spec)
-> +    ynl = YnlFamily(args.spec, args.schema)
->  
->      if args.dev_name:
->          channels = ynl.channels_get({'header': {'dev_name': args.dev_name}})
-> diff --git a/tools/net/ynl/samples/ynl.py b/tools/net/ynl/samples/ynl.py
-> index 59c178e063f1..35c894b0ec19 100644
-> --- a/tools/net/ynl/samples/ynl.py
-> +++ b/tools/net/ynl/samples/ynl.py
-> @@ -247,7 +247,7 @@ class YnlFamily:
->              self.yaml = yaml.safe_load(stream)
->  
->          if schema:
-> -            with open(os.path.dirname(os.path.dirname(file_name)) + '/schema.yaml', "r") as stream:
-> +            with open(schema, "r") as stream:
->                  schema = yaml.safe_load(stream)
->  
->              jsonschema.validate(self.yaml, schema)
+From: Mauro Carvalho Chehab <mchehab@kernel.org>
 
-Hah, thanks! Looks like I also changed my mind between 'val' and 'value'
-for the explicit value of the enum item. I'll correct those.
+[ Upstream commit 7c2d45a347c7933cbe0efff14fe96adeb13fd761 ]
+
+The logic which checks if the venv version is good enough
+but was not activated is broken: it is checking against
+the wrong val, making it to recommend to re-create a venv
+every time. Fix it.
+
+Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+Link: https://lore.kernel.org/r/afe01b7863fd655986d84ace8948f3d7aede796d.1656756450.git.mchehab@kernel.org
+Signed-off-by: Jonathan Corbet <corbet@lwn.net>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ scripts/sphinx-pre-install | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
+
+diff --git a/scripts/sphinx-pre-install b/scripts/sphinx-pre-install
+index f126ecbb0494..ae8c49734899 100755
+--- a/scripts/sphinx-pre-install
++++ b/scripts/sphinx-pre-install
+@@ -741,7 +741,7 @@ sub recommend_sphinx_upgrade()
+ 
+ 	# Get the highest version from sphinx_*/bin/sphinx-build and the
+ 	# corresponding command to activate the venv/virtenv
+-	$activate_cmd = get_virtenv();
++	($activate_cmd, $venv_ver) = get_virtenv();
+ 
+ 	# Store the highest version from Sphinx existing virtualenvs
+ 	if (($activate_cmd ne "") && ($venv_ver gt $cur_version)) {
+@@ -759,10 +759,14 @@ sub recommend_sphinx_upgrade()
+ 	# Either there are already a virtual env or a new one should be created
+ 	$need_pip = 1;
+ 
++	return if (!$latest_avail_ver);
++
+ 	# Return if the reason is due to an upgrade or not
+ 	if ($latest_avail_ver lt $rec_version) {
+ 		$rec_sphinx_upgrade = 1;
+ 	}
++
++	return $latest_avail_ver;
+ }
+ 
+ #
+@@ -820,7 +824,7 @@ sub recommend_sphinx_version($)
+ 	}
+ 
+ 	# Suggest newer versions if current ones are too old
+-	if ($latest_avail_ver && $cur_version ge $min_version) {
++	if ($latest_avail_ver && $latest_avail_ver ge $min_version) {
+ 		# If there's a good enough version, ask the user to enable it
+ 		if ($latest_avail_ver ge $rec_version) {
+ 			printf "\nNeed to activate Sphinx (version $latest_avail_ver) on virtualenv with:\n";
+@@ -897,7 +901,7 @@ sub check_needs()
+ 		}
+ 	}
+ 
+-	recommend_sphinx_upgrade();
++	my $venv_ver = recommend_sphinx_upgrade();
+ 
+ 	my $virtualenv_cmd;
+ 
+-- 
+2.35.1
+
