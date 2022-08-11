@@ -2,47 +2,44 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 99946C19F2A
-	for <linux-doc@archiver.kernel.org>; Thu, 11 Aug 2022 21:42:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 878E6C25B0E
+	for <linux-doc@archiver.kernel.org>; Thu, 11 Aug 2022 21:42:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234317AbiHKVmS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 11 Aug 2022 17:42:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49914 "EHLO
+        id S234638AbiHKVmT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 11 Aug 2022 17:42:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49918 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230422AbiHKVmQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Aug 2022 17:42:16 -0400
+        with ESMTP id S234075AbiHKVmR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Aug 2022 17:42:17 -0400
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8CFB9F0E9;
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E869B9F0F0;
         Thu, 11 Aug 2022 14:42:15 -0700 (PDT)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 27BLDBbi018458;
-        Thu, 11 Aug 2022 21:41:57 GMT
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 27BLFZ1h013925;
+        Thu, 11 Aug 2022 21:42:00 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding : content-type; s=qcppdkim1;
- bh=viRGnpzvkALHzKJt4CKKAQj5+xyzvG7AE91JosXNPus=;
- b=gs17nuG4F4htg8VLOuToGXwtetzeMq7XlLQ4AuwaaFf28zr+qdzhawliCdSK20XA1jdc
- QyZoyfWlE5152EoXWPz/Q8GLIgIAEeYY7iqEfy1OxVemk5P9FVQF6fK3wDbX5ZeEdFyh
- +73Q5DfaPeJlYZD0nO8q9is91n4PkdVVQnHEp3gmtR2h5b1iXksobKY1p9MvZVk+PVj1
- YZ2rNP9DlmGMnu6UT4d7qTwNAA4NVAxLwF3bhm14ByHD0nnUbio9xVCM9mvaHTGCqJ/L
- 7GhodUyVVlmI749ivcwa9CfjuO6q8T2iIPKxMcKgKqlQQ3CGY/DI/vx0gCIzYswNF1IS zA== 
-Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3hw8ht856x-1
+ bh=NC33KSDXeB0LL2tYGcYNxEW9CS++jQkTREdYC0ffEL0=;
+ b=fSgdBBzUBzsn5L6/FpA8T10erwEGg/Ayh6QlYcn1RnQvIIVoyt06BDugVt02D5aEShNK
+ TNMdVJnI8o+7qLbaH8T6vcaWTKqj9PWXoPqVLYHbfiesZnlDJWJbpYjDVPNxWKSpJylV
+ q4UGr3sM6auh//vSiWz7vhKCYRMut32XmjgYvaPPcM7XzsP/IyuzEQWoMJ1TUJ4sfU6C
+ RCiodTAsbKyuDJp1CbB56RJ6CntI7AaD5WuyNxnHmUEVhg+rPAWyVG2bYyCmUJrzWnUO
+ Ke0O3bOGc/dAiAMRhdYzJNVV7a22IbwGanMsU6mGrldwPYwrvnvAQRol4nWKY/I+pBvI lA== 
+Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3hw89x06bd-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 11 Aug 2022 21:41:57 +0000
+        Thu, 11 Aug 2022 21:42:00 +0000
 Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-        by NASANPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 27BLfvX0007815
+        by NASANPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 27BLfxFJ022590
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 11 Aug 2022 21:41:57 GMT
+        Thu, 11 Aug 2022 21:41:59 GMT
 Received: from hu-eberman-lv.qualcomm.com (10.49.16.6) by
  nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Thu, 11 Aug 2022 14:41:56 -0700
+ 15.2.986.22; Thu, 11 Aug 2022 14:41:58 -0700
 From:   Elliot Berman <quic_eberman@quicinc.com>
-To:     Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        <devicetree@vger.kernel.org>
+To:     Bjorn Andersson <bjorn.andersson@linaro.org>
 CC:     Elliot Berman <quic_eberman@quicinc.com>,
         Murali Nalajala <quic_mnalajal@quicinc.com>,
         Trilok Soni <quic_tsoni@quicinc.com>,
@@ -54,13 +51,16 @@ CC:     Elliot Berman <quic_eberman@quicinc.com>,
         "Mark Rutland" <mark.rutland@arm.com>,
         Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
         Sudeep Holla <sudeep.holla@arm.com>,
-        "Marc Zyngier" <maz@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        "Marc Zyngier" <maz@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+        "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
         Will Deacon <will@kernel.org>,
         Catalin Marinas <catalin.marinas@arm.com>,
-        <linux-doc@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>
-Subject: [PATCH v3 03/12] dt-bindings: Add binding for gunyah hypervisor
-Date:   Thu, 11 Aug 2022 14:40:58 -0700
-Message-ID: <20220811214107.1074343-4-quic_eberman@quicinc.com>
+        <devicetree@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>
+Subject: [PATCH v3 07/12] gunyah: msgq: Add Gunyah message queues
+Date:   Thu, 11 Aug 2022 14:41:02 -0700
+Message-ID: <20220811214107.1074343-8-quic_eberman@quicinc.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220811214107.1074343-1-quic_eberman@quicinc.com>
 References: <20220811214107.1074343-1-quic_eberman@quicinc.com>
@@ -72,146 +72,396 @@ X-ClientProxiedBy: nalasex01b.na.qualcomm.com (10.47.209.197) To
  nasanex01b.na.qualcomm.com (10.46.141.250)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: EPb4qh8Fg1mVCN4W_35-Ur1ishBR-nbW
-X-Proofpoint-ORIG-GUID: EPb4qh8Fg1mVCN4W_35-Ur1ishBR-nbW
+X-Proofpoint-GUID: dvf0Z2EvkNI-qO9eH5r2peMTnSVRPqBl
+X-Proofpoint-ORIG-GUID: dvf0Z2EvkNI-qO9eH5r2peMTnSVRPqBl
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
  definitions=2022-08-11_13,2022-08-11_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- suspectscore=0 spamscore=0 clxscore=1011 malwarescore=0 mlxscore=0
- impostorscore=0 bulkscore=0 phishscore=0 lowpriorityscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2207270000 definitions=main-2208110065
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 bulkscore=0
+ mlxlogscore=999 lowpriorityscore=0 phishscore=0 clxscore=1015 spamscore=0
+ suspectscore=0 impostorscore=0 priorityscore=1501 mlxscore=0 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2207270000
+ definitions=main-2208110065
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-When Linux is booted as a guest under the Gunyah hypervisor, the Gunyah
-Resource Manager applies a devicetree overlay describing the virtual
-platform configuration of the guest VM, such as the message queue
-capability IDs for communicating with the Resource Manager. This
-information is not otherwise discoverable by a VM: the Gunyah hypervisor
-core does not provide a direct interface to discover capability IDs nor
-a way to communicate with RM without having already known the
-corresponding message queue capability ID. Add the DT bindings that
-Gunyah adheres for the hypervisor node and message queues.
+Gunyah message queues are unidirectional pipelines to communicate
+between 2 virtual machines, but are typically paired to allow
+bidirectional communication. The intended use case is for small control
+messages between 2 VMs, as they support a maximum of 1024 bytes.
 
 Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
 ---
-Changes since v2:
- - Add newlines as suggested
- - Fixed typo in example (gunyah-resource-mgr@0 -> gunyah-resource-mgr@1)
+ MAINTAINERS                   |   1 +
+ arch/arm64/gunyah/hypercall.c |  33 ++++++
+ drivers/virt/gunyah/Makefile  |   2 +-
+ drivers/virt/gunyah/msgq.c    | 192 ++++++++++++++++++++++++++++++++++
+ include/asm-generic/gunyah.h  |   5 +
+ include/linux/gunyah.h        |  71 +++++++++++++
+ 6 files changed, 303 insertions(+), 1 deletion(-)
+ create mode 100644 drivers/virt/gunyah/msgq.c
+ create mode 100644 include/linux/gunyah.h
 
- .../bindings/firmware/gunyah-hypervisor.yaml  | 87 +++++++++++++++++++
- MAINTAINERS                                   |  1 +
- 2 files changed, 88 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/firmware/gunyah-hypervisor.yaml
-
-diff --git a/Documentation/devicetree/bindings/firmware/gunyah-hypervisor.yaml b/Documentation/devicetree/bindings/firmware/gunyah-hypervisor.yaml
-new file mode 100644
-index 000000000000..8edcd3915f3c
---- /dev/null
-+++ b/Documentation/devicetree/bindings/firmware/gunyah-hypervisor.yaml
-@@ -0,0 +1,87 @@
-+# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/firmware/gunyah-hypervisor.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Gunyah Hypervisor
-+
-+maintainers:
-+  - Murali Nalajala <quic_mnalajal@quicinc.com>
-+  - Elliot Berman <quic_eberman@quicinc.com>
-+
-+description: |+
-+  On systems which support devicetree, Gunyah generates and overlays a deviceetree overlay which
-+  describes the basic configuration of the hypervisor. Virtual machines use this information to determine
-+  the capability IDs of the message queues used to communicate with the Gunyah Resource Manager.
-+  See also: https://github.com/quic/gunyah-resource-manager/blob/develop/src/vm_creation/dto_construct.c
-+
-+properties:
-+  compatible:
-+    - items:
-+        - const: gunyah-hypervisor-1.0
-+        - const: gunyah-hypervisor
-+
-+  "#address-cells":
-+    description: Number of cells needed to represent 64-bit capability IDs.
-+    const: 2
-+
-+  "#size-cells":
-+    description: must be 0, because capability IDs are not memory address
-+                  ranges and do not have a size.
-+    const: 0
-+
-+patternProperties:
-+  "^gunyah-resource-mgr(@.*)?":
-+    type: object
-+    description:
-+      Resource Manager node which is required to communicate to Resource
-+      Manager VM using Gunyah Message Queues.
-+
-+    properties:
-+      compatible:
-+        - items:
-+            - const: gunyah-resource-manager-1-0
-+            - const: gunyah-resource-manager
-+
-+      reg:
-+        items:
-+          - description: Gunyah capability ID of the TX message queue
-+          - description: Gunyah capability ID of the RX message queue
-+
-+      interrupts:
-+        items:
-+          - description: Interrupt for the TX message queue
-+          - description: Interrupt for the RX message queue
-+
-+    additionalProperties: false
-+
-+    required:
-+      - compatible
-+      - reg
-+      - interrupts
-+
-+additionalProperties: false
-+
-+required:
-+  - compatible
-+  - "#address-cells"
-+  - "#size-cells"
-+
-+examples:
-+  - |
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+
-+    hypervisor {
-+        #address-cells = <2>;
-+        #size-cells = <0>;
-+        compatible = "gunyah-hypervisor-1.0", "gunyah-hypervisor";
-+
-+        gunyah-resource-mgr@0 {
-+            compatible = "gunyah-resource-manager-1-0", "gunyah-resource-manager";
-+            interrupts = <GIC_SPI 3 IRQ_TYPE_EDGE_RISING>, /* TX full IRQ */
-+                         <GIC_SPI 4 IRQ_TYPE_EDGE_RISING>; /* RX empty IRQ */
-+            reg = <0x00000000 0x00000000>, <0x00000000 0x00000001>;
-+                  /* TX, RX cap ids */
-+        };
-+    };
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 24d1660bbafa..77bb7833d561 100644
+index c774bbcdb348..444891e02546 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -8739,6 +8739,7 @@ M:	Elliot Berman <quic_eberman@quicinc.com>
- M:	Murali Nalajala <quic_mnalajal@quicinc.com>
- L:	linux-arm-msm@vger.kernel.org
- S:	Supported
-+F:	Documentation/devicetree/bindings/firmware/gunyah-hypervisor.yaml
- F:	Documentation/virt/gunyah/
+@@ -8745,6 +8745,7 @@ F:	Documentation/virt/gunyah/
+ F:	arch/arm64/gunyah/
+ F:	drivers/virt/gunyah/
+ F:	include/asm-generic/gunyah.h
++F:	include/linux/gunyah.h
  
  HABANALABS PCI DRIVER
+ M:	Oded Gabbay <ogabbay@kernel.org>
+diff --git a/arch/arm64/gunyah/hypercall.c b/arch/arm64/gunyah/hypercall.c
+index 5b08c9d80de0..042cca31879e 100644
+--- a/arch/arm64/gunyah/hypercall.c
++++ b/arch/arm64/gunyah/hypercall.c
+@@ -26,6 +26,8 @@
+ 							| ((fn) & GH_CALL_FUNCTION_NUM_MASK))
+ 
+ #define GH_HYPERCALL_HYP_IDENTIFY		GH_HYPERCALL(0x0000)
++#define GH_HYPERCALL_MSGQ_SEND			GH_HYPERCALL(0x001B)
++#define GH_HYPERCALL_MSGQ_RECV			GH_HYPERCALL(0x001C)
+ 
+ /**
+  * gh_hypercall_get_uid() - Returns a UID when running under a Gunyah hypervisor.
+@@ -67,5 +69,36 @@ void gh_hypercall_hyp_identify(struct gh_hypercall_hyp_identify_resp *hyp_identi
+ }
+ EXPORT_SYMBOL_GPL(gh_hypercall_hyp_identify);
+ 
++int gh_hypercall_msgq_send(u64 capid, size_t size, uintptr_t buff, int tx_flags, bool *ready)
++{
++	struct arm_smccc_res res;
++
++	arm_smccc_1_1_hvc(GH_HYPERCALL_MSGQ_SEND, capid, size, buff, tx_flags, 0, &res);
++
++	if (res.a0)
++		return res.a0;
++
++	*ready = res.a1;
++
++	return res.a0;
++}
++EXPORT_SYMBOL_GPL(gh_hypercall_msgq_send);
++
++int gh_hypercall_msgq_recv(u64 capid, uintptr_t buff, size_t size, size_t *recv_size, bool *ready)
++{
++	struct arm_smccc_res res;
++
++	arm_smccc_1_1_hvc(GH_HYPERCALL_MSGQ_RECV, capid, buff, size, 0, &res);
++
++	if (res.a0)
++		return res.a0;
++
++	*recv_size = res.a1;
++	*ready = res.a2;
++
++	return res.a0;
++}
++EXPORT_SYMBOL_GPL(gh_hypercall_msgq_recv);
++
+ MODULE_LICENSE("GPL");
+ MODULE_DESCRIPTION("Gunyah Hypervisor Hypercalls");
+diff --git a/drivers/virt/gunyah/Makefile b/drivers/virt/gunyah/Makefile
+index e15f16c17142..3c7efd2220c1 100644
+--- a/drivers/virt/gunyah/Makefile
++++ b/drivers/virt/gunyah/Makefile
+@@ -1,2 +1,2 @@
+-gunyah-y += sysfs.o
++gunyah-y += sysfs.o msgq.o
+ obj-$(CONFIG_GUNYAH) += gunyah.o
+diff --git a/drivers/virt/gunyah/msgq.c b/drivers/virt/gunyah/msgq.c
+new file mode 100644
+index 000000000000..05c3d90ac1ed
+--- /dev/null
++++ b/drivers/virt/gunyah/msgq.c
+@@ -0,0 +1,192 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
++ */
++
++#include <linux/interrupt.h>
++#include <linux/gunyah.h>
++#include <linux/printk.h>
++#include <linux/init.h>
++#include <linux/slab.h>
++#include <linux/wait.h>
++
++static irqreturn_t gh_msgq_irq_handler(int irq, void *data)
++{
++	struct gunyah_msgq *msgq = data;
++	void (*on_ready)(struct gunyah_msgq *msgq);
++
++	spin_lock(&msgq->lock);
++	msgq->ready = true;
++	on_ready = msgq->on_ready;
++	spin_unlock(&msgq->lock);
++
++	if (on_ready)
++		on_ready(msgq);
++
++	wake_up_interruptible_all(&msgq->wq);
++
++	return IRQ_HANDLED;
++}
++
++static int __gh_msgq_send(struct gunyah_msgq *msgq, void *buff, size_t size, u64 tx_flags)
++{
++	unsigned long flags, gh_err;
++	ssize_t ret;
++	bool ready;
++
++	spin_lock_irqsave(&msgq->lock, flags);
++	gh_err = gh_hypercall_msgq_send(msgq->ghdev.capid, size, (uintptr_t)buff, tx_flags, &ready);
++	switch (gh_err) {
++	case GH_ERROR_OK:
++		ret = 0;
++		msgq->ready = ready;
++		break;
++	case GH_ERROR_MSGQUEUE_FULL:
++		ret = -EAGAIN;
++		msgq->ready = false;
++		break;
++	default:
++		ret = gh_remap_error(gh_err);
++		break;
++	}
++	spin_unlock_irqrestore(&msgq->lock, flags);
++
++	return ret;
++}
++
++/**
++ * gh_msgq_send() - Send a message to the client running on a different VM
++ * @client: The client descriptor that was obtained via gh_msgq_register()
++ * @buff: Pointer to the buffer where the received data must be placed
++ * @buff_size: The size of the buffer space available
++ * @flags: Optional flags to pass to receive the data. For the list of flags,
++ *         see linux/gunyah/gh_msgq.h
++ *
++ * Returns: The number of bytes copied to buff. <0 if there was an error.
++ *
++ * Note: this function may sleep and should not be called from interrupt context
++ */
++ssize_t gh_msgq_send(struct gunyah_msgq *msgq, void *buff, size_t size, const unsigned long flags)
++{
++	ssize_t ret;
++	u64 tx_flags = 0;
++
++	if (unlikely(msgq->ghdev.type != GUNYAH_DEVICE_TYPE_MSGQ_TX))
++		return -EINVAL;
++
++	if (flags & GH_MSGQ_TX_PUSH)
++		tx_flags |= GH_HYPERCALL_MSGQ_TX_FLAGS_PUSH;
++
++	do {
++		ret = __gh_msgq_send(msgq, buff, size, tx_flags);
++
++		if (ret == -EAGAIN) {
++			if (flags & GH_MSGQ_NONBLOCK)
++				goto out;
++			if (wait_event_interruptible(msgq->wq, msgq->ready))
++				ret = -ERESTARTSYS;
++		}
++	} while (ret == -EAGAIN);
++
++out:
++	return ret;
++}
++EXPORT_SYMBOL_GPL(gh_msgq_send);
++
++static ssize_t __gh_msgq_recv(struct gunyah_msgq *msgq, void *buff, size_t size)
++{
++	unsigned long flags, gh_err;
++	size_t recv_size;
++	ssize_t ret;
++	bool ready;
++
++	spin_lock_irqsave(&msgq->lock, flags);
++
++	gh_err = gh_hypercall_msgq_recv(msgq->ghdev.capid, (uintptr_t)buff, size,
++					&recv_size, &ready);
++	switch (gh_err) {
++	case GH_ERROR_OK:
++		ret = recv_size;
++		msgq->ready = ready;
++		break;
++	case GH_ERROR_MSGQUEUE_EMPTY:
++		ret = -EAGAIN;
++		msgq->ready = false;
++		break;
++	default:
++		ret = gh_remap_error(gh_err);
++		break;
++	}
++	spin_unlock_irqrestore(&msgq->lock, flags);
++
++	return ret;
++}
++
++/**
++ * gh_msgq_recv() - Receive a message from the client running on a different VM
++ * @client: The client descriptor that was obtained via gh_msgq_register()
++ * @buff: Pointer to the buffer where the received data must be placed
++ * @buff_size: The size of the buffer space available
++ * @flags: Optional flags to pass to receive the data. For the list of flags,
++ *         see linux/gunyah/gh_msgq.h
++ *
++ * Returns: The number of bytes copied to buff. <0 if there was an error.
++ *
++ * Note: this function may sleep and should not be called from interrupt context
++ */
++ssize_t gh_msgq_recv(struct gunyah_msgq *msgq, void *buff, size_t size, const unsigned long flags)
++{
++	ssize_t ret;
++
++	if (unlikely(msgq->ghdev.type != GUNYAH_DEVICE_TYPE_MSGQ_RX))
++		return -EINVAL;
++
++	do {
++		ret = __gh_msgq_recv(msgq, buff, size);
++
++		if (ret == -EAGAIN) {
++			if (flags & GH_MSGQ_NONBLOCK)
++				goto out;
++			if (wait_event_interruptible(msgq->wq, msgq->ready))
++				ret = -ERESTARTSYS;
++		}
++	} while (ret == -EAGAIN);
++
++out:
++	return ret;
++}
++EXPORT_SYMBOL_GPL(gh_msgq_recv);
++
++struct gunyah_msgq *__gunyah_msgq_alloc(enum gunyah_device_type type, u64 capid, int irq)
++{
++	struct gunyah_msgq *msgq;
++	int ret;
++
++	msgq = kzalloc(sizeof(*msgq), GFP_KERNEL);
++	if (!msgq)
++		return NULL;
++
++	msgq->ghdev.type = type;
++	msgq->ghdev.capid = capid;
++	msgq->ghdev.irq = irq;
++
++	msgq->ready = true; /* Assume we can use the message queue right away */
++	init_waitqueue_head(&msgq->wq);
++	spin_lock_init(&msgq->lock);
++
++	ret = request_irq(msgq->ghdev.irq, gh_msgq_irq_handler, 0, "gh_msgq", msgq);
++	if (WARN(ret, "Failed to request message queue irq %d: %d\n", irq, ret)) {
++		kfree(msgq);
++		return NULL;
++	}
++
++	return msgq;
++}
++EXPORT_SYMBOL_GPL(__gunyah_msgq_alloc);
++
++void gunyah_msgq_free(struct gunyah_msgq *msgq)
++{
++	free_irq(msgq->ghdev.irq, msgq);
++	kfree(msgq);
++}
++EXPORT_SYMBOL_GPL(gunyah_msgq_free);
+diff --git a/include/asm-generic/gunyah.h b/include/asm-generic/gunyah.h
+index 86eb59e203ef..43915faea704 100644
+--- a/include/asm-generic/gunyah.h
++++ b/include/asm-generic/gunyah.h
+@@ -107,4 +107,9 @@ struct gh_hypercall_hyp_identify_resp {
+ void gh_hypercall_get_uid(u32 *uid);
+ void gh_hypercall_hyp_identify(struct gh_hypercall_hyp_identify_resp *hyp_identity);
+ 
++#define GH_HYPERCALL_MSGQ_TX_FLAGS_PUSH		BIT(0)
++
++int gh_hypercall_msgq_send(u64 capid, size_t size, uintptr_t buff, int tx_flags, bool *ready);
++int gh_hypercall_msgq_recv(u64 capid, uintptr_t buff, size_t size, size_t *recv_size, bool *ready);
++
+ #endif
+diff --git a/include/linux/gunyah.h b/include/linux/gunyah.h
+new file mode 100644
+index 000000000000..57e83b0d78cf
+--- /dev/null
++++ b/include/linux/gunyah.h
+@@ -0,0 +1,71 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++/*
++ * Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
++ */
++
++#ifndef _GUNYAH_H
++#define _GUNYAH_H
++
++#include <asm-generic/gunyah.h>
++
++/* Follows resource manager's resource types for VM_GET_HYP_RESOURCES */
++enum gunyah_device_type {
++	GUNYAH_DEVICE_TYPE_BELL_TX	= 0,
++	GUNYAH_DEVICE_TYPE_BELL_RX	= 1,
++	GUNYAH_DEVICE_TYPE_MSGQ_TX	= 2,
++	GUNYAH_DEVICE_TYPE_MSGQ_RX	= 3,
++	GUNYAH_DEVICE_TYPE_VCPU		= 4,
++};
++
++struct gunyah_device {
++	enum gunyah_device_type type;
++	u64 capid;
++	int irq;
++};
++
++/**
++ * Gunyah Message Queues
++ */
++
++struct gunyah_msgq {
++	struct gunyah_device ghdev;
++
++	/* Set by the message queue client */
++	void (*on_ready)(struct gunyah_msgq *msgq);
++	void *data;
++
++	/* msgq private */
++	bool ready;
++	wait_queue_head_t wq;
++	spinlock_t lock;
++};
++
++#define GH_MSGQ_MAX_MSG_SIZE	1024
++
++/* Possible flags to pass for Tx or Rx */
++#define GH_MSGQ_TX_PUSH		BIT(0)
++#define GH_MSGQ_NONBLOCK	BIT(32)
++
++static inline struct gunyah_msgq * __must_check to_gunyah_msgq(struct gunyah_device *ghdev)
++{
++	if (ghdev->type != GUNYAH_DEVICE_TYPE_BELL_TX && ghdev->type != GUNYAH_DEVICE_TYPE_BELL_RX)
++		return NULL;
++	return container_of(ghdev, struct gunyah_msgq, ghdev);
++}
++
++ssize_t gh_msgq_send(struct gunyah_msgq *msgq, void *buff, size_t size, const unsigned long flags);
++ssize_t gh_msgq_recv(struct gunyah_msgq *msgq, void *buff, size_t size, const unsigned long flags);
++struct gunyah_msgq *__gunyah_msgq_alloc(enum gunyah_device_type type, u64 capid, int irq);
++void gunyah_msgq_free(struct gunyah_msgq *msgq);
++
++static inline struct gunyah_msgq *gunyah_msgq_tx_alloc(u64 capid, int irq)
++{
++	return __gunyah_msgq_alloc(GUNYAH_DEVICE_TYPE_BELL_TX, capid, irq);
++}
++
++static inline struct gunyah_msgq *gunyah_msgq_rx_alloc(u64 capid, int irq)
++{
++	return __gunyah_msgq_alloc(GUNYAH_DEVICE_TYPE_BELL_RX, capid, irq);
++}
++
++#endif
 -- 
 2.25.1
 
