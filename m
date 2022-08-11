@@ -2,135 +2,94 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B3653C25B0C
-	for <linux-doc@archiver.kernel.org>; Thu, 11 Aug 2022 13:22:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 837AFC25B0C
+	for <linux-doc@archiver.kernel.org>; Thu, 11 Aug 2022 13:27:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235236AbiHKNWg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 11 Aug 2022 09:22:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34544 "EHLO
+        id S234066AbiHKN1P (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 11 Aug 2022 09:27:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38562 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235108AbiHKNWf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Aug 2022 09:22:35 -0400
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1864816AE;
-        Thu, 11 Aug 2022 06:22:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1660224153; x=1691760153;
-  h=date:from:to:cc:subject:message-id:reply-to:references:
-   mime-version:in-reply-to;
-  bh=TXGp2l7srz7CG/35HC62yaH3SzOuZ/KTY0IN1dEpGAI=;
-  b=T5Vzi5QzJt1rxP32GUX/mrs4MWVVTlwuxjMi9Y89Am1NkOMIJGTnmTNd
-   Zdg6TTt9BernHTVXvKdFu70eG2bDgOCyY2Tj7pJqxNSBByrt4YQuF1DVh
-   ySRvMMo6Bqi+PwOJXo7qFkt5EZjjljg1mMZ+4DyR5NxOPWuVZ3vmWA90X
-   L2+DuVmzXchnKnjwWqaCWWg+M0nfRWTXBNSMoHgoSYhOU7qUQeUr1XeCs
-   0Mz38l6tm5lLClygUQcHARxAM0uo6S45FtDw0Zaf0syOJvBHvIxgh3eHU
-   qIR8fakSdWch+/EOw1YROjUJuDqi1vAnIEBsIraZu7CQtL4STibM3njJg
-   w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10435"; a="292602176"
-X-IronPort-AV: E=Sophos;i="5.93,228,1654585200"; 
-   d="scan'208";a="292602176"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2022 06:22:33 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,228,1654585200"; 
-   d="scan'208";a="608920719"
-Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
-  by fmsmga007.fm.intel.com with ESMTP; 11 Aug 2022 06:22:23 -0700
-Date:   Thu, 11 Aug 2022 21:17:38 +0800
-From:   Chao Peng <chao.p.peng@linux.intel.com>
-To:     David Hildenbrand <david@redhat.com>
-Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
-        qemu-devel@nongnu.org, linux-kselftest@vger.kernel.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <seanjc@google.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, aarcange@redhat.com, ddutile@redhat.com,
-        dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        Muchun Song <songmuchun@bytedance.com>
-Subject: Re: [PATCH v7 05/14] mm/memfd: Introduce MFD_INACCESSIBLE flag
-Message-ID: <20220811131738.GA916119@chaop.bj.intel.com>
-Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
-References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
- <20220706082016.2603916-6-chao.p.peng@linux.intel.com>
- <203c752f-9439-b5ae-056c-27b2631dcb81@redhat.com>
- <20220810093741.GE862421@chaop.bj.intel.com>
- <64ab9678-c72d-b6d9-8532-346cc9c06814@redhat.com>
+        with ESMTP id S234394AbiHKN1P (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Aug 2022 09:27:15 -0400
+Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com [IPv6:2607:f8b0:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C752868AA;
+        Thu, 11 Aug 2022 06:27:14 -0700 (PDT)
+Received: by mail-pf1-x431.google.com with SMTP id k14so14451940pfh.0;
+        Thu, 11 Aug 2022 06:27:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc;
+        bh=cnf/MAxWiWhTvww3StaIlwbuuIs/IrBQv9ORD2Fnzb8=;
+        b=hhPtoXRk4+PMkZG0gZrNZYrmTu9yA5qnBlJW/2XP1icOeQdYBgKVgkMbHgOpOKC57a
+         fc/S6afY1H/glfIdPydeAvLShJHuTnYm58U0zvqTKxx4wi6lWk98E4Pg0+2hjd9P/GPg
+         i5R5cAmbRMUyTI8diaSBjd6o90JhNnWjlOuTi+k9x9W27uMu8ibnrboZIunXU2w4xYtt
+         uebnfFQBZJELurcjq5g+4gCgW/r5rqUp2RW7oWtVDrz0iqDCauBtgPOuPS6q4WjpWmMO
+         m4Z7PyO5A7R8KtrQobFQ0BstZLgzzW0Zhd9FepB7/OfA0ywYwdtBdM3UUUIsgitDlpiN
+         K9tw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc;
+        bh=cnf/MAxWiWhTvww3StaIlwbuuIs/IrBQv9ORD2Fnzb8=;
+        b=6eTC8qlJ+bxKz7F9re0kvVr+PsWx/2EqnnZOIFKb5WPpsfJzLjCMZtI4U3ZxtwnsuZ
+         Ea6/YkKryz3jMzqYPXrSEkZzVdz7i5VuHLBdVQOckJa7zMFTUaQkXXqomIoJZP4F/j6B
+         SThONhsDG4raogJcnn6GdOyFLEZrvHCG8mAdLVd+1IjpTur7n4nswMYvbnfJp8S+5CuH
+         EWAXwscV3rw0obQlkFMq5CUHopw9Ax+pxn8l/8JHyO69ci1B0PVMUSPzoLY4+GcFa+5K
+         sdPNVXSIgzoo8ucfdihrjlPf2TTDa5qubae9umrFtcQfQTriJ0CanguGE+SDVIdINKSQ
+         fQ7w==
+X-Gm-Message-State: ACgBeo3KwGSQcbB8u/ohNGC26FSDYTpRNUTGh63lhhwsnnyHpFrOC29I
+        SoG2gXZMKqK62XonqoGUAVY=
+X-Google-Smtp-Source: AA6agR5HAInDscx1ZEMqvtifjzDB5GvCTp7d9zggxvQzL5N6SNN9kA68Z6Wvry9fG8i2/7CjEkGCOw==
+X-Received: by 2002:a63:8a42:0:b0:41b:dddd:b81f with SMTP id y63-20020a638a42000000b0041bddddb81fmr26717842pgd.229.1660224434107;
+        Thu, 11 Aug 2022 06:27:14 -0700 (PDT)
+Received: from [192.168.43.80] (subs32-116-206-28-16.three.co.id. [116.206.28.16])
+        by smtp.gmail.com with ESMTPSA id x130-20020a628688000000b0052dd9dbe291sm3972954pfd.105.2022.08.11.06.27.08
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 11 Aug 2022 06:27:13 -0700 (PDT)
+Message-ID: <f2336f93-53b4-b031-9e1c-67b6d1470f64@gmail.com>
+Date:   Thu, 11 Aug 2022 20:27:05 +0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <64ab9678-c72d-b6d9-8532-346cc9c06814@redhat.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: [PATCH V6 6/6] Documentation: kdump: describe VMCOREINFO export
+ for RISCV64
+Content-Language: en-US
+To:     Xianting Tian <xianting.tian@linux.alibaba.com>,
+        paul.walmsley@sifive.com, palmer@dabbelt.com,
+        aou@eecs.berkeley.edu, anup@brainfault.org, heiko@sntech.de,
+        guoren@kernel.org, mick@ics.forth.gr,
+        alexandre.ghiti@canonical.com, bhe@redhat.com, vgoyal@redhat.com,
+        dyoung@redhat.com, corbet@lwn.net, Conor.Dooley@microchip.com
+Cc:     kexec@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
+        crash-utility@redhat.com, heinrich.schuchardt@canonical.com,
+        k-hagio-ab@nec.com, hschauhan@nulltrace.org, yixun.lan@gmail.com
+References: <20220811074150.3020189-1-xianting.tian@linux.alibaba.com>
+ <20220811074150.3020189-7-xianting.tian@linux.alibaba.com>
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <20220811074150.3020189-7-xianting.tian@linux.alibaba.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Aug 10, 2022 at 11:55:19AM +0200, David Hildenbrand wrote:
-> On 10.08.22 11:37, Chao Peng wrote:
-> > On Fri, Aug 05, 2022 at 03:28:50PM +0200, David Hildenbrand wrote:
-> >> On 06.07.22 10:20, Chao Peng wrote:
-> >>> Introduce a new memfd_create() flag indicating the content of the
-> >>> created memfd is inaccessible from userspace through ordinary MMU
-> >>> access (e.g., read/write/mmap). However, the file content can be
-> >>> accessed via a different mechanism (e.g. KVM MMU) indirectly.
-> >>>
-> >>> It provides semantics required for KVM guest private memory support
-> >>> that a file descriptor with this flag set is going to be used as the
-> >>> source of guest memory in confidential computing environments such
-> >>> as Intel TDX/AMD SEV but may not be accessible from host userspace.
-> >>>
-> >>> The flag can not coexist with MFD_ALLOW_SEALING, future sealing is
-> >>> also impossible for a memfd created with this flag.
-> >>
-> >> It's kind of weird to have it that way. Why should the user have to
-> >> care? It's the notifier requirement to have that, no?
-> >>
-> >> Why can't we handle that when register a notifier? If anything is
-> >> already mapped, fail registering the notifier if the notifier has these
-> >> demands. If registering succeeds, block it internally.
-> >>
-> >> Or what am I missing? We might not need the memfile set flag semantics
-> >> eventually and would not have to expose such a flag to user space.
-> > 
-> > This makes sense if doable. The major concern was: is there a reliable
-> > way to detect this (already mapped) at the time of memslot registering.
+On 8/11/22 14:41, Xianting Tian wrote:
+> The following interrelated definitions and ranges are needed by the kdump
+> crash tool, they are exported by "arch/riscv/kernel/crash_core.c":
+>     VA_BITS, PAGE_OFFSET, phys_ram_base
+>     MODULES_VADDR ~ MODULES_END,
+>     VMALLOC_START ~ VMALLOC_END,
+>     VMEMMAP_START ~ VMEMMAP_END
+>     KASAN_SHADOW_START ~ KASAN_SHADOW_END,
+>     KERNEL_LINK_ADDR ~ ADDRESS_SPACE_END
 > 
-> If too complicated, we could simplify to "was this ever mapped" and fail
-> for now. Hooking into shmem_mmap() might be sufficient for that to get
-> notified about the first mmap.
+> This patch just add the description of VMCOREINFO export for RISCV64.
 > 
-> As an alternative, mapping_mapped() or similar *might* do what we want.
+Better say "Document these RISCV64 exports above".
 
-mapping_mapped() sounds the right one, I remember SEV people want first
-map then unmap. "was this ever mapped" may not work for them.
-
-Thanks,
-Chao
-> 
-> 
-> 
-> -- 
-> Thanks,
-> 
-> David / dhildenb
+-- 
+An old man doll... just what I always wanted! - Clara
