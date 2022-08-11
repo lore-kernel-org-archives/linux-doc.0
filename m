@@ -2,35 +2,35 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DC68C00140
-	for <linux-doc@archiver.kernel.org>; Thu, 11 Aug 2022 02:23:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 17607C00140
+	for <linux-doc@archiver.kernel.org>; Thu, 11 Aug 2022 02:23:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233729AbiHKCXQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 10 Aug 2022 22:23:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44440 "EHLO
+        id S233748AbiHKCXW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 10 Aug 2022 22:23:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44470 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233731AbiHKCXP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 Aug 2022 22:23:15 -0400
+        with ESMTP id S233739AbiHKCXQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 Aug 2022 22:23:16 -0400
 Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E67B8D3E7;
-        Wed, 10 Aug 2022 19:23:14 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC22D8FD5B;
+        Wed, 10 Aug 2022 19:23:15 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 1A6C2B81EF9;
-        Thu, 11 Aug 2022 02:23:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E561C43140;
-        Thu, 11 Aug 2022 02:23:11 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 57580B81EFE;
+        Thu, 11 Aug 2022 02:23:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94A41C43142;
+        Thu, 11 Aug 2022 02:23:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1660184591;
-        bh=PYgZgfaNTkCtdsS+K+LJYulNO+xsMmRhLqrbcsvFk+U=;
+        s=k20201202; t=1660184593;
+        bh=WIS3juFBNIkI4YzCJrQnWAowOP677MxK2UsLnwMjaaw=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=SvB736LkQVIExdwcR7LeXw9JazEr75wr5VoHKYrbipjvl7/h6kvNB/dpcEVvomfpC
-         KzA2ydW1RQ7kVhrGALzT2KtdkFOSWBIiSf2InpSdrT0ZLqwD7o3Q2X1IyAKlmLX22l
-         SjrrDgbNlS5yN56wARareJw/XT9itIjg82U1IT+dCEldPr8k5V7KFXukU1EG591OVV
-         hPeI1rjxbA5TWEsTe/YaTpYkib3kN/+8R5ZekY2NiO/QBl5L+zVL6VwY5fTRpHVLcz
-         /tlxx42TDMkxpJew9XYYQ5q72qSwGmHZANRzbAqfTxhGFnUP7Zya96ZPGBNBppr6bS
-         JcGMXEKcNUBKQ==
+        b=HTCWJwkz4PvadOEiVCJyncRvDAr5dFMEVqfvzkx+9HkY9aOslxIY5bVKCAw1aCeRD
+         sIcRNPLFYhoYEAXkWYxzr1b0eLD3M8DZFCo+y0LK0hiZEKjALVVjK2FnwWUq2NAY3w
+         8CnMgxBSPjPIdCCBuEuiayPGUB7C1hveg1YyKNmtbAhMdQtE4ewZmCnRM2lyFsa94F
+         KkZ4vhVSd7CeBuE/HqrYvXu7J9EQHaXobOp1fC90McOrgRi5hpQw5+XOom+HMGmo2J
+         2ng7oup4ZcVGOaznJFyH/4AZb1V22CpcEtEnWD+BttWrTreR7UopJ2AwmDAjkK9xCc
+         Ajwgo2mGggBuw==
 From:   Jakub Kicinski <kuba@kernel.org>
 To:     netdev@vger.kernel.org, davem@davemloft.net, edumazet@google.com,
         pabeni@redhat.com
@@ -38,9 +38,9 @@ Cc:     sdf@google.com, jacob.e.keller@intel.com, vadfed@fb.com,
         johannes@sipsolutions.net, jiri@resnulli.us, dsahern@kernel.org,
         stephen@networkplumber.org, fw@strlen.de,
         linux-doc@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>
-Subject: [RFC net-next 2/4] ynl: add the schema for the schemas
-Date:   Wed, 10 Aug 2022 19:23:02 -0700
-Message-Id: <20220811022304.583300-3-kuba@kernel.org>
+Subject: [RFC net-next 4/4] ynl: add a sample user for ethtool
+Date:   Wed, 10 Aug 2022 19:23:04 -0700
+Message-Id: <20220811022304.583300-5-kuba@kernel.org>
 X-Mailer: git-send-email 2.37.1
 In-Reply-To: <20220811022304.583300-1-kuba@kernel.org>
 References: <20220811022304.583300-1-kuba@kernel.org>
@@ -50,264 +50,182 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-A schema in jsonschema format which should be familiar
-to dt-bindings writers. It looks kinda hard to read, TBH,
-I'm not sure how to make it better.
+A sample schema describing ethtool channels and a script showing
+that it works. The script is called like this:
+
+ ./tools/net/ynl/samples/ethtool.py \
+    --spec Documentation/netlink/bindings/ethtool.yaml \
+    --device eth0
+
+I have schemas for genetlink, FOU and the proposed DPLL subsystem,
+to validate that the concept has wide applicability, but ethtool
+feels like the best demo of the 4.
 
 Signed-off-by: Jakub Kicinski <kuba@kernel.org>
 ---
- Documentation/netlink/schema.yaml | 242 ++++++++++++++++++++++++++++++
- 1 file changed, 242 insertions(+)
- create mode 100644 Documentation/netlink/schema.yaml
+ Documentation/netlink/bindings/ethtool.yaml | 115 ++++++++++++++++++++
+ tools/net/ynl/samples/ethtool.py            |  30 +++++
+ 2 files changed, 145 insertions(+)
+ create mode 100644 Documentation/netlink/bindings/ethtool.yaml
+ create mode 100755 tools/net/ynl/samples/ethtool.py
 
-diff --git a/Documentation/netlink/schema.yaml b/Documentation/netlink/schema.yaml
+diff --git a/Documentation/netlink/bindings/ethtool.yaml b/Documentation/netlink/bindings/ethtool.yaml
 new file mode 100644
-index 000000000000..1290aa4794ba
+index 000000000000..b4540d60b4b3
 --- /dev/null
-+++ b/Documentation/netlink/schema.yaml
-@@ -0,0 +1,242 @@
-+# SPDX-License-Identifier: GPL-2.0
-+%YAML 1.2
-+---
-+$id: "http://kernel.org/schemas/netlink/schema.yaml#"
-+$schema: "http://kernel.org/meta-schemas/core.yaml#"
++++ b/Documentation/netlink/bindings/ethtool.yaml
+@@ -0,0 +1,115 @@
++# SPDX-License-Identifier: BSD-3-Clause
 +
-+title: Protocol
-+description: Specification of a genetlink protocol
-+type: object
-+required: [ name, description, attribute-spaces, operations ]
-+additionalProperties: False
-+properties:
-+  name:
-+    description: Name of the genetlink family
-+    type: string
-+  description:
-+    description: Description of the family
-+    type: string
-+  version:
-+    description: Version of the family as defined by genetlink.
-+    type: integer
-+  attr-cnt-suffix:
-+    description: Suffix for last member of attribute enum, default is "MAX".
-+    type: string
-+  headers:
-+    description: C headers defining the protocol
-+    type: object
-+    additionalProperties: False
-+    properties:
-+      uapi:
-+        description: Path under include/uapi where protocol definition is placed
-+        type: string
-+      kernel:
-+        description: Additional headers on which the protocol definition depends (kernel side)
-+        anyOf: &str-or-arrstr
-+          -
-+            type: array
-+            items:
-+              type: string
-+          -
-+            type: string
-+      user:
-+        description: Additional headers on which the protocol definition depends (user side)
-+        anyOf: *str-or-arrstr
-+  constants:
-+    description: Enums and defines of the protocol
-+    type: array
-+    items:
-+      type: object
-+      required: [ type, name ]
-+      additionalProperties: False
-+      properties:
-+        name:
-+          type: string
-+        type:
-+          enum: [ enum, flags ]
-+        value-prefix:
-+          description: For enum the prefix of the values, optional.
-+          type: string
-+        value-start:
-+          description: For enum the literal initializer for the first value.
-+          oneOf: [ { type: string }, { type: integer }]
-+        values:
-+          description: For enum array of values
-+          type: array
-+          items:
-+            type: string
++name: ethtool
 +
-+  attribute-spaces:
-+    description: Definition of attribute spaces for this family.
-+    type: array
-+    items:
-+      description: Definition of a single attribute space.
-+      type: object
-+      required: [ name, attributes ]
-+      additionalProperties: False
-+      properties:
-+        name:
-+          description: |
-+            Name used when referring to this space in other definitions, not used outside of YAML.
-+          type: string
-+        # Strictly speaking 'name-prefix' and 'subspace-of' should be mutually exclusive.
-+        name-prefix:
-+          description: Prefix for the C enum name of the attributes.
-+          type: string
-+        name-enum:
-+          description: Name for the enum type of the attribute.
-+          type: string
-+        description:
-+          description: Documentation of the space.
-+          type: string
-+        subspace-of:
-+          description: |
-+            Name of another space which this is a logical part of. Sub-spaces can be used to define
-+            a limitted group of attributes which are used in a nest.
-+          type: string
-+        attributes:
-+          description: List of attributes in the space.
-+          type: array
-+          items:
-+            type: object
-+            required: [ name, type ]
-+            additionalProperties: False
-+            properties:
-+              name:
-+                type: string
-+              type: &attr-type
-+                enum: [ unused, flag, binary, u8, u16, u32, u64, s32, s64,
-+                        nul-string, multi-attr, nest, array-nest, nest-type-value ]
-+              description:
-+                description: Documentation of the attribute.
-+                type: string
-+              type-value:
-+                description: Name of the value extracted from the type of a nest-type-value attribute.
-+                type: array
-+                items:
-+                  type: string
-+              len:
-+                oneOf: [ { type: string }, { type: integer }]
-+              sub-type: *attr-type
-+              nested-attributes:
-+                description: Name of the space (sub-space) used inside the attribute.
-+                type: string
-+              enum:
-+                description: Name of the enum used for the atttribute.
-+                type: string
-+              flags-mask:
-+                description: Name of the flags constant on which to base mask (unsigned scalar types only).
-+                type: string
-+  operations:
-+    description: Operations supported by the protocol.
-+    type: object
-+    required: [ name-prefix, list ]
-+    additionalProperties: False
-+    properties:
-+      name-prefix:
-+        description: |
-+          Prefix for the C enum name of the command. The name is formed by concatenating
-+          the prefix with the upper case name of the command, with dashes replaced by underscores.
-+        type: string
-+      name-enum:
-+        description: Name for the enum type with commands.
-+        type: string
-+      async-prefix:
-+        description: Same as name-prefix but used to render notifications and events to separate enum.
-+        type: string
-+      async-enum:
-+        description: Name for the enum type with notifications/events.
-+        type: string
-+      list:
-+        description: List of commands
-+        type: array
-+        items:
-+          type: object
-+          additionalProperties: False
-+          required: [ name, description ]
-+          properties:
-+            name:
-+              description: Name of the operation, also defining its C enum value in uAPI.
-+              type: string
-+            description:
-+              description: Documentation for the command.
-+              type: string
-+            value:
-+              description: Value for the enum in the uAPI.
-+              type: integer
-+            attribute-space:
-+              description: |
-+                Attribute space from which attributes directly in the requests and replies
-+                to this command are defined.
-+              type: string
-+            flags: &cmd_flags
-+              description: Command flags.
-+              type: array
-+              items:
-+                enum: [ admin-perm ]
-+            dont-validate:
-+              description: Kernel attribute validation flags.
-+              type: array
-+              items:
-+                enum: [ strict, dump ]
-+            do: &subop-type
-+              description: Main command handler.
-+              type: object
-+              additionalProperties: False
-+              properties:
-+                request: &subop-attr-list
-+                  description: Definition of the request message for a given command.
-+                  type: object
-+                  additionalProperties: False
-+                  properties:
-+                    attributes:
-+                      description: |
-+                        Names of attributes from the attribute-space (not full attribute
-+                        definitions, just names).
-+                      type: array
-+                      items:
-+                        type: string
-+                reply: *subop-attr-list
-+            dump: *subop-type
-+            notify:
-+              description: Name of the command sharing the reply type with this notification.
-+              type: string
-+            event:
-+              description: Explicit list of the attributes for the notification.
-+              type: array
-+              items:
-+                type: string
-+            mcgrp:
-+              description: Name of the multicast group generating given notification.
-+              type: string
-+  mcast-groups:
-+    description: List of multicast groups.
-+    type: object
-+    required: [ name-prefix, list ]
-+    additionalProperties: False
-+    properties:
-+      name-prefix:
-+        description: Name prefix for the define associated with the group.
-+        type: string
-+      name-suffix:
-+        description: |
-+          Name suffix for the define associated with the group. Multicast group defines seem to be unique
-+          in having a name-prefix as well as suffix.
-+        type: string
-+      list:
-+        description: List of groups.
-+        type: array
-+        items:
-+          type: object
-+          required: [ name ]
-+          additionalProperties: False
-+          properties:
-+            name:
-+              description: |
-+                The name for the group, used to form the define and the value of the define, unless value
-+                is specified separately.
-+              type: string
-+            value:
-+              description: String value for the define and group name.
-+              type: string
-+            flags: *cmd_flags
++description: |
++  Ethernet device configuration interface.
++
++attr-cnt-suffix: CNT
++
++attribute-spaces:
++  -
++    name: header
++    name-prefix: ETHTOOL_A_HEADER_
++    attributes:
++      -
++        name: dev_index
++        val: 1
++        type: u32
++      -
++        name: dev_name
++        type: nul-string
++        len: ALTIFNAMSIZ - 1
++      -
++        name: flags
++        type: u32
++  -
++    name: channels
++    name-prefix: ETHTOOL_A_CHANNELS_
++    attributes:
++      -
++        name: header
++        val: 1
++        type: nest
++        nested-attributes: header
++      -
++        name: rx_max
++        type: u32
++      -
++        name: tx_max
++        type: u32
++      -
++        name: other_max
++        type: u32
++      -
++        name: combined_max
++        type: u32
++      -
++        name: rx_count
++        type: u32
++      -
++        name: tx_count
++        type: u32
++      -
++        name: other_count
++        type: u32
++      -
++        name: combined_count
++        type: u32
++
++headers:
++  user: linux/if.h
++  uapi: linux/ethtool_netlink.h
++
++operations:
++  name-prefix: ETHTOOL_MSG_
++  async-prefix: ETHTOOL_MSG_
++  list:
++    -
++      name: channels_get
++      val: 17
++      description: Get current and max supported number of channels.
++      attribute-space: channels
++      do:
++        request:
++          attributes:
++            - header
++        reply: &channel_reply
++          attributes:
++            - header
++            - rx_max
++            - tx_max
++            - other_max
++            - combined_max
++            - rx_count
++            - tx_count
++            - other_count
++            - combined_count
++      dump:
++        reply: *channel_reply
++
++    -
++      name: channels_ntf
++      description: Notification for device changing its number of channels.
++      notify: channels_get
++      mcgrp: monitor
++
++    -
++      name: channels_set
++      description: Set number of channels.
++      attribute-space: channels
++      do:
++        request:
++          attributes:
++            - header
++            - rx_count
++            - tx_count
++            - other_count
++            - combined_count
++
++mcast-groups:
++  name-prefix: ETHTOOL_MCGRP_
++  name-suffix: _NAME
++  list:
++    -
++      name: monitor
+diff --git a/tools/net/ynl/samples/ethtool.py b/tools/net/ynl/samples/ethtool.py
+new file mode 100755
+index 000000000000..63c8e29f8e5d
+--- /dev/null
++++ b/tools/net/ynl/samples/ethtool.py
+@@ -0,0 +1,30 @@
++#!/usr/bin/env python
++# SPDX-License-Identifier: BSD-3-Clause
++
++import argparse
++
++from ynl import YnlFamily
++
++
++def main():
++    parser = argparse.ArgumentParser(description='YNL ethtool sample')
++    parser.add_argument('--spec', dest='spec', type=str, required=True)
++    parser.add_argument('--schema', dest='schema', type=str)
++    parser.add_argument('--device', dest='dev_name', type=str)
++    parser.add_argument('--ifindex', dest='ifindex', type=str)
++    args = parser.parse_args()
++
++    ynl = YnlFamily(args.spec)
++
++    if args.dev_name:
++        channels = ynl.channels_get({'header': {'dev_name': args.dev_name}})
++    elif args.ifindex:
++        channels = ynl.channels_get({'header': {'dev_index': args.ifindex}})
++    else:
++        return
++    print('Netlink responded with:')
++    print(channels)
++
++
++if __name__ == "__main__":
++    main()
 -- 
 2.37.1
 
