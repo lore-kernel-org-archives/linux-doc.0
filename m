@@ -2,97 +2,117 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 561A2C19F2A
-	for <linux-doc@archiver.kernel.org>; Thu, 11 Aug 2022 15:39:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7618FC25B06
+	for <linux-doc@archiver.kernel.org>; Thu, 11 Aug 2022 15:41:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236345AbiHKPjq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 11 Aug 2022 11:39:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59538 "EHLO
+        id S235991AbiHKPll (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 11 Aug 2022 11:41:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43262 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236349AbiHKPjQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Aug 2022 11:39:16 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90AF398A40;
-        Thu, 11 Aug 2022 08:34:47 -0700 (PDT)
+        with ESMTP id S236302AbiHKPkg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Aug 2022 11:40:36 -0400
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6A26832EE;
+        Thu, 11 Aug 2022 08:36:14 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 4ABACB82128;
-        Thu, 11 Aug 2022 15:34:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5759EC433C1;
-        Thu, 11 Aug 2022 15:34:44 +0000 (UTC)
+        by sin.source.kernel.org (Postfix) with ESMTPS id 0C259CE223C;
+        Thu, 11 Aug 2022 15:36:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 92B76C433D6;
+        Thu, 11 Aug 2022 15:36:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1660232085;
-        bh=Ge0ao3IlkYaEA/oggyEUXZM/khav/xX3ShWmPj2mtkA=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=tlebtIg4GNKrYmMIHeZXVwR7iAEHmVAaCwu2+1YJMU7yVEROrcj7B9EEp6GIA4LVf
-         d39ZbIMdAKJsNYxqyhTvVH6GONPThihtszeuVyrv8v335SBugtWoyOEzt16ks0IxUM
-         Ke53oJzYvPc2+6SH16zOSW6oGLIzK1AFiQWUbPi/7sU4Qe1V+QQRFh2tGMdxg3ibvn
-         JXNTWU2TjYTyj8JPs3DwswPZQQNy6Iotr+z4RLuuVUzO+fAy0S80mjMx9/1r0v4Emo
-         5KwNm7+9KDrwZLmQTZ2YuDhaKWzRFdfCrYgrRwsrxohDlTk2qMFSJ4bKr/p3AC7+LU
-         e4HJYz5IIZTLw==
-Date:   Thu, 11 Aug 2022 08:34:35 -0700
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     Stephen Hemminger <stephen@networkplumber.org>
-Cc:     netdev@vger.kernel.org, davem@davemloft.net, edumazet@google.com,
-        pabeni@redhat.com, sdf@google.com, jacob.e.keller@intel.com,
-        vadfed@fb.com, johannes@sipsolutions.net, jiri@resnulli.us,
-        dsahern@kernel.org, fw@strlen.de, linux-doc@vger.kernel.org,
-        Michal Kubecek <mkubecek@suse.cz>
-Subject: Re: [RFC net-next 0/4] ynl: YAML netlink protocol descriptions
-Message-ID: <20220811083435.1b271c7f@kernel.org>
-In-Reply-To: <20220811080152.2dbd82c2@hermes.local>
-References: <20220811022304.583300-1-kuba@kernel.org>
-        <20220810211534.0e529a06@hermes.local>
-        <20220810214701.46565016@kernel.org>
-        <20220811080152.2dbd82c2@hermes.local>
+        s=k20201202; t=1660232171;
+        bh=qsShld15yanExGZz6tj+YI1xZMgoDwaENHBqd2mx4bU=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=cNcphdIWAXT6nB9wNAJsYoUHgHVt1MefuabHLfxkfhrw/sFEl4ZLBaKY3AoFZ03Re
+         jNOjUzJGanUK4FD7+xgNU7zXYAQcih+CgovFXqFDiG96GLShQsreEKnS0z/cFwRih2
+         dHV0CCwxy+pVLUuBkysoKi5RkgucPD4GQ89qcyUkFLe0umlmLExUGaqOcjAfE4F1/Y
+         zZls0lo6AL1C6K0RUBpjUgrBRNjGmkJkkvskq1QYpf3vW2dJxmcei55uFLEY3X/xF9
+         3JJ+8jvddfuPipdM90NjxQpUbuepAQn6GfaZl2anEE9drFZTYrj6Bjrdw9+qa5NEuF
+         fRM8/nJXYXuGg==
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sasha Levin <sashal@kernel.org>, linux-doc@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.19 063/105] scripts: sphinx-pre-install: fix venv version check logic
+Date:   Thu, 11 Aug 2022 11:27:47 -0400
+Message-Id: <20220811152851.1520029-63-sashal@kernel.org>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220811152851.1520029-1-sashal@kernel.org>
+References: <20220811152851.1520029-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Randomly adding Michal to CC since I just realized I forgot
-to CC him on the series.
+From: Mauro Carvalho Chehab <mchehab@kernel.org>
 
-On Thu, 11 Aug 2022 08:01:52 -0700 Stephen Hemminger wrote:
-> > On Wed, 10 Aug 2022 21:15:34 -0700 Stephen Hemminger wrote:  
-> > > Would rather this be part of iproute2 rather than requiring it
-> > > to be maintained separately and part of the kernel tree.    
-> > 
-> > I don't understand what you're trying to say. What is "this", 
-> > what is "separate" from what?  
-> 
-> I am saying that ynl could live as a standalone project or as
-> part of the iproute2 tools collection.
+[ Upstream commit 7c2d45a347c7933cbe0efff14fe96adeb13fd761 ]
 
-It's a bit of a strange beast, because the YNL C library ends up being
-relatively small:
+The logic which checks if the venv version is good enough
+but was not activated is broken: it is checking against
+the wrong val, making it to recommend to re-create a venv
+every time. Fix it.
 
- tools/net/ynl/lib/ynl.c                  | 528 +++++++++++++++++++++++++
- tools/net/ynl/lib/ynl.h                  | 112 ++++++
+Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+Link: https://lore.kernel.org/r/afe01b7863fd655986d84ace8948f3d7aede796d.1656756450.git.mchehab@kernel.org
+Signed-off-by: Jonathan Corbet <corbet@lwn.net>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ scripts/sphinx-pre-install | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
 
-The logic is mostly in the codegen:
+diff --git a/scripts/sphinx-pre-install b/scripts/sphinx-pre-install
+index f126ecbb0494..ae8c49734899 100755
+--- a/scripts/sphinx-pre-install
++++ b/scripts/sphinx-pre-install
+@@ -741,7 +741,7 @@ sub recommend_sphinx_upgrade()
+ 
+ 	# Get the highest version from sphinx_*/bin/sphinx-build and the
+ 	# corresponding command to activate the venv/virtenv
+-	$activate_cmd = get_virtenv();
++	($activate_cmd, $venv_ver) = get_virtenv();
+ 
+ 	# Store the highest version from Sphinx existing virtualenvs
+ 	if (($activate_cmd ne "") && ($venv_ver gt $cur_version)) {
+@@ -759,10 +759,14 @@ sub recommend_sphinx_upgrade()
+ 	# Either there are already a virtual env or a new one should be created
+ 	$need_pip = 1;
+ 
++	return if (!$latest_avail_ver);
++
+ 	# Return if the reason is due to an upgrade or not
+ 	if ($latest_avail_ver lt $rec_version) {
+ 		$rec_sphinx_upgrade = 1;
+ 	}
++
++	return $latest_avail_ver;
+ }
+ 
+ #
+@@ -820,7 +824,7 @@ sub recommend_sphinx_version($)
+ 	}
+ 
+ 	# Suggest newer versions if current ones are too old
+-	if ($latest_avail_ver && $cur_version ge $min_version) {
++	if ($latest_avail_ver && $latest_avail_ver ge $min_version) {
+ 		# If there's a good enough version, ask the user to enable it
+ 		if ($latest_avail_ver ge $rec_version) {
+ 			printf "\nNeed to activate Sphinx (version $latest_avail_ver) on virtualenv with:\n";
+@@ -897,7 +901,7 @@ sub check_needs()
+ 		}
+ 	}
+ 
+-	recommend_sphinx_upgrade();
++	my $venv_ver = recommend_sphinx_upgrade();
+ 
+ 	my $virtualenv_cmd;
+ 
+-- 
+2.35.1
 
- gen.py                                   | 1601 +++++++++++++++++++++++++
-
-but that part we need for kernel C code as well.
-
-The generated code is largish:
-
- tools/net/ynl/generated/dpll-user.c      | 371 ++++++++++++++++++
- tools/net/ynl/generated/dpll-user.h      | 204 ++++++++++
- tools/net/ynl/generated/ethtool-user.c   | 367 ++++++++++++++++++
- tools/net/ynl/generated/ethtool-user.h   | 190 +++++++++
- tools/net/ynl/generated/fou-user.c       | 322 ++++++++++++++++
- tools/net/ynl/generated/fou-user.h       | 287 ++++++++++++++
- tools/net/ynl/generated/genetlink-user.c | 635 +++++++++++++++++++++++++++++++
- tools/net/ynl/generated/genetlink-user.h | 201 ++++++++++
-
-but we don't have to commit it, it can be created on the fly 
-(for instance when a selftest wants to make use of YNL).
-
-Then again it would feel a lot cleaner for the user space library
-to be a separate project. I've been putting off thinking about the
-distribution until I'm done coding, TBH. Dunno.
