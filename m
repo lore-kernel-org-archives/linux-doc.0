@@ -2,126 +2,120 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 99B11C00140
-	for <linux-doc@archiver.kernel.org>; Thu, 11 Aug 2022 02:54:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 54F8AC00140
+	for <linux-doc@archiver.kernel.org>; Thu, 11 Aug 2022 03:07:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233819AbiHKCyd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 10 Aug 2022 22:54:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38884 "EHLO
+        id S233917AbiHKDHI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 10 Aug 2022 23:07:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56012 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233821AbiHKCyc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 Aug 2022 22:54:32 -0400
-Received: from out199-6.us.a.mail.aliyun.com (out199-6.us.a.mail.aliyun.com [47.90.199.6])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 918BB883EC;
-        Wed, 10 Aug 2022 19:54:30 -0700 (PDT)
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R171e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018046056;MF=xianting.tian@linux.alibaba.com;NM=1;PH=DS;RN=23;SR=0;TI=SMTPD_---0VLxOlmu_1660186462;
-Received: from B-LB6YLVDL-0141.local(mailfrom:xianting.tian@linux.alibaba.com fp:SMTPD_---0VLxOlmu_1660186462)
-          by smtp.aliyun-inc.com;
-          Thu, 11 Aug 2022 10:54:23 +0800
-Subject: Re: [PATCH V5 0/6] RISC-V fixups to work with crash tool
-To:     Conor.Dooley@microchip.com, paul.walmsley@sifive.com,
-        palmer@dabbelt.com, aou@eecs.berkeley.edu, anup@brainfault.org,
-        heiko@sntech.de, guoren@kernel.org, mick@ics.forth.gr,
+        with ESMTP id S233269AbiHKDHH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 Aug 2022 23:07:07 -0400
+Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com [IPv6:2607:f8b0:4864:20::433])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 774EB7647C;
+        Wed, 10 Aug 2022 20:07:01 -0700 (PDT)
+Received: by mail-pf1-x433.google.com with SMTP id d20so15396138pfq.5;
+        Wed, 10 Aug 2022 20:07:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc;
+        bh=LmnOiDMX3xGrA/oiBCR1NQTWs1yu4LdDCazzpBCjFtQ=;
+        b=H5cnkUVNltB7wWsF6EV6zhRHqMdbHRl1/9X0CDEmIn8sQxFUTqE3GaaBiao9RVv2Mz
+         GWFL+fetVlJKW24AtbvGfvy+ha6lP+7aSEb6M/IgtNFMnQUj9oK6w8bnLM4z+77rsjHZ
+         MRrtvBp8y8vyFudVo2+O9wjHDVEB9Sv3UpJbLXpDTfhjTxtHkflOHqPlh3slyuFq0hSO
+         s+W6AVm5/scjepfNTCg7e+IerJuZBjTapd0T5672TOKc2FVLrnIC/0BPN0dWSX2qIGjC
+         PpH1AyDTbPS0p3IdtusCKRavn/bxNhTlDX2GHN0uoXdU47oMbRAhkFK4Ue92EdUAtYRh
+         N9iA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
+        bh=LmnOiDMX3xGrA/oiBCR1NQTWs1yu4LdDCazzpBCjFtQ=;
+        b=6LdobB38vSgqgTxRKuRrXS5y1gu9QaZL4i7gw544AlDetR8/i2JCDiFHvzu1jQJzqI
+         gSpkqBbX+ddULMGfYyB+50sjqq47BGGrVrjBapE8r4hN+WK0eHJdzcbhvv2gD4oTp1u3
+         nv5wuFtefsa/TdNB9mtRbTLs6bi0ehU0RHFxEf9LQmwD61MKfdhM5Y8sLeviVlz7w7Sq
+         FISpE/BUDGrMmznHa6//ALO9uqmOM6aNntY2FLeWoZAGaEG9gH2v8UK5wucGYXRSQh75
+         2mZHtLpWXiQge/F4I0qdINYBGKjMQVxJfGxBKS/la0MvMb8YnHN8Rga9YflELYW87tXn
+         Ha/w==
+X-Gm-Message-State: ACgBeo3fZU5jxbP8GroBqXjl4vJ/1BpbtAW7+pjEp8cGYRBLDHghgO5P
+        QYVjJpVH6Us5ouBTzE2oHg8=
+X-Google-Smtp-Source: AA6agR5B0U4yEPzcfEMvg4EWSUMEiB5V88JgPoOag+aXjmtx75T7wOxR3QgN0r7Desc6C3h37KfZtA==
+X-Received: by 2002:a63:4d0e:0:b0:412:1877:9820 with SMTP id a14-20020a634d0e000000b0041218779820mr25457368pgb.177.1660187220938;
+        Wed, 10 Aug 2022 20:07:00 -0700 (PDT)
+Received: from debian.me (subs02-180-214-232-7.three.co.id. [180.214.232.7])
+        by smtp.gmail.com with ESMTPSA id oj7-20020a17090b4d8700b001df264610c4sm10902763pjb.0.2022.08.10.20.07.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 10 Aug 2022 20:07:00 -0700 (PDT)
+Received: by debian.me (Postfix, from userid 1000)
+        id EB139103BCD; Thu, 11 Aug 2022 10:06:55 +0700 (WIB)
+Date:   Thu, 11 Aug 2022 10:06:55 +0700
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     Xianting Tian <xianting.tian@linux.alibaba.com>
+Cc:     paul.walmsley@sifive.com, palmer@dabbelt.com,
+        aou@eecs.berkeley.edu, anup@brainfault.org, heiko@sntech.de,
+        guoren@kernel.org, mick@ics.forth.gr,
         alexandre.ghiti@canonical.com, bhe@redhat.com, vgoyal@redhat.com,
-        dyoung@redhat.com, corbet@lwn.net
-Cc:     kexec@lists.infradead.org, linux-doc@vger.kernel.org,
+        dyoung@redhat.com, corbet@lwn.net, Conor.Dooley@microchip.com,
+        kexec@lists.infradead.org, linux-doc@vger.kernel.org,
         linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
         crash-utility@redhat.com, huanyi.xj@alibaba-inc.com,
         heinrich.schuchardt@canonical.com, k-hagio-ab@nec.com,
         hschauhan@nulltrace.org, yixun.lan@gmail.com
+Subject: Re: [PATCH V5 5/6] riscv: crash_core: Export kernel vm layout,
+ phys_ram_base
+Message-ID: <YvRyT5f5uH7LBs4H@debian.me>
 References: <20220802121818.2201268-1-xianting.tian@linux.alibaba.com>
- <b79ab47e-a1e2-eb21-0611-bcbc8b7802c5@linux.alibaba.com>
- <b3184653-7ef4-eec3-9ef6-a8449fe24323@microchip.com>
-From:   Xianting Tian <xianting.tian@linux.alibaba.com>
-Message-ID: <5afbd9b6-37c5-8a8d-6fdf-bca721ebd25e@linux.alibaba.com>
-Date:   Thu, 11 Aug 2022 10:54:22 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
- Gecko/20100101 Thunderbird/78.14.0
+ <20220802121818.2201268-6-xianting.tian@linux.alibaba.com>
 MIME-Version: 1.0
-In-Reply-To: <b3184653-7ef4-eec3-9ef6-a8449fe24323@microchip.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220802121818.2201268-6-xianting.tian@linux.alibaba.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Tue, Aug 02, 2022 at 08:18:17PM +0800, Xianting Tian wrote:
+> These infos are needed by the kdump crash tool. Since these values change
+> from time to time, it is preferable to export them via vmcoreinfo than to
+> change the crash's code frequently.
+> 
 
-在 2022/8/10 上午5:24, Conor.Dooley@microchip.com 写道:
-> On 09/08/2022 07:58, Xianting Tian wrote:
->> Hi Palmer
->>
->> Could you please help review this patch set?  thanks.
-> Hey Xianting,
->
-> Obviously I am not Palmer, but I left some comments on the
-> patchset. Sorry for the delay in getting back onto you on your
-> latest version, I got confused as to which versions I had reviewed.
+I have to agree with Conor.Dooley, that this patch is misleading (I see
+documentation instead of real export). So IMO, the patch subject should
+be "Documentation: kdump: describe VMCOREINFO export for RISCV64".
 
-You ever reviewed this version patch set,
+For MODULES_VADDR and friends, the doc can be improved, like:
 
-https://lore.kernel.org/lkml/20220725014539.1037627-1-xianting.tian@linux.alibaba.com/ 
-<https://lore.kernel.org/lkml/20220725014539.1037627-1-xianting.tian@linux.alibaba.com/>
+diff --git a/Documentation/admin-guide/kdump/vmcoreinfo.rst b/Documentation/admin-guide/kdump/vmcoreinfo.rst
+index 6b76284a503ca5..6694acc32c3588 100644
+--- a/Documentation/admin-guide/kdump/vmcoreinfo.rst
++++ b/Documentation/admin-guide/kdump/vmcoreinfo.rst
+@@ -615,14 +615,13 @@ phys_ram_base
+ 
+ Indicates the start physical RAM address.
+ 
+-MODULES_VADDR|MODULES_END|VMALLOC_START|VMALLOC_END|VMEMMAP_START|VMEMMAP_END
+------------------------------------------------------------------------------
+-KASAN_SHADOW_START|KASAN_SHADOW_END|KERNEL_LINK_ADDR|ADDRESS_SPACE_END
+-----------------------------------------------------------------------
++MODULES_VADDR|MODULES_END|VMALLOC_START|VMALLOC_END|VMEMMAP_START|VMEMMAP_END|KASAN_SHADOW_START|KASAN_SHADOW_END|KERNEL_LINK_ADDR|ADDRESS_SPACE_END
++----------------------------------------------------------------------------------------------------------------------------------------------------
+ 
+ Used to get the correct ranges:
+-	MODULES_VADDR ~ MODULES_END : Kernel module space.
+-	VMALLOC_START ~ VMALLOC_END : vmalloc() / ioremap() space.
+-	VMEMMAP_START ~ VMEMMAP_END : vmemmap region, used for struct page array.
+-	KASAN_SHADOW_START ~ KASAN_SHADOW_END : kasan shadow space.
+-	KERNEL_LINK_ADDR ~ ADDRESS_SPACE_END : Kernel link and BPF space.
++
++  * MODULES_VADDR ~ MODULES_END : Kernel module space.
++  * VMALLOC_START ~ VMALLOC_END : vmalloc() / ioremap() space.
++  * VMEMMAP_START ~ VMEMMAP_END : vmemmap region, used for struct page array.
++  * KASAN_SHADOW_START ~ KASAN_SHADOW_END : kasan shadow space.
++  * KERNEL_LINK_ADDR ~ ADDRESS_SPACE_END : Kernel link and BPF space.
 
->
-> Conor.
->
->>   
->> Crash-utility patch set is ready(acked by HAGIO KAZUHITO), now waiting the kernel patch set merged firstly.
->>
->> 在 2022/8/2 下午8:18, Xianting Tian 写道:
->>> I ever sent the patch 1 in the link:
->>> https://patchwork.kernel.org/project/linux-riscv/patch/20220708073150.352830-3-xianting.tian@linux.alibaba.com/
->>> And patch 2,3 in the link:
->>> https://patchwork.kernel.org/project/linux-riscv/patch/20220714113300.367854-2-xianting.tian@linux.alibaba.com/
->>> https://patchwork.kernel.org/project/linux-riscv/patch/20220714113300.367854-3-xianting.tian@linux.alibaba.com/
->>>
->>> This patch set just put these patches together, and with three new patch 4, 5, 6.
->>> these six patches are the fixups for machine_kexec, kernel mode PC for vmcore
->>> and improvements for vmcoreinfo, memory layout dump and fixup chedule out issue
->>> in machine_crash_shutdown().
->>>
->>> The main changes in the six patchs as below,
->>> Patch 1: use __smp_processor_id() instead of smp_processor_id() to cleanup
->>>            the console prints.
->>> Patch 2: Add VM layout, va bits, ram base to vmcoreinfo, which can simplify
->>>            the development of crash tool as ARM64 already did
->>>            (arch/arm64/kernel/crash_core.c).
->>> Patch 3: Add modules to virtual kernel memory layout dump.
->>> Patch 4: Fixup to get correct kernel mode PC for vmcore.
->>> Patch 5: Updates vmcoreinfo.rst.
->>> Patch 6: Fixup schedule out issue in machine_crash_shutdown()
->>>
->>> With these six patches(patch 2 is must), crash tool can work well to analyze
->>> a vmcore. The patches for crash tool for RISCV64 is in the link:
->>> https://lore.kernel.org/linux-riscv/20220801043040.2003264-1-xianting.tian@linux.alibaba.com/
->>>
->>> ------
->>> Changes v1 -> v2:
->>>    1, remove the patch "Add a fast call path of crash_kexec()" from this series
->>>    of patches, as it already applied to riscv git.
->>>    https://git.kernel.org/pub/scm/linux/kernel/git/riscv/linux.git/commit/?h=for-next&id=3f1901110a89b0e2e13adb2ac8d1a7102879ea98
->>>    2, add 'Reviewed-by' based on the comments of v1.
->>> Changes v2 -> v3:
->>>    use "riscv" instead of "riscv64" in patch 5 subject line.
->>> Changes v3 -> v4:
->>>    use "riscv" instead of "riscv64" in the summary of patch 5 subject line.
->>> Changes v4 -> v5:
->>>    add a new patch "RISC-V: Fixup schedule out issue in machine_crash_shutdown()"
->>>
->>> Xianting Tian (6):
->>>     RISC-V: use __smp_processor_id() instead of smp_processor_id()
->>>     RISC-V: Add arch_crash_save_vmcoreinfo support
->>>     riscv: Add modules to virtual kernel memory layout dump
->>>     RISC-V: Fixup getting correct current pc
->>>     riscv: crash_core: Export kernel vm layout, phys_ram_base
->>>     RISC-V: Fixup schedule out issue in machine_crash_shutdown()
->>>
->>>    .../admin-guide/kdump/vmcoreinfo.rst          | 31 +++++++++++++++++++
->>>    arch/riscv/kernel/Makefile                    |  1 +
->>>    arch/riscv/kernel/crash_core.c                | 29 +++++++++++++++++
->>>    arch/riscv/kernel/crash_save_regs.S           |  2 +-
->>>    arch/riscv/kernel/machine_kexec.c             | 28 ++++++++++++++---
->>>    arch/riscv/mm/init.c                          |  4 +++
->>>    6 files changed, 89 insertions(+), 6 deletions(-)
->>>    create mode 100644 arch/riscv/kernel/crash_core.c
->>>
+Thanks.
+
+-- 
+An old man doll... just what I always wanted! - Clara
