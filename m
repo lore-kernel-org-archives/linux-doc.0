@@ -2,75 +2,135 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E9C4C19F2A
-	for <linux-doc@archiver.kernel.org>; Thu, 11 Aug 2022 13:19:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B3653C25B0C
+	for <linux-doc@archiver.kernel.org>; Thu, 11 Aug 2022 13:22:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235020AbiHKNT1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 11 Aug 2022 09:19:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60226 "EHLO
+        id S235236AbiHKNWg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 11 Aug 2022 09:22:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34544 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234050AbiHKNT0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Aug 2022 09:19:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id D9AB481680
-        for <linux-doc@vger.kernel.org>; Thu, 11 Aug 2022 06:19:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1660223964;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=p0uKFDfXP8UK2kv9F4U2RkkSlS76ekQt9UIZaGMUKKM=;
-        b=Uafey8io5mM7CDaXm4CAF5bY4+Nhbsx4+0sbBmgpnjpDEouZIEXj5JaudBeFqJt0xLndbk
-        MgjGBkH/6OkecBI6AHZmB5q/eppM0XJ6Mk48dcs1SOBlenMx9a01FGsb6z6imJ9Tc35QD3
-        hAIw/Apf0HmekzFknqngKt4YpKWtUbM=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-62-jASUlZ3DM8WAWgojT95a5Q-1; Thu, 11 Aug 2022 09:19:23 -0400
-X-MC-Unique: jASUlZ3DM8WAWgojT95a5Q-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1E7BA3C01DA8;
-        Thu, 11 Aug 2022 13:19:23 +0000 (UTC)
-Received: from localhost (unknown [10.39.193.95])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id C70132166B26;
-        Thu, 11 Aug 2022 13:19:22 +0000 (UTC)
-From:   Cornelia Huck <cohuck@redhat.com>
-To:     Ricardo =?utf-8?Q?Ca=C3=B1uelo?= <ricardo.canuelo@collabora.com>,
-        linux-doc@vger.kernel.org
-Cc:     virtualization@lists.linux-foundation.org, mst@redhat.com,
-        jasowang@redhat.com, kernel@collabora.com, bagasdotme@gmail.com
-Subject: Re: [PATCH v4 1/2] virtio: kerneldocs fixes and enhancements
-In-Reply-To: <20220810094004.1250-2-ricardo.canuelo@collabora.com>
-Organization: Red Hat GmbH
-References: <20220810094004.1250-1-ricardo.canuelo@collabora.com>
- <20220810094004.1250-2-ricardo.canuelo@collabora.com>
-User-Agent: Notmuch/0.36 (https://notmuchmail.org)
-Date:   Thu, 11 Aug 2022 15:19:21 +0200
-Message-ID: <87fsi2dijq.fsf@redhat.com>
+        with ESMTP id S235108AbiHKNWf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Aug 2022 09:22:35 -0400
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1864816AE;
+        Thu, 11 Aug 2022 06:22:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1660224153; x=1691760153;
+  h=date:from:to:cc:subject:message-id:reply-to:references:
+   mime-version:in-reply-to;
+  bh=TXGp2l7srz7CG/35HC62yaH3SzOuZ/KTY0IN1dEpGAI=;
+  b=T5Vzi5QzJt1rxP32GUX/mrs4MWVVTlwuxjMi9Y89Am1NkOMIJGTnmTNd
+   Zdg6TTt9BernHTVXvKdFu70eG2bDgOCyY2Tj7pJqxNSBByrt4YQuF1DVh
+   ySRvMMo6Bqi+PwOJXo7qFkt5EZjjljg1mMZ+4DyR5NxOPWuVZ3vmWA90X
+   L2+DuVmzXchnKnjwWqaCWWg+M0nfRWTXBNSMoHgoSYhOU7qUQeUr1XeCs
+   0Mz38l6tm5lLClygUQcHARxAM0uo6S45FtDw0Zaf0syOJvBHvIxgh3eHU
+   qIR8fakSdWch+/EOw1YROjUJuDqi1vAnIEBsIraZu7CQtL4STibM3njJg
+   w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10435"; a="292602176"
+X-IronPort-AV: E=Sophos;i="5.93,228,1654585200"; 
+   d="scan'208";a="292602176"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Aug 2022 06:22:33 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,228,1654585200"; 
+   d="scan'208";a="608920719"
+Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
+  by fmsmga007.fm.intel.com with ESMTP; 11 Aug 2022 06:22:23 -0700
+Date:   Thu, 11 Aug 2022 21:17:38 +0800
+From:   Chao Peng <chao.p.peng@linux.intel.com>
+To:     David Hildenbrand <david@redhat.com>
+Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+        qemu-devel@nongnu.org, linux-kselftest@vger.kernel.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sean Christopherson <seanjc@google.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+        ak@linux.intel.com, aarcange@redhat.com, ddutile@redhat.com,
+        dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+        Muchun Song <songmuchun@bytedance.com>
+Subject: Re: [PATCH v7 05/14] mm/memfd: Introduce MFD_INACCESSIBLE flag
+Message-ID: <20220811131738.GA916119@chaop.bj.intel.com>
+Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
+References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
+ <20220706082016.2603916-6-chao.p.peng@linux.intel.com>
+ <203c752f-9439-b5ae-056c-27b2631dcb81@redhat.com>
+ <20220810093741.GE862421@chaop.bj.intel.com>
+ <64ab9678-c72d-b6d9-8532-346cc9c06814@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <64ab9678-c72d-b6d9-8532-346cc9c06814@redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Aug 10 2022, Ricardo Ca=C3=B1uelo <ricardo.canuelo@collabora.com> w=
-rote:
+On Wed, Aug 10, 2022 at 11:55:19AM +0200, David Hildenbrand wrote:
+> On 10.08.22 11:37, Chao Peng wrote:
+> > On Fri, Aug 05, 2022 at 03:28:50PM +0200, David Hildenbrand wrote:
+> >> On 06.07.22 10:20, Chao Peng wrote:
+> >>> Introduce a new memfd_create() flag indicating the content of the
+> >>> created memfd is inaccessible from userspace through ordinary MMU
+> >>> access (e.g., read/write/mmap). However, the file content can be
+> >>> accessed via a different mechanism (e.g. KVM MMU) indirectly.
+> >>>
+> >>> It provides semantics required for KVM guest private memory support
+> >>> that a file descriptor with this flag set is going to be used as the
+> >>> source of guest memory in confidential computing environments such
+> >>> as Intel TDX/AMD SEV but may not be accessible from host userspace.
+> >>>
+> >>> The flag can not coexist with MFD_ALLOW_SEALING, future sealing is
+> >>> also impossible for a memfd created with this flag.
+> >>
+> >> It's kind of weird to have it that way. Why should the user have to
+> >> care? It's the notifier requirement to have that, no?
+> >>
+> >> Why can't we handle that when register a notifier? If anything is
+> >> already mapped, fail registering the notifier if the notifier has these
+> >> demands. If registering succeeds, block it internally.
+> >>
+> >> Or what am I missing? We might not need the memfile set flag semantics
+> >> eventually and would not have to expose such a flag to user space.
+> > 
+> > This makes sense if doable. The major concern was: is there a reliable
+> > way to detect this (already mapped) at the time of memslot registering.
+> 
+> If too complicated, we could simplify to "was this ever mapped" and fail
+> for now. Hooking into shmem_mmap() might be sufficient for that to get
+> notified about the first mmap.
+> 
+> As an alternative, mapping_mapped() or similar *might* do what we want.
 
-> Fix variable names in some kerneldocs, naming in others.
-> Add kerneldocs for struct vring_desc and vring_interrupt.
->
-> Signed-off-by: Ricardo Ca=C3=B1uelo <ricardo.canuelo@collabora.com>
-> ---
->  drivers/virtio/virtio_ring.c     |  8 ++++++++
->  include/linux/virtio.h           |  6 +++---
->  include/linux/virtio_config.h    |  6 +++---
->  include/uapi/linux/virtio_ring.h | 16 +++++++++++-----
->  4 files changed, 25 insertions(+), 11 deletions(-)
+mapping_mapped() sounds the right one, I remember SEV people want first
+map then unmap. "was this ever mapped" may not work for them.
 
-Reviewed-by: Cornelia Huck <cohuck@redhat.com>
-
+Thanks,
+Chao
+> 
+> 
+> 
+> -- 
+> Thanks,
+> 
+> David / dhildenb
