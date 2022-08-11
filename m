@@ -2,296 +2,282 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C947DC25B0E
-	for <linux-doc@archiver.kernel.org>; Thu, 11 Aug 2022 22:55:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0EFFFC25B0E
+	for <linux-doc@archiver.kernel.org>; Thu, 11 Aug 2022 23:03:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229519AbiHKWz6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 11 Aug 2022 18:55:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56978 "EHLO
+        id S236532AbiHKXDM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 11 Aug 2022 19:03:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35832 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231131AbiHKWz6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Aug 2022 18:55:58 -0400
-Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com [IPv6:2607:f8b0:4864:20::1029])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 447295C954
-        for <linux-doc@vger.kernel.org>; Thu, 11 Aug 2022 15:55:56 -0700 (PDT)
-Received: by mail-pj1-x1029.google.com with SMTP id h21-20020a17090aa89500b001f31a61b91dso6726070pjq.4
-        for <linux-doc@vger.kernel.org>; Thu, 11 Aug 2022 15:55:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc;
-        bh=PPCfKOqd9fDC1yG+vZyAdiqrSEfpKOxd2t3iixZr7Ls=;
-        b=s78Lu2VcQTHfvs4HonL6YNgmkaptCcWFlwKqOEzNeLzaW8efWdlKL2Dmlukf1+nBLB
-         TjV1g3Yxg+TCdRUI75vmAPZURX+SD/WSC9dPeoQwCtP4jA7FLhfUK3NZl8hqokAMsveP
-         DKEW96nwDdVg1PWcsnCYc6GZdeEt3DtbwotieP7OUqTY4g5Tn4n55zD33xvMK//2y91e
-         cfMqQ9atRjL0k7C6Ov+CUf3yBWvXikTP6mvVPiSmSTaXxHHcUqYJoRFGcoGeB++Z04uX
-         u7SxG9a375oMcleExKv/Gkl5d6beG0kmq2k1VvdYbzda0LpP9YPTO+lISVpvGnOFv9p0
-         jQKQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc;
-        bh=PPCfKOqd9fDC1yG+vZyAdiqrSEfpKOxd2t3iixZr7Ls=;
-        b=zg7WYhIqACu1s5axzSe/jYIe2eETq+nrViT6ZwiV2O8m+On/psTNF3rPy9iuNpBLuP
-         4lsU3wJYlqhS3nxl1/lBmhdElJ/C45hHHHdzg4+3gOU1wMnKAS7Xp/Qx46jZn+yqf+Jb
-         RV4X7aVjEMBChy7KRI2022fvOzbM7U1/BDp4Li07opDnJ+ylie6cKqvJdeFy4ia79fzP
-         j1TpaaPeKcpMAOXRyQICrLc/T63GDyPzreCrkSOfeRyPSPULuWeuSDmrOCRWkhwSGvmm
-         hehriSLNcYaMEnYY9yq5TCnJonIbBobTx4wSoVTfQpz1SUCcPPCITxUwHdGiG7yZEsBW
-         FZiA==
-X-Gm-Message-State: ACgBeo3fxCiR/Y0swjFBrSc2PBr2IZHDHIt0RpB6afTHh6O9bMl9eilY
-        RvMYOmlPmfg0wFOe6/aNe1q0xdbYZbvZLUeghblVcA==
-X-Google-Smtp-Source: AA6agR48AwKso6gbHlt6bAk+3m4vu9dmqx22vT5YkDU+WfwhIED81kci3bcndDR180zkiApJvvKZ7SMSZzAw0xeO4eM=
-X-Received: by 2002:a17:902:70c7:b0:170:9030:2665 with SMTP id
- l7-20020a17090270c700b0017090302665mr1289152plt.73.1660258555583; Thu, 11 Aug
- 2022 15:55:55 -0700 (PDT)
+        with ESMTP id S235999AbiHKXDK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Aug 2022 19:03:10 -0400
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2044.outbound.protection.outlook.com [40.107.93.44])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E8FA6CF4E;
+        Thu, 11 Aug 2022 16:03:08 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Hk8fgTA5OH7YX2hTlUvrStKm1NHoHCEy3AePMe5dHzZRuWOMXzUMnx0h95UNkbiX422Q4wtoYmICIqqqVxHeF7oWjnF77QG8PvEtFxz+taGjS6FhugYFEiVCyu6T3P5U6JwFuQK9H4FkGIrHmk5H0s+34Dton05Xj3ZZTAqKstOZ7ztcntx0uSrM2SuJyfrrpiZIPBJtargM5O7sW7lNRzDpS5+tocFvddO+2wFaV5qXcVG9WgSQdiJo2pBgSzm3RiGjOEzaDxPmH7CaqypZCDDxqjcOqesdOTRztMwM/11yYYRVmRxeURwCRXHcicXVb3NTE9KmiyzgmYkv9A9rtw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ha5P8ivs+Ipv0pAsGDwaPChk0pRJnaDI+qIlhXEl4YM=;
+ b=Y6DxnHCZ8/xIj3MCXsMLOoOsDdXpStNjjb1UxXt9fQTz8O7TyDK1YPXuPjEGC4Wiuc7Ro1YPSNWbuudJA0xj3gztPSEPnewWQXdJKqNPKChJVUju27eUhNB09isekhoVluydwYJfK4yN2uNwzt/hV8WRUiFEek/sLgFrC3dN5BQLjx+j0Jyi1d/4ZYm9EJ6QWn0v+Ox09yiovuHV5t7IQnhfsQguXUBvvvUO7zRIAAWPAJSjC+FPDEvsuusOWqJsP8P89lE0aatqUqzMkPKXM0cXQKbzMnUn16t+PnW9gOVcUQ5t2NNDgFTFKDuvMMwsJqPZZ7mdyIah/DD4GNNY5w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ha5P8ivs+Ipv0pAsGDwaPChk0pRJnaDI+qIlhXEl4YM=;
+ b=Ba52b51gnhcpEJaOQWrIyKwJ25WXXB2nl0j8g3oUw8pHNG99eD1yxwK8BoiHNCCnuYqetIu+31FOQ4f0TUD6iCqOWKwmcMv7shXS+sTnSTZJ5Ec+MpBOfxAMQTl+3VqDBTj7D1vmzZ17WeYNyz+KwzF3idhMs1yZCUQ2z6LTv9Y=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from CY4PR1201MB0181.namprd12.prod.outlook.com
+ (2603:10b6:910:1f::11) by SA1PR12MB6800.namprd12.prod.outlook.com
+ (2603:10b6:806:25c::9) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5525.11; Thu, 11 Aug
+ 2022 23:03:06 +0000
+Received: from CY4PR1201MB0181.namprd12.prod.outlook.com
+ ([fe80::1001:3c79:9504:8d6a]) by CY4PR1201MB0181.namprd12.prod.outlook.com
+ ([fe80::1001:3c79:9504:8d6a%10]) with mapi id 15.20.5504.020; Thu, 11 Aug
+ 2022 23:03:06 +0000
+Message-ID: <422b9f97-fdf5-54bf-6c56-3c45eff5e174@amd.com>
+Date:   Fri, 12 Aug 2022 01:02:52 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v7 00/14] KVM: mm: fd-based approach for supporting KVM
+ guest private memory
+Content-Language: en-US
+To:     "Nikunj A. Dadhania" <nikunj@amd.com>,
+        Chao Peng <chao.p.peng@linux.intel.com>,
+        Sean Christopherson <seanjc@google.com>
+Cc:     Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+        ddutile@redhat.com, dhildenb@redhat.com,
+        Quentin Perret <qperret@google.com>,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+        Muchun Song <songmuchun@bytedance.com>, bharata@amd.com,
+        kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-kselftest@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+        qemu-devel@nongnu.org, linux-fsdevel@vger.kernel.org
+References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
+ <b21f41e5-0322-bbfb-b9c2-db102488592d@amd.com>
+ <9e86daea-5619-a216-fe02-0562cf14c501@amd.com>
+ <9dc91ce8-4cb6-37e6-4c25-27a72dc11dd0@amd.com>
+From:   "Gupta, Pankaj" <pankaj.gupta@amd.com>
+In-Reply-To: <9dc91ce8-4cb6-37e6-4c25-27a72dc11dd0@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR3P281CA0103.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:a1::19) To CY4PR1201MB0181.namprd12.prod.outlook.com
+ (2603:10b6:910:1f::11)
 MIME-Version: 1.0
-References: <20220811022304.583300-1-kuba@kernel.org> <20220811022304.583300-5-kuba@kernel.org>
- <YvUru3QvN/LuYgnq@google.com> <20220811123515.4ef1a715@kernel.org>
-In-Reply-To: <20220811123515.4ef1a715@kernel.org>
-From:   Stanislav Fomichev <sdf@google.com>
-Date:   Thu, 11 Aug 2022 15:55:44 -0700
-Message-ID: <CAKH8qBs54kX_MjA2xHM1sSa_zvNYDEPhiZcwEVWV4kP1dEPcEw@mail.gmail.com>
-Subject: Re: [RFC net-next 4/4] ynl: add a sample user for ethtool
-To:     Jakub Kicinski <kuba@kernel.org>
-Cc:     netdev@vger.kernel.org, davem@davemloft.net, edumazet@google.com,
-        pabeni@redhat.com, jacob.e.keller@intel.com, vadfed@fb.com,
-        johannes@sipsolutions.net, jiri@resnulli.us, dsahern@kernel.org,
-        stephen@networkplumber.org, fw@strlen.de, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 459f5913-13f3-4ed3-e6f8-08da7beda67c
+X-MS-TrafficTypeDiagnostic: SA1PR12MB6800:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: wPAwwIsSuTTf8ora47aFdBXNdiiNTJkJOovsbeL0hqtCKLEb0eY7JmhocaQwqAlW2F7y4WX3baUj8jG4rAgUOYedPttB3bLU1/0kFpPkh+kErYYqw1GGm8Gl1d2pjwQGyFAv+nweCfEyr25nGAehPYTHzd7WGogp0glZYX8Ea9hbUNyOPNTZjGCk0z31BqBdzBmkzVfzRvrueC5w2wyg5GkQJRJaDpgYUrBy3v7HrZSgBFfdqzWz8fJsD30dIGB9HsEsx6R/IjSQ6UdRpsDCxY0KnbFuy18QviF0rlL+mb2WaSnKcCdVkjakkNYljpvJyq3qZbiXabpJkdzXgHTUIWnfaq2mvZ9h/x5f7a5oYjLDnOdH7C3FUqi7ds+vxf43Mrw0yLrywcDL6T1NT055XvvgbUrY/lq3nAFaYTiX/uqN45H/9sqwH3d+mmPYrGdrz+jDEGPx6Qq1iXcb2JHkx/Aes8haQlQUdaD0Ap8LiaoziKZxHxEz0qHFLBVsZ6JQcEJhsqOQEm2rdRyh1OKTmccRO8WLT/CsJaxIPi56wz0x4Z/BYod7wUZO3mcjmMHaGQIS8ccSFxJ7ma7l00ZyPXRho0SB17NSc51FJukNheYkGI9r/upKSD5qogQelcXoCUJJ+HQDpXWdNMgI/v3PUYhHflkDxuri3k3vzj5wmCyyRKBun8+lqUWxyYWfiQouAi3xJyNP2Gcy6a90U1Bn+BjVeApUyrHKzmzle+kBawA++egflCmVVR1TqIcVmhdJ1ScJiIVH00Gu9l4G6TeS87Ts+3VBvrTsQkwYbw3hrkJ88RkdI4tvlrD/oMtsscFuU1qyUaSxjNJByUBmMJIgWMv5D50Kislu6AYkWayh3xGebqP2qeADibNBIt3M1CW/ey1M/KjR6QGADlNoNyCLOQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY4PR1201MB0181.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(396003)(136003)(346002)(39860400002)(376002)(366004)(316002)(478600001)(6486002)(41300700001)(54906003)(4326008)(966005)(2906002)(66476007)(110136005)(8676002)(66556008)(38100700002)(66946007)(7416002)(5660300002)(8936002)(7406005)(31686004)(36756003)(31696002)(86362001)(2616005)(186003)(6506007)(26005)(83380400001)(53546011)(6512007)(6666004)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?K3hpV1ExVVpDM1ZaTkZ4MWswc21hQk9EdkZMd3JMYzAvTEZGSmR5dXRvYWxE?=
+ =?utf-8?B?R01VT2xzYnRiNEswMzJWbEVkWlJBemN1OUZ1d2lUVXA5Tk5VaFB2YTdsdzF1?=
+ =?utf-8?B?clhWRkVOVWljQ295U0E2cXYrdEJjVzNnQTdVb3IzclRwbktiYWl5TjhTaHVH?=
+ =?utf-8?B?bGkyaGFuUnBiYXlkNlJhQlA5NmloRTZlVWFWaUpTc052NGJtZE5henZGTGtU?=
+ =?utf-8?B?WWZuR2loSjRJZU9FOUQyUmZJK3V6TUZEUjJwVm9NaEcrYmtwY090YTQ0dlBE?=
+ =?utf-8?B?S0J6U09DaWVrQzlDSVVUNUF4ZHpsSnZmZmFLNVVFbi9jQlBBMTUxd1RjL0s5?=
+ =?utf-8?B?UTFrZUR1UjAyT3Z0VlhPQU4ra2VLMWF6L01Yc0lUUTFsVWxrRTVaNUhiNGVr?=
+ =?utf-8?B?VkRhSjZjaXVHdHdjZ1JEYUp0dStkeGo0WjFONUJlenMyNXhrSmkzdStBU1Bm?=
+ =?utf-8?B?MzUrRWFMaHBEYmRHOWxBbTBGTDFaYmZuZGlVOUg0UnE4NUJPcFZXUnRCbm1S?=
+ =?utf-8?B?ei9pc1p4aURRMm1qSkZvaDA2aGxWRVBwNktWRFRia2F1MDFJR1FkMHFpQldp?=
+ =?utf-8?B?ZEQ4NVRJYkpqVWNjOFNFVFhIc2tCbGx0djMyNmxxZ3hvUHNyVkQ3Q0hyVkw4?=
+ =?utf-8?B?Z0Z6ZHlLRlFCMzNEellOYXBXckY0MzBCczZIRHRBRGg3d2Q4K0FCS2VmUGlJ?=
+ =?utf-8?B?ekxzOXp6RjloK3NXcTVzK2lvVncxdDNud2JZYndQNUtzUVIxSHQyM2FydlVQ?=
+ =?utf-8?B?eDlBZXZZMDRZQ3ZwbmN3U2FkRzFRcSswSHdKamVwZEpzMnN5TVZDQUxnUkF5?=
+ =?utf-8?B?ZEczUHZ6SjRYcFFRL0RDRExKVGZPSTZTNmYxRDRwNjlrYU9tZ1R3VE43UW85?=
+ =?utf-8?B?Q1Z5TjJQMFM3L0I2NzFKMnVYL2V6TVAxNUpkSEp5TzVLbS9NMXh6MGlxWGpW?=
+ =?utf-8?B?czBJQW5iblpKK2s0RGtoUnFrRmVPZkZ5QmdtK2tQK1V1QzZFNlRUdjErWGtF?=
+ =?utf-8?B?ZExIU0h2eHVBT2RPdFk0QnFOMis2c3FNaVV2a25objZuMmZJbFJ5eENRL0cr?=
+ =?utf-8?B?SW9jeSt5N2lQeDJlMGcxZFh5b1Zqa3EzNkYwM1psTnEyVmlPTVluYllEZ1Zt?=
+ =?utf-8?B?SGYxcnNXVCtwaTZvK3d1TmtPb2pwdWhBVElZZ0F5YmZNMnlmTzhDMzBnV3Er?=
+ =?utf-8?B?N0sxOG43OUtmLy9LUXY1cUpNLzRCVkVKOEtWT1NYZERiTGhkcG84Q3R3NWZX?=
+ =?utf-8?B?cVNpc2ZnQU4wbC9zZzhUVWI3Z1pIcVhkVStOSU5IR1ZHcFRGT2ZobWY3a0pu?=
+ =?utf-8?B?QUpVdzdsVzlUZC81TFZwYTZjRVJmRnBvcFZQa3BzcUlzeVJHQU5UQUdYV1pY?=
+ =?utf-8?B?cUNTNXQ4bFM5aTZYUnl0VDZ2Z2x3TTB0Ynk4WUVmSU5OeUlWYzFES3BuSUxU?=
+ =?utf-8?B?V1h4TmF0N00wNUw5ZkpadHgrbmc0TWkrK3hrU3FzK1VxbFdXa1IxdW9yTVJr?=
+ =?utf-8?B?RXNDZ1pQVXlSMFhPMEI4OXNtYmlEUURXMUxPSUtSa2l0YjZMMmFtMW9mSWdX?=
+ =?utf-8?B?RzJScW1nY2c4S3hGb050c245ZXYyb0pCdHpnUzIydlgxeGRUeXo4MS9acTdU?=
+ =?utf-8?B?b0d6R0lDYWZBSm5OV1ArM2szTWdEbE9JWFlpQkp2WFRhQU9hMXdrNitrRmdE?=
+ =?utf-8?B?ek56bkxnTHRqYVI2dUI1N3JCeGhUTWpVWFNqcUdEYlQyeVVQNlY2blgrdUov?=
+ =?utf-8?B?YUgvSkxCZkxzRGhwejJhcTZqY2I2R3o3SEdWcVd3aEVPNmRRNEowVkNHTW45?=
+ =?utf-8?B?NTJKbmp4RUdQK0VGZkVGWUM0dGMxdVYvRHhpenFsZFdnbjhaT01nZmVKVjFn?=
+ =?utf-8?B?OW0zYzMrem01QmxYdVZ1cnlpUkpyTjF3VWIxTFlTdnpHSlI2TWpoNi8xNkNu?=
+ =?utf-8?B?L1R1Qm0vOHlGa1gxTmwwaUtjd3lBVHVxd1N6ZVdEV0gwallmVjBvOEpWT1Mz?=
+ =?utf-8?B?UDcrcWVOSFFKdVI3cHB3RUFJU2owY3FjNW9kTTNoT3o3RzAvSTJDaW9GTk9Z?=
+ =?utf-8?B?YjJWNnlTbGE5dHpSOXBKcUpDOUZGVnFmekVwUmdUWHNHMU5wL1B5bEVpRGp4?=
+ =?utf-8?Q?prNg=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 459f5913-13f3-4ed3-e6f8-08da7beda67c
+X-MS-Exchange-CrossTenant-AuthSource: CY4PR1201MB0181.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Aug 2022 23:03:06.0453
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: wCUqrzyP/rhx/w+/rjFUzSkuHjtwA00GWL59q9u6LfNXQVOIsB4WDHvASZNeMYVj4F7PGb1zvsEzAeNVj/3Stg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB6800
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Aug 11, 2022 at 12:35 PM Jakub Kicinski <kuba@kernel.org> wrote:
->
-> On Thu, 11 Aug 2022 09:18:03 -0700 sdf@google.com wrote:
-> > > +attr-cnt-suffix: CNT
-> >
-> > Is it a hack to make the generated header fit into existing
-> > implementation?
->
-> Yup.
->
-> > Should we #define ETHTOOL_XXX_CNT ETHTOOL_XXX in
-> > the implementation instead? (or s/ETHTOOL_XXX_CNT/ETHTOOL_XXX/ the
-> > source itself?)
->
-> We could, I guess. To be clear this controls the count, IOW:
->
-> enum {
->         PREFIX_A_BLA_ATTR = 1,
->         PREFIX_A_ANOTHER_ATTR,
->         PREFIX_A_AND_ONEMORE,
->         __PFREIX_A_CNT, // <--- This thing
-> };
-> #define PREFIX_A_MAX (__PFREIX_A_CNT - 1)
->
-> It's not used in the generated code, only if we codegen the uAPI,
-> AFAIR. So we'd need a way to tell the generator of the uAPI about
-> the situation, anyway. I could be misremembering.
+On 8/11/2022 7:18 PM, Nikunj A. Dadhania wrote:
+> On 11/08/22 17:00, Gupta, Pankaj wrote:
+>>
+>>>> This is the v7 of this series which tries to implement the fd-based KVM
+>>>> guest private memory. The patches are based on latest kvm/queue branch
+>>>> commit:
+>>>>
+>>>>     b9b71f43683a (kvm/queue) KVM: x86/mmu: Buffer nested MMU
+>>>> split_desc_cache only by default capacity
+>>>>
+>>>> Introduction
+>>>> ------------
+>>>> In general this patch series introduce fd-based memslot which provides
+>>>> guest memory through memory file descriptor fd[offset,size] instead of
+>>>> hva/size. The fd can be created from a supported memory filesystem
+>>>> like tmpfs/hugetlbfs etc. which we refer as memory backing store. KVM
+>>>> and the the memory backing store exchange callbacks when such memslot
+>>>> gets created. At runtime KVM will call into callbacks provided by the
+>>>> backing store to get the pfn with the fd+offset. Memory backing store
+>>>> will also call into KVM callbacks when userspace punch hole on the fd
+>>>> to notify KVM to unmap secondary MMU page table entries.
+>>>>
+>>>> Comparing to existing hva-based memslot, this new type of memslot allows
+>>>> guest memory unmapped from host userspace like QEMU and even the kernel
+>>>> itself, therefore reduce attack surface and prevent bugs.
+>>>>
+>>>> Based on this fd-based memslot, we can build guest private memory that
+>>>> is going to be used in confidential computing environments such as Intel
+>>>> TDX and AMD SEV. When supported, the memory backing store can provide
+>>>> more enforcement on the fd and KVM can use a single memslot to hold both
+>>>> the private and shared part of the guest memory.
+>>>>
+>>>> mm extension
+>>>> ---------------------
+>>>> Introduces new MFD_INACCESSIBLE flag for memfd_create(), the file
+>>>> created with these flags cannot read(), write() or mmap() etc via normal
+>>>> MMU operations. The file content can only be used with the newly
+>>>> introduced memfile_notifier extension.
+>>>>
+>>>> The memfile_notifier extension provides two sets of callbacks for KVM to
+>>>> interact with the memory backing store:
+>>>>     - memfile_notifier_ops: callbacks for memory backing store to notify
+>>>>       KVM when memory gets invalidated.
+>>>>     - backing store callbacks: callbacks for KVM to call into memory
+>>>>       backing store to request memory pages for guest private memory.
+>>>>
+>>>> The memfile_notifier extension also provides APIs for memory backing
+>>>> store to register/unregister itself and to trigger the notifier when the
+>>>> bookmarked memory gets invalidated.
+>>>>
+>>>> The patchset also introduces a new memfd seal F_SEAL_AUTO_ALLOCATE to
+>>>> prevent double allocation caused by unintentional guest when we only
+>>>> have a single side of the shared/private memfds effective.
+>>>>
+>>>> memslot extension
+>>>> -----------------
+>>>> Add the private fd and the fd offset to existing 'shared' memslot so
+>>>> that both private/shared guest memory can live in one single memslot.
+>>>> A page in the memslot is either private or shared. Whether a guest page
+>>>> is private or shared is maintained through reusing existing SEV ioctls
+>>>> KVM_MEMORY_ENCRYPT_{UN,}REG_REGION.
+>>>>
+>>>> Test
+>>>> ----
+>>>> To test the new functionalities of this patch TDX patchset is needed.
+>>>> Since TDX patchset has not been merged so I did two kinds of test:
+>>>>
+>>>> -  Regresion test on kvm/queue (this patchset)
+>>>>      Most new code are not covered. Code also in below repo:
+>>>>      https://github.com/chao-p/linux/tree/privmem-v7
+>>>>
+>>>> -  New Funational test on latest TDX code
+>>>>      The patch is rebased to latest TDX code and tested the new
+>>>>      funcationalities. See below repos:
+>>>>      Linux: https://github.com/chao-p/linux/tree/privmem-v7-tdx
+>>>>      QEMU: https://github.com/chao-p/qemu/tree/privmem-v7
+>>>
+>>> While debugging an issue with SEV+UPM, found that fallocate() returns
+>>> an error in QEMU which is not handled (EINTR). With the below handling
+>>> of EINTR subsequent fallocate() succeeds:
+>>>
+>>>
+>>> diff --git a/backends/hostmem-memfd-private.c b/backends/hostmem-memfd-private.c
+>>> index af8fb0c957..e8597ed28d 100644
+>>> --- a/backends/hostmem-memfd-private.c
+>>> +++ b/backends/hostmem-memfd-private.c
+>>> @@ -39,7 +39,7 @@ priv_memfd_backend_memory_alloc(HostMemoryBackend *backend, Error **errp)
+>>>        MachineState *machine = MACHINE(qdev_get_machine());
+>>>        uint32_t ram_flags;
+>>>        char *name;
+>>> -    int fd, priv_fd;
+>>> +    int fd, priv_fd, ret;
+>>>          if (!backend->size) {
+>>>            error_setg(errp, "can't create backend with size 0");
+>>> @@ -65,7 +65,15 @@ priv_memfd_backend_memory_alloc(HostMemoryBackend *backend, Error **errp)
+>>>                                       backend->size, ram_flags, fd, 0, errp);
+>>>        g_free(name);
+>>>    -    fallocate(priv_fd, 0, 0, backend->size);
+>>> +again:
+>>> +    ret = fallocate(priv_fd, 0, 0, backend->size);
+>>> +    if (ret) {
+>>> +           perror("Fallocate failed: \n");
+>>> +           if (errno == EINTR)
+>>> +                   goto again;
+>>> +           else
+>>> +                   exit(1);
+>>> +    }
+>>>
+>>> However, fallocate() preallocates full guest memory before starting the guest.
+>>> With this behaviour guest memory is *not* demand pinned. Is there a way to
+>>> prevent fallocate() from reserving full guest memory?
+>>
+>> Isn't the pinning being handled by the corresponding host memory backend with mmu > notifier and architecture support while doing the memory operations e.g page> migration and swapping/reclaim (not supported currently AFAIU). But yes, we need> to allocate entire guest memory with the new flags MEMFILE_F_{UNMOVABLE, UNRECLAIMABLE etc}.
+> 
+> That is correct, but the question is when does the memory allocated, as these flags are set,
+> memory is neither moved nor reclaimed. In current scenario, if I start a 32GB guest, all 32GB is
+> allocated.
 
-My worry is that we'll have more hacks like these and it's hard, as a
-spec reader/writer, to figure out that they exist..
-So I was wondering if it's "easier" (from the spec reader/writer pov)
-to have some c-header-fixup: section where we can have plain
-c-preprocessor hacks like these (where we need to redefine something
-to match the old behavior).
+I guess so if guest memory is private by default.
 
-> > > +attribute-spaces:
-> >
-> > Are you open to bike shedding? :-)
->
-> I can't make promises that I'll change things but I'm curious
-> to hear it!
->
-> > I like how ethtool_netlink.h calls these 'message types'.
->
-> It calls operation types message types, not attr spaces.
-> I used ops because that's what genetlink calls things.
+Other option would be to allocate memory as shared by default and
+handle on demand allocation and RMPUPDATE with page state change event. 
+But still that would be done at guest boot time, IIUC.
 
-Coming from stubby/grpc, I was expecting to see words like
-message/field/struct. The question is what's more confusing: sticking
-with netlink naming or trying to map grpc/thrift concepts on top of
-what we have. (I'm assuming more people know about grpc/thrift than
-netlink)
+Might be missing some details on this. So, better to wait for someone 
+more familiar to answer.
 
-messages: # or maybe 'attribute-sets' ?
-  - name: channels
-    ...
+Thanks,
+Pankaj
 
-operations:
-  - name: channel_get
-    message: channels
-    do:
-      request:
-        fields:
-        - header
-        - rx_max
-
-Or maybe all we really need is a section in the doc called 'Netlink
-for gRPC/Thrift users' where we map these concepts:
-- attribute-spaces (attribute-sets?) -> messages
-- attributes -> fields
-
-> > > +  -
-> > > +    name: header
-> > > +    name-prefix: ETHTOOL_A_HEADER_
-> >
-> > Any issue with name-prefix+name-suffix being non-greppable? Have you tried
-> > something like this instead:
-> >
-> > - name: ETHTOOL_A_HEADER # this is fake, for ynl reference only
-> >    attributes:
-> >      - name: ETHTOOL_A_HEADER_DEV_INDEX
-> >        val:
-> >        type:
-> >      - name ETHTOOL_A_HEADER_DEV_NAME
-> >        ..
-> >
-> > It seems a bit easier to map the spec into what it's going to produce.
-> > For example, it took me a while to translate 'channels_get' below into
-> > ETHTOOL_MSG_CHANNELS_GET.
-> >
-> > Or is it too much ETHTOOL_A_HEADER_?
->
-> Dunno, that'd mean that the Python method is called
-> ETHTOOL_MSG_CHANNELS_GET rather than just channels_get.
-> I don't want to force all languages to use the C naming.
-> The C naming just leads to silly copy'n'paste issues like
-> f329a0ebeab.
-
-Can we have 'name:' and 'long-name:' or 'c-name:' or 'full-name' ?
-
-- name: header
-   attributes:
-    - name: dev_index
-      full-name: ETHTOOL_A_HEADER_DEV_INDEX
-      val:
-      type:
-
-Suppose I'm rewriting my c application from uapi to some generated (in
-the future) python-like channels_get() method. If I can grep for
-ETHTOOL_MSG_CHANNELS_GET, that would save me a bunch of time figuring
-out what the new canonical wrapper is.
-
-Also, maybe, at some point we'll have:
-- name: dev_index
-  c-name: ETHTOOL_A_HEADER_DEV_INDEX
-  java-name: headerDevIndex
-
-:-D
-
-> > > +        len: ALTIFNAMSIZ - 1
-> >
-> > Not sure how strict you want to be here. ALTIFNAMSIZ is defined
-> > somewhere else it seems? (IOW, do we want to have implicit dependencies
-> > on external/uapi headers?)
->
-> Good catch, I'm aware. I was planning to add a "header constants"
-> section or some such. A section in "headers" which defines the
-> constants which C code will get from the headers.
-
-Define as in 're-define' or define as in 'you need to include some
-other header for this to work'?
-
-const:
-  - name: ALTIFNAMSIZ
-    val: 128
-
-which then does
-
-#ifndef
-#define ALTIFNAMSIZ 128
-#else
-static_assert(ALTIFNAMSIZ == 128)
-#endif
-
-?
-
-or:
-
-external-const:
-  - name: ALTIFNAMSIZ
-    header: include/uapi/linux/if.h
-
-which then might generate the following:
-
-#include <include/uapi/linux/if.h>
-#ifndef ALTIFNAMSIZ
-#error "include/uapi/linux/if.h does not define ALTIFNAMSIZ"
-#endif
-
-?
-
-> For Python it does not matter, as we don't have to size arrays.
-
-Hm, I was expecting the situation to be the opposite :-) Because if
-you really have to know this len in python, how do you resolve
-ALTIFNAMSIZ?
-
-The simplest thing to do might be to require these headers to be
-hermetic (i.e., redefine all consts the spec cares about internally)?
-
-> I was wondering if it will matter for other languages, like Rust?
->
-> > > +            - header
-> > > +            - rx_count
-> > > +            - tx_count
-> > > +            - other_count
-> > > +            - combined_count
-> >
-> > My netlink is super rusty, might be worth mentioning in the spec: these
-> > are possible attributes, but are all of them required?
->
-> Right, will do, nothing is required, or rather requirements are kinda
-> hard to express and checked by the code in the kernel.
->
-> > You also mention the validation part in the cover letter, do you plan
-> > add some of these policy properties to the spec or everything is
-> > there already? (I'm assuming we care about the types which we have above and
-> > optional/required attribute indication?)
->
-> Yeah, my initial plan was to encode requirement in the policy but its
-> not trivial. So I left it as future extension. Besides things which are
-> required today may not be tomorrow, so its a bit of a strange thing.
-
-That's the hardest part, but it should improve the observability, so
-I'm looking forward :-)
-As you say, it is probably hard to declaratively define these
-requirements at this point for everything, but maybe some parts
-(majority?) are doable.
-
-> Regarding policy properties I'm intending to support all of the stuff
-> that the kernel policies recognize... but somehow most families I
-> converted don't have validation (only mask and length :S).
->
-> Actually for DPLL I have a nice validation trick. You can define an
-> enum:
->
-> constants:
->   -
->     type: flags
->     name: genl_get_flags
->     value-prefix: DPLL_FLAG_
->     values: [ sources, outputs, status ]
->
-> Then for an attribute you link it:
->
->       -
->         name: flags
->         type: u32
->         flags-mask: genl_get_flags
->
-> And that will auto an enum:
->
-> enum dpll_genl_get_flags {
->         DPLL_FLAG_SOURCES = 1,
->         DPLL_FLAG_OUTPUTS = 2,
->         DPLL_FLAG_STATUS = 4,
-> };
->
-> And a policy with a mask:
->
->         [DPLLA_FLAGS] = NLA_POLICY_MASK(NLA_U32, 0x7),
-
-Yeah, that looks nice!
