@@ -2,176 +2,103 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F49BC3F6B0
-	for <linux-doc@archiver.kernel.org>; Thu, 11 Aug 2022 06:50:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B38BC19F2D
+	for <linux-doc@archiver.kernel.org>; Thu, 11 Aug 2022 07:42:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234133AbiHKGuA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 11 Aug 2022 02:50:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57956 "EHLO
+        id S231336AbiHKHmC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 11 Aug 2022 03:42:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47024 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234088AbiHKGuA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Aug 2022 02:50:00 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33B488B98F;
-        Wed, 10 Aug 2022 23:49:58 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id A2F4BB81ECD;
-        Thu, 11 Aug 2022 06:49:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41C60C433D6;
-        Thu, 11 Aug 2022 06:49:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1660200595;
-        bh=nqJm+oBAG4nwtxVy6XW19Cq4t610ItQ+9KHptzLd5cw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=I7fQ4dsGGwFGm4V3/IaCXSsIUhTDDD69apZZPRnQXPCLIhvyBw22aHvQOp/l1+lT3
-         SEGDkDuRFmqJhPL/gWV8jR96mc0wyHmuv7acoT87ilyA2aWbu1m/TnvKAiMdQEz8zn
-         F27GVd6nR5YVkilwqnumtYH/caN+qlgsF/K3NQNTggqiKpWWUYpKv8ZHn8Aw5CXwbb
-         6cRKFfk+dErYwd45E+4TR/3lPtGWTmZTxNPLYHzbnQSYhq5mbER/logkjyOHtcrEHI
-         5OKsY7B0BVEdUjVFHr4QTPXhcFlkFl3Qk6TkIsz2sDX6VUU9DwEDxvCuhyL6PuOvGs
-         68IJ4wzPQeISw==
-Date:   Thu, 11 Aug 2022 09:49:33 +0300
-From:   Mike Rapoport <rppt@kernel.org>
-To:     Axel Rasmussen <axelrasmussen@google.com>
-Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "Dmitry V . Levin" <ldv@altlinux.org>,
-        Gleb Fotengauer-Malinovskiy <glebfm@altlinux.org>,
-        Hugh Dickins <hughd@google.com>, Jan Kara <jack@suse.cz>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mel Gorman <mgorman@techsingularity.net>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <namit@vmware.com>, Peter Xu <peterx@redhat.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        zhangyi <yi.zhang@huawei.com>, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-mm@kvack.org,
-        linux-security-module@vger.kernel.org
-Subject: Re: [PATCH v5 4/5] userfaultfd: update documentation to describe
- /dev/userfaultfd
-Message-ID: <YvSmfcO2b8haJhEe@kernel.org>
-References: <20220808175614.3885028-1-axelrasmussen@google.com>
- <20220808175614.3885028-5-axelrasmussen@google.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220808175614.3885028-5-axelrasmussen@google.com>
+        with ESMTP id S234306AbiHKHmB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Aug 2022 03:42:01 -0400
+Received: from out30-43.freemail.mail.aliyun.com (out30-43.freemail.mail.aliyun.com [115.124.30.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C64D8E0F4;
+        Thu, 11 Aug 2022 00:41:59 -0700 (PDT)
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R301e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018046059;MF=xianting.tian@linux.alibaba.com;NM=1;PH=DS;RN=23;SR=0;TI=SMTPD_---0VLyDAKe_1660203712;
+Received: from localhost(mailfrom:xianting.tian@linux.alibaba.com fp:SMTPD_---0VLyDAKe_1660203712)
+          by smtp.aliyun-inc.com;
+          Thu, 11 Aug 2022 15:41:53 +0800
+From:   Xianting Tian <xianting.tian@linux.alibaba.com>
+To:     paul.walmsley@sifive.com, palmer@dabbelt.com,
+        aou@eecs.berkeley.edu, anup@brainfault.org, heiko@sntech.de,
+        guoren@kernel.org, mick@ics.forth.gr,
+        alexandre.ghiti@canonical.com, bhe@redhat.com, vgoyal@redhat.com,
+        dyoung@redhat.com, corbet@lwn.net, Conor.Dooley@microchip.com
+Cc:     kexec@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
+        crash-utility@redhat.com, heinrich.schuchardt@canonical.com,
+        k-hagio-ab@nec.com, hschauhan@nulltrace.org, yixun.lan@gmail.com,
+        Xianting Tian <xianting.tian@linux.alibaba.com>
+Subject: [PATCH V6 0/6] RISC-V fixups to work with crash tool
+Date:   Thu, 11 Aug 2022 15:41:44 +0800
+Message-Id: <20220811074150.3020189-1-xianting.tian@linux.alibaba.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Aug 08, 2022 at 10:56:13AM -0700, Axel Rasmussen wrote:
-> Explain the different ways to create a new userfaultfd, and how access
-> control works for each way.
-> 
-> Acked-by: Peter Xu <peterx@redhat.com>
-> Signed-off-by: Axel Rasmussen <axelrasmussen@google.com>
-> ---
->  Documentation/admin-guide/mm/userfaultfd.rst | 41 ++++++++++++++++++--
->  Documentation/admin-guide/sysctl/vm.rst      |  3 ++
->  2 files changed, 41 insertions(+), 3 deletions(-)
-> 
-> diff --git a/Documentation/admin-guide/mm/userfaultfd.rst b/Documentation/admin-guide/mm/userfaultfd.rst
-> index 6528036093e1..a76c9dc1865b 100644
-> --- a/Documentation/admin-guide/mm/userfaultfd.rst
-> +++ b/Documentation/admin-guide/mm/userfaultfd.rst
-> @@ -17,7 +17,10 @@ of the ``PROT_NONE+SIGSEGV`` trick.
->  Design
->  ======
->  
-> -Userfaults are delivered and resolved through the ``userfaultfd`` syscall.
-> +Userspace creates a new userfaultfd, initializes it, and registers one or more
-> +regions of virtual memory with it. Then, any page faults which occur within the
-> +region(s) result in a message being delivered to the userfaultfd, notifying
-> +userspace of the fault.
->  
->  The ``userfaultfd`` (aside from registering and unregistering virtual
->  memory ranges) provides two primary functionalities:
-> @@ -34,12 +37,11 @@ The real advantage of userfaults if compared to regular virtual memory
->  management of mremap/mprotect is that the userfaults in all their
->  operations never involve heavyweight structures like vmas (in fact the
->  ``userfaultfd`` runtime load never takes the mmap_lock for writing).
-> -
->  Vmas are not suitable for page- (or hugepage) granular fault tracking
->  when dealing with virtual address spaces that could span
->  Terabytes. Too many vmas would be needed for that.
->  
-> -The ``userfaultfd`` once opened by invoking the syscall, can also be
-> +The ``userfaultfd``, once created, can also be
->  passed using unix domain sockets to a manager process, so the same
->  manager process could handle the userfaults of a multitude of
->  different processes without them being aware about what is going on
-> @@ -50,6 +52,39 @@ is a corner case that would currently return ``-EBUSY``).
->  API
->  ===
->  
-> +Creating a userfaultfd
-> +----------------------
-> +
-> +There are two ways to create a new userfaultfd, each of which provide ways to
-> +restrict access to this functionality (since historically userfaultfds which
-> +handle kernel page faults have been a useful tool for exploiting the kernel).
-> +
-> +The first way, supported since userfaultfd was introduced, is the
-> +userfaultfd(2) syscall. Access to this is controlled in several ways:
-> +
-> +- Any user can always create a userfaultfd which traps userspace page faults
-> +  only. Such a userfaultfd can be created using the userfaultfd(2) syscall
-> +  with the flag UFFD_USER_MODE_ONLY.
-> +
-> +- In order to also trap kernel page faults for the address space, then either
+I ever sent the patch 1 in the link:
+https://patchwork.kernel.org/project/linux-riscv/patch/20220708073150.352830-3-xianting.tian@linux.alibaba.com/
+And patch 2,3 in the link:
+https://patchwork.kernel.org/project/linux-riscv/patch/20220714113300.367854-2-xianting.tian@linux.alibaba.com/
+https://patchwork.kernel.org/project/linux-riscv/patch/20220714113300.367854-3-xianting.tian@linux.alibaba.com/
 
-                                    I think "then" is excessive here ^
+This patch set just put these patches together, and with three new patch 4, 5, 6.
+these six patches are the fixups for machine_kexec, kernel mode PC for vmcore
+and improvements for vmcoreinfo, memory layout dump and fixup schedule out issue
+in machine_crash_shutdown().
 
-> +  the process needs the CAP_SYS_PTRACE capability, or the system must have
-> +  vm.unprivileged_userfaultfd set to 1. By default, vm.unprivileged_userfaultfd
-> +  is set to 0.
-> +
-> +The second way, added to the kernel more recently, is by opening and issuing a
+The main changes in the six patchs as below,
+Patch 1: Fixup use of smp_processor_id() in preemptible context, to cleanup
+         the console prints.
+Patch 2: Fixup to get correct kernel mode PC for kernel mode regs for vmcore.
+Patch 3: Fixup schedule out issue in machine_crash_shutdown()
+Patch 4: Add modules to virtual kernel memory layout dump.
+Patch 5: Add VM layout, va bits, ram base to vmcoreinfo, which can simplify
+         the development of crash tool as ARM64 already did
+         (arch/arm64/kernel/crash_core.c).
+Patch 6: Updates vmcoreinfo.rst for vmcoreinfo export for RISCV64.
 
-Maybe:
+With these six patches(patch 2 is must), crash tool can work well to analyze
+a vmcore. The patches for crash tool for RISCV64 is in the link:
+https://lore.kernel.org/linux-riscv/20220801043040.2003264-1-xianting.tian@linux.alibaba.com/
 
-..., is by opening /dev/userfaultfd and issuing USERFAULTFD_IOC_NEW ioctl
-to it.
+------
+Changes v1 -> v2:
+  1, remove the patch "Add a fast call path of crash_kexec()" from this series
+     of patches, as it already applied to riscv git.
+     https://git.kernel.org/pub/scm/linux/kernel/git/riscv/linux.git/commit/?h=for-next&id=3f1901110a89b0e2e13adb2ac8d1a7102879ea98
+  2, add 'Reviewed-by' based on the comments of v1.
+Changes v2 -> v3:
+  use "riscv" instead of "riscv64" in patch 5 subject line.
+Changes v3 -> v4:
+  use "riscv" instead of "riscv64" in the summary of patch 5 subject line.
+Changes v4 -> v5:
+  add a new patch "RISC-V: Fixup schedule out issue in machine_crash_shutdown()" 
+Changes v5 -> v6:
+  1, move "fixup" patches to the start of the patch set.
+  2, change patch 1, 2, 6's subject to make it tell more what it's about. 
+  3, add Fixes for patch 3.
+  4, adjuest the changes format for patch 6.
 
-> +USERFAULTFD_IOC_NEW ioctl to /dev/userfaultfd. This method yields equivalent
-> +userfaultfds to the userfaultfd(2) syscall.
-> +
-> +Unlike userfaultfd(2), access to /dev/userfaultfd is controlled via normal
-> +filesystem permissions (user/group/mode), which gives fine grained access to
-> +userfaultfd specifically, without also granting other unrelated privileges at
-> +the same time (as e.g. granting CAP_SYS_PTRACE would do). Users who have access
-> +to /dev/userfaultfd can always create userfaultfds that trap kernel page faults;
-> +vm.unprivileged_userfaultfd is not considered.
-> +
-> +Initializing a userfaultfd
-> +--------------------------
-> +
->  When first opened the ``userfaultfd`` must be enabled invoking the
->  ``UFFDIO_API`` ioctl specifying a ``uffdio_api.api`` value set to ``UFFD_API`` (or
->  a later API version) which will specify the ``read/POLLIN`` protocol
-> diff --git a/Documentation/admin-guide/sysctl/vm.rst b/Documentation/admin-guide/sysctl/vm.rst
-> index f74f722ad702..b3e40b42e1b3 100644
-> --- a/Documentation/admin-guide/sysctl/vm.rst
-> +++ b/Documentation/admin-guide/sysctl/vm.rst
-> @@ -927,6 +927,9 @@ calls without any restrictions.
->  
->  The default value is 0.
->  
-> +Another way to control permissions for userfaultfd is to use
-> +/dev/userfaultfd instead of userfaultfd(2). See
-> +Documentation/admin-guide/mm/userfaultfd.rst.
->  
->  user_reserve_kbytes
->  ===================
-> -- 
-> 2.37.1.559.g78731f0fdb-goog
-> 
+
+Xianting Tian (6):
+  RISC-V: kexec: Fixup use of smp_processor_id() in preemptible context
+  RISC-V: Fixup get incorrect user mode PC for kernel mode regs
+  RISC-V: Fixup schedule out issue in machine_crash_shutdown()
+  RISC-V: Add modules to virtual kernel memory layout dump
+  RISC-V: Add arch_crash_save_vmcoreinfo support
+  Documentation: kdump: describe VMCOREINFO export for RISCV64
+
+ .../admin-guide/kdump/vmcoreinfo.rst          | 31 +++++++++++++++++++
+ arch/riscv/kernel/Makefile                    |  1 +
+ arch/riscv/kernel/crash_core.c                | 29 +++++++++++++++++
+ arch/riscv/kernel/crash_save_regs.S           |  2 +-
+ arch/riscv/kernel/machine_kexec.c             | 28 ++++++++++++++---
+ arch/riscv/mm/init.c                          |  4 +++
+ 6 files changed, 89 insertions(+), 6 deletions(-)
+ create mode 100644 arch/riscv/kernel/crash_core.c
 
 -- 
-Sincerely yours,
-Mike.
+2.17.1
+
