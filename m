@@ -2,126 +2,102 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CC61C19F2A
-	for <linux-doc@archiver.kernel.org>; Thu, 11 Aug 2022 14:54:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A5E1C19F2A
+	for <linux-doc@archiver.kernel.org>; Thu, 11 Aug 2022 15:01:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235266AbiHKOyW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 11 Aug 2022 10:54:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41522 "EHLO
+        id S235421AbiHKPB6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 11 Aug 2022 11:01:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48050 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235335AbiHKOyV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Aug 2022 10:54:21 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF5C590C71
-        for <linux-doc@vger.kernel.org>; Thu, 11 Aug 2022 07:54:17 -0700 (PDT)
-Received: from localhost (unknown [213.194.152.135])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: rcn)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 58DC46601C3A;
-        Thu, 11 Aug 2022 15:54:16 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1660229656;
-        bh=lLmXmVZBOGq4chrF+Bwz2F2fOlRJ18rg5yKltE5Yy9w=;
-        h=From:To:Cc:Subject:References:In-reply-to:Date:From;
-        b=DTEX8Uy/bGax52/BP3R+ACOjxNwPfDlWS/dgZ4tAKB/zMg94D0CBVkxQGArLW2ntg
-         oWPQ+aL2AZynttvYR/ct/GF1b+LmTE7WM5xnWKbuLhNlLadD4LXBS9pBbQl4B2bbym
-         Cqw3xS3m1s3yhFgOnP1KY1XP19zKl8yQ3uCqFvJyPRU31j6SovG8Iyxh1svA4tlcVL
-         ZmIkSv5X4sL6KeYlI1EgnVo5E9eazw5CCDU+M6bgCRH40NnoANGNYK9vo2cYwIMeYI
-         L6Acvrh048ngw2VwHU5yA4u8aXyDI9hWpENF4yv7VQsj0DVdGyHyTgsaAOvWZEHeYc
-         XWw/TS/lFT39g==
-From:   Ricardo =?utf-8?Q?Ca=C3=B1uelo?= <ricardo.canuelo@collabora.com>
-To:     "Michael S. Tsirkin" <mst@redhat.com>
-Cc:     linux-doc@vger.kernel.org,
-        virtualization@lists.linux-foundation.org, jasowang@redhat.com,
-        kernel@collabora.com, cohuck@redhat.com, bagasdotme@gmail.com
-Subject: Re: [PATCH v4 2/2] docs: driver-api: virtio: virtio on Linux
-References: <20220810094004.1250-1-ricardo.canuelo@collabora.com> <20220810094004.1250-3-ricardo.canuelo@collabora.com> <20220811092436-mutt-send-email-mst@kernel.org>
-In-reply-to: <20220811092436-mutt-send-email-mst@kernel.org>
-Date:   Thu, 11 Aug 2022 16:54:13 +0200
-Message-ID: <87czd6rfu2.fsf@rcn-XPS-13-9305.i-did-not-set--mail-host-address--so-tickle-me>
+        with ESMTP id S235400AbiHKPB5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Aug 2022 11:01:57 -0400
+Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0AC12496B
+        for <linux-doc@vger.kernel.org>; Thu, 11 Aug 2022 08:01:55 -0700 (PDT)
+Received: by mail-pj1-x102b.google.com with SMTP id w11-20020a17090a380b00b001f73f75a1feso5662467pjb.2
+        for <linux-doc@vger.kernel.org>; Thu, 11 Aug 2022 08:01:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=networkplumber-org.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc;
+        bh=b+I9NMlIRung0ufXGv5JJYJHMEd2asoQjtUh3VvCjOo=;
+        b=RsXRGLyz3v67s4s/1e5ATDfo68S4Xk2SHhr+boOlz0EVUz3dvqm2+eR8LsCBwDEIYq
+         Ye03Xq23h47OacFO07cDrnOoDp5KTFsXRiKah1kp61l5ZbF89KFcUq1gi2bQLCXNu2NV
+         3J/SoGeLJYo8/JLXLaRAeNOin/PFr2ft+RMz9qH9a9tb7UZ9d+mtHj/dRJhTW4RYxsD0
+         K9sGe902y0wKU06SYRDZASP6mUQpGvr7tOmYLosL0ket9E4CfOWoYRUoiqgHkvqBTgue
+         40Ad8dfW2rbHvBhGvVDfs7ju2/4FRWJvJkIL6zF0EOrLBgevb+YNDq7vef5TDOi+aKTz
+         UTrA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc;
+        bh=b+I9NMlIRung0ufXGv5JJYJHMEd2asoQjtUh3VvCjOo=;
+        b=SHNwPibO5Ahp8rcaWekJ+DHmxyKi1ocmcfVMTdN5+utd/Bq36UAwNf5uxTEIt02S95
+         Dzo+wlgYFXJ472TdD1+TRBJk4qbl/rV4FLcAhzw3xhLMsXH1D7+F3Jrlgoz+DZuqnVJ7
+         P/cr+ZQOkIbPPjXgwl9K87HobAPuwdKnbJmvt6xYOobQV7jpEkIhqwRX+dcbsJo9Y7oQ
+         zycFw/9IM9BI8wdmgdKTzrEByrrs1tTvAPDFNGoccOJS4JsR2MvNc4jvSwn8hS4kFaWR
+         3sWamBXNOVqm/57JFLFIvbBA/GueMU7SgTSLiT76ppsjqvxAvQUDaGfTStgtNOWVc3S5
+         x/3A==
+X-Gm-Message-State: ACgBeo0hG+8KVYZGOEICPtEg/FbGUsZ9pU5ZTrPvJNQCv9nG2okIK5g8
+        t1ngKU1bEJ0d5lsZjlIgIximcA==
+X-Google-Smtp-Source: AA6agR64EfyJdGX5MHuLzxCea37dFu9L83/U4i7RWaogx7X22t58SWaQilMkRBxdvbHOFHBPNxpExQ==
+X-Received: by 2002:a17:902:e885:b0:16f:8f52:c93a with SMTP id w5-20020a170902e88500b0016f8f52c93amr29076787plg.140.1660230115342;
+        Thu, 11 Aug 2022 08:01:55 -0700 (PDT)
+Received: from hermes.local (204-195-120-218.wavecable.com. [204.195.120.218])
+        by smtp.gmail.com with ESMTPSA id v3-20020a654603000000b0041a6c2436c7sm11739042pgq.82.2022.08.11.08.01.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 11 Aug 2022 08:01:55 -0700 (PDT)
+Date:   Thu, 11 Aug 2022 08:01:52 -0700
+From:   Stephen Hemminger <stephen@networkplumber.org>
+To:     Jakub Kicinski <kuba@kernel.org>
+Cc:     netdev@vger.kernel.org, davem@davemloft.net, edumazet@google.com,
+        pabeni@redhat.com, sdf@google.com, jacob.e.keller@intel.com,
+        vadfed@fb.com, johannes@sipsolutions.net, jiri@resnulli.us,
+        dsahern@kernel.org, fw@strlen.de, linux-doc@vger.kernel.org
+Subject: Re: [RFC net-next 0/4] ynl: YAML netlink protocol descriptions
+Message-ID: <20220811080152.2dbd82c2@hermes.local>
+In-Reply-To: <20220810214701.46565016@kernel.org>
+References: <20220811022304.583300-1-kuba@kernel.org>
+        <20220810211534.0e529a06@hermes.local>
+        <20220810214701.46565016@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Michael, thanks for reviewing:
+On Wed, 10 Aug 2022 21:47:01 -0700
+Jakub Kicinski <kuba@kernel.org> wrote:
 
-On jue, ago 11 2022 at 09:32:05, "Michael S. Tsirkin" <mst@redhat.com> wrote:
-> which tree is this for?
->
-> Applying: docs: driver-api: virtio: virtio on Linux
-> error: sha1 information is lacking or useless (MAINTAINERS).
-> error: could not build fake ancestor
-> Patch failed at 0001 docs: driver-api: virtio: virtio on Linux
+> On Wed, 10 Aug 2022 21:15:34 -0700 Stephen Hemminger wrote:
+> > Would rather this be part of iproute2 rather than requiring it
+> > to be maintained separately and part of the kernel tree.  
+> 
+> I don't understand what you're trying to say. What is "this", 
+> what is "separate" from what?
 
-linux-next, as stated in the cover letter:
+I am saying that ynl could live as a standalone project or as
+part of the iproute2 tools collection.
 
-    Tested on linux-next (next-20220802)
+> 
+> Did I fall victim of the "if the cover letter is too long nobody
+> actually reads it" problem? Or am I simply too tired to parse?
+> 
+> iproute2 is welcome to use the protocol descriptions like any other
+> user space, but I'm intending to codegen kernel code based on the YAML:
 
-I just verified that the patch also applies to the vhost tree
-(linux-next branch). Where did you test it?
-
->> +		buf = virtqueue_get_buf(dev->vq, &len);
->> +		/* spurious callback? */
->> +		if (!buf)
->> +			return;
->
-> most drivers need to do this in a loop, this code is only valid if
-> there's just 1 buf in flight - unusual.
-
-That's a driver-specific consideration and this is supposed to be the
-simplest possible driver skeleton, but ok.
-
->> +	static int virtio_dummy_probe(struct virtio_device *vdev)
->> +	{
->> +		struct virtio_dummy_dev *dev = NULL;
->> +
->> +		/* initialize device data */
->> +		dev = kzalloc(sizeof(struct virtio_dummy_dev), GFP_KERNEL);
->
->
-> I dislike how we set dev to NULL and immediately to a different value
-> just below.
-
-This is a matter of style, I think. There are plenty of examples of this
-in the kernel code, but I don't mind changing it.
+Ok, that makes sense then. I was hoping that user configuration
+of network devices could be done with YAML. But probably that is
+best left networkd, netplan, and others.
 
 
-> what is missing here is registration with Linux core.
+> >> On the kernel side the YAML spec can be used to generate:
+> >>  - the C uAPI header
+> >>  - documentation of the protocol as a ReST file
+> >>  - policy tables for input attribute validation
+> >>  - operation tables  
+> 
+> So how can it not be in the kernel tree?
 
-Isn't that supposed to be done by module_virtio_driver()?
-
-
-> depending on device you might need a call to device_ready, too.
-
-I already explained below that this is done by default after probe()
-(see virtio_dev_probe()). virtio_device_ready() is supposed to be useful
-only if you need to use the vqs in the probe function.
-
->> +		/*
->> +		 * Disable vq interrupts: equivalent to
->> +		 * vdev->config->reset(vdev)
->> +		 */
->> +		virtio_reset_device(vdev);
->> +
->
-> you highly likely need to detach unused buffers from vqs here.
-
-Ack.
-
-> let's be a bit clearer here that they must be enabled before add_buf
-> triggers.
-
-Ok.
-
-> maybe clarify that they can still trigger even if enabled.
-> if you want to disable reliable you have to reset the device
-> or the vq.
-
-I'll check that out, thanks.
-
-Cheers,
-Ricardo
+As code generator then sure.
