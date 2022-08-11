@@ -2,189 +2,448 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 30565C25B0C
-	for <linux-doc@archiver.kernel.org>; Thu, 11 Aug 2022 17:28:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 26F05C19F2A
+	for <linux-doc@archiver.kernel.org>; Thu, 11 Aug 2022 17:43:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235999AbiHKR2x (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 11 Aug 2022 13:28:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37334 "EHLO
+        id S235619AbiHKRnu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 11 Aug 2022 13:43:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55908 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234627AbiHKR2v (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Aug 2022 13:28:51 -0400
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2078.outbound.protection.outlook.com [40.107.244.78])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9806445071;
-        Thu, 11 Aug 2022 10:28:50 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=I4wy2c4pVhpm8XUljrYQvafrs48UN6vS7YO+6/cqD3U2c1tdUxIwo7CGn5zOcFMbxULmsVpiMrKqZzproW6Et8bvaSc1DrV6UcFP81Cbfbr2c+AQII23zH50Vy3PthorZ2K3RFfr34lPt8Z/deF1dNljd4PQaAXtO5+sHvEU2+9Bu78nlFQbwpSWxWW3C4qOPZso0XUEyNdh4bFFs34UCAdsYvkeYZPP1NPMWk7L++/NPbsLcunUiJgmHr+U4DxCUEDHTAoBzo/s+dtw1VJh1NlEW2vnUdivei719zgIV0m3IAlEx+9IyXhwD13y9/EieIYGEoBdJ+hLSF5gKY2c5Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=cvfW3M3x3mCTnzPfm5btmlj7WDP2Jgij/ApKeZ2DglA=;
- b=gk/tur6EV4hfRg0KqyWw1+9nE/JbpuCpdPxiFZmKf0gHiEz4N6aQuokV79mFhkiKicPEuzkSq8oNcEKujxUulQ1GI4XUN/TvlYvo2kXU+lEdJRLz70uUmnuYfEcLhwIrAcB9Cz2Y2557XS7TuEMVEFcjt/aZjt2jI608SqNb1+LcyXwJya4ASp9IQvjONV8qg9FjHNneOAw4jz6Jrs4VK0bR38aMWz7+8HNWcY7rv/PP33+TWItJkz4Ydsi9KvpyfRk4GrfU6Iob7acOHXR4QtYxUdkFW98VHzs19G+L1YHFCNNfnXgDqSRa4wOtUky5YiakjksOAnXj3j+Q2R8Csw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cvfW3M3x3mCTnzPfm5btmlj7WDP2Jgij/ApKeZ2DglA=;
- b=Lji/BdTbR6eWQzfeK+l+VdWC+vhBwptW7xK+P62DuY0p5Absk8mBRPGAu4Q3tVWEfZBws+wXZkICPgPgJOjh3JLdSXhWAGa1FPyba6y0COKQDs8yATj+WzL5TVI3ZgH1CbCezp88LDsJf4VQroGCNqAxM9V+4jZrizIgwoBfmlM=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DS7PR12MB6309.namprd12.prod.outlook.com (2603:10b6:8:96::19) by
- BYAPR12MB3317.namprd12.prod.outlook.com (2603:10b6:a03:d8::12) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5504.16; Thu, 11 Aug 2022 17:28:44 +0000
-Received: from DS7PR12MB6309.namprd12.prod.outlook.com
- ([fe80::d9f4:5879:843b:55da]) by DS7PR12MB6309.namprd12.prod.outlook.com
- ([fe80::d9f4:5879:843b:55da%9]) with mapi id 15.20.5525.011; Thu, 11 Aug 2022
- 17:28:44 +0000
-Message-ID: <142856e7-cd65-166a-9207-804c2693b9d2@amd.com>
-Date:   Thu, 11 Aug 2022 22:58:16 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v7 00/14] KVM: mm: fd-based approach for supporting KVM
- guest private memory
-Content-Language: en-US
-To:     Chao Peng <chao.p.peng@linux.intel.com>,
-        "Gupta, Pankaj" <pankaj.gupta@amd.com>
-Cc:     Sean Christopherson <seanjc@google.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        Muchun Song <songmuchun@bytedance.com>, bharata@amd.com,
-        kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-kselftest@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
-        qemu-devel@nongnu.org, linux-fsdevel@vger.kernel.org
-References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
- <b21f41e5-0322-bbfb-b9c2-db102488592d@amd.com>
- <9e86daea-5619-a216-fe02-0562cf14c501@amd.com>
- <20220811133255.GB916119@chaop.bj.intel.com>
-From:   "Nikunj A. Dadhania" <nikunj@amd.com>
-In-Reply-To: <20220811133255.GB916119@chaop.bj.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MA0PR01CA0028.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:a01:b8::16) To DS7PR12MB6309.namprd12.prod.outlook.com
- (2603:10b6:8:96::19)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 3a038d8a-8f88-4eda-1bc8-08da7bbef0fc
-X-MS-TrafficTypeDiagnostic: BYAPR12MB3317:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 1A32wH4kSykzrbS7+HlTQmB2gAGIPxh4WwpsHbact0RYg2jcukRQ32i/ec2408w+Q5VW2pMyPxF7lbr4BTIibUq4AXX2M2KsczUZk6gPcsVygL1duTJyNudgQJhGb3bkyDATIV84DCQIAcg0yPTXq8tK7b1uBXIiiuJk38WBrwvjl8oAd8qa3xlz+muhQ2ra3QPY6Iv2ZEsyP9gDim2QL8n3dZgZ8ZZ5IWyWX1o5EZWXtnyaC90ZCoGylhILAC4KBNM9tO7oldq8MhhqAnLEqqr2KTJbxRYmshtSkExKvmvMgLSkiWG8gJwJZoLzPn30hu4FlYdI/fPNvO+oZ6/ikRi6bn/QLd680onFWTTk/6cZzxszfmJIuU8VvnXvwFN0RbEgwuWS+ciGNg/+AUV4YXl+eFXgry/XBkJXUY5k0EGNu8p9aHqCjQkRcL6cqXNDYWHnIOmJJA7pUnsapRTFdTnUrJ44GkZxVSOrjn4OVnd2VD2g3c1qEigpnWgDD0qpC5/jWaEj/SifmLfOuhR4S6zWu+1LOcXSgczY9Nib2X5NcPrM4PBOGejZTUiwrDfuT5wJh+WT+p93ptAh6sQPAZn0imFv4GyfwwzXwXpqdxiHFZmq0DHLn7ot6qQHd+2RoQzpBzxr4LFUtIjjz3q/2p0i/E0RG4hhxWeNJNsCWJwyHvGrqIjreQ/dyQrGS6uVYRs65NuHYPOZWFRG4EAUH7aaUiGK7diiy4GuYcvmSyPJAd0Jno8ZdIb16NaZX53AgJ1/3bekRiMxtvWbKjGM7HInv/qSPjLvGcsmKkEPy6jGivnqi4mjj16IhkGoDUC//qBLI/6Z81ZGn2yxf56TdRlYrZ0/xbYXQM4MXc3hfZdq/0PvaoRccFxOq2JKU2DjJJPPHK8KxLSVl7brGCddMw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR12MB6309.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(376002)(366004)(39860400002)(346002)(396003)(136003)(54906003)(110136005)(5660300002)(8676002)(478600001)(8936002)(4326008)(316002)(6636002)(2616005)(41300700001)(66556008)(7416002)(36756003)(31686004)(31696002)(6506007)(26005)(66946007)(7406005)(6666004)(66476007)(53546011)(6512007)(2906002)(6486002)(966005)(38100700002)(186003)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WXVPUGpKL2RST1ZLa3lRajVINm1wZ2JUTjA4VS94eDdYbDZHTjAxN0Y2M0Vn?=
- =?utf-8?B?dDJsRUgvSHVBT2NSNUNFb3ZsQ2hsL0FoNnR4emxsRVBHM1NnYnc4QlM4bzJj?=
- =?utf-8?B?VExLSkNCN0VHblU5QU5xYTJxcE9OL1MyRjBaZm9BREVSUk1aTUtLeHRRa2d0?=
- =?utf-8?B?dXF1bXh1QkpqeGF1a1AybHFTT2JUYU1Zb3VqWWx1b2pTUGpYL09vUVc1OUFx?=
- =?utf-8?B?dzRuTEZXK3FUVTNMcVcwMGRQNk9VY25udjF1N1JVNWFjelFQK1hQcGpKS1B5?=
- =?utf-8?B?L2c1eFFVc09mZXdPMGV0SzJMK0NIQnJVQVBVdXQrd0FSYUF4NG5xdWtJTGpE?=
- =?utf-8?B?VkR0L0hHc2JyZ0syUlR3a2lVeUJtU2t4dVFDRkYrcXZjYkFNaWNMSGd6aGwv?=
- =?utf-8?B?TjFLdU1XbWpidlZvYmFVQTB0TUR2UjlPQXpDNG54bmwyVmNnaVhHdDdCanlu?=
- =?utf-8?B?YmhaVUJOSlRaWjVKTGRBZlFzczlDN1dWcEZtMzh6eUZRVzJjMCt0RWJ1eUJt?=
- =?utf-8?B?M25wYWI3ditoSDh3dWlGeVhHV2lKUldTMU10Kys3S2hYNUdJNmMvclhGVUh5?=
- =?utf-8?B?cThaWkxGT3RRcDB2aU00RE9ZcWlIeERVMkh3Tkx5aFRkU1VuNWZLTXVSZFRj?=
- =?utf-8?B?SDN2WjlCVGw5K3ZvalJabllKYkIrSy9CbUgvS0JRb3VUOUVYY1dNdVQ0ZlBZ?=
- =?utf-8?B?UEpOd3FHVUZRMlFkYmtZQm5UWVRoUC8rUWE2MmFnckVTMkZFSGdiN3ZPcW9I?=
- =?utf-8?B?MjFtSHNWb1QxS3NHQk1ndW9Lem1CVUFMUUJKVmc2T2xXcGhncDdxVmprb1d5?=
- =?utf-8?B?ei9LRld2Y1RXZHo4Sy9LNS9jS1NXUXF2ZlNTWW0wczNWcW9tVDFiSC9hN1k0?=
- =?utf-8?B?WVpJMFhXcGJCSWR6OVBSdDQyT0FuSU9wNHpLQ1hEall1K2E0a0FNRlBjcmx4?=
- =?utf-8?B?ODR1S1lLSFhncGJYYWRpSnMzUmNwVExrakh3UitNOG5hc2NmNVkxQlBzdkxu?=
- =?utf-8?B?OHl2V2dzQVMxSy85WjBkeExEUzNSUitOWlEwWWpmOHJkOVdxT3JkcTlKTFQw?=
- =?utf-8?B?Rk1rdWFlUVJDZjlRK2p0dWI4VlBEVmR0alJxR1hmU0FLZ1E4aDRmQlVBT2Ew?=
- =?utf-8?B?OWloQUcwZm80cHZVRDhBdXZ5YVYzYis5bjFNRE5IM203KzB5Wk9UaXJ4S3py?=
- =?utf-8?B?MlJ2emY5WUV5MzFQNmNDc1AraE9jZi90RGFDYy82NUFNdnJnaDdOTk1XMjFh?=
- =?utf-8?B?QnU3NXpKc2dQSUVuVWhxZHdERGxUNk5OZXJjWTVqR3RDbktXcStVMTdld3E0?=
- =?utf-8?B?dGVMREduSHowVG52TEFyT2RPYisvc0syS2pwUlhIdmtHYkc0b0tuSVp5TllY?=
- =?utf-8?B?ZFlGZVpMMEFYbGlrVUtTSnpIYkljOWtydXZrWmJCRzdEOEU3ODdzNi9Ub2hZ?=
- =?utf-8?B?VDNtMXo5UGxzdVNDaVRJV2trWDNnTkhMVForY2xtRmJLcDdrZ2dub0pZNHc1?=
- =?utf-8?B?YTJna3h1d3ZXOE9EOWNnQ3ZtZytVTTNIcTZuTFloUE5abElMWnNLQ09GZ3Jk?=
- =?utf-8?B?NklsZElGVjdXVm9ycXZDUFlPMFNoOXU3eC9vQno5eTYxK3IxV2I2WXRYOXFh?=
- =?utf-8?B?WkpwbVgrdHBQSFdmRDZqRnhvWm9xSDhTWFhxR0RlSjFuUkU0TE9KcE9EMmIy?=
- =?utf-8?B?ajBpNWJ0aHREankxZFlCZjBoaE1pY0VZRmswTEU0M3ZTS3hyMXRoZ2RxTXNz?=
- =?utf-8?B?elpLRzAxWkxENU9ONWFZbXNEdThUVDhlMzFHaEhDVWtjc0dPcjFjV0pVTEt4?=
- =?utf-8?B?bWlnMVl1WEJtSXRuT3ViZGx0SGxacDNSQWV2bVpvNjhFRFdqMVVmbXhWay9s?=
- =?utf-8?B?NDVEbEUwTTN0bnNXcnRkL1FJandXNEhhbUh2L2JLWkxKU3FjbmorYmRvaEcw?=
- =?utf-8?B?WFA2SDUzekhhR1FxUDBoVUNTM3pROUR3VUQrYVI2Q2l5anJvQTV4ZjR4SmNC?=
- =?utf-8?B?dUNiWkhCWThyRkJ2MWI2ZGdYeHQ5ZjB0OW9tZGJ3a3Z0VEgyV1RYdmV4SVBn?=
- =?utf-8?B?SVBGWURvTWcxbVpLaGw5Ty9UODZTejYwdVRDdUdzR0dXQkhIQ3dBVVRLb3Jm?=
- =?utf-8?Q?hwEZXR+NzaXR72ZE4IoVnM3ls?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3a038d8a-8f88-4eda-1bc8-08da7bbef0fc
-X-MS-Exchange-CrossTenant-AuthSource: DS7PR12MB6309.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Aug 2022 17:28:44.4809
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: uNymxG56lmJ7H6bKXrzYfO+o3Lx+Nu0J/ag+J4LlIJfz0Co60fI7A+1aodyt/PLtChtPo1vRjMP0iC1q9F8g8Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB3317
+        with ESMTP id S235510AbiHKRns (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Aug 2022 13:43:48 -0400
+Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 25C3A9AFD7
+        for <linux-doc@vger.kernel.org>; Thu, 11 Aug 2022 10:43:47 -0700 (PDT)
+Received: by mail-yb1-xb49.google.com with SMTP id u44-20020a25ab2f000000b0067c1b3e9fceso7375784ybi.17
+        for <linux-doc@vger.kernel.org>; Thu, 11 Aug 2022 10:43:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=cc:to:from:subject:mime-version:message-id:date:from:to:cc;
+        bh=JwCtX3H6nms0PlfLhp/gNy4lWyXGbhPmKBMEgPVPK5U=;
+        b=tPYw9ijUkd/XmrDWQddq9WhxVgKKWtUTUi8gfSzp8mvF1SxkeiqRo930vkpXTR4Pfy
+         XKb8US/4PA17ySIZp0GJuCvvMYcAQ8YXhJ/YiupwcucfMN1A5+pLsaeXbdN10VOlQw6K
+         V835Hx9nGPVIB/oShy2adWvzV0isHn8Zso0pYql8tUSqXkkGzENyyak+f6hFcqqwExuf
+         k7Bqk0xcUW5tZWk4o4jNL+DDYGdIjtkMJKfC8LpUR/rsxg+WvQeD5LO/AsCmh9X4uIDN
+         uPfLHesYOAynXSlB0mKvTB5kk3hdB+LXjYuiqFFlqDzseY8CZd6WxaphK9NOLx3lCrh3
+         0h1w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:from:subject:mime-version:message-id:date:x-gm-message-state
+         :from:to:cc;
+        bh=JwCtX3H6nms0PlfLhp/gNy4lWyXGbhPmKBMEgPVPK5U=;
+        b=BBMV8hzvffz93s7TApeB3Zeo33RDldeoasDxddshIH2+LJGpHM5iOx4l+/UX6MJTc0
+         zypi7RpFktk4JcaiuPdkEpA0IbLLAwZBGPIejEyGTihwuaAgcXJnA02GXwOmInxT66CP
+         pDwFcBPLYY4/EudoERbArRpJjOsoncYuqlqpY5MPG/mNQSSW+KMirQe4lJQGsdplHINs
+         yAvDGvyjeApD7T158AV4zvHh+agXgeAG6Z8MEWjNoxPa3jiyS3w/Zs0v8NIOC3u+pG97
+         g/ols04vKr9eND1v2kHLH0F3V6KuiiT1Cmtx30It7bF+gIcmbU3yJbV0hZaeFl3ptWZI
+         JcSQ==
+X-Gm-Message-State: ACgBeo3JhKzytUEtuxXoZcKNGrMO8dVmX5jqsUOXq0Hlg4EeNx6X+lv/
+        BulXQu4kRwa02OQ6gVn2FKOsSafk7dw=
+X-Google-Smtp-Source: AA6agR7Cswb/IDFwgM6iCMznMfLJ7BnBZwfFd+jFF6PraOi7i3vGuZUvUJ2MbvI9iOFvwqVDmYqUSLo7NIQ=
+X-Received: from fmayer.svl.corp.google.com ([2620:15c:2ce:200:8736:2c19:630b:7991])
+ (user=fmayer job=sendgmr) by 2002:a81:71c6:0:b0:318:38d5:37f3 with SMTP id
+ m189-20020a8171c6000000b0031838d537f3mr344963ywc.268.1660239826342; Thu, 11
+ Aug 2022 10:43:46 -0700 (PDT)
+Date:   Thu, 11 Aug 2022 10:43:34 -0700
+Message-Id: <20220811174334.292259-1-fmayer@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.37.1.595.g718a3a8f04-goog
+Subject: [PATCH] Add sicode to /proc/<PID>/stat.
+From:   Florian Mayer <fmayer@google.com>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        "Eric W. Biederman" <ebiederm@xmission.com>
+Cc:     linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-doc@vger.kernel.org, Florian Mayer <fmayer@google.com>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Christian Brauner <brauner@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 11/08/22 19:02, Chao Peng wrote:
-> On Thu, Aug 11, 2022 at 01:30:06PM +0200, Gupta, Pankaj wrote:
->>
+In order to enable additional debugging features, Android init needs a
+way to distinguish MTE-related SEGVs (with si_code of SEGV_MTEAERR)
+from other SEGVs. This is not possible with current APIs, neither by
+the existing information in /proc/<pid>/stat, nor via waitpid.
 
->>>> Test
->>>> ----
->>>> To test the new functionalities of this patch TDX patchset is needed.
->>>> Since TDX patchset has not been merged so I did two kinds of test:
->>>>
->>>> -  Regresion test on kvm/queue (this patchset)
->>>>     Most new code are not covered. Code also in below repo:
->>>>     https://github.com/chao-p/linux/tree/privmem-v7
->>>>
->>>> -  New Funational test on latest TDX code
->>>>     The patch is rebased to latest TDX code and tested the new
->>>>     funcationalities. See below repos:
->>>>     Linux: https://github.com/chao-p/linux/tree/privmem-v7-tdx
->>>>     QEMU: https://github.com/chao-p/qemu/tree/privmem-v7
->>>
->>> While debugging an issue with SEV+UPM, found that fallocate() returns
->>> an error in QEMU which is not handled (EINTR). With the below handling
->>> of EINTR subsequent fallocate() succeeds:
-> 
-> QEMU code has not well-tested so it's not strange you met problem. But
-> from the man page, there is signal was caught for EINTR, do you know
-> the signal number?
+Tested with the following program
 
-I haven't check that, but that should be fairly straight forward to get.
-I presume that you are referring to signal_pending() in the shmem_fallocate()
+int main(int argc, char** argv) {
+  int pid = fork();
+  if (!pid) {
+    if (strcmp(argv[1], "sigqueue") == 0) {
+    union sigval value;
+    value.sival_int = 0;
+    sigqueue(getpid(), SIGSEGV, value);
+    } else if (strcmp(argv[1], "raise") == 0) {
+     raise(SIGSEGV);
+    } else if (strcmp(argv[1], "kill") == 0) {
+      kill(getpid(), SIGSEGV);
+    } else if (strcmp(argv[1], "raisestop") == 0) {
+      raise(SIGSTOP);
+    } else if (strcmp(argv[1], "crash") == 0) {
+      volatile int* x = (int*)(0x23);
+      *x = 1;
+    } else if (strcmp(argv[1], "mte") == 0) {
+      volatile char* y = malloc(1);
+      y += 100;
+      *y = 1;
+    }
+  } else {
+    printf("%d\n", pid);
+    sleep(5);
+    char buf[1024];
+    sprintf(buf, "/proc/%d/stat", pid);
+    int fd = open(buf, O_RDONLY);
+    char statb[1024];
+    read(fd, statb, sizeof(statb));
+    printf("%s\n", statb);
+  }
+}
 
-> Thanks for you patch but before we change it in QEMU I want to make sure
-> it's indeed a QEMU issue (e.g. not a kernel isssue).
+Signed-off-by: Florian Mayer <fmayer@google.com>
+---
+ Documentation/filesystems/proc.rst |  2 ++
+ fs/coredump.c                      | 17 ++++++++++-------
+ fs/proc/array.c                    | 12 ++++++++----
+ include/linux/sched/signal.h       |  1 +
+ include/linux/sched/task.h         |  2 +-
+ kernel/exit.c                      |  5 +++--
+ kernel/pid_namespace.c             |  4 +++-
+ kernel/signal.c                    | 29 +++++++++++++++++++----------
+ 8 files changed, 47 insertions(+), 25 deletions(-)
 
-As per the manual fallocate() can return EINTR, and this should be handled 
-by the user space.
+diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
+index e7aafc82be99..12ad5ecd7434 100644
+--- a/Documentation/filesystems/proc.rst
++++ b/Documentation/filesystems/proc.rst
+@@ -381,6 +381,8 @@ It's slow but very precise.
+   env_end       address below which program environment is placed
+   exit_code     the thread's exit_code in the form reported by the waitpid
+ 		system call
++  exit_sicode   if the process was stopped or terminated by a signal, the
++		signal's si_code. 0 otherwise
+   ============= ===============================================================
+ 
+ The /proc/PID/maps file contains the currently mapped memory regions and
+diff --git a/fs/coredump.c b/fs/coredump.c
+index 9f4aae202109..61e9f27d2bf8 100644
+--- a/fs/coredump.c
++++ b/fs/coredump.c
+@@ -349,7 +349,7 @@ static int format_corename(struct core_name *cn, struct coredump_params *cprm,
+ 	return ispipe;
+ }
+ 
+-static int zap_process(struct task_struct *start, int exit_code)
++static int zap_process(struct task_struct *start, int exit_code, int sicode)
+ {
+ 	struct task_struct *t;
+ 	int nr = 0;
+@@ -357,6 +357,7 @@ static int zap_process(struct task_struct *start, int exit_code)
+ 	/* ignore all signals except SIGKILL, see prepare_signal() */
+ 	start->signal->flags = SIGNAL_GROUP_EXIT;
+ 	start->signal->group_exit_code = exit_code;
++	start->signal->group_exit_sicode = sicode;
+ 	start->signal->group_stop_count = 0;
+ 
+ 	for_each_thread(start, t) {
+@@ -371,8 +372,8 @@ static int zap_process(struct task_struct *start, int exit_code)
+ 	return nr;
+ }
+ 
+-static int zap_threads(struct task_struct *tsk,
+-			struct core_state *core_state, int exit_code)
++static int zap_threads(struct task_struct *tsk, struct core_state *core_state,
++		       int exit_code, int sicode)
+ {
+ 	struct signal_struct *signal = tsk->signal;
+ 	int nr = -EAGAIN;
+@@ -380,7 +381,7 @@ static int zap_threads(struct task_struct *tsk,
+ 	spin_lock_irq(&tsk->sighand->siglock);
+ 	if (!(signal->flags & SIGNAL_GROUP_EXIT) && !signal->group_exec_task) {
+ 		signal->core_state = core_state;
+-		nr = zap_process(tsk, exit_code);
++		nr = zap_process(tsk, exit_code, sicode);
+ 		clear_tsk_thread_flag(tsk, TIF_SIGPENDING);
+ 		tsk->flags |= PF_DUMPCORE;
+ 		atomic_set(&core_state->nr_threads, nr);
+@@ -389,7 +390,8 @@ static int zap_threads(struct task_struct *tsk,
+ 	return nr;
+ }
+ 
+-static int coredump_wait(int exit_code, struct core_state *core_state)
++static int coredump_wait(int exit_code, int sicode,
++			 struct core_state *core_state)
+ {
+ 	struct task_struct *tsk = current;
+ 	int core_waiters = -EBUSY;
+@@ -398,7 +400,7 @@ static int coredump_wait(int exit_code, struct core_state *core_state)
+ 	core_state->dumper.task = tsk;
+ 	core_state->dumper.next = NULL;
+ 
+-	core_waiters = zap_threads(tsk, core_state, exit_code);
++	core_waiters = zap_threads(tsk, core_state, exit_code, sicode);
+ 	if (core_waiters > 0) {
+ 		struct core_thread *ptr;
+ 
+@@ -560,7 +562,8 @@ void do_coredump(const kernel_siginfo_t *siginfo)
+ 		need_suid_safe = true;
+ 	}
+ 
+-	retval = coredump_wait(siginfo->si_signo, &core_state);
++	retval =
++		coredump_wait(siginfo->si_signo, siginfo->si_code, &core_state);
+ 	if (retval < 0)
+ 		goto fail_creds;
+ 
+diff --git a/fs/proc/array.c b/fs/proc/array.c
+index 99fcbfda8e25..23553460627c 100644
+--- a/fs/proc/array.c
++++ b/fs/proc/array.c
+@@ -474,6 +474,7 @@ static int do_task_stat(struct seq_file *m, struct pid_namespace *ns,
+ 	unsigned long rsslim = 0;
+ 	unsigned long flags;
+ 	int exit_code = task->exit_code;
++	int exit_sicode = 0;
+ 
+ 	state = *get_task_state(task);
+ 	vsize = eip = esp = 0;
+@@ -538,8 +539,10 @@ static int do_task_stat(struct seq_file *m, struct pid_namespace *ns,
+ 			thread_group_cputime_adjusted(task, &utime, &stime);
+ 			gtime += sig->gtime;
+ 
+-			if (sig->flags & (SIGNAL_GROUP_EXIT | SIGNAL_STOP_STOPPED))
++			if (sig->flags & (SIGNAL_GROUP_EXIT | SIGNAL_STOP_STOPPED)) {
+ 				exit_code = sig->group_exit_code;
++				exit_sicode = sig->group_exit_sicode;
++			}
+ 		}
+ 
+ 		sid = task_session_nr_ns(task, ns);
+@@ -638,10 +641,11 @@ static int do_task_stat(struct seq_file *m, struct pid_namespace *ns,
+ 	} else
+ 		seq_puts(m, " 0 0 0 0 0 0 0");
+ 
+-	if (permitted)
++	if (permitted) {
+ 		seq_put_decimal_ll(m, " ", exit_code);
+-	else
+-		seq_puts(m, " 0");
++		seq_put_decimal_ll(m, " ", exit_sicode);
++	} else
++		seq_puts(m, " 0 0");
+ 
+ 	seq_putc(m, '\n');
+ 	if (mm)
+diff --git a/include/linux/sched/signal.h b/include/linux/sched/signal.h
+index cafbe03eed01..1631dba7a7db 100644
+--- a/include/linux/sched/signal.h
++++ b/include/linux/sched/signal.h
+@@ -109,6 +109,7 @@ struct signal_struct {
+ 
+ 	/* thread group exit support */
+ 	int			group_exit_code;
++	int			group_exit_sicode;
+ 	/* notify group_exec_task when notify_count is less or equal to 0 */
+ 	int			notify_count;
+ 	struct task_struct	*group_exec_task;
+diff --git a/include/linux/sched/task.h b/include/linux/sched/task.h
+index 81cab4b01edc..6ff4825fc88a 100644
+--- a/include/linux/sched/task.h
++++ b/include/linux/sched/task.h
+@@ -82,7 +82,7 @@ static inline void exit_thread(struct task_struct *tsk)
+ {
+ }
+ #endif
+-extern __noreturn void do_group_exit(int);
++extern __noreturn void do_group_exit(int,int);
+ 
+ extern void exit_files(struct task_struct *);
+ extern void exit_itimers(struct task_struct *);
+diff --git a/kernel/exit.c b/kernel/exit.c
+index 84021b24f79e..278469d13433 100644
+--- a/kernel/exit.c
++++ b/kernel/exit.c
+@@ -897,7 +897,7 @@ SYSCALL_DEFINE1(exit, int, error_code)
+  * as well as by sys_exit_group (below).
+  */
+ void __noreturn
+-do_group_exit(int exit_code)
++do_group_exit(int exit_code, int sicode)
+ {
+ 	struct signal_struct *sig = current->signal;
+ 
+@@ -916,6 +916,7 @@ do_group_exit(int exit_code)
+ 			exit_code = 0;
+ 		else {
+ 			sig->group_exit_code = exit_code;
++			sig->group_exit_sicode = sicode;
+ 			sig->flags = SIGNAL_GROUP_EXIT;
+ 			zap_other_threads(current);
+ 		}
+@@ -933,7 +934,7 @@ do_group_exit(int exit_code)
+  */
+ SYSCALL_DEFINE1(exit_group, int, error_code)
+ {
+-	do_group_exit((error_code & 0xff) << 8);
++	do_group_exit((error_code & 0xff) << 8, 0);
+ 	/* NOTREACHED */
+ 	return 0;
+ }
+diff --git a/kernel/pid_namespace.c b/kernel/pid_namespace.c
+index f4f8cb0435b4..c80db136726d 100644
+--- a/kernel/pid_namespace.c
++++ b/kernel/pid_namespace.c
+@@ -248,8 +248,10 @@ void zap_pid_ns_processes(struct pid_namespace *pid_ns)
+ 	}
+ 	__set_current_state(TASK_RUNNING);
+ 
+-	if (pid_ns->reboot)
++	if (pid_ns->reboot) {
+ 		current->signal->group_exit_code = pid_ns->reboot;
++		current->signal->group_exit_sicode = 0;
++	}
+ 
+ 	acct_exit_ns(pid_ns);
+ 	return;
+diff --git a/kernel/signal.c b/kernel/signal.c
+index 6f86fda5e432..180310a9171c 100644
+--- a/kernel/signal.c
++++ b/kernel/signal.c
+@@ -963,6 +963,7 @@ static bool prepare_signal(int sig, struct task_struct *p, bool force)
+ 			signal_set_stop_flags(signal, why | SIGNAL_STOP_CONTINUED);
+ 			signal->group_stop_count = 0;
+ 			signal->group_exit_code = 0;
++			signal->group_exit_sicode = 0;
+ 		}
+ 	}
+ 
+@@ -994,7 +995,8 @@ static inline bool wants_signal(int sig, struct task_struct *p)
+ 	return task_curr(p) || !task_sigpending(p);
+ }
+ 
+-static void complete_signal(int sig, struct task_struct *p, enum pid_type type)
++static void complete_signal(int sig, int code, struct task_struct *p,
++			    enum pid_type type)
+ {
+ 	struct signal_struct *signal = p->signal;
+ 	struct task_struct *t;
+@@ -1051,6 +1053,7 @@ static void complete_signal(int sig, struct task_struct *p, enum pid_type type)
+ 			 */
+ 			signal->flags = SIGNAL_GROUP_EXIT;
+ 			signal->group_exit_code = sig;
++			signal->group_exit_sicode = code;
+ 			signal->group_stop_count = 0;
+ 			t = p;
+ 			do {
+@@ -1082,6 +1085,7 @@ static int __send_signal_locked(int sig, struct kernel_siginfo *info,
+ 	struct sigqueue *q;
+ 	int override_rlimit;
+ 	int ret = 0, result;
++	int code = 0;
+ 
+ 	lockdep_assert_held(&t->sighand->siglock);
+ 
+@@ -1129,7 +1133,7 @@ static int __send_signal_locked(int sig, struct kernel_siginfo *info,
+ 			clear_siginfo(&q->info);
+ 			q->info.si_signo = sig;
+ 			q->info.si_errno = 0;
+-			q->info.si_code = SI_USER;
++			code = q->info.si_code = SI_USER;
+ 			q->info.si_pid = task_tgid_nr_ns(current,
+ 							task_active_pid_ns(t));
+ 			rcu_read_lock();
+@@ -1142,12 +1146,13 @@ static int __send_signal_locked(int sig, struct kernel_siginfo *info,
+ 			clear_siginfo(&q->info);
+ 			q->info.si_signo = sig;
+ 			q->info.si_errno = 0;
+-			q->info.si_code = SI_KERNEL;
++			code = q->info.si_code = SI_KERNEL;
+ 			q->info.si_pid = 0;
+ 			q->info.si_uid = 0;
+ 			break;
+ 		default:
+ 			copy_siginfo(&q->info, info);
++			code = info->si_code;
+ 			break;
+ 		}
+ 	} else if (!is_si_special(info) &&
+@@ -1186,7 +1191,7 @@ static int __send_signal_locked(int sig, struct kernel_siginfo *info,
+ 		}
+ 	}
+ 
+-	complete_signal(sig, t, type);
++	complete_signal(sig, code, t, type);
+ ret:
+ 	trace_signal_generate(sig, info, t, type != PIDTYPE_PID, result);
+ 	return ret;
+@@ -1960,6 +1965,7 @@ void sigqueue_free(struct sigqueue *q)
+ int send_sigqueue(struct sigqueue *q, struct pid *pid, enum pid_type type)
+ {
+ 	int sig = q->info.si_signo;
++	int code = q->info.si_code;
+ 	struct sigpending *pending;
+ 	struct task_struct *t;
+ 	unsigned long flags;
+@@ -1995,7 +2001,7 @@ int send_sigqueue(struct sigqueue *q, struct pid *pid, enum pid_type type)
+ 	pending = (type != PIDTYPE_PID) ? &t->signal->shared_pending : &t->pending;
+ 	list_add_tail(&q->list, &pending->list);
+ 	sigaddset(&pending->signal, sig);
+-	complete_signal(sig, t, type);
++	complete_signal(sig, code, t, type);
+ 	result = TRACE_SIGNAL_DELIVERED;
+ out:
+ 	trace_signal_generate(sig, &q->info, t, type != PIDTYPE_PID, result);
+@@ -2380,7 +2386,7 @@ int ptrace_notify(int exit_code, unsigned long message)
+  * %false if group stop is already cancelled or ptrace trap is scheduled.
+  * %true if participated in group stop.
+  */
+-static bool do_signal_stop(int signr)
++static bool do_signal_stop(int signr, int sicode)
+ 	__releases(&current->sighand->siglock)
+ {
+ 	struct signal_struct *sig = current->signal;
+@@ -2415,8 +2421,10 @@ static bool do_signal_stop(int signr)
+ 		 * an intervening stop signal is required to cause two
+ 		 * continued events regardless of ptrace.
+ 		 */
+-		if (!(sig->flags & SIGNAL_STOP_STOPPED))
++		if (!(sig->flags & SIGNAL_STOP_STOPPED)) {
+ 			sig->group_exit_code = signr;
++			sig->group_exit_sicode = sicode;
++		}
+ 
+ 		sig->group_stop_count = 0;
+ 
+@@ -2701,7 +2709,7 @@ bool get_signal(struct ksignal *ksig)
+ 		}
+ 
+ 		if (unlikely(current->jobctl & JOBCTL_STOP_PENDING) &&
+-		    do_signal_stop(0))
++		    do_signal_stop(0, 0))
+ 			goto relock;
+ 
+ 		if (unlikely(current->jobctl &
+@@ -2806,7 +2814,8 @@ bool get_signal(struct ksignal *ksig)
+ 				spin_lock_irq(&sighand->siglock);
+ 			}
+ 
+-			if (likely(do_signal_stop(ksig->info.si_signo))) {
++			if (likely(do_signal_stop(ksig->info.si_signo,
++						  ksig->info.si_code))) {
+ 				/* It released the siglock.  */
+ 				goto relock;
+ 			}
+@@ -2854,7 +2863,7 @@ bool get_signal(struct ksignal *ksig)
+ 		/*
+ 		 * Death signals, no core dump.
+ 		 */
+-		do_group_exit(ksig->info.si_signo);
++		do_group_exit(ksig->info.si_signo, ksig->info.si_code);
+ 		/* NOTREACHED */
+ 	}
+ 	spin_unlock_irq(&sighand->siglock);
+-- 
+2.37.1.559.g78731f0fdb-goog
 
-Regards
-Nikunj
