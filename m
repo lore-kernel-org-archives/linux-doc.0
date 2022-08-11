@@ -2,118 +2,75 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2DD5DC25B0C
-	for <linux-doc@archiver.kernel.org>; Thu, 11 Aug 2022 12:28:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E9C4C19F2A
+	for <linux-doc@archiver.kernel.org>; Thu, 11 Aug 2022 13:19:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234485AbiHKM2F (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 11 Aug 2022 08:28:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34888 "EHLO
+        id S235020AbiHKNT1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 11 Aug 2022 09:19:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60226 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229833AbiHKM2E (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Aug 2022 08:28:04 -0400
-Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B3A48E997
-        for <linux-doc@vger.kernel.org>; Thu, 11 Aug 2022 05:28:02 -0700 (PDT)
-Received: by mail-ed1-x530.google.com with SMTP id z2so22766603edc.1
-        for <linux-doc@vger.kernel.org>; Thu, 11 Aug 2022 05:28:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc;
-        bh=3MRcVxkQskaoR9Gu8vTdfe3SAmvath2jQNxcSxuvW1Y=;
-        b=NHGbxl9pUrdbk/qb8xkMm4zoxhQhX6Rs444HQVekSH5HLue8co3CqoPnGbERLio2dM
-         LGx24QotE4kcbcEEhmgdmUCglkMRj9LUgkSP/KpiNA700mP6h94Dn1d/wFOg8IXrTV5Q
-         7t8086tWE8qBuYhtW+ve33VVpMjT6RO9u3JV6fo+OXTJ5nEqqLqt5Xfar1N/31vDl+kb
-         /Qc9CeYpCrRSPvgdT5jKrAYi+Bis7pm8rvEJBRuOqCqT9rTRlL5ZiL661wC2BrmdE5CH
-         +f94perJ/2Z6mBI0Mqi+Tsy+mMxy6HBFjWyJQNFav6rilu1dhdspBsJwb60836MPgNiY
-         wunw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
-        bh=3MRcVxkQskaoR9Gu8vTdfe3SAmvath2jQNxcSxuvW1Y=;
-        b=Uydo9qRBcGjXDkzUmt5Qsmf1/74yMvfdrYHWqi/bvmMnw3TzvTaOmPZiiEdCp8Bkus
-         ask53YkJ5o0QDCFLOic/hqAVkAuA6EmUrWp7sCmDnFkvq3BN+PBOHdMwP1BKxroUJvWF
-         2qe+uKtPopcjZfAWKOUIKKSbDus+/6dPme8LWyjZGuXRMB+HDGdQvL/G3/LmCrShHuPi
-         l9rK74ZtRY2XvAPYWyBrpkRp4MQ+11KY92RrvtX44zrgvp1c6jZ1lpdXoxlUpc8j5/n9
-         OxulBRyyKLlel+Tg39dCUMW4C5Er94rb/9E7pyTRI3f7RlgLdVBqXmoTDZulukslyTaY
-         8V8Q==
-X-Gm-Message-State: ACgBeo3if6R3KPp0OuyasiCwyadAPYZVRoM62OD2OIuNRrqNsRPZvAAf
-        QGozE/BxvLd3ZLTvR25XXZ7Qvw==
-X-Google-Smtp-Source: AA6agR6+Oii1v3EbiMDbdYw7/ayqCsy6sGwTAVm4xglPzXzpkb8k3QGndmL9Qe4QpGf4syQIGgATXw==
-X-Received: by 2002:a05:6402:3583:b0:43d:6943:44a with SMTP id y3-20020a056402358300b0043d6943044amr30188049edc.409.1660220881001;
-        Thu, 11 Aug 2022 05:28:01 -0700 (PDT)
-Received: from google.com (64.227.90.34.bc.googleusercontent.com. [34.90.227.64])
-        by smtp.gmail.com with ESMTPSA id v20-20020a170906381400b007307d099ed7sm3440458ejc.121.2022.08.11.05.27.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Aug 2022 05:27:59 -0700 (PDT)
-Date:   Thu, 11 Aug 2022 12:27:56 +0000
-From:   Quentin Perret <qperret@google.com>
-To:     Sean Christopherson <seanjc@google.com>
-Cc:     David Hildenbrand <david@redhat.com>,
-        Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
-        linux-kselftest@vger.kernel.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, aarcange@redhat.com, ddutile@redhat.com,
-        dhildenb@redhat.com, Michael Roth <michael.roth@amd.com>,
-        mhocko@suse.com, Muchun Song <songmuchun@bytedance.com>,
-        Will Deacon <will@kernel.org>, Fuad Tabba <tabba@google.com>
-Subject: Re: [PATCH v7 03/14] mm: Introduce memfile_notifier
-Message-ID: <YvT1zOQtTQl2t300@google.com>
-References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
- <20220706082016.2603916-4-chao.p.peng@linux.intel.com>
- <13394075-fca0-6f2b-92a2-f1291fcec9a3@redhat.com>
- <20220810092232.GC862421@chaop.bj.intel.com>
- <00f1aa03-bc82-ffce-569b-e2d5c459992c@redhat.com>
- <YvPC87FMgF7uac7z@google.com>
+        with ESMTP id S234050AbiHKNT0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Aug 2022 09:19:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id D9AB481680
+        for <linux-doc@vger.kernel.org>; Thu, 11 Aug 2022 06:19:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1660223964;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=p0uKFDfXP8UK2kv9F4U2RkkSlS76ekQt9UIZaGMUKKM=;
+        b=Uafey8io5mM7CDaXm4CAF5bY4+Nhbsx4+0sbBmgpnjpDEouZIEXj5JaudBeFqJt0xLndbk
+        MgjGBkH/6OkecBI6AHZmB5q/eppM0XJ6Mk48dcs1SOBlenMx9a01FGsb6z6imJ9Tc35QD3
+        hAIw/Apf0HmekzFknqngKt4YpKWtUbM=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-62-jASUlZ3DM8WAWgojT95a5Q-1; Thu, 11 Aug 2022 09:19:23 -0400
+X-MC-Unique: jASUlZ3DM8WAWgojT95a5Q-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1E7BA3C01DA8;
+        Thu, 11 Aug 2022 13:19:23 +0000 (UTC)
+Received: from localhost (unknown [10.39.193.95])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id C70132166B26;
+        Thu, 11 Aug 2022 13:19:22 +0000 (UTC)
+From:   Cornelia Huck <cohuck@redhat.com>
+To:     Ricardo =?utf-8?Q?Ca=C3=B1uelo?= <ricardo.canuelo@collabora.com>,
+        linux-doc@vger.kernel.org
+Cc:     virtualization@lists.linux-foundation.org, mst@redhat.com,
+        jasowang@redhat.com, kernel@collabora.com, bagasdotme@gmail.com
+Subject: Re: [PATCH v4 1/2] virtio: kerneldocs fixes and enhancements
+In-Reply-To: <20220810094004.1250-2-ricardo.canuelo@collabora.com>
+Organization: Red Hat GmbH
+References: <20220810094004.1250-1-ricardo.canuelo@collabora.com>
+ <20220810094004.1250-2-ricardo.canuelo@collabora.com>
+User-Agent: Notmuch/0.36 (https://notmuchmail.org)
+Date:   Thu, 11 Aug 2022 15:19:21 +0200
+Message-ID: <87fsi2dijq.fsf@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YvPC87FMgF7uac7z@google.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-+CC Fuad
+On Wed, Aug 10 2022, Ricardo Ca=C3=B1uelo <ricardo.canuelo@collabora.com> w=
+rote:
 
-On Wednesday 10 Aug 2022 at 14:38:43 (+0000), Sean Christopherson wrote:
-> > I understand Sean's suggestion about abstracting, but if the new name
-> > makes it harder to grasp and there isn't really an alternative to memfd
-> > in sight, I'm not so sure I enjoy the tried abstraction here.
-> 
-> ARM's pKVM implementation is potentially (hopefully) going to switch to this API
-> (as a consumer) sooner than later.  If they anticipate being able to use memfd,
-> then there's unlikely to be a second backing type any time soon.
-> 
-> Quentin, Will?
+> Fix variable names in some kerneldocs, naming in others.
+> Add kerneldocs for struct vring_desc and vring_interrupt.
+>
+> Signed-off-by: Ricardo Ca=C3=B1uelo <ricardo.canuelo@collabora.com>
+> ---
+>  drivers/virtio/virtio_ring.c     |  8 ++++++++
+>  include/linux/virtio.h           |  6 +++---
+>  include/linux/virtio_config.h    |  6 +++---
+>  include/uapi/linux/virtio_ring.h | 16 +++++++++++-----
+>  4 files changed, 25 insertions(+), 11 deletions(-)
 
-Yep, Fuad is currently trying to port the pKVM mm stuff on top of this
-series to see how well it fits, so stay tuned. I think there is still
-some room for discussion around page conversions (private->shared etc),
-and we'll need a clearer idea of what the code might look like to have a
-constructive discussion, but so far it does seem like using a memfd (the
-new private one or perhaps just memfd_secret, to be discussed) + memfd
-notifiers is a promising option.
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+
