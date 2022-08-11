@@ -2,88 +2,206 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 851D1C19F2A
-	for <linux-doc@archiver.kernel.org>; Thu, 11 Aug 2022 20:17:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C9CEDC19F2A
+	for <linux-doc@archiver.kernel.org>; Thu, 11 Aug 2022 20:46:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234698AbiHKURm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 11 Aug 2022 16:17:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52638 "EHLO
+        id S235735AbiHKUqK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 11 Aug 2022 16:46:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51200 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229594AbiHKURm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Aug 2022 16:17:42 -0400
-Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com [IPv6:2a00:1450:4864:20::634])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2EA69DB45;
-        Thu, 11 Aug 2022 13:17:40 -0700 (PDT)
-Received: by mail-ej1-x634.google.com with SMTP id gb36so35341129ejc.10;
-        Thu, 11 Aug 2022 13:17:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:content-language:in-reply-to:mime-version
-         :user-agent:date:message-id:from:references:cc:to:subject:from:to:cc;
-        bh=lKQbVu6OeEILzPaVQ6saPWQ+P6yTH8efIb+CZ4tS2WI=;
-        b=MXxzuk6Yi2USJbmoA9BKj8H8g+qbvHJCyhKbKtNAnv1KylBj0+clMG5tKcbkC4GHti
-         REiLWyomp9+Ru31bhg8uEILpoFadBQDge8iRXK5XA9QNCUSJe67uzOU8F9tGBv6Gt3II
-         gZOBGwOrfsqSyyNkDalCqzISop8aJIsTRxHx3IXVAbnak2q5ho/0ltG73WFqwOY1R4wy
-         IP0Z2cTz5wXOfA0/MVUqG5N1Cbq0GRXZS5zFDK9lMSYfkR4UWCYk1kbxhmBBASGRHfTu
-         wqYUDa9FaQI8IqnJNxockCHsIkUBiAJTr4f7P4j8x83okf3kFhw8MLlqTARVdn6USCpI
-         /waQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:content-language:in-reply-to:mime-version
-         :user-agent:date:message-id:from:references:cc:to:subject
-         :x-gm-message-state:from:to:cc;
-        bh=lKQbVu6OeEILzPaVQ6saPWQ+P6yTH8efIb+CZ4tS2WI=;
-        b=I7U4lBLF3nT0ayKdXrzAJo0SWp4ogh6l961pm9UjwTw3LX3DbuPRnkBZmMxPkPcCRP
-         Rv4oo0N8Ho6MGz2L59DOeapJlu8J5JxRja5hoDGWknj1Y4KUur+f+pIm3wxRfssPIUHu
-         dik5SWxJ5ktA52Qo1RIpRGng9hVJdUhfFdCfMt3mhyGNK31cWP6XphcnvCM87ZRgvGmV
-         wdz1xCO/RCmDaCdWCxlX3/pDFOuPeDDEDT2x7Pui8iOQsjPxiBnHH487BYdYR7ag/67H
-         1Jya0NRfXsDaqKDwM4NoIeX8B+Rq23LGZnXVjO8XUej9qP+Tn7KE4tGpyZg5xpDsLOlo
-         ugwg==
-X-Gm-Message-State: ACgBeo3CvtHq+RALGS2YUbrU/mztdswOACb96RlNXBnWhNRiQchh5bMR
-        m1yU31TdAX5EIys2rcSEw5TVPS4Yn00=
-X-Google-Smtp-Source: AA6agR6GTH8ApBhEbqyORGJBBeFbD+iR4V2uJfd/JvPyobCPfwXTGjhn5w3IoW1/jtBanjvrgq1lLw==
-X-Received: by 2002:a17:907:97cd:b0:731:5d0:4434 with SMTP id js13-20020a17090797cd00b0073105d04434mr440823ejc.603.1660249059352;
-        Thu, 11 Aug 2022 13:17:39 -0700 (PDT)
-Received: from [192.168.1.122] (cpc159313-cmbg20-2-0-cust161.5-4.cable.virginm.net. [82.0.78.162])
-        by smtp.gmail.com with ESMTPSA id f1-20020a1709067f8100b007310a9a65cbsm56164ejr.16.2022.08.11.13.17.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 11 Aug 2022 13:17:38 -0700 (PDT)
-Subject: Re: [RFC net-next 1/4] ynl: add intro docs for the concept
-To:     Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org,
-        davem@davemloft.net, edumazet@google.com, pabeni@redhat.com
-Cc:     sdf@google.com, jacob.e.keller@intel.com, vadfed@fb.com,
-        johannes@sipsolutions.net, jiri@resnulli.us, dsahern@kernel.org,
-        stephen@networkplumber.org, fw@strlen.de, linux-doc@vger.kernel.org
-References: <20220811022304.583300-1-kuba@kernel.org>
- <20220811022304.583300-2-kuba@kernel.org>
-From:   Edward Cree <ecree.xilinx@gmail.com>
-Message-ID: <999354bc-4e79-73fc-e195-9b8d17b3d3b5@gmail.com>
-Date:   Thu, 11 Aug 2022 21:17:37 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+        with ESMTP id S233840AbiHKUqI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Aug 2022 16:46:08 -0400
+X-Greylist: delayed 2617 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 11 Aug 2022 13:46:07 PDT
+Received: from terminus.zytor.com (unknown [IPv6:2607:7c80:54:3::136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF7A58B9BA;
+        Thu, 11 Aug 2022 13:46:07 -0700 (PDT)
+Received: from [127.0.0.1] ([12.0.243.163])
+        (authenticated bits=0)
+        by mail.zytor.com (8.17.1/8.17.1) with ESMTPSA id 27BJvVcV569135
+        (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
+        Thu, 11 Aug 2022 12:57:32 -0700
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 27BJvVcV569135
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
+        s=2022080501; t=1660247855;
+        bh=LZ5/i1TBlH5OS+iyknyKHVuU6iY8SydC5jqehDFiCrg=;
+        h=Date:From:To:CC:Subject:In-Reply-To:References:From;
+        b=EbPAmL9QTPSIaBoTRMPStYWl+qU6Ug1qOfcvMRQWxRtrZGXKoJtzeiYyW6agNxxfr
+         T+HeWHmKTA4oczR30s6NcwYGQoGLPrmNdGwlDB8GC143sGVRAqHiUicdlg1dEXrH/m
+         NeXj6yevSlRpo2kNlCwoVQ4UO5JhlWJz1VaUsXsxzFoCjO+c27FV3y4Oq5+Cm9SXK8
+         0huM8v14WT3kPV2w4GWBjYztOsMlqJTGZx4j5C2BHthDuAmnPuIiQxlGLR4T6zC1fK
+         SIxc8fF/p0t7gK8qatwkBKYcVdKmiRDxO6C09i894SX6A4SUW4ZWFoASW7X7FZ+KWQ
+         Si+SZXjBwBMtQ==
+Date:   Thu, 11 Aug 2022 12:57:25 -0700
+From:   "H. Peter Anvin" <hpa@zytor.com>
+To:     Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Russell King <linux@armlinux.org.uk>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+        Arnd Bergmann <arnd@arndb.de>
+CC:     linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-arch@vger.kernel.org
+Subject: Re: [PATCH] gpio: Allow user to customise maximum number of GPIOs
+User-Agent: K-9 Mail for Android
+In-Reply-To: <f31b818cf8d682de61c74b133beffcc8a8202478.1660041358.git.christophe.leroy@csgroup.eu>
+References: <f31b818cf8d682de61c74b133beffcc8a8202478.1660041358.git.christophe.leroy@csgroup.eu>
+Message-ID: <C1886F9A-1799-4E3D-9153-579D31488695@zytor.com>
 MIME-Version: 1.0
-In-Reply-To: <20220811022304.583300-2-kuba@kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 11/08/2022 03:23, Jakub Kicinski wrote:
-> Short overview of the sections. I presume most people will start
-> by copy'n'pasting existing schemas rather than studying the docs,
-> but FWIW...
-> 
-> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
-> ---
-[...]
-> +Operations describe the most common request - response communication. User
-> +sends a request and kernel replies. Each operation may contain any combination
-> +of the two modes familiar to netlink users - ``do`` and ``dump``.
-> +``do`` and ``dump`` in turn contain a combination of ``request`` and ``response``
-> +properties. If no explicit message with attributes is passed in a given
-> +direction (e.g. a ``dump`` which doesn't not accept filter, or a ``do``
+On August 9, 2022 3:40:38 AM PDT, Christophe Leroy <christophe=2Eleroy@csgr=
+oup=2Eeu> wrote:
+>At the time being, the default maximum number of GPIOs is set to 512
+>and can only get customised via an architecture specific
+>CONFIG_ARCH_NR_GPIO=2E
+>
+>The maximum number of GPIOs might be dependent on the number of
+>interface boards and is somewhat independent of architecture=2E
+>
+>Allow the user to select that maximum number outside of any
+>architecture configuration=2E To enable that, re-define a
+>core CONFIG_ARCH_NR_GPIO for architectures which don't already
+>define one=2E Guard it with a new hidden CONFIG_ARCH_HAS_NR_GPIO=2E
+>
+>Only two architectures will need CONFIG_ARCH_HAS_NR_GPIO: x86 and arm=2E
+>
+>On arm, do like x86 and set 512 as the default instead of 0, that
+>allows simplifying the logic in asm-generic/gpio=2Eh
+>
+>Signed-off-by: Christophe Leroy <christophe=2Eleroy@csgroup=2Eeu>
+>---
+> Documentation/driver-api/gpio/legacy=2Erst |  2 +-
+> arch/arm/Kconfig                         |  3 ++-
+> arch/arm/include/asm/gpio=2Eh              |  1 -
+> arch/x86/Kconfig                         |  1 +
+> drivers/gpio/Kconfig                     | 14 ++++++++++++++
+> include/asm-generic/gpio=2Eh               |  6 ------
+> 6 files changed, 18 insertions(+), 9 deletions(-)
+>
+>diff --git a/Documentation/driver-api/gpio/legacy=2Erst b/Documentation/d=
+river-api/gpio/legacy=2Erst
+>index 9b12eeb89170=2E=2E566b06a584cf 100644
+>--- a/Documentation/driver-api/gpio/legacy=2Erst
+>+++ b/Documentation/driver-api/gpio/legacy=2Erst
+>@@ -558,7 +558,7 @@ Platform Support
+> To force-enable this framework, a platform's Kconfig will "select" GPIOL=
+IB,
+> else it is up to the user to configure support for GPIO=2E
+>=20
+>-It may also provide a custom value for ARCH_NR_GPIOS, so that it better
+>+It may also provide a custom value for CONFIG_ARCH_NR_GPIO, so that it b=
+etter
+> reflects the number of GPIOs in actual use on that platform, without
+> wasting static table space=2E  (It should count both built-in/SoC GPIOs =
+and
+> also ones on GPIO expanders=2E
+>diff --git a/arch/arm/Kconfig b/arch/arm/Kconfig
+>index 53e6a1da9af5=2E=2Ee55b6560fe4f 100644
+>--- a/arch/arm/Kconfig
+>+++ b/arch/arm/Kconfig
+>@@ -14,6 +14,7 @@ config ARM
+> 	select ARCH_HAS_KCOV
+> 	select ARCH_HAS_MEMBARRIER_SYNC_CORE
+> 	select ARCH_HAS_NON_OVERLAPPING_ADDRESS_SPACE
+>+	select ARCH_HAS_NR_GPIO
+> 	select ARCH_HAS_PTE_SPECIAL if ARM_LPAE
+> 	select ARCH_HAS_PHYS_TO_DMA
+> 	select ARCH_HAS_SETUP_DMA_OPS
+>@@ -1243,7 +1244,7 @@ config ARCH_NR_GPIO
+> 	default 352 if ARCH_VT8500
+> 	default 288 if ARCH_ROCKCHIP
+> 	default 264 if MACH_H4700
+>-	default 0
+>+	default 512
+> 	help
+> 	  Maximum number of GPIOs in the system=2E
+>=20
+>diff --git a/arch/arm/include/asm/gpio=2Eh b/arch/arm/include/asm/gpio=2E=
+h
+>index f3bb8a2bf788=2E=2E4ebbb58f06ea 100644
+>--- a/arch/arm/include/asm/gpio=2Eh
+>+++ b/arch/arm/include/asm/gpio=2Eh
+>@@ -2,7 +2,6 @@
+> #ifndef _ARCH_ARM_GPIO_H
+> #define _ARCH_ARM_GPIO_H
+>=20
+>-/* Note: this may rely upon the value of ARCH_NR_GPIOS set in mach/gpio=
+=2Eh */
+> #include <asm-generic/gpio=2Eh>
+>=20
+> /* The trivial gpiolib dispatchers */
+>diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
+>index f9920f1341c8=2E=2Ea8c956abc21e 100644
+>--- a/arch/x86/Kconfig
+>+++ b/arch/x86/Kconfig
+>@@ -82,6 +82,7 @@ config X86
+> 	select ARCH_HAS_MEM_ENCRYPT
+> 	select ARCH_HAS_MEMBARRIER_SYNC_CORE
+> 	select ARCH_HAS_NON_OVERLAPPING_ADDRESS_SPACE
+>+	select ARCH_HAS_NR_GPIO
+> 	select ARCH_HAS_PMEM_API		if X86_64
+> 	select ARCH_HAS_PTE_DEVMAP		if X86_64
+> 	select ARCH_HAS_PTE_SPECIAL
+>diff --git a/drivers/gpio/Kconfig b/drivers/gpio/Kconfig
+>index 0642f579196f=2E=2E250b50ed44e1 100644
+>--- a/drivers/gpio/Kconfig
+>+++ b/drivers/gpio/Kconfig
+>@@ -11,6 +11,9 @@ config ARCH_HAVE_CUSTOM_GPIO_H
+> 	  overriding the default implementations=2E  New uses of this are
+> 	  strongly discouraged=2E
+>=20
+>+config ARCH_HAS_NR_GPIO
+>+	bool
+>+
+> menuconfig GPIOLIB
+> 	bool "GPIO Support"
+> 	help
+>@@ -22,6 +25,17 @@ menuconfig GPIOLIB
+>=20
+> if GPIOLIB
+>=20
+>+config ARCH_NR_GPIO
+>+	int "Maximum number of GPIOs" if EXPERT
+>+	depends on !ARCH_HAS_NR_GPIO
+>+	default 512
+>+	help
+>+	  This allows the user to select the maximum number of GPIOs the
+>+	  kernel must support=2E When the architecture defines a number
+>+	  through CONFIG_ARCH_NR_GPIO, that value is taken and the user
+>+	  cannot change it=2E Otherwise it defaults to 512 and the user
+>+	  can change it when CONFIG_EXPERT is set=2E
+>+
+> config GPIOLIB_FASTPATH_LIMIT
+> 	int "Maximum number of GPIOs for fast path"
+> 	range 32 512
+>diff --git a/include/asm-generic/gpio=2Eh b/include/asm-generic/gpio=2Eh
+>index aea9aee1f3e9=2E=2Eee090f534ab8 100644
+>--- a/include/asm-generic/gpio=2Eh
+>+++ b/include/asm-generic/gpio=2Eh
+>@@ -24,13 +24,7 @@
+>  * actually an estimate of a board-specific value=2E
+>  */
+>=20
+>-#ifndef ARCH_NR_GPIOS
+>-#if defined(CONFIG_ARCH_NR_GPIO) && CONFIG_ARCH_NR_GPIO > 0
+> #define ARCH_NR_GPIOS CONFIG_ARCH_NR_GPIO
+>-#else
+>-#define ARCH_NR_GPIOS		512
+>-#endif
+>-#endif
+>=20
+> /*
+>  * "valid" GPIO numbers are nonnegative and may be passed to
 
-Double negative.  I think you just meant "doesn't accept filter" here?
--ed
+This seems very odd to me=2E GPIOs can be, and often are, attached to peri=
+pheral buses which means that the *same system* can have anything from none=
+ to thousands of gpios =2E=2E
