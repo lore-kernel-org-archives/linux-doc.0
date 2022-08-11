@@ -2,147 +2,97 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EFDF1C00140
-	for <linux-doc@archiver.kernel.org>; Wed, 10 Aug 2022 22:59:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 67A5AC00140
+	for <linux-doc@archiver.kernel.org>; Thu, 11 Aug 2022 02:09:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232392AbiHJW7J (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 10 Aug 2022 18:59:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57408 "EHLO
+        id S233653AbiHKCJk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 10 Aug 2022 22:09:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33774 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230251AbiHJW7I (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 Aug 2022 18:59:08 -0400
-Received: from mail-oi1-x22a.google.com (mail-oi1-x22a.google.com [IPv6:2607:f8b0:4864:20::22a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0960367CA1;
-        Wed, 10 Aug 2022 15:59:07 -0700 (PDT)
-Received: by mail-oi1-x22a.google.com with SMTP id w197so6443160oie.5;
-        Wed, 10 Aug 2022 15:59:06 -0700 (PDT)
+        with ESMTP id S229867AbiHKCJj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 Aug 2022 22:09:39 -0400
+Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9301844DE
+        for <linux-doc@vger.kernel.org>; Wed, 10 Aug 2022 19:09:37 -0700 (PDT)
+Received: by mail-pj1-x102e.google.com with SMTP id ha11so16469619pjb.2
+        for <linux-doc@vger.kernel.org>; Wed, 10 Aug 2022 19:09:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc;
-        bh=MKXIoUEErA40N9CT/FYdo8YlhMi8ynVTChaHSFKe0nw=;
-        b=Vyveb50Rr5C5XSEu/8tEoZ9xv3e6YMpXzhBqx1RGPYck19CmTWBonR07AHxwBwL1La
-         CHDlBXIri27rMvSqDGtmqZil8BLa40kABlxrbjII+JwSaBqyH9lAQ6z+eB53f3/5/D/E
-         7EeCWDc90XH2zV4c5bi7zMsxxERiQY1bs3r6xp7ne7WvO8YFlxoWZO1s1lxrE5WzIMIb
-         /XVFQYyesv8WkyHoJfqae2dKVjMSX7TIit567XIKsup9LMhgiXNhf92zRSXtfdwlxnQa
-         +MaKbaY5jkj+cSuKxsDoGmNZ0f0MJb0Aj38JImeQff0CLGumUYxM4+XMltw8xIvPT+cZ
-         DVFQ==
+        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc;
+        bh=oSA+Jof75BuedTVbt4lBoiMeV523r3pp7Ny1EC5oo3o=;
+        b=w0LbbLx22MfQERbKFdETrb3ybAIxu4PakWhNX0JhVR2NfpBhq7Yqripn1YP+hcGg1G
+         NHY8+4Rr6yTKcDEvaGbHrUCApwsNJdhMdkRsTVYxZXLCqcgx+obRDTd/0VoA/KsyYkgM
+         xH9Y6GqYr8VN+x4u/U0KUA9lBlMnHdXIWFeh5HvCHJAjtbs/dhQ9C3BiKrDuXjx9U1nb
+         Bk0ohofkrChxG8d7tGGKbx2K0azQCe1H0MYPxRZTEfFLG2WGP0lilMgvtFYTnjho35Mo
+         +AEvUT3AQhyadp5mfRNM58gAtRcMxqcI1P2jRVMQ96L2Kmxs15ulMY1H9dapgPZoyLZk
+         pAsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc;
-        bh=MKXIoUEErA40N9CT/FYdo8YlhMi8ynVTChaHSFKe0nw=;
-        b=gogV2mETt2kOnoYVictJDPs6Dx/4tT3xeApQTkcUZCnoRXWAXGJC1EdjAL1HZmcpnd
-         IiRWwsGrA6S3IBocvt8LLEV1OTE2yjaMuM+k4i9kIJgWmgwHwCA0uE99L/UaTcuuK+Tt
-         VvvC0x2BgeyRxAwH455a+RHRrHgXW5Kx4MFLKa/ySldXDFeruvZq+vugZ52MW7rIY0IF
-         7cW+YCPXykofS8FwmhOWrbekMjM2WYYs2xDAvhfSfDjHXAc2zW8QPj5SLXtplZv/Vzdy
-         HhHLgCgpj/Cq8QxI9Wp1WArLynK1XreNHz+2PhbwYi4IIc1DJySrIOJ73GWc97vsPzlX
-         ABFw==
-X-Gm-Message-State: ACgBeo1/+Q41IQ+QlB+/Va8elp9Bx4qWp3HECmbz85f+tt692XMaTqyM
-        Rr9oDrhBb7U/wRnSFCCylFyXUXWygBdahc4i4SI=
-X-Google-Smtp-Source: AA6agR42BlSqIS79o7TbKM4PqFFV7nJjel3wzJLO11XBfJNBRXhTQbXgbqMaL9G5GTEQe1dQzqCfwccpioSJ8+8zoEI=
-X-Received: by 2002:a05:6808:bd6:b0:342:4683:32e7 with SMTP id
- o22-20020a0568080bd600b00342468332e7mr2336986oik.21.1660172346245; Wed, 10
- Aug 2022 15:59:06 -0700 (PDT)
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc;
+        bh=oSA+Jof75BuedTVbt4lBoiMeV523r3pp7Ny1EC5oo3o=;
+        b=EuFbnAg8kGS6c91k3hxzVyf93+3Hg6nWKmy7r0GoFLqqDF14FOgR/bl7Gf5eVdoGeC
+         b422NVVWt3D43CJvTV2co7S8Ia2BHYa+oXdr/VxlDeoNGr/9luRolHZFJ1nJapuUIxaM
+         LSFJDZPij4J+71FZlwjEkbmhxBXDPDOogWCUM+NTmRRzJ0qLyQgR/lwRXB3FDRAyxa3u
+         o03nt9loA+jm69JhDYuPGHEw0La31BiPxAHOixhfRvf6AfA1RgocA78zK66yLbiT5TGD
+         RxowHqzUibmb2g+yAJrBOeU3Ut748kNArxjWZMByxETYdwfkzo07kjGwxeFzEB5CCOKa
+         OJ6Q==
+X-Gm-Message-State: ACgBeo1MzHHyW95HjVc3/kbO9F2yLCORPIGQpPSU90hAQdBy3xVn51d+
+        pr0kPLXHCJYGWqVcdLzop7iC7A==
+X-Google-Smtp-Source: AA6agR7pEvJYGfeI5QBU3XEAHO0I7vZXYDuMiae/XSEL7US94LL05wzxU5jq93JPbtgmd163xcYB4A==
+X-Received: by 2002:a17:903:230b:b0:16f:2276:1fc4 with SMTP id d11-20020a170903230b00b0016f22761fc4mr29113456plh.172.1660183777109;
+        Wed, 10 Aug 2022 19:09:37 -0700 (PDT)
+Received: from [10.70.253.98] ([139.177.225.230])
+        by smtp.gmail.com with ESMTPSA id y27-20020aa79e1b000000b0052df34124b4sm2741760pfq.84.2022.08.10.19.09.30
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 10 Aug 2022 19:09:36 -0700 (PDT)
+Message-ID: <cd4983dd-8432-7f79-1066-61b6f02e99c3@bytedance.com>
+Date:   Thu, 11 Aug 2022 10:09:28 +0800
 MIME-Version: 1.0
-References: <20220805165850.50160-1-ecree@xilinx.com> <20220805184359.5c55ca0d@kernel.org>
- <71af8654-ca69-c492-7e12-ed7ff455a2f1@gmail.com> <20220808204135.040a4516@kernel.org>
- <572c50b0-2f10-50d5-76fc-dfa409350dbe@gmail.com> <20220810105811.6423f188@kernel.org>
- <cccb1511-3200-d5aa-8872-804f0d7f43a8@gmail.com>
-In-Reply-To: <cccb1511-3200-d5aa-8872-804f0d7f43a8@gmail.com>
-From:   Alexander Duyck <alexander.duyck@gmail.com>
-Date:   Wed, 10 Aug 2022 15:58:54 -0700
-Message-ID: <CAKgT0UdLFjxdxHTPb7c+Deih2Bciziz=gZxDYWUFsLNNetOFQg@mail.gmail.com>
-Subject: Re: [RFC PATCH net-next] docs: net: add an explanation of VF (and
- other) Representors
-To:     Edward Cree <ecree.xilinx@gmail.com>
-Cc:     Jakub Kicinski <kuba@kernel.org>, ecree@xilinx.com,
-        netdev@vger.kernel.org, davem@davemloft.net, pabeni@redhat.com,
-        edumazet@google.com, corbet@lwn.net, linux-doc@vger.kernel.org,
-        linux-net-drivers@amd.com, Jacob Keller <jacob.e.keller@intel.com>,
-        Jesse Brandeburg <jesse.brandeburg@intel.com>,
-        Michael Chan <michael.chan@broadcom.com>,
-        Andy Gospodarek <andy@greyhouse.net>,
-        Saeed Mahameed <saeed@kernel.org>,
-        Jiri Pirko <jiri@resnulli.us>,
-        Shannon Nelson <snelson@pensando.io>,
-        Simon Horman <simon.horman@corigine.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.1.0
+Subject: Re: [PATCH v2 09/10] sched/psi: per-cgroup PSI stats
+ disable/re-enable interface
+Content-Language: en-US
+To:     Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>
+Cc:     corbet@lwn.net, surenb@google.com, mingo@redhat.com,
+        peterz@infradead.org, vincent.guittot@linaro.org,
+        dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
+        cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, songmuchun@bytedance.com
+References: <20220808110341.15799-1-zhouchengming@bytedance.com>
+ <20220808110341.15799-10-zhouchengming@bytedance.com>
+ <YvKd6dezPM6UxfD/@slm.duckdns.org>
+ <fcd0bd39-3049-a279-23e6-a6c02b4680a7@bytedance.com>
+ <b89155d3-9315-fefc-408b-4cf538360a1c@bytedance.com>
+ <YvPN07UlaPFAdlet@cmpxchg.org> <YvPqcJh5Ffv4Yga9@slm.duckdns.org>
+From:   Chengming Zhou <zhouchengming@bytedance.com>
+In-Reply-To: <YvPqcJh5Ffv4Yga9@slm.duckdns.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Aug 10, 2022 at 12:21 PM Edward Cree <ecree.xilinx@gmail.com> wrote:
->
-> On 10/08/2022 18:58, Jakub Kicinski wrote:
-> > On Wed, 10 Aug 2022 17:02:33 +0100 Edward Cree wrote:
-> >> On 09/08/2022 04:41, Jakub Kicinski wrote:
-> >>> I'd use "host PF", somehow that makes most sense to me.
-> >>
-> >> Not sure about that, I've seen "host" used as antonym of "SoC", so
-> >>  if the device is configured with the SoC as the admin this could
-> >>  confuse people.
-> >
-> > In the literal definition of the word "host" it is the entity which
-> > "owns the place".
->
-> Sure, but as an application of that, people talk about e.g. "host"
->  and "device" ends of a bus, DMA transfer, etc.  As a result of which
->  "host" has come to mean "computer; server; the big rack-mounted box
->  you plug cards into".
-> A connotation which is unfortunate once a single device can live on
->  two separate PCIe hierarchies, connected to two computers each with
->  its own hostname, and the one which owns the device is the cluster
->  of embedded CPUs inside the card, rather than the big metal box.
+On 2022/8/11 01:27, Tejun Heo wrote:
+> Hello,
+> 
+> On Wed, Aug 10, 2022 at 11:25:07AM -0400, Johannes Weiner wrote:
+>> How about just cgroup.pressure? Too ambiguous?
+>>
+>> cgroup.pressure.enable sounds good to me too. Or, because it's
+>> default-enabled and that likely won't change, cgroup.pressure.disable.
+> 
+> .disable sounds more logical but I like .enable better for some reason. As
+> for just cgroup.pressure, yeah, maybe? The conundrum is that the prettiness
+> order is the exact reverse of the logical order. So, I'm okay with any of
+> the three.
 
-I agree that "host" isn't going to work as a multi-host capable device
-might end up having only one "host" that can actually handle the
-configuration of the switch for the entire device. So then you have
-different types of "host" interfaces.
+Ok, so I would like to pick the prettiest "cgroup.pressure", it also looks more
+consistent with {cpu|memory|io}.pressure.
 
-> >> I think whatever term we settle on, this document might need to
-> >>  have a 'Definitions' section to make it clear :S
-> >
-> > Ack, to perhaps clarify my concern further, I've seen the term
-> > "management PF" refer to a PF which is not a netdev PF, it only
-> > performs management functions.
->
-> Yeah, I saw that interpretation as soon as you queried it.  I agree
->  we probably can't use "management PF".
+Thanks!
 
-One thing we may want to think about is looking more at "interfaces"
-rather than "devices" or "functions". Essentially a PF is a "Host
-Network Interface", a VF or sub-function would be a "Virtual Network
-Interface", and an external port would be an "External/Uplink
-Interface". Then we have a set of "interfaces" which would allow us to
-get away from confusing networking and PCI bus topology where we also
-have functions that are present on the device that may not expose
-networking interfaces and provide control only. In addition something
-like a VNI is more extensible so if we start getting into some other
-new virtualization option in the future we are not stuck having to go
-through and add yet more documentation to describe it all.
-
-> > So a perfect term would describe the privilege
-> > not the function (as the primary function of such PF should still
-> > networking).
->
-> I'm probably gonna get shot for suggesting this, but how about
->  "master PF"?
-
-Usually with "master" you are talking about something like a bus. It
-also occurs to me that the use of PF is assuming a single PCIe
-function dedicated to performing this role. With sub-functions
-floating around I could easily see a PF getting partitioned to
-dedicate queues to handling switchdev operations while still allowing
-other networking to pass over the original network interface. Then the
-question is which one is the PF and which one is the subfunction.
-
-I'd be more a fan of sticking with the "interface" naming and
-describing what the interface would be used for. The first thought
-that comes to mind is to just refer to the configuration interface as
-a "NIC" since that would be the "Network Interface Controller",
-however I could see how that could easily be confusing since that is
-the PCI description for the device. Maybe something like a "Controller
-Interface", "CI", would make sense since it seems like OVS uses
-"Controller" to describe the instance that programs the flows, so we
-could use similar terminology.
