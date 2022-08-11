@@ -2,334 +2,296 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 942C9C25B0C
-	for <linux-doc@archiver.kernel.org>; Thu, 11 Aug 2022 22:06:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C947DC25B0E
+	for <linux-doc@archiver.kernel.org>; Thu, 11 Aug 2022 22:55:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236379AbiHKWGJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 11 Aug 2022 18:06:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45998 "EHLO
+        id S229519AbiHKWz6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 11 Aug 2022 18:55:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56978 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236384AbiHKWGH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Aug 2022 18:06:07 -0400
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9BD326110;
-        Thu, 11 Aug 2022 15:06:04 -0700 (PDT)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 27BM0p6n003581;
-        Thu, 11 Aug 2022 22:05:54 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding : content-type; s=qcppdkim1;
- bh=k6Y1DW7nSaYoDaBPAG/5W8MlSEp7Am9DjSvPqKO/Qbo=;
- b=pEVomlPG8L+RjFK7nrTCFMTa5xelEtAP16zqOppm7HiwSURc1v6XUCf9vIGgYDktLVDp
- hxwAlAmKv10bdU5mix+mYfCwyPB6ZNbRsAHPI+8bTcL5WDP9UMf2FGzEhez962UZ4CqN
- TCxEb0El/7I4N8CPZXfrPeNknDNbuwg83gP4l/Q5Girwq6gWTdKKND2vMY8iOYb3mG8b
- mZtgX6PBHjFvV/jqKlJBJfX8L+mUa+BMxd2acl7tKXCGjmi5jBcekViBVeAds0l0vaiL
- 4rsNyMAzwhhgQ/wdyAStFL5UZxq/bjGpLscHdvloNPgX+6/msxxnGWI2/cdQPj+vCzp8 LQ== 
-Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3hvsaak2s7-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 11 Aug 2022 22:05:54 +0000
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-        by NASANPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 27BLg1w1011445
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 11 Aug 2022 21:42:01 GMT
-Received: from hu-eberman-lv.qualcomm.com (10.49.16.6) by
- nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Thu, 11 Aug 2022 14:42:00 -0700
-From:   Elliot Berman <quic_eberman@quicinc.com>
-To:     Bjorn Andersson <bjorn.andersson@linaro.org>
-CC:     Elliot Berman <quic_eberman@quicinc.com>,
-        Murali Nalajala <quic_mnalajal@quicinc.com>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        "Srivatsa Vaddagiri" <quic_svaddagi@quicinc.com>,
-        Carl van Schaik <quic_cvanscha@quicinc.com>,
-        Andy Gross <agross@kernel.org>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        "Mark Rutland" <mark.rutland@arm.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        "Marc Zyngier" <maz@kernel.org>, Rob Herring <robh+dt@kernel.org>,
-        "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Will Deacon <will@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        <devicetree@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>
-Subject: [PATCH v3 10/12] gunyah: rsc_mgr: Add RPC for console services
-Date:   Thu, 11 Aug 2022 14:41:05 -0700
-Message-ID: <20220811214107.1074343-11-quic_eberman@quicinc.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220811214107.1074343-1-quic_eberman@quicinc.com>
-References: <20220811214107.1074343-1-quic_eberman@quicinc.com>
+        with ESMTP id S231131AbiHKWz6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Aug 2022 18:55:58 -0400
+Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com [IPv6:2607:f8b0:4864:20::1029])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 447295C954
+        for <linux-doc@vger.kernel.org>; Thu, 11 Aug 2022 15:55:56 -0700 (PDT)
+Received: by mail-pj1-x1029.google.com with SMTP id h21-20020a17090aa89500b001f31a61b91dso6726070pjq.4
+        for <linux-doc@vger.kernel.org>; Thu, 11 Aug 2022 15:55:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc;
+        bh=PPCfKOqd9fDC1yG+vZyAdiqrSEfpKOxd2t3iixZr7Ls=;
+        b=s78Lu2VcQTHfvs4HonL6YNgmkaptCcWFlwKqOEzNeLzaW8efWdlKL2Dmlukf1+nBLB
+         TjV1g3Yxg+TCdRUI75vmAPZURX+SD/WSC9dPeoQwCtP4jA7FLhfUK3NZl8hqokAMsveP
+         DKEW96nwDdVg1PWcsnCYc6GZdeEt3DtbwotieP7OUqTY4g5Tn4n55zD33xvMK//2y91e
+         cfMqQ9atRjL0k7C6Ov+CUf3yBWvXikTP6mvVPiSmSTaXxHHcUqYJoRFGcoGeB++Z04uX
+         u7SxG9a375oMcleExKv/Gkl5d6beG0kmq2k1VvdYbzda0LpP9YPTO+lISVpvGnOFv9p0
+         jQKQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=PPCfKOqd9fDC1yG+vZyAdiqrSEfpKOxd2t3iixZr7Ls=;
+        b=zg7WYhIqACu1s5axzSe/jYIe2eETq+nrViT6ZwiV2O8m+On/psTNF3rPy9iuNpBLuP
+         4lsU3wJYlqhS3nxl1/lBmhdElJ/C45hHHHdzg4+3gOU1wMnKAS7Xp/Qx46jZn+yqf+Jb
+         RV4X7aVjEMBChy7KRI2022fvOzbM7U1/BDp4Li07opDnJ+ylie6cKqvJdeFy4ia79fzP
+         j1TpaaPeKcpMAOXRyQICrLc/T63GDyPzreCrkSOfeRyPSPULuWeuSDmrOCRWkhwSGvmm
+         hehriSLNcYaMEnYY9yq5TCnJonIbBobTx4wSoVTfQpz1SUCcPPCITxUwHdGiG7yZEsBW
+         FZiA==
+X-Gm-Message-State: ACgBeo3fxCiR/Y0swjFBrSc2PBr2IZHDHIt0RpB6afTHh6O9bMl9eilY
+        RvMYOmlPmfg0wFOe6/aNe1q0xdbYZbvZLUeghblVcA==
+X-Google-Smtp-Source: AA6agR48AwKso6gbHlt6bAk+3m4vu9dmqx22vT5YkDU+WfwhIED81kci3bcndDR180zkiApJvvKZ7SMSZzAw0xeO4eM=
+X-Received: by 2002:a17:902:70c7:b0:170:9030:2665 with SMTP id
+ l7-20020a17090270c700b0017090302665mr1289152plt.73.1660258555583; Thu, 11 Aug
+ 2022 15:55:55 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.49.16.6]
-X-ClientProxiedBy: nalasex01b.na.qualcomm.com (10.47.209.197) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: oi2f4XGWHrbIDN6MtcS-omvml8XHmobN
-X-Proofpoint-GUID: oi2f4XGWHrbIDN6MtcS-omvml8XHmobN
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-08-11_13,2022-08-11_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501 mlxscore=0
- malwarescore=0 spamscore=0 bulkscore=0 mlxlogscore=807 adultscore=0
- phishscore=0 lowpriorityscore=0 suspectscore=0 impostorscore=0
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2207270000 definitions=main-2208110066
+References: <20220811022304.583300-1-kuba@kernel.org> <20220811022304.583300-5-kuba@kernel.org>
+ <YvUru3QvN/LuYgnq@google.com> <20220811123515.4ef1a715@kernel.org>
+In-Reply-To: <20220811123515.4ef1a715@kernel.org>
+From:   Stanislav Fomichev <sdf@google.com>
+Date:   Thu, 11 Aug 2022 15:55:44 -0700
+Message-ID: <CAKH8qBs54kX_MjA2xHM1sSa_zvNYDEPhiZcwEVWV4kP1dEPcEw@mail.gmail.com>
+Subject: Re: [RFC net-next 4/4] ynl: add a sample user for ethtool
+To:     Jakub Kicinski <kuba@kernel.org>
+Cc:     netdev@vger.kernel.org, davem@davemloft.net, edumazet@google.com,
+        pabeni@redhat.com, jacob.e.keller@intel.com, vadfed@fb.com,
+        johannes@sipsolutions.net, jiri@resnulli.us, dsahern@kernel.org,
+        stephen@networkplumber.org, fw@strlen.de, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Gunyah resource manager defines a simple API for virtual machine log
-sharing with the console service. A VM's own log can be opened by using
-GH_VMID_SELF. Another VM's log can be accessed via its VMID. Once
-opened, characters can be written to the log with a write command.
-Characters are received with resource manager notifications (using ID
-GH_RM_NOTIF_VM_CONSOLE_CHARS).
+On Thu, Aug 11, 2022 at 12:35 PM Jakub Kicinski <kuba@kernel.org> wrote:
+>
+> On Thu, 11 Aug 2022 09:18:03 -0700 sdf@google.com wrote:
+> > > +attr-cnt-suffix: CNT
+> >
+> > Is it a hack to make the generated header fit into existing
+> > implementation?
+>
+> Yup.
+>
+> > Should we #define ETHTOOL_XXX_CNT ETHTOOL_XXX in
+> > the implementation instead? (or s/ETHTOOL_XXX_CNT/ETHTOOL_XXX/ the
+> > source itself?)
+>
+> We could, I guess. To be clear this controls the count, IOW:
+>
+> enum {
+>         PREFIX_A_BLA_ATTR = 1,
+>         PREFIX_A_ANOTHER_ATTR,
+>         PREFIX_A_AND_ONEMORE,
+>         __PFREIX_A_CNT, // <--- This thing
+> };
+> #define PREFIX_A_MAX (__PFREIX_A_CNT - 1)
+>
+> It's not used in the generated code, only if we codegen the uAPI,
+> AFAIR. So we'd need a way to tell the generator of the uAPI about
+> the situation, anyway. I could be misremembering.
 
-These high level rpc calls are kept in
-drivers/virt/gunyah/rsc_mgr_rpc.c. Future RPC calls, e.g. to launch a VM
-will also be maintained in this file.
+My worry is that we'll have more hacks like these and it's hard, as a
+spec reader/writer, to figure out that they exist..
+So I was wondering if it's "easier" (from the spec reader/writer pov)
+to have some c-header-fixup: section where we can have plain
+c-preprocessor hacks like these (where we need to redefine something
+to match the old behavior).
 
-Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
----
- drivers/virt/gunyah/Makefile      |   2 +-
- drivers/virt/gunyah/rsc_mgr.h     |  22 +++++
- drivers/virt/gunyah/rsc_mgr_rpc.c | 151 ++++++++++++++++++++++++++++++
- include/linux/gunyah_rsc_mgr.h    |  16 ++++
- 4 files changed, 190 insertions(+), 1 deletion(-)
- create mode 100644 drivers/virt/gunyah/rsc_mgr_rpc.c
+> > > +attribute-spaces:
+> >
+> > Are you open to bike shedding? :-)
+>
+> I can't make promises that I'll change things but I'm curious
+> to hear it!
+>
+> > I like how ethtool_netlink.h calls these 'message types'.
+>
+> It calls operation types message types, not attr spaces.
+> I used ops because that's what genetlink calls things.
 
-diff --git a/drivers/virt/gunyah/Makefile b/drivers/virt/gunyah/Makefile
-index c97ad382f640..7eae745cea08 100644
---- a/drivers/virt/gunyah/Makefile
-+++ b/drivers/virt/gunyah/Makefile
-@@ -1,3 +1,3 @@
- gunyah-y += sysfs.o msgq.o
--gunyah_rsc_mgr-y += rsc_mgr.o
-+gunyah_rsc_mgr-y += rsc_mgr.o rsc_mgr_rpc.o
- obj-$(CONFIG_GUNYAH) += gunyah.o gunyah_rsc_mgr.o
-diff --git a/drivers/virt/gunyah/rsc_mgr.h b/drivers/virt/gunyah/rsc_mgr.h
-index e4f2499267bf..deb884979209 100644
---- a/drivers/virt/gunyah/rsc_mgr.h
-+++ b/drivers/virt/gunyah/rsc_mgr.h
-@@ -28,6 +28,28 @@
- #define GH_RM_ERROR_IRQ_INUSE		0x10
- #define GH_RM_ERROR_IRQ_RELEASED	0x11
- 
-+/* Message IDs: VM Management */
-+#define GH_RM_RPC_VM_GET_VMID			0x56000024
-+
-+/* Message IDs: VM Services */
-+#define GH_RM_RPC_VM_CONSOLE_OPEN_ID		0x56000081
-+#define GH_RM_RPC_VM_CONSOLE_CLOSE_ID		0x56000082
-+#define GH_RM_RPC_VM_CONSOLE_WRITE_ID		0x56000083
-+#define GH_RM_RPC_VM_CONSOLE_FLUSH_ID		0x56000084
-+
-+/* Call: CONSOLE_OPEN, CONSOLE_CLOSE, CONSOLE_FLUSH */
-+struct gh_vm_console_common_req {
-+	u16 vmid;
-+	u16 reserved0;
-+} __packed;
-+
-+/* Call: CONSOLE_WRITE */
-+struct gh_vm_console_write_req {
-+	u16 vmid;
-+	u16 num_bytes;
-+	u8 data[0];
-+} __packed;
-+
- int gh_rm_call(u32 message_id, void *req_buff, size_t req_buff_size,
- 		void **resp_buf, size_t *resp_buff_size);
- 
-diff --git a/drivers/virt/gunyah/rsc_mgr_rpc.c b/drivers/virt/gunyah/rsc_mgr_rpc.c
-new file mode 100644
-index 000000000000..042a9d95c70a
---- /dev/null
-+++ b/drivers/virt/gunyah/rsc_mgr_rpc.c
-@@ -0,0 +1,151 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
-+ */
-+
-+#define pr_fmt(fmt) "gh_rsc_mgr: " fmt
-+
-+#include <linux/slab.h>
-+#include <linux/types.h>
-+#include <linux/printk.h>
-+#include <linux/gunyah_rsc_mgr.h>
-+
-+#include "rsc_mgr.h"
-+
-+/**
-+ * gh_rm_get_vmid: Retrieve VMID of this virtual machine
-+ * @vmid: Filled with the VMID of this VM
-+ */
-+int gh_rm_get_vmid(u16 *vmid)
-+{
-+	void *resp;
-+	size_t resp_size;
-+	int ret;
-+	int payload = 0;
-+
-+	ret = gh_rm_call(GH_RM_RPC_VM_GET_VMID, &payload, sizeof(payload), &resp, &resp_size);
-+	if (ret)
-+		return ret;
-+
-+	if (resp_size != sizeof(*vmid))
-+		return -EIO;
-+	*vmid = *(u16 *)resp;
-+	kfree(resp);
-+
-+	return ret;
-+}
-+
-+/**
-+ * gh_rm_console_open: Open a console with a VM
-+ * @vmid: VMID of the other vmid whose console to open. If VMID is GH_VMID_SELF, the
-+ *        console associated with this VM is opened.
-+ */
-+int gh_rm_console_open(u16 vmid)
-+{
-+	void *resp;
-+	struct gh_vm_console_common_req req_payload = {0};
-+	size_t resp_size;
-+	int ret;
-+
-+	req_payload.vmid = vmid;
-+
-+	ret = gh_rm_call(GH_RM_RPC_VM_CONSOLE_OPEN_ID,
-+			  &req_payload, sizeof(req_payload),
-+			  &resp, &resp_size);
-+	kfree(resp);
-+
-+	if (!ret && resp_size)
-+		pr_warn("Received unexpected payload for CONSOLE_OPEN: %lu\n", resp_size);
-+
-+	return ret;
-+}
-+EXPORT_SYMBOL_GPL(gh_rm_console_open);
-+
-+/**
-+ * gh_rm_console_close: Close a console with a VM
-+ * @vmid: The vmid of the vm whose console to close.
-+ */
-+int gh_rm_console_close(u16 vmid)
-+{
-+	void *resp;
-+	struct gh_vm_console_common_req req_payload = {0};
-+	size_t resp_size;
-+	int ret;
-+
-+	req_payload.vmid = vmid;
-+
-+	ret = gh_rm_call(GH_RM_RPC_VM_CONSOLE_CLOSE_ID,
-+			  &req_payload, sizeof(req_payload),
-+			  &resp, &resp_size);
-+	kfree(resp);
-+
-+	if (!ret && resp_size)
-+		pr_warn("Received unexpected payload for CONSOLE_CLOSE: %lu\n", resp_size);
-+
-+	return ret;
-+}
-+EXPORT_SYMBOL_GPL(gh_rm_console_close);
-+
-+/**
-+ * gh_rm_console_write: Write to a VM's console
-+ * @vmid: The vmid of the vm whose console to write to.
-+ * @buf: Buffer to write to the VM's console
-+ * @size: Size of the buffer
-+ */
-+int gh_rm_console_write(u16 vmid, const char *buf, size_t size)
-+{
-+	void *resp;
-+	struct gh_vm_console_write_req *req_payload;
-+	size_t resp_size;
-+	int ret = 0;
-+	size_t req_payload_size = sizeof(*req_payload) + size;
-+
-+	if (size < 1 || size > (U32_MAX - sizeof(*req_payload)))
-+		return -EINVAL;
-+
-+	req_payload = kzalloc(req_payload_size, GFP_KERNEL);
-+
-+	if (!req_payload)
-+		return -ENOMEM;
-+
-+	req_payload->vmid = vmid;
-+	req_payload->num_bytes = size;
-+	memcpy(req_payload->data, buf, size);
-+
-+	ret = gh_rm_call(GH_RM_RPC_VM_CONSOLE_WRITE_ID,
-+		   req_payload, req_payload_size,
-+		   &resp, &resp_size);
-+	kfree(req_payload);
-+	kfree(resp);
-+
-+	if (!ret && resp_size)
-+		pr_warn("Received unexpected payload for CONSOLE_WRITE: %lu\n", resp_size);
-+
-+	return ret;
-+}
-+EXPORT_SYMBOL_GPL(gh_rm_console_write);
-+
-+/**
-+ * gh_rm_console_flush: Flush a console with a VM
-+ * @vmid: The vmid of the vm whose console to flush
-+ */
-+int gh_rm_console_flush(u16 vmid)
-+{
-+	void *resp;
-+	struct gh_vm_console_common_req req_payload = {0};
-+	size_t resp_size;
-+	int ret;
-+
-+	req_payload.vmid = vmid;
-+
-+	ret = gh_rm_call(GH_RM_RPC_VM_CONSOLE_FLUSH_ID,
-+			  &req_payload, sizeof(req_payload),
-+			  &resp, &resp_size);
-+	kfree(resp);
-+
-+	if (!ret && resp_size)
-+		pr_warn("Received unexpected payload for CONSOLE_FLUSH: %lu\n", resp_size);
-+
-+	return ret;
-+}
-+EXPORT_SYMBOL_GPL(gh_rm_console_flush);
-diff --git a/include/linux/gunyah_rsc_mgr.h b/include/linux/gunyah_rsc_mgr.h
-index b3b37225b7fb..f831ca921c26 100644
---- a/include/linux/gunyah_rsc_mgr.h
-+++ b/include/linux/gunyah_rsc_mgr.h
-@@ -23,4 +23,20 @@ struct gh_rm_notification {
- int gh_rm_register_notifier(struct notifier_block *nb);
- int gh_rm_unregister_notifier(struct notifier_block *nb);
- 
-+/* Notification type Message IDs */
-+#define GH_RM_NOTIF_VM_CONSOLE_CHARS	0x56100080
-+
-+struct gh_rm_notif_vm_console_chars {
-+	u16 vmid;
-+	u16 num_bytes;
-+	u8 bytes[0];
-+} __packed;
-+
-+/* RPC Calls */
-+int gh_rm_get_vmid(u16 *vmid);
-+int gh_rm_console_open(u16 vmid);
-+int gh_rm_console_close(u16 vmid);
-+int gh_rm_console_write(u16 vmid, const char *buf, size_t size);
-+int gh_rm_console_flush(u16 vmid);
-+
- #endif
--- 
-2.25.1
+Coming from stubby/grpc, I was expecting to see words like
+message/field/struct. The question is what's more confusing: sticking
+with netlink naming or trying to map grpc/thrift concepts on top of
+what we have. (I'm assuming more people know about grpc/thrift than
+netlink)
 
+messages: # or maybe 'attribute-sets' ?
+  - name: channels
+    ...
+
+operations:
+  - name: channel_get
+    message: channels
+    do:
+      request:
+        fields:
+        - header
+        - rx_max
+
+Or maybe all we really need is a section in the doc called 'Netlink
+for gRPC/Thrift users' where we map these concepts:
+- attribute-spaces (attribute-sets?) -> messages
+- attributes -> fields
+
+> > > +  -
+> > > +    name: header
+> > > +    name-prefix: ETHTOOL_A_HEADER_
+> >
+> > Any issue with name-prefix+name-suffix being non-greppable? Have you tried
+> > something like this instead:
+> >
+> > - name: ETHTOOL_A_HEADER # this is fake, for ynl reference only
+> >    attributes:
+> >      - name: ETHTOOL_A_HEADER_DEV_INDEX
+> >        val:
+> >        type:
+> >      - name ETHTOOL_A_HEADER_DEV_NAME
+> >        ..
+> >
+> > It seems a bit easier to map the spec into what it's going to produce.
+> > For example, it took me a while to translate 'channels_get' below into
+> > ETHTOOL_MSG_CHANNELS_GET.
+> >
+> > Or is it too much ETHTOOL_A_HEADER_?
+>
+> Dunno, that'd mean that the Python method is called
+> ETHTOOL_MSG_CHANNELS_GET rather than just channels_get.
+> I don't want to force all languages to use the C naming.
+> The C naming just leads to silly copy'n'paste issues like
+> f329a0ebeab.
+
+Can we have 'name:' and 'long-name:' or 'c-name:' or 'full-name' ?
+
+- name: header
+   attributes:
+    - name: dev_index
+      full-name: ETHTOOL_A_HEADER_DEV_INDEX
+      val:
+      type:
+
+Suppose I'm rewriting my c application from uapi to some generated (in
+the future) python-like channels_get() method. If I can grep for
+ETHTOOL_MSG_CHANNELS_GET, that would save me a bunch of time figuring
+out what the new canonical wrapper is.
+
+Also, maybe, at some point we'll have:
+- name: dev_index
+  c-name: ETHTOOL_A_HEADER_DEV_INDEX
+  java-name: headerDevIndex
+
+:-D
+
+> > > +        len: ALTIFNAMSIZ - 1
+> >
+> > Not sure how strict you want to be here. ALTIFNAMSIZ is defined
+> > somewhere else it seems? (IOW, do we want to have implicit dependencies
+> > on external/uapi headers?)
+>
+> Good catch, I'm aware. I was planning to add a "header constants"
+> section or some such. A section in "headers" which defines the
+> constants which C code will get from the headers.
+
+Define as in 're-define' or define as in 'you need to include some
+other header for this to work'?
+
+const:
+  - name: ALTIFNAMSIZ
+    val: 128
+
+which then does
+
+#ifndef
+#define ALTIFNAMSIZ 128
+#else
+static_assert(ALTIFNAMSIZ == 128)
+#endif
+
+?
+
+or:
+
+external-const:
+  - name: ALTIFNAMSIZ
+    header: include/uapi/linux/if.h
+
+which then might generate the following:
+
+#include <include/uapi/linux/if.h>
+#ifndef ALTIFNAMSIZ
+#error "include/uapi/linux/if.h does not define ALTIFNAMSIZ"
+#endif
+
+?
+
+> For Python it does not matter, as we don't have to size arrays.
+
+Hm, I was expecting the situation to be the opposite :-) Because if
+you really have to know this len in python, how do you resolve
+ALTIFNAMSIZ?
+
+The simplest thing to do might be to require these headers to be
+hermetic (i.e., redefine all consts the spec cares about internally)?
+
+> I was wondering if it will matter for other languages, like Rust?
+>
+> > > +            - header
+> > > +            - rx_count
+> > > +            - tx_count
+> > > +            - other_count
+> > > +            - combined_count
+> >
+> > My netlink is super rusty, might be worth mentioning in the spec: these
+> > are possible attributes, but are all of them required?
+>
+> Right, will do, nothing is required, or rather requirements are kinda
+> hard to express and checked by the code in the kernel.
+>
+> > You also mention the validation part in the cover letter, do you plan
+> > add some of these policy properties to the spec or everything is
+> > there already? (I'm assuming we care about the types which we have above and
+> > optional/required attribute indication?)
+>
+> Yeah, my initial plan was to encode requirement in the policy but its
+> not trivial. So I left it as future extension. Besides things which are
+> required today may not be tomorrow, so its a bit of a strange thing.
+
+That's the hardest part, but it should improve the observability, so
+I'm looking forward :-)
+As you say, it is probably hard to declaratively define these
+requirements at this point for everything, but maybe some parts
+(majority?) are doable.
+
+> Regarding policy properties I'm intending to support all of the stuff
+> that the kernel policies recognize... but somehow most families I
+> converted don't have validation (only mask and length :S).
+>
+> Actually for DPLL I have a nice validation trick. You can define an
+> enum:
+>
+> constants:
+>   -
+>     type: flags
+>     name: genl_get_flags
+>     value-prefix: DPLL_FLAG_
+>     values: [ sources, outputs, status ]
+>
+> Then for an attribute you link it:
+>
+>       -
+>         name: flags
+>         type: u32
+>         flags-mask: genl_get_flags
+>
+> And that will auto an enum:
+>
+> enum dpll_genl_get_flags {
+>         DPLL_FLAG_SOURCES = 1,
+>         DPLL_FLAG_OUTPUTS = 2,
+>         DPLL_FLAG_STATUS = 4,
+> };
+>
+> And a policy with a mask:
+>
+>         [DPLLA_FLAGS] = NLA_POLICY_MASK(NLA_U32, 0x7),
+
+Yeah, that looks nice!
