@@ -2,71 +2,125 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DE7F3C19F2D
-	for <linux-doc@archiver.kernel.org>; Thu, 11 Aug 2022 04:47:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E36BC19F2D
+	for <linux-doc@archiver.kernel.org>; Thu, 11 Aug 2022 05:48:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229617AbiHKErH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 11 Aug 2022 00:47:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45954 "EHLO
+        id S234022AbiHKFsy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 11 Aug 2022 01:48:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35024 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229451AbiHKErG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Aug 2022 00:47:06 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AADB7642E1;
-        Wed, 10 Aug 2022 21:47:04 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 457D461373;
-        Thu, 11 Aug 2022 04:47:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A0BCC433C1;
-        Thu, 11 Aug 2022 04:47:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1660193223;
-        bh=DSzuevtxKxqevQzQwke3yCbJLWjrmeSiKTzQrcxQiXM=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=NtWGl83iD01vJOwDj+a9F3IQ3ZXIqT79GL4hHZlBPeI6ACKBrdMs9EFQmIkYgrlV0
-         a5YXXlthFQZjCLAqfteynFUdmMHe8ESdIcDC7FmZAf882iJW5/MgS7C613AAlhOgDz
-         NAnvjrufqrN70a0h4milFE/T+KMiDEydelURLiGwq4lu7mDqwl+0+Ioqn8voTJ94BO
-         lY7xGDwIs8+04KO/7UYz/Bw5ylPRGnC6dGBtvaomLtOWlp66jztV8e0K/MXS9VvFBQ
-         QQZHSNadMKGJbhlBL1KeUzFB/cUnS1PM4djOaVa+nL6apeJ5xpgwDfQ+G057hPszwO
-         B+6YUYVpxTB5w==
-Date:   Wed, 10 Aug 2022 21:47:01 -0700
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     Stephen Hemminger <stephen@networkplumber.org>
+        with ESMTP id S229786AbiHKFsx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Aug 2022 01:48:53 -0400
+Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4579D8A6E7;
+        Wed, 10 Aug 2022 22:48:52 -0700 (PDT)
+Received: by mail-pl1-x62b.google.com with SMTP id g13so9185385plo.6;
+        Wed, 10 Aug 2022 22:48:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc;
+        bh=lGZpvi+V7uVfiXAxehiccE20rUObN6czoIhv/ReYg+U=;
+        b=cxCpIhzVHdr2SxQ5Z9+a19Ap2LKLfRXqLW+jpl6Zzv2QSa/KvH5GzYFrxQgQsznvPH
+         eDtlHLVDldGYHShCjHOIv3cFtzRmuKh8xQfz2vlAv8zO73R6BmH4ayfMR/BDHYWnSfUL
+         ECjGiEfxSSaVBBahJi1xfzXCguFtjD5O8fkSDbHwmB0IoyPKu9JZdXGGrFYhmmeqBIBi
+         Mz9Tfsvycgd7HOJq/BC2wVfgQuIn/owseei6AMtWSjRPRlNa4SnJACpK3ZdLfla03o7g
+         77qIJ49XvAC4A0ZUK8Nyg9QZtYOxDzPSiqsBGp6wJD9t43vTd0sGogWrIcS/JfrEbSq3
+         aWtA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
+        bh=lGZpvi+V7uVfiXAxehiccE20rUObN6czoIhv/ReYg+U=;
+        b=sWAyXeODx2ff8Gqbo3VmG1988nyif5ZbeIni4PiTkzFOJSg6Odq2JqA+ZnwBFmzDnX
+         Cjk6LyofW0eAOb4JX7SIY0DHi4dVh29bBCNU64/C1RsMm5st8IuLN/9/E1cXzqAsKFe7
+         WqWVYkqha0RJHsCcfIAbtVGzJqh9iY4KiCPFZG7FGwePifXIs1cG4dyWmarnbCwNoqem
+         B3c19cHf0HXa/Ln7BnJ5e2NRv4ZYv2yesG1ZVLeK96qMXKM+obHyG5lFAtUoQocviNOc
+         egyhC8tLbNOI9nlQ8nqV9Yd4YE22GFEUZUvyfur1AMD10WBvom7jYUQwrP+VUwR1EpUN
+         b/gw==
+X-Gm-Message-State: ACgBeo3Snvl2zqY1Cq9OmWCIFqo60ja0oLWBKwPhOMjT7rYLF2jhw0k1
+        3NIE5rQI57m6VS4QCYyVCBc=
+X-Google-Smtp-Source: AA6agR5LDoz9JH2qypquzw3PHjLTDc1B37XledaOyuiVcPkrjWMFZTMjcdxyllkx4izE83hB3aynaQ==
+X-Received: by 2002:a17:903:120c:b0:170:aa42:dbba with SMTP id l12-20020a170903120c00b00170aa42dbbamr17174003plh.67.1660196931654;
+        Wed, 10 Aug 2022 22:48:51 -0700 (PDT)
+Received: from localhost ([2405:6580:97e0:3100:ae94:2ee7:59a:4846])
+        by smtp.gmail.com with ESMTPSA id q14-20020a170902a3ce00b0016c0b0fe1c6sm13910483plb.73.2022.08.10.22.48.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 10 Aug 2022 22:48:51 -0700 (PDT)
+Date:   Thu, 11 Aug 2022 14:48:49 +0900
+From:   Benjamin Poirier <benjamin.poirier@gmail.com>
+To:     Jakub Kicinski <kuba@kernel.org>
 Cc:     netdev@vger.kernel.org, davem@davemloft.net, edumazet@google.com,
         pabeni@redhat.com, sdf@google.com, jacob.e.keller@intel.com,
         vadfed@fb.com, johannes@sipsolutions.net, jiri@resnulli.us,
-        dsahern@kernel.org, fw@strlen.de, linux-doc@vger.kernel.org
-Subject: Re: [RFC net-next 0/4] ynl: YAML netlink protocol descriptions
-Message-ID: <20220810214701.46565016@kernel.org>
-In-Reply-To: <20220810211534.0e529a06@hermes.local>
+        dsahern@kernel.org, stephen@networkplumber.org, fw@strlen.de,
+        linux-doc@vger.kernel.org
+Subject: Re: [RFC net-next 3/4] ynl: add a sample python library
+Message-ID: <YvSYQe58MwWh4x+q@d3>
 References: <20220811022304.583300-1-kuba@kernel.org>
-        <20220810211534.0e529a06@hermes.local>
+ <20220811022304.583300-4-kuba@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220811022304.583300-4-kuba@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 10 Aug 2022 21:15:34 -0700 Stephen Hemminger wrote:
-> Would rather this be part of iproute2 rather than requiring it
-> to be maintained separately and part of the kernel tree.
+On 2022-08-10 19:23 -0700, Jakub Kicinski wrote:
+> A very short and very incomplete generic python library.
+> 
+> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+> ---
+>  tools/net/ynl/samples/ynl.py | 342 +++++++++++++++++++++++++++++++++++
+>  1 file changed, 342 insertions(+)
+>  create mode 100644 tools/net/ynl/samples/ynl.py
+> 
+> diff --git a/tools/net/ynl/samples/ynl.py b/tools/net/ynl/samples/ynl.py
+> new file mode 100644
+> index 000000000000..59c178e063f1
+> --- /dev/null
+> +++ b/tools/net/ynl/samples/ynl.py
+> @@ -0,0 +1,342 @@
+[...]
+> +class YnlFamily:
+> +    def __init__(self, def_path, schema=None):
+> +        with open(def_path, "r") as stream:
+> +            self.yaml = yaml.safe_load(stream)
+> +
+> +        if schema:
+> +            with open(os.path.dirname(os.path.dirname(file_name)) + '/schema.yaml', "r") as stream:
+> +                schema = yaml.safe_load(stream)
+> +
+> +            jsonschema.validate(self.yaml, schema)
+> +
 
-I don't understand what you're trying to say. What is "this", 
-what is "separate" from what?
+The schema validation part was not working. I got it going with the
+following changes. It then flags some problems in ethtool.yaml.
 
-Did I fall victim of the "if the cover letter is too long nobody
-actually reads it" problem? Or am I simply too tired to parse?
-
-iproute2 is welcome to use the protocol descriptions like any other
-user space, but I'm intending to codegen kernel code based on the YAML:
-
->> On the kernel side the YAML spec can be used to generate:
->>  - the C uAPI header
->>  - documentation of the protocol as a ReST file
->>  - policy tables for input attribute validation
->>  - operation tables
-
-So how can it not be in the kernel tree?
+diff --git a/tools/net/ynl/samples/ethtool.py b/tools/net/ynl/samples/ethtool.py
+index 63c8e29f8e5d..4c5a4629748d 100755
+--- a/tools/net/ynl/samples/ethtool.py
++++ b/tools/net/ynl/samples/ethtool.py
+@@ -14,7 +14,7 @@ def main():
+     parser.add_argument('--ifindex', dest='ifindex', type=str)
+     args = parser.parse_args()
+ 
+-    ynl = YnlFamily(args.spec)
++    ynl = YnlFamily(args.spec, args.schema)
+ 
+     if args.dev_name:
+         channels = ynl.channels_get({'header': {'dev_name': args.dev_name}})
+diff --git a/tools/net/ynl/samples/ynl.py b/tools/net/ynl/samples/ynl.py
+index 59c178e063f1..35c894b0ec19 100644
+--- a/tools/net/ynl/samples/ynl.py
++++ b/tools/net/ynl/samples/ynl.py
+@@ -247,7 +247,7 @@ class YnlFamily:
+             self.yaml = yaml.safe_load(stream)
+ 
+         if schema:
+-            with open(os.path.dirname(os.path.dirname(file_name)) + '/schema.yaml', "r") as stream:
++            with open(schema, "r") as stream:
+                 schema = yaml.safe_load(stream)
+ 
+             jsonschema.validate(self.yaml, schema)
