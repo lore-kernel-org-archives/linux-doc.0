@@ -2,119 +2,108 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 77044C19F2A
-	for <linux-doc@archiver.kernel.org>; Thu, 11 Aug 2022 16:56:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B4E89C19F2A
+	for <linux-doc@archiver.kernel.org>; Thu, 11 Aug 2022 17:01:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236604AbiHKQ4p (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 11 Aug 2022 12:56:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52096 "EHLO
+        id S236664AbiHKRBO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 11 Aug 2022 13:01:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55034 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236348AbiHKQ4X (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Aug 2022 12:56:23 -0400
-Received: from mail-pl1-x64a.google.com (mail-pl1-x64a.google.com [IPv6:2607:f8b0:4864:20::64a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE2D1D5733
-        for <linux-doc@vger.kernel.org>; Thu, 11 Aug 2022 09:28:48 -0700 (PDT)
-Received: by mail-pl1-x64a.google.com with SMTP id b8-20020a170903228800b0016f2420ddedso11628237plh.19
-        for <linux-doc@vger.kernel.org>; Thu, 11 Aug 2022 09:28:48 -0700 (PDT)
+        with ESMTP id S239128AbiHKRA7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Aug 2022 13:00:59 -0400
+Received: from mail-oi1-x230.google.com (mail-oi1-x230.google.com [IPv6:2607:f8b0:4864:20::230])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 674FEDEA4F;
+        Thu, 11 Aug 2022 09:33:06 -0700 (PDT)
+Received: by mail-oi1-x230.google.com with SMTP id j5so16257723oih.6;
+        Thu, 11 Aug 2022 09:33:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:from:subject:references:mime-version:message-id:in-reply-to
-         :date:from:to:cc;
-        bh=zIlQYs4X5YHGNKL+XhHl/u0V1nxNXtN2feUtkOQ/Ko8=;
-        b=prNepyqrICI4EnOwKQ5P43sqTO7CufZhCdjSKSEXRFpX3nQyyG4oMwx+ojmdWz7TYN
-         Z68hO1EZSsLJ3purk5FyiXvfCNjr3pymn9jd9/ppQSDUbpkUF5Rzrt++XErJISvF48x1
-         0Yxmjxer9fXoww4iEZLIFgj2rMCwq8Gtiu2LHMPrDocOrDZLu3mtm/QzHwl1SLU5Odly
-         VKpYJ5AHeVrRrlORphLSEQerCviZHcUqR9mbhqPLdpSxxB4SFeExQDRzvXwO7985gsjF
-         RywSsXjLNQBzDVV4FqjQ4CuLv0WdXm1BDR5kbAolbBzjtyrGpy9zB7FXMzTpc31X5KOT
-         uOXQ==
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc;
+        bh=X4v1+9M+lzJNhjmu0VSf3gTMP0So1BV3q3LJQbuMFXw=;
+        b=RPAc0fEzeU+2pzE6N5pkSQY0cZtsVivrHMqBPS8FyZ6sWRakSb9Z2PTJ6YttJcQfXt
+         HzHIQR/n4Ng8b6SAXHJVD3XAU3ewK4VJIWLmQV9tjHaodwgHOxbWA3wUn5rS4JMru7ml
+         F0s4i+8gLdNILQ8K749Eqc4I4b+vG0CZnX25zDHl5XKU82YCVJgzXCYynDesqHbLY6/x
+         RqIrMop6HieggT5l0c0lOXVbn2nH+Y5bzcghBdSYYC9so0CxbWMy0BEUOizRtFED1mCH
+         2m0D6Z+qRTqNNj3qgpsDChlHVEEdRFoa+8MuTeYf/zpKE8IL2hfUDbq/KlsJxPWW2b7q
+         fmEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:from:subject:references:mime-version:message-id:in-reply-to
-         :date:x-gm-message-state:from:to:cc;
-        bh=zIlQYs4X5YHGNKL+XhHl/u0V1nxNXtN2feUtkOQ/Ko8=;
-        b=eyP/IJEqCojBNbQQMRJ2us4B2iVgpe8B7K+NBoA9GFrW0VprH+sVrsZiZp6DfexLqO
-         Z3HmUD1pQfg/rXgpLTFOkjyNo6xxRtHxjjm7/zt4sChdbBAiTED6RbG+UPZxrNZkimoV
-         y3VlCzWLs4TY+8VIcf4S9ZJGx3pNhZbDBrl/f00On+GfUNu//WOP0cMCp9XMUP2CSEn/
-         sYGYOZ2RcX9xDl1lDjA3qHgzTnLu6h33t402fo+Y45Oar7JKgTeGoZfhdUMx0d6oEN4G
-         /zRQCGmZBIviFUOxdTZyYI0Xpa9C9487f+DtQJmAQYR1YBi4ISvRLALF08xeuwQJk3Jy
-         XV9A==
-X-Gm-Message-State: ACgBeo18sly58bQef8BW2Xlqgog0DNmQC9I6mI6lFwnYRdlSQpZrkx2x
-        4YlLyeLRh97ID6AUYa0kAxJ455E=
-X-Google-Smtp-Source: AA6agR4zGOojT8rPILE2tfNT1WRmNQ0G09I29OEmQaLvnEOKzUETzGlNcyCib2z8w/fdm2jVMWwPTsU=
-X-Received: from sdf.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5935])
- (user=sdf job=sendgmr) by 2002:a17:902:a502:b0:151:8289:b19 with SMTP id
- s2-20020a170902a50200b0015182890b19mr32600969plq.149.1660235326722; Thu, 11
- Aug 2022 09:28:46 -0700 (PDT)
-Date:   Thu, 11 Aug 2022 09:28:45 -0700
-In-Reply-To: <20220811083435.1b271c7f@kernel.org>
-Message-Id: <YvUuPU8dMSvv2tdJ@google.com>
-Mime-Version: 1.0
-References: <20220811022304.583300-1-kuba@kernel.org> <20220810211534.0e529a06@hermes.local>
- <20220810214701.46565016@kernel.org> <20220811080152.2dbd82c2@hermes.local> <20220811083435.1b271c7f@kernel.org>
-Subject: Re: [RFC net-next 0/4] ynl: YAML netlink protocol descriptions
-From:   sdf@google.com
-To:     Jakub Kicinski <kuba@kernel.org>
-Cc:     Stephen Hemminger <stephen@networkplumber.org>,
-        netdev@vger.kernel.org, davem@davemloft.net, edumazet@google.com,
-        pabeni@redhat.com, jacob.e.keller@intel.com, vadfed@fb.com,
-        johannes@sipsolutions.net, jiri@resnulli.us, dsahern@kernel.org,
-        fw@strlen.de, linux-doc@vger.kernel.org,
-        Michal Kubecek <mkubecek@suse.cz>
-Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=X4v1+9M+lzJNhjmu0VSf3gTMP0So1BV3q3LJQbuMFXw=;
+        b=y6CtKwkfrlsRVrzvl54ezccGktd88bhrRWgwkyxaXPlg7Y9vwig7Pw0BR+/T+ZIXw8
+         fsn452i14F9QaHthQ++uoRcCbflo9HnHkH5c/5UBC//dqst0rPHnWxhKo9+UKGK1QwLS
+         myWgPT0AMw6Z0ZP/wWBL/ARNYfd1adgPFEFzmL825EYrUyb0Eu97ZhmAWGZT1ikB5KX4
+         1vz+k8DFPk1ZTWERuGBu0YhQkOEJ1Hcnt/wmRI2u7NqSh32zOKQLS/eUfFG/2dwCrXZf
+         5+TO4ZVlDXSviJY/+XZgJNZJJoPYpUgFoIyDNmp/9iKb/aXodbtW2doUVP6duxBAI+SW
+         1e3A==
+X-Gm-Message-State: ACgBeo2uKtD9zJ4WfpTErJuzoYPJQRtqFzNVHQiC9clevFOT1ODremoQ
+        xptCT9BpfuJM4al+sqysIhugMf+PFVn19u96zSI=
+X-Google-Smtp-Source: AA6agR7nn2jBlh9kqBmNI654QihqMenEiy9qbh+AfpMKzePccSF8dP9jSQFso5k4gHo9wp0B7T+QhL4SEn7/RTZtXvA=
+X-Received: by 2002:a05:6808:ecb:b0:33a:3b54:37f9 with SMTP id
+ q11-20020a0568080ecb00b0033a3b5437f9mr15131oiv.33.1660235583346; Thu, 11 Aug
+ 2022 09:33:03 -0700 (PDT)
+MIME-Version: 1.0
+References: <cover.1657360984.git.mchehab@kernel.org> <879d916ad72029ea9611f78de1181df01dee5ca3.1657360984.git.mchehab@kernel.org>
+In-Reply-To: <879d916ad72029ea9611f78de1181df01dee5ca3.1657360984.git.mchehab@kernel.org>
+From:   Alex Deucher <alexdeucher@gmail.com>
+Date:   Thu, 11 Aug 2022 12:32:51 -0400
+Message-ID: <CADnq5_OuMzr6R3aZQue7rQRjXh9VX_4WayEQMUoKWYDgGKU6wg@mail.gmail.com>
+Subject: Re: [PATCH v3 09/21] drm/scheduler: fix a kernel-doc warning
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        David Airlie <airlied@linux.ie>,
+        Alex Deucher <alexander.deucher@amd.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 08/11, Jakub Kicinski wrote:
-> Randomly adding Michal to CC since I just realized I forgot
-> to CC him on the series.
+On Sat, Jul 9, 2022 at 6:08 AM Mauro Carvalho Chehab <mchehab@kernel.org> wrote:
+>
+> The dev field was not documented:
+>
+>         include/drm/gpu_scheduler.h:463: warning: Function parameter or member 'dev' not described in 'drm_gpu_scheduler'
+>
+> Document it.
+>
+> Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
+> Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
 
-> On Thu, 11 Aug 2022 08:01:52 -0700 Stephen Hemminger wrote:
-> > > On Wed, 10 Aug 2022 21:15:34 -0700 Stephen Hemminger wrote:
-> > > > Would rather this be part of iproute2 rather than requiring it
-> > > > to be maintained separately and part of the kernel tree.
-> > >
-> > > I don't understand what you're trying to say. What is "this",
-> > > what is "separate" from what?
-> >
-> > I am saying that ynl could live as a standalone project or as
-> > part of the iproute2 tools collection.
+Patches 9, 10 are:
+Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
 
-> It's a bit of a strange beast, because the YNL C library ends up being
-> relatively small:
+Do you have commit rights to drm-misc or do you need me to push them?
 
->   tools/net/ynl/lib/ynl.c                  | 528 +++++++++++++++++++++++++
->   tools/net/ynl/lib/ynl.h                  | 112 ++++++
+Thanks,
 
-> The logic is mostly in the codegen:
+Alex
 
->   gen.py                                   | 1601 +++++++++++++++++++++++++
 
-> but that part we need for kernel C code as well.
-
-> The generated code is largish:
-
->   tools/net/ynl/generated/dpll-user.c      | 371 ++++++++++++++++++
->   tools/net/ynl/generated/dpll-user.h      | 204 ++++++++++
->   tools/net/ynl/generated/ethtool-user.c   | 367 ++++++++++++++++++
->   tools/net/ynl/generated/ethtool-user.h   | 190 +++++++++
->   tools/net/ynl/generated/fou-user.c       | 322 ++++++++++++++++
->   tools/net/ynl/generated/fou-user.h       | 287 ++++++++++++++
->   tools/net/ynl/generated/genetlink-user.c | 635  
-> +++++++++++++++++++++++++++++++
->   tools/net/ynl/generated/genetlink-user.h | 201 ++++++++++
-
-> but we don't have to commit it, it can be created on the fly
-> (for instance when a selftest wants to make use of YNL).
-
-> Then again it would feel a lot cleaner for the user space library
-> to be a separate project. I've been putting off thinking about the
-> distribution until I'm done coding, TBH. Dunno.
-
-my 2c:
-
-Putting it into iproute2 will make it carry a 'networking' badge on it
-meaning no other subsystem would look into it.
-
-I'd rather make netlink more generic (s/netlink/kernelink/?) and remove
-CONFIG_NET dependency to address https://lwn.net/Articles/897202/
+> ---
+>
+> To avoid mailbombing on a large number of people, only mailing lists were C/C on the cover.
+> See [PATCH v3 00/21] at: https://lore.kernel.org/all/cover.1657360984.git.mchehab@kernel.org/
+>
+>  include/drm/gpu_scheduler.h | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+> index addb135eeea6..c7c487e0c40e 100644
+> --- a/include/drm/gpu_scheduler.h
+> +++ b/include/drm/gpu_scheduler.h
+> @@ -435,6 +435,7 @@ struct drm_sched_backend_ops {
+>   * @_score: score used when the driver doesn't provide one
+>   * @ready: marks if the underlying HW is ready to work
+>   * @free_guilty: A hit to time out handler to free the guilty job.
+> + * @dev: pointer to struct device.
+>   *
+>   * One scheduler is implemented for each hardware ring.
+>   */
+> --
+> 2.36.1
+>
