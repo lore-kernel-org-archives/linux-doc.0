@@ -2,102 +2,105 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A5E1C19F2A
-	for <linux-doc@archiver.kernel.org>; Thu, 11 Aug 2022 15:01:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A6C5C19F2A
+	for <linux-doc@archiver.kernel.org>; Thu, 11 Aug 2022 15:37:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235421AbiHKPB6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 11 Aug 2022 11:01:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48050 "EHLO
+        id S235735AbiHKPhz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 11 Aug 2022 11:37:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59322 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235400AbiHKPB5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Aug 2022 11:01:57 -0400
-Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0AC12496B
-        for <linux-doc@vger.kernel.org>; Thu, 11 Aug 2022 08:01:55 -0700 (PDT)
-Received: by mail-pj1-x102b.google.com with SMTP id w11-20020a17090a380b00b001f73f75a1feso5662467pjb.2
-        for <linux-doc@vger.kernel.org>; Thu, 11 Aug 2022 08:01:55 -0700 (PDT)
+        with ESMTP id S236221AbiHKPhg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Aug 2022 11:37:36 -0400
+Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com [IPv6:2607:f8b0:4864:20::432])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 218C998C89;
+        Thu, 11 Aug 2022 08:33:39 -0700 (PDT)
+Received: by mail-pf1-x432.google.com with SMTP id k14so14758531pfh.0;
+        Thu, 11 Aug 2022 08:33:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=networkplumber-org.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc;
-        bh=b+I9NMlIRung0ufXGv5JJYJHMEd2asoQjtUh3VvCjOo=;
-        b=RsXRGLyz3v67s4s/1e5ATDfo68S4Xk2SHhr+boOlz0EVUz3dvqm2+eR8LsCBwDEIYq
-         Ye03Xq23h47OacFO07cDrnOoDp5KTFsXRiKah1kp61l5ZbF89KFcUq1gi2bQLCXNu2NV
-         3J/SoGeLJYo8/JLXLaRAeNOin/PFr2ft+RMz9qH9a9tb7UZ9d+mtHj/dRJhTW4RYxsD0
-         K9sGe902y0wKU06SYRDZASP6mUQpGvr7tOmYLosL0ket9E4CfOWoYRUoiqgHkvqBTgue
-         40Ad8dfW2rbHvBhGvVDfs7ju2/4FRWJvJkIL6zF0EOrLBgevb+YNDq7vef5TDOi+aKTz
-         UTrA==
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc;
+        bh=D5544vZ07mIqyQsDs/pSqvQEd46ChIGfK2jqr/vjGyo=;
+        b=PTTvFW1c/jfRRPrPg8lAVIXAHA+WoiWJfDTFUi0yZSu8A9DEkefCAhalQq58DrD8Aj
+         fSapjqPizOhPE/JNVGLYFDAHInEyJiyFxzsrNfxryoAgBUM+vdaWkJgxEd1I7NYHal67
+         BFljc4NfZ0WwaVbR0JTr19Y/gIGROzjTDjUBLeAuIQ45bHtRQYGSwGAa5B5XrU4d0HTl
+         bFTDFjrC+DeARMbPcgzizp8Bxj6VYHtRxAF+EdnsyrRGtRbtp0B7NhzXD4ktNZTt2XxC
+         U/HJIw75I04Vu3JdpqDw8v2Lznuyaq+VsT8Lw/xXqDdTk5pJqlTuspIwj2wkul4O3Plu
+         oW8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc;
-        bh=b+I9NMlIRung0ufXGv5JJYJHMEd2asoQjtUh3VvCjOo=;
-        b=SHNwPibO5Ahp8rcaWekJ+DHmxyKi1ocmcfVMTdN5+utd/Bq36UAwNf5uxTEIt02S95
-         Dzo+wlgYFXJ472TdD1+TRBJk4qbl/rV4FLcAhzw3xhLMsXH1D7+F3Jrlgoz+DZuqnVJ7
-         P/cr+ZQOkIbPPjXgwl9K87HobAPuwdKnbJmvt6xYOobQV7jpEkIhqwRX+dcbsJo9Y7oQ
-         zycFw/9IM9BI8wdmgdKTzrEByrrs1tTvAPDFNGoccOJS4JsR2MvNc4jvSwn8hS4kFaWR
-         3sWamBXNOVqm/57JFLFIvbBA/GueMU7SgTSLiT76ppsjqvxAvQUDaGfTStgtNOWVc3S5
-         x/3A==
-X-Gm-Message-State: ACgBeo0hG+8KVYZGOEICPtEg/FbGUsZ9pU5ZTrPvJNQCv9nG2okIK5g8
-        t1ngKU1bEJ0d5lsZjlIgIximcA==
-X-Google-Smtp-Source: AA6agR64EfyJdGX5MHuLzxCea37dFu9L83/U4i7RWaogx7X22t58SWaQilMkRBxdvbHOFHBPNxpExQ==
-X-Received: by 2002:a17:902:e885:b0:16f:8f52:c93a with SMTP id w5-20020a170902e88500b0016f8f52c93amr29076787plg.140.1660230115342;
-        Thu, 11 Aug 2022 08:01:55 -0700 (PDT)
-Received: from hermes.local (204-195-120-218.wavecable.com. [204.195.120.218])
-        by smtp.gmail.com with ESMTPSA id v3-20020a654603000000b0041a6c2436c7sm11739042pgq.82.2022.08.11.08.01.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Aug 2022 08:01:55 -0700 (PDT)
-Date:   Thu, 11 Aug 2022 08:01:52 -0700
-From:   Stephen Hemminger <stephen@networkplumber.org>
-To:     Jakub Kicinski <kuba@kernel.org>
-Cc:     netdev@vger.kernel.org, davem@davemloft.net, edumazet@google.com,
-        pabeni@redhat.com, sdf@google.com, jacob.e.keller@intel.com,
-        vadfed@fb.com, johannes@sipsolutions.net, jiri@resnulli.us,
-        dsahern@kernel.org, fw@strlen.de, linux-doc@vger.kernel.org
-Subject: Re: [RFC net-next 0/4] ynl: YAML netlink protocol descriptions
-Message-ID: <20220811080152.2dbd82c2@hermes.local>
-In-Reply-To: <20220810214701.46565016@kernel.org>
-References: <20220811022304.583300-1-kuba@kernel.org>
-        <20220810211534.0e529a06@hermes.local>
-        <20220810214701.46565016@kernel.org>
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc;
+        bh=D5544vZ07mIqyQsDs/pSqvQEd46ChIGfK2jqr/vjGyo=;
+        b=L6jpA5ffExN7OqW1yTg/s4FIcETSPyMFFlJ6oKJk8oeips2eks8v+QfzQONXSQwgp+
+         NICEHUrPRfxnEzyQKjQEZkM973F5O7ofGdV4PworNvKDZq83rB28M7muT1sGNWTXHhCd
+         F54mBPCM/JydDkdXwsoS03JUI2H8mOjy0sj1I6+pnFA4E2VmfxfVaxGejqOdVs4I7ywK
+         veEc2qX+tVX3KIF1kiluLF/8cKFHq64xCFRWQ+JkAzi9unn7nqLTHcy5BhWxv9c7fK9S
+         ah0DyNSQ8dN2aziSmj6CWpx8CZ30Q/dZ2eeDCIoUxae1Jn8ndO7ps4/aeuJBi6/pHUq/
+         hKIg==
+X-Gm-Message-State: ACgBeo08sOWOO9lziPHdSghLuIUHO8KzJ9+eZb+b1aeWTUqLUF9aLIIE
+        55MrAcvrviKUqkp52qtonsCNbGA/7WU=
+X-Google-Smtp-Source: AA6agR62JO81eGNTr1q8JYPEtLQ8DfJcKJ93BUFoMJc81F90nes5XxbTO94TSt6cB3IebLdQfvyO9A==
+X-Received: by 2002:a05:6a00:841:b0:52f:1cfe:ebd7 with SMTP id q1-20020a056a00084100b0052f1cfeebd7mr21473038pfk.47.1660232018489;
+        Thu, 11 Aug 2022 08:33:38 -0700 (PDT)
+Received: from [192.168.11.9] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id f23-20020aa79697000000b0052d4487ae7fsm4183174pfk.27.2022.08.11.08.33.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 11 Aug 2022 08:33:37 -0700 (PDT)
+Message-ID: <278e0041-a2df-d067-59eb-87b8ac178567@gmail.com>
+Date:   Fri, 12 Aug 2022 00:33:34 +0900
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v2 3/3] docs: kerneldoc-preamble: Test xeCJK.sty before
+ loading
+Content-Language: en-US
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-kernel@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+References: <c41cab17-afd6-bc99-56a1-e4e73b8c1ef6@gmail.com>
+ <c24c2a87-70b2-5342-bcc9-de467940466e@gmail.com>
+From:   Akira Yokosawa <akiyks@gmail.com>
+In-Reply-To: <c24c2a87-70b2-5342-bcc9-de467940466e@gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 10 Aug 2022 21:47:01 -0700
-Jakub Kicinski <kuba@kernel.org> wrote:
+Hi Jon,
 
-> On Wed, 10 Aug 2022 21:15:34 -0700 Stephen Hemminger wrote:
-> > Would rather this be part of iproute2 rather than requiring it
-> > to be maintained separately and part of the kernel tree.  
+On Mon, 8 Aug 2022 17:53:57 +0900, Akira Yokosawa wrote:
+> On distros whose texlive packaging is fine-grained, texlive-xecjk
+> can be installed/removed independently of other texlive packages.
+> Conditionally loading xeCJK depending only on the existence of the
+> "Noto Sans CJK SC" font might end up in xelatex error of
+> "xeCJK.sty not found!".
 > 
-> I don't understand what you're trying to say. What is "this", 
-> what is "separate" from what?
-
-I am saying that ynl could live as a standalone project or as
-part of the iproute2 tools collection.
+> Improve the situation by testing existence of xeCJK.sty before
+> loading it.
+> 
+> This is useful on RHEL 9 and its clone distros where texlive-xecjk
+> doesn't work at the moment due to a missing dependency [1].
+> "make pdfdocs" for non-CJK contents should work after removing
+> texlive-xecjk.
+In hindsight, I think this qualifies as a stable material.
+Let me append a couple of tags.
 
 > 
-> Did I fall victim of the "if the cover letter is too long nobody
-> actually reads it" problem? Or am I simply too tired to parse?
-> 
-> iproute2 is welcome to use the protocol descriptions like any other
-> user space, but I'm intending to codegen kernel code based on the YAML:
+> Link: [1] https://bugzilla.redhat.com/show_bug.cgi?id=2086254
+> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+> Acked-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+Fixes: 398f7abdcb7e ("docs: pdfdocs: Pull LaTeX preamble part out of conf.py")
+Cc: stable@vger.kernel.org # v5.18+
 
-Ok, that makes sense then. I was hoping that user configuration
-of network devices could be done with YAML. But probably that is
-best left networkd, netplan, and others.
+Jon, it's up to you whether this one is destined for v6.0-rcX or
+for the next merge window.  It has no dependency on patches 1/3
+and 2/3.
 
+        Thanks, Akira
 
-> >> On the kernel side the YAML spec can be used to generate:
-> >>  - the C uAPI header
-> >>  - documentation of the protocol as a ReST file
-> >>  - policy tables for input attribute validation
-> >>  - operation tables  
-> 
-> So how can it not be in the kernel tree?
-
-As code generator then sure.
