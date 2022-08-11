@@ -2,217 +2,124 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F9DFC25B06
-	for <linux-doc@archiver.kernel.org>; Thu, 11 Aug 2022 23:31:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DDF9C25B0E
+	for <linux-doc@archiver.kernel.org>; Thu, 11 Aug 2022 23:54:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234259AbiHKXbR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 11 Aug 2022 19:31:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36216 "EHLO
+        id S235079AbiHKXyW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 11 Aug 2022 19:54:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51898 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233974AbiHKXbQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Aug 2022 19:31:16 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28AF99410B;
-        Thu, 11 Aug 2022 16:31:15 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id D63FBB82339;
-        Thu, 11 Aug 2022 23:31:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3764BC433D6;
-        Thu, 11 Aug 2022 23:31:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1660260672;
-        bh=g9lXYjeZup1st1u3UHpbk9YPsqoJWbV7ijlwPKUv80U=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=SUz/ZJw84+7ItNUt3Pf3kI+WmsYaNCOBfNuz4W3JSmo5avGwaplPRzIA6GHdHnM69
-         GS0+hOCpWFbgPrYRWjlfZzwo1SlzLjMnR//9J+sgUwv7jnOAdNinTESNOxK+lg70fb
-         9GxfggVtXQcYYgJ9ulmVy8jLuLEbFJeDaZS9gJuJpoHp4YWxjnCMdRPTly8DKNhxLr
-         EkwNhhc5oBjxsAO7mTV15e33iz15ht5sc+b1PfyPPLLT1QTb7VnJFhNQuj1vwEzkqv
-         V6vRHQVbDKm7qH34QuKTJ+gJTwL9jjGxShpfp5dvCxZ8e8FFWsqWEtwxc8G51/o4Ht
-         1iYfMPJm7fk3Q==
-Date:   Thu, 11 Aug 2022 16:31:11 -0700
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     Stanislav Fomichev <sdf@google.com>
-Cc:     netdev@vger.kernel.org, davem@davemloft.net, edumazet@google.com,
-        pabeni@redhat.com, jacob.e.keller@intel.com, vadfed@fb.com,
-        johannes@sipsolutions.net, jiri@resnulli.us, dsahern@kernel.org,
-        stephen@networkplumber.org, fw@strlen.de, linux-doc@vger.kernel.org
-Subject: Re: [RFC net-next 4/4] ynl: add a sample user for ethtool
-Message-ID: <20220811163111.56d83702@kernel.org>
-In-Reply-To: <CAKH8qBs54kX_MjA2xHM1sSa_zvNYDEPhiZcwEVWV4kP1dEPcEw@mail.gmail.com>
-References: <20220811022304.583300-1-kuba@kernel.org>
-        <20220811022304.583300-5-kuba@kernel.org>
-        <YvUru3QvN/LuYgnq@google.com>
-        <20220811123515.4ef1a715@kernel.org>
-        <CAKH8qBs54kX_MjA2xHM1sSa_zvNYDEPhiZcwEVWV4kP1dEPcEw@mail.gmail.com>
+        with ESMTP id S235762AbiHKXyU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Aug 2022 19:54:20 -0400
+Received: from mout02.posteo.de (mout02.posteo.de [185.67.36.66])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86D43A1D49
+        for <linux-doc@vger.kernel.org>; Thu, 11 Aug 2022 16:54:18 -0700 (PDT)
+Received: from submission (posteo.de [185.67.36.169]) 
+        by mout02.posteo.de (Postfix) with ESMTPS id 94413240106
+        for <linux-doc@vger.kernel.org>; Fri, 12 Aug 2022 01:54:16 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.net; s=2017;
+        t=1660262056; bh=JkMK2ZzPPyQl8oBskpaCW68aHa6Y2QAApaUOJCrkky0=;
+        h=Date:From:To:Cc:Subject:From;
+        b=NhFylEAcYSP6ooajuZO4T2YGW5fL5ATOhgbkDJooGFyAbZTbVwTZnX5pApklMyoSF
+         Aap+nYNKvCfvx9nZRlcKWt2CvEm/dN0ajORKOl6OqcT8Yxh6ZuWlD5+W+Gc3Fm6f+B
+         LMKIFBWuqLyW43a3noOsHPkh5P8CzorGxYoYPkEUGtvLchkv70K8nzJuhZKeodw6jG
+         LQ4mNGo/BVKiMFMvD8jxUH5xJCpw6RDbYMH98HcgdlQaSrer9xPQGHJ3R3xrGS75ec
+         Yw0kyhs1pYpcO6zPr4fU8xKEbf9ueKqkuD2FYp76ICzCIDq4S1XRVN6N6Rfs0wZY5C
+         DI/hfLUca7cYQ==
+Received: from customer (localhost [127.0.0.1])
+        by submission (posteo.de) with ESMTPSA id 4M3kDF2Dxrz6tm9;
+        Fri, 12 Aug 2022 01:54:04 +0200 (CEST)
+Date:   Thu, 11 Aug 2022 23:52:22 +0000
+From:   Daniel =?utf-8?Q?M=C3=BCller?= <deso@posteo.net>
+To:     Roberto Sassu <roberto.sassu@huawei.com>
+Cc:     Alexei Starovoitov <alexei.starovoitov@gmail.com>,
+        "ast@kernel.org" <ast@kernel.org>,
+        "daniel@iogearbox.net" <daniel@iogearbox.net>,
+        "andrii@kernel.org" <andrii@kernel.org>,
+        "martin.lau@linux.dev" <martin.lau@linux.dev>,
+        "song@kernel.org" <song@kernel.org>, "yhs@fb.com" <yhs@fb.com>,
+        "john.fastabend@gmail.com" <john.fastabend@gmail.com>,
+        "kpsingh@kernel.org" <kpsingh@kernel.org>,
+        "sdf@google.com" <sdf@google.com>,
+        "haoluo@google.com" <haoluo@google.com>,
+        "jolsa@kernel.org" <jolsa@kernel.org>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "dhowells@redhat.com" <dhowells@redhat.com>,
+        "jarkko@kernel.org" <jarkko@kernel.org>,
+        "rostedt@goodmis.org" <rostedt@goodmis.org>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "paul@paul-moore.com" <paul@paul-moore.com>,
+        "jmorris@namei.org" <jmorris@namei.org>,
+        "serge@hallyn.com" <serge@hallyn.com>,
+        "shuah@kernel.org" <shuah@kernel.org>,
+        "bpf@vger.kernel.org" <bpf@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "keyrings@vger.kernel.org" <keyrings@vger.kernel.org>,
+        "linux-security-module@vger.kernel.org" 
+        <linux-security-module@vger.kernel.org>,
+        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v10 5/9] bpf: Add bpf_lookup_*_key() and bpf_key_put()
+ kfuncs
+Message-ID: <20220811235222.inghj73tf6vudoyw@vaio>
+References: <20220810165932.2143413-1-roberto.sassu@huawei.com>
+ <20220810165932.2143413-6-roberto.sassu@huawei.com>
+ <20220810213351.wm5utltm67q4i6lu@MacBook-Pro-3.local.dhcp.thefacebook.com>
+ <2415f4931a364541b2e6d14a8185ffbb@huawei.com>
+ <f7d401d6ec6c47cbb358046a2d3ca5e8@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <f7d401d6ec6c47cbb358046a2d3ca5e8@huawei.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 11 Aug 2022 15:55:44 -0700 Stanislav Fomichev wrote:
-> > We could, I guess. To be clear this controls the count, IOW:
-> >
-> > enum {
-> >         PREFIX_A_BLA_ATTR = 1,
-> >         PREFIX_A_ANOTHER_ATTR,
-> >         PREFIX_A_AND_ONEMORE,
-> >         __PFREIX_A_CNT, // <--- This thing
-> > };
-> > #define PREFIX_A_MAX (__PFREIX_A_CNT - 1)
-> >
-> > It's not used in the generated code, only if we codegen the uAPI,
-> > AFAIR. So we'd need a way to tell the generator of the uAPI about
-> > the situation, anyway. I could be misremembering.  
+On Thu, Aug 11, 2022 at 12:02:57PM +0000, Roberto Sassu wrote:
+> > From: Roberto Sassu [mailto:roberto.sassu@huawei.com]
+> > Sent: Thursday, August 11, 2022 9:47 AM
+> > > From: Alexei Starovoitov [mailto:alexei.starovoitov@gmail.com]
+> > > Sent: Wednesday, August 10, 2022 11:34 PM
+> > > On Wed, Aug 10, 2022 at 06:59:28PM +0200, Roberto Sassu wrote:
+> > > > +
+> > > > +static int __init bpf_key_sig_kfuncs_init(void)
+> > > > +{
+> > > > +	int ret;
+> > > > +
+> > > > +	ret = register_btf_kfunc_id_set(BPF_PROG_TYPE_TRACING,
+> > > > +					&bpf_key_sig_kfunc_set);
+> > > > +	if (!ret)
+> > > > +		return 0;
+> > > > +
+> > > > +	return register_btf_kfunc_id_set(BPF_PROG_TYPE_LSM,
+> > > > +					 &bpf_key_sig_kfunc_set);
+> > >
+> > > Isn't this a watery water ?
+> > > Don't you have a patch 1 ?
+> > > What am I missing ?
+> > 
+> > Uhm, yes. I had doubts too. That was what also KP did.
+> > 
+> > It makes sense to register once, since we mapped LSM to
+> > TRACING.
+> > 
+> > Will resend only this patch. And I will figure out why CI failed.
 > 
-> My worry is that we'll have more hacks like these and it's hard, as a
-> spec reader/writer, to figure out that they exist..
-> So I was wondering if it's "easier" (from the spec reader/writer pov)
-> to have some c-header-fixup: section where we can have plain
-> c-preprocessor hacks like these (where we need to redefine something
-> to match the old behavior).
-
-Let me think about it some more. My main motivation is people writing
-new families, I haven't sent too much time worrying about the existing
-ones with all their quirks. It's entirely possible that the uAPI quirks
-can just go and we won't generate uAPI for existing families as it
-doesn't buy us anything.
-
-> Coming from stubby/grpc, I was expecting to see words like
-> message/field/struct. The question is what's more confusing: sticking
-> with netlink naming or trying to map grpc/thrift concepts on top of
-> what we have. (I'm assuming more people know about grpc/thrift than
-> netlink)
+> Adding in CC Daniel Müller, which worked on this.
 > 
-> messages: # or maybe 'attribute-sets' ?
->   - name: channels
->     ...
-
-Still not convinced about messages, as it makes me think that every
-"space" is then a definition of a message rather than just container
-for field definitions with independent ID spaces. 
-
-Attribute-sets sounds good, happy to rename.
-
-Another thought I just had was to call it something like "data-types"
-or "field-types" or "type-spaces". To indicate the split into "data" 
-and "actions"/"operations"?
-
-> operations:
->   - name: channel_get
->     message: channels
->     do:
->       request:
->         fields:
->         - header
->         - rx_max
+> I think the issue is that some kernel options are set to =m.
+> This causes the CI to miss all kernel modules, since they are
+> not copied to the virtual machine that executes the tests.
 > 
-> Or maybe all we really need is a section in the doc called 'Netlink
-> for gRPC/Thrift users' where we map these concepts:
-> - attribute-spaces (attribute-sets?) -> messages
-> - attributes -> fields
+> I'm testing this patch:
+> 
+> https://github.com/robertosassu/libbpf-ci/commit/b665e001b58c4ddb792a2a68098ea5dc6936b15c
 
-Excellent idea!
+I commented on the pull request. Would it make sense to adjust the
+kernel configuration in this repository instead? I am worried that
+otherwise everybody may need a similar work around, depending on how
+selftests are ultimately run.
 
-> > Dunno, that'd mean that the Python method is called
-> > ETHTOOL_MSG_CHANNELS_GET rather than just channels_get.
-> > I don't want to force all languages to use the C naming.
-> > The C naming just leads to silly copy'n'paste issues like
-> > f329a0ebeab.  
-> 
-> Can we have 'name:' and 'long-name:' or 'c-name:' or 'full-name' ?
-> 
-> - name: header
->    attributes:
->     - name: dev_index
->       full-name: ETHTOOL_A_HEADER_DEV_INDEX
->       val:
->       type:
-> 
-> Suppose I'm rewriting my c application from uapi to some generated (in
-> the future) python-like channels_get() method. If I can grep for
-> ETHTOOL_MSG_CHANNELS_GET, that would save me a bunch of time figuring
-> out what the new canonical wrapper is.
-> 
-> Also, maybe, at some point we'll have:
-> - name: dev_index
->   c-name: ETHTOOL_A_HEADER_DEV_INDEX
->   java-name: headerDevIndex
-
-Herm, looking at my commits where I started going with the C codegen
-(which I haven't posted here) is converting the values to the same
-format as keys (i.e. YAML/JSON style with dashes). So the codegen does:
-
-	c_name = attr['name']
-	if c_name in c_keywords:
-		c_name += '_'
-	c_name = c_name.replace('-', '_')
-
-So the name would be "dev-index", C will make that dev_index, Java will
-make that devIndex (or whatever) etc.
-
-I really don't want people to have to prefix the names because that's
-creating more work. We can slap a /* header.dev_index */ comment in 
-the generated uAPI, for the grep? Dunno..
-
-> > Good catch, I'm aware. I was planning to add a "header constants"
-> > section or some such. A section in "headers" which defines the
-> > constants which C code will get from the headers.  
-> 
-> Define as in 're-define' or define as in 'you need to include some
-> other header for this to work'?
-> 
-> const:
->   - name: ALTIFNAMSIZ
->     val: 128
-
-This one. In most cases the constant is defined in the same uAPI header
-as the proto so we're good. But there's IFNAMSIZ and friends which are
-shared.
-
-> which then does
-> 
-> #ifndef
-> #define ALTIFNAMSIZ 128
-> #else
-> static_assert(ALTIFNAMSIZ == 128)
-> #endif
-> 
-> ?
-> 
-> or:
-> 
-> external-const:
->   - name: ALTIFNAMSIZ
->     header: include/uapi/linux/if.h
-> 
-> which then might generate the following:
-> 
-> #include <include/uapi/linux/if.h>
-> #ifndef ALTIFNAMSIZ
-> #error "include/uapi/linux/if.h does not define ALTIFNAMSIZ"
-> #endif
-> 
-> > For Python it does not matter, as we don't have to size arrays.  
-> 
-> Hm, I was expecting the situation to be the opposite :-) Because if
-> you really have to know this len in python, how do you resolve
-> ALTIFNAMSIZ?
-
-Why does Python need to know the length of the string tho?
-On receive if kernel gives you a longer name - great, no problem.
-On send the kernel will tell you so also meh.
-
-In C the struct has a char bla[FIXED_SIZE] so if we get an oversized
-string we're pooped, that's my point, dunno what other practical use
-the string sizing has.
-
-> The simplest thing to do might be to require these headers to be
-> hermetic (i.e., redefine all consts the spec cares about internally)?
-
-That's what I'm thinking if they are actually needed. But it only C
-cares we can just slap the right includes and not worry. Dunno if other
-languages are similarly string-challenged. 
+Thanks,
+Daniel
