@@ -2,53 +2,63 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9FF91C19F2A
-	for <linux-doc@archiver.kernel.org>; Thu, 11 Aug 2022 19:42:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 705E6C19F2A
+	for <linux-doc@archiver.kernel.org>; Thu, 11 Aug 2022 20:09:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235402AbiHKTmu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 11 Aug 2022 15:42:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53658 "EHLO
+        id S232166AbiHKUJL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 11 Aug 2022 16:09:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45368 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234698AbiHKTmt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Aug 2022 15:42:49 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 518D523BF5;
-        Thu, 11 Aug 2022 12:42:48 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 15B8BB8200A;
-        Thu, 11 Aug 2022 19:42:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64B02C433D6;
-        Thu, 11 Aug 2022 19:42:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1660246965;
-        bh=/Z5JO62QRcw9PN+qiv1je4iFkrsxHarqJZOZ+PuLgI8=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=PjRMAWierwHCQj5xoYTF3u0AKmy9efK/2iDjcK1Qd0CYhfSgHLy2KM6iO88hBCaBt
-         dQ330fPz46AM/DEiUoyueFwdUXbpZTQ4WuVGOCNQKc5sApBQU0DKl72ErHndGO+p4t
-         c4BUHZVR0ZnFqJ9vtXYV4n6lnjzBtcLurGWTrS+dZcWwilkCcYX/M407uTO7c1RlJy
-         Bj4PPvdmRuFTIJ4Sz6V1D0/VKkhblfZKeY1ePW6lS7DgimIkYdkcW+1TbF4E+YB7ix
-         rtVEPzKfV8rDoHBv3nTkOlJOl9AC9y6vBfY742AecMoaNo65tZ5ilwLiHv/8MUK+r4
-         02c4TcHcny7rA==
-Date:   Thu, 11 Aug 2022 12:42:44 -0700
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     sdf@google.com
-Cc:     Stephen Hemminger <stephen@networkplumber.org>,
-        netdev@vger.kernel.org, davem@davemloft.net, edumazet@google.com,
-        pabeni@redhat.com, jacob.e.keller@intel.com, vadfed@fb.com,
-        johannes@sipsolutions.net, jiri@resnulli.us, dsahern@kernel.org,
-        fw@strlen.de, linux-doc@vger.kernel.org,
-        Michal Kubecek <mkubecek@suse.cz>
-Subject: Re: [RFC net-next 0/4] ynl: YAML netlink protocol descriptions
-Message-ID: <20220811124244.37a66b98@kernel.org>
-In-Reply-To: <YvUuPU8dMSvv2tdJ@google.com>
+        with ESMTP id S229594AbiHKUJL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Aug 2022 16:09:11 -0400
+Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F36799C51C
+        for <linux-doc@vger.kernel.org>; Thu, 11 Aug 2022 13:09:09 -0700 (PDT)
+Received: by mail-pj1-x1032.google.com with SMTP id 15-20020a17090a098f00b001f305b453feso6415496pjo.1
+        for <linux-doc@vger.kernel.org>; Thu, 11 Aug 2022 13:09:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=networkplumber-org.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc;
+        bh=nefw992BjR2DKJLlRcY/JmF6kb64zkxOsohgksdYdZY=;
+        b=YQ7HOy6QqoNgZGonUdkK4UAgFEipkL3adtQgOkxWH05GNQwNmh0fc/TMFTtG/QlC5V
+         FZyYVefKbisrRkwsBZ9iIiPq17MIB/AIK4Wx1QN2842BAa18Pza9F49vfCwKjDuMEtKi
+         EufhXAlODKUp3CBEFO6yCuijARwdhD5BuFURqDZHvgBMaY+z/b+uIxeIyNfqyRFk9Q9z
+         pjL+by7rNDS/4sjW4qnqSMJX3dlTrOySWkrKTHLFFpSF1emnP8e2fDRzD4xw+3pKAkEx
+         aU3+mPFStKArnLNhN+hPc5gZKJZIeGxw1ZG6afWWDjmy11YuvHIBFpAtTKlJvH4tBrpY
+         AMlw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc;
+        bh=nefw992BjR2DKJLlRcY/JmF6kb64zkxOsohgksdYdZY=;
+        b=X7JvlXnnoKPnUyxQTOli85AC01dewAxxIYVCFy8KKGLA/44uDegeMCRd22FSlVCA7i
+         64UU2gamsQdC0Ubm651ohq6WYEXwG0LEMUEIB+KKkyHobxXdXY27VnZ4Yr00cZV/xlI7
+         bXN+RMwsH0xxkEIF+TX679zOEsiVE2iDO/y+Bwlcg4zsEKppV4k8U7DYLi39oHJcEPtd
+         if/J7SLKFmdc7wyfHqIGGv4R1vZe8tq/MleG0QsJoRmHpehd+5GZ8iu3U9bbCUF/pWIJ
+         M/DNHlAYvuVTYjZ/V8HvD7laCmCN52hE7rJCDNDVJ/l6I64i7gsWrwII2Rk4FdTPp2np
+         sleg==
+X-Gm-Message-State: ACgBeo23eNS94+qAYdkybnxfvWPkpNdPQGjC7THlnHEwRg4gyFAJvAXR
+        /SovxD/QQrcx6PfKM5fEDQ7AqMLnS7dq3w==
+X-Google-Smtp-Source: AA6agR4IuB4hGOq7TsVdXfmkQFs7cLlG+sLTO/C60fJBgCxAUnlfF2RggBePHqsa2I+PPOJMDaRymw==
+X-Received: by 2002:a17:90b:4ccb:b0:1f5:87:a17f with SMTP id nd11-20020a17090b4ccb00b001f50087a17fmr627497pjb.7.1660248549302;
+        Thu, 11 Aug 2022 13:09:09 -0700 (PDT)
+Received: from hermes.local (204-195-120-218.wavecable.com. [204.195.120.218])
+        by smtp.gmail.com with ESMTPSA id n3-20020a622703000000b0052ef9556f47sm95315pfn.40.2022.08.11.13.09.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 11 Aug 2022 13:09:09 -0700 (PDT)
+Date:   Thu, 11 Aug 2022 13:09:06 -0700
+From:   Stephen Hemminger <stephen@networkplumber.org>
+To:     Jakub Kicinski <kuba@kernel.org>
+Cc:     netdev@vger.kernel.org, davem@davemloft.net, edumazet@google.com,
+        pabeni@redhat.com, sdf@google.com, jacob.e.keller@intel.com,
+        vadfed@fb.com, johannes@sipsolutions.net, jiri@resnulli.us,
+        dsahern@kernel.org, fw@strlen.de, linux-doc@vger.kernel.org
+Subject: Re: [RFC net-next 3/4] ynl: add a sample python library
+Message-ID: <20220811130906.198b091d@hermes.local>
+In-Reply-To: <20220811022304.583300-4-kuba@kernel.org>
 References: <20220811022304.583300-1-kuba@kernel.org>
-        <20220810211534.0e529a06@hermes.local>
-        <20220810214701.46565016@kernel.org>
-        <20220811080152.2dbd82c2@hermes.local>
-        <20220811083435.1b271c7f@kernel.org>
-        <YvUuPU8dMSvv2tdJ@google.com>
+        <20220811022304.583300-4-kuba@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
@@ -56,13 +66,65 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 11 Aug 2022 09:28:45 -0700 sdf@google.com wrote:
-> Putting it into iproute2 will make it carry a 'networking' badge on it
-> meaning no other subsystem would look into it.
+Looks interesting, you might want to consider running your code
+through some of the existing Python checkers such as flake8 and pylint.
+If you want this to be generally available in repos, best to follow the language conventions
 
-Good point.
+For example flake8 noticed:
+ $ flake8 --max-line-length=120 ./tools/net/ynl/samples/ynl.py 
+./tools/net/ynl/samples/ynl.py:251:55: F821 undefined name 'file_name'
 
-> I'd rather make netlink more generic (s/netlink/kernelink/?) and remove
-> CONFIG_NET dependency to address https://lwn.net/Articles/897202/
+And pylint has more warnings
+tools/net/ynl/samples/ynl.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+tools/net/ynl/samples/ynl.py:4:0: E0401: Unable to import 'jsonschema' (import-error)
+tools/net/ynl/samples/ynl.py:16:0: C0115: Missing class docstring (missing-class-docstring)
+tools/net/ynl/samples/ynl.py:16:0: R0903: Too few public methods (0/2) (too-few-public-methods)
+tools/net/ynl/samples/ynl.py:49:0: C0115: Missing class docstring (missing-class-docstring)
+tools/net/ynl/samples/ynl.py:57:4: C0116: Missing function or method docstring (missing-function-docstring)
+tools/net/ynl/samples/ynl.py:60:4: C0116: Missing function or method docstring (missing-function-docstring)
+tools/net/ynl/samples/ynl.py:63:4: C0116: Missing function or method docstring (missing-function-docstring)
+tools/net/ynl/samples/ynl.py:70:0: C0115: Missing class docstring (missing-class-docstring)
+tools/net/ynl/samples/ynl.py:70:0: R0903: Too few public methods (1/2) (too-few-public-methods)
+tools/net/ynl/samples/ynl.py:84:0: C0115: Missing class docstring (missing-class-docstring)
+tools/net/ynl/samples/ynl.py:84:0: R0902: Too many instance attributes (9/7) (too-many-instance-attributes)
+tools/net/ynl/samples/ynl.py:84:0: R0903: Too few public methods (1/2) (too-few-public-methods)
+tools/net/ynl/samples/ynl.py:109:0: C0115: Missing class docstring (missing-class-docstring)
+tools/net/ynl/samples/ynl.py:109:0: R0903: Too few public methods (1/2) (too-few-public-methods)
+tools/net/ynl/samples/ynl.py:123:0: C0103: Constant name "genl_family_name_to_id" doesn't conform to UPPER_CASE naming style (invalid-name)
+tools/net/ynl/samples/ynl.py:147:8: W0603: Using the global statement (global-statement)
+tools/net/ynl/samples/ynl.py:147:8: C0103: Constant name "genl_family_name_to_id" doesn't conform to UPPER_CASE naming style (invalid-name)
+tools/net/ynl/samples/ynl.py:148:33: R1735: Consider using {} instead of dict() (use-dict-literal)
+tools/net/ynl/samples/ynl.py:160:16: C0103: Variable name "gm" doesn't conform to snake_case naming style (invalid-name)
+tools/net/ynl/samples/ynl.py:174:8: C0103: Attribute name "nl" doesn't conform to snake_case naming style (invalid-name)
+tools/net/ynl/samples/ynl.py:172:0: C0115: Missing class docstring (missing-class-docstring)
+tools/net/ynl/samples/ynl.py:186:12: C0103: Variable name "a" doesn't conform to snake_case naming style (invalid-name)
+tools/net/ynl/samples/ynl.py:172:0: R0903: Too few public methods (1/2) (too-few-public-methods)
+tools/net/ynl/samples/ynl.py:191:0: C0115: Missing class docstring (missing-class-docstring)
+tools/net/ynl/samples/ynl.py:195:8: W0602: Using global for 'genl_family_name_to_id' but no assignment is done (global-variable-not-assigned)
+tools/net/ynl/samples/ynl.py:195:8: C0103: Constant name "genl_family_name_to_id" doesn't conform to UPPER_CASE naming style (invalid-name)
+tools/net/ynl/samples/ynl.py:191:0: R0903: Too few public methods (0/2) (too-few-public-methods)
+tools/net/ynl/samples/ynl.py:206:0: C0115: Missing class docstring (missing-class-docstring)
+tools/net/ynl/samples/ynl.py:207:31: W0621: Redefining name 'yaml' from outer scope (line 8) (redefined-outer-name)
+tools/net/ynl/samples/ynl.py:210:21: R1735: Consider using {} instead of dict() (use-dict-literal)
+tools/net/ynl/samples/ynl.py:207:23: W0613: Unused argument 'family' (unused-argument)
+tools/net/ynl/samples/ynl.py:241:4: C0116: Missing function or method docstring (missing-function-docstring)
+tools/net/ynl/samples/ynl.py:245:0: C0115: Missing class docstring (missing-class-docstring)
+tools/net/ynl/samples/ynl.py:247:13: W1514: Using open without explicitly specifying an encoding (unspecified-encoding)
+tools/net/ynl/samples/ynl.py:251:17: W1514: Using open without explicitly specifying an encoding (unspecified-encoding)
+tools/net/ynl/samples/ynl.py:251:54: E0602: Undefined variable 'file_name' (undefined-variable)
+tools/net/ynl/samples/ynl.py:259:20: R1735: Consider using {} instead of dict() (use-dict-literal)
+tools/net/ynl/samples/ynl.py:260:23: R1735: Consider using {} instead of dict() (use-dict-literal)
+tools/net/ynl/samples/ynl.py:302:14: R1735: Consider using {} instead of dict() (use-dict-literal)
+tools/net/ynl/samples/ynl.py:317:8: C0103: Variable name "op" doesn't conform to snake_case naming style (invalid-name)
+tools/net/ynl/samples/ynl.py:340:16: C0103: Variable name "gm" doesn't conform to snake_case naming style (invalid-name)
+tools/net/ynl/samples/ynl.py:316:4: R1710: Either all return statements in a function should return an expression, or none of them should. (inconsistent-return-statements)
+tools/net/ynl/samples/ynl.py:245:0: R0903: Too few public methods (0/2) (too-few-public-methods)
+tools/net/ynl/samples/ynl.py:5:0: C0411: standard import "import random" should be placed before "import jsonschema" (wrong-import-order)
+tools/net/ynl/samples/ynl.py:6:0: C0411: standard import "import socket" should be placed before "import jsonschema" (wrong-import-order)
+tools/net/ynl/samples/ynl.py:7:0: C0411: standard import "import struct" should be placed before "import jsonschema" (wrong-import-order)
+tools/net/ynl/samples/ynl.py:9:0: C0411: standard import "import os" should be placed before "import jsonschema" (wrong-import-order)
 
-I think people just use that as an excuse, TBH.
+------------------------------------------------------------------
+Your code has been rated at 7.64/10 (previous run: 7.64/10, +0.00)
+
+
