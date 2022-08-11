@@ -2,97 +2,208 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 67A5AC00140
-	for <linux-doc@archiver.kernel.org>; Thu, 11 Aug 2022 02:09:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D791C00140
+	for <linux-doc@archiver.kernel.org>; Thu, 11 Aug 2022 02:23:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233653AbiHKCJk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 10 Aug 2022 22:09:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33774 "EHLO
+        id S233725AbiHKCXN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 10 Aug 2022 22:23:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44414 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229867AbiHKCJj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 Aug 2022 22:09:39 -0400
-Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9301844DE
-        for <linux-doc@vger.kernel.org>; Wed, 10 Aug 2022 19:09:37 -0700 (PDT)
-Received: by mail-pj1-x102e.google.com with SMTP id ha11so16469619pjb.2
-        for <linux-doc@vger.kernel.org>; Wed, 10 Aug 2022 19:09:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc;
-        bh=oSA+Jof75BuedTVbt4lBoiMeV523r3pp7Ny1EC5oo3o=;
-        b=w0LbbLx22MfQERbKFdETrb3ybAIxu4PakWhNX0JhVR2NfpBhq7Yqripn1YP+hcGg1G
-         NHY8+4Rr6yTKcDEvaGbHrUCApwsNJdhMdkRsTVYxZXLCqcgx+obRDTd/0VoA/KsyYkgM
-         xH9Y6GqYr8VN+x4u/U0KUA9lBlMnHdXIWFeh5HvCHJAjtbs/dhQ9C3BiKrDuXjx9U1nb
-         Bk0ohofkrChxG8d7tGGKbx2K0azQCe1H0MYPxRZTEfFLG2WGP0lilMgvtFYTnjho35Mo
-         +AEvUT3AQhyadp5mfRNM58gAtRcMxqcI1P2jRVMQ96L2Kmxs15ulMY1H9dapgPZoyLZk
-         pAsQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc;
-        bh=oSA+Jof75BuedTVbt4lBoiMeV523r3pp7Ny1EC5oo3o=;
-        b=EuFbnAg8kGS6c91k3hxzVyf93+3Hg6nWKmy7r0GoFLqqDF14FOgR/bl7Gf5eVdoGeC
-         b422NVVWt3D43CJvTV2co7S8Ia2BHYa+oXdr/VxlDeoNGr/9luRolHZFJ1nJapuUIxaM
-         LSFJDZPij4J+71FZlwjEkbmhxBXDPDOogWCUM+NTmRRzJ0qLyQgR/lwRXB3FDRAyxa3u
-         o03nt9loA+jm69JhDYuPGHEw0La31BiPxAHOixhfRvf6AfA1RgocA78zK66yLbiT5TGD
-         RxowHqzUibmb2g+yAJrBOeU3Ut748kNArxjWZMByxETYdwfkzo07kjGwxeFzEB5CCOKa
-         OJ6Q==
-X-Gm-Message-State: ACgBeo1MzHHyW95HjVc3/kbO9F2yLCORPIGQpPSU90hAQdBy3xVn51d+
-        pr0kPLXHCJYGWqVcdLzop7iC7A==
-X-Google-Smtp-Source: AA6agR7pEvJYGfeI5QBU3XEAHO0I7vZXYDuMiae/XSEL7US94LL05wzxU5jq93JPbtgmd163xcYB4A==
-X-Received: by 2002:a17:903:230b:b0:16f:2276:1fc4 with SMTP id d11-20020a170903230b00b0016f22761fc4mr29113456plh.172.1660183777109;
-        Wed, 10 Aug 2022 19:09:37 -0700 (PDT)
-Received: from [10.70.253.98] ([139.177.225.230])
-        by smtp.gmail.com with ESMTPSA id y27-20020aa79e1b000000b0052df34124b4sm2741760pfq.84.2022.08.10.19.09.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 10 Aug 2022 19:09:36 -0700 (PDT)
-Message-ID: <cd4983dd-8432-7f79-1066-61b6f02e99c3@bytedance.com>
-Date:   Thu, 11 Aug 2022 10:09:28 +0800
+        with ESMTP id S233707AbiHKCXN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 Aug 2022 22:23:13 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33DA58D3E7;
+        Wed, 10 Aug 2022 19:23:12 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id CED8261196;
+        Thu, 11 Aug 2022 02:23:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C337BC433B5;
+        Thu, 11 Aug 2022 02:23:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1660184591;
+        bh=f5GjtckqzBsBlySN8rj/tgN3qLP8Rw70hcKyiSiodOU=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=likDCdV4mJli0rvcgJ0Ei0UubgrBp8VlBwcncxsHy4twwIq9tdeVXNwmadZUz2jRD
+         S6v/xdpNUKKLxjtHC3GWrviWTnpno3Vqi3p50jVZYUhABO9dSCLvK0fB3xdKV6hmD4
+         42fOkFFqlV92xR1NGL7oV4+NFLdV4DsMlCnQJPYZhb92Z+4yjIhEuj/oQ5KhGGvwT2
+         ZMidUrcvKHuVsGqMdBRDoAv3VPzWTNb5AUVlP0wov3XEAiobUwPWleQljoXCoVRGeu
+         L/LsiSPQi0qiZyIICOm431UGcM3eJIFyC43bmd4Lv6H2m/BCFJKC6sh10YnQfJfVyh
+         ybVCCwQd635Kw==
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     netdev@vger.kernel.org, davem@davemloft.net, edumazet@google.com,
+        pabeni@redhat.com
+Cc:     sdf@google.com, jacob.e.keller@intel.com, vadfed@fb.com,
+        johannes@sipsolutions.net, jiri@resnulli.us, dsahern@kernel.org,
+        stephen@networkplumber.org, fw@strlen.de,
+        linux-doc@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>
+Subject: [RFC net-next 1/4] ynl: add intro docs for the concept
+Date:   Wed, 10 Aug 2022 19:23:01 -0700
+Message-Id: <20220811022304.583300-2-kuba@kernel.org>
+X-Mailer: git-send-email 2.37.1
+In-Reply-To: <20220811022304.583300-1-kuba@kernel.org>
+References: <20220811022304.583300-1-kuba@kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.1.0
-Subject: Re: [PATCH v2 09/10] sched/psi: per-cgroup PSI stats
- disable/re-enable interface
-Content-Language: en-US
-To:     Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>
-Cc:     corbet@lwn.net, surenb@google.com, mingo@redhat.com,
-        peterz@infradead.org, vincent.guittot@linaro.org,
-        dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
-        cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, songmuchun@bytedance.com
-References: <20220808110341.15799-1-zhouchengming@bytedance.com>
- <20220808110341.15799-10-zhouchengming@bytedance.com>
- <YvKd6dezPM6UxfD/@slm.duckdns.org>
- <fcd0bd39-3049-a279-23e6-a6c02b4680a7@bytedance.com>
- <b89155d3-9315-fefc-408b-4cf538360a1c@bytedance.com>
- <YvPN07UlaPFAdlet@cmpxchg.org> <YvPqcJh5Ffv4Yga9@slm.duckdns.org>
-From:   Chengming Zhou <zhouchengming@bytedance.com>
-In-Reply-To: <YvPqcJh5Ffv4Yga9@slm.duckdns.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2022/8/11 01:27, Tejun Heo wrote:
-> Hello,
-> 
-> On Wed, Aug 10, 2022 at 11:25:07AM -0400, Johannes Weiner wrote:
->> How about just cgroup.pressure? Too ambiguous?
->>
->> cgroup.pressure.enable sounds good to me too. Or, because it's
->> default-enabled and that likely won't change, cgroup.pressure.disable.
-> 
-> .disable sounds more logical but I like .enable better for some reason. As
-> for just cgroup.pressure, yeah, maybe? The conundrum is that the prettiness
-> order is the exact reverse of the logical order. So, I'm okay with any of
-> the three.
+Short overview of the sections. I presume most people will start
+by copy'n'pasting existing schemas rather than studying the docs,
+but FWIW...
 
-Ok, so I would like to pick the prettiest "cgroup.pressure", it also looks more
-consistent with {cpu|memory|io}.pressure.
+Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+---
+ Documentation/index.rst                    |   1 +
+ Documentation/netlink/index.rst            |  13 +++
+ Documentation/netlink/netlink-bindings.rst | 104 +++++++++++++++++++++
+ 3 files changed, 118 insertions(+)
+ create mode 100644 Documentation/netlink/index.rst
+ create mode 100644 Documentation/netlink/netlink-bindings.rst
 
-Thanks!
+diff --git a/Documentation/index.rst b/Documentation/index.rst
+index 67036a05b771..130e39c18fe0 100644
+--- a/Documentation/index.rst
++++ b/Documentation/index.rst
+@@ -112,6 +112,7 @@ needed).
+    infiniband/index
+    leds/index
+    netlabel/index
++   netlink/index
+    networking/index
+    pcmcia/index
+    power/index
+diff --git a/Documentation/netlink/index.rst b/Documentation/netlink/index.rst
+new file mode 100644
+index 000000000000..a7f063f31ff3
+--- /dev/null
++++ b/Documentation/netlink/index.rst
+@@ -0,0 +1,13 @@
++.. SPDX-License-Identifier: BSD-3-Clause
++
++====================
++Netlink API Handbook
++====================
++
++Netlink documentation.
++
++.. toctree::
++   :maxdepth: 2
++
++   netlink-bindings
++
+diff --git a/Documentation/netlink/netlink-bindings.rst b/Documentation/netlink/netlink-bindings.rst
+new file mode 100644
+index 000000000000..af0c069001f3
+--- /dev/null
++++ b/Documentation/netlink/netlink-bindings.rst
+@@ -0,0 +1,104 @@
++.. SPDX-License-Identifier: BSD-3-Clause
++
++Netlink protocol specifications
++===============================
++
++Netlink protocol specifications are complete, machine readable descriptions of
++genetlink protocols written in YAML. The schema (in ``jsonschema``) can be found
++in the same directory as this documentation file.
++
++Schema structure
++----------------
++
++YAML schema has the following conceptual sections. Most properties in the schema
++accept (or in fact require) a ``description`` sub-property documenting the defined
++object.
++
++Globals
++~~~~~~~
++
++There is a handful of global attributes such as the family name, version of
++the protocol, and additional C headers (used only for uAPI and C-compatible
++codegen).
++
++Global level also contains a handful of customization properties, like
++``attr-cnt-suffix`` which allow accommodating quirks of existing families.
++Those properties should not be used in new families.
++
++Attribute Spaces
++~~~~~~~~~~~~~~~~
++
++First of the main two sections is ``attribute-spaces``. This property contains
++information about netlink attributes of the family. All families have at least
++one attribute space, most have multiple. ``attribute-spaces`` is an array/list,
++with each entry describing a single space. The ``name`` of the space is not used
++in uAPI/C codegen, it's internal to the spec itself, used by operations and nested
++attributes to refer to a space.
++
++Each attribute space has properties used to render uAPI header enums. ``name-prefix``
++is prepended to the name of each attribute, allowing the attribute names to be shorter
++compared to the enum names in the uAPI.
++Optionally attribute space may contain ``enum-name`` if the uAPI header's enum should
++have a name. Most netlink uAPIs do not name attribute enums, the attribute names are
++heavily prefixed, which is sufficient.
++
++Most importantly each attribute space contains a list of attributes under the ``attributes``
++property. The properties of an attribute should look fairly familiar to anyone who ever
++wrote netlink code (``name``, ``type``, optional validation constraints like ``len`` and
++reference to the internal space for nests).
++
++Note that attribute spaces do not themselves nest, nested attributes refer to their internal
++space via a ``nested-attributes`` property, so the YAML spec does not resemble the format
++of the netlink messages directly.
++
++YAML spec may also contain fractional spaces - spaces which contain a ``subspace-of``
++property. Such spaces describe a section of a full space, allowing narrowing down which
++attributes are allowed in a nest or refining the validation criteria. Fractional spaces
++can only be used in nests. They are not rendered to the uAPI in any fashion.
++
++Operations and notifications
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++This section describes messages passed between the kernel and the user space.
++There are three types of entries in this section - operations, notifications
++and events.
++
++Notifications and events both refer to the asynchronous messages sent by the kernel
++to members of a multicast group. The difference between the two is that a notification
++shares its contents with a GET operation (the name of the GET operation is specified
++in the ``notify`` property). This arrangement is commonly used for notifications about
++objects where the notification carries the full object definition.
++
++Events are more focused and carry only a subset of information rather than full
++object state (a made up example would be a link state change event with just
++the interface name and the new link state).
++Events are considered less idiomatic for netlink and notifications
++should be preferred. After all, if the information in an event is sufficiently
++complete to be useful, it should also be useful enough to have a corresponding
++GET command.
++
++Operations describe the most common request - response communication. User
++sends a request and kernel replies. Each operation may contain any combination
++of the two modes familiar to netlink users - ``do`` and ``dump``.
++``do`` and ``dump`` in turn contain a combination of ``request`` and ``response``
++properties. If no explicit message with attributes is passed in a given
++direction (e.g. a ``dump`` which doesn't not accept filter, or a ``do``
++of a SET operation to which the kernel responds with just the netlink error code)
++``request`` or ``response`` section can be skipped. ``request`` and ``response``
++sections list the attributes allowed in a message. The list contains only
++the names of attributes from a space referred to by the ``attribute-space``
++property.
++
++An astute reader will notice that there are two ways of defining sub-spaces.
++A full fractional space with a ``subspace-of`` property and a de facto subspace
++created by list attributes for an operation. This is only for convenience.
++The abilities to refine the selection of attributes and change their definition
++afforded by the fractional space result in much more verbose YAML, and the full
++definition of a space (i.e. containing all attributes) is always required to render
++the uAPI header, anyway. So the per-operation attribute selection is a form of
++a shorthand.
++
++Multicast groups
++~~~~~~~~~~~~~~~~
++
++This section lists the multicast groups of the family, not much to be said.
+-- 
+2.37.1
 
