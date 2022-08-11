@@ -2,42 +2,42 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A24BC25B06
-	for <linux-doc@archiver.kernel.org>; Thu, 11 Aug 2022 21:47:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A976C3F6B0
+	for <linux-doc@archiver.kernel.org>; Thu, 11 Aug 2022 21:47:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235602AbiHKVrM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 11 Aug 2022 17:47:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54384 "EHLO
+        id S235677AbiHKVrN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 11 Aug 2022 17:47:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54394 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235396AbiHKVrJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Aug 2022 17:47:09 -0400
+        with ESMTP id S235544AbiHKVrK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Aug 2022 17:47:10 -0400
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D38B19F181;
-        Thu, 11 Aug 2022 14:47:08 -0700 (PDT)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 27BL07GH025299;
-        Thu, 11 Aug 2022 21:47:01 GMT
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C945A9F195;
+        Thu, 11 Aug 2022 14:47:09 -0700 (PDT)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 27BLS6uQ018610;
+        Thu, 11 Aug 2022 21:47:03 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding : content-type; s=qcppdkim1;
- bh=Ca2C2tx5BzQbZuV4HRZgNfAx1TlE2A/94biwGzQALew=;
- b=P1W5C9CzWVyqo2W+erOXYZLIKvxriyJCfsinmtuj0xqX/bBap8OANFtkmxuIl/IugCmv
- E/6Zr1w4IbcN4b30UjysVfhHVwY+h7JYI/lCBNtfbmPU3GBJzFTN4FnNvmxMGS6A/nlZ
- Nwn+2pIwMsqkUnu2nu1tALYBFFWIsC647CSz/jVE2K+4NY50sPW/1uJ2eIKLH491iU4W
- XtcPu3hbyy/Uh9fpK54A8CtqNqv0RIc5UYtF9PLVPMV76RaYzk5KgOaKvYJ8FJsbp6P1
- munWhh+Hdzu5oyJNgUtT6NYElbypBA7bD6asZST2MfXICPXi0ldacMUOAuEvVkm4Jfqr pQ== 
+ bh=9SG6mHL+qXasSyzhyP5QHde46SeS4oqPOWl95Qbo4XQ=;
+ b=UwgRTiD+AN97AbE8oJOqIVjOIYQ0f6WmAdhRjUZm1xaWYjyqo1fbhwRK/SWC7o1IJZho
+ O61fwvnUtGs9j8RHogIF9Nr5hdw9f/Y2/DpVjWbk5mARrw/QTOVId+TSDQs646y8jkLN
+ oKjopySZGv3AXtn7GtCqX27zdJkVvpH7IfiFyxp6knVWJ9wo+WUcadO7S3YzZ7TPAIF3
+ kRQ81VGPOQq0bvJGyf4v3d7zllwaDXffBLjRl9TSjhydIU2LorHqBGfjTLVNsdXVFwEG
+ mOUqz5wABDCVLK1X6VkHDLf4RPl3YZjSHmbBbVkYP8GD6X4l3s2HxRKtubxuAeglBFv4 MQ== 
 Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3hv95ywwdu-1
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3hw89x06rd-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 11 Aug 2022 21:47:01 +0000
+        Thu, 11 Aug 2022 21:47:02 +0000
 Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-        by NASANPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 27BLg0GW018016
+        by NASANPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 27BLg2g0018084
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 11 Aug 2022 21:42:00 GMT
+        Thu, 11 Aug 2022 21:42:02 GMT
 Received: from hu-eberman-lv.qualcomm.com (10.49.16.6) by
  nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Thu, 11 Aug 2022 14:41:59 -0700
+ 15.2.986.22; Thu, 11 Aug 2022 14:42:00 -0700
 From:   Elliot Berman <quic_eberman@quicinc.com>
 To:     Bjorn Andersson <bjorn.andersson@linaro.org>
 CC:     Elliot Berman <quic_eberman@quicinc.com>,
@@ -58,9 +58,9 @@ CC:     Elliot Berman <quic_eberman@quicinc.com>,
         Catalin Marinas <catalin.marinas@arm.com>,
         <devicetree@vger.kernel.org>, <linux-doc@vger.kernel.org>,
         <linux-arm-msm@vger.kernel.org>
-Subject: [PATCH v3 08/12] gunyah: sysfs: Add node to describe supported features
-Date:   Thu, 11 Aug 2022 14:41:03 -0700
-Message-ID: <20220811214107.1074343-9-quic_eberman@quicinc.com>
+Subject: [PATCH v3 11/12] gunyah: rsc_mgr: Add auxiliary devices for console
+Date:   Thu, 11 Aug 2022 14:41:06 -0700
+Message-ID: <20220811214107.1074343-12-quic_eberman@quicinc.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220811214107.1074343-1-quic_eberman@quicinc.com>
 References: <20220811214107.1074343-1-quic_eberman@quicinc.com>
@@ -72,85 +72,84 @@ X-ClientProxiedBy: nalasex01b.na.qualcomm.com (10.47.209.197) To
  nasanex01b.na.qualcomm.com (10.46.141.250)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: A0WIgKTzhM8ZsUpTGpNNvemYtk6oQ-QD
-X-Proofpoint-GUID: A0WIgKTzhM8ZsUpTGpNNvemYtk6oQ-QD
+X-Proofpoint-GUID: eVNwVEscxmphkOUGMwEPxREAQiw9Iq1U
+X-Proofpoint-ORIG-GUID: eVNwVEscxmphkOUGMwEPxREAQiw9Iq1U
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
  definitions=2022-08-11_13,2022-08-11_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- malwarescore=0 clxscore=1015 adultscore=0 bulkscore=0 impostorscore=0
- suspectscore=0 mlxlogscore=962 priorityscore=1501 spamscore=0 mlxscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2207270000 definitions=main-2208110065
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 bulkscore=0
+ mlxlogscore=809 lowpriorityscore=0 phishscore=0 clxscore=1015 spamscore=0
+ suspectscore=0 impostorscore=0 priorityscore=1501 mlxscore=0 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2207270000
+ definitions=main-2208110065
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add a sysfs node to list the features that the Gunyah hypervisor and
-Linux supports. For now, Linux support cspace (capability IDs) and
-message queues, so only report those..
+Gunyah resource manager exposes a concrete functionalities which
+complicate a single resource manager driver. Use auxiliary bus
+to help split high level functions for the resource manager and keep the
+primary resource manager driver focused on the RPC with RM itself.
+Delegate Resource Manager's console functionality to the auxiliary bus.
 
 Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
 ---
- Documentation/ABI/testing/sysfs-hypervisor-gunyah | 15 +++++++++++++++
- drivers/virt/gunyah/sysfs.c                       | 15 +++++++++++++++
- 2 files changed, 30 insertions(+)
+ drivers/virt/gunyah/rsc_mgr.c | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
 
-diff --git a/Documentation/ABI/testing/sysfs-hypervisor-gunyah b/Documentation/ABI/testing/sysfs-hypervisor-gunyah
-index 219465783a9e..7c14027b3daa 100644
---- a/Documentation/ABI/testing/sysfs-hypervisor-gunyah
-+++ b/Documentation/ABI/testing/sysfs-hypervisor-gunyah
-@@ -6,6 +6,21 @@ Description:	If running under Gunyah:
- 		Type of hypervisor:
- 		"gunyah": Gunyah hypervisor
+diff --git a/drivers/virt/gunyah/rsc_mgr.c b/drivers/virt/gunyah/rsc_mgr.c
+index 635bd7a52653..7a899deaae8f 100644
+--- a/drivers/virt/gunyah/rsc_mgr.c
++++ b/drivers/virt/gunyah/rsc_mgr.c
+@@ -16,6 +16,7 @@
+ #include <linux/notifier.h>
+ #include <linux/workqueue.h>
+ #include <linux/completion.h>
++#include <linux/auxiliary_bus.h>
+ #include <linux/gunyah_rsc_mgr.h>
+ #include <linux/platform_device.h>
  
-+What:		/sys/hypervisor/gunyah/features
-+Date:		August 2022
-+KernelVersion:	6.0
-+Contact:	linux-arm-msm@vger.kernel.org
-+Description:	If running under Gunyah:
-+		Space separated list of features supported by Linux and Gunyah:
-+		"cspace": Gunyah devices
-+		"doorbell": Sending/receiving virtual interrupts via Gunyah doorbells
-+		"message-queue": Sending/receiving messages via Gunyah message queues
-+		"vic": Interrupt lending
-+		"vpm": Virtual platform management
-+		"vcpu": Virtual CPU management
-+		"memextent": Memory lending/management
-+		"trace": Gunyah hypervisor tracing
-+
- What:		/sys/hypervisor/gunyah/api
- Date:		August 2022
- KernelVersion:	6.0
-diff --git a/drivers/virt/gunyah/sysfs.c b/drivers/virt/gunyah/sysfs.c
-index 9de700fdbfcb..8c6ea141ec66 100644
---- a/drivers/virt/gunyah/sysfs.c
-+++ b/drivers/virt/gunyah/sysfs.c
-@@ -31,9 +31,24 @@ static ssize_t variant_show(struct kobject *kobj, struct kobj_attribute *attr, c
- }
- static struct kobj_attribute variant_attr = __ATTR_RO(variant);
+@@ -95,6 +96,8 @@ struct gh_rsc_mgr {
+ 	struct mutex send_lock;
  
-+static ssize_t features_show(struct kobject *kobj, struct kobj_attribute *attr, char *buffer)
-+{
-+	int len = 0;
+ 	struct work_struct recv_work;
 +
-+	if (GH_IDENTIFY_PARTITION_CSPACE(gunyah_api.flags))
-+		len += sysfs_emit_at(buffer, len, "cspace ");
-+	if (GH_IDENTIFY_MSGQUEUE(gunyah_api.flags))
-+		len += sysfs_emit_at(buffer, len, "message-queue ");
-+
-+	len += sysfs_emit_at(buffer, len, "\n");
-+	return len;
-+}
-+static struct kobj_attribute features_attr = __ATTR_RO(features);
-+
- static struct attribute *gunyah_attrs[] = {
- 	&api_attr.attr,
- 	&variant_attr.attr,
-+	&features_attr.attr,
- 	NULL
++	struct auxiliary_device console_adev;
  };
  
+ static struct gh_rsc_mgr *__rsc_mgr;
+@@ -572,8 +575,21 @@ static int gh_rm_drv_probe(struct platform_device *pdev)
+ 
+ 	__rsc_mgr = rsc_mgr;
+ 
++	rsc_mgr->console_adev.dev.parent = &pdev->dev;
++	rsc_mgr->console_adev.name = "console";
++	ret = auxiliary_device_init(&rsc_mgr->console_adev);
++	if (ret)
++		goto err_msgq;
++	ret = auxiliary_device_add(&rsc_mgr->console_adev);
++	if (ret)
++		goto err_console_adev_uninit;
++
+ 	return 0;
+ 
++err_console_adev_uninit:
++	auxiliary_device_uninit(&rsc_mgr->console_adev);
++err_msgq:
++	gunyah_msgq_free(rsc_mgr->msgq_rx);
+ err_msgq_tx:
+ 	gunyah_msgq_free(rsc_mgr->msgq_tx);
+ 	return ret;
+@@ -583,6 +599,9 @@ static int gh_rm_drv_remove(struct platform_device *pdev)
+ {
+ 	struct gh_rsc_mgr *rsc_mgr = platform_get_drvdata(pdev);
+ 
++	auxiliary_device_delete(&rsc_mgr->console_adev);
++	auxiliary_device_uninit(&rsc_mgr->console_adev);
++
+ 	__rsc_mgr = NULL;
+ 
+ 	gunyah_msgq_free(rsc_mgr->msgq_tx);
 -- 
 2.25.1
 
