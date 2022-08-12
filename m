@@ -2,161 +2,107 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 02C39C00140
-	for <linux-doc@archiver.kernel.org>; Fri, 12 Aug 2022 17:01:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B8EDC28B2C
+	for <linux-doc@archiver.kernel.org>; Fri, 12 Aug 2022 21:59:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239527AbiHLRBA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 12 Aug 2022 13:01:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37502 "EHLO
+        id S233635AbiHLV7P (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 12 Aug 2022 17:59:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42792 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239530AbiHLRA7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 12 Aug 2022 13:00:59 -0400
-Received: from mail-qt1-x834.google.com (mail-qt1-x834.google.com [IPv6:2607:f8b0:4864:20::834])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F3225FAED;
-        Fri, 12 Aug 2022 10:00:57 -0700 (PDT)
-Received: by mail-qt1-x834.google.com with SMTP id x5so1198590qtv.9;
-        Fri, 12 Aug 2022 10:00:57 -0700 (PDT)
+        with ESMTP id S230445AbiHLV7O (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 12 Aug 2022 17:59:14 -0400
+Received: from mail-qt1-x82c.google.com (mail-qt1-x82c.google.com [IPv6:2607:f8b0:4864:20::82c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2755798D06;
+        Fri, 12 Aug 2022 14:59:13 -0700 (PDT)
+Received: by mail-qt1-x82c.google.com with SMTP id e28so1788711qts.1;
+        Fri, 12 Aug 2022 14:59:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc;
-        bh=HGYCPjo9Ox5Yihgn+X42WcT7OjqP49HxXrJuPQjVfRQ=;
-        b=oZ2nrEbsLdGC7yM5lY4Mw5LY90jJ2tl9s+pcVmRyLOoMjlX/2LMO0Q4hx9AgXi5Y19
-         0NAyYmibeQ+HbFAMIHQPtGjckT1orCv/QAYmRaV+W5Q4sHiflDLeN+Tn+ZotYWOO++VH
-         yhMDvCz461+qL4GovCK1B8YrlhyoIsQW8gOOwEjU2z1uuC9jJ+4fVO7JYieZRKfcRYvJ
-         2Xumw4lRkCVKmCjjWKCW2artlEYq+F1O5vue+Tk8OhctdYWTUZ1ONODon31V4+EFfAsd
-         jqatgDe7n5mC7+1TC0lQ8rfTHaEGYQK6F3mfEEbocDUFpoygsPMOBjvPCghEQAI+Teva
-         EdPQ==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc;
+        bh=GjUDLuXzW1eUvP6FX/7o5Xq4pQ7lZJ0+fEeVLZ9I0Yw=;
+        b=FiZDuTxWWY5epmm1aNeA7myYoG9e2hWZqJmv3nk28e1h/8gYXgrzdQ3Q8dOen1XRUP
+         MR1FecG7Euhv2pE5x2tWoBnUPIY5yCKo+dYUFfoiLBAsRK81OQCf9f7TQSUQyd7gSkU/
+         Vzg+t5sT53Ocjl1eogRfHuWeE51IsRRFuydXQHJBP/o3cKFAtMCYLTuBZtAKeMA/bQI9
+         0pYQxuhVINLkzjAy2NuXAYY8EMvMz6+vQkoIxurrkYqljPYvzjG3C23jgwsa4Hvt+1Ml
+         h9ucs0yoy09BKH4aBzXFFzI0aR1A82xkq3Bxf+GBUwsO6GNVm2pVkJAQOZpu3OCArt91
+         81fg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc;
-        bh=HGYCPjo9Ox5Yihgn+X42WcT7OjqP49HxXrJuPQjVfRQ=;
-        b=Eg5if2EZX8ZryV3INTwLvMEz7LirlnTZv1s0OyztfPCCVVp3gSS5KCIg5puuxdZmhU
-         0T/DH3CBox1p24eKNSwd+48M55jecILTgaqRD7lmcWyf5jGIdtYZpQ/x1SK21zXEx0Ok
-         KFC/+i0T1jx90/eevqIDqMBVbiacjhoVVZJtcSa7rUg+OHenmRtxPxFVrAUhji4FmCs9
-         Q8pzQuFRKEt6/lPdJoP/8dnT/183JTFxPMqN9B6gP/sr+yixIsMkhyXAenvdZskTaFx7
-         uhNjciUURSHCATymgNK0Ysz9D0KM83uXyKJlSMW+9fzen/iqD2oXA52Dxk0lT+oIBvVY
-         n/Pg==
-X-Gm-Message-State: ACgBeo2LA/iTQDVEqFlqb8Yt7lf15tgXT8xWatw+pCxzPdt8c9sRNhXd
-        /VveOwsSIznmLTP9RpllkoN7S9CRSW0=
-X-Google-Smtp-Source: AA6agR7T4QQ6CtB3Q8iFKDtFI8IrQWGaZFVvxmrn8D2gaTBBT5YY0Dn6Op2hCQn1+1B/WGCNp+Bt/g==
-X-Received: by 2002:ac8:7d90:0:b0:326:b431:6cd3 with SMTP id c16-20020ac87d90000000b00326b4316cd3mr4361676qtd.511.1660323656373;
-        Fri, 12 Aug 2022 10:00:56 -0700 (PDT)
-Received: from [10.67.48.245] ([192.19.223.252])
-        by smtp.googlemail.com with ESMTPSA id cp5-20020a05622a420500b0031f41ea94easm1910796qtb.28.2022.08.12.10.00.53
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 12 Aug 2022 10:00:55 -0700 (PDT)
-Message-ID: <9208fec1-60e9-dd2b-af27-ada3dfa50121@gmail.com>
-Date:   Fri, 12 Aug 2022 10:00:52 -0700
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=GjUDLuXzW1eUvP6FX/7o5Xq4pQ7lZJ0+fEeVLZ9I0Yw=;
+        b=cx1GK4hDOQNDbty7IqTufNMEw0MVUF5UWDXXugFz/PejH8c686f2ZB5hVYAgFB3HvK
+         gkeM5mY/X++TopBNDlsR9SRSVMshy9GqRsGQiEsE9Uptk6I4mPGxbfJ3xbO7FDCiMN5/
+         lSXMGer5UPuNo59OSrM5S3NCR1XJDWZG/9UxnXWJ1oJM/p0htEGHal3EFw7SkYU/IQLc
+         Os3HxNhb/UgWb2tl92VCwHY1DArvYT9q0237SXs3v0dqkLfr/W+Gr8JKY3p3HOWj8NJA
+         YCOv9udPkuQgubFK0AY9feB+CpkA+upn1O+WXXgytpvkw43QZuMqQw5+vigl38Fntz9U
+         gfZg==
+X-Gm-Message-State: ACgBeo3jaBDAIN9GxhwSrmxkWuAKk4wrAfxLCzr+1NS/zZFo6ZxH+l5g
+        Z0c1+7+H6cZY0aLiZycoayjEvfE0pB7Maw7vqNM=
+X-Google-Smtp-Source: AA6agR4Jz1gAcQZX/oXxYMX2qzmwEI5SyMqu8DUMD2rPlXAwK7xmH3fsliqwwTuH5OTPr0DLHyLnH+xATRpJ37fIM8E=
+X-Received: by 2002:a05:622a:48f:b0:343:463:351a with SMTP id
+ p15-20020a05622a048f00b003430463351amr5361998qtx.61.1660341552210; Fri, 12
+ Aug 2022 14:59:12 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [RFC net-next 0/4] ynl: YAML netlink protocol descriptions
-Content-Language: en-US
-To:     Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org,
-        davem@davemloft.net, edumazet@google.com, pabeni@redhat.com
-Cc:     sdf@google.com, jacob.e.keller@intel.com, vadfed@fb.com,
-        johannes@sipsolutions.net, jiri@resnulli.us, dsahern@kernel.org,
-        stephen@networkplumber.org, fw@strlen.de, linux-doc@vger.kernel.org
-References: <20220811022304.583300-1-kuba@kernel.org>
-From:   Florian Fainelli <f.fainelli@gmail.com>
-In-Reply-To: <20220811022304.583300-1-kuba@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <f31b818cf8d682de61c74b133beffcc8a8202478.1660041358.git.christophe.leroy@csgroup.eu>
+ <C1886F9A-1799-4E3D-9153-579D31488695@zytor.com>
+In-Reply-To: <C1886F9A-1799-4E3D-9153-579D31488695@zytor.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Sat, 13 Aug 2022 00:58:36 +0300
+Message-ID: <CAHp75VfFQe3Ce-Si1sax8CCG1-rq+Y=8JhwH=82d3XgytCAmOQ@mail.gmail.com>
+Subject: Re: [PATCH] gpio: Allow user to customise maximum number of GPIOs
+To:     "H. Peter Anvin" <hpa@zytor.com>
+Cc:     Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Russell King <linux@armlinux.org.uk>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Linux Documentation List <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
+        Linux-Arch <linux-arch@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 8/10/22 19:23, Jakub Kicinski wrote:
-> Netlink seems simple and reasonable to those who understand it.
-> It appears cumbersome and arcane to those who don't.
-> 
-> This RFC introduces machine readable netlink protocol descriptions
-> in YAML, in an attempt to make creation of truly generic netlink
-> libraries a possibility. Truly generic netlink library here means
-> a library which does not require changes to support a new family
-> or a new operation.
-> 
-> Each YAML spec lists attributes and operations the family supports.
-> The specs are fully standalone, meaning that there is no dependency
-> on existing uAPI headers in C. Numeric values of all attribute types,
-> operations, enums, and defines and listed in the spec (or unambiguous).
-> This property removes the need to manually translate the headers for
-> languages which are not compatible with C.
-> 
-> The expectation is that the spec can be used to either dynamically
-> translate between whatever types the high level language likes (see
-> the Python example below) or codegen a complete libarary / bindings
-> for a netlink family at compilation time (like popular RPC libraries
-> do).
-> 
-> Currently only genetlink is supported, but the "old netlink" should
-> be supportable as well (I don't need it myself).
-> 
-> On the kernel side the YAML spec can be used to generate:
->   - the C uAPI header
->   - documentation of the protocol as a ReST file
->   - policy tables for input attribute validation
->   - operation tables
-> 
-> We can also codegen parsers and dump helpers, but right now the level
-> of "creativity & cleverness" when it comes to netlink parsing is so
-> high it's quite hard to generalize it for most families without major
-> refactoring.
-> 
-> Being able to generate the header, documentation and policy tables
-> should balance out the extra effort of writing the YAML spec.
-> 
-> Here is a Python example I promised earlier:
-> 
->    ynl = YnlFamily("path/to/ethtool.yaml")
->    channels = ynl.channels_get({'header': {'dev_name': 'eni1np1'}})
-> 
-> If the call was successful "channels" will hold a standard Python dict,
-> e.g.:
-> 
->    {'header': {'dev_index': 6, 'dev_name': 'eni1np1'},
->     'combined_max': 1,
->     'combined_count': 1}
-> 
-> for a netdevsim device with a single combined queue.
-> 
-> YnlFamily is an implementation of a YAML <> netlink translator (patch 3).
-> It takes a path to the YAML spec - hopefully one day we will make
-> the YAMLs themselves uAPI and distribute them like we distribute
-> C headers. Or get them distributed to a standard search path another
-> way. Until then, the YNL library needs a full path to the YAML spec and
-> application has to worry about the distribution of those.
-> 
-> The YnlFamily reads all the info it needs from the spec, resolves
-> the genetlink family id, and creates methods based on the spec.
-> channels_get is such a dynamically-generated method (i.e. grep for
-> channels_get in the python code shows nothing). The method can be called
-> passing a standard Python dict as an argument. YNL will look up each key
-> in the YAML spec and render the appropriate binary (netlink TLV)
-> representation of the value. It then talks thru a netlink socket
-> to the kernel, and deserilizes the response, converting the netlink
-> TLVs into Python types and constructing a dictionary.
-> 
-> Again, the YNL code is completely generic and has no knowledge specific
-> to ethtool. It's fairly simple an incomplete (in terms of types
-> for example), I wrote it this afternoon. I'm also pretty bad at Python,
-> but it's the only language I can type which allows the method
-> magic, so please don't judge :) I have a rather more complete codegen
-> for C, with support for notifications, kernel -> user policy/type
-> verification, resolving extack attr offsets into a path
-> of attribute names etc, etc. But that stuff needs polishing and
-> is less suitable for an RFC.
-> 
-> The ability for a high level language like Python to talk to the kernel
-> so easily, without ctypes, manually packing structs, copy'n'pasting
-> values for defines etc. excites me more than C codegen, anyway.
+On Thu, Aug 11, 2022 at 11:12 PM H. Peter Anvin <hpa@zytor.com> wrote:
+>
+> On August 9, 2022 3:40:38 AM PDT, Christophe Leroy <christophe.leroy@csgroup.eu> wrote:
+> >At the time being, the default maximum number of GPIOs is set to 512
+> >and can only get customised via an architecture specific
+> >CONFIG_ARCH_NR_GPIO.
+> >
+> >The maximum number of GPIOs might be dependent on the number of
+> >interface boards and is somewhat independent of architecture.
+> >
+> >Allow the user to select that maximum number outside of any
+> >architecture configuration. To enable that, re-define a
+> >core CONFIG_ARCH_NR_GPIO for architectures which don't already
+> >define one. Guard it with a new hidden CONFIG_ARCH_HAS_NR_GPIO.
+> >
+> >Only two architectures will need CONFIG_ARCH_HAS_NR_GPIO: x86 and arm.
+> >
+> >On arm, do like x86 and set 512 as the default instead of 0, that
+> >allows simplifying the logic in asm-generic/gpio.h
 
-This is really cool BTW, and it makes a lot of sense to me that we are 
-moving that way, especially with Rust knocking at the door. I will try 
-to do a more thorough review, than "cool, I like it".
+...
+
+> This seems very odd to me. GPIOs can be, and often are, attached to peripheral buses which means that the *same system* can have anything from none to thousands of gpios ..
+
+Basically this setting should give us a *minimum* GPIO lines that are
+present on the system. And that is perfectly SoC dependent. The real
+issue is that the GPIO framework has these global arrays that (still?)
+can't be initialized from the heap due to too early initialization (is
+it the true reason?).
+
 -- 
-Florian
+With Best Regards,
+Andy Shevchenko
