@@ -2,96 +2,136 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 303F7C00140
-	for <linux-doc@archiver.kernel.org>; Fri, 12 Aug 2022 07:40:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C17FDC282E7
+	for <linux-doc@archiver.kernel.org>; Fri, 12 Aug 2022 08:11:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237169AbiHLHk1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 12 Aug 2022 03:40:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43292 "EHLO
+        id S231848AbiHLILE convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 12 Aug 2022 04:11:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50956 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235746AbiHLHkZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 12 Aug 2022 03:40:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id C028C28713
-        for <linux-doc@vger.kernel.org>; Fri, 12 Aug 2022 00:40:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1660290023;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=VzyQdT5cmtTht8IqFKMXiM9jaigfovrsBI7GWxuwi5g=;
-        b=Ua4m4apeKIyBSosisrxkEknr0b4+8yjw1q/+z3HOlmnLjmvF+zhEZoU+xUa/bfOqjN9j2s
-        zmN17MiosoAsTc2TvmudS977rQCmd/ZnDCLH4LoyWirwO9X4z1oIVqmKE4wj02EKzpsCxV
-        WpLtebktcwg/pPzqQ/KehJg/3Bw1TGo=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-659-_t__PjlCMaaUhvNZQL4IXg-1; Fri, 12 Aug 2022 03:40:22 -0400
-X-MC-Unique: _t__PjlCMaaUhvNZQL4IXg-1
-Received: by mail-ed1-f71.google.com with SMTP id g8-20020a056402424800b0043e81c582a4so159741edb.17
-        for <linux-doc@vger.kernel.org>; Fri, 12 Aug 2022 00:40:22 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc;
-        bh=VzyQdT5cmtTht8IqFKMXiM9jaigfovrsBI7GWxuwi5g=;
-        b=vjMqNl9i7eMbcGX7TpBZ8Cf5g1YmcZgbfd9chmyK6+VEuv1sHE+0N2r+E4ZoDTnoKI
-         X1Srn4QCkqP0o7pdC/YYKFTJaBo/zJpGKsTcNHE1uQxW6TStWSSQjOHtjmFaAVB9eEae
-         i78qaa/0sAMRCRRB+yIzhaNPxw0JQTqIY8ae3HOpk3bEJQPXIbNP+TEBCGwlTdWFIIhy
-         5dZyX20FnDSbOd3Lg2C2VqAZPE2xvYZ7v58PotAnRPWq/9DF9YeDRiehDZpHX4lzZ+c5
-         0gK12TXFKemhdF9j3CWhUlZQUKHIE6ZBHfyGFfeXiJWFAQTnzf3GuLUSWZZk1Bsecfxd
-         ugEg==
-X-Gm-Message-State: ACgBeo3EHcG2JSC06h1yHKjp1bJsAuPXeTWPPGds3mlxEqH5P4+v/MC6
-        +ZtDKKLQjzDQS+GdCjUu0bKYFMchNGJ1nKjYRtjf2wWUi4IqtZqEzt99ZvLl8Re89As2gUhbHWM
-        9qm9xy9FUXzlJ6/B617tM
-X-Received: by 2002:a17:907:6d8c:b0:731:6c60:eced with SMTP id sb12-20020a1709076d8c00b007316c60ecedmr1908916ejc.266.1660290021441;
-        Fri, 12 Aug 2022 00:40:21 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR4+bs0ZA+sprvMn0/Ivf+3NRpmtrSL/ddfi5tjpVofxW6oWzVLkn3yetOTpHRI1HpZv21KQlQ==
-X-Received: by 2002:a17:907:6d8c:b0:731:6c60:eced with SMTP id sb12-20020a1709076d8c00b007316c60ecedmr1908903ejc.266.1660290021233;
-        Fri, 12 Aug 2022 00:40:21 -0700 (PDT)
-Received: from ?IPV6:2001:b07:6468:f312:1c09:f536:3de6:228c? ([2001:b07:6468:f312:1c09:f536:3de6:228c])
-        by smtp.googlemail.com with ESMTPSA id a26-20020a17090682da00b006ff0b457cdasm507155ejy.53.2022.08.12.00.40.20
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 12 Aug 2022 00:40:20 -0700 (PDT)
-Message-ID: <d858ba66-422b-2bce-dafe-bc6586803e5f@redhat.com>
-Date:   Fri, 12 Aug 2022 09:40:19 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH next 0/2] Documentation: KVM:
- KVM_CAP_VM_DISABLE_NX_HUGE_PAGES documentation fixes
+        with ESMTP id S230328AbiHLILE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 12 Aug 2022 04:11:04 -0400
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 882FE8285B;
+        Fri, 12 Aug 2022 01:11:02 -0700 (PDT)
+Received: from fraeml715-chm.china.huawei.com (unknown [172.18.147.207])
+        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4M3xBL4ZtPz682wj;
+        Fri, 12 Aug 2022 16:08:10 +0800 (CST)
+Received: from fraeml714-chm.china.huawei.com (10.206.15.33) by
+ fraeml715-chm.china.huawei.com (10.206.15.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Fri, 12 Aug 2022 10:11:00 +0200
+Received: from fraeml714-chm.china.huawei.com ([10.206.15.33]) by
+ fraeml714-chm.china.huawei.com ([10.206.15.33]) with mapi id 15.01.2375.024;
+ Fri, 12 Aug 2022 10:11:00 +0200
+From:   Roberto Sassu <roberto.sassu@huawei.com>
+To:     =?iso-8859-1?Q?Daniel_M=FCller?= <deso@posteo.net>
+CC:     Alexei Starovoitov <alexei.starovoitov@gmail.com>,
+        "ast@kernel.org" <ast@kernel.org>,
+        "daniel@iogearbox.net" <daniel@iogearbox.net>,
+        "andrii@kernel.org" <andrii@kernel.org>,
+        "martin.lau@linux.dev" <martin.lau@linux.dev>,
+        "song@kernel.org" <song@kernel.org>, "yhs@fb.com" <yhs@fb.com>,
+        "john.fastabend@gmail.com" <john.fastabend@gmail.com>,
+        "kpsingh@kernel.org" <kpsingh@kernel.org>,
+        "sdf@google.com" <sdf@google.com>,
+        "haoluo@google.com" <haoluo@google.com>,
+        "jolsa@kernel.org" <jolsa@kernel.org>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "dhowells@redhat.com" <dhowells@redhat.com>,
+        "jarkko@kernel.org" <jarkko@kernel.org>,
+        "rostedt@goodmis.org" <rostedt@goodmis.org>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "paul@paul-moore.com" <paul@paul-moore.com>,
+        "jmorris@namei.org" <jmorris@namei.org>,
+        "serge@hallyn.com" <serge@hallyn.com>,
+        "shuah@kernel.org" <shuah@kernel.org>,
+        "bpf@vger.kernel.org" <bpf@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "keyrings@vger.kernel.org" <keyrings@vger.kernel.org>,
+        "linux-security-module@vger.kernel.org" 
+        <linux-security-module@vger.kernel.org>,
+        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH v10 5/9] bpf: Add bpf_lookup_*_key() and bpf_key_put()
+ kfuncs
+Thread-Topic: [PATCH v10 5/9] bpf: Add bpf_lookup_*_key() and bpf_key_put()
+ kfuncs
+Thread-Index: AQHYrNrI3xbltKneMkianwQkzvowha2ohoeAgADLvDCAAEKEEIAAqsgAgACsYtA=
+Date:   Fri, 12 Aug 2022 08:11:00 +0000
+Message-ID: <bff9efc2121046d78e50f0a270d13dc3@huawei.com>
+References: <20220810165932.2143413-1-roberto.sassu@huawei.com>
+ <20220810165932.2143413-6-roberto.sassu@huawei.com>
+ <20220810213351.wm5utltm67q4i6lu@MacBook-Pro-3.local.dhcp.thefacebook.com>
+ <2415f4931a364541b2e6d14a8185ffbb@huawei.com>
+ <f7d401d6ec6c47cbb358046a2d3ca5e8@huawei.com>
+ <20220811235222.inghj73tf6vudoyw@vaio>
+In-Reply-To: <20220811235222.inghj73tf6vudoyw@vaio>
+Accept-Language: en-US
 Content-Language: en-US
-To:     Bagas Sanjaya <bagasdotme@gmail.com>
-Cc:     linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        David Matlack <dmatlack@google.com>,
-        Ben Gardon <bgardon@google.com>, Peter Xu <peterx@redhat.com>,
-        kvm@vger.kernel.org, linux-next@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20220811063601.195105-1-pbonzini@redhat.com>
- <1db2a0cd-bef1-213c-a411-3d39d378743a@gmail.com>
-From:   Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <1db2a0cd-bef1-213c-a411-3d39d378743a@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.81.202.96]
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: 8BIT
+MIME-Version: 1.0
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 8/11/22 15:30, Bagas Sanjaya wrote:
-> On 8/11/22 13:36, Paolo Bonzini wrote:
->> Queued, thanks.
->>
->> Paolo
->>
->>
+> From: Daniel Müller [mailto:deso@posteo.net]
+> Sent: Friday, August 12, 2022 1:52 AM
+> On Thu, Aug 11, 2022 at 12:02:57PM +0000, Roberto Sassu wrote:
+> > > From: Roberto Sassu [mailto:roberto.sassu@huawei.com]
+> > > Sent: Thursday, August 11, 2022 9:47 AM
+> > > > From: Alexei Starovoitov [mailto:alexei.starovoitov@gmail.com]
+> > > > Sent: Wednesday, August 10, 2022 11:34 PM
+> > > > On Wed, Aug 10, 2022 at 06:59:28PM +0200, Roberto Sassu wrote:
+> > > > > +
+> > > > > +static int __init bpf_key_sig_kfuncs_init(void)
+> > > > > +{
+> > > > > +	int ret;
+> > > > > +
+> > > > > +	ret = register_btf_kfunc_id_set(BPF_PROG_TYPE_TRACING,
+> > > > > +					&bpf_key_sig_kfunc_set);
+> > > > > +	if (!ret)
+> > > > > +		return 0;
+> > > > > +
+> > > > > +	return register_btf_kfunc_id_set(BPF_PROG_TYPE_LSM,
+> > > > > +					 &bpf_key_sig_kfunc_set);
+> > > >
+> > > > Isn't this a watery water ?
+> > > > Don't you have a patch 1 ?
+> > > > What am I missing ?
+> > >
+> > > Uhm, yes. I had doubts too. That was what also KP did.
+> > >
+> > > It makes sense to register once, since we mapped LSM to
+> > > TRACING.
+> > >
+> > > Will resend only this patch. And I will figure out why CI failed.
+> >
+> > Adding in CC Daniel Müller, which worked on this.
+> >
+> > I think the issue is that some kernel options are set to =m.
+> > This causes the CI to miss all kernel modules, since they are
+> > not copied to the virtual machine that executes the tests.
+> >
+> > I'm testing this patch:
+> >
+> > https://github.com/robertosassu/libbpf-
+> ci/commit/b665e001b58c4ddb792a2a68098ea5dc6936b15c
 > 
-> Thanks for picking this up. However, Stephen noted that the issue is
-> already showed up on mainline [1]. Maybe this series should be queued
-> for 6.0 release (as -rc fixes), right?
+> I commented on the pull request. Would it make sense to adjust the
+> kernel configuration in this repository instead? I am worried that
+> otherwise everybody may need a similar work around, depending on how
+> selftests are ultimately run.
 
-Yes, it's in Linus's tree already.  Thanks for replying to Stephen.
+The issue seems specific of the eBPF CI. Others might be able to use
+kernel modules.
 
-Paolo
+Either choice is fine for me.
 
+Roberto
