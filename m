@@ -2,71 +2,70 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 289F3C00140
-	for <linux-doc@archiver.kernel.org>; Fri, 12 Aug 2022 10:09:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D779C00140
+	for <linux-doc@archiver.kernel.org>; Fri, 12 Aug 2022 10:11:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237117AbiHLKJa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 12 Aug 2022 06:09:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58766 "EHLO
+        id S237707AbiHLKLV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 12 Aug 2022 06:11:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33448 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236734AbiHLKJ3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 12 Aug 2022 06:09:29 -0400
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6BBD7A8CEB;
-        Fri, 12 Aug 2022 03:09:28 -0700 (PDT)
-Received: by mail-lf1-x12b.google.com with SMTP id z25so721460lfr.2;
-        Fri, 12 Aug 2022 03:09:28 -0700 (PDT)
+        with ESMTP id S237656AbiHLKLI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 12 Aug 2022 06:11:08 -0400
+Received: from mail-lj1-x22b.google.com (mail-lj1-x22b.google.com [IPv6:2a00:1450:4864:20::22b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C64E9E2FD;
+        Fri, 12 Aug 2022 03:11:05 -0700 (PDT)
+Received: by mail-lj1-x22b.google.com with SMTP id v10so473992ljh.9;
+        Fri, 12 Aug 2022 03:11:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc;
-        bh=yuAKn5slzZuEhtPm1LsezhtP3pivs5CCHH3xY7WDuVQ=;
-        b=bY3a2ss7fDRzPC2k43zDwqSVkA56ODbouc/Mh4zivAGhRzzZE0J3tJIe4H888Enb+s
-         xmSBomn3yZpqHIyyC9R+EPw4jJo7oslGkIosXdGkptn4Bt3U3NkYXbKLWJFSA4AT4z2W
-         Xzf/RNoxKtJYgKfOFXAZ8GJ+cRyJWev8k4O+EAd8KpRgtZSoT0xuE/LALlxK81Ozsowv
-         uDIlkI9/MmrzBmW0dnsWKiixPMXEdGjuIntvRpM9lIFAM+8IHitt0pVq1lSnmC0yCgvV
-         11ZrCffi2v6AibbzxHR5URpXRBWu+uCY2ZaHyFAWgUhTJGEDQlWMh85QCOXX8Zz4MeDY
-         /gbA==
+        bh=YBESrMui2lJGUDH8gauYExAGcJloTmJ6fo0JKbMJrZE=;
+        b=KG66GScxKTWnb2YliYi2xu0dDLLOpEKNiyaeJ3KMwg0eVANR31JFg+AVhTEWoe+RX6
+         G77KToWSiXQCBVzf6fhe/qlaY/MpFuT0spXs7ao/4d3R7aI5FAk1F9SlAbCUYJ2EtH8+
+         PhYb7F2++TQ4whJ4y82sYJO3aI8bem66o1JARjAOUizdjJObdqBBHiiW5W01ooVWmSNZ
+         jAofvWJsV8Pp74xuk94130J80OEQq3LUG4IqP5V/KlAh3VNE/32P/s1oAIfBgnPtwWCM
+         V3YOE3X14tBqA1tuZC2WcjVsMLBiodw/hFhVOgB2RjKob9TBLBIZ1mEwsVGK4ESlTVE9
+         22pg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
-        bh=yuAKn5slzZuEhtPm1LsezhtP3pivs5CCHH3xY7WDuVQ=;
-        b=pg6nk4f3T+1pfKCEgn/TCffJUfwExpqCBK03GVxZn29VuKiQbpjVL6ED1ec1h4VrCP
-         Me4ZTDgNVi6MMjy+186f+LYIgCICwONpUNOxpsf9Kpj6Z1p91SvdRQUxm6RA2r+4+nO4
-         nSiX0e36IzOO65HwDT8teJ628wX42pdSZH0O09nXAvIKaBflp+WKeMtnyIYaXWwzQoxU
-         Ualp/ii9xiY8MNmvIdzEVBEMGkT1p1tgiBIQNrc3b+1qSJmsfRY1C/xDjaEqoRPu2QgW
-         QFE3H3T050/cR1UFhqJNNIdLEtdgCRNSbc5H734IqU38kPLXIKfZvwbJoNf6/hC79btb
-         0QiA==
-X-Gm-Message-State: ACgBeo2ym966XURmOzQ8Je4U22Hz6Kzabcrlfm+twTfKfr5VdDcC5m8W
-        hnrgUe/9Ip4FhkWrLINaDqM=
-X-Google-Smtp-Source: AA6agR615W7kd9vT2AUcBZx3elPnt+50MwFv4xr43ufV0vRP94aIGxI1HACvs/SH5Oh+6FhoIDBMtQ==
-X-Received: by 2002:a05:6512:139d:b0:48d:3e4:6802 with SMTP id p29-20020a056512139d00b0048d03e46802mr983209lfa.424.1660298966644;
-        Fri, 12 Aug 2022 03:09:26 -0700 (PDT)
+        bh=YBESrMui2lJGUDH8gauYExAGcJloTmJ6fo0JKbMJrZE=;
+        b=i89s+e8Q72Zm3XaoDzlqBJvTw/ZRXS3XiiJWt4r4y+yAwST36rAM3grdjiayyb7EnJ
+         uF3CljQT0l44xOfMYC7RCr1vT+h9WQlUrcT7XxwR2oWSaKV1g+F1I2HDr9+A8Jt2HRjQ
+         y8YLK6Jh0olhkwpPfsnjCLZhZP+qlC3xSyE+BHGiI3DDx0IRr3ilsa61gObXMwOSJupL
+         8wwSyLWspbZufjKvIQLVZ7T3EVAVmm2o5kvVuWMQ2QreutpVubzx73e8g/8uDzPkAJKE
+         pYo+lzQK0AicGcj/dArGVAJR5wxd6uxkPtsaUakvX7x8F8AcOsQYhYkuPUvqgFcZqPyq
+         2Z0w==
+X-Gm-Message-State: ACgBeo3ASImcHmmAKn+Oa8XkXTzSCFnGh8iATQ/YUCbI7s8zTq1uzfTZ
+        y1IRxAXa9GjNnNNakE2U+aY=
+X-Google-Smtp-Source: AA6agR4s+4Zw2E9mA/PvLeRL3I+oRWCY4/wi3HIj6UEgSySlWtPngzYCuCHLkvJZFpx4cdHYb2gTmA==
+X-Received: by 2002:a2e:9555:0:b0:260:3dc:12fb with SMTP id t21-20020a2e9555000000b0026003dc12fbmr977569ljh.125.1660299063444;
+        Fri, 12 Aug 2022 03:11:03 -0700 (PDT)
 Received: from fedora ([213.255.186.46])
-        by smtp.gmail.com with ESMTPSA id u10-20020a05651220ca00b0048b0bf9f4bfsm160695lfr.140.2022.08.12.03.09.25
+        by smtp.gmail.com with ESMTPSA id n16-20020a05651203f000b0048b29b24761sm163629lfq.91.2022.08.12.03.11.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Aug 2022 03:09:25 -0700 (PDT)
-Date:   Fri, 12 Aug 2022 13:09:03 +0300
+        Fri, 12 Aug 2022 03:11:02 -0700 (PDT)
+Date:   Fri, 12 Aug 2022 13:10:57 +0300
 From:   Matti Vaittinen <mazziesaccount@gmail.com>
 To:     Matti Vaittinen <mazziesaccount@gmail.com>,
         Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
 Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
         Matti Vaittinen <mazziesaccount@gmail.com>,
-        Johan Hovold <johan+linaro@kernel.org>,
-        Alexandru Ardelean <aardelean@deviqon.com>,
         Peter Rosin <peda@axentia.se>,
         Aswath Govindraju <a-govindraju@ti.com>,
+        Johan Hovold <johan+linaro@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Alexandru Ardelean <aardelean@deviqon.com>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 1/7] docs: devres: regulator: Add missing devm_* functions
+Subject: [PATCH v2 3/7] docs: devres: regulator: Add new get_enable functions
  to devres.rst
-Message-ID: <5efc0c90342b0a0ef3322b8fc1472b84cfc0eb45.1660292316.git.mazziesaccount@gmail.com>
+Message-ID: <f166788988b1d47d2064303e53424c6224869821.1660292316.git.mazziesaccount@gmail.com>
 References: <cover.1660292316.git.mazziesaccount@gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="wQt+00N+A/DYJkCw"
+        protocol="application/pgp-signature"; boundary="aS0Vg+fv2MO10oy3"
 Content-Disposition: inline
 In-Reply-To: <cover.1660292316.git.mazziesaccount@gmail.com>
 Precedence: bulk
@@ -74,51 +73,40 @@ List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
---wQt+00N+A/DYJkCw
+--aS0Vg+fv2MO10oy3
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-A few managed regulator functions were missing from the API list.
-
-Add missing functions.
+Add the new devm_regulator_get_enable() and
+devm_regulator_get_enable_optional() to devres.rst
 
 Signed-off-by: Matti Vaittinen <mazziesaccount@gmail.com>
 
 ---
 RFCv1 =3D> v2:
-- No changes
-
-This one is actually a documentation fix which adds existing APIs to the
-list. I guess this patch is good for being merged independently from the
-rest of the series.
+ - Add devm_regulator_bulk_put() and devm_regulator_bulk_get_enable()
 ---
- Documentation/driver-api/driver-model/devres.rst | 7 +++++++
- 1 file changed, 7 insertions(+)
+ Documentation/driver-api/driver-model/devres.rst | 4 ++++
+ 1 file changed, 4 insertions(+)
 
 diff --git a/Documentation/driver-api/driver-model/devres.rst b/Documentati=
 on/driver-api/driver-model/devres.rst
-index 2d39967bafcc..271d1eb2234b 100644
+index 271d1eb2234b..89f87ae613f0 100644
 --- a/Documentation/driver-api/driver-model/devres.rst
 +++ b/Documentation/driver-api/driver-model/devres.rst
-@@ -406,10 +406,17 @@ PWM
-   devm_fwnode_pwm_get()
-=20
+@@ -408,7 +408,11 @@ PWM
  REGULATOR
-+  devm_regulator_bulk_register_supply_alias()
+   devm_regulator_bulk_register_supply_alias()
    devm_regulator_bulk_get()
++  devm_regulator_bulk_get_enable()
++  devm_regulator_bulk_put()
    devm_regulator_get()
-+  devm_regulator_get_exclusive()
-+  devm_regulator_get_optional()
-+  devm_regulator_irq_helper()
-   devm_regulator_put()
-   devm_regulator_register()
-+  devm_regulator_register_notifier()
-+  devm_regulator_register_supply_alias()
-+  devm_regulator_unregister_notifier()
-=20
- RESET
-   devm_reset_control_get()
++  devm_regulator_get_enable()
++  devm_regulator_get_enable_optional()
+   devm_regulator_get_exclusive()
+   devm_regulator_get_optional()
+   devm_regulator_irq_helper()
 --=20
 2.37.1
 
@@ -135,19 +123,19 @@ Simon says - in Latin please.
 ~~~ "non cogito me" dixit Rene Descarte, deinde evanescavit ~~~
 Thanks to Simon Glass for the translation =3D]=20
 
---wQt+00N+A/DYJkCw
+--aS0Vg+fv2MO10oy3
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEIx+f8wZb28fLKEhTeFA3/03aocUFAmL2Jr8ACgkQeFA3/03a
-ocXdkggAhZ5XSYLhVfVt8rPclxoH54IJ1sSVH8uiR1UkwWAR3bfg6ql8HfNaSuR0
-frdTUki174UogGNj7mnoA+XGwRq4o+a8TQuzRGCkf/x6dQFPK6ElvxkEBTLFfXPT
-UXw1SPfNuq1I5CxaugCDZdnBlI5DampIh5uNwl6bai1VNrArwI0KqUTTWMECXIRS
-GDmAYNIgM90IyXnVvlDpk79tBbqCn/ZLow+bVGUX6hI2f4Nloh0Z97WJFwoI2X6/
-8tXRb5Rp6T4upFI0G1PgdoToGPkNZej9o/EOlpm1KbS/DKcyxEgU5Uo95GnTwW1P
-4w51sAt7IkDjNFC9tBw7h8dVxZiFYw==
-=Y1jp
+iQEzBAEBCAAdFiEEIx+f8wZb28fLKEhTeFA3/03aocUFAmL2JzEACgkQeFA3/03a
+ocV78ggAporlbjPuasQq+tnOPaUEpGa6VzAkxMkmplUJuAgr7D8qW7cyXVlAS9aa
+qg1lvRD72jyNddYE/1VYWbQJ7EhToj7uZh5ontYxrLSdol4PUk0nESmz0QVVwktM
+9oIXHnz78UrhLyfmD8k1HzOkwyzQcBpOC/LTdu2mQ/Uk5jdZW2dI9T+YIUcMqSLp
+V/U7lmLq7T7SLdEKpebXt1RJselxNCJbdEh8isnTK5WY3OWvgSbFDmk6J5XQlRlN
+ki6DaC/geB6oGpr4Xa71t8XaMMwhhqVRDFX8mO6KWXr1OWUYw2FHf7ZUEGlI3V+l
+qwk9xGsNwdFKaaAw8HI15RQncJy/SA==
+=rIMz
 -----END PGP SIGNATURE-----
 
---wQt+00N+A/DYJkCw--
+--aS0Vg+fv2MO10oy3--
