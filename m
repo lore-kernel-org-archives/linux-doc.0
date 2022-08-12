@@ -2,122 +2,90 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 30CF7C3F6B0
-	for <linux-doc@archiver.kernel.org>; Fri, 12 Aug 2022 15:15:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D16CC00140
+	for <linux-doc@archiver.kernel.org>; Fri, 12 Aug 2022 15:43:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237334AbiHLPOa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 12 Aug 2022 11:14:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35254 "EHLO
+        id S237392AbiHLPnX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 12 Aug 2022 11:43:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38270 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238865AbiHLPOE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 12 Aug 2022 11:14:04 -0400
-Received: from mail-il1-f180.google.com (mail-il1-f180.google.com [209.85.166.180])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 182ACA7A81;
-        Fri, 12 Aug 2022 08:14:01 -0700 (PDT)
-Received: by mail-il1-f180.google.com with SMTP id j20so618447ila.6;
-        Fri, 12 Aug 2022 08:14:01 -0700 (PDT)
+        with ESMTP id S237402AbiHLPm6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 12 Aug 2022 11:42:58 -0400
+Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com [IPv6:2a00:1450:4864:20::531])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 554B214033;
+        Fri, 12 Aug 2022 08:42:56 -0700 (PDT)
+Received: by mail-ed1-x531.google.com with SMTP id t5so1796389edc.11;
+        Fri, 12 Aug 2022 08:42:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:content-language:in-reply-to:mime-version
+         :user-agent:date:message-id:from:references:cc:to:subject:from:to:cc;
+        bh=Y+pMZ4IFihbyH+aGK2yCBcwVMXs5BhIuRXwyoT40/Ws=;
+        b=SqylgTmI4x7IkSNw+NJEwtDzShsqwDp7edFbbovAmSnMxN+U74deSItlwVCEBPgIEB
+         iE3YwDMykBJfVPsrCEYG6hKliWGJSE74da2jTX6WktLp+wt8PbhKhH06Oq0n80qsDVQW
+         xEso4fqstaQJZ99yMnrMRUGVJ0g2hLp5acFbhTmuMzuQxFxRyQy+jH7F9pqkXeaEb89/
+         mxUc5a+SKgnqATDL2OXXQU9Q88lisoQnNp83gmDDPzEhjFDSr/bKcRx03RorJh0DV1cT
+         BH98NNPtySuvlszH52P3piIJ7FWXSRLuwKonwrESvtGn8h3n/R+khMk8V6LOVK2r3Nfy
+         xHKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=message-id:date:subject:references:in-reply-to:cc:to:from
+        h=content-transfer-encoding:content-language:in-reply-to:mime-version
+         :user-agent:date:message-id:from:references:cc:to:subject
          :x-gm-message-state:from:to:cc;
-        bh=1WsMbz5AGoLL+HweBLDrsmHvwbn+QXCLHU8aJ9T7JDY=;
-        b=h9w/+WQ2OHdLkt4kWPrgsu6JcDs0oIwTN8FFALpCjHHb2NrZsDnQumxkZjO+k+e8fy
-         ZEynGkHTdaslHDlMcBSHPYFNBw5xXwhR/GVBSlONMjUl/tFFoAS5KRUmS6JUv4Vx8eEp
-         Iwm3qz6qJbxu7rMWxdXbBNCK1Aq2ENmqyZ+EwlXSuhU53mckjxCNfVwcJd9VnMs+eGWr
-         5mOh+rjCKRZceerIJrFXRuiGrop+mAChYwKOYznron7HPi7mBwsGZzaKEnWAkqmAivnL
-         9iMXDvjVK3dAQkmT/VZBFU1WuEQpmsNb4/2YAgcJewfFmOzUmWf3CTTv4XVdixD7nlXh
-         qUJg==
-X-Gm-Message-State: ACgBeo0vrLgZyyp/TQrgPQdG9IC/x/GgqlQONdvcaksZHVTA5yqJUsfQ
-        T+IOv5wbQk3xfU3jzZRVCg==
-X-Google-Smtp-Source: AA6agR4sqC61aVa5dnLieL0KiDAar/jFwxxRLGzdoKsO+ZuDxnJAc0hntGFUda6k9fSR4Pgf0Rjurw==
-X-Received: by 2002:a92:cda3:0:b0:2e3:e214:5fa5 with SMTP id g3-20020a92cda3000000b002e3e2145fa5mr1370026ild.306.1660317241129;
-        Fri, 12 Aug 2022 08:14:01 -0700 (PDT)
-Received: from robh.at.kernel.org ([64.188.179.248])
-        by smtp.gmail.com with ESMTPSA id q130-20020a6b2a88000000b0068000bfea64sm1050841ioq.14.2022.08.12.08.13.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Aug 2022 08:14:00 -0700 (PDT)
-Received: (nullmailer pid 168980 invoked by uid 1000);
-        Fri, 12 Aug 2022 15:13:53 -0000
-From:   Rob Herring <robh@kernel.org>
-To:     Elliot Berman <quic_eberman@quicinc.com>
-Cc:     linux-arm-msm@vger.kernel.org,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Carl van Schaik <quic_cvanscha@quicinc.com>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        linux-arm-kernel@lists.infradead.org,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        Andy Gross <agross@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Murali Nalajala <quic_mnalajal@quicinc.com>,
-        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
-        devicetree@vger.kernel.org,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        linux-doc@vger.kernel.org, Rob Herring <robh+dt@kernel.org>
-In-Reply-To: <20220811214107.1074343-4-quic_eberman@quicinc.com>
-References: <20220811214107.1074343-1-quic_eberman@quicinc.com> <20220811214107.1074343-4-quic_eberman@quicinc.com>
-Subject: Re: [PATCH v3 03/12] dt-bindings: Add binding for gunyah hypervisor
-Date:   Fri, 12 Aug 2022 09:13:53 -0600
-Message-Id: <1660317233.437369.168979.nullmailer@robh.at.kernel.org>
+        bh=Y+pMZ4IFihbyH+aGK2yCBcwVMXs5BhIuRXwyoT40/Ws=;
+        b=0h4wF5W6f3PM8rbMnhNjSHvwR9dvpzq2vxTFkLtrpjpsFCMB4+VCVULoU2e8Ce3tLR
+         RDdKSrsvkcbFnVIm2ut3KRGx/C0/13JGktk7R015HFG5qxxEKih3dmAaTr0DiqOGOvS6
+         8W3yetAOri7XTMGQJisGouGHro8mlVE7FMRRWklzmuqBrR7lCyNlQYlIr8wQfJ0x3XyG
+         TDDFclqJSMwpwueOezhvC5NdZZoG8vrwpr07dlrhHSLsDddGl+6ReYqBit9Ql8EFCMMN
+         1/3tYdggk6QmX64jLFnxmPz2l/o1yy1v7zM6/isSncFxs5TVXzakuede/TH07ezRXqwy
+         ARpw==
+X-Gm-Message-State: ACgBeo2EC8ZV4E+m7gw5NXJ6Z60ydsh89UslEsDXIHivko2/JPZp4yVC
+        YfM25IqoKyRhx6egZtkndfpWaRMzVWU=
+X-Google-Smtp-Source: AA6agR5ziyfKjNdCBzn4uFcV3xLTPgmhJjTpBOp3jDS1Ejecf6T8q6IaLPDzDDmnc1MGwzbUljeoKA==
+X-Received: by 2002:a05:6402:50cb:b0:440:87d4:3ad2 with SMTP id h11-20020a05640250cb00b0044087d43ad2mr4105405edb.219.1660318974852;
+        Fri, 12 Aug 2022 08:42:54 -0700 (PDT)
+Received: from [192.168.1.122] (cpc159313-cmbg20-2-0-cust161.5-4.cable.virginm.net. [82.0.78.162])
+        by smtp.gmail.com with ESMTPSA id d20-20020aa7d5d4000000b0043c92c44c53sm1494007eds.93.2022.08.12.08.42.53
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 12 Aug 2022 08:42:54 -0700 (PDT)
+Subject: Re: [RFC net-next 3/4] ynl: add a sample python library
+To:     Stephen Hemminger <stephen@networkplumber.org>,
+        Jakub Kicinski <kuba@kernel.org>
+Cc:     netdev@vger.kernel.org, davem@davemloft.net, edumazet@google.com,
+        pabeni@redhat.com, sdf@google.com, jacob.e.keller@intel.com,
+        vadfed@fb.com, johannes@sipsolutions.net, jiri@resnulli.us,
+        dsahern@kernel.org, fw@strlen.de, linux-doc@vger.kernel.org
+References: <20220811022304.583300-1-kuba@kernel.org>
+ <20220811022304.583300-4-kuba@kernel.org>
+ <20220811180452.13f06623@hermes.local>
+From:   Edward Cree <ecree.xilinx@gmail.com>
+Message-ID: <0e27c04a-f17c-7491-7482-46dc9a5dd151@gmail.com>
+Date:   Fri, 12 Aug 2022 16:42:53 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
+MIME-Version: 1.0
+In-Reply-To: <20220811180452.13f06623@hermes.local>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 11 Aug 2022 14:40:58 -0700, Elliot Berman wrote:
-> When Linux is booted as a guest under the Gunyah hypervisor, the Gunyah
-> Resource Manager applies a devicetree overlay describing the virtual
-> platform configuration of the guest VM, such as the message queue
-> capability IDs for communicating with the Resource Manager. This
-> information is not otherwise discoverable by a VM: the Gunyah hypervisor
-> core does not provide a direct interface to discover capability IDs nor
-> a way to communicate with RM without having already known the
-> corresponding message queue capability ID. Add the DT bindings that
-> Gunyah adheres for the hypervisor node and message queues.
+On 12/08/2022 02:04, Stephen Hemminger wrote:
+> On Wed, 10 Aug 2022 19:23:03 -0700
+> Jakub Kicinski <kuba@kernel.org> wrote:
 > 
-> Signed-off-by: Elliot Berman <quic_eberman@quicinc.com>
-> ---
-> Changes since v2:
->  - Add newlines as suggested
->  - Fixed typo in example (gunyah-resource-mgr@0 -> gunyah-resource-mgr@1)
+>> A very short and very incomplete generic python library.
+>>
+>> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
 > 
->  .../bindings/firmware/gunyah-hypervisor.yaml  | 87 +++++++++++++++++++
->  MAINTAINERS                                   |  1 +
->  2 files changed, 88 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/firmware/gunyah-hypervisor.yaml
-> 
+> It would be great if python had standard module for netlink.
+> Then your code could just (re)use that.
+> Something like mnl but for python.
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+There's pyroute2, that seemed alright when I used it for something
+ a few years back, and I think it has the pieces you need.
+https://pyroute2.org/
 
-yamllint warnings/errors:
-
-dtschema/dtc warnings/errors:
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/firmware/gunyah-hypervisor.yaml: properties:compatible: [{'items': [{'const': 'gunyah-hypervisor-1.0'}, {'const': 'gunyah-hypervisor'}]}] is not of type 'object', 'boolean'
-	from schema $id: http://json-schema.org/draft-07/schema#
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/firmware/gunyah-hypervisor.yaml: patternProperties:^gunyah-resource-mgr(@.*)?:properties:compatible: [{'items': [{'const': 'gunyah-resource-manager-1-0'}, {'const': 'gunyah-resource-manager'}]}] is not of type 'object', 'boolean'
-	from schema $id: http://json-schema.org/draft-07/schema#
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/firmware/gunyah-hypervisor.yaml: ignoring, error in schema: properties: compatible
-Documentation/devicetree/bindings/firmware/gunyah-hypervisor.example.dtb:0:0: /example-0/hypervisor: failed to match any schema with compatible: ['gunyah-hypervisor-1.0', 'gunyah-hypervisor']
-Documentation/devicetree/bindings/firmware/gunyah-hypervisor.example.dtb:0:0: /example-0/hypervisor: failed to match any schema with compatible: ['gunyah-hypervisor-1.0', 'gunyah-hypervisor']
-Documentation/devicetree/bindings/firmware/gunyah-hypervisor.example.dtb:0:0: /example-0/hypervisor/gunyah-resource-mgr@0: failed to match any schema with compatible: ['gunyah-resource-manager-1-0', 'gunyah-resource-manager']
-Documentation/devicetree/bindings/firmware/gunyah-hypervisor.example.dtb:0:0: /example-0/hypervisor/gunyah-resource-mgr@0: failed to match any schema with compatible: ['gunyah-resource-manager-1-0', 'gunyah-resource-manager']
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/patch/
-
-This check can fail if there are any dependencies. The base for a patch
-series is generally the most recent rc1.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit.
-
+-ed
