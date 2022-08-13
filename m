@@ -2,55 +2,55 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DC4D7C25B0F
-	for <linux-doc@archiver.kernel.org>; Sat, 13 Aug 2022 07:04:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 51465C25B0D
+	for <linux-doc@archiver.kernel.org>; Sat, 13 Aug 2022 07:04:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237800AbiHMHEQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 13 Aug 2022 03:04:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59248 "EHLO
+        id S238160AbiHMHE0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 13 Aug 2022 03:04:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59398 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237719AbiHMHEP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 13 Aug 2022 03:04:15 -0400
-Received: from mail-ua1-x92d.google.com (mail-ua1-x92d.google.com [IPv6:2607:f8b0:4864:20::92d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8DE02BB3F
-        for <linux-doc@vger.kernel.org>; Sat, 13 Aug 2022 00:04:14 -0700 (PDT)
-Received: by mail-ua1-x92d.google.com with SMTP id 38so1089595uau.4
-        for <linux-doc@vger.kernel.org>; Sat, 13 Aug 2022 00:04:14 -0700 (PDT)
+        with ESMTP id S238000AbiHMHEW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 13 Aug 2022 03:04:22 -0400
+Received: from mail-vs1-xe33.google.com (mail-vs1-xe33.google.com [IPv6:2607:f8b0:4864:20::e33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B66A2C11D
+        for <linux-doc@vger.kernel.org>; Sat, 13 Aug 2022 00:04:20 -0700 (PDT)
+Received: by mail-vs1-xe33.google.com with SMTP id d126so2763748vsd.13
+        for <linux-doc@vger.kernel.org>; Sat, 13 Aug 2022 00:04:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc;
-        bh=sw+4D0MkNyjEl04r8z8Gmx9r6H5Mt5WUoydohJQ4bXo=;
-        b=oDR+CGEG97rljp/za7jITQQnlnoEkO0/QfV2wo0VXUmQzAaIXx5wn4/1P27nGZHamQ
-         apjdJKTpiapD20OVeocHw8knnSsOo1k5k4HYOCFaUExbSr+zBl8Z49aavJUmCAONGL8G
-         nCHDqw/ZlBcjWsuCLptKqbwJ4VT/rI+gD0EYWMiql67rb0qFp8m0Edc71+2bwmlcJzCf
-         LN7HwzY49bo9ReeDKA43ESIGajIOta8XoipCeFLoNw7DbVEqz8KamE+LjKaFyFoq01Wl
-         qECvTDpKBOVRrXbX0PwHhzNnLlGex0NPfIKKUEfN+Pzos8cvk3beJnhdSFo9fdMAMo/u
-         i7hA==
+        bh=H0iXSrrbaoH/C5bP3AR9a6+aawPWYlbqmYc4KGdDtHc=;
+        b=Kz+pLtpCFj7IsooVR/gejW4oHP0HcvrFyJwoyfoSc5O5VpDRRQccUOw3v+6IukRqOu
+         BXkBt84KoOdxMYEGmtyJBqftU3ZGCayVLhfGELrB1UfV+LVV6MRpDqu6mqH21hcW9mKF
+         A/kIGJqD4pCzIn+Ug0jqvt9lXg2lxX4MYRQtiCf+F24r3GUoxBYU4QLEJ9aWt0hiV+re
+         m/5qXg1+dKAmxbJ68kKQ1f98hEQ57HqoXiFCQ370g7mOtjvpGOS4Uf+wniheZxwToXNw
+         o0o8pzDRtKbx7EEXM1oA3KXrcZsaC65agqk1Rbei9dOtjBfQtVbzYfcM4p6azZARaOEz
+         wLjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc;
-        bh=sw+4D0MkNyjEl04r8z8Gmx9r6H5Mt5WUoydohJQ4bXo=;
-        b=0qrhgbQHFfrPj5YgF8QTs0FrXKmty59AKrtZnbeZimdM8Zp6AkdPVYfiza81n+qC5a
-         WyBwRMBnwEpH7Nx9BLaHfQZNuqZy1wmmLQAERwigGgPHDeb/6wF2z08yXly0WvkojsQU
-         LK1+S6RTvyUQ0vhy1uJPDoIAWLA/G3Nh8RG5nRF4kkxHVu2x+iqr/qcc24sA1xfCgnyY
-         zmhwqdkMIW38JSqnclXFMt926oGHeejESOWLjTw+ryQCSmj+QYzU1DdDVtv1L00Hzd0Z
-         eMbc9VchWMSbHkDvNaW45aWbkFIytTPyYKm0GVw75yk2E7BO80VavM/ryRkl2lRd58MD
-         FtvA==
-X-Gm-Message-State: ACgBeo3a7OEQpelxwQ86dv75GB1ZfIGQ9BBilMVC8YxB+q17cnVV2aYm
-        weultcfqCa1RT3Os1nTQxGnDdqb1PeSj8cRN6Lc96A==
-X-Google-Smtp-Source: AA6agR4+TAqJvoK3QwBlLYti6Cb5uIJmUO3U8oAj5JnbIw8xpaQ3yL6xTv50X22bo5u9MoLE2qWtnPK/QnJFsKIOSkA=
-X-Received: by 2002:a05:6130:1102:b0:38c:49b4:bbc3 with SMTP id
- ce2-20020a056130110200b0038c49b4bbc3mr3445825uab.107.1660374254393; Sat, 13
- Aug 2022 00:04:14 -0700 (PDT)
+        bh=H0iXSrrbaoH/C5bP3AR9a6+aawPWYlbqmYc4KGdDtHc=;
+        b=VHvREjR2N5HTKow1pTSwhCPij10YVYjOO4Itu+QkLQgbudFVOIx9TcxZ3oH5TVdPqA
+         PKyeBZX/uywQPtzYbfYRCw2Qgc3VUGJTPgxpv6LIcVC6aGlqUAD1WYew2CD1hpxD1JOm
+         s4ce2ntMfGG2tu37S4nX4hyrPNl4fOEINlMqK5KNsYAjHEOgzZ3p2geqenF/UOB9gTqE
+         M1AS/dO/XgX+eE1Buynz3HtOCHhlWw2Ah9QQSm6GFjAwXMRNY6rUvKNjzgptxSDxoXP/
+         Ux9wXxc20e5FDqmQa+4BZtGyEFOYa6mSqDZKe0i6FfegXBJoknjiC0+J/QURlUtHu66O
+         Jznw==
+X-Gm-Message-State: ACgBeo0yaVnS6TNpaIVTgL/4RJVHoc0uQKJ9wn30W03DzzUP3VKWiWDf
+        Yo26vsn+Cy3GlxwLWS1q+PTdZr24/4e/c2Kwbyd41A==
+X-Google-Smtp-Source: AA6agR6H6wmd/1vr/oN1Pq+KeYmC576ZBGz5G/43a7RU2f/n2IpyBIV3/JV89JOLJEOFZ4PSBxfs3oA5dSjR8JWSBr4=
+X-Received: by 2002:a67:cb0c:0:b0:357:9897:32d4 with SMTP id
+ b12-20020a67cb0c000000b00357989732d4mr3306231vsl.18.1660374259512; Sat, 13
+ Aug 2022 00:04:19 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220813042055.136832-1-tales.aparecida@gmail.com> <20220813042055.136832-3-tales.aparecida@gmail.com>
-In-Reply-To: <20220813042055.136832-3-tales.aparecida@gmail.com>
+References: <20220813042055.136832-1-tales.aparecida@gmail.com> <20220813042055.136832-4-tales.aparecida@gmail.com>
+In-Reply-To: <20220813042055.136832-4-tales.aparecida@gmail.com>
 From:   David Gow <davidgow@google.com>
-Date:   Sat, 13 Aug 2022 15:04:02 +0800
-Message-ID: <CABVgOSm5f6-tXt1uctB02UiE1Ho=rz2i4wPFoJ6vBLRaWJmtFg@mail.gmail.com>
-Subject: Re: [PATCH 2/4] Documentation: Kunit: Fix inconsistent titles
+Date:   Sat, 13 Aug 2022 15:04:08 +0800
+Message-ID: <CABVgOSmQwAF5KROoK1DfZ8deeqBFL+SH57F4W=TO_qEeysoWPA@mail.gmail.com>
+Subject: Re: [PATCH 3/4] Documentation: KUnit: Fix non-uml anchor
 To:     Tales Aparecida <tales.aparecida@gmail.com>
 Cc:     Sadiya Kazi <sadiyakazi@google.com>,
         Brendan Higgins <brendanhiggins@google.com>,
@@ -65,56 +65,106 @@ Cc:     Sadiya Kazi <sadiyakazi@google.com>,
         "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
-        boundary="000000000000a4189b05e61a01ab"
+        boundary="000000000000f2ea2c05e61a01d8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
---000000000000a4189b05e61a01ab
+--000000000000f2ea2c05e61a01d8
 Content-Type: text/plain; charset="UTF-8"
 
 On Sat, Aug 13, 2022 at 12:21 PM Tales Aparecida
 <tales.aparecida@gmail.com> wrote:
 >
-> Use the same wording when citing and describing Kunit parts.
+> The section was rewritten but its anchor got left behind.
+> Fix the anchor and add some references to running on QEMU.
 >
 > Signed-off-by: Tales Aparecida <tales.aparecida@gmail.com>
 > ---
 
-Nice catch! This is clearer.
+Thanks very much for fixing these. This is something we tried to clean
+up last year when Qemu support happened, and we definitely missed
+these bits.
 
 Reviewed-by: David Gow <davidgow@google.com>
 
 Cheers,
 -- David
 
->  Documentation/dev-tools/kunit/architecture.rst | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+
+>  Documentation/dev-tools/kunit/faq.rst         | 6 +++---
+>  Documentation/dev-tools/kunit/run_wrapper.rst | 2 ++
+>  Documentation/dev-tools/kunit/usage.rst       | 4 ++--
+>  3 files changed, 7 insertions(+), 5 deletions(-)
 >
-> diff --git a/Documentation/dev-tools/kunit/architecture.rst b/Documentation/dev-tools/kunit/architecture.rst
-> index cf9e6e3eeae4..8efe792bdcb9 100644
-> --- a/Documentation/dev-tools/kunit/architecture.rst
-> +++ b/Documentation/dev-tools/kunit/architecture.rst
-> @@ -6,8 +6,8 @@ KUnit Architecture
+> diff --git a/Documentation/dev-tools/kunit/faq.rst b/Documentation/dev-tools/kunit/faq.rst
+> index 172e239791a8..f1b4cef68ced 100644
+> --- a/Documentation/dev-tools/kunit/faq.rst
+> +++ b/Documentation/dev-tools/kunit/faq.rst
+> @@ -31,7 +31,8 @@ For the most part, the KUnit core framework (what we use to write the tests)
+>  can compile to any architecture. It compiles like just another part of the
+>  kernel and runs when the kernel boots, or when built as a module, when the
+>  module is loaded.  However, there is infrastructure, like the KUnit Wrapper
+> -(``tools/testing/kunit/kunit.py``) that does not support other architectures.
+> +(``tools/testing/kunit/kunit.py``) that might not support some architectures
+> +(see :ref:`kunit-on-qemu`).
 >
->  The KUnit architecture can be divided into two parts:
+>  In short, yes, you can run KUnit on other architectures, but it might require
+>  more work than using KUnit on UML.
+> @@ -95,8 +96,7 @@ things to try.
+>     seeing. When tests are built-in, they will execute when the kernel boots, and
+>     modules will automatically execute associated tests when loaded. Test results
+>     can be collected from ``/sys/kernel/debug/kunit/<test suite>/results``, and
+> -   can be parsed with ``kunit.py parse``. For more details, see "KUnit on
+> -   non-UML architectures" in Documentation/dev-tools/kunit/usage.rst.
+> +   can be parsed with ``kunit.py parse``. For more details, see :ref:`kunit-on-qemu`.
 >
-> -- Kernel testing library
-> -- kunit_tool (Command line test harness)
-> +- `In-Kernel Testing Framework`_
-> +- `kunit_tool (Command Line Test Harness)`_
+>  If none of the above tricks help, you are always welcome to email any issues to
+>  kunit-dev@googlegroups.com.
+> diff --git a/Documentation/dev-tools/kunit/run_wrapper.rst b/Documentation/dev-tools/kunit/run_wrapper.rst
+> index db1e867820e7..a1070def284f 100644
+> --- a/Documentation/dev-tools/kunit/run_wrapper.rst
+> +++ b/Documentation/dev-tools/kunit/run_wrapper.rst
+> @@ -165,6 +165,8 @@ example: if we only want to run KUnit resource tests, use:
 >
->  In-Kernel Testing Framework
->  ===========================
+>  This uses the standard glob format with wildcard characters.
+>
+> +.. _kunit-on-qemu:
+> +
+>  Run Tests on qemu
+>  =================
+>
+> diff --git a/Documentation/dev-tools/kunit/usage.rst b/Documentation/dev-tools/kunit/usage.rst
+> index 44158eecb51e..2737863ef365 100644
+> --- a/Documentation/dev-tools/kunit/usage.rst
+> +++ b/Documentation/dev-tools/kunit/usage.rst
+> @@ -165,6 +165,8 @@ built as a module).
+>
+>  For more information, see Documentation/dev-tools/kunit/api/test.rst.
+>
+> +.. _kunit-on-non-uml:
+> +
+>  Writing Tests For Other Architectures
+>  -------------------------------------
+>
+> @@ -544,8 +546,6 @@ By reusing the same ``cases`` array from above, we can write the test as a
+>                 {}
+>         };
+>
+> -.. _kunit-on-non-uml:
+> -
+>  Exiting Early on Failed Expectations
+>  ------------------------------------
+>
 > --
 > 2.37.1
 >
 > --
 > You received this message because you are subscribed to the Google Groups "KUnit Development" group.
 > To unsubscribe from this group and stop receiving emails from it, send an email to kunit-dev+unsubscribe@googlegroups.com.
-> To view this discussion on the web visit https://groups.google.com/d/msgid/kunit-dev/20220813042055.136832-3-tales.aparecida%40gmail.com.
+> To view this discussion on the web visit https://groups.google.com/d/msgid/kunit-dev/20220813042055.136832-4-tales.aparecida%40gmail.com.
 
---000000000000a4189b05e61a01ab
+--000000000000f2ea2c05e61a01d8
 Content-Type: application/pkcs7-signature; name="smime.p7s"
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="smime.p7s"
@@ -181,14 +231,14 @@ OOYwT0BUtHYR/3903Dmdx5Alq+NDvUHDjozgo0f6oIkwDXT3yBV36utQ/jFisd36C8RD5mM+NFpu
 3aqLXARRbKtxw29ErCwulof2dcAonG7cd5j+gmS84sLhKU+BhL1OQVXnJ5tj7xZ5Ri5I23brcwk0
 lk/gWqfgs3ppT9Xk7zVit9q8MYICajCCAmYCAQEwaDBUMQswCQYDVQQGEwJCRTEZMBcGA1UEChMQ
 R2xvYmFsU2lnbiBudi1zYTEqMCgGA1UEAxMhR2xvYmFsU2lnbiBBdGxhcyBSMyBTTUlNRSBDQSAy
-MDIwAhABh9LgIPnlfMFHR0Die8n7MA0GCWCGSAFlAwQCAQUAoIHUMC8GCSqGSIb3DQEJBDEiBCBs
-lMRwPKCgIdNQIiLjnvSYCJa+QYaXxEvRy1tEQjjb/jAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcB
-MBwGCSqGSIb3DQEJBTEPFw0yMjA4MTMwNzA0MTRaMGkGCSqGSIb3DQEJDzFcMFowCwYJYIZIAWUD
+MDIwAhABh9LgIPnlfMFHR0Die8n7MA0GCWCGSAFlAwQCAQUAoIHUMC8GCSqGSIb3DQEJBDEiBCB7
+DepSVt3P8x7LekVKJAId51GRdU+bESYTp3/RcC/6wTAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcB
+MBwGCSqGSIb3DQEJBTEPFw0yMjA4MTMwNzA0MTlaMGkGCSqGSIb3DQEJDzFcMFowCwYJYIZIAWUD
 BAEqMAsGCWCGSAFlAwQBFjALBglghkgBZQMEAQIwCgYIKoZIhvcNAwcwCwYJKoZIhvcNAQEKMAsG
-CSqGSIb3DQEBBzALBglghkgBZQMEAgEwDQYJKoZIhvcNAQEBBQAEggEAVCq2gNJKOOZ9uppE+uhv
-JHaziRd57JqRrGoPNJNZmz5GP8oMn7xoqGTrqjRWvBZyIKjzW8WY+mcozO+S+1Jlub7UxLjYv7fF
-UXjL9peVp3Jc6EKJiQfZjR0+ajHyUN7XRiBwwe+t6lYDwHsWj8rpJilwCRYybfJE+tJlhqd0Q8wM
-WHlaBs0oCfVXuVgaCcC3W4zM6L22+FSIiNzRACrgpzXl+XwBC7W4FOkYNpNZYtnViMJt9N9AFecu
-R4FimC9QFEUT1Un9TF7itVk/1/Au/0iyn3Ao1Yfyd/NohZFiZL2ig0NiQwH5zEmYw0dxodquEIG0
-UzmvemfIZuuij7N7cg==
---000000000000a4189b05e61a01ab--
+CSqGSIb3DQEBBzALBglghkgBZQMEAgEwDQYJKoZIhvcNAQEBBQAEggEAX7IoUN2TnR5qyh8IikgA
+Vh2HzgNRO1i0O5SlcbiBarMeUyGkDmC39D0a7IhmpiGKhOAem/aMvKN1G1TxTMT9zs6dNgTeJj6Q
+e4WLOB8lVjqT6Yi9sZvpe+0xnHaL+6uBm1WxB50nCWVJ7MC8Xl30DfXfZIT+DCFu6giF/qsuCAPy
+Zy/If4TdBKTFROoc0AhC/dkTbT7Q4P07zNGjN5Xw5nIQmulD78pMzktLpikHnapWA/yJAnh1rTm5
+h9iFMgTlb4Txry+SJvG8q6OB9dn2kjdYiJLjZQdtetX5bgpWKxK5fXzLiMRmZk+wod4Twk6ROuU1
+C7KgfrIEnqyq3kTm/Q==
+--000000000000f2ea2c05e61a01d8--
