@@ -2,88 +2,100 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C9D2EC25B08
-	for <linux-doc@archiver.kernel.org>; Sat, 13 Aug 2022 07:31:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A220EC19F2D
+	for <linux-doc@archiver.kernel.org>; Sat, 13 Aug 2022 14:15:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237962AbiHMHbT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 13 Aug 2022 03:31:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52102 "EHLO
+        id S237374AbiHMOP1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 13 Aug 2022 10:15:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41192 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233812AbiHMHbS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 13 Aug 2022 03:31:18 -0400
-Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com [IPv6:2607:f8b0:4864:20::531])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E1C7381694;
-        Sat, 13 Aug 2022 00:31:16 -0700 (PDT)
-Received: by mail-pg1-x531.google.com with SMTP id 24so2534630pgr.7;
-        Sat, 13 Aug 2022 00:31:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc;
-        bh=D3wy9rQ7cVpBfdR+lwwp9TClhnX1lnTP3s5LxPW1Yu8=;
-        b=fVkeznOkbaH9RNgock2tBYZXVMctqT5XvVUD0hz9bkDz+kT1421d5dJzqIFxKtXGqb
-         wLdpC3igAwJus28SqqO64YgpdNt8uY7RgK1dF4tjRRFM3cDbSQYmKqYM5ghUcfom2Tt9
-         Ai+RG5ryo2vTXcNKwTGGmymH8m8CjPY56Sb6WC3Q2v4cX1yd4vPdGd/DPgWUCkDsqvwj
-         hKrggSHKLALs+ndQymUNMedE9y+m0HjwTpJDIeMA8v0Jg1lnZ7FQgico5SJAQBMAk/4B
-         I2cw5ESo6GRFOmUnpjqc9roiC166S6o5FcoHzMQBrm6p6qhMwCBKB0FEAUHGydtrhX3n
-         W5eA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc;
-        bh=D3wy9rQ7cVpBfdR+lwwp9TClhnX1lnTP3s5LxPW1Yu8=;
-        b=4vZttjx4KGm04BIMN7tXJJe8wTseBUSYa2GCh7yZnF7kb+SYs5RfA3+vItzT+pqaIn
-         FeEUhamSxrNvu6NIGspm0xA1Jp6T9oeHCuVEdggh15EUgw7Jhb8WPQSnqj9bGpqrULRM
-         87ZIERoOl5NhBhwIt3bGVAzi1bmvxfyiPYN7UKrwmcsCyP0DXb7jsPVN1yQanaORTkju
-         uxRYimd36k0Xb4XetFkuE+GLbE9cIDgAePHejoLl9fkSXYkGvS5jbAciGr8LWZFBp1Yv
-         Rt1EzAGjVIN9DqHuJRMKcOJq6EHRazLqqbb9iDHCrseibbfwZh919o9Y0go/eYcfcTEn
-         d7Jg==
-X-Gm-Message-State: ACgBeo0/0bSPYcVqmXLVE8pXhCwZxmI0a0vtQf24Dwq0UyEkwBt7STKs
-        Z1jAcJUZ6U751qURJM0seTTy0El+GfQ=
-X-Google-Smtp-Source: AA6agR6brHizXhbnfNUznEA5ff0ffpS+SnQzhopJT/fnX3ibin+NJ1tOtwGZ3sb1wJJ0em862xx40g==
-X-Received: by 2002:a05:6a00:2181:b0:51b:560b:dd30 with SMTP id h1-20020a056a00218100b0051b560bdd30mr7467073pfi.44.1660375876363;
-        Sat, 13 Aug 2022 00:31:16 -0700 (PDT)
-Received: from [192.168.43.80] (subs03-180-214-233-18.three.co.id. [180.214.233.18])
-        by smtp.gmail.com with ESMTPSA id z7-20020a17090a170700b001f7613a9d0dsm939367pjd.52.2022.08.13.00.31.13
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 13 Aug 2022 00:31:15 -0700 (PDT)
-Message-ID: <d9931783-c70a-2ac5-5028-1ea0b79ea982@gmail.com>
-Date:   Sat, 13 Aug 2022 14:31:09 +0700
+        with ESMTP id S237284AbiHMOP0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 13 Aug 2022 10:15:26 -0400
+Received: from out0.migadu.com (out0.migadu.com [IPv6:2001:41d0:2:267::])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7AB7E11822
+        for <linux-doc@vger.kernel.org>; Sat, 13 Aug 2022 07:15:23 -0700 (PDT)
+Date:   Sat, 13 Aug 2022 22:14:53 +0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+        t=1660400121;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=azvNvHhOx7dK4E7CK+UDRbKs2/4UoCpOn8DOupC90N8=;
+        b=tNdwMeQwrJBK2/aEIkrtvGKslWFTLVIcHNvW1GQmNgPAyqiOywWKjTfdQ28lA2ow32P7jH
+        YAIRf3pBBLdjjamtPqSjyjeBzeohpEt4XalUkbflo3niV/4Qv8ZAAEQKRH+75LKxmPvzey
+        PUZkvMii8rZ1QCoe+Bu0NLYQ8WOaUEQ=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From:   Wu XiangCheng <wu.xiangcheng@linux.dev>
+To:     Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
+        Yanteng Si <siyanteng@loongson.cn>
+Cc:     Matthew Wilcox <willy@infradead.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-doc@vger.kernel.org
+Subject: [PATCH] docs: kernel-doc.rst: move label "_kernel_doc" to top
+Message-ID: <Yvex3fQSXFX3alIu@bobwxc.mipc>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH next 0/2] Documentation: KVM:
- KVM_CAP_VM_DISABLE_NX_HUGE_PAGES documentation fixes
-Content-Language: en-US
-To:     Paolo Bonzini <pbonzini@redhat.com>
-Cc:     linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        David Matlack <dmatlack@google.com>,
-        Ben Gardon <bgardon@google.com>, Peter Xu <peterx@redhat.com>,
-        kvm@vger.kernel.org, linux-next@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20220811063601.195105-1-pbonzini@redhat.com>
- <1db2a0cd-bef1-213c-a411-3d39d378743a@gmail.com>
- <d858ba66-422b-2bce-dafe-bc6586803e5f@redhat.com>
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <d858ba66-422b-2bce-dafe-bc6586803e5f@redhat.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
+X-Migadu-Auth-User: linux.dev
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 8/12/22 14:40, Paolo Bonzini wrote:
->>
->> Thanks for picking this up. However, Stephen noted that the issue is
->> already showed up on mainline [1]. Maybe this series should be queued
->> for 6.0 release (as -rc fixes), right?
-> 
-> Yes, it's in Linus's tree already.  Thanks for replying to Stephen.
-> 
+From: Wu XiangCheng <bobwxc@email.cn>
 
-Thanks.
+"_kernel_doc" label which should refer to the entire document was in the
+middle, move it to top. Also fix zh translation.
 
+Fixes: 46347502b099 ("Restructure kernel-doc.rst")
+Signed-off-by: Wu XiangCheng <bobwxc@email.cn>
+---
+ Documentation/doc-guide/kernel-doc.rst                    | 3 ++-
+ Documentation/translations/zh_CN/doc-guide/kernel-doc.rst | 3 ++-
+ 2 files changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/Documentation/doc-guide/kernel-doc.rst b/Documentation/doc-guide/kernel-doc.rst
+index 9c779bd7a751..e494f907231e 100644
+--- a/Documentation/doc-guide/kernel-doc.rst
++++ b/Documentation/doc-guide/kernel-doc.rst
+@@ -1,5 +1,7 @@
+ .. title:: Kernel-doc comments
+ 
++.. _kernel_doc:
++
+ ===========================
+ Writing kernel-doc comments
+ ===========================
+@@ -525,7 +527,6 @@ The kernel-doc extension is included in the kernel source tree, at
+ ``scripts/kernel-doc`` script to extract the documentation comments from the
+ source.
+ 
+-.. _kernel_doc:
+ 
+ How to use kernel-doc to generate man pages
+ -------------------------------------------
+diff --git a/Documentation/translations/zh_CN/doc-guide/kernel-doc.rst b/Documentation/translations/zh_CN/doc-guide/kernel-doc.rst
+index ccfb9b8329c2..48aad9868d4c 100644
+--- a/Documentation/translations/zh_CN/doc-guide/kernel-doc.rst
++++ b/Documentation/translations/zh_CN/doc-guide/kernel-doc.rst
+@@ -4,6 +4,8 @@
+ 
+ :译者: 吴想成 Wu XiangCheng <bobwxc@email.cn>
+ 
++.. _kernel_doc_zh:
++
+ 编写kernel-doc注释
+ ==================
+ 
+@@ -475,7 +477,6 @@ doc: *title*
+ kernel-doc扩展包含在内核源代码树中，位于 ``Documentation/sphinx/kerneldoc.py`` 。
+ 在内部，它使用 ``scripts/kernel-doc`` 脚本从源代码中提取文档注释。
+ 
+-.. _kernel_doc_zh:
+ 
+ 如何使用kernel-doc生成手册（man）页
+ -----------------------------------
 -- 
-An old man doll... just what I always wanted! - Clara
+2.30.2
+
