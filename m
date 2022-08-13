@@ -2,100 +2,68 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A220EC19F2D
-	for <linux-doc@archiver.kernel.org>; Sat, 13 Aug 2022 14:15:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AF97AC25B0F
+	for <linux-doc@archiver.kernel.org>; Sat, 13 Aug 2022 16:53:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237374AbiHMOP1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 13 Aug 2022 10:15:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41192 "EHLO
+        id S234900AbiHMQxR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 13 Aug 2022 12:53:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54432 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237284AbiHMOP0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 13 Aug 2022 10:15:26 -0400
-Received: from out0.migadu.com (out0.migadu.com [IPv6:2001:41d0:2:267::])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7AB7E11822
-        for <linux-doc@vger.kernel.org>; Sat, 13 Aug 2022 07:15:23 -0700 (PDT)
-Date:   Sat, 13 Aug 2022 22:14:53 +0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-        t=1660400121;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=azvNvHhOx7dK4E7CK+UDRbKs2/4UoCpOn8DOupC90N8=;
-        b=tNdwMeQwrJBK2/aEIkrtvGKslWFTLVIcHNvW1GQmNgPAyqiOywWKjTfdQ28lA2ow32P7jH
-        YAIRf3pBBLdjjamtPqSjyjeBzeohpEt4XalUkbflo3niV/4Qv8ZAAEQKRH+75LKxmPvzey
-        PUZkvMii8rZ1QCoe+Bu0NLYQ8WOaUEQ=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From:   Wu XiangCheng <wu.xiangcheng@linux.dev>
-To:     Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
-        Yanteng Si <siyanteng@loongson.cn>
+        with ESMTP id S239927AbiHMQxQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 13 Aug 2022 12:53:16 -0400
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92FE427CEF
+        for <linux-doc@vger.kernel.org>; Sat, 13 Aug 2022 09:53:15 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id E421B6E3;
+        Sat, 13 Aug 2022 16:53:14 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net E421B6E3
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1660409595; bh=N3pPQU6EAE8u1q31RZgTc/C6IqDkrX0lsDB/ZPF0Mqk=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=nLftZaWUuJEy3Ddg2aG3YjnQZAOTSURFSrCfI8ykyL2hE1o2Ndl64xcZ5XGcmtU9s
+         0gmbnEqVr/swmoRxhJ2EPnxRlw8Ku60L24MgbunYXRQ1aQpZKYhtBnTyOBZFQl0rny
+         xxB6cMYrUaJSf3jjqzHjwLv+wR3nyZxyQ0x8bpZYObiVuzMYEUVPkdmySXLrc5rkSO
+         m29O6PpxAwoqCVjgwEBaNXR0DaaH0tY1rl8NZxrUXmtIymh+JEjcz5tUjBYRnShFqn
+         UZ8ouoAUhB3ICY13RF39baX3N8rQhZ0Uy9RhPLNHhJwpVdK1uizAcbDqTLmvlhAv5c
+         Vsv1vD5P6/JEA==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Wu XiangCheng <wu.xiangcheng@linux.dev>,
+        Alex Shi <alexs@kernel.org>, Yanteng Si <siyanteng@loongson.cn>
 Cc:     Matthew Wilcox <willy@infradead.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-doc@vger.kernel.org
-Subject: [PATCH] docs: kernel-doc.rst: move label "_kernel_doc" to top
-Message-ID: <Yvex3fQSXFX3alIu@bobwxc.mipc>
+Subject: Re: [PATCH] docs: kernel-doc.rst: move label "_kernel_doc" to top
+In-Reply-To: <Yvex3fQSXFX3alIu@bobwxc.mipc>
+References: <Yvex3fQSXFX3alIu@bobwxc.mipc>
+Date:   Sat, 13 Aug 2022 10:53:13 -0600
+Message-ID: <87zgg8w0ee.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
-X-Migadu-Auth-User: linux.dev
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Wu XiangCheng <bobwxc@email.cn>
+Wu XiangCheng <wu.xiangcheng@linux.dev> writes:
 
-"_kernel_doc" label which should refer to the entire document was in the
-middle, move it to top. Also fix zh translation.
+> From: Wu XiangCheng <bobwxc@email.cn>
+>
+> "_kernel_doc" label which should refer to the entire document was in the
+> middle, move it to top. Also fix zh translation.
+>
+> Fixes: 46347502b099 ("Restructure kernel-doc.rst")
+> Signed-off-by: Wu XiangCheng <bobwxc@email.cn>
+> ---
+>  Documentation/doc-guide/kernel-doc.rst                    | 3 ++-
+>  Documentation/translations/zh_CN/doc-guide/kernel-doc.rst | 3 ++-
+>  2 files changed, 4 insertions(+), 2 deletions(-)
 
-Fixes: 46347502b099 ("Restructure kernel-doc.rst")
-Signed-off-by: Wu XiangCheng <bobwxc@email.cn>
----
- Documentation/doc-guide/kernel-doc.rst                    | 3 ++-
- Documentation/translations/zh_CN/doc-guide/kernel-doc.rst | 3 ++-
- 2 files changed, 4 insertions(+), 2 deletions(-)
+Rather than do this, is there any reason to not just delete the label
+entirely?  If anything references it, it can just name the file instead.
+But, as it happens, it's not even referenced anywhere...
 
-diff --git a/Documentation/doc-guide/kernel-doc.rst b/Documentation/doc-guide/kernel-doc.rst
-index 9c779bd7a751..e494f907231e 100644
---- a/Documentation/doc-guide/kernel-doc.rst
-+++ b/Documentation/doc-guide/kernel-doc.rst
-@@ -1,5 +1,7 @@
- .. title:: Kernel-doc comments
- 
-+.. _kernel_doc:
-+
- ===========================
- Writing kernel-doc comments
- ===========================
-@@ -525,7 +527,6 @@ The kernel-doc extension is included in the kernel source tree, at
- ``scripts/kernel-doc`` script to extract the documentation comments from the
- source.
- 
--.. _kernel_doc:
- 
- How to use kernel-doc to generate man pages
- -------------------------------------------
-diff --git a/Documentation/translations/zh_CN/doc-guide/kernel-doc.rst b/Documentation/translations/zh_CN/doc-guide/kernel-doc.rst
-index ccfb9b8329c2..48aad9868d4c 100644
---- a/Documentation/translations/zh_CN/doc-guide/kernel-doc.rst
-+++ b/Documentation/translations/zh_CN/doc-guide/kernel-doc.rst
-@@ -4,6 +4,8 @@
- 
- :译者: 吴想成 Wu XiangCheng <bobwxc@email.cn>
- 
-+.. _kernel_doc_zh:
-+
- 编写kernel-doc注释
- ==================
- 
-@@ -475,7 +477,6 @@ doc: *title*
- kernel-doc扩展包含在内核源代码树中，位于 ``Documentation/sphinx/kerneldoc.py`` 。
- 在内部，它使用 ``scripts/kernel-doc`` 脚本从源代码中提取文档注释。
- 
--.. _kernel_doc_zh:
- 
- 如何使用kernel-doc生成手册（man）页
- -----------------------------------
--- 
-2.30.2
+Thanks,
 
+jon
