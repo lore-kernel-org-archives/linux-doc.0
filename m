@@ -2,93 +2,201 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 19243C25B06
-	for <linux-doc@archiver.kernel.org>; Sun, 14 Aug 2022 09:00:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BFC55C25B06
+	for <linux-doc@archiver.kernel.org>; Sun, 14 Aug 2022 12:27:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229656AbiHNJA0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 14 Aug 2022 05:00:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41434 "EHLO
+        id S231215AbiHNM1d (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 14 Aug 2022 08:27:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35832 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230343AbiHNJAZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 14 Aug 2022 05:00:25 -0400
-Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DFECC12F;
-        Sun, 14 Aug 2022 02:00:23 -0700 (PDT)
-Received: by mail-pj1-x1034.google.com with SMTP id s5-20020a17090a13c500b001f4da9ffe5fso12011047pjf.5;
-        Sun, 14 Aug 2022 02:00:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:subject:cc:to:from:from:to:cc;
-        bh=Z/Soyq/Fq75f7VTwuFktKuouQvCw6dYx/UMaXDk1MnA=;
-        b=Qt7jWb38s1GSt1eZcBFy01iGjIrHWb5hTRYaIVsRQV92CTLhjvZVpre5EwfgKIZo7E
-         oybs5JTxsLrbiQlrqhZFJ0DoUHsRsXgNz+MNzjL+rKkafrj5w49KaYsTtPcDlqDFCnIF
-         EOdH+s0Q0nFU8LOqIc1rtguVK4HXR8z5DVBfVEjQ+tMnpXVLmAh4QiJFcCILaXWmnBQa
-         BjBogmuTTps1EnJy4AhnXXumI21sZu3diFuR4c+Ys3ckM2XEtF2Rau5T6zUtN25uApNg
-         5YCEMmyhkl1our2fxOnGFY+YxI8p3Iav55SmjzDzZdJTBlnEvzA/TuPEuTF4KKvBPKB9
-         Hr/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
-        bh=Z/Soyq/Fq75f7VTwuFktKuouQvCw6dYx/UMaXDk1MnA=;
-        b=gPoNYcJpmiQ6y7WHV+CcCc6cS0qfhZT5wulLX7HdGeuxelh2Zv64Q06+gxF+sq1STg
-         5d5yv5nG8jKzGKaWeMGzoS2c/e3D/NwsgWDnn7dwMOAupq04uLKbCdBgqGuTKmaJeE2d
-         aw2Sk1ldHgqDCq2R7ip1/Dm02DmftkJ4Qw6OrWS3N/IvhkHHDwhSdbflqCM0lijdKrp4
-         aP/jvDQk75Wszv37ldK8sKuR1tzXMwpwpUJ496E5Lp16kEYuCEerZBHJtTk180dB4hnp
-         uj3qz2m3PEF7HmCdWfze4hfAZ+qYGp+YgIT5uzOwLY7ltlxLxep9h+US9WYeoa+30ADX
-         N91g==
-X-Gm-Message-State: ACgBeo33uGNyNYMETutWcAzCIQ9XYnyznuIyqHN7dN9zlpes5ddsGAdD
-        iGcAXVbBm/EMrklqvY8JHb5iy0WTJh95NQ==
-X-Google-Smtp-Source: AA6agR7opm50KTFkwP+SPd+0BGto9bJuXZjeJPCLHWUkQkv5nWalyscAMQQBQFmAJZaEh2QMzCgWvw==
-X-Received: by 2002:a17:90a:e7cb:b0:1f5:38:cb53 with SMTP id kb11-20020a17090ae7cb00b001f50038cb53mr12893275pjb.110.1660467622931;
-        Sun, 14 Aug 2022 02:00:22 -0700 (PDT)
-Received: from localhost ([223.167.97.46])
-        by smtp.gmail.com with ESMTPSA id p9-20020a1709028a8900b0016be5f24aaesm4949328plo.163.2022.08.14.02.00.21
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Sun, 14 Aug 2022 02:00:22 -0700 (PDT)
-From:   JunChao Sun <sunjunchao2870@gmail.com>
-To:     linux-ext4@vger.kernel.org, linux-doc@vger.kernel.org
-Cc:     tytso@mit.edu, corbet@lwn.net,
-        JunChao Sun <sunjunchao2870@gmail.com>
-Subject: [PATCH] Documentation: ext4: correct the document about superblock
-Date:   Sun, 14 Aug 2022 02:00:16 -0700
-Message-Id: <20220814090016.3160-1-sunjunchao2870@gmail.com>
-X-Mailer: git-send-email 2.17.1
+        with ESMTP id S229820AbiHNM1c (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 14 Aug 2022 08:27:32 -0400
+Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10BE71C92B;
+        Sun, 14 Aug 2022 05:27:31 -0700 (PDT)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+        by mailout.nyi.internal (Postfix) with ESMTP id 9D8585C00A6;
+        Sun, 14 Aug 2022 08:27:28 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute2.internal (MEProxy); Sun, 14 Aug 2022 08:27:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+        :mime-version:references:reply-to:sender:subject:subject:to:to
+        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+        fm1; t=1660480048; x=1660566448; bh=Hz0ZhyzIO3X/y1kG7So53cSJfTIn
+        sJ3nYEy6fIrN1Mg=; b=B2+jX9BHCYo6YvCkh+pBofceaa5C3scLD5LMAexH/D7s
+        ixH/KzBQL32cHqE9OgpJRcvUrq1FMIMLG6uqJJMnmOz/p1cm23g8sJB7NvYCN5DP
+        dPqwzBkQcT2qR1+gFt6A0WMZZB4vip7hWwQG+KYGOSlzjGEkPbWXfpnC4KZdoHG2
+        GF4w4lNTgZov8WNR17qh/adIBYYJ1TlB2L8dT4424DMXLYAnVisBqFL76dW6sOpA
+        ip1pUMq8DRFF9WNFz2LNqdNBsZlnRwIEutjhbz3iGWRynRTEffiBWrSTbNyQJHFX
+        4UM+JIpzB/SY47gfNz4MZHlpqWMdbVJ7d59cjUEIAg==
+X-ME-Sender: <xms:L-r4Yslxr4A-mP5aNJaZ-scQxXzR69adzyMWmLUEDIIm5OPVgpqHsA>
+    <xme:L-r4Yr0kMOa7bZYCnN5GeCUxBxNT4_H_G82SWOy36KTFMk8vR-n1rfq_Pjn9hG7wu
+    OCj9xCKigSro3k>
+X-ME-Received: <xmr:L-r4YqrKHf8j2qwNJxZU9YdaFvKLAy-pAC8TBowKLPnI-kEMa3CxLK9T7Dt0>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdehtddgheefucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucenucfjughrpeffhffvvefukfhfgggtuggjsehttd
+    ertddttddvnecuhfhrohhmpefkughoucfutghhihhmmhgvlhcuoehiughoshgthhesihgu
+    ohhstghhrdhorhhgqeenucggtffrrghtthgvrhhnpefhffejgefhjeehjeevheevhfetve
+    evfefgueduueeivdeijeeihfegheeljefgueenucffohhmrghinhepghhithhhuhgsrdgt
+    ohhmnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepih
+    guohhstghhsehiughoshgthhdrohhrgh
+X-ME-Proxy: <xmx:L-r4YolyX-kqvXmZqP4NmSsVvUvtp34KtQo0erJS7txJVvAD2pnNtQ>
+    <xmx:L-r4Yq2eGr9OccEetK9WkejQvHbQOuk7foXBiLOSLALoYurVKcPt1w>
+    <xmx:L-r4YvuZRxdWRcQpFR5-G0gNSotGp3edxeY00A4xJwpEGODW-G3anA>
+    <xmx:MOr4YnshtJygL7f6jwCR_QqHJdGTMd_HxsWIOwE3XXIysfJXhP0Cdg>
+Feedback-ID: i494840e7:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
+ 14 Aug 2022 08:27:27 -0400 (EDT)
+Date:   Sun, 14 Aug 2022 15:27:24 +0300
+From:   Ido Schimmel <idosch@idosch.org>
+To:     Jakub Kicinski <kuba@kernel.org>
+Cc:     netdev@vger.kernel.org, davem@davemloft.net, edumazet@google.com,
+        pabeni@redhat.com, sdf@google.com, jacob.e.keller@intel.com,
+        vadfed@fb.com, johannes@sipsolutions.net, jiri@resnulli.us,
+        dsahern@kernel.org, stephen@networkplumber.org, fw@strlen.de,
+        linux-doc@vger.kernel.org
+Subject: Re: [RFC net-next 4/4] ynl: add a sample user for ethtool
+Message-ID: <YvjqLDnWUONvnv3E@shredder>
+References: <20220811022304.583300-1-kuba@kernel.org>
+ <20220811022304.583300-5-kuba@kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220811022304.583300-5-kuba@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Correct some questions like this:
-s_lastcheck_hi field should be upper 8 bits of the
-s_lastcheck field, rather than itself.
+On Wed, Aug 10, 2022 at 07:23:04PM -0700, Jakub Kicinski wrote:
+> @@ -0,0 +1,115 @@
+> +# SPDX-License-Identifier: BSD-3-Clause
+> +
+> +name: ethtool
+> +
+> +description: |
+> +  Ethernet device configuration interface.
+> +
+> +attr-cnt-suffix: CNT
+> +
+> +attribute-spaces:
+> +  -
+> +    name: header
+> +    name-prefix: ETHTOOL_A_HEADER_
+> +    attributes:
+> +      -
+> +        name: dev_index
+> +        val: 1
+> +        type: u32
+> +      -
+> +        name: dev_name
+> +        type: nul-string
+> +        len: ALTIFNAMSIZ - 1
+> +      -
+> +        name: flags
+> +        type: u32
+> +  -
+> +    name: channels
+> +    name-prefix: ETHTOOL_A_CHANNELS_
+> +    attributes:
+> +      -
+> +        name: header
+> +        val: 1
+> +        type: nest
+> +        nested-attributes: header
+> +      -
+> +        name: rx_max
+> +        type: u32
+> +      -
+> +        name: tx_max
+> +        type: u32
+> +      -
+> +        name: other_max
+> +        type: u32
+> +      -
+> +        name: combined_max
+> +        type: u32
+> +      -
+> +        name: rx_count
+> +        type: u32
+> +      -
+> +        name: tx_count
+> +        type: u32
+> +      -
+> +        name: other_count
+> +        type: u32
+> +      -
+> +        name: combined_count
+> +        type: u32
 
-Signed-off-by: JunChao Sun <sunjunchao2870@gmail.com>
----
- Documentation/filesystems/ext4/super.rst | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Another interesting use case for the schema can be automatic generation
+of syzkaller descriptions. These are the corresponding descriptions for
+syzkaller:
 
-diff --git a/Documentation/filesystems/ext4/super.rst b/Documentation/filesystems/ext4/super.rst
-index 268888522e35..0152888cac29 100644
---- a/Documentation/filesystems/ext4/super.rst
-+++ b/Documentation/filesystems/ext4/super.rst
-@@ -456,15 +456,15 @@ The ext4 superblock is laid out as follows in
-    * - 0x277
-      - __u8
-      - s_lastcheck_hi
--     - Upper 8 bits of the s_lastcheck_hi field.
-+     - Upper 8 bits of the s_lastcheck field.
-    * - 0x278
-      - __u8
-      - s_first_error_time_hi
--     - Upper 8 bits of the s_first_error_time_hi field.
-+     - Upper 8 bits of the s_first_error_time field.
-    * - 0x279
-      - __u8
-      - s_last_error_time_hi
--     - Upper 8 bits of the s_last_error_time_hi field.
-+     - Upper 8 bits of the s_last_error_time field.
-    * - 0x27A
-      - __u8
-      - s_pad[2]
--- 
-2.17.1
+https://github.com/google/syzkaller/blob/master/sys/linux/socket_netlink_generic_ethtool.txt#L125
 
+Last I checked, these descriptions had to be written by hand, which is
+why they are generally out of date, leading to sub-optimal fuzzing. If
+schemas are sent along with the kernel code and syzkaller/syzbot
+automatically derives descriptions from them, then we should be able to
+get meaningful fuzzing as soon as a feature lands in net-next.
+
+> +
+> +headers:
+> +  user: linux/if.h
+> +  uapi: linux/ethtool_netlink.h
+> +
+> +operations:
+> +  name-prefix: ETHTOOL_MSG_
+> +  async-prefix: ETHTOOL_MSG_
+> +  list:
+> +    -
+> +      name: channels_get
+> +      val: 17
+> +      description: Get current and max supported number of channels.
+> +      attribute-space: channels
+> +      do:
+> +        request:
+> +          attributes:
+> +            - header
+> +        reply: &channel_reply
+> +          attributes:
+> +            - header
+> +            - rx_max
+> +            - tx_max
+> +            - other_max
+> +            - combined_max
+> +            - rx_count
+> +            - tx_count
+> +            - other_count
+> +            - combined_count
+> +      dump:
+> +        reply: *channel_reply
+> +
+> +    -
+> +      name: channels_ntf
+> +      description: Notification for device changing its number of channels.
+> +      notify: channels_get
+> +      mcgrp: monitor
+> +
+> +    -
+> +      name: channels_set
+> +      description: Set number of channels.
+> +      attribute-space: channels
+> +      do:
+> +        request:
+> +          attributes:
+> +            - header
+> +            - rx_count
+> +            - tx_count
+> +            - other_count
+> +            - combined_count
+> +
+> +mcast-groups:
+> +  name-prefix: ETHTOOL_MCGRP_
+> +  name-suffix: _NAME
+> +  list:
+> +    -
+> +      name: monitor
