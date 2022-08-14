@@ -2,52 +2,52 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6253DC25B0E
-	for <linux-doc@archiver.kernel.org>; Sun, 14 Aug 2022 16:25:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 461E2C25B0E
+	for <linux-doc@archiver.kernel.org>; Sun, 14 Aug 2022 16:32:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238945AbiHNQZK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 14 Aug 2022 12:25:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55382 "EHLO
+        id S241876AbiHNQcV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 14 Aug 2022 12:32:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40060 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240731AbiHNQYY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 14 Aug 2022 12:24:24 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C6F715804;
-        Sun, 14 Aug 2022 09:22:20 -0700 (PDT)
+        with ESMTP id S242531AbiHNQam (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 14 Aug 2022 12:30:42 -0400
+Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0006F2665;
+        Sun, 14 Aug 2022 09:25:19 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id C0B9360EF8;
-        Sun, 14 Aug 2022 16:22:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E0643C433C1;
-        Sun, 14 Aug 2022 16:22:16 +0000 (UTC)
+        by sin.source.kernel.org (Postfix) with ESMTPS id 49381CE0B12;
+        Sun, 14 Aug 2022 16:25:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3FE1C433C1;
+        Sun, 14 Aug 2022 16:25:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1660494139;
-        bh=E3o1NL9M7MMxOvh5P8/+p5pkrfDEPsN6Qcy7OMxtyBg=;
+        s=k20201202; t=1660494316;
+        bh=V+ENuY92A0wmHDlcl6RZEmcFDNBsdEAFSOMvhdQxeGE=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=MfSo1YXXJTUSvczW3FI6AfXK86tk3640KH31Iz4ppxlue8kaHyV6RvQRuI4NtmNO2
-         TMKtabmKU3R59IivrI6nwKfrXVYSqVEmVDzFDCPfJtM4XRFAv+/LJvm4g67keO4kCh
-         wBBIgtd2h/39K0HEjMEVqKE6PXc0PldP6iZLeR1pBW8HquIAaKwfu9pYuN8D5daa46
-         hWQNr3cM5Ztl3DPVXDJcnKL1i0IuEm41S8H33KIekS59m8S6bZzPlYZziKc/bEZ4FH
-         v8G6jIpOmn2mo1scEJ3anmY78hvA0bt8qs0D8g09Y9oIjyT1IED+V4hmgLyM97eUPD
-         3KKMbzggDGDNA==
+        b=H8Z13GEKfe8Su1oM6tB4RZMeOLqCS0sYgQaAI5Ml77VQSMtv/mmiei+bd3oCPpt7A
+         2HVX0xgR59nYIoOemteNFul8J0Sx3ELUgXtB3di93zTGJ7apbKmwtllKCYn7DXUpbD
+         nGrWKljroiu2Q8FCviZyaL9aFIGVM7GXRUat2lzTWsyT8sxo+9CY1geJI1w+h8hp8T
+         3dyjwQELH3LBKqAUsOVoPfBm5xFPA76ZA+qlkry6K8QBn9LaOg0UqQHjWQ9msxtV0j
+         pULlhCAYLEPOW9/z+pcBPt2f0UVpjjAXj9bqpVK2wOrnylfyFSsImeeUCcWauT2vgo
+         09Q1tT5VzCfLg==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Laurent Dufour <ldufour@linux.ibm.com>,
         Nicholas Piggin <npiggin@gmail.com>,
         Michael Ellerman <mpe@ellerman.id.au>,
         Sasha Levin <sashal@kernel.org>, corbet@lwn.net,
-        akpm@linux-foundation.org, Jason@zx2c4.com,
-        linux@dominikbrodowski.net, will@kernel.org, gpiccoli@igalia.com,
-        ying.huang@intel.com, mchehab+huawei@kernel.org, robh@kernel.org,
-        jsavitz@redhat.com, nathanl@linux.ibm.com, haren@linux.ibm.com,
+        akpm@linux-foundation.org, Jason@zx2c4.com, feng.tang@intel.com,
+        ying.huang@intel.com, gpiccoli@igalia.com,
+        mchehab+huawei@kernel.org, robh@kernel.org, jsavitz@redhat.com,
+        nathanl@linux.ibm.com, haren@linux.ibm.com,
         linux-doc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org
-Subject: [PATCH AUTOSEL 5.19 30/48] powerpc/pseries/mobility: set NMI watchdog factor during an LPM
-Date:   Sun, 14 Aug 2022 12:19:23 -0400
-Message-Id: <20220814161943.2394452-30-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.18 23/39] powerpc/pseries/mobility: set NMI watchdog factor during an LPM
+Date:   Sun, 14 Aug 2022 12:23:12 -0400
+Message-Id: <20220814162332.2396012-23-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220814161943.2394452-1-sashal@kernel.org>
-References: <20220814161943.2394452-1-sashal@kernel.org>
+In-Reply-To: <20220814162332.2396012-1-sashal@kernel.org>
+References: <20220814162332.2396012-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -93,7 +93,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  2 files changed, 55 insertions(+)
 
 diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
-index ddccd1077462..9b7fa1baf225 100644
+index e9c18dabc552..fc9e6565ced0 100644
 --- a/Documentation/admin-guide/sysctl/kernel.rst
 +++ b/Documentation/admin-guide/sysctl/kernel.rst
 @@ -592,6 +592,18 @@ to the guest kernel command line (see
