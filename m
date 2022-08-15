@@ -2,127 +2,127 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D5B9C00140
-	for <linux-doc@archiver.kernel.org>; Mon, 15 Aug 2022 09:20:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 65E02C00140
+	for <linux-doc@archiver.kernel.org>; Mon, 15 Aug 2022 09:22:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229845AbiHOJUG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 15 Aug 2022 05:20:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44400 "EHLO
+        id S241267AbiHOJWU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 15 Aug 2022 05:22:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46800 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231490AbiHOJTp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Aug 2022 05:19:45 -0400
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59CE922509;
-        Mon, 15 Aug 2022 02:19:42 -0700 (PDT)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id 13B02203A1;
-        Mon, 15 Aug 2022 09:19:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-        t=1660555181; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=byKdBkOnKfm6xsv9HwlPy69qW+GlO+5qPV3VOpbs2VQ=;
-        b=2qeZ/Y8/zNtKp27jzySFLrrSLQMeqBQU7VcKXub/oHUAmRwd0Xm3iErK2gwzvclGvQb7j0
-        rwsXH5tiPhkJHLoiFeucY4ICOc3oCp8O58OyY7ytHHIzgiALmWJp72L0ss6L2jAmZOvfcS
-        loolqbyBo+pPsSZs+vF8bamSSAAXHr8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-        s=susede2_ed25519; t=1660555181;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=byKdBkOnKfm6xsv9HwlPy69qW+GlO+5qPV3VOpbs2VQ=;
-        b=A5z92i2c6IZb38CR8RIR7ZdIQx7x+eqEJYIhGyFJuHcKprGXvTC1i8HIRpzvCduq8mWTbD
-        0iBO6opzudAnmkCA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E723A13A93;
-        Mon, 15 Aug 2022 09:19:40 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id B2EdN6wP+mKyVQAAMHmgww
-        (envelope-from <mliska@suse.cz>); Mon, 15 Aug 2022 09:19:40 +0000
-Message-ID: <49253b17-738d-795e-f539-55857fdaee64@suse.cz>
-Date:   Mon, 15 Aug 2022 11:19:40 +0200
+        with ESMTP id S241982AbiHOJVn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Aug 2022 05:21:43 -0400
+Received: from mail-pg1-x52b.google.com (mail-pg1-x52b.google.com [IPv6:2607:f8b0:4864:20::52b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E36EB269;
+        Mon, 15 Aug 2022 02:21:42 -0700 (PDT)
+Received: by mail-pg1-x52b.google.com with SMTP id s206so6073244pgs.3;
+        Mon, 15 Aug 2022 02:21:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc;
+        bh=TPo4myNvedxf2zJziNLj/Kjv2Ce8wy378bNxAOqAgGs=;
+        b=HcsZiMic2kGmXl+Ny2fECbX3sMem0/SLa9bpatg9QGLYIDIAZZoSh5yOviRybn4I19
+         VZMXJLtpgkL731A6sepmW/tcHEO4HabXJTPt6+qJpAC1Uj0szPzJYfaNd1Iy4CRpuZhV
+         Kmu7OP4Eo3Lt2F65IlEgcSc1z7ntVXzpc8PfU/HYAu8CTxi+tgmAKmxZfUSSdETNpZYQ
+         rCV+eWCxTKfaVfUxOrv28xIr1JaLRwgrjrYkqN8447UowBlkknD/T+anLQSJ+gdJTI6O
+         xVMks3xkdfASQWPxSMvM2WrHJlDUDgwDjoaMd68df76kjAg4mldXqKpuqneAjOWcH83M
+         JAcw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
+        bh=TPo4myNvedxf2zJziNLj/Kjv2Ce8wy378bNxAOqAgGs=;
+        b=FeudICjZG5A3j8rK88W8OvRLxM0+ytFYulskphqSoQ8tudZd5xAxjtFZ9Ett34sIiU
+         umAZuGWWcftbF2vHaxwS6YqqI2GyvyJA0NimFbnNILUmZzb7nn80oxjwP7wbnjZEomVr
+         EY3ux73vL12vMiTv1PdmZJ+RD1ECdcRj7+raaylzeBN94EFGFBUVF5/6eOui89Ly9wKV
+         kDzmLW5qjHfumSEMYpthddmwtKjM4zLdHs/1hKrML5bWq9vWEvUzKovvD6ijSDwAzEG6
+         lkH5FN9JITMrzrfcnLwN8D9J85GrMrVJjzAsszqmph1DHUsNzP2yrtTn2U2sdW9LkXBk
+         YTTw==
+X-Gm-Message-State: ACgBeo15NfvyP9QPclgDarc3MDNe1JniF8b4EMwDNKJGT1Y0ec/vBnjt
+        x72W6tTNudPDag2gFrSqPls=
+X-Google-Smtp-Source: AA6agR5+Kf1N9dgRiucGStDKUErlRK8bV+X2mSNkdWlZWahHc0C5G9ZelFNGzk2GTT/y4aRiMJ1fiw==
+X-Received: by 2002:a63:cc51:0:b0:41f:12f5:675b with SMTP id q17-20020a63cc51000000b0041f12f5675bmr12775932pgi.69.1660555302430;
+        Mon, 15 Aug 2022 02:21:42 -0700 (PDT)
+Received: from debian.me (subs03-180-214-233-81.three.co.id. [180.214.233.81])
+        by smtp.gmail.com with ESMTPSA id l11-20020a17090a660b00b001f510175984sm4141895pjj.41.2022.08.15.02.21.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 15 Aug 2022 02:21:42 -0700 (PDT)
+Received: by debian.me (Postfix, from userid 1000)
+        id F1C45100014; Mon, 15 Aug 2022 16:21:38 +0700 (WIB)
+Date:   Mon, 15 Aug 2022 16:21:38 +0700
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     JunChao Sun <sunjunchao2870@gmail.com>
+Cc:     linux-ext4@vger.kernel.org, linux-doc@vger.kernel.org,
+        tytso@mit.edu, corbet@lwn.net
+Subject: Re: [PATCH] Documentation: ext4: correct the document about
+ superblock
+Message-ID: <YvoQIvIlMsADeG2H@debian.me>
+References: <20220814090016.3160-1-sunjunchao2870@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.1.2
-From:   =?UTF-8?Q?Martin_Li=c5=a1ka?= <mliska@suse.cz>
-Subject: [PATCH] docs/arm64: elf_hwcaps: Unify HWCAP lists as description
- lists
-To:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Cc:     broonie@kernel.org, corbet@lwn.net,
-        linux-arm-kernel@lists.infradead.org
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="C0wGcx6yGLwGR1Gt"
+Content-Disposition: inline
+In-Reply-To: <20220814090016.3160-1-sunjunchao2870@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Extends what was changed in 94bdaa7d9a9d778d893c670d494c06d8e007c1cd.
 
-Add a series of blank lines to this document to get consistend rendering as
-an RST description list.
+--C0wGcx6yGLwGR1Gt
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Martin Liska <mliska@suse.cz>
----
- Documentation/arm64/elf_hwcaps.rst | 10 ----------
- 1 file changed, 10 deletions(-)
+On Sun, Aug 14, 2022 at 02:00:16AM -0700, JunChao Sun wrote:
+> Correct some questions like this:
+> s_lastcheck_hi field should be upper 8 bits of the
+> s_lastcheck field, rather than itself.
+>=20
+> diff --git a/Documentation/filesystems/ext4/super.rst b/Documentation/fil=
+esystems/ext4/super.rst
+> index 268888522e35..0152888cac29 100644
+> --- a/Documentation/filesystems/ext4/super.rst
+> +++ b/Documentation/filesystems/ext4/super.rst
+> @@ -456,15 +456,15 @@ The ext4 superblock is laid out as follows in
+>     * - 0x277
+>       - __u8
+>       - s_lastcheck_hi
+> -     - Upper 8 bits of the s_lastcheck_hi field.
+> +     - Upper 8 bits of the s_lastcheck field.
+>     * - 0x278
+>       - __u8
+>       - s_first_error_time_hi
+> -     - Upper 8 bits of the s_first_error_time_hi field.
+> +     - Upper 8 bits of the s_first_error_time field.
+>     * - 0x279
+>       - __u8
+>       - s_last_error_time_hi
+> -     - Upper 8 bits of the s_last_error_time_hi field.
+> +     - Upper 8 bits of the s_last_error_time field.
+>     * - 0x27A
+>       - __u8
+>       - s_pad[2]
 
-diff --git a/Documentation/arm64/elf_hwcaps.rst b/Documentation/arm64/elf_hwcaps.rst
-index 52b75a25c205..311021f2e560 100644
---- a/Documentation/arm64/elf_hwcaps.rst
-+++ b/Documentation/arm64/elf_hwcaps.rst
-@@ -242,44 +242,34 @@ HWCAP2_MTE3
-     by Documentation/arm64/memory-tagging-extension.rst.
- 
- HWCAP2_SME
--
-     Functionality implied by ID_AA64PFR1_EL1.SME == 0b0001, as described
-     by Documentation/arm64/sme.rst.
- 
- HWCAP2_SME_I16I64
--
-     Functionality implied by ID_AA64SMFR0_EL1.I16I64 == 0b1111.
- 
- HWCAP2_SME_F64F64
--
-     Functionality implied by ID_AA64SMFR0_EL1.F64F64 == 0b1.
- 
- HWCAP2_SME_I8I32
--
-     Functionality implied by ID_AA64SMFR0_EL1.I8I32 == 0b1111.
- 
- HWCAP2_SME_F16F32
--
-     Functionality implied by ID_AA64SMFR0_EL1.F16F32 == 0b1.
- 
- HWCAP2_SME_B16F32
--
-     Functionality implied by ID_AA64SMFR0_EL1.B16F32 == 0b1.
- 
- HWCAP2_SME_F32F32
--
-     Functionality implied by ID_AA64SMFR0_EL1.F32F32 == 0b1.
- 
- HWCAP2_SME_FA64
--
-     Functionality implied by ID_AA64SMFR0_EL1.FA64 == 0b1.
- 
- HWCAP2_WFXT
--
-     Functionality implied by ID_AA64ISAR2_EL1.WFXT == 0b0010.
- 
- HWCAP2_EBF16
--
-     Functionality implied by ID_AA64ISAR1_EL1.BF16 == 0b0010.
- 
- 4. Unused AT_HWCAP bits
--- 
-2.37.1
+The diff looks OK, but the description should be:
+"The description of s_lastcheck_hi, s_first_error_time_hi, and
+s_last_error_time_hi fields refer to themselves, while these means
+referring to upper 8 bits (byte) of corresponding fields (s_lastcheck,
+s_first_error_time, and s_last_error_time). Correct the mistake."
 
+Thanks.
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--C0wGcx6yGLwGR1Gt
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCYvoQGgAKCRD2uYlJVVFO
+o8oJAP97K4ZlgfWXsNm5/qWKaC8pdT9u15ITW3FP3IOOfqdZ1QD/ReUqmfzowVR1
+j997tJPJsMkXr5EFR7kDt+LXBKUv6wA=
+=aUqt
+-----END PGP SIGNATURE-----
+
+--C0wGcx6yGLwGR1Gt--
