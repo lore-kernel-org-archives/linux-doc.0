@@ -2,140 +2,90 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B67D8C00140
-	for <linux-doc@archiver.kernel.org>; Mon, 15 Aug 2022 19:57:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0366DC3F6B0
+	for <linux-doc@archiver.kernel.org>; Mon, 15 Aug 2022 22:38:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241778AbiHOT5U (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 15 Aug 2022 15:57:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55834 "EHLO
+        id S1348855AbiHOWiU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 15 Aug 2022 18:38:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38556 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346050AbiHOT5B (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Aug 2022 15:57:01 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21B5878234;
-        Mon, 15 Aug 2022 11:52:54 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id D64BA4A8;
-        Mon, 15 Aug 2022 20:52:49 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1660589570;
-        bh=+NuBkTND3XJbe0x6qRQNdw6++aFzQI/aMn3RnRA3zuE=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=gxMsg4+lyXFAsJ1KdT0hv1rtWamZv86bDDoAocHocIP068XeNYqDfhnhTZWb/jCJq
-         /GqhI/f+i8J4E/VuECQ2mxJPVlkMLJnUwis4hFyasXRjpdu9E0tQyvtIMuBbVtbyQm
-         6dqLB3c4hn+OofwgiIyK1grU1/FJaTXy7oV2RphU=
-Date:   Mon, 15 Aug 2022 21:52:36 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Mark Brown <broonie@kernel.org>
-Cc:     Matti Vaittinen <mazziesaccount@gmail.com>,
-        Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
-        dri-devel@lists.freedesktop.org,
-        Johan Hovold <johan+linaro@kernel.org>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Kevin Hilman <khilman@baylibre.com>,
-        linux-kernel@vger.kernel.org, Daniel Vetter <daniel@ffwll.ch>,
-        linux-amlogic@lists.infradead.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-doc@vger.kernel.org, Jonathan Cameron <jic23@kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Michael Hennerich <Michael.Hennerich@analog.com>,
-        Miaoqian Lin <linmq006@gmail.com>,
-        linux-arm-kernel@lists.infradead.org,
-        Alexandru Tachici <alexandru.tachici@analog.com>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Andrzej Hajda <andrzej.hajda@intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Lorenzo Bianconi <lorenzo@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Jean Delvare <jdelvare@suse.com>,
-        Alexandru Ardelean <aardelean@deviqon.com>,
-        linux-hwmon@vger.kernel.org, linux-clk@vger.kernel.org,
-        Nuno =?utf-8?B?U8Oh?= <nuno.sa@analog.com>,
-        Robert Foss <robert.foss@linaro.org>,
-        Aswath Govindraju <a-govindraju@ti.com>,
-        David Airlie <airlied@linux.ie>, linux-iio@vger.kernel.org
-Subject: Re: (subset) [PATCH v2 0/7] Devm helpers for regulator get and enable
-Message-ID: <YvqV9Mq6I3gXQaf2@pendragon.ideasonboard.com>
-References: <cover.1660292316.git.mazziesaccount@gmail.com>
- <166057828406.697572.228317501909350108.b4-ty@kernel.org>
- <YvpsRbguMXn74GhR@pendragon.ideasonboard.com>
- <Yvp1Qkuh7xfeb/B2@sirena.org.uk>
+        with ESMTP id S1350817AbiHOWhL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Aug 2022 18:37:11 -0400
+Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com [IPv6:2607:f8b0:4864:20::634])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED5681306AC;
+        Mon, 15 Aug 2022 12:50:33 -0700 (PDT)
+Received: by mail-pl1-x634.google.com with SMTP id p18so7235408plr.8;
+        Mon, 15 Aug 2022 12:50:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc;
+        bh=Di1CBe/l3lFU1XEMEHMD/NMLKrrpGfsfoqHbgdL41rY=;
+        b=JuMvrFxcpiKSsluaG1sm5UeOdp2pC3giGOS2OG59Y//fuQbFRfELDeH/pCcBIswiDf
+         lZAf9nK/Y2R/Slxxx4YUgrO+F12ef80ywTcQLYTu8qeuofUcBPT7wsZnHVA+pr4+0/Cj
+         2tUC4IQVIStZaEDFenvFjtb8mmfyzTXMYIyz/i28Sb2IcML8EkxfwWRAP/3mhdWUdJG5
+         VVHotdeDOBc2ap2gYTcc16AbrAOrCJwUGwpW0kqck33YQQZ/msYuYMqPoV3dfpYUAbdG
+         l7XZwTBXqp8itTZ6ESNEpnA/05+OnSneaC/vjjcsmmudVYim9hPHM6KvxdLxnmzlWVOM
+         Qjxw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc;
+        bh=Di1CBe/l3lFU1XEMEHMD/NMLKrrpGfsfoqHbgdL41rY=;
+        b=1SfrJUrADimY6sR5KcE/VuHa6d+C7K3gPr+r+TpiByTeV268iEsn0bk/q4/Mh8YhD1
+         jBEE0+ZaRwhZotL9vEDR+W9F+m+zf6sjhkgjeqZG1ROb3pJZ62lcrDXtO3rLGv97vD8k
+         K2uT8RsIM5MDkf3dRf9Q1k7lTi66xYb8zPzt38tOVyChsDcQsghw8LBpAjFz7fVlonWj
+         Hdg4AaQAWQTjWKSlSIg/7CUTDY689NnodX0fZijDipTEWSiy2oNV0Dq3AkP8ubNoSJl1
+         b9JM0i8XVSDLBVOu6MH6bVGFQHzGc5hs0xdBDy8l5n8xBU4aP8q+6doLa76nrRl2gMDA
+         zlvg==
+X-Gm-Message-State: ACgBeo3twqA0ZIOefX3L9duv83XT54z8qr2i0Gm31Cj52JXAK2smUQ6X
+        0dzwEkGp7D2UYAe101pxxaE=
+X-Google-Smtp-Source: AA6agR4R1QdI6pW/aafCRuGM/0QFfLfWgDKOb+nYbwM1XcyQTAJaJsWfdgHpO+kUWsnlfWUBKtOq6A==
+X-Received: by 2002:a17:902:8f8a:b0:170:8df4:eebd with SMTP id z10-20020a1709028f8a00b001708df4eebdmr18681986plo.116.1660593032457;
+        Mon, 15 Aug 2022 12:50:32 -0700 (PDT)
+Received: from localhost ([2620:10d:c090:400::5:3a69])
+        by smtp.gmail.com with ESMTPSA id b14-20020a170902650e00b0016c06a10861sm7351319plk.74.2022.08.15.12.50.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 15 Aug 2022 12:50:31 -0700 (PDT)
+Sender: Tejun Heo <htejun@gmail.com>
+Date:   Mon, 15 Aug 2022 09:50:30 -1000
+From:   Tejun Heo <tj@kernel.org>
+To:     Johannes Weiner <hannes@cmpxchg.org>
+Cc:     Chengming Zhou <zhouchengming@bytedance.com>, corbet@lwn.net,
+        surenb@google.com, mingo@redhat.com, peterz@infradead.org,
+        vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
+        rostedt@goodmis.org, bsegall@google.com, cgroups@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        songmuchun@bytedance.com
+Subject: Re: [PATCH v2 09/10] sched/psi: per-cgroup PSI stats
+ disable/re-enable interface
+Message-ID: <YvqjhqJQi2J8RG3X@slm.duckdns.org>
+References: <20220808110341.15799-1-zhouchengming@bytedance.com>
+ <20220808110341.15799-10-zhouchengming@bytedance.com>
+ <YvprI6ZL8dVWGyBO@cmpxchg.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Yvp1Qkuh7xfeb/B2@sirena.org.uk>
+In-Reply-To: <YvprI6ZL8dVWGyBO@cmpxchg.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Mark,
+Hello,
 
-On Mon, Aug 15, 2022 at 05:33:06PM +0100, Mark Brown wrote:
-> On Mon, Aug 15, 2022 at 06:54:45PM +0300, Laurent Pinchart wrote:
+On Mon, Aug 15, 2022 at 11:49:55AM -0400, Johannes Weiner wrote:
+> I think it should also add/remove the pressure files when enabling and
+> disabling the aggregation, since their contents would be stale and
+> misleading.
 > 
-> > - With devres, you don't have full control over the order in which
-> >   resources will be released, which means that you can't control the
-> >   power off sequence, in particular if it needs to be sequenced with
-> >   GPIOs and clocks. That's not a concern for all drivers, but this API
-> >   will creep in in places where it shouldn't be used, driver authours
-> >   should really pay attention to power management and not live with the
-> >   false impression that everything will be handled automatically for
-> >   them. In the worst cases, an incorrect power off sequence could lead
-> >   to hardware damage.
-> 
-> I basically agree with these concerns which is why I was only happy with
-> this API when Matti suggested doing it in a way that meant that the
-> callers are unable to access the regulator at runtime, this means that
-> if anyone wants to do any kind of management of the power state outside
-> of probe and remove they are forced to convert to the full fat APIs.
-> The general ordering concern with devm is that the free happens too late
-> but for the most part this isn't such a concern with regulators, they
-> might have delayed power off anyway due to sharing - it's no worse than
-> memory allocation AFAICT.  Given all the other APIs using devm it's
-> probably going to end up fixing some bugs.
-> 
-> For sequencing I'm not convinced it's much worse than the bulk API is
-> anyway, and practically speaking I expect most devices that have
-> problems here will also need more control over power anyway - it's
-> certainly the common case that hardware has pretty basic requirements
-> and is fairly tolerant.
+> Take a look at cgroup_add_dfl_cftypes() and cgroup_rm_cftypes()
 
-I'm not extremely concerned here at the moment, as power should be the
-last thing to be turned off, after clocks and reset signals. As clocks
-and GPIOs will still be controlled manually in the driver .remove()
-function, it means that power will go last, which should be fine.
-However, should a devm_clk_get_enable() or similar function be
-implemented, we'll run into trouble. Supplying active high input signals
-to a device that is not powered can lead to latch-up, which tends to
-only manifest after a statistically significant number of occurrences of
-the condition, and can slowly damage the hardware over time. This is a
-real concern as it will typically not be caught during early
-development. I think we would still be better off with requiring drivers
-to manually handle powering off the device until we provide a mechanism
-that can do so safely in an automated way.
+The problem with adding cftypes dynamically is that it can fail, which isn't
+the end of the world here but still kinda sucks. I think what we actually
+wanna do is hiding and unhiding while keeping all the data structures in
+place which is needed somewhere else anyway.
 
-> > - Powering regulators on at probe time and leaving them on is a very bad
-> >   practice from a power management point of view, and should really be
-> >   discouraged. Adding convenience helpers to make this easy is the wrong
-> >   message, we should instead push driver authors to implement proper
-> >   runtime PM.
-> 
-> The stick simply isn't working here as far as I can see.
-
-Do you think there's no way we can get it to work, instead of giving up
-and adding an API that goes in the wrong direction ? :-( I'll give a
-talk about the dangers of devm_* at the kernel summit, this is something
-I can mention to raise awareness of the issue among maintainers,
-hopefully leading to improvements through better reviews.
+Thanks.
 
 -- 
-Regards,
-
-Laurent Pinchart
+tejun
