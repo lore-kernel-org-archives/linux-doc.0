@@ -2,54 +2,56 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B03ACC25B0E
-	for <linux-doc@archiver.kernel.org>; Mon, 15 Aug 2022 09:07:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 56E76C00140
+	for <linux-doc@archiver.kernel.org>; Mon, 15 Aug 2022 09:08:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232892AbiHOJHD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 15 Aug 2022 05:07:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60908 "EHLO
+        id S241903AbiHOJIK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 15 Aug 2022 05:08:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33294 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232537AbiHOJHD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Aug 2022 05:07:03 -0400
-Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DBEBD12774;
-        Mon, 15 Aug 2022 02:07:01 -0700 (PDT)
-Received: by mail-pj1-x1030.google.com with SMTP id ch17-20020a17090af41100b001fa74771f61so1815605pjb.0;
-        Mon, 15 Aug 2022 02:07:01 -0700 (PDT)
+        with ESMTP id S241794AbiHOJIB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Aug 2022 05:08:01 -0400
+Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00EDF21827;
+        Mon, 15 Aug 2022 02:08:01 -0700 (PDT)
+Received: by mail-pl1-x62b.google.com with SMTP id 13so5846496plo.12;
+        Mon, 15 Aug 2022 02:08:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc;
-        bh=ytCNQGwIeXZj40U8A3wP6jYSy3C0nPDEAZKyhH2Bm+s=;
-        b=I1miXohSb8hNNyyM+IVJ6idZ1Ndfl/8Z5XclxLN2xJ/bqrzlw98AI/yWMo36Lzeljy
-         ChXe+sUd5e1jmsA1xAOEGfmxEX0I8siMd2gNtYHQf5PmB752JQ6O36qMjqt9lLzenUw8
-         9sFcHFrdtd8GSjs6md+islA8hd9ygR48FED061swtEuyBacH9289en3RA9elFowHDyNv
-         KiCd50ZU5qNwlX5ZjmuyBbnv6b5HegoZkKqmNYN98rpzNENfVpS3460020KgatdlLhnW
-         EtvhGEoZ6FWbpEl+obArOBF4erBVSCkSWsa5wWE5+6zHWdih7u4gl3ARPCDoCDRmwUp2
-         bo6Q==
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc;
+        bh=c6YV89sLzCfE6GiVUft/eb1igCCifwtvh3OftDxp/M4=;
+        b=pR+mrvNHK07iKBkK6VYshAHOltu3tNxxDzv9RbKgbEbWjquwfYsYkHOhKUmG72rt7x
+         V/kKEjsc7mPZBDvmdgkzX/drCZ12BoCWCNIkgsDnxM5FIPrefx8Hn9oPsV52KVpZeNUH
+         KzGgs7WEEPmj+mgiMt9lTs9KAYsyttNAMlJuFNASSgXMdLoIKX2smD+7sA2y75xaRq8U
+         si1M999tzKGzW/XXEqN4lwm9bO0d6KB6qCwo697vt2TWKzZ/mKIZ6bVP26zTqpcrnW5T
+         wkjDBJ+z9hW87pVHW05kJjcdvphkEn/YZlxvlUDl/a8DqYEeFtgetg44jZQX9OaDr2G1
+         CyWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
-        bh=ytCNQGwIeXZj40U8A3wP6jYSy3C0nPDEAZKyhH2Bm+s=;
-        b=vaU2BQ8QaIy1Zmw5zG88L0raeR6+kvPY9d6pNJRegvhxC1fnTwdFPRnDiqTo01mDMf
-         W1nsVRVTOrWKwQhg6CPDcq0oKQXYz5kpenxv+4anJbYDVfllbGHjfsAagaINkGhZ0xxw
-         rJyeZ11Q0oaccAOEKA7EsmbAFiGKcSzanWK1EnX+g48e/QKjYaBmIqhw+m9mKmWrebi6
-         ZLeX3ciGivgyhFKPexvp9UAZ51GwDs6mDH+Mzr72/rn3xIjYXI6dKdfpLXX/wusgU3u1
-         W+ZFjzHt47+H3d/u7Scl/W61aXrG4OtVJ77n9Jv/mOZegwmThz1dQrjviAs9Z9xKqFaF
-         rVQA==
-X-Gm-Message-State: ACgBeo1iPV+FOZ9Wfqfegcq1Ivav9GCD5iZ6QVENKdPWdn5B3oOeyEVs
-        aNXUGLW1WvKw0NrStyvFOuU=
-X-Google-Smtp-Source: AA6agR4mSolBgLsCmfRic3/79moJacqTr4o/KFdaTbuklFRrYfgws+ojqvi7jwpP1zEp3mX11EicMQ==
-X-Received: by 2002:a17:903:110e:b0:171:3114:7112 with SMTP id n14-20020a170903110e00b0017131147112mr16647193plh.114.1660554421334;
-        Mon, 15 Aug 2022 02:07:01 -0700 (PDT)
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc;
+        bh=c6YV89sLzCfE6GiVUft/eb1igCCifwtvh3OftDxp/M4=;
+        b=o66oMPJPh3chRQov500VpzSDr7d5nKlo/OVbtfRYNuNBuK2JJTmwW3uvlspJvzNpz+
+         d5Si+RQG8DTWU6vr2OFv5/aQ/ZMV2WuGFqWcdKdn1PA89Uxl47MWCLRfGjz6/NL/KBRH
+         ksfxtzI6bIMWQXX3ZTyo1j2Wrfe+8sxcW+In7Bsqczdm80P0NOQZhrcvxoWtHMiTZGO8
+         O2XaLzmd74Lqc0lVEhXYyIoVMR0xDWjdmIyBGDGb5OJDxNIVGp5h2VramN2srJWB4yiJ
+         uHIdTTe5lxgwCCc7I+ZoPc5rnQze9chGuwkgATAnQhl2C2QIdgbuOD0pS6IKREVrIZ/L
+         wvyQ==
+X-Gm-Message-State: ACgBeo35+P5TwPKx8hjqBYDA+Lpp9k+jgLiyd992UZq8AcisJ7Zb+p7w
+        urq6EC7ooa0uS0QJBASHAEQ=
+X-Google-Smtp-Source: AA6agR6qU/u99YdT68C2E4GPc86lUJPytuIbHi+2sPqXMMCLpbyqQ+XecSHWABVbwgHFsvGNearNGA==
+X-Received: by 2002:a17:90a:fb4b:b0:1f3:1cbb:8912 with SMTP id iq11-20020a17090afb4b00b001f31cbb8912mr26922119pjb.239.1660554480499;
+        Mon, 15 Aug 2022 02:08:00 -0700 (PDT)
 Received: from debian.me (subs03-180-214-233-81.three.co.id. [180.214.233.81])
-        by smtp.gmail.com with ESMTPSA id ja14-20020a170902efce00b0016be527753bsm6536541plb.264.2022.08.15.02.07.00
+        by smtp.gmail.com with ESMTPSA id z8-20020a170903018800b0016c9e5f290esm6642204plg.10.2022.08.15.02.07.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Aug 2022 02:07:00 -0700 (PDT)
+        Mon, 15 Aug 2022 02:08:00 -0700 (PDT)
 Received: by debian.me (Postfix, from userid 1000)
-        id A8AE5103981; Mon, 15 Aug 2022 16:06:56 +0700 (WIB)
-Date:   Mon, 15 Aug 2022 16:06:56 +0700
+        id 7DF81103C03; Mon, 15 Aug 2022 16:07:57 +0700 (WIB)
+Date:   Mon, 15 Aug 2022 16:07:57 +0700
 From:   Bagas Sanjaya <bagasdotme@gmail.com>
 To:     Yu Zhao <yuzhao@google.com>
 Cc:     Andrew Morton <akpm@linux-foundation.org>,
@@ -84,28 +86,22 @@ Cc:     Andrew Morton <akpm@linux-foundation.org>,
         Shuang Zhai <szhai2@cs.rochester.edu>,
         Sofia Trinh <sofia.trinh@edi.works>,
         Vaibhav Jain <vaibhav@linux.ibm.com>
-Subject: Re: [PATCH v14 13/14] mm: multi-gen LRU: admin guide
-Message-ID: <YvoMsLV9ACCtx3yR@debian.me>
+Subject: Re: [PATCH v14 14/14] mm: multi-gen LRU: design doc
+Message-ID: <YvoM7e62p3HpTDcu@debian.me>
 References: <20220815071332.627393-1-yuzhao@google.com>
- <20220815071332.627393-14-yuzhao@google.com>
+ <20220815071332.627393-15-yuzhao@google.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="hXl4J7c08OjeDapH"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220815071332.627393-14-yuzhao@google.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220815071332.627393-15-yuzhao@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
---hXl4J7c08OjeDapH
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Mon, Aug 15, 2022 at 01:13:32AM -0600, Yu Zhao wrote:
-> Add an admin guide.
->=20
+On Mon, Aug 15, 2022 at 01:13:33AM -0600, Yu Zhao wrote:
+> Add a design doc.
+> 
 > Signed-off-by: Yu Zhao <yuzhao@google.com>
 > Acked-by: Brian Geffon <bgeffon@google.com>
 > Acked-by: Jan Alexander Steffens (heftig) <heftig@archlinux.org>
@@ -114,7 +110,7 @@ On Mon, Aug 15, 2022 at 01:13:32AM -0600, Yu Zhao wrote:
 > Acked-by: Suleiman Souhlal <suleiman@google.com>
 > Tested-by: Daniel Byrne <djbyrne@mtu.edu>
 > Tested-by: Donald Carr <d@chaos-reins.com>
-> Tested-by: Holger Hoffst=C3=A4tte <holger@applied-asynchrony.com>
+> Tested-by: Holger Hoffstätte <holger@applied-asynchrony.com>
 > Tested-by: Konstantin Kharlamov <Hi-Angel@yandex.ru>
 > Tested-by: Shuang Zhai <szhai2@cs.rochester.edu>
 > Tested-by: Sofia Trinh <sofia.trinh@edi.works>
@@ -124,18 +120,5 @@ LGTM to me (no new warnings).
 
 Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
---=20
+-- 
 An old man doll... just what I always wanted! - Clara
-
---hXl4J7c08OjeDapH
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCYvoMqwAKCRD2uYlJVVFO
-o6ekAQDViFd9adq3PN+jhvi+0+SA8p4xYIu8+wX0rK5RwyefKAEAnqBJxRVjYgtH
-qQ2ZJ61By45ALibbbomA1BTxDGKAmws=
-=uIV5
------END PGP SIGNATURE-----
-
---hXl4J7c08OjeDapH--
