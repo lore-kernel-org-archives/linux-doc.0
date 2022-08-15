@@ -2,90 +2,72 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0366DC3F6B0
-	for <linux-doc@archiver.kernel.org>; Mon, 15 Aug 2022 22:38:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 71C5DC25B08
+	for <linux-doc@archiver.kernel.org>; Mon, 15 Aug 2022 23:12:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348855AbiHOWiU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 15 Aug 2022 18:38:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38556 "EHLO
+        id S245485AbiHOXMs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 15 Aug 2022 19:12:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44234 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1350817AbiHOWhL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Aug 2022 18:37:11 -0400
-Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com [IPv6:2607:f8b0:4864:20::634])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED5681306AC;
-        Mon, 15 Aug 2022 12:50:33 -0700 (PDT)
-Received: by mail-pl1-x634.google.com with SMTP id p18so7235408plr.8;
-        Mon, 15 Aug 2022 12:50:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc;
-        bh=Di1CBe/l3lFU1XEMEHMD/NMLKrrpGfsfoqHbgdL41rY=;
-        b=JuMvrFxcpiKSsluaG1sm5UeOdp2pC3giGOS2OG59Y//fuQbFRfELDeH/pCcBIswiDf
-         lZAf9nK/Y2R/Slxxx4YUgrO+F12ef80ywTcQLYTu8qeuofUcBPT7wsZnHVA+pr4+0/Cj
-         2tUC4IQVIStZaEDFenvFjtb8mmfyzTXMYIyz/i28Sb2IcML8EkxfwWRAP/3mhdWUdJG5
-         VVHotdeDOBc2ap2gYTcc16AbrAOrCJwUGwpW0kqck33YQQZ/msYuYMqPoV3dfpYUAbdG
-         l7XZwTBXqp8itTZ6ESNEpnA/05+OnSneaC/vjjcsmmudVYim9hPHM6KvxdLxnmzlWVOM
-         Qjxw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc;
-        bh=Di1CBe/l3lFU1XEMEHMD/NMLKrrpGfsfoqHbgdL41rY=;
-        b=1SfrJUrADimY6sR5KcE/VuHa6d+C7K3gPr+r+TpiByTeV268iEsn0bk/q4/Mh8YhD1
-         jBEE0+ZaRwhZotL9vEDR+W9F+m+zf6sjhkgjeqZG1ROb3pJZ62lcrDXtO3rLGv97vD8k
-         K2uT8RsIM5MDkf3dRf9Q1k7lTi66xYb8zPzt38tOVyChsDcQsghw8LBpAjFz7fVlonWj
-         Hdg4AaQAWQTjWKSlSIg/7CUTDY689NnodX0fZijDipTEWSiy2oNV0Dq3AkP8ubNoSJl1
-         b9JM0i8XVSDLBVOu6MH6bVGFQHzGc5hs0xdBDy8l5n8xBU4aP8q+6doLa76nrRl2gMDA
-         zlvg==
-X-Gm-Message-State: ACgBeo3twqA0ZIOefX3L9duv83XT54z8qr2i0Gm31Cj52JXAK2smUQ6X
-        0dzwEkGp7D2UYAe101pxxaE=
-X-Google-Smtp-Source: AA6agR4R1QdI6pW/aafCRuGM/0QFfLfWgDKOb+nYbwM1XcyQTAJaJsWfdgHpO+kUWsnlfWUBKtOq6A==
-X-Received: by 2002:a17:902:8f8a:b0:170:8df4:eebd with SMTP id z10-20020a1709028f8a00b001708df4eebdmr18681986plo.116.1660593032457;
-        Mon, 15 Aug 2022 12:50:32 -0700 (PDT)
-Received: from localhost ([2620:10d:c090:400::5:3a69])
-        by smtp.gmail.com with ESMTPSA id b14-20020a170902650e00b0016c06a10861sm7351319plk.74.2022.08.15.12.50.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Aug 2022 12:50:31 -0700 (PDT)
-Sender: Tejun Heo <htejun@gmail.com>
-Date:   Mon, 15 Aug 2022 09:50:30 -1000
-From:   Tejun Heo <tj@kernel.org>
-To:     Johannes Weiner <hannes@cmpxchg.org>
-Cc:     Chengming Zhou <zhouchengming@bytedance.com>, corbet@lwn.net,
-        surenb@google.com, mingo@redhat.com, peterz@infradead.org,
-        vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
-        rostedt@goodmis.org, bsegall@google.com, cgroups@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        songmuchun@bytedance.com
-Subject: Re: [PATCH v2 09/10] sched/psi: per-cgroup PSI stats
- disable/re-enable interface
-Message-ID: <YvqjhqJQi2J8RG3X@slm.duckdns.org>
-References: <20220808110341.15799-1-zhouchengming@bytedance.com>
- <20220808110341.15799-10-zhouchengming@bytedance.com>
- <YvprI6ZL8dVWGyBO@cmpxchg.org>
+        with ESMTP id S245445AbiHOXLj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Aug 2022 19:11:39 -0400
+Received: from sipsolutions.net (s3.sipsolutions.net [IPv6:2a01:4f8:191:4433::2])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1EF5343302;
+        Mon, 15 Aug 2022 13:00:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=sipsolutions.net; s=mail; h=MIME-Version:Content-Transfer-Encoding:
+        Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-To:
+        Resent-Cc:Resent-Message-ID; bh=P0Mf7KfQM6gt6rgy9Mbr36+OPTT8y9WgA4HSJYQ9vxU=;
+        t=1660593631; x=1661803231; b=NBS49Jv+9S0tK9/6ekYgZY1a9rm+0/xmQXV4s68LYrcQuyH
+        JZGG36nErvgWzlvpfei99wNufHlkXT2Loi/4o882z+vpHkHvZ7m4C3u/2FHX59br7wAOYDqyZkvmv
+        g9Oca8EVhoaLxHI8bLjFoTEQRQXkQ4VYADl/8aAnCWswB8Lo2k+1/ZF+Zfg7d33IaQxewdEkXTrWk
+        jgncC8obemmTXX1Q/+3bIPU46Mc9fOUkg/D1Yt0UoY9fw3ux0SV0mgVgxFX6jvOsgOwUGWMSxrOEY
+        cGWGPkYwAY7fuy1fcLjn4xo3VYm5ypTTi75uY5LW8DfyxYxsa9RftFeXR3/cXYZw==;
+Received: by sipsolutions.net with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+        (Exim 4.96)
+        (envelope-from <johannes@sipsolutions.net>)
+        id 1oNgFx-008ocr-00;
+        Mon, 15 Aug 2022 22:00:13 +0200
+Message-ID: <f5b5873629afa110e66e92b4bf717e8acee21fcb.camel@sipsolutions.net>
+Subject: Re: [RFC net-next 3/4] ynl: add a sample python library
+From:   Johannes Berg <johannes@sipsolutions.net>
+To:     Jakub Kicinski <kuba@kernel.org>,
+        Stephen Hemminger <stephen@networkplumber.org>
+Cc:     netdev@vger.kernel.org, davem@davemloft.net, edumazet@google.com,
+        pabeni@redhat.com, sdf@google.com, jacob.e.keller@intel.com,
+        vadfed@fb.com, jiri@resnulli.us, dsahern@kernel.org, fw@strlen.de,
+        linux-doc@vger.kernel.org
+Date:   Mon, 15 Aug 2022 22:00:11 +0200
+In-Reply-To: <20220812155308.520831bb@kernel.org>
+References: <20220811022304.583300-1-kuba@kernel.org>
+         <20220811022304.583300-4-kuba@kernel.org>
+         <20220811130906.198b091d@hermes.local> <20220812155308.520831bb@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.4 (3.44.4-1.fc36) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YvprI6ZL8dVWGyBO@cmpxchg.org>
+X-malware-bazaar: not-scanned
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello,
+On Fri, 2022-08-12 at 15:53 -0700, Jakub Kicinski wrote:
+> On Thu, 11 Aug 2022 13:09:06 -0700 Stephen Hemminger wrote:
+> > Looks interesting, you might want to consider running your code
+> > through some of the existing Python checkers such as flake8 and pylint.
+> > If you want this to be generally available in repos, best to follow the=
+ language conventions
+> >=20
+> > For example flake8 noticed:
+> >  $ flake8 --max-line-length=3D120 ./tools/net/ynl/samples/ynl.py=20
+> > ./tools/net/ynl/samples/ynl.py:251:55: F821 undefined name 'file_name'
+>=20
+> Thanks! I'll make sure to check flake8 (pylint is too noisy for me :()
 
-On Mon, Aug 15, 2022 at 11:49:55AM -0400, Johannes Weiner wrote:
-> I think it should also add/remove the pressure files when enabling and
-> disabling the aggregation, since their contents would be stale and
-> misleading.
-> 
-> Take a look at cgroup_add_dfl_cftypes() and cgroup_rm_cftypes()
+FWIW, I've come to really believe in also adding type annotations (and
+checking them with mypy, of course, I even use --strict), which has
+helped even my smaller projects a lot. YMMV, but it might be something
+to look into.
 
-The problem with adding cftypes dynamically is that it can fail, which isn't
-the end of the world here but still kinda sucks. I think what we actually
-wanna do is hiding and unhiding while keeping all the data structures in
-place which is needed somewhere else anyway.
-
-Thanks.
-
--- 
-tejun
+johannes
