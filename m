@@ -2,105 +2,103 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ECEE2C00140
-	for <linux-doc@archiver.kernel.org>; Mon, 15 Aug 2022 09:27:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B241C00140
+	for <linux-doc@archiver.kernel.org>; Mon, 15 Aug 2022 12:37:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233308AbiHOJ1R (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 15 Aug 2022 05:27:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50704 "EHLO
+        id S232214AbiHOMhS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 15 Aug 2022 08:37:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47980 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230431AbiHOJ1Q (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Aug 2022 05:27:16 -0400
-Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com [IPv6:2607:f8b0:4864:20::52a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D07C51BEAC;
-        Mon, 15 Aug 2022 02:27:15 -0700 (PDT)
-Received: by mail-pg1-x52a.google.com with SMTP id f65so6054505pgc.12;
-        Mon, 15 Aug 2022 02:27:15 -0700 (PDT)
+        with ESMTP id S229623AbiHOMhR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Aug 2022 08:37:17 -0400
+Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com [IPv6:2a00:1450:4864:20::62d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1433C1A3BC;
+        Mon, 15 Aug 2022 05:37:16 -0700 (PDT)
+Received: by mail-ej1-x62d.google.com with SMTP id i14so13280157ejg.6;
+        Mon, 15 Aug 2022 05:37:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc;
-        bh=n8OcJOQcp/vvTFlnm7zIuv3uiuVOqAzl5JtUGDcvcy8=;
-        b=mtIxoMtD2/2/pRfnUI/Q6pzAJi+GmyYRBz5aRINPa6QniHTskAuYALqSGWS4bAhUeA
-         hxbq/oM+gd78WwO6K7r3iia8cPxNW3hKEXs7PibgPMaH0YshWZLZ7Ke2olzxhKZLNXOi
-         sTXmvWD/N/YK3czyiU+/Q4NimfnZLdrCMEmk+WL76LZ+q+qYOJ5zQq6huYXtj7pkJyrO
-         A7Q2uFLVyajx6h7kcfoelSEXuPixjn4XAjbR1Shb32fd87yp6iGrlxFxyvFdtVPr8D1U
-         Q3f+ELDOgnefrn905cWvLkn92jmmWim6NurCNVIYvmAj/z/nR3uPMxQWtqJeNZWDs5B8
-         XfWQ==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc;
+        bh=iiJ9o815tXNLizpE07FEy8fz7HVKa6/gr4/C8XpAKFM=;
+        b=DUDguRwqkZJiBAsp7o+6vNS7DAbUk6Heh40+HHDlyvdVPDn4feugxqREyaI4FnZKzx
+         42EZDKSt2/YAXV39o3IUvr/y3EjM/1lC3NhSfZGexVcu0NWNINYhon1dqwz9QkTX6VJc
+         1tOf4hKbHC9l79/LvnYxIqRO7do38EIAk302EMK6jb6Y4RH6z6vpYx8Cnl5AzD9SGMT9
+         eVV4C7J9fcEiOuzYv1i9bvFYYFio0nqNISVK9zxg6wEf1quZD3hX1P/EvwgOSwdMVsUy
+         UyE5Sbq4YBQ+zhsWJlfDq4sXeEF2BTck1iAFdhMRyWub8qBg3RKmjs0ETPr4fOf5GDFJ
+         1oVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
-        bh=n8OcJOQcp/vvTFlnm7zIuv3uiuVOqAzl5JtUGDcvcy8=;
-        b=Luw3jq7gPuXqVZ138ZlqvZaMnRdueWOm036CjPkT3Uct2teVyHIY1+cyugcoewkNcn
-         9EwQ1vHRGWA5rBs35kQW0EO7eEFQOhQGS0Ba7yJCpIQ8XOCvgqnRapJhLlmiTly9xIvV
-         LZk1QGe8Qk4NTqiad7iGU2hcYaEf6OhQEJ018vUX46DW1W8IqtBECFpNyCRJxZIeao4F
-         QAHA2UKbBqcnC9CRzMSdmW4q7e2flZ+I98xM5zaexXOWuOTrUc4ZSu7c7KCOZbb5OXNP
-         kYU0pXxgBz5hGUSSJ0CT4+dRPXBbyLE21HSLFj81FHkAsF4xY03D1AsmaXVKclmo6SDt
-         dttA==
-X-Gm-Message-State: ACgBeo3G46HDh5ILCUHKbxqSucBvOv+rrC6xiocVAFhEsyDc+nPxlJ7e
-        TGPsQz/txLqgDk2wjzu6UMY=
-X-Google-Smtp-Source: AA6agR7Bl7wV2BAb7RqLNP40SdjfbSg8ixJDejACFzl3RyQEJeNdSHFv+E1rhU07haQzIzKPmUR60g==
-X-Received: by 2002:a05:6a00:10d3:b0:4fe:5d:75c8 with SMTP id d19-20020a056a0010d300b004fe005d75c8mr15985771pfu.6.1660555635346;
-        Mon, 15 Aug 2022 02:27:15 -0700 (PDT)
-Received: from debian.me (subs03-180-214-233-81.three.co.id. [180.214.233.81])
-        by smtp.gmail.com with ESMTPSA id 196-20020a6218cd000000b0052b94e757ecsm6212563pfy.213.2022.08.15.02.27.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Aug 2022 02:27:15 -0700 (PDT)
-Received: by debian.me (Postfix, from userid 1000)
-        id 0B039100014; Mon, 15 Aug 2022 16:27:11 +0700 (WIB)
-Date:   Mon, 15 Aug 2022 16:27:11 +0700
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Cc:     Theodore Ts'o <tytso@mit.edu>,
-        Andreas Dilger <adilger.kernel@dilger.ca>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Wang Jianjian <wangjianjian3@huawei.com>,
-        linux-kernel@vger.kernel.org, linux-ext4@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH] ext4, doc: Fix a broken layout
-Message-ID: <YvoRb8crZvjC/Vo2@debian.me>
-References: <d3ec14afe2396272da6353162b3081a0c92de313.1659248273.git.christophe.jaillet@wanadoo.fr>
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=iiJ9o815tXNLizpE07FEy8fz7HVKa6/gr4/C8XpAKFM=;
+        b=dra27DPdwiBXTyIG4GokKfgPHcGtV0njrHpfFEIDeVEwto5vq2dpBWHbC6VyNzAUwK
+         NA1ftmBPsFMx7f0YS2Fwk6t24BhJyez9hScvqzbr+EpW/b2FVdWzHORiqM6IkgmplZRI
+         Yn89fTKuH8LmbffmJzJrk/Zu863MH3PnYng6yvZZfs1xAwACPf3A/1EOVoHqIGudtxxz
+         tIOBIyvyWBmVmBAQdzURThKZO4+IdozL1F3NIae6J6zI9kKeQ5CzocZ3qGPLTTw+oB0o
+         7IW/6lsP3e3FZokMd4GEZcpNIBbRvitdETS6Edpe1fcCYvWiOQAEOSUFuT/jw/C5mjli
+         1Z2w==
+X-Gm-Message-State: ACgBeo3SgEIqR/BIliHZGmrHTBwFLcRbOCqCvzmOz+ObSnDicuZBb/1c
+        B/dNDrjqPDVGd/J+1+LQSlmob1d/fqT/+TM+6cM=
+X-Google-Smtp-Source: AA6agR7L4fua/J012BLnw+UAlYRm46HxJBqezM5RMJyPguk2IasF76eudVUjir/cn5WvLjTENhlHsIWwSL5WlMvPztc=
+X-Received: by 2002:a17:907:7fa0:b0:730:c9aa:b4a7 with SMTP id
+ qk32-20020a1709077fa000b00730c9aab4a7mr10414162ejc.322.1660567034588; Mon, 15
+ Aug 2022 05:37:14 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="OVZiTBs945otpzH1"
-Content-Disposition: inline
-In-Reply-To: <d3ec14afe2396272da6353162b3081a0c92de313.1659248273.git.christophe.jaillet@wanadoo.fr>
+References: <20220814090016.3160-1-sunjunchao2870@gmail.com> <YvoQIvIlMsADeG2H@debian.me>
+In-Reply-To: <YvoQIvIlMsADeG2H@debian.me>
+From:   JunChao Sun <sunjunchao2870@gmail.com>
+Date:   Mon, 15 Aug 2022 20:37:02 +0800
+Message-ID: <CAHB1NahR=LrtTu+J6_puHZU63q3TwhrvA9yDNs2C5LJa4kugmA@mail.gmail.com>
+Subject: Re: [PATCH] Documentation: ext4: correct the document about superblock
+To:     Bagas Sanjaya <bagasdotme@gmail.com>
+Cc:     linux-ext4@vger.kernel.org, linux-doc@vger.kernel.org,
+        tytso@mit.edu, corbet@lwn.net
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Thanks for your suggestions, I will send patchv2.
 
---OVZiTBs945otpzH1
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Sun, Jul 31, 2022 at 08:18:24AM +0200, Christophe JAILLET wrote:
-> The commit in Fixes: has removed an escaping character without updating
-> the layout of the table.
->=20
-> Add the missing space.
->=20
-
-Hi,
-
-This has been already fixed on mainline by 19a7cc817a380f ("KVM: x86/MMU:
-properly format KVM_CAP_VM_DISABLE_NX_HUGE_PAGES capability table"). Thanks
-anyway.
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---OVZiTBs945otpzH1
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCYvoRbwAKCRD2uYlJVVFO
-o0pOAP98VOUTDIqJNISo55J/KGTjrnBvKdcyoUkBo+Yq7mR2+QD+JuMIQLb1L7Ko
-musjRK2zf28QeocGk9ohfJ4mRE169Qo=
-=R5Os
------END PGP SIGNATURE-----
-
---OVZiTBs945otpzH1--
+On Mon, Aug 15, 2022 at 5:21 PM Bagas Sanjaya <bagasdotme@gmail.com> wrote:
+>
+> On Sun, Aug 14, 2022 at 02:00:16AM -0700, JunChao Sun wrote:
+> > Correct some questions like this:
+> > s_lastcheck_hi field should be upper 8 bits of the
+> > s_lastcheck field, rather than itself.
+> >
+> > diff --git a/Documentation/filesystems/ext4/super.rst b/Documentation/filesystems/ext4/super.rst
+> > index 268888522e35..0152888cac29 100644
+> > --- a/Documentation/filesystems/ext4/super.rst
+> > +++ b/Documentation/filesystems/ext4/super.rst
+> > @@ -456,15 +456,15 @@ The ext4 superblock is laid out as follows in
+> >     * - 0x277
+> >       - __u8
+> >       - s_lastcheck_hi
+> > -     - Upper 8 bits of the s_lastcheck_hi field.
+> > +     - Upper 8 bits of the s_lastcheck field.
+> >     * - 0x278
+> >       - __u8
+> >       - s_first_error_time_hi
+> > -     - Upper 8 bits of the s_first_error_time_hi field.
+> > +     - Upper 8 bits of the s_first_error_time field.
+> >     * - 0x279
+> >       - __u8
+> >       - s_last_error_time_hi
+> > -     - Upper 8 bits of the s_last_error_time_hi field.
+> > +     - Upper 8 bits of the s_last_error_time field.
+> >     * - 0x27A
+> >       - __u8
+> >       - s_pad[2]
+>
+> The diff looks OK, but the description should be:
+> "The description of s_lastcheck_hi, s_first_error_time_hi, and
+> s_last_error_time_hi fields refer to themselves, while these means
+> referring to upper 8 bits (byte) of corresponding fields (s_lastcheck,
+> s_first_error_time, and s_last_error_time). Correct the mistake."
+>
+> Thanks.
+>
+> --
+> An old man doll... just what I always wanted! - Clara
