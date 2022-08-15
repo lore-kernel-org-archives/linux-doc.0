@@ -2,141 +2,142 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 12F2CC25B0E
-	for <linux-doc@archiver.kernel.org>; Mon, 15 Aug 2022 16:25:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C6314C00140
+	for <linux-doc@archiver.kernel.org>; Mon, 15 Aug 2022 16:33:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233183AbiHOQZH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 15 Aug 2022 12:25:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40252 "EHLO
+        id S230097AbiHOQdX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 15 Aug 2022 12:33:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55398 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232676AbiHOQYy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Aug 2022 12:24:54 -0400
-Received: from mout01.posteo.de (mout01.posteo.de [185.67.36.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DBC462A71A
-        for <linux-doc@vger.kernel.org>; Mon, 15 Aug 2022 09:22:45 -0700 (PDT)
-Received: from submission (posteo.de [185.67.36.169]) 
-        by mout01.posteo.de (Postfix) with ESMTPS id 8D25C240029
-        for <linux-doc@vger.kernel.org>; Mon, 15 Aug 2022 18:22:42 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.net; s=2017;
-        t=1660580562; bh=8cGb0tGMTUr7aYZYRErGqjYF93EXWmZWACaf8PVKdlk=;
-        h=Date:From:To:Cc:Subject:From;
-        b=Vw+w5Bf0GCOe6almLc4jUmkz5H6QtQprOieEFee5V7NDSGA18FKjJ0FNQ48kR9U2o
-         3MFAjJkXds7I5vSnFz8eKCcyYUa/mbpl2gL9c0g3Lz0lBAKAH/f162w9O2/CTXeD+n
-         1aVKlm5N4xId/MFsp60uOyC8pOuEwAEdyIQILwTO1wfj3SeMoCrEySp5iHgdMTn8EP
-         z7BG7ZT2ly+J2eG5JGPuLKfvOYn+qvJLq/3seXhDtoCjwdE0WoLrLv8Sug3YFfnTd2
-         pwauHHXwgmtJ/LxaJ3024b9ytUPQDEtKJ28WhddppNo7PaKC2cQTNS3tbHTRRH5Wey
-         KVHOZLaO9IvSQ==
-Received: from customer (localhost [127.0.0.1])
-        by submission (posteo.de) with ESMTPSA id 4M601L6wxkz6tn9;
-        Mon, 15 Aug 2022 18:22:30 +0200 (CEST)
-Date:   Mon, 15 Aug 2022 16:22:27 +0000
-From:   Daniel =?utf-8?Q?M=C3=BCller?= <deso@posteo.net>
-To:     Roberto Sassu <roberto.sassu@huawei.com>
-Cc:     Alexei Starovoitov <alexei.starovoitov@gmail.com>,
-        "ast@kernel.org" <ast@kernel.org>,
-        "daniel@iogearbox.net" <daniel@iogearbox.net>,
-        "andrii@kernel.org" <andrii@kernel.org>,
-        "martin.lau@linux.dev" <martin.lau@linux.dev>,
-        "song@kernel.org" <song@kernel.org>, "yhs@fb.com" <yhs@fb.com>,
-        "john.fastabend@gmail.com" <john.fastabend@gmail.com>,
-        "kpsingh@kernel.org" <kpsingh@kernel.org>,
-        "sdf@google.com" <sdf@google.com>,
-        "haoluo@google.com" <haoluo@google.com>,
-        "jolsa@kernel.org" <jolsa@kernel.org>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "dhowells@redhat.com" <dhowells@redhat.com>,
-        "jarkko@kernel.org" <jarkko@kernel.org>,
-        "rostedt@goodmis.org" <rostedt@goodmis.org>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "paul@paul-moore.com" <paul@paul-moore.com>,
-        "jmorris@namei.org" <jmorris@namei.org>,
-        "serge@hallyn.com" <serge@hallyn.com>,
-        "shuah@kernel.org" <shuah@kernel.org>,
-        "bpf@vger.kernel.org" <bpf@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "keyrings@vger.kernel.org" <keyrings@vger.kernel.org>,
-        "linux-security-module@vger.kernel.org" 
-        <linux-security-module@vger.kernel.org>,
-        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v10 5/9] bpf: Add bpf_lookup_*_key() and bpf_key_put()
- kfuncs
-Message-ID: <20220815162227.clqx44cwka7yt2u3@muellerd-fedora-PC2BDTX9>
-References: <20220810165932.2143413-1-roberto.sassu@huawei.com>
- <20220810165932.2143413-6-roberto.sassu@huawei.com>
- <20220810213351.wm5utltm67q4i6lu@MacBook-Pro-3.local.dhcp.thefacebook.com>
- <2415f4931a364541b2e6d14a8185ffbb@huawei.com>
- <f7d401d6ec6c47cbb358046a2d3ca5e8@huawei.com>
- <20220811235222.inghj73tf6vudoyw@vaio>
- <bff9efc2121046d78e50f0a270d13dc3@huawei.com>
+        with ESMTP id S229754AbiHOQdW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Aug 2022 12:33:22 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 753BA14D2A;
+        Mon, 15 Aug 2022 09:33:21 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 39891B80EF0;
+        Mon, 15 Aug 2022 16:33:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E692C433D6;
+        Mon, 15 Aug 2022 16:33:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1660581199;
+        bh=kBOMgsseA60cqKb8ZaWTeKRcdiuM8BBVMgx3WGOT2Vw=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=rmTxXiWdCfaKxjfeSH/wn3LpbaEYrRaZCw1f92jgSGWCcG2dAITp6jUamOj/9Et5l
+         NLxQdQJ6bRwiBMzF3WOgxKy/ruO+5WFA5KyvFSSpRu6Jp4vPceQTBAGYsxJnkRaDiF
+         VQs4HiAFoB6wMNroGRnPP1YIk98jhwB97kSZHSmw+l5iAPSEtqIYeHeV+2kguNbDCh
+         OMOaadd3jKZLNLo5Ra4binpuaeeuHjzws48ygCy26/f3fh0/Z6Z2lPNoKbe/MHMGoD
+         GRXNAh75/ymq45hZtYg5HjEKzu7bs/86N8gD/EMtnzrZtzuqtoEpW8lvyZOhjfQys0
+         rKBQntmgxyAVw==
+Date:   Mon, 15 Aug 2022 17:33:06 +0100
+From:   Mark Brown <broonie@kernel.org>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Matti Vaittinen <mazziesaccount@gmail.com>,
+        Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
+        dri-devel@lists.freedesktop.org,
+        Johan Hovold <johan+linaro@kernel.org>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Kevin Hilman <khilman@baylibre.com>,
+        linux-kernel@vger.kernel.org, Daniel Vetter <daniel@ffwll.ch>,
+        linux-amlogic@lists.infradead.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-doc@vger.kernel.org, Jonathan Cameron <jic23@kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Michael Hennerich <Michael.Hennerich@analog.com>,
+        Miaoqian Lin <linmq006@gmail.com>,
+        linux-arm-kernel@lists.infradead.org,
+        Alexandru Tachici <alexandru.tachici@analog.com>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Andrzej Hajda <andrzej.hajda@intel.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Lorenzo Bianconi <lorenzo@kernel.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        Jean Delvare <jdelvare@suse.com>,
+        Alexandru Ardelean <aardelean@deviqon.com>,
+        linux-hwmon@vger.kernel.org, linux-clk@vger.kernel.org,
+        Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+        Robert Foss <robert.foss@linaro.org>,
+        Aswath Govindraju <a-govindraju@ti.com>,
+        David Airlie <airlied@linux.ie>, linux-iio@vger.kernel.org
+Subject: Re: (subset) [PATCH v2 0/7] Devm helpers for regulator get and enable
+Message-ID: <Yvp1Qkuh7xfeb/B2@sirena.org.uk>
+References: <cover.1660292316.git.mazziesaccount@gmail.com>
+ <166057828406.697572.228317501909350108.b4-ty@kernel.org>
+ <YvpsRbguMXn74GhR@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="EyxHVb4W1IFNOeWj"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <bff9efc2121046d78e50f0a270d13dc3@huawei.com>
+In-Reply-To: <YvpsRbguMXn74GhR@pendragon.ideasonboard.com>
+X-Cookie: We have ears, earther...FOUR OF THEM!
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Aug 12, 2022 at 08:11:00AM +0000, Roberto Sassu wrote:
-> > From: Daniel Müller [mailto:deso@posteo.net]
-> > Sent: Friday, August 12, 2022 1:52 AM
-> > On Thu, Aug 11, 2022 at 12:02:57PM +0000, Roberto Sassu wrote:
-> > > > From: Roberto Sassu [mailto:roberto.sassu@huawei.com]
-> > > > Sent: Thursday, August 11, 2022 9:47 AM
-> > > > > From: Alexei Starovoitov [mailto:alexei.starovoitov@gmail.com]
-> > > > > Sent: Wednesday, August 10, 2022 11:34 PM
-> > > > > On Wed, Aug 10, 2022 at 06:59:28PM +0200, Roberto Sassu wrote:
-> > > > > > +
-> > > > > > +static int __init bpf_key_sig_kfuncs_init(void)
-> > > > > > +{
-> > > > > > +	int ret;
-> > > > > > +
-> > > > > > +	ret = register_btf_kfunc_id_set(BPF_PROG_TYPE_TRACING,
-> > > > > > +					&bpf_key_sig_kfunc_set);
-> > > > > > +	if (!ret)
-> > > > > > +		return 0;
-> > > > > > +
-> > > > > > +	return register_btf_kfunc_id_set(BPF_PROG_TYPE_LSM,
-> > > > > > +					 &bpf_key_sig_kfunc_set);
-> > > > >
-> > > > > Isn't this a watery water ?
-> > > > > Don't you have a patch 1 ?
-> > > > > What am I missing ?
-> > > >
-> > > > Uhm, yes. I had doubts too. That was what also KP did.
-> > > >
-> > > > It makes sense to register once, since we mapped LSM to
-> > > > TRACING.
-> > > >
-> > > > Will resend only this patch. And I will figure out why CI failed.
-> > >
-> > > Adding in CC Daniel Müller, which worked on this.
-> > >
-> > > I think the issue is that some kernel options are set to =m.
-> > > This causes the CI to miss all kernel modules, since they are
-> > > not copied to the virtual machine that executes the tests.
-> > >
-> > > I'm testing this patch:
-> > >
-> > > https://github.com/robertosassu/libbpf-
-> > ci/commit/b665e001b58c4ddb792a2a68098ea5dc6936b15c
-> > 
-> > I commented on the pull request. Would it make sense to adjust the
-> > kernel configuration in this repository instead? I am worried that
-> > otherwise everybody may need a similar work around, depending on how
-> > selftests are ultimately run.
-> 
-> The issue seems specific of the eBPF CI. Others might be able to use
-> kernel modules.
-> 
-> Either choice is fine for me.
 
-I understand that depending on how tests are run, kernel modules may be
-available to be loaded. My point is that I am not aware of anything that we
-would loose by having the functionality built-in to begin with (others can
-correct me). So it seems as if that's an easy way to sidestep any issues of that
-sort from the start and, hence, would be my preference.
+--EyxHVb4W1IFNOeWj
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Thanks,
-Daniel
+On Mon, Aug 15, 2022 at 06:54:45PM +0300, Laurent Pinchart wrote:
+
+> - With devres, you don't have full control over the order in which
+>   resources will be released, which means that you can't control the
+>   power off sequence, in particular if it needs to be sequenced with
+>   GPIOs and clocks. That's not a concern for all drivers, but this API
+>   will creep in in places where it shouldn't be used, driver authours
+>   should really pay attention to power management and not live with the
+>   false impression that everything will be handled automatically for
+>   them. In the worst cases, an incorrect power off sequence could lead
+>   to hardware damage.
+
+I basically agree with these concerns which is why I was only happy with
+this API when Matti suggested doing it in a way that meant that the
+callers are unable to access the regulator at runtime, this means that
+if anyone wants to do any kind of management of the power state outside
+of probe and remove they are forced to convert to the full fat APIs.
+The general ordering concern with devm is that the free happens too late
+but for the most part this isn't such a concern with regulators, they
+might have delayed power off anyway due to sharing - it's no worse than
+memory allocation AFAICT.  Given all the other APIs using devm it's
+probably going to end up fixing some bugs.
+
+For sequencing I'm not convinced it's much worse than the bulk API is
+anyway, and practically speaking I expect most devices that have
+problems here will also need more control over power anyway - it's
+certainly the common case that hardware has pretty basic requirements
+and is fairly tolerant.
+
+> - Powering regulators on at probe time and leaving them on is a very bad
+>   practice from a power management point of view, and should really be
+>   discouraged. Adding convenience helpers to make this easy is the wrong
+>   message, we should instead push driver authors to implement proper
+>   runtime PM.
+
+The stick simply isn't working here as far as I can see.
+
+--EyxHVb4W1IFNOeWj
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmL6dUIACgkQJNaLcl1U
+h9BS1Qf/aJ5FfSf2ZpgAnj2K1EYyJTQAf5hxweM6P8/UPf0PG25qZnrQ04w2KT+U
+J0dyFRSYl6wQbpFV7qxu5fLJC4OGjrDvyUmF+FgpX4qXSZYWhspqlsH73vA5olJB
+JssncwLyZQcX9kCua0RpN2NZ0+L7PAywvZ87c+2Ss00YkuS4GSE3CmeK3AhmHYfP
+4sjjQuZeLgAF3KmoG8ImBJh+a9aRORWWmvVboZ4reeEkMfnIC37kD92wTH6+ubec
+Rink1Toz39UYEOFWWLMmC9VkRDTunn4JGF6ei4tDrxADrV2aCJ+05N5wV7N0Eg/D
+37fKiGeyHN4cc64BVj5NW6aFp6UfgQ==
+=aGMq
+-----END PGP SIGNATURE-----
+
+--EyxHVb4W1IFNOeWj--
