@@ -2,193 +2,130 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 461E2C25B0E
-	for <linux-doc@archiver.kernel.org>; Sun, 14 Aug 2022 16:32:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D406AC00140
+	for <linux-doc@archiver.kernel.org>; Mon, 15 Aug 2022 03:37:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241876AbiHNQcV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 14 Aug 2022 12:32:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40060 "EHLO
+        id S230474AbiHODhI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 14 Aug 2022 23:37:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43988 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242531AbiHNQam (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 14 Aug 2022 12:30:42 -0400
-Received: from sin.source.kernel.org (sin.source.kernel.org [145.40.73.55])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0006F2665;
-        Sun, 14 Aug 2022 09:25:19 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by sin.source.kernel.org (Postfix) with ESMTPS id 49381CE0B12;
-        Sun, 14 Aug 2022 16:25:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3FE1C433C1;
-        Sun, 14 Aug 2022 16:25:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1660494316;
-        bh=V+ENuY92A0wmHDlcl6RZEmcFDNBsdEAFSOMvhdQxeGE=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=H8Z13GEKfe8Su1oM6tB4RZMeOLqCS0sYgQaAI5Ml77VQSMtv/mmiei+bd3oCPpt7A
-         2HVX0xgR59nYIoOemteNFul8J0Sx3ELUgXtB3di93zTGJ7apbKmwtllKCYn7DXUpbD
-         nGrWKljroiu2Q8FCviZyaL9aFIGVM7GXRUat2lzTWsyT8sxo+9CY1geJI1w+h8hp8T
-         3dyjwQELH3LBKqAUsOVoPfBm5xFPA76ZA+qlkry6K8QBn9LaOg0UqQHjWQ9msxtV0j
-         pULlhCAYLEPOW9/z+pcBPt2f0UVpjjAXj9bqpVK2wOrnylfyFSsImeeUCcWauT2vgo
-         09Q1tT5VzCfLg==
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Laurent Dufour <ldufour@linux.ibm.com>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Sasha Levin <sashal@kernel.org>, corbet@lwn.net,
-        akpm@linux-foundation.org, Jason@zx2c4.com, feng.tang@intel.com,
-        ying.huang@intel.com, gpiccoli@igalia.com,
-        mchehab+huawei@kernel.org, robh@kernel.org, jsavitz@redhat.com,
-        nathanl@linux.ibm.com, haren@linux.ibm.com,
-        linux-doc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org
-Subject: [PATCH AUTOSEL 5.18 23/39] powerpc/pseries/mobility: set NMI watchdog factor during an LPM
-Date:   Sun, 14 Aug 2022 12:23:12 -0400
-Message-Id: <20220814162332.2396012-23-sashal@kernel.org>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220814162332.2396012-1-sashal@kernel.org>
-References: <20220814162332.2396012-1-sashal@kernel.org>
+        with ESMTP id S230342AbiHODhH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 14 Aug 2022 23:37:07 -0400
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B32DA13F00;
+        Sun, 14 Aug 2022 20:37:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1660534626; x=1692070626;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=1lNOF+yYCyzR8glGvzWhXgR1l2ZGMz4pJFP8Rea6CDI=;
+  b=SDxZ9m0/d47r9RU2OOAMbYlsTTfzm+q+r/A55LlITefJtHRcFivsk7wh
+   ckreDJJ3Cwo1VeTdClElysXS4pHsRNEeayINQHMa7/FMV+LufPee7K/nf
+   foBwHC7iCEJTFhY6Nh6Dsc4fPuNbdRy38AgxP9LBc+9qfr6bEkNd6zbK+
+   CBi0jgKcVAuCLkFtdkIxWmr9KRoQGc9x7ytd84mHvGltlk6kVlOL6RStl
+   EZ5G3KiBdg/4GBuMyf1iWZG6Md+lLhD9UJv9Zyy1woCnr6oPyWs2HafHi
+   1WHQIOVM+eSw9v8bku8oU67Mn8OHni4L/9ctddQdjT+pqCBDhV25FxRmv
+   w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10439"; a="278841180"
+X-IronPort-AV: E=Sophos;i="5.93,237,1654585200"; 
+   d="scan'208";a="278841180"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Aug 2022 20:37:05 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,237,1654585200"; 
+   d="scan'208";a="609800470"
+Received: from yilunxu-optiplex-7050.sh.intel.com (HELO localhost) ([10.239.159.165])
+  by fmsmga007.fm.intel.com with ESMTP; 14 Aug 2022 20:37:02 -0700
+Date:   Mon, 15 Aug 2022 11:27:59 +0800
+From:   Xu Yilun <yilun.xu@intel.com>
+To:     matthew.gerlach@linux.intel.com
+Cc:     hao.wu@intel.com, russell.h.weight@intel.com,
+        basheer.ahmed.muddebihal@intel.com, trix@redhat.com,
+        mdf@kernel.org, linux-fpga@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        tianfei.zhang@intel.com, Marco Pagani <marpagan@redhat.com>
+Subject: Re: [PATCH v4] fpga: dfl-pci: Add IDs for Intel N6000, N6001 and
+ C6100 cards
+Message-ID: <Yvm9PxYxEI9lGauT@yilunxu-OptiPlex-7050>
+References: <20220719145644.242481-1-matthew.gerlach@linux.intel.com>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220719145644.242481-1-matthew.gerlach@linux.intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Laurent Dufour <ldufour@linux.ibm.com>
+On 2022-07-19 at 07:56:44 -0700, matthew.gerlach@linux.intel.com wrote:
+> From: Matthew Gerlach <matthew.gerlach@linux.intel.com>
+> 
+> Add pci_dev_table entries supporting the Intel N6000, N6001
+> and C6100 cards to the dfl-pci driver.
+> 
+> Signed-off-by: Matthew Gerlach <matthew.gerlach@linux.intel.com>
+> Signed-off-by: Tianfei Zhang <tianfei.zhang@intel.com>
+> Tested-by: Marco Pagani <marpagan@redhat.com>
+> Reviewed-by: Tom Rix <trix@redhat.com>
+> Acked-by: Wu Hao <hao.wu@intel.com>
 
-[ Upstream commit 118b1366930c8c833b8b36abef657f40d4e26610 ]
+Acked-by: Xu Yilun <yilun.xu@intel.com>
 
-During an LPM, while the memory transfer is in progress on the arrival
-side, some latencies are generated when accessing not yet transferred
-pages on the arrival side. Thus, the NMI watchdog may be triggered too
-frequently, which increases the risk to hit an NMI interrupt in a bad
-place in the kernel, leading to a kernel panic.
+Applied to for-next
 
-Disabling the Hard Lockup Watchdog until the memory transfer could be a
-too strong work around, some users would want this timeout to be
-eventually triggered if the system is hanging even during an LPM.
-
-Introduce a new sysctl variable nmi_watchdog_factor. It allows to apply
-a factor to the NMI watchdog timeout during an LPM. Just before the CPUs
-are stopped for the switchover sequence, the NMI watchdog timer is set
-to watchdog_thresh + factor%
-
-A value of 0 has no effect. The default value is 200, meaning that the
-NMI watchdog is set to 30s during LPM (based on a 10s watchdog_thresh
-value). Once the memory transfer is achieved, the factor is reset to 0.
-
-Setting this value to a high number is like disabling the NMI watchdog
-during an LPM.
-
-Signed-off-by: Laurent Dufour <ldufour@linux.ibm.com>
-Reviewed-by: Nicholas Piggin <npiggin@gmail.com>
-Signed-off-by: Michael Ellerman <mpe@ellerman.id.au>
-Link: https://lore.kernel.org/r/20220713154729.80789-5-ldufour@linux.ibm.com
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- Documentation/admin-guide/sysctl/kernel.rst | 12 ++++++
- arch/powerpc/platforms/pseries/mobility.c   | 43 +++++++++++++++++++++
- 2 files changed, 55 insertions(+)
-
-diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
-index e9c18dabc552..fc9e6565ced0 100644
---- a/Documentation/admin-guide/sysctl/kernel.rst
-+++ b/Documentation/admin-guide/sysctl/kernel.rst
-@@ -592,6 +592,18 @@ to the guest kernel command line (see
- Documentation/admin-guide/kernel-parameters.rst).
- 
- 
-+nmi_wd_lpm_factor (PPC only)
-+============================
-+
-+Factor to apply to the NMI watchdog timeout (only when ``nmi_watchdog`` is
-+set to 1). This factor represents the percentage added to
-+``watchdog_thresh`` when calculating the NMI watchdog timeout during an
-+LPM. The soft lockup timeout is not impacted.
-+
-+A value of 0 means no change. The default value is 200 meaning the NMI
-+watchdog is set to 30s (based on ``watchdog_thresh`` equal to 10).
-+
-+
- numa_balancing
- ==============
- 
-diff --git a/arch/powerpc/platforms/pseries/mobility.c b/arch/powerpc/platforms/pseries/mobility.c
-index 78f3f74c7056..cbe0989239bf 100644
---- a/arch/powerpc/platforms/pseries/mobility.c
-+++ b/arch/powerpc/platforms/pseries/mobility.c
-@@ -48,6 +48,39 @@ struct update_props_workarea {
- #define MIGRATION_SCOPE	(1)
- #define PRRN_SCOPE -2
- 
-+#ifdef CONFIG_PPC_WATCHDOG
-+static unsigned int nmi_wd_lpm_factor = 200;
-+
-+#ifdef CONFIG_SYSCTL
-+static struct ctl_table nmi_wd_lpm_factor_ctl_table[] = {
-+	{
-+		.procname	= "nmi_wd_lpm_factor",
-+		.data		= &nmi_wd_lpm_factor,
-+		.maxlen		= sizeof(int),
-+		.mode		= 0644,
-+		.proc_handler	= proc_douintvec_minmax,
-+	},
-+	{}
-+};
-+static struct ctl_table nmi_wd_lpm_factor_sysctl_root[] = {
-+	{
-+		.procname       = "kernel",
-+		.mode           = 0555,
-+		.child          = nmi_wd_lpm_factor_ctl_table,
-+	},
-+	{}
-+};
-+
-+static int __init register_nmi_wd_lpm_factor_sysctl(void)
-+{
-+	register_sysctl_table(nmi_wd_lpm_factor_sysctl_root);
-+
-+	return 0;
-+}
-+device_initcall(register_nmi_wd_lpm_factor_sysctl);
-+#endif /* CONFIG_SYSCTL */
-+#endif /* CONFIG_PPC_WATCHDOG */
-+
- static int mobility_rtas_call(int token, char *buf, s32 scope)
- {
- 	int rc;
-@@ -665,19 +698,29 @@ static int pseries_suspend(u64 handle)
- static int pseries_migrate_partition(u64 handle)
- {
- 	int ret;
-+	unsigned int factor = 0;
- 
-+#ifdef CONFIG_PPC_WATCHDOG
-+	factor = nmi_wd_lpm_factor;
-+#endif
- 	ret = wait_for_vasi_session_suspending(handle);
- 	if (ret)
- 		return ret;
- 
- 	vas_migration_handler(VAS_SUSPEND);
- 
-+	if (factor)
-+		watchdog_nmi_set_timeout_pct(factor);
-+
- 	ret = pseries_suspend(handle);
- 	if (ret == 0)
- 		post_mobility_fixup();
- 	else
- 		pseries_cancel_migration(handle, ret);
- 
-+	if (factor)
-+		watchdog_nmi_set_timeout_pct(0);
-+
- 	vas_migration_handler(VAS_RESUME);
- 
- 	return ret;
--- 
-2.35.1
-
+> ---
+> v4: moved subdevice ids next to respective device id
+> 
+> v3: added necessary subdevice ids
+>     removed 'drivers: ' from title
+> 
+> v2: changed names from INTEL_OFS to INTEL_DFL
+> ---
+>  drivers/fpga/dfl-pci.c | 18 ++++++++++++++++++
+>  1 file changed, 18 insertions(+)
+> 
+> diff --git a/drivers/fpga/dfl-pci.c b/drivers/fpga/dfl-pci.c
+> index fd1fa55c9113..0914e7328b1a 100644
+> --- a/drivers/fpga/dfl-pci.c
+> +++ b/drivers/fpga/dfl-pci.c
+> @@ -77,12 +77,18 @@ static void cci_pci_free_irq(struct pci_dev *pcidev)
+>  #define PCIE_DEVICE_ID_INTEL_PAC_D5005		0x0B2B
+>  #define PCIE_DEVICE_ID_SILICOM_PAC_N5010	0x1000
+>  #define PCIE_DEVICE_ID_SILICOM_PAC_N5011	0x1001
+> +#define PCIE_DEVICE_ID_INTEL_DFL		0xbcce
+> +/* PCI Subdevice ID for PCIE_DEVICE_ID_INTEL_DFL */
+> +#define PCIE_SUBDEVICE_ID_INTEL_N6000		0x1770
+> +#define PCIE_SUBDEVICE_ID_INTEL_N6001		0x1771
+> +#define PCIE_SUBDEVICE_ID_INTEL_C6100		0x17d4
+>  
+>  /* VF Device */
+>  #define PCIE_DEVICE_ID_VF_INT_5_X		0xBCBF
+>  #define PCIE_DEVICE_ID_VF_INT_6_X		0xBCC1
+>  #define PCIE_DEVICE_ID_VF_DSC_1_X		0x09C5
+>  #define PCIE_DEVICE_ID_INTEL_PAC_D5005_VF	0x0B2C
+> +#define PCIE_DEVICE_ID_INTEL_DFL_VF		0xbccf
+>  
+>  static struct pci_device_id cci_pcie_id_tbl[] = {
+>  	{PCI_DEVICE(PCI_VENDOR_ID_INTEL, PCIE_DEVICE_ID_PF_INT_5_X),},
+> @@ -96,6 +102,18 @@ static struct pci_device_id cci_pcie_id_tbl[] = {
+>  	{PCI_DEVICE(PCI_VENDOR_ID_INTEL, PCIE_DEVICE_ID_INTEL_PAC_D5005_VF),},
+>  	{PCI_DEVICE(PCI_VENDOR_ID_SILICOM_DENMARK, PCIE_DEVICE_ID_SILICOM_PAC_N5010),},
+>  	{PCI_DEVICE(PCI_VENDOR_ID_SILICOM_DENMARK, PCIE_DEVICE_ID_SILICOM_PAC_N5011),},
+> +	{PCI_DEVICE_SUB(PCI_VENDOR_ID_INTEL, PCIE_DEVICE_ID_INTEL_DFL,
+> +			PCI_VENDOR_ID_INTEL, PCIE_SUBDEVICE_ID_INTEL_N6000),},
+> +	{PCI_DEVICE_SUB(PCI_VENDOR_ID_INTEL, PCIE_DEVICE_ID_INTEL_DFL_VF,
+> +			PCI_VENDOR_ID_INTEL, PCIE_SUBDEVICE_ID_INTEL_N6000),},
+> +	{PCI_DEVICE_SUB(PCI_VENDOR_ID_INTEL, PCIE_DEVICE_ID_INTEL_DFL,
+> +			PCI_VENDOR_ID_INTEL, PCIE_SUBDEVICE_ID_INTEL_N6001),},
+> +	{PCI_DEVICE_SUB(PCI_VENDOR_ID_INTEL, PCIE_DEVICE_ID_INTEL_DFL_VF,
+> +			PCI_VENDOR_ID_INTEL, PCIE_SUBDEVICE_ID_INTEL_N6001),},
+> +	{PCI_DEVICE_SUB(PCI_VENDOR_ID_INTEL, PCIE_DEVICE_ID_INTEL_DFL,
+> +			PCI_VENDOR_ID_INTEL, PCIE_SUBDEVICE_ID_INTEL_C6100),},
+> +	{PCI_DEVICE_SUB(PCI_VENDOR_ID_INTEL, PCIE_DEVICE_ID_INTEL_DFL_VF,
+> +			PCI_VENDOR_ID_INTEL, PCIE_SUBDEVICE_ID_INTEL_C6100),},
+>  	{0,}
+>  };
+>  MODULE_DEVICE_TABLE(pci, cci_pcie_id_tbl);
+> -- 
+> 2.25.1
+> 
