@@ -2,109 +2,131 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B4420C25B0E
-	for <linux-doc@archiver.kernel.org>; Tue, 16 Aug 2022 15:49:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6FB74C28B2B
+	for <linux-doc@archiver.kernel.org>; Tue, 16 Aug 2022 15:55:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236046AbiHPPtM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 16 Aug 2022 11:49:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46600 "EHLO
+        id S233972AbiHPPzs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 16 Aug 2022 11:55:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55466 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235977AbiHPPsp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Aug 2022 11:48:45 -0400
-Received: from us-smtp-delivery-44.mimecast.com (us-smtp-delivery-44.mimecast.com [205.139.111.44])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 645CF71BDA
-        for <linux-doc@vger.kernel.org>; Tue, 16 Aug 2022 08:45:07 -0700 (PDT)
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-375-ha1Jl9NgO0yPMXlwnnXOSA-1; Tue, 16 Aug 2022 11:43:58 -0400
-X-MC-Unique: ha1Jl9NgO0yPMXlwnnXOSA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        with ESMTP id S236383AbiHPPz1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Aug 2022 11:55:27 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97B05656A;
+        Tue, 16 Aug 2022 08:53:20 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 16BCD29ABA0C;
-        Tue, 16 Aug 2022 15:43:57 +0000 (UTC)
-Received: from comp-core-i7-2640m-0182e6.redhat.com (unknown [10.40.208.6])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 61A412166B26;
-        Tue, 16 Aug 2022 15:43:55 +0000 (UTC)
-From:   Alexey Gladkov <legion@kernel.org>
-To:     LKML <linux-kernel@vger.kernel.org>,
-        Linux Containers <containers@lists.linux.dev>,
-        linux-doc@vger.kernel.org
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Christian Brauner <brauner@kernel.org>,
-        "Eric W . Biederman" <ebiederm@xmission.com>,
-        Kees Cook <keescook@chromium.org>,
-        Manfred Spraul <manfred@colorfullife.com>,
-        Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH v1 3/3] docs: Add information about ipc sysctls limitations
-Date:   Tue, 16 Aug 2022 17:42:45 +0200
-Message-Id: <9b566b9b7313300d60b7dfd785ab041bed757ae0.1660664258.git.legion@kernel.org>
-In-Reply-To: <cover.1660664258.git.legion@kernel.org>
-References: <87wnc1i2wo.fsf@email.froward.int.ebiederm.org> <cover.1660664258.git.legion@kernel.org>
+        by ams.source.kernel.org (Postfix) with ESMTPS id 493C4B81A84;
+        Tue, 16 Aug 2022 15:53:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C5B4C433C1;
+        Tue, 16 Aug 2022 15:53:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1660665198;
+        bh=hlkYJEYHyg2S6iWZ8XPY2X8XBAGgCaNjt7hhi5OwEtg=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=aZLNZDSVQi9fGX8AJl/etW3qEk8e5X77R7oncvw4Dy7CWKD7aeUpTcZQcKd5ncAOl
+         eWfB7+/HyOY/BaM2+DnFUIW8XkvjcF4cWD/5AW+YTqH5d2LTN24KX/14qbsUOkXDrA
+         R9owL/kjWlqRp8QK8JLbb8NL5NNnabyA2EgpAdjNuhLl8DLdDXK7i6bFVJr1BGQVpE
+         qpMJLvqTMF1k93dHQXniHrm0a8ILERBZDE7+vBbwt2tpKTL3Y/zl6FpRjIzEnVwOel
+         5YCpvXvsblhlVOs+nq8O+Fz5aG3z0Wl6NK3woRe8klg2R9zQ8cPcn+N7+6rYeBVmeg
+         FdRLYUVCnxiwQ==
+Date:   Tue, 16 Aug 2022 08:53:16 -0700
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     Johannes Berg <johannes@sipsolutions.net>
+Cc:     netdev@vger.kernel.org, davem@davemloft.net, edumazet@google.com,
+        pabeni@redhat.com, sdf@google.com, jacob.e.keller@intel.com,
+        vadfed@fb.com, jiri@resnulli.us, dsahern@kernel.org,
+        stephen@networkplumber.org, fw@strlen.de, linux-doc@vger.kernel.org
+Subject: Re: [RFC net-next 2/4] ynl: add the schema for the schemas
+Message-ID: <20220816085316.65fda789@kernel.org>
+In-Reply-To: <7241755af778426a2241cacd51119ba8dbd7c136.camel@sipsolutions.net>
+References: <20220811022304.583300-1-kuba@kernel.org>
+        <20220811022304.583300-3-kuba@kernel.org>
+        <6b972ef603ff2bc3a3f3e489aa6638f6246c1e48.camel@sipsolutions.net>
+        <20220815174742.32b3611e@kernel.org>
+        <7241755af778426a2241cacd51119ba8dbd7c136.camel@sipsolutions.net>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-After 25b21cb2f6d6 ("[PATCH] IPC namespace core") and 4e9823111bdc
-("[PATCH] IPC namespace - shm") the shared memory page count stopped
-being global and started counting per ipc namespace. The documentation
-and shmget(2) still says that shmall is a global option.
+On Tue, 16 Aug 2022 09:21:27 +0200 Johannes Berg wrote:
+> On Mon, 2022-08-15 at 17:47 -0700, Jakub Kicinski wrote:
+> > On Mon, 15 Aug 2022 22:09:11 +0200 Johannes Berg wrote:  
+> > It's the incredibly inventive nesting format used in genetlink policy
+> > dumps where the type of the sub-attr(s there are actually two levels)
+> > carry a value (index of the policy and attribute) rather than denoting
+> > a type :S :S :S  
+> 
+> Hmm, OK, in the policy dump (not specific to genetlink, btw, can be used
+> for any policy, but is only generically hooked up for genetlink), we
+> have
+> 
+> [policy_idx] = {
+>   [attr_idx] = {
+>     [NL_POLICY_TYPE_ATTR_...] = ...
+>   }
+> }
+> 
+> Is that what you mean?
 
-shmget(2):
+Yes.
 
-SHMALL System-wide limit on the total amount of shared memory, measured
-in units of the system page size. On Linux, this limit can be read and
-modified via /proc/sys/kernel/shmall.
+> I guess I never really thought about this format much from a description
+> POV, no need to have a policy since you simply iterate (for_each_attr)
+> when reading it, and don't really need to care about the attribute
+> index, at least.
+> 
+> For future reference, how would you suggest to have done this instead?
 
-I think the changes made in 2006 should be documented.
+My guess was that some of the wrapping was for ease of canceling here
+(cancel is used both on skip and on error). What I think we should push
+for is multi-attr, so the same attribute happens multiple times.
 
-Signed-off-by: Alexey Gladkov <legion@kernel.org>
----
- Documentation/admin-guide/sysctl/kernel.rst | 14 +++++++++++---
- 1 file changed, 11 insertions(+), 3 deletions(-)
+[msg]
+ [ATTR1]
+ [ATTR2] // elem 1
+   [SubATTR1]
+   [SubATTR2]
+ [ATTR2] // elem 2
+   [SubATTR1]
+   [SubATTR2]
+ [ATTR2] // elem 3
+   [SubATTR1]
+   [SubATTR2]
+ [ATTR3]
+ [ATTR4]
 
-diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
-index ddccd1077462..9ad344b5e7a1 100644
---- a/Documentation/admin-guide/sysctl/kernel.rst
-+++ b/Documentation/admin-guide/sysctl/kernel.rst
-@@ -541,6 +541,9 @@ default (``MSGMNB``).
- ``msgmni`` is the maximum number of IPC queues. 32000 by default
- (``MSGMNI``).
- 
-+All of these parameters are set per ipc namespace. The maximum number of bytes
-+in POSIX message queues is limited by ``RLIMIT_MSGQUEUE``. This limit is
-+respected hierarchically in the each user namespace.
- 
- msg_next_id, sem_next_id, and shm_next_id (System V IPC)
- ========================================================
-@@ -1169,15 +1172,20 @@ are doing anyway :)
- shmall
- ======
- 
--This parameter sets the total amount of shared memory pages that
--can be used system wide. Hence, ``shmall`` should always be at least
--``ceil(shmmax/PAGE_SIZE)``.
-+This parameter sets the total amount of shared memory pages that can be used
-+inside ipc namespace. The shared memory pages counting occurs for each ipc
-+namespace separately and is not inherited. Hence, ``shmall`` should always be at
-+least ``ceil(shmmax/PAGE_SIZE)``.
- 
- If you are not sure what the default ``PAGE_SIZE`` is on your Linux
- system, you can run the following command::
- 
- 	# getconf PAGE_SIZE
- 
-+To reduce or disable the ability to allocate shared memory, you must create a
-+new ipc namespace, set this parameter to the required value and prohibit the
-+creation of a new ipc namespace in the current user namespace or cgroups can
-+be used.
- 
- shmmax
- ======
--- 
-2.33.4
+Instead of wrapping into an array and then elements.
 
+As Michal pointed out a number of times - the wrapping ends up limiting 
+the size of the array to U16_MAX, and I have a suspicion that most of
+wrapping is done because we tend to parse into a pointer array, which
+makes multi-attr a little tricky. But we shouldn't let one parsing
+technique in a relatively uncommon language like C dictate the format :)
+
+> > Slightly guessing but I think I know what you mean -> the value of the
+> > array is a nest with index as the type and then inside that is the
+> > entry of the array with its attributes <- and that's where the space is
+> > applied, not at the first nest level?  
+> 
+> Right.
+> 
+> > Right, I should probably put that in the docs rather than the schema,
+> > array-nests are expected to strip one layer of nesting and put the
+> > value taken from the type (:D) into an @idx member of the struct
+> > representing the values of the array. Or at least that's what I do in
+> > the C codegen.  
+> 
+> Well mostly you're not supposed to care about the 'value'/'type', I
+> guess?
+
+Fair, I wasn't sure if it's ever used, but I figured if I have to parse
+it out why not save the values. Same for array-next indexes.
+
+I'm leaning heavily towards defining a subset of the YAML spec as 
+"the way to do things in new family" which will allow only one form 
+of arrays.
