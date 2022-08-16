@@ -2,74 +2,117 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 75877C25B0E
-	for <linux-doc@archiver.kernel.org>; Tue, 16 Aug 2022 12:20:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 52C6DC28B2B
+	for <linux-doc@archiver.kernel.org>; Tue, 16 Aug 2022 12:22:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235260AbiHPMUC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 16 Aug 2022 08:20:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49206 "EHLO
+        id S230321AbiHPMWH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 16 Aug 2022 08:22:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56158 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235485AbiHPMTs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Aug 2022 08:19:48 -0400
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id F0B76C1C;
-        Tue, 16 Aug 2022 05:19:41 -0700 (PDT)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9225C113E;
-        Tue, 16 Aug 2022 05:19:42 -0700 (PDT)
-Received: from e123648.arm.com (unknown [10.57.14.225])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 550183F66F;
-        Tue, 16 Aug 2022 05:19:40 -0700 (PDT)
-From:   Lukasz Luba <lukasz.luba@arm.com>
-To:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Cc:     lukasz.luba@arm.com, siyanteng@loongson.cn, alexs@kernel.org,
-        corbet@lwn.net, peterz@infradead.org
-Subject: [PATCH] docs: scheduler: Update new path for the sysctl knobs
-Date:   Tue, 16 Aug 2022 13:19:07 +0100
-Message-Id: <20220816121907.841-1-lukasz.luba@arm.com>
-X-Mailer: git-send-email 2.17.1
+        with ESMTP id S230007AbiHPMWF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Aug 2022 08:22:05 -0400
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B4CA25C68;
+        Tue, 16 Aug 2022 05:22:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1660652525; x=1692188525;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=B3uUd/yG6wpuTb/aR5iTfAme30Qm6tQlD5VU32Fh/CI=;
+  b=Tifp/ISUfjpNRaPP/CY94u94leOZ91YRfJkuv3BDszBornbMs5Q6XRQ7
+   Ixcw0xfxSGlJ1Jg0hiYU0p5uFCXRilB6YP1Oef6lmkw0edqQbDB88Z1Zk
+   92hPzlG/ufTn1JT3E+1Bor79jl97sbJHqhdZcxEGuqk0Z1IAVbJxaAgBF
+   8TkLB0HHACBU+bOr/uWseGqjadJawZfkVjkgEF0OV/8Hm9kAqrgBq7FeF
+   TucuT2O8paNDEBJxQExyYRDVCGdFPd1jsimk54wcpS0qKHTZDzhCHAQ47
+   lhhOfV7Q2m5H6OH4cSsSeil9POTww0F/BnV3p9UUmF5ySbm27HvydlkBK
+   g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10440"; a="289773234"
+X-IronPort-AV: E=Sophos;i="5.93,241,1654585200"; 
+   d="scan'208";a="289773234"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2022 05:22:03 -0700
+X-IronPort-AV: E=Sophos;i="5.93,241,1654585200"; 
+   d="scan'208";a="675194031"
+Received: from damianos-mobl.ger.corp.intel.com (HELO box.shutemov.name) ([10.252.40.45])
+  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2022 05:21:54 -0700
+Received: by box.shutemov.name (Postfix, from userid 1000)
+        id 4FB31104A4E; Tue, 16 Aug 2022 15:24:57 +0300 (+03)
+Date:   Tue, 16 Aug 2022 15:24:57 +0300
+From:   "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
+To:     "Gupta, Pankaj" <pankaj.gupta@amd.com>
+Cc:     Chao Peng <chao.p.peng@linux.intel.com>,
+        "Nikunj A. Dadhania" <nikunj@amd.com>,
+        Sean Christopherson <seanjc@google.com>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>, luto@kernel.org,
+        jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
+        david@redhat.com, aarcange@redhat.com, ddutile@redhat.com,
+        dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+        Muchun Song <songmuchun@bytedance.com>, bharata@amd.com,
+        kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-kselftest@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+        qemu-devel@nongnu.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v7 00/14] KVM: mm: fd-based approach for supporting KVM
+ guest private memory
+Message-ID: <20220816122457.2fjyd4uz5hp5cani@box.shutemov.name>
+References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
+ <b21f41e5-0322-bbfb-b9c2-db102488592d@amd.com>
+ <9e86daea-5619-a216-fe02-0562cf14c501@amd.com>
+ <9dc91ce8-4cb6-37e6-4c25-27a72dc11dd0@amd.com>
+ <422b9f97-fdf5-54bf-6c56-3c45eff5e174@amd.com>
+ <1407c70c-0c0b-6955-10bb-d44c5928f2d9@amd.com>
+ <1136925c-2e37-6af4-acac-be8bed9f6ed5@amd.com>
+ <1b02db9d-f2f1-94dd-6f37-59481525abff@amd.com>
+ <20220815130411.GA1073443@chaop.bj.intel.com>
+ <f0094f31-9669-47b5-eb52-6754a13ce757@amd.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <f0094f31-9669-47b5-eb52-6754a13ce757@amd.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add missing update for the documentation bit of some scheduler knob.
-The knobs have been moved to /debug/sched/ location (with adjusted names).
+On Tue, Aug 16, 2022 at 01:33:00PM +0200, Gupta, Pankaj wrote:
+> Hi Chao,
+> 
+> > 
+> > Actually the current version allows you to delay the allocation to a
+> > later time (e.g. page fault time) if you don't call fallocate() on the
+> > private fd. fallocate() is necessary in previous versions because we
+> > treat the existense in the fd as 'private' but in this version we track
+> > private/shared info in KVM so we don't rely on that fact from memory
+> > backstores.
+> 
+> Does this also mean reservation of guest physical memory with secure
+> processor (both for SEV-SNP & TDX) will also happen at page fault time?
+> 
+> Do we plan to keep it this way?
 
-Signed-off-by: Lukasz Luba <lukasz.luba@arm.com>
----
- Documentation/scheduler/sched-design-CFS.rst                    | 2 +-
- Documentation/translations/zh_CN/scheduler/sched-design-CFS.rst | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+If you are talking about accepting memory by the guest, it is initiated by
+the guest and has nothing to do with page fault time vs fallocate()
+allocation of host memory. I mean acceptance happens after host memory
+allocation but they are not in lockstep, acceptance can happen much later.
 
-diff --git a/Documentation/scheduler/sched-design-CFS.rst b/Documentation/scheduler/sched-design-CFS.rst
-index 59b2d1fb4dc4..03db55504515 100644
---- a/Documentation/scheduler/sched-design-CFS.rst
-+++ b/Documentation/scheduler/sched-design-CFS.rst
-@@ -94,7 +94,7 @@ other HZ detail.  Thus the CFS scheduler has no notion of "timeslices" in the
- way the previous scheduler had, and has no heuristics whatsoever.  There is
- only one central tunable (you have to switch on CONFIG_SCHED_DEBUG):
- 
--   /proc/sys/kernel/sched_min_granularity_ns
-+   /sys/kernel/debug/sched/min_granularity_ns
- 
- which can be used to tune the scheduler from "desktop" (i.e., low latencies) to
- "server" (i.e., good batching) workloads.  It defaults to a setting suitable
-diff --git a/Documentation/translations/zh_CN/scheduler/sched-design-CFS.rst b/Documentation/translations/zh_CN/scheduler/sched-design-CFS.rst
-index 26b0f36f793d..3076402406c4 100644
---- a/Documentation/translations/zh_CN/scheduler/sched-design-CFS.rst
-+++ b/Documentation/translations/zh_CN/scheduler/sched-design-CFS.rst
-@@ -80,7 +80,7 @@ p->se.vruntime。一旦p->se.vruntime变得足够大，其它的任务将成为
- CFS使用纳秒粒度的计时，不依赖于任何jiffies或HZ的细节。因此CFS并不像之前的调度器那样
- 有“时间片”的概念，也没有任何启发式的设计。唯一可调的参数（你需要打开CONFIG_SCHED_DEBUG）是：
- 
--   /proc/sys/kernel/sched_min_granularity_ns
-+   /sys/kernel/debug/sched/min_granularity_ns
- 
- 它可以用来将调度器从“桌面”模式（也就是低时延）调节为“服务器”（也就是高批处理）模式。
- 它的默认设置是适合桌面的工作负载。SCHED_BATCH也被CFS调度器模块处理。
 -- 
-2.17.1
-
+  Kiryl Shutsemau / Kirill A. Shutemov
