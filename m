@@ -2,180 +2,126 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 07635C25B0D
-	for <linux-doc@archiver.kernel.org>; Tue, 16 Aug 2022 05:52:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CE6C2C282E7
+	for <linux-doc@archiver.kernel.org>; Tue, 16 Aug 2022 06:31:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231336AbiHPFwl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 16 Aug 2022 01:52:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54576 "EHLO
+        id S229741AbiHPGa7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 16 Aug 2022 02:30:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34398 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229632AbiHPFwa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Aug 2022 01:52:30 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B31413B891;
-        Mon, 15 Aug 2022 15:56:06 -0700 (PDT)
+        with ESMTP id S229729AbiHPGag (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Aug 2022 02:30:36 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 56B3C365805;
+        Mon, 15 Aug 2022 17:47:45 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 9D631612D4;
-        Mon, 15 Aug 2022 22:56:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6BDF4C433C1;
-        Mon, 15 Aug 2022 22:55:57 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 39C46611CA;
+        Tue, 16 Aug 2022 00:47:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 166FCC433D6;
+        Tue, 16 Aug 2022 00:47:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1660604165;
-        bh=xMmA6oKgbgUn6m+9eT6q7pbLR6zVbVy796oIUBAaC34=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=F9SlKgjQLmKKrMBqJ3vvsBrd/Yrlq/4jXbrxweWPj+yty8ovPhmdnEnTIWpGowipZ
-         ECHdt+y2tO9y8qZfE+f+YPkED7huG/w9HkviixPVFvChrzkt8yQHvMo9O2VEBMNnzT
-         JrgsR7XULrWGVBkNhntK/xnHOk7eDkZMlqsrXDiqjhP0aUimZ6hEjHJq68SJqJNXZ8
-         Mn7TB54t7gXDP09+nIigfo9+G8xUNeiGZ8KoKq/3xI0hTgVnGoFpEhhQ4uxC2ZsnD5
-         nbKSi9SZujYbs+PUjccW7ijsGglrXKDh+DVk9PUS1QTRrpf9KPISuwCizKTspA2CBS
-         QyObtjpXNSFrg==
-Date:   Mon, 15 Aug 2022 23:55:54 +0100
-From:   Mark Brown <broonie@kernel.org>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Stephen Boyd <sboyd@kernel.org>,
-        Matti Vaittinen <mazziesaccount@gmail.com>,
-        Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
-        dri-devel@lists.freedesktop.org,
-        Johan Hovold <johan+linaro@kernel.org>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Kevin Hilman <khilman@baylibre.com>,
-        linux-kernel@vger.kernel.org, Daniel Vetter <daniel@ffwll.ch>,
-        linux-amlogic@lists.infradead.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-doc@vger.kernel.org, Jonathan Cameron <jic23@kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Michael Hennerich <Michael.Hennerich@analog.com>,
-        Miaoqian Lin <linmq006@gmail.com>,
-        linux-arm-kernel@lists.infradead.org,
-        Alexandru Tachici <alexandru.tachici@analog.com>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Andrzej Hajda <andrzej.hajda@intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Lorenzo Bianconi <lorenzo@kernel.org>,
-        Michael Turq uette <mturquette@baylibre.com>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Jean Delvare <jdelvare@suse.com>,
-        Alexandru Ardelean <aardelean@deviqon.com>,
-        linux-hwmon@vger.kernel.org, linux-clk@vger.kernel.org,
-        Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-        Robert Foss <robert.foss@linaro.org>,
-        Aswath Govindraju <a-govindraju@ti.com>,
-        David Airlie <airlied@linux.ie>, linux-iio@vger.kernel.org
-Subject: Re: (subset) [PATCH v2 0/7] Devm helpers for regulator get and enable
-Message-ID: <YvrO+velKdYdGVve@sirena.org.uk>
-References: <cover.1660292316.git.mazziesaccount@gmail.com>
- <166057828406.697572.228317501909350108.b4-ty@kernel.org>
- <YvpsRbguMXn74GhR@pendragon.ideasonboard.com>
- <Yvp1Qkuh7xfeb/B2@sirena.org.uk>
- <YvqV9Mq6I3gXQaf2@pendragon.ideasonboard.com>
- <20220815205857.308B1C433D6@smtp.kernel.org>
- <Yvq33T+XCduoqv7Z@pendragon.ideasonboard.com>
+        s=k20201202; t=1660610863;
+        bh=rivhVaF5P8dIsbt4rHeNA6xHf5uobphxrS9T5pIZWeQ=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=Q4pzVYGgg9a3hCz6aB6GO6WMg6deuAfaAezLJfmPeKzGcK2mqExggbaGcTurQbohm
+         xkLRWvHluqnvPXX+Yk519XDp67JdiQuBOB3UlITtOIKpV3zIG763SHyFXLn9ldka0d
+         vmSvoG4vlhN036iZmC2FGocR7nNmVVWK9cwehULjdjDIDYpZ7QySXxu12YKIvckbj2
+         Hj3l7mxlrcIaZKk25Pv84OoQKAPpGGV6oLY0iq/mt8rAiowyGeeeAghafIxM5thbqa
+         pOp0xCM3POL6/mc+0HT4+5amvNYy1SBavOod+L8F5kdQ3nqIUkhDICShjDF6AXvqW0
+         iEmlCco7A9Tyg==
+Date:   Mon, 15 Aug 2022 17:47:42 -0700
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     Johannes Berg <johannes@sipsolutions.net>
+Cc:     netdev@vger.kernel.org, davem@davemloft.net, edumazet@google.com,
+        pabeni@redhat.com, sdf@google.com, jacob.e.keller@intel.com,
+        vadfed@fb.com, jiri@resnulli.us, dsahern@kernel.org,
+        stephen@networkplumber.org, fw@strlen.de, linux-doc@vger.kernel.org
+Subject: Re: [RFC net-next 2/4] ynl: add the schema for the schemas
+Message-ID: <20220815174742.32b3611e@kernel.org>
+In-Reply-To: <6b972ef603ff2bc3a3f3e489aa6638f6246c1e48.camel@sipsolutions.net>
+References: <20220811022304.583300-1-kuba@kernel.org>
+        <20220811022304.583300-3-kuba@kernel.org>
+        <6b972ef603ff2bc3a3f3e489aa6638f6246c1e48.camel@sipsolutions.net>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="4yZYFMFbpCwRNWoh"
-Content-Disposition: inline
-In-Reply-To: <Yvq33T+XCduoqv7Z@pendragon.ideasonboard.com>
-X-Cookie: We have ears, earther...FOUR OF THEM!
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Mon, 15 Aug 2022 22:09:11 +0200 Johannes Berg wrote:
+> On Wed, 2022-08-10 at 19:23 -0700, Jakub Kicinski wrote:
+> > 
+> > +        attributes:
+> > +          description: List of attributes in the space.
+> > +          type: array
+> > +          items:
+> > +            type: object
+> > +            required: [ name, type ]
+> > +            additionalProperties: False
+> > +            properties:
+> > +              name:
+> > +                type: string
+> > +              type: &attr-type
+> > +                enum: [ unused, flag, binary, u8, u16, u32, u64, s32, s64,
+> > +                        nul-string, multi-attr, nest, array-nest, nest-type-value ]  
+> 
+> nest-type-value?
 
---4yZYFMFbpCwRNWoh
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+It's the incredibly inventive nesting format used in genetlink policy
+dumps where the type of the sub-attr(s there are actually two levels)
+carry a value (index of the policy and attribute) rather than denoting
+a type :S :S :S
 
-On Tue, Aug 16, 2022 at 12:17:17AM +0300, Laurent Pinchart wrote:
-> On Mon, Aug 15, 2022 at 01:58:55PM -0700, Stephen Boyd wrote:
+I really need to document the types, I know...
 
-> > The basic idea is that drivers should be focused on what they're
-> > driving, not navigating the (sometimes) complex integration that's
-> > taking place around them. When a device driver probe function is called
-> > the device should already be powered on.
+> > +              description:
+> > +                description: Documentation of the attribute.
+> > +                type: string
+> > +              type-value:
+> > +                description: Name of the value extracted from the type of a nest-type-value attribute.
+> > +                type: array
+> > +                items:
+> > +                  type: string
+> > +              len:
+> > +                oneOf: [ { type: string }, { type: integer }]
+> > +              sub-type: *attr-type
+> > +              nested-attributes:
+> > +                description: Name of the space (sub-space) used inside the attribute.
+> > +                type: string  
+> 
+> Maybe expand that description a bit, it's not really accurate for
+> "array-nest"?
 
-> No. ACPI does that in many cases, and that's a real bad idea. There are
-> devices that you do *not* want to power up on probe. I'm thinking, for
-> example, about camera sensors that have a privacy LED that will light up
-> when the sensor is powered up. You don't want it to flash on boot. There
-> are also other use cases related to fault tolerance where you want
-> drivers to initialize properly and only access the device later.
+Slightly guessing but I think I know what you mean -> the value of the
+array is a nest with index as the type and then inside that is the
+entry of the array with its attributes <- and that's where the space is
+applied, not at the first nest level?
 
-I don't think it's an either/or thing in terms of approach here - we
-need a range of options to choose from.  ACPI is totally fine and solves
-real problems for the systems it targets, the problems we see with it
-are mainly that it has a very strong system abstraction and doesn't cope
-well when things go outside that coupled with the fact that Windows long
-ago decided that board files were totally fine for papering over any
-problems so people haven't worked on standardisation where they should.
-Some SoCs like to do similar things with their power controller cores.
+Right, I should probably put that in the docs rather than the schema,
+array-nests are expected to strip one layer of nesting and put the
+value taken from the type (:D) into an @idx member of the struct
+representing the values of the array. Or at least that's what I do in
+the C codegen.
 
-Conversely for example with many (but not all) SoC IPs the mechanics of
-the system integration and range of options available are such that
-dealing with them is kind of out of scope of the driver, but they're
-often very repetitive over any given SoC so there is a benefit in
-pushing things into power domains rather than having the driver for the
-IP manage everything.  We need to be able to be flexible so we can find
-the best idioms to represent the different systems in front of us rather
-than trying to force all systems into a single idiom.
+Not that any of these beautiful, precious formats should be encouraged
+going forward. multi-attr all the way!
 
-> These devres helpers go in the exact opposite direction of what we
-> should be doing, by telling driver authors it's totally fine to not
-> implement power management. Why don't we just drop error handling and go
-> back to the big kernel lock in that case ? That was much easier to
-> program too.
+> > +              enum:
+> > +                description: Name of the enum used for the atttribute.  
+> 
+> typo - attribute
 
-Sometimes it's totally fine to not worry, at least at a first pass.
-Perhaps you're more concerned with real time, perhaps your system
-doesn't provide control for the relevant resources.  Sometimes the
-savings are so negligable that it's questionable if doing the power
-manageement is an overall power saving.
+Thanks!
 
-> You will very quickly see drivers doing this (either directly or
-> indirectly):
+> Do you mean the "name of the enumeration" or the "name of the
+> enumeration constant"? (per C99 concepts) I'm a bit confused? I guess
+> you mean the "name of the enumeration constant" though I agree most
+> people probably don't know the names from C99 (I had to look them up too
+> for the sake of being precise here ...)
 
-> probe()
-> {
-> 	devm_clk_get_enabled();
-> 	devm_regulator_get_enable();
-> }
-
-> Without a devres-based get+enable API drivers can get the resources they
-> need in any order, possibly moving some of those resource acquisition
-> operations to different functions, and then have a clear block of code
-> that enables the resources in the right order. These devres helpers give
-> a false sense of security to driver authors and they will end up
-> introducing problems, the same way that devm_kzalloc() makes it
-> outrageously easy to crash the kernel by disconnecting a device that is
-> in use.
-
-TBH I think the problem you have here is with devm not with this
-particular function.  That's a different conversation, and a totally
-valid one especially when you start looking at things like implementing
-userspace APIs which need to cope with hardware going away while still
-visible to userspace.  It's *probably* more of a subsystem conversation
-than a driver one though, or at least I think subsystems should try to
-arrange to make it so.
-
---4yZYFMFbpCwRNWoh
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmL6zvkACgkQJNaLcl1U
-h9BEBgf/WTDdAdcRZ8SC6FxARw3vM71UeFKkIqUwBU+PYuhgUK2NBJXqpbKPrtVC
-yhBxnG6LjbPlUdTmuHr7/VqE4w4fNgcbxFZcYvfbmC/oBSNtHkHDEQSOC8CTi5Ud
-BhNvQSBIa3+a6oHsz1yPIG8kL5noW4VKMVNiRuvR+6X8cSrXhZpk8GJLLWM0zBzX
-99KnGDVttgaVcftUhxYXdmdeGIIU2t9DH5HaUG3txWB3IuuRlyJxBPY1mCNfjXl2
-xZXp0tLQFshCLqDSYsTQbS8X+xDNxeBSG8hbWEDfvFHxX/YYBUAb3nZ4+npTcaVl
-gZBIzTYNJg5nvwsv+0jghdLDxGTLnQ==
-=WE6e
------END PGP SIGNATURE-----
-
---4yZYFMFbpCwRNWoh--
+I meant the type. I think. When u32 carries values of an enum.
+Enumeration constant for the attribute type is constructed from
+it's name and the prefix/suffix kludge.
