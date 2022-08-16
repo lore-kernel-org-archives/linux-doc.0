@@ -2,81 +2,152 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7278CC2BB41
-	for <linux-doc@archiver.kernel.org>; Tue, 16 Aug 2022 06:56:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 47955C2BB41
+	for <linux-doc@archiver.kernel.org>; Tue, 16 Aug 2022 06:58:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231237AbiHPG4Q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 16 Aug 2022 02:56:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42484 "EHLO
+        id S231354AbiHPG6h (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 16 Aug 2022 02:58:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46244 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231660AbiHPGzw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Aug 2022 02:55:52 -0400
-Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com [IPv6:2607:f8b0:4864:20::634])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3BB8FC16;
-        Mon, 15 Aug 2022 19:16:19 -0700 (PDT)
-Received: by mail-pl1-x634.google.com with SMTP id jl18so150877plb.1;
-        Mon, 15 Aug 2022 19:16:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc;
-        bh=FUdVp34ur6filFB5ocUjWYYEU7/MFQlaJELy6CBl9Y8=;
-        b=pGrPBfAPfUe769qcCTVDGtbX9Ch6Z7wpw+SscDF+XRfTR7gOSeOGx4/pM8M/zwyTxs
-         eyT6FMF3CzFpOMV9gdeSu/iAs1FbKojoASQiEeqY70yMcPiLr6yAhqImNFAWOngnv4mG
-         mZCCuPqUTudpuP55CySblv6EMDm80mIbSqtH5Fe+LrBgZOgj7UbXEXrlfSTf2/V7mxiv
-         BUGqjIdw26zWQWD5fp8oMZjit7u4Zyr0YLFGAoGm3LCwdCWXgW6+iDbTxCCARl6CkcGn
-         gDrdvwjKNTasOMdl+tEpCUFjTunbuIc1VW05piagBb9dfuP1bUprIOObBug+n6I8VmXI
-         L49Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc;
-        bh=FUdVp34ur6filFB5ocUjWYYEU7/MFQlaJELy6CBl9Y8=;
-        b=CMECnlGeoP9v++jaKuIjvlYFESzrvpqv+eCa+frRuHkhZZZAfF/amb+Yw2hMc4c6P3
-         wks8Qdp1Gd2q6aTnbcOeTgof/xC+RX0QG8XdeZGSY0emMY2qrD3nAFwtkFZGG8uDIosT
-         fr1TwxiE9vGpa4vAvsJvp+ri/WngzrwmmHHu2WNYG+7Y4EMTVaKwBuMs10tZeKGw9tKJ
-         pUUX7YsNbHoUak1AW87HZWph49C/fh7xXM+vgLxjGnNc+SIjGYAiYilN4t2YYsZk5kbY
-         aZSyKhNxO1a1K07z1+BBntUbMyaG4KQVEbmJhS3Vy0Frh14W1NEtwX8qjh/GFjjeuJ15
-         lOjg==
-X-Gm-Message-State: ACgBeo3Qj1EHBDRl6zzIB+1RGhGg7CWH+lpAfqhUHoqkWg4CK87QLPjr
-        X4KU88kMLy9nWGoAJ+Kme6E=
-X-Google-Smtp-Source: AA6agR4TGGZ4D+7AY1P8FcE7lzEV2lW13PDK5szsI4NZNPa4xBfLQvKl2//7lKah4PMmdjJAi6Tozw==
-X-Received: by 2002:a17:903:1205:b0:171:4f8d:22a8 with SMTP id l5-20020a170903120500b001714f8d22a8mr19470780plh.11.1660616178742;
-        Mon, 15 Aug 2022 19:16:18 -0700 (PDT)
-Received: from [192.168.43.80] (subs32-116-206-28-16.three.co.id. [116.206.28.16])
-        by smtp.gmail.com with ESMTPSA id b189-20020a62cfc6000000b0052d1275a570sm7168809pfg.64.2022.08.15.19.16.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 15 Aug 2022 19:16:18 -0700 (PDT)
-Message-ID: <7538e307-63c8-7394-c069-44ff732dae81@gmail.com>
-Date:   Tue, 16 Aug 2022 09:16:10 +0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
+        with ESMTP id S231326AbiHPG55 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Aug 2022 02:57:57 -0400
+Received: from mx0a-00082601.pphosted.com (mx0a-00082601.pphosted.com [67.231.145.42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1531FE9930;
+        Mon, 15 Aug 2022 19:20:51 -0700 (PDT)
+Received: from pps.filterd (m0044012.ppops.net [127.0.0.1])
+        by mx0a-00082601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 27FIc7Wu022794;
+        Mon, 15 Aug 2022 19:20:50 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com; h=from : to : cc : subject
+ : date : message-id : references : in-reply-to : content-id : mime-version
+ : content-type : content-transfer-encoding; s=facebook;
+ bh=j9M8bWindV9wPCAIIUYaiF9S3CWVarPGAglLPLFwicY=;
+ b=V1EpCOkwUhyDLJFl0+rthZrDHteaiL3zqjhvMLlRavhOrHFd7Q1GrbvIJu6Ly79Fhyv+
+ 01YJZKqoeYCtBuCQ1X1p3Mir85qGEmoxGuRFHUKxy3f1uZBUgQR/xdt11jTSQXG3H33o
+ foKMTokwlcpzpFgfySl07ynoqvntak7KQKQ= 
+Received: from nam02-bn1-obe.outbound.protection.outlook.com (mail-bn1nam07lp2045.outbound.protection.outlook.com [104.47.51.45])
+        by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 3hyr9dm6jc-2
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 15 Aug 2022 19:20:50 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=CIPemDuBA1ThyFFnTnxB83XyyN2t1xLReKNwDHR1DtV1B6FP8/a6PaIAGYXF7D2z6R/0xL1Zxv3olI5zqwQMfI8XWJ7xE9dezYb6jXxLS60egrvNoJzGT+cP9bJyG8dMgcKSX0DAIlv4o0TDuQyZX8qH0PToNUBIQyWiSE70tO2DGXUdjNZSdW3tfq+o1PgUGaNIK7ZCWSPBfXe80g15RhUg7KIimrohJEW/ZppsG1Gh0SrSdzPgvP9DyYkS94jF1l9VXuYTd3qBlu3maQCo8r61FqLfwEdpWKkfPL6Z6qH69yeeU1sv5l8U8H46Q+JmxT7lBuT/VJQTNS/A/vqapg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=u2AFoMgIAM6113YcaBtBZ6azvtXcqEJIG4l9JET7VnY=;
+ b=ZXCIq/TuinvHNJNI5vYwxWGLspQT+pLQonBwA27f6mCSSXRMS0NqFyB/XGCkCnVpPQn4exDIbHd5vGIfG1/nus6t0H5xBQFnaB1odLzsTv+siTPyzqBtLX/UL+JSfOpxG/NfRTKZSS2Xq3o7rT2m5t9WK5Na9xpsR/eP2jkc7hgBghWf06xYNeor1ZzBzntzrmEkTvZjhNa9QMpM2NoncGp4C7FqCrhWmGZGC5Jq+wuVdLS8K4MJ4jHPa/7+/D888OFzLQcblSf5rX7FN/dK3ValR35PF3QFUCTZ1dJoWitdUMzWaZXe/Ei4TVeTt42Uqi6OuEM3TiE/d4olFxwpuQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=fb.com; dmarc=pass action=none header.from=fb.com; dkim=pass
+ header.d=fb.com; arc=none
+Received: from CY4PR15MB1781.namprd15.prod.outlook.com (2603:10b6:910:1f::13)
+ by DM5PR15MB1276.namprd15.prod.outlook.com (2603:10b6:3:b3::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5525.11; Tue, 16 Aug
+ 2022 02:20:48 +0000
+Received: from CY4PR15MB1781.namprd15.prod.outlook.com
+ ([fe80::351d:e6bc:a9e4:4118]) by CY4PR15MB1781.namprd15.prod.outlook.com
+ ([fe80::351d:e6bc:a9e4:4118%12]) with mapi id 15.20.5525.011; Tue, 16 Aug
+ 2022 02:20:47 +0000
+From:   "Alex Zhu (Kernel)" <alexlzhu@fb.com>
+To:     Bagas Sanjaya <bagasdotme@gmail.com>
+CC:     "corbet@lwn.net" <corbet@lwn.net>,
+        "bobwxc@email.cn" <bobwxc@email.cn>,
+        "rppt@kernel.org" <rppt@kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Kernel Team <Kernel-team@fb.com>
 Subject: Re: [PATCH] docs: admin-guide/mm:
-Content-Language: en-US
-To:     alexlzhu@fb.com, corbet@lwn.net, bobwxc@email.cn, rppt@kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Kernel-team@fb.com
+Thread-Topic: [PATCH] docs: admin-guide/mm:
+Thread-Index: AQHYsNYQGHO4DFbf8U6QRgEoDFGoL62wyqAAgAABSQA=
+Date:   Tue, 16 Aug 2022 02:20:47 +0000
+Message-ID: <28DC6B52-482E-4880-AA36-085B6D113793@fb.com>
 References: <20220815183706.2508116-1-alexlzhu@fb.com>
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <20220815183706.2508116-1-alexlzhu@fb.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+ <7538e307-63c8-7394-c069-44ff732dae81@gmail.com>
+In-Reply-To: <7538e307-63c8-7394-c069-44ff732dae81@gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 61488c6e-9bfd-4e80-ebe6-08da7f2dee28
+x-ms-traffictypediagnostic: DM5PR15MB1276:EE_
+x-fb-source: Internal
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: TW7wlXWhp1sYMo4yWMSRJD0WNVhfuNJwpkxpu6FtqfhWxVAGCaRqpu0lLHOry5nZW2HffXbp5/z2/OqlCF1ve18TMuB8ZMZ3yYHiRCwbq4glD5jMccGh/svZG0pH/KqPlJH0MBpOIsrEPFmf/vjrDU8uLrw1zGJe5Y5EDcanAUlp9pgGZDT00Nr2qnttUXxRxvtyAxTnomiEArY9NQ+hkfoje54CMp1cOOP02TDB5s2hEaBhiWBVWtGfaTUaV2MGqHdz/ZiUkQSd4Z6t6+hjFE9qm4cEAXHQu8NvXoeeXY8UApDb9yleZLDQSZNdvbIuPYhPJbgZJrkuUaxZEj+2AgzcEUB72kV7xrQZYqOZeOT1ps8SnzQFiDDZHyWaMEPsKSNY0aMu8iUS/LOQm1nupi09m1MCtWuUN7+C4420QVkgJhFNvn1sRL050mGoxuoSAurO6vhMZz9YwQpn1pp4BlYnMZPZIZ7PZ6TE0Gqi4aaYaaCXEGhaq6+EgVUaDrsY1tkwNbnmHEQ8FoUL+bmSx1Qi2lUdXbrIi3K6/slLw4BrffMFJig7RS1sjRdOE07GOGsTwlBM0jRDhJF4w/tGO46/qrPooh9Ziz6Zk/Vj0zc64a/uWi2T/L/y95ppdzqCCTeUct7pT9y6FTjvkjOm2yH9nKh9YojCkb33NZNTcSwp39ZLNmH6uD+gjIPWLk81YeyAqanzQy61TidXM7xuAHUwXHUasWjBx734vVFzn/Yh/6fID8ZkbNPxK296rJrQwnq/y1SMxk6uSMyO8AYUU575drQDbwUCwbdqrs2X7Bmvwh3mRu/++oum4qlFaeEgwzXsuGsphaXtRgcySctsnA==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY4PR15MB1781.namprd15.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(136003)(39860400002)(376002)(346002)(366004)(396003)(38100700002)(6916009)(4744005)(66446008)(5660300002)(2906002)(66476007)(33656002)(478600001)(6486002)(66946007)(66556008)(64756008)(8936002)(122000001)(38070700005)(8676002)(41300700001)(6512007)(36756003)(6506007)(86362001)(71200400001)(53546011)(2616005)(83380400001)(54906003)(316002)(186003)(4326008)(76116006)(91956017)(45980500001);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?CwIH7lW322gZvapaDLDnb3nDTMfN+kYprQC0bOGr1Jg4KfYpNQzguOvIM7T7?=
+ =?us-ascii?Q?/gBG6OyMdNFoEs9zPzzNhkxkrqZwtzVhhm3p0e9lT9ONBpfIREcoiuD12O6K?=
+ =?us-ascii?Q?7tKmU2JxbJSVK+zw+JFFwlyd4MSEblHkAtANt6YphGTNL1bNvYQrICpPDK9V?=
+ =?us-ascii?Q?qdpco6AiWrQa/NCUAcKE+b2qnuJyCW0UMiiJyTmfY3D4Oh+PG8TT2MbnbScG?=
+ =?us-ascii?Q?buP97YRwQ1X0msVOuxn+yNxD5rkt7k8nHrSLzTxQN60jWwDazYrCBmkvZqDB?=
+ =?us-ascii?Q?hww8KNVt4vsOFxZczr+Q8BPwaHFoXH+g2RGrrAevHZ+d24jOqqUqTN1D0WgW?=
+ =?us-ascii?Q?1lFjd1K/7G8bM8PIrKbNhCcvvTG3H+Ra7PVaJqV7ysJBMCCVzDG+/nE0ZsXW?=
+ =?us-ascii?Q?q/IRtwfgjn3OQOmjOTHavIpBIZWbpGTqC/y2vKGYwgOBibU3C4rQUNQvqgqb?=
+ =?us-ascii?Q?XnqtjNHbPqxSwqcgUHs1rg+gYO8HALUS/UvYAPJEu66XBNiP5jYdiNhv4TJB?=
+ =?us-ascii?Q?G0rIPsIA7QXGkBvnBTKVgJJYi3QQt6fKtQlp/xxK7KFhHIfMj5/o5m0qaMC7?=
+ =?us-ascii?Q?m/LA98UmjfeNlE8elnQWMRktd5EcGPu5UYDyO5J9v9YAaRTTDtWYCAGbLdLc?=
+ =?us-ascii?Q?VCEHLAX9KmuXU8JZKLZuubtL5g8HLg1+RkZy3CAWsqokUiUMxJUMvrCt7d+e?=
+ =?us-ascii?Q?7qbV/EHD7kXvRwNXaSjsGQ0G4KXP8ref2I2Z/IBqulvJeYjwtFi2OP9mm+aP?=
+ =?us-ascii?Q?jb75pSqdNsn8HfH+gio1Q9Zt4nWwWo5qKmYDCqmVhelrbJ0doFpyDyEmg2/V?=
+ =?us-ascii?Q?Mr7R1jSM7FrxTX86/m3T0ihxVN+pK+VGuvnrE3Ca3T+4vBqdko8NalvvnxgM?=
+ =?us-ascii?Q?DyhhIH5prAsrw4KIxyVaY+GKyWSTnI0STNb1sQYI+TgIYSqyQyO7tAwAEaff?=
+ =?us-ascii?Q?N3ALacBgBSeo2pT/ZZvbh0LzyE+IcXgcOJnUg1XAeSw64Eex1yYiPBGIN2sQ?=
+ =?us-ascii?Q?t7VmxOlytpH3iddnE1RSEYcD0A+Np5IFxfVFF9dqeT7bFfR8/mYTz77C1eOx?=
+ =?us-ascii?Q?1kQ0PJf97QLUnaen2rCHg2N2s1zd48YdLFdCWtZR34uGiTS4nkyDCKinoHPe?=
+ =?us-ascii?Q?9tGOPAfTYWpw6DKOJ/OFEQ21c/DX3CLyHKuVqSKgwVZSmbVLBx9YN0EuVyYt?=
+ =?us-ascii?Q?T18mj6PmiPbXvle/zRnZ9cYrtLRzadmHmyQxTaISxThyALuXyEXOQhtw5s2g?=
+ =?us-ascii?Q?JqahdQ8UmAOcKXjpZZ2Oz7EcTcVcey4QPY/VyvT2TEtjKJE6sSWlHPQxKn48?=
+ =?us-ascii?Q?dZ5QwP1Aog613syPVlPXiTwhiNpCagFBYrSrLL1PADWIsYUv6f8gMIw1Annh?=
+ =?us-ascii?Q?2g4r+8lvPlMXV9k9iO2WttNM/QUj85NVW/wTn14bO1Bd97h1mI7sMXZDUsux?=
+ =?us-ascii?Q?xswRGte+glG9+3C0mH3wQhuk4wmf1YdOQMO5UlWleKh3zm+ke6v/pnxwAUF+?=
+ =?us-ascii?Q?HMVQd3Ix+Z/eDI3vCMOW/96ePYyhE6J/OgyPLFdgEclmEbAfBcC+qin3fqUJ?=
+ =?us-ascii?Q?sCKlFlviE+ZtI9ZFZVhqLSSC1AsehPDZB2zlFXDdNAAxbwM1rs0di2ETljgI?=
+ =?us-ascii?Q?BI8tKcMjCVDO75LMQYJYpvQ=3D?=
+Content-ID: <EABCC90DDA1DFD49B6BB896FC372177E@namprd15.prod.outlook.com>
+MIME-Version: 1.0
+X-OriginatorOrg: fb.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: CY4PR15MB1781.namprd15.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 61488c6e-9bfd-4e80-ebe6-08da7f2dee28
+X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Aug 2022 02:20:47.1636
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 8ae927fe-1255-47a7-a2af-5f3a069daaa2
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: XfLdRuCSulwSUNYsR9KL0NQvgeFfnPUvhhVJQWIoShWOp0fpw4jfyl2MIX6MjTxN
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR15MB1276
+X-Proofpoint-GUID: YmJu8jd57A0M0WJx7W2_XCT9qglIrbsr
+X-Proofpoint-ORIG-GUID: YmJu8jd57A0M0WJx7W2_XCT9qglIrbsr
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-08-15_08,2022-08-15_01,2022-06-22_01
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 8/16/22 01:37, alexlzhu@fb.com wrote:
-> From: Alexander Zhu <alexlzhu@fb.com>
-> 
-> This commit fixes typos and grammar errors in
-> Documentation/admin-guide/mm/concepts.rst.
-> 
 
-What's the full subject? The subject (and description) should be 
-"Improve grammar on MM concepts documentation".
+> On Aug 15, 2022, at 7:16 PM, Bagas Sanjaya <bagasdotme@gmail.com> wrote:
+>=20
+> >=20
+> On 8/16/22 01:37, alexlzhu@fb.com wrote:
+>> From: Alexander Zhu <alexlzhu@fb.com>
+>>=20
+>> This commit fixes typos and grammar errors in
+>> Documentation/admin-guide/mm/concepts.rst.
+>>=20
+>=20
+> What's the full subject? The subject (and description) should be=20
+> "Improve grammar on MM concepts documentation".
+>=20
+> --=20
+> An old man doll... just what I always wanted! - Clara
 
--- 
-An old man doll... just what I always wanted! - Clara
+Sorry about that. I will send out a v2.=20
+
+Thanks,
+Alex
+
