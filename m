@@ -2,332 +2,191 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4593FC2BB41
-	for <linux-doc@archiver.kernel.org>; Tue, 16 Aug 2022 07:01:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AAE6FC32771
+	for <linux-doc@archiver.kernel.org>; Tue, 16 Aug 2022 07:22:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231313AbiHPHBg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 16 Aug 2022 03:01:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49906 "EHLO
+        id S231965AbiHPHWl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 16 Aug 2022 03:22:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50214 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231660AbiHPHAp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Aug 2022 03:00:45 -0400
-Received: from mx0a-00082601.pphosted.com (mx0a-00082601.pphosted.com [67.231.145.42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF19B11775A
-        for <linux-doc@vger.kernel.org>; Mon, 15 Aug 2022 19:26:39 -0700 (PDT)
-Received: from pps.filterd (m0044010.ppops.net [127.0.0.1])
-        by mx0a-00082601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 27FIc0Xm030446
-        for <linux-doc@vger.kernel.org>; Mon, 15 Aug 2022 19:26:39 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com; h=from : to : cc : subject
- : date : message-id : mime-version : content-transfer-encoding :
- content-type; s=facebook; bh=hya0z5loLUzeTfYnEYQ8kRzpk4G6JqI4uMhwo5Syys8=;
- b=Cdb6yoG7M4m/RWf76SNztWMkUrBZR3m/MmzAnmTvTQw8ysEPiz4p4Tk2mmA+4tl5+o+N
- RDCDCu9Lk+F40Ad12gaAJ8zpi8N9AEM2HlDnNENCkKg0Atqd0gw07JmTwjbPD0juO/35
- NR+znuO0CCtxArUy3CHoWo9aJVADQMlY1tM= 
-Received: from mail.thefacebook.com ([163.114.132.120])
-        by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 3hykr1wm3m-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-        for <linux-doc@vger.kernel.org>; Mon, 15 Aug 2022 19:26:39 -0700
-Received: from twshared18213.14.prn3.facebook.com (2620:10d:c085:208::11) by
- mail.thefacebook.com (2620:10d:c085:21d::6) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Mon, 15 Aug 2022 19:26:38 -0700
-Received: by devvm301.eag0.facebook.com (Postfix, from userid 352741)
-        id 4E48E310CE30; Mon, 15 Aug 2022 19:26:27 -0700 (PDT)
-From:   <alexlzhu@fb.com>
-To:     <corbet@lwn.net>, <bobwxc@email.cn>, <rppt@kernel.org>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <Kernel-team@fb.com>
-CC:     Alexander Zhu <alexlzhu@fb.com>
-Subject: [PATCH v2] docs: admin-guide/mm: Improve grammar on MM concepts documentation
-Date:   Mon, 15 Aug 2022 19:26:21 -0700
-Message-ID: <20220816022621.253778-1-alexlzhu@fb.com>
-X-Mailer: git-send-email 2.30.2
+        with ESMTP id S231847AbiHPHW0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Aug 2022 03:22:26 -0400
+Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com [IPv6:2a00:1450:4864:20::233])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E68E2B70BD;
+        Mon, 15 Aug 2022 21:56:12 -0700 (PDT)
+Received: by mail-lj1-x233.google.com with SMTP id z20so9551441ljq.3;
+        Mon, 15 Aug 2022 21:56:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
+         :content-language:user-agent:mime-version:date:message-id:from:to:cc;
+        bh=lMyaBQ0fr/YKfcqNoaKSdb+50RM2Rxj1DLsmzLOg6p8=;
+        b=emj3c4qKkUjUv1uibUM0Ft8DTfEO05AQs/3Y741be7NMkNUqfjGZwGCKNZo9C6YjXp
+         T3u8ogp+Q7xyqUvWTbVxqcfKvlVXs+sCdEW176mhvN95YWDcTH1MCuzscHr20UM4t23y
+         efx6c0daYiXNg01uKsfggL1TIi4sG62wT7fq7xNMdYWmSyv0IojrLQ3X+x3JlfiYjCWI
+         ZGleJlTBA7imnc87Mtsd2wKxuRqiB4CfXoOM/VC02Ai37op0ZH3k+3vNM5TFazrPwDbX
+         I3K6wSQIq8cyMpVj2t+/iVXSTMsuGrDBGJEDknJ3KmY9XUsqIPVIorSVNOoEmEoQm85s
+         ld9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
+         :content-language:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc;
+        bh=lMyaBQ0fr/YKfcqNoaKSdb+50RM2Rxj1DLsmzLOg6p8=;
+        b=06RuMdOREB1iZHynztVX70X9jzVEPb5+aCMjJLwDUrBp6brrkz54u0d/NP1XjA1t0r
+         vLTPtDXbYl3lNx4dprlUjMiOz4fmj+mpgH+MixdP8qHqgzKCDBI3e6fCEgcRX2hOc/Ky
+         3FJU9dr/881+QVIaX3facFlua5Prv566fzjbCWTzsz7nuy7/8cqKskEbK1N0RpOsxu8j
+         eRPp2iHplznsh6R8X9qNb6E92hKQRWRa+dmxGf8+oMU2BZHD9Ni+snK3r1Kn8FdyscL5
+         0ikcCRUc3aNZfyg7bF56N//ky0+qbt8M2cT6OCtW7aUQnAR9XCmWZxRSGdh2MSFFJdTC
+         7snw==
+X-Gm-Message-State: ACgBeo2PFMiyiGOQqi6dB1A261Fp8aoAnk9y3qZimBklcpmSZ7lp31Fl
+        0oXLo7Gn4s2PKG/nXPkB6+c=
+X-Google-Smtp-Source: AA6agR5Now0GlaC9p5MWRyZT/Uc6WkRd+5NRB4I7ljhPTH6IshCkE/HR/M28GX+goQncDQyVAAYQYQ==
+X-Received: by 2002:a05:651c:1241:b0:261:9313:9cb9 with SMTP id h1-20020a05651c124100b0026193139cb9mr1021791ljh.213.1660625769185;
+        Mon, 15 Aug 2022 21:56:09 -0700 (PDT)
+Received: from ?IPV6:2001:14ba:16ee:fa00::9? (dc73szyyyyyyyyyyyyyft-3.rev.dnainternet.fi. [2001:14ba:16ee:fa00::9])
+        by smtp.gmail.com with ESMTPSA id w9-20020ac24429000000b0048a7b1530cesm1254427lfl.284.2022.08.15.21.56.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 15 Aug 2022 21:56:08 -0700 (PDT)
+Message-ID: <57c312b3-ca5b-6efb-6356-43b6513a0c88@gmail.com>
+Date:   Tue, 16 Aug 2022 07:56:06 +0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-FB-Internal: Safe
-Content-Type: text/plain
-X-Proofpoint-GUID: 3xIY6vQz1nDygfcPFd27KWxQBgR0nWnV
-X-Proofpoint-ORIG-GUID: 3xIY6vQz1nDygfcPFd27KWxQBgR0nWnV
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-08-15_08,2022-08-15_01,2022-06-22_01
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Content-Language: en-US
+To:     Mark Brown <broonie@kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Stephen Boyd <sboyd@kernel.org>,
+        Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
+        dri-devel@lists.freedesktop.org,
+        Johan Hovold <johan+linaro@kernel.org>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Kevin Hilman <khilman@baylibre.com>,
+        linux-kernel@vger.kernel.org, Daniel Vetter <daniel@ffwll.ch>,
+        linux-amlogic@lists.infradead.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-doc@vger.kernel.org, Jonathan Cameron <jic23@kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Michael Hennerich <Michael.Hennerich@analog.com>,
+        Miaoqian Lin <linmq006@gmail.com>,
+        linux-arm-kernel@lists.infradead.org,
+        Alexandru Tachici <alexandru.tachici@analog.com>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Andrzej Hajda <andrzej.hajda@intel.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Lorenzo Bianconi <lorenzo@kernel.org>,
+        Michael Turq uette <mturquette@baylibre.com>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        Jean Delvare <jdelvare@suse.com>,
+        Alexandru Ardelean <aardelean@deviqon.com>,
+        linux-hwmon@vger.kernel.org, linux-clk@vger.kernel.org,
+        =?UTF-8?Q?Nuno_S=c3=a1?= <nuno.sa@analog.com>,
+        Robert Foss <robert.foss@linaro.org>,
+        Aswath Govindraju <a-govindraju@ti.com>,
+        David Airlie <airlied@linux.ie>, linux-iio@vger.kernel.org
+References: <cover.1660292316.git.mazziesaccount@gmail.com>
+ <166057828406.697572.228317501909350108.b4-ty@kernel.org>
+ <YvpsRbguMXn74GhR@pendragon.ideasonboard.com>
+ <Yvp1Qkuh7xfeb/B2@sirena.org.uk>
+ <YvqV9Mq6I3gXQaf2@pendragon.ideasonboard.com>
+ <20220815205857.308B1C433D6@smtp.kernel.org>
+ <Yvq33T+XCduoqv7Z@pendragon.ideasonboard.com>
+ <YvrO+velKdYdGVve@sirena.org.uk>
+From:   Matti Vaittinen <mazziesaccount@gmail.com>
+Subject: Re: (subset) [PATCH v2 0/7] Devm helpers for regulator get and enable
+In-Reply-To: <YvrO+velKdYdGVve@sirena.org.uk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Alexander Zhu <alexlzhu@fb.com>
+Hi dee Ho Mark, Laurent, Stephen, all
 
-Improve grammar on MM concepts documentation.
+On 8/16/22 01:55, Mark Brown wrote:
+> On Tue, Aug 16, 2022 at 12:17:17AM +0300, Laurent Pinchart wrote:
+>> On Mon, Aug 15, 2022 at 01:58:55PM -0700, Stephen Boyd wrote:
+> 
+>> You will very quickly see drivers doing this (either directly or
+>> indirectly):
+> 
+>> probe()
+>> {
+>> 	devm_clk_get_enabled();
+>> 	devm_regulator_get_enable();
+>> }
+> 
+>> Without a devres-based get+enable API drivers can get the resources they
+>> need in any order, possibly moving some of those resource acquisition
+>> operations to different functions, and then have a clear block of code
+>> that enables the resources in the right order.
 
-Signed-off-by: Alexander Zhu <alexlzhu@fb.com>
----
- Documentation/admin-guide/mm/concepts.rst | 138 +++++++++++-----------
- 1 file changed, 68 insertions(+), 70 deletions(-)
+I agree. And I think that drivers which do that should stick with it. 
+Still, as you know the devm-unwinding is also done in well defined 
+order. I believe that instead of fighting against the devm we should try 
+educate people to pay attention in the order of unwinding (also when not 
+handled by the devm. Driver writers occasionally break things also w/o 
+devm for example by freeing resources needed by IRQ handlers prior 
+freeing the IRQ.)
 
-diff --git a/Documentation/admin-guide/mm/concepts.rst b/Documentation/ad=
-min-guide/mm/concepts.rst
-index c79f1e336222..c471f80b7a38 100644
---- a/Documentation/admin-guide/mm/concepts.rst
-+++ b/Documentation/admin-guide/mm/concepts.rst
-@@ -4,14 +4,13 @@
- Concepts overview
- =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-=20
--The memory management in Linux is a complex system that evolved over the
--years and included more and more functionality to support a variety of
--systems from MMU-less microcontrollers to supercomputers. The memory
--management for systems without an MMU is called ``nommu`` and it
--definitely deserves a dedicated document, which hopefully will be
--eventually written. Yet, although some of the concepts are the same,
--here we assume that an MMU is available and a CPU can translate a virtua=
-l
--address to a physical address.
-+The memory management subsystem is a complex codebase that evolved over =
-the
-+years to support a variety of systems from MMU-less microcontrollers to
-+supercomputers. The memory management subsystem for systems without an
-+MMU is called ``nommu`` and it deserves a dedicated document, which
-+hopefully will be written at some point. Although some of the concepts
-+are the same, here we assume that an MMU is available and a CPU can
-+translate a virtual address to a physical address.
-=20
- .. contents:: :local:
-=20
-@@ -29,8 +28,8 @@ of how these address ranges are defined.
- All this makes dealing directly with physical memory quite complex and
- to avoid this complexity a concept of virtual memory was developed.
-=20
--The virtual memory abstracts the details of physical memory from the
--application software, allows to keep only needed information in the
-+Virtual memory abstracts the details of physical memory from the
-+application software, allows for keeping only needed information in
- physical memory (demand paging) and provides a mechanism for the
- protection and controlled sharing of data between processes.
-=20
-@@ -42,76 +41,75 @@ memory controller can understand.
-=20
- The physical system memory is divided into page frames, or pages. The
- size of each page is architecture specific. Some architectures allow
--selection of the page size from several supported values; this
--selection is performed at the kernel build time by setting an
-+selection of page size from several supported values; this
-+selection is performed at kernel build time by setting an
- appropriate kernel configuration option.
-=20
--Each physical memory page can be mapped as one or more virtual
-+Each page in physical memory can be mapped as one or more virtual
- pages. These mappings are described by page tables that allow
- translation from a virtual address used by programs to the physical
--memory address. The page tables are organized hierarchically.
-+address. The page tables are organized hierarchically.
-=20
- The tables at the lowest level of the hierarchy contain physical
- addresses of actual pages used by the software. The tables at higher
--levels contain physical addresses of the pages belonging to the lower
-+levels contain physical addresses of pages belonging to lower
- levels. The pointer to the top level page table resides in a
--register. When the CPU performs the address translation, it uses this
-+register. When the CPU performs address translation, it uses this
- register to access the top level page table. The high bits of the
- virtual address are used to index an entry in the top level page
- table. That entry is then used to access the next level in the
--hierarchy with the next bits of the virtual address as the index to
--that level page table. The lowest bits in the virtual address define
-+hierarchy with the next bits of the virtual address as the index into
-+the page table at that level. The lowest bits in the virtual address def=
-ine
- the offset inside the actual page.
-=20
- Huge Pages
- =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-=20
--The address translation requires several memory accesses and memory
--accesses are slow relatively to CPU speed. To avoid spending precious
--processor cycles on the address translation, CPUs maintain a cache of
--such translations called Translation Lookaside Buffer (or
--TLB). Usually TLB is pretty scarce resource and applications with
--large memory working set will experience performance hit because of
--TLB misses.
-+Address translation requires several memory accesses and memory
-+accesses are slow relative to CPU speed. To avoid spending precious
-+processor cycles on address translation, CPUs maintain a cache of
-+such translations called the Translation Lookaside Buffer (or
-+TLB). Usually TLB is a scarce resource and applications with a
-+large in-memory working set will experience performance hit due to
-+TLB miss.
-=20
- Many modern CPU architectures allow mapping of the memory pages
- directly by the higher levels in the page table. For instance, on x86,
- it is possible to map 2M and even 1G pages using entries in the second
- and the third level page tables. In Linux such pages are called
--`huge`. Usage of huge pages significantly reduces pressure on TLB,
-+`huge`. Usage of huge pages significantly reduces pressure on the TLB,
- improves TLB hit-rate and thus improves overall system performance.
-=20
--There are two mechanisms in Linux that enable mapping of the physical
--memory with the huge pages. The first one is `HugeTLB filesystem`, or
-+There are two mechanisms in Linux that enable mapping of physical
-+memory with huge pages. The first one is `HugeTLB filesystem`, or
- hugetlbfs. It is a pseudo filesystem that uses RAM as its backing
--store. For the files created in this filesystem the data resides in
--the memory and mapped using huge pages. The hugetlbfs is described at
-+store. For files created in this filesystem the data resides in
-+memory and is mapped with huge pages. hugetlbfs is described at
- :ref:`Documentation/admin-guide/mm/hugetlbpage.rst <hugetlbpage>`.
-=20
--Another, more recent, mechanism that enables use of the huge pages is
--called `Transparent HugePages`, or THP. Unlike the hugetlbfs that
--requires users and/or system administrators to configure what parts of
--the system memory should and can be mapped by the huge pages, THP
--manages such mappings transparently to the user and hence the
--name. See
-+Another mechanism that enables use of huge pages is called
-+`Transparent HugePages`, or THP. Unlike hugetlbfs that requires
-+users and/or system administrators to configure what parts of
-+system memory can and should be mapped by huge pages, THP
-+manages such mappings transparently to the user, hence the name. See
- :ref:`Documentation/admin-guide/mm/transhuge.rst <admin_guide_transhuge>=
-`
--for more details about THP.
-+for more details on THP.
-=20
- Zones
- =3D=3D=3D=3D=3D
-=20
- Often hardware poses restrictions on how different physical memory
- ranges can be accessed. In some cases, devices cannot perform DMA to
--all the addressable memory. In other cases, the size of the physical
-+all the addressable memory. In other cases, the size of physical
- memory exceeds the maximal addressable size of virtual memory and
--special actions are required to access portions of the memory. Linux
-+special actions are required to access portions of memory. Linux
- groups memory pages into `zones` according to their possible
- usage. For example, ZONE_DMA will contain memory that can be used by
- devices for DMA, ZONE_HIGHMEM will contain memory that is not
- permanently mapped into kernel's address space and ZONE_NORMAL will
- contain normally addressed pages.
-=20
--The actual layout of the memory zones is hardware dependent as not all
-+The actual layout of memory zones is hardware dependent as not all
- architectures define all zones, and requirements for DMA are different
- for different platforms.
-=20
-@@ -131,10 +129,10 @@ counters. You can find more details about NUMA in
- Page cache
- =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-=20
--The physical memory is volatile and the common case for getting data
--into the memory is to read it from files. Whenever a file is read, the
-+Physical memory is volatile and the common case for getting data
-+into memory is to read it from files. Whenever a file is read, the
- data is put into the `page cache` to avoid expensive disk access on
--the subsequent reads. Similarly, when one writes to a file, the data
-+subsequent reads. Similarly, when one writes to a file, the data
- is placed in the page cache and eventually gets into the backing
- storage device. The written pages are marked as `dirty` and when Linux
- decides to reuse them for other purposes, it makes sure to synchronize
-@@ -145,10 +143,10 @@ Anonymous Memory
-=20
- The `anonymous memory` or `anonymous mappings` represent memory that
- is not backed by a filesystem. Such mappings are implicitly created
--for program's stack and heap or by explicit calls to mmap(2) system
--call. Usually, the anonymous mappings only define virtual memory areas
-+for the program's stack and heap or by explicit calls to the mmap(2) sys=
-tem
-+call. Usually, anonymous mappings only define virtual memory areas
- that the program is allowed to access. The read accesses will result
--in creation of a page table entry that references a special physical
-+in the creation of a page table entry that references a special physical
- page filled with zeroes. When the program performs a write, a regular
- physical page will be allocated to hold the written data. The page
- will be marked dirty and if the kernel decides to repurpose it,
-@@ -159,46 +157,46 @@ Reclaim
-=20
- Throughout the system lifetime, a physical page can be used for storing
- different types of data. It can be kernel internal data structures,
--DMA'able buffers for device drivers use, data read from a filesystem,
-+DMA'able buffers for device drivers to use, data read from a filesystem,
- memory allocated by user space processes etc.
-=20
--Depending on the page usage it is treated differently by the Linux
--memory management. The pages that can be freed at any time, either
--because they cache the data available elsewhere, for instance, on a
--hard disk, or because they can be swapped out, again, to the hard
-+Depending on page usage it is treated differently by the Linux
-+memory management subsystem. Pages that can be freed at any time,
-+either because they cache the data available elsewhere
-+(ie on a hard disk) or because they can be swapped out to the hard
- disk, are called `reclaimable`. The most notable categories of the
- reclaimable pages are page cache and anonymous memory.
-=20
- In most cases, the pages holding internal kernel data and used as DMA
- buffers cannot be repurposed, and they remain pinned until freed by
- their user. Such pages are called `unreclaimable`. However, in certain
--circumstances, even pages occupied with kernel data structures can be
-+circumstances, even pages occupied by kernel data structures can be
- reclaimed. For instance, in-memory caches of filesystem metadata can
--be re-read from the storage device and therefore it is possible to
--discard them from the main memory when system is under memory
-+be re-read from the storage device and thus it is possible to
-+discard them from main memory when the system is under memory
- pressure.
-=20
--The process of freeing the reclaimable physical memory pages and
--repurposing them is called (surprise!) `reclaim`. Linux can reclaim
--pages either asynchronously or synchronously, depending on the state
--of the system. When the system is not loaded, most of the memory is free
-+The process of freeing and repurposing reclaimable physical pages
-+is called (surprise!) `reclaim`. Linux can reclaim pages either
-+synchronously or asynchronously, depending on the state of the
-+system. When system load is light, most of the memory is free
- and allocation requests will be satisfied immediately from the free
--pages supply. As the load increases, the amount of the free pages goes
-+page supply. As the load increases, the number of the free pages goes
- down and when it reaches a certain threshold (low watermark), an
- allocation request will awaken the ``kswapd`` daemon. It will
--asynchronously scan memory pages and either just free them if the data
--they contain is available elsewhere, or evict to the backing storage
--device (remember those dirty pages?). As memory usage increases even
--more and reaches another threshold - min watermark - an allocation
--will trigger `direct reclaim`. In this case allocation is stalled
--until enough memory pages are reclaimed to satisfy the request.
-+asynchronously scan memory pages and either free them if the data
-+they contain is available elsewhere, or evict them to the backing
-+storage device (remember those dirty pages?). As memory usage
-+increases even more and reaches another threshold - min watermark - an
-+allocation will trigger `direct reclaim`. In this case allocation is
-+stalled until enough memory pages are reclaimed to satisfy the request.
-=20
- Compaction
- =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-=20
--As the system runs, tasks allocate and free the memory and it becomes
-+As the system runs, tasks will allocate and free memory. Memory thus bec=
-omes
- fragmented. Although with virtual memory it is possible to present
--scattered physical pages as virtually contiguous range, sometimes it is
-+scattered physical pages as a virtually contiguous range, sometimes it i=
-s
- necessary to allocate large physically contiguous memory areas. Such
- need may arise, for instance, when a device driver requires a large
- buffer for DMA, or when THP allocates a huge page. Memory `compaction`
-@@ -214,10 +212,10 @@ daemon or synchronously as a result of a memory all=
-ocation request.
- OOM killer
- =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-=20
--It is possible that on a loaded machine memory will be exhausted and the
-+It is possible that under heavy load memory will be exhausted and the
- kernel will be unable to reclaim enough memory to continue to operate. I=
-n
- order to save the rest of the system, it invokes the `OOM killer`.
-=20
--The `OOM killer` selects a task to sacrifice for the sake of the overall
--system health. The selected task is killed in a hope that after it exits
-+The `OOM killer` selects a task to sacrifice for the sake of overall
-+system health. The selected task is killed in the hope that after it exi=
-ts
- enough memory will be freed to continue normal operation.
---=20
-2.30.2
+If "purging" must not be done in reverse order compared to the 
+aquisition - then one should not use devm. I know people have done 
+errors with devm - OTOH, I've seen devm also fixing bunch of errors.
 
+>> These devres helpers give
+>> a false sense of security to driver authors and they will end up
+>> introducing problems, the same way that devm_kzalloc() makes it
+>> outrageously easy to crash the kernel by disconnecting a device that is
+>> in use.
+
+I think this is going a bit "off-topic" but I'd like to understand what 
+is behind this statement? From device-writer's perspective - I don't 
+know much better alternatives to free up the memory. I don't see how 
+freeing stuff at .remove would be any better? As far as I understand - 
+if someone is using driver's resources after the device has gone and the 
+driver is detached, then there is not much the driver could do to 
+free-up the stuff be it devm or not? This sounds like fundamentally 
+different problem (to me).
+
+> TBH I think the problem you have here is with devm not with this
+> particular function.
+
+I must say I kind of agree with Mark. If we stop for a second to think 
+what would the Laurent's example look like if there were no 
+devm_regulator_get_enable() provided. I bet the poor driver author could 
+have used devm_clk_get_enabled() - and then implemented a .remove for 
+disabling the regulator. That would be even worse, right?
+
+> That's a different conversation, and a totally
+> valid one especially when you start looking at things like implementing
+> userspace APIs which need to cope with hardware going away while still
+> visible to userspace.
+
+This is interesting. It's not easy for me to spot how devm changes 
+things here? If we consider some removable device - then I guess also 
+the .remove() is ran only after HW has already gone? Yes, devm might 
+make the time window when userspace can see hardware that has gone 
+longer but does it bring any new problem there? It seems to me devm can 
+make hitting the spot more likely - but I don't think it brings 
+completely new issues? (Well, I may be wrong here - wouldn't be the 
+first time :])
+
+> It's *probably* more of a subsystem conversation
+> than a driver one though, or at least I think subsystems should try to
+> arrange to make it so.
+
+
+-- 
+Matti Vaittinen
+Linux kernel developer at ROHM Semiconductors
+Oulu Finland
+
+~~ When things go utterly wrong vim users can always type :help! ~~
+
+Discuss - Estimate - Plan - Report and finally accomplish this:
+void do_work(int time) __attribute__ ((const));
