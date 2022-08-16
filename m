@@ -2,155 +2,239 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E5212C28B2B
-	for <linux-doc@archiver.kernel.org>; Tue, 16 Aug 2022 11:09:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 250EEC25B0E
+	for <linux-doc@archiver.kernel.org>; Tue, 16 Aug 2022 11:26:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235337AbiHPLJI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 16 Aug 2022 07:09:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44262 "EHLO
+        id S232184AbiHPL0W (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 16 Aug 2022 07:26:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47396 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235201AbiHPLIg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Aug 2022 07:08:36 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F2B379EE2;
-        Tue, 16 Aug 2022 03:36:36 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 940F060ED3;
-        Tue, 16 Aug 2022 10:36:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61562C433C1;
-        Tue, 16 Aug 2022 10:36:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1660646195;
-        bh=iOXSGtGGb7/LTwG0TCouGLbcXIpY5jR5zxVoRU1xG64=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=lUUOABwqNtfygdSbxVtRwiQcHdpC24YKzgZXj+DWz2eF1D/evnVSS/Hql8X4SdZ4L
-         WQQurTRAs+dB9imN/fIDHYslwtDrMHA/aTWmV+YgQy8OCApUny7L+zJ26fr/xB9NY+
-         BMghYD2aIx7nvS3FuCpENUJPvqy9djR3RCN/sUQqlRr+tw/RFZdWVtAmwngvEPnnJy
-         b7u6tPu0fiawHefOc7mUDgKaohbk7S1fNy5qwX0xIodIgMfgb8z81pEnRtw03EH2VN
-         jK2ekE0Cg1LOSL0u+FvR7jEsvnhly8YoYa9gDopXUFJLo399tuM0DdsIDu1am9P/gb
-         /YaPwx1XnpXSg==
-Date:   Tue, 16 Aug 2022 11:36:23 +0100
-From:   Mark Brown <broonie@kernel.org>
-To:     Matti Vaittinen <mazziesaccount@gmail.com>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
-        dri-devel@lists.freedesktop.org,
-        Johan Hovold <johan+linaro@kernel.org>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Kevin Hilman <khilman@baylibre.com>,
-        linux-kernel@vger.kernel.org, Daniel Vetter <daniel@ffwll.ch>,
-        linux-amlogic@lists.infradead.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-doc@vger.kernel.org, Jonathan Cameron <jic23@kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Michael Hennerich <Michael.Hennerich@analog.com>,
-        Miaoqian Lin <linmq006@gmail.com>,
-        linux-arm-kernel@lists.infradead.org,
-        Alexandru Tachici <alexandru.tachici@analog.com>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Andrzej Hajda <andrzej.hajda@intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Lorenzo Bianconi <lorenzo@kernel.org>,
-        Michael Turq uette <mturquette@baylibre.com>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Jean Delvare <jdelvare@suse.com>,
-        Alexandru Ardelean <aardelean@deviqon.com>,
-        linux-hwmon@vger.kernel.org, linux-clk@vger.kernel.org,
-        Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-        Robert Foss <robert.foss@linaro.org>,
-        Aswath Govindraju <a-govindraju@ti.com>,
-        David Airlie <airlied@linux.ie>, linux-iio@vger.kernel.org
-Subject: Re: (subset) [PATCH v2 0/7] Devm helpers for regulator get and enable
-Message-ID: <YvtzJw3jmocM0JFi@sirena.org.uk>
-References: <cover.1660292316.git.mazziesaccount@gmail.com>
- <166057828406.697572.228317501909350108.b4-ty@kernel.org>
- <YvpsRbguMXn74GhR@pendragon.ideasonboard.com>
- <Yvp1Qkuh7xfeb/B2@sirena.org.uk>
- <YvqV9Mq6I3gXQaf2@pendragon.ideasonboard.com>
- <20220815205857.308B1C433D6@smtp.kernel.org>
- <Yvq33T+XCduoqv7Z@pendragon.ideasonboard.com>
- <YvrO+velKdYdGVve@sirena.org.uk>
- <57c312b3-ca5b-6efb-6356-43b6513a0c88@gmail.com>
+        with ESMTP id S232624AbiHPLZu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Aug 2022 07:25:50 -0400
+Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com [IPv6:2607:f8b0:4864:20::42b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93CE0E1918
+        for <linux-doc@vger.kernel.org>; Tue, 16 Aug 2022 03:40:57 -0700 (PDT)
+Received: by mail-pf1-x42b.google.com with SMTP id a22so8420046pfg.3
+        for <linux-doc@vger.kernel.org>; Tue, 16 Aug 2022 03:40:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc;
+        bh=wvpCWFPelfYvvOR63osRrM06DNetuSVNHUgDGm4H9aM=;
+        b=bSjMZ7iEbyTXpFuLUx44xYaR082mNc8ByEKirboAleWBqd1IkswN5VZSREirw9iR59
+         r5wK9yVziNKIxxS8f8MV8dKwQiS9w7LYFG724i7F3BXa7mIOPiH4a5kS/z3u15RcISHW
+         m9BDQG6/8tYtmmg0HEQFHWbKpDUdvArswBLp6yfybYw9Az9kaQlaDFleMjf/FNMiVaKX
+         tez3AlEdM/WWzSJGVgE018thXWtnCQ+6RmTWCgwzPePVZU1Ns03iERuYkYA/BUYxxzQb
+         ax9hh6rZ3/xub3cMs1iB4xtV66lQjtlLre1rcbjDNy7pVAsE8nQ54VwLAUP2lhhOGZhD
+         mfsA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc;
+        bh=wvpCWFPelfYvvOR63osRrM06DNetuSVNHUgDGm4H9aM=;
+        b=XPTlbA+vjZnhyfGXvBorZBjlJN1fFMZOY8VtKEI25lyxUpkMT51Rfn7Y3umcjMIQmb
+         eH7rj924bxrhNMObv3Q5MYZLNh3i0SNlMImbcVWqQErTlMTA9g7fyFIVPds5h1cY7JlU
+         pwNO/r0/oKvcx3EwnOsCR7HzieQ19H7LzcFUaxElSfpVEgzOAEdYgP41saZ7y0mymXbS
+         dLov0GGFXfoi3r4qfCS+r28szV0Job9jEAde5FxmyG72E0ztpO7yTV5HuXbAndwXu5YM
+         xwTRZjYQGYYRaMpuQGEhM8bUvNApYQktQ8UdXBKEISxgPwT6CihQ4DmE67q5IGMxgSl9
+         UmLg==
+X-Gm-Message-State: ACgBeo2cR/uGJzTTjNV53aZcop4kzlVAYqS9CJSPveC7xFxrRlNDKG8v
+        V0WyPbAJ2dxD9ajI5/VsrsLI/A==
+X-Google-Smtp-Source: AA6agR5otZevjj13caQ26aMBk4VWrPzYPp5Zo1qcxgTbELDs6pwu9VJAUExUwUDyp8YK/MDBF/qXYw==
+X-Received: by 2002:a65:558c:0:b0:415:f20b:9261 with SMTP id j12-20020a65558c000000b00415f20b9261mr17152785pgs.63.1660646456196;
+        Tue, 16 Aug 2022 03:40:56 -0700 (PDT)
+Received: from [10.4.196.37] ([139.177.225.255])
+        by smtp.gmail.com with ESMTPSA id s13-20020a63ff4d000000b0041a615381d5sm7279797pgk.4.2022.08.16.03.40.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 16 Aug 2022 03:40:55 -0700 (PDT)
+Message-ID: <b8764fc6-15d3-fce7-0102-d3ba732eb98f@bytedance.com>
+Date:   Tue, 16 Aug 2022 18:40:46 +0800
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="MVZ75Zz0qn0/IYvJ"
-Content-Disposition: inline
-In-Reply-To: <57c312b3-ca5b-6efb-6356-43b6513a0c88@gmail.com>
-X-Cookie: A bachelor is an unaltared male.
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.1.2
+Subject: Re: [PATCH v2 07/10] sched/psi: remove NR_ONCPU task accounting
+To:     hannes@cmpxchg.org, tj@kernel.org, corbet@lwn.net,
+        surenb@google.com, mingo@redhat.com, peterz@infradead.org,
+        vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
+        rostedt@goodmis.org, bsegall@google.com
+Cc:     cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, songmuchun@bytedance.com
+References: <20220808110341.15799-1-zhouchengming@bytedance.com>
+ <20220808110341.15799-8-zhouchengming@bytedance.com>
+Content-Language: en-US
+From:   Chengming Zhou <zhouchengming@bytedance.com>
+In-Reply-To: <20220808110341.15799-8-zhouchengming@bytedance.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On 2022/8/8 19:03, Chengming Zhou wrote:
+> From: Johannes Weiner <hannes@cmpxchg.org>
+> 
+> We put all fields updated by the scheduler in the first cacheline of
+> struct psi_group_cpu for performance.
+> 
+> Since we want add another PSI_IRQ_FULL to track IRQ/SOFTIRQ pressure,
+> we need to reclaim space first. This patch remove NR_ONCPU task accounting
+> in struct psi_group_cpu, use one bit in state_mask to track instead.
+> 
+> Signed-off-by: Johannes Weiner <hannes@cmpxchg.org>
+> Signed-off-by: Chengming Zhou <zhouchengming@bytedance.com>
+> Reviewed-by: Chengming Zhou <zhouchengming@bytedance.com>
+> Tested-by: Chengming Zhou <zhouchengming@bytedance.com>
+> ---
+>  include/linux/psi_types.h | 16 +++++++---------
+>  kernel/sched/psi.c        | 36 ++++++++++++++++++++++++++++--------
+>  2 files changed, 35 insertions(+), 17 deletions(-)
+> 
+> diff --git a/include/linux/psi_types.h b/include/linux/psi_types.h
+> index c7fe7c089718..54cb74946db4 100644
+> --- a/include/linux/psi_types.h
+> +++ b/include/linux/psi_types.h
+> @@ -15,13 +15,6 @@ enum psi_task_count {
+>  	NR_IOWAIT,
+>  	NR_MEMSTALL,
+>  	NR_RUNNING,
+> -	/*
+> -	 * This can't have values other than 0 or 1 and could be
+> -	 * implemented as a bit flag. But for now we still have room
+> -	 * in the first cacheline of psi_group_cpu, and this way we
+> -	 * don't have to special case any state tracking for it.
+> -	 */
+> -	NR_ONCPU,
+>  	/*
+>  	 * For IO and CPU stalls the presence of running/oncpu tasks
+>  	 * in the domain means a partial rather than a full stall.
+> @@ -32,16 +25,18 @@ enum psi_task_count {
+>  	 * threads and memstall ones.
+>  	 */
+>  	NR_MEMSTALL_RUNNING,
+> -	NR_PSI_TASK_COUNTS = 5,
+> +	NR_PSI_TASK_COUNTS = 4,
+>  };
+>  
+>  /* Task state bitmasks */
+>  #define TSK_IOWAIT	(1 << NR_IOWAIT)
+>  #define TSK_MEMSTALL	(1 << NR_MEMSTALL)
+>  #define TSK_RUNNING	(1 << NR_RUNNING)
+> -#define TSK_ONCPU	(1 << NR_ONCPU)
+>  #define TSK_MEMSTALL_RUNNING	(1 << NR_MEMSTALL_RUNNING)
+>  
+> +/* Only one task can be scheduled, no corresponding task count */
+> +#define TSK_ONCPU	(1 << NR_PSI_TASK_COUNTS)
+> +
+>  /* Resources that workloads could be stalled on */
+>  enum psi_res {
+>  	PSI_IO,
+> @@ -68,6 +63,9 @@ enum psi_states {
+>  	NR_PSI_STATES = 7,
+>  };
+>  
+> +/* Use one bit in the state mask to track TSK_ONCPU */
+> +#define PSI_ONCPU	(1 << NR_PSI_STATES)
+> +
+>  enum psi_aggregators {
+>  	PSI_AVGS = 0,
+>  	PSI_POLL,
+> diff --git a/kernel/sched/psi.c b/kernel/sched/psi.c
+> index 595a6c8230b7..1c675715ed33 100644
+> --- a/kernel/sched/psi.c
+> +++ b/kernel/sched/psi.c
+> @@ -216,7 +216,7 @@ void __init psi_init(void)
+>  	group_init(&psi_system);
+>  }
+>  
+> -static bool test_state(unsigned int *tasks, enum psi_states state)
+> +static bool test_state(unsigned int *tasks, enum psi_states state, bool oncpu)
+>  {
+>  	switch (state) {
+>  	case PSI_IO_SOME:
+> @@ -229,9 +229,9 @@ static bool test_state(unsigned int *tasks, enum psi_states state)
+>  		return unlikely(tasks[NR_MEMSTALL] &&
+>  			tasks[NR_RUNNING] == tasks[NR_MEMSTALL_RUNNING]);
+>  	case PSI_CPU_SOME:
+> -		return unlikely(tasks[NR_RUNNING] > tasks[NR_ONCPU]);
+> +		return unlikely(tasks[NR_RUNNING] > oncpu);
+>  	case PSI_CPU_FULL:
+> -		return unlikely(tasks[NR_RUNNING] && !tasks[NR_ONCPU]);
+> +		return unlikely(tasks[NR_RUNNING] && !oncpu);
+>  	case PSI_NONIDLE:
+>  		return tasks[NR_IOWAIT] || tasks[NR_MEMSTALL] ||
+>  			tasks[NR_RUNNING];
+> @@ -693,9 +693,9 @@ static void psi_group_change(struct psi_group *group, int cpu,
+>  			     bool wake_clock)
+>  {
+>  	struct psi_group_cpu *groupc;
+> -	u32 state_mask = 0;
+>  	unsigned int t, m;
+>  	enum psi_states s;
+> +	u32 state_mask;
+>  
+>  	groupc = per_cpu_ptr(group->pcpu, cpu);
+>  
+> @@ -711,6 +711,26 @@ static void psi_group_change(struct psi_group *group, int cpu,
+>  
+>  	record_times(groupc, now);
+>  
+> +	/*
+> +	 * Start with TSK_ONCPU, which doesn't have a corresponding
+> +	 * task count - it's just a boolean flag directly encoded in
+> +	 * the state mask. Clear, set, or carry the current state if
+> +	 * no changes are requested.
+> +	 */
+> +	if (clear & TSK_ONCPU) {
+> +		state_mask = 0;
+> +		clear &= ~TSK_ONCPU;
+> +	} else if (set & TSK_ONCPU) {
+> +		state_mask = PSI_ONCPU;
+> +		set &= ~TSK_ONCPU;
 
---MVZ75Zz0qn0/IYvJ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+These two conditions should use "unlikely()", which would be better
+in the perf bench sched pipe testcase.
 
-On Tue, Aug 16, 2022 at 07:56:06AM +0300, Matti Vaittinen wrote:
-> On 8/16/22 01:55, Mark Brown wrote:
-> > On Tue, Aug 16, 2022 at 12:17:17AM +0300, Laurent Pinchart wrote:
 
-> > > These devres helpers give
-> > > a false sense of security to driver authors and they will end up
-> > > introducing problems, the same way that devm_kzalloc() makes it
-> > > outrageously easy to crash the kernel by disconnecting a device that is
-> > > in use.
-
-> I think this is going a bit "off-topic" but I'd like to understand what is
-> behind this statement? From device-writer's perspective - I don't know much
-> better alternatives to free up the memory. I don't see how freeing stuff at
-> .remove would be any better? As far as I understand - if someone is using
-> driver's resources after the device has gone and the driver is detached,
-> then there is not much the driver could do to free-up the stuff be it devm
-> or not? This sounds like fundamentally different problem (to me).
-
-If a driver has done something like create a file that's accessible to
-userspace then that file may be held open by userspace even after the
-device goes away, the driver that created the file needs to ensure that
-any storage that's used by the file remains allocated until the file is
-also freed (typically this is data specific to the file rather than the
-full device data).  Similar situations can exist elsewhere, that's just
-the common case.  There'll be a deletion callback on whatever other
-object causes the problem, the allocation needs to be reference counted
-against both the the device and whatever other users there might be.
-
-> > That's a different conversation, and a totally
-> > valid one especially when you start looking at things like implementing
-> > userspace APIs which need to cope with hardware going away while still
-> > visible to userspace.
-
-> This is interesting. It's not easy for me to spot how devm changes things
-> here? If we consider some removable device - then I guess also the .remove()
-> is ran only after HW has already gone? Yes, devm might make the time window
-> when userspace can see hardware that has gone longer but does it bring any
-> new problem there? It seems to me devm can make hitting the spot more likely
-> - but I don't think it brings completely new issues? (Well, I may be wrong
-> here - wouldn't be the first time :])
-
-See above, something can still know the device was there even after it's
-gone.
-
---MVZ75Zz0qn0/IYvJ
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmL7cycACgkQJNaLcl1U
-h9CzyQf/bDMqScPGw8MQIW6yZaN+9P25oNyQJTQ0X6hRYgasG5lC1b2j2/0LCuJQ
-0Flnz8b/wQI5LbmpExV6c8/Kt/xKopO8No6Af3gUUtkUNPQYHn0CJoB9HDQmSBe+
-uVrf5bEH9+GCi7WumAXuvFxT73bF4jt4WVbhNzBAGDD4hnxAF9hpyhSJ9uWS+b2z
-f+b77s+ubFb6gbYAqAVnq06cStPvi8aZrAT3UjDUVe3vF8LGQiz7VIdeFA0m0nVl
-eQNPvf5a0fCYw0M93B570wvMMPiX1lmfNt6iAWHwq9rKryHWKxB3Ntj5z+5EKDep
-0DAfDf7LZH1UUNZzCXclRPka0Fd9kw==
-=RD3o
------END PGP SIGNATURE-----
-
---MVZ75Zz0qn0/IYvJ--
+> +	} else {
+> +		state_mask = groupc->state_mask & PSI_ONCPU;
+> +	}
+> +
+> +	/*
+> +	 * The rest of the state mask is calculated based on the task
+> +	 * counts. Update those first, then construct the mask.
+> +	 */
+>  	for (t = 0, m = clear; m; m &= ~(1 << t), t++) {
+>  		if (!(m & (1 << t)))
+>  			continue;
+> @@ -730,9 +750,8 @@ static void psi_group_change(struct psi_group *group, int cpu,
+>  		if (set & (1 << t))
+>  			groupc->tasks[t]++;
+>  
+> -	/* Calculate state mask representing active states */
+>  	for (s = 0; s < NR_PSI_STATES; s++) {
+> -		if (test_state(groupc->tasks, s))
+> +		if (test_state(groupc->tasks, s, state_mask & PSI_ONCPU))
+>  			state_mask |= (1 << s);
+>  	}
+>  
+> @@ -744,7 +763,7 @@ static void psi_group_change(struct psi_group *group, int cpu,
+>  	 * task in a cgroup is in_memstall, the corresponding groupc
+>  	 * on that cpu is in PSI_MEM_FULL state.
+>  	 */
+> -	if (unlikely(groupc->tasks[NR_ONCPU] && cpu_curr(cpu)->in_memstall))
+> +	if (unlikely((state_mask & PSI_ONCPU) && cpu_curr(cpu)->in_memstall))
+>  		state_mask |= (1 << PSI_MEM_FULL);
+>  
+>  	groupc->state_mask = state_mask;
+> @@ -835,7 +854,8 @@ void psi_task_switch(struct task_struct *prev, struct task_struct *next,
+>  		 */
+>  		iter = NULL;
+>  		while ((group = iterate_groups(next, &iter))) {
+> -			if (per_cpu_ptr(group->pcpu, cpu)->tasks[NR_ONCPU]) {
+> +			if (per_cpu_ptr(group->pcpu, cpu)->state_mask &
+> +			    PSI_ONCPU) {
+>  				common = group;
+>  				break;
+>  			}
