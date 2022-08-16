@@ -2,131 +2,92 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6FB74C28B2B
-	for <linux-doc@archiver.kernel.org>; Tue, 16 Aug 2022 15:55:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 51018C25B0E
+	for <linux-doc@archiver.kernel.org>; Tue, 16 Aug 2022 16:39:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233972AbiHPPzs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 16 Aug 2022 11:55:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55466 "EHLO
+        id S236557AbiHPQjo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 16 Aug 2022 12:39:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43252 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236383AbiHPPz1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Aug 2022 11:55:27 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97B05656A;
-        Tue, 16 Aug 2022 08:53:20 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 493C4B81A84;
-        Tue, 16 Aug 2022 15:53:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C5B4C433C1;
-        Tue, 16 Aug 2022 15:53:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1660665198;
-        bh=hlkYJEYHyg2S6iWZ8XPY2X8XBAGgCaNjt7hhi5OwEtg=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=aZLNZDSVQi9fGX8AJl/etW3qEk8e5X77R7oncvw4Dy7CWKD7aeUpTcZQcKd5ncAOl
-         eWfB7+/HyOY/BaM2+DnFUIW8XkvjcF4cWD/5AW+YTqH5d2LTN24KX/14qbsUOkXDrA
-         R9owL/kjWlqRp8QK8JLbb8NL5NNnabyA2EgpAdjNuhLl8DLdDXK7i6bFVJr1BGQVpE
-         qpMJLvqTMF1k93dHQXniHrm0a8ILERBZDE7+vBbwt2tpKTL3Y/zl6FpRjIzEnVwOel
-         5YCpvXvsblhlVOs+nq8O+Fz5aG3z0Wl6NK3woRe8klg2R9zQ8cPcn+N7+6rYeBVmeg
-         FdRLYUVCnxiwQ==
-Date:   Tue, 16 Aug 2022 08:53:16 -0700
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     Johannes Berg <johannes@sipsolutions.net>
-Cc:     netdev@vger.kernel.org, davem@davemloft.net, edumazet@google.com,
-        pabeni@redhat.com, sdf@google.com, jacob.e.keller@intel.com,
-        vadfed@fb.com, jiri@resnulli.us, dsahern@kernel.org,
-        stephen@networkplumber.org, fw@strlen.de, linux-doc@vger.kernel.org
-Subject: Re: [RFC net-next 2/4] ynl: add the schema for the schemas
-Message-ID: <20220816085316.65fda789@kernel.org>
-In-Reply-To: <7241755af778426a2241cacd51119ba8dbd7c136.camel@sipsolutions.net>
-References: <20220811022304.583300-1-kuba@kernel.org>
-        <20220811022304.583300-3-kuba@kernel.org>
-        <6b972ef603ff2bc3a3f3e489aa6638f6246c1e48.camel@sipsolutions.net>
-        <20220815174742.32b3611e@kernel.org>
-        <7241755af778426a2241cacd51119ba8dbd7c136.camel@sipsolutions.net>
+        with ESMTP id S235798AbiHPQjn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Aug 2022 12:39:43 -0400
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C18527D1DD;
+        Tue, 16 Aug 2022 09:39:41 -0700 (PDT)
+Received: by mail-ej1-x62e.google.com with SMTP id i14so19928517ejg.6;
+        Tue, 16 Aug 2022 09:39:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc;
+        bh=iaPjCYZgo5E7q90joQujnSp+771XiMnhGhIUF8A0osw=;
+        b=FPh1mYpWX1kXNGRpv2OtRUKw0nrwqX4WOSfq2AvHSc4EDDOa9vuSlGBBhQw5VGxVZo
+         me2KEsOIj/b2nCeEWXyrnZ9xo45gYizz+p0O55vh1TuXke4Chc0BwzB2hQvW9dqBCqwi
+         +voyJye42aXpa9PSp4LARDR5OVlMAT1GywsdrnEuIhoApQ0+XBmPOQd2nWxKRhtE0sK/
+         UURQd0bRVHSeV4sw7a9ETtKp6KJ9GvXZprN7U7F2f8Djivcrr8j+tAeW3Zw0UQM+8WtR
+         GgYFiLmIM3OPA3IHoFfgfmt0z+EAVrPCM62ARF9TZCtysY29D3VVWwX9SNHkd44mDknB
+         s59g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=iaPjCYZgo5E7q90joQujnSp+771XiMnhGhIUF8A0osw=;
+        b=lp2eszvrQHFW34IdE3Gx4onJzrW2KdSWfU4MOIDb9Jr4AF0rBEvrFR6pCir0r4Q5Eb
+         IGYqIqDvi902kd1yMvoGa3+KjXZkm7Lhqxplg++VIujUTeIH99JYzNXK+7WWuOA/b1rJ
+         Oh4fO3SWCFsez9yACyZybTTDNAY3+YSpXlferuFJwnCy2jZ+96n2iT9O5ta6NmQ2e2hr
+         7l80fa+ntS9EEBuuKftOfoQ3CTNaBP6CMJVty7t4irzk4M+Hzt4guh4oCfJ/uQHzJXAP
+         n3V7B8jm57b9ClxTHurhIEjOaTK9d0k6FDsPKSJ04Sp6iblRS+Ry19qm2qPDHFRUne4S
+         YhDQ==
+X-Gm-Message-State: ACgBeo2CANEImU6BTEHmOCG8xmzKv/Z27rESnkVDU4biGP6OL7jsFb4k
+        aqaHmKsY1o6NRSWYvYa/RbrJXXlbojXPx1Ota28=
+X-Google-Smtp-Source: AA6agR6CVIWn3ph0TlBX1tyLLXQZhWJUJdPVsI1GiXe2PFPhFhhuvFgawG9EUtU9XUnOOWSp83GxQqb13jXb+Z/LAsw=
+X-Received: by 2002:a17:907:2896:b0:730:983c:4621 with SMTP id
+ em22-20020a170907289600b00730983c4621mr14063824ejc.502.1660667980256; Tue, 16
+ Aug 2022 09:39:40 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20220812101902.2846182-1-roberto.sassu@huawei.com>
+ <14032690-e7a9-9d14-1ec1-14dd3503037c@iogearbox.net> <b61eb3b95843409eb6ab03aea4a0ca30@huawei.com>
+ <be1fdbba-73ba-3106-622e-57ef5f471a26@iogearbox.net> <f54e27659dce49ee93d5feafa46f5477@huawei.com>
+In-Reply-To: <f54e27659dce49ee93d5feafa46f5477@huawei.com>
+From:   Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Date:   Tue, 16 Aug 2022 09:39:28 -0700
+Message-ID: <CAADnVQJT_X-oX4czQ2dT1qFKwf4N5wRaSCTV-KzH5-p-1b4yfQ@mail.gmail.com>
+Subject: Re: [PATCH v11 0/9] bpf: Add kfuncs for PKCS#7 signature verification
+To:     Roberto Sassu <roberto.sassu@huawei.com>
+Cc:     Daniel Borkmann <daniel@iogearbox.net>,
+        "ast@kernel.org" <ast@kernel.org>,
+        "andrii@kernel.org" <andrii@kernel.org>,
+        "martin.lau@linux.dev" <martin.lau@linux.dev>,
+        "song@kernel.org" <song@kernel.org>, "yhs@fb.com" <yhs@fb.com>,
+        "john.fastabend@gmail.com" <john.fastabend@gmail.com>,
+        "kpsingh@kernel.org" <kpsingh@kernel.org>,
+        "sdf@google.com" <sdf@google.com>,
+        "haoluo@google.com" <haoluo@google.com>,
+        "jolsa@kernel.org" <jolsa@kernel.org>,
+        "mykolal@fb.com" <mykolal@fb.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "dhowells@redhat.com" <dhowells@redhat.com>,
+        "jarkko@kernel.org" <jarkko@kernel.org>,
+        "rostedt@goodmis.org" <rostedt@goodmis.org>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "paul@paul-moore.com" <paul@paul-moore.com>,
+        "jmorris@namei.org" <jmorris@namei.org>,
+        "serge@hallyn.com" <serge@hallyn.com>,
+        "shuah@kernel.org" <shuah@kernel.org>,
+        "bpf@vger.kernel.org" <bpf@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "keyrings@vger.kernel.org" <keyrings@vger.kernel.org>,
+        "linux-security-module@vger.kernel.org" 
+        <linux-security-module@vger.kernel.org>,
+        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 16 Aug 2022 09:21:27 +0200 Johannes Berg wrote:
-> On Mon, 2022-08-15 at 17:47 -0700, Jakub Kicinski wrote:
-> > On Mon, 15 Aug 2022 22:09:11 +0200 Johannes Berg wrote:  
-> > It's the incredibly inventive nesting format used in genetlink policy
-> > dumps where the type of the sub-attr(s there are actually two levels)
-> > carry a value (index of the policy and attribute) rather than denoting
-> > a type :S :S :S  
-> 
-> Hmm, OK, in the policy dump (not specific to genetlink, btw, can be used
-> for any policy, but is only generically hooked up for genetlink), we
-> have
-> 
-> [policy_idx] = {
->   [attr_idx] = {
->     [NL_POLICY_TYPE_ATTR_...] = ...
->   }
-> }
-> 
-> Is that what you mean?
+Roberto,
 
-Yes.
-
-> I guess I never really thought about this format much from a description
-> POV, no need to have a policy since you simply iterate (for_each_attr)
-> when reading it, and don't really need to care about the attribute
-> index, at least.
-> 
-> For future reference, how would you suggest to have done this instead?
-
-My guess was that some of the wrapping was for ease of canceling here
-(cancel is used both on skip and on error). What I think we should push
-for is multi-attr, so the same attribute happens multiple times.
-
-[msg]
- [ATTR1]
- [ATTR2] // elem 1
-   [SubATTR1]
-   [SubATTR2]
- [ATTR2] // elem 2
-   [SubATTR1]
-   [SubATTR2]
- [ATTR2] // elem 3
-   [SubATTR1]
-   [SubATTR2]
- [ATTR3]
- [ATTR4]
-
-Instead of wrapping into an array and then elements.
-
-As Michal pointed out a number of times - the wrapping ends up limiting 
-the size of the array to U16_MAX, and I have a suspicion that most of
-wrapping is done because we tend to parse into a pointer array, which
-makes multi-attr a little tricky. But we shouldn't let one parsing
-technique in a relatively uncommon language like C dictate the format :)
-
-> > Slightly guessing but I think I know what you mean -> the value of the
-> > array is a nest with index as the type and then inside that is the
-> > entry of the array with its attributes <- and that's where the space is
-> > applied, not at the first nest level?  
-> 
-> Right.
-> 
-> > Right, I should probably put that in the docs rather than the schema,
-> > array-nests are expected to strip one layer of nesting and put the
-> > value taken from the type (:D) into an @idx member of the struct
-> > representing the values of the array. Or at least that's what I do in
-> > the C codegen.  
-> 
-> Well mostly you're not supposed to care about the 'value'/'type', I
-> guess?
-
-Fair, I wasn't sure if it's ever used, but I figured if I have to parse
-it out why not save the values. Same for array-next indexes.
-
-I'm leaning heavily towards defining a subset of the YAML spec as 
-"the way to do things in new family" which will allow only one form 
-of arrays.
+please use a different email provider,
+since gmail classifies all of your emails as spam.
+I've seen other huawei folks use huaweicloud.com.
