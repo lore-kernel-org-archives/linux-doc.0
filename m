@@ -2,107 +2,119 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 11F1FC25B0E
-	for <linux-doc@archiver.kernel.org>; Tue, 16 Aug 2022 18:14:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D91D8C25B0E
+	for <linux-doc@archiver.kernel.org>; Tue, 16 Aug 2022 19:31:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236946AbiHPSOs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 16 Aug 2022 14:14:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53572 "EHLO
+        id S236779AbiHPTbO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 16 Aug 2022 15:31:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58052 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233076AbiHPSOp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Aug 2022 14:14:45 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC0AD7AC02;
-        Tue, 16 Aug 2022 11:14:44 -0700 (PDT)
+        with ESMTP id S229472AbiHPTbO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Aug 2022 15:31:14 -0400
+Received: from sipsolutions.net (s3.sipsolutions.net [IPv6:2a01:4f8:191:4433::2])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1495F86C38;
+        Tue, 16 Aug 2022 12:31:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=MySzvGXqRSaBBJhmsw3ulDhggVAysoOKEMJnaszkKsU=; b=YPrEDcLvKjIb0xNBG+Jk/CGOJ6
-        kW006eJ0NtmQgEuIfrtpv18W/AT3E6P4tU5tApVpU7iXAmUuqgW37qBLQwW2Knu5FTIuqME+NNPyp
-        YadFUKbPi+Tq8trcm0xs6iZy0i2DBc3igLK50MYONBYKHxtUkGtlV31WJyX2fPAFh1cO7W3lL6vBo
-        rNXj8n/uobl/HADOp+sc3StKPN9OlbxVN+x6YSldP1qDn+vr9g7EePepooP8GXvGf41FpHgOg9w5Q
-        eUbNbWIvPg7EMgqcJ9XQFTfQntotK8qMPpjXTNgqVHkWILVngJ8OwCDNX5OV/DmArUSafNpj+lANo
-        lPG7MazQ==;
-Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1oO153-007DVO-MT; Tue, 16 Aug 2022 18:14:21 +0000
-Date:   Tue, 16 Aug 2022 19:14:21 +0100
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Will Deacon <will@kernel.org>
-Cc:     Arnd Bergmann <arnd@arndb.de>, Hector Martin <marcan@marcan.st>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@kernel.org>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Andrea Parri <parri.andrea@gmail.com>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        David Howells <dhowells@redhat.com>,
-        Jade Alglave <j.alglave@ucl.ac.uk>,
-        Luc Maranget <luc.maranget@inria.fr>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Akira Yokosawa <akiyks@gmail.com>,
-        Daniel Lustig <dlustig@nvidia.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Jonathan Corbet <corbet@lwn.net>, Tejun Heo <tj@kernel.org>,
-        jirislaby@kernel.org, Marc Zyngier <maz@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Oliver Neukum <oneukum@suse.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        Asahi Linux <asahi@lists.linux.dev>, stable@vger.kernel.org
-Subject: Re: [PATCH] locking/atomic: Make test_and_*_bit() ordered on failure
-Message-ID: <Yvveff1aW/zeYzBo@casper.infradead.org>
-References: <20220816070311.89186-1-marcan@marcan.st>
- <CAK8P3a03pfrPzjnx1tB5z0HcKnY=JL=y+F8PMQDpc=Bavs3UCA@mail.gmail.com>
- <20220816140640.GD11202@willie-the-truck>
+        d=sipsolutions.net; s=mail; h=MIME-Version:Content-Transfer-Encoding:
+        Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-To:
+        Resent-Cc:Resent-Message-ID; bh=U25TPYOEeLX9ExDpmpCDFm7VeFIYKkpYVxR743uBycM=;
+        t=1660678273; x=1661887873; b=I4GQ0JJQQvdSGoXlIeBHvWVhu9ONhu9ULCu7QJJ0XsrRzoo
+        zF+pxWFHmAPe1SQpMY+HmGFK2T1KR6tg77A3Xo6AKEwgHryGYklisIWwBjcy5Ee3KUaweAnGOMTPb
+        tR7ibiSNcVUBc8lUOPgBZdxOeMxdBpRXXyW1KTLBfymbwzzl4z0hAPub6XXOXr6vGGDVdmJ5632va
+        UYw4FOjJWyu/Gnv67satFwVFUkFAllVsJb4EOsaab/Qr71fPebEDSNj+zBOZ2EcNZoJ5utAGAX1wl
+        7c6hLbflASCqy0BuEOn3VAU0raN3jYJg8GTS24hwxUvZ46TDd0ojS54olJNUaa5Q==;
+Received: by sipsolutions.net with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+        (Exim 4.96)
+        (envelope-from <johannes@sipsolutions.net>)
+        id 1oO2H9-009deu-0U;
+        Tue, 16 Aug 2022 21:30:55 +0200
+Message-ID: <c4a4744c0f0a86433beec5035f2150b8427eb3d5.camel@sipsolutions.net>
+Subject: Re: [RFC net-next 2/4] ynl: add the schema for the schemas
+From:   Johannes Berg <johannes@sipsolutions.net>
+To:     Jakub Kicinski <kuba@kernel.org>
+Cc:     netdev@vger.kernel.org, davem@davemloft.net, edumazet@google.com,
+        pabeni@redhat.com, sdf@google.com, jacob.e.keller@intel.com,
+        vadfed@fb.com, jiri@resnulli.us, dsahern@kernel.org,
+        stephen@networkplumber.org, fw@strlen.de, linux-doc@vger.kernel.org
+Date:   Tue, 16 Aug 2022 21:30:54 +0200
+In-Reply-To: <20220816085316.65fda789@kernel.org>
+References: <20220811022304.583300-1-kuba@kernel.org>
+         <20220811022304.583300-3-kuba@kernel.org>
+         <6b972ef603ff2bc3a3f3e489aa6638f6246c1e48.camel@sipsolutions.net>
+         <20220815174742.32b3611e@kernel.org>
+         <7241755af778426a2241cacd51119ba8dbd7c136.camel@sipsolutions.net>
+         <20220816085316.65fda789@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.4 (3.44.4-1.fc36) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220816140640.GD11202@willie-the-truck>
+X-malware-bazaar: not-scanned
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Aug 16, 2022 at 03:06:41PM +0100, Will Deacon wrote:
-> On Tue, Aug 16, 2022 at 10:16:04AM +0200, Arnd Bergmann wrote:
-> > On Tue, Aug 16, 2022 at 9:03 AM Hector Martin <marcan@marcan.st> wrote:
-> > >
-> > > These operations are documented as always ordered in
-> > > include/asm-generic/bitops/instrumented-atomic.h, and producer-consumer
-> > > type use cases where one side needs to ensure a flag is left pending
-> > > after some shared data was updated rely on this ordering, even in the
-> > > failure case.
-> > >
-> > > This is the case with the workqueue code, which currently suffers from a
-> > > reproducible ordering violation on Apple M1 platforms (which are
-> > > notoriously out-of-order) that ends up causing the TTY layer to fail to
-> > > deliver data to userspace properly under the right conditions. This
-> > > change fixes that bug.
-> > >
-> > > Change the documentation to restrict the "no order on failure" story to
-> > > the _lock() variant (for which it makes sense), and remove the
-> > > early-exit from the generic implementation, which is what causes the
-> > > missing barrier semantics in that case. Without this, the remaining
-> > > atomic op is fully ordered (including on ARM64 LSE, as of recent
-> > > versions of the architecture spec).
-> > >
-> > > Suggested-by: Linus Torvalds <torvalds@linux-foundation.org>
-> > > Cc: stable@vger.kernel.org
-> > > Fixes: e986a0d6cb36 ("locking/atomics, asm-generic/bitops/atomic.h: Rewrite using atomic_*() APIs")
-> > > Fixes: 61e02392d3c7 ("locking/atomic/bitops: Document and clarify ordering semantics for failed test_and_{}_bit()")
-> > > Signed-off-by: Hector Martin <marcan@marcan.st>
-> > > ---
-> > >  Documentation/atomic_bitops.txt     | 2 +-
-> > >  include/asm-generic/bitops/atomic.h | 6 ------
-> > 
-> > I double-checked all the architecture specific implementations to ensure
-> > that the asm-generic one is the only one that needs the fix.
-> 
-> I couldn't figure out parisc -- do you know what ordering their spinlocks
-> provide? They have a comment talking about a release, but I don't know what
-> the ordering guarantees of an "ldcw" are.
+On Tue, 2022-08-16 at 08:53 -0700, Jakub Kicinski wrote:
+>=20
+> My guess was that some of the wrapping was for ease of canceling here
+> (cancel is used both on skip and on error).=C2=A0
+>=20
 
-"The semaphore operation is strongly ordered" (that's from the
-description of the LDCW instruction)
+Not sure I'd say that, but can't say I really remember why I did it this
+way.
+
+> What I think we should push
+> for is multi-attr, so the same attribute happens multiple times.
+>=20
+> [msg]
+>  [ATTR1]
+>  [ATTR2] // elem 1
+>    [SubATTR1]
+>    [SubATTR2]
+>  [ATTR2] // elem 2
+>    [SubATTR1]
+>    [SubATTR2]
+>  [ATTR2] // elem 3
+>    [SubATTR1]
+>    [SubATTR2]
+>  [ATTR3]
+>  [ATTR4]
+>=20
+> Instead of wrapping into an array and then elements.
+
+Hmm, ok, I guess that works.
+
+>=20
+> As Michal pointed out a number of times - the wrapping ends up limiting=
+=20
+> the size of the array to U16_MAX,
+
+True.
+
+> and I have a suspicion that most of
+> wrapping is done because we tend to parse into a pointer array, which
+> makes multi-attr a little tricky. But we shouldn't let one parsing
+> technique in a relatively uncommon language like C dictate the format :)
+
+:-)
+
+To be fair, for cases where today we use nla_for_each_nested() we could
+also invent an "nlmsg_for_each_attr_of_type()" macro:
+
+#define nlmsg_for_each_attr_of_type(type, pos, nlh, hdrlen, rem) \
+	nlmsg_for_each_attr(pos, nlh, hdrlen, rem)               \
+		if (pos->nla_type =3D=3D type)
+
+and then that's basically all you need?
+
+In the policy we'd declare it as a normal nested (not array), and I
+think that's it because today if you give the same attribute type twice,
+the last one wins in the normal parsing anyway (IIRC)...
+
+> I'm leaning heavily towards defining a subset of the YAML spec as=20
+> "the way to do things in new family" which will allow only one form=20
+> of arrays.
+
+Fair enough.
+
+johannes
