@@ -2,117 +2,142 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 52C6DC28B2B
-	for <linux-doc@archiver.kernel.org>; Tue, 16 Aug 2022 12:22:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B5B37C25B0E
+	for <linux-doc@archiver.kernel.org>; Tue, 16 Aug 2022 12:30:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230321AbiHPMWH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 16 Aug 2022 08:22:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56158 "EHLO
+        id S231671AbiHPMac (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 16 Aug 2022 08:30:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53376 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230007AbiHPMWF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Aug 2022 08:22:05 -0400
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B4CA25C68;
-        Tue, 16 Aug 2022 05:22:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1660652525; x=1692188525;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=B3uUd/yG6wpuTb/aR5iTfAme30Qm6tQlD5VU32Fh/CI=;
-  b=Tifp/ISUfjpNRaPP/CY94u94leOZ91YRfJkuv3BDszBornbMs5Q6XRQ7
-   Ixcw0xfxSGlJ1Jg0hiYU0p5uFCXRilB6YP1Oef6lmkw0edqQbDB88Z1Zk
-   92hPzlG/ufTn1JT3E+1Bor79jl97sbJHqhdZcxEGuqk0Z1IAVbJxaAgBF
-   8TkLB0HHACBU+bOr/uWseGqjadJawZfkVjkgEF0OV/8Hm9kAqrgBq7FeF
-   TucuT2O8paNDEBJxQExyYRDVCGdFPd1jsimk54wcpS0qKHTZDzhCHAQ47
-   lhhOfV7Q2m5H6OH4cSsSeil9POTww0F/BnV3p9UUmF5ySbm27HvydlkBK
-   g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10440"; a="289773234"
-X-IronPort-AV: E=Sophos;i="5.93,241,1654585200"; 
-   d="scan'208";a="289773234"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2022 05:22:03 -0700
-X-IronPort-AV: E=Sophos;i="5.93,241,1654585200"; 
-   d="scan'208";a="675194031"
-Received: from damianos-mobl.ger.corp.intel.com (HELO box.shutemov.name) ([10.252.40.45])
-  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2022 05:21:54 -0700
-Received: by box.shutemov.name (Postfix, from userid 1000)
-        id 4FB31104A4E; Tue, 16 Aug 2022 15:24:57 +0300 (+03)
-Date:   Tue, 16 Aug 2022 15:24:57 +0300
-From:   "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
-To:     "Gupta, Pankaj" <pankaj.gupta@amd.com>
-Cc:     Chao Peng <chao.p.peng@linux.intel.com>,
-        "Nikunj A. Dadhania" <nikunj@amd.com>,
-        Sean Christopherson <seanjc@google.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>, luto@kernel.org,
-        jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
-        david@redhat.com, aarcange@redhat.com, ddutile@redhat.com,
-        dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        Muchun Song <songmuchun@bytedance.com>, bharata@amd.com,
-        kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-kselftest@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
-        qemu-devel@nongnu.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v7 00/14] KVM: mm: fd-based approach for supporting KVM
- guest private memory
-Message-ID: <20220816122457.2fjyd4uz5hp5cani@box.shutemov.name>
-References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
- <b21f41e5-0322-bbfb-b9c2-db102488592d@amd.com>
- <9e86daea-5619-a216-fe02-0562cf14c501@amd.com>
- <9dc91ce8-4cb6-37e6-4c25-27a72dc11dd0@amd.com>
- <422b9f97-fdf5-54bf-6c56-3c45eff5e174@amd.com>
- <1407c70c-0c0b-6955-10bb-d44c5928f2d9@amd.com>
- <1136925c-2e37-6af4-acac-be8bed9f6ed5@amd.com>
- <1b02db9d-f2f1-94dd-6f37-59481525abff@amd.com>
- <20220815130411.GA1073443@chaop.bj.intel.com>
- <f0094f31-9669-47b5-eb52-6754a13ce757@amd.com>
+        with ESMTP id S235388AbiHPMa2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Aug 2022 08:30:28 -0400
+Received: from mail-il1-x136.google.com (mail-il1-x136.google.com [IPv6:2607:f8b0:4864:20::136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CDE2C786C5
+        for <linux-doc@vger.kernel.org>; Tue, 16 Aug 2022 05:30:26 -0700 (PDT)
+Received: by mail-il1-x136.google.com with SMTP id z13so5256950ilq.9
+        for <linux-doc@vger.kernel.org>; Tue, 16 Aug 2022 05:30:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=solid-run-com.20210112.gappssmtp.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc;
+        bh=hfTOgFZQULH3HGjZfVeACZajEiyrHVTnjNgOWYibpaE=;
+        b=uO+dRTgAMmNd3fHUIcqiRK5OLbpDzwLIIw1WOm6XSzHseadwJQvRDZx9EQVgkOmhIT
+         jU6tQJTaqseJy6jOZ8wLd9+i/S1yFw7g1xDOZox4YLQoO0t05HU6azKLDikZTeOdiRtY
+         52OeEIxLIGWo9urVKqH6zTKXEPCftK713RYvvNSD0nZDDuHJNnwUm8W62b1tRJw5OxAx
+         Dfhysyugrt4yKaKlt0zX97iKip9YxK7FKebF9Obu5Nrqj0wCGVgF7bHnxLlcbW86qwqL
+         P7NjzTkgnEyzkpdBgleanNe1JjZEQRj30waCSclse2wcpfdR68xYll/8GRa8gDuoaCUy
+         FIAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=hfTOgFZQULH3HGjZfVeACZajEiyrHVTnjNgOWYibpaE=;
+        b=F5ZCUJmukDUReDSf8H7ykJqbjh/7J7XrWPKJCHdoF/7TtnEcDLcQAuKIOpdl0L+6Q8
+         LXM4SiqqJRV58aFIHYzL+em3WgMRuN5K5GOgIxHwQKi9sfs4xpILY5o+9yCID81wMEzJ
+         WC5WroVqyXOZaqKj9tcQe3a+nx4orEziCTDwLaalKoNbJO9tdrSarb1KyZg0wEyATN0O
+         rqsFfWSsR9gzjXQ5azhv7nMu/q3tmd+CiXTQ3lxtdwELskDDFwymn7hA85X7sLgNq1sp
+         zGJcif3zvuhnreDbUmBcnkxdHd2XhjeoUnbNkOJZh6ryFX8ACaSpuvYz00eZStE0GCk6
+         Mkzw==
+X-Gm-Message-State: ACgBeo3/sL8SS8SdoAJSBQlVs8DU15e2ZpIKMN/5WY9suNv3XM8URb4M
+        nlXqsH+HCS1wxXTd7DQV+Bvjog7sYOvFC4cZ2jk6qw==
+X-Google-Smtp-Source: AA6agR5M7NfRT1WSoa03THrtckC+7+nrcf1DtCA6A6ppxF0ZbktJfge+jLZDQjvUx+i+6Y1iC1iOSv9VbXsnD7m5S9Q=
+X-Received: by 2002:a05:6e02:2145:b0:2e4:b2f3:d6fb with SMTP id
+ d5-20020a056e02214500b002e4b2f3d6fbmr7584606ilv.163.1660653026211; Tue, 16
+ Aug 2022 05:30:26 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f0094f31-9669-47b5-eb52-6754a13ce757@amd.com>
+References: <20220816070311.89186-1-marcan@marcan.st> <CAK8P3a03pfrPzjnx1tB5z0HcKnY=JL=y+F8PMQDpc=Bavs3UCA@mail.gmail.com>
+In-Reply-To: <CAK8P3a03pfrPzjnx1tB5z0HcKnY=JL=y+F8PMQDpc=Bavs3UCA@mail.gmail.com>
+From:   Jon Nettleton <jon@solid-run.com>
+Date:   Tue, 16 Aug 2022 14:29:49 +0200
+Message-ID: <CABdtJHvZt=av5YEQvRMtf4-dMFR6JS1jM1Ntj7DMVy5fijvkMw@mail.gmail.com>
+Subject: Re: [PATCH] locking/atomic: Make test_and_*_bit() ordered on failure
+To:     Arnd Bergmann <arnd@arndb.de>
+Cc:     Hector Martin <marcan@marcan.st>, Will Deacon <will@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@kernel.org>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Andrea Parri <parri.andrea@gmail.com>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        David Howells <dhowells@redhat.com>,
+        Jade Alglave <j.alglave@ucl.ac.uk>,
+        Luc Maranget <luc.maranget@inria.fr>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Akira Yokosawa <akiyks@gmail.com>,
+        Daniel Lustig <dlustig@nvidia.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Jonathan Corbet <corbet@lwn.net>, Tejun Heo <tj@kernel.org>,
+        jirislaby@kernel.org, Marc Zyngier <maz@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Oliver Neukum <oneukum@suse.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        Asahi Linux <asahi@lists.linux.dev>, stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Aug 16, 2022 at 01:33:00PM +0200, Gupta, Pankaj wrote:
-> Hi Chao,
-> 
-> > 
-> > Actually the current version allows you to delay the allocation to a
-> > later time (e.g. page fault time) if you don't call fallocate() on the
-> > private fd. fallocate() is necessary in previous versions because we
-> > treat the existense in the fd as 'private' but in this version we track
-> > private/shared info in KVM so we don't rely on that fact from memory
-> > backstores.
-> 
-> Does this also mean reservation of guest physical memory with secure
-> processor (both for SEV-SNP & TDX) will also happen at page fault time?
-> 
-> Do we plan to keep it this way?
+On Tue, Aug 16, 2022 at 10:17 AM Arnd Bergmann <arnd@arndb.de> wrote:
+>
+> On Tue, Aug 16, 2022 at 9:03 AM Hector Martin <marcan@marcan.st> wrote:
+> >
+> > These operations are documented as always ordered in
+> > include/asm-generic/bitops/instrumented-atomic.h, and producer-consumer
+> > type use cases where one side needs to ensure a flag is left pending
+> > after some shared data was updated rely on this ordering, even in the
+> > failure case.
+> >
+> > This is the case with the workqueue code, which currently suffers from a
+> > reproducible ordering violation on Apple M1 platforms (which are
+> > notoriously out-of-order) that ends up causing the TTY layer to fail to
+> > deliver data to userspace properly under the right conditions. This
+> > change fixes that bug.
+> >
+> > Change the documentation to restrict the "no order on failure" story to
+> > the _lock() variant (for which it makes sense), and remove the
+> > early-exit from the generic implementation, which is what causes the
+> > missing barrier semantics in that case. Without this, the remaining
+> > atomic op is fully ordered (including on ARM64 LSE, as of recent
+> > versions of the architecture spec).
+> >
+> > Suggested-by: Linus Torvalds <torvalds@linux-foundation.org>
+> > Cc: stable@vger.kernel.org
+> > Fixes: e986a0d6cb36 ("locking/atomics, asm-generic/bitops/atomic.h: Rewrite using atomic_*() APIs")
+> > Fixes: 61e02392d3c7 ("locking/atomic/bitops: Document and clarify ordering semantics for failed test_and_{}_bit()")
+> > Signed-off-by: Hector Martin <marcan@marcan.st>
+> > ---
+> >  Documentation/atomic_bitops.txt     | 2 +-
+> >  include/asm-generic/bitops/atomic.h | 6 ------
+>
+> I double-checked all the architecture specific implementations to ensure
+> that the asm-generic one is the only one that needs the fix.
+>
+> I assume this gets merged through the locking tree or that Linus picks it up
+> directly, not through my asm-generic tree.
+>
+> Reviewed-by: Arnd Bergmann <arnd@arndb.de>
+>
+> _______________________________________________
+> linux-arm-kernel mailing list
+> linux-arm-kernel@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
 
-If you are talking about accepting memory by the guest, it is initiated by
-the guest and has nothing to do with page fault time vs fallocate()
-allocation of host memory. I mean acceptance happens after host memory
-allocation but they are not in lockstep, acceptance can happen much later.
+Testing this patch on pre Armv8.1 specifically Cortex-A72 and
+Cortex-A53 cores I am seeing
+a huge performance drop with this patch applied. Perf is showing
+lock_is_held_type() as the worst offender
+but that could just be the function getting blamed. The most obvious
+indicator of the performance loss is
+ssh throughput.  With the patch I am only able to achieve around
+20MB/s and without the patch I am able
+to transfer around 112MB/s, no other changes.
 
--- 
-  Kiryl Shutsemau / Kirill A. Shutemov
+When I have more time I can do some more in depth testing, but for now
+I just wanted to bring this
+issue up so perhaps others can chime in regarding how it performs on
+their hardware.
+
+-Jon
