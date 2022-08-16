@@ -2,119 +2,103 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D91D8C25B0E
-	for <linux-doc@archiver.kernel.org>; Tue, 16 Aug 2022 19:31:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E46C7C25B0E
+	for <linux-doc@archiver.kernel.org>; Tue, 16 Aug 2022 22:36:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236779AbiHPTbO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 16 Aug 2022 15:31:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58052 "EHLO
+        id S233286AbiHPWgq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 16 Aug 2022 18:36:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34848 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229472AbiHPTbO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Aug 2022 15:31:14 -0400
-Received: from sipsolutions.net (s3.sipsolutions.net [IPv6:2a01:4f8:191:4433::2])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1495F86C38;
-        Tue, 16 Aug 2022 12:31:12 -0700 (PDT)
+        with ESMTP id S232911AbiHPWgo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Aug 2022 18:36:44 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5964D8B9BF;
+        Tue, 16 Aug 2022 15:36:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=sipsolutions.net; s=mail; h=MIME-Version:Content-Transfer-Encoding:
-        Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender
-        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-To:
-        Resent-Cc:Resent-Message-ID; bh=U25TPYOEeLX9ExDpmpCDFm7VeFIYKkpYVxR743uBycM=;
-        t=1660678273; x=1661887873; b=I4GQ0JJQQvdSGoXlIeBHvWVhu9ONhu9ULCu7QJJ0XsrRzoo
-        zF+pxWFHmAPe1SQpMY+HmGFK2T1KR6tg77A3Xo6AKEwgHryGYklisIWwBjcy5Ee3KUaweAnGOMTPb
-        tR7ibiSNcVUBc8lUOPgBZdxOeMxdBpRXXyW1KTLBfymbwzzl4z0hAPub6XXOXr6vGGDVdmJ5632va
-        UYw4FOjJWyu/Gnv67satFwVFUkFAllVsJb4EOsaab/Qr71fPebEDSNj+zBOZ2EcNZoJ5utAGAX1wl
-        7c6hLbflASCqy0BuEOn3VAU0raN3jYJg8GTS24hwxUvZ46TDd0ojS54olJNUaa5Q==;
-Received: by sipsolutions.net with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-        (Exim 4.96)
-        (envelope-from <johannes@sipsolutions.net>)
-        id 1oO2H9-009deu-0U;
-        Tue, 16 Aug 2022 21:30:55 +0200
-Message-ID: <c4a4744c0f0a86433beec5035f2150b8427eb3d5.camel@sipsolutions.net>
-Subject: Re: [RFC net-next 2/4] ynl: add the schema for the schemas
-From:   Johannes Berg <johannes@sipsolutions.net>
-To:     Jakub Kicinski <kuba@kernel.org>
-Cc:     netdev@vger.kernel.org, davem@davemloft.net, edumazet@google.com,
-        pabeni@redhat.com, sdf@google.com, jacob.e.keller@intel.com,
-        vadfed@fb.com, jiri@resnulli.us, dsahern@kernel.org,
-        stephen@networkplumber.org, fw@strlen.de, linux-doc@vger.kernel.org
-Date:   Tue, 16 Aug 2022 21:30:54 +0200
-In-Reply-To: <20220816085316.65fda789@kernel.org>
-References: <20220811022304.583300-1-kuba@kernel.org>
-         <20220811022304.583300-3-kuba@kernel.org>
-         <6b972ef603ff2bc3a3f3e489aa6638f6246c1e48.camel@sipsolutions.net>
-         <20220815174742.32b3611e@kernel.org>
-         <7241755af778426a2241cacd51119ba8dbd7c136.camel@sipsolutions.net>
-         <20220816085316.65fda789@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.4 (3.44.4-1.fc36) 
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
+        Message-ID:Sender:Reply-To:Cc:Content-ID:Content-Description;
+        bh=kqzOfHqst6JeHRRhVNK+zvbxpqEo5N4H6rU+LSHNoSM=; b=AD92IfPLnvGpuBqNX4jiPX0LzA
+        XY59emo27WMUvTMBUXmr7ofI8i09GiboQh9Iw2Av1G3paqDB6UGZxeVYJuTmKwpXgWqByx42ACBEH
+        dg6PraG9coTDqj2lbltsYvodrqwbWKNwMJR/5NLW6gtI9AHtlL33mzER/Vzqw0H6Y5Xi+DZ2LSWFW
+        Coh0TkHbXhM2PpLIBZ6EITsal1xmdpielIxfwHjfcuYII4g4S6JvwATg5DKDVhUdwoNy7FSF98/bl
+        K3oF//GJGFzw3mb09Tk2zhFN6QV9Fi+Al2qO6QMWMhCQN8XBDIM/oqt09BHMHpvEt5O50WaSAbdP1
+        fUnLiZTA==;
+Received: from [2601:1c0:6280:3f0::a6b3]
+        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1oO5An-007Xxs-EZ; Tue, 16 Aug 2022 22:36:33 +0000
+Message-ID: <299a0328-9d93-74ca-a2b2-114dfd896056@infradead.org>
+Date:   Tue, 16 Aug 2022 15:36:32 -0700
 MIME-Version: 1.0
-X-malware-bazaar: not-scanned
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v2] docs: admin-guide/mm: Improve grammar on MM concepts
+ documentation
+Content-Language: en-US
+To:     alexlzhu@fb.com, corbet@lwn.net, bobwxc@email.cn, rppt@kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Kernel-team@fb.com
+References: <20220816022621.253778-1-alexlzhu@fb.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20220816022621.253778-1-alexlzhu@fb.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 2022-08-16 at 08:53 -0700, Jakub Kicinski wrote:
->=20
-> My guess was that some of the wrapping was for ease of canceling here
-> (cancel is used both on skip and on error).=C2=A0
->=20
+Hi--
 
-Not sure I'd say that, but can't say I really remember why I did it this
-way.
+On 8/15/22 19:26, alexlzhu@fb.com wrote:
+> From: Alexander Zhu <alexlzhu@fb.com>
+> 
+> Improve grammar on MM concepts documentation.
+> 
+> Signed-off-by: Alexander Zhu <alexlzhu@fb.com>
+> ---
+>  Documentation/admin-guide/mm/concepts.rst | 138 +++++++++++-----------
+>  1 file changed, 68 insertions(+), 70 deletions(-)
+> 
+> diff --git a/Documentation/admin-guide/mm/concepts.rst b/Documentation/admin-guide/mm/concepts.rst
+> index c79f1e336222..c471f80b7a38 100644
+> --- a/Documentation/admin-guide/mm/concepts.rst
+> +++ b/Documentation/admin-guide/mm/concepts.rst
 
-> What I think we should push
-> for is multi-attr, so the same attribute happens multiple times.
->=20
-> [msg]
->  [ATTR1]
->  [ATTR2] // elem 1
->    [SubATTR1]
->    [SubATTR2]
->  [ATTR2] // elem 2
->    [SubATTR1]
->    [SubATTR2]
->  [ATTR2] // elem 3
->    [SubATTR1]
->    [SubATTR2]
->  [ATTR3]
->  [ATTR4]
->=20
-> Instead of wrapping into an array and then elements.
+[snip]
 
-Hmm, ok, I guess that works.
+> -Depending on the page usage it is treated differently by the Linux
+> -memory management. The pages that can be freed at any time, either
+> -because they cache the data available elsewhere, for instance, on a
+> -hard disk, or because they can be swapped out, again, to the hard
+> +Depending on page usage it is treated differently by the Linux
+> +memory management subsystem. Pages that can be freed at any time,
+> +either because they cache the data available elsewhere
+> +(ie on a hard disk) or because they can be swapped out to the hard
 
->=20
-> As Michal pointed out a number of times - the wrapping ends up limiting=
-=20
-> the size of the array to U16_MAX,
+   (i.e., on a hard disk)
 
-True.
+>  disk, are called `reclaimable`. The most notable categories of the
+>  reclaimable pages are page cache and anonymous memory.
+>  
 
-> and I have a suspicion that most of
-> wrapping is done because we tend to parse into a pointer array, which
-> makes multi-attr a little tricky. But we shouldn't let one parsing
-> technique in a relatively uncommon language like C dictate the format :)
+[snip]
 
-:-)
+>  
+>  Compaction
+>  ==========
+>  
+> -As the system runs, tasks allocate and free the memory and it becomes
+> +As the system runs, tasks will allocate and free memory. Memory thus becomes
 
-To be fair, for cases where today we use nla_for_each_nested() we could
-also invent an "nlmsg_for_each_attr_of_type()" macro:
+Addition of "will" is not needed.
 
-#define nlmsg_for_each_attr_of_type(type, pos, nlh, hdrlen, rem) \
-	nlmsg_for_each_attr(pos, nlh, hdrlen, rem)               \
-		if (pos->nla_type =3D=3D type)
+>  fragmented. Although with virtual memory it is possible to present
+> -scattered physical pages as virtually contiguous range, sometimes it is
+> +scattered physical pages as a virtually contiguous range, sometimes it is
+>  necessary to allocate large physically contiguous memory areas. Such
+>  need may arise, for instance, when a device driver requires a large
+>  buffer for DMA, or when THP allocates a huge page. Memory `compaction`
 
-and then that's basically all you need?
-
-In the policy we'd declare it as a normal nested (not array), and I
-think that's it because today if you give the same attribute type twice,
-the last one wins in the normal parsing anyway (IIRC)...
-
-> I'm leaning heavily towards defining a subset of the YAML spec as=20
-> "the way to do things in new family" which will allow only one form=20
-> of arrays.
-
-Fair enough.
-
-johannes
+Thanks.
+-- 
+~Randy
