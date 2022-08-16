@@ -2,87 +2,105 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0FE71C32774
-	for <linux-doc@archiver.kernel.org>; Tue, 16 Aug 2022 09:56:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 945CEC32771
+	for <linux-doc@archiver.kernel.org>; Tue, 16 Aug 2022 10:07:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234116AbiHPJ4Q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 16 Aug 2022 05:56:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49534 "EHLO
+        id S234275AbiHPKH1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 16 Aug 2022 06:07:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59188 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234218AbiHPJz0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Aug 2022 05:55:26 -0400
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6640C86FC5;
-        Tue, 16 Aug 2022 01:40:17 -0700 (PDT)
-Received: from fraeml709-chm.china.huawei.com (unknown [172.18.147.207])
-        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4M6Pf11nsMz688pK;
-        Tue, 16 Aug 2022 16:37:13 +0800 (CST)
-Received: from fraeml714-chm.china.huawei.com (10.206.15.33) by
- fraeml709-chm.china.huawei.com (10.206.15.37) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Tue, 16 Aug 2022 10:40:14 +0200
-Received: from fraeml714-chm.china.huawei.com ([10.206.15.33]) by
- fraeml714-chm.china.huawei.com ([10.206.15.33]) with mapi id 15.01.2375.024;
- Tue, 16 Aug 2022 10:40:14 +0200
-From:   Roberto Sassu <roberto.sassu@huawei.com>
-To:     KP Singh <kpsingh@kernel.org>
-CC:     "ast@kernel.org" <ast@kernel.org>,
-        "daniel@iogearbox.net" <daniel@iogearbox.net>,
-        "andrii@kernel.org" <andrii@kernel.org>,
-        "martin.lau@linux.dev" <martin.lau@linux.dev>,
-        "song@kernel.org" <song@kernel.org>, "yhs@fb.com" <yhs@fb.com>,
-        "john.fastabend@gmail.com" <john.fastabend@gmail.com>,
-        "sdf@google.com" <sdf@google.com>,
-        "haoluo@google.com" <haoluo@google.com>,
-        "jolsa@kernel.org" <jolsa@kernel.org>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "dhowells@redhat.com" <dhowells@redhat.com>,
-        "jarkko@kernel.org" <jarkko@kernel.org>,
-        "rostedt@goodmis.org" <rostedt@goodmis.org>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "paul@paul-moore.com" <paul@paul-moore.com>,
-        "jmorris@namei.org" <jmorris@namei.org>,
-        "serge@hallyn.com" <serge@hallyn.com>,
-        "shuah@kernel.org" <shuah@kernel.org>,
-        "bpf@vger.kernel.org" <bpf@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "keyrings@vger.kernel.org" <keyrings@vger.kernel.org>,
-        "linux-security-module@vger.kernel.org" 
-        <linux-security-module@vger.kernel.org>,
-        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH v10 5/9] bpf: Add bpf_lookup_*_key() and bpf_key_put()
- kfuncs
-Thread-Topic: [PATCH v10 5/9] bpf: Add bpf_lookup_*_key() and bpf_key_put()
- kfuncs
-Thread-Index: AQHYrNrI3xbltKneMkianwQkzvowha2qT5IAgADB09A=
-Date:   Tue, 16 Aug 2022 08:40:14 +0000
-Message-ID: <7278db1e90de4c7bb669449e897d1946@huawei.com>
-References: <20220810165932.2143413-1-roberto.sassu@huawei.com>
- <20220810165932.2143413-6-roberto.sassu@huawei.com>
- <CACYkzJ718fr2TsvX0JPhTRiMQH8=HwaxLShrETLvrhPUy2p8OQ@mail.gmail.com>
-In-Reply-To: <CACYkzJ718fr2TsvX0JPhTRiMQH8=HwaxLShrETLvrhPUy2p8OQ@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.221.98.153]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        with ESMTP id S234264AbiHPKHC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Aug 2022 06:07:02 -0400
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA01975399;
+        Tue, 16 Aug 2022 01:44:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1660639451; x=1692175451;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=utA9ZYYdfIzqRA7D5VhDGQl155B+SJSPa8zrvZsBoyo=;
+  b=W3X4oA0n//X/JB6no7U5QVmmgcnB9EciEP7whI6w4+mH+vP+pYS4yy91
+   5Ny1jQHp/KyxH2YDkOOlj3aAt6ByvbGRMlUs0NjZCbeXuUf7SgNggjml/
+   0DtrILzcxt1amq5eCaPsRG+U1bZ3svNhYt8THAYmZShzFYxB4L5STbtNR
+   q1OpoL03owXC43jmeyqq4hdRRilt6u86sQwIuGFBXnajam59tsWb2IXRb
+   BxBCHx7kjasZkkwOJ3MPf6mfgQbGY3ntAcfK/f1yUVheMRqjj/UrvBFQs
+   +FnCI3PQw4sxzYw3q8av1losN9oSviw1IRMC6K5Vn0RZXnIxwYouilgR8
+   Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10440"; a="292161431"
+X-IronPort-AV: E=Sophos;i="5.93,240,1654585200"; 
+   d="scan'208";a="292161431"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2022 01:44:11 -0700
+X-IronPort-AV: E=Sophos;i="5.93,240,1654585200"; 
+   d="scan'208";a="667018321"
+Received: from rongch2-desk.sh.intel.com (HELO localhost) ([10.239.159.175])
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2022 01:44:09 -0700
+Date:   Tue, 16 Aug 2022 16:44:07 +0800
+From:   kernel test robot <rong.a.chen@intel.com>
+To:     Ashok Raj <ashok.raj@intel.com>
+Cc:     kbuild-all@lists.01.org, linux-kernel@vger.kernel.org,
+        x86@kernel.org, Borislav Petkov <bp@suse.de>,
+        linux-doc@vger.kernel.org
+Subject: [tip:x86/microcode 1/2] htmldocs:
+ Documentation/admin-guide/tainted-kernels.rst:143: WARNING: Block quote ends
+ without a blank line; unexpected unindent.
+Message-ID: <YvtY15K5lzCW9EmI@rongch2-desk2>
 MIME-Version: 1.0
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-PiBGcm9tOiBLUCBTaW5naCBbbWFpbHRvOmtwc2luZ2hAa2VybmVsLm9yZ10NCj4gU2VudDogRnJp
-ZGF5LCBBdWd1c3QgMTIsIDIwMjIgMjo1MCBBTQ0KDQpbLi4uXQ0KDQo+ID4gKy8qKg0KPiA+ICsg
-KiBicGZfa2V5X3B1dCAtIGRlY3JlbWVudCBrZXkgcmVmZXJlbmNlIGNvdW50IGlmIGtleSBpcyB2
-YWxpZCBhbmQgZnJlZQ0KPiBicGZfa2V5DQo+ID4gKyAqIEBia2V5OiBicGZfa2V5IHN0cnVjdHVy
-ZQ0KPiA+ICsgKg0KPiA+ICsgKiBEZWNyZW1lbnQgdGhlIHJlZmVyZW5jZSBjb3VudCBvZiB0aGUg
-a2V5IGluc2lkZSAqYmtleSosIGlmIHRoZSBwb2ludGVyDQo+ID4gKyAqIGlzIHZhbGlkLCBhbmQg
-ZnJlZSAqYmtleSouDQo+ID4gKyAqLw0KPiANCj4gVGhpcyBpcyBtb3JlIG9mIGEgc3R5bGUgdGhp
-bmcgYnV0IHlvdXIgY29tbWVudCBsaXRlcmFsbHkgZGVzY3JpYmVzIHRoZQ0KPiBzbWFsbCBmdW5j
-dGlvbg0KPiBiZWxvdy4gRG8gd2UgcmVhbGx5IG5lZWQgdGhpcz8NCg0KVGhhbmtzIGZvciB0aGUg
-cmV2aWV3LCBLUC4gSnVzdCBrZXB0IHRoaXMsIHRvIGZvbGxvdyB0aGUgc3R5bGUgb2Yga2VybmVs
-DQpkb2N1bWVudGF0aW9uIGZvciBmdW5jdGlvbnMuDQoNClJvYmVydG8NCg==
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git x86/microcode
+head:   71da8a554f25713964a919311c324e5a32f08239
+commit: 35da8ad78e9b1a25d95a281966c439da1ef9a98a [1/2] x86/microcode: Document the whole late loading problem
+reproduce: make htmldocs
+
+If you fix the issue, kindly add following tag where applicable
+Reported-by: kernel test robot <lkp@intel.com>
+
+All warnings (new ones prefixed by >>):
+
+>> Documentation/admin-guide/tainted-kernels.rst:143: WARNING: Block quote ends without a blank line; unexpected unindent.
+
+vim +143 Documentation/admin-guide/tainted-kernels.rst
+
+896dd323abbf6a Thorsten Leemhuis         2019-01-08  111  
+896dd323abbf6a Thorsten Leemhuis         2019-01-08  112   0)  ``G`` if all modules loaded have a GPL or compatible license, ``P`` if
+337c188dff4a85 Mauro Carvalho Chehab     2016-11-07  113       any proprietary module has been loaded.  Modules without a
+337c188dff4a85 Mauro Carvalho Chehab     2016-11-07  114       MODULE_LICENSE or with a MODULE_LICENSE that is not recognised by
+337c188dff4a85 Mauro Carvalho Chehab     2016-11-07  115       insmod as GPL compatible are assumed to be proprietary.
+337c188dff4a85 Mauro Carvalho Chehab     2016-11-07  116  
+896dd323abbf6a Thorsten Leemhuis         2019-01-08  117   1)  ``F`` if any module was force loaded by ``insmod -f``, ``' '`` if all
+337c188dff4a85 Mauro Carvalho Chehab     2016-11-07  118       modules were loaded normally.
+337c188dff4a85 Mauro Carvalho Chehab     2016-11-07  119  
+547f574fd9d5e3 Mathieu Chouquet-Stringer 2020-12-02  120   2)  ``S`` if the kernel is running on a processor or system that is out of
+547f574fd9d5e3 Mathieu Chouquet-Stringer 2020-12-02  121       specification: hardware has been put into an unsupported configuration,
+547f574fd9d5e3 Mathieu Chouquet-Stringer 2020-12-02  122       therefore proper execution cannot be guaranteed.
+547f574fd9d5e3 Mathieu Chouquet-Stringer 2020-12-02  123       Kernel will be tainted if, for example:
+547f574fd9d5e3 Mathieu Chouquet-Stringer 2020-12-02  124  
+547f574fd9d5e3 Mathieu Chouquet-Stringer 2020-12-02  125       - on x86: PAE is forced through forcepae on intel CPUs (such as Pentium M)
+547f574fd9d5e3 Mathieu Chouquet-Stringer 2020-12-02  126         which do not report PAE but may have a functional implementation, an SMP
+547f574fd9d5e3 Mathieu Chouquet-Stringer 2020-12-02  127         kernel is running on non officially capable SMP Athlon CPUs, MSRs are
+547f574fd9d5e3 Mathieu Chouquet-Stringer 2020-12-02  128         being poked at from userspace.
+547f574fd9d5e3 Mathieu Chouquet-Stringer 2020-12-02  129       - on arm: kernel running on certain CPUs (such as Keystone 2) without
+547f574fd9d5e3 Mathieu Chouquet-Stringer 2020-12-02  130         having certain kernel features enabled.
+547f574fd9d5e3 Mathieu Chouquet-Stringer 2020-12-02  131       - on arm64: there are mismatched hardware features between CPUs, the
+547f574fd9d5e3 Mathieu Chouquet-Stringer 2020-12-02  132         bootloader has booted CPUs in different modes.
+547f574fd9d5e3 Mathieu Chouquet-Stringer 2020-12-02  133       - certain drivers are being used on non supported architectures (such as
+547f574fd9d5e3 Mathieu Chouquet-Stringer 2020-12-02  134         scsi/snic on something else than x86_64, scsi/ips on non
+547f574fd9d5e3 Mathieu Chouquet-Stringer 2020-12-02  135         x86/x86_64/itanium, have broken firmware settings for the
+547f574fd9d5e3 Mathieu Chouquet-Stringer 2020-12-02  136         irqchip/irq-gic on arm64 ...).
+35da8ad78e9b1a Ashok Raj                 2022-08-13  137       - x86/x86_64: Microcode late loading is dangerous and will result in
+35da8ad78e9b1a Ashok Raj                 2022-08-13  138         tainting the kernel. It requires that all CPUs rendezvous to make sure
+35da8ad78e9b1a Ashok Raj                 2022-08-13  139         the update happens when the system is as quiescent as possible. However,
+35da8ad78e9b1a Ashok Raj                 2022-08-13  140         a higher priority MCE/SMI/NMI can move control flow away from that
+35da8ad78e9b1a Ashok Raj                 2022-08-13  141         rendezvous and interrupt the update, which can be detrimental to the
+35da8ad78e9b1a Ashok Raj                 2022-08-13  142         machine.
+35da8ad78e9b1a Ashok Raj                 2022-08-13 @143  e
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
+
