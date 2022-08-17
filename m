@@ -2,106 +2,89 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E33CC32774
-	for <linux-doc@archiver.kernel.org>; Wed, 17 Aug 2022 12:49:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DB007C25B08
+	for <linux-doc@archiver.kernel.org>; Wed, 17 Aug 2022 12:53:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236697AbiHQMtG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 17 Aug 2022 08:49:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46322 "EHLO
+        id S236234AbiHQMxQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 17 Aug 2022 08:53:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50664 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236875AbiHQMtD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 17 Aug 2022 08:49:03 -0400
-Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC70A7331C;
-        Wed, 17 Aug 2022 05:48:58 -0700 (PDT)
-Received: by mail-pl1-x635.google.com with SMTP id x19so839609plc.5;
-        Wed, 17 Aug 2022 05:48:58 -0700 (PDT)
+        with ESMTP id S236774AbiHQMxP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 17 Aug 2022 08:53:15 -0400
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0991E7B;
+        Wed, 17 Aug 2022 05:53:14 -0700 (PDT)
+Received: by mail-pj1-x102c.google.com with SMTP id gp7so12390931pjb.4;
+        Wed, 17 Aug 2022 05:53:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc;
-        bh=sDDQV3PgZqx2/9abOCF0VxB++9+m/C4n+txZ5R5CM3Y=;
-        b=l1SicTD3Sr9KN4ruqv+LLZmG8wRuU8ddgK7yNps2Uf7R1yLROjSOUGQdqj9vxI+ZiV
-         tM65n9j9Lhj/as55ucCu+jdlmHOn3AYY/qmMyM8BBXKNVtoGqkBZhBplMKXZnaruK0OD
-         ZoH/xq6XfWsOMevupbmejop+3cOz3eaRBuHTzSPat1+eY3rPDdYAJMXzydWHf5KL35mU
-         N/zUIZMRgQXWYLMFL8+2MPEbhs4ZXdIpCNoNlRDTUDTNcV1XPm84XHVuTfIBKWlyGqtY
-         pSOeTqbWQ8UYZJRbRNogkwfBIq/IVVbYlzg2Y0pWd90ecZM3PFc5OeDyU1252oiL9n3G
-         RFVA==
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc;
+        bh=Ugwi2AvdBLBX3mbLkMcgHP80OzoI1Xftn3PLsCsvLMY=;
+        b=O846mNddksFmGfubqjFHA2lDgofSFOcNFT3vLztRNEx3trvZnIH268rTPVJRpJkBWy
+         qvb5/PZI3cMpPVai+vJD4bIG+0CSh7ZwRPwx1kZXBfP8y79o8JzLNIBg9hCjekq92WIT
+         WKxQCbo/wRGkMMnl2TuTzXhs32YV1OaRttV4S25amb86GV5A8Wu2boNxVMkTkm0uOIV2
+         lirhW0Zi2XclhW8f70/oLN5o1/wDLUIxAcquvXkTmwJCgkbK9F+WsDqU6VGvuhCJzo5T
+         J38NplgnzryM9gGmkye5Jo437yZQOn15Pj5f3go15uGvtVHOD9nj7ZdV8y6/Yqqk1hQQ
+         7eCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
-        bh=sDDQV3PgZqx2/9abOCF0VxB++9+m/C4n+txZ5R5CM3Y=;
-        b=6FKH+SMU25yli4akxj688nyZ+jVsEX6xvL0HiZqQmPh/Ix1KgvhDF4GUUo10sX01g3
-         0xWEFw4kITKdAxq+mmeSxd60A3EQHnoX43P7EGBoIgDBcbqfam4+BzU6KCMqEqPIICkD
-         8g7Ge4qQJvkDXStbQG/k54S6FH1L7Zq5hpC/2f5lJ0qys8y251x1ZvXZI288MO/DSy4M
-         AWXd/ZgFPWI2YcIHy+XU2DWCEUWiYdPAKVHvRULsLdiQgqI19Ps5ABmcAWjP+6ik8CLr
-         415ovK7gzVFR++R6MOTebX+sOIQh0mU0XK0R/F1t0armSBHiroVtE1gTezph6d209cgY
-         opLg==
-X-Gm-Message-State: ACgBeo0Z2AaILXM3mhX9vHQib3jv6T6aceduF8whS7FOYL3Ltw44CZEq
-        BxC4aLuuGVdcE843RM+5354pIKA4fy4Clw==
-X-Google-Smtp-Source: AA6agR7FR3iL/j6v8XJIocqgdSQOAW87gCVU1em/6BeoDiRvo1J0p2clcTnEKG2Df8gbx4uvbL4B6w==
-X-Received: by 2002:a17:90a:f490:b0:1f7:6ecf:33d7 with SMTP id bx16-20020a17090af49000b001f76ecf33d7mr3663495pjb.210.1660740538330;
-        Wed, 17 Aug 2022 05:48:58 -0700 (PDT)
-Received: from debian.. (subs32-116-206-28-37.three.co.id. [116.206.28.37])
-        by smtp.gmail.com with ESMTPSA id q5-20020a170902a3c500b0016a4db13429sm1386962plb.192.2022.08.17.05.48.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Aug 2022 05:48:58 -0700 (PDT)
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     linux-doc@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Isaku Yamahata <isaku.yamahata@intel.com>,
-        Xiaoyao Li <xiaoyao.li@intel.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        Chao Peng <chao.p.peng@linux.intel.com>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        kernel test robot <lkp@intel.com>
-Subject: [PATCH v2 3/3] Documentation: kvm: enclose the final closing brace in code block
-Date:   Wed, 17 Aug 2022 19:48:37 +0700
-Message-Id: <20220817124837.422695-4-bagasdotme@gmail.com>
-X-Mailer: git-send-email 2.37.2
-In-Reply-To: <20220817124837.422695-1-bagasdotme@gmail.com>
-References: <20220817124837.422695-1-bagasdotme@gmail.com>
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc;
+        bh=Ugwi2AvdBLBX3mbLkMcgHP80OzoI1Xftn3PLsCsvLMY=;
+        b=akl2qLicLVl/eYkxfOtamjSqwQm4d8RONl8Cw9SDHU47Wi84ViAxyhbhWK174DZSVm
+         Hd8D2429V7uUI16nyofp5kPNQgP7PK7pIPx+PJQPj89yEpzofIh4lspWauMnakfQQznc
+         HCwtEH5vK8kd2yLxqz1DT5mIpcSiMP0/C/WPr+lAppzQDVJXjqpEbrYz82qYqpXd2vtu
+         BkgIknLq60WfnAHAS+KU2+QMZoNkuzwP452+2/K2fC5s6rXEqHhTcEKRqBmCFD3/IVgM
+         SSGBrNBb+LKRurVylUMFBSO2OnAFc1h0XcnDD0pz9nKD9RmK8OGBLveSRohFYen1lotb
+         gm4g==
+X-Gm-Message-State: ACgBeo3+pAATE1unk/E7cwGpdXeq1Khtvrafed02zzhSGeBesQi6ClSv
+        KgGWdhgtpHlSSNVMAI0vHa8=
+X-Google-Smtp-Source: AA6agR77U7uoOIp+8sDOi0hpynhGaACtM5VYBpyfhQRJo/VHMhhV61iSNq3bAYScIkhMLdhvD+bXDg==
+X-Received: by 2002:a17:902:c941:b0:16e:fe88:99e5 with SMTP id i1-20020a170902c94100b0016efe8899e5mr26637629pla.38.1660740794503;
+        Wed, 17 Aug 2022 05:53:14 -0700 (PDT)
+Received: from [192.168.43.80] (subs32-116-206-28-37.three.co.id. [116.206.28.37])
+        by smtp.gmail.com with ESMTPSA id n15-20020a170902d2cf00b0016db7f49cc2sm1437373plc.115.2022.08.17.05.53.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 17 Aug 2022 05:53:14 -0700 (PDT)
+Message-ID: <2c877495-3292-8e45-de22-9f09ac4a7b2d@gmail.com>
+Date:   Wed, 17 Aug 2022 19:53:09 +0700
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1175; i=bagasdotme@gmail.com; h=from:subject; bh=pZtYWIvpNrlcv7lJWS5yJDXQNN6EtLfOfO5biSvqfVc=; b=owGbwMvMwCH2bWenZ2ig32LG02pJDEl/Hi/Nvfpm360XZypkJVv7louyvnD/fKdp+Rz9hTP7vDRq P7tzdJSyMIhxMMiKKbJMSuRrOr3LSORC+1pHmDmsTCBDGLg4BWAiX+MY/ofulF6dvyvmiUZFcWWouH yu6r398nuOLFjoZ1z0Wm1xUgvDLybntW0fH2Zzas8KP7FZ5PAr78C1q6aveN4QWfFJ8bOmPDcA
-X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: [PATCH v2] hwmon: Add the pmbus driver for the TEXAS TPS546D24
+ Buck Converter.
+Content-Language: en-US
+To:     Guenter Roeck <linux@roeck-us.net>
+Cc:     Duke Du <dukedu83@gmail.com>, jdelvare@suse.com, corbet@lwn.net,
+        linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, fran.hsu@quantatw.com,
+        charles.hsu@quantatw.com, george.hung@quantatw.com,
+        duke.du@quantatw.com
+References: <1660718497-7315-1-git-send-email-Duke.Du@quantatw.com>
+ <e9b97ea3-0867-d09f-ca59-362931073c9c@gmail.com>
+ <20220817124748.GA397124@roeck-us.net>
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <20220817124748.GA397124@roeck-us.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Sphinx reported literal block warning:
+On 8/17/22 19:47, Guenter Roeck wrote:
+>> Seems like the patch description is just the changelog, which
+>> should have been put between the dashes and diffstat. I would
+>> like to see the proper description.
+>>
+> Same here. The description doesn't mean anything, should
+> be a comment in the code, and, yes, the change log should
+> not be part of the description but follow after '---'.
+> 
 
-Documentation/virt/kvm/api.rst:1362: WARNING: Literal block ends without a blank line; unexpected unindent.
+I mean the patch description.
 
-The warning is caused by the final closing brace in KVM_SET_USER_MEMORY_REGION
-struct definition is not indented as literal code block.
-
-Indent the closing brace to fix the warning.
-
-Link: https://lore.kernel.org/linux-doc/202208171109.lCfseeP6-lkp@intel.com/
-Fixes: bb90daae9d7551 ("KVM: Extend the memslot to support fd-based private memory")
-Reported-by: kernel test robot <lkp@intel.com>
-Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
----
- Documentation/virt/kvm/api.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-index d9d43078080030..4acf4d1c95c099 100644
---- a/Documentation/virt/kvm/api.rst
-+++ b/Documentation/virt/kvm/api.rst
-@@ -1359,7 +1359,7 @@ yet and must be cleared on entry.
- 	__u32 private_fd;
- 	__u32 pad1;
- 	__u64 pad2[14];
--};
-+  };
- 
-   /\* for kvm_memory_region::flags \*/
-   #define KVM_MEM_LOG_DIRTY_PAGES	(1UL << 0)
 -- 
 An old man doll... just what I always wanted! - Clara
-
