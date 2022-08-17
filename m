@@ -2,282 +2,90 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 77492C25B0E
-	for <linux-doc@archiver.kernel.org>; Tue, 16 Aug 2022 23:20:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ED06EC28B2B
+	for <linux-doc@archiver.kernel.org>; Wed, 17 Aug 2022 01:37:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233509AbiHPXUG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 16 Aug 2022 19:20:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38902 "EHLO
+        id S237519AbiHQBhk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 16 Aug 2022 21:37:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47386 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230336AbiHPXUG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Aug 2022 19:20:06 -0400
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9A0011C3F;
-        Tue, 16 Aug 2022 16:20:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1660692004; x=1692228004;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=DLynHZET2acG5Gj5TYndmhTuc8yNK1YXJbk/LA3IMMw=;
-  b=MVs6WXjlfirq9U0XOW02DqY+1I5VXCsYDxMIHRENjoTTHWxDigovYVi1
-   seWzkDU3K+T2jLnfjv5qamNTqszN5azS64AC5ak5CnoKvHS/5BrM4zlUj
-   AlLR4xMp4hljlVvHiNDQbUPQplVPAGPooejg25kCXVd3l3Sc+XMDTNMWv
-   6o939S7qOrCYeuWIooy5pURKN+tb472LxZCD0RQC9gu8B6xqI+5zNTl6q
-   6nYgVq2ndSFtLJo5ijQmrRgEJgXcQXJ1GyjD9vlNwlcCXOPeSdp4IIYOa
-   sLexEU5gMfmOKsmoP8zICgmPqeynpJOUTH8nZnS38mNErBsG1Zu78scI4
-   Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10441"; a="272744250"
-X-IronPort-AV: E=Sophos;i="5.93,242,1654585200"; 
-   d="scan'208";a="272744250"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2022 16:20:04 -0700
-X-IronPort-AV: E=Sophos;i="5.93,242,1654585200"; 
-   d="scan'208";a="583519745"
-Received: from jzhu1-mobl.ccr.corp.intel.com (HELO dsneddon-desk.sneddon.lan) ([10.254.68.75])
-  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Aug 2022 16:20:03 -0700
-From:   Daniel Sneddon <daniel.sneddon@linux.intel.com>
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org
-Cc:     pawan.kumar.gupta@linux.intel.com,
-        antonio.gomez.iglesias@linux.intel.com,
-        Daniel Sneddon <daniel.sneddon@linux.intel.com>,
-        Neelima Krishnan <neelima.krishnan@intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v2] x86/apic: Don't disable x2APIC if locked
-Date:   Tue, 16 Aug 2022 16:19:42 -0700
-Message-Id: <20220816231943.1152579-1-daniel.sneddon@linux.intel.com>
-X-Mailer: git-send-email 2.25.1
+        with ESMTP id S238243AbiHQBhj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Aug 2022 21:37:39 -0400
+Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id B111295696;
+        Tue, 16 Aug 2022 18:37:37 -0700 (PDT)
+Received: from [192.168.100.8] (unknown [112.20.110.237])
+        by localhost.localdomain (Coremail) with SMTP id AQAAf8Bx5OFaRvxiggADAA--.16150S3;
+        Wed, 17 Aug 2022 09:37:31 +0800 (CST)
+Message-ID: <78472e8f-b7e8-3e72-d50b-b754cece819a@loongson.cn>
+Date:   Wed, 17 Aug 2022 09:37:30 +0800
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: [PATCH v2] docs/zh_CN: Update the translation of gpio to 6.0-rc1
+To:     Wu XiangCheng <wu.xiangcheng@linux.dev>
+Cc:     linus.walleij@linaro.org, brgl@bgdev.pl, tekkamanninja@gmail.com,
+        corbet@lwn.net, alexs@kernel.org, linux-gpio@vger.kernel.org,
+        linux-doc@vger.kernel.org
+References: <20220816114025.4180328-1-siyanteng@loongson.cn>
+ <YvuXyKeF8MUf6vKh@bobwxc.mipc>
+From:   YanTeng Si <siyanteng@loongson.cn>
+In-Reply-To: <YvuXyKeF8MUf6vKh@bobwxc.mipc>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf8Bx5OFaRvxiggADAA--.16150S3
+X-Coremail-Antispam: 1UD129KBjvdXoWrZr48uFyxXFWDArWUJry8Grg_yoWDtrgEva
+        45KFWjyFn8G3W8Xw1Dua4kGa1kJr1rWr4vqr4xA3y7KFnIqF18trnIk390qa45Xr1UCrW3
+        uFZ7Way7WF4aqjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+        9fnUUIcSsGvfJTRUUUbxAYjsxI4VWxJwAYFVCjjxCrM7AC8VAFwI0_Gr0_Xr1l1xkIjI8I
+        6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM2
+        8CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVW8JVW5JwA2z4x0Y4vE2Ix0
+        cI8IcVCY1x0267AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIE14v26F4j6r4UJwA2z4x0Y4vEx4
+        A2jsIEc7CjxVAFwI0_Gr1j6F4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC
+        0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr
+        1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxk0xIA0c2IEe2xFo4CEbIxvr21l
+        c2xSY4AK67AK6w4l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxV
+        Aqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q
+        6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6x
+        kF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AK
+        xVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x07
+        j1g4fUUUUU=
+X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The APIC supports two modes, legacy APIC (or xAPIC), and Extended APIC
-(or x2APIC).  X2APIC mode is mostly compatible with legacy APIC, but
-it disables the memory-mapped APIC interface in favor of one that uses
-MSRs.  The APIC mode is controlled by the EXT bit in the APIC MSR.
 
-The MMIO/xAPIC interface has some problems, most notably the APIC LEAK
-[1].  This bug allows an attacker to use the APIC MMIO interface to
-extract data from the SGX enclave.
+在 2022/8/16 21:12, Wu XiangCheng 写道:
+> 话说 Yanteng Si 于 2022-08-16 (二) 19:40:25 +0800 曰过：
+>
+>> @@ -444,15 +476,16 @@ GPIO 实现者的框架 (可选)
+>>   
+>>   
+>>   控制器驱动: gpio_chip
+>> --------------------
+>> +---------------------
+>> +
+>>   在框架中每个 GPIO 控制器都包装为一个 "struct gpio_chip"，他包含了
+>>   该类型的每个控制器的常用信息:
+>>   
+>> - - 设置 GPIO 方向的方法
+>> - - 用于访问 GPIO 值的方法
+>> - - 告知调用其方法是否可能休眠的标志
+>> - - 可选的 debugfs 信息导出方法 (显示类似上拉配置一样的额外状态)
+>> - - 诊断标签
+>> +	设置 GPIO 方向的方法
+>> +	用于访问 GPIO 值的方法
+>> +	告知调用其方法是否可能休眠的标志
+>> +	可选的 debugfs 信息导出方法 (显示类似上拉配置一样的额外状态)
+>> +	诊断标签
+> List style problem, please use '-' or '*', or all items will be put into
+> one <p></p>.
 
-Introduce support for a new feature that will allow the BIOS to lock
-the APIC in x2APIC mode.  If the APIC is locked in x2APIC mode and the
-kernel tries to disable the APIC or revert to legacy APIC mode a GP
-fault will occur.
+I see, I will fix it in v3.
 
-Introduce support for a new MSR (IA32_XAPIC_DISABLE_STATUS) and handle
-the new locked mode when the LEGACY_XAPIC_DISABLED bit is set by
-preventing the kernel from trying to disable the x2APIC.
 
-On platforms with the IA32_XAPIC_DISABLE_STATUS MSR, if SGX or TDX are
-enabled the LEGACY_XAPIC_DISABLED will be set by the BIOS.  If
-legacy APIC is required, then it SGX and TDX need to be disabled in the
-BIOS.
+Thanks,
 
-[1]: https://aepicleak.com/aepicleak.pdf
-
-Signed-off-by: Daniel Sneddon <daniel.sneddon@linux.intel.com>
-Tested-by: Neelima Krishnan <neelima.krishnan@intel.com>
-Acked-by: Dave Hansen <dave.hansen@linux.intel.com>
----
-V1 -> V2:
-	Updated commit message (Dave)
-	Added note to nox2apic documentation and Kconfig (Dave)
-	Made SGX depend on X2APIC (TGLX)
-	Added Tested-by
-	Added Dave's Ack
-
-[v1] https://lore.kernel.org/lkml/20220809234000.783284-1-daniel.sneddon@linux.intel.com/
-
- .../admin-guide/kernel-parameters.txt         |  4 ++
- arch/x86/Kconfig                              |  7 ++-
- arch/x86/include/asm/cpu.h                    |  2 +
- arch/x86/include/asm/msr-index.h              | 13 ++++++
- arch/x86/kernel/apic/apic.c                   | 44 +++++++++++++++++--
- 5 files changed, 65 insertions(+), 5 deletions(-)
-
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 54a9756f2dad..a3bf1707dcd3 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -3804,6 +3804,10 @@
- 
- 	nox2apic	[X86-64,APIC] Do not enable x2APIC mode.
- 
-+			NOTE: this parameter will be ignored on systems with the
-+			LEGACY_XAPIC_DISABLED bit set in the
-+			IA32_XAPIC_DISABLE_STATUS MSR.
-+
- 	nps_mtm_hs_ctr=	[KNL,ARC]
- 			This parameter sets the maximum duration, in
- 			cycles, each HW thread of the CTOP can run
-diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
-index f9920f1341c8..159c025ebb03 100644
---- a/arch/x86/Kconfig
-+++ b/arch/x86/Kconfig
-@@ -448,6 +448,11 @@ config X86_X2APIC
- 	  This allows 32-bit apic IDs (so it can support very large systems),
- 	  and accesses the local apic via MSRs not via mmio.
- 
-+	  Some Intel systems circa 2022 and later are locked into x2APIC mode
-+	  and can not fall back to the legacy APIC modes if SGX or TDX are
-+	  enabled in the BIOS.  They will be unable to boot without enabling
-+	  this option.
-+
- 	  If you don't know what to do here, say N.
- 
- config X86_MPPARSE
-@@ -1919,7 +1924,7 @@ endchoice
- 
- config X86_SGX
- 	bool "Software Guard eXtensions (SGX)"
--	depends on X86_64 && CPU_SUP_INTEL
-+	depends on X86_64 && CPU_SUP_INTEL && X86_X2APIC
- 	depends on CRYPTO=y
- 	depends on CRYPTO_SHA256=y
- 	select SRCU
-diff --git a/arch/x86/include/asm/cpu.h b/arch/x86/include/asm/cpu.h
-index 8cbf623f0ecf..b472ef76826a 100644
---- a/arch/x86/include/asm/cpu.h
-+++ b/arch/x86/include/asm/cpu.h
-@@ -94,4 +94,6 @@ static inline bool intel_cpu_signatures_match(unsigned int s1, unsigned int p1,
- 	return p1 & p2;
- }
- 
-+extern u64 x86_read_arch_cap_msr(void);
-+
- #endif /* _ASM_X86_CPU_H */
-diff --git a/arch/x86/include/asm/msr-index.h b/arch/x86/include/asm/msr-index.h
-index 6674bdb096f3..1e086b37a307 100644
---- a/arch/x86/include/asm/msr-index.h
-+++ b/arch/x86/include/asm/msr-index.h
-@@ -155,6 +155,11 @@
- 						 * Return Stack Buffer Predictions.
- 						 */
- 
-+#define ARCH_CAP_XAPIC_DISABLE		BIT(21)	/*
-+						 * IA32_XAPIC_DISABLE_STATUS MSR
-+						 * supported
-+						 */
-+
- #define MSR_IA32_FLUSH_CMD		0x0000010b
- #define L1D_FLUSH			BIT(0)	/*
- 						 * Writeback and invalidate the
-@@ -1054,4 +1059,12 @@
- #define MSR_IA32_HW_FEEDBACK_PTR        0x17d0
- #define MSR_IA32_HW_FEEDBACK_CONFIG     0x17d1
- 
-+/* x2APIC locked status */
-+#define MSR_IA32_XAPIC_DISABLE_STATUS	0xBD
-+#define LEGACY_XAPIC_DISABLED		BIT(0) /*
-+						* x2APIC mode is locked and
-+						* disabling x2APIC will cause
-+						* a #GP
-+						*/
-+
- #endif /* _ASM_X86_MSR_INDEX_H */
-diff --git a/arch/x86/kernel/apic/apic.c b/arch/x86/kernel/apic/apic.c
-index 6d303d1d276c..c6876d3ea4b1 100644
---- a/arch/x86/kernel/apic/apic.c
-+++ b/arch/x86/kernel/apic/apic.c
-@@ -61,6 +61,7 @@
- #include <asm/cpu_device_id.h>
- #include <asm/intel-family.h>
- #include <asm/irq_regs.h>
-+#include <asm/cpu.h>
- 
- unsigned int num_processors;
- 
-@@ -1751,11 +1752,26 @@ EXPORT_SYMBOL_GPL(x2apic_mode);
- 
- enum {
- 	X2APIC_OFF,
--	X2APIC_ON,
- 	X2APIC_DISABLED,
-+	/* All states below here have X2APIC enabled */
-+	X2APIC_ON,
-+	X2APIC_ON_LOCKED
- };
- static int x2apic_state;
- 
-+static bool x2apic_hw_locked(void)
-+{
-+	u64 ia32_cap;
-+	u64 msr;
-+
-+	ia32_cap = x86_read_arch_cap_msr();
-+	if (ia32_cap & ARCH_CAP_XAPIC_DISABLE) {
-+		rdmsrl(MSR_IA32_XAPIC_DISABLE_STATUS, msr);
-+		return (msr & LEGACY_XAPIC_DISABLED);
-+	}
-+	return false;
-+}
-+
- static void __x2apic_disable(void)
- {
- 	u64 msr;
-@@ -1793,6 +1809,10 @@ static int __init setup_nox2apic(char *str)
- 				apicid);
- 			return 0;
- 		}
-+		if (x2apic_hw_locked()) {
-+			pr_warn("APIC locked in x2apic mode, can't disable\n");
-+			return 0;
-+		}
- 		pr_warn("x2apic already enabled.\n");
- 		__x2apic_disable();
- 	}
-@@ -1807,10 +1827,18 @@ early_param("nox2apic", setup_nox2apic);
- void x2apic_setup(void)
- {
- 	/*
--	 * If x2apic is not in ON state, disable it if already enabled
-+	 * Try to make the AP's APIC state match that of the BSP,  but if the
-+	 * BSP is unlocked and the AP is locked then there is a state mismatch.
-+	 * Warn about the mismatch in case a GP fault occurs due to a locked AP
-+	 * trying to be turned off.
-+	 */
-+	if (x2apic_state != X2APIC_ON_LOCKED && x2apic_hw_locked())
-+		pr_warn("x2apic lock mismatch between BSP and AP.\n");
-+	/*
-+	 * If x2apic is not in ON or LOCKED state, disable it if already enabled
- 	 * from BIOS.
- 	 */
--	if (x2apic_state != X2APIC_ON) {
-+	if (x2apic_state < X2APIC_ON) {
- 		__x2apic_disable();
- 		return;
- 	}
-@@ -1831,6 +1859,11 @@ static __init void x2apic_disable(void)
- 	if (x2apic_id >= 255)
- 		panic("Cannot disable x2apic, id: %08x\n", x2apic_id);
- 
-+	if (x2apic_hw_locked()) {
-+		pr_warn("Cannot disable locked x2apic, id: %08x\n", x2apic_id);
-+		return;
-+	}
-+
- 	__x2apic_disable();
- 	register_lapic_address(mp_lapic_addr);
- }
-@@ -1889,7 +1922,10 @@ void __init check_x2apic(void)
- 	if (x2apic_enabled()) {
- 		pr_info("x2apic: enabled by BIOS, switching to x2apic ops\n");
- 		x2apic_mode = 1;
--		x2apic_state = X2APIC_ON;
-+		if (x2apic_hw_locked())
-+			x2apic_state = X2APIC_ON_LOCKED;
-+		else
-+			x2apic_state = X2APIC_ON;
- 	} else if (!boot_cpu_has(X86_FEATURE_X2APIC)) {
- 		x2apic_state = X2APIC_DISABLED;
- 	}
--- 
-2.25.1
+Yanteng
 
