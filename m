@@ -2,145 +2,122 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4AA36C25B08
-	for <linux-doc@archiver.kernel.org>; Wed, 17 Aug 2022 17:46:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 70DACC28B2B
+	for <linux-doc@archiver.kernel.org>; Wed, 17 Aug 2022 18:49:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238370AbiHQRqx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 17 Aug 2022 13:46:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50462 "EHLO
+        id S241280AbiHQSti (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 17 Aug 2022 14:49:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33914 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237811AbiHQRqw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 17 Aug 2022 13:46:52 -0400
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.17.10])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CDFC85AC5E;
-        Wed, 17 Aug 2022 10:46:49 -0700 (PDT)
-Received: from mail-ej1-f45.google.com ([209.85.218.45]) by
- mrelayeu.kundenserver.de (mreue108 [213.165.67.113]) with ESMTPSA (Nemesis)
- id 1MTREY-1nuhjf49QS-00Tl7C; Wed, 17 Aug 2022 19:46:48 +0200
-Received: by mail-ej1-f45.google.com with SMTP id uj29so25856532ejc.0;
-        Wed, 17 Aug 2022 10:46:47 -0700 (PDT)
-X-Gm-Message-State: ACgBeo0xVLOdX32DzTidd8O5fsitiaeZQkI/9s6CbACZcF+YP85gO9sq
-        +yuN7BT+wHa1ARVaEMLkghVHNIlveTeBt0JzxKk=
-X-Google-Smtp-Source: AA6agR7P+akdEIVBystZ3tdT1LJBc/Kz2X/p17BDIwuamejB2ijCkX0uATAcgT/myy62wF1uRwHfDAnHQqOrE7z8DJE=
-X-Received: by 2002:a17:907:960f:b0:731:1e3:b198 with SMTP id
- gb15-20020a170907960f00b0073101e3b198mr17396224ejc.470.1660758407495; Wed, 17
- Aug 2022 10:46:47 -0700 (PDT)
+        with ESMTP id S241302AbiHQStf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 17 Aug 2022 14:49:35 -0400
+Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55F7B33A10;
+        Wed, 17 Aug 2022 11:49:33 -0700 (PDT)
+Received: by mail-pj1-x1031.google.com with SMTP id t22so13271539pjy.1;
+        Wed, 17 Aug 2022 11:49:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc;
+        bh=YZXdqwb5A4cK2ZLDgN37By3nDf7z0KCHSAijNLkJe1U=;
+        b=FdwBl7BCc3B8O90ecsZ5kMyqFzaNAISJV/CIxqwnMRkDwt2OazLF/gh4lGJ++F0kRc
+         82K1U95iitw56QpXruqY7ejLHOg4kkgMp3Qj3JxoiWqMOtVvwVEeYtJspSpS/Ceiq05q
+         uFS6mZELnGmwmfOmopJOg9ANrwfvg9Rlr7WjuaxnWkusuqjpmmiGtDNejk9JgaUdmtSv
+         LwmnyatV+D0QgIOKYvID9gxaa/kGn5DQMf1MURQhNogbulcxSns+9whld+tqjDFcRhg5
+         cktK/Jk1zfAhxmjUY6Ipv+ImGvyf7geaMG8XIj01PJOGnFDfOAghZScD093QRrePWj4d
+         YL7w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc;
+        bh=YZXdqwb5A4cK2ZLDgN37By3nDf7z0KCHSAijNLkJe1U=;
+        b=VtBgbut0J88tdYcsCWZ17CjpFwbVjQATiTkxdNQTuUqfoKl8rpHCrjYTCTxzzmw3aF
+         2+HrhzH2YZKArbyfSLoObyzN/JwyWp/w3VQihBe9NhuML+nc9lieefV1uejy+Z8h45uJ
+         FJH7qcCsA/fpKx/V0/pROq47F5Xw1molsn4SSU+IfZvTk3f3q7D7z6CKeJhbhbEtWNB3
+         tKeqOkWuknhY81HuilM+6GsuWbuCso/JowvfvM9QlsSjlZ6yJh1+dlEcoB8i119yUTXr
+         j0Wp6h1c0hxDlxnCQVoEx+h/WUFjhwtXbDCcYOK9GWqMvOJk9Xn8GHfhUHvfy9cbbTuJ
+         BrmQ==
+X-Gm-Message-State: ACgBeo2Dep/w0H3z44jEncbUXOPoFiTViz6ZCulCiNkYW2Px+Zo2Nfln
+        5WeE1DBwagGmtFJKwXvObEA=
+X-Google-Smtp-Source: AA6agR5XV3ubO2gfC2o2YrYfc9mn+8mIook5e8IVB6zpCLW16GZNMh9OJa+rDvBxAnz2uE0Nw/OEIw==
+X-Received: by 2002:a17:902:ef96:b0:172:abb9:657e with SMTP id iz22-20020a170902ef9600b00172abb9657emr817288plb.48.1660762172548;
+        Wed, 17 Aug 2022 11:49:32 -0700 (PDT)
+Received: from ?IPV6:2620:10d:c085:21e8::128c? ([2620:10d:c090:400::5:8975])
+        by smtp.gmail.com with ESMTPSA id f14-20020a170902684e00b0016d5428f041sm244435pln.199.2022.08.17.11.49.30
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 17 Aug 2022 11:49:32 -0700 (PDT)
+Message-ID: <56034d0a-4100-b185-73d8-44edc8508dc0@gmail.com>
+Date:   Wed, 17 Aug 2022 11:49:29 -0700
 MIME-Version: 1.0
-References: <f31b818cf8d682de61c74b133beffcc8a8202478.1660041358.git.christophe.leroy@csgroup.eu>
-In-Reply-To: <f31b818cf8d682de61c74b133beffcc8a8202478.1660041358.git.christophe.leroy@csgroup.eu>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Wed, 17 Aug 2022 19:46:30 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a3bJVTLZy3HnVvEN8zDgzAMhSUdUkZ5Jd=omNjYJZKA4Q@mail.gmail.com>
-Message-ID: <CAK8P3a3bJVTLZy3HnVvEN8zDgzAMhSUdUkZ5Jd=omNjYJZKA4Q@mail.gmail.com>
-Subject: Re: [PATCH] gpio: Allow user to customise maximum number of GPIOs
-To:     Christophe Leroy <christophe.leroy@csgroup.eu>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Russell King <linux@armlinux.org.uk>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>, Arnd Bergmann <arnd@arndb.de>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "moderated list:ARM PORT" <linux-arm-kernel@lists.infradead.org>,
-        "open list:GENERIC INCLUDE/ASM HEADER FILES" 
-        <linux-arch@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Provags-ID: V03:K1:jLlZYgV6MYmH7PB2PjUXZmuF3KTog82Q/7hiq4glnTCUZJysan5
- 2D36PBAJJ5Q3/dNEKSD0TdekL5XZozqpWsJt7fBi2ZUKICDvXMw4IXj4sHhGnwAzphVstvT
- CH1IWRVap+w7s3+fWBFiFhyPseQNpj0Dq7eg3tRayrCRwmBMTLQpcnVhPMHn+FSmpvuvbe0
- JvO6NU+zr77PyYywVzw5A==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:GYWZlLCLJmU=:HvaRNLOOyE2ORoo9woWSl3
- Q2oI0LikGdV99euy6QTgVr9jW4H9HzZ6KoKzgpfOCzV8SkKm1bMf0S+ccWXXzPrBpZOv9SdPz
- Vwb0DNpqObRzJzIBedunoG2qjeULP9IfrssldfjTjAMHGEboDy0hngdWmKeCiuTRpgz89NXMw
- KnetaxI8/jB0uzm4nPDUcT3WwRxmi/JNAQsWUzH7ABdCPngfGFVNrWQr8sFrcazmfhTggKbdV
- Ot/PQId/q8y2ZouXk+rK0L/sXOUz3DxN8HLzK9fu+4nSoMfHMxQ7xEy53o5f+/8SmABT6lTXm
- Y63gY7+DGpkiXB+9BQqa37C+53Wkc1e6Tt95VU/xJG14LLHLEgq3zOM72dnvJulC8TxRTnhBW
- uqe4g5q0MzJ+zIH6adaHJu3xjm3tA7QH7RrTVkQ1CNuTJhCNNIEe1mk2hmrCsYDWpHPNWBj3u
- Ds7fuyQ2fZoWP2sMa6bOdBwxkPZKTA84fGdZE+x5ivXydRdjW53ww1H0XDtTpL6qbkPV4SITk
- ylgCNEh4C4FGEJSdpVFhxTAoJVzbbDOgHvNVfIMACNK1+542W3YZowK4WnvvXJtnP1Oyp6uU3
- ogXzLOOfZQuG7+HoXQRY0yOZXmJKRfbeor5z0GKZ2BeXkwLt81U9XO7jXBuxjNGADIKeJoL5i
- 2daGKk2dTpyNZLO0jEr2b2t+1mG7DFOgYJIbp7z31sx0uIx5RwAKC9ig9XOHn28yGlBnFT53g
- mjq1o9qBBu+KxRD3LJ7yWzCRWMDzg9ptkKnqDpeyPW5UPnvNNMJ6p/dn7AIVkn26KquZZbE9r
- C+a6Ufn8Udbx0rR6KDO5nWuoYFjEyYr2vGTdEAnu8RKxmcTjfdDnULwzscLyw5NmayVmSHhXn
- ctp1jSAC14Z/95HR4vDw==
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.1.2
+Subject: Re: [net-next 0/6] net: support QUIC crypto
+To:     Bagas Sanjaya <bagasdotme@gmail.com>, kuba@kernel.org
+Cc:     davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
+        corbet@lwn.net, dsahern@kernel.org, shuah@kernel.org,
+        imagedong@tencent.com, netdev@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
+References: <Adel Abouchaev <adel.abushaev@gmail.com>
+ <20220816181150.3507444-1-adel.abushaev@gmail.com>
+ <68e3a841-3c03-9d70-8c89-b7c05788e077@gmail.com>
+Content-Language: en-US
+From:   Adel Abouchaev <adel.abushaev@gmail.com>
+In-Reply-To: <68e3a841-3c03-9d70-8c89-b7c05788e077@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Aug 9, 2022 at 12:40 PM Christophe Leroy
-<christophe.leroy@csgroup.eu> wrote:
->
-> At the time being, the default maximum number of GPIOs is set to 512
-> and can only get customised via an architecture specific
-> CONFIG_ARCH_NR_GPIO.
->
-> The maximum number of GPIOs might be dependent on the number of
-> interface boards and is somewhat independent of architecture.
->
-> Allow the user to select that maximum number outside of any
-> architecture configuration. To enable that, re-define a
-> core CONFIG_ARCH_NR_GPIO for architectures which don't already
-> define one. Guard it with a new hidden CONFIG_ARCH_HAS_NR_GPIO.
->
-> Only two architectures will need CONFIG_ARCH_HAS_NR_GPIO: x86 and arm.
->
-> On arm, do like x86 and set 512 as the default instead of 0, that
-> allows simplifying the logic in asm-generic/gpio.h
->
-> Signed-off-by: Christophe Leroy <christophe.leroy@csgroup.eu>
-> ---
->  Documentation/driver-api/gpio/legacy.rst |  2 +-
->  arch/arm/Kconfig                         |  3 ++-
->  arch/arm/include/asm/gpio.h              |  1 -
->  arch/x86/Kconfig                         |  1 +
->  drivers/gpio/Kconfig                     | 14 ++++++++++++++
->  include/asm-generic/gpio.h               |  6 ------
->  6 files changed, 18 insertions(+), 9 deletions(-)
->
-> diff --git a/Documentation/driver-api/gpio/legacy.rst b/Documentation/driver-api/gpio/legacy.rst
-> index 9b12eeb89170..566b06a584cf 100644
-> --- a/Documentation/driver-api/gpio/legacy.rst
-> +++ b/Documentation/driver-api/gpio/legacy.rst
-> @@ -558,7 +558,7 @@ Platform Support
->  To force-enable this framework, a platform's Kconfig will "select" GPIOLIB,
->  else it is up to the user to configure support for GPIO.
->
-> -It may also provide a custom value for ARCH_NR_GPIOS, so that it better
-> +It may also provide a custom value for CONFIG_ARCH_NR_GPIO, so that it better
->  reflects the number of GPIOs in actual use on that platform, without
->  wasting static table space.  (It should count both built-in/SoC GPIOs and
->  also ones on GPIO expanders.
-> diff --git a/arch/arm/Kconfig b/arch/arm/Kconfig
-> index 53e6a1da9af5..e55b6560fe4f 100644
-> --- a/arch/arm/Kconfig
-> +++ b/arch/arm/Kconfig
-> @@ -14,6 +14,7 @@ config ARM
->         select ARCH_HAS_KCOV
->         select ARCH_HAS_MEMBARRIER_SYNC_CORE
->         select ARCH_HAS_NON_OVERLAPPING_ADDRESS_SPACE
-> +       select ARCH_HAS_NR_GPIO
->         select ARCH_HAS_PTE_SPECIAL if ARM_LPAE
->         select ARCH_HAS_PHYS_TO_DMA
->         select ARCH_HAS_SETUP_DMA_OPS
-> @@ -1243,7 +1244,7 @@ config ARCH_NR_GPIO
->         default 352 if ARCH_VT8500
->         default 288 if ARCH_ROCKCHIP
->         default 264 if MACH_H4700
-> -       default 0
-> +       default 512
+The base commit for the branch I am using here is:
 
-This list should be kept sorted, otherwise you still get e.g. the '264' default
-value. If you have a GPIO extender that provides hardcoded GPIO
-numbers on your machine, there should be a configuration option for
-that driver.
+commit f86d1fbbe7858884d6754534a0afbb74fc30bc26 
+(origin/net-next-upstream, net-next/master, net-next/main, net-next)
+Merge: 526942b8134c 7c6327c77d50
+Author: Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Wed Aug 3 16:29:08 2022 -0700
 
-Which driver is it that needs extra hardcoded GPIO numbers for you?
-Have you tried converting it to use GPIO descriptors so you don't
-need the number assignment?
+Will fix the whitespaces and resubmit.
 
-        Arnd
+On 8/17/22 1:09 AM, Bagas Sanjaya wrote:
+> On 8/17/22 01:11, Adel Abouchaev wrote:
+>> QUIC requires end to end encryption of the data. The application usually
+>> prepares the data in clear text, encrypts and calls send() which implies
+>> multiple copies of the data before the packets hit the networking stack.
+>> Similar to kTLS, QUIC kernel offload of cryptography reduces the memory
+>> pressure by reducing the number of copies.
+>>
+>> The scope of kernel support is limited to the symmetric cryptography,
+>> leaving the handshake to the user space library. For QUIC in particular,
+>> the application packets that require symmetric cryptography are the 1RTT
+>> packets with short headers. Kernel will encrypt the application packets
+>> on transmission and decrypt on receive. This series implements Tx only,
+>> because in QUIC server applications Tx outweighs Rx by orders of
+>> magnitude.
+>>
+>> Supporting the combination of QUIC and GSO requires the application to
+>> correctly place the data and the kernel to correctly slice it. The
+>> encryption process appends an arbitrary number of bytes (tag) to the end
+>> of the message to authenticate it. The GSO value should include this
+>> overhead, the offload would then subtract the tag size to parse the
+>> input on Tx before chunking and encrypting it.
+>>
+>> With the kernel cryptography, the buffer copy operation is conjoined
+>> with the encryption operation. The memory bandwidth is reduced by 5-8%.
+>> When devices supporting QUIC encryption in hardware come to the market,
+>> we will be able to free further 7% of CPU utilization which is used
+>> today for crypto operations.
+>>
+> Hmmm...
+>
+> I can't cleanly applied this series on top of current net-next. Exactly
+> on what commit this series is based on?
+>
+> Also, I see two whitespace warnings when applying. Please fixup and resend.
+> When resending, don't forget to pass --base to git-format-patch(1).
+>
+> Thanks.
+>
