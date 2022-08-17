@@ -2,117 +2,104 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7EDD1C3F6B0
-	for <linux-doc@archiver.kernel.org>; Wed, 17 Aug 2022 05:41:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8EF2DC32772
+	for <linux-doc@archiver.kernel.org>; Wed, 17 Aug 2022 06:41:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238577AbiHQFlK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 17 Aug 2022 01:41:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60170 "EHLO
+        id S232433AbiHQGlk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 17 Aug 2022 02:41:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50882 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238557AbiHQFlJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 17 Aug 2022 01:41:09 -0400
-Received: from mail-io1-xd30.google.com (mail-io1-xd30.google.com [IPv6:2607:f8b0:4864:20::d30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2239D72EF7
-        for <linux-doc@vger.kernel.org>; Tue, 16 Aug 2022 22:41:07 -0700 (PDT)
-Received: by mail-io1-xd30.google.com with SMTP id o2so9895183iof.8
-        for <linux-doc@vger.kernel.org>; Tue, 16 Aug 2022 22:41:07 -0700 (PDT)
+        with ESMTP id S229980AbiHQGli (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 17 Aug 2022 02:41:38 -0400
+Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3092E4D4F4
+        for <linux-doc@vger.kernel.org>; Tue, 16 Aug 2022 23:41:27 -0700 (PDT)
+Received: by mail-lf1-x135.google.com with SMTP id v2so17834689lfi.6
+        for <linux-doc@vger.kernel.org>; Tue, 16 Aug 2022 23:41:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=solid-run-com.20210112.gappssmtp.com; s=20210112;
+        d=google.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc;
-        bh=LtiOQ+mkHG3cwstCPu63k81uDm+Tw39gJQT7l7BfDLA=;
-        b=Ath3yvPoCbvg61Letpy3d0PqozWLwwe9AmUmHNCgOgQ+HJySqSJYFKiqdif9aAzbwC
-         /0Fvf2ynY2zf4g364t39yCZiiLQX+Phj0RXTS41kp9aWAtRs2vqSNGPh3LROO1A8e1SG
-         GIVawD3lxyeB+YewQwmkRQBwFKZafkYi0BkZS/MBkSs01TJqnGTc7q6o2FM9JQKCzy+6
-         as58x35inJKn+OzcxYhDGWcvUHnKQBuNzOof7OCnTatdp0aUq2IsTm+m5Fo/mYAZdiHc
-         mJND3g5enXtfobike48Sxz4zmTyGD4D4yyKankC8sW2T4cbIIyOpWONzuFh+aUZXvPHC
-         x+RQ==
+        bh=gyS63QYVOSXbJbkCMWQTHJu+HMhf9dFWV5AbgmswWB4=;
+        b=DlPzpQDdQkyHxNy6Qvs+2JB1BekXQva0JhudLKDBrHIbcqN/KJVVb9QIO5bSgk4YiO
+         ob9bkoN55Idu77b3pPG0B9NTrZU7NPRxTHUwKTdxWaDsoJLAvD/eay9gF/oM5nfVJ2Qo
+         ioo4H/PfTDyVzhN+eCwjz1jEN08EFrGUCSpCreLG+6DGWqrBzOOE30qySvXSQFGb1Q1+
+         tdtzfhSUP1Y8fwJEeCWSU2bf+pE8Xs2OFGKHFU63vj83MMc85t5+UvfGascVsoh261Ca
+         wyYQxuYHwyAN50q2K4/JHBKopKKWxy9flXLhvkBeeGv9mLg+ZSf4gHRYe4SM6yyWpC8P
+         uVdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc;
-        bh=LtiOQ+mkHG3cwstCPu63k81uDm+Tw39gJQT7l7BfDLA=;
-        b=CACOwpqdUnVS5U1byoCm6+7ygf7wUbGNS+kfB1ThBIYhWLDD31sbCGBwSzjxoPMB+r
-         29wdcwoDMz9/UvoT7yrRaBlLG+ogn8pQQlrgzY8Yjd2Q47J2c9p7aqOlJg3jTUCX+HWa
-         kD34JVI9v+22t6bNuQsC9ShG9mSMDYKQsDQv2VVhMjVCju/9oxK2xnquyNwzYPUtmFQv
-         iDrWAiKVLPhdbJI3he1YaCmTywBvgSWX7Lxnwot8RGN84z0IkKPDDwD+tRMnlm/8s0qe
-         JDGbqNsaMDPXQuaw8Om7uz/2vODrd4InOCdSt3OJPTnr2v3eDJ4otVAF+1oZ5/QMfGWu
-         48IA==
-X-Gm-Message-State: ACgBeo24rydCTMQUy3zQVRfEUfhwnsFM+qI3cJXSwWRmJc+GvuevhONH
-        /bqYFnb6fDvg2nED26Q/ldC6JZ3Z3i1x9dRsvt1QjA==
-X-Google-Smtp-Source: AA6agR6AuZldJfYBgZvu76/kZ6GrmloyUKbLwieemg3QzOLxFXNzU9ClV/Ucl0lnavczFuLrZ/rBfRuoxtOlgv6iSPc=
-X-Received: by 2002:a05:6638:d45:b0:343:2ae6:e39a with SMTP id
- d5-20020a0566380d4500b003432ae6e39amr11419090jak.139.1660714866198; Tue, 16
- Aug 2022 22:41:06 -0700 (PDT)
+        bh=gyS63QYVOSXbJbkCMWQTHJu+HMhf9dFWV5AbgmswWB4=;
+        b=L/Yh6jOwHDudofM9MXYIlk6FnjVfPkXZDIR1HBtjhEonhHChx8KHxOEACo2hDwIpYC
+         CkrNKBh/WXib+KwvEFW5LJIku4z81lgimBOMOFtnxKKOZAvJQ9IDKKKqapMW+UxgzdjK
+         IOU87fiowfmBVgNuSXNEKhiqASseUMyLqqVw7oJpaYcr9ng4oSydq0/ob/MfFzj682vW
+         ajjaOkGhHku8kZnyiksAKR6ixWdnpCobZvMNYVQmhhl0aV4kRnSVfe7VLxmD2W5SCK5k
+         ZB00qjZfk65f2G6gjGHFD0ifRNrAbGZK4yf6A1MPs/NAS292SgVST6sP8YR/+LpWQIvF
+         XnuQ==
+X-Gm-Message-State: ACgBeo1uwxbP/MNc5hXWy/0dGIjT0VV+r4JdeiWf/5u19YC8h9i7eV59
+        bdbf6LV04C8KrNhbVtXNn7CfNKw/d7f4F8dmo7lh6w==
+X-Google-Smtp-Source: AA6agR7DzH0SNfTXEpTGFS6iRsNRKEgPo7aS1SYAHQNpx4oKojr45DjrvgjaSgSr/F9/wc5OUA9G51WplGI/KFJdVlA=
+X-Received: by 2002:a05:6512:1190:b0:48c:bf4e:b64 with SMTP id
+ g16-20020a056512119000b0048cbf4e0b64mr8659854lfr.239.1660718485398; Tue, 16
+ Aug 2022 23:41:25 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220816070311.89186-1-marcan@marcan.st> <20220816140423.GC11202@willie-the-truck>
- <c545705f-ee7e-4442-ebfc-64a3baca2836@marcan.st> <20220816173654.GA11766@willie-the-truck>
- <CABdtJHt_3TKJVLhLiYMcBtvyA_DwaNapv1xHVeDdQH7cAC6YWw@mail.gmail.com> <CAHk-=wh3dCn5a4fZuJ7cewJoG9Vrm9xSOShiwgC6MA9=yJvXPg@mail.gmail.com>
-In-Reply-To: <CAHk-=wh3dCn5a4fZuJ7cewJoG9Vrm9xSOShiwgC6MA9=yJvXPg@mail.gmail.com>
-From:   Jon Nettleton <jon@solid-run.com>
-Date:   Wed, 17 Aug 2022 07:40:29 +0200
-Message-ID: <CABdtJHuwGQ1Vj+HVfkhp=JN_hsFjJeK0-nfj+Ys1LXZrTKUaZg@mail.gmail.com>
-Subject: Re: [PATCH] locking/atomic: Make test_and_*_bit() ordered on failure
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Will Deacon <will@kernel.org>, Hector Martin <marcan@marcan.st>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Arnd Bergmann <arnd@arndb.de>, Ingo Molnar <mingo@kernel.org>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Andrea Parri <parri.andrea@gmail.com>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        David Howells <dhowells@redhat.com>,
-        Jade Alglave <j.alglave@ucl.ac.uk>,
-        Luc Maranget <luc.maranget@inria.fr>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Akira Yokosawa <akiyks@gmail.com>,
-        Daniel Lustig <dlustig@nvidia.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Jonathan Corbet <corbet@lwn.net>, Tejun Heo <tj@kernel.org>,
-        jirislaby@kernel.org, Marc Zyngier <maz@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Oliver Neukum <oneukum@suse.com>, linux-kernel@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        Asahi Linux <asahi@lists.linux.dev>, stable@vger.kernel.org
+References: <20220813042055.136832-1-tales.aparecida@gmail.com> <20220813042055.136832-2-tales.aparecida@gmail.com>
+In-Reply-To: <20220813042055.136832-2-tales.aparecida@gmail.com>
+From:   Sadiya Kazi <sadiyakazi@google.com>
+Date:   Wed, 17 Aug 2022 12:11:13 +0530
+Message-ID: <CAO2JNKWjX9UxsjOjEpZ5RM_yq1R2R_BE1Wg8rkt0g-tMiD_vkg@mail.gmail.com>
+Subject: Re: [PATCH 1/4] Documentation: kunit: fix trivial typo
+To:     Tales Aparecida <tales.aparecida@gmail.com>
+Cc:     Brendan Higgins <brendanhiggins@google.com>, corbet@lwn.net,
+        Trevor Woerner <twoerner@gmail.com>, siqueirajordao@riseup.net,
+        mwen@igalia.com, andrealmeid@riseup.net, mairacanal@riseup.net,
+        Isabella Basso <isabbasso@riseup.net>, magalilemes00@gmail.com,
+        linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Aug 16, 2022 at 8:02 PM Linus Torvalds
-<torvalds@linux-foundation.org> wrote:
+On Sat, Aug 13, 2022 at 9:51 AM Tales Aparecida
+<tales.aparecida@gmail.com> wrote:
 >
-> On Tue, Aug 16, 2022 at 10:49 AM Jon Nettleton <jon@solid-run.com> wrote:
-> >
-> > It is moot if Linus has already taken the patch, but with a stock
-> > kernel config I am
-> > still seeing a slight performance dip but only ~1-2% in the specific
-> > tests I was running.
+> Missing closing block-quote
 >
-> It would be interesting to hear if you can pinpoint in the profiles
-> where the time is spent.
->
-> It might be some random place that really doesn't care about ordering
-> at all, and then we could easily rewrite _that_ particular case to do
-> the unordered test explicitly, ie something like
->
-> -        if (test_and_set_bit()) ...
-> +       if (test_bit() || test_and_set_bit()) ...
->
-> or even introduce an explicitly unordered "test_and_set_bit_relaxed()" thing.
->
->                  Linus
+> Signed-off-by: Tales Aparecida <tales.aparecida@gmail.com>
+> ---
 
-This is very interesting, the additional performance overhead doesn't seem
-to be coming from within the kernel but from userspace. Comparing patched
-and unpatched kernels I am seeing more cycles being taken up by glibc
-atomics like __aarch64_cas4_acq  and __aarch64_ldadd4_acq_rel.
 
-I need to test further to see if there is less effect on a system with
-less cores,
-This is a 16-core Cortex-A72, it is possible this is less of an issue on 4 core
-A72's and A53's.
+Hi,
+I do agree with David on a more descriptive commit message to be
+addressed in future patches. Otherwise, it looks good to me.
 
--Jon
+Reviewed-by: Sadiya Kazi <sadiyakazi@google.com>
+
+Best Regards,
+Sadiya
+
+
+
+
+>  Documentation/dev-tools/kunit/run_wrapper.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/Documentation/dev-tools/kunit/run_wrapper.rst b/Documentation/dev-tools/kunit/run_wrapper.rst
+> index cce203138fb7..db1e867820e7 100644
+> --- a/Documentation/dev-tools/kunit/run_wrapper.rst
+> +++ b/Documentation/dev-tools/kunit/run_wrapper.rst
+> @@ -30,7 +30,7 @@ We may want to use the following options:
+>
+>  .. code-block::
+>
+> -       ./tools/testing/kunit/kunit.py run --timeout=30 --jobs=`nproc --all
+> +       ./tools/testing/kunit/kunit.py run --timeout=30 --jobs=`nproc --all`
+>
+>  - ``--timeout`` sets a maximum amount of time for tests to run.
+>  - ``--jobs`` sets the number of threads to build the kernel.
+> --
+> 2.37.1
+>
