@@ -2,145 +2,104 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 46FFDC25B08
-	for <linux-doc@archiver.kernel.org>; Wed, 17 Aug 2022 15:04:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 821D0C25B08
+	for <linux-doc@archiver.kernel.org>; Wed, 17 Aug 2022 15:19:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240792AbiHQPEn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 17 Aug 2022 11:04:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49062 "EHLO
+        id S239906AbiHQPTc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 17 Aug 2022 11:19:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49768 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240531AbiHQPE2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 17 Aug 2022 11:04:28 -0400
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id B28425B05A;
-        Wed, 17 Aug 2022 08:03:17 -0700 (PDT)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1CB48113E;
-        Wed, 17 Aug 2022 08:03:17 -0700 (PDT)
-Received: from [10.34.100.114] (pierre123.nice.arm.com [10.34.100.114])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id AD00A3F70D;
-        Wed, 17 Aug 2022 08:03:13 -0700 (PDT)
-Message-ID: <fd049983-bc72-9395-2a65-fb5cf96c19cd@arm.com>
-Date:   Wed, 17 Aug 2022 17:03:17 +0200
+        with ESMTP id S237687AbiHQPTc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 17 Aug 2022 11:19:32 -0400
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7831717A9C
+        for <linux-doc@vger.kernel.org>; Wed, 17 Aug 2022 08:19:30 -0700 (PDT)
+Received: by mail-pj1-x102c.google.com with SMTP id s4-20020a17090a5d0400b001fabc6bb0baso834074pji.1
+        for <linux-doc@vger.kernel.org>; Wed, 17 Aug 2022 08:19:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:references:cc:to:from
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc;
+        bh=2Dzsz0z2prfhgcbdQayKeKRlLfrKQM5D6pSVBtZ7THM=;
+        b=GCmgVkz+4yjg/OIcr2ND13CCDmdSh+WHCUT6HE9iMQmhjE4cFo3stnG1YrZoN7u2jA
+         X50ubaDBe2N1zPHvWHi9l/NTCLsojyti+EbEBmECP0yxN9mvcFwnCZX6U5UqWeZGV4vd
+         UCp9Jj4DkuFnJ2uB+xOIyniJjwYfbdnuS0eTVMFLTlWm6kt96GEZeZSsspDqrubXzuck
+         DUXXm+Jxw/p/0xP9Atph6ZbCIOrc4E7iEKFavcTiP8r0rI29yFs4MdI82C1dJhvpqOGK
+         /2v7aN9fekT9Dl2kwXvNX5ouI+kmQ6XKxIBpmWB8XiS2dvIP6Annb8vwO7R2MwF9gMdK
+         ncag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:references:cc:to:from
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc;
+        bh=2Dzsz0z2prfhgcbdQayKeKRlLfrKQM5D6pSVBtZ7THM=;
+        b=hK4T5kp91nDxl5af9a5gQXKbe7IEON5vuFWM0+WGUpa3r5V+X0p81FXZ9GQFts9/EM
+         luAeZ3Key2MOxGexFikZUDIaKKz+qerYjkxEuZCpqmHqEHxASHTxBsiNEyS345oZEmPy
+         909fpqwGCp6QHmqM7nv9HyWsdNLw1h8fkthMWFCSjF843zDxZu+9xUBpD6SM/UwRiZwK
+         6g8UUf7riOxVVcpjKv7Cm6ezFpdC5vaPRSgEd3LoC/6uxo9W/4humTWd3DBDNIq7oeE7
+         c73rcFTemz8bRwSDw1V3VuZJJUOJSPbIOyPH4zHKuO84l+dkmhcrPcHVH4EHuQr7TxDt
+         SaVw==
+X-Gm-Message-State: ACgBeo0lMjOn5RwFqTUAZjGLwSm1BJw/uuLa733kn/oHB9Ilpuatmr6r
+        rOv++heMitY7yDQYJXoM8a+Gow==
+X-Google-Smtp-Source: AA6agR6kokDwE6+pMf5BQdL0piGfoMv4TNps5u+H7z2eEXQEoh698ZXAEgsCRmvmL5MAXJWLFaNIWw==
+X-Received: by 2002:a17:903:2589:b0:16d:c26c:d641 with SMTP id jb9-20020a170903258900b0016dc26cd641mr26813781plb.8.1660749570010;
+        Wed, 17 Aug 2022 08:19:30 -0700 (PDT)
+Received: from ?IPV6:2409:8a28:e63:2e90:498e:2d75:1610:f371? ([2409:8a28:e63:2e90:498e:2d75:1610:f371])
+        by smtp.gmail.com with ESMTPSA id x185-20020a6263c2000000b0052dc3796cbfsm10562485pfb.75.2022.08.17.08.19.24
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 17 Aug 2022 08:19:29 -0700 (PDT)
+Message-ID: <42c6d11d-d68a-e869-375e-550c495be5bb@bytedance.com>
+Date:   Wed, 17 Aug 2022 23:19:18 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH] sched/topology: Remove EM_MAX_COMPLEXITY limit
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.1.2
+Subject: Re: [PATCH v2 00/10] sched/psi: some optimization and extension
 Content-Language: en-US
-To:     Ionela Voinescu <ionela.voinescu@arm.com>
-Cc:     linux-kernel@vger.kernel.org, Lukasz.Luba@arm.com,
-        Jonathan Corbet <corbet@lwn.net>,
-        Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-        Daniel Bristot de Oliveira <bristot@redhat.com>,
-        Valentin Schneider <vschneid@redhat.com>,
-        linux-doc@vger.kernel.org
-References: <20220812101620.627838-1-pierre.gondois@arm.com>
- <Yvz5VYjBl4emkA59@arm.com>
-From:   Pierre Gondois <pierre.gondois@arm.com>
-In-Reply-To: <Yvz5VYjBl4emkA59@arm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+From:   Chengming Zhou <zhouchengming@bytedance.com>
+To:     =?UTF-8?Q?Michal_Koutn=c3=bd?= <mkoutny@suse.com>
+Cc:     hannes@cmpxchg.org, tj@kernel.org, corbet@lwn.net,
+        surenb@google.com, mingo@redhat.com, peterz@infradead.org,
+        vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
+        rostedt@goodmis.org, bsegall@google.com, cgroups@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        songmuchun@bytedance.com
+References: <20220808110341.15799-1-zhouchengming@bytedance.com>
+ <20220815132514.GB22640@blackbody.suse.cz>
+ <08ec9c4f-80b2-f731-aa8b-fb4e852ece25@bytedance.com>
+In-Reply-To: <08ec9c4f-80b2-f731-aa8b-fb4e852ece25@bytedance.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Ionela,
+On 2022/8/16 22:01, Chengming Zhou wrote:
+> On 2022/8/15 21:25, Michal Koutný wrote:
+>> On Mon, Aug 08, 2022 at 07:03:31PM +0800, Chengming Zhou <zhouchengming@bytedance.com> wrote:
+>>> This patch series are some optimization and extension for PSI,
+>>
+>> BTW do you have some numbers/example how much these modifications save
+>> when aggregated together?
+>>
 
-On 8/17/22 16:21, Ionela Voinescu wrote:
-> Hi Pierre,
-> 
-> On Friday 12 Aug 2022 at 12:16:19 (+0200), Pierre Gondois wrote:
->> From: Pierre Gondois <Pierre.Gondois@arm.com>
->>
->> The Energy Aware Scheduler (EAS) estimates the energy consumption
->> of placing a task on different CPUs. The goal is to minimize this
->> energy consumption. Estimating the energy of different task placements
->> is increasingly complex with the size of the platform. To avoid having
->> a slow wake-up path, EAS is only enabled if this complexity is low
->> enough.
->>
->> The current complexity limit was set in:
->> commit b68a4c0dba3b1 ("sched/topology: Disable EAS on inappropriate
->> platforms").
->> base on the first implementation of EAS, which was re-computing
->> the power of the whole platform for each task placement scenario, cf:
->> commit 390031e4c309 ("sched/fair: Introduce an energy estimation helper
->> function").
->> but the complexity of EAS was reduced in:
->> commit eb92692b2544d ("sched/fair: Speed-up energy-aware wake-ups")
->> and find_energy_efficient_cpu() (feec) algorithm was updated in:
->> commit 3e8c6c9aac42 ("sched/fair: Remove task_util from effective
->> utilization in feec()")
->>
->> find_energy_efficient_cpu() (feec) is now doing:
->> feec()
->> \_ for_each_pd(pd) [0]
->>    // get max_spare_cap_cpu and compute_prev_delta
->>    \_ for_each_cpu(pd) [1]
->>
->>    \_ get_pd_busy_time(pd) [2]
->>      \_ for_each_cpu(pd)
->>
->>    // evaluate pd energy without the task
->>    \_ get_pd_max_util(pd, -1) [3.0]
->>      \_ for_each_cpu(pd)
->>    \_ compute_energy(pd, -1)
->>      \_ for_each_ps(pd)
->>
->>    // evaluate pd energy with the task on prev_cpu
->>    \_ get_pd_max_util(pd, prev_cpu) [3.1]
->>      \_ for_each_cpu(pd)
->>    \_ compute_energy(pd, prev_cpu)
->>      \_ for_each_ps(pd)
->>
->>    // evaluate pd energy with the task on max_spare_cap_cpu
->>    \_ get_pd_max_util(pd, max_spare_cap_cpu) [3.2]
->>      \_ for_each_cpu(pd)
->>    \_ compute_energy(pd, max_spare_cap_cpu)
->>      \_ for_each_ps(pd)
->>
->> [3.1] happens only once since prev_cpu is unique. To have an upper
->> bound of the complexity, [3.1] is taken into account for all pds.
->> So with the same definitions for nr_pd, nr_cpus and nr_ps,
->> the complexity is of:
->> nr_pd * (2 * [nr_cpus in pd] + 3 * ([nr_cpus in pd] + [nr_ps in pd]))
->>   [0]  * (     [1] + [2]      +       [3.0] + [3.1] + [3.2]          )
->> = 5 * nr_cpus + 3 * nr_ps
->>
-> 
-> I just want to draw your attention to [1] and the fact that the
-> structure of the function changed. Your calculations largely remain the
-> same - 3 calls to compute_energy() which in turn now calls
-> eenv_pd_max_util() with operations for each cpu, plus some scattered
-> calls to eenv_pd_busy_time(), all for each pd.
+Sorry about delay...
 
-Yes indeed, there is:
-s/get_pd_max_util/eenv_pd_max_util
+Performance test using mmtests/config-scheduler-perfpipe in /user.slice/user-0.slice/session-4.scope
 
-and also as you spotted, the following pattern:
-\_ eenv_pd_max_util(pd, dst_cpu)
-   \_ for_each_cpu(pd)
-\_ compute_energy(pd, dst_cpu)
-   \_ for_each_ps(pd)
+                                 next                patched       patched/only-leaf
+Min       Time        8.82 (   0.00%)        8.49 (   3.74%)        8.00 (   9.32%)
+1st-qrtle Time        8.90 (   0.00%)        8.58 (   3.63%)        8.05 (   9.58%)
+2nd-qrtle Time        8.94 (   0.00%)        8.61 (   3.65%)        8.09 (   9.50%)
+3rd-qrtle Time        8.99 (   0.00%)        8.65 (   3.75%)        8.15 (   9.35%)
+Max-1     Time        8.82 (   0.00%)        8.49 (   3.74%)        8.00 (   9.32%)
+Max-5     Time        8.82 (   0.00%)        8.49 (   3.74%)        8.00 (   9.32%)
+Max-10    Time        8.84 (   0.00%)        8.55 (   3.20%)        8.04 (   9.05%)
+Max-90    Time        9.04 (   0.00%)        8.67 (   4.10%)        8.18 (   9.51%)
+Max-95    Time        9.04 (   0.00%)        8.68 (   4.03%)        8.20 (   9.26%)
+Max-99    Time        9.07 (   0.00%)        8.73 (   3.82%)        8.25 (   9.11%)
+Max       Time        9.12 (   0.00%)        8.89 (   2.54%)        8.27 (   9.29%)
+Amean     Time        8.95 (   0.00%)        8.62 *   3.67%*        8.11 *   9.43%*
 
-should actually be:
-\_ compute_energy(pd, dst_cpu)
-   \_ eenv_pd_max_util(pd, dst_cpu)
-     \_ for_each_cpu(pd)
-   \_ for_each_ps(pd)
 
-Thanks,
-Pierre
-
-> 
-> [1]
-> https://lore.kernel.org/lkml/20220621090414.433602-7-vdonnefort@google.com/
-> 
-> Thanks,
-> Ionela.
+Thanks!
