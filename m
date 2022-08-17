@@ -2,111 +2,102 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CA90EC32772
-	for <linux-doc@archiver.kernel.org>; Wed, 17 Aug 2022 22:46:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 44F19C25B08
+	for <linux-doc@archiver.kernel.org>; Wed, 17 Aug 2022 23:12:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233592AbiHQWqp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 17 Aug 2022 18:46:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42704 "EHLO
+        id S241281AbiHQXMO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 17 Aug 2022 19:12:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40350 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231888AbiHQWqp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 17 Aug 2022 18:46:45 -0400
-Received: from mail-vk1-xa30.google.com (mail-vk1-xa30.google.com [IPv6:2607:f8b0:4864:20::a30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94E0072FF7
-        for <linux-doc@vger.kernel.org>; Wed, 17 Aug 2022 15:46:43 -0700 (PDT)
-Received: by mail-vk1-xa30.google.com with SMTP id r4so10019vkf.0
-        for <linux-doc@vger.kernel.org>; Wed, 17 Aug 2022 15:46:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc;
-        bh=DDYa0NkpZnfPkuNgNtVdNw0U5huUCrPQSI4Eq/K5ZGE=;
-        b=EivyvwvbX0nShi7rq1KRKU0EayT3iTsOq7w1mj2ynwhrQlCHpRIYWdQQKOn8N0+ZGS
-         vOu2Ti1iDQ4f5vsP6q+fy2UBu8QdSJexKdhULQ75AbiGcmvUJzvWPkrWFLPn8N6Z4WRB
-         PqQPDDIBPuvIsK6ZAxfQbYTq5ypK3jFjg1TiBmDDYDixI/Fky+lW9Xe+1Pw0pJVXcdDv
-         FIJZH1BBukguaWLbMZdaMMO3LwDKGRDpxri6NRFFCHKBor9UQUKIQjVzBHWr6Z0iby79
-         3kZ3vbfCdGpBYdO3sn2bwpWzEWLi//eRVQrnD71KZGtScY2YH9FWC5TmUUpo3u0VSzZv
-         xWbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc;
-        bh=DDYa0NkpZnfPkuNgNtVdNw0U5huUCrPQSI4Eq/K5ZGE=;
-        b=zfr0477CZiWKWE763BZ5FPo2uQlxDIrhMwohH3D/P/qTrbC72mPm1rDWeMBpYtSZnq
-         hk6JpfJrLrwAUQayvIQBmwENuUlFJkgixpE91yZuX5azzLHzyr4yGz3il/Tw/CDpLKQE
-         KCNhh/tD4422Jrqef/kbbO+lEOvn0PpjvxOA0A0RQc2ik934GSU90ntJ8e567ZDFl2dk
-         wn8zwsziIb7GC13N/OcB9zmBzh9pRn0MeO85dGDEVh/yNpqr+N4Vx86YxbKPgbntzv6M
-         KZ2C1XLhGocLF3Krl3Q5UPm4fSdlEmz1N56mddXREd+N8lxRab6Wexiaf/m6yQlQvqHp
-         gdWQ==
-X-Gm-Message-State: ACgBeo0qZLTYfzK44HX/lITlyw31As5zJhipH25E2dFcvsRE1Ik3mqGM
-        Ro+6YyzWiArkL6BQjBbg2BZamv6fFiIoJ5wZ3KLYAA==
-X-Google-Smtp-Source: AA6agR7+54RbmKLXgOFnbAw8swEhHcq1k09hfnwML1ug3kUNXZofzVNtT/6onk+6QkoHM/RciDYOGdGJS04e7OmQgeg=
-X-Received: by 2002:a1f:9b07:0:b0:378:7c48:c6c with SMTP id
- d7-20020a1f9b07000000b003787c480c6cmr115530vke.32.1660776402455; Wed, 17 Aug
- 2022 15:46:42 -0700 (PDT)
+        with ESMTP id S231496AbiHQXMN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 17 Aug 2022 19:12:13 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA5AFACA0A;
+        Wed, 17 Aug 2022 16:12:12 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 670D061135;
+        Wed, 17 Aug 2022 23:12:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3A9CC433C1;
+        Wed, 17 Aug 2022 23:12:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1660777931;
+        bh=ZSSUC+qtjCm/TAcrRhIh+enUapw+ThiKrZKpHspjssE=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=jNu0FLRyq1xMrL6EdqangxdsJ8+7bApla2HekUUzxfUpnMs2oOij5qSzOK0C1hAvb
+         tbBzKpZ4KAgBsRJgczsDViYGNzhiUMs2uJVtTqug5DUXFSu84awb6qXR8sJpHE2fE6
+         RLCoIup4erPAH1VvfjHHoBScvMTh3LUfVc5LbxTw26lKe7EAKq3x/0MY2kJZ7p0vXb
+         zvSE60yYn6vZmwLhMroyL2bQR07ngOiXh9VjbCHqbkiitVrvCY+5bIevJztIfEwf8q
+         w+6bwlHwk8PyMuvUyFzRcs4G/NSHnmSbZQ9PLinZS58O9Ns49gYS3/mzEtplQt04p1
+         MZ152tmTr415A==
+Received: by pali.im (Postfix)
+        id EE03F77A; Thu, 18 Aug 2022 01:12:08 +0200 (CEST)
+Date:   Thu, 18 Aug 2022 01:12:08 +0200
+From:   Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Andrew Lunn <andrew@lunn.ch>, Mauri Sandberg <maukka@ext.kapsi.fi>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Documentation: arm: marvell: Add Orion codenames and
+ archive homepage
+Message-ID: <20220817231208.42emdluzead2hweg@pali>
+References: <20220719080807.16729-1-pali@kernel.org>
 MIME-Version: 1.0
-References: <20220815071332.627393-1-yuzhao@google.com> <20220815071332.627393-14-yuzhao@google.com>
- <YvoOAJhJlvCr35Xc@kernel.org>
-In-Reply-To: <YvoOAJhJlvCr35Xc@kernel.org>
-From:   Yu Zhao <yuzhao@google.com>
-Date:   Wed, 17 Aug 2022 16:46:06 -0600
-Message-ID: <CAOUHufab5S3Xzak+ExhYaMzi-hx7O2Ff8jL3gjKHkatMvuF=WA@mail.gmail.com>
-Subject: Re: [PATCH v14 13/14] mm: multi-gen LRU: admin guide
-To:     Mike Rapoport <rppt@kernel.org>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Andi Kleen <ak@linux.intel.com>,
-        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mel Gorman <mgorman@suse.de>,
-        Michael Larabel <Michael@michaellarabel.com>,
-        Michal Hocko <mhocko@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Tejun Heo <tj@kernel.org>, Vlastimil Babka <vbabka@suse.cz>,
-        Will Deacon <will@kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
-        Kernel Page Reclaim v2 <page-reclaim@google.com>,
-        Brian Geffon <bgeffon@google.com>,
-        Jan Alexander Steffens <heftig@archlinux.org>,
-        Oleksandr Natalenko <oleksandr@natalenko.name>,
-        Steven Barrett <steven@liquorix.net>,
-        Suleiman Souhlal <suleiman@google.com>,
-        Daniel Byrne <djbyrne@mtu.edu>,
-        Donald Carr <d@chaos-reins.com>,
-        =?UTF-8?Q?Holger_Hoffst=C3=A4tte?= <holger@applied-asynchrony.com>,
-        Konstantin Kharlamov <Hi-Angel@yandex.ru>,
-        Shuang Zhai <szhai2@cs.rochester.edu>,
-        Sofia Trinh <sofia.trinh@edi.works>,
-        Vaibhav Jain <vaibhav@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220719080807.16729-1-pali@kernel.org>
+User-Agent: NeoMutt/20180716
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Aug 15, 2022 at 3:13 AM Mike Rapoport <rppt@kernel.org> wrote:
->
-> On Mon, Aug 15, 2022 at 01:13:32AM -0600, Yu Zhao wrote:
-> > Add an admin guide.
-...
-> > +Users can write ``+ memcg_id node_id max_gen_nr
-> > +[can_swap [force_scan]]`` to ``lru_gen`` to create a new generation
->
-> I think this would look nicer if the command would be a literal block, say
->
-> Users can write:
->
->         + memcg_id node_id max_gen_nr [can swap [force_scan]]
->
-> to ``lru_gen`` ...
+On Tuesday 19 July 2022 10:08:07 Pali Rohár wrote:
+> Orion codenames are extracted from menuconfig ARCH_ORION5X and
+> old Orion homepage with 88F5182/88F5281 was found in web archive.
+> 
+> Signed-off-by: Pali Rohár <pali@kernel.org>
 
-Thanks. I have queued this and will refresh the series one more time
-probably around rc5.
+PING?
+
+> ---
+> In archived homepage are also links to erratas and other Orion documents
+> but apparently webarchive does not have backup copy of it :-( and Marvell
+> already removed all documentation from their web sites :-(
+> ---
+>  Documentation/arm/marvell.rst | 12 +++++++-----
+>  1 file changed, 7 insertions(+), 5 deletions(-)
+> 
+> diff --git a/Documentation/arm/marvell.rst b/Documentation/arm/marvell.rst
+> index 2f41caa0096c..8540437f6a79 100644
+> --- a/Documentation/arm/marvell.rst
+> +++ b/Documentation/arm/marvell.rst
+> @@ -14,18 +14,20 @@ Orion family
+>  
+>    Flavors:
+>          - 88F5082
+> -        - 88F5181
+> -        - 88F5181L
+> -        - 88F5182
+> +        - 88F5181  a.k.a Orion-1
+> +        - 88F5181L a.k.a Orion-VoIP
+> +        - 88F5182  a.k.a Orion-NAS
+>  
+>                 - Datasheet: https://web.archive.org/web/20210124231420/http://csclub.uwaterloo.ca/~board/ts7800/MV88F5182-datasheet.pdf
+>                 - Programmer's User Guide: https://web.archive.org/web/20210124231536/http://csclub.uwaterloo.ca/~board/ts7800/MV88F5182-opensource-manual.pdf
+>                 - User Manual: https://web.archive.org/web/20210124231631/http://csclub.uwaterloo.ca/~board/ts7800/MV88F5182-usermanual.pdf
+>                 - Functional Errata: https://web.archive.org/web/20210704165540/https://www.digriz.org.uk/ts78xx/88F5182_Functional_Errata.pdf
+> -        - 88F5281
+> +        - 88F5281  a.k.a Orion-2
+>  
+>                 - Datasheet: https://web.archive.org/web/20131028144728/http://www.ocmodshop.com/images/reviews/networking/qnap_ts409u/marvel_88f5281_data_sheet.pdf
+> -        - 88F6183
+> +        - 88F6183  a.k.a Orion-1-90
+> +  Homepage:
+> +        https://web.archive.org/web/20080607215437/http://www.marvell.com/products/media/index.jsp
+>    Core:
+>  	Feroceon 88fr331 (88f51xx) or 88fr531-vd (88f52xx) ARMv5 compatible
+>    Linux kernel mach directory:
+> -- 
+> 2.20.1
+> 
