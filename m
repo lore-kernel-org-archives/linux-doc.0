@@ -2,102 +2,138 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 44F19C25B08
-	for <linux-doc@archiver.kernel.org>; Wed, 17 Aug 2022 23:12:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 794A6C3F6B0
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Aug 2022 00:20:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241281AbiHQXMO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 17 Aug 2022 19:12:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40350 "EHLO
+        id S239646AbiHRAUy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 17 Aug 2022 20:20:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42228 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231496AbiHQXMN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 17 Aug 2022 19:12:13 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA5AFACA0A;
-        Wed, 17 Aug 2022 16:12:12 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 670D061135;
-        Wed, 17 Aug 2022 23:12:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3A9CC433C1;
-        Wed, 17 Aug 2022 23:12:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1660777931;
-        bh=ZSSUC+qtjCm/TAcrRhIh+enUapw+ThiKrZKpHspjssE=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=jNu0FLRyq1xMrL6EdqangxdsJ8+7bApla2HekUUzxfUpnMs2oOij5qSzOK0C1hAvb
-         tbBzKpZ4KAgBsRJgczsDViYGNzhiUMs2uJVtTqug5DUXFSu84awb6qXR8sJpHE2fE6
-         RLCoIup4erPAH1VvfjHHoBScvMTh3LUfVc5LbxTw26lKe7EAKq3x/0MY2kJZ7p0vXb
-         zvSE60yYn6vZmwLhMroyL2bQR07ngOiXh9VjbCHqbkiitVrvCY+5bIevJztIfEwf8q
-         w+6bwlHwk8PyMuvUyFzRcs4G/NSHnmSbZQ9PLinZS58O9Ns49gYS3/mzEtplQt04p1
-         MZ152tmTr415A==
-Received: by pali.im (Postfix)
-        id EE03F77A; Thu, 18 Aug 2022 01:12:08 +0200 (CEST)
-Date:   Thu, 18 Aug 2022 01:12:08 +0200
-From:   Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Andrew Lunn <andrew@lunn.ch>, Mauri Sandberg <maukka@ext.kapsi.fi>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Documentation: arm: marvell: Add Orion codenames and
- archive homepage
-Message-ID: <20220817231208.42emdluzead2hweg@pali>
-References: <20220719080807.16729-1-pali@kernel.org>
+        with ESMTP id S231510AbiHRAUw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 17 Aug 2022 20:20:52 -0400
+X-Greylist: delayed 1199 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 17 Aug 2022 17:20:51 PDT
+Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com [66.111.4.221])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E03BEA1D11;
+        Wed, 17 Aug 2022 17:20:51 -0700 (PDT)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+        by mailnew.nyi.internal (Postfix) with ESMTP id 7B68B580556;
+        Wed, 17 Aug 2022 19:41:25 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute2.internal (MEProxy); Wed, 17 Aug 2022 19:41:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shutemov.name;
+         h=cc:cc:content-type:date:date:from:from:in-reply-to
+        :in-reply-to:message-id:mime-version:references:reply-to:sender
+        :subject:subject:to:to; s=fm2; t=1660779685; x=1660786885; bh=NI
+        aAYd9poCwuCaReO0KiItjGT5b3278AiQgPlMaoGH8=; b=PuKLpG0lACFDSWgEO8
+        rwPWX4M0HQpSuEdYRtGzQptcaolkieS2EgsFIwpoZyncFWpZckNeFIzIIYOqO8zc
+        9BpZgvlyinTevkQRn/C/ka6JMZsh8Ts9cHQWdeYq9ybnuk1SQZpubaUGZQB9t1lM
+        qk4rSx6j+tUOfRKOd3g94hTTtthwjyy2FqigUkFALmNMXV3xaGruqjoeP5+34xuk
+        J1Cinr4a4qem9KNGhx+lzwXQAr8UJisToeNsfhj8HLQwy0xeOfa5U42VQCIa7k9W
+        qZ8iK9otGm9LKKwttomxp7Dv3pSQF6Et1ZTaIBSz7M8flKM1wmlzQBaAB4PFaBIk
+        k9IQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+        :mime-version:references:reply-to:sender:subject:subject:to:to
+        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+        fm1; t=1660779685; x=1660786885; bh=NIaAYd9poCwuCaReO0KiItjGT5b3
+        278AiQgPlMaoGH8=; b=WGuGDaggU/a6pga7pL9w3WYTfRF/tux3G1kX0A3mQjNG
+        OC+VxEFGbO+smOA+p7iGMZ3GoMIsMcaWl3/NDeaFMGDz77QMAzUSQkUiUmCGJkRW
+        xHDUodL0TH5AF7G//emEtkunMR0IZ4l2d7XmME00+CIEmSs0g9HkS3qnHI4slsRN
+        HLEINl4PWiLW8DvpQUTe/0aF8/PdVhKDH0qkmMtKQaNXy1O+iZNm5MWAKX+BYowx
+        KuXbnGKaeKu5x2AZgYGthwUdYmgJrzE5cQQyW5v4ZXRMkJgZP9HwjqtkEwDmOL4I
+        VHlt+Z4I/oeTtr+VVKyUXBqBYFKb61xw+pnbo22rNA==
+X-ME-Sender: <xms:pHz9YkXNQXrutmOXLT8qKC8bAkDrafNZwTbHHUvk4uGruAWRz8lSXw>
+    <xme:pHz9YomAAobQndykgGisfSvrEaUbnwRxPnhjaRnRKcy7rwe8iA--U-9p8AJVY1ht3
+    CHYDQX82TnQfowOqrY>
+X-ME-Received: <xmr:pHz9YoYoOJJ3U6PUwRm1npi6IHWY-81B3GDPi_Hh-Sh04EiF8v9DMalIOFzMmXc0odStsA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdehjedgvdehucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvfevuffkfhggtggujgesthdttddttddtvdenucfhrhhomhepfdfmihhr
+    ihhllhcutedrucfuhhhuthgvmhhovhdfuceokhhirhhilhhlsehshhhuthgvmhhovhdrnh
+    grmhgvqeenucggtffrrghtthgvrhhnpefhieeghfdtfeehtdeftdehgfehuddtvdeuheet
+    tddtheejueekjeegueeivdektdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmh
+    epmhgrihhlfhhrohhmpehkihhrihhllhesshhhuhhtvghmohhvrdhnrghmvg
+X-ME-Proxy: <xmx:pHz9YjURvYrPk7ln2G6y5jzbE1QNYYzGLgRztyxiICy4kfvUbUjaNg>
+    <xmx:pHz9Yum1Ff9XGpoiOlx7NWmi_AWkZcUFRDXkPoeuriI3uxXSxr406w>
+    <xmx:pHz9YodmYF_t-pLZ3YNAgjRYP3doKC47u2BG16XkOANkKS6FtmEg2Q>
+    <xmx:pXz9YoADMoiV4yerQswAA91U22gwFiEMHVgZT94HO2C4gO2O9zUMXQ>
+Feedback-ID: ie3994620:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 17 Aug 2022 19:41:23 -0400 (EDT)
+Received: by box.shutemov.name (Postfix, from userid 1000)
+        id E5075104A77; Thu, 18 Aug 2022 02:41:20 +0300 (+03)
+Date:   Thu, 18 Aug 2022 02:41:20 +0300
+From:   "Kirill A. Shutemov" <kirill@shutemov.name>
+To:     Paolo Bonzini <pbonzini@redhat.com>
+Cc:     David Hildenbrand <david@redhat.com>,
+        Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+        linux-kselftest@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Sean Christopherson <seanjc@google.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+        ak@linux.intel.com, aarcange@redhat.com, ddutile@redhat.com,
+        dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+        Muchun Song <songmuchun@bytedance.com>
+Subject: Re: [PATCH v7 01/14] mm: Add F_SEAL_AUTO_ALLOCATE seal to memfd
+Message-ID: <20220817234120.mw2j3cgshmuyo2vw@box.shutemov.name>
+References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
+ <20220706082016.2603916-2-chao.p.peng@linux.intel.com>
+ <f39c4f63-a511-4beb-b3a4-66589ddb5475@redhat.com>
+ <472207cf-ff71-563b-7b66-0c7bea9ea8ad@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220719080807.16729-1-pali@kernel.org>
-User-Agent: NeoMutt/20180716
+In-Reply-To: <472207cf-ff71-563b-7b66-0c7bea9ea8ad@redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tuesday 19 July 2022 10:08:07 Pali Rohár wrote:
-> Orion codenames are extracted from menuconfig ARCH_ORION5X and
-> old Orion homepage with 88F5182/88F5281 was found in web archive.
+On Fri, Aug 05, 2022 at 07:55:38PM +0200, Paolo Bonzini wrote:
+> On 7/21/22 11:44, David Hildenbrand wrote:
+> > 
+> > Also, I*think*  you can place pages via userfaultfd into shmem. Not
+> > sure if that would count "auto alloc", but it would certainly bypass
+> > fallocate().
 > 
-> Signed-off-by: Pali Rohár <pali@kernel.org>
+> Yeah, userfaultfd_register would probably have to forbid this for
+> F_SEAL_AUTO_ALLOCATE vmas.  Maybe the memfile_node can be reused for this,
+> adding a new MEMFILE_F_NO_AUTO_ALLOCATE flags?  Then userfault_register
+> would do something like memfile_node_get_flags(vma->vm_file) and check the
+> result.
 
-PING?
+I donno, memory allocation with userfaultfd looks pretty intentional to
+me. Why would F_SEAL_AUTO_ALLOCATE prevent it?
 
-> ---
-> In archived homepage are also links to erratas and other Orion documents
-> but apparently webarchive does not have backup copy of it :-( and Marvell
-> already removed all documentation from their web sites :-(
-> ---
->  Documentation/arm/marvell.rst | 12 +++++++-----
->  1 file changed, 7 insertions(+), 5 deletions(-)
-> 
-> diff --git a/Documentation/arm/marvell.rst b/Documentation/arm/marvell.rst
-> index 2f41caa0096c..8540437f6a79 100644
-> --- a/Documentation/arm/marvell.rst
-> +++ b/Documentation/arm/marvell.rst
-> @@ -14,18 +14,20 @@ Orion family
->  
->    Flavors:
->          - 88F5082
-> -        - 88F5181
-> -        - 88F5181L
-> -        - 88F5182
-> +        - 88F5181  a.k.a Orion-1
-> +        - 88F5181L a.k.a Orion-VoIP
-> +        - 88F5182  a.k.a Orion-NAS
->  
->                 - Datasheet: https://web.archive.org/web/20210124231420/http://csclub.uwaterloo.ca/~board/ts7800/MV88F5182-datasheet.pdf
->                 - Programmer's User Guide: https://web.archive.org/web/20210124231536/http://csclub.uwaterloo.ca/~board/ts7800/MV88F5182-opensource-manual.pdf
->                 - User Manual: https://web.archive.org/web/20210124231631/http://csclub.uwaterloo.ca/~board/ts7800/MV88F5182-usermanual.pdf
->                 - Functional Errata: https://web.archive.org/web/20210704165540/https://www.digriz.org.uk/ts78xx/88F5182_Functional_Errata.pdf
-> -        - 88F5281
-> +        - 88F5281  a.k.a Orion-2
->  
->                 - Datasheet: https://web.archive.org/web/20131028144728/http://www.ocmodshop.com/images/reviews/networking/qnap_ts409u/marvel_88f5281_data_sheet.pdf
-> -        - 88F6183
-> +        - 88F6183  a.k.a Orion-1-90
-> +  Homepage:
-> +        https://web.archive.org/web/20080607215437/http://www.marvell.com/products/media/index.jsp
->    Core:
->  	Feroceon 88fr331 (88f51xx) or 88fr531-vd (88f52xx) ARMv5 compatible
->    Linux kernel mach directory:
-> -- 
-> 2.20.1
-> 
+Maybe we would need it in the future for post-copy migration or something?
+
+Or existing practises around userfaultfd touch memory randomly and
+therefore incompatible with F_SEAL_AUTO_ALLOCATE intent?
+
+Note, that userfaultfd is only relevant for shared memory as it requires
+VMA which we don't have for MFD_INACCESSIBLE.
+
+-- 
+  Kiryl Shutsemau / Kirill A. Shutemov
