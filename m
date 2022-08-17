@@ -2,87 +2,168 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 946D1C25B08
-	for <linux-doc@archiver.kernel.org>; Wed, 17 Aug 2022 20:27:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CA04BC3F6B0
+	for <linux-doc@archiver.kernel.org>; Wed, 17 Aug 2022 21:47:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241876AbiHQU1k (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 17 Aug 2022 16:27:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41346 "EHLO
+        id S241759AbiHQVrg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 17 Aug 2022 17:47:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48882 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229819AbiHQU1k (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 17 Aug 2022 16:27:40 -0400
-Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C90AA9267
-        for <linux-doc@vger.kernel.org>; Wed, 17 Aug 2022 13:27:39 -0700 (PDT)
-Received: by mail-pl1-x629.google.com with SMTP id x23so12934286pll.7
-        for <linux-doc@vger.kernel.org>; Wed, 17 Aug 2022 13:27:39 -0700 (PDT)
+        with ESMTP id S235796AbiHQVrf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 17 Aug 2022 17:47:35 -0400
+Received: from mail-yw1-x114a.google.com (mail-yw1-x114a.google.com [IPv6:2607:f8b0:4864:20::114a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92ECDA99CD
+        for <linux-doc@vger.kernel.org>; Wed, 17 Aug 2022 14:47:33 -0700 (PDT)
+Received: by mail-yw1-x114a.google.com with SMTP id 00721157ae682-3360c0f0583so19683837b3.2
+        for <linux-doc@vger.kernel.org>; Wed, 17 Aug 2022 14:47:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc;
-        bh=e8AurnYaw5w6q42X379tvVxdUwxeEA/mYjtAY47a6po=;
-        b=aLY/bwswAmyWGmv+4JEwglL+yZmZSkY5uTI10+jNpMXObxnDHYBy1/NFE6oNgiy8gm
-         8M7QxAggsLjoXwN0tKrViIKk34FBRU2jjAG7OmyyvJlon3HbSz6RYHrCeWoKD7s7v+ey
-         WBXTu2wjGczVnm7NC9ChqKPe87n8jYbCFqs3I=
+        d=google.com; s=20210112;
+        h=cc:to:from:subject:mime-version:message-id:date:from:to:cc;
+        bh=ZccKepyy+mkkFUP/9kxuvptYUZUbOq684Zg6ooxPEl8=;
+        b=oAdGHMBIBRjGZoLLA6VlX+94im86xq9mmys56n9di740YtF0BsvAgpxpdRGW7ioWJ9
+         efJ4cZQsGoUWRIkGaAOqaRiwkNNqOkVw1OKvOeFHQbrACOK52MhHZO3la1555gKKAt6q
+         yzBKJj2rjhmFApIEejIm2MLfg+AxYxL4fHi6H4nfI4G8cz9U2Q7F5NT64EJuA3xiSmUQ
+         izE2YWr3delvoaf5cw2raoNjAS43v6W550GMyLNT4tJgveQY+FV8shQdQg+x6AkbgUYz
+         retvQtg8mO4CmiutKEyqBp6+JFE/pIyHLxykKY8G7w5n/QIKIuHSHSD28Cpx0Uu/lUD2
+         3H7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
-        bh=e8AurnYaw5w6q42X379tvVxdUwxeEA/mYjtAY47a6po=;
-        b=QaCHkYYukSJQkmVSS80RL4Dp+ATJbrIPlnVJ2fTis4mIjyPf5HWSR4AgzH/mzSM948
-         e5NdNEfMpBfn2m2KeOVM8HXCpIrN9M990ccKiL6tMig9RyDjcxIcGr8ASNXDYSElr7uG
-         DsK7fKrF9EBBN+pEQmklnjMOP+/LJRJegJDH6FPH4NH8LyWWDhyxufFjg2jvGyIf+1w0
-         JnMLYcW+tGN82tMyH1NFFxTLTdeeAWC3Du1iSFeMY0DwnrIA83iaoMNw5ra5evtu3sXx
-         hmlbSdVz4eYo9qJWWp8fzKF179k0ep9hhIPdCVGExlOI101aLBN/sWCTCrEyVlREfiPA
-         ZXaQ==
-X-Gm-Message-State: ACgBeo3IT2Y1V2VE08Y14ZegD/wKQ0jUvWNM6ge5Cz8oDn58n3WXaKWk
-        uburbeS/+CNPGa+JRBY3aTiTGw==
-X-Google-Smtp-Source: AA6agR5S9YLS9hTLBjiPpJ4Ms8k04xxDQPAV7b2x3cjD+0b+HLPqSTmwLa6D1Y6x82x152TjEZlwVw==
-X-Received: by 2002:a17:902:cccb:b0:172:60b7:4590 with SMTP id z11-20020a170902cccb00b0017260b74590mr20507691ple.152.1660768058582;
-        Wed, 17 Aug 2022 13:27:38 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id a8-20020a1709027e4800b0016efa52d428sm320362pln.218.2022.08.17.13.27.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Aug 2022 13:27:37 -0700 (PDT)
-Date:   Wed, 17 Aug 2022 13:27:36 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     Miguel Ojeda <ojeda@kernel.org>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, patches@lists.linux.dev,
-        Jarkko Sakkinen <jarkko@kernel.org>,
-        Alex Gaynor <alex.gaynor@gmail.com>,
-        Wedson Almeida Filho <wedsonaf@google.com>,
-        David Gow <davidgow@google.com>,
-        Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-        =?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+        h=cc:to:from:subject:mime-version:message-id:date:x-gm-message-state
+         :from:to:cc;
+        bh=ZccKepyy+mkkFUP/9kxuvptYUZUbOq684Zg6ooxPEl8=;
+        b=3HIS10e4Mvlc+hJ8NIOh8cliEeJfzh/lRHeUQvCoxRDmLBCfoN9DBcFupqUJew3uXh
+         hSft8iII8QitULLGs6eTYii/KEiT37ncQI5yQ4l8eXhQPLTVHDD0CME1GZEZAIlDePuL
+         7aDifUTUXN26057EsfEGhSzLw9IcnqTNxHTG0XVxN+/c+bp1SpjJijgrYxBPYR+7UCKy
+         /e3VGpxEeTYGpXST1D69I4ri5SNlbJd/TvyitnuD6zGKi5llGsxucoZLwJOc1tyXV8lp
+         29pArHwA4+YRt/lnc83nZ+VWtLraWO97yNDH7ze/Ix2qo8rmnATRryiqXZ+PXhsGotpz
+         +aTg==
+X-Gm-Message-State: ACgBeo1XmOR2RDw49aXyWG023jMG4JFqU9jyqOLk0i/tSiq4u/vCJl8G
+        w0wI6vgkDzsVytcmoEkK5N93W4TnXdmND8m359g/
+X-Google-Smtp-Source: AA6agR41kshahHzOHokRZUKnpIW9g/i+LTC2cDfWo+NhTdS+UTJkI+SoWb4uW6VK9HAabIEYe6Ct3OITfI8JzSknsvQH
+X-Received: from ajr0.svl.corp.google.com ([2620:15c:2d4:203:2f41:f176:4bac:b729])
+ (user=axelrasmussen job=sendgmr) by 2002:a05:6902:722:b0:679:7ff8:1471 with
+ SMTP id l2-20020a056902072200b006797ff81471mr240843ybt.352.1660772852878;
+ Wed, 17 Aug 2022 14:47:32 -0700 (PDT)
+Date:   Wed, 17 Aug 2022 14:47:23 -0700
+Message-Id: <20220817214728.489904-1-axelrasmussen@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.37.1.595.g718a3a8f04-goog
+Subject: [PATCH v6 0/5] userfaultfd: add /dev/userfaultfd for fine grained
+ access control
+From:   Axel Rasmussen <axelrasmussen@google.com>
+To:     Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "Dmitry V . Levin" <ldv@altlinux.org>,
+        Gleb Fotengauer-Malinovskiy <glebfm@altlinux.org>,
+        Hugh Dickins <hughd@google.com>, Jan Kara <jack@suse.cz>,
         Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v9 25/27] x86: enable initial Rust support
-Message-ID: <202208171327.EFF61F0E@keescook>
-References: <20220805154231.31257-1-ojeda@kernel.org>
- <20220805154231.31257-26-ojeda@kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220805154231.31257-26-ojeda@kernel.org>
+        Mel Gorman <mgorman@techsingularity.net>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Mike Rapoport <rppt@kernel.org>, Nadav Amit <namit@vmware.com>,
+        Peter Xu <peterx@redhat.com>, Shuah Khan <shuah@kernel.org>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Vlastimil Babka <vbabka@suse.cz>, zhangyi <yi.zhang@huawei.com>
+Cc:     Axel Rasmussen <axelrasmussen@google.com>,
+        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-mm@kvack.org, linux-security-module@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Aug 05, 2022 at 05:42:10PM +0200, Miguel Ojeda wrote:
-> Note that only x86_64 is covered and not all features nor mitigations
-> are handled, but it is enough as a starting point and showcases
-> the basics needed to add Rust support for a new architecture.
-> 
-> Co-developed-by: Alex Gaynor <alex.gaynor@gmail.com>
-> Signed-off-by: Alex Gaynor <alex.gaynor@gmail.com>
+This series is based on torvalds/master.
 
-Reviewed-by: Kees Cook <keescook@chromium.org>
+The series is split up like so:
+- Patch 1 is a simple fixup which we should take in any case (even by itself).
+- Patches 2-5 add the feature, configurable selftest support, and docs.
 
--- 
-Kees Cook
+Why not ...?
+============
+
+- Why not /proc/[pid]/userfaultfd? Two main points (additional discussion [1]):
+
+    - /proc/[pid]/* files are all owned by the user/group of the process, and
+      they don't really support chmod/chown. So, without extending procfs it
+      doesn't solve the problem this series is trying to solve.
+
+    - The main argument *for* this was to support creating UFFDs for remote
+      processes. But, that use case clearly calls for CAP_SYS_PTRACE, so to
+      support this we could just use the UFFD syscall as-is.
+
+- Why not use a syscall? Access to syscalls is generally controlled by
+  capabilities. We don't have a capability which is used for userfaultfd access
+  without also granting more / other permissions as well, and adding a new
+  capability was rejected [2].
+
+    - It's possible a LSM could be used to control access instead, but I have
+      some concerns. I don't think this approach would be as easy to use,
+      particularly if we were to try to solve this with something heavyweight
+      like SELinux. Maybe we could pursue adding a new LSM specifically for
+      this user case, but it may be too narrow of a case to justify that.
+
+Changelog
+=========
+
+v5->v6:
+  - Modified selftest to exit with KSFT_SKIP *only* when features are
+    unsupported, exiting with 1 in other error cases. [Mike]
+  - Improved wording in two spots in the documentation. [Mike]
+  - Picked up some Acked-by's.
+
+v4->v5:
+  - Call userfaultfd_syscall_allowed() directly in the syscall, so we don't
+    have to plumb a flag into new_userfaultfd(). [Nadav]
+  - Refactored run_vmtests.sh to loop over UFFD test mods. [Nadav]
+  - Reworded cover letter.
+  - Picked up some Acked-by's.
+
+v3->v4:
+  - Picked up an Acked-by on 5/5.
+  - Updated cover letter to cover "why not ...".
+  - Refactored userfaultfd_allowed() into userfaultfd_syscall_allowed(). [Peter]
+  - Removed obsolete comment from a previous version. [Peter]
+  - Refactored userfaultfd_open() in selftest. [Peter]
+  - Reworded admin-guide documentation. [Mike, Peter]
+  - Squashed 2 commits adding /dev/userfaultfd to selftest and making selftest
+    configurable. [Peter]
+  - Added "syscall" test modifier (the default behavior) to selftest. [Peter]
+
+v2->v3:
+  - Rebased onto linux-next/akpm-base, in order to be based on top of the
+    run_vmtests.sh refactor which was merged previously.
+  - Picked up some Reviewed-by's.
+  - Fixed ioctl definition (_IO instead of _IOWR), and stopped using
+    compat_ptr_ioctl since it is unneeded for ioctls which don't take a pointer.
+  - Removed the "handle_kernel_faults" bool, simplifying the code. The result is
+    logically equivalent, but simpler.
+  - Fixed userfaultfd selftest so it returns KSFT_SKIP appropriately.
+  - Reworded documentation per Shuah's feedback on v2.
+  - Improved example usage for userfaultfd selftest.
+
+v1->v2:
+  - Add documentation update.
+  - Test *both* userfaultfd(2) and /dev/userfaultfd via the selftest.
+
+[1]: https://patchwork.kernel.org/project/linux-mm/cover/20220719195628.3415852-1-axelrasmussen@google.com/
+[2]: https://lore.kernel.org/lkml/686276b9-4530-2045-6bd8-170e5943abe4@schaufler-ca.com/T/
+
+Axel Rasmussen (5):
+  selftests: vm: add hugetlb_shared userfaultfd test to run_vmtests.sh
+  userfaultfd: add /dev/userfaultfd for fine grained access control
+  userfaultfd: selftests: modify selftest to use /dev/userfaultfd
+  userfaultfd: update documentation to describe /dev/userfaultfd
+  selftests: vm: add /dev/userfaultfd test cases to run_vmtests.sh
+
+ Documentation/admin-guide/mm/userfaultfd.rst | 41 ++++++++++-
+ Documentation/admin-guide/sysctl/vm.rst      |  3 +
+ fs/userfaultfd.c                             | 73 ++++++++++++++-----
+ include/uapi/linux/userfaultfd.h             |  4 ++
+ tools/testing/selftests/vm/run_vmtests.sh    | 15 ++--
+ tools/testing/selftests/vm/userfaultfd.c     | 76 +++++++++++++++++---
+ 6 files changed, 178 insertions(+), 34 deletions(-)
+
+--
+2.37.1.595.g718a3a8f04-goog
+
