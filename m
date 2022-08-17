@@ -2,287 +2,142 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A9D50C25B08
-	for <linux-doc@archiver.kernel.org>; Wed, 17 Aug 2022 19:53:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F0668C3F6B0
+	for <linux-doc@archiver.kernel.org>; Wed, 17 Aug 2022 20:09:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231640AbiHQTxz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 17 Aug 2022 15:53:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55324 "EHLO
+        id S238570AbiHQUJz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 17 Aug 2022 16:09:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59236 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241619AbiHQTxq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 17 Aug 2022 15:53:46 -0400
-Received: from mail-il1-x12a.google.com (mail-il1-x12a.google.com [IPv6:2607:f8b0:4864:20::12a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB0221FCD3
-        for <linux-doc@vger.kernel.org>; Wed, 17 Aug 2022 12:53:36 -0700 (PDT)
-Received: by mail-il1-x12a.google.com with SMTP id o14so7422334ilt.2
-        for <linux-doc@vger.kernel.org>; Wed, 17 Aug 2022 12:53:36 -0700 (PDT)
+        with ESMTP id S238004AbiHQUJs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 17 Aug 2022 16:09:48 -0400
+Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B3101707C;
+        Wed, 17 Aug 2022 13:09:47 -0700 (PDT)
+Received: by mail-pj1-x1032.google.com with SMTP id r15-20020a17090a1bcf00b001fabf42a11cso1665106pjr.3;
+        Wed, 17 Aug 2022 13:09:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc;
-        bh=hEZIxBe/ExqP7zsKdZtdHr4635XpChkKa3yK0fzTdco=;
-        b=nT/tg7iVBsnql8AAPz9H79cTk1UjdZ5nkFQ5s2J40wO4sFfxJ0PCSEKxep5njGlPzN
-         Zb+DD2SB92tqUIgDBYychXe9dP55bKd5xN9uhh+BiH3KRnk8SHG+yFgGIIVKsTJ/+2iF
-         ZsGZjaesJSj6wDDk1Zvh2dva7MoFeKJe7L0N4UCNCvBNJAbKIkChsIC+fe3JkcUBsKvN
-         Qbf+38AMTzN8nBh6Mok66CJGWqtjjswxjjaAmk8MAvzQIeuiKkrOAADBhzhe1Pj4qqSt
-         t+P4/2uZZBvj4iGXus+n+W+GaRbQjjHZX+zPGEp/99jKmt3KneOffNiz4UgUiWprqlAL
-         IzXA==
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc;
+        bh=OMLQK+bB28GP1BYxwXfZjj/ffD/QvSECuf9uKxzzyg8=;
+        b=oG9fUL3NelPte1UzZGQfj8810HxQpzvC+JvheiCHU1a26N0A5543ttHw50UjbGoeII
+         lycIfnI08TQH9Nv+h7p+q9sCPRpEXRLL+XAraL86FPUJAfm89KTn/s6A0IMZfqYC9fh3
+         1/SjUL6ySk6O8kwg4j9t5m+2fWI4FRPc8yM6IGhkNujPFdXRxHJ+dYxhV4EaAcYDNRGC
+         H8YX8E08aYNvMvUclnwzIOk9XeWwhIlBwSrFk2zJ/6SV08kxVlqiKAuKghf4yO24yKxC
+         peg+b1Sd0QH8dw2u29ZTwdbsQCcOUspZLHyMaufwZtEXm9GxN6ea9BAAPu6MmU3sL+Ih
+         xT3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc;
-        bh=hEZIxBe/ExqP7zsKdZtdHr4635XpChkKa3yK0fzTdco=;
-        b=WsvhZCweN1MNIhxwEKR60SA1NXL9aGdS2uDlbhAB4shvS7F/1fIHHssQ0fNM6mWFey
-         NULgPYfjaeQI/Tfnppa4ZejQwqQp/H8mZA23sYcLor6MCa8tGthTsyAy5NTwr7Th0fUa
-         29KDto5cb5SdB7j3QCdRYAC/Rf7N0tVjKrXSYnJ2daPvbMef9xZ+w7pDQ/rNSzArJ2Vr
-         +J4o0xe8k7XCjpdrN6fZD0AQwcJDoERpG6nWRWj/H1aKAYLZ70vHP0BYHjOzuEfl/eEL
-         NMC/MFkzPpbfiEkdG96/lZHfaUmXAoJgAMdO9T0Kpm9k9miNGa0+Xjgnm637t7h7reNA
-         8jsA==
-X-Gm-Message-State: ACgBeo1fpnkylMCCCc78AEfByZhKsCKxcGqzNeDsPDmpp94+/WCpX6ZK
-        L635M6BmUtmZcXJ82AYEs69LCDH+SiXeXQUS9FhlbA==
-X-Google-Smtp-Source: AA6agR7cABZ3BZEtSChr7XD/yzQACy3MMOxgGaxmfviXtZZ2J+i24gCYzD9uRUAEQu1gtALZU0kqAWXtEOwElvs5PsQ=
-X-Received: by 2002:a92:da50:0:b0:2e8:f4f4:e505 with SMTP id
- p16-20020a92da50000000b002e8f4f4e505mr564940ilq.247.1660766016006; Wed, 17
- Aug 2022 12:53:36 -0700 (PDT)
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
+        bh=OMLQK+bB28GP1BYxwXfZjj/ffD/QvSECuf9uKxzzyg8=;
+        b=3UpuuD6gAx9DR/7vBBalY2om3Hzg+WJtYIMk/0dl09Di7aa4LXqdUaGFZABkfKVNyQ
+         BqA772Kf1LEgLp4iXTpLEvPtKw/BAfLqX/wzlFugV9Tq56h8hJ47bnq+YZuHQGqBR4bb
+         mZjeZl/RCz3l8gIaD84c6A1szGB6UUx7JeppHSTnba564w+JqkSLqDZPziDcREy4Xdt0
+         wf8srjwHiH8rQNzzPTDx0x28JJrs+0Cy7GlmPmyaU/elsGgA28W0l1Xr+NwIOt0rEcyA
+         y932z0VuK7RUaHi+iiyFbYAT8m0/7B8yg7opKRhNlMQTnTAWkTKIosVPlZ1PZ+Wwd80W
+         Fgew==
+X-Gm-Message-State: ACgBeo2N4V7zw8WR9TE+RD0g52i7gka1epw31fGLmc9mZdIhWx9NtyMf
+        QTvM6EGnwDNJ9BzKrGKMLKc=
+X-Google-Smtp-Source: AA6agR6TfJAgaWebzxeSTK6qvngdSuLxfysK21V1xKujdVtIa3GoYs5OGuiYdlC82cSySphWzGCD5w==
+X-Received: by 2002:a17:90a:1912:b0:1f7:8c6c:4fde with SMTP id 18-20020a17090a191200b001f78c6c4fdemr5466437pjg.8.1660766986529;
+        Wed, 17 Aug 2022 13:09:46 -0700 (PDT)
+Received: from localhost (fwdproxy-prn-002.fbsv.net. [2a03:2880:ff:2::face:b00c])
+        by smtp.gmail.com with ESMTPSA id b23-20020aa79517000000b0052bae7b2af8sm10876830pfp.201.2022.08.17.13.09.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 17 Aug 2022 13:09:46 -0700 (PDT)
+From:   Adel Abouchaev <adel.abushaev@gmail.com>
+To:     kuba@kernel.org
+Cc:     davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
+        corbet@lwn.net, dsahern@kernel.org, shuah@kernel.org,
+        imagedong@tencent.com, netdev@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
+Subject: [net-next v2 0/6] net: support QUIC crypto
+Date:   Wed, 17 Aug 2022 13:09:34 -0700
+Message-Id: <20220817200940.1656747-1-adel.abushaev@gmail.com>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <Adel Abouchaev <adel.abushaev@gmail.com>
+References: <Adel Abouchaev <adel.abushaev@gmail.com>
 MIME-Version: 1.0
-References: <20220808175614.3885028-1-axelrasmussen@google.com>
- <20220808175614.3885028-4-axelrasmussen@google.com> <YvSj2h7WgV1xd2Ht@kernel.org>
-In-Reply-To: <YvSj2h7WgV1xd2Ht@kernel.org>
-From:   Axel Rasmussen <axelrasmussen@google.com>
-Date:   Wed, 17 Aug 2022 12:53:00 -0700
-Message-ID: <CAJHvVchqCBsiZVuMc2b3jBgpeK+9LTp6tB-LBDrrcGkmjQqmLQ@mail.gmail.com>
-Subject: Re: [PATCH v5 3/5] userfaultfd: selftests: modify selftest to use /dev/userfaultfd
-To:     Mike Rapoport <rppt@kernel.org>
-Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "Dmitry V . Levin" <ldv@altlinux.org>,
-        Gleb Fotengauer-Malinovskiy <glebfm@altlinux.org>,
-        Hugh Dickins <hughd@google.com>, Jan Kara <jack@suse.cz>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mel Gorman <mgorman@techsingularity.net>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <namit@vmware.com>, Peter Xu <peterx@redhat.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        zhangyi <yi.zhang@huawei.com>, linux-doc@vger.kernel.org,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linuxkselftest <linux-kselftest@vger.kernel.org>,
-        Linux MM <linux-mm@kvack.org>,
-        linux-security-module@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Aug 10, 2022 at 11:38 PM Mike Rapoport <rppt@kernel.org> wrote:
->
-> On Mon, Aug 08, 2022 at 10:56:12AM -0700, Axel Rasmussen wrote:
-> > We clearly want to ensure both userfaultfd(2) and /dev/userfaultfd keep
-> > working into the future, so just run the test twice, using each
-> > interface.
-> >
-> > Instead of always testing both userfaultfd(2) and /dev/userfaultfd,
-> > let the user choose which to test.
-> >
-> > As with other test features, change the behavior based on a new
-> > command line flag. Introduce the idea of "test mods", which are
-> > generic (not specific to a test type) modifications to the behavior of
-> > the test. This is sort of borrowed from this RFC patch series [1], but
-> > simplified a bit.
-> >
-> > The benefit is, in "typical" configurations this test is somewhat slow
-> > (say, 30sec or something). Testing both clearly doubles it, so it may
-> > not always be desirable, as users are likely to use one or the other,
-> > but never both, in the "real world".
-> >
-> > [1]: https://patchwork.kernel.org/project/linux-mm/patch/20201129004548.1619714-14-namit@vmware.com/
-> >
-> > Acked-by: Peter Xu <peterx@redhat.com>
-> > Signed-off-by: Axel Rasmussen <axelrasmussen@google.com>
->
-> With a few nits below
->
-> Acked-by: Mike Rapoport <rppt@linux.ibm.com>
+QUIC requires end to end encryption of the data. The application usually
+prepares the data in clear text, encrypts and calls send() which implies
+multiple copies of the data before the packets hit the networking stack.
+Similar to kTLS, QUIC kernel offload of cryptography reduces the memory
+pressure by reducing the number of copies.
 
-Thanks for reviewing, Mike!
+The scope of kernel support is limited to the symmetric cryptography,
+leaving the handshake to the user space library. For QUIC in particular,
+the application packets that require symmetric cryptography are the 1RTT
+packets with short headers. Kernel will encrypt the application packets
+on transmission and decrypt on receive. This series implements Tx only,
+because in QUIC server applications Tx outweighs Rx by orders of
+magnitude.
 
->
-> > ---
-> >  tools/testing/selftests/vm/userfaultfd.c | 69 ++++++++++++++++++++----
-> >  1 file changed, 60 insertions(+), 9 deletions(-)
-> >
-> > diff --git a/tools/testing/selftests/vm/userfaultfd.c b/tools/testing/selftests/vm/userfaultfd.c
-> > index 7c3f1b0ab468..cae72867c173 100644
-> > --- a/tools/testing/selftests/vm/userfaultfd.c
-> > +++ b/tools/testing/selftests/vm/userfaultfd.c
-> > @@ -77,6 +77,11 @@ static int bounces;
-> >  #define TEST_SHMEM   3
-> >  static int test_type;
-> >
-> > +#define UFFD_FLAGS   (O_CLOEXEC | O_NONBLOCK | UFFD_USER_MODE_ONLY)
-> > +
-> > +/* test using /dev/userfaultfd, instead of userfaultfd(2) */
-> > +static bool test_dev_userfaultfd;
-> > +
-> >  /* exercise the test_uffdio_*_eexist every ALARM_INTERVAL_SECS */
-> >  #define ALARM_INTERVAL_SECS 10
-> >  static volatile bool test_uffdio_copy_eexist = true;
-> > @@ -125,6 +130,8 @@ struct uffd_stats {
-> >  const char *examples =
-> >      "# Run anonymous memory test on 100MiB region with 99999 bounces:\n"
-> >      "./userfaultfd anon 100 99999\n\n"
-> > +    "# Run the same anonymous memory test, but using /dev/userfaultfd:\n"
-> > +    "./userfaultfd anon:dev 100 99999\n\n"
-> >      "# Run share memory test on 1GiB region with 99 bounces:\n"
-> >      "./userfaultfd shmem 1000 99\n\n"
-> >      "# Run hugetlb memory test on 256MiB region with 50 bounces:\n"
-> > @@ -141,6 +148,14 @@ static void usage(void)
-> >               "[hugetlbfs_file]\n\n");
-> >       fprintf(stderr, "Supported <test type>: anon, hugetlb, "
-> >               "hugetlb_shared, shmem\n\n");
-> > +     fprintf(stderr, "'Test mods' can be joined to the test type string with a ':'. "
-> > +             "Supported mods:\n");
-> > +     fprintf(stderr, "\tsyscall - Use userfaultfd(2) (default)\n");
-> > +     fprintf(stderr, "\tdev - Use /dev/userfaultfd instead of userfaultfd(2)\n");
-> > +     fprintf(stderr, "\nExample test mod usage:\n");
-> > +     fprintf(stderr, "# Run anonymous memory test with /dev/userfaultfd:\n");
-> > +     fprintf(stderr, "./userfaultfd anon:dev 100 99999\n\n");
-> > +
-> >       fprintf(stderr, "Examples:\n\n");
-> >       fprintf(stderr, "%s", examples);
-> >       exit(1);
-> > @@ -154,12 +169,14 @@ static void usage(void)
-> >                       ret, __LINE__);                         \
-> >       } while (0)
-> >
-> > -#define err(fmt, ...)                                \
-> > +#define errexit(exitcode, fmt, ...)          \
-> >       do {                                    \
-> >               _err(fmt, ##__VA_ARGS__);       \
-> > -             exit(1);                        \
-> > +             exit(exitcode);                 \
-> >       } while (0)
-> >
-> > +#define err(fmt, ...) errexit(1, fmt, ##__VA_ARGS__)
-> > +
-> >  static void uffd_stats_reset(struct uffd_stats *uffd_stats,
-> >                            unsigned long n_cpus)
-> >  {
-> > @@ -383,13 +400,29 @@ static void assert_expected_ioctls_present(uint64_t mode, uint64_t ioctls)
-> >       }
-> >  }
-> >
-> > +static int __userfaultfd_open_dev(void)
-> > +{
-> > +     int fd, _uffd = -1;
->
-> Nit: the initialization here is not necessary, _uffd is always set from
-> ioctl() return value.
+Supporting the combination of QUIC and GSO requires the application to
+correctly place the data and the kernel to correctly slice it. The
+encryption process appends an arbitrary number of bytes (tag) to the end
+of the message to authenticate it. The GSO value should include this
+overhead, the offload would then subtract the tag size to parse the
+input on Tx before chunking and encrypting it.
 
-Agreed.
+With the kernel cryptography, the buffer copy operation is conjoined
+with the encryption operation. The memory bandwidth is reduced by 5-8%.
+When devices supporting QUIC encryption in hardware come to the market,
+we will be able to free further 7% of CPU utilization which is used
+today for crypto operations.
 
->
-> > +
-> > +     fd = open("/dev/userfaultfd", O_RDWR | O_CLOEXEC);
-> > +     if (fd < 0)
-> > +             return -1;
-> > +
-> > +     _uffd = ioctl(fd, USERFAULTFD_IOC_NEW, UFFD_FLAGS);
-> > +     close(fd);
-> > +     return _uffd;
-> > +}
-> > +
-> >  static void userfaultfd_open(uint64_t *features)
-> >  {
-> >       struct uffdio_api uffdio_api;
-> >
-> > -     uffd = syscall(__NR_userfaultfd, O_CLOEXEC | O_NONBLOCK | UFFD_USER_MODE_ONLY);
-> > +     if (test_dev_userfaultfd)
-> > +             uffd = __userfaultfd_open_dev();
-> > +     else
-> > +             uffd = syscall(__NR_userfaultfd, UFFD_FLAGS);
-> >       if (uffd < 0)
-> > -             err("userfaultfd syscall not available in this kernel");
-> > +             errexit(KSFT_SKIP, "creating userfaultfd failed");
->
-> I'm not sure if this should be KSFT_SKIP. If creation of uffd failed
-> because anything except ENOSYS I'd consider the test failing.
+Adel Abouchaev (6):
+  Documentation on QUIC kernel Tx crypto.
+  Define QUIC specific constants, control and data plane structures
+  Add UDP ULP operations, initialization and handling prototype
+    functions.
+  Implement QUIC offload functions
+  Add flow counters and Tx processing error counter
+  Add self tests for ULP operations, flow setup and crypto tests
 
-Agreed, but looking at it I think it's more complicated.
+ Documentation/networking/index.rst     |    1 +
+ Documentation/networking/quic.rst      |  185 ++++
+ include/net/inet_sock.h                |    2 +
+ include/net/netns/mib.h                |    3 +
+ include/net/quic.h                     |   63 ++
+ include/net/snmp.h                     |    6 +
+ include/net/udp.h                      |   33 +
+ include/uapi/linux/quic.h              |   60 +
+ include/uapi/linux/snmp.h              |    9 +
+ include/uapi/linux/udp.h               |    4 +
+ net/Kconfig                            |    1 +
+ net/Makefile                           |    1 +
+ net/ipv4/Makefile                      |    3 +-
+ net/ipv4/udp.c                         |   15 +
+ net/ipv4/udp_ulp.c                     |  192 ++++
+ net/quic/Kconfig                       |   16 +
+ net/quic/Makefile                      |    8 +
+ net/quic/quic_main.c                   | 1417 ++++++++++++++++++++++++
+ net/quic/quic_proc.c                   |   45 +
+ tools/testing/selftests/net/.gitignore |    4 +-
+ tools/testing/selftests/net/Makefile   |    3 +-
+ tools/testing/selftests/net/quic.c     | 1153 +++++++++++++++++++
+ tools/testing/selftests/net/quic.sh    |   46 +
+ 23 files changed, 3267 insertions(+), 3 deletions(-)
+ create mode 100644 Documentation/networking/quic.rst
+ create mode 100644 include/net/quic.h
+ create mode 100644 include/uapi/linux/quic.h
+ create mode 100644 net/ipv4/udp_ulp.c
+ create mode 100644 net/quic/Kconfig
+ create mode 100644 net/quic/Makefile
+ create mode 100644 net/quic/quic_main.c
+ create mode 100644 net/quic/quic_proc.c
+ create mode 100644 tools/testing/selftests/net/quic.c
+ create mode 100755 tools/testing/selftests/net/quic.sh
 
-In __userfaultfd_open_dev, I think:
-- If we fail to open /dev/userfaultfd for any reason, that's a KSFT_SKIP
-- If USERFAULTFD_IOC_NEW returns ENOTTY that's a KSFT_SKIP, otherwise
-a real test failure.
 
-But then for syscall(__NR_userfaultfd, ...), I think ENOSYS is a
-KSFT_SKIP, but any other errno is a real test failure.
+base-commit: fd78d07c7c35de260eb89f1be4a1e7487b8092ad
+-- 
+2.30.2
 
-I'll send an updated version which has those semantics. I think to do
-so we need to move some of the error handling into
-__userfaultfd_open_dev, instead of having its caller do it.
-
->
-> >       uffd_flags = fcntl(uffd, F_GETFD, NULL);
-> >
-> >       uffdio_api.api = UFFD_API;
-> > @@ -1584,8 +1617,6 @@ unsigned long default_huge_page_size(void)
-> >
-> >  static void set_test_type(const char *type)
-> >  {
-> > -     uint64_t features = UFFD_API_FEATURES;
-> > -
-> >       if (!strcmp(type, "anon")) {
-> >               test_type = TEST_ANON;
-> >               uffd_test_ops = &anon_uffd_test_ops;
-> > @@ -1603,9 +1634,29 @@ static void set_test_type(const char *type)
-> >               test_type = TEST_SHMEM;
-> >               uffd_test_ops = &shmem_uffd_test_ops;
-> >               test_uffdio_minor = true;
-> > -     } else {
-> > -             err("Unknown test type: %s", type);
-> >       }
-> > +}
-> > +
-> > +static void parse_test_type_arg(const char *raw_type)
-> > +{
-> > +     char *buf = strdup(raw_type);
-> > +     uint64_t features = UFFD_API_FEATURES;
-> > +
-> > +     while (buf) {
-> > +             const char *token = strsep(&buf, ":");
-> > +
-> > +             if (!test_type)
-> > +                     set_test_type(token);
-> > +             else if (!strcmp(token, "dev"))
-> > +                     test_dev_userfaultfd = true;
-> > +             else if (!strcmp(token, "syscall"))
-> > +                     test_dev_userfaultfd = false;
-> > +             else
-> > +                     err("unrecognized test mod '%s'", token);
-> > +     }
-> > +
-> > +     if (!test_type)
-> > +             err("failed to parse test type argument: '%s'", raw_type);
-> >
-> >       if (test_type == TEST_HUGETLB)
-> >               page_size = default_huge_page_size();
-> > @@ -1653,7 +1704,7 @@ int main(int argc, char **argv)
-> >               err("failed to arm SIGALRM");
-> >       alarm(ALARM_INTERVAL_SECS);
-> >
-> > -     set_test_type(argv[1]);
-> > +     parse_test_type_arg(argv[1]);
-> >
-> >       nr_cpus = sysconf(_SC_NPROCESSORS_ONLN);
-> >       nr_pages_per_cpu = atol(argv[2]) * 1024*1024 / page_size /
-> > --
-> > 2.37.1.559.g78731f0fdb-goog
-> >
->
-> --
-> Sincerely yours,
-> Mike.
