@@ -2,106 +2,102 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 51421C25B08
-	for <linux-doc@archiver.kernel.org>; Wed, 17 Aug 2022 09:54:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 90686C25B08
+	for <linux-doc@archiver.kernel.org>; Wed, 17 Aug 2022 11:38:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238307AbiHQJyc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 17 Aug 2022 05:54:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51086 "EHLO
+        id S231613AbiHQLiX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 17 Aug 2022 07:38:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51068 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236875AbiHQJy2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 17 Aug 2022 05:54:28 -0400
-Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1ED9765559;
-        Wed, 17 Aug 2022 02:54:27 -0700 (PDT)
-Received: by mail-pj1-x1033.google.com with SMTP id a8so12025877pjg.5;
-        Wed, 17 Aug 2022 02:54:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc;
-        bh=sDDQV3PgZqx2/9abOCF0VxB++9+m/C4n+txZ5R5CM3Y=;
-        b=ClLeS0OxnPHA3dFHRXvBfklk7W5B0Sr4o8A8jwuXMXwK8B93fTkrH2PJDK+pwVGPsG
-         6EyydiJJnUKoGP6JE3FoalOPkLDo0w/ZG7kVN1ywZoVcja9Fbr/QtZWE4tZk7wu0VZa3
-         iiLRO3crXxGLPYKDkyOV9XDD2aadhGOZahmeGooXBphUk5zljJjPoNicZpIuV4x4t50w
-         B4Dwym5cNp4FIAk3AePSOwZDFTOuMrsZz1oVYUboyu/I6cADZv1ksA/SAKXkZaDdqgQF
-         BKoJf2uFtVFvVqFneygJ8QKQ89e7ZJEa4K71bc2f8iqkCyxOl1VdhwFKK1cMbNedxcBa
-         hBxw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
-        bh=sDDQV3PgZqx2/9abOCF0VxB++9+m/C4n+txZ5R5CM3Y=;
-        b=B1nyQSDc1L7SZCjk59SHHEgva7nHh3T7QY97ISmCx/os/3p8YD7zZLQ8m6BIx4K7gz
-         z+j9xYK4GTUcAUCEwceb2/Pg+4WnrruYh6yhLCGNe2cpk7EpHY26GVVuZnKN6/WY5Lnf
-         emxx/p5RzrvKaQ1KBRxOXOZYUE6iHqaLE5xmbwbrID6cJajaNeWb9KgkHutWBVrnw2Vv
-         iqnJxQ68WRHvyM3aHxN9o4JnL0OTc8U/39XCYht5AHz3SoyAp86A+KTfqXq8ZTyG3dE8
-         E2Ebo0Ks41nVUf8ZkCJUBsHIlrDl1VhQhEH7OvyiONnn4aykHyZiXipAsziiDrnp5mlQ
-         U1Bw==
-X-Gm-Message-State: ACgBeo1REo+Nmp8LcsoVG26Z3uQuwzEm+49af/zjyNJ/ND0iAk/oXG5g
-        PvUnnJCvmpcqam5HnbFqyAMkYy/PkKc=
-X-Google-Smtp-Source: AA6agR4dG8Em+rsLmsFK9sCcPltsxfwjucStQACjQwPe0z4lOHbNcrA6Hu4LmTBmUweCle3MQJVX+g==
-X-Received: by 2002:a17:90b:1c0a:b0:1f3:1848:591c with SMTP id oc10-20020a17090b1c0a00b001f31848591cmr2915339pjb.24.1660730066419;
-        Wed, 17 Aug 2022 02:54:26 -0700 (PDT)
-Received: from debian.. (subs03-180-214-233-18.three.co.id. [180.214.233.18])
-        by smtp.gmail.com with ESMTPSA id l8-20020a170903120800b0016dbce87aecsm1066486plh.182.2022.08.17.02.54.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Aug 2022 02:54:26 -0700 (PDT)
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     linux-doc@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Isaku Yamahata <isaku.yamahata@intel.com>,
-        Xiaoyao Li <xiaoyao.li@intel.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        Chao Peng <chao.p.peng@linux.intel.com>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        kernel test robot <lkp@intel.com>
-Subject: [PATCH 3/3] Documentation: kvm: enclose the final closing brace in code block
-Date:   Wed, 17 Aug 2022 16:54:05 +0700
-Message-Id: <20220817095405.199662-4-bagasdotme@gmail.com>
-X-Mailer: git-send-email 2.37.2
-In-Reply-To: <20220817095405.199662-1-bagasdotme@gmail.com>
-References: <20220817095405.199662-1-bagasdotme@gmail.com>
+        with ESMTP id S235570AbiHQLiU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 17 Aug 2022 07:38:20 -0400
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C432874E20;
+        Wed, 17 Aug 2022 04:38:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1660736299; x=1692272299;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=rk5b1/vS2TOWo50OW5vC6JiByaq3rTM4UCKtmeA+9Us=;
+  b=emQcwScMxXcdbyPqNc8Mgly6zqleGdp91ZmoKr+XQo/CIW2x7IWvH+PS
+   8saJo1nDzRNZdWqeuLZ9Ul2nDRuSD0lYl85pWAEXwv8EDZH++6P8oj/yW
+   A41QP43kMo0Xp3Cq143XSHTG3MkLbFVv4j+3c0XeJklxU2lXU23O+Bwcc
+   I7CwhkzlUzarWSgGF+eG6uf+LVS7FHZMHm+WNxW7fdzwHrm6KWSBks4zh
+   6GmZh9uE75rsn6M1nWwQNSnX7ioxEqa8pMO3yZSZQbMpAK8/OaZIWviMR
+   np+Z7n6pNV+wL8KgHZNysmZngZoBtrwRcHmEn549o9W+T9xA5tduwCGPI
+   w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10441"; a="378761986"
+X-IronPort-AV: E=Sophos;i="5.93,243,1654585200"; 
+   d="scan'208";a="378761986"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2022 04:38:19 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,243,1654585200"; 
+   d="scan'208";a="935327300"
+Received: from lkp-server02.sh.intel.com (HELO 81d7e1ade3ba) ([10.239.97.151])
+  by fmsmga005.fm.intel.com with ESMTP; 17 Aug 2022 04:38:17 -0700
+Received: from kbuild by 81d7e1ade3ba with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1oOHNJ-0000s0-19;
+        Wed, 17 Aug 2022 11:38:17 +0000
+Date:   Wed, 17 Aug 2022 19:37:48 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Isaku Yamahata <isaku.yamahata@intel.com>
+Cc:     kbuild-all@lists.01.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: [intel-tdx:kvm-upstream-workaround 204/308] htmldocs:
+ Documentation/ABI/testing/sysfs-firmware-tdx:2: WARNING: Unexpected
+ indentation.
+Message-ID: <202208171918.9a38xuei-lkp@intel.com>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1175; i=bagasdotme@gmail.com; h=from:subject; bh=pZtYWIvpNrlcv7lJWS5yJDXQNN6EtLfOfO5biSvqfVc=; b=owGbwMvMwCH2bWenZ2ig32LG02pJDEl/du3Nvfpm360XZypkJVv7louyvnD/fKdp+Rz9hTP7vDRq P7tzdJSyMIhxMMiKKbJMSuRrOr3LSORC+1pHmDmsTCBDGLg4BWAippsZGe77XeybKm9c/9FB5UTPiR P7v/N2TJu9tO0d77X35b8fWeYwMhwr2BBe8mv574O6ISLyFv9PL+KqEnjkU6yZ8eeIdQjzX3YA
-X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Sphinx reported literal block warning:
+tree:   https://github.com/intel/tdx.git kvm-upstream-workaround
+head:   85c097fdd1667a842a9e75d8f658fc16bd72981a
+commit: 12cafff9983dad1d20f872655c7248c6dfaffb8e [204/308] x86/virt/tdx: Export TDX keyid number and status of TDX module via sysfs
+reproduce: make htmldocs
 
-Documentation/virt/kvm/api.rst:1362: WARNING: Literal block ends without a blank line; unexpected unindent.
-
-The warning is caused by the final closing brace in KVM_SET_USER_MEMORY_REGION
-struct definition is not indented as literal code block.
-
-Indent the closing brace to fix the warning.
-
-Link: https://lore.kernel.org/linux-doc/202208171109.lCfseeP6-lkp@intel.com/
-Fixes: bb90daae9d7551 ("KVM: Extend the memslot to support fd-based private memory")
+If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
-Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
----
- Documentation/virt/kvm/api.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-index d9d43078080030..4acf4d1c95c099 100644
---- a/Documentation/virt/kvm/api.rst
-+++ b/Documentation/virt/kvm/api.rst
-@@ -1359,7 +1359,7 @@ yet and must be cleared on entry.
- 	__u32 private_fd;
- 	__u32 pad1;
- 	__u64 pad2[14];
--};
-+  };
- 
-   /\* for kvm_memory_region::flags \*/
-   #define KVM_MEM_LOG_DIRTY_PAGES	(1UL << 0)
+All warnings (new ones prefixed by >>):
+
+>> Documentation/ABI/testing/sysfs-firmware-tdx:2: WARNING: Unexpected indentation.
+>> Documentation/ABI/testing/sysfs-firmware-tdx:2: WARNING: Block quote ends without a blank line; unexpected unindent.
+>> Documentation/ABI/testing/sysfs-firmware-tdx:2: WARNING: Malformed table.
+>> Documentation/ABI/testing/sysfs-firmware-tdx:22: WARNING: Blank line required after table.
+>> Documentation/ABI/testing/sysfs-firmware-tdx:22: WARNING: Definition list ends without a blank line; unexpected unindent.
+>> Documentation/ABI/testing/sysfs-firmware-tdx:1: WARNING: undefined label: abi_sys_firmware_tdx_tdx_module (if the link has no caption the label must precede a section header)
+
+vim +2 Documentation/ABI/testing/sysfs-firmware-tdx
+
+   > 1	What:           /sys/firmware/tdx/
+   > 2	Date:           March 2022
+     3	KernelVersion:  5.17
+     4	Contact:        Isaku Yamahata <isaku.yamahata@intel.com>, kvm@vger.kernel.org
+     5	Description:
+     6	                Intel's Trust Domain Extensions (TDX) protect guest VMs from
+     7	                malicious hosts and some physical attacks.  This directory
+     8	                represents the entry point directory for the TDX.
+     9	
+    10	                the TDX requires the TDX firmware to load into an isolated
+    11	                memory region.  It requires a two-step loading process.  It uses
+    12	                the first phase firmware loader (a.k.a NP-SEAMLDR) that loads
+    13	                the next loader and the second phase firmware loader(a.k.a
+    14	                P-SEAMLDR) that loads the TDX firmware(a.k.a the "TDX module").
+    15	                =============== ================================================
+    16	                keyid_num       the number of SEAM keyid as an hexadecimal
+    17	                                number with the "0x" prefix.
+    18	                =============== ================================================
+    19	Users:          libvirt
+    20	
+    21	What:           /sys/firmware/tdx/tdx_module/
+  > 22	Date:           March 2022
+
 -- 
-An old man doll... just what I always wanted! - Clara
-
+0-DAY CI Kernel Test Service
+https://01.org/lkp
