@@ -2,113 +2,101 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 243FAC32772
-	for <linux-doc@archiver.kernel.org>; Wed, 17 Aug 2022 08:10:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C0906C3F6B0
+	for <linux-doc@archiver.kernel.org>; Wed, 17 Aug 2022 08:20:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234472AbiHQIKO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 17 Aug 2022 04:10:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59474 "EHLO
+        id S235107AbiHQIUP convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 17 Aug 2022 04:20:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49030 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231590AbiHQIKI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 17 Aug 2022 04:10:08 -0400
-Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com [IPv6:2607:f8b0:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF2264D24C;
-        Wed, 17 Aug 2022 01:10:06 -0700 (PDT)
-Received: by mail-pl1-x62c.google.com with SMTP id x19so293386plc.5;
-        Wed, 17 Aug 2022 01:10:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc;
-        bh=yDyqXXuN5rFWHjE/u6lA6dNFJY0ydf5Bv6weQesHpqQ=;
-        b=G4iZu8kyTF8Phd/KPNzRcRZjC3rK20PbbPKdSDgBBYre6kr/7C4KCnjlxGmtQ/N9o4
-         hU/WwhXlTtq7l00OBoiu+cBz7kC4Kxik07W34up2RsAf66OmiNTImZMluELf+MfVloAr
-         Y/o9TIb1qzd6xOO2d8ooV9OZXkWrXr66kgXfxYIxYSw1e7slziQ62yXPVXFZvrZELXXb
-         EsAn2OWB50OStemwwvrjyN84g78zhYsb7Etm5kasilu0PunW0NmPhqVssZtrN0qejPI8
-         bl6GyJ3COZztOl6nfZM1tE19ZMO4F8hTsmeOgz72Oj6LC4HaTBWdtCJnRDF7PiJYA2c9
-         HZdA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc;
-        bh=yDyqXXuN5rFWHjE/u6lA6dNFJY0ydf5Bv6weQesHpqQ=;
-        b=v9UlhbHSMbMyMrRX98oixo3QAGvcOIXNXJ684TMHXH11KeiVAVW79rW8kB7p8jzVID
-         QrnDgpE+mIL4qtiREMfxtRWigj5cE9A/yDnYADDttjR9pQMm8FwsvdhAPlLDYgcLb1IO
-         pmE86qngvbZPa/CPGrVvUJMCDo2zvo29K5lq/xoOkixNoICJ9tG8+VfEo5+W17QlK2sD
-         Msh6DIU21eEBXOXyplJD1effofWGpqpDATSpgOHpjAtbTDXCBgT1EqYf/N+MqHrtSk+j
-         wzw4N6U7g4H8zQhs6JCeRSNsywVexJ9vJVp8i0twpreDxxuZUXtqQFJ7o13XhNEKAyGC
-         yEwg==
-X-Gm-Message-State: ACgBeo0KQyuQvU9IFUmwUuT57GirgjiO9fM5rLBSMEwwn7I1hC6GJuFb
-        Fk+bqbokgBqvck1C/y2g2Ndzqu0lBOc=
-X-Google-Smtp-Source: AA6agR4Q1ekOzxu8bNgBdEWsUOpMG80+bN++7dVn0UiLLFkrbLbpLJRyjmFeIHN9N9PojENdJCGPMA==
-X-Received: by 2002:a17:902:cf43:b0:172:86f3:586a with SMTP id e3-20020a170902cf4300b0017286f3586amr5533184plg.71.1660723806255;
-        Wed, 17 Aug 2022 01:10:06 -0700 (PDT)
-Received: from [192.168.43.80] (subs02-180-214-232-75.three.co.id. [180.214.232.75])
-        by smtp.gmail.com with ESMTPSA id p4-20020a631e44000000b00429e093cbadsm58164pgm.10.2022.08.17.01.10.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 17 Aug 2022 01:10:05 -0700 (PDT)
-Message-ID: <68e3a841-3c03-9d70-8c89-b7c05788e077@gmail.com>
-Date:   Wed, 17 Aug 2022 15:09:58 +0700
+        with ESMTP id S231688AbiHQIUO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 17 Aug 2022 04:20:14 -0400
+Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.85.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8193F58DD7
+        for <linux-doc@vger.kernel.org>; Wed, 17 Aug 2022 01:20:11 -0700 (PDT)
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ uk-mta-186-_ZDhN8jUN4OlHtEkOqfydg-1; Wed, 17 Aug 2022 09:20:09 +0100
+X-MC-Unique: _ZDhN8jUN4OlHtEkOqfydg-1
+Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
+ AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
+ Server (TLS) id 15.0.1497.38; Wed, 17 Aug 2022 09:20:08 +0100
+Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
+ AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
+ 15.00.1497.040; Wed, 17 Aug 2022 09:20:08 +0100
+From:   David Laight <David.Laight@ACULAB.COM>
+To:     'Hector Martin' <marcan@marcan.st>, Will Deacon <will@kernel.org>,
+        "Peter Zijlstra" <peterz@infradead.org>,
+        Arnd Bergmann <arnd@arndb.de>, Ingo Molnar <mingo@kernel.org>
+CC:     Alan Stern <stern@rowland.harvard.edu>,
+        Andrea Parri <parri.andrea@gmail.com>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        David Howells <dhowells@redhat.com>,
+        Jade Alglave <j.alglave@ucl.ac.uk>,
+        Luc Maranget <luc.maranget@inria.fr>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Akira Yokosawa <akiyks@gmail.com>,
+        "Daniel Lustig" <dlustig@nvidia.com>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        "Mark Rutland" <mark.rutland@arm.com>,
+        Jonathan Corbet <corbet@lwn.net>, Tejun Heo <tj@kernel.org>,
+        "jirislaby@kernel.org" <jirislaby@kernel.org>,
+        Marc Zyngier <maz@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Oliver Neukum <oneukum@suse.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        Asahi Linux <asahi@lists.linux.dev>,
+        "stable@vger.kernel.org" <stable@vger.kernel.org>
+Subject: RE: [PATCH] locking/atomic: Make test_and_*_bit() ordered on failure
+Thread-Topic: [PATCH] locking/atomic: Make test_and_*_bit() ordered on failure
+Thread-Index: AQHYsU4vfwz5idsf402HoI6nUKdp962yvvCA
+Date:   Wed, 17 Aug 2022 08:20:08 +0000
+Message-ID: <1135281ad4e84cc5ac0147772aa83787@AcuMS.aculab.com>
+References: <20220816070311.89186-1-marcan@marcan.st>
+In-Reply-To: <20220816070311.89186-1-marcan@marcan.st>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [net-next 0/6] net: support QUIC crypto
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
 Content-Language: en-US
-To:     Adel Abouchaev <adel.abushaev@gmail.com>, kuba@kernel.org
-Cc:     davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
-        corbet@lwn.net, dsahern@kernel.org, shuah@kernel.org,
-        imagedong@tencent.com, netdev@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
-References: <Adel Abouchaev <adel.abushaev@gmail.com>
- <20220816181150.3507444-1-adel.abushaev@gmail.com>
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <20220816181150.3507444-1-adel.abushaev@gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 8/17/22 01:11, Adel Abouchaev wrote:
-> QUIC requires end to end encryption of the data. The application usually
-> prepares the data in clear text, encrypts and calls send() which implies
-> multiple copies of the data before the packets hit the networking stack.
-> Similar to kTLS, QUIC kernel offload of cryptography reduces the memory
-> pressure by reducing the number of copies.
-> 
-> The scope of kernel support is limited to the symmetric cryptography,
-> leaving the handshake to the user space library. For QUIC in particular,
-> the application packets that require symmetric cryptography are the 1RTT
-> packets with short headers. Kernel will encrypt the application packets
-> on transmission and decrypt on receive. This series implements Tx only,
-> because in QUIC server applications Tx outweighs Rx by orders of
-> magnitude.
-> 
-> Supporting the combination of QUIC and GSO requires the application to
-> correctly place the data and the kernel to correctly slice it. The
-> encryption process appends an arbitrary number of bytes (tag) to the end
-> of the message to authenticate it. The GSO value should include this
-> overhead, the offload would then subtract the tag size to parse the
-> input on Tx before chunking and encrypting it.
-> 
-> With the kernel cryptography, the buffer copy operation is conjoined
-> with the encryption operation. The memory bandwidth is reduced by 5-8%.
-> When devices supporting QUIC encryption in hardware come to the market,
-> we will be able to free further 7% of CPU utilization which is used
-> today for crypto operations.
-> 
+...
+>  	p += BIT_WORD(nr);
+> -	if (READ_ONCE(*p) & mask)
+> -		return 1;
+> -
+>  	old = arch_atomic_long_fetch_or(mask, (atomic_long_t *)p);
+>  	return !!(old & mask);
+>  }
 
-Hmmm...
+This looks like the same pattern (attempting to avoid a
+locked bus cycle) that caused the qdisc code to sit on
+transmit packets (even on x86).
+That had some barriers in it (possibly nops on x86) that
+didn't help - although the comments suggested otherwise.
 
-I can't cleanly applied this series on top of current net-next. Exactly
-on what commit this series is based on?
+I wonder if the pattern has been used anywhere else?
 
-Also, I see two whitespace warnings when applying. Please fixup and resend.
-When resending, don't forget to pass --base to git-format-patch(1).
+	David
 
-Thanks.
+-
+Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
+Registration No: 1397386 (Wales)
 
--- 
-An old man doll... just what I always wanted! - Clara
