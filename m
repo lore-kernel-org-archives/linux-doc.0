@@ -2,147 +2,91 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1AC65C00140
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Aug 2022 09:56:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D1AFDC00140
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Aug 2022 10:08:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241153AbiHRJ4f (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 18 Aug 2022 05:56:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57120 "EHLO
+        id S239604AbiHRKIk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 18 Aug 2022 06:08:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44962 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235275AbiHRJ4e (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Aug 2022 05:56:34 -0400
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26A13B088A;
-        Thu, 18 Aug 2022 02:56:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1660816593; x=1692352593;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=eqXWzEPdx2XZOUblO5chU9G8GMBdWo/1zFOTR45FRYM=;
-  b=Zt+3B8MqR2zByhCnxkwR4jz+Vono/8VZaKrsHZayK7p0mBbX3cb/faVj
-   Qq425pThBSmlO+1t9hRfjZ5q+3y8dU2a9Hf56Izv7gTaxx7AHyXJ5ZvJm
-   4sgFF4ghaCA59LyQCPZUvDu9kloT7T81dW5y5Kv91q084ZmqwsICH952y
-   hFXB21Pd8T4JbPPR9izBWaYSOWmNZihcNGzlLs3nTGybDrESW3Jv+yzoc
-   IKv3q30sVM3dGDPep9aOeZAc6HLvX5FpjTLDys8f8IYYaivWpq41fhHw3
-   mtH0vUIcGGLFQ0kXw00PfdTybZx3O/xCLPeDzvdagQ01l4vYNrQbLD3uE
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10442"; a="290285593"
-X-IronPort-AV: E=Sophos;i="5.93,246,1654585200"; 
-   d="scan'208";a="290285593"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2022 02:56:32 -0700
-X-IronPort-AV: E=Sophos;i="5.93,246,1654585200"; 
-   d="scan'208";a="636757052"
-Received: from mszycik-mobl.ger.corp.intel.com (HELO [10.249.132.192]) ([10.249.132.192])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2022 02:56:27 -0700
-Message-ID: <2c659f31-f2ac-b6a9-c509-5402f61afc78@linux.intel.com>
-Date:   Thu, 18 Aug 2022 11:56:19 +0200
+        with ESMTP id S243975AbiHRKIi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Aug 2022 06:08:38 -0400
+Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C4E04CA3B;
+        Thu, 18 Aug 2022 03:08:34 -0700 (PDT)
+Received: from zn.tnic (p200300ea971b98ec329c23fffea6a903.dip0.t-ipconnect.de [IPv6:2003:ea:971b:98ec:329c:23ff:fea6:a903])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 51DD11EC056D;
+        Thu, 18 Aug 2022 12:08:29 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1660817309;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=O4EgIYZ64hmyiZkormnNEy3aMOezDlwYFaPWr1H3z4I=;
+        b=N2cZKh1232bwCm0szW2TX51kDArsuJiJJlpJPcfR7WoNMA1FMs2LpLcaElPYPBBSwigkWH
+        /Pb8v8U2dmaZmsJ6IfXLxC5XFgA2V2tIQU8SQ2BXyoa5O8q9jJ/+gO5Wm0uxPOgvP/9ow6
+        V65dxZcgRQpf2ePLeH77IsktPKjl0RI=
+Date:   Thu, 18 Aug 2022 12:08:24 +0200
+From:   Borislav Petkov <bp@alien8.de>
+To:     Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, tony.luck@intel.com,
+        antonio.gomez.iglesias@linux.intel.com,
+        Daniel Sneddon <daniel.sneddon@linux.intel.com>,
+        andrew.cooper3@citrix.com, Josh Poimboeuf <jpoimboe@kernel.org>
+Subject: Re: [PATCH v2] x86/bugs: Add "unknown" reporting for MMIO Stale Data
+Message-ID: <Yv4PmGS98IDZ7ujH@zn.tnic>
+References: <79d2455c75bdbad4e68a3843fe1c1e67826008e6.1659562129.git.pawan.kumar.gupta@linux.intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [RFC PATCH v2 net-next] docs: net: add an explanation of VF (and
- other) Representors
-Content-Language: en-US
-To:     ecree@xilinx.com, netdev@vger.kernel.org, linux-net-drivers@amd.com
-Cc:     davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com,
-        edumazet@google.com, corbet@lwn.net, linux-doc@vger.kernel.org,
-        jacob.e.keller@intel.com, jesse.brandeburg@intel.com,
-        michael.chan@broadcom.com, andy@greyhouse.net, saeed@kernel.org,
-        jiri@resnulli.us, snelson@pensando.io, simon.horman@corigine.com,
-        alexander.duyck@gmail.com, rdunlap@infradead.org,
-        Edward Cree <ecree.xilinx@gmail.com>
-References: <20220815142251.8909-1-ecree@xilinx.com>
-From:   Marcin Szycik <marcin.szycik@linux.intel.com>
-In-Reply-To: <20220815142251.8909-1-ecree@xilinx.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <79d2455c75bdbad4e68a3843fe1c1e67826008e6.1659562129.git.pawan.kumar.gupta@linux.intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 15-Aug-22 16:22, ecree@xilinx.com wrote:
+On Wed, Aug 03, 2022 at 02:41:32PM -0700, Pawan Gupta wrote:
+> diff --git a/arch/x86/kernel/cpu/bugs.c b/arch/x86/kernel/cpu/bugs.c
+> index 6761668100b9..fe3f7e762b80 100644
+> --- a/arch/x86/kernel/cpu/bugs.c
+> +++ b/arch/x86/kernel/cpu/bugs.c
+> @@ -433,7 +433,8 @@ static void __init mmio_select_mitigation(void)
+>  	u64 ia32_cap;
+>  
+>  	if (!boot_cpu_has_bug(X86_BUG_MMIO_STALE_DATA) ||
+> -	    cpu_mitigations_off()) {
+> +	     boot_cpu_has_bug(X86_BUG_MMIO_UNKNOWN) ||
+> +	     cpu_mitigations_off()) {
+>  		mmio_mitigation = MMIO_MITIGATION_OFF;
+>  		return;
+>  	}
 
-> [...]
->
-> +Motivation
-> +----------
-> +
-> +Since the mid-2010s, network cards have started offering more complex
-> +virtualisation capabilities than the legacy SR-IOV approach (with its simple
-> +MAC/VLAN-based switching model) can support.  This led to a desire to offload
-> +software-defined networks (such as OpenVSwitch) to these NICs to specify the
-> +network connectivity of each function.  The resulting designs are variously
-> +called SmartNICs or DPUs.
-> +
-> +Network function representors bring the standard Linux networking stack to
-> +virtual switches and IOV devices.  Just as each port of a Linux-controlled
-> +switch has a separate netdev, so each virtual function has one.  When the system
+Needs also:
 
-Maybe I'm misunderstanding something, but this sentence seems a bit confusing. Maybe:
-"Just as each port of a Linux-controlled switch has a separate netdev, each virtual
-function has one."?
+diff --git a/arch/x86/kernel/cpu/bugs.c b/arch/x86/kernel/cpu/bugs.c
+index d08c5589fa59..da7c361f47e0 100644
+--- a/arch/x86/kernel/cpu/bugs.c
++++ b/arch/x86/kernel/cpu/bugs.c
+@@ -539,6 +539,8 @@ static void __init md_clear_update_mitigation(void)
+ 		pr_info("TAA: %s\n", taa_strings[taa_mitigation]);
+ 	if (boot_cpu_has_bug(X86_BUG_MMIO_STALE_DATA))
+ 		pr_info("MMIO Stale Data: %s\n", mmio_strings[mmio_mitigation]);
++	else if (boot_cpu_has_bug(X86_BUG_MMIO_UNKNOWN))
++		pr_info("MMIO Stale Data: Unknown: No mitigations\n");
+ }
+ 
+ static void __init md_clear_select_mitigation(void)
 
-> +boots, and before any offload is configured, all packets from the virtual
-> +functions appear in the networking stack of the PF via the representors.
-> +The PF can thus always communicate freely with the virtual functions.
-> +The PF can configure standard Linux forwarding between representors, the uplink
-> +or any other netdev (routing, bridging, TC classifiers).
->
-> [...]
->
-> +How do representors interact with TC rules?
-> +-------------------------------------------
-> +
-> +Any TC rule on a representor applies (in software TC) to packets received by
-> +that representor netdevice.  Thus, if the delivery part of the rule corresponds
-> +to another port on the virtual switch, the driver may choose to offload it to
-> +hardware, applying it to packets transmitted by the representee.
-> +
-> +Similarly, since a TC mirred egress action targeting the representor would (in
-> +software) send the packet through the representor (and thus indirectly deliver
-> +it to the representee), hardware offload should interpret this as delivery to
-> +the representee.
-> +
-> +As a simple example, if ``eth0`` is the master PF's netdevice and ``eth1`` is a
-> +VF representor, the following rules::
-> +
-> +    tc filter add dev eth1 parent ffff: protocol ipv4 flower \
-> +        action mirred egress redirect dev eth0
-> +    tc filter add dev eth0 parent ffff: protocol ipv4 flower \
-> +        action mirred egress mirror dev eth1
+I've added it.
 
-Perhaps eth0/eth1 names could be replaced with more meaningful names, as it's easy
-to confuse them now. How about examples from above (e.g. PF -> eth4, PR -> eth4pf1vf2rep)?
-Or just $PF_NETDEV, $PR_NETDEV.
+-- 
+Regards/Gruss,
+    Boris.
 
-> +would mean that all IPv4 packets from the VF are sent out the physical port, and
-> +all IPv4 packets received on the physical port are delivered to the VF in
-> +addition to the master PF.
-> +
-> +Of course the rules can (if supported by the NIC) include packet-modifying
-> +actions (e.g. VLAN push/pop), which should be performed by the virtual switch.
-> +
-> +Tunnel encapsulation and decapsulation are rather more complicated, as they
-> +involve a third netdevice (a tunnel netdev operating in metadata mode, such as
-> +a VxLAN device created with ``ip link add vxlan0 type vxlan external``) and
-> +require an IP address to be bound to the underlay device (e.g. master PF or port
-> +representor).  TC rules such as::
-> +
-> +    tc filter add dev eth1 parent ffff: flower \
-> +        action tunnel_key set id $VNI src_ip $LOCAL_IP dst_ip $REMOTE_IP \
-> +                              dst_port 4789 \
-> +        action mirred egress redirect dev vxlan0
-> +    tc filter add dev vxlan0 parent ffff: flower enc_src_ip $REMOTE_IP \
-> +        enc_dst_ip $LOCAL_IP enc_key_id $VNI enc_dst_port 4789 \
-> +        action tunnel_key unset action mirred egress redirect dev eth1
-> +
-
-Same as above, eth1 name could be more intuitive.
-
---- 8< ---
-
-LGTM, only those two small nitpicks.
-
-Regards,
-Marcin
+https://people.kernel.org/tglx/notes-about-netiquette
