@@ -2,73 +2,90 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 76E75C00140
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Aug 2022 17:18:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 47CEDC32773
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Aug 2022 17:20:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345004AbiHRRS2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 18 Aug 2022 13:18:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44344 "EHLO
+        id S1344143AbiHRRUO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 18 Aug 2022 13:20:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43772 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343703AbiHRRSE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Aug 2022 13:18:04 -0400
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64E56CE4AA;
-        Thu, 18 Aug 2022 10:14:56 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:73:8b7:7001:c8aa:b65f])
+        with ESMTP id S1344440AbiHRRT6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Aug 2022 13:19:58 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 68C79A181;
+        Thu, 18 Aug 2022 10:18:06 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id D75CC4E5;
-        Thu, 18 Aug 2022 17:14:55 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net D75CC4E5
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1660842896; bh=vz4tknliPzmjSgyqWLAMoebgxNp6CQ3X1EAaFT00qbE=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=W3zo6+MV8r16bPNzSHfAWWQdBIq3+IbtdBgYH5UCPhY+NldadBlsRLIKNm+vXRRk2
-         wVxxd/q+Cj9R0Nj/GF+6go/KIg4UvA5mC08TtnbgKTrcdAseTazA96YHzttQj9RgAx
-         PAdkd/SkUkeJdj2NCwrBHJ8UkWOjQ88Ak7voz81DlmL+vgu3DDgmZBeFnf73HiQjvd
-         L3/K590LaPHJWycQUhzs4/xxfb3zejkArZb7riqjM1FpMeswbzxuQxCKQ2LVw/Kx3i
-         3fdScgSCZi6YnkY/7PnZwS79afGvRYazQFYAFNIjdaBJXpyWbLWCdd/w54DkzkqKuT
-         Q8bDHNssEj5mQ==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2 0/5] Update the maintainer PGP guide
-In-Reply-To: <20220727-docs-pgp-guide-v2-0-e3e6954affb6@linuxfoundation.org>
-References: <20220727-docs-pgp-guide-v2-0-e3e6954affb6@linuxfoundation.org>
-Date:   Thu, 18 Aug 2022 11:14:55 -0600
-Message-ID: <871qtdcw34.fsf@meer.lwn.net>
+        by ams.source.kernel.org (Postfix) with ESMTPS id 2BC3BB82305;
+        Thu, 18 Aug 2022 17:18:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89CB3C433C1;
+        Thu, 18 Aug 2022 17:18:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1660843083;
+        bh=Fvr29lWD5OIUEN35R23Bjt8QeBsONWcWpcpJpOcymIU=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=pRnCaxOFGvyUfTtD5W+19BBAQpvjB3MxSsGi48BpacNyVtfyKzpF4amNJBsB8ScIn
+         OH8K9FTD2N4n1zCxqNG81VN1/DpfeGG56QSORAJrih1j69YF6ghLFspJ3nNOpj70wJ
+         pV6057MGc86jiuR7U2fdz+md6d+yLFS4+qTZJB22U4CUZnu6pq7nsnBz3tOFJ2k88Y
+         n7x9xsPHTeShbYJJ/EDf/ta7+APT2sUXDTb1Cr6OTOVxo+QfjmQK7g1vdsWTRwTA90
+         sfg2l2pC1LxfpxSCobQS+n3hDqB8ozF/k5UWEHwH7ZcnS/3MIRnt/G9Kh0/E58OUsY
+         tpeLzSwhhuBsA==
+Date:   Thu, 18 Aug 2022 18:17:59 +0100
+From:   Mark Brown <broonie@kernel.org>
+To:     Martin =?utf-8?B?TGnFoWth?= <mliska@suse.cz>
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        corbet@lwn.net, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v2] docs/arm64: elf_hwcaps: unify newlines in HWCAP lists
+Message-ID: <Yv50RxlDf0qpK9v8@sirena.org.uk>
+References: <49253b17-738d-795e-f539-55857fdaee64@suse.cz>
+ <2bac83ef-d5a9-b8c4-0fb3-cef4272e7156@suse.cz>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="JCZdgl1Eo0V8MWR1"
+Content-Disposition: inline
+In-Reply-To: <2bac83ef-d5a9-b8c4-0fb3-cef4272e7156@suse.cz>
+X-Cookie: Logic is the chastity belt of the mind!
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Konstantin Ryabitsev <konstantin@linuxfoundation.org> writes:
 
-> This series updates the guide to match terminology used in the upstream
-> "protecting code integrity" guide and brings the documentation in line
-> with the latest developments in the GnuPG world:
->
-> - uses "Certify key" instead of "master key" terms to remove common
->   confusion that the "Certify key" is somehow able to restore lost
->   private subkeys
-> - removes keyserver instructions because keyservers have largely gone
->   semi-extinct due to GDPR enforcement and just general neglect
-> - adds a link to the kernel.org PGP keyring documentation
-> - updates information about ECC curve support among the devices the
->   guide talks about (Yubikeys are able to use ED25519 curves with the
->   latest firmware updates)
-> - adds a section on using PGP-signed patches with b4 and patatt
->
-> Link: https://github.com/lfit/itpol/blob/master/protecting-code-integrity.md
-> Signed-off-by: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
->
-> ---
-> Changes in v2:
-> - Rebase on v5.19.
-> - Small wording changes based on feedback.
-> - Link to v1: https://lore.kernel.org/r/20220727-docs-pgp-guide-v1-0-c48fb06cb9af@linuxfoundation.org
+--JCZdgl1Eo0V8MWR1
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I've applied the set, thanks.
+On Mon, Aug 15, 2022 at 03:37:58PM +0200, Martin Li=C5=A1ka wrote:
+> In git revision 94bdaa7d9a9d778d893c670d494c06d8e007c1cd I unified
+> vertical spaces in a list of features.
 
-jon
+The normal way of describing commits in a human readable fashion is to
+include their title as is done in Fixes: tags.
+
+> Since the revision, another commits added new features that have a differ=
+ent
+> horizontal spacing.
+> Fix these extra newlines.
+
+This new format .rst is forcing does seem less than ideal for people
+reading the actual file but oh well
+
+Reviewed-by: Mark Brown <broonie@kernel.org>
+
+--JCZdgl1Eo0V8MWR1
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmL+dEYACgkQJNaLcl1U
+h9ACcAf+Lg5+ZgAxlKsyQN51MJ8HJxveKjnMSstP0dARwR4ZNx3qcJOgAF0iyhbV
+5rejBUUwdmHpSCP1JC756Eh3cW/z+cEIX4lKUZvKl5161Njpl+2xIGKHU7nEISnu
+goBRBfFuUqBklZvZMr8uVELcvq4EXy/jv5lTxUsShuEuKEpZKYL9uiVplfnLE872
+h/Q7T5ZgIUYsg+VhYcRoFlKKABJEKniSkyrWrc/Xku9tNlBoHCe1X9+ezD3g81qK
+gue8lJHkLTZESos7enzxR7dq1sfm6rLAn4DKhIdbDCtjn+CJDwBrsJaMiKaIbaLm
+VlNIn/14Ye3Xlpb6KviND/d4NDELWg==
+=zsTW
+-----END PGP SIGNATURE-----
+
+--JCZdgl1Eo0V8MWR1--
