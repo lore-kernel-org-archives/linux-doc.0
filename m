@@ -2,183 +2,221 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 38664C32772
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Aug 2022 16:06:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A8C7C00140
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Aug 2022 16:38:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245547AbiHRQGT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 18 Aug 2022 12:06:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47790 "EHLO
+        id S244557AbiHRQiP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 18 Aug 2022 12:38:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52908 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239750AbiHRQGS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Aug 2022 12:06:18 -0400
-Received: from frasgout13.his.huawei.com (frasgout13.his.huawei.com [14.137.139.46])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66B4DBC801;
-        Thu, 18 Aug 2022 09:06:16 -0700 (PDT)
-Received: from mail02.huawei.com (unknown [172.18.147.229])
-        by frasgout13.his.huawei.com (SkyGuard) with ESMTP id 4M7pcP6cZ2z9v7YZ;
-        Thu, 18 Aug 2022 23:25:41 +0800 (CST)
-Received: from huaweicloud.com (unknown [10.204.63.22])
-        by APP1 (Coremail) with SMTP id LxC2BwAX5hHpWv5iycQwAA--.23244S4;
-        Thu, 18 Aug 2022 16:30:26 +0100 (CET)
-From:   roberto.sassu@huaweicloud.com
-To:     ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org,
-        martin.lau@linux.dev, song@kernel.org, yhs@fb.com,
-        john.fastabend@gmail.com, kpsingh@kernel.org, sdf@google.com,
-        haoluo@google.com, jolsa@kernel.org, mykolal@fb.com,
-        corbet@lwn.net, dhowells@redhat.com, jarkko@kernel.org,
-        rostedt@goodmis.org, mingo@redhat.com, paul@paul-moore.com,
-        jmorris@namei.org, serge@hallyn.com, shuah@kernel.org
-Cc:     bpf@vger.kernel.org, linux-doc@vger.kernel.org,
-        keyrings@vger.kernel.org, linux-security-module@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
-        deso@posteo.net, Roberto Sassu <roberto.sassu@huawei.com>,
-        Joanne Koong <joannelkoong@gmail.com>
-Subject: [PATCH v12 02/10] btf: Handle dynamic pointer parameter in kfuncs
-Date:   Thu, 18 Aug 2022 17:29:21 +0200
-Message-Id: <20220818152929.402605-3-roberto.sassu@huaweicloud.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220818152929.402605-1-roberto.sassu@huaweicloud.com>
-References: <20220818152929.402605-1-roberto.sassu@huaweicloud.com>
+        with ESMTP id S1343766AbiHRQiO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Aug 2022 12:38:14 -0400
+Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com [IPv6:2607:f8b0:4864:20::533])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C322C2667;
+        Thu, 18 Aug 2022 09:38:12 -0700 (PDT)
+Received: by mail-pg1-x533.google.com with SMTP id 73so1687285pgb.9;
+        Thu, 18 Aug 2022 09:38:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc;
+        bh=mGi68k3/ZOueNJIfhs8LYeTo62YasiY5TTeVFTAH3Ho=;
+        b=mCc4T86k8linRDzEa+vA98jNwF59uiu36VyZqefG36cp4xpU/A5ez8D74FQoLaRyjC
+         wh1WNASqhPQkUUiSkAQ0VP8wpsjZDihbAzx8ZWNi00fZ2SYOMA4FhaPVX3A/rarBv84m
+         76R0i7PB2q/RJafeE1EDDpFkVDWAI1Seb+Vr26eP4sXDD5LCMCWBHuexY7rBMc+uvudg
+         6dosbMzbR9qsFI9Zp1oPXyQKcNk2GLf6s2Ubsi1UdZS8odKNsyOIwTMg5M+5LzNy87JY
+         MHIvirnUrNzKhBnoPlW7p2l0nGpMX5IDoYzXnbVJfhEAPMTHZitulBIrcFQXF8vtHCgk
+         BfUg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=mGi68k3/ZOueNJIfhs8LYeTo62YasiY5TTeVFTAH3Ho=;
+        b=mDDEU3/flmdIoaoLwAzxWXGmq9hxvRc4YSPzyzvE9xEAyw0l2YnIl7RGgkheHsEx0C
+         NtRYnkPgktFxjBVWUYTqFyitfedNFtutjM6XfyhRNCxNzDF5uuBIxYBsN57K3jREsZQG
+         XxpeXcmFFCBToG7Imt9JqL5KhZnvmGumDcJ4PS77Jf0kiNQsFnzlAdtJGN23izjw3W+3
+         7ida2esDmP5rVlREvVRs45rypnAiz2wjAszZL1BrYrcZ2L5RS9NkFufYR8CbaVkD4Rcu
+         45SqVBouXU50J1iHs0ExpQpWcGSLZejOXGMe7hGwJmr0aCcnJgCd8qF/njnnBtcTSGw9
+         DT8Q==
+X-Gm-Message-State: ACgBeo0RHyTn6Ue9GIS96aXgFbV7cx5+hAAXgjI1Bxpx7suLHwa3gJoE
+        mSFTgjGVd8nN5L0PGXCeExZhl6zV8EduYUX2RBQ=
+X-Google-Smtp-Source: AA6agR5xt5D7tCcbDxlnYYQRWeTaY/NKbs35GKoLcvnlyO0FMvsAd08M5tEPXwnKDfL1TkpQMZ8Iwfk6elr6lUquICg=
+X-Received: by 2002:a63:87c3:0:b0:429:fa0d:c954 with SMTP id
+ i186-20020a6387c3000000b00429fa0dc954mr3136756pge.96.1660840692293; Thu, 18
+ Aug 2022 09:38:12 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: LxC2BwAX5hHpWv5iycQwAA--.23244S4
-X-Coremail-Antispam: 1UD129KBjvJXoWxWryfCFW5Kr48Wr17Jw4fXwb_yoWrCFWxpF
-        n3Cas7Zr4vyr4xuw17AF4UArW5K3W0qw12kFWrC34FkF17Xr1DXF1DKryrA3sYkrWkCw1x
-        Ar1jgrW5ua48CrJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUP0b4IE77IF4wAFF20E14v26rWj6s0DM7CY07I20VC2zVCF04k2
-        6cxKx2IYs7xG6r1j6r18M7CIcVAFz4kK6r1j6r18M28IrcIa0xkI8VA2jI8067AKxVWUXw
-        A2048vs2IY020Ec7CjxVAFwI0_Xr0E3s1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxS
-        w2x7M28EF7xvwVC0I7IYx2IY67AKxVWUJVWUCwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxV
-        WxJVW8Jr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_
-        Gr1j6F4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ew
-        Av7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY
-        6r1j6r4UM4x0Y48IcxkI7VAKI48JM4IIrI8v6xkF7I0E8cxan2IY04v7M4kE6xkIj40Ew7
-        xC0wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v2
-        6r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_GFv_WrylIxkGc2
-        Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_
-        Cr0_Gr1UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVW8JVWxJw
-        CI42IY6I8E87Iv6xkF7I0E14v26r4UJVWxJrUvcSsGvfC2KfnxnUUI43ZEXa7IU85ku7UU
-        UUU==
-X-CM-SenderInfo: purev21wro2thvvxqx5xdzvxpfor3voofrz/1tbiAgAIBF1jj34W2AAJsG
-X-CFilter-Loop: Reflected
+References: <20220628145552.349839-1-xiehuan09@gmail.com> <20220628145552.349839-5-xiehuan09@gmail.com>
+ <Yv5gkKnufS7CUq9A@google.com>
+In-Reply-To: <Yv5gkKnufS7CUq9A@google.com>
+From:   Jeff Xie <xiehuan09@gmail.com>
+Date:   Fri, 19 Aug 2022 00:37:59 +0800
+Message-ID: <CAEr6+ED7UovW1BbrK4s5tCRrTrfkESpa4m3VO4a4PBAY9nK_JA@mail.gmail.com>
+Subject: Re: [PATCH v14 4/4] Documentation: trace/objtrace: Add documentation
+ for objtrace
+To:     Joel Fernandes <joel@joelfernandes.org>
+Cc:     rostedt@goodmis.org, mingo@redhat.com, mhiramat@kernel.org,
+        zanussi@kernel.org, linux-kernel@vger.kernel.org,
+        chensong_2000@189.cn, Jonathan Corbet <corbet@lwn.net>,
+        Bagas Sanjaya <bagasdotme@gmail.com>, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Roberto Sassu <roberto.sassu@huawei.com>
+Hi Joel,
 
-Allow the bpf_dynptr_kern parameter to be specified in kfuncs. Also, ensure
-that the dynamic pointer is valid and initialized.
+Thank you for your review.
 
-To properly detect whether a parameter is of the desired type, introduce
-the stringify_struct() macro to compare the returned structure name with
-the desired name. In addition, protect against structure renames, by
-halting the build with BUILD_BUG_ON(), so that developers have to revisit
-the code.
+On Thu, Aug 18, 2022 at 11:53 PM Joel Fernandes <joel@joelfernandes.org> wrote:
+>
+> On Tue, Jun 28, 2022 at 10:55:52PM +0800, Jeff Xie wrote:
+> > Add documentation explaining how to use objtrace trigger to get the value
+> > of the object.
+> >
+> > Cc: Jonathan Corbet <corbet@lwn.net>
+> > Cc: Bagas Sanjaya <bagasdotme@gmail.com>
+> > Cc: linux-doc@vger.kernel.org
+> > Signed-off-by: Jeff Xie <xiehuan09@gmail.com>
+> > Reviewed-by: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+> > ---
+> > Changelog:
+> > v14:
+> > - make documentation more readable and fix literal code block by Bagas Sanjaya
+> >
+> >  Documentation/trace/events.rst | 87 ++++++++++++++++++++++++++++++++++
+> >  1 file changed, 87 insertions(+)
+> >
+> > diff --git a/Documentation/trace/events.rst b/Documentation/trace/events.rst
+> > index c47f381d0c00..c15f1d25d4a0 100644
+> > --- a/Documentation/trace/events.rst
+> > +++ b/Documentation/trace/events.rst
+> > @@ -546,6 +546,93 @@ The following commands are supported:
+> >
+> >    See Documentation/trace/histogram.rst for details and examples.
+> >
+> > +- objtrace
+> > +
+> > +  This command provides a way to get the value of any object, The object
+> > +  can be obtained from the dynamic event (kprobe_event/uprobe_event) or the
+> > +  static event (tracepoint).
+> > +
+> > +  Usage:
+> > +  When using the kprobe event, by only need to set the objtrace (a new
+> > +  trigger), we can get the value of object that is set by kprobe event.
+> > +
+> > +  For example, for the function bio_add_page():
+> > +
+> > +  .. code-block:: c
+> > +
+> > +     int bio_add_page(struct bio *bio, struct page *page,
+> > +                   unsigned int len, unsigned int offset)
+> > +
+> > +  Firstly, we can set the base of the object as first parameter (arg1) to
+> > +  to the function:
+> > +
+> > +  .. code-block::
+> > +
+> > +     # echo 'p bio_add_page arg1=$arg1' > ./kprobe_events
+> > +
+> > +  Secondly, we can get the value dynamically based on the object:
+> > +
+> > +  .. code-block::
+> > +
+> > +     find the offset of the bi_size in struct bio:
+> > +     $ gdb vmlinux
+> > +     (gdb) p &(((struct bio *)0)->bi_iter.bi_size)
+> > +     $1 = (unsigned int *) 0x28
+> > +
+> > +     # echo 'objtrace:add:arg1,0x28:u32:1 if comm == "cat"' > ./events/kprobes/ \
+> > +       p_bio_add_page_0/trigger
+> > +
+> > +     # cd /sys/kernel/debug/tracing/
+> > +     # echo 'p bio_add_page arg1=$arg1' > ./kprobe_events
+> > +     # echo 'objtrace:add:arg1,0x28:u32:1 if comm == "cat"' > ./events/kprobes/p_bio_add_page_0/trigger
+>
+> No offense but this documentation is not well written and hard to read.
+>
+> Admittedly though I am just casually browsing through, so apologies.
+>
+> So basically, 0x28 is the offset of the u32 within the bio, that you want to
+> track down, as it passes through functions?
 
-Cc: Joanne Koong <joannelkoong@gmail.com>
-Signed-off-by: Roberto Sassu <roberto.sassu@huawei.com>
----
- include/linux/bpf_verifier.h |  3 +++
- include/linux/btf.h          |  9 +++++++++
- kernel/bpf/btf.c             | 18 ++++++++++++++++++
- kernel/bpf/verifier.c        |  4 ++--
- 4 files changed, 32 insertions(+), 2 deletions(-)
+Yes, Not only track the bio, but also get a value with an offset of
+0x28 relative to the bio.
 
-diff --git a/include/linux/bpf_verifier.h b/include/linux/bpf_verifier.h
-index 2e3bad8640dc..55876fbdbae2 100644
---- a/include/linux/bpf_verifier.h
-+++ b/include/linux/bpf_verifier.h
-@@ -560,6 +560,9 @@ int check_kfunc_mem_size_reg(struct bpf_verifier_env *env, struct bpf_reg_state
- 			     u32 regno);
- int check_mem_reg(struct bpf_verifier_env *env, struct bpf_reg_state *reg,
- 		   u32 regno, u32 mem_size);
-+bool is_dynptr_reg_valid_init(struct bpf_verifier_env *env,
-+			      struct bpf_reg_state *reg,
-+			      enum bpf_arg_type arg_type);
- 
- /* this lives here instead of in bpf.h because it needs to dereference tgt_prog */
- static inline u64 bpf_trampoline_compute_key(const struct bpf_prog *tgt_prog,
-diff --git a/include/linux/btf.h b/include/linux/btf.h
-index ad93c2d9cc1c..f546d368ac5d 100644
---- a/include/linux/btf.h
-+++ b/include/linux/btf.h
-@@ -52,6 +52,15 @@
- #define KF_SLEEPABLE    (1 << 5) /* kfunc may sleep */
- #define KF_DESTRUCTIVE  (1 << 6) /* kfunc performs destructive actions */
- 
-+/*
-+ * Return the name of the passed struct, if exists, or halt the build if for
-+ * example the structure gets renamed. In this way, developers have to revisit
-+ * the code using that structure name, and update it accordingly.
-+ */
-+#define stringify_struct(x)			\
-+	({ BUILD_BUG_ON(sizeof(struct x) < 0);	\
-+	   __stringify(x); })
-+
- struct btf;
- struct btf_member;
- struct btf_type;
-diff --git a/kernel/bpf/btf.c b/kernel/bpf/btf.c
-index e49b3b6d48ad..26cb548420af 100644
---- a/kernel/bpf/btf.c
-+++ b/kernel/bpf/btf.c
-@@ -6362,15 +6362,20 @@ static int btf_check_func_arg_match(struct bpf_verifier_env *env,
- 
- 			if (is_kfunc) {
- 				bool arg_mem_size = i + 1 < nargs && is_kfunc_arg_mem_size(btf, &args[i + 1], &regs[regno + 1]);
-+				bool arg_dynptr = btf_type_is_struct(ref_t) &&
-+						  !strcmp(ref_tname,
-+							  stringify_struct(bpf_dynptr_kern));
- 
- 				/* Permit pointer to mem, but only when argument
- 				 * type is pointer to scalar, or struct composed
- 				 * (recursively) of scalars.
- 				 * When arg_mem_size is true, the pointer can be
- 				 * void *.
-+				 * Also permit initialized dynamic pointers.
- 				 */
- 				if (!btf_type_is_scalar(ref_t) &&
- 				    !__btf_type_is_scalar_struct(log, btf, ref_t, 0) &&
-+				    !arg_dynptr &&
- 				    (arg_mem_size ? !btf_type_is_void(ref_t) : 1)) {
- 					bpf_log(log,
- 						"arg#%d pointer type %s %s must point to %sscalar, or struct with scalar\n",
-@@ -6378,6 +6383,19 @@ static int btf_check_func_arg_match(struct bpf_verifier_env *env,
- 					return -EINVAL;
- 				}
- 
-+				if (arg_dynptr) {
-+					if (!is_dynptr_reg_valid_init(env, reg,
-+							ARG_PTR_TO_DYNPTR)) {
-+						bpf_log(log,
-+							"arg#%d pointer type %s %s must be initialized\n",
-+							i, btf_type_str(ref_t),
-+							ref_tname);
-+						return -EINVAL;
-+					}
-+
-+					continue;
-+				}
-+
- 				/* Check for mem, len pair */
- 				if (arg_mem_size) {
- 					if (check_kfunc_mem_size_reg(env, &regs[regno + 1], regno + 1)) {
-diff --git a/kernel/bpf/verifier.c b/kernel/bpf/verifier.c
-index 2c1f8069f7b7..aa834e7bb296 100644
---- a/kernel/bpf/verifier.c
-+++ b/kernel/bpf/verifier.c
-@@ -779,8 +779,8 @@ static bool is_dynptr_reg_valid_uninit(struct bpf_verifier_env *env, struct bpf_
- 	return true;
- }
- 
--static bool is_dynptr_reg_valid_init(struct bpf_verifier_env *env, struct bpf_reg_state *reg,
--				     enum bpf_arg_type arg_type)
-+bool is_dynptr_reg_valid_init(struct bpf_verifier_env *env, struct bpf_reg_state *reg,
-+			      enum bpf_arg_type arg_type)
- {
- 	struct bpf_func_state *state = func(env, reg);
- 	int spi = get_spi(reg->off);
+>
+> The example is good, but I suggest breakdown each of the commands separated
+> by ':' and document those as well.
+
+I don't know how to explain it in more detail, maybe need to be
+familiar with kprobe event and trigger in advance ;-)
+
+> Cool feature though, I can see myself using it for something (dunno what yet) :)
+
+Thank you, hope you have a good experience ;-)
+
+>
+> thanks,
+>
+>  - Joel
+>
+>
+>
+> > +
+> > +     # du -sh /test.txt
+> > +     12.0K   /test.txt
+> > +
+> > +     # cat  /test.txt > /dev/null
+> > +     # cat ./trace
+> > +     # tracer: nop
+> > +     #
+> > +     # entries-in-buffer/entries-written: 128/128   #P:4
+> > +     #
+> > +     #                                _-----=> irqs-off/BH-disabled
+> > +     #                               / _----=> need-resched
+> > +     #                              | / _---=> hardirq/softirq
+> > +     #                              || / _--=> preempt-depth
+> > +     #                              ||| / _-=> migrate-disable
+> > +     #                              |||| /     delay
+> > +     #           TASK-PID     CPU#  |||||  TIMESTAMP  FUNCTION
+> > +     #              | |         |   |||||     |         |
+> > +                  cat-117     [002] ...1.     1.602243: __bio_try_merge_page <-bio_add_page object:0xffff88811bee4000 value:0x0
+> > +                  cat-117     [002] ...1.     1.602244: __bio_add_page <-bio_add_page object:0xffff88811bee4000 value:0x0
+> > +                  cat-117     [002] ...2.     1.602244: bio_add_page <-ext4_mpage_readpages object:0xffff88811bee4000 value:0x1000
+> > +                  cat-117     [002] ...1.     1.602245: __bio_try_merge_page <-bio_add_page object:0xffff88811bee4000 value:0x1000
+> > +                  cat-117     [002] ...1.     1.602245: __bio_add_page <-bio_add_page object:0xffff88811bee4000 value:0x1000
+> > +                  cat-117     [002] ...2.     1.602245: bio_add_page <-ext4_mpage_readpages object:0xffff88811bee4000 value:0x2000
+> > +                  cat-117     [002] ...1.     1.602245: __bio_try_merge_page <-bio_add_page object:0xffff88811bee4000 value:0x2000
+> > +                  cat-117     [002] ...1.     1.602245: __bio_add_page <-bio_add_page object:0xffff88811bee4000 value:0x2000
+> > +                  cat-117     [002] ...1.     1.602245: submit_bio <-ext4_mpage_readpages object:0xffff88811bee4000 value:0x3000
+> > +                  cat-117     [002] ...1.     1.602245: submit_bio_noacct <-ext4_mpage_readpages object:0xffff88811bee4000 value:0x3000
+> > +                  cat-117     [002] ...1.     1.602246: __submit_bio <-submit_bio_noacct object:0xffff88811bee4000 value:0x3000
+> > +                  cat-117     [002] ...1.     1.602246: submit_bio_checks <-__submit_bio object:0xffff88811bee4000 value:0x3000
+> > +                  cat-117     [002] ...1.     1.602246: __cond_resched <-submit_bio_checks object:0xffff88811bee4000 value:0x3000
+> > +                  cat-117     [002] ...1.     1.602246: should_fail_bio <-submit_bio_checks object:0xffff88811bee4000 value:0x3000
+> > +                  cat-117     [002] ...1.     1.602246: blk_mq_submit_bio <-submit_bio_noacct object:0xffff88811bee4000 value:0x3000
+> > +                  cat-117     [002] ...1.     1.602246: blk_attempt_plug_merge <-blk_mq_submit_bio object:0xffff88811bee4000 value:0x3000
+> > +                  cat-117     [002] ...1.     1.602246: blk_mq_sched_bio_merge <-blk_mq_submit_bio object:0xffff88811bee4000 value:0x3000
+> > +                  cat-117     [002] ...1.     1.602247: __rcu_read_lock <-blk_mq_submit_bio object:0xffff88811bee4000 value:0x3000
+> > +                  cat-117     [002] ...1.     1.602247: __rcu_read_unlock <-blk_mq_submit_bio object:0xffff88811bee4000 value:0x3000
+> > +                  cat-117     [002] ...1.     1.602247: __blk_mq_alloc_requests <-blk_mq_submit_bio object:0xffff88811bee4000 value:0x3000
+> > +               <idle>-0       [002] d..3.     1.602298: bio_endio <-blk_update_request object:0xffff88811bee4000 value:0x0
+> > +               <idle>-0       [002] d..3.     1.602298: mpage_end_io <-blk_update_request object:0xffff88811bee4000 value:0x0
+> > +               <idle>-0       [002] d..3.     1.602298: __read_end_io <-blk_update_request object:0xffff88811bee4000 value:0x0
+> > +               <idle>-0       [002] d..3.     1.602300: bio_put <-blk_update_request object:0xffff88811bee4000 value:0x0
+> > +               <idle>-0       [002] d..3.     1.602300: bio_free <-blk_update_request object:0xffff88811bee4000 value:0x0
+> > +               <idle>-0       [002] d..3.     1.602300: mempool_free <-blk_update_request object:0xffff88811bee4000 value:0x0
+> > +               <idle>-0       [002] d..3.     1.602300: mempool_free_slab <-blk_update_request object:0xffff88811bee4000 value:0x0
+> > +               <idle>-0       [002] d..3.     1.602300: kmem_cache_free <-blk_update_request object:0xffff88811bee4000 value:0x0
+> > +                ...
+> > +
+> >  7. In-kernel trace event API
+> >  ============================
+> >
+> > --
+> > 2.25.1
+> >
+
 -- 
-2.25.1
-
+Thanks,
+JeffXie
