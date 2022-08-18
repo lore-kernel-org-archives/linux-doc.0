@@ -2,91 +2,122 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D1AFDC00140
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Aug 2022 10:08:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16E34C28B2B
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Aug 2022 11:13:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239604AbiHRKIk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 18 Aug 2022 06:08:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44962 "EHLO
+        id S241877AbiHRLNq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 18 Aug 2022 07:13:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39484 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243975AbiHRKIi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Aug 2022 06:08:38 -0400
-Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C4E04CA3B;
-        Thu, 18 Aug 2022 03:08:34 -0700 (PDT)
-Received: from zn.tnic (p200300ea971b98ec329c23fffea6a903.dip0.t-ipconnect.de [IPv6:2003:ea:971b:98ec:329c:23ff:fea6:a903])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 51DD11EC056D;
-        Thu, 18 Aug 2022 12:08:29 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1660817309;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=O4EgIYZ64hmyiZkormnNEy3aMOezDlwYFaPWr1H3z4I=;
-        b=N2cZKh1232bwCm0szW2TX51kDArsuJiJJlpJPcfR7WoNMA1FMs2LpLcaElPYPBBSwigkWH
-        /Pb8v8U2dmaZmsJ6IfXLxC5XFgA2V2tIQU8SQ2BXyoa5O8q9jJ/+gO5Wm0uxPOgvP/9ow6
-        V65dxZcgRQpf2ePLeH77IsktPKjl0RI=
-Date:   Thu, 18 Aug 2022 12:08:24 +0200
-From:   Borislav Petkov <bp@alien8.de>
-To:     Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, tony.luck@intel.com,
-        antonio.gomez.iglesias@linux.intel.com,
-        Daniel Sneddon <daniel.sneddon@linux.intel.com>,
-        andrew.cooper3@citrix.com, Josh Poimboeuf <jpoimboe@kernel.org>
-Subject: Re: [PATCH v2] x86/bugs: Add "unknown" reporting for MMIO Stale Data
-Message-ID: <Yv4PmGS98IDZ7ujH@zn.tnic>
-References: <79d2455c75bdbad4e68a3843fe1c1e67826008e6.1659562129.git.pawan.kumar.gupta@linux.intel.com>
+        with ESMTP id S244343AbiHRLNp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Aug 2022 07:13:45 -0400
+Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B44C6DEB0
+        for <linux-doc@vger.kernel.org>; Thu, 18 Aug 2022 04:13:42 -0700 (PDT)
+Received: by mail-ej1-x630.google.com with SMTP id a7so2636556ejp.2
+        for <linux-doc@vger.kernel.org>; Thu, 18 Aug 2022 04:13:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc;
+        bh=w+4+2WtxvO1cqI4byafyu81xZCbJaUxCOsxyNdwBfJI=;
+        b=ObRzc2BAQc6+LGmzsb5py6+CSBSMikoI60uVFFy62jeF+aDW4APgEMWqYHsm7W5OP5
+         2Z7c9h5e24WRMP68wi6PFroY7Q3m7Wtc3l5ZZCy8xLko9Vwyp5xzoFRUJkuDgQVPp+E3
+         4YAtzSn44vk8sAdb1OXUoAjOqHf/wX7bWysuruUsigstR4S4U7H1A2761PZAKGJxkKE7
+         kwg9LFXUHMmx/y9rB0wQEdHRPq6b3KxLbxEmslolKyQckRD3WL2U8gbMuiYc8zil9fCk
+         2HXLEuH0YTozklKWAUoF2e5ng2cDru7fVp+1BBN0aSYvwIdKoNSqcc6w5+3iF7d2B8iL
+         YTbA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=w+4+2WtxvO1cqI4byafyu81xZCbJaUxCOsxyNdwBfJI=;
+        b=49kegDwHLrTDZxclO6i4BbFPMCzGPPaFJ2XlOQYk63r3KQ65v00ys0vRksqnNo5Mn5
+         EBhRyBh0ikdiNg/oUs1jMNN3bQfMlj0pKQrP54LSe5hqsckuEkGJpYHpAdOA4HDAytBh
+         WRUlzXJ1W2lFP5gBV2e4lijQs9ZbWPG2gsC8TmL1Fc6o6OMsEQIr2QNrLeRU+LV14iyR
+         o4Tnju8/2xR7/xKZ7qR3E10V0m42htyjUgW0HjufafjglBerczXB0BFTTiYC2jGrtAuu
+         mgLgvCe8CdaLQtSktnL1RRHVgbBCefdFdfcKJSQPtpRtaUAOOZrUYhth6VCJLkFJwVjY
+         B7YA==
+X-Gm-Message-State: ACgBeo17hBv36kGdRiZ8vgc95Q2PFuly+JEvO8ilDLF1oRU2kByYrQbH
+        hFgr5aMev6If1T4BX7Mva9NtFUcM5iOnillF1+OsxQ==
+X-Google-Smtp-Source: AA6agR5zJ/Z0L9Dg2ANnUTeKyjlDNjqAeobhWSyUgHdidQmKPp6qQcplExCAQbfLn2w9QejtrP2j9riElrr6L7TbR8M=
+X-Received: by 2002:a17:907:a055:b0:730:a432:99d3 with SMTP id
+ gz21-20020a170907a05500b00730a43299d3mr1473227ejc.690.1660821221116; Thu, 18
+ Aug 2022 04:13:41 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <79d2455c75bdbad4e68a3843fe1c1e67826008e6.1659562129.git.pawan.kumar.gupta@linux.intel.com>
+References: <f31b818cf8d682de61c74b133beffcc8a8202478.1660041358.git.christophe.leroy@csgroup.eu>
+ <CACRpkdY53c0qXx24Am1TMivXr-MV+fQ8B0CDjtGi6=+2tn4-7A@mail.gmail.com> <CAK8P3a1Vh1Uehuin-u5QrTO5qh+t0aK_hA-QZwqc00Db_+MKcw@mail.gmail.com>
+In-Reply-To: <CAK8P3a1Vh1Uehuin-u5QrTO5qh+t0aK_hA-QZwqc00Db_+MKcw@mail.gmail.com>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Thu, 18 Aug 2022 13:13:30 +0200
+Message-ID: <CACRpkdbhbwBe=jU5prifXCYUXPqULhst0se3ZRH+sWOh9XeoLQ@mail.gmail.com>
+Subject: Re: [PATCH] gpio: Allow user to customise maximum number of GPIOs
+To:     Arnd Bergmann <arnd@arndb.de>
+Cc:     Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Russell King <linux@armlinux.org.uk>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        "moderated list:ARM PORT" <linux-arm-kernel@lists.infradead.org>,
+        "open list:GENERIC INCLUDE/ASM HEADER FILES" 
+        <linux-arch@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Aug 03, 2022 at 02:41:32PM -0700, Pawan Gupta wrote:
-> diff --git a/arch/x86/kernel/cpu/bugs.c b/arch/x86/kernel/cpu/bugs.c
-> index 6761668100b9..fe3f7e762b80 100644
-> --- a/arch/x86/kernel/cpu/bugs.c
-> +++ b/arch/x86/kernel/cpu/bugs.c
-> @@ -433,7 +433,8 @@ static void __init mmio_select_mitigation(void)
->  	u64 ia32_cap;
->  
->  	if (!boot_cpu_has_bug(X86_BUG_MMIO_STALE_DATA) ||
-> -	    cpu_mitigations_off()) {
-> +	     boot_cpu_has_bug(X86_BUG_MMIO_UNKNOWN) ||
-> +	     cpu_mitigations_off()) {
->  		mmio_mitigation = MMIO_MITIGATION_OFF;
->  		return;
->  	}
+On Thu, Aug 18, 2022 at 11:48 AM Arnd Bergmann <arnd@arndb.de> wrote:
 
-Needs also:
+> As I understood, the problem that Christophe ran into is that the
+> dynamic registration of additional gpio chips is broken because
+> it unregisters the chip if the number space is exhausted:
+>
+>                 base = gpiochip_find_base(gc->ngpio);
+>                 if (base < 0) {
+>                         ret = base;
+>                         spin_unlock_irqrestore(&gpio_lock, flags);
+>                         goto err_free_label;
+>                 }
+>
+> From the git history, it looks like this error was never handled gracefully
+> even if the intention was to keep going without a number assignment,
+> so there are probably other bugs one runs into after changing this.
 
-diff --git a/arch/x86/kernel/cpu/bugs.c b/arch/x86/kernel/cpu/bugs.c
-index d08c5589fa59..da7c361f47e0 100644
---- a/arch/x86/kernel/cpu/bugs.c
-+++ b/arch/x86/kernel/cpu/bugs.c
-@@ -539,6 +539,8 @@ static void __init md_clear_update_mitigation(void)
- 		pr_info("TAA: %s\n", taa_strings[taa_mitigation]);
- 	if (boot_cpu_has_bug(X86_BUG_MMIO_STALE_DATA))
- 		pr_info("MMIO Stale Data: %s\n", mmio_strings[mmio_mitigation]);
-+	else if (boot_cpu_has_bug(X86_BUG_MMIO_UNKNOWN))
-+		pr_info("MMIO Stale Data: Unknown: No mitigations\n");
- }
- 
- static void __init md_clear_select_mitigation(void)
+Hm that should be possible to get rid of altogether? I suppose it is only
+there to satisfy
 
-I've added it.
+static inline bool gpio_is_valid(int number)
+{
+        return number >= 0 && number < ARCH_NR_GPIOS;
+}
 
--- 
-Regards/Gruss,
-    Boris.
+?
 
-https://people.kernel.org/tglx/notes-about-netiquette
+If using GPIO descriptors, any descriptor != NULL is valid,
+this one is just used with legacy GPIOs. Maybe we should just
+delete gpio_is_valid() everywhere and then drop the cap?
+
+I think there may be systems and users that still depend on GPIO base
+numbers being assigned from ARCH_NR_GPIOS and
+downwards (userspace GPIO numbers in sysfs will also change...)
+otherwise we could assign from 0 and up.
+
+Right now the safest would be:
+Assign from 512 and downwards until we hit 0 then assign
+from something high, like U32_MAX and downward.
+
+That requires dropping gpio_is_valid() everywhere.
+
+If we wanna be bold, just delete gpio_is_valid() and assign
+bases from 0 and see what happens. But I think that will
+lead to regressions.
+
+Yours,
+Linus Walleij
