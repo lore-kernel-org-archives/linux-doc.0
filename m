@@ -2,197 +2,170 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C31AC00140
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Aug 2022 12:20:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 269BCC3F6B0
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Aug 2022 12:25:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244596AbiHRMT6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 18 Aug 2022 08:19:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42582 "EHLO
+        id S244664AbiHRMZz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 18 Aug 2022 08:25:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50308 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240115AbiHRMT6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Aug 2022 08:19:58 -0400
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id D394D786DB;
-        Thu, 18 Aug 2022 05:19:56 -0700 (PDT)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DEE3D106F;
-        Thu, 18 Aug 2022 05:19:57 -0700 (PDT)
-Received: from [192.168.178.6] (unknown [172.31.20.19])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6EAA63F70D;
-        Thu, 18 Aug 2022 05:19:54 -0700 (PDT)
-Message-ID: <257c43fb-0fb5-959a-788c-3c4a14b188dc@arm.com>
-Date:   Thu, 18 Aug 2022 14:19:47 +0200
+        with ESMTP id S244568AbiHRMZx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Aug 2022 08:25:53 -0400
+Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com [IPv6:2a00:1450:4864:20::62b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 711AF4F696
+        for <linux-doc@vger.kernel.org>; Thu, 18 Aug 2022 05:25:52 -0700 (PDT)
+Received: by mail-ej1-x62b.google.com with SMTP id w19so2922320ejc.7
+        for <linux-doc@vger.kernel.org>; Thu, 18 Aug 2022 05:25:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc;
+        bh=x0RShv55l/W/hrmKR8OYqxZUhnouhDYQRtTeXp8f/Qw=;
+        b=lZ9fW+MCVefOON5qJ+e2DPSKF5jc/FVhapsMLSbW36/Aoxpf8P3q9JjAR4x9BkyWSW
+         GIzQsuap3wNpnXkMbS0c61U4Q/4lvGcjQSRSvQSul/sbVOBgqxVgnLjsM2D0milhZDfK
+         WKAfAduMVIfUfT7NaGekeIAmtsyC/bceHS5BtOwWxyVzXFOUyux0GBc/wDUrg2tU5ExF
+         TLTP06xtOrnGtd5cWuoaC1nYPN1Z6vrIapM4EVLtlowPno7Y14WaBSv1PPgl7aydcjOq
+         HfVY38U0TB+sCZLNzPBX3BFEMqj/p25Cx+p2PDpcEvaGWU2tgJGBExICeiPPRzWtT/P4
+         SfAA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=x0RShv55l/W/hrmKR8OYqxZUhnouhDYQRtTeXp8f/Qw=;
+        b=ml8+dTNd4fDqO3eYOX3dpqJrZXTnEIDyBbunsUS1v/4AZuJT4UWly0K8aMtk0n/fug
+         40xQfFZHlRS92/b5bOynzE6xxvjIvUU9HnLnX8yCC86NgoeSIvOm4wj5ATCHAFyhmkO2
+         DvT5NjY0V8SiWCqfSPPyllX0Xr+D7XHoZWI/4WPU5ENrjmLu0x/4hRyIsRCXTRjCT8MA
+         hYsfGtCbjkmmk3eTSQxZEsxyTqAGzkh8TuMRUrNAfRl7xj3XtgY2QQPEx/yfao/NTknL
+         XJ8gncHCqkuCY/dDh4Jf/EWG2b5zx0ERzKQeHR5gl7hUaLxRbzB7cjDD9VVVsSdeUBUJ
+         yv+Q==
+X-Gm-Message-State: ACgBeo0UVTqh5nrK1qAxwQv7o/lClzLVX5dr8CRor+SH/zE09JTNmPbF
+        pnKMM2gE57MYdBMKAAOCLEFe8mMJnaO14leusIz+Rw==
+X-Google-Smtp-Source: AA6agR5CE0C/0zXbtuj+66ciKdo9mpd1YPbVFePdX1QU77PTiyuZXegpfkZn+8D69HVLOBrXNL00Nz+vaZxgIKdqlxE=
+X-Received: by 2002:a17:906:58c8:b0:6fe:91d5:18d2 with SMTP id
+ e8-20020a17090658c800b006fe91d518d2mr1801717ejs.190.1660825551004; Thu, 18
+ Aug 2022 05:25:51 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH] sched/topology: Remove EM_MAX_COMPLEXITY limit
-Content-Language: en-US
-To:     Pierre Gondois <pierre.gondois@arm.com>,
-        linux-kernel@vger.kernel.org
-Cc:     Ionela.Voinescu@arm.com, Lukasz.Luba@arm.com,
+References: <f31b818cf8d682de61c74b133beffcc8a8202478.1660041358.git.christophe.leroy@csgroup.eu>
+ <CACRpkdY53c0qXx24Am1TMivXr-MV+fQ8B0CDjtGi6=+2tn4-7A@mail.gmail.com>
+ <CAK8P3a1Vh1Uehuin-u5QrTO5qh+t0aK_hA-QZwqc00Db_+MKcw@mail.gmail.com>
+ <CACRpkdbhbwBe=jU5prifXCYUXPqULhst0se3ZRH+sWOh9XeoLQ@mail.gmail.com> <CAK8P3a0j-54_OkXC7x3NSNaHhwJ+9umNgbpsrPxUB4dwewK63A@mail.gmail.com>
+In-Reply-To: <CAK8P3a0j-54_OkXC7x3NSNaHhwJ+9umNgbpsrPxUB4dwewK63A@mail.gmail.com>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Thu, 18 Aug 2022 14:25:39 +0200
+Message-ID: <CACRpkda0+iy8H0YmyowSDn8RbYgnVbC1k+o5F67inXg4Qb934Q@mail.gmail.com>
+Subject: Re: [PATCH] gpio: Allow user to customise maximum number of GPIOs
+To:     Arnd Bergmann <arnd@arndb.de>,
+        Alexandre Courbot <gnurou@gmail.com>,
+        Alexandre Courbot <acourbot@nvidia.com>,
+        Bartosz Golaszewski <brgl@bgdev.pl>
+Cc:     Christophe Leroy <christophe.leroy@csgroup.eu>,
         Jonathan Corbet <corbet@lwn.net>,
-        Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-        Daniel Bristot de Oliveira <bristot@redhat.com>,
-        Valentin Schneider <vschneid@redhat.com>,
-        linux-doc@vger.kernel.org
-References: <20220812101620.627838-1-pierre.gondois@arm.com>
-From:   Dietmar Eggemann <dietmar.eggemann@arm.com>
-In-Reply-To: <20220812101620.627838-1-pierre.gondois@arm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+        Russell King <linux@armlinux.org.uk>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        "moderated list:ARM PORT" <linux-arm-kernel@lists.infradead.org>,
+        "open list:GENERIC INCLUDE/ASM HEADER FILES" 
+        <linux-arch@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 12/08/2022 12:16, Pierre Gondois wrote:
-> From: Pierre Gondois <Pierre.Gondois@arm.com>
+On Thu, Aug 18, 2022 at 1:33 PM Arnd Bergmann <arnd@arndb.de> wrote:
+> On Thu, Aug 18, 2022 at 1:13 PM Linus Walleij <linus.walleij@linaro.org> wrote:
 
-[...]
+> > static inline bool gpio_is_valid(int number)
+> > {
+> >         return number >= 0 && number < ARCH_NR_GPIOS;
+> > }
+> >
+> > ?
+> >
+> > If using GPIO descriptors, any descriptor != NULL is valid,
+> > this one is just used with legacy GPIOs. Maybe we should just
+> > delete gpio_is_valid() everywhere and then drop the cap?
+>
+> I think it makes sense to keep gpio_is_valid() for as long as we
+> support the numbers.
 
-> find_energy_efficient_cpu() (feec) is now doing:
-> feec()
-> \_ for_each_pd(pd) [0]
->   // get max_spare_cap_cpu and compute_prev_delta
->   \_ for_each_cpu(pd) [1]
-> 
->   \_ get_pd_busy_time(pd) [2]
->     \_ for_each_cpu(pd)
-> 
->   // evaluate pd energy without the task
->   \_ get_pd_max_util(pd, -1) [3.0]
->     \_ for_each_cpu(pd)
->   \_ compute_energy(pd, -1)
->     \_ for_each_ps(pd)
-> 
->   // evaluate pd energy with the task on prev_cpu
->   \_ get_pd_max_util(pd, prev_cpu) [3.1]
->     \_ for_each_cpu(pd)
->   \_ compute_energy(pd, prev_cpu)
->     \_ for_each_ps(pd)
-> 
->   // evaluate pd energy with the task on max_spare_cap_cpu
->   \_ get_pd_max_util(pd, max_spare_cap_cpu) [3.2]
->     \_ for_each_cpu(pd)
->   \_ compute_energy(pd, max_spare_cap_cpu)
->     \_ for_each_ps(pd)
-> 
-> [3.1] happens only once since prev_cpu is unique. To have an upper
-> bound of the complexity, [3.1] is taken into account for all pds.
-> So with the same definitions for nr_pd, nr_cpus and nr_ps,
-> the complexity is of:
-> nr_pd * (2 * [nr_cpus in pd] + 3 * ([nr_cpus in pd] + [nr_ps in pd]))
->  [0]  * (     [1] + [2]      +       [3.0] + [3.1] + [3.2]          )
-> = 5 * nr_cpus + 3 * nr_ps
-> 
-> The complexity limit was set to 2048 in:
-> commit b68a4c0dba3b1 ("sched/topology: Disable EAS on inappropriate
-> platforms")
-> to make "EAS usable up to 16 CPUs with per-CPU DVFS and less than 8
-> performance states each". For the same platform, the complexity would
-> actually be of:
-> 5 * 16 + 3 * 7 = 101
+Hmmm....
 
-This is somewhat hard to grasp.
+> > I think there may be systems and users that still depend on GPIO base
+> > numbers being assigned from ARCH_NR_GPIOS and
+> > downwards (userspace GPIO numbers in sysfs will also change...)
+> > otherwise we could assign from 0 and up.
+>
+> Is it possible to find in-kernel users that depend on well-known
+> numbers for dynamically assigned gpios? I would argue
+> that those are always broken.
 
-Example: 16 CPUs w/ per-CPU DVFS and < 8 performance states (OPPs) each
+Most in-kernel users hard-code the base to something like
+0 etc it's only the ones that code -1 into .base that are in
+trouble because that will activate dynamic assignment for the
+base.
 
-C  : Complexity
+git grep 'base = -1' yields these suspects:
 
-Nc : #CPUs in system
-Ns : Sum of PSs (Performance States) over all PDs
-Nd : #PDs
+arch/arm/common/sa1111.c:       sachip->gc.base = -1;
+arch/arm/common/scoop.c:        devptr->gpio.base = -1;
+arch/powerpc/platforms/52xx/mpc52xx_gpt.c:      gpt->gc.base = -1;
+arch/powerpc/platforms/83xx/mcu_mpc8349emitx.c: gc->base = -1;
 
-Nc' : #CPUs in PD
-Ns' : #PSs in PD
+That's all! We could just calculate these to 512-ngpios and
+hardcode that instead.
 
-(1) Currently we have:
+> Even for the sysfs interface, it is questionable to rely on
+> specific numbers because at least in an arm multiplatform
+> kernel the top number changes based on kernel configuration.
 
-    C = Nd * (Nc + Ns)
+Yeah :/ still these users tend to angrily report any breakage
+due to expected (fragile) behaviour.
 
-    Nc = 16, Nd = 16, Ns = 16 * 7
+> > Right now the safest would be:
+> > Assign from 512 and downwards until we hit 0 then assign
+> > from something high, like U32_MAX and downward.
+> >
+> > That requires dropping gpio_is_valid() everywhere.
+> >
+> > If we wanna be bold, just delete gpio_is_valid() and assign
+> > bases from 0 and see what happens. But I think that will
+> > lead to regressions.
+>
+> I'm still unsure how removing gpio_is_valid() would help.
 
-    C = 16 * (16 + 16 * 7)
+If we allow GPIO base all the way to U32_MAX
+this function becomes:
 
-      = 2048
+static inline bool gpio_is_valid(int number)
+{
+        return number >= 0 && number < U32_MAX;
+}
 
-(2) Your new formula is:
+and we can then just
 
-    Nc' = 1, Ns' = 7
+#define gpio_is_valid true
 
-    C = Nd * (2 * Nc' + 3 * (Nc' + Ns'))
+and in that case it is better to delete the use of this function
+altogether since it can not fail.
 
-      = Nd * (5 * Nc' + 3 * Ns')
+> What I could imagine as a next step would be to mark all
+> consumer drivers and the sysfs interface that use gpio
+> numbers as 'depends on GPIO_LEGACY' and then only
+> provide the corresponding drivers if that option is set.
 
-      = 16 * (5 * 1 + 3 * 7)
+Hm I wonder what Bartosz and Alexandre Courbot and thinks
+about a GPIO_LEGACY symbol to phase out the global
+GPIO numberspace. I kind of like the idea.
 
-      = 416
+I made the sysfs depend on CONFIG_EXPERT to at least make it less
+accessible and not provide users with guns to shoot themselves
+in the foot.
 
-      = 5 * Nc + 3 * Ns
-
-I would update the example and leave C ~ at 2048.
-
-> Since the EAS complexity was greatly reduced, bigger platforms can
-> handle EAS. For instance, a platform with 256 CPUs with 256
-> performance states each would reach it. To reflect this improvement,
-> remove the EAS complexity check.
-> 
-> Signed-off-by: Pierre Gondois <Pierre.Gondois@arm.com>
-
-We should definitely align feec()'s implementation with the EM
-complexity check and documentation. I would suggest that we keep both in
-place but we update them.
-
-> ---
->  Documentation/scheduler/sched-energy.rst | 37 ++--------------------
->  kernel/sched/topology.c                  | 39 ++----------------------
->  2 files changed, 6 insertions(+), 70 deletions(-)
-> 
-> diff --git a/Documentation/scheduler/sched-energy.rst b/Documentation/scheduler/sched-energy.rst
-> index 8fbce5e767d9..3d1d71134d16 100644
-> --- a/Documentation/scheduler/sched-energy.rst
-> +++ b/Documentation/scheduler/sched-energy.rst
-> @@ -356,38 +356,7 @@ placement. For EAS it doesn't matter whether the EM power values are expressed
->  in milli-Watts or in an 'abstract scale'.
->  
->  
-> -6.3 - Energy Model complexity
-> -^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> -
-> -The task wake-up path is very latency-sensitive. When the EM of a platform is
-> -too complex (too many CPUs, too many performance domains, too many performance
-> -states, ...), the cost of using it in the wake-up path can become prohibitive.
-> -The energy-aware wake-up algorithm has a complexity of:
-> -
-> -	C = Nd * (Nc + Ns)
-> -
-> -with: Nd the number of performance domains; Nc the number of CPUs; and Ns the
-> -total number of OPPs (ex: for two perf. domains with 4 OPPs each, Ns = 8).
-> -
-> -A complexity check is performed at the root domain level, when scheduling
-> -domains are built. EAS will not start on a root domain if its C happens to be
-> -higher than the completely arbitrary EM_MAX_COMPLEXITY threshold (2048 at the
-> -time of writing).
-> -
-> -If you really want to use EAS but the complexity of your platform's Energy
-> -Model is too high to be used with a single root domain, you're left with only
-> -two possible options:
-> -
-> -    1. split your system into separate, smaller, root domains using exclusive
-> -       cpusets and enable EAS locally on each of them. This option has the
-> -       benefit to work out of the box but the drawback of preventing load
-> -       balance between root domains, which can result in an unbalanced system
-> -       overall;
-> -    2. submit patches to reduce the complexity of the EAS wake-up algorithm,
-> -       hence enabling it to cope with larger EMs in reasonable time.
-> -
-> -
-
-I see value in this paragraph. Obviously it has to match the actual
-feec() implementation.
-
-[...]
+Yours,
+Linus Walleij
