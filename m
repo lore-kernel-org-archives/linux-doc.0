@@ -2,258 +2,190 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 11E3FC00140
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Aug 2022 07:37:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2508BC00140
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Aug 2022 08:25:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241561AbiHRHhH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 18 Aug 2022 03:37:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47040 "EHLO
+        id S237977AbiHRIZk convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 18 Aug 2022 04:25:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32974 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235029AbiHRHhG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Aug 2022 03:37:06 -0400
-Received: from sipsolutions.net (s3.sipsolutions.net [IPv6:2a01:4f8:191:4433::2])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43BFFA3472;
-        Thu, 18 Aug 2022 00:37:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=sipsolutions.net; s=mail; h=MIME-Version:Content-Transfer-Encoding:
-        Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender
-        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-To:
-        Resent-Cc:Resent-Message-ID; bh=HYs0ufAt7cQqAQMzoqBHFMeAW4UaG1L50QDWW/7yISg=;
-        t=1660808224; x=1662017824; b=oFcQGUhzb3+c5MnKktutHWP8Z0PUKr8aTC2v4zRE66PbU7W
-        HM0Uhm7gOAkeF2jGcHdAi/oSocHPWV4nxOi0pH1Gl5Obc/WmzOZCRiPLabeFeN+NxX69d71iH4iKh
-        cZs2AB72jdGJUl9Cx6qdYzvJ/KOM/Oi4rScp22ToLduJRqQk4uhfLVh9GYaVTTDbHbvm8nMGsZJH+
-        TJE0uotu2ANp4g0U2h4DnMytM8MxKwSqd3rixP+9vtoPoQhNDYsqJkXzksqK4r9bOER+h+7GJbDz6
-        MYXsMWwAiwjkW4/jCPQpClsktRhYnE5il7TxEPQJyPj8gWqgVuDbmIC+HJGuo9Pg==;
-Received: by sipsolutions.net with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-        (Exim 4.96)
-        (envelope-from <johannes@sipsolutions.net>)
-        id 1oOa5A-00B8pc-1z;
-        Thu, 18 Aug 2022 09:36:48 +0200
-Message-ID: <6350516756628945f9cc1ee0248e92473521ed0b.camel@sipsolutions.net>
-Subject: Re: [PATCH net-next 2/2] docs: netlink: basic introduction to
- Netlink
-From:   Johannes Berg <johannes@sipsolutions.net>
-To:     Jakub Kicinski <kuba@kernel.org>, davem@davemloft.net
-Cc:     netdev@vger.kernel.org, corbet@lwn.net, stephen@networkplumber.org,
-        sdf@google.com, ecree.xilinx@gmail.com, benjamin.poirier@gmail.com,
-        idosch@idosch.org, f.fainelli@gmail.com, jiri@resnulli.us,
-        dsahern@kernel.org, fw@strlen.de, linux-doc@vger.kernel.org,
-        jhs@mojatatu.com, tgraf@suug.ch, jacob.e.keller@intel.com,
-        svinota.saveliev@gmail.com
-Date:   Thu, 18 Aug 2022 09:36:46 +0200
-In-Reply-To: <20220818023504.105565-2-kuba@kernel.org>
-References: <20220818023504.105565-1-kuba@kernel.org>
-         <20220818023504.105565-2-kuba@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.4 (3.44.4-1.fc36) 
+        with ESMTP id S230051AbiHRIZj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Aug 2022 04:25:39 -0400
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.135])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 081F3AE9E9;
+        Thu, 18 Aug 2022 01:25:37 -0700 (PDT)
+Received: from mail-ed1-f41.google.com ([209.85.208.41]) by
+ mrelayeu.kundenserver.de (mreue009 [213.165.67.97]) with ESMTPSA (Nemesis) id
+ 1Mwfj0-1nRWuo1AqY-00yDhG; Thu, 18 Aug 2022 10:25:36 +0200
+Received: by mail-ed1-f41.google.com with SMTP id b16so958233edd.4;
+        Thu, 18 Aug 2022 01:25:36 -0700 (PDT)
+X-Gm-Message-State: ACgBeo1cN15+F++pNgEo6dbkbN3+J06Dt7mCPymGfERrQjzzAX897EFA
+        dC3biyypPGfZai8tzDLKE4cVRzGazGm59R1IUp8=
+X-Google-Smtp-Source: AA6agR6FvBdJh9Cs4OxvKtiMY3DiW5ICoJPeqRHLQrQQDG+0EvOMe5DnH8e2Ff0iYfqki2M4kbO0/96IJyg8Jxguy2A=
+X-Received: by 2002:a05:6402:51c6:b0:43d:dd3a:196e with SMTP id
+ r6-20020a05640251c600b0043ddd3a196emr1408019edd.213.1660811135827; Thu, 18
+ Aug 2022 01:25:35 -0700 (PDT)
 MIME-Version: 1.0
-X-malware-bazaar: not-scanned
+References: <f31b818cf8d682de61c74b133beffcc8a8202478.1660041358.git.christophe.leroy@csgroup.eu>
+ <CAK8P3a3bJVTLZy3HnVvEN8zDgzAMhSUdUkZ5Jd=omNjYJZKA4Q@mail.gmail.com> <6103c908-dc48-40e2-2a89-b0f31e4c55f4@csgroup.eu>
+In-Reply-To: <6103c908-dc48-40e2-2a89-b0f31e4c55f4@csgroup.eu>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Thu, 18 Aug 2022 10:25:18 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a0RRzpZH6vmd=sC7u5n11ZaK2uoMC9xG7FXXgEy=R8HrA@mail.gmail.com>
+Message-ID: <CAK8P3a0RRzpZH6vmd=sC7u5n11ZaK2uoMC9xG7FXXgEy=R8HrA@mail.gmail.com>
+Subject: Re: [PATCH] gpio: Allow user to customise maximum number of GPIOs
+To:     Christophe Leroy <christophe.leroy@csgroup.eu>
+Cc:     Arnd Bergmann <arnd@arndb.de>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Russell King <linux@armlinux.org.uk>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        "moderated list:ARM PORT" <linux-arm-kernel@lists.infradead.org>,
+        "open list:GENERIC INCLUDE/ASM HEADER FILES" 
+        <linux-arch@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Provags-ID: V03:K1:Kk8I+ZYW7qNanVffZc7tgzVb8GEhv6PGi5iLk0ucXbgdhf+04XC
+ SUo1RchJb8wpQKcvKcYG6ozWrQ9FeSs4SVOqcE87ZQktfRttDa8kEjmfDE3ojwTiplcLGY/
+ 0OGWc8cChXZjCZzYW6yqXGPbmVkFuc58cHZThvjU2uuI02O43CIrVcLiw43qWpbEo1bS/5Z
+ JBwy5ToxN07d/afyEUGJw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:HYPG9BVU+7A=:Z5M0w8lGOF+X+qPUAd4Lle
+ Vz7yAliTuP28+NI4iNgsF+LPOZ9iF6V3nxSj/ZnvmD5IMcBh8nOG/iC72W3k9WyEnO+gFevtP
+ yCuSyixA6NjiDVtCTDMQbcVShJwsohUFfGoQ32jfxb2q6ab92HlW5pvNuex8idymyksRnwDjX
+ FPCELcqVDZrzye3ewStVwNq9rsd58NTtZalxExlLv5f2tYkRg6BLojrOdW/wV3OLcy0UCS/br
+ f0G0JWtQxLhDADMq7DedudWTYXffI3dE/gz4Sw2Xv1tfgFxfSoE+0Bhpz84tHT1EZAOhn2kbc
+ rfpwStz0xsYn6uc1482gYYbS3UZehvXWG+hiPGUm63rlVE4c9ZE0gs2TyQ2F3irnHBalLEZi7
+ tCFisHF7vmmPRNZlM7uobDwbTP7KL6m2d17Ug/afZXIccF1t84HfDRToF31YoLMnGOcLjWtUo
+ 1fTeJUAWj4Wq7HnxzBlE3GPB7lxchfeg0f403+8gH9nG/0YSA40e38eBVlWV0BjafjciTLvvX
+ B5tCh1Jo6aj8aBcUkB05ecICAvI3nwXKFAHtiGmfVjSktbwLrAnaxxbgVSGi7wF1gRvy87xLV
+ LAH2kso3NElvkgKn3q7Z6wvfPuSAOxqEjVBtsr0aNID3eLoo+lkIw0xrN1OKzJDBB7Jfc4XX/
+ 0hTs+dmJc6ku4HJEMzUBMnKDxKQvQBlnkdyHlrdpTW0Ug5Qp7tJYEO8iZaNugqUxiBB7UzIYl
+ 5SY89nSnnW/UAH8QosNifTGnrzMf0pB0ELvF4w==
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 2022-08-17 at 19:35 -0700, Jakub Kicinski wrote:
+On Thu, Aug 18, 2022 at 8:00 AM Christophe Leroy
+<christophe.leroy@csgroup.eu> wrote:
+> Le 17/08/2022 à 19:46, Arnd Bergmann a écrit :
+> > On Tue, Aug 9, 2022 at 12:40 PM Christophe Leroy <christophe.leroy@csgroup.eu> wrote:
+> >> diff --git a/arch/arm/Kconfig b/arch/arm/Kconfig
+> >> index 53e6a1da9af5..e55b6560fe4f 100644
+> >> --- a/arch/arm/Kconfig
+> >> +++ b/arch/arm/Kconfig
+> >> @@ -14,6 +14,7 @@ config ARM
+> >>          select ARCH_HAS_KCOV
+> >>          select ARCH_HAS_MEMBARRIER_SYNC_CORE
+> >>          select ARCH_HAS_NON_OVERLAPPING_ADDRESS_SPACE
+> >> +       select ARCH_HAS_NR_GPIO
+> >>          select ARCH_HAS_PTE_SPECIAL if ARM_LPAE
+> >>          select ARCH_HAS_PHYS_TO_DMA
+> >>          select ARCH_HAS_SETUP_DMA_OPS
+> >> @@ -1243,7 +1244,7 @@ config ARCH_NR_GPIO
+> >>          default 352 if ARCH_VT8500
+> >>          default 288 if ARCH_ROCKCHIP
+> >>          default 264 if MACH_H4700
+> >> -       default 0
+> >> +       default 512
+> >
+> > This list should be kept sorted, otherwise you still get e.g. the '264' default
+> > value. If you have a GPIO extender that provides hardcoded GPIO
+> > numbers on your machine, there should be a configuration option for
+> > that driver.
+>
+> I don't want to change the behaviour for existing configurations. If the
+> unconditional default goes before conditional ones, then all following
+> defaults will be ignored and you'll get 512 instead of 264 if MAC_H4700
+> is selected for instance.
+>
+> At the time being, you get 0 only when no other default was selected,
+> then that 0 implies 512 in asm-generic/gpio.h by:
+>
+> #if defined(CONFIG_ARCH_NR_GPIO) && CONFIG_ARCH_NR_GPIO > 0
+> #define ARCH_NR_GPIOS CONFIG_ARCH_NR_GPIO
+> #else
+> #define ARCH_NR_GPIOS           512
+> #endif
 
-> +To get information about the Generic Netlink family named for example
-> +``"test1"`` we need to send a message on the previously opened Generic N=
-etlink
-> +socket. The message should target the Generic Netlink Family (1), be a
-> +``do`` (2) call to ``CTRL_CMD_GETFAMILY`` (3). A ``dump`` version of thi=
-s
-> +call would make the kernel respond with information about *all* the fami=
-lies
-> +it knows about. Last but not least the name of the family in question ha=
-s
-> +to be specified (4) as an attribute with the appropriate type::
-> +
-> +  struct nlmsghdr:
-> +    __u32 nlmsg_len:	32
-> +    __u16 nlmsg_type:	GENL_ID_CTRL               // (1)
-> +    __u16 nlmsg_flags:	NLM_F_REQUEST | NLM_F_ACK  // (2)
-> +    __u32 nlmsg_seq:	1
-> +    __u32 nlmsg_pid:	0
-> +
-> +  struct genlmsghdr:
-> +    __u8 cmd:		CTRL_CMD_GETFAMILY         // (3)
-> +    __u8 version:	2 /* or 1, doesn't matter */
-> +    __u16 reserved:	0
-> +
-> +  struct nlattr:                                   // (4)
-> +    __u16 nla_len:	10
-> +    __u16 nla_type:	CTRL_ATTR_FAMILY_NAME
-> +    char data: 		test1\0
-> +
-> +  (padding:)
-> +    char data:		\0\0
-> +
-> +The length fields in Netlink (:c:member:`nlmsghdr.nlmsg_len`
-> +and :c:member:`nlattr.nla_len`) always *include* the header.
-> +Headers in netlink must be aligned to 4 bytes from the start of the mess=
-age,
+Ok, I see what you are doing now. I'm not sure this is actually intentional
+behavior of the current implementation though, my guess would be that
+the 'default 0' was intended as a fallback for platforms that have no
+GPIO providers at all.
 
-s/Headers/Attribute headers/ perhaps?
+This is of course not entirely appropriate any more as
 
-> +hence the extra ``\0\0`` at the end of the message.
->=20
+> > Which driver is it that needs extra hardcoded GPIO numbers for you?
+> > Have you tried converting it to use GPIO descriptors so you don't
+> > need the number assignment?
+>
+> It is a max7301 (drivers/gpio/gpio-max730x.c) but I can't understand
+> what you mean. GPIO descriptors are for consumers, aren't they ?
 
-And I think technically for the _last_ attribute it wouldn't be needed?
+I meant the consumers, yes.
 
-> +If the family is found kernel will reply with two messages, the response
-> +with all the information about the family::
-> +
-> +  /* Message #1 - reply */
-> +  struct nlmsghdr:
-> +    __u32 nlmsg_len:	136
-> +    __u16 nlmsg_type:	GENL_ID_CTRL
-> +    __u16 nlmsg_flags:	0
-> +    __u32 nlmsg_seq:	1    /* echoed from our request */
-> +    __u32 nlmsg_pid:	5831 /* The PID of our user space process */
+> During boot I get :
+>
+> [    0.601942] gpiochip_find_base: found new base at 496
+> [    0.606337] gpiochip_find_base: found new base at 464
+> [    0.616408] gpiochip_find_base: found new base at 448
+> [    0.621826] gpiochip_find_base: found new base at 432
+> [    0.627228] gpiochip_find_base: found new base at 400
+> [    0.660984] gpiochip_find_base: found new base at 384
+> [    0.669631] gpiochip_find_base: found new base at 368
+> [    0.672713] gpiochip_find_base: found new base at 352
+> [    0.675805] gpiochip_find_base: found new base at 336
+> [    0.678885] gpiochip_find_base: found new base at 320
+> [    0.682178] gpiochip_find_base: found new base at 304
+> [    0.685275] gpiochip_find_base: found new base at 288
+> [    0.688366] gpiochip_find_base: found new base at 272
+> [    0.691678] gpiochip_find_base: found new base at 256
+> [    0.694762] gpiochip_find_base: found new base at 240
+> [    0.697847] gpiochip_find_base: found new base at 224
+> [    0.701441] gpiochip_find_base: found new base at 208
+> [    0.709427] gpiochip_find_base: found new base at 192
+> [    0.713859] gpiochip_find_base: found new base at 176
+> [    0.718002] gpiochip_find_base: found new base at 160
+> [    0.723316] gpiochip_find_base: found new base at 144
+> [    0.731105] gpiochip_find_base: found new base at 128
+> [    0.737403] gpiochip_find_base: found new base at 112
+> [    0.740614] gpiochip_find_base: found new base at 96
+> [    0.743701] gpiochip_find_base: found new base at 80
+> [    0.747246] gpiochip_find_base: found new base at 64
+> [    4.663677] gpiochip_find_base: found new base at 36
+> [    5.050792] gpiochip_find_base: found new base at 16
+> [    5.064892] gpiochip_find_base: cannot find free range
+> [    5.095527] gpiochip_find_base: cannot find free range
+>
+> gpiochip_find_base() is called for any GPIO driver, by gpiochip_add() /
+> gpiochip_add_data_with_key(), and there is the following comment:
+>
+>         /*
+>          * TODO: this allocates a Linux GPIO number base in the global
+>          * GPIO numberspace for this chip. In the long run we want to
+>          * get *rid* of this numberspace and use only descriptors, but
+>          * it may be a pipe dream. It will not happen before we get rid
+>          * of the sysfs interface anyways.
+>          */
+>
+> So, what did I miss ?
 
-s/PID/netlink port ID/
+I missed the fact that the registration fails if it runs out of gpio numbers,
+as I was assuming that you could still use the additional gpio chips
+with the descriptor based API as long as all of the consumers on the
+system use that and you don't use CONFIG_GPIO_SYSFS.
 
-It's actually whatever you choose, I think? Lots of libraries will
-choose (something based on) the process ID, but that's not really
-needed?
+I see that this does not work today, but maybe it wouldn't be too hard to
+change? I see that CONFIG_GPIO_SYSFS continued to move towards
+deprecation after the comment was added in the code, and these days it
+can only be enabled if CONFIG_EXPERT=y is set.
 
-(autobind is different maybe?)
-
-
-> +  /* Message #2 - the ACK */
-> +  struct nlmsghdr:
-> +    __u32 nlmsg_len:	36
-> +    __u16 nlmsg_type:	NLMSG_ERROR
-> +    __u16 nlmsg_flags:	NLM_F_CAPPED /* There won't be a payload */
-> +    __u32 nlmsg_seq:	1    /* echoed from our request */
-> +    __u32 nlmsg_pid:	5831 /* The PID of our user space process */
-
-(same here of course)
-
-> +``NLMSGERR_ATTR_MSG`` carries a message in English describing
-> +the encountered problem. These messages are far more detailed
-> +than what can be expressed thru standard UNIX error codes.
-
-"through"?
-
-> +Querying family information is useful in rare cases when user space need=
-s
-
-debatable if that's "rare", but yeah, today it's not done much :)
-
-> +.. _nlmsg_pid:
-> +
-> +nlmsg_pid
-> +---------
-> +
-> +:c:member:`nlmsghdr.nlmsg_pid` is called PID because the protocol predat=
-es
-> +wide spread use of multi-threading and the initial recommendation was
-> +to use process ID in this field. Process IDs start from 1 hence the use
-> +of ``0`` to mean "allocate automatically".
-> +
-> +The field is still used today in rare cases when kernel needs to send
-> +a unicast notification. User space application can use bind() to associa=
-te
-> +its socket with a specific PID (similarly to binding to a UDP port),
-> +it then communicates its PID to the kernel.
-> +The kernel can now reach the user space process.
-> +
-> +This sort of communication is utilized in UMH (user mode helper)-like
-> +scenarios when kernel needs to trigger user space logic or ask user
-> +space for a policy decision.
-> +
-> +Kernel will automatically fill the field with process ID when responding
-> +to a request sent with the :c:member:`nlmsghdr.nlmsg_pid` value of ``0``=
-.
-
-
-I think this could be written a bit better - we call this thing a "port
-ID" internally now, and yes, it might default to a process ID (more
-specifically task group ID) ... but it feels like this could explain
-bind vs. autobind etc. a bit more? And IMHO it should focus less on the
-process ID/PID than saying "port ID" with a (historical) default of
-using the PID/TGID.
-
-> +Strict checking
-> +---------------
-> +
-> +The ``NETLINK_GET_STRICT_CHK`` socket option enables strict input checki=
-ng
-> +in ``NETLINK_ROUTE``. It was needed because historically kernel did not
-> +validate the fields of structures it didn't process. This made it imposs=
-ible
-> +to start using those fields later without risking regressions in applica=
-tions
-> +which initialized them incorrectly or not at all.
-> +
-> +``NETLINK_GET_STRICT_CHK`` declares that the application is initializing
-> +all fields correctly. It also opts into validating that message does not
-> +contain trailing data and requests that kernel rejects attributes with
-> +type higher than largest attribute type known to the kernel.
-> +
-> +``NETLINK_GET_STRICT_CHK`` is not used outside of ``NETLINK_ROUTE``.
-
-However, there are also more generally strict checks in policy
-validation ... maybe a discussion of all that would be worthwhile?
-
-> +Unknown attributes
-> +------------------
-> +
-> +Historically Netlink ignored all unknown attributes. The thinking was th=
-at
-> +it would free the application from having to probe what kernel supports.
-> +The application could make a request to change the state and check which
-> +parts of the request "stuck".
-> +
-> +This is no longer the case for new Generic Netlink families and those op=
-ting
-> +in to strict checking. See enum netlink_validation for validation types
-> +performed.
-
-OK some of that is this, but some of it is also the strict length checks
-e.g. for Ethernet addresses.
-
-> +Fixed metadata and structures
-> +-----------------------------
-> +
-> +Classic Netlink made liberal use of fixed-format structures within
-> +the messages. Messages would commonly have a structure with
-> +a considerable number of fields after struct nlmsghdr. It was also
-> +common to put structures with multiple members inside attributes,
-> +without breaking each member into an attribute of its own.
-
-That reads very descriptive and historic without making a recommendation
-- I know it's in the section, but maybe do say something like "This is
-discouraged now and attributes should be used instead"?
-
-
-Either way, thanks for doing this, it's a great overview!
-
-We might add:
- - availability of attribute policy introspection
-   (you mention family introspection only I think)
-
- - do we want to bring in the whole "per operation" vs. "per genetlink
-   family" attribute policy?
-   (I'm firmly on the "single policy for the whole family" side ...)
-
- - maybe not the appropriate place here, but maybe some best practices
-   for handling attributes, such as the multi-attribute array thing we
-   discussed in the other thread?
-
- - maybe more userspace recommendations such as using different sockets
-   for multicast listeners and requests, because otherwise it gets
-   tricky to wait for the ACK of a request since you have to handle
-   notifications that happen meanwhile?
-
- - maybe some mention of the fact that sometimes we now bind kernel
-   object or state lifetime to a socket, e.g. in wireless you can
-   connect and if your userspace crashes/closes the socket, the
-   connection is automatically torn down (because you can't handle the
-   things needed anymore)
-
- - maybe something about message sizes? we've had lots of trouble with
-   that in nl80211, but tbh I'm not really sure what we should say about
-   it other than making sure you use large enough buffers ...
-
-johannes
+        Arnd
