@@ -2,150 +2,258 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8CABEC00140
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Aug 2022 07:09:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 11E3FC00140
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Aug 2022 07:37:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243767AbiHRHJM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 18 Aug 2022 03:09:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52816 "EHLO
+        id S241561AbiHRHhH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 18 Aug 2022 03:37:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47040 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231408AbiHRHJI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Aug 2022 03:09:08 -0400
-Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE3A781B00
-        for <linux-doc@vger.kernel.org>; Thu, 18 Aug 2022 00:09:06 -0700 (PDT)
-Received: by mail-ej1-x633.google.com with SMTP id gk3so1586945ejb.8
-        for <linux-doc@vger.kernel.org>; Thu, 18 Aug 2022 00:09:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=blackwall-org.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc;
-        bh=uB1dny6tZXinATmuz0fIf4H2QaK3MjZ8vYEWovRHfu4=;
-        b=8WejKLL+aMqLWC0O3FQnTQmsIGmJCsnGHI2BDlBU8o4VWw/LcfeBgWzHmX3qQ0kNdP
-         i2wsCNg8dEG2PeAx3BljZBM7q9E11q3FuTEevJM6v/fsy6yCCds3XLZ0KNJgMEwickhT
-         5pX++joOCNvyGmso9a/ojzehd7Cu+02vF5ZdH+w627ZOLQGf12vEwqgwdFkq2GSxyk3o
-         qKVx23t5WYxxqDzVDlUxryvOZHIM45E9l9h0uZxMmePvFva3B4rfwF+trq833C+5x8YJ
-         SqjNNHj/sd925+/MH11H9yWzWNmxhAGk+W5tp0j6FKddjOmqYwdrEqQ2VLWtuHStlIh3
-         ns3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc;
-        bh=uB1dny6tZXinATmuz0fIf4H2QaK3MjZ8vYEWovRHfu4=;
-        b=tNcsJrT4hWTNxbE7Ir2cdqqtqbdqp07m1VBk/PScnnHk1bH7ysmc+lWK1rEi55s8c+
-         oolqKH9VD5UlRzt20eGjLj/x87L/sWQB/dlDAGZy3wPgVBZSZ85D4ykx9sMJw0JQxexE
-         ti/Ls7G8+RNi391ASbw9BXSofxmkgWjmMwKGnAr2a62s1PtiMlWes+KYaJbiQQNbW/tL
-         LBa1Wx4haQd5/aUBouaKveEKiJfkyC3eYWVCPirpXdy/E7ggEquQtNMtHb0BRKi8Tim7
-         Irrr5+wF28MEe234NFOwa4Z2wJ8SlqTr9oiYHVvQEP4EpAk53nG0l13O7kewGQUxfXYR
-         cf0g==
-X-Gm-Message-State: ACgBeo06mYZITve4Tl/fl9nl12Zxu4E254+TkK/Vs8P3RyIRF9dWppxT
-        O2Z4N8mlGwCFM3UA4+qmQ7/QRA==
-X-Google-Smtp-Source: AA6agR6L6Nq587p/lJCgXhHMIohS0fuUSvnisu370SwFRdqGr62Y3rWmL+GZ/dHscdaOTusJwrlmKQ==
-X-Received: by 2002:a17:906:6a2a:b0:730:a3f1:aee with SMTP id qw42-20020a1709066a2a00b00730a3f10aeemr1105108ejc.387.1660806544983;
-        Thu, 18 Aug 2022 00:09:04 -0700 (PDT)
-Received: from [192.168.0.111] (87-243-81-1.ip.btc-net.bg. [87.243.81.1])
-        by smtp.gmail.com with ESMTPSA id f28-20020a056402329c00b004418c7d633bsm594454eda.18.2022.08.18.00.09.01
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 18 Aug 2022 00:09:04 -0700 (PDT)
-Message-ID: <10091e35-491a-c10f-35ec-044357f09e3e@blackwall.org>
-Date:   Thu, 18 Aug 2022 10:09:00 +0300
+        with ESMTP id S235029AbiHRHhG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Aug 2022 03:37:06 -0400
+Received: from sipsolutions.net (s3.sipsolutions.net [IPv6:2a01:4f8:191:4433::2])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43BFFA3472;
+        Thu, 18 Aug 2022 00:37:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=sipsolutions.net; s=mail; h=MIME-Version:Content-Transfer-Encoding:
+        Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-To:
+        Resent-Cc:Resent-Message-ID; bh=HYs0ufAt7cQqAQMzoqBHFMeAW4UaG1L50QDWW/7yISg=;
+        t=1660808224; x=1662017824; b=oFcQGUhzb3+c5MnKktutHWP8Z0PUKr8aTC2v4zRE66PbU7W
+        HM0Uhm7gOAkeF2jGcHdAi/oSocHPWV4nxOi0pH1Gl5Obc/WmzOZCRiPLabeFeN+NxX69d71iH4iKh
+        cZs2AB72jdGJUl9Cx6qdYzvJ/KOM/Oi4rScp22ToLduJRqQk4uhfLVh9GYaVTTDbHbvm8nMGsZJH+
+        TJE0uotu2ANp4g0U2h4DnMytM8MxKwSqd3rixP+9vtoPoQhNDYsqJkXzksqK4r9bOER+h+7GJbDz6
+        MYXsMWwAiwjkW4/jCPQpClsktRhYnE5il7TxEPQJyPj8gWqgVuDbmIC+HJGuo9Pg==;
+Received: by sipsolutions.net with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+        (Exim 4.96)
+        (envelope-from <johannes@sipsolutions.net>)
+        id 1oOa5A-00B8pc-1z;
+        Thu, 18 Aug 2022 09:36:48 +0200
+Message-ID: <6350516756628945f9cc1ee0248e92473521ed0b.camel@sipsolutions.net>
+Subject: Re: [PATCH net-next 2/2] docs: netlink: basic introduction to
+ Netlink
+From:   Johannes Berg <johannes@sipsolutions.net>
+To:     Jakub Kicinski <kuba@kernel.org>, davem@davemloft.net
+Cc:     netdev@vger.kernel.org, corbet@lwn.net, stephen@networkplumber.org,
+        sdf@google.com, ecree.xilinx@gmail.com, benjamin.poirier@gmail.com,
+        idosch@idosch.org, f.fainelli@gmail.com, jiri@resnulli.us,
+        dsahern@kernel.org, fw@strlen.de, linux-doc@vger.kernel.org,
+        jhs@mojatatu.com, tgraf@suug.ch, jacob.e.keller@intel.com,
+        svinota.saveliev@gmail.com
+Date:   Thu, 18 Aug 2022 09:36:46 +0200
+In-Reply-To: <20220818023504.105565-2-kuba@kernel.org>
+References: <20220818023504.105565-1-kuba@kernel.org>
+         <20220818023504.105565-2-kuba@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.4 (3.44.4-1.fc36) 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH net-next] Remove DECnet support from kernel
-Content-Language: en-US
-To:     Stephen Hemminger <stephen@networkplumber.org>,
-        netdev@vger.kernel.org
-Cc:     David Ahern <dsahern@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        Pablo Neira Ayuso <pablo@netfilter.org>,
-        Jozsef Kadlecsik <kadlec@netfilter.org>,
-        Florian Westphal <fw@strlen.de>, Borislav Petkov <bp@suse.de>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Neeraj Upadhyay <quic_neeraju@quicinc.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-        Muchun Song <songmuchun@bytedance.com>,
-        Akhmat Karakotov <hmukos@yandex-team.ru>,
-        Antoine Tenart <atenart@kernel.org>,
-        Xin Long <lucien.xin@gmail.com>,
-        Juergen Gross <jgross@suse.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Nathan Fontenot <nathan.fontenot@amd.com>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        Suma Hegde <suma.hegde@amd.com>, Chen Yu <yu.c.chen@intel.com>,
-        William Breathitt Gray <vilhelm.gray@gmail.com>,
-        Xie Yongji <xieyongji@bytedance.com>,
-        =?UTF-8?Q?Pali_Roh=c3=a1r?= <pali@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Alexandre Ghiti <alexandre.ghiti@canonical.com>,
-        Chuck Lever <chuck.lever@oracle.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        Paul Gortmaker <paul.gortmaker@windriver.com>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Menglong Dong <imagedong@tencent.com>,
-        Petr Machata <petrm@nvidia.com>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Roopa Prabhu <roopa@nvidia.com>,
-        Yuwei Wang <wangyuweihx@gmail.com>,
-        Shakeel Butt <shakeelb@google.com>,
-        Kuniyuki Iwashima <kuniyu@amazon.com>,
-        Kees Cook <keescook@chromium.org>,
-        Stefano Garzarella <sgarzare@redhat.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Wang Qing <wangqing@vivo.com>, Yu Zhe <yuzhe@nfschina.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "open list:MIPS" <linux-mips@vger.kernel.org>,
-        "open list:LINUX FOR POWERPC (32-BIT AND 64-BIT)" 
-        <linuxppc-dev@lists.ozlabs.org>,
-        "open list:NETFILTER" <netfilter-devel@vger.kernel.org>,
-        "open list:NETFILTER" <coreteam@netfilter.org>
-References: <20220818004357.375695-1-stephen@networkplumber.org>
-From:   Nikolay Aleksandrov <razor@blackwall.org>
-In-Reply-To: <20220818004357.375695-1-stephen@networkplumber.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-malware-bazaar: not-scanned
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 18/08/2022 03:43, Stephen Hemminger wrote:
-> DECnet is an obsolete network protocol that receives more attention
-> from kernel janitors than users. It belongs in computer protocol
-> history museum not in Linux kernel.
-> 
-> It has been "Orphaned" in kernel since 2010. The iproute2 support
-> for DECnet was dropped in 5.0 release. The documentation link on
-> Sourceforge says it is abandoned there as well.
-> 
-> Leave the UAPI alone to keep userspace programs compiling.
-> This means that there is still an empty neighbour table
-> for AF_DECNET.
-> 
-> The table of /proc/sys/net entries was updated to match
-> current directories and reformatted to be alphabetical.
-> 
-> Signed-off-by: Stephen Hemminger <stephen@networkplumber.org>
-> Acked-by: David Ahern <dsahern@kernel.org>
-> ---
-> 
-> Incorporates feedback from the initial RFC.
-> The MPLS neighbour table to family table is left alone.
-> 
+On Wed, 2022-08-17 at 19:35 -0700, Jakub Kicinski wrote:
 
-Acked-by: Nikolay Aleksandrov <razor@blackwall.org>
+> +To get information about the Generic Netlink family named for example
+> +``"test1"`` we need to send a message on the previously opened Generic N=
+etlink
+> +socket. The message should target the Generic Netlink Family (1), be a
+> +``do`` (2) call to ``CTRL_CMD_GETFAMILY`` (3). A ``dump`` version of thi=
+s
+> +call would make the kernel respond with information about *all* the fami=
+lies
+> +it knows about. Last but not least the name of the family in question ha=
+s
+> +to be specified (4) as an attribute with the appropriate type::
+> +
+> +  struct nlmsghdr:
+> +    __u32 nlmsg_len:	32
+> +    __u16 nlmsg_type:	GENL_ID_CTRL               // (1)
+> +    __u16 nlmsg_flags:	NLM_F_REQUEST | NLM_F_ACK  // (2)
+> +    __u32 nlmsg_seq:	1
+> +    __u32 nlmsg_pid:	0
+> +
+> +  struct genlmsghdr:
+> +    __u8 cmd:		CTRL_CMD_GETFAMILY         // (3)
+> +    __u8 version:	2 /* or 1, doesn't matter */
+> +    __u16 reserved:	0
+> +
+> +  struct nlattr:                                   // (4)
+> +    __u16 nla_len:	10
+> +    __u16 nla_type:	CTRL_ATTR_FAMILY_NAME
+> +    char data: 		test1\0
+> +
+> +  (padding:)
+> +    char data:		\0\0
+> +
+> +The length fields in Netlink (:c:member:`nlmsghdr.nlmsg_len`
+> +and :c:member:`nlattr.nla_len`) always *include* the header.
+> +Headers in netlink must be aligned to 4 bytes from the start of the mess=
+age,
+
+s/Headers/Attribute headers/ perhaps?
+
+> +hence the extra ``\0\0`` at the end of the message.
+>=20
+
+And I think technically for the _last_ attribute it wouldn't be needed?
+
+> +If the family is found kernel will reply with two messages, the response
+> +with all the information about the family::
+> +
+> +  /* Message #1 - reply */
+> +  struct nlmsghdr:
+> +    __u32 nlmsg_len:	136
+> +    __u16 nlmsg_type:	GENL_ID_CTRL
+> +    __u16 nlmsg_flags:	0
+> +    __u32 nlmsg_seq:	1    /* echoed from our request */
+> +    __u32 nlmsg_pid:	5831 /* The PID of our user space process */
+
+s/PID/netlink port ID/
+
+It's actually whatever you choose, I think? Lots of libraries will
+choose (something based on) the process ID, but that's not really
+needed?
+
+(autobind is different maybe?)
 
 
+> +  /* Message #2 - the ACK */
+> +  struct nlmsghdr:
+> +    __u32 nlmsg_len:	36
+> +    __u16 nlmsg_type:	NLMSG_ERROR
+> +    __u16 nlmsg_flags:	NLM_F_CAPPED /* There won't be a payload */
+> +    __u32 nlmsg_seq:	1    /* echoed from our request */
+> +    __u32 nlmsg_pid:	5831 /* The PID of our user space process */
+
+(same here of course)
+
+> +``NLMSGERR_ATTR_MSG`` carries a message in English describing
+> +the encountered problem. These messages are far more detailed
+> +than what can be expressed thru standard UNIX error codes.
+
+"through"?
+
+> +Querying family information is useful in rare cases when user space need=
+s
+
+debatable if that's "rare", but yeah, today it's not done much :)
+
+> +.. _nlmsg_pid:
+> +
+> +nlmsg_pid
+> +---------
+> +
+> +:c:member:`nlmsghdr.nlmsg_pid` is called PID because the protocol predat=
+es
+> +wide spread use of multi-threading and the initial recommendation was
+> +to use process ID in this field. Process IDs start from 1 hence the use
+> +of ``0`` to mean "allocate automatically".
+> +
+> +The field is still used today in rare cases when kernel needs to send
+> +a unicast notification. User space application can use bind() to associa=
+te
+> +its socket with a specific PID (similarly to binding to a UDP port),
+> +it then communicates its PID to the kernel.
+> +The kernel can now reach the user space process.
+> +
+> +This sort of communication is utilized in UMH (user mode helper)-like
+> +scenarios when kernel needs to trigger user space logic or ask user
+> +space for a policy decision.
+> +
+> +Kernel will automatically fill the field with process ID when responding
+> +to a request sent with the :c:member:`nlmsghdr.nlmsg_pid` value of ``0``=
+.
 
 
+I think this could be written a bit better - we call this thing a "port
+ID" internally now, and yes, it might default to a process ID (more
+specifically task group ID) ... but it feels like this could explain
+bind vs. autobind etc. a bit more? And IMHO it should focus less on the
+process ID/PID than saying "port ID" with a (historical) default of
+using the PID/TGID.
+
+> +Strict checking
+> +---------------
+> +
+> +The ``NETLINK_GET_STRICT_CHK`` socket option enables strict input checki=
+ng
+> +in ``NETLINK_ROUTE``. It was needed because historically kernel did not
+> +validate the fields of structures it didn't process. This made it imposs=
+ible
+> +to start using those fields later without risking regressions in applica=
+tions
+> +which initialized them incorrectly or not at all.
+> +
+> +``NETLINK_GET_STRICT_CHK`` declares that the application is initializing
+> +all fields correctly. It also opts into validating that message does not
+> +contain trailing data and requests that kernel rejects attributes with
+> +type higher than largest attribute type known to the kernel.
+> +
+> +``NETLINK_GET_STRICT_CHK`` is not used outside of ``NETLINK_ROUTE``.
+
+However, there are also more generally strict checks in policy
+validation ... maybe a discussion of all that would be worthwhile?
+
+> +Unknown attributes
+> +------------------
+> +
+> +Historically Netlink ignored all unknown attributes. The thinking was th=
+at
+> +it would free the application from having to probe what kernel supports.
+> +The application could make a request to change the state and check which
+> +parts of the request "stuck".
+> +
+> +This is no longer the case for new Generic Netlink families and those op=
+ting
+> +in to strict checking. See enum netlink_validation for validation types
+> +performed.
+
+OK some of that is this, but some of it is also the strict length checks
+e.g. for Ethernet addresses.
+
+> +Fixed metadata and structures
+> +-----------------------------
+> +
+> +Classic Netlink made liberal use of fixed-format structures within
+> +the messages. Messages would commonly have a structure with
+> +a considerable number of fields after struct nlmsghdr. It was also
+> +common to put structures with multiple members inside attributes,
+> +without breaking each member into an attribute of its own.
+
+That reads very descriptive and historic without making a recommendation
+- I know it's in the section, but maybe do say something like "This is
+discouraged now and attributes should be used instead"?
+
+
+Either way, thanks for doing this, it's a great overview!
+
+We might add:
+ - availability of attribute policy introspection
+   (you mention family introspection only I think)
+
+ - do we want to bring in the whole "per operation" vs. "per genetlink
+   family" attribute policy?
+   (I'm firmly on the "single policy for the whole family" side ...)
+
+ - maybe not the appropriate place here, but maybe some best practices
+   for handling attributes, such as the multi-attribute array thing we
+   discussed in the other thread?
+
+ - maybe more userspace recommendations such as using different sockets
+   for multicast listeners and requests, because otherwise it gets
+   tricky to wait for the ACK of a request since you have to handle
+   notifications that happen meanwhile?
+
+ - maybe some mention of the fact that sometimes we now bind kernel
+   object or state lifetime to a socket, e.g. in wireless you can
+   connect and if your userspace crashes/closes the socket, the
+   connection is automatically torn down (because you can't handle the
+   things needed anymore)
+
+ - maybe something about message sizes? we've had lots of trouble with
+   that in nl80211, but tbh I'm not really sure what we should say about
+   it other than making sure you use large enough buffers ...
+
+johannes
