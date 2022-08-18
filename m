@@ -2,87 +2,90 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BC3E0C00140
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Aug 2022 17:28:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E342C00140
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Aug 2022 17:30:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344685AbiHRR2m (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 18 Aug 2022 13:28:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46168 "EHLO
+        id S236374AbiHRRaq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 18 Aug 2022 13:30:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52044 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344870AbiHRR2j (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Aug 2022 13:28:39 -0400
+        with ESMTP id S234758AbiHRRap (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Aug 2022 13:30:45 -0400
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07F705C941;
-        Thu, 18 Aug 2022 10:28:35 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 730AC83052
+        for <linux-doc@vger.kernel.org>; Thu, 18 Aug 2022 10:30:44 -0700 (PDT)
 Received: from localhost (unknown [IPv6:2601:281:8300:73:8b7:7001:c8aa:b65f])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 532394E5;
-        Thu, 18 Aug 2022 17:28:35 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 532394E5
+        by ms.lwn.net (Postfix) with ESMTPSA id B7ED9380;
+        Thu, 18 Aug 2022 17:30:43 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net B7ED9380
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1660843715; bh=Ls9/prGid4V6GXxs+WbDuCXxIerbPP3MEZHZAl8XqAM=;
+        t=1660843843; bh=HEzCVhd8Z2BaSgOGmYZqp8NQRsZGiSOk/f24cGVFZA0=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=CMLL1Z9172wh6gaeuanPp7QBqkF8SNaTDZfaPOhdy0zdER13Uw6qNjlErJg0x9zo6
-         nT+iExgs3kXOmKooq2O8jWxh9IWmUV8JX4iZpvKfB/0FaqWlIeDC2JUOxMXlEbS+om
-         U5fG97qF1PaMU30qawWNDconYVbWbBzyzd3p8WN+8fxf2ftHglqqwxQ1WFCncBMYTc
-         IKC3kFeQI5Z+sjba//e5Pa/qUIpOWe8bgcvirkqoE0gUYClSQv27SoDEHX6RYFC07b
-         axjDsesdHYQho/dFleHn9Am6oTFD38acgBJrpPZzgKXTWc4Xh/DrQjyNobngdVrTuk
-         DAdDEoMEBxipw==
+        b=Cu4PrKHrISuQtR4Z+aUOUHdoSUBTWj46jiAhbpc/e1qcrOGB2TCp1WSbddpwHdR2y
+         sA5P+Hj/kdZwqL7uxNzwSwqXz8s9AcyWFWUiamSJGnCUWn61FebBGNyKDa3tvAROoh
+         +vktDGGU4Q4vtGNRA2golm0yeTWhdun60affVrVDYoB9rFOKcmmSs8m3dO93L+dbDl
+         qwHXXudweyBTE9eFBJUOW+YTajRxn0xEf8wrLZ5dxo4Ub5oWY/h9A0037Fqy9JJmk+
+         HFog50idSwAVIe8KgZqGqWx9/iizZHpX0pchmJ2eWlDJu6BXEZQH6inZVP284X7DZw
+         UOofoa9AOQfvA==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Akira Yokosawa <akiyks@gmail.com>
-Cc:     linux-doc@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-kernel@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: Re: [PATCH v2 3/3] docs: kerneldoc-preamble: Test xeCJK.sty before
- loading
-In-Reply-To: <278e0041-a2df-d067-59eb-87b8ac178567@gmail.com>
-References: <c41cab17-afd6-bc99-56a1-e4e73b8c1ef6@gmail.com>
- <c24c2a87-70b2-5342-bcc9-de467940466e@gmail.com>
- <278e0041-a2df-d067-59eb-87b8ac178567@gmail.com>
-Date:   Thu, 18 Aug 2022 11:28:34 -0600
-Message-ID: <87o7whbgvx.fsf@meer.lwn.net>
+To:     Manfred Spraul <manfred@colorfullife.com>,
+        Federico Vaga <federico.vaga@vaga.pv.it>,
+        Alex Shi <alexs@kernel.org>,
+        Yanteng Si <siyanteng@loongson.cn>,
+        Hu Haowen <src.res@email.cn>, linux-doc@vger.kernel.org
+Cc:     Josef Bacik <josef@toxicpanda.com>, nbd@other.debian.org,
+        Manfred Spraul <manfred.spraul@de.bosch.com>
+Subject: Re: [PATCH] Doc update: Correct magic values from nbd protocol, V2
+In-Reply-To: <20220805082532.55131-1-manfred@colorfullife.com>
+References: <20220805082532.55131-1-manfred@colorfullife.com>
+Date:   Thu, 18 Aug 2022 11:30:43 -0600
+Message-ID: <87k075bgsc.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Akira Yokosawa <akiyks@gmail.com> writes:
+Manfred Spraul <manfred@colorfullife.com> writes:
 
-> Hi Jon,
+> From: Manfred Spraul <manfred.spraul@de.bosch.com>
 >
-> On Mon, 8 Aug 2022 17:53:57 +0900, Akira Yokosawa wrote:
->> On distros whose texlive packaging is fine-grained, texlive-xecjk
->> can be installed/removed independently of other texlive packages.
->> Conditionally loading xeCJK depending only on the existence of the
->> "Noto Sans CJK SC" font might end up in xelatex error of
->> "xeCJK.sty not found!".
->> 
->> Improve the situation by testing existence of xeCJK.sty before
->> loading it.
->> 
->> This is useful on RHEL 9 and its clone distros where texlive-xecjk
->> doesn't work at the moment due to a missing dependency [1].
->> "make pdfdocs" for non-CJK contents should work after removing
->> texlive-xecjk.
-> In hindsight, I think this qualifies as a stable material.
-> Let me append a couple of tags.
+> The magic number documentation refers to old values for
+> NBD_REQUEST_MAGIC and NBD_REPLY_MAGIC: The documented values were used
+> until Linux 2.1.116pre2.
 >
->> 
->> Link: [1] https://bugzilla.redhat.com/show_bug.cgi?id=2086254
->> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
->> Acked-by: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Fixes: 398f7abdcb7e ("docs: pdfdocs: Pull LaTeX preamble part out of conf.py")
-> Cc: stable@vger.kernel.org # v5.18+
+> Thus:
+> - Update the documentation.
+> - Update the header file: The authorative source for the nbd protocol
+>   is proto.md from the nbd package, thus mention this.
+> - Remove the historic values from the header file.
+>   The historic values are still documented in proto.md from the nbd
+>   package.
 >
-> Jon, it's up to you whether this one is destined for v6.0-rcX or
-> for the next merge window.  It has no dependency on patches 1/3
-> and 2/3.
+> Removing the historic values is intentional:
+> The values are stale for > 20 years, and this was not noticed.
+> My guess is that everyone used grep to confirm that the values are
+> still in use - and the historic values resulted that there were
+> still hits with grep, ...
+>
+> Signed-off-by: Manfred Spraul <manfred.spraul@de.bosch.com>
+> Link: https://github.com/NetworkBlockDevice/nbd/commit/107356ee528eb30744d518a8ac1cb6d379da4868
+> Link: https://lore.kernel.org/all/20220318200446.14648-1-manfred@colorfullife.com/
+> Link: https://lists.debian.org/nbd/2022/01/msg00039.html
+> ---
+> V2:
+> - more links added, especially a link to the commit for proto.md
+> - typo corrected in the commit summary
+>
+> @Jonathan:
+> I've created one patch that updates the English text and the 3 translations
+> that contain magic-number.rst.
+> Is this the right approach? I could also split the patch into 4 changes.
 
-OK, I've gone ahead and applied it with those tags.
+No, for something like this, it's fine to fix everything together.
 
-Thanks,
+Applied, thanks.
 
 jon
