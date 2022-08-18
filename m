@@ -2,155 +2,119 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A7382C32774
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Aug 2022 17:36:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DE5FBC32774
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Aug 2022 18:10:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344741AbiHRRgB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 18 Aug 2022 13:36:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60412 "EHLO
+        id S1345319AbiHRSK3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 18 Aug 2022 14:10:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45110 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344998AbiHRRgA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Aug 2022 13:36:00 -0400
-Received: from mout02.posteo.de (mout02.posteo.de [185.67.36.66])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E1B2C59DF
-        for <linux-doc@vger.kernel.org>; Thu, 18 Aug 2022 10:35:57 -0700 (PDT)
-Received: from submission (posteo.de [185.67.36.169]) 
-        by mout02.posteo.de (Postfix) with ESMTPS id CEA4D240105
-        for <linux-doc@vger.kernel.org>; Thu, 18 Aug 2022 19:35:55 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.net; s=2017;
-        t=1660844155; bh=qnhd6HdPquVSm0kh0TC8MijB3p2ZP/IpLjvgG/ZYqJQ=;
-        h=Date:From:To:Cc:Subject:From;
-        b=iwGsXNcg519jBoFq8qXIbpeagtK6pWC2ePR9B0Fyea0BF9+YXq7x/Ac3hWaQaSTG1
-         0t8cdaI/rw8dXJaeh1D1GeyPKLdREjsF3sobEr8yCvTfYgbFwnVpdBhXjfJ9HwqsSE
-         uqqNwXafjKYZX+fBgZxpo7vcbXP2BvKaib2WzwU6aD3jQjZO99anO1X+8tlI/ybHez
-         4T2aHw2CyxDD7a4hITme6LloaitAqZLsni2TPU4C9dEGfJgBw18K2NpubsH4qVPIJa
-         mEiz8NTfxDUnBDTF3WLOtRBxlu8GgZ2AZhxpf/jkMH+04XZb4/ScCtuKKvITGiX4TJ
-         D5ojkZJYssXuw==
-Received: from customer (localhost [127.0.0.1])
-        by submission (posteo.de) with ESMTPSA id 4M7sVR5G6Yz9rxW;
-        Thu, 18 Aug 2022 19:35:42 +0200 (CEST)
-Date:   Thu, 18 Aug 2022 17:35:39 +0000
-From:   Daniel =?utf-8?Q?M=C3=BCller?= <deso@posteo.net>
-To:     roberto.sassu@huaweicloud.com
-Cc:     ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org,
-        martin.lau@linux.dev, song@kernel.org, yhs@fb.com,
-        john.fastabend@gmail.com, kpsingh@kernel.org, sdf@google.com,
-        haoluo@google.com, jolsa@kernel.org, mykolal@fb.com,
-        corbet@lwn.net, dhowells@redhat.com, jarkko@kernel.org,
-        rostedt@goodmis.org, mingo@redhat.com, paul@paul-moore.com,
-        jmorris@namei.org, serge@hallyn.com, shuah@kernel.org,
-        bpf@vger.kernel.org, linux-doc@vger.kernel.org,
-        keyrings@vger.kernel.org, linux-security-module@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Roberto Sassu <roberto.sassu@huawei.com>
-Subject: Re: [PATCH v12 07/10] selftests/bpf: Compile kernel with everything
- as built-in
-Message-ID: <20220818173539.q47uycc2oy5kkezl@muellerd-fedora-PC2BDTX9>
-References: <20220818152929.402605-1-roberto.sassu@huaweicloud.com>
- <20220818152929.402605-8-roberto.sassu@huaweicloud.com>
+        with ESMTP id S1345357AbiHRSK1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Aug 2022 14:10:27 -0400
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E7ABC7414;
+        Thu, 18 Aug 2022 11:10:25 -0700 (PDT)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 27IFtRUT028077;
+        Thu, 18 Aug 2022 18:10:10 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=bzMSKCudT5xQQ+sG3R7xeFj5oBr01hBH/BA7ita4AoA=;
+ b=aOBmIQrOxjs/1lQLtehtRTZM9AWDI/yWWp9lhZHVjTO1v11TfbeaKiD2Xt1fz9gvnawX
+ 4PbwHiMzesjrkHhCCYJYlx20iSpE4H2w5AEjj/3RUzaPQ8b1U3n+24gcu0gNuLQnqJLE
+ PoPM15ehzM8i3+WbcDmR6ABxTunbG2gK7fBMIcfYrKEwyXL26AQG6X/KZmKScxPyPY8c
+ miBHodcVuygcPWrC34SgacATH3LCehQZ/k0ELy4nPmPW5thLHYGVwOOPNuZhlmD8hoDA
+ F0BV/lh3DTX89husqp2XuFL3ZCtG8G41hGLOmD3NquyLD/AIBOichl/1KykFWwg4sYy1 SQ== 
+Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3j0w7hpugy-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 18 Aug 2022 18:10:10 +0000
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
+        by NASANPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 27IIA9qn031139
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 18 Aug 2022 18:10:09 GMT
+Received: from [10.110.31.143] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Thu, 18 Aug
+ 2022 11:10:08 -0700
+Message-ID: <6f97be13-e5d3-9f8b-d731-599d9d13671d@quicinc.com>
+Date:   Thu, 18 Aug 2022 11:10:07 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220818152929.402605-8-roberto.sassu@huaweicloud.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH v2 00/11] Drivers for gunyah hypervisor
+Content-Language: en-US
+To:     Jassi Brar <jassisinghbrar@gmail.com>
+CC:     Robin Murphy <robin.murphy@arm.com>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Murali Nalajala <quic_mnalajal@quicinc.com>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
+        Carl van Schaik <quic_cvanscha@quicinc.com>,
+        Andy Gross <agross@kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        "Marc Zyngier" <maz@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+        "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Will Deacon <will@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        <devicetree@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>
+References: <20220801211240.597859-1-quic_eberman@quicinc.com>
+ <50230652-c1ae-4ce2-907c-9bdc6b827f8e@linaro.org>
+ <62073cb8-0211-3b49-11cb-aceea6df0845@quicinc.com>
+ <a71bea49-130f-61d8-2692-23ab9a8fe939@arm.com>
+ <36303c20-5d30-2edd-0863-0cad804e3f8f@quicinc.com>
+ <CABb+yY3MESqeZveYg5e18PWTLNcg82r4AtaRYJh-9c==mysw7w@mail.gmail.com>
+From:   Elliot Berman <quic_eberman@quicinc.com>
+In-Reply-To: <CABb+yY3MESqeZveYg5e18PWTLNcg82r4AtaRYJh-9c==mysw7w@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: oK5vP0Ye4islboBcNBNbOLFC3mlofYag
+X-Proofpoint-GUID: oK5vP0Ye4islboBcNBNbOLFC3mlofYag
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-08-18_13,2022-08-18_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 clxscore=1015
+ mlxlogscore=550 suspectscore=0 spamscore=0 impostorscore=0 adultscore=0
+ malwarescore=0 bulkscore=0 lowpriorityscore=0 priorityscore=1501
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2207270000 definitions=main-2208180065
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Aug 18, 2022 at 05:29:26PM +0200, roberto.sassu@huaweicloud.com wrote:
-> From: Roberto Sassu <roberto.sassu@huawei.com>
-> 
-> Since the eBPF CI does not support kernel modules, change the kernel config
-> to compile everything as built-in.
-> 
-> Signed-off-by: Roberto Sassu <roberto.sassu@huawei.com>
-> ---
->  tools/testing/selftests/bpf/config        | 26 +++++++++++------------
->  tools/testing/selftests/bpf/config.x86_64 |  2 +-
->  2 files changed, 14 insertions(+), 14 deletions(-)
-> 
-> diff --git a/tools/testing/selftests/bpf/config b/tools/testing/selftests/bpf/config
-> index 3fc46f9cfb22..0fdd11e6b742 100644
-> --- a/tools/testing/selftests/bpf/config
-> +++ b/tools/testing/selftests/bpf/config
-> @@ -7,9 +7,9 @@ CONFIG_BPF_LSM=y
->  CONFIG_BPF_STREAM_PARSER=y
->  CONFIG_BPF_SYSCALL=y
->  CONFIG_CGROUP_BPF=y
-> -CONFIG_CRYPTO_HMAC=m
-> -CONFIG_CRYPTO_SHA256=m
-> -CONFIG_CRYPTO_USER_API_HASH=m
-> +CONFIG_CRYPTO_HMAC=y
-> +CONFIG_CRYPTO_SHA256=y
-> +CONFIG_CRYPTO_USER_API_HASH=y
->  CONFIG_DYNAMIC_FTRACE=y
->  CONFIG_FPROBE=y
->  CONFIG_FTRACE_SYSCALLS=y
-> @@ -24,30 +24,30 @@ CONFIG_IP_NF_FILTER=y
->  CONFIG_IP_NF_RAW=y
->  CONFIG_IP_NF_TARGET_SYNPROXY=y
->  CONFIG_IPV6=y
-> -CONFIG_IPV6_FOU=m
-> -CONFIG_IPV6_FOU_TUNNEL=m
-> +CONFIG_IPV6_FOU=y
-> +CONFIG_IPV6_FOU_TUNNEL=y
->  CONFIG_IPV6_GRE=y
->  CONFIG_IPV6_SEG6_BPF=y
-> -CONFIG_IPV6_SIT=m
-> +CONFIG_IPV6_SIT=y
->  CONFIG_IPV6_TUNNEL=y
->  CONFIG_LIRC=y
->  CONFIG_LWTUNNEL=y
->  CONFIG_MPLS=y
-> -CONFIG_MPLS_IPTUNNEL=m
-> -CONFIG_MPLS_ROUTING=m
-> +CONFIG_MPLS_IPTUNNEL=y
-> +CONFIG_MPLS_ROUTING=y
->  CONFIG_MPTCP=y
->  CONFIG_NET_CLS_ACT=y
->  CONFIG_NET_CLS_BPF=y
-> -CONFIG_NET_CLS_FLOWER=m
-> -CONFIG_NET_FOU=m
-> +CONFIG_NET_CLS_FLOWER=y
-> +CONFIG_NET_FOU=y
->  CONFIG_NET_FOU_IP_TUNNELS=y
->  CONFIG_NET_IPGRE=y
->  CONFIG_NET_IPGRE_DEMUX=y
->  CONFIG_NET_IPIP=y
-> -CONFIG_NET_MPLS_GSO=m
-> +CONFIG_NET_MPLS_GSO=y
->  CONFIG_NET_SCH_INGRESS=y
->  CONFIG_NET_SCHED=y
-> -CONFIG_NETDEVSIM=m
-> +CONFIG_NETDEVSIM=y
->  CONFIG_NETFILTER=y
->  CONFIG_NETFILTER_SYNPROXY=y
->  CONFIG_NETFILTER_XT_CONNMARK=y
-> @@ -60,7 +60,7 @@ CONFIG_NF_DEFRAG_IPV6=y
->  CONFIG_RC_CORE=y
->  CONFIG_SECURITY=y
->  CONFIG_SECURITYFS=y
-> -CONFIG_TEST_BPF=m
-> +CONFIG_TEST_BPF=y
->  CONFIG_USERFAULTFD=y
->  CONFIG_VXLAN=y
->  CONFIG_XDP_SOCKETS=y
-> diff --git a/tools/testing/selftests/bpf/config.x86_64 b/tools/testing/selftests/bpf/config.x86_64
-> index f0859a1d37ab..ce70c9509204 100644
-> --- a/tools/testing/selftests/bpf/config.x86_64
-> +++ b/tools/testing/selftests/bpf/config.x86_64
-> @@ -47,7 +47,7 @@ CONFIG_CPU_IDLE_GOV_LADDER=y
->  CONFIG_CPUSETS=y
->  CONFIG_CRC_T10DIF=y
->  CONFIG_CRYPTO_BLAKE2B=y
-> -CONFIG_CRYPTO_DEV_VIRTIO=m
-> +CONFIG_CRYPTO_DEV_VIRTIO=y
->  CONFIG_CRYPTO_SEQIV=y
->  CONFIG_CRYPTO_XXHASH=y
->  CONFIG_DCB=y
-> -- 
-> 2.25.1
 
-The change looks good to me. Thanks for making it.
 
-Acked-by: Daniel Müller <deso@posteo.net>
+On 8/9/2022 9:12 PM, Jassi Brar wrote:
+> On Tue, Aug 9, 2022 at 7:07 PM Elliot Berman <quic_eberman@quicinc.com> wrote:
+> 
+> I haven't read the complete history of Gunyah yet, but from a quick
+> look it uses the hvc/smc instruction as the "physical link" between
+> entities (?).    zynqmp-ipi-mailbox.c is one driver that uses smc in
+> such a manner. And I know there are some platforms that don't call
+> hvc/smc under mailbox api and I don't blame them.
+> 
+> Let me educate myself with the background and get back.... unless you
+> want to summarize a usecase that you doubt is supported.
+> 
+
+Hi Jassi,
+
+Did you have chance to evaluate? I have given a summary in this mail, 
+especially the last paragraph:
+
+https://lore.kernel.org/all/36303c20-5d30-2edd-0863-0cad804e3f8f@quicinc.com/
+
+
+Thanks,
+Elliot
