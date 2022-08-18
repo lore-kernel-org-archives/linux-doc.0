@@ -2,111 +2,92 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AF50DC00140
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Aug 2022 14:49:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A61E8C00140
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Aug 2022 14:59:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242823AbiHROts (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 18 Aug 2022 10:49:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58100 "EHLO
+        id S1343901AbiHRO7c (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 18 Aug 2022 10:59:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44482 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235036AbiHROtr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Aug 2022 10:49:47 -0400
-Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com [IPv6:2607:f8b0:4864:20::533])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9556875CD0;
-        Thu, 18 Aug 2022 07:49:46 -0700 (PDT)
-Received: by mail-pg1-x533.google.com with SMTP id 24so1467440pgr.7;
-        Thu, 18 Aug 2022 07:49:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:references:cc:to:from
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc;
-        bh=wPb3XQDUpxdE9gEclp2HbSBEcH0O3377//QUXGa74XM=;
-        b=TiRrv65fnbBroKxmHZtJIagfFET8v1QzaLF7p8X/LrqVe+hqiGBKBDcEi+IFy0utjw
-         R1DXZ5jIAEcsunP49HpG/KDSM6eRdgVYIzoH1p0Eu47b+/2+ejR3msqX18wSpEsUFZkO
-         sJRvVth9RrzcL5Ms6bAZV/gxYmAFEHBSpwvb+B4D5rWTG1l5Y7NshlTZ4zTeIACBDL3u
-         zW34tI7IqJ0TyZzH7dsmb5WDTaK/CS37lXYlMWLBnvma8lAUb35SoktfbVNkJU0dNlnF
-         y9gLbJZrPOUdDbYsWIxUqC3cirtV7bn41ejwy2fTDsqQqpfFXQBdPeZ/jGK/FYqtnQoQ
-         cbSA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:references:cc:to:from
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc;
-        bh=wPb3XQDUpxdE9gEclp2HbSBEcH0O3377//QUXGa74XM=;
-        b=DUP8ev8wOiVRp7IcpuyMTqdwBesmyVCmHdzETitc7NManfPUjuk00T40nUDC54XGFj
-         618qe7Krxm2yNunaCEj4KCsGJKAE9PwkCYpB+n5cquapJ4ZPwhzLofQ57j7Qcb03jKIf
-         uqj9ScIZ47Fwr3PadHEXJ3onUdlaOztDryeBN7q5KqbQQNPZYglhrHHPiCIpud+VZn0/
-         +IVLG+wCjSkQxCE85Jk6kMmVRcK50qXDPhkhwdVohFTqmMC+tn6nogU39j6rFW0WM6nR
-         fk1EcFOgb5djm9Tna8/9JI/mVTOj++GFoXrzETAUQIrEwPh83ZkLO+mzmvAojhlCzcQG
-         s+xA==
-X-Gm-Message-State: ACgBeo0Jwqy8QuqQLhUrCim/YmwmwBt5rslfgZYu8MCcd70TqR7rbNbq
-        KsvqLDBIjBrPj4BO980PwG+Gkm777jQ=
-X-Google-Smtp-Source: AA6agR7TN1titVzwyCuzCLVy6hIYX8uKZ8hzg3AUeDjIk7KQcf/eiT+NQngvIbsYpKWevsObbPhJ+w==
-X-Received: by 2002:aa7:8f0a:0:b0:52d:8135:64e0 with SMTP id x10-20020aa78f0a000000b0052d813564e0mr3340259pfr.0.1660834185859;
-        Thu, 18 Aug 2022 07:49:45 -0700 (PDT)
-Received: from [192.168.11.9] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id b9-20020a17090a5a0900b001f3e643ebbfsm3721196pjd.0.2022.08.18.07.49.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 18 Aug 2022 07:49:44 -0700 (PDT)
-Message-ID: <63d7a132-1d6d-b771-27d7-e0049f51b445@gmail.com>
-Date:   Thu, 18 Aug 2022 23:49:35 +0900
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH 03/13] docs: ja_JP: remove SubmittingPatches
-Content-Language: en-US
-From:   Akira Yokosawa <akiyks@gmail.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        corbet@lwn.net
-Cc:     Jiri Kosina <jkosina@suse.cz>,
-        Kosuke Fujimoto <fujimotokosuke0@gmail.com>,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        Tsugikazu Shibata <shibata@linuxfoundation.org>,
-        linux-kernel@vger.kernel.org
+        with ESMTP id S1343904AbiHRO7B (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Aug 2022 10:59:01 -0400
+Received: from out2.migadu.com (out2.migadu.com [IPv6:2001:41d0:2:aacc::])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62A9137190;
+        Thu, 18 Aug 2022 07:58:45 -0700 (PDT)
+Date:   Thu, 18 Aug 2022 22:58:18 +0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+        t=1660834723;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=PUxQG9E/JOlLTHeBkFAkSNSYI+XFzfu1BhI66/Ss6h8=;
+        b=unUva2CYC3tZebs7tkMt9Ffula7ZWOGCQLK37/XZ5AZnb61zjY/+vOWxI3M8w8JjezSyFi
+        FhsLycP3A8/YMYaBPV9OqqDJ+9f++Iw3adlE83tlIhPFDZ6C4udmZ7nNM693FSWS+FYgyH
+        oEdVjpXuSnJgbwx2Nf9b09LRonJaOGQ=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From:   Wu XiangCheng <wu.xiangcheng@linux.dev>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>, corbet@lwn.net,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Mike Rapoport <rppt@kernel.org>,
+        Muchun Song <songmuchun@bytedance.com>,
+        Wu XiangCheng <bobwxc@email.cn>, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org
+Subject: Re: [PATCH 02/13] docs: update vmemmap_dedup.rst reference
+Message-ID: <Yv5TimOuTK45ZHyH@bobwxc.mipc>
 References: <cover.1660829433.git.mchehab@kernel.org>
- <2902bc232970588d4ca59b5df0afbabb0c345d6f.1660829433.git.mchehab@kernel.org>
- <9d80455f-60aa-58b6-777d-ce1a03ed280a@gmail.com>
-In-Reply-To: <9d80455f-60aa-58b6-777d-ce1a03ed280a@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+ <2c81bc7ef207f0a84387a5d714601513f4bf1960.1660829433.git.mchehab@kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <2c81bc7ef207f0a84387a5d714601513f4bf1960.1660829433.git.mchehab@kernel.org>
+X-Migadu-Flow: FLOW_OUT
+X-Migadu-Auth-User: linux.dev
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 18 Aug 2022 23:27:34 +0900, Akira Yokosawa wrote:
-> Hi Mauro,
+话说 Mauro Carvalho Chehab 于 2022-08-18 (四) 15:38:48 +0200 曰过：
+> Changeset ee65728e103b ("docs: rename Documentation/vm to Documentation/mm")
+> renamed: Documentation/vm/vmemmap_dedup.rst
+> to: Documentation/mm/vmemmap_dedup.rst.
 > 
-> On Thu, 18 Aug 2022 15:38:49 +0200, Mauro Carvalho Chehab wrote:
->> This file is outdated as the original document was removed. So, drop
->> it too.
->>
->> Fixes: 9db370de2780 ("docs: process: remove outdated submitting-drivers.rst")
->> Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+> Update its cross-reference accordingly.
 > 
-> Yes, this is quite outdated, but a change set was merged recently during
-> the v5.19 merge window [1, 2].
-Uhm, it looks like you confused SubmittingPatches with submitting-drivers.rst
-and are trying to remove SubmittingPatches, which should be kept...
+> Fixes: ee65728e103b ("docs: rename Documentation/vm to Documentation/mm")
+> Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
 
-Anyway, please don't remove it!
+Acked-by: Wu XiangCheng <bobwxc@email.cn>
 
-> 
-> Please keep it and the other outdated files under ja_JP/ so that I
-> can continue updating them!
+Thanks,
 
-I'll submit a patch removing a ref to submitting-drivers.rst in it.
-I didn't notice the dangling reference as the doc is still in plain-text.
+> ---
+> 
+> See [PATCH 00/13] at: https://lore.kernel.org/all/cover.1660829433.git.mchehab@kernel.org/
+> 
+>  mm/hugetlb_vmemmap.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/mm/hugetlb_vmemmap.h b/mm/hugetlb_vmemmap.h
+> index 25bd0e002431..b8fc23c8763f 100644
+> --- a/mm/hugetlb_vmemmap.h
+> +++ b/mm/hugetlb_vmemmap.h
+> @@ -16,7 +16,7 @@ void hugetlb_vmemmap_optimize(const struct hstate *h, struct page *head);
+>  
+>  /*
+>   * Reserve one vmemmap page, all vmemmap addresses are mapped to it. See
+> - * Documentation/vm/vmemmap_dedup.rst.
+> + * Documentation/mm/vmemmap_dedup.rst.
+>   */
+>  #define HUGETLB_VMEMMAP_RESERVE_SIZE	PAGE_SIZE
+>  
+> -- 
+> 2.37.1
+> 
 
-        Thanks, Akira
-
-> 
-> [1]: e29b3abcb2b6 ("docs/ja_JP/SubmittingPatches: Request summaries for commit references")
-> [2]: https://lore.kernel.org/linux-doc/20220503102429.48304-1-akiyks@gmail.com/
-> 
->         Thanks, Akira
-> 
->> ---
-[...]
+-- 
+Wu XiangCheng	0x32684A40BCA7AEA7
 
