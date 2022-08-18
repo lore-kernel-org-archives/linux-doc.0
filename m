@@ -2,100 +2,150 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C42BC00140
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Aug 2022 06:32:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8CABEC00140
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Aug 2022 07:09:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243678AbiHRGc2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 18 Aug 2022 02:32:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50596 "EHLO
+        id S243767AbiHRHJM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 18 Aug 2022 03:09:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52816 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231552AbiHRGc1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Aug 2022 02:32:27 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A15CA3D7D;
-        Wed, 17 Aug 2022 23:32:27 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id E076EB81FFF;
-        Thu, 18 Aug 2022 06:32:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 25A5FC433C1;
-        Thu, 18 Aug 2022 06:32:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1660804344;
-        bh=Kqr77NyLJGS64iGu/RtqfYqcdRHgst5RRJdReOBJ4MA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=rE3Ul1r/xBzy8REQeOSMR5W9G3qtjDIFEqDZwzPjSHVs6/tM/sOEIKW1kULxas2S8
-         UfeAwG7e0k+L51z4LgM//64ayk4rwS8oP1bO/8jKUtlUAHfZxuXVAmaYXgC9Q+1xh1
-         uDRyYrP60BbBsqlTH9X1oxB4yGYRUh5a4g/3dg+4=
-Date:   Thu, 18 Aug 2022 08:32:22 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Axel Rasmussen <axelrasmussen@google.com>
-Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "Dmitry V . Levin" <ldv@altlinux.org>,
-        Gleb Fotengauer-Malinovskiy <glebfm@altlinux.org>,
-        Hugh Dickins <hughd@google.com>, Jan Kara <jack@suse.cz>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mel Gorman <mgorman@techsingularity.net>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Mike Rapoport <rppt@kernel.org>, Nadav Amit <namit@vmware.com>,
-        Peter Xu <peterx@redhat.com>, Shuah Khan <shuah@kernel.org>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        zhangyi <yi.zhang@huawei.com>, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-mm@kvack.org,
-        linux-security-module@vger.kernel.org,
-        Mike Rapoport <rppt@linux.ibm.com>
-Subject: Re: [PATCH v6 2/5] userfaultfd: add /dev/userfaultfd for fine
- grained access control
-Message-ID: <Yv3c9jYkyWfe2zMM@kroah.com>
-References: <20220817214728.489904-1-axelrasmussen@google.com>
- <20220817214728.489904-3-axelrasmussen@google.com>
- <Yv3bnouKb7242Ama@kroah.com>
+        with ESMTP id S231408AbiHRHJI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Aug 2022 03:09:08 -0400
+Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE3A781B00
+        for <linux-doc@vger.kernel.org>; Thu, 18 Aug 2022 00:09:06 -0700 (PDT)
+Received: by mail-ej1-x633.google.com with SMTP id gk3so1586945ejb.8
+        for <linux-doc@vger.kernel.org>; Thu, 18 Aug 2022 00:09:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=blackwall-org.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc;
+        bh=uB1dny6tZXinATmuz0fIf4H2QaK3MjZ8vYEWovRHfu4=;
+        b=8WejKLL+aMqLWC0O3FQnTQmsIGmJCsnGHI2BDlBU8o4VWw/LcfeBgWzHmX3qQ0kNdP
+         i2wsCNg8dEG2PeAx3BljZBM7q9E11q3FuTEevJM6v/fsy6yCCds3XLZ0KNJgMEwickhT
+         5pX++joOCNvyGmso9a/ojzehd7Cu+02vF5ZdH+w627ZOLQGf12vEwqgwdFkq2GSxyk3o
+         qKVx23t5WYxxqDzVDlUxryvOZHIM45E9l9h0uZxMmePvFva3B4rfwF+trq833C+5x8YJ
+         SqjNNHj/sd925+/MH11H9yWzWNmxhAGk+W5tp0j6FKddjOmqYwdrEqQ2VLWtuHStlIh3
+         ns3Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc;
+        bh=uB1dny6tZXinATmuz0fIf4H2QaK3MjZ8vYEWovRHfu4=;
+        b=tNcsJrT4hWTNxbE7Ir2cdqqtqbdqp07m1VBk/PScnnHk1bH7ysmc+lWK1rEi55s8c+
+         oolqKH9VD5UlRzt20eGjLj/x87L/sWQB/dlDAGZy3wPgVBZSZ85D4ykx9sMJw0JQxexE
+         ti/Ls7G8+RNi391ASbw9BXSofxmkgWjmMwKGnAr2a62s1PtiMlWes+KYaJbiQQNbW/tL
+         LBa1Wx4haQd5/aUBouaKveEKiJfkyC3eYWVCPirpXdy/E7ggEquQtNMtHb0BRKi8Tim7
+         Irrr5+wF28MEe234NFOwa4Z2wJ8SlqTr9oiYHVvQEP4EpAk53nG0l13O7kewGQUxfXYR
+         cf0g==
+X-Gm-Message-State: ACgBeo06mYZITve4Tl/fl9nl12Zxu4E254+TkK/Vs8P3RyIRF9dWppxT
+        O2Z4N8mlGwCFM3UA4+qmQ7/QRA==
+X-Google-Smtp-Source: AA6agR6L6Nq587p/lJCgXhHMIohS0fuUSvnisu370SwFRdqGr62Y3rWmL+GZ/dHscdaOTusJwrlmKQ==
+X-Received: by 2002:a17:906:6a2a:b0:730:a3f1:aee with SMTP id qw42-20020a1709066a2a00b00730a3f10aeemr1105108ejc.387.1660806544983;
+        Thu, 18 Aug 2022 00:09:04 -0700 (PDT)
+Received: from [192.168.0.111] (87-243-81-1.ip.btc-net.bg. [87.243.81.1])
+        by smtp.gmail.com with ESMTPSA id f28-20020a056402329c00b004418c7d633bsm594454eda.18.2022.08.18.00.09.01
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 18 Aug 2022 00:09:04 -0700 (PDT)
+Message-ID: <10091e35-491a-c10f-35ec-044357f09e3e@blackwall.org>
+Date:   Thu, 18 Aug 2022 10:09:00 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Yv3bnouKb7242Ama@kroah.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH net-next] Remove DECnet support from kernel
+Content-Language: en-US
+To:     Stephen Hemminger <stephen@networkplumber.org>,
+        netdev@vger.kernel.org
+Cc:     David Ahern <dsahern@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Pablo Neira Ayuso <pablo@netfilter.org>,
+        Jozsef Kadlecsik <kadlec@netfilter.org>,
+        Florian Westphal <fw@strlen.de>, Borislav Petkov <bp@suse.de>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Neeraj Upadhyay <quic_neeraju@quicinc.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+        Muchun Song <songmuchun@bytedance.com>,
+        Akhmat Karakotov <hmukos@yandex-team.ru>,
+        Antoine Tenart <atenart@kernel.org>,
+        Xin Long <lucien.xin@gmail.com>,
+        Juergen Gross <jgross@suse.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Nathan Fontenot <nathan.fontenot@amd.com>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        Suma Hegde <suma.hegde@amd.com>, Chen Yu <yu.c.chen@intel.com>,
+        William Breathitt Gray <vilhelm.gray@gmail.com>,
+        Xie Yongji <xieyongji@bytedance.com>,
+        =?UTF-8?Q?Pali_Roh=c3=a1r?= <pali@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Alexandre Ghiti <alexandre.ghiti@canonical.com>,
+        Chuck Lever <chuck.lever@oracle.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        Paul Gortmaker <paul.gortmaker@windriver.com>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Menglong Dong <imagedong@tencent.com>,
+        Petr Machata <petrm@nvidia.com>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Roopa Prabhu <roopa@nvidia.com>,
+        Yuwei Wang <wangyuweihx@gmail.com>,
+        Shakeel Butt <shakeelb@google.com>,
+        Kuniyuki Iwashima <kuniyu@amazon.com>,
+        Kees Cook <keescook@chromium.org>,
+        Stefano Garzarella <sgarzare@redhat.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Wang Qing <wangqing@vivo.com>, Yu Zhe <yuzhe@nfschina.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        "open list:MIPS" <linux-mips@vger.kernel.org>,
+        "open list:LINUX FOR POWERPC (32-BIT AND 64-BIT)" 
+        <linuxppc-dev@lists.ozlabs.org>,
+        "open list:NETFILTER" <netfilter-devel@vger.kernel.org>,
+        "open list:NETFILTER" <coreteam@netfilter.org>
+References: <20220818004357.375695-1-stephen@networkplumber.org>
+From:   Nikolay Aleksandrov <razor@blackwall.org>
+In-Reply-To: <20220818004357.375695-1-stephen@networkplumber.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Aug 18, 2022 at 08:26:38AM +0200, Greg KH wrote:
-> On Wed, Aug 17, 2022 at 02:47:25PM -0700, Axel Rasmussen wrote:
-> > +static int userfaultfd_dev_open(struct inode *inode, struct file *file)
-> > +{
-> > +	return 0;
+On 18/08/2022 03:43, Stephen Hemminger wrote:
+> DECnet is an obsolete network protocol that receives more attention
+> from kernel janitors than users. It belongs in computer protocol
+> history museum not in Linux kernel.
 > 
-> If your open does nothing, no need to list it here at all, right?
+> It has been "Orphaned" in kernel since 2010. The iproute2 support
+> for DECnet was dropped in 5.0 release. The documentation link on
+> Sourceforge says it is abandoned there as well.
 > 
-> > +}
-> > +
-> > +static long userfaultfd_dev_ioctl(struct file *file, unsigned int cmd, unsigned long flags)
-> > +{
-> > +	if (cmd != USERFAULTFD_IOC_NEW)
-> > +		return -EINVAL;
-> > +
-> > +	return new_userfaultfd(flags);
-> > +}
-> > +
-> > +static const struct file_operations userfaultfd_dev_fops = {
-> > +	.open = userfaultfd_dev_open,
-> > +	.unlocked_ioctl = userfaultfd_dev_ioctl,
-> > +	.compat_ioctl = userfaultfd_dev_ioctl,
+> Leave the UAPI alone to keep userspace programs compiling.
+> This means that there is still an empty neighbour table
+> for AF_DECNET.
 > 
-> Why do you need to set compat_ioctl?  Shouldn't it just default to the
-> existing one?
+> The table of /proc/sys/net entries was updated to match
+> current directories and reformatted to be alphabetical.
 > 
-> And why is this a device node at all?  Shouldn't the syscall handle all
-> of this (to be honest, I didn't read anything but the misc code, sorry.)
+> Signed-off-by: Stephen Hemminger <stephen@networkplumber.org>
+> Acked-by: David Ahern <dsahern@kernel.org>
+> ---
+> 
+> Incorporates feedback from the initial RFC.
+> The MPLS neighbour table to family table is left alone.
+> 
 
-Ah, read the documentation now.  Seems you want to make it easier for
-people to get permissions on a system.  Doesn't seem wise, but hey, it's
-not my feature...
+Acked-by: Nikolay Aleksandrov <razor@blackwall.org>
 
-thanks,
 
-greg k-h
+
+
