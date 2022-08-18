@@ -2,191 +2,155 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 73A79C00140
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Aug 2022 17:34:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A7382C32774
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Aug 2022 17:36:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243967AbiHRReQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 18 Aug 2022 13:34:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57934 "EHLO
+        id S1344741AbiHRRgB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 18 Aug 2022 13:36:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60412 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243946AbiHRReO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Aug 2022 13:34:14 -0400
-Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com [IPv6:2607:f8b0:4864:20::536])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F011332EE6;
-        Thu, 18 Aug 2022 10:34:13 -0700 (PDT)
-Received: by mail-pg1-x536.google.com with SMTP id r22so1813605pgm.5;
-        Thu, 18 Aug 2022 10:34:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc;
-        bh=EqZ6197pP8t7+d5LJrKRHbl6fiBqHsAYlVBVeIDO1T4=;
-        b=R/VJtXMHVs/nPZ7S9/I14rGMoDZDXRRK7qWsNq+j8XFXPPl1qdlADlfZ7A4fbZ1e3P
-         +FyG8JmKJW3wQrAPVx4TGFfz0A/KOdiXwVcmF7w4cnLXnNgiCx1OnpWab8cYKc8Gk2hE
-         Xq+CY6zZ8mR7GFz0whJtw3UnLfpQF/7ZxdKf+PfUBBKryMZykrogr5GOedU0Ga5fmecr
-         pGy2Gpf7Wt+CJSIhR4XSeQRKr+KRnxANdNF5VCILBO3JthSSGtuF7uHHpme7Zk0ZKX8l
-         G/hYUwphUZawE8f60ZuW2O2Kg7SA8rXZXuHe+3p6fTkXapskXCjvKRqETj4k0XfFPRSi
-         zY4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc;
-        bh=EqZ6197pP8t7+d5LJrKRHbl6fiBqHsAYlVBVeIDO1T4=;
-        b=MenmPlMOPrXMqGtw73pf/cFiR18KEbuAS+9p+naEtlp/fzBiAiPiKEQigOtI/oaoHR
-         JDicKhjRlzC4oeHSN8sry4MdmxlolCpmhknMXZgwoCdAVvm8CskwE5W9+2PIK9sHkhcl
-         puget6fhPtgVpVV+Q4CULURspE7SRWyqZlC5wbQ4CwsPKuDys639eYe084DSLyJOHvk9
-         q0z0IWUAOb3FBGM8v1QL+4plN2a/TuS6C7o/FcvSt1eNcEDl9c5MJwlmUxcqOXgHtKEa
-         Sw6NrkInguLnuSXrpt1Z1qDMbFjMllrnpVaL2F5lg/K7NjEeGZUOOYNslWm3K4HzlmRP
-         OM3w==
-X-Gm-Message-State: ACgBeo19kOLwEeZDtQQ8HtnPN2Dbkbbj2J/oV9Q5VHWi2+gpobjs8xeE
-        Gn7lfY//F0g9ysW9eLdkQS8hLoWZ53YGjg7xuns=
-X-Google-Smtp-Source: AA6agR4sfHGkNf4UvGajjR+GAmdoEDJ7CaNpiD5LP+fJ2n7229JDGe2UnIKBNlq5GdMGyRHlUvEIsGYUFzB05SOTd+A=
-X-Received: by 2002:a63:87c3:0:b0:429:fa0d:c954 with SMTP id
- i186-20020a6387c3000000b00429fa0dc954mr3287390pge.96.1660844053530; Thu, 18
- Aug 2022 10:34:13 -0700 (PDT)
+        with ESMTP id S1344998AbiHRRgA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Aug 2022 13:36:00 -0400
+Received: from mout02.posteo.de (mout02.posteo.de [185.67.36.66])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E1B2C59DF
+        for <linux-doc@vger.kernel.org>; Thu, 18 Aug 2022 10:35:57 -0700 (PDT)
+Received: from submission (posteo.de [185.67.36.169]) 
+        by mout02.posteo.de (Postfix) with ESMTPS id CEA4D240105
+        for <linux-doc@vger.kernel.org>; Thu, 18 Aug 2022 19:35:55 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.net; s=2017;
+        t=1660844155; bh=qnhd6HdPquVSm0kh0TC8MijB3p2ZP/IpLjvgG/ZYqJQ=;
+        h=Date:From:To:Cc:Subject:From;
+        b=iwGsXNcg519jBoFq8qXIbpeagtK6pWC2ePR9B0Fyea0BF9+YXq7x/Ac3hWaQaSTG1
+         0t8cdaI/rw8dXJaeh1D1GeyPKLdREjsF3sobEr8yCvTfYgbFwnVpdBhXjfJ9HwqsSE
+         uqqNwXafjKYZX+fBgZxpo7vcbXP2BvKaib2WzwU6aD3jQjZO99anO1X+8tlI/ybHez
+         4T2aHw2CyxDD7a4hITme6LloaitAqZLsni2TPU4C9dEGfJgBw18K2NpubsH4qVPIJa
+         mEiz8NTfxDUnBDTF3WLOtRBxlu8GgZ2AZhxpf/jkMH+04XZb4/ScCtuKKvITGiX4TJ
+         D5ojkZJYssXuw==
+Received: from customer (localhost [127.0.0.1])
+        by submission (posteo.de) with ESMTPSA id 4M7sVR5G6Yz9rxW;
+        Thu, 18 Aug 2022 19:35:42 +0200 (CEST)
+Date:   Thu, 18 Aug 2022 17:35:39 +0000
+From:   Daniel =?utf-8?Q?M=C3=BCller?= <deso@posteo.net>
+To:     roberto.sassu@huaweicloud.com
+Cc:     ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org,
+        martin.lau@linux.dev, song@kernel.org, yhs@fb.com,
+        john.fastabend@gmail.com, kpsingh@kernel.org, sdf@google.com,
+        haoluo@google.com, jolsa@kernel.org, mykolal@fb.com,
+        corbet@lwn.net, dhowells@redhat.com, jarkko@kernel.org,
+        rostedt@goodmis.org, mingo@redhat.com, paul@paul-moore.com,
+        jmorris@namei.org, serge@hallyn.com, shuah@kernel.org,
+        bpf@vger.kernel.org, linux-doc@vger.kernel.org,
+        keyrings@vger.kernel.org, linux-security-module@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Roberto Sassu <roberto.sassu@huawei.com>
+Subject: Re: [PATCH v12 07/10] selftests/bpf: Compile kernel with everything
+ as built-in
+Message-ID: <20220818173539.q47uycc2oy5kkezl@muellerd-fedora-PC2BDTX9>
+References: <20220818152929.402605-1-roberto.sassu@huaweicloud.com>
+ <20220818152929.402605-8-roberto.sassu@huaweicloud.com>
 MIME-Version: 1.0
-References: <20220628145552.349839-1-xiehuan09@gmail.com> <20220628145552.349839-5-xiehuan09@gmail.com>
- <Yv5gkKnufS7CUq9A@google.com> <CAEr6+ED7UovW1BbrK4s5tCRrTrfkESpa4m3VO4a4PBAY9nK_JA@mail.gmail.com>
- <CAEXW_YQAFVJRe9mUnR1HAXvYDiQ3jCwrKhO52t8O=bxb_qSCzQ@mail.gmail.com>
-In-Reply-To: <CAEXW_YQAFVJRe9mUnR1HAXvYDiQ3jCwrKhO52t8O=bxb_qSCzQ@mail.gmail.com>
-From:   Jeff Xie <xiehuan09@gmail.com>
-Date:   Fri, 19 Aug 2022 01:34:01 +0800
-Message-ID: <CAEr6+EBC3MfqGZQ8zqLhr6P1VFkU2Hs9JsM-mqGBXWKLcAXkAA@mail.gmail.com>
-Subject: Re: [PATCH v14 4/4] Documentation: trace/objtrace: Add documentation
- for objtrace
-To:     Joel Fernandes <joel@joelfernandes.org>
-Cc:     Steven Rostedt <rostedt@goodmis.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Tom Zanussi <zanussi@kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>, chensong_2000@189.cn,
-        Jonathan Corbet <corbet@lwn.net>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220818152929.402605-8-roberto.sassu@huaweicloud.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Joel,
+On Thu, Aug 18, 2022 at 05:29:26PM +0200, roberto.sassu@huaweicloud.com wrote:
+> From: Roberto Sassu <roberto.sassu@huawei.com>
+> 
+> Since the eBPF CI does not support kernel modules, change the kernel config
+> to compile everything as built-in.
+> 
+> Signed-off-by: Roberto Sassu <roberto.sassu@huawei.com>
+> ---
+>  tools/testing/selftests/bpf/config        | 26 +++++++++++------------
+>  tools/testing/selftests/bpf/config.x86_64 |  2 +-
+>  2 files changed, 14 insertions(+), 14 deletions(-)
+> 
+> diff --git a/tools/testing/selftests/bpf/config b/tools/testing/selftests/bpf/config
+> index 3fc46f9cfb22..0fdd11e6b742 100644
+> --- a/tools/testing/selftests/bpf/config
+> +++ b/tools/testing/selftests/bpf/config
+> @@ -7,9 +7,9 @@ CONFIG_BPF_LSM=y
+>  CONFIG_BPF_STREAM_PARSER=y
+>  CONFIG_BPF_SYSCALL=y
+>  CONFIG_CGROUP_BPF=y
+> -CONFIG_CRYPTO_HMAC=m
+> -CONFIG_CRYPTO_SHA256=m
+> -CONFIG_CRYPTO_USER_API_HASH=m
+> +CONFIG_CRYPTO_HMAC=y
+> +CONFIG_CRYPTO_SHA256=y
+> +CONFIG_CRYPTO_USER_API_HASH=y
+>  CONFIG_DYNAMIC_FTRACE=y
+>  CONFIG_FPROBE=y
+>  CONFIG_FTRACE_SYSCALLS=y
+> @@ -24,30 +24,30 @@ CONFIG_IP_NF_FILTER=y
+>  CONFIG_IP_NF_RAW=y
+>  CONFIG_IP_NF_TARGET_SYNPROXY=y
+>  CONFIG_IPV6=y
+> -CONFIG_IPV6_FOU=m
+> -CONFIG_IPV6_FOU_TUNNEL=m
+> +CONFIG_IPV6_FOU=y
+> +CONFIG_IPV6_FOU_TUNNEL=y
+>  CONFIG_IPV6_GRE=y
+>  CONFIG_IPV6_SEG6_BPF=y
+> -CONFIG_IPV6_SIT=m
+> +CONFIG_IPV6_SIT=y
+>  CONFIG_IPV6_TUNNEL=y
+>  CONFIG_LIRC=y
+>  CONFIG_LWTUNNEL=y
+>  CONFIG_MPLS=y
+> -CONFIG_MPLS_IPTUNNEL=m
+> -CONFIG_MPLS_ROUTING=m
+> +CONFIG_MPLS_IPTUNNEL=y
+> +CONFIG_MPLS_ROUTING=y
+>  CONFIG_MPTCP=y
+>  CONFIG_NET_CLS_ACT=y
+>  CONFIG_NET_CLS_BPF=y
+> -CONFIG_NET_CLS_FLOWER=m
+> -CONFIG_NET_FOU=m
+> +CONFIG_NET_CLS_FLOWER=y
+> +CONFIG_NET_FOU=y
+>  CONFIG_NET_FOU_IP_TUNNELS=y
+>  CONFIG_NET_IPGRE=y
+>  CONFIG_NET_IPGRE_DEMUX=y
+>  CONFIG_NET_IPIP=y
+> -CONFIG_NET_MPLS_GSO=m
+> +CONFIG_NET_MPLS_GSO=y
+>  CONFIG_NET_SCH_INGRESS=y
+>  CONFIG_NET_SCHED=y
+> -CONFIG_NETDEVSIM=m
+> +CONFIG_NETDEVSIM=y
+>  CONFIG_NETFILTER=y
+>  CONFIG_NETFILTER_SYNPROXY=y
+>  CONFIG_NETFILTER_XT_CONNMARK=y
+> @@ -60,7 +60,7 @@ CONFIG_NF_DEFRAG_IPV6=y
+>  CONFIG_RC_CORE=y
+>  CONFIG_SECURITY=y
+>  CONFIG_SECURITYFS=y
+> -CONFIG_TEST_BPF=m
+> +CONFIG_TEST_BPF=y
+>  CONFIG_USERFAULTFD=y
+>  CONFIG_VXLAN=y
+>  CONFIG_XDP_SOCKETS=y
+> diff --git a/tools/testing/selftests/bpf/config.x86_64 b/tools/testing/selftests/bpf/config.x86_64
+> index f0859a1d37ab..ce70c9509204 100644
+> --- a/tools/testing/selftests/bpf/config.x86_64
+> +++ b/tools/testing/selftests/bpf/config.x86_64
+> @@ -47,7 +47,7 @@ CONFIG_CPU_IDLE_GOV_LADDER=y
+>  CONFIG_CPUSETS=y
+>  CONFIG_CRC_T10DIF=y
+>  CONFIG_CRYPTO_BLAKE2B=y
+> -CONFIG_CRYPTO_DEV_VIRTIO=m
+> +CONFIG_CRYPTO_DEV_VIRTIO=y
+>  CONFIG_CRYPTO_SEQIV=y
+>  CONFIG_CRYPTO_XXHASH=y
+>  CONFIG_DCB=y
+> -- 
+> 2.25.1
 
-On Fri, Aug 19, 2022 at 1:05 AM Joel Fernandes <joel@joelfernandes.org> wrote:
->
-> On Thu, Aug 18, 2022 at 12:38 PM Jeff Xie <xiehuan09@gmail.com> wrote:
-> >
-> > Hi Joel,
-> >
-> > Thank you for your review.
-> >
-> > On Thu, Aug 18, 2022 at 11:53 PM Joel Fernandes <joel@joelfernandes.org> wrote:
-> > >
-> > > On Tue, Jun 28, 2022 at 10:55:52PM +0800, Jeff Xie wrote:
-> > > > Add documentation explaining how to use objtrace trigger to get the value
-> > > > of the object.
-> > > >
-> > > > Cc: Jonathan Corbet <corbet@lwn.net>
-> > > > Cc: Bagas Sanjaya <bagasdotme@gmail.com>
-> > > > Cc: linux-doc@vger.kernel.org
-> > > > Signed-off-by: Jeff Xie <xiehuan09@gmail.com>
-> > > > Reviewed-by: Masami Hiramatsu (Google) <mhiramat@kernel.org>
-> > > > ---
-> > > > Changelog:
-> > > > v14:
-> > > > - make documentation more readable and fix literal code block by Bagas Sanjaya
-> > > >
-> > > >  Documentation/trace/events.rst | 87 ++++++++++++++++++++++++++++++++++
-> > > >  1 file changed, 87 insertions(+)
-> > > >
-> > > > diff --git a/Documentation/trace/events.rst b/Documentation/trace/events.rst
-> > > > index c47f381d0c00..c15f1d25d4a0 100644
-> > > > --- a/Documentation/trace/events.rst
-> > > > +++ b/Documentation/trace/events.rst
-> > > > @@ -546,6 +546,93 @@ The following commands are supported:
-> > > >
-> > > >    See Documentation/trace/histogram.rst for details and examples.
-> > > >
-> > > > +- objtrace
-> > > > +
-> > > > +  This command provides a way to get the value of any object, The object
-> > > > +  can be obtained from the dynamic event (kprobe_event/uprobe_event) or the
-> > > > +  static event (tracepoint).
-> > > > +
-> > > > +  Usage:
-> > > > +  When using the kprobe event, by only need to set the objtrace (a new
-> > > > +  trigger), we can get the value of object that is set by kprobe event.
-> > > > +
-> > > > +  For example, for the function bio_add_page():
-> > > > +
-> > > > +  .. code-block:: c
-> > > > +
-> > > > +     int bio_add_page(struct bio *bio, struct page *page,
-> > > > +                   unsigned int len, unsigned int offset)
-> > > > +
-> > > > +  Firstly, we can set the base of the object as first parameter (arg1) to
-> > > > +  to the function:
-> > > > +
-> > > > +  .. code-block::
-> > > > +
-> > > > +     # echo 'p bio_add_page arg1=$arg1' > ./kprobe_events
-> > > > +
-> > > > +  Secondly, we can get the value dynamically based on the object:
-> > > > +
-> > > > +  .. code-block::
-> > > > +
-> > > > +     find the offset of the bi_size in struct bio:
-> > > > +     $ gdb vmlinux
-> > > > +     (gdb) p &(((struct bio *)0)->bi_iter.bi_size)
-> > > > +     $1 = (unsigned int *) 0x28
-> > > > +
-> > > > +     # echo 'objtrace:add:arg1,0x28:u32:1 if comm == "cat"' > ./events/kprobes/ \
-> > > > +       p_bio_add_page_0/trigger
-> > > > +
-> > > > +     # cd /sys/kernel/debug/tracing/
-> > > > +     # echo 'p bio_add_page arg1=$arg1' > ./kprobe_events
-> > > > +     # echo 'objtrace:add:arg1,0x28:u32:1 if comm == "cat"' > ./events/kprobes/p_bio_add_page_0/trigger
-> > >
-> > > No offense but this documentation is not well written and hard to read.
-> > >
-> > > Admittedly though I am just casually browsing through, so apologies.
-> > >
-> > > So basically, 0x28 is the offset of the u32 within the bio, that you want to
-> > > track down, as it passes through functions?
-> >
-> > Yes, Not only track the bio, but also get a value with an offset of
-> > 0x28 relative to the bio.
->
-> Right.
->
-> > >
-> > > The example is good, but I suggest breakdown each of the commands separated
-> > > by ':' and document those as well.
-> >
-> > I don't know how to explain it in more detail, maybe need to be
-> > familiar with kprobe event and trigger in advance ;-)
->
-> That's not a strong argument IMO.
->
-> Shouldn't it be super easy to add the following to the documentation
-> since you already mentioned it in the commit log? Or am I missing
-> something?
->
-> Syntax:
->         objtrace:add:obj[,offset][:type][:count][if <filter>]
+The change looks good to me. Thanks for making it.
 
-I'am so sorry, I misunderstood you, I thought it needed to be
-explained every word like this, e.g.
-objtrace:
-    ...
-add:
-    ...
-...
-
-Thanks,  I will add the above syntax in the next version.
-
-> Thanks,
->
-> - Joel
-
--- 
-Thanks,
-JeffXie
+Acked-by: Daniel Müller <deso@posteo.net>
