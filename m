@@ -2,75 +2,82 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F150C3F6B0
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Aug 2022 06:10:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F292DC25B0E
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Aug 2022 06:25:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243464AbiHRGKD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 18 Aug 2022 02:10:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57238 "EHLO
+        id S243637AbiHRGZT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 18 Aug 2022 02:25:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42476 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243540AbiHRGKB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Aug 2022 02:10:01 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA15E8FD6C;
-        Wed, 17 Aug 2022 23:10:00 -0700 (PDT)
+        with ESMTP id S241336AbiHRGZS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Aug 2022 02:25:18 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F1FDBA722F;
+        Wed, 17 Aug 2022 23:25:17 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 18CF3610A7;
-        Thu, 18 Aug 2022 06:10:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E0DB7C433D6;
-        Thu, 18 Aug 2022 06:09:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1660802999;
-        bh=OD8oMo72p4wxFRHbyCifSgKk0dJKWaCqqQFilPDohkw=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=cjOtuvyadF4vFjOWxcnzk3IQVlBgD+RuJmPGsdkQyXqHlM1czMU5TZ94t/MdIqbGN
-         AAT5InxwnVObM2L25DWwOPrlJ1I52udFM7ke5d+BigEaGwf8mH90COjXcX/j4xP1iO
-         wdHez1/+/5hIY1uvhdOuN+xR3hhoZPSjH+PjGFHMt/RRBDVQ/uu0mrc19GdIfjThIu
-         O2bKDGBUvYir0wcsvwO1xYjl2SYmpvztcwwS64yNee5CrExFUij2LHCLVeLI/U5VNz
-         R1NiuI8YcW+6GUuLKu2f4B4CfCPOc7C1aFeDB6szRtmL5JfHTkcOmhNng677kW7nKm
-         HsFd2Rer120tw==
-Message-ID: <427c0198-850c-17a7-f0d7-954a8252b11a@kernel.org>
-Date:   Thu, 18 Aug 2022 09:09:54 +0300
+        by ams.source.kernel.org (Postfix) with ESMTPS id 8DF36B82000;
+        Thu, 18 Aug 2022 06:25:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96D2EC433C1;
+        Thu, 18 Aug 2022 06:25:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1660803915;
+        bh=4gvlEkh6Gf9B8U8HDVHnkdoKBgZHMvuPetp86ALLLD4=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=D97PB2Pg0uiwHhUpm6vOjyTtCc3AB5uMgbZP5v/aOWtKvM8eQ4Kt06DBV4NB8ARb7
+         aHv4JPmtoQXzsOiclH78vLUYKc4ScxH+PsnRWJLeJ6qPMytiFonsA9ALSftUmy8SId
+         HqNCpSlU6C8g8i4UHGLgIqqahFqPJLZsqIm4f8Lc=
+Date:   Thu, 18 Aug 2022 08:25:11 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Axel Rasmussen <axelrasmussen@google.com>
+Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "Dmitry V . Levin" <ldv@altlinux.org>,
+        Gleb Fotengauer-Malinovskiy <glebfm@altlinux.org>,
+        Hugh Dickins <hughd@google.com>, Jan Kara <jack@suse.cz>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mel Gorman <mgorman@techsingularity.net>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Mike Rapoport <rppt@kernel.org>, Nadav Amit <namit@vmware.com>,
+        Peter Xu <peterx@redhat.com>, Shuah Khan <shuah@kernel.org>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        zhangyi <yi.zhang@huawei.com>, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-mm@kvack.org,
+        linux-security-module@vger.kernel.org,
+        Mike Rapoport <rppt@linux.ibm.com>
+Subject: Re: [PATCH v6 2/5] userfaultfd: add /dev/userfaultfd for fine
+ grained access control
+Message-ID: <Yv3bRwh/M8WVkQBs@kroah.com>
+References: <20220817214728.489904-1-axelrasmussen@google.com>
+ <20220817214728.489904-3-axelrasmussen@google.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [krzk-mem-ctrl:for-v6.1/brcm-stb 1/3] htmldocs: Warning:
- Documentation/devicetree/bindings/arm/bcm/brcm,brcmstb.txt references a file
- that doesn't exist:
- Documentation/devicetree/bindings/memory-controllers/brcm,memc.yaml
-Content-Language: en-US
-To:     kernel test robot <lkp@intel.com>,
-        Florian Fainelli <f.fainelli@gmail.com>
-Cc:     kbuild-all@lists.01.org, linux-kernel@vger.kernel.org,
-        Rob Herring <robh@kernel.org>, linux-doc@vger.kernel.org
-References: <202208180941.oGoLuq8U-lkp@intel.com>
-From:   Krzysztof Kozlowski <krzk@kernel.org>
-In-Reply-To: <202208180941.oGoLuq8U-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220817214728.489904-3-axelrasmussen@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 18/08/2022 04:59, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/krzk/linux-mem-ctrl.git for-v6.1/brcm-stb
-> head:   65991a63d02decf269e7d5334620df0dd5919762
-> commit: 0da0b6bf854dcfb047fec70bbbadabb7ff0fcb3e [1/3] dt-bindings: memory-controller: Document Broadcom STB MEMC
-> reproduce: make htmldocs
-> 
-> If you fix the issue, kindly add following tag where applicable
-> Reported-by: kernel test robot <lkp@intel.com>
-> 
-> All warnings (new ones prefixed by >>):
-> 
->>> Warning: Documentation/devicetree/bindings/arm/bcm/brcm,brcmstb.txt references a file that doesn't exist: Documentation/devicetree/bindings/memory-controllers/brcm,memc.yaml
+On Wed, Aug 17, 2022 at 02:47:25PM -0700, Axel Rasmussen wrote:
+>  static int __init userfaultfd_init(void)
+>  {
+> +	WARN_ON(misc_register(&userfaultfd_misc));
 
-I'll fixup the commit.
+Please no.
 
-Florian,
-It's useful also to have own development trees covered by LKP.
+Spell this out and properly error out if there is an issue:
+	int ret;
 
-Best regards,
-Krzysztof
+	ret = misc_register(&userfaultfd_misc);
+	if (ret)
+		return ret;
+
+Handle issues properly, don't paper over them with WARN_ON().
+
+thanks,
+
+greg k-h
