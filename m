@@ -2,97 +2,147 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 85697C32772
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Aug 2022 09:48:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1AC65C00140
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Aug 2022 09:56:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243760AbiHRJsR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 18 Aug 2022 05:48:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50590 "EHLO
+        id S241153AbiHRJ4f (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 18 Aug 2022 05:56:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57120 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243699AbiHRJsP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Aug 2022 05:48:15 -0400
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.135])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A45F65C6;
-        Thu, 18 Aug 2022 02:48:13 -0700 (PDT)
-Received: from mail-ej1-f48.google.com ([209.85.218.48]) by
- mrelayeu.kundenserver.de (mreue011 [213.165.67.97]) with ESMTPSA (Nemesis) id
- 1MKsSj-1o43VZ0ZRt-00LFLV; Thu, 18 Aug 2022 11:48:12 +0200
-Received: by mail-ej1-f48.google.com with SMTP id kb8so2256226ejc.4;
-        Thu, 18 Aug 2022 02:48:12 -0700 (PDT)
-X-Gm-Message-State: ACgBeo3Y6LIhLufd6ui+RCDqzYDSpHbbfr09PKsC9WYrCdvpR02KjaS3
-        2vsRxUW4YhXjwtr/mo7odY8hb52K/1AhiXsA1CI=
-X-Google-Smtp-Source: AA6agR645rETuEE4VMhXAaKswHY7L5Q1Tk6UWcY1L316KwAlAp6lbpoTrasC+3YhaQ3U6q37ocvWef/Jh+4AqnpxUdA=
-X-Received: by 2002:a17:907:28d6:b0:731:5d0:4401 with SMTP id
- en22-20020a17090728d600b0073105d04401mr1389787ejc.765.1660816091708; Thu, 18
- Aug 2022 02:48:11 -0700 (PDT)
+        with ESMTP id S235275AbiHRJ4e (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Aug 2022 05:56:34 -0400
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26A13B088A;
+        Thu, 18 Aug 2022 02:56:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1660816593; x=1692352593;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=eqXWzEPdx2XZOUblO5chU9G8GMBdWo/1zFOTR45FRYM=;
+  b=Zt+3B8MqR2zByhCnxkwR4jz+Vono/8VZaKrsHZayK7p0mBbX3cb/faVj
+   Qq425pThBSmlO+1t9hRfjZ5q+3y8dU2a9Hf56Izv7gTaxx7AHyXJ5ZvJm
+   4sgFF4ghaCA59LyQCPZUvDu9kloT7T81dW5y5Kv91q084ZmqwsICH952y
+   hFXB21Pd8T4JbPPR9izBWaYSOWmNZihcNGzlLs3nTGybDrESW3Jv+yzoc
+   IKv3q30sVM3dGDPep9aOeZAc6HLvX5FpjTLDys8f8IYYaivWpq41fhHw3
+   mtH0vUIcGGLFQ0kXw00PfdTybZx3O/xCLPeDzvdagQ01l4vYNrQbLD3uE
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10442"; a="290285593"
+X-IronPort-AV: E=Sophos;i="5.93,246,1654585200"; 
+   d="scan'208";a="290285593"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2022 02:56:32 -0700
+X-IronPort-AV: E=Sophos;i="5.93,246,1654585200"; 
+   d="scan'208";a="636757052"
+Received: from mszycik-mobl.ger.corp.intel.com (HELO [10.249.132.192]) ([10.249.132.192])
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2022 02:56:27 -0700
+Message-ID: <2c659f31-f2ac-b6a9-c509-5402f61afc78@linux.intel.com>
+Date:   Thu, 18 Aug 2022 11:56:19 +0200
 MIME-Version: 1.0
-References: <f31b818cf8d682de61c74b133beffcc8a8202478.1660041358.git.christophe.leroy@csgroup.eu>
- <CACRpkdY53c0qXx24Am1TMivXr-MV+fQ8B0CDjtGi6=+2tn4-7A@mail.gmail.com>
-In-Reply-To: <CACRpkdY53c0qXx24Am1TMivXr-MV+fQ8B0CDjtGi6=+2tn4-7A@mail.gmail.com>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Thu, 18 Aug 2022 11:47:55 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a1Vh1Uehuin-u5QrTO5qh+t0aK_hA-QZwqc00Db_+MKcw@mail.gmail.com>
-Message-ID: <CAK8P3a1Vh1Uehuin-u5QrTO5qh+t0aK_hA-QZwqc00Db_+MKcw@mail.gmail.com>
-Subject: Re: [PATCH] gpio: Allow user to customise maximum number of GPIOs
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     Christophe Leroy <christophe.leroy@csgroup.eu>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Russell King <linux@armlinux.org.uk>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>, Arnd Bergmann <arnd@arndb.de>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "moderated list:ARM PORT" <linux-arm-kernel@lists.infradead.org>,
-        "open list:GENERIC INCLUDE/ASM HEADER FILES" 
-        <linux-arch@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Provags-ID: V03:K1:Qu+gtjF6iRfgG51X3I8WKus/80sjc+ma+ip40I5uAgSgDb0BTGO
- TmFn0AU3ikFHSV4I9Ec3FQ9dAV0Z88se1kzFaPV08lpOg1XP5++JC1HfdsoScPzy7KITPvy
- NmPvyZ9GZGz5qgXyk8l4vyLeLBcGJIm80XSBI43QjAhGoBz0DfqSeGZG/tUnSxP+jsii0qp
- QG5mTzs0HgzuaGdF4ZLwg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:VpH2Lv+xf5w=:aM/CNwGcX5Slxtx5waR3G4
- 7Tpne+m8lwx2GQRxSnQiezYPR9OWTcCIW7FrDJoWRPYoyNRxBy1WaCywmApG+jHhFK+z+000s
- Se3f8j5GO70OjLQs6j2qFrB8jQ/MwvTpXKiHyNjfhX9PEBu3uYfzd7Djl1t/nQrQz2DpqwayM
- KBcEiiDysR5auhNB/3De0UbANOyeJhbNkaiyBPjKFc8y3J2zIAcFN8rwI0wcbf/nezOj6GBIo
- gLPjN3U3rcFqarARQHBKBFduwUJC47zl9aEGsFiZm0CUUtJxSvVsbw1mJwIPe7sUUuAJOn1Nk
- GEnFwRZ116/LKkToyI9XfyA8V9yQ4ODKGsjOyZ00oSQiprd11VwGT69JkMu7buwb8GTyqKW9+
- 4K9SOUHpw1PEvCgiddEgfyH9oDouXKwFVxpXHl5xLLttjz8kf6gJSKiVunmlZ7Z5e1WO4hLvI
- 7R7shfvl6CFaXcHF7yxQs0rmHR8aqprXugEc1iDWXqc/Tu36U+xh/txCpEEfU7CF8aM9nX3gA
- I/+L04K4h/Sj8U+smwSsOv2B54CVQLg1H1cTqgcYfr74qESpb3vWCB8YW2QuETz4JdfxSnn6m
- ncYQMrJB0zyeUviYI7GxVgS+I6khh8XfSxpINLcF7BDQgwWi2HrHFnMRR9cn6Xdiop/x6rzzv
- 8RUQD/4SzoCuC8T81Q6G3dkum0mtZiq8wLqJMGTsVScIZOVuy/xOiF0Mq4v+62rXfwv90iq5i
- MYvvQRSdH8x9lZ5uI61N0xQZxZUyDdjpGpsUXTCK1ah4zZRBq/4qumNvbkbmMc3BKOzbksO2i
- l0RZfY6UdayMF2sg2w6kYiIHglc2osO6WF6GQVZD+DiAuzlTA0fnk5f2ptyy2qNEzZOkeOvkT
- Ttyhsg4PyEVe/OMd6Kig==
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: [RFC PATCH v2 net-next] docs: net: add an explanation of VF (and
+ other) Representors
+Content-Language: en-US
+To:     ecree@xilinx.com, netdev@vger.kernel.org, linux-net-drivers@amd.com
+Cc:     davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com,
+        edumazet@google.com, corbet@lwn.net, linux-doc@vger.kernel.org,
+        jacob.e.keller@intel.com, jesse.brandeburg@intel.com,
+        michael.chan@broadcom.com, andy@greyhouse.net, saeed@kernel.org,
+        jiri@resnulli.us, snelson@pensando.io, simon.horman@corigine.com,
+        alexander.duyck@gmail.com, rdunlap@infradead.org,
+        Edward Cree <ecree.xilinx@gmail.com>
+References: <20220815142251.8909-1-ecree@xilinx.com>
+From:   Marcin Szycik <marcin.szycik@linux.intel.com>
+In-Reply-To: <20220815142251.8909-1-ecree@xilinx.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Aug 18, 2022 at 11:33 AM Linus Walleij <linus.walleij@linaro.org> wrote:
+On 15-Aug-22 16:22, ecree@xilinx.com wrote:
+
+> [...]
 >
-> The per-arch GPIO number only exist for one reason: embedded
-> GPIOs (think SoC:s) that refer to fixed numbers in numberspace in
-> the board support code. This makes it necessary to allocate
-> descriptors up front in some compiled-in GPIO chips.
+> +Motivation
+> +----------
+> +
+> +Since the mid-2010s, network cards have started offering more complex
+> +virtualisation capabilities than the legacy SR-IOV approach (with its simple
+> +MAC/VLAN-based switching model) can support.  This led to a desire to offload
+> +software-defined networks (such as OpenVSwitch) to these NICs to specify the
+> +network connectivity of each function.  The resulting designs are variously
+> +called SmartNICs or DPUs.
+> +
+> +Network function representors bring the standard Linux networking stack to
+> +virtual switches and IOV devices.  Just as each port of a Linux-controlled
+> +switch has a separate netdev, so each virtual function has one.  When the system
 
-As I understood, the problem that Christophe ran into is that the
-dynamic registration of additional gpio chips is broken because
-it unregisters the chip if the number space is exhausted:
+Maybe I'm misunderstanding something, but this sentence seems a bit confusing. Maybe:
+"Just as each port of a Linux-controlled switch has a separate netdev, each virtual
+function has one."?
 
-                base = gpiochip_find_base(gc->ngpio);
-                if (base < 0) {
-                        ret = base;
-                        spin_unlock_irqrestore(&gpio_lock, flags);
-                        goto err_free_label;
-                }
+> +boots, and before any offload is configured, all packets from the virtual
+> +functions appear in the networking stack of the PF via the representors.
+> +The PF can thus always communicate freely with the virtual functions.
+> +The PF can configure standard Linux forwarding between representors, the uplink
+> +or any other netdev (routing, bridging, TC classifiers).
+>
+> [...]
+>
+> +How do representors interact with TC rules?
+> +-------------------------------------------
+> +
+> +Any TC rule on a representor applies (in software TC) to packets received by
+> +that representor netdevice.  Thus, if the delivery part of the rule corresponds
+> +to another port on the virtual switch, the driver may choose to offload it to
+> +hardware, applying it to packets transmitted by the representee.
+> +
+> +Similarly, since a TC mirred egress action targeting the representor would (in
+> +software) send the packet through the representor (and thus indirectly deliver
+> +it to the representee), hardware offload should interpret this as delivery to
+> +the representee.
+> +
+> +As a simple example, if ``eth0`` is the master PF's netdevice and ``eth1`` is a
+> +VF representor, the following rules::
+> +
+> +    tc filter add dev eth1 parent ffff: protocol ipv4 flower \
+> +        action mirred egress redirect dev eth0
+> +    tc filter add dev eth0 parent ffff: protocol ipv4 flower \
+> +        action mirred egress mirror dev eth1
 
-From the git history, it looks like this error was never handled gracefully
-even if the intention was to keep going without a number assignment,
-so there are probably other bugs one runs into after changing this.
+Perhaps eth0/eth1 names could be replaced with more meaningful names, as it's easy
+to confuse them now. How about examples from above (e.g. PF -> eth4, PR -> eth4pf1vf2rep)?
+Or just $PF_NETDEV, $PR_NETDEV.
 
-        Arnd
+> +would mean that all IPv4 packets from the VF are sent out the physical port, and
+> +all IPv4 packets received on the physical port are delivered to the VF in
+> +addition to the master PF.
+> +
+> +Of course the rules can (if supported by the NIC) include packet-modifying
+> +actions (e.g. VLAN push/pop), which should be performed by the virtual switch.
+> +
+> +Tunnel encapsulation and decapsulation are rather more complicated, as they
+> +involve a third netdevice (a tunnel netdev operating in metadata mode, such as
+> +a VxLAN device created with ``ip link add vxlan0 type vxlan external``) and
+> +require an IP address to be bound to the underlay device (e.g. master PF or port
+> +representor).  TC rules such as::
+> +
+> +    tc filter add dev eth1 parent ffff: flower \
+> +        action tunnel_key set id $VNI src_ip $LOCAL_IP dst_ip $REMOTE_IP \
+> +                              dst_port 4789 \
+> +        action mirred egress redirect dev vxlan0
+> +    tc filter add dev vxlan0 parent ffff: flower enc_src_ip $REMOTE_IP \
+> +        enc_dst_ip $LOCAL_IP enc_key_id $VNI enc_dst_port 4789 \
+> +        action tunnel_key unset action mirred egress redirect dev eth1
+> +
+
+Same as above, eth1 name could be more intuitive.
+
+--- 8< ---
+
+LGTM, only those two small nitpicks.
+
+Regards,
+Marcin
