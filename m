@@ -2,100 +2,121 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C5AEC00140
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Aug 2022 11:49:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 80C9FC00140
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Aug 2022 11:54:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244229AbiHRLtx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 18 Aug 2022 07:49:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38342 "EHLO
+        id S244326AbiHRLyk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 18 Aug 2022 07:54:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43838 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239197AbiHRLtv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Aug 2022 07:49:51 -0400
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 583A47696A;
-        Thu, 18 Aug 2022 04:49:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1660823390; x=1692359390;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=w0DG8lbNG0etxgamQ6E0DavXvsqnzqxQNG520Oa4wm0=;
-  b=b5q0RYlCnk/+YZMz3FdKHqRnqzdDihiNNhGChVLvmCDV+ifMBAJ4BS9O
-   cCbUSrDDDecVNxdrAfm400mriGQOXUnqhG/l570Yanq6I/tfQ//ItPMY1
-   UQKtA++yad5Yk9/0w0QXMPAOQOGWlQJukAl7ltR87sYXmhTiuoDUfmULX
-   ve1Nwx2eifeMjfezJGezMwY/KEc1VMEWRUvpAOr/M297gLw5qXhCC7s7Y
-   PvJQ++OTsQIPpYH12DOpmjjghwsgblbR+ZKQwR5GFjwilrEfc5kJHhUrl
-   Dkv0ed0o5vmGRiuI0IxZ58GtvtdzsoGInjzSASv71jjxMFL6cpZwvLb76
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10442"; a="275784968"
-X-IronPort-AV: E=Sophos;i="5.93,246,1654585200"; 
-   d="scan'208";a="275784968"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2022 04:49:49 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,246,1654585200"; 
-   d="scan'208";a="734026515"
-Received: from lkp-server01.sh.intel.com (HELO 6cc724e23301) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 18 Aug 2022 04:49:45 -0700
-Received: from kbuild by 6cc724e23301 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1oOe1w-0000So-2t;
-        Thu, 18 Aug 2022 11:49:44 +0000
-Date:   Thu, 18 Aug 2022 19:49:10 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Wupeng Ma <mawupeng1@huawei.com>, akpm@linux-foundation.org
-Cc:     kbuild-all@lists.01.org, corbet@lwn.net, mcgrof@kernel.org,
-        keescook@chromium.org, yzaikin@google.com,
-        songmuchun@bytedance.com, mike.kravetz@oracle.com,
-        osalvador@suse.de, surenb@google.com, mawupeng1@huawei.com,
-        rppt@kernel.org, charante@codeaurora.org, jsavitz@redhat.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-        wangkefeng.wang@huawei.com
-Subject: Re: [PATCH -next 2/2] mm: sysctl: Introduce per zone
- watermark_scale_factor
-Message-ID: <202208181945.AoDDCp5a-lkp@intel.com>
-References: <20220818090430.2859992-3-mawupeng1@huawei.com>
+        with ESMTP id S244197AbiHRLyi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Aug 2022 07:54:38 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 702CB7F12D;
+        Thu, 18 Aug 2022 04:54:36 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 22C1EB8203A;
+        Thu, 18 Aug 2022 11:54:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5EB17C433C1;
+        Thu, 18 Aug 2022 11:54:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1660823673;
+        bh=OOp4XCPaOSFAdQWQdL7x7S/vwQa/o7fKz+ynmdHyLg4=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=DV2MuYBkRWWKa0Rs0voJoSLDxQUKzzOSYe//JgzHbHdSieYD7vWcHpu2Q8LoPSaI3
+         FnZqOspjyW2rNi6V6qpw1SQK2+fwaxpAGvK2k4+LSD9O3ZLiUXeoCq1F54Jjv3OeOF
+         NYuTsRPKmmWPX6JVM3bvHxW6aOcu6+OoZgK9EhnW/YuvhBAMoICkRcaP0kJBFre+Dm
+         JMxHe1yocZDaGtIZwU2vsmxf55iLt12gUUG2tjGMk5a7ko/bARUZAV7vcn5ZTVqOja
+         21TqUfUXsYqq0IH+tl6Opvtn5sB38Fu5rm0QFGx7bKdL0fLyrkFSOyysCuQRPZCgdU
+         IeQpBLkC3FoHA==
+Date:   Thu, 18 Aug 2022 12:54:22 +0100
+From:   Mark Brown <broonie@kernel.org>
+To:     Matti Vaittinen <mazziesaccount@gmail.com>
+Cc:     Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
+        dri-devel@lists.freedesktop.org,
+        Johan Hovold <johan+linaro@kernel.org>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Kevin Hilman <khilman@baylibre.com>,
+        linux-kernel@vger.kernel.org, Daniel Vetter <daniel@ffwll.ch>,
+        linux-amlogic@lists.infradead.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-doc@vger.kernel.org,
+        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Michael Hennerich <Michael.Hennerich@analog.com>,
+        Miaoqian Lin <linmq006@gmail.com>,
+        linux-arm-kernel@lists.infradead.org,
+        Alexandru Tachici <alexandru.tachici@analog.com>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Andrzej Hajda <andrzej.hajda@intel.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Lorenzo Bianconi <lorenzo@kernel.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        Jean Delvare <jdelvare@suse.com>,
+        Alexandru Ardelean <aardelean@deviqon.com>,
+        linux-hwmon@vger.kernel.org, linux-clk@vger.kernel.org,
+        Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+        Robert Foss <robert.foss@linaro.org>,
+        Aswath Govindraju <a-govindraju@ti.com>,
+        David Airlie <airlied@linux.ie>, linux-iio@vger.kernel.org
+Subject: Re: (subset) [PATCH v2 0/7] Devm helpers for regulator get and enable
+Message-ID: <Yv4obo9MUw+Lc+nr@sirena.org.uk>
+References: <cover.1660292316.git.mazziesaccount@gmail.com>
+ <166057828406.697572.228317501909350108.b4-ty@kernel.org>
+ <52d307d7-04f2-89fd-ff4b-9a6c0d247350@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="MKmYY9GsmMLl3nVC"
 Content-Disposition: inline
-In-Reply-To: <20220818090430.2859992-3-mawupeng1@huawei.com>
+In-Reply-To: <52d307d7-04f2-89fd-ff4b-9a6c0d247350@gmail.com>
+X-Cookie: Logic is the chastity belt of the mind!
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Wupeng,
 
-Thank you for the patch! Yet something to improve:
+--MKmYY9GsmMLl3nVC
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-[auto build test ERROR on next-20220818]
+On Thu, Aug 18, 2022 at 02:33:53PM +0300, Matti Vaittinen wrote:
+> On 8/15/22 18:44, Mark Brown wrote:
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Wupeng-Ma/watermark-related-improvement-on-zone-movable/20220818-170659
-base:    5b6a4bf680d61b1dd26629840f848d0df8983c62
-config: openrisc-buildonly-randconfig-r004-20220818 (https://download.01.org/0day-ci/archive/20220818/202208181945.AoDDCp5a-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/d126658752d146244ef366f63b8edbb797dc5436
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Wupeng-Ma/watermark-related-improvement-on-zone-movable/20220818-170659
-        git checkout d126658752d146244ef366f63b8edbb797dc5436
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=openrisc SHELL=/bin/bash
+> > [2/7] regulator: Add devm helpers for get and enable
+> >        (no commit info)
 
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
+> I was planning to send out the v3 (where IIO patches are no longer squashed
+> into one). I didn't spot the above mentioned patch 2/7 from
+> regulator/for-next. I'd just like to get confirmation the 2/7 was not merged
+> even though it's mentioned in this mail before re-spinning the series with
+> it.
 
-All errors (new ones prefixed by >>):
+It's not there yet (that's the "no commit info"), but it is queued for
+today.
 
-   or1k-linux-ld: or1k-linux-ld: DWARF error: could not find abbrev number 84
-   mm/page_alloc.o: in function `watermark_scale_factor_sysctl_handler':
->> page_alloc.c:(.text+0xeaa8): undefined reference to `sysctl_vals'
->> or1k-linux-ld: page_alloc.c:(.text+0xeaac): undefined reference to `sysctl_vals'
-   `.exit.text' referenced in section `.data' of sound/soc/codecs/tlv320adc3xxx.o: defined in discarded section `.exit.text' of sound/soc/codecs/tlv320adc3xxx.o
+--MKmYY9GsmMLl3nVC
+Content-Type: application/pgp-signature; name="signature.asc"
 
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmL+KG4ACgkQJNaLcl1U
+h9ChKgf+MqQYNLGgZ/WEAylHrK/Uzrw+LnjUXAyMBb/vZjdl3DVYOv+/LtcGpk2B
+vMl+H2cT2aA3eF56DroX4dIyRauM8a7w9PNeqKCTRYzdeJ91Vp1q0gOUIbKHxfmu
+LJkxtl3b2n7/O7J+OrJ1HljR3z2JxBD4lmqH4+vKKMNwPIh0fn5GAbg8/O2M0yv5
+NEJYI6TxlO4FG1bncptZI3H7tlGjV+MAYgemtJlJnLkpiS3OaOfTS6QeDAtgI0QE
+oU6UoQtU2ZSP0W/dlLys3zAGz2wI7/vlprZAeabP2UyUWDIRlRN8GjTI/YkwClpr
+VsgNrCyAZbv1afHLckm3stj8/Czk8Q==
+=mvEp
+-----END PGP SIGNATURE-----
+
+--MKmYY9GsmMLl3nVC--
