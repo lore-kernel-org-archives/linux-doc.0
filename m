@@ -2,67 +2,73 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E736AC32774
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Aug 2022 17:17:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 76E75C00140
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Aug 2022 17:18:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344632AbiHRRRY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 18 Aug 2022 13:17:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44582 "EHLO
+        id S1345004AbiHRRS2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 18 Aug 2022 13:18:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44344 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344942AbiHRRRE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Aug 2022 13:17:04 -0400
+        with ESMTP id S1343703AbiHRRSE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Aug 2022 13:18:04 -0400
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C3CA13ECDE;
-        Thu, 18 Aug 2022 10:12:38 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64E56CE4AA;
+        Thu, 18 Aug 2022 10:14:56 -0700 (PDT)
 Received: from localhost (unknown [IPv6:2601:281:8300:73:8b7:7001:c8aa:b65f])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 5AB78380;
-        Thu, 18 Aug 2022 17:12:38 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 5AB78380
+        by ms.lwn.net (Postfix) with ESMTPSA id D75CC4E5;
+        Thu, 18 Aug 2022 17:14:55 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net D75CC4E5
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1660842758; bh=4ybYsjK0e5ul649Sz0YfXQzYl1VJiqfOwsXXBK0Ryqg=;
-        h=From:To:Subject:In-Reply-To:References:Date:From;
-        b=RCrFUDBQFiCUrVBn3rHGkhM0xPBYhn1gU+AeVUTD8YfehIxtLhCemtCg+ekd2ioQh
-         i0HsAV0k7dDSXSz2vAiS8GkRuGHhnECYCyYUBBusfJNdE+T29XJFTKqpCvl28NzTVX
-         18KTMNsuLvEw/qh9sWC4/5Q3pWC8gOu7XECHooTOAr37xx92d4vUqj14W4E3gcxuff
-         FYG+jioX7OBhUTDrq3/xfNgQ1OU23LdDG9RKKeSI8oXOaaCTRnapWjYHpEPbjDxzXh
-         W29YTd6CSFp0H5e0xKDA3wEH6wS5dTNH6eeMCHdgX5GXZLoxQ4I9YXvFvx5XaaPvHV
-         JJonFd4z+9Xvg==
+        t=1660842896; bh=vz4tknliPzmjSgyqWLAMoebgxNp6CQ3X1EAaFT00qbE=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=W3zo6+MV8r16bPNzSHfAWWQdBIq3+IbtdBgYH5UCPhY+NldadBlsRLIKNm+vXRRk2
+         wVxxd/q+Cj9R0Nj/GF+6go/KIg4UvA5mC08TtnbgKTrcdAseTazA96YHzttQj9RgAx
+         PAdkd/SkUkeJdj2NCwrBHJ8UkWOjQ88Ak7voz81DlmL+vgu3DDgmZBeFnf73HiQjvd
+         L3/K590LaPHJWycQUhzs4/xxfb3zejkArZb7riqjM1FpMeswbzxuQxCKQ2LVw/Kx3i
+         3fdScgSCZi6YnkY/7PnZwS79afGvRYazQFYAFNIjdaBJXpyWbLWCdd/w54DkzkqKuT
+         Q8bDHNssEj5mQ==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Eric Lin <dslin1010@gmail.com>, maz@kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Documentation: irqdomain: Fix typo of "at least once"
-In-Reply-To: <20220811091516.2107908-1-dslin1010@gmail.com>
-References: <20220811091516.2107908-1-dslin1010@gmail.com>
-Date:   Thu, 18 Aug 2022 11:12:37 -0600
-Message-ID: <875yipcw6y.fsf@meer.lwn.net>
+To:     Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 0/5] Update the maintainer PGP guide
+In-Reply-To: <20220727-docs-pgp-guide-v2-0-e3e6954affb6@linuxfoundation.org>
+References: <20220727-docs-pgp-guide-v2-0-e3e6954affb6@linuxfoundation.org>
+Date:   Thu, 18 Aug 2022 11:14:55 -0600
+Message-ID: <871qtdcw34.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Eric Lin <dslin1010@gmail.com> writes:
+Konstantin Ryabitsev <konstantin@linuxfoundation.org> writes:
 
-> Signed-off-by: Eric Lin <dslin1010@gmail.com>
-> ---
->  Documentation/core-api/irq/irq-domain.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> This series updates the guide to match terminology used in the upstream
+> "protecting code integrity" guide and brings the documentation in line
+> with the latest developments in the GnuPG world:
 >
-> diff --git a/Documentation/core-api/irq/irq-domain.rst b/Documentation/core-api/irq/irq-domain.rst
-> index d30b4d0a9769..f88a6ee67a35 100644
-> --- a/Documentation/core-api/irq/irq-domain.rst
-> +++ b/Documentation/core-api/irq/irq-domain.rst
-> @@ -71,7 +71,7 @@ variety of methods:
->  Note that irq domain lookups must happen in contexts that are
->  compatible with a RCU read-side critical section.
->  
-> -The irq_create_mapping() function must be called *atleast once*
-> +The irq_create_mapping() function must be called *at least once*
->  before any call to irq_find_mapping(), lest the descriptor will not
->  be allocated.
+> - uses "Certify key" instead of "master key" terms to remove common
+>   confusion that the "Certify key" is somehow able to restore lost
+>   private subkeys
+> - removes keyserver instructions because keyservers have largely gone
+>   semi-extinct due to GDPR enforcement and just general neglect
+> - adds a link to the kernel.org PGP keyring documentation
+> - updates information about ECC curve support among the devices the
+>   guide talks about (Yubikeys are able to use ED25519 curves with the
+>   latest firmware updates)
+> - adds a section on using PGP-signed patches with b4 and patatt
+>
+> Link: https://github.com/lfit/itpol/blob/master/protecting-code-integrity.md
+> Signed-off-by: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+>
+> ---
+> Changes in v2:
+> - Rebase on v5.19.
+> - Small wording changes based on feedback.
+> - Link to v1: https://lore.kernel.org/r/20220727-docs-pgp-guide-v1-0-c48fb06cb9af@linuxfoundation.org
 
-Applied, thanks.
+I've applied the set, thanks.
 
 jon
