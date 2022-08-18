@@ -2,109 +2,115 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 01164C00140
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Aug 2022 09:09:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EB197C32772
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Aug 2022 09:33:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243831AbiHRJJ7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 18 Aug 2022 05:09:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58096 "EHLO
+        id S241952AbiHRJdR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 18 Aug 2022 05:33:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37830 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239788AbiHRJJ5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Aug 2022 05:09:57 -0400
-Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com [IPv6:2a00:1450:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 825C877554;
-        Thu, 18 Aug 2022 02:09:56 -0700 (PDT)
-Received: by mail-ej1-x62a.google.com with SMTP id qn6so2045907ejc.11;
-        Thu, 18 Aug 2022 02:09:56 -0700 (PDT)
+        with ESMTP id S241906AbiHRJdQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Aug 2022 05:33:16 -0400
+Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA2C01AF1A
+        for <linux-doc@vger.kernel.org>; Thu, 18 Aug 2022 02:33:13 -0700 (PDT)
+Received: by mail-ej1-x630.google.com with SMTP id i14so2174497ejg.6
+        for <linux-doc@vger.kernel.org>; Thu, 18 Aug 2022 02:33:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :sender:from:to:cc;
-        bh=OM28IoofemszvZBGCPnenf9hx1PitiC3j3mv8pJzzLY=;
-        b=ij1yc1LQl9Wf3pW5R1RqykES0Aufpt68J+25lcVedl/CpmlFqJG/3XGLjyW2MHoLNc
-         RATABqbitRRkNkbzTUPBN+b00N4M50Y7j/0ODEeCK4DJ1JxY6f4rpDPPWv/L1cl0a3G9
-         sAXVvVEsJtSRSRthDDyQtU3BfZ7y/6/7XEt+z2ltD4pkwWTqhWOhuCsB62txeENhXVbe
-         +mMm1pX2BJT/74i8I6amFdoHLlwihES/nKklvXI3VtoaDAYi9ugEu++7ZTBVUoALiTH9
-         N3WC3/Fq94Hur7bPMP7JJwb2EwBBorftYgTT0A/a/fS4RdJtnmRaHQgCu7FbcBd3pI8j
-         XqSw==
+        d=linaro.org; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc;
+        bh=lNkwc/mVYl5zhZCnfILTVnkAJhpHpkpeN6USQ5l2Exk=;
+        b=h3d+8hwJhEG7EaO8QJTr5CbSPJrJ9j7aiRcbvgMRvJNVmnZDQMetcty1p/W1Eb9wPL
+         icgGdcIlWPp8pc83H/ZYZ/VwprIE9VD/MKGWy/BS5WzV3ov05boquCuLkZz6tRqvfZlg
+         qOJY756WmSqcbSMUggqdbyKvFLmzYz6YyhY3/U1x6Tf/tn2jbshL5fEhxAb07m57HuV4
+         9ZrGLNWBZz7nDxgZxVS5QjG3dvqyt8VId3k98hQpaYstfA1Ap1Y0pYk8QQa81v96tkHJ
+         MQwQwc126xDjMYNthi06Wy8S7brXp3aas0hHC3dijePWPsA2NuB78J0mwrKjv5OK9YaX
+         FDxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :sender:x-gm-message-state:from:to:cc;
-        bh=OM28IoofemszvZBGCPnenf9hx1PitiC3j3mv8pJzzLY=;
-        b=Ur+Y5w8CIy2R+TI7ezdwfcFFtZ4jLiQEotfBsJDRmg/AeDHzwsE4lVmNt5ZvNeFURh
-         VZDMXF5QglDz0nFe/MQYh4P379YwKCcZm56QTXMWhLNT8jotoHs+h/HPsrJ8mA6doT+W
-         KypirXTBqp5eD9RyS3wtD27RRx/oDWQfNWVjB97GDFvwY7Q0LRhTWMX0EqpFCdreQuDe
-         bY7u1/FpZXY9DWj8isgUhyoL2PlmNBTaW33NRlsnxAbKnPVmh2gDAIL92wp1MFogMuc9
-         rWuzqwZY5Rh4jDeF3JifWsbusWQ5q7IOkFLUm0JhSpElYjHLWbMo8qClM6hfDIvgYWxR
-         5rIg==
-X-Gm-Message-State: ACgBeo0GoZFikspsPdGJUjmF/NpkilsqH4f3B5TF0fpn7BzOwRZHwY/q
-        QBLSYOImrwE9BuvxdF4BOek=
-X-Google-Smtp-Source: AA6agR7J/9/o1YBQevKgS2HfGCsS2gahP6q9ngCobHspK0yQln3/vemjVdtjZipLOMqNIx4sDBaa7Q==
-X-Received: by 2002:a17:907:a057:b0:730:a2d8:d5ac with SMTP id gz23-20020a170907a05700b00730a2d8d5acmr1327595ejc.764.1660813795048;
-        Thu, 18 Aug 2022 02:09:55 -0700 (PDT)
-Received: from ?IPV6:2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e? ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
-        by smtp.googlemail.com with ESMTPSA id ck30-20020a0564021c1e00b00445d760fc69sm772722edb.50.2022.08.18.02.09.52
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 18 Aug 2022 02:09:54 -0700 (PDT)
-Sender: Paolo Bonzini <paolo.bonzini@gmail.com>
-Message-ID: <b13f84e2-d402-d686-a365-d13cd09b2a01@redhat.com>
-Date:   Thu, 18 Aug 2022 11:09:52 +0200
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=lNkwc/mVYl5zhZCnfILTVnkAJhpHpkpeN6USQ5l2Exk=;
+        b=nxqjU5igB6ViefW8Kp4sdhd6eHwvjxA1HXNll7MaFXvkImHF/PrdsjgoMdWrEYAaFr
+         Zaz/+3xH9ELMInblBEaLoI47Ap824jUXgS9yPiPEQmlhNRKixuqMcNU787yZujwqmlnb
+         E1dZshUQSJkr8iDtytFDodJsoCXDg+CIa6Sx5dC3tpYzAJ7uOADDosQjN71wLaJcN6VU
+         L8S3bG95EJzacvbaMwdDzyuRKhn7qx2ceA4uOU5BfU6CFh8cmaePn4REGgxG1pKsn74G
+         GrDc31Xgai/0LmdigOE55a5ZHVUTYqVElQzYAXkjTaBTN4LuQ2hedYXltHowBkbYzUcA
+         RGgw==
+X-Gm-Message-State: ACgBeo2G7qAnAdtWZiDYlHcwRP2yLRdglYD3SCKlTdXjqidzeVvZJIZa
+        tlc0gKjJIWpodH/VPakT0jGbHE4dsVuCyt1PL6NKQA==
+X-Google-Smtp-Source: AA6agR4bxVNxsCDVOCHM/BOnShAbzXwKgql72h0RYIw5KqHSKPniV5WlS0EoWj8j9kkQwQk82uJmagSLmLgY+dAW0AQ=
+X-Received: by 2002:a17:907:6d98:b0:731:2bb3:8e17 with SMTP id
+ sb24-20020a1709076d9800b007312bb38e17mr1380725ejc.203.1660815192380; Thu, 18
+ Aug 2022 02:33:12 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH v7 01/14] mm: Add F_SEAL_AUTO_ALLOCATE seal to memfd
-Content-Language: en-US
-To:     "Kirill A. Shutemov" <kirill@shutemov.name>
-Cc:     David Hildenbrand <david@redhat.com>,
-        Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
-        linux-kselftest@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <seanjc@google.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
+References: <f31b818cf8d682de61c74b133beffcc8a8202478.1660041358.git.christophe.leroy@csgroup.eu>
+In-Reply-To: <f31b818cf8d682de61c74b133beffcc8a8202478.1660041358.git.christophe.leroy@csgroup.eu>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Thu, 18 Aug 2022 11:33:01 +0200
+Message-ID: <CACRpkdY53c0qXx24Am1TMivXr-MV+fQ8B0CDjtGi6=+2tn4-7A@mail.gmail.com>
+Subject: Re: [PATCH] gpio: Allow user to customise maximum number of GPIOs
+To:     Christophe Leroy <christophe.leroy@csgroup.eu>
+Cc:     Bartosz Golaszewski <brgl@bgdev.pl>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Russell King <linux@armlinux.org.uk>,
         Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, aarcange@redhat.com, ddutile@redhat.com,
-        dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        Muchun Song <songmuchun@bytedance.com>
-References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
- <20220706082016.2603916-2-chao.p.peng@linux.intel.com>
- <f39c4f63-a511-4beb-b3a4-66589ddb5475@redhat.com>
- <472207cf-ff71-563b-7b66-0c7bea9ea8ad@redhat.com>
- <20220817234120.mw2j3cgshmuyo2vw@box.shutemov.name>
-From:   Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <20220817234120.mw2j3cgshmuyo2vw@box.shutemov.name>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>, Arnd Bergmann <arnd@arndb.de>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        "moderated list:ARM PORT" <linux-arm-kernel@lists.infradead.org>,
+        "open list:GENERIC INCLUDE/ASM HEADER FILES" 
+        <linux-arch@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 8/18/22 01:41, Kirill A. Shutemov wrote:
-> Note, that userfaultfd is only relevant for shared memory as it requires
-> VMA which we don't have for MFD_INACCESSIBLE.
+On Tue, Aug 9, 2022 at 12:41 PM Christophe Leroy
+<christophe.leroy@csgroup.eu> wrote:
 
-Oh, you're right!  So yeah, looks like userfaultfd is not a problem.
+> At the time being, the default maximum number of GPIOs is set to 512
+> and can only get customised via an architecture specific
+> CONFIG_ARCH_NR_GPIO.
+>
+> The maximum number of GPIOs might be dependent on the number of
+> interface boards and is somewhat independent of architecture.
+>
+> Allow the user to select that maximum number outside of any
+> architecture configuration. To enable that, re-define a
+> core CONFIG_ARCH_NR_GPIO for architectures which don't already
+> define one. Guard it with a new hidden CONFIG_ARCH_HAS_NR_GPIO.
+>
+> Only two architectures will need CONFIG_ARCH_HAS_NR_GPIO: x86 and arm.
+>
+> On arm, do like x86 and set 512 as the default instead of 0, that
+> allows simplifying the logic in asm-generic/gpio.h
+>
+> Signed-off-by: Christophe Leroy <christophe.leroy@csgroup.eu>
 
-Paolo
+I see what you're trying to do and this might be a possible interim solution.
+
+I would like some comments sprinkled into the patched sites that this is
+supposed to go away.
+
+The GPIO descriptor refactoring which has been ongoing for a few
+years, see drivers/gpio/TODO (please read), has the end goal of making
+descriptor allocation fully dynamic. Once we free ourselves from
+the fixed GPIO numberspace, there is nothing preventing us from
+just kmalloc() ing a new descriptor whenever one is needed.
+
+Help with rooting out the remaining fixed GPIO number clients
+is much appreciated!
+
+The per-arch GPIO number only exist for one reason: embedded
+GPIOs (think SoC:s) that refer to fixed numbers in numberspace in
+the board support code. This makes it necessary to allocate
+descriptors up front in some compiled-in GPIO chips.
+
+Yours,
+Linus Walleij
