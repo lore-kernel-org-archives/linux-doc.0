@@ -2,191 +2,130 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D981EC32772
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Aug 2022 18:56:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 96A2FC00140
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Aug 2022 20:32:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243002AbiHRS4D (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 18 Aug 2022 14:56:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53136 "EHLO
+        id S1346074AbiHRUcB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 18 Aug 2022 16:32:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49698 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230250AbiHRS4A (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Aug 2022 14:56:00 -0400
-Received: from mail-il1-x135.google.com (mail-il1-x135.google.com [IPv6:2607:f8b0:4864:20::135])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8FF12BFAA6
-        for <linux-doc@vger.kernel.org>; Thu, 18 Aug 2022 11:55:59 -0700 (PDT)
-Received: by mail-il1-x135.google.com with SMTP id z8so1286947ile.0
-        for <linux-doc@vger.kernel.org>; Thu, 18 Aug 2022 11:55:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=joelfernandes.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc;
-        bh=o9IqWqTExqfvAFZ3y/aPtmNVxALGEdclMGoLQukyCMs=;
-        b=UpgEzYK8fvk/arvCh/WKzNm+H/ueOgS7/lFGRNPT7ffAwaZk7iLif5Ej4qyizteQM/
-         jGOyzZ/shwlzi+uBcSvJjlcO6hxfCTDOZwa7TGYutJ3eXUqzHkzBUQbVEwynj1fnXhmQ
-         v9haHLPPuushmrmvU2QJ2eIFgPDdb6R30w4K8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc;
-        bh=o9IqWqTExqfvAFZ3y/aPtmNVxALGEdclMGoLQukyCMs=;
-        b=ttGlfCd5KIHvQmAXgOoG4tyUxNZUo8L0s4cFzgvAwBh/FJfC7T1caXhApzmRe1OQmm
-         ZPyV9SbULz7aV2H3xUo3ZAsZdmtzLGxFZpTbVw/5jX/wRN1UeORHr/OQ2aTvmaScp7jV
-         9HSMgqyiCpvu1eZQYzzUwul86E1k2knQoFGk2GCw/OkUDTpsIw3WcAlEKCx3ecvzNZTa
-         1wg64kXOT+dwpCG1clVzgSaFhp0e/ES6koj1XWMzX+DMXSRLBHev6f08mgiFMAzo2/ga
-         uJLRb+qZ4NZdXOL0sNVCwH0Nvwi7TQM7xcZ6MTDsv2ZupTXEYCqxuLhMwaFRu7x6SG6w
-         mTdA==
-X-Gm-Message-State: ACgBeo0qrfgumxHLySiZTF/9NeHutZvh4tzMjlJS2h9Sf+OgdWhn32BQ
-        BK1MSK8mUzJzcGxSWuGC8nAc4x9lmmG5FTxg4cgITw==
-X-Google-Smtp-Source: AA6agR4DrI/Jhj5BsFj/OILFnVRNJfDhmvWXyKUgfnFsK76LWPDPerPHF3jneiEap7xzxQhz/8yowLU6hRy0PRVt8Ks=
-X-Received: by 2002:a05:6e02:1c84:b0:2e5:b635:c6bd with SMTP id
- w4-20020a056e021c8400b002e5b635c6bdmr2088909ill.190.1660848958971; Thu, 18
- Aug 2022 11:55:58 -0700 (PDT)
+        with ESMTP id S242194AbiHRUcA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Aug 2022 16:32:00 -0400
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38867D0751;
+        Thu, 18 Aug 2022 13:31:59 -0700 (PDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out1.suse.de (Postfix) with ESMTPS id E33073F439;
+        Thu, 18 Aug 2022 20:31:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+        t=1660854717; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=Rz8+CJ524hy506pPTiAxc3Bk5R74WhisuRkg2AR0eYo=;
+        b=aJgiGIrU08Lb2Zf7pOG8scXFWd0Sq3h60Skr1iEvjJ7qqOqgsn6bTfatzGPAtUIdIhDDaA
+        EQo1B5k1BHUTALLADvLYIVrg+1u7zs7LYLrXyxq6CxLV1/oNWaicqvfTzYxUAc3bV44ZS5
+        gqs2DRRNK25mdnhrnZ2K+bcJG+wypkw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+        s=susede2_ed25519; t=1660854717;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=Rz8+CJ524hy506pPTiAxc3Bk5R74WhisuRkg2AR0eYo=;
+        b=SoqMd1NndFbHikpkz1cHgNzol0/w14RMDblrtNcvvrZYOTpzQBRfZ48wiE3hwDyJj5uhIr
+        xeOaa9E0norKTnBQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id B13F3139B7;
+        Thu, 18 Aug 2022 20:31:57 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id KhpQKb2h/mIKAgAAMHmgww
+        (envelope-from <mliska@suse.cz>); Thu, 18 Aug 2022 20:31:57 +0000
+Message-ID: <84e3d6cc-75cf-d6f3-9bb8-be02075aaf6d@suse.cz>
+Date:   Thu, 18 Aug 2022 22:31:57 +0200
 MIME-Version: 1.0
-References: <20220628145552.349839-1-xiehuan09@gmail.com> <20220628145552.349839-5-xiehuan09@gmail.com>
- <Yv5gkKnufS7CUq9A@google.com> <CAEr6+ED7UovW1BbrK4s5tCRrTrfkESpa4m3VO4a4PBAY9nK_JA@mail.gmail.com>
- <CAEXW_YQAFVJRe9mUnR1HAXvYDiQ3jCwrKhO52t8O=bxb_qSCzQ@mail.gmail.com> <CAEr6+EBC3MfqGZQ8zqLhr6P1VFkU2Hs9JsM-mqGBXWKLcAXkAA@mail.gmail.com>
-In-Reply-To: <CAEr6+EBC3MfqGZQ8zqLhr6P1VFkU2Hs9JsM-mqGBXWKLcAXkAA@mail.gmail.com>
-From:   Joel Fernandes <joel@joelfernandes.org>
-Date:   Thu, 18 Aug 2022 14:55:47 -0400
-Message-ID: <CAEXW_YTJGbGWZkmCndVqXaM=N_6ZuvmcxDrcgTaHjCEMyvXeuQ@mail.gmail.com>
-Subject: Re: [PATCH v14 4/4] Documentation: trace/objtrace: Add documentation
- for objtrace
-To:     Jeff Xie <xiehuan09@gmail.com>
-Cc:     Steven Rostedt <rostedt@goodmis.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Tom Zanussi <zanussi@kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>, chensong_2000@189.cn,
-        Jonathan Corbet <corbet@lwn.net>,
-        Bagas Sanjaya <bagasdotme@gmail.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.1.2
+From:   =?UTF-8?Q?Martin_Li=c5=a1ka?= <mliska@suse.cz>
+Subject: [PATCH v3] docs/arm64: elf_hwcaps: unify newlines in HWCAP lists
+To:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Cc:     broonie@kernel.org, corbet@lwn.net,
+        linux-arm-kernel@lists.infradead.org
+References: <Yv50RxlDf0qpK9v8@sirena.org.uk>
+Content-Language: en-US
+In-Reply-To: <Yv50RxlDf0qpK9v8@sirena.org.uk>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Aug 18, 2022 at 1:34 PM Jeff Xie <xiehuan09@gmail.com> wrote:
->
-> Hi Joel,
->
-> On Fri, Aug 19, 2022 at 1:05 AM Joel Fernandes <joel@joelfernandes.org> wrote:
-> >
-> > On Thu, Aug 18, 2022 at 12:38 PM Jeff Xie <xiehuan09@gmail.com> wrote:
-> > >
-> > > Hi Joel,
-> > >
-> > > Thank you for your review.
-> > >
-> > > On Thu, Aug 18, 2022 at 11:53 PM Joel Fernandes <joel@joelfernandes.org> wrote:
-> > > >
-> > > > On Tue, Jun 28, 2022 at 10:55:52PM +0800, Jeff Xie wrote:
-> > > > > Add documentation explaining how to use objtrace trigger to get the value
-> > > > > of the object.
-> > > > >
-> > > > > Cc: Jonathan Corbet <corbet@lwn.net>
-> > > > > Cc: Bagas Sanjaya <bagasdotme@gmail.com>
-> > > > > Cc: linux-doc@vger.kernel.org
-> > > > > Signed-off-by: Jeff Xie <xiehuan09@gmail.com>
-> > > > > Reviewed-by: Masami Hiramatsu (Google) <mhiramat@kernel.org>
-> > > > > ---
-> > > > > Changelog:
-> > > > > v14:
-> > > > > - make documentation more readable and fix literal code block by Bagas Sanjaya
-> > > > >
-> > > > >  Documentation/trace/events.rst | 87 ++++++++++++++++++++++++++++++++++
-> > > > >  1 file changed, 87 insertions(+)
-> > > > >
-> > > > > diff --git a/Documentation/trace/events.rst b/Documentation/trace/events.rst
-> > > > > index c47f381d0c00..c15f1d25d4a0 100644
-> > > > > --- a/Documentation/trace/events.rst
-> > > > > +++ b/Documentation/trace/events.rst
-> > > > > @@ -546,6 +546,93 @@ The following commands are supported:
-> > > > >
-> > > > >    See Documentation/trace/histogram.rst for details and examples.
-> > > > >
-> > > > > +- objtrace
-> > > > > +
-> > > > > +  This command provides a way to get the value of any object, The object
-> > > > > +  can be obtained from the dynamic event (kprobe_event/uprobe_event) or the
-> > > > > +  static event (tracepoint).
-> > > > > +
-> > > > > +  Usage:
-> > > > > +  When using the kprobe event, by only need to set the objtrace (a new
-> > > > > +  trigger), we can get the value of object that is set by kprobe event.
-> > > > > +
-> > > > > +  For example, for the function bio_add_page():
-> > > > > +
-> > > > > +  .. code-block:: c
-> > > > > +
-> > > > > +     int bio_add_page(struct bio *bio, struct page *page,
-> > > > > +                   unsigned int len, unsigned int offset)
-> > > > > +
-> > > > > +  Firstly, we can set the base of the object as first parameter (arg1) to
-> > > > > +  to the function:
-> > > > > +
-> > > > > +  .. code-block::
-> > > > > +
-> > > > > +     # echo 'p bio_add_page arg1=$arg1' > ./kprobe_events
-> > > > > +
-> > > > > +  Secondly, we can get the value dynamically based on the object:
-> > > > > +
-> > > > > +  .. code-block::
-> > > > > +
-> > > > > +     find the offset of the bi_size in struct bio:
-> > > > > +     $ gdb vmlinux
-> > > > > +     (gdb) p &(((struct bio *)0)->bi_iter.bi_size)
-> > > > > +     $1 = (unsigned int *) 0x28
-> > > > > +
-> > > > > +     # echo 'objtrace:add:arg1,0x28:u32:1 if comm == "cat"' > ./events/kprobes/ \
-> > > > > +       p_bio_add_page_0/trigger
-> > > > > +
-> > > > > +     # cd /sys/kernel/debug/tracing/
-> > > > > +     # echo 'p bio_add_page arg1=$arg1' > ./kprobe_events
-> > > > > +     # echo 'objtrace:add:arg1,0x28:u32:1 if comm == "cat"' > ./events/kprobes/p_bio_add_page_0/trigger
-> > > >
-> > > > No offense but this documentation is not well written and hard to read.
-> > > >
-> > > > Admittedly though I am just casually browsing through, so apologies.
-> > > >
-> > > > So basically, 0x28 is the offset of the u32 within the bio, that you want to
-> > > > track down, as it passes through functions?
-> > >
-> > > Yes, Not only track the bio, but also get a value with an offset of
-> > > 0x28 relative to the bio.
-> >
-> > Right.
-> >
-> > > >
-> > > > The example is good, but I suggest breakdown each of the commands separated
-> > > > by ':' and document those as well.
-> > >
-> > > I don't know how to explain it in more detail, maybe need to be
-> > > familiar with kprobe event and trigger in advance ;-)
-> >
-> > That's not a strong argument IMO.
-> >
-> > Shouldn't it be super easy to add the following to the documentation
-> > since you already mentioned it in the commit log? Or am I missing
-> > something?
-> >
-> > Syntax:
-> >         objtrace:add:obj[,offset][:type][:count][if <filter>]
->
-> I'am so sorry, I misunderstood you, I thought it needed to be
-> explained every word like this, e.g.
-> objtrace:
->     ...
-> add:
->     ...
-> ...
->
-> Thanks,  I will add the above syntax in the next version.
->
+Unify horizontal spacing (remove extra newlines) which
+are sensitive to visual presentation by Sphinx.
 
-Yeah no problem, I am also OK with that being a follow-up patch
-instead of the series if it matches with Steven's review timing
-better.
+Fixes: 5e64b862c482 (arm64/sme: Basic enumeration support)
+Signed-off-by: Martin Liska <mliska@suse.cz>
+Reviewed-by: Mark Brown <broonie@kernel.org>
+---
+ Documentation/arm64/elf_hwcaps.rst | 10 ----------
+ 1 file changed, 10 deletions(-)
 
-Thanks,
+diff --git a/Documentation/arm64/elf_hwcaps.rst b/Documentation/arm64/elf_hwcaps.rst
+index 52b75a25c205..311021f2e560 100644
+--- a/Documentation/arm64/elf_hwcaps.rst
++++ b/Documentation/arm64/elf_hwcaps.rst
+@@ -242,44 +242,34 @@ HWCAP2_MTE3
+     by Documentation/arm64/memory-tagging-extension.rst.
+ 
+ HWCAP2_SME
+-
+     Functionality implied by ID_AA64PFR1_EL1.SME == 0b0001, as described
+     by Documentation/arm64/sme.rst.
+ 
+ HWCAP2_SME_I16I64
+-
+     Functionality implied by ID_AA64SMFR0_EL1.I16I64 == 0b1111.
+ 
+ HWCAP2_SME_F64F64
+-
+     Functionality implied by ID_AA64SMFR0_EL1.F64F64 == 0b1.
+ 
+ HWCAP2_SME_I8I32
+-
+     Functionality implied by ID_AA64SMFR0_EL1.I8I32 == 0b1111.
+ 
+ HWCAP2_SME_F16F32
+-
+     Functionality implied by ID_AA64SMFR0_EL1.F16F32 == 0b1.
+ 
+ HWCAP2_SME_B16F32
+-
+     Functionality implied by ID_AA64SMFR0_EL1.B16F32 == 0b1.
+ 
+ HWCAP2_SME_F32F32
+-
+     Functionality implied by ID_AA64SMFR0_EL1.F32F32 == 0b1.
+ 
+ HWCAP2_SME_FA64
+-
+     Functionality implied by ID_AA64SMFR0_EL1.FA64 == 0b1.
+ 
+ HWCAP2_WFXT
+-
+     Functionality implied by ID_AA64ISAR2_EL1.WFXT == 0b0010.
+ 
+ HWCAP2_EBF16
+-
+     Functionality implied by ID_AA64ISAR1_EL1.BF16 == 0b0010.
+ 
+ 4. Unused AT_HWCAP bits
+-- 
+2.37.2
 
- - Joel
