@@ -2,110 +2,98 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E1E50C00140
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Aug 2022 22:36:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 54E50C00140
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Aug 2022 22:42:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241755AbiHRWgf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 18 Aug 2022 18:36:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32974 "EHLO
+        id S238664AbiHRWmr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 18 Aug 2022 18:42:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37540 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231636AbiHRWge (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Aug 2022 18:36:34 -0400
+        with ESMTP id S245337AbiHRWmq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Aug 2022 18:42:46 -0400
 Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com [IPv6:2607:f8b0:4864:20::433])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F6EED743A;
-        Thu, 18 Aug 2022 15:36:33 -0700 (PDT)
-Received: by mail-pf1-x433.google.com with SMTP id q19so2781653pfg.8;
-        Thu, 18 Aug 2022 15:36:33 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2BC4CDC5C7;
+        Thu, 18 Aug 2022 15:42:46 -0700 (PDT)
+Received: by mail-pf1-x433.google.com with SMTP id y141so2800935pfb.7;
+        Thu, 18 Aug 2022 15:42:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc;
-        bh=ZlZOnC/qYxA1pMjp6WtByZBS31wEhSXXjVgZuTf1udc=;
-        b=M4+z6xgFbpWAO7nkNC5INGi4D2Oky49sDoMjdZ1xKGEjafCJY2RR3LQNjqAYijmZsv
-         iHZ94TIECUpuUg26iV7nHvqe4JMYPbNEnLqQfpQKQwV4KCDDrPs6tnO/ghLOBPhPVexc
-         pYu02a1t+52zhnEGRjqqu62+RrP8hqgOyOXm0C/M2FlJbuk5ek9R4NrZrTV6vActW/6S
-         P0cWdvJl/N8AMpaFGs0WYNISVLyt9DIpadoSUInHTZNCNVhW9+jOow6Vmd841bGX9ogm
-         +/Sn/Hq33S7MjGJuYsn0zKvAnAQ7jxPfvlp7yVwDeX1fZr/DcX89fjINDNxMFU11r2Zx
-         kIFQ==
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc;
+        bh=a8D5WHgBXK5ytVEsagwFdbi7hPSDRYEStMPhUzyyyaU=;
+        b=CTsoL8T1NnCFuX3UdscZX2dntKRju7VKL6f/NVcUXS46eWdjAoiPgrzSda/jLoXGOg
+         knjk4Ld3NzORIqSauJRyP1ugOako9BGTvhhwHXYH9yqqeKA5OQbBROm6bTWdBvpc+FwX
+         RvgyB0pro1CM1SRJCdTlAbbeI13Eov3A8DXA1FCGGZEGm2R81c/mOgS22d2m1kGnGKHE
+         JKsq8G9PCo0e0fAHPaj6Ek+Ja1pOqT0GGa4ShKL7Fv+CQnZYG/I7B9T0DkwGM+W/gOVO
+         po6hUEwFI4kLHKWHoLrmqsWeFgrULiOPpOGAxuHDN/6ZdwrqybKwqOuUYWS1koxIWwKZ
+         6uKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
-        bh=ZlZOnC/qYxA1pMjp6WtByZBS31wEhSXXjVgZuTf1udc=;
-        b=Rp+q74QXBD9rBwbXd0n1Teh8yWgjM6jok7+Y3XJPF5lUVSr72zccvp7bWHhwGLlhOl
-         WFN2cRaBdDbYf8TZErAcmTuTejn38eAGisxUIgAxj/yQIQ1FeWx038MwLIwf8rPSrZjk
-         D288xvZErvXV9ijATBwBmVt1OPb0mCLbTqI606PO1YcW3VQIDxvzIwBmHWZWfHms7ESV
-         SNRlgAT0OHX9ikvT3CBfzcJ7IyXNISz/aBAVWMcul+OE+RFqKzqzJ5cIRsT8DisIzcsu
-         4XMCVhsO60Ze4bDa+Oc2Vgrla11QSlEOp2cV1YFDrrYjhFM0rDYncMRxAy1UNzKXhZcR
-         pq0w==
-X-Gm-Message-State: ACgBeo2uggYm3Ro3U7fPVwBZ7P7li+bcvyYh4WfviawCOHS8Liasi4tc
-        H0OJ78axhiaISjVdYP8P8mo=
-X-Google-Smtp-Source: AA6agR72l8PkNgjUQYyXf5WJq3MwwTkbLkb7lQt3y+OHz5cG+wy/poYDbmK8CovdxDcnaWYZq8NzQQ==
-X-Received: by 2002:a63:e157:0:b0:429:c287:2b9 with SMTP id h23-20020a63e157000000b00429c28702b9mr4064652pgk.258.1660862192817;
-        Thu, 18 Aug 2022 15:36:32 -0700 (PDT)
-Received: from localhost.localdomain (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id d14-20020a170902aa8e00b00170a6722c79sm1829842plr.247.2022.08.18.15.36.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Aug 2022 15:36:31 -0700 (PDT)
-From:   Akira Yokosawa <akiyks@gmail.com>
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc;
+        bh=a8D5WHgBXK5ytVEsagwFdbi7hPSDRYEStMPhUzyyyaU=;
+        b=s9VtPSwio2m4U6Epg2HFabsB6owbFx1CLYqymBzpoxH5U72Aq0HNCW39rNT7niHQbG
+         +gwOZ6rezv7Shapn8HE2/LkrAoX/IA5392pwxY8y315347q3Nay59hw73QsWZgkokRwu
+         8DNOFYFyGDSkfflh27bcwtdeffQMTw1SZSaCpTb91JZVgHVXk5gLJhV+0GcK/yTu5U4D
+         y/CzrYGjzcPineOX/AX1K50YbaE6seKcYQEA8uwVUauNyhQZbjvkAy2Dv0QoPHf3F3C6
+         DUVPP/bh+U2nb9Gf8e/8bHcFtFVhezLNC0vQ0exyb5oSe4Z8CAG07UB/gYfza7iHvCL6
+         uk+Q==
+X-Gm-Message-State: ACgBeo3n+S7EbXa+VHDuJ/xsjjWhryBZ+y+ipk6dOqeLJ80GY+4l1dRG
+        jXzxcGPKlGL9Z7cm1pycsCo=
+X-Google-Smtp-Source: AA6agR5c8xCLfRRU6JmlLD7pIEdGRpq5E4FMq9E885oq62Vm3D3iy6Et6WoKVuCl7E83+I6TmMuMgg==
+X-Received: by 2002:a05:6a00:acc:b0:530:e79e:fc27 with SMTP id c12-20020a056a000acc00b00530e79efc27mr4938970pfl.61.1660862565734;
+        Thu, 18 Aug 2022 15:42:45 -0700 (PDT)
+Received: from [192.168.11.9] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id l4-20020a622504000000b0052859441ad3sm2066582pfl.214.2022.08.18.15.42.43
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 18 Aug 2022 15:42:45 -0700 (PDT)
+Message-ID: <83347b74-5075-90ad-1f8e-575bf4cdaf50@gmail.com>
+Date:   Fri, 19 Aug 2022 07:42:41 +0900
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH] docs/ja_JP/SubmittingPatches: Remove reference to
+ submitting-drivers.rst
+Content-Language: en-US
 To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
         Akira Yokosawa <akiyks@gmail.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Tsugikazu Shibata <shibata@linuxfoundation.org>
-Subject: [PATCH RESEND] docs/ja_JP/SubmittingPatches: Remove reference to submitting-drivers.rst
-Date:   Fri, 19 Aug 2022 07:34:40 +0900
-Message-Id: <20220818223440.13530-1-akiyks@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <acaf13cd-52f0-c7c2-add0-0644cb1e77e4@gmail.com>
 References: <acaf13cd-52f0-c7c2-add0-0644cb1e77e4@gmail.com>
-MIME-Version: 1.0
+ <87edxdcwnj.fsf@meer.lwn.net>
+From:   Akira Yokosawa <akiyks@gmail.com>
+In-Reply-To: <87edxdcwnj.fsf@meer.lwn.net>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Reflect changes made in commit 9db370de2780 ("docs: process: remove
-outdated submitting-drivers.rst")
+On Thu, 18 Aug 2022 11:02:40 -0600, Jonathan Corbet wrote:
+> Akira Yokosawa <akiyks@gmail.com> writes:
+> 
+>> Reflect changes made in commit 9db370de2780 ("docs: process: remove
+>> outdated submitting-drivers.rst")
+>>
+>> Reported-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+>> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+>> Fixes: 9db370de2780 ("docs: process: remove outdated submitting-drivers.rst")
+>> Cc: Tsugikazu Shibata <shibata@linuxfoundation.org>
+> 
+> So I can't get this patch to apply; I'm not really sure what the problem
+> is.  Does it apply on your side?
 
-Reported-by: Mauro Carvalho Chehab <mchehab@kernel.org>
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
-Fixes: 9db370de2780 ("docs: process: remove outdated submitting-drivers.rst")
-Cc: Tsugikazu Shibata <shibata@linuxfoundation.org>
----
-Hi,
-
-This is a band-aide patch removing a sentence with reference to
-submitting-drivers.rst (removed during the v6.0 merge window).
-
-As the translation around here is outdated, the end result does
-not match the corresponding text in the English doc.
-
-Remaining discrepancies will be taken care of while catching
-up the other changes of the original doc.
+Looks like thunderbird used "Content-Transfer-Encoding: base64".
+Resent using "git send-email" with "Content-Transfer-Encoding: 8bit"
+Hopefully it works for you.
 
         Thanks, Akira
---
-Documentation/translations/ja_JP/SubmittingPatches | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/Documentation/translations/ja_JP/SubmittingPatches b/Documentation/translations/ja_JP/SubmittingPatches
-index 66ce0d8b0526..04deb77b20c6 100644
---- a/Documentation/translations/ja_JP/SubmittingPatches
-+++ b/Documentation/translations/ja_JP/SubmittingPatches
-@@ -35,8 +35,7 @@ Linux カーネルに変更を加えたいと思っている個人又は会社
- てもらえやすくする提案を集めたものです。
- 
- コードを投稿する前に、Documentation/process/submit-checklist.rst の項目リストに目
--を通してチェックしてください。もしあなたがドライバーを投稿しようとし
--ているなら、Documentation/process/submitting-drivers.rst にも目を通してください。
-+を通してチェックしてください。
- 
- --------------------------------------------
- セクション1 パッチの作り方と送り方
-
-base-commit: d22903e33a284d2de574ff0d89b9871bf0443b66
--- 
-2.25.1
-
+> 
+> Thanks,
+> 
+> jon
