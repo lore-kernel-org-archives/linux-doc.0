@@ -2,75 +2,191 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BFA67C3F6B0
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Aug 2022 17:32:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 73A79C00140
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Aug 2022 17:34:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344716AbiHRRcx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 18 Aug 2022 13:32:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54012 "EHLO
+        id S243967AbiHRReQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 18 Aug 2022 13:34:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57934 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344668AbiHRRcr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Aug 2022 13:32:47 -0400
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A980CB777A
-        for <linux-doc@vger.kernel.org>; Thu, 18 Aug 2022 10:32:46 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:73:8b7:7001:c8aa:b65f])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 2188B4E5;
-        Thu, 18 Aug 2022 17:32:46 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 2188B4E5
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1660843966; bh=YLJUZpTuKnFoNFa0OcBGG6uQdexffUMqwo2/fjhIvTQ=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=qRCul4PjfhetN+QKpOX5d3SScqiaHIKVyNJ5I99dN/kv/V+HJlXJ9BeRMJhLhTp8n
-         Vmdb6gckMAbVbl10w/uwCS7ssqb1wny2VRuCJFYnVKatqQ+P1ZdB4okAeZfQ6fMebt
-         fUHvsMIOmNXEcCzXJ9GL15CUMUSEu32o4LopTarasAPp0kc4MHTsgbTRPS0azIRePO
-         QttFi7ienI+84G2KA96N68/X7GVDPL8p7XXATGVEE4fYQWMngCMIYhrbmaAvA0S/Du
-         tL0wKKA7bMh21gTv7YB4txpdT6KROVyno5Z+h+WnV4eEedQnYw3uEWLcbHXIEidsEf
-         P9aOMVay9KNbQ==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Wu XiangCheng <wu.xiangcheng@linux.dev>,
-        Alex Shi <alexs@kernel.org>, Yanteng Si <siyanteng@loongson.cn>
-Cc:     Li Yang <leoyang.li@nxp.com>, linux-doc <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH 0/2] docs/zh_CN: Update two file in zh_CN/process to 5.19
-In-Reply-To: <cover.1659406843.git.bobwxc@email.cn>
-References: <cover.1659406843.git.bobwxc@email.cn>
-Date:   Thu, 18 Aug 2022 11:32:45 -0600
-Message-ID: <87fshtbgoy.fsf@meer.lwn.net>
+        with ESMTP id S243946AbiHRReO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Aug 2022 13:34:14 -0400
+Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com [IPv6:2607:f8b0:4864:20::536])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F011332EE6;
+        Thu, 18 Aug 2022 10:34:13 -0700 (PDT)
+Received: by mail-pg1-x536.google.com with SMTP id r22so1813605pgm.5;
+        Thu, 18 Aug 2022 10:34:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc;
+        bh=EqZ6197pP8t7+d5LJrKRHbl6fiBqHsAYlVBVeIDO1T4=;
+        b=R/VJtXMHVs/nPZ7S9/I14rGMoDZDXRRK7qWsNq+j8XFXPPl1qdlADlfZ7A4fbZ1e3P
+         +FyG8JmKJW3wQrAPVx4TGFfz0A/KOdiXwVcmF7w4cnLXnNgiCx1OnpWab8cYKc8Gk2hE
+         Xq+CY6zZ8mR7GFz0whJtw3UnLfpQF/7ZxdKf+PfUBBKryMZykrogr5GOedU0Ga5fmecr
+         pGy2Gpf7Wt+CJSIhR4XSeQRKr+KRnxANdNF5VCILBO3JthSSGtuF7uHHpme7Zk0ZKX8l
+         G/hYUwphUZawE8f60ZuW2O2Kg7SA8rXZXuHe+3p6fTkXapskXCjvKRqETj4k0XfFPRSi
+         zY4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=EqZ6197pP8t7+d5LJrKRHbl6fiBqHsAYlVBVeIDO1T4=;
+        b=MenmPlMOPrXMqGtw73pf/cFiR18KEbuAS+9p+naEtlp/fzBiAiPiKEQigOtI/oaoHR
+         JDicKhjRlzC4oeHSN8sry4MdmxlolCpmhknMXZgwoCdAVvm8CskwE5W9+2PIK9sHkhcl
+         puget6fhPtgVpVV+Q4CULURspE7SRWyqZlC5wbQ4CwsPKuDys639eYe084DSLyJOHvk9
+         q0z0IWUAOb3FBGM8v1QL+4plN2a/TuS6C7o/FcvSt1eNcEDl9c5MJwlmUxcqOXgHtKEa
+         Sw6NrkInguLnuSXrpt1Z1qDMbFjMllrnpVaL2F5lg/K7NjEeGZUOOYNslWm3K4HzlmRP
+         OM3w==
+X-Gm-Message-State: ACgBeo19kOLwEeZDtQQ8HtnPN2Dbkbbj2J/oV9Q5VHWi2+gpobjs8xeE
+        Gn7lfY//F0g9ysW9eLdkQS8hLoWZ53YGjg7xuns=
+X-Google-Smtp-Source: AA6agR4sfHGkNf4UvGajjR+GAmdoEDJ7CaNpiD5LP+fJ2n7229JDGe2UnIKBNlq5GdMGyRHlUvEIsGYUFzB05SOTd+A=
+X-Received: by 2002:a63:87c3:0:b0:429:fa0d:c954 with SMTP id
+ i186-20020a6387c3000000b00429fa0dc954mr3287390pge.96.1660844053530; Thu, 18
+ Aug 2022 10:34:13 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20220628145552.349839-1-xiehuan09@gmail.com> <20220628145552.349839-5-xiehuan09@gmail.com>
+ <Yv5gkKnufS7CUq9A@google.com> <CAEr6+ED7UovW1BbrK4s5tCRrTrfkESpa4m3VO4a4PBAY9nK_JA@mail.gmail.com>
+ <CAEXW_YQAFVJRe9mUnR1HAXvYDiQ3jCwrKhO52t8O=bxb_qSCzQ@mail.gmail.com>
+In-Reply-To: <CAEXW_YQAFVJRe9mUnR1HAXvYDiQ3jCwrKhO52t8O=bxb_qSCzQ@mail.gmail.com>
+From:   Jeff Xie <xiehuan09@gmail.com>
+Date:   Fri, 19 Aug 2022 01:34:01 +0800
+Message-ID: <CAEr6+EBC3MfqGZQ8zqLhr6P1VFkU2Hs9JsM-mqGBXWKLcAXkAA@mail.gmail.com>
+Subject: Re: [PATCH v14 4/4] Documentation: trace/objtrace: Add documentation
+ for objtrace
+To:     Joel Fernandes <joel@joelfernandes.org>
+Cc:     Steven Rostedt <rostedt@goodmis.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Tom Zanussi <zanussi@kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>, chensong_2000@189.cn,
+        Jonathan Corbet <corbet@lwn.net>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Wu XiangCheng <wu.xiangcheng@linux.dev> writes:
+Hi Joel,
 
-> Hi all,
+On Fri, Aug 19, 2022 at 1:05 AM Joel Fernandes <joel@joelfernandes.org> wrote:
 >
-> This set of patches aims to
+> On Thu, Aug 18, 2022 at 12:38 PM Jeff Xie <xiehuan09@gmail.com> wrote:
+> >
+> > Hi Joel,
+> >
+> > Thank you for your review.
+> >
+> > On Thu, Aug 18, 2022 at 11:53 PM Joel Fernandes <joel@joelfernandes.org> wrote:
+> > >
+> > > On Tue, Jun 28, 2022 at 10:55:52PM +0800, Jeff Xie wrote:
+> > > > Add documentation explaining how to use objtrace trigger to get the value
+> > > > of the object.
+> > > >
+> > > > Cc: Jonathan Corbet <corbet@lwn.net>
+> > > > Cc: Bagas Sanjaya <bagasdotme@gmail.com>
+> > > > Cc: linux-doc@vger.kernel.org
+> > > > Signed-off-by: Jeff Xie <xiehuan09@gmail.com>
+> > > > Reviewed-by: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+> > > > ---
+> > > > Changelog:
+> > > > v14:
+> > > > - make documentation more readable and fix literal code block by Bagas Sanjaya
+> > > >
+> > > >  Documentation/trace/events.rst | 87 ++++++++++++++++++++++++++++++++++
+> > > >  1 file changed, 87 insertions(+)
+> > > >
+> > > > diff --git a/Documentation/trace/events.rst b/Documentation/trace/events.rst
+> > > > index c47f381d0c00..c15f1d25d4a0 100644
+> > > > --- a/Documentation/trace/events.rst
+> > > > +++ b/Documentation/trace/events.rst
+> > > > @@ -546,6 +546,93 @@ The following commands are supported:
+> > > >
+> > > >    See Documentation/trace/histogram.rst for details and examples.
+> > > >
+> > > > +- objtrace
+> > > > +
+> > > > +  This command provides a way to get the value of any object, The object
+> > > > +  can be obtained from the dynamic event (kprobe_event/uprobe_event) or the
+> > > > +  static event (tracepoint).
+> > > > +
+> > > > +  Usage:
+> > > > +  When using the kprobe event, by only need to set the objtrace (a new
+> > > > +  trigger), we can get the value of object that is set by kprobe event.
+> > > > +
+> > > > +  For example, for the function bio_add_page():
+> > > > +
+> > > > +  .. code-block:: c
+> > > > +
+> > > > +     int bio_add_page(struct bio *bio, struct page *page,
+> > > > +                   unsigned int len, unsigned int offset)
+> > > > +
+> > > > +  Firstly, we can set the base of the object as first parameter (arg1) to
+> > > > +  to the function:
+> > > > +
+> > > > +  .. code-block::
+> > > > +
+> > > > +     # echo 'p bio_add_page arg1=$arg1' > ./kprobe_events
+> > > > +
+> > > > +  Secondly, we can get the value dynamically based on the object:
+> > > > +
+> > > > +  .. code-block::
+> > > > +
+> > > > +     find the offset of the bi_size in struct bio:
+> > > > +     $ gdb vmlinux
+> > > > +     (gdb) p &(((struct bio *)0)->bi_iter.bi_size)
+> > > > +     $1 = (unsigned int *) 0x28
+> > > > +
+> > > > +     # echo 'objtrace:add:arg1,0x28:u32:1 if comm == "cat"' > ./events/kprobes/ \
+> > > > +       p_bio_add_page_0/trigger
+> > > > +
+> > > > +     # cd /sys/kernel/debug/tracing/
+> > > > +     # echo 'p bio_add_page arg1=$arg1' > ./kprobe_events
+> > > > +     # echo 'objtrace:add:arg1,0x28:u32:1 if comm == "cat"' > ./events/kprobes/p_bio_add_page_0/trigger
+> > >
+> > > No offense but this documentation is not well written and hard to read.
+> > >
+> > > Admittedly though I am just casually browsing through, so apologies.
+> > >
+> > > So basically, 0x28 is the offset of the u32 within the bio, that you want to
+> > > track down, as it passes through functions?
+> >
+> > Yes, Not only track the bio, but also get a value with an offset of
+> > 0x28 relative to the bio.
 >
->     * Update zh_CN/process/email-clients.rst to 5.19
->     * Update zh_CN/process/submitting-patches.rst to 5.19
+> Right.
 >
-> Also deep clean these two files. I highly recommend to use a word-by-word
-> diff viewer like VS Code or Emacs to read such big diff files.
+> > >
+> > > The example is good, but I suggest breakdown each of the commands separated
+> > > by ':' and document those as well.
+> >
+> > I don't know how to explain it in more detail, maybe need to be
+> > familiar with kprobe event and trigger in advance ;-)
 >
-> Note:
+> That's not a strong argument IMO.
 >
->     Due to the special content of PATCH 2/2, checkpatch.pl will give a
->     lot of warnings and errors, all be fine.
+> Shouldn't it be super easy to add the following to the documentation
+> since you already mentioned it in the commit log? Or am I missing
+> something?
 >
-> Thanks!
->
-> Wu XiangCheng (2):
->   docs/zh_CN: Update zh_CN/process/email-clients.rst to 5.19
->   docs/zh_CN: Update zh_CN/process/submitting-patches.rst to 5.19
->
->  .../zh_CN/process/email-clients.rst           | 263 ++++---
->  .../zh_CN/process/submitting-patches.rst      | 701 +++++++++---------
->  2 files changed, 518 insertions(+), 446 deletions(-)
+> Syntax:
+>         objtrace:add:obj[,offset][:type][:count][if <filter>]
 
-Set applied, thanks.
+I'am so sorry, I misunderstood you, I thought it needed to be
+explained every word like this, e.g.
+objtrace:
+    ...
+add:
+    ...
+...
 
-jon
+Thanks,  I will add the above syntax in the next version.
+
+> Thanks,
+>
+> - Joel
+
+-- 
+Thanks,
+JeffXie
