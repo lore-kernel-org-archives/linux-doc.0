@@ -2,138 +2,74 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 794A6C3F6B0
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Aug 2022 00:20:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A3E9EC25B08
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Aug 2022 02:01:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239646AbiHRAUy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 17 Aug 2022 20:20:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42228 "EHLO
+        id S231268AbiHRCA7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 17 Aug 2022 22:00:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43658 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231510AbiHRAUw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 17 Aug 2022 20:20:52 -0400
-X-Greylist: delayed 1199 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 17 Aug 2022 17:20:51 PDT
-Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com [66.111.4.221])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E03BEA1D11;
-        Wed, 17 Aug 2022 17:20:51 -0700 (PDT)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-        by mailnew.nyi.internal (Postfix) with ESMTP id 7B68B580556;
-        Wed, 17 Aug 2022 19:41:25 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute2.internal (MEProxy); Wed, 17 Aug 2022 19:41:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shutemov.name;
-         h=cc:cc:content-type:date:date:from:from:in-reply-to
-        :in-reply-to:message-id:mime-version:references:reply-to:sender
-        :subject:subject:to:to; s=fm2; t=1660779685; x=1660786885; bh=NI
-        aAYd9poCwuCaReO0KiItjGT5b3278AiQgPlMaoGH8=; b=PuKLpG0lACFDSWgEO8
-        rwPWX4M0HQpSuEdYRtGzQptcaolkieS2EgsFIwpoZyncFWpZckNeFIzIIYOqO8zc
-        9BpZgvlyinTevkQRn/C/ka6JMZsh8Ts9cHQWdeYq9ybnuk1SQZpubaUGZQB9t1lM
-        qk4rSx6j+tUOfRKOd3g94hTTtthwjyy2FqigUkFALmNMXV3xaGruqjoeP5+34xuk
-        J1Cinr4a4qem9KNGhx+lzwXQAr8UJisToeNsfhj8HLQwy0xeOfa5U42VQCIa7k9W
-        qZ8iK9otGm9LKKwttomxp7Dv3pSQF6Et1ZTaIBSz7M8flKM1wmlzQBaAB4PFaBIk
-        k9IQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
-        :mime-version:references:reply-to:sender:subject:subject:to:to
-        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm1; t=1660779685; x=1660786885; bh=NIaAYd9poCwuCaReO0KiItjGT5b3
-        278AiQgPlMaoGH8=; b=WGuGDaggU/a6pga7pL9w3WYTfRF/tux3G1kX0A3mQjNG
-        OC+VxEFGbO+smOA+p7iGMZ3GoMIsMcaWl3/NDeaFMGDz77QMAzUSQkUiUmCGJkRW
-        xHDUodL0TH5AF7G//emEtkunMR0IZ4l2d7XmME00+CIEmSs0g9HkS3qnHI4slsRN
-        HLEINl4PWiLW8DvpQUTe/0aF8/PdVhKDH0qkmMtKQaNXy1O+iZNm5MWAKX+BYowx
-        KuXbnGKaeKu5x2AZgYGthwUdYmgJrzE5cQQyW5v4ZXRMkJgZP9HwjqtkEwDmOL4I
-        VHlt+Z4I/oeTtr+VVKyUXBqBYFKb61xw+pnbo22rNA==
-X-ME-Sender: <xms:pHz9YkXNQXrutmOXLT8qKC8bAkDrafNZwTbHHUvk4uGruAWRz8lSXw>
-    <xme:pHz9YomAAobQndykgGisfSvrEaUbnwRxPnhjaRnRKcy7rwe8iA--U-9p8AJVY1ht3
-    CHYDQX82TnQfowOqrY>
-X-ME-Received: <xmr:pHz9YoYoOJJ3U6PUwRm1npi6IHWY-81B3GDPi_Hh-Sh04EiF8v9DMalIOFzMmXc0odStsA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdehjedgvdehucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvfevuffkfhggtggujgesthdttddttddtvdenucfhrhhomhepfdfmihhr
-    ihhllhcutedrucfuhhhuthgvmhhovhdfuceokhhirhhilhhlsehshhhuthgvmhhovhdrnh
-    grmhgvqeenucggtffrrghtthgvrhhnpefhieeghfdtfeehtdeftdehgfehuddtvdeuheet
-    tddtheejueekjeegueeivdektdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmh
-    epmhgrihhlfhhrohhmpehkihhrihhllhesshhhuhhtvghmohhvrdhnrghmvg
-X-ME-Proxy: <xmx:pHz9YjURvYrPk7ln2G6y5jzbE1QNYYzGLgRztyxiICy4kfvUbUjaNg>
-    <xmx:pHz9Yum1Ff9XGpoiOlx7NWmi_AWkZcUFRDXkPoeuriI3uxXSxr406w>
-    <xmx:pHz9YodmYF_t-pLZ3YNAgjRYP3doKC47u2BG16XkOANkKS6FtmEg2Q>
-    <xmx:pXz9YoADMoiV4yerQswAA91U22gwFiEMHVgZT94HO2C4gO2O9zUMXQ>
-Feedback-ID: ie3994620:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 17 Aug 2022 19:41:23 -0400 (EDT)
-Received: by box.shutemov.name (Postfix, from userid 1000)
-        id E5075104A77; Thu, 18 Aug 2022 02:41:20 +0300 (+03)
-Date:   Thu, 18 Aug 2022 02:41:20 +0300
-From:   "Kirill A. Shutemov" <kirill@shutemov.name>
-To:     Paolo Bonzini <pbonzini@redhat.com>
-Cc:     David Hildenbrand <david@redhat.com>,
-        Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
-        linux-kselftest@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <seanjc@google.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, aarcange@redhat.com, ddutile@redhat.com,
-        dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        Muchun Song <songmuchun@bytedance.com>
-Subject: Re: [PATCH v7 01/14] mm: Add F_SEAL_AUTO_ALLOCATE seal to memfd
-Message-ID: <20220817234120.mw2j3cgshmuyo2vw@box.shutemov.name>
-References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
- <20220706082016.2603916-2-chao.p.peng@linux.intel.com>
- <f39c4f63-a511-4beb-b3a4-66589ddb5475@redhat.com>
- <472207cf-ff71-563b-7b66-0c7bea9ea8ad@redhat.com>
+        with ESMTP id S233588AbiHRCAz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 17 Aug 2022 22:00:55 -0400
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35840A1D7F;
+        Wed, 17 Aug 2022 19:00:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1660788055; x=1692324055;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=z9f2rdVB1vY/BpOARRMLNeVHWq/YBicr3kYm4TzriQ4=;
+  b=ZrBC6RGkjDElv8t9Y15ioKIn3oajgRL0OHLYrE8s7zv/gic7Lzi5mlOl
+   Za2LXzm8pXC0sBoGJOu7xU9eQwhlUiZYCbC0qI7csgbm2e2c4dNfdBP4I
+   8CfecRxPU+/cPSKPyMu96kZLh/SMdUQm9zR1rMvLiZEbjBKHIHmP1rt28
+   lt+/Zw932PkcF7qc9G6+cp8xn2s5Hm+sNg3aTHgobsWGJLhJdW3NA2Y9h
+   rqLpr335dhD8DtmX2BSvIJOlaHxLrrFCQUGuuTXiwRoLgPAifMYOEkqjs
+   +jsKu4B3P8YtD2khNqfiEN9Mb53f21+CkY7ksZYiVHlXVzZBa6JIFkwTV
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10442"; a="273035806"
+X-IronPort-AV: E=Sophos;i="5.93,245,1654585200"; 
+   d="scan'208";a="273035806"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2022 19:00:54 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,245,1654585200"; 
+   d="scan'208";a="696990692"
+Received: from lkp-server02.sh.intel.com (HELO 81d7e1ade3ba) ([10.239.97.151])
+  by FMSMGA003.fm.intel.com with ESMTP; 17 Aug 2022 19:00:53 -0700
+Received: from kbuild by 81d7e1ade3ba with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1oOUq5-0001bS-07;
+        Thu, 18 Aug 2022 02:00:53 +0000
+Date:   Thu, 18 Aug 2022 09:59:55 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Florian Fainelli <f.fainelli@gmail.com>
+Cc:     kbuild-all@lists.01.org, linux-kernel@vger.kernel.org,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Rob Herring <robh@kernel.org>, linux-doc@vger.kernel.org
+Subject: [krzk-mem-ctrl:for-v6.1/brcm-stb 1/3] htmldocs: Warning:
+ Documentation/devicetree/bindings/arm/bcm/brcm,brcmstb.txt references a file
+ that doesn't exist:
+ Documentation/devicetree/bindings/memory-controllers/brcm,memc.yaml
+Message-ID: <202208180941.oGoLuq8U-lkp@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <472207cf-ff71-563b-7b66-0c7bea9ea8ad@redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Aug 05, 2022 at 07:55:38PM +0200, Paolo Bonzini wrote:
-> On 7/21/22 11:44, David Hildenbrand wrote:
-> > 
-> > Also, I*think*  you can place pages via userfaultfd into shmem. Not
-> > sure if that would count "auto alloc", but it would certainly bypass
-> > fallocate().
-> 
-> Yeah, userfaultfd_register would probably have to forbid this for
-> F_SEAL_AUTO_ALLOCATE vmas.  Maybe the memfile_node can be reused for this,
-> adding a new MEMFILE_F_NO_AUTO_ALLOCATE flags?  Then userfault_register
-> would do something like memfile_node_get_flags(vma->vm_file) and check the
-> result.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/krzk/linux-mem-ctrl.git for-v6.1/brcm-stb
+head:   65991a63d02decf269e7d5334620df0dd5919762
+commit: 0da0b6bf854dcfb047fec70bbbadabb7ff0fcb3e [1/3] dt-bindings: memory-controller: Document Broadcom STB MEMC
+reproduce: make htmldocs
 
-I donno, memory allocation with userfaultfd looks pretty intentional to
-me. Why would F_SEAL_AUTO_ALLOCATE prevent it?
+If you fix the issue, kindly add following tag where applicable
+Reported-by: kernel test robot <lkp@intel.com>
 
-Maybe we would need it in the future for post-copy migration or something?
+All warnings (new ones prefixed by >>):
 
-Or existing practises around userfaultfd touch memory randomly and
-therefore incompatible with F_SEAL_AUTO_ALLOCATE intent?
-
-Note, that userfaultfd is only relevant for shared memory as it requires
-VMA which we don't have for MFD_INACCESSIBLE.
+>> Warning: Documentation/devicetree/bindings/arm/bcm/brcm,brcmstb.txt references a file that doesn't exist: Documentation/devicetree/bindings/memory-controllers/brcm,memc.yaml
 
 -- 
-  Kiryl Shutsemau / Kirill A. Shutemov
+0-DAY CI Kernel Test Service
+https://01.org/lkp
