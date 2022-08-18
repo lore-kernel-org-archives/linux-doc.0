@@ -2,119 +2,97 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DE5FBC32774
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Aug 2022 18:10:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 46260C00140
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Aug 2022 18:20:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345319AbiHRSK3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 18 Aug 2022 14:10:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45110 "EHLO
+        id S233693AbiHRSUw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 18 Aug 2022 14:20:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55852 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345357AbiHRSK1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Aug 2022 14:10:27 -0400
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E7ABC7414;
-        Thu, 18 Aug 2022 11:10:25 -0700 (PDT)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 27IFtRUT028077;
-        Thu, 18 Aug 2022 18:10:10 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=bzMSKCudT5xQQ+sG3R7xeFj5oBr01hBH/BA7ita4AoA=;
- b=aOBmIQrOxjs/1lQLtehtRTZM9AWDI/yWWp9lhZHVjTO1v11TfbeaKiD2Xt1fz9gvnawX
- 4PbwHiMzesjrkHhCCYJYlx20iSpE4H2w5AEjj/3RUzaPQ8b1U3n+24gcu0gNuLQnqJLE
- PoPM15ehzM8i3+WbcDmR6ABxTunbG2gK7fBMIcfYrKEwyXL26AQG6X/KZmKScxPyPY8c
- miBHodcVuygcPWrC34SgacATH3LCehQZ/k0ELy4nPmPW5thLHYGVwOOPNuZhlmD8hoDA
- F0BV/lh3DTX89husqp2XuFL3ZCtG8G41hGLOmD3NquyLD/AIBOichl/1KykFWwg4sYy1 SQ== 
-Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3j0w7hpugy-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 18 Aug 2022 18:10:10 +0000
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-        by NASANPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 27IIA9qn031139
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 18 Aug 2022 18:10:09 GMT
-Received: from [10.110.31.143] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Thu, 18 Aug
- 2022 11:10:08 -0700
-Message-ID: <6f97be13-e5d3-9f8b-d731-599d9d13671d@quicinc.com>
-Date:   Thu, 18 Aug 2022 11:10:07 -0700
+        with ESMTP id S231651AbiHRSUv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Aug 2022 14:20:51 -0400
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C23ACE306;
+        Thu, 18 Aug 2022 11:20:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1660846851; x=1692382851;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ULlY3fpvctgrPTNh/dIyRvXpP5N6EgQSL6XrK00sqzY=;
+  b=hvou1AxCNquka03XZa2GztBXvLyI00wmt3bCfLRd/nLeHuZWSEZtQOPc
+   XUbAuxosHHH/MVAm8RqNi/+8kv6XeGgj3A2lHJbibJzkCo1IcpeuTc2Hz
+   EIS72gwmi5LzQfw62rr/hRwuI2FtvpTrvjnvMxqPDQNQzQoppayQnwMf4
+   nQ6DHDAMJaa654orhG300XbXf3UreMxGrOv0IHLzL90KvMI7cQFm5bthH
+   iuP/amk62gqMYfqEgejNOMU3ZGjIsEGoerXeKyojzinyHfngXPfhECDYe
+   JX+MqAKXUQI9AnrKu496Ye9jIXO2irMKW8E/w7GaDOpjAQasuDOuxxW2z
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10443"; a="354573989"
+X-IronPort-AV: E=Sophos;i="5.93,247,1654585200"; 
+   d="scan'208";a="354573989"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2022 11:20:50 -0700
+X-IronPort-AV: E=Sophos;i="5.93,247,1654585200"; 
+   d="scan'208";a="558638429"
+Received: from rvmiele-mobl1.amr.corp.intel.com (HELO desk) ([10.209.23.54])
+  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Aug 2022 11:20:50 -0700
+Date:   Thu, 18 Aug 2022 11:20:48 -0700
+From:   Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
+To:     Borislav Petkov <bp@alien8.de>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, tony.luck@intel.com,
+        antonio.gomez.iglesias@linux.intel.com,
+        Daniel Sneddon <daniel.sneddon@linux.intel.com>,
+        andrew.cooper3@citrix.com, Josh Poimboeuf <jpoimboe@kernel.org>
+Subject: Re: [PATCH v2] x86/bugs: Add "unknown" reporting for MMIO Stale Data
+Message-ID: <20220818182048.lsgtc52g6va376v2@desk>
+References: <79d2455c75bdbad4e68a3843fe1c1e67826008e6.1659562129.git.pawan.kumar.gupta@linux.intel.com>
+ <Yv4PmGS98IDZ7ujH@zn.tnic>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH v2 00/11] Drivers for gunyah hypervisor
-Content-Language: en-US
-To:     Jassi Brar <jassisinghbrar@gmail.com>
-CC:     Robin Murphy <robin.murphy@arm.com>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Murali Nalajala <quic_mnalajal@quicinc.com>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
-        Carl van Schaik <quic_cvanscha@quicinc.com>,
-        Andy Gross <agross@kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        "Marc Zyngier" <maz@kernel.org>, Rob Herring <robh+dt@kernel.org>,
-        "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Will Deacon <will@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        <devicetree@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>
-References: <20220801211240.597859-1-quic_eberman@quicinc.com>
- <50230652-c1ae-4ce2-907c-9bdc6b827f8e@linaro.org>
- <62073cb8-0211-3b49-11cb-aceea6df0845@quicinc.com>
- <a71bea49-130f-61d8-2692-23ab9a8fe939@arm.com>
- <36303c20-5d30-2edd-0863-0cad804e3f8f@quicinc.com>
- <CABb+yY3MESqeZveYg5e18PWTLNcg82r4AtaRYJh-9c==mysw7w@mail.gmail.com>
-From:   Elliot Berman <quic_eberman@quicinc.com>
-In-Reply-To: <CABb+yY3MESqeZveYg5e18PWTLNcg82r4AtaRYJh-9c==mysw7w@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: oK5vP0Ye4islboBcNBNbOLFC3mlofYag
-X-Proofpoint-GUID: oK5vP0Ye4islboBcNBNbOLFC3mlofYag
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-08-18_13,2022-08-18_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 clxscore=1015
- mlxlogscore=550 suspectscore=0 spamscore=0 impostorscore=0 adultscore=0
- malwarescore=0 bulkscore=0 lowpriorityscore=0 priorityscore=1501
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2207270000 definitions=main-2208180065
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Yv4PmGS98IDZ7ujH@zn.tnic>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-
-On 8/9/2022 9:12 PM, Jassi Brar wrote:
-> On Tue, Aug 9, 2022 at 7:07 PM Elliot Berman <quic_eberman@quicinc.com> wrote:
+On Thu, Aug 18, 2022 at 12:08:24PM +0200, Borislav Petkov wrote:
+> On Wed, Aug 03, 2022 at 02:41:32PM -0700, Pawan Gupta wrote:
+> > diff --git a/arch/x86/kernel/cpu/bugs.c b/arch/x86/kernel/cpu/bugs.c
+> > index 6761668100b9..fe3f7e762b80 100644
+> > --- a/arch/x86/kernel/cpu/bugs.c
+> > +++ b/arch/x86/kernel/cpu/bugs.c
+> > @@ -433,7 +433,8 @@ static void __init mmio_select_mitigation(void)
+> >  	u64 ia32_cap;
+> >  
+> >  	if (!boot_cpu_has_bug(X86_BUG_MMIO_STALE_DATA) ||
+> > -	    cpu_mitigations_off()) {
+> > +	     boot_cpu_has_bug(X86_BUG_MMIO_UNKNOWN) ||
+> > +	     cpu_mitigations_off()) {
+> >  		mmio_mitigation = MMIO_MITIGATION_OFF;
+> >  		return;
+> >  	}
 > 
-> I haven't read the complete history of Gunyah yet, but from a quick
-> look it uses the hvc/smc instruction as the "physical link" between
-> entities (?).    zynqmp-ipi-mailbox.c is one driver that uses smc in
-> such a manner. And I know there are some platforms that don't call
-> hvc/smc under mailbox api and I don't blame them.
+> Needs also:
 > 
-> Let me educate myself with the background and get back.... unless you
-> want to summarize a usecase that you doubt is supported.
+> diff --git a/arch/x86/kernel/cpu/bugs.c b/arch/x86/kernel/cpu/bugs.c
+> index d08c5589fa59..da7c361f47e0 100644
+> --- a/arch/x86/kernel/cpu/bugs.c
+> +++ b/arch/x86/kernel/cpu/bugs.c
+> @@ -539,6 +539,8 @@ static void __init md_clear_update_mitigation(void)
+>  		pr_info("TAA: %s\n", taa_strings[taa_mitigation]);
+>  	if (boot_cpu_has_bug(X86_BUG_MMIO_STALE_DATA))
+>  		pr_info("MMIO Stale Data: %s\n", mmio_strings[mmio_mitigation]);
+> +	else if (boot_cpu_has_bug(X86_BUG_MMIO_UNKNOWN))
+> +		pr_info("MMIO Stale Data: Unknown: No mitigations\n");
+>  }
+>  
+>  static void __init md_clear_select_mitigation(void)
 > 
+> I've added it.
 
-Hi Jassi,
-
-Did you have chance to evaluate? I have given a summary in this mail, 
-especially the last paragraph:
-
-https://lore.kernel.org/all/36303c20-5d30-2edd-0863-0cad804e3f8f@quicinc.com/
-
-
-Thanks,
-Elliot
+Thanks
