@@ -2,221 +2,362 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A8C7C00140
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Aug 2022 16:38:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DF809C00140
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Aug 2022 16:44:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244557AbiHRQiP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 18 Aug 2022 12:38:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52908 "EHLO
+        id S243823AbiHRQoI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 18 Aug 2022 12:44:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34848 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343766AbiHRQiO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Aug 2022 12:38:14 -0400
-Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com [IPv6:2607:f8b0:4864:20::533])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C322C2667;
-        Thu, 18 Aug 2022 09:38:12 -0700 (PDT)
-Received: by mail-pg1-x533.google.com with SMTP id 73so1687285pgb.9;
-        Thu, 18 Aug 2022 09:38:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc;
-        bh=mGi68k3/ZOueNJIfhs8LYeTo62YasiY5TTeVFTAH3Ho=;
-        b=mCc4T86k8linRDzEa+vA98jNwF59uiu36VyZqefG36cp4xpU/A5ez8D74FQoLaRyjC
-         wh1WNASqhPQkUUiSkAQ0VP8wpsjZDihbAzx8ZWNi00fZ2SYOMA4FhaPVX3A/rarBv84m
-         76R0i7PB2q/RJafeE1EDDpFkVDWAI1Seb+Vr26eP4sXDD5LCMCWBHuexY7rBMc+uvudg
-         6dosbMzbR9qsFI9Zp1oPXyQKcNk2GLf6s2Ubsi1UdZS8odKNsyOIwTMg5M+5LzNy87JY
-         MHIvirnUrNzKhBnoPlW7p2l0nGpMX5IDoYzXnbVJfhEAPMTHZitulBIrcFQXF8vtHCgk
-         BfUg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc;
-        bh=mGi68k3/ZOueNJIfhs8LYeTo62YasiY5TTeVFTAH3Ho=;
-        b=mDDEU3/flmdIoaoLwAzxWXGmq9hxvRc4YSPzyzvE9xEAyw0l2YnIl7RGgkheHsEx0C
-         NtRYnkPgktFxjBVWUYTqFyitfedNFtutjM6XfyhRNCxNzDF5uuBIxYBsN57K3jREsZQG
-         XxpeXcmFFCBToG7Imt9JqL5KhZnvmGumDcJ4PS77Jf0kiNQsFnzlAdtJGN23izjw3W+3
-         7ida2esDmP5rVlREvVRs45rypnAiz2wjAszZL1BrYrcZ2L5RS9NkFufYR8CbaVkD4Rcu
-         45SqVBouXU50J1iHs0ExpQpWcGSLZejOXGMe7hGwJmr0aCcnJgCd8qF/njnnBtcTSGw9
-         DT8Q==
-X-Gm-Message-State: ACgBeo0RHyTn6Ue9GIS96aXgFbV7cx5+hAAXgjI1Bxpx7suLHwa3gJoE
-        mSFTgjGVd8nN5L0PGXCeExZhl6zV8EduYUX2RBQ=
-X-Google-Smtp-Source: AA6agR5xt5D7tCcbDxlnYYQRWeTaY/NKbs35GKoLcvnlyO0FMvsAd08M5tEPXwnKDfL1TkpQMZ8Iwfk6elr6lUquICg=
-X-Received: by 2002:a63:87c3:0:b0:429:fa0d:c954 with SMTP id
- i186-20020a6387c3000000b00429fa0dc954mr3136756pge.96.1660840692293; Thu, 18
- Aug 2022 09:38:12 -0700 (PDT)
+        with ESMTP id S1344908AbiHRQoE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Aug 2022 12:44:04 -0400
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2041.outbound.protection.outlook.com [40.107.236.41])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B362E82FBA;
+        Thu, 18 Aug 2022 09:44:02 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=oSKYrTlqw0hiAqg3FjFLVka5wrkH46qEBAwUHxm1EgRw8Rd13w/J9Fyys0/7clpuDZCrritW0rlDP+YRVmJo+dDrlvs1zkWLHZPD5w29dpzLoQVKnZtgZ/zmMiZUoEVM4mNx9WjqfxzIN90GD/fQYQh8sP9ubbQlbYlq7zxL19VnZqkfMo5FLpaNWCdEnkKGcY+h9gWK5Y2OGSWbZW3Brn4d/f9XR4TtMqB2mpsD0bGtohFoCWaASuhqYS4M1M1jfgA1lS3c2VINC39aOCxMebjSV0/w+zvG1hBzg4QBDsI37uKF8HMHfBNLrgdsWXXe9ZCP2VG9w1fiTvzzbDr9MA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=FLoPba+hmi2COSchEWTHIb4EuzpA/AFnG2OUEAIeIYY=;
+ b=YxpBhiAzkA4P9l5VLU4Zk+xcOgPvta6A/vwT5PEmko3B0w3vHEUXkbNd5I4bJnq4NGsXSg6SHz1l83GZFKrKVgcjVrSJxdQlFwmneC6/KggsdwHjyRpKAJCKcdjtkmkcaRjVn3sac4Tf7h0DS4XRDWZyn8WKbPxJiYEER3ssJOkgJnWVi7MsOL0zkJHjfmAHklfHADF+mm/6sfPix7/5+fDVUufXvymGswp+lQijK23aSpvJl2+m0AOxARelT+/IgI61tuIaOdMgCR0knfz0UvlqUF/iDuyxcI2ffocGW0/Qd0KhrQK+Dy3PLfAORQqRKjS9FoEj5KtYljURGYEogw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=FLoPba+hmi2COSchEWTHIb4EuzpA/AFnG2OUEAIeIYY=;
+ b=lDHZW51TDtuR6AX/xnCR8FkNFo2A+kZ7+X/NC4WFAL1I/18FIhPu2RiZ05d2OaZCjxJx/T/a591O0kNgnSAEagqOQSO4KSr0W+eOLYBbK1k3UXTQIxkRuis2Q9ctWTHB/tdkY9cztTw4cg9b49+aapKqlKFb+ZcAQAsmFRy27EehKIWXsYhK0x5laEeMTWb7aquKLGjOuzkXt6vUg98MAvIN0DzMy86pQfzjTnaj6DYjDDBI95dqsI0cp9uRPqVwBqF2wOETwGUV80+X7IZK6hL3b5P4rjsn7XtDosGqVAMd1dpqYXyDtYTOOsc1lIPPu1Lj4AXKE52f8TEjTrSnEw==
+Received: from PH0PR12MB5481.namprd12.prod.outlook.com (2603:10b6:510:d4::15)
+ by CH2PR12MB4293.namprd12.prod.outlook.com (2603:10b6:610:7e::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5525.19; Thu, 18 Aug
+ 2022 16:44:00 +0000
+Received: from PH0PR12MB5481.namprd12.prod.outlook.com
+ ([fe80::957c:a0c7:9353:411e]) by PH0PR12MB5481.namprd12.prod.outlook.com
+ ([fe80::957c:a0c7:9353:411e%5]) with mapi id 15.20.5525.019; Thu, 18 Aug 2022
+ 16:44:00 +0000
+From:   Parav Pandit <parav@nvidia.com>
+To:     "ecree@xilinx.com" <ecree@xilinx.com>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "linux-net-drivers@amd.com" <linux-net-drivers@amd.com>
+CC:     "davem@davemloft.net" <davem@davemloft.net>,
+        "kuba@kernel.org" <kuba@kernel.org>,
+        "pabeni@redhat.com" <pabeni@redhat.com>,
+        "edumazet@google.com" <edumazet@google.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "jacob.e.keller@intel.com" <jacob.e.keller@intel.com>,
+        "jesse.brandeburg@intel.com" <jesse.brandeburg@intel.com>,
+        "michael.chan@broadcom.com" <michael.chan@broadcom.com>,
+        "andy@greyhouse.net" <andy@greyhouse.net>,
+        "saeed@kernel.org" <saeed@kernel.org>,
+        "jiri@resnulli.us" <jiri@resnulli.us>,
+        "snelson@pensando.io" <snelson@pensando.io>,
+        "simon.horman@corigine.com" <simon.horman@corigine.com>,
+        "alexander.duyck@gmail.com" <alexander.duyck@gmail.com>,
+        "rdunlap@infradead.org" <rdunlap@infradead.org>,
+        Edward Cree <ecree.xilinx@gmail.com>,
+        Parav Pandit <parav@nvidia.com>
+Subject: RE: [RFC PATCH v2 net-next] docs: net: add an explanation of VF (and
+ other) Representors
+Thread-Topic: [RFC PATCH v2 net-next] docs: net: add an explanation of VF (and
+ other) Representors
+Thread-Index: AQHYsLKxC8Bzg8j1w0iCXIgeBDjl+620zG5A
+Date:   Thu, 18 Aug 2022 16:44:00 +0000
+Message-ID: <PH0PR12MB5481AD558AD7A17928D78081DC6D9@PH0PR12MB5481.namprd12.prod.outlook.com>
+References: <20220815142251.8909-1-ecree@xilinx.com>
+In-Reply-To: <20220815142251.8909-1-ecree@xilinx.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: c1a3f923-bd07-4f2e-b6d4-08da8138da27
+x-ms-traffictypediagnostic: CH2PR12MB4293:EE_
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: IeK/pi7hxFrvJdFa+Y4F6eyPNqlMZVFT0XmXI7t8vc3LX9xf94XspHAGl4kNMV2pbDv3h7xWqDH7j4EmSVJr/uSJ/ciW0kcSEARHhAen3gpI9LWHT5HsrTVZT8AFXX9Bl6S292aXBACy1NQW9XIsF7+OXvKVUopyrZfjsoncJ1n70VHVeBjnDgKKDkES32VUOSNkyZUNXRhAUzsF2S6f61tDbgR0GcYwjnzAyAN3e01HUlJAcW3D+epVE2c8jMGedVeRHP9D9aLfnuGgS/5PofssxDU1OC6YJMn3A5Mogxy6P0Gvh2cIUMegL0/8UOgUTg3PxfQYl5T0JXvSM9IwWxwZ6uJoZ8hRuIb0/1P1HdJPPoPLPYX9IR1bYfHQiti0psvnubRrSiHJupmfLVNczDb+Q9CE1NukJ0x64LIXmrzRLhY9xphoOzgWUVF3Sv4V69IVBJjDoxOZek1YaJmVlAaZZHe0lxeaBbii6+DtZWnZyIifbVFRgfkCgc1sBaqxagmJIxZAlV0U6NogDspsKJ3G2HmNBdf/CDc67Psxv+4cJ4txKmZDCKo9Z+j6JWlMeWu3O9ank413V2v+fusHOjvWcKt9DIDDH7MEz2h9KnJaQ9bEERJfpGY7Se5abestFcBcq5hmjrgiSxZcr2Ju0ROX7SozA/NB6hLtDZNqrg6CS/NXCBUW9x/1VgyXmlrmF/upLAgMooJT/QNNkOCm0YUo2o0gcwlbqAQc3ZR2q3Ter8IHCDrVhqNHKVAa+xW+0r6hcZdH/IAlipCf5PTvPGb6Fa5etS+0WCg1db+QlbWXBzLPLIkB1jOOGHPMNOQJdagrJY71a7Lpbb/jpYTplOr/+bVa2LpDlREmHTbfgk8=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR12MB5481.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(366004)(346002)(39860400002)(136003)(396003)(376002)(2906002)(41300700001)(478600001)(76116006)(7416002)(66946007)(66476007)(4326008)(55016003)(64756008)(66556008)(110136005)(966005)(8676002)(86362001)(71200400001)(66446008)(33656002)(316002)(26005)(107886003)(9686003)(6506007)(54906003)(7696005)(38100700002)(83380400001)(38070700005)(52536014)(5660300002)(122000001)(8936002)(186003);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?4cOvFmlMpd3dgpauElwzy038TLpuIMb4pjKvg26VMtu9DeJGX6MjnLpvCa/P?=
+ =?us-ascii?Q?Qb4ZR8jd8Fd9xDBhgBx2OafzbvpEXOF4aLiDcuNwkNIMqXT8PvuzYNtj5zkQ?=
+ =?us-ascii?Q?65q8XLfPQ5HTJRrUgtJgciscvbiSGDVtMkKn8HM2atGlb1BcyjPqmvlGPIyB?=
+ =?us-ascii?Q?zVVPi1yISglnHEjlCeJCkOtli+8ueTK2DRdBKCsau9zLYwzN+aJkh6mjkXuu?=
+ =?us-ascii?Q?jmjm4GofVl+3nw0v2Ir0RlU9MQp7c5VbxEtWXe9x3WqGWB9MFIhNIG3wzyjB?=
+ =?us-ascii?Q?YGhUgBhpAf/6gOAdz9IizSCxmwYQJDFHyhJR6J4rfuI67i2pEcJ84oJzdCQ+?=
+ =?us-ascii?Q?djnE1nZBb730RZTTN2FgPZPwAP93H4nN1M2jvhLBpycNweuhwjaBei3v5uoc?=
+ =?us-ascii?Q?ePRKkUf6REG46pevkq76LJWu31lgvDoGjk96rqos59gO+5/PE1zX6tMQ36BH?=
+ =?us-ascii?Q?gpQy0s3Lvf5QNymcV/Cp5NWSRpiMmagF0Lc4263u3SkoL6HNyimhv+/ObhM5?=
+ =?us-ascii?Q?8A4LiMkLCs8Qx8O1nt00+dQrL4fFfnQl2XnavbtVfb5LO1yM/CUi3dzGHgUT?=
+ =?us-ascii?Q?2lCGe2qUhcDPbeBBsPiKycjxZQFkluFU3XMYpPvyHkF4C4F1Fhc+VLa35mkb?=
+ =?us-ascii?Q?8ZKiauSdvt7Oks2+uDKkrOYowyzegoln2xngxDlgJ2fcImMbGuMV1ILw9B7Z?=
+ =?us-ascii?Q?7tEofNHfKJyjZ7kxAKqCGCFBm6/JaYiDCBXAFMsogyBKRx+chVvbzLzrynhB?=
+ =?us-ascii?Q?q6A8RfNfnlTr21uG2+c2LaXesvXaRf6OroMP3nnmfvGY3mppCbM/PG95Chw6?=
+ =?us-ascii?Q?pW+vonwjk7j2YnspihNqJrWdhZWh4uOG0010qx0YyqY2WHDdGYrm4ARVtfR7?=
+ =?us-ascii?Q?mOHQzTqEEmYscDBe3jTSsatpOOogEFDhNbzDL+NCGBYXtU1Oik3QwgQEei7N?=
+ =?us-ascii?Q?b8MX2xq2kMiXDi8f7aS1NWJwx7rFrX3eeXTHNheDf8rgylKJJIOqDWyqXsaf?=
+ =?us-ascii?Q?9qyIMhxxQ6QnLg9iE9Yz+BuCjbztOSDMm6w0B65Taki3pTrkbLi00NBFWTiU?=
+ =?us-ascii?Q?bLq3TnVqz5B9T3cNbXvIJyHJbUPSC6UWXkuOOOgS1fYST15Ou4GcDQNhpnou?=
+ =?us-ascii?Q?boNdPdMMXxywhWBoxU+d3ZHJ1s0CR+3eXWp6QAKPo5/rYUCmuHjA8pVgmKab?=
+ =?us-ascii?Q?TfSM/pD6yTi350QiYUBAphyRzRsjC90CRoe9LbzcYFhA4gkQf+DbmKgbJnEz?=
+ =?us-ascii?Q?ThIqvGPqmYQuGqcdyTfXWBWDiNPPqgKzIyHgm19GTzo0Mmw/uIvUoeNyZDkf?=
+ =?us-ascii?Q?TapK90+5AKIf39b4fzDxoM7YmD2lpdbFONwIlmd9l1SlX3hzU0bTp9CqjsZv?=
+ =?us-ascii?Q?NdFzfMP3fswvSTbtoRit6kizVTRBD7oMTg0VjX+6PVmxFbF/XdSyiqJHVOtz?=
+ =?us-ascii?Q?x7weWeGLY/0A78XuK/hBqc9O+9D4+GSx4QwcOwz3P/rTtGY9DtrlyqiM2Oir?=
+ =?us-ascii?Q?eu6gi1wGkcUG8+XDDLi4hQfi0/ZBdmEsS+JJcshMcC2hByENWxvcSB1uW9h8?=
+ =?us-ascii?Q?B9WmyOxiDZE7q3+QxxM=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-References: <20220628145552.349839-1-xiehuan09@gmail.com> <20220628145552.349839-5-xiehuan09@gmail.com>
- <Yv5gkKnufS7CUq9A@google.com>
-In-Reply-To: <Yv5gkKnufS7CUq9A@google.com>
-From:   Jeff Xie <xiehuan09@gmail.com>
-Date:   Fri, 19 Aug 2022 00:37:59 +0800
-Message-ID: <CAEr6+ED7UovW1BbrK4s5tCRrTrfkESpa4m3VO4a4PBAY9nK_JA@mail.gmail.com>
-Subject: Re: [PATCH v14 4/4] Documentation: trace/objtrace: Add documentation
- for objtrace
-To:     Joel Fernandes <joel@joelfernandes.org>
-Cc:     rostedt@goodmis.org, mingo@redhat.com, mhiramat@kernel.org,
-        zanussi@kernel.org, linux-kernel@vger.kernel.org,
-        chensong_2000@189.cn, Jonathan Corbet <corbet@lwn.net>,
-        Bagas Sanjaya <bagasdotme@gmail.com>, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR12MB5481.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c1a3f923-bd07-4f2e-b6d4-08da8138da27
+X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Aug 2022 16:44:00.3909
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: VmiDICyn1oKlWsTKMQpha/8CD35F+GVngrv3oymsYZ//dW+0CG0A2Y54Qld56ZfSOmvKkQQGVNtwd5TIVe1UAw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4293
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Joel,
 
-Thank you for your review.
+> From: ecree@xilinx.com <ecree@xilinx.com>
+> Sent: Monday, August 15, 2022 10:23 AM
+>=20
+> +
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D
+> +Network Function Representors
+Given current documentation of the patch:
 
-On Thu, Aug 18, 2022 at 11:53 PM Joel Fernandes <joel@joelfernandes.org> wrote:
->
-> On Tue, Jun 28, 2022 at 10:55:52PM +0800, Jeff Xie wrote:
-> > Add documentation explaining how to use objtrace trigger to get the value
-> > of the object.
-> >
-> > Cc: Jonathan Corbet <corbet@lwn.net>
-> > Cc: Bagas Sanjaya <bagasdotme@gmail.com>
-> > Cc: linux-doc@vger.kernel.org
-> > Signed-off-by: Jeff Xie <xiehuan09@gmail.com>
-> > Reviewed-by: Masami Hiramatsu (Google) <mhiramat@kernel.org>
-> > ---
-> > Changelog:
-> > v14:
-> > - make documentation more readable and fix literal code block by Bagas Sanjaya
-> >
-> >  Documentation/trace/events.rst | 87 ++++++++++++++++++++++++++++++++++
-> >  1 file changed, 87 insertions(+)
-> >
-> > diff --git a/Documentation/trace/events.rst b/Documentation/trace/events.rst
-> > index c47f381d0c00..c15f1d25d4a0 100644
-> > --- a/Documentation/trace/events.rst
-> > +++ b/Documentation/trace/events.rst
-> > @@ -546,6 +546,93 @@ The following commands are supported:
-> >
-> >    See Documentation/trace/histogram.rst for details and examples.
-> >
-> > +- objtrace
-> > +
-> > +  This command provides a way to get the value of any object, The object
-> > +  can be obtained from the dynamic event (kprobe_event/uprobe_event) or the
-> > +  static event (tracepoint).
-> > +
-> > +  Usage:
-> > +  When using the kprobe event, by only need to set the objtrace (a new
-> > +  trigger), we can get the value of object that is set by kprobe event.
-> > +
-> > +  For example, for the function bio_add_page():
-> > +
-> > +  .. code-block:: c
-> > +
-> > +     int bio_add_page(struct bio *bio, struct page *page,
-> > +                   unsigned int len, unsigned int offset)
-> > +
-> > +  Firstly, we can set the base of the object as first parameter (arg1) to
-> > +  to the function:
-> > +
-> > +  .. code-block::
-> > +
-> > +     # echo 'p bio_add_page arg1=$arg1' > ./kprobe_events
-> > +
-> > +  Secondly, we can get the value dynamically based on the object:
-> > +
-> > +  .. code-block::
-> > +
-> > +     find the offset of the bi_size in struct bio:
-> > +     $ gdb vmlinux
-> > +     (gdb) p &(((struct bio *)0)->bi_iter.bi_size)
-> > +     $1 = (unsigned int *) 0x28
-> > +
-> > +     # echo 'objtrace:add:arg1,0x28:u32:1 if comm == "cat"' > ./events/kprobes/ \
-> > +       p_bio_add_page_0/trigger
-> > +
-> > +     # cd /sys/kernel/debug/tracing/
-> > +     # echo 'p bio_add_page arg1=$arg1' > ./kprobe_events
-> > +     # echo 'objtrace:add:arg1,0x28:u32:1 if comm == "cat"' > ./events/kprobes/p_bio_add_page_0/trigger
->
-> No offense but this documentation is not well written and hard to read.
->
-> Admittedly though I am just casually browsing through, so apologies.
->
-> So basically, 0x28 is the offset of the u32 within the bio, that you want to
-> track down, as it passes through functions?
+s/Network Function Representors/Network Function Port Representors.
 
-Yes, Not only track the bio, but also get a value with an offset of
-0x28 relative to the bio.
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D
+Most of the text below describes "netdev" device of the switchdev device.
 
->
-> The example is good, but I suggest breakdown each of the commands separated
-> by ':' and document those as well.
+A switchdev device' netdevice only represents the port of the representee.
 
-I don't know how to explain it in more detail, maybe need to be
-familiar with kprobe event and trigger in advance ;-)
+Hence the document title is not truly justified what it wants to say.
 
-> Cool feature though, I can see myself using it for something (dunno what yet) :)
+A _whole_ network function is represented today using=20
+a. netdevice represents representee's network port
 
-Thank you, hope you have a good experience ;-)
+b. devlink port function for function management
 
->
-> thanks,
->
->  - Joel
->
->
->
-> > +
-> > +     # du -sh /test.txt
-> > +     12.0K   /test.txt
-> > +
-> > +     # cat  /test.txt > /dev/null
-> > +     # cat ./trace
-> > +     # tracer: nop
-> > +     #
-> > +     # entries-in-buffer/entries-written: 128/128   #P:4
-> > +     #
-> > +     #                                _-----=> irqs-off/BH-disabled
-> > +     #                               / _----=> need-resched
-> > +     #                              | / _---=> hardirq/softirq
-> > +     #                              || / _--=> preempt-depth
-> > +     #                              ||| / _-=> migrate-disable
-> > +     #                              |||| /     delay
-> > +     #           TASK-PID     CPU#  |||||  TIMESTAMP  FUNCTION
-> > +     #              | |         |   |||||     |         |
-> > +                  cat-117     [002] ...1.     1.602243: __bio_try_merge_page <-bio_add_page object:0xffff88811bee4000 value:0x0
-> > +                  cat-117     [002] ...1.     1.602244: __bio_add_page <-bio_add_page object:0xffff88811bee4000 value:0x0
-> > +                  cat-117     [002] ...2.     1.602244: bio_add_page <-ext4_mpage_readpages object:0xffff88811bee4000 value:0x1000
-> > +                  cat-117     [002] ...1.     1.602245: __bio_try_merge_page <-bio_add_page object:0xffff88811bee4000 value:0x1000
-> > +                  cat-117     [002] ...1.     1.602245: __bio_add_page <-bio_add_page object:0xffff88811bee4000 value:0x1000
-> > +                  cat-117     [002] ...2.     1.602245: bio_add_page <-ext4_mpage_readpages object:0xffff88811bee4000 value:0x2000
-> > +                  cat-117     [002] ...1.     1.602245: __bio_try_merge_page <-bio_add_page object:0xffff88811bee4000 value:0x2000
-> > +                  cat-117     [002] ...1.     1.602245: __bio_add_page <-bio_add_page object:0xffff88811bee4000 value:0x2000
-> > +                  cat-117     [002] ...1.     1.602245: submit_bio <-ext4_mpage_readpages object:0xffff88811bee4000 value:0x3000
-> > +                  cat-117     [002] ...1.     1.602245: submit_bio_noacct <-ext4_mpage_readpages object:0xffff88811bee4000 value:0x3000
-> > +                  cat-117     [002] ...1.     1.602246: __submit_bio <-submit_bio_noacct object:0xffff88811bee4000 value:0x3000
-> > +                  cat-117     [002] ...1.     1.602246: submit_bio_checks <-__submit_bio object:0xffff88811bee4000 value:0x3000
-> > +                  cat-117     [002] ...1.     1.602246: __cond_resched <-submit_bio_checks object:0xffff88811bee4000 value:0x3000
-> > +                  cat-117     [002] ...1.     1.602246: should_fail_bio <-submit_bio_checks object:0xffff88811bee4000 value:0x3000
-> > +                  cat-117     [002] ...1.     1.602246: blk_mq_submit_bio <-submit_bio_noacct object:0xffff88811bee4000 value:0x3000
-> > +                  cat-117     [002] ...1.     1.602246: blk_attempt_plug_merge <-blk_mq_submit_bio object:0xffff88811bee4000 value:0x3000
-> > +                  cat-117     [002] ...1.     1.602246: blk_mq_sched_bio_merge <-blk_mq_submit_bio object:0xffff88811bee4000 value:0x3000
-> > +                  cat-117     [002] ...1.     1.602247: __rcu_read_lock <-blk_mq_submit_bio object:0xffff88811bee4000 value:0x3000
-> > +                  cat-117     [002] ...1.     1.602247: __rcu_read_unlock <-blk_mq_submit_bio object:0xffff88811bee4000 value:0x3000
-> > +                  cat-117     [002] ...1.     1.602247: __blk_mq_alloc_requests <-blk_mq_submit_bio object:0xffff88811bee4000 value:0x3000
-> > +               <idle>-0       [002] d..3.     1.602298: bio_endio <-blk_update_request object:0xffff88811bee4000 value:0x0
-> > +               <idle>-0       [002] d..3.     1.602298: mpage_end_io <-blk_update_request object:0xffff88811bee4000 value:0x0
-> > +               <idle>-0       [002] d..3.     1.602298: __read_end_io <-blk_update_request object:0xffff88811bee4000 value:0x0
-> > +               <idle>-0       [002] d..3.     1.602300: bio_put <-blk_update_request object:0xffff88811bee4000 value:0x0
-> > +               <idle>-0       [002] d..3.     1.602300: bio_free <-blk_update_request object:0xffff88811bee4000 value:0x0
-> > +               <idle>-0       [002] d..3.     1.602300: mempool_free <-blk_update_request object:0xffff88811bee4000 value:0x0
-> > +               <idle>-0       [002] d..3.     1.602300: mempool_free_slab <-blk_update_request object:0xffff88811bee4000 value:0x0
-> > +               <idle>-0       [002] d..3.     1.602300: kmem_cache_free <-blk_update_request object:0xffff88811bee4000 value:0x0
-> > +                ...
-> > +
-> >  7. In-kernel trace event API
-> >  ============================
-> >
-> > --
-> > 2.25.1
-> >
+This good documentation is probably best placed in switchdev.rst may be wit=
+h a NIC specific section.
+This will connect the two dots nicely.
 
--- 
-Thanks,
-JeffXie
+[..]
+> +Motivation
+> +----------
+> +Network function representors bring the standard Linux networking stack
+Network functions port representors; here and at other places ...
+
+> +to virtual switches and IOV devices.  Just as each port of a
+> +Linux-controlled switch has a separate netdev, so each virtual function
+> +has one.  When the system boots, and before any offload is configured,
+> +all packets from the virtual functions appear in the networking stack of=
+ the
+> PF via the representors.
+> +The PF can thus always communicate freely with the virtual functions.
+> +The PF can configure standard Linux forwarding between representors,
+> +the uplink or any other netdev (routing, bridging, TC classifiers).
+> +
+> +Thus, a representor is both a control plane object (representing the
+> +function in administrative commands)=20
+Certain part of the function administrative commands that doesn't directly =
+fit to netdev.
+They are through devlink port + function.
+
+> and a data plane object (one end of a
+> virtual pipe).
+> +As a virtual link endpoint, the representor can be configured like any
+> +other netdevice; in some cases (e.g. link state) the representee will
+> +follow the representor's configuration, while in others there are
+> +separate APIs to configure the representee.
+> +
+> +Definitions
+> +-----------
+> +
+> +This document uses the term "master PF" to refer to the PCIe function
+s/master PF/switchdev function
+or
+s/master PF/switchdev
+
+Especially when you have below text of granting these privileges to a VF/SF=
+...
+It also aligns to devlink switchdev device notion.
+Less new terms for readers and admins to learn. :)
+
+[..]
+> Packets transmitted on the
+> +   representor netdevice should be delivered to the representee; packets
+> +   transmitted to the representee which fail to match any switching rule
+> should
+> +   be received on the representor netdevice.  (That is, there is a virtu=
+al pipe
+> +   connecting the representor to the representee, similar in concept to =
+a
+> veth
+> +   pair.)
+Please add text that,
+Packets transmitted by the representee and when they are not offloaded, suc=
+h packets are delivered to the port representor netdevice.
+
+> +What functions should have a representor?
+> +-----------------------------------------
+> +
+> +Essentially, for each virtual port on the device's internal switch,
+                                                                           =
+ ^^^^
+You probably wanted to say master PF internal switch here.
+
+Better to word it as, each virtual port of a switchdev, there should be...
+
+> +there should be a representor.
+> +Some vendors have chosen to omit representors for the uplink and the
+> +physical network port, which can simplify usage (the uplink netdev
+> +becomes in effect the physical port's representor) but does not
+> +generalise to devices with multiple ports or uplinks.
+> +
+> +Thus, the following should all have representors:
+> +
+> + - VFs belonging to the master PF.
+> + - Other PFs on the local PCIe controller, and any VFs belonging to them=
+.
+Local and/or external PCIe controllers.
+
+> + - PFs and VFs on other PCIe controllers on the device (e.g. for any
+> embedded
+> +   System-on-Chip within the SmartNIC).
+> + - PFs and VFs with other personalities, including network block devices
+> (such
+> +   as a vDPA virtio-blk PF backed by remote/distributed storage), if the=
+ir
+> +   network access is implemented through a virtual switch port.
+> +   Note that such functions can require a representor despite the
+> representee
+> +   not having a netdev.
+This looks a big undertaking to represent them via "netdevice".
+Mostly they cannot be well represented by the netdevice.
+
+Even a network function was not fully fitting into the existing port repres=
+entor netdevice.
+In some cases, such vDPA devices are affiliated to the switchdev, but they =
+use one or multiple of its ports.
+In second scenario, today vdpa devices are used without switchdev device to=
+o.
+
+Configuring vDPA device's block size, capacity, iops just doesn't make sens=
+e to control via netdevice representation.
+
+vdpa has its own subsystem [1] to manage its backend.
+
+So please remove above vdpa related documentation that doesn't reflect the =
+current kernel.
+
+[1] https://man7.org/linux/man-pages/man8/vdpa.8.html
+
+> + - Subfunctions (SFs) belonging to any of the above PFs or VFs, if they =
+have
+> +   their own port on the switch (as opposed to using their parent PF's p=
+ort).
+Not sure why the text has _if_ for SF and not for the VF.
+Do you see a SF device in the kernel that doesn't have their own port, due =
+to which there is _if_ added?
+
+> + - Any accelerators or plugins on the device whose interface to the netw=
+ork
+> is
+> +   through a virtual switch port, even if they do not have a correspondi=
+ng
+> PCIe
+> +   PF or VF.
+> +
+Above vdpa block is good example that cannot be represent by the netdev por=
+t representor.
+I would imagine other accelerators won't be able to fit in the netdev repre=
+sentation.
+
+> +How are representors created?
+> +-----------------------------
+> +
+> +The driver instance attached to the master PF should enumerate the
+> +virtual ports on the switch, and for each representee, create a
+> +pure-software netdevice which has some form of in-kernel reference to
+> +the PF's own netdevice or driver private data (``netdev_priv()``).
+Today a user can create new virtual ports. Hence, these port represnetors a=
+nd function representors are created dynamically without enumeration.
+Please add text describing both ways.
+
+For mlx5 case a representor netdevice has real queue from which tx/rx DMA h=
+appens from the device to/from network.
+It is not entirely pure software per say.
+Hence, "pure-software" is misleading. Please drop that word.
+
+> +If switch ports can dynamically appear/disappear, the PF driver should
+> +create and destroy representors appropriately.
+> +The operations of the representor netdevice will generally involve
+> +acting through the master PF.  For example, ``ndo_start_xmit()`` might
+> +send the packet through a hardware TX queue attached to the master PF,
+> +with either packet metadata or queue configuration marking it for delive=
+ry
+> to the representee.
+Sharing/not sharing TX and RX queue among representor netdevices is not yet=
+ well established.
+Mostly my knowledge is ancient on sharing model.
+
+In mlx5 driver queues are per representor netdevice. For others may be diff=
+erent.
+
+Is there a way for the netdev to tell that it shares resources/queues with =
+other netdevices?
+
+So better to say:
+The operations of the representor netdevice will generally involve using re=
+sources/queues attached to the netdevice.
+
+> +
+> +How are representors identified?
+> +--------------------------------
+> +
+> +The representor netdevice should *not* directly refer to a PCIe device (=
+e.g.
+> +through ``net_dev->dev.parent`` / ``SET_NETDEV_DEV()``), either of the
+> +representee or of the master PF.
+This isn't true.
+Representor netdevices are connected to the switchdev device PCI function.
+Without linking to PCI device, udev scriptology needs to grep among thousan=
+ds of netdevices and its very inefficient.
+
+May be a better code in future to take the dev.parent directly from the dev=
+link port a netdevice is attached to.
+
+> +There are as yet no established conventions for naming representors
+> +which do not correspond to PCIe functions (e.g. accelerators and plugins=
+).
+Netdevice represents the networking port of the function.
+So, this is not applicable text here.
+
+> +Configuring the representee's MAC
+> +---------------------------------
+> +
+> +
+> +Currently there is no way to use the representor to set the station
+> +permanent MAC address of the representee; other methods available to
+> do this include:
+Just rewrite above line as:
+Representee's MAC can be configured using ..
+
+Overall looks good doc to add apart from above comments to fix.
