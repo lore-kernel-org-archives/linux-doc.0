@@ -2,60 +2,66 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 75FC3C32772
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Aug 2022 17:17:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E736AC32774
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Aug 2022 17:17:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344774AbiHRRRC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 18 Aug 2022 13:17:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44656 "EHLO
+        id S1344632AbiHRRRY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 18 Aug 2022 13:17:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44582 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344929AbiHRRQb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Aug 2022 13:16:31 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DFB7410A3;
-        Thu, 18 Aug 2022 10:10:56 -0700 (PDT)
+        with ESMTP id S1344942AbiHRRRE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Aug 2022 13:17:04 -0400
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C3CA13ECDE;
+        Thu, 18 Aug 2022 10:12:38 -0700 (PDT)
 Received: from localhost (unknown [IPv6:2601:281:8300:73:8b7:7001:c8aa:b65f])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 5C441380;
-        Thu, 18 Aug 2022 17:10:56 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 5C441380
+        by ms.lwn.net (Postfix) with ESMTPSA id 5AB78380;
+        Thu, 18 Aug 2022 17:12:38 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 5AB78380
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1660842656; bh=Q1ZVAe6F+SnZFsnconTKqkmi6I114B8fYAcl8zDe+as=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=q04am70KrC4gEkl3TrVnG/KvuZQ27ZpoHqPoO8zIkuVOEp7eRr4hoKDl4KyAd+nBZ
-         uoYDmoRY/IsbduKbEvWcAuQme0IOC0aDoyVRgpIXpNY6lc2nm/v52z/w41ZjnLa5c0
-         Z/2MeHiubeWFTGDaO5nYGFhcT2jiwWYkAu2jYCn+VppAUz/DBKWGXGTQQBbwPb6Ra5
-         yZkFu691RXPewWNfpx9DINC2DpjPxk2uVNdbAZtuAiCjdYvlH5XfCv1U9sP2nTVLvE
-         orb+WNx2M/Ke2NIgAmyONKjXhYuet/ZmcWajsLpuFPIezAJStDljAtKwQCvyCGuIKz
-         W4H8roMNmeIUg==
+        t=1660842758; bh=4ybYsjK0e5ul649Sz0YfXQzYl1VJiqfOwsXXBK0Ryqg=;
+        h=From:To:Subject:In-Reply-To:References:Date:From;
+        b=RCrFUDBQFiCUrVBn3rHGkhM0xPBYhn1gU+AeVUTD8YfehIxtLhCemtCg+ekd2ioQh
+         i0HsAV0k7dDSXSz2vAiS8GkRuGHhnECYCyYUBBusfJNdE+T29XJFTKqpCvl28NzTVX
+         18KTMNsuLvEw/qh9sWC4/5Q3pWC8gOu7XECHooTOAr37xx92d4vUqj14W4E3gcxuff
+         FYG+jioX7OBhUTDrq3/xfNgQ1OU23LdDG9RKKeSI8oXOaaCTRnapWjYHpEPbjDxzXh
+         W29YTd6CSFp0H5e0xKDA3wEH6wS5dTNH6eeMCHdgX5GXZLoxQ4I9YXvFvx5XaaPvHV
+         JJonFd4z+9Xvg==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Yanteng Si <siyanteng@loongson.cn>, linus.walleij@linaro.org,
-        brgl@bgdev.pl, tekkamanninja@gmail.com
-Cc:     alexs@kernel.org, wu.xiangcheng@linux.dev,
-        linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org,
-        Yanteng Si <siyanteng@loongson.cn>
-Subject: Re: [PATCH v3] docs/zh_CN: Update the translation of gpio to 6.0-rc1
-In-Reply-To: <20220817020830.799468-1-siyanteng@loongson.cn>
-References: <20220817020830.799468-1-siyanteng@loongson.cn>
-Date:   Thu, 18 Aug 2022 11:10:55 -0600
-Message-ID: <87a681cw9s.fsf@meer.lwn.net>
+To:     Eric Lin <dslin1010@gmail.com>, maz@kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Documentation: irqdomain: Fix typo of "at least once"
+In-Reply-To: <20220811091516.2107908-1-dslin1010@gmail.com>
+References: <20220811091516.2107908-1-dslin1010@gmail.com>
+Date:   Thu, 18 Aug 2022 11:12:37 -0600
+Message-ID: <875yipcw6y.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Yanteng Si <siyanteng@loongson.cn> writes:
+Eric Lin <dslin1010@gmail.com> writes:
 
-> Update to commit 5513b411ea5b ("Documentation: rename pinctl to
-> pin-control")
-> Move .../zh_CN/gpio.txt to .../zh_CN/driver-api/gpio/legacy.rst
-> Translate .../driver-api/index.rst into Chinese.
-> Translate .../driver-api/gpio/index.rst into Chinese.
+> Signed-off-by: Eric Lin <dslin1010@gmail.com>
+> ---
+>  Documentation/core-api/irq/irq-domain.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
-> Reviewed-by: Alex Shi <alexs@kernel.org>
+> diff --git a/Documentation/core-api/irq/irq-domain.rst b/Documentation/core-api/irq/irq-domain.rst
+> index d30b4d0a9769..f88a6ee67a35 100644
+> --- a/Documentation/core-api/irq/irq-domain.rst
+> +++ b/Documentation/core-api/irq/irq-domain.rst
+> @@ -71,7 +71,7 @@ variety of methods:
+>  Note that irq domain lookups must happen in contexts that are
+>  compatible with a RCU read-side critical section.
+>  
+> -The irq_create_mapping() function must be called *atleast once*
+> +The irq_create_mapping() function must be called *at least once*
+>  before any call to irq_find_mapping(), lest the descriptor will not
+>  be allocated.
 
 Applied, thanks.
 
