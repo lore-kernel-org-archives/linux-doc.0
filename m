@@ -2,137 +2,100 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 86DB2C25B0E
-	for <linux-doc@archiver.kernel.org>; Fri, 19 Aug 2022 03:49:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A4204C25B0E
+	for <linux-doc@archiver.kernel.org>; Fri, 19 Aug 2022 05:20:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238851AbiHSDt3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 18 Aug 2022 23:49:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40548 "EHLO
+        id S1344438AbiHSFUo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 19 Aug 2022 01:20:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34326 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235080AbiHSDt2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Aug 2022 23:49:28 -0400
-Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com [IPv6:2607:f8b0:4864:20::1029])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C1004B0CC;
-        Thu, 18 Aug 2022 20:49:26 -0700 (PDT)
-Received: by mail-pj1-x1029.google.com with SMTP id o14-20020a17090a0a0e00b001fabfd3369cso3688514pjo.5;
-        Thu, 18 Aug 2022 20:49:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc;
-        bh=o6+bzfnlGaEWpMhwfJW2zto2uMkruXy6+3QpUu+xD6g=;
-        b=V8RTDRLODn5II43HPHgDHfS7XWKXawY26cVuG/kmI1r8UdNDiV9JRKTlmUYp8ddoEI
-         L2Q5klCl9yfd+fra9wDWBzAiqAVLg11H+ODKy4psrUP6m1/x+JUjZk3IveqXB6lp/HpT
-         6cr8SgKodvI3068vJY+54sf/4suIfU+fpZivYCLuQVNEzVgsIoz0pZk3IFQq13CouyVA
-         HOG4yeGNZQG9XDO9e60aSL5Mm3PGYTqC8pmPrAXBCiQ3hxtzpGt8DKKX6I0lhjqtZC2K
-         sFnXyti0RXtqu85XzeoUL+STD4d1QFZRYAz0LIoksR0B8NnyZZur/Y5vovlZG+8n6oUX
-         44hQ==
+        with ESMTP id S229848AbiHSFUn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Aug 2022 01:20:43 -0400
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96C7FD41BB;
+        Thu, 18 Aug 2022 22:20:42 -0700 (PDT)
+Received: by mail-ed1-f45.google.com with SMTP id z2so4363822edc.1;
+        Thu, 18 Aug 2022 22:20:42 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc;
-        bh=o6+bzfnlGaEWpMhwfJW2zto2uMkruXy6+3QpUu+xD6g=;
-        b=4XOEoGOqA62gSFPW9oT9dt5Y1lvwNnZikplntW4zHA0/ZK9KBcxV0/DsOIKWRGHUWg
-         WJmqzYkDKi8LCucr1wmAZAY6bEuz95zeIP0e1L1cKA0yRgtwgXrKSVUs2jlIFgs/G8EI
-         fZ5Q9ZZh1hvibci3zrJ7D5I3NCsc6pU1YKf4Fqrkvh0wsimmRyBpbLyvM87lL3fD6QWI
-         5OLbc0v/Y5jc7XXbT7NzOX828uR7XdpzkaA9H2na6S8u6I7wQpfma+6hix0ye3/dtAF+
-         nUs/HyL3EdW6356zWryDjo4M3g0JRH3+BPInVNmj/+OJ4C3yE/rMmeSyjCgWlgyfRsgv
-         8DSA==
-X-Gm-Message-State: ACgBeo1RTFSumvSE/JgLZaHjpkUqRUdtZ/iATBSEd7PyWoRjyIaj2MMf
-        NBBcjNPuNKctcoJWyD5Jjq8=
-X-Google-Smtp-Source: AA6agR7VjjeqbWEdCP6zin2oXuIgKZRlURca+x5lYxJ9oJFSJygSV3vjHgRHjz6NccOiYfmFh4EuVg==
-X-Received: by 2002:a17:90b:4b4f:b0:1f3:19ed:37b5 with SMTP id mi15-20020a17090b4b4f00b001f319ed37b5mr11682151pjb.108.1660880965573;
-        Thu, 18 Aug 2022 20:49:25 -0700 (PDT)
-Received: from [192.168.43.80] (subs32-116-206-28-41.three.co.id. [116.206.28.41])
-        by smtp.gmail.com with ESMTPSA id b20-20020a62a114000000b0052dddf69db2sm2425774pff.57.2022.08.18.20.49.21
+        bh=TUX4sy2iunYKK4x1eMavnunBrVLLc6AU/HdXTMwGbpY=;
+        b=PqiDh+Rdw5XZdVGKcWtgz634HenuPBktiFjLQIgqeMJwRB6/iRXtxw01E6UI4IV8aK
+         6YD1gnMxQUeJeyEHcs7r6FiU5WX4yeHuauLury5SmEraC9Tj20pdol+p7A7/Utf3ZzyV
+         CmDINSsO0R/RZZ3yfeLo8huPJF9aGB4gixikiEpICwUhIJ9gm5+JRnmnPmklIHgXlAG1
+         wO2CYvJnqtfd4O9qX4b7mm+2BbC8IHV3nV7mlQ9Z0rFQwCNRlDhAb+dON1qby/13owQX
+         rFy3u42DLbTiBX97HSFW5aOxsQjqnzwaycGh+mikJCbM6f0p8bVtQmc2hGg5CxVWDDCM
+         1vWQ==
+X-Gm-Message-State: ACgBeo3lE3V0HZnMvCBrYM3lIm+//xg3BQUMd584UGUnGEeTcVjdgVXO
+        /1g9RzTf72W1MVuGdNbXRVw=
+X-Google-Smtp-Source: AA6agR7hrh4jirKmh7PS/NBmra1V+zyPD4Hkql93VI6MbM0UmMGfp3qOGQksT67+t7AdjDZG3D2jBA==
+X-Received: by 2002:aa7:dbc5:0:b0:440:b0d6:7586 with SMTP id v5-20020aa7dbc5000000b00440b0d67586mr4564779edt.85.1660886440996;
+        Thu, 18 Aug 2022 22:20:40 -0700 (PDT)
+Received: from ?IPV6:2a0b:e7c0:0:107::70f? ([2a0b:e7c0:0:107::70f])
+        by smtp.gmail.com with ESMTPSA id q2-20020a170906770200b00730860b6c43sm1799004ejm.173.2022.08.18.22.20.39
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 18 Aug 2022 20:49:24 -0700 (PDT)
-Message-ID: <b5394ac7-1a2f-1863-4967-5abc1a35abc9@gmail.com>
-Date:   Fri, 19 Aug 2022 10:49:19 +0700
+        Thu, 18 Aug 2022 22:20:40 -0700 (PDT)
+Message-ID: <362b55e8-6f98-6723-6751-92dbe16ea924@kernel.org>
+Date:   Fri, 19 Aug 2022 07:20:39 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH 10/13] docs: leds: add leds-qcom-lpg.rst to the index file
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.1.0
+Subject: Re: [PATCH 12/13] serial: document start_rx member at struct uart_ops
 Content-Language: en-US
 To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         corbet@lwn.net
-Cc:     Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        David Airlie <airlied@linux.ie>,
-        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-kernel@vger.kernel.org
 References: <cover.1660829433.git.mchehab@kernel.org>
- <14865c294b60fef58f660922889775bd57ce44c2.1660829433.git.mchehab@kernel.org>
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <14865c294b60fef58f660922889775bd57ce44c2.1660829433.git.mchehab@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+ <5d07ae2eec8fbad87e623160f9926b178bef2744.1660829433.git.mchehab@kernel.org>
+From:   Jiri Slaby <jirislaby@kernel.org>
+In-Reply-To: <5d07ae2eec8fbad87e623160f9926b178bef2744.1660829433.git.mchehab@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 8/18/22 20:38, Mauro Carvalho Chehab wrote:
-> Address this warning:
-> 	Documentation/leds/leds-qcom-lpg.rst: WARNING: o documento não está incluído em nenhum toctree
-> 
+On 18. 08. 22, 15:38, Mauro Carvalho Chehab wrote:
+> Fix this doc build warning:
+> 	./include/linux/serial_core.h:397: warning: Function parameter or member 'start_rx' not described in 'uart_ops'
+
+Reviewed-by: Jiri Slaby <jirislaby@kernel.org>
+
+
 > Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
 > ---
 > 
 > See [PATCH 00/13] at: https://lore.kernel.org/all/cover.1660829433.git.mchehab@kernel.org/
 > 
->  Documentation/leds/index.rst           | 1 +
->  drivers/gpu/drm/scheduler/sched_main.c | 1 +
->  include/drm/gpu_scheduler.h            | 1 +
->  3 files changed, 3 insertions(+)
+>   include/linux/serial_core.h | 8 ++++++++
+>   1 file changed, 8 insertions(+)
 > 
-> diff --git a/Documentation/leds/index.rst b/Documentation/leds/index.rst
-> index e5d63b940045..014e009b0761 100644
-> --- a/Documentation/leds/index.rst
-> +++ b/Documentation/leds/index.rst
-> @@ -25,4 +25,5 @@ LEDs
->     leds-lp5562
->     leds-lp55xx
->     leds-mlxcpld
-> +   leds-qcom-lpg
->     leds-sc27xx
-> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-> index 68317d3a7a27..56c53a616816 100644
-> --- a/drivers/gpu/drm/scheduler/sched_main.c
-> +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> @@ -994,6 +994,7 @@ static int drm_sched_main(void *param)
->   *		used
->   * @score: optional score atomic shared with other schedulers
->   * @name: name used for debugging
-> + * @dev: Device structure
->   *
->   * Return 0 on success, otherwise error code.
->   */
-> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
-> index addb135eeea6..f31988e03256 100644
-> --- a/include/drm/gpu_scheduler.h
-> +++ b/include/drm/gpu_scheduler.h
-> @@ -435,6 +435,7 @@ struct drm_sched_backend_ops {
->   * @_score: score used when the driver doesn't provide one
->   * @ready: marks if the underlying HW is ready to work
->   * @free_guilty: A hit to time out handler to free the guilty job.
-> + * @dev: Device structure
->   *
->   * One scheduler is implemented for each hardware ring.
->   */
+> diff --git a/include/linux/serial_core.h b/include/linux/serial_core.h
+> index aef3145f2032..6e4f4765d209 100644
+> --- a/include/linux/serial_core.h
+> +++ b/include/linux/serial_core.h
+> @@ -141,6 +141,14 @@ struct gpio_desc;
+>    *	Locking: none.
+>    *	Interrupts: caller dependent.
+>    *
+> + * @start_rx: ``void ()(struct uart_port *port)``
+> + *
+> + *	Start receiving characters.
+> + *
+> + *	Locking: @port->lock taken.
+> + *	Interrupts: locally disabled.
+> + *	This call must not sleep
+> + *
+>    * @stop_rx: ``void ()(struct uart_port *port)``
+>    *
+>    *	Stop receiving characters; the @port is in the process of being closed.
 
-Hi Mauro,
-
-I have already sent the fix (resend a long time ago) at [1] and got
-Acked-by from Pavel, but seems like he forgot to push it. Maybe the
-subsystem had maintenanceship issue as pointed by Andy (CC'ed) ([2]).
-
-[1]: https://lore.kernel.org/linux-doc/20220612000125.9777-1-bagasdotme@gmail.com/
-[2]: https://lore.kernel.org/lkml/CAHp75VeWKgyz32scczN0c+iJwGZXVP42g0NG0oXrdJ34GyHB8w@mail.gmail.com/
-
-Thanks.
-
+thanks,
 -- 
-An old man doll... just what I always wanted! - Clara
+js
+suse labs
+
