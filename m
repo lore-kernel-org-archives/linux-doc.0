@@ -2,145 +2,104 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B7451C32773
-	for <linux-doc@archiver.kernel.org>; Fri, 19 Aug 2022 19:18:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 66BD1C32773
+	for <linux-doc@archiver.kernel.org>; Fri, 19 Aug 2022 19:21:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351344AbiHSTSD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 19 Aug 2022 15:18:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33716 "EHLO
+        id S1351456AbiHSTVD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 19 Aug 2022 15:21:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40510 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351340AbiHSTRk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Aug 2022 15:17:40 -0400
-Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com [IPv6:2a00:1450:4864:20::22e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC48E113690;
-        Fri, 19 Aug 2022 12:17:36 -0700 (PDT)
-Received: by mail-lj1-x22e.google.com with SMTP id v4so5412199ljg.0;
-        Fri, 19 Aug 2022 12:17:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc;
-        bh=xzdVVHmtZRriXapACke53/SRuio/InSt3Zk2iFRlPMw=;
-        b=dBhWSOZbQ2Xbgy3Ny3xxOzEic/aw28e5m/hS3zofyeosyHrea9yPBaTxXUhMHLt4fG
-         P2RZB37ZjWU5/jrM4PW2d+okZJHzW5+s6LtLHbQBNr076jdxKGFD740dZxyV5U2kddoP
-         84JNqglnWlYB8cqq7KVpAxOCt6zS7RSw8F++s9UNvWnoXyIC6dcya14amZ6gjaP7RElm
-         BJsemeyoww1Lw3V67P9usuOZPe+UW1oiUm+Zg3EkHOj5cPSQux+74UUmQowtshXvVASU
-         jVmAae5APdKpcZ/YsYfRreVLMDaufWhzqIYhqwsfMKGzMeoAPpHVCfylZ3Sb84PdXEMl
-         y44Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
-        bh=xzdVVHmtZRriXapACke53/SRuio/InSt3Zk2iFRlPMw=;
-        b=d7jwbwj4g90oYmUfyvK5zcdS47UU7gNtBBTfmvnBITzjVOLqgu7RCjphypAw65G9mK
-         vddnB2nfEjHIH9TpylgNJXwKMr83S5UY17xKZabSUXaKk7DDVnA30+5Ln4EWnDaZ/fse
-         5bYlcjHZ7H9RR0bwwXQ3OJfpdI2LGmPyfTEJUdOxCy6e2ma5iWHOr6UC8hJ9z2cm2xX6
-         I8WFDnwJyp/qgnVEtkpOjawrvkA4Sur2Zx7LrqSGzQ9ktEk+jsipRGC+F3SuVg24nK16
-         OrLach3WQc7a9eipbQB8FH9AiPmUimi1V5hLARe1VBbsBUl7sD1Jlnpho33Qxwb7p4Ox
-         73vg==
-X-Gm-Message-State: ACgBeo08hS7I+KP5wsKSCio40EbkBZCwBNZD1W6D+OW6x50DhN46xc/p
-        POuIrsv6Wjc92ZPKVyOOxnk=
-X-Google-Smtp-Source: AA6agR7rYcmTwq3ho26bX4GMTccrLp/k1JBUluYXVhLcYgbOFQAcbyqZoWl0rX0e/CH1m3AChRXBAg==
-X-Received: by 2002:a2e:b443:0:b0:261:423d:b4e5 with SMTP id o3-20020a2eb443000000b00261423db4e5mr2504597ljm.348.1660936654908;
-        Fri, 19 Aug 2022 12:17:34 -0700 (PDT)
-Received: from dc75zzyyyyyyyyyyyyyyt-3.rev.dnainternet.fi (dc75zzyyyyyyyyyyyyyyt-3.rev.dnainternet.fi. [2001:14ba:16f3:4a00::1])
-        by smtp.gmail.com with ESMTPSA id e17-20020ac24e11000000b0048af3c315efsm731659lfr.191.2022.08.19.12.17.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Aug 2022 12:17:33 -0700 (PDT)
-Date:   Fri, 19 Aug 2022 22:17:28 +0300
-From:   Matti Vaittinen <mazziesaccount@gmail.com>
-To:     Matti Vaittinen <mazziesaccount@gmail.com>,
-        Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
-Cc:     Mark Brown <broonie@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        Matti Vaittinen <mazziesaccount@gmail.com>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Alexandru Ardelean <aardelean@deviqon.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Johan Hovold <johan+linaro@kernel.org>,
-        Aswath Govindraju <a-govindraju@ti.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v3 01/14] docs: devres: regulator: Add new get_enable
- functions to devres.rst
-Message-ID: <55efb5a23822b8e1558d560a6ad906eadbc39a17.1660934107.git.mazziesaccount@gmail.com>
-References: <cover.1660934107.git.mazziesaccount@gmail.com>
+        with ESMTP id S1350677AbiHSTUq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Aug 2022 15:20:46 -0400
+Received: from sipsolutions.net (s3.sipsolutions.net [IPv6:2a01:4f8:191:4433::2])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 982AE4F67B;
+        Fri, 19 Aug 2022 12:20:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=sipsolutions.net; s=mail; h=MIME-Version:Content-Transfer-Encoding:
+        Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-To:
+        Resent-Cc:Resent-Message-ID; bh=aImKszdCz8DSBMWnelI8Y9kP2xOJdf0XcOOgW/Sq8Es=;
+        t=1660936843; x=1662146443; b=WOloKTe6BW7r5mGaB2J8zvz+oS20bE3v6YKpWUqec2PWDmD
+        UskzsnVm1GUgTnD0gGrYBGtjIuHHEsPIoJACWXEpHKpawhuqLIgC9yDCLYwJD+cYEZdrk4tXbNxG0
+        cvKsRp46DyY8jF6XRFCPC95MCVbziZHnn1dZQ5B2iSesf7RCv1H1kwtBoHnvw+JBJuKlFIpa93xzT
+        zJqSh9MlFZpNKcw2ZcSepyAeznMx0H82EnypdIFQgjEYYkDb/dHmU2EjJjr33JIvWqtZSv3Eys4C0
+        j1ie8vcvkOtoEdi7rbUn3krt9JhuwbKWhQbtcCAasLHb8F9PhCZ+PQXU3cMxHY1w==;
+Received: by sipsolutions.net with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+        (Exim 4.96)
+        (envelope-from <johannes@sipsolutions.net>)
+        id 1oP7Xj-00C8jo-0a;
+        Fri, 19 Aug 2022 21:20:31 +0200
+Message-ID: <84601312213cfd8568be221038c94ab72c9eeccc.camel@sipsolutions.net>
+Subject: Re: [PATCH net-next 2/2] docs: netlink: basic introduction to
+ Netlink
+From:   Johannes Berg <johannes@sipsolutions.net>
+To:     Jakub Kicinski <kuba@kernel.org>
+Cc:     davem@davemloft.net, netdev@vger.kernel.org, corbet@lwn.net,
+        stephen@networkplumber.org, sdf@google.com, ecree.xilinx@gmail.com,
+        benjamin.poirier@gmail.com, idosch@idosch.org,
+        f.fainelli@gmail.com, jiri@resnulli.us, dsahern@kernel.org,
+        fw@strlen.de, linux-doc@vger.kernel.org, jhs@mojatatu.com,
+        tgraf@suug.ch, jacob.e.keller@intel.com, svinota.saveliev@gmail.com
+Date:   Fri, 19 Aug 2022 21:20:30 +0200
+In-Reply-To: <20220819121640.11e7e2f7@kernel.org>
+References: <20220818023504.105565-1-kuba@kernel.org>
+         <20220818023504.105565-2-kuba@kernel.org>
+         <6350516756628945f9cc1ee0248e92473521ed0b.camel@sipsolutions.net>
+         <20220819092029.10316adb@kernel.org>
+         <959012cfd753586b81ff60b37301247849eb274c.camel@sipsolutions.net>
+         <20220819105451.1de66044@kernel.org> <20220819121640.11e7e2f7@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.4 (3.44.4-1.fc36) 
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="BzN6wCs0O/0C90nr"
-Content-Disposition: inline
-In-Reply-To: <cover.1660934107.git.mazziesaccount@gmail.com>
+X-malware-bazaar: not-scanned
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
---BzN6wCs0O/0C90nr
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Fri, 2022-08-19 at 12:16 -0700, Jakub Kicinski wrote:
+> On Fri, 19 Aug 2022 10:54:51 -0700 Jakub Kicinski wrote:
+> > > Ugh, I repressed all those memories ... I don't remember now, I guess
+> > > I'd have to try it. Also it doesn't just apply to normal stuff but al=
+so
+> > > multicast, and that can be even trickier. =20
+> >=20
+> > No worries, let me try myself. Annoyingly I have this doc on a differen=
+t
+> > branch than my netlink code, that's why I was being lazy :)
+>=20
+> Buffer sizing
+> -------------
+>=20
+> Netlink sockets are datagram sockets rather than stream sockets,
+> meaning that each message must be received in its entirety by a single
+> recv()/recvmsg() system call. If the buffer provided by the user is too
+> short, the message will be truncated and the ``MSG_TRUNC`` flag set
+> in struct msghdr (struct msghdr is the second argument
+> of the recvmsg() system call, *not* a Netlink header).
+>=20
+> Upon truncation the remaining part of the message is discarded.
+>=20
+> Netlink expects that the user buffer will be at least 8kB
+>=20
 
-Add the new devm_regulator_get_enable() and
-devm_regulator_get_enable_optional() to devres.rst
+I guess technically 8 KiB ;-)
 
-Signed-off-by: Matti Vaittinen <mazziesaccount@gmail.com>
+>  or a page
+> size of the CPU architecture, whichever is bigger. Particular Netlink
+> families may, however, require a larger buffer. 32kB buffer is recommende=
+d
+> for most efficient handling of dumps (larger buffer fits more dumped
+> objects and therefore fewer recvmsg() calls are needed).
 
----
-v2 =3D> v3
-No changes
+Seems reasonable, thanks :)
 
-RFCv1 =3D> v2:
- - Add devm_regulator_bulk_put() and devm_regulator_bulk_get_enable()
----
- Documentation/driver-api/driver-model/devres.rst | 4 ++++
- 1 file changed, 4 insertions(+)
+Honestly most of our problems came from ever-growing message sizes, and
+userspace having defaulted to 4k buffers ... annoyingly. Even 8k may not
+always be enough for future - so for the kernel guide maybe say we
+should mostly not even have GET operations but have a way to restrict
+DUMP operations to a certain (set of) object(s), and have the ability to
+split objects in the middle when they have a lot of properties ...
 
-diff --git a/Documentation/driver-api/driver-model/devres.rst b/Documentati=
-on/driver-api/driver-model/devres.rst
-index 882b14089454..f667b33bbda5 100644
---- a/Documentation/driver-api/driver-model/devres.rst
-+++ b/Documentation/driver-api/driver-model/devres.rst
-@@ -407,7 +407,11 @@ PWM
- REGULATOR
-   devm_regulator_bulk_register_supply_alias()
-   devm_regulator_bulk_get()
-+  devm_regulator_bulk_get_enable()
-+  devm_regulator_bulk_put()
-   devm_regulator_get()
-+  devm_regulator_get_enable()
-+  devm_regulator_get_enable_optional()
-   devm_regulator_get_exclusive()
-   devm_regulator_get_optional()
-   devm_regulator_irq_helper()
---=20
-2.37.1
-
-
---=20
-Matti Vaittinen, Linux device drivers
-ROHM Semiconductors, Finland SWDC
-Kiviharjunlenkki 1E
-90220 OULU
-FINLAND
-
-~~~ "I don't think so," said Rene Descartes. Just then he vanished ~~~
-Simon says - in Latin please.
-~~~ "non cogito me" dixit Rene Descarte, deinde evanescavit ~~~
-Thanks to Simon Glass for the translation =3D]=20
-
---BzN6wCs0O/0C90nr
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEIx+f8wZb28fLKEhTeFA3/03aocUFAmL/4cgACgkQeFA3/03a
-ocWTPAgAwIlKEsWv5usaL75jQOi7ze2HPx06VkzvDIcg0xxu1QpMXOGVdvzfdLXi
-sZIb2LttbalDpQDsKirjxeqQpJzac1mp4+yydzj1YQzaOxddlATsLV9g14dXG94r
-OOgyzNbaGGKeQDLRJ6N39AyfHzRO1h9NHEQnu1guzMUExqWFN1zXcTpooRBIZGKA
-h3mpjGMmGEypTYKeZ/EsXIOAUHyVQ/BfV0aHZNHmP48O4+QoKSS6/KupA8IFwUrd
-7sHMZ4FSLMJl6DGJe+acVRBXPzptNipdYwERJEBjKb3Zu+dxd0BWT2EaMRbYNDDf
-wDumUgPOiPfPobID5aHiwP5gx+h+NQ==
-=VTfq
------END PGP SIGNATURE-----
-
---BzN6wCs0O/0C90nr--
+johannes
