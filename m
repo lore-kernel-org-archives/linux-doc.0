@@ -2,107 +2,113 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F72EC32773
-	for <linux-doc@archiver.kernel.org>; Fri, 19 Aug 2022 14:10:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 87B20C32771
+	for <linux-doc@archiver.kernel.org>; Fri, 19 Aug 2022 15:18:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348949AbiHSOKQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 19 Aug 2022 10:10:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34936 "EHLO
+        id S1349056AbiHSPS3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 19 Aug 2022 11:18:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33908 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1348475AbiHSOKP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Aug 2022 10:10:15 -0400
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79861E3C33
-        for <linux-doc@vger.kernel.org>; Fri, 19 Aug 2022 07:10:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1660918211; x=1692454211;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=mKhPDUTDoJ9xQwLcyUTPNjwK1Ey1pyO43m5PHk29iL0=;
-  b=X56B83JgwS5MHIvaqaY2xAwTjtJBi5cp+t/OTkwVbyCS2h1SlZW0p8Yq
-   aZydTITtyhH45VkLV8FQWjOr2Bl/WKP+wbpExncuSqjlrhzoBYhAmCDIe
-   S6NWQSw0cAE6YgSeg7JTUk//solNrDYe9sKsmr4Y0JzMMR304jdNg+4n3
-   PvHNGUKsD9lr/jkh5PNgdA0noOBj0r3vupsrXTngebbaYzQUNHVljkEXC
-   pmUvOfZ96A19ss8zzphQ04bSWUjP8frq9NolmNDUCpG7Y5cVEwLCYuPhu
-   E9sZrBGzICZIqoDEo7LSgl6P0HND0zglvoCg7Ax8nBjHoWRd/OcLse04l
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10443"; a="290585852"
-X-IronPort-AV: E=Sophos;i="5.93,248,1654585200"; 
-   d="scan'208";a="290585852"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2022 07:10:00 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,248,1654585200"; 
-   d="scan'208";a="584669588"
-Received: from lkp-server01.sh.intel.com (HELO 44b6dac04a33) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 19 Aug 2022 07:09:58 -0700
-Received: from kbuild by 44b6dac04a33 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1oP2hB-0001VJ-2y;
-        Fri, 19 Aug 2022 14:09:57 +0000
-Date:   Fri, 19 Aug 2022 22:08:57 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Wu XiangCheng <bobwxc@email.cn>
-Cc:     kbuild-all@lists.01.org,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
-        linux-doc@vger.kernel.org
-Subject: [linux-next:master 2059/2265] htmldocs:
- Documentation/translations/zh_CN/process/5.Posting.rst:197: WARNING:
- undefined label: cn_email_clients (if the link has no caption the label must
- precede a section header)
-Message-ID: <202208192207.a0rAM0nj-lkp@intel.com>
+        with ESMTP id S1349092AbiHSPS1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Aug 2022 11:18:27 -0400
+Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57CC63D5A8;
+        Fri, 19 Aug 2022 08:18:22 -0700 (PDT)
+Received: by mail-ej1-x633.google.com with SMTP id j8so9386062ejx.9;
+        Fri, 19 Aug 2022 08:18:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:content-language:in-reply-to:mime-version
+         :user-agent:date:message-id:from:references:cc:to:subject:from:to:cc;
+        bh=yn41Vs/apFs4uTrJa9DFPk8MRYPvsR2BQKcLDumZVTQ=;
+        b=TZOa/sUoF/RI0h5dFlGV2gVXHo1YBUojtMr6sluB+STWhHlQ7sznFRKPfelKvYRB2N
+         bu/6Vix0MZnR8FM74KUA686RvyobgnOdWfNT3o/pIrQJ76XQVBuRxaQyuAzpDXpBH5kK
+         FWeqWWf1rJUZdqRHx4vWbQQZE/PpEQut1Aey4XKzRNV7GSPXWMnpPu5H9d5CZpaY5q3i
+         tTN9KFq0YvL0QH8kTxgHvfgsJw0eTNYkVg0sEi93ouhaGnAPUIp/qrgQYxcU16mMtJ82
+         +iz7gAyXchSCApIRE8Jz+l/2uhOazPbov4NJ41qsPPDO6CqgZRCfjQJtkDuJL4ppslK8
+         h1pA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:content-language:in-reply-to:mime-version
+         :user-agent:date:message-id:from:references:cc:to:subject
+         :x-gm-message-state:from:to:cc;
+        bh=yn41Vs/apFs4uTrJa9DFPk8MRYPvsR2BQKcLDumZVTQ=;
+        b=IXvOCEi9fCdR10owE+avFl7Axj3tCVfK5v5epSNGU4L1FF7w8NZcFWyDOvFyC4P/PO
+         ItdPLr0eatblcbCsVsY7eKVaVftuyD22/0yEt4djbP9w26IbERcK9PoVuTxTuvA6bfZh
+         u1Mq9gKaFUbs8M5GV31nxc2HoRn6c+6W3WPc1XHuOPD2/147I8pg9HyM7H1nW3JvzFBF
+         IkIx6ud9SyUrnn+1Bdt/ebQlOqFx2k0E25LwUduoIaPC75r43up9LlOelP+55MlQgBrO
+         JpMM2YqoSp8CRRoqK3TU9mpEkC3plKZ3hNb1R71a40sOGonoKD1yg5QRyITT34cuBX4s
+         hw1A==
+X-Gm-Message-State: ACgBeo0Iv+8SDF5wI9rz+/k/jKx0Cvm/uDTGYocEFjJfDIVuwP8VPE/n
+        repxqPpajqTLG5Vq0CJCtPM=
+X-Google-Smtp-Source: AA6agR4xTqCasDQvLaJScGPCcg+7MXxE1zfpa/lhChBBLEPafhJM3pJa2K10mI/4A2Zu3ozQXYNmWw==
+X-Received: by 2002:a17:906:84f7:b0:738:3461:68c6 with SMTP id zp23-20020a17090684f700b00738346168c6mr5195790ejb.506.1660922300802;
+        Fri, 19 Aug 2022 08:18:20 -0700 (PDT)
+Received: from [192.168.1.122] (cpc159313-cmbg20-2-0-cust161.5-4.cable.virginm.net. [82.0.78.162])
+        by smtp.gmail.com with ESMTPSA id r10-20020a1709061baa00b0072a881b21d8sm2424932ejg.119.2022.08.19.08.18.19
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 19 Aug 2022 08:18:20 -0700 (PDT)
+Subject: Re: [RFC PATCH v2 net-next] docs: net: add an explanation of VF (and
+ other) Representors
+To:     Roi Dayan <roid@nvidia.com>, ecree@xilinx.com,
+        netdev@vger.kernel.org, linux-net-drivers@amd.com
+Cc:     davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com,
+        edumazet@google.com, corbet@lwn.net, linux-doc@vger.kernel.org,
+        jacob.e.keller@intel.com, jesse.brandeburg@intel.com,
+        michael.chan@broadcom.com, andy@greyhouse.net, saeed@kernel.org,
+        jiri@resnulli.us, snelson@pensando.io, simon.horman@corigine.com,
+        alexander.duyck@gmail.com, rdunlap@infradead.org
+References: <20220815142251.8909-1-ecree@xilinx.com>
+ <5edbd360-7afb-2605-21ba-7337be15e235@nvidia.com>
+From:   Edward Cree <ecree.xilinx@gmail.com>
+Message-ID: <bb31b68c-1303-0f18-eace-74bf7e05cbb1@gmail.com>
+Date:   Fri, 19 Aug 2022 16:18:19 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
+In-Reply-To: <5edbd360-7afb-2605-21ba-7337be15e235@nvidia.com>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Language: en-GB
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Documentation/translations/zh_CN/process/email-clients.rst
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   8755ae45a9e8ae883fa7f4eb0162830c55aacf14
-commit: d7aeaebb920f61af0d0a8159865617d6a2d1a2ad [2059/2265] docs/zh_CN: Update zh_CN/process/email-clients.rst to 5.19
-reproduce:
-        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=d7aeaebb920f61af0d0a8159865617d6a2d1a2ad
-        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
-        git fetch --no-tags linux-next master
-        git checkout d7aeaebb920f61af0d0a8159865617d6a2d1a2ad
-        make menuconfig
-        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
-        make htmldocs
+On 18/08/2022 16:07, Roi Dayan wrote:
+> On 2022-08-15 5:22 PM, ecree@xilinx.com wrote:
+>> +The representor netdevice should *not* directly refer to a PCIe device (e.g.
+>> +through ``net_dev->dev.parent`` / ``SET_NETDEV_DEV()``), either of the
+>> +representee or of the master PF.
+> 
+> Hi,
+> maybe I'm confused here, but why representor should not refer to pci
+> device ? it does exists today for systemd renaming.
+> and this is used beside of implementing the other ndos you mention
+> below.
 
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
+The master PF is already identified via ``phys_switch_id``, another linkage
+ is not needed and only means that userland looking up netdevices by PCIe
+ address has to do another step to distinguish the PF's own netdev from all
+ the representors.  Allegedly[1] nfp ran into issues where OpenStack would
+ sometimes use the reprs for ops that logically should have been on the PF
+ because they all had the same /sys/class/net/$INTF/device and it wasn't
+ smart enough to tell the difference.
 
-All warnings (new ones prefixed by >>):
+Semantically, the representor is a virtual device, that's backed by the PF
+ netdevice rather than the PF's hardware directly — even if it has e.g.
+ dedicated queues, it's still not in administrative control of the PCIe
+ function in the way that the PF driver instance is.  And compare to e.g.
+ a vlan netdev stacked on top of the PF netdev — we don't put the PF in
+ /sys/class/net/vlan0/device...
 
->> Documentation/translations/zh_CN/process/5.Posting.rst:197: WARNING: undefined label: cn_email_clients (if the link has no caption the label must precede a section header)
+> $  git grep SET_NETDEV_DEV|grep rep
+> drivers/net/ethernet/intel/ice/ice_repr.c: SET_NETDEV_DEV(repr->netdev, ice_pf_to_dev(vf->pf));
+> drivers/net/ethernet/mellanox/mlx5/core/en_rep.c: SET_NETDEV_DEV(netdev, mdev->device);
+> drivers/net/ethernet/netronome/nfp/flower/main.c: SET_NETDEV_DEV(repr, &priv->nn->pdev->dev);
 
-vim +197 Documentation/translations/zh_CN/process/5.Posting.rst
+Yes, several existing drivers do this[2].  IMHO they're wrong.
 
-ea09bbd4ce77dd Alex Shi      2019-04-01  192  
-75cc66836d9eea Wu XiangCheng 2021-03-05  193   - 您确定您的邮件发送程序不会损坏补丁吗？被邮件客户端更改空白或修饰了行的补丁
-75cc66836d9eea Wu XiangCheng 2021-03-05  194     无法被另一端接受，并且通常不会进行任何详细检查。如果有任何疑问，先把补丁寄
-75cc66836d9eea Wu XiangCheng 2021-03-05  195     给你自己，让你自己确定它是完好无损的。
-ea09bbd4ce77dd Alex Shi      2019-04-01  196  
-d5187f5c1c0e82 Alex Shi      2019-04-01 @197     :ref:`Documentation/translations/zh_CN/process/email-clients.rst <cn_email_clients>`
-75cc66836d9eea Wu XiangCheng 2021-03-05  198     提供了一些有用的提示，可以让特定的邮件客户端正常发送补丁。
-ea09bbd4ce77dd Alex Shi      2019-04-01  199  
-75cc66836d9eea Wu XiangCheng 2021-03-05  200   - 你确定你的补丁没有荒唐的错误吗？您应该始终通过scripts/checkpatch.pl检查
-75cc66836d9eea Wu XiangCheng 2021-03-05  201     补丁程序，并解决它提出的问题。请记住，checkpatch.pl，虽然体现了对内核补丁
-75cc66836d9eea Wu XiangCheng 2021-03-05  202     应该是什么样的大量思考，但它并不比您聪明。如果修复checkpatch.pl给的问题会
-ea09bbd4ce77dd Alex Shi      2019-04-01  203     使代码变得更糟，请不要这样做。
-ea09bbd4ce77dd Alex Shi      2019-04-01  204  
+-ed
 
-:::::: The code at line 197 was first introduced by commit
-:::::: d5187f5c1c0e829ecd7c143196a1a9c447f7ac2d docs/zh_CN: redirect the email-clients link to Chinese version
-
-:::::: TO: Alex Shi <alex.shi@linux.alibaba.com>
-:::::: CC: Jonathan Corbet <corbet@lwn.net>
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+[1]: https://lore.kernel.org/all/20220728113231.26fdfab0@kernel.org/
+[2]: https://lore.kernel.org/netdev/71af8654-ca69-c492-7e12-ed7ff455a2f1@gmail.com/
