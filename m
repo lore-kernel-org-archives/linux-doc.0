@@ -2,92 +2,305 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F4E7C32773
-	for <linux-doc@archiver.kernel.org>; Fri, 19 Aug 2022 05:33:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E62EC32771
+	for <linux-doc@archiver.kernel.org>; Fri, 19 Aug 2022 06:28:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346474AbiHSFdU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 19 Aug 2022 01:33:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51736 "EHLO
+        id S1346182AbiHSG2v (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 19 Aug 2022 02:28:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46602 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346464AbiHSFdS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Aug 2022 01:33:18 -0400
-Received: from mail-vs1-xe2a.google.com (mail-vs1-xe2a.google.com [IPv6:2607:f8b0:4864:20::e2a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E06612A9E;
-        Thu, 18 Aug 2022 22:33:17 -0700 (PDT)
-Received: by mail-vs1-xe2a.google.com with SMTP id l7so3274472vsc.0;
-        Thu, 18 Aug 2022 22:33:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc;
-        bh=PJWZ+ww9nWKSQKWZ24nwvV/pHbapUiWjpSIQxLnH82U=;
-        b=jHmkDZoi5mmEoeqCUl50yLnOI0A0M/wRgcOqhvDai8m5bne/mm/ZvWe4sqXYuoN/+o
-         JtLb5eKPOPgV7s6wLUcSUszmbegvR9oKNZ8m1wbAXdqQn9nAz3ed/GeC1eOLRLzTHQx9
-         XBPJpuQNqGzm/RSpdavJmGYf2SGEEhTCi08G5FYkibnMOc390ErQi/C+MGhpFMYApGNa
-         Lu5EdbMYzYZe/2gEIiKWbgE0f7k5IAJC5nF97j1Voo2KPpg7y9N0smceGoO8s+IRtLvf
-         ENdRWoZ0uwNvdHIZykwr+cnyWaYV9Wj8kYNQyAOKeMY6HvZg2zWWPzWCK0nrIyhXwr8g
-         HcLQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
-        bh=PJWZ+ww9nWKSQKWZ24nwvV/pHbapUiWjpSIQxLnH82U=;
-        b=w5n3z6pX5HeU5l6aI1tNykGmvscBA8rNSgvx7vRWclazo04fvsZ+PB+MZAIoL/yDnG
-         4YM0RoObcaBKK0H1J3zCrF0D2rsv8HrlJVgoB+QlJXraohVNcwmCcxpm0fO6wmhtx/Wx
-         RTC//zS0QQgXA+/KN8pQ/7QUoTDfk19aNc5+ijtYdKWPQzFzmiIeMXFpdMAWcJF/LcCg
-         TPjoz/cRG3cEKqjt3OZYGbgahjZsVwAxHSpJL0CzUIzYDIFuT/CzHnXE4UfG7DFDnb26
-         dvrGO/kZ9sUQMHgcKi0Xx56dsG/0xe8DmKTVqgzTCOr6D7E1/E//YMfrUf3hz5U5K8n/
-         z00g==
-X-Gm-Message-State: ACgBeo0GsFsbmHp2j0CenROsJquV8gpGrOkSoF61VFh4zamCQStUNPE0
-        H3ugUj8+jcR7s/2bxqZSy8svvQvHHFAxUg==
-X-Google-Smtp-Source: AA6agR55cZ0M/b99d5Dw/K0cMaGSOr2xQ4g6dkAG1k71T4VyLWjdcHDEGp0R8f2+Ealgju6EgV4IcA==
-X-Received: by 2002:a05:6102:497:b0:388:d95e:771b with SMTP id n23-20020a056102049700b00388d95e771bmr2229227vsa.44.1660887196472;
-        Thu, 18 Aug 2022 22:33:16 -0700 (PDT)
-Received: from localhost.localdomain ([2804:14c:4c2:8202::1001])
-        by smtp.gmail.com with ESMTPSA id w85-20020a1f9458000000b0037d0cd81996sm1999286vkd.37.2022.08.18.22.33.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Aug 2022 22:33:16 -0700 (PDT)
-From:   Tales Aparecida <tales.aparecida@gmail.com>
-To:     Sadiya Kazi <sadiyakazi@google.com>, keescook@chromium.org
-Cc:     linux-kernel@vger.kernel.org, kunit-dev@googlegroups.com,
-        linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        davidgow@google.com, corbet@lwn.net, brendan.higgins@linux.dev,
-        Trevor Woerner <twoerner@gmail.com>, siqueirajordao@riseup.net,
-        mwen@igalia.com, andrealmeid@riseup.net, mairacanal@riseup.net,
-        Isabella Basso <isabbasso@riseup.net>, magalilemes00@gmail.com,
-        tales.aparecida@gmail.com, linux-hardening@vger.kernel.org
-Subject: [PATCH 8/8] lib: stackinit: update reference to kunit-tool
-Date:   Fri, 19 Aug 2022 02:32:34 -0300
-Message-Id: <20220819053234.241501-9-tales.aparecida@gmail.com>
-X-Mailer: git-send-email 2.37.1
-In-Reply-To: <20220819053234.241501-1-tales.aparecida@gmail.com>
-References: <20220819053234.241501-1-tales.aparecida@gmail.com>
+        with ESMTP id S243435AbiHSG2t (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Aug 2022 02:28:49 -0400
+Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 24B6657271
+        for <linux-doc@vger.kernel.org>; Thu, 18 Aug 2022 23:28:46 -0700 (PDT)
+Received: from localhost.localdomain (unknown [112.20.110.237])
+        by localhost.localdomain (Coremail) with SMTP id AQAAf8DxBOKaLf9iHXUEAA--.22726S4;
+        Fri, 19 Aug 2022 14:28:44 +0800 (CST)
+From:   Binbin Zhou <zhoubinbin@loongson.cn>
+To:     alexs@kernel.org, siyanteng@loongson.cn
+Cc:     corbet@lwn.net, chenhuacai@loongson.cn, bobwxc@email.cn,
+        linux-doc@vger.kernel.org, Binbin Zhou <zhoubinbin@loongson.cn>
+Subject: [PATCH V3 2/4] docs/zh_CN: core-api: Add circular-buffers Chinese translation
+Date:   Fri, 19 Aug 2022 14:28:38 +0800
+Message-Id: <6b94f233dd4b4a9e6da6fa2f86a9b1d32f104004.1660881950.git.zhoubinbin@loongson.cn>
+X-Mailer: git-send-email 2.31.1
+In-Reply-To: <cover.1660881950.git.zhoubinbin@loongson.cn>
+References: <cover.1660881950.git.zhoubinbin@loongson.cn>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf8DxBOKaLf9iHXUEAA--.22726S4
+X-Coremail-Antispam: 1UD129KBjvJXoW3uFW8GFWfKw4fZrykKF4kZwb_yoWDWF4fpr
+        9Iga4fC3WkA34vvas8KFy5WF1UCa48AFy7Kan2kF9rWF48GwnxZr9Fkay29FyfW34xAFyD
+        AFWvkryIkryjy37anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUBS14x267AKxVW5JVWrJwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+        rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_Jryl82xGYIkIc2
+        x26xkF7I0E14v26r4j6ryUM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0
+        Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_Gr1UM2
+        8EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAS
+        0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2
+        IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0
+        Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCY02Avz4vE14v_GF1l42xK82
+        IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC2
+        0s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAKI48JMI
+        IF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF
+        0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87
+        Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjTRRyIUUUUUU
+X-CM-SenderInfo: p2kr3uplqex0o6or00hjvr0hdfq/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Replace URL with an updated path to the full Documentation page
+Translate core-api/circular-buffers.rst into Chinese.
 
-Signed-off-by: Tales Aparecida <tales.aparecida@gmail.com>
+Last English version used:
+
+commit 714b6904e23e ("doc: Remove ".vnet" from paulmck email addresses").
+
+Signed-off-by: Binbin Zhou <zhoubinbin@loongson.cn>
+Reviewed-by: Wu XiangCheng <bobwxc@email.cn>
+Reviewed-by: Yanteng Si<siyanteng@loongson.cn>
 ---
- lib/stackinit_kunit.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../zh_CN/core-api/circular-buffers.rst       | 210 ++++++++++++++++++
+ .../translations/zh_CN/core-api/index.rst     |   2 +-
+ 2 files changed, 211 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/zh_CN/core-api/circular-buffers.rst
 
-diff --git a/lib/stackinit_kunit.c b/lib/stackinit_kunit.c
-index 35c69aa425b2..4591d6cf5e01 100644
---- a/lib/stackinit_kunit.c
-+++ b/lib/stackinit_kunit.c
-@@ -3,7 +3,7 @@
-  * Test cases for compiler-based stack variable zeroing via
-  * -ftrivial-auto-var-init={zero,pattern} or CONFIG_GCC_PLUGIN_STRUCTLEAK*.
-  * For example, see:
-- * https://www.kernel.org/doc/html/latest/dev-tools/kunit/kunit-tool.html#configuring-building-and-running-tests
-+ * "Running tests with kunit_tool" at Documentation/dev-tools/kunit/start.rst
-  *	./tools/testing/kunit/kunit.py run stackinit [--raw_output] \
-  *		--make_option LLVM=1 \
-  *		--kconfig_add CONFIG_INIT_STACK_ALL_ZERO=y
+diff --git a/Documentation/translations/zh_CN/core-api/circular-buffers.rst b/Documentation/translations/zh_CN/core-api/circular-buffers.rst
+new file mode 100644
+index 000000000000..694ad8e61070
+--- /dev/null
++++ b/Documentation/translations/zh_CN/core-api/circular-buffers.rst
+@@ -0,0 +1,210 @@
++.. SPDX-License-Identifier: GPL-2.0+
++
++.. include:: ../disclaimer-zh_CN.rst
++
++:Original: Documentation/core-api/circular-buffers.rst
++
++:翻译:
++
++ 周彬彬 Binbin Zhou <zhoubinbin@loongson.cn>
++
++:校译:
++
++ 司延腾 Yanteng Si <siyanteng@loongson.cn>
++ 吴想成 Wu Xiangcheng <bobwxc@email.cn>
++ 时奎亮 Alex Shi <alexs@kernel.org>
++
++==========
++环形缓冲区
++==========
++
++:作者: David Howells <dhowells@redhat.com>
++:作者: Paul E. McKenney <paulmck@linux.ibm.com>
++
++
++Linux 提供了许多可用于实现循环缓冲的特性。有两组这样的特性：
++
++ (1) 用于确定2次方大小的缓冲区信息的便利函数。
++
++ (2) 可以代替缓冲区中对象的生产者和消费者共享锁的内存屏障。
++
++如下所述，要使用这些设施，只需要一个生产者和一个消费者。可以通过序列化来处理多个
++生产者，并通过序列化来处理多个消费者。
++
++.. Contents:
++
++ (*) 什么是环形缓冲区？
++
++ (*) 测量2次幂缓冲区
++
++ (*) 内存屏障与环形缓冲区的结合使用
++     - 生产者
++     - 消费者
++
++ (*) 延伸阅读
++
++
++
++什么是环形缓冲区？
++==================
++
++首先，什么是环形缓冲区？环形缓冲区是具有固定的有限大小的缓冲区，它有两个索引：
++
++ (1) 'head'索引 - 生产者将元素插入缓冲区的位置。
++
++ (2) 'tail'索引 - 消费者在缓冲区中找到下一个元素的位置。
++
++通常，当tail指针等于head指针时，表明缓冲区是空的；而当head指针比tail指针少一个时，
++表明缓冲区是满的。
++
++添加元素时，递增head索引；删除元素时，递增tail索引。tail索引不应该跳过head索引，
++两个索引在到达缓冲区末端时都应该被赋值为0，从而允许海量的数据流过缓冲区。
++
++通常情况下，元素都有相同的单元大小，但这并不是使用以下技术的严格要求。如果要在缓
++冲区中包含多个元素或可变大小的元素，则索引可以增加超过1，前提是两个索引都没有超过
++另一个。然而，实现者必须小心，因为超过一个单位大小的区域可能会覆盖缓冲区的末端并
++且缓冲区会被分成两段。
++
++测量2次幂缓冲区
++===============
++
++计算任意大小的环形缓冲区的占用或剩余容量通常是一个费时的操作，需要使用模（除法）
++指令。但是如果缓冲区的大小为2次幂，则可以使用更快的按位与指令代替。
++
++Linux提供了一组用于处理2次幂环形缓冲区的宏。可以通过以下方式使用::
++
++	#include <linux/circ_buf.h>
++
++这些宏包括：
++
++ (#) 测量缓冲区的剩余容量::
++
++	CIRC_SPACE(head_index, tail_index, buffer_size);
++
++     返回缓冲区[1]中可插入元素的剩余空间大小。
++
++
++ (#) 测量缓冲区中的最大连续立即可用空间::
++
++	CIRC_SPACE_TO_END(head_index, tail_index, buffer_size);
++
++     返回缓冲区[1]中剩余的连续空间的大小，元素可以立即插入其中，而不必绕回到缓冲
++     区的开头。
++
++
++ (#) 测量缓冲区的使用数::
++
++	CIRC_CNT(head_index, tail_index, buffer_size);
++
++     返回当前占用缓冲区[2]的元素数量。
++
++
++ (#) 测量缓冲区的连续使用数::
++
++	CIRC_CNT_TO_END(head_index, tail_index, buffer_size);
++
++     返回可以从缓冲区中提取的连续元素[2]的数量，而不必绕回到缓冲区的开头。
++
++这里的每一个宏名义上都会返回一个介于0和buffer_size-1之间的值，但是：
++
++ (1) CIRC_SPACE*()是为了在生产者中使用。对生产者来说，它们将返回一个下限，因为生
++     产者控制着head索引，但消费者可能仍然在另一个CPU上耗尽缓冲区并移动tail索引。
++
++     对消费者来说，它将显示一个上限，因为生产者可能正忙于耗尽空间。
++
++ (2) CIRC_CNT*()是为了在消费者中使用。对消费者来说，它们将返回一个下限，因为消费
++     者控制着tail索引，但生产者可能仍然在另一个CPU上填充缓冲区并移动head索引。
++
++     对于生产者，它将显示一个上限，因为消费者可能正忙于清空缓冲区。
++
++ (3) 对于第三方来说，生产者和消费者对索引的写入顺序是无法保证的，因为它们是独立的，
++     而且可能是在不同的CPU上进行的，所以在这种情况下的结果只是一种猜测，甚至可能
++     是错误的。
++
++内存屏障与环形缓冲区的结合使用
++==============================
++
++通过将内存屏障与环形缓冲区结合使用，可以避免以下需求：
++
++ (1) 使用单个锁来控制对缓冲区两端的访问，从而允许同时填充和清空缓冲区；以及
++
++ (2) 使用原子计数器操作。
++
++这有两个方面：填充缓冲区的生产者和清空缓冲区的消费者。在任何时候，只应有一个生产
++者在填充缓冲区，同样的也只应有一个消费者在清空缓冲区，但双方可以同时操作。
++
++
++生产者
++------
++
++生产者看起来像这样::
++
++	spin_lock(&producer_lock);
++
++	unsigned long head = buffer->head;
++	/* spin_unlock()和下一个spin_lock()提供必要的排序。 */
++	unsigned long tail = READ_ONCE(buffer->tail);
++
++	if (CIRC_SPACE(head, tail, buffer->size) >= 1) {
++		/* 添加一个元素到缓冲区 */
++		struct item *item = buffer[head];
++
++		produce_item(item);
++
++		smp_store_release(buffer->head,
++				  (head + 1) & (buffer->size - 1));
++
++		/* wake_up()将确保在唤醒任何人之前提交head */
++		wake_up(consumer);
++	}
++
++	spin_unlock(&producer_lock);
++
++这将表明CPU必须在head索引使其对消费者可用之前写入新项目的内容，同时CPU必须在唤醒
++消费者之前写入修改后的head索引。
++
++请注意，wake_up()并不保证任何形式的屏障，除非确实唤醒了某些东西。因此我们不能依靠
++它来进行排序。但是数组中始终有一个元素留空，因此生产者必须产生两个元素，然后才可
++能破坏消费者当前正在读取的元素。同时，消费者连续调用之间成对的解锁-加锁提供了索引
++读取（指示消费者已清空给定元素）和生产者对该相同元素的写入之间的必要顺序。
++
++
++消费者
++------
++
++消费者看起来像这样::
++
++	spin_lock(&consumer_lock);
++
++	/* 读取该索引处的内容之前，先读取索引 */
++	unsigned long head = smp_load_acquire(buffer->head);
++	unsigned long tail = buffer->tail;
++
++	if (CIRC_CNT(head, tail, buffer->size) >= 1) {
++
++		/* 从缓冲区中提取一个元素 */
++		struct item *item = buffer[tail];
++
++		consume_item(item);
++
++		/* 在递增tail之前完成对描述符的读取。 */
++		smp_store_release(buffer->tail,
++				  (tail + 1) & (buffer->size - 1));
++	}
++
++	spin_unlock(&consumer_lock);
++
++这表明CPU在读取新元素之前确保索引是最新的，然后在写入新的尾指针之前应确保CPU已完
++成读取该元素，这将擦除该元素。
++
++请注意，使用READ_ONCE()和smp_load_acquire()来读取反向（head）索引。这可以防止编译
++器丢弃并重新加载其缓存值。如果您能确定反向（head）索引将仅使用一次，则这不是必须
++的。smp_load_acquire()还可以强制CPU对后续的内存引用进行排序。类似地，两种算法都使
++用smp_store_release()来写入线程的索引。这记录了我们正在写入可以并发读取的内容的事
++实，以防止编译器破坏存储，并强制对以前的访问进行排序。
++
++
++延伸阅读
++========
++
++关于Linux的内存屏障设施的描述，请查看Documentation/memory-barriers.txt。
+diff --git a/Documentation/translations/zh_CN/core-api/index.rst b/Documentation/translations/zh_CN/core-api/index.rst
+index c5ba0a48147c..4ae39a83aa61 100644
+--- a/Documentation/translations/zh_CN/core-api/index.rst
++++ b/Documentation/translations/zh_CN/core-api/index.rst
+@@ -45,12 +45,12 @@
+    xarray
+    rbtree
+    idr
++   circular-buffers
+ 
+ Todolist:
+ 
+ 
+ 
+-   circular-buffers
+    generic-radix-tree
+    packing
+    this_cpu_ops
 -- 
-2.37.1
+2.31.1
 
