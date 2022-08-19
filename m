@@ -2,349 +2,127 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B657C32773
-	for <linux-doc@archiver.kernel.org>; Fri, 19 Aug 2022 20:04:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CE4EBC32771
+	for <linux-doc@archiver.kernel.org>; Fri, 19 Aug 2022 20:12:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351644AbiHSUE4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 19 Aug 2022 16:04:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44396 "EHLO
+        id S1351753AbiHSUMu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 19 Aug 2022 16:12:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55372 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351558AbiHSUEz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Aug 2022 16:04:55 -0400
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::227])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10367EC4C3;
-        Fri, 19 Aug 2022 13:04:52 -0700 (PDT)
-Received: (Authenticated sender: alexandre.belloni@bootlin.com)
-        by mail.gandi.net (Postfix) with ESMTPSA id 767A020002;
-        Fri, 19 Aug 2022 20:04:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1660939491;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=mJeLjPpv9375aOPerzCLWUf/BEwwoWvVvVy4aMJ+n9U=;
-        b=XJl+pCRTBIcHaEMZ07ygpNbBK4lMwhLqXkN3dPnUQg3Oiu71nU65/nN9IsWLFS3IXcQvGq
-        76Jv0rBNJ1QgY4a+5l+gXGvemOTrDSZ77HFayr5R/Zo0Szxbzo8OcPcA6EmBGxKq8Inxrv
-        8U5iPZqLovAkWIKXgKoxRrJ3OrzUANh0L/VDdeRQVIQdeH64uJFxrPaUC2sKATvOAiNNZ2
-        Ow36qYyWfwP13t1YgewVQvJC3FpqQM5ykzpXt6luLhWEoFHoILBeEUpzwdVVdcgowxggrg
-        i1WgTI8MA+cKx/Kza0OjJXzmZHw6UILJjbonadGznuILW+bDJKVx+lHmnZ2HiQ==
-Date:   Fri, 19 Aug 2022 22:04:50 +0200
-From:   Alexandre Belloni <alexandre.belloni@bootlin.com>
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>, x86@kernel.org,
-        linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-um@lists.infradead.org,
-        kvm@vger.kernel.org, llvm@lists.linux.dev,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Borislav Petkov <bp@suse.de>,
-        Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Subject: Re: [PATCH v2] asm goto: eradicate CC_HAS_ASM_GOTO
-Message-ID: <Yv/s4i9qU0baSD4A@mail.local>
-References: <CAADnVQJFc9AnH_9CW+bSRotkKvOmkO9jq-RF6dmyPYOpq691Yg@mail.gmail.com>
- <20220819190640.2763586-1-ndesaulniers@google.com>
+        with ESMTP id S1351746AbiHSUMt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Aug 2022 16:12:49 -0400
+Received: from mail-io1-xd31.google.com (mail-io1-xd31.google.com [IPv6:2607:f8b0:4864:20::d31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 735ED10650E
+        for <linux-doc@vger.kernel.org>; Fri, 19 Aug 2022 13:12:48 -0700 (PDT)
+Received: by mail-io1-xd31.google.com with SMTP id i77so4109953ioa.7
+        for <linux-doc@vger.kernel.org>; Fri, 19 Aug 2022 13:12:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc;
+        bh=TWnGx0tsPzDsYWN5IvwyG0/F4n3/lHDuvrydVsnCdTg=;
+        b=FamF99POPr6PtKGcfiAFaDyK/px9/QEUZ9jAWq0VuRMjBQuH/SIEycINUXdEisf8wJ
+         GB5Fp0sV/9jsr8SHRoKkycJAodjombPVpppk1giNuh7jurYysChORzMPgyHKQdBRx6Yi
+         bMQ8CZykRl92tAcPu+aCfb2R1BHuyiGBmYyICNbj6NOdCbqR0y056zBRI5sucULdSXWP
+         iBSs6go4YjTUccStqlOuQrHTd0ys3ntGBcGxqR0SgI4W+Fz4sL7vOXN4324d30h8iu/T
+         k8P9H+ggVIlKLOTUU3V6HrleaFRS/uGb9Vw8lQ57cl7kluTFPaNsmbjckIsP6sE3O2xR
+         GObw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=TWnGx0tsPzDsYWN5IvwyG0/F4n3/lHDuvrydVsnCdTg=;
+        b=sXfpiCC/P7jwIRIXl+sE9agumBY33ZQmokwj+Yq0Eb3sCt2NJo9FpSJXwubyeyK034
+         9XFXPQJqcafcqaTRdeYkcDBLULPZfH/n2P8ZN8N76PKZCFVzPGAeMPQhz4N7rGzQ+rgb
+         cskXMY6rSjmbo6RhxE0l7dvcKOJTapHwJeJar6iB9P7ap6VrabN7v4Esv694NmNj0L6p
+         REypJ7AnNp0HIhOPF8Xk/ga83ZRpMQsgSSQKwjFlV4UCDpHCTAyFIJbs7o4+PaYMqHlE
+         /GP/GXIgp2tehFFXysOmnD9gbi48gqw13/vRKtqxK8Fm7jK4dEm3mI2Npg4SXwLN/d1/
+         Np+Q==
+X-Gm-Message-State: ACgBeo3ojV//6i/MOT2Gmt7sY98Cxp2S/VMqUlB71tAEDGD71d+MCON0
+        u34cVnNchPNZgmGAGPQ5uBe8QQ8pg7WxnAkvQ41+eQ==
+X-Google-Smtp-Source: AA6agR7vH6bU/CcMRlqauAdte2pei9jmt+xQRqGJlV8ch8ekID2WY8/GjnEURxqW3LnsWWhfJJAGPXkSfSDz0FeaHIw=
+X-Received: by 2002:a05:6638:34a8:b0:343:4d0a:5984 with SMTP id
+ t40-20020a05663834a800b003434d0a5984mr4292780jal.167.1660939967732; Fri, 19
+ Aug 2022 13:12:47 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220819190640.2763586-1-ndesaulniers@google.com>
+References: <20220817214728.489904-1-axelrasmussen@google.com>
+ <20220817214728.489904-3-axelrasmussen@google.com> <Yv3bnouKb7242Ama@kroah.com>
+In-Reply-To: <Yv3bnouKb7242Ama@kroah.com>
+From:   Axel Rasmussen <axelrasmussen@google.com>
+Date:   Fri, 19 Aug 2022 13:12:10 -0700
+Message-ID: <CAJHvVcjd3GtjJ2yr0gNDGHCqc8RZUYXCYaj8eEgo1TTLBjNYSQ@mail.gmail.com>
+Subject: Re: [PATCH v6 2/5] userfaultfd: add /dev/userfaultfd for fine grained
+ access control
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "Dmitry V . Levin" <ldv@altlinux.org>,
+        Gleb Fotengauer-Malinovskiy <glebfm@altlinux.org>,
+        Hugh Dickins <hughd@google.com>, Jan Kara <jack@suse.cz>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mel Gorman <mgorman@techsingularity.net>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Mike Rapoport <rppt@kernel.org>, Nadav Amit <namit@vmware.com>,
+        Peter Xu <peterx@redhat.com>, Shuah Khan <shuah@kernel.org>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        zhangyi <yi.zhang@huawei.com>, linux-doc@vger.kernel.org,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linuxkselftest <linux-kselftest@vger.kernel.org>,
+        Linux MM <linux-mm@kvack.org>,
+        linux-security-module@vger.kernel.org,
+        Mike Rapoport <rppt@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 19/08/2022 12:06:40-0700, Nick Desaulniers wrote:
-> GCC has supported asm goto since 4.5, and Clang has since version 9.0.0.
-> The minimum supported versions of these tools for the build according to
-> Documentation/process/changes.rst are 5.1 and 11.0.0 respectively.
-> 
-> Remove the feature detection script, Kconfig option, and clean up some
-> fallback code that is no longer supported.
-> 
-> The removed script was also testing for a GCC specific bug that was
-> fixed in the 4.7 release.
-> 
-> Also remove workarounds for bpftrace using clang older than 9.0.0, since
-> other BPF backend fixes are required at this point.
-> 
-> Link: https://lore.kernel.org/lkml/CAK7LNATSr=BXKfkdW8f-H5VT_w=xBpT2ZQcZ7rm6JfkdE+QnmA@mail.gmail.com/
-> Link: http://gcc.gnu.org/bugzilla/show_bug.cgi?id=48637
-> Acked-by: Borislav Petkov <bp@suse.de>
-> Suggested-by: Masahiro Yamada <masahiroy@kernel.org>
-> Suggested-by: Alexei Starovoitov <alexei.starovoitov@gmail.com>
-> Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
-Reviewed-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+On Wed, Aug 17, 2022 at 11:26 PM Greg KH <gregkh@linuxfoundation.org> wrote:
+>
+> On Wed, Aug 17, 2022 at 02:47:25PM -0700, Axel Rasmussen wrote:
+> > +static int userfaultfd_dev_open(struct inode *inode, struct file *file)
+> > +{
+> > +     return 0;
+>
+> If your open does nothing, no need to list it here at all, right?
+>
+> > +}
+> > +
+> > +static long userfaultfd_dev_ioctl(struct file *file, unsigned int cmd, unsigned long flags)
+> > +{
+> > +     if (cmd != USERFAULTFD_IOC_NEW)
+> > +             return -EINVAL;
+> > +
+> > +     return new_userfaultfd(flags);
+> > +}
+> > +
+> > +static const struct file_operations userfaultfd_dev_fops = {
+> > +     .open = userfaultfd_dev_open,
+> > +     .unlocked_ioctl = userfaultfd_dev_ioctl,
+> > +     .compat_ioctl = userfaultfd_dev_ioctl,
+>
+> Why do you need to set compat_ioctl?  Shouldn't it just default to the
+> existing one?
 
-> ---
-> 
-> Changes v1 -> v2:
-> https://lore.kernel.org/linux-kbuild/20220819170053.2686006-1-ndesaulniers@google.com/
-> * Pick up Boris' ack.
-> * Drop line about Dash compat as per Alexandre.
-> * Drop Alexandre's reported by as per Masahiro.
-> * s/Kbuild/asm goto/ in oneline as per Masahiro.
-> * Remove entirety of bpftrace workarounds as per Alexei.
-> * Fix mistake in arch/x86/include/asm/rmwcc.h in v1 where I removed too
->   much; we still need guards for __GCC_ASM_FLAG_OUTPUTS__.
-> 
->  Documentation/kbuild/kconfig-language.rst |  4 ++--
->  arch/Kconfig                              |  3 +--
->  arch/um/include/asm/cpufeature.h          | 15 ---------------
->  arch/x86/Makefile                         |  4 ----
->  arch/x86/include/asm/cpufeature.h         | 15 ---------------
->  arch/x86/include/asm/rmwcc.h              |  6 +++---
->  arch/x86/kvm/emulate.c                    |  2 +-
->  init/Kconfig                              |  4 ----
->  scripts/gcc-goto.sh                       | 22 ----------------------
->  tools/arch/x86/include/asm/rmwcc.h        | 21 ---------------------
->  10 files changed, 7 insertions(+), 89 deletions(-)
->  delete mode 100755 scripts/gcc-goto.sh
-> 
-> diff --git a/Documentation/kbuild/kconfig-language.rst b/Documentation/kbuild/kconfig-language.rst
-> index 7fb398649f51..858ed5d80def 100644
-> --- a/Documentation/kbuild/kconfig-language.rst
-> +++ b/Documentation/kbuild/kconfig-language.rst
-> @@ -525,8 +525,8 @@ followed by a test macro::
->  If you need to expose a compiler capability to makefiles and/or C source files,
->  `CC_HAS_` is the recommended prefix for the config option::
->  
-> -  config CC_HAS_ASM_GOTO
-> -	def_bool $(success,$(srctree)/scripts/gcc-goto.sh $(CC))
-> +  config CC_HAS_FOO
-> +	def_bool $(success,$(srctree)/scripts/cc-check-foo.sh $(CC))
->  
->  Build as module only
->  ~~~~~~~~~~~~~~~~~~~~
-> diff --git a/arch/Kconfig b/arch/Kconfig
-> index f330410da63a..5dbf11a5ba4e 100644
-> --- a/arch/Kconfig
-> +++ b/arch/Kconfig
-> @@ -53,7 +53,6 @@ config KPROBES
->  config JUMP_LABEL
->  	bool "Optimize very unlikely/likely branches"
->  	depends on HAVE_ARCH_JUMP_LABEL
-> -	depends on CC_HAS_ASM_GOTO
->  	select OBJTOOL if HAVE_JUMP_LABEL_HACK
->  	help
->  	 This option enables a transparent branch optimization that
-> @@ -1361,7 +1360,7 @@ config HAVE_PREEMPT_DYNAMIC_CALL
->  
->  config HAVE_PREEMPT_DYNAMIC_KEY
->  	bool
-> -	depends on HAVE_ARCH_JUMP_LABEL && CC_HAS_ASM_GOTO
-> +	depends on HAVE_ARCH_JUMP_LABEL
->  	select HAVE_PREEMPT_DYNAMIC
->  	help
->  	   An architecture should select this if it can handle the preemption
-> diff --git a/arch/um/include/asm/cpufeature.h b/arch/um/include/asm/cpufeature.h
-> index 19cd7ed6ec3c..4b6d1b526bc1 100644
-> --- a/arch/um/include/asm/cpufeature.h
-> +++ b/arch/um/include/asm/cpufeature.h
-> @@ -65,20 +65,6 @@ extern void setup_clear_cpu_cap(unsigned int bit);
->  
->  #define setup_force_cpu_bug(bit) setup_force_cpu_cap(bit)
->  
-> -#if defined(__clang__) && !defined(CONFIG_CC_HAS_ASM_GOTO)
-> -
-> -/*
-> - * Workaround for the sake of BPF compilation which utilizes kernel
-> - * headers, but clang does not support ASM GOTO and fails the build.
-> - */
-> -#ifndef __BPF_TRACING__
-> -#warning "Compiler lacks ASM_GOTO support. Add -D __BPF_TRACING__ to your compiler arguments"
-> -#endif
-> -
-> -#define static_cpu_has(bit)            boot_cpu_has(bit)
-> -
-> -#else
-> -
->  /*
->   * Static testing of CPU features. Used the same as boot_cpu_has(). It
->   * statically patches the target code for additional performance. Use
-> @@ -137,7 +123,6 @@ static __always_inline bool _static_cpu_has(u16 bit)
->  		boot_cpu_has(bit) :				\
->  		_static_cpu_has(bit)				\
->  )
-> -#endif
->  
->  #define cpu_has_bug(c, bit)		cpu_has(c, (bit))
->  #define set_cpu_bug(c, bit)		set_cpu_cap(c, (bit))
-> diff --git a/arch/x86/Makefile b/arch/x86/Makefile
-> index 7854685c5f25..bafbd905e6e7 100644
-> --- a/arch/x86/Makefile
-> +++ b/arch/x86/Makefile
-> @@ -286,10 +286,6 @@ vdso_install:
->  
->  archprepare: checkbin
->  checkbin:
-> -ifndef CONFIG_CC_HAS_ASM_GOTO
-> -	@echo Compiler lacks asm-goto support.
-> -	@exit 1
-> -endif
->  ifdef CONFIG_RETPOLINE
->  ifeq ($(RETPOLINE_CFLAGS),)
->  	@echo "You are building kernel with non-retpoline compiler." >&2
-> diff --git a/arch/x86/include/asm/cpufeature.h b/arch/x86/include/asm/cpufeature.h
-> index ea34cc31b047..1a85e1fb0922 100644
-> --- a/arch/x86/include/asm/cpufeature.h
-> +++ b/arch/x86/include/asm/cpufeature.h
-> @@ -155,20 +155,6 @@ extern void clear_cpu_cap(struct cpuinfo_x86 *c, unsigned int bit);
->  
->  #define setup_force_cpu_bug(bit) setup_force_cpu_cap(bit)
->  
-> -#if defined(__clang__) && !defined(CONFIG_CC_HAS_ASM_GOTO)
-> -
-> -/*
-> - * Workaround for the sake of BPF compilation which utilizes kernel
-> - * headers, but clang does not support ASM GOTO and fails the build.
-> - */
-> -#ifndef __BPF_TRACING__
-> -#warning "Compiler lacks ASM_GOTO support. Add -D __BPF_TRACING__ to your compiler arguments"
-> -#endif
-> -
-> -#define static_cpu_has(bit)            boot_cpu_has(bit)
-> -
-> -#else
-> -
->  /*
->   * Static testing of CPU features. Used the same as boot_cpu_has(). It
->   * statically patches the target code for additional performance. Use
-> @@ -208,7 +194,6 @@ static __always_inline bool _static_cpu_has(u16 bit)
->  		boot_cpu_has(bit) :				\
->  		_static_cpu_has(bit)				\
->  )
-> -#endif
->  
->  #define cpu_has_bug(c, bit)		cpu_has(c, (bit))
->  #define set_cpu_bug(c, bit)		set_cpu_cap(c, (bit))
-> diff --git a/arch/x86/include/asm/rmwcc.h b/arch/x86/include/asm/rmwcc.h
-> index 8a9eba191516..7fa611216417 100644
-> --- a/arch/x86/include/asm/rmwcc.h
-> +++ b/arch/x86/include/asm/rmwcc.h
-> @@ -11,7 +11,7 @@
->  
->  #define __CLOBBERS_MEM(clb...)	"memory", ## clb
->  
-> -#if !defined(__GCC_ASM_FLAG_OUTPUTS__) && defined(CONFIG_CC_HAS_ASM_GOTO)
-> +#ifndef __GCC_ASM_FLAG_OUTPUTS__
->  
->  /* Use asm goto */
->  
-> @@ -27,7 +27,7 @@ cc_label:	c = true;						\
->  	c;								\
->  })
->  
-> -#else /* defined(__GCC_ASM_FLAG_OUTPUTS__) || !defined(CONFIG_CC_HAS_ASM_GOTO) */
-> +#else /* defined(__GCC_ASM_FLAG_OUTPUTS__) */
->  
->  /* Use flags output or a set instruction */
->  
-> @@ -40,7 +40,7 @@ cc_label:	c = true;						\
->  	c;								\
->  })
->  
-> -#endif /* defined(__GCC_ASM_FLAG_OUTPUTS__) || !defined(CONFIG_CC_HAS_ASM_GOTO) */
-> +#endif /* defined(__GCC_ASM_FLAG_OUTPUTS__) */
->  
->  #define GEN_UNARY_RMWcc_4(op, var, cc, arg0)				\
->  	__GEN_RMWcc(op " " arg0, var, cc, __CLOBBERS_MEM())
-> diff --git a/arch/x86/kvm/emulate.c b/arch/x86/kvm/emulate.c
-> index b4eeb7c75dfa..08613c65138d 100644
-> --- a/arch/x86/kvm/emulate.c
-> +++ b/arch/x86/kvm/emulate.c
-> @@ -493,7 +493,7 @@ FOP_END;
->  
->  /*
->   * XXX: inoutclob user must know where the argument is being expanded.
-> - *      Relying on CONFIG_CC_HAS_ASM_GOTO would allow us to remove _fault.
-> + *      Using asm goto would allow us to remove _fault.
->   */
->  #define asm_safe(insn, inoutclob...) \
->  ({ \
-> diff --git a/init/Kconfig b/init/Kconfig
-> index 80fe60fa77fb..532362fcfe31 100644
-> --- a/init/Kconfig
-> +++ b/init/Kconfig
-> @@ -70,11 +70,7 @@ config CC_CAN_LINK_STATIC
->  	default $(success,$(srctree)/scripts/cc-can-link.sh $(CC) $(CLANG_FLAGS) $(USERCFLAGS) $(USERLDFLAGS) $(m64-flag) -static) if 64BIT
->  	default $(success,$(srctree)/scripts/cc-can-link.sh $(CC) $(CLANG_FLAGS) $(USERCFLAGS) $(USERLDFLAGS) $(m32-flag) -static)
->  
-> -config CC_HAS_ASM_GOTO
-> -	def_bool $(success,$(srctree)/scripts/gcc-goto.sh $(CC))
-> -
->  config CC_HAS_ASM_GOTO_OUTPUT
-> -	depends on CC_HAS_ASM_GOTO
->  	def_bool $(success,echo 'int foo(int x) { asm goto ("": "=r"(x) ::: bar); return x; bar: return 0; }' | $(CC) -x c - -c -o /dev/null)
->  
->  config CC_HAS_ASM_GOTO_TIED_OUTPUT
-> diff --git a/scripts/gcc-goto.sh b/scripts/gcc-goto.sh
-> deleted file mode 100755
-> index 8b980fb2270a..000000000000
-> --- a/scripts/gcc-goto.sh
-> +++ /dev/null
-> @@ -1,22 +0,0 @@
-> -#!/bin/sh
-> -# SPDX-License-Identifier: GPL-2.0
-> -# Test for gcc 'asm goto' support
-> -# Copyright (C) 2010, Jason Baron <jbaron@redhat.com>
-> -
-> -cat << "END" | $@ -x c - -fno-PIE -c -o /dev/null
-> -int main(void)
-> -{
-> -#if defined(__arm__) || defined(__aarch64__)
-> -	/*
-> -	 * Not related to asm goto, but used by jump label
-> -	 * and broken on some ARM GCC versions (see GCC Bug 48637).
-> -	 */
-> -	static struct { int dummy; int state; } tp;
-> -	asm (".long %c0" :: "i" (&tp.state));
-> -#endif
-> -
-> -entry:
-> -	asm goto ("" :::: entry);
-> -	return 0;
-> -}
-> -END
-> diff --git a/tools/arch/x86/include/asm/rmwcc.h b/tools/arch/x86/include/asm/rmwcc.h
-> index fee7983a90b4..11ff975242ca 100644
-> --- a/tools/arch/x86/include/asm/rmwcc.h
-> +++ b/tools/arch/x86/include/asm/rmwcc.h
-> @@ -2,8 +2,6 @@
->  #ifndef _TOOLS_LINUX_ASM_X86_RMWcc
->  #define _TOOLS_LINUX_ASM_X86_RMWcc
->  
-> -#ifdef CONFIG_CC_HAS_ASM_GOTO
-> -
->  #define __GEN_RMWcc(fullop, var, cc, ...)				\
->  do {									\
->  	asm_volatile_goto (fullop "; j" cc " %l[cc_label]"		\
-> @@ -20,23 +18,4 @@ cc_label:								\
->  #define GEN_BINARY_RMWcc(op, var, vcon, val, arg0, cc)			\
->  	__GEN_RMWcc(op " %1, " arg0, var, cc, vcon (val))
->  
-> -#else /* !CONFIG_CC_HAS_ASM_GOTO */
-> -
-> -#define __GEN_RMWcc(fullop, var, cc, ...)				\
-> -do {									\
-> -	char c;								\
-> -	asm volatile (fullop "; set" cc " %1"				\
-> -			: "+m" (var), "=qm" (c)				\
-> -			: __VA_ARGS__ : "memory");			\
-> -	return c != 0;							\
-> -} while (0)
-> -
-> -#define GEN_UNARY_RMWcc(op, var, arg0, cc)				\
-> -	__GEN_RMWcc(op " " arg0, var, cc)
-> -
-> -#define GEN_BINARY_RMWcc(op, var, vcon, val, arg0, cc)			\
-> -	__GEN_RMWcc(op " %2, " arg0, var, cc, vcon (val))
-> -
-> -#endif /* CONFIG_CC_HAS_ASM_GOTO */
-> -
->  #endif /* _TOOLS_LINUX_ASM_X86_RMWcc */
-> -- 
-> 2.37.1.595.g718a3a8f04-goog
-> 
+I took some more time looking at this today, and I think it actually
+has to be the way it is.
 
--- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+I didn't find anywhere we noticed compat_ioctl unset, and default to
+the "normal" one (e.g. see the compat ioctl syscall definition in
+fs/ioctl.c). It looks to me like it really does need some value. It's
+common to use compat_ptr_ioctl for this, but since we're interpreting
+the arg as a scalar not as a pointer, doing that here would be
+incorrect.
+
+It looks like there are other existing examples that do it the same
+way, e.g. seccomp_notify_ops in linux/seccomp.c.
+
+>
+> And why is this a device node at all?  Shouldn't the syscall handle all
+> of this (to be honest, I didn't read anything but the misc code, sorry.)
+>
+> thanks,
+>
+> greg k-h
