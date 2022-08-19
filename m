@@ -2,30 +2,30 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 551B2C32772
-	for <linux-doc@archiver.kernel.org>; Fri, 19 Aug 2022 12:02:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 646ABC32774
+	for <linux-doc@archiver.kernel.org>; Fri, 19 Aug 2022 12:02:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348379AbiHSMCe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 19 Aug 2022 08:02:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48930 "EHLO
+        id S1348829AbiHSMCf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 19 Aug 2022 08:02:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48770 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1348862AbiHSMB4 (ORCPT
+        with ESMTP id S1348861AbiHSMB4 (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Aug 2022 08:01:56 -0400
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F49EF4388
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90B17F2C9A
         for <linux-doc@vger.kernel.org>; Fri, 19 Aug 2022 05:01:46 -0700 (PDT)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
         by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <ore@pengutronix.de>)
-        id 1oP0ge-0007mi-NM; Fri, 19 Aug 2022 14:01:16 +0200
+        id 1oP0ge-0007mT-NL; Fri, 19 Aug 2022 14:01:16 +0200
 Received: from [2a0a:edc0:0:1101:1d::ac] (helo=dude04.red.stw.pengutronix.de)
         by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
         (envelope-from <ore@pengutronix.de>)
-        id 1oP0gc-000hbX-Dd; Fri, 19 Aug 2022 14:01:14 +0200
+        id 1oP0gb-000hbL-7j; Fri, 19 Aug 2022 14:01:13 +0200
 Received: from ore by dude04.red.stw.pengutronix.de with local (Exim 4.94.2)
         (envelope-from <ore@pengutronix.de>)
-        id 1oP0ga-00GBaq-8k; Fri, 19 Aug 2022 14:01:12 +0200
+        id 1oP0ga-00GBbH-Ar; Fri, 19 Aug 2022 14:01:12 +0200
 From:   Oleksij Rempel <o.rempel@pengutronix.de>
 To:     Andrew Lunn <andrew@lunn.ch>,
         Heiner Kallweit <hkallweit1@gmail.com>,
@@ -41,9 +41,9 @@ Cc:     Oleksij Rempel <o.rempel@pengutronix.de>, kernel@pengutronix.de,
         linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
         devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
         David Jander <david@protonic.nl>
-Subject: [PATCH net-next v1 2/7] dt-bindings: net: phy: add PoDL PSE property
-Date:   Fri, 19 Aug 2022 14:01:04 +0200
-Message-Id: <20220819120109.3857571-3-o.rempel@pengutronix.de>
+Subject: [PATCH net-next v1 5/7] net: mdiobus: fwnode_mdiobus_register_phy() rework error handling
+Date:   Fri, 19 Aug 2022 14:01:07 +0200
+Message-Id: <20220819120109.3857571-6-o.rempel@pengutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220819120109.3857571-1-o.rempel@pengutronix.de>
 References: <20220819120109.3857571-1-o.rempel@pengutronix.de>
@@ -57,30 +57,63 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add property to reference node representing a PoDL Power Sourcing Equipment.
+Rework error handling as preparation for PSE patch. This patch should
+make it easier to extend this function.
 
 Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
 ---
- Documentation/devicetree/bindings/net/ethernet-phy.yaml | 6 ++++++
- 1 file changed, 6 insertions(+)
+ drivers/net/mdio/fwnode_mdio.c | 21 ++++++++++++---------
+ 1 file changed, 12 insertions(+), 9 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/net/ethernet-phy.yaml b/Documentation/devicetree/bindings/net/ethernet-phy.yaml
-index ed1415a4381f2..49c74e177c788 100644
---- a/Documentation/devicetree/bindings/net/ethernet-phy.yaml
-+++ b/Documentation/devicetree/bindings/net/ethernet-phy.yaml
-@@ -144,6 +144,12 @@ properties:
-       Mark the corresponding energy efficient ethernet mode as
-       broken and request the ethernet to stop advertising it.
+diff --git a/drivers/net/mdio/fwnode_mdio.c b/drivers/net/mdio/fwnode_mdio.c
+index 3e79c2c519298..e78ad55c0e091 100644
+--- a/drivers/net/mdio/fwnode_mdio.c
++++ b/drivers/net/mdio/fwnode_mdio.c
+@@ -108,8 +108,8 @@ int fwnode_mdiobus_register_phy(struct mii_bus *bus,
+ 	else
+ 		phy = phy_device_create(bus, addr, phy_id, 0, NULL);
+ 	if (IS_ERR(phy)) {
+-		unregister_mii_timestamper(mii_ts);
+-		return PTR_ERR(phy);
++		rc = PTR_ERR(phy);
++		goto clean_mii_ts;
+ 	}
  
-+  ieee802.3-podl-pse:
-+    $ref: /schemas/types.yaml#/definitions/phandle
-+    description:
-+      Specifies a reference to a node representing a Power over Data Lines
-+      Power Sourcing Equipment.
+ 	if (is_acpi_node(child)) {
+@@ -123,17 +123,13 @@ int fwnode_mdiobus_register_phy(struct mii_bus *bus,
+ 		/* All data is now stored in the phy struct, so register it */
+ 		rc = phy_device_register(phy);
+ 		if (rc) {
+-			phy_device_free(phy);
+ 			fwnode_handle_put(phy->mdio.dev.fwnode);
+-			return rc;
++			goto clean_phy;
+ 		}
+ 	} else if (is_of_node(child)) {
+ 		rc = fwnode_mdiobus_phy_device_register(bus, phy, child, addr);
+-		if (rc) {
+-			unregister_mii_timestamper(mii_ts);
+-			phy_device_free(phy);
+-			return rc;
+-		}
++		if (rc)
++			goto clean_phy;
+ 	}
+ 
+ 	/* phy->mii_ts may already be defined by the PHY driver. A
+@@ -143,5 +139,12 @@ int fwnode_mdiobus_register_phy(struct mii_bus *bus,
+ 	if (mii_ts)
+ 		phy->mii_ts = mii_ts;
+ 	return 0;
 +
-   phy-is-integrated:
-     $ref: /schemas/types.yaml#/definitions/flag
-     description:
++clean_phy:
++	phy_device_free(phy);
++clean_mii_ts:
++	unregister_mii_timestamper(mii_ts);
++
++	return rc;
+ }
+ EXPORT_SYMBOL(fwnode_mdiobus_register_phy);
 -- 
 2.30.2
 
