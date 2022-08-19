@@ -2,595 +2,413 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 41176C32789
-	for <linux-doc@archiver.kernel.org>; Fri, 19 Aug 2022 12:02:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D55E0C32773
+	for <linux-doc@archiver.kernel.org>; Fri, 19 Aug 2022 12:34:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348876AbiHSMCg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 19 Aug 2022 08:02:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48806 "EHLO
+        id S1348883AbiHSMeE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 19 Aug 2022 08:34:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41990 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1348869AbiHSMB4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Aug 2022 08:01:56 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19ED1FFF4C
-        for <linux-doc@vger.kernel.org>; Fri, 19 Aug 2022 05:01:49 -0700 (PDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ore@pengutronix.de>)
-        id 1oP0ge-0007mV-NL; Fri, 19 Aug 2022 14:01:16 +0200
-Received: from [2a0a:edc0:0:1101:1d::ac] (helo=dude04.red.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-        (envelope-from <ore@pengutronix.de>)
-        id 1oP0gb-000hbN-AN; Fri, 19 Aug 2022 14:01:13 +0200
-Received: from ore by dude04.red.stw.pengutronix.de with local (Exim 4.94.2)
-        (envelope-from <ore@pengutronix.de>)
-        id 1oP0ga-00GBbZ-C4; Fri, 19 Aug 2022 14:01:12 +0200
-From:   Oleksij Rempel <o.rempel@pengutronix.de>
-To:     Andrew Lunn <andrew@lunn.ch>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     Oleksij Rempel <o.rempel@pengutronix.de>, kernel@pengutronix.de,
-        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
-        David Jander <david@protonic.nl>
-Subject: [PATCH net-next v1 7/7] ethtool: add interface to interact with Ethernet Power Equipment
-Date:   Fri, 19 Aug 2022 14:01:09 +0200
-Message-Id: <20220819120109.3857571-8-o.rempel@pengutronix.de>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220819120109.3857571-1-o.rempel@pengutronix.de>
-References: <20220819120109.3857571-1-o.rempel@pengutronix.de>
+        with ESMTP id S1348513AbiHSMeD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Aug 2022 08:34:03 -0400
+Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com [IPv6:2a00:1450:4864:20::231])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B129AC4832
+        for <linux-doc@vger.kernel.org>; Fri, 19 Aug 2022 05:34:00 -0700 (PDT)
+Received: by mail-lj1-x231.google.com with SMTP id x10so4405589ljq.4
+        for <linux-doc@vger.kernel.org>; Fri, 19 Aug 2022 05:34:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc;
+        bh=NZ2a/CLKJIs4lmdXrW3UiRmiAr4+TW2WhgSNxOGzccA=;
+        b=daMwtJbKHJ61v5sf8VR7TC5uSa0rwHZ5W0gVzElMX9oJVSe9W7bBDvKUCZTJbQ9ozW
+         33BR3WdXynzMxZ81mkppceDeuCtkGmjCOKGM6G/SYtVP91LVsdVmcpTeWpv8LVaPD0DA
+         wxtCN+kwW5SL1jzMNoVuSVzPLg+ztQh/sFYEYMiaE29up+77vyn9qkZROsFcEHgyPzRN
+         7Blaqd/boZ5LQVIE7Quc6epJJUkQXaRs5ff/Xc1jgHkZAOfUDCa+tcFUNHeE/+6/x0Bm
+         YSbrIiP+QTvn8gicSUuaLJutFj7z04wtM0iXz5pu/ushTYDoVb5VKpzt3wIEKYXxe22g
+         XYVg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=NZ2a/CLKJIs4lmdXrW3UiRmiAr4+TW2WhgSNxOGzccA=;
+        b=u/ueyaSMMMGXGa3Ksvq73wLJnFtSHmx/NF5EO6yBuaUYSSYsFn9PF8lCiqCFZ11Ix6
+         bbgbLDtS+3PQ3a7uFDhUXYCZVwOpQiELu9B+pkN75QXTp/ceWGzeDC0jmiWKvmexHI/1
+         D3j2xg8AxlNXf+9Z2mjKp3TkwjELa4tnWLcUbZAVc/wsHFnDpqurvG8V3uALoapEJOfW
+         UulTD09uxtq2Uy+JFptqtUz26q9PGKlQg5YtrOCezCkin/WBYNakI10QFGD0uqFBdQrc
+         v52lX6mqDIVOY+3wDUoWCriLyhlBb9u4nc8rBGQlIP5O7XV5MEjpXH7wzs6Uzz/oAtfD
+         1ZfA==
+X-Gm-Message-State: ACgBeo0HWzZwYZuVrI3Y2f6hKfCZE+5HClRnnqJp1MkSSCMBeHH6//9d
+        F5cjxwXBzShFm8V7k2zqRvD68Nn/EJSgaVIZLoJiRA==
+X-Google-Smtp-Source: AA6agR5jhs1yh7KPRbY65asU6KWhzCzjs3Ki1+AluIKvIb8QFo+TO+AkXMZ7l8p0rd2isfUXBta7pRZbnJDAMfvAVkw=
+X-Received: by 2002:a05:651c:1695:b0:261:b5d4:371a with SMTP id
+ bd21-20020a05651c169500b00261b5d4371amr1716631ljb.154.1660912438814; Fri, 19
+ Aug 2022 05:33:58 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ore@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+References: <20220819053234.241501-1-tales.aparecida@gmail.com> <20220819053234.241501-2-tales.aparecida@gmail.com>
+In-Reply-To: <20220819053234.241501-2-tales.aparecida@gmail.com>
+From:   Sadiya Kazi <sadiyakazi@google.com>
+Date:   Fri, 19 Aug 2022 18:03:47 +0530
+Message-ID: <CAO2JNKUByc9FcvqcmKe+N7NoJDU8+1U7S5PC-HfkptheeTq-Ww@mail.gmail.com>
+Subject: Re: [PATCH 1/8] Documentation: KUnit: remove duplicated docs for kunit_tool
+To:     Tales Aparecida <tales.aparecida@gmail.com>
+Cc:     linux-kernel@vger.kernel.org, kunit-dev@googlegroups.com,
+        linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        David Gow <davidgow@google.com>, corbet@lwn.net,
+        brendan.higgins@linux.dev, Trevor Woerner <twoerner@gmail.com>,
+        siqueirajordao@riseup.net, mwen@igalia.com, andrealmeid@riseup.net,
+        mairacanal@riseup.net, Isabella Basso <isabbasso@riseup.net>,
+        magalilemes00@gmail.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add interface to support Power Sourcing Equipment. At current step it
-provides generic way to address all variants of PSE devices as defined
-in IEEE 802.3-2018 but support only objects specified for IEEE 802.3-2018 104.4
-PoDL Power Sourcing Equipment (PSE).
+On Fri, Aug 19, 2022 at 11:02 AM Tales Aparecida
+<tales.aparecida@gmail.com> wrote:
+>
+> Delete "kunit-tool.rst" to remove repeated info from KUnit docs.
+> "What is kunit_tool?" was integrated into index.rst, the remaining
+> sections were moved into run_wrapper.rst and renamed as follows:
+>
+> "What is a .kunitconfig?" -> "Create a ``.kunitconfig`` File"
+> "Getting Started with kunit_tool" -> "Run Tests with kunit_tool"
+> "Configuring, Building, and Running Tests" ->
+>   "Configure, Build, and Run Tests"
+> "Running Tests on QEMU" -> "Run Tests on QEMU"
+> "Parsing Test Results" -> "Parse Test Results"
+> "Filtering Tests" -> "Run Selected Test Suites"
+> "Other Useful Options" -> "Command-Line Arguments"
+>
+> Signed-off-by: Tales Aparecida <tales.aparecida@gmail.com>
+> ---
 
-Currently supported and mandatory objects are:
-IEEE 802.3-2018 30.15.1.1.3 aPoDLPSEPowerDetectionStatus
-IEEE 802.3-2018 30.15.1.1.2 aPoDLPSEAdminState
-IEEE 802.3-2018 30.15.1.2.1 acPoDLPSEAdminControl
+Hi Tales,
+Thank you for removing repeated content from the docs. It definitely
+helps. You could change the headings as follows:
 
-This is minimal interface needed to control PSE on each separate
-ethernet port but it provides not all mandatory objects specified in
-IEEE 802.3-2018.
+"What is a .kunitconfig?" -> "Create a ``.kunitconfig`` File". Keep it
+as "Creating a ``.kunitconfig`` file".
+"Getting Started with kunit_tool" -> "Run Tests with kunit_tool". Keep
+it as "Running tests with kunit_tool".
+ "Configuring, Building, and Running Tests" ->
+ "Configure, Build, and Run Tests". Keep it as "Configuring, building,
+and running tests"
+"Running Tests on QEMU" -> "Run Tests on QEMU". Keep it as "Running
+tests on QEMU"
+"Parsing Test Results" -> "Parse Test Results".  Keep it as "Parsing
+test results"
+"Filtering Tests" -> "Run Selected Test Suites".  Keep it as "Filtering tests"
+"Other Useful Options" -> "Command-Line Arguments".  Keep it as
+"Running command-line arguments". This would help to display the right
+results when any user is searching with the keyword command-line.
+Makes the document more discoverable.
 
-Since "PoDL PSE" and "PSE" have similar names, but some different values
-I decide to not merge them and keep separate naming schema. This should
-allow as to be as close to IEEE 802.3 spec as possible and avoid name
-conflicts in the future.
 
-This implementation is connected to PHYs instead of MACs because PSE
-auto classification can potentially interfere with PHY auto negotiation.
-So, may be some extra PHY related initialization will be needed.
+Reviewed-by: Sadiya Kazi <sadiyakazi@google.com>
 
-With WIP version of ethtools interaction with PSE capable link looks
-as following:
+Regards,
+Sadiya Kazi
 
-$ ip l
-...
-5: t1l1@eth0: <BROADCAST,MULTICAST> ..
-...
-
-$ ethtool --show-pse t1l1
-PSE attributs for t1l1:
-PoDL PSE Admin State: disabled
-PoDL PSE Power Detection Status: disabled
-
-$ ethtool --set-pse t1l1 podl-pse-admin-control enable
-$ ethtool --show-pse t1l1
-PSE attributs for t1l1:
-PoDL PSE Admin State: enabled
-PoDL PSE Power Detection Status: delivering power
-
-Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
----
- Documentation/networking/ethtool-netlink.rst |  60 ++++++
- include/uapi/linux/ethtool.h                 |  50 +++++
- include/uapi/linux/ethtool_netlink.h         |  17 ++
- net/ethtool/Makefile                         |   3 +-
- net/ethtool/netlink.c                        |  19 ++
- net/ethtool/netlink.h                        |   4 +
- net/ethtool/pse-pd.c                         | 194 +++++++++++++++++++
- 7 files changed, 346 insertions(+), 1 deletion(-)
- create mode 100644 net/ethtool/pse-pd.c
-
-diff --git a/Documentation/networking/ethtool-netlink.rst b/Documentation/networking/ethtool-netlink.rst
-index dbca3e9ec782f..c8b09b57bd65e 100644
---- a/Documentation/networking/ethtool-netlink.rst
-+++ b/Documentation/networking/ethtool-netlink.rst
-@@ -220,6 +220,8 @@ Userspace to kernel:
-   ``ETHTOOL_MSG_PHC_VCLOCKS_GET``       get PHC virtual clocks info
-   ``ETHTOOL_MSG_MODULE_SET``            set transceiver module parameters
-   ``ETHTOOL_MSG_MODULE_GET``            get transceiver module parameters
-+  ``ETHTOOL_MSG_PSE_SET``               set PSE parameters
-+  ``ETHTOOL_MSG_PSE_GET``               get PSE parameters
-   ===================================== =================================
- 
- Kernel to userspace:
-@@ -260,6 +262,7 @@ Kernel to userspace:
-   ``ETHTOOL_MSG_STATS_GET_REPLY``          standard statistics
-   ``ETHTOOL_MSG_PHC_VCLOCKS_GET_REPLY``    PHC virtual clocks info
-   ``ETHTOOL_MSG_MODULE_GET_REPLY``         transceiver module parameters
-+  ``ETHTOOL_MSG_PSE_GET_REPLY``            PSE parameters
-   ======================================== =================================
- 
- ``GET`` requests are sent by userspace applications to retrieve device
-@@ -1625,6 +1628,63 @@ For SFF-8636 modules, low power mode is forced by the host according to table
- For CMIS modules, low power mode is forced by the host according to table 6-12
- in revision 5.0 of the specification.
- 
-+PSE_GET
-+=======
-+
-+Gets PSE attributes.
-+
-+Request contents:
-+
-+  =====================================  ======  ==========================
-+  ``ETHTOOL_A_PSE_HEADER``               nested  request header
-+  =====================================  ======  ==========================
-+
-+Kernel response contents:
-+
-+  ======================================  ======  ==========================
-+  ``ETHTOOL_A_PSE_HEADER``                nested  reply header
-+  ``ETHTOOL_A_PODL_PSE_ADMIN_STATE``          u8  Operational state of the PoDL
-+                                                  PSE functions
-+  ``ETHTOOL_A_PODL_PSE_PW_D_STATUS``          u8  power detection status of the
-+                                                  PoDL PSE.
-+  ======================================  ======  ==========================
-+
-+The ``ETHTOOL_A_PODL_PSE_ADMIN_STATE`` identifies the operational state of the
-+PoDL PSE functions.  The operational state of the PSE function can be changed
-+using the ``ETHTOOL_A_PODL_PSE_ADMIN_CONTROL`` action. This option is
-+corresponding to IEEE 802.3-2018 30.15.1.1.2 aPoDLPSEAdminState. Possible values
-+are:
-+
-+.. kernel-doc:: include/uapi/linux/ethtool.h
-+    :identifiers: ethtool_podl_pse_admin_state
-+
-+The ``ETHTOOL_A_PODL_PSE_PW_D_STATUS`` identifies the power detection status of the
-+PoDL PSE.  The status depend on internal PSE state machine and automatic
-+PD classification support. This option is corresponding to IEEE 802.3-2018
-+30.15.1.1.3 aPoDLPSEPowerDetectionStatus. Possible values are:
-+
-+.. kernel-doc:: include/uapi/linux/ethtool.h
-+    :identifiers: ethtool_podl_pse_admin_state
-+
-+PSE_SET
-+=======
-+
-+Sets PSE parameters.
-+
-+Request contents:
-+
-+  ======================================  ======  ==========================
-+  ``ETHTOOL_A_PSE_HEADER``                nested  request header
-+  ``ETHTOOL_A_PODL_PSE_ADMIN_CONTROL``        u8  Control PoDL PSE Admin state
-+  ======================================  ======  ==========================
-+
-+When set, the optional ``ETHTOOL_A_PODL_PSE_ADMIN_CONTROL`` attribute is used
-+to control PoDL PSE Admin functions. This option is implementing
-+IEEE 802.3-2018 30.15.1.2.1 acPoDLPSEAdminControl. Possible values are:
-+
-+.. kernel-doc:: include/uapi/linux/ethtool.h
-+    :identifiers: ethtool_podl_pse_admin_state
-+
- Request translation
- ===================
- 
-diff --git a/include/uapi/linux/ethtool.h b/include/uapi/linux/ethtool.h
-index 2d5741fd44bbc..783f19f78c633 100644
---- a/include/uapi/linux/ethtool.h
-+++ b/include/uapi/linux/ethtool.h
-@@ -736,6 +736,56 @@ enum ethtool_module_power_mode {
- 	ETHTOOL_MODULE_POWER_MODE_HIGH,
- };
- 
-+/**
-+ * enum ethtool_podl_pse_admin_state - operational state of the PoDL PSE
-+ *	functions. IEEE 802.3-2018 30.15.1.1.2 aPoDLPSEAdminState
-+ * @ETHTOOL_PSE_MODE_POLICY_UNKNOWN: state of PoDL PSE functions are unknown
-+ * @ETHTOOL_PSE_MODE_POLICY_HIGH: PoDL PSE functions are disabled
-+ * @ETHTOOL_PSE_MODE_POLICY_AUTO: PoDL PSE functions are enabled
-+ */
-+enum ethtool_podl_pse_admin_state {
-+	ETHTOOL_PODL_PSE_ADMIN_STATE_UNKNOWN = 1,
-+	ETHTOOL_PODL_PSE_ADMIN_STATE_DISABLED,
-+	ETHTOOL_PODL_PSE_ADMIN_STATE_ENABLED,
-+
-+	/* add new constants above here */
-+	ETHTOOL_PODL_PSE_ADMIN_STATE_COUNT
-+};
-+
-+/**
-+ * enum ethtool_podl_pse_pw_d_status - power detection status of the PoDL PSE.
-+ *	IEEE 802.3-2018 30.15.1.1.3 aPoDLPSEPowerDetectionStatus:
-+ * @ETHTOOL_PODL_PSE_PW_D_STATUS_UNKNOWN: PoDL PSE
-+ * @ETHTOOL_PODL_PSE_PW_D_STATUS_DISABLED: "The enumeration “disabled” is
-+ *	asserted true when the PoDL PSE state diagram variable mr_pse_enable is
-+ *	false"
-+ * @ETHTOOL_PODL_PSE_PW_D_STATUS_SEARCHING: "The enumeration “searching” is
-+ *	asserted true when either of the PSE state diagram variables
-+ *	pi_detecting or pi_classifying is true."
-+ * @ETHTOOL_PODL_PSE_PW_D_STATUS_DELIVERING: "The enumeration “deliveringPower”
-+ *	is asserted true when the PoDL PSE state diagram variable pi_powered is
-+ *	true."
-+ * @ETHTOOL_PODL_PSE_PW_D_STATUS_SLEEP: "The enumeration “sleep” is asserted
-+ *	true when the PoDL PSE state diagram variable pi_sleeping is true."
-+ * @ETHTOOL_PODL_PSE_PW_D_STATUS_IDLE: "The enumeration “idle” is asserted true
-+ *	when the logical combination of the PoDL PSE state diagram variables
-+ *	pi_prebiased*!pi_sleeping is true."
-+ * @ETHTOOL_PODL_PSE_PW_D_STATUS_ERROR: "The enumeration “error” is asserted
-+ *	true when the PoDL PSE state diagram variable overload_held is true."
-+ */
-+enum ethtool_podl_pse_pw_d_status {
-+	ETHTOOL_PODL_PSE_PW_D_STATUS_UNKNOWN = 1,
-+	ETHTOOL_PODL_PSE_PW_D_STATUS_DISABLED,
-+	ETHTOOL_PODL_PSE_PW_D_STATUS_SEARCHING,
-+	ETHTOOL_PODL_PSE_PW_D_STATUS_DELIVERING,
-+	ETHTOOL_PODL_PSE_PW_D_STATUS_SLEEP,
-+	ETHTOOL_PODL_PSE_PW_D_STATUS_IDLE,
-+	ETHTOOL_PODL_PSE_PW_D_STATUS_ERROR,
-+
-+	/* add new constants above here */
-+	ETHTOOL_PODL_PSE_PW_D_STATUS_COUNT
-+};
-+
- /**
-  * struct ethtool_gstrings - string set for data tagging
-  * @cmd: Command number = %ETHTOOL_GSTRINGS
-diff --git a/include/uapi/linux/ethtool_netlink.h b/include/uapi/linux/ethtool_netlink.h
-index d2fb4f7be61b2..1c890a37a35b5 100644
---- a/include/uapi/linux/ethtool_netlink.h
-+++ b/include/uapi/linux/ethtool_netlink.h
-@@ -49,6 +49,8 @@ enum {
- 	ETHTOOL_MSG_PHC_VCLOCKS_GET,
- 	ETHTOOL_MSG_MODULE_GET,
- 	ETHTOOL_MSG_MODULE_SET,
-+	ETHTOOL_MSG_PSE_GET,
-+	ETHTOOL_MSG_PSE_SET,
- 
- 	/* add new constants above here */
- 	__ETHTOOL_MSG_USER_CNT,
-@@ -94,6 +96,8 @@ enum {
- 	ETHTOOL_MSG_PHC_VCLOCKS_GET_REPLY,
- 	ETHTOOL_MSG_MODULE_GET_REPLY,
- 	ETHTOOL_MSG_MODULE_NTF,
-+	ETHTOOL_MSG_PSE_GET_REPLY,
-+	ETHTOOL_MSG_PSE_NTF,
- 
- 	/* add new constants above here */
- 	__ETHTOOL_MSG_KERNEL_CNT,
-@@ -862,6 +866,19 @@ enum {
- 	ETHTOOL_A_MODULE_MAX = (__ETHTOOL_A_MODULE_CNT - 1)
- };
- 
-+/* Power Sourcing Equipment */
-+enum {
-+	ETHTOOL_A_PSE_UNSPEC,
-+	ETHTOOL_A_PSE_HEADER,			/* nest - _A_HEADER_* */
-+	ETHTOOL_A_PODL_PSE_ADMIN_STATE,		/* u8 */
-+	ETHTOOL_A_PODL_PSE_ADMIN_CONTROL,	/* u8 */
-+	ETHTOOL_A_PODL_PSE_PW_D_STATUS,		/* u8 */
-+
-+	/* add new constants above here */
-+	__ETHTOOL_A_PSE_CNT,
-+	ETHTOOL_A_PSE_MAX = (__ETHTOOL_A_PSE_CNT - 1)
-+};
-+
- /* generic netlink info */
- #define ETHTOOL_GENL_NAME "ethtool"
- #define ETHTOOL_GENL_VERSION 1
-diff --git a/net/ethtool/Makefile b/net/ethtool/Makefile
-index b76432e70e6ba..7247769829641 100644
---- a/net/ethtool/Makefile
-+++ b/net/ethtool/Makefile
-@@ -7,4 +7,5 @@ obj-$(CONFIG_ETHTOOL_NETLINK)	+= ethtool_nl.o
- ethtool_nl-y	:= netlink.o bitset.o strset.o linkinfo.o linkmodes.o \
- 		   linkstate.o debug.o wol.o features.o privflags.o rings.o \
- 		   channels.o coalesce.o pause.o eee.o tsinfo.o cabletest.o \
--		   tunnels.o fec.o eeprom.o stats.o phc_vclocks.o module.o
-+		   tunnels.o fec.o eeprom.o stats.o phc_vclocks.o module.o \
-+		   pse.o
-diff --git a/net/ethtool/netlink.c b/net/ethtool/netlink.c
-index e26079e11835c..ec84a12ba4918 100644
---- a/net/ethtool/netlink.c
-+++ b/net/ethtool/netlink.c
-@@ -286,6 +286,7 @@ ethnl_default_requests[__ETHTOOL_MSG_USER_CNT] = {
- 	[ETHTOOL_MSG_STATS_GET]		= &ethnl_stats_request_ops,
- 	[ETHTOOL_MSG_PHC_VCLOCKS_GET]	= &ethnl_phc_vclocks_request_ops,
- 	[ETHTOOL_MSG_MODULE_GET]	= &ethnl_module_request_ops,
-+	[ETHTOOL_MSG_PSE_GET]		= &ethnl_pse_request_ops,
- };
- 
- static struct ethnl_dump_ctx *ethnl_dump_context(struct netlink_callback *cb)
-@@ -598,6 +599,7 @@ ethnl_default_notify_ops[ETHTOOL_MSG_KERNEL_MAX + 1] = {
- 	[ETHTOOL_MSG_EEE_NTF]		= &ethnl_eee_request_ops,
- 	[ETHTOOL_MSG_FEC_NTF]		= &ethnl_fec_request_ops,
- 	[ETHTOOL_MSG_MODULE_NTF]	= &ethnl_module_request_ops,
-+	[ETHTOOL_MSG_PSE_NTF]		= &ethnl_pse_request_ops,
- };
- 
- /* default notification handler */
-@@ -691,6 +693,7 @@ static const ethnl_notify_handler_t ethnl_notify_handlers[] = {
- 	[ETHTOOL_MSG_EEE_NTF]		= ethnl_default_notify,
- 	[ETHTOOL_MSG_FEC_NTF]		= ethnl_default_notify,
- 	[ETHTOOL_MSG_MODULE_NTF]	= ethnl_default_notify,
-+	[ETHTOOL_MSG_PSE_NTF]		= ethnl_default_notify,
- };
- 
- void ethtool_notify(struct net_device *dev, unsigned int cmd, const void *data)
-@@ -1020,6 +1023,22 @@ static const struct genl_ops ethtool_genl_ops[] = {
- 		.policy = ethnl_module_set_policy,
- 		.maxattr = ARRAY_SIZE(ethnl_module_set_policy) - 1,
- 	},
-+	{
-+		.cmd	= ETHTOOL_MSG_PSE_GET,
-+		.doit	= ethnl_default_doit,
-+		.start	= ethnl_default_start,
-+		.dumpit	= ethnl_default_dumpit,
-+		.done	= ethnl_default_done,
-+		.policy = ethnl_pse_get_policy,
-+		.maxattr = ARRAY_SIZE(ethnl_pse_get_policy) - 1,
-+	},
-+	{
-+		.cmd	= ETHTOOL_MSG_PSE_SET,
-+		.flags	= GENL_UNS_ADMIN_PERM,
-+		.doit	= ethnl_set_pse,
-+		.policy = ethnl_pse_set_policy,
-+		.maxattr = ARRAY_SIZE(ethnl_pse_set_policy) - 1,
-+	},
- };
- 
- static const struct genl_multicast_group ethtool_nl_mcgrps[] = {
-diff --git a/net/ethtool/netlink.h b/net/ethtool/netlink.h
-index c0d5876118546..1bfd374f97188 100644
---- a/net/ethtool/netlink.h
-+++ b/net/ethtool/netlink.h
-@@ -345,6 +345,7 @@ extern const struct ethnl_request_ops ethnl_module_eeprom_request_ops;
- extern const struct ethnl_request_ops ethnl_stats_request_ops;
- extern const struct ethnl_request_ops ethnl_phc_vclocks_request_ops;
- extern const struct ethnl_request_ops ethnl_module_request_ops;
-+extern const struct ethnl_request_ops ethnl_pse_request_ops;
- 
- extern const struct nla_policy ethnl_header_policy[ETHTOOL_A_HEADER_FLAGS + 1];
- extern const struct nla_policy ethnl_header_policy_stats[ETHTOOL_A_HEADER_FLAGS + 1];
-@@ -383,6 +384,8 @@ extern const struct nla_policy ethnl_stats_get_policy[ETHTOOL_A_STATS_GROUPS + 1
- extern const struct nla_policy ethnl_phc_vclocks_get_policy[ETHTOOL_A_PHC_VCLOCKS_HEADER + 1];
- extern const struct nla_policy ethnl_module_get_policy[ETHTOOL_A_MODULE_HEADER + 1];
- extern const struct nla_policy ethnl_module_set_policy[ETHTOOL_A_MODULE_POWER_MODE_POLICY + 1];
-+extern const struct nla_policy ethnl_pse_get_policy[ETHTOOL_A_PSE_HEADER + 1];
-+extern const struct nla_policy ethnl_pse_set_policy[ETHTOOL_A_PSE_MAX + 1];
- 
- int ethnl_set_linkinfo(struct sk_buff *skb, struct genl_info *info);
- int ethnl_set_linkmodes(struct sk_buff *skb, struct genl_info *info);
-@@ -402,6 +405,7 @@ int ethnl_tunnel_info_start(struct netlink_callback *cb);
- int ethnl_tunnel_info_dumpit(struct sk_buff *skb, struct netlink_callback *cb);
- int ethnl_set_fec(struct sk_buff *skb, struct genl_info *info);
- int ethnl_set_module(struct sk_buff *skb, struct genl_info *info);
-+int ethnl_set_pse(struct sk_buff *skb, struct genl_info *info);
- 
- extern const char stats_std_names[__ETHTOOL_STATS_CNT][ETH_GSTRING_LEN];
- extern const char stats_eth_phy_names[__ETHTOOL_A_STATS_ETH_PHY_CNT][ETH_GSTRING_LEN];
-diff --git a/net/ethtool/pse-pd.c b/net/ethtool/pse-pd.c
-new file mode 100644
-index 0000000000000..216c6b0d327b5
---- /dev/null
-+++ b/net/ethtool/pse-pd.c
-@@ -0,0 +1,194 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+//
-+// ethtool interface for for Ethernet PSE (Power Sourcing Equipment)
-+// and PD (Powered Device)
-+//
-+// Copyright (c) 2022 Pengutronix, Oleksij Rempel <kernel@pengutronix.de>
-+//
-+
-+#include "netlink.h"
-+#include "common.h"
-+#include <linux/phy.h>
-+#include "linux/pse-pd/pse.h"
-+
-+struct pse_req_info {
-+	struct ethnl_req_info base;
-+};
-+
-+struct pse_reply_data {
-+	struct ethnl_reply_data	base;
-+	int podl_pse_admin_state;
-+	int podl_pse_pw_d_status;
-+};
-+
-+#define PSE_REPDATA(__reply_base) \
-+	container_of(__reply_base, struct pse_reply_data, base)
-+
-+/* PSE_GET */
-+
-+const struct nla_policy ethnl_pse_get_policy[ETHTOOL_A_PSE_HEADER + 1] = {
-+	[ETHTOOL_A_PSE_HEADER] = NLA_POLICY_NESTED(ethnl_header_policy),
-+};
-+
-+static int pse_get_pse_attributs(struct net_device *dev,
-+				 struct pse_reply_data *data)
-+{
-+	struct phy_device *phydev = dev->phydev;
-+	int ret;
-+
-+	if (!phydev)
-+		return -EOPNOTSUPP;
-+
-+	mutex_lock(&phydev->lock);
-+	if (!phydev->psec) {
-+		ret = -EOPNOTSUPP;
-+		goto error_unlock;
-+	}
-+
-+	ret = pse_podl_get_admin_sate(phydev->psec);
-+	if (ret < 0)
-+		goto error_unlock;
-+
-+	data->podl_pse_admin_state = ret;
-+
-+	ret = pse_podl_get_pw_d_status(phydev->psec);
-+	if (ret < 0)
-+		goto error_unlock;
-+
-+	data->podl_pse_pw_d_status = ret;
-+
-+error_unlock:
-+	mutex_unlock(&phydev->lock);
-+
-+	return ret;
-+}
-+
-+static int pse_prepare_data(const struct ethnl_req_info *req_base,
-+			       struct ethnl_reply_data *reply_base,
-+			       struct genl_info *info)
-+{
-+	struct pse_reply_data *data = PSE_REPDATA(reply_base);
-+	struct net_device *dev = reply_base->dev;
-+	int ret;
-+
-+	ret = ethnl_ops_begin(dev);
-+	if (ret < 0)
-+		return ret;
-+
-+	ret = pse_get_pse_attributs(dev, data);
-+
-+	ethnl_ops_complete(dev);
-+
-+	return ret;
-+}
-+
-+static int pse_reply_size(const struct ethnl_req_info *req_base,
-+			  const struct ethnl_reply_data *reply_base)
-+{
-+	struct pse_reply_data *data = PSE_REPDATA(reply_base);
-+	int len = 0;
-+
-+	if (data->podl_pse_admin_state >= 0)
-+		len += nla_total_size(sizeof(u8)); /* _PODL_PSE_ADMIN_STATE */
-+	if (data->podl_pse_pw_d_status >= 0)
-+		len += nla_total_size(sizeof(u8)); /* _PODL_PSE_PW_D_STATUS */
-+
-+	return len;
-+}
-+
-+static int pse_fill_reply(struct sk_buff *skb,
-+			  const struct ethnl_req_info *req_base,
-+			  const struct ethnl_reply_data *reply_base)
-+{
-+	const struct pse_reply_data *data = PSE_REPDATA(reply_base);
-+
-+	if (data->podl_pse_admin_state >= 0 &&
-+	    nla_put_u8(skb, ETHTOOL_A_PODL_PSE_ADMIN_STATE,
-+		       data->podl_pse_admin_state))
-+		return -EMSGSIZE;
-+
-+	if (data->podl_pse_pw_d_status >= 0 &&
-+	    nla_put_u8(skb, ETHTOOL_A_PODL_PSE_PW_D_STATUS,
-+		       data->podl_pse_pw_d_status))
-+		return -EMSGSIZE;
-+
-+	return 0;
-+}
-+
-+const struct ethnl_request_ops ethnl_pse_request_ops = {
-+	.request_cmd		= ETHTOOL_MSG_PSE_GET,
-+	.reply_cmd		= ETHTOOL_MSG_PSE_GET_REPLY,
-+	.hdr_attr		= ETHTOOL_A_PSE_HEADER,
-+	.req_info_size		= sizeof(struct pse_req_info),
-+	.reply_data_size	= sizeof(struct pse_reply_data),
-+
-+	.prepare_data		= pse_prepare_data,
-+	.reply_size		= pse_reply_size,
-+	.fill_reply		= pse_fill_reply,
-+};
-+
-+/* PSE_SET */
-+
-+const struct nla_policy ethnl_pse_set_policy[ETHTOOL_A_PSE_MAX + 1] = {
-+	[ETHTOOL_A_PSE_HEADER] = NLA_POLICY_NESTED(ethnl_header_policy),
-+	[ETHTOOL_A_PODL_PSE_ADMIN_CONTROL] =
-+		NLA_POLICY_RANGE(NLA_U8, ETHTOOL_PODL_PSE_ADMIN_STATE_DISABLED,
-+				 ETHTOOL_PODL_PSE_ADMIN_STATE_ENABLED),
-+};
-+
-+static int pse_set_pse_mode(struct net_device *dev, struct nlattr **tb)
-+{
-+	enum ethtool_podl_pse_admin_state state;
-+	struct phy_device *phydev = dev->phydev;
-+	int ret;
-+
-+	if (!tb[ETHTOOL_A_PODL_PSE_ADMIN_CONTROL])
-+		return 0;
-+
-+	state = nla_get_u8(tb[ETHTOOL_A_PODL_PSE_ADMIN_CONTROL]);
-+
-+	if (!phydev)
-+		return -EOPNOTSUPP;
-+
-+	mutex_lock(&phydev->lock);
-+	if (!phydev->psec)
-+		ret = -EOPNOTSUPP;
-+	else
-+		ret = pse_podl_set_admin_control(phydev->psec, state);
-+	mutex_unlock(&phydev->lock);
-+
-+	return ret;
-+}
-+
-+int ethnl_set_pse(struct sk_buff *skb, struct genl_info *info)
-+{
-+	struct ethnl_req_info req_info = {};
-+	struct nlattr **tb = info->attrs;
-+	struct net_device *dev;
-+	int ret;
-+
-+	ret = ethnl_parse_header_dev_get(&req_info, tb[ETHTOOL_A_PSE_HEADER],
-+					 genl_info_net(info), info->extack,
-+					 true);
-+	if (ret < 0)
-+		return ret;
-+	dev = req_info.dev;
-+
-+	rtnl_lock();
-+	ret = ethnl_ops_begin(dev);
-+	if (ret < 0)
-+		goto out_rtnl;
-+
-+	ret = pse_set_pse_mode(dev, tb);
-+	if (ret < 0)
-+		goto out_ops;
-+
-+	ethtool_notify(dev, ETHTOOL_MSG_PSE_NTF, NULL);
-+
-+out_ops:
-+	ethnl_ops_complete(dev);
-+out_rtnl:
-+	rtnl_unlock();
-+	ethnl_parse_header_dev_put(&req_info);
-+	return ret;
-+}
--- 
-2.30.2
-
+>  Documentation/dev-tools/kunit/index.rst       |   3 -
+>  Documentation/dev-tools/kunit/kunit-tool.rst  | 232 ------------------
+>  Documentation/dev-tools/kunit/run_wrapper.rst |   4 +-
+>  Documentation/dev-tools/kunit/start.rst       |   2 -
+>  4 files changed, 2 insertions(+), 239 deletions(-)
+>  delete mode 100644 Documentation/dev-tools/kunit/kunit-tool.rst
+>
+> diff --git a/Documentation/dev-tools/kunit/index.rst b/Documentation/dev-tools/kunit/index.rst
+> index bc91ad7b8961..d7187282ba28 100644
+> --- a/Documentation/dev-tools/kunit/index.rst
+> +++ b/Documentation/dev-tools/kunit/index.rst
+> @@ -13,7 +13,6 @@ KUnit - Linux Kernel Unit Testing
+>         run_wrapper
+>         run_manual
+>         usage
+> -       kunit-tool
+>         api/index
+>         style
+>         faq
+> @@ -109,7 +108,5 @@ How do I use it?
+>      examples.
+>  *   Documentation/dev-tools/kunit/api/index.rst - KUnit APIs
+>      used for testing.
+> -*   Documentation/dev-tools/kunit/kunit-tool.rst - kunit_tool helper
+> -    script.
+>  *   Documentation/dev-tools/kunit/faq.rst - KUnit common questions and
+>      answers.
+> diff --git a/Documentation/dev-tools/kunit/kunit-tool.rst b/Documentation/dev-tools/kunit/kunit-tool.rst
+> deleted file mode 100644
+> index ae52e0f489f9..000000000000
+> --- a/Documentation/dev-tools/kunit/kunit-tool.rst
+> +++ /dev/null
+> @@ -1,232 +0,0 @@
+> -.. SPDX-License-Identifier: GPL-2.0
+> -
+> -=================
+> -kunit_tool How-To
+> -=================
+> -
+> -What is kunit_tool?
+> -===================
+> -
+> -kunit_tool is a script (``tools/testing/kunit/kunit.py``) that aids in building
+> -the Linux kernel as UML (`User Mode Linux
+> -<http://user-mode-linux.sourceforge.net/>`_), running KUnit tests, parsing
+> -the test results and displaying them in a user friendly manner.
+> -
+> -kunit_tool addresses the problem of being able to run tests without needing a
+> -virtual machine or actual hardware with User Mode Linux. User Mode Linux is a
+> -Linux architecture, like ARM or x86; however, unlike other architectures it
+> -compiles the kernel as a standalone Linux executable that can be run like any
+> -other program directly inside of a host operating system. To be clear, it does
+> -not require any virtualization support: it is just a regular program.
+> -
+> -What is a .kunitconfig?
+> -=======================
+> -
+> -It's just a defconfig that kunit_tool looks for in the build directory
+> -(``.kunit`` by default).  kunit_tool uses it to generate a .config as you might
+> -expect. In addition, it verifies that the generated .config contains the CONFIG
+> -options in the .kunitconfig; the reason it does this is so that it is easy to
+> -be sure that a CONFIG that enables a test actually ends up in the .config.
+> -
+> -It's also possible to pass a separate .kunitconfig fragment to kunit_tool,
+> -which is useful if you have several different groups of tests you wish
+> -to run independently, or if you want to use pre-defined test configs for
+> -certain subsystems.
+> -
+> -Getting Started with kunit_tool
+> -===============================
+> -
+> -If a kunitconfig is present at the root directory, all you have to do is:
+> -
+> -.. code-block:: bash
+> -
+> -       ./tools/testing/kunit/kunit.py run
+> -
+> -However, you most likely want to use it with the following options:
+> -
+> -.. code-block:: bash
+> -
+> -       ./tools/testing/kunit/kunit.py run --timeout=30 --jobs=`nproc --all`
+> -
+> -- ``--timeout`` sets a maximum amount of time to allow tests to run.
+> -- ``--jobs`` sets the number of threads to use to build the kernel.
+> -
+> -.. note::
+> -       This command will work even without a .kunitconfig file: if no
+> -       .kunitconfig is present, a default one will be used instead.
+> -
+> -If you wish to use a different .kunitconfig file (such as one provided for
+> -testing a particular subsystem), you can pass it as an option.
+> -
+> -.. code-block:: bash
+> -
+> -       ./tools/testing/kunit/kunit.py run --kunitconfig=fs/ext4/.kunitconfig
+> -
+> -For a list of all the flags supported by kunit_tool, you can run:
+> -
+> -.. code-block:: bash
+> -
+> -       ./tools/testing/kunit/kunit.py run --help
+> -
+> -Configuring, Building, and Running Tests
+> -========================================
+> -
+> -It's also possible to run just parts of the KUnit build process independently,
+> -which is useful if you want to make manual changes to part of the process.
+> -
+> -A .config can be generated from a .kunitconfig by using the ``config`` argument
+> -when running kunit_tool:
+> -
+> -.. code-block:: bash
+> -
+> -       ./tools/testing/kunit/kunit.py config
+> -
+> -Similarly, if you just want to build a KUnit kernel from the current .config,
+> -you can use the ``build`` argument:
+> -
+> -.. code-block:: bash
+> -
+> -       ./tools/testing/kunit/kunit.py build
+> -
+> -And, if you already have a built UML kernel with built-in KUnit tests, you can
+> -run the kernel and display the test results with the ``exec`` argument:
+> -
+> -.. code-block:: bash
+> -
+> -       ./tools/testing/kunit/kunit.py exec
+> -
+> -The ``run`` command which is discussed above is equivalent to running all three
+> -of these in sequence.
+> -
+> -All of these commands accept a number of optional command-line arguments. The
+> -``--help`` flag will give a complete list of these, or keep reading this page
+> -for a guide to some of the more useful ones.
+> -
+> -Parsing Test Results
+> -====================
+> -
+> -KUnit tests output their results in TAP (Test Anything Protocol) format.
+> -kunit_tool will, when running tests, parse this output and print a summary
+> -which is much more pleasant to read. If you wish to look at the raw test
+> -results in TAP format, you can pass the ``--raw_output`` argument.
+> -
+> -.. code-block:: bash
+> -
+> -       ./tools/testing/kunit/kunit.py run --raw_output
+> -
+> -The raw output from test runs may contain other, non-KUnit kernel log
+> -lines. You can see just KUnit output with ``--raw_output=kunit``:
+> -
+> -.. code-block:: bash
+> -
+> -       ./tools/testing/kunit/kunit.py run --raw_output=kunit
+> -
+> -If you have KUnit results in their raw TAP format, you can parse them and print
+> -the human-readable summary with the ``parse`` command for kunit_tool. This
+> -accepts a filename for an argument, or will read from standard input.
+> -
+> -.. code-block:: bash
+> -
+> -       # Reading from a file
+> -       ./tools/testing/kunit/kunit.py parse /var/log/dmesg
+> -       # Reading from stdin
+> -       dmesg | ./tools/testing/kunit/kunit.py parse
+> -
+> -This is very useful if you wish to run tests in a configuration not supported
+> -by kunit_tool (such as on real hardware, or an unsupported architecture).
+> -
+> -Filtering Tests
+> -===============
+> -
+> -It's possible to run only a subset of the tests built into a kernel by passing
+> -a filter to the ``exec`` or ``run`` commands. For example, if you only wanted
+> -to run KUnit resource tests, you could use:
+> -
+> -.. code-block:: bash
+> -
+> -       ./tools/testing/kunit/kunit.py run 'kunit-resource*'
+> -
+> -This uses the standard glob format for wildcards.
+> -
+> -Running Tests on QEMU
+> -=====================
+> -
+> -kunit_tool supports running tests on QEMU as well as via UML (as mentioned
+> -elsewhere). The default way of running tests on QEMU requires two flags:
+> -
+> -``--arch``
+> -       Selects a collection of configs (Kconfig as well as QEMU configs
+> -       options, etc) that allow KUnit tests to be run on the specified
+> -       architecture in a minimal way; this is usually not much slower than
+> -       using UML. The architecture argument is the same as the name of the
+> -       option passed to the ``ARCH`` variable used by Kbuild. Not all
+> -       architectures are currently supported by this flag, but can be handled
+> -       by the ``--qemu_config`` discussed later. If ``um`` is passed (or this
+> -       this flag is ignored) the tests will run via UML. Non-UML architectures,
+> -       e.g. i386, x86_64, arm, um, etc. Non-UML run on QEMU.
+> -
+> -``--cross_compile``
+> -       Specifies the use of a toolchain by Kbuild. The argument passed here is
+> -       the same passed to the ``CROSS_COMPILE`` variable used by Kbuild. As a
+> -       reminder this will be the prefix for the toolchain binaries such as gcc
+> -       for example ``sparc64-linux-gnu-`` if you have the sparc toolchain
+> -       installed on your system, or
+> -       ``$HOME/toolchains/microblaze/gcc-9.2.0-nolibc/microblaze-linux/bin/microblaze-linux-``
+> -       if you have downloaded the microblaze toolchain from the 0-day website
+> -       to a directory in your home directory called ``toolchains``.
+> -
+> -In many cases it is likely that you may want to run an architecture which is
+> -not supported by the ``--arch`` flag, or you may want to just run KUnit tests
+> -on QEMU using a non-default configuration. For this use case, you can write
+> -your own QemuConfig. These QemuConfigs are written in Python. They must have an
+> -import line ``from ..qemu_config import QemuArchParams`` at the top of the file
+> -and the file must contain a variable called ``QEMU_ARCH`` that has an instance
+> -of ``QemuArchParams`` assigned to it. An example can be seen in
+> -``tools/testing/kunit/qemu_configs/x86_64.py``.
+> -
+> -Once you have a QemuConfig you can pass it into kunit_tool using the
+> -``--qemu_config`` flag; when used this flag replaces the ``--arch`` flag. If we
+> -were to do this with the ``x86_64.py`` example from above, the invocation would
+> -look something like this:
+> -
+> -.. code-block:: bash
+> -
+> -       ./tools/testing/kunit/kunit.py run \
+> -               --timeout=60 \
+> -               --jobs=12 \
+> -               --qemu_config=./tools/testing/kunit/qemu_configs/x86_64.py
+> -
+> -Other Useful Options
+> -====================
+> -
+> -kunit_tool has a number of other command-line arguments which can be useful
+> -when adapting it to fit your environment or needs.
+> -
+> -Some of the more useful ones are:
+> -
+> -``--help``
+> -       Lists all of the available options. Note that different commands
+> -       (``config``, ``build``, ``run``, etc) will have different supported
+> -       options. Place ``--help`` before the command to list common options,
+> -       and after the command for options specific to that command.
+> -
+> -``--build_dir``
+> -       Specifies the build directory that kunit_tool will use. This is where
+> -       the .kunitconfig file is located, as well as where the .config and
+> -       compiled kernel will be placed. Defaults to ``.kunit``.
+> -
+> -``--make_options``
+> -       Specifies additional options to pass to ``make`` when compiling a
+> -       kernel (with the ``build`` or ``run`` commands). For example, to enable
+> -       compiler warnings, you can pass ``--make_options W=1``.
+> -
+> -``--alltests``
+> -        Builds a UML kernel with all config options enabled using ``make
+> -        allyesconfig``. This allows you to run as many tests as is possible,
+> -        but is very slow and prone to breakage as new options are added or
+> -        modified. In most cases, enabling all tests which have satisfied
+> -        dependencies by adding ``CONFIG_KUNIT_ALL_TESTS=1`` to your
+> -        .kunitconfig is preferable.
+> -
+> -There are several other options (and new ones are often added), so do check
+> -``--help`` if you're looking for something not mentioned here.
+> diff --git a/Documentation/dev-tools/kunit/run_wrapper.rst b/Documentation/dev-tools/kunit/run_wrapper.rst
+> index a1070def284f..24373db26f9d 100644
+> --- a/Documentation/dev-tools/kunit/run_wrapper.rst
+> +++ b/Documentation/dev-tools/kunit/run_wrapper.rst
+> @@ -58,7 +58,7 @@ To view kunit_tool flags (optional command-line arguments), run:
+>
+>         ./tools/testing/kunit/kunit.py run --help
+>
+> -Create a  ``.kunitconfig`` File
+> +Create a ``.kunitconfig`` File
+>  ===============================
+>
+>  If we want to run a specific set of tests (rather than those listed
+> @@ -167,7 +167,7 @@ This uses the standard glob format with wildcard characters.
+>
+>  .. _kunit-on-qemu:
+>
+> -Run Tests on qemu
+> +Run Tests on QEMU
+>  =================
+>
+>  kunit_tool supports running tests on  qemu as well as
+> diff --git a/Documentation/dev-tools/kunit/start.rst b/Documentation/dev-tools/kunit/start.rst
+> index 867a4bba6bf6..e730df1f468e 100644
+> --- a/Documentation/dev-tools/kunit/start.rst
+> +++ b/Documentation/dev-tools/kunit/start.rst
+> @@ -254,7 +254,5 @@ Next Steps
+>      examples.
+>  *   Documentation/dev-tools/kunit/api/index.rst - KUnit APIs
+>      used for testing.
+> -*   Documentation/dev-tools/kunit/kunit-tool.rst - kunit_tool helper
+> -    script.
+>  *   Documentation/dev-tools/kunit/faq.rst - KUnit common questions and
+>      answers.
+> --
+> 2.37.1
+>
