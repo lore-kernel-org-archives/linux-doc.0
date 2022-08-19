@@ -2,202 +2,100 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B887C25B0E
-	for <linux-doc@archiver.kernel.org>; Fri, 19 Aug 2022 08:37:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F0354C28B2B
+	for <linux-doc@archiver.kernel.org>; Fri, 19 Aug 2022 08:59:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347483AbiHSIhS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 19 Aug 2022 04:37:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56684 "EHLO
+        id S1347955AbiHSI7G (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 19 Aug 2022 04:59:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51508 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347401AbiHSIgw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Aug 2022 04:36:52 -0400
-Received: from mail-ua1-x931.google.com (mail-ua1-x931.google.com [IPv6:2607:f8b0:4864:20::931])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3947F61B27
-        for <linux-doc@vger.kernel.org>; Fri, 19 Aug 2022 01:34:43 -0700 (PDT)
-Received: by mail-ua1-x931.google.com with SMTP id h19so1532914uan.9
-        for <linux-doc@vger.kernel.org>; Fri, 19 Aug 2022 01:34:43 -0700 (PDT)
+        with ESMTP id S1347898AbiHSI64 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Aug 2022 04:58:56 -0400
+Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C8D4D87CA;
+        Fri, 19 Aug 2022 01:58:48 -0700 (PDT)
+Received: by mail-pl1-x629.google.com with SMTP id y4so3623446plb.2;
+        Fri, 19 Aug 2022 01:58:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc;
-        bh=pnWZoLMHL17k3jjTNnhSH4HXED0erjz2SgYl9adg5ZY=;
-        b=SQceqC+pbuNpD1PmZM5uEAHiqzgApKjpqdaqQ8WFBzgAW3Y6q2SoiAmoAk9ixVfaS0
-         fxyEYlhZYLPmZSibWcIiUsGD0nwCpJoVskOdlioHAMktCjw4tvso/ITaubUQkVNsV5hq
-         UOdFmIsvJjcx+2vA93VQg7oQ3qBOb6yUMEtPeUKdsaSIu/GvJnsikzaVWHA0bp/2Z1oV
-         9Y5nDWm3iFI03BNk6qglJfrJFD77ArQOjZu1G73lZjsr83ZvbHAv9WiF8nOUKapI6+wk
-         l2NAoMccMEflk/FSY835Dc9ejDuFBRYO9+t8b7+y+OPrmSOE+o8B4y2HQ8gCCQfryRdE
-         /jBA==
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc;
+        bh=nWaJnY+l7BaR73wsAx3UWKzK5S7csngJ+iHmS6igh5w=;
+        b=VFaYIMiguTV6F5C0msAYjc7i3JnNpfV5c6Gn0NF9J102niQQ9Vr5VqE8UUKvZuCQIb
+         GA/m+FE9hXDBPCSftQueIwfbY0xohgGAxtytNwF56kA0vcN8h/3E0OAi8LdkNvyWDJWy
+         NBKy2e2uIwXPhfbsDt88wBWYbua4SesIT2+qBuxUY96jPn9ve9rzihW2aPKGtPO/Fzlz
+         hH7dDU3Tg83gqR4UpN+e+3TdxNPwBCxgwAqQK/HEBfX1SZfhzSJOyVJ3qHM21VjNuSnY
+         PcCtxDf8cN2dC3MpnBfbGysWOYmY5VqBOZywbdKMSqJ005OsN4xxJIjvrbSA/dIv2bLg
+         /4Pw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc;
-        bh=pnWZoLMHL17k3jjTNnhSH4HXED0erjz2SgYl9adg5ZY=;
-        b=B/D5FRmk/FgysXFzM7+ficsm7NlOkM+r0/X9Sk25hycwarcNNe4Jrh5tckbnDI5s+b
-         vGyhH1bKejt26BGRVYMFYVSXEJ+9K+QutANgrp/EMPXiNFcads6tTFmxGRoYyBmBhcRQ
-         ofCJ4WxsVX9WLpFDVxCn9C7tp9m5yOu/CHezr8MpeHwRV6wXJXiNHZjoJ04jK+vHb0mr
-         QfgywfgEBfoGUUug4IIwqJ/hkpo4bQ7rXmy7/ZRZzx8QbqKBHHmYEnfOIRdJUvChezAJ
-         nq0VoGvUhXkPVP95BGU6mNjehkT6RfHLduz3K/Yx+z6ps00YuX+1UymhuD9PFZu2QrcZ
-         tykw==
-X-Gm-Message-State: ACgBeo0cilKXjk5qMTEHQ0AO8TYBzn7edcAvvuQzRJ7blvXXr9XaKmjt
-        8R/2E2gI7QU/gPdxM5/m/4fR6eSePKAK9Du5qjOUPmxw8wE1qZUe
-X-Google-Smtp-Source: AA6agR6js/rZ7cAl5nKI4lPs0swl+3Wn3I7GmyFLifwGBDzbErMpFq+37uj8xdHx2xP5xOZ1ORWrqjlx4iguaeloXiA=
-X-Received: by 2002:ab0:3b09:0:b0:39a:82bc:88e5 with SMTP id
- n9-20020ab03b09000000b0039a82bc88e5mr2276360uaw.26.1660898082867; Fri, 19 Aug
- 2022 01:34:42 -0700 (PDT)
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc;
+        bh=nWaJnY+l7BaR73wsAx3UWKzK5S7csngJ+iHmS6igh5w=;
+        b=nVVOHS1jOQZQyZVQbNF+xqKqEGzr1PIwa5Y8TQpj4aYaGuFxn5fUEroWKwamWQqSsj
+         Ek+GUKW6t10CqAQ48A/QOIZOZIURTyNOqprY+5SweXeN/33M660VL+PPlCdYO6n9l1CK
+         FFEUZSVwx+tIxgobwHcVw7ZQEnQciWV6S+eE3K8JnIj/p2lGCVxHwA4BVEG0Q/A/s/IH
+         qloJLUciI/L8SnU7Xx9JgUhqTXzqcHFLNejZIpwMSoFBuWTi6sifc2JEaOs8u+abhnUb
+         fTlzKwKS+AKKLngLYKZPTKleTjQ7uihFb/b6w6db7HhozS0EMO/iWK0O2DKXCEqwTmI/
+         3tRQ==
+X-Gm-Message-State: ACgBeo0D6BUi2ey/okkqvRJFXMieseo5px1wTGE4c5VyXCnsD20c889x
+        1VxPO/2evRmDxGfVZsZjRzkrpv9WJgk=
+X-Google-Smtp-Source: AA6agR6q5ONCG2ueuWev3RJd3j6DwcTj9Kzi/o2D0bvWo8WVDZ3K1W3YsDf7NLr/oakCI+ZgkhzgyA==
+X-Received: by 2002:a17:90a:c782:b0:1f7:a4ed:11a1 with SMTP id gn2-20020a17090ac78200b001f7a4ed11a1mr7501758pjb.12.1660899526766;
+        Fri, 19 Aug 2022 01:58:46 -0700 (PDT)
+Received: from [192.168.43.80] (subs32-116-206-28-23.three.co.id. [116.206.28.23])
+        by smtp.gmail.com with ESMTPSA id i8-20020a63e448000000b0041c35462316sm2490349pgk.26.2022.08.19.01.58.43
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 19 Aug 2022 01:58:46 -0700 (PDT)
+Message-ID: <831ebaf6-6fea-65ea-aa60-c47f6f05dbb0@gmail.com>
+Date:   Fri, 19 Aug 2022 15:58:40 +0700
 MIME-Version: 1.0
-References: <20220817164851.3574140-1-joefradley@google.com> <20220817164851.3574140-3-joefradley@google.com>
-In-Reply-To: <20220817164851.3574140-3-joefradley@google.com>
-From:   David Gow <davidgow@google.com>
-Date:   Fri, 19 Aug 2022 16:34:31 +0800
-Message-ID: <CABVgOSkRRMDz14cpsYBi7SaefbOhGc9V+z+pY_tULkk12Fb-EA@mail.gmail.com>
-Subject: Re: [PATCH 2/2] kunit: no longer call module_info(test, "Y") for
- kunit modules
-To:     Joe Fradley <joefradley@google.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Brendan Higgins <brendan.higgins@linux.dev>,
-        kernel-team@android.com,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        KUnit Development <kunit-dev@googlegroups.com>
-Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
-        boundary="00000000000040629905e693f8e5"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: [RFC PATCH 2/3] kconfig: allow to choose the shell for $(shell )
+ functions
+Content-Language: en-US
+To:     Masahiro Yamada <masahiroy@kernel.org>,
+        linux-kbuild@vger.kernel.org
+Cc:     Nick Desaulniers <ndesaulniers@google.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Richard Purdie <richard.purdie@linuxfoundation.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20220819065604.295572-1-masahiroy@kernel.org>
+ <20220819065604.295572-3-masahiroy@kernel.org>
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <20220819065604.295572-3-masahiroy@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
---00000000000040629905e693f8e5
-Content-Type: text/plain; charset="UTF-8"
+On 8/19/22 13:56, Masahiro Yamada wrote:
+> GNU Make uses /bin/sh by default for running recipe lines and $(shell )
+> functions. You can change the shell by setting the 'SHELL' variable.
+> Unlike most variables, 'SHELL' is never set from the environment. [1]
+> 
+> Currently, Kconfig does not provide any way to change the default shell.
+> /bin/sh is always used for running $(shell,...) because do_shell() is
+> implemented by using popen(3).
+> 
+> This commit allows users to change the shell for Kconfig in a similar
+> way to GNU Make; you can set the 'SHELL' variable in a Kconfig file to
+> override the default shell. It is not taken from the environment. The
+> change is effective only for $(shell,...) invocations called after the
+> 'SHELL' assignment.
+> 
 
-On Thu, Aug 18, 2022 at 12:49 AM Joe Fradley <joefradley@google.com> wrote:
->
-> Because KUnit test execution is not a guarantee with the kunit.enable
-> parameter we want to be careful to only taint the kernel only if an
-> actual test runs. Calling module_info(test, "Y") for every KUnit module
-> automatically causes the kernel to be tainted upon module load. Therefore,
-> we're removing this call and relying on the KUnit framework to taint the
-> kernel or not.
->
-> Signed-off-by: Joe Fradley <joefradley@google.com>
-> ---
+Hmmm...
 
-Thanks!
+Can we say that if we run SHELL=/bin/bash make nconfig, Kconfig will use
+$SHELL but we can't set it as environment variable?
 
-This definitely fixes an assumption I'd had about KUnit-usage which
-definitely doesn't hold: that all KUnit tests would be in their own
-modules (or at least that those modules wouldn't need to be loaded on
-otherwise production systems). Given this isn't the case for a number
-of modules (thuderbolt, apparmor, probably soon amdgpu), it makles
-sense to get rid of this and only taint the kernel when the test is
-actually run, not just when it's loaded.
-
-This could be considered a fix for c272612cb4a2 ("kunit: Taint the
-kernel when KUnit tests are run"), as it'd already be possible to
-load, e.g., thunderbolt, but prevent the tests from executing with a
-filter glob which doesn't match any tests. That possibly shouldn't
-taint the kernel.
-
-Reviewed-by: David Gow <davidgow@google.com>
-Fixes: c272612cb4a2 ("kunit: Taint the kernel when KUnit tests are run")
-
-Cheers,
--- David
-
->  include/kunit/test.h | 1 -
->  1 file changed, 1 deletion(-)
->
-> diff --git a/include/kunit/test.h b/include/kunit/test.h
-> index c958855681cc..f23d3954aa17 100644
-> --- a/include/kunit/test.h
-> +++ b/include/kunit/test.h
-> @@ -251,7 +251,6 @@ static inline int kunit_run_all_tests(void)
->  #endif /* IS_BUILTIN(CONFIG_KUNIT) */
->
->  #define __kunit_test_suites(unique_array, ...)                                \
-> -       MODULE_INFO(test, "Y");                                                \
->         static struct kunit_suite *unique_array[]                              \
->         __aligned(sizeof(struct kunit_suite *))                                \
->         __used __section(".kunit_test_suites") = { __VA_ARGS__ }
-> --
-> 2.37.1.595.g718a3a8f04-goog
->
-
---00000000000040629905e693f8e5
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Description: S/MIME Cryptographic Signature
-
-MIIPnwYJKoZIhvcNAQcCoIIPkDCCD4wCAQExDzANBglghkgBZQMEAgEFADALBgkqhkiG9w0BBwGg
-ggz5MIIEtjCCA56gAwIBAgIQeAMYYHb81ngUVR0WyMTzqzANBgkqhkiG9w0BAQsFADBMMSAwHgYD
-VQQLExdHbG9iYWxTaWduIFJvb3QgQ0EgLSBSMzETMBEGA1UEChMKR2xvYmFsU2lnbjETMBEGA1UE
-AxMKR2xvYmFsU2lnbjAeFw0yMDA3MjgwMDAwMDBaFw0yOTAzMTgwMDAwMDBaMFQxCzAJBgNVBAYT
-AkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNhMSowKAYDVQQDEyFHbG9iYWxTaWduIEF0bGFz
-IFIzIFNNSU1FIENBIDIwMjAwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCvLe9xPU9W
-dpiHLAvX7kFnaFZPuJLey7LYaMO8P/xSngB9IN73mVc7YiLov12Fekdtn5kL8PjmDBEvTYmWsuQS
-6VBo3vdlqqXZ0M9eMkjcKqijrmDRleudEoPDzTumwQ18VB/3I+vbN039HIaRQ5x+NHGiPHVfk6Rx
-c6KAbYceyeqqfuJEcq23vhTdium/Bf5hHqYUhuJwnBQ+dAUcFndUKMJrth6lHeoifkbw2bv81zxJ
-I9cvIy516+oUekqiSFGfzAqByv41OrgLV4fLGCDH3yRh1tj7EtV3l2TngqtrDLUs5R+sWIItPa/4
-AJXB1Q3nGNl2tNjVpcSn0uJ7aFPbAgMBAAGjggGKMIIBhjAOBgNVHQ8BAf8EBAMCAYYwHQYDVR0l
-BBYwFAYIKwYBBQUHAwIGCCsGAQUFBwMEMBIGA1UdEwEB/wQIMAYBAf8CAQAwHQYDVR0OBBYEFHzM
-CmjXouseLHIb0c1dlW+N+/JjMB8GA1UdIwQYMBaAFI/wS3+oLkUkrk1Q+mOai97i3Ru8MHsGCCsG
-AQUFBwEBBG8wbTAuBggrBgEFBQcwAYYiaHR0cDovL29jc3AyLmdsb2JhbHNpZ24uY29tL3Jvb3Ry
-MzA7BggrBgEFBQcwAoYvaHR0cDovL3NlY3VyZS5nbG9iYWxzaWduLmNvbS9jYWNlcnQvcm9vdC1y
-My5jcnQwNgYDVR0fBC8wLTAroCmgJ4YlaHR0cDovL2NybC5nbG9iYWxzaWduLmNvbS9yb290LXIz
-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
-z/tQRXr3iPeVmZCr7nttMEwGA1UdIARFMEMwQQYJKwYBBAGgMgEoMDQwMgYIKwYBBQUHAgEWJmh0
-dHBzOi8vd3d3Lmdsb2JhbHNpZ24uY29tL3JlcG9zaXRvcnkvMAwGA1UdEwEB/wQCMAAwgZoGCCsG
-AQUFBwEBBIGNMIGKMD4GCCsGAQUFBzABhjJodHRwOi8vb2NzcC5nbG9iYWxzaWduLmNvbS9jYS9n
-c2F0bGFzcjNzbWltZWNhMjAyMDBIBggrBgEFBQcwAoY8aHR0cDovL3NlY3VyZS5nbG9iYWxzaWdu
-LmNvbS9jYWNlcnQvZ3NhdGxhc3Izc21pbWVjYTIwMjAuY3J0MB8GA1UdIwQYMBaAFHzMCmjXouse
-LHIb0c1dlW+N+/JjMEYGA1UdHwQ/MD0wO6A5oDeGNWh0dHA6Ly9jcmwuZ2xvYmFsc2lnbi5jb20v
-Y2EvZ3NhdGxhc3Izc21pbWVjYTIwMjAuY3JsMA0GCSqGSIb3DQEBCwUAA4IBAQAx+EQjLATc/sze
-VoZkH7OLz+/no1+y31x4BQ3wjW7lKfay9DAAVym896b7ECttSo95GEvS7pYMikzud57WypK7Bjpi
-ep8YLarLRDrvyyvBuYtyDrIewkuASHtV1oy5E6QZZe2VOxMm6e2oJnFFjbflot4A08D3SwqDwV0i
-OOYwT0BUtHYR/3903Dmdx5Alq+NDvUHDjozgo0f6oIkwDXT3yBV36utQ/jFisd36C8RD5mM+NFpu
-3aqLXARRbKtxw29ErCwulof2dcAonG7cd5j+gmS84sLhKU+BhL1OQVXnJ5tj7xZ5Ri5I23brcwk0
-lk/gWqfgs3ppT9Xk7zVit9q8MYICajCCAmYCAQEwaDBUMQswCQYDVQQGEwJCRTEZMBcGA1UEChMQ
-R2xvYmFsU2lnbiBudi1zYTEqMCgGA1UEAxMhR2xvYmFsU2lnbiBBdGxhcyBSMyBTTUlNRSBDQSAy
-MDIwAhABh9LgIPnlfMFHR0Die8n7MA0GCWCGSAFlAwQCAQUAoIHUMC8GCSqGSIb3DQEJBDEiBCA3
-FKMv0rb2xHk3DirulJdRHhbiP8FNxamZGB5WRakw5zAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcB
-MBwGCSqGSIb3DQEJBTEPFw0yMjA4MTkwODM0NDNaMGkGCSqGSIb3DQEJDzFcMFowCwYJYIZIAWUD
-BAEqMAsGCWCGSAFlAwQBFjALBglghkgBZQMEAQIwCgYIKoZIhvcNAwcwCwYJKoZIhvcNAQEKMAsG
-CSqGSIb3DQEBBzALBglghkgBZQMEAgEwDQYJKoZIhvcNAQEBBQAEggEARxi3ltyQ8jHqlPurYczC
-i2+KJDMHF+h9W9WJcsMRyKiTil0H9OU7RjgwTq8tCpOAVjXjIJeyVOjdfo8rVrHQ+GHSANAIhIdD
-kOCq+yQcBAYummKaWCxpFduYmiQQ/4Zv+m5FKmGOnEQOiNE2tnZhVe8mtITb5gFPX5bRdh7uNORG
-QjIHlZGjI0ZG9P9svV7L+mYwn3/DM2Q9+zCFfH1bGmc9vgomSTvvEZK6JD6KK9ZeMFXf52vZrLU/
-IwYNK/QpUnbsTzBVJi6rA8NxtlL/3xGyS9rTy/VhrfsShoFnpdEK9UyscMTkZvHCkbT09byDX4O5
-C8AUgQ8TBDWRJoUgyQ==
---00000000000040629905e693f8e5--
+-- 
+An old man doll... just what I always wanted! - Clara
