@@ -2,111 +2,152 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B12D1C28D13
-	for <linux-doc@archiver.kernel.org>; Fri, 19 Aug 2022 23:17:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E5ABEC3F6B0
+	for <linux-doc@archiver.kernel.org>; Fri, 19 Aug 2022 23:28:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237616AbiHSXRN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 19 Aug 2022 19:17:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43336 "EHLO
+        id S235891AbiHSX2C (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 19 Aug 2022 19:28:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60418 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244118AbiHSXRL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Aug 2022 19:17:11 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7C6E10EEE8;
-        Fri, 19 Aug 2022 16:17:10 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 73225B8280F;
-        Fri, 19 Aug 2022 23:17:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 708DCC433D7;
-        Fri, 19 Aug 2022 23:17:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1660951028;
-        bh=a6on7o8PU4t8G4WjP32E9gT9WScXwK3LS8UJ7XLnZjI=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=urIjt71kdChEnFhAxhYcaOaKvKyZI7rx7eY0pmIY3p4jNlytuHh/IemZ0+DPzGg99
-         xeErPMxikRMM3ZqPYhP/PryW0hVKHmS5k/On2iZtPr+zFHoQpuuLR9HU7YJao0YTMr
-         hDTGjlvC2jLlHPT3Be+5nZjOMGHhgmx7RQ7A5wwxdicpHfDBaQ3PURVwKFYS5zOIb8
-         FxqQfp7lm9kSNtkhoDyrapS12OyzNucn/LDTxamIxWflam0ILHEjiG/9+Vv4hE1Kmr
-         BpHMMgqb08hfklES9H2bCVwXq8WAYUA5l2Ozq80gvuRXZUPXaONi10fwCDF9TfL9KO
-         dSXsu26FER7lw==
-Date:   Fri, 19 Aug 2022 16:17:06 -0700
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     davem@davemloft.net, netdev@vger.kernel.org, edumazet@google.com,
-        pabeni@redhat.com, Jacob Keller <jacob.e.keller@intel.com>,
-        johannes@sipsolutions.net, stephen@networkplumber.org,
-        sdf@google.com, ecree.xilinx@gmail.com, benjamin.poirier@gmail.com,
-        idosch@idosch.org, f.fainelli@gmail.com, jiri@resnulli.us,
-        dsahern@kernel.org, fw@strlen.de, linux-doc@vger.kernel.org,
-        jhs@mojatatu.com, tgraf@suug.ch, svinota.saveliev@gmail.com,
-        rdunlap@infradead.org, mkubecek@suse.cz
-Subject: Re: [PATCH v2 2/2] docs: netlink: basic introduction to Netlink
-Message-ID: <20220819161706.53c82915@kernel.org>
-In-Reply-To: <874jy89co7.fsf@meer.lwn.net>
-References: <20220819200221.422801-1-kuba@kernel.org>
-        <20220819200221.422801-2-kuba@kernel.org>
-        <874jy89co7.fsf@meer.lwn.net>
+        with ESMTP id S235388AbiHSX2A (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Aug 2022 19:28:00 -0400
+Received: from mail-vs1-xe2f.google.com (mail-vs1-xe2f.google.com [IPv6:2607:f8b0:4864:20::e2f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 846E4114196;
+        Fri, 19 Aug 2022 16:27:52 -0700 (PDT)
+Received: by mail-vs1-xe2f.google.com with SMTP id j2so5904294vsp.1;
+        Fri, 19 Aug 2022 16:27:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc;
+        bh=S5hEEHWwiNg2k4v549E4aszQCunYEI4sx3nLM1GzVyw=;
+        b=Xo91q4wHdMEv6mkWdK1iVOirDjLT9n3Hl7r1ukV7j2UkFCo69Rc+cAHQMIr1eD12OJ
+         FScZar+W3DjhY6S+6le54/2QZIsoh/afIDT24EA6uTWEczNr8RscpQWFedIKwWpqg996
+         1J+uRNjyLWZLyH7ziBd3dPGeQnVjPAK7nrs6YF7pv0iK4twegX2QCKjsuRaKZUb5Iizt
+         EFAU7Abe29FkXsO5iccQWa0/Yp1yl1y8xl5g6tia4xHtwIff/+MbReupf82asEusb+CF
+         UQu54CzuidnIGK99Fb5PihHw8JHX24b9cSoHnjXW6rYAqHfizVxmfwXK3bXSVc4vpdGM
+         nxBQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=S5hEEHWwiNg2k4v549E4aszQCunYEI4sx3nLM1GzVyw=;
+        b=MPA/XF1Eb1Z4bQe04Au3F2O0fBCQUD/RGOGcGomDFz4xjHGveZIn1Le0qEu1p+YUGd
+         w6tYIA7J+UAoevRkW16NX7JepMxVDHA18dASMzMjKMKJ/fLC9PEFwXbki6Xedfcd3mLk
+         pFsRZvW3Fi02FP3pf4pEOuWIVu8SZj2LkSCORTbNNZYIU2etMJrXf8cuVtgshLNAr5Pu
+         Y5MJR3CH+5PWMJxW1gssZQzAzzsbeRdu+BvrJHToak/Rvc0SI3avKwrHX+gC9CtFqIxJ
+         da5KSvXw2m0IcU3HDG9uzr/1OduIlPYqPDDT9y9yHxE+gTF//56bIgKj3g5oupDByNTb
+         IsRQ==
+X-Gm-Message-State: ACgBeo0C9pSXx9vZIDjtVSMFbrQQCLqjePVVPz98Oe6D1HnbwBFC2U3E
+        ourSwA5GFInkB9jLPENr0J5cqL3MVMgSqe7lMxk=
+X-Google-Smtp-Source: AA6agR4aZOaEro5daSKUdeT2RJVo7AImgpeqXvvIo0V84bpkcQrdEfkHLqcHycEYpUgzgMskEPDS+gA/3V8uYDpz4MQ=
+X-Received: by 2002:a67:e050:0:b0:390:3963:eb5b with SMTP id
+ n16-20020a67e050000000b003903963eb5bmr1017980vsl.7.1660951671566; Fri, 19 Aug
+ 2022 16:27:51 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <cover.1660934107.git.mazziesaccount@gmail.com>
+In-Reply-To: <cover.1660934107.git.mazziesaccount@gmail.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Sat, 20 Aug 2022 02:27:14 +0300
+Message-ID: <CAHp75VfZ+aoo9btTk+8kmOak4PN0Pc7L7RBQMv2SNC2agMbpsg@mail.gmail.com>
+Subject: Re: [PATCH v3 00/14] Use devm helpers for regulator get and enable
+To:     Matti Vaittinen <mazziesaccount@gmail.com>
+Cc:     Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Andrzej Hajda <andrzej.hajda@intel.com>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Robert Foss <robert.foss@linaro.org>,
+        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        Michael Hennerich <Michael.Hennerich@analog.com>,
+        Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Alexandru Tachici <alexandru.tachici@analog.com>,
+        Jonathan Cameron <jic23@kernel.org>,
+        =?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>,
+        Lorenzo Bianconi <lorenzo@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Aswath Govindraju <a-govindraju@ti.com>,
+        Peter Rosin <peda@axentia.se>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Johan Hovold <johan+linaro@kernel.org>,
+        Alexandru Ardelean <aardelean@deviqon.com>,
+        Cai Huoqing <cai.huoqing@linux.dev>,
+        Alexandru Lazar <alazar@startmail.com>,
+        Miaoqian Lin <linmq006@gmail.com>,
+        Xiang wangx <wangxiang@cdjrlc.com>,
+        Linux Documentation List <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-clk <linux-clk@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        linux-amlogic <linux-amlogic@lists.infradead.org>,
+        linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
+        linux-hwmon@vger.kernel.org, linux-iio <linux-iio@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 19 Aug 2022 14:54:48 -0600 Jonathan Corbet wrote:
-> Jakub Kicinski <kuba@kernel.org> writes:
-> 
-> > Provide a bit of a brain dump of netlink related information
-> > as documentation. Hopefully this will be useful to people
-> > trying to navigate implementing YAML based parsing in languages
-> > we won't be able to help with.
-> >
-> > I started writing this doc while trying to figure out what
-> > it'd take to widen the applicability of YAML to good old rtnl,
-> > but the doc grew beyond that as it usually happens.
-> >
-> > In all honesty a lot of this information is new to me as I usually
-> > follow the "copy an existing example, drink to forget" process
-> > of writing netlink user space, so reviews will be much appreciated.
-> >
-> > Reviewed-by: Jacob Keller <jacob.e.keller@intel.com>
-> > Signed-off-by: Jakub Kicinski <kuba@kernel.org>
-> > --
-> > Jon, I'm putting this in userspace-api/ I think it fits reasonably
-> > well there but please don't hesitate to suggest a better home.  
-> 
-> That seems like a fine place for it - this is an addition that, I think,
-> a lot of people will welcome.
-> 
-> A couple of nits, feel free to ignore them:
-> 
->  - Do you plan to add other netlink documents to that directory in the
->    future?  If not, I'd just make a netlink.rst and not bother with the
->    directory and index.rst.
+On Fri, Aug 19, 2022 at 10:20 PM Matti Vaittinen
+<mazziesaccount@gmail.com> wrote:
+>
+> Use devm helpers for regulator get and enable
+>
+> NOTE: The series depends on commit
+> ee94aff2628b ("Devm helpers for regulator get and enable")
+> which currently sits in Mark's regulator/for-next
+>
+> A few* drivers seem to pattern demonstrated by pseudocode:
+>
+> - devm_regulator_get()
+> - regulator_enable()
+> - devm_add_action_or_reset(regulator_disable())
+>
+> devm helpers for this pattern were added to remove bunch of code from
 
-I do - I'm working on creating protocol specifications (what operations
-and attributes family has) in YAML, and at the very least I'll have to
-document how to use those specs. And there needs to be some
-documentation for the attribute formats.
+remove a bunch
 
-I've also enlisted help of Peter of the pyroute2 fame to write a Sphinx
-plugin which would render the documentation from the YAML specs into
-this directory...
+> drivers. Typically following:
+>
+> - replace 3 calls (devm_regulator_get[_optional](), regulator_enable(),
+>   devm_add_action_or_reset()) with just one
+>   (devm_regulator_get_enable[_optional]()).
+> - drop disable callback.
+>
+> I believe this simplifies things by removing some dublicated code.
 
->  - I'm not sure that all the :c:member markup buys enough to be worth
->    the clutter.
+duplicated
 
-Right :( I could swear it worked for me in the sk_buff docs, here it
-does not actually link to the documentation of the type :S I do like
-the consistent formatting tho, so I think I'll keep it either way.
+> This series reowrks a few drivers. There is still plenty of fish in the
 
-> Regardless, should it be worth something:
-> 
-> Acked-by: Jonathan Corbet <corbet@lwn.net>
-> 
-> Thanks for doing this; I've been meaning for years to reverse-engineer
-> netlink and write something like this, now I don't have to :)
+reworks
 
-Thank you! :)
+> sea for people who like to improve the code (or count the beans ;]).
+>
+> Finally - most of the converted drivers have not been tested (other than
+> compile-tested) due to lack of HW. All reviews and testing is _highly_
+> appreciated (as always!).
+
+...
+
+>   docs: devres: regulator: Add new get_enable functions to devres.rst
+>   clk: cdce925: simplify using devm_regulator_get_enable()
+>   gpu: drm: simplify drivers using devm_regulator_*get_enable*()
+>   hwmon: lm90: simplify using devm_regulator_get_enable()
+>   hwmon: adm1177: simplify using devm_regulator_get_enable()
+
+hwmon uses a different pattern for the Subject line.
+
+-- 
+With Best Regards,
+Andy Shevchenko
