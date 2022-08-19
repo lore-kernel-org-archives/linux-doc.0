@@ -2,94 +2,85 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6EF9DC32771
-	for <linux-doc@archiver.kernel.org>; Fri, 19 Aug 2022 20:55:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CFBB7C32771
+	for <linux-doc@archiver.kernel.org>; Fri, 19 Aug 2022 21:15:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351880AbiHSUzW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 19 Aug 2022 16:55:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51298 "EHLO
+        id S1352270AbiHSVPl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 19 Aug 2022 17:15:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58382 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1352232AbiHSUy6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Aug 2022 16:54:58 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73018F18;
-        Fri, 19 Aug 2022 13:54:50 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 470E3536;
-        Fri, 19 Aug 2022 20:54:49 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 470E3536
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1660942489; bh=xWOa/ksnuQ0rKJ4xU7w7Png09nBZTQgTzh4LK9oTvMU=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=lmDPjUw5r75Oi8Ld/z+0F8RAQ06tuatbX7gZkB/keo8BPOlBh9Ncqd00nkNCIMT2m
-         978pzqkicZ/AGAmqkJeemKzm4yUM2CZO0XdTJIiwKKkF783bB3FnNf+FhWOjX/yJrT
-         36OoVh6B7RTdzCBCMPStlTonCzrhMSFATzg2eEBKZ2eXvl/nM3beAGNHI8gI1tNIBc
-         ciHo00cRrEnX/I6thpPCM4Wvn7NNC4KhrRZ/8iLC910KRF+V8JyoNesxfKz3Y/7edw
-         eArjfHqRQ91iTHA/dPVd/ebEcUFVo9qYwc4F5RCq8vkPqopkNEDqNlKyvTGmRbEfr2
-         OhM/QVkIJAvJg==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Jakub Kicinski <kuba@kernel.org>, davem@davemloft.net
-Cc:     netdev@vger.kernel.org, edumazet@google.com, pabeni@redhat.com,
+        with ESMTP id S1352419AbiHSVP3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Aug 2022 17:15:29 -0400
+Received: from vps0.lunn.ch (vps0.lunn.ch [185.16.172.187])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 13CA1EA143;
+        Fri, 19 Aug 2022 14:15:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+        bh=2Qg6GzOwAJdLWvA18NZ2FtUzFLSyUrTFFV3orfdLpz0=; b=4rDZ+GljqxdLz2ppeU2tdOSzy6
+        2gJOeGo8TPKfjqGlKFelXkW57yeig5bSAo59ROXKpc0Wufdy4eFv9aOl6a6qX9GZ9ZwpHOGsU7VIL
+        BTHH5PpGWtVi/GW16TlQVYhDvnpscrdSiWW3b/U0wHEAFIAnWNRu01SqDVcJZIcJqVh8=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+        (envelope-from <andrew@lunn.ch>)
+        id 1oP9Kf-00DxG2-CG; Fri, 19 Aug 2022 23:15:09 +0200
+Date:   Fri, 19 Aug 2022 23:15:09 +0200
+From:   Andrew Lunn <andrew@lunn.ch>
+To:     Oleksij Rempel <o.rempel@pengutronix.de>
+Cc:     Heiner Kallweit <hkallweit1@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
         Jakub Kicinski <kuba@kernel.org>,
-        Jacob Keller <jacob.e.keller@intel.com>,
-        johannes@sipsolutions.net, stephen@networkplumber.org,
-        sdf@google.com, ecree.xilinx@gmail.com, benjamin.poirier@gmail.com,
-        idosch@idosch.org, f.fainelli@gmail.com, jiri@resnulli.us,
-        dsahern@kernel.org, fw@strlen.de, linux-doc@vger.kernel.org,
-        jhs@mojatatu.com, tgraf@suug.ch, svinota.saveliev@gmail.com,
-        rdunlap@infradead.org, mkubecek@suse.cz
-Subject: Re: [PATCH v2 2/2] docs: netlink: basic introduction to Netlink
-In-Reply-To: <20220819200221.422801-2-kuba@kernel.org>
-References: <20220819200221.422801-1-kuba@kernel.org>
- <20220819200221.422801-2-kuba@kernel.org>
-Date:   Fri, 19 Aug 2022 14:54:48 -0600
-Message-ID: <874jy89co7.fsf@meer.lwn.net>
+        Paolo Abeni <pabeni@redhat.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>, kernel@pengutronix.de,
+        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
+        David Jander <david@protonic.nl>
+Subject: Re: [PATCH net-next v1 7/7] ethtool: add interface to interact with
+ Ethernet Power Equipment
+Message-ID: <Yv/9XVjRaa5jwpBo@lunn.ch>
+References: <20220819120109.3857571-1-o.rempel@pengutronix.de>
+ <20220819120109.3857571-8-o.rempel@pengutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220819120109.3857571-8-o.rempel@pengutronix.de>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Jakub Kicinski <kuba@kernel.org> writes:
+> $ ip l
+> ...
+> 5: t1l1@eth0: <BROADCAST,MULTICAST> ..
+> ...
+> 
+> $ ethtool --show-pse t1l1
+> PSE attributs for t1l1:
+> PoDL PSE Admin State: disabled
+> PoDL PSE Power Detection Status: disabled
+> 
+> $ ethtool --set-pse t1l1 podl-pse-admin-control enable
+> $ ethtool --show-pse t1l1
+> PSE attributs for t1l1:
+> PoDL PSE Admin State: enabled
+> PoDL PSE Power Detection Status: delivering power
 
-> Provide a bit of a brain dump of netlink related information
-> as documentation. Hopefully this will be useful to people
-> trying to navigate implementing YAML based parsing in languages
-> we won't be able to help with.
->
-> I started writing this doc while trying to figure out what
-> it'd take to widen the applicability of YAML to good old rtnl,
-> but the doc grew beyond that as it usually happens.
->
-> In all honesty a lot of this information is new to me as I usually
-> follow the "copy an existing example, drink to forget" process
-> of writing netlink user space, so reviews will be much appreciated.
->
-> Reviewed-by: Jacob Keller <jacob.e.keller@intel.com>
-> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
-> --
-> Jon, I'm putting this in userspace-api/ I think it fits reasonably
-> well there but please don't hesitate to suggest a better home.
+Here you seem to indicate that delivering power is totally independent
+of the interface admin status, <BROADCAST,MULTICAST>. The interface is
+admin down, yet you can make it deliver power. I thought there might
+be a link between interface admin status and power? Do the standards
+say anything about this? Is there some sort of industrial norm?
 
-That seems like a fine place for it - this is an addition that, I think,
-a lot of people will welcome.
+I'm also wondering about the defaults. It seems like the defaults you
+are proposing is power is off by default, and you have to use ethtool
+to enable power. That does not seem like the most friendly
+settings. Why not an 'auto' mode where if the PHY has PoDL PSE
+capabilities, on ifup it is enabled, on ifdown it is disabled? And you
+can put it into a 'manual' mode where you control it independent of
+administrative status of the interface?
 
-A couple of nits, feel free to ignore them:
-
- - Do you plan to add other netlink documents to that directory in the
-   future?  If not, I'd just make a netlink.rst and not bother with the
-   directory and index.rst.
-
- - I'm not sure that all the :c:member markup buys enough to be worth
-   the clutter.
-
-Regardless, should it be worth something:
-
-Acked-by: Jonathan Corbet <corbet@lwn.net>
-
-Thanks for doing this; I've been meaning for years to reverse-engineer
-netlink and write something like this, now I don't have to :)
-
-jon
+    Andrew
