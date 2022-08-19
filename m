@@ -2,149 +2,117 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C0C6C00140
-	for <linux-doc@archiver.kernel.org>; Fri, 19 Aug 2022 00:57:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A183AC28B2B
+	for <linux-doc@archiver.kernel.org>; Fri, 19 Aug 2022 01:10:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344284AbiHSA5p (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 18 Aug 2022 20:57:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59000 "EHLO
+        id S242547AbiHSBKF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 18 Aug 2022 21:10:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47182 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346029AbiHSA5b (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Aug 2022 20:57:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7AB7DF4EF
-        for <linux-doc@vger.kernel.org>; Thu, 18 Aug 2022 17:57:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1660870649;
+        with ESMTP id S236163AbiHSBKE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Aug 2022 21:10:04 -0400
+Received: from out0.migadu.com (out0.migadu.com [IPv6:2001:41d0:2:267::])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72485D51DE
+        for <linux-doc@vger.kernel.org>; Thu, 18 Aug 2022 18:10:02 -0700 (PDT)
+Date:   Fri, 19 Aug 2022 09:09:42 +0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+        t=1660871400;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=NtiIgnIOWAAHwJQ2LveDQTHCn3qhSJFmqy9sxEsG1rc=;
-        b=Md3kIc5xQ1OjUmi9MhSSHl6RwMLNS+REjz7SBvDLVp//Av0RfkmeWcabOz1PCW0Kb60pdU
-        EvF/3YRKKyjMpr/PSZJ8cl3XoUTkOk4aK75FrnN0fpEvr2i906XrIAvntbyGgmcZWwhZYq
-        QpZ0WvO2i1gZTArzA9Ao3qjF7X+34P8=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-491-hcWi1V5tPBipyahNrluaWA-1; Thu, 18 Aug 2022 20:57:26 -0400
-X-MC-Unique: hcWi1V5tPBipyahNrluaWA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BCBDF801755;
-        Fri, 19 Aug 2022 00:57:24 +0000 (UTC)
-Received: from gshan.redhat.com (vpn2-54-16.bne.redhat.com [10.64.54.16])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id C878FC15BB8;
-        Fri, 19 Aug 2022 00:57:16 +0000 (UTC)
-From:   Gavin Shan <gshan@redhat.com>
-To:     kvmarm@lists.cs.columbia.edu
-Cc:     linux-arm-kernel@lists.infradead.org, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, peterx@redhat.com,
-        pbonzini@redhat.com, corbet@lwn.net, maz@kernel.org,
-        james.morse@arm.com, alexandru.elisei@arm.com,
-        suzuki.poulose@arm.com, oliver.upton@linux.dev,
-        catalin.marinas@arm.com, will@kernel.org, shuah@kernel.org,
-        seanjc@google.com, drjones@redhat.com, dmatlack@google.com,
-        bgardon@google.com, ricarkol@google.com, zhenyzha@redhat.com,
-        shan.gavin@gmail.com
-Subject: [PATCH v1 5/5] KVM: selftests: Automate choosing dirty ring size in dirty_log_test
-Date:   Fri, 19 Aug 2022 08:56:01 +0800
-Message-Id: <20220819005601.198436-6-gshan@redhat.com>
-In-Reply-To: <20220819005601.198436-1-gshan@redhat.com>
-References: <20220819005601.198436-1-gshan@redhat.com>
+        bh=ypweWn8SQsg6nZgCKHGhdHTfswBUgFLJqoBelYOQllI=;
+        b=MAVlkbZ2DdM3zFjY/13KOtn5mB4W7/Oqs9rEVdfsiFidv0TJudDd6z0V/t+h/ZzAYZ+AeS
+        XBJ3aVl5sLAG194XcAOeuAVNDLD0RRn74TPuHdyxUivVJng+ch/6vt/AzsEpxZ8TMO4mFB
+        Mxe/qoH+zg/r88paTCHpR9i1e4A427Y=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From:   Wu XiangCheng <wu.xiangcheng@linux.dev>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Alex Shi <alexs@kernel.org>, Yanteng Si <siyanteng@loongson.cn>,
+        Li Yang <leoyang.li@nxp.com>,
+        linux-doc <linux-doc@vger.kernel.org>
+Subject: [PATCH] docs/zh_CN: Fix two missing labels in zh_CN/process
+Message-ID: <Yv7i1tYMvK9J/NHj@bobwxc.mipc>
+References: <87fshtbgoy.fsf@meer.lwn.net>
+ <cover.1659406843.git.bobwxc@email.cn>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
+In-Reply-To: <87fshtbgoy.fsf@meer.lwn.net>
+X-Migadu-Flow: FLOW_OUT
+X-Migadu-Auth-User: linux.dev
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-In the dirty ring case, we rely on VM_EXIT due to full dirty ring
-state. On ARM64 system, there are 4096 host pages when the host
-page size is 64KB. In this case, the vcpu never exits due to the
-full dirty ring state. The vcpu corrupts same set of pages, but the
-dirty page information isn't collected in the main thread. This
-leads to infinite loop as the following log shows.
+From: Wu XiangCheng <bobwxc@email.cn>
 
-  # ./dirty_log_test -M dirty-ring -c 65536 -m 5
-  Setting log mode to: 'dirty-ring'
-  Test iterations: 32, interval: 10 (ms)
-  Testing guest mode: PA-bits:40,  VA-bits:48,  4K pages
-  guest physical test memory offset: 0xffbffe0000
-  vcpu stops because vcpu is kicked out...
-  Notifying vcpu to continue
-  vcpu continues now.
-  Iteration 1 collected 576 pages
-  <No more output afterwards>
+* Add back still referenced labels in submitting-patches.rst and
+  email-clients.rst.
+* Fix a typo.
 
-Fix the issue by automatically choosing the best dirty ring size,
-to ensure VM_EXIT due to full dirty ring state. The option '-c'
-provides a hint to it, instead of the value of it.
-
-Signed-off-by: Gavin Shan <gshan@redhat.com>
+Fixes: fdb34b18b959 ("docs/zh_CN: Update zh_CN/process/submitting-patches.rst to 5.19")
+Fixes: d7aeaebb920f ("docs/zh_CN: Update zh_CN/process/email-clients.rst to 5.19")
+Signed-off-by: Wu XiangCheng <bobwxc@email.cn>
 ---
- tools/testing/selftests/kvm/dirty_log_test.c | 24 ++++++++++++++++----
- 1 file changed, 20 insertions(+), 4 deletions(-)
 
-diff --git a/tools/testing/selftests/kvm/dirty_log_test.c b/tools/testing/selftests/kvm/dirty_log_test.c
-index 450e97d10de7..ad31b6e3fe6a 100644
---- a/tools/testing/selftests/kvm/dirty_log_test.c
-+++ b/tools/testing/selftests/kvm/dirty_log_test.c
-@@ -23,6 +23,9 @@
- #include "guest_modes.h"
- #include "processor.h"
+Hi Jon,
+
+I'm sorry that actually v2 of this set[1] has not been sent yet, still some
+problems need to be fixed.
+
+Please also apply this short patch to fix them.
+
+Thanks,
+	Wu
+
+[1]: https://lore.kernel.org/linux-doc/87fshtbgoy.fsf@meer.lwn.net/T/#t
+
+
+ Documentation/translations/zh_CN/process/email-clients.rst    | 2 ++
+ .../translations/zh_CN/process/submitting-patches.rst         | 4 +++-
+ 2 files changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/Documentation/translations/zh_CN/process/email-clients.rst b/Documentation/translations/zh_CN/process/email-clients.rst
+index fa113f071855..34d51cdadc7b 100644
+--- a/Documentation/translations/zh_CN/process/email-clients.rst
++++ b/Documentation/translations/zh_CN/process/email-clients.rst
+@@ -2,6 +2,8 @@
  
-+#define DIRTY_MEM_BITS 30 /* 1G */
-+#define PAGE_SHIFT_4K  12
-+
- /* The memory slot index to track dirty pages */
- #define TEST_MEM_SLOT_INDEX		1
+ .. include:: ../disclaimer-zh_CN.rst
  
-@@ -298,6 +301,22 @@ static bool dirty_ring_supported(void)
++.. _cn_email_clients:
++
+ :Original: Documentation/process/email-clients.rst
  
- static void dirty_ring_create_vm_done(struct kvm_vm *vm)
- {
-+	uint64_t pages;
-+	uint32_t limit;
-+
-+	/*
-+	 * We rely on VM_EXIT due to full dirty ring state. Adjust
-+	 * the ring buffer size to ensure we're able to reach the
-+	 * full dirty ring state.
-+	 */
-+	pages = (1ul << (DIRTY_MEM_BITS - vm->page_shift)) + 3;
-+	pages = vm_adjust_num_guest_pages(vm->mode, pages);
-+	pages = vm_num_host_pages(vm->mode, pages);
-+
-+	limit = 1 << (31 - __builtin_clz(pages));
-+	test_dirty_ring_count = 1 << (31 - __builtin_clz(test_dirty_ring_count));
-+	test_dirty_ring_count = min(limit, test_dirty_ring_count);
-+
- 	/*
- 	 * Switch to dirty ring mode after VM creation but before any
- 	 * of the vcpu creation.
-@@ -710,9 +729,6 @@ static struct kvm_vm *create_vm(enum vm_guest_mode mode, struct kvm_vcpu **vcpu,
- 	return vm;
- }
+ :译者:
+diff --git a/Documentation/translations/zh_CN/process/submitting-patches.rst b/Documentation/translations/zh_CN/process/submitting-patches.rst
+index 26565abcbd8d..f8978f02057c 100644
+--- a/Documentation/translations/zh_CN/process/submitting-patches.rst
++++ b/Documentation/translations/zh_CN/process/submitting-patches.rst
+@@ -2,6 +2,8 @@
  
--#define DIRTY_MEM_BITS 30 /* 1G */
--#define PAGE_SHIFT_4K  12
--
- struct test_params {
- 	unsigned long iterations;
- 	unsigned long interval;
-@@ -856,7 +872,7 @@ static void help(char *name)
- 	printf("usage: %s [-h] [-i iterations] [-I interval] "
- 	       "[-p offset] [-m mode]\n", name);
- 	puts("");
--	printf(" -c: specify dirty ring size, in number of entries\n");
-+	printf(" -c: hint to dirty ring size, in number of entries\n");
- 	printf("     (only useful for dirty-ring test; default: %"PRIu32")\n",
- 	       TEST_DIRTY_RING_COUNT);
- 	printf(" -i: specify iteration counts (default: %"PRIu64")\n",
+ .. include:: ../disclaimer-zh_CN.rst
+ 
++.. _cn_submittingpatches:
++
+ :Original: Documentation/process/submitting-patches.rst
+ 
+ :译者:
+@@ -100,7 +102,7 @@ xyzzy do frotz”或“[I]changed xyzzy to do frotz”，就好像你在命令
+ 你的补丁修复了一个缺陷，需要添加一个带有URL的标签指向邮件列表存档或缺陷跟踪器
+ 的相关报告；如果该补丁是由一些早先邮件列表讨论或网络上的记录引起的，请指向它。
+ 
+-当链接到邮件列表存档是，请首选lore.kernel.org邮件存档服务。用邮件中的
++当链接到邮件列表存档时，请首选lore.kernel.org邮件存档服务。用邮件中的
+ ``Message-ID`` 头（去掉尖括号）可以创建链接URL。例如::
+ 
+     Link: https://lore.kernel.org/r/30th.anniversary.repost@klaava.Helsinki.FI/
 -- 
-2.23.0
+2.30.2
+
+
+-- 
+Wu XiangCheng	0x32684A40BCA7AEA7
 
