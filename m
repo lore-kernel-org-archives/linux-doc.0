@@ -2,220 +2,101 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E18FC3F6B0
-	for <linux-doc@archiver.kernel.org>; Fri, 19 Aug 2022 17:25:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D15EC28B2B
+	for <linux-doc@archiver.kernel.org>; Fri, 19 Aug 2022 17:28:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1354584AbiHSRZM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 19 Aug 2022 13:25:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51412 "EHLO
+        id S1351027AbiHSR2I (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 19 Aug 2022 13:28:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56908 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1354565AbiHSRYv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Aug 2022 13:24:51 -0400
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95CC83ECFF;
-        Fri, 19 Aug 2022 09:43:29 -0700 (PDT)
+        with ESMTP id S1354499AbiHSR1r (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Aug 2022 13:27:47 -0400
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B5B412A557;
+        Fri, 19 Aug 2022 09:46:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1660927412; x=1692463412;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=vJ4mT+GSo6ERAE1lxJMfjzM4MAvhWOC+o59SFQDfCMM=;
-  b=NSF2hkbPSgLWExegQMpPcFCzVOIbQwr66YrA+xzXboCWtbugw6Ul7+TA
-   EZCKXVCtkw/uSAJ6V1GPxQoP2wZvWM1t1VuLnRYW5YuL6wCUHPm1ZlsIc
-   PDH1kBGjKFYF7PTzsFYqCSnd7xn1/lW122JMR79BKXwutmGAvWBB8scG7
-   Qf5yxcQjZvS+xWpMk0g5SXs0Mre6X3bSZOIzFH4Pi4pVhD1MfcRWjCE0D
-   sdFCkpAeLhTZ/6tN4NRQ8CcNEtd0khyPhsFXZMrTirv8jBScxHlZzXHqJ
-   YEhrE1XKSsO8/mGpwd9rlJzyaHGR2eyr2mUoTDs3JvM22GZYteQxTn1vd
+  t=1660927576; x=1692463576;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=bl9OCZ9rTh7mupjI5GJBsM+uFuhOdCrvwO/1N9PwhhE=;
+  b=McF+8Px2HcnRAnNWh3a3eHbH1T1UDycwgmlAE0ePjm6UTEsYKaF72EMS
+   tzwnd67JsMfro4OV6Tx+tbthK1GOTAzqQNdDxpu73HkHP3z/IVC5UtMtj
+   2mx6OryesnMnfMfaC+AfRv8TqqD+pbqG03/uLCt6tZiVhgtp8MEXSOZG4
+   mJjoV3VqDvdoA/q0K8VCy8FB2BmDnCI9FAs6TEeTvq5hmiuI2j4e2SlZy
+   bD8CoqKus1xgmJ4OOJxHmdKIVaP3bhStIJseqqwqv9Z/1jAmlWhR2RAP6
+   0BWn36GJQDyOM1hHjTZhESWD98xmrB6zQr0pagiT1rVk5C4gHKkDu06Zt
    Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10444"; a="294327318"
+X-IronPort-AV: E=McAfee;i="6500,9779,10444"; a="290621623"
 X-IronPort-AV: E=Sophos;i="5.93,248,1654585200"; 
-   d="scan'208";a="294327318"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2022 09:43:07 -0700
+   d="scan'208";a="290621623"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2022 09:45:08 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.93,248,1654585200"; 
-   d="scan'208";a="641311133"
+   d="scan'208";a="697615179"
 Received: from lkp-server01.sh.intel.com (HELO 44b6dac04a33) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 19 Aug 2022 09:43:05 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 19 Aug 2022 09:45:05 -0700
 Received: from kbuild by 44b6dac04a33 with local (Exim 4.96)
         (envelope-from <lkp@intel.com>)
-        id 1oP55M-0001dr-1G;
-        Fri, 19 Aug 2022 16:43:04 +0000
-Date:   Sat, 20 Aug 2022 00:42:36 +0800
+        id 1oP57I-0001dv-1L;
+        Fri, 19 Aug 2022 16:45:04 +0000
+Date:   Sat, 20 Aug 2022 00:44:34 +0800
 From:   kernel test robot <lkp@intel.com>
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     sound-open-firmware@alsa-project.org,
-        platform-driver-x86@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
-        dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
-        Linux Memory Management List <linux-mm@kvack.org>
-Subject: [linux-next:master] BUILD REGRESSION
- 8755ae45a9e8ae883fa7f4eb0162830c55aacf14
-Message-ID: <62ffbd7c.64C1TF454zi41jGk%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+To:     Oleksij Rempel <o.rempel@pengutronix.de>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     kbuild-all@lists.01.org, netdev@vger.kernel.org,
+        Oleksij Rempel <o.rempel@pengutronix.de>,
+        kernel@pengutronix.de, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
+        David Jander <david@protonic.nl>
+Subject: Re: [PATCH net-next v1 7/7] ethtool: add interface to interact with
+ Ethernet Power Equipment
+Message-ID: <202208200039.UVzayOII-lkp@intel.com>
+References: <20220819120109.3857571-8-o.rempel@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+In-Reply-To: <20220819120109.3857571-8-o.rempel@pengutronix.de>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-branch HEAD: 8755ae45a9e8ae883fa7f4eb0162830c55aacf14  Add linux-next specific files for 20220819
+Hi Oleksij,
 
-Error/Warning reports:
+I love your patch! Yet something to improve:
 
-https://lore.kernel.org/linux-doc/202208192207.a0rAM0nj-lkp@intel.com
+[auto build test ERROR on net-next/master]
 
-Error/Warning: (recently discovered and may have been fixed)
+url:    https://github.com/intel-lab-lkp/linux/commits/Oleksij-Rempel/add-generic-PSE-support/20220819-200408
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next.git 268603d79cc48dba671e9caf108fab32315b86a2
+config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20220820/202208200039.UVzayOII-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-5) 11.3.0
+reproduce (this is a W=1 build):
+        # https://github.com/intel-lab-lkp/linux/commit/ac5a14669dbe6cac4972ff01ea6291d12152e78f
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Oleksij-Rempel/add-generic-PSE-support/20220819-200408
+        git checkout ac5a14669dbe6cac4972ff01ea6291d12152e78f
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
 
-Documentation/translations/zh_CN/process/5.Posting.rst:197: WARNING: undefined label: cn_email_clients (if the link has no caption the label must precede a section header)
-drivers/base/regmap/regmap-mmio.c:231:17: error: implicit declaration of function 'writesq'; did you mean 'writeq'? [-Werror=implicit-function-declaration]
-drivers/base/regmap/regmap-mmio.c:231:17: error: implicit declaration of function 'writesq'; did you mean 'writesl'? [-Werror=implicit-function-declaration]
-drivers/base/regmap/regmap-mmio.c:368:17: error: implicit declaration of function 'readsq'; did you mean 'readq'? [-Werror=implicit-function-declaration]
-drivers/base/regmap/regmap-mmio.c:368:17: error: implicit declaration of function 'readsq'; did you mean 'readsl'? [-Werror=implicit-function-declaration]
-drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_plane.c:1046:5: warning: no previous prototype for 'fill_dc_scaling_info' [-Wmissing-prototypes]
-drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_plane.c:1222:6: warning: no previous prototype for 'handle_cursor_update' [-Wmissing-prototypes]
-drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_plane.c:152:6: warning: no previous prototype for 'modifier_has_dcc' [-Wmissing-prototypes]
-drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_plane.c:1576:5: warning: no previous prototype for 'amdgpu_dm_plane_init' [-Wmissing-prototypes]
-drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_plane.c:157:10: warning: no previous prototype for 'modifier_gfx9_swizzle_mode' [-Wmissing-prototypes]
-drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_plane.c:752:5: warning: no previous prototype for 'fill_plane_buffer_attributes' [-Wmissing-prototypes]
-drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_plane.c:83:31: warning: no previous prototype for 'amd_get_format_info' [-Wmissing-prototypes]
-drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_plane.c:88:6: warning: no previous prototype for 'fill_blending_from_plane_state' [-Wmissing-prototypes]
-drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_plane.c:992:5: warning: no previous prototype for 'dm_plane_helper_check_state' [-Wmissing-prototypes]
-drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c:905:28: warning: variable 'top' set but not used [-Wunused-but-set-variable]
-drivers/platform/mellanox/mlxreg-lc.c:866 mlxreg_lc_probe() warn: passing zero to 'PTR_ERR'
-sound/soc/sof/compress.c:330:13: warning: variable 'dai_posn' set but not used [-Wunused-but-set-variable]
-sound/soc/sof/intel/hda-codec.c:216:17: error: too few arguments to function 'hda_codec_device_init'
+If you fix the issue, kindly add following tag where applicable
+Reported-by: kernel test robot <lkp@intel.com>
 
-Error/Warning ids grouped by kconfigs:
+All errors (new ones prefixed by >>):
 
-gcc_recent_errors
-|-- alpha-allmodconfig
-|   |-- drivers-base-regmap-regmap-mmio.c:error:implicit-declaration-of-function-readsq
-|   `-- drivers-base-regmap-regmap-mmio.c:error:implicit-declaration-of-function-writesq
-|-- alpha-allyesconfig
-|   |-- drivers-base-regmap-regmap-mmio.c:error:implicit-declaration-of-function-readsq
-|   |-- drivers-base-regmap-regmap-mmio.c:error:implicit-declaration-of-function-writesq
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-amd_get_format_info
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-amdgpu_dm_plane_init
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-dm_plane_helper_check_state
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-fill_blending_from_plane_state
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-fill_dc_scaling_info
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-fill_plane_buffer_attributes
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-handle_cursor_update
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-modifier_gfx9_swizzle_mode
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-modifier_has_dcc
-|   |-- drivers-gpu-drm-msm-disp-dpu1-dpu_kms.c:warning:variable-top-set-but-not-used
-|   `-- sound-soc-sof-compress.c:warning:variable-dai_posn-set-but-not-used
-|-- alpha-randconfig-r002-20220819
-|   `-- sound-soc-sof-intel-hda-codec.c:error:too-few-arguments-to-function-hda_codec_device_init
-|-- arc-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-amd_get_format_info
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-amdgpu_dm_plane_init
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-dm_plane_helper_check_state
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-fill_blending_from_plane_state
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-fill_dc_scaling_info
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-fill_plane_buffer_attributes
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-handle_cursor_update
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-modifier_gfx9_swizzle_mode
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-modifier_has_dcc
-|   |-- drivers-gpu-drm-msm-disp-dpu1-dpu_kms.c:warning:variable-top-set-but-not-used
-|   `-- sound-soc-sof-compress.c:warning:variable-dai_posn-set-but-not-used
-|-- arm-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-amd_get_format_info
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-amdgpu_dm_plane_init
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-dm_plane_helper_check_state
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-fill_blending_from_plane_state
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-fill_dc_scaling_info
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-fill_plane_buffer_attributes
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-handle_cursor_update
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-modifier_gfx9_swizzle_mode
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-modifier_has_dcc
-|   |-- drivers-gpu-drm-msm-disp-dpu1-dpu_kms.c:warning:variable-top-set-but-not-used
-|   `-- sound-soc-sof-compress.c:warning:variable-dai_posn-set-but-not-used
-|-- arm-defconfig
-|   `-- drivers-gpu-drm-msm-disp-dpu1-dpu_kms.c:warning:variable-top-set-but-not-used
-|-- arm64-allyesconfig
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-amd_get_format_info
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-amdgpu_dm_plane_init
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-dm_plane_helper_check_state
-|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-fill_blending_from_plane_state
-
-elapsed time: 723m
-
-configs tested: 66
-configs skipped: 2
-
-gcc tested configs:
-um                             i386_defconfig
-um                           x86_64_defconfig
-arc                  randconfig-r043-20220819
-i386                                defconfig
-i386                          randconfig-a001
-x86_64                        randconfig-a013
-x86_64                        randconfig-a006
-x86_64                              defconfig
-x86_64                          rhel-8.3-func
-arm                                 defconfig
-x86_64                        randconfig-a011
-i386                          randconfig-a003
-x86_64                        randconfig-a015
-x86_64                         rhel-8.3-kunit
-i386                          randconfig-a014
-i386                          randconfig-a005
-x86_64                    rhel-8.3-kselftests
-i386                          randconfig-a012
-powerpc                           allnoconfig
-x86_64                               rhel-8.3
-powerpc                          allmodconfig
-sh                               allmodconfig
-mips                             allyesconfig
-i386                          randconfig-a016
-openrisc                            defconfig
-powerpc                      tqm8xx_defconfig
-x86_64                           rhel-8.3-kvm
-x86_64                           rhel-8.3-syz
-sh                          lboxre2_defconfig
-arm                              allyesconfig
-i386                             allyesconfig
-arm64                            allyesconfig
-m68k                             allmodconfig
-x86_64                           allyesconfig
-arc                              allyesconfig
-alpha                            allyesconfig
-m68k                             allyesconfig
-arm                           viper_defconfig
-ia64                             allmodconfig
-mips                    maltaup_xpa_defconfig
-sh                         ap325rxa_defconfig
-arc                               allnoconfig
-alpha                             allnoconfig
-riscv                             allnoconfig
-csky                              allnoconfig
-
-clang tested configs:
-hexagon              randconfig-r045-20220819
-hexagon              randconfig-r041-20220819
-x86_64                        randconfig-a016
-riscv                randconfig-r042-20220819
-s390                 randconfig-r044-20220819
-i386                          randconfig-a013
-x86_64                        randconfig-a005
-x86_64                        randconfig-a012
-i386                          randconfig-a015
-x86_64                        randconfig-a014
-i386                          randconfig-a002
-arm                           spitz_defconfig
-i386                          randconfig-a011
-i386                          randconfig-a006
-i386                          randconfig-a004
-mips                      maltaaprp_defconfig
-powerpc                   lite5200b_defconfig
-mips                      malta_kvm_defconfig
-powerpc                     tqm8540_defconfig
-powerpc                 mpc832x_mds_defconfig
-x86_64                          rhel-8.3-rust
+>> make[3]: *** No rule to make target 'net/ethtool/pse.o', needed by 'net/ethtool/built-in.a'.
+   make[3]: Target '__build' not remade because of errors.
 
 -- 
 0-DAY CI Kernel Test Service
