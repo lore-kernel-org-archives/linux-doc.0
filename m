@@ -2,213 +2,324 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 670B9C38147
-	for <linux-doc@archiver.kernel.org>; Fri, 19 Aug 2022 16:18:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 21BFDC32772
+	for <linux-doc@archiver.kernel.org>; Fri, 19 Aug 2022 17:00:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351936AbiHSQS0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 19 Aug 2022 12:18:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47400 "EHLO
+        id S1354316AbiHSRAS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 19 Aug 2022 13:00:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46156 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1352632AbiHSQRY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Aug 2022 12:17:24 -0400
-Received: from mx07-001d1705.pphosted.com (mx07-001d1705.pphosted.com [185.132.183.11])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D68A11777D;
-        Fri, 19 Aug 2022 09:00:26 -0700 (PDT)
-Received: from pps.filterd (m0209325.ppops.net [127.0.0.1])
-        by mx08-001d1705.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 27JEMTrC024755;
-        Fri, 19 Aug 2022 15:59:45 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sony.com; h=from : to : cc :
- subject : date : message-id : references : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=S1;
- bh=qh7CPvJBcrNqbmHOTHMOpj5KEnxIhrLjQVFryYQxGIQ=;
- b=iV2Xbxqg32IteSvgzytL+hEOTqt3OWYo9D5L7Sd6U5HSaxDe3P9W2Pk4MTjVDkyHTZLu
- glaoRqVxn0KbPgtz3b3MvvBqMSP6JGU41W92NLoG3wqbIVJTSNa63QdJRVMJH8wph/kx
- einqFs40vzaJUwzyqOEGbKuwnTCpDayj6sPoEZZygvupKNhKT6oZmfrx/s3EsVREESTR
- 8JjNcSNLt75M7aAxKZmUQHPgtUbOawf5mV0GZCs55H7H6Ib9GMWuddzN+PsqLgfAi8Fx
- VQ03wrXGhZCh5D4HWQhryZPUB45rqL8N9KvYLBooVJOgk4gf7hbOzL5ZaSeLM0vRcJDH NA== 
-Received: from nam04-dm6-obe.outbound.protection.outlook.com (mail-dm6nam04lp2046.outbound.protection.outlook.com [104.47.73.46])
-        by mx08-001d1705.pphosted.com (PPS) with ESMTPS id 3j0nh3b4vm-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 19 Aug 2022 15:59:45 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Ly+BWPEOqgHIufevbk0DagQnhozwkfgVkuxZ+3+5zMpKMHrGmsWzr8VdpM0kEb7fm5Iwjv6TWgudfHtFGbOmC2jex2M4vfAzSflkBwvxpdwXmlreL5tppsWPyucTViBP0Iz5PpmVGyBIE3EwrNT5G7iU4SutLSLDNbL7C6XIFgUBtmOxe9SeoKRHYfAwDWHfbwkPiZq+VNeUk7PahXjqvRGIMot7s3EL59qwEN5dZ+aLF8IIU903vpuGRGPx34Xsg65Vyt+e4eDuuM6LLkQH+vHK72XH0LNgzcaFWSHy4ObT69JD9U1bV5mwoWbhPEa0amfhRM357RGPK5s/rYkUjA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=qh7CPvJBcrNqbmHOTHMOpj5KEnxIhrLjQVFryYQxGIQ=;
- b=oAJWZQ7nTQUNjLgV9StrT23WcVQ3/62ds/s4nnBc26ZAE4hCY1k5iqaTy3MgcbhmMUWnp0ZkxI0JEYkbB5aR2K9wZHe2N9EwW5fZ1NpdSFY9fm7zqRbXl850UMWf2dAj1jny2ejgX0Gj+QMulZy394ZjBs3wOhS/NQux+XwpWCSlh5AxtTJpRrKJ+0jE0nBeMwOnMYxkxNWFp4KD/14hKeYLwmd+Bcw5Y/xDjC+OH7QqVYAXFFTi0T0zBQRKvScbahl7dF4bCYWN2fBT+q9fqX4COai7GP/nz2ujRPk820IGF3R70pGiGL4jjiEdnS8cQZKd9AQ4Mk4hrazuA0cTuQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=sony.com; dmarc=pass action=none header.from=sony.com;
- dkim=pass header.d=sony.com; arc=none
-Received: from BYAPR13MB2503.namprd13.prod.outlook.com (2603:10b6:a02:cd::33)
- by CH2PR13MB3446.namprd13.prod.outlook.com (2603:10b6:610:2b::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5546.15; Fri, 19 Aug
- 2022 15:59:38 +0000
-Received: from BYAPR13MB2503.namprd13.prod.outlook.com
- ([fe80::999:56bf:f8d3:7f30]) by BYAPR13MB2503.namprd13.prod.outlook.com
- ([fe80::999:56bf:f8d3:7f30%7]) with mapi id 15.20.5546.015; Fri, 19 Aug 2022
- 15:59:38 +0000
-From:   "Bird, Tim" <Tim.Bird@sony.com>
-To:     Tales Aparecida <tales.aparecida@gmail.com>,
-        Sadiya Kazi <sadiyakazi@google.com>
-CC:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "kunit-dev@googlegroups.com" <kunit-dev@googlegroups.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
-        "davidgow@google.com" <davidgow@google.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "brendan.higgins@linux.dev" <brendan.higgins@linux.dev>,
-        Trevor Woerner <twoerner@gmail.com>,
-        "siqueirajordao@riseup.net" <siqueirajordao@riseup.net>,
-        "mwen@igalia.com" <mwen@igalia.com>,
-        "andrealmeid@riseup.net" <andrealmeid@riseup.net>,
-        "mairacanal@riseup.net" <mairacanal@riseup.net>,
-        Isabella Basso <isabbasso@riseup.net>,
-        "magalilemes00@gmail.com" <magalilemes00@gmail.com>
-Subject: RE: [PATCH 5/8] Documentation: KUnit: add intro to the
- getting-started page
-Thread-Topic: [PATCH 5/8] Documentation: KUnit: add intro to the
- getting-started page
-Thread-Index: AQHYs402hlnHQWHkq0G9oRRbpGHVP622Yb0w
-Date:   Fri, 19 Aug 2022 15:59:38 +0000
-Message-ID: <BYAPR13MB25031D6AEDAE9CBCBC5EDD69FD6C9@BYAPR13MB2503.namprd13.prod.outlook.com>
-References: <20220819053234.241501-1-tales.aparecida@gmail.com>
- <20220819053234.241501-6-tales.aparecida@gmail.com>
-In-Reply-To: <20220819053234.241501-6-tales.aparecida@gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: a557e534-237a-46a0-0e85-08da81fbd213
-x-ms-traffictypediagnostic: CH2PR13MB3446:EE_
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 1mu+dppK/PtIaMd40Gim3aGc6ZFE2If1XOSFkDd4nUvtM1XO2Iq+DcVUxDkH1l2JNYAESS5hd5p/dWsrdi6EcTdStGgRKRzx48vxPwbc2DK6VuOFrcOnv0qbePYIwTCYtnBS+31Zbbbati3Z7g7+9h8zPXeCAV0GT4Uj6wXXKGv/Ia+FaCF9fOzi4H/b4/G0blszCyWQqmCU+8yaOSTbEICsbh/S6vpCD6yJvDEuPM8BJxwy6CNF1jIEfLYtkcJnOOXUomX/vFxU9oioKSw8gkNWKhLsX3TRbztN86LxDXUjVWcsR2XcYz0ZKRLzEBHv4BnfR7Qh935Zat+/EweCb/6UobRtEAb0a74HqJBuecIxdZmlxgFl0So4UbfL5PPqB+orJS94+fYNWbL9G07T5eKt5HNIALUItXQATy/x/hLLJPO5Sn2M3nOJYbEHhCc2rMQW9a7pO0CShQRcbar7ZRoRm1PlVFA2x+GKnyYsIC3IwkGxjPZgDBLMZXeMqPJim59r2UCjToThoG/gwo0MZLFBqnAOCmav+C1M1v6S6txHQ5apaNUjImLcNh2UU+AX6WAMjcWlRaWXtPsrXcM4+2rs5pk3XxdY6Z/DcZQY06AacENLnIyBDE5h2iqLVICtBghWmScXpeLePyfZ5wFH58hm2LeK93uPn2ekdx0IRUFOHx/5t5TiCxIXkjl7E7pFA/bwDXNd2tDPmKPqhv8b5dEaO6okaRWKKn/N0kh2a1j2hUpdsb9qp0ZF7Vn/N+UjQs2lvqkjO/B6MJTZX0MLIg==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR13MB2503.namprd13.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(346002)(136003)(376002)(39860400002)(366004)(396003)(38100700002)(122000001)(82960400001)(38070700005)(83380400001)(52536014)(5660300002)(8936002)(186003)(86362001)(41300700001)(64756008)(66556008)(66446008)(55016003)(66946007)(7416002)(478600001)(4326008)(66476007)(7696005)(54906003)(6506007)(26005)(8676002)(110136005)(33656002)(9686003)(71200400001)(2906002)(316002)(76116006);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?9dZx1UnyqqMVgYNKFyJBZ6mL48cOYckGsHaTWA7nBDv0SfaD7gMdLE/V2aDu?=
- =?us-ascii?Q?x0cVKEC1N4HxNQKsdGGtCG8ZbhxP7vnnAdcu8GshETL9yb7W63T3hy1Zf1q4?=
- =?us-ascii?Q?MZ9CHQbTexEFBP8WBGA2ozsRMvv9R9f8GZ2oUHUYPuJM+ELWpVoe02V7laLu?=
- =?us-ascii?Q?rr2CrBdwNvwcY9kB+qZu47uD1MfIFnYiknQm8tTD5SArBbr/sBuaAsLcbBDj?=
- =?us-ascii?Q?88PlYlZk3IlbIA1hbEZ+YvhhszNPWT4eUOKVzdEwCdy0CofJv78DWoVMugBl?=
- =?us-ascii?Q?YoXo7hHEJQXwzPL+bSa+RrpmmHxg6rN5RdJQ9lrH4T1o6qE+PB4CYsQA3Uxo?=
- =?us-ascii?Q?lfcL9ZIa2XeRxqo57YACtxPdlvMZYn2AZozTHbfUKiYpSGQsmcSiY0NZ0Gad?=
- =?us-ascii?Q?9V//rFEvLxpydSsrKDPyuz+yN/PKg34kneVgoxqkgzeOcnixjbVJR+flDDXZ?=
- =?us-ascii?Q?r6AmVNUWmAb363mXy6KL4OiZAP3aDg91SAOp4M0D7zMAJFMft6ADGm4X0ymE?=
- =?us-ascii?Q?heI33c112+IxFEG2fDBFPdtuEGnBbEpji+7rcosVL6IVomxGT4jAC10Vq8zw?=
- =?us-ascii?Q?15i7YBAfr8xG7fECSWCnIap1NR+SLx3Tfjw+HwnhikgzKAtjD3LXJJrHm/bR?=
- =?us-ascii?Q?0HfIaQdMqxK2WWI60mndU13RnSwRGAnFl2wUMbz1HQm8NC9zEMD90uaJzo9D?=
- =?us-ascii?Q?xkNWg+YOo2nsPsLSK8CkoCIpHXKTUasEFbJnfOxeb4uIHDpGoA/762J/zvgL?=
- =?us-ascii?Q?Fr4vKjB61su+vxtD+YU0KH7MkzrVk9p4iYmDE61eLjzeglVcvwUbDQwB+S0H?=
- =?us-ascii?Q?L+zYShIw9y6crX3lbt2/uiP6kqQoJvd3kTGucIDRdhnvwj/2m+pO5RGSzCml?=
- =?us-ascii?Q?mNX37bbrPiUDwPZvhHTrhV0WuP+Ld6iqcEkVI0VLNwtrTwiUq1H6+8ZHANcE?=
- =?us-ascii?Q?DVrRguu1ORMGCslF+aCdbve4Q+is+uLB0AwaInHvW/IUvXWqqNAXz4u8LqoT?=
- =?us-ascii?Q?9JsZ/5VY7/EdSQ/5Ho91FS46Y9sQEotqwhUUNpYcXCjqKJGozzZ9BsWPScld?=
- =?us-ascii?Q?mH5ItBQihrrR16cjYogp+iX+SLxDpAS1cRpetKtKos1cuI/CFi1WHX9R3nLF?=
- =?us-ascii?Q?zpuwcAkJWpN414WWwNm+p3GoY/LqQS8bGvPG+Sd5lEIE9yHVjT2+RSPQOiFc?=
- =?us-ascii?Q?IOI7wEDL+b+nHdB3/3B9x4UGovOMbB3maebtkhGZxO2bzMAo24aJOnoWCaDQ?=
- =?us-ascii?Q?tdhOvU/WgvocPFfpTfjoxBg4zQ+ImxKOd7COh/xjGslQo/cZcadRXpPyAR4o?=
- =?us-ascii?Q?rWGMqb5TWMBORbGBUchHnt6ZCDOFKdD3PN9GI/FjGOZfdnierTHuN9BAOdRi?=
- =?us-ascii?Q?cTg3YsLevfOL/PVIzjhC5qW3DjO5J8ZriCrcqfTlmJ/5pi8u3rdlHEcK9XuZ?=
- =?us-ascii?Q?BnW5JMxBnl2tvNFmOqV+Qa9B0MpwYZBBZq71SD8LD/ajl/6CJIlbtDhM7qyq?=
- =?us-ascii?Q?i++8GeCD/FAfqX8L6BCGe7GGjt4EeL7M7lkcB0VpbFK4k2t7cCdVmGQZy/XG?=
- =?us-ascii?Q?8/WzOShfYO5k3AREmQTKug5ngjmZ+enM/SooOq2J?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        with ESMTP id S1354530AbiHSRAB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Aug 2022 13:00:01 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0CBEF1322CB;
+        Fri, 19 Aug 2022 09:20:33 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 21AF7B8280D;
+        Fri, 19 Aug 2022 16:20:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 505CCC433C1;
+        Fri, 19 Aug 2022 16:20:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1660926030;
+        bh=LgjTg9NeVNqDDOerGSwbxrMHZC+77VDZrItGQpOGABk=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=UZpjLlOkTIBylPI7XZmlcAaDE5Sq5BjD0RsRcNFK9vEVsNdc3H81NHPeKCX+X0+QU
+         Q6mmx3FiYKt0FkkMDup/WfbY3f2s38ZWyUlhN/tl36HFBvL2Np6lEWrjbKEkBqdOqP
+         d48VUX/6zmVI4qN6mVoAP8CJgkYphLICoyjoYGwgjTQY4Bqy7taOaoGLlykmt5FfPn
+         R1chgx8fQyCwtErphhgljzm3V0BJD2d19IM5rvmW5dDdpGKQQgxXCTYwiI/TfQO4ZE
+         Nss24sK3EX+bb9KBNGyt4sD1GOkaYrAE2TJyxVzG7KJFzBbXKa3/tzavM7XosXJaIp
+         gm1UdldbDWmaA==
+Date:   Fri, 19 Aug 2022 09:20:29 -0700
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     Johannes Berg <johannes@sipsolutions.net>
+Cc:     davem@davemloft.net, netdev@vger.kernel.org, corbet@lwn.net,
+        stephen@networkplumber.org, sdf@google.com, ecree.xilinx@gmail.com,
+        benjamin.poirier@gmail.com, idosch@idosch.org,
+        f.fainelli@gmail.com, jiri@resnulli.us, dsahern@kernel.org,
+        fw@strlen.de, linux-doc@vger.kernel.org, jhs@mojatatu.com,
+        tgraf@suug.ch, jacob.e.keller@intel.com, svinota.saveliev@gmail.com
+Subject: Re: [PATCH net-next 2/2] docs: netlink: basic introduction to
+ Netlink
+Message-ID: <20220819092029.10316adb@kernel.org>
+In-Reply-To: <6350516756628945f9cc1ee0248e92473521ed0b.camel@sipsolutions.net>
+References: <20220818023504.105565-1-kuba@kernel.org>
+        <20220818023504.105565-2-kuba@kernel.org>
+        <6350516756628945f9cc1ee0248e92473521ed0b.camel@sipsolutions.net>
 MIME-Version: 1.0
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: =?us-ascii?Q?4PxwPxYPODUjKLq4pgRS3z6PbNKno8roXitdWVdLRgPw1WnzBUEWEHWD5DuV?=
- =?us-ascii?Q?sDC8nAvrpu5zhJWVsGnpuObRSIX+JkqWq0td/TMMDd1F+KD0obYZFQ4p0U8x?=
- =?us-ascii?Q?EpcUJohcj38d9HzQaMsgA8YhnKUBpqnQ0VkMFMvoJ7PQn0tlLqa30kAjH0nk?=
- =?us-ascii?Q?B4DNQ7uSOOYX4XJJYPmEgDhurXoct1+kZDs085Iz4sT9FlBa5obuoq9TwzO7?=
- =?us-ascii?Q?F9JFM+BkIFU28+diUYPcVd5bmfFeup7CPSMbHpMP/j3IPWGQ6naJlGBtfWpo?=
- =?us-ascii?Q?bNUG/LpaoIOde1qfhyJ2/EKl1IZQ3y5S2WPAM5ar9+vKeOepshIkiNxumOCQ?=
- =?us-ascii?Q?I3UcOQXSPJ0UXFmjMKRKLl1Hy7taMpenRN73eAs/qDiNvCaI79abFVJNzQS6?=
- =?us-ascii?Q?dUKzQsUsQI2SwWhdENA9svSApGz5EYYUO6m3yCMuni6gIJi6WmgaCtbtnA91?=
- =?us-ascii?Q?f0YkH/5s8AFoAtBDDCvAJb+NiCMriKia4xviQwlf6X9c/8shW7NQx9HaBlnZ?=
- =?us-ascii?Q?8ErwDgb3EyGdWbNY8JvqhRVDZh5vOKM/FCyWULPSWKLhkLjh0gpL+f0vYYrx?=
- =?us-ascii?Q?MRnSzncfL9TmyTux3B539dsLi+5O7wlUeNZAJq7MQF48GEIUIpMvaZPcGB4y?=
- =?us-ascii?Q?aAtCtzsIjWPUeQqx1kXuBLLXm5BK6cU9zlYsOLuJaLgx3WzKtZXUZRTncrzc?=
- =?us-ascii?Q?OZMLa5uexJwJ3Yxwe7Jmi0IHepK+7h7sjDGcqm7+72lqYRvQd4wfl8OSTM/D?=
- =?us-ascii?Q?Mcc/nIfhLorUxoJwMHitEyGrpJrBJlves0kmq8yArKoZ8e8tTJ4oQEKzHeyd?=
- =?us-ascii?Q?RGNU9MIu0DTdlQmXjrXxWPtXbyge3gxk1+KL1tFuEd0y+WTjiH+Ss8IFE9tH?=
- =?us-ascii?Q?fqcrxhJuL96sfeSy1H3r1kXqKFchsGC5qrrvLSYHXs0NsEHJsCyoCp2q6zVG?=
- =?us-ascii?Q?rY6F2b45Oy/kxWpWo0l2RDBW+FjvnStpotbARsOTdBZbogJfqLg66sRoiadp?=
- =?us-ascii?Q?AcDemo6HjKNgD0aTqi21S8Mi28udbRzdzEiHDCbuIfkPLkSnqMFbLQDC7vwk?=
- =?us-ascii?Q?pX8gRAC3Natzx3fbP1c856N18rv+sbRa/Z3PBR1zsULGBXmt5zAa90sdsnOd?=
- =?us-ascii?Q?233e/WvYQQ+To8BQqNhsiYbUZPqHCa2eJThCurjTIiDYi3btCd661x/cBr9B?=
- =?us-ascii?Q?hg8oST/KyHP6XFqE/r0ocq2DIusZMN55xbjaDMdI8swSxuwxUUiFr/E7FJJZ?=
- =?us-ascii?Q?wxqvpksb+f8PGvlKNQIwkUOM/9JWVWcRo+c6SXef66Me8Lhz+QZJdud+SDap?=
- =?us-ascii?Q?UeUGAV2xajxo7VWPCR1uiWlmZQzG1Z5OMqmP5dyI4nrW4I03KYfCQ/jpGeQk?=
- =?us-ascii?Q?Ipz5oJIaU1LSZB6WffzUO7DrE383RZo1ReN12fgDngIJeDj0d5JDfV4e9+Vm?=
- =?us-ascii?Q?TzlVLpw50wNJoooKBTUd3uXJRzvAI4pAA6og55Zm7bIPDLXg43rCVVsQ15CC?=
- =?us-ascii?Q?T21d9dFnIWcvHGlW2c5S3JpGWQHCol9b6Q6fGFOshp7jpO///T+kKL6oXKZ1?=
- =?us-ascii?Q?P1HOzHc41jvmG51lk6nd3r5Irk9pDIocSqGmYRb31efkr4GI/AlOkP90NfBF?=
- =?us-ascii?Q?O9XsZ+SQxZ7IYxkJe4/Y+QKpVESGmp6F1b0NCWldoie/CfHNxbnan9SKs3yC?=
- =?us-ascii?Q?WgTQ3g=3D=3D?=
-X-OriginatorOrg: sony.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR13MB2503.namprd13.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a557e534-237a-46a0-0e85-08da81fbd213
-X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Aug 2022 15:59:38.7428
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 66c65d8a-9158-4521-a2d8-664963db48e4
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: JgGipfC0gV0WKd+dQlKEa6JaJqGakv5L5LuT9rzN36NMQxWqvrfRRuPEUMnz2DZ0hrnSmAQnAjuztWrrMSgT+A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR13MB3446
-X-Proofpoint-GUID: lS5Oec_ll5CcCpbdwCJ5JaShJByBNcOw
-X-Proofpoint-ORIG-GUID: lS5Oec_ll5CcCpbdwCJ5JaShJByBNcOw
-X-Sony-Outbound-GUID: lS5Oec_ll5CcCpbdwCJ5JaShJByBNcOw
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-08-19_08,2022-08-18_01,2022-06-22_01
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-
-> -----Original Message-----
-> From: Tales Aparecida <tales.aparecida@gmail.com>
+On Thu, 18 Aug 2022 09:36:46 +0200 Johannes Berg wrote:
+> On Wed, 2022-08-17 at 19:35 -0700, Jakub Kicinski wrote:
+> > +To get information about the Generic Netlink family named for example
+> > +``"test1"`` we need to send a message on the previously opened Generic=
+ Netlink
+> > +socket. The message should target the Generic Netlink Family (1), be a
+> > +``do`` (2) call to ``CTRL_CMD_GETFAMILY`` (3). A ``dump`` version of t=
+his
+> > +call would make the kernel respond with information about *all* the fa=
+milies
+> > +it knows about. Last but not least the name of the family in question =
+has
+> > +to be specified (4) as an attribute with the appropriate type::
+> > +
+> > +  struct nlmsghdr:
+> > +    __u32 nlmsg_len:	32
+> > +    __u16 nlmsg_type:	GENL_ID_CTRL               // (1)
+> > +    __u16 nlmsg_flags:	NLM_F_REQUEST | NLM_F_ACK  // (2)
+> > +    __u32 nlmsg_seq:	1
+> > +    __u32 nlmsg_pid:	0
+> > +
+> > +  struct genlmsghdr:
+> > +    __u8 cmd:		CTRL_CMD_GETFAMILY         // (3)
+> > +    __u8 version:	2 /* or 1, doesn't matter */
+> > +    __u16 reserved:	0
+> > +
+> > +  struct nlattr:                                   // (4)
+> > +    __u16 nla_len:	10
+> > +    __u16 nla_type:	CTRL_ATTR_FAMILY_NAME
+> > +    char data: 		test1\0
+> > +
+> > +  (padding:)
+> > +    char data:		\0\0
+> > +
+> > +The length fields in Netlink (:c:member:`nlmsghdr.nlmsg_len`
+> > +and :c:member:`nlattr.nla_len`) always *include* the header.
+> > +Headers in netlink must be aligned to 4 bytes from the start of the me=
+ssage, =20
 >=20
-> Describe the objective of the Getting Started page, which should be a
-> brief and beginner-friendly walkthrough for running and writing tests,
-> showing the reader where to find detailed instructions in other pages.
+> s/Headers/Attribute headers/ perhaps?
+
+Theoretically I think we also align what I called "fixed metadata
+headers", practically all of those are multiple of 4 :S
+
+> > +hence the extra ``\0\0`` at the end of the message.
 >=20
-> Signed-off-by: Tales Aparecida <tales.aparecida@gmail.com>
-> ---
->  Documentation/dev-tools/kunit/start.rst | 5 +++++
->  1 file changed, 5 insertions(+)
+> And I think technically for the _last_ attribute it wouldn't be needed?
+
+True, it's not strictly necessary AFAIU. Should I mention it=20
+or would that be over-complicating things?
+
+I believe that kernel will accept both forms (without tripping=20
+the trailing data warning), and both the kernel and mnl will pad=20
+out the last attr.
+
+> > +If the family is found kernel will reply with two messages, the respon=
+se
+> > +with all the information about the family::
+> > +
+> > +  /* Message #1 - reply */
+> > +  struct nlmsghdr:
+> > +    __u32 nlmsg_len:	136
+> > +    __u16 nlmsg_type:	GENL_ID_CTRL
+> > +    __u16 nlmsg_flags:	0
+> > +    __u32 nlmsg_seq:	1    /* echoed from our request */
+> > +    __u32 nlmsg_pid:	5831 /* The PID of our user space process */ =20
 >=20
-> diff --git a/Documentation/dev-tools/kunit/start.rst b/Documentation/dev-=
-tools/kunit/start.rst
-> index f0ec64207bd3..3855402a5b3e 100644
-> --- a/Documentation/dev-tools/kunit/start.rst
-> +++ b/Documentation/dev-tools/kunit/start.rst
-> @@ -4,6 +4,11 @@
->  Getting Started
->  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> s/PID/netlink port ID/
 >=20
-> +This page contains an overview about the kunit_tool and Kunit framework,
-> +teaching how to run existent tests and then how to write a simple test-c=
-ase,
-> +and covering common problems users face when using Kunit for the first t=
-ime.
-> +It is recommended that the reader had compiled the Kernel at least once =
-before.
+> It's actually whatever you choose, I think? Lots of libraries will
+> choose (something based on) the process ID, but that's not really
+> needed?
+>=20
+> (autobind is different maybe?)
 
-had -> has
+I'll respond below.
 
-before. -> before (what?? - reading these instructions?, running kunit?)
+> > +  /* Message #2 - the ACK */
+> > +  struct nlmsghdr:
+> > +    __u32 nlmsg_len:	36
+> > +    __u16 nlmsg_type:	NLMSG_ERROR
+> > +    __u16 nlmsg_flags:	NLM_F_CAPPED /* There won't be a payload */
+> > +    __u32 nlmsg_seq:	1    /* echoed from our request */
+> > +    __u32 nlmsg_pid:	5831 /* The PID of our user space process */ =20
+>=20
+> (same here of course)
+>=20
+> > +``NLMSGERR_ATTR_MSG`` carries a message in English describing
+> > +the encountered problem. These messages are far more detailed
+> > +than what can be expressed thru standard UNIX error codes. =20
+>=20
+> "through"?
 
-> +
->  Installing Dependencies
->  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->  KUnit has the same dependencies as the Linux kernel. As long as you can
-> --
-> 2.37.1
+How much do you care? Maybe Jon has guidelines?
 
+I heard somewhere that some of English spelling was complicated=20
+by the type-setters they imported from Belgium with the first
+printing presses. Those dudes supposedly just picked the spelling
+they felt was right.. based on how they'd spell it back home.
+Ever since I heard that I felt much less guilty using shorter,
+more logical spellings.
+
+> > +Querying family information is useful in rare cases when user space ne=
+eds =20
+>=20
+> debatable if that's "rare", but yeah, today it's not done much :)
+
+Some of the text is written with the implicit goal of comforting=20
+the newcomer ;)
+
+> > +.. _nlmsg_pid:
+> > +
+> > +nlmsg_pid
+> > +---------
+> > +
+> > +:c:member:`nlmsghdr.nlmsg_pid` is called PID because the protocol pred=
+ates
+> > +wide spread use of multi-threading and the initial recommendation was
+> > +to use process ID in this field. Process IDs start from 1 hence the use
+> > +of ``0`` to mean "allocate automatically".
+> > +
+> > +The field is still used today in rare cases when kernel needs to send
+> > +a unicast notification. User space application can use bind() to assoc=
+iate
+> > +its socket with a specific PID (similarly to binding to a UDP port),
+> > +it then communicates its PID to the kernel.
+> > +The kernel can now reach the user space process.
+> > +
+> > +This sort of communication is utilized in UMH (user mode helper)-like
+> > +scenarios when kernel needs to trigger user space logic or ask user
+> > +space for a policy decision.
+> > +
+> > +Kernel will automatically fill the field with process ID when respondi=
+ng
+> > +to a request sent with the :c:member:`nlmsghdr.nlmsg_pid` value of ``0=
+``. =20
+>=20
+> I think this could be written a bit better - we call this thing a "port
+> ID" internally now, and yes, it might default to a process ID (more
+> specifically task group ID) ... but it feels like this could explain
+> bind vs. autobind etc. a bit more? And IMHO it should focus less on the
+> process ID/PID than saying "port ID" with a (historical) default of
+> using the PID/TGID.
+
+I'll rewrite. The only use I'm aware of is OvS upcalls, are there more?
+
+Practically speaking for a person trying to make a ethtool, FOU,
+devlink etc. call to the kernel this is 100% irrelevant.
+
+> > +Strict checking
+> > +---------------
+> > +
+> > +The ``NETLINK_GET_STRICT_CHK`` socket option enables strict input chec=
+king
+> > +in ``NETLINK_ROUTE``. It was needed because historically kernel did not
+> > +validate the fields of structures it didn't process. This made it impo=
+ssible
+> > +to start using those fields later without risking regressions in appli=
+cations
+> > +which initialized them incorrectly or not at all.
+> > +
+> > +``NETLINK_GET_STRICT_CHK`` declares that the application is initializi=
+ng
+> > +all fields correctly. It also opts into validating that message does n=
+ot
+> > +contain trailing data and requests that kernel rejects attributes with
+> > +type higher than largest attribute type known to the kernel.
+> > +
+> > +``NETLINK_GET_STRICT_CHK`` is not used outside of ``NETLINK_ROUTE``. =
+=20
+>=20
+> However, there are also more generally strict checks in policy
+> validation ... maybe a discussion of all that would be worthwhile?
+
+Yeah :( It's too much to describe to a newcomer, I figured. I refer
+those who care to the enum field in the next section. We'd need a full
+table of families and attrs which start strict(er) validation.. bah. Too
+much technical debt.
+
+> > +Unknown attributes
+> > +------------------
+> > +
+> > +Historically Netlink ignored all unknown attributes. The thinking was =
+that
+> > +it would free the application from having to probe what kernel support=
+s.
+> > +The application could make a request to change the state and check whi=
+ch
+> > +parts of the request "stuck".
+> > +
+> > +This is no longer the case for new Generic Netlink families and those =
+opting
+> > +in to strict checking. See enum netlink_validation for validation types
+> > +performed. =20
+>=20
+> OK some of that is this, but some of it is also the strict length checks
+> e.g. for Ethernet addresses.
+>=20
+> > +Fixed metadata and structures
+> > +-----------------------------
+> > +
+> > +Classic Netlink made liberal use of fixed-format structures within
+> > +the messages. Messages would commonly have a structure with
+> > +a considerable number of fields after struct nlmsghdr. It was also
+> > +common to put structures with multiple members inside attributes,
+> > +without breaking each member into an attribute of its own. =20
+>=20
+> That reads very descriptive and historic without making a recommendation
+> - I know it's in the section, but maybe do say something like "This is
+> discouraged now and attributes should be used instead"?
+
+Will do!
+
+> Either way, thanks for doing this, it's a great overview!
+>=20
+> We might add:
+>  - availability of attribute policy introspection
+>    (you mention family introspection only I think)
+
+I did mention it, my preference would be that more detail should be in
+the genetlink documentation, rather than here.
+
+>  - do we want to bring in the whole "per operation" vs. "per genetlink
+>    family" attribute policy?
+
+Nope :)
+
+>    (I'm firmly on the "single policy for the whole family" side ...)
+
+Well, it is causing us grief in devlink at least ;)
+No strong preference.
+
+>  - maybe not the appropriate place here, but maybe some best practices
+>    for handling attributes, such as the multi-attribute array thing we
+>    discussed in the other thread?
+
+Right, this doc is meant for the user rather than kernel dev. I'm
+planning to write a separate doc for the kernel dev.
+=20
+I started writing this one as guide for a person who would like to write
+a YAML NL library for their fav user space language but has no prior
+knowledge of netlink and does not know where to start.
+
+>  - maybe more userspace recommendations such as using different sockets
+>    for multicast listeners and requests, because otherwise it gets
+>    tricky to wait for the ACK of a request since you have to handle
+>    notifications that happen meanwhile?
+
+Hm, good point. I should add a section on multicast and make it part=20
+of that.
+
+>  - maybe some mention of the fact that sometimes we now bind kernel
+>    object or state lifetime to a socket, e.g. in wireless you can
+>    connect and if your userspace crashes/closes the socket, the
+>    connection is automatically torn down (because you can't handle the
+>    things needed anymore)
+
+=F0=9F=98=8D Can you point me to the code? (probably too advanced for this =
+doc
+but the idea seems super useful!)
+
+>  - maybe something about message sizes? we've had lots of trouble with
+>    that in nl80211, but tbh I'm not really sure what we should say about
+>    it other than making sure you use large enough buffers ...
+
+Yes :S What's the error reported when the buffer is too small?
+recv() =3D -1, errno =3D EMSGSIZE? Does the message get discarded=20
+or can it be re-read? I don't have practical experience with
+that one.
