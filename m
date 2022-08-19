@@ -2,104 +2,109 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 02BC6C32771
-	for <linux-doc@archiver.kernel.org>; Fri, 19 Aug 2022 18:38:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A7833C32772
+	for <linux-doc@archiver.kernel.org>; Fri, 19 Aug 2022 18:46:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349247AbiHSSiU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 19 Aug 2022 14:38:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58066 "EHLO
+        id S1350238AbiHSSqL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 19 Aug 2022 14:46:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42530 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349427AbiHSSiT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Aug 2022 14:38:19 -0400
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E522B3D;
-        Fri, 19 Aug 2022 11:38:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1660934291; x=1692470291;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=iNZ8OTgrcP4HEsJvk4GqUiryuR+PawK94q78dSQ8mT8=;
-  b=CQmPZX4TEz+FzCCu0Nj8fiiqz7k27RrhqDo6iYwtSHes0DmB8rPnxha5
-   GQhy5j3/P9oW8N7C7mZWyepNFT2vQ0Fx5b3iGHOBKcTcNvE09XK0YkTm0
-   IWYOx9RM0vquDN1jkAUydiuXIYVxffLdWLTVoclBCPNCPLGy6uVizmDxJ
-   0z8eQUT77zNVlYcp8nst/65eBoaLm2ytVH6vhVrEIwcOuj8Vo1Xd66CUl
-   X2pSe0GeMFbYekGuJ2KhIWu2JWCxYhPjike+3h3GoTenbFTYGXX4p9GSl
-   0p3Ew9/5XISsIoNsa/wy0aY4DsorXoCGxbzbiH5cV4Zqm1M0raTPMfnWx
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10444"; a="273466290"
-X-IronPort-AV: E=Sophos;i="5.93,248,1654585200"; 
-   d="scan'208";a="273466290"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2022 11:38:11 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,248,1654585200"; 
-   d="scan'208";a="697645941"
-Received: from lkp-server01.sh.intel.com (HELO 44b6dac04a33) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 19 Aug 2022 11:38:07 -0700
-Received: from kbuild by 44b6dac04a33 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1oP6sg-0001ht-1W;
-        Fri, 19 Aug 2022 18:38:06 +0000
-Date:   Sat, 20 Aug 2022 02:37:35 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Oleksij Rempel <o.rempel@pengutronix.de>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org,
-        netdev@vger.kernel.org, Oleksij Rempel <o.rempel@pengutronix.de>,
-        kernel@pengutronix.de, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
-        David Jander <david@protonic.nl>
-Subject: Re: [PATCH net-next v1 7/7] ethtool: add interface to interact with
- Ethernet Power Equipment
-Message-ID: <202208200202.pmwCMvZd-lkp@intel.com>
-References: <20220819120109.3857571-8-o.rempel@pengutronix.de>
+        with ESMTP id S1350212AbiHSSqJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Aug 2022 14:46:09 -0400
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 153E354C90
+        for <linux-doc@vger.kernel.org>; Fri, 19 Aug 2022 11:46:08 -0700 (PDT)
+Received: by mail-lf1-x134.google.com with SMTP id m3so1540469lfg.10
+        for <linux-doc@vger.kernel.org>; Fri, 19 Aug 2022 11:46:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc;
+        bh=jK40RXGDRPOTytfHjHl5rauDT3xxxYnRso/4al/XGPU=;
+        b=T9DCS3cTH/nuB+1YeHhuvdjoHJ20yGJASVAmlYK1a2NT+2JtnuVb5zZd8NB6JQyOIB
+         pviTc4Am0++P1lWZBkAqxmj32emKAVZa5V5ET50kE/fgsLMgTKxbQwnHrQjX6neu7A3S
+         GgkAejd5H5Bp2cRPRJ/hsgo5yAXTjuXTyzTT6kSbcs5IWeOQzBtpGIfjxWgoDy8+7hMN
+         RbSZ4yUVPvHm5yMosjsHxmQH39BVMSY/fAptFkb4WnwIkHGdXX9NcMXd1nfRKMnvB/RL
+         9Nyd1UdEYFexM4rTVDXmKiJdAn7QfRjyb9xJ+wQFcPRl0AQtsiwZPS8zN299tdnf+e80
+         czgQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=jK40RXGDRPOTytfHjHl5rauDT3xxxYnRso/4al/XGPU=;
+        b=tqohG5U94wFqeQjMtIGxbkmfDfauFwBE8oA2r/IyJEX+l+BMof47JfkqBMKkyUgHYM
+         NYbXl/mtPucmuGePcnwB4auqi+yjaotV0wL6POffnXhVlQNlhWnUTD7IK3gwBSgFPfPd
+         tPaDYzIm1pgWtrx8QyTS8rbElu9TYb7huaTFaUmycwy8l1K6gdcWtcwql0oZdeLncyUH
+         W42kztV8cuud2XIv92NMndT3xumKR6ZUe5ayWj2iDdiEMOd8x2yhhvKGbPs+qpnn8C3c
+         +oluFuD27OeknE1TtdcWf1PCeW7fucWxVxyTrh91F/RJ/tL5bjHFuZ0I1ugk2TOJUjb9
+         mS/Q==
+X-Gm-Message-State: ACgBeo3P1aY/UQeuhDH9A/aMDU0YfwRarv/N+ZqDNY04uTJMpCdJgrrh
+        4OA0Kg9Ep2iEHR5nbIF0IZoW0L3eHHVta3ktcjLMzA==
+X-Google-Smtp-Source: AA6agR4KumF285qiswcOzjSXUb8EYq6mkaWU+FOOy10Y2YwtDP8AXxfnFuUHUpAcljWMs+qp107a7uNYbeeSFqPzU7o=
+X-Received: by 2002:a05:6512:b01:b0:48b:a065:2a8b with SMTP id
+ w1-20020a0565120b0100b0048ba0652a8bmr2719340lfu.401.1660934766166; Fri, 19
+ Aug 2022 11:46:06 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220819120109.3857571-8-o.rempel@pengutronix.de>
+References: <20220819170053.2686006-1-ndesaulniers@google.com>
+In-Reply-To: <20220819170053.2686006-1-ndesaulniers@google.com>
+From:   Nick Desaulniers <ndesaulniers@google.com>
+Date:   Fri, 19 Aug 2022 11:45:54 -0700
+Message-ID: <CAKwvOd=sDbV-aKvroQTdOvW6C32TW20fr4xT0S4-E=fKeS=aWg@mail.gmail.com>
+Subject: Re: [PATCH] Kconfig: eradicate CC_HAS_ASM_GOTO
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Peter Zijlstra <peterz@infradead.org>, x86@kernel.org,
+        linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-um@lists.infradead.org,
+        kvm@vger.kernel.org, llvm@lists.linux.dev,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Oleksij,
+On Fri, Aug 19, 2022 at 10:01 AM Nick Desaulniers
+<ndesaulniers@google.com> wrote:
+>
+> diff --git a/arch/x86/include/asm/rmwcc.h b/arch/x86/include/asm/rmwcc.h
+> index 8a9eba191516..c82f1b334207 100644
+> --- a/arch/x86/include/asm/rmwcc.h
+> +++ b/arch/x86/include/asm/rmwcc.h
+> @@ -11,9 +11,7 @@
+>
+>  #define __CLOBBERS_MEM(clb...) "memory", ## clb
+>
+> -#if !defined(__GCC_ASM_FLAG_OUTPUTS__) && defined(CONFIG_CC_HAS_ASM_GOTO)
+> -
+> -/* Use asm goto */
+> +#ifndef __GCC_ASM_FLAG_OUTPUTS__
+>
+>  #define __GEN_RMWcc(fullop, _var, cc, clobbers, ...)                   \
+>  ({                                                                     \
+> @@ -27,21 +25,6 @@ cc_label:    c = true;                                               \
+>         c;                                                              \
+>  })
+>
+> -#else /* defined(__GCC_ASM_FLAG_OUTPUTS__) || !defined(CONFIG_CC_HAS_ASM_GOTO) */
+> -
+> -/* Use flags output or a set instruction */
+> -
+> -#define __GEN_RMWcc(fullop, _var, cc, clobbers, ...)                   \
+> -({                                                                     \
+> -       bool c;                                                         \
+> -       asm volatile (fullop CC_SET(cc)                                 \
+> -                       : [var] "+m" (_var), CC_OUT(cc) (c)             \
+> -                       : __VA_ARGS__ : clobbers);                      \
+> -       c;                                                              \
+> -})
+> -
+> -#endif /* defined(__GCC_ASM_FLAG_OUTPUTS__) || !defined(CONFIG_CC_HAS_ASM_GOTO) */
+> -
 
-I love your patch! Yet something to improve:
+^ probably don't want to remove the terminal endif. Will respin based
+on feedback from Masahiro + Alexei.
 
-[auto build test ERROR on net-next/master]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Oleksij-Rempel/add-generic-PSE-support/20220819-200408
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next.git 268603d79cc48dba671e9caf108fab32315b86a2
-config: x86_64-randconfig-a014 (https://download.01.org/0day-ci/archive/20220820/202208200202.pmwCMvZd-lkp@intel.com/config)
-compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 0ac597f3cacf60479ffd36b03766fa7462dabd78)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/ac5a14669dbe6cac4972ff01ea6291d12152e78f
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Oleksij-Rempel/add-generic-PSE-support/20220819-200408
-        git checkout ac5a14669dbe6cac4972ff01ea6291d12152e78f
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
-
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
-
-All errors (new ones prefixed by >>):
-
->> make[3]: *** No rule to make target 'net/ethtool/pse.o', needed by 'net/ethtool/built-in.a'.
-   make[3]: Target '__build' not remade because of errors.
 
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+Thanks,
+~Nick Desaulniers
