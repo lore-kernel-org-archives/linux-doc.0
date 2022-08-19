@@ -2,225 +2,174 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3CD10C32773
-	for <linux-doc@archiver.kernel.org>; Fri, 19 Aug 2022 06:58:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4CF04C25B0E
+	for <linux-doc@archiver.kernel.org>; Fri, 19 Aug 2022 08:00:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346792AbiHSG6f (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 19 Aug 2022 02:58:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47984 "EHLO
+        id S1347310AbiHSIA3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 19 Aug 2022 04:00:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56018 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346757AbiHSG6e (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Aug 2022 02:58:34 -0400
-Received: from conuserg-08.nifty.com (conuserg-08.nifty.com [210.131.2.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E3D02764F;
-        Thu, 18 Aug 2022 23:58:31 -0700 (PDT)
-Received: from grover.sesame ([133.106.49.178]) (authenticated)
-        by conuserg-08.nifty.com with ESMTP id 27J6uUCO012757;
-        Fri, 19 Aug 2022 15:56:34 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-08.nifty.com 27J6uUCO012757
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1660892195;
-        bh=FLXSTnFwujGa3rCeIE2bMjhYjFgNU8XCFwv3G9iMhZM=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=T8Bd90crOnL14/xeeuc1U1N2lGENAclPMqXwT2iEYn7EVgcdQCPnLberVdMw3uYtz
-         wHeBNo5JuYXDwGHar0S/TIAUXtyi88Zofef0rn0wgpfahb55KVADojoTNCCzxpg2e3
-         x0tPJ/Z282CjRLpxl1xCGIA4T4e8WXbGHSDqlXfu9DfNnK4Jbz+J4xtb8BzudBuro3
-         Wyz2ywK/+bug/Io/SLCrkiBZVbKxDF45Gcd7NY3sCtowfDv1NPk7DbaLjdW35dwBKr
-         Stv7K3JOx9hA8g1Ho8BsaQrfKWXFIYfRZfLtBmtTzdnC11aGT6tolMrRMbNHHe+7i7
-         oyDEVjrPjywKw==
-X-Nifty-SrcIP: [133.106.49.178]
-From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-kbuild@vger.kernel.org
-Cc:     Nick Desaulniers <ndesaulniers@google.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Richard Purdie <richard.purdie@linuxfoundation.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Michal Marek <michal.lkml@markovi.net>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [RFC PATCH 2/3] kconfig: allow to choose the shell for $(shell ) functions
-Date:   Fri, 19 Aug 2022 15:56:02 +0900
-Message-Id: <20220819065604.295572-3-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220819065604.295572-1-masahiroy@kernel.org>
-References: <20220819065604.295572-1-masahiroy@kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        with ESMTP id S1347320AbiHSIAY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Aug 2022 04:00:24 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A1E71F618;
+        Fri, 19 Aug 2022 01:00:22 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 65240616D4;
+        Fri, 19 Aug 2022 08:00:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6791C433B5;
+        Fri, 19 Aug 2022 08:00:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1660896021;
+        bh=dXB7Dmr6Olnqm8i/ag5x25/j/xOuKOYp7Zqy3xYbF1k=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=bPzGRNloxET7jCjbmwuPekfurJU+YIanGSes6+FQxRyOaXDN7NleDvVk0kCSGm+mj
+         Nvy+u3VuCbER8OL+RbU4KnLqA6HRIfjiQ7u8R5gsfEHDNpnzogYoaC5TjC7KhI9nGl
+         3u6j0LMPpZx/z/OYomSHy1cBWXgHYDxR1vDcP0ZfPUIOgSJjWLT9uKP94QaW4rEyq0
+         Uw510IEA5cxLKQKuP025ixhomp3R0zWPbgu8jqG/fWOoVRppxVNpkOQSMy+fdBPeIl
+         fYw4MU6pTlU+kolvweUV5rWvIr/LtPt8krly8NS3/oMs0OxtW71SdawKlOlX4geM01
+         EzczQKfP6wZiA==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=why.misterjones.org)
+        by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.95)
+        (envelope-from <maz@kernel.org>)
+        id 1oOwvT-004D7a-Dh;
+        Fri, 19 Aug 2022 09:00:19 +0100
+Date:   Fri, 19 Aug 2022 09:00:18 +0100
+Message-ID: <87lerkwtm5.wl-maz@kernel.org>
+From:   Marc Zyngier <maz@kernel.org>
+To:     Gavin Shan <gshan@redhat.com>
+Cc:     kvmarm@lists.cs.columbia.edu, linux-arm-kernel@lists.infradead.org,
+        kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        peterx@redhat.com, pbonzini@redhat.com, corbet@lwn.net,
+        james.morse@arm.com, alexandru.elisei@arm.com,
+        suzuki.poulose@arm.com, oliver.upton@linux.dev,
+        catalin.marinas@arm.com, will@kernel.org, shuah@kernel.org,
+        seanjc@google.com, drjones@redhat.com, dmatlack@google.com,
+        bgardon@google.com, ricarkol@google.com, zhenyzha@redhat.com,
+        shan.gavin@gmail.com
+Subject: Re: [PATCH v1 1/5] KVM: arm64: Enable ring-based dirty memory tracking
+In-Reply-To: <20220819005601.198436-2-gshan@redhat.com>
+References: <20220819005601.198436-1-gshan@redhat.com>
+        <20220819005601.198436-2-gshan@redhat.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
+ (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: gshan@redhat.com, kvmarm@lists.cs.columbia.edu, linux-arm-kernel@lists.infradead.org, kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, peterx@redhat.com, pbonzini@redhat.com, corbet@lwn.net, james.morse@arm.com, alexandru.elisei@arm.com, suzuki.poulose@arm.com, oliver.upton@linux.dev, catalin.marinas@arm.com, will@kernel.org, shuah@kernel.org, seanjc@google.com, drjones@redhat.com, dmatlack@google.com, bgardon@google.com, ricarkol@google.com, zhenyzha@redhat.com, shan.gavin@gmail.com
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-GNU Make uses /bin/sh by default for running recipe lines and $(shell )
-functions. You can change the shell by setting the 'SHELL' variable.
-Unlike most variables, 'SHELL' is never set from the environment. [1]
+On Fri, 19 Aug 2022 01:55:57 +0100,
+Gavin Shan <gshan@redhat.com> wrote:
+> 
+> The ring-based dirty memory tracking has been available and enabled
+> on x86 for a while. The feature is beneficial when the number of
+> dirty pages is small in a checkpointing system or live migration
+> scenario. More details can be found from fb04a1eddb1a ("KVM: X86:
+> Implement ring-based dirty memory tracking").
+> 
+> This enables the ring-based dirty memory tracking on ARM64. It's
+> notable that no extra reserved ring entries are needed on ARM64
+> because the huge pages are always split into base pages when page
+> dirty tracking is enabled.
 
-Currently, Kconfig does not provide any way to change the default shell.
-/bin/sh is always used for running $(shell,...) because do_shell() is
-implemented by using popen(3).
+Can you please elaborate on this? Adding a per-CPU ring of course
+results in extra memory allocation, so there must be a subtle
+x86-specific detail that I'm not aware of...
 
-This commit allows users to change the shell for Kconfig in a similar
-way to GNU Make; you can set the 'SHELL' variable in a Kconfig file to
-override the default shell. It is not taken from the environment. The
-change is effective only for $(shell,...) invocations called after the
-'SHELL' assignment.
+> 
+> Signed-off-by: Gavin Shan <gshan@redhat.com>
+> ---
+>  Documentation/virt/kvm/api.rst    | 2 +-
+>  arch/arm64/include/uapi/asm/kvm.h | 1 +
+>  arch/arm64/kvm/Kconfig            | 1 +
+>  arch/arm64/kvm/arm.c              | 8 ++++++++
+>  4 files changed, 11 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
+> index abd7c32126ce..19fa1ac017ed 100644
+> --- a/Documentation/virt/kvm/api.rst
+> +++ b/Documentation/virt/kvm/api.rst
+> @@ -8022,7 +8022,7 @@ regardless of what has actually been exposed through the CPUID leaf.
+>  8.29 KVM_CAP_DIRTY_LOG_RING
+>  ---------------------------
+>  
+> -:Architectures: x86
+> +:Architectures: x86, arm64
+>  :Parameters: args[0] - size of the dirty log ring
+>  
+>  KVM is capable of tracking dirty memory using ring buffers that are
+> diff --git a/arch/arm64/include/uapi/asm/kvm.h b/arch/arm64/include/uapi/asm/kvm.h
+> index 3bb134355874..7e04b0b8d2b2 100644
+> --- a/arch/arm64/include/uapi/asm/kvm.h
+> +++ b/arch/arm64/include/uapi/asm/kvm.h
+> @@ -43,6 +43,7 @@
+>  #define __KVM_HAVE_VCPU_EVENTS
+>  
+>  #define KVM_COALESCED_MMIO_PAGE_OFFSET 1
+> +#define KVM_DIRTY_LOG_PAGE_OFFSET 64
 
-[1]: https://www.gnu.org/software/make/manual/html_node/Choosing-the-Shell.html
+For context, the documentation says:
 
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
+<quote>
+- if KVM_CAP_DIRTY_LOG_RING is available, a number of pages at
+  KVM_DIRTY_LOG_PAGE_OFFSET * PAGE_SIZE. [...]
+</quote>
 
- .../kbuild/kconfig-macro-language.rst         |  4 ++
- scripts/kconfig/internal.h                    |  1 +
- scripts/kconfig/parser.y                      |  1 +
- scripts/kconfig/preprocess.c                  | 65 +++++++++++++++----
- 4 files changed, 57 insertions(+), 14 deletions(-)
+What is the reason for picking this particular value?
 
-diff --git a/Documentation/kbuild/kconfig-macro-language.rst b/Documentation/kbuild/kconfig-macro-language.rst
-index 6163467f6ae4..fe8c6982179e 100644
---- a/Documentation/kbuild/kconfig-macro-language.rst
-+++ b/Documentation/kbuild/kconfig-macro-language.rst
-@@ -112,6 +112,10 @@ Kconfig currently supports the following built-in functions.
-   replaced with a space. Any trailing newlines are deleted. The standard error
-   is not returned, nor is any program exit status.
- 
-+  The program used as the shell is taken from the variable SHELL. If it is not
-+  set anywhere in your Kconfig file, /bin/sh is used as the shell.
-+  Unlike most variables, the variable SHELL is never set from the environment.
-+
-  - $(info,text)
- 
-   The "info" function takes a single argument and prints it to stdout.
-diff --git a/scripts/kconfig/internal.h b/scripts/kconfig/internal.h
-index 8e0e6d315b6c..c18017650e54 100644
---- a/scripts/kconfig/internal.h
-+++ b/scripts/kconfig/internal.h
-@@ -19,6 +19,7 @@ enum variable_flavor {
- void env_write_dep(FILE *f, const char *auto_conf_name);
- void variable_add(const char *name, const char *value,
- 		  enum variable_flavor flavor);
-+void variable_init(void);
- void variable_all_del(void);
- char *expand_dollar(const char **str);
- char *expand_one_token(const char **str);
-diff --git a/scripts/kconfig/parser.y b/scripts/kconfig/parser.y
-index 2af7ce4e1531..436afaef9228 100644
---- a/scripts/kconfig/parser.y
-+++ b/scripts/kconfig/parser.y
-@@ -483,6 +483,7 @@ void conf_parse(const char *name)
- 	zconf_initscan(name);
- 
- 	_menu_init();
-+	variable_init();
- 
- 	if (getenv("ZCONF_DEBUG"))
- 		yydebug = 1;
-diff --git a/scripts/kconfig/preprocess.c b/scripts/kconfig/preprocess.c
-index aeb3fe362c04..608a84e7f5d6 100644
---- a/scripts/kconfig/preprocess.c
-+++ b/scripts/kconfig/preprocess.c
-@@ -8,6 +8,7 @@
- #include <stdio.h>
- #include <stdlib.h>
- #include <string.h>
-+#include <unistd.h>
- 
- #include "list.h"
- #include "lkc.h"
-@@ -141,24 +142,59 @@ static char *do_lineno(int argc, char *argv[])
- 
- static char *do_shell(int argc, char *argv[])
- {
--	FILE *p;
-+	int pipefd[2];
-+	pid_t pid;
- 	char buf[4096];
--	char *cmd;
--	size_t nread;
-+	ssize_t nread;
- 	int i;
- 
--	cmd = argv[0];
--
--	p = popen(cmd, "r");
--	if (!p) {
--		perror(cmd);
-+	if (pipe(pipefd) < 0) {
-+		perror("pipe");
-+		exit(1);
-+	}
-+	pid = fork();
-+	if (pid < -1) {
-+		perror("fork");
- 		exit(1);
- 	}
- 
--	nread = fread(buf, 1, sizeof(buf), p);
-+	if (pid == 0) { /* child */
-+		char *shell;
-+
-+		/* duplicate the write end to stdout */
-+		if (dup2(pipefd[1], STDOUT_FILENO) < 0) {
-+			perror("dup2");
-+			_exit(1);
-+		}
-+
-+		/*
-+		 * Do not leak file descriptors to the child process
-+		 * (including the read end of the pipe).
-+		 * Closing up to 15 is enough for us?
-+		 */
-+		for (i = STDERR_FILENO + 1; i < 16; i++)
-+			close(i);
-+
-+		shell = expand_string("$(SHELL)");
-+
-+		execl(shell, shell, "-c", argv[0], NULL);
-+		perror("execl");
-+
-+		free(shell);
-+
-+		_exit(1);
-+	}
-+
-+	/* parent */
-+
-+	close(pipefd[1]);	/* the write end is unneeded */
-+
-+	nread = read(pipefd[0], buf, sizeof(buf));
- 	if (nread == sizeof(buf))
- 		nread--;
- 
-+	close(pipefd[0]);	/* now close the read end */
-+
- 	/* remove trailing new lines */
- 	while (nread > 0 && buf[nread - 1] == '\n')
- 		nread--;
-@@ -171,11 +207,6 @@ static char *do_shell(int argc, char *argv[])
- 			buf[i] = ' ';
- 	}
- 
--	if (pclose(p) == -1) {
--		perror(cmd);
--		exit(1);
--	}
--
- 	return xstrdup(buf);
- }
- 
-@@ -330,6 +361,12 @@ static void variable_del(struct variable *v)
- 	free(v);
- }
- 
-+void variable_init(void)
-+{
-+	/* Set the default shell */
-+	variable_add("SHELL", "/bin/sh", VAR_RECURSIVE);
-+}
-+
- void variable_all_del(void)
- {
- 	struct variable *v, *tmp;
+
+>  
+>  #define KVM_REG_SIZE(id)						\
+>  	(1U << (((id) & KVM_REG_SIZE_MASK) >> KVM_REG_SIZE_SHIFT))
+> diff --git a/arch/arm64/kvm/Kconfig b/arch/arm64/kvm/Kconfig
+> index 815cc118c675..0309b2d0f2da 100644
+> --- a/arch/arm64/kvm/Kconfig
+> +++ b/arch/arm64/kvm/Kconfig
+> @@ -32,6 +32,7 @@ menuconfig KVM
+>  	select KVM_VFIO
+>  	select HAVE_KVM_EVENTFD
+>  	select HAVE_KVM_IRQFD
+> +	select HAVE_KVM_DIRTY_RING
+>  	select HAVE_KVM_MSI
+>  	select HAVE_KVM_IRQCHIP
+>  	select HAVE_KVM_IRQ_ROUTING
+> diff --git a/arch/arm64/kvm/arm.c b/arch/arm64/kvm/arm.c
+> index 986cee6fbc7f..3de6b9b39db7 100644
+> --- a/arch/arm64/kvm/arm.c
+> +++ b/arch/arm64/kvm/arm.c
+> @@ -866,6 +866,14 @@ int kvm_arch_vcpu_ioctl_run(struct kvm_vcpu *vcpu)
+>  		if (!ret)
+>  			ret = 1;
+>  
+> +		/* Force vcpu exit if its dirty ring is soft-full */
+> +		if (unlikely(vcpu->kvm->dirty_ring_size &&
+> +			     kvm_dirty_ring_soft_full(&vcpu->dirty_ring))) {
+> +			vcpu->run->exit_reason = KVM_EXIT_DIRTY_RING_FULL;
+> +			trace_kvm_dirty_ring_exit(vcpu);
+> +			ret = 0;
+> +		}
+> +
+
+Why can't this be moved to kvm_vcpu_exit_request() instead? I would
+also very much like the check to be made a common helper with x86.
+
+A seemingly approach would be to make this a request on dirty log
+insertion, and avoid the whole "check the log size" on every run,
+which adds pointless overhead to unsuspecting users (aka everyone).
+
+Thanks,
+
+	M.
+
 -- 
-2.34.1
-
+Without deviation from the norm, progress is not possible.
