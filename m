@@ -2,119 +2,95 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E9D22C32772
-	for <linux-doc@archiver.kernel.org>; Fri, 19 Aug 2022 06:28:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F404C3F6B0
+	for <linux-doc@archiver.kernel.org>; Fri, 19 Aug 2022 06:58:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344795AbiHSG2x (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 19 Aug 2022 02:28:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46696 "EHLO
+        id S1346755AbiHSG6d (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 19 Aug 2022 02:58:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47982 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346215AbiHSG2v (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Aug 2022 02:28:51 -0400
-Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id D48B45754F
-        for <linux-doc@vger.kernel.org>; Thu, 18 Aug 2022 23:28:48 -0700 (PDT)
-Received: from localhost.localdomain (unknown [112.20.110.237])
-        by localhost.localdomain (Coremail) with SMTP id AQAAf8DxBOKaLf9iHXUEAA--.22726S5;
-        Fri, 19 Aug 2022 14:28:45 +0800 (CST)
-From:   Binbin Zhou <zhoubinbin@loongson.cn>
-To:     alexs@kernel.org, siyanteng@loongson.cn
-Cc:     corbet@lwn.net, chenhuacai@loongson.cn, bobwxc@email.cn,
-        linux-doc@vger.kernel.org, Binbin Zhou <zhoubinbin@loongson.cn>
-Subject: [PATCH V3 3/4] docs/zh_CN: core-api: Add generic-radix-tree Chinese translation
-Date:   Fri, 19 Aug 2022 14:28:39 +0800
-Message-Id: <aad94e2a053ae021eb4d63240690b05c2f3e8dec.1660881950.git.zhoubinbin@loongson.cn>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <cover.1660881950.git.zhoubinbin@loongson.cn>
-References: <cover.1660881950.git.zhoubinbin@loongson.cn>
+        with ESMTP id S1346750AbiHSG6c (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Aug 2022 02:58:32 -0400
+Received: from conuserg-08.nifty.com (conuserg-08.nifty.com [210.131.2.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E08322662;
+        Thu, 18 Aug 2022 23:58:26 -0700 (PDT)
+Received: from grover.sesame ([133.106.49.178]) (authenticated)
+        by conuserg-08.nifty.com with ESMTP id 27J6uUCM012757;
+        Fri, 19 Aug 2022 15:56:30 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-08.nifty.com 27J6uUCM012757
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1660892191;
+        bh=kLteZgzDyCsUaZbAhJIThD6Chhgc+3Ar23SEEf1zkz8=;
+        h=From:To:Cc:Subject:Date:From;
+        b=wwV9lkhrn16+U7gm+YFpddQAOvKBNo21MwndzEd1hbUr5kQl01tjwsDdVc1rl+xuX
+         ZTamMEMDp2YkQHqXjbVIAqB7aPluHPQOqjmsMPsCLtDFxOrPSOWIj2MkPDORKwYw4E
+         ayzZXLlBofkKBB48QKEQQ/GsniPrWVxmR2OBdaq3cfz9TdCNCPQvL5atvzrEa5JyAQ
+         HoPAo5IX3mX75x86HjMUnU8L87RTl8xY2FD23/iQGxhKKfwEPRzbV8FHP80hpdEdph
+         DmX0c7fME6ugquFwnRmAl2PLIf+HRQ22WC/FEdF7zHSVgRoz8YRlPi2UEpdqBevZL9
+         8SrWSPzrXPZoQ==
+X-Nifty-SrcIP: [133.106.49.178]
+From:   Masahiro Yamada <masahiroy@kernel.org>
+To:     linux-kbuild@vger.kernel.org
+Cc:     Nick Desaulniers <ndesaulniers@google.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Richard Purdie <richard.purdie@linuxfoundation.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [RFC PATCH 0/3] kbuild: change the default shell to bash
+Date:   Fri, 19 Aug 2022 15:56:00 +0900
+Message-Id: <20220819065604.295572-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8DxBOKaLf9iHXUEAA--.22726S5
-X-Coremail-Antispam: 1UD129KBjvJXoW7CF4DWr1xJrWUuryxtrW3trb_yoW8Zw45pF
-        9agFyfG3WxJry7Crs3Wr17WryUJayxWa1UKa97tw1FqF1kJa40yr4qgrZIq34fGrW0vFWF
-        qrsIkryDC34jy3DanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUBq14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-        rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_JrWl82xGYIkIc2
-        x26xkF7I0E14v26ryj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0
-        Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j6F4UJw
-        A2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1l
-        e2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI
-        8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwAC
-        jcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc2xSY4AK67AK6r47MxAIw2
-        8IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4l
-        x2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwIxGrw
-        CI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI
-        42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z2
-        80aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUjPku7UUUUU==
-X-CM-SenderInfo: p2kr3uplqex0o6or00hjvr0hdfq/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Translate core-api/generic-radix-tree.rst into Chinese.
 
-Last English version used:
+This is related to the discussion about the portability [1].
 
-commit ba20ba2e3743 ("generic radix trees").
+I wrote this code some time ago for some reason. My motivation at that
+time was trap handling.
 
-Signed-off-by: Binbin Zhou <zhoubinbin@loongson.cn>
-Reviewed-by: Wu XiangCheng <bobwxc@email.cn>
-Reviewed-by: Yanteng Si<siyanteng@loongson.cn>
-Reviewed-by: Alex Shi <alexs@kernel.org>
----
- .../zh_CN/core-api/generic-radix-tree.rst     | 23 +++++++++++++++++++
- .../translations/zh_CN/core-api/index.rst     |  2 +-
- 2 files changed, 24 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/translations/zh_CN/core-api/generic-radix-tree.rst
+We use the EXIT trap in several places. The POSIX [2] mentions the 'EXIT'
+as the trap condition, but nothing about the actual conditions that trigger
+the EXIT trap. Bash invokes the EXIT trap when it exits after receiving
+an unhandled signal, while dash does not.
 
-diff --git a/Documentation/translations/zh_CN/core-api/generic-radix-tree.rst b/Documentation/translations/zh_CN/core-api/generic-radix-tree.rst
-new file mode 100644
-index 000000000000..eacd1d2ebddc
---- /dev/null
-+++ b/Documentation/translations/zh_CN/core-api/generic-radix-tree.rst
-@@ -0,0 +1,23 @@
-+.. SPDX-License-Identifier: GPL-2.0+
-+
-+.. include:: ../disclaimer-zh_CN.rst
-+
-+:Original: Documentation/core-api/generic-radix-tree.rst
-+
-+:翻译:
-+
-+ 周彬彬 Binbin Zhou <zhoubinbin@loongson.cn>
-+
-+===================
-+通用基数树/稀疏数组
-+===================
-+
-+通用基数树/稀疏数组的相关内容请见include/linux/generic-radix-tree.h文件中的
-+“DOC: Generic radix trees/sparse arrays”。
-+
-+通用基数树函数
-+--------------
-+
-+该API在以下内核代码中:
-+
-+include/linux/generic-radix-tree.h
-diff --git a/Documentation/translations/zh_CN/core-api/index.rst b/Documentation/translations/zh_CN/core-api/index.rst
-index 4ae39a83aa61..c62658941aee 100644
---- a/Documentation/translations/zh_CN/core-api/index.rst
-+++ b/Documentation/translations/zh_CN/core-api/index.rst
-@@ -46,12 +46,12 @@
-    rbtree
-    idr
-    circular-buffers
-+   generic-radix-tree
- 
- Todolist:
- 
- 
- 
--   generic-radix-tree
-    packing
-    this_cpu_ops
-    timekeeping
+I did not submit the patches because I lost the use-case of the EXIT trap
+except cleaning temporary files. It is harmless to have temp files left over.
+
+Recently, I saw a bug report regarding the portability of 'echo'
+('echo' is a shell's built-in command. The behavior is different between
+bash and dash).
+
+I am sharing this patch set as RFC in case somebody might have interest or comment.
+I am still wondering if this might be a big hammer, though.
+
+[1]: https://lore.kernel.org/all/e902a360e3759c7f87d98d71d79a0d5cbe935e3e.camel@linuxfoundation.org/
+[2]: https://pubs.opengroup.org/onlinepubs/009604599/utilities/trap.html
+
+
+
+Masahiro Yamada (3):
+  kconfig: move declarations for prepossessing to internal.h
+  kconfig: allow to choose the shell for $(shell ) functions
+  kbuild: use bash as the default shell for Make and Kconfig
+
+ .../kbuild/kconfig-macro-language.rst         |  4 ++
+ Makefile                                      |  7 ++
+ scripts/Kconfig.include                       |  3 +
+ scripts/kconfig/confdata.c                    |  1 +
+ scripts/kconfig/internal.h                    | 18 +++++
+ scripts/kconfig/lexer.l                       |  1 +
+ scripts/kconfig/lkc_proto.h                   | 13 ----
+ scripts/kconfig/parser.y                      |  1 +
+ scripts/kconfig/preprocess.c                  | 66 +++++++++++++++----
+ 9 files changed, 87 insertions(+), 27 deletions(-)
+
 -- 
-2.31.1
+2.34.1
 
