@@ -2,797 +2,349 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0FD78C32771
-	for <linux-doc@archiver.kernel.org>; Fri, 19 Aug 2022 20:02:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B657C32773
+	for <linux-doc@archiver.kernel.org>; Fri, 19 Aug 2022 20:04:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351561AbiHSUCb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 19 Aug 2022 16:02:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39874 "EHLO
+        id S1351644AbiHSUE4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 19 Aug 2022 16:04:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44396 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351558AbiHSUCa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Aug 2022 16:02:30 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3EFF4E588F;
-        Fri, 19 Aug 2022 13:02:28 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 9A1DCB828FC;
-        Fri, 19 Aug 2022 20:02:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 865EDC433B5;
-        Fri, 19 Aug 2022 20:02:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1660939345;
-        bh=nIIsQIFrr5ZTOmO2IHO7bgFJda4m6v3fMf4Q4GwCOXE=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=LHBgqSf+ODHnha+AeBTj2N0dQkX+P5GGH4hHxodT7QzuEFFkVJaiZkpU5rTSiE6p0
-         ohSfU6vuJimLuEEd+IODZpxE/NsQlM2RBQmbiZdQrFQTjVhfjzixAQ6lXFL1FgLFzs
-         Q6WJ9/oaaGffcZJkxarXVjhCLTW1Nu9aZ4czJlsd33YhOE3DrXFFIK4J3moipUg+EG
-         3TESGLDbRVCw/iOC+A4p+FOPKf15x4F6fd5CtANonwJCGo9/um8eB0L0l+MCq0cPKv
-         X5+ISjTyC8SlxHftQw7ta8/mhhyiikcbIQTNT6b7k1UKhrdDZy8wRcMajKZuLzGIaK
-         NeJBYVSSX5izA==
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     davem@davemloft.net
-Cc:     netdev@vger.kernel.org, edumazet@google.com, pabeni@redhat.com,
-        Jakub Kicinski <kuba@kernel.org>,
-        Jacob Keller <jacob.e.keller@intel.com>, corbet@lwn.net,
-        johannes@sipsolutions.net, stephen@networkplumber.org,
-        sdf@google.com, ecree.xilinx@gmail.com, benjamin.poirier@gmail.com,
-        idosch@idosch.org, f.fainelli@gmail.com, jiri@resnulli.us,
-        dsahern@kernel.org, fw@strlen.de, linux-doc@vger.kernel.org,
-        jhs@mojatatu.com, tgraf@suug.ch, svinota.saveliev@gmail.com,
-        rdunlap@infradead.org, mkubecek@suse.cz
-Subject: [PATCH v2 2/2] docs: netlink: basic introduction to Netlink
-Date:   Fri, 19 Aug 2022 13:02:21 -0700
-Message-Id: <20220819200221.422801-2-kuba@kernel.org>
-X-Mailer: git-send-email 2.37.2
-In-Reply-To: <20220819200221.422801-1-kuba@kernel.org>
-References: <20220819200221.422801-1-kuba@kernel.org>
+        with ESMTP id S1351558AbiHSUEz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Aug 2022 16:04:55 -0400
+Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::227])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10367EC4C3;
+        Fri, 19 Aug 2022 13:04:52 -0700 (PDT)
+Received: (Authenticated sender: alexandre.belloni@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id 767A020002;
+        Fri, 19 Aug 2022 20:04:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1660939491;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=mJeLjPpv9375aOPerzCLWUf/BEwwoWvVvVy4aMJ+n9U=;
+        b=XJl+pCRTBIcHaEMZ07ygpNbBK4lMwhLqXkN3dPnUQg3Oiu71nU65/nN9IsWLFS3IXcQvGq
+        76Jv0rBNJ1QgY4a+5l+gXGvemOTrDSZ77HFayr5R/Zo0Szxbzo8OcPcA6EmBGxKq8Inxrv
+        8U5iPZqLovAkWIKXgKoxRrJ3OrzUANh0L/VDdeRQVIQdeH64uJFxrPaUC2sKATvOAiNNZ2
+        Ow36qYyWfwP13t1YgewVQvJC3FpqQM5ykzpXt6luLhWEoFHoILBeEUpzwdVVdcgowxggrg
+        i1WgTI8MA+cKx/Kza0OjJXzmZHw6UILJjbonadGznuILW+bDJKVx+lHmnZ2HiQ==
+Date:   Fri, 19 Aug 2022 22:04:50 +0200
+From:   Alexandre Belloni <alexandre.belloni@bootlin.com>
+To:     Nick Desaulniers <ndesaulniers@google.com>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>, x86@kernel.org,
+        linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-um@lists.infradead.org,
+        kvm@vger.kernel.org, llvm@lists.linux.dev,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Borislav Petkov <bp@suse.de>,
+        Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Subject: Re: [PATCH v2] asm goto: eradicate CC_HAS_ASM_GOTO
+Message-ID: <Yv/s4i9qU0baSD4A@mail.local>
+References: <CAADnVQJFc9AnH_9CW+bSRotkKvOmkO9jq-RF6dmyPYOpq691Yg@mail.gmail.com>
+ <20220819190640.2763586-1-ndesaulniers@google.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220819190640.2763586-1-ndesaulniers@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Provide a bit of a brain dump of netlink related information
-as documentation. Hopefully this will be useful to people
-trying to navigate implementing YAML based parsing in languages
-we won't be able to help with.
+On 19/08/2022 12:06:40-0700, Nick Desaulniers wrote:
+> GCC has supported asm goto since 4.5, and Clang has since version 9.0.0.
+> The minimum supported versions of these tools for the build according to
+> Documentation/process/changes.rst are 5.1 and 11.0.0 respectively.
+> 
+> Remove the feature detection script, Kconfig option, and clean up some
+> fallback code that is no longer supported.
+> 
+> The removed script was also testing for a GCC specific bug that was
+> fixed in the 4.7 release.
+> 
+> Also remove workarounds for bpftrace using clang older than 9.0.0, since
+> other BPF backend fixes are required at this point.
+> 
+> Link: https://lore.kernel.org/lkml/CAK7LNATSr=BXKfkdW8f-H5VT_w=xBpT2ZQcZ7rm6JfkdE+QnmA@mail.gmail.com/
+> Link: http://gcc.gnu.org/bugzilla/show_bug.cgi?id=48637
+> Acked-by: Borislav Petkov <bp@suse.de>
+> Suggested-by: Masahiro Yamada <masahiroy@kernel.org>
+> Suggested-by: Alexei Starovoitov <alexei.starovoitov@gmail.com>
+> Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
+Reviewed-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
 
-I started writing this doc while trying to figure out what
-it'd take to widen the applicability of YAML to good old rtnl,
-but the doc grew beyond that as it usually happens.
+> ---
+> 
+> Changes v1 -> v2:
+> https://lore.kernel.org/linux-kbuild/20220819170053.2686006-1-ndesaulniers@google.com/
+> * Pick up Boris' ack.
+> * Drop line about Dash compat as per Alexandre.
+> * Drop Alexandre's reported by as per Masahiro.
+> * s/Kbuild/asm goto/ in oneline as per Masahiro.
+> * Remove entirety of bpftrace workarounds as per Alexei.
+> * Fix mistake in arch/x86/include/asm/rmwcc.h in v1 where I removed too
+>   much; we still need guards for __GCC_ASM_FLAG_OUTPUTS__.
+> 
+>  Documentation/kbuild/kconfig-language.rst |  4 ++--
+>  arch/Kconfig                              |  3 +--
+>  arch/um/include/asm/cpufeature.h          | 15 ---------------
+>  arch/x86/Makefile                         |  4 ----
+>  arch/x86/include/asm/cpufeature.h         | 15 ---------------
+>  arch/x86/include/asm/rmwcc.h              |  6 +++---
+>  arch/x86/kvm/emulate.c                    |  2 +-
+>  init/Kconfig                              |  4 ----
+>  scripts/gcc-goto.sh                       | 22 ----------------------
+>  tools/arch/x86/include/asm/rmwcc.h        | 21 ---------------------
+>  10 files changed, 7 insertions(+), 89 deletions(-)
+>  delete mode 100755 scripts/gcc-goto.sh
+> 
+> diff --git a/Documentation/kbuild/kconfig-language.rst b/Documentation/kbuild/kconfig-language.rst
+> index 7fb398649f51..858ed5d80def 100644
+> --- a/Documentation/kbuild/kconfig-language.rst
+> +++ b/Documentation/kbuild/kconfig-language.rst
+> @@ -525,8 +525,8 @@ followed by a test macro::
+>  If you need to expose a compiler capability to makefiles and/or C source files,
+>  `CC_HAS_` is the recommended prefix for the config option::
+>  
+> -  config CC_HAS_ASM_GOTO
+> -	def_bool $(success,$(srctree)/scripts/gcc-goto.sh $(CC))
+> +  config CC_HAS_FOO
+> +	def_bool $(success,$(srctree)/scripts/cc-check-foo.sh $(CC))
+>  
+>  Build as module only
+>  ~~~~~~~~~~~~~~~~~~~~
+> diff --git a/arch/Kconfig b/arch/Kconfig
+> index f330410da63a..5dbf11a5ba4e 100644
+> --- a/arch/Kconfig
+> +++ b/arch/Kconfig
+> @@ -53,7 +53,6 @@ config KPROBES
+>  config JUMP_LABEL
+>  	bool "Optimize very unlikely/likely branches"
+>  	depends on HAVE_ARCH_JUMP_LABEL
+> -	depends on CC_HAS_ASM_GOTO
+>  	select OBJTOOL if HAVE_JUMP_LABEL_HACK
+>  	help
+>  	 This option enables a transparent branch optimization that
+> @@ -1361,7 +1360,7 @@ config HAVE_PREEMPT_DYNAMIC_CALL
+>  
+>  config HAVE_PREEMPT_DYNAMIC_KEY
+>  	bool
+> -	depends on HAVE_ARCH_JUMP_LABEL && CC_HAS_ASM_GOTO
+> +	depends on HAVE_ARCH_JUMP_LABEL
+>  	select HAVE_PREEMPT_DYNAMIC
+>  	help
+>  	   An architecture should select this if it can handle the preemption
+> diff --git a/arch/um/include/asm/cpufeature.h b/arch/um/include/asm/cpufeature.h
+> index 19cd7ed6ec3c..4b6d1b526bc1 100644
+> --- a/arch/um/include/asm/cpufeature.h
+> +++ b/arch/um/include/asm/cpufeature.h
+> @@ -65,20 +65,6 @@ extern void setup_clear_cpu_cap(unsigned int bit);
+>  
+>  #define setup_force_cpu_bug(bit) setup_force_cpu_cap(bit)
+>  
+> -#if defined(__clang__) && !defined(CONFIG_CC_HAS_ASM_GOTO)
+> -
+> -/*
+> - * Workaround for the sake of BPF compilation which utilizes kernel
+> - * headers, but clang does not support ASM GOTO and fails the build.
+> - */
+> -#ifndef __BPF_TRACING__
+> -#warning "Compiler lacks ASM_GOTO support. Add -D __BPF_TRACING__ to your compiler arguments"
+> -#endif
+> -
+> -#define static_cpu_has(bit)            boot_cpu_has(bit)
+> -
+> -#else
+> -
+>  /*
+>   * Static testing of CPU features. Used the same as boot_cpu_has(). It
+>   * statically patches the target code for additional performance. Use
+> @@ -137,7 +123,6 @@ static __always_inline bool _static_cpu_has(u16 bit)
+>  		boot_cpu_has(bit) :				\
+>  		_static_cpu_has(bit)				\
+>  )
+> -#endif
+>  
+>  #define cpu_has_bug(c, bit)		cpu_has(c, (bit))
+>  #define set_cpu_bug(c, bit)		set_cpu_cap(c, (bit))
+> diff --git a/arch/x86/Makefile b/arch/x86/Makefile
+> index 7854685c5f25..bafbd905e6e7 100644
+> --- a/arch/x86/Makefile
+> +++ b/arch/x86/Makefile
+> @@ -286,10 +286,6 @@ vdso_install:
+>  
+>  archprepare: checkbin
+>  checkbin:
+> -ifndef CONFIG_CC_HAS_ASM_GOTO
+> -	@echo Compiler lacks asm-goto support.
+> -	@exit 1
+> -endif
+>  ifdef CONFIG_RETPOLINE
+>  ifeq ($(RETPOLINE_CFLAGS),)
+>  	@echo "You are building kernel with non-retpoline compiler." >&2
+> diff --git a/arch/x86/include/asm/cpufeature.h b/arch/x86/include/asm/cpufeature.h
+> index ea34cc31b047..1a85e1fb0922 100644
+> --- a/arch/x86/include/asm/cpufeature.h
+> +++ b/arch/x86/include/asm/cpufeature.h
+> @@ -155,20 +155,6 @@ extern void clear_cpu_cap(struct cpuinfo_x86 *c, unsigned int bit);
+>  
+>  #define setup_force_cpu_bug(bit) setup_force_cpu_cap(bit)
+>  
+> -#if defined(__clang__) && !defined(CONFIG_CC_HAS_ASM_GOTO)
+> -
+> -/*
+> - * Workaround for the sake of BPF compilation which utilizes kernel
+> - * headers, but clang does not support ASM GOTO and fails the build.
+> - */
+> -#ifndef __BPF_TRACING__
+> -#warning "Compiler lacks ASM_GOTO support. Add -D __BPF_TRACING__ to your compiler arguments"
+> -#endif
+> -
+> -#define static_cpu_has(bit)            boot_cpu_has(bit)
+> -
+> -#else
+> -
+>  /*
+>   * Static testing of CPU features. Used the same as boot_cpu_has(). It
+>   * statically patches the target code for additional performance. Use
+> @@ -208,7 +194,6 @@ static __always_inline bool _static_cpu_has(u16 bit)
+>  		boot_cpu_has(bit) :				\
+>  		_static_cpu_has(bit)				\
+>  )
+> -#endif
+>  
+>  #define cpu_has_bug(c, bit)		cpu_has(c, (bit))
+>  #define set_cpu_bug(c, bit)		set_cpu_cap(c, (bit))
+> diff --git a/arch/x86/include/asm/rmwcc.h b/arch/x86/include/asm/rmwcc.h
+> index 8a9eba191516..7fa611216417 100644
+> --- a/arch/x86/include/asm/rmwcc.h
+> +++ b/arch/x86/include/asm/rmwcc.h
+> @@ -11,7 +11,7 @@
+>  
+>  #define __CLOBBERS_MEM(clb...)	"memory", ## clb
+>  
+> -#if !defined(__GCC_ASM_FLAG_OUTPUTS__) && defined(CONFIG_CC_HAS_ASM_GOTO)
+> +#ifndef __GCC_ASM_FLAG_OUTPUTS__
+>  
+>  /* Use asm goto */
+>  
+> @@ -27,7 +27,7 @@ cc_label:	c = true;						\
+>  	c;								\
+>  })
+>  
+> -#else /* defined(__GCC_ASM_FLAG_OUTPUTS__) || !defined(CONFIG_CC_HAS_ASM_GOTO) */
+> +#else /* defined(__GCC_ASM_FLAG_OUTPUTS__) */
+>  
+>  /* Use flags output or a set instruction */
+>  
+> @@ -40,7 +40,7 @@ cc_label:	c = true;						\
+>  	c;								\
+>  })
+>  
+> -#endif /* defined(__GCC_ASM_FLAG_OUTPUTS__) || !defined(CONFIG_CC_HAS_ASM_GOTO) */
+> +#endif /* defined(__GCC_ASM_FLAG_OUTPUTS__) */
+>  
+>  #define GEN_UNARY_RMWcc_4(op, var, cc, arg0)				\
+>  	__GEN_RMWcc(op " " arg0, var, cc, __CLOBBERS_MEM())
+> diff --git a/arch/x86/kvm/emulate.c b/arch/x86/kvm/emulate.c
+> index b4eeb7c75dfa..08613c65138d 100644
+> --- a/arch/x86/kvm/emulate.c
+> +++ b/arch/x86/kvm/emulate.c
+> @@ -493,7 +493,7 @@ FOP_END;
+>  
+>  /*
+>   * XXX: inoutclob user must know where the argument is being expanded.
+> - *      Relying on CONFIG_CC_HAS_ASM_GOTO would allow us to remove _fault.
+> + *      Using asm goto would allow us to remove _fault.
+>   */
+>  #define asm_safe(insn, inoutclob...) \
+>  ({ \
+> diff --git a/init/Kconfig b/init/Kconfig
+> index 80fe60fa77fb..532362fcfe31 100644
+> --- a/init/Kconfig
+> +++ b/init/Kconfig
+> @@ -70,11 +70,7 @@ config CC_CAN_LINK_STATIC
+>  	default $(success,$(srctree)/scripts/cc-can-link.sh $(CC) $(CLANG_FLAGS) $(USERCFLAGS) $(USERLDFLAGS) $(m64-flag) -static) if 64BIT
+>  	default $(success,$(srctree)/scripts/cc-can-link.sh $(CC) $(CLANG_FLAGS) $(USERCFLAGS) $(USERLDFLAGS) $(m32-flag) -static)
+>  
+> -config CC_HAS_ASM_GOTO
+> -	def_bool $(success,$(srctree)/scripts/gcc-goto.sh $(CC))
+> -
+>  config CC_HAS_ASM_GOTO_OUTPUT
+> -	depends on CC_HAS_ASM_GOTO
+>  	def_bool $(success,echo 'int foo(int x) { asm goto ("": "=r"(x) ::: bar); return x; bar: return 0; }' | $(CC) -x c - -c -o /dev/null)
+>  
+>  config CC_HAS_ASM_GOTO_TIED_OUTPUT
+> diff --git a/scripts/gcc-goto.sh b/scripts/gcc-goto.sh
+> deleted file mode 100755
+> index 8b980fb2270a..000000000000
+> --- a/scripts/gcc-goto.sh
+> +++ /dev/null
+> @@ -1,22 +0,0 @@
+> -#!/bin/sh
+> -# SPDX-License-Identifier: GPL-2.0
+> -# Test for gcc 'asm goto' support
+> -# Copyright (C) 2010, Jason Baron <jbaron@redhat.com>
+> -
+> -cat << "END" | $@ -x c - -fno-PIE -c -o /dev/null
+> -int main(void)
+> -{
+> -#if defined(__arm__) || defined(__aarch64__)
+> -	/*
+> -	 * Not related to asm goto, but used by jump label
+> -	 * and broken on some ARM GCC versions (see GCC Bug 48637).
+> -	 */
+> -	static struct { int dummy; int state; } tp;
+> -	asm (".long %c0" :: "i" (&tp.state));
+> -#endif
+> -
+> -entry:
+> -	asm goto ("" :::: entry);
+> -	return 0;
+> -}
+> -END
+> diff --git a/tools/arch/x86/include/asm/rmwcc.h b/tools/arch/x86/include/asm/rmwcc.h
+> index fee7983a90b4..11ff975242ca 100644
+> --- a/tools/arch/x86/include/asm/rmwcc.h
+> +++ b/tools/arch/x86/include/asm/rmwcc.h
+> @@ -2,8 +2,6 @@
+>  #ifndef _TOOLS_LINUX_ASM_X86_RMWcc
+>  #define _TOOLS_LINUX_ASM_X86_RMWcc
+>  
+> -#ifdef CONFIG_CC_HAS_ASM_GOTO
+> -
+>  #define __GEN_RMWcc(fullop, var, cc, ...)				\
+>  do {									\
+>  	asm_volatile_goto (fullop "; j" cc " %l[cc_label]"		\
+> @@ -20,23 +18,4 @@ cc_label:								\
+>  #define GEN_BINARY_RMWcc(op, var, vcon, val, arg0, cc)			\
+>  	__GEN_RMWcc(op " %1, " arg0, var, cc, vcon (val))
+>  
+> -#else /* !CONFIG_CC_HAS_ASM_GOTO */
+> -
+> -#define __GEN_RMWcc(fullop, var, cc, ...)				\
+> -do {									\
+> -	char c;								\
+> -	asm volatile (fullop "; set" cc " %1"				\
+> -			: "+m" (var), "=qm" (c)				\
+> -			: __VA_ARGS__ : "memory");			\
+> -	return c != 0;							\
+> -} while (0)
+> -
+> -#define GEN_UNARY_RMWcc(op, var, arg0, cc)				\
+> -	__GEN_RMWcc(op " " arg0, var, cc)
+> -
+> -#define GEN_BINARY_RMWcc(op, var, vcon, val, arg0, cc)			\
+> -	__GEN_RMWcc(op " %2, " arg0, var, cc, vcon (val))
+> -
+> -#endif /* CONFIG_CC_HAS_ASM_GOTO */
+> -
+>  #endif /* _TOOLS_LINUX_ASM_X86_RMWcc */
+> -- 
+> 2.37.1.595.g718a3a8f04-goog
+> 
 
-In all honesty a lot of this information is new to me as I usually
-follow the "copy an existing example, drink to forget" process
-of writing netlink user space, so reviews will be much appreciated.
-
-Reviewed-by: Jacob Keller <jacob.e.keller@intel.com>
-Signed-off-by: Jakub Kicinski <kuba@kernel.org>
---
-Jon, I'm putting this in userspace-api/ I think it fits reasonably
-well there but please don't hesitate to suggest a better home.
-
-I put all the code on https://github.com/kuba-moo/ynl
-if anyone wants to help!
-
-v2: - mark NLMSG_OVERRUN as unsed today
-    - fix spelling (Stan)
-    - Endpoint ID -> Port ID (Johannes)
-    - refocus nlmsg_pid on Port ID a bit (Johannes..)
-    - mention align only of attr headers
-    - don't talk about the end of message
-    - drop rare
-    - add the multicast section
-    - add buffer sizing
-    - add a "Advanced topics" header half way thru Generic Netlink
-      since the doc keeps growing :)
-
-CC: corbet@lwn.net
-CC: johannes@sipsolutions.net
-CC: stephen@networkplumber.org
-CC: sdf@google.com
-CC: ecree.xilinx@gmail.com
-CC: benjamin.poirier@gmail.com
-CC: idosch@idosch.org
-CC: f.fainelli@gmail.com
-CC: jiri@resnulli.us
-CC: dsahern@kernel.org
-CC: fw@strlen.de
-CC: linux-doc@vger.kernel.org
-CC: jhs@mojatatu.com
-CC: tgraf@suug.ch
-CC: jacob.e.keller@intel.com
-CC: svinota.saveliev@gmail.com
-CC: rdunlap@infradead.org
-CC: mkubecek@suse.cz
----
- Documentation/userspace-api/index.rst         |   1 +
- Documentation/userspace-api/netlink/index.rst |  12 +
- Documentation/userspace-api/netlink/intro.rst | 643 ++++++++++++++++++
- 3 files changed, 656 insertions(+)
- create mode 100644 Documentation/userspace-api/netlink/index.rst
- create mode 100644 Documentation/userspace-api/netlink/intro.rst
-
-diff --git a/Documentation/userspace-api/index.rst b/Documentation/userspace-api/index.rst
-index a61eac0c73f8..c78da9ce0ec4 100644
---- a/Documentation/userspace-api/index.rst
-+++ b/Documentation/userspace-api/index.rst
-@@ -26,6 +26,7 @@ place where this information is gathered.
-    ioctl/index
-    iommu
-    media/index
-+   netlink/index
-    sysfs-platform_profile
-    vduse
-    futex2
-diff --git a/Documentation/userspace-api/netlink/index.rst b/Documentation/userspace-api/netlink/index.rst
-new file mode 100644
-index 000000000000..b0c21538d97d
---- /dev/null
-+++ b/Documentation/userspace-api/netlink/index.rst
-@@ -0,0 +1,12 @@
-+.. SPDX-License-Identifier: BSD-3-Clause
-+
-+================
-+Netlink Handbook
-+================
-+
-+Netlink documentation for users.
-+
-+.. toctree::
-+   :maxdepth: 2
-+
-+   intro
-diff --git a/Documentation/userspace-api/netlink/intro.rst b/Documentation/userspace-api/netlink/intro.rst
-new file mode 100644
-index 000000000000..94337f79e077
---- /dev/null
-+++ b/Documentation/userspace-api/netlink/intro.rst
-@@ -0,0 +1,643 @@
-+.. SPDX-License-Identifier: BSD-3-Clause
-+
-+=======================
-+Introduction to Netlink
-+=======================
-+
-+Netlink is often described as an ioctl() replacement.
-+It aims to replace fixed-format C structures as supplied
-+to ioctl() with a format which allows an easy way to add
-+or extended the arguments.
-+
-+To achieve this Netlink uses a minimal fixed-format metadata header
-+followed by multiple attributes in the TLV (type, length, value) format.
-+
-+Unfortunately the protocol has evolved over the years, in an organic
-+and undocumented fashion, making it hard to coherently explain.
-+To make the most practical sense this document starts by describing
-+netlink as it is used today and dives into more "historical" uses
-+in later sections.
-+
-+Opening a socket
-+================
-+
-+Netlink communication happens over sockets, a socket needs to be
-+opened first:
-+
-+.. code-block:: c
-+
-+  fd = socket(AF_NETLINK, SOCK_RAW, NETLINK_GENERIC);
-+
-+The use of sockets allows for a natural way of exchanging information
-+in both directions (to and from the kernel). The operations are still
-+performed synchronously when applications send() the request but
-+a separate recv() system call is needed to read the reply.
-+
-+A very simplified flow of a Netlink "call" will therefore look
-+something like:
-+
-+.. code-block:: c
-+
-+  fd = socket(AF_NETLINK, SOCK_RAW, NETLINK_GENERIC);
-+
-+  /* format the request */
-+  send(fd, &request, sizeof(request));
-+  n = recv(fd, &response, RSP_BUFFER_SIZE);
-+  /* interpret the response */
-+
-+Netlink also provides natural support for "dumping", i.e. communicating
-+to user space all objects of a certain type (e.g. dumping all network
-+interfaces).
-+
-+.. code-block:: c
-+
-+  fd = socket(AF_NETLINK, SOCK_RAW, NETLINK_GENERIC);
-+
-+  /* format the dump request */
-+  send(fd, &request, sizeof(request));
-+  while (1) {
-+    n = recv(fd, &buffer, RSP_BUFFER_SIZE);
-+    /* one recv() call can read multiple messages, hence the loop below */
-+    for (nl_msg in buffer) {
-+      if (nl_msg.nlmsg_type == NLMSG_DONE)
-+        goto dump_finished;
-+      /* process the object */
-+    }
-+  }
-+  dump_finished:
-+
-+The first two arguments of the socket() call require little explanation -
-+it is opening a Netlink socket, with all headers provided by the user
-+(hence NETLINK, RAW). The last argument is the protocol within Netlink.
-+This field used to identify the subsystem with which the socket will
-+communicate.
-+
-+Classic vs Generic Netlink
-+--------------------------
-+
-+Initial implementation of Netlink depended on a static allocation
-+of IDs to subsystems and provided little supporting infrastructure.
-+Let us refer to those protocols collectively as **Classic Netlink**.
-+The list of them is defined on top of the ``include/uapi/linux/netlink.h``
-+file, they include among others - general networking (NETLINK_ROUTE),
-+iSCSI (NETLINK_ISCSI), and audit (NETLINK_AUDIT).
-+
-+**Generic Netlink** (introduced in 2005) allows for dynamic registration of
-+subsystems (and subsystem ID allocation), introspection and simplifies
-+implementing the kernel side of the interface.
-+
-+The following section describes how to use Generic Netlink, as the
-+number of subsystems using Generic Netlink outnumbers the older
-+protocols by an order of magnitude. There are also no plans for adding
-+more Classic Netlink protocols to the kernel.
-+Basic information on how communicating with core networking parts of
-+the Linux kernel (or another of the 20 subsystems using Classic
-+Netlink) differs from Generic Netlink is provided later in this document.
-+
-+Generic Netlink
-+===============
-+
-+In addition to the Netlink fixed metadata header each Netlink protocol
-+defines its own fixed metadata header. (Similarly to how network
-+headers stack - Ethernet > IP > TCP we have Netlink > Generic N. > Family.)
-+
-+A Netlink message always starts with struct nlmsghdr, which is followed
-+by a protocol-specific header. In case of Generic Netlink the protocol
-+header is struct genlmsghdr.
-+
-+The practical meaning of the fields in case of Generic Netlink is as follows:
-+
-+.. code-block:: c
-+
-+  struct nlmsghdr {
-+	__u32	nlmsg_len;	/* Length of message including headers */
-+	__u16	nlmsg_type;	/* Generic Netlink Family (subsystem) ID */
-+	__u16	nlmsg_flags;	/* Flags - request or dump */
-+	__u32	nlmsg_seq;	/* Sequence number */
-+	__u32	nlmsg_pid;	/* Port ID, set to 0 */
-+  };
-+  struct genlmsghdr {
-+	__u8	cmd;		/* Command, as defined by the Family */
-+	__u8	version;	/* Irrelevant, set to 1 */
-+	__u16	reserved;	/* Reserved, set to 0 */
-+  };
-+  /* TLV attributes follow... */
-+
-+In Classic Netlink :c:member:`nlmsghdr.nlmsg_type` used to identify
-+which operation within the subsystem the message was referring to
-+(e.g. get information about a netdev). Generic Netlink needs to mux
-+multiple subsystems in a single protocol so it uses this field to
-+identify the subsystem, and :c:member:`genlmsghdr.cmd` identifies
-+the operation instead. (See :ref:`res_fam` for
-+information on how to find the Family ID of the subsystem of interest.)
-+Note that the first 16 values (0 - 15) of this field are reserved for
-+control messages both in Classic Netlink and Generic Netlink.
-+See :ref:`nl_msg_type` for more details.
-+
-+There are 3 usual types of message exchanges on a Netlink socket:
-+
-+ - performing a single action (``do``);
-+ - dumping information (``dump``);
-+ - getting asynchronous notifications (``multicast``).
-+
-+Classic Netlink is very flexible and presumably allows other types
-+of exchanges to happen, but in practice those are the three that get
-+used.
-+
-+Asynchronous notifications are sent by the kernel and received by
-+the user sockets which subscribed to them. ``do`` and ``dump`` requests
-+are initiated by the user. :c:member:`nlmsghdr.nlmsg_flags` should
-+be set as follows:
-+
-+ - for ``do``: ``NLM_F_REQUEST | NLM_F_ACK``
-+ - for ``dump``: ``NLM_F_REQUEST | NLM_F_ACK | NLM_F_DUMP``
-+
-+:c:member:`nlmsghdr.nlmsg_seq` should be a set to a monotonically
-+increasing value. The value gets echoed back in responses and doesn't
-+matter in practice, but setting it to an increasing value for each
-+message sent is considered good hygiene. The purpose of the field is
-+matching responses to requests. Asynchronous notifications will have
-+:c:member:`nlmsghdr.nlmsg_seq` of ``0``.
-+
-+:c:member:`nlmsghdr.nlmsg_pid` is the Netlink equivalent of an address.
-+This field can be set to ``0`` when talking to the kernel.
-+See :ref:`nlmsg_pid` for the (uncommon) uses of the field.
-+
-+The expected use for :c:member:`genlmsghdr.version` was to allow
-+versioning of the APIs provided by the subsystems. No subsystem to
-+date made significant use of this field, so setting it to ``1`` seems
-+like a safe bet.
-+
-+.. _nl_msg_type:
-+
-+Netlink message types
-+---------------------
-+
-+As previously mentioned :c:member:`nlmsghdr.nlmsg_type` carries
-+protocol specific values but the first 16 identifiers are reserved
-+(first subsystem specific message type should be equal to
-+``NLMSG_MIN_TYPE`` which is ``0x10``).
-+
-+There are only 4 Netlink control messages defined:
-+
-+ - ``NLMSG_NOOP`` - ignore the message, not used in practice;
-+ - ``NLMSG_ERROR`` - carries the return code of an operation;
-+ - ``NLMSG_DONE`` - marks the end of a dump;
-+ - ``NLMSG_OVERRUN`` - socket buffer has overflown, not used to date.
-+
-+``NLMSG_ERROR`` and ``NLMSG_DONE`` are of practical importance.
-+They carry return codes for operations. Note that unless
-+the ``NLM_F_ACK`` flag is set on the request Netlink will not respond
-+with ``NLMSG_ERROR`` if there is no error. To avoid having to special-case
-+this quirk it is recommended to always set ``NLM_F_ACK``.
-+
-+The format of ``NLMSG_ERROR`` is described by struct nlmsgerr::
-+
-+  ----------------------------------------------
-+  | struct nlmsghdr - response header          |
-+  ----------------------------------------------
-+  |    int error                               |
-+  ----------------------------------------------
-+  | struct nlmsghdr - original request header |
-+  ----------------------------------------------
-+  | ** optionally (1) payload of the request   |
-+  ----------------------------------------------
-+  | ** optionally (2) extended ACK             |
-+  ----------------------------------------------
-+
-+There are two instances of struct nlmsghdr here, first of the response
-+and second of the request. ``NLMSG_ERROR`` carries the information about
-+the request which led to the error. This could be useful when trying
-+to match requests to responses or re-parse the request to dump it into
-+logs.
-+
-+The payload of the request is not echoed in messages reporting success
-+(``error == 0``) or if ``NETLINK_CAP_ACK`` setsockopt() was set.
-+The latter is common
-+and perhaps recommended as having to read a copy of every request back
-+from the kernel is rather wasteful. The absence of request payload
-+is indicated by ``NLM_F_CAPPED`` in :c:member:`nlmsghdr.nlmsg_flags`.
-+
-+The second optional element of ``NLMSG_ERROR`` are the extended ACK
-+attributes. See :ref:`ext_ack` for more details. The presence
-+of extended ACK is indicated by ``NLM_F_ACK_TLVS`` in
-+:c:member:`nlmsghdr.nlmsg_flags`.
-+
-+``NLMSG_DONE`` is simpler, the request is never echoed but the extended
-+ACK attributes may be present::
-+
-+  ----------------------------------------------
-+  | struct nlmsghdr - response header          |
-+  ----------------------------------------------
-+  |    int error                               |
-+  ----------------------------------------------
-+  | ** optionally extended ACK                 |
-+  ----------------------------------------------
-+
-+.. _res_fam:
-+
-+Resolving the Family ID
-+-----------------------
-+
-+This section explains how to find the Family ID of a subsystem.
-+It also serves as an example of Generic Netlink communication.
-+
-+Generic Netlink is itself a subsystem exposed via the Generic Netlink API.
-+To avoid a circular dependency Generic Netlink has a statically allocated
-+Family ID (``GENL_ID_CTRL`` which is equal to ``NLMSG_MIN_TYPE``).
-+The Generic Netlink family implements a command used to find out information
-+about other families (``CTRL_CMD_GETFAMILY``).
-+
-+To get information about the Generic Netlink family named for example
-+``"test1"`` we need to send a message on the previously opened Generic Netlink
-+socket. The message should target the Generic Netlink Family (1), be a
-+``do`` (2) call to ``CTRL_CMD_GETFAMILY`` (3). A ``dump`` version of this
-+call would make the kernel respond with information about *all* the families
-+it knows about. Last but not least the name of the family in question has
-+to be specified (4) as an attribute with the appropriate type::
-+
-+  struct nlmsghdr:
-+    __u32 nlmsg_len:	32
-+    __u16 nlmsg_type:	GENL_ID_CTRL               // (1)
-+    __u16 nlmsg_flags:	NLM_F_REQUEST | NLM_F_ACK  // (2)
-+    __u32 nlmsg_seq:	1
-+    __u32 nlmsg_pid:	0
-+
-+  struct genlmsghdr:
-+    __u8 cmd:		CTRL_CMD_GETFAMILY         // (3)
-+    __u8 version:	2 /* or 1, doesn't matter */
-+    __u16 reserved:	0
-+
-+  struct nlattr:                                   // (4)
-+    __u16 nla_len:	10
-+    __u16 nla_type:	CTRL_ATTR_FAMILY_NAME
-+    char data: 		test1\0
-+
-+  (padding:)
-+    char data:		\0\0
-+
-+The length fields in Netlink (:c:member:`nlmsghdr.nlmsg_len`
-+and :c:member:`nlattr.nla_len`) always *include* the header.
-+Attribute headers in netlink must be aligned to 4 bytes from the start
-+of the message, hence the extra ``\0\0`` after ``CTRL_ATTR_FAMILY_NAME``.
-+The attribute lengths *exclude* the padding.
-+
-+If the family is found kernel will reply with two messages, the response
-+with all the information about the family::
-+
-+  /* Message #1 - reply */
-+  struct nlmsghdr:
-+    __u32 nlmsg_len:	136
-+    __u16 nlmsg_type:	GENL_ID_CTRL
-+    __u16 nlmsg_flags:	0
-+    __u32 nlmsg_seq:	1    /* echoed from our request */
-+    __u32 nlmsg_pid:	5831 /* The PID of our user space process */
-+
-+  struct genlmsghdr:
-+    __u8 cmd:		CTRL_CMD_GETFAMILY
-+    __u8 version:	2
-+    __u16 reserved:	0
-+
-+  struct nlattr:
-+    __u16 nla_len:	10
-+    __u16 nla_type:	CTRL_ATTR_FAMILY_NAME
-+    char data: 		test1\0
-+
-+  (padding:)
-+    data:		\0\0
-+
-+  struct nlattr:
-+    __u16 nla_len:	6
-+    __u16 nla_type:	CTRL_ATTR_FAMILY_ID
-+    __u16: 		123  /* The Family ID we are after */
-+
-+  (padding:)
-+    char data:		\0\0
-+
-+  struct nlattr:
-+    __u16 nla_len:	9
-+    __u16 nla_type:	CTRL_ATTR_FAMILY_VERSION
-+    __u16: 		1
-+
-+  /* ... etc, more attributes will follow. */
-+
-+And the error code (success) since ``NLM_F_ACK`` had been set on the request::
-+
-+  /* Message #2 - the ACK */
-+  struct nlmsghdr:
-+    __u32 nlmsg_len:	36
-+    __u16 nlmsg_type:	NLMSG_ERROR
-+    __u16 nlmsg_flags:	NLM_F_CAPPED /* There won't be a payload */
-+    __u32 nlmsg_seq:	1    /* echoed from our request */
-+    __u32 nlmsg_pid:	5831 /* The PID of our user space process */
-+
-+  int error:		0
-+
-+  struct nlmsghdr: /* Copy of the request header as we sent it */
-+    __u32 nlmsg_len:	32
-+    __u16 nlmsg_type:	GENL_ID_CTRL
-+    __u16 nlmsg_flags:	NLM_F_REQUEST | NLM_F_ACK
-+    __u32 nlmsg_seq:	1
-+    __u32 nlmsg_pid:	0
-+
-+The order of attributes (struct nlattr) is not guaranteed so the user
-+has to walk the attributes and parse them.
-+
-+Note that Generic Netlink sockets are not associated or bound to a single
-+family. A socket can be used to exchange messages with many different
-+families, selecting the recipient family on message-by-message basis using
-+the :c:member:`nlmsghdr.nlmsg_type` field.
-+
-+.. _ext_ack:
-+
-+Extended ACK
-+------------
-+
-+Extended ACK controls reporting of additional error/warning TLVs
-+in ``NLMSG_ERROR`` and ``NLMSG_DONE`` messages. To maintain backward
-+compatibility this feature has to be explicitly enabled by setting
-+the ``NETLINK_EXT_ACK`` setsockopt() to ``1``.
-+
-+Types of extended ack attributes are defined in enum nlmsgerr_attrs.
-+The two most commonly used attributes are ``NLMSGERR_ATTR_MSG``
-+and ``NLMSGERR_ATTR_OFFS``.
-+
-+``NLMSGERR_ATTR_MSG`` carries a message in English describing
-+the encountered problem. These messages are far more detailed
-+than what can be expressed thru standard UNIX error codes.
-+
-+``NLMSGERR_ATTR_OFFS`` points to the attribute which caused the problem.
-+
-+Extended ACKs can be reported on errors as well as in case of success.
-+The latter should be treated as a warning.
-+
-+Extended ACKs greatly improve the usability of Netlink and should
-+always be enabled, appropriately parsed and reported to the user.
-+
-+Advanced topics
-+===============
-+
-+Dump consistency
-+----------------
-+
-+Some of the data structures kernel uses for storing objects make
-+it hard to provide an atomic snapshot of all the objects in a dump
-+(without impacting the fast-paths updating them).
-+
-+Kernel may set the ``NLM_F_DUMP_INTR`` flag on any message in a dump
-+(including the ``NLMSG_DONE`` message) if the dump was interrupted and
-+may be inconsistent (e.g. missing objects). User space should retry
-+the dump if it sees the flag set.
-+
-+Introspection
-+-------------
-+
-+The basic introspection abilities are enabled by access to the Family
-+object as reported in :ref:`res_fam`. User can query information about
-+the Generic Netlink family, including which operations are supported
-+by the kernel and what attributes the kernel understands.
-+Family information includes the highest ID of an attribute kernel can parse,
-+a separate command (``CTRL_CMD_GETPOLICY``) provides detailed information
-+about supported attributes, including ranges of values the kernel accepts.
-+
-+Querying family information is useful in cases when user space needs
-+to make sure that the kernel has support for a feature before issuing
-+a request.
-+
-+.. _nlmsg_pid:
-+
-+nlmsg_pid
-+---------
-+
-+:c:member:`nlmsghdr.nlmsg_pid` is the Netlink equivalent of an address.
-+It is referred to as Port ID, sometimes Process ID because for historical
-+reasons if the application does not select (bind() to) an explicit Port ID
-+kernel will automatically assign it the ID equal to its Process ID
-+(as reported by the getpid() system call).
-+
-+Similarly to the bind() semantics of the TCP/IP network protocols the value
-+of zero means "assign automatically", hence it is common for applications
-+to leave the :c:member:`nlmsghdr.nlmsg_pid` field initialized to ``0``.
-+
-+The field is still used today in rare cases when kernel needs to send
-+a unicast notification. User space application can use bind() to associate
-+its socket with a specific PID, it then communicates its PID to the kernel.
-+This way the kernel can reach the specific user space process.
-+
-+This sort of communication is utilized in UMH (User Mode Helper)-like
-+scenarios when kernel needs to trigger user space processing or ask user
-+space for a policy decision.
-+
-+Multicast notifications
-+-----------------------
-+
-+One of the strengths of Netlink is the ability to send event notifications
-+to user space. This is a unidirectional form of communication (kernel ->
-+user) and does not involve any control messages like ``NLMSG_ERROR`` or
-+``NLMSG_DONE``.
-+
-+For example the Generic Netlink family itself defines a set of multicast
-+notifications about registered families. When a new family is added the
-+sockets subscribed to the notifications will get the following message::
-+
-+  struct nlmsghdr:
-+    __u32 nlmsg_len:	136
-+    __u16 nlmsg_type:	GENL_ID_CTRL
-+    __u16 nlmsg_flags:	0
-+    __u32 nlmsg_seq:	0
-+    __u32 nlmsg_pid:	0
-+
-+  struct genlmsghdr:
-+    __u8 cmd:		CTRL_CMD_NEWFAMILY
-+    __u8 version:	2
-+    __u16 reserved:	0
-+
-+  struct nlattr:
-+    __u16 nla_len:	10
-+    __u16 nla_type:	CTRL_ATTR_FAMILY_NAME
-+    char data: 		test1\0
-+
-+  (padding:)
-+    data:		\0\0
-+
-+  struct nlattr:
-+    __u16 nla_len:	6
-+    __u16 nla_type:	CTRL_ATTR_FAMILY_ID
-+    __u16: 		123  /* The Family ID we are after */
-+
-+  (padding:)
-+    char data:		\0\0
-+
-+  struct nlattr:
-+    __u16 nla_len:	9
-+    __u16 nla_type:	CTRL_ATTR_FAMILY_VERSION
-+    __u16: 		1
-+
-+  /* ... etc, more attributes will follow. */
-+
-+The notification contains the same information as the response
-+to the ``CTRL_CMD_GETFAMILY`` request.
-+
-+The Netlink headers of the notification are mostly 0 and irrelevant.
-+The :c:member:`nlmsghdr.nlmsg_seq` may be either zero or a monotonically
-+increasing notification sequence number maintained by the family.
-+
-+To receive notifications the user socket must subscribe to the relevant
-+notification group. Much like the Family ID, the Group ID for a given
-+multicast group is dynamic and can be found inside the Family information.
-+The ``CTRL_ATTR_MCAST_GROUPS`` attribute contains nests with names
-+(``CTRL_ATTR_MCAST_GRP_NAME``) and IDs (``CTRL_ATTR_MCAST_GRP_ID``) of
-+the groups family.
-+
-+Once the Group ID is known a setsockopt() call adds the socket to the group:
-+
-+.. code-block:: c
-+
-+  unsigned int group_id;
-+
-+  /* .. find the group ID... */
-+
-+  setsockopt(fd, SOL_NETLINK, NETLINK_ADD_MEMBERSHIP,
-+             &group_id, sizeof(group_id));
-+
-+The socket will now receive notifications.
-+
-+It is recommended to use separate sockets for receiving notifications
-+and sending requests to the kernel. The asynchronous nature of notifications
-+means that they may get mixed in with the responses making the message
-+handling much harder.
-+
-+Buffer sizing
-+-------------
-+
-+Netlink sockets are datagram sockets rather than stream sockets,
-+meaning that each message must be received in its entirety by a single
-+recv()/recvmsg() system call. If the buffer provided by the user is too
-+short, the message will be truncated and the ``MSG_TRUNC`` flag set
-+in struct msghdr (struct msghdr is the second argument
-+of the recvmsg() system call, *not* a Netlink header).
-+
-+Upon truncation the remaining part of the message is discarded.
-+
-+Netlink expects that the user buffer will be at least 8kB or a page
-+size of the CPU architecture, whichever is bigger. Particular Netlink
-+families may, however, require a larger buffer. 32kB buffer is recommended
-+for most efficient handling of dumps (larger buffer fits more dumped
-+objects and therefore fewer recvmsg() calls are needed).
-+
-+Classic Netlink
-+===============
-+
-+The main differences between Classic and Generic Netlink are the dynamic
-+allocation of subsystem identifiers and availability of introspection.
-+In theory the protocol does not differ significantly, however, in practice
-+Classic Netlink experimented with concepts which were abandoned in Generic
-+Netlink (really, they usually only found use in a small corner of a single
-+subsystem). This section is meant as an explainer of a few of such concepts,
-+with the explicit goal of giving the Generic Netlink
-+users the confidence to ignore them when reading the uAPI headers.
-+
-+Most of the concepts and examples here refer to the ``NETLINK_ROUTE`` family,
-+which covers much of the configuration of the Linux networking stack.
-+Real documentation of that family, deserves a chapter (or a book) of its own.
-+
-+Families
-+--------
-+
-+Netlink refers to subsystems as families. This is a remnant of using
-+sockets and the concept of protocol families, which are part of message
-+demultiplexing in ``NETLINK_ROUTE``.
-+
-+Sadly every layer of encapsulation likes to refer to whatever it's carrying
-+as "families" making the term very confusing:
-+
-+ 1. AF_NETLINK is a bona fide socket protocol family
-+ 2. AF_NETLINK's documentation refers to what comes after its own
-+    header (struct nlmsghdr) in a message as a "Family Header"
-+ 3. Generic Netlink is a family for AF_NETLINK (struct genlmsghdr follows
-+    struct nlmsghdr), yet it also calls its users "Families".
-+
-+Note that the Generic Netlink Family IDs are in a different "ID space"
-+and overlap with Classic Netlink protocol numbers (e.g. ``NETLINK_CRYPTO``
-+has the Classic Netlink protocol ID of 21 which Generic Netlink will
-+happily allocate to one of its families as well).
-+
-+Strict checking
-+---------------
-+
-+The ``NETLINK_GET_STRICT_CHK`` socket option enables strict input checking
-+in ``NETLINK_ROUTE``. It was needed because historically kernel did not
-+validate the fields of structures it didn't process. This made it impossible
-+to start using those fields later without risking regressions in applications
-+which initialized them incorrectly or not at all.
-+
-+``NETLINK_GET_STRICT_CHK`` declares that the application is initializing
-+all fields correctly. It also opts into validating that message does not
-+contain trailing data and requests that kernel rejects attributes with
-+type higher than largest attribute type known to the kernel.
-+
-+``NETLINK_GET_STRICT_CHK`` is not used outside of ``NETLINK_ROUTE``.
-+
-+Unknown attributes
-+------------------
-+
-+Historically Netlink ignored all unknown attributes. The thinking was that
-+it would free the application from having to probe what kernel supports.
-+The application could make a request to change the state and check which
-+parts of the request "stuck".
-+
-+This is no longer the case for new Generic Netlink families and those opting
-+in to strict checking. See enum netlink_validation for validation types
-+performed.
-+
-+Fixed metadata and structures
-+-----------------------------
-+
-+Classic Netlink made liberal use of fixed-format structures within
-+the messages. Messages would commonly have a structure with
-+a considerable number of fields after struct nlmsghdr. It was also
-+common to put structures with multiple members inside attributes,
-+without breaking each member into an attribute of its own.
-+
-+This has caused problems with validation and extensibility and
-+therefore using binary structures is actively discouraged for new
-+attributes.
-+
-+Request types
-+-------------
-+
-+``NETLINK_ROUTE`` categorized requests into 4 types ``NEW``, ``DEL``, ``GET``,
-+and ``SET``. Each object can handle all or some of those requests
-+(objects being netdevs, routes, addresses, qdiscs etc.) Request type
-+is defined by the 2 lowest bits of the message type, so commands for
-+new objects would always be allocated with a stride of 4.
-+
-+Each object would also have it's own fixed metadata shared by all request
-+types (e.g. struct ifinfomsg for netdev requests, struct ifaddrmsg for address
-+requests, struct tcmsg for qdisc requests).
-+
-+Even though other protocols and Generic Netlink commands often use
-+the same verbs in their message names (``GET``, ``SET``) the concept
-+of request types did not find wider adoption.
-+
-+Message flags
-+-------------
-+
-+The earlier section has already covered the basic request flags
-+(``NLM_F_REQUEST``, ``NLM_F_ACK``, ``NLM_F_DUMP``) and the ``NLMSG_ERROR`` /
-+``NLMSG_DONE`` flags (``NLM_F_CAPPED``, ``NLM_F_ACK_TLVS``).
-+Dump flags were also mentioned (``NLM_F_MULTI``, ``NLM_F_DUMP_INTR``).
-+
-+Those are the main flags of note, with a small exception (of ``ieee802154``)
-+Generic Netlink does not make use of other flags. If the protocol needs
-+to communicate special constraints for a request it should use
-+an attribute, not the flags in struct nlmsghdr.
-+
-+Classic Netlink, however, defined various flags for its ``GET``, ``NEW``
-+and ``DEL`` requests. Since request types have not been generalized
-+the request type specific flags should not be used either.
-+
-+uAPI reference
-+==============
-+
-+.. kernel-doc:: include/uapi/linux/netlink.h
 -- 
-2.37.2
-
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
