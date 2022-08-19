@@ -2,117 +2,73 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A183AC28B2B
-	for <linux-doc@archiver.kernel.org>; Fri, 19 Aug 2022 01:10:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 058D6C00140
+	for <linux-doc@archiver.kernel.org>; Fri, 19 Aug 2022 02:50:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242547AbiHSBKF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 18 Aug 2022 21:10:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47182 "EHLO
+        id S241186AbiHSCuK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 18 Aug 2022 22:50:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56392 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236163AbiHSBKE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Aug 2022 21:10:04 -0400
-Received: from out0.migadu.com (out0.migadu.com [IPv6:2001:41d0:2:267::])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72485D51DE
-        for <linux-doc@vger.kernel.org>; Thu, 18 Aug 2022 18:10:02 -0700 (PDT)
-Date:   Fri, 19 Aug 2022 09:09:42 +0800
+        with ESMTP id S235159AbiHSCuJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Aug 2022 22:50:09 -0400
+Received: from out2.migadu.com (out2.migadu.com [IPv6:2001:41d0:2:aacc::])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38167C8883;
+        Thu, 18 Aug 2022 19:50:08 -0700 (PDT)
+Content-Type: text/plain;
+        charset=us-ascii
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-        t=1660871400;
+        t=1660877406;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=ypweWn8SQsg6nZgCKHGhdHTfswBUgFLJqoBelYOQllI=;
-        b=MAVlkbZ2DdM3zFjY/13KOtn5mB4W7/Oqs9rEVdfsiFidv0TJudDd6z0V/t+h/ZzAYZ+AeS
-        XBJ3aVl5sLAG194XcAOeuAVNDLD0RRn74TPuHdyxUivVJng+ch/6vt/AzsEpxZ8TMO4mFB
-        Mxe/qoH+zg/r88paTCHpR9i1e4A427Y=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From:   Wu XiangCheng <wu.xiangcheng@linux.dev>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Alex Shi <alexs@kernel.org>, Yanteng Si <siyanteng@loongson.cn>,
-        Li Yang <leoyang.li@nxp.com>,
-        linux-doc <linux-doc@vger.kernel.org>
-Subject: [PATCH] docs/zh_CN: Fix two missing labels in zh_CN/process
-Message-ID: <Yv7i1tYMvK9J/NHj@bobwxc.mipc>
-References: <87fshtbgoy.fsf@meer.lwn.net>
- <cover.1659406843.git.bobwxc@email.cn>
+        bh=XYIsY5mx18jT1W5YWBYgwJ8DWWMfAy3Bs6ffZMILCRs=;
+        b=CR/u5sH6Cfh7C7IlHe1ctWkE5BDr6NNchQVQ754cozZj8n2FQksfcPjWXN73HcwHuqBO60
+        Dqe8cuDieqzP05CtqQ3+6dS0rNsD/GkfqSkWxUHrjmbnsHUixTKC1cpKGI0aN9m6wBaHUT
+        0CmmaE34OIbKBNi/1qAwQYJRrkOWD5I=
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <87fshtbgoy.fsf@meer.lwn.net>
+Subject: Re: [PATCH 02/13] docs: update vmemmap_dedup.rst reference
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From:   Muchun Song <muchun.song@linux.dev>
+In-Reply-To: <2c81bc7ef207f0a84387a5d714601513f4bf1960.1660829433.git.mchehab@kernel.org>
+Date:   Fri, 19 Aug 2022 10:49:34 +0800
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Mike Rapoport <rppt@kernel.org>,
+        Muchun Song <songmuchun@bytedance.com>,
+        Wu XiangCheng <bobwxc@email.cn>, linux-kernel@vger.kernel.org,
+        Linux MM <linux-mm@kvack.org>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <54AE2D05-3F4B-4A0B-B514-677D35BE85A1@linux.dev>
+References: <cover.1660829433.git.mchehab@kernel.org>
+ <2c81bc7ef207f0a84387a5d714601513f4bf1960.1660829433.git.mchehab@kernel.org>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
 X-Migadu-Flow: FLOW_OUT
 X-Migadu-Auth-User: linux.dev
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Wu XiangCheng <bobwxc@email.cn>
-
-* Add back still referenced labels in submitting-patches.rst and
-  email-clients.rst.
-* Fix a typo.
-
-Fixes: fdb34b18b959 ("docs/zh_CN: Update zh_CN/process/submitting-patches.rst to 5.19")
-Fixes: d7aeaebb920f ("docs/zh_CN: Update zh_CN/process/email-clients.rst to 5.19")
-Signed-off-by: Wu XiangCheng <bobwxc@email.cn>
----
-
-Hi Jon,
-
-I'm sorry that actually v2 of this set[1] has not been sent yet, still some
-problems need to be fixed.
-
-Please also apply this short patch to fix them.
-
-Thanks,
-	Wu
-
-[1]: https://lore.kernel.org/linux-doc/87fshtbgoy.fsf@meer.lwn.net/T/#t
 
 
- Documentation/translations/zh_CN/process/email-clients.rst    | 2 ++
- .../translations/zh_CN/process/submitting-patches.rst         | 4 +++-
- 2 files changed, 5 insertions(+), 1 deletion(-)
+> On Aug 18, 2022, at 21:38, Mauro Carvalho Chehab <mchehab@kernel.org> =
+wrote:
+>=20
+> Changeset ee65728e103b ("docs: rename Documentation/vm to =
+Documentation/mm")
+> renamed: Documentation/vm/vmemmap_dedup.rst
+> to: Documentation/mm/vmemmap_dedup.rst.
+>=20
+> Update its cross-reference accordingly.
+>=20
+> Fixes: ee65728e103b ("docs: rename Documentation/vm to =
+Documentation/mm")
+> Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+>=20
 
-diff --git a/Documentation/translations/zh_CN/process/email-clients.rst b/Documentation/translations/zh_CN/process/email-clients.rst
-index fa113f071855..34d51cdadc7b 100644
---- a/Documentation/translations/zh_CN/process/email-clients.rst
-+++ b/Documentation/translations/zh_CN/process/email-clients.rst
-@@ -2,6 +2,8 @@
- 
- .. include:: ../disclaimer-zh_CN.rst
- 
-+.. _cn_email_clients:
-+
- :Original: Documentation/process/email-clients.rst
- 
- :译者:
-diff --git a/Documentation/translations/zh_CN/process/submitting-patches.rst b/Documentation/translations/zh_CN/process/submitting-patches.rst
-index 26565abcbd8d..f8978f02057c 100644
---- a/Documentation/translations/zh_CN/process/submitting-patches.rst
-+++ b/Documentation/translations/zh_CN/process/submitting-patches.rst
-@@ -2,6 +2,8 @@
- 
- .. include:: ../disclaimer-zh_CN.rst
- 
-+.. _cn_submittingpatches:
-+
- :Original: Documentation/process/submitting-patches.rst
- 
- :译者:
-@@ -100,7 +102,7 @@ xyzzy do frotz”或“[I]changed xyzzy to do frotz”，就好像你在命令
- 你的补丁修复了一个缺陷，需要添加一个带有URL的标签指向邮件列表存档或缺陷跟踪器
- 的相关报告；如果该补丁是由一些早先邮件列表讨论或网络上的记录引起的，请指向它。
- 
--当链接到邮件列表存档是，请首选lore.kernel.org邮件存档服务。用邮件中的
-+当链接到邮件列表存档时，请首选lore.kernel.org邮件存档服务。用邮件中的
- ``Message-ID`` 头（去掉尖括号）可以创建链接URL。例如::
- 
-     Link: https://lore.kernel.org/r/30th.anniversary.repost@klaava.Helsinki.FI/
--- 
-2.30.2
+Reviewed-by: Muchun Song <songmuchun@bytedance.com>
 
-
--- 
-Wu XiangCheng	0x32684A40BCA7AEA7
+Thanks.
 
