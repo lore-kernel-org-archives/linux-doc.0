@@ -2,258 +2,221 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4FF3CC28B2B
-	for <linux-doc@archiver.kernel.org>; Fri, 19 Aug 2022 17:16:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E18FC3F6B0
+	for <linux-doc@archiver.kernel.org>; Fri, 19 Aug 2022 17:25:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1354293AbiHSRQ0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 19 Aug 2022 13:16:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32846 "EHLO
+        id S1354584AbiHSRZM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 19 Aug 2022 13:25:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51412 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1354336AbiHSRQL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Aug 2022 13:16:11 -0400
-Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com [IPv6:2a00:1450:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 290B8146CEA;
-        Fri, 19 Aug 2022 09:36:06 -0700 (PDT)
-Received: by mail-ej1-x62a.google.com with SMTP id gi31so3299337ejc.5;
-        Fri, 19 Aug 2022 09:36:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:content-language:in-reply-to:mime-version
-         :user-agent:date:message-id:from:references:cc:to:subject:from:to:cc;
-        bh=KvbU7AEM3P1kiK22wMymuDfWO9LXDaUuh1fQIZ26tNA=;
-        b=FdXlU0gzRt6erznD6gpPx/MehHWfEad++r8GXzxJDykNbmDNj1FOI6M8vkxuRM9g5b
-         xgtLPniKbgKQFGmgOB/AzRYGSnZvYYNJ2JBHDqspeIaEEPD2pBJtd/VegHooAIhlcBd7
-         ipR0QtH5RXEFo1JPgqFIWvZFEyEhKlLyM8KneRhfn/pc63GN2LeiGvoYE7KrNjVqcrZ9
-         XzkMt4hjG2/yLcj+TvhyKSLBwqjE4tFVMdmv/P/PZkLrWc1/qZ0bQ7MO9ZFJgYHhPDta
-         wwJLi5EtbiotA7jDlaO4qTX8yjY58cufj5sRp29pn31JDpUMzo5JBp2AqddC4nCWSD2/
-         CcrA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:content-language:in-reply-to:mime-version
-         :user-agent:date:message-id:from:references:cc:to:subject
-         :x-gm-message-state:from:to:cc;
-        bh=KvbU7AEM3P1kiK22wMymuDfWO9LXDaUuh1fQIZ26tNA=;
-        b=S6DtiV+66CjA+ZtpeDjLPqFUmcezBis1MUaMZZ19tP0G5bHgRZX3lhStH2wMZ7fDQo
-         W+qoI05I35xAaxR6WCZymN7CKBObO6uY2DV8wHvNkokbr6PQT3TtF/v6UQ07fp3+kugY
-         pQuevYjQyq9jF7zGsDR88HgcmNSVkIg9p5+du27jBNFwefeTyVROrzuFaDRoN76zIq2m
-         x0myNhirD5E2L2aS2my249Uq66ZcypN7t7BPUTytLSYYPM4bMytd74xEfxZxCL97N4+U
-         gKdTQmb/QD8pEOH45hMwFZQ9M1McArbO0ibonchDewdwijoqovqXAl9fTFZR2vaeTGw0
-         12xw==
-X-Gm-Message-State: ACgBeo1gqzOQVpK0x0YbckklXN2EA9UA1J3oPh8yg96zP61ZIvEiHoqp
-        OxCfI+E9wQ0Ph/JeX3ag+sE=
-X-Google-Smtp-Source: AA6agR7WlZ4ATXEetm82mEiU+twgsx0JNGuOlwom8NSsv9TbnEHtWJPJpilMT39bBr5WvWSJd4UE1w==
-X-Received: by 2002:a17:906:d550:b0:733:8e1a:f7 with SMTP id cr16-20020a170906d55000b007338e1a00f7mr5408071ejc.580.1660926964549;
-        Fri, 19 Aug 2022 09:36:04 -0700 (PDT)
-Received: from [192.168.1.122] (cpc159313-cmbg20-2-0-cust161.5-4.cable.virginm.net. [82.0.78.162])
-        by smtp.gmail.com with ESMTPSA id kv24-20020a17090778d800b00731335b7ceasm2586032ejc.14.2022.08.19.09.36.03
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 19 Aug 2022 09:36:04 -0700 (PDT)
-Subject: Re: [RFC PATCH v2 net-next] docs: net: add an explanation of VF (and
- other) Representors
-To:     Parav Pandit <parav@nvidia.com>,
-        "ecree@xilinx.com" <ecree@xilinx.com>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "linux-net-drivers@amd.com" <linux-net-drivers@amd.com>
-Cc:     "davem@davemloft.net" <davem@davemloft.net>,
-        "kuba@kernel.org" <kuba@kernel.org>,
-        "pabeni@redhat.com" <pabeni@redhat.com>,
-        "edumazet@google.com" <edumazet@google.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "jacob.e.keller@intel.com" <jacob.e.keller@intel.com>,
-        "jesse.brandeburg@intel.com" <jesse.brandeburg@intel.com>,
-        "michael.chan@broadcom.com" <michael.chan@broadcom.com>,
-        "andy@greyhouse.net" <andy@greyhouse.net>,
-        "saeed@kernel.org" <saeed@kernel.org>,
-        "jiri@resnulli.us" <jiri@resnulli.us>,
-        "snelson@pensando.io" <snelson@pensando.io>,
-        "simon.horman@corigine.com" <simon.horman@corigine.com>,
-        "alexander.duyck@gmail.com" <alexander.duyck@gmail.com>,
-        "rdunlap@infradead.org" <rdunlap@infradead.org>
-References: <20220815142251.8909-1-ecree@xilinx.com>
- <PH0PR12MB5481AD558AD7A17928D78081DC6D9@PH0PR12MB5481.namprd12.prod.outlook.com>
-From:   Edward Cree <ecree.xilinx@gmail.com>
-Message-ID: <e64b17e8-6aef-fcba-0626-07ff2ca9e0d8@gmail.com>
-Date:   Fri, 19 Aug 2022 17:36:02 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+        with ESMTP id S1354565AbiHSRYv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Aug 2022 13:24:51 -0400
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95CC83ECFF;
+        Fri, 19 Aug 2022 09:43:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1660927412; x=1692463412;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=vJ4mT+GSo6ERAE1lxJMfjzM4MAvhWOC+o59SFQDfCMM=;
+  b=NSF2hkbPSgLWExegQMpPcFCzVOIbQwr66YrA+xzXboCWtbugw6Ul7+TA
+   EZCKXVCtkw/uSAJ6V1GPxQoP2wZvWM1t1VuLnRYW5YuL6wCUHPm1ZlsIc
+   PDH1kBGjKFYF7PTzsFYqCSnd7xn1/lW122JMR79BKXwutmGAvWBB8scG7
+   Qf5yxcQjZvS+xWpMk0g5SXs0Mre6X3bSZOIzFH4Pi4pVhD1MfcRWjCE0D
+   sdFCkpAeLhTZ/6tN4NRQ8CcNEtd0khyPhsFXZMrTirv8jBScxHlZzXHqJ
+   YEhrE1XKSsO8/mGpwd9rlJzyaHGR2eyr2mUoTDs3JvM22GZYteQxTn1vd
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10444"; a="294327318"
+X-IronPort-AV: E=Sophos;i="5.93,248,1654585200"; 
+   d="scan'208";a="294327318"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Aug 2022 09:43:07 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,248,1654585200"; 
+   d="scan'208";a="641311133"
+Received: from lkp-server01.sh.intel.com (HELO 44b6dac04a33) ([10.239.97.150])
+  by orsmga001.jf.intel.com with ESMTP; 19 Aug 2022 09:43:05 -0700
+Received: from kbuild by 44b6dac04a33 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1oP55M-0001dr-1G;
+        Fri, 19 Aug 2022 16:43:04 +0000
+Date:   Sat, 20 Aug 2022 00:42:36 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     sound-open-firmware@alsa-project.org,
+        platform-driver-x86@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+        dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+        Linux Memory Management List <linux-mm@kvack.org>
+Subject: [linux-next:master] BUILD REGRESSION
+ 8755ae45a9e8ae883fa7f4eb0162830c55aacf14
+Message-ID: <62ffbd7c.64C1TF454zi41jGk%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-In-Reply-To: <PH0PR12MB5481AD558AD7A17928D78081DC6D9@PH0PR12MB5481.namprd12.prod.outlook.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 18/08/2022 17:44, Parav Pandit wrote:
-> A _whole_ network function is represented today using 
-> a. netdevice represents representee's network port
-> 
-> b. devlink port function for function management
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+branch HEAD: 8755ae45a9e8ae883fa7f4eb0162830c55aacf14  Add linux-next specific files for 20220819
 
-So, at the moment I'm just trying to document the current consensus,
- but where I plan to go _after_ this doc is building the case that
- devlink port as it exists today mixes in too much networking
- configuration that really belongs in the representor.  The example
- that motivated this for me is that setting the MAC address of the
- representee is currently a devlink port function operation, but
- this has nothing to do with the PCIe function and everything to do
- with the network port, so logically it should be an operation on
- the representor.  (I intend to develop a patch making it such, once
- we're all on the same page.)
+Error/Warning reports:
 
-I think a general rule is — would this operation make sense on a non-
- networking SR-IOV device?  If not, then it shouldn't be in devlink
- port.  E.g. why is port splitting a devlink port operation and not
- an operation on the port representor netdev?
+https://lore.kernel.org/linux-doc/202208192207.a0rAM0nj-lkp@intel.com
 
-> s/master PF/switchdev function
+Error/Warning: (recently discovered and may have been fixed)
 
-switchdev function might actually be the best name suggestion yet.
-I like it.
+Documentation/translations/zh_CN/process/5.Posting.rst:197: WARNING: undefined label: cn_email_clients (if the link has no caption the label must precede a section header)
+drivers/base/regmap/regmap-mmio.c:231:17: error: implicit declaration of function 'writesq'; did you mean 'writeq'? [-Werror=implicit-function-declaration]
+drivers/base/regmap/regmap-mmio.c:231:17: error: implicit declaration of function 'writesq'; did you mean 'writesl'? [-Werror=implicit-function-declaration]
+drivers/base/regmap/regmap-mmio.c:368:17: error: implicit declaration of function 'readsq'; did you mean 'readq'? [-Werror=implicit-function-declaration]
+drivers/base/regmap/regmap-mmio.c:368:17: error: implicit declaration of function 'readsq'; did you mean 'readsl'? [-Werror=implicit-function-declaration]
+drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_plane.c:1046:5: warning: no previous prototype for 'fill_dc_scaling_info' [-Wmissing-prototypes]
+drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_plane.c:1222:6: warning: no previous prototype for 'handle_cursor_update' [-Wmissing-prototypes]
+drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_plane.c:152:6: warning: no previous prototype for 'modifier_has_dcc' [-Wmissing-prototypes]
+drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_plane.c:1576:5: warning: no previous prototype for 'amdgpu_dm_plane_init' [-Wmissing-prototypes]
+drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_plane.c:157:10: warning: no previous prototype for 'modifier_gfx9_swizzle_mode' [-Wmissing-prototypes]
+drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_plane.c:752:5: warning: no previous prototype for 'fill_plane_buffer_attributes' [-Wmissing-prototypes]
+drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_plane.c:83:31: warning: no previous prototype for 'amd_get_format_info' [-Wmissing-prototypes]
+drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_plane.c:88:6: warning: no previous prototype for 'fill_blending_from_plane_state' [-Wmissing-prototypes]
+drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm_plane.c:992:5: warning: no previous prototype for 'dm_plane_helper_check_state' [-Wmissing-prototypes]
+drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c:905:28: warning: variable 'top' set but not used [-Wunused-but-set-variable]
+drivers/platform/mellanox/mlxreg-lc.c:866 mlxreg_lc_probe() warn: passing zero to 'PTR_ERR'
+sound/soc/sof/compress.c:330:13: warning: variable 'dai_posn' set but not used [-Wunused-but-set-variable]
+sound/soc/sof/intel/hda-codec.c:216:17: error: too few arguments to function 'hda_codec_device_init'
 
-> Please add text that,
-> Packets transmitted by the representee and when they are not offloaded, such packets are delivered to the port representor netdevice.
+Error/Warning ids grouped by kconfigs:
 
-That's exactly what
->> packets
->> +   transmitted to the representee which fail to match any switching rule
->> should
->> +   be received on the representor netdevice.
-says.  (Although my choice of preposition — 'to', rather than 'by'
- — was less than clear.)
+gcc_recent_errors
+|-- alpha-allmodconfig
+|   |-- drivers-base-regmap-regmap-mmio.c:error:implicit-declaration-of-function-readsq
+|   `-- drivers-base-regmap-regmap-mmio.c:error:implicit-declaration-of-function-writesq
+|-- alpha-allyesconfig
+|   |-- drivers-base-regmap-regmap-mmio.c:error:implicit-declaration-of-function-readsq
+|   |-- drivers-base-regmap-regmap-mmio.c:error:implicit-declaration-of-function-writesq
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-amd_get_format_info
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-amdgpu_dm_plane_init
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-dm_plane_helper_check_state
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-fill_blending_from_plane_state
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-fill_dc_scaling_info
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-fill_plane_buffer_attributes
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-handle_cursor_update
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-modifier_gfx9_swizzle_mode
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-modifier_has_dcc
+|   |-- drivers-gpu-drm-msm-disp-dpu1-dpu_kms.c:warning:variable-top-set-but-not-used
+|   `-- sound-soc-sof-compress.c:warning:variable-dai_posn-set-but-not-used
+|-- alpha-randconfig-r002-20220819
+|   `-- sound-soc-sof-intel-hda-codec.c:error:too-few-arguments-to-function-hda_codec_device_init
+|-- arc-allyesconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-amd_get_format_info
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-amdgpu_dm_plane_init
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-dm_plane_helper_check_state
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-fill_blending_from_plane_state
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-fill_dc_scaling_info
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-fill_plane_buffer_attributes
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-handle_cursor_update
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-modifier_gfx9_swizzle_mode
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-modifier_has_dcc
+|   |-- drivers-gpu-drm-msm-disp-dpu1-dpu_kms.c:warning:variable-top-set-but-not-used
+|   `-- sound-soc-sof-compress.c:warning:variable-dai_posn-set-but-not-used
+|-- arm-allyesconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-amd_get_format_info
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-amdgpu_dm_plane_init
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-dm_plane_helper_check_state
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-fill_blending_from_plane_state
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-fill_dc_scaling_info
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-fill_plane_buffer_attributes
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-handle_cursor_update
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-modifier_gfx9_swizzle_mode
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-modifier_has_dcc
+|   |-- drivers-gpu-drm-msm-disp-dpu1-dpu_kms.c:warning:variable-top-set-but-not-used
+|   `-- sound-soc-sof-compress.c:warning:variable-dai_posn-set-but-not-used
+|-- arm-defconfig
+|   `-- drivers-gpu-drm-msm-disp-dpu1-dpu_kms.c:warning:variable-top-set-but-not-used
+|-- arm64-allyesconfig
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-amd_get_format_info
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-amdgpu_dm_plane_init
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-dm_plane_helper_check_state
+|   |-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_plane.c:warning:no-previous-prototype-for-fill_blending_from_plane_state
 
->> +What functions should have a representor?
->> +-----------------------------------------
->> +
->> +Essentially, for each virtual port on the device's internal switch,
->                                                                             ^^^^
-> You probably wanted to say master PF internal switch here.
-> 
-> Better to word it as, each virtual port of a switchdev, there should be...
+elapsed time: 723m
 
-Hmm idk, I feel like "switchdev" has the connotation of "the software
- object inside the kernel representing the switch" rather than "the
- switch itself".
+configs tested: 66
+configs skipped: 2
 
->> + - Other PFs on the local PCIe controller, and any VFs belonging to them.
-> Local and/or external PCIe controllers.
-That's literally the next bullet point.
+gcc tested configs:
+um                             i386_defconfig
+um                           x86_64_defconfig
+arc                  randconfig-r043-20220819
+i386                                defconfig
+i386                          randconfig-a001
+x86_64                        randconfig-a013
+x86_64                        randconfig-a006
+x86_64                              defconfig
+x86_64                          rhel-8.3-func
+arm                                 defconfig
+x86_64                        randconfig-a011
+i386                          randconfig-a003
+x86_64                        randconfig-a015
+x86_64                         rhel-8.3-kunit
+i386                          randconfig-a014
+i386                          randconfig-a005
+x86_64                    rhel-8.3-kselftests
+i386                          randconfig-a012
+powerpc                           allnoconfig
+x86_64                               rhel-8.3
+powerpc                          allmodconfig
+sh                               allmodconfig
+mips                             allyesconfig
+i386                          randconfig-a016
+openrisc                            defconfig
+powerpc                      tqm8xx_defconfig
+x86_64                           rhel-8.3-kvm
+x86_64                           rhel-8.3-syz
+sh                          lboxre2_defconfig
+arm                              allyesconfig
+i386                             allyesconfig
+arm64                            allyesconfig
+m68k                             allmodconfig
+x86_64                           allyesconfig
+arc                              allyesconfig
+alpha                            allyesconfig
+m68k                             allyesconfig
+arm                           viper_defconfig
+ia64                             allmodconfig
+mips                    maltaup_xpa_defconfig
+sh                         ap325rxa_defconfig
+arc                               allnoconfig
+alpha                             allnoconfig
+riscv                             allnoconfig
+csky                              allnoconfig
 
->> + - PFs and VFs on other PCIe controllers on the device (e.g. for any
->> embedded
->> +   System-on-Chip within the SmartNIC).
-Do I need to use the word "external" to make it more obvious?
+clang tested configs:
+hexagon              randconfig-r045-20220819
+hexagon              randconfig-r041-20220819
+x86_64                        randconfig-a016
+riscv                randconfig-r042-20220819
+s390                 randconfig-r044-20220819
+i386                          randconfig-a013
+x86_64                        randconfig-a005
+x86_64                        randconfig-a012
+i386                          randconfig-a015
+x86_64                        randconfig-a014
+i386                          randconfig-a002
+arm                           spitz_defconfig
+i386                          randconfig-a011
+i386                          randconfig-a006
+i386                          randconfig-a004
+mips                      maltaaprp_defconfig
+powerpc                   lite5200b_defconfig
+mips                      malta_kvm_defconfig
+powerpc                     tqm8540_defconfig
+powerpc                 mpc832x_mds_defconfig
+x86_64                          rhel-8.3-rust
 
->> + - PFs and VFs with other personalities, including network block devices
->> (such
->> +   as a vDPA virtio-blk PF backed by remote/distributed storage), if their
->> +   network access is implemented through a virtual switch port.
->> +   Note that such functions can require a representor despite the
->> representee
->> +   not having a netdev.
-> This looks a big undertaking to represent them via "netdevice".
-> Mostly they cannot be well represented by the netdevice.
-
-The netdevice isn't supposed to represent the vDPA block device.  Rather
- it represents the switch port that the block device is using.
-
-> In some cases, such vDPA devices are affiliated to the switchdev, but they use one or multiple of its ports.
-
-If the block device uses multiple switch ports, then it should have
- multiple representors, one for each port, so that each switch port can
- be configured in the standard way.
-
-Configuration of the block device itself is of course through separate
- interfaces which are common to non-switchdev virtual block devices.
-
->> + - Subfunctions (SFs) belonging to any of the above PFs or VFs, if they have
->> +   their own port on the switch (as opposed to using their parent PF's port).
-> Not sure why the text has _if_ for SF and not for the VF.
-> Do you see a SF device in the kernel that doesn't have their own port, due to which there is _if_ added?
-
-This document is meant to cover situations that vendors are likely to
- find themselves in, not just those that have already been encountered.
-It is plausible, at least to me, that a vendor might decide to implement
- subfunctions at a filtering rather than a switching level (i.e. it's
- just a bundle of queue pairs and you use something like ethtool NFC to
- direct traffic to it).  And if that happens, I don't want them to read
- my doc and (wrongly) think that they still need reprs for such SFs.
-(The corresponding situation is far less likely to arise for VFs,
- because there's a clear understanding across the industry that VFs
- should look to their consumer like self-contained network devices,
- which implies transparent switching.)
-
->> +How are representors created?
->> +-----------------------------
->> +
->> +The driver instance attached to the master PF should enumerate the
->> +virtual ports on the switch, and for each representee, create a
->> +pure-software netdevice which has some form of in-kernel reference to
->> +the PF's own netdevice or driver private data (``netdev_priv()``).
-> Today a user can create new virtual ports. Hence, these port represnetors and function representors are created dynamically without enumeration.
-> Please add text describing both ways.
-
-Again, this is addressed in the next sentence after you quoted:
->> +If switch ports can dynamically appear/disappear, the PF driver should
->> +create and destroy representors appropriately.
-
-> For mlx5 case a representor netdevice has real queue from which tx/rx DMA happens from the device to/from network.
-> It is not entirely pure software per say.
-> Hence, "pure-software" is misleading. Please drop that word.
-
-The rep dev doesn't own the BAR.  Everything it has it gets from
- the PF.  That's why it shouldn't SET_NETDEV_DEV, which is what I
- mean by "pure-software".
-
->> +The operations of the representor netdevice will generally involve
->> +acting through the master PF.  For example, ``ndo_start_xmit()`` might
->> +send the packet through a hardware TX queue attached to the master PF,
->> +with either packet metadata or queue configuration marking it for delivery
->> to the representee.
-> Sharing/not sharing TX and RX queue among representor netdevices is not yet well established.
-
-But in either case the hw TXQ will have been created out of the
- PF's BAR(s) (there's no other PCIe function/aperture to poke at
- the hardware from), that's what I mean by "attached to".  If you
- have a clearer way to word that I'm all ears.
-
->> +
->> +How are representors identified?
->> +--------------------------------
->> +
->> +The representor netdevice should *not* directly refer to a PCIe device (e.g.
->> +through ``net_dev->dev.parent`` / ``SET_NETDEV_DEV()``), either of the
->> +representee or of the master PF.
-> This isn't true.
-> Representor netdevices are connected to the switchdev device PCI function.
-
-In some but not all existing drivers.
-Note that I said "should not", not "does not".
-
-> Without linking to PCI device, udev scriptology needs to grep among thousands of netdevices and its very inefficient.
-
-It's a control plane operation, is efficiency really a prime
- concern?  If so, surely the right thing is to give
- /sys/class/net/$REP_DEV/ a suitably-named symlink to
- /sys/class/net/$SWITCH_DEV, performing the same role as the
- phys_switch_id matching without the global search, rather than
- a semantically-invalid PCIe device link.
-
->> +There are as yet no established conventions for naming representors
->> +which do not correspond to PCIe functions (e.g. accelerators and plugins).
-> Netdevice represents the networking port of the function.
-
-No, it represents any networking port on the switch.  Whether
- that has a PCIe function or not.
-(The doc title, "Network Function Representors", is deliberately
- phrased to be interpretable as about "network functions" in the
- sense of NFV, rather than "networking PCIe functions".  An
- entire network function (in the NFV sense) could be implemented
- in hardware, in which case it would have a switch port and thus
- representor, but no PCIe function — it terminates traffic inside
- the device rather than sending it over the PCIe bus to a driver
- in the host or a VM.)
-
--ed
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
