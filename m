@@ -2,140 +2,99 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C2C06C00140
-	for <linux-doc@archiver.kernel.org>; Fri, 19 Aug 2022 00:40:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 892BCC28B2B
+	for <linux-doc@archiver.kernel.org>; Fri, 19 Aug 2022 00:56:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244607AbiHSAk3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 18 Aug 2022 20:40:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42064 "EHLO
+        id S245015AbiHSA4u (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 18 Aug 2022 20:56:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58026 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241426AbiHSAk2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Aug 2022 20:40:28 -0400
-Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com [66.111.4.230])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E810D7D3C;
-        Thu, 18 Aug 2022 17:40:27 -0700 (PDT)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-        by mailnew.nyi.internal (Postfix) with ESMTP id 2A636580E5D;
-        Thu, 18 Aug 2022 20:40:25 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute5.internal (MEProxy); Thu, 18 Aug 2022 20:40:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shutemov.name;
-         h=cc:cc:content-type:date:date:from:from:in-reply-to
-        :in-reply-to:message-id:mime-version:references:reply-to:sender
-        :subject:subject:to:to; s=fm2; t=1660869625; x=1660876825; bh=p4
-        mrdAhfuXrXkbUMCbpYFq9iim/KI6Q1KeIWNni0Pu8=; b=NmfuW1+kY6jqCU+SOB
-        OECgLcjgfa/gkmj9WAQWHrJD2/c3qc7nnUazVUk975wdVftGPDZXi2dYd4VJlXps
-        pRzBpT25IAYRcsHhb7UXxtcuflc66clE4gkYqkYMfuIGsxGOO4Mo6n9vy4TbbePv
-        yBvxD+OcV+nUrqJdK4J4VrhHOn6Dh4g3iWomVQfeY1QK/C5oo0Oh6tr+ERqPQMm/
-        i7WrGOmMzO20ibGuUivoDpDcehqVDc1tMFLXwnSCECRO27CUzxCo+ikHKB84LSj0
-        2YqTH1XDybKxylJkysD/9Vw2GqO6En0Zr+bxEgi2mulkmu4V1uTFB42pTofZ42y7
-        pOBQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
-        :mime-version:references:reply-to:sender:subject:subject:to:to
-        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm1; t=1660869625; x=1660876825; bh=p4mrdAhfuXrXkbUMCbpYFq9iim/K
-        I6Q1KeIWNni0Pu8=; b=zxN4ID6gqcZMZFi8RRRCqCJJz67/hlDBmIXr5jMDNL7J
-        Vwlbb+o3pWLxQLrkZKs73qUn9/G22KzobJM2Jl9O3KX7JfWy8k8c1xkZpCxVN9WN
-        c00bSD4/geEGawIMVcoMPAkKeghrFaVGsJA3qfQJ+oRqw2xSLwBMFIZpRH3IVJG8
-        Zt86YzEpUzOJMNgH0PLfyvpiIbmSH7yVHevlA/KJ6yD2K4mMagqIDeKaIPrcMCR+
-        M/ji5zqZU/m+yB8GLeVVmDfdSJ/wcNIGTd6h+ZgRK3B2Zu9Bup7h2qXawrZCQQyC
-        fjNPXMtQFfPMWzHkfo+l1ZWfQYMTSh0d9NDp8BLonQ==
-X-ME-Sender: <xms:99v-Yguo4sXKdcYloGScFZLpjFVcdsWZEue-M1d_aSugtfVgFE0PgQ>
-    <xme:99v-YteKlaDAXzZrY5Q7ajRii4Spnlk3QnOkHFRj7meDmdCXaXBQ3dL9-ckV7WqnB
-    xnWlyo3ThZy_C2RBU0>
-X-ME-Received: <xmr:99v-Yryf_SG4XVAtEfsYgZcJ3dxZwV8_ZLtSRV-uOvVorPrG9mI1zqhG9KlR3myN6ZGf_A>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdeitddgfeekucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvfevuffkfhggtggujgesthdttddttddtvdenucfhrhhomhepfdfmihhr
-    ihhllhcutedrucfuhhhuthgvmhhovhdfuceokhhirhhilhhlsehshhhuthgvmhhovhdrnh
-    grmhgvqeenucggtffrrghtthgvrhhnpefhieeghfdtfeehtdeftdehgfehuddtvdeuheet
-    tddtheejueekjeegueeivdektdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmh
-    epmhgrihhlfhhrohhmpehkihhrihhllhesshhhuhhtvghmohhvrdhnrghmvg
-X-ME-Proxy: <xmx:99v-YjNXs-TyttYJAcbSZqpXqruhIjPf74NygKPH72sFr0vzEnXA_Q>
-    <xmx:99v-Yg-3-1lIdhYqJkEpnHGqR3EY0j38u01Fr5ghV6lowELnpxWTIw>
-    <xmx:99v-YrUHX7v-hUiBnmBx_peHkRqQJLNybs1S_IxmlhX7GebIRTLP2Q>
-    <xmx:-dv-YszGL-rTfN2_TUO-BqTH0iFUn_7vbveOClqgPpv1wXSMp-azIw>
-Feedback-ID: ie3994620:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 18 Aug 2022 20:40:22 -0400 (EDT)
-Received: by box.shutemov.name (Postfix, from userid 1000)
-        id CB4DD104AA5; Fri, 19 Aug 2022 03:40:18 +0300 (+03)
-Date:   Fri, 19 Aug 2022 03:40:18 +0300
-From:   "Kirill A. Shutemov" <kirill@shutemov.name>
-To:     Sean Christopherson <seanjc@google.com>
-Cc:     Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com
-Subject: Re: [PATCH v6 6/8] KVM: Handle page fault for private memory
-Message-ID: <20220819004018.mgdvxhl6dj3ujl3f@box.shutemov.name>
-References: <20220519153713.819591-1-chao.p.peng@linux.intel.com>
- <20220519153713.819591-7-chao.p.peng@linux.intel.com>
- <YqzyjZnflCMPo8b/@google.com>
+        with ESMTP id S243277AbiHSA4s (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Aug 2022 20:56:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7740BDF09F
+        for <linux-doc@vger.kernel.org>; Thu, 18 Aug 2022 17:56:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1660870606;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=0mjtjKvaCKjFD+8hWTDMS94mOG+sVGwcb17W8u/FnUA=;
+        b=OJewxCy1v8Jz/cUhkSlzoPZf8k7hqb0KPRfKOrPPwnc50VefmSxrXV+WXvcYUSwEIqwZ1H
+        CIIZYADXCbsBMRVrifPcabMzIKY2huZzuODnGp+jeN3u5QLBf6VGQF78z+ADrHzVynr2ZZ
+        GLjZyzhm/Ippj8PyZsLPtS5vsSX/VYA=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-317--evnGzXCP_CdJVefZLfQyg-1; Thu, 18 Aug 2022 20:56:42 -0400
+X-MC-Unique: -evnGzXCP_CdJVefZLfQyg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0D370802D2C;
+        Fri, 19 Aug 2022 00:56:41 +0000 (UTC)
+Received: from gshan.redhat.com (vpn2-54-16.bne.redhat.com [10.64.54.16])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 51086C15BB8;
+        Fri, 19 Aug 2022 00:56:31 +0000 (UTC)
+From:   Gavin Shan <gshan@redhat.com>
+To:     kvmarm@lists.cs.columbia.edu
+Cc:     linux-arm-kernel@lists.infradead.org, kvm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, peterx@redhat.com,
+        pbonzini@redhat.com, corbet@lwn.net, maz@kernel.org,
+        james.morse@arm.com, alexandru.elisei@arm.com,
+        suzuki.poulose@arm.com, oliver.upton@linux.dev,
+        catalin.marinas@arm.com, will@kernel.org, shuah@kernel.org,
+        seanjc@google.com, drjones@redhat.com, dmatlack@google.com,
+        bgardon@google.com, ricarkol@google.com, zhenyzha@redhat.com,
+        shan.gavin@gmail.com
+Subject: [PATCH v1 0/5] KVM: arm64: Enable ring-based dirty memory tracking
+Date:   Fri, 19 Aug 2022 08:55:56 +0800
+Message-Id: <20220819005601.198436-1-gshan@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YqzyjZnflCMPo8b/@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Jun 17, 2022 at 09:30:53PM +0000, Sean Christopherson wrote:
-> > @@ -4088,7 +4144,12 @@ static int direct_page_fault(struct kvm_vcpu *vcpu, struct kvm_page_fault *fault
-> >  		read_unlock(&vcpu->kvm->mmu_lock);
-> >  	else
-> >  		write_unlock(&vcpu->kvm->mmu_lock);
-> > -	kvm_release_pfn_clean(fault->pfn);
-> > +
-> > +	if (fault->is_private)
-> > +		kvm_private_mem_put_pfn(fault->slot, fault->pfn);
-> 
-> Why does the shmem path lock the page, and then unlock it here?
+This series enables the ring-based dirty memory tracking for ARM64. 
+The feature has been available and enabled on x86 for a while. It
+is beneficial when the number of dirty pages is small in a checkpointing
+system or live migration scenario. More details can be found from
+fb04a1eddb1a ("KVM: X86: Implement ring-based dirty memory tracking").
 
-Lock is require to avoid race with truncate / punch hole. Like if truncate
-happens after get_pfn(), but before it gets into SEPT we are screwed.
+The generic part has been comprehensive enough, meaning there isn't too
+much work, needed to extend it to ARM64. 
 
-> Same question for why this path marks it dirty?  The guest has the page mapped
-> so the dirty flag is immediately stale.
+- PATCH[1]   enables the feature on ARM64
+- PATCH[2-5] improves kvm/selftests/dirty_log_test
 
-If page is clean and refcount is not elevated, vmscan is free to drop the
-page from page cache. I don't think we want this.
+Testing
+=======
 
-> In other words, why does KVM need to do something different for private pfns?
+- kvm/selftests/dirty_log_test
+- Live migration by QEMU
+- Host with 4KB or 64KB base page size
 
-Because in the traditional KVM memslot scheme, core mm takes care about
-this.
+Gavin Shan (5):
+  KVM: arm64: Enable ring-based dirty memory tracking
+  KVM: selftests: Use host page size to map ring buffer in
+    dirty_log_test
+  KVM: selftests: Dirty host pages in dirty_log_test
+  KVM: selftests: Clear dirty ring states between two modes in
+    dirty_log_test
+  KVM: selftests: Automate choosing dirty ring size in dirty_log_test
 
-The changes in v7 is wrong. Page has be locked until it lends into SEPT and
-must make it dirty before unlocking.
+ Documentation/virt/kvm/api.rst               |   2 +-
+ arch/arm64/include/uapi/asm/kvm.h            |   1 +
+ arch/arm64/kvm/Kconfig                       |   1 +
+ arch/arm64/kvm/arm.c                         |   8 ++
+ tools/testing/selftests/kvm/dirty_log_test.c | 101 ++++++++++++++-----
+ tools/testing/selftests/kvm/lib/kvm_util.c   |   2 +-
+ 6 files changed, 88 insertions(+), 27 deletions(-)
 
 -- 
-  Kiryl Shutsemau / Kirill A. Shutemov
+2.23.0
+
