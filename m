@@ -2,190 +2,120 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 08BBDC28B2B
-	for <linux-doc@archiver.kernel.org>; Fri, 19 Aug 2022 03:28:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E262C25B0E
+	for <linux-doc@archiver.kernel.org>; Fri, 19 Aug 2022 03:35:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245621AbiHSD2M (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 18 Aug 2022 23:28:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39398 "EHLO
+        id S244202AbiHSDfN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 18 Aug 2022 23:35:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52440 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245469AbiHSD1v (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Aug 2022 23:27:51 -0400
-Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com [IPv6:2607:f8b0:4864:20::434])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F704DF66C;
-        Thu, 18 Aug 2022 20:27:50 -0700 (PDT)
-Received: by mail-pf1-x434.google.com with SMTP id x15so2359011pfp.4;
-        Thu, 18 Aug 2022 20:27:50 -0700 (PDT)
+        with ESMTP id S242374AbiHSDfL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Aug 2022 23:35:11 -0400
+Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66AC4C59D4;
+        Thu, 18 Aug 2022 20:35:10 -0700 (PDT)
+Received: by mail-pl1-x62b.google.com with SMTP id d16so3094945pll.11;
+        Thu, 18 Aug 2022 20:35:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc;
-        bh=abditIbeCMAlg4Lgjtnw6BuqzTgkBra7/BZ++TtmQH0=;
-        b=FoR4esG3naAZvD5ET0fIP7JoscoSZEe2D9CdGwLFqnn8sACiGaIL3eRxZeHBe2dnim
-         L9yy8LF0Ar1gbh3psPQ3bvF5v2pgI/8n0Mkq30m+F4/3GdBABLYzz1RweFCsYqrE+ofp
-         jBg+Xe7diJQgt9hcOQ5vg3YlVF6k5Cf56QDUfoBMTj/VUvegBcmCmutGH34jmPw+dAca
-         bJR4d1CewkruvRewgn7hNVX3P+Z2BYie936cMuqo1QfoaexoK5eSSu/y/eWSscucFvv7
-         As4fgf7aIz5gI3o941VTB7q/jCRfjQTuL02bviT/VKIvwLzj3VtVHPDn2QBJxS0ZBYF1
-         HDwg==
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc;
+        bh=JZwTxIjZdK3eeeynNetfRffvQYVNIdx1KtctWmB4uOs=;
+        b=CpcK6Xq8AQBsTaC8iTZlqnR8WjvsgkNpaBKHPZ92mhk8SAINSyuE9MQFiQDOCFqelq
+         syIFpWnoX5v17c33IHU42AIWdXsqxknNcVCemBLKZ5kqgg7ZOyI9nI5owWpHxiJnizgs
+         xb9RQPWHyHxo9U3d2N4cjnzbTnAVR/fRhlrlo8tYS2y/3nv8/DLm64VosxnpKV5nGxGP
+         zdTHM+jcIhdUdXJHi2yumtTqrRP2NvKYtJiTvdrL23lm0O0QAyOw1/8YDiGtYVZMiE+t
+         6tsha6IiR+LufjAXv6PdnYXVY1Po67cu4UmxJgb0HTANKPp8YNECGnYdOZncLdK23hd7
+         lW7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
-        bh=abditIbeCMAlg4Lgjtnw6BuqzTgkBra7/BZ++TtmQH0=;
-        b=lGsUGnc2QBModhldUpxul4uA8uEUQliRhFLLkcxp8Dd4Ey6fXJyVFRZY9pY1qwKUQ/
-         A8lM8CEXE2E8KLaKnvqLgepKaMqI5HiI8iuEqbhUxIM6YN9II9aHTLUQe/w6/iI/cpkj
-         03GGbfVTTnZCpPK9DlKvX4PCFAW7cemjIgeQl3rh21XOVc8u3a9ZqzMtaL+AyP+yq4qv
-         +mjEptbXf6Re5FRBYtmBrv+l9SEPP9oDrQwaTnHWKF47P0qK8sSYIemdZpDddP/P2VSX
-         5r5RzzCma+dRcpi6oQxBpMSdosVzlKiWJvhyCSIwa1/5OAhLSHKUApGHhaqVZ7y1k/+c
-         GdJA==
-X-Gm-Message-State: ACgBeo3I7W/DD/pjSldUllB5j98EYcMWi8Z/2ivk5rnbw23+XC6t+/Mt
-        TTk/uOCBF6LhbeYJTKCbn4A=
-X-Google-Smtp-Source: AA6agR4ydE9Jdft06fHaVL5VcjIHMZdpBuzj28WisXtAQ2xWPuaoXKSadlaBrCf3Ecr9vuI/Xei1VQ==
-X-Received: by 2002:a63:d847:0:b0:41a:dbc4:ef9e with SMTP id k7-20020a63d847000000b0041adbc4ef9emr4726043pgj.379.1660879669947;
-        Thu, 18 Aug 2022 20:27:49 -0700 (PDT)
-Received: from localhost.localdomain (li567-56.members.linode.com. [192.155.81.56])
-        by smtp.gmail.com with ESMTPSA id q5-20020a170902a3c500b0016befc83c6bsm2101032plb.165.2022.08.18.20.27.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Aug 2022 20:27:49 -0700 (PDT)
-From:   Jeff Xie <xiehuan09@gmail.com>
-To:     rostedt@goodmis.org
-Cc:     mingo@redhat.com, mhiramat@kernel.org, zanussi@kernel.org,
-        linux-kernel@vger.kernel.org, chensong_2000@189.cn,
-        Jeff Xie <xiehuan09@gmail.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Bagas Sanjaya <bagasdotme@gmail.com>, linux-doc@vger.kernel.org
-Subject: [PATCH v15 4/4] Documentation: trace/objtrace: Add documentation for objtrace
-Date:   Fri, 19 Aug 2022 11:27:06 +0800
-Message-Id: <20220819032706.695212-5-xiehuan09@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220819032706.695212-1-xiehuan09@gmail.com>
-References: <20220819032706.695212-1-xiehuan09@gmail.com>
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc;
+        bh=JZwTxIjZdK3eeeynNetfRffvQYVNIdx1KtctWmB4uOs=;
+        b=MPrrF3JYBKyy8rtwm1+orLUSAXNCpeg1Egr5ccFjre6vM00r/0m0JXJEvMVwUUeRgo
+         Bu1tiz8G+MT/IxFyAg7Zhw6frYymwWorQRH38FZWSmk1cmRxqv/XfmZgITlxUcgGH/R0
+         2lA15FSFQ2mE99ORXiQYqSMZ1yLyNz5MF+JTX7r5FSef9Lkdb0dw2zrmDCjUC2/zuMi7
+         CrahbSAZ8WRkTnVps5GbJUroENKoYWzZUjA2QL8px2O1+bqS4ehfI0nWX9rRuy5yFQY7
+         KinkguX4qGtDnr+MlAUbfnybe2F4RD5sEfURaY9WVwFhdyXXnxmFJqpai3QKWu1fChW0
+         KP7A==
+X-Gm-Message-State: ACgBeo2zvpjcNDSQZrE3wF0c/TXWD6oJ2JDz/G/KkKowpSS00Zm6j2PY
+        Bm/TOFi5xKGwoaA66UK+54c=
+X-Google-Smtp-Source: AA6agR6QkMVDyEgNBZF3cqgm5OpS+kC4fttvctAVRZu0j6scYhiBr/ZlSJt2hCbEzdWzBjjUTEYvlQ==
+X-Received: by 2002:a17:90b:164f:b0:1f5:4ced:ed81 with SMTP id il15-20020a17090b164f00b001f54ceded81mr11603530pjb.122.1660880109850;
+        Thu, 18 Aug 2022 20:35:09 -0700 (PDT)
+Received: from [192.168.43.80] (subs32-116-206-28-41.three.co.id. [116.206.28.41])
+        by smtp.gmail.com with ESMTPSA id e66-20020a621e45000000b005251f4596f0sm2397774pfe.107.2022.08.18.20.35.06
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 18 Aug 2022 20:35:09 -0700 (PDT)
+Message-ID: <8b8f463d-092e-fad2-e812-68a44b2dc362@gmail.com>
+Date:   Fri, 19 Aug 2022 10:35:05 +0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: [PATCH 06/13] Documentation: coresight: fix a documentation build
+ warning
+Content-Language: en-US
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        corbet@lwn.net
+Cc:     Leo Yan <leo.yan@linaro.org>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Mike Leach <mike.leach@linaro.org>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org
+References: <cover.1660829433.git.mchehab@kernel.org>
+ <ff5c57f03d106dc5cc14448ec0db224267fb1bfb.1660829433.git.mchehab@kernel.org>
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <ff5c57f03d106dc5cc14448ec0db224267fb1bfb.1660829433.git.mchehab@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add documentation explaining how to use objtrace trigger to get the value
-of the object.
+On 8/18/22 20:38, Mauro Carvalho Chehab wrote:
+> Using wildcards for cross-reference doesn't work, as the Sphinx
+> automarkup plugin is not smart enough. So, changeset
+> c06475910b52 ("Documentation: coresight: Escape coresight bindings file wildcard")
+> tried to fix it, but at the wrong way, as it the building system
+> will keep producing warnings about that:
+> 
+> 	Warning: Documentation/trace/coresight/coresight.rst references a file that doesn't exist: Documentation/devicetree/bindings/arm/arm,coresight-
+> 
+> As automarkup will still try (and fail) to create a cross reference.
+> So, instead, change the markup to ensure that the warning won't be
+> reported.
+> 
+> Fixes: c06475910b52 ("Documentation: coresight: Escape coresight bindings file wildcard")
+> Cc: Bagas Sanjaya <bagasdotme@gmail.com>
+> Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+> ---
+> 
+> See [PATCH 00/13] at: https://lore.kernel.org/all/cover.1660829433.git.mchehab@kernel.org/
+> 
+>  Documentation/trace/coresight/coresight.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/trace/coresight/coresight.rst b/Documentation/trace/coresight/coresight.rst
+> index 4a71ea6cb390..826e59a698da 100644
+> --- a/Documentation/trace/coresight/coresight.rst
+> +++ b/Documentation/trace/coresight/coresight.rst
+> @@ -130,7 +130,7 @@ Misc:
+>  Device Tree Bindings
+>  --------------------
+>  
+> -See Documentation/devicetree/bindings/arm/arm,coresight-\*.yaml for details.
+> +See ``Documentation/devicetree/bindings/arm/arm,coresight-*.yaml`` for details.
+>  
+>  As of this writing drivers for ITM, STMs and CTIs are not provided but are
+>  expected to be added as the solution matures.
 
-Cc: Joel Fernandes <joel@joelfernandes.org>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: linux-doc@vger.kernel.org
-Signed-off-by: Jeff Xie <xiehuan09@gmail.com>
-Reviewed-by: Masami Hiramatsu (Google) <mhiramat@kernel.org>
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
----
-Changelog:
-V15:
-- Add syntax suggested by Joel for usage of objtrace
+This makes YAML wildcards be inline code. LGTM.
 
- Documentation/trace/events.rst | 90 ++++++++++++++++++++++++++++++++++
- 1 file changed, 90 insertions(+)
+Acked-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
-diff --git a/Documentation/trace/events.rst b/Documentation/trace/events.rst
-index c47f381d0c00..1209f3cd8f1d 100644
---- a/Documentation/trace/events.rst
-+++ b/Documentation/trace/events.rst
-@@ -546,6 +546,96 @@ The following commands are supported:
- 
-   See Documentation/trace/histogram.rst for details and examples.
- 
-+- objtrace
-+
-+  This command provides a way to get the value of any object, The object
-+  can be obtained from the dynamic event (kprobe_event/uprobe_event) or the
-+  static event (tracepoint).
-+
-+  Syntax:
-+        objtrace:add:obj[,offset][:type][:count][if <filter>]
-+
-+  Usage:
-+  When using the kprobe event, by only need to set the objtrace (a new
-+  trigger), we can get the value of object that is set by kprobe event.
-+
-+  For example, for the function bio_add_page():
-+
-+  .. code-block:: c
-+
-+     int bio_add_page(struct bio *bio, struct page *page,
-+	              unsigned int len, unsigned int offset)
-+
-+  Firstly, we can set the base of the object as first parameter (arg1) to
-+  to the function:
-+
-+  .. code-block::
-+
-+     # echo 'p bio_add_page arg1=$arg1' > ./kprobe_events
-+
-+  Secondly, we can get the value dynamically based on the object:
-+
-+  .. code-block::
-+
-+     find the offset of the bi_size in struct bio:
-+     $ gdb vmlinux
-+     (gdb) p &(((struct bio *)0)->bi_iter.bi_size)
-+     $1 = (unsigned int *) 0x28
-+
-+     # echo 'objtrace:add:arg1,0x28:u32:1 if comm == "cat"' > ./events/kprobes/ \
-+       p_bio_add_page_0/trigger
-+
-+     # cd /sys/kernel/debug/tracing/
-+     # echo 'p bio_add_page arg1=$arg1' > ./kprobe_events
-+     # echo 'objtrace:add:arg1,0x28:u32:1 if comm == "cat"' > ./events/kprobes/p_bio_add_page_0/trigger
-+
-+     # du -sh /test.txt
-+     12.0K   /test.txt
-+
-+     # cat  /test.txt > /dev/null
-+     # cat ./trace
-+     # tracer: nop
-+     #
-+     # entries-in-buffer/entries-written: 128/128   #P:4
-+     #
-+     #                                _-----=> irqs-off/BH-disabled
-+     #                               / _----=> need-resched
-+     #                              | / _---=> hardirq/softirq
-+     #                              || / _--=> preempt-depth
-+     #                              ||| / _-=> migrate-disable
-+     #                              |||| /     delay
-+     #           TASK-PID     CPU#  |||||  TIMESTAMP  FUNCTION
-+     #              | |         |   |||||     |         |
-+                  cat-117     [002] ...1.     1.602243: __bio_try_merge_page <-bio_add_page object:0xffff88811bee4000 value:0x0
-+                  cat-117     [002] ...1.     1.602244: __bio_add_page <-bio_add_page object:0xffff88811bee4000 value:0x0
-+                  cat-117     [002] ...2.     1.602244: bio_add_page <-ext4_mpage_readpages object:0xffff88811bee4000 value:0x1000
-+                  cat-117     [002] ...1.     1.602245: __bio_try_merge_page <-bio_add_page object:0xffff88811bee4000 value:0x1000
-+                  cat-117     [002] ...1.     1.602245: __bio_add_page <-bio_add_page object:0xffff88811bee4000 value:0x1000
-+                  cat-117     [002] ...2.     1.602245: bio_add_page <-ext4_mpage_readpages object:0xffff88811bee4000 value:0x2000
-+                  cat-117     [002] ...1.     1.602245: __bio_try_merge_page <-bio_add_page object:0xffff88811bee4000 value:0x2000
-+                  cat-117     [002] ...1.     1.602245: __bio_add_page <-bio_add_page object:0xffff88811bee4000 value:0x2000
-+                  cat-117     [002] ...1.     1.602245: submit_bio <-ext4_mpage_readpages object:0xffff88811bee4000 value:0x3000
-+                  cat-117     [002] ...1.     1.602245: submit_bio_noacct <-ext4_mpage_readpages object:0xffff88811bee4000 value:0x3000
-+                  cat-117     [002] ...1.     1.602246: __submit_bio <-submit_bio_noacct object:0xffff88811bee4000 value:0x3000
-+                  cat-117     [002] ...1.     1.602246: submit_bio_checks <-__submit_bio object:0xffff88811bee4000 value:0x3000
-+                  cat-117     [002] ...1.     1.602246: __cond_resched <-submit_bio_checks object:0xffff88811bee4000 value:0x3000
-+                  cat-117     [002] ...1.     1.602246: should_fail_bio <-submit_bio_checks object:0xffff88811bee4000 value:0x3000
-+                  cat-117     [002] ...1.     1.602246: blk_mq_submit_bio <-submit_bio_noacct object:0xffff88811bee4000 value:0x3000
-+                  cat-117     [002] ...1.     1.602246: blk_attempt_plug_merge <-blk_mq_submit_bio object:0xffff88811bee4000 value:0x3000
-+                  cat-117     [002] ...1.     1.602246: blk_mq_sched_bio_merge <-blk_mq_submit_bio object:0xffff88811bee4000 value:0x3000
-+                  cat-117     [002] ...1.     1.602247: __rcu_read_lock <-blk_mq_submit_bio object:0xffff88811bee4000 value:0x3000
-+                  cat-117     [002] ...1.     1.602247: __rcu_read_unlock <-blk_mq_submit_bio object:0xffff88811bee4000 value:0x3000
-+                  cat-117     [002] ...1.     1.602247: __blk_mq_alloc_requests <-blk_mq_submit_bio object:0xffff88811bee4000 value:0x3000
-+               <idle>-0       [002] d..3.     1.602298: bio_endio <-blk_update_request object:0xffff88811bee4000 value:0x0
-+               <idle>-0       [002] d..3.     1.602298: mpage_end_io <-blk_update_request object:0xffff88811bee4000 value:0x0
-+               <idle>-0       [002] d..3.     1.602298: __read_end_io <-blk_update_request object:0xffff88811bee4000 value:0x0
-+               <idle>-0       [002] d..3.     1.602300: bio_put <-blk_update_request object:0xffff88811bee4000 value:0x0
-+               <idle>-0       [002] d..3.     1.602300: bio_free <-blk_update_request object:0xffff88811bee4000 value:0x0
-+               <idle>-0       [002] d..3.     1.602300: mempool_free <-blk_update_request object:0xffff88811bee4000 value:0x0
-+               <idle>-0       [002] d..3.     1.602300: mempool_free_slab <-blk_update_request object:0xffff88811bee4000 value:0x0
-+               <idle>-0       [002] d..3.     1.602300: kmem_cache_free <-blk_update_request object:0xffff88811bee4000 value:0x0
-+                ...
-+
- 7. In-kernel trace event API
- ============================
- 
 -- 
-2.25.1
-
+An old man doll... just what I always wanted! - Clara
