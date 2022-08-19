@@ -2,54 +2,56 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F12E0C32792
-	for <linux-doc@archiver.kernel.org>; Fri, 19 Aug 2022 20:52:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D28E9C32771
+	for <linux-doc@archiver.kernel.org>; Fri, 19 Aug 2022 20:52:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352117AbiHSUwr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 19 Aug 2022 16:52:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50328 "EHLO
+        id S1352023AbiHSUwv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 19 Aug 2022 16:52:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50646 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1352010AbiHSUwa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Aug 2022 16:52:30 -0400
+        with ESMTP id S1352028AbiHSUwc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Aug 2022 16:52:32 -0400
 Received: from mail-yw1-x114a.google.com (mail-yw1-x114a.google.com [IPv6:2607:f8b0:4864:20::114a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38E81108F95
-        for <linux-doc@vger.kernel.org>; Fri, 19 Aug 2022 13:52:11 -0700 (PDT)
-Received: by mail-yw1-x114a.google.com with SMTP id 00721157ae682-3339532b6a8so94313907b3.1
-        for <linux-doc@vger.kernel.org>; Fri, 19 Aug 2022 13:52:11 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77931FEC48
+        for <linux-doc@vger.kernel.org>; Fri, 19 Aug 2022 13:52:13 -0700 (PDT)
+Received: by mail-yw1-x114a.google.com with SMTP id 00721157ae682-337ed9110c2so51030557b3.15
+        for <linux-doc@vger.kernel.org>; Fri, 19 Aug 2022 13:52:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
-        h=cc:to:from:subject:mime-version:message-id:date:from:to:cc;
-        bh=eTc1s2RdgTuEwcKjsTePj9b05rEPFXKmnvQrewsDJGY=;
-        b=Nh1KlEtqEMn+hz2bIHnZ1kTqSWg4bFjXv6426Y5hVUaoK7tELNU6W6NXVhT/c1Na8B
-         fuTHgP3mOi8dFIyL/t/7MR439z7H1866ZEiSu3evBzrFy/m2ATYaGY43afxovuVkWSYa
-         eUMrsrRTeeysD/TdHp8rDI01P26G/e5fl/KQ1dmFVglltS2WT+x/wxMcnMAZO6mOE6mS
-         U/WqdM3oqVEoKKbZgJm/7OvM3mjKkmGyip4ewKKTi7I9PF6xYTGUYcHfEJNikdH4WT4a
-         MpcZ4QApDWJwg3WW3fPg2tVSwWrwdqItoUXqWKdaFCWofAq4S++j3fXkowc6Bqhr0eJL
-         PyKA==
+        h=cc:to:from:subject:references:mime-version:message-id:in-reply-to
+         :date:from:to:cc;
+        bh=cU7/6qINBgFAfTXfLa178LOY1yjmrSCVESmZNe7FU4M=;
+        b=bC4lMI8huw1uRRzwGbHtFYE2tB88na003CekKY0ACebDw98OX4FLPryvf3oIjLvbpT
+         2Z94mnqJPrWYcjP3lmF0GohedIfZnStwZI38zjxUUxQx48j9wG65sUDiEbDITVLYRKcL
+         mVtlRswKM70g0APD+T61jU6cKtU63dY0BC21ebFhGj0hneMmEysLC4lYHb5oDAVNIzpp
+         mb1WTwMI3YxYE/fxX+RjWDwy8EJG82QrF3wHtWjI0Yh4kNcN3PEFdFExtn3hpGXpQYOj
+         rmZcPvO+scdHRyaPD9DDquqWTzT/hefOPdLuGFDA0SzUJxmBxqB86WHfSQvwRiAOGOM6
+         arxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:from:subject:mime-version:message-id:date:x-gm-message-state
-         :from:to:cc;
-        bh=eTc1s2RdgTuEwcKjsTePj9b05rEPFXKmnvQrewsDJGY=;
-        b=Fi8slT4egSeamvATuGCqcZaGeIyQgKTWMvcwLK6em5+VAY1vaGCpeEOufSArnTHKx0
-         /zCg3DKkVtCY3xq7XeDbMLSGaYf0/YyIYWoGX5rEyxT9hgk4QoYC0oTAsox4yj1MMYnY
-         8+BUO+Xv8BrUYbmjjjTNXrL/G+Y5BuHQwlW3JzyU8XXktMNWGPk7NNyjxhDBlIX2PgbG
-         bA66Y4aN9Dl7tKtBH+WKS9NmlAifrWb3gnR1TvrbGqDIaesmIJhEKLqsrsj2MsN1Dwvm
-         lUjIG0DXq8RBWmhdePK6rlJM+CQXgbBQutLv7xVzDFkTzpqniujC/oynipak4pCqU5KP
-         wAAA==
-X-Gm-Message-State: ACgBeo13UXtLoTiVR0fu5m1aId2X3R19GkLLKyClxglLpxfK4LLCFt1R
-        8Famx/SJAwtpkri1aB87D28oqvRJ/qbUBtn+7eW/
-X-Google-Smtp-Source: AA6agR4b2XoIeOCXoCjZGpZkJrGU7AMU94GLykkhA0lq3SZnfOWk/HjBS2z/dEdSyrE29ST3Ztb9NOzOGHkiN3F/NreF
+        h=cc:to:from:subject:references:mime-version:message-id:in-reply-to
+         :date:x-gm-message-state:from:to:cc;
+        bh=cU7/6qINBgFAfTXfLa178LOY1yjmrSCVESmZNe7FU4M=;
+        b=jpcckxjxtRowuYeHtWkGdkq96Y2j2TUX/ThPDjn11QK71SuN/PsKwCotVvUn436IBy
+         rHdXEFQBbZbUpxzMEHyoUfZj2VOZyI3i6tR7Qy1kzKIM+CyJexlGdHWboI0DV+linzmq
+         jsLfgSgoQTBoZOdIYhvGWMkWSbTYmcM5VemEnpw3ZKcfxG0cyTaO8yv0mV++agPrvWiv
+         Tp2RQ6AZEl4wqjuX0QkpBB0qPm07V8NWa6xIc5syg07eCY9UKq2eVUd2O97zGfCPZ1w3
+         hXzqbMXVJCPHHyPzKNFTGJdUM47AcXTfAhTBkMe5n6b2f0aqLRWKOy6ltdNGt+kRRL6p
+         nHiw==
+X-Gm-Message-State: ACgBeo0QCSLVdlntFxyz4FWUleEV2/o3k2uJVIaYXqO+A3p5GSD1yu79
+        uMgUdLWoIgKLKncUUSYI1OYckZVnw0U9bs2KLWXE
+X-Google-Smtp-Source: AA6agR597bmial/03bil7OFmDdc43FwP1zL4eJRRyQeIFMDrkuV6ElwIhtWPrgaR/KqOaLYWWlpmihWtAUKx254JQc//
 X-Received: from ajr0.svl.corp.google.com ([2620:15c:2d4:203:baf:4c5:18b:2c4b])
- (user=axelrasmussen job=sendgmr) by 2002:a5b:2c8:0:b0:671:7cc8:219c with SMTP
- id h8-20020a5b02c8000000b006717cc8219cmr9358273ybp.325.1660942330377; Fri, 19
- Aug 2022 13:52:10 -0700 (PDT)
-Date:   Fri, 19 Aug 2022 13:51:56 -0700
-Message-Id: <20220819205201.658693-1-axelrasmussen@google.com>
+ (user=axelrasmussen job=sendgmr) by 2002:a25:dcd4:0:b0:690:6ce9:7bb5 with
+ SMTP id y203-20020a25dcd4000000b006906ce97bb5mr9476909ybe.516.1660942332708;
+ Fri, 19 Aug 2022 13:52:12 -0700 (PDT)
+Date:   Fri, 19 Aug 2022 13:51:57 -0700
+In-Reply-To: <20220819205201.658693-1-axelrasmussen@google.com>
+Message-Id: <20220819205201.658693-2-axelrasmussen@google.com>
 Mime-Version: 1.0
+References: <20220819205201.658693-1-axelrasmussen@google.com>
 X-Mailer: git-send-email 2.37.1.595.g718a3a8f04-goog
-Subject: [PATCH v7 0/5] userfaultfd: add /dev/userfaultfd for fine grained
- access control
+Subject: [PATCH v7 1/5] selftests: vm: add hugetlb_shared userfaultfd test to run_vmtests.sh
 From:   Axel Rasmussen <axelrasmussen@google.com>
 To:     Alexander Viro <viro@zeniv.linux.org.uk>,
         Andrew Morton <akpm@linux-foundation.org>,
@@ -67,109 +69,43 @@ To:     Alexander Viro <viro@zeniv.linux.org.uk>,
 Cc:     Axel Rasmussen <axelrasmussen@google.com>,
         linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-mm@kvack.org, linux-security-module@vger.kernel.org
+        linux-mm@kvack.org, linux-security-module@vger.kernel.org,
+        Shuah Khan <skhan@linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This series is based on torvalds/master.
+This not being included was just a simple oversight. There are certain
+features (like minor fault support) which are only enabled on shared
+mappings, so without including hugetlb_shared we actually lose a
+significant amount of test coverage.
 
-The series is split up like so:
-- Patch 1 is a simple fixup which we should take in any case (even by itself).
-- Patches 2-5 add the feature, configurable selftest support, and docs.
+Reviewed-by: Shuah Khan <skhan@linuxfoundation.org>
+Reviewed-by: Peter Xu <peterx@redhat.com>
+Signed-off-by: Axel Rasmussen <axelrasmussen@google.com>
+---
+ tools/testing/selftests/vm/run_vmtests.sh | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-Why not ...?
-============
-
-- Why not /proc/[pid]/userfaultfd? Two main points (additional discussion [1]):
-
-    - /proc/[pid]/* files are all owned by the user/group of the process, and
-      they don't really support chmod/chown. So, without extending procfs it
-      doesn't solve the problem this series is trying to solve.
-
-    - The main argument *for* this was to support creating UFFDs for remote
-      processes. But, that use case clearly calls for CAP_SYS_PTRACE, so to
-      support this we could just use the UFFD syscall as-is.
-
-- Why not use a syscall? Access to syscalls is generally controlled by
-  capabilities. We don't have a capability which is used for userfaultfd access
-  without also granting more / other permissions as well, and adding a new
-  capability was rejected [2].
-
-    - It's possible a LSM could be used to control access instead, but I have
-      some concerns. I don't think this approach would be as easy to use,
-      particularly if we were to try to solve this with something heavyweight
-      like SELinux. Maybe we could pursue adding a new LSM specifically for
-      this user case, but it may be too narrow of a case to justify that.
-
-Changelog
-=========
-
-v6->v7:
-  - Handle misc_register() failure properly by propagating the error instead if
-    just WARN_ON-ing. [Greg]
-  - Remove no-op open function from file_operations, since its caller detects
-    the lack of an open implementation and proceeds normally anyway. [Greg]
-
-v5->v6:
-  - Modified selftest to exit with KSFT_SKIP *only* when features are
-    unsupported, exiting with 1 in other error cases. [Mike]
-  - Improved wording in two spots in the documentation. [Mike]
-  - Picked up some Acked-by's.
-
-v4->v5:
-  - Call userfaultfd_syscall_allowed() directly in the syscall, so we don't
-    have to plumb a flag into new_userfaultfd(). [Nadav]
-  - Refactored run_vmtests.sh to loop over UFFD test mods. [Nadav]
-  - Reworded cover letter.
-  - Picked up some Acked-by's.
-
-v3->v4:
-  - Picked up an Acked-by on 5/5.
-  - Updated cover letter to cover "why not ...".
-  - Refactored userfaultfd_allowed() into userfaultfd_syscall_allowed(). [Peter]
-  - Removed obsolete comment from a previous version. [Peter]
-  - Refactored userfaultfd_open() in selftest. [Peter]
-  - Reworded admin-guide documentation. [Mike, Peter]
-  - Squashed 2 commits adding /dev/userfaultfd to selftest and making selftest
-    configurable. [Peter]
-  - Added "syscall" test modifier (the default behavior) to selftest. [Peter]
-
-v2->v3:
-  - Rebased onto linux-next/akpm-base, in order to be based on top of the
-    run_vmtests.sh refactor which was merged previously.
-  - Picked up some Reviewed-by's.
-  - Fixed ioctl definition (_IO instead of _IOWR), and stopped using
-    compat_ptr_ioctl since it is unneeded for ioctls which don't take a pointer.
-  - Removed the "handle_kernel_faults" bool, simplifying the code. The result is
-    logically equivalent, but simpler.
-  - Fixed userfaultfd selftest so it returns KSFT_SKIP appropriately.
-  - Reworded documentation per Shuah's feedback on v2.
-  - Improved example usage for userfaultfd selftest.
-
-v1->v2:
-  - Add documentation update.
-  - Test *both* userfaultfd(2) and /dev/userfaultfd via the selftest.
-
-[1]: https://patchwork.kernel.org/project/linux-mm/cover/20220719195628.3415852-1-axelrasmussen@google.com/
-[2]: https://lore.kernel.org/lkml/686276b9-4530-2045-6bd8-170e5943abe4@schaufler-ca.com/T/
-
-Axel Rasmussen (5):
-  selftests: vm: add hugetlb_shared userfaultfd test to run_vmtests.sh
-  userfaultfd: add /dev/userfaultfd for fine grained access control
-  userfaultfd: selftests: modify selftest to use /dev/userfaultfd
-  userfaultfd: update documentation to describe /dev/userfaultfd
-  selftests: vm: add /dev/userfaultfd test cases to run_vmtests.sh
-
- Documentation/admin-guide/mm/userfaultfd.rst | 41 ++++++++++-
- Documentation/admin-guide/sysctl/vm.rst      |  3 +
- fs/userfaultfd.c                             | 71 +++++++++++++-----
- include/uapi/linux/userfaultfd.h             |  4 ++
- tools/testing/selftests/vm/run_vmtests.sh    | 15 ++--
- tools/testing/selftests/vm/userfaultfd.c     | 76 +++++++++++++++++---
- 6 files changed, 176 insertions(+), 34 deletions(-)
-
---
+diff --git a/tools/testing/selftests/vm/run_vmtests.sh b/tools/testing/selftests/vm/run_vmtests.sh
+index de86983b8a0f..b8e7f6f38d64 100755
+--- a/tools/testing/selftests/vm/run_vmtests.sh
++++ b/tools/testing/selftests/vm/run_vmtests.sh
+@@ -121,9 +121,11 @@ run_test ./gup_test -a
+ run_test ./gup_test -ct -F 0x1 0 19 0x1000
+ 
+ run_test ./userfaultfd anon 20 16
+-# Test requires source and destination huge pages.  Size of source
+-# (half_ufd_size_MB) is passed as argument to test.
++# Hugetlb tests require source and destination huge pages. Pass in half the
++# size ($half_ufd_size_MB), which is used for *each*.
+ run_test ./userfaultfd hugetlb "$half_ufd_size_MB" 32
++run_test ./userfaultfd hugetlb_shared "$half_ufd_size_MB" 32 "$mnt"/uffd-test
++rm -f "$mnt"/uffd-test
+ run_test ./userfaultfd shmem 20 16
+ 
+ #cleanup
+-- 
 2.37.1.595.g718a3a8f04-goog
 
