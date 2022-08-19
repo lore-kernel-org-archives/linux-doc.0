@@ -2,243 +2,104 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 53AE7C32796
-	for <linux-doc@archiver.kernel.org>; Fri, 19 Aug 2022 09:31:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DE73FC3F6B0
+	for <linux-doc@archiver.kernel.org>; Fri, 19 Aug 2022 09:58:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347866AbiHSJbB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 19 Aug 2022 05:31:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42402 "EHLO
+        id S1348272AbiHSJ6O (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 19 Aug 2022 05:58:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57460 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347308AbiHSJa7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Aug 2022 05:30:59 -0400
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5FD3F23F7;
-        Fri, 19 Aug 2022 02:30:57 -0700 (PDT)
-Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.54])
-        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4M8Gbk2ND5zXdtS;
-        Fri, 19 Aug 2022 17:26:42 +0800 (CST)
-Received: from dggpemm500014.china.huawei.com (7.185.36.153) by
- dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Fri, 19 Aug 2022 17:30:55 +0800
-Received: from localhost.localdomain (10.175.112.125) by
- dggpemm500014.china.huawei.com (7.185.36.153) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Fri, 19 Aug 2022 17:30:55 +0800
-From:   Wupeng Ma <mawupeng1@huawei.com>
-To:     <akpm@linux-foundation.org>
-CC:     <corbet@lwn.net>, <mcgrof@kernel.org>, <keescook@chromium.org>,
-        <yzaikin@google.com>, <songmuchun@bytedance.com>,
-        <mike.kravetz@oracle.com>, <osalvador@suse.de>, <rppt@kernel.org>,
-        <surenb@google.com>, <mawupeng1@huawei.com>, <jsavitz@redhat.com>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-mm@kvack.org>, <linux-fsdevel@vger.kernel.org>,
-        <wangkefeng.wang@huawei.com>, "kernel test robot" <lkp@intel.com>
-Subject: [PATCH v2 2/2] mm: sysctl: Introduce per zone watermark_scale_factor
-Date:   Fri, 19 Aug 2022 17:30:25 +0800
-Message-ID: <20220819093025.105403-3-mawupeng1@huawei.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220819093025.105403-1-mawupeng1@huawei.com>
-References: <20220819093025.105403-1-mawupeng1@huawei.com>
+        with ESMTP id S1348306AbiHSJ57 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Aug 2022 05:57:59 -0400
+Received: from mail-qk1-x734.google.com (mail-qk1-x734.google.com [IPv6:2607:f8b0:4864:20::734])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A811F4C9B;
+        Fri, 19 Aug 2022 02:57:19 -0700 (PDT)
+Received: by mail-qk1-x734.google.com with SMTP id g16so2907633qkl.11;
+        Fri, 19 Aug 2022 02:57:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc;
+        bh=/WIizd4+ASdkLn8xaORlftblvX7iF24VmukZ5lVBNU8=;
+        b=WBQ19U1DAzER9eiwrktnTik/2a3VJg3p0hPXXGFvEam0lUqNY7eD/DPZxcH4tnq3hs
+         Kunc2r3YYnuK5MerOwDWN0gKBAFIak8Ry5LelPAGykEL9WcYIO+IJEIpFRn6Emr98geP
+         DhXIXt/a3b9aqVP7/k3K11McCsl4noX7ErwTvu9wbAdthR4OkhScsX2AVz1SDeh+vI4y
+         FzV4wE8pOJ4QK39BIDTOoUbgAqXbWKWNf8BiK2TYQtR+rfV0GUML9oScRLqAtANjxv4B
+         9KkopgiiCNa/LH/tTbhjgOhl8BmxzI2OBawfSRzZ4D6AW9U+x7oNK59HuRwRJ5f+TEz7
+         texQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
+        bh=/WIizd4+ASdkLn8xaORlftblvX7iF24VmukZ5lVBNU8=;
+        b=p9nT5/eSF9r6oP8cKgdq4CgJcPg9DM48mRNEnfiPmDuGdPP7vQe9Cd9dxvKoRQeKhq
+         J8fYZhS0KzQl+i+Twr1iMYbAqi4aZgLaFRXxhBHZuOd0Mj/CjlZ4Eu8nJGKO4e7+J0sR
+         5BqmPQAt2/abbgeILoLi/Y6gi6zBevizjWDexZJTb2wz/Xr8meplfIz31ROO4C1dliEw
+         AvudU6fHpMU4/MsIsWsOIAaXbOxWYDEGw2DMnJMTuVyxAQoOlEyun74TFXu0r4+HOmyI
+         OqR/8NgpO5BatfxdluyEzG7fi026OxOgOIv6nQphbXCHu1wnYfuU/MxAK4EWwP9ReM8P
+         hDuw==
+X-Gm-Message-State: ACgBeo2twVdL6fKj8bg8cQBKzANd6eRV5HTIaEdaMicVIOVEk/nhuWon
+        0gRRbdoEEfQVNrDXo+HzIbBYWHo/buNMWQdQ5BE=
+X-Google-Smtp-Source: AA6agR51w56fpbskuo54O8W+TZy9Y+3HiBfTHc0Ja/DTeXlR7tEwzfrsY7hfhFOAb40XYnFAHBE+f2rIqZmDJlgHeIo=
+X-Received: by 2002:a05:620a:2987:b0:6ba:dc04:11ae with SMTP id
+ r7-20020a05620a298700b006badc0411aemr4696051qkp.748.1660903038316; Fri, 19
+ Aug 2022 02:57:18 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.175.112.125]
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
- dggpemm500014.china.huawei.com (7.185.36.153)
-X-CFilter-Loop: Reflected
+References: <20220806152517.78159-1-andriy.shevchenko@linux.intel.com> <20220818232040.GA3505561@roeck-us.net>
+In-Reply-To: <20220818232040.GA3505561@roeck-us.net>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Fri, 19 Aug 2022 12:56:42 +0300
+Message-ID: <CAHp75Vf+-4U6OW4sf+mKsPt8WoRL_jN-sYtzOMzhhH8--+OU1w@mail.gmail.com>
+Subject: Re: [PATCH v1 1/3] hwmon: (pwm-fan) Make use of device properties
+To:     Guenter Roeck <linux@roeck-us.net>
+Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Linux Documentation List <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-pwm@vger.kernel.org, linux-hwmon@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jean Delvare <jdelvare@suse.com>,
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Ma Wupeng <mawupeng1@huawei.com>
+On Fri, Aug 19, 2022 at 2:41 AM Guenter Roeck <linux@roeck-us.net> wrote:
+> On Sat, Aug 06, 2022 at 06:25:15PM +0300, Andy Shevchenko wrote:
+> > Convert the module to be property provider agnostic and allow
+> > it to be used on non-OF platforms.
+> >
+> > Add mod_devicetable.h include.
+> >
+> > Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> > Acked-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
+>
+> I had another look at this patch. A substantial part of the changes
+> is because device properties don't support of_property_read_u32_index(),
+> reworking the code to use device_property_read_u32_array() instead.
+> Sorry, I don't like it, it results in a substantial number of unnecessary
+> changes. Device properties should support the equivalent of
+> of_property_read_u32_index() instead to simplify conversions.
 
-System may have little normal zone memory and huge movable memory in the
-following situations:
-  - for system with kernelcore=nn% or kernelcore=mirror, movable zone will
-  be added and movable zone is bigger than normal zone in most cases.
-  - system with movable nodes, they will have multiple numa nodes with
-  only movable zone and movable zone will have plenty of memory.
+Not all (device property) providers can have such API available. Are
+you suggesting to
+ a) alloc memory for entire array;
+ b) cache one for a given index;
+ c) free a memory;
+ d) loop as many times as index op is called.
 
-Since kernel/driver can only use memory from non-movable zone in most
-cases, normal zone need to increase its watermark to reserve more memory.
+Sorry, this is way too far and non-optimal in comparison to the
+substantial number of unnecessary changes (two or three small
+refactorings?).
 
-However, current watermark_scale_factor is used to control all zones
-at once and can't be set separately. To reserve memory in non-movable
-zones, the watermark is increased in movable zones as well. Which will
-lead to inefficient kswapd.
+Another way is to provide a pwm-fan-acpi, which will be the copy of
+the driver after this patch is applied. I don't think it's a very
+bright idea either.
 
-To solve this problem, per zone watermark is introduced to tune each zone's
-watermark separately. This can bring the following advantages:
-  - each zone can set its own watermark which bring flexibility
-  - lead to more efficient kswapd if this watermark is set fine
-
-Here is real watermark data in my qemu machine(with THP disabled).
-
-With watermark_scale_factor = 10, there is only 1440(772-68+807-71)
-pages(5.76M) reserved for a system with 96G of memory. However if the
-watermark is set to 100, the movable zone's watermark increased to
-231908(93M), which is too much.
-This situation is even worse with 32G of normal zone memory and 1T of
-movable zone memory.
-
-       Modified        | Vanilla wm_factor = 10 | Vanilla wm_factor = 30
-Node 0, zone      DMA  | Node 0, zone      DMA  | Node 0, zone      DMA
-        min      68    |         min      68    |         min      68
-        low      7113  |         low      772   |         low      7113
-        high **14158** |         high **1476**  |         high **14158**
-Node 0, zone   Normal  | Node 0, zone   Normal  | Node 0, zone   Normal
-        min      71    |         min      71    |         min      71
-        low      7438  |         low      807   |         low      7438
-        high     14805 |         high     1543  |         high     14805
-Node 0, zone  Movable  | Node 0, zone  Movable  | Node 0, zone  Movable
-        min      1455  |         min      1455  |         min      1455
-        low      16388 |         low      16386 |         low      150787
-        high **31321** |         high **31317** |         high **300119**
-Node 1, zone  Movable  | Node 1, zone  Movable  | Node 1, zone  Movable
-        min      804   |         min      804   |         min      804
-        low      9061  |         low      9061  |         low      83379
-        high **17318** |         high **17318** |         high **165954**
-
-With the modified per zone watermark_scale_factor, only dma/normal zone
-will increase its watermark via the following command which the huge
-movable zone stay the same.
-
-  % echo 100 100 100 10 > /proc/sys/vm/watermark_scale_factor
-
-The reason to disable THP is khugepaged_min_free_kbytes_update() will
-update min watermark.
-
-Signed-off-by: Ma Wupeng <mawupeng1@huawei.com>
-Reported-by: kernel test robot <lkp@intel.com>
----
- Documentation/admin-guide/sysctl/vm.rst |  6 ++++
- include/linux/mm.h                      |  2 +-
- kernel/sysctl.c                         |  2 --
- mm/page_alloc.c                         | 37 ++++++++++++++++++++-----
- 4 files changed, 37 insertions(+), 10 deletions(-)
-
-diff --git a/Documentation/admin-guide/sysctl/vm.rst b/Documentation/admin-guide/sysctl/vm.rst
-index 9b833e439f09..ec240aa45322 100644
---- a/Documentation/admin-guide/sysctl/vm.rst
-+++ b/Documentation/admin-guide/sysctl/vm.rst
-@@ -1002,6 +1002,12 @@ that the number of free pages kswapd maintains for latency reasons is
- too small for the allocation bursts occurring in the system. This knob
- can then be used to tune kswapd aggressiveness accordingly.
- 
-+The watermark_scale_factor is an array. You can set each zone's watermark
-+separately and can be seen by reading this file::
-+
-+	% cat /proc/sys/vm/watermark_scale_factor
-+	10	10	10	10
-+
- 
- zone_reclaim_mode
- =================
-diff --git a/include/linux/mm.h b/include/linux/mm.h
-index 3bedc449c14d..7f1eba1541f8 100644
---- a/include/linux/mm.h
-+++ b/include/linux/mm.h
-@@ -2525,7 +2525,7 @@ extern void setup_per_cpu_pageset(void);
- /* page_alloc.c */
- extern int min_free_kbytes;
- extern int watermark_boost_factor;
--extern int watermark_scale_factor;
-+extern int watermark_scale_factor[MAX_NR_ZONES];
- extern bool arch_has_descending_max_zone_pfns(void);
- 
- /* nommu.c */
-diff --git a/kernel/sysctl.c b/kernel/sysctl.c
-index 205d605cacc5..d16d06c71e5a 100644
---- a/kernel/sysctl.c
-+++ b/kernel/sysctl.c
-@@ -2251,8 +2251,6 @@ static struct ctl_table vm_table[] = {
- 		.maxlen		= sizeof(watermark_scale_factor),
- 		.mode		= 0644,
- 		.proc_handler	= watermark_scale_factor_sysctl_handler,
--		.extra1		= SYSCTL_ONE,
--		.extra2		= SYSCTL_THREE_THOUSAND,
- 	},
- 	{
- 		.procname	= "percpu_pagelist_high_fraction",
-diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-index ff644205370f..21459256dab6 100644
---- a/mm/page_alloc.c
-+++ b/mm/page_alloc.c
-@@ -421,7 +421,6 @@ compound_page_dtor * const compound_page_dtors[NR_COMPOUND_DTORS] = {
- int min_free_kbytes = 1024;
- int user_min_free_kbytes = -1;
- int watermark_boost_factor __read_mostly = 15000;
--int watermark_scale_factor = 10;
- 
- static unsigned long nr_kernel_pages __initdata;
- static unsigned long nr_all_pages __initdata;
-@@ -449,6 +448,20 @@ EXPORT_SYMBOL(nr_online_nodes);
- 
- int page_group_by_mobility_disabled __read_mostly;
- 
-+int watermark_scale_factor[MAX_NR_ZONES] = {
-+#ifdef CONFIG_ZONE_DMA
-+	[ZONE_DMA] = 10,
-+#endif
-+#ifdef CONFIG_ZONE_DMA32
-+	[ZONE_DMA32] = 10,
-+#endif
-+	[ZONE_NORMAL] = 10,
-+#ifdef CONFIG_HIGHMEM
-+	[ZONE_HIGHMEM] = 10,
-+#endif
-+	[ZONE_MOVABLE] = 10,
-+};
-+
- #ifdef CONFIG_DEFERRED_STRUCT_PAGE_INIT
- /*
-  * During boot we initialize deferred pages on-demand, as needed, but once
-@@ -8643,6 +8656,7 @@ static void __setup_per_zone_wmarks(void)
- 	}
- 
- 	for_each_zone(zone) {
-+		int zone_wm_factor;
- 		u64 tmp;
- 
- 		spin_lock_irqsave(&zone->lock, flags);
-@@ -8676,9 +8690,10 @@ static void __setup_per_zone_wmarks(void)
- 		 * scale factor in proportion to available memory, but
- 		 * ensure a minimum size on small systems.
- 		 */
-+		zone_wm_factor = watermark_scale_factor[zone_idx(zone)];
- 		tmp = max_t(u64, tmp >> 2,
--			    mult_frac(zone_managed_pages(zone),
--				      watermark_scale_factor, 10000));
-+			    mult_frac(zone_managed_pages(zone), zone_wm_factor,
-+				      10000));
- 
- 		zone->watermark_boost = 0;
- 		zone->_watermark[WMARK_LOW]  = min_wmark_pages(zone) + tmp;
-@@ -8798,11 +8813,19 @@ int min_free_kbytes_sysctl_handler(struct ctl_table *table, int write,
- int watermark_scale_factor_sysctl_handler(struct ctl_table *table, int write,
- 		void *buffer, size_t *length, loff_t *ppos)
- {
--	int rc;
-+	int i;
- 
--	rc = proc_dointvec_minmax(table, write, buffer, length, ppos);
--	if (rc)
--		return rc;
-+	proc_dointvec_minmax(table, write, buffer, length, ppos);
-+
-+	/*
-+	 * The unit is in fractions of 10,000. The default value of 10
-+	 * means the distances between watermarks are 0.1% of the available
-+	 * memory in the node/system. The maximum value is 3000, or 30% of
-+	 * memory.
-+	 */
-+	for (i = 0; i < MAX_NR_ZONES; i++)
-+		watermark_scale_factor[i] =
-+			clamp(watermark_scale_factor[i], 1, 3000);
- 
- 	if (write)
- 		setup_per_zone_wmarks();
--- 
-2.25.1
-
+--=20
+With Best Regards,
+Andy Shevchenko
