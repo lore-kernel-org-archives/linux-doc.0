@@ -2,106 +2,117 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 44A08C3F6B0
-	for <linux-doc@archiver.kernel.org>; Sat, 20 Aug 2022 13:06:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B8310C32772
+	for <linux-doc@archiver.kernel.org>; Sat, 20 Aug 2022 18:16:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346499AbiHTNGA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 20 Aug 2022 09:06:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53764 "EHLO
+        id S232421AbiHTSQw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 20 Aug 2022 14:16:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52120 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1348420AbiHTNF7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 20 Aug 2022 09:05:59 -0400
-Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33F56FD06;
-        Sat, 20 Aug 2022 06:05:58 -0700 (PDT)
-Received: by mail-pj1-x1036.google.com with SMTP id g18so6984629pju.0;
-        Sat, 20 Aug 2022 06:05:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc;
-        bh=2zOBbjpazl8s57/XiU2lbdevcEWjRoAb9VSfq8YjUQg=;
-        b=ND4Av5P0qlLxEj7+crbFAgOALB0pd7miYDDOPKNvz3UzUj68fzMefaoMY1I9gHac40
-         dL74FQ9r4eOggMyubGiK176A+MoJbmX0RXYQ+poPLUvy3Exdi8DyFDRgK2drv65nb1Cz
-         LDhWpgdDXg+4I22AlbF7mrHVKP5Ji32WE2ITbEP7EBQ43s+uz7kDREKwFlpdNhZBmjYJ
-         j9harzTZrUZp87cCJFrXJRcQvIJCJ5R+7u2rabfhwYLZP/bv3mooj3d5qSWWNlSSVtm1
-         Z84TpdQQlt8KrsR1gS0kZJV0QGKcf4dNh0mFl1hjvyMeLu8K23LzwKfk/Jvt4QKmhObx
-         +aUA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc;
-        bh=2zOBbjpazl8s57/XiU2lbdevcEWjRoAb9VSfq8YjUQg=;
-        b=7v40BkBvn6lswQ5P3stx1CDnjQTcNcMC/cQn8qUafaU0ssyp99Y5IJZT0p+HG4NRuc
-         IKsItEojzkt+S809Zz76WvFz9OigyHtUYgXzB2gWfuhyHonog+7zDAM5rRIHAhqU89Ea
-         FlVRJa4/2kkKndaURoj0l3mg3ENKUqv2gojPmxbQyYVJ7V1IEhUEZs60TzZMP3wHcso+
-         O1ftKS6tzW+kts/JkGIPEEjAEeL1LUL5PVj+J1/mtjiTPNnl0MRn9kW1aXohSs/KaN+I
-         RborkyS60oNyL37RX43mySF9F3FDlvov8+WnsfYDWipRFtGSqKGqMcN0BZFEW9jnIJR9
-         AAnQ==
-X-Gm-Message-State: ACgBeo3MCCb9km+vAjCw8zpBfxyEIMpp3fdnEeueor4YlKDS1Ht8Gb3B
-        p6AHg5Lq5d/FD+IkpGJdVPPNDgsUEsI=
-X-Google-Smtp-Source: AA6agR7jWkYSTki/k2c0Y6EKP69+uqDweVtoCPWQRCpoopmtfW/s6ufzx7Ae7nwF+QPWN3LqtBjKnw==
-X-Received: by 2002:a17:90b:1d89:b0:1f5:a59:46b1 with SMTP id pf9-20020a17090b1d8900b001f50a5946b1mr13392684pjb.173.1661000757722;
-        Sat, 20 Aug 2022 06:05:57 -0700 (PDT)
-Received: from [192.168.43.80] (subs10b-223-255-225-239.three.co.id. [223.255.225.239])
-        by smtp.gmail.com with ESMTPSA id r1-20020a170902e3c100b001618b70dcc9sm4865960ple.101.2022.08.20.06.05.52
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 20 Aug 2022 06:05:57 -0700 (PDT)
-Message-ID: <d63cc303-0b73-4100-829d-01c6e3bb3548@gmail.com>
-Date:   Sat, 20 Aug 2022 20:05:47 +0700
+        with ESMTP id S231671AbiHTSQm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 20 Aug 2022 14:16:42 -0400
+Received: from vps0.lunn.ch (vps0.lunn.ch [185.16.172.187])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69EF017071;
+        Sat, 20 Aug 2022 11:16:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+        bh=t0pyLnK8OrpfhUWATUbAE+IWUhh8PnntBsAGRXSYTts=; b=IhbwOvYcpUK7EBUTNf020L0ywn
+        KVC7WewJWw/Euj8lPlka2wIdLliFsuH3Qf3eMjYcLmYjSJvqacfqOV+4xulGbljEViFxivPWITHti
+        i+2jVOYLuWoNriMiI32kVue9YpeQ4Vm2ptXTtuEHZwpXhwMGX6pMqSvKq4ScuGNXiF4c=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+        (envelope-from <andrew@lunn.ch>)
+        id 1oPT18-00E3jH-DP; Sat, 20 Aug 2022 20:16:18 +0200
+Date:   Sat, 20 Aug 2022 20:16:18 +0200
+From:   Andrew Lunn <andrew@lunn.ch>
+To:     Oleksij Rempel <o.rempel@pengutronix.de>
+Cc:     Heiner Kallweit <hkallweit1@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>, kernel@pengutronix.de,
+        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
+        David Jander <david@protonic.nl>
+Subject: Re: [PATCH net-next v1 7/7] ethtool: add interface to interact with
+ Ethernet Power Equipment
+Message-ID: <YwEk8h9C9XhT6Yyc@lunn.ch>
+References: <20220819120109.3857571-1-o.rempel@pengutronix.de>
+ <20220819120109.3857571-8-o.rempel@pengutronix.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH] doc/rcu: Update LWN articles at the beginning
-Content-Language: en-US
-To:     Shao-Tse Hung <ccs100203@gmail.com>, corbet@lwn.net,
-        paulmck@kernel.org
-Cc:     frederic@kernel.org, quic_neeraju@quicinc.com,
-        josh@joshtriplett.org, rostedt@goodmis.org,
-        mathieu.desnoyers@efficios.com, jiangshanlai@gmail.com,
-        joel@joelfernandes.org, rcu@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20220820083244.28338-1-ccs100203@gmail.com>
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <20220820083244.28338-1-ccs100203@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220819120109.3857571-8-o.rempel@pengutronix.de>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 8/20/22 15:32, Shao-Tse Hung wrote:
-> This patch adds LWN articles about RCU APIs which were released in 2019.
-> Also, HTTP URLs are replaced by HTTPS.
+On Fri, Aug 19, 2022 at 02:01:09PM +0200, Oleksij Rempel wrote:
+> Add interface to support Power Sourcing Equipment. At current step it
+> provides generic way to address all variants of PSE devices as defined
+> in IEEE 802.3-2018 but support only objects specified for IEEE 802.3-2018 104.4
+> PoDL Power Sourcing Equipment (PSE).
 > 
+> Currently supported and mandatory objects are:
+> IEEE 802.3-2018 30.15.1.1.3 aPoDLPSEPowerDetectionStatus
+> IEEE 802.3-2018 30.15.1.1.2 aPoDLPSEAdminState
+> IEEE 802.3-2018 30.15.1.2.1 acPoDLPSEAdminControl
+> 
+> This is minimal interface needed to control PSE on each separate
+> ethernet port but it provides not all mandatory objects specified in
+> IEEE 802.3-2018.
 
-Please write patch description in imperative mood (say "Add 2019 edition
-of RCU API documentation and use HTTPS links." instead).
+> +static int pse_get_pse_attributs(struct net_device *dev,
+> +				 struct pse_reply_data *data)
+> +{
+> +	struct phy_device *phydev = dev->phydev;
+> +	int ret;
+> +
+> +	if (!phydev)
+> +		return -EOPNOTSUPP;
+> +
+> +	mutex_lock(&phydev->lock);
+> +	if (!phydev->psec) {
+> +		ret = -EOPNOTSUPP;
+> +		goto error_unlock;
+> +	}
+> +
+> +	ret = pse_podl_get_admin_sate(phydev->psec);
+> +	if (ret < 0)
+> +		goto error_unlock;
+> +
+> +	data->podl_pse_admin_state = ret;
+> +
+> +	ret = pse_podl_get_pw_d_status(phydev->psec);
+> +	if (ret < 0)
+> +		goto error_unlock;
+> +
+> +	data->podl_pse_pw_d_status = ret;
 
-> -| 1.	What is RCU, Fundamentally?  http://lwn.net/Articles/262464/
-> -| 2.	What is RCU? Part 2: Usage   http://lwn.net/Articles/263130/
-> -| 3.	RCU part 3: the RCU API      http://lwn.net/Articles/264090/
-> -| 4.	The RCU API, 2010 Edition    http://lwn.net/Articles/418853/
-> -| 	2010 Big API Table           http://lwn.net/Articles/419086/
-> -| 5.	The RCU API, 2014 Edition    http://lwn.net/Articles/609904/
-> -|	2014 Big API Table           http://lwn.net/Articles/609973/
-> +| 1.	What is RCU, Fundamentally?  https://lwn.net/Articles/262464/
-> +| 2.	What is RCU? Part 2: Usage   https://lwn.net/Articles/263130/
-> +| 3.	RCU part 3: the RCU API      https://lwn.net/Articles/264090/
-> +| 4.	The RCU API, 2010 Edition    https://lwn.net/Articles/418853/
-> +| 	2010 Big API Table           https://lwn.net/Articles/419086/
-> +| 5.	The RCU API, 2014 Edition    https://lwn.net/Articles/609904/
-> +|	2014 Big API Table           https://lwn.net/Articles/609973/
-> +| 6.	The RCU API, 2019 Edition    https://lwn.net/Articles/777036/
-> +|	2019 Big API Table           https://lwn.net/Articles/777165/
->  
+I'm wondering how this is going to scale. At some point, i expect
+there will be an implementation that follows C45.2.9. I see 14 values
+which could be returned. I don't think 14 ops in the driver structure
+makes sense. Plus c30.15.1 defines other values.
 
-I don't think line blocks are necessary for lists. Instead, use nested
-list. Why? Big API entry should be as sublist.
+The nice thing about netlink is you can have as many or are little
+attributes in the message as you want. For cable testing, i made use
+of this. There is no standardisation, different PHYs offer different
+sorts of results. So i made the API flexible. The PHY puts whatever
+results it has into the message, and ethtool(1) just walks the message
+and prints what is in it.
 
-Thanks.
+I'm wondering if we want a similar sort of API here?
+net/ethtool/pse-pd.c allocates the netlink messages, adds the header,
+and then passes it to the driver. The driver then uses helpers from
+ethtool to add whatever attributes it wants to the message. pse-pd
+then completes the message, and returns it to user space? This seems
+like it will scale better.
 
--- 
-An old man doll... just what I always wanted! - Clara
+     Andrew
+
