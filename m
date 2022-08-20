@@ -2,104 +2,151 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9108DC25B08
-	for <linux-doc@archiver.kernel.org>; Sat, 20 Aug 2022 08:33:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E9E8C32792
+	for <linux-doc@archiver.kernel.org>; Sat, 20 Aug 2022 12:01:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232530AbiHTIdE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 20 Aug 2022 04:33:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39710 "EHLO
+        id S1346025AbiHTMBH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 20 Aug 2022 08:01:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56174 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231132AbiHTIdD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 20 Aug 2022 04:33:03 -0400
-Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA2EDBCC08;
-        Sat, 20 Aug 2022 01:33:02 -0700 (PDT)
-Received: by mail-pl1-x633.google.com with SMTP id y4so5912183plb.2;
-        Sat, 20 Aug 2022 01:33:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc;
-        bh=GXMlBTj8rp/1n/HAGZvUMfQREbty/R31f1moliWBoWA=;
-        b=T8HQDdiGofhR2v7BqB3ArKm+chR0aJu0YhKXqtgF9rHeE8kPvQ5CZYUoWAQyg5dkma
-         mc7Vr8EtMFf0AnKDfymQZVONZuIocyzqs2gKg2T8b4jiCLNy3a8L3nZH6Pe1LjLQbnZt
-         8bWEuTn6ck3SLlq4RbCj6rpgHo7mPsmDmCO3Q6ImciJuDJjjzkMaghJN729MTpwO6yYd
-         u7YROk0Jgx748O806xs6zx2oxMD9Xk9rRshe5NaRX4GickiIodDtYQNYMwDITe+iktTG
-         Q4vCJp1ozAatF9Y57rocCTh5Viqm0+NQYfCw64knp9UWgKEi5YhzczbypbXO7H8RuzSB
-         y6sA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc;
-        bh=GXMlBTj8rp/1n/HAGZvUMfQREbty/R31f1moliWBoWA=;
-        b=fMiiL6wJJ2Jdl6KTMWeEUYagzfu4/xzTpqHdxjuxoXhRYmkrn8sBu23kz1bsN0xChu
-         1YjBpDfvEYHZ5BvR3L66wBnhDhBESbFZLW0IEh6z3Z4hpj/QzMFx/sdtOYrpEWfSauDW
-         cKVW+Pa3be8Ba6zD8nGoS7h6zE9F4fzOgSjYrskaxgagMSc7KioG8J6Puzi+jLn/47nd
-         vrS0ltslCd6SQZ5hc3SQOp27Lg0ZrUnkR1UGSMyUKvO6RNxSvbH5ydus0nUcrg9fW6GT
-         VhmGCpRu1xH0mOSV8CCnz7pW10tGulzc7WhoanLZIlHOIlXu/PhlqmHh73HeqSM2dTgl
-         ui7w==
-X-Gm-Message-State: ACgBeo18+x0p8vyksoaQMPuxthupts2MGveNBsLPfxq19xrW5DyCk19e
-        iJOah9j8ver5p9o90OcE84Y=
-X-Google-Smtp-Source: AA6agR5GF0Y5mkSIz6CGZOo1MvejXLJSQwOAWf5XeE1t9MEyHxUYvmdM/d0Dpg0bpAyNv0vRd/PG4w==
-X-Received: by 2002:a17:903:32c9:b0:171:2846:eef8 with SMTP id i9-20020a17090332c900b001712846eef8mr11768765plr.117.1660984382172;
-        Sat, 20 Aug 2022 01:33:02 -0700 (PDT)
-Received: from ccs100203-Sabre-15.home (2001-b011-7006-189e-d048-0cf2-8a80-70a2.dynamic-ip6.hinet.net. [2001:b011:7006:189e:d048:cf2:8a80:70a2])
-        by smtp.gmail.com with ESMTPSA id x24-20020aa79ad8000000b00528c8ed356dsm4857614pfp.96.2022.08.20.01.32.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 20 Aug 2022 01:33:01 -0700 (PDT)
-From:   Shao-Tse Hung <ccs100203@gmail.com>
-To:     corbet@lwn.net, paulmck@kernel.org
-Cc:     frederic@kernel.org, quic_neeraju@quicinc.com,
-        josh@joshtriplett.org, rostedt@goodmis.org,
-        mathieu.desnoyers@efficios.com, jiangshanlai@gmail.com,
-        joel@joelfernandes.org, rcu@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Shao-Tse Hung <ccs100203@gmail.com>
-Subject: [PATCH] doc/rcu: Update LWN articles at the beginning
-Date:   Sat, 20 Aug 2022 16:32:44 +0800
-Message-Id: <20220820083244.28338-1-ccs100203@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        with ESMTP id S1345987AbiHTMBF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 20 Aug 2022 08:01:05 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D75DA3D5E
+        for <linux-doc@vger.kernel.org>; Sat, 20 Aug 2022 05:01:04 -0700 (PDT)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ore@pengutronix.de>)
+        id 1oPN9R-0001x5-Dv; Sat, 20 Aug 2022 14:00:29 +0200
+Received: from ore by ptx.hi.pengutronix.de with local (Exim 4.92)
+        (envelope-from <ore@pengutronix.de>)
+        id 1oPN9O-0000zR-NS; Sat, 20 Aug 2022 14:00:26 +0200
+Date:   Sat, 20 Aug 2022 14:00:26 +0200
+From:   Oleksij Rempel <o.rempel@pengutronix.de>
+To:     Andrew Lunn <andrew@lunn.ch>
+Cc:     Heiner Kallweit <hkallweit1@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>, kernel@pengutronix.de,
+        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
+        David Jander <david@protonic.nl>
+Subject: Re: [PATCH net-next v1 4/7] net: pse-pd: add generic PSE driver
+Message-ID: <20220820120026.GF10138@pengutronix.de>
+References: <20220819120109.3857571-1-o.rempel@pengutronix.de>
+ <20220819120109.3857571-5-o.rempel@pengutronix.de>
+ <Yv/4du75DNO2Xykr@lunn.ch>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <Yv/4du75DNO2Xykr@lunn.ch>
+X-Sent-From: Pengutronix Hildesheim
+X-URL:  http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: ore@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This patch adds LWN articles about RCU APIs which were released in 2019.
-Also, HTTP URLs are replaced by HTTPS.
+On Fri, Aug 19, 2022 at 10:54:14PM +0200, Andrew Lunn wrote:
+> > +static int
+> > +gen_pse_podl_get_admin_sate(struct pse_controller_dev *pcdev, unsigned long id)
+> 
+> Should that be state?
 
-Signed-off-by: Shao-Tse Hung <ccs100203@gmail.com>
----
- Documentation/RCU/whatisRCU.rst | 16 +++++++++-------
- 1 file changed, 9 insertions(+), 7 deletions(-)
+ack. fixed.
 
-diff --git a/Documentation/RCU/whatisRCU.rst b/Documentation/RCU/whatisRCU.rst
-index 77ea260efd12..682529123b9d 100644
---- a/Documentation/RCU/whatisRCU.rst
-+++ b/Documentation/RCU/whatisRCU.rst
-@@ -6,13 +6,15 @@ What is RCU?  --  "Read, Copy, Update"
- Please note that the "What is RCU?" LWN series is an excellent place
- to start learning about RCU:
- 
--| 1.	What is RCU, Fundamentally?  http://lwn.net/Articles/262464/
--| 2.	What is RCU? Part 2: Usage   http://lwn.net/Articles/263130/
--| 3.	RCU part 3: the RCU API      http://lwn.net/Articles/264090/
--| 4.	The RCU API, 2010 Edition    http://lwn.net/Articles/418853/
--| 	2010 Big API Table           http://lwn.net/Articles/419086/
--| 5.	The RCU API, 2014 Edition    http://lwn.net/Articles/609904/
--|	2014 Big API Table           http://lwn.net/Articles/609973/
-+| 1.	What is RCU, Fundamentally?  https://lwn.net/Articles/262464/
-+| 2.	What is RCU? Part 2: Usage   https://lwn.net/Articles/263130/
-+| 3.	RCU part 3: the RCU API      https://lwn.net/Articles/264090/
-+| 4.	The RCU API, 2010 Edition    https://lwn.net/Articles/418853/
-+| 	2010 Big API Table           https://lwn.net/Articles/419086/
-+| 5.	The RCU API, 2014 Edition    https://lwn.net/Articles/609904/
-+|	2014 Big API Table           https://lwn.net/Articles/609973/
-+| 6.	The RCU API, 2019 Edition    https://lwn.net/Articles/777036/
-+|	2019 Big API Table           https://lwn.net/Articles/777165/
- 
- 
- What is RCU?
+> > +{
+> > +	struct gen_pse_priv *priv = to_gen_pse(pcdev);
+> > +
+> > +	/* aPoDLPSEAdminState can be different to aPoDLPSEPowerDetectionStatus
+> > +	 * which is provided by the regulator.
+> > +	 */
+> > +	return priv->admin_state;
+> > +}
+> > +
+> > +static int
+> > +gen_pse_podl_set_admin_control(struct pse_controller_dev *pcdev,
+> > +			       unsigned long id,
+> > +			       enum ethtool_podl_pse_admin_state state)
+> > +{
+> > +	struct gen_pse_priv *priv = to_gen_pse(pcdev);
+> > +	int ret;
+> > +
+> > +	if (priv->admin_state == state)
+> > +		goto set_state;
+> 
+> return 0; ?
+
+ack. done
+
+> > +	platform_set_drvdata(pdev, priv);
+> > +
+> > +	priv->admin_state = ETHTOOL_PODL_PSE_ADMIN_STATE_DISABLED;
+> 
+> There is the comment earlier:
+> 
+> 	/* aPoDLPSEAdminState can be different to aPoDLPSEPowerDetectionStatus
+> 	 * which is provided by the regulator.
+> 
+> Is this because the regulator might of been turned on, but it has
+> detected a short and turned itself off? So it is administratively on,
+> but off in order to stop the magic smoke escaping?
+
+ack. According to 30.15.1.1.3 aPoDLPSEPowerDetectionStatus, we may have
+following:
+/**
+ * enum ethtool_podl_pse_pw_d_status - power detection status of the PoDL PSE.
+ *	IEEE 802.3-2018 30.15.1.1.3 aPoDLPSEPowerDetectionStatus:
+ * @ETHTOOL_PODL_PSE_PW_D_STATUS_UNKNOWN: PoDL PSE
+ * @ETHTOOL_PODL_PSE_PW_D_STATUS_DISABLED: "The enumeration “disabled” is
+ *	asserted true when the PoDL PSE state diagram variable mr_pse_enable is
+ *	false"
+ * @ETHTOOL_PODL_PSE_PW_D_STATUS_SEARCHING: "The enumeration “searching” is
+ *	asserted true when either of the PSE state diagram variables
+ *	pi_detecting or pi_classifying is true."
+ * @ETHTOOL_PODL_PSE_PW_D_STATUS_DELIVERING: "The enumeration “deliveringPower”
+ *	is asserted true when the PoDL PSE state diagram variable pi_powered is
+ *	true."
+ * @ETHTOOL_PODL_PSE_PW_D_STATUS_SLEEP: "The enumeration “sleep” is asserted
+ *	true when the PoDL PSE state diagram variable pi_sleeping is true."
+ * @ETHTOOL_PODL_PSE_PW_D_STATUS_IDLE: "The enumeration “idle” is asserted true
+ *	when the logical combination of the PoDL PSE state diagram variables
+ *	pi_prebiased*!pi_sleeping is true."
+ * @ETHTOOL_PODL_PSE_PW_D_STATUS_ERROR: "The enumeration “error” is asserted
+ *	true when the PoDL PSE state diagram variable overload_held is true."
+ */
+
+Probably all of them, except of ETHTOOL_PODL_PSE_PW_D_STATUS_SEARCHING can be
+potentially implemented in this driver on top of regulator framework.
+
+> But what about the other way around? Something has already turned the
+> regulator on, e.g. the bootloader. Should the default be
+> ETHTOOL_PODL_PSE_ADMIN_STATE_DISABLED even thought power is being
+> delivered? Do we want to put the regulator into the off state at
+> probe, so it is in a well defined state? Or set priv->admin_state to
+> whatever regulator_is_enabled() indicates?
+
+Good question. I assume, automotive folks would love be able to enable
+regulator in the boot loader on the PSE to let the Powered Device boot parallel
+to the PSE.
+
+Regards,
+Oleksij
 -- 
-2.25.1
-
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
