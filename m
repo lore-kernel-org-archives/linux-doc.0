@@ -2,101 +2,203 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C533C28D13
-	for <linux-doc@archiver.kernel.org>; Sat, 20 Aug 2022 02:56:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 36135C28D13
+	for <linux-doc@archiver.kernel.org>; Sat, 20 Aug 2022 03:08:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229470AbiHTC41 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 19 Aug 2022 22:56:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40568 "EHLO
+        id S239441AbiHTDIk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 19 Aug 2022 23:08:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52442 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229463AbiHTC40 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Aug 2022 22:56:26 -0400
-Received: from mail-qv1-xf33.google.com (mail-qv1-xf33.google.com [IPv6:2607:f8b0:4864:20::f33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36DB6C0B4D;
-        Fri, 19 Aug 2022 19:56:26 -0700 (PDT)
-Received: by mail-qv1-xf33.google.com with SMTP id de16so2257102qvb.12;
-        Fri, 19 Aug 2022 19:56:26 -0700 (PDT)
+        with ESMTP id S233564AbiHTDIi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Aug 2022 23:08:38 -0400
+Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com [IPv6:2607:f8b0:4864:20::42a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0528813D61;
+        Fri, 19 Aug 2022 20:08:36 -0700 (PDT)
+Received: by mail-pf1-x42a.google.com with SMTP id p9so4739796pfq.13;
+        Fri, 19 Aug 2022 20:08:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc;
-        bh=WdNXulQpLKnb1hellq34T9B1cVet72f1MSilSB+CN3I=;
-        b=a0T43ybU8bO+siRIbhddbFvW07aOpcJFI9kVRLWv1QE01sXTkiaHNKqcOUKvCwkW83
-         U6rq+EgVCugy2FgWYwcKdnrOcF55gS0sCyeyKvfDLqhBm5rGM+rjxwHio4+99dZIyWnJ
-         +OgN4lV9ZLoslTJqA/Mnwmxh/Q1QVT4N1ODyOCsLTlV6ymw+2EoS+sn+dJBkKSkh8Sxe
-         Cspejh90MS6vhhvyhEJRP6tLRAT89pRJxjVMe38Ucv+LTJAJ8dvLtZrLczbKKfOygPxS
-         X+v+SKoo0OV6ZrcSw31WlJrW8I87oua869SCNp1Vqb0RjZHQu8jFbJSu3SaktASnaioV
-         FMoQ==
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc;
+        bh=8UAglJHMJxkOTcf2BnuldAe6AgkhGWdLKkc7swqzIfQ=;
+        b=HC1Wt7vMa8hBBYpjbK4vCX9Wc+yfeTFv49qXCDRKqnwIMmJe+Sx+WPbo7tr4BCaSSy
+         fSAfYBj1ij+nFGX7+GJuDMKFe6ZIdxtJalD2S2eqtviNmQehmULztfHGakn7ut7ckZbx
+         RkXdby54LIg5l3sRBfhdAmWvbgVIXzzU5H8jHwu4M7Z4/zwwhrdn5bq3txl3IIuEpLO3
+         rLWz4Ausci/SIRnfilFmA3H5dcbyFfSOG38qy4RVEl83G4ynJ+l07TARqnKFxToh2kxM
+         l6pnfTtrFXudsUtTKYAAJShysajZZTIv2L59ip4rTq/1JOkP9uDPYzhU0uKwN+J5CM1p
+         cIIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc;
-        bh=WdNXulQpLKnb1hellq34T9B1cVet72f1MSilSB+CN3I=;
-        b=omRZctxL+mMmyNKuNS8sjYUt6yWRM3DBe+IHwP6aqVNrwrX89J7lOPLVYcisFOl0sX
-         zYLY6lXhRxUwkaZB/CZK+I9Ji6u5jIRTEdTsGy9ixkm+Z+ZVWniLsVYWP+dg+LEHRE4t
-         CwEj2OzIu9xGILASoq5pZaF7dyd4zhlJ8DyR9tlIeUIVJ/jFmn7UQE//RB1xhD6crP3D
-         XFu/RnNxIKeWVcknvZYOUyIViYjLhYatX+J3JTG2v6c/bUoMWNSuzJdAlAYDKAGa0O8K
-         EPO5TVzcGsbRJ01WyXyaxw4T2FhmmmVIKYwrUxDWSHBLonNuhJsVFAZk21m03hGnaXza
-         6nEw==
-X-Gm-Message-State: ACgBeo2uwxyYmr/6h3uk0r8JOzcoyUdWyMoFjN3K/iJmM7DEg5WIV1WB
-        h7KG7BdkgYuk/L+8VoRbV0U=
-X-Google-Smtp-Source: AA6agR7UhV0tlzwEw3Nj/aSzxj7GebTOwBfhp2btuNUyiCKC7iqVFL+Ymoa89dvUVa2Q3lk1yzk54Q==
-X-Received: by 2002:a05:6214:f27:b0:476:9d88:2597 with SMTP id iw7-20020a0562140f2700b004769d882597mr8722836qvb.45.1660964185291;
-        Fri, 19 Aug 2022 19:56:25 -0700 (PDT)
-Received: from [192.168.1.3] (ip72-194-116-95.oc.oc.cox.net. [72.194.116.95])
-        by smtp.gmail.com with ESMTPSA id w16-20020ac843d0000000b00344a9149da2sm1535606qtn.55.2022.08.19.19.56.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 19 Aug 2022 19:56:24 -0700 (PDT)
-Message-ID: <7a438a56-007e-beb8-ef55-ff99ed7ba736@gmail.com>
-Date:   Fri, 19 Aug 2022 19:56:22 -0700
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
+        bh=8UAglJHMJxkOTcf2BnuldAe6AgkhGWdLKkc7swqzIfQ=;
+        b=DsJe6/FYXTXmSVtXH1NmLCGpL7Kv2KkHbwFDjziA/rFbsc8P4Cd5Sxl+Ef2mA2a2bI
+         Qo5AOmEZhEJ5nw3FXXHf6oj/f03geTcMng/hAUSlyP095ezal+g+7H3/eLQ1DheJ8w6y
+         ZTypVB761ysiXyQNu8D/b8bxbckVDvKylzGp52PzTVg3a00oa857D3sb844PbufBM/q3
+         LtV/iifkjFYZUplDY3u6UUIcHV0C9i5pYCxNIuSPPvxe1npZeTeeOqsqCXVm7vSA1l7X
+         tdp3dJI9aOWKiPlRncYY49qYVvbu0Qaf0Fx7TRHMrJ2Xf76hRLw/eCie9W3ubzPQa8uV
+         T1VQ==
+X-Gm-Message-State: ACgBeo3FkyGutqnDvruv4TcNWk7QatAmoNfO5A4QVTCA4XhWQUJoSbyV
+        LJalyVNsmFNXhPR9x/jtUxs=
+X-Google-Smtp-Source: AA6agR5biOH1hFN68+X2FV+eg4bhlK9NYrr6clVZ4KX9bi9VK6HKNWoI0Pc5l+6FWU91XcCwAxD2eA==
+X-Received: by 2002:a63:e906:0:b0:41b:eba0:8b6d with SMTP id i6-20020a63e906000000b0041beba08b6dmr8471072pgh.501.1660964915470;
+        Fri, 19 Aug 2022 20:08:35 -0700 (PDT)
+Received: from debian.me (subs02-180-214-232-69.three.co.id. [180.214.232.69])
+        by smtp.gmail.com with ESMTPSA id d2-20020a170902cec200b0016c5306917fsm3910435plg.53.2022.08.19.20.08.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 19 Aug 2022 20:08:34 -0700 (PDT)
+Received: by debian.me (Postfix, from userid 1000)
+        id 8BF9F102B2F; Sat, 20 Aug 2022 10:08:31 +0700 (WIB)
+Date:   Sat, 20 Aug 2022 10:08:31 +0700
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     Oleksij Rempel <o.rempel@pengutronix.de>
+Cc:     Andrew Lunn <andrew@lunn.ch>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>, kernel@pengutronix.de,
+        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
+        David Jander <david@protonic.nl>
+Subject: Re: [PATCH net-next v1 7/7] ethtool: add interface to interact with
+ Ethernet Power Equipment
+Message-ID: <YwBQL7zxJjJSx8TC@debian.me>
+References: <20220819120109.3857571-1-o.rempel@pengutronix.de>
+ <20220819120109.3857571-8-o.rempel@pengutronix.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.1.2
-Subject: Re: [krzk-mem-ctrl:for-v6.1/brcm-stb 1/3] htmldocs: Warning:
- Documentation/devicetree/bindings/arm/bcm/brcm,brcmstb.txt references a file
- that doesn't exist:
- Documentation/devicetree/bindings/memory-controllers/brcm,memc.yaml
-Content-Language: en-US
-To:     Krzysztof Kozlowski <krzk@kernel.org>,
-        kernel test robot <lkp@intel.com>
-Cc:     kbuild-all@lists.01.org, linux-kernel@vger.kernel.org,
-        Rob Herring <robh@kernel.org>, linux-doc@vger.kernel.org
-References: <202208180941.oGoLuq8U-lkp@intel.com>
- <427c0198-850c-17a7-f0d7-954a8252b11a@kernel.org>
-From:   Florian Fainelli <f.fainelli@gmail.com>
-In-Reply-To: <427c0198-850c-17a7-f0d7-954a8252b11a@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="PVHpDvkI+W+zf0ua"
+Content-Disposition: inline
+In-Reply-To: <20220819120109.3857571-8-o.rempel@pengutronix.de>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
+--PVHpDvkI+W+zf0ua
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 8/17/2022 11:09 PM, Krzysztof Kozlowski wrote:
-> On 18/08/2022 04:59, kernel test robot wrote:
->> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/krzk/linux-mem-ctrl.git for-v6.1/brcm-stb
->> head:   65991a63d02decf269e7d5334620df0dd5919762
->> commit: 0da0b6bf854dcfb047fec70bbbadabb7ff0fcb3e [1/3] dt-bindings: memory-controller: Document Broadcom STB MEMC
->> reproduce: make htmldocs
->>
->> If you fix the issue, kindly add following tag where applicable
->> Reported-by: kernel test robot <lkp@intel.com>
->>
->> All warnings (new ones prefixed by >>):
->>
->>>> Warning: Documentation/devicetree/bindings/arm/bcm/brcm,brcmstb.txt references a file that doesn't exist: Documentation/devicetree/bindings/memory-controllers/brcm,memc.yaml
-> 
-> I'll fixup the commit.
+On Fri, Aug 19, 2022 at 02:01:09PM +0200, Oleksij Rempel wrote:
+> +Kernel response contents:
+> +
+> +  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D  =3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +  ``ETHTOOL_A_PSE_HEADER``                nested  reply header
+> +  ``ETHTOOL_A_PODL_PSE_ADMIN_STATE``          u8  Operational state of t=
+he PoDL
+> +                                                  PSE functions
+> +  ``ETHTOOL_A_PODL_PSE_PW_D_STATUS``          u8  power detection status=
+ of the
+> +                                                  PoDL PSE.
+> +  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D  =3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
 
-Thanks
+I don't see malformed table warnings on my htmldocs build, although the
+table border for the third column is not long enough to cover the
+contents.
 
-> 
-> Florian,
-> It's useful also to have own development trees covered by LKP.
+> +Request contents:
+> +
+> +  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D  =3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +  ``ETHTOOL_A_PSE_HEADER``                nested  request header
+> +  ``ETHTOOL_A_PODL_PSE_ADMIN_CONTROL``        u8  Control PoDL PSE Admin=
+ state
+> +  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D  =3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
 
-I will keep that in mind.
--- 
-Florian
+Same here too.
+
+In that case, I'd like to extend the border, like:
+
+---- >8 ----
+
+diff --git a/Documentation/networking/ethtool-netlink.rst b/Documentation/n=
+etworking/ethtool-netlink.rst
+index c8b09b57bd65ea..2560cf62d14f4e 100644
+--- a/Documentation/networking/ethtool-netlink.rst
++++ b/Documentation/networking/ethtool-netlink.rst
+@@ -1641,13 +1641,13 @@ Request contents:
+=20
+ Kernel response contents:
+=20
+-  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D  =3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D  =3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D
+   ``ETHTOOL_A_PSE_HEADER``                nested  reply header
+   ``ETHTOOL_A_PODL_PSE_ADMIN_STATE``          u8  Operational state of the=
+ PoDL
+                                                   PSE functions
+   ``ETHTOOL_A_PODL_PSE_PW_D_STATUS``          u8  power detection status o=
+f the
+                                                   PoDL PSE.
+-  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D  =3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D  =3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D
+=20
+ The ``ETHTOOL_A_PODL_PSE_ADMIN_STATE`` identifies the operational state of=
+ the
+ PoDL PSE functions.  The operational state of the PSE function can be chan=
+ged
+@@ -1673,10 +1673,10 @@ Sets PSE parameters.
+=20
+ Request contents:
+=20
+-  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D  =3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D  =3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+   ``ETHTOOL_A_PSE_HEADER``                nested  request header
+   ``ETHTOOL_A_PODL_PSE_ADMIN_CONTROL``        u8  Control PoDL PSE Admin s=
+tate
+-  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D  =3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D  =3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+=20
+ When set, the optional ``ETHTOOL_A_PODL_PSE_ADMIN_CONTROL`` attribute is u=
+sed
+ to control PoDL PSE Admin functions. This option is implementing
+
+Thanks.
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--PVHpDvkI+W+zf0ua
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCYwBQKgAKCRD2uYlJVVFO
+oy9/AQDwEH8Bz8WqHqwb641FcoN5aZY4DkOzXgMivWpQ5FhSIAD+J2xBRwk9/A/4
+B3CIxXOZo6mTgh0cQALvIAKmZVH8OgE=
+=iJp9
+-----END PGP SIGNATURE-----
+
+--PVHpDvkI+W+zf0ua--
