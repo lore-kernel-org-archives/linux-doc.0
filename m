@@ -2,119 +2,106 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D1DDC25B08
-	for <linux-doc@archiver.kernel.org>; Sat, 20 Aug 2022 12:32:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 44A08C3F6B0
+	for <linux-doc@archiver.kernel.org>; Sat, 20 Aug 2022 13:06:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345227AbiHTMb6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 20 Aug 2022 08:31:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59930 "EHLO
+        id S1346499AbiHTNGA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 20 Aug 2022 09:06:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53764 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344915AbiHTMb6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 20 Aug 2022 08:31:58 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 472F76BCCA
-        for <linux-doc@vger.kernel.org>; Sat, 20 Aug 2022 05:31:57 -0700 (PDT)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ore@pengutronix.de>)
-        id 1oPNdn-0005aE-Mi; Sat, 20 Aug 2022 14:31:51 +0200
-Received: from ore by ptx.hi.pengutronix.de with local (Exim 4.92)
-        (envelope-from <ore@pengutronix.de>)
-        id 1oPNdk-0002pe-TW; Sat, 20 Aug 2022 14:31:48 +0200
-Date:   Sat, 20 Aug 2022 14:31:48 +0200
-From:   Oleksij Rempel <o.rempel@pengutronix.de>
-To:     Andrew Lunn <andrew@lunn.ch>
-Cc:     devicetree@vger.kernel.org, kernel@pengutronix.de,
-        Jonathan Corbet <corbet@lwn.net>, netdev@vger.kernel.org,
-        linux-doc@vger.kernel.org, Russell King <linux@armlinux.org.uk>,
-        linux-kernel@vger.kernel.org, Eric Dumazet <edumazet@google.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        David Jander <david@protonic.nl>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Luka Perkov <luka.perkov@sartura.hr>,
-        Robert Marko <robert.marko@sartura.hr>
-Subject: Re: [PATCH net-next v1 7/7] ethtool: add interface to interact with
- Ethernet Power Equipment
-Message-ID: <20220820123148.GH10138@pengutronix.de>
-References: <20220819120109.3857571-1-o.rempel@pengutronix.de>
- <20220819120109.3857571-8-o.rempel@pengutronix.de>
- <Yv/9XVjRaa5jwpBo@lunn.ch>
+        with ESMTP id S1348420AbiHTNF7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 20 Aug 2022 09:05:59 -0400
+Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33F56FD06;
+        Sat, 20 Aug 2022 06:05:58 -0700 (PDT)
+Received: by mail-pj1-x1036.google.com with SMTP id g18so6984629pju.0;
+        Sat, 20 Aug 2022 06:05:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc;
+        bh=2zOBbjpazl8s57/XiU2lbdevcEWjRoAb9VSfq8YjUQg=;
+        b=ND4Av5P0qlLxEj7+crbFAgOALB0pd7miYDDOPKNvz3UzUj68fzMefaoMY1I9gHac40
+         dL74FQ9r4eOggMyubGiK176A+MoJbmX0RXYQ+poPLUvy3Exdi8DyFDRgK2drv65nb1Cz
+         LDhWpgdDXg+4I22AlbF7mrHVKP5Ji32WE2ITbEP7EBQ43s+uz7kDREKwFlpdNhZBmjYJ
+         j9harzTZrUZp87cCJFrXJRcQvIJCJ5R+7u2rabfhwYLZP/bv3mooj3d5qSWWNlSSVtm1
+         Z84TpdQQlt8KrsR1gS0kZJV0QGKcf4dNh0mFl1hjvyMeLu8K23LzwKfk/Jvt4QKmhObx
+         +aUA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc;
+        bh=2zOBbjpazl8s57/XiU2lbdevcEWjRoAb9VSfq8YjUQg=;
+        b=7v40BkBvn6lswQ5P3stx1CDnjQTcNcMC/cQn8qUafaU0ssyp99Y5IJZT0p+HG4NRuc
+         IKsItEojzkt+S809Zz76WvFz9OigyHtUYgXzB2gWfuhyHonog+7zDAM5rRIHAhqU89Ea
+         FlVRJa4/2kkKndaURoj0l3mg3ENKUqv2gojPmxbQyYVJ7V1IEhUEZs60TzZMP3wHcso+
+         O1ftKS6tzW+kts/JkGIPEEjAEeL1LUL5PVj+J1/mtjiTPNnl0MRn9kW1aXohSs/KaN+I
+         RborkyS60oNyL37RX43mySF9F3FDlvov8+WnsfYDWipRFtGSqKGqMcN0BZFEW9jnIJR9
+         AAnQ==
+X-Gm-Message-State: ACgBeo3MCCb9km+vAjCw8zpBfxyEIMpp3fdnEeueor4YlKDS1Ht8Gb3B
+        p6AHg5Lq5d/FD+IkpGJdVPPNDgsUEsI=
+X-Google-Smtp-Source: AA6agR7jWkYSTki/k2c0Y6EKP69+uqDweVtoCPWQRCpoopmtfW/s6ufzx7Ae7nwF+QPWN3LqtBjKnw==
+X-Received: by 2002:a17:90b:1d89:b0:1f5:a59:46b1 with SMTP id pf9-20020a17090b1d8900b001f50a5946b1mr13392684pjb.173.1661000757722;
+        Sat, 20 Aug 2022 06:05:57 -0700 (PDT)
+Received: from [192.168.43.80] (subs10b-223-255-225-239.three.co.id. [223.255.225.239])
+        by smtp.gmail.com with ESMTPSA id r1-20020a170902e3c100b001618b70dcc9sm4865960ple.101.2022.08.20.06.05.52
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 20 Aug 2022 06:05:57 -0700 (PDT)
+Message-ID: <d63cc303-0b73-4100-829d-01c6e3bb3548@gmail.com>
+Date:   Sat, 20 Aug 2022 20:05:47 +0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <Yv/9XVjRaa5jwpBo@lunn.ch>
-X-Sent-From: Pengutronix Hildesheim
-X-URL:  http://www.pengutronix.de/
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: ore@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: [PATCH] doc/rcu: Update LWN articles at the beginning
+Content-Language: en-US
+To:     Shao-Tse Hung <ccs100203@gmail.com>, corbet@lwn.net,
+        paulmck@kernel.org
+Cc:     frederic@kernel.org, quic_neeraju@quicinc.com,
+        josh@joshtriplett.org, rostedt@goodmis.org,
+        mathieu.desnoyers@efficios.com, jiangshanlai@gmail.com,
+        joel@joelfernandes.org, rcu@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20220820083244.28338-1-ccs100203@gmail.com>
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <20220820083244.28338-1-ccs100203@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Aug 19, 2022 at 11:15:09PM +0200, Andrew Lunn wrote:
-> > $ ip l
-> > ...
-> > 5: t1l1@eth0: <BROADCAST,MULTICAST> ..
-> > ...
-> > 
-> > $ ethtool --show-pse t1l1
-> > PSE attributs for t1l1:
-> > PoDL PSE Admin State: disabled
-> > PoDL PSE Power Detection Status: disabled
-> > 
-> > $ ethtool --set-pse t1l1 podl-pse-admin-control enable
-> > $ ethtool --show-pse t1l1
-> > PSE attributs for t1l1:
-> > PoDL PSE Admin State: enabled
-> > PoDL PSE Power Detection Status: delivering power
+On 8/20/22 15:32, Shao-Tse Hung wrote:
+> This patch adds LWN articles about RCU APIs which were released in 2019.
+> Also, HTTP URLs are replaced by HTTPS.
 > 
-> Here you seem to indicate that delivering power is totally independent
-> of the interface admin status, <BROADCAST,MULTICAST>. The interface is
-> admin down, yet you can make it deliver power. I thought there might
-> be a link between interface admin status and power? Do the standards
-> say anything about this? Is there some sort of industrial norm?
-> 
-> I'm also wondering about the defaults. It seems like the defaults you
-> are proposing is power is off by default, and you have to use ethtool
-> to enable power. That does not seem like the most friendly
-> settings. Why not an 'auto' mode where if the PHY has PoDL PSE
-> capabilities, on ifup it is enabled, on ifdown it is disabled? And you
-> can put it into a 'manual' mode where you control it independent of
-> administrative status of the interface?
 
-Hm. I would say, safe option is to enable PSE manually. Here are my
-reasons:
-- some system may require to have power be enabled on boot, before we
-  start to care about administrative state of the interface.
-- in some cases powered device should stay enabled, even if we do
-  ifup/ifdown
+Please write patch description in imperative mood (say "Add 2019 edition
+of RCU API documentation and use HTTPS links." instead).
 
-I assume, safe defaults should be:
-- keep PSE always off, except system was configured to enable it on
-  boot.
-- keep PSE on after it was enabled, even on if up/down
-- bind PSE admin state to the interface state only if user explicitly
-  requested it.
+> -| 1.	What is RCU, Fundamentally?  http://lwn.net/Articles/262464/
+> -| 2.	What is RCU? Part 2: Usage   http://lwn.net/Articles/263130/
+> -| 3.	RCU part 3: the RCU API      http://lwn.net/Articles/264090/
+> -| 4.	The RCU API, 2010 Edition    http://lwn.net/Articles/418853/
+> -| 	2010 Big API Table           http://lwn.net/Articles/419086/
+> -| 5.	The RCU API, 2014 Edition    http://lwn.net/Articles/609904/
+> -|	2014 Big API Table           http://lwn.net/Articles/609973/
+> +| 1.	What is RCU, Fundamentally?  https://lwn.net/Articles/262464/
+> +| 2.	What is RCU? Part 2: Usage   https://lwn.net/Articles/263130/
+> +| 3.	RCU part 3: the RCU API      https://lwn.net/Articles/264090/
+> +| 4.	The RCU API, 2010 Edition    https://lwn.net/Articles/418853/
+> +| 	2010 Big API Table           https://lwn.net/Articles/419086/
+> +| 5.	The RCU API, 2014 Edition    https://lwn.net/Articles/609904/
+> +|	2014 Big API Table           https://lwn.net/Articles/609973/
+> +| 6.	The RCU API, 2019 Edition    https://lwn.net/Articles/777036/
+> +|	2019 Big API Table           https://lwn.net/Articles/777165/
+>  
 
-At this round is only default, manual mode is implemented. Automatic
-mode can be added later if needed.
+I don't think line blocks are necessary for lists. Instead, use nested
+list. Why? Big API entry should be as sublist.
 
-These are my points, but i'm open for discussion.
+Thanks.
 
-Regards,
-Oleksij
 -- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+An old man doll... just what I always wanted! - Clara
