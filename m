@@ -2,98 +2,101 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DC6BDC28D13
-	for <linux-doc@archiver.kernel.org>; Sat, 20 Aug 2022 02:20:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C533C28D13
+	for <linux-doc@archiver.kernel.org>; Sat, 20 Aug 2022 02:56:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236835AbiHTCUQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 19 Aug 2022 22:20:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59668 "EHLO
+        id S229470AbiHTC41 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 19 Aug 2022 22:56:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40568 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241413AbiHTCUP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Aug 2022 22:20:15 -0400
-Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 2AC94BD4D6;
-        Fri, 19 Aug 2022 19:20:13 -0700 (PDT)
-Received: from [192.168.100.8] (unknown [112.20.110.237])
-        by localhost.localdomain (Coremail) with SMTP id AQAAf8CxrmvVRABjM4AFAA--.13028S3;
-        Sat, 20 Aug 2022 10:20:06 +0800 (CST)
-Message-ID: <727a1f6e-113b-3ba4-87ec-2ba568343089@loongson.cn>
-Date:   Sat, 20 Aug 2022 10:20:05 +0800
+        with ESMTP id S229463AbiHTC40 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Aug 2022 22:56:26 -0400
+Received: from mail-qv1-xf33.google.com (mail-qv1-xf33.google.com [IPv6:2607:f8b0:4864:20::f33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36DB6C0B4D;
+        Fri, 19 Aug 2022 19:56:26 -0700 (PDT)
+Received: by mail-qv1-xf33.google.com with SMTP id de16so2257102qvb.12;
+        Fri, 19 Aug 2022 19:56:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc;
+        bh=WdNXulQpLKnb1hellq34T9B1cVet72f1MSilSB+CN3I=;
+        b=a0T43ybU8bO+siRIbhddbFvW07aOpcJFI9kVRLWv1QE01sXTkiaHNKqcOUKvCwkW83
+         U6rq+EgVCugy2FgWYwcKdnrOcF55gS0sCyeyKvfDLqhBm5rGM+rjxwHio4+99dZIyWnJ
+         +OgN4lV9ZLoslTJqA/Mnwmxh/Q1QVT4N1ODyOCsLTlV6ymw+2EoS+sn+dJBkKSkh8Sxe
+         Cspejh90MS6vhhvyhEJRP6tLRAT89pRJxjVMe38Ucv+LTJAJ8dvLtZrLczbKKfOygPxS
+         X+v+SKoo0OV6ZrcSw31WlJrW8I87oua869SCNp1Vqb0RjZHQu8jFbJSu3SaktASnaioV
+         FMoQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc;
+        bh=WdNXulQpLKnb1hellq34T9B1cVet72f1MSilSB+CN3I=;
+        b=omRZctxL+mMmyNKuNS8sjYUt6yWRM3DBe+IHwP6aqVNrwrX89J7lOPLVYcisFOl0sX
+         zYLY6lXhRxUwkaZB/CZK+I9Ji6u5jIRTEdTsGy9ixkm+Z+ZVWniLsVYWP+dg+LEHRE4t
+         CwEj2OzIu9xGILASoq5pZaF7dyd4zhlJ8DyR9tlIeUIVJ/jFmn7UQE//RB1xhD6crP3D
+         XFu/RnNxIKeWVcknvZYOUyIViYjLhYatX+J3JTG2v6c/bUoMWNSuzJdAlAYDKAGa0O8K
+         EPO5TVzcGsbRJ01WyXyaxw4T2FhmmmVIKYwrUxDWSHBLonNuhJsVFAZk21m03hGnaXza
+         6nEw==
+X-Gm-Message-State: ACgBeo2uwxyYmr/6h3uk0r8JOzcoyUdWyMoFjN3K/iJmM7DEg5WIV1WB
+        h7KG7BdkgYuk/L+8VoRbV0U=
+X-Google-Smtp-Source: AA6agR7UhV0tlzwEw3Nj/aSzxj7GebTOwBfhp2btuNUyiCKC7iqVFL+Ymoa89dvUVa2Q3lk1yzk54Q==
+X-Received: by 2002:a05:6214:f27:b0:476:9d88:2597 with SMTP id iw7-20020a0562140f2700b004769d882597mr8722836qvb.45.1660964185291;
+        Fri, 19 Aug 2022 19:56:25 -0700 (PDT)
+Received: from [192.168.1.3] (ip72-194-116-95.oc.oc.cox.net. [72.194.116.95])
+        by smtp.gmail.com with ESMTPSA id w16-20020ac843d0000000b00344a9149da2sm1535606qtn.55.2022.08.19.19.56.23
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 19 Aug 2022 19:56:24 -0700 (PDT)
+Message-ID: <7a438a56-007e-beb8-ef55-ff99ed7ba736@gmail.com>
+Date:   Fri, 19 Aug 2022 19:56:22 -0700
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH 04/13] docs: zh_CN: remove references to rust
- documentation
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        corbet@lwn.net
-Cc:     Alex Shi <alexs@kernel.org>, linux-kernel@vger.kernel.org
-References: <cover.1660829433.git.mchehab@kernel.org>
- <d0b2ead8c86cb1820695f400156b0be435aa7b74.1660829433.git.mchehab@kernel.org>
-From:   YanTeng Si <siyanteng@loongson.cn>
-In-Reply-To: <d0b2ead8c86cb1820695f400156b0be435aa7b74.1660829433.git.mchehab@kernel.org>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.1.2
+Subject: Re: [krzk-mem-ctrl:for-v6.1/brcm-stb 1/3] htmldocs: Warning:
+ Documentation/devicetree/bindings/arm/bcm/brcm,brcmstb.txt references a file
+ that doesn't exist:
+ Documentation/devicetree/bindings/memory-controllers/brcm,memc.yaml
+Content-Language: en-US
+To:     Krzysztof Kozlowski <krzk@kernel.org>,
+        kernel test robot <lkp@intel.com>
+Cc:     kbuild-all@lists.01.org, linux-kernel@vger.kernel.org,
+        Rob Herring <robh@kernel.org>, linux-doc@vger.kernel.org
+References: <202208180941.oGoLuq8U-lkp@intel.com>
+ <427c0198-850c-17a7-f0d7-954a8252b11a@kernel.org>
+From:   Florian Fainelli <f.fainelli@gmail.com>
+In-Reply-To: <427c0198-850c-17a7-f0d7-954a8252b11a@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8CxrmvVRABjM4AFAA--.13028S3
-X-Coremail-Antispam: 1UD129KBjvJXoW7tF18Xry8Cw13uFy8Jry7Jrb_yoW8CF4rpF
-        40kr4xGFyYyr1Yk34UWr47CFW8CayxWw43KFZrt34rXrnIkw4vvw4j93sF9as29rW8tFW7
-        XF42vFyj9w1jvFDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUv2b7Iv0xC_Zr1lb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I2
-        0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rw
-        A2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xII
-        jxv20xvEc7CjxVAFwI0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVWxJVW8Jr1l84ACjcxK6I
-        8E87Iv6xkF7I0E14v26r4UJVWxJr1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xv
-        F2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r
-        4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCYjI0SjxkI62AI1cAE67vIY487
-        MxkIecxEwVAFwVW8JwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s
-        026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_
-        JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20x
-        vEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE
-        14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa
-        7IU8JCztUUUUU==
-X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
-在 2022/8/18 21:38, Mauro Carvalho Chehab 写道:
-> There is a note on this file that, using a robot to translate,
-> says:
->
-> 	"The kernel-doc cannot contain Rust code: please refer
-> 	 to Documentation/rust/general-information.rst."
->
-> Such note doesn't exist at the original file anymore, so, just remove
-> it from the translation, in order to solve this warning:
->
-> 	Warning: Documentation/translations/zh_CN/doc-guide/kernel-doc.rst references a file that doesn't exist: Documentation/rust/general-information.rst
->
-> Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
 
-Reviewed-by: Yanteng Si<siyanteng@loongson.cn>
+On 8/17/2022 11:09 PM, Krzysztof Kozlowski wrote:
+> On 18/08/2022 04:59, kernel test robot wrote:
+>> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/krzk/linux-mem-ctrl.git for-v6.1/brcm-stb
+>> head:   65991a63d02decf269e7d5334620df0dd5919762
+>> commit: 0da0b6bf854dcfb047fec70bbbadabb7ff0fcb3e [1/3] dt-bindings: memory-controller: Document Broadcom STB MEMC
+>> reproduce: make htmldocs
+>>
+>> If you fix the issue, kindly add following tag where applicable
+>> Reported-by: kernel test robot <lkp@intel.com>
+>>
+>> All warnings (new ones prefixed by >>):
+>>
+>>>> Warning: Documentation/devicetree/bindings/arm/bcm/brcm,brcmstb.txt references a file that doesn't exist: Documentation/devicetree/bindings/memory-controllers/brcm,memc.yaml
+> 
+> I'll fixup the commit.
 
-Thanks,
-Yanteng
+Thanks
 
-> ---
->
-> See [PATCH 00/13] at: https://lore.kernel.org/all/cover.1660829433.git.mchehab@kernel.org/
->
->   Documentation/translations/zh_CN/doc-guide/kernel-doc.rst | 2 --
->   1 file changed, 2 deletions(-)
->
-> diff --git a/Documentation/translations/zh_CN/doc-guide/kernel-doc.rst b/Documentation/translations/zh_CN/doc-guide/kernel-doc.rst
-> index ccfb9b8329c2..9fd170faf951 100644
-> --- a/Documentation/translations/zh_CN/doc-guide/kernel-doc.rst
-> +++ b/Documentation/translations/zh_CN/doc-guide/kernel-doc.rst
-> @@ -14,8 +14,6 @@ Linux内核源文件可以包含kernel-doc格式的结构化文档注释，用
->             实际有着明显的不同。内核源包含成千上万个kernel-doc注释。请坚持遵循
->             此处描述的风格。
->   
-> -.. note:: kernel-doc无法包含Rust代码：请参考 Documentation/rust/general-information.rst 。
-> -
->   从注释中提取kernel-doc结构，并从中生成适当的 `Sphinx C 域`_ 函数和带有锚点的
->   类型描述。这些注释将被过滤以生成特殊kernel-doc高亮和交叉引用。详见下文。
->   
+> 
+> Florian,
+> It's useful also to have own development trees covered by LKP.
 
+I will keep that in mind.
+-- 
+Florian
