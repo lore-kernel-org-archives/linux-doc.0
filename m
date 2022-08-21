@@ -2,102 +2,80 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5028FC3F6B0
-	for <linux-doc@archiver.kernel.org>; Sat, 20 Aug 2022 18:48:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 83A20C25B08
+	for <linux-doc@archiver.kernel.org>; Sun, 21 Aug 2022 00:12:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230247AbiHTSsv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 20 Aug 2022 14:48:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36950 "EHLO
+        id S235913AbiHUAM0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 20 Aug 2022 20:12:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47132 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229854AbiHTSst (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 20 Aug 2022 14:48:49 -0400
-Received: from vps0.lunn.ch (vps0.lunn.ch [185.16.172.187])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E977C46220;
-        Sat, 20 Aug 2022 11:48:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-        bh=Fap6JIYMdWXN0zZpRYLSvtD5yGfzaSQ75IJSrYc0Zzs=; b=49j5uThbtvoOljoIvu6795+v0G
-        CzSrZg5zpjOpInLpKXf4meJciv0KYDepJXg8M9JZmjjZdvaffsi6YqYairWD3eCf1ixihM/ex2jbv
-        tzNGyxwqUXjmRIt4fYKBRXgwWaPAqzMECcATf9nbmhvzCvjOIjgmR8Ll9ukrpAsnd9f4=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-        (envelope-from <andrew@lunn.ch>)
-        id 1oPTWM-00E3pD-1M; Sat, 20 Aug 2022 20:48:34 +0200
-Date:   Sat, 20 Aug 2022 20:48:34 +0200
-From:   Andrew Lunn <andrew@lunn.ch>
-To:     Oleksij Rempel <o.rempel@pengutronix.de>
-Cc:     Heiner Kallweit <hkallweit1@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>, kernel@pengutronix.de,
-        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
-        David Jander <david@protonic.nl>
-Subject: Re: [PATCH net-next v1 7/7] ethtool: add interface to interact with
- Ethernet Power Equipment
-Message-ID: <YwEsgpVPNtmvtYni@lunn.ch>
-References: <20220819120109.3857571-1-o.rempel@pengutronix.de>
- <20220819120109.3857571-8-o.rempel@pengutronix.de>
+        with ESMTP id S230371AbiHUAMZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 20 Aug 2022 20:12:25 -0400
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 374E71116B;
+        Sat, 20 Aug 2022 17:12:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1661040744; x=1692576744;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=OgpJQveWh/vXtivXtPcPMrum27LfVsDmLhL3OPvr4pA=;
+  b=ft3HCpJva1wHr2JsXt0hba7WwM7n/2L4maO7dy3SIW3S3fgSlI+kFz1l
+   DY4Op24Fy6lSaNQEWLkQNFmlagTZPJ4qw7gKXhfUodUEE5HRt5ShjIYh0
+   OtNawu+OofVN3VFJUuH/vuyGlQu8GsgxlBrmONoBN5qdnIGeXGPBoMof4
+   iL+3ZUoQ4eXDj9SeaKStFP7JjZQj1bn0CgEjV5QpaAE21J6/5j3VCetW9
+   phSNtP3kbPib3lwC5XaP1BSQ1Y2w0+JfWo6jwSbEM2DBST5PXyMIPgt5n
+   VqSExX6G4xKeytsRbaFedYIiIeBgz3TdGYMYuEcyEuYGLBzWvYguiw39R
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10445"; a="273599675"
+X-IronPort-AV: E=Sophos;i="5.93,251,1654585200"; 
+   d="scan'208";a="273599675"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Aug 2022 17:12:23 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,251,1654585200"; 
+   d="scan'208";a="637701657"
+Received: from lkp-server01.sh.intel.com (HELO 44b6dac04a33) ([10.239.97.150])
+  by orsmga008.jf.intel.com with ESMTP; 20 Aug 2022 17:12:22 -0700
+Received: from kbuild by 44b6dac04a33 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1oPYZh-0003OR-2b;
+        Sun, 21 Aug 2022 00:12:21 +0000
+Date:   Sun, 21 Aug 2022 08:11:50 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Andrew Lunn <andrew@lunn.ch>
+Cc:     kbuild-all@lists.01.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: [lunn:v6.0-rc1-kirkwood-dt 32/57] htmldocs: Warning:
+ Documentation/devicetree/bindings/spi/marvell,orion-spi.yaml references a
+ file that doesn't exist:
+ Documentation/devicetree/bindings/bus/mvebu-mbus.txt
+Message-ID: <202208210856.xKX1U4gx-lkp@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220819120109.3857571-8-o.rempel@pengutronix.de>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> +static int pse_get_pse_attributs(struct net_device *dev,
-> +				 struct pse_reply_data *data)
-> +{
-> +	struct phy_device *phydev = dev->phydev;
-> +	int ret;
-> +
-> +	if (!phydev)
-> +		return -EOPNOTSUPP;
-> +
-> +	mutex_lock(&phydev->lock);
-> +	if (!phydev->psec) {
-> +		ret = -EOPNOTSUPP;
-> +		goto error_unlock;
-> +	}
-> +
-> +	ret = pse_podl_get_admin_sate(phydev->psec);
-> +	if (ret < 0)
-> +		goto error_unlock;
+tree:   https://github.com/lunn/linux.git v6.0-rc1-kirkwood-dt
+head:   ccd2fc5bd7bb1e532d745c8a145bac7e4aaa1614
+commit: 8198ea75cec5fbe318f7e46e7a11245e7106bef2 [32/57] DT: bus: Convert mvebu-mbus.txt bus controller to YAML
+reproduce:
+        # https://github.com/lunn/linux/commit/8198ea75cec5fbe318f7e46e7a11245e7106bef2
+        git remote add lunn https://github.com/lunn/linux.git
+        git fetch --no-tags lunn v6.0-rc1-kirkwood-dt
+        git checkout 8198ea75cec5fbe318f7e46e7a11245e7106bef2
+        make menuconfig
+        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
+        make htmldocs
 
-The locking is triggering all sorts of questions in my mind... I don't
-have the answers yet, so consider this more a discussion.
+If you fix the issue, kindly add following tag where applicable
+Reported-by: kernel test robot <lkp@intel.com>
 
-You need somewhere to place the psec. Since we are talking power over
-copper lines, there will be some sort of PHY, so phydev->psec seems
-reasonable. However, there is a general trend of moving all DSA
-Ethernet switches to phylink, which is going to make this a bit
-tricker to actually get to the phydev object.
+All warnings (new ones prefixed by >>):
 
-But using phydev->lock? Humm. At least in the PoE world, there seems
-to be lots of I2C or SPI controllers. Why hold the phydev lock when
-performing an I2C transaction? You have a generic linux regulator
-driver. How would you see a generic C45.2.9 driver? If it calls in the
-PHY driver, the lock is already held, and we have to be careful to not
-deadlock.
+>> Warning: Documentation/devicetree/bindings/spi/marvell,orion-spi.yaml references a file that doesn't exist: Documentation/devicetree/bindings/bus/mvebu-mbus.txt
 
-I'm more thinking along the lines of psec should have a lock of its
-own.  pse_podl_get_admin_state(), pse_podl_get_pw_d_status() etc
-should take that mutex before calling to the actual driver.
-
-For a PHY which actually supports C45.2.9, i hope that the phylib core
-looks at the phy driver structure, sees that some pse_podl ops are
-implemented, and instantiates and registers a psec object. The phylib
-core provides wrappers, which take the phylib lock before calling into
-the driver. And if the PHY strictly follows C45.2.9, the calls are
-actually into phylib helpers. Otherwise the PHY driver can do its own
-implementation.
-
-     Andrew
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
