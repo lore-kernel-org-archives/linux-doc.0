@@ -2,130 +2,103 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BD8FAC3F6B0
-	for <linux-doc@archiver.kernel.org>; Sun, 21 Aug 2022 05:16:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 133EAC32789
+	for <linux-doc@archiver.kernel.org>; Sun, 21 Aug 2022 10:11:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230124AbiHUFQD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 21 Aug 2022 01:16:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52944 "EHLO
+        id S230070AbiHUKLw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 21 Aug 2022 06:11:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52700 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230140AbiHUFP7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 21 Aug 2022 01:15:59 -0400
-Received: from mail-qk1-x732.google.com (mail-qk1-x732.google.com [IPv6:2607:f8b0:4864:20::732])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A853D24BEC
-        for <linux-doc@vger.kernel.org>; Sat, 20 Aug 2022 22:15:55 -0700 (PDT)
-Received: by mail-qk1-x732.google.com with SMTP id m5so5889046qkk.1
-        for <linux-doc@vger.kernel.org>; Sat, 20 Aug 2022 22:15:55 -0700 (PDT)
+        with ESMTP id S229436AbiHUKLv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 21 Aug 2022 06:11:51 -0400
+Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9286FFD3E;
+        Sun, 21 Aug 2022 03:11:49 -0700 (PDT)
+Received: by mail-ej1-x631.google.com with SMTP id ce26so476817ejb.11;
+        Sun, 21 Aug 2022 03:11:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
-         :date:from:to:cc;
-        bh=ICbJbu994zVr5Xs1z95aw5HWEa26kaUMyLqHNb1JBhY=;
-        b=PN7QnVx2jBrgPHqyqwc/bGpaE8KQadBOlUYLB6T+dOoTpwUJFZfkh7+JVXHp8AIDdn
-         aHVqAoV2ZwSdEszZ8lrHjiDGK+3Uii266yrUQ3R+HEjiDpKwO+93234VMS0VxIslm3a2
-         GnKw+ulrN3ttL/lmXtLFPyG1MFfOBD03JI5VIL8VtHlzN+J13QiCn0MqBcDQjVUJ2yxu
-         YXyfDyjsbE5tLakbt0uihPXt6VtlTnTU8qek0GTcV92IjJUEcnKUo2hYjjstnq3Z/sjr
-         QdiFfxuMoiaHkH94kHcVhCTjcWUnNDlAi3dffLlojPKp6NroKfJZsJrztnzru2HRTkKk
-         WHgQ==
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc;
+        bh=8ith3DKWqelfwAhl4fXB2Zj3+XrRanGIkq2gbaZNWZg=;
+        b=BVQpXwpBZgmCcpri72t9UYGSUWNIWbGX+mvKI914QY8tRVzJe+eeIW6Qh/v466eoXH
+         fqtZ9qkt9kzrgFQw4vvsffJYWvxDWABGWdj72gGBl+UQVV0nFx/FqLnPInnnqSkwvZiz
+         QAx3e/fFprENPZEkS4XD1h1f1dkIll6fgX8OBhc6HyYzEUEfBsScjnLGiqwELqIQJfdE
+         CXpkfkItL/NTWXet387ZBCBynIWBmmn5KciXvLRb/KXwolyGql54ceQ8n2zKycvV0r3S
+         RNr8UB6ykcmIvdBDzec7uUOA0eGooPOq6M9o5dvWGS520weyqQRDNqRik0CYBOTV/P1m
+         j0ww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
-         :date:x-gm-message-state:from:to:cc;
-        bh=ICbJbu994zVr5Xs1z95aw5HWEa26kaUMyLqHNb1JBhY=;
-        b=5fT0swQGvYNWqgXLSBHUap/BV6SNle+lLkgXqwPqLYuy2WCacYjQmBYqZIak5luLTo
-         ZM6B4ngVm27/O7SO83JzsbIgJJQKlzAGysRFG47gvf1ZwaeNoWgw35knspn7mI5pT6gj
-         6JrQ2MoWG3adAjpSXY3LgAEF5voB0LYaDe9KDFaBO81rTQaIfB/DrSdNO08aeaWIa9ZL
-         06NMQXq9XHZndI3TdtR5FnuFPPG2K3P7iZEU71qa7SD77AnOmSVbexy3Yj/KNnuvtihb
-         oyUX7QKnWGkftlDeQPvISPrJYkRa5DNlJQBNGU6dAIbh06qyDUH85xKXYYxTw/Lpooa4
-         vIYA==
-X-Gm-Message-State: ACgBeo3ws0vDUcZ/I5+bYRojwFGq5b3d0G0+4N8l8yy2fVwZhGNvTflN
-        EUcSGLQ/6vRGUVeJfKiOwUczOw==
-X-Google-Smtp-Source: AA6agR68yl2fr8PEnDujhC7M2MHll9zueDCXCVVuM/SRsb8w23zlYBdOQcq71uTGZEOLB6PPe+MzJQ==
-X-Received: by 2002:a05:620a:70a:b0:6b6:1997:b7f2 with SMTP id 10-20020a05620a070a00b006b61997b7f2mr9605948qkc.417.1661058954697;
-        Sat, 20 Aug 2022 22:15:54 -0700 (PDT)
-Received: from ripple.attlocal.net (172-10-233-147.lightspeed.sntcca.sbcglobal.net. [172.10.233.147])
-        by smtp.gmail.com with ESMTPSA id s11-20020a05620a0bcb00b006bb9125363fsm7972537qki.121.2022.08.20.22.15.49
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc;
+        bh=8ith3DKWqelfwAhl4fXB2Zj3+XrRanGIkq2gbaZNWZg=;
+        b=6VsinoZI2o3WE51q0ZzibGqafmGtJq02mwLNQywbJm+VUjt0yNrScWZcsyDsOfvoWj
+         j6ix5Nd+cLmbxPaltGMe7etCbXNKy0hVA02ln0UgNxX17og17Y4Ct3RcXrHnH82TkUXW
+         0Nvxk1BBsgyWfiQcN4ISJx3z6A/1jciNY+w1pUhonzpstzTHwXW+uen/TbvIkRGfzxgG
+         H3W73OFfjBLHy7Fs4faqSX5ZbkpdGQW+1WjbRvkU/3afnqh5Ya08hHZSZVdGzrV9k5ze
+         Qrn1wqWhq251bQeMvptyjUCDRgKY5iu+rBABkTcYUnh/idVEWuY4x0mmQVrGaPvbU8vS
+         hKvQ==
+X-Gm-Message-State: ACgBeo04Z8gv5Oi5EtlvtKCDP1zBTIIJap2BnkK7JO02zg9BaX0b8Kqr
+        nDuwggEs0jxr1VBDmom0xLc=
+X-Google-Smtp-Source: AA6agR4kTu9YlV5YYbUUlwVhkyNFi6XbWVbAuGGc7J+qELenLCeL3rXs3jHQa/zJy5NHEabc6B1vAQ==
+X-Received: by 2002:a17:907:288a:b0:730:7f77:9550 with SMTP id em10-20020a170907288a00b007307f779550mr9534282ejc.216.1661076708009;
+        Sun, 21 Aug 2022 03:11:48 -0700 (PDT)
+Received: from gmail.com (195-38-113-151.pool.digikabel.hu. [195.38.113.151])
+        by smtp.gmail.com with ESMTPSA id j15-20020aa7c0cf000000b0043bbc9503ddsm6251027edp.76.2022.08.21.03.11.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 20 Aug 2022 22:15:53 -0700 (PDT)
-Date:   Sat, 20 Aug 2022 22:15:32 -0700 (PDT)
-From:   Hugh Dickins <hughd@google.com>
-X-X-Sender: hugh@ripple.anvils
-To:     "Kirill A. Shutemov" <kirill@shutemov.name>
-cc:     Hugh Dickins <hughd@google.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
-        linux-kselftest@vger.kernel.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <seanjc@google.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>, luto@kernel.org,
-        jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
-        david@redhat.com, aarcange@redhat.com, ddutile@redhat.com,
-        dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        Muchun Song <songmuchun@bytedance.com>,
-        "Gupta, Pankaj" <pankaj.gupta@amd.com>
-Subject: Re: [PATCH v7 00/14] KVM: mm: fd-based approach for supporting KVM
- guest private memory
-In-Reply-To: <20220820002700.6yflrxklmpsavdzi@box.shutemov.name>
-Message-ID: <c194262b-b634-4baf-abf0-dc727e8f1d7@google.com>
-References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com> <ff5c5b97-acdf-9745-ebe5-c6609dd6322e@google.com> <20220818132421.6xmjqduempmxnnu2@box> <c6ccbb96-5849-2e2f-3b49-4ea711af525d@google.com> <20220820002700.6yflrxklmpsavdzi@box.shutemov.name>
+        Sun, 21 Aug 2022 03:11:47 -0700 (PDT)
+Sender: Ingo Molnar <mingo.kernel.org@gmail.com>
+Date:   Sun, 21 Aug 2022 12:11:45 +0200
+From:   Ingo Molnar <mingo@kernel.org>
+To:     Nick Desaulniers <ndesaulniers@google.com>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>, x86@kernel.org,
+        linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-um@lists.infradead.org,
+        kvm@vger.kernel.org, llvm@lists.linux.dev,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Borislav Petkov <bp@suse.de>,
+        Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Subject: Re: [PATCH v2] asm goto: eradicate CC_HAS_ASM_GOTO
+Message-ID: <YwIE4WDJXWK/LOR6@gmail.com>
+References: <CAADnVQJFc9AnH_9CW+bSRotkKvOmkO9jq-RF6dmyPYOpq691Yg@mail.gmail.com>
+ <20220819190640.2763586-1-ndesaulniers@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220819190640.2763586-1-ndesaulniers@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, 20 Aug 2022, Kirill A. Shutemov wrote:
+
+* Nick Desaulniers <ndesaulniers@google.com> wrote:
+
+> GCC has supported asm goto since 4.5, and Clang has since version 9.0.0.
+> The minimum supported versions of these tools for the build according to
+> Documentation/process/changes.rst are 5.1 and 11.0.0 respectively.
 > 
-> Yes, INACCESSIBLE is increase of complexity which you do not want to deal
-> with in shmem.c. It get it.
-
-It's not so much that INACCESSIBLE increases the complexity of
-memfd/shmem/tmpfs, as that it is completely foreign to it.
-
-And by handling all those foreign needs at the KVM end (where you
-can be sure that the mem attached to the fd is INACCESSIBLE because
-you have given nobody access to it - no handshaking with 3rd party
-required).
-
+> Remove the feature detection script, Kconfig option, and clean up some
+> fallback code that is no longer supported.
 > 
-> I will try next week to rework it as shim to top of shmem. Does it work
-> for you?
-
-Yes, please do, thanks.  It's a compromise between us: the initial TDX
-case has no justification to use shmem at all, but doing it that way
-will help you with some of the infrastructure, and will probably be
-easiest for KVM to extend to other more relaxed fd cases later.
-
+> The removed script was also testing for a GCC specific bug that was
+> fixed in the 4.7 release.
 > 
-> But I think it is wrong to throw it over the fence to KVM folks and say it
-> is your problem. Core MM has to manage it.
+> Also remove workarounds for bpftrace using clang older than 9.0.0, since
+> other BPF backend fixes are required at this point.
+> 
+> Link: https://lore.kernel.org/lkml/CAK7LNATSr=BXKfkdW8f-H5VT_w=xBpT2ZQcZ7rm6JfkdE+QnmA@mail.gmail.com/
+> Link: http://gcc.gnu.org/bugzilla/show_bug.cgi?id=48637
+> Acked-by: Borislav Petkov <bp@suse.de>
+> Suggested-by: Masahiro Yamada <masahiroy@kernel.org>
+> Suggested-by: Alexei Starovoitov <alexei.starovoitov@gmail.com>
+> Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
 
-We disagree on who is throwing over the fence to whom :)
+Reviewed-by: Ingo Molnar <mingo@kernel.org>
 
-Core MM should manage the core MM parts and KVM should manage the KVM
-parts.  What makes this rather different from most driver usage of MM,
-is that KVM seems likely to use a great proportion of memory this way.
-With great memory usage comes great responsibility: I don't think
-all those flags and seals and notifiers let KVM escape from that.
+Good riddance.
 
-Hugh
+Thanks,
+
+	Ingo
