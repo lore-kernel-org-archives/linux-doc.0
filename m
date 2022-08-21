@@ -2,132 +2,130 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 74A0CC00140
-	for <linux-doc@archiver.kernel.org>; Sun, 21 Aug 2022 04:40:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BD8FAC3F6B0
+	for <linux-doc@archiver.kernel.org>; Sun, 21 Aug 2022 05:16:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229783AbiHUEkM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 21 Aug 2022 00:40:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54102 "EHLO
+        id S230124AbiHUFQD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 21 Aug 2022 01:16:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52944 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229617AbiHUEkA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 21 Aug 2022 00:40:00 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7EB5B21E2A
-        for <linux-doc@vger.kernel.org>; Sat, 20 Aug 2022 21:39:59 -0700 (PDT)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ore@pengutronix.de>)
-        id 1oPckJ-0007TV-Kd; Sun, 21 Aug 2022 06:39:35 +0200
-Received: from ore by ptx.hi.pengutronix.de with local (Exim 4.92)
-        (envelope-from <ore@pengutronix.de>)
-        id 1oPckG-0007zt-4g; Sun, 21 Aug 2022 06:39:32 +0200
-Date:   Sun, 21 Aug 2022 06:39:32 +0200
-From:   Oleksij Rempel <o.rempel@pengutronix.de>
-To:     Andrew Lunn <andrew@lunn.ch>
-Cc:     Heiner Kallweit <hkallweit1@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>, kernel@pengutronix.de,
-        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
-        David Jander <david@protonic.nl>
-Subject: Re: [PATCH net-next v1 7/7] ethtool: add interface to interact with
- Ethernet Power Equipment
-Message-ID: <20220821043932.GJ10138@pengutronix.de>
-References: <20220819120109.3857571-1-o.rempel@pengutronix.de>
- <20220819120109.3857571-8-o.rempel@pengutronix.de>
- <YwEk8h9C9XhT6Yyc@lunn.ch>
+        with ESMTP id S230140AbiHUFP7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 21 Aug 2022 01:15:59 -0400
+Received: from mail-qk1-x732.google.com (mail-qk1-x732.google.com [IPv6:2607:f8b0:4864:20::732])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A853D24BEC
+        for <linux-doc@vger.kernel.org>; Sat, 20 Aug 2022 22:15:55 -0700 (PDT)
+Received: by mail-qk1-x732.google.com with SMTP id m5so5889046qkk.1
+        for <linux-doc@vger.kernel.org>; Sat, 20 Aug 2022 22:15:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
+         :date:from:to:cc;
+        bh=ICbJbu994zVr5Xs1z95aw5HWEa26kaUMyLqHNb1JBhY=;
+        b=PN7QnVx2jBrgPHqyqwc/bGpaE8KQadBOlUYLB6T+dOoTpwUJFZfkh7+JVXHp8AIDdn
+         aHVqAoV2ZwSdEszZ8lrHjiDGK+3Uii266yrUQ3R+HEjiDpKwO+93234VMS0VxIslm3a2
+         GnKw+ulrN3ttL/lmXtLFPyG1MFfOBD03JI5VIL8VtHlzN+J13QiCn0MqBcDQjVUJ2yxu
+         YXyfDyjsbE5tLakbt0uihPXt6VtlTnTU8qek0GTcV92IjJUEcnKUo2hYjjstnq3Z/sjr
+         QdiFfxuMoiaHkH94kHcVhCTjcWUnNDlAi3dffLlojPKp6NroKfJZsJrztnzru2HRTkKk
+         WHgQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
+         :date:x-gm-message-state:from:to:cc;
+        bh=ICbJbu994zVr5Xs1z95aw5HWEa26kaUMyLqHNb1JBhY=;
+        b=5fT0swQGvYNWqgXLSBHUap/BV6SNle+lLkgXqwPqLYuy2WCacYjQmBYqZIak5luLTo
+         ZM6B4ngVm27/O7SO83JzsbIgJJQKlzAGysRFG47gvf1ZwaeNoWgw35knspn7mI5pT6gj
+         6JrQ2MoWG3adAjpSXY3LgAEF5voB0LYaDe9KDFaBO81rTQaIfB/DrSdNO08aeaWIa9ZL
+         06NMQXq9XHZndI3TdtR5FnuFPPG2K3P7iZEU71qa7SD77AnOmSVbexy3Yj/KNnuvtihb
+         oyUX7QKnWGkftlDeQPvISPrJYkRa5DNlJQBNGU6dAIbh06qyDUH85xKXYYxTw/Lpooa4
+         vIYA==
+X-Gm-Message-State: ACgBeo3ws0vDUcZ/I5+bYRojwFGq5b3d0G0+4N8l8yy2fVwZhGNvTflN
+        EUcSGLQ/6vRGUVeJfKiOwUczOw==
+X-Google-Smtp-Source: AA6agR68yl2fr8PEnDujhC7M2MHll9zueDCXCVVuM/SRsb8w23zlYBdOQcq71uTGZEOLB6PPe+MzJQ==
+X-Received: by 2002:a05:620a:70a:b0:6b6:1997:b7f2 with SMTP id 10-20020a05620a070a00b006b61997b7f2mr9605948qkc.417.1661058954697;
+        Sat, 20 Aug 2022 22:15:54 -0700 (PDT)
+Received: from ripple.attlocal.net (172-10-233-147.lightspeed.sntcca.sbcglobal.net. [172.10.233.147])
+        by smtp.gmail.com with ESMTPSA id s11-20020a05620a0bcb00b006bb9125363fsm7972537qki.121.2022.08.20.22.15.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 20 Aug 2022 22:15:53 -0700 (PDT)
+Date:   Sat, 20 Aug 2022 22:15:32 -0700 (PDT)
+From:   Hugh Dickins <hughd@google.com>
+X-X-Sender: hugh@ripple.anvils
+To:     "Kirill A. Shutemov" <kirill@shutemov.name>
+cc:     Hugh Dickins <hughd@google.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+        linux-kselftest@vger.kernel.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sean Christopherson <seanjc@google.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>, luto@kernel.org,
+        jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
+        david@redhat.com, aarcange@redhat.com, ddutile@redhat.com,
+        dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+        Muchun Song <songmuchun@bytedance.com>,
+        "Gupta, Pankaj" <pankaj.gupta@amd.com>
+Subject: Re: [PATCH v7 00/14] KVM: mm: fd-based approach for supporting KVM
+ guest private memory
+In-Reply-To: <20220820002700.6yflrxklmpsavdzi@box.shutemov.name>
+Message-ID: <c194262b-b634-4baf-abf0-dc727e8f1d7@google.com>
+References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com> <ff5c5b97-acdf-9745-ebe5-c6609dd6322e@google.com> <20220818132421.6xmjqduempmxnnu2@box> <c6ccbb96-5849-2e2f-3b49-4ea711af525d@google.com> <20220820002700.6yflrxklmpsavdzi@box.shutemov.name>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <YwEk8h9C9XhT6Yyc@lunn.ch>
-X-Sent-From: Pengutronix Hildesheim
-X-URL:  http://www.pengutronix.de/
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: ore@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Aug 20, 2022 at 08:16:18PM +0200, Andrew Lunn wrote:
-> On Fri, Aug 19, 2022 at 02:01:09PM +0200, Oleksij Rempel wrote:
-> > Add interface to support Power Sourcing Equipment. At current step it
-> > provides generic way to address all variants of PSE devices as defined
-> > in IEEE 802.3-2018 but support only objects specified for IEEE 802.3-2018 104.4
-> > PoDL Power Sourcing Equipment (PSE).
-> > 
-> > Currently supported and mandatory objects are:
-> > IEEE 802.3-2018 30.15.1.1.3 aPoDLPSEPowerDetectionStatus
-> > IEEE 802.3-2018 30.15.1.1.2 aPoDLPSEAdminState
-> > IEEE 802.3-2018 30.15.1.2.1 acPoDLPSEAdminControl
-> > 
-> > This is minimal interface needed to control PSE on each separate
-> > ethernet port but it provides not all mandatory objects specified in
-> > IEEE 802.3-2018.
+On Sat, 20 Aug 2022, Kirill A. Shutemov wrote:
 > 
-> > +static int pse_get_pse_attributs(struct net_device *dev,
-> > +				 struct pse_reply_data *data)
-> > +{
-> > +	struct phy_device *phydev = dev->phydev;
-> > +	int ret;
-> > +
-> > +	if (!phydev)
-> > +		return -EOPNOTSUPP;
-> > +
-> > +	mutex_lock(&phydev->lock);
-> > +	if (!phydev->psec) {
-> > +		ret = -EOPNOTSUPP;
-> > +		goto error_unlock;
-> > +	}
-> > +
-> > +	ret = pse_podl_get_admin_sate(phydev->psec);
-> > +	if (ret < 0)
-> > +		goto error_unlock;
-> > +
-> > +	data->podl_pse_admin_state = ret;
-> > +
-> > +	ret = pse_podl_get_pw_d_status(phydev->psec);
-> > +	if (ret < 0)
-> > +		goto error_unlock;
-> > +
-> > +	data->podl_pse_pw_d_status = ret;
-> 
-> I'm wondering how this is going to scale. At some point, i expect
-> there will be an implementation that follows C45.2.9. I see 14 values
-> which could be returned. I don't think 14 ops in the driver structure
-> makes sense. Plus c30.15.1 defines other values.
-> 
-> The nice thing about netlink is you can have as many or are little
-> attributes in the message as you want. For cable testing, i made use
-> of this. There is no standardisation, different PHYs offer different
-> sorts of results. So i made the API flexible. The PHY puts whatever
-> results it has into the message, and ethtool(1) just walks the message
-> and prints what is in it.
-> 
-> I'm wondering if we want a similar sort of API here?
-> net/ethtool/pse-pd.c allocates the netlink messages, adds the header,
-> and then passes it to the driver. The driver then uses helpers from
-> ethtool to add whatever attributes it wants to the message. pse-pd
-> then completes the message, and returns it to user space? This seems
-> like it will scale better.
+> Yes, INACCESSIBLE is increase of complexity which you do not want to deal
+> with in shmem.c. It get it.
 
-Yes. Sounds good. I'll make a new version.
+It's not so much that INACCESSIBLE increases the complexity of
+memfd/shmem/tmpfs, as that it is completely foreign to it.
 
-Regards,
-Oleksij
--- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+And by handling all those foreign needs at the KVM end (where you
+can be sure that the mem attached to the fd is INACCESSIBLE because
+you have given nobody access to it - no handshaking with 3rd party
+required).
+
+> 
+> I will try next week to rework it as shim to top of shmem. Does it work
+> for you?
+
+Yes, please do, thanks.  It's a compromise between us: the initial TDX
+case has no justification to use shmem at all, but doing it that way
+will help you with some of the infrastructure, and will probably be
+easiest for KVM to extend to other more relaxed fd cases later.
+
+> 
+> But I think it is wrong to throw it over the fence to KVM folks and say it
+> is your problem. Core MM has to manage it.
+
+We disagree on who is throwing over the fence to whom :)
+
+Core MM should manage the core MM parts and KVM should manage the KVM
+parts.  What makes this rather different from most driver usage of MM,
+is that KVM seems likely to use a great proportion of memory this way.
+With great memory usage comes great responsibility: I don't think
+all those flags and seals and notifiers let KVM escape from that.
+
+Hugh
