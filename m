@@ -2,299 +2,309 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 477ADC28D13
-	for <linux-doc@archiver.kernel.org>; Mon, 22 Aug 2022 21:37:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 62506C3F6B0
+	for <linux-doc@archiver.kernel.org>; Mon, 22 Aug 2022 21:42:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238179AbiHVVht (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 22 Aug 2022 17:37:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59640 "EHLO
+        id S238236AbiHVVmZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 22 Aug 2022 17:42:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36552 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238183AbiHVVhq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Aug 2022 17:37:46 -0400
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12DDC558DD
-        for <linux-doc@vger.kernel.org>; Mon, 22 Aug 2022 14:37:44 -0700 (PDT)
-Received: by mail-wr1-x432.google.com with SMTP id n4so14748102wrp.10
-        for <linux-doc@vger.kernel.org>; Mon, 22 Aug 2022 14:37:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile-fr.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc;
-        bh=9ziUlOSzja4on6ENSVsZ7KZ5gsg1rXUknDDdLHbcpi4=;
-        b=Bgpalr8/AEyT4dsLaxcxsVK4lHbw4v551+GBt6qlmpK7MvcXQhU6WnObddHB/HtJ2D
-         Jv75ky5C5wMsVfJdk5a9lUMmGh15pzhxNbO7EMj9xfNeQPREOnbyYLDjPbNzZz7W0cRX
-         NtHZ/OYZuAZkAi4NV+vT108Sfp8ifReVWpXoSIE025mfoM2vBTiHMm/WznbImJE/3FJp
-         qIC6reCMwUvwBY9DQnd9sGFKRE6b1Iet56ffAzdxF9JdN4nnbcHr1rYSOAlJVV47lVJ8
-         /a8I+PmASeU490/Xwb5xPnZRANSWTzZ6lIPu2RTWtsA93RHJXToyPoSpa3OZp4mMEAIg
-         21ww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc;
-        bh=9ziUlOSzja4on6ENSVsZ7KZ5gsg1rXUknDDdLHbcpi4=;
-        b=Cx5xaePrXv8ktgPPmMnYkTX1nfLA/kTBIt1zDDp4OK34kZcqgYm8/efp7Jt9AxPXD/
-         M8oJ8Fl5b0xY5MbFaaiI5hgplRU0a+XN2PNor2pggGDa9OZpEWFD+M1Q44E+4FsOrc5E
-         TJvX4Ooam/H72/psjI9BLbfvi5smNmjCjU22qGzrBnF/MoDV3nGqTb1BIGGAh12WCVYG
-         +02cdG1N0oGLVhGuyYI3CB2hvl0yPTl5sPzjOxae+Bh8WK46Gpv+A+5yWCTO+gjrmYu6
-         +EhkvGAcxVEvVqh+FNzSeN3gWNi2C76csG35YLioIq83WJ+FCzngMqqCfDfe+SnXQhGv
-         VNrw==
-X-Gm-Message-State: ACgBeo2HkpL5mcVcIu2+oKsfeGsbB0waFQm7Z6KvcALDZtXMM5w9Psk6
-        Fr8F0mqSd2OwjQZ8DWXt+hwoLQiWkXaz6Q==
-X-Google-Smtp-Source: AA6agR6GhbHK3OZJPnWO6krqkSKC5iSROZA8prjZMyZsRPET0lVfCQcJSPHmNdnfxoMLYc0ikch8Mw==
-X-Received: by 2002:a5d:64c2:0:b0:225:61ab:ddc0 with SMTP id f2-20020a5d64c2000000b0022561abddc0mr2160599wri.4.1661204261907;
-        Mon, 22 Aug 2022 14:37:41 -0700 (PDT)
-Received: from P-ASN-ECS-830T8C3.lyon.intranet (89-159-1-53.rev.numericable.fr. [89.159.1.53])
-        by smtp.gmail.com with ESMTPSA id n3-20020a05600c3b8300b003a54fffa809sm16560700wms.17.2022.08.22.14.37.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Aug 2022 14:37:41 -0700 (PDT)
-From:   Yoann Congal <yoann.congal@smile.fr>
-To:     linux-doc@vger.kernel.org
-Cc:     Yoann Congal <yoann.congal@smile.fr>
-Subject: [PATCH] Documentation: kprobetrace: Improve readability
-Date:   Mon, 22 Aug 2022 23:37:32 +0200
-Message-Id: <20220822213732.2731429-1-yoann.congal@smile.fr>
-X-Mailer: git-send-email 2.30.2
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        with ESMTP id S238228AbiHVVmX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Aug 2022 17:42:23 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A88CB564D2;
+        Mon, 22 Aug 2022 14:42:21 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 3ADABB81982;
+        Mon, 22 Aug 2022 21:42:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A6F27C433C1;
+        Mon, 22 Aug 2022 21:42:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1661204538;
+        bh=m3afk3mljkvownoqx6MC00ioq6Fmulwr4fb2KxjYoHM=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=PYqyst0c/Rsc+ShBpyzFzAilHnFn3hycljOEIChGLUbJhQIsLJgPvnhh+7FgjHZRU
+         nslyP/dSlL0Q4A+e0GgacIWJ65CO0qqnm0LTOvPiQ8TkudfxcnVN7Ua24PBegg6/08
+         HszYQM7XTYA8iW6ZSOlny9jOOPFo5Wwp/zXizabqwYB3BwNxV+lZwITw1jKtcYBT4t
+         K+UqcBl3HhRozYVIOllwNBqIsXsg+n3ShVXuHmB+gre0VjUlYRbPe8vv6etglQy9wT
+         ClUPKAQRNS3QYE4GHr4zqqZjEVzasMPBJR2JRO9XOZjlRZkmFm+XkGzo7tzSNDzzzZ
+         FIUdpa3iZS+Pg==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=why.misterjones.org)
+        by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.95)
+        (envelope-from <maz@kernel.org>)
+        id 1oQFBY-004xE0-EA;
+        Mon, 22 Aug 2022 22:42:16 +0100
+Date:   Mon, 22 Aug 2022 22:42:15 +0100
+Message-ID: <87fshovtu0.wl-maz@kernel.org>
+From:   Marc Zyngier <maz@kernel.org>
+To:     Gavin Shan <gshan@redhat.com>
+Cc:     kvmarm@lists.cs.columbia.edu, linux-arm-kernel@lists.infradead.org,
+        kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        peterx@redhat.com, pbonzini@redhat.com, corbet@lwn.net,
+        james.morse@arm.com, alexandru.elisei@arm.com,
+        suzuki.poulose@arm.com, oliver.upton@linux.dev,
+        catalin.marinas@arm.com, will@kernel.org, shuah@kernel.org,
+        seanjc@google.com, drjones@redhat.com, dmatlack@google.com,
+        bgardon@google.com, ricarkol@google.com, zhenyzha@redhat.com,
+        shan.gavin@gmail.com
+Subject: Re: [PATCH v1 1/5] KVM: arm64: Enable ring-based dirty memory tracking
+In-Reply-To: <41fb5a1f-29a9-e6bb-9fab-4c83a2a8fce5@redhat.com>
+References: <20220819005601.198436-1-gshan@redhat.com>
+        <20220819005601.198436-2-gshan@redhat.com>
+        <87lerkwtm5.wl-maz@kernel.org>
+        <41fb5a1f-29a9-e6bb-9fab-4c83a2a8fce5@redhat.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
+ (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: gshan@redhat.com, kvmarm@lists.cs.columbia.edu, linux-arm-kernel@lists.infradead.org, kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, peterx@redhat.com, pbonzini@redhat.com, corbet@lwn.net, james.morse@arm.com, alexandru.elisei@arm.com, suzuki.poulose@arm.com, oliver.upton@linux.dev, catalin.marinas@arm.com, will@kernel.org, shuah@kernel.org, seanjc@google.com, drjones@redhat.com, dmatlack@google.com, bgardon@google.com, ricarkol@google.com, zhenyzha@redhat.com, shan.gavin@gmail.com
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Improve readability of kprobetrace documentation by adding markup
-(mainly code snippets), fixing some typos and splitting some paragraphs.
+Hi Gavin,
 
-Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
----
- Documentation/trace/kprobetrace.rst | 128 ++++++++++++++--------------
- 1 file changed, 66 insertions(+), 62 deletions(-)
+On Mon, 22 Aug 2022 02:58:20 +0100,
+Gavin Shan <gshan@redhat.com> wrote:
+>=20
+> Hi Marc,
+>=20
+> On 8/19/22 6:00 PM, Marc Zyngier wrote:
+> > On Fri, 19 Aug 2022 01:55:57 +0100,
+> > Gavin Shan <gshan@redhat.com> wrote:
+> >>=20
+> >> The ring-based dirty memory tracking has been available and enabled
+> >> on x86 for a while. The feature is beneficial when the number of
+> >> dirty pages is small in a checkpointing system or live migration
+> >> scenario. More details can be found from fb04a1eddb1a ("KVM: X86:
+> >> Implement ring-based dirty memory tracking").
+> >>=20
+> >> This enables the ring-based dirty memory tracking on ARM64. It's
+> >> notable that no extra reserved ring entries are needed on ARM64
+> >> because the huge pages are always split into base pages when page
+> >> dirty tracking is enabled.
+> >=20
+> > Can you please elaborate on this? Adding a per-CPU ring of course
+> > results in extra memory allocation, so there must be a subtle
+> > x86-specific detail that I'm not aware of...
+> >=20
+>=20
+> Sure. I guess it's helpful to explain how it works in next revision.
+> Something like below:
+>=20
+> This enables the ring-based dirty memory tracking on ARM64. The feature
+> is enabled by CONFIG_HAVE_KVM_DIRTY_RING, detected and enabled by
+> CONFIG_HAVE_KVM_DIRTY_RING. A ring buffer is created on every vcpu and
+> each entry is described by 'struct kvm_dirty_gfn'. The ring buffer is
+> pushed by host when page becomes dirty and pulled by userspace. A vcpu
+> exit is forced when the ring buffer becomes full. The ring buffers on
+> all vcpus can be reset by ioctl command KVM_RESET_DIRTY_RINGS.
+>=20
+> Yes, I think so. Adding a per-CPU ring results in extra memory allocation.
+> However, it's avoiding synchronization among multiple vcpus when dirty
+> pages happen on multiple vcpus. More discussion can be found from [1]
 
-diff --git a/Documentation/trace/kprobetrace.rst b/Documentation/trace/kprobetrace.rst
-index 4274cc6a2f94..d13bf15d6e00 100644
---- a/Documentation/trace/kprobetrace.rst
-+++ b/Documentation/trace/kprobetrace.rst
-@@ -6,22 +6,22 @@ Kprobe-based Event Tracing
- 
- Overview
- --------
--These events are similar to tracepoint based events. Instead of Tracepoint,
-+These events are similar to tracepoint-based events. Instead of tracepoints,
- this is based on kprobes (kprobe and kretprobe). So it can probe wherever
- kprobes can probe (this means, all functions except those with
--__kprobes/nokprobe_inline annotation and those marked NOKPROBE_SYMBOL).
--Unlike the Tracepoint based event, this can be added and removed
-+``__kprobes``/``nokprobe_inline`` annotation and those marked ``NOKPROBE_SYMBOL``).
-+Unlike the tracepoint-based event, this can be added and removed
- dynamically, on the fly.
- 
--To enable this feature, build your kernel with CONFIG_KPROBE_EVENTS=y.
-+To enable this feature, build your kernel with ``CONFIG_KPROBE_EVENTS=y``.
- 
--Similar to the events tracer, this doesn't need to be activated via
--current_tracer. Instead of that, add probe points via
--/sys/kernel/debug/tracing/kprobe_events, and enable it via
--/sys/kernel/debug/tracing/events/kprobes/<EVENT>/enable.
-+Similar to the event tracer, this doesn't need to be activated via
-+``current_tracer``. Instead of that, add probe points via
-+``/sys/kernel/debug/tracing/kprobe_events``, and enable it via
-+``/sys/kernel/debug/tracing/events/kprobes/<EVENT>/enable``.
- 
--You can also use /sys/kernel/debug/tracing/dynamic_events instead of
--kprobe_events. That interface will provide unified access to other
-+You can also use ``/sys/kernel/debug/tracing/dynamic_events`` instead of
-+``kprobe_events``. That interface will provide unified access to other
- dynamic events too.
- 
- Synopsis of kprobe_events
-@@ -68,85 +68,89 @@ Synopsis of kprobe_events
- 
- Types
- -----
--Several types are supported for fetch-args. Kprobe tracer will access memory
--by given type. Prefix 's' and 'u' means those types are signed and unsigned
--respectively. 'x' prefix implies it is unsigned. Traced arguments are shown
--in decimal ('s' and 'u') or hexadecimal ('x'). Without type casting, 'x32'
--or 'x64' is used depends on the architecture (e.g. x86-32 uses x32, and
--x86-64 uses x64).
--These value types can be an array. To record array data, you can add '[N]'
-+Several types are supported for ``fetchargs``. Kprobe tracer will access memory
-+by given type. Prefix ``s`` and ``u`` means those types are signed and unsigned
-+respectively. ``x`` prefix implies it is unsigned. Traced arguments are shown
-+in decimal (``s`` and ``u``) or hexadecimal (``x``). Without type casting, ``x32``
-+or ``x64`` is used depends on the architecture (e.g. x86-32 uses ``x32``, and
-+x86-64 uses ``x64``).
-+
-+These value types can be an array. To record array data, you can add ``[N]``
- (where N is a fixed number, less than 64) to the base type.
--E.g. 'x16[4]' means an array of x16 (2bytes hex) with 4 elements.
--Note that the array can be applied to memory type fetchargs, you can not
--apply it to registers/stack-entries etc. (for example, '$stack1:x8[8]' is
--wrong, but '+8($stack):x8[8]' is OK.)
--String type is a special type, which fetches a "null-terminated" string from
-+E.g. ``x16[4]`` means an array of ``x16`` (2-bytes hex) with 4 elements.
-+Note that the array can be applied to memory type ``fetchargs``, you can not
-+apply it to registers/stack-entries etc. (for example, ``$stack1:x8[8]`` is
-+wrong, but ``+8($stack):x8[8]`` is OK.)
-+
-+``string`` type is a special type, which fetches a "null-terminated" string from
- kernel space. This means it will fail and store NULL if the string container
--has been paged out. "ustring" type is an alternative of string for user-space.
--See :ref:`user_mem_access` for more info..
-+has been paged out. ``ustring`` type is an alternative of string for user-space.
-+See :ref:`user_mem_access` for more info.
-+
- The string array type is a bit different from other types. For other base
--types, <base-type>[1] is equal to <base-type> (e.g. +0(%di):x32[1] is same
--as +0(%di):x32.) But string[1] is not equal to string. The string type itself
-+types, ``<base-type>[1]`` is equal to ``<base-type>`` (e.g. ``+0(%di):x32[1]`` is same
-+as ``+0(%di):x32``.) But ``string[1]`` is not equal to ``string``. The ``string`` type itself
- represents "char array", but string array type represents "char * array".
--So, for example, +0(%di):string[1] is equal to +0(+0(%di)):string.
-+So, for example, ``+0(%di):string[1]`` is equal to ``+0(+0(%di)):string``.
- Bitfield is another special type, which takes 3 parameters, bit-width, bit-
- offset, and container-size (usually 32). The syntax is::
- 
-  b<bit-width>@<bit-offset>/<container-size>
- 
--Symbol type('symbol') is an alias of u32 or u64 type (depends on BITS_PER_LONG)
--which shows given pointer in "symbol+offset" style.
--For $comm, the default type is "string"; any other type is invalid.
-+Symbol type('symbol') is an alias of ``u32`` or ``u64`` type (depends on ``BITS_PER_LONG``)
-+which shows given pointer in ``symbol+offset`` style.
-+
-+For ``$comm``, the default type is ``string``; any other type is invalid.
- 
- .. _user_mem_access:
- 
- User Memory Access
- ------------------
- Kprobe events supports user-space memory access. For that purpose, you can use
--either user-space dereference syntax or 'ustring' type.
-+either user-space dereference syntax or ``ustring`` type.
- 
- The user-space dereference syntax allows you to access a field of a data
--structure in user-space. This is done by adding the "u" prefix to the
--dereference syntax. For example, +u4(%si) means it will read memory from the
--address in the register %si offset by 4, and the memory is expected to be in
--user-space. You can use this for strings too, e.g. +u0(%si):string will read
--a string from the address in the register %si that is expected to be in user-
--space. 'ustring' is a shortcut way of performing the same task. That is,
--+0(%si):ustring is equivalent to +u0(%si):string.
-+structure in user-space. This is done by adding the ``u`` prefix to the
-+dereference syntax. For example, ``+u4(%si)`` means it will read memory from the
-+address in the register ``%si`` offset by 4, and the memory is expected to be in
-+user-space. You can use this for strings too, e.g. ``+u0(%si):string`` will read
-+a string from the address in the register ``%si`` that is expected to be in user-
-+space. ``ustring`` is a shortcut way of performing the same task. That is,
-+``+0(%si):ustring`` is equivalent to ``+u0(%si):string``.
- 
- Note that kprobe-event provides the user-memory access syntax but it doesn't
- use it transparently. This means if you use normal dereference or string type
--for user memory, it might fail, and may always fail on some archs. The user
-+for user memory, it might fail, and may always fail on some architectures. The user
- has to carefully check if the target data is in kernel or user space.
- 
- Per-Probe Event Filtering
- -------------------------
- Per-probe event filtering feature allows you to set different filter on each
- probe and gives you what arguments will be shown in trace buffer. If an event
--name is specified right after 'p:' or 'r:' in kprobe_events, it adds an event
--under tracing/events/kprobes/<EVENT>, at the directory you can see 'id',
--'enable', 'format', 'filter' and 'trigger'.
-+name is specified right after ``p:`` or ``r:`` in ``kprobe_events``, it adds an event
-+under ``tracing/events/kprobes/<EVENT>``, at the directory you can see ``id``,
-+``enable``, ``format``, ``filter`` and ``trigger``.
- 
--enable:
-+``enable``:
-   You can enable/disable the probe by writing 1 or 0 on it.
- 
--format:
-+``format``:
-   This shows the format of this probe event.
- 
--filter:
-+``filter``:
-   You can write filtering rules of this event.
- 
--id:
-+``id``:
-   This shows the id of this probe event.
- 
--trigger:
-+``trigger``:
-   This allows to install trigger commands which are executed when the event is
--  hit (for details, see Documentation/trace/events.rst, section 6).
-+  hit (for details, see ``Documentation/trace/events.rst``, section 6).
- 
- Event Profiling
- ---------------
- You can check the total number of probe hits and probe miss-hits via
--/sys/kernel/debug/tracing/kprobe_profile.
-+``/sys/kernel/debug/tracing/kprobe_profile``.
- The first column is event name, the second is the number of probe hits,
- the third is the number of probe miss-hits.
- 
-@@ -156,11 +160,11 @@ You can add and enable new kprobe events when booting up the kernel by
- "kprobe_event=" parameter. The parameter accepts a semicolon-delimited
- kprobe events, which format is similar to the kprobe_events.
- The difference is that the probe definition parameters are comma-delimited
--instead of space. For example, adding myprobe event on do_sys_open like below
-+instead of space. For example, adding myprobe event on do_sys_open like below::
- 
-   p:myprobe do_sys_open dfd=%ax filename=%dx flags=%cx mode=+4($stack)
- 
--should be below for kernel boot parameter (just replace spaces with comma)
-+should be below for kernel boot parameter (just replace spaces with comma)::
- 
-   p:myprobe,do_sys_open,dfd=%ax,filename=%dx,flags=%cx,mode=+4($stack)
- 
-@@ -172,20 +176,20 @@ as below::
- 
-   echo 'p:myprobe do_sys_open dfd=%ax filename=%dx flags=%cx mode=+4($stack)' > /sys/kernel/debug/tracing/kprobe_events
- 
--This sets a kprobe on the top of do_sys_open() function with recording
--1st to 4th arguments as "myprobe" event. Note, which register/stack entry is
-+This sets a kprobe on the top of ``do_sys_open()`` function with recording
-+1st to 4th arguments as ``myprobe`` event. Note, which register/stack entry is
- assigned to each function argument depends on arch-specific ABI. If you unsure
--the ABI, please try to use probe subcommand of perf-tools (you can find it
--under tools/perf/).
-+the ABI, please try to use ``probe`` subcommand of ``perf-tools`` (you can find it
-+under ``tools/perf/``).
- As this example shows, users can choose more familiar names for each arguments.
- ::
- 
-   echo 'r:myretprobe do_sys_open $retval' >> /sys/kernel/debug/tracing/kprobe_events
- 
--This sets a kretprobe on the return point of do_sys_open() function with
--recording return value as "myretprobe" event.
-+This sets a kretprobe on the return point of ``do_sys_open()`` function with
-+recording return value as ``myretprobe`` event.
- You can see the format of these events via
--/sys/kernel/debug/tracing/events/kprobes/<EVENT>/format.
-+``/sys/kernel/debug/tracing/events/kprobes/<EVENT>/format``.
- ::
- 
-   cat /sys/kernel/debug/tracing/events/kprobes/myprobe/format
-@@ -236,7 +240,7 @@ Use the following command to start tracing in an interval.
-     Open something...
-     # echo 0 > tracing_on
- 
--And you can see the traced information via /sys/kernel/debug/tracing/trace.
-+And you can see the traced information via ``/sys/kernel/debug/tracing/trace``.
- ::
- 
-   cat /sys/kernel/debug/tracing/trace
-@@ -252,6 +256,6 @@ And you can see the traced information via /sys/kernel/debug/tracing/trace.
-              <...>-1447  [001] 1038282.286976: myretprobe: (sys_open+0x1b/0x1d <- do_sys_open) $retval=3
- 
- 
--Each line shows when the kernel hits an event, and <- SYMBOL means kernel
--returns from SYMBOL(e.g. "sys_open+0x1b/0x1d <- do_sys_open" means kernel
--returns from do_sys_open to sys_open+0x1b).
-+Each line shows when the kernel hits an event, and ``<- SYMBOL`` means kernel
-+returns from ``SYMBOL`` (e.g. ``sys_open+0x1b/0x1d <- do_sys_open`` means kernel
-+returns from ``do_sys_open`` to ``sys_open+0x1b``).
--- 
-2.30.2
+Oh, I totally buy the relaxation of the synchronisation (though I
+doubt this will have any visible effect until we have something like
+Oliver's patches to allow parallel faulting).
 
+But it is the "no extra reserved ring entries are needed on ARM64"
+argument that I don't get yet.
+
+
+>
+> [1] https://patchwork.kernel.org/project/kvm/patch/BL2PR08MB4812F929A2760=
+BC40EA757CF0630@BL2PR08MB481.namprd08.prod.outlook.com/
+> (comment#8 from Radim Kr=C4=8Dm=C3=A1=C5=99 on May 3, 2016, 2:11 p.m. UTC)
+>=20
+>=20
+> >>=20
+> >> Signed-off-by: Gavin Shan <gshan@redhat.com>
+> >> ---
+> >>   Documentation/virt/kvm/api.rst    | 2 +-
+> >>   arch/arm64/include/uapi/asm/kvm.h | 1 +
+> >>   arch/arm64/kvm/Kconfig            | 1 +
+> >>   arch/arm64/kvm/arm.c              | 8 ++++++++
+> >>   4 files changed, 11 insertions(+), 1 deletion(-)
+> >>=20
+> >> diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/a=
+pi.rst
+> >> index abd7c32126ce..19fa1ac017ed 100644
+> >> --- a/Documentation/virt/kvm/api.rst
+> >> +++ b/Documentation/virt/kvm/api.rst
+> >> @@ -8022,7 +8022,7 @@ regardless of what has actually been exposed thr=
+ough the CPUID leaf.
+> >>   8.29 KVM_CAP_DIRTY_LOG_RING
+> >>   ---------------------------
+> >>   -:Architectures: x86
+> >> +:Architectures: x86, arm64
+> >>   :Parameters: args[0] - size of the dirty log ring
+> >>     KVM is capable of tracking dirty memory using ring buffers that
+> >> are
+> >> diff --git a/arch/arm64/include/uapi/asm/kvm.h b/arch/arm64/include/ua=
+pi/asm/kvm.h
+> >> index 3bb134355874..7e04b0b8d2b2 100644
+> >> --- a/arch/arm64/include/uapi/asm/kvm.h
+> >> +++ b/arch/arm64/include/uapi/asm/kvm.h
+> >> @@ -43,6 +43,7 @@
+> >>   #define __KVM_HAVE_VCPU_EVENTS
+> >>     #define KVM_COALESCED_MMIO_PAGE_OFFSET 1
+> >> +#define KVM_DIRTY_LOG_PAGE_OFFSET 64
+> >=20
+> > For context, the documentation says:
+> >=20
+> > <quote>
+> > - if KVM_CAP_DIRTY_LOG_RING is available, a number of pages at
+> >    KVM_DIRTY_LOG_PAGE_OFFSET * PAGE_SIZE. [...]
+> > </quote>
+> >=20
+> > What is the reason for picking this particular value?
+> >=20
+>=20
+> It's inherited from x86. I don't think it has to be this particular
+> value.  The value is used to distinguish the region's owners like
+> kvm_run, KVM_PIO_PAGE_OFFSET, KVM_COALESCED_MMIO_PAGE_OFFSET, and
+> KVM_DIRTY_LOG_PAGE_OFFSET.
+>=20
+> How about to have 2 for KVM_DIRTY_LOG_PAGE_OFFSET in next revision?
+> The virtual area is cheap, I guess it's also nice to use x86's
+> pattern to have 64 for KVM_DIRTY_LOG_PAGE_OFFSET.
+>=20
+>     #define KVM_COALESCED_MMIO_PAGE_OFFSET   1
+>     #define KVM_DIRTY_LOG_PAGE_OFFSET        2
+
+Given that this is just an offset in the vcpu "file", I don't think it
+matters that much. 64 definitely allows for some struct vcpu growth,
+and it doesn't hurt to be compatible with x86 (for once...).
+
+>=20
+> >>     #define KVM_REG_SIZE(id)
+> >> \
+> >>   	(1U << (((id) & KVM_REG_SIZE_MASK) >> KVM_REG_SIZE_SHIFT))
+> >> diff --git a/arch/arm64/kvm/Kconfig b/arch/arm64/kvm/Kconfig
+> >> index 815cc118c675..0309b2d0f2da 100644
+> >> --- a/arch/arm64/kvm/Kconfig
+> >> +++ b/arch/arm64/kvm/Kconfig
+> >> @@ -32,6 +32,7 @@ menuconfig KVM
+> >>   	select KVM_VFIO
+> >>   	select HAVE_KVM_EVENTFD
+> >>   	select HAVE_KVM_IRQFD
+> >> +	select HAVE_KVM_DIRTY_RING
+> >>   	select HAVE_KVM_MSI
+> >>   	select HAVE_KVM_IRQCHIP
+> >>   	select HAVE_KVM_IRQ_ROUTING
+> >> diff --git a/arch/arm64/kvm/arm.c b/arch/arm64/kvm/arm.c
+> >> index 986cee6fbc7f..3de6b9b39db7 100644
+> >> --- a/arch/arm64/kvm/arm.c
+> >> +++ b/arch/arm64/kvm/arm.c
+> >> @@ -866,6 +866,14 @@ int kvm_arch_vcpu_ioctl_run(struct kvm_vcpu *vcpu)
+> >>   		if (!ret)
+> >>   			ret =3D 1;
+> >>   +		/* Force vcpu exit if its dirty ring is soft-full */
+> >> +		if (unlikely(vcpu->kvm->dirty_ring_size &&
+> >> +			     kvm_dirty_ring_soft_full(&vcpu->dirty_ring))) {
+> >> +			vcpu->run->exit_reason =3D KVM_EXIT_DIRTY_RING_FULL;
+> >> +			trace_kvm_dirty_ring_exit(vcpu);
+> >> +			ret =3D 0;
+> >> +		}
+> >> +
+> >=20
+> > Why can't this be moved to kvm_vcpu_exit_request() instead? I would
+> > also very much like the check to be made a common helper with x86.
+> >=20
+> > A seemingly approach would be to make this a request on dirty log
+> > insertion, and avoid the whole "check the log size" on every run,
+> > which adds pointless overhead to unsuspecting users (aka everyone).
+> >=20
+>=20
+> I though of having the check in kvm_vcpu_exit_request(). The various
+> exit reasons are prioritized. x86 gives KVM_EXIT_DIRTY_RING_FULL the
+> highest priority and ARM64 is just to follow. I don't think it really
+> matters. I will improve it accordingly in next revision:
+>=20
+> - Change kvm_dirty_ring_soft_full() to something as below in dirty_ring.c
+>=20
+>   bool kvm_dirty_ring_soft_full(struct kvm_vcpu *vcpu)
+>   {
+>        struct kvm *kvm =3D vcpu->vcpu;
+>        struct kvm_dirty_ring *ring =3D &vcpu->dirty_ring;
+>=20
+>        if (unlikely(kvm->dirty_ring_size &&
+>                     kvm_dirty_ring_used(ring) >=3D ring->soft_limit)) {
+>            vcpu->run->exit_reason =3D KVM_EXIT_DIRTY_RING_FULL;
+>            trace_kvm_dirty_ring_exit(vcpu);
+>            return true;
+>        }
+>=20
+>        return false;
+>   }
+>=20
+> - Use the modified kvm_dirty_ring_soft_full() in kvm_vcpu_exit_request().
+>=20
+> Userspace needs KVM_EXIT_DIRTY_RING_FULL to collect the dirty log in time.
+> Otherwise, the dirty log in the ring buffer will be overwritten. I'm not
+> sure if anything else I missed?
+
+I'm fine with the above, but what I really wanted is a request from
+the dirty-ring insertion, instead of a check in kvm_vpcu_exit_request.
+Something like this (which obviously doesn't compile, but you'll get
+the idea):
+
+diff --git a/arch/arm64/kvm/arm.c b/arch/arm64/kvm/arm.c
+index 986cee6fbc7f..0b41feb6fb7d 100644
+--- a/arch/arm64/kvm/arm.c
++++ b/arch/arm64/kvm/arm.c
+@@ -747,6 +747,12 @@ static int check_vcpu_requests(struct kvm_vcpu *vcpu)
+=20
+ 		if (kvm_check_request(KVM_REQ_SUSPEND, vcpu))
+ 			return kvm_vcpu_suspend(vcpu);
++
++		if (kvm_check_request(KVM_REQ_RING_SOFT_FULL, vcpu)) {
++			vcpu->run->exit_reason =3D KVM_EXIT_DIRTY_RING_FULL;
++			trace_kvm_dirty_ring_exit(vcpu);
++			return 0;
++		}
+ 	}
+=20
+ 	return 1;
+diff --git a/virt/kvm/dirty_ring.c b/virt/kvm/dirty_ring.c
+index f4c2a6eb1666..08b2f01164fa 100644
+--- a/virt/kvm/dirty_ring.c
++++ b/virt/kvm/dirty_ring.c
+@@ -149,6 +149,7 @@ int kvm_dirty_ring_reset(struct kvm *kvm, struct kvm_di=
+rty_ring *ring)
+=20
+ void kvm_dirty_ring_push(struct kvm_dirty_ring *ring, u32 slot, u64 offset)
+ {
++	struct kvm_vcpu *vcpu =3D container_of(ring, struct kvm_vcpu, dirty_ring);
+ 	struct kvm_dirty_gfn *entry;
+=20
+ 	/* It should never get full */
+@@ -166,6 +167,9 @@ void kvm_dirty_ring_push(struct kvm_dirty_ring *ring, u=
+32 slot, u64 offset)
+ 	kvm_dirty_gfn_set_dirtied(entry);
+ 	ring->dirty_index++;
+ 	trace_kvm_dirty_ring_push(ring, slot, offset);
++
++	if (kvm_dirty_ring_soft_full(vcpu))
++		kvm_make_request(KVM_REQ_RING_SOFT_FULL, vcpu);
+ }
+=20
+ struct page *kvm_dirty_ring_get_page(struct kvm_dirty_ring *ring, u32 offs=
+et)
+
+Thanks,
+
+	M.
+
+--=20
+Without deviation from the norm, progress is not possible.
