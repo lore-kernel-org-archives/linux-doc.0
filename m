@@ -2,131 +2,98 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 73B4BC28D13
-	for <linux-doc@archiver.kernel.org>; Mon, 22 Aug 2022 16:22:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DE9DAC3F6B0
+	for <linux-doc@archiver.kernel.org>; Mon, 22 Aug 2022 16:45:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236647AbiHVQWx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 22 Aug 2022 12:22:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39818 "EHLO
+        id S236398AbiHVQpA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 22 Aug 2022 12:45:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36138 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236666AbiHVQWw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Aug 2022 12:22:52 -0400
-Received: from mail-yw1-x1130.google.com (mail-yw1-x1130.google.com [IPv6:2607:f8b0:4864:20::1130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6FEFF3F332
-        for <linux-doc@vger.kernel.org>; Mon, 22 Aug 2022 09:22:51 -0700 (PDT)
-Received: by mail-yw1-x1130.google.com with SMTP id 00721157ae682-31f445bd486so307650947b3.13
-        for <linux-doc@vger.kernel.org>; Mon, 22 Aug 2022 09:22:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc;
-        bh=zBnLNnOuEm5lJhwtbUOYYe47b/c/6C+EcZMDaQGtBP4=;
-        b=pyq/6kJ6DsGWQlpt2s0VXNeG1rxbZvr1f8onglt28Gp3w96/d34SrxrZQKd8GAMLm+
-         msURTCw8d+HAGTCxXo+r1oPnP78lH3o/XZjrXAJql3eo/TWCz7OLc+KEwApPb0UJ7Hpl
-         FNm3OiQC2PTNuqZz8hzOyFowdGYaSR6FkBfiC3dfAhvA5oImQffN/izIYDhbbUtANHEn
-         3QyD1kGFtLsm3q0e56fiqMtObmqSmqyVA3koNFPZ1gFzMjjkRg1073VPTHRa79YYJ50A
-         L0VFjNfjcflJ6KITQLbLCagavJ31oWZyTuDrDWqMfEggK36BvBoMpUHUXSYo98tozrvY
-         IK2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc;
-        bh=zBnLNnOuEm5lJhwtbUOYYe47b/c/6C+EcZMDaQGtBP4=;
-        b=Nw2b06xWmufS1OyYqza4RYTzwOy1BrJj0Y3RKyfscKrzzFx4yoc2NZohmQi88ZK5iz
-         siA600Gv9SLJOF93tUqBm+icud50wBIsLLxpWwf4j88ahA20BJosVbfS5Mb2c2h3Chhf
-         YDSruNQa0WCxUSenT9H9zOOnOApU0YBB9rTqsJBPwS8WC13TQIK9j7SA5ukUbHGKY0W+
-         Xd1CpnjN/5BD7AXSQmxdDG5qtLygtyNd7oBYSWCUN4vE/+oOn/PB7WUriXgc/pRFAAa/
-         OPTHQrjLvOfXI0oBRTCBYA+PIgQFWr1x1T8hlDILGmCSsHI8rJxGFZWordiKdT9h8+Io
-         VSvw==
-X-Gm-Message-State: ACgBeo3wH1ADEXjzZmW2X4gUS+Ln8WSEgiG1O4Ek50PN03Juv/+x55Sw
-        fuYwfZw0yDtao0AAHiLcOubxrQikkbyuPjWLxuCjJQ==
-X-Google-Smtp-Source: AA6agR4U9cjCs7IQEA6wPhRWTBAzKHRxHy5hIjO+FjyWQehv0ldLHYX7kwD9c7qskJP7JL5/agrY+5wWjvdBiM0x1p0=
-X-Received: by 2002:a25:5091:0:b0:690:1f61:a7c9 with SMTP id
- e139-20020a255091000000b006901f61a7c9mr20337108ybb.55.1661185370392; Mon, 22
- Aug 2022 09:22:50 -0700 (PDT)
+        with ESMTP id S237123AbiHVQo5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Aug 2022 12:44:57 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB25518E25;
+        Mon, 22 Aug 2022 09:44:56 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 570726120C;
+        Mon, 22 Aug 2022 16:44:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB504C433C1;
+        Mon, 22 Aug 2022 16:44:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1661186695;
+        bh=hFhF+HtHsqWMVE4q3w289LQbuAM7D1wcvxRb+QUpfz4=;
+        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+        b=JZWYE0xu4YHJCN761L/B/S7shttEN9JIplBp8bjrBVbaTuxf5lqzOwY958FZcdd2E
+         CS9PmsVuBmZFL66bOK9NYptOLyhNPXcUxjklnbfGLy9VXzQIrjgdhv6dblfWPXLrFh
+         L5DnEOFsAkAYlKbmD22qD5pY+OtaSzqZMdmWtdQvKGtDYxTmblrraCiHo1AFsc4YaG
+         4lG6frtyvLdVletNg57g4HeDjntAGCpUEfLY6668a6KAvSMaVE3xzf8ienyI4ufk84
+         OwMnAF1t3H8im1vaO1ZEPq4JlPIAe7SaAVP0qh/LkFxWieDbJQ8mVtoJsR+j8a2WR6
+         jWi3Fj9R+z7PQ==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+        id 4C7925C05A0; Mon, 22 Aug 2022 09:44:55 -0700 (PDT)
+Date:   Mon, 22 Aug 2022 09:44:55 -0700
+From:   "Paul E. McKenney" <paulmck@kernel.org>
+To:     Shao-Tse Hung <ccs100203@gmail.com>
+Cc:     corbet@lwn.net, frederic@kernel.org, quic_neeraju@quicinc.com,
+        josh@joshtriplett.org, rostedt@goodmis.org,
+        mathieu.desnoyers@efficios.com, jiangshanlai@gmail.com,
+        joel@joelfernandes.org, rcu@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] doc/rcu: Update LWN articles at the beginning
+Message-ID: <20220822164455.GH6159@paulmck-ThinkPad-P17-Gen-1>
+Reply-To: paulmck@kernel.org
+References: <20220820083244.28338-1-ccs100203@gmail.com>
 MIME-Version: 1.0
-References: <cover.1651800598.git.peilin.ye@bytedance.com> <cover.1661158173.git.peilin.ye@bytedance.com>
-In-Reply-To: <cover.1661158173.git.peilin.ye@bytedance.com>
-From:   Eric Dumazet <edumazet@google.com>
-Date:   Mon, 22 Aug 2022 09:22:39 -0700
-Message-ID: <CANn89iJsOHK1qgudpfFW9poC4NRBZiob-ynTOuRBkuJTw6FaJw@mail.gmail.com>
-Subject: Re: [PATCH RFC v2 net-next 0/5] net: Qdisc backpressure infrastructure
-To:     Peilin Ye <yepeilin.cs@gmail.com>
-Cc:     "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>,
-        David Ahern <dsahern@kernel.org>,
-        Jamal Hadi Salim <jhs@mojatatu.com>,
-        Cong Wang <xiyou.wangcong@gmail.com>,
-        Jiri Pirko <jiri@resnulli.us>,
-        Peilin Ye <peilin.ye@bytedance.com>,
-        netdev <netdev@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Cong Wang <cong.wang@bytedance.com>,
-        Stephen Hemminger <stephen@networkplumber.org>,
-        Dave Taht <dave.taht@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220820083244.28338-1-ccs100203@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Aug 22, 2022 at 2:10 AM Peilin Ye <yepeilin.cs@gmail.com> wrote:
->
-> From: Peilin Ye <peilin.ye@bytedance.com>
->
-> Hi all,
->
-> Currently sockets (especially UDP ones) can drop a lot of packets at TC
-> egress when rate limited by shaper Qdiscs like HTB.  This patchset series
-> tries to solve this by introducing a Qdisc backpressure mechanism.
->
-> RFC v1 [1] used a throttle & unthrottle approach, which introduced several
-> issues, including a thundering herd problem and a socket reference count
-> issue [2].  This RFC v2 uses a different approach to avoid those issues:
->
->   1. When a shaper Qdisc drops a packet that belongs to a local socket due
->      to TC egress congestion, we make part of the socket's sndbuf
->      temporarily unavailable, so it sends slower.
->
->   2. Later, when TC egress becomes idle again, we gradually recover the
->      socket's sndbuf back to normal.  Patch 2 implements this step using a
->      timer for UDP sockets.
->
-> The thundering herd problem is avoided, since we no longer wake up all
-> throttled sockets at the same time in qdisc_watchdog().  The socket
-> reference count issue is also avoided, since we no longer maintain socket
-> list on Qdisc.
->
-> Performance is better than RFC v1.  There is one concern about fairness
-> between flows for TBF Qdisc, which could be solved by using a SFQ inner
-> Qdisc.
->
-> Please see the individual patches for details and numbers.  Any comments,
-> suggestions would be much appreciated.  Thanks!
->
-> [1] https://lore.kernel.org/netdev/cover.1651800598.git.peilin.ye@bytedance.com/
-> [2] https://lore.kernel.org/netdev/20220506133111.1d4bebf3@hermes.local/
->
-> Peilin Ye (5):
->   net: Introduce Qdisc backpressure infrastructure
->   net/udp: Implement Qdisc backpressure algorithm
->   net/sched: sch_tbf: Use Qdisc backpressure infrastructure
->   net/sched: sch_htb: Use Qdisc backpressure infrastructure
->   net/sched: sch_cbq: Use Qdisc backpressure infrastructure
->
+On Sat, Aug 20, 2022 at 04:32:44PM +0800, Shao-Tse Hung wrote:
+> This patch adds LWN articles about RCU APIs which were released in 2019.
+> Also, HTTP URLs are replaced by HTTPS.
+> 
+> Signed-off-by: Shao-Tse Hung <ccs100203@gmail.com>
 
-I think the whole idea is wrong.
+Good catch, queued, thank you!
 
-Packet schedulers can be remote (offloaded, or on another box)
+							Thanx, Paul
 
-The idea of going back to socket level from a packet scheduler should
-really be a last resort.
-
-Issue of having UDP sockets being able to flood a network is tough, I
-am not sure the core networking stack
-should pretend it can solve the issue.
-
-Note that FQ based packet schedulers can also help already.
+> ---
+>  Documentation/RCU/whatisRCU.rst | 16 +++++++++-------
+>  1 file changed, 9 insertions(+), 7 deletions(-)
+> 
+> diff --git a/Documentation/RCU/whatisRCU.rst b/Documentation/RCU/whatisRCU.rst
+> index 77ea260efd12..682529123b9d 100644
+> --- a/Documentation/RCU/whatisRCU.rst
+> +++ b/Documentation/RCU/whatisRCU.rst
+> @@ -6,13 +6,15 @@ What is RCU?  --  "Read, Copy, Update"
+>  Please note that the "What is RCU?" LWN series is an excellent place
+>  to start learning about RCU:
+>  
+> -| 1.	What is RCU, Fundamentally?  http://lwn.net/Articles/262464/
+> -| 2.	What is RCU? Part 2: Usage   http://lwn.net/Articles/263130/
+> -| 3.	RCU part 3: the RCU API      http://lwn.net/Articles/264090/
+> -| 4.	The RCU API, 2010 Edition    http://lwn.net/Articles/418853/
+> -| 	2010 Big API Table           http://lwn.net/Articles/419086/
+> -| 5.	The RCU API, 2014 Edition    http://lwn.net/Articles/609904/
+> -|	2014 Big API Table           http://lwn.net/Articles/609973/
+> +| 1.	What is RCU, Fundamentally?  https://lwn.net/Articles/262464/
+> +| 2.	What is RCU? Part 2: Usage   https://lwn.net/Articles/263130/
+> +| 3.	RCU part 3: the RCU API      https://lwn.net/Articles/264090/
+> +| 4.	The RCU API, 2010 Edition    https://lwn.net/Articles/418853/
+> +| 	2010 Big API Table           https://lwn.net/Articles/419086/
+> +| 5.	The RCU API, 2014 Edition    https://lwn.net/Articles/609904/
+> +|	2014 Big API Table           https://lwn.net/Articles/609973/
+> +| 6.	The RCU API, 2019 Edition    https://lwn.net/Articles/777036/
+> +|	2019 Big API Table           https://lwn.net/Articles/777165/
+>  
+>  
+>  What is RCU?
+> -- 
+> 2.25.1
+> 
