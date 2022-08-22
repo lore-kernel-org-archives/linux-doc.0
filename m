@@ -2,114 +2,77 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E08E1C32789
-	for <linux-doc@archiver.kernel.org>; Mon, 22 Aug 2022 10:56:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F805C3F6B0
+	for <linux-doc@archiver.kernel.org>; Mon, 22 Aug 2022 11:27:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234168AbiHVK46 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 22 Aug 2022 06:56:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47672 "EHLO
+        id S233332AbiHVL1O (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 22 Aug 2022 07:27:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52646 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234141AbiHVK45 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Aug 2022 06:56:57 -0400
-Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A3A331EDC;
-        Mon, 22 Aug 2022 03:56:55 -0700 (PDT)
-Received: by mail-pl1-x632.google.com with SMTP id p18so9564554plr.8;
-        Mon, 22 Aug 2022 03:56:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:reply-to:message-id:date
-         :subject:cc:to:from:from:to:cc;
-        bh=hUQZ/Tp1Sqyiv6w3yUz+ygSiTM9PrSsj+REeubDk2qE=;
-        b=C3HaUGLQY/5xCsQrVkt+OdGw/vWjDEQbsfd0003LDMRZiClk+Q/ID/FH98FpvzpkhW
-         YmozuFBomyLxUP7iEui4cprVH2IL/wR6kybEI06V3D+1rKIOvuB2TD1db8RGJWmOn8BO
-         Ratq2FuXP5lPY+ygKTFYyzIWy0inHKk727PrNQfDFkKvRBTwLEKbXo+/gn+HMMKgYacO
-         rdBCeFi1Bl6PTxOETCCW7oGQBBfh+B+wNCG48TleMWHAtuFuzBf7Vns0E08EYK9wDqPu
-         zpaNILIeB1gIwrhs1EoEHnqsdoj9pdDc0wUs235s2eOFfGUM0Jyhgt9dzstb17bArH26
-         KoAw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:reply-to:message-id:date
-         :subject:cc:to:from:x-gm-message-state:from:to:cc;
-        bh=hUQZ/Tp1Sqyiv6w3yUz+ygSiTM9PrSsj+REeubDk2qE=;
-        b=Lf4wRxuSSo5TDCbkX9mMGUzMDY+0yxVL7AlT8EyzaR4u/JJaQDLUpFNivem5kHQQ/I
-         HbqW2MitBSSL1XbQOv19YHaB20J3JxvcIE58elUgSxX0pHt6l8colBHw+Z91YNG9uYqb
-         gX7I5w53G+5J9SL4/xJZQIXBE/q7bMBDPchgLJW6ZWikTmHtbCSM08H3r6sgCDtTtUvu
-         Gdn+FYx8Zybu0w5FV3iCMsaGBPKoMTOSQs13INoiy7q9AoObDKZGbzpXEW7L8XYjyVWl
-         sPdMDKkiO9bVK09/tYZbrqyTUNn91hi/3ALdyRFEYT8zpI1PbyKUuOh3rg4WsHYz/xhU
-         3tdQ==
-X-Gm-Message-State: ACgBeo0KiR1XAzHzIEV03KQedPUXdY73JX84nyO0Xjt/Fm/4dRyY1bIU
-        KobS52gDLGOBOPfkQ0yrgX8=
-X-Google-Smtp-Source: AA6agR5CXRqUs3HJRCeXUJI+lLofKDx4VbPUBq2jOgPfCZ7L6aGgxEOblRidGxRmwmFYt28M9X+3mQ==
-X-Received: by 2002:a17:902:7005:b0:172:98ef:863c with SMTP id y5-20020a170902700500b0017298ef863cmr19616019plk.131.1661165814407;
-        Mon, 22 Aug 2022 03:56:54 -0700 (PDT)
-Received: from KASONG-MB0.tencent.com ([103.7.29.31])
-        by smtp.gmail.com with ESMTPSA id m7-20020a1709026bc700b00172d9f6e22bsm3727399plt.15.2022.08.22.03.56.52
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Mon, 22 Aug 2022 03:56:53 -0700 (PDT)
-From:   Kairui Song <ryncsn@gmail.com>
-To:     damon@lists.linux.dev
-Cc:     SeongJae Park <sj@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        linux-mm@kvack.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Kairui Song <kasong@tencent.com>
-Subject: [PATCH] Docs/admin-guide/mm/damon/usage: fix the example code snip
-Date:   Mon, 22 Aug 2022 18:56:17 +0800
-Message-Id: <20220822105617.75524-1-ryncsn@gmail.com>
-X-Mailer: git-send-email 2.35.2
-Reply-To: Kairui Song <kasong@tencent.com>
+        with ESMTP id S232853AbiHVL1N (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Aug 2022 07:27:13 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC09B32EE8;
+        Mon, 22 Aug 2022 04:27:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=80Iob7m0eygDIBir23phYVn1p4Wv+1QMEBqUT1N4EkE=; b=w0XmYMb16FRlUUx5UI1bfzmXXs
+        3Jftu942ei0pgarFAfjnelYfSJ1IYVx2GFd0g/XIbbbwSdYSfwVpxXxNmZZpXXf0lPRrMo860RMUe
+        3XI5NdIwij0SFJuWWoFkMxB/0QS5RjtPkF546G7HiLYHm1E6ZGWlcr7PPoW2+QCq8bYfN4olg3h2u
+        bw/1p2z4T/woptW0t9XxXDBhrPu8221SDDsGbUBRz0wveo2AEd+Oy0QCpYcUTj0gyGwdzJDTpx04/
+        EZyi5wBHcNzpVitRKhIN+VcPL7cLqgTTEwyQjh59+1GhRK8BoF6C8AoTSusP8DZvl7FacTlY4scXh
+        wJiVNl0g==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1oQ5Zv-008DCF-58; Mon, 22 Aug 2022 11:26:47 +0000
+Date:   Mon, 22 Aug 2022 04:26:47 -0700
+From:   Christoph Hellwig <hch@infradead.org>
+To:     Robin Murphy <robin.murphy@arm.com>
+Cc:     Yu Zhao <yuzhao@google.com>, dongli.zhang@oracle.com,
+        ak@linux.intel.com, akpm@linux-foundation.org,
+        alexander.sverdlin@nokia.com, andi.kleen@intel.com, bp@alien8.de,
+        bp@suse.de, cminyard@mvista.com, corbet@lwn.net,
+        damien.lemoal@opensource.wdc.com, dave.hansen@linux.intel.com,
+        hch@infradead.org, iommu@lists.linux-foundation.org,
+        joe.jin@oracle.com, joe@perches.com, keescook@chromium.org,
+        kirill.shutemov@intel.com, kys@microsoft.com,
+        linux-doc@vger.kernel.org, linux-hyperv@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mips@vger.kernel.org,
+        ltykernel@gmail.com, michael.h.kelley@microsoft.com,
+        mingo@redhat.com, m.szyprowski@samsung.com, parri.andrea@gmail.com,
+        paulmck@kernel.org, pmladek@suse.com, rdunlap@infradead.org,
+        tglx@linutronix.de, thomas.lendacky@amd.com,
+        Tianyu.Lan@microsoft.com, tsbogend@alpha.franken.de,
+        vkuznets@redhat.com, wei.liu@kernel.org, x86@kernel.org
+Subject: Re: [PATCH v1 4/4] swiotlb: panic if nslabs is too small
+Message-ID: <YwNn92WP3rP4ylZu@infradead.org>
+References: <20220611082514.37112-5-dongli.zhang@oracle.com>
+ <20220820012031.1285979-1-yuzhao@google.com>
+ <f8c743d8-fcbe-4ef7-5f86-d63086552ffd@arm.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <f8c743d8-fcbe-4ef7-5f86-d63086552ffd@arm.com>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Kairui Song <kasong@tencent.com>
+On Mon, Aug 22, 2022 at 10:49:09AM +0100, Robin Murphy wrote:
+> Hmm, it's possible this might be quietly fixed by 20347fca71a3, but either
+> way I'm not sure why we would need to panic *before* we've even tried to
+> allocate anything, when we could simply return with no harm done? If we've
+> ended up calculating (or being told) a buffer size which is too small to be
+> usable, that should be no different to disabling SWIOTLB entirely.
 
-The workflow example code is not working since it got the file names
-wrong. So fix this.
+Hmm.  I think this might be a philosophical question, but I think
+failing the boot with a clear error report for a configuration that is
+supposed to work but can't is way better than just panicing later on.
 
-Signed-off-by: Kairui Song <kasong@tencent.com>
----
- Documentation/admin-guide/mm/damon/usage.rst | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
+> Historically, passing "swiotlb=1" on the command line has been used to save
+> memory when the user knows SWIOTLB isn't needed. That should definitely not
+> be allowed to start panicking.
 
-diff --git a/Documentation/admin-guide/mm/damon/usage.rst b/Documentation/admin-guide/mm/damon/usage.rst
-index d52f572a90298..ca91ecc290785 100644
---- a/Documentation/admin-guide/mm/damon/usage.rst
-+++ b/Documentation/admin-guide/mm/damon/usage.rst
-@@ -50,10 +50,10 @@ For a short example, users can monitor the virtual address space of a given
- workload as below. ::
- 
-     # cd /sys/kernel/mm/damon/admin/
--    # echo 1 > kdamonds/nr && echo 1 > kdamonds/0/contexts/nr
-+    # echo 1 > kdamonds/nr_kdamonds && echo 1 > kdamonds/0/contexts/nr_contexts
-     # echo vaddr > kdamonds/0/contexts/0/operations
--    # echo 1 > kdamonds/0/contexts/0/targets/nr
--    # echo $(pidof <workload>) > kdamonds/0/contexts/0/targets/0/pid
-+    # echo 1 > kdamonds/0/contexts/0/targets/nr_targets
-+    # echo $(pidof <workload>) > kdamonds/0/contexts/0/targets/0/pid_target
-     # echo on > kdamonds/0/state
- 
- Files Hierarchy
-@@ -366,12 +366,12 @@ memory rate becomes larger than 60%, or lower than 30%". ::
-     # echo 1 > kdamonds/0/contexts/0/schemes/nr_schemes
-     # cd kdamonds/0/contexts/0/schemes/0
-     # # set the basic access pattern and the action
--    # echo 4096 > access_patterns/sz/min
--    # echo 8192 > access_patterns/sz/max
--    # echo 0 > access_patterns/nr_accesses/min
--    # echo 5 > access_patterns/nr_accesses/max
--    # echo 10 > access_patterns/age/min
--    # echo 20 > access_patterns/age/max
-+    # echo 4096 > access_pattern/sz/min
-+    # echo 8192 > access_pattern/sz/max
-+    # echo 0 > access_pattern/nr_accesses/min
-+    # echo 5 > access_pattern/nr_accesses/max
-+    # echo 10 > access_pattern/age/min
-+    # echo 20 > access_pattern/age/max
-     # echo pageout > action
-     # # set quotas
-     # echo 10 > quotas/ms
--- 
-2.35.2
-
+I've never seen swiotlb=1 advertized as a way to disable swiotlb.
+That's always been swiotlb=noforce, which cleanly disables it.
