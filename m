@@ -2,104 +2,98 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A3FBC28D13
-	for <linux-doc@archiver.kernel.org>; Mon, 22 Aug 2022 16:02:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E5C74C28D13
+	for <linux-doc@archiver.kernel.org>; Mon, 22 Aug 2022 16:17:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236528AbiHVQCK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 22 Aug 2022 12:02:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44678 "EHLO
+        id S236058AbiHVQRn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 22 Aug 2022 12:17:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33192 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236589AbiHVQCH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Aug 2022 12:02:07 -0400
-Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com [IPv6:2607:f8b0:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC59230F77
-        for <linux-doc@vger.kernel.org>; Mon, 22 Aug 2022 09:02:05 -0700 (PDT)
-Received: by mail-pf1-x42a.google.com with SMTP id y141so10756232pfb.7
-        for <linux-doc@vger.kernel.org>; Mon, 22 Aug 2022 09:02:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc;
-        bh=/t37Y/XRZJtMV+m9MWZM5nZfrYqA7SIqOEoInluHa74=;
-        b=vn5frK8UBLnyvshTin6f/PIYv++RSvtQBbd4DJPuQ7AE4++orS/CaUpYAKU/Lsp9b7
-         8gJQT7lpcBBScAGQnTpurRvuE6ZJDe/IbqpHNJ2HSu55kz5sbRaJABugUWPvP/EtbUyL
-         6wWscbO7vzai66hmo4fUGLLMn0FGE7foNNsHjzgaSRzNgs4gWzuA9Ojr9WEN6TfTQusH
-         aMsBYKPVeSYo2NcCo40NsWQSlgxH1ypnn4NjATTIPK2uYvaQoT3pFhUGPblX9AoDj5kY
-         zWg5+OHFmyEyIB8gYf29XJkE/rZ0Roo4hH8TbbQXLynfuGyb3df/VwCoWzqE4Z7cTJLJ
-         1W0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
-        bh=/t37Y/XRZJtMV+m9MWZM5nZfrYqA7SIqOEoInluHa74=;
-        b=gzlbC70qz9yPyvTqhMhhlSFKZ1JP5L77vs/q7WgfEJza7V6iPcTZ8S0T+OkwP6cPjO
-         600xRcKVDCiMO3C3YGIHtj/Oadm2PRtkQM912sLgvY2pfQlBeAONOVDmKEClXNrfZcxr
-         8ujPUsxTHgCiFgzy2TdfnH4y2/yeKzyN9aYi9iD6GwIO5OSR6rYtHVTIvPLFdknYoafN
-         gnEAl2bc0GihQa6iNmMDNPBG/ck059wPzFAutsnjdNf34gYnza/NTZJjvslI+RIQAWvU
-         MNpS9V7+4pDS2KIekiQ+qVGbU0dEJPXDyIQhLGQPDLRlrXxVTIYnikZkrJC8Pn+eCd3e
-         q/sA==
-X-Gm-Message-State: ACgBeo3m0zaK2rMV5U8u33N/ND9I/kkNHOjJQHQFTH/5uaNkwDZWt8rR
-        cuSAVJcwckeUHEQC0W5X5f/+dw==
-X-Google-Smtp-Source: AA6agR6jRUlV7R30+1RiGKXPv/OnKqwkmFkuRZ8RG9kwsxsXEfaH5hrD9w2dLOIRvYz/TpjFVeVmlg==
-X-Received: by 2002:a63:131c:0:b0:427:7f15:470f with SMTP id i28-20020a63131c000000b004277f15470fmr18004165pgl.232.1661184125347;
-        Mon, 22 Aug 2022 09:02:05 -0700 (PDT)
-Received: from p14s (S0106889e681aac74.cg.shawcable.net. [68.147.0.187])
-        by smtp.gmail.com with ESMTPSA id d5-20020a170902654500b00172bd7505e6sm7059021pln.12.2022.08.22.09.02.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Aug 2022 09:02:04 -0700 (PDT)
-Date:   Mon, 22 Aug 2022 10:02:02 -0600
-From:   Mathieu Poirier <mathieu.poirier@linaro.org>
-To:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Cc:     Suzuki K Poulose <suzuki.poulose@arm.com>,
-        Mike Leach <mike.leach@linaro.org>,
-        Leo Yan <leo.yan@linaro.org>, Jonathan Corbet <corbet@lwn.net>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Rob Herring <robh@kernel.org>, linux-kernel@vger.kernel.org,
-        coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH] coresight: docs: Fix a broken reference
-Message-ID: <20220822160202.GB1583519@p14s>
-References: <c7f864854e9e03916017712017ff59132c51c338.1659251193.git.christophe.jaillet@wanadoo.fr>
+        with ESMTP id S234679AbiHVQRm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Aug 2022 12:17:42 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67D8633E2C;
+        Mon, 22 Aug 2022 09:17:41 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 2BD58B80923;
+        Mon, 22 Aug 2022 16:17:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 493EBC433C1;
+        Mon, 22 Aug 2022 16:17:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1661185058;
+        bh=mKS9e/kUYTrQTIQVgSXGZbMEtY2mtpS4FDMVJ2G5hmw=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=ZuPN6YaDp+AifescPV/BBlN9l96wSPcRJdLmXU63iV5LnFAkTCd+nXj7PjXTcsQtm
+         j3sgomT7DIp0q9A6++5Y1dSF4BbCd2eSFuKaS4tU8HqRePQhb3jNj1EfUpobyymgV4
+         /f0EWQrNtfyT8dJvQ8zNPgcqPqtztx5uvS73KAFgSyRqCAxeRCA7NnxRkSCWIgzdYW
+         n/PrTj9+NVVAKruizvGHiKE0iJlCwN3zolHSZ4VLvBdp+0WDXn4asPaQTc6p1+xLfg
+         it/EwvWeFUEVCYdRuwMBTe4OJKrJdAc0LO6zlPtq2xfevP7kcM0jZaNnEijMPkP/Hc
+         ogNv6/PHyenKA==
+Date:   Mon, 22 Aug 2022 09:17:37 -0700
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     Peilin Ye <yepeilin.cs@gmail.com>
+Cc:     "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>,
+        David Ahern <dsahern@kernel.org>,
+        Jamal Hadi Salim <jhs@mojatatu.com>,
+        Cong Wang <xiyou.wangcong@gmail.com>,
+        Jiri Pirko <jiri@resnulli.us>,
+        Peilin Ye <peilin.ye@bytedance.com>, netdev@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Cong Wang <cong.wang@bytedance.com>,
+        Stephen Hemminger <stephen@networkplumber.org>,
+        Dave Taht <dave.taht@gmail.com>
+Subject: Re: [PATCH RFC v2 net-next 0/5] net: Qdisc backpressure
+ infrastructure
+Message-ID: <20220822091737.4b870dbb@kernel.org>
+In-Reply-To: <cover.1661158173.git.peilin.ye@bytedance.com>
+References: <cover.1651800598.git.peilin.ye@bytedance.com>
+        <cover.1661158173.git.peilin.ye@bytedance.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <c7f864854e9e03916017712017ff59132c51c338.1659251193.git.christophe.jaillet@wanadoo.fr>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Jul 31, 2022 at 09:06:48AM +0200, Christophe JAILLET wrote:
-> Since the commit in Fixes: tag, "coresight-cpu-debug.txt" has been turned
-> into "arm,coresight-cpu-debug.yaml".
+On Mon, 22 Aug 2022 02:10:17 -0700 Peilin Ye wrote:
+> Currently sockets (especially UDP ones) can drop a lot of packets at TC
+> egress when rate limited by shaper Qdiscs like HTB.  This patchset series
+> tries to solve this by introducing a Qdisc backpressure mechanism.
 > 
-> Update the doc accordingly to avoid a 'make htmldocs' warning
+> RFC v1 [1] used a throttle & unthrottle approach, which introduced several
+> issues, including a thundering herd problem and a socket reference count
+> issue [2].  This RFC v2 uses a different approach to avoid those issues:
 > 
-> Fixes: 66d052047ca8 ("dt-bindings: arm: Convert CoreSight CPU debug to DT schema")
-> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-> ---
->  Documentation/trace/coresight/coresight-cpu-debug.rst | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+>   1. When a shaper Qdisc drops a packet that belongs to a local socket due
+>      to TC egress congestion, we make part of the socket's sndbuf
+>      temporarily unavailable, so it sends slower.
+>   
+>   2. Later, when TC egress becomes idle again, we gradually recover the
+>      socket's sndbuf back to normal.  Patch 2 implements this step using a
+>      timer for UDP sockets.
 > 
+> The thundering herd problem is avoided, since we no longer wake up all
+> throttled sockets at the same time in qdisc_watchdog().  The socket
+> reference count issue is also avoided, since we no longer maintain socket
+> list on Qdisc.
+> 
+> Performance is better than RFC v1.  There is one concern about fairness
+> between flows for TBF Qdisc, which could be solved by using a SFQ inner
+> Qdisc.
+> 
+> Please see the individual patches for details and numbers.  Any comments,
+> suggestions would be much appreciated.  Thanks!
+> 
+> [1] https://lore.kernel.org/netdev/cover.1651800598.git.peilin.ye@bytedance.com/
+> [2] https://lore.kernel.org/netdev/20220506133111.1d4bebf3@hermes.local/
 
-Applied.
-
-Thanks,
-Mathieu
-
-> diff --git a/Documentation/trace/coresight/coresight-cpu-debug.rst b/Documentation/trace/coresight/coresight-cpu-debug.rst
-> index 993dd294b81b..836b35532667 100644
-> --- a/Documentation/trace/coresight/coresight-cpu-debug.rst
-> +++ b/Documentation/trace/coresight/coresight-cpu-debug.rst
-> @@ -117,7 +117,8 @@ divide into below cases:
->  Device Tree Bindings
->  --------------------
->  
-> -See Documentation/devicetree/bindings/arm/coresight-cpu-debug.txt for details.
-> +See Documentation/devicetree/bindings/arm/arm,coresight-cpu-debug.yaml for
-> +details.
->  
->  
->  How to use the module
-> -- 
-> 2.34.1
-> 
+Similarly to Eric's comments on v1 I'm not seeing the clear motivation
+here. Modern high speed UDP users will have a CC in user space, back
+off and set transmission time on the packets. Could you describe your
+_actual_ use case / application in more detail?
