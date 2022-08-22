@@ -2,101 +2,81 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 61E68C28D13
-	for <linux-doc@archiver.kernel.org>; Mon, 22 Aug 2022 11:38:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E6DADC38142
+	for <linux-doc@archiver.kernel.org>; Mon, 22 Aug 2022 11:51:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234379AbiHVLib (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 22 Aug 2022 07:38:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36692 "EHLO
+        id S232877AbiHVLvZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 22 Aug 2022 07:51:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52544 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234458AbiHVLi3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Aug 2022 07:38:29 -0400
-Received: from relay.virtuozzo.com (relay.virtuozzo.com [130.117.225.111])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CFE1610FD9;
-        Mon, 22 Aug 2022 04:38:26 -0700 (PDT)
-Received: from dev011.ch-qa.sw.ru ([172.29.1.16])
-        by relay.virtuozzo.com with esmtp (Exim 4.95)
-        (envelope-from <alexander.atanasov@virtuozzo.com>)
-        id 1oQ5ja-00Gyo9-I4;
-        Mon, 22 Aug 2022 13:38:09 +0200
-From:   Alexander Atanasov <alexander.atanasov@virtuozzo.com>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     kernel@openvz.org,
-        Alexander Atanasov <alexander.atanasov@virtuozzo.com>,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: [PATCH v3 3/4] Display inflated memory to users
-Date:   Mon, 22 Aug 2022 14:37:46 +0300
-Message-Id: <20220822113747.3630776-4-alexander.atanasov@virtuozzo.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20220822113747.3630776-1-alexander.atanasov@virtuozzo.com>
-References: <20220822113747.3630776-1-alexander.atanasov@virtuozzo.com>
+        with ESMTP id S234870AbiHVLuR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Aug 2022 07:50:17 -0400
+Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11F34B862;
+        Mon, 22 Aug 2022 04:50:17 -0700 (PDT)
+Received: from dggpeml500023.china.huawei.com (unknown [172.30.72.53])
+        by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4MB9Yz4dSfz1N7Tt;
+        Mon, 22 Aug 2022 19:46:47 +0800 (CST)
+Received: from ubuntu1804.huawei.com (10.67.174.58) by
+ dggpeml500023.china.huawei.com (7.185.36.114) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Mon, 22 Aug 2022 19:50:14 +0800
+From:   Xiu Jianfeng <xiujianfeng@huawei.com>
+To:     <mic@digikod.net>, <paul@paul-moore.com>, <jmorris@namei.org>,
+        <serge@hallyn.com>, <shuah@kernel.org>, <corbet@lwn.net>
+CC:     <linux-security-module@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>
+Subject: [PATCH -next 5/5] landlock: update chmod and chown support in document
+Date:   Mon, 22 Aug 2022 19:47:01 +0800
+Message-ID: <20220822114701.26975-6-xiujianfeng@huawei.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20220822114701.26975-1-xiujianfeng@huawei.com>
+References: <20220822114701.26975-1-xiujianfeng@huawei.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.67.174.58]
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+ dggpeml500023.china.huawei.com (7.185.36.114)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add InflatedTotal and InflatedFree to /proc/meminfo
+update LANDLOCK_ACCESS_FS_{CHMOD, CHOWN} support and add abi change
+in the document.
 
-Signed-off-by: Alexander Atanasov <alexander.atanasov@virtuozzo.com>
+Signed-off-by: Xiu Jianfeng <xiujianfeng@huawei.com>
 ---
- Documentation/filesystems/proc.rst |  6 ++++++
- fs/proc/meminfo.c                  | 10 ++++++++++
- 2 files changed, 16 insertions(+)
+ Documentation/userspace-api/landlock.rst | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
-index e7aafc82be99..690e1b90ffee 100644
---- a/Documentation/filesystems/proc.rst
-+++ b/Documentation/filesystems/proc.rst
-@@ -991,6 +991,8 @@ Example output. You may not have all of these fields.
-     VmallocUsed:       40444 kB
-     VmallocChunk:          0 kB
-     Percpu:            29312 kB
-+    InflatedTotal:   2097152 kB
-+    InflatedFree:          0 kB
-     HardwareCorrupted:     0 kB
-     AnonHugePages:   4149248 kB
-     ShmemHugePages:        0 kB
-@@ -1138,6 +1140,10 @@ VmallocChunk
- Percpu
-               Memory allocated to the percpu allocator used to back percpu
-               allocations. This stat excludes the cost of metadata.
-+InflatedTotal and InflatedFree
-+               Amount of memory that is inflated by the balloon driver.
-+               Due to differences among the drivers inflated memory
-+               is subtracted from TotalRam or from MemFree.
- HardwareCorrupted
-               The amount of RAM/memory in KB, the kernel identifies as
-               corrupted.
-diff --git a/fs/proc/meminfo.c b/fs/proc/meminfo.c
-index 6e89f0e2fd20..7182886efdbf 100644
---- a/fs/proc/meminfo.c
-+++ b/fs/proc/meminfo.c
-@@ -16,6 +16,9 @@
- #ifdef CONFIG_CMA
- #include <linux/cma.h>
- #endif
-+#ifdef CONFIG_MEMORY_BALLOON
-+#include <linux/balloon.h>
-+#endif
- #include <asm/page.h>
- #include "internal.h"
+diff --git a/Documentation/userspace-api/landlock.rst b/Documentation/userspace-api/landlock.rst
+index 2509c2fbf98f..05ab338db529 100644
+--- a/Documentation/userspace-api/landlock.rst
++++ b/Documentation/userspace-api/landlock.rst
+@@ -61,7 +61,9 @@ the need to be explicit about the denied-by-default access rights.
+             LANDLOCK_ACCESS_FS_MAKE_BLOCK |
+             LANDLOCK_ACCESS_FS_MAKE_SYM |
+             LANDLOCK_ACCESS_FS_REFER |
+-            LANDLOCK_ACCESS_FS_TRUNCATE,
++            LANDLOCK_ACCESS_FS_TRUNCATE |
++            LANDLOCK_ACCESS_FS_CHMOD |
++            LANDLOCK_ACCESS_FS_CHOWN
+     };
  
-@@ -153,6 +156,13 @@ static int meminfo_proc_show(struct seq_file *m, void *v)
- 		    global_zone_page_state(NR_FREE_CMA_PAGES));
- #endif
+ Because we may not know on which kernel version an application will be
+@@ -90,6 +92,10 @@ the ABI.
+     case 2:
+             /* Removes LANDLOCK_ACCESS_FS_TRUNCATE for ABI < 3 */
+             ruleset_attr.handled_access_fs &= ~LANDLOCK_ACCESS_FS_TRUNCATE;
++    case 3:
++            /* Removes LANDLOCK_ACCESS_FS_{CHMOD, CHOWN} for ABI < 4 */
++            ruleset_attr.handled_access_fs &= ~(LANDLOCK_ACCESS_FS_CHMOD |
++                                                LANDLOCK_ACCESS_FS_CHOWN);
+     }
  
-+#ifdef CONFIG_MEMORY_BALLOON
-+	seq_printf(m,  "InflatedTotal:  %8ld kB\n",
-+		atomic_long_read(&mem_balloon_inflated_total_kb));
-+	seq_printf(m,  "InflatedFree:   %8ld kB\n",
-+		atomic_long_read(&mem_balloon_inflated_free_kb));
-+#endif
-+
- 	hugetlb_report_meminfo(m);
- 
- 	arch_report_meminfo(m);
+ This enables to create an inclusive ruleset that will contain our rules.
 -- 
-2.31.1
+2.17.1
 
