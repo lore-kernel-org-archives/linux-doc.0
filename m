@@ -2,151 +2,101 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 27BAFC32789
-	for <linux-doc@archiver.kernel.org>; Mon, 22 Aug 2022 11:33:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 61E68C28D13
+	for <linux-doc@archiver.kernel.org>; Mon, 22 Aug 2022 11:38:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234632AbiHVLc7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 22 Aug 2022 07:32:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32910 "EHLO
+        id S234379AbiHVLib (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 22 Aug 2022 07:38:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36692 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234669AbiHVLct (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Aug 2022 07:32:49 -0400
-Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69036356DC;
-        Mon, 22 Aug 2022 04:32:46 -0700 (PDT)
-Received: from fews1.riseup.net (fews1-pn.riseup.net [10.0.1.83])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
-         client-signature RSA-PSS (2048 bits) client-digest SHA256)
-        (Client CN "mail.riseup.net", Issuer "R3" (not verified))
-        by mx1.riseup.net (Postfix) with ESMTPS id 4MB9Fn6Bx6zDrVf;
-        Mon, 22 Aug 2022 11:32:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
-        t=1661167966; bh=OUMmq98oeFiEp0mE5Azg1/+y4ajDaWAKrWs37juM6GQ=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=JBIv38YnsNub8oyAdKIUfVsmk2i07BNR/NLoePIHfxk8Di+mFkpYV8GTtIgbC12b7
-         OSfgYRhRDijabcLILZXwD9Eil3tzUdkkTR7WntaisTYrIvvfDaoG09polA8ht1VDeb
-         yatxb3BPdp6tPjmQLHKsg3rrJ+WCp5BM6oZSjMjY=
-X-Riseup-User-ID: CA0E823BECDD724A52C6470718F8117D69D41CA1458B0CBBFEC8D433579B3E1C
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-         by fews1.riseup.net (Postfix) with ESMTPSA id 4MB9Fj0pvpz5vNB;
-        Mon, 22 Aug 2022 11:32:40 +0000 (UTC)
-Message-ID: <fcbda624-239b-af9b-3674-d1cf6087942a@riseup.net>
-Date:   Mon, 22 Aug 2022 08:32:33 -0300
+        with ESMTP id S234458AbiHVLi3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Aug 2022 07:38:29 -0400
+Received: from relay.virtuozzo.com (relay.virtuozzo.com [130.117.225.111])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CFE1610FD9;
+        Mon, 22 Aug 2022 04:38:26 -0700 (PDT)
+Received: from dev011.ch-qa.sw.ru ([172.29.1.16])
+        by relay.virtuozzo.com with esmtp (Exim 4.95)
+        (envelope-from <alexander.atanasov@virtuozzo.com>)
+        id 1oQ5ja-00Gyo9-I4;
+        Mon, 22 Aug 2022 13:38:09 +0200
+From:   Alexander Atanasov <alexander.atanasov@virtuozzo.com>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     kernel@openvz.org,
+        Alexander Atanasov <alexander.atanasov@virtuozzo.com>,
+        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: [PATCH v3 3/4] Display inflated memory to users
+Date:   Mon, 22 Aug 2022 14:37:46 +0300
+Message-Id: <20220822113747.3630776-4-alexander.atanasov@virtuozzo.com>
+X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20220822113747.3630776-1-alexander.atanasov@virtuozzo.com>
+References: <20220822113747.3630776-1-alexander.atanasov@virtuozzo.com>
 MIME-Version: 1.0
-Subject: Re: [PATCH v2 2/8] Documentation: KUnit: avoid repeating "kunit.py
- run" in start.rst
-Content-Language: en-US
-To:     Tales Aparecida <tales.aparecida@gmail.com>,
-        Sadiya Kazi <sadiyakazi@google.com>
-Cc:     linux-kernel@vger.kernel.org, kunit-dev@googlegroups.com,
-        linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        davidgow@google.com, corbet@lwn.net, brendan.higgins@linux.dev,
-        Trevor Woerner <twoerner@gmail.com>, siqueirajordao@riseup.net,
-        mwen@igalia.com, andrealmeid@riseup.net,
-        Isabella Basso <isabbasso@riseup.net>, magalilemes00@gmail.com
-References: <20220822022646.98581-1-tales.aparecida@gmail.com>
- <20220822022646.98581-3-tales.aparecida@gmail.com>
-From:   =?UTF-8?Q?Ma=c3=adra_Canal?= <mairacanal@riseup.net>
-In-Reply-To: <20220822022646.98581-3-tales.aparecida@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 8/21/22 23:26, Tales Aparecida wrote:
-> Combine two sections mentioning "kunit.py run" to streamline the
-> getting-started guide. Update "kunit.py run" expected output in
-> the guide and run_wrapper.
-> 
-> Signed-off-by: Tales Aparecida <tales.aparecida@gmail.com>
+Add InflatedTotal and InflatedFree to /proc/meminfo
 
-Thanks for the quick re-spin!
+Signed-off-by: Alexander Atanasov <alexander.atanasov@virtuozzo.com>
+---
+ Documentation/filesystems/proc.rst |  6 ++++++
+ fs/proc/meminfo.c                  | 10 ++++++++++
+ 2 files changed, 16 insertions(+)
 
-Reviewed-by: Maíra Canal <mairacanal@riseup.net>
+diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
+index e7aafc82be99..690e1b90ffee 100644
+--- a/Documentation/filesystems/proc.rst
++++ b/Documentation/filesystems/proc.rst
+@@ -991,6 +991,8 @@ Example output. You may not have all of these fields.
+     VmallocUsed:       40444 kB
+     VmallocChunk:          0 kB
+     Percpu:            29312 kB
++    InflatedTotal:   2097152 kB
++    InflatedFree:          0 kB
+     HardwareCorrupted:     0 kB
+     AnonHugePages:   4149248 kB
+     ShmemHugePages:        0 kB
+@@ -1138,6 +1140,10 @@ VmallocChunk
+ Percpu
+               Memory allocated to the percpu allocator used to back percpu
+               allocations. This stat excludes the cost of metadata.
++InflatedTotal and InflatedFree
++               Amount of memory that is inflated by the balloon driver.
++               Due to differences among the drivers inflated memory
++               is subtracted from TotalRam or from MemFree.
+ HardwareCorrupted
+               The amount of RAM/memory in KB, the kernel identifies as
+               corrupted.
+diff --git a/fs/proc/meminfo.c b/fs/proc/meminfo.c
+index 6e89f0e2fd20..7182886efdbf 100644
+--- a/fs/proc/meminfo.c
++++ b/fs/proc/meminfo.c
+@@ -16,6 +16,9 @@
+ #ifdef CONFIG_CMA
+ #include <linux/cma.h>
+ #endif
++#ifdef CONFIG_MEMORY_BALLOON
++#include <linux/balloon.h>
++#endif
+ #include <asm/page.h>
+ #include "internal.h"
+ 
+@@ -153,6 +156,13 @@ static int meminfo_proc_show(struct seq_file *m, void *v)
+ 		    global_zone_page_state(NR_FREE_CMA_PAGES));
+ #endif
+ 
++#ifdef CONFIG_MEMORY_BALLOON
++	seq_printf(m,  "InflatedTotal:  %8ld kB\n",
++		atomic_long_read(&mem_balloon_inflated_total_kb));
++	seq_printf(m,  "InflatedFree:   %8ld kB\n",
++		atomic_long_read(&mem_balloon_inflated_free_kb));
++#endif
++
+ 	hugetlb_report_meminfo(m);
+ 
+ 	arch_report_meminfo(m);
+-- 
+2.31.1
 
-Best Regards,
-- Maíra Canal
-
-> 
-> ---
-> Notes:
->      Update the expected output and the note that follows it (Maíra Canal and
->      Sadiya Kazi). The output was updated on the commit: 45ba7a893ad8
->      ("kunit: kunit_tool: Separate out config/build/exec/parse")
->      Add word "step" to note and fix the case of "kernel".
-> ---
->   Documentation/dev-tools/kunit/run_wrapper.rst |  2 +-
->   Documentation/dev-tools/kunit/start.rst       | 38 ++++++++-----------
->   2 files changed, 16 insertions(+), 24 deletions(-)
-> 
-> diff --git a/Documentation/dev-tools/kunit/run_wrapper.rst b/Documentation/dev-tools/kunit/run_wrapper.rst
-> index 518cf87ea732..6b33caf6c8ab 100644
-> --- a/Documentation/dev-tools/kunit/run_wrapper.rst
-> +++ b/Documentation/dev-tools/kunit/run_wrapper.rst
-> @@ -22,7 +22,7 @@ We should see the following:
->   
->   .. code-block::
->   
-> -	Generating .config...
-> +	Configuring KUnit Kernel ...
->   	Building KUnit kernel...
->   	Starting KUnit kernel...
->   
-> diff --git a/Documentation/dev-tools/kunit/start.rst b/Documentation/dev-tools/kunit/start.rst
-> index e730df1f468e..2e31350a85e1 100644
-> --- a/Documentation/dev-tools/kunit/start.rst
-> +++ b/Documentation/dev-tools/kunit/start.rst
-> @@ -19,7 +19,21 @@ can run kunit_tool:
->   
->   	./tools/testing/kunit/kunit.py run
->   
-> -For more information on this wrapper, see:
-> +If everything worked correctly, you should see the following:
-> +
-> +.. code-block::
-> +
-> +	Configuring KUnit Kernel ...
-> +	Building KUnit Kernel ...
-> +	Starting KUnit Kernel ...
-> +
-> +The tests will pass or fail.
-> +
-> +.. note ::
-> +   Because it is building a lot of sources for the first time,
-> +   the ``Building KUnit Kernel`` step may take a while.
-> +
-> +For detailed information on this wrapper, see:
->   Documentation/dev-tools/kunit/run_wrapper.rst.
->   
->   Creating a ``.kunitconfig``
-> @@ -74,28 +88,6 @@ you if you have not included dependencies for the options used.
->      tools like ``make menuconfig O=.kunit``. As long as its a superset of
->      ``.kunitconfig``, kunit.py won't overwrite your changes.
->   
-> -Running Tests (KUnit Wrapper)
-> ------------------------------
-> -1. To make sure that everything is set up correctly, invoke the Python
-> -   wrapper from your kernel repository:
-> -
-> -.. code-block:: bash
-> -
-> -	./tools/testing/kunit/kunit.py run
-> -
-> -If everything worked correctly, you should see the following:
-> -
-> -.. code-block::
-> -
-> -	Generating .config ...
-> -	Building KUnit Kernel ...
-> -	Starting KUnit Kernel ...
-> -
-> -The tests will pass or fail.
-> -
-> -.. note ::
-> -   Because it is building a lot of sources for the first time, the
-> -   ``Building KUnit kernel`` may take a while.
->   
->   Running Tests without the KUnit Wrapper
->   =======================================
