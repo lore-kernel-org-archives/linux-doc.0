@@ -2,92 +2,96 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BB94C28D13
-	for <linux-doc@archiver.kernel.org>; Mon, 22 Aug 2022 02:31:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EBFA2C28D13
+	for <linux-doc@archiver.kernel.org>; Mon, 22 Aug 2022 06:04:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232565AbiHVCbF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 21 Aug 2022 22:31:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34334 "EHLO
+        id S230006AbiHVGE5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 22 Aug 2022 02:04:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55798 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232525AbiHVCaz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 21 Aug 2022 22:30:55 -0400
-Received: from mail-ua1-x92b.google.com (mail-ua1-x92b.google.com [IPv6:2607:f8b0:4864:20::92b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD8F822500;
-        Sun, 21 Aug 2022 19:30:50 -0700 (PDT)
-Received: by mail-ua1-x92b.google.com with SMTP id t21so3821296uaq.3;
-        Sun, 21 Aug 2022 19:30:50 -0700 (PDT)
+        with ESMTP id S229915AbiHVGEy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Aug 2022 02:04:54 -0400
+Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com [IPv6:2a00:1450:4864:20::129])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A03F20BF9;
+        Sun, 21 Aug 2022 23:04:54 -0700 (PDT)
+Received: by mail-lf1-x129.google.com with SMTP id l1so13284716lfk.8;
+        Sun, 21 Aug 2022 23:04:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc;
-        bh=8OT18EiZzc67zed1enekOSrV6Cl7PLk6DpE6nm225uQ=;
-        b=RPrTXZwuaXKTbsgGqVYekGHgLkS7SNnKHj/ikYP8oT3kuqDfFzbBQ6BkpZ7cOUYpDV
-         dv0k8I1thp70tofntsyy8IQrm8RzoWVqjyQIWftDw/g/qrWOOrg8xu8eD7C/sEUkgItC
-         UyImC+/7R4Yz3AkZ2DN/+tGiBa7mnSuHlgtNN8m25xQDDdsNc+X2L9D9TiL64n4KH5Ab
-         46GzCuONuLgWdxHo4D2+EByqHe1stpecS5qW3/h2GCrQGIpO9NlmKGR4Nwc0oTnkMXs/
-         AHZS/5t9fMPyqK9KjkuYUi9xPLdFEpevQTEIhbS1zAHZc79ZZN5l0uMOY6gqXzXc3jOQ
-         N3gg==
+        bh=doWgkAfEcmSMhRNIxRoHTjD9fSl7Q2XFQ3gDJGe0anw=;
+        b=d4vR2s8+jxnIrEGB/CJTUEY5EHRuuUOMpojTc+QpmNEZGAUirYD2O/zwgfBwghXVth
+         6ano1jbjTf3HWovy0VG6zgWCy0MS1HfZNWz/HW1FgMoLWnPHUgyPyvBttjXjvfmQW2rL
+         PSOLIssuruiQRbESq/mSb7kQhv58B6FsKldWmZ8LljlHFwB73Yu4rNA1xzwdZvKAgcmT
+         EPiVVOC4BnnexElaDjpHuDA7C4mvbm6B/FOwkTcn9WGsDSMOWjqXf4ZoNwjsy3MXueXH
+         KZbE83t2aOGeNqTER/qtLoaXLCYBbAPvZhlEVDTSyNtDL0Eg/w/Yz1ytZTN+CU5gdyGC
+         TpWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
-        bh=8OT18EiZzc67zed1enekOSrV6Cl7PLk6DpE6nm225uQ=;
-        b=0AuIFuyXSQNLesKsZbYcBOG07U8X7M5JIt25dsLSMDO7Ghc0evwUvxxCTHGN0yHHjc
-         8Fs/0OWYT3bxaNm53teb7KXT0S6Enn0iZP1mfbvZBNdH82jP9YLRRdQn9uBYaXRzDe2q
-         JMpe5fUq+kwZoBjX4RPsZJvKcOVy+/JXnTi47H1Ft1Qrjr5lSbwPFPK8tQdWHqLJhhyY
-         rqP0itVLFrgr2lbJ52TaLwJJMSLHPxg04/V/llFhsFgkvE6Pn5qXjIQoWxEhCx0g8+8d
-         rvO+MTuEOZpZ+Qk/v0hX7AHkXIJbqPM70wVGgBrRxXsOkwztazb9fflLulCOrIsp0Xls
-         q+gA==
-X-Gm-Message-State: ACgBeo1vPgPm1GK9mErlrjCkHW1B/8M759u4zP0XXYmWM9OkBxSBv8vA
-        Llfw0B8GoCQJ88nknkdgXC8=
-X-Google-Smtp-Source: AA6agR7LJvHa1vNGh2v2eNDqr+6op1KLplZdrqtgC87Uw2T6qVqUB/tJIRVbFrRZ8HaPNtC+Y1QB2A==
-X-Received: by 2002:ab0:4ad3:0:b0:392:fb0b:b617 with SMTP id t19-20020ab04ad3000000b00392fb0bb617mr6220367uae.57.1661135449859;
-        Sun, 21 Aug 2022 19:30:49 -0700 (PDT)
-Received: from localhost.localdomain ([2804:14c:4c2:8202::1001])
-        by smtp.gmail.com with ESMTPSA id y125-20020a1f3283000000b00378fe8518dcsm8330853vky.51.2022.08.21.19.30.46
+        bh=doWgkAfEcmSMhRNIxRoHTjD9fSl7Q2XFQ3gDJGe0anw=;
+        b=oLi4mi7fwDSZ3mVQ+EaLes+lhF3DzUd20hCl6FPc42jZJC+0UmIeQ8E/V2TWKA0SMc
+         XaiVVESZOGbuw2nfKYf29GSVvRLtpBAt6+1had99UH7OYhSh+vkQ4Aq1QN1rloTNlt4W
+         4L0NzjSwuGhQgbStobZOVBry4b0uDcb1KRs02ZMtUYUlxCi5aXd8h1SLc4WTtRIPk01M
+         I3SVCenDw8hOoa2wg8JQutLrEcNaBRsY+8Vky5fSlgVDmG+U0NHdGKkzdepO1TLC4fn6
+         GKKIASXmM79bK/MxzTgD4m0SEr8BrmnefKMZh05BbBGS4PpeJd0W5AKQDEJEMAt2FH5F
+         u45Q==
+X-Gm-Message-State: ACgBeo1YQJ0DEg4HTatm4BRShVD8lv3nwOtWsoOYaiGGWmoMCBAfhPX2
+        1/WsekxQnQArjAovmXtXbQ0=
+X-Google-Smtp-Source: AA6agR7S8W+RHjW6Fx6LlBk13x71rzPMpPIyQa8sXXSvRaIDvZJ7qmlMXLPS0fUSGTwuUpzhC7hc/A==
+X-Received: by 2002:a05:6512:3f19:b0:48a:874f:534 with SMTP id y25-20020a0565123f1900b0048a874f0534mr6304213lfa.446.1661148292323;
+        Sun, 21 Aug 2022 23:04:52 -0700 (PDT)
+Received: from localhost.localdomain (82-209-154-112.cust.bredband2.com. [82.209.154.112])
+        by smtp.gmail.com with ESMTPSA id u17-20020ac243d1000000b0048afeb4ea32sm1776929lfl.100.2022.08.21.23.04.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 21 Aug 2022 19:30:49 -0700 (PDT)
-From:   Tales Aparecida <tales.aparecida@gmail.com>
-To:     Sadiya Kazi <sadiyakazi@google.com>
-Cc:     linux-kernel@vger.kernel.org, kunit-dev@googlegroups.com,
-        linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        davidgow@google.com, corbet@lwn.net, brendan.higgins@linux.dev,
-        Trevor Woerner <twoerner@gmail.com>, siqueirajordao@riseup.net,
-        mwen@igalia.com, andrealmeid@riseup.net, mairacanal@riseup.net,
-        Isabella Basso <isabbasso@riseup.net>, magalilemes00@gmail.com,
-        tales.aparecida@gmail.com
-Subject: [PATCH v2 8/8] lib: stackinit: update reference to kunit-tool
-Date:   Sun, 21 Aug 2022 23:26:46 -0300
-Message-Id: <20220822022646.98581-9-tales.aparecida@gmail.com>
-X-Mailer: git-send-email 2.37.2
-In-Reply-To: <20220822022646.98581-1-tales.aparecida@gmail.com>
-References: <20220822022646.98581-1-tales.aparecida@gmail.com>
+        Sun, 21 Aug 2022 23:04:51 -0700 (PDT)
+From:   Marcus Folkesson <marcus.folkesson@gmail.com>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Marcus Folkesson <marcus.folkesson@gmail.com>,
+        Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-input@vger.kernel.org
+Subject: [RESEND PATCH 2/2] MAINTAINERS: Add entry for RC Simulator Controllers
+Date:   Mon, 22 Aug 2022 08:09:36 +0200
+Message-Id: <20220822060936.769855-2-marcus.folkesson@gmail.com>
+X-Mailer: git-send-email 2.37.1
+In-Reply-To: <20220822060936.769855-1-marcus.folkesson@gmail.com>
+References: <20220822060936.769855-1-marcus.folkesson@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Replace URL with an updated path to the full Documentation page
+Add an entry for RC Simulator Controllers and add myself
+as maintainers of this driver.
 
-Signed-off-by: Tales Aparecida <tales.aparecida@gmail.com>
+Signed-off-by: Marcus Folkesson <marcus.folkesson@gmail.com>
 ---
- lib/stackinit_kunit.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ MAINTAINERS | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/lib/stackinit_kunit.c b/lib/stackinit_kunit.c
-index 35c69aa425b2..4591d6cf5e01 100644
---- a/lib/stackinit_kunit.c
-+++ b/lib/stackinit_kunit.c
-@@ -3,7 +3,7 @@
-  * Test cases for compiler-based stack variable zeroing via
-  * -ftrivial-auto-var-init={zero,pattern} or CONFIG_GCC_PLUGIN_STRUCTLEAK*.
-  * For example, see:
-- * https://www.kernel.org/doc/html/latest/dev-tools/kunit/kunit-tool.html#configuring-building-and-running-tests
-+ * "Running tests with kunit_tool" at Documentation/dev-tools/kunit/start.rst
-  *	./tools/testing/kunit/kunit.py run stackinit [--raw_output] \
-  *		--make_option LLVM=1 \
-  *		--kconfig_add CONFIG_INIT_STACK_ALL_ZERO=y
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 64379c699903..216b9f021f72 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -16896,6 +16896,13 @@ M:	Patrick Lerda <patrick9876@free.fr>
+ S:	Maintained
+ F:	drivers/media/rc/ir-rcmm-decoder.c
+ 
++RC SIMULATOR CONTROLLERS
++M:	Marcus Folkesson <marcus.folkesson@gmail.com>
++L:	linux-input@vger.kernel.org
++S:	Maintained
++F:	Documentation/hid/rcsim.rst
++F:	drivers/hid/hid-rcsim.c
++
+ RCUTORTURE TEST FRAMEWORK
+ M:	"Paul E. McKenney" <paulmck@kernel.org>
+ M:	Josh Triplett <josh@joshtriplett.org>
 -- 
-2.37.2
+2.37.1
 
