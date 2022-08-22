@@ -2,77 +2,151 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F805C3F6B0
-	for <linux-doc@archiver.kernel.org>; Mon, 22 Aug 2022 11:27:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 27BAFC32789
+	for <linux-doc@archiver.kernel.org>; Mon, 22 Aug 2022 11:33:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233332AbiHVL1O (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 22 Aug 2022 07:27:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52646 "EHLO
+        id S234632AbiHVLc7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 22 Aug 2022 07:32:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32910 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232853AbiHVL1N (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Aug 2022 07:27:13 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC09B32EE8;
-        Mon, 22 Aug 2022 04:27:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=80Iob7m0eygDIBir23phYVn1p4Wv+1QMEBqUT1N4EkE=; b=w0XmYMb16FRlUUx5UI1bfzmXXs
-        3Jftu942ei0pgarFAfjnelYfSJ1IYVx2GFd0g/XIbbbwSdYSfwVpxXxNmZZpXXf0lPRrMo860RMUe
-        3XI5NdIwij0SFJuWWoFkMxB/0QS5RjtPkF546G7HiLYHm1E6ZGWlcr7PPoW2+QCq8bYfN4olg3h2u
-        bw/1p2z4T/woptW0t9XxXDBhrPu8221SDDsGbUBRz0wveo2AEd+Oy0QCpYcUTj0gyGwdzJDTpx04/
-        EZyi5wBHcNzpVitRKhIN+VcPL7cLqgTTEwyQjh59+1GhRK8BoF6C8AoTSusP8DZvl7FacTlY4scXh
-        wJiVNl0g==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1oQ5Zv-008DCF-58; Mon, 22 Aug 2022 11:26:47 +0000
-Date:   Mon, 22 Aug 2022 04:26:47 -0700
-From:   Christoph Hellwig <hch@infradead.org>
-To:     Robin Murphy <robin.murphy@arm.com>
-Cc:     Yu Zhao <yuzhao@google.com>, dongli.zhang@oracle.com,
-        ak@linux.intel.com, akpm@linux-foundation.org,
-        alexander.sverdlin@nokia.com, andi.kleen@intel.com, bp@alien8.de,
-        bp@suse.de, cminyard@mvista.com, corbet@lwn.net,
-        damien.lemoal@opensource.wdc.com, dave.hansen@linux.intel.com,
-        hch@infradead.org, iommu@lists.linux-foundation.org,
-        joe.jin@oracle.com, joe@perches.com, keescook@chromium.org,
-        kirill.shutemov@intel.com, kys@microsoft.com,
-        linux-doc@vger.kernel.org, linux-hyperv@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mips@vger.kernel.org,
-        ltykernel@gmail.com, michael.h.kelley@microsoft.com,
-        mingo@redhat.com, m.szyprowski@samsung.com, parri.andrea@gmail.com,
-        paulmck@kernel.org, pmladek@suse.com, rdunlap@infradead.org,
-        tglx@linutronix.de, thomas.lendacky@amd.com,
-        Tianyu.Lan@microsoft.com, tsbogend@alpha.franken.de,
-        vkuznets@redhat.com, wei.liu@kernel.org, x86@kernel.org
-Subject: Re: [PATCH v1 4/4] swiotlb: panic if nslabs is too small
-Message-ID: <YwNn92WP3rP4ylZu@infradead.org>
-References: <20220611082514.37112-5-dongli.zhang@oracle.com>
- <20220820012031.1285979-1-yuzhao@google.com>
- <f8c743d8-fcbe-4ef7-5f86-d63086552ffd@arm.com>
+        with ESMTP id S234669AbiHVLct (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Aug 2022 07:32:49 -0400
+Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69036356DC;
+        Mon, 22 Aug 2022 04:32:46 -0700 (PDT)
+Received: from fews1.riseup.net (fews1-pn.riseup.net [10.0.1.83])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
+         client-signature RSA-PSS (2048 bits) client-digest SHA256)
+        (Client CN "mail.riseup.net", Issuer "R3" (not verified))
+        by mx1.riseup.net (Postfix) with ESMTPS id 4MB9Fn6Bx6zDrVf;
+        Mon, 22 Aug 2022 11:32:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=riseup.net; s=squak;
+        t=1661167966; bh=OUMmq98oeFiEp0mE5Azg1/+y4ajDaWAKrWs37juM6GQ=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=JBIv38YnsNub8oyAdKIUfVsmk2i07BNR/NLoePIHfxk8Di+mFkpYV8GTtIgbC12b7
+         OSfgYRhRDijabcLILZXwD9Eil3tzUdkkTR7WntaisTYrIvvfDaoG09polA8ht1VDeb
+         yatxb3BPdp6tPjmQLHKsg3rrJ+WCp5BM6oZSjMjY=
+X-Riseup-User-ID: CA0E823BECDD724A52C6470718F8117D69D41CA1458B0CBBFEC8D433579B3E1C
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+         by fews1.riseup.net (Postfix) with ESMTPSA id 4MB9Fj0pvpz5vNB;
+        Mon, 22 Aug 2022 11:32:40 +0000 (UTC)
+Message-ID: <fcbda624-239b-af9b-3674-d1cf6087942a@riseup.net>
+Date:   Mon, 22 Aug 2022 08:32:33 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f8c743d8-fcbe-4ef7-5f86-d63086552ffd@arm.com>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+Subject: Re: [PATCH v2 2/8] Documentation: KUnit: avoid repeating "kunit.py
+ run" in start.rst
+Content-Language: en-US
+To:     Tales Aparecida <tales.aparecida@gmail.com>,
+        Sadiya Kazi <sadiyakazi@google.com>
+Cc:     linux-kernel@vger.kernel.org, kunit-dev@googlegroups.com,
+        linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        davidgow@google.com, corbet@lwn.net, brendan.higgins@linux.dev,
+        Trevor Woerner <twoerner@gmail.com>, siqueirajordao@riseup.net,
+        mwen@igalia.com, andrealmeid@riseup.net,
+        Isabella Basso <isabbasso@riseup.net>, magalilemes00@gmail.com
+References: <20220822022646.98581-1-tales.aparecida@gmail.com>
+ <20220822022646.98581-3-tales.aparecida@gmail.com>
+From:   =?UTF-8?Q?Ma=c3=adra_Canal?= <mairacanal@riseup.net>
+In-Reply-To: <20220822022646.98581-3-tales.aparecida@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Aug 22, 2022 at 10:49:09AM +0100, Robin Murphy wrote:
-> Hmm, it's possible this might be quietly fixed by 20347fca71a3, but either
-> way I'm not sure why we would need to panic *before* we've even tried to
-> allocate anything, when we could simply return with no harm done? If we've
-> ended up calculating (or being told) a buffer size which is too small to be
-> usable, that should be no different to disabling SWIOTLB entirely.
+On 8/21/22 23:26, Tales Aparecida wrote:
+> Combine two sections mentioning "kunit.py run" to streamline the
+> getting-started guide. Update "kunit.py run" expected output in
+> the guide and run_wrapper.
+> 
+> Signed-off-by: Tales Aparecida <tales.aparecida@gmail.com>
 
-Hmm.  I think this might be a philosophical question, but I think
-failing the boot with a clear error report for a configuration that is
-supposed to work but can't is way better than just panicing later on.
+Thanks for the quick re-spin!
 
-> Historically, passing "swiotlb=1" on the command line has been used to save
-> memory when the user knows SWIOTLB isn't needed. That should definitely not
-> be allowed to start panicking.
+Reviewed-by: Maíra Canal <mairacanal@riseup.net>
 
-I've never seen swiotlb=1 advertized as a way to disable swiotlb.
-That's always been swiotlb=noforce, which cleanly disables it.
+Best Regards,
+- Maíra Canal
+
+> 
+> ---
+> Notes:
+>      Update the expected output and the note that follows it (Maíra Canal and
+>      Sadiya Kazi). The output was updated on the commit: 45ba7a893ad8
+>      ("kunit: kunit_tool: Separate out config/build/exec/parse")
+>      Add word "step" to note and fix the case of "kernel".
+> ---
+>   Documentation/dev-tools/kunit/run_wrapper.rst |  2 +-
+>   Documentation/dev-tools/kunit/start.rst       | 38 ++++++++-----------
+>   2 files changed, 16 insertions(+), 24 deletions(-)
+> 
+> diff --git a/Documentation/dev-tools/kunit/run_wrapper.rst b/Documentation/dev-tools/kunit/run_wrapper.rst
+> index 518cf87ea732..6b33caf6c8ab 100644
+> --- a/Documentation/dev-tools/kunit/run_wrapper.rst
+> +++ b/Documentation/dev-tools/kunit/run_wrapper.rst
+> @@ -22,7 +22,7 @@ We should see the following:
+>   
+>   .. code-block::
+>   
+> -	Generating .config...
+> +	Configuring KUnit Kernel ...
+>   	Building KUnit kernel...
+>   	Starting KUnit kernel...
+>   
+> diff --git a/Documentation/dev-tools/kunit/start.rst b/Documentation/dev-tools/kunit/start.rst
+> index e730df1f468e..2e31350a85e1 100644
+> --- a/Documentation/dev-tools/kunit/start.rst
+> +++ b/Documentation/dev-tools/kunit/start.rst
+> @@ -19,7 +19,21 @@ can run kunit_tool:
+>   
+>   	./tools/testing/kunit/kunit.py run
+>   
+> -For more information on this wrapper, see:
+> +If everything worked correctly, you should see the following:
+> +
+> +.. code-block::
+> +
+> +	Configuring KUnit Kernel ...
+> +	Building KUnit Kernel ...
+> +	Starting KUnit Kernel ...
+> +
+> +The tests will pass or fail.
+> +
+> +.. note ::
+> +   Because it is building a lot of sources for the first time,
+> +   the ``Building KUnit Kernel`` step may take a while.
+> +
+> +For detailed information on this wrapper, see:
+>   Documentation/dev-tools/kunit/run_wrapper.rst.
+>   
+>   Creating a ``.kunitconfig``
+> @@ -74,28 +88,6 @@ you if you have not included dependencies for the options used.
+>      tools like ``make menuconfig O=.kunit``. As long as its a superset of
+>      ``.kunitconfig``, kunit.py won't overwrite your changes.
+>   
+> -Running Tests (KUnit Wrapper)
+> ------------------------------
+> -1. To make sure that everything is set up correctly, invoke the Python
+> -   wrapper from your kernel repository:
+> -
+> -.. code-block:: bash
+> -
+> -	./tools/testing/kunit/kunit.py run
+> -
+> -If everything worked correctly, you should see the following:
+> -
+> -.. code-block::
+> -
+> -	Generating .config ...
+> -	Building KUnit Kernel ...
+> -	Starting KUnit Kernel ...
+> -
+> -The tests will pass or fail.
+> -
+> -.. note ::
+> -   Because it is building a lot of sources for the first time, the
+> -   ``Building KUnit kernel`` may take a while.
+>   
+>   Running Tests without the KUnit Wrapper
+>   =======================================
