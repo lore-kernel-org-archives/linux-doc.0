@@ -2,108 +2,96 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 318CCC49EC1
-	for <linux-doc@archiver.kernel.org>; Mon, 22 Aug 2022 19:32:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F9F2C3F6B0
+	for <linux-doc@archiver.kernel.org>; Mon, 22 Aug 2022 19:35:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238671AbiHVTcB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 22 Aug 2022 15:32:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38038 "EHLO
+        id S238702AbiHVTfL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 22 Aug 2022 15:35:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49232 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239147AbiHVTa6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Aug 2022 15:30:58 -0400
-Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A7DA1DA69;
-        Mon, 22 Aug 2022 12:26:41 -0700 (PDT)
-Received: by mail-ej1-x62f.google.com with SMTP id h22so12954744ejk.4;
-        Mon, 22 Aug 2022 12:26:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc;
-        bh=34B6ZerjP73aR6id6f0RzGACZQ2hivLWBiIjVWGXY18=;
-        b=Sw7nurMhQNzh2Ro2WO/7hDZvbDJWnymb8aEHmWyPcPtzZFf0xh55xykAysGabanPx8
-         bwR3E9cvmCjyv5skEtJrII0H5kSOQZ98reJCYQz2sGAlF85pQLWHILn2iXDAyLcjLC23
-         G+pxFizeSoyncxtrvkY0d8xy8kFYIsAXgClTe+RH79TF+nE5WdDdWK18MF9a6O/QvvZF
-         r6muGcUzeasHJAh3E4obaF6CDJyBtA9kt/NdSuWS+bO2mMZhnGoFHeH02NGnT0T7RSTG
-         MplNH/KyclIsIiMODOxj+WHkvBbRMLMeoAxOVzb4++n8wAewuL+8lsBAJjQZhvGWBvHE
-         zHIQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
-        bh=34B6ZerjP73aR6id6f0RzGACZQ2hivLWBiIjVWGXY18=;
-        b=7Df5sUivcSgfTO70xiKLYx+c+aZASqKm7gYio1PqP9aECMbImJAxtNr6Mmof7vOTbu
-         0DRJtIa3IcEK93enl48f8M0Oo69uWVqhgMRNx32Uedug0GKr5oeR5kc4JMmS01HSikKo
-         koHlRl3xDzjGFXY0X9D4XJcJLJWw+Ayx/Hyv7uFo+95fXla6u8lQ1Ax10VLkqA7HiaG/
-         nY6sxiUQHLDQI9x/6XPLm54UHf14A9ez8i2+6EtLqVDUnW/AUPdc9lIgAh3xk9ZtLGxs
-         p5NuCQroOUxyp169lVYEiYyoLJr5Oukc+ko0Y05e/K2Jv40WR60EUwVqo9exIvlr5bf0
-         j4Xg==
-X-Gm-Message-State: ACgBeo0wsD8gjCjj2qyNSUQIZcOMbPqePkf/4ZkwHavJhJpplv7uhj2u
-        xLbFYp86TKuZeKVXnbzHzzc=
-X-Google-Smtp-Source: AA6agR7IwMlgtrcN3HByLXR3b2uPu3TTKrTqwjGyDMZq9RruqDF1DlexxH1hQj9n0MYiZP/6PDBqnw==
-X-Received: by 2002:a17:907:a056:b0:73d:5b60:5aae with SMTP id gz22-20020a170907a05600b0073d5b605aaemr9173089ejc.238.1661196399927;
-        Mon, 22 Aug 2022 12:26:39 -0700 (PDT)
-Received: from nuc ([2a02:168:633b:1:1e69:7aff:fe05:97e6])
-        by smtp.gmail.com with ESMTPSA id z22-20020a170906435600b007308812ce89sm6611027ejm.168.2022.08.22.12.26.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Aug 2022 12:26:39 -0700 (PDT)
-Date:   Mon, 22 Aug 2022 21:26:37 +0200
-From:   =?iso-8859-1?Q?G=FCnther?= Noack <gnoack3000@gmail.com>
-To:     Xiu Jianfeng <xiujianfeng@huawei.com>
-Cc:     mic@digikod.net, paul@paul-moore.com, jmorris@namei.org,
-        serge@hallyn.com, shuah@kernel.org, corbet@lwn.net,
-        linux-security-module@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH -next 3/5] landlock/selftests: add selftests for chmod
- and chown
-Message-ID: <YwPYbY/HbHTOv7Ux@nuc>
-References: <20220822114701.26975-1-xiujianfeng@huawei.com>
- <20220822114701.26975-4-xiujianfeng@huawei.com>
+        with ESMTP id S231196AbiHVTfG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Aug 2022 15:35:06 -0400
+Received: from vps0.lunn.ch (vps0.lunn.ch [185.16.172.187])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D87E52DF8;
+        Mon, 22 Aug 2022 12:35:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+        bh=s+WOD4snVC2BO4C8+qcd2CiG5Hiex2If1dPYRMgMw+o=; b=sASj/zfdSac/ORxHDWtaQhrBc7
+        JXKbH6Asx8kxMk/iucxS7jiIZBR9/M5gHblzOGGqjKf80/VkCvWELJiZagYmWOkxRYD9hm1NC8qGr
+        mWKrSzDgSPydFgDQSMjFMSSS5BQ+/u9YO1Ynk2/ulIvp7tH6ZYc+esBER5ZEmDfqmn2c=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+        (envelope-from <andrew@lunn.ch>)
+        id 1oQDCB-00EFxo-VL; Mon, 22 Aug 2022 21:34:47 +0200
+Date:   Mon, 22 Aug 2022 21:34:47 +0200
+From:   Andrew Lunn <andrew@lunn.ch>
+To:     Rob Herring <robh@kernel.org>
+Cc:     Oleksij Rempel <o.rempel@pengutronix.de>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>, kernel@pengutronix.de,
+        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
+        David Jander <david@protonic.nl>
+Subject: Re: [PATCH net-next v1 2/7] dt-bindings: net: phy: add PoDL PSE
+ property
+Message-ID: <YwPaV2Frj+b++8hZ@lunn.ch>
+References: <20220819120109.3857571-1-o.rempel@pengutronix.de>
+ <20220819120109.3857571-3-o.rempel@pengutronix.de>
+ <20220822184534.GB113650-robh@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220822114701.26975-4-xiujianfeng@huawei.com>
+In-Reply-To: <20220822184534.GB113650-robh@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Aug 22, 2022 at 07:46:59PM +0800, Xiu Jianfeng wrote:
-> +TEST_F_FORK(layout1, unhandled_chmod)
-> +{
-> +	const struct rule rules[] = {
-> +		{
-> +			.path = file2_s3d1,
-> +			.access = LANDLOCK_ACCESS_FS_READ_FILE |
-> +				  LANDLOCK_ACCESS_FS_WRITE_FILE,
-> +		},
-> +		{
-> +			.path = file3_s3d1,
-> +			.access = LANDLOCK_ACCESS_FS_READ_FILE |
-> +				  LANDLOCK_ACCESS_FS_WRITE_FILE,
-> +		},
-> +		{},
-> +	};
-> +	const int ruleset_fd =
-> +		create_ruleset(_metadata, ACCESS_RW, rules);
-> +
-> +	ASSERT_LE(0, ruleset_fd);
-> +	enforce_ruleset(_metadata, ruleset_fd);
-> +	ASSERT_EQ(0, close(ruleset_fd));
-> +
-> +	ASSERT_EQ(0, test_chmod(file2_s3d1));
-> +	ASSERT_EQ(0, test_fchmod(file2_s3d1));
-> +	ASSERT_EQ(0, test_chmod(file3_s3d1));
-> +	ASSERT_EQ(0, test_chmod(dir_s3d1));
-> +}
+On Mon, Aug 22, 2022 at 01:45:34PM -0500, Rob Herring wrote:
+> On Fri, Aug 19, 2022 at 02:01:04PM +0200, Oleksij Rempel wrote:
+> > Add property to reference node representing a PoDL Power Sourcing Equipment.
+> > 
+> > Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
+> > ---
+> >  Documentation/devicetree/bindings/net/ethernet-phy.yaml | 6 ++++++
+> >  1 file changed, 6 insertions(+)
+> > 
+> > diff --git a/Documentation/devicetree/bindings/net/ethernet-phy.yaml b/Documentation/devicetree/bindings/net/ethernet-phy.yaml
+> > index ed1415a4381f2..49c74e177c788 100644
+> > --- a/Documentation/devicetree/bindings/net/ethernet-phy.yaml
+> > +++ b/Documentation/devicetree/bindings/net/ethernet-phy.yaml
+> > @@ -144,6 +144,12 @@ properties:
+> >        Mark the corresponding energy efficient ethernet mode as
+> >        broken and request the ethernet to stop advertising it.
+> >  
+> > +  ieee802.3-podl-pse:
+> > +    $ref: /schemas/types.yaml#/definitions/phandle
+> > +    description:
+> > +      Specifies a reference to a node representing a Power over Data Lines
+> > +      Power Sourcing Equipment.
+> 
+> Ah, here is the consumer.
+> 
+> Why do you anything more than just a -supply property here for the 
+> PoE/PoDL supply? The only reason I see is you happen to want a separate 
+> driver for this and a separate node happens to be a convenient way to 
+> instantiate drivers in Linux. Convince me otherwise.
 
-I missed it in the previous mail:
+The regulator binding provides a lot of very useful properties, which
+look to do a good job describing the regulator part of a PoE/PeDL
+supplier side. What however is missing is the communication part, the
+power provider and the power consumer communicate with each other, via
+a serial protocol. They negotiate the supply of power, a sleep mode
+where power is reduced, but not removed, etc.
 
-There are also the chown variants lchown() and fchownat(), as well as
-the chmod variant fchmodat(), which might be interesting to test,
-especially the symlink scenarios.
+So a Power Sourcing Equipment driver is very likely to have a
+regulator embedded in it, but its more than a regulator.
 
-fchmodat() has a AT_SYMLINK_NOFOLLOW flag which does the chmod
-equivalent to lchown().
-
---
+	 Andrew
