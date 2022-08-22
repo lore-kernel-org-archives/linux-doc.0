@@ -2,128 +2,173 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4CCE0C28D13
-	for <linux-doc@archiver.kernel.org>; Mon, 22 Aug 2022 17:05:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B14F8C32774
+	for <linux-doc@archiver.kernel.org>; Mon, 22 Aug 2022 17:36:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235321AbiHVRFG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 22 Aug 2022 13:05:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54094 "EHLO
+        id S237129AbiHVRgp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 22 Aug 2022 13:36:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54554 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235132AbiHVRFG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Aug 2022 13:05:06 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 650B541D1D;
-        Mon, 22 Aug 2022 10:05:04 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 9BE5061207;
-        Mon, 22 Aug 2022 17:05:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 648C6C433C1;
-        Mon, 22 Aug 2022 17:05:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1661187903;
-        bh=2RPwxK6mPiQ24V+dniyQlazWwH9XEnmeAVv55idNd7Y=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Z799LMiw+FL/IuHbi/9/reeai2+4hyyozmQmWlPVlykp+Hgy7vKNzLv1danQCEfiU
-         oH3hucNa2WJcQo3tovRQgpFhzcaXJNJazD5h/tNCjBZQbnlPfRSd+LmMLpXXyMS9EX
-         bdYGItA66XzG/Mgwqgiqsj4AJuxdG359istn8KUS5q0000a7aOkBkUQnwi2hvhvdey
-         wBvlN+H7/cIexx7n5jz7boF26n0fp32yNHGrfNuTkldGY1uxDUkkCJnueOg5NfGs2h
-         tsmx1aPgdi8WmsLaPkkpQoVNq9RBSL3oSG2qS8TaLH4oaXlk2XXKAP3aHj8uGNiBxJ
-         WQHn4ZVUWVzpA==
-From:   SeongJae Park <sj@kernel.org>
-To:     SeongJae Park <sj@kernel.org>
-Cc:     Kairui Song <ryncsn@gmail.com>, damon@lists.linux.dev,
-        Jonathan Corbet <corbet@lwn.net>, linux-mm@kvack.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Kairui Song <kasong@tencent.com>
-Subject: Re: [PATCH] Docs/admin-guide/mm/damon/usage: fix the example code snip
-Date:   Mon, 22 Aug 2022 17:05:00 +0000
-Message-Id: <20220822170500.87712-1-sj@kernel.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220822165646.87524-1-sj@kernel.org>
-References: 
+        with ESMTP id S235990AbiHVRgo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Aug 2022 13:36:44 -0400
+Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 540BB40BCB
+        for <linux-doc@vger.kernel.org>; Mon, 22 Aug 2022 10:36:42 -0700 (PDT)
+Received: by mail-lf1-x12f.google.com with SMTP id m3so10611890lfg.10
+        for <linux-doc@vger.kernel.org>; Mon, 22 Aug 2022 10:36:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc;
+        bh=l2rPagMbz8Ll9r+EAEfWnyCiHgWknUSiBzGwF24uJk0=;
+        b=rkm3YncQHWPEopQMVxS6CGvBPR0tQWz1GP1xmn9k+eDL0IppgfyOTC7LFzIQUcrjt/
+         rpkYHV5mlBbtH82wFj59Ah71pgPkb0kwl6QDEKROEG4HZ9yeE/nJzIRRevz9AmvWtPnM
+         mBZQSq1WAcMDV9CGrIhL3G7w2LRi0y4FRw7Hb9tybs5tzWqIyWaGglRttLrnLGPmN5ED
+         3Y83W5xGK9vrmBrufO1ZCvdFQXNntYKSB3JdypcQ53BYYhjvvtzDkYdlNUf1v9PXsZZJ
+         3FkafOGnCDzGQzK6lzeyXu9sZReH2MPRNYto/edeoww6G3xNm+MNaBN2Cd44A8fnmfsI
+         T0SA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
+        bh=l2rPagMbz8Ll9r+EAEfWnyCiHgWknUSiBzGwF24uJk0=;
+        b=4XULE0+u6MUTuWrAvR9F3H9XX0wTsqbKVM1eGxqJ6NaN+LQJML052i/ZysLEGgcjsE
+         SN+dvCKToswiLW2CfGj3PC10DLCOGHH0fxGc2u4dYkkz0LUkihiVGyiKCQEA/V+ifVhJ
+         fxa8y2GpQuUiW0cn5yo/ClWUqQXJp9D3df7BH3E0lRGTQfFGD5E5xEFLQNSBzxXdGXrd
+         Qz5mjDBy1snEvMKsXqGcWIhhMShMnbu6Z9mqTCHH3j6x/gHK6hs4exiBUM0JxbYHVgsT
+         9NVzdWOQfqrso0Dq8BwIGg947YtUGySogePQEQPHZYKZLnNLJQHl3cVwYbIT4ZGjnrMo
+         kBFA==
+X-Gm-Message-State: ACgBeo01RjD6W0RJe8kV6eaj/6dEKMuNcGnzwu1hu/aOttBObef2LKx2
+        lw4kONZMYH4Lu0rzsyyiX4PSTJbswwxr/ceklSUclA==
+X-Google-Smtp-Source: AA6agR78MoVIqPrV/wcpSd+Kmiw5aVyZviq+7uMPr6m3nZUVOJIPLZCv8B6ZgvDJI6DTtrUc+qo0Qyb+h7GKwBJxF+I=
+X-Received: by 2002:a05:6512:3090:b0:48b:6e1:1b55 with SMTP id
+ z16-20020a056512309000b0048b06e11b55mr8155377lfd.535.1661189800517; Mon, 22
+ Aug 2022 10:36:40 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220822022646.98581-1-tales.aparecida@gmail.com> <20220822022646.98581-3-tales.aparecida@gmail.com>
+In-Reply-To: <20220822022646.98581-3-tales.aparecida@gmail.com>
+From:   Sadiya Kazi <sadiyakazi@google.com>
+Date:   Mon, 22 Aug 2022 23:06:29 +0530
+Message-ID: <CAO2JNKWbL+=j1Kk+hKpM=7AKi_BYxyQmiQvjNMCN7GJtFHtnyg@mail.gmail.com>
+Subject: Re: [PATCH v2 2/8] Documentation: KUnit: avoid repeating "kunit.py
+ run" in start.rst
+To:     Tales Aparecida <tales.aparecida@gmail.com>
+Cc:     linux-kernel@vger.kernel.org, kunit-dev@googlegroups.com,
+        linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        David Gow <davidgow@google.com>, corbet@lwn.net,
+        brendan.higgins@linux.dev, Trevor Woerner <twoerner@gmail.com>,
+        siqueirajordao@riseup.net, mwen@igalia.com, andrealmeid@riseup.net,
+        mairacanal@riseup.net, Isabella Basso <isabbasso@riseup.net>,
+        magalilemes00@gmail.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 22 Aug 2022 16:56:46 +0000 SeongJae Park <sj@kernel.org> wrote:
+On Mon, Aug 22, 2022 at 8:00 AM Tales Aparecida
+<tales.aparecida@gmail.com> wrote:
+>
+> Combine two sections mentioning "kunit.py run" to streamline the
+> getting-started guide. Update "kunit.py run" expected output in
+> the guide and run_wrapper.
+>
+> Signed-off-by: Tales Aparecida <tales.aparecida@gmail.com>
+>
+> ---
+> Notes:
+>     Update the expected output and the note that follows it (Ma=C3=ADra C=
+anal and
+>     Sadiya Kazi). The output was updated on the commit: 45ba7a893ad8
+>     ("kunit: kunit_tool: Separate out config/build/exec/parse")
+>     Add word "step" to note and fix the case of "kernel".
+> ---
 
-> Hi Kairui,
-> 
-> 
-> On Mon, 22 Aug 2022 18:56:17 +0800 Kairui Song <ryncsn@gmail.com> wrote:
-> 
-> > From: Kairui Song <kasong@tencent.com>
-> > 
-> > The workflow example code is not working since it got the file names
-> > wrong. So fix this.
-> 
-> Nice finding, thank you for this patch!
-> 
-> > 
+Thanks, Tales. This looks good to me.
 
-Oh, I forgot saying that it would be good to have Fixes: here, like below:
+Reviewed-by: Sadiya Kazi<sadiyakazi@google.com>
 
-Fixes: b18402726bd1 ("Docs/admin-guide/mm/damon/usage: document DAMON sysfs interface")
+Cheers,
+Sadiya
 
-I wouldn't say this needs to Cc stable@, as this is just a document example
-fix.  Nevertheless, if anyone has a different opinion, please shout out.
-
-
-Thanks,
-SJ
-
-> > Signed-off-by: Kairui Song <kasong@tencent.com>
-> 
-> Reviewed-by: SeongJae Park <sj@kernel.org>
-> 
-> 
-> Thanks,
-> SJ
-> 
-> > ---
-> >  Documentation/admin-guide/mm/damon/usage.rst | 18 +++++++++---------
-> >  1 file changed, 9 insertions(+), 9 deletions(-)
-> > 
-> > diff --git a/Documentation/admin-guide/mm/damon/usage.rst b/Documentation/admin-guide/mm/damon/usage.rst
-> > index d52f572a90298..ca91ecc290785 100644
-> > --- a/Documentation/admin-guide/mm/damon/usage.rst
-> > +++ b/Documentation/admin-guide/mm/damon/usage.rst
-> > @@ -50,10 +50,10 @@ For a short example, users can monitor the virtual address space of a given
-> >  workload as below. ::
-> >  
-> >      # cd /sys/kernel/mm/damon/admin/
-> > -    # echo 1 > kdamonds/nr && echo 1 > kdamonds/0/contexts/nr
-> > +    # echo 1 > kdamonds/nr_kdamonds && echo 1 > kdamonds/0/contexts/nr_contexts
-> >      # echo vaddr > kdamonds/0/contexts/0/operations
-> > -    # echo 1 > kdamonds/0/contexts/0/targets/nr
-> > -    # echo $(pidof <workload>) > kdamonds/0/contexts/0/targets/0/pid
-> > +    # echo 1 > kdamonds/0/contexts/0/targets/nr_targets
-> > +    # echo $(pidof <workload>) > kdamonds/0/contexts/0/targets/0/pid_target
-> >      # echo on > kdamonds/0/state
-> >  
-> >  Files Hierarchy
-> > @@ -366,12 +366,12 @@ memory rate becomes larger than 60%, or lower than 30%". ::
-> >      # echo 1 > kdamonds/0/contexts/0/schemes/nr_schemes
-> >      # cd kdamonds/0/contexts/0/schemes/0
-> >      # # set the basic access pattern and the action
-> > -    # echo 4096 > access_patterns/sz/min
-> > -    # echo 8192 > access_patterns/sz/max
-> > -    # echo 0 > access_patterns/nr_accesses/min
-> > -    # echo 5 > access_patterns/nr_accesses/max
-> > -    # echo 10 > access_patterns/age/min
-> > -    # echo 20 > access_patterns/age/max
-> > +    # echo 4096 > access_pattern/sz/min
-> > +    # echo 8192 > access_pattern/sz/max
-> > +    # echo 0 > access_pattern/nr_accesses/min
-> > +    # echo 5 > access_pattern/nr_accesses/max
-> > +    # echo 10 > access_pattern/age/min
-> > +    # echo 20 > access_pattern/age/max
-> >      # echo pageout > action
-> >      # # set quotas
-> >      # echo 10 > quotas/ms
-> > -- 
-> > 2.35.2
+>  Documentation/dev-tools/kunit/run_wrapper.rst |  2 +-
+>  Documentation/dev-tools/kunit/start.rst       | 38 ++++++++-----------
+>  2 files changed, 16 insertions(+), 24 deletions(-)
+>
+> diff --git a/Documentation/dev-tools/kunit/run_wrapper.rst b/Documentatio=
+n/dev-tools/kunit/run_wrapper.rst
+> index 518cf87ea732..6b33caf6c8ab 100644
+> --- a/Documentation/dev-tools/kunit/run_wrapper.rst
+> +++ b/Documentation/dev-tools/kunit/run_wrapper.rst
+> @@ -22,7 +22,7 @@ We should see the following:
+>
+>  .. code-block::
+>
+> -       Generating .config...
+> +       Configuring KUnit Kernel ...
+>         Building KUnit kernel...
+>         Starting KUnit kernel...
+>
+> diff --git a/Documentation/dev-tools/kunit/start.rst b/Documentation/dev-=
+tools/kunit/start.rst
+> index e730df1f468e..2e31350a85e1 100644
+> --- a/Documentation/dev-tools/kunit/start.rst
+> +++ b/Documentation/dev-tools/kunit/start.rst
+> @@ -19,7 +19,21 @@ can run kunit_tool:
+>
+>         ./tools/testing/kunit/kunit.py run
+>
+> -For more information on this wrapper, see:
+> +If everything worked correctly, you should see the following:
+> +
+> +.. code-block::
+> +
+> +       Configuring KUnit Kernel ...
+> +       Building KUnit Kernel ...
+> +       Starting KUnit Kernel ...
+> +
+> +The tests will pass or fail.
+> +
+> +.. note ::
+> +   Because it is building a lot of sources for the first time,
+> +   the ``Building KUnit Kernel`` step may take a while.
+> +
+> +For detailed information on this wrapper, see:
+>  Documentation/dev-tools/kunit/run_wrapper.rst.
+>
+>  Creating a ``.kunitconfig``
+> @@ -74,28 +88,6 @@ you if you have not included dependencies for the opti=
+ons used.
+>     tools like ``make menuconfig O=3D.kunit``. As long as its a superset =
+of
+>     ``.kunitconfig``, kunit.py won't overwrite your changes.
+>
+> -Running Tests (KUnit Wrapper)
+> ------------------------------
+> -1. To make sure that everything is set up correctly, invoke the Python
+> -   wrapper from your kernel repository:
+> -
+> -.. code-block:: bash
+> -
+> -       ./tools/testing/kunit/kunit.py run
+> -
+> -If everything worked correctly, you should see the following:
+> -
+> -.. code-block::
+> -
+> -       Generating .config ...
+> -       Building KUnit Kernel ...
+> -       Starting KUnit Kernel ...
+> -
+> -The tests will pass or fail.
+> -
+> -.. note ::
+> -   Because it is building a lot of sources for the first time, the
+> -   ``Building KUnit kernel`` may take a while.
+>
+>  Running Tests without the KUnit Wrapper
+>  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> --
+> 2.37.2
+>
