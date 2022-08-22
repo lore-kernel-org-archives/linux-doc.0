@@ -2,95 +2,86 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 98396C32789
-	for <linux-doc@archiver.kernel.org>; Mon, 22 Aug 2022 12:32:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AEC92C28D13
+	for <linux-doc@archiver.kernel.org>; Mon, 22 Aug 2022 13:41:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234201AbiHVMcq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 22 Aug 2022 08:32:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39954 "EHLO
+        id S235284AbiHVNlI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 22 Aug 2022 09:41:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53530 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230503AbiHVMcp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Aug 2022 08:32:45 -0400
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id DF396BF4A;
-        Mon, 22 Aug 2022 05:32:44 -0700 (PDT)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B03D612FC;
-        Mon, 22 Aug 2022 05:32:47 -0700 (PDT)
-Received: from [10.57.15.77] (unknown [10.57.15.77])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id AEB0A3F718;
-        Mon, 22 Aug 2022 05:32:38 -0700 (PDT)
-Message-ID: <d5016c1e-55d9-4224-278a-50377d4c6454@arm.com>
-Date:   Mon, 22 Aug 2022 13:32:32 +0100
+        with ESMTP id S235244AbiHVNlG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Aug 2022 09:41:06 -0400
+Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 962B215FC9;
+        Mon, 22 Aug 2022 06:41:05 -0700 (PDT)
+Received: by mail-pj1-x102e.google.com with SMTP id r15-20020a17090a1bcf00b001fabf42a11cso11293969pjr.3;
+        Mon, 22 Aug 2022 06:41:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc;
+        bh=zPi97ExUikdEhfcrJGFr1ffQESaGom6KZJXieoIftH4=;
+        b=mkTPMemOP4acTG60S3Hl5WBTG8ZAtPdovT7QZdsI5p5AxPKU2zKh0kgpRHUVVHQjbf
+         +EAqonNoO2IGw0EiwZWbcefHkrNojqBQhOtnpYUFTXZtKew8nzi5oJkrtw4Uv/VGZOUm
+         2cNNmcyTIrB507VqwtQubBMJj09+UzrKFy3eyL4gujU2jFdsFyshFzYuVP0XnPQXEJqm
+         G5RKeiCBdz3PXv0yq/GLHFIvTx/E7oxplZq9FK1Gbec7t4rpwTtalp2SGgDFQuRnNm5R
+         8Dc6IqiBC9YgLKOxPqr1FgoHa00G9NNwmMtzcqUxp+fwE5C6AIgnuoZf6p8KLzBkicZ7
+         v9VA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc;
+        bh=zPi97ExUikdEhfcrJGFr1ffQESaGom6KZJXieoIftH4=;
+        b=ijG5GqEqgMrsepFkJlbxC30MirowFQ5eZGwnjxpKICuaVJ3uYqtyod2ICc/smUY+V7
+         ku20Gbaw3FwbqeqWGJ+aKWP5f3SCqZg0RSr+2MbcoiApbi7HKjsyH4/HWsV7GVYMeUCi
+         9Jk5hXX3Tj8/3IGB8Idb4nMjqV+S9O7QHFiNCjPuvPw0hpleIybrSl0xkaazYmmvWAcA
+         allRVeZhgadpm8i3+x6lxpPr/kPPX/mugjoj+WBg4t/FRxp00Vi5WaBX/qzdVO9pIdt4
+         L4/DVYD7di+vKvY57gGO36T9lZsu4XG9yDLX7S0ICIy7LEp3qzjJoJ6NVhwF9b5bIoUR
+         falg==
+X-Gm-Message-State: ACgBeo1SYwHyAR1YIZSmyBD9zSgQx0B7GGlZ+2yfgzNmXHiJhN6LP8Oy
+        /kPV/tB7yE4U2pIdl8hEES8=
+X-Google-Smtp-Source: AA6agR6BmLWM4+c7BACerNedLr15QWhRQiBzPH6XlAV+yW1IbPumDgepk2/BpzLbsUqKkTcRv71xVw==
+X-Received: by 2002:a17:902:7247:b0:16f:8361:ba26 with SMTP id c7-20020a170902724700b0016f8361ba26mr20294979pll.83.1661175665106;
+        Mon, 22 Aug 2022 06:41:05 -0700 (PDT)
+Received: from [192.168.43.80] (subs02-180-214-232-77.three.co.id. [180.214.232.77])
+        by smtp.gmail.com with ESMTPSA id q28-20020a63f95c000000b00428c216467csm7404876pgk.32.2022.08.22.06.41.02
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 22 Aug 2022 06:41:04 -0700 (PDT)
+Message-ID: <78a90d0a-e0ba-0189-aa84-4ce2952e33f3@gmail.com>
+Date:   Mon, 22 Aug 2022 20:40:56 +0700
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:91.0) Gecko/20100101
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.12.0
-Subject: Re: [PATCH v1 4/4] swiotlb: panic if nslabs is too small
-Content-Language: en-GB
-To:     Christoph Hellwig <hch@infradead.org>
-Cc:     Yu Zhao <yuzhao@google.com>, dongli.zhang@oracle.com,
-        ak@linux.intel.com, akpm@linux-foundation.org,
-        alexander.sverdlin@nokia.com, andi.kleen@intel.com, bp@alien8.de,
-        bp@suse.de, cminyard@mvista.com, corbet@lwn.net,
-        damien.lemoal@opensource.wdc.com, dave.hansen@linux.intel.com,
-        iommu@lists.linux-foundation.org, joe.jin@oracle.com,
-        joe@perches.com, keescook@chromium.org, kirill.shutemov@intel.com,
-        kys@microsoft.com, linux-doc@vger.kernel.org,
-        linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mips@vger.kernel.org, ltykernel@gmail.com,
-        michael.h.kelley@microsoft.com, mingo@redhat.com,
-        m.szyprowski@samsung.com, parri.andrea@gmail.com,
-        paulmck@kernel.org, pmladek@suse.com, rdunlap@infradead.org,
-        tglx@linutronix.de, thomas.lendacky@amd.com,
-        Tianyu.Lan@microsoft.com, tsbogend@alpha.franken.de,
-        vkuznets@redhat.com, wei.liu@kernel.org, x86@kernel.org
-References: <20220611082514.37112-5-dongli.zhang@oracle.com>
- <20220820012031.1285979-1-yuzhao@google.com>
- <f8c743d8-fcbe-4ef7-5f86-d63086552ffd@arm.com>
- <YwNn92WP3rP4ylZu@infradead.org>
-From:   Robin Murphy <robin.murphy@arm.com>
-In-Reply-To: <YwNn92WP3rP4ylZu@infradead.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Subject: Re: [PATCH v2 3/3] docs: i2c: i2c-topology: fix typo
+Content-Language: en-US
+To:     luca.ceresoli@bootlin.com, linux-doc@vger.kernel.org,
+        linux-i2c@vger.kernel.org
+Cc:     Wolfram Sang <wsa@kernel.org>, Peter Rosin <peda@axentia.se>,
+        linux-kernel@vger.kernel.org
+References: <20220822091050.47099-1-luca.ceresoli@bootlin.com>
+ <20220822091050.47099-4-luca.ceresoli@bootlin.com>
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <20220822091050.47099-4-luca.ceresoli@bootlin.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2022-08-22 12:26, Christoph Hellwig wrote:
-> On Mon, Aug 22, 2022 at 10:49:09AM +0100, Robin Murphy wrote:
->> Hmm, it's possible this might be quietly fixed by 20347fca71a3, but either
->> way I'm not sure why we would need to panic *before* we've even tried to
->> allocate anything, when we could simply return with no harm done? If we've
->> ended up calculating (or being told) a buffer size which is too small to be
->> usable, that should be no different to disabling SWIOTLB entirely.
+On 8/22/22 16:10, luca.ceresoli@bootlin.com wrote:
+> From: Luca Ceresoli <luca.ceresoli@bootlin.com>
 > 
-> Hmm.  I think this might be a philosophical question, but I think
-> failing the boot with a clear error report for a configuration that is
-> supposed to work but can't is way better than just panicing later on.
-
-Depends which context of "supposed to work" you mean there. The most 
-logical reason to end up with a tiny SWIOTLB size is because you don't 
-expect to need SWIOTLB, therefore if there's now a functional minimum 
-size limit, failing gracefully such that the system keeps working as 
-before is correct in that context. Even if we assume the expectation 
-goes the other way, then it should be on SWIOTLB to adjust the initial 
-allocation size to whatever minimum it now needs, which as I say it 
-looks like 20347fca71a3 might do anyway. Creating new breakage by 
-panicking instead of making a decision one way or the other was never 
-the right answer.
-
->> Historically, passing "swiotlb=1" on the command line has been used to save
->> memory when the user knows SWIOTLB isn't needed. That should definitely not
->> be allowed to start panicking.
+> "intension" should have probably been "intention", however "intent" seems
+> even better.
 > 
-> I've never seen swiotlb=1 advertized as a way to disable swiotlb.
-> That's always been swiotlb=noforce, which cleanly disables it.
+> Reported-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+> 
 
-No, it's probably not been advertised as such, but it's what clearly 
-fell out of the available options before "noforce" was added (which was 
-considerably more recently than "always"), and the fact is that people 
-*are* still using it even today (presumably copy-pasted through Android 
-BSPs since before 4.10).
+The typo error is introduced in [2/3], so it makes sense to squash this
+to the errored patch.
 
-Thanks,
-Robin.
+-- 
+An old man doll... just what I always wanted! - Clara
