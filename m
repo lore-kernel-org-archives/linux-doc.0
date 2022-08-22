@@ -2,157 +2,98 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 37E50C28D13
-	for <linux-doc@archiver.kernel.org>; Mon, 22 Aug 2022 13:55:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 14450C32772
+	for <linux-doc@archiver.kernel.org>; Mon, 22 Aug 2022 14:00:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235428AbiHVNzN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 22 Aug 2022 09:55:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41554 "EHLO
+        id S229533AbiHVOAV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 22 Aug 2022 10:00:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46822 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235398AbiHVNzM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Aug 2022 09:55:12 -0400
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2055.outbound.protection.outlook.com [40.107.244.55])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8D40399F0;
-        Mon, 22 Aug 2022 06:55:10 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=IyUp7DcmNu+IIyPFefelLWo9HW7Dh8rZhr3EAeKmIAQhss0b4cgwDwyp7+pRRbS2IKY92ptM5PBzPZTMfAlUDpIw7gKfnHuE5ax2zxSLYqdY5pmcGQFhlksIdw3WLWGffOVKMEKYVSYvL0KX3xphshXfpJMtpgJPAn3KcUDNCpWnzNiSDN0QYOUmBQu3GMX3fKiAeSV0VS2xgjMC54kYc6s0L3z7t3I0OGP0vTY9awnzgCs2K8hfKaWjntzVAfLBq2ki58sAwDCLQO21eMdpGzSKfZIt8ts08AXphEXZMDm5TRNn+RJMBwUxrKHjm8JobA/wQjI6vw3C7P7UmT6QPA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/IEq2o/WkoMmH5Le+4gyRllLvmsfhmEirgPmbv9G9O8=;
- b=L9pHyYjX7a/K35sClpWkVccPsQv23GZe2YenyI3Htyb/c1G2E06j48vE81RJqRO+Oe029FyLrRfmoWIHviEI/UJ3CbVkoi6PygbhO6PbkLl7F8uYINgF3cJx+ylZz1mre0+8mJz0xTIKm00tAKH2ovlZE8UoLuvKVwbRKv0eK6KG73EQua+hIRZ/UvfuS8ZZ3o+E9aTbT803G/1pJLr72V4ST4sh/PJso4v7sQym1l6Ip5zWl5tuBRXmVMvOitB81c5SS1UrenkEkESnL4yy7F9V8BkTztAm5JDMygfWS3dNHDwV5FuBRuUQZAY+7PFenAPw5j27yoh44Qy/FiujWA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/IEq2o/WkoMmH5Le+4gyRllLvmsfhmEirgPmbv9G9O8=;
- b=XPbp8B4MJ+4WpimhEo41MotRK+5P1uoz0tPvLTVvKpE6cWYTc2/WrEzKSHGzfvJeLxtoKznctmT3hWi7bL/5CnvHsribIIoOXaRqL67T3+TAMflUpzWZIdLt0UW3V6O6FSAnDqFcovzDR0TJ988EaLov1N0djbD7Hrz6iBrw87M=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
- by MW5PR12MB5598.namprd12.prod.outlook.com (2603:10b6:303:193::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5546.22; Mon, 22 Aug
- 2022 13:55:09 +0000
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::88f:a211:8c98:a973]) by MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::88f:a211:8c98:a973%9]) with mapi id 15.20.5546.023; Mon, 22 Aug 2022
- 13:55:09 +0000
-Message-ID: <9888d756-4bb1-a48f-3301-5dbd00bf6530@amd.com>
-Date:   Mon, 22 Aug 2022 08:55:04 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Reply-To: babu.moger@amd.com
-Subject: Re: [PATCH v3 08/10] x86/resctrl: Add the sysfs interface to read the
- event configuration
-Content-Language: en-US
-To:     Bagas Sanjaya <bagasdotme@gmail.com>, fenghua.yu@intel.com,
-        reinette.chatre@intel.com, tglx@linutronix.de, mingo@redhat.com,
-        bp@alien8.de
-Cc:     eranian@google.com, dave.hansen@linux.intel.com, x86@kernel.org,
-        hpa@zytor.com, corbet@lwn.net, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org
-References: <166117559756.6695.16047463526634290701.stgit@bmoger-ubuntu>
- <166117586269.6695.16560984025494646306.stgit@bmoger-ubuntu>
- <d75aa75d-92e5-f946-8b41-fd63a6169eb5@gmail.com>
-From:   "Moger, Babu" <babu.moger@amd.com>
-In-Reply-To: <d75aa75d-92e5-f946-8b41-fd63a6169eb5@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: BLAP220CA0003.NAMP220.PROD.OUTLOOK.COM
- (2603:10b6:208:32c::8) To MW3PR12MB4553.namprd12.prod.outlook.com
- (2603:10b6:303:2c::19)
+        with ESMTP id S234860AbiHVOAU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Aug 2022 10:00:20 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96A3139B93;
+        Mon, 22 Aug 2022 07:00:19 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 51202B8123A;
+        Mon, 22 Aug 2022 14:00:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id DF5ADC4314A;
+        Mon, 22 Aug 2022 14:00:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1661176816;
+        bh=orT3QMvkSoHHqPhUrfOeoGgvMUqUg3YkbuOk1NRLzD0=;
+        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+        b=AWbqZa3ljQPak3jKFSQ9qYXmSiFK4hkUob7qCQFNQAUGaf1kp6Spcd33go1QpR+uy
+         C4QENOLNHYb8BXD7FxbLFhq40cQZpByYuo34BmLObmzo0ORKUULTibjpwiak5uU1J9
+         /G+QNaQm1L6JePN9koM9Mz6rg3LH89BwWhUIfi9o2SlSCnJWsFwb1hjBLeUsF8WbFp
+         ikutXfke0k5TpTFeQaYJ+JSlGTx45Hxo7Xd6LaXx0Vuw7hgXqHFGhHG/M6FnjYiNeM
+         cyHi85/7+k/qLiXoV9UJD21wRjOIMM6oa888vL93CW3OCApUE/j9zmndxo+/GumxdH
+         ZOAVoif43f5HQ==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id BDFF9E2A040;
+        Mon, 22 Aug 2022 14:00:16 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 21917d68-e38f-4f2c-0d16-08da8445ed03
-X-MS-TrafficTypeDiagnostic: MW5PR12MB5598:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: FXka55ZkbCl5JLOxpZMRwLVS0QXKq6AFfSJEFnjh4qb1CSA8gFQbn+cFU4R2vD4TBiINyaIJkHe3QegaCdWq0iKD0Nkkp7nbgJuXqBo8mKLsTKL53k6W19eDcjZGR5qUXBVJRMjfr8LD9oCljR4wYUlg28261NF3FtL3kFuAZVWloSiRNripuhIwFpVaOrqHeP+I7qkG+0Lnd3LrLXyF6N3NEeffu23yrSfvrmL8nHEOEcRgWMZd8gJo/KCqwA/YLRi0iA9n+pMbHqXcFTU5j19QjKpOyWKR6FonO40R3uVVFtx1ni+l+FAj1aJjjzRqU+S4WvhTc2hsw23Ozv02SWh9mFZ3wmirgz2NdAR+b41GCpcYTSXgX/YRZudwMLWHVrvHV3EYe3ZpBXls3HjpsAp+3EPnvlivqrsLyHinlDbWf4X3OSDkAq2zcmmKSowSTvbC+DCJqtgMwnZ2CeW/G70IcdwE4NFECNJ3l7mZsHVhKUUPzKBRkLOQLKxxjb69i0hWpIg10DK1HO9a0h2SGDJb930RtAL1i6vX8Vr3y3llBaqhhLf3hF6S6sV8V7ERsEuQY5gQWK97HusUEO6dh9rWyhTL0QK9/+OwteDvhco0hUx9t5kv5dJR2FvE0DsAvECj94xa7kbIMC9l5fXHNtEER5Hl0duKD+sZpk3ydP4XCJXV0lwE8o2CJ+zfFwm7A/V28F7WS3IXWBWrlXb7Iz36iD3oPb9PMVj9m/UAqAihUMdQ8a+CwQewH6LVbuK3Nd7igjcTviMceazX2PrS4Lh2rpFnp6RN3dDAnsbCn9g=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(376002)(136003)(346002)(396003)(39860400002)(366004)(4744005)(66556008)(38100700002)(66476007)(8676002)(66946007)(4326008)(31686004)(31696002)(86362001)(36756003)(186003)(6512007)(26005)(83380400001)(6666004)(41300700001)(6486002)(478600001)(7416002)(316002)(2906002)(2616005)(53546011)(3450700001)(6506007)(8936002)(5660300002)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?OTlDdFdhTE1WMzB4YWlPNTRtek9nNUxCRXhTSTZKWHZGYW4zSFZmc01SUTUw?=
- =?utf-8?B?OEQ1YjRmSTBKcWF5YzYvR2Z1U215UHNPNXEyQ2hvTWYwdGdwbXg3MkRFVTZZ?=
- =?utf-8?B?ZlNIK2J4QjJJbmxyMzBDVk5TaVJwS25ORFBZRUN2Si9CcmdGd3ZzblpUayt1?=
- =?utf-8?B?Y3c3TDFxM2I3MmRDU0lVWSsyRmFRdkViak5jZmZaZjRGYUNPVW1mOG5icHNy?=
- =?utf-8?B?RUIrYjhZVnl3MEI2Rko5c2xBaHJzL0xsWE1uN2lkYTlzY3Nia2JqRHZFWEtp?=
- =?utf-8?B?SStIdTRRZytXK1lmUTRvUFhvVFM2SWZQbS9FVDU5eG0wdmJxaDNiWXQxWTlE?=
- =?utf-8?B?bVBsTjRRZ3NlN0sxUzQ1ZEJaeFBLUTFzWDhVYmowMDNkUVJ6SFZpWGdNdFQv?=
- =?utf-8?B?TGxwWVVMMnJqL2hBR291WW95Ky9wR2YyZHhEYldsTk1lWXBScnJSbUNub2dT?=
- =?utf-8?B?WGV0MHFvV1FENnRYWkZoTm5Uc3M4TURTUWZnbzhYLy8wMGpZUDc0c0VITUk1?=
- =?utf-8?B?SGpDTlRBZDlSTTZ3NndzcmFvUHUreldkbUhENTM1TmIydUdqMGtNaW5HOG0w?=
- =?utf-8?B?UCtDeXYzaTVrY3RLVTZhOG5XYzZIb0dURFliOFJIY0JmdW4wYlRwNFhwcGtl?=
- =?utf-8?B?UHoxOGxnRnEwZjc1ZURyMmJMUjRJWkVCMUM3aHFEc2NFNVhiY0l6YXprdUlW?=
- =?utf-8?B?eE84ei9wNWdCdXNqMUZyRTdKOVc4dmxCS1E4eUFpUVd0aFVNTk9aeVI3cVBF?=
- =?utf-8?B?M3Zia3Q2VThKb0V0bW1LcHdhRWtPTzY1ZWMybmd3VWxzNWVjVVpIUHRtZ1Qy?=
- =?utf-8?B?ZUxnUkVkd0dGSXZoNFpqeU1IM2pMemNnWGlIVFJaYWx2ay9zVjRxaVlMWXha?=
- =?utf-8?B?MzFkN1FvQzNpajdkTEJITnhEdUhnK2NrVlhtZE9BL3JuelpBRnc4elBRdmFN?=
- =?utf-8?B?c2U4K0xLSUVCWEJFTDdvazlFemd4cEgra1dWdHJkanpOV0RJRE05Ynp3dDcw?=
- =?utf-8?B?Vmp0ZE52R1Q1U2hWTlg0WUp6MkswWjRKeXcyTVhXbWM2Wi9XTlliaHBEdGVI?=
- =?utf-8?B?RHZDbUgyckEzVEVnUEQ2TjZyc0VMWnJnSEliWTFycDNpUS9pcTJGb1EzVUky?=
- =?utf-8?B?VWNBM2J4R3BZMlV5REVOT1ZVblp2TzIwS3FCZk4rc09RRUJpSW1oa1ZyV2Qw?=
- =?utf-8?B?U0d0bER3MEtDZjIyS0VmMVNKNlRabFRPTWFhZFY1MzN5VUx2bkpNZkNXeTRw?=
- =?utf-8?B?OVg4c2FPNWVJZm11SGwyclRWdmVNTS9ZaEU2WlRlQ1M1L1FqWXB2UWRXaEdo?=
- =?utf-8?B?ZWFFaENlL3ROdEZXQ2NHc0tNSkdZMHplQWZHdzNmUm91YUR1VGtmd3NuQSs3?=
- =?utf-8?B?MDNtSklraFUwN2l3cVc0SlJpQmQ3ckpWT1RmeWRLK2VmWjlMNDM1dGF4dldX?=
- =?utf-8?B?c3ZiUk51cnJLYkgwWkd3cWVpSXFwckx3RkFoVjFNQmd2bCtaandxMU5BMkhk?=
- =?utf-8?B?WENoQzZtOVZJTnh3N0tsTDZZZ05mR0Y0SHVyM210QU11WEJwazdGWlpvQms2?=
- =?utf-8?B?MnlyUWJDcDBXSXhVeE1zWjMvRFBZZkNSM1E3Sk5HbW1BT2dWU0ZKek1PSDIv?=
- =?utf-8?B?QXozUUtVYnNFVXhZZUdkK1hiSlJDWjBVRS9XTlJpSmQ3NXd5bFpvVjh1ZmNQ?=
- =?utf-8?B?UDg5bDJkUFJiZzhsQy8vRklDZFBGK2xscEpaK0t2TFN4dXVFcysySFFBMnRs?=
- =?utf-8?B?Z3lpWHNMWXBndFRXMzUrWExkb09DZ2JaZnc1YmpvYVJ4NU00ZWpVRjRvMk03?=
- =?utf-8?B?T0M1aXFlb2I5ei9xOFBCN01vRXZZNmY3bWVHR2xyWFA2bmNXNkVLM2lSWnZ1?=
- =?utf-8?B?cmlLY1RSS2ljYVdrc1c0V3BiNDY3MkdBYlVTSVVFMjNnQ0xHUmdJV2FaM2lv?=
- =?utf-8?B?UUV4MjJsSGpYcE1KZUFCT25kL3dLSE1VOE13K2tHN2UwK3NIeE92c3JsS3Fw?=
- =?utf-8?B?cFJ2Mm1rYkhKOUc0djMycnVHbnNnV3Z6WndMSHJwUno2MlcrZmJxZ2l6MFBG?=
- =?utf-8?B?WnZCMlo2SnhUOWdlaVNHWldEcUZmQXhCejMzWmhpNjhPM3JoUjcrVHZMNGNw?=
- =?utf-8?Q?0nLo=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 21917d68-e38f-4f2c-0d16-08da8445ed03
-X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Aug 2022 13:55:09.2074
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: DywjcNP9ypXu77cNdiGW1Rngg9ESTPZ6wcBZbdy0cO0/VEaFs+oXgTtQWZ3P4bEO
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW5PR12MB5598
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net-next] Remove DECnet support from kernel
+From:   patchwork-bot+netdevbpf@kernel.org
+Message-Id: <166117681677.22523.5504877991738164971.git-patchwork-notify@kernel.org>
+Date:   Mon, 22 Aug 2022 14:00:16 +0000
+References: <20220818004357.375695-1-stephen@networkplumber.org>
+In-Reply-To: <20220818004357.375695-1-stephen@networkplumber.org>
+To:     Stephen Hemminger <stephen@networkplumber.org>
+Cc:     netdev@vger.kernel.org, dsahern@kernel.org, corbet@lwn.net,
+        davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+        pabeni@redhat.com, tsbogend@alpha.franken.de, mpe@ellerman.id.au,
+        npiggin@gmail.com, christophe.leroy@csgroup.eu,
+        pablo@netfilter.org, kadlec@netfilter.org, fw@strlen.de,
+        bp@suse.de, paulmck@kernel.org, akpm@linux-foundation.org,
+        quic_neeraju@quicinc.com, rdunlap@infradead.org,
+        damien.lemoal@opensource.wdc.com, songmuchun@bytedance.com,
+        hmukos@yandex-team.ru, atenart@kernel.org, lucien.xin@gmail.com,
+        jgross@suse.com, hdegoede@redhat.com, nathan.fontenot@amd.com,
+        martin.petersen@oracle.com, suma.hegde@amd.com,
+        yu.c.chen@intel.com, vilhelm.gray@gmail.com,
+        xieyongji@bytedance.com, pali@kernel.org, arnd@arndb.de,
+        alexandre.ghiti@canonical.com, chuck.lever@oracle.com,
+        jlayton@kernel.org, paul.gortmaker@windriver.com,
+        razor@blackwall.org, bigeasy@linutronix.de, imagedong@tencent.com,
+        petrm@nvidia.com, daniel@iogearbox.net, roopa@nvidia.com,
+        wangyuweihx@gmail.com, shakeelb@google.com, kuniyu@amazon.com,
+        keescook@chromium.org, sgarzare@redhat.com, f.fainelli@gmail.com,
+        wangqing@vivo.com, yuzhe@nfschina.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mips@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, netfilter-devel@vger.kernel.org,
+        coreteam@netfilter.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hello:
 
-On 8/22/22 08:47, Bagas Sanjaya wrote:
-> On 8/22/22 20:44, Babu Moger wrote:
->> The current event configuration can be viewed by the user by reading
->> the sysfs configuration file.
->>
->> Following are the types of events supported.
->> ====================================================================
->> Bits    Description
->> 6       Dirty Victims from the QOS domain to all types of memory
->> 5       Reads to slow memory in the non-local NUMA domain
->> 4       Reads to slow memory in the local NUMA domain
->> 3       Non-temporal writes to non-local NUMA domain
->> 2       Non-temporal writes to local NUMA domain
->> 1       Reads to memory in the non-local NUMA domain
->> 0       Reads to memory in the local NUMA domain
->>
-> If the table above was in Documentation/, Sphinx would flag it as
-> malformed table. Regardless (because it is in the patch description),
-> I'd like to see it properly formatted.
+This patch was applied to netdev/net-next.git (master)
+by David S. Miller <davem@davemloft.net>:
 
-Actually, I ran "make htmldocs" and didn't see any warnings. I will try to
-fix this though. 
+On Wed, 17 Aug 2022 17:43:21 -0700 you wrote:
+> DECnet is an obsolete network protocol that receives more attention
+> from kernel janitors than users. It belongs in computer protocol
+> history museum not in Linux kernel.
+> 
+> It has been "Orphaned" in kernel since 2010. The iproute2 support
+> for DECnet was dropped in 5.0 release. The documentation link on
+> Sourceforge says it is abandoned there as well.
+> 
+> [...]
 
+Here is the summary with links:
+  - [net-next] Remove DECnet support from kernel
+    https://git.kernel.org/netdev/net-next/c/1202cdd66531
 
->
-> Thanks.
->
+You are awesome, thank you!
 -- 
-Thanks
-Babu Moger
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 
