@@ -2,98 +2,96 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 14450C32772
-	for <linux-doc@archiver.kernel.org>; Mon, 22 Aug 2022 14:00:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A3D56C28D13
+	for <linux-doc@archiver.kernel.org>; Mon, 22 Aug 2022 14:09:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229533AbiHVOAV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 22 Aug 2022 10:00:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46822 "EHLO
+        id S232994AbiHVOJE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 22 Aug 2022 10:09:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58764 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234860AbiHVOAU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Aug 2022 10:00:20 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96A3139B93;
-        Mon, 22 Aug 2022 07:00:19 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 51202B8123A;
-        Mon, 22 Aug 2022 14:00:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id DF5ADC4314A;
-        Mon, 22 Aug 2022 14:00:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1661176816;
-        bh=orT3QMvkSoHHqPhUrfOeoGgvMUqUg3YkbuOk1NRLzD0=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=AWbqZa3ljQPak3jKFSQ9qYXmSiFK4hkUob7qCQFNQAUGaf1kp6Spcd33go1QpR+uy
-         C4QENOLNHYb8BXD7FxbLFhq40cQZpByYuo34BmLObmzo0ORKUULTibjpwiak5uU1J9
-         /G+QNaQm1L6JePN9koM9Mz6rg3LH89BwWhUIfi9o2SlSCnJWsFwb1hjBLeUsF8WbFp
-         ikutXfke0k5TpTFeQaYJ+JSlGTx45Hxo7Xd6LaXx0Vuw7hgXqHFGhHG/M6FnjYiNeM
-         cyHi85/7+k/qLiXoV9UJD21wRjOIMM6oa888vL93CW3OCApUE/j9zmndxo+/GumxdH
-         ZOAVoif43f5HQ==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id BDFF9E2A040;
-        Mon, 22 Aug 2022 14:00:16 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        with ESMTP id S235335AbiHVOJE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Aug 2022 10:09:04 -0400
+Received: from mail-oa1-x31.google.com (mail-oa1-x31.google.com [IPv6:2001:4860:4864:20::31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9ED422B0A
+        for <linux-doc@vger.kernel.org>; Mon, 22 Aug 2022 07:09:02 -0700 (PDT)
+Received: by mail-oa1-x31.google.com with SMTP id 586e51a60fabf-11d7a859b3aso1769334fac.4
+        for <linux-doc@vger.kernel.org>; Mon, 22 Aug 2022 07:09:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=paul-moore-com.20210112.gappssmtp.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc;
+        bh=igSf/TxTkVuRcHrBbiiQMryoJhzhxyi4i/AdL/IKB1M=;
+        b=8PMSwRgXTbp4Xgnxp3O8KZuqs7DWc2jx4iPEcWpKpIU5J5NFednVVBqMJ02EqmdlmJ
+         HgFBJH3ReDcpA0Rlx4B4UzxuPuRSQK5CCjNywrQuzLDnmvDPJD/DFQvWJaI1dP5doF/u
+         LBHcIH3iE/hx6Fbj1y7646s7mhW/kOwTAMPCK6761bbl810bv86ZWhk5unOfA1Ub6oMJ
+         tFN6t5qXY6h1oUXPK6N43KVvdMrStNomBA0GVawVbXI+2iLXqEhfveFbgRmEaaWLk0+u
+         RN9La20QfEdyRvWgHphW028C/uW8q0wvYzGZY7McoRuPC5cL+mvyZUc9pS7DRrdFBE7v
+         C7hQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=igSf/TxTkVuRcHrBbiiQMryoJhzhxyi4i/AdL/IKB1M=;
+        b=H3jjDo96sZVgO/4+8mUa+8nBv9JkZf5JJY25Xwz/mWKHdIqbHan8Z/m7iE0yeJCk1w
+         WjHkDjaoC4bhWGMTIBWA1Uz+2aPaa4tJoBlRSJy0Obyex7ZODIDDXn8dfcSyiXRIiH1N
+         lEKSDiN/UWAOgKnF8K+jYI1k7LLrAs99Dd1ReanNRxmPj8kifYZ7iHgcOfGFE9UL/dVH
+         KdXXWz9VkS2w4S4LCRPkXKhBiC1OgLlCVF85UAVarx8EPUm/Ng6KC0ptHo3WDsKnkp06
+         d2dt1mAvpQotxGmEgvWvdyXAO5vq+TvIPv/sr6rsyoJyUxgDs+82o/9hiAW8hbibrkHs
+         eswg==
+X-Gm-Message-State: ACgBeo2ekr3Pbb52Oo5gKqWHnklzZuIw8J9TujLf39X7j8XnCrjo+VyW
+        XnRi7EhaoObTMBc0AF8craBPLsXZjFbtOWYahjdM
+X-Google-Smtp-Source: AA6agR6cdETMfd/SjAWaIc+njLRHCYDbZQEGlFvahUPtrNZEvI2MntCyPPrurmD7nZrG3gL/k/zPMwRlqbCbiVLrVAw=
+X-Received: by 2002:a05:6870:7092:b0:11d:83fe:9193 with SMTP id
+ v18-20020a056870709200b0011d83fe9193mr820426oae.41.1661177342105; Mon, 22 Aug
+ 2022 07:09:02 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net-next] Remove DECnet support from kernel
-From:   patchwork-bot+netdevbpf@kernel.org
-Message-Id: <166117681677.22523.5504877991738164971.git-patchwork-notify@kernel.org>
-Date:   Mon, 22 Aug 2022 14:00:16 +0000
-References: <20220818004357.375695-1-stephen@networkplumber.org>
-In-Reply-To: <20220818004357.375695-1-stephen@networkplumber.org>
-To:     Stephen Hemminger <stephen@networkplumber.org>
-Cc:     netdev@vger.kernel.org, dsahern@kernel.org, corbet@lwn.net,
-        davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-        pabeni@redhat.com, tsbogend@alpha.franken.de, mpe@ellerman.id.au,
-        npiggin@gmail.com, christophe.leroy@csgroup.eu,
-        pablo@netfilter.org, kadlec@netfilter.org, fw@strlen.de,
-        bp@suse.de, paulmck@kernel.org, akpm@linux-foundation.org,
-        quic_neeraju@quicinc.com, rdunlap@infradead.org,
-        damien.lemoal@opensource.wdc.com, songmuchun@bytedance.com,
-        hmukos@yandex-team.ru, atenart@kernel.org, lucien.xin@gmail.com,
-        jgross@suse.com, hdegoede@redhat.com, nathan.fontenot@amd.com,
-        martin.petersen@oracle.com, suma.hegde@amd.com,
-        yu.c.chen@intel.com, vilhelm.gray@gmail.com,
-        xieyongji@bytedance.com, pali@kernel.org, arnd@arndb.de,
-        alexandre.ghiti@canonical.com, chuck.lever@oracle.com,
-        jlayton@kernel.org, paul.gortmaker@windriver.com,
-        razor@blackwall.org, bigeasy@linutronix.de, imagedong@tencent.com,
-        petrm@nvidia.com, daniel@iogearbox.net, roopa@nvidia.com,
-        wangyuweihx@gmail.com, shakeelb@google.com, kuniyu@amazon.com,
-        keescook@chromium.org, sgarzare@redhat.com, f.fainelli@gmail.com,
-        wangqing@vivo.com, yuzhe@nfschina.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mips@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, netfilter-devel@vger.kernel.org,
-        coreteam@netfilter.org
+References: <20220729090513.1467-1-liutie4@huawei.com>
+In-Reply-To: <20220729090513.1467-1-liutie4@huawei.com>
+From:   Paul Moore <paul@paul-moore.com>
+Date:   Mon, 22 Aug 2022 10:08:51 -0400
+Message-ID: <CAHC9VhT-UHMc6XSiCwnA90w0C9xNYHZcZhuDidh7HmddHcgEig@mail.gmail.com>
+Subject: Re: [PATCH] audit: Modifying indentation issue.
+To:     l00581214 <liutie4@huawei.com>
+Cc:     eparis@redhat.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, hewenliang4@huawei.com,
+        linfeilong@huawei.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello:
+On Fri, Jul 29, 2022 at 5:05 AM l00581214 <liutie4@huawei.com> wrote:
+>
+> From: Tie Liu <liutie4@huawei.com>
+>
+> Modifying indentation issue in audit_rate_check().
+>
+> Signed-off-by: Tie Liu <liutie4@huawei.com>
+> ---
+>  kernel/audit.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 
-This patch was applied to netdev/net-next.git (master)
-by David S. Miller <davem@davemloft.net>:
+While I agree that the style in this patch is preferable to the
+existing style in the code, I'm growing weary of these minor style
+change from developers who have not contributing any other meaningful
+change to the audit subsystem.  Once you have established a history of
+useful contributions to the audit subsystem feel free to (re)submit
+this patch.
 
-On Wed, 17 Aug 2022 17:43:21 -0700 you wrote:
-> DECnet is an obsolete network protocol that receives more attention
-> from kernel janitors than users. It belongs in computer protocol
-> history museum not in Linux kernel.
-> 
-> It has been "Orphaned" in kernel since 2010. The iproute2 support
-> for DECnet was dropped in 5.0 release. The documentation link on
-> Sourceforge says it is abandoned there as well.
-> 
-> [...]
+> diff --git a/kernel/audit.c b/kernel/audit.c
+> index 7690c29d4..deeede166 100644
+> --- a/kernel/audit.c
+> +++ b/kernel/audit.c
+> @@ -324,7 +324,8 @@ static inline int audit_rate_check(void)
+>         unsigned long           elapsed;
+>         int                     retval     = 0;
+>
+> -       if (!audit_rate_limit) return 1;
+> +       if (!audit_rate_limit)
+> +               return 1;
+>
+>         spin_lock_irqsave(&lock, flags);
+>         if (++messages < audit_rate_limit) {
 
-Here is the summary with links:
-  - [net-next] Remove DECnet support from kernel
-    https://git.kernel.org/netdev/net-next/c/1202cdd66531
-
-You are awesome, thank you!
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+paul-moore.com
