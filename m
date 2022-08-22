@@ -2,98 +2,115 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DE9DAC3F6B0
-	for <linux-doc@archiver.kernel.org>; Mon, 22 Aug 2022 16:45:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6895BC32774
+	for <linux-doc@archiver.kernel.org>; Mon, 22 Aug 2022 16:56:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236398AbiHVQpA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 22 Aug 2022 12:45:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36138 "EHLO
+        id S236241AbiHVQ4x (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 22 Aug 2022 12:56:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44720 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237123AbiHVQo5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Aug 2022 12:44:57 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB25518E25;
-        Mon, 22 Aug 2022 09:44:56 -0700 (PDT)
+        with ESMTP id S232132AbiHVQ4w (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Aug 2022 12:56:52 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 382EA3E749;
+        Mon, 22 Aug 2022 09:56:51 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 570726120C;
-        Mon, 22 Aug 2022 16:44:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB504C433C1;
-        Mon, 22 Aug 2022 16:44:55 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id C8FEFB81626;
+        Mon, 22 Aug 2022 16:56:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE6DDC433C1;
+        Mon, 22 Aug 2022 16:56:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1661186695;
-        bh=hFhF+HtHsqWMVE4q3w289LQbuAM7D1wcvxRb+QUpfz4=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=JZWYE0xu4YHJCN761L/B/S7shttEN9JIplBp8bjrBVbaTuxf5lqzOwY958FZcdd2E
-         CS9PmsVuBmZFL66bOK9NYptOLyhNPXcUxjklnbfGLy9VXzQIrjgdhv6dblfWPXLrFh
-         L5DnEOFsAkAYlKbmD22qD5pY+OtaSzqZMdmWtdQvKGtDYxTmblrraCiHo1AFsc4YaG
-         4lG6frtyvLdVletNg57g4HeDjntAGCpUEfLY6668a6KAvSMaVE3xzf8ienyI4ufk84
-         OwMnAF1t3H8im1vaO1ZEPq4JlPIAe7SaAVP0qh/LkFxWieDbJQ8mVtoJsR+j8a2WR6
-         jWi3Fj9R+z7PQ==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-        id 4C7925C05A0; Mon, 22 Aug 2022 09:44:55 -0700 (PDT)
-Date:   Mon, 22 Aug 2022 09:44:55 -0700
-From:   "Paul E. McKenney" <paulmck@kernel.org>
-To:     Shao-Tse Hung <ccs100203@gmail.com>
-Cc:     corbet@lwn.net, frederic@kernel.org, quic_neeraju@quicinc.com,
-        josh@joshtriplett.org, rostedt@goodmis.org,
-        mathieu.desnoyers@efficios.com, jiangshanlai@gmail.com,
-        joel@joelfernandes.org, rcu@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] doc/rcu: Update LWN articles at the beginning
-Message-ID: <20220822164455.GH6159@paulmck-ThinkPad-P17-Gen-1>
-Reply-To: paulmck@kernel.org
-References: <20220820083244.28338-1-ccs100203@gmail.com>
+        s=k20201202; t=1661187408;
+        bh=yG8d1dzyQST9Nceswgh4cW2/OcjGtdAH7IEPeUEqOy0=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=DoQfGOUiFiLncCeoBzrbxInqVBWgYP45hq6yWuJ990bZwT9xuCOe9mLb/g8Q+UsYe
+         cjiAyLJIyZr4xMQgUkLU4lvigOXn3hZkgQDCLdWT0GcgUcPZbE3pNLXT58PIhHLGfP
+         161mLjRnusGpvABoqDTQkw27oeGrmvK5y3S484OJb1vsWb7SLD2nf/NfaX5s8w2GLA
+         kb5hs3+REKuD90Pe841+BC+QDjE88TiO8pUfhWL8wqPhYy/cpDzThfnh0eegAbccj9
+         MKwT95ERzERMKSWWEj/w2ppI7CMeGg0Dq/NvH8EZjUjaiWQycEvz0gOpHWhz2MBdzy
+         vYmU6OfuzFStw==
+From:   SeongJae Park <sj@kernel.org>
+To:     Kairui Song <ryncsn@gmail.com>
+Cc:     damon@lists.linux.dev, SeongJae Park <sj@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-mm@kvack.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Kairui Song <kasong@tencent.com>
+Subject: Re: [PATCH] Docs/admin-guide/mm/damon/usage: fix the example code snip
+Date:   Mon, 22 Aug 2022 16:56:46 +0000
+Message-Id: <20220822165646.87524-1-sj@kernel.org>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220822105617.75524-1-ryncsn@gmail.com>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220820083244.28338-1-ccs100203@gmail.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Aug 20, 2022 at 04:32:44PM +0800, Shao-Tse Hung wrote:
-> This patch adds LWN articles about RCU APIs which were released in 2019.
-> Also, HTTP URLs are replaced by HTTPS.
+Hi Kairui,
+
+
+On Mon, 22 Aug 2022 18:56:17 +0800 Kairui Song <ryncsn@gmail.com> wrote:
+
+> From: Kairui Song <kasong@tencent.com>
 > 
-> Signed-off-by: Shao-Tse Hung <ccs100203@gmail.com>
+> The workflow example code is not working since it got the file names
+> wrong. So fix this.
 
-Good catch, queued, thank you!
+Nice finding, thank you for this patch!
 
-							Thanx, Paul
+> 
+> Signed-off-by: Kairui Song <kasong@tencent.com>
+
+Reviewed-by: SeongJae Park <sj@kernel.org>
+
+
+Thanks,
+SJ
 
 > ---
->  Documentation/RCU/whatisRCU.rst | 16 +++++++++-------
->  1 file changed, 9 insertions(+), 7 deletions(-)
+>  Documentation/admin-guide/mm/damon/usage.rst | 18 +++++++++---------
+>  1 file changed, 9 insertions(+), 9 deletions(-)
 > 
-> diff --git a/Documentation/RCU/whatisRCU.rst b/Documentation/RCU/whatisRCU.rst
-> index 77ea260efd12..682529123b9d 100644
-> --- a/Documentation/RCU/whatisRCU.rst
-> +++ b/Documentation/RCU/whatisRCU.rst
-> @@ -6,13 +6,15 @@ What is RCU?  --  "Read, Copy, Update"
->  Please note that the "What is RCU?" LWN series is an excellent place
->  to start learning about RCU:
+> diff --git a/Documentation/admin-guide/mm/damon/usage.rst b/Documentation/admin-guide/mm/damon/usage.rst
+> index d52f572a90298..ca91ecc290785 100644
+> --- a/Documentation/admin-guide/mm/damon/usage.rst
+> +++ b/Documentation/admin-guide/mm/damon/usage.rst
+> @@ -50,10 +50,10 @@ For a short example, users can monitor the virtual address space of a given
+>  workload as below. ::
 >  
-> -| 1.	What is RCU, Fundamentally?  http://lwn.net/Articles/262464/
-> -| 2.	What is RCU? Part 2: Usage   http://lwn.net/Articles/263130/
-> -| 3.	RCU part 3: the RCU API      http://lwn.net/Articles/264090/
-> -| 4.	The RCU API, 2010 Edition    http://lwn.net/Articles/418853/
-> -| 	2010 Big API Table           http://lwn.net/Articles/419086/
-> -| 5.	The RCU API, 2014 Edition    http://lwn.net/Articles/609904/
-> -|	2014 Big API Table           http://lwn.net/Articles/609973/
-> +| 1.	What is RCU, Fundamentally?  https://lwn.net/Articles/262464/
-> +| 2.	What is RCU? Part 2: Usage   https://lwn.net/Articles/263130/
-> +| 3.	RCU part 3: the RCU API      https://lwn.net/Articles/264090/
-> +| 4.	The RCU API, 2010 Edition    https://lwn.net/Articles/418853/
-> +| 	2010 Big API Table           https://lwn.net/Articles/419086/
-> +| 5.	The RCU API, 2014 Edition    https://lwn.net/Articles/609904/
-> +|	2014 Big API Table           https://lwn.net/Articles/609973/
-> +| 6.	The RCU API, 2019 Edition    https://lwn.net/Articles/777036/
-> +|	2019 Big API Table           https://lwn.net/Articles/777165/
+>      # cd /sys/kernel/mm/damon/admin/
+> -    # echo 1 > kdamonds/nr && echo 1 > kdamonds/0/contexts/nr
+> +    # echo 1 > kdamonds/nr_kdamonds && echo 1 > kdamonds/0/contexts/nr_contexts
+>      # echo vaddr > kdamonds/0/contexts/0/operations
+> -    # echo 1 > kdamonds/0/contexts/0/targets/nr
+> -    # echo $(pidof <workload>) > kdamonds/0/contexts/0/targets/0/pid
+> +    # echo 1 > kdamonds/0/contexts/0/targets/nr_targets
+> +    # echo $(pidof <workload>) > kdamonds/0/contexts/0/targets/0/pid_target
+>      # echo on > kdamonds/0/state
 >  
->  
->  What is RCU?
+>  Files Hierarchy
+> @@ -366,12 +366,12 @@ memory rate becomes larger than 60%, or lower than 30%". ::
+>      # echo 1 > kdamonds/0/contexts/0/schemes/nr_schemes
+>      # cd kdamonds/0/contexts/0/schemes/0
+>      # # set the basic access pattern and the action
+> -    # echo 4096 > access_patterns/sz/min
+> -    # echo 8192 > access_patterns/sz/max
+> -    # echo 0 > access_patterns/nr_accesses/min
+> -    # echo 5 > access_patterns/nr_accesses/max
+> -    # echo 10 > access_patterns/age/min
+> -    # echo 20 > access_patterns/age/max
+> +    # echo 4096 > access_pattern/sz/min
+> +    # echo 8192 > access_pattern/sz/max
+> +    # echo 0 > access_pattern/nr_accesses/min
+> +    # echo 5 > access_pattern/nr_accesses/max
+> +    # echo 10 > access_pattern/age/min
+> +    # echo 20 > access_pattern/age/max
+>      # echo pageout > action
+>      # # set quotas
+>      # echo 10 > quotas/ms
 > -- 
-> 2.25.1
+> 2.35.2
 > 
