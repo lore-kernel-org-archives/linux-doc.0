@@ -2,132 +2,119 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9BDE5C32792
-	for <linux-doc@archiver.kernel.org>; Mon, 22 Aug 2022 06:30:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D211DC28D13
+	for <linux-doc@archiver.kernel.org>; Mon, 22 Aug 2022 08:23:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233040AbiHVGaQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 22 Aug 2022 02:30:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50528 "EHLO
+        id S233957AbiHVIXt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 22 Aug 2022 04:23:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56004 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233105AbiHVGaP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Aug 2022 02:30:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40E0217060
-        for <linux-doc@vger.kernel.org>; Sun, 21 Aug 2022 23:30:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1661149813;
-        h=from:from:reply-to:reply-to:subject:subject:date:date:
-         message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-         content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=igi6SCsR/ObSuD1+1UNbW/kz76/mLSNsS0/F0XSJRwQ=;
-        b=Z1SZ73meDU2gQCe7pl6iTUSexEgB3/3kve7Z2N4Kt9OkqdKPsz8OSJSFewl6iPW94nbT2j
-        yzmTJ5C7rezSgJ1JZ9qpnLaGL58AR2N0BFQ1PtD9Tx1uZzjrL6PaUjfuNJrI95ORMMQJ7P
-        6VCmql7ONfHYN5V5yI/m61+neHAQUNs=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-629-MWAu8DFOPdeT1R7mPJoJIQ-1; Mon, 22 Aug 2022 02:30:05 -0400
-X-MC-Unique: MWAu8DFOPdeT1R7mPJoJIQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F3D7D1C01B20;
-        Mon, 22 Aug 2022 06:30:03 +0000 (UTC)
-Received: from [10.64.54.16] (vpn2-54-16.bne.redhat.com [10.64.54.16])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 08EE12026D4C;
-        Mon, 22 Aug 2022 06:29:54 +0000 (UTC)
-Reply-To: Gavin Shan <gshan@redhat.com>
-Subject: Re: [PATCH v1 3/5] KVM: selftests: Dirty host pages in dirty_log_test
-To:     Andrew Jones <andrew.jones@linux.dev>
-Cc:     kvmarm@lists.cs.columbia.edu, linux-arm-kernel@lists.infradead.org,
-        kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        peterx@redhat.com, pbonzini@redhat.com, corbet@lwn.net,
-        maz@kernel.org, james.morse@arm.com, alexandru.elisei@arm.com,
-        suzuki.poulose@arm.com, oliver.upton@linux.dev,
-        catalin.marinas@arm.com, will@kernel.org, shuah@kernel.org,
-        seanjc@google.com, drjones@redhat.com, dmatlack@google.com,
-        bgardon@google.com, ricarkol@google.com, zhenyzha@redhat.com,
-        shan.gavin@gmail.com
-References: <20220819005601.198436-1-gshan@redhat.com>
- <20220819005601.198436-4-gshan@redhat.com>
- <20220819052805.qnhw2d3arxixzvhl@kamzik>
-From:   Gavin Shan <gshan@redhat.com>
-Message-ID: <3abb690f-e616-630f-ba40-e590ec8bb5c1@redhat.com>
-Date:   Mon, 22 Aug 2022 16:29:52 +1000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.0
+        with ESMTP id S233354AbiHVIXp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Aug 2022 04:23:45 -0400
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC7CB615A;
+        Mon, 22 Aug 2022 01:23:32 -0700 (PDT)
+Received: from canpemm500009.china.huawei.com (unknown [172.30.72.56])
+        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4MB50n281BznTgN;
+        Mon, 22 Aug 2022 16:21:13 +0800 (CST)
+Received: from localhost.localdomain (10.67.164.66) by
+ canpemm500009.china.huawei.com (7.192.105.203) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Mon, 22 Aug 2022 16:23:29 +0800
+From:   Yicong Yang <yangyicong@huawei.com>
+To:     <akpm@linux-foundation.org>, <linux-mm@kvack.org>,
+        <linux-arm-kernel@lists.infradead.org>, <x86@kernel.org>,
+        <catalin.marinas@arm.com>, <will@kernel.org>,
+        <linux-doc@vger.kernel.org>
+CC:     <corbet@lwn.net>, <peterz@infradead.org>, <arnd@arndb.de>,
+        <linux-kernel@vger.kernel.org>, <darren@os.amperecomputing.com>,
+        <yangyicong@hisilicon.com>, <huzhanyuan@oppo.com>,
+        <lipeifeng@oppo.com>, <zhangshiming@oppo.com>, <guojian@oppo.com>,
+        <realmz6@gmail.com>, <linux-mips@vger.kernel.org>,
+        <openrisc@lists.librecores.org>, <linuxppc-dev@lists.ozlabs.org>,
+        <linux-riscv@lists.infradead.org>, <linux-s390@vger.kernel.org>,
+        Barry Song <21cnbao@gmail.com>, <wangkefeng.wang@huawei.com>,
+        <xhao@linux.alibaba.com>, <prime.zeng@hisilicon.com>,
+        <anshuman.khandual@arm.com>
+Subject: [PATCH v3 0/4] mm: arm64: bring up BATCHED_UNMAP_TLB_FLUSH
+Date:   Mon, 22 Aug 2022 16:21:16 +0800
+Message-ID: <20220822082120.8347-1-yangyicong@huawei.com>
+X-Mailer: git-send-email 2.31.0
 MIME-Version: 1.0
-In-Reply-To: <20220819052805.qnhw2d3arxixzvhl@kamzik>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.67.164.66]
+X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
+ canpemm500009.china.huawei.com (7.192.105.203)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Drew,
+From: Yicong Yang <yangyicong@hisilicon.com>
 
-On 8/19/22 3:28 PM, Andrew Jones wrote:
-> On Fri, Aug 19, 2022 at 08:55:59AM +0800, Gavin Shan wrote:
->> It's assumed that 1024 host pages, instead of guest pages, are dirtied
->> in each iteration in guest_code(). The current implementation misses
->> the case of mismatched page sizes in host and guest. For example,
->> ARM64 could have 64KB page size in guest, but 4KB page size in host.
->> (TEST_PAGES_PER_LOOP / 16), instead of TEST_PAGES_PER_LOOP, host pages
->> are dirtied in every iteration.
->>
->> Fix the issue by touching all sub-pages when we have mismatched
->> page sizes in host and guest.
-> 
-> I'll let the dirty-log test authors decide what's best to do for this
-> test, but I'd think we should let the guest continue dirtying its
-> pages without knowledge of the host pages. Then, adjust the host test
-> code to assert all sub-pages, other than the ones it expects the guest
-> to have written, remain untouched.
-> 
+Though ARM64 has the hardware to do tlb shootdown, the hardware
+broadcasting is not free.
+A simplest micro benchmark shows even on snapdragon 888 with only
+8 cores, the overhead for ptep_clear_flush is huge even for paging
+out one page mapped by only one process:
+5.36%  a.out    [kernel.kallsyms]  [k] ptep_clear_flush
 
-I don't think what is clarified in the change log is correct. The current
-implementation already had the logic to handle the mismatched page sizes
-in vm_dirty_log_verify() where 'step' is used for it by fetching value
-from vm_num_host_pages(mode, 1). Please ignore this patch for now, as
-explained below.
+While pages are mapped by multiple processes or HW has more CPUs,
+the cost should become even higher due to the bad scalability of
+tlb shootdown.
 
-The issue I have is the 'dirty_log_test' hangs when I have 4KB host page size
-and 64KB guest page size. It seems the vcpu doesn't exit due to full ring
-buffer state or kick-off. I will have more investigations to figure out the
-root cause.
+The same benchmark can result in 16.99% CPU consumption on ARM64
+server with around 100 cores according to Yicong's test on patch
+4/4.
 
-# ./dirty_log_test -M dirty-ring -m 7
-Setting log mode to: 'dirty-ring'
-Test iterations: 32, interval: 10 (ms)
-Testing guest mode: PA-bits:40,  VA-bits:48, 64K pages
-guest physical test memory offset: 0xffbffc0000
-vcpu stops because vcpu is kicked out...
-Notifying vcpu to continue
-vcpu continues now.
-Iteration 1 collected 1903 pages
-<no more output>
+This patchset leverages the existing BATCHED_UNMAP_TLB_FLUSH by
+1. only send tlbi instructions in the first stage -
+	arch_tlbbatch_add_mm()
+2. wait for the completion of tlbi by dsb while doing tlbbatch
+	sync in arch_tlbbatch_flush()
+My testing on snapdragon shows the overhead of ptep_clear_flush
+is removed by the patchset. The micro benchmark becomes 5% faster
+even for one page mapped by single process on snapdragon 888.
 
-'dirty_lot_test' works well when both host and guest have 4KB page size.
+-v3:
+1. Declare arch's tlbbatch defer support by arch_tlbbatch_should_defer() instead
+   of ARCH_HAS_MM_CPUMASK, per Barry and Kefeng
+2. Add Tested-by from Xin Hao
+Link: https://lore.kernel.org/linux-mm/20220711034615.482895-1-21cnbao@gmail.com/
 
-# ./dirty_log_test -M dirty-ring -m 5
-Setting log mode to: 'dirty-ring'
-Test iterations: 32, interval: 10 (ms)
-Testing guest mode: PA-bits:40,  VA-bits:48,  4K pages
-guest physical test memory offset: 0xffbfffc000
-vcpu stops because vcpu is kicked out...
-Notifying vcpu to continue
-vcpu continues now.
-   :
-Dirtied 1006592 pages
-Total bits checked: dirty (1020487), clear (7106070), track_next (974104)
+-v2:
+1. Collected Yicong's test result on kunpeng920 ARM64 server;
+2. Removed the redundant vma parameter in arch_tlbbatch_add_mm()
+   according to the comments of Peter Zijlstra and Dave Hansen
+3. Added ARCH_HAS_MM_CPUMASK rather than checking if mm_cpumask
+   is empty according to the comments of Nadav Amit
 
-Thanks,
-Gavin
+Thanks, Peter, Dave and Nadav for your testing or reviewing
+, and comments.
 
+-v1:
+https://lore.kernel.org/lkml/20220707125242.425242-1-21cnbao@gmail.com/
 
+Anshuman Khandual (1):
+  mm/tlbbatch: Introduce arch_tlbbatch_should_defer()
+
+Barry Song (3):
+  Revert "Documentation/features: mark BATCHED_UNMAP_TLB_FLUSH doesn't
+    apply to ARM64"
+  mm: rmap: Extend tlbbatch APIs to fit new platforms
+  arm64: support batched/deferred tlb shootdown during page reclamation
+
+ Documentation/features/arch-support.txt       |  1 -
+ .../features/vm/TLB/arch-support.txt          |  2 +-
+ arch/arm64/Kconfig                            |  1 +
+ arch/arm64/include/asm/tlbbatch.h             | 12 ++++++++
+ arch/arm64/include/asm/tlbflush.h             | 28 +++++++++++++++++--
+ arch/x86/include/asm/tlbflush.h               | 15 +++++++++-
+ mm/rmap.c                                     | 19 +++++--------
+ 7 files changed, 61 insertions(+), 17 deletions(-)
+ create mode 100644 arch/arm64/include/asm/tlbbatch.h
+
+-- 
+2.24.0
 
