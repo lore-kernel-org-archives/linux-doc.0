@@ -2,133 +2,181 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 53856C32774
-	for <linux-doc@archiver.kernel.org>; Mon, 22 Aug 2022 22:52:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B319C28D13
+	for <linux-doc@archiver.kernel.org>; Mon, 22 Aug 2022 23:11:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236861AbiHVWwn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 22 Aug 2022 18:52:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35154 "EHLO
+        id S233927AbiHVXLf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 22 Aug 2022 19:11:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49720 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237609AbiHVWwm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Aug 2022 18:52:42 -0400
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3F765073F
-        for <linux-doc@vger.kernel.org>; Mon, 22 Aug 2022 15:52:39 -0700 (PDT)
-Received: by mail-ej1-x629.google.com with SMTP id n7so5971226ejh.2
-        for <linux-doc@vger.kernel.org>; Mon, 22 Aug 2022 15:52:39 -0700 (PDT)
+        with ESMTP id S229583AbiHVXLe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Aug 2022 19:11:34 -0400
+Received: from mail-vk1-xa2f.google.com (mail-vk1-xa2f.google.com [IPv6:2607:f8b0:4864:20::a2f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ADE9B13F1E
+        for <linux-doc@vger.kernel.org>; Mon, 22 Aug 2022 16:11:28 -0700 (PDT)
+Received: by mail-vk1-xa2f.google.com with SMTP id j4so6141688vki.0
+        for <linux-doc@vger.kernel.org>; Mon, 22 Aug 2022 16:11:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc;
-        bh=XLgtLD7vBAyVMD+9VJI2NLAe64xOTMdHlcCW5KZ1j3Q=;
-        b=MPPTHhum2nMwqmEC5B/UTTtOxnE1s2XWYgIYwbTXdf8hZuvbr27Ikh3vl2x6opKRaU
-         mBriuDDp0HYdwQDTLydl+ZXUT/XoEMlUIr0zmM3Fzy340X7dN3T+yiwJPzXyterg0ix6
-         5O1S37l6K+JwcZ4l9wwta5dJK7YDJiEiRstmrUZWbi8Noec41q59uGTiK2TVYYcVqTtb
-         khRyk+bE75HvoHbguCiLq7o79Ica//2MDbEbZKb1Z6N53ewyTqevgtwRHXge6ZDHOsID
-         eFzO+al9/mSBG1k1wzLjPGBaonbbx0gl1Y4MJ5VDSOL41mHg6Vm3f9d0T2j5vWxI5F6U
-         4EIQ==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc;
+        bh=hWS/GSisPthoWfjN1J+yXX8Vd1RQGFpsvO+i5OwvdPk=;
+        b=fO/5xg9/qFikE2CEc4Qw+qi89zcgIdtSQUEMacivgBNETGe0IgvIVmZm/Z2TL8Fkay
+         3ig1YCs2oRKA9LyiXddIzV0ex6QGN1M+vE+9o5NgPGChWWiTkrRqKrCFWkL6ByVerQg9
+         8FzlAjt6k1tLTMwXCjJJpqdzCSfwlc8IOi7v0NBZiNPEC0ueNRdde7uTWtvQWu1d1omh
+         DBD2HATB5x3XSEyBjH2NloA+U8JRq4XMkTJFwQab7YuQbQZYA27mztQWdLJRnwN0x0SA
+         3gr45iQKQ5MLJXb3MQ30DEb/MmaBWlHTDtA6XK8K8VW0csWndqoysPU9VaHDuAzo5vVy
+         V+Yw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
-        bh=XLgtLD7vBAyVMD+9VJI2NLAe64xOTMdHlcCW5KZ1j3Q=;
-        b=dzbV0hgVCCI/4fJ6CW84d7VuTUj7alch4VH8kexIIqUz9zKZ3lLT6+JpaOZOyv/LWT
-         DRCq7Dn8sVA9OuB5PHEckbuY8SsqH00NOAhcite1tRh8PJQCT6F0u2InSdN34jo8ZU3S
-         rjuBFO2BsKJcL9GVVgis8lFTuct2uWlZ90OFbpAl5FtgsczEQiQ6sPC/Ov6FbLCQ33I/
-         G5lOYl4KdUSlB6CySAGjIQXjp64T1rJzjxULZHDbtSmE6sO1nSNgswwK1EVgeYVRT0Oq
-         90u53hKmp2CQMA3hRhp7rtZJme0v8fWCtaiEydpEv/w1Z5rqMRzef1IHAsGO0uQVYogQ
-         kGVQ==
-X-Gm-Message-State: ACgBeo0IJfSENDRViEdFS36kO230A7pxCitv/kXs2wHcj5Sc1QbbsQNg
-        CC7qzb1vf9YVU8lKdzNoK4e7OsPZkJldEV0EYl+z1g==
-X-Google-Smtp-Source: AA6agR5J+kdNj9PmydczQ5oLNItQ0V0tD8FpH0QxDQnGVEEvJEcNOj+RxXfhEr4HjEMLIdo7koqhYBMsDrNjLfklQjU=
-X-Received: by 2002:a17:907:7f9e:b0:73c:6f39:7399 with SMTP id
- qk30-20020a1709077f9e00b0073c6f397399mr12849900ejc.358.1661208758339; Mon, 22
- Aug 2022 15:52:38 -0700 (PDT)
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=hWS/GSisPthoWfjN1J+yXX8Vd1RQGFpsvO+i5OwvdPk=;
+        b=1A2MO8TatjnWIryWdnhGVd4HF6/U/+b5RGBJNwzinRWJlwU7CXuEIJwUpnmv6vyCK2
+         RLH/7TSMQbHWjvdtNtI3AxEog5gBnFGGIP7hVkI5glrv7Zrgm1VbhF3SvwJGasahmpxm
+         QZqw+sDGmYjPYtPScKeSkD1FYtHtOd+ueMMUAgVl2CAxD7WLqLjefJwrBV9X8YAL8a1+
+         sxkBP+iSqiwiDUFDgeNPiO/JLYczoTpY5HiQphaH0GUmu2P6wxZzj+6LSEF0p4iLHChG
+         q3rj+YmRr3bK5U+tGjnB8jKbLUAmYv/EhQxQcDX1LD584YmMCOCiChEgkbAWJFVZA3UQ
+         ZW/w==
+X-Gm-Message-State: ACgBeo3qlUDYN882Gygi9+kKl9B6no4im4Dnke1ZNMv7JFqRtOCZUO2N
+        ZAaiKWWo58xMhUL/AMkb88paQ2VVdK4viYnNQuahRw==
+X-Google-Smtp-Source: AA6agR5vaV7dmRWO744hPUOmEIl1lCRgqokFnczTqelob3+66g0ohUnC59EbfGrTSKTYMbpvaPQ6TIoYRo1FuPwZzsU=
+X-Received: by 2002:a1f:5fca:0:b0:386:381f:3dc4 with SMTP id
+ t193-20020a1f5fca000000b00386381f3dc4mr8147333vkb.11.1661209887688; Mon, 22
+ Aug 2022 16:11:27 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220819053234.241501-1-tales.aparecida@gmail.com>
- <20220819053234.241501-8-tales.aparecida@gmail.com> <CAGS_qxoVuRPF39kcVBWGuhnmaixfLAkPN6HaDRyuXmDHqmWPXg@mail.gmail.com>
- <CAGVoLp6CQO=Vw20GYYoYUEZr4BJM5FS8H8Fi3TgS0aXWVie4Lg@mail.gmail.com>
-In-Reply-To: <CAGVoLp6CQO=Vw20GYYoYUEZr4BJM5FS8H8Fi3TgS0aXWVie4Lg@mail.gmail.com>
-From:   Daniel Latypov <dlatypov@google.com>
-Date:   Mon, 22 Aug 2022 15:52:27 -0700
-Message-ID: <CAGS_qxrGVHWiEQz5b+zWz0JYmUwxnsVaoa_8SYOxb7nsRZ=iSw@mail.gmail.com>
-Subject: Re: [PATCH 7/8] lib: overflow: update reference to kunit-tool
-To:     Tales <tales.aparecida@gmail.com>
-Cc:     Sadiya Kazi <sadiyakazi@google.com>,
-        Kees Cook <keescook@chromium.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        KUnit Development <kunit-dev@googlegroups.com>,
-        linux-doc@vger.kernel.org,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>, David Gow <davidgow@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Brendan Higgins <brendan.higgins@linux.dev>,
-        Trevor Woerner <twoerner@gmail.com>, siqueirajordao@riseup.net,
-        Melissa Wen <mwen@igalia.com>,
-        =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@riseup.net>,
-        =?UTF-8?B?TWHDrXJhIENhbmFs?= <mairacanal@riseup.net>,
-        Isabella Basso <isabbasso@riseup.net>,
-        Magali Lemes <magalilemes00@gmail.com>,
-        linux-hardening@vger.kernel.org
+References: <20220611082514.37112-5-dongli.zhang@oracle.com>
+ <20220820012031.1285979-1-yuzhao@google.com> <f8c743d8-fcbe-4ef7-5f86-d63086552ffd@arm.com>
+ <YwNn92WP3rP4ylZu@infradead.org> <d5016c1e-55d9-4224-278a-50377d4c6454@arm.com>
+ <82d5b78d-e027-316a-87de-f76f4383d736@oracle.com>
+In-Reply-To: <82d5b78d-e027-316a-87de-f76f4383d736@oracle.com>
+From:   Yu Zhao <yuzhao@google.com>
+Date:   Mon, 22 Aug 2022 17:10:51 -0600
+Message-ID: <CAOUHufYnFCqfZES1XF=nCbxTevGMVMqhNY-XOqR2xo_WWTwQbw@mail.gmail.com>
+Subject: Re: [PATCH v1 4/4] swiotlb: panic if nslabs is too small
+To:     Dongli Zhang <dongli.zhang@oracle.com>
+Cc:     Robin Murphy <robin.murphy@arm.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        Andi Kleen <ak@linux.intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        alexander.sverdlin@nokia.com, andi.kleen@intel.com,
+        Borislav Petkov <bp@alien8.de>, bp@suse.de,
+        cminyard@mvista.com, Jonathan Corbet <corbet@lwn.net>,
+        damien.lemoal@opensource.wdc.com,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        iommu@lists.linux-foundation.org, joe.jin@oracle.com,
+        joe@perches.com, Kees Cook <keescook@chromium.org>,
+        "Shutemov, Kirill" <kirill.shutemov@intel.com>, kys@microsoft.com,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-hyperv@vger.kernel.org,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        linux-mips@vger.kernel.org, ltykernel@gmail.com,
+        michael.h.kelley@microsoft.com, Ingo Molnar <mingo@redhat.com>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        parri.andrea@gmail.com, "Paul E . McKenney" <paulmck@kernel.org>,
+        pmladek@suse.com, Randy Dunlap <rdunlap@infradead.org>,
+        Thomas Gleixner <tglx@linutronix.de>, thomas.lendacky@amd.com,
+        Tianyu.Lan@microsoft.com, tsbogend@alpha.franken.de,
+        vkuznets@redhat.com, wei.liu@kernel.org,
+        "the arch/x86 maintainers" <x86@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Aug 22, 2022 at 3:35 PM Tales <tales.aparecida@gmail.com> wrote:
+On Mon, Aug 22, 2022 at 4:28 PM Dongli Zhang <dongli.zhang@oracle.com> wrote:
 >
-> Hi Daniel,
+> Hi Yu, Robin and Christoph,
 >
-> Em seg., 22 de ago. de 2022 =C3=A0s 17:09, Daniel Latypov
-> <dlatypov@google.com> escreveu:
-> >
-> > On Thu, Aug 18, 2022 at 10:33 PM Tales Aparecida
-> > <tales.aparecida@gmail.com> wrote:
-> > >
-> > > Replace URL with an updated path to the full Documentation page
-> > >
-> > > Signed-off-by: Tales Aparecida <tales.aparecida@gmail.com>
-> > > ---
-> > >  lib/overflow_kunit.c | 2 +-
-> > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > >
-> > > diff --git a/lib/overflow_kunit.c b/lib/overflow_kunit.c
-> > > index 7e3e43679b73..78075106c0df 100644
-> > > --- a/lib/overflow_kunit.c
-> > > +++ b/lib/overflow_kunit.c
-> > > @@ -1,7 +1,7 @@
-> > >  // SPDX-License-Identifier: GPL-2.0 OR MIT
-> > >  /*
-> > >   * Test cases for arithmetic overflow checks. See:
-> > > - * https://www.kernel.org/doc/html/latest/dev-tools/kunit/kunit-tool=
-.html#configuring-building-and-running-tests
-> > > + * "Running tests with kunit_tool" at Documentation/dev-tools/kunit/=
-start.rst
-> >
-> > Oh, I thought I had sent a patch out for this.
-> > The rewritten version of the patch is
-> > https://www.kernel.org/doc/html/latest/dev-tools/kunit/run_wrapper.html
-> > That's what I was intending to rewrite this line to point to.
-> >
-> > But if people like a Documentation/ path to start.rst instead, that als=
-o works.
-> >
-> > Daniel
+> The mips kernel panic because the SWIOTLB buffer is adjusted to a very small
+> value (< 1MB, or < 512-slot), so that the swiotlb panic on purpose.
 >
-> You are absolutely right! You did send and I wasn't aware, sorry.
-> https://lore.kernel.org/all/20220603195626.121922-1-dlatypov@google.com/
-> I guess it stalled after that discussion about *where* it should be appli=
-ed,
-> I got a green flag in IRC and didn't do my due diligence carefully,
-> just tried to find pending patches at linux-kselftest which wasn't
-> CC'd
+> software IO TLB: SWIOTLB bounce buffer size adjusted to 0MB
+> software IO TLB: area num 1.
+> Kernel panic - not syncing: swiotlb_init_remap: nslabs = 128 too small
+>
+>
+> From mips code, the 'swiotlbsize' is set to PAGE_SIZE initially. It is always
+> PAGE_SIZE unless it is used by CONFIG_PCI or CONFIG_USB_OHCI_HCD_PLATFORM.
+>
+> Finally, the swiotlb panic on purpose.
+>
+> 189 void __init plat_swiotlb_setup(void)
+> 190 {
+> ... ...
+> 211         swiotlbsize = PAGE_SIZE;
+> 212
+> 213 #ifdef CONFIG_PCI
+> 214         /*
+> 215          * For OCTEON_DMA_BAR_TYPE_SMALL, size the iotlb at 1/4 memory
+> 216          * size to a maximum of 64MB
+> 217          */
+> 218         if (OCTEON_IS_MODEL(OCTEON_CN31XX)
+> 219             || OCTEON_IS_MODEL(OCTEON_CN38XX_PASS2)) {
+> 220                 swiotlbsize = addr_size / 4;
+> 221                 if (swiotlbsize > 64 * (1<<20))
+> 222                         swiotlbsize = 64 * (1<<20);
+> 223         } else if (max_addr > 0xf0000000ul) {
+> 224                 /*
+> 225                  * Otherwise only allocate a big iotlb if there is
+> 226                  * memory past the BAR1 hole.
+> 227                  */
+> 228                 swiotlbsize = 64 * (1<<20);
+> 229         }
+> 230 #endif
+> 231 #ifdef CONFIG_USB_OHCI_HCD_PLATFORM
+> 232         /* OCTEON II ohci is only 32-bit. */
+> 233         if (OCTEON_IS_OCTEON2() && max_addr >= 0x100000000ul)
+> 234                 swiotlbsize = 64 * (1<<20);
+> 235 #endif
+> 236
+> 237         swiotlb_adjust_size(swiotlbsize);
+> 238         swiotlb_init(true, SWIOTLB_VERBOSE);
+> 239 }
+>
+>
+> Here are some thoughts. Would you mind suggesting which is the right way to go?
+>
+> 1. Will the PAGE_SIZE swiotlb be used by mips when it is only PAGE_SIZE? If it
+> is not used, why not disable swiotlb completely in the code?
+>
+> 2. The swiotlb panic on purpose when it is less then 1MB. Should we remove that
+> limitation?
+>
+> 3. ... or explicitly declare the limitation that: "swiotlb should be at least
+> 1MB, otherwise please do not use it"?
+>
+>
+> The reason I add the panic on purpose is for below case:
+>
+> The user's kernel is configured with very small swiotlb buffer. As a result, the
+> device driver may work abnormally.
 
-Oh right, it was that series where I didn't cc linux-kselftest.
-That was my bad, sorry.
+Which driver? This sounds like that driver is broken, and we should
+fix that driver.
 
-But I had forgotten to include a patch in that series to update this
-file still, afaict.
-I could revive that series and add on a version of this patch, if we want?
+> As a result, the issue is reported to a
+> specific driver's developers, who spend some time to confirm it is swiotlb
+> issue.
 
-Daniel
+Is this a fact or a hypothetical proposition?
+
+> Suppose those developers are not familiar with IOMMU/swiotlb, it takes
+> times until the root cause is identified.
+
+Sorry but you are making quite a few assumptions in a series claimed
+to be "swiotlb: some cleanup" -- I personally expect cleanup patches
+not to have any runtime side effects.
+
+> If we panic earlier, the issue will be reported to IOMMU/swiotlb developer.
+
+Ok, I think we should at least revert this patch, if not the entire series.
+
+> This
+> is also to sync with the remap failure logic in swiotlb (used by xen).
+
+We can have it back in after we have better understood how it
+interacts with different archs/drivers, or better yet when the needs
+arise, if they arise at all.
+
+Thanks.
