@@ -2,129 +2,146 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ABE0BC28D13
-	for <linux-doc@archiver.kernel.org>; Mon, 22 Aug 2022 09:14:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A2F5C32789
+	for <linux-doc@archiver.kernel.org>; Mon, 22 Aug 2022 09:49:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234375AbiHVJOJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 22 Aug 2022 05:14:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60978 "EHLO
+        id S233279AbiHVJtY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 22 Aug 2022 05:49:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50260 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234288AbiHVJNG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Aug 2022 05:13:06 -0400
-Received: from mail-qt1-x831.google.com (mail-qt1-x831.google.com [IPv6:2607:f8b0:4864:20::831])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE04F2F012;
-        Mon, 22 Aug 2022 02:13:05 -0700 (PDT)
-Received: by mail-qt1-x831.google.com with SMTP id s11so7402083qtx.6;
-        Mon, 22 Aug 2022 02:13:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc;
-        bh=oLhRD+x39eo4QrarK+tsqoJXBmbcLJZygmNFucd2Avo=;
-        b=msRFpykTXsCe/Pxd8Y6WfbL+jEIjV+02eeFydYh17S4cRtTLXt9VY9B2mKuhDkiFKv
-         W0jleKLm4DXs6spyttKlvblcS1D/lTPPdAFidZ4y3jLFD+S4oKfEnX/HQ5Na9IBUey6U
-         a0kXbS8Nk/UcIHPbs+4eI9g8yyYGujNUh2EKGozQQietcyyIMO0nIqymNnMtMqhaikyM
-         8gqy80bE+hulmDp3Wi6gnFSj8L0pBoBhoCWtUzCHzpNhGc0sAop+dm5dX/Gwcaf69lVs
-         N9GuJ7+UyxVdF+lDTM8GlCV9zGJSofbi6SxTSt8P3dxdUcNqVz6Z/360KnDrsoM7ms1L
-         Ge6Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
-        bh=oLhRD+x39eo4QrarK+tsqoJXBmbcLJZygmNFucd2Avo=;
-        b=nwgtli7oh5Mr25w3g4u/4Qe8HlyZ5I0CAU0isjP21Dh4TP1VqQZmCbEI1IxprEOdgs
-         i2JfWLXXXmttTieEg6ynlG7vgmexakE6iYo69ZXgpWEuc7yRAOa5aL2uSMuWhar3CsnG
-         ImrVtuCSz2BHHRYjD73BVnA8rCzIkr6a7doApQBKlCT0wpUsa+eI9mLt+stN5SgiaqLH
-         Yo5iIwV8yIIViKPPhmTZU69QD1E6IgyhB+BTtNxTxdCldd+ECz2tEx2i1OxUa7L7YV9E
-         HeknFFG5SMcIs54LYfAlM6J6FhaW244kPZvpN4i6ydfkfatK9baql+sn4zdCH3/+OzUA
-         p88A==
-X-Gm-Message-State: ACgBeo2zawxIUndr9WhpKst4Gj8V8sP2zvU/nnAoFpd8WVc9X09gOAK0
-        PNLwm7GXSO0WCxpreCqT5Q==
-X-Google-Smtp-Source: AA6agR4N9vnN8Gs4b6r+a2D+aUM9fVUuftjPg9+VD9tSWdsy6YeEUE5rTWIyu3/GFCwRnpeP5qFB9g==
-X-Received: by 2002:a05:622a:1214:b0:344:5ec8:d620 with SMTP id y20-20020a05622a121400b003445ec8d620mr14654563qtx.228.1661159585026;
-        Mon, 22 Aug 2022 02:13:05 -0700 (PDT)
-Received: from bytedance.attlocal.net (ec2-52-52-7-82.us-west-1.compute.amazonaws.com. [52.52.7.82])
-        by smtp.gmail.com with ESMTPSA id bw12-20020a05622a098c00b0031eddc83560sm8626117qtb.90.2022.08.22.02.13.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Aug 2022 02:13:04 -0700 (PDT)
-From:   Peilin Ye <yepeilin.cs@gmail.com>
-To:     "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>,
-        David Ahern <dsahern@kernel.org>,
-        Jamal Hadi Salim <jhs@mojatatu.com>,
-        Cong Wang <xiyou.wangcong@gmail.com>,
-        Jiri Pirko <jiri@resnulli.us>
-Cc:     Peilin Ye <peilin.ye@bytedance.com>, netdev@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Cong Wang <cong.wang@bytedance.com>,
-        Stephen Hemminger <stephen@networkplumber.org>,
-        Dave Taht <dave.taht@gmail.com>,
-        Peilin Ye <yepeilin.cs@gmail.com>
-Subject: [PATCH RFC v2 net-next 5/5] net/sched: sch_cbq: Use Qdisc backpressure infrastructure
-Date:   Mon, 22 Aug 2022 02:12:57 -0700
-Message-Id: <614f8f31e3b62dfebb8cb4707c81918a6c7e381d.1661158173.git.peilin.ye@bytedance.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <cover.1661158173.git.peilin.ye@bytedance.com>
-References: <cover.1661158173.git.peilin.ye@bytedance.com>
+        with ESMTP id S229687AbiHVJtY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Aug 2022 05:49:24 -0400
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 3B9D629821;
+        Mon, 22 Aug 2022 02:49:22 -0700 (PDT)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CA29213D5;
+        Mon, 22 Aug 2022 02:49:24 -0700 (PDT)
+Received: from [10.57.15.77] (unknown [10.57.15.77])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 536F13F718;
+        Mon, 22 Aug 2022 02:49:15 -0700 (PDT)
+Message-ID: <f8c743d8-fcbe-4ef7-5f86-d63086552ffd@arm.com>
+Date:   Mon, 22 Aug 2022 10:49:09 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: [PATCH v1 4/4] swiotlb: panic if nslabs is too small
+Content-Language: en-GB
+To:     Yu Zhao <yuzhao@google.com>, dongli.zhang@oracle.com
+Cc:     ak@linux.intel.com, akpm@linux-foundation.org,
+        alexander.sverdlin@nokia.com, andi.kleen@intel.com, bp@alien8.de,
+        bp@suse.de, cminyard@mvista.com, corbet@lwn.net,
+        damien.lemoal@opensource.wdc.com, dave.hansen@linux.intel.com,
+        hch@infradead.org, iommu@lists.linux-foundation.org,
+        joe.jin@oracle.com, joe@perches.com, keescook@chromium.org,
+        kirill.shutemov@intel.com, kys@microsoft.com,
+        linux-doc@vger.kernel.org, linux-hyperv@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mips@vger.kernel.org,
+        ltykernel@gmail.com, michael.h.kelley@microsoft.com,
+        mingo@redhat.com, m.szyprowski@samsung.com, parri.andrea@gmail.com,
+        paulmck@kernel.org, pmladek@suse.com, rdunlap@infradead.org,
+        tglx@linutronix.de, thomas.lendacky@amd.com,
+        Tianyu.Lan@microsoft.com, tsbogend@alpha.franken.de,
+        vkuznets@redhat.com, wei.liu@kernel.org, x86@kernel.org
+References: <20220611082514.37112-5-dongli.zhang@oracle.com>
+ <20220820012031.1285979-1-yuzhao@google.com>
+From:   Robin Murphy <robin.murphy@arm.com>
+In-Reply-To: <20220820012031.1285979-1-yuzhao@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Peilin Ye <peilin.ye@bytedance.com>
+On 2022-08-20 02:20, Yu Zhao wrote:
+>> Panic on purpose if nslabs is too small, in order to sync with the remap
+>> retry logic.
+>>
+>> In addition, print the number of bytes for tlb alloc failure.
+>>
+>> Signed-off-by: Dongli Zhang <dongli.zhang@oracle.com>
+>> ---
+>>   kernel/dma/swiotlb.c | 6 +++++-
+>>   1 file changed, 5 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/kernel/dma/swiotlb.c b/kernel/dma/swiotlb.c
+>> index fd21f4162f4b..1758b724c7a8 100644
+>> --- a/kernel/dma/swiotlb.c
+>> +++ b/kernel/dma/swiotlb.c
+>> @@ -242,6 +242,9 @@ void __init swiotlb_init_remap(bool addressing_limit, unsigned int flags,
+>>   	if (swiotlb_force_disable)
+>>   		return;
+>>   
+>> +	if (nslabs < IO_TLB_MIN_SLABS)
+>> +		panic("%s: nslabs = %lu too small\n", __func__, nslabs);
+> 
+> Hi,
+> 
+> This patch breaks MIPS. Please take a look. Thanks.
 
-Recently we introduced a Qdisc backpressure infrastructure (currently
-supports UDP sockets).  Use it in CBQ Qdisc.
+Hmm, it's possible this might be quietly fixed by 20347fca71a3, but 
+either way I'm not sure why we would need to panic *before* we've even 
+tried to allocate anything, when we could simply return with no harm 
+done? If we've ended up calculating (or being told) a buffer size which 
+is too small to be usable, that should be no different to disabling 
+SWIOTLB entirely.
 
-Tested with 500 Mbits/sec rate limit using 16 iperf UDP 1 Gbit/sec
-clients.  Before:
+Historically, passing "swiotlb=1" on the command line has been used to 
+save memory when the user knows SWIOTLB isn't needed. That should 
+definitely not be allowed to start panicking.
 
-[  3]  0.0-15.0 sec  55.8 MBytes  31.2 Mbits/sec   1.185 ms 1073326/1113110 (96%)
-[  3]  0.0-15.0 sec  55.9 MBytes  31.3 Mbits/sec   1.001 ms 1080330/1120201 (96%)
-[  3]  0.0-15.0 sec  55.6 MBytes  31.1 Mbits/sec   1.750 ms 1078292/1117980 (96%)
-[  3]  0.0-15.0 sec  55.3 MBytes  30.9 Mbits/sec   0.895 ms 1089200/1128640 (97%)
-<...>                                                       ^^^^^^^^^^^^^^^^^^^^^
+(once again, another patch which was not CCed to the correct reviewers, 
+sigh...)
 
-Total throughput is 493.7 Mbits/sec and average drop rate is 96.13%.
+Thanks,
+Robin.
 
-Now enable Qdisc backpressure for UDP sockets, with
-udp_backpressure_interval default to 100 milliseconds:
-
-[  3]  0.0-15.0 sec  54.2 MBytes  30.3 Mbits/sec   2.302 ms 54/38692 (0.14%)
-[  3]  0.0-15.0 sec  54.1 MBytes  30.2 Mbits/sec   2.227 ms 54/38671 (0.14%)
-[  3]  0.0-15.0 sec  53.5 MBytes  29.9 Mbits/sec   2.043 ms 57/38203 (0.15%)
-[  3]  0.0-15.0 sec  58.1 MBytes  32.5 Mbits/sec   1.843 ms 1/41480 (0.0024%)
-<...>                                                       ^^^^^^^^^^^^^^^^^
-
-Total throughput is 497.1 Mbits/sec (0.69% higher), average drop rate is
-0.08% (99.9% lower).
-
-Fairness between flows is slightly affected, with per-flow average
-throughput ranging from 29.9 to 32.6 Mbits/sec (compared with 30.3 to
-31.3 Mbits/sec).
-
-Signed-off-by: Peilin Ye <peilin.ye@bytedance.com>
----
- net/sched/sch_cbq.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/net/sched/sch_cbq.c b/net/sched/sch_cbq.c
-index 91a0dc463c48..42e44f570988 100644
---- a/net/sched/sch_cbq.c
-+++ b/net/sched/sch_cbq.c
-@@ -381,6 +381,7 @@ cbq_enqueue(struct sk_buff *skb, struct Qdisc *sch,
- 		return ret;
- 	}
- 
-+	qdisc_backpressure(skb);
- 	if (net_xmit_drop_count(ret)) {
- 		qdisc_qstats_drop(sch);
- 		cbq_mark_toplevel(q, cl);
--- 
-2.20.1
-
+> On v5.19.0:
+>    Linux version 5.19.0 (builder@buildhost) (mips64-openwrt-linux-musl-gcc (OpenWrt GCC 11.2.0 r19590-042d558536) 11.2.0, GNU ld (GNU Binutils) 2.37) #0 SMP Sun Jul 31 15:12:47 2022
+>    Skipping L2 locking due to reduced L2 cache size
+>    CVMSEG size: 0 cache lines (0 bytes)
+>    printk: bootconsole [early0] enabled
+>    CPU0 revision is: 000d9301 (Cavium Octeon II)
+>    Kernel sections are not in the memory maps
+>    Wasting 278528 bytes for tracking 4352 unused pages
+>    Initrd not found or empty - disabling initrd
+>    Using appended Device Tree.
+>    software IO TLB: SWIOTLB bounce buffer size adjusted to 0MB
+>    software IO TLB: mapped [mem 0x0000000004b0c000-0x0000000004b4c000] (0MB)
+> 
+> On v6.0-rc1, with
+>    commit 0bf28fc40d89 ("swiotlb: panic if nslabs is too small")
+>    commit 20347fca71a3 ("swiotlb: split up the global swiotlb lock")
+>    commit 534ea58b3ceb ("Revert "MIPS: octeon: Remove vestiges of CONFIG_CAVIUM_RESERVE32"")
+> 
+>    Linux version 6.0.0-rc1 (builder@buildhost) (mips64-openwrt-linux-musl-gcc (OpenWrt GCC 11.2.0 r19590-042d558536) 11.2.0, GNU ld (GNU Binutils) 2.37) #0 SMP Sun Jul 31 15:12:47 2022
+>    Failed to allocate CAVIUM_RESERVE32 memory area
+>    Skipping L2 locking due to reduced L2 cache size
+>    CVMSEG size: 0 cache lines (0 bytes)
+>    printk: bootconsole [early0] enabled
+>    CPU0 revision is: 000d9301 (Cavium Octeon II)
+>    Kernel sections are not in the memory maps
+>    Wasting 278528 bytes for tracking 4352 unused pages
+>    Initrd not found or empty - disabling initrd
+>    Using appended Device Tree.
+>    software IO TLB: SWIOTLB bounce buffer size adjusted to 0MB
+>    software IO TLB: area num 1.
+>    Kernel panic - not syncing: swiotlb_init_remap: nslabs = 128 too small
+> 
+> On v6.0-rc1, with
+>    commit 20347fca71a3 ("swiotlb: split up the global swiotlb lock")
+>    commit 534ea58b3ceb ("Revert "MIPS: octeon: Remove vestiges of CONFIG_CAVIUM_RESERVE32"")
+> 
+>    Linux version 6.0.0-rc1+ (builder@buildhost) (mips64-openwrt-linux-musl-gcc (OpenWrt GCC 11.2.0 r19590-042d558536) 11.2.0, GNU ld (GNU Binutils) 2.37) #0 SMP Sun Jul 31 15:12:47 2022
+>    Failed to allocate CAVIUM_RESERVE32 memory area
+>    Skipping L2 locking due to reduced L2 cache size
+>    CVMSEG size: 0 cache lines (0 bytes)
+>    printk: bootconsole [early0] enabled
+>    CPU0 revision is: 000d9301 (Cavium Octeon II)
+>    Kernel sections are not in the memory maps
+>    Wasting 278528 bytes for tracking 4352 unused pages
+>    Initrd not found or empty - disabling initrd
+>    Using appended Device Tree.
+>    software IO TLB: SWIOTLB bounce buffer size adjusted to 0MB
+>    software IO TLB: area num 1.
+>    software IO TLB: mapped [mem 0x0000000004c0c000-0x0000000004c4c000] (0MB)
