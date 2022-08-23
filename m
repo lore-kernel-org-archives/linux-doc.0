@@ -2,95 +2,128 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B8A37C32789
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Aug 2022 03:07:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 445D8C32774
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Aug 2022 03:11:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239779AbiHWDHG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 22 Aug 2022 23:07:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54450 "EHLO
+        id S239289AbiHWDLg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 22 Aug 2022 23:11:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33346 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239346AbiHWDGe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Aug 2022 23:06:34 -0400
-Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com [IPv6:2607:f8b0:4864:20::531])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D00C05C9EA;
-        Mon, 22 Aug 2022 20:04:44 -0700 (PDT)
-Received: by mail-pg1-x531.google.com with SMTP id f4so9278082pgc.12;
-        Mon, 22 Aug 2022 20:04:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc;
-        bh=gmsME/xNmhSqLRUEPqjRkzGKXVlvKjoR1g7dAdDOn3M=;
-        b=GJ67RVWTapjI4MKqXYttKtfweWLjlS9bN5zMO5ihhuThwiUuvEhnxd95v6XoiWgzD/
-         nxQHA1XA/0yq9ik3Tg9jkWq6/Oh2MjzFaHVMzGeUqjgZJrkMn5x1z5xHX+6aPePM55oz
-         y9ezcVhO6aqWftuCmAIqlJxmw7FA6RVx/iLVauaK8MM87fR28GwtJe/CdHIHhhXaIXIG
-         8AkV5XPyuJUMyIMS0opfSuBdTRt72SAWPOZ8nbcv/f+fTATu7vBkozOaerX7MP+bwRYA
-         TCJ7LNS0SRPosAj+U6UGd6LHe0xaYOPWlalrZmIorPji09gwL9rrRh5K1iPprRfpOTmD
-         u7jA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc;
-        bh=gmsME/xNmhSqLRUEPqjRkzGKXVlvKjoR1g7dAdDOn3M=;
-        b=B59pzk6RCM7fsvxKR++rxHOOQ2WowlUVa/gBI1PThgBrBrfgUnH883IRPUvbV5oIei
-         qCmvncNZGtF9Re/HqvzNLX94A/BTson+RP5geT18MVRiRRQk0f0BOIDBidmNsykfZ6je
-         dDR9o0HbFI1+uGV4z9gmWpgxwrefYzMoxokcD5NWNYD7buGZvHRK6aGezgbRDnz3X3gt
-         jl6Mm1mE9AmUyUT9vNfEDwCIhGiCdiXhxhzKzJG6tYztJ6xN58zu17GAZqCI77P/12mk
-         HOT1ZQlaBfwmg03LjkNrCPeQHq391uxwmxyIzcKhgIfV/sDqNn/2b7z+RphRV9ohBj+Y
-         R2vg==
-X-Gm-Message-State: ACgBeo0019moLkGcMSoxxLWjOUK4PUZll3uMcz3fpPNdd4r8/LB9GmRm
-        J9YqQs0NyE68WTPv5CZVgBQp7HNXog0=
-X-Google-Smtp-Source: AA6agR6GEJq6gQoy8fravQvklgl5/4GBrpi8DbRN3zbyEw9B5n2/hM3Tkxa5lPRr1lMd3UK4EdyPxQ==
-X-Received: by 2002:a63:2bcc:0:b0:40c:95b5:46a4 with SMTP id r195-20020a632bcc000000b0040c95b546a4mr19027549pgr.535.1661223883957;
-        Mon, 22 Aug 2022 20:04:43 -0700 (PDT)
-Received: from [192.168.43.80] (subs03-180-214-233-72.three.co.id. [180.214.233.72])
-        by smtp.gmail.com with ESMTPSA id g29-20020aa796bd000000b00535e46171c1sm8714745pfk.117.2022.08.22.20.04.41
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 22 Aug 2022 20:04:43 -0700 (PDT)
-Message-ID: <a2d5343b-a159-3e6a-67f8-868e85f51222@gmail.com>
-Date:   Tue, 23 Aug 2022 10:04:40 +0700
+        with ESMTP id S240166AbiHWDKw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Aug 2022 23:10:52 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 102B55C9E8
+        for <linux-doc@vger.kernel.org>; Mon, 22 Aug 2022 20:09:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1661224187;
+        h=from:from:reply-to:reply-to:subject:subject:date:date:
+         message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+         content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=PdyIPdKorQDXK1tldjSfL+LVZR0k6xko4u2KPDklhbE=;
+        b=cqgWN3GnLH/lCIt21TRQMO+yOofn0xHZh6oUNyhvBMMCdrOnGvJVun67f5W746+olzWKeC
+        N+5umI5OA8cDWFosI1qPRMxRxCFcK2hx3bWeUgxzCM/T/4+P/k/f1WQPtG1zsplBHQ9rA1
+        GFZ+bqdKe/WTW9ac4TNBf0yI81t1pSI=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-663-d3zYu98qMW-lWG9QS1UrQg-1; Mon, 22 Aug 2022 23:09:42 -0400
+X-MC-Unique: d3zYu98qMW-lWG9QS1UrQg-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7EADE185A79C;
+        Tue, 23 Aug 2022 03:09:41 +0000 (UTC)
+Received: from [10.64.54.16] (vpn2-54-16.bne.redhat.com [10.64.54.16])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 6E92E492C3B;
+        Tue, 23 Aug 2022 03:09:32 +0000 (UTC)
+Reply-To: Gavin Shan <gshan@redhat.com>
+Subject: Re: [PATCH v1 3/5] KVM: selftests: Dirty host pages in dirty_log_test
+From:   Gavin Shan <gshan@redhat.com>
+To:     Andrew Jones <andrew.jones@linux.dev>
+Cc:     kvmarm@lists.cs.columbia.edu, linux-arm-kernel@lists.infradead.org,
+        kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        peterx@redhat.com, pbonzini@redhat.com, corbet@lwn.net,
+        maz@kernel.org, james.morse@arm.com, alexandru.elisei@arm.com,
+        suzuki.poulose@arm.com, oliver.upton@linux.dev,
+        catalin.marinas@arm.com, will@kernel.org, shuah@kernel.org,
+        seanjc@google.com, drjones@redhat.com, dmatlack@google.com,
+        bgardon@google.com, ricarkol@google.com, zhenyzha@redhat.com,
+        shan.gavin@gmail.com
+References: <20220819005601.198436-1-gshan@redhat.com>
+ <20220819005601.198436-4-gshan@redhat.com>
+ <20220819052805.qnhw2d3arxixzvhl@kamzik>
+ <3abb690f-e616-630f-ba40-e590ec8bb5c1@redhat.com>
+Message-ID: <0496fe72-e3da-9778-b307-eb5cc157e8fe@redhat.com>
+Date:   Tue, 23 Aug 2022 13:09:28 +1000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH v4] docs: admin-guide/mm: Improve grammar on MM concepts
- documentation
+In-Reply-To: <3abb690f-e616-630f-ba40-e590ec8bb5c1@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-To:     alexlzhu@fb.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Kernel-team@fb.com
-References: <20220823021941.4021897-1-alexlzhu@fb.com>
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <20220823021941.4021897-1-alexlzhu@fb.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 8/23/22 09:19, alexlzhu@fb.com wrote:
-> From: Alexander Zhu <alexlzhu@fb.com>
+Hi Drew,
+
+On 8/22/22 4:29 PM, Gavin Shan wrote:
+> On 8/19/22 3:28 PM, Andrew Jones wrote:
+>> On Fri, Aug 19, 2022 at 08:55:59AM +0800, Gavin Shan wrote:
+>>> It's assumed that 1024 host pages, instead of guest pages, are dirtied
+>>> in each iteration in guest_code(). The current implementation misses
+>>> the case of mismatched page sizes in host and guest. For example,
+>>> ARM64 could have 64KB page size in guest, but 4KB page size in host.
+>>> (TEST_PAGES_PER_LOOP / 16), instead of TEST_PAGES_PER_LOOP, host pages
+>>> are dirtied in every iteration.
+>>>
+>>> Fix the issue by touching all sub-pages when we have mismatched
+>>> page sizes in host and guest.
+>>
+>> I'll let the dirty-log test authors decide what's best to do for this
+>> test, but I'd think we should let the guest continue dirtying its
+>> pages without knowledge of the host pages. Then, adjust the host test
+>> code to assert all sub-pages, other than the ones it expects the guest
+>> to have written, remain untouched.
+>>
 > 
-> Improve grammar on MM concepts documentation.
+> I don't think what is clarified in the change log is correct. The current
+> implementation already had the logic to handle the mismatched page sizes
+> in vm_dirty_log_verify() where 'step' is used for it by fetching value
+> from vm_num_host_pages(mode, 1). Please ignore this patch for now, as
+> explained below.
 > 
-> Signed-off-by: Alexander Zhu <alexlzhu@fb.com>
-> ---
-> Changelog: 
-> 
-> Changes in v4:
-> -Adjust changelog to be below the dashes
-> 
-> Changes in v3:
-> -Correct punctuation based on previous comment
-> 
-> Changes in v2:
-> -Correct the subject
-> -Adjust the description
+> The issue I have is the 'dirty_log_test' hangs when I have 4KB host page size
+> and 64KB guest page size. It seems the vcpu doesn't exit due to full ring
+> buffer state or kick-off. I will have more investigations to figure out the
+> root cause.
 > 
 
-Nicely done. LGTM.
+[...]
 
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+Please ignore this PATCH[3/5], I think this should be fixed by selecting
+correct dirty ring count and the fix will be folded to PATCH[5/5] in next
+revision.
 
--- 
-An old man doll... just what I always wanted! - Clara
+In dirty_log_test, we have 1GB memory for guest to write and make them
+dirty. When we have mismatch page sizes on host and guest, which is either
+4kb-host-64kb-guest or 64kb-host-4kb-guest apart from 16kb case, 16384 host
+pages are dirtied in each iteration. The default dirty ring count is 65536.
+So the vcpu never exit due to full-dirty-ring-buffer state. This leads the
+guest's code keep running and the dirty log isn't collected by the main
+thread.
+
+     #define TEST_DIRTY_RING_COUNT           65536
+
+     dirty_pages_per_iteration = (0x40000000 / 0x10000)
+                               = 0x4000
+                               = 16384
+
+Thanks,
+Gavin
+
