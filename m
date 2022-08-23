@@ -2,160 +2,656 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B67FC32774
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Aug 2022 11:42:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 97F55C32772
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Aug 2022 12:48:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1357583AbiHWLm3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 23 Aug 2022 07:42:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59618 "EHLO
+        id S240579AbiHWMsx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 23 Aug 2022 08:48:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60168 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1357928AbiHWLjd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Aug 2022 07:39:33 -0400
-Received: from EUR02-AM5-obe.outbound.protection.outlook.com (mail-eopbgr00137.outbound.protection.outlook.com [40.107.0.137])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B08DB786CF;
-        Tue, 23 Aug 2022 02:28:37 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=IoU013dnspOebzHHO6aZ4LXoKHyBNSyfBXpviUG+3BnTOlQJK4qNX4rLXaL/b47aHXO3HwXNoDhyPER3c2nwWl+fxhbP+5Cfrl46uOsGv6bglmj8KiXFAGxf7r9sDpHe1/WcvVfUaEH+oHHAyDZxZongagFVmD29khQ+MoH/O2k896UBlS1cKX+bISs42nRKd9/Hg6I27Toi8Q619+7hIPMSe7pnB07A6H2AxFgMkEi0y0dVdAV5xSpxtdFq+s/JzmOw2GeAZTUKKSyNecLIZZ/XFEEWoXUCqTG3VAobueUv5Hp+51oQqVwFZ17nloCc6IRu+gGp+qgBcbQinjoeFg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=K+w+NUFAqEf1WD/mrZZur+ZGqgvosTVBhLYL3r1c52s=;
- b=SodSwcozuU/Sv71X+636AZFlxwVpCNcethyeXOFBnxlax8KR3P5YfR5o0Lj21Iw8czcFX4aq61DqBlAjyuoQDMfWzpOHylGQ1DNo7jjDToo1c8A2gdg8KybvTZ5UVpnnPeinow2HHrTF3l2vPTvHsgq6J/OMQXRZsUeoLiGpUascIgVcTfp6G/xPZoKaZlgGBZkTlVdPcX+SCVurUjPS0NOHb/K+CIx4GYsnuzqXUUPpMcfNy+5AEwigiHAfB44maFdnOEtl9logHcK+V7NGO+TWAOL/J0M3x+2CLal6ryN3G8pbS6IUb2INDD57Qm63FVIoB1jYdbNpAFtUjHwwnQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=axentia.se; dmarc=pass action=none header.from=axentia.se;
- dkim=pass header.d=axentia.se; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axentia.se;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=K+w+NUFAqEf1WD/mrZZur+ZGqgvosTVBhLYL3r1c52s=;
- b=AHXH4kfaRcoSCMYIa484sI1FNxu/t8yjUdGdPOsUvV82OKgDqyJj5X22PQivrxYpnU+k4lte4ALKthnVTkeqXIIcn5J3lFB0RJiTO2ZAvBcYQ4IBicreU/mt3AtURrofQ7BVpLI3rdbp69mTFabc8nOwPZjnX9zD2lJvnT9whYc=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=axentia.se;
-Received: from AM0PR02MB4436.eurprd02.prod.outlook.com (2603:10a6:208:ed::15)
- by AS8PR02MB7078.eurprd02.prod.outlook.com (2603:10a6:20b:2e5::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5566.14; Tue, 23 Aug
- 2022 09:28:35 +0000
-Received: from AM0PR02MB4436.eurprd02.prod.outlook.com
- ([fe80::1d88:3306:c280:3179]) by AM0PR02MB4436.eurprd02.prod.outlook.com
- ([fe80::1d88:3306:c280:3179%6]) with mapi id 15.20.5546.022; Tue, 23 Aug 2022
- 09:28:35 +0000
-Message-ID: <72f284ef-233c-37af-a73c-b58e26361d6e@axentia.se>
-Date:   Tue, 23 Aug 2022 11:28:33 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH v2 3/3] docs: i2c: i2c-topology: fix typo
-Content-Language: en-US
-To:     luca.ceresoli@bootlin.com, linux-doc@vger.kernel.org,
-        linux-i2c@vger.kernel.org
-Cc:     Wolfram Sang <wsa@kernel.org>, linux-kernel@vger.kernel.org,
-        Bagas Sanjaya <bagasdotme@gmail.com>
-References: <20220822091050.47099-1-luca.ceresoli@bootlin.com>
- <20220822091050.47099-4-luca.ceresoli@bootlin.com>
-From:   Peter Rosin <peda@axentia.se>
-In-Reply-To: <20220822091050.47099-4-luca.ceresoli@bootlin.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MM0P280CA0023.SWEP280.PROD.OUTLOOK.COM (2603:10a6:190:a::9)
- To AM0PR02MB4436.eurprd02.prod.outlook.com (2603:10a6:208:ed::15)
+        with ESMTP id S243050AbiHWMs0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Aug 2022 08:48:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C5CF118455
+        for <linux-doc@vger.kernel.org>; Tue, 23 Aug 2022 02:55:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1661248440;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=GvMyPFHcoirB/WmSIPBnm1c4QG6I1avP1FIZ+7dAIKM=;
+        b=F2Du/5J027h72gzpekhzsJjBxEzQ58dPSocIuGBLJ3GyhI6RUs+DpcNkcPx3zuOON0ihnd
+        CcoQzSKLCitucw+aUXm45srckhbMk09nqJATsPPTnC0CGpZEdATkxC/zy3OZQJXwMa+SVU
+        +YCWI5KP4aa71yB45d1t0kLfv4vHX0g=
+Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com
+ [209.85.216.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-389-UEgduqu9Oy68tJbVUMxmzw-1; Tue, 23 Aug 2022 05:50:12 -0400
+X-MC-Unique: UEgduqu9Oy68tJbVUMxmzw-1
+Received: by mail-pj1-f69.google.com with SMTP id f16-20020a17090a4a9000b001f234757bbbso5996599pjh.6
+        for <linux-doc@vger.kernel.org>; Tue, 23 Aug 2022 02:50:11 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=GvMyPFHcoirB/WmSIPBnm1c4QG6I1avP1FIZ+7dAIKM=;
+        b=swVYVEofZB5mpOV2vBPidP/myrwiRTYj4Q2pE+wK8PuNuDQJywAmOlFrP2p0+jsJga
+         v8ab5qgDsPqKBvFKsDihqJHBfLZ2d3XXxjc0c9WLj/9DJqyaJ2sf2aI1cA+Zb+7QZLI0
+         JK3nEVmxGfCPt2N8mM0aGLMCX/7LxGpnlwDeje8pysmQdlVvcdUGXVvzbG6h8b7fkPpy
+         piCsTq6bm/4RRHE4AGh0bwkjmDO7/U8P4f+SEBY6DigQMRTXauAs0NS8+x6Xzk2ljkRg
+         /lhbSODaq+UTzcARcf923hsJ8XvIEr9lDxQLkoLqrwecQi33dQ4V28NjHzPAmlPezzTU
+         a8Pw==
+X-Gm-Message-State: ACgBeo3gBn5xACFCZx4hET5Cxyz6f/aSxnUz4ZPjc0/Oi9/h3q7YsNVi
+        /v/uxjojuJ7u2KgZLdIfCJgE+wqT0CtIzrW9dOLGLkHEG5DHWgIUSnsfqV4zPgI+2t0K/bLm8LD
+        LlZV7IZQFah25491rv14PD91H1L36vkuA6XjY
+X-Received: by 2002:a63:b648:0:b0:42a:ad58:74ce with SMTP id v8-20020a63b648000000b0042aad5874cemr7579889pgt.489.1661248210862;
+        Tue, 23 Aug 2022 02:50:10 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR7uiboE62rbkpT5TTxQL46ZmfRXxetIpD/HcPIDkUzVltGJxsumtoxoZGreFvPRvwpo8PR+aDPpeLqh7jDjiqI=
+X-Received: by 2002:a63:b648:0:b0:42a:ad58:74ce with SMTP id
+ v8-20020a63b648000000b0042aad5874cemr7579866pgt.489.1661248210430; Tue, 23
+ Aug 2022 02:50:10 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: d825e8b3-ddda-4152-f5e8-08da84e9da4d
-X-MS-TrafficTypeDiagnostic: AS8PR02MB7078:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: DARbdSSaVBw4/zAFglq55EBd0O+RxhqJYlXM/oveXnNR3+eM9ZPm5UhcpMBawhXSotZVkR+VEoyLaNbHElLaZJEl284jO34G4GeSFUzmy1f9PJFw3Uf0V/htn/QhI5fx9Wr0FPd2wj6Wr2Jmrpj3DEsR4zYWzpPfEm/XHpnckua6pXqJ/q0DHSOQKBCIjxoyL8iRwTO7KUSJ35fA0mKBzEdqWvxlvpN7YtSBMqY6GjCHqi335CGcHaV/1G2BwnN8X7puiwXZz3hGKZ5WfyqBvYuS75d1OZ9E4RVCcg29Z1iZr66/sLvcOtBqyP698bMVGzlEvQBSRbZ7Bb+n5CdV3Igmjpgz5KcOgnR/1x1nA0w9L9HZyfVDrWDrqUptPODhVbxroFnu1GnaugiiYXcJJU3oHLerDX85ec/99l9f6X9qGw8fGhnpdNUF34teBoQCsI80OzQFLsmMb6Nd7XZ3yIzJ+GUU7zDaJlsXXvakWSYFPP1nlmSK6+oodIh2yI90Ks61kElZeUofTxUElK21KIPsN1NSaqdUaUwnSM3NS1wkPzjp7HcXppF6YltA1PEa5zAftmKXpM61vDk+/CJv4pC/bgARVlhY6zftV4UmO8/EjngVCCAp5O747j1/5v2nBdPeZQ/dl+hy+IBx7iAamgmAZ3nm3gtF0ztPwFwJIhdlnsyhvxTLGntR8WLDwp3hRORPj50BF0WwmH0rOnv8ml3PEf05fcqekFVS9+VKfSIXbMiOOyp8Mzkog1KHhvOfA2hhqGg8+6xxRoUTWL/LnX8ha9faXBhxaO3yJOWpxt8=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM0PR02MB4436.eurprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(366004)(136003)(376002)(346002)(39840400004)(396003)(478600001)(6486002)(316002)(54906003)(186003)(2616005)(83380400001)(6506007)(41300700001)(38100700002)(26005)(6512007)(2906002)(5660300002)(86362001)(8936002)(31696002)(66946007)(31686004)(36756003)(66556008)(4326008)(66476007)(8676002)(43740500002)(45980500001);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QTFLekJFM1poVFQ5Yi9SdE1lWFJGalR6UjJVWkhvS0ZyTXRucEN2RnZnNzJY?=
- =?utf-8?B?eXNKbUZ3MlNrYlU2K2VySGFJUGgxZjlPNnFoYTlkMGkzVXB2OEQxWmlEVFAz?=
- =?utf-8?B?cUx5N3htb1dGMFlmeFA3RVNnbXZzdzhwRmJ2eVRBeFIxbTg1S1kyNGJwazN5?=
- =?utf-8?B?TDY1SUpUSWxmUnh0WkNZbXNXUkZCbFRxVnFDYWFlNlV3dld3NlZmVjZaeDgy?=
- =?utf-8?B?aE56bEhSbXdWMm9IcFc3ME5GZ0pqNWlxNzZab1VRSUVIZ29uYm5tWWVBM1RG?=
- =?utf-8?B?akJhM0ljVk9ySlJ5ck56SVh5WFRVdUQ2VDBUNk1JbjdvYWhwOHh3cWlMUDEr?=
- =?utf-8?B?cjRjS2VNSmttYTNBSjZaeHpnYTJ2TEpjS25MVWJ6SjM5aHkrSE1rZHB0T1Ux?=
- =?utf-8?B?V3BUNXRtM3lJeDVxaGExUWZLRlpIMTJTZmExVTdTU0d4V21UR2kzTmJuTVZG?=
- =?utf-8?B?eHdWRE00dm1vLzN5ZlV2aDFCSE1PamJDUElCMWpTVlRSUHdhYlB5SmcwUTJP?=
- =?utf-8?B?QmU1MkJwdEhBc055STc5d3hzbFZPaTIyQ1BQYi9ka3dXQ204bUFkV25wb0Nn?=
- =?utf-8?B?SEN2U2xFcWJGQU5PalRNKyt0UzRPaVlCYVBkUkJQYU5uYncydU5pZmhkR1Nt?=
- =?utf-8?B?VUY0Y0VxcXBFS2hMUUk2UFBoQ1NQWEYxamNSQ2VmTVhDOHE2UkNGMWg1L2hB?=
- =?utf-8?B?TVlZRFUxYlEzRmlaZ0k5OEY1YjRIRXo3cm56aU9lRGJWWTJqVHlMVk1oV2dk?=
- =?utf-8?B?dVB6SllJSS9USnhTcXh3K2duN0tqZkRqaEhJUmEvbmFPN3ExV1hyZkFCN24y?=
- =?utf-8?B?Nm0yZ0dJcDMyYWJkOHhYdCt0SmN0TVNvck9FRGhhdlB6dXhFTDZPdGNuL3Bk?=
- =?utf-8?B?Q09jVDFtVkdCOUFVa2FadHFnTWpGT2E3Y0NXRGI5cjI1aG5tQWFObnVxUkhm?=
- =?utf-8?B?SFp2TEJieWdqejQvVWkyUUhnSE5iWS82cjdYOGl6akxvSlVUd1RCTVRUQ2Zs?=
- =?utf-8?B?eXdwcE1reEpqVVU3VDJ6bDltdnpWRzN6Ukgwbm44S0lhcjdLNnFWM2NuRGtH?=
- =?utf-8?B?VGFzRWNDUjJrQjliV3NOQUZSek9BQXpDcExDMXBrb1RXaXdDSHNBQUI1c2Jk?=
- =?utf-8?B?ckpVY0lVWW5hOG1MZmNrWHNVRmo0L0V5VFZ5WW56K0ErL3lteUdwSTV5dVBj?=
- =?utf-8?B?cVRFRUlpaWk2NXkrYW1KVTBUT1NJK3RpL1ZCbHJsOWxPL25SemlmUmlUNmx4?=
- =?utf-8?B?eXhySjgyS3U5Mjh2WjdSL3ZiTlgvbnJ6Z01sekdKaFppWkRxRnFlL0lkenNB?=
- =?utf-8?B?UDd6N2V2T0NXb09vYmZZdVcydFVROGJ2Qi94U1lkL1VCaEpkR1k4TDFXOFh0?=
- =?utf-8?B?WEs2NUczSHVhWDBVcTdqNUZNT0RvNmxkRmMra3ltSnFPVHBQMmNsM09tc0xV?=
- =?utf-8?B?S0NSZno4UzFTNDMwYVlxWXNCWi9YdjBGMzY4ZFFjTnVrbENURU82RjJnQzNT?=
- =?utf-8?B?SVFvTFN2TUVvaFhuRHFiNC9tbGZIT3ErVHhvVHViZko2ZEhRMy91bkZxdHh4?=
- =?utf-8?B?dFJYZWRpZEJzblhTNTRoallvMy9xOThpZHgzTmdCall1Qlp5T3k0YlVuMkFa?=
- =?utf-8?B?SjVaNmNjeDh5UnB0d2dEMHI1SU5lU0JCSFluZzlqUHE3dlR2N0tFQ2lHVjdC?=
- =?utf-8?B?SDYrZUN6Uk5mdXZyTUJ1TTI0Q1FzNUFXZVI4WHIvUzlHT3poZXN5czlySThB?=
- =?utf-8?B?WnVrU1ZlVTJjTHRpeTBqdm1qOG12V1d4clNQZUdPWWFUbnNMVHcrdGNuNnVU?=
- =?utf-8?B?SXlLVklrT1g1bndjbCtkNzFyamRWcW9uTVBlVTIwRDErQi9mRGY0ZXMrTjRp?=
- =?utf-8?B?ditoMHJGU05MZ2Rpc3B5eDU4Q3RRYjduU0V3RXpZNmVlZHV6ZHJDTkRNVzl4?=
- =?utf-8?B?QS9NQTJjVmNwY1JMVlYzb2dRbW8vTTdDSGg3MU9XQnVVOHlreWltdWZ2bkRx?=
- =?utf-8?B?SDVjTzZpb2NZK2tRMG5Xb2RGU0J4NDh3YmdPbVdXMUtkNkpvS05PZktQc3U4?=
- =?utf-8?B?amU1c0oreS9QNnBacTNFaGZSYmtjb1pGcWVUemN2cHpvUHFHdFZLUGxqa1pR?=
- =?utf-8?Q?e5plPhoLSMVem2qbkMv+thc6O?=
-X-OriginatorOrg: axentia.se
-X-MS-Exchange-CrossTenant-Network-Message-Id: d825e8b3-ddda-4152-f5e8-08da84e9da4d
-X-MS-Exchange-CrossTenant-AuthSource: AM0PR02MB4436.eurprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Aug 2022 09:28:35.2228
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4ee68585-03e1-4785-942a-df9c1871a234
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: OagmVoBT2QqRR/rWX15anRVJ1YC0nNuw2qVKQQ55c5X8X5pIBm8eTwCIPXvrV4Gd
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR02MB7078
+References: <20220822060936.769855-1-marcus.folkesson@gmail.com>
+In-Reply-To: <20220822060936.769855-1-marcus.folkesson@gmail.com>
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date:   Tue, 23 Aug 2022 11:49:59 +0200
+Message-ID: <CAO-hwJ+3Yrr--cr=r5+jvs4A=A-cmDtrKQETo=YOYDC3nXTMBg@mail.gmail.com>
+Subject: Re: [RESEND PATCH 1/2] HID: Add driver for RC Simulator Controllers
+To:     Marcus Folkesson <marcus.folkesson@gmail.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>, Jiri Kosina <jikos@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi!
+Hi Marcus,
 
-2022-08-22 at 11:10, luca.ceresoli@bootlin.com wrote:
-> From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-> 
-> "intension" should have probably been "intention", however "intent" seems
-> even better.
-> 
-> Reported-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+[and sorry for the delay in the review of your patches]
 
-Acked-by: Peter Rosin <peda@axentia.se>
+On Mon, Aug 22, 2022 at 8:04 AM Marcus Folkesson
+<marcus.folkesson@gmail.com> wrote:
+>
+> Several RC Simulator Controllers are HID compliant with similar
+> interface.
+>
+> Add support for these controllers:
+>  - Phoenix RC (HID variant)
+>  - Car VRC2.0
+>  - Real Flight G5/G6/G7
+>  - Aero Fly, FMS
+>  - OrangeRX FrSky
+>
+> Signed-off-by: Marcus Folkesson <marcus.folkesson@gmail.com>
+> ---
+>  Documentation/hid/index.rst |   1 +
+>  Documentation/hid/rcsim.rst | 142 ++++++++++++++++
+>  drivers/hid/Kconfig         |  11 ++
+>  drivers/hid/Makefile        |   1 +
+>  drivers/hid/hid-ids.h       |   5 +
+>  drivers/hid/hid-rcsim.c     | 315 ++++++++++++++++++++++++++++++++++++
+>  6 files changed, 475 insertions(+)
+>  create mode 100644 Documentation/hid/rcsim.rst
+>  create mode 100644 drivers/hid/hid-rcsim.c
+>
+> diff --git a/Documentation/hid/index.rst b/Documentation/hid/index.rst
+> index e50f513c579c..e5813d264f37 100644
+> --- a/Documentation/hid/index.rst
+> +++ b/Documentation/hid/index.rst
+> @@ -17,3 +17,4 @@ Human Interface Devices (HID)
+>     hid-alps
+>     intel-ish-hid
+>     amd-sfh-hid
+> +   rcsim
+> diff --git a/Documentation/hid/rcsim.rst b/Documentation/hid/rcsim.rst
+> new file mode 100644
+> index 000000000000..1a031f7189cb
+> --- /dev/null
+> +++ b/Documentation/hid/rcsim.rst
+> @@ -0,0 +1,142 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +=================================
+> +rcsim - RC Simulator Controllers
+> +=================================
+> +
+> +:Author: Marcus Folkesson <marcus.folkesson@gmail.com>
+> +
+> +This driver let you use your own RC controller plugged
+> +into your computer using an HID compatible USB dongle.
+> +
+> +There are several HID compatible USB dongles from different
+> +vendors. The driver currently supports:
+> +
+> +- Phoenix RC (HID variant) (8ch)
+> +- Car VRC2.0 (2ch)
+> +- Real Flight G5/G6/G7 (6ch)
+> +- Aero Fly, FMS (8ch)
+> +- OrangeRX FrSky (6ch)
+> +
+> +Many RC controllers is able to configure which stick goes to which channel.
+> +This is also configurable in most simulators, so a matching is not necessary.
+> +
+> +Supported dongles
+> +==================
+> +
+> +PhoenixRC
+> +----------
+> +
+> +The PhoenixRC has one HID compatible variant which is supported by this driver.
+> +The controller has support for 8 analog channels.
+> +
+> +The driver is generating the following input event for on channels:
+> +
+> ++---------+----------------+
+> +| Channel |      Event     |
+> ++=========+================+
+> +|     1   |  ABS_Y         |
+> ++---------+----------------+
+> +|     2   |  ABS_X         |
+> ++---------+----------------+
+> +|     3   |  ABS_RY        |
+> ++---------+----------------+
+> +|     4   |  ABS_RX        |
+> ++---------+----------------+
+> +|     5   |  ABS_RUDDER    |
+> ++---------+----------------+
+> +|     6   |  ABS_THROTTLE  |
+> ++---------+----------------+
+> +|     7   |  ABS_Z         |
+> ++---------+----------------+
+> +|     8   |  ABS_RZ        |
+> ++---------+----------------+
+> +
+> +VRC2.0
+> +----------
+> +VRC2.0 is a controller for RC Cars.
+> +The controller has support for 2 analog channels.
+> +
+> +The driver is generating the following input event for on channels:
+> +
+> ++---------+----------------+
+> +| Channel |      Event     |
+> ++=========+================+
+> +|     1   |  ABS_GAS       |
+> ++---------+----------------+
+> +|     2   |  ABS_WHEEL     |
+> ++---------+----------------+
+> +
+> +RealFlight
+> +----------
+> +
+> +This driver supports Realflight G4-G7 and above
+> +The controller has support for 4 analog channels and two buttons.
+> +
+> +The driver is generating the following input event for on channels:
+> +
+> ++---------+----------------+
+> +| Channel |      Event     |
+> ++=========+================+
+> +|     1   |  ABS_Y         |
+> ++---------+----------------+
+> +|     2   |  ABS_X         |
+> ++---------+----------------+
+> +|     3   |  ABS_RY        |
+> ++---------+----------------+
+> +|     4   |  ABS_RX        |
+> ++---------+----------------+
+> +|     5   |  BTN_A         |
+> ++---------+----------------+
+> +|     6   |  BTN_B         |
+> ++---------+----------------+
+> +
+> +XTR+G2+FMS Controllers
+> +--------------------------------
+> +
+> +The controllers has support for 8 analog channels.
+> +
+> +The driver is generating the following input event for on channels:
+> +
+> ++---------+----------------+
+> +| Channel |      Event     |
+> ++=========+================+
+> +|     1   |  ABS_Y         |
+> ++---------+----------------+
+> +|     2   |  ABS_X         |
+> ++---------+----------------+
+> +|     3   |  ABS_RY        |
+> ++---------+----------------+
+> +|     4   |  ABS_RX        |
+> ++---------+----------------+
+> +|     5   |  ABS_RUDDER    |
+> ++---------+----------------+
+> +|     6   |  ABS_THROTTLE  |
+> ++---------+----------------+
+> +|     7   |  ABS_Z         |
+> ++---------+----------------+
+> +|     8   |  ABS_RZ        |
+> ++---------+----------------+
+> +
+> +OrangeRX
+> +----------
+> +
+> +The controllers has support for 6 analog channels.
+> +
+> +The driver is generating the following input event for on channels:
+> +
+> ++---------+----------------+
+> +| Channel |      Event     |
+> ++=========+================+
+> +|     1   |  ABS_Y         |
+> ++---------+----------------+
+> +|     2   |  ABS_X         |
+> ++---------+----------------+
+> +|     3   |  ABS_RY        |
+> ++---------+----------------+
+> +|     4   |  ABS_RX        |
+> ++---------+----------------+
+> +|     5   |  ABS_RUDDER    |
+> ++---------+----------------+
+> +|     6   |  ABS_THROTTLE  |
+> ++---------+----------------+
+> diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
+> index 70da5931082f..d8313d36086c 100644
+> --- a/drivers/hid/Kconfig
+> +++ b/drivers/hid/Kconfig
+> @@ -957,6 +957,17 @@ config HID_RAZER
+>         Support for Razer devices that are not fully compliant with the
+>         HID standard.
+>
+> +config HID_RCSIM
+> +       tristate "RC Simulator Controllers"
+> +       depends on HID
+> +       help
+> +       Support for several HID compatible RC Simulator Controllers including
+> +         - Phoenix RC
+> +         - Car VRC2.0
+> +         - Real Flight
+> +         - Aero Fly, FMS
+> +         - OrangeRX FrSky
+> +
+>  config HID_PRIMAX
+>         tristate "Primax non-fully HID-compliant devices"
+>         depends on HID
+> diff --git a/drivers/hid/Makefile b/drivers/hid/Makefile
+> index cac2cbe26d11..85d50ab352ee 100644
+> --- a/drivers/hid/Makefile
+> +++ b/drivers/hid/Makefile
+> @@ -102,6 +102,7 @@ obj-$(CONFIG_HID_PLANTRONICS)       += hid-plantronics.o
+>  obj-$(CONFIG_HID_PLAYSTATION)  += hid-playstation.o
+>  obj-$(CONFIG_HID_PRIMAX)       += hid-primax.o
+>  obj-$(CONFIG_HID_RAZER)        += hid-razer.o
+> +obj-$(CONFIG_HID_RCSIM)        += hid-rcsim.o
 
-Thanks for polishing my brain-dump!
+General rule of thumbs, we try to name the drivers after their
+vendors, unless we know we have a generic driver.
+
+Here, this driver seems to be really tied to a small set of devices,
+and thus I don't think we can call it "generic".
+
+>  obj-$(CONFIG_HID_REDRAGON)     += hid-redragon.o
+>  obj-$(CONFIG_HID_RETRODE)      += hid-retrode.o
+>  obj-$(CONFIG_HID_ROCCAT)       += hid-roccat.o hid-roccat-common.o \
+> diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
+> index d9eb676abe96..baf5f74d5bed 100644
+> --- a/drivers/hid/hid-ids.h
+> +++ b/drivers/hid/hid-ids.h
+> @@ -1381,6 +1381,11 @@
+>
+>  #define USB_VENDOR_ID_MULTIPLE_1781    0x1781
+>  #define USB_DEVICE_ID_RAPHNET_4NES4SNES_OLD    0x0a9d
+> +#define USB_DEVICE_ID_PHOENIXRC        0x0898
+> +#define USB_DEVICE_ID_REALFLIGHT       0x0e56
+> +
+> +#define USB_VENDOR_ID_DIPLING  0x0B9B
+> +#define USB_DEVICE_ID_DIPLING_RCCONTROLLER     0x4012
+>
+>  #define USB_VENDOR_ID_DRACAL_RAPHNET   0x289b
+>  #define USB_DEVICE_ID_RAPHNET_2NES2SNES        0x0002
+> diff --git a/drivers/hid/hid-rcsim.c b/drivers/hid/hid-rcsim.c
+> new file mode 100644
+> index 000000000000..0f214cb5816a
+> --- /dev/null
+> +++ b/drivers/hid/hid-rcsim.c
+> @@ -0,0 +1,315 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Driver for several HID compatible RC Simulator Controllers.
+> + * Currently supported controllers are:
+> + *
+> + * - Phoenix RC (HID variant) (8ch)
+> + * - Car VRC2.0 (2ch)
+> + * - Real Flight G5/G6/G7 (6ch)
+> + * - Aero Fly, FMS (8ch)
+> + * - OrangeRX FrSky (6ch)
+> + *
+> + * Copyright (C) 2022 Marcus Folkesson <marcus.folkesson@gmail.com>
+> + */
+> +
+> +#include <linux/bitfield.h>
+> +#include <linux/device.h>
+> +#include <linux/input.h>
+> +#include <linux/hid.h>
+> +#include <linux/module.h>
+> +#include <linux/usb.h>
+> +
+> +#include "hid-ids.h"
+> +
+> +/*
+> + * Some of these VID/PID are probably "borrowed", so keep them locally and
+> + * do not populate hid-ids.h with those.
+> + */
+> +
+> +/* PHOENIXRC Controlloer (HID variant) */
+> +#define PHOENIXRC_VID  (USB_VENDOR_ID_MULTIPLE_1781)
+> +#define PHOENIXRC_PID  (USB_DEVICE_ID_PHOENIXRC)
+> +#define PHOENIXRC_DSIZE        (8)
+> +
+> +/* VRC2 Controlloer */
+> +#define VRC2_VID       (0x07c0)
+> +#define VRC2_PID       (0x1125)
+> +#define VRC2_DSIZE     (7)
+> +
+> +/* Realflight G4-&7 and Above Controller */
+> +#define REALFLIGHT_VID (USB_VENDOR_ID_MULTIPLE_1781)
+> +#define REALFLIGHT_PID (USB_DEVICE_ID_REALFLIGHT)
+> +#define REALFLIGHT_DSIZE       (8)
+> +
+> +#define REALFLIGHT_BTN_A       BIT(0)
+> +#define REALFLIGHT_BTN_B       BIT(1)
+> +
+> +/* XTR+G2+FMS Controller */
+> +#define XTRG2FMS_VID   (USB_VENDOR_ID_DIPLING)
+> +#define XTRG2FMS_PID   (USB_DEVICE_ID_DIPLING_RCCONTROLLER)
+> +#define XTRG2FMS_DSIZE (8)
+> +
+> +#define XTRG2FMS_X_HI  GENMASK(3, 2)
+> +#define XTRG2FMS_Y_HI  GENMASK(1, 0)
+> +#define XTRG2FMS_RX_HI GENMASK(7, 6)
+> +#define XTRG2FMS_RY_HI GENMASK(5, 4)
+> +#define XTRG2FMS_ALT1_HI       GENMASK(3, 2)
+> +#define XTRG2FMS_ALT2_HI       GENMASK(1, 0)
+> +
+> +/* OrangeRX FrSky */
+> +#define ORANGERX_VID   (0x0451)
+> +#define ORANGERX_PID   (0x16a5)
+> +#define ORANGERX_DSIZE (8)
+> +
+> +enum rcsim_controller {
+> +       PHOENIXRC,
+> +       VRC2,
+> +       REALFLIGHT,
+> +       XTRG2FMS,
+> +       ORANGERX
+> +};
+> +
+> +struct rcsim_priv {
+> +       struct hid_device *hdev;
+> +       struct input_dev *input;
+> +       enum rcsim_controller controller;
+> +       u8 alt;
+> +};
+> +
+> +static int rcsim_open(struct input_dev *dev)
+> +{
+> +       struct rcsim_priv *priv = input_get_drvdata(dev);
+> +
+> +       return hid_hw_open(priv->hdev);
+> +}
+> +
+> +static void rcsim_close(struct input_dev *dev)
+> +{
+> +       struct rcsim_priv *priv = input_get_drvdata(dev);
+> +
+> +       hid_hw_close(priv->hdev);
+> +}
+> +
+> +static int rcsim_setup_input(struct rcsim_priv *priv)
+> +{
+> +       struct input_dev *input;
+> +
+> +       input = devm_input_allocate_device(&priv->hdev->dev);
+> +       if (!input)
+> +               return -ENOMEM;
+> +
+> +       input->id.bustype = priv->hdev->bus;
+> +       input->id.vendor  = priv->hdev->vendor;
+> +       input->id.product = priv->hdev->product;
+> +       input->id.version = priv->hdev->bus;
+> +       input->phys = priv->hdev->phys;
+> +       input->uniq = priv->hdev->uniq;
+> +       input->open = rcsim_open;
+> +       input->close = rcsim_close;
+> +
+> +       input_set_drvdata(input, priv);
+> +
+> +       switch (priv->controller) {
+> +       case PHOENIXRC:
+> +               input_set_abs_params(input, ABS_X, 0, 255, 0, 0);
+> +               input_set_abs_params(input, ABS_Y, 0, 255, 0, 0);
+> +               input_set_abs_params(input, ABS_RX, 0, 255, 0, 0);
+> +               input_set_abs_params(input, ABS_RY, 0, 255, 0, 0);
+> +               input_set_abs_params(input, ABS_Z, 0, 255, 0, 0);
+> +               input_set_abs_params(input, ABS_RZ, 0, 255, 0, 0);
+> +               input_set_abs_params(input, ABS_RUDDER, 0, 255, 0, 0);
+> +               input_set_abs_params(input, ABS_THROTTLE, 0, 255, 0, 0);
+> +               input->name = "RC Simuator Controller PhoenixRC";
+> +               break;
+> +       case VRC2:
+> +               input_set_abs_params(input, ABS_GAS, 0, 2048, 0, 0);
+> +               input_set_abs_params(input, ABS_WHEEL, 0, 2048, 0, 0);
+> +               input->name = "RC Simuator Controller VRC2.0";
+> +               break;
+> +       case REALFLIGHT:
+> +               input_set_abs_params(input, ABS_X, 0, 1024, 0, 0);
+> +               input_set_abs_params(input, ABS_Y, 0, 1024, 0, 0);
+> +               input_set_abs_params(input, ABS_RX, 0, 1024, 0, 0);
+> +               input_set_abs_params(input, ABS_RY, 0, 1024, 0, 0);
+> +               input_set_capability(input, EV_KEY, BTN_A);
+> +               input_set_capability(input, EV_KEY, BTN_B);
+> +               input->name = "RC Simuator Controller Realflight";
+> +               break;
+> +       case XTRG2FMS:
+> +               input_set_abs_params(input, ABS_X, 0, 1024, 0, 0);
+> +               input_set_abs_params(input, ABS_Y, 0, 1024, 0, 0);
+> +               input_set_abs_params(input, ABS_RX, 0, 1024, 0, 0);
+> +               input_set_abs_params(input, ABS_RY, 0, 1024, 0, 0);
+> +               input_set_abs_params(input, ABS_Z, 0, 1024, 0, 0);
+> +               input_set_abs_params(input, ABS_RZ, 0, 1024, 0, 0);
+> +               input_set_abs_params(input, ABS_RUDDER, 0, 1024, 0, 0);
+> +               input_set_abs_params(input, ABS_THROTTLE, 0, 1024, 0, 0);
+> +               input->name = "RC Simuator Controller AeroFly, FMS";
+> +               priv->alt = 0;
+> +               break;
+> +       case ORANGERX:
+> +               input_set_abs_params(input, ABS_X, 0, 255, 0, 0);
+> +               input_set_abs_params(input, ABS_Y, 0, 255, 0, 0);
+> +               input_set_abs_params(input, ABS_RX, 0, 255, 0, 0);
+> +               input_set_abs_params(input, ABS_RY, 0, 255, 0, 0);
+> +               input_set_abs_params(input, ABS_RUDDER, 0, 255, 0, 0);
+> +               input_set_abs_params(input, ABS_THROTTLE, 0, 255, 0, 0);
+> +               input->name = "RC Simuator Controller OrangeRX FrSky";
+> +               break;
+> +       };
+> +
+> +       priv->input = input;
+> +       return input_register_device(priv->input);
+> +}
+
+You are basically rewriting hid-input.c, which is suboptimal.
+
+I guess the report descriptor provided by these devices are basically
+useless, and so you have to parse the reports yourself in the
+raw_event callback.
+
+But instead of manually doing that, why not overwrite the report
+descriptor (with .rdesc_fixup) and declare here all of the data that
+needs to be exported. You could remove basically everything in this
+driver by just providing a fixed report descriptor.
+
+> +
+> +static int rcsim_raw_event(struct hid_device *hdev,
+> +                              struct hid_report *report,
+> +                              u8 *raw_data, int size)
+> +{
+> +       struct rcsim_priv *priv = hid_get_drvdata(hdev);
+> +       u16 value;
+> +
+> +       switch (priv->controller) {
+> +       case PHOENIXRC:
+> +               if (size != PHOENIXRC_DSIZE)
+> +                       break;
+> +
+> +               /* X, RX, Y and RY, RUDDER and THROTTLE are sent every time */
+> +               input_report_abs(priv->input, ABS_X, raw_data[2]);
+> +               input_report_abs(priv->input, ABS_Y, raw_data[0]);
+> +               input_report_abs(priv->input, ABS_RX, raw_data[4]);
+> +               input_report_abs(priv->input, ABS_RY, raw_data[3]);
+> +               input_report_abs(priv->input, ABS_RUDDER, raw_data[5]);
+> +               input_report_abs(priv->input, ABS_THROTTLE, raw_data[6]);
+> +
+> +               /* Z and RZ are sent every other time */
+> +               if (priv->alt)
+> +                       input_report_abs(priv->input, ABS_Z, raw_data[7]);
+> +               else
+> +                       input_report_abs(priv->input, ABS_RZ, raw_data[7]);
+> +
+> +               priv->alt ^= 1;
+> +               break;
+> +       case VRC2:
+> +               if (size != VRC2_DSIZE)
+> +                       break;
+> +               value = (raw_data[1] << 8 | raw_data[0]) & GENMASK(10, 0);
+> +               input_report_abs(priv->input, ABS_GAS, value);
+> +               value = (raw_data[3] << 8 | raw_data[2]) & GENMASK(10, 0);
+> +               input_report_abs(priv->input, ABS_WHEEL, value);
+> +               break;
+> +       case REALFLIGHT:
+> +               if (size != REALFLIGHT_DSIZE)
+> +                       break;
+> +               input_report_abs(priv->input, ABS_X, raw_data[2]);
+> +               input_report_abs(priv->input, ABS_Y, raw_data[1]);
+> +               input_report_abs(priv->input, ABS_RX, raw_data[5]);
+> +               input_report_abs(priv->input, ABS_RY, raw_data[3]);
+> +               input_report_abs(priv->input, ABS_MISC, raw_data[4]);
+> +               input_report_key(priv->input, BTN_A,
+> +                               raw_data[7] & REALFLIGHT_BTN_A);
+> +               input_report_key(priv->input, BTN_B,
+> +                               raw_data[7] & REALFLIGHT_BTN_B);
+> +               break;
+> +       case XTRG2FMS:
+> +               if (size != XTRG2FMS_DSIZE)
+> +                       break;
+> +
+> +               /* X, RX, Y and RY are sent every time */
+> +               value = FIELD_GET(XTRG2FMS_X_HI, raw_data[3]);
+> +               value = (value << 8) | raw_data[1];
+> +               input_report_abs(priv->input, ABS_X, value);
+> +
+> +               value = FIELD_GET(XTRG2FMS_Y_HI, raw_data[3]);
+> +               value = (value << 8) | raw_data[2];
+> +               input_report_abs(priv->input, ABS_Y, value);
+> +
+> +               value = FIELD_GET(XTRG2FMS_RX_HI, raw_data[3]);
+> +               value = (value << 8) | raw_data[0];
+> +               input_report_abs(priv->input, ABS_RX, value);
+> +
+> +               value = FIELD_GET(XTRG2FMS_RY_HI, raw_data[3]);
+> +               value = (value << 8) | raw_data[4];
+> +               input_report_abs(priv->input, ABS_RY, value);
+> +
+> +               /* Z, RZ, RUDDER and THROTTLE are sent every other time */
+> +               value = FIELD_GET(XTRG2FMS_ALT1_HI, raw_data[7]);
+> +               value = (value << 8) | raw_data[6];
+> +               if (priv->alt)
+> +                       input_report_abs(priv->input, ABS_Z, value);
+> +               else
+> +                       input_report_abs(priv->input, ABS_RUDDER, value);
+> +
+> +               value = FIELD_GET(XTRG2FMS_ALT2_HI, raw_data[7]);
+> +               value = (value << 8) | raw_data[5];
+> +               if (priv->alt)
+> +                       input_report_abs(priv->input, ABS_RZ, value);
+> +               else
+> +                       input_report_abs(priv->input, ABS_THROTTLE, value);
+> +
+> +               priv->alt ^= 1;
+> +               break;
+> +       case ORANGERX:
+> +               if (size != ORANGERX_DSIZE)
+> +                       break;
+> +               input_report_abs(priv->input, ABS_X, raw_data[0]);
+> +               input_report_abs(priv->input, ABS_Y, raw_data[2]);
+> +               input_report_abs(priv->input, ABS_RX, raw_data[3]);
+> +               input_report_abs(priv->input, ABS_RY, raw_data[1]);
+> +               input_report_abs(priv->input, ABS_RUDDER, raw_data[5]);
+> +               input_report_abs(priv->input, ABS_THROTTLE, raw_data[6]);
+> +               break;
+> +       };
+> +
+> +       input_sync(priv->input);
+> +       return 0;
+> +}
+> +
+> +static int rcsim_probe(struct hid_device *hdev, const struct hid_device_id *id)
+> +{
+> +       struct device *dev = &hdev->dev;
+> +       struct rcsim_priv *priv;
+> +       int ret;
+> +
+> +       if (!hid_is_using_ll_driver(hdev, &usb_hid_driver))
+> +               return -ENODEV;
+
+You are not accessing anything in the USB stack, so there is no need
+to prevent regression tests that could inject uhid devices to your
+drivers.
 
 Cheers,
-Peter
+Benjamin
 
-> 
-> ---
-> 
-> Changed in v2:
-> - this patch is new in v2
-> ---
->  Documentation/i2c/i2c-topology.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/i2c/i2c-topology.rst b/Documentation/i2c/i2c-topology.rst
-> index 6f2da7f386fd..65ed76bc979f 100644
-> --- a/Documentation/i2c/i2c-topology.rst
-> +++ b/Documentation/i2c/i2c-topology.rst
-> @@ -102,7 +102,7 @@ When using a mux-locked mux, be aware of the following restrictions:
->    I.e. the select-transfer-deselect transaction targeting e.g. device
->    address 0x42 behind mux-one may be interleaved with a similar
->    operation targeting device address 0x42 behind mux-two. The
-> -  intension with such a topology would in this hypothetical example
-> +  intent with such a topology would in this hypothetical example
->    be that mux-one and mux-two should not be selected simultaneously,
->    but mux-locked muxes do not guarantee that in all topologies.
->  
+> +
+> +       ret = hid_parse(hdev);
+> +       if (ret)
+> +               return ret;
+> +
+> +       priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
+> +       if (!priv)
+> +               return -ENOMEM;
+> +
+> +       priv->hdev = hdev;
+> +       priv->controller = id->driver_data;
+> +       hid_set_drvdata(hdev, priv);
+> +
+> +       ret = rcsim_setup_input(priv);
+> +       if (ret)
+> +               return ret;
+> +
+> +       return hid_hw_start(hdev, HID_CONNECT_HIDRAW);
+> +}
+> +
+> +static const struct hid_device_id rcsim_devices[] = {
+> +       { HID_USB_DEVICE(PHOENIXRC_VID, PHOENIXRC_PID), .driver_data = PHOENIXRC },
+> +       { HID_USB_DEVICE(VRC2_VID, VRC2_PID), .driver_data = VRC2 },
+> +       { HID_USB_DEVICE(REALFLIGHT_VID, REALFLIGHT_PID), .driver_data = REALFLIGHT },
+> +       { HID_USB_DEVICE(XTRG2FMS_VID, XTRG2FMS_PID), .driver_data = XTRG2FMS },
+> +       { HID_USB_DEVICE(ORANGERX_VID, ORANGERX_PID), .driver_data = ORANGERX },
+> +       { /* Sentinel */ }
+> +};
+> +MODULE_DEVICE_TABLE(hid, rcsim_devices);
+> +
+> +static struct hid_driver rcsim_driver = {
+> +       .name = "rcsim",
+> +       .id_table = rcsim_devices,
+> +       .probe = rcsim_probe,
+> +       .raw_event = rcsim_raw_event,
+> +};
+> +module_hid_driver(rcsim_driver);
+> +
+> +MODULE_AUTHOR("Marcus Folkesson <marcus.folkesson@gmail.com>");
+> +MODULE_LICENSE("GPL");
+> --
+> 2.37.1
+>
+
