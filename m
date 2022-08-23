@@ -2,88 +2,81 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CA8ADC38142
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Aug 2022 08:11:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 601D0C32792
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Aug 2022 11:10:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241633AbiHWILo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 23 Aug 2022 04:11:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58048 "EHLO
+        id S1350811AbiHWLKS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 23 Aug 2022 07:10:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50782 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241520AbiHWIJ3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Aug 2022 04:09:29 -0400
-Received: from mail-oa1-x34.google.com (mail-oa1-x34.google.com [IPv6:2001:4860:4864:20::34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 41CDD6744A;
-        Tue, 23 Aug 2022 01:06:20 -0700 (PDT)
-Received: by mail-oa1-x34.google.com with SMTP id 586e51a60fabf-11cab7d7e0fso14731655fac.6;
-        Tue, 23 Aug 2022 01:06:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc;
-        bh=3DUNim7WTmzHmRObYLAWDZd3QPXFrzWMAVJ6u950fVw=;
-        b=PEfKzVZ9zdDK7xpYNrTaOE8LDRrYuccID4DJC18ZZ1dOGcM/PFel+HYpWII3aKbIeF
-         DWC52FU81Nk6KSpVp4uhLoJusR/zqCu0JxHLuRXzPlJVYhVVh7+wgUCecv/5N6zsniIx
-         QvDxhVIuMs/EghKCfi/T39Sz+o9TQQaQXXA9k7Mo5jS0wfJcezhj4E8fkG3R75mS/MOr
-         n1ULmf4rkLai8G/6SCv55h0BGAWvJH87B0IvIdLCJ0EyM22FH8AIfJndotB+YyGD0hRS
-         K9As7UA+MPl9h+9Fa89Ygw7FFNqg7YRIl6gspf3za/PHuxAI/xFLO81HxY/QSBj4UIEM
-         Wz0g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc;
-        bh=3DUNim7WTmzHmRObYLAWDZd3QPXFrzWMAVJ6u950fVw=;
-        b=DslT6HfCfSaOk48qI7tcWj4PNM9/7IgIoeeO/qb6lNZJ+ebQYIWpUfPCRvez5SmBXb
-         7gr3sLdyTh8NI4ZPw1BzOqAWv3pfuvkMBu+ydXvcB1v1zcy/7afK+iudz6xeIBOeLEDW
-         m+f5C76bj4UxuDBo8pawGIzBVhrjclvLHZQWlXJ54rbV2JvTdr7LsMZcuGEHqtcF/Zz6
-         6pcHAj2ev+VcK/SvCopjWqjpLsf4GvIp7HVgE/rLOEQj1tfLJQSwpyMeB8jidKYCii3e
-         j8Lm4Uj46Hs7dCA75eCOS23RuOQAYRyj+SJP/fxY6EnyruCQyf1cL+kCev/7fkEVNo9u
-         k9tg==
-X-Gm-Message-State: ACgBeo1HSHF2dhSfK8T4F0yjlEpuWuoZH0So18F5GAHpoKr+lBjGeHsd
-        X0Sh4gKlbWJP68+v30CU6F0LuAAplLNcreI4GL+lVlv7
-X-Google-Smtp-Source: AA6agR7u0uAvaNIkWvMT1B9z9RQ3S+vI04sURkMJs02g+rhl0HQ6KWE6yptMMcC6zUNNTZ6gciyBV1GEw8LrC624xeM=
-X-Received: by 2002:a05:6870:8912:b0:11b:a59c:f533 with SMTP id
- i18-20020a056870891200b0011ba59cf533mr894982oao.220.1661241979113; Tue, 23
- Aug 2022 01:06:19 -0700 (PDT)
-MIME-Version: 1.0
-References: <202208221854.8ASrzjKa-lkp@intel.com> <20220823030056.123709-1-bagasdotme@gmail.com>
-In-Reply-To: <20220823030056.123709-1-bagasdotme@gmail.com>
-From:   Sergey Ryazanov <ryazanov.s.a@gmail.com>
-Date:   Tue, 23 Aug 2022 11:06:08 +0300
-Message-ID: <CAHNKnsRUJzRGJ+muGfYAW-5EM91_j9AK-WTeV9pBZeXjH6L_6g@mail.gmail.com>
-Subject: Re: [PATCH] mips: pci: remove extraneous asterisk from top level
- comment of ar2315 PCI driver
+        with ESMTP id S1356937AbiHWLJj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Aug 2022 07:09:39 -0400
+Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [IPv6:2001:4b98:dc4:8::240])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 6ED7587697
+        for <linux-doc@vger.kernel.org>; Tue, 23 Aug 2022 02:16:37 -0700 (PDT)
+Received: from relay6-d.mail.gandi.net (unknown [IPv6:2001:4b98:dc4:8::226])
+        by mslow1.mail.gandi.net (Postfix) with ESMTP id 87DF1C0732;
+        Tue, 23 Aug 2022 08:35:26 +0000 (UTC)
+Received: from booty (unknown [77.244.183.192])
+        (Authenticated sender: luca.ceresoli@bootlin.com)
+        by mail.gandi.net (Postfix) with ESMTPSA id 5F52DC000A;
+        Tue, 23 Aug 2022 08:34:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1661243643;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=D9E0UhmB4IGyBAfhDmQBffQboxHt0fdw9tb81qz3IyY=;
+        b=UVo6Te/TryI77O+Fu64mjRwl4J2NAo4CVfBGyEo4QUjsSfIyBqMxbsvA81U32afl6dNXqX
+        9gPvL1gV2eieNePOw6aTlla1OiNLarx93c4O5uCiUNPA6TzvtW2HqDdokl5ybT3MztAoq2
+        Y+Juy4Zd3CXQgg0gbeY6Rf+NpJPAzB3Bm3T1PbxuLa0/542BuX00uRxgut3EYHmRMDWOJb
+        PcEyj0kh/L+BnAqhCivkdpiz9K19fXV3yEWaruuKUlXxqSKOd5X4PBmyLvtA3CLEaR6pQC
+        XtGKJer+LaiDa26+PV693oDzU3eSQOXgOSYyxRQbsSinZQv3I5TJy77+F+D1Ew==
+Date:   Tue, 23 Aug 2022 10:33:59 +0200
+From:   Luca Ceresoli <luca.ceresoli@bootlin.com>
 To:     Bagas Sanjaya <bagasdotme@gmail.com>
-Cc:     linux-doc@vger.kernel.org, linux-mips@vger.kernel.org,
-        open list <linux-kernel@vger.kernel.org>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Rikard Falkeborn <rikard.falkeborn@gmail.com>,
-        Ralf Baechle <ralf@linux-mips.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Aditya Srivastava <yashsri421@gmail.com>,
-        kernel test robot <lkp@intel.com>, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Cc:     linux-doc@vger.kernel.org, linux-i2c@vger.kernel.org,
+        Wolfram Sang <wsa@kernel.org>, Peter Rosin <peda@axentia.se>,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 3/3] docs: i2c: i2c-topology: fix typo
+Message-ID: <20220823103359.1462755e@booty>
+In-Reply-To: <78a90d0a-e0ba-0189-aa84-4ce2952e33f3@gmail.com>
+References: <20220822091050.47099-1-luca.ceresoli@bootlin.com>
+        <20220822091050.47099-4-luca.ceresoli@bootlin.com>
+        <78a90d0a-e0ba-0189-aa84-4ce2952e33f3@gmail.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Aug 23, 2022 at 6:01 AM Bagas Sanjaya <bagasdotme@gmail.com> wrote:
->
-> kernel test robot reported kernel-doc warning:
->
-> arch/mips/pci/pci-ar2315.c:6: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
->     * Both AR2315 and AR2316 chips have PCI interface unit, which supports DMA
->
-> The warning above is caused by an extraneous asterisk on the top level
-> (description) comment of pci-ar2315.c, for which the comment is confused as
-> kernel-doc comment instead.
->
-> Remove the asterisk.
->
-> Link: https://lore.kernel.org/linux-doc/202208221854.8ASrzjKa-lkp@intel.com/
-> Fixes: 3ed7a2a702dc0f ("MIPS: ath25: add AR2315 PCI host controller driver")
-> Fixes: 3e58e839150db0 ("scripts: kernel-doc: add warning for comment not following kernel-doc syntax")
-> Reported-by: kernel test robot <lkp@intel.com>
-> Cc: stable@vger.kernel.org # v5.15, v5.19
-> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+Hi Bagas,
 
-Acked-by: Sergey Ryazanov <ryazanov.s.a@gmail.com>
+On Mon, 22 Aug 2022 20:40:56 +0700
+Bagas Sanjaya <bagasdotme@gmail.com> wrote:
+
+> On 8/22/22 16:10, luca.ceresoli@bootlin.com wrote:
+> > From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+> > 
+> > "intension" should have probably been "intention", however "intent" seems
+> > even better.
+> > 
+> > Reported-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> > Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+> >   
+> 
+> The typo error is introduced in [2/3], so it makes sense to squash this
+> to the errored patch.
+
+Patch 2 just reformats the text. "intension" was there before patch 2
+and got unmodified. But if it is useful I can send a v3 with the typo
+fix in patch 1 and the other two patches following.
+
+-- 
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
