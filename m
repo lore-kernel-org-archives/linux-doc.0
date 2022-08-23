@@ -2,110 +2,177 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CD953C32774
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Aug 2022 18:10:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BC86BC3F6B0
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Aug 2022 18:12:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230501AbiHWSKv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 23 Aug 2022 14:10:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54420 "EHLO
+        id S233594AbiHWSMF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 23 Aug 2022 14:12:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34806 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233725AbiHWSK2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Aug 2022 14:10:28 -0400
-Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com [IPv6:2607:f8b0:4864:20::536])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E3A3659D7;
-        Tue, 23 Aug 2022 09:20:23 -0700 (PDT)
-Received: by mail-pg1-x536.google.com with SMTP id l64so12729008pge.0;
-        Tue, 23 Aug 2022 09:20:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc;
-        bh=MkchlG+vC7eeExntyPywB6o/N2CwihE3Mv9oTg/XCfA=;
-        b=XxzpYtA2pnvxm7jj/aZsB1ovGYgGFFOxiJHjtvxhSaQ2REDVDoCQIjB/GtHH3oVwse
-         NbSR71cHM3UNRFgLwyej9TpI0L9rWYkF3KkrxZ2C2kw/EhuAh1C8pna4IXsnCDF3BF2V
-         8IhM33IU1xrqLpTtcYD8/GGzjVMCaXX2XEfzTFIJp+wjFzbfTmxY37Dv4svHZMG0+KEo
-         aRjhTxwWgpoysJLCODS4LSRitnpLJHVgILVZtGtASuPTh6vMwSzxhp5+JZNm5nJ5IYCo
-         b3Dy8XSRPGHhnsPawF9cGPvUjeBwgKkMqHXYvYuy4cvIN6PNJjDppSYfrn2gz9H3zm6h
-         9Uyg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc;
-        bh=MkchlG+vC7eeExntyPywB6o/N2CwihE3Mv9oTg/XCfA=;
-        b=EpQxwuYkO6H1Ov9BejHnLRtDiWaXH08YPEf6DEYt4Ihc8mGCkn9iFPQXw7IuqMiTE+
-         53TC+bwoqqS47kWfDYoqMi5eiNdgtk+V6aHVqNBgsL1MSBIuXkSkqmTjqHV2IihCw8oV
-         hSnWFQXZlvldnUHwBes4VOGj/1xE0oJ4okmeyqSwOSPOypAOzhvlG+40Rk0824YmvyHl
-         1MkQQ/kkRz/HkhQ1LTocje5+ZlhrNMecQpxa/9afJWrfdFCpCD/j4Ex76zvR6gclroeP
-         pqvctdpSM2hzu9+wQvaZQhRwp+yoUrCmPoq0tbxiE7EJXzoyemT3CShB6xFujyDbzaWB
-         ensA==
-X-Gm-Message-State: ACgBeo10+z7Ke1MtBXU9L1W+sD371L/6+5ho6rt5ziK2UKRW1fMWezOS
-        rROXm3g+bW+Hu3D7ojQnZGU=
-X-Google-Smtp-Source: AA6agR4cW34xCWONe1DFQhmDIqb/ilOQuYVa7OvNWr8Tj8a5MCNIZ+ylQxDsXgma0bv+PadMQYQ2jA==
-X-Received: by 2002:a63:131c:0:b0:427:7f15:470f with SMTP id i28-20020a63131c000000b004277f15470fmr21682374pgl.232.1661271622771;
-        Tue, 23 Aug 2022 09:20:22 -0700 (PDT)
-Received: from localhost (2603-800c-1a02-1bae-a7fa-157f-969a-4cde.res6.spectrum.com. [2603:800c:1a02:1bae:a7fa:157f:969a:4cde])
-        by smtp.gmail.com with ESMTPSA id d135-20020a621d8d000000b0052d4b0d0c74sm11029697pfd.70.2022.08.23.09.20.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Aug 2022 09:20:22 -0700 (PDT)
-Sender: Tejun Heo <htejun@gmail.com>
-Date:   Tue, 23 Aug 2022 06:20:20 -1000
-From:   Tejun Heo <tj@kernel.org>
-To:     Johannes Weiner <hannes@cmpxchg.org>
-Cc:     Chengming Zhou <zhouchengming@bytedance.com>,
-        Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
-        corbet@lwn.net, surenb@google.com, mingo@redhat.com,
-        peterz@infradead.org, vincent.guittot@linaro.org,
-        dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
-        cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, songmuchun@bytedance.com
-Subject: Re: [PATCH v2 09/10] sched/psi: per-cgroup PSI stats
- disable/re-enable interface
-Message-ID: <YwT+RDZyszAQ/Vro@slm.duckdns.org>
-References: <20220808110341.15799-1-zhouchengming@bytedance.com>
- <20220808110341.15799-10-zhouchengming@bytedance.com>
- <YvKd6dezPM6UxfD/@slm.duckdns.org>
- <fcd0bd39-3049-a279-23e6-a6c02b4680a7@bytedance.com>
- <b89155d3-9315-fefc-408b-4cf538360a1c@bytedance.com>
- <YvPN07UlaPFAdlet@cmpxchg.org>
- <20220815132343.GA22640@blackbody.suse.cz>
- <9d1997a4-9278-07bd-7f57-952306b28b14@bytedance.com>
- <YwTz32VWuZeLHOHe@cmpxchg.org>
+        with ESMTP id S233524AbiHWSL2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Aug 2022 14:11:28 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D37ADED0
+        for <linux-doc@vger.kernel.org>; Tue, 23 Aug 2022 09:23:23 -0700 (PDT)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ore@pengutronix.de>)
+        id 1oQWg7-00009i-3P; Tue, 23 Aug 2022 18:22:59 +0200
+Received: from ore by ptx.hi.pengutronix.de with local (Exim 4.92)
+        (envelope-from <ore@pengutronix.de>)
+        id 1oQWg5-0004cc-Dq; Tue, 23 Aug 2022 18:22:57 +0200
+Date:   Tue, 23 Aug 2022 18:22:57 +0200
+From:   Oleksij Rempel <o.rempel@pengutronix.de>
+To:     Rob Herring <robh@kernel.org>
+Cc:     Andrew Lunn <andrew@lunn.ch>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>, kernel@pengutronix.de,
+        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
+        David Jander <david@protonic.nl>
+Subject: Re: [PATCH net-next v1 1/7] dt-bindings: net: pse-dt: add bindings
+ for generic PSE controller
+Message-ID: <20220823162257.GO10138@pengutronix.de>
+References: <20220819120109.3857571-1-o.rempel@pengutronix.de>
+ <20220819120109.3857571-2-o.rempel@pengutronix.de>
+ <20220822184112.GA113650-robh@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <YwTz32VWuZeLHOHe@cmpxchg.org>
+In-Reply-To: <20220822184112.GA113650-robh@kernel.org>
+X-Sent-From: Pengutronix Hildesheim
+X-URL:  http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: ore@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello,
-
-On Tue, Aug 23, 2022 at 11:35:59AM -0400, Johannes Weiner wrote:
-> Re 1: I agree. If desired in the future we can make the default
-> configurable. Kconfig, mount option, what have you. cgroup.pressure
-> will work fine as a name regardless of what the default is.
-
-Given that there's already cgroup_disable=pressure for cases which want it
-fully disabled, I'm not sure we'd need to add more complex disabling
-options. The only difference that'd make is for users who are configuring
-cgroups manually which is pretty rare and it'd create a clear downside of
-increasing confusion as the base assumption becomes dynamic. So, I think the
-current default-on with opting-out is and will be just fine.
-
-> Re 2: Not all consumers of the pressure metrics create trigger. I
-> would argue that few do. So it isn't the best signal to decide on
-> whether aggregation should occur. And yes, it's further complicated by
-> the triggers being written to the very pressure files. If we don't
-> hide them, we have to come up with another way to mark them as stale,
-> lest they confuse the heck out of users. Without breaking format...
+On Mon, Aug 22, 2022 at 01:41:12PM -0500, Rob Herring wrote:
+> On Fri, Aug 19, 2022 at 02:01:03PM +0200, Oleksij Rempel wrote:
+> > Add binding for generic Ethernet PSE controller.
+> > 
+> > Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
+> > ---
+> >  .../bindings/net/pse-pd/generic-pse.yaml      | 40 +++++++++++++++++++
+> >  1 file changed, 40 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/net/pse-pd/generic-pse.yaml
+> > 
+> > diff --git a/Documentation/devicetree/bindings/net/pse-pd/generic-pse.yaml b/Documentation/devicetree/bindings/net/pse-pd/generic-pse.yaml
+> > new file mode 100644
+> > index 0000000000000..64f91efa79a56
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/net/pse-pd/generic-pse.yaml
+> > @@ -0,0 +1,40 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/net/pse-pd/generic-pse.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Generic Power Sourcing Equipment
+> > +
+> > +maintainers:
+> > +  - Oleksij Rempel <o.rempel@pengutronix.de>
+> > +
+> > +description: |
+> > +  Generic PSE controller. The device must be referenced by the PHY node
+> > +  to control power injection to the Ethernet cable.
 > 
-> So IMO, default-enable, "cgroup.pressure" as a name, and hiding the
-> pressure files should be good for now while allowing to make the
-> default configurable down the line.
+> Isn't this separate from the PHY other than you need to associate 
+> supplies with ethernet ports?
+> 
+> Is there a controller here? Or it is just a regulator consumer 
+> associated with an ethernet port?
 
-Sounds great.
+Current version has only regulator. It will be extended with IEEE 802.3
+specific power source classification information, wich will be overkill for the
+regulator framework. I can add it to the v2 version.
 
-Thanks.
+> > +properties:
+> > +  compatible:
+> > +    const: ieee802.3-podl-pse-generic
+> 
+> Is this for 802.3bu only (which is where PoDL comes from) or all the 
+> flavors? If all, do they need to be distinguished?
+
+yes. ieee802.3 defines type and class with different enumeration and
+meanings for PSE and PoDL PSE. 
+
+So far we have two different modes:
+ - 802.3bu (PoDL PSE). Has own types and classes
+ - 802.3af  is extended by 802.3at, and the extended by 802.3bt
+   all of them are named as PSE and has own types and classes as well.
+
+I worry more about the fact is some one will implement HW supporting both
+modes. IMO, it is possible to take usual ethernet PHY, configure to
+10Bit half-duplex and run over single pair. In this case it is possible
+to use only PoDL PSE mode.
+
+In this case I need single generic compatible but different properties
+to describe supported PSE and PoDL PSE modes.
+
+> 'generic' is redundant.
+
+ok
+
+> > +
+> > +  '#pse-cells':
+> 
+> What's this for? You don't have a consumer.
+
+the consumer is PHY.
+
+> > +    const: 0
+> > +
+> > +  ieee802.3-podl-pse-supply:
+> 
+> Seems a bit long
+
+ok. Reduce it to pse-supply ?
+
+> > +    description: |
+> 
+> Don't need '|' if no formatting to maintain.
+
+ok
+
+> > +      Power supply for the PSE controller
+> > +
+> > +additionalProperties: false
+> > +
+> > +required:
+> > +  - compatible
+> > +  - '#pse-cells'
+> > +  - ieee802.3-podl-pse-supply
+> > +
+> > +examples:
+> > +  - |
+> > +    ethernet-pse-1 {
+> > +      compatible = "ieee802.3-podl-pse-generic";
+> > +      ieee802.3-podl-pse-supply = <&reg_t1l1>;
+> > +      #pse-cells = <0>;
+> > +    };
+> > -- 
+> > 2.30.2
+> > 
+> > 
+> 
 
 -- 
-tejun
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
