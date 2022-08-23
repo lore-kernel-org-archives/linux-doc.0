@@ -2,98 +2,133 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 56A2DC48BEA
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Aug 2022 16:47:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9CF71C32789
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Aug 2022 16:47:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245448AbiHWQrJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 23 Aug 2022 12:47:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38952 "EHLO
+        id S244315AbiHWQrg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 23 Aug 2022 12:47:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42034 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344149AbiHWQqv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Aug 2022 12:46:51 -0400
-Received: from mail-pf1-x44a.google.com (mail-pf1-x44a.google.com [IPv6:2607:f8b0:4864:20::44a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3841C6FC2
-        for <linux-doc@vger.kernel.org>; Tue, 23 Aug 2022 07:25:08 -0700 (PDT)
-Received: by mail-pf1-x44a.google.com with SMTP id a21-20020a62bd15000000b005360da6b25aso4766072pff.23
-        for <linux-doc@vger.kernel.org>; Tue, 23 Aug 2022 07:25:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:from:subject:references:mime-version:message-id:in-reply-to
-         :date:from:to:cc;
-        bh=QWKuLGeQgOwRURxq7JoMTU3dLzHqHHHK1oS3f4BccKo=;
-        b=GrRVd//5LW1PqHd4+nmw6iQxSDEv6SZl5rq7HvG1ZJxkWdbroNR0IQv8QL0Ed2zy2Z
-         XS84YhajnhHij1m6VLGokiI4brAmotcy4aU9GAHbjNRHu9oBai/BGZOVsHo05UwBQG/t
-         DT9BwpLi9hZP9gRnX6seb5nEuJSf+RB0AnnlqoHS/kQp50pVUaKGGK/H3pC1JeY0I5bd
-         5GerYP1n64mD7BCQimQCl8T/9JMDBQT/r3nNdE8DpBOqR5445aSzh3U0nLHwsqlRWAvb
-         y+Hkp3MQklnI9vQcisuFfVEd1nvAAqK7tWeo1RwG9Nh5gA9jiQu5y0hP87d1B8tXblgP
-         3GXA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:from:subject:references:mime-version:message-id:in-reply-to
-         :date:x-gm-message-state:from:to:cc;
-        bh=QWKuLGeQgOwRURxq7JoMTU3dLzHqHHHK1oS3f4BccKo=;
-        b=HTlEWvkxZ1TcYKvUHzMDAFeje4GR1B6aUUYB1q+rTTbGi0DsbhL7EhxsX0cynCffDu
-         rCDCQ72TytH1mXk3UvxLdEWmzHHAJAqPqB7Bo/YGuYDdL27AlmpXm+aA42QgfgbruiqG
-         UZC0XGdfvxQ3v2LZnclvec5Bz52Q5slvsKNRxkNqFXK0kown7ExkeRjzTXuGlDrKBsTM
-         JDguZfdGruq2H65hdjKeuMg2KvxKYgTORN9bSuaEC449Y4ac71HuYevmMLi9W06FjfqW
-         6SdkRjrIK040ZMN80YUvT8H30h1DA0R4ngwK6W4KNa33FG15XWeF5Z2hZOJaUNYNHuXZ
-         EAVQ==
-X-Gm-Message-State: ACgBeo1v8GIUM9Eo96yFtpbAMtPZ/ED5wwRbkRshP166fobkGtv1N7SQ
-        58K5TUa8izLyT9eqvxVnET4Iqxu9vbhfulA=
-X-Google-Smtp-Source: AA6agR7/i5co66jtp2HCxpHPVsfI+WFBs/BqAssIQ+wYlUCD1tfwcs4GkOkSfZf6nev2LPSvgvuPF9Dk/9obk25L
-X-Received: from joefradley-custom-96.c.googlers.com ([fda3:e722:ac3:cc00:24:72f4:c0a8:831])
- (user=joefradley job=sendgmr) by 2002:a17:902:7003:b0:172:cbb0:9af8 with SMTP
- id y3-20020a170902700300b00172cbb09af8mr17254972plk.57.1661264708208; Tue, 23
- Aug 2022 07:25:08 -0700 (PDT)
-Date:   Tue, 23 Aug 2022 07:24:55 -0700
-In-Reply-To: <20220823142456.3977086-1-joefradley@google.com>
-Message-Id: <20220823142456.3977086-3-joefradley@google.com>
-Mime-Version: 1.0
-References: <20220823142456.3977086-1-joefradley@google.com>
-X-Mailer: git-send-email 2.37.1.595.g718a3a8f04-goog
-Subject: [PATCH v2 2/2] kunit: no longer call module_info(test, "Y") for kunit modules
-From:   Joe Fradley <joefradley@google.com>
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Brendan Higgins <brendan.higgins@linux.dev>,
-        David Gow <davidgow@google.com>
-Cc:     Joe Fradley <joefradley@google.com>, kernel-team@android.com,
+        with ESMTP id S1344205AbiHWQq4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Aug 2022 12:46:56 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A028C7436;
+        Tue, 23 Aug 2022 07:25:41 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id DF2B5615A8;
+        Tue, 23 Aug 2022 14:25:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3FDEFC433C1;
+        Tue, 23 Aug 2022 14:25:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1661264740;
+        bh=HYR1Nqy5GDUx1o1Dte+qnx5P34XauDkV8xn4Z6FHDfI=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=HDfdRj6FoLpL5SwyUT9huPnbxiEAdPaHNFOA6FncnGRxTyfp+TN8pY9om2rBGc8nZ
+         rdDiEb313MtevfBGSlXPDFEoSG6j8rgTIZO/sWhs5ytVOk6ix8XUdC5DB9uZZLuuwz
+         eRmIH9blQerJ/4zu3+oiQ7n59DDKU+Go5E8Y9SOFXwpzEecN912WD4cEdx1DHD16Xg
+         vZG6yNfpzyX2kPlj4BPK+ulb5axpe0G30apzFStBVi7dFFXjMlqrL+87IwM18V0Be2
+         3hf1ynE19bBL0jnGd8UT4dR122lLxhP6pgbS/KCLBB1gKmRGHC/Lxvj4/r7ROgEkIz
+         HCMAueCrrVRQQ==
+Date:   Tue, 23 Aug 2022 07:25:39 -0700
+From:   "Darrick J. Wong" <djwong@kernel.org>
+To:     zhaomzhao@126.com
+Cc:     corbet@lwn.net, linux-xfs@vger.kernel.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
-        Brendan Higgins <brendanhiggins@google.com>
-Content-Type: text/plain; charset="UTF-8"
+        Zhao Mengmeng <zhaomengmeng@kylinos.cn>
+Subject: Re: [PATCH v1] Documentation: filesystems: xfs: update pseudocode
+ and typo fixes
+Message-ID: <YwTjYxhhuJBZ9h8Z@magnolia>
+References: <20220823013653.203469-1-zhaomzhao@126.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220823013653.203469-1-zhaomzhao@126.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Because KUnit test execution is not a guarantee with the kunit.enable
-parameter we want to be careful to only taint the kernel when actual
-tests run. Calling module_info(test, "Y") for every KUnit module
-automatically causes the kernel to be tainted upon module load. Therefore,
-we're removing this call and relying on the KUnit framework to taint the
-kernel or not.
+On Mon, Aug 22, 2022 at 09:36:53PM -0400, zhaomzhao@126.com wrote:
+> From: Zhao Mengmeng <zhaomengmeng@kylinos.cn>
+> 
+> According to the implementation of xfs_trans_roll(), it calls
+> xfs_trans_reserve(), which reserves not only log space, but also
+> free disk blocks. In short, the "transaction stuff". So change
+> xfs_log_reserve() to xfs_trans_reserve().
+> 
+> Besides, fix several typo issues.
+> 
+> Signed-off-by: Zhao Mengmeng <zhaomengmeng@kylinos.cn>
+> ---
+>  .../filesystems/xfs-delayed-logging-design.rst       | 12 ++++++------
+>  1 file changed, 6 insertions(+), 6 deletions(-)
+> 
+> diff --git a/Documentation/filesystems/xfs-delayed-logging-design.rst b/Documentation/filesystems/xfs-delayed-logging-design.rst
+> index 4ef419f54663..02b32030bab3 100644
+> --- a/Documentation/filesystems/xfs-delayed-logging-design.rst
+> +++ b/Documentation/filesystems/xfs-delayed-logging-design.rst
+> @@ -100,7 +100,7 @@ transactions together::
+>  
+>  	ntp = xfs_trans_dup(tp);
+>  	xfs_trans_commit(tp);
+> -	xfs_log_reserve(ntp);
+> +	xfs_trans_reserve(ntp);
+>  
+>  This results in a series of "rolling transactions" where the inode is locked
+>  across the entire chain of transactions.  Hence while this series of rolling
+> @@ -191,7 +191,7 @@ transaction rolling mechanism to re-reserve space on every transaction roll. We
+>  know from the implementation of the permanent transactions how many transaction
+>  rolls are likely for the common modifications that need to be made.
+>  
+> -For example, and inode allocation is typically two transactions - one to
+> +For example, an inode allocation is typically two transactions - one to
+>  physically allocate a free inode chunk on disk, and another to allocate an inode
+>  from an inode chunk that has free inodes in it.  Hence for an inode allocation
+>  transaction, we might set the reservation log count to a value of 2 to indicate
+> @@ -200,7 +200,7 @@ chain. Each time a permanent transaction rolls, it consumes an entire unit
+>  reservation.
+>  
+>  Hence when the permanent transaction is first allocated, the log space
+> -reservation is increases from a single unit reservation to multiple unit
+> +reservation is increased from a single unit reservation to multiple unit
+>  reservations. That multiple is defined by the reservation log count, and this
+>  means we can roll the transaction multiple times before we have to re-reserve
+>  log space when we roll the transaction. This ensures that the common
+> @@ -259,7 +259,7 @@ the next transaction in the sequeunce, but we have none remaining. We cannot
+>  sleep during the transaction commit process waiting for new log space to become
+>  available, as we may end up on the end of the FIFO queue and the items we have
+>  locked while we sleep could end up pinning the tail of the log before there is
+> -enough free space in the log to fulfil all of the pending reservations and
+> +enough free space in the log to fulfill all of the pending reservations and
+>  then wake up transaction commit in progress.
+>  
+>  To take a new reservation without sleeping requires us to be able to take a
+> @@ -615,7 +615,7 @@ those changes into the current checkpoint context. We then initialise a new
+>  context and attach that to the CIL for aggregation of new transactions.
+>  
+>  This allows us to unlock the CIL immediately after transfer of all the
+> -committed items and effectively allow new transactions to be issued while we
+> +committed items and effectively allows new transactions to be issued while we
+>  are formatting the checkpoint into the log. It also allows concurrent
+>  checkpoints to be written into the log buffers in the case of log force heavy
+>  workloads, just like the existing transaction commit code does. This, however,
+> @@ -886,7 +886,7 @@ can be multiple outstanding checkpoint contexts, we can still see elevated pin
+>  counts, but as each checkpoint completes the pin count will retain the correct
+>  value according to it's context.
+>  
+> -Just to make matters more slightly more complex, this checkpoint level context
+> +Just to make matters slightly more complex, this checkpoint level context
 
-Signed-off-by: Joe Fradley <joefradley@google.com>
-Reviewed-by: David Gow <davidgow@google.com>
-Reviewed-by: Brendan Higgins <brendanhiggins@google.com>
----
-Changes since v1:
-- Added David's and Brendan's Reviewed-by for tags.
+Thanks for the editing :)
 
- include/kunit/test.h | 1 -
- 1 file changed, 1 deletion(-)
+Reviewed-by: Darrick J. Wong <djwong@kernel.org>
 
-diff --git a/include/kunit/test.h b/include/kunit/test.h
-index ee6bf4ecbd89..512089e5ce4e 100644
---- a/include/kunit/test.h
-+++ b/include/kunit/test.h
-@@ -253,7 +253,6 @@ static inline int kunit_run_all_tests(void)
- #endif /* IS_BUILTIN(CONFIG_KUNIT) */
- 
- #define __kunit_test_suites(unique_array, ...)				       \
--	MODULE_INFO(test, "Y");						       \
- 	static struct kunit_suite *unique_array[]			       \
- 	__aligned(sizeof(struct kunit_suite *))				       \
- 	__used __section(".kunit_test_suites") = { __VA_ARGS__ }
--- 
-2.37.1.595.g718a3a8f04-goog
+--D
 
+>  for the pin count means that the pinning of an item must take place under the
+>  CIL commit/flush lock. If we pin the object outside this lock, we cannot
+>  guarantee which context the pin count is associated with. This is because of
+> -- 
+> 2.37.1
+> 
