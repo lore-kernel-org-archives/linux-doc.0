@@ -2,140 +2,125 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 924A8C3F6B0
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Aug 2022 18:00:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D84C5C32772
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Aug 2022 18:02:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233190AbiHWSAF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 23 Aug 2022 14:00:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55366 "EHLO
+        id S230444AbiHWSCs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 23 Aug 2022 14:02:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55104 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232898AbiHWR7r (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Aug 2022 13:59:47 -0400
-Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com [IPv6:2607:f8b0:4864:20::431])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F34FD4F7E
-        for <linux-doc@vger.kernel.org>; Tue, 23 Aug 2022 09:05:32 -0700 (PDT)
-Received: by mail-pf1-x431.google.com with SMTP id x19so11112225pfq.1
-        for <linux-doc@vger.kernel.org>; Tue, 23 Aug 2022 09:05:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc;
-        bh=aVBt+IuocN3gZGMsPNsv72g8OF66w1EEamrVZjnB+J4=;
-        b=aHRlHO4kNIRNDNrpKgB2QM9cSMZjQBb6u4l59Y4E0tZW/BrvBnqckZTcn9cz3SUw3D
-         igHUCLBokcR+QGB8XUc1cJbRn7hVuyKGyfeg1tfWEOZHpP64tT9cUzSSzx1Y0vgX+Uyv
-         RPdN051ayBxF8NbSnhZI7UkDJIxJC2b9PXw94OGmVsv1/XB2K1qoCbLTnhTe5HqVT1w+
-         uDjWiexbtDjcheCp9qg/+R4RDyAtHxBooBSO8W1phCNDG09PvGpKx4gmxB38OKo5Au+a
-         wQuvSmBbg3eLIxGH8V0BVxy3Pbhs0aKjR4E9VsFcpOdyvMRpUtUfAdi6lWLpFgc21aKV
-         eFRg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
-        bh=aVBt+IuocN3gZGMsPNsv72g8OF66w1EEamrVZjnB+J4=;
-        b=Of/aXEIviKdjq+7b7HCrMlJzQJs3dpyXBK52QK23OUEnx0DegSxTvDmfymcgZM1RfN
-         KI+4zG1iLBU9aQ/SPKBh80mPwr31XsqhAJHZFYqqD0FN3a30VnF4y8ZI0jexWLM/LZ3p
-         iMjwTy/LrFsdWHPw/K9lGNwcgY0D6gINWnwTCIqqcXZYcaHkCWCCxguMNGyFVovE6zmD
-         lZANFJST5NojL25YyXObvqMmN4Qmo1kDIirUBfRerYDHXR1cjdpzpp2+cfOy5pKCgR2h
-         UQPTD+gwKsS+SkaJLSysOAN+JMKnp81qddL82yLsPQPwXhYS3YVEt6sXpCHVerG400SA
-         Pn2A==
-X-Gm-Message-State: ACgBeo2Qz9LQ3s6dpPl9V0k1RguGo3A/nmuNeVLu1pgv03cXXe9D96mF
-        jBE7A8dQXoCuIjaE7iXkpb1C5A==
-X-Google-Smtp-Source: AA6agR7U2euXK2YAHsShhKay0KkYkkaAjkpwjugKPMjrIdRBiwJTOXGIGRCd9tb8zWpXTJzh2djP8w==
-X-Received: by 2002:a63:1c11:0:b0:41d:89d5:8ef0 with SMTP id c17-20020a631c11000000b0041d89d58ef0mr21289304pgc.403.1661270731660;
-        Tue, 23 Aug 2022 09:05:31 -0700 (PDT)
-Received: from google.com (7.104.168.34.bc.googleusercontent.com. [34.168.104.7])
-        by smtp.gmail.com with ESMTPSA id z27-20020aa7959b000000b00536ede9e344sm2384650pfj.14.2022.08.23.09.05.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Aug 2022 09:05:31 -0700 (PDT)
-Date:   Tue, 23 Aug 2022 16:05:27 +0000
-From:   Sean Christopherson <seanjc@google.com>
-To:     David Hildenbrand <david@redhat.com>
-Cc:     Hugh Dickins <hughd@google.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
-        linux-kselftest@vger.kernel.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
+        with ESMTP id S229530AbiHWSBC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Aug 2022 14:01:02 -0400
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id AD5DADCFCA;
+        Tue, 23 Aug 2022 09:07:10 -0700 (PDT)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BB94411FB;
+        Tue, 23 Aug 2022 09:07:13 -0700 (PDT)
+Received: from e121896.arm.com (unknown [10.57.14.228])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id DE3553F718;
+        Tue, 23 Aug 2022 09:07:07 -0700 (PDT)
+From:   James Clark <james.clark@arm.com>
+To:     suzuki.poulose@arm.com, coresight@lists.linaro.org,
+        mathieu.poirier@linaro.org
+Cc:     mike.leach@linaro.org, leo.yan@linaro.org,
+        linux-kernel@vger.kernel.org, german.gomez@arm.com,
+        James Clark <james.clark@arm.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>, luto@kernel.org,
-        jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
-        aarcange@redhat.com, ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        Muchun Song <songmuchun@bytedance.com>,
-        "Gupta, Pankaj" <pankaj.gupta@amd.com>
-Subject: Re: [PATCH v7 00/14] KVM: mm: fd-based approach for supporting KVM
- guest private memory
-Message-ID: <YwT6x2g9jcMH60LI@google.com>
-References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
- <ff5c5b97-acdf-9745-ebe5-c6609dd6322e@google.com>
- <20220818132421.6xmjqduempmxnnu2@box>
- <Yv7XTON3MwuC1Q3U@google.com>
- <226ab26d-9aa8-dce2-c7f0-9e3f5b65b63@google.com>
- <b2743a3a-a1b4-2d2e-98be-87b58ad387cf@redhat.com>
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org
+Subject: [PATCH v3 1/2] coresight: etm4x: Expose default timestamp source in sysfs
+Date:   Tue, 23 Aug 2022 17:06:49 +0100
+Message-Id: <20220823160650.455823-2-james.clark@arm.com>
+X-Mailer: git-send-email 2.28.0
+In-Reply-To: <20220823160650.455823-1-james.clark@arm.com>
+References: <20220823160650.455823-1-james.clark@arm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b2743a3a-a1b4-2d2e-98be-87b58ad387cf@redhat.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Aug 23, 2022, David Hildenbrand wrote:
-> On 19.08.22 05:38, Hugh Dickins wrote:
-> > On Fri, 19 Aug 2022, Sean Christopherson wrote:
-> >> On Thu, Aug 18, 2022, Kirill A . Shutemov wrote:
-> >>> On Wed, Aug 17, 2022 at 10:40:12PM -0700, Hugh Dickins wrote:
-> >>>> On Wed, 6 Jul 2022, Chao Peng wrote:
-> >>>> But since then, TDX in particular has forced an effort into preventing
-> >>>> (by flags, seals, notifiers) almost everything that makes it shmem/tmpfs.
-> >>>>
-> >>>> Are any of the shmem.c mods useful to existing users of shmem.c? No.
-> >>>> Is MFD_INACCESSIBLE useful or comprehensible to memfd_create() users? No.
-> >>
-> >> But QEMU and other VMMs are users of shmem and memfd.  The new features certainly
-> >> aren't useful for _all_ existing users, but I don't think it's fair to say that
-> >> they're not useful for _any_ existing users.
-> > 
-> > Okay, I stand corrected: there exist some users of memfd_create()
-> > who will also have use for "INACCESSIBLE" memory.
-> 
-> As raised in reply to the relevant patch, I'm not sure if we really have
-> to/want to expose MFD_INACCESSIBLE to user space. I feel like this is a
-> requirement of specific memfd_notifer (memfile_notifier) implementations
-> -- such as TDX that will convert the memory and MCE-kill the machine on
-> ordinary write access. We might be able to set/enforce this when
-> registering a notifier internally instead, and fail notifier
-> registration if a condition isn't met (e.g., existing mmap).
->
-> So I'd be curious, which other users of shmem/memfd would benefit from
-> (MMU)-"INACCESSIBLE" memory obtained via memfd_create()?
+From: German Gomez <german.gomez@arm.com>
 
-I agree that there's no need to expose the inaccessible behavior via uAPI.  Making
-it a kernel-internal thing that's negotiated/resolved when KVM binds to the fd
-would align INACCESSIBLE with the UNMOVABLE and UNRECLAIMABLE flags (and any other
-flags that get added in the future).
+Add a new sysfs interface in /sys/bus/coresight/devices/etm<N>/ts_source
+indicating the configured timestamp source when the ETM device driver
+was probed.
 
-AFAICT, the user-visible flag is a holdover from the early RFCs and doesn't provide
-any unique functionality.
+The perf tool will use this information to detect if the trace data
+timestamp matches the kernel time, enabling correlation of CoreSight
+trace with perf events.
 
-If we go that route, we might want to have shmem/memfd require INACCESSIBLE to be
-set for the initial implementation.  I.e. disallow binding without INACCESSIBLE
-until there's a use case.
+Suggested-by: Suzuki K Poulose <suzuki.poulose@arm.com>
+Signed-off-by: German Gomez <german.gomez@arm.com>
+Reviewed-by: Leo Yan <leo.yan@linaro.org>
+Signed-off-by: James Clark <james.clark@arm.com>
+---
+ arch/arm64/include/asm/sysreg.h               |  1 +
+ .../coresight/coresight-etm4x-sysfs.c         | 29 +++++++++++++++++++
+ 2 files changed, 30 insertions(+)
+
+diff --git a/arch/arm64/include/asm/sysreg.h b/arch/arm64/include/asm/sysreg.h
+index 7c71358d44c4..7a518a011669 100644
+--- a/arch/arm64/include/asm/sysreg.h
++++ b/arch/arm64/include/asm/sysreg.h
+@@ -1021,6 +1021,7 @@
+ #define SYS_MPIDR_SAFE_VAL	(BIT(31))
+ 
+ #define TRFCR_ELx_TS_SHIFT		5
++#define TRFCR_ELx_TS_MASK		((0x3UL) << TRFCR_ELx_TS_SHIFT)
+ #define TRFCR_ELx_TS_VIRTUAL		((0x1UL) << TRFCR_ELx_TS_SHIFT)
+ #define TRFCR_ELx_TS_GUEST_PHYSICAL	((0x2UL) << TRFCR_ELx_TS_SHIFT)
+ #define TRFCR_ELx_TS_PHYSICAL		((0x3UL) << TRFCR_ELx_TS_SHIFT)
+diff --git a/drivers/hwtracing/coresight/coresight-etm4x-sysfs.c b/drivers/hwtracing/coresight/coresight-etm4x-sysfs.c
+index 6ea8181816fc..9cac848cffaf 100644
+--- a/drivers/hwtracing/coresight/coresight-etm4x-sysfs.c
++++ b/drivers/hwtracing/coresight/coresight-etm4x-sysfs.c
+@@ -2306,6 +2306,34 @@ static ssize_t cpu_show(struct device *dev,
+ }
+ static DEVICE_ATTR_RO(cpu);
+ 
++static ssize_t ts_source_show(struct device *dev,
++			      struct device_attribute *attr,
++			      char *buf)
++{
++	int val;
++	struct etmv4_drvdata *drvdata = dev_get_drvdata(dev->parent);
++
++	if (!drvdata->trfcr) {
++		val = -1;
++		goto out;
++	}
++
++	switch (drvdata->trfcr & TRFCR_ELx_TS_MASK) {
++	case TRFCR_ELx_TS_VIRTUAL:
++	case TRFCR_ELx_TS_GUEST_PHYSICAL:
++	case TRFCR_ELx_TS_PHYSICAL:
++		val = FIELD_GET(TRFCR_ELx_TS_MASK, drvdata->trfcr);
++		break;
++	default:
++		val = -1;
++		break;
++	}
++
++out:
++	return sysfs_emit(buf, "%d\n", val);
++}
++static DEVICE_ATTR_RO(ts_source);
++
+ static struct attribute *coresight_etmv4_attrs[] = {
+ 	&dev_attr_nr_pe_cmp.attr,
+ 	&dev_attr_nr_addr_cmp.attr,
+@@ -2360,6 +2388,7 @@ static struct attribute *coresight_etmv4_attrs[] = {
+ 	&dev_attr_vmid_val.attr,
+ 	&dev_attr_vmid_masks.attr,
+ 	&dev_attr_cpu.attr,
++	&dev_attr_ts_source.attr,
+ 	NULL,
+ };
+ 
+-- 
+2.28.0
+
