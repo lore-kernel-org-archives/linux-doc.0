@@ -2,150 +2,90 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 02ACAC32772
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Aug 2022 18:47:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DFC8EC3F6B0
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Aug 2022 18:54:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233754AbiHWSrN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 23 Aug 2022 14:47:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53524 "EHLO
+        id S233954AbiHWSye (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 23 Aug 2022 14:54:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40522 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229516AbiHWSqc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Aug 2022 14:46:32 -0400
-Received: from smtp-bc0e.mail.infomaniak.ch (smtp-bc0e.mail.infomaniak.ch [IPv6:2001:1600:4:17::bc0e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D458E6DAE1
-        for <linux-doc@vger.kernel.org>; Tue, 23 Aug 2022 10:10:55 -0700 (PDT)
-Received: from smtp-2-0000.mail.infomaniak.ch (unknown [10.5.36.107])
-        by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4MBwjV0d9zzMpvs1;
-        Tue, 23 Aug 2022 19:10:54 +0200 (CEST)
-Received: from ns3096276.ip-94-23-54.eu (unknown [23.97.221.149])
-        by smtp-2-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4MBwjS5SGBzlh8TF;
-        Tue, 23 Aug 2022 19:10:52 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=digikod.net;
-        s=20191114; t=1661274654;
-        bh=ngBbph48Cc2OEBE2YRaI2w0GxYjvGMB00XD5rFqgT34=;
-        h=Date:To:Cc:References:From:Subject:In-Reply-To:From;
-        b=1vIMqY/6ru8pRh2onGMbx+M+qxNCH0xPAC8stGGto7p4q2CeBxlyW1mdEQdVrHWh2
-         2o/vaNUxQGjcOzf61M5VaWeSAyiGP9CDsgAWcG4m0f4DWlVl9tdBAEn8euJHSyPpsL
-         FCveDDc1bTzU8TM25gG3qgQLJrlXaEdWbJYu/wd0=
-Message-ID: <c369c45d-5aa8-3e39-c7d6-b08b165495fd@digikod.net>
-Date:   Tue, 23 Aug 2022 19:10:52 +0200
+        with ESMTP id S230225AbiHWSyO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Aug 2022 14:54:14 -0400
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B3FB11CF0E;
+        Tue, 23 Aug 2022 10:19:48 -0700 (PDT)
+Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-3376851fe13so364340747b3.6;
+        Tue, 23 Aug 2022 10:19:47 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=FC6hnZbwBtmw6oIIpxsgV+B+7mA53uX/U4iba0ioviU=;
+        b=Sgp1vZry3w9ICcogpNTZspMfoxePVLCrdUka3sGuQ6bDG1ink0vr+w4Nh3PK+2r1Tp
+         Ei03BVFmD6+0PyA9DSbbsq0Zyjj/EalGbu+0qzqQDGQP3tLE165VQC1LDrTOWKVdw16N
+         TTcWGMglgrXNaRbmbSINtAwmMzdbCqKIULUfmGTjvhzskVwOgrx6v/hXekMejq7nnnS9
+         7kmJkkhhjS+7P01yH42iwM6/JGFbyh5m2iBkWJZ5YjKBNl3uR9Gj43yga0l/T17lCf8D
+         UcozXm82LepA7nSwn9gkQREx+tReUMz8tkgRqmQY58wPHW4WypYE6spYluHko0TlToQS
+         i6/g==
+X-Gm-Message-State: ACgBeo0TSa5nxDLFNQFIbdFvAjxprJv5kbwJhnJI+wIReNqQRh2FzrQ2
+        wG/6LkrfQZW0RsDK0spAFggPFgtTBbrd1rvODZg=
+X-Google-Smtp-Source: AA6agR4cTX5F8PyOjA1279e807GkwUK4KIWkE3KWOkDhaVt50kdCpplTQD6zGvPNuPABbFQ+fJ2lrIz5unWXRJ3z6zg=
+X-Received: by 2002:a81:9906:0:b0:2db:640f:49d8 with SMTP id
+ q6-20020a819906000000b002db640f49d8mr7298558ywg.326.1661275179229; Tue, 23
+ Aug 2022 10:19:39 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: 
-Content-Language: en-US
-To:     Casey Schaufler <casey@schaufler-ca.com>,
-        =?UTF-8?Q?G=c3=bcnther_Noack?= <gnoack3000@gmail.com>
-Cc:     Xiu Jianfeng <xiujianfeng@huawei.com>, paul@paul-moore.com,
-        jmorris@namei.org, serge@hallyn.com, shuah@kernel.org,
-        corbet@lwn.net, linux-security-module@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-doc@vger.kernel.org
-References: <20220822114701.26975-1-xiujianfeng@huawei.com>
- <YwPWN/d15S24PuLS@nuc>
- <39df1a34-51dc-da55-ff1c-59cab896c8a0@schaufler-ca.com>
- <YwPyuX7oao6EqTvJ@nuc> <72ca592e-ff1b-120e-3d00-5c79aefbc247@digikod.net>
- <b1d69dfa-6d93-2034-7854-e2bc4017d20e@schaufler-ca.com>
-From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
-Subject: Re: [PATCH -next 0/5] landlock: add chmod and chown support
-In-Reply-To: <b1d69dfa-6d93-2034-7854-e2bc4017d20e@schaufler-ca.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20220822154048.188253-1-justin.he@arm.com> <DBBPR08MB45381EB46B4714E0DCE63ABBF7709@DBBPR08MB4538.eurprd08.prod.outlook.com>
+In-Reply-To: <DBBPR08MB45381EB46B4714E0DCE63ABBF7709@DBBPR08MB4538.eurprd08.prod.outlook.com>
+From:   "Rafael J. Wysocki" <rafael@kernel.org>
+Date:   Tue, 23 Aug 2022 19:19:28 +0200
+Message-ID: <CAJZ5v0hY5bA8iB4KdnZ3te8KOML8JQbPVs2Laaq7Lz=bh1amMA@mail.gmail.com>
+Subject: Re: [RESEND PATCH v3 0/9] Make ghes_edac a proper module
+To:     Justin He <Justin.He@arm.com>
+Cc:     Len Brown <lenb@kernel.org>, James Morse <James.Morse@arm.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Robert Richter <rric@kernel.org>,
+        Robert Moore <robert.moore@intel.com>,
+        Qiuxu Zhuo <qiuxu.zhuo@intel.com>,
+        Yazen Ghannam <yazen.ghannam@amd.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Jan Luebbe <jlu@pengutronix.de>,
+        Khuong Dinh <khuong@os.amperecomputing.com>,
+        Kani Toshi <toshi.kani@hpe.com>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        "linux-acpi@vger.kernel.org" <linux-acpi@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
+        "devel@acpica.org" <devel@acpica.org>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Shuai Xue <xueshuai@linux.alibaba.com>,
+        Jarkko Sakkinen <jarkko@kernel.org>,
+        "linux-efi@vger.kernel.org" <linux-efi@vger.kernel.org>,
+        nd <nd@arm.com>, "Paul E. McKenney" <paulmck@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Neeraj Upadhyay <quic_neeraju@quicinc.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+        Muchun Song <songmuchun@bytedance.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Tue, Aug 23, 2022 at 3:50 AM Justin He <Justin.He@arm.com> wrote:
+>
+> Hi,
+> Sorry for resending the v3.
+> There is an exceptional interrupt when I tried to post v3 at the first time.
+> Maybe it is caused by a comma "," inside the mail name.
+> E.g.
+> Signed-off-by: Some, one <someone@site.com>
+> Looks like a git sendemail issue?
+>
+> Anyway, sorry for the inconvenience.
 
-On 22/08/2022 23:53, Casey Schaufler wrote:
-> On 8/22/2022 2:21 PM, Mickaël Salaün wrote:
->>
->>
->> On 22/08/2022 23:18, Günther Noack wrote:
->>> On Mon, Aug 22, 2022 at 12:35:18PM -0700, Casey Schaufler wrote:
->>>> On 8/22/2022 12:17 PM, Günther Noack wrote:
->>>>> Hi!
->>>>>
->>>>> Very exciting to see! Thank you for sending this! :)
->>>>>
->>>>> I'm just throwing in some comments based on the very similar truncate
->>>>> patch set, in the hope that it helps. (But obviously, Mickaël Salaün
->>>>> has the last word on this code.)
->>>>>
->>>>> Slightly higher level question: Should we start to group the
->>>>> functionality of multiple LSM hooks under one Landlock flag? (Will it
->>>>> be harder to change the LSM hook interface in the future if we
->>>>> continue to add one flag per hook? Or is this structure already
->>>>> exposed to userspace by other LSMs?)
->>>>
->>>> I'm not a landlock expert. The question is nonsensical, yet somewhat
->>>> frightening nonetheless. Could you put just a touch more context into
->>>> what you're asking for?
->>>
->>> By "Landlock flags", I meant the integer that Landlock uses to
->>> represent the set of possible operations on a file hierarchy:
->>>
->>> Landlock's file system access rights (access_mode_t on the kernel
->>> side) are defined with an integer with flags (LANDLOCK_ACCESS_FS_*)
->>> for different operations that one might do with files. They get used
->>> from userspace to control what is permitted on which parts of the file
->>> system. (Docs: https://docs.kernel.org/userspace-api/landlock.html)
->>>
->>> Currently most of the available Landlock flags map pretty closely to
->>> one of the file- and path-related LSM hooks. (See various hook
->>> implementations in security/landlock/fs.c)
->>>
->>> The file system operations that Landlock doesn't cover yet (as of
->>> kernel 5.19) are listed below, and there are potentially a few more
->>> that might be missing. I suspect/hope that there will be more patches
->>> in the style of the truncate/chmod/chown patches, which will add that
->>> coverage.
->>>
->>> The question is basically:
->>> When these patches get added, how should the userspace-exposed
->>> Landlock file system access rights map to the LSM hooks for these
->>> upcoming Landlock features? Should each of the newly covered
->>> operations have its own flag, or is it better to group them?
->>>
->>> (It's well possible that the right answer is "one flag per feature",
->>> but I feel it still makes sense to ask this before all these patches
->>> get written?)
->>
->> Landlock is not strictly tied to the current LSM hooks, but they fit
->> well (because they are designed to be flexible enough to be use by
->> multiple access control systems). In fact, Landlock already uses
->> orthogonal access rights such as LANDLOCK_ACCESS_FS_REFER (using the
->> path_link or path_rename hooks), LANDLOCK_ACCESS_FS_MAKE_* (using the
->> path_mknod and path_mkdir hooks)…
->>
->> Anyway, the LSM framework is evolving, we can add new hooks and modify
->> others (e.g. see the security_path_rename hook modification for
->> FS_REFER) as long as mainline access control systems don't break and
->> subsystem maintainers are OK with such changes. Like any kernel API,
->> the LSM API is not stable, but this is not an issue for mainline code.
->>
->> Landlock's goal is to find the sweet spot between flexibility for
->> different sandboxing use cases and an understandable/simple-enough
->> access control system. The access rights should then be meaningful for
->> users, which are already familiar with the UAPI/syscalls, hence the
->> current Landlock access rights (which are not very original, and that
->> is a good thing). This is why I'm wondering if it is worth it to
->> differentiate between chmod and chgrp (and add a dedicated access
->> right per action or only one for both).
-> 
-> The lesson from capabilities is that differentiating between chmod, chown and chgrp is
-> pointless, and CAP_DAC_CHMOD, CAP_DAC_CHOWN and CAP_DAC_CHGRP should have just been
-> CAP_DAC_OVERRIDE. On the other hand, those who argue that SELinux proves the value of
-> fine granularity would likely have you go with separate rights. What's important is
-> that you don't tie your rights too tightly to the underlying implementation. That has
-> the potential to expose details of how the code work that user-space has no business
-> basing decisions on.
+I've received it twice, but no problem.
 
-Indeed, for a sandboxing feature like Landlock, it may not be useful to 
-duplicate other access rights. From a user point of view, I think it 
-would make sense to split the file metadata modification into 
-potentially-security related or not. That would means three access rights:
-- modify user/informative metadata (e.g. dates, user.* xattr);
-- modify security-related metadata (e.g. chown, chmod, chgrp, any other 
-xattr);
-- read any metadata.
-
-This require some LSM hook changes to handle paths instead of inodes 
-(e.g. security_inode_setattr, security_inode_setxattr…).
+I need Boris to tell me what to do with this series.
