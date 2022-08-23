@@ -2,127 +2,140 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F1B86C32772
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Aug 2022 17:48:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 924A8C3F6B0
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Aug 2022 18:00:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229807AbiHWRsS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 23 Aug 2022 13:48:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36958 "EHLO
+        id S233190AbiHWSAF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 23 Aug 2022 14:00:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55366 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233140AbiHWRrl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Aug 2022 13:47:41 -0400
-Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DEB0FAE9EB
-        for <linux-doc@vger.kernel.org>; Tue, 23 Aug 2022 08:43:59 -0700 (PDT)
-Received: by mail-pj1-x102e.google.com with SMTP id t11-20020a17090a510b00b001fac77e9d1fso14921367pjh.5
-        for <linux-doc@vger.kernel.org>; Tue, 23 Aug 2022 08:43:59 -0700 (PDT)
+        with ESMTP id S232898AbiHWR7r (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Aug 2022 13:59:47 -0400
+Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com [IPv6:2607:f8b0:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F34FD4F7E
+        for <linux-doc@vger.kernel.org>; Tue, 23 Aug 2022 09:05:32 -0700 (PDT)
+Received: by mail-pf1-x431.google.com with SMTP id x19so11112225pfq.1
+        for <linux-doc@vger.kernel.org>; Tue, 23 Aug 2022 09:05:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc;
-        bh=WdZUWMe+w6NdkvEjJaHucwMuy21ym8cPJg6eP925ZQ0=;
-        b=UhhdlLKQ2gDM2vQTqxNR3H3P54QELCmTYoRtFWOv3E2w4om1CvRbYVwedRQTd+Afao
-         0qpcZIs3VEdxcpn3t4fBlWL3FsZsdeDru+azac3lUBr84uuKZTZ3mlZIQxwNYTEZ0+C3
-         8myH9iaSwznHp48212VmuEt2w9h9vxetHBO1SHhA4XfmymVTL5vD34Si4OZGaZxmyCXq
-         JZG25rmhvCeKVbiXdYQMg17r6Lw9PzEXpisKPi4dfNc9NyP3gXR5ayybTb+TbfD2MB3B
-         gYFlnt6Ovve7/HS9Ci6ZQe4S/dcIGq/iyuwy9Rlll8tcHQ8vwDqGYJC8Fdolad+HrDWr
-         CHFw==
+        d=google.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc;
+        bh=aVBt+IuocN3gZGMsPNsv72g8OF66w1EEamrVZjnB+J4=;
+        b=aHRlHO4kNIRNDNrpKgB2QM9cSMZjQBb6u4l59Y4E0tZW/BrvBnqckZTcn9cz3SUw3D
+         igHUCLBokcR+QGB8XUc1cJbRn7hVuyKGyfeg1tfWEOZHpP64tT9cUzSSzx1Y0vgX+Uyv
+         RPdN051ayBxF8NbSnhZI7UkDJIxJC2b9PXw94OGmVsv1/XB2K1qoCbLTnhTe5HqVT1w+
+         uDjWiexbtDjcheCp9qg/+R4RDyAtHxBooBSO8W1phCNDG09PvGpKx4gmxB38OKo5Au+a
+         wQuvSmBbg3eLIxGH8V0BVxy3Pbhs0aKjR4E9VsFcpOdyvMRpUtUfAdi6lWLpFgc21aKV
+         eFRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc;
-        bh=WdZUWMe+w6NdkvEjJaHucwMuy21ym8cPJg6eP925ZQ0=;
-        b=vJvkfAkG5+Vn2uWK8UEyXmxZQUIOCqI5261up53HHpyRQ3xAQZu0phShrFmqyqoU1u
-         Rskcnsu1R1UTy8sIWUn0I39mdtw3rlDwKgkog73Oj8FtIFpKEByCVvNsSMg3vM0WWe+x
-         lj/Z/QpmaDnw2nKRliZU4XlbEU2FSukxbib8bplD9py1ZNpck+WfOKUbYi84YsrKIOn+
-         SLl6pcum98St4l2GpzfK7C3AZHjU7BHVcqroswi3EmhB0YXgQfr6s8tA/h4sDfKTPnNl
-         NXg/oQluQTQ4LR80hgOKTGK8EeSugG4QhaZnQGnQjjl8t8Tn0gPqZUeD/OngKkadZdq4
-         6UVA==
-X-Gm-Message-State: ACgBeo0bcW5LOMqvqRGLWhhBXFfbQ2vMTrTBFfjv0OJaL8g1p68LJc38
-        jRNG433Bc4qT8renlvrp1MpHvQ==
-X-Google-Smtp-Source: AA6agR7OpXoJDkm2+4ZBvbYX/W5se8d30EMUB4Q5KliLBfi18pBw/Gf4DLXJmE2fUpqYnxLetm9FLg==
-X-Received: by 2002:a17:903:258f:b0:172:a6ac:1504 with SMTP id jb15-20020a170903258f00b00172a6ac1504mr24930414plb.60.1661269439249;
-        Tue, 23 Aug 2022 08:43:59 -0700 (PDT)
-Received: from [10.4.208.12] ([139.177.225.228])
-        by smtp.gmail.com with ESMTPSA id h16-20020a170902f55000b00172ad292b6bsm2148581plf.116.2022.08.23.08.43.53
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 23 Aug 2022 08:43:58 -0700 (PDT)
-Message-ID: <a562ede6-262c-b31b-4c96-75a69c265c41@bytedance.com>
-Date:   Tue, 23 Aug 2022 23:43:51 +0800
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
+        bh=aVBt+IuocN3gZGMsPNsv72g8OF66w1EEamrVZjnB+J4=;
+        b=Of/aXEIviKdjq+7b7HCrMlJzQJs3dpyXBK52QK23OUEnx0DegSxTvDmfymcgZM1RfN
+         KI+4zG1iLBU9aQ/SPKBh80mPwr31XsqhAJHZFYqqD0FN3a30VnF4y8ZI0jexWLM/LZ3p
+         iMjwTy/LrFsdWHPw/K9lGNwcgY0D6gINWnwTCIqqcXZYcaHkCWCCxguMNGyFVovE6zmD
+         lZANFJST5NojL25YyXObvqMmN4Qmo1kDIirUBfRerYDHXR1cjdpzpp2+cfOy5pKCgR2h
+         UQPTD+gwKsS+SkaJLSysOAN+JMKnp81qddL82yLsPQPwXhYS3YVEt6sXpCHVerG400SA
+         Pn2A==
+X-Gm-Message-State: ACgBeo2Qz9LQ3s6dpPl9V0k1RguGo3A/nmuNeVLu1pgv03cXXe9D96mF
+        jBE7A8dQXoCuIjaE7iXkpb1C5A==
+X-Google-Smtp-Source: AA6agR7U2euXK2YAHsShhKay0KkYkkaAjkpwjugKPMjrIdRBiwJTOXGIGRCd9tb8zWpXTJzh2djP8w==
+X-Received: by 2002:a63:1c11:0:b0:41d:89d5:8ef0 with SMTP id c17-20020a631c11000000b0041d89d58ef0mr21289304pgc.403.1661270731660;
+        Tue, 23 Aug 2022 09:05:31 -0700 (PDT)
+Received: from google.com (7.104.168.34.bc.googleusercontent.com. [34.168.104.7])
+        by smtp.gmail.com with ESMTPSA id z27-20020aa7959b000000b00536ede9e344sm2384650pfj.14.2022.08.23.09.05.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 23 Aug 2022 09:05:31 -0700 (PDT)
+Date:   Tue, 23 Aug 2022 16:05:27 +0000
+From:   Sean Christopherson <seanjc@google.com>
+To:     David Hildenbrand <david@redhat.com>
+Cc:     Hugh Dickins <hughd@google.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+        linux-kselftest@vger.kernel.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>, luto@kernel.org,
+        jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
+        aarcange@redhat.com, ddutile@redhat.com, dhildenb@redhat.com,
+        Quentin Perret <qperret@google.com>,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+        Muchun Song <songmuchun@bytedance.com>,
+        "Gupta, Pankaj" <pankaj.gupta@amd.com>
+Subject: Re: [PATCH v7 00/14] KVM: mm: fd-based approach for supporting KVM
+ guest private memory
+Message-ID: <YwT6x2g9jcMH60LI@google.com>
+References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
+ <ff5c5b97-acdf-9745-ebe5-c6609dd6322e@google.com>
+ <20220818132421.6xmjqduempmxnnu2@box>
+ <Yv7XTON3MwuC1Q3U@google.com>
+ <226ab26d-9aa8-dce2-c7f0-9e3f5b65b63@google.com>
+ <b2743a3a-a1b4-2d2e-98be-87b58ad387cf@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.1.2
-Subject: Re: [PATCH v2 09/10] sched/psi: per-cgroup PSI stats
- disable/re-enable interface
-Content-Language: en-US
-To:     Johannes Weiner <hannes@cmpxchg.org>
-Cc:     =?UTF-8?Q?Michal_Koutn=c3=bd?= <mkoutny@suse.com>,
-        Tejun Heo <tj@kernel.org>, corbet@lwn.net, surenb@google.com,
-        mingo@redhat.com, peterz@infradead.org, vincent.guittot@linaro.org,
-        dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
-        cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, songmuchun@bytedance.com
-References: <20220808110341.15799-1-zhouchengming@bytedance.com>
- <20220808110341.15799-10-zhouchengming@bytedance.com>
- <YvKd6dezPM6UxfD/@slm.duckdns.org>
- <fcd0bd39-3049-a279-23e6-a6c02b4680a7@bytedance.com>
- <b89155d3-9315-fefc-408b-4cf538360a1c@bytedance.com>
- <YvPN07UlaPFAdlet@cmpxchg.org> <20220815132343.GA22640@blackbody.suse.cz>
- <9d1997a4-9278-07bd-7f57-952306b28b14@bytedance.com>
- <YwTz32VWuZeLHOHe@cmpxchg.org>
-From:   Chengming Zhou <zhouchengming@bytedance.com>
-In-Reply-To: <YwTz32VWuZeLHOHe@cmpxchg.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <b2743a3a-a1b4-2d2e-98be-87b58ad387cf@redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2022/8/23 23:35, Johannes Weiner wrote:
-> On Tue, Aug 23, 2022 at 02:18:21PM +0800, Chengming Zhou wrote:
->> On 2022/8/15 21:23, Michal Koutný wrote:
->>> On Wed, Aug 10, 2022 at 11:25:07AM -0400, Johannes Weiner <hannes@cmpxchg.org> wrote:
->>>> cgroup.pressure.enable sounds good to me too. Or, because it's
->>>> default-enabled and that likely won't change, cgroup.pressure.disable.
->>>
->>> Will it not change?
->>>
->>> I'd say that user would be interested in particular level or even just
->>> level in subtree for PSI, so the opt-out may result in lots of explicit
->>> disablements (or even watch for cgroups created and disable PSI there)
->>> to get some performance back.
->>>
->>> I have two suggestions based on the above:
->>> 1) Make the default globally configurable (mount option?)
->>> 2) Allow implicit enablement upon trigger creation
->>>
->>
->> I think suggestion 1) make sense in some use case, like make per-cgroup
->> PSI disabled by default using a mount option, then enable using the
->> "cgroup.pressure" interface.
->>
->> But suggestion 2) auto enable upon trigger creation, if we hide the
->> {cpu,memory,io}.pressure files when disabled, how can we create trigger?
->>
->> Want to see what do Johannes and Tejun think about these suggestions?
+On Tue, Aug 23, 2022, David Hildenbrand wrote:
+> On 19.08.22 05:38, Hugh Dickins wrote:
+> > On Fri, 19 Aug 2022, Sean Christopherson wrote:
+> >> On Thu, Aug 18, 2022, Kirill A . Shutemov wrote:
+> >>> On Wed, Aug 17, 2022 at 10:40:12PM -0700, Hugh Dickins wrote:
+> >>>> On Wed, 6 Jul 2022, Chao Peng wrote:
+> >>>> But since then, TDX in particular has forced an effort into preventing
+> >>>> (by flags, seals, notifiers) almost everything that makes it shmem/tmpfs.
+> >>>>
+> >>>> Are any of the shmem.c mods useful to existing users of shmem.c? No.
+> >>>> Is MFD_INACCESSIBLE useful or comprehensible to memfd_create() users? No.
+> >>
+> >> But QEMU and other VMMs are users of shmem and memfd.  The new features certainly
+> >> aren't useful for _all_ existing users, but I don't think it's fair to say that
+> >> they're not useful for _any_ existing users.
+> > 
+> > Okay, I stand corrected: there exist some users of memfd_create()
+> > who will also have use for "INACCESSIBLE" memory.
 > 
-> Re 1: I agree. If desired in the future we can make the default
-> configurable. Kconfig, mount option, what have you. cgroup.pressure
-> will work fine as a name regardless of what the default is.
-> 
-> Re 2: Not all consumers of the pressure metrics create trigger. I
-> would argue that few do. So it isn't the best signal to decide on
-> whether aggregation should occur. And yes, it's further complicated by
-> the triggers being written to the very pressure files. If we don't
-> hide them, we have to come up with another way to mark them as stale,
-> lest they confuse the heck out of users. Without breaking format...
-> 
-> So IMO, default-enable, "cgroup.pressure" as a name, and hiding the
-> pressure files should be good for now while allowing to make the
-> default configurable down the line.
+> As raised in reply to the relevant patch, I'm not sure if we really have
+> to/want to expose MFD_INACCESSIBLE to user space. I feel like this is a
+> requirement of specific memfd_notifer (memfile_notifier) implementations
+> -- such as TDX that will convert the memory and MCE-kill the machine on
+> ordinary write access. We might be able to set/enforce this when
+> registering a notifier internally instead, and fail notifier
+> registration if a condition isn't met (e.g., existing mmap).
+>
+> So I'd be curious, which other users of shmem/memfd would benefit from
+> (MMU)-"INACCESSIBLE" memory obtained via memfd_create()?
 
-Agree, it's what we want for now. Thanks for your reply!
+I agree that there's no need to expose the inaccessible behavior via uAPI.  Making
+it a kernel-internal thing that's negotiated/resolved when KVM binds to the fd
+would align INACCESSIBLE with the UNMOVABLE and UNRECLAIMABLE flags (and any other
+flags that get added in the future).
 
+AFAICT, the user-visible flag is a holdover from the early RFCs and doesn't provide
+any unique functionality.
 
+If we go that route, we might want to have shmem/memfd require INACCESSIBLE to be
+set for the initial implementation.  I.e. disallow binding without INACCESSIBLE
+until there's a use case.
