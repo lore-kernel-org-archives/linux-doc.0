@@ -2,207 +2,171 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E433FC38142
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Aug 2022 22:26:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 44CFBC32793
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Aug 2022 22:47:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234208AbiHWW0y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 23 Aug 2022 18:26:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53152 "EHLO
+        id S230423AbiHWWrI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 23 Aug 2022 18:47:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44386 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233671AbiHWW0R (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Aug 2022 18:26:17 -0400
-Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com [IPv6:2607:f8b0:4864:20::634])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB55C88DC9
-        for <linux-doc@vger.kernel.org>; Tue, 23 Aug 2022 15:26:09 -0700 (PDT)
-Received: by mail-pl1-x634.google.com with SMTP id x23so14059000pll.7
-        for <linux-doc@vger.kernel.org>; Tue, 23 Aug 2022 15:26:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc;
-        bh=h89V1jB8raz93s1UBdB755/qSlB/lATdkVzyb86xPlg=;
-        b=nUlTu7qh1+o9COlB+JNxnTLFZQTa21AWzmc5sREQt16+4GKZCIQRkcyAEa9vEdLjFC
-         MLZN9LcUOkjMGlexXqOKvML0eL7cxFfEybdFjI4Golhz8r3+DMqZvh8D2yrr+i813YdN
-         D3AF/4liowxe+gcSd9iEKQUzpVAGnA7uWp0BE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
-        bh=h89V1jB8raz93s1UBdB755/qSlB/lATdkVzyb86xPlg=;
-        b=ryF3ooxCTLj2khQ2u9/yQUzJd6RQeSfDPgGRR8XPv0NowhGVnDXckBpgO4HqmtsDRH
-         cfIcOY2JfKv37pNrrpX9ayVBPQMrzrJMuiULe15IRUPzgVCEa/mFQmsfYHzNk7OKEeGq
-         kb6A2QiEhUEHyfp0wGK2oM+XROJla5Rr53oYPt4DL1Xb1wyhdUxJBokGqtXgqXAVm5J8
-         VSIP4GakBFhkKGjur8QnapneKz50paEoROGvnd/hIvYFAvQFFCkw3X4r7j3Pqi1D3TkI
-         hVT0MkrBUnmvOpKjnrhNJSXWzUiuG39PZsglx3oefXSvfdCE3i1oqM3yFRi77v4tjRxj
-         a6OA==
-X-Gm-Message-State: ACgBeo0rEuks0YElHkOBQgMoVCRQl2PJXUcKhe6jigdcFkYV46SxNtag
-        xiH6UEsbRZRMdt66wNih/2nWOg==
-X-Google-Smtp-Source: AA6agR6HauYb0XBAWZ9hxasy/RS63+xeO6/mMszxWoZRfjFzB6BGPJ5MpePgHRrY3xKu2KtNxa7bXA==
-X-Received: by 2002:a17:90a:e7c2:b0:1f5:85ab:938c with SMTP id kb2-20020a17090ae7c200b001f585ab938cmr5289101pjb.133.1661293569204;
-        Tue, 23 Aug 2022 15:26:09 -0700 (PDT)
-Received: from evgreen-glaptop.lan ([98.45.66.167])
-        by smtp.gmail.com with ESMTPSA id f76-20020a62384f000000b0052f20d70845sm11256292pfa.150.2022.08.23.15.26.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Aug 2022 15:26:08 -0700 (PDT)
-From:   Evan Green <evgreen@chromium.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     gwendal@chromium.org, Eric Biggers <ebiggers@kernel.org>,
-        Matthew Garrett <mgarrett@aurora.tech>, jarkko@kernel.org,
-        zohar@linux.ibm.com, linux-integrity@vger.kernel.org,
-        Pavel Machek <pavel@ucw.cz>, apronin@chromium.org,
-        dlunev@google.com, rjw@rjwysocki.net, linux-pm@vger.kernel.org,
-        corbet@lwn.net, jejb@linux.ibm.com,
-        Matthew Garrett <matthewgarrett@google.com>,
-        Matthew Garrett <mjg59@google.com>,
-        Evan Green <evgreen@chromium.org>,
-        David Howells <dhowells@redhat.com>,
-        James Morris <jmorris@namei.org>,
-        Paul Moore <paul@paul-moore.com>,
-        "Serge E. Hallyn" <serge@hallyn.com>, keyrings@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-security-module@vger.kernel.org
-Subject: [PATCH v2 04/10] security: keys: trusted: Allow storage of PCR values in creation data
-Date:   Tue, 23 Aug 2022 15:25:20 -0700
-Message-Id: <20220823152108.v2.4.I32591db064b6cdc91850d777f363c9d05c985b39@changeid>
-X-Mailer: git-send-email 2.31.0
-In-Reply-To: <20220823222526.1524851-1-evgreen@chromium.org>
-References: <20220823222526.1524851-1-evgreen@chromium.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        with ESMTP id S229825AbiHWWrH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Aug 2022 18:47:07 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5E8C883F4;
+        Tue, 23 Aug 2022 15:47:06 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 5F02E61701;
+        Tue, 23 Aug 2022 22:47:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AFC92C433D6;
+        Tue, 23 Aug 2022 22:47:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1661294825;
+        bh=mIdkXaJU12XPc/v1eI1SmEBn2eXK40Tc2GKZ2bh56IQ=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=PvKWuYH7LzURRWG2uBfTZoqdR2VuQQqVwYk91ZT4xs+pNAX8p0ZPGebqwKGcGvWsw
+         GoUsisFbfXbphw/ArYdEGhpuApqBSfKBE1hCpdK0MtV5idNvsmpHu4izogGKT4agwJ
+         didDFhjjvxPLmLCTKMkhCG7QeQTsf7RLoFgcC6e5tFw4gcSQJDZ6CVaAGQOa6SApau
+         zFP5jzetWE1fQW5n6Ts6y7cE8gcK3rMH6LJsw1t4kBC1LzIOyRQ1weWVya8eBlE6j8
+         sGSESGojwA+XkGsawcc45JFYMZnl9aP7YRxwddrD68qtzwFb8Eq2/hEwVZR9SjbKfY
+         nxiP9lu/ioTug==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=why.misterjones.org)
+        by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.95)
+        (envelope-from <maz@kernel.org>)
+        id 1oQcfn-005JQ9-Di;
+        Tue, 23 Aug 2022 23:47:03 +0100
+Date:   Tue, 23 Aug 2022 23:47:03 +0100
+Message-ID: <878rnewpaw.wl-maz@kernel.org>
+From:   Marc Zyngier <maz@kernel.org>
+To:     Peter Xu <peterx@redhat.com>
+Cc:     Gavin Shan <gshan@redhat.com>, kvmarm@lists.cs.columbia.edu,
+        linux-arm-kernel@lists.infradead.org, kvm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, pbonzini@redhat.com,
+        corbet@lwn.net, james.morse@arm.com, alexandru.elisei@arm.com,
+        suzuki.poulose@arm.com, oliver.upton@linux.dev,
+        catalin.marinas@arm.com, will@kernel.org, shuah@kernel.org,
+        seanjc@google.com, dmatlack@google.com, bgardon@google.com,
+        ricarkol@google.com, zhenyzha@redhat.com, shan.gavin@gmail.com
+Subject: Re: [PATCH v1 1/5] KVM: arm64: Enable ring-based dirty memory tracking
+In-Reply-To: <YwVEoM1pj2MPCELp@xz-m1.local>
+References: <20220819005601.198436-1-gshan@redhat.com>
+        <20220819005601.198436-2-gshan@redhat.com>
+        <87lerkwtm5.wl-maz@kernel.org>
+        <41fb5a1f-29a9-e6bb-9fab-4c83a2a8fce5@redhat.com>
+        <87fshovtu0.wl-maz@kernel.org>
+        <171d0159-4698-354b-8b2f-49d920d03b1b@redhat.com>
+        <YwTc++Lz6lh3aR4F@xz-m1.local>
+        <87bksawz0w.wl-maz@kernel.org>
+        <YwVEoM1pj2MPCELp@xz-m1.local>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
+ (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: peterx@redhat.com, gshan@redhat.com, kvmarm@lists.cs.columbia.edu, linux-arm-kernel@lists.infradead.org, kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, pbonzini@redhat.com, corbet@lwn.net, james.morse@arm.com, alexandru.elisei@arm.com, suzuki.poulose@arm.com, oliver.upton@linux.dev, catalin.marinas@arm.com, will@kernel.org, shuah@kernel.org, seanjc@google.com, dmatlack@google.com, bgardon@google.com, ricarkol@google.com, zhenyzha@redhat.com, shan.gavin@gmail.com
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Matthew Garrett <matthewgarrett@google.com>
+On Tue, 23 Aug 2022 22:20:32 +0100,
+Peter Xu <peterx@redhat.com> wrote:
+> 
+> On Tue, Aug 23, 2022 at 08:17:03PM +0100, Marc Zyngier wrote:
+> > I don't think we really need this check on the hot path. All we need
+> > is to make the request sticky until userspace gets their act together
+> > and consumes elements in the ring. Something like:
+> > 
+> > diff --git a/arch/arm64/kvm/arm.c b/arch/arm64/kvm/arm.c
+> > index 986cee6fbc7f..e8ed5e1af159 100644
+> > --- a/arch/arm64/kvm/arm.c
+> > +++ b/arch/arm64/kvm/arm.c
+> > @@ -747,6 +747,14 @@ static int check_vcpu_requests(struct kvm_vcpu *vcpu)
+> >  
+> >  		if (kvm_check_request(KVM_REQ_SUSPEND, vcpu))
+> >  			return kvm_vcpu_suspend(vcpu);
+> > +
+> > +		if (kvm_check_request(KVM_REQ_RING_SOFT_FULL, vcpu) &&
+> > +		    kvm_dirty_ring_soft_full(vcpu)) {
+> > +			kvm_make_request(KVM_REQ_RING_SOFT_FULL, vcpu);
+> > +			vcpu->run->exit_reason = KVM_EXIT_DIRTY_RING_FULL;
+> > +			trace_kvm_dirty_ring_exit(vcpu);
+> > +			return 0;
+> > +		}
+> >  	}
+> >  
+> >  	return 1;
+> 
+> Right, this seems working.  We can also use kvm_test_request() here.
+> 
+> > 
+> > 
+> > However, I'm a bit concerned by the reset side of things. It iterates
+> > over the vcpus and expects the view of each ring to be consistent,
+> > even if userspace is hacking at it from another CPU. For example, I
+> > can't see what guarantees that the kernel observes the writes from
+> > userspace in the order they are being performed (the documentation
+> > provides no requirements other than "it must collect the dirty GFNs in
+> > sequence", which doesn't mean much from an ordering perspective).
+> > 
+> > I can see that working on a strongly ordered architecture, but on
+> > something as relaxed as ARM, the CPUs may^Wwill aggressively reorder
+> > stuff that isn't explicitly ordered. I have the feeling that a CAS
+> > operation on both sides would be enough, but someone who actually
+> > understands how this works should have a look...
+> 
+> I definitely don't think I 100% understand all the ordering things since
+> they're complicated.. but my understanding is that the reset procedure
+> didn't need memory barrier (unlike pushing, where we have explicit wmb),
+> because we assumed the userapp is not hostile so logically it should only
+> modify the flags which is a 32bit field, assuming atomicity guaranteed.
 
-When TPMs generate keys, they can also generate some information
-describing the state of the PCRs at creation time. This data can then
-later be certified by the TPM, allowing verification of the PCR values.
-This allows us to determine the state of the system at the time a key
-was generated. Add an additional argument to the trusted key creation
-options, allowing the user to provide the set of PCRs that should have
-their values incorporated into the creation data.
+Atomicity doesn't guarantee ordering, unfortunately. Take the
+following example: CPU0 is changing a bunch of flags for GFNs A, B, C,
+D that exist in the ring in that order, and CPU1 performs an ioctl to
+reset the page state.
 
-From: Matthew Garrett <mjg59@google.com>
-Signed-off-by: Matthew Garrett <mjg59@google.com>
+CPU0:
+    write_flag(A, KVM_DIRTY_GFN_F_RESET)
+    write_flag(B, KVM_DIRTY_GFN_F_RESET)
+    write_flag(C, KVM_DIRTY_GFN_F_RESET)
+    write_flag(D, KVM_DIRTY_GFN_F_RESET)
+    [...]
 
-Signed-off-by: Evan Green <evgreen@chromium.org>
+CPU1:
+   ioctl(KVM_RESET_DIRTY_RINGS)
 
----
-Matthew's original version of this patch is at:
-https://patchwork.kernel.org/patch/12096503/
+Since CPU0 writes do not have any ordering, CPU1 can observe the
+writes in a sequence that have nothing to do with program order, and
+could for example observe that GFN A and D have been reset, but not B
+and C. This in turn breaks the logic in the reset code (B, C, and D
+don't get reset), despite userspace having followed the spec to the
+letter. If each was a store-release (which is the case on x86), it
+wouldn't be a problem, but nothing calls it in the documentation.
 
-(no changes since v1)
+Maybe that's not a big deal if it is expected that each CPU will issue
+a KVM_RESET_DIRTY_RINGS itself, ensuring that it observe its own
+writes. But expecting this to work across CPUs without any barrier is
+wishful thinking.
 
- .../security/keys/trusted-encrypted.rst       |  4 +++
- include/keys/trusted-type.h                   |  1 +
- security/keys/trusted-keys/trusted_tpm1.c     |  9 +++++++
- security/keys/trusted-keys/trusted_tpm2.c     | 25 +++++++++++++++++--
- 4 files changed, 37 insertions(+), 2 deletions(-)
+> IIRC we used to discuss similar questions on "what if the user is hostile
+> and wants to hack the process by messing up with the ring", and our
+> conclusion was as long as the process wouldn't mess up anything outside
+> itself it should be okay. E.g. It should not be able to either cause the
+> host to misfunction, or trigger kernel warnings in dmesg, etc..
 
-diff --git a/Documentation/security/keys/trusted-encrypted.rst b/Documentation/security/keys/trusted-encrypted.rst
-index 0bfb4c33974890..dc9e11bb4824da 100644
---- a/Documentation/security/keys/trusted-encrypted.rst
-+++ b/Documentation/security/keys/trusted-encrypted.rst
-@@ -199,6 +199,10 @@ Usage::
-        policyhandle= handle to an authorization policy session that defines the
-                      same policy and with the same hash algorithm as was used to
-                      seal the key.
-+       creationpcrs= hex integer representing the set of PCR values to be
-+                     included in the PCR creation data. The bit corresponding
-+		     to each PCR should be 1 to be included, 0 to be ignored.
-+		     TPM2 only.
- 
- "keyctl print" returns an ascii hex copy of the sealed key, which is in standard
- TPM_STORED_DATA format.  The key length for new keys are always in bytes.
-diff --git a/include/keys/trusted-type.h b/include/keys/trusted-type.h
-index 209086fed240a5..8523d41507b2a4 100644
---- a/include/keys/trusted-type.h
-+++ b/include/keys/trusted-type.h
-@@ -54,6 +54,7 @@ struct trusted_key_options {
- 	uint32_t policydigest_len;
- 	unsigned char policydigest[MAX_DIGEST_SIZE];
- 	uint32_t policyhandle;
-+	uint32_t creation_pcrs;
- };
- 
- struct trusted_key_ops {
-diff --git a/security/keys/trusted-keys/trusted_tpm1.c b/security/keys/trusted-keys/trusted_tpm1.c
-index aa108bea6739b3..2975827c01bec0 100644
---- a/security/keys/trusted-keys/trusted_tpm1.c
-+++ b/security/keys/trusted-keys/trusted_tpm1.c
-@@ -713,6 +713,7 @@ enum {
- 	Opt_hash,
- 	Opt_policydigest,
- 	Opt_policyhandle,
-+	Opt_creationpcrs,
- };
- 
- static const match_table_t key_tokens = {
-@@ -725,6 +726,7 @@ static const match_table_t key_tokens = {
- 	{Opt_hash, "hash=%s"},
- 	{Opt_policydigest, "policydigest=%s"},
- 	{Opt_policyhandle, "policyhandle=%s"},
-+	{Opt_creationpcrs, "creationpcrs=%s"},
- 	{Opt_err, NULL}
- };
- 
-@@ -858,6 +860,13 @@ static int getoptions(char *c, struct trusted_key_payload *pay,
- 				return -EINVAL;
- 			opt->policyhandle = handle;
- 			break;
-+		case Opt_creationpcrs:
-+			if (!tpm2)
-+				return -EINVAL;
-+			res = kstrtoint(args[0].from, 16, &opt->creation_pcrs);
-+			if (res < 0)
-+				return -EINVAL;
-+			break;
- 		default:
- 			return -EINVAL;
- 		}
-diff --git a/security/keys/trusted-keys/trusted_tpm2.c b/security/keys/trusted-keys/trusted_tpm2.c
-index 1f166d4fa307a9..1d1470b880ca01 100644
---- a/security/keys/trusted-keys/trusted_tpm2.c
-+++ b/security/keys/trusted-keys/trusted_tpm2.c
-@@ -389,7 +389,7 @@ int tpm2_seal_trusted(struct tpm_chip *chip,
- 	struct tpm_buf buf;
- 	u32 hash;
- 	u32 flags;
--	int i;
-+	int i, j;
- 	int rc;
- 
- 	for (i = 0; i < ARRAY_SIZE(tpm2_hash_map); i++) {
-@@ -458,7 +458,28 @@ int tpm2_seal_trusted(struct tpm_chip *chip,
- 	tpm_buf_append_u16(&buf, 0);
- 
- 	/* creation PCR */
--	tpm_buf_append_u32(&buf, 0);
-+	if (options->creation_pcrs) {
-+		/* One bank */
-+		tpm_buf_append_u32(&buf, 1);
-+		/* Which bank to use */
-+		tpm_buf_append_u16(&buf, hash);
-+		/* Length of the PCR bitmask */
-+		tpm_buf_append_u8(&buf, 3);
-+		/* PCR bitmask */
-+		for (i = 0; i < 3; i++) {
-+			char tmp = 0;
-+
-+			for (j = 0; j < 8; j++) {
-+				char bit = (i * 8) + j;
-+
-+				if (options->creation_pcrs & (1 << bit))
-+					tmp |= (1 << j);
-+			}
-+			tpm_buf_append_u8(&buf, tmp);
-+		}
-+	} else {
-+		tpm_buf_append_u32(&buf, 0);
-+	}
- 
- 	if (buf.flags & TPM_BUF_OVERFLOW) {
- 		rc = -E2BIG;
+I'm not even discussing safety here. I'm purely discussing the
+interactions between userspace and kernel based on the documentation
+and the existing kernel code.
+
+Thanks,
+
+	M.
+
 -- 
-2.31.0
-
+Without deviation from the norm, progress is not possible.
