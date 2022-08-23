@@ -2,112 +2,225 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D537C3F6B0
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Aug 2022 16:38:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D952C32772
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Aug 2022 16:47:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244081AbiHWQiB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 23 Aug 2022 12:38:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56886 "EHLO
+        id S245431AbiHWQrI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 23 Aug 2022 12:47:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40654 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244941AbiHWQh0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Aug 2022 12:37:26 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC3CE96769
-        for <linux-doc@vger.kernel.org>; Tue, 23 Aug 2022 07:44:58 -0700 (PDT)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ore@pengutronix.de>)
-        id 1oQV8x-0004ge-UB; Tue, 23 Aug 2022 16:44:39 +0200
-Received: from ore by ptx.hi.pengutronix.de with local (Exim 4.92)
-        (envelope-from <ore@pengutronix.de>)
-        id 1oQV8v-0007MC-At; Tue, 23 Aug 2022 16:44:37 +0200
-Date:   Tue, 23 Aug 2022 16:44:37 +0200
-From:   Oleksij Rempel <o.rempel@pengutronix.de>
-To:     Andrew Lunn <andrew@lunn.ch>
-Cc:     Rob Herring <robh@kernel.org>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>, kernel@pengutronix.de,
-        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
-        David Jander <david@protonic.nl>
-Subject: Re: [PATCH net-next v1 2/7] dt-bindings: net: phy: add PoDL PSE
- property
-Message-ID: <20220823144437.GN10138@pengutronix.de>
-References: <20220819120109.3857571-1-o.rempel@pengutronix.de>
- <20220819120109.3857571-3-o.rempel@pengutronix.de>
- <20220822184534.GB113650-robh@kernel.org>
- <YwPaV2Frj+b++8hZ@lunn.ch>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <YwPaV2Frj+b++8hZ@lunn.ch>
-X-Sent-From: Pengutronix Hildesheim
-X-URL:  http://www.pengutronix.de/
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: ore@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+        with ESMTP id S1344138AbiHWQqu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Aug 2022 12:46:50 -0400
+Received: from mail-pg1-x549.google.com (mail-pg1-x549.google.com [IPv6:2607:f8b0:4864:20::549])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 579C0C6EB7
+        for <linux-doc@vger.kernel.org>; Tue, 23 Aug 2022 07:25:05 -0700 (PDT)
+Received: by mail-pg1-x549.google.com with SMTP id z22-20020a630a56000000b0041b98176de9so6232478pgk.15
+        for <linux-doc@vger.kernel.org>; Tue, 23 Aug 2022 07:25:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=cc:to:from:subject:references:mime-version:message-id:in-reply-to
+         :date:from:to:cc;
+        bh=pCH+0+WgsyXCYOEIW3yqb1d5hzYj9lEXIljmIvf1UF4=;
+        b=GKnHlleymq6aVUseYQkCkYJTcj3+Hllew3xD3cBBcATPMgtQht5r0zd6CNdNPkGZ2E
+         cIuhwPujGAJbEIybRkp5h8BCUG05Ni7Aqy5hlvyeV7ytytijPlGF0ML4yLsdbnxBlT7O
+         v/Q4vYjT27cq8xCAfXaMxibDaCtMD0R+Wg8Xg6fxszjEq+5wNeGHhC8zjOk5uvyfOqWx
+         ekWKec3iTLIBe1ko+sjdYz7CP8xzuVD0fcU/rY0CuNqyMJxQWRUIVOZfQDeldrSLAVCe
+         KMOYtyEW1xBRTqndO+xaq0kjGZY0s5akiv1QJ/rF2MLw2HQZL7Ju5l7pMQIyVe7WlRjl
+         6/CA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:from:subject:references:mime-version:message-id:in-reply-to
+         :date:x-gm-message-state:from:to:cc;
+        bh=pCH+0+WgsyXCYOEIW3yqb1d5hzYj9lEXIljmIvf1UF4=;
+        b=MdDl6xvf1hin6CvLP2GwwQtGnwAMYocUkJIzhRXiHT25t0L+/Yg8ThK5Mx9CjCbQ/W
+         V9IjLvemIRSN+35+41B6YLrgredLCzNFcKzd53K7BAUIIkqjZaReB9ag9+chqDz52USq
+         fIRaQhbYkSEsj+xOY82ipap50HkQabema+xqE1rDVgcBWNO/2rI2M0xalmQxtOhIb6O7
+         /DoRKGXXOOi+6uy6GWAlILlNEAjd5QK+dG0gq+MIunfnc6OVCRBi51HUEvPt+nLowZ6N
+         tr50IbKg8VnOjegwvReiLq8zBpucem6F714TMnTqeHe/EcJ6NcsqEZV9s0DzttvH5uhw
+         ulww==
+X-Gm-Message-State: ACgBeo2PEwLJxeODica1ArNiwi2gBbtNZEUapFLuSj6k83a8Uj8vXa2F
+        Llg65A0kZwgDF5y2MEnnyv8PjqvZ7dnQUk0=
+X-Google-Smtp-Source: AA6agR6nYNAxXcwgvNFnFPYMJnYjm6NiVtfJwycgVCE4j79759ovERhuyFxKEVo91melnqmvoQrKMdCuAiJDSamH
+X-Received: from joefradley-custom-96.c.googlers.com ([fda3:e722:ac3:cc00:24:72f4:c0a8:831])
+ (user=joefradley job=sendgmr) by 2002:aa7:8430:0:b0:536:5173:a2c6 with SMTP
+ id q16-20020aa78430000000b005365173a2c6mr15526807pfn.4.1661264704758; Tue, 23
+ Aug 2022 07:25:04 -0700 (PDT)
+Date:   Tue, 23 Aug 2022 07:24:54 -0700
+In-Reply-To: <20220823142456.3977086-1-joefradley@google.com>
+Message-Id: <20220823142456.3977086-2-joefradley@google.com>
+Mime-Version: 1.0
+References: <20220823142456.3977086-1-joefradley@google.com>
+X-Mailer: git-send-email 2.37.1.595.g718a3a8f04-goog
+Subject: [PATCH v2 1/2] kunit: add kunit.enable to enable/disable KUnit test
+From:   Joe Fradley <joefradley@google.com>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Brendan Higgins <brendan.higgins@linux.dev>,
+        David Gow <davidgow@google.com>
+Cc:     Joe Fradley <joefradley@google.com>, kernel-team@android.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Aug 22, 2022 at 09:34:47PM +0200, Andrew Lunn wrote:
-> On Mon, Aug 22, 2022 at 01:45:34PM -0500, Rob Herring wrote:
-> > On Fri, Aug 19, 2022 at 02:01:04PM +0200, Oleksij Rempel wrote:
-> > > Add property to reference node representing a PoDL Power Sourcing Equipment.
-> > > 
-> > > Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
-> > > ---
-> > >  Documentation/devicetree/bindings/net/ethernet-phy.yaml | 6 ++++++
-> > >  1 file changed, 6 insertions(+)
-> > > 
-> > > diff --git a/Documentation/devicetree/bindings/net/ethernet-phy.yaml b/Documentation/devicetree/bindings/net/ethernet-phy.yaml
-> > > index ed1415a4381f2..49c74e177c788 100644
-> > > --- a/Documentation/devicetree/bindings/net/ethernet-phy.yaml
-> > > +++ b/Documentation/devicetree/bindings/net/ethernet-phy.yaml
-> > > @@ -144,6 +144,12 @@ properties:
-> > >        Mark the corresponding energy efficient ethernet mode as
-> > >        broken and request the ethernet to stop advertising it.
-> > >  
-> > > +  ieee802.3-podl-pse:
-> > > +    $ref: /schemas/types.yaml#/definitions/phandle
-> > > +    description:
-> > > +      Specifies a reference to a node representing a Power over Data Lines
-> > > +      Power Sourcing Equipment.
-> > 
-> > Ah, here is the consumer.
-> > 
-> > Why do you anything more than just a -supply property here for the 
-> > PoE/PoDL supply? The only reason I see is you happen to want a separate 
-> > driver for this and a separate node happens to be a convenient way to 
-> > instantiate drivers in Linux. Convince me otherwise.
-> 
-> The regulator binding provides a lot of very useful properties, which
-> look to do a good job describing the regulator part of a PoE/PeDL
-> supplier side. What however is missing is the communication part, the
-> power provider and the power consumer communicate with each other, via
-> a serial protocol. They negotiate the supply of power, a sleep mode
-> where power is reduced, but not removed, etc.
-> 
-> So a Power Sourcing Equipment driver is very likely to have a
-> regulator embedded in it, but its more than a regulator.
+This patch adds the kunit.enable module parameter that will need to be
+set to true in addition to KUNIT being enabled for KUnit tests to run.
+The default value is true giving backwards compatibility. However, for
+the production+testing use case the new config option
+KUNIT_DEFAULT_ENABLED can be set to N requiring the tester to opt-in
+by passing kunit.enable=1 to the kernel.
 
-@Rob, is it enough to convince?
+Signed-off-by: Joe Fradley <joefradley@google.com>
+---
+Changes since v1:
+- Created a function to get kunit enable state
+- Check kunit enable state in kunit_run_all_tests() in executor.c
+- Load test module even if KUnit is disabled but still don't execute
+  tests
+- Simplified kunit disable message and kunit.enable parameter
+  description
+- Flipped around logic of new config to be KUNIT_DEFAULT_ENABLED
+- kunit_tool.py now passes kunit.enable=1 to kernel
 
-Regards,
-Oleksij
+ .../admin-guide/kernel-parameters.txt         |  6 +++++
+ include/kunit/test.h                          |  2 ++
+ lib/kunit/Kconfig                             | 11 +++++++++
+ lib/kunit/executor.c                          |  4 ++++
+ lib/kunit/test.c                              | 24 +++++++++++++++++++
+ tools/testing/kunit/kunit_kernel.py           |  1 +
+ 6 files changed, 48 insertions(+)
+
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index adfda56b2691..7aa3abd7f1c5 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -2432,6 +2432,12 @@
+ 			0: force disabled
+ 			1: force enabled
+ 
++	kunit.enable=	[KUNIT] Enable executing KUnit tests. Requires
++			CONFIG_KUNIT to be set to be fully enabled. The
++			default value can be overridden via
++			KUNIT_DEFAULT_ENABLED.
++			Default is 1 (enabled)
++
+ 	kvm.ignore_msrs=[KVM] Ignore guest accesses to unhandled MSRs.
+ 			Default is 0 (don't ignore, but inject #GP)
+ 
+diff --git a/include/kunit/test.h b/include/kunit/test.h
+index c958855681cc..ee6bf4ecbd89 100644
+--- a/include/kunit/test.h
++++ b/include/kunit/test.h
+@@ -228,6 +228,8 @@ static inline void kunit_set_failure(struct kunit *test)
+ 	WRITE_ONCE(test->status, KUNIT_FAILURE);
+ }
+ 
++bool kunit_enabled(void);
++
+ void kunit_init_test(struct kunit *test, const char *name, char *log);
+ 
+ int kunit_run_tests(struct kunit_suite *suite);
+diff --git a/lib/kunit/Kconfig b/lib/kunit/Kconfig
+index 0b5dfb001bac..626719b95bad 100644
+--- a/lib/kunit/Kconfig
++++ b/lib/kunit/Kconfig
+@@ -59,4 +59,15 @@ config KUNIT_ALL_TESTS
+ 
+ 	  If unsure, say N.
+ 
++config KUNIT_DEFAULT_ENABLED
++	bool "Default value of kunit.enable"
++	default y
++	help
++	  Sets the default value of kunit.enable. If set to N then KUnit
++	  tests will not execute unless kunit.enable=1 is passed to the
++	  kernel command line.
++
++	  In most cases this should be left as Y. Only if additional opt-in
++	  behavior is needed should this be set to N.
++
+ endif # KUNIT
+diff --git a/lib/kunit/executor.c b/lib/kunit/executor.c
+index 5e223327196a..9bbc422c284b 100644
+--- a/lib/kunit/executor.c
++++ b/lib/kunit/executor.c
+@@ -190,6 +190,10 @@ int kunit_run_all_tests(void)
+ {
+ 	struct suite_set suite_set = {__kunit_suites_start, __kunit_suites_end};
+ 	int err = 0;
++	if (!kunit_enabled()) {
++		pr_info("kunit: disabled\n");
++		goto out;
++	}
+ 
+ 	if (filter_glob_param) {
+ 		suite_set = kunit_filter_suites(&suite_set, filter_glob_param, &err);
+diff --git a/lib/kunit/test.c b/lib/kunit/test.c
+index b73d5bb5c473..1e54373309a4 100644
+--- a/lib/kunit/test.c
++++ b/lib/kunit/test.c
+@@ -54,6 +54,17 @@ void __kunit_fail_current_test(const char *file, int line, const char *fmt, ...)
+ EXPORT_SYMBOL_GPL(__kunit_fail_current_test);
+ #endif
+ 
++/*
++ * Enable KUnit tests to run.
++ */
++#ifdef CONFIG_KUNIT_DEFAULT_ENABLED
++static bool enable_param = true;
++#else
++static bool enable_param;
++#endif
++module_param_named(enable, enable_param, bool, 0);
++MODULE_PARM_DESC(enable, "Enable KUnit tests");
++
+ /*
+  * KUnit statistic mode:
+  * 0 - disabled
+@@ -586,10 +597,20 @@ static void kunit_init_suite(struct kunit_suite *suite)
+ 	suite->suite_init_err = 0;
+ }
+ 
++bool kunit_enabled(void)
++{
++	return enable_param;
++}
++
+ int __kunit_test_suites_init(struct kunit_suite * const * const suites, int num_suites)
+ {
+ 	unsigned int i;
+ 
++	if (!kunit_enabled() && num_suites > 0) {
++		pr_info("kunit: disabled\n");
++		return 0;
++	}
++
+ 	for (i = 0; i < num_suites; i++) {
+ 		kunit_init_suite(suites[i]);
+ 		kunit_run_tests(suites[i]);
+@@ -607,6 +628,9 @@ void __kunit_test_suites_exit(struct kunit_suite **suites, int num_suites)
+ {
+ 	unsigned int i;
+ 
++	if (!kunit_enabled())
++		return;
++
+ 	for (i = 0; i < num_suites; i++)
+ 		kunit_exit_suite(suites[i]);
+ 
+diff --git a/tools/testing/kunit/kunit_kernel.py b/tools/testing/kunit/kunit_kernel.py
+index f5c26ea89714..ef794da420d7 100644
+--- a/tools/testing/kunit/kunit_kernel.py
++++ b/tools/testing/kunit/kunit_kernel.py
+@@ -359,6 +359,7 @@ class LinuxSourceTree:
+ 			args = []
+ 		if filter_glob:
+ 			args.append('kunit.filter_glob='+filter_glob)
++		args.append('kunit.enable=1')
+ 
+ 		process = self._ops.start(args, build_dir)
+ 		assert process.stdout is not None  # tell mypy it's set
 -- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+2.37.1.595.g718a3a8f04-goog
+
