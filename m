@@ -2,104 +2,151 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 378E9C32789
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Aug 2022 07:55:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EAF7CC32774
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Aug 2022 07:57:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240998AbiHWHzl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 23 Aug 2022 03:55:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39830 "EHLO
+        id S241434AbiHWH5g (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 23 Aug 2022 03:57:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41846 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241449AbiHWHza (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Aug 2022 03:55:30 -0400
-Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 208F71EEE1;
-        Tue, 23 Aug 2022 00:55:29 -0700 (PDT)
-Received: by mail-pj1-x102e.google.com with SMTP id f21so13314701pjt.2;
-        Tue, 23 Aug 2022 00:55:29 -0700 (PDT)
+        with ESMTP id S237982AbiHWH5f (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Aug 2022 03:57:35 -0400
+Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C20C565808
+        for <linux-doc@vger.kernel.org>; Tue, 23 Aug 2022 00:57:33 -0700 (PDT)
+Received: by mail-lf1-x135.google.com with SMTP id bt10so5596728lfb.1
+        for <linux-doc@vger.kernel.org>; Tue, 23 Aug 2022 00:57:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
+        d=linaro.org; s=google;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc;
-        bh=Xxc+am8JnZzn38/YDRBLpPnG3B37sa007H6emh7sE1Q=;
-        b=R5xBAQKoFl+3tgqEOz+RslovkAqgtUwmbSJqJbDX8B1c8NmMSCIwNWjdl/0syrbgWt
-         ut68/XCzsoTvkQYqU+36wRCNb49XsTNU4wwS1Hy0ILDfwwdhi66kMAVmIGrgns32Zvsi
-         FQ6Mch1DXKHhq1VZpdG4xfSP+VEoWiPCOF6Vmu1KemQdPLi47EAxYSb5lgfZMrWR7PQy
-         MXGNlClcX7/lqGHrMT2Ia3aigTO1SNHAntfbitDynXtzDAAPrEg+tmG6eTfeNF+9K20V
-         rhW023/By44bb1Xl8ZH1DgagEHsSHPTzu4cY6XLsQhIiBjP2Ggn+nXY78lfBWfyVdZNE
-         MXdw==
+        bh=KvtgSh2phbbynB84y9pIsoa+hK1Rxnm5EOo+8e1zaQQ=;
+        b=FKu6fUrh8ERK9Kar36H0EJFuWiUWwUh+uOhcwDUbLVAc5WMoOauQtfQWMe23dhct00
+         lmGJEJnPSyv1IbAWfATsOD9rc4DG5Ct7jOqilD70Xr/7HSCzZECxqkzcw+h9YIiqN7sG
+         58i5MtI3FsVAE/D1dsLNzUx760hNG1/3nVKyS8T9PygbhCRn/mWdbsVI0hRqOOabRqHA
+         2j5y3QqFeO+YuhdXbeGWp8Lvo+GHFrN2CJ5+O7cZ8rP3Vcca3pTE0KCffDLhJYYfo+ZE
+         MS89w6e/mK2YaF8FPzwFOQC0PmWywYIvfu5KnQN63ZYeHZRlejN6gr2QWBicv7zb3jBh
+         OcLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc;
-        bh=Xxc+am8JnZzn38/YDRBLpPnG3B37sa007H6emh7sE1Q=;
-        b=pptgG7ZDjo9Q5WGOgAfjRKnhkedr6WKJkfj1t4uoA7C0Y4efEuWk64Vvl5J06uv5Av
-         njD+doeZupi3thF5ROCrXm+nG7AdkFn2xZ4SNioWXQsyW8TwY5w/QYZhGkMDpmlRtHnD
-         wjX3F2PX5w1mjeVB6/4xCvfmn6DFXzxTmKRad9gfvbonRXheewwO4pLWGD3MkdfzSVcT
-         2z0E7/8gqRWR8Pu731FS1cPwUszhUjDu5+4J+T8HYjYRqAii0s5qCwrSSUL5ZRaWRXae
-         G1W8dwhx+5JOdfUHdNV+xpXsouVxg2u/W6D3oHltS61OpHZ9SOEM/5vCMSWuZClUpHck
-         e0Uw==
-X-Gm-Message-State: ACgBeo3zE2lufuadwZGuKLWiVn1lb5TuK5a3PyUZ5bp7G8HWczfH4+kh
-        +IkVNk8G3dFyul1FVSpjxy0=
-X-Google-Smtp-Source: AA6agR5ZqZn05y3setXe2Ki853S0taRN0SeK5U8VFr0708OGCldReMvivNFDBZIb4kfxxohTcbMs+g==
-X-Received: by 2002:a17:90a:304a:b0:1fa:d832:5aca with SMTP id q10-20020a17090a304a00b001fad8325acamr2104066pjl.16.1661241328592;
-        Tue, 23 Aug 2022 00:55:28 -0700 (PDT)
-Received: from [192.168.43.80] (subs02-180-214-232-14.three.co.id. [180.214.232.14])
-        by smtp.gmail.com with ESMTPSA id z124-20020a626582000000b00536531536adsm5988664pfb.47.2022.08.23.00.55.24
+        bh=KvtgSh2phbbynB84y9pIsoa+hK1Rxnm5EOo+8e1zaQQ=;
+        b=aiJuIojm4esnNwwWf11Z7VBWnrABgkDAUmWXIuuTAUG3BZf6YBqa7lN8CgyXASt+Lb
+         8gj+W6AA4A4fdnGUSfOb4FwOv6JTj8xPyZQEUMVCjBQBVq+ln+FQPHi9E9x3S3pUlYda
+         pNPL2HXyez/Q4TGMI0DmRY1d8L7khp6DxXtHuiUYtFdggu4ConqrmwvUP5Pq4FJKfuR/
+         5PsTsDE+ojyT2pAcpUTdHa8S0zJhAHoDbyXuC/LfS1Z8iFTm5As3Ht82CXLKvPJ3BMAo
+         VAfdaZfo1IlcQabd5QBUrDcvg91396+p3JMCKXYHxOtQy970DyUKhVUf/A1GxkGAAJIz
+         1zKA==
+X-Gm-Message-State: ACgBeo1h+krymySEU1Ptj799MfpwpAeK9BsGA1Tl9hTUfNWOIx97HGRg
+        Z5x5GjrbwCxbMc77/rmTJmSQHQ==
+X-Google-Smtp-Source: AA6agR5WcQZdOG+6fsE/UGT3A1jCQIfDZk5hX4VOpGeZ4eyBtqp1rmejXmnAdp6unePtuhDydK9YLw==
+X-Received: by 2002:a05:6512:3984:b0:492:da1b:9683 with SMTP id j4-20020a056512398400b00492da1b9683mr4680226lfu.58.1661241452127;
+        Tue, 23 Aug 2022 00:57:32 -0700 (PDT)
+Received: from [192.168.1.211] ([37.153.55.125])
+        by smtp.gmail.com with ESMTPSA id o11-20020ac24e8b000000b00492dadd8143sm1412135lfr.168.2022.08.23.00.57.30
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 23 Aug 2022 00:55:28 -0700 (PDT)
-Message-ID: <468ecea7-81fb-4a61-2094-3223bfbf55d4@gmail.com>
-Date:   Tue, 23 Aug 2022 14:55:22 +0700
+        Tue, 23 Aug 2022 00:57:31 -0700 (PDT)
+Message-ID: <b8213d5f-b1ba-6576-e9f5-3511c57b2def@linaro.org>
+Date:   Tue, 23 Aug 2022 10:57:30 +0300
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH] mips: pci: remove extraneous asterisk from top level
- comment of ar2315 PCI driver
-Content-Language: en-US
-To:     Greg KH <gregkh@linuxfoundation.org>
-Cc:     linux-doc@vger.kernel.org, linux-mips@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Rikard Falkeborn <rikard.falkeborn@gmail.com>,
-        Sergey Ryazanov <ryazanov.s.a@gmail.com>,
-        Ralf Baechle <ralf@linux-mips.org>,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.1.2
+Subject: Re: [PATCH v2 07/11] gunyah: msgq: Add Gunyah message queues
+Content-Language: en-GB
+To:     Elliot Berman <quic_eberman@quicinc.com>,
+        Marc Zyngier <maz@kernel.org>
+Cc:     Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Murali Nalajala <quic_mnalajal@quicinc.com>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
+        Carl van Schaik <quic_cvanscha@quicinc.com>,
+        Andy Gross <agross@kernel.org>,
+        linux-arm-kernel@lists.infradead.org,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Aditya Srivastava <yashsri421@gmail.com>,
-        kernel test robot <lkp@intel.com>, stable@vger.kernel.org
-References: <202208221854.8ASrzjKa-lkp@intel.com>
- <20220823030056.123709-1-bagasdotme@gmail.com> <YwRzqiJjHdnCA65Y@kroah.com>
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <YwRzqiJjHdnCA65Y@kroah.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+        Will Deacon <will@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org
+References: <20220801211240.597859-1-quic_eberman@quicinc.com>
+ <20220801211240.597859-8-quic_eberman@quicinc.com>
+ <250945d2-3940-9830-63e5-beec5f44010b@linaro.org>
+ <6fa6c86d-5b4c-4048-2df8-49a36c86e7d6@quicinc.com>
+ <87zggdven5.wl-maz@kernel.org>
+ <68e241fd-16f0-96b4-eab8-369628292e03@quicinc.com>
+From:   Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <68e241fd-16f0-96b4-eab8-369628292e03@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 8/23/22 13:28, Greg KH wrote:
-> On Tue, Aug 23, 2022 at 10:00:56AM +0700, Bagas Sanjaya wrote:
->> kernel test robot reported kernel-doc warning:
->>
->> arch/mips/pci/pci-ar2315.c:6: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
->>     * Both AR2315 and AR2316 chips have PCI interface unit, which supports DMA
->>
->> The warning above is caused by an extraneous asterisk on the top level
->> (description) comment of pci-ar2315.c, for which the comment is confused as
->> kernel-doc comment instead.
->>
->> Remove the asterisk.
->>
->> Link: https://lore.kernel.org/linux-doc/202208221854.8ASrzjKa-lkp@intel.com/
->> Fixes: 3ed7a2a702dc0f ("MIPS: ath25: add AR2315 PCI host controller driver")
->> Fixes: 3e58e839150db0 ("scripts: kernel-doc: add warning for comment not following kernel-doc syntax")
->> Reported-by: kernel test robot <lkp@intel.com>
->> Cc: stable@vger.kernel.org # v5.15, v5.19
+On 09/08/2022 19:50, Elliot Berman wrote:
 > 
-> kerneldoc issues are not stable worth, sorry.
 > 
+> On 8/9/2022 4:29 AM, Marc Zyngier wrote:
+>> On Mon, 08 Aug 2022 23:22:48 +0100,
+>> Elliot Berman <quic_eberman@quicinc.com> wrote:
+>>>
+>>> In a future series, I'll add the support to load other virtual
+>>> machines. When running other virtual machines, additional gunyah
+>>> devices are needed for doorbells (e.g. to emulate interrupts for
+>>> paravirtualized devices) and to represent the vCPUs of that other
+>>> VM. Other gunyah devices are also possible, but those are the
+>>> immediate devices coming over the horizon.
+>>
+>> Can you elaborate on this "doorbell" aspect? If you signal interrupts
+>> to guests, they should be signalled as actual interrupts, not as some
+>> hypervisor-specific events, as we rely on the interrupt semantics for
+>> most things.
+>>
+>> Or are you talking about injecting an interrupt from a guest into
+>> another, the doorbell representing an interrupt source?
+>>
+> 
+> Doorbells can operate either of these modes:
+>   1. As simple interrupt sources. The doorbell sender makes a hypercall
+>      and an interrupt is raised on the receiver. The hypervisor can be
+>      configured to raise a specific SPI on the receiver VM and simply
+>      acknowledging the SPI is enough to clear the interrupt assert. No
+>      hypervisor-specific code is needed on the receiver to handle these
+>      interrupts. This is the mode one would expect to use for
+>      paravirtualized devices.
 
-Thanks for reminding me. Should I resend without Cc stable?
+This sounds good.
+
+>   2. As hypervisor-specific events which must be acknowledged using
+>      hypercalls. We aren't currently using this advanced use-case and no
+>      plans currently to post these. However, I can try to briefly
+>      explain: These doorbells can operate on a bitfield and the sender
+>      can assert flags on the bitmask; the receiver can decide which bits
+>      should trigger the interrupt and which SPI the doorbell "runs" on.
+>      The "user story" for this doorbell is to support multiple sender
+>      using the same doorbell object. Each sender has a few designated
+>      bits they should set. The receiver can choose which events it wants
+>      an interrupt to be raised for and then can process all the pending
+>      events. To re-iterate, we don't have an interesting use-case for
+>      this yet, so don't plan on post patches for this second mode of
+>      doorbell.
+
+Well. For me this sounds like 'we have such capability, no real usecase, 
+but we want to support it anyway' kind of story. As history has shown 
+multiple times, the order should be the opposite one. First you have the 
+use case, then you create the API for it. Otherwise it is very easy to 
+end up with the abstraction that looks good on the API side, but is very 
+hard to fit into the actual user code.
+
+I would suggest to drop the second bullet for now and focus on getting 
+the simple doorbells done and accepted into mainline.
 
 -- 
-An old man doll... just what I always wanted! - Clara
+With best wishes
+Dmitry
+
