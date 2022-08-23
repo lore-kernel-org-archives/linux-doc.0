@@ -2,89 +2,140 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F013C32774
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Aug 2022 08:01:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 353EEC32793
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Aug 2022 08:02:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239383AbiHWIB2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 23 Aug 2022 04:01:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46968 "EHLO
+        id S241513AbiHWICH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 23 Aug 2022 04:02:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47712 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241676AbiHWIBK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Aug 2022 04:01:10 -0400
-Received: from mail-pg1-x535.google.com (mail-pg1-x535.google.com [IPv6:2607:f8b0:4864:20::535])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1FA366583F;
-        Tue, 23 Aug 2022 01:01:05 -0700 (PDT)
-Received: by mail-pg1-x535.google.com with SMTP id 12so11609176pga.1;
-        Tue, 23 Aug 2022 01:01:05 -0700 (PDT)
+        with ESMTP id S241498AbiHWICC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Aug 2022 04:02:02 -0400
+Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com [IPv6:2a00:1450:4864:20::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 02991659D0
+        for <linux-doc@vger.kernel.org>; Tue, 23 Aug 2022 01:02:01 -0700 (PDT)
+Received: by mail-lf1-x133.google.com with SMTP id bt10so5610930lfb.1
+        for <linux-doc@vger.kernel.org>; Tue, 23 Aug 2022 01:02:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
+        d=linaro.org; s=google;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc;
-        bh=HRrhm1OCNU6Rzc/6RElpNPDfHW8dOdiCLMY7G0msAVs=;
-        b=ZSh5LlmpzYLzRJD1ZPCLTefJqXByy4iVoGCBZUJINS+96KTDE6lqkwJUJp4jcJxeBu
-         vz7gnhr4Gppzi5sTcR9GfAUwKKVIQRjn9lDqRg+kgT2O48Hn2o1dxxctH5fxK0YsMAT6
-         jY28uALlLtR/mHVz4nSCq2xP24XhXv/myZgFZlgcKvYL+SRTOKGyfN8AISTfdQfvwWuO
-         Ab7IpmyBusnraHPjycVaMvddrXXT7d7uvvnKE1cvpxkis7Q83HZA05MswILjsZRLROqE
-         +dUOtItweJNIPj+RLIO+JAm8NUEsIwdPy4YUgtVpRqr71AUXZL4pYN1kcUpksV9F8FlD
-         2RkA==
+        bh=8kwr9P28nyS277cPNviJmCpAD2kCcWxhxSzytfmAPPM=;
+        b=w078FvPgjksE9hvIJJNqXO0fZOAECTh9CtTuGSZAeYhHCaqpxGSpbz2PgWnggrNcWT
+         I4Qc0Q8Omjjc7DSrc9iVOIjGYGKkDKWfzHq3mIDQ6haFAQT0ZDWo2vO7uwYmrS8vpirY
+         nN5ojr7F3sPVUI+9Eg3iV7No/w/WeD1YnTIbZO0AbKwaKJD539jGiXtAn3sf5JDcpAuK
+         4aOaPG3qfTbvstFc79trU81O6vyyYmyUSokORniJ5AhIrDPUhXw351nzDEzsh/gi7PKB
+         1UoTW2C0GS6qh/yn2H/N0m91dDhYGRiYzPUGKz2sZL1lGk9zvDcXHbc35ajiRu8exr+k
+         HTog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc;
-        bh=HRrhm1OCNU6Rzc/6RElpNPDfHW8dOdiCLMY7G0msAVs=;
-        b=c3VnYHgepVzNF+aUVML7nZ3mmRNsLppoWxoXnfVgN8OUR0dmj5OxvdFZcS3urkJybK
-         GZRdEzX5ngQma6sxwrbwm0juj6krUo1xUYPkUx653+LAXVRkadeWVZP0L5QUebpff2Bh
-         1BMx5BTNcOPXZBGPCwQx6THLNDG/Efc9fcqHVZGzRdY+/X+Eb+jMYNIn80wA6S23IXIc
-         X5tM/4VkweO8dzKh/z2dyt1IONsr4eDowXtzu/Etig37h9cCMog/ScdjX0zs0QE7ismb
-         ttDrlNQkrwSCljzVyGsE6Ln/+1OV1m1cnNLmqmwvcXUKYN1ZyBCE4ckd64J29mrFDiqU
-         uf/Q==
-X-Gm-Message-State: ACgBeo3vBMLeCyOungtdbbYeu9EIqODsh19/qi5aqAOH7Tk6DaWOrrPO
-        l2i3YjlAx/jZxsB9SbYpOQ0=
-X-Google-Smtp-Source: AA6agR75Dmauw0vow8pbc98O1+rJA6RcI+MuCA9MuUn9EtMqwEbLJJnLOVvTxRHtPT7PcrrwTZdMpw==
-X-Received: by 2002:a63:125c:0:b0:427:a637:3414 with SMTP id 28-20020a63125c000000b00427a6373414mr19708574pgs.80.1661241665299;
-        Tue, 23 Aug 2022 01:01:05 -0700 (PDT)
-Received: from [192.168.43.80] (subs02-180-214-232-14.three.co.id. [180.214.232.14])
-        by smtp.gmail.com with ESMTPSA id o16-20020aa79790000000b00535dc0a14d1sm9710471pfp.130.2022.08.23.01.00.57
+        bh=8kwr9P28nyS277cPNviJmCpAD2kCcWxhxSzytfmAPPM=;
+        b=sqTvTzKyCFdYpS4bhh6Z3ozwhyK/DEODpxJEVIZNk2s0pPipfc3b2nnhqteNodEW3T
+         znZpCOOg2aITcP5eVMXkX+/UGsejuewxzA9+mR44GY2l5SSBTwvoVCED+ZeRyk5boQ2y
+         7acFPrBoYcrnUOIcZKl7Tv2LQECo0FR+6U+2Ryf3plLGJHAPxuY5tTsNSWU+iOjAYRmu
+         35UV3hMvkG1WLd5bJc2Eld1vXVAmqrOLgDa6eBE5x3gPZdXsMmn5PWNZNkJdEDT6rv2o
+         +SpNzTKjsWbRPC4PevwpVMsTpWt/FK25P8IGRwxdzDGyDggNkq3+lNLVeLu2qTYW4vri
+         uu1Q==
+X-Gm-Message-State: ACgBeo2C3zcYnM0QB1S1lQamqB73DYSoRvJHSetfe4wadDxDR1h/yBPk
+        5mH905a/dDmiAeShxaJXmj9MyA==
+X-Google-Smtp-Source: AA6agR4T2ojtqAekhhO+3PeLF3Y3+5fUDILfCCYgVbuo6QADnkEMSZKuBSpzAARDk3onZwpZatyNKQ==
+X-Received: by 2002:ac2:4c4c:0:b0:492:bc29:e328 with SMTP id o12-20020ac24c4c000000b00492bc29e328mr7660710lfk.386.1661241719288;
+        Tue, 23 Aug 2022 01:01:59 -0700 (PDT)
+Received: from [192.168.1.211] ([37.153.55.125])
+        by smtp.gmail.com with ESMTPSA id n8-20020a05651203e800b0048b13d0b896sm679256lfq.141.2022.08.23.01.01.58
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 23 Aug 2022 01:01:02 -0700 (PDT)
-Message-ID: <55ba0c48-d735-07ba-9121-5accec6e31e3@gmail.com>
-Date:   Tue, 23 Aug 2022 15:00:55 +0700
+        Tue, 23 Aug 2022 01:01:58 -0700 (PDT)
+Message-ID: <d3b435ec-fa47-9ed2-de65-e5e0a6cf7b05@linaro.org>
+Date:   Tue, 23 Aug 2022 11:01:58 +0300
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH] Documentation: KUnit: Reword kunit_tool guide
-Content-Language: en-US
-To:     Sadiya Kazi <sadiyakazi@google.com>, brendanhiggins@google.com,
-        davidgow@google.com, skhan@linuxfoundation.org, corbet@lwn.net
-Cc:     linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20220822180956.4013497-1-sadiyakazi@google.com>
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <20220822180956.4013497-1-sadiyakazi@google.com>
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.1.2
+Subject: Re: [PATCH v2 00/11] Drivers for gunyah hypervisor
+Content-Language: en-GB
+To:     Elliot Berman <quic_eberman@quicinc.com>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>
+Cc:     Murali Nalajala <quic_mnalajal@quicinc.com>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>,
+        Carl van Schaik <quic_cvanscha@quicinc.com>,
+        Andy Gross <agross@kernel.org>,
+        linux-arm-kernel@lists.infradead.org,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        Marc Zyngier <maz@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Will Deacon <will@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org
+References: <20220801211240.597859-1-quic_eberman@quicinc.com>
+ <50230652-c1ae-4ce2-907c-9bdc6b827f8e@linaro.org>
+ <62073cb8-0211-3b49-11cb-aceea6df0845@quicinc.com>
+From:   Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <62073cb8-0211-3b49-11cb-aceea6df0845@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 8/23/22 01:09, Sadiya Kazi wrote:
-> Updated the kunit_tool.rst guide to streamline it. The following changes
-> were made:
-> 1. Updated headings
-> 2. Reworded content across sections
-> 3. Added a cross reference to full list of command-line args
+On 09/08/2022 02:38, Elliot Berman wrote:
+> 
+> 
+> On 8/2/2022 2:24 AM, Dmitry Baryshkov wrote:
+>> I might be completely wrong about this, but if my in-mind picture of 
+>> Gunyah is correct, I'd have implemented the gunyah core subsytem as 
+>> mailbox provider, RM as a separate platform driver consuming these 
+>> mailboxes and in turn being a remoteproc driver, and consoles as 
+>> remoteproc subdevices. >
+> 
+> The mailbox framework can only fit with message queues and not doorbells 
+> or vCPUs. The mailbox framework also relies on the mailbox being defined 
+> in the devicetree. RM is an exceptional case in that it is described in 
+> the devicetree. Message queues for other VMs would be dynamically 
+> created at runtime as/when that VM is created. Thus, the client of the 
+> message queue would need to "own" both the controller and client ends of 
+> the mailbox.
+
+I'd still suggest using the mailbox API for the doorbells. You do not 
+have to implement the txdone, if I'm not mistaken.
+
+> 
+> RM is not loaded or managed by Linux, so I don't think remoteproc 
+> framework provides us any code re-use except for the subdevices code. 
+> Remoteproc is much larger framework than just the subdevices code, so I 
+> don't think it fits well overall.
+> 
+>> I can assume that at some point you would like to use Gunyah to boot 
+>> secondary VMs from the primary VM by calling into RM, etc.
+>> Most probably at this moment a VM would be allocated other bells, 
+>> message queues, etc. If this assumption is correct, them the VM can 
+>> become a separate device (remoteproc?) in the Linux device tree.
+>>
+>> I might be wrong in any of the assumptions above. Please feel free to 
+>> correct me. We can then think about a better API for your usecase.
+>>
+> 
+> We don't want to limit VM configuration to the devicetree as this limits 
+> the number and kinds of VMs that can be launched to build time. I'm not 
+> sure if you might have seen an early presentation of Gunyah at Linaro? 
+> In the early days of Gunyah, we had static configuration of VMs and many 
+> properties of the VMs were described in the devicetree. We are moving 
+> away from static configuration of VMs as much as possible.
+
+ack, this is correct.
+
+> 
+> [1]: https://chromium.googlesource.com/chromiumos/platform/crosvm
 > 
 
-What about this description:?
-
-"Rework kunit_tool How-To, which includes:
-- grammatical fixes
-- change title to 'Understanding kunit_tool', and
-- add a reference link to command line arguments list."
-
-Thanks.
-
 -- 
-An old man doll... just what I always wanted! - Clara
+With best wishes
+Dmitry
+
