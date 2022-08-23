@@ -2,222 +2,158 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D598C32789
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Aug 2022 16:54:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 97184C32796
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Aug 2022 17:11:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245390AbiHWQyc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 23 Aug 2022 12:54:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46904 "EHLO
+        id S1344006AbiHWRLx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 23 Aug 2022 13:11:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38742 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245461AbiHWQyH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Aug 2022 12:54:07 -0400
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D96D134904;
-        Tue, 23 Aug 2022 06:22:58 -0700 (PDT)
-Received: by mail-wr1-x429.google.com with SMTP id u14so16979292wrq.9;
-        Tue, 23 Aug 2022 06:22:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc;
-        bh=GfXTxlj3CGiZoSTXh5Xk1RxK1PDeJcnOOY0/EAwNICQ=;
-        b=OnCCH8Q+hvA+4yfvt0G7Ccp2mKh7ihOVxSghP0rV+aZ/lX6DRPkftJSwpq3ptFIr/F
-         /jV1/7JMrVV02niB7wsnYxIRNnTdF1vBhdhuf0HeFE6bEp4fww2M5WMNueUjVssr1O8I
-         nOfk9JkFmL75AapIp9d08pLWarCgYjZ6R6sgC1EoIz42mtDsgDkXFBBp9+Ro0a/+PBb7
-         oVuDhR5I2rotRjxnKHQ6rVoEiIUmC5587rktKCxTa46TMQZGwtsj6hxyyO4H//fxIBNz
-         Kco/zPmrEDL2edPaaZa5xhy6kcX6sAjU53nkSx5cT8yb75ytmmtjH6nHbR5C8TULmECm
-         8nww==
+        with ESMTP id S1344866AbiHWRLY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Aug 2022 13:11:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4640E150157
+        for <linux-doc@vger.kernel.org>; Tue, 23 Aug 2022 06:58:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1661263104;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=YHVefDGXU83xWUJyLerizfLITJD1h0bvpZUJLhnlk24=;
+        b=AXO1SNmNaxNAq3ngFOkjpwKd9OjFxUtQlCxgejQIg8YZhdDKJzOyAzsl0mGVGXKUuO3hpU
+        dxBSGLCI7QSqq5QwrWgBYdTx5HvdDZpa7Fm4cD8qFL0wMh389YJCml7DFA11upm7Hy0FHT
+        o9nsIdQoVq8WoDhDI1ANKETuLGKrX5A=
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-612-NdCTuo96PKKNesaqqAg0fA-1; Tue, 23 Aug 2022 09:58:23 -0400
+X-MC-Unique: NdCTuo96PKKNesaqqAg0fA-1
+Received: by mail-qt1-f197.google.com with SMTP id h19-20020ac85493000000b00343408bd8e5so10587994qtq.4
+        for <linux-doc@vger.kernel.org>; Tue, 23 Aug 2022 06:58:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc;
-        bh=GfXTxlj3CGiZoSTXh5Xk1RxK1PDeJcnOOY0/EAwNICQ=;
-        b=SAQzJn8vMGTefjmAUCoQOIW+CHdk4kKuCD+2x4h9c9+FiOEEP/12w3N60rcE7p5G1D
-         hUx5fyVG0Yv2Hpwn2LIV5LYMLAKLNRrQunwPou/3MIVkuqyM3QCNKltPMH569yi+2Hpj
-         ppHH+t0EjGilZTCzCY7Q0MQ+F/d+A5F+U2O5UDocFC5GhFE5cdeDi0g95PzHzhthK9lP
-         JTgoqM+85bugOyMcST1CxYRfwz9dynxJvHd15DET5ZULPaK2n73Az5mAZhg6LPE0zldW
-         mgY/x5PZNiD4MjKXX7RvFGub719GuQub6f2NjgGykgjG1a6T3OpYLyfgxgCUu5rHiIc4
-         SK3Q==
-X-Gm-Message-State: ACgBeo1x2dQEG3WvwtRxPQS6zxrLGog4my+/aaTYpuCXQvFUuFiYApKl
-        VM/e4H06y9jx1dWjQPMfFGKVTDtg6kS2sA==
-X-Google-Smtp-Source: AA6agR7wvYKMFgaz1ALfRuJ6hgCFJRhgD1g1SoJPosvmNuoVWSs1N5CnHG2cTGeRq/LzdLR6940VsA==
-X-Received: by 2002:adf:ff84:0:b0:225:5880:c0c8 with SMTP id j4-20020adfff84000000b002255880c0c8mr5844585wrr.9.1661260976011;
-        Tue, 23 Aug 2022 06:22:56 -0700 (PDT)
-Received: from imac.redhat.com ([88.97.103.74])
-        by smtp.gmail.com with ESMTPSA id n7-20020a5d4207000000b002253fd19a6asm13099338wrq.18.2022.08.23.06.22.55
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
+        bh=YHVefDGXU83xWUJyLerizfLITJD1h0bvpZUJLhnlk24=;
+        b=Hcq6b2CS4trwn9sz5M7u2Ank6fKoZhK5NnMeeTQPg9z37P5+DNUJwKP/Bz0rBwUiiI
+         T4F+UTBOU4/mtSmDfhrh2+4OUKC/jygM/lYGaFRAaS6StY0Zhs6crpdX6SVTnXAOg9Ez
+         ucSXYurYl3F2YLdZ6Ljnm9QXdK68+Qx9hhRt0JQgbDlz1JDsr8eIP+MkFCRVRIfJhXH2
+         xaWHX5EtHXuo5IRJHciHqqtUn+kvn4QKU3V0xDPtLMZbEJFUe50VCCLtDgkF9nsTzxSa
+         aylEu4gYOJsYYY/aw7cWA69q0TQr22GgzkVBgWQJG7MBfD9SYV9fEYAX7k6OLuV7BemF
+         ZbYw==
+X-Gm-Message-State: ACgBeo1Uo7N/w88dccouvVuL+BSUDE1OoMhkwDoxoFPQxJJVPQHI2Dlx
+        5QVqBSLkMpx4em8V2D97DamdDnfKX0fpUj3WgNiS7PEdEk1/NXBtpA2kjrR73xrLFiqW7KTVdNA
+        +oYMH1BJvr1ekNXNVo+ry
+X-Received: by 2002:ac8:5b15:0:b0:343:6789:193a with SMTP id m21-20020ac85b15000000b003436789193amr19117277qtw.647.1661263102674;
+        Tue, 23 Aug 2022 06:58:22 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR7gd2yWDFVr17SP2RU0l4eAn5No/A726n2hPHBkND28yI2ySau6/YWpTWAdi0/4trPHGWQO6g==
+X-Received: by 2002:ac8:5b15:0:b0:343:6789:193a with SMTP id m21-20020ac85b15000000b003436789193amr19117247qtw.647.1661263102418;
+        Tue, 23 Aug 2022 06:58:22 -0700 (PDT)
+Received: from xz-m1.local (bras-base-aurron9127w-grc-35-70-27-3-10.dsl.bell.ca. [70.27.3.10])
+        by smtp.gmail.com with ESMTPSA id g7-20020a05620a40c700b006a6ebde4799sm12544646qko.90.2022.08.23.06.58.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Aug 2022 06:22:55 -0700 (PDT)
-From:   Donald Hunter <donald.hunter@gmail.com>
-To:     bpf@vger.kernel.org, linux-doc@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     Donald Hunter <donald.hunter@gmail.com>
-Subject: [PATCH bpf-next] Add table of BPF program types to docs
-Date:   Tue, 23 Aug 2022 14:22:36 +0100
-Message-Id: <20220823132236.65122-1-donald.hunter@gmail.com>
-X-Mailer: git-send-email 2.35.1
+        Tue, 23 Aug 2022 06:58:21 -0700 (PDT)
+Date:   Tue, 23 Aug 2022 09:58:19 -0400
+From:   Peter Xu <peterx@redhat.com>
+To:     Gavin Shan <gshan@redhat.com>
+Cc:     Marc Zyngier <maz@kernel.org>, kvmarm@lists.cs.columbia.edu,
+        linux-arm-kernel@lists.infradead.org, kvm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, pbonzini@redhat.com,
+        corbet@lwn.net, james.morse@arm.com, alexandru.elisei@arm.com,
+        suzuki.poulose@arm.com, oliver.upton@linux.dev,
+        catalin.marinas@arm.com, will@kernel.org, shuah@kernel.org,
+        seanjc@google.com, drjones@redhat.com, dmatlack@google.com,
+        bgardon@google.com, ricarkol@google.com, zhenyzha@redhat.com,
+        shan.gavin@gmail.com
+Subject: Re: [PATCH v1 1/5] KVM: arm64: Enable ring-based dirty memory
+ tracking
+Message-ID: <YwTc++Lz6lh3aR4F@xz-m1.local>
+References: <20220819005601.198436-1-gshan@redhat.com>
+ <20220819005601.198436-2-gshan@redhat.com>
+ <87lerkwtm5.wl-maz@kernel.org>
+ <41fb5a1f-29a9-e6bb-9fab-4c83a2a8fce5@redhat.com>
+ <87fshovtu0.wl-maz@kernel.org>
+ <171d0159-4698-354b-8b2f-49d920d03b1b@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <171d0159-4698-354b-8b2f-49d920d03b1b@redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Extend the BPF program types documentation with a table of
-program types, attach points and ELF section names.
+On Tue, Aug 23, 2022 at 03:22:17PM +1000, Gavin Shan wrote:
+> > diff --git a/arch/arm64/kvm/arm.c b/arch/arm64/kvm/arm.c
+> > index 986cee6fbc7f..0b41feb6fb7d 100644
+> > --- a/arch/arm64/kvm/arm.c
+> > +++ b/arch/arm64/kvm/arm.c
+> > @@ -747,6 +747,12 @@ static int check_vcpu_requests(struct kvm_vcpu *vcpu)
+> >   		if (kvm_check_request(KVM_REQ_SUSPEND, vcpu))
+> >   			return kvm_vcpu_suspend(vcpu);
+> > +
+> > +		if (kvm_check_request(KVM_REQ_RING_SOFT_FULL, vcpu)) {
+> > +			vcpu->run->exit_reason = KVM_EXIT_DIRTY_RING_FULL;
+> > +			trace_kvm_dirty_ring_exit(vcpu);
+> > +			return 0;
+> > +		}
+> >   	}
+> >   	return 1;
+> > diff --git a/virt/kvm/dirty_ring.c b/virt/kvm/dirty_ring.c
+> > index f4c2a6eb1666..08b2f01164fa 100644
+> > --- a/virt/kvm/dirty_ring.c
+> > +++ b/virt/kvm/dirty_ring.c
+> > @@ -149,6 +149,7 @@ int kvm_dirty_ring_reset(struct kvm *kvm, struct kvm_dirty_ring *ring)
+> >   void kvm_dirty_ring_push(struct kvm_dirty_ring *ring, u32 slot, u64 offset)
+> >   {
+> > +	struct kvm_vcpu *vcpu = container_of(ring, struct kvm_vcpu, dirty_ring);
+> >   	struct kvm_dirty_gfn *entry;
+> >   	/* It should never get full */
+> > @@ -166,6 +167,9 @@ void kvm_dirty_ring_push(struct kvm_dirty_ring *ring, u32 slot, u64 offset)
+> >   	kvm_dirty_gfn_set_dirtied(entry);
+> >   	ring->dirty_index++;
+> >   	trace_kvm_dirty_ring_push(ring, slot, offset);
+> > +
+> > +	if (kvm_dirty_ring_soft_full(vcpu))
+> > +		kvm_make_request(KVM_REQ_RING_SOFT_FULL, vcpu);
+> >   }
+> >   struct page *kvm_dirty_ring_get_page(struct kvm_dirty_ring *ring, u32 offset)
+> > 
+> 
+> Ok, thanks for the details, Marc. I will adopt your code in next revision :)
 
-The program_types.csv file is generated from tools/lib/bpf/libbpf.c
-and a script is included for regenerating the .csv file.
+Note that there can be a slight difference with the old/new code, in that
+an (especially malicious) userapp can logically ignore the DIRTY_RING_FULL
+vmexit and keep kicking VCPU_RUN with the new code.
 
-I have not integrated the script into the doc build but if that
-is desirable then please suggest the preferred way to do so.
+Unlike the old code, the 2nd/3rd/... KVM_RUN will still run in the new code
+until the next dirty pfn being pushed to the ring, then it'll request ring
+full exit again.
 
-Signed-off-by: Donald Hunter <donald.hunter@gmail.com>
----
- Documentation/bpf/program_types.csv | 82 +++++++++++++++++++++++++++++
- Documentation/bpf/programs.rst      | 15 ++++++
- scripts/gen-bpf-progtypes.sh        | 21 ++++++++
- 3 files changed, 118 insertions(+)
- create mode 100644 Documentation/bpf/program_types.csv
- create mode 100755 scripts/gen-bpf-progtypes.sh
+Each time it exits the ring grows 1.
 
-diff --git a/Documentation/bpf/program_types.csv b/Documentation/bpf/program_types.csv
-new file mode 100644
-index 000000000000..adec046b0bde
---- /dev/null
-+++ b/Documentation/bpf/program_types.csv
-@@ -0,0 +1,82 @@
-+Program Type,Attach Type,ELF Section Name,Sleepable
-+``BPF_PROG_TYPE_SOCKET_FILTER``,,``socket``,
-+``BPF_PROG_TYPE_SK_REUSEPORT``,``BPF_SK_REUSEPORT_SELECT_OR_MIGRATE``,``sk_reuseport/migrate``,
-+``BPF_PROG_TYPE_SK_REUSEPORT``,``BPF_SK_REUSEPORT_SELECT``,``sk_reuseport``,
-+``BPF_PROG_TYPE_KPROBE``,,``kprobe+``,
-+``BPF_PROG_TYPE_KPROBE``,,``uprobe+``,
-+``BPF_PROG_TYPE_KPROBE``,,``uprobe.s+``,Yes
-+``BPF_PROG_TYPE_KPROBE``,,``kretprobe+``,
-+``BPF_PROG_TYPE_KPROBE``,,``uretprobe+``,
-+``BPF_PROG_TYPE_KPROBE``,,``uretprobe.s+``,Yes
-+``BPF_PROG_TYPE_KPROBE``,``BPF_TRACE_KPROBE_MULTI``,``kprobe.multi+``,
-+``BPF_PROG_TYPE_KPROBE``,``BPF_TRACE_KPROBE_MULTI``,``kretprobe.multi+``,
-+``BPF_PROG_TYPE_KPROBE``,,``ksyscall+``,
-+``BPF_PROG_TYPE_KPROBE``,,``kretsyscall+``,
-+``BPF_PROG_TYPE_KPROBE``,,``usdt+``,
-+``BPF_PROG_TYPE_SCHED_CLS``,,``tc``,
-+``BPF_PROG_TYPE_SCHED_CLS``,,``classifier``,
-+``BPF_PROG_TYPE_SCHED_ACT``,,``action``,
-+``BPF_PROG_TYPE_TRACEPOINT``,,``tracepoint+``,
-+``BPF_PROG_TYPE_TRACEPOINT``,,``tp+``,
-+``BPF_PROG_TYPE_RAW_TRACEPOINT``,,``raw_tracepoint+``,
-+``BPF_PROG_TYPE_RAW_TRACEPOINT``,,``raw_tp+``,
-+``BPF_PROG_TYPE_RAW_TRACEPOINT_WRITABLE``,,``raw_tracepoint.w+``,
-+``BPF_PROG_TYPE_RAW_TRACEPOINT_WRITABLE``,,``raw_tp.w+``,
-+``BPF_PROG_TYPE_TRACING``,``BPF_TRACE_RAW_TP``,``tp_btf+``,
-+``BPF_PROG_TYPE_TRACING``,``BPF_TRACE_FENTRY``,``fentry+``,
-+``BPF_PROG_TYPE_TRACING``,``BPF_MODIFY_RETURN``,``fmod_ret+``,
-+``BPF_PROG_TYPE_TRACING``,``BPF_TRACE_FEXIT``,``fexit+``,
-+``BPF_PROG_TYPE_TRACING``,``BPF_TRACE_FENTRY``,``fentry.s+``,Yes
-+``BPF_PROG_TYPE_TRACING``,``BPF_MODIFY_RETURN``,``fmod_ret.s+``,Yes
-+``BPF_PROG_TYPE_TRACING``,``BPF_TRACE_FEXIT``,``fexit.s+``,Yes
-+``BPF_PROG_TYPE_EXT``,,``freplace+``,
-+``BPF_PROG_TYPE_LSM``,``BPF_LSM_MAC``,``lsm+``,
-+``BPF_PROG_TYPE_LSM``,``BPF_LSM_MAC``,``lsm.s+``,Yes
-+``BPF_PROG_TYPE_LSM``,``BPF_LSM_CGROUP``,``lsm_cgroup+``,
-+``BPF_PROG_TYPE_TRACING``,``BPF_TRACE_ITER``,``iter+``,
-+``BPF_PROG_TYPE_TRACING``,``BPF_TRACE_ITER``,``iter.s+``,Yes
-+``BPF_PROG_TYPE_SYSCALL``,,``syscall``,Yes
-+``BPF_PROG_TYPE_XDP``,``BPF_XDP_DEVMAP``,``xdp.frags/devmap``,
-+``BPF_PROG_TYPE_XDP``,``BPF_XDP_DEVMAP``,``xdp/devmap``,
-+``BPF_PROG_TYPE_XDP``,``BPF_XDP_CPUMAP``,``xdp.frags/cpumap``,
-+``BPF_PROG_TYPE_XDP``,``BPF_XDP_CPUMAP``,``xdp/cpumap``,
-+``BPF_PROG_TYPE_XDP``,``BPF_XDP``,``xdp.frags``,
-+``BPF_PROG_TYPE_XDP``,``BPF_XDP``,``xdp``,
-+``BPF_PROG_TYPE_PERF_EVENT``,,``perf_event``,
-+``BPF_PROG_TYPE_LWT_IN``,,``lwt_in``,
-+``BPF_PROG_TYPE_LWT_OUT``,,``lwt_out``,
-+``BPF_PROG_TYPE_LWT_XMIT``,,``lwt_xmit``,
-+``BPF_PROG_TYPE_LWT_SEG6LOCAL``,,``lwt_seg6local``,
-+``BPF_PROG_TYPE_SOCK_OPS``,``BPF_CGROUP_SOCK_OPS``,``sockops``,
-+``BPF_PROG_TYPE_SK_SKB``,``BPF_SK_SKB_STREAM_PARSER``,``sk_skb/stream_parser``,
-+``BPF_PROG_TYPE_SK_SKB``,``BPF_SK_SKB_STREAM_VERDICT``,``sk_skb/stream_verdict``,
-+``BPF_PROG_TYPE_SK_SKB``,,``sk_skb``,
-+``BPF_PROG_TYPE_SK_MSG``,``BPF_SK_MSG_VERDICT``,``sk_msg``,
-+``BPF_PROG_TYPE_LIRC_MODE2``,``BPF_LIRC_MODE2``,``lirc_mode2``,
-+``BPF_PROG_TYPE_FLOW_DISSECTOR``,``BPF_FLOW_DISSECTOR``,``flow_dissector``,
-+``BPF_PROG_TYPE_CGROUP_SKB``,``BPF_CGROUP_INET_INGRESS``,``cgroup_skb/ingress``,
-+``BPF_PROG_TYPE_CGROUP_SKB``,``BPF_CGROUP_INET_EGRESS``,``cgroup_skb/egress``,
-+``BPF_PROG_TYPE_CGROUP_SKB``,,``cgroup/skb``,
-+``BPF_PROG_TYPE_CGROUP_SOCK``,``BPF_CGROUP_INET_SOCK_CREATE``,``cgroup/sock_create``,
-+``BPF_PROG_TYPE_CGROUP_SOCK``,``BPF_CGROUP_INET_SOCK_RELEASE``,``cgroup/sock_release``,
-+``BPF_PROG_TYPE_CGROUP_SOCK``,``BPF_CGROUP_INET_SOCK_CREATE``,``cgroup/sock``,
-+``BPF_PROG_TYPE_CGROUP_SOCK``,``BPF_CGROUP_INET4_POST_BIND``,``cgroup/post_bind4``,
-+``BPF_PROG_TYPE_CGROUP_SOCK``,``BPF_CGROUP_INET6_POST_BIND``,``cgroup/post_bind6``,
-+``BPF_PROG_TYPE_CGROUP_SOCK_ADDR``,``BPF_CGROUP_INET4_BIND``,``cgroup/bind4``,
-+``BPF_PROG_TYPE_CGROUP_SOCK_ADDR``,``BPF_CGROUP_INET6_BIND``,``cgroup/bind6``,
-+``BPF_PROG_TYPE_CGROUP_SOCK_ADDR``,``BPF_CGROUP_INET4_CONNECT``,``cgroup/connect4``,
-+``BPF_PROG_TYPE_CGROUP_SOCK_ADDR``,``BPF_CGROUP_INET6_CONNECT``,``cgroup/connect6``,
-+``BPF_PROG_TYPE_CGROUP_SOCK_ADDR``,``BPF_CGROUP_UDP4_SENDMSG``,``cgroup/sendmsg4``,
-+``BPF_PROG_TYPE_CGROUP_SOCK_ADDR``,``BPF_CGROUP_UDP6_SENDMSG``,``cgroup/sendmsg6``,
-+``BPF_PROG_TYPE_CGROUP_SOCK_ADDR``,``BPF_CGROUP_UDP4_RECVMSG``,``cgroup/recvmsg4``,
-+``BPF_PROG_TYPE_CGROUP_SOCK_ADDR``,``BPF_CGROUP_UDP6_RECVMSG``,``cgroup/recvmsg6``,
-+``BPF_PROG_TYPE_CGROUP_SOCK_ADDR``,``BPF_CGROUP_INET4_GETPEERNAME``,``cgroup/getpeername4``,
-+``BPF_PROG_TYPE_CGROUP_SOCK_ADDR``,``BPF_CGROUP_INET6_GETPEERNAME``,``cgroup/getpeername6``,
-+``BPF_PROG_TYPE_CGROUP_SOCK_ADDR``,``BPF_CGROUP_INET4_GETSOCKNAME``,``cgroup/getsockname4``,
-+``BPF_PROG_TYPE_CGROUP_SOCK_ADDR``,``BPF_CGROUP_INET6_GETSOCKNAME``,``cgroup/getsockname6``,
-+``BPF_PROG_TYPE_CGROUP_SYSCTL``,``BPF_CGROUP_SYSCTL``,``cgroup/sysctl``,
-+``BPF_PROG_TYPE_CGROUP_SOCKOPT``,``BPF_CGROUP_GETSOCKOPT``,``cgroup/getsockopt``,
-+``BPF_PROG_TYPE_CGROUP_SOCKOPT``,``BPF_CGROUP_SETSOCKOPT``,``cgroup/setsockopt``,
-+``BPF_PROG_TYPE_CGROUP_DEVICE``,``BPF_CGROUP_DEVICE``,``cgroup/dev``,
-+``BPF_PROG_TYPE_STRUCT_OPS``,,``struct_ops+``,
-+``BPF_PROG_TYPE_SK_LOOKUP``,``BPF_SK_LOOKUP``,``sk_lookup``,
-diff --git a/Documentation/bpf/programs.rst b/Documentation/bpf/programs.rst
-index 620eb667ac7a..71448fe0b955 100644
---- a/Documentation/bpf/programs.rst
-+++ b/Documentation/bpf/programs.rst
-@@ -7,3 +7,18 @@ Program Types
-    :glob:
- 
-    prog_*
-+
-+Program Types and libbpf
-+========================
-+
-+The table below lists the program types, their attach types where relevant and the ELF section
-+names supported by libbpf for them. The ELF section names follow these rules:
-+
-+- ``type`` is an exact match, e.g. ``SEC("socket")``
-+- ``type+`` means it can be either exact ``SEC("type")`` or well-formed ``SEC("type/extras")``
-+  with a ‘``/``’ separator, e.g. ``SEC("tracepoint/syscalls/sys_enter_open")``
-+
-+.. csv-table:: Program Types and Their ELF Section Names
-+   :file: program_types.csv
-+   :widths: 40 30 20 10
-+   :header-rows: 1
-diff --git a/scripts/gen-bpf-progtypes.sh b/scripts/gen-bpf-progtypes.sh
-new file mode 100755
-index 000000000000..fb9650bd5c1b
---- /dev/null
-+++ b/scripts/gen-bpf-progtypes.sh
-@@ -0,0 +1,21 @@
-+#!/bin/bash
-+# SPDX-License-Identifier: GPL-2.0-only
-+#
-+# Copyright (C) Red Hat.
-+#
-+# Generate a .csv table of BPF program types
-+
-+if ! [ -d "tools/lib/bpf" -a -d "Documentation" ]; then
-+    echo "Run from top level of kernel tree"
-+    exit 1
-+fi
-+
-+awk -F'[",[:space:]]+' \
-+    'BEGIN { print "Program Type,Attach Type,ELF Section Name,Sleepable" }
-+    /SEC_DEF\(\"/ && !/SEC_DEPRECATED/ {
-+    type = "``BPF_PROG_TYPE_" $4 "``"
-+    attach = index($5, "0") ? "" : "``" $5 "``";
-+    section = "``" $3 "``"
-+    sleepable = index($0, "SEC_SLEEPABLE") ? "Yes" : "";
-+    print type "," attach "," section "," sleepable }' \
-+tools/lib/bpf/libbpf.c > Documentation/bpf/program_types.csv
+At last iiuc it can easily hit the ring full and trigger the warning at the
+entry of kvm_dirty_ring_push():
+
+	/* It should never get full */
+	WARN_ON_ONCE(kvm_dirty_ring_full(ring));
+
+We did that because kvm_dirty_ring_push() was previously designed to not be
+able to fail at all (e.g., in the old bitmap world we never will fail too).
+We can't because we can't lose any dirty page or migration could silently
+fail too (consider when we do user exit due to ring full and migration just
+completed; there could be unsynced pages on src/dst).
+
+So even though the old approach will need to read kvm->dirty_ring_size for
+every entrance which is a pity, it will avoid issue above.
+
+Side note: for x86 the dirty ring check was put at the entrance not because
+it needs to be the highest priority - it should really be the same when
+check kvm requests. It's just that it'll be the fastest way to fail
+properly if needed before loading mmu, disabling preemption/irq, etc.
+
+Thanks,
+
 -- 
-2.35.1
+Peter Xu
 
