@@ -2,69 +2,90 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C159C32772
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Aug 2022 14:23:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 36C50C32772
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Aug 2022 15:43:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241791AbiHWOX0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 23 Aug 2022 10:23:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32856 "EHLO
+        id S242281AbiHWPnh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 23 Aug 2022 11:43:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37384 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241881AbiHWOXE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Aug 2022 10:23:04 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE54E161F05;
-        Tue, 23 Aug 2022 04:36:10 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id C0F45B81CDE;
-        Tue, 23 Aug 2022 11:34:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CCF2FC43141;
-        Tue, 23 Aug 2022 11:34:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1661254477;
-        bh=dbVWDldCY4YzubCVafQgz4jun7QPRpofSS5e63+/k1M=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=q6ASJqWDkzWRgVDFV55SAHo9P7Ljs0Aj91OH+zpkBXNJXhHLrMar0t3vffGzH7Frz
-         knpC+6vpSk9eGxbnG3vXwvh19w+giIxPbRA7+l6CHNRniF/+OW3dfLKYvb23ecPnZG
-         h3ckewL4yWOijMwbZmCW6Vek25DIt+qmDjmfYBtqYepMOQrq2sx3JR+oxeDR6TdOID
-         OhjDIOMHOIixsriuwViWnq2WmC/sDi2f1bs5eogpNC2kygK1Xwooy6uf3kQFyCvFRq
-         vvQjhWUx8/Q2g0qstpDywkcDo46ZgzYsrLkd7vDqpYwe2MmGwaodupTJ8YxhbI0T6f
-         xfOzn4DP/UvZQ==
-From:   Will Deacon <will@kernel.org>
-To:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        =?UTF-8?q?Martin=20Li=C5=A1ka?= <mliska@suse.cz>
-Cc:     catalin.marinas@arm.com, kernel-team@android.com,
-        Will Deacon <will@kernel.org>, corbet@lwn.net,
-        linux-arm-kernel@lists.infradead.org, broonie@kernel.org
-Subject: Re: [PATCH v3] docs/arm64: elf_hwcaps: unify newlines in HWCAP lists
-Date:   Tue, 23 Aug 2022 12:34:21 +0100
-Message-Id: <166124752070.3122203.12566494356867876740.b4-ty@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <84e3d6cc-75cf-d6f3-9bb8-be02075aaf6d@suse.cz>
-References: <Yv50RxlDf0qpK9v8@sirena.org.uk> <84e3d6cc-75cf-d6f3-9bb8-be02075aaf6d@suse.cz>
+        with ESMTP id S242406AbiHWPnK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Aug 2022 11:43:10 -0400
+Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 119DF296573;
+        Tue, 23 Aug 2022 04:40:28 -0700 (PDT)
+Received: by mail-pl1-x635.google.com with SMTP id g8so8668138plq.11;
+        Tue, 23 Aug 2022 04:40:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc;
+        bh=HRfba2ZkYZCM1D9aUkoUNXDUBf9660MhvdLdrBTo7Ss=;
+        b=AAeqEBL9MB3YAtJpl/qAbJ1vzCqD98FgvuD+7Rk5AdKB6lBVp0jXbIAWVrSSeX6aH4
+         05H4uY151vzAPipETs6T4Zgrnj/Fg3qGU3Q3YV5rNAI3ceF3Dz/c9mvDLp8pbF5e4ai4
+         hR3q8tyxuScXpx6aszPHzBEW/9S8vpz1L8Y9fu0LHX/OCCe171ZummXza3MSW9B51AxO
+         OoRaekDYjH34NJOTlQMWLUoz8V5NFLUR+XSuQoTmOPHXgLpXzqRuALKXd0KrWbtKKlAg
+         Beda/HDxoluaLCTp+VQ00kJpd8UXeJFteyXXk8bf67+pJc3kcG5BJs/LoacihQQh98wZ
+         2seQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
+        bh=HRfba2ZkYZCM1D9aUkoUNXDUBf9660MhvdLdrBTo7Ss=;
+        b=d4NCq2zwTitcD1V9f6nStSu6/XZ9KIxddJRi5WylZwhzuqBp/APb+Evyd8ECgqtnEe
+         9ubGwhkbED10Zl1oil5ACTMN4iPipM4dYqTCJeLA7BQ2Be3O4uGdEgptDZaOhjt3hG7/
+         gyRtfQoyuja7mY+Vn0n1hdsV1vdUIZAdY0P5J9ugNfAz1hgZgAf+jNCfW61DXKtUFQ8A
+         8GD++JobvNySScwNWFfHXA2r8x5BOlCJ7TdpMbj+eKaMR/ZIj6DQ2ezA/ADFv7Rkn6TE
+         /cS+uH9B0cGS5Cgb43A8N/Po5GP7rE6+Nz0OsISC67N9x745Acig7PE5rXNCycZ/GXZF
+         LnMQ==
+X-Gm-Message-State: ACgBeo3dF5Yd8mftlZcUNzPW3X/b0/W5Ob7KhN2ff5PSLnbZLs3LoXKW
+        KmYJX9cCemsC0E60lxZmHDZvgs9lDsFhOkXbrUJSRXMf45pukw==
+X-Google-Smtp-Source: AA6agR7Xi80ZOmP/zesxSF5UOCSBzj/yY4cxIphiOeR38Ai5oiZ64OVCe9jwC9ZpSafIck+lhkfVn1cdQABanRd+91c=
+X-Received: by 2002:a17:90b:3d7:b0:1fa:e708:ef43 with SMTP id
+ go23-20020a17090b03d700b001fae708ef43mr2910997pjb.239.1661254788863; Tue, 23
+ Aug 2022 04:39:48 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+References: <20220822165646.87524-1-sj@kernel.org> <20220822170500.87712-1-sj@kernel.org>
+In-Reply-To: <20220822170500.87712-1-sj@kernel.org>
+From:   Kairui Song <ryncsn@gmail.com>
+Date:   Tue, 23 Aug 2022 19:39:36 +0800
+Message-ID: <CAMgjq7D989Ki-zHN5=yY+MYj2tUqizmg++PSK=5J6epr4isF6w@mail.gmail.com>
+Subject: Re: [PATCH] Docs/admin-guide/mm/damon/usage: fix the example code snip
+To:     SeongJae Park <sj@kernel.org>
+Cc:     damon@lists.linux.dev, Jonathan Corbet <corbet@lwn.net>,
+        linux-mm@kvack.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 18 Aug 2022 22:31:57 +0200, Martin Liška wrote:
-> Unify horizontal spacing (remove extra newlines) which
-> are sensitive to visual presentation by Sphinx.
-> 
-> 
+SeongJae Park <sj@kernel.org> =E4=BA=8E2022=E5=B9=B48=E6=9C=8823=E6=97=A5=
+=E5=91=A8=E4=BA=8C 01:05=E5=86=99=E9=81=93=EF=BC=9A
+>
+> On Mon, 22 Aug 2022 16:56:46 +0000 SeongJae Park <sj@kernel.org> wrote:
+>
+> > Hi Kairui,
+> >
+> >
+> > On Mon, 22 Aug 2022 18:56:17 +0800 Kairui Song <ryncsn@gmail.com> wrote=
+:
+> >
+> > > From: Kairui Song <kasong@tencent.com>
+> > >
+> > > The workflow example code is not working since it got the file names
+> > > wrong. So fix this.
+> >
+> > Nice finding, thank you for this patch!
+> >
+> > >
+>
+> Oh, I forgot saying that it would be good to have Fixes: here, like below=
+:
+>
+> Fixes: b18402726bd1 ("Docs/admin-guide/mm/damon/usage: document DAMON sys=
+fs interface")
 
-Applied to arm64 (for-next/fixes), thanks!
-
-[1/1] docs/arm64: elf_hwcaps: unify newlines in HWCAP lists
-      https://git.kernel.org/arm64/c/0b52f76351bf
-
-Cheers,
--- 
-Will
-
-https://fixes.arm64.dev
-https://next.arm64.dev
-https://will.arm64.dev
+Thanks for the review, Let me send a V2 adding the "Fixes:" tag and
+your review by.
