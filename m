@@ -2,77 +2,144 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A4809C32774
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Aug 2022 06:29:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4845FC32793
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Aug 2022 07:37:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240616AbiHWG3E (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 23 Aug 2022 02:29:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34668 "EHLO
+        id S231827AbiHWHhF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 23 Aug 2022 03:37:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45382 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240517AbiHWG3D (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Aug 2022 02:29:03 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9021D4056F;
-        Mon, 22 Aug 2022 23:29:02 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 2A97561477;
-        Tue, 23 Aug 2022 06:29:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF9ABC433D6;
-        Tue, 23 Aug 2022 06:29:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1661236141;
-        bh=JRtJ29lH/SslxxH7D0rWowl2W4WY4+1lbfXKoq/Nbc8=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=cpc1b1ygbuSbtiySOHMJUlZbIyRz8R+meI7a5Uy3z7PS5TK7ZXkGybvLNx0hfgEcl
-         njq0bsaGeveOj0lTI4UAz/i/YIZQ2uLb5o0dGQT8scKcQQgEzMAXzu1lt23aSjlktu
-         iOrkeiytkPiflfmBDOlWqQh8n068RVBg0rMRgIHs=
-Date:   Tue, 23 Aug 2022 08:28:58 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Bagas Sanjaya <bagasdotme@gmail.com>
-Cc:     linux-doc@vger.kernel.org, linux-mips@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Rikard Falkeborn <rikard.falkeborn@gmail.com>,
-        Sergey Ryazanov <ryazanov.s.a@gmail.com>,
-        Ralf Baechle <ralf@linux-mips.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Aditya Srivastava <yashsri421@gmail.com>,
-        kernel test robot <lkp@intel.com>, stable@vger.kernel.org
-Subject: Re: [PATCH] mips: pci: remove extraneous asterisk from top level
- comment of ar2315 PCI driver
-Message-ID: <YwRzqiJjHdnCA65Y@kroah.com>
-References: <202208221854.8ASrzjKa-lkp@intel.com>
- <20220823030056.123709-1-bagasdotme@gmail.com>
+        with ESMTP id S238745AbiHWHhE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Aug 2022 03:37:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 350E1642E2
+        for <linux-doc@vger.kernel.org>; Tue, 23 Aug 2022 00:37:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1661240222;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=HohlDOM1an5R3Aeg0WJ6GQRtA32+l/PSRz3n64TVcFI=;
+        b=QoG+AdmEJFhLTazALmYxXOH4iLtqDgwci802sX/4jdTKKs4NhjaLT9ue+8poTKZKPJXvue
+        nmFmdOgkspSXedAXE3I5BMh6OLPQRUNlV1ya9JXx0gqdD0KegS/uqTRaEsMtd4r2rdDQv8
+        MdDUr0stYsbatJPckuknEUldl2YOEEU=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-467-gNE3h_Q3NsisQCX_JDnEfA-1; Tue, 23 Aug 2022 03:37:01 -0400
+X-MC-Unique: gNE3h_Q3NsisQCX_JDnEfA-1
+Received: by mail-wr1-f72.google.com with SMTP id m7-20020adfa3c7000000b002251ddd0e05so2046043wrb.10
+        for <linux-doc@vger.kernel.org>; Tue, 23 Aug 2022 00:37:00 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:organization:from:references
+         :cc:to:content-language:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc;
+        bh=HohlDOM1an5R3Aeg0WJ6GQRtA32+l/PSRz3n64TVcFI=;
+        b=0G8gFoEMv1LnbNwUxqqcX711vn2FmUq9XBtgDx8Gtc0/L0xpNNMUdidFnXiHQqaKYz
+         L/IrSg/4HUhfgohNDTGolnUbtD7tJ4OLKwGVqXLiIFqNY5fTnMAPinMDAqwndp+HE7eT
+         qJ9wQ1fcIPJm4i61Ym8WKE4M/MNRbpETWY3/r4O2Mm8wmjT6WeX9DrjYND7Z/rmdxe5O
+         qhoPL9TuKG2MQ6Tga9yGvWZLKBZvqzrkLb+9LLCRF0QifbKvznKG19xgB4bTNQf5XF7o
+         OGg0yt6AT1HYJQrcQ2xWWYa1BifQ7PqcidpIRqaSMnWVb2GB/z4LlAATh5LZ+7v8bZGn
+         qLDA==
+X-Gm-Message-State: ACgBeo3bSBqMT7WOOp74Gr4xwxCN2KedyP339etXOv0PyKyZPJ4mWpip
+        sualTjGEd4DyHR8aJT9q49brlwn+QqD4cLDPZn+vaJheA2S7BeNCR1sE/iLX9B8fFmNCkYRCMo9
+        lu9XGWB+J0wh6bv3OilDR
+X-Received: by 2002:a05:600c:4e04:b0:3a5:a34e:ae81 with SMTP id b4-20020a05600c4e0400b003a5a34eae81mr1210676wmq.147.1661240219941;
+        Tue, 23 Aug 2022 00:36:59 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR4NUFG4IFicJqv+j50eM5lq6Rzd1ri/9X+RKdy6Bv7oWpP5THIKdol8DYBnS2vZ39y/40KufQ==
+X-Received: by 2002:a05:600c:4e04:b0:3a5:a34e:ae81 with SMTP id b4-20020a05600c4e0400b003a5a34eae81mr1210635wmq.147.1661240219655;
+        Tue, 23 Aug 2022 00:36:59 -0700 (PDT)
+Received: from ?IPV6:2003:cb:c70b:1600:c48b:1fab:a330:5182? (p200300cbc70b1600c48b1faba3305182.dip0.t-ipconnect.de. [2003:cb:c70b:1600:c48b:1fab:a330:5182])
+        by smtp.gmail.com with ESMTPSA id u18-20020adfdb92000000b0021eaf4138aesm16379582wri.108.2022.08.23.00.36.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 23 Aug 2022 00:36:59 -0700 (PDT)
+Message-ID: <8f6f428b-85e6-a188-7f32-512b6aae0abf@redhat.com>
+Date:   Tue, 23 Aug 2022 09:36:57 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220823030056.123709-1-bagasdotme@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v7 01/14] mm: Add F_SEAL_AUTO_ALLOCATE seal to memfd
+Content-Language: en-US
+To:     "Kirill A. Shutemov" <kirill@shutemov.name>,
+        Paolo Bonzini <pbonzini@redhat.com>
+Cc:     Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+        linux-kselftest@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Sean Christopherson <seanjc@google.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+        ak@linux.intel.com, aarcange@redhat.com, ddutile@redhat.com,
+        dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+        Muchun Song <songmuchun@bytedance.com>
+References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
+ <20220706082016.2603916-2-chao.p.peng@linux.intel.com>
+ <f39c4f63-a511-4beb-b3a4-66589ddb5475@redhat.com>
+ <472207cf-ff71-563b-7b66-0c7bea9ea8ad@redhat.com>
+ <20220817234120.mw2j3cgshmuyo2vw@box.shutemov.name>
+From:   David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+In-Reply-To: <20220817234120.mw2j3cgshmuyo2vw@box.shutemov.name>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Aug 23, 2022 at 10:00:56AM +0700, Bagas Sanjaya wrote:
-> kernel test robot reported kernel-doc warning:
+On 18.08.22 01:41, Kirill A. Shutemov wrote:
+> On Fri, Aug 05, 2022 at 07:55:38PM +0200, Paolo Bonzini wrote:
+>> On 7/21/22 11:44, David Hildenbrand wrote:
+>>>
+>>> Also, I*think*  you can place pages via userfaultfd into shmem. Not
+>>> sure if that would count "auto alloc", but it would certainly bypass
+>>> fallocate().
+>>
+>> Yeah, userfaultfd_register would probably have to forbid this for
+>> F_SEAL_AUTO_ALLOCATE vmas.  Maybe the memfile_node can be reused for this,
+>> adding a new MEMFILE_F_NO_AUTO_ALLOCATE flags?  Then userfault_register
+>> would do something like memfile_node_get_flags(vma->vm_file) and check the
+>> result.
 > 
-> arch/mips/pci/pci-ar2315.c:6: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
->     * Both AR2315 and AR2316 chips have PCI interface unit, which supports DMA
+> I donno, memory allocation with userfaultfd looks pretty intentional to
+> me. Why would F_SEAL_AUTO_ALLOCATE prevent it?
 > 
-> The warning above is caused by an extraneous asterisk on the top level
-> (description) comment of pci-ar2315.c, for which the comment is confused as
-> kernel-doc comment instead.
-> 
-> Remove the asterisk.
-> 
-> Link: https://lore.kernel.org/linux-doc/202208221854.8ASrzjKa-lkp@intel.com/
-> Fixes: 3ed7a2a702dc0f ("MIPS: ath25: add AR2315 PCI host controller driver")
-> Fixes: 3e58e839150db0 ("scripts: kernel-doc: add warning for comment not following kernel-doc syntax")
-> Reported-by: kernel test robot <lkp@intel.com>
-> Cc: stable@vger.kernel.org # v5.15, v5.19
 
-kerneldoc issues are not stable worth, sorry.
+Can't we say the same about a write()?
 
-thanks,
+> Maybe we would need it in the future for post-copy migration or something?
+> 
+> Or existing practises around userfaultfd touch memory randomly and
+> therefore incompatible with F_SEAL_AUTO_ALLOCATE intent?
+> 
+> Note, that userfaultfd is only relevant for shared memory as it requires
+> VMA which we don't have for MFD_INACCESSIBLE.
 
-greg k-h
+This feature (F_SEAL_AUTO_ALLOCATE) is independent of all the lovely
+encrypted VM stuff, so it doesn't matter how it relates to MFD_INACCESSIBLE.
+
+-- 
+Thanks,
+
+David / dhildenb
+
