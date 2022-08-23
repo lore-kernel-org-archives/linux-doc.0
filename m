@@ -2,90 +2,116 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 36C50C32772
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Aug 2022 15:43:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B0C4FC32772
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Aug 2022 15:44:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242281AbiHWPnh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 23 Aug 2022 11:43:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37384 "EHLO
+        id S242567AbiHWPoD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 23 Aug 2022 11:44:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39866 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242406AbiHWPnK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Aug 2022 11:43:10 -0400
-Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 119DF296573;
-        Tue, 23 Aug 2022 04:40:28 -0700 (PDT)
-Received: by mail-pl1-x635.google.com with SMTP id g8so8668138plq.11;
-        Tue, 23 Aug 2022 04:40:28 -0700 (PDT)
+        with ESMTP id S242560AbiHWPnc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Aug 2022 11:43:32 -0400
+Received: from mail-pg1-x529.google.com (mail-pg1-x529.google.com [IPv6:2607:f8b0:4864:20::529])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D006E29A717;
+        Tue, 23 Aug 2022 04:41:36 -0700 (PDT)
+Received: by mail-pg1-x529.google.com with SMTP id q9so2980401pgq.6;
+        Tue, 23 Aug 2022 04:41:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc;
-        bh=HRfba2ZkYZCM1D9aUkoUNXDUBf9660MhvdLdrBTo7Ss=;
-        b=AAeqEBL9MB3YAtJpl/qAbJ1vzCqD98FgvuD+7Rk5AdKB6lBVp0jXbIAWVrSSeX6aH4
-         05H4uY151vzAPipETs6T4Zgrnj/Fg3qGU3Q3YV5rNAI3ceF3Dz/c9mvDLp8pbF5e4ai4
-         hR3q8tyxuScXpx6aszPHzBEW/9S8vpz1L8Y9fu0LHX/OCCe171ZummXza3MSW9B51AxO
-         OoRaekDYjH34NJOTlQMWLUoz8V5NFLUR+XSuQoTmOPHXgLpXzqRuALKXd0KrWbtKKlAg
-         Beda/HDxoluaLCTp+VQ00kJpd8UXeJFteyXXk8bf67+pJc3kcG5BJs/LoacihQQh98wZ
-         2seQ==
+        h=content-transfer-encoding:mime-version:reply-to:message-id:date
+         :subject:cc:to:from:from:to:cc;
+        bh=EX/82qnQonQiLqn4wSbDmFcuxyzSeSG7gW+qIxvJMUI=;
+        b=EFoqdBDkG/5UPV6HPIgvFcGc0TyYf/CF3yiYdCUZx4myoPyDIRta+YXXtjyiRuQroo
+         34I1JKEGwEmYjmYB0oFj/hVGgCOcNAdGKuSp7d7eSNpTBV7s5pNKvxG36/ySBhSvMqHE
+         qCaiJyxYJV+IFtlBSUSgkipI330atbUVMCk4hQzY1rxtI+m2mV24n0ZLez9g1GXR3suN
+         AOTWJuHdfS0pLOYdoOh3ktoXGcQpmkpOTAYDA1FZVMijbtwvnhvrWalj9gGn02HKRN5/
+         VCKYUVyZzr8EIVzLhFNgeeEHBMANveL39F7scu6vEWxpymxF/265DWRbQwOEEZ9W7NOB
+         OWvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
-        bh=HRfba2ZkYZCM1D9aUkoUNXDUBf9660MhvdLdrBTo7Ss=;
-        b=d4NCq2zwTitcD1V9f6nStSu6/XZ9KIxddJRi5WylZwhzuqBp/APb+Evyd8ECgqtnEe
-         9ubGwhkbED10Zl1oil5ACTMN4iPipM4dYqTCJeLA7BQ2Be3O4uGdEgptDZaOhjt3hG7/
-         gyRtfQoyuja7mY+Vn0n1hdsV1vdUIZAdY0P5J9ugNfAz1hgZgAf+jNCfW61DXKtUFQ8A
-         8GD++JobvNySScwNWFfHXA2r8x5BOlCJ7TdpMbj+eKaMR/ZIj6DQ2ezA/ADFv7Rkn6TE
-         /cS+uH9B0cGS5Cgb43A8N/Po5GP7rE6+Nz0OsISC67N9x745Acig7PE5rXNCycZ/GXZF
-         LnMQ==
-X-Gm-Message-State: ACgBeo3dF5Yd8mftlZcUNzPW3X/b0/W5Ob7KhN2ff5PSLnbZLs3LoXKW
-        KmYJX9cCemsC0E60lxZmHDZvgs9lDsFhOkXbrUJSRXMf45pukw==
-X-Google-Smtp-Source: AA6agR7Xi80ZOmP/zesxSF5UOCSBzj/yY4cxIphiOeR38Ai5oiZ64OVCe9jwC9ZpSafIck+lhkfVn1cdQABanRd+91c=
-X-Received: by 2002:a17:90b:3d7:b0:1fa:e708:ef43 with SMTP id
- go23-20020a17090b03d700b001fae708ef43mr2910997pjb.239.1661254788863; Tue, 23
- Aug 2022 04:39:48 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220822165646.87524-1-sj@kernel.org> <20220822170500.87712-1-sj@kernel.org>
-In-Reply-To: <20220822170500.87712-1-sj@kernel.org>
+        h=content-transfer-encoding:mime-version:reply-to:message-id:date
+         :subject:cc:to:from:x-gm-message-state:from:to:cc;
+        bh=EX/82qnQonQiLqn4wSbDmFcuxyzSeSG7gW+qIxvJMUI=;
+        b=Mdc7aEY2Dv0KCW67Yz8eJuGhX9ZdELjmulb9ZLR7NxLAlxBQQ/Eg+Wdtsx2QY8TeBN
+         aPUxx7ViTOSWSxoMfJ6daQ60W/JTvKLZDCeMUb8EkAo0JKifINqLQYWEuI6CgF+Cy/7O
+         pWIAI6PrI7hNF3FTLGIiBhSM7XUOIm8cT4YFJU9suj+l7F7ED1cLqEyX62bD3Pdp2f/p
+         LA+hrEFmk+ok6fFS1fw0h9BYrHDr/RgBRVt8+HKoL29FYXMKB80/D+x9bqkR6TbpA51V
+         9UYEvGbCXZ+9NOSE1Ad+MG8PVBxluxM4GCO1lw2oAHzfYsQmCr0jsUSKuixMVbGi4W29
+         2moQ==
+X-Gm-Message-State: ACgBeo1vZMaQuI5wqJy4iOFwoqwOYeJjQJz7VTl5IVuxfI3FFXti1esJ
+        Hp6+R5syjFJBtTAZg/Dv5Xc=
+X-Google-Smtp-Source: AA6agR6Zoi1wt/3LicRsVwqrm1eY/YMZMWLbHbEeTaewbnS24yU05Iszmm4dd63rApd0x4zfOTf9vw==
+X-Received: by 2002:a05:6a00:88f:b0:530:dec:81fd with SMTP id q15-20020a056a00088f00b005300dec81fdmr25156305pfj.64.1661254867730;
+        Tue, 23 Aug 2022 04:41:07 -0700 (PDT)
+Received: from KASONG-MB0.tencent.com ([103.7.29.31])
+        by smtp.gmail.com with ESMTPSA id w23-20020a627b17000000b0052d16416effsm10562930pfc.80.2022.08.23.04.41.05
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Tue, 23 Aug 2022 04:41:07 -0700 (PDT)
 From:   Kairui Song <ryncsn@gmail.com>
-Date:   Tue, 23 Aug 2022 19:39:36 +0800
-Message-ID: <CAMgjq7D989Ki-zHN5=yY+MYj2tUqizmg++PSK=5J6epr4isF6w@mail.gmail.com>
-Subject: Re: [PATCH] Docs/admin-guide/mm/damon/usage: fix the example code snip
-To:     SeongJae Park <sj@kernel.org>
-Cc:     damon@lists.linux.dev, Jonathan Corbet <corbet@lwn.net>,
+To:     damon@lists.linux.dev
+Cc:     SeongJae Park <sj@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
         linux-mm@kvack.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        linux-kernel@vger.kernel.org, Kairui Song <kasong@tencent.com>
+Subject: [PATCH v2] Docs/admin-guide/mm/damon/usage: fix the example code snip
+Date:   Tue, 23 Aug 2022 19:40:53 +0800
+Message-Id: <20220823114053.53305-1-ryncsn@gmail.com>
+X-Mailer: git-send-email 2.35.2
+Reply-To: Kairui Song <kasong@tencent.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-SeongJae Park <sj@kernel.org> =E4=BA=8E2022=E5=B9=B48=E6=9C=8823=E6=97=A5=
-=E5=91=A8=E4=BA=8C 01:05=E5=86=99=E9=81=93=EF=BC=9A
->
-> On Mon, 22 Aug 2022 16:56:46 +0000 SeongJae Park <sj@kernel.org> wrote:
->
-> > Hi Kairui,
-> >
-> >
-> > On Mon, 22 Aug 2022 18:56:17 +0800 Kairui Song <ryncsn@gmail.com> wrote=
-:
-> >
-> > > From: Kairui Song <kasong@tencent.com>
-> > >
-> > > The workflow example code is not working since it got the file names
-> > > wrong. So fix this.
-> >
-> > Nice finding, thank you for this patch!
-> >
-> > >
->
-> Oh, I forgot saying that it would be good to have Fixes: here, like below=
-:
->
-> Fixes: b18402726bd1 ("Docs/admin-guide/mm/damon/usage: document DAMON sys=
-fs interface")
+From: Kairui Song <kasong@tencent.com>
 
-Thanks for the review, Let me send a V2 adding the "Fixes:" tag and
-your review by.
+The workflow example code is not working since it got the file names
+wrong. So fix this.
+
+Fixes: b18402726bd1 ("Docs/admin-guide/mm/damon/usage: document DAMON sysfs interface")
+Reviewed-by: SeongJae Park <sj@kernel.org>
+Signed-off-by: Kairui Song <kasong@tencent.com>
+---
+ Documentation/admin-guide/mm/damon/usage.rst | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
+
+diff --git a/Documentation/admin-guide/mm/damon/usage.rst b/Documentation/admin-guide/mm/damon/usage.rst
+index d52f572a90298..ca91ecc290785 100644
+--- a/Documentation/admin-guide/mm/damon/usage.rst
++++ b/Documentation/admin-guide/mm/damon/usage.rst
+@@ -50,10 +50,10 @@ For a short example, users can monitor the virtual address space of a given
+ workload as below. ::
+ 
+     # cd /sys/kernel/mm/damon/admin/
+-    # echo 1 > kdamonds/nr && echo 1 > kdamonds/0/contexts/nr
++    # echo 1 > kdamonds/nr_kdamonds && echo 1 > kdamonds/0/contexts/nr_contexts
+     # echo vaddr > kdamonds/0/contexts/0/operations
+-    # echo 1 > kdamonds/0/contexts/0/targets/nr
+-    # echo $(pidof <workload>) > kdamonds/0/contexts/0/targets/0/pid
++    # echo 1 > kdamonds/0/contexts/0/targets/nr_targets
++    # echo $(pidof <workload>) > kdamonds/0/contexts/0/targets/0/pid_target
+     # echo on > kdamonds/0/state
+ 
+ Files Hierarchy
+@@ -366,12 +366,12 @@ memory rate becomes larger than 60%, or lower than 30%". ::
+     # echo 1 > kdamonds/0/contexts/0/schemes/nr_schemes
+     # cd kdamonds/0/contexts/0/schemes/0
+     # # set the basic access pattern and the action
+-    # echo 4096 > access_patterns/sz/min
+-    # echo 8192 > access_patterns/sz/max
+-    # echo 0 > access_patterns/nr_accesses/min
+-    # echo 5 > access_patterns/nr_accesses/max
+-    # echo 10 > access_patterns/age/min
+-    # echo 20 > access_patterns/age/max
++    # echo 4096 > access_pattern/sz/min
++    # echo 8192 > access_pattern/sz/max
++    # echo 0 > access_pattern/nr_accesses/min
++    # echo 5 > access_pattern/nr_accesses/max
++    # echo 10 > access_pattern/age/min
++    # echo 20 > access_pattern/age/max
+     # echo pageout > action
+     # # set quotas
+     # echo 10 > quotas/ms
+-- 
+2.35.2
+
