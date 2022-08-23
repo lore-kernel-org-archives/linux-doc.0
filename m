@@ -2,143 +2,104 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5DF82C38145
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Aug 2022 07:55:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 378E9C32789
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Aug 2022 07:55:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240062AbiHWHzP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 23 Aug 2022 03:55:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39748 "EHLO
+        id S240998AbiHWHzl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 23 Aug 2022 03:55:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39830 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241408AbiHWHzN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Aug 2022 03:55:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40C481EEE1
-        for <linux-doc@vger.kernel.org>; Tue, 23 Aug 2022 00:55:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1661241311;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=EIwZ7BoTfdMUAhH2fOQC6fOziS/YjfnIvgRTO5vTHto=;
-        b=IBpsjAxn7ybTneMnCH7gq/eE0msnpP/rtREK4TdSx3PwgkxhJFCo/aGucdJ2uESAJ7kyaq
-        GXbKw+SBoufZnWpcAFlD0ygUt9c5c/8R8At6NBSkcrM5AJ1MZozN2xeDrR66XTACk/Kx5R
-        T6aa40C2ZGGVVZovUaQVg3KGFoxOLvc=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-222-Oiii0wWyNJeNRy93aovXCA-1; Tue, 23 Aug 2022 03:55:07 -0400
-X-MC-Unique: Oiii0wWyNJeNRy93aovXCA-1
-Received: by mail-wm1-f69.google.com with SMTP id i7-20020a1c3b07000000b003a534ec2570so8384339wma.7
-        for <linux-doc@vger.kernel.org>; Tue, 23 Aug 2022 00:55:07 -0700 (PDT)
+        with ESMTP id S241449AbiHWHza (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Aug 2022 03:55:30 -0400
+Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 208F71EEE1;
+        Tue, 23 Aug 2022 00:55:29 -0700 (PDT)
+Received: by mail-pj1-x102e.google.com with SMTP id f21so13314701pjt.2;
+        Tue, 23 Aug 2022 00:55:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc;
+        bh=Xxc+am8JnZzn38/YDRBLpPnG3B37sa007H6emh7sE1Q=;
+        b=R5xBAQKoFl+3tgqEOz+RslovkAqgtUwmbSJqJbDX8B1c8NmMSCIwNWjdl/0syrbgWt
+         ut68/XCzsoTvkQYqU+36wRCNb49XsTNU4wwS1Hy0ILDfwwdhi66kMAVmIGrgns32Zvsi
+         FQ6Mch1DXKHhq1VZpdG4xfSP+VEoWiPCOF6Vmu1KemQdPLi47EAxYSb5lgfZMrWR7PQy
+         MXGNlClcX7/lqGHrMT2Ia3aigTO1SNHAntfbitDynXtzDAAPrEg+tmG6eTfeNF+9K20V
+         rhW023/By44bb1Xl8ZH1DgagEHsSHPTzu4cY6XLsQhIiBjP2Ggn+nXY78lfBWfyVdZNE
+         MXdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:subject:organization:from
-         :references:cc:to:content-language:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc;
-        bh=EIwZ7BoTfdMUAhH2fOQC6fOziS/YjfnIvgRTO5vTHto=;
-        b=XQycy5NaDx7wJsu0GIqCKdNTLwJAcxhPVPq2/OZNo65J2Qqhe5YSBGi/tvJElNqp8d
-         c1iatWReJAlLJ+ByxwXj49ECZ3EDTxOn0tDV3WfY1hgfoWRwvdrBsLdjWJ6a70T+AzQv
-         FxD8GmIBJzGKHUcdnjMIXwrSG7kYJAZQjhhq1JlcJPtirzAb+9sghvWE6NSrny5cCZ0J
-         Z0NXX4/SJHlry9ePY2XLUqMqj+x1H6dvCEjYBSq8ueiJQGCrlRV7Kh9GQ+2H5xzNpa43
-         J8hM5SF7pGZoyedvC8iQ/vogAlCW6Xa0ePiL3mYKN7myTzq7Qohj8tiIlQnjcjSE1RXM
-         V5Rg==
-X-Gm-Message-State: ACgBeo28BwLuP8tEjTvy9SU84sQ7DqyCKVBOeagKR+ga4bzxHDSzre6F
-        /Ben2v3G0IteJFDQ0zsASVi1D1mQWy7alSERlhycbnZLPuZds6+o3W+CD+AFC3XpiH1ulvncUD8
-        N1Qy7AXQ39SrVzjlSw3Oc
-X-Received: by 2002:adf:f643:0:b0:225:2cb3:4b05 with SMTP id x3-20020adff643000000b002252cb34b05mr13203087wrp.12.1661241306649;
-        Tue, 23 Aug 2022 00:55:06 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR7QQcmZIjuOTP3rp/phaSR8BK9i2DfQ3gujUYj0ItGrG9WBrBV+POmli4zo4g6w/n8XuVdszg==
-X-Received: by 2002:adf:f643:0:b0:225:2cb3:4b05 with SMTP id x3-20020adff643000000b002252cb34b05mr13203037wrp.12.1661241306387;
-        Tue, 23 Aug 2022 00:55:06 -0700 (PDT)
-Received: from ?IPV6:2003:cb:c70b:1600:c48b:1fab:a330:5182? (p200300cbc70b1600c48b1faba3305182.dip0.t-ipconnect.de. [2003:cb:c70b:1600:c48b:1fab:a330:5182])
-        by smtp.gmail.com with ESMTPSA id c9-20020a05600c100900b003a2f6367049sm16281074wmc.48.2022.08.23.00.55.04
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc;
+        bh=Xxc+am8JnZzn38/YDRBLpPnG3B37sa007H6emh7sE1Q=;
+        b=pptgG7ZDjo9Q5WGOgAfjRKnhkedr6WKJkfj1t4uoA7C0Y4efEuWk64Vvl5J06uv5Av
+         njD+doeZupi3thF5ROCrXm+nG7AdkFn2xZ4SNioWXQsyW8TwY5w/QYZhGkMDpmlRtHnD
+         wjX3F2PX5w1mjeVB6/4xCvfmn6DFXzxTmKRad9gfvbonRXheewwO4pLWGD3MkdfzSVcT
+         2z0E7/8gqRWR8Pu731FS1cPwUszhUjDu5+4J+T8HYjYRqAii0s5qCwrSSUL5ZRaWRXae
+         G1W8dwhx+5JOdfUHdNV+xpXsouVxg2u/W6D3oHltS61OpHZ9SOEM/5vCMSWuZClUpHck
+         e0Uw==
+X-Gm-Message-State: ACgBeo3zE2lufuadwZGuKLWiVn1lb5TuK5a3PyUZ5bp7G8HWczfH4+kh
+        +IkVNk8G3dFyul1FVSpjxy0=
+X-Google-Smtp-Source: AA6agR5ZqZn05y3setXe2Ki853S0taRN0SeK5U8VFr0708OGCldReMvivNFDBZIb4kfxxohTcbMs+g==
+X-Received: by 2002:a17:90a:304a:b0:1fa:d832:5aca with SMTP id q10-20020a17090a304a00b001fad8325acamr2104066pjl.16.1661241328592;
+        Tue, 23 Aug 2022 00:55:28 -0700 (PDT)
+Received: from [192.168.43.80] (subs02-180-214-232-14.three.co.id. [180.214.232.14])
+        by smtp.gmail.com with ESMTPSA id z124-20020a626582000000b00536531536adsm5988664pfb.47.2022.08.23.00.55.24
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 23 Aug 2022 00:55:05 -0700 (PDT)
-Message-ID: <b2743a3a-a1b4-2d2e-98be-87b58ad387cf@redhat.com>
-Date:   Tue, 23 Aug 2022 09:55:03 +0200
+        Tue, 23 Aug 2022 00:55:28 -0700 (PDT)
+Message-ID: <468ecea7-81fb-4a61-2094-3223bfbf55d4@gmail.com>
+Date:   Tue, 23 Aug 2022 14:55:22 +0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
+ Thunderbird/91.12.0
+Subject: Re: [PATCH] mips: pci: remove extraneous asterisk from top level
+ comment of ar2315 PCI driver
 Content-Language: en-US
-To:     Hugh Dickins <hughd@google.com>,
-        Sean Christopherson <seanjc@google.com>
-Cc:     "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
-        linux-kselftest@vger.kernel.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     linux-doc@vger.kernel.org, linux-mips@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Rikard Falkeborn <rikard.falkeborn@gmail.com>,
+        Sergey Ryazanov <ryazanov.s.a@gmail.com>,
+        Ralf Baechle <ralf@linux-mips.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>, luto@kernel.org,
-        jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
-        aarcange@redhat.com, ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        Muchun Song <songmuchun@bytedance.com>,
-        "Gupta, Pankaj" <pankaj.gupta@amd.com>
-References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
- <ff5c5b97-acdf-9745-ebe5-c6609dd6322e@google.com>
- <20220818132421.6xmjqduempmxnnu2@box> <Yv7XTON3MwuC1Q3U@google.com>
- <226ab26d-9aa8-dce2-c7f0-9e3f5b65b63@google.com>
-From:   David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Subject: Re: [PATCH v7 00/14] KVM: mm: fd-based approach for supporting KVM
- guest private memory
-In-Reply-To: <226ab26d-9aa8-dce2-c7f0-9e3f5b65b63@google.com>
+        Aditya Srivastava <yashsri421@gmail.com>,
+        kernel test robot <lkp@intel.com>, stable@vger.kernel.org
+References: <202208221854.8ASrzjKa-lkp@intel.com>
+ <20220823030056.123709-1-bagasdotme@gmail.com> <YwRzqiJjHdnCA65Y@kroah.com>
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <YwRzqiJjHdnCA65Y@kroah.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 19.08.22 05:38, Hugh Dickins wrote:
-> On Fri, 19 Aug 2022, Sean Christopherson wrote:
->> On Thu, Aug 18, 2022, Kirill A . Shutemov wrote:
->>> On Wed, Aug 17, 2022 at 10:40:12PM -0700, Hugh Dickins wrote:
->>>> On Wed, 6 Jul 2022, Chao Peng wrote:
->>>> But since then, TDX in particular has forced an effort into preventing
->>>> (by flags, seals, notifiers) almost everything that makes it shmem/tmpfs.
->>>>
->>>> Are any of the shmem.c mods useful to existing users of shmem.c? No.
->>>> Is MFD_INACCESSIBLE useful or comprehensible to memfd_create() users? No.
+On 8/23/22 13:28, Greg KH wrote:
+> On Tue, Aug 23, 2022 at 10:00:56AM +0700, Bagas Sanjaya wrote:
+>> kernel test robot reported kernel-doc warning:
 >>
->> But QEMU and other VMMs are users of shmem and memfd.  The new features certainly
->> aren't useful for _all_ existing users, but I don't think it's fair to say that
->> they're not useful for _any_ existing users.
+>> arch/mips/pci/pci-ar2315.c:6: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+>>     * Both AR2315 and AR2316 chips have PCI interface unit, which supports DMA
+>>
+>> The warning above is caused by an extraneous asterisk on the top level
+>> (description) comment of pci-ar2315.c, for which the comment is confused as
+>> kernel-doc comment instead.
+>>
+>> Remove the asterisk.
+>>
+>> Link: https://lore.kernel.org/linux-doc/202208221854.8ASrzjKa-lkp@intel.com/
+>> Fixes: 3ed7a2a702dc0f ("MIPS: ath25: add AR2315 PCI host controller driver")
+>> Fixes: 3e58e839150db0 ("scripts: kernel-doc: add warning for comment not following kernel-doc syntax")
+>> Reported-by: kernel test robot <lkp@intel.com>
+>> Cc: stable@vger.kernel.org # v5.15, v5.19
 > 
-> Okay, I stand corrected: there exist some users of memfd_create()
-> who will also have use for "INACCESSIBLE" memory.
+> kerneldoc issues are not stable worth, sorry.
+> 
 
-As raised in reply to the relevant patch, I'm not sure if we really have
-to/want to expose MFD_INACCESSIBLE to user space. I feel like this is a
-requirement of specific memfd_notifer (memfile_notifier) implementations
--- such as TDX that will convert the memory and MCE-kill the machine on
-ordinary write access. We might be able to set/enforce this when
-registering a notifier internally instead, and fail notifier
-registration if a condition isn't met (e.g., existing mmap).
-
-So I'd be curious, which other users of shmem/memfd would benefit from
-(MMU)-"INACCESSIBLE" memory obtained via memfd_create()?
+Thanks for reminding me. Should I resend without Cc stable?
 
 -- 
-Thanks,
-
-David / dhildenb
-
+An old man doll... just what I always wanted! - Clara
