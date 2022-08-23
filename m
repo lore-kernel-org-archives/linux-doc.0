@@ -2,158 +2,105 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 97184C32796
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Aug 2022 17:11:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DDD70C32772
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Aug 2022 17:26:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344006AbiHWRLx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 23 Aug 2022 13:11:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38742 "EHLO
+        id S230267AbiHWR0J (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 23 Aug 2022 13:26:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56126 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344866AbiHWRLY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Aug 2022 13:11:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4640E150157
-        for <linux-doc@vger.kernel.org>; Tue, 23 Aug 2022 06:58:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1661263104;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=YHVefDGXU83xWUJyLerizfLITJD1h0bvpZUJLhnlk24=;
-        b=AXO1SNmNaxNAq3ngFOkjpwKd9OjFxUtQlCxgejQIg8YZhdDKJzOyAzsl0mGVGXKUuO3hpU
-        dxBSGLCI7QSqq5QwrWgBYdTx5HvdDZpa7Fm4cD8qFL0wMh389YJCml7DFA11upm7Hy0FHT
-        o9nsIdQoVq8WoDhDI1ANKETuLGKrX5A=
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
- [209.85.160.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-612-NdCTuo96PKKNesaqqAg0fA-1; Tue, 23 Aug 2022 09:58:23 -0400
-X-MC-Unique: NdCTuo96PKKNesaqqAg0fA-1
-Received: by mail-qt1-f197.google.com with SMTP id h19-20020ac85493000000b00343408bd8e5so10587994qtq.4
-        for <linux-doc@vger.kernel.org>; Tue, 23 Aug 2022 06:58:23 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
-        bh=YHVefDGXU83xWUJyLerizfLITJD1h0bvpZUJLhnlk24=;
-        b=Hcq6b2CS4trwn9sz5M7u2Ank6fKoZhK5NnMeeTQPg9z37P5+DNUJwKP/Bz0rBwUiiI
-         T4F+UTBOU4/mtSmDfhrh2+4OUKC/jygM/lYGaFRAaS6StY0Zhs6crpdX6SVTnXAOg9Ez
-         ucSXYurYl3F2YLdZ6Ljnm9QXdK68+Qx9hhRt0JQgbDlz1JDsr8eIP+MkFCRVRIfJhXH2
-         xaWHX5EtHXuo5IRJHciHqqtUn+kvn4QKU3V0xDPtLMZbEJFUe50VCCLtDgkF9nsTzxSa
-         aylEu4gYOJsYYY/aw7cWA69q0TQr22GgzkVBgWQJG7MBfD9SYV9fEYAX7k6OLuV7BemF
-         ZbYw==
-X-Gm-Message-State: ACgBeo1Uo7N/w88dccouvVuL+BSUDE1OoMhkwDoxoFPQxJJVPQHI2Dlx
-        5QVqBSLkMpx4em8V2D97DamdDnfKX0fpUj3WgNiS7PEdEk1/NXBtpA2kjrR73xrLFiqW7KTVdNA
-        +oYMH1BJvr1ekNXNVo+ry
-X-Received: by 2002:ac8:5b15:0:b0:343:6789:193a with SMTP id m21-20020ac85b15000000b003436789193amr19117277qtw.647.1661263102674;
-        Tue, 23 Aug 2022 06:58:22 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR7gd2yWDFVr17SP2RU0l4eAn5No/A726n2hPHBkND28yI2ySau6/YWpTWAdi0/4trPHGWQO6g==
-X-Received: by 2002:ac8:5b15:0:b0:343:6789:193a with SMTP id m21-20020ac85b15000000b003436789193amr19117247qtw.647.1661263102418;
-        Tue, 23 Aug 2022 06:58:22 -0700 (PDT)
-Received: from xz-m1.local (bras-base-aurron9127w-grc-35-70-27-3-10.dsl.bell.ca. [70.27.3.10])
-        by smtp.gmail.com with ESMTPSA id g7-20020a05620a40c700b006a6ebde4799sm12544646qko.90.2022.08.23.06.58.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Aug 2022 06:58:21 -0700 (PDT)
-Date:   Tue, 23 Aug 2022 09:58:19 -0400
-From:   Peter Xu <peterx@redhat.com>
-To:     Gavin Shan <gshan@redhat.com>
-Cc:     Marc Zyngier <maz@kernel.org>, kvmarm@lists.cs.columbia.edu,
-        linux-arm-kernel@lists.infradead.org, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, pbonzini@redhat.com,
-        corbet@lwn.net, james.morse@arm.com, alexandru.elisei@arm.com,
-        suzuki.poulose@arm.com, oliver.upton@linux.dev,
-        catalin.marinas@arm.com, will@kernel.org, shuah@kernel.org,
-        seanjc@google.com, drjones@redhat.com, dmatlack@google.com,
-        bgardon@google.com, ricarkol@google.com, zhenyzha@redhat.com,
-        shan.gavin@gmail.com
-Subject: Re: [PATCH v1 1/5] KVM: arm64: Enable ring-based dirty memory
- tracking
-Message-ID: <YwTc++Lz6lh3aR4F@xz-m1.local>
-References: <20220819005601.198436-1-gshan@redhat.com>
- <20220819005601.198436-2-gshan@redhat.com>
- <87lerkwtm5.wl-maz@kernel.org>
- <41fb5a1f-29a9-e6bb-9fab-4c83a2a8fce5@redhat.com>
- <87fshovtu0.wl-maz@kernel.org>
- <171d0159-4698-354b-8b2f-49d920d03b1b@redhat.com>
+        with ESMTP id S234951AbiHWRZl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Aug 2022 13:25:41 -0400
+Received: from frasgout11.his.huawei.com (frasgout11.his.huawei.com [14.137.139.23])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 56F47B2CD1;
+        Tue, 23 Aug 2022 08:02:07 -0700 (PDT)
+Received: from mail02.huawei.com (unknown [172.18.147.228])
+        by frasgout11.his.huawei.com (SkyGuard) with ESMTP id 4MBskk4SdTz9v7GZ;
+        Tue, 23 Aug 2022 22:56:46 +0800 (CST)
+Received: from huaweicloud.com (unknown [10.204.63.22])
+        by APP2 (Coremail) with SMTP id GxC2BwBnIhqd6wRjjU5GAA--.52413S5;
+        Tue, 23 Aug 2022 16:01:38 +0100 (CET)
+From:   Roberto Sassu <roberto.sassu@huaweicloud.com>
+To:     ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org,
+        martin.lau@linux.dev, song@kernel.org, yhs@fb.com,
+        john.fastabend@gmail.com, kpsingh@kernel.org, sdf@google.com,
+        haoluo@google.com, jolsa@kernel.org, mykolal@fb.com,
+        corbet@lwn.net, dhowells@redhat.com, jarkko@kernel.org,
+        rostedt@goodmis.org, mingo@redhat.com, paul@paul-moore.com,
+        jmorris@namei.org, serge@hallyn.com, shuah@kernel.org
+Cc:     bpf@vger.kernel.org, linux-doc@vger.kernel.org,
+        keyrings@vger.kernel.org, linux-security-module@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
+        deso@posteo.net, Roberto Sassu <roberto.sassu@huawei.com>,
+        Joanne Koong <joannelkoong@gmail.com>
+Subject: [PATCH v13 03/10] bpf: Export bpf_dynptr_get_size()
+Date:   Tue, 23 Aug 2022 17:00:28 +0200
+Message-Id: <20220823150035.711534-4-roberto.sassu@huaweicloud.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220823150035.711534-1-roberto.sassu@huaweicloud.com>
+References: <20220823150035.711534-1-roberto.sassu@huaweicloud.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <171d0159-4698-354b-8b2f-49d920d03b1b@redhat.com>
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: GxC2BwBnIhqd6wRjjU5GAA--.52413S5
+X-Coremail-Antispam: 1UD129KBjvJXoW7tF18XrWrtrWxKrWfKw47XFb_yoW8XF17pa
+        95C347Jr48tFWIvrWUJws7Z3yjganrWr17GFyvk34F9rWIqF9xur1jgr4xKr90y34DGFW5
+        ArnrKrWFv3W8JrJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUBab4IE77IF4wAFF20E14v26rWj6s0DM7CY07I20VC2zVCF04k2
+        6cxKx2IYs7xG6r1F6r1fM7CIcVAFz4kK6r1j6r18M28IrcIa0xkI8VA2jI8067AKxVWUWw
+        A2048vs2IY020Ec7CjxVAFwI0_Xr0E3s1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxS
+        w2x7M28EF7xvwVC0I7IYx2IY67AKxVWUJVWUCwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxV
+        W8Jr0_Cr1UM28EF7xvwVC2z280aVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv6xkF7I0E14v2
+        6r4UJVWxJr1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2
+        WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkE
+        bVWUJVW8JwACjcxG0xvY0x0EwIxGrwACI402YVCY1x02628vn2kIc2xKxwCF04k20xvY0x
+        0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E
+        7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_GFv_WrylIxkGc2Ij64vIr41lIxAIcV
+        C0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr1j6F4UJwCI42IY
+        6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aV
+        CY1x0267AKxVW8Jr0_Cr1UYxBIdaVFxhVjvjDU0xZFpf9x07UAkuxUUUUU=
+X-CM-SenderInfo: purev21wro2thvvxqx5xdzvxpfor3voofrz/1tbiAQANBF1jj4I6SAABsI
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Aug 23, 2022 at 03:22:17PM +1000, Gavin Shan wrote:
-> > diff --git a/arch/arm64/kvm/arm.c b/arch/arm64/kvm/arm.c
-> > index 986cee6fbc7f..0b41feb6fb7d 100644
-> > --- a/arch/arm64/kvm/arm.c
-> > +++ b/arch/arm64/kvm/arm.c
-> > @@ -747,6 +747,12 @@ static int check_vcpu_requests(struct kvm_vcpu *vcpu)
-> >   		if (kvm_check_request(KVM_REQ_SUSPEND, vcpu))
-> >   			return kvm_vcpu_suspend(vcpu);
-> > +
-> > +		if (kvm_check_request(KVM_REQ_RING_SOFT_FULL, vcpu)) {
-> > +			vcpu->run->exit_reason = KVM_EXIT_DIRTY_RING_FULL;
-> > +			trace_kvm_dirty_ring_exit(vcpu);
-> > +			return 0;
-> > +		}
-> >   	}
-> >   	return 1;
-> > diff --git a/virt/kvm/dirty_ring.c b/virt/kvm/dirty_ring.c
-> > index f4c2a6eb1666..08b2f01164fa 100644
-> > --- a/virt/kvm/dirty_ring.c
-> > +++ b/virt/kvm/dirty_ring.c
-> > @@ -149,6 +149,7 @@ int kvm_dirty_ring_reset(struct kvm *kvm, struct kvm_dirty_ring *ring)
-> >   void kvm_dirty_ring_push(struct kvm_dirty_ring *ring, u32 slot, u64 offset)
-> >   {
-> > +	struct kvm_vcpu *vcpu = container_of(ring, struct kvm_vcpu, dirty_ring);
-> >   	struct kvm_dirty_gfn *entry;
-> >   	/* It should never get full */
-> > @@ -166,6 +167,9 @@ void kvm_dirty_ring_push(struct kvm_dirty_ring *ring, u32 slot, u64 offset)
-> >   	kvm_dirty_gfn_set_dirtied(entry);
-> >   	ring->dirty_index++;
-> >   	trace_kvm_dirty_ring_push(ring, slot, offset);
-> > +
-> > +	if (kvm_dirty_ring_soft_full(vcpu))
-> > +		kvm_make_request(KVM_REQ_RING_SOFT_FULL, vcpu);
-> >   }
-> >   struct page *kvm_dirty_ring_get_page(struct kvm_dirty_ring *ring, u32 offset)
-> > 
-> 
-> Ok, thanks for the details, Marc. I will adopt your code in next revision :)
+From: Roberto Sassu <roberto.sassu@huawei.com>
 
-Note that there can be a slight difference with the old/new code, in that
-an (especially malicious) userapp can logically ignore the DIRTY_RING_FULL
-vmexit and keep kicking VCPU_RUN with the new code.
+Export bpf_dynptr_get_size(), so that kernel code dealing with eBPF dynamic
+pointers can obtain the real size of data carried by this data structure.
 
-Unlike the old code, the 2nd/3rd/... KVM_RUN will still run in the new code
-until the next dirty pfn being pushed to the ring, then it'll request ring
-full exit again.
+Reviewed-by: Joanne Koong <joannelkoong@gmail.com>
+Signed-off-by: Roberto Sassu <roberto.sassu@huawei.com>
+---
+ include/linux/bpf.h  | 1 +
+ kernel/bpf/helpers.c | 2 +-
+ 2 files changed, 2 insertions(+), 1 deletion(-)
 
-Each time it exits the ring grows 1.
-
-At last iiuc it can easily hit the ring full and trigger the warning at the
-entry of kvm_dirty_ring_push():
-
-	/* It should never get full */
-	WARN_ON_ONCE(kvm_dirty_ring_full(ring));
-
-We did that because kvm_dirty_ring_push() was previously designed to not be
-able to fail at all (e.g., in the old bitmap world we never will fail too).
-We can't because we can't lose any dirty page or migration could silently
-fail too (consider when we do user exit due to ring full and migration just
-completed; there could be unsynced pages on src/dst).
-
-So even though the old approach will need to read kvm->dirty_ring_size for
-every entrance which is a pity, it will avoid issue above.
-
-Side note: for x86 the dirty ring check was put at the entrance not because
-it needs to be the highest priority - it should really be the same when
-check kvm requests. It's just that it'll be the fastest way to fail
-properly if needed before loading mmu, disabling preemption/irq, etc.
-
-Thanks,
-
+diff --git a/include/linux/bpf.h b/include/linux/bpf.h
+index 39bd36359c1e..6041304b402e 100644
+--- a/include/linux/bpf.h
++++ b/include/linux/bpf.h
+@@ -2576,6 +2576,7 @@ void bpf_dynptr_init(struct bpf_dynptr_kern *ptr, void *data,
+ 		     enum bpf_dynptr_type type, u32 offset, u32 size);
+ void bpf_dynptr_set_null(struct bpf_dynptr_kern *ptr);
+ int bpf_dynptr_check_size(u32 size);
++u32 bpf_dynptr_get_size(struct bpf_dynptr_kern *ptr);
+ 
+ #ifdef CONFIG_BPF_LSM
+ void bpf_cgroup_atype_get(u32 attach_btf_id, int cgroup_atype);
+diff --git a/kernel/bpf/helpers.c b/kernel/bpf/helpers.c
+index 3c1b9bbcf971..e4637ccb3016 100644
+--- a/kernel/bpf/helpers.c
++++ b/kernel/bpf/helpers.c
+@@ -1442,7 +1442,7 @@ static void bpf_dynptr_set_type(struct bpf_dynptr_kern *ptr, enum bpf_dynptr_typ
+ 	ptr->size |= type << DYNPTR_TYPE_SHIFT;
+ }
+ 
+-static u32 bpf_dynptr_get_size(struct bpf_dynptr_kern *ptr)
++u32 bpf_dynptr_get_size(struct bpf_dynptr_kern *ptr)
+ {
+ 	return ptr->size & DYNPTR_SIZE_MASK;
+ }
 -- 
-Peter Xu
+2.25.1
 
