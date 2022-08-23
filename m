@@ -2,106 +2,77 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CFCCFC32774
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Aug 2022 06:18:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A4809C32774
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Aug 2022 06:29:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239292AbiHWGSh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 23 Aug 2022 02:18:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51380 "EHLO
+        id S240616AbiHWG3E (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 23 Aug 2022 02:29:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34668 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239257AbiHWGSe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Aug 2022 02:18:34 -0400
-Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com [IPv6:2607:f8b0:4864:20::52e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD602EE1D
-        for <linux-doc@vger.kernel.org>; Mon, 22 Aug 2022 23:18:31 -0700 (PDT)
-Received: by mail-pg1-x52e.google.com with SMTP id s206so11430023pgs.3
-        for <linux-doc@vger.kernel.org>; Mon, 22 Aug 2022 23:18:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc;
-        bh=3/lhotbB4Uar/lt4peIcoGTYHkX7iv9Q8q1pdoozNu0=;
-        b=HPvGXZlhi0nU7N1qbXgghsfXNeuVWNupf6HJIuUeCRUD+8IoJow9QQ7ZaoAYF9g2+C
-         hnnO0pM7HFbyVhJxv18B1ycqujMTc2vX71070Q9FFIBweuSgou7ZSEJMdRBijO0HA1/v
-         FziVPVgeu9nU3FeEU+XGUMmiPxP6Tqr6OUBx2ErNlGlCivCeGIEakr0+82PSQi4eaz/D
-         l2UYL0w2n9VktS8Ugo3FsCCvW+76y9QaTh8c387K5RFQD/DsfSQpgidjQvcDNGSloG4v
-         naUMJYfoeUsvz0VFr0vC18XrBtpusuu0Zoh2D1f673+pqa0E0rBuJnPgWiIanuG/4h8S
-         2JVg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc;
-        bh=3/lhotbB4Uar/lt4peIcoGTYHkX7iv9Q8q1pdoozNu0=;
-        b=C4JgFsPUWDfVqFdhMVNLLdDrblsdPipaf1ctuQI5wj3ZGcoB9U97YDGujpAJ0dP8Qx
-         beqwetWVmqhwNQIX4hqPi6ZMWje6Ld0BhfLTglRaMlo4fzwQJ/Hepnqrd2aUr2pov9ow
-         6Zzs+K4QrdN0I25yLQNvALh0XwM7Wc97wlZL0MEsiLQ7wIrctQvwSC007Z1vPZ6pgceK
-         bp3CWbAzou1EWHLYfAblVmHZfBUHO6b0EondN+hL4mna+m2F9XAiddbwq1FsSMguHNWr
-         0Nw14l1qX4p5WY8NB04EnTG323f1UoX8vnxM3YDKpKOVzzv4D+H+eJMeCJI/7DtsC3Tx
-         Tg4A==
-X-Gm-Message-State: ACgBeo2SYeAlfIDmbq7djS4THjARnRtxN7+PSEhPxVZ8ydqMZGHd7YWW
-        I68DDE4iRSmUcsv6zRRPi+KFKg==
-X-Google-Smtp-Source: AA6agR4M47/Yf8Et3r8O9o96m8U+PWHhEeW9jgpZEjIOsqKpb7rtFRp/rPaUtx23rNWLMFjQ6aj99A==
-X-Received: by 2002:a65:6d14:0:b0:41d:5f95:179d with SMTP id bf20-20020a656d14000000b0041d5f95179dmr19300579pgb.580.1661235511395;
-        Mon, 22 Aug 2022 23:18:31 -0700 (PDT)
-Received: from [10.4.208.12] ([139.177.225.228])
-        by smtp.gmail.com with ESMTPSA id d5-20020a170903230500b00172ccb3f4ebsm6285338plh.160.2022.08.22.23.18.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 22 Aug 2022 23:18:30 -0700 (PDT)
-Message-ID: <9d1997a4-9278-07bd-7f57-952306b28b14@bytedance.com>
-Date:   Tue, 23 Aug 2022 14:18:21 +0800
+        with ESMTP id S240517AbiHWG3D (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Aug 2022 02:29:03 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9021D4056F;
+        Mon, 22 Aug 2022 23:29:02 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 2A97561477;
+        Tue, 23 Aug 2022 06:29:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF9ABC433D6;
+        Tue, 23 Aug 2022 06:29:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1661236141;
+        bh=JRtJ29lH/SslxxH7D0rWowl2W4WY4+1lbfXKoq/Nbc8=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=cpc1b1ygbuSbtiySOHMJUlZbIyRz8R+meI7a5Uy3z7PS5TK7ZXkGybvLNx0hfgEcl
+         njq0bsaGeveOj0lTI4UAz/i/YIZQ2uLb5o0dGQT8scKcQQgEzMAXzu1lt23aSjlktu
+         iOrkeiytkPiflfmBDOlWqQh8n068RVBg0rMRgIHs=
+Date:   Tue, 23 Aug 2022 08:28:58 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Bagas Sanjaya <bagasdotme@gmail.com>
+Cc:     linux-doc@vger.kernel.org, linux-mips@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Rikard Falkeborn <rikard.falkeborn@gmail.com>,
+        Sergey Ryazanov <ryazanov.s.a@gmail.com>,
+        Ralf Baechle <ralf@linux-mips.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Aditya Srivastava <yashsri421@gmail.com>,
+        kernel test robot <lkp@intel.com>, stable@vger.kernel.org
+Subject: Re: [PATCH] mips: pci: remove extraneous asterisk from top level
+ comment of ar2315 PCI driver
+Message-ID: <YwRzqiJjHdnCA65Y@kroah.com>
+References: <202208221854.8ASrzjKa-lkp@intel.com>
+ <20220823030056.123709-1-bagasdotme@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.1.2
-Subject: Re: [PATCH v2 09/10] sched/psi: per-cgroup PSI stats
- disable/re-enable interface
-Content-Language: en-US
-To:     =?UTF-8?Q?Michal_Koutn=c3=bd?= <mkoutny@suse.com>,
-        Johannes Weiner <hannes@cmpxchg.org>
-Cc:     Tejun Heo <tj@kernel.org>, corbet@lwn.net, surenb@google.com,
-        mingo@redhat.com, peterz@infradead.org, vincent.guittot@linaro.org,
-        dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
-        cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, songmuchun@bytedance.com
-References: <20220808110341.15799-1-zhouchengming@bytedance.com>
- <20220808110341.15799-10-zhouchengming@bytedance.com>
- <YvKd6dezPM6UxfD/@slm.duckdns.org>
- <fcd0bd39-3049-a279-23e6-a6c02b4680a7@bytedance.com>
- <b89155d3-9315-fefc-408b-4cf538360a1c@bytedance.com>
- <YvPN07UlaPFAdlet@cmpxchg.org> <20220815132343.GA22640@blackbody.suse.cz>
-From:   Chengming Zhou <zhouchengming@bytedance.com>
-In-Reply-To: <20220815132343.GA22640@blackbody.suse.cz>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220823030056.123709-1-bagasdotme@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2022/8/15 21:23, Michal Koutný wrote:
-> On Wed, Aug 10, 2022 at 11:25:07AM -0400, Johannes Weiner <hannes@cmpxchg.org> wrote:
->> cgroup.pressure.enable sounds good to me too. Or, because it's
->> default-enabled and that likely won't change, cgroup.pressure.disable.
+On Tue, Aug 23, 2022 at 10:00:56AM +0700, Bagas Sanjaya wrote:
+> kernel test robot reported kernel-doc warning:
 > 
-> Will it not change?
+> arch/mips/pci/pci-ar2315.c:6: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+>     * Both AR2315 and AR2316 chips have PCI interface unit, which supports DMA
 > 
-> I'd say that user would be interested in particular level or even just
-> level in subtree for PSI, so the opt-out may result in lots of explicit
-> disablements (or even watch for cgroups created and disable PSI there)
-> to get some performance back.
+> The warning above is caused by an extraneous asterisk on the top level
+> (description) comment of pci-ar2315.c, for which the comment is confused as
+> kernel-doc comment instead.
 > 
-> I have two suggestions based on the above:
-> 1) Make the default globally configurable (mount option?)
-> 2) Allow implicit enablement upon trigger creation
+> Remove the asterisk.
 > 
+> Link: https://lore.kernel.org/linux-doc/202208221854.8ASrzjKa-lkp@intel.com/
+> Fixes: 3ed7a2a702dc0f ("MIPS: ath25: add AR2315 PCI host controller driver")
+> Fixes: 3e58e839150db0 ("scripts: kernel-doc: add warning for comment not following kernel-doc syntax")
+> Reported-by: kernel test robot <lkp@intel.com>
+> Cc: stable@vger.kernel.org # v5.15, v5.19
 
-I think suggestion 1) make sense in some use case, like make per-cgroup
-PSI disabled by default using a mount option, then enable using the
-"cgroup.pressure" interface.
+kerneldoc issues are not stable worth, sorry.
 
-But suggestion 2) auto enable upon trigger creation, if we hide the
-{cpu,memory,io}.pressure files when disabled, how can we create trigger?
+thanks,
 
-Want to see what do Johannes and Tejun think about these suggestions?
-
-Thanks.
+greg k-h
