@@ -2,357 +2,186 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B46DC00140
-	for <linux-doc@archiver.kernel.org>; Wed, 24 Aug 2022 10:50:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 68579C00140
+	for <linux-doc@archiver.kernel.org>; Wed, 24 Aug 2022 10:55:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234355AbiHXKue (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 24 Aug 2022 06:50:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42604 "EHLO
+        id S236790AbiHXKzU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 24 Aug 2022 06:55:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50444 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232621AbiHXKud (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Aug 2022 06:50:33 -0400
-Received: from mail-pg1-x52b.google.com (mail-pg1-x52b.google.com [IPv6:2607:f8b0:4864:20::52b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D9C313D0C;
-        Wed, 24 Aug 2022 03:50:31 -0700 (PDT)
-Received: by mail-pg1-x52b.google.com with SMTP id s206so14694598pgs.3;
-        Wed, 24 Aug 2022 03:50:31 -0700 (PDT)
+        with ESMTP id S236622AbiHXKzO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Aug 2022 06:55:14 -0400
+Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com [IPv6:2607:f8b0:4864:20::435])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3FAB860C5
+        for <linux-doc@vger.kernel.org>; Wed, 24 Aug 2022 03:55:11 -0700 (PDT)
+Received: by mail-pf1-x435.google.com with SMTP id y15so12137365pfr.9
+        for <linux-doc@vger.kernel.org>; Wed, 24 Aug 2022 03:55:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc;
-        bh=Udr0JXHGa5Wp54Hr08u5y4aGUqn0w3nKCzBMX0dPcy4=;
-        b=Qf3AeiiHwSJH4ZfMK05PWeKOIwZf9btVVbMCd69eVVUYIjnUkpzrXUIgWoruiwDZ6z
-         feXsNobUlr2VvfdkYcrAgYbquN5AfgR2vFfeZFk0AxwezopM+2w2Edc6tfdAduF6xgR+
-         ipOzfxiaaCCYKHPUojyYVonnNTccG9ryREoA6GEFeca6SqvWXQwhuErSBDCjDwF2MMSC
-         JTQUbjaeh+z3Cwllvvwr3xXLj7Otz9ttLiVtkigKiQ5XI+J72qxOomOkHbJN2mcf9uAJ
-         7QjnrygQqWqL08Z9jIPQaOsqzfck8XaJT/2uMZni5oqzdooygjEl4/HfwbHtt3xw5d2N
-         TjWw==
+        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc;
+        bh=qenSJNlQcmsHihiPBle2MpvTNh+6JGq1GdYHK+MFsEo=;
+        b=GdRPGMdKwlwOOyGiW0JubXH8Id59RVjZ6fEvJvwKqZeGUc3Uw0cL3gGNUkAECdJ4iF
+         cV5Y+HE1wv3dg9mnGAi3NQaJJWU0/IAm//QEz1Gi7jez37RK/zmPQ8Ix5FR9WMlEuggJ
+         5rYMIkn+e1k4NwcNOTvO5VH+j0U+GrUlW+6p64aheNFqUum88lVa0K0+ztGNdzq2hsBQ
+         Tj+t4+HcEYdnL+l4MhW6HfIM8CJpUb3eWM3CxmNli57BCMVr11I/nQop7TIrQFLBymM3
+         tnG2f7gcm2PQq8s00QuV8t5T+aNI112Txm0bPRm1gadrO3IH1udUL0qqDhTMELUeZgGh
+         vz6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc;
-        bh=Udr0JXHGa5Wp54Hr08u5y4aGUqn0w3nKCzBMX0dPcy4=;
-        b=S2UdT977zz0dWcWFPJeDmaADtrE2jnV1RY08BCgP343i8/cff4x7wgHSl4su7KT9do
-         /Wy6Dchcd4WZ3SNyK6/nYbWnyFR2dytTqdBXIDulw0rwHBw46MKESXOEI2THQep3d2FE
-         lPeWINxv2enD5mXfZ/M4wOLxaH/uDg65bvJ0sYxedSm8PvSG+VwRuZ8fqVg9kyjS500x
-         ISGqfrokVClk9DiFQUcuFvFbyIiSJAAgQxFvXa+SpFbKLRkKWiCrRvLtJBSfvXe6gwvs
-         2vjrJsHXLcOCvdzKPTt5Ze2VreGnxo8S+Qw9Ccg4ZQvUhiDvDBlNI8M5kwBi8w66FV40
-         3f/g==
-X-Gm-Message-State: ACgBeo1Suh/9v+gybfGZFKGZvj5OMw3MQYAaVyfOUSYrgxSWplbqOvg5
-        sxFf112XgQ2evT0HwdUbPYk=
-X-Google-Smtp-Source: AA6agR7MmKSQZYAS2v5Ndf3P00ghWYpO8sCCDAqtZdeUIB9DRnzxd+yP2f5udDYDVJtiAG9R5r5Geg==
-X-Received: by 2002:a63:6116:0:b0:42b:1631:215f with SMTP id v22-20020a636116000000b0042b1631215fmr2482567pgb.273.1661338230856;
-        Wed, 24 Aug 2022 03:50:30 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id t14-20020a65554e000000b0041b672e93c2sm10720817pgr.17.2022.08.24.03.50.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Aug 2022 03:50:29 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date:   Wed, 24 Aug 2022 03:50:27 -0700
-From:   Guenter Roeck <linux@roeck-us.net>
-To:     Duke Du <dukedu83@gmail.com>
-Cc:     jdelvare@suse.com, corbet@lwn.net, linux-hwmon@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        fran.hsu@quantatw.com, charles.hsu@quantatw.com,
-        george.hung@quantatw.com, duke.du@quantatw.com
-Subject: Re: [PATCH v3] hwmon: Add driver for the TEXAS TPS546D24 Buck
- Converter.
-Message-ID: <20220824105027.GA13261@roeck-us.net>
-References: <1660878283-9512-1-git-send-email-Duke.Du@quantatw.com>
- <20220819133458.GC3108215@roeck-us.net>
- <CAJqQiD39b=n-Lsza_YUPQR2jm49a3ZLxT-x7eYUv=yhD4fiDJQ@mail.gmail.com>
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc;
+        bh=qenSJNlQcmsHihiPBle2MpvTNh+6JGq1GdYHK+MFsEo=;
+        b=2LyIM9jDYCbd6zZoH03KZ8GBlrke0NBrPhBKm7KtGIgJCwm61cy4ziM2rU4KavKVAH
+         udaDzJ470M5iUlE6i5yxoMb5d9359ln0Fl+L7GA2Lx6s5sWMXcisH79Cl5UoHZmlW7y4
+         54Ctu+jO5hIkHy2LQ9eTLvtiNvZBOZ6pHvPh9+IAuJvXp+EXhUIpeqiNYWjLR9y+o4RJ
+         /DuOUKmr3DWyFXFaH58u6PHevGM/fixEYGyJQSjVb71F2irjceeEqsyCK+wYalxFXN03
+         0Tdy3AMOftCyb0D98VpqUl7yNb6gxaEqphEAsXm5EJCzwNIhD5wvw4VPwkOy8lfKc49a
+         9V4Q==
+X-Gm-Message-State: ACgBeo0Nn35JTs5Ay8bxKlrVQUAW19zsCjZyzbbVY7WSrtBbGePbz1Me
+        PJz8MbUfmQSxEf8sG0FC27UZjQ==
+X-Google-Smtp-Source: AA6agR4kqx9X0QoUay3yeto0Av3nrPd4v1spEzX053k1ENoXWYQ8wQ97kdVRXyzUBD1I5fNn/QC+hQ==
+X-Received: by 2002:a05:6a02:207:b0:41c:9e7d:775e with SMTP id bh7-20020a056a02020700b0041c9e7d775emr23629791pgb.227.1661338510743;
+        Wed, 24 Aug 2022 03:55:10 -0700 (PDT)
+Received: from [10.4.208.12] ([139.177.225.228])
+        by smtp.gmail.com with ESMTPSA id z17-20020a170902d55100b00172ea32fa9bsm6322402plf.287.2022.08.24.03.55.06
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 24 Aug 2022 03:55:10 -0700 (PDT)
+Message-ID: <2207ff74-a5ca-8324-0e10-717f235ca161@bytedance.com>
+Date:   Wed, 24 Aug 2022 18:55:01 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAJqQiD39b=n-Lsza_YUPQR2jm49a3ZLxT-x7eYUv=yhD4fiDJQ@mail.gmail.com>
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.1.2
+Subject: Re: [PATCH v3 10/10] sched/psi: per-cgroup PSI accounting
+ disable/re-enable interface
+Content-Language: en-US
+To:     Johannes Weiner <hannes@cmpxchg.org>
+Cc:     tj@kernel.org, mkoutny@suse.com, surenb@google.com,
+        gregkh@linuxfoundation.org, corbet@lwn.net, mingo@redhat.com,
+        peterz@infradead.org, songmuchun@bytedance.com,
+        cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20220824081829.33748-1-zhouchengming@bytedance.com>
+ <20220824081829.33748-11-zhouchengming@bytedance.com>
+ <YwX2jC2UQ/zeY2E8@cmpxchg.org>
+From:   Chengming Zhou <zhouchengming@bytedance.com>
+In-Reply-To: <YwX2jC2UQ/zeY2E8@cmpxchg.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Aug 24, 2022 at 01:58:33PM +0800, Duke Du wrote:
-> Hi Guenter,
-> Thanks for your reply !
-> But I have some confusion as following, please help to give me some feedback.
-> Thanks a lot !
+On 2022/8/24 17:59, Johannes Weiner wrote:
+> Hi Chengming,
 > 
-> On Fri, Aug 19, 2022 at 9:35 PM Guenter Roeck <linux@roeck-us.net> wrote:
-> >
-> > On Fri, Aug 19, 2022 at 11:04:43AM +0800, Duke Du wrote:
-> > > Add the pmbus driver for TEXAS tps546d24 Buck Converter. The
-> > > tps546d24 PMBUS_VOUT_MODE is 0x97 (i.e. the bit 5~7 are 100)
-> > > which could not meet the standard pmbus spec, the standard mode
-> > > of PMBUS_VOUT_MODE must be 000 (linear foramt) or 001 (vid format).
-> > > Make the tps546d24 PMBUS_VOUT_MODE return value 0x17 (i.e. the
-> > > bit5~7 are 000), VOUT returned value is linear11.
-> > >
-> >
-> > First of all, the above should be documented as comment in the
-> > implementation.
-> >
-> > Second, this is actually problematic. In PMBus version 1.3.1, bit
-> > 7 of PMBUS_VOUT_MODE no longer describes the mode (linear, vid, direct,
-> > IEEE) but Absolute vs/ Relative VOUT voltages. This affects vout fault
-> > and warning limits. If the relative mode bit is set, those limits
-> > are supposed to reflect percentages, not absolute voltages.
-> >
-> > This means that the driver interprets vout voltage limits wrongly,
-> > at least if the chip works as described in the datasheet. Changing
-> > the reported value of PMBUS_VOUT_MODE is actually counter-productive.
-> >
-> > This means we'll need a number of changes. At the very least, the
-> > PMBus core needs to be be modified to only use bit 5 and 6 to determine
-> > the mode. On top of that, the driver probe function should update
-> > VOUT_MODE and clear bit 7. It might also make sense to warn in the
-> > PMBus core if mode bit 7 is set.
-> >
+> Thanks for incorporating all the feedback. I have a few nitpicks
+> below, but with those considered, please add:
 > 
-> When the vout mode bit 7 is set, we update vout mode and clear bit 7
-> in the driver probe function, this operation is the same as changing
-> the reported value of PMBUS_VOUT_MODE ?
+> Acked-by: Johannes Weiner <hannes@cmpxchg.org>
+> 
+> On Wed, Aug 24, 2022 at 04:18:29PM +0800, Chengming Zhou wrote:
+>> @@ -5171,12 +5220,19 @@ static struct cftype cgroup_base_files[] = {
+>>  	{
+>>  		.name = "irq.pressure",
+>>  		.flags = CFTYPE_PRESSURE,
+>> +		.file_offset = offsetof(struct cgroup, psi_files[PSI_IRQ]),
+>>  		.seq_show = cgroup_irq_pressure_show,
+>>  		.write = cgroup_irq_pressure_write,
+>>  		.poll = cgroup_pressure_poll,
+>>  		.release = cgroup_pressure_release,
+>>  	},
+>>  #endif
+>> +	{
+>> +		.name = "cgroup.pressure",
+>> +		.flags = CFTYPE_PRESSURE,
+>> +		.seq_show = cgroup_psi_show,
+>> +		.write = cgroup_psi_write,
+> 
+> To match the naming convention, these should be called
+> cgroup_pressure_show() and cgroup_pressure_write().
 
-Absolutely not. When changing the bit in the register, the chip operation
-mode changes, and the associated values (VOUT*) change from relative
-to absolute mode. When changing the value reported by the chip, nothing
-changes from the chip side, it still operates in relative mode, and all
-VOUT* registers are set to relative mode.
+Hello,
 
-Guenter
+I forgot to change the names, will do.
 
-> Maybe I misunderstood, could you please help to explain clearly about this ?
-> Thanks again for your help :)
+> 
+>> @@ -745,6 +745,14 @@ static void psi_group_change(struct psi_group *group, int cpu,
+>>  		if (set & (1 << t))
+>>  			groupc->tasks[t]++;
+>>  
+>> +	if (!group->enabled) {
+>> +		if (groupc->state_mask & (1 << PSI_NONIDLE))
+>> +			record_times(groupc, now);
+> 
+> Thanks for the explanation in the other thread, it made sense. But can
+> you please add a comment to document it? Something like:
+> 
+> 	/*
+> 	 * On the first group change after disabling PSI, conclude
+> 	 * the current state and flush its time. This is unlikely
+> 	 * to matter to the user, but aggregation (get_recent_times)
+> 	 * may have already incorporated the live state into times_prev;
+> 	 * avoid a delta sample underflow when PSI is later re-enabled.
+> 	 */
+> 
+> An unlikely() would also make sense on that branch.
+
+The comment is very helpful, unlikely() is also very good point,
+will add in the next version.
+
+> 
+>> @@ -1081,6 +1092,40 @@ void cgroup_move_task(struct task_struct *task, struct css_set *to)
+>>  
+>>  	task_rq_unlock(rq, task, &rf);
+>>  }
+>> +
+>> +void psi_cgroup_enabled_sync(struct psi_group *group)
+>> +{
+>> +	int cpu;
+>> +
+>> +	/*
+>> +	 * After we disable psi_group->enabled, we don't actually
+>> +	 * stop percpu tasks accounting in each psi_group_cpu,
+>> +	 * instead only stop test_state() loop, record_times()
+>> +	 * and averaging worker, see psi_group_change() for details.
+>> +	 *
+>> +	 * When disable cgroup PSI, this function has nothing to sync
+>> +	 * since cgroup pressure files are hidden and percpu psi_group_cpu
+>> +	 * would see !psi_group->enabled and only do task accounting.
+>> +	 *
+>> +	 * When re-enable cgroup PSI, this function use psi_group_change()
+>> +	 * to get correct state mask from test_state() loop on tasks[],
+>> +	 * and restart groupc->state_start from now, use .clear = .set = 0
+>> +	 * here since no task status really changed.
+>> +	 */
+>> +	if (!group->enabled)
+>> +		return;
+> 
+> Thanks for adding the comment, that's helpful.
+> 
+> I think the function would be a tad clearer and self-documenting if
+> you called it psi_cgroup_restart(), and only call it on enabling.
+
+Ok, it's better, will do.
+
+Thanks for your review!
+
+> 
+>> +	for_each_possible_cpu(cpu) {
+>> +		struct rq *rq = cpu_rq(cpu);
+>> +		struct rq_flags rf;
+>> +		u64 now;
+>> +
+>> +		rq_lock_irq(rq, &rf);
+>> +		now = cpu_clock(cpu);
+>> +		psi_group_change(group, cpu, 0, 0, now, true);
+>> +		rq_unlock_irq(rq, &rf);
+>> +	}
+>> +}
+>>  #endif /* CONFIG_CGROUPS */
 > 
 > Thanks,
-> Duke
-> 
-> > An alternative to the second change would be to implement relative
-> > vout support in the PMBus core, but that would be much more complex.
-> > We could also clear the relative bit in the PMBus core, but that might
-> > lead to unexpected side effects (we don't know how various chips
-> > respond to that) and thus probably not be a good idea.
-> >
-> > > Signed-off-by: Duke Du <Duke.Du@quantatw.com>
-> >
-> > This e-mail address does not match the e-mail address used to send
-> > the patch, resulting in a checkpatch warning. Please fix.
-> >
-> > More comments inline.
-> >
-> > Thanks,
-> > Guenter
-> >
-> > > ---
-> > > Change in v1:
-> > >     Initial patchset.
-> > > Change in v2:
-> > >     Correct the tps546d24.rst format.
-> > > Change in v3:
-> > >     1. Modify the patch description.
-> > >     2. Put the change log between the dashes and diffstat.
-> > > ---
-> > > ---
-> > >  Documentation/hwmon/index.rst     |  1 +
-> > >  Documentation/hwmon/tps546d24.rst | 35 +++++++++++++++++++
-> > >  MAINTAINERS                       |  7 ++++
-> > >  drivers/hwmon/pmbus/Kconfig       |  9 +++++
-> > >  drivers/hwmon/pmbus/Makefile      |  1 +
-> > >  drivers/hwmon/pmbus/tps546d24.c   | 73 +++++++++++++++++++++++++++++++++++++++
-> > >  6 files changed, 126 insertions(+)
-> > >  create mode 100644 Documentation/hwmon/tps546d24.rst
-> > >  create mode 100644 drivers/hwmon/pmbus/tps546d24.c
-> > >
-> > > diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
-> > > index f7113b0..d3eede4 100644
-> > > --- a/Documentation/hwmon/index.rst
-> > > +++ b/Documentation/hwmon/index.rst
-> > > @@ -205,6 +205,7 @@ Hardware Monitoring Kernel Drivers
-> > >     tps23861
-> > >     tps40422
-> > >     tps53679
-> > > +   tps546d24
-> > >     twl4030-madc-hwmon
-> > >     ucd9000
-> > >     ucd9200
-> > > diff --git a/Documentation/hwmon/tps546d24.rst b/Documentation/hwmon/tps546d24.rst
-> > > new file mode 100644
-> > > index 0000000..3061fd8
-> > > --- /dev/null
-> > > +++ b/Documentation/hwmon/tps546d24.rst
-> > > @@ -0,0 +1,35 @@
-> > > +.. SPDX-License-Identifier: GPL-2.0-only
-> > > +
-> > > +Kernel driver tps546d24
-> > > +======================
-> > > +
-> > > +Supported chips:
-> > > +
-> > > +  * TI TPS546D24
-> > > +
-> > > +    Prefix: 'tps546d24'
-> > > +
-> > > +    Addresses scanned: -
-> > > +
-> > > +    Datasheet: https://www.ti.com/lit/gpn/tps546d24
-> > > +
-> > > +Author: Duke Du <dukedu83@gmail.com>
-> >
-> > This needs to match Author and Signed-off-by:. This applies to all
-> > e-mail addresses.
-> >
-> > > +
-> > > +
-> > > +Description
-> > > +-----------
-> > > +
-> > > +The TPS546D24A is a highly integrated, non-isolated DC/DC converter capable
-> > > +of high frequency operation and 40-A current output from a 7-mm x 5-mm
-> > > +package.
-> > > +
-> > > +Two, three, and four TPS546D24A devices can be interconnected
-> > > +to provide up to 160 A on a single output. The device has an option to
-> > > +overdrive the internal 5-V LDO with an external 5-V supply via the VDD5
-> > > +pin to improve efficiency and reduce power dissipation of the converter.
-> > > +
-> > > +
-> > > +Platform data support
-> > > +---------------------
-> > > +
-> > > +The driver supports standard PMBus driver platform data.
-> > > diff --git a/MAINTAINERS b/MAINTAINERS
-> > > index 8a5012b..fa2d4fb 100644
-> > > --- a/MAINTAINERS
-> > > +++ b/MAINTAINERS
-> > > @@ -20583,6 +20583,13 @@ Q:   https://patchwork.kernel.org/project/linux-integrity/list/
-> > >  T:   git git://git.kernel.org/pub/scm/linux/kernel/git/jarkko/linux-tpmdd.git
-> > >  F:   drivers/char/tpm/
-> > >
-> > > +TPS546D24 DRIVER
-> > > +M:   Duke Du <dukedu83@gmail.com>
-> > > +L:   linux-hwmon@vger.kernel.org
-> > > +S:   Maintained
-> > > +F:   Documentation/hwmon/tps546d24.rst
-> > > +F:   drivers/hwmon/pmbus/tps546d24.c
-> > > +
-> > >  TRACING
-> > >  M:   Steven Rostedt <rostedt@goodmis.org>
-> > >  M:   Ingo Molnar <mingo@redhat.com>
-> > > diff --git a/drivers/hwmon/pmbus/Kconfig b/drivers/hwmon/pmbus/Kconfig
-> > > index 951e4a9..89668af 100644
-> > > --- a/drivers/hwmon/pmbus/Kconfig
-> > > +++ b/drivers/hwmon/pmbus/Kconfig
-> > > @@ -397,6 +397,15 @@ config SENSORS_TPS53679
-> > >         This driver can also be built as a module. If so, the module will
-> > >         be called tps53679.
-> > >
-> > > +config SENSORS_TPS546D24
-> > > +     tristate "TPS546D24"
-> > > +     help
-> > > +       If you say yes here you get hardware monitoring support for TEXAS
-> > > +       TPS546D24.
-> > > +
-> > > +       This driver can also be built as a module. If so, the module will
-> > > +       be called tps546d24
-> > > +
-> > >  config SENSORS_UCD9000
-> > >       tristate "TI UCD90120, UCD90124, UCD90160, UCD90320, UCD9090, UCD90910"
-> > >       help
-> > > diff --git a/drivers/hwmon/pmbus/Makefile b/drivers/hwmon/pmbus/Makefile
-> > > index e2fe86f..0002dbe 100644
-> > > --- a/drivers/hwmon/pmbus/Makefile
-> > > +++ b/drivers/hwmon/pmbus/Makefile
-> > > @@ -41,6 +41,7 @@ obj-$(CONFIG_SENSORS_Q54SJ108A2)    += q54sj108a2.o
-> > >  obj-$(CONFIG_SENSORS_STPDDC60)       += stpddc60.o
-> > >  obj-$(CONFIG_SENSORS_TPS40422)       += tps40422.o
-> > >  obj-$(CONFIG_SENSORS_TPS53679)       += tps53679.o
-> > > +obj-$(CONFIG_SENSORS_TPS546D24)      += tps546d24.o
-> > >  obj-$(CONFIG_SENSORS_UCD9000)        += ucd9000.o
-> > >  obj-$(CONFIG_SENSORS_UCD9200)        += ucd9200.o
-> > >  obj-$(CONFIG_SENSORS_XDPE122)        += xdpe12284.o
-> > > diff --git a/drivers/hwmon/pmbus/tps546d24.c b/drivers/hwmon/pmbus/tps546d24.c
-> > > new file mode 100644
-> > > index 0000000..f6f79d3
-> > > --- /dev/null
-> > > +++ b/drivers/hwmon/pmbus/tps546d24.c
-> > > @@ -0,0 +1,73 @@
-> > > +// SPDX-License-Identifier: GPL-2.0+
-> > > +/*
-> > > + * Hardware monitoring driver for TEXAS TPS546D24 buck converter
-> > > + */
-> > > +
-> > > +#include <linux/err.h>
-> > > +#include <linux/i2c.h>
-> > > +#include <linux/init.h>
-> > > +#include <linux/kernel.h>
-> > > +#include <linux/module.h>
-> > > +#include <linux/pmbus.h>
-> > > +#include "pmbus.h"
-> > > +
-> > > +static int tps546d24_read_byte_data(struct i2c_client *client, int page, int reg)
-> > > +{
-> > > +     int ret;
-> > > +
-> > > +     switch (reg) {
-> > > +     case PMBUS_VOUT_MODE:
-> > > +             ret = 0x17;
-> > > +             break;
-> > > +     default:
-> > > +             ret = -ENODATA;
-> > > +             break;
-> > > +     }
-> > > +     return ret;
-> > > +}
-> > > +
-> > > +static struct pmbus_driver_info tps546d24_info = {
-> > > +     .pages = 1,
-> > > +     .format[PSC_VOLTAGE_IN] = linear,
-> > > +     .format[PSC_VOLTAGE_OUT] = linear,
-> > > +     .format[PSC_TEMPERATURE] = linear,
-> > > +     .format[PSC_CURRENT_OUT] = linear,
-> > > +     .func[0] = PMBUS_HAVE_VIN | PMBUS_HAVE_IIN |
-> > > +         PMBUS_HAVE_IOUT | PMBUS_HAVE_VOUT |
-> > > +             PMBUS_HAVE_STATUS_IOUT | PMBUS_HAVE_STATUS_VOUT |
-> > > +             PMBUS_HAVE_TEMP | PMBUS_HAVE_STATUS_TEMP,
-> > > +     .read_byte_data = tps546d24_read_byte_data,
-> >
-> > The chip supports multiple phases, and per-phase telemetry.
-> > Have you considered supporting it ?
-> >
-> > > +};
-> > > +
-> > > +static int tps546d24_probe(struct i2c_client *client)
-> > > +{
-> > > +     return pmbus_do_probe(client, &tps546d24_info);
-> > > +}
-> > > +
-> > > +static const struct i2c_device_id tps546d24_id[] = {
-> > > +     {"tps546d24", 0},
-> > > +     {}
-> > > +};
-> > > +MODULE_DEVICE_TABLE(i2c, tps546d24_id);
-> > > +
-> > > +static const struct of_device_id __maybe_unused tps546d24_of_match[] = {
-> > > +     {.compatible = "tps546d24"},
-> >
-> > This needs a vendor prefix.
-> >
-> > > +     {}
-> > > +};
-> > > +
-> > > +/* This is the driver that will be inserted */
-> > > +static struct i2c_driver tps546d24_driver = {
-> > > +     .driver = {
-> > > +                .name = "tps546d24",
-> > > +                .of_match_table = of_match_ptr(tps546d24_of_match),
-> > > +        },
-> > > +     .probe_new = tps546d24_probe,
-> > > +     .id_table = tps546d24_id,
-> > > +};
-> > > +
-> > > +module_i2c_driver(tps546d24_driver);
-> > > +
-> > > +MODULE_AUTHOR("Duke Du <dukedu83@gmail.com>");
-> > > +MODULE_DESCRIPTION("PMBus driver for TI tps546d24");
-> > > +MODULE_LICENSE("GPL");
-> > > +MODULE_IMPORT_NS(PMBUS);
-> > > --
-> > > 2.7.4
-> > >
+> Johannes
