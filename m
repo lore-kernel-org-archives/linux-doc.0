@@ -2,395 +2,392 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D9FD7C00140
-	for <linux-doc@archiver.kernel.org>; Wed, 24 Aug 2022 08:21:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 02BD8C38145
+	for <linux-doc@archiver.kernel.org>; Wed, 24 Aug 2022 08:27:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235865AbiHXIVO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 24 Aug 2022 04:21:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58288 "EHLO
+        id S235685AbiHXI1k (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 24 Aug 2022 04:27:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38644 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233546AbiHXIUq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Aug 2022 04:20:46 -0400
-Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com [IPv6:2607:f8b0:4864:20::430])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F7A490811
-        for <linux-doc@vger.kernel.org>; Wed, 24 Aug 2022 01:20:40 -0700 (PDT)
-Received: by mail-pf1-x430.google.com with SMTP id p185so1327374pfb.13
-        for <linux-doc@vger.kernel.org>; Wed, 24 Aug 2022 01:20:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc;
-        bh=lICs8ApUtixGeJYEFWmc/ebkWhxD3t+4EoUbg1sIx78=;
-        b=AMJ2Y2yduW28QhGlKqlsO8sK+FpEMD6cAwzHQOTimGT3b6zHky1HuuPtcbgglJE4q6
-         f/Zm/tIpkavx23KZpKepxKNpDcoNH7+Px4g1oReMnaZv3/RwYonwRGWJlIUyEAhLenqx
-         9OpwO2WAH/uo8RBzLaHFNRUEQjiSrzK3JQqvatPMh3crajWuCNkT8rRrpYxywO5xx4e0
-         Ug7Pzy/gNIbeATcptcHs+rQpq6lmVpkBw5tKUUEoSVVx6bvhzt8oBzUhb1ZVEiarAlnv
-         IP1QNKjzhJ5JcbZl7GQl7LBHGJf98Dj+2G407B4tD6EDjEUiWXDDob//UppWwvCa4LVB
-         dkjw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
-        bh=lICs8ApUtixGeJYEFWmc/ebkWhxD3t+4EoUbg1sIx78=;
-        b=eaLiFJhfwA35ZPgpABHiKyc9T/eb1bHGGF7K/G8I2d/xTu8Gux1lQg+yUb4u+sE9Hk
-         8Z1Z1IGDYu5/hPc47pi2qp05WPI4yVnB69qu0xI5EInhuNmPXPVXNNW1d/3iBe/QRtPl
-         aWD7oX0TbfGNPj5B4WpIZ5vDuhTqhEFg00oqm8rNgZf9kn9Mh01X4Pu44L3A9r1wf940
-         E7GiSvMEBICqmKqY6Jrgk3lOoKDvje+itGsQBswe3u2wz8KktHfAkAt2MIO4RvG7jtCw
-         fLGDoMcCB4n4rNS9Uo/LN0e/TTYlgQYqX39aMsvyZ4lFFHPzKeg8EctctR2vM8YMoBQp
-         so8Q==
-X-Gm-Message-State: ACgBeo3gcQEB/z6rnq8bKEunmSNoooNvN0MtYENl5Sv83jNTcAFrEf1t
-        PN3DngmJ8iDICkFzQWr6RrahpQ==
-X-Google-Smtp-Source: AA6agR7u5dOfZbEXaWEp2YwbxF84Omuc4xWaTwNI2uMNAmW0+j2lm+zTxtgv3YaVudpzwDqypRD1Dg==
-X-Received: by 2002:a65:6a46:0:b0:41b:65fa:b09e with SMTP id o6-20020a656a46000000b0041b65fab09emr24123763pgu.292.1661329239416;
-        Wed, 24 Aug 2022 01:20:39 -0700 (PDT)
-Received: from C02CV1DAMD6P.bytedance.net ([139.177.225.244])
-        by smtp.gmail.com with ESMTPSA id q31-20020a635c1f000000b00421841943dfsm10486587pgb.12.2022.08.24.01.20.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Aug 2022 01:20:39 -0700 (PDT)
-From:   Chengming Zhou <zhouchengming@bytedance.com>
-To:     tj@kernel.org, hannes@cmpxchg.org, mkoutny@suse.com,
-        surenb@google.com
-Cc:     gregkh@linuxfoundation.org, corbet@lwn.net, mingo@redhat.com,
-        peterz@infradead.org, songmuchun@bytedance.com,
-        cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Chengming Zhou <zhouchengming@bytedance.com>
-Subject: [PATCH v3 10/10] sched/psi: per-cgroup PSI accounting disable/re-enable interface
-Date:   Wed, 24 Aug 2022 16:18:29 +0800
-Message-Id: <20220824081829.33748-11-zhouchengming@bytedance.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220824081829.33748-1-zhouchengming@bytedance.com>
-References: <20220824081829.33748-1-zhouchengming@bytedance.com>
+        with ESMTP id S235520AbiHXI1k (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Aug 2022 04:27:40 -0400
+Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B287D915D2;
+        Wed, 24 Aug 2022 01:27:38 -0700 (PDT)
+Received: from dggpeml500023.china.huawei.com (unknown [172.30.72.54])
+        by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4MCJzB3kcDz1N7J0;
+        Wed, 24 Aug 2022 16:24:06 +0800 (CST)
+Received: from [10.67.110.112] (10.67.110.112) by
+ dggpeml500023.china.huawei.com (7.185.36.114) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Wed, 24 Aug 2022 16:27:36 +0800
+Subject: Re: [PATCH -next 3/5] landlock/selftests: add selftests for chmod and
+ chown
+To:     =?UTF-8?Q?G=c3=bcnther_Noack?= <gnoack3000@gmail.com>
+CC:     <mic@digikod.net>, <paul@paul-moore.com>, <jmorris@namei.org>,
+        <serge@hallyn.com>, <shuah@kernel.org>, <corbet@lwn.net>,
+        <linux-security-module@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>
+References: <20220822114701.26975-1-xiujianfeng@huawei.com>
+ <20220822114701.26975-4-xiujianfeng@huawei.com> <YwPQpz0lV5CVBVeK@nuc>
+From:   xiujianfeng <xiujianfeng@huawei.com>
+Message-ID: <27fc32a5-68cf-9963-5051-cd83e7368557@huawei.com>
+Date:   Wed, 24 Aug 2022 16:27:36 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.9.1
 MIME-Version: 1.0
+In-Reply-To: <YwPQpz0lV5CVBVeK@nuc>
+Content-Type: text/plain; charset="gbk"; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.67.110.112]
+X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
+ dggpeml500023.china.huawei.com (7.185.36.114)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-PSI accounts stalls for each cgroup separately and aggregates it
-at each level of the hierarchy. This may cause non-negligible overhead
-for some workloads when under deep level of the hierarchy.
+Hi£¬
 
-commit 3958e2d0c34e ("cgroup: make per-cgroup pressure stall tracking configurable")
-make PSI to skip per-cgroup stall accounting, only account system-wide
-to avoid this each level overhead.
+Thanks for your review, all comments are helpfull, will do in v2.
 
-But for our use case, we also want leaf cgroup PSI stats accounted for
-userspace adjustment on that cgroup, apart from only system-wide adjustment.
-
-So this patch introduce a per-cgroup PSI accounting disable/re-enable
-interface "cgroup.pressure", which is a read-write single value file that
-allowed values are "0" and "1", the defaults is "1" so per-cgroup
-PSI stats is enabled by default.
-
-Implementation details:
-
-It should be relatively straight-forward to disable and re-enable
-state aggregation, time tracking, averaging on a per-cgroup level,
-if we can live with losing history from while it was disabled.
-I.e. the avgs will restart from 0, total= will have gaps.
-
-But it's hard or complex to stop/restart groupc->tasks[] updates,
-which is not implemented in this patch. So we always update
-groupc->tasks[] and PSI_ONCPU bit in psi_group_change() even when
-the cgroup PSI stats is disabled.
-
-Suggested-by: Johannes Weiner <hannes@cmpxchg.org>
-Suggested-by: Tejun Heo <tj@kernel.org>
-Signed-off-by: Chengming Zhou <zhouchengming@bytedance.com>
----
- Documentation/admin-guide/cgroup-v2.rst | 17 +++++++
- include/linux/cgroup-defs.h             |  3 ++
- include/linux/psi.h                     |  2 +
- include/linux/psi_types.h               |  1 +
- kernel/cgroup/cgroup.c                  | 56 +++++++++++++++++++++++
- kernel/sched/psi.c                      | 59 ++++++++++++++++++++++---
- 6 files changed, 131 insertions(+), 7 deletions(-)
-
-diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-index 971c418bc778..4cad4e2b31ec 100644
---- a/Documentation/admin-guide/cgroup-v2.rst
-+++ b/Documentation/admin-guide/cgroup-v2.rst
-@@ -976,6 +976,23 @@ All cgroup core files are prefixed with "cgroup."
- 	killing cgroups is a process directed operation, i.e. it affects
- 	the whole thread-group.
- 
-+  cgroup.pressure
-+	A read-write single value file that allowed values are "0" and "1".
-+	The default is "1".
-+
-+	Writing "0" to the file will disable the cgroup PSI accounting.
-+	Writing "1" to the file will re-enable the cgroup PSI accounting.
-+
-+	This control attribute is not hierarchical, so disable or enable PSI
-+	accounting in a cgroup does not affect PSI accounting in descendants
-+	and doesn't need pass enablement via ancestors from root.
-+
-+	The reason this control attribute exists is that PSI accounts stalls for
-+	each cgroup separately and aggregates it at each level of the hierarchy.
-+	This may cause non-negligible overhead for some workloads when under
-+	deep level of the hierarchy, in which case this control attribute can
-+	be used to disable PSI accounting in the non-leaf cgroups.
-+
-   irq.pressure
- 	A read-write nested-keyed file.
- 
-diff --git a/include/linux/cgroup-defs.h b/include/linux/cgroup-defs.h
-index 1283993d7ea8..cfdb74a89c5c 100644
---- a/include/linux/cgroup-defs.h
-+++ b/include/linux/cgroup-defs.h
-@@ -428,6 +428,9 @@ struct cgroup {
- 	struct cgroup_file procs_file;	/* handle for "cgroup.procs" */
- 	struct cgroup_file events_file;	/* handle for "cgroup.events" */
- 
-+	/* handles for "{cpu,memory,io,irq}.pressure" */
-+	struct cgroup_file psi_files[NR_PSI_RESOURCES];
-+
- 	/*
- 	 * The bitmask of subsystems enabled on the child cgroups.
- 	 * ->subtree_control is the one configured through
-diff --git a/include/linux/psi.h b/include/linux/psi.h
-index 362a74ca1d3b..b09c0c611fa7 100644
---- a/include/linux/psi.h
-+++ b/include/linux/psi.h
-@@ -39,6 +39,7 @@ static inline struct psi_group *cgroup_psi(struct cgroup *cgrp)
- int psi_cgroup_alloc(struct cgroup *cgrp);
- void psi_cgroup_free(struct cgroup *cgrp);
- void cgroup_move_task(struct task_struct *p, struct css_set *to);
-+void psi_cgroup_enabled_sync(struct psi_group *group);
- #endif
- 
- #else /* CONFIG_PSI */
-@@ -60,6 +61,7 @@ static inline void cgroup_move_task(struct task_struct *p, struct css_set *to)
- {
- 	rcu_assign_pointer(p->cgroups, to);
- }
-+static inline void psi_cgroup_enabled_sync(struct psi_group *group) {}
- #endif
- 
- #endif /* CONFIG_PSI */
-diff --git a/include/linux/psi_types.h b/include/linux/psi_types.h
-index a0b746258c68..ab1f9b463df9 100644
---- a/include/linux/psi_types.h
-+++ b/include/linux/psi_types.h
-@@ -152,6 +152,7 @@ struct psi_trigger {
- 
- struct psi_group {
- 	struct psi_group *parent;
-+	bool enabled;
- 
- 	/* Protects data used by the aggregator */
- 	struct mutex avgs_lock;
-diff --git a/kernel/cgroup/cgroup.c b/kernel/cgroup/cgroup.c
-index cc228235ce38..fa8428125d62 100644
---- a/kernel/cgroup/cgroup.c
-+++ b/kernel/cgroup/cgroup.c
-@@ -3748,6 +3748,52 @@ static ssize_t cgroup_irq_pressure_write(struct kernfs_open_file *of,
- }
- #endif
- 
-+static int cgroup_psi_show(struct seq_file *seq, void *v)
-+{
-+	struct cgroup *cgrp = seq_css(seq)->cgroup;
-+	struct psi_group *psi = cgroup_psi(cgrp);
-+
-+	seq_printf(seq, "%d\n", psi->enabled);
-+
-+	return 0;
-+}
-+
-+static ssize_t cgroup_psi_write(struct kernfs_open_file *of,
-+				char *buf, size_t nbytes, loff_t off)
-+{
-+	ssize_t ret;
-+	int enable;
-+	struct cgroup *cgrp;
-+	struct psi_group *psi;
-+
-+	ret = kstrtoint(strstrip(buf), 0, &enable);
-+	if (ret)
-+		return ret;
-+
-+	if (enable < 0 || enable > 1)
-+		return -ERANGE;
-+
-+	cgrp = cgroup_kn_lock_live(of->kn, false);
-+	if (!cgrp)
-+		return -ENOENT;
-+
-+	psi = cgroup_psi(cgrp);
-+	if (psi->enabled != enable) {
-+		int i;
-+
-+		/* show or hide {cpu,memory,io,irq}.pressure files */
-+		for (i = 0; i < NR_PSI_RESOURCES; i++)
-+			cgroup_file_show(&cgrp->psi_files[i], enable);
-+
-+		psi->enabled = enable;
-+		psi_cgroup_enabled_sync(psi);
-+	}
-+
-+	cgroup_kn_unlock(of->kn);
-+
-+	return nbytes;
-+}
-+
- static __poll_t cgroup_pressure_poll(struct kernfs_open_file *of,
- 					  poll_table *pt)
- {
-@@ -5146,6 +5192,7 @@ static struct cftype cgroup_base_files[] = {
- 	{
- 		.name = "io.pressure",
- 		.flags = CFTYPE_PRESSURE,
-+		.file_offset = offsetof(struct cgroup, psi_files[PSI_IO]),
- 		.seq_show = cgroup_io_pressure_show,
- 		.write = cgroup_io_pressure_write,
- 		.poll = cgroup_pressure_poll,
-@@ -5154,6 +5201,7 @@ static struct cftype cgroup_base_files[] = {
- 	{
- 		.name = "memory.pressure",
- 		.flags = CFTYPE_PRESSURE,
-+		.file_offset = offsetof(struct cgroup, psi_files[PSI_MEM]),
- 		.seq_show = cgroup_memory_pressure_show,
- 		.write = cgroup_memory_pressure_write,
- 		.poll = cgroup_pressure_poll,
-@@ -5162,6 +5210,7 @@ static struct cftype cgroup_base_files[] = {
- 	{
- 		.name = "cpu.pressure",
- 		.flags = CFTYPE_PRESSURE,
-+		.file_offset = offsetof(struct cgroup, psi_files[PSI_CPU]),
- 		.seq_show = cgroup_cpu_pressure_show,
- 		.write = cgroup_cpu_pressure_write,
- 		.poll = cgroup_pressure_poll,
-@@ -5171,12 +5220,19 @@ static struct cftype cgroup_base_files[] = {
- 	{
- 		.name = "irq.pressure",
- 		.flags = CFTYPE_PRESSURE,
-+		.file_offset = offsetof(struct cgroup, psi_files[PSI_IRQ]),
- 		.seq_show = cgroup_irq_pressure_show,
- 		.write = cgroup_irq_pressure_write,
- 		.poll = cgroup_pressure_poll,
- 		.release = cgroup_pressure_release,
- 	},
- #endif
-+	{
-+		.name = "cgroup.pressure",
-+		.flags = CFTYPE_PRESSURE,
-+		.seq_show = cgroup_psi_show,
-+		.write = cgroup_psi_write,
-+	},
- #endif /* CONFIG_PSI */
- 	{ }	/* terminate */
- };
-diff --git a/kernel/sched/psi.c b/kernel/sched/psi.c
-index 814e99b1fed3..27bd4946d563 100644
---- a/kernel/sched/psi.c
-+++ b/kernel/sched/psi.c
-@@ -181,6 +181,7 @@ static void group_init(struct psi_group *group)
- {
- 	int cpu;
- 
-+	group->enabled = true;
- 	for_each_possible_cpu(cpu)
- 		seqcount_init(&per_cpu_ptr(group->pcpu, cpu)->seq);
- 	group->avg_last_update = sched_clock();
-@@ -696,17 +697,16 @@ static void psi_group_change(struct psi_group *group, int cpu,
- 	groupc = per_cpu_ptr(group->pcpu, cpu);
- 
- 	/*
--	 * First we assess the aggregate resource states this CPU's
--	 * tasks have been in since the last change, and account any
--	 * SOME and FULL time these may have resulted in.
--	 *
--	 * Then we update the task counts according to the state
-+	 * First we update the task counts according to the state
- 	 * change requested through the @clear and @set bits.
-+	 *
-+	 * Then if the cgroup PSI stats accounting enabled, we
-+	 * assess the aggregate resource states this CPU's tasks
-+	 * have been in since the last change, and account any
-+	 * SOME and FULL time these may have resulted in.
- 	 */
- 	write_seqcount_begin(&groupc->seq);
- 
--	record_times(groupc, now);
--
- 	/*
- 	 * Start with TSK_ONCPU, which doesn't have a corresponding
- 	 * task count - it's just a boolean flag directly encoded in
-@@ -745,6 +745,14 @@ static void psi_group_change(struct psi_group *group, int cpu,
- 		if (set & (1 << t))
- 			groupc->tasks[t]++;
- 
-+	if (!group->enabled) {
-+		if (groupc->state_mask & (1 << PSI_NONIDLE))
-+			record_times(groupc, now);
-+		groupc->state_mask = state_mask;
-+		write_seqcount_end(&groupc->seq);
-+		return;
-+	}
-+
- 	for (s = 0; s < NR_PSI_STATES; s++) {
- 		if (test_state(groupc->tasks, s, state_mask & PSI_ONCPU))
- 			state_mask |= (1 << s);
-@@ -761,6 +769,7 @@ static void psi_group_change(struct psi_group *group, int cpu,
- 	if (unlikely((state_mask & PSI_ONCPU) && cpu_curr(cpu)->in_memstall))
- 		state_mask |= (1 << PSI_MEM_FULL);
- 
-+	record_times(groupc, now);
- 	groupc->state_mask = state_mask;
- 
- 	write_seqcount_end(&groupc->seq);
-@@ -908,6 +917,8 @@ void psi_account_irqtime(struct task_struct *task, u32 delta)
- 
- 	group = task_psi_group(task);
- 	for_each_psi_group(group) {
-+		if (!group->enabled)
-+			continue;
- 		groupc = per_cpu_ptr(group->pcpu, cpu);
- 
- 		write_seqcount_begin(&groupc->seq);
-@@ -1081,6 +1092,40 @@ void cgroup_move_task(struct task_struct *task, struct css_set *to)
- 
- 	task_rq_unlock(rq, task, &rf);
- }
-+
-+void psi_cgroup_enabled_sync(struct psi_group *group)
-+{
-+	int cpu;
-+
-+	/*
-+	 * After we disable psi_group->enabled, we don't actually
-+	 * stop percpu tasks accounting in each psi_group_cpu,
-+	 * instead only stop test_state() loop, record_times()
-+	 * and averaging worker, see psi_group_change() for details.
-+	 *
-+	 * When disable cgroup PSI, this function has nothing to sync
-+	 * since cgroup pressure files are hidden and percpu psi_group_cpu
-+	 * would see !psi_group->enabled and only do task accounting.
-+	 *
-+	 * When re-enable cgroup PSI, this function use psi_group_change()
-+	 * to get correct state mask from test_state() loop on tasks[],
-+	 * and restart groupc->state_start from now, use .clear = .set = 0
-+	 * here since no task status really changed.
-+	 */
-+	if (!group->enabled)
-+		return;
-+
-+	for_each_possible_cpu(cpu) {
-+		struct rq *rq = cpu_rq(cpu);
-+		struct rq_flags rf;
-+		u64 now;
-+
-+		rq_lock_irq(rq, &rf);
-+		now = cpu_clock(cpu);
-+		psi_group_change(group, cpu, 0, 0, now, true);
-+		rq_unlock_irq(rq, &rf);
-+	}
-+}
- #endif /* CONFIG_CGROUPS */
- 
- int psi_show(struct seq_file *m, struct psi_group *group, enum psi_res res)
--- 
-2.37.2
-
+ÔÚ 2022/8/23 2:53, G¨¹nther Noack Ð´µÀ:
+> On Mon, Aug 22, 2022 at 07:46:59PM +0800, Xiu Jianfeng wrote:
+>> Add the following simple testcases:
+>> 1. chmod/fchmod: remove S_IWUSR and restore S_IWUSR with or without
+>> restriction.
+>> 2. chown/fchown: set original uid and gid with or without restriction,
+>> because chown needs CAP_CHOWN and testcase framework don't have this
+>> capability, setting original uid and gid is ok to cover landlock
+>> function.
+>>
+>> Signed-off-by: Xiu Jianfeng <xiujianfeng@huawei.com>
+>> ---
+>>   tools/testing/selftests/landlock/fs_test.c | 228 +++++++++++++++++++++
+>>   1 file changed, 228 insertions(+)
+>>
+>> diff --git a/tools/testing/selftests/landlock/fs_test.c b/tools/testing/selftests/landlock/fs_test.c
+>> index 5b55b93b5570..f47b4ccd2b26 100644
+>> --- a/tools/testing/selftests/landlock/fs_test.c
+>> +++ b/tools/testing/selftests/landlock/fs_test.c
+>> @@ -59,6 +59,9 @@ static const char file2_s2d3[] = TMP_DIR "/s2d1/s2d2/s2d3/f2";
+>>
+>>   static const char dir_s3d1[] = TMP_DIR "/s3d1";
+>>   static const char file1_s3d1[] = TMP_DIR "/s3d1/f1";
+>> +static const char file2_s3d1[] = TMP_DIR "/s3d1/f2";
+>> +static const char file3_s3d1[] = TMP_DIR "/s3d1/f3";
+>> +
+>>   /* dir_s3d2 is a mount point. */
+>>   static const char dir_s3d2[] = TMP_DIR "/s3d1/s3d2";
+>>   static const char dir_s3d3[] = TMP_DIR "/s3d1/s3d2/s3d3";
+>> @@ -211,6 +214,8 @@ static void create_layout1(struct __test_metadata *const _metadata)
+>>   	create_file(_metadata, file2_s2d3);
+>>
+>>   	create_file(_metadata, file1_s3d1);
+>> +	create_file(_metadata, file2_s3d1);
+>> +	create_file(_metadata, file3_s3d1);
+>>   	create_directory(_metadata, dir_s3d2);
+>>   	set_cap(_metadata, CAP_SYS_ADMIN);
+>>   	ASSERT_EQ(0, mount("tmp", dir_s3d2, "tmpfs", 0, "size=4m,mode=700"));
+>> @@ -234,6 +239,8 @@ static void remove_layout1(struct __test_metadata *const _metadata)
+>>   	EXPECT_EQ(0, remove_path(file1_s2d1));
+>>
+>>   	EXPECT_EQ(0, remove_path(file1_s3d1));
+>> +	EXPECT_EQ(0, remove_path(file2_s3d1));
+>> +	EXPECT_EQ(0, remove_path(file3_s3d1));
+>>   	EXPECT_EQ(0, remove_path(dir_s3d3));
+>>   	set_cap(_metadata, CAP_SYS_ADMIN);
+>>   	umount(dir_s3d2);
+>> @@ -3272,6 +3279,227 @@ TEST_F_FORK(layout1, truncate)
+>>   	EXPECT_EQ(0, test_creat(file_in_dir_w));
+>>   }
+>>
+>> +static int test_chmod(const char *path)
+> 
+> Nitpicks:
+>   - const char *const path
+>   - short documentation? :)
+> 
+>> +{
+>> +	int ret;
+>> +	struct stat st;
+>> +	mode_t mode;
+>> +
+>> +	ret = stat(path, &st);
+>> +	if (ret < 0)
+>> +		return errno;
+>> +	/* save original mode in order to restore */
+>> +	mode = st.st_mode & 0777;
+>> +	/* remove S_IWUSR */
+>> +	ret = chmod(path, mode & ~0200);
+>> +	if (ret < 0)
+>> +		return errno;
+>> +	ret = stat(path, &st);
+>> +	if (ret < 0)
+>> +		return errno;
+>> +	/* check if still has S_IWUSR */
+>> +	if (st.st_mode & 0200)
+>> +		return -EFAULT;
+>> +	/* restore the original mode */
+>> +	ret = chmod(path, mode);
+>> +	if (ret < 0)
+>> +		return errno;
+>> +	return 0;
+>> +}
+> 
+> I would argue this can be simpler, with the following reasoning:
+> 
+>   - Does the file have the right mode after chmod()?
+> 
+>     I claim that fs_test should care only about the question of whether
+>     EACCES is returned or not. If fs_test were to also check for the
+>     side effects of these operations, it would eventually contain tests
+>     for the full file system API, not just for Landlock. That seems out
+>     of scope :)
+> 
+>   - Undoing the chmod() operation
+> 
+>     I'm not sure whether it's worth the effort to restore the exact
+>     state before that function returns. As long as the flags suffice to
+>     remove the test directory at the end, it probably doesn't matter
+>     much what exact mode they have?
+> 
+> I think this could just be
+> 
+>    if (chmod(path, mode) < 0)
+>            return errno;
+>    return 0
+> 
+> and it would be a bit simpler to understand :)
+> 
+> The same argument applies also to the other test_...() functions.
+> 
+>> +static int test_fchmod(const char *path)
+> 
+> I initially took the same approach for test_ftruncate() but eventually
+> settled on using an approach where the file is open()ed before
+> restricting the thread with Landlock. This eliminates the potential
+> confusion where test_ftruncate() returns an error but the caller can't
+> distinguish whether the error is from open() or from ftruncate(). It
+> also makes fchmod testable even in scenarios where the file cannot be
+> opened because of missing Landlock rights.
+>  >> +{
+>> +	int ret, fd;
+>> +	struct stat st;
+>> +	mode_t mode;
+>> +
+>> +	ret = stat(path, &st);
+>> +	if (ret < 0)
+>> +		return errno;
+>> +	/* save original mode in order to restore */
+>> +	mode = st.st_mode & 0777;
+>> +
+>> +	fd = openat(AT_FDCWD, path, O_RDWR | O_CLOEXEC);
+>> +	if (fd < 0)
+>> +		return errno;
+>> +	/* remove S_IWUSR */
+>> +	ret = fchmod(fd, mode & ~0200);
+>> +	if (ret < 0)
+>> +		goto err;
+>> +	ret = stat(path, &st);
+>> +	if (ret < 0)
+>> +		goto err;
+>> +	/* check if still has S_IWUSR */
+>> +	if (st.st_mode & 0200) {
+>> +		ret = -1;
+>> +		errno = -EFAULT;
+>> +		goto err;
+>> +	}
+>> +	/* restore the original mode */
+>> +	ret = fchmod(fd, mode);
+>> +err:
+>> +	if (close(fd) < 0)
+>> +		return errno;
+>> +	return ret ? errno : 0;
+>> +}
+> 
+>> +static int test_chown(const char *path)
+>> +{
+>> +	int ret;
+>> +	struct stat st;
+>> +
+>> +	ret = stat(path, &st);
+>> +	if (ret < 0)
+>> +		return errno;
+>> +	/*
+>> +	 * chown needs CAP_CHOWN to modify uid and/or gid, however
+>> +	 * there is no such capability when the testcases framework
+>> +	 * setup, so just chown to original uid/gid, which can also
+>> +	 * cover the function in landlock.
+>> +	 */
+>> +	ret = chown(path, st.st_uid, st.st_gid);
+>> +	if (ret < 0)
+>> +		return errno;
+>> +	return 0;
+>> +}
+>> +
+>> +static int test_fchown(const char *path)
+>> +{
+>> +	int ret, fd;
+>> +	struct stat st;
+>> +
+>> +	ret = stat(path, &st);
+>> +	if (ret < 0)
+>> +		return errno;
+>> +	fd = openat(AT_FDCWD, path, O_RDWR | O_CLOEXEC);
+>> +	if (fd < 0)
+>> +		return errno;
+>> +	/*
+>> +	 * fchown needs CAP_CHOWN to modify uid and/or gid, however
+>> +	 * there is no such capability when the testcases framework
+>> +	 * setup, so just fchown to original uid/gid, which can also
+>> +	 * cover the function in landlock.
+>> +	 */
+>> +	ret = fchown(fd, st.st_uid, st.st_gid);
+>> +	if (close(fd) < 0)
+>> +		return errno;
+>> +	return ret ? errno : 0;
+>> +}
+>> +
+>> +TEST_F_FORK(layout1, unhandled_chmod)
+>> +{
+>> +	const struct rule rules[] = {
+>> +		{
+>> +			.path = file2_s3d1,
+>> +			.access = LANDLOCK_ACCESS_FS_READ_FILE |
+>> +				  LANDLOCK_ACCESS_FS_WRITE_FILE,
+>> +		},
+>> +		{
+>> +			.path = file3_s3d1,
+>> +			.access = LANDLOCK_ACCESS_FS_READ_FILE |
+>> +				  LANDLOCK_ACCESS_FS_WRITE_FILE,
+>> +		},
+>> +		{},
+>> +	};
+>> +	const int ruleset_fd =
+>> +		create_ruleset(_metadata, ACCESS_RW, rules);
+>> +
+>> +	ASSERT_LE(0, ruleset_fd);
+>> +	enforce_ruleset(_metadata, ruleset_fd);
+>> +	ASSERT_EQ(0, close(ruleset_fd));
+>> +
+>> +	ASSERT_EQ(0, test_chmod(file2_s3d1));
+>> +	ASSERT_EQ(0, test_fchmod(file2_s3d1));
+>> +	ASSERT_EQ(0, test_chmod(file3_s3d1));
+>> +	ASSERT_EQ(0, test_chmod(dir_s3d1));
+> 
+> *optional* because the existing tests are already inconsistent about it >
+> These four ASSERT_EQ() calls are independent scenarios and could be
+> done with EXPECT_EQ(), which would be more in line with the approach
+> that this test framework takes. (Same for the other tests below)
+> 
+> Compare previous discussion at:
+> https://lore.kernel.org/all/Yvd3+fy+mDBop+YA@nuc/
+> 
+>> +}
+>> +
+>> +TEST_F_FORK(layout1, chmod)
+>> +{
+>> +	const struct rule rules[] = {
+>> +		{
+>> +			.path = file2_s3d1,
+>> +			.access = LANDLOCK_ACCESS_FS_READ_FILE |
+>> +				  LANDLOCK_ACCESS_FS_WRITE_FILE |
+>> +				  LANDLOCK_ACCESS_FS_CHMOD,
+>> +		},
+>> +		{
+>> +			.path = file3_s3d1,
+>> +			.access = LANDLOCK_ACCESS_FS_READ_FILE |
+>> +				  LANDLOCK_ACCESS_FS_WRITE_FILE,
+>> +		},
+>> +		{},
+>> +	};
+>> +	const int ruleset_fd =
+>> +		create_ruleset(_metadata, ACCESS_RW | LANDLOCK_ACCESS_FS_CHMOD, rules);
+>> +
+>> +	ASSERT_LE(0, ruleset_fd);
+>> +	enforce_ruleset(_metadata, ruleset_fd);
+>> +	ASSERT_EQ(0, close(ruleset_fd));
+>> +
+>> +	ASSERT_EQ(0, test_chmod(file2_s3d1));
+>> +	ASSERT_EQ(0, test_fchmod(file2_s3d1));
+>> +	ASSERT_EQ(EACCES, test_chmod(file3_s3d1));
+>> +	ASSERT_EQ(EACCES, test_chmod(dir_s3d1));
+>> +}
+>> +
+>> +TEST_F_FORK(layout1, no_chown)
+> 
+> "unhandled_chown" to be consistent with the other one above?
+> 
+>> +{
+>> +	const struct rule rules[] = {
+>> +		{
+>> +			.path = file2_s3d1,
+>> +			.access = LANDLOCK_ACCESS_FS_READ_FILE |
+>> +				  LANDLOCK_ACCESS_FS_WRITE_FILE,
+>> +		},
+>> +		{
+>> +			.path = file3_s3d1,
+>> +			.access = LANDLOCK_ACCESS_FS_READ_FILE |
+>> +				  LANDLOCK_ACCESS_FS_WRITE_FILE,
+>> +		},
+>> +		{},
+>> +	};
+>> +	const int ruleset_fd =
+>> +		create_ruleset(_metadata, ACCESS_RW, rules);
+>> +
+>> +	ASSERT_LE(0, ruleset_fd);
+>> +	enforce_ruleset(_metadata, ruleset_fd);
+>> +	ASSERT_EQ(0, close(ruleset_fd));
+>> +
+>> +	ASSERT_EQ(0, test_chown(file2_s3d1));
+>> +	ASSERT_EQ(0, test_fchown(file2_s3d1));
+>> +	ASSERT_EQ(0, test_chown(file3_s3d1));
+>> +	ASSERT_EQ(0, test_chown(dir_s3d1));
+>> +}
+>> +
+>> +TEST_F_FORK(layout1, chown)
+>> +{
+>> +	const struct rule rules[] = {
+>> +		{
+>> +			.path = file2_s3d1,
+>> +			.access = LANDLOCK_ACCESS_FS_READ_FILE |
+>> +				  LANDLOCK_ACCESS_FS_WRITE_FILE |
+>> +				  LANDLOCK_ACCESS_FS_CHOWN,
+> 
+> It might be useful to also check a scenario where the chown right is
+> granted on a directory (and as a consequence, both the directory
+> itself as well as its contents can be chowned)?  (Same for chmod)
+> 
+>> +		},
+>> +		{
+>> +			.path = file3_s3d1,
+>> +			.access = LANDLOCK_ACCESS_FS_READ_FILE |
+>> +				  LANDLOCK_ACCESS_FS_WRITE_FILE,
+>> +		},
+>> +		{},
+>> +	};
+>> +	const int ruleset_fd =
+>> +		create_ruleset(_metadata, ACCESS_RW | LANDLOCK_ACCESS_FS_CHOWN, rules);
+>> +
+>> +	ASSERT_LE(0, ruleset_fd);
+>> +	enforce_ruleset(_metadata, ruleset_fd);
+>> +	ASSERT_EQ(0, close(ruleset_fd));
+>> +
+>> +	ASSERT_EQ(0, test_chown(file2_s3d1));
+>> +	ASSERT_EQ(0, test_fchown(file2_s3d1));
+>> +	ASSERT_EQ(EACCES, test_chown(file3_s3d1));
+>> +	ASSERT_EQ(EACCES, test_chown(dir_s3d1));
+>> +}
+>> +
+>>   /* clang-format off */
+>>   FIXTURE(layout1_bind) {};
+>>   /* clang-format on */
+>> --
+>> 2.17.1
+>>
+> 
+> --
+> .
+> 
