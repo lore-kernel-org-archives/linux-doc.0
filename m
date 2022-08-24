@@ -2,71 +2,85 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 231A8C00140
-	for <linux-doc@archiver.kernel.org>; Wed, 24 Aug 2022 14:14:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C5935C00140
+	for <linux-doc@archiver.kernel.org>; Wed, 24 Aug 2022 14:25:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239071AbiHXOO4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 24 Aug 2022 10:14:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56618 "EHLO
+        id S238462AbiHXOZf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 24 Aug 2022 10:25:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44318 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238085AbiHXOOw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Aug 2022 10:14:52 -0400
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 87E721E3CF;
-        Wed, 24 Aug 2022 07:14:51 -0700 (PDT)
-From:   Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1661350490;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=onXIwT24w+dLpoyvwrvcKE6DSSsspuurq0qMZ2iYDwY=;
-        b=cTRYzAt8znJF2n9iO0G8ZEu0aYpUIjGo+LCgXHjxysTFXOJS2KmU+zk14SY+m/G20D/DBu
-        RPLJDq42KDHJ8ogy/188aR3zXsf1ShC7PyzdZS+fXTOg0N+Xbj6wOltPG7RRXo31EB1V7q
-        NktSpioTmaoxgTMVR7ndEKDLxJ+2kmW40j0KnK2b419XddeODlLUHnBa5E0z7ql5YOHxOs
-        pprEk8zla0akCJiIoQB3S6GBjlp/Pg4fJpaqJYf9B4+PwXHB2H+2SwC2xVF/lBUZVFWpSO
-        V+6Kgu5cFUdYRugLqg8THY3GzdM8sudmSi5awyCRp4QWyhdz5VpM448j+MBy+A==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1661350490;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=onXIwT24w+dLpoyvwrvcKE6DSSsspuurq0qMZ2iYDwY=;
-        b=2y0YtCwMntDOgtmIXCgpJTb0905ezzalkjcK9SrizmhPglbgVycztLCfWGdFXLGUABaXsP
-        26lfYJJYFQqXxuCQ==
-To:     Muhammad Usama Anjum <usama.anjum@collabora.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>
-Cc:     Steven Noonan <steven@uplinklabs.net>, usama.anjum@collabora.com,
-        kernel@collabora.com
-Subject: Re: [PATCH 3/3] x86/tsc: don't check for random warps if using
- direct sync
-In-Reply-To: <20220808113954.345579-3-usama.anjum@collabora.com>
-References: <20220808113954.345579-1-usama.anjum@collabora.com>
- <20220808113954.345579-3-usama.anjum@collabora.com>
-Date:   Wed, 24 Aug 2022 16:14:49 +0200
-Message-ID: <87sfllybhi.ffs@tglx>
+        with ESMTP id S239215AbiHXOZd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Aug 2022 10:25:33 -0400
+Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com [IPv6:2607:f8b0:4864:20::429])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 452E614097;
+        Wed, 24 Aug 2022 07:25:30 -0700 (PDT)
+Received: by mail-pf1-x429.google.com with SMTP id w138so14022837pfc.10;
+        Wed, 24 Aug 2022 07:25:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc;
+        bh=yJOiwlr5dN415WVoIAxDSomoqMBK4mBmdE1V5KIJNj0=;
+        b=iRPyxRAWmjmKn8q42Yo0vAkVoU9QNM1gpKJwVA5WZzxqH77PVAGtqJhpnMkhAxmMXd
+         A/szJntskmzkODi0jCwd2JBMG4iYC2PQLlOra5qWSVzBp9P8VLkp2wd8jErJBp72zqZI
+         8o5UtPR4b1RlAml0LZ+O8SiRrpTIEojxlgVyvXaMP07d9P5NuLYC5KvoEx5TCOL+yLzY
+         E5m2wFKXhy//OyvSw1SDRZQc57sTqeQW0RCc/p6fDsjLc0ASSgLqBtXQhUd50XlJUHJ0
+         8C7hIxJe8m7t60ZDznVUhabEiktoUt+gOzWYscLpDriZCEHaJRoOgnnvfdqZ7E2dsZWf
+         f+ng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc;
+        bh=yJOiwlr5dN415WVoIAxDSomoqMBK4mBmdE1V5KIJNj0=;
+        b=rUywW4nNt9mg3Ns8LQjO/mRUwIUJd4A7reoh1Omp7F7N0C1cJiuz4v+BlZqe8OSdOs
+         vOdNQX5v5ALCBxCI9MmYsrHj8vyBkmG/oDDhQ5zxdb/MGhXgMnWKwm7kxL2LNWE04xSt
+         PbA/swDywLbqgmx33afTBkhiVZAzzOiLTpM0+LfVyCZww+G6zm9/C9PA+Gt1fyjGprb3
+         TkF8Rg292VO+GYxz6xrehOo1lZ+HjfKjCHG9gfdRR8FjtniLQuprWRHoIsgTTDWiVYm7
+         Qbo0qo4GwsEIxQ0yevW1krETiKBhWIzpWFeQmb6kPqPqBOyYKVegeKnljCfTWp5b5Rb8
+         IaWA==
+X-Gm-Message-State: ACgBeo0ogblWh7KSKyi2keshIj2em+3ayF+y2K6dM/SV1hjIBdxiKE7v
+        gKsemWnxHNPsEDmnTO9GcfI=
+X-Google-Smtp-Source: AA6agR6tAbgks5XjT6jCn0g0eHPA3B+ctqLbI3P6s6S0pj9lVQz+r8iXOxYq2A8ITySt/CEhTBEMFw==
+X-Received: by 2002:a65:588d:0:b0:42a:2778:164f with SMTP id d13-20020a65588d000000b0042a2778164fmr23490088pgu.616.1661351130348;
+        Wed, 24 Aug 2022 07:25:30 -0700 (PDT)
+Received: from localhost.localdomain (124244014158.ctinets.com. [124.244.14.158])
+        by smtp.gmail.com with ESMTPSA id s21-20020a170903201500b0016bf5557690sm7821800pla.4.2022.08.24.07.25.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 24 Aug 2022 07:25:29 -0700 (PDT)
+From:   Hoi Pok Wu <wuhoipok@gmail.com>
+To:     shuah@kernel.org, corbet@lwn.net
+Cc:     Hoi Pok Wu <wuhoipok@gmail.com>, linux-kselftest@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] docs:kselftest: fix kselftest_module.h path of example module
+Date:   Wed, 24 Aug 2022 22:25:05 +0800
+Message-Id: <20220824142505.145612-1-wuhoipok@gmail.com>
+X-Mailer: git-send-email 2.37.2
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Aug 08 2022 at 16:39, Muhammad Usama Anjum wrote:
-> There's some overhead in writing and reading MSR_IA32_TSC. We try to
-> account for it. But sometimes overhead gets under or over estimated.
-> When we retry syncing, it sees the clock "go backwards". Hence,
-> ignore random wrap if using direct sync.
+"module.h" does not exist in kselftest, it should be "kselftest_module.h".
 
-This is just wrong. If the sync test can observe clock going backwards
-then it can be observed during runtime too. Preventing that is the whole
-point of the TSC sync exercise.
+Signed-off-by: Hoi Pok Wu <wuhoipok@gmail.com>
+---
+ Documentation/dev-tools/kselftest.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Thanks,
+diff --git a/Documentation/dev-tools/kselftest.rst b/Documentation/dev-tools/kselftest.rst
+index e87973763b91..12b575b76b20 100644
+--- a/Documentation/dev-tools/kselftest.rst
++++ b/Documentation/dev-tools/kselftest.rst
+@@ -320,7 +320,7 @@ A bare bones test module might look like this:
+ 
+    #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+ 
+-   #include "../tools/testing/selftests/kselftest/module.h"
++   #include "../tools/testing/selftests/kselftest_module.h"
+ 
+    KSTM_MODULE_GLOBALS();
+ 
+-- 
+2.37.2
 
-        tglx
