@@ -2,226 +2,284 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 28FE0C00140
-	for <linux-doc@archiver.kernel.org>; Wed, 24 Aug 2022 15:58:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B64C7C48BEA
+	for <linux-doc@archiver.kernel.org>; Wed, 24 Aug 2022 16:22:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238447AbiHXP6Y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 24 Aug 2022 11:58:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39546 "EHLO
+        id S238079AbiHXQV7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 24 Aug 2022 12:21:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43070 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235466AbiHXP6Y (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Aug 2022 11:58:24 -0400
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2077.outbound.protection.outlook.com [40.107.223.77])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D81DF7CABC;
-        Wed, 24 Aug 2022 08:58:22 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=dlLlCCJpDJp9GzF8zdoY5PNUsU5SGoYIn4a2ooIDfglIwySpRtk7K4gim6ZJijC99fl9HB0DLZnvAAaYbKtoU0uCtoUlNLBqHjYz6HY8OzIecgJF+5z0qcTt9IHdP1HmiuHentbMSkvZW6KnaLOX93npp7C5crZ4j3R8fv6cPrpynO2SVkrvXUPxFo6SQKc7Y/fM9qFc22SKZiWw0zXmIu6jBeJNUT/N2AzzblV67neOMfj2qqm+rmgkrwBC5k+hEzbsgD7jZIraXYn8Wf1iHyoGlmNJL70S/EnsmmtPY5PnJVCh8nFPj1XuIfLR4afWk04DJ/61UpX6g0aUk4gp6A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=pI1BCeUhb4Qr9i5VR33wemkxLPeKlckc5nNhBHe8BbQ=;
- b=Iiy90b+HfiEAGAFGwBhpX33l6xSylHU484DoIuce934XMSABkNYmo1cEHXTsB2ZI+oM8/Jb87ALU/BfGE72kYVVPxM7N/Z8ACUL2HH7drtLPN4NIJ1JcTBOP+wSqJdcvITpmuF6KrLKOG2In4mU0ST5URr9OUlwuNeKtq+0U1kkGyFRycBTZD9HXK8pEjjEe03ngDfm+u7yGITMteY/1dZgLaBLCSZolFoBHtZH0wbxqc9jZY8jm6nxZIgQwBGNNR3UaoUrcGwEvtktDc1dXRYzJiRDAlL5zqLHHU2upf/TK/TAg+uo9X8m4fspurX95wZ1eVNRqKz8UQ016NVACvg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pI1BCeUhb4Qr9i5VR33wemkxLPeKlckc5nNhBHe8BbQ=;
- b=Ob8hMxx5i5tj7u2unX3A0HBiZ3dQYvna92oOdZwmwjuUKfjA2g/Xjlsu9n28gjFx0P3EoJ1WfEpl+mDY6/3LB4c8Dabw/K5GzFbUyJltr1fGWFOkG1GdL+q06LwvPlN2t56kqnYjFYpxjC+0nSAJlyTwML2jffI/EOQH3GpYIYM=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
- by MWHPR12MB1326.namprd12.prod.outlook.com (2603:10b6:300:10::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5566.15; Wed, 24 Aug
- 2022 15:58:20 +0000
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::88f:a211:8c98:a973]) by MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::88f:a211:8c98:a973%7]) with mapi id 15.20.5566.015; Wed, 24 Aug 2022
- 15:58:20 +0000
-Message-ID: <fcfd3c41-f462-94f3-dcfb-9298cd44b340@amd.com>
-Date:   Wed, 24 Aug 2022 10:58:15 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Reply-To: babu.moger@amd.com
-Subject: Re: [PATCH v3 01/10] x86/resctrl: Fix min_cbm_bits for AMD
-Content-Language: en-US
-To:     Reinette Chatre <reinette.chatre@intel.com>, fenghua.yu@intel.com,
-        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de
-Cc:     eranian@google.com, dave.hansen@linux.intel.com, x86@kernel.org,
-        hpa@zytor.com, corbet@lwn.net, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, bagasdotme@gmail.com
-References: <166117559756.6695.16047463526634290701.stgit@bmoger-ubuntu>
- <166117577023.6695.4825793379162387650.stgit@bmoger-ubuntu>
- <673b861a-5c87-e066-09cc-d17e2d16ef68@intel.com>
-From:   "Moger, Babu" <babu.moger@amd.com>
-In-Reply-To: <673b861a-5c87-e066-09cc-d17e2d16ef68@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BL1PR13CA0253.namprd13.prod.outlook.com
- (2603:10b6:208:2ba::18) To MW3PR12MB4553.namprd12.prod.outlook.com
- (2603:10b6:303:2c::19)
+        with ESMTP id S238310AbiHXQV6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Aug 2022 12:21:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 043D39A6B8
+        for <linux-doc@vger.kernel.org>; Wed, 24 Aug 2022 09:21:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1661358115;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=wANo/GHMzT757gDMJMmO8LCL5UwXYQqWDiktVytCe74=;
+        b=Kzsrnw1+6zStgXAsbc3aZVeaJSM381+AJb8kJT5TXV3MTJJ2rx2nDG09SCzyDrXFCUCo4x
+        t3R4wy519d0hD8ee+cthDPImBCzKwz1h98v6fap6zYqCImc5Va+ixP+QgvkCh8YuFXIV4B
+        S5AFhppxyR+IIO8pjctoxGcefmkVPZE=
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
+ [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-228-Pe3mT2OENuuxYDf4FJ0j3g-1; Wed, 24 Aug 2022 12:21:54 -0400
+X-MC-Unique: Pe3mT2OENuuxYDf4FJ0j3g-1
+Received: by mail-qt1-f199.google.com with SMTP id s2-20020ac85cc2000000b00342f8ad1f40so13203839qta.12
+        for <linux-doc@vger.kernel.org>; Wed, 24 Aug 2022 09:21:53 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
+        bh=wANo/GHMzT757gDMJMmO8LCL5UwXYQqWDiktVytCe74=;
+        b=xXbEWo4YjzHA3yz3bh5rLSXG+6etUPlJ9q2vpdIaBcRjlOXDokCIOKhuaO0Bd/Lg69
+         hvAcVa20AM/Vp+JJKLS0ZTCSQ+h7jWhgA1ZQttmQGwQn0t1UDnkCcpvj4XVLcIyZfWqN
+         fYeeBmYAp29dcBmIalMZacd4Ij51GB2G1u4/GrNRMwWIICSpfaUfL5yy4L3kHxbPqjOP
+         fuliEb6KNnY2RXCsGlBxgdOUNLF8Fam8fcLn62IghjNvLhSrWrmINSa4poK7s8hazrfW
+         C48SykhAyl/s/MDKyZXdjaGLjyKhkxWQhV0dAqgyE2J/kYanfaEzT6gjyDr0Kp5YFDa/
+         G9LQ==
+X-Gm-Message-State: ACgBeo2qUH6saA1IxE/X2q7jfAfvwKA11vPeilJSLJGZdAGMc28bZMC4
+        OV+pV8NDTfiwh7yqNY0rfWh++1UJ+Mb++EYEiQA/VSepSRCbf4AD636LZ4RdbgJ5Rr72Qkdi7DI
+        UaS95n6WPg6NxlzK60Usy
+X-Received: by 2002:a05:6214:d86:b0:496:e991:c4a9 with SMTP id e6-20020a0562140d8600b00496e991c4a9mr12630972qve.129.1661358113332;
+        Wed, 24 Aug 2022 09:21:53 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR6Qvk99CLgme2nXiMZvw3XJHeABpevFZgbSFRX695IhCdFipklBVIAy26zO9TEdi8UNpCj9Zg==
+X-Received: by 2002:a05:6214:d86:b0:496:e991:c4a9 with SMTP id e6-20020a0562140d8600b00496e991c4a9mr12630908qve.129.1661358112949;
+        Wed, 24 Aug 2022 09:21:52 -0700 (PDT)
+Received: from xz-m1.local (bras-base-aurron9127w-grc-35-70-27-3-10.dsl.bell.ca. [70.27.3.10])
+        by smtp.gmail.com with ESMTPSA id j4-20020a05620a0a4400b006b905e003a4sm15116119qka.135.2022.08.24.09.21.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 24 Aug 2022 09:21:52 -0700 (PDT)
+Date:   Wed, 24 Aug 2022 12:21:50 -0400
+From:   Peter Xu <peterx@redhat.com>
+To:     Marc Zyngier <maz@kernel.org>
+Cc:     Gavin Shan <gshan@redhat.com>, kvmarm@lists.cs.columbia.edu,
+        linux-arm-kernel@lists.infradead.org, kvm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, pbonzini@redhat.com,
+        corbet@lwn.net, james.morse@arm.com, alexandru.elisei@arm.com,
+        suzuki.poulose@arm.com, oliver.upton@linux.dev,
+        catalin.marinas@arm.com, will@kernel.org, shuah@kernel.org,
+        seanjc@google.com, dmatlack@google.com, bgardon@google.com,
+        ricarkol@google.com, zhenyzha@redhat.com, shan.gavin@gmail.com
+Subject: Re: [PATCH v1 1/5] KVM: arm64: Enable ring-based dirty memory
+ tracking
+Message-ID: <YwZQHqS5DZBloYPZ@xz-m1.local>
+References: <87lerkwtm5.wl-maz@kernel.org>
+ <41fb5a1f-29a9-e6bb-9fab-4c83a2a8fce5@redhat.com>
+ <87fshovtu0.wl-maz@kernel.org>
+ <171d0159-4698-354b-8b2f-49d920d03b1b@redhat.com>
+ <YwTc++Lz6lh3aR4F@xz-m1.local>
+ <87bksawz0w.wl-maz@kernel.org>
+ <YwVEoM1pj2MPCELp@xz-m1.local>
+ <878rnewpaw.wl-maz@kernel.org>
+ <YwVgaGp3HOGzC8k2@xz-m1.local>
+ <87y1vdr98o.wl-maz@kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 607c05d9-b0a2-4a3e-d4f1-08da85e9770a
-X-MS-TrafficTypeDiagnostic: MWHPR12MB1326:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: iqnqFM10exZebnzq9rcqtCGrj8z/a+3coWENlEFjP9+MfDUf49/Jukd9ifRF7PAGJB1BcfjVIpN+L/LeiV4rw/ZOAdLGnOgNfNd2mVfhnuBzpDlF6MrcVhwQvqAvVSIZAXWLHvqdNGGfpKlRCOJHreNODHhDiHp4rq31uBMP707sx5bURmo1kq5EEy1hGFjwcgGSy+kkMOCodfjtQLXK8FyIBrzB0K3EIVI01rAzYEbVze/Q1tinkhYWa0EU14qjEqm2Ox777B1sc0Na1LqNcR7nXkSPIg4Blx9CrNyE1SM5mwcLAoVMmmS1nJYtfqdmIIhtoeFMZ/ZqHVscnqK45hqvYDVw8N06bGis8InGX5Cymc96d6PClwvin9xxlzjyi2Mv6qRHsPb5a7N+9HpgE83IgLj+RYV8wkRTYu9vNMBiC+Qorl51dRQZJUH8J9RXdeuYhcTzfWWJrDfNHr2MJY7LYC+hrPUj9qI6LRCam2elyR45NPqfr8J04XdHYdI5VVyAea9+SrxW7/dDvbjc5YtUBA7v0PbzUxY2FhltJ10vPqL7voPmFqKUSOuPqqtXGfzpCLZHOhJAbWKggghcBdYhblfmmwL/Ybdnl2BmQNh/07KIBmwvz/jQkoSFv5zyOTrhXYTIVE3FmFjMVpk8LxTgpwc6UfLd3Xj3yaF069AWtnW0DmIVKW9j/CwpdhbRSfuqXAr0LWZfO+ecI/V+ijvqgGeDD30YQGCHdVzLvHeAYByMGpUD4/yfGWopr+c5qf5OCJfhe6R8qi4E+dEt8Rh8MqwFrNVXp2vQrOr19CJMN4+k7f1n3bq511/aw1YqfQNAPBsPoWPmrI414VUQXg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(366004)(376002)(346002)(396003)(136003)(39860400002)(41300700001)(6512007)(6506007)(6666004)(26005)(53546011)(86362001)(36756003)(31696002)(31686004)(83380400001)(2616005)(186003)(478600001)(966005)(6486002)(66946007)(4326008)(8676002)(66476007)(66556008)(316002)(38100700002)(7416002)(5660300002)(8936002)(3450700001)(2906002)(45080400002)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UWpBeG5SczJ4WDdaWEt6MEdhdURRNmNTaVk3QzJlbFY5SUpacWtrVkc4UzFz?=
- =?utf-8?B?M2s0cUowTFU1NjlvNXZXNVB4TEMrSFlWaUIyQnVHejR2YkdEeGQ4Um1OaXJM?=
- =?utf-8?B?Q3pqcUhKdU8wUnFQb0RoaFNNc2FRMGVDdzI0WXMzRitTZ1d4M1poSy9LNnM2?=
- =?utf-8?B?RmNERk94ZUlpYWhpaStYeERHQVM3Q3ZVS0ZBR1IvNzZNNjAwU3pvQnY0VURR?=
- =?utf-8?B?cXdabHlYVythOE1VSDRJVG8xaGsyWWdXMGh4Mi9vMEVIMU90cVdmbzhLNy9F?=
- =?utf-8?B?aXVEZFQzVnVWVDJSRXJncURDS0ZXODRoa2dCN2RFOVhWcm54bVJQRW9HR1NZ?=
- =?utf-8?B?bEhnOC9vUU5ueERHelRvY1hnZCt1emsrMDd3YXB3ZHFUb1VST3dIR1BYRllP?=
- =?utf-8?B?UEcyNldJdlZhQjlOWUI4QW1HeTMyOTJVYXBqNHZONk4ycG1sWFFFVk9uSWI2?=
- =?utf-8?B?bEtyY2g4ZHNQU0ZsK1pXMElpVUZYUDcyS2ZVQ0NQSDlIQWNJUnVUUjlIc3Y2?=
- =?utf-8?B?YXNRRzFLQXRsclJMc2RZRWFiajQ0VjErYitta0JhVnhYSk5yamhwbEhiNmVJ?=
- =?utf-8?B?dmV3alFZRkg1SFhlNHhZTVNBak80L1ZjTlVSdmJCakVhc2V2K2N4Nk85MXlL?=
- =?utf-8?B?RHoyalh3VittY2VCMjlCazk2YlV1V1hkZlEwZ280TDVPNnFBQmFyblhNeUhM?=
- =?utf-8?B?bDJRelRYYTV6ZERYekRWaFBLSHlBUjRRNStINjlqMjhnRlh0NldBc3pCQW1N?=
- =?utf-8?B?bGk0V1dEUUhLMVdtdkpsdm41eThmWEpYUXJYa3RRNHgvNm8wR0xEWVRKb09v?=
- =?utf-8?B?RE9leWNOcEcxbmVWTU5ZZUxIRk9wT2tzdjljeHpnd3poRWU2UWVkdENCaWFF?=
- =?utf-8?B?cmFmMjFBL0tQUyt1Y1JjbjhVTTQvT1R3bFRiZzhHR3JlUE43OG1XTzQ5OHhF?=
- =?utf-8?B?U2xoOHRMNjU1NThKRitaRmFYUlVUaER4WmVtamo4MU5IZysxSlFPaEwwb2Z1?=
- =?utf-8?B?by83TjA1UHZEbWhCN0M1WVNYWjVaTU5XU0JBTG5Vbll6a3NGYU5iU1RoRTd6?=
- =?utf-8?B?cjk4VzliTndieVI2c1hqNE11ejVwVi8xcmVGSTE3RDlRcWwxbklUZUlnTlVB?=
- =?utf-8?B?MEJmelRTR3ZJTzE5dzluaEYvRmhWYzQ1TisyZzlrQjdUa1h1ZTR2UlAwWjli?=
- =?utf-8?B?MTY5aVNjNlRSKy9GUXBhOWEvd25SUk5NeSthRGpQVmNhWWhnd3phK2svUUl1?=
- =?utf-8?B?bTVIcXNlZCs0UUllOHRjakpLaCthRjArN3l6QVJmT3c3U3lhbnM5Mk00Q2I1?=
- =?utf-8?B?SWNXS1BUSHROVytEQjlzMHFyRG1DODEvNElDSjJFeU9yekQ3b25jaFRSMVR3?=
- =?utf-8?B?dmxVSDZ4SVRDeDhkMitLcEpVdzdxa1JlSXFCdUg1OVdIaFJKUXhyUGlnenIw?=
- =?utf-8?B?akdCMUFsWFhsN3dKcnMyYjhkSUhTdVd5eWJqWnI1aHdlWHpIOWx3d2xaZ2s1?=
- =?utf-8?B?cFNaOS9CMnMwSHBveFNGTS9RNXZoZkVxTEVJR1hSNVdkUDFmekRiU1NYUDBC?=
- =?utf-8?B?Mi90aWF4M3Q3bnB4VEExcEw0VXAyQlBpVVpzcVdxcnY3MTY0SGNHaGpzRlZS?=
- =?utf-8?B?TGpoeEdEcGZVYkE1TzJFaXo1akZUbG84aVlVOUF4S2lJWDVOc1NsZDNVeGRB?=
- =?utf-8?B?alBqS2hJKy83YzFpWjE3M3lrQWtiMnJLT2ZqTnlhRFNXWFpoL25yc1dJc0w2?=
- =?utf-8?B?Q205eEhzKzJFNDFCR0pKR0xsankwUWhCTlBqcHZBSnBSTUd5ZDNwUTlLWnZa?=
- =?utf-8?B?WE10eFdvekdLakU1Y1dXa2xLenFiMFpNd1BxaW5yRDgzeEVyN0FYTGpFcVl6?=
- =?utf-8?B?NHdoRjV4cER0SHdNMks5Sit6NVd4MllkUE53Yko4N2IrblBleVh1UmNxM2RQ?=
- =?utf-8?B?Q1kwR25zeHFrUWE1VkJGVnRVZmFCQTlnSXVIVzdYck1SN3E1UlNRVHhzVXVy?=
- =?utf-8?B?eWpHY3IrbmxKQk1yOU50UmY2VGV2SVk4blhkOHh5SzZGVXplWGpFOHBVR29M?=
- =?utf-8?B?NGlUNmtycUpiOTF1MG5YYncrMTNDM1FWOXc5ZmtuQXJQb2Z1VG1CZzJQSitm?=
- =?utf-8?Q?7w9A=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 607c05d9-b0a2-4a3e-d4f1-08da85e9770a
-X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Aug 2022 15:58:20.0231
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Sp14Nvfs6Jahj1/eaRhIUjgoF9oOn+ccUO949qupSVTmwv/FTMc5n9TU8pAXHemc
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR12MB1326
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <87y1vdr98o.wl-maz@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Wed, Aug 24, 2022 at 03:45:11PM +0100, Marc Zyngier wrote:
+> On Wed, 24 Aug 2022 00:19:04 +0100,
+> Peter Xu <peterx@redhat.com> wrote:
+> > 
+> > On Tue, Aug 23, 2022 at 11:47:03PM +0100, Marc Zyngier wrote:
+> > > On Tue, 23 Aug 2022 22:20:32 +0100,
+> > > Peter Xu <peterx@redhat.com> wrote:
+> > > > 
+> > > > On Tue, Aug 23, 2022 at 08:17:03PM +0100, Marc Zyngier wrote:
+> > > > > I don't think we really need this check on the hot path. All we need
+> > > > > is to make the request sticky until userspace gets their act together
+> > > > > and consumes elements in the ring. Something like:
+> > > > > 
+> > > > > diff --git a/arch/arm64/kvm/arm.c b/arch/arm64/kvm/arm.c
+> > > > > index 986cee6fbc7f..e8ed5e1af159 100644
+> > > > > --- a/arch/arm64/kvm/arm.c
+> > > > > +++ b/arch/arm64/kvm/arm.c
+> > > > > @@ -747,6 +747,14 @@ static int check_vcpu_requests(struct kvm_vcpu *vcpu)
+> > > > >  
+> > > > >  		if (kvm_check_request(KVM_REQ_SUSPEND, vcpu))
+> > > > >  			return kvm_vcpu_suspend(vcpu);
+> > > > > +
+> > > > > +		if (kvm_check_request(KVM_REQ_RING_SOFT_FULL, vcpu) &&
+> > > > > +		    kvm_dirty_ring_soft_full(vcpu)) {
+> > > > > +			kvm_make_request(KVM_REQ_RING_SOFT_FULL, vcpu);
+> > > > > +			vcpu->run->exit_reason = KVM_EXIT_DIRTY_RING_FULL;
+> > > > > +			trace_kvm_dirty_ring_exit(vcpu);
+> > > > > +			return 0;
+> > > > > +		}
+> > > > >  	}
+> > > > >  
+> > > > >  	return 1;
+> > > > 
+> > > > Right, this seems working.  We can also use kvm_test_request() here.
+> > > > 
+> > > > > 
+> > > > > 
+> > > > > However, I'm a bit concerned by the reset side of things. It iterates
+> > > > > over the vcpus and expects the view of each ring to be consistent,
+> > > > > even if userspace is hacking at it from another CPU. For example, I
+> > > > > can't see what guarantees that the kernel observes the writes from
+> > > > > userspace in the order they are being performed (the documentation
+> > > > > provides no requirements other than "it must collect the dirty GFNs in
+> > > > > sequence", which doesn't mean much from an ordering perspective).
+> > > > > 
+> > > > > I can see that working on a strongly ordered architecture, but on
+> > > > > something as relaxed as ARM, the CPUs may^Wwill aggressively reorder
+> > > > > stuff that isn't explicitly ordered. I have the feeling that a CAS
+> > > > > operation on both sides would be enough, but someone who actually
+> > > > > understands how this works should have a look...
+> > > > 
+> > > > I definitely don't think I 100% understand all the ordering things since
+> > > > they're complicated.. but my understanding is that the reset procedure
+> > > > didn't need memory barrier (unlike pushing, where we have explicit wmb),
+> > > > because we assumed the userapp is not hostile so logically it should only
+> > > > modify the flags which is a 32bit field, assuming atomicity guaranteed.
+> > > 
+> > > Atomicity doesn't guarantee ordering, unfortunately.
+> > 
+> > Right, sorry to be misleading.  The "atomicity" part I was trying to say
+> > the kernel will always see consistent update on the fields.
+> >
+> > The ordering should also be guaranteed, because things must happen with
+> > below sequence:
+> > 
+> >   (1) kernel publish dirty GFN data (slot, offset)
+> >   (2) kernel publish dirty GFN flag (set to DIRTY)
+> >   (3) user sees DIRTY, collects (slots, offset)
+> >   (4) user sets it to RESET
+> >   (5) kernel reads RESET
+> 
+> Maybe. Maybe not. The reset could well be sitting in the CPU write
+> buffer for as long as it wants and not be seen by the kernel if the
+> read occurs on another CPU. And that's the crucial bit: single-CPU is
+> fine, but cross CPU isn't. Unfortunately, the userspace API is per-CPU
+> on collection, and global on reset (this seems like a bad decision,
+> but it is too late to fix this).
 
-On 8/23/22 15:56, Reinette Chatre wrote:
-> Hi Babu,
->
-> On 8/22/2022 6:42 AM, Babu Moger wrote:
->> AMD systems support zero CBM (capacity bit mask) for L3 allocation.
->> That is reflected in rdt_init_res_defs_amd() by:
->>
->> 	r->cache.arch_has_empty_bitmaps = true;
->>
->> However given the unified code in cbm_validate(), checking for:
->> 	val == 0 && !arch_has_empty_bitmaps
->>
->> is not enough because of another check in cbm_validate():
->>
->> 	if ((zero_bit - first_bit) < r->cache.min_cbm_bits)
->>
->> The default value of r->cache.min_cbm_bits = 1.
->>
->> Leading to:
->>
->> 	$ cd /sys/fs/resctrl
->> 	$ mkdir foo
->> 	$ cd foo
->> 	$ echo L3:0=0 > schemata
->>           -bash: echo: write error: Invalid argument
->> 	$ cat /sys/fs/resctrl/info/last_cmd_status
->> 	  Need at least 1 bits in the mask
->>
->> Fix the issue by initializing the min_cbm_bits to 0 for AMD. Also remove
->> the default setting of min_cbm_bits and initialize it separately.
->>
->> After the fix
->> 	$ cd /sys/fs/resctrl
->> 	$ mkdir foo
->> 	$ cd foo
->> 	$ echo L3:0=0 > schemata
->> 	$ cat /sys/fs/resctrl/info/last_cmd_status
->> 	  ok
->>
->> Link: https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Flore.kernel.org%2Flkml%2F20220517001234.3137157-1-eranian%40google.com%2F&amp;data=05%7C01%7Cbabu.moger%40amd.com%7Cd695c39eb7d94d659db008da8549ed74%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637968849807214070%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=prSwl8bTHx0y3o9hBNxp3u%2FNu8SrNcEWUwDOCQCVURk%3D&amp;reserved=0
->> Fixes: 316e7f901f5a ("x86/resctrl: Add struct rdt_cache::arch_has_{sparse, empty}_bitmaps")
->> Signed-off-by: Stephane Eranian <eranian@google.com>
->> Signed-off-by: Babu Moger <babu.moger@amd.com>
->> Reviewed-by: Ingo Molnar <mingo@kernel.org>
->> ---
->>  arch/x86/kernel/cpu/resctrl/core.c |    8 ++------
->>  1 file changed, 2 insertions(+), 6 deletions(-)
->>
->> diff --git a/arch/x86/kernel/cpu/resctrl/core.c b/arch/x86/kernel/cpu/resctrl/core.c
->> index bb1c3f5f60c8..a5c51a14fbce 100644
->> --- a/arch/x86/kernel/cpu/resctrl/core.c
->> +++ b/arch/x86/kernel/cpu/resctrl/core.c
->> @@ -66,9 +66,6 @@ struct rdt_hw_resource rdt_resources_all[] = {
->>  			.rid			= RDT_RESOURCE_L3,
->>  			.name			= "L3",
->>  			.cache_level		= 3,
->> -			.cache = {
->> -				.min_cbm_bits	= 1,
->> -			},
->>  			.domains		= domain_init(RDT_RESOURCE_L3),
->>  			.parse_ctrlval		= parse_cbm,
->>  			.format_str		= "%d=%0*x",
->> @@ -83,9 +80,6 @@ struct rdt_hw_resource rdt_resources_all[] = {
->>  			.rid			= RDT_RESOURCE_L2,
->>  			.name			= "L2",
->>  			.cache_level		= 2,
->> -			.cache = {
->> -				.min_cbm_bits	= 1,
->> -			},
->>  			.domains		= domain_init(RDT_RESOURCE_L2),
->>  			.parse_ctrlval		= parse_cbm,
->>  			.format_str		= "%d=%0*x",
->> @@ -877,6 +871,7 @@ static __init void rdt_init_res_defs_intel(void)
->>  			r->cache.arch_has_sparse_bitmaps = false;
->>  			r->cache.arch_has_empty_bitmaps = false;
->>  			r->cache.arch_has_per_cpu_cfg = false;
->> +			r->cache.min_cbm_bits = 1;
->>  		} else if (r->rid == RDT_RESOURCE_MBA) {
->>  			hw_res->msr_base = MSR_IA32_MBA_THRTL_BASE;
->>  			hw_res->msr_update = mba_wrmsr_intel;
->> @@ -897,6 +892,7 @@ static __init void rdt_init_res_defs_amd(void)
->>  			r->cache.arch_has_sparse_bitmaps = true;
->>  			r->cache.arch_has_empty_bitmaps = true;
->>  			r->cache.arch_has_per_cpu_cfg = true;
->> +			r->cache.min_cbm_bits = 0;
->>  		} else if (r->rid == RDT_RESOURCE_MBA) {
->>  			hw_res->msr_base = MSR_IA32_MBA_BW_BASE;
->>  			hw_res->msr_update = mba_wrmsr_amd;
->>
->>
-> Thank you for putting this together.
->
-> This change makes arch_has_empty_bitmaps redundant. Can it be removed?
+Regarding the last statement, that's something I had question too and
+discussed with Paolo, even though at that time it's not a outcome of
+discussing memory ordering issues.
 
-Hi Reinette,
+IIUC the initial design was trying to avoid tlb flush flood when vcpu
+number is large (each RESET per ring even for one page will need all vcpus
+to flush, so O(N^2) flushing needed).  With global RESET it's O(N).  So
+it's kind of a trade-off, and indeed until now I'm not sure which one is
+better.  E.g., with per-ring reset, we can have locality too in userspace,
+e.g. the vcpu thread might be able to recycle without holding global locks.
 
-Actually, I thought about that. Sure. We can remove it.
+Regarding safety I hope I covered that below in previous reply.
+
+> 
+> > 
+> > So the ordering of single-entry is guaranteed in that when (5) happens it
+> > must be after stablized (1+2).
+> > 
+> > > Take the
+> > > following example: CPU0 is changing a bunch of flags for GFNs A, B, C,
+> > > D that exist in the ring in that order, and CPU1 performs an ioctl to
+> > > reset the page state.
+> > > 
+> > > CPU0:
+> > >     write_flag(A, KVM_DIRTY_GFN_F_RESET)
+> > >     write_flag(B, KVM_DIRTY_GFN_F_RESET)
+> > >     write_flag(C, KVM_DIRTY_GFN_F_RESET)
+> > >     write_flag(D, KVM_DIRTY_GFN_F_RESET)
+> > >     [...]
+> > > 
+> > > CPU1:
+> > >    ioctl(KVM_RESET_DIRTY_RINGS)
+> > > 
+> > > Since CPU0 writes do not have any ordering, CPU1 can observe the
+> > > writes in a sequence that have nothing to do with program order, and
+> > > could for example observe that GFN A and D have been reset, but not B
+> > > and C. This in turn breaks the logic in the reset code (B, C, and D
+> > > don't get reset), despite userspace having followed the spec to the
+> > > letter. If each was a store-release (which is the case on x86), it
+> > > wouldn't be a problem, but nothing calls it in the documentation.
+> > > 
+> > > Maybe that's not a big deal if it is expected that each CPU will issue
+> > > a KVM_RESET_DIRTY_RINGS itself, ensuring that it observe its own
+> > > writes. But expecting this to work across CPUs without any barrier is
+> > > wishful thinking.
+> > 
+> > I see what you meant...
+> > 
+> > Firstly I'm actually curious whether that'll really happen if the gfns are
+> > collected in something like a for loop:
+> > 
+> >   for(i = 0; i < N; i++)
+> >     collect_dirty_gfn(ring, i);
+> > 
+> > Because since all the gfps to be read will depend on variable "i", IIUC no
+> > reordering should happen, but I'm not really sure, so more of a pure
+> > question.
+> 
+> 'i' has no influence on the write ordering. Each write targets a
+> different address, there is no inter-write dependencies (this concept
+> doesn't exist other than for writes to the same address), so they can
+> be reordered at will.
+> 
+> If you want a proof of this, head to http://diy.inria.fr/www/ and run
+> the MP.litmus test (which conveniently gives you a reduction of this
+> problem) on both the x86 and AArch64 models. You will see that the
+> reordering isn't allowed on x86, but definitely allowed on arm64.
+> 
+> > Besides, the other thing to mention is that I think it is fine the RESET
+> > ioctl didn't recycle all the gfns got set to reset state.  Taking above
+> > example of GFNs A-D, if when reaching the RESET ioctl only A & D's flags
+> > are updated, the ioctl will recycle gfn A but stop at gfn B assuming B-D
+> > are not reset.  But IMHO it's okay because it means we reset partial of the
+> > gfns not all of them, and it's safe to do so.  It means the next ring full
+> > event can come earlier because we recycled less, but that's functionally
+> > safe to me.
+> 
+> It may be safe, but it isn't what the userspace API promises.
+
+The document says:
+
+  After processing one or more entries in the ring buffer, userspace calls
+  the VM ioctl KVM_RESET_DIRTY_RINGS to notify the kernel about it, so that
+  the kernel will reprotect those collected GFNs.  Therefore, the ioctl
+  must be called *before* reading the content of the dirty pages.
+
+I'd say it's not an explicit promise, but I think I agree with you that at
+least it's unclear on the behavior.
+
+Since we have a global recycle mechanism, most likely the app (e.g. current
+qemu impl) will use the same thread to collect/reset dirty GFNs, and
+trigger the RESET ioctl().  In that case it's safe, IIUC, because no
+cross-core ops.
+
+QEMU even guarantees this by checking it (kvm_dirty_ring_reap_locked):
+
+    if (total) {
+        ret = kvm_vm_ioctl(s, KVM_RESET_DIRTY_RINGS);
+        assert(ret == total);
+    }
+
+I think the assert() should never trigger as mentioned above.  But ideally
+maybe it should just be a loop until cleared gfns match total.
+
+> In other words, without further straightening of the API, this doesn't
+> work as expected on relaxed memory architectures. So before this gets
+> enabled on arm64, this whole ordering issue must be addressed.
+
+How about adding some more documentation for KVM_RESET_DIRTY_RINGS on the
+possibility of recycling partial of the pages, especially when collection
+and the ioctl() aren't done from the same thread?
+
+Any suggestions will be greatly welcomed.
+
+Thanks,
 
 -- 
-Thanks
-Babu Moger
+Peter Xu
 
