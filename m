@@ -2,106 +2,138 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A637EC3F6B0
-	for <linux-doc@archiver.kernel.org>; Wed, 24 Aug 2022 10:27:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 69B9CC32793
+	for <linux-doc@archiver.kernel.org>; Wed, 24 Aug 2022 10:27:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235695AbiHXK1B (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 24 Aug 2022 06:27:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38848 "EHLO
+        id S236437AbiHXK1E (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 24 Aug 2022 06:27:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40096 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236653AbiHXK0n (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Aug 2022 06:26:43 -0400
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 513AD80B75;
-        Wed, 24 Aug 2022 03:25:35 -0700 (PDT)
-Received: by mail-wr1-x432.google.com with SMTP id k9so20211435wri.0;
-        Wed, 24 Aug 2022 03:25:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:user-agent:references:message-id:date:in-reply-to
-         :subject:cc:to:from:from:to:cc;
-        bh=eKQZ/ehv1MwWOxO6OkjgFxZ52KEITsygp+TljaaBnnk=;
-        b=GSDHHAF86YGL1reVUTRrqe+R35sB4YmjMRUrm+/6Qi9YrvBJi2QNjNXD07sw00O4RH
-         83bdXmCGKoGUdIJ0/+HaM/UCQujcjDdn+H6Zz6u4qxufyOW+iNikAMDnprMYEfznr0lh
-         9sXxVtg5Cu9nXnNj0cVD9wYFmG/Pg8Ll4zRAPcljrCpjdlOmCxTnuwbRbbygs909t5+T
-         lkCmMeaTKd7fBWyZItZfTVWj1waF/XkDWaBJlWzEdQNYS4M6kDwBqB+uJwsBiktyrXS+
-         MaLpV3ZWuI2iyvltar4GtzDNJJwmWbHxVGuPLp15ghmtSi7kMuWOC7ZEK4ZyiFo2NnQ9
-         CjRQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=mime-version:user-agent:references:message-id:date:in-reply-to
-         :subject:cc:to:from:x-gm-message-state:from:to:cc;
-        bh=eKQZ/ehv1MwWOxO6OkjgFxZ52KEITsygp+TljaaBnnk=;
-        b=4/YMugYbA/y6vQ0UlBENQv/zOMuYqbqRFlnZLnxjBOWhIz6JMhUhz5EDRP+W1zT4z4
-         OZbCCH8/eyCS2LLtADkJsbrmtPa5bJDaJlLSAj/gUPdeIH60rrth04hTL9AjgRj6VYE8
-         lqXSI1z0V10/cAZBBseUX/sCr6q6djto6Mj38YeV6JSETY0UnH2GfBkTTcjAvPbmy3xZ
-         U60poV4oSA0VIsG4AQAr0JJnsbR5Kr5f4IN5osbWNhqSzH56wPSLiEzzq00miDfHIzy1
-         9OKGkhzN4XNmnPmdmjhvimHGTG5r3wHS9RERHc8KX5uHQ1mv9f5IFGYouKgKcPDEMo1Q
-         gwGg==
-X-Gm-Message-State: ACgBeo3kWXKAzt6Xnm9Kx/TJlajf7urMLZoKB+3dYJqwSrajtuT8rpVq
-        7cXCyrElxJpg4YaHdAsn2zk=
-X-Google-Smtp-Source: AA6agR46/A44ZFx6NCeOYijK+sSh5+yYxjWCQL7ynSDaeXLOQ9PqUEl6pUGtpxulEz4AaRRTWgBqXA==
-X-Received: by 2002:a5d:4f82:0:b0:225:32c6:7e59 with SMTP id d2-20020a5d4f82000000b0022532c67e59mr14249968wru.366.1661336733519;
-        Wed, 24 Aug 2022 03:25:33 -0700 (PDT)
-Received: from imac ([2a02:8010:60a0:0:55a7:d3:b36c:e4f1])
-        by smtp.gmail.com with ESMTPSA id n39-20020a05600c502700b003a60bc8ae8fsm1538773wmr.21.2022.08.24.03.25.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Aug 2022 03:25:32 -0700 (PDT)
-From:   Donald Hunter <donald.hunter@gmail.com>
-To:     Andrii Nakryiko <andrii.nakryiko@gmail.com>
-Cc:     bpf@vger.kernel.org, linux-doc@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        grantseltzer <grantseltzer@gmail.com>
-Subject: Re: [PATCH bpf-next] Add table of BPF program types to docs
-In-Reply-To: <CAEf4BzaujwgDXm+05MuGr_ouAseGGFg50Cxb83hHeWHX7bCk6A@mail.gmail.com>
-        (Andrii Nakryiko's message of "Tue, 23 Aug 2022 15:53:36 -0700")
-Date:   Wed, 24 Aug 2022 11:24:41 +0100
-Message-ID: <m2fshmym52.fsf@gmail.com>
-References: <20220823132236.65122-1-donald.hunter@gmail.com>
-        <CAEf4BzaujwgDXm+05MuGr_ouAseGGFg50Cxb83hHeWHX7bCk6A@mail.gmail.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.1 (darwin)
+        with ESMTP id S234222AbiHXK0q (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Aug 2022 06:26:46 -0400
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 513575C364;
+        Wed, 24 Aug 2022 03:25:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1661336751; x=1692872751;
+  h=date:from:to:cc:subject:message-id:reply-to:references:
+   mime-version:in-reply-to;
+  bh=ov6LWOeGKE0o/d22MV9D8SJ+ovEHwDZEA5oKgTfWHCI=;
+  b=ZZmaNVrL9o9DOsJ/T0nrahhlnw7jwtvBqZ/dWgvgwBbUarP2ggwysxKg
+   le+275l4+d4mmoGocG31k5ZYGTsEKeO1kgi3Jr6RfMx4VyZVe4jxQ9qzY
+   OICxHmWpHLrcEB9hpDsR3dzGmovtDuKahiwUI5sWGZVbU0KgWcXZF1gam
+   cd3tB08jYfSPKZldcmsUIgRIS1PSRlqi5qbdK/bcwFIMTdKjpdqY2D/V9
+   CBDVnIn+0le6QUBk56pZSRimPklw9Ja+yxKn9Rui0cmFvCiS4dgFR3R5Y
+   x8xqAw83d4zwzwzmkpsgIt+I0qffxiqqjSSRKSqWtnOgZvLD5B016QoCC
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10448"; a="294714894"
+X-IronPort-AV: E=Sophos;i="5.93,260,1654585200"; 
+   d="scan'208";a="294714894"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2022 03:25:50 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,260,1654585200"; 
+   d="scan'208";a="605986064"
+Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
+  by orsmga007.jf.intel.com with ESMTP; 24 Aug 2022 03:25:39 -0700
+Date:   Wed, 24 Aug 2022 18:20:56 +0800
+From:   Chao Peng <chao.p.peng@linux.intel.com>
+To:     David Hildenbrand <david@redhat.com>
+Cc:     "Kirill A. Shutemov" <kirill@shutemov.name>,
+        Paolo Bonzini <pbonzini@redhat.com>, kvm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+        linux-kselftest@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Sean Christopherson <seanjc@google.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Hugh Dickins <hughd@google.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+        ak@linux.intel.com, aarcange@redhat.com, ddutile@redhat.com,
+        dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+        Muchun Song <songmuchun@bytedance.com>
+Subject: Re: [PATCH v7 01/14] mm: Add F_SEAL_AUTO_ALLOCATE seal to memfd
+Message-ID: <20220824102056.GA1385482@chaop.bj.intel.com>
+Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
+References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
+ <20220706082016.2603916-2-chao.p.peng@linux.intel.com>
+ <f39c4f63-a511-4beb-b3a4-66589ddb5475@redhat.com>
+ <472207cf-ff71-563b-7b66-0c7bea9ea8ad@redhat.com>
+ <20220817234120.mw2j3cgshmuyo2vw@box.shutemov.name>
+ <8f6f428b-85e6-a188-7f32-512b6aae0abf@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <8f6f428b-85e6-a188-7f32-512b6aae0abf@redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Andrii Nakryiko <andrii.nakryiko@gmail.com> writes:
+On Tue, Aug 23, 2022 at 09:36:57AM +0200, David Hildenbrand wrote:
+> On 18.08.22 01:41, Kirill A. Shutemov wrote:
+> > On Fri, Aug 05, 2022 at 07:55:38PM +0200, Paolo Bonzini wrote:
+> >> On 7/21/22 11:44, David Hildenbrand wrote:
+> >>>
+> >>> Also, I*think*  you can place pages via userfaultfd into shmem. Not
+> >>> sure if that would count "auto alloc", but it would certainly bypass
+> >>> fallocate().
+> >>
+> >> Yeah, userfaultfd_register would probably have to forbid this for
+> >> F_SEAL_AUTO_ALLOCATE vmas.  Maybe the memfile_node can be reused for this,
+> >> adding a new MEMFILE_F_NO_AUTO_ALLOCATE flags?  Then userfault_register
+> >> would do something like memfile_node_get_flags(vma->vm_file) and check the
+> >> result.
+> > 
+> > I donno, memory allocation with userfaultfd looks pretty intentional to
+> > me. Why would F_SEAL_AUTO_ALLOCATE prevent it?
+> > 
+> 
+> Can't we say the same about a write()?
+> 
+> > Maybe we would need it in the future for post-copy migration or something?
+> > 
+> > Or existing practises around userfaultfd touch memory randomly and
+> > therefore incompatible with F_SEAL_AUTO_ALLOCATE intent?
+> > 
+> > Note, that userfaultfd is only relevant for shared memory as it requires
+> > VMA which we don't have for MFD_INACCESSIBLE.
+> 
+> This feature (F_SEAL_AUTO_ALLOCATE) is independent of all the lovely
+> encrypted VM stuff, so it doesn't matter how it relates to MFD_INACCESSIBLE.
 
-> On Tue, Aug 23, 2022 at 9:56 AM Donald Hunter <donald.hunter@gmail.com> wrote:
->>
->> Extend the BPF program types documentation with a table of
->> program types, attach points and ELF section names.
->>
->> The program_types.csv file is generated from tools/lib/bpf/libbpf.c
->> and a script is included for regenerating the .csv file.
->>
->> I have not integrated the script into the doc build but if that
->> is desirable then please suggest the preferred way to do so.
->>
->> Signed-off-by: Donald Hunter <donald.hunter@gmail.com>
->> ---
->
-> It does seem cleaner to generate this .csv during docs build, instead
-> of having to manually regenerate it all the time? Should we also put
-> it under Documentation/bpf/libbpf/ as it's libbpf-specific? Having it
-> under libbpf subdir would also make it simpler to expose it in libbpf
-> docs at libbpf.readthedocs.io/
+Right, this patch is for normal user accssible fd. In KVM this flag is
+expected to be set on the shared part of the memslot, while all other
+patches in this series are for private part of the memslot.
 
-Agreed about generating the .csv as part of the doc build. I will look
-at adding it to the docs Makefile.
+Private memory doesn't have this need because it's totally inaccissible
+from userspace so no chance for userspace to write to the fd and cause
+allocation by accident. While for shared memory, malicious/buggy guest
+OS may cause userspace to write to any range of the shared fd and cause
+memory allocation, even that range should the private memory not the
+shared memory be visible to guest OS.
 
-I'm happy to put it in Documentation/bpf/libbpf and link to it from
-Documentation/bpf/programs.rst.
-
-> We can probably also establish some special comment format next to
-> SEC_DEF() to specify the format of those "extras", I think it would be
-> useful for users. WDYT?
-
-Yes this would be a useful addition. Are the extras always for
-auto-attach? If so, then I can add that to the rules.
-
-I'd prefer to modify the existing ELF section name column to replace '+'
-with extras since the table is already wide.
-
-> CC'ing Grant as well, who worked on building libbpf docs.
+Chao
+> 
+> -- 
+> Thanks,
+> 
+> David / dhildenb
+> 
