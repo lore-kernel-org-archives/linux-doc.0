@@ -2,129 +2,131 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 398DFC00140
-	for <linux-doc@archiver.kernel.org>; Wed, 24 Aug 2022 08:09:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C363C32793
+	for <linux-doc@archiver.kernel.org>; Wed, 24 Aug 2022 08:10:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232570AbiHXIJ4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 24 Aug 2022 04:09:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48924 "EHLO
+        id S235610AbiHXIKo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 24 Aug 2022 04:10:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50540 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235092AbiHXIJ4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Aug 2022 04:09:56 -0400
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E1956BCDD;
-        Wed, 24 Aug 2022 01:09:52 -0700 (PDT)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id 7979F2008D;
-        Wed, 24 Aug 2022 08:09:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1661328591; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
+        with ESMTP id S235612AbiHXIKn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Aug 2022 04:10:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 849EB857C8
+        for <linux-doc@vger.kernel.org>; Wed, 24 Aug 2022 01:10:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1661328641;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=TLtgpnjQlGtD1ZAJ+2wQtkWv5tNE69LQcLT1NXtK3ms=;
-        b=j20rO/LUe+ZNPgoL3sgzAB9Uo0qwAB2hz+HKpI+VJ7OoO+6WpFy0JbHRnKNinUUW3p3sEP
-        GzKu+ecTUHYR9qtLYWUjlMmuHioEtPsuPQUiwYNfsppQDRn7at24wWWLnp0VSI3Oaejk+C
-        Yd/1GdFhE3kj7bIhJi3Ge1qoMFLQ71c=
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 5904A13AC0;
-        Wed, 24 Aug 2022 08:09:51 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id xBYSFc/cBWNvXgAAMHmgww
-        (envelope-from <mhocko@suse.com>); Wed, 24 Aug 2022 08:09:51 +0000
-Date:   Wed, 24 Aug 2022 10:09:50 +0200
-From:   Michal Hocko <mhocko@suse.com>
-To:     lizhe.67@bytedance.com
-Cc:     akpm@linux-foundation.org, vbabka@suse.cz, mhiramat@kernel.org,
-        keescook@chromium.org, Jason@zx2c4.com, mark-pk.tsai@mediatek.com,
-        rostedt@goodmis.org, corbet@lwn.net, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        lizefan.x@bytedance.com, yuanzhu@bytedance.com
-Subject: Re: [PATCH v2] page_ext: introduce boot parameter 'early_page_ext'
-Message-ID: <YwXczj8Dh0uI0EA9@dhcp22.suse.cz>
-References: <20220824065058.81051-1-lizhe.67@bytedance.com>
+        bh=FkqRyVmVnH2p/hv4jFAhKRZhXQQdh+BaDqLkaLzGuMI=;
+        b=VIMDWym97Amc5j9oWyLt0sVrTpOLLja5ePZzFfYgFs7MPiiMsg2/0qMXywt9SQNN27u+hr
+        8NR7FtotBwTIfu8CP1nEjwETCMfyuyaq7mbvc3C1K6//zDBdHy8S7TTRIpBtD2UghlTNyx
+        CwcfRHVExovsPs4tifB2jUFY522pRFw=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-401-muiIhYILPFOxCtwcEZsOhg-1; Wed, 24 Aug 2022 04:10:40 -0400
+X-MC-Unique: muiIhYILPFOxCtwcEZsOhg-1
+Received: by mail-wm1-f71.google.com with SMTP id f7-20020a1c6a07000000b003a60ede816cso237775wmc.0
+        for <linux-doc@vger.kernel.org>; Wed, 24 Aug 2022 01:10:40 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:organization:from:references
+         :cc:to:content-language:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc;
+        bh=FkqRyVmVnH2p/hv4jFAhKRZhXQQdh+BaDqLkaLzGuMI=;
+        b=hVEG5MZtezgnekyjBcAQvCeUQ2XQqkLRI6veQLfb6ttM5Vtmbu4vy2n3qupa+Qvv5L
+         ix4yRHZcyWdqsa2vSLVDk1kRX6tOM/60GVWLOlqjvWjvsq1584J9zLWs8DjiZ+gi1FCK
+         S1RV8qmH44ZyZq4u1LTqbvoFcacFXrmmdrw/2TtbQDb4teQQvMOs1BInZRdGKs2k4DCC
+         Mw9NcBvQGp38tNnpw6B1wRX4ZkfB5ddQD6HBJf0XvU7gyRxS8vGuY8avBJ5Xhav2EqL8
+         BEPgkynmd/qs+8ifSPvQEnRK5etokGCfkzzAJ/WGmAVlSjCVoqiS+WX64JpIaQejX4NN
+         ytVQ==
+X-Gm-Message-State: ACgBeo0cbcPT7KtxgidST9oYXaTWbx2Hk5YTOTCFQQT7kMdetq4Kcv5E
+        x1+hS/1+Zdi8T5ufZQmKbBSUAEDvUFRTBF4oRE1IyO/JjOeNr4ZJfZMVxEBxseseE2KEXc1e9rh
+        TXx11Q6xZC/iY9o8CJqBJ
+X-Received: by 2002:a5d:5487:0:b0:225:3fa7:41c2 with SMTP id h7-20020a5d5487000000b002253fa741c2mr11668191wrv.195.1661328639300;
+        Wed, 24 Aug 2022 01:10:39 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR7oWpPdTD3abka/IUBi2UFio+jqKRoZcRc1o7eyZSl+PEi58PEdaVPrSmiTzEqsevHnndBcoQ==
+X-Received: by 2002:a5d:5487:0:b0:225:3fa7:41c2 with SMTP id h7-20020a5d5487000000b002253fa741c2mr11668178wrv.195.1661328639030;
+        Wed, 24 Aug 2022 01:10:39 -0700 (PDT)
+Received: from ?IPV6:2003:cb:c707:c500:5445:cf40:2e32:6e73? (p200300cbc707c5005445cf402e326e73.dip0.t-ipconnect.de. [2003:cb:c707:c500:5445:cf40:2e32:6e73])
+        by smtp.gmail.com with ESMTPSA id m9-20020adfe0c9000000b00225206dd595sm16017732wri.86.2022.08.24.01.10.37
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 24 Aug 2022 01:10:38 -0700 (PDT)
+Message-ID: <96433a14-1d2c-739d-95fb-3e3339200dcf@redhat.com>
+Date:   Wed, 24 Aug 2022 10:10:36 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220824065058.81051-1-lizhe.67@bytedance.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: [PATCH v2 1/2] mm: Cap zone movable's min wmark to small value
+Content-Language: en-US
+To:     Wupeng Ma <mawupeng1@huawei.com>, akpm@linux-foundation.org
+Cc:     corbet@lwn.net, mcgrof@kernel.org, keescook@chromium.org,
+        yzaikin@google.com, songmuchun@bytedance.com,
+        mike.kravetz@oracle.com, osalvador@suse.de, rppt@kernel.org,
+        surenb@google.com, jsavitz@redhat.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org, wangkefeng.wang@huawei.com
+References: <20220819093025.105403-1-mawupeng1@huawei.com>
+ <20220819093025.105403-2-mawupeng1@huawei.com>
+From:   David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+In-Reply-To: <20220819093025.105403-2-mawupeng1@huawei.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed 24-08-22 14:50:58, lizhe.67@bytedance.com wrote:
-[...]
-> diff --git a/include/linux/page_ext.h b/include/linux/page_ext.h
-> index fabb2e1e087f..3e081cf8a1ec 100644
-> --- a/include/linux/page_ext.h
-> +++ b/include/linux/page_ext.h
-> @@ -38,19 +38,22 @@ struct page_ext {
+On 19.08.22 11:30, Wupeng Ma wrote:
+> From: Ma Wupeng <mawupeng1@huawei.com>
+> 
+> Since min_free_kbytes is based on gfp_zone(GFP_USER) which does not include
+> zone movable. However zone movable will get its min share in
+> __setup_per_zone_wmarks() which does not make any sense.
+> 
+> And like highmem pages, __GFP_HIGH and PF_MEMALLOC allocations usually
+> don't need movable pages, so there is no need to assign min pages for zone
+> movable.
+> 
+> Let's cap pages_min for zone movable to a small value here just link
+> highmem pages.
+> 
+> Signed-off-by: Ma Wupeng <mawupeng1@huawei.com>
+> ---
+>  mm/page_alloc.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/mm/page_alloc.c b/mm/page_alloc.c
+> index e5486d47406e..ff644205370f 100644
+> --- a/mm/page_alloc.c
+> +++ b/mm/page_alloc.c
+> @@ -8638,7 +8638,7 @@ static void __setup_per_zone_wmarks(void)
 >  
->  extern unsigned long page_ext_size;
->  extern void pgdat_page_ext_init(struct pglist_data *pgdat);
-> +#ifdef CONFIG_DEFERRED_STRUCT_PAGE_INIT
-> +extern bool early_page_ext_enable(void);
-> +#endif
+>  	/* Calculate total number of !ZONE_HIGHMEM pages */
+>  	for_each_zone(zone) {
+> -		if (!is_highmem(zone))
+> +		if (!is_highmem(zone) && zone_idx(zone) != ZONE_MOVABLE)
+>  			lowmem_pages += zone_managed_pages(zone);
+>  	}
 >  
->  #ifdef CONFIG_SPARSEMEM
->  static inline void page_ext_init_flatmem(void)
->  {
->  }
-> -extern void page_ext_init(void);
-> +extern void page_ext_init(bool early);
->  static inline void page_ext_init_flatmem_late(void)
->  {
->  }
->  #else
->  extern void page_ext_init_flatmem(void);
->  extern void page_ext_init_flatmem_late(void);
-> -static inline void page_ext_init(void)
-> +static inline void page_ext_init(bool early)
->  {
->  }
->  #endif
+> @@ -8648,7 +8648,7 @@ static void __setup_per_zone_wmarks(void)
+>  		spin_lock_irqsave(&zone->lock, flags);
+>  		tmp = (u64)pages_min * zone_managed_pages(zone);
+>  		do_div(tmp, lowmem_pages);
+> -		if (is_highmem(zone)) {
+> +		if (is_highmem(zone) || zone_idx(zone) == ZONE_MOVABLE) {
+>  			/*
+>  			 * __GFP_HIGH and PF_MEMALLOC allocations usually don't
+>  			 * need highmem pages, so cap pages_min to a small
 
-Why do you need to make it CONFIG_DEFERRED_STRUCT_PAGE_INIT
-dependant?
+This kind-off makes sense to me, but I'm not completely sure about all
+implications. We most certainly should update the comment as well.
 
-[...]
-> diff --git a/init/main.c b/init/main.c
-> index 91642a4e69be..3760c0326525 100644
-> --- a/init/main.c
-> +++ b/init/main.c
-> @@ -849,6 +849,8 @@ static void __init mm_init(void)
->  	pgtable_init();
->  	debug_objects_mem_init();
->  	vmalloc_init();
-> +	/* Should be run after vmap initialization */
-> +	page_ext_init(true);
-
-you can just 
-	if (early_page_ext)
-		page_ext_init();
-
->  	/* Should be run before the first non-init thread is created */
->  	init_espfix_bsp();
->  	/* Should be run after espfix64 is set up. */
-> @@ -1606,7 +1608,7 @@ static noinline void __init kernel_init_freeable(void)
->  	padata_init();
->  	page_alloc_init_late();
->  	/* Initialize page ext after all struct pages are initialized. */
-> -	page_ext_init();
-> +	page_ext_init(false);
-
-	if (!early_page_ext)
-		page_ext_init();
->  
->  	do_basic_setup();
->  
-
-and without the ifdefery it all becomes much more simple.
 -- 
-Michal Hocko
-SUSE Labs
+Thanks,
+
+David / dhildenb
+
