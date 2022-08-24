@@ -2,52 +2,52 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2BED2C32793
-	for <linux-doc@archiver.kernel.org>; Wed, 24 Aug 2022 09:59:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F2EF6C00140
+	for <linux-doc@archiver.kernel.org>; Wed, 24 Aug 2022 10:18:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235876AbiHXJ7t (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 24 Aug 2022 05:59:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34340 "EHLO
+        id S236692AbiHXKS5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 24 Aug 2022 06:18:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33788 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236375AbiHXJ7r (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Aug 2022 05:59:47 -0400
-Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com [IPv6:2a00:1450:4864:20::634])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 634CE29B
-        for <linux-doc@vger.kernel.org>; Wed, 24 Aug 2022 02:59:44 -0700 (PDT)
-Received: by mail-ej1-x634.google.com with SMTP id gt3so20058284ejb.12
-        for <linux-doc@vger.kernel.org>; Wed, 24 Aug 2022 02:59:44 -0700 (PDT)
+        with ESMTP id S236698AbiHXKSy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Aug 2022 06:18:54 -0400
+Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07E0B75383
+        for <linux-doc@vger.kernel.org>; Wed, 24 Aug 2022 03:18:52 -0700 (PDT)
+Received: by mail-ej1-x635.google.com with SMTP id ca13so21317389ejb.9
+        for <linux-doc@vger.kernel.org>; Wed, 24 Aug 2022 03:18:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=cmpxchg-org.20210112.gappssmtp.com; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc;
-        bh=KDrwIuEhT+5ed/QHPncJMrlSCfotDJCP28NTdWL4Z+8=;
-        b=FUdbq4Ey9WfkBGooYh1jtUkdsUaCaWZPuwYV3PkH7QaJ6rIuPi95KEyNjCkcKjaUhs
-         pIAD/64crbo5hfuYw7IQnI5SE/VWZojQajcqMjOBLaHqJtPnCBS5+FQay9YxHB2pgLLm
-         qMLo5SLvf/bh9qEVLS4tH+aah2FYaseQaxsjwzA62Hu5QnonD+hFcmPFH82kW4mDQaUX
-         +ZzYA1UtkfEokBQiNK7TMxkke0mamFuB3H9psq4TU0e95ZwOQc6fBIQL7Fzq/BdOSDP5
-         AzyQeD2ztdmWD7M3Eti7MaeFc/MXhS4skbQhVSvgxhgzwUCDIxFluMVEwvKGA1iYeCqm
-         FtPw==
+        bh=jYmWHg1umNQmTFAwHrCQ8H6AfC+tenyU3IxwvmYsyvo=;
+        b=qfFFRs5A0nr5chGy5gZIGGb4C9QrEEKgXqfyx/fNmBO9DMO56woexl6r1J5hd6xkVl
+         pLvfy0VeOa50Wh2l1jUgJ+098USlLXKqbAzbAzuiFxp99NBVU11ZvT/9TWP1SCroYNH6
+         dMSlnl7vipOpaSRLvPVYtNwGW3xpuQyDPiH28ME27+igm2RkGKmX+bCJRp7CHYcM8goH
+         Is5alYIwsk0mWIwD0OHL3dFsZqWJTnBf4Icxr3tJI7xGMK86gxIky2SAfYL4pMdJTRcq
+         YLAzLYn54dy/EiDGWopEFP8angsfSlkFeMAazJLpWM1p7yNgDwORj2l/2sryFuDnhPWe
+         9OJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
-        bh=KDrwIuEhT+5ed/QHPncJMrlSCfotDJCP28NTdWL4Z+8=;
-        b=yA70O78KM6gOf4f4IT5mxsl2sRMsa118QjnqY2Tdc5K0sQ83C4KS7M+gPBkCxid/uL
-         1JZrkHxGD5jP+vEAev3pm7DPqvQPywmGkQqF9Qq2nk6k76qwZhj0aqk+EcQS1RWkeQ/a
-         xFKu/OU9Pc28RbY0pQwxIltxKqZ5UKDu/m20mcuVRW0hk8mZ2BcfX4dZvRPIk+2sK1Df
-         6W35k1scXTCbdrc6YTCUqGG1g8219OVfEGPINTRYR8jT/5+QP72an9gXcOAZ4bSrjRYw
-         pmTiA1SadewIq/YDDI+HcJ2c+3Jabl47MapgTF4gCKhQu7x0Iu4NllhW0hZSXguXm65q
-         S3iw==
-X-Gm-Message-State: ACgBeo2AMGUJ6eabrG7putFBoKKWTYRwcEhvwE9anmI1gUoAHF2Trjo+
-        nvmfTRFbW+gxy8xs0uZWFrkmHbk7zoyocxn/9mY=
-X-Google-Smtp-Source: AA6agR4ON0AirUp+ldMgYG/5RQsnHb+A553EVcg1HVAwwv4Hce3qfQdtqarSlYV26Z9mLDludtLbug==
-X-Received: by 2002:a17:907:628a:b0:72f:678d:6047 with SMTP id nd10-20020a170907628a00b0072f678d6047mr2382383ejc.456.1661335182638;
-        Wed, 24 Aug 2022 02:59:42 -0700 (PDT)
+        bh=jYmWHg1umNQmTFAwHrCQ8H6AfC+tenyU3IxwvmYsyvo=;
+        b=EWEk8uRb7SQ0y1mWpL5YvCAgOB/sZ2dBWt8Z8y5jK3JUaqV1JYHbRnO8P/JgXbNFmz
+         Q70Tt9Z9xh8fWCvl0hR24Y8/V/Smvu29EsoDSdSCGAIx/ri3arRHCCPqkXILUCqNO4w9
+         HSpM9nXOYKGFT3th6SPD0dIszU/4WbkzOdg56xolH5CiOjOo37IBUCmmCeYdv5GFqvf2
+         rsiHAvCDsliUkQc4r+z6iGwat2UAt4xDNCmYtfGkizp7yZBqrSG75cbAKFXsPc1qlZ1K
+         XKDVvp/7ftXgZfPzn4Rc4H15hSEAYLXhY1n7ovLkVyZLpcXWLHW6gQiefuUODYNPp+99
+         KMLQ==
+X-Gm-Message-State: ACgBeo19l1DcGZoFbfMcO7zMyhTfak2qe7Nm5smuilBy2CJ2Oo2gP848
+        LY5XeCB+ZrOx8X9QgHrcOULgaQ==
+X-Google-Smtp-Source: AA6agR7KrEG4ut026LV0Mq54d8UpUznV2OMm471/Cdz0HVJekjcDeZXHFvdU2Ez10kvhxXYz6nrh/Q==
+X-Received: by 2002:a17:907:6d8f:b0:73d:8416:908b with SMTP id sb15-20020a1709076d8f00b0073d8416908bmr2334903ejc.651.1661336330570;
+        Wed, 24 Aug 2022 03:18:50 -0700 (PDT)
 Received: from localhost ([2a02:8070:6389:a4c0:2ca9:6d59:782b:fff3])
-        by smtp.gmail.com with ESMTPSA id f2-20020a17090631c200b006fee7b5dff2sm938817ejf.143.2022.08.24.02.59.41
+        by smtp.gmail.com with ESMTPSA id fb17-20020a1709073a1100b0072b32de7794sm963537ejc.70.2022.08.24.03.18.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Aug 2022 02:59:42 -0700 (PDT)
-Date:   Wed, 24 Aug 2022 05:59:40 -0400
+        Wed, 24 Aug 2022 03:18:49 -0700 (PDT)
+Date:   Wed, 24 Aug 2022 06:18:49 -0400
 From:   Johannes Weiner <hannes@cmpxchg.org>
 To:     Chengming Zhou <zhouchengming@bytedance.com>
 Cc:     tj@kernel.org, mkoutny@suse.com, surenb@google.com,
@@ -55,112 +55,170 @@ Cc:     tj@kernel.org, mkoutny@suse.com, surenb@google.com,
         peterz@infradead.org, songmuchun@bytedance.com,
         cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 10/10] sched/psi: per-cgroup PSI accounting
- disable/re-enable interface
-Message-ID: <YwX2jC2UQ/zeY2E8@cmpxchg.org>
+Subject: Re: [PATCH v3 09/10] sched/psi: cache parent psi_group to speed up
+ groups iterate
+Message-ID: <YwX7CeeRDDAhV3UH@cmpxchg.org>
 References: <20220824081829.33748-1-zhouchengming@bytedance.com>
- <20220824081829.33748-11-zhouchengming@bytedance.com>
+ <20220824081829.33748-10-zhouchengming@bytedance.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220824081829.33748-11-zhouchengming@bytedance.com>
+In-Reply-To: <20220824081829.33748-10-zhouchengming@bytedance.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 Hi Chengming,
 
-Thanks for incorporating all the feedback. I have a few nitpicks
-below, but with those considered, please add:
+This looks generally good to me, but I have one comment:
 
+On Wed, Aug 24, 2022 at 04:18:28PM +0800, Chengming Zhou wrote:
+> @@ -772,30 +772,18 @@ static void psi_group_change(struct psi_group *group, int cpu,
+>  		schedule_delayed_work(&group->avgs_work, PSI_FREQ);
+>  }
+>  
+> -static struct psi_group *iterate_groups(struct task_struct *task, void **iter)
+> +static inline struct psi_group *task_psi_group(struct task_struct *task)
+>  {
+> -	if (*iter == &psi_system)
+> -		return NULL;
+> -
+>  #ifdef CONFIG_CGROUPS
+> -	if (static_branch_likely(&psi_cgroups_enabled)) {
+> -		struct cgroup *cgroup = NULL;
+> -
+> -		if (!*iter)
+> -			cgroup = task->cgroups->dfl_cgrp;
+> -		else
+> -			cgroup = cgroup_parent(*iter);
+> -
+> -		if (cgroup && cgroup_parent(cgroup)) {
+> -			*iter = cgroup;
+> -			return cgroup_psi(cgroup);
+> -		}
+> -	}
+> +	if (static_branch_likely(&psi_cgroups_enabled))
+> +		return cgroup_psi(task_dfl_cgroup(task));
+>  #endif
+> -	*iter = &psi_system;
+>  	return &psi_system;
+>  }
+>  
+> +#define for_each_psi_group(group) \
+> +	for (; group; group = group->parent)
+
+It would be better to open-code this. It's hiding that it's walking
+ancestors, and the name and single parameter suggest it's walking some
+global list - not that the parameter is iterator AND starting point.
+
+This makes for particularly obscure code in the discontiguous loops in
+psi_task_switch():
+
+	group = task_psi_group(task);
+	for_each_psi_group(group)
+		if (group == common)
+			break;
+	/* This looks like a second full loop: */
+	for_each_psi_group(group)
+		...
+
+>  static void psi_flags_change(struct task_struct *task, int clear, int set)
+>  {
+>  	if (((task->psi_flags & set) ||
+> @@ -815,7 +803,6 @@ void psi_task_change(struct task_struct *task, int clear, int set)
+>  {
+>  	int cpu = task_cpu(task);
+>  	struct psi_group *group;
+> -	void *iter = NULL;
+>  	u64 now;
+>  
+>  	if (!task->pid)
+> @@ -825,7 +812,8 @@ void psi_task_change(struct task_struct *task, int clear, int set)
+>  
+>  	now = cpu_clock(cpu);
+>  
+> -	while ((group = iterate_groups(task, &iter)))
+> +	group = task_psi_group(task);
+> +	for_each_psi_group(group)
+>  		psi_group_change(group, cpu, clear, set, now, true);
+
+task_psi_group() is never NULL, so this should be a do-while loop:
+
+	group = task_psi_group(task);
+	do {
+		psi_group_change(group, cpu, clear, set, now, true);
+	} while ((group = group->parent));
+
+> @@ -834,7 +822,6 @@ void psi_task_switch(struct task_struct *prev, struct task_struct *next,
+>  {
+>  	struct psi_group *group, *common = NULL;
+>  	int cpu = task_cpu(prev);
+> -	void *iter;
+>  	u64 now = cpu_clock(cpu);
+>  
+>  	if (next->pid) {
+> @@ -845,8 +832,8 @@ void psi_task_switch(struct task_struct *prev, struct task_struct *next,
+>  		 * we reach the first common ancestor. Iterate @next's
+>  		 * ancestors only until we encounter @prev's ONCPU.
+>  		 */
+> -		iter = NULL;
+> -		while ((group = iterate_groups(next, &iter))) {
+> +		group = task_psi_group(next);
+> +		for_each_psi_group(group) {
+
+Ditto.
+
+>  			if (per_cpu_ptr(group->pcpu, cpu)->state_mask &
+>  			    PSI_ONCPU) {
+>  				common = group;
+> @@ -887,9 +874,12 @@ void psi_task_switch(struct task_struct *prev, struct task_struct *next,
+>  
+>  		psi_flags_change(prev, clear, set);
+>  
+> -		iter = NULL;
+> -		while ((group = iterate_groups(prev, &iter)) && group != common)
+> +		group = task_psi_group(prev);
+> +		for_each_psi_group(group) {
+> +			if (group == common)
+> +				break;
+
+Ditto.
+
+>  			psi_group_change(group, cpu, clear, set, now, wake_clock);
+> +		}
+>  
+>  		/*
+>  		 * TSK_ONCPU is handled up to the common ancestor. If we're tasked
+> @@ -897,7 +887,7 @@ void psi_task_switch(struct task_struct *prev, struct task_struct *next,
+>  		 */
+>  		if (sleep || unlikely(prev->in_memstall != next->in_memstall)) {
+>  			clear &= ~TSK_ONCPU;
+> -			for (; group; group = iterate_groups(prev, &iter))
+> +			for_each_psi_group(group)
+>  				psi_group_change(group, cpu, clear, set, now, wake_clock);
+
+This can stay as is, group may already be NULL here.
+
+> @@ -907,7 +897,6 @@ void psi_task_switch(struct task_struct *prev, struct task_struct *next,
+>  void psi_account_irqtime(struct task_struct *task, u32 delta)
+>  {
+>  	int cpu = task_cpu(task);
+> -	void *iter = NULL;
+>  	struct psi_group *group;
+>  	struct psi_group_cpu *groupc;
+>  	u64 now;
+> @@ -917,7 +906,8 @@ void psi_account_irqtime(struct task_struct *task, u32 delta)
+>  
+>  	now = cpu_clock(cpu);
+>  
+> -	while ((group = iterate_groups(task, &iter))) {
+> +	group = task_psi_group(task);
+> +	for_each_psi_group(group) {
+>  		groupc = per_cpu_ptr(group->pcpu, cpu);
+
+do-while again.
+
+With that,
 Acked-by: Johannes Weiner <hannes@cmpxchg.org>
 
-On Wed, Aug 24, 2022 at 04:18:29PM +0800, Chengming Zhou wrote:
-> @@ -5171,12 +5220,19 @@ static struct cftype cgroup_base_files[] = {
->  	{
->  		.name = "irq.pressure",
->  		.flags = CFTYPE_PRESSURE,
-> +		.file_offset = offsetof(struct cgroup, psi_files[PSI_IRQ]),
->  		.seq_show = cgroup_irq_pressure_show,
->  		.write = cgroup_irq_pressure_write,
->  		.poll = cgroup_pressure_poll,
->  		.release = cgroup_pressure_release,
->  	},
->  #endif
-> +	{
-> +		.name = "cgroup.pressure",
-> +		.flags = CFTYPE_PRESSURE,
-> +		.seq_show = cgroup_psi_show,
-> +		.write = cgroup_psi_write,
-
-To match the naming convention, these should be called
-cgroup_pressure_show() and cgroup_pressure_write().
-
-> @@ -745,6 +745,14 @@ static void psi_group_change(struct psi_group *group, int cpu,
->  		if (set & (1 << t))
->  			groupc->tasks[t]++;
->  
-> +	if (!group->enabled) {
-> +		if (groupc->state_mask & (1 << PSI_NONIDLE))
-> +			record_times(groupc, now);
-
-Thanks for the explanation in the other thread, it made sense. But can
-you please add a comment to document it? Something like:
-
-	/*
-	 * On the first group change after disabling PSI, conclude
-	 * the current state and flush its time. This is unlikely
-	 * to matter to the user, but aggregation (get_recent_times)
-	 * may have already incorporated the live state into times_prev;
-	 * avoid a delta sample underflow when PSI is later re-enabled.
-	 */
-
-An unlikely() would also make sense on that branch.
-
-> @@ -1081,6 +1092,40 @@ void cgroup_move_task(struct task_struct *task, struct css_set *to)
->  
->  	task_rq_unlock(rq, task, &rf);
->  }
-> +
-> +void psi_cgroup_enabled_sync(struct psi_group *group)
-> +{
-> +	int cpu;
-> +
-> +	/*
-> +	 * After we disable psi_group->enabled, we don't actually
-> +	 * stop percpu tasks accounting in each psi_group_cpu,
-> +	 * instead only stop test_state() loop, record_times()
-> +	 * and averaging worker, see psi_group_change() for details.
-> +	 *
-> +	 * When disable cgroup PSI, this function has nothing to sync
-> +	 * since cgroup pressure files are hidden and percpu psi_group_cpu
-> +	 * would see !psi_group->enabled and only do task accounting.
-> +	 *
-> +	 * When re-enable cgroup PSI, this function use psi_group_change()
-> +	 * to get correct state mask from test_state() loop on tasks[],
-> +	 * and restart groupc->state_start from now, use .clear = .set = 0
-> +	 * here since no task status really changed.
-> +	 */
-> +	if (!group->enabled)
-> +		return;
-
-Thanks for adding the comment, that's helpful.
-
-I think the function would be a tad clearer and self-documenting if
-you called it psi_cgroup_restart(), and only call it on enabling.
-
-> +	for_each_possible_cpu(cpu) {
-> +		struct rq *rq = cpu_rq(cpu);
-> +		struct rq_flags rf;
-> +		u64 now;
-> +
-> +		rq_lock_irq(rq, &rf);
-> +		now = cpu_clock(cpu);
-> +		psi_group_change(group, cpu, 0, 0, now, true);
-> +		rq_unlock_irq(rq, &rf);
-> +	}
-> +}
->  #endif /* CONFIG_CGROUPS */
-
-Thanks,
-Johannes
+Thanks!
