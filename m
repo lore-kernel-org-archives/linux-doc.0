@@ -2,231 +2,201 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1CB19C004D4
-	for <linux-doc@archiver.kernel.org>; Wed, 24 Aug 2022 19:52:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B5118C6498F
+	for <linux-doc@archiver.kernel.org>; Wed, 24 Aug 2022 20:57:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237608AbiHXTwQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 24 Aug 2022 15:52:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47450 "EHLO
+        id S240500AbiHXU5Y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 24 Aug 2022 16:57:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41380 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233133AbiHXTwP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Aug 2022 15:52:15 -0400
-Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 981B07A519;
-        Wed, 24 Aug 2022 12:52:14 -0700 (PDT)
-Received: by mail-pj1-x1035.google.com with SMTP id c16-20020a17090aa61000b001fb3286d9f7so4022530pjq.1;
-        Wed, 24 Aug 2022 12:52:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:from:to:cc;
-        bh=1nu8oahj75UTgypLcyNOx3EXwxh8DT56p0t7+dOXmX0=;
-        b=LTAmQ+2FW4tG9keAelAGoujtNrW/xeh1XYCdsa2ntMUeslU2BQdgTn02mseiYA0WX+
-         umKXJrnOTD1HK5vVLAAvOgn5HGFeOsraSLOjMXob07JFBIioS4OlU9RP1+QL6eKgivfl
-         NSy0PrXs0WcAd6cw4iA7qgG/Ff2fzhn2JaUYjxIYppX+1LsKJ+e9cC8gtdFDys/aByoA
-         xj18Sk2IiqvDGrW93tuGkwa8Ocqd+QxOJS8NVU4ijSdHBga6iu7NCxDr+5wGTxzAk1Gi
-         n9rbTrsOpg/kiB0vLRNRLbn46KXFA5cUfMDbhGdHTOwsb+kdAf3/6a5EeICVoORsUTQn
-         Ccbg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc;
-        bh=1nu8oahj75UTgypLcyNOx3EXwxh8DT56p0t7+dOXmX0=;
-        b=w5PYvOQzJl93NNbTbL2tPgkr7e75MGr19VEZtQSg+1sifUHlK+HmYZkfyHOU59FTPk
-         h5h2s3LFjVyHqv1RQiTQQU40BXLcqct/4wB99j8mStLI7ZbFR6o1R+FQquD+dOn0IZCM
-         L3ZXHPwn1b0Bk7VIv0g/q5Xd1MpYeDNmHUuZrbSqGWq4UMcRMLwIj47RU420Ivobxagn
-         O8nuLnWR0yk1pP/esh0EK7o/VcjfxdFe7DdpmkGsnsiShZK1qJzvfHUqEWVmbLzR0p0W
-         qaZXSMKADQ6D+ivvJyFuCQA2XRprma9Q1SDoecoyzW22iIGCEQwQx0l6Rxk7fzpRdB43
-         ZCeQ==
-X-Gm-Message-State: ACgBeo2YrUyKUKDOJEeiiEtupeM0NiT10pzOTKcb7PAcuH5ZskXB3EI8
-        NboVzPTf+JhONUCHyf4foLA=
-X-Google-Smtp-Source: AA6agR51+VkdG4JOSWswyaY4Yap2VcDTy5LbH54K1soERUDw0c9lzTefQs+jzkUxK/735D8rvvHlXg==
-X-Received: by 2002:a17:90b:1a88:b0:1f7:3daa:f2f6 with SMTP id ng8-20020a17090b1a8800b001f73daaf2f6mr9996426pjb.245.1661370734096;
-        Wed, 24 Aug 2022 12:52:14 -0700 (PDT)
-Received: from smtpclient.apple ([216.160.66.82])
-        by smtp.gmail.com with ESMTPSA id f26-20020aa79d9a000000b0053602e1d6fcsm6768973pfq.105.2022.08.24.12.52.13
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 24 Aug 2022 12:52:13 -0700 (PDT)
-Content-Type: text/plain;
-        charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3696.120.41.1.1\))
-Subject: Re: [net-next v2 0/6] net: support QUIC crypto
-From:   Matt Joras <matt.joras@gmail.com>
-In-Reply-To: <CADvbK_fVRVYjtSkn29ec70mko9aEwnwu+kHYx8bAAWm-n25mjA@mail.gmail.com>
-Date:   Wed, 24 Aug 2022 12:52:12 -0700
-Cc:     Adel Abouchaev <adel.abushaev@gmail.com>,
-        Jakub Kicinski <kuba@kernel.org>, davem <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        David Ahern <dsahern@kernel.org>, shuah@kernel.org,
-        imagedong@tencent.com, network dev <netdev@vger.kernel.org>,
-        linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <6BC43AA9-19A5-4FE3-B521-DD862853057E@gmail.com>
-References: <adel.abushaev@gmail.com>
- <20220817200940.1656747-1-adel.abushaev@gmail.com>
- <CADvbK_fVRVYjtSkn29ec70mko9aEwnwu+kHYx8bAAWm-n25mjA@mail.gmail.com>
-To:     Xin Long <lucien.xin@gmail.com>
-X-Mailer: Apple Mail (2.3696.120.41.1.1)
+        with ESMTP id S230515AbiHXU5X (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Aug 2022 16:57:23 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0DF9A59267;
+        Wed, 24 Aug 2022 13:57:19 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id BE31CB826B6;
+        Wed, 24 Aug 2022 20:57:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E7E5C433D6;
+        Wed, 24 Aug 2022 20:57:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1661374636;
+        bh=qM0hODjskpwb8x7NIPhJ6OvYS94mu8gyRtyJsdL5qbc=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=WKWbhn9ebHbZ2iDprTkgAxT0HGOGVyijsRF2LE8IUHP7lZK/KRbPBixXcC6IMyQ/o
+         IiWahFF8wh+Of+babvKKdHCxBt/nrCu30JKP94TZkTDUprcFCLN1dYa3XtehR+fmHA
+         /S4DR1i/6njbLlr/PyQRJ1eiA/dkz6Z808gZSZyGwoMyWwm42hAnE1rhEEl1NP9CIL
+         Tnou1IeIhBIzmu3HtFyRuEvTbxEg1PIaM6UzVthy3jp6ROfmJRpTSFQHGS7aDEYA3k
+         gEVg14UNCy9692EJv7aPsTsvuPiawl/cUTzj46qSd6xFAT71gXhD8QGNy9tXKAgTJd
+         zVlmsMZSUyZwg==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=why.misterjones.org)
+        by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.95)
+        (envelope-from <maz@kernel.org>)
+        id 1oQxR4-005Wpl-4q;
+        Wed, 24 Aug 2022 21:57:14 +0100
+Date:   Wed, 24 Aug 2022 21:57:13 +0100
+Message-ID: <877d2xweae.wl-maz@kernel.org>
+From:   Marc Zyngier <maz@kernel.org>
+To:     Peter Xu <peterx@redhat.com>
+Cc:     Gavin Shan <gshan@redhat.com>, kvmarm@lists.cs.columbia.edu,
+        linux-arm-kernel@lists.infradead.org, kvm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, pbonzini@redhat.com,
+        corbet@lwn.net, james.morse@arm.com, alexandru.elisei@arm.com,
+        suzuki.poulose@arm.com, oliver.upton@linux.dev,
+        catalin.marinas@arm.com, will@kernel.org, shuah@kernel.org,
+        seanjc@google.com, dmatlack@google.com, bgardon@google.com,
+        ricarkol@google.com, zhenyzha@redhat.com, shan.gavin@gmail.com
+Subject: Re: [PATCH v1 1/5] KVM: arm64: Enable ring-based dirty memory tracking
+In-Reply-To: <YwZQHqS5DZBloYPZ@xz-m1.local>
+References: <87lerkwtm5.wl-maz@kernel.org>
+        <41fb5a1f-29a9-e6bb-9fab-4c83a2a8fce5@redhat.com>
+        <87fshovtu0.wl-maz@kernel.org>
+        <171d0159-4698-354b-8b2f-49d920d03b1b@redhat.com>
+        <YwTc++Lz6lh3aR4F@xz-m1.local>
+        <87bksawz0w.wl-maz@kernel.org>
+        <YwVEoM1pj2MPCELp@xz-m1.local>
+        <878rnewpaw.wl-maz@kernel.org>
+        <YwVgaGp3HOGzC8k2@xz-m1.local>
+        <87y1vdr98o.wl-maz@kernel.org>
+        <YwZQHqS5DZBloYPZ@xz-m1.local>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
+ (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: peterx@redhat.com, gshan@redhat.com, kvmarm@lists.cs.columbia.edu, linux-arm-kernel@lists.infradead.org, kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, pbonzini@redhat.com, corbet@lwn.net, james.morse@arm.com, alexandru.elisei@arm.com, suzuki.poulose@arm.com, oliver.upton@linux.dev, catalin.marinas@arm.com, will@kernel.org, shuah@kernel.org, seanjc@google.com, dmatlack@google.com, bgardon@google.com, ricarkol@google.com, zhenyzha@redhat.com, shan.gavin@gmail.com
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Wed, 24 Aug 2022 17:21:50 +0100,
+Peter Xu <peterx@redhat.com> wrote:
+> 
+> On Wed, Aug 24, 2022 at 03:45:11PM +0100, Marc Zyngier wrote:
+> > On Wed, 24 Aug 2022 00:19:04 +0100,
+> > Peter Xu <peterx@redhat.com> wrote:
+> > > 
+> > > On Tue, Aug 23, 2022 at 11:47:03PM +0100, Marc Zyngier wrote:
+> > > > Atomicity doesn't guarantee ordering, unfortunately.
+> > > 
+> > > Right, sorry to be misleading.  The "atomicity" part I was trying to say
+> > > the kernel will always see consistent update on the fields.
+> > >
+> > > The ordering should also be guaranteed, because things must happen with
+> > > below sequence:
+> > > 
+> > >   (1) kernel publish dirty GFN data (slot, offset)
+> > >   (2) kernel publish dirty GFN flag (set to DIRTY)
+> > >   (3) user sees DIRTY, collects (slots, offset)
+> > >   (4) user sets it to RESET
+> > >   (5) kernel reads RESET
+> > 
+> > Maybe. Maybe not. The reset could well be sitting in the CPU write
+> > buffer for as long as it wants and not be seen by the kernel if the
+> > read occurs on another CPU. And that's the crucial bit: single-CPU is
+> > fine, but cross CPU isn't. Unfortunately, the userspace API is per-CPU
+> > on collection, and global on reset (this seems like a bad decision,
+> > but it is too late to fix this).
+> 
+> Regarding the last statement, that's something I had question too and
+> discussed with Paolo, even though at that time it's not a outcome of
+> discussing memory ordering issues.
+> 
+> IIUC the initial design was trying to avoid tlb flush flood when vcpu
+> number is large (each RESET per ring even for one page will need all vcpus
+> to flush, so O(N^2) flushing needed). With global RESET it's O(N).  So
+> it's kind of a trade-off, and indeed until now I'm not sure which one is
+> better.  E.g., with per-ring reset, we can have locality too in userspace,
+> e.g. the vcpu thread might be able to recycle without holding global locks.
 
-> On Aug 24, 2022, at 11:29 AM, Xin Long <lucien.xin@gmail.com> wrote:
->=20
-> On Wed, Aug 17, 2022 at 4:11 PM Adel Abouchaev =
-<adel.abushaev@gmail.com> wrote:
->>=20
->> QUIC requires end to end encryption of the data. The application =
-usually
->> prepares the data in clear text, encrypts and calls send() which =
-implies
->> multiple copies of the data before the packets hit the networking =
-stack.
->> Similar to kTLS, QUIC kernel offload of cryptography reduces the =
-memory
->> pressure by reducing the number of copies.
->>=20
->> The scope of kernel support is limited to the symmetric cryptography,
->> leaving the handshake to the user space library. For QUIC in =
-particular,
->> the application packets that require symmetric cryptography are the =
-1RTT
->> packets with short headers. Kernel will encrypt the application =
-packets
->> on transmission and decrypt on receive. This series implements Tx =
-only,
->> because in QUIC server applications Tx outweighs Rx by orders of
->> magnitude.
->>=20
->> Supporting the combination of QUIC and GSO requires the application =
-to
->> correctly place the data and the kernel to correctly slice it. The
->> encryption process appends an arbitrary number of bytes (tag) to the =
-end
->> of the message to authenticate it. The GSO value should include this
->> overhead, the offload would then subtract the tag size to parse the
->> input on Tx before chunking and encrypting it.
->>=20
->> With the kernel cryptography, the buffer copy operation is conjoined
->> with the encryption operation. The memory bandwidth is reduced by =
-5-8%.
->> When devices supporting QUIC encryption in hardware come to the =
-market,
->> we will be able to free further 7% of CPU utilization which is used
->> today for crypto operations.
->>=20
->> Adel Abouchaev (6):
->>  Documentation on QUIC kernel Tx crypto.
->>  Define QUIC specific constants, control and data plane structures
->>  Add UDP ULP operations, initialization and handling prototype
->>    functions.
->>  Implement QUIC offload functions
->>  Add flow counters and Tx processing error counter
->>  Add self tests for ULP operations, flow setup and crypto tests
->>=20
->> Documentation/networking/index.rst     |    1 +
->> Documentation/networking/quic.rst      |  185 ++++
->> include/net/inet_sock.h                |    2 +
->> include/net/netns/mib.h                |    3 +
->> include/net/quic.h                     |   63 ++
->> include/net/snmp.h                     |    6 +
->> include/net/udp.h                      |   33 +
->> include/uapi/linux/quic.h              |   60 +
->> include/uapi/linux/snmp.h              |    9 +
->> include/uapi/linux/udp.h               |    4 +
->> net/Kconfig                            |    1 +
->> net/Makefile                           |    1 +
->> net/ipv4/Makefile                      |    3 +-
->> net/ipv4/udp.c                         |   15 +
->> net/ipv4/udp_ulp.c                     |  192 ++++
->> net/quic/Kconfig                       |   16 +
->> net/quic/Makefile                      |    8 +
->> net/quic/quic_main.c                   | 1417 =
-++++++++++++++++++++++++
->> net/quic/quic_proc.c                   |   45 +
->> tools/testing/selftests/net/.gitignore |    4 +-
->> tools/testing/selftests/net/Makefile   |    3 +-
->> tools/testing/selftests/net/quic.c     | 1153 +++++++++++++++++++
->> tools/testing/selftests/net/quic.sh    |   46 +
->> 23 files changed, 3267 insertions(+), 3 deletions(-)
->> create mode 100644 Documentation/networking/quic.rst
->> create mode 100644 include/net/quic.h
->> create mode 100644 include/uapi/linux/quic.h
->> create mode 100644 net/ipv4/udp_ulp.c
->> create mode 100644 net/quic/Kconfig
->> create mode 100644 net/quic/Makefile
->> create mode 100644 net/quic/quic_main.c
->> create mode 100644 net/quic/quic_proc.c
->> create mode 100644 tools/testing/selftests/net/quic.c
->> create mode 100755 tools/testing/selftests/net/quic.sh
->>=20
->>=20
->> base-commit: fd78d07c7c35de260eb89f1be4a1e7487b8092ad
->> --
->> 2.30.2
->>=20
-> Hi, Adel,
->=20
-> I don't see how the key update(rfc9001#section-6) is handled on the TX
-> path, which is not using TLS Key update, and "Key Phase" indicates
-> which key will be used after rekeying. Also, I think it is almost
-> impossible to handle the peer rekeying on the RX path either based on
-> your current model in the future.
-Key updates are not something that needs to be handled by the kernel in =
-this
-model. I.e. a key update will be processed as normal by the userspace =
-QUIC code and
-the sockets will have to be re-associated with the new keying material.
->=20
-> The patch seems to get the crypto_ctx by doing a connection hash table
-> lookup in the sendmsg(), which is not good from the performance side.
-> One QUIC connection can go over multiple UDP sockets, but I don't
-> think one socket can be used by multiple QUIC connections. So why not
-> save the ctx in the socket instead?
-There=E2=80=99s nothing preventing a single socket or UDP/IP tuple from =
-being used
-by multiple QUIC connections. This is achievable due to both endpoints =
-having
-CIDs. Note that it is not uncommon for QUIC deployments to use a single =
-socket for
-all connections, rather than the TCP listen/accept model. That being =
-said, it
-would be nice to be able to avoid the lookup cost when using a connected =
-socket.
+I don't get that. On x86, each CPU must perform the TLB invalidation
+(there is an IPI for that). So whether you do a per-CPU scan of the
+ring or a global scan is irrelevant: each entry you find in any of the
+rings must result in a global invalidation, since you've updated the
+PTE to make the page RO.
 
->=20
-> The patch is to reduce the copying operations between user space and
-> the kernel. I might miss something in your user space code, but the
-> msg to send is *already packed* into the Stream Frame in user space,
-> what's the difference if you encrypt it in userspace and then
-> sendmsg(udp_sk) with zero-copy to the kernel.
-I would not say that reducing copy operations is the primary goal of =
-this
-work. There are already ways to achieve minimal copy operations for UDP =
-from
-userspace.=20
->=20
-> Didn't really understand the "GSO" you mentioned, as I don't see any
-> code about kernel GSO, I guess it's just "Fragment size", right?
-> BTW, it=E2=80=98s not common to use "//" for the kernel annotation.
->=20
-> I'm not sure if it's worth adding a ULP layer over UDP for this QUIC
-> TX only. Honestly, I'm more supporting doing a full QUIC stack in the
-> kernel independently with socket APIs to use it:
-> https://github.com/lxin/tls_hs.
-A full QUIC stack in the kernel with associated socket APIs is solving a
-different problem than this work. Having an API to offload crypto =
-operations of QUIC
-allows for the choice of many different QUIC implementations in =
-userspace while
-potentially taking advantage of offloading the main CPU cost of an =
-encrypted protocol.
->=20
-> Thanks.
->=20
+The same is true on ARM, except that the broadcast is done in HW
+instead of being tracked in SW.
 
-Best,
-Matt Joras=
+Buy anyway, this is all moot. The API is what it is, and it isn't
+going to change any time soon. All we can do is add some
+clarifications to the API for the more relaxed architectures, and make
+sure the kernel behaves accordingly.
+
+[...]
+
+> > It may be safe, but it isn't what the userspace API promises.
+> 
+> The document says:
+> 
+>   After processing one or more entries in the ring buffer, userspace calls
+>   the VM ioctl KVM_RESET_DIRTY_RINGS to notify the kernel about it, so that
+>   the kernel will reprotect those collected GFNs.  Therefore, the ioctl
+>   must be called *before* reading the content of the dirty pages.
+> 
+> I'd say it's not an explicit promise, but I think I agree with you that at
+> least it's unclear on the behavior.
+
+This is the least problematic part of the documentation. The bit I
+literally choke on is this:
+
+<quote>
+It's not necessary for userspace to harvest the all dirty GFNs at once.
+However it must collect the dirty GFNs in sequence, i.e., the userspace
+program cannot skip one dirty GFN to collect the one next to it.
+</quote>
+
+This is the core of the issue. Without ordering rules, the consumer on
+the other side cannot observe the updates correctly, even if userspace
+follows the above to the letter. Of course, the kernel itself must do
+the right thing (I guess it amounts to the kernel doing a
+load-acquire, and userspace doing a store-release -- effectively
+emulating x86...).
+
+> Since we have a global recycle mechanism, most likely the app (e.g. current
+> qemu impl) will use the same thread to collect/reset dirty GFNs, and
+> trigger the RESET ioctl().  In that case it's safe, IIUC, because no
+> cross-core ops.
+> 
+> QEMU even guarantees this by checking it (kvm_dirty_ring_reap_locked):
+> 
+>     if (total) {
+>         ret = kvm_vm_ioctl(s, KVM_RESET_DIRTY_RINGS);
+>         assert(ret == total);
+>     }
+> 
+> I think the assert() should never trigger as mentioned above.  But ideally
+> maybe it should just be a loop until cleared gfns match total.
+
+Right. If userspace calls the ioctl on every vcpu, then things should
+work correctly. It is only that the overhead is higher than what it
+should be if multiple vcpus perform a reset at the same time.
+
+>
+> > In other words, without further straightening of the API, this doesn't
+> > work as expected on relaxed memory architectures. So before this gets
+> > enabled on arm64, this whole ordering issue must be addressed.
+> 
+> How about adding some more documentation for KVM_RESET_DIRTY_RINGS on the
+> possibility of recycling partial of the pages, especially when collection
+> and the ioctl() aren't done from the same thread?
+
+I'd rather tell people about the ordering rules. That will come at
+zero cost on x86.
+
+> Any suggestions will be greatly welcomed.
+
+I'll write a couple of patch when I get the time, most likely next
+week. Gavin will hopefully be able to take them as part of his series.
+
+	M.
+
+-- 
+Without deviation from the norm, progress is not possible.
