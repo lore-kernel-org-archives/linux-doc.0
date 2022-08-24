@@ -2,248 +2,193 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F25ACC32792
-	for <linux-doc@archiver.kernel.org>; Wed, 24 Aug 2022 06:51:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 18909C32793
+	for <linux-doc@archiver.kernel.org>; Wed, 24 Aug 2022 07:07:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235175AbiHXGvX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 24 Aug 2022 02:51:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55582 "EHLO
+        id S230002AbiHXHHv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 24 Aug 2022 03:07:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39336 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235086AbiHXGvW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Aug 2022 02:51:22 -0400
-Received: from mail-pg1-x529.google.com (mail-pg1-x529.google.com [IPv6:2607:f8b0:4864:20::529])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4DF977F241
-        for <linux-doc@vger.kernel.org>; Tue, 23 Aug 2022 23:51:21 -0700 (PDT)
-Received: by mail-pg1-x529.google.com with SMTP id v4so14207560pgi.10
-        for <linux-doc@vger.kernel.org>; Tue, 23 Aug 2022 23:51:21 -0700 (PDT)
+        with ESMTP id S234428AbiHXHHu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Aug 2022 03:07:50 -0400
+Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89A4385FF9;
+        Wed, 24 Aug 2022 00:07:49 -0700 (PDT)
+Received: by mail-pj1-x1031.google.com with SMTP id pm13so7266819pjb.5;
+        Wed, 24 Aug 2022 00:07:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc;
-        bh=f4kGHpDiTMc7aSXLbliqd1x6vmGGCzguotz7s4Fiy6o=;
-        b=8NmA2RtSjgVWxKE3P11MYB9xDj+uZFhnJM4DBdnFMMYaISlvqmru3I8t0IzAfBIjm+
-         2V2FLdpH6+LNGtbFnfGeQ9Lx81O1rFyRBvaJ0muM9OdPCF2/n5k4ionqO9SStAka9nH2
-         fzezBt4n6/UcyipjQABD1cAdptiNyEgRj4HakdiHCcYhcqYK3FKz8eIO9TIBe1WDD1u5
-         IlBdaEaog0UcgcN41Xxlo3XX58N/dVI+xU6bP/s2+X0wxvZFIl2foudWDyBqjyID4FX3
-         9ZHnwtMwKQaNU7A2TuEciz3XwbIlWMstA1TPvcBPvYklrnpf7GDOUFYOt4yLk3Q/kawq
-         TlBQ==
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc;
+        bh=PXafh5f+pigI8lTygHH0lurdqVrGUMub4Gos5atZnOQ=;
+        b=HsdOV6X0ITgH2yGuQ3b98iiy8QNVcOLPz8ObGnZUz5a7ATRlrUzRTDHNLfsUrNG+qY
+         OP3oKeKkjbewVjarYo1XUABAuOR+w9ye8pTUiHS8fCbP1GZv4J+DJw3HDWOij9WEXSID
+         1WeLvvlf+oerfF8O8Iu1t/8mHftJVnGAceyjfudLCbcNHuidZJJCa0P9na4ZbABt6DGM
+         WcIB0nGznps1CxEY3SbcdpH6vggWfQCKu+Rh41HIXsDoKAMYyiwHCW4xElaRqIqEXTMB
+         Nuhfuo7VF6KOQqv4cCInEQCUZJP9g2Hjk4QYFxIRRasmj2jD/lQN5nYmfzynHEypu+W+
+         FWBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc;
-        bh=f4kGHpDiTMc7aSXLbliqd1x6vmGGCzguotz7s4Fiy6o=;
-        b=TT4tgTAOJiwaJQDFySV6yRNQOpRKir1Sd/4sTLk7dAXWz7keE65tq62ghqObSET64C
-         BrrQEplPrYrzgMYNAhi/EEIjoAGUvBQTiok/41KTdIXx7/LgUihqkE6QUYP9/IDPj3TO
-         dxfJlNR2EF2PWplbS6nJrMVWAIgL1dP7VVK64J1JjopM4mQXHADTR56RY+SeiEyPtmiN
-         kyqvuVdPnQnRKYlP0xEKMLnFBh4+x3aO4rXlRjRiP/tp4tdEt4PjrGA7wdiGT6mF4WtH
-         Ehcj3eC8Muqk36kIxGHKxONvwkZTC614xM/6LdIGgZMqL0EfDkv0HPdsrOei4/Ub2AFL
-         XuKg==
-X-Gm-Message-State: ACgBeo3Qdc+Cwv7btIVmT4okVkC5aqH/5nf53JsF3t/Mm77XK8+33pz5
-        mQt+cDad8IQztTz5UNAP84akEA==
-X-Google-Smtp-Source: AA6agR4iPifEiVYf6J0ntQeFYnS7mi+e8o3iPYpH7UDbIWZxWhEewn2WsiEkUPKeHN3dcgHgdD5huQ==
-X-Received: by 2002:a63:8bc1:0:b0:42a:1604:3342 with SMTP id j184-20020a638bc1000000b0042a16043342mr21693992pge.368.1661323880784;
-        Tue, 23 Aug 2022 23:51:20 -0700 (PDT)
-Received: from MacBook-Pro.local.bytedance.net ([139.177.225.241])
-        by smtp.gmail.com with ESMTPSA id a12-20020aa794ac000000b00536873f23dfsm6318112pfl.136.2022.08.23.23.51.15
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 23 Aug 2022 23:51:20 -0700 (PDT)
-From:   lizhe.67@bytedance.com
-To:     akpm@linux-foundation.org, mhocko@suse.com, vbabka@suse.cz,
-        mhiramat@kernel.org, keescook@chromium.org, Jason@zx2c4.com,
-        mark-pk.tsai@mediatek.com, rostedt@goodmis.org, corbet@lwn.net
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, lizefan.x@bytedance.com, yuanzhu@bytedance.com,
-        lizhe.67@bytedance.com
-Subject: [PATCH v2] page_ext: introduce boot parameter 'early_page_ext'
-Date:   Wed, 24 Aug 2022 14:50:58 +0800
-Message-Id: <20220824065058.81051-1-lizhe.67@bytedance.com>
-X-Mailer: git-send-email 2.32.0
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
+        bh=PXafh5f+pigI8lTygHH0lurdqVrGUMub4Gos5atZnOQ=;
+        b=d2gHzjQkIuFqQnwj4KNmDUNUr4WrmufQdsLKnnZmDYQ55Ab0ldeL1KbJBT4olzbS2v
+         DcxDMEk9stylU8JOFU8FzZva6WULWnHrfEPhJRRKra0lBv8+x+vOgMdYuchpAXFV3+9F
+         8crYTungmMm3dvBGy6r2kF9ZRevdY5hZrODMKJSPf/439WtvTO2stxLHoxVu0vysUIqU
+         vMYg5US2qB9ukMa2LSaOCbM09ZL5+g8fPlTxOvM576/LBkcAUuGfuC8ulwbAJyx9EgrJ
+         SUEyv3uLniVcaHpnCYYIao0HBcgKDtNCEX7hbqFOG4cPVj2BAKOj/siHypvdFO9wzAqz
+         2n/w==
+X-Gm-Message-State: ACgBeo38/Bb0LHM6E4pZjyLebECP11+XyK8VXcWWTHBmKYKBZrXyGifS
+        fNvmgDdWafYCP+c7FpArhXU=
+X-Google-Smtp-Source: AA6agR4pw6w0HuTOmjtqzCYa/gYOpKO0DzmiYndqTYq3H/EuqbX7SSXSaG7zatYXeRMMNAu1UX7Kpg==
+X-Received: by 2002:a17:90b:3149:b0:1fb:71ad:256b with SMTP id ip9-20020a17090b314900b001fb71ad256bmr4679326pjb.18.1661324869038;
+        Wed, 24 Aug 2022 00:07:49 -0700 (PDT)
+Received: from localhost.localdomain ([193.203.214.57])
+        by smtp.gmail.com with ESMTPSA id z12-20020aa7948c000000b00535c4b7f1eesm12118187pfk.87.2022.08.24.00.07.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 24 Aug 2022 00:07:48 -0700 (PDT)
+From:   xu xin <cgel.zte@gmail.com>
+X-Google-Original-From: xu xin <xu.xin16@zte.com.cn>
+To:     akpm@linux-foundation.org, corbet@lwn.net
+Cc:     bagasdotme@gmail.com, adobriyan@gmail.com, willy@infradead.org,
+        hughd@google.com, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+        linux-doc@vger.kernel.org, xu xin <xu.xin16@zte.com.cn>,
+        Xiaokai Ran <ran.xiaokai@zte.com.cn>,
+        Yang Yang <yang.yang29@zte.com.cn>,
+        CGEL ZTE <cgel.zte@gmail.com>
+Subject: [PATCH v3 1/2] ksm: count allocated ksm rmap_items for each process
+Date:   Wed, 24 Aug 2022 07:07:38 +0000
+Message-Id: <20220824070738.220038-1-xu.xin16@zte.com.cn>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220824070559.219977-1-xu.xin16@zte.com.cn>
+References: <20220824070559.219977-1-xu.xin16@zte.com.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Li Zhe <lizhe.67@bytedance.com>
+KSM can save memory by merging identical pages, but also can consume
+additional memory, because it needs to generate rmap_items to save
+each scanned page's brief rmap information. Some of these pages may
+be merged, but some may not be abled to be merged after being checked
+several times, which are unprofitable memory consumed.
 
-In 'commit 2f1ee0913ce5 ("Revert "mm: use early_pfn_to_nid in page_ext_init"")',
-we call page_ext_init() after page_alloc_init_late() to avoid some panic
-problem. It seems that we cannot track early page allocations in current
-kernel even if page structure has been initialized early.
+The information about whether KSM save memory or consume memory in
+system-wide range can be determined by the comprehensive calculation
+of pages_sharing, pages_shared, pages_unshared and pages_volatile.
+A simple approximate calculation:
 
-This patch introduce a new boot parameter 'early_page_ext' to resolve this
-problem. If we pass it to kernel, function page_ext_init() will be moved
-up and feature 'deferred initialization of struct pages' will be disabled.
-It can help us to catch early page allocations. This is useful especially
-when we find that the free memory value is not the same right after
-different kernel booting.
+	profit =~ pages_sharing * sizeof(page) - (all_rmap_items) *
+	         sizeof(rmap_item);
 
-Changelogs:
+where all_rmap_items equals to the sum of pages_sharing, pages_shared,
+pages_unshared and pages_volatile.
 
-v1->v2:
-- use a cmd line parameter to move up function page_ext_init() instead of
-  using CONFIG_DEFERRED_STRUCT_PAGE_INIT
-- fix oom problem[1]
+But we cannot calculate this kind of ksm profit inner single-process wide
+because the information of ksm rmap_item's number of a process is lacked.
+For user applications, if this kind of information could be obtained,
+it helps upper users know how beneficial the ksm-policy (like madvise)
+they are using brings, and then optimize their app code. For example,
+one application madvise 1000 pages as MERGEABLE, while only a few pages
+are really merged, then it's not cost-efficient.
 
-v1 patch: https://lore.kernel.org/lkml/Yv3r6Y1vh+6AbY4+@dhcp22.suse.cz/T/
+So we add a new interface /proc/<pid>/ksm_rmp_items for each process to
+indicate the total allocated ksm rmap_items of this process. Similarly,
+we can calculate the ksm profit approximately for a single-process by:
 
-[1]: https://lore.kernel.org/linux-mm/YwHmXLu5txij+p35@xsang-OptiPlex-9020/
+	profit =~ ksm_merging_pages * sizeof(page) - ksm_rmp_items *
+		 sizeof(rmap_item);
 
-Suggested-by: Michal Hocko <mhocko@suse.com>
-Signed-off-by: Li Zhe <lizhe.67@bytedance.com>
+where ksm_merging_pages and ksm_rmp_items are both under /proc/<pid>/.
+
+Signed-off-by: xu xin <xu.xin16@zte.com.cn>
+Reviewed-by: Xiaokai Ran <ran.xiaokai@zte.com.cn>
+Reviewed-by: Yang Yang <yang.yang29@zte.com.cn>
+Signed-off-by: CGEL ZTE <cgel.zte@gmail.com>
 ---
- .../admin-guide/kernel-parameters.txt         |  6 ++++++
- include/linux/page_ext.h                      | 14 ++++++++++---
- init/main.c                                   |  4 +++-
- mm/page_alloc.c                               |  2 ++
- mm/page_ext.c                                 | 21 ++++++++++++++++++-
- 5 files changed, 42 insertions(+), 5 deletions(-)
+ fs/proc/base.c           | 15 +++++++++++++++
+ include/linux/mm_types.h |  5 +++++
+ mm/ksm.c                 |  2 ++
+ 3 files changed, 22 insertions(+)
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index d7f30902fda0..7b5726828ac0 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -1471,6 +1471,12 @@
- 			Permit 'security.evm' to be updated regardless of
- 			current integrity status.
+diff --git a/fs/proc/base.c b/fs/proc/base.c
+index 4ead8cf654e4..9977e17885c2 100644
+--- a/fs/proc/base.c
++++ b/fs/proc/base.c
+@@ -3199,6 +3199,19 @@ static int proc_pid_ksm_merging_pages(struct seq_file *m, struct pid_namespace *
  
-+	early_page_ext [KNL] Boot-time early page_ext initializing option.
-+			This boot parameter disables the deferred initialization
-+			of struct page and move up function page_ext_init() in
-+			order to catch early page allocations. Available with
-+			CONFIG_PAGE_EXTENSION=y.
+ 	return 0;
+ }
++static int proc_pid_ksm_rmp_items(struct seq_file *m, struct pid_namespace *ns,
++				struct pid *pid, struct task_struct *task)
++{
++	struct mm_struct *mm;
 +
- 	failslab=
- 	fail_usercopy=
- 	fail_page_alloc=
-diff --git a/include/linux/page_ext.h b/include/linux/page_ext.h
-index fabb2e1e087f..3e081cf8a1ec 100644
---- a/include/linux/page_ext.h
-+++ b/include/linux/page_ext.h
-@@ -38,19 +38,22 @@ struct page_ext {
- 
- extern unsigned long page_ext_size;
- extern void pgdat_page_ext_init(struct pglist_data *pgdat);
-+#ifdef CONFIG_DEFERRED_STRUCT_PAGE_INIT
-+extern bool early_page_ext_enable(void);
-+#endif
- 
- #ifdef CONFIG_SPARSEMEM
- static inline void page_ext_init_flatmem(void)
- {
- }
--extern void page_ext_init(void);
-+extern void page_ext_init(bool early);
- static inline void page_ext_init_flatmem_late(void)
- {
- }
- #else
- extern void page_ext_init_flatmem(void);
- extern void page_ext_init_flatmem_late(void);
--static inline void page_ext_init(void)
-+static inline void page_ext_init(bool early)
- {
- }
- #endif
-@@ -67,6 +70,11 @@ static inline struct page_ext *page_ext_next(struct page_ext *curr)
- #else /* !CONFIG_PAGE_EXTENSION */
- struct page_ext;
- 
-+static inline bool early_page_ext_enable(void)
-+{
-+	return false;
-+}
++	mm = get_task_mm(task);
++	if (mm) {
++		seq_printf(m, "%lu\n", mm->ksm_rmp_items);
++		mmput(mm);
++	}
 +
- static inline void pgdat_page_ext_init(struct pglist_data *pgdat)
- {
- }
-@@ -76,7 +84,7 @@ static inline struct page_ext *lookup_page_ext(const struct page *page)
- 	return NULL;
- }
- 
--static inline void page_ext_init(void)
-+static inline void page_ext_init(bool early)
- {
- }
- 
-diff --git a/init/main.c b/init/main.c
-index 91642a4e69be..3760c0326525 100644
---- a/init/main.c
-+++ b/init/main.c
-@@ -849,6 +849,8 @@ static void __init mm_init(void)
- 	pgtable_init();
- 	debug_objects_mem_init();
- 	vmalloc_init();
-+	/* Should be run after vmap initialization */
-+	page_ext_init(true);
- 	/* Should be run before the first non-init thread is created */
- 	init_espfix_bsp();
- 	/* Should be run after espfix64 is set up. */
-@@ -1606,7 +1608,7 @@ static noinline void __init kernel_init_freeable(void)
- 	padata_init();
- 	page_alloc_init_late();
- 	/* Initialize page ext after all struct pages are initialized. */
--	page_ext_init();
-+	page_ext_init(false);
- 
- 	do_basic_setup();
- 
-diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-index e5486d47406e..e580b197aa1e 100644
---- a/mm/page_alloc.c
-+++ b/mm/page_alloc.c
-@@ -482,6 +482,8 @@ defer_init(int nid, unsigned long pfn, unsigned long end_pfn)
- {
- 	static unsigned long prev_end_pfn, nr_initialised;
- 
-+	if (early_page_ext_enable())
-+		return false;
- 	/*
- 	 * prev_end_pfn static that contains the end of previous zone
- 	 * No need to protect because called very early in boot before smp_init.
-diff --git a/mm/page_ext.c b/mm/page_ext.c
-index 3dc715d7ac29..82ba561730ef 100644
---- a/mm/page_ext.c
-+++ b/mm/page_ext.c
-@@ -85,6 +85,22 @@ unsigned long page_ext_size = sizeof(struct page_ext);
- 
- static unsigned long total_usage;
- 
-+#ifdef CONFIG_DEFERRED_STRUCT_PAGE_INIT
-+static bool early_page_ext __meminitdata;
-+bool __meminit early_page_ext_enable(void)
-+{
-+	return early_page_ext;
-+}
-+#else
-+static bool early_page_ext __meminitdata = true;
-+#endif
-+static int __init setup_early_page_ext(char *str)
-+{
-+	early_page_ext = true;
 +	return 0;
 +}
-+early_param("early_page_ext", setup_early_page_ext);
-+
- static bool __init invoke_need_callbacks(void)
+ #endif /* CONFIG_KSM */
+ 
+ #ifdef CONFIG_STACKLEAK_METRICS
+@@ -3334,6 +3347,7 @@ static const struct pid_entry tgid_base_stuff[] = {
+ #endif
+ #ifdef CONFIG_KSM
+ 	ONE("ksm_merging_pages",  S_IRUSR, proc_pid_ksm_merging_pages),
++	ONE("ksm_rmp_items",  S_IRUSR, proc_pid_ksm_rmp_items),
+ #endif
+ };
+ 
+@@ -3671,6 +3685,7 @@ static const struct pid_entry tid_base_stuff[] = {
+ #endif
+ #ifdef CONFIG_KSM
+ 	ONE("ksm_merging_pages",  S_IRUSR, proc_pid_ksm_merging_pages),
++	ONE("ksm_rmp_items",  S_IRUSR, proc_pid_ksm_rmp_items),
+ #endif
+ };
+ 
+diff --git a/include/linux/mm_types.h b/include/linux/mm_types.h
+index d6ec33438dc1..a2a8da1ccb31 100644
+--- a/include/linux/mm_types.h
++++ b/include/linux/mm_types.h
+@@ -656,6 +656,11 @@ struct mm_struct {
+ 		 * merging.
+ 		 */
+ 		unsigned long ksm_merging_pages;
++		/*
++		 * Represent how many pages are checked for ksm merging
++		 * including merged and not merged.
++		 */
++		unsigned long ksm_rmp_items;
+ #endif
+ #ifdef CONFIG_LRU_GEN
+ 		struct {
+diff --git a/mm/ksm.c b/mm/ksm.c
+index a98bc3beb874..66d686039010 100644
+--- a/mm/ksm.c
++++ b/mm/ksm.c
+@@ -387,6 +387,7 @@ static inline struct rmap_item *alloc_rmap_item(void)
+ static inline void free_rmap_item(struct rmap_item *rmap_item)
  {
- 	int i;
-@@ -378,11 +394,14 @@ static int __meminit page_ext_callback(struct notifier_block *self,
- 	return notifier_from_errno(ret);
+ 	ksm_rmap_items--;
++	rmap_item->mm->ksm_rmp_items--;
+ 	rmap_item->mm = NULL;	/* debug safety */
+ 	kmem_cache_free(rmap_item_cache, rmap_item);
  }
- 
--void __init page_ext_init(void)
-+void __init page_ext_init(bool early)
- {
- 	unsigned long pfn;
- 	int nid;
- 
-+	if (early != early_page_ext)
-+		return;
-+
- 	if (!invoke_need_callbacks())
- 		return;
- 
+@@ -2231,6 +2232,7 @@ static struct rmap_item *get_next_rmap_item(struct mm_slot *mm_slot,
+ 	if (rmap_item) {
+ 		/* It has already been zeroed */
+ 		rmap_item->mm = mm_slot->mm;
++		rmap_item->mm->ksm_rmp_items++;
+ 		rmap_item->address = addr;
+ 		rmap_item->rmap_list = *rmap_list;
+ 		*rmap_list = rmap_item;
 -- 
-2.20.1
+2.25.1
 
