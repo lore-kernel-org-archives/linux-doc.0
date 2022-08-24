@@ -2,370 +2,248 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DDCFEC32793
-	for <linux-doc@archiver.kernel.org>; Wed, 24 Aug 2022 06:34:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F25ACC32792
+	for <linux-doc@archiver.kernel.org>; Wed, 24 Aug 2022 06:51:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235086AbiHXGeD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 24 Aug 2022 02:34:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41992 "EHLO
+        id S235175AbiHXGvX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 24 Aug 2022 02:51:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55582 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235079AbiHXGeB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Aug 2022 02:34:01 -0400
-Received: from mail-vs1-xe29.google.com (mail-vs1-xe29.google.com [IPv6:2607:f8b0:4864:20::e29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D49077F26D
-        for <linux-doc@vger.kernel.org>; Tue, 23 Aug 2022 23:33:59 -0700 (PDT)
-Received: by mail-vs1-xe29.google.com with SMTP id q67so7885520vsa.1
-        for <linux-doc@vger.kernel.org>; Tue, 23 Aug 2022 23:33:59 -0700 (PDT)
+        with ESMTP id S235086AbiHXGvW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Aug 2022 02:51:22 -0400
+Received: from mail-pg1-x529.google.com (mail-pg1-x529.google.com [IPv6:2607:f8b0:4864:20::529])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4DF977F241
+        for <linux-doc@vger.kernel.org>; Tue, 23 Aug 2022 23:51:21 -0700 (PDT)
+Received: by mail-pg1-x529.google.com with SMTP id v4so14207560pgi.10
+        for <linux-doc@vger.kernel.org>; Tue, 23 Aug 2022 23:51:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc;
-        bh=tm7Fjfji8SAKbBzo60/UvR+UlnjS/VA0mcwLhQd5OZY=;
-        b=sv4j0c5pzq1Ngkip3YFnbESNlLlzcboa0mnaOoj8+ORe9MawCf+9W/LcqWBMJoQjFi
-         N8+l3JlHXk4y5O3fNUUWUPHdmbnx2z+7L5u8tFTcNg2kRxDubHzxQSFjttxBcBNF2Q6a
-         c6XcY6/RnLy34QPgzgmVFqnGD4KyoGxcRtm8XV60nTkXHryBeSMEIM4A5tEJdF6dxZHR
-         vPNblntKPfRwCwwQaGW91iyjXU5VTy1HgprmEdetH4L/SejzGstzM2a+IAzu7LJYiFCX
-         BYqNp4LGz8s2NLZ12nXbpgLeTmviIKgsZTstTa43y+ak7vQXyrROj/JQkWdRv44xslRu
-         udIg==
+        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc;
+        bh=f4kGHpDiTMc7aSXLbliqd1x6vmGGCzguotz7s4Fiy6o=;
+        b=8NmA2RtSjgVWxKE3P11MYB9xDj+uZFhnJM4DBdnFMMYaISlvqmru3I8t0IzAfBIjm+
+         2V2FLdpH6+LNGtbFnfGeQ9Lx81O1rFyRBvaJ0muM9OdPCF2/n5k4ionqO9SStAka9nH2
+         fzezBt4n6/UcyipjQABD1cAdptiNyEgRj4HakdiHCcYhcqYK3FKz8eIO9TIBe1WDD1u5
+         IlBdaEaog0UcgcN41Xxlo3XX58N/dVI+xU6bP/s2+X0wxvZFIl2foudWDyBqjyID4FX3
+         9ZHnwtMwKQaNU7A2TuEciz3XwbIlWMstA1TPvcBPvYklrnpf7GDOUFYOt4yLk3Q/kawq
+         TlBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc;
-        bh=tm7Fjfji8SAKbBzo60/UvR+UlnjS/VA0mcwLhQd5OZY=;
-        b=Erto+QKL5dRDxll+AAwXb25A8IoqJbEPC0RgzICeLLWibrQ8V2RayotZsq809m4dvD
-         DWsKvzF75riA5g4rG1y9C1OoD8rhwvQTD8K8g/k0MIE04abcfAiURIYY6JRuggyXEqT3
-         uWypqwcikUI1UQEeI4hfMxRsO6Ja70klxFJvqT1+xkrdNjkhb2z3NU9PJ9jquN+s5NxX
-         BW7E6bBZWFMyDz6ya8r7sS3OQZkhDLJNFAtHvtLd5jN3Vsr6rNtM7nqDzUMGIy76L+Ql
-         gquZZuntDti9n15jHk5c6OmKocyjsjbrLM1YNdzO054WYlMHYje7wbwUZAeReJX5Fu5V
-         AcxA==
-X-Gm-Message-State: ACgBeo3k9qd4gnyllPCVXQtE1JjzIt+JPip+WKsrUiZl+8BgWUiD0vIi
-        g58hk3SsVKta1GAe0ty6PYeJ9YAnugdO3blNPDY0Ww==
-X-Google-Smtp-Source: AA6agR7zpVquLRURrSfHIWBbJV4K+2DK/lUwvmEa/aotqNLqOUUlJdQqtTG1uCjkRe+VQmCCcUmLJ7vybj2omO2S+9c=
-X-Received: by 2002:a05:6102:2146:b0:38f:f3d6:51da with SMTP id
- h6-20020a056102214600b0038ff3d651damr9766614vsg.38.1661322838798; Tue, 23 Aug
- 2022 23:33:58 -0700 (PDT)
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc;
+        bh=f4kGHpDiTMc7aSXLbliqd1x6vmGGCzguotz7s4Fiy6o=;
+        b=TT4tgTAOJiwaJQDFySV6yRNQOpRKir1Sd/4sTLk7dAXWz7keE65tq62ghqObSET64C
+         BrrQEplPrYrzgMYNAhi/EEIjoAGUvBQTiok/41KTdIXx7/LgUihqkE6QUYP9/IDPj3TO
+         dxfJlNR2EF2PWplbS6nJrMVWAIgL1dP7VVK64J1JjopM4mQXHADTR56RY+SeiEyPtmiN
+         kyqvuVdPnQnRKYlP0xEKMLnFBh4+x3aO4rXlRjRiP/tp4tdEt4PjrGA7wdiGT6mF4WtH
+         Ehcj3eC8Muqk36kIxGHKxONvwkZTC614xM/6LdIGgZMqL0EfDkv0HPdsrOei4/Ub2AFL
+         XuKg==
+X-Gm-Message-State: ACgBeo3Qdc+Cwv7btIVmT4okVkC5aqH/5nf53JsF3t/Mm77XK8+33pz5
+        mQt+cDad8IQztTz5UNAP84akEA==
+X-Google-Smtp-Source: AA6agR4iPifEiVYf6J0ntQeFYnS7mi+e8o3iPYpH7UDbIWZxWhEewn2WsiEkUPKeHN3dcgHgdD5huQ==
+X-Received: by 2002:a63:8bc1:0:b0:42a:1604:3342 with SMTP id j184-20020a638bc1000000b0042a16043342mr21693992pge.368.1661323880784;
+        Tue, 23 Aug 2022 23:51:20 -0700 (PDT)
+Received: from MacBook-Pro.local.bytedance.net ([139.177.225.241])
+        by smtp.gmail.com with ESMTPSA id a12-20020aa794ac000000b00536873f23dfsm6318112pfl.136.2022.08.23.23.51.15
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 23 Aug 2022 23:51:20 -0700 (PDT)
+From:   lizhe.67@bytedance.com
+To:     akpm@linux-foundation.org, mhocko@suse.com, vbabka@suse.cz,
+        mhiramat@kernel.org, keescook@chromium.org, Jason@zx2c4.com,
+        mark-pk.tsai@mediatek.com, rostedt@goodmis.org, corbet@lwn.net
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, lizefan.x@bytedance.com, yuanzhu@bytedance.com,
+        lizhe.67@bytedance.com
+Subject: [PATCH v2] page_ext: introduce boot parameter 'early_page_ext'
+Date:   Wed, 24 Aug 2022 14:50:58 +0800
+Message-Id: <20220824065058.81051-1-lizhe.67@bytedance.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-References: <20220823142456.3977086-1-joefradley@google.com>
- <20220823142456.3977086-2-joefradley@google.com> <CABVgOS=E44fQ5UY5b3np5ZSrkDeXkkEAPBBA5yDd3bE72gotww@mail.gmail.com>
- <CAF-60z1H77S-pVevKyZ7DQ9e09h4=Gnhbv9RA_SWTk=kmsq18g@mail.gmail.com>
-In-Reply-To: <CAF-60z1H77S-pVevKyZ7DQ9e09h4=Gnhbv9RA_SWTk=kmsq18g@mail.gmail.com>
-From:   David Gow <davidgow@google.com>
-Date:   Wed, 24 Aug 2022 14:33:45 +0800
-Message-ID: <CABVgOS=_pYqA6yEc5C4o+JpxSghVsWZV_rZ2TXHrgwjkvou28g@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] kunit: add kunit.enable to enable/disable KUnit test
-To:     Joe Fradley <joefradley@google.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Brendan Higgins <brendan.higgins@linux.dev>,
-        kernel-team@android.com,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        KUnit Development <kunit-dev@googlegroups.com>
-Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
-        boundary="000000000000af9f1505e6f6dd67"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
---000000000000af9f1505e6f6dd67
-Content-Type: text/plain; charset="UTF-8"
+From: Li Zhe <lizhe.67@bytedance.com>
 
-On Wed, Aug 24, 2022 at 1:04 PM Joe Fradley <joefradley@google.com> wrote:
->
-> On Tue, Aug 23, 2022 at 9:31 PM David Gow <davidgow@google.com> wrote:
-> >
-> > On Tue, Aug 23, 2022 at 10:25 PM 'Joe Fradley' via KUnit Development
-> > <kunit-dev@googlegroups.com> wrote:
-> > >
-> > > This patch adds the kunit.enable module parameter that will need to be
-> > > set to true in addition to KUNIT being enabled for KUnit tests to run.
-> > > The default value is true giving backwards compatibility. However, for
-> > > the production+testing use case the new config option
-> > > KUNIT_DEFAULT_ENABLED can be set to N requiring the tester to opt-in
-> > > by passing kunit.enable=1 to the kernel.
-> > >
-> > > Signed-off-by: Joe Fradley <joefradley@google.com>
-> > > ---
-> >
-> > Thanks very much. This looks good to me, and works on my machine.
-> >
-> > I've put a few comments/ideas below, but none of them feel necessary to me.
->
-> Thank you for the review. I need to do one follow up revision to base this
-> off of the appropriate `linux-kselftest/kunit` branch.
->
+In 'commit 2f1ee0913ce5 ("Revert "mm: use early_pfn_to_nid in page_ext_init"")',
+we call page_ext_init() after page_alloc_init_late() to avoid some panic
+problem. It seems that we cannot track early page allocations in current
+kernel even if page structure has been initialized early.
 
-This already applies cleanly to linux-kselftest/kunit -- it should be
-fine as-is.
+This patch introduce a new boot parameter 'early_page_ext' to resolve this
+problem. If we pass it to kernel, function page_ext_init() will be moved
+up and feature 'deferred initialization of struct pages' will be disabled.
+It can help us to catch early page allocations. This is useful especially
+when we find that the free memory value is not the same right after
+different kernel booting.
 
-(It also applies fine to kselftest/kunit-fixes, for what it's worth.)
+Changelogs:
 
-Cheers,
--- David
+v1->v2:
+- use a cmd line parameter to move up function page_ext_init() instead of
+  using CONFIG_DEFERRED_STRUCT_PAGE_INIT
+- fix oom problem[1]
 
-> >
-> > Regardless, this is
-> > Reviewed-by: David Gow <davidgow@google.com>
-> >
-> > Cheers,
-> > -- David
-> >
-> > > Changes since v1:
-> > > - Created a function to get kunit enable state
-> > > - Check kunit enable state in kunit_run_all_tests() in executor.c
-> > > - Load test module even if KUnit is disabled but still don't execute
-> > >   tests
-> > > - Simplified kunit disable message and kunit.enable parameter
-> > >   description
-> > > - Flipped around logic of new config to be KUNIT_DEFAULT_ENABLED
-> > > - kunit_tool.py now passes kunit.enable=1 to kernel
-> > >
-> > >  .../admin-guide/kernel-parameters.txt         |  6 +++++
-> > >  include/kunit/test.h                          |  2 ++
-> > >  lib/kunit/Kconfig                             | 11 +++++++++
-> > >  lib/kunit/executor.c                          |  4 ++++
-> > >  lib/kunit/test.c                              | 24 +++++++++++++++++++
-> > >  tools/testing/kunit/kunit_kernel.py           |  1 +
-> > >  6 files changed, 48 insertions(+)
-> > >
-> > > diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> > > index adfda56b2691..7aa3abd7f1c5 100644
-> > > --- a/Documentation/admin-guide/kernel-parameters.txt
-> > > +++ b/Documentation/admin-guide/kernel-parameters.txt
-> > > @@ -2432,6 +2432,12 @@
-> > >                         0: force disabled
-> > >                         1: force enabled
-> > >
-> > > +       kunit.enable=   [KUNIT] Enable executing KUnit tests. Requires
-> > > +                       CONFIG_KUNIT to be set to be fully enabled. The
-> > > +                       default value can be overridden via
-> > > +                       KUNIT_DEFAULT_ENABLED.
-> > > +                       Default is 1 (enabled)
-> > > +
-> > >         kvm.ignore_msrs=[KVM] Ignore guest accesses to unhandled MSRs.
-> > >                         Default is 0 (don't ignore, but inject #GP)
-> > >
-> > > diff --git a/include/kunit/test.h b/include/kunit/test.h
-> > > index c958855681cc..ee6bf4ecbd89 100644
-> > > --- a/include/kunit/test.h
-> > > +++ b/include/kunit/test.h
-> > > @@ -228,6 +228,8 @@ static inline void kunit_set_failure(struct kunit *test)
-> > >         WRITE_ONCE(test->status, KUNIT_FAILURE);
-> > >  }
-> > >
-> > > +bool kunit_enabled(void);
-> > > +
-> >
-> > This probably isn't strictly necessary at this stage, given that it
-> > just checks one variable. That being said, I don't think it hurts (and
-> > personally, I quite like it), and find it more future-proof than
-> > exposing the variable more widely anyway.
->
-> It also addressed it being a static variable.
->
-> >
-> > >  void kunit_init_test(struct kunit *test, const char *name, char *log);
-> > >
-> > >  int kunit_run_tests(struct kunit_suite *suite);
-> > > diff --git a/lib/kunit/Kconfig b/lib/kunit/Kconfig
-> > > index 0b5dfb001bac..626719b95bad 100644
-> > > --- a/lib/kunit/Kconfig
-> > > +++ b/lib/kunit/Kconfig
-> > > @@ -59,4 +59,15 @@ config KUNIT_ALL_TESTS
-> > >
-> > >           If unsure, say N.
-> > >
-> > > +config KUNIT_DEFAULT_ENABLED
-> > > +       bool "Default value of kunit.enable"
-> > > +       default y
-> > > +       help
-> > > +         Sets the default value of kunit.enable. If set to N then KUnit
-> > > +         tests will not execute unless kunit.enable=1 is passed to the
-> > > +         kernel command line.
-> > > +
-> > > +         In most cases this should be left as Y. Only if additional opt-in
-> > > +         behavior is needed should this be set to N.
-> > > +
-> > >  endif # KUNIT
-> > > diff --git a/lib/kunit/executor.c b/lib/kunit/executor.c
-> > > index 5e223327196a..9bbc422c284b 100644
-> > > --- a/lib/kunit/executor.c
-> > > +++ b/lib/kunit/executor.c
-> > > @@ -190,6 +190,10 @@ int kunit_run_all_tests(void)
-> > >  {
-> > >         struct suite_set suite_set = {__kunit_suites_start, __kunit_suites_end};
-> > >         int err = 0;
-> > > +       if (!kunit_enabled()) {
-> > > +               pr_info("kunit: disabled\n");
-> > > +               goto out;
-> > > +       }
-> > >
-> > >         if (filter_glob_param) {
-> > >                 suite_set = kunit_filter_suites(&suite_set, filter_glob_param, &err);
-> > > diff --git a/lib/kunit/test.c b/lib/kunit/test.c
-> > > index b73d5bb5c473..1e54373309a4 100644
-> > > --- a/lib/kunit/test.c
-> > > +++ b/lib/kunit/test.c
-> > > @@ -54,6 +54,17 @@ void __kunit_fail_current_test(const char *file, int line, const char *fmt, ...)
-> > >  EXPORT_SYMBOL_GPL(__kunit_fail_current_test);
-> > >  #endif
-> > >
-> > > +/*
-> > > + * Enable KUnit tests to run.
-> > > + */
-> > > +#ifdef CONFIG_KUNIT_DEFAULT_ENABLED
-> > > +static bool enable_param = true;
-> > > +#else
-> > > +static bool enable_param;
-> > > +#endif
-> > > +module_param_named(enable, enable_param, bool, 0);
-> > > +MODULE_PARM_DESC(enable, "Enable KUnit tests");
-> > > +
-> > >  /*
-> > >   * KUnit statistic mode:
-> > >   * 0 - disabled
-> > > @@ -586,10 +597,20 @@ static void kunit_init_suite(struct kunit_suite *suite)
-> > >         suite->suite_init_err = 0;
-> > >  }
-> > >
-> > > +bool kunit_enabled(void)
-> > > +{
-> > > +       return enable_param;
-> > > +}
-> > > +
-> > >  int __kunit_test_suites_init(struct kunit_suite * const * const suites, int num_suites)
-> > >  {
-> > >         unsigned int i;
-> > >
-> > > +       if (!kunit_enabled() && num_suites > 0) {
-> > > +               pr_info("kunit: disabled\n");
-> >
-> > _Maybe_ this could be pr_info_once(), if you were worried about spam
-> > (if a whole bunch of test modules were loaded at once). That being
-> > said, I prefer it as-is, as I don't think there are a lot of cases
-> > where large number of kunit test modules are loaded on a system with
-> > KUnit disable. And I'm liable to forget that KUnit is disabled if a
-> > system has been running for a while (and maybe one test module was
-> > loaded a boot), and end up wondering why my test isn't running.
->
-> That's the same conclusion I came to after considering the one time
-> message used for the test taint message.
->
-> >
-> > So, I'm all for leaving this as-is, personally.
-> >
-> > > +               return 0;
-> > > +       }
-> > > +
-> > >         for (i = 0; i < num_suites; i++) {
-> > >                 kunit_init_suite(suites[i]);
-> > >                 kunit_run_tests(suites[i]);
-> > > @@ -607,6 +628,9 @@ void __kunit_test_suites_exit(struct kunit_suite **suites, int num_suites)
-> > >  {
-> > >         unsigned int i;
-> > >
-> > > +       if (!kunit_enabled())
-> > > +               return;
-> > > +
-> > >         for (i = 0; i < num_suites; i++)
-> > >                 kunit_exit_suite(suites[i]);
-> > >
-> > > diff --git a/tools/testing/kunit/kunit_kernel.py b/tools/testing/kunit/kunit_kernel.py
-> > > index f5c26ea89714..ef794da420d7 100644
-> > > --- a/tools/testing/kunit/kunit_kernel.py
-> > > +++ b/tools/testing/kunit/kunit_kernel.py
-> > > @@ -359,6 +359,7 @@ class LinuxSourceTree:
-> > >                         args = []
-> > >                 if filter_glob:
-> > >                         args.append('kunit.filter_glob='+filter_glob)
-> > > +               args.append('kunit.enable=1')
-> > >
-> > >                 process = self._ops.start(args, build_dir)
-> > >                 assert process.stdout is not None  # tell mypy it's set
-> > > --
-> > > 2.37.1.595.g718a3a8f04-goog
-> > >
-> > > --
-> > > You received this message because you are subscribed to the Google Groups "KUnit Development" group.
-> > > To unsubscribe from this group and stop receiving emails from it, send an email to kunit-dev+unsubscribe@googlegroups.com.
-> > > To view this discussion on the web visit https://groups.google.com/d/msgid/kunit-dev/20220823142456.3977086-2-joefradley%40google.com.
+v1 patch: https://lore.kernel.org/lkml/Yv3r6Y1vh+6AbY4+@dhcp22.suse.cz/T/
 
---000000000000af9f1505e6f6dd67
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Description: S/MIME Cryptographic Signature
+[1]: https://lore.kernel.org/linux-mm/YwHmXLu5txij+p35@xsang-OptiPlex-9020/
 
-MIIPnwYJKoZIhvcNAQcCoIIPkDCCD4wCAQExDzANBglghkgBZQMEAgEFADALBgkqhkiG9w0BBwGg
-ggz5MIIEtjCCA56gAwIBAgIQeAMYYHb81ngUVR0WyMTzqzANBgkqhkiG9w0BAQsFADBMMSAwHgYD
-VQQLExdHbG9iYWxTaWduIFJvb3QgQ0EgLSBSMzETMBEGA1UEChMKR2xvYmFsU2lnbjETMBEGA1UE
-AxMKR2xvYmFsU2lnbjAeFw0yMDA3MjgwMDAwMDBaFw0yOTAzMTgwMDAwMDBaMFQxCzAJBgNVBAYT
-AkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNhMSowKAYDVQQDEyFHbG9iYWxTaWduIEF0bGFz
-IFIzIFNNSU1FIENBIDIwMjAwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCvLe9xPU9W
-dpiHLAvX7kFnaFZPuJLey7LYaMO8P/xSngB9IN73mVc7YiLov12Fekdtn5kL8PjmDBEvTYmWsuQS
-6VBo3vdlqqXZ0M9eMkjcKqijrmDRleudEoPDzTumwQ18VB/3I+vbN039HIaRQ5x+NHGiPHVfk6Rx
-c6KAbYceyeqqfuJEcq23vhTdium/Bf5hHqYUhuJwnBQ+dAUcFndUKMJrth6lHeoifkbw2bv81zxJ
-I9cvIy516+oUekqiSFGfzAqByv41OrgLV4fLGCDH3yRh1tj7EtV3l2TngqtrDLUs5R+sWIItPa/4
-AJXB1Q3nGNl2tNjVpcSn0uJ7aFPbAgMBAAGjggGKMIIBhjAOBgNVHQ8BAf8EBAMCAYYwHQYDVR0l
-BBYwFAYIKwYBBQUHAwIGCCsGAQUFBwMEMBIGA1UdEwEB/wQIMAYBAf8CAQAwHQYDVR0OBBYEFHzM
-CmjXouseLHIb0c1dlW+N+/JjMB8GA1UdIwQYMBaAFI/wS3+oLkUkrk1Q+mOai97i3Ru8MHsGCCsG
-AQUFBwEBBG8wbTAuBggrBgEFBQcwAYYiaHR0cDovL29jc3AyLmdsb2JhbHNpZ24uY29tL3Jvb3Ry
-MzA7BggrBgEFBQcwAoYvaHR0cDovL3NlY3VyZS5nbG9iYWxzaWduLmNvbS9jYWNlcnQvcm9vdC1y
-My5jcnQwNgYDVR0fBC8wLTAroCmgJ4YlaHR0cDovL2NybC5nbG9iYWxzaWduLmNvbS9yb290LXIz
-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
-z/tQRXr3iPeVmZCr7nttMEwGA1UdIARFMEMwQQYJKwYBBAGgMgEoMDQwMgYIKwYBBQUHAgEWJmh0
-dHBzOi8vd3d3Lmdsb2JhbHNpZ24uY29tL3JlcG9zaXRvcnkvMAwGA1UdEwEB/wQCMAAwgZoGCCsG
-AQUFBwEBBIGNMIGKMD4GCCsGAQUFBzABhjJodHRwOi8vb2NzcC5nbG9iYWxzaWduLmNvbS9jYS9n
-c2F0bGFzcjNzbWltZWNhMjAyMDBIBggrBgEFBQcwAoY8aHR0cDovL3NlY3VyZS5nbG9iYWxzaWdu
-LmNvbS9jYWNlcnQvZ3NhdGxhc3Izc21pbWVjYTIwMjAuY3J0MB8GA1UdIwQYMBaAFHzMCmjXouse
-LHIb0c1dlW+N+/JjMEYGA1UdHwQ/MD0wO6A5oDeGNWh0dHA6Ly9jcmwuZ2xvYmFsc2lnbi5jb20v
-Y2EvZ3NhdGxhc3Izc21pbWVjYTIwMjAuY3JsMA0GCSqGSIb3DQEBCwUAA4IBAQAx+EQjLATc/sze
-VoZkH7OLz+/no1+y31x4BQ3wjW7lKfay9DAAVym896b7ECttSo95GEvS7pYMikzud57WypK7Bjpi
-ep8YLarLRDrvyyvBuYtyDrIewkuASHtV1oy5E6QZZe2VOxMm6e2oJnFFjbflot4A08D3SwqDwV0i
-OOYwT0BUtHYR/3903Dmdx5Alq+NDvUHDjozgo0f6oIkwDXT3yBV36utQ/jFisd36C8RD5mM+NFpu
-3aqLXARRbKtxw29ErCwulof2dcAonG7cd5j+gmS84sLhKU+BhL1OQVXnJ5tj7xZ5Ri5I23brcwk0
-lk/gWqfgs3ppT9Xk7zVit9q8MYICajCCAmYCAQEwaDBUMQswCQYDVQQGEwJCRTEZMBcGA1UEChMQ
-R2xvYmFsU2lnbiBudi1zYTEqMCgGA1UEAxMhR2xvYmFsU2lnbiBBdGxhcyBSMyBTTUlNRSBDQSAy
-MDIwAhABh9LgIPnlfMFHR0Die8n7MA0GCWCGSAFlAwQCAQUAoIHUMC8GCSqGSIb3DQEJBDEiBCDv
-KesMIjvT60PMO4LfTFLxZIWVuHkg3KUEhCwR8PCYkTAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcB
-MBwGCSqGSIb3DQEJBTEPFw0yMjA4MjQwNjMzNTlaMGkGCSqGSIb3DQEJDzFcMFowCwYJYIZIAWUD
-BAEqMAsGCWCGSAFlAwQBFjALBglghkgBZQMEAQIwCgYIKoZIhvcNAwcwCwYJKoZIhvcNAQEKMAsG
-CSqGSIb3DQEBBzALBglghkgBZQMEAgEwDQYJKoZIhvcNAQEBBQAEggEAF6fmonHeVP8XQaWe2y57
-kE46bxeOfiHpNGwAcQw1WYPbCU6GPnsDNdzS0fO6pxAYpjXHSykqmLxbDLMVlQeFA2YOCx/j1lLQ
-uq3mKelpM1EhLW0c/uS66MLkgqjahAfcVas3Ke3Qrzs8w7WCdrL8vDvBd9u3ubcV2yTUF8p4yFaK
-DpLEmFS2hrIodiIDsa2VYw0SMS6/oYjoP/HytMyXfQqiUI8oslIzdGSZodiTkjiHDzQBCzx+X9Mg
-hJ4tZI5EXl2q/Td+2Xx10Ure2rwGVYCfMMFLrWBXIEMDhFAEFfvEKrz2YOYRyIFLpeYhHtAz9Usm
-CV7AXM2HdE09Q50vig==
---000000000000af9f1505e6f6dd67--
+Suggested-by: Michal Hocko <mhocko@suse.com>
+Signed-off-by: Li Zhe <lizhe.67@bytedance.com>
+---
+ .../admin-guide/kernel-parameters.txt         |  6 ++++++
+ include/linux/page_ext.h                      | 14 ++++++++++---
+ init/main.c                                   |  4 +++-
+ mm/page_alloc.c                               |  2 ++
+ mm/page_ext.c                                 | 21 ++++++++++++++++++-
+ 5 files changed, 42 insertions(+), 5 deletions(-)
+
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index d7f30902fda0..7b5726828ac0 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -1471,6 +1471,12 @@
+ 			Permit 'security.evm' to be updated regardless of
+ 			current integrity status.
+ 
++	early_page_ext [KNL] Boot-time early page_ext initializing option.
++			This boot parameter disables the deferred initialization
++			of struct page and move up function page_ext_init() in
++			order to catch early page allocations. Available with
++			CONFIG_PAGE_EXTENSION=y.
++
+ 	failslab=
+ 	fail_usercopy=
+ 	fail_page_alloc=
+diff --git a/include/linux/page_ext.h b/include/linux/page_ext.h
+index fabb2e1e087f..3e081cf8a1ec 100644
+--- a/include/linux/page_ext.h
++++ b/include/linux/page_ext.h
+@@ -38,19 +38,22 @@ struct page_ext {
+ 
+ extern unsigned long page_ext_size;
+ extern void pgdat_page_ext_init(struct pglist_data *pgdat);
++#ifdef CONFIG_DEFERRED_STRUCT_PAGE_INIT
++extern bool early_page_ext_enable(void);
++#endif
+ 
+ #ifdef CONFIG_SPARSEMEM
+ static inline void page_ext_init_flatmem(void)
+ {
+ }
+-extern void page_ext_init(void);
++extern void page_ext_init(bool early);
+ static inline void page_ext_init_flatmem_late(void)
+ {
+ }
+ #else
+ extern void page_ext_init_flatmem(void);
+ extern void page_ext_init_flatmem_late(void);
+-static inline void page_ext_init(void)
++static inline void page_ext_init(bool early)
+ {
+ }
+ #endif
+@@ -67,6 +70,11 @@ static inline struct page_ext *page_ext_next(struct page_ext *curr)
+ #else /* !CONFIG_PAGE_EXTENSION */
+ struct page_ext;
+ 
++static inline bool early_page_ext_enable(void)
++{
++	return false;
++}
++
+ static inline void pgdat_page_ext_init(struct pglist_data *pgdat)
+ {
+ }
+@@ -76,7 +84,7 @@ static inline struct page_ext *lookup_page_ext(const struct page *page)
+ 	return NULL;
+ }
+ 
+-static inline void page_ext_init(void)
++static inline void page_ext_init(bool early)
+ {
+ }
+ 
+diff --git a/init/main.c b/init/main.c
+index 91642a4e69be..3760c0326525 100644
+--- a/init/main.c
++++ b/init/main.c
+@@ -849,6 +849,8 @@ static void __init mm_init(void)
+ 	pgtable_init();
+ 	debug_objects_mem_init();
+ 	vmalloc_init();
++	/* Should be run after vmap initialization */
++	page_ext_init(true);
+ 	/* Should be run before the first non-init thread is created */
+ 	init_espfix_bsp();
+ 	/* Should be run after espfix64 is set up. */
+@@ -1606,7 +1608,7 @@ static noinline void __init kernel_init_freeable(void)
+ 	padata_init();
+ 	page_alloc_init_late();
+ 	/* Initialize page ext after all struct pages are initialized. */
+-	page_ext_init();
++	page_ext_init(false);
+ 
+ 	do_basic_setup();
+ 
+diff --git a/mm/page_alloc.c b/mm/page_alloc.c
+index e5486d47406e..e580b197aa1e 100644
+--- a/mm/page_alloc.c
++++ b/mm/page_alloc.c
+@@ -482,6 +482,8 @@ defer_init(int nid, unsigned long pfn, unsigned long end_pfn)
+ {
+ 	static unsigned long prev_end_pfn, nr_initialised;
+ 
++	if (early_page_ext_enable())
++		return false;
+ 	/*
+ 	 * prev_end_pfn static that contains the end of previous zone
+ 	 * No need to protect because called very early in boot before smp_init.
+diff --git a/mm/page_ext.c b/mm/page_ext.c
+index 3dc715d7ac29..82ba561730ef 100644
+--- a/mm/page_ext.c
++++ b/mm/page_ext.c
+@@ -85,6 +85,22 @@ unsigned long page_ext_size = sizeof(struct page_ext);
+ 
+ static unsigned long total_usage;
+ 
++#ifdef CONFIG_DEFERRED_STRUCT_PAGE_INIT
++static bool early_page_ext __meminitdata;
++bool __meminit early_page_ext_enable(void)
++{
++	return early_page_ext;
++}
++#else
++static bool early_page_ext __meminitdata = true;
++#endif
++static int __init setup_early_page_ext(char *str)
++{
++	early_page_ext = true;
++	return 0;
++}
++early_param("early_page_ext", setup_early_page_ext);
++
+ static bool __init invoke_need_callbacks(void)
+ {
+ 	int i;
+@@ -378,11 +394,14 @@ static int __meminit page_ext_callback(struct notifier_block *self,
+ 	return notifier_from_errno(ret);
+ }
+ 
+-void __init page_ext_init(void)
++void __init page_ext_init(bool early)
+ {
+ 	unsigned long pfn;
+ 	int nid;
+ 
++	if (early != early_page_ext)
++		return;
++
+ 	if (!invoke_need_callbacks())
+ 		return;
+ 
+-- 
+2.20.1
+
