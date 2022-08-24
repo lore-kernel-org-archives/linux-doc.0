@@ -2,349 +2,209 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BAC02C04AA5
-	for <linux-doc@archiver.kernel.org>; Wed, 24 Aug 2022 21:16:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 56761C3F6B0
+	for <linux-doc@archiver.kernel.org>; Wed, 24 Aug 2022 21:59:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240739AbiHXVQx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 24 Aug 2022 17:16:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52862 "EHLO
+        id S240415AbiHXV7c (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 24 Aug 2022 17:59:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57318 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240722AbiHXVQl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Aug 2022 17:16:41 -0400
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 727F07C740;
-        Wed, 24 Aug 2022 14:16:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1661375800; x=1692911800;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=OpHZOLK8Re901DtVO7IeNJPmmFjpBW9Jdrt8i4CTb/8=;
-  b=J44Np6i4nGIpjgPOuDsnDioCAg46kseob6wRT3S5hEl6hzhmWpxeiKYI
-   mLLnzG+7e/elqR7Az9/78bA0wc3CDyrtDkJ8cBJCehMBupjB78xQaVJb+
-   5B/RQ/YqGGqawC4s9qNw25+HHYFwAshBErUWMe3uwTa6SUvkSmGz+uSbu
-   p5XfiEfhNtxViypxO640+iubqezlAuuUJtgF/WXkdMPdHDgUCvYpNA5gC
-   sbzrzPlSjfy7SmXFrkDfp92PzgZntEI6l83sazT0S8KnRdRFI4GStm2Kz
-   aleEPJcppH70rJRjD24MoT9vUTHBvh5JKZbmIaRjhc6nKNotodnfvQOQ4
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10449"; a="292823147"
-X-IronPort-AV: E=Sophos;i="5.93,261,1654585200"; 
-   d="scan'208";a="292823147"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2022 14:16:40 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,261,1654585200"; 
-   d="scan'208";a="670682606"
-Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
-  by fmsmga008.fm.intel.com with ESMTP; 24 Aug 2022 14:16:40 -0700
-Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Wed, 24 Aug 2022 14:16:39 -0700
-Received: from fmsmsx608.amr.corp.intel.com (10.18.126.88) by
- fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Wed, 24 Aug 2022 14:16:39 -0700
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx608.amr.corp.intel.com (10.18.126.88) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31 via Frontend Transport; Wed, 24 Aug 2022 14:16:39 -0700
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.47) by
- edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2375.31; Wed, 24 Aug 2022 14:16:38 -0700
+        with ESMTP id S237655AbiHXV7b (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Aug 2022 17:59:31 -0400
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com (mail-bn8nam04on2051.outbound.protection.outlook.com [40.107.100.51])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82F6276763;
+        Wed, 24 Aug 2022 14:59:30 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=bOVD9YmMQoRhUg52FmNx8EabqxCW1W15mWQcKCwXiNujZbDBKRkTBAEwcsDc1EMGtYHcVNnmynS+vXNxCmbDk8pYTJ267E4PsBEoFaLUuBMqLipn0TMWzQXY/o3VxhIiLQi2IccX0OxZASws3ByvAJ8MBeoCch9XjwpHLGB7I1Rw6s6yv6cK+vfYiNAuhRB2odCOa/SZ+/3/vjxEPnlj1w3fSB2AqEerpsHveIsVPXlMzWWMEusueRw4M5C8Tf4umsVue4Fi2I/1ck/HVbFrEdlIbQSWKd7BLJewmIhlWV1j5kfsVt0l7zuqZCMeYpZy1JhGFYliJrNFtsNy59gTNg==
+ b=JJmMCaIAxV3+tHVkotc0iXcBMm4qLq94yagN4IY9e+yh8XLJul8CwFNKHdtxP6mIwIYXzsR8SOd5KTiFJOKcaaEiimIb1aewesbKhGg/7f9dbFxn3piKKrjjinlPt9P53TemLxh7VoFvTN/3leVtdTtIzN52xjv7ilvbWY86W9xUIraxfazks5H2nLc6ntSZYOZ7C2wHQcLVLs0rw/Vw2006Eb77CqPZl2QO2X/nlgo+CxHjY4Olah/lJsLeHldaE1KY/w6rbu0HKUBMR5HyExDF+HV4sywfgROtpxictSrrd/LV6N34VQsDe/92r0+6xLKM0h0zc7Xd6mw2DE516Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=JJJVGAWPdgFof0+lqgtUsAf3mU2/IepdW4Vx3GIVhRs=;
- b=O++BdD0v/SziWbbcLuoPmrWH7hcNKeEYXZeixywsqSgfqrJSOsoDwRnDqVQJZb1HyZXGRnn9Jqtp9BhwTJbzuU1C7CgGwCl41tdQ6THyiogKtbdt1sKvK9v5JzFQiprKXuKgwpPWQnfwdt63P38P9iHiPCQP10xfqDaCOsnPMUvFqBn/L/5J/yz4/9bdNoum7ue75H5O14D+3mo+yRfbYFpar+ZbG5qpF8TURdHY7ZIv0neYgXLtGJvcxM809m1leK5oXW0VTrwnIYNQTlBBkcNJtXVO7Zm+0yPUzMmxyn/iUpDs3MppPcjUKo7ElhI53IpRW9jGWpxfQvQVFHG3fA==
+ bh=WtRgwr//724AGR28U6k3UdiY6o46PlgQzN3ZTB2Gq64=;
+ b=F8dNbkfOZlvVxXC8uXrKysHSu8ZS/b+K43L9XYg9XVsVznOoixMzDYN89HiiBHr2+f8VfvWrPsZakHXNMdgKaaKQIolHiZq5FdcdpY1vBTwgiZtZZ5jh8peckp3GUzdLVziNuGr/k7FRpr2i+s/JgUxI1bW9Q01kPyvWsNFFt08sBa7I4adLtvo+m4aAt6Qmryc1dwy35cIokF/Ubn315SpFfrlLW6y4pzWbuIj2JL6OvtahlSFJkIwsP/VI/PhTOVe3vBugpiYVO/hfIF42sNRf/0st0VXupHKR/ikdyjikESZAWfu4rvsrRBmqehtcRXsgLI8Y5HQvWZLEmWxBvA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=WtRgwr//724AGR28U6k3UdiY6o46PlgQzN3ZTB2Gq64=;
+ b=sHbAgk5fVXXhRqEMIkKAVIRygWxXMrznqTAH5UAxEWrB7psm8cEWPpbhdsojmVY+ZHytG+RWPIbo8F3s9+yBXH6+qUJobkgltLfYxVH9MtZAHkDH5taKzRoIrr5FtgD3dO1A8pfoYE/F2KZ9O5DWf+siK+EGBk448TmTpI1u8eWUy/tLzXZCFjqnn5yE1ftNY83asPWmGGzGxEO0d7IvjDSLAbALtpy2Qn3mrEI/DvgVrwLpCiwqcDebwViswm2RJ1TPhC5yO3L1IpMPrCdnn3AuEhvj5zhBrdtBukJRxNIkP+g8P17XvjfKxiK14pFoWG/Gd2W4G4TQY2CasWthsQ==
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from CY4PR11MB1862.namprd11.prod.outlook.com (2603:10b6:903:124::18)
- by DM6PR11MB2713.namprd11.prod.outlook.com (2603:10b6:5:c4::23) with
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from BY5PR12MB4130.namprd12.prod.outlook.com (2603:10b6:a03:20b::16)
+ by BYAPR12MB3590.namprd12.prod.outlook.com (2603:10b6:a03:ae::24) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5546.18; Wed, 24 Aug
- 2022 21:16:35 +0000
-Received: from CY4PR11MB1862.namprd11.prod.outlook.com
- ([fe80::54b2:2db9:12fb:c006]) by CY4PR11MB1862.namprd11.prod.outlook.com
- ([fe80::54b2:2db9:12fb:c006%3]) with mapi id 15.20.5546.024; Wed, 24 Aug 2022
- 21:16:35 +0000
-Message-ID: <eca1657e-3dbf-d46c-fecf-f8888a25a878@intel.com>
-Date:   Wed, 24 Aug 2022 14:16:32 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Firefox/91.0 Thunderbird/91.12.0
-Subject: Re: [PATCH v3 09/10] x86/resctrl: Add sysfs interface to write the
- event configuration
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5546.19; Wed, 24 Aug
+ 2022 21:59:28 +0000
+Received: from BY5PR12MB4130.namprd12.prod.outlook.com
+ ([fe80::508d:221c:9c9e:e1a5]) by BY5PR12MB4130.namprd12.prod.outlook.com
+ ([fe80::508d:221c:9c9e:e1a5%8]) with mapi id 15.20.5566.014; Wed, 24 Aug 2022
+ 21:59:27 +0000
+Message-ID: <0db131cf-013e-6f0e-c90b-5c1e840d869c@nvidia.com>
+Date:   Wed, 24 Aug 2022 14:59:25 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: [PATCH RFC 1/2] coding-style.rst: document BUG() and WARN() rules
+ ("do not crash the kernel")
 Content-Language: en-US
-To:     Babu Moger <babu.moger@amd.com>, <fenghua.yu@intel.com>,
-        <tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>
-CC:     <eranian@google.com>, <dave.hansen@linux.intel.com>,
-        <x86@kernel.org>, <hpa@zytor.com>, <corbet@lwn.net>,
-        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <bagasdotme@gmail.com>
-References: <166117559756.6695.16047463526634290701.stgit@bmoger-ubuntu>
- <166117586910.6695.3670808098195387542.stgit@bmoger-ubuntu>
-From:   Reinette Chatre <reinette.chatre@intel.com>
-In-Reply-To: <166117586910.6695.3670808098195387542.stgit@bmoger-ubuntu>
-Content-Type: text/plain; charset="UTF-8"
+To:     David Hildenbrand <david@redhat.com>, linux-kernel@vger.kernel.org
+Cc:     linux-mm@kvack.org, linux-doc@vger.kernel.org,
+        kexec@lists.infradead.org,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Ingo Molnar <mingo@kernel.org>,
+        David Laight <David.Laight@ACULAB.COM>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Andy Whitcroft <apw@canonical.com>,
+        Joe Perches <joe@perches.com>,
+        Dwaipayan Ray <dwaipayanray1@gmail.com>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        Baoquan He <bhe@redhat.com>, Vivek Goyal <vgoyal@redhat.com>,
+        Dave Young <dyoung@redhat.com>
+References: <20220824163100.224449-1-david@redhat.com>
+ <20220824163100.224449-2-david@redhat.com>
+From:   John Hubbard <jhubbard@nvidia.com>
+In-Reply-To: <20220824163100.224449-2-david@redhat.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BY3PR10CA0003.namprd10.prod.outlook.com
- (2603:10b6:a03:255::8) To CY4PR11MB1862.namprd11.prod.outlook.com
- (2603:10b6:903:124::18)
+X-ClientProxiedBy: SJ0PR13CA0142.namprd13.prod.outlook.com
+ (2603:10b6:a03:2c6::27) To BY5PR12MB4130.namprd12.prod.outlook.com
+ (2603:10b6:a03:20b::16)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 84e4467d-cfd1-4326-3ee7-08da8615ecb9
-X-MS-TrafficTypeDiagnostic: DM6PR11MB2713:EE_
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Office365-Filtering-Correlation-Id: c84b96ef-6d36-4b79-5912-08da861bea1d
+X-MS-TrafficTypeDiagnostic: BYAPR12MB3590:EE_
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: q5JdsvbbCJMs23okLnlbQHJI5ZHBzo9tu53zevD2MUJKQ/noSUdUsJkfgv6LsT17+m0A7r+X8WL7CHe+0sAlkE9rEgy/X768MnVLgN45n8k30tTEBWAvzBo1wZ6tWvw/amKmjMtiLW7bHRmA18+wpeJcBwvGQWVIW8Scurj2fKrzKh7tZTYLuwO9L9eJIQHr1ieSyXAIYeed1GoVrqwOqxQYl+4mPXdoN5apktN+GyDVbfG2lgdM1qjhI9jWVVJ97d7Xq3fQduv4GTSnO7Q1T0/SqOx6sTM/uCXVnhY5Tblr+EMc5Z+WYHSHfosb17DoJJqOuiku5M8B9HdWsXHAb+ZaCMZLtBoqY6ZOsqGbDqOK/Icmfj/ZuWAIV7kVzckJNXB1VBkQx2+V/unupJ0Q2NvOpRvKlHYtsvYs7Wx0eBPMdsr3b+hSmEwDUhxDtlFLVXOo8wAaDKzbbuwEtJ/1uDzkIVIArHjvPt4BEC/diTivIBh1w7x3qfNz1os89v+n+fjdXaox8edY71PmBoIuaYnC4dIR5xPJ2gg67DEC60FVTh/MYhDp5793MuL9XxBNXCdE2STHXyFxAotNRZwry1Jpe2U6c/StlUI52j7VCPtmpi+gF8GoWLDEjrdcVuLVtZFzEOAS222iEunyoA2eQCWkOY5WUGlxmJJZxjKQtjo6GrRe7Jr+g7FgBBGsaTGoW7HtZRArdpXymPpYzqQMa2upKPdaHTFkSXG1jHbTW6OFcNBcZhYFMnZNJxsIxzvPJY2tWHWf/jVAV+Iqm+JW/vRI1RdlrI1e3Us2417mUGs=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY4PR11MB1862.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(376002)(366004)(136003)(346002)(396003)(39860400002)(8676002)(66556008)(66946007)(4326008)(36756003)(66476007)(86362001)(38100700002)(82960400001)(31686004)(31696002)(8936002)(83380400001)(2616005)(6512007)(186003)(26005)(6666004)(478600001)(6486002)(7416002)(316002)(6506007)(2906002)(44832011)(5660300002)(53546011)(41300700001)(45980500001)(43740500002);DIR:OUT;SFP:1102;
+X-Microsoft-Antispam-Message-Info: hzmIg0jqfbg5m3lOl6N7isTfas1o0J5Im6mEd9gcKy15QmqfJRSLdsvTbAHybEgXTmz1ZOFO8UsX0ved94Q7gU5kvbxBRoe5H1VUOOmxKl1m+yV0w4ZHmx/v3E0Wmrimhpk8/865F+PjP6fXj0j+6j03fl2G2XNlvVi+fyFKUBFYc9y6KwiTeSUISPHE6NBg3hR1VmCFl8lSYP6iAIOgzg13366n+5jFdsDbQQSsvwVyI7jYo93GN+dOz632Pf0C6tWRqmHFXczdOUwYba/e8cJvntFchOaCpMa0++ioSwBdM5ajLilxEUCkVY16PeH0xcqFGEjc/K7sI6ZnezSfXguW2fL5DlZrANkPqQdHynJ42/WXbq961UBM5bce/r9eZF4gDyeEyikaGd7dwXKaa2wBlDPIBpnB4gYVuNJIu0jNvV9pAJ5ioYK1fAHbX+4bHC8xBKBD6coGN14Q3/y/H4+TPRT6Dv/OVVkm3/kLHAXFQAP06pg9cQFxhDeeZMc559aTSl20zUbcmZrf5HXrWRe4Te71+FCYpRWOfLhwqgYmEPXsOJNeKoNZ76pDtuyb8DHqbcoN2WpEcQFD0Qa/2YpmACP0vj/5fs8uS3bt9K8/KZSmAteXj776N2RXJGNzm3FlmcUfuk3bhVxdwLwo/Dm0xXI6jbuG8zB7mDqt8PpNo23GXo+bQ+dwPcUK+yDl9iyvJnlYu1YPNHVM9uh5Cn9v16RkcGTUT6TdQgI/AYTy90kH3uHHC/Uxz4DQkVT+dNdGNTWIkYQWHSfM/ZFE74yWR6h704BR1cc60j/aI1s=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR12MB4130.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(376002)(366004)(396003)(136003)(39860400002)(346002)(26005)(31696002)(86362001)(38100700002)(8936002)(54906003)(36756003)(316002)(7416002)(6486002)(66946007)(31686004)(478600001)(6506007)(8676002)(66476007)(66556008)(2616005)(4326008)(186003)(5660300002)(53546011)(83380400001)(2906002)(41300700001)(6512007)(43740500002)(45980500001);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SEp4RVk5NkpWbUYxUmwwTmZZRGdxYUgrclk2NmVIOTAvTytzRkt3a1pFTFE2?=
- =?utf-8?B?TzhrWUJmVWdvYTB0NStjQmJjZnVmaHJMK0hpcFIrQi96NkVwM0IrZGN6Mldt?=
- =?utf-8?B?dlFZTjFxQjhnMGpWbnByNlp5VG5VMys0dWtzdTk3Y3RGYzBkMmIxNXdFc1gw?=
- =?utf-8?B?Y0RkcmFCQWE2eWpuL2pWQWgzQjdKYXlLNUFJVThhTTVaZXdkR3JKUFl3NUY3?=
- =?utf-8?B?aUliV3M0UkN0bUhjQXJRcVhQcnNML1hpeEtpc3RKYWFDN0FpWmJxekc0ODF4?=
- =?utf-8?B?cGFzWnYydjJwamQ2L0l4ZU5ITGVBelA1bjRaRVBRQzVMMEdiUEY3YmFVMEpF?=
- =?utf-8?B?dVdhLzBEQXFTc0FwcEZ6V1pkMkdHYkRsREliZVRLWjB2L21DUHByN00vWDJx?=
- =?utf-8?B?OTU0TVRadjFrd3hESFNFNVFCenZMNFpwMXRrUXU3d3QxTUxNVGRueXpCUWxH?=
- =?utf-8?B?WnhiUC9FQkU5ZStDS2N0SXZLd2t2UzNBeVoyYTBGaEdNRVNLNis4MDduemti?=
- =?utf-8?B?Q2FGTEI2S3RvZmpmblp4cjlaYVlWUkVJaUxSeCtqbWpVeG1iWWZJQkI3RWov?=
- =?utf-8?B?K2ZqOFNoYzh2NVhCMUFBMlJESUEwemxMT1JIcnpFR2ZPU2NXODBEeUFoV3Bo?=
- =?utf-8?B?Wk9BU29mWHRLRitqSFJ4cDQ2OC8yME5uSjFyOWNtOW8rVkFIaDJlTGdjcjkx?=
- =?utf-8?B?amR0bmF0eVZKYUwrOUo5K1dJVWhNelpMNDh4U1FLZmJXR2lvcHRIVnh2ZWJZ?=
- =?utf-8?B?MnRLT3psUzhDUVlIZk9sZitRODROVTh6L1VmTG5mVFUyV1JVOUlFSW5FQVE5?=
- =?utf-8?B?MkRjVTRIOFloVXhXVy9XMW5rK3EzcjFtVUFUTGFNWFVOaXBrSWE1clN4SGNU?=
- =?utf-8?B?ZWp5WmhrRCtyVHIyeTF0TEN6RTFXQnRLMk1YNTF4RGdHdFZWMENwSG5nMW1z?=
- =?utf-8?B?ODEvTjhmSEFJaFJNeXY1bURtODNuZm5MUG8rYlN6QmpCZElpbXhYNCt3Sjlr?=
- =?utf-8?B?cCswUi9UdVJFaFFBWmZldE9HUmxBZHl0WkJQeXFuMTVydlNYQjgrSEhpbjlt?=
- =?utf-8?B?VXNBUTRzTUVueHVDRE1PdlF3M2YxK2VUeGVHTVljMUM0Vm9DVmRkMWdnbE9N?=
- =?utf-8?B?QXMwMmJXRHN1RXR4c0xndnVzVitpUGY3Zmx5MDdDaGJxSTNYY1IrTStsbHM5?=
- =?utf-8?B?MTlGdDk2S2JhQlZxUW9YR0Z2Nk9jR1FoU1J4ekJuVVZFT2RtSWJSK0lxdVNT?=
- =?utf-8?B?bDlDeTlRQ0xVaklyaWgxYWFiaTdDY3dQS1gwelhMMUlFR0Vaa2NtbGVDd1lU?=
- =?utf-8?B?TEVENjA2dHpVYS9GT3F2cWw0WTZzWXJXYkF2aW4zb2VWR1BOM2UwV0d1blZs?=
- =?utf-8?B?b0haM2pZWmlGd0hBa2Y1aS9JcGNDZmdNZUVCdlgrNVA0Mlk3c3FwcitFalA1?=
- =?utf-8?B?OHkvYjUvRHJpNDdxTm4zVzMzdDJZUkNuY280V2thTHNoQmE4QVQ0cUdaa1E4?=
- =?utf-8?B?TCs3OXJQbVNKMVgxZ04xRGxobE03QmszaWZDd1k0UVhVVzJFVndHbEtXUlpJ?=
- =?utf-8?B?eDhlYWFSU1AwWStDS3czT3dMeHIwcmRiR2FlWUFNVHRLRlg3WmM0em02ckph?=
- =?utf-8?B?czFZYXlvYlpiSk1zekE3QXJNTUIrVFhxNWU0NWVJK3BMUFFJQzRDQ2hIU05i?=
- =?utf-8?B?KzBlOERUU1g2MlNvQVd2SDJaMjZRdllhZ1RybEEwekp2MCtPd1hFYng5MllN?=
- =?utf-8?B?RElpeUQ2MWJpbzVSYzVBbTh2d1kwZ1lreDdERmhaK0VPb1N2bWR3VmVabThi?=
- =?utf-8?B?Yk9NbkFBUXdmR1FRd2JRQWRsWVBuMjV2TitNVjVEaXMwOHlvcGlHSjNtM3dH?=
- =?utf-8?B?MnNiMmdaWGhYUHBGVVpGTVJQNHdLRExsZURmejdhSWtMKzQ4ZlNralprSUtm?=
- =?utf-8?B?Z2p4dENmbXNFeE8zblVmbk12ckExRWpydzBwd01qQzlHMUh6bCt0RlZJUE5s?=
- =?utf-8?B?MXp6WURUenYxb2l4UVZPejFJSGcwWmVBYkx3cFVrdk4rdHRrZnpwQ0F4L2Np?=
- =?utf-8?B?c2JLcXdhZTZwb0Z5SURRQ2NwODZxRW9UdXY2LzVoNm1HUXd3MUsvNmZjVHFv?=
- =?utf-8?B?UERCM0tJNE1sUGlibDRZekJIYmFZdWtwWFE0cjNrbi9HaFU2dU91d09NTWNk?=
- =?utf-8?B?bUE9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 84e4467d-cfd1-4326-3ee7-08da8615ecb9
-X-MS-Exchange-CrossTenant-AuthSource: CY4PR11MB1862.namprd11.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?a1hBNm9OaVdGZlFsaUR5djNSQ1o2SnNKWnVidUFTd1ZTYmJUQTlCZzlPWjVx?=
+ =?utf-8?B?NEtSbmxZYjFQeElFYkhMaVF3bWN4NFBJN1M1ekswekRKaXVBZjJEamZwTW5n?=
+ =?utf-8?B?OG5zQ3NORWl1blFCRmtoc1FBUGtCa2RvQ1pqRURMOEtsS2kxTmVwQVc2czli?=
+ =?utf-8?B?czF5dnI3YnhyQTh0Ulh2U2h1bUZRQkZUMWVKZzVSWFZBcGM5OHNWb1RNbXl2?=
+ =?utf-8?B?aG5FQUsyTHN1Q3dVU1dZSzBmVkQ0eFRZUGNQaURTeCttNklnQzAxYVhrZjRl?=
+ =?utf-8?B?MVRXZjU3M2RFL2xtL0ZOMGtDZ29jSG1wTW9CT0VBYmluc005K1JVTW1IK3Fx?=
+ =?utf-8?B?Y2dTbGhEU0JzWHBTbm1nakpPcGdsVW9vZmFqRmRXY0FnV2t5cnlpVXdLK3Yx?=
+ =?utf-8?B?a3VvZjRzWXRDVWlkcEM0VDc1Y2hXZHJYR1cvU25WdFczNVN0Q2pvQm10MTRQ?=
+ =?utf-8?B?UEZTYVRKRmNGYXFlNUpBR1BNL1ozZkg3b21UTGVyUnBrckwybkswWlRweFEz?=
+ =?utf-8?B?djhRVUx2Q0Fjb3ladnBsM01rRlR2ZHo0TklmOVFtS0FzN29WWU5FQUF0Y0FL?=
+ =?utf-8?B?dmpJVzVLYWJSeXNNSUF1OGoxMVBzUFl5Qk1PVVFPQnZPcVRMWVBZYldhR1Jn?=
+ =?utf-8?B?Nk5ZbmQwMjlacVkvRTg1MnZpT0JnWVpZNDhHbnpUclQ0ZmpuSVZsK2dqSSti?=
+ =?utf-8?B?T1JwdGdMazhjbkRDR2Fzem5PcThoMS80c2lFWUVmLzRkM2Z6OFExcDIyemR6?=
+ =?utf-8?B?RzhWQUF4TDZ0QkdkcGUxOFpRWk1LR3BFalJZVDdybnpZTkRpbVNsb1o0ZFoz?=
+ =?utf-8?B?cWVFVS9iVmo3R1JjdG9LdmExbmNnYzZzOTA0bHg0UHl5WUptYWxNMGVDZnFJ?=
+ =?utf-8?B?bm42MTZYcHBidFlEVUN2Vzk1RWFWUzQzTTd0ZDlPbXVXTld4QUxQaFU2OWlm?=
+ =?utf-8?B?aHNSYUM4UmNQV3RJNm5JVUpRWndzcmFMWkx1dHQ4clc0NERpM0R0RHZ1WjVR?=
+ =?utf-8?B?S1p3U01LZ0U4cjNKaGI2Z3k4N0NqNHI3Wk5DcmhvTkhoeEM2TlF1SHBZOWJV?=
+ =?utf-8?B?N2FtMnFFZS85TEhYc3EwZDVwUWpHQlZBSklNMmFaT2FYRVd2WTRCbW5RRWo1?=
+ =?utf-8?B?Vkd1NlBNQldMQnFVeGFqZktlQzZCa0Q3YzdwUXVwcHlFdklPQzFDb2x0Ky9H?=
+ =?utf-8?B?ZVB2SE55eWUrM3JUY0Z5YmFQc01rYjdpZTNqZlRQQ1Jjdnd1MXlEODF1TW1H?=
+ =?utf-8?B?cUtqQ2RibEJZM2ZlalA1TFJDMFlvajNqdEt3NVA0SExFSm5McmtmUXg2bk9w?=
+ =?utf-8?B?Q2NoNUl1dk5TR2hIWFVJNGIzcHVZV3Z3Z0drM3VtQUsrLzZsa0J2VXllMkdB?=
+ =?utf-8?B?ZU1vVS9JTHRCNjJWMTM3UUlvd1F1SjJJb2hMU3hHYVJaTkhvQTNDK09POTNw?=
+ =?utf-8?B?U1J5NzFaQWtLNXBVanB1aDF1RzlSUExVeENqMi9CZjhEM3pZd21rVHRaM3NI?=
+ =?utf-8?B?TnlMY09wengxUm5aazljTUxSUy9Mam5nWXZDd25yaXlhQW5mS1NsdU5QZU1B?=
+ =?utf-8?B?N1ZMdFhmVEt6ZXdveGcrd05VdW9jWFU0eGY1bHVMQmlZNDAyN2xtbkxqblJu?=
+ =?utf-8?B?Wm9jci9xMldGRlZNWTVBM1Rrc2Vrck9PaVoxUW5UVzNKQ2NNblpEWTdpVkVF?=
+ =?utf-8?B?Q2ZYZ05QN05LcjNrd0xnU0wxZm02QkxMMkFIdTU4R0FSNTNTcWFHUUt4UWpo?=
+ =?utf-8?B?U1dmRkl3ZGhJZmEwUjhQcW9EbkZPSXBYR29TeUhHR3VzM2VhMWlGck5oUFdB?=
+ =?utf-8?B?Yll2dnVGaWJDWXlFZHJHMngxZjN1MWpBOUxoK1ZjcXVRVC93TU1td0Z1UTJC?=
+ =?utf-8?B?dDI4WHJNWjcxSTlLaGd3alI2Mi9EUG5nREtxdlIvM05MT1ZMRHBTWWZTSFVO?=
+ =?utf-8?B?SHV5SnFUMmxwTllsRXRiY3hCRHp3bnhEYUNlbkpKZU9GdUZnanYyVzlZbSt1?=
+ =?utf-8?B?bVkwNnMxZVFnZ0RTY3RuZThtS0Z5N2p0U0FhQjM5UXBCU3Z6NS9HZGRidTJI?=
+ =?utf-8?B?NHpLbGlOdFJsZDM3VWhzZnl3dU5kTDgzZmVwc1BRd0R1K2NYcTY2Z28yNGVM?=
+ =?utf-8?Q?0I0eL0InS/RRilKyGH++SVqvE?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c84b96ef-6d36-4b79-5912-08da861bea1d
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR12MB4130.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Aug 2022 21:16:35.1594
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Aug 2022 21:59:27.8252
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: OubX42Cpbpgtqti1LRycY1xIkzjxY3ccrAYBMg4zZVfjTyo0LirPLVtP0wVLvUMahrEmXCI8B89F5xK2KgXDnrqcmAIfZD18AJRmgOB5L38=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB2713
-X-OriginatorOrg: intel.com
+X-MS-Exchange-CrossTenant-UserPrincipalName: 59q+8kcAnee4WpOp5lb4eHbnUBNQmiSlUCI1x/t6+nUP3rfKEJKfxoelTJsN8btWXvSyNKajIxDl0dh0Y35fGQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB3590
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Babu,
-
-On 8/22/2022 6:44 AM, Babu Moger wrote:
-> Add the sysfs interface to write the event configuration for the
-> MBM configurable events. The event configuration can be changed by
-> writing to the sysfs file for that specific event.
-> 
-> Following are the types of events supported.
-> ==================================================================
-> Bits    Description
-> 6       Dirty Victims from the QOS domain to all types of memory
-> 5       Reads to slow memory in the non-local NUMA domain
-> 4       Reads to slow memory in the local NUMA domain
-> 3       Non-temporal writes to non-local NUMA domain
-> 2       Non-temporal writes to local NUMA domain
-> 1       Reads to memory in the non-local NUMA domain
-> 0       Reads to memory in the local NUMA domain
-> 
-> By default the mbm_total_bytes configuration is set to 0x7f to count
-> all the types of events and mbm_local_bytes configuration is set to
-> 0x15 to count all the local memory events.
-> 
-> For example:
-> To change the mbm_total_bytes to count all the reads, run the command.
-> $echo  0x33 > /sys/fs/resctrl/mon_data/mon_L3_00/mbm_total_config
-> 
-> To change the mbm_local_bytes to count all the slow memory reads, run
-> the command.
-> $echo  0x30 > /sys/fs/resctrl/mon_data/mon_L3_00/mbm_local_config
-> 
-> Signed-off-by: Babu Moger <babu.moger@amd.com>
-> Reviewed-by: Ingo Molnar <mingo@kernel.org>
-> ---
->  arch/x86/kernel/cpu/resctrl/rdtgroup.c |  109 ++++++++++++++++++++++++++++++++
->  1 file changed, 109 insertions(+)
-> 
-> diff --git a/arch/x86/kernel/cpu/resctrl/rdtgroup.c b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-> index e1847d49fa15..83c8780726ff 100644
-> --- a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-> +++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-> @@ -323,9 +323,118 @@ int rdtgroup_mondata_config_show(struct seq_file *m, void *arg)
->  	return ret;
->  }
+On 8/24/22 09:30, David Hildenbrand wrote:
+> diff --git a/Documentation/process/coding-style.rst b/Documentation/process/coding-style.rst
+> index 03eb53fd029a..a6d81ff578fe 100644
+> --- a/Documentation/process/coding-style.rst
+> +++ b/Documentation/process/coding-style.rst
+> @@ -1186,6 +1186,33 @@ expression used.  For instance:
+>  	#endif /* CONFIG_SOMETHING */
 >  
-> +/*
-> + * This is called via IPI to read the CQM/MBM counters
-> + * in a domain.
-> + */
-> +void mon_event_config_write(void *info)
-> +{
-> +	union mon_data_bits *md = info;
-> +	u32 evtid = md->u.evtid;
-> +	u32 msr_index;
-> +
-> +	switch (evtid) {
-> +	case QOS_L3_MBM_TOTAL_EVENT_ID:
-> +		msr_index = 0;
-> +		break;
-> +	case QOS_L3_MBM_LOCAL_EVENT_ID:
-> +		msr_index = 1;
-> +		break;
-> +	default:
-> +		return; /* Not expected to come here */
 
-Please no inline comments.
+I like the idea of adding this documentation, and this is the right
+place. Naturally, if one likes something, one must immediately change
+it. :) Therefore, here is an alternative writeup that I think captures
+what you and the email threads were saying.
 
-> +	}
-> +
-> +	wrmsr(MSR_IA32_EVT_CFG_BASE + msr_index, md->u.mon_config, 0);
-> +}
-> +
-> +ssize_t  rdtgroup_mondata_config_write(struct kernfs_open_file *of,
-> +				       char *buf, size_t nbytes, loff_t off)
-> +{
-> +	struct rdt_hw_resource *hw_res;
-> +	struct rdtgroup *rdtgrp;
-> +	struct rdt_resource *r;
-> +	unsigned int mon_config;
-> +	cpumask_var_t cpu_mask;
-> +	union mon_data_bits md;
-> +	struct rdt_domain *d;
-> +	u32 resid, domid;
-> +	int ret = 0, cpu;
-> +
-> +	ret = kstrtouint(buf, 0, &mon_config);
-> +	if (ret)
-> +		return ret;
-> +
-> +	rdt_last_cmd_clear();
-> +
-> +	/* mon_config cannot be more than the supported set of events */
-> +	if (mon_config > GENMASK(6, 0)) {
+How's this sound?
 
-Could this "GENMASK()" be given a name and be moved closer to where
-the bits are defined in internal.h? This will be easier to read and if any
-new bits are added it would hopefully be noticed more easily to get
-an update also.
-
-> +		rdt_last_cmd_puts("Invalid event configuration\n");
-> +		return -EINVAL;
-> +	}
-> +
-> +	cpus_read_lock();
-> +	rdtgrp = rdtgroup_kn_lock_live(of->kn);
-> +	if (!rdtgrp) {
-> +		return -ENOENT;
-> +		goto e_unlock;
-> +	}
-> +
-> +	if (!zalloc_cpumask_var(&cpu_mask, GFP_KERNEL)) {
-> +		ret = -ENOMEM;
-> +		goto e_unlock;
-> +	}
-> +
-> +
-> +	md.priv = of->kn->priv;
-> +	resid = md.u.rid;
-> +	domid = md.u.domid;
-> +
-> +	hw_res = &rdt_resources_all[resid];
-> +	r = &hw_res->r_resctrl;
-> +	d = rdt_find_domain(r, domid, NULL);
-> +	if (IS_ERR_OR_NULL(d)) {
-> +		ret = -ENOENT;
-> +		goto e_cpumask;
-> +	}
-> +
-> +	md.u.mon_config = mon_config & 0xFF;
-
-Same question as previous patch. I do not see this internal
-value used in the code, is storing it necessary?
-
-> +
-> +	/* Pick all the CPUs in the domain instance */
-> +	for_each_cpu(cpu, &d->cpu_mask)
-> +		cpumask_set_cpu(cpu, cpu_mask);
-> +
-> +	cpu = get_cpu();
-> +	/* Update MSR_IA32_EVT_CFG_BASE MSR on this cpu if it's in cpu_mask */
-
-Please always use caps for CPU.
-
-> +	if (cpumask_test_cpu(cpu, cpu_mask))
-> +		mon_event_config_write(&md);
-> +
-> +	/* Update MSR_IA32_EVT_CFG_BASE MSR on all other cpus in cpu_mask */
-> +	smp_call_function_many(cpu_mask, mon_event_config_write, &md, 1);
-> +	put_cpu();
-
-I do not think we need to propagate this pattern more in the resctrl code.
-How about on_each_cpu_mask()? 
-
-> +
-> +	/*
-> +	 * When an Event Configuration is changed, the bandwidth counters
-> +	 * for all RMIDs and Events will be cleared, and the U-bit for every
-> +	 * RMID will be set on the next read to any BwEvent for every RMID.
-> +	 * Clear the mbm_local and mbm_total counts for all the RMIDs.
-> +	 */
-> +	memset(d->mbm_local, 0, sizeof(struct mbm_state) * r->num_rmid);
-> +	memset(d->mbm_total, 0, sizeof(struct mbm_state) * r->num_rmid);
-
-Could you please check if this is sufficient? Note how "mon_event_read()"
-is called with "first = true" right after the mon sysfs files are created to
-clear the state _and_ initialize the state to set the "prev" MSRs correctly.
+diff --git a/Documentation/process/coding-style.rst b/Documentation/process/coding-style.rst
+index 03eb53fd029a..32df0d503388 100644
+--- a/Documentation/process/coding-style.rst
++++ b/Documentation/process/coding-style.rst
+@@ -1185,6 +1185,53 @@ expression used.  For instance:
+        ...
+        #endif /* CONFIG_SOMETHING */
+ 
++22) Do not crash the kernel
++---------------------------
++
++Use WARN() rather than BUG()
++****************************
++
++Do not add new code that uses any of the BUG() variants, such as BUG(),
++BUG_ON(), or VM_BUG_ON(). Instead, use a WARN*() variant, preferably
++WARN_ON_ONCE(), and possibly with recovery code. Recovery code is not required
++if there is no reasonable way to at least partially recover.
++
++Use WARN_ON_ONCE() rather than WARN() or WARN_ON()
++**************************************************
++
++WARN_ON_ONCE() is generally preferred over WARN() or WARN_ON(), because it is
++common for a given warning condition, if it occurs at all, to occur multiple
++times. (For example, once per file, or once per struct page.) This can fill up
++and wrap the kernel log, and can even slow the system enough that the excessive
++logging turns into its own, additional problem.
++
++Do not WARN lightly
++*******************
++
++WARN*() is intended for unexpected, this-should-never-happen situations. WARN*()
++macros are not to be used for anything that is expected to happen during normal
++operation. These are not pre- or post-condition asserts, for example. Again:
++WARN*() must not be used for a condition that is expected to trigger easily, for
++example, by user space actions. pr_warn_once() is a possible alternative, if you
++need to notify the user of a problem.
++
++Do not worry about panic_on_warn users
++**************************************
++
++A few more words about panic_on_warn: Remember that ``panic_on_warn`` is an
++available kernel option, and that many users set this option. This is why there
++is a "Do not WARN lightly" writeup, above. However, the existence of
++panic_on_warn users is not a valid reason to avoid the judicious use WARN*().
++That is because, whoever enables panic_on_warn has explicitly asked the kernel
++to crash if a WARN*() fires, and such users must be prepared to deal with the
++consequences of a system that is somewhat more likely to crash.
++
++Use BUILD_BUG_ON() for compile-time assertions
++**********************************************
++
++The use of BUILD_BUG_ON() is acceptable and encouraged, because it is a
++compile-time assertion that has no effect at runtime.
 
 
-> +
-> +e_cpumask:
-> +	free_cpumask_var(cpu_mask);
-> +
-> +e_unlock:
-> +	rdtgroup_kn_unlock(of->kn);
-> +	cpus_read_unlock();
-> +
-> +	return ret ?: nbytes;
-> +}
-> +
->  static const struct kernfs_ops kf_mondata_config_ops = {
->  	.atomic_write_len       = PAGE_SIZE,
->  	.seq_show               = rdtgroup_mondata_config_show,
-> +	.write                  = rdtgroup_mondata_config_write,
->  };
->  
->  static bool is_cpu_list(struct kernfs_open_file *of)
-> 
-> 
+thanks,
 
-Reinette
+-- 
+John Hubbard
+NVIDIA
