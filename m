@@ -2,122 +2,129 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 10E07C3F6B0
-	for <linux-doc@archiver.kernel.org>; Wed, 24 Aug 2022 11:56:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C5FB2C00140
+	for <linux-doc@archiver.kernel.org>; Wed, 24 Aug 2022 12:49:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236657AbiHXL4y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 24 Aug 2022 07:56:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42916 "EHLO
+        id S236064AbiHXMtD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 24 Aug 2022 08:49:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46956 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234085AbiHXL4x (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Aug 2022 07:56:53 -0400
-Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com [66.111.4.224])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9102889906;
-        Wed, 24 Aug 2022 04:56:49 -0700 (PDT)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-        by mailnew.nyi.internal (Postfix) with ESMTP id EE9B2580E11;
-        Wed, 24 Aug 2022 07:56:48 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute3.internal (MEProxy); Wed, 24 Aug 2022 07:56:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=benboeckel.net;
-         h=cc:cc:content-type:date:date:from:from:in-reply-to
-        :in-reply-to:message-id:mime-version:references:reply-to
-        :reply-to:sender:subject:subject:to:to; s=fm3; t=1661342208; x=
-        1661349408; bh=kuW/qG4JUmJmu4VzPx61uemjjFalqwyag3kx6XOqPOE=; b=o
-        pzymONiwjq65ETafTTr380XapsmSk8TEgFCze/PUAxebjOab59cPNdRbW5I2P5Gc
-        nPQKG4YPRvE++LJQ7/t27UluedPOuvs7txqtYryRE+szjSSAdEz19GlMLM1fa1p6
-        Lg/mfnoslm76AnTcRYz7PmDQ5au0tb4YrubBbqIOCcVqACJIEF1WwW2wzdBGfYTH
-        BXkh+6ZCAdLIsKeQVByEzhFgw3NWWTIOIlCMIEHIQH1MV5kOQRubdSY99Qj/x+wX
-        a6Z931m4w51+xL+9hCbzbx9OFA/lOBTWB6kJ5BgCfd1Y/F2Y8xHr7Dw72Drfi2s2
-        wPa7i8fGjQDU2jFbAkIUA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
-        :mime-version:references:reply-to:reply-to:sender:subject
-        :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-        :x-sasl-enc; s=fm1; t=1661342208; x=1661349408; bh=kuW/qG4JUmJmu
-        4VzPx61uemjjFalqwyag3kx6XOqPOE=; b=BKd1EmuvOpNnAIpXPJJFjSIkFigeG
-        5WPP3Ibfqgn6f+nabolef24CZ62iA40nUXTpU69mHIajgRUJeaPdZKqeeRby1+7R
-        OImR1Cgp49wc6MKbmxueF2Z4rhcVmtBgvDlP/buckg88nSZoV8AGAqyo74MWqQWf
-        cL1vExQMPfwMqwL+3Wstn11DI/v16iRCvmxGkFPGKdv8aY0nVGLRVfm80jl6tV9K
-        qPyRmPnvGD414awHxysN3ma/36/3b0er2sKgT8h0nmLSufblmsK3v4OnfSTC95+6
-        BcUAijw6ggfn3y6AtnoNC1NJ9cKi4J9GoNmGp1ALRk7N50KuUdDpNfyuA==
-X-ME-Sender: <xms:_xEGY0_3uaGI0slJdDTlozWfU31KwX4m5ySru_WAamPhEnUYzqSV-A>
-    <xme:_xEGY8tiKbf9JBRjzog0znkRGzDefHS3WnHdFVEBCMKmsLdH9SQJ6b2uc62_Qe1xZ
-    cV2XmWuz87kQXoF2PE>
-X-ME-Received: <xmr:_xEGY6DK5T_2PH1z13eyzdjJ9YNA8GuZGlXSmB5eqnWH6GQ4xp9GjLffVaerb7T17LbiNi7_s13F35Zf7pRmNE5f4cKJTeCsrgM7>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdejuddggeejucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvfevuffkrhhfgggtuggjfgesthdtredttderjeenucfhrhhomhepuegv
-    nhcuuehovggtkhgvlhcuoehmvgessggvnhgsohgvtghkvghlrdhnvghtqeenucggtffrrg
-    htthgvrhhnpeduteehgfefudfffeelfffhheejgfdvfffhledvueekudeuieegueejieff
-    vdeigeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    hmvgessggvnhgsohgvtghkvghlrdhnvght
-X-ME-Proxy: <xmx:_xEGY0dyRnm6I5p5ONdvswQuoH911Qcv4k4ImGelq3Uch2wdQt5f_w>
-    <xmx:_xEGY5M2YhW9IUMVZJ6XQ-y_7KCZgHrFbMNy0dM51kOr9oKnXhoY0w>
-    <xmx:_xEGY-nqQ6Kt_ul1NcmJNFISyhWSNz1xNbbNexnw5rJRg1E6x27NzA>
-    <xmx:ABIGYw_lH9x1hUhEBWjBASxkZJlyL74M8KEWiyffntejBaufUpUfTA>
-Feedback-ID: iffc1478b:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 24 Aug 2022 07:56:47 -0400 (EDT)
-Date:   Wed, 24 Aug 2022 07:56:46 -0400
-From:   Ben Boeckel <me@benboeckel.net>
-To:     Evan Green <evgreen@chromium.org>
-Cc:     linux-kernel@vger.kernel.org, gwendal@chromium.org,
-        Eric Biggers <ebiggers@kernel.org>,
-        Matthew Garrett <mgarrett@aurora.tech>, jarkko@kernel.org,
-        zohar@linux.ibm.com, linux-integrity@vger.kernel.org,
-        Pavel Machek <pavel@ucw.cz>, apronin@chromium.org,
-        dlunev@google.com, rjw@rjwysocki.net, linux-pm@vger.kernel.org,
-        corbet@lwn.net, jejb@linux.ibm.com,
-        Matthew Garrett <matthewgarrett@google.com>,
-        Matthew Garrett <mjg59@google.com>,
-        David Howells <dhowells@redhat.com>,
-        James Morris <jmorris@namei.org>,
-        Paul Moore <paul@paul-moore.com>,
-        "Serge E. Hallyn" <serge@hallyn.com>, keyrings@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-security-module@vger.kernel.org
-Subject: Re: [PATCH v2 04/10] security: keys: trusted: Allow storage of PCR
- values in creation data
-Message-ID: <YwYR/rzvrkvgZzBm@farprobe>
-Reply-To: list.lkml.keyrings@me.benboeckel.net
-References: <20220823222526.1524851-1-evgreen@chromium.org>
- <20220823152108.v2.4.I32591db064b6cdc91850d777f363c9d05c985b39@changeid>
+        with ESMTP id S237170AbiHXMs4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Aug 2022 08:48:56 -0400
+Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C34094EC5;
+        Wed, 24 Aug 2022 05:48:54 -0700 (PDT)
+Received: by mail-pl1-x629.google.com with SMTP id 20so15571352plo.10;
+        Wed, 24 Aug 2022 05:48:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc;
+        bh=3OQD2+oSTaOvMGB6cXQRW5a+Su7VAZ4WsnuVjsdDDzM=;
+        b=SOLX/QZmuIMPp/2Uy5E2CSAvHb3+m0SzUirILcS/EyK012Umz3AIw5jq35bTeKP/W3
+         8hj9kX7BOqCt8zpWftYwwOYR2DAHqy6PKJltIDwnlvBb/VXcpefOZScCwgSFGU2BwMSA
+         lEpxytTHRX6mJkCbRObicYCiC9EGxuBd4YgVLSmc7AwAm4sSue60aeoDTZXDzwE5HW0y
+         auNxftyQXFx6uaXUtp0c7D8IxLutVaWbbIZb9CxGA6BvUWGENUIzvInwHLHfTrQSPpVI
+         dl2go6my+QL5J7TOPuGz5Uz9RgDAE4D2BFvB9u+HJMX6WWXP7qNC5/I2y3g3miYcKnRE
+         6Gew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
+        bh=3OQD2+oSTaOvMGB6cXQRW5a+Su7VAZ4WsnuVjsdDDzM=;
+        b=cqoHtF7RqCahc5hWqar9lX+3vsI1RSL2r/i+7sgIfTzWtJijPspRFvUaJyXayF8uY/
+         sXRLngEgfsP8XrPPwwLRFOFMkfccSceSspmkKV4Yd/WF0AgZWp0byU3jiBGjAgLQQoCE
+         NdQWnFzfWBPRykzrBx1HQB5dRmzXUN3FEa9LWIhkX7xK9JX5THWl0rLaj+7Xx7XukL+f
+         tRcwtPB/sb9Wlge6o17qcwTafo9CbhMQ8TH6MAaYBwwFBlwcoeiq5r1EGo6Ukivl7lDw
+         7j4mxGEVQd9u/jjInaSwuu0BocAhoN8qd9PQaaWDt+fuPtUiCzfirrz6b5ybuNLSLUMx
+         4xnA==
+X-Gm-Message-State: ACgBeo1C3RjbWV9OQmFO7pNE+bIeHYvHisjzWBVGZUIMdiDRMxND/7ma
+        BoN2UdGsxG9UBwZfl+rNFnY=
+X-Google-Smtp-Source: AA6agR7i2f7HdP9QZhENuohXe5QBXSpJvJM6qjCdMoq6KBiyK5/RzX1er86DvyF8scdrDgu1w7RwIA==
+X-Received: by 2002:a17:902:a982:b0:170:d646:5851 with SMTP id bh2-20020a170902a98200b00170d6465851mr29526104plb.134.1661345333276;
+        Wed, 24 Aug 2022 05:48:53 -0700 (PDT)
+Received: from localhost.localdomain ([193.203.214.57])
+        by smtp.gmail.com with ESMTPSA id e6-20020a17090a7c4600b001ef81574355sm1318786pjl.12.2022.08.24.05.48.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 24 Aug 2022 05:48:53 -0700 (PDT)
+From:   xu xin <cgel.zte@gmail.com>
+X-Google-Original-From: xu xin <xu.xin16@zte.com.cn>
+To:     akpm@linux-foundation.org, corbet@lwn.net
+Cc:     bagasdotme@gmail.com, adobriyan@gmail.com, willy@infradead.org,
+        hughd@google.com, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+        linux-doc@vger.kernel.org, xu xin <xu.xin16@zte.com.cn>,
+        Xiaokai Ran <ran.xiaokai@zte.com.cn>,
+        Yang Yang <yang.yang29@zte.com.cn>
+Subject: [PATCH v4 2/2] ksm: add profit monitoring documentation
+Date:   Wed, 24 Aug 2022 12:48:46 +0000
+Message-Id: <20220824124846.223217-1-xu.xin16@zte.com.cn>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220824124512.223103-1-xu.xin16@zte.com.cn>
+References: <20220824124512.223103-1-xu.xin16@zte.com.cn>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220823152108.v2.4.I32591db064b6cdc91850d777f363c9d05c985b39@changeid>
-User-Agent: Mutt/2.2.6 (2022-06-05)
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Aug 23, 2022 at 15:25:20 -0700, Evan Green wrote:
-> diff --git a/Documentation/security/keys/trusted-encrypted.rst b/Documentation/security/keys/trusted-encrypted.rst
-> index 0bfb4c33974890..dc9e11bb4824da 100644
-> --- a/Documentation/security/keys/trusted-encrypted.rst
-> +++ b/Documentation/security/keys/trusted-encrypted.rst
-> @@ -199,6 +199,10 @@ Usage::
->         policyhandle= handle to an authorization policy session that defines the
->                       same policy and with the same hash algorithm as was used to
->                       seal the key.
-> +       creationpcrs= hex integer representing the set of PCR values to be
-> +                     included in the PCR creation data. The bit corresponding
-> +		     to each PCR should be 1 to be included, 0 to be ignored.
-> +		     TPM2 only.
+Add the description of KSM profit and how to determine it separately
+in system-wide range and inner a single process.
 
-There's inconsistent whitespace here. Given the context, I suspect the
-tabs should be expanded to spaces.
+Signed-off-by: xu xin <xu.xin16@zte.com.cn>
+Reviewed-by: Xiaokai Ran <ran.xiaokai@zte.com.cn>
+Reviewed-by: Yang Yang <yang.yang29@zte.com.cn>
+---
+ Documentation/admin-guide/mm/ksm.rst | 36 ++++++++++++++++++++++++++++
+ 1 file changed, 36 insertions(+)
 
-As for the docs themselves, this might preferrably mention how large
-this is supposed to be. It seems to be limited to 32bits by the code.
-What happens if fewer are provided? More? Will there always be at most
-32 PCR values? Also, how are the bits interpreted? I presume bit 0 is
-for PCR value 0?
+diff --git a/Documentation/admin-guide/mm/ksm.rst b/Documentation/admin-guide/mm/ksm.rst
+index b244f0202a03..c2893027cbe6 100644
+--- a/Documentation/admin-guide/mm/ksm.rst
++++ b/Documentation/admin-guide/mm/ksm.rst
+@@ -184,6 +184,42 @@ The maximum possible ``pages_sharing/pages_shared`` ratio is limited by the
+ ``max_page_sharing`` tunable. To increase the ratio ``max_page_sharing`` must
+ be increased accordingly.
+ 
++Monitoring KSM profit
++=====================
++
++KSM can save memory by merging identical pages, but also can consume
++additional memory, because it needs to generate a number of rmap_items to
++save each scanned page's brief rmap information. Some of these pages may
++be merged, but some may not be abled to be merged after being checked
++several times, which are unprofitable memory consumed.
++
++1) How to determine whether KSM save memory or consume memory in system-wide
++   range? Here is a simple approximate calculation for reference::
++
++	general_profit =~ pages_sharing * sizeof(page) - (all_rmap_items) *
++			  sizeof(rmap_item);
++
++   where all_rmap_items can be easily obtained by summing ``pages_sharing``,
++   ``pages_shared``, ``pages_unshared`` and ``pages_volatile``.
++
++2) The KSM profit inner a single process can be similarly obtained by the
++   following approximate calculation::
++
++	process_profit =~ ksm_merging_pages * sizeof(page) -
++			  ksm_rmp_items * sizeof(rmap_item).
++
++   where both ksm_merging_pages and ksm_rmp_items are shown under the
++   directory ``/proc/<pid>/``.
++
++From the perspective of application, a high ratio of ``ksm_rmp_items`` to
++``ksm_merging_pages`` means a bad madvise-applied policy, so developers or
++administrators have to rethink how to change madvise policy. Giving an example
++for reference, a page's size is usually 4K, and the rmap_item's size is
++separately 32B on 32-bit CPU architecture and 64B on 64-bit CPU architecture.
++so if the ``ksm_rmp_items/ksm_merging_pages`` ratio exceeds 64 on 64-bit CPU
++or exceeds 128 on 32-bit CPU, then the app's madvise policy should be dropped,
++because the ksm profit is approximately zero or negative.
++
+ Monitoring KSM events
+ =====================
+ 
+-- 
+2.25.1
 
-Thanks for including docs.
-
-Thanks,
-
---Ben
