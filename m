@@ -2,216 +2,165 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F357C32796
-	for <linux-doc@archiver.kernel.org>; Wed, 24 Aug 2022 09:57:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2BED2C32793
+	for <linux-doc@archiver.kernel.org>; Wed, 24 Aug 2022 09:59:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230492AbiHXJ5P (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 24 Aug 2022 05:57:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60862 "EHLO
+        id S235876AbiHXJ7t (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 24 Aug 2022 05:59:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34340 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233796AbiHXJ5N (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Aug 2022 05:57:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B13B979698
-        for <linux-doc@vger.kernel.org>; Wed, 24 Aug 2022 02:57:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1661335031;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=67TcKJ9jWGMiEw4kg52hWXxqV/N5/I9VlmIszyd4tqI=;
-        b=bvEH1HGHJzdiAwtzVRPh+TAAZYPV+PosX4ArREjQzdBJtfLhHWdA0rKu+IBplUWWLdi3KP
-        KOl4Kp2N+zIw55D92Rztwuy/5yRFSFsga+WZ/C+nc9WbFRF8p1lvZ/hlYfje/qU1fm4yrv
-        z5+M5Cr+ZPeqJhs87I+8h8M5Bfp+rEw=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-618-L4Uu0iBXNXC692oK37FYQQ-1; Wed, 24 Aug 2022 05:57:10 -0400
-X-MC-Unique: L4Uu0iBXNXC692oK37FYQQ-1
-Received: by mail-wr1-f72.google.com with SMTP id c22-20020adfa316000000b0022574c2dc1aso76462wrb.2
-        for <linux-doc@vger.kernel.org>; Wed, 24 Aug 2022 02:57:10 -0700 (PDT)
+        with ESMTP id S236375AbiHXJ7r (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Aug 2022 05:59:47 -0400
+Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com [IPv6:2a00:1450:4864:20::634])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 634CE29B
+        for <linux-doc@vger.kernel.org>; Wed, 24 Aug 2022 02:59:44 -0700 (PDT)
+Received: by mail-ej1-x634.google.com with SMTP id gt3so20058284ejb.12
+        for <linux-doc@vger.kernel.org>; Wed, 24 Aug 2022 02:59:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cmpxchg-org.20210112.gappssmtp.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc;
+        bh=KDrwIuEhT+5ed/QHPncJMrlSCfotDJCP28NTdWL4Z+8=;
+        b=FUdbq4Ey9WfkBGooYh1jtUkdsUaCaWZPuwYV3PkH7QaJ6rIuPi95KEyNjCkcKjaUhs
+         pIAD/64crbo5hfuYw7IQnI5SE/VWZojQajcqMjOBLaHqJtPnCBS5+FQay9YxHB2pgLLm
+         qMLo5SLvf/bh9qEVLS4tH+aah2FYaseQaxsjwzA62Hu5QnonD+hFcmPFH82kW4mDQaUX
+         +ZzYA1UtkfEokBQiNK7TMxkke0mamFuB3H9psq4TU0e95ZwOQc6fBIQL7Fzq/BdOSDP5
+         AzyQeD2ztdmWD7M3Eti7MaeFc/MXhS4skbQhVSvgxhgzwUCDIxFluMVEwvKGA1iYeCqm
+         FtPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:references:cc:to:from
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc;
-        bh=67TcKJ9jWGMiEw4kg52hWXxqV/N5/I9VlmIszyd4tqI=;
-        b=LSO+id0US4+6QbJR1sOAZiOwrcNNvJWn13iw6wHFeBKbhRYxFP4/776FhyS3/e8c0f
-         kdeHhKjpjBtH+JpaBofeIiYacAFwtPrS60AvqwQnCM2u5YJ80iv3pCvKExNn7WYPNBZd
-         Gjfs7hgpRXKKnNk8+uLKlsVKnSWAleYjNYVMqavS0vrQNBagaWtCpHf9HBWfmUisQ10x
-         zrgYJgzAaKK9uOO907WEQFhycXNJcZZAyO8jfV/2upkUJxEstsda3mr/+abMjZJnAqkq
-         jA2Pe78GrdFdbqoJo2qyyuRKKXpWlJBL5mc+F96DpZARCuhUwfHpJCMeNWsJ6SSN7Crq
-         nhOg==
-X-Gm-Message-State: ACgBeo23roFEED8ectnDsFu5gfdNoYhvjasj8EBRjQQ4s75R8LG6vxK6
-        jJ+++VGeWFMsKiVX+muIOfHNqo46LPW2n6bYBui1VepWrlb8i7mRxzM1A4BrMaeA6zC4STUfy9n
-        mmzWPgAkDSEW8VqfOLAee
-X-Received: by 2002:a05:6000:606:b0:225:7264:8f06 with SMTP id bn6-20020a056000060600b0022572648f06mr985427wrb.27.1661335029400;
-        Wed, 24 Aug 2022 02:57:09 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR4gyv5u3qg2yLq2zqzn2c9wgxUKEY2z8IPI+Y201XRbuYkIl5QRMnrv7NBI5d1k0Z7rQs+kWw==
-X-Received: by 2002:a05:6000:606:b0:225:7264:8f06 with SMTP id bn6-20020a056000060600b0022572648f06mr985403wrb.27.1661335029194;
-        Wed, 24 Aug 2022 02:57:09 -0700 (PDT)
-Received: from [192.168.110.200] (82-65-22-26.subs.proxad.net. [82.65.22.26])
-        by smtp.gmail.com with ESMTPSA id z13-20020a5d44cd000000b00222ed7ea203sm16236679wrr.100.2022.08.24.02.57.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 24 Aug 2022 02:57:08 -0700 (PDT)
-Message-ID: <5bba0f0e-544e-85ef-627b-6dd35244871a@redhat.com>
-Date:   Wed, 24 Aug 2022 11:57:07 +0200
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
+        bh=KDrwIuEhT+5ed/QHPncJMrlSCfotDJCP28NTdWL4Z+8=;
+        b=yA70O78KM6gOf4f4IT5mxsl2sRMsa118QjnqY2Tdc5K0sQ83C4KS7M+gPBkCxid/uL
+         1JZrkHxGD5jP+vEAev3pm7DPqvQPywmGkQqF9Qq2nk6k76qwZhj0aqk+EcQS1RWkeQ/a
+         xFKu/OU9Pc28RbY0pQwxIltxKqZ5UKDu/m20mcuVRW0hk8mZ2BcfX4dZvRPIk+2sK1Df
+         6W35k1scXTCbdrc6YTCUqGG1g8219OVfEGPINTRYR8jT/5+QP72an9gXcOAZ4bSrjRYw
+         pmTiA1SadewIq/YDDI+HcJ2c+3Jabl47MapgTF4gCKhQu7x0Iu4NllhW0hZSXguXm65q
+         S3iw==
+X-Gm-Message-State: ACgBeo2AMGUJ6eabrG7putFBoKKWTYRwcEhvwE9anmI1gUoAHF2Trjo+
+        nvmfTRFbW+gxy8xs0uZWFrkmHbk7zoyocxn/9mY=
+X-Google-Smtp-Source: AA6agR4ON0AirUp+ldMgYG/5RQsnHb+A553EVcg1HVAwwv4Hce3qfQdtqarSlYV26Z9mLDludtLbug==
+X-Received: by 2002:a17:907:628a:b0:72f:678d:6047 with SMTP id nd10-20020a170907628a00b0072f678d6047mr2382383ejc.456.1661335182638;
+        Wed, 24 Aug 2022 02:59:42 -0700 (PDT)
+Received: from localhost ([2a02:8070:6389:a4c0:2ca9:6d59:782b:fff3])
+        by smtp.gmail.com with ESMTPSA id f2-20020a17090631c200b006fee7b5dff2sm938817ejf.143.2022.08.24.02.59.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 24 Aug 2022 02:59:42 -0700 (PDT)
+Date:   Wed, 24 Aug 2022 05:59:40 -0400
+From:   Johannes Weiner <hannes@cmpxchg.org>
+To:     Chengming Zhou <zhouchengming@bytedance.com>
+Cc:     tj@kernel.org, mkoutny@suse.com, surenb@google.com,
+        gregkh@linuxfoundation.org, corbet@lwn.net, mingo@redhat.com,
+        peterz@infradead.org, songmuchun@bytedance.com,
+        cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 10/10] sched/psi: per-cgroup PSI accounting
+ disable/re-enable interface
+Message-ID: <YwX2jC2UQ/zeY2E8@cmpxchg.org>
+References: <20220824081829.33748-1-zhouchengming@bytedance.com>
+ <20220824081829.33748-11-zhouchengming@bytedance.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH bpf-next v8 02/24] bpf/verifier: allow kfunc to read user
- provided context
-Content-Language: en-US
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-To:     Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Cc:     Greg KH <gregkh@linuxfoundation.org>,
-        Jiri Kosina <jikos@kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        Kumar Kartikeya Dwivedi <memxor@gmail.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>, Shuah Khan <shuah@kernel.org>,
-        Dave Marchevsky <davemarchevsky@fb.com>,
-        Joe Stringer <joe@cilium.io>, Jonathan Corbet <corbet@lwn.net>,
-        Tero Kristo <tero.kristo@linux.intel.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        Network Development <netdev@vger.kernel.org>,
-        bpf <bpf@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-References: <20220721153625.1282007-3-benjamin.tissoires@redhat.com>
- <20220722084556.1342406-1-benjamin.tissoires@redhat.com>
- <CAADnVQLypx8Yd7L4GByGNEJaWgg0R6ukNV9hz0ge1+ZdW4mdgQ@mail.gmail.com>
- <CAO-hwJK5v8An5W48x2TDH=iNb49iEbC8uGwMbdCak0Bjnmea+w@mail.gmail.com>
-In-Reply-To: <CAO-hwJK5v8An5W48x2TDH=iNb49iEbC8uGwMbdCak0Bjnmea+w@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220824081829.33748-11-zhouchengming@bytedance.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hi Chengming,
 
+Thanks for incorporating all the feedback. I have a few nitpicks
+below, but with those considered, please add:
 
-On 7/25/22 18:36, Benjamin Tissoires wrote:
-> On Fri, Jul 22, 2022 at 6:16 PM Alexei Starovoitov
-> <alexei.starovoitov@gmail.com> wrote:
->>
->> On Fri, Jul 22, 2022 at 1:46 AM Benjamin Tissoires
->> <benjamin.tissoires@redhat.com> wrote:
->>>
->>> When a kfunc was trying to access data from context in a syscall eBPF
->>> program, the verifier was rejecting the call.
->>> This is because the syscall context is not known at compile time, and
->>> so we need to check this when actually accessing it.
->>>
->>> Check for the valid memory access and allow such situation to happen.
->>>
->>> Acked-by: Kumar Kartikeya Dwivedi <memxor@gmail.com>
->>> Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
->>>
->>> ---
->>>
->>> changes in v8:
->>> - fixup comment
->>> - return -EACCESS instead of -EINVAL for consistency
->>>
->>> changes in v7:
->>> - renamed access_t into atype
->>> - allow zero-byte read
->>> - check_mem_access() to the correct offset/size
->>>
->>> new in v6
->>> ---
->>>   kernel/bpf/verifier.c | 21 +++++++++++++++++++++
->>>   1 file changed, 21 insertions(+)
->>>
->>> diff --git a/kernel/bpf/verifier.c b/kernel/bpf/verifier.c
->>> index 7c1e056624f9..c807c5d7085a 100644
->>> --- a/kernel/bpf/verifier.c
->>> +++ b/kernel/bpf/verifier.c
->>> @@ -248,6 +248,7 @@ struct bpf_call_arg_meta {
->>>          struct bpf_map *map_ptr;
->>>          bool raw_mode;
->>>          bool pkt_access;
->>> +       bool is_kfunc;
->>>          u8 release_regno;
->>>          int regno;
->>>          int access_size;
->>> @@ -5170,6 +5171,7 @@ static int check_helper_mem_access(struct bpf_verifier_env *env, int regno,
->>>                                     struct bpf_call_arg_meta *meta)
->>>   {
->>>          struct bpf_reg_state *regs = cur_regs(env), *reg = &regs[regno];
->>> +       enum bpf_prog_type prog_type = resolve_prog_type(env->prog);
->>>          u32 *max_access;
->>>
->>>          switch (base_type(reg->type)) {
->>> @@ -5223,6 +5225,24 @@ static int check_helper_mem_access(struct bpf_verifier_env *env, int regno,
->>>                                  env,
->>>                                  regno, reg->off, access_size,
->>>                                  zero_size_allowed, ACCESS_HELPER, meta);
->>> +       case PTR_TO_CTX:
->>> +               /* in case of a kfunc called in a program of type SYSCALL, the context is
->>> +                * user supplied, so not computed statically.
->>> +                * Dynamically check it now
->>> +                */
->>> +               if (prog_type == BPF_PROG_TYPE_SYSCALL && meta && meta->is_kfunc) {
->>
->> prog_type check looks a bit odd here.
->> Can we generalize with
->> if (!env->ops->convert_ctx_access
-> 
-> Yep, seems to be working fine for my use case and the test cases I
-> have in this series.
-> 
->>
->> In other words any program type that doesn't have ctx rewrites can
->> use helpers to access ctx fields ?
->>
->> Also why kfunc only?
->> It looks safe to allow normal helpers as well.
-> 
-> Well, not sure what is happening here, but if I remove the check for
-> kfunc, the test for PTR_TO_CTX == NULL and size == 0 gives me a
-> -EINVAL.
+Acked-by: Johannes Weiner <hannes@cmpxchg.org>
 
-I finally managed to track down the issue.
+On Wed, Aug 24, 2022 at 04:18:29PM +0800, Chengming Zhou wrote:
+> @@ -5171,12 +5220,19 @@ static struct cftype cgroup_base_files[] = {
+>  	{
+>  		.name = "irq.pressure",
+>  		.flags = CFTYPE_PRESSURE,
+> +		.file_offset = offsetof(struct cgroup, psi_files[PSI_IRQ]),
+>  		.seq_show = cgroup_irq_pressure_show,
+>  		.write = cgroup_irq_pressure_write,
+>  		.poll = cgroup_pressure_poll,
+>  		.release = cgroup_pressure_release,
+>  	},
+>  #endif
+> +	{
+> +		.name = "cgroup.pressure",
+> +		.flags = CFTYPE_PRESSURE,
+> +		.seq_show = cgroup_psi_show,
+> +		.write = cgroup_psi_write,
 
-The reason was that if we now call check_mem_access for every function 
-check, but also subprogs. And so we ensure that a subprog can access 
-context.
+To match the naming convention, these should be called
+cgroup_pressure_show() and cgroup_pressure_write().
 
-This is all fine, but that test now tags the subprog accessing the 
-context, even if it is actually null and not accessing it in the code.
+> @@ -745,6 +745,14 @@ static void psi_group_change(struct psi_group *group, int cpu,
+>  		if (set & (1 << t))
+>  			groupc->tasks[t]++;
+>  
+> +	if (!group->enabled) {
+> +		if (groupc->state_mask & (1 << PSI_NONIDLE))
+> +			record_times(groupc, now);
 
-So to restore the previous behavior, I am storing 
-env->prog->aux->max_ctx_offset in btf_check_subprog_arg_match() and 
-restore it after the call to check for the arguments.
+Thanks for the explanation in the other thread, it made sense. But can
+you please add a comment to document it? Something like:
 
-See the v9 for the detail in the code.
+	/*
+	 * On the first group change after disabling PSI, conclude
+	 * the current state and flush its time. This is unlikely
+	 * to matter to the user, but aggregation (get_recent_times)
+	 * may have already incorporated the live state into times_prev;
+	 * avoid a delta sample underflow when PSI is later re-enabled.
+	 */
 
-Cheers,
-Benjamin
+An unlikely() would also make sense on that branch.
 
-> 
-> The original reason for kfunc only was because I wanted to scope the
-> changes to something I can control, but now I am completely out of
-> ideas on why the NULL test fails if it enters the if branch.
-> 
-> Unfortunately I won't have a lot of time this week to tackle this (I
-> am on holiday with my family), and next will be tough too (at home but
-> doing renovations).
-> 
-> I can send the fixup to remove the prog_type check as I just made sure
-> it works with the selftests. But I won't be able to dig further why it
-> fails without the kfunc check, because not enough time and
-> concentration.
-> 
-> Cheers,
-> Benjamin
+> @@ -1081,6 +1092,40 @@ void cgroup_move_task(struct task_struct *task, struct css_set *to)
+>  
+>  	task_rq_unlock(rq, task, &rf);
+>  }
+> +
+> +void psi_cgroup_enabled_sync(struct psi_group *group)
+> +{
+> +	int cpu;
+> +
+> +	/*
+> +	 * After we disable psi_group->enabled, we don't actually
+> +	 * stop percpu tasks accounting in each psi_group_cpu,
+> +	 * instead only stop test_state() loop, record_times()
+> +	 * and averaging worker, see psi_group_change() for details.
+> +	 *
+> +	 * When disable cgroup PSI, this function has nothing to sync
+> +	 * since cgroup pressure files are hidden and percpu psi_group_cpu
+> +	 * would see !psi_group->enabled and only do task accounting.
+> +	 *
+> +	 * When re-enable cgroup PSI, this function use psi_group_change()
+> +	 * to get correct state mask from test_state() loop on tasks[],
+> +	 * and restart groupc->state_start from now, use .clear = .set = 0
+> +	 * here since no task status really changed.
+> +	 */
+> +	if (!group->enabled)
+> +		return;
 
+Thanks for adding the comment, that's helpful.
+
+I think the function would be a tad clearer and self-documenting if
+you called it psi_cgroup_restart(), and only call it on enabling.
+
+> +	for_each_possible_cpu(cpu) {
+> +		struct rq *rq = cpu_rq(cpu);
+> +		struct rq_flags rf;
+> +		u64 now;
+> +
+> +		rq_lock_irq(rq, &rf);
+> +		now = cpu_clock(cpu);
+> +		psi_group_change(group, cpu, 0, 0, now, true);
+> +		rq_unlock_irq(rq, &rf);
+> +	}
+> +}
+>  #endif /* CONFIG_CGROUPS */
+
+Thanks,
+Johannes
