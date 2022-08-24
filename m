@@ -2,141 +2,122 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 20795C00140
-	for <linux-doc@archiver.kernel.org>; Wed, 24 Aug 2022 11:54:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 10E07C3F6B0
+	for <linux-doc@archiver.kernel.org>; Wed, 24 Aug 2022 11:56:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236272AbiHXLyH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 24 Aug 2022 07:54:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41074 "EHLO
+        id S236657AbiHXL4y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 24 Aug 2022 07:56:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42916 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237033AbiHXLyG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Aug 2022 07:54:06 -0400
-Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com [IPv6:2607:f8b0:4864:20::433])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33D608689A
-        for <linux-doc@vger.kernel.org>; Wed, 24 Aug 2022 04:54:05 -0700 (PDT)
-Received: by mail-pf1-x433.google.com with SMTP id 1so9056568pfu.0
-        for <linux-doc@vger.kernel.org>; Wed, 24 Aug 2022 04:54:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc;
-        bh=mdfwmPodCkN/tga61cvp2E/By8brPAPT4bch4OmZBrY=;
-        b=jQkEZX35Ws1c7ZeEwSoJBemqsqFfAypyELXqRGaM1Iwi5lyiq2xztSyATJfhvxF75Z
-         ul8dBoqZHEckEFGA2Vj+QqOizPpteP5iRhGYBJ5PgqcPGaXIQs5ZopwVs6VuSY1l5tRg
-         3Iz7Q0hkGTSLDWRi2xN7rYUTm402YSXBbyMt8JPsRE032tVM8R9dHI40vgO74WPOSuv8
-         l25FKg7I2R437aLqahE1+UG+kYgpxhIf1V7fiRgSC94VISztjWh5wCUYNaoDtWjm2QGX
-         eRxMkA21nMzsbRc6hdRrJqqfJ8QBfsu0aKk1Ldf41vLMtxNHZFFgbr58kBl4gPrKSG0S
-         oh2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc;
-        bh=mdfwmPodCkN/tga61cvp2E/By8brPAPT4bch4OmZBrY=;
-        b=DEn1K4dEI99HdNiC7/4WiKYAytdGfRJEnpP+cdOvMG6nSd9sFmj6PVc8SNz6c7AnjI
-         6Qs1fU4eAPSKINPSAEX8Aq/JTonBLsmreU31cHNjvKB2yngy9h8BO7BXjnXXYq3tJCQn
-         Ctuei74MOvxBU7IgPYp/Mpi00sLGcfcpB4EfNnBvceuD3PYbvYgzofRYwkSZJ2ilbRsg
-         9Jtu0TS8+NUVZraBfAeC8Dctkj9i4d9uu2fxRd6aBeJ8kZzyvev5jW6C8bfQ6ZcQknjC
-         vCjKBxFUJRV5XozIy59KbCqvptO//ULZafV1t3+kmof1uofdm18x0XE6XrBE3tla/mNs
-         4eNw==
-X-Gm-Message-State: ACgBeo1Yk/fCfyKzKO1Flr98YpL0Wy0VmjSE+ntUmyqvvDcDitQZq16d
-        mYbsdt/lMktIqNKkYJhoiVyASw==
-X-Google-Smtp-Source: AA6agR4hUD37SHwdWeTevNNHwild8/Vtbrr4Wc7zIQIiAtuLWmwOFvjW9Z50/UwEJ9jdc27TVN+xWA==
-X-Received: by 2002:a65:6c10:0:b0:429:4a5:a4d0 with SMTP id y16-20020a656c10000000b0042904a5a4d0mr24569071pgu.614.1661342044601;
-        Wed, 24 Aug 2022 04:54:04 -0700 (PDT)
-Received: from [10.4.208.12] ([139.177.225.228])
-        by smtp.gmail.com with ESMTPSA id g126-20020a625284000000b0052d7cca96acsm12750758pfb.110.2022.08.24.04.53.58
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 24 Aug 2022 04:54:04 -0700 (PDT)
-Message-ID: <911cd0fc-0027-6da5-767a-fea4c7731c81@bytedance.com>
-Date:   Wed, 24 Aug 2022 19:53:52 +0800
+        with ESMTP id S234085AbiHXL4x (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Aug 2022 07:56:53 -0400
+Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com [66.111.4.224])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9102889906;
+        Wed, 24 Aug 2022 04:56:49 -0700 (PDT)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+        by mailnew.nyi.internal (Postfix) with ESMTP id EE9B2580E11;
+        Wed, 24 Aug 2022 07:56:48 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute3.internal (MEProxy); Wed, 24 Aug 2022 07:56:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=benboeckel.net;
+         h=cc:cc:content-type:date:date:from:from:in-reply-to
+        :in-reply-to:message-id:mime-version:references:reply-to
+        :reply-to:sender:subject:subject:to:to; s=fm3; t=1661342208; x=
+        1661349408; bh=kuW/qG4JUmJmu4VzPx61uemjjFalqwyag3kx6XOqPOE=; b=o
+        pzymONiwjq65ETafTTr380XapsmSk8TEgFCze/PUAxebjOab59cPNdRbW5I2P5Gc
+        nPQKG4YPRvE++LJQ7/t27UluedPOuvs7txqtYryRE+szjSSAdEz19GlMLM1fa1p6
+        Lg/mfnoslm76AnTcRYz7PmDQ5au0tb4YrubBbqIOCcVqACJIEF1WwW2wzdBGfYTH
+        BXkh+6ZCAdLIsKeQVByEzhFgw3NWWTIOIlCMIEHIQH1MV5kOQRubdSY99Qj/x+wX
+        a6Z931m4w51+xL+9hCbzbx9OFA/lOBTWB6kJ5BgCfd1Y/F2Y8xHr7Dw72Drfi2s2
+        wPa7i8fGjQDU2jFbAkIUA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+        :mime-version:references:reply-to:reply-to:sender:subject
+        :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+        :x-sasl-enc; s=fm1; t=1661342208; x=1661349408; bh=kuW/qG4JUmJmu
+        4VzPx61uemjjFalqwyag3kx6XOqPOE=; b=BKd1EmuvOpNnAIpXPJJFjSIkFigeG
+        5WPP3Ibfqgn6f+nabolef24CZ62iA40nUXTpU69mHIajgRUJeaPdZKqeeRby1+7R
+        OImR1Cgp49wc6MKbmxueF2Z4rhcVmtBgvDlP/buckg88nSZoV8AGAqyo74MWqQWf
+        cL1vExQMPfwMqwL+3Wstn11DI/v16iRCvmxGkFPGKdv8aY0nVGLRVfm80jl6tV9K
+        qPyRmPnvGD414awHxysN3ma/36/3b0er2sKgT8h0nmLSufblmsK3v4OnfSTC95+6
+        BcUAijw6ggfn3y6AtnoNC1NJ9cKi4J9GoNmGp1ALRk7N50KuUdDpNfyuA==
+X-ME-Sender: <xms:_xEGY0_3uaGI0slJdDTlozWfU31KwX4m5ySru_WAamPhEnUYzqSV-A>
+    <xme:_xEGY8tiKbf9JBRjzog0znkRGzDefHS3WnHdFVEBCMKmsLdH9SQJ6b2uc62_Qe1xZ
+    cV2XmWuz87kQXoF2PE>
+X-ME-Received: <xmr:_xEGY6DK5T_2PH1z13eyzdjJ9YNA8GuZGlXSmB5eqnWH6GQ4xp9GjLffVaerb7T17LbiNi7_s13F35Zf7pRmNE5f4cKJTeCsrgM7>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdejuddggeejucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvfevuffkrhhfgggtuggjfgesthdtredttderjeenucfhrhhomhepuegv
+    nhcuuehovggtkhgvlhcuoehmvgessggvnhgsohgvtghkvghlrdhnvghtqeenucggtffrrg
+    htthgvrhhnpeduteehgfefudfffeelfffhheejgfdvfffhledvueekudeuieegueejieff
+    vdeigeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    hmvgessggvnhgsohgvtghkvghlrdhnvght
+X-ME-Proxy: <xmx:_xEGY0dyRnm6I5p5ONdvswQuoH911Qcv4k4ImGelq3Uch2wdQt5f_w>
+    <xmx:_xEGY5M2YhW9IUMVZJ6XQ-y_7KCZgHrFbMNy0dM51kOr9oKnXhoY0w>
+    <xmx:_xEGY-nqQ6Kt_ul1NcmJNFISyhWSNz1xNbbNexnw5rJRg1E6x27NzA>
+    <xmx:ABIGYw_lH9x1hUhEBWjBASxkZJlyL74M8KEWiyffntejBaufUpUfTA>
+Feedback-ID: iffc1478b:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 24 Aug 2022 07:56:47 -0400 (EDT)
+Date:   Wed, 24 Aug 2022 07:56:46 -0400
+From:   Ben Boeckel <me@benboeckel.net>
+To:     Evan Green <evgreen@chromium.org>
+Cc:     linux-kernel@vger.kernel.org, gwendal@chromium.org,
+        Eric Biggers <ebiggers@kernel.org>,
+        Matthew Garrett <mgarrett@aurora.tech>, jarkko@kernel.org,
+        zohar@linux.ibm.com, linux-integrity@vger.kernel.org,
+        Pavel Machek <pavel@ucw.cz>, apronin@chromium.org,
+        dlunev@google.com, rjw@rjwysocki.net, linux-pm@vger.kernel.org,
+        corbet@lwn.net, jejb@linux.ibm.com,
+        Matthew Garrett <matthewgarrett@google.com>,
+        Matthew Garrett <mjg59@google.com>,
+        David Howells <dhowells@redhat.com>,
+        James Morris <jmorris@namei.org>,
+        Paul Moore <paul@paul-moore.com>,
+        "Serge E. Hallyn" <serge@hallyn.com>, keyrings@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-security-module@vger.kernel.org
+Subject: Re: [PATCH v2 04/10] security: keys: trusted: Allow storage of PCR
+ values in creation data
+Message-ID: <YwYR/rzvrkvgZzBm@farprobe>
+Reply-To: list.lkml.keyrings@me.benboeckel.net
+References: <20220823222526.1524851-1-evgreen@chromium.org>
+ <20220823152108.v2.4.I32591db064b6cdc91850d777f363c9d05c985b39@changeid>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.1.2
-Subject: Re: [PATCH v3 07/10] sched/psi: add PSI_IRQ to track IRQ/SOFTIRQ
- pressure
-Content-Language: en-US
-To:     Johannes Weiner <hannes@cmpxchg.org>
-Cc:     tj@kernel.org, mkoutny@suse.com, surenb@google.com,
-        gregkh@linuxfoundation.org, corbet@lwn.net, mingo@redhat.com,
-        peterz@infradead.org, songmuchun@bytedance.com,
-        cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20220824081829.33748-1-zhouchengming@bytedance.com>
- <20220824081829.33748-8-zhouchengming@bytedance.com>
- <YwYBasgyIU0iQgL3@cmpxchg.org>
-From:   Chengming Zhou <zhouchengming@bytedance.com>
-In-Reply-To: <YwYBasgyIU0iQgL3@cmpxchg.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220823152108.v2.4.I32591db064b6cdc91850d777f363c9d05c985b39@changeid>
+User-Agent: Mutt/2.2.6 (2022-06-05)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2022/8/24 18:46, Johannes Weiner wrote:
-> On Wed, Aug 24, 2022 at 04:18:26PM +0800, Chengming Zhou wrote:
->> @@ -903,6 +903,36 @@ void psi_task_switch(struct task_struct *prev, struct task_struct *next,
->>  	}
->>  }
->>  
->> +#ifdef CONFIG_IRQ_TIME_ACCOUNTING
->> +void psi_account_irqtime(struct task_struct *task, u32 delta)
->> +{
->> +	int cpu = task_cpu(task);
->> +	void *iter = NULL;
->> +	struct psi_group *group;
->> +	struct psi_group_cpu *groupc;
->> +	u64 now;
->> +
->> +	if (!task->pid)
->> +		return;
->> +
->> +	now = cpu_clock(cpu);
->> +
->> +	while ((group = iterate_groups(task, &iter))) {
->> +		groupc = per_cpu_ptr(group->pcpu, cpu);
->> +
->> +		write_seqcount_begin(&groupc->seq);
->> +
->> +		record_times(groupc, now);
->> +		groupc->times[PSI_IRQ_FULL] += delta;
->> +
->> +		write_seqcount_end(&groupc->seq);
->> +
->> +		if (group->poll_states & (1 << PSI_IRQ_FULL))
->> +			psi_schedule_poll_work(group, 1);
->> +	}
-> 
-> Shouldn't this kick avgs_work too? If the CPU is otherwise idle,
-> times[PSI_IRQ_FULL] would overflow after two missed averaging runs.
+On Tue, Aug 23, 2022 at 15:25:20 -0700, Evan Green wrote:
+> diff --git a/Documentation/security/keys/trusted-encrypted.rst b/Documentation/security/keys/trusted-encrypted.rst
+> index 0bfb4c33974890..dc9e11bb4824da 100644
+> --- a/Documentation/security/keys/trusted-encrypted.rst
+> +++ b/Documentation/security/keys/trusted-encrypted.rst
+> @@ -199,6 +199,10 @@ Usage::
+>         policyhandle= handle to an authorization policy session that defines the
+>                       same policy and with the same hash algorithm as was used to
+>                       seal the key.
+> +       creationpcrs= hex integer representing the set of PCR values to be
+> +                     included in the PCR creation data. The bit corresponding
+> +		     to each PCR should be 1 to be included, 0 to be ignored.
+> +		     TPM2 only.
 
-If the CPU is idle, task->pid == 0, so no times[PSI_IRQ_FULL] would accumulate?
-I was thinking if task->pid != 0, avgs_work should be active.
+There's inconsistent whitespace here. Given the context, I suspect the
+tabs should be expanded to spaces.
 
-Not sure, maybe I missed something.
+As for the docs themselves, this might preferrably mention how large
+this is supposed to be. It seems to be limited to 32bits by the code.
+What happens if fewer are provided? More? Will there always be at most
+32 PCR values? Also, how are the bits interpreted? I presume bit 0 is
+for PCR value 0?
 
-> 
-> avgs_work should probably also self-perpetuate when PSI_IRQ_FULL is in
-> changed_states. (Looking at that code, I think it can be simplified:
-> delete nonidle and do `if (changed_states) schedule_delayed_work()`.)
+Thanks for including docs.
 
-```
-collect_percpu_times(group, PSI_AVGS, &changed_states);
-nonidle = changed_states & (1 << PSI_NONIDLE);
+Thanks,
 
-if (nonidle) {
-	schedule_delayed_work(dwork, nsecs_to_jiffies(
-			group->avg_next_update - now) + 1);
-}
-```
-
-Yes, changed_states include PSI_IRQ_FULL, here we only check nonidle
-= changed_states & (1 << PSI_NONIDLE), so it will not restart
-if only PSI_IRQ_FULL?
-
-If use `if (changed_states) schedule_delayed_work()`, avgs_work will
-self-restart when only PSI_IRQ_FULL changes?
-
-Thanks!
-
+--Ben
