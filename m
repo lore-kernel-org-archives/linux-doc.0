@@ -2,51 +2,51 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D6E6CC00140
-	for <linux-doc@archiver.kernel.org>; Wed, 24 Aug 2022 08:19:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 205D2C00140
+	for <linux-doc@archiver.kernel.org>; Wed, 24 Aug 2022 08:20:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234045AbiHXITy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 24 Aug 2022 04:19:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57366 "EHLO
+        id S235640AbiHXIUA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 24 Aug 2022 04:20:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57696 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235202AbiHXITx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Aug 2022 04:19:53 -0400
-Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com [IPv6:2607:f8b0:4864:20::42e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C98CD22A
-        for <linux-doc@vger.kernel.org>; Wed, 24 Aug 2022 01:19:51 -0700 (PDT)
-Received: by mail-pf1-x42e.google.com with SMTP id p185so1325598pfb.13
-        for <linux-doc@vger.kernel.org>; Wed, 24 Aug 2022 01:19:51 -0700 (PDT)
+        with ESMTP id S234979AbiHXIT6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Aug 2022 04:19:58 -0400
+Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 086865FDB
+        for <linux-doc@vger.kernel.org>; Wed, 24 Aug 2022 01:19:58 -0700 (PDT)
+Received: by mail-pj1-x102a.google.com with SMTP id p9-20020a17090a2d8900b001fb86ec43aaso434370pjd.0
+        for <linux-doc@vger.kernel.org>; Wed, 24 Aug 2022 01:19:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=bytedance-com.20210112.gappssmtp.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc;
-        bh=HEbBlNE74XAOeDaqxFIrSXJjdeTVN4APARuNyd0Kkrc=;
-        b=XG5IJm+fVYs18/E3Fxu0pVrfrCgjv+nZ+l1p2BXLUiSKR3+DLxwsecj0VsQmLyKeiy
-         u3emI9DCR+vp1DaZHoMZIDR8kuSyRe25o5OtavgfUU++zW8VMduwVMX94ebgn/HQjy9f
-         GylD73ZClQBsEq1CUEmHq1IXpyn722i7yKTXkUF8wzFQUhtW//SStvpHw0zgSVzLOkmV
-         ZkxUyK/cD3yRuG+ya7SyXQsEJJYXwfj9MIsH32g5D/ey71a4uKLsjfrWZnEjTmIJabon
-         VfH8O/9u0ducGF8idUzlAYkUWr2Mc5k2gzh/FN++XngFPlag+2t86eNsnuZdglakynFc
-         l/pA==
+        bh=KFhoipy95bP113xci+lGCwwditMpaEg770tCZfK2FCQ=;
+        b=GlH6POhMxkFS95xU5zJMGW8H+X23wvpWqnYzcrsJBfEAuqIfo0ZAdpRSi3bnpYan7d
+         41MJ816H6hy5iMnQ/1e99Mw7saohjTnOTAEuJIJtiEDxaE2lnFbrnalZB69bweIDitf3
+         bXCr4JlID95qEy+fYmofaooTzZTbvOjnAWs1ZFIxOO8j6YG8eLh05jjact9kwCs74AnV
+         SUUAORriiSdHNb5QHf5HXw4BJFeZ7pURb40oFVrAtPJjp3EgPie6UivFIl80nlVjM7xs
+         8un5b5VtVGYsFbhLn5k1+U6Ycgrv63323+BtnkeAUMaLYZ9V6BBQ7BmYsxcnPgh3gSGY
+         dv0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
-        bh=HEbBlNE74XAOeDaqxFIrSXJjdeTVN4APARuNyd0Kkrc=;
-        b=1OpTaPJRUTtwF8bBRmH12gPrnRmhoOz5RZHCLrZ7JsEEnuZQd8EqmKK3+Z2L/pjqoP
-         ChtQR+wBCdOYNQ+Q1B3g+lY4Mpxj7YYrW6Vxk0JVGQDl0o+UVo1TmIKPMQPr3IUzeq9n
-         8k3zc4efUWx9thcUAi1m1L8ZHEVyQm68Xgt99jhL3spWivc2ggPvD8Y1xc8JrkxCyw2j
-         XLp4drtd9lR+eI9EtiJtEqguNR1c9RnNN0bEYo00WnV9GJPUEffUb5p3z8BiPr8WrUhJ
-         wSBsQMuSNEPomqR++CaH1nNFzdBncxGNDxd+MNnL7rcbTvaycHh4uLSg8y53pu3BcVu1
-         Q4Kg==
-X-Gm-Message-State: ACgBeo3H12MO9Vg87RT71fDz/JyfZqlYLEYuH3SANLjVn3TULQJzobmo
-        HXhMTTm+HuYHu5jJryhM/wUj6Q==
-X-Google-Smtp-Source: AA6agR7tzL8eaVCAjYwevawfVzwdWlzsLcP2irafzEzzW6hZqw5AJNo0GK4S+veu0lp6GXX0tnXaeQ==
-X-Received: by 2002:a63:5b4c:0:b0:42a:2fe:2f83 with SMTP id l12-20020a635b4c000000b0042a02fe2f83mr22495338pgm.413.1661329191386;
-        Wed, 24 Aug 2022 01:19:51 -0700 (PDT)
+        bh=KFhoipy95bP113xci+lGCwwditMpaEg770tCZfK2FCQ=;
+        b=j5bA1/rX38v/NunqvWY9L8mSMPin7lDODsncWp2mXu5talSv9Fd4jkJGbcmWzr4DEX
+         ww90YAnBAlEWd+JqgZRRWPESt47JJwUtiUQDo/yqnW/zncwH324HVpDip2dRVhFBxoBI
+         I2N+QwJSdN2mTq6VSr1i87EK2kMZd5l9L++YSfyEiI2hiOGlPApitOt8abIDMVefzkX0
+         VS54F1fKmjFiKlxniEKuELcfuRd8IxyELz/15IvGlnJrfnA1L8UyOIeYYZCT+uwJ36AD
+         TtGKkcLIGKbDks5CJ5O6096s8uE9ubaIouEYJEf3NApOsWDyXzmkVqjCGi1qvIWdRswQ
+         Jfmw==
+X-Gm-Message-State: ACgBeo0N4WE6akMrec8vvcyutpvgRd0mT8bQdVrxUemeq0QDoxNqSFs5
+        ZZ7kHxTDnFWsTbSbRKoj8u15fw==
+X-Google-Smtp-Source: AA6agR7TdIZhRw2FWgfdn4JrRTJl6m+cOEmXzEMBbL7JNgZTvmCbh6hNMPh7aXGBDpWkjiinYDAyqg==
+X-Received: by 2002:a17:90b:1901:b0:1fa:e81b:fc0e with SMTP id mp1-20020a17090b190100b001fae81bfc0emr7231297pjb.115.1661329197580;
+        Wed, 24 Aug 2022 01:19:57 -0700 (PDT)
 Received: from C02CV1DAMD6P.bytedance.net ([139.177.225.244])
-        by smtp.gmail.com with ESMTPSA id q31-20020a635c1f000000b00421841943dfsm10486587pgb.12.2022.08.24.01.19.45
+        by smtp.gmail.com with ESMTPSA id q31-20020a635c1f000000b00421841943dfsm10486587pgb.12.2022.08.24.01.19.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Aug 2022 01:19:51 -0700 (PDT)
+        Wed, 24 Aug 2022 01:19:57 -0700 (PDT)
 From:   Chengming Zhou <zhouchengming@bytedance.com>
 To:     tj@kernel.org, hannes@cmpxchg.org, mkoutny@suse.com,
         surenb@google.com
@@ -55,9 +55,9 @@ Cc:     gregkh@linuxfoundation.org, corbet@lwn.net, mingo@redhat.com,
         cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org,
         Chengming Zhou <zhouchengming@bytedance.com>
-Subject: [PATCH v3 02/10] sched/psi: don't create cgroup PSI files when psi_disabled
-Date:   Wed, 24 Aug 2022 16:18:21 +0800
-Message-Id: <20220824081829.33748-3-zhouchengming@bytedance.com>
+Subject: [PATCH v3 03/10] sched/psi: save percpu memory when !psi_cgroups_enabled
+Date:   Wed, 24 Aug 2022 16:18:22 +0800
+Message-Id: <20220824081829.33748-4-zhouchengming@bytedance.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220824081829.33748-1-zhouchengming@bytedance.com>
 References: <20220824081829.33748-1-zhouchengming@bytedance.com>
@@ -67,32 +67,57 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-commit 3958e2d0c34e ("cgroup: make per-cgroup pressure stall tracking configurable")
-make PSI can be configured to skip per-cgroup stall accounting. And
-doesn't expose PSI files in cgroup hierarchy.
+We won't use cgroup psi_group when !psi_cgroups_enabled, so don't
+bother to alloc percpu memory and init for it.
 
-This patch do the same thing when psi_disabled.
+Also don't need to migrate task PSI stats between cgroups in
+cgroup_move_task().
 
 Signed-off-by: Chengming Zhou <zhouchengming@bytedance.com>
 Acked-by: Johannes Weiner <hannes@cmpxchg.org>
 ---
- kernel/cgroup/cgroup.c | 3 +++
- 1 file changed, 3 insertions(+)
+ kernel/sched/psi.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/kernel/cgroup/cgroup.c b/kernel/cgroup/cgroup.c
-index 03dbbf8a8c28..2f79ddf9a85d 100644
---- a/kernel/cgroup/cgroup.c
-+++ b/kernel/cgroup/cgroup.c
-@@ -3748,6 +3748,9 @@ static void cgroup_pressure_release(struct kernfs_open_file *of)
- 
- bool cgroup_psi_enabled(void)
+diff --git a/kernel/sched/psi.c b/kernel/sched/psi.c
+index 39463dcc16bb..77d53c03a76f 100644
+--- a/kernel/sched/psi.c
++++ b/kernel/sched/psi.c
+@@ -201,6 +201,7 @@ void __init psi_init(void)
  {
-+	if (static_branch_likely(&psi_disabled))
-+		return false;
-+
- 	return (cgroup_feature_disable_mask & (1 << OPT_FEATURE_PRESSURE)) == 0;
- }
+ 	if (!psi_enable) {
+ 		static_branch_enable(&psi_disabled);
++		static_branch_disable(&psi_cgroups_enabled);
+ 		return;
+ 	}
  
+@@ -950,7 +951,7 @@ void psi_memstall_leave(unsigned long *flags)
+ #ifdef CONFIG_CGROUPS
+ int psi_cgroup_alloc(struct cgroup *cgroup)
+ {
+-	if (static_branch_likely(&psi_disabled))
++	if (!static_branch_likely(&psi_cgroups_enabled))
+ 		return 0;
+ 
+ 	cgroup->psi = kzalloc(sizeof(struct psi_group), GFP_KERNEL);
+@@ -968,7 +969,7 @@ int psi_cgroup_alloc(struct cgroup *cgroup)
+ 
+ void psi_cgroup_free(struct cgroup *cgroup)
+ {
+-	if (static_branch_likely(&psi_disabled))
++	if (!static_branch_likely(&psi_cgroups_enabled))
+ 		return;
+ 
+ 	cancel_delayed_work_sync(&cgroup->psi->avgs_work);
+@@ -996,7 +997,7 @@ void cgroup_move_task(struct task_struct *task, struct css_set *to)
+ 	struct rq_flags rf;
+ 	struct rq *rq;
+ 
+-	if (static_branch_likely(&psi_disabled)) {
++	if (!static_branch_likely(&psi_cgroups_enabled)) {
+ 		/*
+ 		 * Lame to do this here, but the scheduler cannot be locked
+ 		 * from the outside, so we move cgroups from inside sched/.
 -- 
 2.37.2
 
