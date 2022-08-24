@@ -2,122 +2,177 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BC15EC38145
-	for <linux-doc@archiver.kernel.org>; Wed, 24 Aug 2022 13:02:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C57F3C32793
+	for <linux-doc@archiver.kernel.org>; Wed, 24 Aug 2022 13:41:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237533AbiHXNCs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 24 Aug 2022 09:02:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37684 "EHLO
+        id S238338AbiHXNlM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 24 Aug 2022 09:41:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58964 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237251AbiHXNCr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Aug 2022 09:02:47 -0400
-Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C89497D77;
-        Wed, 24 Aug 2022 06:02:46 -0700 (PDT)
-Received: by mail-pl1-x62a.google.com with SMTP id io24so2321233plb.1;
-        Wed, 24 Aug 2022 06:02:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc;
-        bh=XAUfWXnBLgZU1RF+IGZaqoW6ICyj5iA/u5hjNGQLXxI=;
-        b=ml6sUCaOrs4Y85o8JF0FnzbqASxpqnG1xaur25bhRlu+8c14xl+WPd/ubvyTD3AbaN
-         17lWfMoDrAaU8X9gjekNKYTMaq2Daz1G/0MjNxFYEVVHuzLxxfnm10/p0BmkC4h3D7hJ
-         b+a42hRk7lo2lHHKkKKFnzU+26pTld7JervGIhLTiVgcC+kQLpa8RN+QbT7v2fWbfuHa
-         JYdnHu70C2E7/ZToINbIG1KyI5eZ1ZwZPCFbtL4yFMnZ5E18fAaDWmO6pZ5ze08qyGY3
-         IpbCtM+XPP5G8EkhYMMjmElKVwL0prPlMbV7GIRM4KTmQLdqlnh/xFIBPv52+37FQbjr
-         ag7w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc;
-        bh=XAUfWXnBLgZU1RF+IGZaqoW6ICyj5iA/u5hjNGQLXxI=;
-        b=CNXnUz+mA0eF1ZzOU/mn4slkv8xRc6Z0mDGt8q9hwvKbRWFRkxwrseM/ZMn6FH9X/X
-         lZM/9ggPMH3px0vXASgcD24eVuw3xVK7Jd84XQ4lJokvVFp+9KNp5O68rNmKn7AcJVnO
-         S2rHBJU/u0KfPUqM5MHIyFjbtphgbegoq18etgj12hO52jYFuqUPXE5js7xyWlih5lAt
-         +lMpYWYmZJ+kGqqCO7f4Nf/OZCNlo7RqyjrRkx4NL8jWTTwpIA23RLfLRQY4v3TR/BIU
-         tnUchpxFZmmkaHOegpaMW3/9LWMQsdSLxguL2qhtMEU8pR7alLWj3okMcmYC6pqS1T4S
-         hhrQ==
-X-Gm-Message-State: ACgBeo15iT6W6vpRML4b6h0wHgePSNhWT2eG+lwdLjadHj/eJm4ZhbjZ
-        maZw7+q/iEGpeXSi1lZSV0k=
-X-Google-Smtp-Source: AA6agR7iSr6MO5nHFFkVW+VyeKCo9O5k5c+zoHN0cgAt3sWclsbmuR9+RmWuMfqngSjjYWHw0xFOPQ==
-X-Received: by 2002:a17:90a:c78f:b0:1fa:e505:18e6 with SMTP id gn15-20020a17090ac78f00b001fae50518e6mr8465701pjb.23.1661346165672;
-        Wed, 24 Aug 2022 06:02:45 -0700 (PDT)
-Received: from [192.168.43.80] (subs32-116-206-28-16.three.co.id. [116.206.28.16])
-        by smtp.gmail.com with ESMTPSA id c127-20020a621c85000000b0052ddaffbcc1sm12834062pfc.30.2022.08.24.06.02.41
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 24 Aug 2022 06:02:45 -0700 (PDT)
-Message-ID: <bd50d4d2-f3dc-4e66-1d82-5221dab8b456@gmail.com>
-Date:   Wed, 24 Aug 2022 20:02:40 +0700
+        with ESMTP id S238213AbiHXNlL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Aug 2022 09:41:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CCC297E039
+        for <linux-doc@vger.kernel.org>; Wed, 24 Aug 2022 06:41:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1661348470;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=/hEf44O5uT0I/vp8P897qbCcMVrv6y/x8AKCXJ5mP/g=;
+        b=QaLGCIvF8KQPMPLuof+pTWjnLV2+2H7sPdN6OUJWxc+zN6O5TXwfiIslquJ3fOs5MUNqfH
+        Oq3RhlgtKpg9wewsCmaVe18ywm7pOaMWLKWhcFkfKKhs/Jg70ZP6h5k6HbMwla5mjoTM0k
+        6OUkpgNLoA/0BsVo8aX6QQCNtbCPqfs=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-607-QvaXZXP5MqaT-dLz9Wri5Q-1; Wed, 24 Aug 2022 09:41:03 -0400
+X-MC-Unique: QvaXZXP5MqaT-dLz9Wri5Q-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com [10.11.54.5])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5E79F1C0BDE3;
+        Wed, 24 Aug 2022 13:41:02 +0000 (UTC)
+Received: from plouf.redhat.com (unknown [10.39.192.211])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 0C17F18ECC;
+        Wed, 24 Aug 2022 13:40:58 +0000 (UTC)
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+To:     Greg KH <gregkh@linuxfoundation.org>,
+        Jiri Kosina <jikos@kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        Kumar Kartikeya Dwivedi <memxor@gmail.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>, Shuah Khan <shuah@kernel.org>,
+        Dave Marchevsky <davemarchevsky@fb.com>,
+        Joe Stringer <joe@cilium.io>, Jonathan Corbet <corbet@lwn.net>
+Cc:     Tero Kristo <tero.kristo@linux.intel.com>,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        netdev@vger.kernel.org, bpf@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Subject: [PATCH bpf-next v9 00/23] Introduce eBPF support for HID devices
+Date:   Wed, 24 Aug 2022 15:40:30 +0200
+Message-Id: <20220824134055.1328882-1-benjamin.tissoires@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH v4 2/2] ksm: add profit monitoring documentation
-Content-Language: en-US
-To:     xu xin <cgel.zte@gmail.com>, akpm@linux-foundation.org,
-        corbet@lwn.net
-Cc:     adobriyan@gmail.com, willy@infradead.org, hughd@google.com,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-mm@kvack.org, linux-doc@vger.kernel.org,
-        xu xin <xu.xin16@zte.com.cn>,
-        Xiaokai Ran <ran.xiaokai@zte.com.cn>,
-        Yang Yang <yang.yang29@zte.com.cn>
-References: <20220824124512.223103-1-xu.xin16@zte.com.cn>
- <20220824124846.223217-1-xu.xin16@zte.com.cn>
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <20220824124846.223217-1-xu.xin16@zte.com.cn>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 8/24/22 19:48, xu xin wrote:
-> +Monitoring KSM profit
-> +=====================
-> +
-> +KSM can save memory by merging identical pages, but also can consume
-> +additional memory, because it needs to generate a number of rmap_items to
-> +save each scanned page's brief rmap information. Some of these pages may
-> +be merged, but some may not be abled to be merged after being checked
-> +several times, which are unprofitable memory consumed.
-> +
-> +1) How to determine whether KSM save memory or consume memory in system-wide
-> +   range? Here is a simple approximate calculation for reference::
-> +
-> +	general_profit =~ pages_sharing * sizeof(page) - (all_rmap_items) *
-> +			  sizeof(rmap_item);
-> +
-> +   where all_rmap_items can be easily obtained by summing ``pages_sharing``,
-> +   ``pages_shared``, ``pages_unshared`` and ``pages_volatile``.
-> +
-> +2) The KSM profit inner a single process can be similarly obtained by the
-> +   following approximate calculation::
-> +
-> +	process_profit =~ ksm_merging_pages * sizeof(page) -
-> +			  ksm_rmp_items * sizeof(rmap_item).
-> +
-> +   where both ksm_merging_pages and ksm_rmp_items are shown under the
-> +   directory ``/proc/<pid>/``.
-> +
-> +From the perspective of application, a high ratio of ``ksm_rmp_items`` to
-> +``ksm_merging_pages`` means a bad madvise-applied policy, so developers or
-> +administrators have to rethink how to change madvise policy. Giving an example
-> +for reference, a page's size is usually 4K, and the rmap_item's size is
-> +separately 32B on 32-bit CPU architecture and 64B on 64-bit CPU architecture.
-> +so if the ``ksm_rmp_items/ksm_merging_pages`` ratio exceeds 64 on 64-bit CPU
-> +or exceeds 128 on 32-bit CPU, then the app's madvise policy should be dropped,
-> +because the ksm profit is approximately zero or negative.
-> +
->  Monitoring KSM events
->  =====================
->  
+Hi,
 
-LGTM.
+here comes the v9 of the HID-BPF series.
 
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+Again, for a full explanation of HID-BPF, please refer to the last patch
+in this series (23/23).
+
+This version sees some minor improvements compared to v7 and v8, only
+focusing on the reviews I got. (v8 was a single patch update)
+
+- patch 1/24 in v7 was dropped as it is already fixed upstream
+- patch 1/23 in v9 is now capable of handling all functions, not just
+  kfuncs (tested with the selftests only)
+- some minor nits from Greg's review
+- a rebase on top of the current bpf-next tree as the kfunc definition
+  changed (for the better).
+
+Cheers,
+Benjamin
+
+
+Benjamin Tissoires (23):
+  bpf/verifier: allow all functions to read user provided context
+  bpf/verifier: do not clear meta in check_mem_size
+  selftests/bpf: add test for accessing ctx from syscall program type
+  bpf/verifier: allow kfunc to return an allocated mem
+  selftests/bpf: Add tests for kfunc returning a memory pointer
+  bpf: prepare for more bpf syscall to be used from kernel and user
+    space.
+  libbpf: add map_get_fd_by_id and map_delete_elem in light skeleton
+  HID: core: store the unique system identifier in hid_device
+  HID: export hid_report_type to uapi
+  HID: convert defines of HID class requests into a proper enum
+  HID: Kconfig: split HID support and hid-core compilation
+  HID: initial BPF implementation
+  selftests/bpf: add tests for the HID-bpf initial implementation
+  HID: bpf: allocate data memory for device_event BPF programs
+  selftests/bpf/hid: add test to change the report size
+  HID: bpf: introduce hid_hw_request()
+  selftests/bpf: add tests for bpf_hid_hw_request
+  HID: bpf: allow to change the report descriptor
+  selftests/bpf: add report descriptor fixup tests
+  selftests/bpf: Add a test for BPF_F_INSERT_HEAD
+  samples/bpf: HID: add new hid_mouse example
+  samples/bpf: HID: add Surface Dial example
+  Documentation: add HID-BPF docs
+
+ Documentation/hid/hid-bpf.rst                 | 512 +++++++++
+ Documentation/hid/index.rst                   |   1 +
+ drivers/Makefile                              |   2 +-
+ drivers/hid/Kconfig                           |  20 +-
+ drivers/hid/Makefile                          |   2 +
+ drivers/hid/bpf/Kconfig                       |  17 +
+ drivers/hid/bpf/Makefile                      |  11 +
+ drivers/hid/bpf/entrypoints/Makefile          |  93 ++
+ drivers/hid/bpf/entrypoints/README            |   4 +
+ drivers/hid/bpf/entrypoints/entrypoints.bpf.c |  66 ++
+ .../hid/bpf/entrypoints/entrypoints.lskel.h   | 682 ++++++++++++
+ drivers/hid/bpf/hid_bpf_dispatch.c            | 526 ++++++++++
+ drivers/hid/bpf/hid_bpf_dispatch.h            |  28 +
+ drivers/hid/bpf/hid_bpf_jmp_table.c           | 577 ++++++++++
+ drivers/hid/hid-core.c                        |  49 +-
+ include/linux/bpf.h                           |   9 +-
+ include/linux/btf.h                           |  10 +
+ include/linux/hid.h                           |  38 +-
+ include/linux/hid_bpf.h                       | 148 +++
+ include/uapi/linux/hid.h                      |  26 +-
+ include/uapi/linux/hid_bpf.h                  |  25 +
+ kernel/bpf/btf.c                              | 109 +-
+ kernel/bpf/syscall.c                          |  10 +-
+ kernel/bpf/verifier.c                         |  64 +-
+ net/bpf/test_run.c                            |  21 +
+ samples/bpf/.gitignore                        |   2 +
+ samples/bpf/Makefile                          |  27 +
+ samples/bpf/hid_mouse.bpf.c                   | 134 +++
+ samples/bpf/hid_mouse.c                       | 161 +++
+ samples/bpf/hid_surface_dial.bpf.c            | 161 +++
+ samples/bpf/hid_surface_dial.c                | 232 ++++
+ tools/include/uapi/linux/hid.h                |  62 ++
+ tools/include/uapi/linux/hid_bpf.h            |  25 +
+ tools/lib/bpf/skel_internal.h                 |  23 +
+ tools/testing/selftests/bpf/Makefile          |   5 +-
+ tools/testing/selftests/bpf/config            |   3 +
+ tools/testing/selftests/bpf/prog_tests/hid.c  | 990 ++++++++++++++++++
+ .../selftests/bpf/prog_tests/kfunc_call.c     |  76 ++
+ tools/testing/selftests/bpf/progs/hid.c       | 206 ++++
+ .../selftests/bpf/progs/kfunc_call_test.c     | 125 +++
+ 40 files changed, 5198 insertions(+), 84 deletions(-)
+ create mode 100644 Documentation/hid/hid-bpf.rst
+ create mode 100644 drivers/hid/bpf/Kconfig
+ create mode 100644 drivers/hid/bpf/Makefile
+ create mode 100644 drivers/hid/bpf/entrypoints/Makefile
+ create mode 100644 drivers/hid/bpf/entrypoints/README
+ create mode 100644 drivers/hid/bpf/entrypoints/entrypoints.bpf.c
+ create mode 100644 drivers/hid/bpf/entrypoints/entrypoints.lskel.h
+ create mode 100644 drivers/hid/bpf/hid_bpf_dispatch.c
+ create mode 100644 drivers/hid/bpf/hid_bpf_dispatch.h
+ create mode 100644 drivers/hid/bpf/hid_bpf_jmp_table.c
+ create mode 100644 include/linux/hid_bpf.h
+ create mode 100644 include/uapi/linux/hid_bpf.h
+ create mode 100644 samples/bpf/hid_mouse.bpf.c
+ create mode 100644 samples/bpf/hid_mouse.c
+ create mode 100644 samples/bpf/hid_surface_dial.bpf.c
+ create mode 100644 samples/bpf/hid_surface_dial.c
+ create mode 100644 tools/include/uapi/linux/hid.h
+ create mode 100644 tools/include/uapi/linux/hid_bpf.h
+ create mode 100644 tools/testing/selftests/bpf/prog_tests/hid.c
+ create mode 100644 tools/testing/selftests/bpf/progs/hid.c
 
 -- 
-An old man doll... just what I always wanted! - Clara
+2.36.1
+
