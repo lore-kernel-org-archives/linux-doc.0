@@ -2,284 +2,168 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B64C7C48BEA
-	for <linux-doc@archiver.kernel.org>; Wed, 24 Aug 2022 16:22:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 61A14C00140
+	for <linux-doc@archiver.kernel.org>; Wed, 24 Aug 2022 16:31:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238079AbiHXQV7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 24 Aug 2022 12:21:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43070 "EHLO
+        id S239795AbiHXQbY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 24 Aug 2022 12:31:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53830 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238310AbiHXQV6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Aug 2022 12:21:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 043D39A6B8
-        for <linux-doc@vger.kernel.org>; Wed, 24 Aug 2022 09:21:55 -0700 (PDT)
+        with ESMTP id S239931AbiHXQbQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Aug 2022 12:31:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29BF49836A
+        for <linux-doc@vger.kernel.org>; Wed, 24 Aug 2022 09:31:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1661358115;
+        s=mimecast20190719; t=1661358673;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=wANo/GHMzT757gDMJMmO8LCL5UwXYQqWDiktVytCe74=;
-        b=Kzsrnw1+6zStgXAsbc3aZVeaJSM381+AJb8kJT5TXV3MTJJ2rx2nDG09SCzyDrXFCUCo4x
-        t3R4wy519d0hD8ee+cthDPImBCzKwz1h98v6fap6zYqCImc5Va+ixP+QgvkCh8YuFXIV4B
-        S5AFhppxyR+IIO8pjctoxGcefmkVPZE=
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-228-Pe3mT2OENuuxYDf4FJ0j3g-1; Wed, 24 Aug 2022 12:21:54 -0400
-X-MC-Unique: Pe3mT2OENuuxYDf4FJ0j3g-1
-Received: by mail-qt1-f199.google.com with SMTP id s2-20020ac85cc2000000b00342f8ad1f40so13203839qta.12
-        for <linux-doc@vger.kernel.org>; Wed, 24 Aug 2022 09:21:53 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
-        bh=wANo/GHMzT757gDMJMmO8LCL5UwXYQqWDiktVytCe74=;
-        b=xXbEWo4YjzHA3yz3bh5rLSXG+6etUPlJ9q2vpdIaBcRjlOXDokCIOKhuaO0Bd/Lg69
-         hvAcVa20AM/Vp+JJKLS0ZTCSQ+h7jWhgA1ZQttmQGwQn0t1UDnkCcpvj4XVLcIyZfWqN
-         fYeeBmYAp29dcBmIalMZacd4Ij51GB2G1u4/GrNRMwWIICSpfaUfL5yy4L3kHxbPqjOP
-         fuliEb6KNnY2RXCsGlBxgdOUNLF8Fam8fcLn62IghjNvLhSrWrmINSa4poK7s8hazrfW
-         C48SykhAyl/s/MDKyZXdjaGLjyKhkxWQhV0dAqgyE2J/kYanfaEzT6gjyDr0Kp5YFDa/
-         G9LQ==
-X-Gm-Message-State: ACgBeo2qUH6saA1IxE/X2q7jfAfvwKA11vPeilJSLJGZdAGMc28bZMC4
-        OV+pV8NDTfiwh7yqNY0rfWh++1UJ+Mb++EYEiQA/VSepSRCbf4AD636LZ4RdbgJ5Rr72Qkdi7DI
-        UaS95n6WPg6NxlzK60Usy
-X-Received: by 2002:a05:6214:d86:b0:496:e991:c4a9 with SMTP id e6-20020a0562140d8600b00496e991c4a9mr12630972qve.129.1661358113332;
-        Wed, 24 Aug 2022 09:21:53 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR6Qvk99CLgme2nXiMZvw3XJHeABpevFZgbSFRX695IhCdFipklBVIAy26zO9TEdi8UNpCj9Zg==
-X-Received: by 2002:a05:6214:d86:b0:496:e991:c4a9 with SMTP id e6-20020a0562140d8600b00496e991c4a9mr12630908qve.129.1661358112949;
-        Wed, 24 Aug 2022 09:21:52 -0700 (PDT)
-Received: from xz-m1.local (bras-base-aurron9127w-grc-35-70-27-3-10.dsl.bell.ca. [70.27.3.10])
-        by smtp.gmail.com with ESMTPSA id j4-20020a05620a0a4400b006b905e003a4sm15116119qka.135.2022.08.24.09.21.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Aug 2022 09:21:52 -0700 (PDT)
-Date:   Wed, 24 Aug 2022 12:21:50 -0400
-From:   Peter Xu <peterx@redhat.com>
-To:     Marc Zyngier <maz@kernel.org>
-Cc:     Gavin Shan <gshan@redhat.com>, kvmarm@lists.cs.columbia.edu,
-        linux-arm-kernel@lists.infradead.org, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, pbonzini@redhat.com,
-        corbet@lwn.net, james.morse@arm.com, alexandru.elisei@arm.com,
-        suzuki.poulose@arm.com, oliver.upton@linux.dev,
-        catalin.marinas@arm.com, will@kernel.org, shuah@kernel.org,
-        seanjc@google.com, dmatlack@google.com, bgardon@google.com,
-        ricarkol@google.com, zhenyzha@redhat.com, shan.gavin@gmail.com
-Subject: Re: [PATCH v1 1/5] KVM: arm64: Enable ring-based dirty memory
- tracking
-Message-ID: <YwZQHqS5DZBloYPZ@xz-m1.local>
-References: <87lerkwtm5.wl-maz@kernel.org>
- <41fb5a1f-29a9-e6bb-9fab-4c83a2a8fce5@redhat.com>
- <87fshovtu0.wl-maz@kernel.org>
- <171d0159-4698-354b-8b2f-49d920d03b1b@redhat.com>
- <YwTc++Lz6lh3aR4F@xz-m1.local>
- <87bksawz0w.wl-maz@kernel.org>
- <YwVEoM1pj2MPCELp@xz-m1.local>
- <878rnewpaw.wl-maz@kernel.org>
- <YwVgaGp3HOGzC8k2@xz-m1.local>
- <87y1vdr98o.wl-maz@kernel.org>
+        bh=ccVMBc1bD/9NWDqLeOT+0fK/B1IszQ6Qg39orye31v0=;
+        b=PnJJPaZCiM82457n7en3xPY4VkFSeNtIC6QbDzoc8KWesydm6SRgz5EngMRt+wIB+r9/H6
+        wEsHXZFgMMuYtKc3VbC217tYk6X/kHcQ+5KOgSGwqIvmVAZD58qssvDJBHft/OqMF7rerF
+        eP/slVckpwWeRZ740kFCYfoHy2g6mLw=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-155-4RXzuCA-Oau5cEr7hNCxNQ-1; Wed, 24 Aug 2022 12:31:11 -0400
+X-MC-Unique: 4RXzuCA-Oau5cEr7hNCxNQ-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5EDFF18A6580;
+        Wed, 24 Aug 2022 16:31:10 +0000 (UTC)
+Received: from t480s.redhat.com (unknown [10.39.193.5])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 76918403348;
+        Wed, 24 Aug 2022 16:31:06 +0000 (UTC)
+From:   David Hildenbrand <david@redhat.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     linux-mm@kvack.org, linux-doc@vger.kernel.org,
+        kexec@lists.infradead.org, David Hildenbrand <david@redhat.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Ingo Molnar <mingo@kernel.org>,
+        David Laight <David.Laight@ACULAB.COM>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Andy Whitcroft <apw@canonical.com>,
+        Joe Perches <joe@perches.com>,
+        Dwaipayan Ray <dwaipayanray1@gmail.com>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        Baoquan He <bhe@redhat.com>, Vivek Goyal <vgoyal@redhat.com>,
+        Dave Young <dyoung@redhat.com>
+Subject: [PATCH RFC 1/2] coding-style.rst: document BUG() and WARN() rules ("do not crash the kernel")
+Date:   Wed, 24 Aug 2022 18:30:59 +0200
+Message-Id: <20220824163100.224449-2-david@redhat.com>
+In-Reply-To: <20220824163100.224449-1-david@redhat.com>
+References: <20220824163100.224449-1-david@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <87y1vdr98o.wl-maz@kernel.org>
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Aug 24, 2022 at 03:45:11PM +0100, Marc Zyngier wrote:
-> On Wed, 24 Aug 2022 00:19:04 +0100,
-> Peter Xu <peterx@redhat.com> wrote:
-> > 
-> > On Tue, Aug 23, 2022 at 11:47:03PM +0100, Marc Zyngier wrote:
-> > > On Tue, 23 Aug 2022 22:20:32 +0100,
-> > > Peter Xu <peterx@redhat.com> wrote:
-> > > > 
-> > > > On Tue, Aug 23, 2022 at 08:17:03PM +0100, Marc Zyngier wrote:
-> > > > > I don't think we really need this check on the hot path. All we need
-> > > > > is to make the request sticky until userspace gets their act together
-> > > > > and consumes elements in the ring. Something like:
-> > > > > 
-> > > > > diff --git a/arch/arm64/kvm/arm.c b/arch/arm64/kvm/arm.c
-> > > > > index 986cee6fbc7f..e8ed5e1af159 100644
-> > > > > --- a/arch/arm64/kvm/arm.c
-> > > > > +++ b/arch/arm64/kvm/arm.c
-> > > > > @@ -747,6 +747,14 @@ static int check_vcpu_requests(struct kvm_vcpu *vcpu)
-> > > > >  
-> > > > >  		if (kvm_check_request(KVM_REQ_SUSPEND, vcpu))
-> > > > >  			return kvm_vcpu_suspend(vcpu);
-> > > > > +
-> > > > > +		if (kvm_check_request(KVM_REQ_RING_SOFT_FULL, vcpu) &&
-> > > > > +		    kvm_dirty_ring_soft_full(vcpu)) {
-> > > > > +			kvm_make_request(KVM_REQ_RING_SOFT_FULL, vcpu);
-> > > > > +			vcpu->run->exit_reason = KVM_EXIT_DIRTY_RING_FULL;
-> > > > > +			trace_kvm_dirty_ring_exit(vcpu);
-> > > > > +			return 0;
-> > > > > +		}
-> > > > >  	}
-> > > > >  
-> > > > >  	return 1;
-> > > > 
-> > > > Right, this seems working.  We can also use kvm_test_request() here.
-> > > > 
-> > > > > 
-> > > > > 
-> > > > > However, I'm a bit concerned by the reset side of things. It iterates
-> > > > > over the vcpus and expects the view of each ring to be consistent,
-> > > > > even if userspace is hacking at it from another CPU. For example, I
-> > > > > can't see what guarantees that the kernel observes the writes from
-> > > > > userspace in the order they are being performed (the documentation
-> > > > > provides no requirements other than "it must collect the dirty GFNs in
-> > > > > sequence", which doesn't mean much from an ordering perspective).
-> > > > > 
-> > > > > I can see that working on a strongly ordered architecture, but on
-> > > > > something as relaxed as ARM, the CPUs may^Wwill aggressively reorder
-> > > > > stuff that isn't explicitly ordered. I have the feeling that a CAS
-> > > > > operation on both sides would be enough, but someone who actually
-> > > > > understands how this works should have a look...
-> > > > 
-> > > > I definitely don't think I 100% understand all the ordering things since
-> > > > they're complicated.. but my understanding is that the reset procedure
-> > > > didn't need memory barrier (unlike pushing, where we have explicit wmb),
-> > > > because we assumed the userapp is not hostile so logically it should only
-> > > > modify the flags which is a 32bit field, assuming atomicity guaranteed.
-> > > 
-> > > Atomicity doesn't guarantee ordering, unfortunately.
-> > 
-> > Right, sorry to be misleading.  The "atomicity" part I was trying to say
-> > the kernel will always see consistent update on the fields.
-> >
-> > The ordering should also be guaranteed, because things must happen with
-> > below sequence:
-> > 
-> >   (1) kernel publish dirty GFN data (slot, offset)
-> >   (2) kernel publish dirty GFN flag (set to DIRTY)
-> >   (3) user sees DIRTY, collects (slots, offset)
-> >   (4) user sets it to RESET
-> >   (5) kernel reads RESET
-> 
-> Maybe. Maybe not. The reset could well be sitting in the CPU write
-> buffer for as long as it wants and not be seen by the kernel if the
-> read occurs on another CPU. And that's the crucial bit: single-CPU is
-> fine, but cross CPU isn't. Unfortunately, the userspace API is per-CPU
-> on collection, and global on reset (this seems like a bad decision,
-> but it is too late to fix this).
+Linus notes [1] that the introduction of new code that uses VM_BUG_ON()
+is just as bad as BUG_ON(), because it will crash the kernel on
+distributions that enable CONFIG_DEBUG_VM (like Fedora):
 
-Regarding the last statement, that's something I had question too and
-discussed with Paolo, even though at that time it's not a outcome of
-discussing memory ordering issues.
+    VM_BUG_ON() has the exact same semantics as BUG_ON. It is literally
+    no different, the only difference is "we can make the code smaller
+    because these are less important". [2]
 
-IIUC the initial design was trying to avoid tlb flush flood when vcpu
-number is large (each RESET per ring even for one page will need all vcpus
-to flush, so O(N^2) flushing needed).  With global RESET it's O(N).  So
-it's kind of a trade-off, and indeed until now I'm not sure which one is
-better.  E.g., with per-ring reset, we can have locality too in userspace,
-e.g. the vcpu thread might be able to recycle without holding global locks.
+This resulted in a more generic discussion about usage of BUG() and
+friends. While there might be corner cases that still deserve a BUG_ON(),
+most BUG_ON() cases should simply use WARN_ON_ONCE() and implement a
+recovery path if reasonable:
 
-Regarding safety I hope I covered that below in previous reply.
+    The only possible case where BUG_ON can validly be used is "I have
+    some fundamental data corruption and cannot possibly return an
+    error". [2]
 
-> 
-> > 
-> > So the ordering of single-entry is guaranteed in that when (5) happens it
-> > must be after stablized (1+2).
-> > 
-> > > Take the
-> > > following example: CPU0 is changing a bunch of flags for GFNs A, B, C,
-> > > D that exist in the ring in that order, and CPU1 performs an ioctl to
-> > > reset the page state.
-> > > 
-> > > CPU0:
-> > >     write_flag(A, KVM_DIRTY_GFN_F_RESET)
-> > >     write_flag(B, KVM_DIRTY_GFN_F_RESET)
-> > >     write_flag(C, KVM_DIRTY_GFN_F_RESET)
-> > >     write_flag(D, KVM_DIRTY_GFN_F_RESET)
-> > >     [...]
-> > > 
-> > > CPU1:
-> > >    ioctl(KVM_RESET_DIRTY_RINGS)
-> > > 
-> > > Since CPU0 writes do not have any ordering, CPU1 can observe the
-> > > writes in a sequence that have nothing to do with program order, and
-> > > could for example observe that GFN A and D have been reset, but not B
-> > > and C. This in turn breaks the logic in the reset code (B, C, and D
-> > > don't get reset), despite userspace having followed the spec to the
-> > > letter. If each was a store-release (which is the case on x86), it
-> > > wouldn't be a problem, but nothing calls it in the documentation.
-> > > 
-> > > Maybe that's not a big deal if it is expected that each CPU will issue
-> > > a KVM_RESET_DIRTY_RINGS itself, ensuring that it observe its own
-> > > writes. But expecting this to work across CPUs without any barrier is
-> > > wishful thinking.
-> > 
-> > I see what you meant...
-> > 
-> > Firstly I'm actually curious whether that'll really happen if the gfns are
-> > collected in something like a for loop:
-> > 
-> >   for(i = 0; i < N; i++)
-> >     collect_dirty_gfn(ring, i);
-> > 
-> > Because since all the gfps to be read will depend on variable "i", IIUC no
-> > reordering should happen, but I'm not really sure, so more of a pure
-> > question.
-> 
-> 'i' has no influence on the write ordering. Each write targets a
-> different address, there is no inter-write dependencies (this concept
-> doesn't exist other than for writes to the same address), so they can
-> be reordered at will.
-> 
-> If you want a proof of this, head to http://diy.inria.fr/www/ and run
-> the MP.litmus test (which conveniently gives you a reduction of this
-> problem) on both the x86 and AArch64 models. You will see that the
-> reordering isn't allowed on x86, but definitely allowed on arm64.
-> 
-> > Besides, the other thing to mention is that I think it is fine the RESET
-> > ioctl didn't recycle all the gfns got set to reset state.  Taking above
-> > example of GFNs A-D, if when reaching the RESET ioctl only A & D's flags
-> > are updated, the ioctl will recycle gfn A but stop at gfn B assuming B-D
-> > are not reset.  But IMHO it's okay because it means we reset partial of the
-> > gfns not all of them, and it's safe to do so.  It means the next ring full
-> > event can come earlier because we recycled less, but that's functionally
-> > safe to me.
-> 
-> It may be safe, but it isn't what the userspace API promises.
+As a very good approximation is the general rule:
 
-The document says:
+    "absolutely no new BUG_ON() calls _ever_" [2]
 
-  After processing one or more entries in the ring buffer, userspace calls
-  the VM ioctl KVM_RESET_DIRTY_RINGS to notify the kernel about it, so that
-  the kernel will reprotect those collected GFNs.  Therefore, the ioctl
-  must be called *before* reading the content of the dirty pages.
+... not even if something really shouldn't ever happen and is merely for
+documenting that an invariant always has to hold.
 
-I'd say it's not an explicit promise, but I think I agree with you that at
-least it's unclear on the behavior.
+There is only one good BUG_ON():
 
-Since we have a global recycle mechanism, most likely the app (e.g. current
-qemu impl) will use the same thread to collect/reset dirty GFNs, and
-trigger the RESET ioctl().  In that case it's safe, IIUC, because no
-cross-core ops.
+    Now, that said, there is one very valid sub-form of BUG_ON():
+    BUILD_BUG_ON() is absolutely 100% fine. [2]
 
-QEMU even guarantees this by checking it (kvm_dirty_ring_reap_locked):
+While WARN will also crash the machine with panic_on_warn set, that's
+exactly to be expected:
 
-    if (total) {
-        ret = kvm_vm_ioctl(s, KVM_RESET_DIRTY_RINGS);
-        assert(ret == total);
-    }
+    So we have two very different cases: the "virtual machine with good
+    logging where a dead machine is fine" - use 'panic_on_warn'. And
+    the actual real hardware with real drivers, running real loads by
+    users. [3]
 
-I think the assert() should never trigger as mentioned above.  But ideally
-maybe it should just be a loop until cleared gfns match total.
+The basic idea is that warnings will similarly get reported by users
+and be found during testing. However, in contrast to a BUG(), there is a
+way to actually influence the expected behavior (e.g., panic_on_warn)
+and to eventually keep the machine alive to extract some debug info.
 
-> In other words, without further straightening of the API, this doesn't
-> work as expected on relaxed memory architectures. So before this gets
-> enabled on arm64, this whole ordering issue must be addressed.
+Ingo notes that not all WARN_ON_ONCE cases need recovery. If we don't ever
+expect this code to trigger in any case, recovery code is not really
+helpful.
 
-How about adding some more documentation for KVM_RESET_DIRTY_RINGS on the
-possibility of recycling partial of the pages, especially when collection
-and the ioctl() aren't done from the same thread?
+    I'd prefer to keep all these warnings 'simple' - i.e. no attempted
+    recovery & control flow, unless we ever expect these to trigger.
+    [4]
 
-Any suggestions will be greatly welcomed.
+There have been different rules floating around that were never properly
+documented. Let's try to clarify.
 
-Thanks,
+[1] https://lkml.kernel.org/r/CAHk-=wiEAH+ojSpAgx_Ep=NKPWHU8AdO3V56BXcCsU97oYJ1EA@mail.gmail.com
+[2] https://lore.kernel.org/r/CAHk-=wg40EAZofO16Eviaj7mfqDhZ2gVEbvfsMf6gYzspRjYvw@mail.gmail.com
+[3] https://lore.kernel.org/r/CAHk-=wgF7K2gSSpy=m_=K3Nov4zaceUX9puQf1TjkTJLA2XC_g@mail.gmail.com
 
+Signed-off-by: David Hildenbrand <david@redhat.com>
+---
+ Documentation/process/coding-style.rst | 27 ++++++++++++++++++++++++++
+ 1 file changed, 27 insertions(+)
+
+diff --git a/Documentation/process/coding-style.rst b/Documentation/process/coding-style.rst
+index 03eb53fd029a..a6d81ff578fe 100644
+--- a/Documentation/process/coding-style.rst
++++ b/Documentation/process/coding-style.rst
+@@ -1186,6 +1186,33 @@ expression used.  For instance:
+ 	#endif /* CONFIG_SOMETHING */
+ 
+ 
++22) Do not crash the kernel
++---------------------------
++
++Do not add new code that uses BUG(), BUG_ON(), VM_BUG_ON(), ... to crash
++the kernel if certain conditions are not met. Instead, use WARN_ON_ONCE()
++with recovery code (if reasonable) instead. Unavoidable data corruption /
++security issues might be a very rare exception to this rule and need good
++justification.
++
++There is no need for WARN_ON_ONCE() recovery code if we never expect it to
++possibly trigger unless something goes seriously wrong or some other code
++is changed to break invariants. Note that VM_WARN_ON_ONCE() cannot be used
++in conditionals.
++
++Usage of WARN() and friends is fine for something that is not expected to
++be triggered easily. ``panic_on_warn`` users are not an excuse to not use
++WARN(): whoever enables ``panic_on_warn`` explicitly asked the kernel to
++crash in this case.
++
++However, WARN() and friends should not be used for something that is
++expected to trigger easily, for example, by user space. pr_warn_once()
++might be a reasonable replacement to notify the user.
++
++Note that BUILD_BUG_ON() is perfectly fine because it will make compilation
++fail instead of crashing the kernel.
++
++
+ Appendix I) References
+ ----------------------
+ 
 -- 
-Peter Xu
+2.37.1
 
