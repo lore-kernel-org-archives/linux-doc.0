@@ -2,243 +2,141 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 392BFC32793
-	for <linux-doc@archiver.kernel.org>; Wed, 24 Aug 2022 11:45:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 20795C00140
+	for <linux-doc@archiver.kernel.org>; Wed, 24 Aug 2022 11:54:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234787AbiHXLpD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 24 Aug 2022 07:45:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35518 "EHLO
+        id S236272AbiHXLyH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 24 Aug 2022 07:54:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41074 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229640AbiHXLpB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Aug 2022 07:45:01 -0400
-Received: from smtp-bc0d.mail.infomaniak.ch (smtp-bc0d.mail.infomaniak.ch [IPv6:2001:1600:3:17::bc0d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1923C4D4C1
-        for <linux-doc@vger.kernel.org>; Wed, 24 Aug 2022 04:44:57 -0700 (PDT)
-Received: from smtp-3-0001.mail.infomaniak.ch (unknown [10.4.36.108])
-        by smtp-2-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4MCPQv52G4zMqBfr;
-        Wed, 24 Aug 2022 13:44:55 +0200 (CEST)
-Received: from ns3096276.ip-94-23-54.eu (unknown [23.97.221.149])
-        by smtp-3-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4MCPQt0Xxwzlh8TD;
-        Wed, 24 Aug 2022 13:44:53 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=digikod.net;
-        s=20191114; t=1661341495;
-        bh=1A9w6LBApFmHy8AyI91NBSquKjP8ISZPMKdkvU7c3qU=;
-        h=Date:To:Cc:References:From:Subject:In-Reply-To:From;
-        b=ELdnmWIYHEW0cpvK8yP+KBxoP+OZ3AsDLeVhLwbdZOuSJRUGKAh8nALszvrZcHiBI
-         y+IEb4AcfPcXHE3tmXwOTcBgbcwEqswwR581B1vKVoyvBlpRDEtnw+yenjdP8yC5Eu
-         EptJG+SP34k9or7OMx1YGjN5TzIKbeB090t+hNYs=
-Message-ID: <8cb3b7df-fb2f-3e3f-7805-4b14cf1bdf90@digikod.net>
-Date:   Wed, 24 Aug 2022 13:44:52 +0200
+        with ESMTP id S237033AbiHXLyG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Aug 2022 07:54:06 -0400
+Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com [IPv6:2607:f8b0:4864:20::433])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33D608689A
+        for <linux-doc@vger.kernel.org>; Wed, 24 Aug 2022 04:54:05 -0700 (PDT)
+Received: by mail-pf1-x433.google.com with SMTP id 1so9056568pfu.0
+        for <linux-doc@vger.kernel.org>; Wed, 24 Aug 2022 04:54:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc;
+        bh=mdfwmPodCkN/tga61cvp2E/By8brPAPT4bch4OmZBrY=;
+        b=jQkEZX35Ws1c7ZeEwSoJBemqsqFfAypyELXqRGaM1Iwi5lyiq2xztSyATJfhvxF75Z
+         ul8dBoqZHEckEFGA2Vj+QqOizPpteP5iRhGYBJ5PgqcPGaXIQs5ZopwVs6VuSY1l5tRg
+         3Iz7Q0hkGTSLDWRi2xN7rYUTm402YSXBbyMt8JPsRE032tVM8R9dHI40vgO74WPOSuv8
+         l25FKg7I2R437aLqahE1+UG+kYgpxhIf1V7fiRgSC94VISztjWh5wCUYNaoDtWjm2QGX
+         eRxMkA21nMzsbRc6hdRrJqqfJ8QBfsu0aKk1Ldf41vLMtxNHZFFgbr58kBl4gPrKSG0S
+         oh2Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc;
+        bh=mdfwmPodCkN/tga61cvp2E/By8brPAPT4bch4OmZBrY=;
+        b=DEn1K4dEI99HdNiC7/4WiKYAytdGfRJEnpP+cdOvMG6nSd9sFmj6PVc8SNz6c7AnjI
+         6Qs1fU4eAPSKINPSAEX8Aq/JTonBLsmreU31cHNjvKB2yngy9h8BO7BXjnXXYq3tJCQn
+         Ctuei74MOvxBU7IgPYp/Mpi00sLGcfcpB4EfNnBvceuD3PYbvYgzofRYwkSZJ2ilbRsg
+         9Jtu0TS8+NUVZraBfAeC8Dctkj9i4d9uu2fxRd6aBeJ8kZzyvev5jW6C8bfQ6ZcQknjC
+         vCjKBxFUJRV5XozIy59KbCqvptO//ULZafV1t3+kmof1uofdm18x0XE6XrBE3tla/mNs
+         4eNw==
+X-Gm-Message-State: ACgBeo1Yk/fCfyKzKO1Flr98YpL0Wy0VmjSE+ntUmyqvvDcDitQZq16d
+        mYbsdt/lMktIqNKkYJhoiVyASw==
+X-Google-Smtp-Source: AA6agR4hUD37SHwdWeTevNNHwild8/Vtbrr4Wc7zIQIiAtuLWmwOFvjW9Z50/UwEJ9jdc27TVN+xWA==
+X-Received: by 2002:a65:6c10:0:b0:429:4a5:a4d0 with SMTP id y16-20020a656c10000000b0042904a5a4d0mr24569071pgu.614.1661342044601;
+        Wed, 24 Aug 2022 04:54:04 -0700 (PDT)
+Received: from [10.4.208.12] ([139.177.225.228])
+        by smtp.gmail.com with ESMTPSA id g126-20020a625284000000b0052d7cca96acsm12750758pfb.110.2022.08.24.04.53.58
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 24 Aug 2022 04:54:04 -0700 (PDT)
+Message-ID: <911cd0fc-0027-6da5-767a-fea4c7731c81@bytedance.com>
+Date:   Wed, 24 Aug 2022 19:53:52 +0800
 MIME-Version: 1.0
-User-Agent: 
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.1.2
+Subject: Re: [PATCH v3 07/10] sched/psi: add PSI_IRQ to track IRQ/SOFTIRQ
+ pressure
 Content-Language: en-US
-To:     xiujianfeng <xiujianfeng@huawei.com>,
-        =?UTF-8?Q?G=c3=bcnther_Noack?= <gnoack3000@gmail.com>
-Cc:     paul@paul-moore.com, jmorris@namei.org, serge@hallyn.com,
-        shuah@kernel.org, corbet@lwn.net,
-        linux-security-module@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-doc@vger.kernel.org
-References: <20220822114701.26975-1-xiujianfeng@huawei.com>
- <20220822114701.26975-3-xiujianfeng@huawei.com> <YwPKG3G9PlStYPkz@nuc>
- <5873455f-fff9-618c-25b1-8b6a4ec94368@digikod.net>
- <6d6edd60-5ed7-0f5d-d641-75e006c0e60e@huawei.com>
-From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
-Subject: Re: [PATCH -next 2/5] landlock: add chmod and chown support
-In-Reply-To: <6d6edd60-5ed7-0f5d-d641-75e006c0e60e@huawei.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+To:     Johannes Weiner <hannes@cmpxchg.org>
+Cc:     tj@kernel.org, mkoutny@suse.com, surenb@google.com,
+        gregkh@linuxfoundation.org, corbet@lwn.net, mingo@redhat.com,
+        peterz@infradead.org, songmuchun@bytedance.com,
+        cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20220824081829.33748-1-zhouchengming@bytedance.com>
+ <20220824081829.33748-8-zhouchengming@bytedance.com>
+ <YwYBasgyIU0iQgL3@cmpxchg.org>
+From:   Chengming Zhou <zhouchengming@bytedance.com>
+In-Reply-To: <YwYBasgyIU0iQgL3@cmpxchg.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On 2022/8/24 18:46, Johannes Weiner wrote:
+> On Wed, Aug 24, 2022 at 04:18:26PM +0800, Chengming Zhou wrote:
+>> @@ -903,6 +903,36 @@ void psi_task_switch(struct task_struct *prev, struct task_struct *next,
+>>  	}
+>>  }
+>>  
+>> +#ifdef CONFIG_IRQ_TIME_ACCOUNTING
+>> +void psi_account_irqtime(struct task_struct *task, u32 delta)
+>> +{
+>> +	int cpu = task_cpu(task);
+>> +	void *iter = NULL;
+>> +	struct psi_group *group;
+>> +	struct psi_group_cpu *groupc;
+>> +	u64 now;
+>> +
+>> +	if (!task->pid)
+>> +		return;
+>> +
+>> +	now = cpu_clock(cpu);
+>> +
+>> +	while ((group = iterate_groups(task, &iter))) {
+>> +		groupc = per_cpu_ptr(group->pcpu, cpu);
+>> +
+>> +		write_seqcount_begin(&groupc->seq);
+>> +
+>> +		record_times(groupc, now);
+>> +		groupc->times[PSI_IRQ_FULL] += delta;
+>> +
+>> +		write_seqcount_end(&groupc->seq);
+>> +
+>> +		if (group->poll_states & (1 << PSI_IRQ_FULL))
+>> +			psi_schedule_poll_work(group, 1);
+>> +	}
+> 
+> Shouldn't this kick avgs_work too? If the CPU is otherwise idle,
+> times[PSI_IRQ_FULL] would overflow after two missed averaging runs.
 
-On 23/08/2022 14:50, xiujianfeng wrote:
-> 
-> 
-> 在 2022/8/23 5:07, Mickaël Salaün 写道:
->>
->> On 22/08/2022 20:25, Günther Noack wrote:
->>> Hi!
->>>
->>> Thanks for sending this patch set! :)
->>>
->>> On Mon, Aug 22, 2022 at 07:46:58PM +0800, Xiu Jianfeng wrote:
->>>> Add two flags LANDLOCK_ACCESS_FS_CHMOD and LANDLOCK_ACCESS_FS_CHOWN to
->>>> support restriction to chmod(2) and chown(2) with landlock.
->>>>
->>>> Also change the landlock ABI version from 3 to 4.
->>>>
->>>> Signed-off-by: Xiu Jianfeng <xiujianfeng@huawei.com>
->>>> ---
->>>>    include/uapi/linux/landlock.h                |  8 ++++++--
->>>>    security/landlock/fs.c                       | 16 +++++++++++++++-
->>>>    security/landlock/limits.h                   |  2 +-
->>>>    security/landlock/syscalls.c                 |  2 +-
->>>>    tools/testing/selftests/landlock/base_test.c |  2 +-
->>>>    tools/testing/selftests/landlock/fs_test.c   |  6 ++++--
->>>>    6 files changed, 28 insertions(+), 8 deletions(-)
->>>>
->>>> diff --git a/include/uapi/linux/landlock.h
->>>> b/include/uapi/linux/landlock.h
->>>> index 735b1fe8326e..5ce633c92722 100644
->>>> --- a/include/uapi/linux/landlock.h
->>>> +++ b/include/uapi/linux/landlock.h
->>>> @@ -141,13 +141,15 @@ struct landlock_path_beneath_attr {
->>>>     *   directory) parent.  Otherwise, such actions are denied with
->>>> errno set to
->>>>     *   EACCES.  The EACCES errno prevails over EXDEV to let user space
->>>>     *   efficiently deal with an unrecoverable error.
->>>> + * - %LANDLOCK_ACCESS_FS_CHMOD: Change the file mode bits of a file.
->>>> + * - %LANDLOCK_ACCESS_FS_CHOWN: Change the owner and/or group of a
->>>> file.
->>
->> This section talk about "access rights that only apply to the content of
->> a directory, not the directory itself", which is not correct (see
->> LANDLOCK_ACCESS_FS_READ_DIR). I'd like these access rights to remain
->> here but this kernel patch and the related tests need some changes.
->>
->> What about a LANDLOCK_ACCESS_FS_CHGRP? I'm not sure if we need to
->> differentiate these actions or not, but we need arguments to choose.
->>
->>
->>>>     *
->>>>     * .. warning::
->>>>     *
->>>>     *   It is currently not possible to restrict some file-related
->>>> actions
->>>>     *   accessible through these syscall families: :manpage:`chdir(2)`,
->>>> - *   :manpage:`stat(2)`, :manpage:`flock(2)`, :manpage:`chmod(2)`,
->>>> - *   :manpage:`chown(2)`, :manpage:`setxattr(2)`, :manpage:`utime(2)`,
->>>> + *   :manpage:`stat(2)`, :manpage:`flock(2)`,
->>>> + *   :manpage:`setxattr(2)`, :manpage:`utime(2)`,
->>>
->>> *formatting nit*
->>> We could fill up the full line width here
->>>
->>>>     *   :manpage:`ioctl(2)`, :manpage:`fcntl(2)`, :manpage:`access(2)`.
->>>>     *   Future Landlock evolutions will enable to restrict them.
->>>>     */
->>>> @@ -167,6 +169,8 @@ struct landlock_path_beneath_attr {
->>>>    #define LANDLOCK_ACCESS_FS_MAKE_SYM            (1ULL << 12)
->>>>    #define LANDLOCK_ACCESS_FS_REFER            (1ULL << 13)
->>>>    #define LANDLOCK_ACCESS_FS_TRUNCATE            (1ULL << 14)
->>>> +#define LANDLOCK_ACCESS_FS_CHMOD            (1ULL << 15)
->>>> +#define LANDLOCK_ACCESS_FS_CHOWN            (1ULL << 16)
->>>>    /* clang-format on */
->>>>
->>>>    #endif /* _UAPI_LINUX_LANDLOCK_H */
->>>> diff --git a/security/landlock/fs.c b/security/landlock/fs.c
->>>> index c57f581a9cd5..c25d5f89c8be 100644
->>>> --- a/security/landlock/fs.c
->>>> +++ b/security/landlock/fs.c
->>>> @@ -147,7 +147,9 @@ static struct landlock_object
->>>> *get_inode_object(struct inode *const inode)
->>>>        LANDLOCK_ACCESS_FS_EXECUTE | \
->>>>        LANDLOCK_ACCESS_FS_WRITE_FILE | \
->>>>        LANDLOCK_ACCESS_FS_READ_FILE | \
->>>> -    LANDLOCK_ACCESS_FS_TRUNCATE)
->>>> +    LANDLOCK_ACCESS_FS_TRUNCATE | \
->>>> +    LANDLOCK_ACCESS_FS_CHMOD | \
->>>> +    LANDLOCK_ACCESS_FS_CHOWN)
->>>>    /* clang-format on */
->>>>
->>>>    /*
->>>> @@ -1146,6 +1148,16 @@ static int hook_path_truncate(const struct
->>>> path *const path)
->>>>        return current_check_access_path(path,
->>>> LANDLOCK_ACCESS_FS_TRUNCATE);
->>>>    }
->>>>
->>>> +static int hook_path_chmod(const struct path *const dir, umode_t mode)
->>
->> This is not a "dir" but a "path".
->>
->>
->>>> +{
->>>> +    return current_check_access_path(dir, LANDLOCK_ACCESS_FS_CHMOD);
->>>> +}
->>>> +
->>>> +static int hook_path_chown(const struct path *const dir, kuid_t uid,
->>>> kgid_t gid)
->>
->> Same here.
->>
->>
->>>> +{
->>>> +    return current_check_access_path(dir, LANDLOCK_ACCESS_FS_CHOWN);
->>>> +}
->>>
->>> One implication of this approach is that the chown+chmod right on a
->>> directory's contents are always going together with the same rights on
->>> the directory itself.
->>>
->>> For example, if you grant chmod+chown access rights for "datadir/",
->>> the command "chmod 0600 datadir/file1" will work, but so will the
->>> command "chmod 0600 datadir". But the approach of checking just the
->>> parent directory's rights is also inflexible if you think through the
->>> kinds of rights you can grant with it. (It would also not be possible
->>> to grant chmod+chown on individual files.)
->>
->> Good point. For an initial chmod/chown/chgrp access right, I'd prefer to
->> be able to set these access rights on a directory but only for its
->> content, not the directory itself. I think it is much safer and should
->> be enough for the majority of use cases, but let me know if I'm missing
->> something. I'm not sure being able to change the root directory access
->> rights may be a good idea anyway (even for containers). ;)
->>
->> A path_beneath rule enables to identify a file hierarchy (i.e. the
->> content of a directory), not to make modifications visible outside of
->> the directory identifying the hierarchy (hence the "parent_fd" field),
->> which would be the case with the current chmod/chown access rights.
->>
->>
->>>
->>> Do you have any thoughts on how to resolve this if this flexibility
->>> might be needed?
->>>
->>> I wonder whether the right way to resolve this would be to give users
->>> a way to make that distinction at the level of landlock_add_rule(),
->>> with an API like this (note the additional flag):
->>>
->>>     err = landlock_add_rule(ruleset_fd, LANDLOCK_RULE_PATH_BENEATH,
->>>                             &path_beneath, LANDLOCK_STRICTLY_BENEATH);
->>>                                            ^^^^^^^^^^^^^^^^^^^^^^^^^
->>>
->>> Multiple calls of landlock_add_rule() on the same file are already
->>> today joining the requested access rights, so it would be possible to
->>> mix-and-match "strict beneath" with "beneath" rights on the same
->>> directory, and it would work in the same way for other access rights
->>> as well.
->>
->> This kind of option is interesting. For now, some access rights are kind
->> of "doubled" to enable to differentiate between a file and a directory
->> (i.e. READ_DIR/READ_FILE, REMOVE_DIR/REMOVE_FILE, WRITE_FILE/MAKE_*)
->> when it may be useful, but this is different.
->>
->> I think this "strictly beneath" behavior should be the default, which is
->> currently the case.
->>
->>
->>>
->>> To be clear: I'm proposing this approach not because I think it should
->>> be part of this patch set, but because it would be good to have a way
->>> forward if that kind of flexibility is needed in the future.
->>>
->>> Does that seem reasonable?
->>
->> This is the kind of questions that made such access rights not
->> appropriate for the initial version of Landlock. But we should talk
->> about that now.
-> 
-> Hi Günther and Mickaël,
-> 
-> Thanks for your comments, so I think the conclusion here is that we have
-> to make sure that in this patchset chown/chmod access rights can be set
-> on a directory only for its content, not the directory itself, right?
-> any good idea about how to implement this? :)
+If the CPU is idle, task->pid == 0, so no times[PSI_IRQ_FULL] would accumulate?
+I was thinking if task->pid != 0, avgs_work should be active.
 
-In such hook code, you need to get the parent directory of the path 
-argument. This require to use and refactor the 
-check_access_path_dual/jump_up part in a dedicated helper (and take care 
-of all the corner cases).
+Not sure, maybe I missed something.
+
+> 
+> avgs_work should probably also self-perpetuate when PSI_IRQ_FULL is in
+> changed_states. (Looking at that code, I think it can be simplified:
+> delete nonidle and do `if (changed_states) schedule_delayed_work()`.)
+
+```
+collect_percpu_times(group, PSI_AVGS, &changed_states);
+nonidle = changed_states & (1 << PSI_NONIDLE);
+
+if (nonidle) {
+	schedule_delayed_work(dwork, nsecs_to_jiffies(
+			group->avg_next_update - now) + 1);
+}
+```
+
+Yes, changed_states include PSI_IRQ_FULL, here we only check nonidle
+= changed_states & (1 << PSI_NONIDLE), so it will not restart
+if only PSI_IRQ_FULL?
+
+If use `if (changed_states) schedule_delayed_work()`, avgs_work will
+self-restart when only PSI_IRQ_FULL changes?
+
+Thanks!
+
