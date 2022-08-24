@@ -2,247 +2,146 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A20AFC32793
-	for <linux-doc@archiver.kernel.org>; Wed, 24 Aug 2022 15:31:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C73DC3F6B0
+	for <linux-doc@archiver.kernel.org>; Wed, 24 Aug 2022 15:37:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236881AbiHXPbA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 24 Aug 2022 11:31:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59634 "EHLO
+        id S235526AbiHXPht (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 24 Aug 2022 11:37:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43448 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239521AbiHXPay (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Aug 2022 11:30:54 -0400
-Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 627751900A
-        for <linux-doc@vger.kernel.org>; Wed, 24 Aug 2022 08:30:52 -0700 (PDT)
-Received: by mail-pj1-x1032.google.com with SMTP id ds12-20020a17090b08cc00b001fae6343d9fso3854393pjb.0
-        for <linux-doc@vger.kernel.org>; Wed, 24 Aug 2022 08:30:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc;
-        bh=Nr6VDxQ+9Z3MRjk/tSo9PTiJ5/YnHSGlAbzSQvtKymc=;
-        b=qmjOD5wPUNDa8iTubLMf8v2s9M6JFSV1346e97d8+/FNWBwZ2rxbX0DX6lGi4Rhsim
-         9Jju7OGBeF35kUbBqdgzumB8y0J0rYYdHqGts5j2+GE56XmLVT+6nI7SY9al0GMs0x62
-         OTM6yf8WgWUY7pPvvb9P+GRM3OXq1+JGe3wJDAvEjFWB2YuetvY8J7IFCxhQckNs0rk9
-         tGYYH2zB6V0VEe528zfagh6OLsIomAMjIY63L/i+/4dhst6HTC5iuV1mGz2MRe966WtE
-         8r0Qx8bJLjfLSbtP88LDHqKAFr0whNygXd7u67EK7O8Hc/4BvDsDfila4lT8Yuf3g8K2
-         OUVw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc;
-        bh=Nr6VDxQ+9Z3MRjk/tSo9PTiJ5/YnHSGlAbzSQvtKymc=;
-        b=6UZJef/XDwapnIMRRO/UMQ3hGs6f6q2VEEQ5+zdVARKS3vFsvShGLL/FK3SGE38lE4
-         jFMueu+R74vWVeDcQANwKKO7QyIevGbDC4M/gYkmOwRh0pguHMGbWppLwOqbbt6OfVT9
-         SiWCdgP1x5Pb3kk2ElR4zrPpojqqoKve4U42mjofoPD+RMGj3D2Nm7knz+2J0iJH9x6p
-         5fteyDdt27OoxpBtJ1zi3bSMFncMlRrGFuTfLN30CBZ0ig5QPNL9haI3/4cHdgAayORH
-         0pVwwy8nte3/1/f1IMtpCG0WpM+yqsGSOr3SgfAA+oAq6QG551+PVlNNHeosvVUWP7Em
-         V+/w==
-X-Gm-Message-State: ACgBeo2uHHhY5HWKlf70EHB3UjmxT3BvdQcWS3sDgHCxCY9Awizf9Vd0
-        GE7Knus7bsVHPFe7v/MM5aG3pA==
-X-Google-Smtp-Source: AA6agR6TP7sJqf+FINNYGFswGkM7+NtmO+2XnKI4HuSUdqvl/BoQjFdrpoX3DJyaLGg41oZcQizYyg==
-X-Received: by 2002:a17:902:f641:b0:172:9642:1bf1 with SMTP id m1-20020a170902f64100b0017296421bf1mr29706364plg.36.1661355051780;
-        Wed, 24 Aug 2022 08:30:51 -0700 (PDT)
-Received: from [10.254.35.15] ([139.177.225.236])
-        by smtp.gmail.com with ESMTPSA id 82-20020a621555000000b0053655af14easm9094253pfv.45.2022.08.24.08.30.46
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 24 Aug 2022 08:30:50 -0700 (PDT)
-Message-ID: <7faa16c2-0488-e9df-da65-94265444b28d@bytedance.com>
-Date:   Wed, 24 Aug 2022 23:30:44 +0800
+        with ESMTP id S237255AbiHXPhX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Aug 2022 11:37:23 -0400
+Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8BC344D273;
+        Wed, 24 Aug 2022 08:37:22 -0700 (PDT)
+Received: from zn.tnic (p200300ea971b9859329c23fffea6a903.dip0.t-ipconnect.de [IPv6:2003:ea:971b:9859:329c:23ff:fea6:a903])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id EBDF71EC0532;
+        Wed, 24 Aug 2022 17:37:16 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1661355437;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=JYAdElWSvwdqbqowgbtvuq6MWUw4TqGpXu8bQC/7Pm0=;
+        b=UvaT53Lw6sp3lDU5FY7nZjsV1hbuTZWYAMmqdC8eKRyh9ltPO6tLwxIlwKk+8WTRQWWyyA
+        AMVCFJSIqSBkfPt8bkMdizEECMfOW+s1lKwp+rXmY5TNNh3+/CH31j9ASnJsPM2WPV/yIF
+        o75/irqxga5m3fD7BkiINcNIrsXo/Xg=
+Date:   Wed, 24 Aug 2022 17:37:12 +0200
+From:   Borislav Petkov <bp@alien8.de>
+To:     Jia He <justin.he@arm.com>
+Cc:     Len Brown <lenb@kernel.org>, James Morse <james.morse@arm.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Robert Richter <rric@kernel.org>,
+        Robert Moore <robert.moore@intel.com>,
+        Qiuxu Zhuo <qiuxu.zhuo@intel.com>,
+        Yazen Ghannam <yazen.ghannam@amd.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Jan Luebbe <jlu@pengutronix.de>,
+        Khuong Dinh <khuong@os.amperecomputing.com>,
+        Kani Toshi <toshi.kani@hpe.com>,
+        Ard Biesheuvel <ardb@kernel.org>, linux-acpi@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-edac@vger.kernel.org,
+        devel@acpica.org, "Rafael J . Wysocki" <rafael@kernel.org>,
+        Shuai Xue <xueshuai@linux.alibaba.com>,
+        Jarkko Sakkinen <jarkko@kernel.org>, linux-efi@vger.kernel.org,
+        nd@arm.com, "Paul E. McKenney" <paulmck@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Neeraj Upadhyay <quic_neeraju@quicinc.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+        Muchun Song <songmuchun@bytedance.com>,
+        linux-doc@vger.kernel.org, stable@kernel.org
+Subject: Re: [RESEND PATCH v3 3/9] EDAC/ghes: Make ghes_edac a proper module
+ to remove the dependency on ghes
+Message-ID: <YwZFqHvcEzVpAxzn@zn.tnic>
+References: <20220822154048.188253-1-justin.he@arm.com>
+ <20220822154048.188253-4-justin.he@arm.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.1.2
-Subject: Re: [PATCH v3 05/10] sched/psi: optimize task switch inside shared
- cgroups again
-Content-Language: en-US
-To:     Johannes Weiner <hannes@cmpxchg.org>
-Cc:     tj@kernel.org, mkoutny@suse.com, surenb@google.com,
-        gregkh@linuxfoundation.org, corbet@lwn.net, mingo@redhat.com,
-        peterz@infradead.org, songmuchun@bytedance.com,
-        cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20220824081829.33748-1-zhouchengming@bytedance.com>
- <20220824081829.33748-6-zhouchengming@bytedance.com>
- <YwYwUIjAGHLtRGue@cmpxchg.org>
-From:   Chengming Zhou <zhouchengming@bytedance.com>
-In-Reply-To: <YwYwUIjAGHLtRGue@cmpxchg.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220822154048.188253-4-justin.he@arm.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2022/8/24 22:06, Johannes Weiner wrote:
-> On Wed, Aug 24, 2022 at 04:18:24PM +0800, Chengming Zhou wrote:
->> commit 4117cebf1a9f ("psi: Optimize task switch inside shared cgroups")
->> defer prev task sleep handling to psi_task_switch(), so we don't need
->> to clear and set TSK_ONCPU state for common cgroups.
->>
->>     A
->>     |
->>     B
->>    / \
->>   C   D
->>  /     \
->> prev   next
->>
->> After that commit psi_task_switch() do:
->> 1. psi_group_change(next, .set=TSK_ONCPU) for D
->> 2. psi_group_change(prev, .clear=TSK_ONCPU | TSK_RUNNING) for C
->> 3. psi_group_change(prev, .clear=TSK_RUNNING) for B, A
->>
->> But there is a limitation "prev->psi_flags == next->psi_flags" that
->> if not satisfied, will make this cgroups optimization unusable for both
->> sleep switch or running switch cases. For example:
->>
->> prev->in_memstall != next->in_memstall when sleep switch:
->> 1. psi_group_change(next, .set=TSK_ONCPU) for D, B, A
->> 2. psi_group_change(prev, .clear=TSK_ONCPU | TSK_RUNNING) for C, B, A
->>
->> prev->in_memstall != next->in_memstall when running switch:
->> 1. psi_group_change(next, .set=TSK_ONCPU) for D, B, A
->> 2. psi_group_change(prev, .clear=TSK_ONCPU) for C, B, A
->>
->> The reason why this limitation exist is that we consider a group is
->> PSI_MEM_FULL if the CPU is actively reclaiming and nothing productive
->> could run even if it were runnable. So when CPU curr changed from prev
->> to next and their in_memstall status is different, we have to change
->> PSI_MEM_FULL status for their common cgroups.
->>
->> This patch remove this limitation by making psi_group_change() change
->> PSI_MEM_FULL status depend on CPU curr->in_memstall status.
->>
->> Signed-off-by: Chengming Zhou <zhouchengming@bytedance.com>
+On Mon, Aug 22, 2022 at 03:40:42PM +0000, Jia He wrote:
+> Commit dc4e8c07e9e2 ("ACPI: APEI: explicit init of HEST and GHES in
+> apci_init()") introduced a bug that ghes_edac_register() would be invoked
+> before edac_init(). Because at that time, the bus "edac" hadn't been even
+> registered, this created sysfs /devices/mc0 instead of
+> /sys/devices/system/edac/mc/mc0 on an Ampere eMag server.
 > 
-> Hoo boy, that took me a second.
+> To remove the dependency of ghes_edac on ghes, make it a proper module. Use
+> a list to save the probing devices in ghes_probe(), and defer the
+> ghes_edac_register() to module_init() of the new ghes_edac module by
+> iterating over the devices list.
 > 
+> Co-developed-by: Borislav Petkov <bp@alien8.de>
+> Signed-off-by: Borislav Petkov <bp@alien8.de>
+> Signed-off-by: Jia He <justin.he@arm.com>
+> Fixes: dc4e8c07e9e2 ("ACPI: APEI: explicit init of HEST and GHES in apci_init()")
+> Cc: stable@kernel.org
 
-Thanks for your time. :-)
+Why is this marked for stable?
 
-> 
-> Way back when PSI_MEM_FULL was accounted from the timer tick, task
-> switching could simply iterate next and prev to the common ancestor to
-> update TSK_ONCPU and be done.
-> 
-> Then memstall ticks were replaced with checking curr->in_memstall
-> directly in psi_group_change(). That meant that now if the task switch
-> was between a memstall and a !memstall task, we had to iterate through
-> the common ancestors at least ONCE to fix up their state_masks.
-> 
-> We added the identical_state filter to make sure the common ancestor
-> elimination was skipped in that case. It seems that was always a
-> little too eager, because it caused us to walk the common ancestors
-> *twice* instead of the required once: the iteration for next could
-> have stopped at the common ancestor; prev could have updated TSK_ONCPU
-> up to the common ancestor, then finish to the root without changing
-> any flags, just to get the new curr->in_memstall into the state_masks.
-> 
-> This patch recognizes this and makes it so that we walk to the root
-> exactly once if state_mask needs updating.
-> 
-> 
-> Unless I missed anything, would you mind adding this to the changelog?
+The prerequisite patches are needed too. I guess this needs to be
+communicated to stable folks somehow by doing
 
-Your explanation is very clear and accurate, will add it.
+Cc: stable@kernel.org # needs commits X, Y, ...
 
-> 
-> I'm not quite sure how 4117cebf1a9f ("psi: Optimize task switch inside
-> shared cgroups") fits into the picture. That optimized the sleep case,
-> but the sleep case never had the common ancestor optimization (the dq
-> would have already cleared TSK_ONCPU up to the root). Let me know if I
-> am mistaken.
+but I guess the committer needs to do that because only at commit time
+will X and Y be known...
 
-That commit skiped clearing TSK_ONCPU in dequeue when sleep, so also have
-the common ancestor optimization.
+So, is there any particular reason why this should be in stable?
 
-> 
-> AFAICS I can see, this patch here is simply catching up on a missed
-> optimization that could have been done in 7fae6c8171d2 ("psi: Use
-> ONCPU state tracking machinery to detect reclaim") directly already.
+> @@ -1442,7 +1449,9 @@ static int ghes_remove(struct platform_device *ghes_dev)
+>  
+>  	ghes_fini(ghes);
+>  
+> -	ghes_edac_unregister(ghes);
+> +	mutex_lock(&ghes_devs_mutex);
+> +	list_del_rcu(&ghes->elist);
 
-Yes, apart from catching on a missed optimization, I later found in testing
-this patch is necessary for the next patch 06/10.
+Is that list RCU-protected?
 
-Imaging we walk the common ancestors twice:
-(1) psi_group_change(.clear = 0, .set = TSK_ONCPU)
-(2) psi_group_change(.clear = TSK_ONCPU, .set = 0)
+> +	mutex_unlock(&ghes_devs_mutex);
+>  
+>  	kfree(ghes);
 
-We previously used tasks[NR_ONCPU] to record TSK_ONCPU, so tasks[NR_ONCPU]++
-in (1) then tasks[NR_ONCPU]-- in (2), tasks[NR_ONCPU] still be correct.
+...
 
-The patch 06/10 change to use one bit in state mask to record TSK_ONCPU,
-so PSI_ONCPU bit will be set in (1), but then be cleared in (2), which
-cause the psi_group_cpu has task running but without PSI_ONCPU bit set!
+> @@ -566,3 +549,35 @@ void ghes_edac_unregister(struct ghes *ghes)
+>  unlock:
+>  	mutex_unlock(&ghes_reg_mutex);
+>  }
+> +
+> +static int __init ghes_edac_init(void)
+> +{
+> +	struct ghes *g, *g_tmp;
+> +
+> +	if (!IS_ENABLED(CONFIG_X86))
+> +		force_load = true;
 
-With this patch, we will never walk the common ancestors twice, so don't
-have above problem anymore.
+No, this is not how this works.
 
-> 
-> So I think it all makes sense. I have just two notes on the diff:
-> 
->> @@ -820,8 +820,6 @@ void psi_task_switch(struct task_struct *prev, struct task_struct *next,
->>  	u64 now = cpu_clock(cpu);
->>  
->>  	if (next->pid) {
->> -		bool identical_state;
->> -
->>  		psi_flags_change(next, 0, TSK_ONCPU);
->>  		/*
->>  		 * When switching between tasks that have an identical
->> @@ -829,11 +827,9 @@ void psi_task_switch(struct task_struct *prev, struct task_struct *next,
->>  		 * we reach the first common ancestor. Iterate @next's
->>  		 * ancestors only until we encounter @prev's ONCPU.
->>  		 */
-> 
-> The comment is rather stale now. Could you change it to this?
+> +	ghes_devs = ghes_get_devices(force_load);
+> +	if (!ghes_devs)
+> +		return -ENODEV;
 
-Good, will update the comment.
+You simply need to check force_load here.
 
-> 
-> 		/*
-> 		 * Set TSK_ONCPU on @next's cgroups. If @next shares any
-> 		 * ancestors with @prev, those will already have @prev's
-> 		 * TSK_ONCPU bit set, and we can stop the iteration there.
-> 		 */
-> 
->> -		identical_state = prev->psi_flags == next->psi_flags;
->>  		iter = NULL;
->>  		while ((group = iterate_groups(next, &iter))) {
->> -			if (identical_state &&
->> -			    per_cpu_ptr(group->pcpu, cpu)->tasks[NR_ONCPU]) {
->> +			if (per_cpu_ptr(group->pcpu, cpu)->tasks[NR_ONCPU]) {
->>  				common = group;
->>  				break;
->>  			}
->> @@ -880,7 +876,7 @@ void psi_task_switch(struct task_struct *prev, struct task_struct *next,
->>  		 * TSK_ONCPU is handled up to the common ancestor. If we're tasked
->>  		 * with dequeuing too, finish that for the rest of the hierarchy.
->>  		 */
->> -		if (sleep) {
->> +		if (sleep || unlikely(prev->in_memstall != next->in_memstall)) {
->>  			clear &= ~TSK_ONCPU;
->>  			for (; group; group = iterate_groups(prev, &iter))
->>  				psi_group_change(group, cpu, clear, set, now, wake_clock);
-> 
-> Okay, this computes too. But it is somewhat special-cased, without
-> explaining why the memstall state in particular matters. Instead of
-> focusing on the exceptions though, can we just generalize this a bit?
-> 
-> 		/*
-> 		 * TSK_ONCPU is handled up to the common ancestor. If there are
-> 		 * any other differences between the two tasks (e.g. prev goes
-> 		 * to sleep, or only one task is memstall), finish propagating
-> 		 * those differences all the way up to the root.
-> 		 */
-> 		if ((prev->psi_flags ^ next->psi_flags) & ~TSK_ONCPU) {
-> 			clear &= ~TSK_ONCPU;
-> 			for (; group; group = iterate_groups(prev, &iter))
-> 				psi_group_change(group, cpu, clear, set, now, wake_clock);
-> 		}
+> +	list_for_each_entry_safe(g, g_tmp, ghes_devs, elist) {
+> +		ghes_edac_register(g->dev);
+> +	}
+> +
+> +	return 0;
+> +}
 
-I think this is much better and the comment is very clear!
+-- 
+Regards/Gruss,
+    Boris.
 
-Thanks.
-
+https://people.kernel.org/tglx/notes-about-netiquette
