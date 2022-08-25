@@ -2,174 +2,228 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AC555C28D13
-	for <linux-doc@archiver.kernel.org>; Thu, 25 Aug 2022 09:31:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 13023C28D13
+	for <linux-doc@archiver.kernel.org>; Thu, 25 Aug 2022 09:36:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240244AbiHYJbs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 25 Aug 2022 05:31:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53922 "EHLO
+        id S240437AbiHYJgf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 25 Aug 2022 05:36:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37824 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240285AbiHYJbp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Aug 2022 05:31:45 -0400
-Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A51F923FC
-        for <linux-doc@vger.kernel.org>; Thu, 25 Aug 2022 02:31:44 -0700 (PDT)
-Received: by mail-pj1-x1033.google.com with SMTP id ds12-20020a17090b08cc00b001fae6343d9fso5400975pjb.0
-        for <linux-doc@vger.kernel.org>; Thu, 25 Aug 2022 02:31:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc;
-        bh=FkF/ieW9DrmFPlYn4kxhbKZWUjDQxs4hOhq1nOWUbV8=;
-        b=v6DiykumEFWXgdqMcMhIspfDE1oja9wFVIrnV8rqLwVwlnY39s+EM5gzT9vhmoBeLo
-         v6VwF77QU0XGq5IBHzHQZKNHBfq/yAcsBgDuE1tGHxpG8CCU0YwxK/4ljpdJb6+5YF82
-         VXR5kUA7A0IHQG+kJc8soAaPclxYNsbm98MqP6J03BSWjz1Jd0EedEHmyjQn1vf6WSMz
-         SZhGOyJ61vUsjs2XzLlvTfNpQQIePS1f/2ofHVhTxICx1JkcOAmgbCD9IfwDNze4WNon
-         FJ9Zsx23eV0KGVkqm+Sz1DhRhI9a/jeETIL+KNiQffsbqBsbWJwDOm1FwkQtWlP9Td7V
-         7keg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
-        bh=FkF/ieW9DrmFPlYn4kxhbKZWUjDQxs4hOhq1nOWUbV8=;
-        b=dGIoCnEoN4TsTIiYMamC7zXgNacxK4TVJFmRAm4dHxcNGziGdBs2U8UigieLm/s8xB
-         u2/QZLlu94waYDqSvoaCcfS+U82c5XfQIctgXBVsrNw0fxIyfatph6R60V/X+qFbXYQX
-         ezq+1Uraqo05XwQIPAM/MC/jq36yhrnq3c76sYldshbE3P7vnzj80CPqtfTCvKBMEkWr
-         mxEkmJjWpC+xS4cuVo7bBc2KjE/Bnz50ILeRKpUA1LLISUnR+IQVpY3pZKjYuh5vv8sz
-         NdijIUir0uF6wPF2Q8bvuT8qy+LiyksvCcr8SyXrvyojBf++OsqBaE+tUNJR+g/c8lhw
-         ZC1w==
-X-Gm-Message-State: ACgBeo3XfHkhBToYFblV6lVSkvfYXKsf7z+gB9XAlzB1HO9c3Qs4/5cO
-        Q8B4KAhL76GWXrqr6rf1d7YTYQ==
-X-Google-Smtp-Source: AA6agR64FNDVCcY/q1Ls1c6co+VRCiun2r+tsha4TZ/3lAU+XvQ+Fla9eV7HgK3GzB4+tLAwjARlyw==
-X-Received: by 2002:a17:902:9894:b0:172:ca00:f305 with SMTP id s20-20020a170902989400b00172ca00f305mr3136942plp.107.1661419903738;
-        Thu, 25 Aug 2022 02:31:43 -0700 (PDT)
-Received: from MacBook-Pro.local.bytedance.net ([139.177.225.241])
-        by smtp.gmail.com with ESMTPSA id n9-20020a170902e54900b00172f4835f53sm7205389plf.192.2022.08.25.02.31.38
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 25 Aug 2022 02:31:43 -0700 (PDT)
-From:   lizhe.67@bytedance.com
-To:     mhocko@suse.com
-Cc:     Jason@zx2c4.com, akpm@linux-foundation.org, corbet@lwn.net,
-        keescook@chromium.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        lizefan.x@bytedance.com, lizhe.67@bytedance.com,
-        mark-pk.tsai@mediatek.com, mhiramat@kernel.org,
-        rostedt@goodmis.org, vbabka@suse.cz, yuanzhu@bytedance.com
-Subject: Re: [PATCH v3] page_ext: introduce boot parameter early_page_ext
-Date:   Thu, 25 Aug 2022 17:31:30 +0800
-Message-Id: <20220825093130.98332-1-lizhe.67@bytedance.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <YwcgoZfw4RhZ1Bl6@dhcp22.suse.cz>
-References: <YwcgoZfw4RhZ1Bl6@dhcp22.suse.cz>
+        with ESMTP id S240396AbiHYJge (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Aug 2022 05:36:34 -0400
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA767AA37D;
+        Thu, 25 Aug 2022 02:36:33 -0700 (PDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out1.suse.de (Postfix) with ESMTPS id 6298E3402E;
+        Thu, 25 Aug 2022 09:36:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+        t=1661420192; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=PgbOGaq5aMTSNFSLMgPYN3ecNGfCC0JVORocYZoKd1k=;
+        b=kwfbdLYEg1WtBzx1UMpV+o/635ckKwl2DId9hB/3R21GnNQzRHlLKnMLEHZh9QD4dyZHxm
+        ZS1KtDlV6ddFPW6kkznE+YfUqWKQETPrbxEgeG4rtCwNOifCEexBLOr60pPXYuiy6trcg3
+        0CSRJO2FNPv0X3XW10e2Ja+pj1WkexQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+        s=susede2_ed25519; t=1661420192;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=PgbOGaq5aMTSNFSLMgPYN3ecNGfCC0JVORocYZoKd1k=;
+        b=Tb7AuwQOniD6z/U6CE88AOUH9kyDf2zvM/TKgkxQr7hDA1IEQIBgPCk4QpYrM+TKTZ44Qs
+        LzNMqU7+29dBr7CA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 29A9313A8E;
+        Thu, 25 Aug 2022 09:36:32 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id IpcbCaBCB2OaSgAAMHmgww
+        (envelope-from <vbabka@suse.cz>); Thu, 25 Aug 2022 09:36:32 +0000
+Message-ID: <4a6385a9-8432-21dc-a070-66236c78457b@suse.cz>
+Date:   Thu, 25 Aug 2022 11:36:31 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.1.2
+Subject: Re: [PATCH v3] page_ext: introduce boot parameter 'early_page_ext'
+Content-Language: en-US
+To:     lizhe.67@bytedance.com, akpm@linux-foundation.org, mhocko@suse.com,
+        mhiramat@kernel.org, keescook@chromium.org, Jason@zx2c4.com,
+        mark-pk.tsai@mediatek.com, rostedt@goodmis.org, corbet@lwn.net
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, lizefan.x@bytedance.com, yuanzhu@bytedance.com
+References: <20220825063102.92307-1-lizhe.67@bytedance.com>
+From:   Vlastimil Babka <vbabka@suse.cz>
+In-Reply-To: <20220825063102.92307-1-lizhe.67@bytedance.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 25 Aug 2022 09:11:29 +0200, mhocko@suse.com wrote:
->On Thu 25-08-22 14:31:02, lizhe.67@bytedance.com wrote:
->> From: Li Zhe <lizhe.67@bytedance.com>
->> 
->> In 'commit 2f1ee0913ce5 ("Revert "mm: use early_pfn_to_nid in page_ext_init"")',
->> we call page_ext_init() after page_alloc_init_late() to avoid some panic
->> problem. It seems that we cannot track early page allocations in current
->> kernel even if page structure has been initialized early.
->> 
->> This patch introduce a new boot parameter 'early_page_ext' to resolve this
->> problem. If we pass it to kernel, function page_ext_init() will be moved
->> up and feature 'deferred initialization of struct pages' will be disabled.
->
->will be disabled to initialize the page allocator early and prevent from
->the OOM mentioned above.
->
->> It can help us to catch early page allocations. This is useful especially
->> when we find that the free memory value is not the same right after
->> different kernel booting.
->> 
->> Changelogs:
->> 
->> v1->v2:
->> - use a cmd line parameter to move up function page_ext_init() instead of
->>   using CONFIG_DEFERRED_STRUCT_PAGE_INIT
->> - fix oom problem[1]
->> 
->> v2->v3:
->> - make adjustments suggested by Michal Hocko
->> 
->> v1 patch: https://lore.kernel.org/lkml/Yv3r6Y1vh+6AbY4+@dhcp22.suse.cz/T/
->> v2 patch: https://lore.kernel.org/lkml/20220824065058.81051-1-lizhe.67@bytedance.com/T/
->> 
->> [1]: https://lore.kernel.org/linux-mm/YwHmXLu5txij+p35@xsang-OptiPlex-9020/
->
->the changelog is usually not part of the changelog and goes under ---
+On 8/25/22 08:31, lizhe.67@bytedance.com wrote:
+> From: Li Zhe <lizhe.67@bytedance.com>
+> 
+> In 'commit 2f1ee0913ce5 ("Revert "mm: use early_pfn_to_nid in page_ext_init"")',
+> we call page_ext_init() after page_alloc_init_late() to avoid some panic
+> problem. It seems that we cannot track early page allocations in current
+> kernel even if page structure has been initialized early.
+> 
+> This patch introduce a new boot parameter 'early_page_ext' to resolve this
+> problem. If we pass it to kernel, function page_ext_init() will be moved
+> up and feature 'deferred initialization of struct pages' will be disabled.
+> It can help us to catch early page allocations. This is useful especially
+> when we find that the free memory value is not the same right after
+> different kernel booting.
+> 
+> Changelogs:
+> 
+> v1->v2:
+> - use a cmd line parameter to move up function page_ext_init() instead of
+>   using CONFIG_DEFERRED_STRUCT_PAGE_INIT
+> - fix oom problem[1]
+> 
+> v2->v3:
+> - make adjustments suggested by Michal Hocko
+> 
+> v1 patch: https://lore.kernel.org/lkml/Yv3r6Y1vh+6AbY4+@dhcp22.suse.cz/T/
 
-Thanks for correcting my mistake!
+IIRC v1 failed to boot in some automatic bot test. Will this not fail with
+the same config/hw combination when the parameter is passed?
 
->> 
->> Suggested-by: Michal Hocko <mhocko@suse.com>
->> Signed-off-by: Li Zhe <lizhe.67@bytedance.com>
->
->I still have few comments below before I am going to ack. But this looks
->much better already.
->
->> ---
->>  Documentation/admin-guide/kernel-parameters.txt |  6 ++++++
->>  include/linux/page_ext.h                        | 11 +++++++++++
->>  init/main.c                                     |  6 +++++-
->>  mm/page_alloc.c                                 |  2 ++
->>  mm/page_ext.c                                   | 12 ++++++++++++
->>  5 files changed, 36 insertions(+), 1 deletion(-)
->> 
->> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
->> index d7f30902fda0..7b5726828ac0 100644
->> --- a/Documentation/admin-guide/kernel-parameters.txt
->> +++ b/Documentation/admin-guide/kernel-parameters.txt
->> @@ -1471,6 +1471,12 @@
->>  			Permit 'security.evm' to be updated regardless of
->>  			current integrity status.
->>  
->> +	early_page_ext [KNL] Boot-time early page_ext initializing option.
->> +			This boot parameter disables the deferred initialization
->> +			of struct page and move up function page_ext_init() in
->> +			order to catch early page allocations. Available with
->> +			CONFIG_PAGE_EXTENSION=y.
->
->For admins it would likely be more easier to understand something like
->following
->	early_page_ext [KNL] Enforces page_ext initialization to earlier
->			stages so cover more early boot allocations.
->			Please note that as side effect some 
->			optimizations might be disabled to achieve that
->			(e.g. parallelized memory initialization is
->			disabled) so the boot process might take longer,
->			especially on systems with a lot of memory.
->			Available with CONFIG_PAGE_EXTENSION=y
+> v2 patch: https://lore.kernel.org/lkml/20220824065058.81051-1-lizhe.67@bytedance.com/T/
+> 
+> [1]: https://lore.kernel.org/linux-mm/YwHmXLu5txij+p35@xsang-OptiPlex-9020/
+> 
+> Suggested-by: Michal Hocko <mhocko@suse.com>
+> Signed-off-by: Li Zhe <lizhe.67@bytedance.com>
+> ---
+>  Documentation/admin-guide/kernel-parameters.txt |  6 ++++++
+>  include/linux/page_ext.h                        | 11 +++++++++++
+>  init/main.c                                     |  6 +++++-
+>  mm/page_alloc.c                                 |  2 ++
+>  mm/page_ext.c                                   | 12 ++++++++++++
+>  5 files changed, 36 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index d7f30902fda0..7b5726828ac0 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -1471,6 +1471,12 @@
+>  			Permit 'security.evm' to be updated regardless of
+>  			current integrity status.
+>  
+> +	early_page_ext [KNL] Boot-time early page_ext initializing option.
+> +			This boot parameter disables the deferred initialization
+> +			of struct page and move up function page_ext_init() in
+> +			order to catch early page allocations. Available with
+> +			CONFIG_PAGE_EXTENSION=y.
+> +
+>  	failslab=
+>  	fail_usercopy=
+>  	fail_page_alloc=
+> diff --git a/include/linux/page_ext.h b/include/linux/page_ext.h
+> index fabb2e1e087f..68d690649234 100644
+> --- a/include/linux/page_ext.h
+> +++ b/include/linux/page_ext.h
+> @@ -36,9 +36,15 @@ struct page_ext {
+>  	unsigned long flags;
+>  };
+>  
+> +extern bool early_page_ext;
+>  extern unsigned long page_ext_size;
+>  extern void pgdat_page_ext_init(struct pglist_data *pgdat);
+>  
+> +static inline bool early_page_ext_enable(void)
+> +{
+> +	return early_page_ext;
+> +}
 
-Great, I will use this description in my v4 patch. It is much more easier
-for us to understand. Thanks!
+I think it should better be named early_page_ext_enabled() as it returns the
+status, not sets it to true?
 
->[...]
->> diff --git a/mm/page_ext.c b/mm/page_ext.c
->> index 3dc715d7ac29..bf4f2a12d7dc 100644
->> --- a/mm/page_ext.c
->> +++ b/mm/page_ext.c
->> @@ -85,6 +85,18 @@ unsigned long page_ext_size = sizeof(struct page_ext);
->>  
->>  static unsigned long total_usage;
->>  
->> +#ifdef CONFIG_DEFERRED_STRUCT_PAGE_INIT
->> +bool early_page_ext __meminitdata;
->> +#else
->> +bool early_page_ext __meminitdata = true;
->> +#endif
->
->Why should default depend on DEFERRED_STRUCT_PAGE_INIT at all. This is
->just confusing and I do not see how it serves a purpose. We might grow
->more optimizations which would prefent early page_ext init.
->
->Let's just have default false and only enforce with the parameter. This
->is more predictable and easier to understand.
+> +
+>  #ifdef CONFIG_SPARSEMEM
+>  static inline void page_ext_init_flatmem(void)
+>  {
+> @@ -67,6 +73,11 @@ static inline struct page_ext *page_ext_next(struct page_ext *curr)
+>  #else /* !CONFIG_PAGE_EXTENSION */
+>  struct page_ext;
+>  
+> +static inline bool early_page_ext_enable(void)
+> +{
+> +	return false;
+> +}
+> +
+>  static inline void pgdat_page_ext_init(struct pglist_data *pgdat)
+>  {
+>  }
+> diff --git a/init/main.c b/init/main.c
+> index 91642a4e69be..d95edb67a499 100644
+> --- a/init/main.c
+> +++ b/init/main.c
+> @@ -849,6 +849,9 @@ static void __init mm_init(void)
+>  	pgtable_init();
+>  	debug_objects_mem_init();
+>  	vmalloc_init();
+> +	/* Should be run after vmap initialization */
+> +	if (early_page_ext_enable())
+> +		page_ext_init();
+>  	/* Should be run before the first non-init thread is created */
+>  	init_espfix_bsp();
+>  	/* Should be run after espfix64 is set up. */
+> @@ -1606,7 +1609,8 @@ static noinline void __init kernel_init_freeable(void)
+>  	padata_init();
+>  	page_alloc_init_late();
+>  	/* Initialize page ext after all struct pages are initialized. */
+> -	page_ext_init();
+> +	if (!early_page_ext_enable())
+> +		page_ext_init();
+>  
+>  	do_basic_setup();
+>  
+> diff --git a/mm/page_alloc.c b/mm/page_alloc.c
+> index e5486d47406e..e580b197aa1e 100644
+> --- a/mm/page_alloc.c
+> +++ b/mm/page_alloc.c
+> @@ -482,6 +482,8 @@ defer_init(int nid, unsigned long pfn, unsigned long end_pfn)
+>  {
+>  	static unsigned long prev_end_pfn, nr_initialised;
+>  
+> +	if (early_page_ext_enable())
+> +		return false;
+>  	/*
+>  	 * prev_end_pfn static that contains the end of previous zone
+>  	 * No need to protect because called very early in boot before smp_init.
+> diff --git a/mm/page_ext.c b/mm/page_ext.c
+> index 3dc715d7ac29..bf4f2a12d7dc 100644
+> --- a/mm/page_ext.c
+> +++ b/mm/page_ext.c
+> @@ -85,6 +85,18 @@ unsigned long page_ext_size = sizeof(struct page_ext);
+>  
+>  static unsigned long total_usage;
+>  
+> +#ifdef CONFIG_DEFERRED_STRUCT_PAGE_INIT
+> +bool early_page_ext __meminitdata;
+> +#else
+> +bool early_page_ext __meminitdata = true;
+> +#endif
+> +static int __init setup_early_page_ext(char *str)
+> +{
+> +	early_page_ext = true;
+> +	return 0;
+> +}
+> +early_param("early_page_ext", setup_early_page_ext);
+> +
+>  static bool __init invoke_need_callbacks(void)
+>  {
+>  	int i;
 
-Yes, this is confusing. Without depending on DEFERRED_STRUCT_PAGE_INIT, the
-logic here will be more clear. I will remove it from my v4 patch. Thanks!
