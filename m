@@ -2,120 +2,142 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CF873C28D13
-	for <linux-doc@archiver.kernel.org>; Thu, 25 Aug 2022 13:30:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D591CC65C0D
+	for <linux-doc@archiver.kernel.org>; Thu, 25 Aug 2022 13:37:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242670AbiHYNaM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 25 Aug 2022 09:30:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59730 "EHLO
+        id S241371AbiHYNhP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 25 Aug 2022 09:37:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49820 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242673AbiHYNaC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Aug 2022 09:30:02 -0400
-Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com [IPv6:2607:f8b0:4864:20::42d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 957EE74B8C
-        for <linux-doc@vger.kernel.org>; Thu, 25 Aug 2022 06:29:57 -0700 (PDT)
-Received: by mail-pf1-x42d.google.com with SMTP id p185so5305626pfb.13
-        for <linux-doc@vger.kernel.org>; Thu, 25 Aug 2022 06:29:57 -0700 (PDT)
+        with ESMTP id S241837AbiHYNhN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Aug 2022 09:37:13 -0400
+Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8872DB275F
+        for <linux-doc@vger.kernel.org>; Thu, 25 Aug 2022 06:37:11 -0700 (PDT)
+Received: by mail-ej1-x635.google.com with SMTP id lx1so3170109ejb.12
+        for <linux-doc@vger.kernel.org>; Thu, 25 Aug 2022 06:37:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc;
-        bh=dTFw9x7UWEYWmcpi8QQ3ADKhSd2hLCnt4Nb7ZML9r2c=;
-        b=pOJV7py+1gmdPby1+qgIJXeyyz4vq0Y6SLPWPk9C8wUZ3jbdpsjj+uYWZc4U5ah1p+
-         yuDLAenPGiZt6i2y5O9Yjy3d+66C3b0XSxLsquozHv/qZWsspon/9kgcx0Slj2iTSp1k
-         tf1pbn+dGkU5JKNE6CsKL0XkZsCaDBaP57N3oUk7avUm45JecCZgR0w917DxONm4foP9
-         xOgSNwfIZVy54TaQXWB3pMJ3kszwkTpW+JZncbc3bnLEpumsNiR5JaB77HhsTQGz+MOu
-         ozcglXwiMk+OTMLGHZ8euypblNhMuH8XJxn2qewzILgRw3UqQ1IkQCC86Z7Hg5aEY57Y
-         POfQ==
+        d=linaro.org; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc;
+        bh=dlm2famS8O5FqtaX9yCeRxscNO/EP4O+QRIK7hJkB2s=;
+        b=hTFwrfcekpPlwsKPKUDudDRoTVjcNhRXmh1WtgUK60PKUyBomYKetqdJodmXMyLiB0
+         dkyuV7K5eZsOuK963+nUWPUe7KCyXkJZONDwPCrivKsZT9PJDubk1TQqXKdDF6asiLn/
+         tKuc0x8bOBlRQRLCT3cu6Yw1wdke2dVeoukHTnpDK1KgGBp18+wj0ZvHkmzlWDm5xfBe
+         7fzo7likfMjdV90vpKunxdhJef3uuXRWyf+Ve8lXxcg9SOUlYCESKPN/0H+qXAmkBCTn
+         HkRXi4lc+hQbTfmsIQLyBi6byW3t6UFkkCoPxj3LYOq5bF2Nj0Yq+8g0crj8aP/TqJK5
+         Uo7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc;
-        bh=dTFw9x7UWEYWmcpi8QQ3ADKhSd2hLCnt4Nb7ZML9r2c=;
-        b=Mww2g6d/TZj4DyC9ADY0sy8ttb5B1/44voKOCVEk126azBgo5uI9JCVb1Ff8hrRgBr
-         DvpkFwQzItDJVGnrmUJTen1Gxik2+N671P7PTOSAdHPPf+mDVCP/g3drWYKyb82jPvoK
-         6uxQD0wMyPCX731AfU9tVm55jKE+12uHpisEupiERtrkIRslIDqEfFEJccvFXBbG0ABk
-         m3QPSu/sTpL9J6x6AajCGK1ov8MrM19lvNTyZzANjK8evOmS19TMrvVQey69Jj9B2JJG
-         IJHQYBDpz2ksmUksnDnGt9kfi8kQSXi7hL3mX6gbf6Se42yBoyuRsF3B3d7bYmVMwUAg
-         +z4g==
-X-Gm-Message-State: ACgBeo3JQhwCgBtC1eRn4wDAyHjFYMzNg4dVF1OiN2ARRqtPmtzS5KD7
-        48AB1JOZDlhN+vWoXQTfZzlaxg==
-X-Google-Smtp-Source: AA6agR49xMvUT/izcMy5D0EpEk6DPB8yIxNuV5ufRx18BJi72MgIWrhVUECm9Ioz1lXHqW96DaFZkw==
-X-Received: by 2002:a65:6bca:0:b0:420:712f:ab98 with SMTP id e10-20020a656bca000000b00420712fab98mr3331215pgw.350.1661434196720;
-        Thu, 25 Aug 2022 06:29:56 -0700 (PDT)
-Received: from [10.254.35.15] ([139.177.225.252])
-        by smtp.gmail.com with ESMTPSA id d17-20020a170902f15100b00172ef499c83sm7990449plb.32.2022.08.25.06.29.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 25 Aug 2022 06:29:56 -0700 (PDT)
-Message-ID: <5165abfc-9f42-93ea-a888-11eaa4ab3420@bytedance.com>
-Date:   Thu, 25 Aug 2022 21:29:48 +0800
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=dlm2famS8O5FqtaX9yCeRxscNO/EP4O+QRIK7hJkB2s=;
+        b=VVgDA4FD2Na6qXyz4OGaFQF9INpCYq+pbqkPPSR2PRgHD+GvBUR8p08QUe7LBLE0rU
+         zh9xOBpIz5RVjMpsVDQnGcEAS1XCT3f4lK5RHDR1arz4TArk4NuYccK11hTNbo/gGN4Z
+         PsN43b/v+3J2cwJrWrgaOGBrIzE6cCniRTxKynsmVR7nuLydGCTgx5bV+C2tspRLhag5
+         tRJ/75UrmUqGuiauGrGI69+bmYX0Ygzb4BUHQSTerhufTim5+Sxf2Pqy88/zO9vzVD15
+         WRkB/OTTNZMRjYth8gcOlnDgJK/h9sLqTz4PH3P8T5KwEXSLJngLz42rdNqdQo3YJmQc
+         N/MQ==
+X-Gm-Message-State: ACgBeo3I5NKiJjKrsqSS6aqJO4m4zYCRCffrn7VA15cPJAmBs/OJktyW
+        lYXZwfxA/Hh7+H4bUlx2ObPF4gANIC1+wFTApFnqRA==
+X-Google-Smtp-Source: AA6agR6Be+IFNm9RQjAf6ZoJJ0Gv1gRLpqln7PaJkfZ2s1Nuu2OIJL74xQl9m77k4Ch3VEJMzJNEIiUBj3SnGR8MwxQ=
+X-Received: by 2002:a17:906:9b86:b0:73d:72cf:72af with SMTP id
+ dd6-20020a1709069b8600b0073d72cf72afmr2609925ejc.440.1661434630115; Thu, 25
+ Aug 2022 06:37:10 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.1.2
-Subject: Re: [PATCH v3 10/10] sched/psi: per-cgroup PSI accounting
- disable/re-enable interface
-Content-Language: en-US
-To:     Johannes Weiner <hannes@cmpxchg.org>
-Cc:     tj@kernel.org, mkoutny@suse.com, surenb@google.com,
-        gregkh@linuxfoundation.org, corbet@lwn.net, mingo@redhat.com,
-        peterz@infradead.org, songmuchun@bytedance.com,
-        cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20220824081829.33748-1-zhouchengming@bytedance.com>
- <20220824081829.33748-11-zhouchengming@bytedance.com>
- <YwX2jC2UQ/zeY2E8@cmpxchg.org>
- <324b1d0f-42e5-8947-68cb-a3d20135f2c6@bytedance.com>
- <Ywd3K1+5blotUEtU@cmpxchg.org>
-From:   Chengming Zhou <zhouchengming@bytedance.com>
-In-Reply-To: <Ywd3K1+5blotUEtU@cmpxchg.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <f31b818cf8d682de61c74b133beffcc8a8202478.1660041358.git.christophe.leroy@csgroup.eu>
+ <CACRpkdY53c0qXx24Am1TMivXr-MV+fQ8B0CDjtGi6=+2tn4-7A@mail.gmail.com>
+ <CAK8P3a1Vh1Uehuin-u5QrTO5qh+t0aK_hA-QZwqc00Db_+MKcw@mail.gmail.com>
+ <CACRpkdbhbwBe=jU5prifXCYUXPqULhst0se3ZRH+sWOh9XeoLQ@mail.gmail.com>
+ <CAK8P3a0j-54_OkXC7x3NSNaHhwJ+9umNgbpsrPxUB4dwewK63A@mail.gmail.com>
+ <CACRpkda0+iy8H0YmyowSDn8RbYgnVbC1k+o5F67inXg4Qb934Q@mail.gmail.com> <CAK8P3a0uuJ_z8wmNmQTW_qPNqzz7XoxZdHgqbzmK+ydtjraeHg@mail.gmail.com>
+In-Reply-To: <CAK8P3a0uuJ_z8wmNmQTW_qPNqzz7XoxZdHgqbzmK+ydtjraeHg@mail.gmail.com>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Thu, 25 Aug 2022 15:36:58 +0200
+Message-ID: <CACRpkdb5ow4hD3td6agCuKWvuxptm5AV4rsCrcxNStNdXnBzrA@mail.gmail.com>
+Subject: Re: [PATCH] gpio: Allow user to customise maximum number of GPIOs
+To:     Arnd Bergmann <arnd@arndb.de>
+Cc:     Alexandre Courbot <gnurou@gmail.com>,
+        Alexandre Courbot <acourbot@nvidia.com>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Russell King <linux@armlinux.org.uk>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        "moderated list:ARM PORT" <linux-arm-kernel@lists.infradead.org>,
+        "open list:GENERIC INCLUDE/ASM HEADER FILES" 
+        <linux-arch@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2022/8/25 21:20, Johannes Weiner wrote:
-> On Thu, Aug 25, 2022 at 08:28:39PM +0800, Chengming Zhou wrote:
->> On 2022/8/24 17:59, Johannes Weiner wrote:
->>> Hi Chengming,
->>>
->>> Thanks for incorporating all the feedback. I have a few nitpicks
->>> below, but with those considered, please add:
->>>
->>> Acked-by: Johannes Weiner <hannes@cmpxchg.org>
->>>
->>> On Wed, Aug 24, 2022 at 04:18:29PM +0800, Chengming Zhou wrote:
->>>> @@ -5171,12 +5220,19 @@ static struct cftype cgroup_base_files[] = {
->>>>  	{
->>>>  		.name = "irq.pressure",
->>>>  		.flags = CFTYPE_PRESSURE,
->>>> +		.file_offset = offsetof(struct cgroup, psi_files[PSI_IRQ]),
->>>>  		.seq_show = cgroup_irq_pressure_show,
->>>>  		.write = cgroup_irq_pressure_write,
->>>>  		.poll = cgroup_pressure_poll,
->>>>  		.release = cgroup_pressure_release,
->>>>  	},
->>>>  #endif
->>>> +	{
->>>> +		.name = "cgroup.pressure",
->>>> +		.flags = CFTYPE_PRESSURE,
->>>> +		.seq_show = cgroup_psi_show,
->>>> +		.write = cgroup_psi_write,
->>>
->>> To match the naming convention, these should be called
->>> cgroup_pressure_show() and cgroup_pressure_write().
->>
->> I just find cgroup_pressure_write() already exists, so I change the names
->> to cgroup_pressure_enable_show() and cgroup_pressure_enable_write(),
->> since this file name is simplified from "cgroup.pressure.enable".
-> 
-> That makes two outliers instead of one. It's probably better to steal
-> cgroup_pressure_write for cgroup.pressure, and rename the currently
-> misnamed helper. How about do_pressure_write()? pressure_write()?
+On Thu, Aug 18, 2022 at 2:46 PM Arnd Bergmann <arnd@arndb.de> wrote:
+> On Thu, Aug 18, 2022 at 2:25 PM Linus Walleij <linus.walleij@linaro.org> wrote:
 
-Ok, I will change that helper to pressure_write().
+> > git grep 'base = -1' yields these suspects:
+> >
+> > arch/arm/common/sa1111.c:       sachip->gc.base = -1;
+> > arch/arm/common/scoop.c:        devptr->gpio.base = -1;
+> > arch/powerpc/platforms/52xx/mpc52xx_gpt.c:      gpt->gc.base = -1;
+> > arch/powerpc/platforms/83xx/mcu_mpc8349emitx.c: gc->base = -1;
+> >
+> > That's all! We could just calculate these to 512-ngpios and
+> > hardcode that instead.
+>
+> How do the consumers find the numbers for these four?
 
-Thanks.
+For SA1111 the chip gets named "sa1111" and some consumers actually
+use proper machine descriptions, maybe all?
 
+arch/arm/mach-sa1100/jornada720.c:              GPIO_LOOKUP("sa1111",
+0, "s0-power", GPIO_ACTIVE_HIGH),
+arch/arm/mach-sa1100/jornada720.c:              GPIO_LOOKUP("sa1111",
+1, "s1-power", GPIO_ACTIVE_HIGH),
+(...)
+
+For Scoop it is conditionally overridden in the code. I guess always
+overridden.
+
+For powerpc these seem to be using (old but working) device tree
+lookups, so should not be an issue.
+
+Sadly I'm not 100% sure that there are no random hard-coded
+GPIO numbers referring to whatever the framework gave them
+at the time the code was written :(
+
+Another reason the base is assigned from above (usually
+from 512 and downward) is that the primary SoC GPIO usually
+want to be at base 0 and there is no guarantee that it will
+get probed first. So hard-coded GPIO bases go from 0 -> n
+and dynamically allocateed GPIO bases from n <- 512.
+
+Then we hope they don't meet and overlap in the middle...
+
+> > and in that case it is better to delete the use of this function
+> > altogether since it can not fail.
+>
+> S32_MAX might be a better upper bound. That allows to
+> just have no number assigned to a gpio chip. Any driver
+> code calling desc_to_gpio() could then get back -1
+> or a negative error code.
+>
+> Making the ones that are invalid today valid sounds like
+> a step backwards to me if the goal is to stop using
+> gpio numbers and most consumers no longer need them.
+
+OK I get it...
+
+Now: who wants to write this patch? :)
+
+Christophe? Will you take a stab at it?
+
+Yours,
+Linus Walleij
