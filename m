@@ -2,83 +2,89 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F2E94ECAA25
-	for <linux-doc@archiver.kernel.org>; Thu, 25 Aug 2022 17:31:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B367EECAA25
+	for <linux-doc@archiver.kernel.org>; Thu, 25 Aug 2022 17:42:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240638AbiHYRby (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 25 Aug 2022 13:31:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42160 "EHLO
+        id S242072AbiHYRmO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 25 Aug 2022 13:42:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56842 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231324AbiHYRbx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Aug 2022 13:31:53 -0400
-Received: from smtpbg153.qq.com (smtpbg153.qq.com [13.245.218.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2562EB600F;
-        Thu, 25 Aug 2022 10:31:45 -0700 (PDT)
-X-QQ-mid: bizesmtp82t1661448589tbgqaz6c
-Received: from wuhui-virtual-machine.localdoma ( [116.7.245.180])
-        by bizesmtp.qq.com (ESMTP) with 
-        id ; Fri, 26 Aug 2022 01:29:35 +0800 (CST)
-X-QQ-SSF: 01400000002000E0T000B00A0000000
-X-QQ-FEAT: 3M0okmaRx3hU7bf7kODaNBIBB2rrtblyiMQOLkf+ftjfLU3x7cvQV2De3c4nZ
-        qhRkOtSglXZ730gsqEhRVMDJCHjzY7ENiP4QQ+q/FqNOmcYotIzYEiyT17i8IwCDlbvGpL9
-        jFzeAThNxJa4PSRkrDSM+D1mwrfa/Cm554cbAmD4N3xEwIkC7tbwxgxAaDpR3elTweHfUW9
-        txJIWOFs6sQvxCcK7smIcO4AKO6WRGDH+qaGOO7oHsvxTqkWJdXd9payFFScHzse7C65EHY
-        L5OA7nQaK+69vHbLAL6UcVkttHpkQ7k1qUx8HpVPxsG1aIpuuvs/lDOQHlKR8d62YYgjeB9
-        yuW16AAI1EX4Bu+MczwlbVczJDEIFG4lakzRBfvSMa99FRP5oA=
-X-QQ-GoodBg: 2
-From:   Yixuan Cao <caoyixuan2019@email.szu.edu.cn>
-To:     akpm@linux-foundation.org
-Cc:     corbet@lwn.net, yejiajian2018@email.szu.edu.cn,
-        skhan@linuxfoundation.org, akiyks@gmail.com, rppt@kernel.org,
-        zhangyinan2019@email.szu.edu.cn, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Yixuan Cao <caoyixuan2019@email.szu.edu.cn>
-Subject: [PATCH] Documentation/mm/page_owner.rst: update experimental data
-Date:   Fri, 26 Aug 2022 01:29:34 +0800
-Message-Id: <20220825172934.4344-1-caoyixuan2019@email.szu.edu.cn>
-X-Mailer: git-send-email 2.17.1
-X-QQ-SENDSIZE: 520
-Feedback-ID: bizesmtp:email.szu.edu.cn:qybglogicsvr:qybglogicsvr4
+        with ESMTP id S234681AbiHYRmN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Aug 2022 13:42:13 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0CE44B2D9E;
+        Thu, 25 Aug 2022 10:42:12 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id B1D92B82A68;
+        Thu, 25 Aug 2022 17:42:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E607C433C1;
+        Thu, 25 Aug 2022 17:42:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1661449329;
+        bh=w857NjmZvn15PF0UZAGRqvuU5wVMAAdo1gnTqJ7Yi4w=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=qU0rnAnuAnH9bxn1gEwWsMcPXK5ez7TiLi22yFvOmtIqE5w+j7wt81NPs4bqgFJ3u
+         0oJ+NDqTVLAdbjjxWF6qQ06pGsM/PuXFhHYV5UyDgAZ6ZA0h/I2RRDJqZSPcUuNMmy
+         +RvTBk6VwWuKo4OAw8/0b2+JZnv1G8LZjTrgmrAW3muFEb9YncoJo1r08qaKyXBjCf
+         xQeWYfDZ8ytZGauhjSawjYcHv2BQatl77q3oBsNlH2saUFurp9XgcbQoF3dLQbb0Ob
+         HrRL1kQPz7MT3UJUTHNsRywx4TP5jShjmjWvQFxJE1NPXZphYtqAk2g6tg7jYB/NhP
+         s4/rDNnZsqL/g==
+Date:   Thu, 25 Aug 2022 10:42:08 -0700
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     "=?UTF-8?B?aW1hZ2Vkb25n?=(=?UTF-8?B?6JGj5qKm6b6Z?=)" 
+        <imagedong@tencent.com>, linux-doc@vger.kernel.org
+Cc:     Stephen Rothwell <sfr@canb.auug.org.au>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "Linux Next Mailing List" <linux-next@vger.kernel.org>,
+        David Miller <davem@davemloft.net>,
+        Networking <netdev@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [Internet]linux-next: build warning after merge of the net-next
+ tree
+Message-ID: <20220825104208.592a2df2@kernel.org>
+In-Reply-To: <07263247-4906-4A72-A1A2-CAB41F115EB7@tencent.com>
+References: <20220825154105.534d78ab@canb.auug.org.au>
+        <07263247-4906-4A72-A1A2-CAB41F115EB7@tencent.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-I noticed some experimental data need to be updated.
+On Thu, 25 Aug 2022 07:55:36 +0000 imagedong(=E8=91=A3=E6=A2=A6=E9=BE=99) w=
+rote:
+> > After merging the net-next tree, today's linux-next build (htmldocs)
+> > produced this warning:
+> >=20
+> > Documentation/networking/kapi:26: net/core/skbuff.c:780: WARNING: Error=
+ in declarator or parameters
+> > Invalid C declaration: Expecting "(" in parameters. [error at 19]
+> >   void __fix_address kfree_skb_reason (struct sk_buff *skb, enum skb_dr=
+op_reason reason)
+> >   -------------------^
+> >=20
+> > Introduced by commit
+> >=20
+> >   c205cc7534a9 ("net: skb: prevent the split of kfree_skb_reason() by g=
+cc")
+> >  =20
+>=20
+> Yeah, I commited this patch. May I ask what command did you use to
+> produce this warning? I tried the following command, but not success:
+>=20
+>   make V=3D2 SPHINXDIRS=3D"networking" htmldocs
+>=20
+> Hmm.......what does this warning means? Does it don't like this
+> function attribute?
 
-Signed-off-by: Yixuan Cao <caoyixuan2019@email.szu.edu.cn>
----
- Documentation/mm/page_owner.rst | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+It popped up for me on a clean build of
 
-diff --git a/Documentation/mm/page_owner.rst b/Documentation/mm/page_owner.rst
-index f18fd8907049..8e2545bb4e17 100644
---- a/Documentation/mm/page_owner.rst
-+++ b/Documentation/mm/page_owner.rst
-@@ -41,17 +41,17 @@ size change due to this facility.
- - Without page owner::
- 
-    text    data     bss     dec     hex filename
--   48392   2333     644   51369    c8a9 mm/page_alloc.o
-+   58581   3166     652   62399    f3bf mm/page_alloc.o
- 
- - With page owner::
- 
-    text    data     bss     dec     hex filename
--   48800   2445     644   51889    cab1 mm/page_alloc.o
--   6662     108      29    6799    1a8f mm/page_owner.o
--   1025       8       8    1041     411 mm/page_ext.o
-+   59085   3294     652   63031    f637 mm/page_alloc.o
-+   7464     125      28    7617    1dc1 mm/page_owner.o
-+   1396      32       8    1436     59c mm/page_ext.o
- 
--Although, roughly, 8 KB code is added in total, page_alloc.o increase by
--520 bytes and less than half of it is in hotpath. Building the kernel with
-+Although, roughly, 9 KB code is added in total, page_alloc.o increase by
-+632 bytes and less than half of it is in hotpath. Building the kernel with
- page owner and turning it on if needed would be great option to debug
- kernel memory problem.
- 
--- 
-2.17.1
+	make htmldocs
 
+There's a lot of other warnings but you should see this one, too.
 
+I think you need to add the new keyword to one of the tables in
+Documentation/conf.py
