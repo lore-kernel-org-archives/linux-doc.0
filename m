@@ -2,186 +2,233 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C762C04AA5
-	for <linux-doc@archiver.kernel.org>; Thu, 25 Aug 2022 09:58:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 75B28C04AA5
+	for <linux-doc@archiver.kernel.org>; Thu, 25 Aug 2022 10:18:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238624AbiHYJ64 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 25 Aug 2022 05:58:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43450 "EHLO
+        id S237536AbiHYKSH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 25 Aug 2022 06:18:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42022 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238276AbiHYJ6z (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Aug 2022 05:58:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE1CA3A4AC
-        for <linux-doc@vger.kernel.org>; Thu, 25 Aug 2022 02:58:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1661421532;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=sXEuh/C7EhMT4N5IVCTMgJSlHVPtxpuWjvzgdztQOwA=;
-        b=FyYafbFkTwL/yGrlVFUCKT4YjfwfnI7ZlkozTJ2e2AFuQQ9kdkSEIcovrum9Rq4hthtpiJ
-        dDWKpP0h9SlzziymOCHgTfyAZHgQJzPquw55v/oaYuhXHa+0NP+WJErOOIWkI9eDQF/y5V
-        +I4kDsOmkwpyKuPhNfX65drDz3NJnKo=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-112-eY3g5R4cNdex78N9266hzQ-1; Thu, 25 Aug 2022 05:58:51 -0400
-X-MC-Unique: eY3g5R4cNdex78N9266hzQ-1
-Received: by mail-wr1-f72.google.com with SMTP id k20-20020adfb354000000b0022556a0b8cbso2020185wrd.5
-        for <linux-doc@vger.kernel.org>; Thu, 25 Aug 2022 02:58:51 -0700 (PDT)
+        with ESMTP id S239952AbiHYKSG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Aug 2022 06:18:06 -0400
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C9E29A9EA
+        for <linux-doc@vger.kernel.org>; Thu, 25 Aug 2022 03:18:04 -0700 (PDT)
+Received: by mail-pj1-x102c.google.com with SMTP id pm13so10940729pjb.5
+        for <linux-doc@vger.kernel.org>; Thu, 25 Aug 2022 03:18:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc;
+        bh=8LG2k05DJnROOgkztDstbFKzneVj919DKMEfXnvnzsM=;
+        b=n4nC6fEstNpQ5VksawW3D5+VIkf821LpaSwu2aXWQVYPUOaNKPFmBLHLwvddNiuSP0
+         0luatI6rGvAF9CKvfiUbZyDDdl5lSWMS4LnN5sN3uAw2TjUODaqefdh9TC/j15Uz3g+g
+         rGgN/TSDJh+9oQtjg/VGF35uXeoglCwy8UN+6Z7VqYvSajDRzpkclrGC2i6OmsMt2JSf
+         LfKQpREoiQKnlRtFNoNctDHTOkQ2xcCa1wPjizz1b52oNQqhq5x7v34KoqiioOGGYrn4
+         PiTfueyisb3xqlxmVd6IBC7ESfENTbecqfiWMdxb8FIOWhk7ePTb6p3aEpVXB4RrtKJD
+         w5tA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:subject:organization:from
-         :references:cc:to:content-language:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc;
-        bh=sXEuh/C7EhMT4N5IVCTMgJSlHVPtxpuWjvzgdztQOwA=;
-        b=4eh3ke2RR6RlzbpSdEXoOAVL6iLvisX+HBR6SezdrPXK7M0tbNZ8Zb1p7jjFb1nn2e
-         HB9DVVMvRgrKZgCwVGGR0OsPq2SZJVGO2vvDyOdg+KvkOL0aby1tTTDDnIcu1NeF6Egn
-         Z/MNL+AHfrDhyWmbethVy/T/kgo5L1xGhdmH6XQe5vqcW936MzR2QVE2jH7SE5raeCRA
-         sq7T6kkv/0Ir17Fy3RWb/xzdQHkD5pkpejV56JAf0jo0TbVHJKlhsiGXu82FNqXcuU3r
-         n5Nl/LG3/6pHJ+hrKsPsxnpbiW77ilXQdv+dozsXO/cxKhRgHFro3n1w9lHGxmfRO/Zr
-         ILGw==
-X-Gm-Message-State: ACgBeo0ZQmXtpf5Sc+s4dSLIBqWpQAP0KW4dLAG6/IjWYCixlUB1tgYp
-        C3B08pdwpA3VlMrsVxsB6r3iJBsAim+uu0rc+jRE1k8ZxRwsqwFwZg6zUsIv5siVSxnsKLz3Yar
-        s8R6jKd9d2qUm1Wgjp51N
-X-Received: by 2002:adf:fe09:0:b0:225:6c9a:1925 with SMTP id n9-20020adffe09000000b002256c9a1925mr1689601wrr.546.1661421530148;
-        Thu, 25 Aug 2022 02:58:50 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR4zjV5/uX5zJoDDQGvyv88ADNp860yGdsGm+iTCH+1DVQ3YBmb2/7qZdaBeUnu1fynPZfG7sQ==
-X-Received: by 2002:adf:fe09:0:b0:225:6c9a:1925 with SMTP id n9-20020adffe09000000b002256c9a1925mr1689579wrr.546.1661421529892;
-        Thu, 25 Aug 2022 02:58:49 -0700 (PDT)
-Received: from ?IPV6:2a09:80c0:192:0:20af:34be:985b:b6c8? ([2a09:80c0:192:0:20af:34be:985b:b6c8])
-        by smtp.gmail.com with ESMTPSA id e20-20020a5d5954000000b0021e42e7c7dbsm19557923wri.83.2022.08.25.02.58.48
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 25 Aug 2022 02:58:49 -0700 (PDT)
-Message-ID: <b1103c81-0c56-0e9b-711c-246e431db151@redhat.com>
-Date:   Thu, 25 Aug 2022 11:58:48 +0200
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
+        bh=8LG2k05DJnROOgkztDstbFKzneVj919DKMEfXnvnzsM=;
+        b=LJJze/aLXRM/WrYvgJrZdLPHN3NwGscVKsd7Ouh0O9UhkY5xmmbrM03qpR5L2t9uz/
+         xnUbBsjDan+zrE9un2clnJokdtL2yd/Rbm4zwQmlLpj8d50haHayitMra3fhbeRVThel
+         jWaSz6p+U5py7Nyy2JrlBWHLvSMQvDOgGBmD03G+wyiS1ycSU/v0xP58OhIoZcxmS6eD
+         udrkh6gbct+ohE/tzX9CWsUQosRX7Q76TD4G47ePPh8ew9fzz2ZaqZ8JML3AfUJfFx9Q
+         ePfOmBJrRiOJDNmq303pSclRY+FPO7Eu1GOwWYj1wiaOGAQdPR+En/AY0U54yh+cj0nX
+         MJLw==
+X-Gm-Message-State: ACgBeo0or4GP6mhbUFDm/X6zNWIJ86+i5Q5rO60bXNvDbZpu0/oJh1cg
+        U9ujlL2Z6FxWme3BOWOAdW+ndg==
+X-Google-Smtp-Source: AA6agR5vhKPF2KV/Q8bvIk9C+97LnKamRRKl0+wKKCHuaqeeLvTDZeVe/b/CzpyAVXvl7LYMKwPn5w==
+X-Received: by 2002:a17:90b:380f:b0:1fb:3286:79b0 with SMTP id mq15-20020a17090b380f00b001fb328679b0mr3942482pjb.170.1661422684009;
+        Thu, 25 Aug 2022 03:18:04 -0700 (PDT)
+Received: from MacBook-Pro.local.bytedance.net ([139.177.225.225])
+        by smtp.gmail.com with ESMTPSA id s2-20020a170902ea0200b0016ed20eacd2sm14463615plg.150.2022.08.25.03.17.58
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 25 Aug 2022 03:18:03 -0700 (PDT)
+From:   lizhe.67@bytedance.com
+To:     vbabka@suse.cz
+Cc:     Jason@zx2c4.com, akpm@linux-foundation.org, corbet@lwn.net,
+        keescook@chromium.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        lizefan.x@bytedance.com, lizhe.67@bytedance.com,
+        mark-pk.tsai@mediatek.com, mhiramat@kernel.org, mhocko@suse.com,
+        rostedt@goodmis.org, yuanzhu@bytedance.com
+Subject: Re: [PATCH v3] page_ext: introduce boot parameter 'early_page_ext'
+Date:   Thu, 25 Aug 2022 18:17:50 +0800
+Message-Id: <20220825101750.303-1-lizhe.67@bytedance.com>
+X-Mailer: git-send-email 2.32.0
+In-Reply-To: <4a6385a9-8432-21dc-a070-66236c78457b@suse.cz>
+References: <4a6385a9-8432-21dc-a070-66236c78457b@suse.cz>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Content-Language: en-US
-To:     Joe Perches <joe@perches.com>, linux-kernel@vger.kernel.org
-Cc:     linux-mm@kvack.org, linux-doc@vger.kernel.org,
-        kexec@lists.infradead.org,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Ingo Molnar <mingo@kernel.org>,
-        David Laight <David.Laight@ACULAB.COM>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Andy Whitcroft <apw@canonical.com>,
-        Dwaipayan Ray <dwaipayanray1@gmail.com>,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        Baoquan He <bhe@redhat.com>, Vivek Goyal <vgoyal@redhat.com>,
-        Dave Young <dyoung@redhat.com>
-References: <20220824163100.224449-1-david@redhat.com>
- <20220824163100.224449-3-david@redhat.com>
- <3c250aa26020b2f336fd575a58d06ba26faf1f14.camel@perches.com>
-From:   David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Subject: Re: [PATCH RFC 2/2] checkpatch: warn on usage of VM_BUG_ON() and
- friends
-In-Reply-To: <3c250aa26020b2f336fd575a58d06ba26faf1f14.camel@perches.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 24.08.22 18:52, Joe Perches wrote:
-> On Wed, 2022-08-24 at 18:31 +0200, David Hildenbrand wrote:
->> checkpatch does not point out that VM_BUG_ON() and friends should be
->> avoided, however, Linus notes:
->>
->>     VM_BUG_ON() has the exact same semantics as BUG_ON. It is literally
->>     no different, the only difference is "we can make the code smaller
->>     because these are less important". [1]
->>
->> So let's warn on VM_BUG_ON() and friends as well. While at it, make it
->> clearer that the kernel really shouldn't be crashed.
->>
->> Note that there are some other *_BUG_ON flavors, but they are not all
->> bad: for example, KVM_BUG_ON() only triggers a WARN_ON_ONCE and then
->> flags KVM as being buggy, so we'll not care about them for now here.
-> []
->> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-> []
->> @@ -4695,12 +4695,12 @@ sub process {
->>  			}
->>  		}
+On 25 Aug 2022 11:36:31 +0200, vbabka@suse.cz wrote:
+>On 8/25/22 08:31, lizhe.67@bytedance.com wrote:
+>> From: Li Zhe <lizhe.67@bytedance.com>
+>> 
+>> In 'commit 2f1ee0913ce5 ("Revert "mm: use early_pfn_to_nid in page_ext_init"")',
+>> we call page_ext_init() after page_alloc_init_late() to avoid some panic
+>> problem. It seems that we cannot track early page allocations in current
+>> kernel even if page structure has been initialized early.
+>> 
+>> This patch introduce a new boot parameter 'early_page_ext' to resolve this
+>> problem. If we pass it to kernel, function page_ext_init() will be moved
+>> up and feature 'deferred initialization of struct pages' will be disabled.
+>> It can help us to catch early page allocations. This is useful especially
+>> when we find that the free memory value is not the same right after
+>> different kernel booting.
+>> 
+>> Changelogs:
+>> 
+>> v1->v2:
+>> - use a cmd line parameter to move up function page_ext_init() instead of
+>>   using CONFIG_DEFERRED_STRUCT_PAGE_INIT
+>> - fix oom problem[1]
+>> 
+>> v2->v3:
+>> - make adjustments suggested by Michal Hocko
+>> 
+>> v1 patch: https://lore.kernel.org/lkml/Yv3r6Y1vh+6AbY4+@dhcp22.suse.cz/T/
+>
+>IIRC v1 failed to boot in some automatic bot test. Will this not fail with
+>the same config/hw combination when the parameter is passed?
+
+There is no problem with or without the parameter now.
+
+>
+>> v2 patch: https://lore.kernel.org/lkml/20220824065058.81051-1-lizhe.67@bytedance.com/T/
+>> 
+>> [1]: https://lore.kernel.org/linux-mm/YwHmXLu5txij+p35@xsang-OptiPlex-9020/
+>> 
+>> Suggested-by: Michal Hocko <mhocko@suse.com>
+>> Signed-off-by: Li Zhe <lizhe.67@bytedance.com>
+>> ---
+>>  Documentation/admin-guide/kernel-parameters.txt |  6 ++++++
+>>  include/linux/page_ext.h                        | 11 +++++++++++
+>>  init/main.c                                     |  6 +++++-
+>>  mm/page_alloc.c                                 |  2 ++
+>>  mm/page_ext.c                                   | 12 ++++++++++++
+>>  5 files changed, 36 insertions(+), 1 deletion(-)
+>> 
+>> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+>> index d7f30902fda0..7b5726828ac0 100644
+>> --- a/Documentation/admin-guide/kernel-parameters.txt
+>> +++ b/Documentation/admin-guide/kernel-parameters.txt
+>> @@ -1471,6 +1471,12 @@
+>>  			Permit 'security.evm' to be updated regardless of
+>>  			current integrity status.
 >>  
->> -# avoid BUG() or BUG_ON()
->> -		if ($line =~ /\b(?:BUG|BUG_ON)\b/) {
->> +# do not use BUG(), BUG_ON(), VM_BUG_ON() and friends.
->> +		if ($line =~ /\b(?:BUG|BUG_ON|VM_BUG_ON|VM_BUG_ON_[A-Z]+)\b/) {
-> 
-> Perhaps better as something like the below to pick up more variants
-> 
+>> +	early_page_ext [KNL] Boot-time early page_ext initializing option.
+>> +			This boot parameter disables the deferred initialization
+>> +			of struct page and move up function page_ext_init() in
+>> +			order to catch early page allocations. Available with
+>> +			CONFIG_PAGE_EXTENSION=y.
+>> +
+>>  	failslab=
+>>  	fail_usercopy=
+>>  	fail_page_alloc=
+>> diff --git a/include/linux/page_ext.h b/include/linux/page_ext.h
+>> index fabb2e1e087f..68d690649234 100644
+>> --- a/include/linux/page_ext.h
+>> +++ b/include/linux/page_ext.h
+>> @@ -36,9 +36,15 @@ struct page_ext {
+>>  	unsigned long flags;
+>>  };
+>>  
+>> +extern bool early_page_ext;
+>>  extern unsigned long page_ext_size;
+>>  extern void pgdat_page_ext_init(struct pglist_data *pgdat);
+>>  
+>> +static inline bool early_page_ext_enable(void)
+>> +{
+>> +	return early_page_ext;
+>> +}
+>
+>I think it should better be named early_page_ext_enabled() as it returns the
+>status, not sets it to true?
 
-Trying to find more possible variants and exceptions
+Yes you are right. I will fix it in my v4 patch. Thanks!
 
-$ git grep -h -o -E "\b[a-zA-Z]+_BUG(_ON(_[a-zA-Z]+)*)?\(" | sort | uniq
-AA_BUG(
--> Ok, no BUG()
-ASM_BUG(
--> Bad
-BUILD_BUG(
-BUILD_BUG_ON(
-BUILD_BUG_ON_INVALID(
-BUILD_BUG_ON_MSG(
-BUILD_BUG_ON_ZERO(
--> Ok
-CI_BUG_ON(
--> Bad with CONFIG_DRM_I915_DEBUG
-DCCP_BUG(
-DCCP_BUG_ON(
--> Ok, no BUG()
-do_BUG(
--> BUG implementation, ok.
-GEM_BUG_ON(
--> Bad with CONFIG_DRM_I915_DEBUG_GEM_ONCE
-GLOCK_BUG_ON(
--> Bad
-handle_BUG(
--> BUG implementation, ok.
-IDA_BUG_ON(
-KVM_BUG(
-KVM_BUG_ON(
--> Ok, no BUG()
-lkdtm_BUG(
-paravirt_BUG(
--> bad
-PROM_BUG(
--> unused, will remove
-RWLOCK_BUG_ON(
--> Ok, no BUG()
-snd_BUG(
-snd_BUG_ON(
--> Ok, no BUG()
-SNIC_BUG_ON(
--> Bad
-SPIN_BUG_ON(
--> Ok, no BUG()
-UNWINDER_BUG(
-UNWINDER_BUG_ON(
-VIRTUAL_BUG_ON(
-VM_BUG_ON(
-VM_BUG_ON_FOLIO(
-VM_BUG_ON_MM(
-VM_BUG_ON_PAGE(
-VM_BUG_ON_PGFLAGS(
-VM_BUG_ON_VMA(
-XA_BUG_ON(
--> Bad
-
-So an extended versions of your proposal like (ignoring do_BUG and handle_BUG, people are smart enough to figure that out)
-
-if ($line =~ /\b(?!AA_|BUILD_|DCCP_|IDA_|KVM_|RWLOCK_|snd_|SPIN_)(?:[a-zA-Z_]*_)?BUG(?:_ON)?(?:_[A-Z_]+)?\s*\(/
-
-?
-
--- 
-Thanks,
-
-David / dhildenb
+>
+>> +
+>>  #ifdef CONFIG_SPARSEMEM
+>>  static inline void page_ext_init_flatmem(void)
+>>  {
+>> @@ -67,6 +73,11 @@ static inline struct page_ext *page_ext_next(struct page_ext *curr)
+>>  #else /* !CONFIG_PAGE_EXTENSION */
+>>  struct page_ext;
+>>  
+>> +static inline bool early_page_ext_enable(void)
+>> +{
+>> +	return false;
+>> +}
+>> +
+>>  static inline void pgdat_page_ext_init(struct pglist_data *pgdat)
+>>  {
+>>  }
+>> diff --git a/init/main.c b/init/main.c
+>> index 91642a4e69be..d95edb67a499 100644
+>> --- a/init/main.c
+>> +++ b/init/main.c
+>> @@ -849,6 +849,9 @@ static void __init mm_init(void)
+>>  	pgtable_init();
+>>  	debug_objects_mem_init();
+>>  	vmalloc_init();
+>> +	/* Should be run after vmap initialization */
+>> +	if (early_page_ext_enable())
+>> +		page_ext_init();
+>>  	/* Should be run before the first non-init thread is created */
+>>  	init_espfix_bsp();
+>>  	/* Should be run after espfix64 is set up. */
+>> @@ -1606,7 +1609,8 @@ static noinline void __init kernel_init_freeable(void)
+>>  	padata_init();
+>>  	page_alloc_init_late();
+>>  	/* Initialize page ext after all struct pages are initialized. */
+>> -	page_ext_init();
+>> +	if (!early_page_ext_enable())
+>> +		page_ext_init();
+>>  
+>>  	do_basic_setup();
+>>  
+>> diff --git a/mm/page_alloc.c b/mm/page_alloc.c
+>> index e5486d47406e..e580b197aa1e 100644
+>> --- a/mm/page_alloc.c
+>> +++ b/mm/page_alloc.c
+>> @@ -482,6 +482,8 @@ defer_init(int nid, unsigned long pfn, unsigned long end_pfn)
+>>  {
+>>  	static unsigned long prev_end_pfn, nr_initialised;
+>>  
+>> +	if (early_page_ext_enable())
+>> +		return false;
+>>  	/*
+>>  	 * prev_end_pfn static that contains the end of previous zone
+>>  	 * No need to protect because called very early in boot before smp_init.
+>> diff --git a/mm/page_ext.c b/mm/page_ext.c
+>> index 3dc715d7ac29..bf4f2a12d7dc 100644
+>> --- a/mm/page_ext.c
+>> +++ b/mm/page_ext.c
+>> @@ -85,6 +85,18 @@ unsigned long page_ext_size = sizeof(struct page_ext);
+>>  
+>>  static unsigned long total_usage;
+>>  
+>> +#ifdef CONFIG_DEFERRED_STRUCT_PAGE_INIT
+>> +bool early_page_ext __meminitdata;
+>> +#else
+>> +bool early_page_ext __meminitdata = true;
+>> +#endif
+>> +static int __init setup_early_page_ext(char *str)
+>> +{
+>> +	early_page_ext = true;
+>> +	return 0;
+>> +}
+>> +early_param("early_page_ext", setup_early_page_ext);
+>> +
+>>  static bool __init invoke_need_callbacks(void)
+>>  {
+>>  	int i;
 
