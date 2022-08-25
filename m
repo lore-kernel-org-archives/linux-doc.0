@@ -2,227 +2,233 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 36348C3F6B0
-	for <linux-doc@archiver.kernel.org>; Thu, 25 Aug 2022 12:30:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5041BC28D13
+	for <linux-doc@archiver.kernel.org>; Thu, 25 Aug 2022 12:53:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241729AbiHYMal (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 25 Aug 2022 08:30:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38254 "EHLO
+        id S234467AbiHYMxz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 25 Aug 2022 08:53:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51194 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241711AbiHYMaj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Aug 2022 08:30:39 -0400
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2001:67c:2178:6::1d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2F53501B3;
-        Thu, 25 Aug 2022 05:30:38 -0700 (PDT)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out2.suse.de (Postfix) with ESMTPS id BD8C320532;
-        Thu, 25 Aug 2022 12:30:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-        t=1661430636; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=fzn4fp0N5eWsHb65DqtqGlpmfzcl9UEV0GebO196Vs4=;
-        b=aDqaqu7dAgtJ5xAfyfRrAZDl1QGfsWSbTc3FHcUxzX9q8/IfdGiUiI3Aq1zOO163X7AioO
-        bLLuvvSFmU7D8wpLyx80/BhwudzK8FeuCG6Aui/F/apvrYzbSa+Ull3XCxql+rgvon58zN
-        c3tkXpWrLOzRRDq5vv5RZWL9lo4l3BQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-        s=susede2_ed25519; t=1661430636;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=fzn4fp0N5eWsHb65DqtqGlpmfzcl9UEV0GebO196Vs4=;
-        b=ys1Rt9r1Ba9DHh1ojiVRC/EZQFO7NQrSrH8cJDGTi6i5TUIm67YfuIaw4d91RBWu028G0r
-        BzThZTDQzRob5ECQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 6881013A8E;
-        Thu, 25 Aug 2022 12:30:36 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id dHm0GGxrB2NoFgAAMHmgww
-        (envelope-from <vbabka@suse.cz>); Thu, 25 Aug 2022 12:30:36 +0000
-Message-ID: <98f583c0-8b63-a377-f37f-421952329707@suse.cz>
-Date:   Thu, 25 Aug 2022 14:30:36 +0200
+        with ESMTP id S230196AbiHYMxy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Aug 2022 08:53:54 -0400
+Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 24F0A578B1
+        for <linux-doc@vger.kernel.org>; Thu, 25 Aug 2022 05:53:51 -0700 (PDT)
+Received: from localhost.localdomain (unknown [112.20.110.237])
+        by localhost.localdomain (Coremail) with SMTP id AQAAf8Bx32vScAdjy8cJAA--.38198S3;
+        Thu, 25 Aug 2022 20:53:41 +0800 (CST)
+From:   Yanteng Si <siyanteng@loongson.cn>
+To:     alexs@kernel.org, bobwxc@email.cn, seakeel@gmail.com
+Cc:     Yanteng Si <siyanteng@loongson.cn>, corbet@lwn.net,
+        chenhuacai@kernel.org, jiaxun.yang@flygoat.com,
+        linux-doc@vger.kernel.org, siyanteng01@gmail.com,
+        xiyou.wangcong@gmail.com, hidave.darkstar@gmail.com,
+        tekkamanninja@gmail.com, leoyang.li@nxp.com, src.res@email.cn,
+        linux-doc-tw-discuss@lists.sourceforge.net
+Subject: [PATCH v1 1/3] docs/zh_CN: Update the translation of io_ordering to 6.0-rc2
+Date:   Thu, 25 Aug 2022 20:53:25 +0800
+Message-Id: <c66f6d17c509c2c93f2afd30223c4bcf734f8317.1661431365.git.siyanteng@loongson.cn>
+X-Mailer: git-send-email 2.31.1
+In-Reply-To: <cover.1661431365.git.siyanteng@loongson.cn>
+References: <cover.1661431365.git.siyanteng@loongson.cn>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.1.2
-Subject: Re: [PATCH v4] page_ext: introduce boot parameter 'early_page_ext'
-Content-Language: en-US
-To:     lizhe.67@bytedance.com, akpm@linux-foundation.org, mhocko@suse.com,
-        mhiramat@kernel.org, keescook@chromium.org, Jason@zx2c4.com,
-        mark-pk.tsai@mediatek.com, rostedt@goodmis.org, corbet@lwn.net
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, lizefan.x@bytedance.com
-References: <20220825102714.669-1-lizhe.67@bytedance.com>
-From:   Vlastimil Babka <vbabka@suse.cz>
-In-Reply-To: <20220825102714.669-1-lizhe.67@bytedance.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf8Bx32vScAdjy8cJAA--.38198S3
+X-Coremail-Antispam: 1UD129KBjvJXoW3JF18Kw13Zry8CF45Ww48Zwb_yoW3Wr47pF
+        Z3tFyfKa48ZFyUZr4UWFy2gr1UGrykWa1DCrykX3Z3Xr17A3yYkr4UtryfZFy3Wr9rAryD
+        tF4FqFyFkryDZaUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUPl14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+        rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_Jr4l82xGYIkIc2
+        x26xkF7I0E14v26r4j6ryUM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0
+        Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_Gr1UM2
+        8EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s0DM2AI
+        xVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20x
+        vE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xv
+        r2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E8cxan2IY04
+        v7MxkIecxEwVAFwVW5JwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC2
+        0s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI
+        0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv2
+        0xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2js
+        IE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZF
+        pf9x0JUeyxiUUUUU=
+X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 8/25/22 12:27, lizhe.67@bytedance.com wrote:
-> From: Li Zhe <lizhe.67@bytedance.com>
-> 
-> In 'commit 2f1ee0913ce5 ("Revert "mm: use early_pfn_to_nid in page_ext_init"")',
-> we call page_ext_init() after page_alloc_init_late() to avoid some panic
-> problem. It seems that we cannot track early page allocations in current
-> kernel even if page structure has been initialized early.
-> 
-> This patch introduce a new boot parameter 'early_page_ext' to resolve this
-> problem. If we pass it to kernel, function page_ext_init() will be moved
-> up and feature 'deferred initialization of struct pages' will be disabled
-> to initialize the page allocator early and prevent from the panic problem
-> above. It can help us to catch early page allocations. This is useful
-> especially when we find that the free memory value is not the same right
-> after different kernel booting.
-> 
-> Suggested-by: Michal Hocko <mhocko@suse.com>
-> Signed-off-by: Li Zhe <lizhe.67@bytedance.com>
+Update to commit d1ce350015d8 Documentation: ("Add
+io_ordering.rst to driver-api manual").
+Move ../zh_CN/io_ordering.txt to ../zh_CN/driver-api/io_ordering.rst.
 
-Acked-by: Vlastimil Babka <vbabka@suse.cz>
+Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
+---
+ .../translations/zh_CN/driver-api/index.rst   |  2 +-
+ .../zh_CN/driver-api/io_ordering.rst          | 60 +++++++++++++++++
+ .../translations/zh_CN/io_ordering.txt        | 67 -------------------
+ 3 files changed, 61 insertions(+), 68 deletions(-)
+ create mode 100644 Documentation/translations/zh_CN/driver-api/io_ordering.rst
+ delete mode 100644 Documentation/translations/zh_CN/io_ordering.txt
 
-> ---
-> Changelogs:
-> 
-> v1->v2:
-> - use a cmd line parameter to move up function page_ext_init() instead of
->   using CONFIG_DEFERRED_STRUCT_PAGE_INIT
-> - fix oom problem[1]
-> 
-> v2->v3:
-> - move the judgment out of page_ext_init()
-> 
-> v3->v4:
-> - remove dependency on CONFIG_DEFERRED_STRUCT_PAGE_INIT
-> - modify descriptions in git log && kernel-parameters.txt
-> 
-> v1 patch: https://lore.kernel.org/lkml/Yv3r6Y1vh+6AbY4+@dhcp22.suse.cz/T/
-> v2 patch: https://lore.kernel.org/lkml/20220824065058.81051-1-lizhe.67@bytedance.com/T/
-> v3 patch: https://lore.kernel.org/linux-mm/20220825063102.92307-1-lizhe.67@bytedance.com/T/
-> 
-> [1]: https://lore.kernel.org/linux-mm/YwHmXLu5txij+p35@xsang-OptiPlex-9020/
-> 
->  Documentation/admin-guide/kernel-parameters.txt |  8 ++++++++
->  include/linux/page_ext.h                        | 11 +++++++++++
->  init/main.c                                     |  6 +++++-
->  mm/page_alloc.c                                 |  2 ++
->  mm/page_ext.c                                   |  8 ++++++++
->  5 files changed, 34 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index d7f30902fda0..4f43fd5b324d 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -1471,6 +1471,14 @@
->  			Permit 'security.evm' to be updated regardless of
->  			current integrity status.
->  
-> +	early_page_ext [KNL] Enforces page_ext initialization to earlier
-> +			stages so cover more early boot allocations.
-> +			Please note that as side effect some optimizations
-> +			might be disabled to achieve that (e.g. parallelized
-> +			memory initialization is disabled) so the boot process
-> +			might take longer, especially on systems with a lot of
-> +			memory. Available with CONFIG_PAGE_EXTENSION=y.
-> +
->  	failslab=
->  	fail_usercopy=
->  	fail_page_alloc=
-> diff --git a/include/linux/page_ext.h b/include/linux/page_ext.h
-> index fabb2e1e087f..884282a7f03a 100644
-> --- a/include/linux/page_ext.h
-> +++ b/include/linux/page_ext.h
-> @@ -36,9 +36,15 @@ struct page_ext {
->  	unsigned long flags;
->  };
->  
-> +extern bool early_page_ext;
->  extern unsigned long page_ext_size;
->  extern void pgdat_page_ext_init(struct pglist_data *pgdat);
->  
-> +static inline bool early_page_ext_enabled(void)
-> +{
-> +	return early_page_ext;
-> +}
-> +
->  #ifdef CONFIG_SPARSEMEM
->  static inline void page_ext_init_flatmem(void)
->  {
-> @@ -67,6 +73,11 @@ static inline struct page_ext *page_ext_next(struct page_ext *curr)
->  #else /* !CONFIG_PAGE_EXTENSION */
->  struct page_ext;
->  
-> +static inline bool early_page_ext_enabled(void)
-> +{
-> +	return false;
-> +}
-> +
->  static inline void pgdat_page_ext_init(struct pglist_data *pgdat)
->  {
->  }
-> diff --git a/init/main.c b/init/main.c
-> index 91642a4e69be..b5e75f3288d7 100644
-> --- a/init/main.c
-> +++ b/init/main.c
-> @@ -849,6 +849,9 @@ static void __init mm_init(void)
->  	pgtable_init();
->  	debug_objects_mem_init();
->  	vmalloc_init();
-> +	/* Should be run after vmap initialization */
-> +	if (early_page_ext_enabled())
-> +		page_ext_init();
->  	/* Should be run before the first non-init thread is created */
->  	init_espfix_bsp();
->  	/* Should be run after espfix64 is set up. */
-> @@ -1606,7 +1609,8 @@ static noinline void __init kernel_init_freeable(void)
->  	padata_init();
->  	page_alloc_init_late();
->  	/* Initialize page ext after all struct pages are initialized. */
-> -	page_ext_init();
-> +	if (!early_page_ext_enabled())
-> +		page_ext_init();
->  
->  	do_basic_setup();
->  
-> diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-> index e5486d47406e..e2faa52cd05d 100644
-> --- a/mm/page_alloc.c
-> +++ b/mm/page_alloc.c
-> @@ -482,6 +482,8 @@ defer_init(int nid, unsigned long pfn, unsigned long end_pfn)
->  {
->  	static unsigned long prev_end_pfn, nr_initialised;
->  
-> +	if (early_page_ext_enabled())
-> +		return false;
->  	/*
->  	 * prev_end_pfn static that contains the end of previous zone
->  	 * No need to protect because called very early in boot before smp_init.
-> diff --git a/mm/page_ext.c b/mm/page_ext.c
-> index 3dc715d7ac29..6c28d623d951 100644
-> --- a/mm/page_ext.c
-> +++ b/mm/page_ext.c
-> @@ -85,6 +85,14 @@ unsigned long page_ext_size = sizeof(struct page_ext);
->  
->  static unsigned long total_usage;
->  
-> +bool early_page_ext __meminitdata;
-> +static int __init setup_early_page_ext(char *str)
-> +{
-> +	early_page_ext = true;
-> +	return 0;
-> +}
-> +early_param("early_page_ext", setup_early_page_ext);
-> +
->  static bool __init invoke_need_callbacks(void)
->  {
->  	int i;
+diff --git a/Documentation/translations/zh_CN/driver-api/index.rst b/Documentation/translations/zh_CN/driver-api/index.rst
+index 24eb2198e5f1..ba354e1f4e6d 100644
+--- a/Documentation/translations/zh_CN/driver-api/index.rst
++++ b/Documentation/translations/zh_CN/driver-api/index.rst
+@@ -25,6 +25,7 @@ Linux驱动实现者的API指南
+    :maxdepth: 2
+ 
+    gpio/index
++   io_ordering
+ 
+ Todolist:
+ 
+@@ -97,7 +98,6 @@ Todolist:
+ *   isa
+ *   isapnp
+ *   io-mapping
+-*   io_ordering
+ *   generic-counter
+ *   memory-devices/index
+ *   men-chameleon-bus
+diff --git a/Documentation/translations/zh_CN/driver-api/io_ordering.rst b/Documentation/translations/zh_CN/driver-api/io_ordering.rst
+new file mode 100644
+index 000000000000..4dbfa4ce92a0
+--- /dev/null
++++ b/Documentation/translations/zh_CN/driver-api/io_ordering.rst
+@@ -0,0 +1,60 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++.. include:: ../disclaimer-zh_CN.rst
++
++:Original: Documentation/driver-api/io_ordering.rst
++
++:翻译:
++
++ 林永听 Lin Yongting <linyongting@gmail.com>
++ 司延腾 Yanteng Si <siyanteng@loongson.cn>
++
++:校译:
++
++===========================
++对内存映射地址的I/O写入排序
++===========================
++
++在某些平台上，所谓的内存映射I/O是弱顺序。在这些平台上，驱动开发者有责任
++保证I/O内存映射地址的写操作按程序图意的顺序达到设备。通常读取一个“安全”
++设备寄存器或桥寄存器，触发IO芯片清刷未处理的写操作到达设备后才处理读操作，
++而达到保证目的。驱动程序通常在spinlock保护的临界区退出之前使用这种技术。
++这也可以保证后面的写操作只在前面的写操作之后到达设备（这非常类似于内存
++屏障操作，mb()，不过仅适用于I/O）。
++
++假设一个设备驱动程的具体例子::
++
++                ...
++        CPU A:  spin_lock_irqsave(&dev_lock, flags)
++        CPU A:  val = readl(my_status);
++        CPU A:  ...
++        CPU A:  writel(newval, ring_ptr);
++        CPU A:  spin_unlock_irqrestore(&dev_lock, flags)
++                ...
++        CPU B:  spin_lock_irqsave(&dev_lock, flags)
++        CPU B:  val = readl(my_status);
++        CPU B:  ...
++        CPU B:  writel(newval2, ring_ptr);
++        CPU B:  spin_unlock_irqrestore(&dev_lock, flags)
++                ...
++
++上述例子中，设备可能会先接收到newval2的值，然后接收到newval的值，问题就
++发生了。不过很容易通过下面方法来修复::
++
++                ...
++        CPU A:  spin_lock_irqsave(&dev_lock, flags)
++        CPU A:  val = readl(my_status);
++        CPU A:  ...
++        CPU A:  writel(newval, ring_ptr);
++        CPU A:  (void)readl(safe_register); /* 配置寄存器？*/
++        CPU A:  spin_unlock_irqrestore(&dev_lock, flags)
++                ...
++        CPU B:  spin_lock_irqsave(&dev_lock, flags)
++        CPU B:  val = readl(my_status);
++        CPU B:  ...
++        CPU B:  writel(newval2, ring_ptr);
++        CPU B:  (void)readl(safe_register); /* 配置寄存器？*/
++        CPU B:  spin_unlock_irqrestore(&dev_lock, flags)
++
++在解决方案中，读取safe_register寄存器，触发IO芯片清刷未处理的写操作，
++再处理后面的读操作，防止引发数据不一致问题。
+diff --git a/Documentation/translations/zh_CN/io_ordering.txt b/Documentation/translations/zh_CN/io_ordering.txt
+deleted file mode 100644
+index 7bb3086227ae..000000000000
+--- a/Documentation/translations/zh_CN/io_ordering.txt
++++ /dev/null
+@@ -1,67 +0,0 @@
+-Chinese translated version of Documentation/driver-api/io_ordering.rst
+-
+-If you have any comment or update to the content, please contact the
+-original document maintainer directly.  However, if you have a problem
+-communicating in English you can also ask the Chinese maintainer for
+-help.  Contact the Chinese maintainer if this translation is outdated
+-or if there is a problem with the translation.
+-
+-Chinese maintainer: Lin Yongting <linyongting@gmail.com>
+----------------------------------------------------------------------
+-Documentation/driver-api/io_ordering.rst 的中文翻译
+-
+-如果想评论或更新本文的内容，请直接联系原文档的维护者。如果你使用英文
+-交流有困难的话，也可以向中文版维护者求助。如果本翻译更新不及时或者翻
+-译存在问题，请联系中文版维护者。
+-
+-中文版维护者： 林永听 Lin Yongting <linyongting@gmail.com>
+-中文版翻译者： 林永听 Lin Yongting <linyongting@gmail.com>
+-中文版校译者： 林永听 Lin Yongting <linyongting@gmail.com>
+-
+-
+-以下为正文
+----------------------------------------------------------------------
+-
+-在某些平台上，所谓的内存映射I/O是弱顺序。在这些平台上，驱动开发者有责任
+-保证I/O内存映射地址的写操作按程序图意的顺序达到设备。通常读取一个“安全”
+-设备寄存器或桥寄存器，触发IO芯片清刷未处理的写操作到达设备后才处理读操作，
+-而达到保证目的。驱动程序通常在spinlock保护的临界区退出之前使用这种技术。
+-这也可以保证后面的写操作只在前面的写操作之后到达设备（这非常类似于内存
+-屏障操作，mb()，不过仅适用于I/O）。
+-
+-假设一个设备驱动程的具体例子：
+-
+-        ...
+-CPU A:  spin_lock_irqsave(&dev_lock, flags)
+-CPU A:  val = readl(my_status);
+-CPU A:  ...
+-CPU A:  writel(newval, ring_ptr);
+-CPU A:  spin_unlock_irqrestore(&dev_lock, flags)
+-        ...
+-CPU B:  spin_lock_irqsave(&dev_lock, flags)
+-CPU B:  val = readl(my_status);
+-CPU B:  ...
+-CPU B:  writel(newval2, ring_ptr);
+-CPU B:  spin_unlock_irqrestore(&dev_lock, flags)
+-        ...
+-
+-上述例子中，设备可能会先接收到newval2的值，然后接收到newval的值，问题就
+-发生了。不过很容易通过下面方法来修复：
+-
+-        ...
+-CPU A:  spin_lock_irqsave(&dev_lock, flags)
+-CPU A:  val = readl(my_status);
+-CPU A:  ...
+-CPU A:  writel(newval, ring_ptr);
+-CPU A:  (void)readl(safe_register); /* 配置寄存器？*/
+-CPU A:  spin_unlock_irqrestore(&dev_lock, flags)
+-        ...
+-CPU B:  spin_lock_irqsave(&dev_lock, flags)
+-CPU B:  val = readl(my_status);
+-CPU B:  ...
+-CPU B:  writel(newval2, ring_ptr);
+-CPU B:  (void)readl(safe_register); /* 配置寄存器？*/
+-CPU B:  spin_unlock_irqrestore(&dev_lock, flags)
+-
+-在解决方案中，读取safe_register寄存器，触发IO芯片清刷未处理的写操作，
+-再处理后面的读操作，防止引发数据不一致问题。
+-- 
+2.31.1
 
