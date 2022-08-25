@@ -2,179 +2,216 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 06044ECAAA3
-	for <linux-doc@archiver.kernel.org>; Thu, 25 Aug 2022 22:43:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E8AF4ECAAD4
+	for <linux-doc@archiver.kernel.org>; Thu, 25 Aug 2022 23:39:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243759AbiHYWnB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 25 Aug 2022 18:43:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58604 "EHLO
+        id S244545AbiHYXjg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 25 Aug 2022 19:39:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56838 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243936AbiHYWm4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Aug 2022 18:42:56 -0400
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2067.outbound.protection.outlook.com [40.107.223.67])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74B77C4825;
-        Thu, 25 Aug 2022 15:42:54 -0700 (PDT)
+        with ESMTP id S231861AbiHYXjf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Aug 2022 19:39:35 -0400
+Received: from mx0a-002e3701.pphosted.com (mx0a-002e3701.pphosted.com [148.163.147.86])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D161BAD9A2;
+        Thu, 25 Aug 2022 16:39:34 -0700 (PDT)
+Received: from pps.filterd (m0134420.ppops.net [127.0.0.1])
+        by mx0b-002e3701.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 27PNH2Bk014516;
+        Thu, 25 Aug 2022 23:38:38 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hpe.com; h=from : to : cc : subject
+ : date : message-id : references : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=pps0720;
+ bh=m3dNM5weGvQvaZQWEYxIK3G/zD/1bNUUa1wHJcocj6E=;
+ b=QiFMVXNmxmLs32GiNJrUUQPT8ILkNGUJkuxf8qqdtD/mReM9siFEn7p/FD57TsISbGOz
+ 0rjZJ7ZYDrxERLCIg5s3Wc781O9s/Tdmoxwrjx5BkSZzVHpcA+c4vGAH5t80uc0IMjTe
+ 0pHdnAlt2gDPa8kdRlwrN5vYnpWzauru3ybP4O0AgCxjFqpGAEzLj2T+ft2CvpY3/w9R
+ /gMNHEemeqzNgkKvyX/BUGPHKLeL4xoZeIWtD32Sah1yWvA7dshywBC9yw+Kvz95tbn5
+ WGrsmEqSetoCZ8As0PlMzxsojCNglBvQXS+jew+mbZpwZLJ8Xj3El3bws1IXtdKBK6h8 MA== 
+Received: from p1lg14880.it.hpe.com (p1lg14880.it.hpe.com [16.230.97.201])
+        by mx0b-002e3701.pphosted.com (PPS) with ESMTPS id 3j6jm4r50p-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 25 Aug 2022 23:38:38 +0000
+Received: from p1wg14923.americas.hpqcorp.net (unknown [10.119.18.111])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by p1lg14880.it.hpe.com (Postfix) with ESMTPS id 35946801707;
+        Thu, 25 Aug 2022 23:38:34 +0000 (UTC)
+Received: from p1wg14927.americas.hpqcorp.net (10.119.18.117) by
+ p1wg14923.americas.hpqcorp.net (10.119.18.111) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.15; Thu, 25 Aug 2022 11:38:33 -1200
+Received: from p1wg14920.americas.hpqcorp.net (16.230.19.123) by
+ p1wg14927.americas.hpqcorp.net (10.119.18.117) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.15
+ via Frontend Transport; Thu, 25 Aug 2022 11:38:33 -1200
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (192.58.206.38)
+ by edge.it.hpe.com (16.230.19.123) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.15; Thu, 25 Aug 2022 11:38:33 -1200
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=UDKE9lwb9pG0RzKtQIq4SmlHB7wWetVndNez/v6xx/zLorerJhZ/l5bspAAsyQu+IDo9q653RhCtWxNX25LKtgnfA662MyGl+HarK3iIaUQDrKlk3j9lJ95R5Q3tt8i+4ryoD5AmhcVW9fAphqGwXBqAPkhz9uF0cVxWDseJiiOL7NmjLk0N+6DCPa5jzrM7lwR7d/YXnXoyJtzJ7kExwn1VLWhKsizxBBYXW9H/5B8jhRzqXqdane3+oHOSsUpzbQxXajrtShldRuUgelitO1e+mG3+2GWCYfhoHni+48lRQimwswMkL5baPymfmQH4c9cJfAIDV+hBCLcUDfF1cg==
+ b=fvq1iuWzQGKCfhzrKA4z9Hq3vvB40sXzd7tBW31eMoMfoJxYokr+kCFejBmjwlM7VY+7znxQucAHauhEF1pEI9NccjtIQAlt7+mq2S7luVvosr5pch97E3IBvGfqQpGcwyCYhjAzghOLtiK/G1yp8n0QSXUxmXjtbZqr0qCeXlL2NREdLQQSJK62TJpd2GbYcizSOGEBNx9Toerb2NmBe3MHBeggil+eTxpjajltZQTOc3KjXGVXKvdbG0Mlbjaz3Jg+TeRaPKbZNH3TXZux28fFy3QHH+NSLCtMLXp7a1viMmpBbCIaAlMpG6DAJO96vG6wj6iRqmj62D8RgXYTeA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=FogXFi5LZ4ds7+D9SGNdhSaa3ct5HtARKD2x1iKd1s8=;
- b=CfW+CtvBOwLqI2wl4Jk+VDn+DsD5U3/t0KTY/9fHlHcqGdzPhl1LiXhOqFez2OVnJP3hp1CKtIln6h0CcxDuJxhkXKckcId0WQzA5IPjCBDz+4UgqyUp64DBUJqxkT85pEocfCULvKgTtLyV2QTpXwlpASoaX17oCU+2D1yjKJY6BJdWutOCKJ0hiNu1XFweoso677f/ZYFQtshXtDoMGfj6rCiQsZvpf4HP/3BVEqxaKQTF1P3elU9Kv4yyTFvbKTXSdswBD09ISl4IfE4fOsM3tbOH5Doi2I9nIMyhvIRqQemvMIQwguT5Fb0J+7Ar2WYW8eFb6W5xP2PEYkBRKQ==
+ bh=m3dNM5weGvQvaZQWEYxIK3G/zD/1bNUUa1wHJcocj6E=;
+ b=RSO2R/sstWst2h0G1GxuoE91ayKzKyfFXwhIsRDXjjzIgzVEznWDsgLrYKCNYvklyveVFIicJsSkw+Nz3YEH83d9OoleU64CfJs/vvng1yzEYx5+o5/m33AwEE/ovZ3nBkziymEhmFmMsxCJghKZ0Xdtcjf+Z1Edrfv57eoFBgRrxQZUMs3lMXo4a1tN0wiW64xLPnFd5jQwawT8fUD4lqgtlwxTmm8hiJuF9VuhGkTSnU9LAmjK48CIbuZd5RdUqLBInnrwvAxYT8ghu5O7dkN2rGCBtL+o8sNgt3vyW3DGGVrz/aY/d/AyMNsiNo65s1XPWDlfEZIHiHfB1cF2RQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=FogXFi5LZ4ds7+D9SGNdhSaa3ct5HtARKD2x1iKd1s8=;
- b=udDv56mWoAgqoRrkpICNgSxiw5j8VUPWWH8ZgBN6pC7oqj2KgOi/RNja0rQt/NrAtmLbw4Ui5vIZlT6F6CDHaMQvwCh/1LxMLup+tbY9ztrf92rwI6+LIXhnA6OUno5ZXBcOW/3lKQ+7pnY0vKMiRUPlD8H1bJctJPNKrL4Fniw=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
- by DM5PR12MB1945.namprd12.prod.outlook.com (2603:10b6:3:10f::23) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5566.14; Thu, 25 Aug
- 2022 22:42:50 +0000
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::88f:a211:8c98:a973]) by MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::88f:a211:8c98:a973%7]) with mapi id 15.20.5566.015; Thu, 25 Aug 2022
- 22:42:50 +0000
-Message-ID: <1cf62647-20db-646d-ae83-c2ee61f257c7@amd.com>
-Date:   Thu, 25 Aug 2022 17:42:45 -0500
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Reply-To: babu.moger@amd.com
-Subject: Re: [PATCH v3 02/10] x86/cpufeatures: Add Slow Memory Bandwidth
- Allocation feature flag
+ smtp.mailfrom=hpe.com; dmarc=pass action=none header.from=hpe.com; dkim=pass
+ header.d=hpe.com; arc=none
+Received: from DM4PR84MB1853.NAMPRD84.PROD.OUTLOOK.COM (2603:10b6:8:4c::19) by
+ DM4PR84MB3029.NAMPRD84.PROD.OUTLOOK.COM (2603:10b6:8:ab::15) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5566.15; Thu, 25 Aug 2022 23:38:31 +0000
+Received: from DM4PR84MB1853.NAMPRD84.PROD.OUTLOOK.COM
+ ([fe80::2033:298b:4062:29e6]) by DM4PR84MB1853.NAMPRD84.PROD.OUTLOOK.COM
+ ([fe80::2033:298b:4062:29e6%5]) with mapi id 15.20.5546.016; Thu, 25 Aug 2022
+ 23:38:31 +0000
+From:   "Kani, Toshi" <toshi.kani@hpe.com>
+To:     Justin He <Justin.He@arm.com>, Len Brown <lenb@kernel.org>,
+        James Morse <James.Morse@arm.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Robert Richter <rric@kernel.org>,
+        Robert Moore <robert.moore@intel.com>,
+        Qiuxu Zhuo <qiuxu.zhuo@intel.com>,
+        Yazen Ghannam <yazen.ghannam@amd.com>,
+        "Jonathan Corbet" <corbet@lwn.net>,
+        Jan Luebbe <jlu@pengutronix.de>,
+        Khuong Dinh <khuong@os.amperecomputing.com>
+CC:     Ard Biesheuvel <ardb@kernel.org>,
+        "linux-acpi@vger.kernel.org" <linux-acpi@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
+        "devel@acpica.org" <devel@acpica.org>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Shuai Xue <xueshuai@linux.alibaba.com>,
+        Jarkko Sakkinen <jarkko@kernel.org>,
+        "linux-efi@vger.kernel.org" <linux-efi@vger.kernel.org>,
+        nd <nd@arm.com>, "Paul E. McKenney" <paulmck@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        "Neeraj Upadhyay" <quic_neeraju@quicinc.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+        Muchun Song <songmuchun@bytedance.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+Subject: RE: [RESEND PATCH v3 5/9] EDAC: Don't load chipset-specific edac
+ drivers when ghes_edac is preferred
+Thread-Topic: [RESEND PATCH v3 5/9] EDAC: Don't load chipset-specific edac
+ drivers when ghes_edac is preferred
+Thread-Index: AQHYtj3CtK4qzp4YK06O7QvReAOI3K2+qefQgAC4gQCAAN6V8A==
+Date:   Thu, 25 Aug 2022 23:38:31 +0000
+Message-ID: <DM4PR84MB1853B18D5B6CF94CD8CEA78782729@DM4PR84MB1853.NAMPRD84.PROD.OUTLOOK.COM>
+References: <20220822154048.188253-1-justin.he@arm.com>
+ <20220822154048.188253-6-justin.he@arm.com>
+ <DM4PR84MB1853A76B1374A4BEAD8A1E3982739@DM4PR84MB1853.NAMPRD84.PROD.OUTLOOK.COM>
+ <DBBPR08MB453861C0EA7FB40AB3A13FCBF7729@DBBPR08MB4538.eurprd08.prod.outlook.com>
+In-Reply-To: <DBBPR08MB453861C0EA7FB40AB3A13FCBF7729@DBBPR08MB4538.eurprd08.prod.outlook.com>
+Accept-Language: en-US
 Content-Language: en-US
-To:     Reinette Chatre <reinette.chatre@intel.com>,
-        Babu Moger <babu.moger@amd.com>, fenghua.yu@intel.com,
-        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de
-Cc:     eranian@google.com, dave.hansen@linux.intel.com, x86@kernel.org,
-        hpa@zytor.com, corbet@lwn.net, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, bagasdotme@gmail.com
-References: <166117559756.6695.16047463526634290701.stgit@bmoger-ubuntu>
- <166117577662.6695.15496626554784059239.stgit@bmoger-ubuntu>
- <2b7e3511-8e69-2e47-0f11-7f1014b38940@intel.com>
-From:   "Moger, Babu" <bmoger@amd.com>
-In-Reply-To: <2b7e3511-8e69-2e47-0f11-7f1014b38940@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MN2PR19CA0069.namprd19.prod.outlook.com
- (2603:10b6:208:19b::46) To MW3PR12MB4553.namprd12.prod.outlook.com
- (2603:10b6:303:2c::19)
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: ddafab17-5a9f-4489-0b24-08da86f2eb46
+x-ms-traffictypediagnostic: DM4PR84MB3029:EE_
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: YhCLSD9jTxFyl99TA3hf7b8kR0kw7grdPm7TfRcPuq1f7X7HkMXW6u+WAbnPE0uueZa+t5Sz0iITswV9sMpphCsl3Vhn6a1ZksozdOLd/vuBKKJAxOZbumUOFGF464a0/f1o6qSHkdkUt+OcNVnsDM9qnlk0/+lkO1AJCyIKNpe+LJxynNHtUz32M9lktgq2dV/HmB/PdYj6HnlgGqDodxsE1j1oLjJBeRIkWVFx2Tt5lCoJcMn2+DGMNeMkF9sMHNMZoKjgrGQU1+Su2pC/CfwTCRqfCRROqLyilmOplEIJkcC6kdPoycBs7s+vKr7KEGZtaYAFtybJwqluV6pupadx0aO9s/XLySINhmWmb31XmMBdNLf+pDbGNIsBXEqlCjNJbsE1zEd29nfuG2IvsBT0WvsjwjOKcBlun9u5Q0Bx265vdKHD7eiAoxaT3Ze6DlSjOELY13+OKQcbnJ9w/Yz6WMU6urG57nEXQgG2ntQf/KWgygkGEA3DUJ8Ed6va7bHwWo80Q+5M+IXFcV0LggGYyjiviFDf9sN186Xg4UnRk5c3CrXq1uNn55EO8AHczVrO2KsePpyjROnqRdl1M4frb3Lx1BpMJxDtGDkqH6yTuRQJ/cMiksKgM5KWpyxDJrUFXI0OEVE6sQX70br7vz480aFVQmsFRbasAvWfq7qIUxpodCca7u8fD73+4fdE+nxFpR8Lv1QhEDE6UiBtOZxcwDp4po2aIN7v42jO1usUuY0TtbtP6oebQ2rXWEAUC1p9yPD87rnFArKSv1zJZLVTUpCqTxCuY6/1GJPmliM=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR84MB1853.NAMPRD84.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230016)(396003)(346002)(136003)(376002)(39860400002)(366004)(186003)(66446008)(38070700005)(66556008)(54906003)(66476007)(66946007)(64756008)(316002)(71200400001)(8676002)(110136005)(76116006)(4326008)(26005)(9686003)(5660300002)(8936002)(478600001)(41300700001)(7406005)(2906002)(7416002)(52536014)(33656002)(82960400001)(921005)(122000001)(6506007)(7696005)(55016003)(86362001)(53546011)(38100700002);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?AlxWijo0KrFu54a34q0UvVIN5TbyzKv9ht9OV12NfTimKUGmiZOkGpB89+hP?=
+ =?us-ascii?Q?eXH5yAFLYwiF2FpWqvmTMf9hUX+m6URNBkUbnQNT0ObSUUssu3dZGEd1S/Ub?=
+ =?us-ascii?Q?z+lHhdUZi0adjLypR2WO5jyDOn8IYd1ZJcFn5uYI2m9mBQ/liMzjw+rzUKx1?=
+ =?us-ascii?Q?eIRlkyOJA4tT2Bps1y2OCgRcxB+AjCQiUB5/tP33dnJqWfdBzitiIOcPiDVs?=
+ =?us-ascii?Q?zmRlXLGAWL9QjTcle7JMxV2Evq3dieC14nCys3cSuxtLMUmpmN9sC7c4Pgu0?=
+ =?us-ascii?Q?kjPgFndsCKRfGPwhOrGOJb1W8rFpbOPI+u2xmcxwSxRu6nPUA4zfls318WPM?=
+ =?us-ascii?Q?etkJs2XvCWzzcSJPTZ1b+nIMrryvm2+XTuRGAZ0AGDGk2iJEoz5+W0NKhy7i?=
+ =?us-ascii?Q?Tz31ZR3qdmga7NlIJhDZrnQfQlNDXjSeB1hFNovLjVlj+3ACT2R/Q0ZeQdlL?=
+ =?us-ascii?Q?VozZqIsabAC9ZeoeP10t+coXmm62tSkrN8B5R4CVMgICceaUG1XnZUovVe28?=
+ =?us-ascii?Q?SAylPczPUYfUh0id2iYROgy0qZmOGcUl1Dd3ZBrqrkUJ0ahe5uQZe2PnpDqJ?=
+ =?us-ascii?Q?r4isSpju8Lfk4fo8PjFudxeUNbIuYNbNP+7KmR9UuJIJTXQs2xB5S5PAzkfc?=
+ =?us-ascii?Q?jRS330dQbUNbY+SSTv1Se3D5wArxPtBFXURicI5SCC5lZ73EK0ExJqmpEP/E?=
+ =?us-ascii?Q?U8nxP086VCVGSClSt9Cj5XmrRcz5g6Y/yTf+KlxwmjJaRIWN109QpFdFZ3BY?=
+ =?us-ascii?Q?73FmHTDQPgRyGDQtdaAl6rTk/DDdz06Wv9s44Xrh+BPKp1TCocZnLNQu0b8x?=
+ =?us-ascii?Q?N6imPK1jsKXjc0j7ILvYjI963WVJboKM5NDJ8hwXflXII45Sey9IFALQnw2P?=
+ =?us-ascii?Q?C8pdD9vYWXWrVRWmRcr4alKbVrQDRVb6BS3l5xMVNTA5JOqgdLhWbqfoV4Kp?=
+ =?us-ascii?Q?8jyNAwR+mF5uXnKG7Qcv1O95E/+j/ZGWpAIFt1g5VVsWCGy1q4OkF6h6E2lG?=
+ =?us-ascii?Q?fkUJsVmSSWwnJD+XMCT13wlB+eL9zrm8/bqJNe1FSBy+EjtkMwqFUqD5uZJ0?=
+ =?us-ascii?Q?L+n9m9kN/mwLoSgteJcWnbtNhgkb7s0rKeLAW7FNi4cfyJKlDQretMxJ1fZV?=
+ =?us-ascii?Q?KwzRivrslodMpPy9Jt9Jy/3FdUidi5HcMeR78vadqehGe8LdZdcCKVvbDSC8?=
+ =?us-ascii?Q?i/MdIB0vK5zgFV0IPzmVzUHuPU0YFr9WzoguFsMKNNQhS/yMII8tkDmxev6Y?=
+ =?us-ascii?Q?xdq45ZyLKVjjeKMLtTb1yXYWRNVGCUYCYDSaJy5zbvEHMj+2Hz8ikIe8na3G?=
+ =?us-ascii?Q?zFlJAXRGEnHldEH3jVXo9f2/wXEjap2iXVAPxNLz6mo458FlmXQeCwUVwB4Q?=
+ =?us-ascii?Q?BN5hRXxKdw0WsOTp9YHZWNPwiHWFzK6MtM2NzoU/Z7/3JMtWH57edLKFvCU8?=
+ =?us-ascii?Q?5sPrwAI6/aNSgQWorhjN1+5sBWZph9V6bUBFWrBSYs/glnU2ngRvaMcGUibl?=
+ =?us-ascii?Q?GuFLPSyRZRHyrYfY2lkzwr8GzDZwUP37tM1doL9vBA7AKSffTlpYeIaLwUDN?=
+ =?us-ascii?Q?GM24AorboDfiZpNqV3McRBHcVcVFwRIvzgBb3X38?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: d0eecb44-1f3f-40eb-9842-08da86eb23a5
-X-MS-TrafficTypeDiagnostic: DM5PR12MB1945:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: mstSLiBJyFXAx49Ow89S30Tm9zt/anaElWB+0IC12nf2sNjfgED7LU/OsTdqE+nMCsTRrbMkEtQhlvYIhY1hyNYQf1c5pLrDsgQxxShBEcAJzG241tizTG2Kb6kuSiiBLJjfzFQ8UbiWl+KizgSe4oK3bC7mR3hT3aQBxpjPYjxMw1l9vaIXl66iLzmUlDQZS9ASgWUGz5v38X7LQ1F7VvThMAEJN98/J9lXauqdOwPJm49U1j8KszKXulGHfQAtP0khNxgca0Wi+LVemmzvaofyCqC6ldHu60lbkNROoFL2LGeCT0JQzfVVKboFulVIpXTcsiPRZMSqTB6g/t9xsvv5W5B0qkzGK8v8Uy08X2bexzIDHDBrWFG7knYtCuLQxIR2EaGg8gLDlrcPcByCRMlFuuLXxbuWx/8wGIiUw2kNguO162fMbZ8yQyPjDJzC0ACPIqmnEoJ3VmQ7wtBP72uweqrfLLQi6h8NGEeQNBa3GNLegL2hM+xRUdu/W+zh7N2BjHGhvBEUaoCgdzYQXP0AsZjvJUKxvrc+lfOlJyHMrAwIGxzlO5+rpOJJiIr94aKpzHnmdAThPdbvbcDwnkGmVQ+klrS175XfkUFg4hcJlvUGKMoZazcS+YAjAx/CBE9ZUUJc9Dge4wx7Gm8gufsGZzH9LPqbUI4PqXmu0CCBDoqgwN0iiCpz73ZMh8MMSn0GaMoImFBKyfSgpfjRS1TP8hX/KxRPen1yD12v1D84FBf5rF0O2GDbgnKdnoz37ou+PLUZN+dRepP4fPn7nnBRWsR4XaJecEviVCUnYud42xGkFSWWZ27OdhhvKMbl1UulEHBY5I9FJlx6gjvSWnowzN4nT7dWETrkI6ivIG8wlsVj1vjuX3UxrGfzkHuf
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(136003)(366004)(346002)(376002)(396003)(39860400002)(26005)(53546011)(6506007)(2616005)(7416002)(186003)(5660300002)(8936002)(31686004)(36756003)(31696002)(45080400002)(6486002)(478600001)(6512007)(966005)(41300700001)(6666004)(83380400001)(66946007)(4326008)(8676002)(66476007)(110136005)(2906002)(66556008)(38100700002)(316002)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aC9iaXlqaXM2c2tJMWNaYU95SExPR2ZNWDJoSmFvcVdlZ3pYRW1VdnRoY0xl?=
- =?utf-8?B?Tm1rZnRValI5MGl6RzlGWUVVc0d0eE1ZL2lyc3drdmg3bmdGRjRlVm5hTTU1?=
- =?utf-8?B?SURDeWNXL0lCMGtBV2VsdTRRUTN5NWVrVFFKRERKaDByTDVXTXl5b1J6NU1p?=
- =?utf-8?B?KzJoY2FmTmN6QTU2VGZGS0VHblZ4VC9oWVNTamNnb2JjWnJzR3FsSVM1Y3Bn?=
- =?utf-8?B?ak9mQ0psYlp2R0MxSzFSVENyd1N2RXZySDYrMTZzd2djUk5XL3g0S0grbDR0?=
- =?utf-8?B?R2hFNitPWngrK25hZk9sK2xZVk93UFdzWWR6UkhPakJvblRQeHZNbldXWmJt?=
- =?utf-8?B?MDI3RDlrM0tBUEFlcnlXTFJVcmE1MXJpR0dvU2xzdUVKd2JrRUc2OFllb2VI?=
- =?utf-8?B?ZEhjZGZyQjVsU2FGTGtBdzg1Y1V4NURHNHdQdC9VSHZDSWtVNVVQMnQxQjRC?=
- =?utf-8?B?NC9VZGVydFVLZTF1bVVqeEtrcDZJaFJDR0M3cC8zWWg4S2xNZmFaTk9CclFV?=
- =?utf-8?B?ZGJWS3RyOXA2QXFZWGRTU2tkeEVkcG4wYTE0ck51TkNlT3UxZzBjSE40MUoy?=
- =?utf-8?B?NFowd0ZwS0ZoMWx3aU9zaEsrM3N5ZzRlUDVFS0RsMVVadFRibWI5aEhXc25Q?=
- =?utf-8?B?MkJsNzgrQ1RjTjczTmJ0aHYyaFczdXBGUzYvYTBhTldIc2paMS8yVzBzOWFY?=
- =?utf-8?B?dmJJL3FaZlhWSEZ0RDh2Mko2S1BJR3kzY0lHU2dEV2JCa0R3TGZXLzhxYUZy?=
- =?utf-8?B?TEFERm1yZzlyQ0VOSDFJbGx0TGNJc21zSFB1YjJzUDQzL0dicmoyWi80V094?=
- =?utf-8?B?MTlkcU1sTHQ4ZSs2Zk1VckxVRG4xbEtYV1VhaXVGc2hSL1VnSmVSSzgzU1FS?=
- =?utf-8?B?NlVMNVZweThIc3pqeDlrLzdrSzNjQmNoUmZLMzkwc2w2aG5NS2l0anB5R1Rp?=
- =?utf-8?B?Rnd4cEV3YkplemJDWGU1dkNnSFBrNnB5MjJYZ2x3b1gvU3RmREpuMUpQSXdM?=
- =?utf-8?B?SDBVbHU2eHdKWG1RWFJRVkJRZmJ5OFlkNmtad256NHp2d1k4K0RQV2Z5UE53?=
- =?utf-8?B?OTRKck53R1ZKVmhTdVZwNXlWUDZxMUZaWGpUbFBaWUh1MUZlS0QwNkM2eTZo?=
- =?utf-8?B?TG5zRC9vREREMk54VjJ4TVdNbjRWM2FneFN6ZTR5YXA0WS9rRkx4L3lNMndM?=
- =?utf-8?B?QTZHbXpJWE53YjRnb2dEeTllQ2N2ajM2Q0szQW4vcGxhRHhSVnpTUE1rL0Mr?=
- =?utf-8?B?M3NFM283ckl1S21yVEVoOGtqRG13K2wyajhoMnM1V25zMXN3bVMxNW53Vmho?=
- =?utf-8?B?K1J1YzUvSldNTVJVQU9HdDhHRk1YWDROR081aEVpVzlxR2lyckd0QW4yMElP?=
- =?utf-8?B?UjBMb3RQeDNpcWIwQ0tVaGdSTVQ2T0FhRS9FMEhzZVFvNklobDRTa0JBN0lh?=
- =?utf-8?B?VlhJWnBTeENzMWhqUHlucEZGU2hoVzBXSlIrUjdSUHdZeUhhZWNOdUVaUTI1?=
- =?utf-8?B?MkswSndKSDBqR0R3VnFMdEc5cUtXUFpjTEdYS0V1bEMxQ2V0TXU5Q3V3em5R?=
- =?utf-8?B?WlRGOUhYeXkzZnovK3lTaldvRWgvU01EVjJud0d5cXYyZmQ1V0xkQ1M5Ni8r?=
- =?utf-8?B?OFZOUHNFMmdSTDg5OEJZTDl2TzduTXI2NFNzM21nbFA4K0JhNzRwMmVid3p5?=
- =?utf-8?B?MkZ0cFZsT0NQTW5QR2svZ3pOMGZ2YW9rdjg4L3VQaTMwcFBvN3FtZzVvZ1pj?=
- =?utf-8?B?NlhDc2dnQXRKUG5RUnlieEMzL3pORTBnbjAwK3M3VVF5ankvVUMweTFvb09T?=
- =?utf-8?B?TXVZK2hzeUxxd1FqT2JzbmdCOU8wTjljMEhJVE1pMDJuc1pmSkRJangzc1Ru?=
- =?utf-8?B?VXR4eTJTZ2k4WFV4SVYwRlZMakdMNVFoc3N4NDNWQ3Fuei9WRGFPWENodDJM?=
- =?utf-8?B?bVJ0U2xjTkV1MUdaV0xxMjBraEtXMjM2aEJWRGpaTUJmUE1PZnhIZkVmRFlX?=
- =?utf-8?B?aEpjRkVjOUhHb1ZZZHFuZWNQRS93NVBmdGFYTm50VXRHZFRtdmFGdzVkWEJ1?=
- =?utf-8?B?clBHUkpwSFNmVWFiT2ppL29XLzdFaWdzNEhiYVVlTVgvYkJOTGZEZkRLUlVE?=
- =?utf-8?Q?LmRsGmk9s9J7o6yIOnxs0d98K?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d0eecb44-1f3f-40eb-9842-08da86eb23a5
-X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Aug 2022 22:42:50.1869
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR84MB1853.NAMPRD84.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: ddafab17-5a9f-4489-0b24-08da86f2eb46
+X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Aug 2022 23:38:31.3477
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 6RVgTJLj3n9t2DbM3WkAJAQ+TIzpEVUg4qt+Cg9Tj2hcgXWG+ypjSURPJ9IFPDc+
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB1945
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 105b2061-b669-4b31-92ac-24d304d195dc
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 6LZUcV26W94MRd0JdwVzzaxPJXxfPiHtBQr4ax0iFvR3cKk+gVVGILAwLrDfHcReAkPAo/to5DXAJWYdvB47oA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR84MB3029
+X-OriginatorOrg: hpe.com
+X-Proofpoint-GUID: 7kKiTtpjShxQKNz6S7ZWSPa1nEzr9Zjg
+X-Proofpoint-ORIG-GUID: 7kKiTtpjShxQKNz6S7ZWSPa1nEzr9Zjg
+X-HPE-SCL: -1
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-08-25_11,2022-08-25_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501 mlxscore=0
+ mlxlogscore=558 phishscore=0 spamscore=0 impostorscore=0 malwarescore=0
+ clxscore=1015 bulkscore=0 adultscore=0 lowpriorityscore=0 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2207270000
+ definitions=main-2208250090
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Thursday, August 25, 2022 3:46 AM, Justin He wrote:
+> > ghes_get_devices() changing multiple times in the series is
+> > confusing to me.   Can you simply introduce ghes_get_devices()
+> > and ghes_preferred() in the right state in a patch?  Perhaps, patch #2,=
+ #5,
+> > #6 can collapse to introduce the two funcs?
+>=20
+> My purpose was to make it easy for review. I am ok to merge these patches
+> into one.
 
-On 8/23/2022 5:47 PM, Reinette Chatre wrote:
-> Hi Babu,
->
-> On 8/22/2022 6:42 AM, Babu Moger wrote:
->> Adds the new AMD feature X86_FEATURE_SMBA. With this feature, the QOS
->> enforcement policies can be applied to external slow memory connected
->> to the host. QOS enforcement is accomplished by assigning a Class Of
->> Service (COS) to a processor and specifying allocations or limits for
->> that COS for each resource to be allocated.
->>
->> This feature is identified by the CPUID Function 8000_0020_EBX_x0.
->>
->> CPUID Fn8000_0020_EBX_x0 AMD Bandwidth Enforcement Feature Identifiers (ECX=0)
->> Bits    Field Name      Description
->> 2       L3SBE           L3 external slow memory bandwidth enforcement
->>
->> Feature description is available in the specification, "AMD64 Technology Platform Quality
->> of Service Extensions, Revision: 1.03 Publication # 56375 Revision: 1.03 Issue Date: February 2022".
->>
->> Link: https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fwww.amd.com%2Fen%2Fsupport%2Ftech-docs%2Famd64-technology-platform-quality-service-extensions&amp;data=05%7C01%7Cbabu.moger%40amd.com%7C4385e95126b24de58aec08da85597c88%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637968916632283680%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=dKSxIinxZGybtACbs3%2FVZr4zbeAvXYc%2FezVivq3xjx0%3D&amp;reserved=0
->> Link: https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fbugzilla.kernel.org%2Fshow_bug.cgi%3Fid%3D206537&amp;data=05%7C01%7Cbabu.moger%40amd.com%7C4385e95126b24de58aec08da85597c88%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637968916632283680%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=f7MJmrwkBGxq8BuWjNY6Ze9NdzJc6NOkXxNjUZk5c4U%3D&amp;reserved=0
->> Signed-off-by: Babu Moger <babu.moger@amd.com>
->> Reviewed-by: Ingo Molnar <mingo@kernel.org>
->> ---
-> resctrl currently supports "memory bandwidth allocation" and this series adds
-> "slow memory bandwidth allocation". Could you please provide more detail about
-> what the difference is between "MBA" and "SMBA"? It is clear that the implementation
-In this case the slow memory means memory attached to CXL device.
-> treats them as different resources, but both resources are associated with L3 cache
-> domains and (from what I understand) throttling always occurs at the CPU. Can both
-> types of memory resources thus be seen as downstream from L3 cache? How can
-Yes. that is correct. They are seen as downstream from L3.
-> a user know what memory is considered when configuring MBA and what memory is
-> considered when configuring SMBA? Additionally, I do find the term "slow" to be
+This series starts with your original patchset and then has additional
+patches to address the issues with the original patchset.  The number
+of the patches continues to increase in this way...  You do not need to=20
+record the history of discussions and design changes in the series.
+=20
+> > The rest of patch #5 adding the call to ghes_edac_preferred() into othe=
+r edac
+> > drivers can remain as a separate patch.
+>=20
+> Okay, I assume you mean to merge all of the ghes_edac_preferred()
+> checking for intel and
+> Arm edac drivers into 1 separate patch, am I understanding well?
 
-This memory completely transparent to OS with little bit higher latency 
-that regular main memory.
+No, that's not what I meant.
 
-Yes. I know slow word is bit vague. I am not an expert of CXL. But i see 
-that word slow is being used to refer the CXL memory to differentiate it 
-from regular memory.
+ghes_get_devices() and ghes_edac_preferred() look good to me after
+all patches are applied.  So, instead of introducing the original design of
+ghes_get_devices() and then changing its design multiple times in the
+series, please simply add the final version of ghes_get_devices() and=20
+ghes_edac_preferred() in a single patch.  They are small functions anyway.
 
-> vague as a way to distinguish between different memory types. What is the
-> definition of "slow"? Would all "slow" memory on the system support SMBA?
+That is, your series includes something like:
+  - PATCH: Add ghes_get_devices() and ghes_edac_preferred() interfaces
+  - PATCH: Add ghes_edac_preferred check to chipset-specific edac drivers
 
-Yes. All the slow memory in the system can support SMBA.
+Toshi
 
-Thanks
 
-Babu
 
->
-> Reinette
+
