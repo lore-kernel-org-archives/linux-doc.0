@@ -2,224 +2,231 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BDBD9C32774
-	for <linux-doc@archiver.kernel.org>; Thu, 25 Aug 2022 15:12:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F4B3C28D13
+	for <linux-doc@archiver.kernel.org>; Thu, 25 Aug 2022 15:57:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233738AbiHYPME (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 25 Aug 2022 11:12:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41012 "EHLO
+        id S236250AbiHYP5F (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 25 Aug 2022 11:57:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58568 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230072AbiHYPMC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Aug 2022 11:12:02 -0400
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2042.outbound.protection.outlook.com [40.107.93.42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A5E6A8978;
-        Thu, 25 Aug 2022 08:11:59 -0700 (PDT)
+        with ESMTP id S230058AbiHYP5E (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Aug 2022 11:57:04 -0400
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB43178587;
+        Thu, 25 Aug 2022 08:57:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1661443022; x=1692979022;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=VeglbT0NNbi7QmPMpFts5auqfNVgAQlfSqmrrvIhTBA=;
+  b=AHZfACvBqpcHnoKWnXoBz/NJkMG3t1ZmikeZgBPz+mOsIkjEcGGNy2uE
+   +vYN+nuFmFBl9FDTS53NKjqAK7z5SQJWNbbSGdZcLsgGn2IK68w5yS38q
+   FTgOdy2TOKD+nGZFEO19b8ckb30FuQm6h7beba7sGZW0YJ9YdLGyfQiyf
+   Im7ez4JcyF4eZ86IC+9uQ3SOVhc2KT8u1HSLVut/GmFm3qMt1ByLs8Ams
+   XyWii/YveBAfgk9uqtRnZDc3MfHl3BoKN4aahDti1/KAhFodu860kV/4m
+   +8Ttg1k3TbOmUow5LGToishYoKcOhnCFGnVbWc3gyjxyKtlK+vjzwLAHh
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10450"; a="293018442"
+X-IronPort-AV: E=Sophos;i="5.93,263,1654585200"; 
+   d="scan'208";a="293018442"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2022 08:57:02 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,263,1654585200"; 
+   d="scan'208";a="561075852"
+Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
+  by orsmga003.jf.intel.com with ESMTP; 25 Aug 2022 08:57:01 -0700
+Received: from fmsmsx609.amr.corp.intel.com (10.18.126.89) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Thu, 25 Aug 2022 08:57:00 -0700
+Received: from fmsmsx603.amr.corp.intel.com (10.18.126.83) by
+ fmsmsx609.amr.corp.intel.com (10.18.126.89) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Thu, 25 Aug 2022 08:56:59 -0700
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31 via Frontend Transport; Thu, 25 Aug 2022 08:56:59 -0700
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.104)
+ by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2375.31; Thu, 25 Aug 2022 08:56:59 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=cIZEuRpUsQ6uWrjc4I0kqZwaYHZjX0vXWgiTe1UbtVh1SDG0t6lOtvfrPizeygKXvJ5L4myIsbcNqh38L2oqh9mhEdELxZY/0LuXuDL9NnfEZDGgqwcCM7n2sPeSEPB79wWgLXkRAs/XZtfs8LXcyT9MATckHv7N9gunUmyN1wSoUNtAsv9CcrrlhO3kCjR0Da2vJpHhLZtfIcR3fRyxP3OMmYXNGSrynkW3oP6IHooPb1IJMDd9QY4RoPngzZHfYgtUwEkBHYqtw2yXwWTZaKRIBWP4sMLKz9g2kSiz88qrCmZ72C+gHwvUuzblUenXjLJGmp0nr/2myn1vvcpd4Q==
+ b=S7ELcfP2Jq0P3wDr2VH2zEb7KJn75HmbhPkHvG30eZePN696hN5wXzfkWzLBmdwbfW1U75zUY2XWjzw28I7/FjLHvLUJ8oKA1lS9Mw2vAao7BztJScTM/oUamoMNbl+q7j6JEH95wX5I+oVsVrFyrqz6f7ryqrIDldni+97u2/88Q+fBZwjeu0BlFqGSPqZZvhLqb45mbAwEr6LpcrHZckXDo9eIYwQFnqsP82wztSd82EHzExEiNvu8oowwcmsF9cBGruswg5lItPMYZrJFdtmKQn0veM4KZkuFxIvtFQPej8t1BIcGrAI8kQMMDzUF7zMKMI8O7ujpOWYeCBMfYg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=wseQfJTUsdgaQraVbpuFQUR6REnr+KDXznt0NfzSob4=;
- b=ACC+UX8/Y6gv5cODrNdXPbTizdYPV6gqDmv6Z0hlFbgEgo9+m9jd6KoaFVEU9LKOfqyspaNrQ2ijlsBb6N78uQbM3PJ+4RaL3nJXM4yhtHRMHjSp+gs6kkCsM2C7/TSRo1+yX6gv1A2EHRnwFmpVAhjqGJDbUicM0QKVn9M2DNsb/D6057Q5mB67zBI9poxIe7WfeJg9+SLC2UKwet8XZMf5HuCgvPofVGlLeyLtIb+Q0KB52J3wVMwLMZjEyETF22LjOLCNFcXhyOTym5TkqsEql7sbtQ7bJiqwefciJ7RgFamBYzdZvZWblgPHuR27uSlwHIN95wGhyklBdcE9qw==
+ bh=UsmBOEZ+5sfGG73V01zxYxjVYwDrABufYYgG3JrIwg4=;
+ b=XzkcKeFc82P/LNny2YcSTcewqR+DHRluvsy6990eyS8J69Ja4U77006dVm7Te89BIT1+jBnqfPTID1jyTkRQwJokeJAtiSTkrnzv9vX+QsgwTy0wA5E2tjBjN1VYZ0/RuWedAOsIhTXcUvipyXyYN7Ua1jWmZbOlsDb1ovVC5b/PBT7ZF9unxw+y+uSqWYU8p9Pb5S/pPW8KYt7KbEcAKpD/hXH0mTL1FM6Soyi6SeoSUzheT+k0UXb57+l8Kx2cyqPGoE98/b4buneYHrVG/jfW4Aa+3Jggxgi129YASzfmPy1uIaXedkFpOoJPZcevflVFqWF32YOjTAdhCefo7A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wseQfJTUsdgaQraVbpuFQUR6REnr+KDXznt0NfzSob4=;
- b=SKCvp4/yJRzb4A8G8yuZd/8GBkGLiZfISGDZQYP0q/O4gYNM+lA2DDnDM5xr+Ik4YkXrbcMwBA9O/1Z39nMlzth4CUq5Iq8cmQ4q1zNxNyX6nS7HVlxYUHyvnmTocD2lpwnAtgT/OqcywEqM4T7v7MKR0Q5THrHO34fQxPyg93k=
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
- by CH2PR12MB5003.namprd12.prod.outlook.com (2603:10b6:610:68::23) with
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from CY4PR11MB1862.namprd11.prod.outlook.com (2603:10b6:903:124::18)
+ by MN2PR11MB4758.namprd11.prod.outlook.com (2603:10b6:208:260::16) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5566.15; Thu, 25 Aug
- 2022 15:11:56 +0000
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::88f:a211:8c98:a973]) by MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::88f:a211:8c98:a973%7]) with mapi id 15.20.5566.015; Thu, 25 Aug 2022
- 15:11:56 +0000
-Message-ID: <5d650c6c-2f17-6013-f63f-49a182961494@amd.com>
-Date:   Thu, 25 Aug 2022 10:11:50 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Reply-To: babu.moger@amd.com
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5566.14; Thu, 25 Aug
+ 2022 15:56:57 +0000
+Received: from CY4PR11MB1862.namprd11.prod.outlook.com
+ ([fe80::a824:112:52f7:5743]) by CY4PR11MB1862.namprd11.prod.outlook.com
+ ([fe80::a824:112:52f7:5743%11]) with mapi id 15.20.5566.015; Thu, 25 Aug 2022
+ 15:56:57 +0000
+Message-ID: <93d1a26f-559f-63f7-d2b1-e8831a9df62c@intel.com>
+Date:   Thu, 25 Aug 2022 08:56:54 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Firefox/91.0 Thunderbird/91.12.0
 Subject: Re: [PATCH v3 06/10] x86/resctrl: Introduce mon_configurable to
  detect Bandwidth Monitoring Event Configuration
 Content-Language: en-US
-To:     Reinette Chatre <reinette.chatre@intel.com>, fenghua.yu@intel.com,
-        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de
-Cc:     eranian@google.com, dave.hansen@linux.intel.com, x86@kernel.org,
-        hpa@zytor.com, corbet@lwn.net, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, bagasdotme@gmail.com
+To:     <babu.moger@amd.com>, <fenghua.yu@intel.com>, <tglx@linutronix.de>,
+        <mingo@redhat.com>, <bp@alien8.de>
+CC:     <eranian@google.com>, <dave.hansen@linux.intel.com>,
+        <x86@kernel.org>, <hpa@zytor.com>, <corbet@lwn.net>,
+        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <bagasdotme@gmail.com>, "Luck, Tony" <tony.luck@intel.com>
 References: <166117559756.6695.16047463526634290701.stgit@bmoger-ubuntu>
  <166117582698.6695.3458866624522799072.stgit@bmoger-ubuntu>
  <575bf1d7-8780-8c54-851c-e9849d1815f8@intel.com>
-From:   "Moger, Babu" <babu.moger@amd.com>
-In-Reply-To: <575bf1d7-8780-8c54-851c-e9849d1815f8@intel.com>
-Content-Type: text/plain; charset=UTF-8
+ <5d650c6c-2f17-6013-f63f-49a182961494@amd.com>
+From:   Reinette Chatre <reinette.chatre@intel.com>
+In-Reply-To: <5d650c6c-2f17-6013-f63f-49a182961494@amd.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BL1PR13CA0013.namprd13.prod.outlook.com
- (2603:10b6:208:256::18) To MW3PR12MB4553.namprd12.prod.outlook.com
- (2603:10b6:303:2c::19)
+X-ClientProxiedBy: SJ0PR03CA0027.namprd03.prod.outlook.com
+ (2603:10b6:a03:33a::32) To CY4PR11MB1862.namprd11.prod.outlook.com
+ (2603:10b6:903:124::18)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 098a430f-f3e5-4907-6902-08da86ac266a
-X-MS-TrafficTypeDiagnostic: CH2PR12MB5003:EE_
+X-MS-Office365-Filtering-Correlation-Id: d64d6165-f368-410d-78c2-08da86b27011
+X-MS-TrafficTypeDiagnostic: MN2PR11MB4758:EE_
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 5uv6NN4i0eXGW/oQH4xjxjwKNNetxvARl/2YnczSzZxpK3ejyhPRQDSxZpIFwwu8tLZ9gGW+asJJ4lGBks8IzgnaRRu0iRie4yYLF6ZYBYGuISNix51Qb+DTgiPdO3v5AWI1/pIk5NdDhJFoj11iqp0weFPLU4IWC3B1xDYzK5KR4xyVJ5fEZTOHNgw5UBYcVw1EEXFyDLQ6ykAL91WahN8NO7M5m0RwQmBUHQnU8hc4UuEVw4TNT2n/WXkVrsH8gp3ROXOGbkQ7QEJO4fCV+8orsbP566toEyCLNTz1gMTUYyUIKiuveaeyGns//w6RQzS6gw8j/9AGJ5f4BZPqqt0GKgR8kifOCwD+qHQTdWCDdMFaPg6xyzvk5+ysJw9jZl0Vp4UVeP8iedRzYQGLY8m2kQOvVSIQBzu7Jt5Vo+JEWKlAaFtig6Zy6lHQeJ55GDWHNU9v6vDmOcypkUgU75WIZXaqHECMWd4KPWa2R5fGLuPiDgkxH5bCydbB68p6YhMy3OI/oKBOYhVG5wSvIK3u61YdBJ1N5vRkqFTtNyapZ2IqC5FSS6klIaefvEHMOLvFRTr3+RMvBkP+e/gPyb/p4d4INbkP+ITjyP2xL580r4lBSPp+0L4HDkEKra6d/aSwagQDI2EQ3QFwwdPQj3QgH73EOyAVbl4VAZpoOBqItbLof7Y08MiwbmjVCFEmY8GOOhcmrRZeIyDx7orlUydiYTI0uDh+iJcDnPz18A+Y8W59sof01qpGs76fMgLYUutx8FaTYFSglyPwtNjRbZQ3B4T+hmA/HCzBWEYlB7M=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(39860400002)(346002)(376002)(396003)(136003)(366004)(83380400001)(31686004)(26005)(6666004)(6512007)(316002)(41300700001)(6506007)(478600001)(6486002)(38100700002)(8676002)(66476007)(66556008)(5660300002)(66946007)(7416002)(36756003)(4326008)(3450700001)(2616005)(186003)(53546011)(86362001)(31696002)(8936002)(2906002)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: Tf4iAgPRVqnc1fY5+0cezvkTOPGFRGxbEx0gPPL21Rj6qAYWmS6sjGMh8geCMTnkMTjN/tspgFVkWtOVhzWn4+QyEdiwA8AUtnrfjdGVZhJpQ04e4H1g9gNEyrnC5MFj67HyPBxR4o0FGFRJzV8KGVbGj/VC90S26kTH3RLBNFmEVoN9Ve/ONhwUdYJhMOlhOMcIWDoRrhxsHnAfm3/0VU/XP9spud7/tLn4ZzxUXpYulGziJ6SSEUQGeuFxHUuMp9FzSrU9CvnXH8+tXo8fpMqvCvNeGCD8+b6z7hTTSpZmfpk889SbXLO9JC/dJT/ilITx2qw4OsMz3QUAE575l/BSyrwH7gJF8qVegZM+78S5cDiODwY1QEk9YE/P3nF2HSjgFmwYMeW2dqhDJz+1sTyvdEpccTHn16L+SlC58h/eFYNUJMwlxM1pKxj3dKQJbmbttV3OyZ6pDUaY8mUFw6V25TSCpFH6DnxI8lFrX9KcSYLyhK142me8CsiRv3BnMB4FZKZmc73uvwJlhnIr26RK6BG/I9mBTax+NFHaS5TIEj6IG8Vn9cEJJbulhajLnLda7T9Trj3K1rMPB9x7nK5bp/sbbtYotqogE3MUMQHlj4u4RihqnxD6nz19j/vuiSn1k12GUPFB7FQNrlKLyW83E9PXNo2TbRFuQl0dGGvJ14I7BUChy7lsNqYxUkjlOsYCNFLgkomCQRW7sZfiJvt0SfqQT69evO2K88uF6TzcVlYM8XucSO3VZJE6mpB7DqTR86HIQlmSGGqrqSV88vj2oJ1+17DxnvG/RCR1SUE=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY4PR11MB1862.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(366004)(396003)(136003)(376002)(346002)(39860400002)(82960400001)(2616005)(83380400001)(38100700002)(86362001)(31686004)(66556008)(66476007)(31696002)(66946007)(8676002)(316002)(4326008)(36756003)(186003)(8936002)(7416002)(6486002)(5660300002)(44832011)(41300700001)(6666004)(478600001)(53546011)(26005)(6506007)(6512007)(2906002)(45980500001)(43740500002);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cVFVeGt4WlllRFBJcUFnL3laeXY4Z1JMSHlxbnEwSkl0LzI4WDF3Tjc1K3Zs?=
- =?utf-8?B?eE1vQXlmWjUzQVBqN3JwTWpxUDNRa29hQXZ5d0RraHNpQkR4TVVmakxpZDRi?=
- =?utf-8?B?TENYQ3ZEclBVbjZTbmNpZWQvTmY0RU4zbjhLa0xRenUvNmE4S0pxbzRzZmNi?=
- =?utf-8?B?enhveXgxUHJTME41cmZLK1B5SG1JNEtPQ0tMNGhOVnFYMWVtaXJJQS82Q3NB?=
- =?utf-8?B?TGdQdXZuRXZ3V0Y1UENZemtFZHFqMTdaTU5VMzhsQVAxQ0s3M2c4amp2TVdn?=
- =?utf-8?B?ekgxbHg5Sm90bHJMOEdRd2hLSDgrOXpib3YwT1RULzNLSm5zdDZSK0s3L3I5?=
- =?utf-8?B?QjVGZjk1OHQ1TkZvMnlYNmthSVhITkZMdnpZdm04ZWRlYy9sd2xmZzlyNlVi?=
- =?utf-8?B?a3VIbjk1SVZiTE9FQ2pMM2RNVkQrVldwWnNoQVc2cnRGb2h5VjRCbW4yUDBU?=
- =?utf-8?B?d2F6TUI3ZTdEWmdQSk9XajlkWXlQWllzSjJoSjgyNmFDWW5GK1dJcVVCN2Zt?=
- =?utf-8?B?bkg2MFhld0RGSWh4amNHSER5K1E1a2ZXbE5iWTF3TE5UeHIwTXBuVEhDZEdl?=
- =?utf-8?B?MWFhNk9PT25JemFHSlkyVTlDN1BRa3ZhNkxEaE01MW5MVE4zczl6aHVnaCtX?=
- =?utf-8?B?ajk1MG1KZlVSbGRZWm05cms5Mkl6R1Ria2NBYzI5dHowZFRBam9aNjlQT1Mz?=
- =?utf-8?B?cUU1M3p6Y29HcEk0N1A2dTA1OW1BN0I0YTZheWV5Z1Voc2JXUHZPWnlUajZn?=
- =?utf-8?B?UlArMWsrWDRKT1RTTU1vTzRqMkxSNHRoNXVzbmRiYW5hdjhKeFZLeTdsNUFV?=
- =?utf-8?B?Q0w0ZGFDcE5KdlMxeXZjTzlFdm56dGFwM3Z6ejE5YVFvRjE2WEd3VVVjQTlF?=
- =?utf-8?B?ZkljRHNvWHpaMFU3c0tjakRhNmlBcVpncmtOTXlycFd4SjBNSWkyNzRhZHUr?=
- =?utf-8?B?UWJNNFNBaElwOENEeXkyVXd3Mm9VeGlmNm9QL2cvZ21kczBhY3NBdVAySEtj?=
- =?utf-8?B?dkhEeGo4Y2NWc0UrWWRpcitEVGY4aVpMTENoT3ZKT0JqbHIrUk01UzdhVFEv?=
- =?utf-8?B?bExQcGFSVmhFR3pDWFRVaHFKbHdhVWFYMWNZTVZmVlMvQ29UdWx0L0wzQWox?=
- =?utf-8?B?QVFhZGdIZGQ1VHNiY3JiNVNENXc4SmlBZSt6ZXlLMllWT0labU5lQTNhYjY2?=
- =?utf-8?B?V3UxNlcyZzVIdmh5V1FTdFFzYzl5Mk55eXcvRDNaOFYwdDNydmVJVTZHZHFO?=
- =?utf-8?B?dWg2UW1ZZWNEUjNXcEo5OFcweGNUM1FWVDh4cDI1Y0ZmYWw3N256UUJwWmNU?=
- =?utf-8?B?ZFR6OFI0aHI0ajNTZThzVm15YVhjWkFPS1lMdVc4MW5jcGtTTXNJV1dpL0ZI?=
- =?utf-8?B?dXlTSG5ETzdWNFdFVFBVRWVZTU4xNDN0TVpxMTJXcVUwc1ZQQkF2cUNXYk55?=
- =?utf-8?B?em5JeERmQ0pML0Q3UWhJajZOWDRVOG1wNlBHeDlGbzZiWUZLT0VKNTgwL1hq?=
- =?utf-8?B?NHNEZ2VQWjdLTjRLK0Z4eE5tOVRqRjBQU3JqaVNrK2lncVNKYlMrMEFaTFVr?=
- =?utf-8?B?N3lLeUxKaGdoZ0t4ZzNHNGM4dlBDbUVGTVFwcytxbXZnOFpTMmtyQnY1RERI?=
- =?utf-8?B?aXJFSk9BMXRWQVBVSVE4ajNlWEFvaWNWTXY0VExEUGo4ZGloTUY2ZXhjQ2FX?=
- =?utf-8?B?cGhQa0J0dkJSOTBNR1Rxb0M5b1V3R3REU3FxUkgvd1lWWnN6T0J3KzFPNk92?=
- =?utf-8?B?M0wxd3N4YStrTStyMTgxZS84UHNmUnhYOGcwZWtLY1c5ZzFzNUlLT2g0clZm?=
- =?utf-8?B?REpmMnZXeTNLRGwxVW13cGxNRkp5VzhISXE2ekVHRXlBZmZTZHlwcTNtZHJF?=
- =?utf-8?B?K3FiWWsxQ1ZtZWNsTllrS1N0NjF0YUVnMkFQc24zaE5yeUxyTU9HYnIwS2xH?=
- =?utf-8?B?TEtrMEhrcUx0WlgxR0k2MzVFazZ5WjRwRXJOdDJNUUhpa2xuWGRqaVhGRjBL?=
- =?utf-8?B?emFtOUtwQTdnZktOSS9RRGF1TTdGV2FCWmZ3aitwaFVQRTNyeHVLYkRRSGdD?=
- =?utf-8?B?OUxSSmk1d1JRZWdScjRkZkZ1WS9hQWZQV1ZzTk9SZ0JwUlV2cXo4RmUxR3cv?=
- =?utf-8?Q?fnUk=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 098a430f-f3e5-4907-6902-08da86ac266a
-X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eEIxZHk5T0tPQ2RsSDJGcDRIMGFyL3dZR2RGZjlNTGI1TVFpaGtNMXZyS1VY?=
+ =?utf-8?B?TGFJckhGV3llWVZiZ1k5UHRCN3RKcHRkd2V0bXQ1eS9wcTZzRkNCOHJpT0Np?=
+ =?utf-8?B?ZWp2dVgrUHI3dGthM0ZtSUwyeHlNejZuSTBucGlUZ0RoMXoxemxWc0hJdy9B?=
+ =?utf-8?B?ZEJleThYV3R2MHVoV2FKTVZGYnJRbkdVT3ZyNzlhU0ZEWXhNUHB4ZUxmOGto?=
+ =?utf-8?B?TGs5dEVreTJoY3Z6OHB6eEp5SFlkcEw1QlZXTVVPbi9hQmZKV3hFbnd2SGV5?=
+ =?utf-8?B?TkoyRzZqbnZrSFpwbjlvQ2Qxc2l3N2FZRGRaWHk2c2s4bXdFQStmVGkzNVJk?=
+ =?utf-8?B?QmJqREtiZEltWTZCSVY4YlJtY0dBN1UvMVBDdER2RGJxOG5xbnlqejhNNytx?=
+ =?utf-8?B?TElyVjBnS1h6Q242RHpJaG04WW1UVFZkOGErZjY2UVFyc0pnckFWbW1ucEhT?=
+ =?utf-8?B?cThSbktRZWwzY25zbUZOUGxZbnY1OWEwTHRRdUpKSi9jeU5jL3NDNFZmTkhH?=
+ =?utf-8?B?RHdwamdsSWp2ZFJYNEh6amtKTGdkY0JwYmEzaVZNUEdxOFE5ajZndXJ4QW15?=
+ =?utf-8?B?aUtzLzFCRmRnRFdaS2VVZWRHLzFFaXpneXJIeS9nc2kwRVNOYWlzRmhYMkpa?=
+ =?utf-8?B?TkpsWVN0Z0JKcmVlRlk5dXk1SytVemtkcHFpK3J6RklGVlZVd3NySVNlTDJh?=
+ =?utf-8?B?UWNJMUVuRnpUK1Y1QytsamNCdkpPeE13KzlBTzZRQ1lQNUs5QUNsZjZCQ1Yy?=
+ =?utf-8?B?VzBYVjRJY2V0b1FZK0JiVmFXODJnd3QrQnlVL01IUGxtWDQ5UkJPQjM4alh0?=
+ =?utf-8?B?Vnk1eFpITC9TNXNUVDNDZ25obWFYdGpKOVg4WXgxV1lpYk5nd3ZuQU10WDQz?=
+ =?utf-8?B?cUxxTkZQSVlmcFlleUxJdE1nczErSXBPOG1rUjcwckczUTZwRGFXWG16ZWJU?=
+ =?utf-8?B?QmlETkZ1MU5BNTVuT1ZYZjE5cFArV1RJZ3I4akxabTJYb09tS1NsZzRBelV0?=
+ =?utf-8?B?NGI2cVpsVXl5V3lROUlLRGlkOEQwa21tVXN1c2JMUTBZY2R0eTJjVzFzRC95?=
+ =?utf-8?B?S0JnVldwS3Jyb3ZRVUlTOE9lVjhlSkJ5dElyN0VGNENpaWs1SlpBbC9PeWFO?=
+ =?utf-8?B?OFBsczBoQ0dnb1dxeEM4ZWY2N1ZuSzl6ckxJWGlCY3A4dVI0ZU5MbTdxc3JY?=
+ =?utf-8?B?d1BwQ3ZnaXNRMzNWYVVuUnE1L3pNTFBTTTVEaVMraWx3WkoyeHF5dHVrb0JW?=
+ =?utf-8?B?cDgrU0huOEszQ0FBWmJxcFFWdW9BTlJoaFlQdHJsNFJnWFl1bk04RWIyUzdQ?=
+ =?utf-8?B?clhwa052cFc2RjZsUEVPN0Fnekd2WnNkYktKaEVycjYzSFNGVGtZTVFlUXIx?=
+ =?utf-8?B?R21QZFR2ckJaOHBEelFWeHk5OG1nZklZMmgvajJRMWhOSjBzdXUzNGhwWUpr?=
+ =?utf-8?B?RHR1Mk1yeTlqMUNTSmlwYS9HcGRHSlJneUhubngzVmJ3K3gzb1pTMHdSYWJm?=
+ =?utf-8?B?MGptdG1XRFlOZ0xFemFsRE55RzBrc2hHcVJYY2Z4WVp3SEEybW10TUh0QWpB?=
+ =?utf-8?B?WlZrNHJaVmVkaHNvMmxHV2RiMklWeUs1R0R2OXhSOXJWT1hCakc3RE5SWjEy?=
+ =?utf-8?B?SEF1VXRiMktYMTRNbzlJRE4ranJOcllIbklBeDhCckR2ak9rZi9DTTl5RWNl?=
+ =?utf-8?B?UzlEWjgwVGpsNzdFWUdOYUg1UVZTczQrMjlOMFpSRGl3UExQeW0wcjZON1hT?=
+ =?utf-8?B?UFpjUThBZWpwQlVITUdKSGVMTXl4bVhJaG9CWW5JQ0x6dVVzRGJqQlF6NktC?=
+ =?utf-8?B?MS9BMUk0K2JxNGJscUczSWZiS0FtbUJVUEJFRktRWnduOHZqNXFSWjhUVXU4?=
+ =?utf-8?B?cUhYVVBCZ2Qya21GSThjeHlnVEd5dXJVK3J1dzE5czMxT0FDQ3g1ODlhb3hz?=
+ =?utf-8?B?cjZUemdyTHc5ejJyejBQVm1rZ2NQOXA2QjZ6Y0llbUc4WUhIbStNeDJoWDd6?=
+ =?utf-8?B?SjVZN2g2dEZZQldWNUJ1MXZrNEVTZUFRQmlmUXJNS3FocDZiekN3VDN2WWo0?=
+ =?utf-8?B?dFV6MVpyTUdwK1hKT3ZyOS8zTHU2T01WNGFsaTE0MWowVmp0THFHcUtDaGUz?=
+ =?utf-8?B?SGJXWm0yTmd2ZFVnRmowZHByWkxrU3VrY0ZoTklGQk1ENzRtNGF0bytKcDR6?=
+ =?utf-8?B?RVE9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: d64d6165-f368-410d-78c2-08da86b27011
+X-MS-Exchange-CrossTenant-AuthSource: CY4PR11MB1862.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Aug 2022 15:11:56.5400
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Aug 2022 15:56:57.0559
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: fZx2c/PKNEjQcVilnfZnFX3OS2M8tBEKbBryqvHIDVxbiWjD+77CxEM/srhcULkT
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB5003
+X-MS-Exchange-CrossTenant-UserPrincipalName: iXFBT0yGdbbkPGSnX8jFPdAbqdLBwb6Eo1aHX+lVLX/DTl8IPkbVxpsjZcIyfndJ42GLbqcHruBuxnbhCZDQ1PDf++bhcUdbyxI/e+p2Ze0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR11MB4758
+X-OriginatorOrg: intel.com
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Reinette,
+Hi Babu,
 
-On 8/24/22 16:15, Reinette Chatre wrote:
-> Hi Babu,
->
-> On 8/22/2022 6:43 AM, Babu Moger wrote:
->> Newer AMD processors support the new feature Bandwidth Monitoring Event
->> Configuration (BMEC). The events mbm_total_bytes and mbm_local_bytes
->> are configurable when this feature is present.
->>
->> Set mon_configurable if the feature is available.
->>
->> Signed-off-by: Babu Moger <babu.moger@amd.com>
->> Reviewed-by: Ingo Molnar <mingo@kernel.org>
->> ---
->>  arch/x86/kernel/cpu/resctrl/monitor.c  |   14 ++++++++++++++
->>  arch/x86/kernel/cpu/resctrl/rdtgroup.c |   17 +++++++++++++++++
->>  include/linux/resctrl.h                |    1 +
->>  3 files changed, 32 insertions(+)
->>
->> diff --git a/arch/x86/kernel/cpu/resctrl/monitor.c b/arch/x86/kernel/cpu/resctrl/monitor.c
->> index eaf25a234ff5..b9de417dac1c 100644
->> --- a/arch/x86/kernel/cpu/resctrl/monitor.c
->> +++ b/arch/x86/kernel/cpu/resctrl/monitor.c
->> @@ -682,6 +682,16 @@ static void l3_mon_evt_init(struct rdt_resource *r)
->>  		list_add_tail(&mbm_local_event.list, &r->evt_list);
->>  }
->>  
->> +
->> +void __rdt_get_mon_l3_config_amd(struct rdt_resource *r)
->> +{
->> +	/*
->> +	 * Check if CPU supports the Bandwidth Monitoring Event Configuration
->> +	 */
->> +	if (boot_cpu_has(X86_FEATURE_BMEC))
->> +		r->mon_configurable = true;
->> +}
-> Could this rather use rdt_cpu_has() with the added support for disabling
-> the feature via kernel parameter?
+On 8/25/2022 8:11 AM, Moger, Babu wrote:
+> On 8/24/22 16:15, Reinette Chatre wrote:
+>> On 8/22/2022 6:43 AM, Babu Moger wrote:
+>>> Newer AMD processors support the new feature Bandwidth Monitoring Event
+>>> Configuration (BMEC). The events mbm_total_bytes and mbm_local_bytes
+>>> are configurable when this feature is present.
+>>>
+>>> Set mon_configurable if the feature is available.
+>>>
 
-Yes, That is possible. We could do that.
+...
 
+>>> diff --git a/arch/x86/kernel/cpu/resctrl/rdtgroup.c b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+>>> index fc5286067201..855483b297a8 100644
+>>> --- a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+>>> +++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+>>> @@ -995,6 +995,16 @@ static int rdt_num_rmids_show(struct kernfs_open_file *of,
+>>>  	return 0;
+>>>  }
+>>>  
+>>> +static int rdt_mon_configurable_show(struct kernfs_open_file *of,
+>>> +				     struct seq_file *seq, void *v)
+>>> +{
+>>> +	struct rdt_resource *r = of->kn->parent->priv;
+>>> +
+>>> +	seq_printf(seq, "%d\n", r->mon_configurable);
+>> Why is this file needed? It seems that the next patches also introduce
+>> files in support of this new feature that will make the actual configuration
+>> data accessible - those files are only created if this feature is supported.
+>> Would those files not be sufficient for user space to learn about the feature
+>> support?
+> 
+> This is part of /sys/fs/resctrl/info/L3_MON# directory which basically has
+> the information about all the monitoring features. As this is one of the
+> mon features, I have added it there. Also, this can be used from the
+> utility(like pqos or rdtset) to check if the configuring the monitor is
+> supported without looking at individual files. It makes things easier.
 
->
->
->> +
->>  int rdt_get_mon_l3_config(struct rdt_resource *r)
->>  {
->>  	unsigned int mbm_offset = boot_cpu_data.x86_cache_mbm_width_offset;
->> @@ -714,6 +724,10 @@ int rdt_get_mon_l3_config(struct rdt_resource *r)
->>  	if (ret)
->>  		return ret;
->>  
->> +	if (boot_cpu_data.x86_vendor == X86_VENDOR_AMD)
->> +		__rdt_get_mon_l3_config_amd(r);
->> +
->> +
-> Why is this vendor check needed? Is X86_FEATURE_BMEC not sufficient?
-Yes. I can remove the vendor check.
->
->>  	l3_mon_evt_init(r);
->>  
->>  	r->mon_capable = true;
->> diff --git a/arch/x86/kernel/cpu/resctrl/rdtgroup.c b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
->> index fc5286067201..855483b297a8 100644
->> --- a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
->> +++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
->> @@ -995,6 +995,16 @@ static int rdt_num_rmids_show(struct kernfs_open_file *of,
->>  	return 0;
->>  }
->>  
->> +static int rdt_mon_configurable_show(struct kernfs_open_file *of,
->> +				     struct seq_file *seq, void *v)
->> +{
->> +	struct rdt_resource *r = of->kn->parent->priv;
->> +
->> +	seq_printf(seq, "%d\n", r->mon_configurable);
-> Why is this file needed? It seems that the next patches also introduce
-> files in support of this new feature that will make the actual configuration
-> data accessible - those files are only created if this feature is supported.
-> Would those files not be sufficient for user space to learn about the feature
-> support?
+I understand the motivation. My concern is that this is a resource wide
+file that will display a binary value that, if true, currently means two
+events are configurable. We need to consider how things can change in the
+future. We should consider that this is only the beginning of monitoring
+configuration and need this interface to be ready for future changes. For
+example, what if all of the monitoring events are configurable? Let's say,
+for example, in future AMD hardware the "llc_occupancy" event also becomes
+configurable, how should info/L3_MON/configurable be interpreted? On some
+machines it would thus mean that mbm_total_bytes and mbm_local_bytes are
+configurable and on some machines it would mean that mbm_total_bytes,
+mbm_local_bytes, and llc_occupancy are configurable. This does not make
+it easy for utilities.
 
-This is part of /sys/fs/resctrl/info/L3_MON# directory which basically has
-the information about all the monitoring features. As this is one of the
-mon features, I have added it there. Also, this can be used from the
-utility(like pqos or rdtset) to check if the configuring the monitor is
-supported without looking at individual files. It makes things easier.
+So, in this series the info directory on a system that supports BMEC
+would look like:
 
-Thanks
+info/L3_MON/mon_features:llc_occupancy
+info/L3_MON/mon_features:mbm_total_bytes
+info/L3_MON/mon_features:mbm_local_bytes
+info/L3_MON/configurable:1
 
-Babu
+Would information like below not be more specific?
+info/L3_MON/mon_features:llc_occupancy
+info/L3_MON/mon_features:mbm_total_bytes
+info/L3_MON/mon_features:mbm_local_bytes
+info/L3_MON/mon_features:mbm_total_config
+info/L3_MON/mon_features:mbm_local_config
 
-
-> Reinette
-
--- 
-Thanks
-Babu Moger
-
+Reinette
