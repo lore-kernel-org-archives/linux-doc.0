@@ -2,93 +2,81 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 28DE4ECAA24
-	for <linux-doc@archiver.kernel.org>; Thu, 25 Aug 2022 18:09:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EA68AECAA29
+	for <linux-doc@archiver.kernel.org>; Thu, 25 Aug 2022 18:10:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230164AbiHYSJs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 25 Aug 2022 14:09:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60066 "EHLO
+        id S243355AbiHYSKj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 25 Aug 2022 14:10:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35210 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236470AbiHYSJi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Aug 2022 14:09:38 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B214BD08F;
-        Thu, 25 Aug 2022 11:09:36 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
+        with ESMTP id S243250AbiHYSK3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Aug 2022 14:10:29 -0400
+Received: from sin.source.kernel.org (sin.source.kernel.org [IPv6:2604:1380:40e1:4800::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16FA4A927A;
+        Thu, 25 Aug 2022 11:10:24 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 72B8F2E2;
-        Thu, 25 Aug 2022 18:09:36 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 72B8F2E2
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1661450976; bh=5vAHQVGvmhIm6rGzB0DMvadkCYOHywVDKSrP/IUHYKc=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=kSRWIw/Ak6lGd6CoGml8WhUs7+ybs0aOyaPwpM79tFAXB+ZjsPQkokUvdJzTK8e2o
-         ZTDYDw2bs+omShQpeS1Tv3pgL5qewxFmLKxuXcrFWBp1TmFFmcNqkr7kU4rGirYwfG
-         yVe9AY/dPLoErSUSG/RlEnxYcVOS/9PLLedrsF4fEqP53Po7Q83VRWPotXNBirPIia
-         xLIocksnTJksthlgZy1U7gZcZLMjSLGCOVrXOtL5Y96F4mjUgC33uUIHOYOc18Lqra
-         LDlwAEhYDfLE6f6VqybjDbvkeDKQ0QkAVAgXJdqJP6ECaOGU0GUDS+q5QYIVu6eK6u
-         7KY+F0xpRJNNw==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Yixuan Cao <caoyixuan2019@email.szu.edu.cn>,
-        akpm@linux-foundation.org
-Cc:     yejiajian2018@email.szu.edu.cn, skhan@linuxfoundation.org,
-        akiyks@gmail.com, rppt@kernel.org, zhangyinan2019@email.szu.edu.cn,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Yixuan Cao <caoyixuan2019@email.szu.edu.cn>
-Subject: Re: [PATCH] Documentation/mm/page_owner.rst: update experimental data
-In-Reply-To: <20220825172934.4344-1-caoyixuan2019@email.szu.edu.cn>
-References: <20220825172934.4344-1-caoyixuan2019@email.szu.edu.cn>
-Date:   Thu, 25 Aug 2022 12:09:35 -0600
-Message-ID: <87ilmgyz34.fsf@meer.lwn.net>
+        by sin.source.kernel.org (Postfix) with ESMTPS id CD716CE292B;
+        Thu, 25 Aug 2022 18:10:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D623C433C1;
+        Thu, 25 Aug 2022 18:10:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1661451021;
+        bh=Er8V9jNbcvkm1yktE0q1q+gaOywFHNbKENwzjuzsnpk=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=c3UkDop3oO43oJhqNyBuSPAFSouev7/BICPgYp4oeVQB4vqSSZ3dTBFcoHV3jR1eg
+         02FgisMPYnCaKBwXe2JuSpOLV/FrZsifmSq5LDmChTtAZUsp/BQOKdfdGgclTziAfn
+         skf6YPayTB9zEuhxk3tqYH0FpwKxra/psXWasHQUrk5QJ9TMt35wbw38k3jTUe0G/Z
+         LVaZKqorz5gAvzX7bm81C1ngf63fn4uGWm1EfZsptc1k5GAFONdPWkN7hoPfBDDRvt
+         mEAbxWTNsIfpJY8y1110qJwW1nuFR8rqMT9x/IUgNZjkgigBvkBhjsVWuxQSvksJKD
+         8q1z61szHCW5w==
+Date:   Thu, 25 Aug 2022 11:10:19 -0700
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     Oleksij Rempel <o.rempel@pengutronix.de>
+Cc:     Andrew Lunn <andrew@lunn.ch>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        kernel test robot <lkp@intel.com>, kernel@pengutronix.de,
+        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
+        David Jander <david@protonic.nl>,
+        Luka Perkov <luka.perkov@sartura.hr>,
+        Robert Marko <robert.marko@sartura.hr>
+Subject: Re: [PATCH net-next v2 6/7] ethtool: add interface to interact with
+ Ethernet Power Equipment
+Message-ID: <20220825111019.1dc3dae0@kernel.org>
+In-Reply-To: <20220825130211.3730461-7-o.rempel@pengutronix.de>
+References: <20220825130211.3730461-1-o.rempel@pengutronix.de>
+        <20220825130211.3730461-7-o.rempel@pengutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Yixuan Cao <caoyixuan2019@email.szu.edu.cn> writes:
+On Thu, 25 Aug 2022 15:02:10 +0200 Oleksij Rempel wrote:
+> +enum ethtool_podl_pse_admin_state {
+> +	ETHTOOL_PODL_PSE_ADMIN_STATE_UNKNOWN = 1,
 
-> I noticed some experimental data need to be updated.
->
-> Signed-off-by: Yixuan Cao <caoyixuan2019@email.szu.edu.cn>
-> ---
->  Documentation/mm/page_owner.rst | 12 ++++++------
->  1 file changed, 6 insertions(+), 6 deletions(-)
->
-> diff --git a/Documentation/mm/page_owner.rst b/Documentation/mm/page_owner.rst
-> index f18fd8907049..8e2545bb4e17 100644
-> --- a/Documentation/mm/page_owner.rst
-> +++ b/Documentation/mm/page_owner.rst
-> @@ -41,17 +41,17 @@ size change due to this facility.
->  - Without page owner::
->  
->     text    data     bss     dec     hex filename
-> -   48392   2333     644   51369    c8a9 mm/page_alloc.o
-> +   58581   3166     652   62399    f3bf mm/page_alloc.o
->  
->  - With page owner::
->  
->     text    data     bss     dec     hex filename
-> -   48800   2445     644   51889    cab1 mm/page_alloc.o
-> -   6662     108      29    6799    1a8f mm/page_owner.o
-> -   1025       8       8    1041     411 mm/page_ext.o
-> +   59085   3294     652   63031    f637 mm/page_alloc.o
-> +   7464     125      28    7617    1dc1 mm/page_owner.o
-> +   1396      32       8    1436     59c mm/page_ext.o
->  
-> -Although, roughly, 8 KB code is added in total, page_alloc.o increase by
-> -520 bytes and less than half of it is in hotpath. Building the kernel with
-> +Although, roughly, 9 KB code is added in total, page_alloc.o increase by
-> +632 bytes and less than half of it is in hotpath. Building the kernel with
->  page owner and turning it on if needed would be great option to debug
->  kernel memory problem.
+Why define UNKNOWN.. as 1? No real objection here, just in my head
+somehow UNKNOWN = 0 or just start from 1.
 
-This seems like a fine patch...but I do have to wonder if it really
-makes sense to maintain this information, which will surely be subject
-to frequent change.  Perhaps the whole thing is better replaced with a
-line saying that enabling page owner adds ~9KB?
+> +	ETHTOOL_PODL_PSE_ADMIN_STATE_DISABLED,
+> +	ETHTOOL_PODL_PSE_ADMIN_STATE_ENABLED,
+> +
+> +	/* add new constants above here */
+> +	ETHTOOL_PODL_PSE_ADMIN_STATE_COUNT
 
-Thanks,
+Why define count for a value enum like this? For attrs we define it
+because it's used to size tables, don't think anyone will size tables
+based on states.
 
-jon
+There's a bunch of kdoc warnings in the patches as well.
