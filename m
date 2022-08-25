@@ -2,98 +2,84 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C1ADC28D13
-	for <linux-doc@archiver.kernel.org>; Thu, 25 Aug 2022 07:53:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DA154C04AA5
+	for <linux-doc@archiver.kernel.org>; Thu, 25 Aug 2022 09:20:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234910AbiHYHxn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 25 Aug 2022 03:53:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52352 "EHLO
+        id S239117AbiHYJUN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 25 Aug 2022 05:20:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51684 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232329AbiHYHxl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Aug 2022 03:53:41 -0400
-Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DAA179E8B6;
-        Thu, 25 Aug 2022 00:53:40 -0700 (PDT)
-Received: by mail-pj1-x102b.google.com with SMTP id x14-20020a17090a8a8e00b001fb61a71d99so4100415pjn.2;
-        Thu, 25 Aug 2022 00:53:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc;
-        bh=NIG+DDYxbCv/iOq7O3NIdMgtBDBXDQDO1rp8o3gnBs8=;
-        b=UJ9jj2xfAUv0S7yuC1Sr6lUSqTc8rOcKPZDitVx25eAnl5OB3tQ4zzHXpo032YJN0a
-         HzuDLD+REASEDmfM0YkFadWfne1VXffCP87qm+NbnAiTI5tyUBKNNfcKU8LwMkDYGKIj
-         TZaAFPmEQJs3BmzAkt4maqhdjMp7uLqfQfM67SgwVqDe00wTlk4SYrqN/waBunmtzZ8f
-         1PKuvkdaft4ZqilHcbCJBtcSJmCu+bnVYmpKHEXI9RcZXWGwzVXCBOYrbNKnXnXL5Ire
-         zgIzsIjtLq1QpuA8XBX03XtX9ehcigWc6OO5RQhXmPb/wM6QFNFEM1R2Gg39RtPjJbOu
-         SXPw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc;
-        bh=NIG+DDYxbCv/iOq7O3NIdMgtBDBXDQDO1rp8o3gnBs8=;
-        b=WqmHBa39VkXok/28NJQ/w12ba3upH0FqaMV1H1Eg6nWBJtupPjSqY6lI6RuE5F8xCF
-         YiSQ42/zW8KPnIC3jzQ2+Mi6zB1qydVYMwofptidUx9sy6qFWYNY+OSAZLu3nA/p0MJy
-         +/DDbI1R3BrrGVYh8RO28WoBYTTa5uJW8/HHOEyrr1BhKkBeFuEoTU6vCRk6IVHzVYJC
-         I8y4HZBeA8EQYc1dRjNtEFJiDfMe22p5Ye2MPrrcLKAJd5Cps/o8PnPQ5IBYpsOyNILy
-         2NfwtfwpJ3W8VOhNy4GXEaFYsssNv6j4Su4p3G/YO8llaSEtPY+TaTmDNf9TuUhBNn17
-         yjKg==
-X-Gm-Message-State: ACgBeo1tAvo9NRpDFxNWrJ65Q1qAy6YFuU4WE/yxuv4vI2mlfxM50shJ
-        Mmg5BMt6dvsvY7KvM7eqhemocgvXAJk=
-X-Google-Smtp-Source: AA6agR7FAFvfkMJpNIJ0NKBrdBxU/+OTHblOZkZyKXUVAqCkSjI3cUE+RVf1N0EaLmLnFT1wxNPUvA==
-X-Received: by 2002:a17:90a:1b6e:b0:1f5:1902:af92 with SMTP id q101-20020a17090a1b6e00b001f51902af92mr12698304pjq.238.1661414020436;
-        Thu, 25 Aug 2022 00:53:40 -0700 (PDT)
-Received: from [192.168.43.80] (subs03-180-214-233-68.three.co.id. [180.214.233.68])
-        by smtp.gmail.com with ESMTPSA id b11-20020a170902d50b00b0016dc2366722sm13068630plg.77.2022.08.25.00.53.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 25 Aug 2022 00:53:39 -0700 (PDT)
-Message-ID: <76b2dbcf-70cf-aca8-4ccc-b2a73063b8db@gmail.com>
-Date:   Thu, 25 Aug 2022 14:53:35 +0700
+        with ESMTP id S238498AbiHYJUI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Aug 2022 05:20:08 -0400
+Received: from frasgout13.his.huawei.com (frasgout13.his.huawei.com [14.137.139.46])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5599D1EEF5;
+        Thu, 25 Aug 2022 02:20:01 -0700 (PDT)
+Received: from mail02.huawei.com (unknown [172.18.147.227])
+        by frasgout13.his.huawei.com (SkyGuard) with ESMTP id 4MCy341C90z9xtnC;
+        Thu, 25 Aug 2022 17:14:40 +0800 (CST)
+Received: from roberto-ThinkStation-P620 (unknown [10.204.63.22])
+        by APP1 (Coremail) with SMTP id LxC2BwCXZhKWPgdjPLJKAA--.36169S2;
+        Thu, 25 Aug 2022 10:19:31 +0100 (CET)
+Message-ID: <1b8fbdb220d1806e622c56e65bd283a5c3212fab.camel@huaweicloud.com>
+Subject: Re: [PATCH v13 00/10] bpf: Add kfuncs for PKCS#7 signature
+ verification
+From:   Roberto Sassu <roberto.sassu@huaweicloud.com>
+To:     ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org,
+        martin.lau@linux.dev, song@kernel.org, yhs@fb.com,
+        john.fastabend@gmail.com, kpsingh@kernel.org, sdf@google.com,
+        haoluo@google.com, jolsa@kernel.org, mykolal@fb.com,
+        corbet@lwn.net, dhowells@redhat.com, jarkko@kernel.org,
+        rostedt@goodmis.org, mingo@redhat.com, paul@paul-moore.com,
+        jmorris@namei.org, serge@hallyn.com, shuah@kernel.org
+Cc:     bpf@vger.kernel.org, linux-doc@vger.kernel.org,
+        keyrings@vger.kernel.org, linux-security-module@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
+        deso@posteo.net, Roberto Sassu <roberto.sassu@huawei.com>
+Date:   Thu, 25 Aug 2022 11:19:14 +0200
+In-Reply-To: <20220823150035.711534-1-roberto.sassu@huaweicloud.com>
+References: <20220823150035.711534-1-roberto.sassu@huaweicloud.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.36.5-0ubuntu1 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH] docs: Update version number from 5.x to 6.x in README.rst
-Content-Language: en-US
-To:     Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        Randy Dunlap <rdunlap@infradead.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-References: <20220824080836.23087-1-lukas.bulwahn@gmail.com>
- <d5eca4a6-8a76-02e0-2f22-645341af8c2b@infradead.org>
- <CAKXUXMwLofvhBXqzdoq_q_89jZ8THU0WX=DY+RnCo=PN7QqspA@mail.gmail.com>
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <CAKXUXMwLofvhBXqzdoq_q_89jZ8THU0WX=DY+RnCo=PN7QqspA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-CM-TRANSID: LxC2BwCXZhKWPgdjPLJKAA--.36169S2
+X-Coremail-Antispam: 1UD129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73
+        VFW2AGmfu7bjvjm3AaLaJ3UjIYCTnIWjp_UUUYU7kC6x804xWl14x267AKxVWrJVCq3wAF
+        c2x0x2IEx4CE42xK8VAvwI8IcIk0rVWUuVWrJwAFIxvE14AKwVWUJVWUGwA2ocxC64kIII
+        0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28EF7xv
+        wVC0I7IYx2IY6xkF7I0E14v26r4j6F4UM28EF7xvwVC2z280aVAFwI0_Gr0_Cr1l84ACjc
+        xK6I8E87Iv6xkF7I0E14v26r4j6r4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40E
+        FcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr
+        0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4IIrI8v6xkF7I0E8cxan2IY
+        04v7MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI
+        0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVW8ZVWrXwCIc40Y
+        0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxV
+        W8JVWxJwCI42IY6xAIw20EY4v20xvaj40_WFyUJVCq3wCI42IY6I8E87Iv67AKxVWUJVW8
+        JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUFYFCUU
+        UUU
+X-CM-SenderInfo: purev21wro2thvvxqx5xdzvxpfor3voofrz/1tbiAgAPBF1jj35I-gAAsw
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 8/25/22 14:35, Lukas Bulwahn wrote:
-> Randy, would you know if there are still users out there?
-> Would it help to replace this script with a minimal script that only
-> reports to "Please use git to obtain a recent repository. Update
-> versions and apply patches with git in a controlled way.".
+On Tue, 2022-08-23 at 17:00 +0200, Roberto Sassu wrote:
+> From: Roberto Sassu <roberto.sassu@huawei.com>
 > 
-> If someone complains, we revert the patch. If no one complains within
-> a year or two, we could consider shutting down the infrastructure
-> creating those patch archives as well, and delete the documentation
-> referring to that.
+> One of the desirable features in security is the ability to restrict
+> import
+> of data to a given system based on data authenticity. If data import
+> can be
+> restricted, it would be possible to enforce a system-wide policy
+> based on
+> the signing keys the system owner trusts.
 
-As a refresher: besides Linus's tree (mainline), there is also stable
-tree, which is maintained by Greg and Sasha. Most users uses the latter.
-So, in case we add warning message to scripts/patch-kernel, we should say
-"This script is deprecated; please clone stable tree at [1] with git
-instead. If you'd like to apply patches, use git am. If you already have
-the tree, use git fetch and git merge to update stable branch of your
-choosing."
+Hi
 
-Thanks.
+is there anything else I need to do, other than rebasing the patches to
+the latest eBPF code?
 
-[1]: https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git
+Thanks
 
--- 
-An old man doll... just what I always wanted! - Clara
+Roberto
+
