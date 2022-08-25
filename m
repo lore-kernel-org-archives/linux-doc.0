@@ -2,71 +2,101 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 15DC6C28D13
-	for <linux-doc@archiver.kernel.org>; Thu, 25 Aug 2022 07:23:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DC62C04AA5
+	for <linux-doc@archiver.kernel.org>; Thu, 25 Aug 2022 07:28:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236129AbiHYHW7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 25 Aug 2022 03:22:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39846 "EHLO
+        id S234589AbiHYH20 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 25 Aug 2022 03:28:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48156 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233647AbiHYHW6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Aug 2022 03:22:58 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8DF83A1D31;
-        Thu, 25 Aug 2022 00:22:57 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id E641561901;
-        Thu, 25 Aug 2022 07:22:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B3630C433C1;
-        Thu, 25 Aug 2022 07:22:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1661412176;
-        bh=FZL6dNpPI/YKsRnZLNyMo4D7gdJtSXb/mNkH8Nlircs=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Ha5zOtk0AvY7x3EA510ExFs2Re0tF/qCrDWbj8ScuZmL1dRJ/pCwzPTJ1HofG6kaL
-         LwrifvXSDr2EJZFsFOq5BYmD3ZPtJhQA9mz12KYgxwET8INYKABD3MDe3a9iWm1oNG
-         U0gz1uULE3YJPQ679T93gSvpNaY1U4yRiXxd6ONs=
-Date:   Thu, 25 Aug 2022 09:22:52 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Muhammad Usama Anjum <usama.anjum@collabora.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "open list:PROC FILESYSTEM" <linux-fsdevel@vger.kernel.org>,
-        "open list:MEMORY MANAGEMENT" <linux-mm@kvack.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>, kernel@collabora.com
-Subject: Re: [PATCH v2 2/4] fs/proc/task_mmu: Implement IOCTL to get and
- clear soft dirty PTE bit
-Message-ID: <YwcjTOgKD22TXwYk@kroah.com>
-References: <20220825070926.2922471-1-usama.anjum@collabora.com>
- <20220825070926.2922471-3-usama.anjum@collabora.com>
+        with ESMTP id S238085AbiHYH2U (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Aug 2022 03:28:20 -0400
+Received: from mail-yw1-x1134.google.com (mail-yw1-x1134.google.com [IPv6:2607:f8b0:4864:20::1134])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C1FD7EFEE;
+        Thu, 25 Aug 2022 00:28:03 -0700 (PDT)
+Received: by mail-yw1-x1134.google.com with SMTP id 00721157ae682-33da3a391d8so106014157b3.2;
+        Thu, 25 Aug 2022 00:28:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc;
+        bh=GiSxPUjCChLoc63LSHV/o8b4juLqAxHo3RYUzXaLyrk=;
+        b=ohYs48exS7UMohrqSzvttoJbIaH6DAodhcgeffYDTLr3GBFUDG9G5qgYXqpDK6YB+y
+         omIO+yntWgxdCiJgs4AhhJtxafYtFAvAHEVllKER0U3/ovzTn7IkDJoxDLAnKIwxVAfp
+         B/0YZJQz1sWOif76I++6PSDYRt4uyzENT9ALqC6WywLbX/uZ6KcGJKMyyX3mF0y2PKsr
+         5vQLesxpmFSyE6i495UtJgc5zR89UQ47yW4fZbCR9byK75R9zQ7QPxRunMM9gIynRwop
+         PmXOqUeHiI/kw2X43DGwt9pYJFtzT5dX2Gxau1LtIj1YVVHoM6UIroY60gjHUuRFCkpk
+         UPHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=GiSxPUjCChLoc63LSHV/o8b4juLqAxHo3RYUzXaLyrk=;
+        b=F6pHv30MTG16kDb8acJU7D6Y6btArCddhrF9wpUv+SvxRknWGbO/Y3YYk+iNCzNL2/
+         PDhxCtYmVxxtackG8u7dQhjr7xiB9/d3jqO63LL2/Sn2tzd2coxqZigAtp2zjB1PpXoX
+         zkQiBMRYFi6jW599zyCOXdORaNZcdCAm7zbJnVF4iqMnQZGMSdXFlxE76t0CImJhyEQU
+         zSnXbUtdOlJLD/wzotKwElVfLm61lmnld6OGGvgKS50B4UoCa8AOG7zm2wllLQHOoZCd
+         uXX+Zkt9ONLwOzQ7QiKls0YzIy5BNwRZGXdU8o+qf/3P4WpDeyzNjjlf+34qUbddW8EE
+         ZKbg==
+X-Gm-Message-State: ACgBeo2LVCaYI0gP61Mif98z+N1tEjhbYexiYHptIFHxnWGWhH9qpwgw
+        p5SxBAyXMGCoHAKkfD3+DmnWuD48i8Y9Ag3Jm1o=
+X-Google-Smtp-Source: AA6agR4UlgfgxCtmrqI8ZiwXW2DqeQfj6QeHG41MSZnS00Ntx+yCaaILSlNvLwlhfdSeRhQjgpFgtb8oU/hOCtSkGfA=
+X-Received: by 2002:a05:6902:10c:b0:671:68b7:ab41 with SMTP id
+ o12-20020a056902010c00b0067168b7ab41mr2142758ybh.608.1661412482433; Thu, 25
+ Aug 2022 00:28:02 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220825070926.2922471-3-usama.anjum@collabora.com>
+References: <20220824080836.23087-1-lukas.bulwahn@gmail.com> <df8c22fb-878a-3d98-4a9d-9000b4a2ffa7@gmail.com>
+In-Reply-To: <df8c22fb-878a-3d98-4a9d-9000b4a2ffa7@gmail.com>
+From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date:   Thu, 25 Aug 2022 09:27:51 +0200
+Message-ID: <CAKXUXMwTP1KMq1HEoNyR-vRzQYYoTHEumZBu3-urEM8P9r=iWA@mail.gmail.com>
+Subject: Re: [PATCH] docs: Update version number from 5.x to 6.x in README.rst
+To:     Bagas Sanjaya <bagasdotme@gmail.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Tony Fischetti <tony.fischetti@gmail.com>,
+        Randy Dunlap <rdunlap@infradead.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Aug 25, 2022 at 12:09:24PM +0500, Muhammad Usama Anjum wrote:
-> - The flags can be specified in the flags field. Currently only one
->   PAGEMAP_SD_NO_REUSED_REGIONS is supported which can be specified to
->   ignore the VMA dirty flags.
+On Thu, Aug 25, 2022 at 5:08 AM Bagas Sanjaya <bagasdotme@gmail.com> wrote:
+>
+> On 8/24/22 15:08, Lukas Bulwahn wrote:
+> > The description in 2.Process.rst is just a description of recent kernel
+> > releases, it was last updated in the beginning of 2020, and can be
+> > revisited at any time on a regular basis, independent of changing the
+> > version number from 5 to 6. So, there is no need to update this document
+> > now when transitioning from 5.x to 6.x numbering.
+> >
+> The drawback of having quick list of recent kernel releases in 2.Process.rst
+> is that the list can be quickly outdated with newer releases, unless the list
+> is updated for every upcoming merge window.
+>
+> There are two options:
+>
+>   1. Programmatically generate the list, using last 5 mainline releases
+>      from Linus's tree, or
+>   2. Simply point to kernel.org frontpage
+>
 
-You forgot to check that all other bits in that flag are set to 0
-properly, otherwise you can never add a new bit to the field ever as you
-can't expect userspace got it right and did not accidentaly set it
-already.
+As the commit message says, this patch here only touches the README.rst.
+The commit message of course also explains why the rest was not
+touched, and sure, we can discuss if and how to improve those parts,
+but I would like to get an ack on the actual patch first and get that
+merged.
 
-There is kernel documentation on how to add a new ioctl, you might want
-to read up on that first before resending this.
+So to 2.Process.rst, writing a script to generate the list is
+possible, but it is already quite clear that just says "recent", which
+is vague anyway. In a software project that is older than 30 years,
+"recent" is certainly a bit more relaxed than some other SW project
+that just started yesterday.
 
-thanks,
+As it is documentation to convince a new developer, it might be better
+to just describe how a new developer can check that the releases are
+done very predictable. So, we explain the commands for the reader to
+check if he/she/they want to convince themselves.
 
-greg k-h
+Lukas
