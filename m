@@ -2,100 +2,98 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F333C04AA5
-	for <linux-doc@archiver.kernel.org>; Thu, 25 Aug 2022 07:39:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 35AF0C32774
+	for <linux-doc@archiver.kernel.org>; Thu, 25 Aug 2022 07:42:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230151AbiHYHjd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 25 Aug 2022 03:39:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33012 "EHLO
+        id S235051AbiHYHmc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 25 Aug 2022 03:42:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37316 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233371AbiHYHjc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Aug 2022 03:39:32 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4817AA1D50;
-        Thu, 25 Aug 2022 00:39:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-        bh=5mnLs7Y4Gk47LvAXvC/O24OQ7FRB6zlzOuskP6v5zy4=; b=wEPrqSQy5sJountzamcVS24FEQ
-        wKvk8qbmQszXnkHNSLAGAAwW/i/VCHJiUPG5BhlISz6hEGrWxTSlbEXar20E86djAeXShIK41hkYP
-        HFg2SbCaSxMEQQcglVP5GSzc/YmshCbDTT+EqPhiPVbpe3f+4eiuJcOEil7CzTLTZN+KQm4K+DXpL
-        mZkMl1LoRc1/h+D8dI0G9pYoqI6ia7A1yXYZASNepZcPM4OWquyPG1uPgz5OqYGkMCxJrCBcbWipk
-        ZG8rPiVEPZFfJTfnUY7KIWR42jM26GzanWo9FiH8965dZ1iyPW2QXhHdiQypYeCvIjI1bm7u4YlOd
-        7PWwtVtQ==;
-Received: from [2601:1c0:6280:3f0::a6b3]
-        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1oR7Sa-009PZe-3G; Thu, 25 Aug 2022 07:39:28 +0000
-Message-ID: <59ae46dd-7fa3-a48f-58cb-a7a58d4e33ab@infradead.org>
-Date:   Thu, 25 Aug 2022 00:39:26 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.1.2
-Subject: Re: [PATCH] docs: Update version number from 5.x to 6.x in README.rst
-Content-Language: en-US
-To:     Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        with ESMTP id S233738AbiHYHmb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Aug 2022 03:42:31 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C75DA9D12A;
+        Thu, 25 Aug 2022 00:42:30 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 7B481B81DF1;
+        Thu, 25 Aug 2022 07:42:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A0334C433D6;
+        Thu, 25 Aug 2022 07:42:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1661413348;
+        bh=BlgLxKmIT4QPPBxJ5YUHCx8cNJzu9DoDL1suLVrdLI0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=oiiDinIVKtvQ1WgZzCQpJrY9+PylZavVQnKWWQ4XRTegcVO8CkWAUfDKe9WDRYNIY
+         5+aPmyIXaE0jIuIHs4h5y+Zb63z1tCDmP1a3xb67PCkUZQNnDrBDnYrWyMDGMFWRLt
+         dsqxjb3HLmpNq9FKtjYS2LTl4BYSusQKjF5CgBne//o1bTsIulmUXSc1/s7CzMSbqP
+         Pi0U8+XApT1arW8RAcQgke3o5Zpq7KmZC3bpve+OrTcEc32l1ryQM2JMyBtTQ3sKZX
+         cgnuFt0y6F+zthkFgh3TUgMu2FnxfoiG0DyAkriEKO3Ng7tMMcjmwFjG/uAkQB84IO
+         RcEdOjIhJsHEA==
+Date:   Thu, 25 Aug 2022 09:42:24 +0200
+From:   Wolfram Sang <wsa@kernel.org>
+To:     luca.ceresoli@bootlin.com
+Cc:     linux-doc@vger.kernel.org, linux-i2c@vger.kernel.org,
+        Peter Rosin <peda@axentia.se>, linux-kernel@vger.kernel.org,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
         Bagas Sanjaya <bagasdotme@gmail.com>
-References: <20220824080836.23087-1-lukas.bulwahn@gmail.com>
- <d5eca4a6-8a76-02e0-2f22-645341af8c2b@infradead.org>
- <CAKXUXMwLofvhBXqzdoq_q_89jZ8THU0WX=DY+RnCo=PN7QqspA@mail.gmail.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <CAKXUXMwLofvhBXqzdoq_q_89jZ8THU0WX=DY+RnCo=PN7QqspA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH v3 1/3] docs: i2c: i2c-topology: fix typo
+Message-ID: <Ywcn4FXHHWgpFNJb@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa@kernel.org>, luca.ceresoli@bootlin.com,
+        linux-doc@vger.kernel.org, linux-i2c@vger.kernel.org,
+        Peter Rosin <peda@axentia.se>, linux-kernel@vger.kernel.org,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Bagas Sanjaya <bagasdotme@gmail.com>
+References: <20220824083104.2267000-1-luca.ceresoli@bootlin.com>
+ <20220824083104.2267000-2-luca.ceresoli@bootlin.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="w2Gx47C+VnbLzclG"
+Content-Disposition: inline
+In-Reply-To: <20220824083104.2267000-2-luca.ceresoli@bootlin.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
+--w2Gx47C+VnbLzclG
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 8/25/22 00:35, Lukas Bulwahn wrote:
-> On Thu, Aug 25, 2022 at 5:24 AM Randy Dunlap <rdunlap@infradead.org> wrote:
->>
->>
->>
->> On 8/24/22 01:08, Lukas Bulwahn wrote:
->>> A quick 'grep "5\.x" . -R' on Documentation shows that README.rst,
->>> 2.Process.rst and applying-patches.rst all mention the version number "5.x"
->>> for kernel releases.
->>>
->>> As the next release will be version 6.0, updating the version number to 6.x
->>> in README.rst seems reasonable.
->>>
->>> The description in 2.Process.rst is just a description of recent kernel
->>> releases, it was last updated in the beginning of 2020, and can be
->>> revisited at any time on a regular basis, independent of changing the
->>> version number from 5 to 6. So, there is no need to update this document
->>> now when transitioning from 5.x to 6.x numbering.
->>>
->>> The document applying-patches.rst is probably obsolete for most users
->>> anyway, a reader will sufficiently well understand the steps, even it
->>> mentions version 5 rather than version 6. So, do not update that to a
->>> version 6.x numbering scheme.
->>
->> Yeah. And I suspect that scripts/patch-kernel is even more obsolete
->> than applying-patches.rst.
->>
-> 
-> Randy, would you know if there are still users out there?
-> Would it help to replace this script with a minimal script that only
-> reports to "Please use git to obtain a recent repository. Update
-> versions and apply patches with git in a controlled way.".
+On Wed, Aug 24, 2022 at 10:31:02AM +0200, luca.ceresoli@bootlin.com wrote:
+> From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+>=20
+> "intension" should have probably been "intention", however "intent" seems
+> even better.
+>=20
+> Reported-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+> Acked-by: Peter Rosin <peda@axentia.se>
+>=20
 
-I have no idea, but I haven't seen any comments or references about it
-in many years. I think it would be safe to remove it, at least on a
-trial basis.
+Applied to for-current, thanks!
 
 
-> If someone complains, we revert the patch. If no one complains within
-> a year or two, we could consider shutting down the infrastructure
-> creating those patch archives as well, and delete the documentation
-> referring to that.
+--w2Gx47C+VnbLzclG
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Yes, something like that is probably in our future.
+-----BEGIN PGP SIGNATURE-----
 
--- 
-~Randy
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmMHJ+AACgkQFA3kzBSg
+KbbKWQ//fMp1V4PsO9D3P/FwaIJtQyHCV6/HF4dpEsXBJp0a5VqqBqarHCtUMJcY
+6v8sw6AksE/B0+atP9MBqYhb85toADVqbFvxn1Qz8xfgIsWSKb4L3oIwyZyAQ+ZA
+LmBg4TRKVl0Duj2Y2a2AK9CYw1exA5j83isaK3EM3NYxgrYhuhH7egr4D7fLXgyB
+2W7q2rtQpN7ROZSFoUFe7Zmz4XXvuQhiLbhccsaCViVQ9g/FMAyAkKOyXi4tRUag
+KMSvtDNxM/5zoBdE1vuu5f9RI21Ix657VqeRGKsABGvAeKa+L4YjfiS+sJV7WH6/
+0dz8THySLbf863Q+9I8a3gDg4RmDlaZ9raZqDsSGgqs+bDFALeP6QDDnAHRE+zmg
+3R9ca5ECyClZqWjP2sgBlzx0UtUwj96vQvk6f70ro2uCa4clCh38zEt+C4wUrI8s
+sngmTdjMhTOvKHV6EA5PArhKsMBHhN3ffnfTcQPfo/H8b01TvuXdvqFGNBC8gEdQ
+z8ODIkelxPIz0MdiJWzKrRtk0ZZW5+uytppjla40pxxJXdJ1asmRsARdQOCa1rV7
+OUiqHGrUZr4Y9igpf9HO5Gkrie+DOB27lqZ/waflWmuLNFE1PHhtbpEoFehnALa2
+gdDxrI67HT1bD4blBRjzaS2axTaPDJoIC1eo9HVF8PoESWJZHMQ=
+=hFj4
+-----END PGP SIGNATURE-----
+
+--w2Gx47C+VnbLzclG--
