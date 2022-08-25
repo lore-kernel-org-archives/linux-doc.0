@@ -2,111 +2,85 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B4FAECAA25
-	for <linux-doc@archiver.kernel.org>; Thu, 25 Aug 2022 17:16:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DE601ECAA24
+	for <linux-doc@archiver.kernel.org>; Thu, 25 Aug 2022 17:17:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230239AbiHYRQO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 25 Aug 2022 13:16:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45688 "EHLO
+        id S241200AbiHYRRm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 25 Aug 2022 13:17:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49336 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237660AbiHYRQN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Aug 2022 13:16:13 -0400
-Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com [IPv6:2a00:1450:4864:20::632])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 655FB3AE71
-        for <linux-doc@vger.kernel.org>; Thu, 25 Aug 2022 10:16:10 -0700 (PDT)
-Received: by mail-ej1-x632.google.com with SMTP id gb36so40794832ejc.10
-        for <linux-doc@vger.kernel.org>; Thu, 25 Aug 2022 10:16:10 -0700 (PDT)
+        with ESMTP id S239976AbiHYRRm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Aug 2022 13:17:42 -0400
+Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com [IPv6:2a00:1450:4864:20::535])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27390BC80C
+        for <linux-doc@vger.kernel.org>; Thu, 25 Aug 2022 10:17:38 -0700 (PDT)
+Received: by mail-ed1-x535.google.com with SMTP id t5so26948594edc.11
+        for <linux-doc@vger.kernel.org>; Thu, 25 Aug 2022 10:17:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=cmpxchg-org.20210112.gappssmtp.com; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc;
-        bh=3kaoHrknD8P9F02t3vtvA1BMAXsONZRXU6MvhQ9cGm0=;
-        b=Kx3Dht7p+xMwF8txIAf16o45Jbd5BarQhl+hTLnStlK+dnLu8CQHK2RcIzo9QNnbV0
-         c4gNp7qmdE6YOchm2Gy+iMBaiQVOUufrpkH6vQ/g5W8LOb06aqEzTPQqYRVpm9jkNh1Q
-         pKL1ofb86P3CBoNgi9kLOEAga5m+GZYCXEisz54+F706FD11ImkP96ot3klNK/RKOwDP
-         g1Rp3pJ8PohBavZvYluu6a6WR2jA0Heg8yn0gy44KXBhLY5RlMCoFZxdnKx3/6Tgi3QF
-         I52eXYKkogKjti2J+zLJZSiwMpBbRBET5warOvEzaVmiiMqQqz8dUTwQejSwcp+Pu6ji
-         Z+8A==
+        bh=jwOz4iT2BQeb7Z52GoBXCVE165vQ/PaiB7E4MX3VOzg=;
+        b=2g15XhRTJVHl3pGrBt7KYB9tODJZNPuo0RKK7aO0xcfwNYoiDa5gNnl9QhBZgRTZH1
+         wzpGaPDTqYX9h4jpDuvgylUNoOT5Lch3EvX7BL7CkVbuyhm4hktsWJUFfLe8tib4v0Gq
+         7Mjh3VgV21lcVMlZx06acL/VUPi6ODi2kr4hsmTpzEfwuJdhGtRa+uoNv7nXEudFJyIa
+         iA890Pl9xzrBCOFHHrzOlOLMm3xlPiAqK2MFwaQKkmjwrpdkyiGN38v19lF6PONeoSXg
+         guMjW7r9YLJwuo6i6gLS8hBFDFsrS2G7IU8PFhcG5seKK+gz7LlbLeq6E7UcbagEEWsK
+         LpUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
-        bh=3kaoHrknD8P9F02t3vtvA1BMAXsONZRXU6MvhQ9cGm0=;
-        b=Xo660UmdIBnnx2qcHSSFe25mXuOzAMK2TnNOWbkeGcNTL/5LGlqidXahJXPzI+F8lo
-         TI4FOSJTO03+f5XneG+Dh7gKN3C8v65ibOfSUUYm/OJQlbydBxyS8Ql7veIUCPf4Rz2K
-         mFtCNSFzy+N51mrwemcQWbM2fqQk8KFIEgIOSbZUmKSR/RoKQJfhSfEpifpFAnR7GORX
-         SqE6ktJH2sR6tHkDB/M9Lc7UNzxmWARRc5STY1c+rzS6JY0PbjluFuVH/w86potTXTHM
-         5r7DJVvKhiPYRXjwLOXkUgiGRDybDCea1q3mXFjouahE1vP5wnlA5/HSsejgo3nqsnwT
-         Gy9Q==
-X-Gm-Message-State: ACgBeo2aeVw/Scld3HEmSlIHPkN2hbe8JueMf+l3v/RATBSt65zpZkgH
-        CsltTjQWtaTi68c4bdvkZOOKEA==
-X-Google-Smtp-Source: AA6agR7fz7MWmgqV3LHa4xD9Of7hPclEKmCl9zwQ1fZUtUga5upe1qXXPjZgXPBFV945Y5pwHN5Ozw==
-X-Received: by 2002:a17:907:72cf:b0:73d:d007:e249 with SMTP id du15-20020a17090772cf00b0073dd007e249mr2803387ejc.500.1661447768985;
-        Thu, 25 Aug 2022 10:16:08 -0700 (PDT)
+        bh=jwOz4iT2BQeb7Z52GoBXCVE165vQ/PaiB7E4MX3VOzg=;
+        b=1tiD6MGPXS1/GX/BZTX9yRo4vA83Yw6fKrn9Obra6W6B3rXxWf/wNiG5eldu4BIMt/
+         YhsXHD8C1ntwpuNYUUceP6ZDksbsQjPOB71rsdprexBkpKBCtQ1bGs8tVUrlz1LyQ9VF
+         /r3ti7QKrtIkeTEJl2c/+ly1lgAVDb/g5yQrVPqjmUwAjKwwsS8EZZbb/jM70MA5Mt6b
+         l6/mRZiOMS3Cr2A3WbyVNt0U+pycQOSOWl0lzyh1NpIu6ss3ZGrwqKEV/apXbNB4U5Z9
+         O+C5CU1K3M21ZkLcFI9euokqNwsP88mDLxefI1f3iiGQqqQAi85gj4yslvY2LSCNjf8T
+         q2XQ==
+X-Gm-Message-State: ACgBeo1nZ4cU3QSV7+Qh3JSwXCo8AR7vtFMHLkJG7pi9ZBza1IgiVmhl
+        3ABA1M6fuE7MbEYVRnUiaMj5sCx71kzhmjkPR+w=
+X-Google-Smtp-Source: AA6agR5P/9xkfx1YPi51kqhMj3rOmY2Bq5S6/Ff26hkK5BgmClbpFYwX6S711CBeYPyYjb/pWEL+Jg==
+X-Received: by 2002:aa7:c316:0:b0:447:b517:919e with SMTP id l22-20020aa7c316000000b00447b517919emr3251864edq.175.1661447856379;
+        Thu, 25 Aug 2022 10:17:36 -0700 (PDT)
 Received: from localhost ([2a02:8070:6389:a4c0:2ca9:6d59:782b:fff3])
-        by smtp.gmail.com with ESMTPSA id i15-20020a0564020f0f00b0043cab10f702sm5199485eda.90.2022.08.25.10.16.08
+        by smtp.gmail.com with ESMTPSA id h3-20020a056402094300b00445e037345csm22904edz.14.2022.08.25.10.17.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Aug 2022 10:16:08 -0700 (PDT)
-Date:   Thu, 25 Aug 2022 13:16:07 -0400
+        Thu, 25 Aug 2022 10:17:36 -0700 (PDT)
+Date:   Thu, 25 Aug 2022 13:17:35 -0400
 From:   Johannes Weiner <hannes@cmpxchg.org>
 To:     Chengming Zhou <zhouchengming@bytedance.com>
 Cc:     tj@kernel.org, mkoutny@suse.com, surenb@google.com,
         mingo@redhat.com, peterz@infradead.org, gregkh@linuxfoundation.org,
         corbet@lwn.net, cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, songmuchun@bytedance.com
-Subject: Re: [PATCH v4 05/10] sched/psi: optimize task switch inside shared
- cgroups again
-Message-ID: <YweuV/+G0DGn3ECV@cmpxchg.org>
+Subject: Re: [PATCH v4 07/10] sched/psi: add PSI_IRQ to track IRQ/SOFTIRQ
+ pressure
+Message-ID: <Yweur4ugxvLbP2L2@cmpxchg.org>
 References: <20220825164111.29534-1-zhouchengming@bytedance.com>
- <20220825164111.29534-6-zhouchengming@bytedance.com>
+ <20220825164111.29534-8-zhouchengming@bytedance.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220825164111.29534-6-zhouchengming@bytedance.com>
+In-Reply-To: <20220825164111.29534-8-zhouchengming@bytedance.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Aug 26, 2022 at 12:41:06AM +0800, Chengming Zhou wrote:
-> Way back when PSI_MEM_FULL was accounted from the timer tick, task
-> switching could simply iterate next and prev to the common ancestor to
-> update TSK_ONCPU and be done.
+On Fri, Aug 26, 2022 at 12:41:08AM +0800, Chengming Zhou wrote:
+> Now PSI already tracked workload pressure stall information for
+> CPU, memory and IO. Apart from these, IRQ/SOFTIRQ could have
+> obvious impact on some workload productivity, such as web service
+> workload.
 > 
-> Then memstall ticks were replaced with checking curr->in_memstall
-> directly in psi_group_change(). That meant that now if the task switch
-> was between a memstall and a !memstall task, we had to iterate through
-> the common ancestors at least ONCE to fix up their state_masks.
+> When CONFIG_IRQ_TIME_ACCOUNTING, we can get IRQ/SOFTIRQ delta time
+> from update_rq_clock_task(), in which we can record that delta
+> to CPU curr task's cgroups as PSI_IRQ_FULL status.
 > 
-> We added the identical_state filter to make sure the common ancestor
-> elimination was skipped in that case. It seems that was always a
-> little too eager, because it caused us to walk the common ancestors
-> *twice* instead of the required once: the iteration for next could
-> have stopped at the common ancestor; prev could have updated TSK_ONCPU
-> up to the common ancestor, then finish to the root without changing
-> any flags, just to get the new curr->in_memstall into the state_masks.
+> Note we don't use PSI_IRQ_SOME since IRQ/SOFTIRQ always happen in
+> the current task on the CPU, make nothing productive could run
+> even if it were runnable, so we only use PSI_IRQ_FULL.
 > 
-> This patch recognizes this and makes it so that we walk to the root
-> exactly once if state_mask needs updating, which is simply catching up
-> on a missed optimization that could have been done in commit 7fae6c8171d2
-> ("psi: Use ONCPU state tracking machinery to detect reclaim") directly.
-> 
-> Apart from this, it's also necessary for the next patch "sched/psi: remove
-> NR_ONCPU task accounting". Suppose we walk the common ancestors twice:
-> 
-> (1) psi_group_change(.clear = 0, .set = TSK_ONCPU)
-> (2) psi_group_change(.clear = TSK_ONCPU, .set = 0)
-> 
-> We previously used tasks[NR_ONCPU] to record TSK_ONCPU, tasks[NR_ONCPU]++
-> in (1) then tasks[NR_ONCPU]-- in (2), so tasks[NR_ONCPU] still be correct.
-> 
-> The next patch change to use one bit in state mask to record TSK_ONCPU,
-> PSI_ONCPU bit will be set in (1), but then be cleared in (2), which cause
-> the psi_group_cpu has task running on CPU but without PSI_ONCPU bit set!
-> 
-> With this patch, we will never walk the common ancestors twice, so won't
-> have above problem.
-> 
-> Suggested-by: Johannes Weiner <hannes@cmpxchg.org>
 > Signed-off-by: Chengming Zhou <zhouchengming@bytedance.com>
 
 Acked-by: Johannes Weiner <hannes@cmpxchg.org>
