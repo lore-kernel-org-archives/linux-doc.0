@@ -2,121 +2,57 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E8156ECAA24
-	for <linux-doc@archiver.kernel.org>; Thu, 25 Aug 2022 18:57:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 38CD1ECAA25
+	for <linux-doc@archiver.kernel.org>; Thu, 25 Aug 2022 18:58:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243587AbiHYS5M (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 25 Aug 2022 14:57:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35676 "EHLO
+        id S243418AbiHYS6y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 25 Aug 2022 14:58:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36712 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243300AbiHYS5G (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Aug 2022 14:57:06 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5253CB99ED
-        for <linux-doc@vger.kernel.org>; Thu, 25 Aug 2022 11:57:04 -0700 (PDT)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ore@pengutronix.de>)
-        id 1oRI20-0004Hp-Pp; Thu, 25 Aug 2022 20:56:44 +0200
-Received: from ore by ptx.hi.pengutronix.de with local (Exim 4.92)
-        (envelope-from <ore@pengutronix.de>)
-        id 1oRI1y-0007Sw-6r; Thu, 25 Aug 2022 20:56:42 +0200
-Date:   Thu, 25 Aug 2022 20:56:42 +0200
-From:   Oleksij Rempel <o.rempel@pengutronix.de>
-To:     Jakub Kicinski <kuba@kernel.org>
-Cc:     Andrew Lunn <andrew@lunn.ch>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        kernel test robot <lkp@intel.com>, kernel@pengutronix.de,
-        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
-        David Jander <david@protonic.nl>,
-        Luka Perkov <luka.perkov@sartura.hr>,
-        Robert Marko <robert.marko@sartura.hr>
-Subject: Re: [PATCH net-next v2 6/7] ethtool: add interface to interact with
- Ethernet Power Equipment
-Message-ID: <20220825185642.GB2116@pengutronix.de>
-References: <20220825130211.3730461-1-o.rempel@pengutronix.de>
- <20220825130211.3730461-7-o.rempel@pengutronix.de>
- <20220825110756.6361fff7@kernel.org>
+        with ESMTP id S243554AbiHYS6w (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Aug 2022 14:58:52 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22986BD1F5
+        for <linux-doc@vger.kernel.org>; Thu, 25 Aug 2022 11:58:52 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id CBB4031A;
+        Thu, 25 Aug 2022 18:58:51 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net CBB4031A
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1661453931; bh=9XQMaVksEkd2zGqAEVyc13fvAAOtzBaJjXNSFj3g3CU=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=KkHpNdlTte90YsqNP1K2r/jCDO6Y/BKkI8Y2kJfTX493ZTiFkO292ttStLZwxZA7s
+         Z0a/iVuJ2SQ//RTx0k7fdiFpPMZErLdzR3l4KFgTY5OyFkJbnnn6ehTt1g/eV4kUxz
+         4gCPv75Wm5ZZCtujTfMt5tfOY2Cff+9DeQ5EkuyV2ttKWBNvBqnSyV93NVLs1nJjzu
+         hQhOmfV3p/qJYX8vebtePwU3Kv1IEQEs/2YFVmO50z7IohkwB/WoV2nSGq8GebFK19
+         GVJpeB4eQj8/gOyp5nq7vjoFpaDML267Pf9AI0mrqSYeQvXHUmBUM3+5MBmrvNIFMa
+         /5NVHIyTgW/Rw==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Wu XiangCheng <wu.xiangcheng@linux.dev>
+Cc:     Alex Shi <alexs@kernel.org>, Yanteng Si <siyanteng@loongson.cn>,
+        Li Yang <leoyang.li@nxp.com>,
+        linux-doc <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH] docs/zh_CN: Fix two missing labels in zh_CN/process
+In-Reply-To: <871qt4ywzp.fsf@meer.lwn.net>
+References: <87fshtbgoy.fsf@meer.lwn.net>
+ <cover.1659406843.git.bobwxc@email.cn> <Yv7i1tYMvK9J/NHj@bobwxc.mipc>
+ <871qt4ywzp.fsf@meer.lwn.net>
+Date:   Thu, 25 Aug 2022 12:58:51 -0600
+Message-ID: <87wnawxi8k.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220825110756.6361fff7@kernel.org>
-X-Sent-From: Pengutronix Hildesheim
-X-URL:  http://www.pengutronix.de/
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: ore@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Aug 25, 2022 at 11:07:56AM -0700, Jakub Kicinski wrote:
-> On Thu, 25 Aug 2022 15:02:10 +0200 Oleksij Rempel wrote:
-> > +void ethtool_set_ethtool_pse_ops(const struct ethtool_pse_ops *ops)
-> > +{
-> > +	rtnl_lock();
-> > +	ethtool_pse_ops = ops;
-> > +	rtnl_unlock();
-> > +}
-> > +EXPORT_SYMBOL_GPL(ethtool_set_ethtool_pse_ops);
-> 
-> Do we really need the loose linking on the PSE ops?
-> It's not a lot of code, and the pcdev->ops should be 
-> enough to decouple drivers, it seems.
+Jonathan Corbet <corbet@lwn.net> writes:
 
-Right now i have no good idea how to properly decouple pse-pd from phydev.
+> I am totally confused by this patch.  Those labels are present in
+> docs-next; where do you think this patch is necessary?
 
-@Andrew, should i care about it on this stage or it is currently not a
-big deal?
+Apologies, I was even more confused than I thought; was looking at the
+wrong branch.  I've applied the patch now, thanks.
 
-> > +static int pse_set_pse_config(struct net_device *dev,
-> > +			      struct netlink_ext_ack *extack,
-> > +			      struct nlattr **tb)
-> > +{
-> > +	struct phy_device *phydev = dev->phydev;
-> > +	struct pse_control_config config = {};
-> > +	const struct ethtool_pse_ops *ops;
-> > +	int ret;
-> > +
-> > +	if (!tb[ETHTOOL_A_PODL_PSE_ADMIN_CONTROL])
-> > +		return 0;
-> 
-> If SET has no useful attrs the usual response is -EINVAL.
-
-ack
-
-> > +	ops = ethtool_pse_ops;
-> > +	if (!ops || !ops->set_config)
-> > +		return -EOPNOTSUPP;
-> > +
-> > +	config.admin_cotrol = nla_get_u8(tb[ETHTOOL_A_PODL_PSE_ADMIN_CONTROL]);
-> > +
-> > +	if (!phydev)
-> > +		return -EOPNOTSUPP;
-> > +
-> > +	// todo resolve phydev dependecy
-> 
-> My lack of phydev understanding and laziness are likely the cause,
-> but I haven't found an explanation for this todo. What is it about?
-
-sorry. old artifact, will be removed. It is part of phydev/phylink
-related discussion in the last patch version.
-
--- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+jon
