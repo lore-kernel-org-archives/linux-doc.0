@@ -2,83 +2,64 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DE6AAECAA27
-	for <linux-doc@archiver.kernel.org>; Thu, 25 Aug 2022 18:48:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BFF62ECAA25
+	for <linux-doc@archiver.kernel.org>; Thu, 25 Aug 2022 18:50:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243309AbiHYSsw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 25 Aug 2022 14:48:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47484 "EHLO
+        id S233616AbiHYSuc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 25 Aug 2022 14:50:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52380 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243473AbiHYSsq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Aug 2022 14:48:46 -0400
+        with ESMTP id S229564AbiHYSub (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Aug 2022 14:50:31 -0400
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76422B56F2;
-        Thu, 25 Aug 2022 11:48:41 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46FC8AB05F;
+        Thu, 25 Aug 2022 11:50:30 -0700 (PDT)
 Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 6F19031A;
-        Thu, 25 Aug 2022 18:48:40 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 6F19031A
+        by ms.lwn.net (Postfix) with ESMTPSA id CC6232E2;
+        Thu, 25 Aug 2022 18:50:29 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net CC6232E2
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1661453320; bh=GKo/HAiBH1pXBkoB5hyeNe5OnaTVwZXlZaRMSpQF2cw=;
+        t=1661453430; bh=y42Jf/ag9rU15ToKoopXiKAz4rUlonTv87e8xUVPCd0=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=TcsXQfqYBT0COO2IbL78QjtCZUDRmFCGfh3DDIdkW584XixMW+lQnzwj+D/kIJXi0
-         RMlCYwBI1K2ZhF7sFELlJ2CUs7wWuzHJpPX6JIIAtoDJJTl1c/JKAWycxWJiP+5V0e
-         HMxhlCs+2AePO9I/9B0s6tKh3THSK3iOIO0jeEc8ilHkg1sTEydvdjvqaIZuRGwSJn
-         spZLldruA8nOuQK+Y1nJuhKRpSYnjNXlsKExuB0drOrLLKSEuWO1SrsGn8iNo3ukaG
-         ihIvde59tEbzJ5Rk7r4tCQw1iOQGoVul/+g8klzOhnGz+CeonrL/aDhpdVtBYIcfDR
-         cJxA6dvzLutLQ==
+        b=RVEMFYtlAdcfdp9M02F2cjSEDTIPcvvWhZlWJbRfuME+Dmdal3T5IUCFQapXOB1VB
+         bWZBFis1jPQqM0li0LPjmGGpfVHpN4rXWMQl7fKBY6JCRz9qTHT+TqwwlDeZJ/N9Qa
+         J/XMyJz20DRhUzhFYbmC+uBBl/O5jDkW8jOwTGtirHakP5MZroVIAd45KsI+/6I8tk
+         b/GHl9/XTl7xMTkFnMhGrjbLOPjg9xvuMUFOqCD0rs99y+jR4xQ4AMK9kE2SVJ8j88
+         vr0qvHZrcosA5i7D/KsvAkeZxvh016DI7/h1qHS87UPxKgHzvPREG9ugDHYFt17u0h
+         otT7y//sAhkpQ==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Lukas Bulwahn <lukas.bulwahn@gmail.com>, linux-doc@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Subject: Re: [PATCH] docs: Update version number from 5.x to 6.x in README.rst
-In-Reply-To: <20220824080836.23087-1-lukas.bulwahn@gmail.com>
-References: <20220824080836.23087-1-lukas.bulwahn@gmail.com>
-Date:   Thu, 25 Aug 2022 12:48:39 -0600
-Message-ID: <87a67syxa0.fsf@meer.lwn.net>
+To:     Kairui Song <ryncsn@gmail.com>, damon@lists.linux.dev
+Cc:     SeongJae Park <sj@kernel.org>, linux-mm@kvack.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Kairui Song <kasong@tencent.com>
+Subject: Re: [PATCH v2] Docs/admin-guide/mm/damon/usage: fix the example
+ code snip
+In-Reply-To: <20220823114053.53305-1-ryncsn@gmail.com>
+References: <20220823114053.53305-1-ryncsn@gmail.com>
+Date:   Thu, 25 Aug 2022 12:50:29 -0600
+Message-ID: <875yigyx6y.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Lukas Bulwahn <lukas.bulwahn@gmail.com> writes:
+Kairui Song <ryncsn@gmail.com> writes:
 
-> A quick 'grep "5\.x" . -R' on Documentation shows that README.rst,
-> 2.Process.rst and applying-patches.rst all mention the version number "5.x"
-> for kernel releases.
+> From: Kairui Song <kasong@tencent.com>
 >
-> As the next release will be version 6.0, updating the version number to 6.x
-> in README.rst seems reasonable.
+> The workflow example code is not working since it got the file names
+> wrong. So fix this.
 >
-> The description in 2.Process.rst is just a description of recent kernel
-> releases, it was last updated in the beginning of 2020, and can be
-> revisited at any time on a regular basis, independent of changing the
-> version number from 5 to 6. So, there is no need to update this document
-> now when transitioning from 5.x to 6.x numbering.
->
-> The document applying-patches.rst is probably obsolete for most users
-> anyway, a reader will sufficiently well understand the steps, even it
-> mentions version 5 rather than version 6. So, do not update that to a
-> version 6.x numbering scheme.
->
-> Update version number from 5.x to 6.x in README.rst only.
+> Fixes: b18402726bd1 ("Docs/admin-guide/mm/damon/usage: document DAMON sysfs interface")
+> Reviewed-by: SeongJae Park <sj@kernel.org>
+> Signed-off-by: Kairui Song <kasong@tencent.com>
+> ---
+>  Documentation/admin-guide/mm/damon/usage.rst | 18 +++++++++---------
+>  1 file changed, 9 insertions(+), 9 deletions(-)
 
-I've gone ahead and applied this.
-
-For the other files:
-
- - I don't think 2.Process.rst needs any immediate attention.  We could
-   change the wording from "recent release history" to "The release
-   history in early 2022 looked like:" or something like that.  There is
-   no reason why it has to be the latest releases.
-
- - applying-patches.rst should just go.  I didn't prevail last time I
-   tried to make that point, but I still don't think that we help
-   anybody by dragging 1990's instructions around now.
-
-Thanks,
+I've gone ahead and applied this, thanks.
 
 jon
