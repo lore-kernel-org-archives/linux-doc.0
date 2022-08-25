@@ -2,111 +2,93 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F24E8ECAA27
-	for <linux-doc@archiver.kernel.org>; Thu, 25 Aug 2022 18:08:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 28DE4ECAA24
+	for <linux-doc@archiver.kernel.org>; Thu, 25 Aug 2022 18:09:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242989AbiHYSIA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 25 Aug 2022 14:08:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57372 "EHLO
+        id S230164AbiHYSJs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 25 Aug 2022 14:09:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60066 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243003AbiHYSH7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Aug 2022 14:07:59 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03608BD139;
-        Thu, 25 Aug 2022 11:07:59 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        with ESMTP id S236470AbiHYSJi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Aug 2022 14:09:38 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B214BD08F;
+        Thu, 25 Aug 2022 11:09:36 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 9A5AE61CBD;
-        Thu, 25 Aug 2022 18:07:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67C7CC433D6;
-        Thu, 25 Aug 2022 18:07:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1661450878;
-        bh=P7IaUuILhRlBKJWD1XTENmsK+U18RlbZ9W1q2qOV2Gg=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=MVyN+2QvVESzlEmFSFTsVrR1t5Tqw+qRrxpT5tXMtmxn8ppIOxbunQ5WNV1Wm3P+Y
-         Izhe8Cbh7go0eWf4DqWDADgKMsygr4M8MqPF6vtAatwOHFFxSPzPwo68+OG8h4vxtw
-         49Fu/DDDcP9iqwqPF3TLW02e8HVlcu8qRU2vK4T7G299Qlqn7i7bkKqL5lTeTGFEJU
-         xaeEbMxF8VMljf550nbqb/r7Kbhz28r4yioODHsFrNFhAt1UP9lh87DIFu4mgxXHWQ
-         bK1dDgQK6o0D6z4e06maZXZpqA0ux/+KKbXqUPiInXACcq5cQJWiiDF5RsFrZxIKAq
-         NLAs7VdTtPZ3g==
-Date:   Thu, 25 Aug 2022 11:07:56 -0700
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     Oleksij Rempel <o.rempel@pengutronix.de>
-Cc:     Andrew Lunn <andrew@lunn.ch>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        kernel test robot <lkp@intel.com>, kernel@pengutronix.de,
-        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
-        David Jander <david@protonic.nl>,
-        Luka Perkov <luka.perkov@sartura.hr>,
-        Robert Marko <robert.marko@sartura.hr>
-Subject: Re: [PATCH net-next v2 6/7] ethtool: add interface to interact with
- Ethernet Power Equipment
-Message-ID: <20220825110756.6361fff7@kernel.org>
-In-Reply-To: <20220825130211.3730461-7-o.rempel@pengutronix.de>
-References: <20220825130211.3730461-1-o.rempel@pengutronix.de>
-        <20220825130211.3730461-7-o.rempel@pengutronix.de>
+        by ms.lwn.net (Postfix) with ESMTPSA id 72B8F2E2;
+        Thu, 25 Aug 2022 18:09:36 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 72B8F2E2
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1661450976; bh=5vAHQVGvmhIm6rGzB0DMvadkCYOHywVDKSrP/IUHYKc=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=kSRWIw/Ak6lGd6CoGml8WhUs7+ybs0aOyaPwpM79tFAXB+ZjsPQkokUvdJzTK8e2o
+         ZTDYDw2bs+omShQpeS1Tv3pgL5qewxFmLKxuXcrFWBp1TmFFmcNqkr7kU4rGirYwfG
+         yVe9AY/dPLoErSUSG/RlEnxYcVOS/9PLLedrsF4fEqP53Po7Q83VRWPotXNBirPIia
+         xLIocksnTJksthlgZy1U7gZcZLMjSLGCOVrXOtL5Y96F4mjUgC33uUIHOYOc18Lqra
+         LDlwAEhYDfLE6f6VqybjDbvkeDKQ0QkAVAgXJdqJP6ECaOGU0GUDS+q5QYIVu6eK6u
+         7KY+F0xpRJNNw==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Yixuan Cao <caoyixuan2019@email.szu.edu.cn>,
+        akpm@linux-foundation.org
+Cc:     yejiajian2018@email.szu.edu.cn, skhan@linuxfoundation.org,
+        akiyks@gmail.com, rppt@kernel.org, zhangyinan2019@email.szu.edu.cn,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Yixuan Cao <caoyixuan2019@email.szu.edu.cn>
+Subject: Re: [PATCH] Documentation/mm/page_owner.rst: update experimental data
+In-Reply-To: <20220825172934.4344-1-caoyixuan2019@email.szu.edu.cn>
+References: <20220825172934.4344-1-caoyixuan2019@email.szu.edu.cn>
+Date:   Thu, 25 Aug 2022 12:09:35 -0600
+Message-ID: <87ilmgyz34.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 25 Aug 2022 15:02:10 +0200 Oleksij Rempel wrote:
-> +void ethtool_set_ethtool_pse_ops(const struct ethtool_pse_ops *ops)
-> +{
-> +	rtnl_lock();
-> +	ethtool_pse_ops = ops;
-> +	rtnl_unlock();
-> +}
-> +EXPORT_SYMBOL_GPL(ethtool_set_ethtool_pse_ops);
+Yixuan Cao <caoyixuan2019@email.szu.edu.cn> writes:
 
-Do we really need the loose linking on the PSE ops?
-It's not a lot of code, and the pcdev->ops should be 
-enough to decouple drivers, it seems.
+> I noticed some experimental data need to be updated.
+>
+> Signed-off-by: Yixuan Cao <caoyixuan2019@email.szu.edu.cn>
+> ---
+>  Documentation/mm/page_owner.rst | 12 ++++++------
+>  1 file changed, 6 insertions(+), 6 deletions(-)
+>
+> diff --git a/Documentation/mm/page_owner.rst b/Documentation/mm/page_owner.rst
+> index f18fd8907049..8e2545bb4e17 100644
+> --- a/Documentation/mm/page_owner.rst
+> +++ b/Documentation/mm/page_owner.rst
+> @@ -41,17 +41,17 @@ size change due to this facility.
+>  - Without page owner::
+>  
+>     text    data     bss     dec     hex filename
+> -   48392   2333     644   51369    c8a9 mm/page_alloc.o
+> +   58581   3166     652   62399    f3bf mm/page_alloc.o
+>  
+>  - With page owner::
+>  
+>     text    data     bss     dec     hex filename
+> -   48800   2445     644   51889    cab1 mm/page_alloc.o
+> -   6662     108      29    6799    1a8f mm/page_owner.o
+> -   1025       8       8    1041     411 mm/page_ext.o
+> +   59085   3294     652   63031    f637 mm/page_alloc.o
+> +   7464     125      28    7617    1dc1 mm/page_owner.o
+> +   1396      32       8    1436     59c mm/page_ext.o
+>  
+> -Although, roughly, 8 KB code is added in total, page_alloc.o increase by
+> -520 bytes and less than half of it is in hotpath. Building the kernel with
+> +Although, roughly, 9 KB code is added in total, page_alloc.o increase by
+> +632 bytes and less than half of it is in hotpath. Building the kernel with
+>  page owner and turning it on if needed would be great option to debug
+>  kernel memory problem.
 
-> +static int pse_set_pse_config(struct net_device *dev,
-> +			      struct netlink_ext_ack *extack,
-> +			      struct nlattr **tb)
-> +{
-> +	struct phy_device *phydev = dev->phydev;
-> +	struct pse_control_config config = {};
-> +	const struct ethtool_pse_ops *ops;
-> +	int ret;
-> +
-> +	if (!tb[ETHTOOL_A_PODL_PSE_ADMIN_CONTROL])
-> +		return 0;
+This seems like a fine patch...but I do have to wonder if it really
+makes sense to maintain this information, which will surely be subject
+to frequent change.  Perhaps the whole thing is better replaced with a
+line saying that enabling page owner adds ~9KB?
 
-If SET has no useful attrs the usual response is -EINVAL.
+Thanks,
 
-> +	ops = ethtool_pse_ops;
-> +	if (!ops || !ops->set_config)
-> +		return -EOPNOTSUPP;
-> +
-> +	config.admin_cotrol = nla_get_u8(tb[ETHTOOL_A_PODL_PSE_ADMIN_CONTROL]);
-> +
-> +	if (!phydev)
-> +		return -EOPNOTSUPP;
-> +
-> +	// todo resolve phydev dependecy
-
-My lack of phydev understanding and laziness are likely the cause,
-but I haven't found an explanation for this todo. What is it about?
-
-> +	if (!phydev->psec)
-> +		ret = -EOPNOTSUPP;
-> +	else
-> +		ret = ops->set_config(phydev->psec, extack, &config);
-> +
-> +	return ret;
-> +}
+jon
