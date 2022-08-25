@@ -2,94 +2,83 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D0903ECAA24
-	for <linux-doc@archiver.kernel.org>; Thu, 25 Aug 2022 18:48:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DE6AAECAA27
+	for <linux-doc@archiver.kernel.org>; Thu, 25 Aug 2022 18:48:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241961AbiHYSsC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 25 Aug 2022 14:48:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46566 "EHLO
+        id S243309AbiHYSsw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 25 Aug 2022 14:48:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47484 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241497AbiHYSsB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Aug 2022 14:48:01 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD4EC1EC6A
-        for <linux-doc@vger.kernel.org>; Thu, 25 Aug 2022 11:48:00 -0700 (PDT)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ore@pengutronix.de>)
-        id 1oRHt8-00034B-3Y; Thu, 25 Aug 2022 20:47:34 +0200
-Received: from ore by ptx.hi.pengutronix.de with local (Exim 4.92)
-        (envelope-from <ore@pengutronix.de>)
-        id 1oRHt2-00079v-SE; Thu, 25 Aug 2022 20:47:28 +0200
-Date:   Thu, 25 Aug 2022 20:47:28 +0200
-From:   Oleksij Rempel <o.rempel@pengutronix.de>
-To:     Jakub Kicinski <kuba@kernel.org>
-Cc:     kernel@pengutronix.de, Andrew Lunn <andrew@lunn.ch>,
-        Robert Marko <robert.marko@sartura.hr>,
-        Luka Perkov <luka.perkov@sartura.hr>,
-        kernel test robot <lkp@intel.com>,
-        Jonathan Corbet <corbet@lwn.net>, netdev@vger.kernel.org,
-        linux-doc@vger.kernel.org, Russell King <linux@armlinux.org.uk>,
-        linux-kernel@vger.kernel.org, Eric Dumazet <edumazet@google.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        David Jander <david@protonic.nl>,
-        Paolo Abeni <pabeni@redhat.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        devicetree@vger.kernel.org, Heiner Kallweit <hkallweit1@gmail.com>
-Subject: Re: [PATCH net-next v2 6/7] ethtool: add interface to interact with
- Ethernet Power Equipment
-Message-ID: <20220825184728.GA2116@pengutronix.de>
-References: <20220825130211.3730461-1-o.rempel@pengutronix.de>
- <20220825130211.3730461-7-o.rempel@pengutronix.de>
- <20220825111019.1dc3dae0@kernel.org>
+        with ESMTP id S243473AbiHYSsq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Aug 2022 14:48:46 -0400
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76422B56F2;
+        Thu, 25 Aug 2022 11:48:41 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 6F19031A;
+        Thu, 25 Aug 2022 18:48:40 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 6F19031A
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1661453320; bh=GKo/HAiBH1pXBkoB5hyeNe5OnaTVwZXlZaRMSpQF2cw=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=TcsXQfqYBT0COO2IbL78QjtCZUDRmFCGfh3DDIdkW584XixMW+lQnzwj+D/kIJXi0
+         RMlCYwBI1K2ZhF7sFELlJ2CUs7wWuzHJpPX6JIIAtoDJJTl1c/JKAWycxWJiP+5V0e
+         HMxhlCs+2AePO9I/9B0s6tKh3THSK3iOIO0jeEc8ilHkg1sTEydvdjvqaIZuRGwSJn
+         spZLldruA8nOuQK+Y1nJuhKRpSYnjNXlsKExuB0drOrLLKSEuWO1SrsGn8iNo3ukaG
+         ihIvde59tEbzJ5Rk7r4tCQw1iOQGoVul/+g8klzOhnGz+CeonrL/aDhpdVtBYIcfDR
+         cJxA6dvzLutLQ==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Lukas Bulwahn <lukas.bulwahn@gmail.com>, linux-doc@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Subject: Re: [PATCH] docs: Update version number from 5.x to 6.x in README.rst
+In-Reply-To: <20220824080836.23087-1-lukas.bulwahn@gmail.com>
+References: <20220824080836.23087-1-lukas.bulwahn@gmail.com>
+Date:   Thu, 25 Aug 2022 12:48:39 -0600
+Message-ID: <87a67syxa0.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220825111019.1dc3dae0@kernel.org>
-X-Sent-From: Pengutronix Hildesheim
-X-URL:  http://www.pengutronix.de/
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: ore@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Aug 25, 2022 at 11:10:19AM -0700, Jakub Kicinski wrote:
-> On Thu, 25 Aug 2022 15:02:10 +0200 Oleksij Rempel wrote:
-> > +enum ethtool_podl_pse_admin_state {
-> > +	ETHTOOL_PODL_PSE_ADMIN_STATE_UNKNOWN = 1,
-> 
-> Why define UNKNOWN.. as 1? No real objection here, just in my head
-> somehow UNKNOWN = 0 or just start from 1.
+Lukas Bulwahn <lukas.bulwahn@gmail.com> writes:
 
-I need to keep difference between not supported functionality and
-supported but unknown.
+> A quick 'grep "5\.x" . -R' on Documentation shows that README.rst,
+> 2.Process.rst and applying-patches.rst all mention the version number "5.x"
+> for kernel releases.
+>
+> As the next release will be version 6.0, updating the version number to 6.x
+> in README.rst seems reasonable.
+>
+> The description in 2.Process.rst is just a description of recent kernel
+> releases, it was last updated in the beginning of 2020, and can be
+> revisited at any time on a regular basis, independent of changing the
+> version number from 5 to 6. So, there is no need to update this document
+> now when transitioning from 5.x to 6.x numbering.
+>
+> The document applying-patches.rst is probably obsolete for most users
+> anyway, a reader will sufficiently well understand the steps, even it
+> mentions version 5 rather than version 6. So, do not update that to a
+> version 6.x numbering scheme.
+>
+> Update version number from 5.x to 6.x in README.rst only.
 
-> > +	ETHTOOL_PODL_PSE_ADMIN_STATE_DISABLED,
-> > +	ETHTOOL_PODL_PSE_ADMIN_STATE_ENABLED,
-> > +
-> > +	/* add new constants above here */
-> > +	ETHTOOL_PODL_PSE_ADMIN_STATE_COUNT
-> 
-> Why define count for a value enum like this? For attrs we define it
-> because it's used to size tables, don't think anyone will size tables
-> based on states.
+I've gone ahead and applied this.
 
-ok, i'll remove it.
+For the other files:
 
-> There's a bunch of kdoc warnings in the patches as well.
+ - I don't think 2.Process.rst needs any immediate attention.  We could
+   change the wording from "recent release history" to "The release
+   history in early 2022 looked like:" or something like that.  There is
+   no reason why it has to be the latest releases.
 
-ok.
+ - applying-patches.rst should just go.  I didn't prevail last time I
+   tried to make that point, but I still don't think that we help
+   anybody by dragging 1990's instructions around now.
 
--- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+Thanks,
+
+jon
