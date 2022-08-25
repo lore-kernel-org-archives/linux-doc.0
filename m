@@ -2,122 +2,98 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 22443C32774
-	for <linux-doc@archiver.kernel.org>; Thu, 25 Aug 2022 07:43:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C1ADC28D13
+	for <linux-doc@archiver.kernel.org>; Thu, 25 Aug 2022 07:53:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238795AbiHYHnW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 25 Aug 2022 03:43:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38114 "EHLO
+        id S234910AbiHYHxn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 25 Aug 2022 03:53:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52352 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237854AbiHYHm7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Aug 2022 03:42:59 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5ED3CA3D52;
-        Thu, 25 Aug 2022 00:42:52 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 6EEFAB81DF1;
-        Thu, 25 Aug 2022 07:42:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6DE29C433C1;
-        Thu, 25 Aug 2022 07:42:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1661413369;
-        bh=jo4iwhN0ZYXWfv0uD+BxzoZiXf+fecbwKbdRpXmtjTc=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=sw1WnXQIDEUm52NyWznsDACN5zHOxRiR8BSO+G95H0m0LmNEZXoOztYX+iUY1O3ww
-         o5fioWafmGSewPg8JDP4j9PQE69d3T1USDjU+7Q3UipinBrictZbnaM3EkX8LevvOC
-         XeJgzQZHY/wJWBXkLEhW5MRAyfuPPQq8Rat861/9iPWP2DlDP3hqcsa5t04GiVAXrK
-         HGKBKeMhZ+15fMMwCf2BkmFfuFB7TtRIwdrqKTd+Xf40HMx6mzK7qqj92IfiT9ycf+
-         532EFb1Lp+5sfZDIsw2uFpNPPALcFV1aUb5x50e60kaNwxi8HW9rEwgVu3Ete9tnf8
-         ne9cHoFFPu8+g==
-Date:   Thu, 25 Aug 2022 09:42:45 +0200
-From:   Wolfram Sang <wsa@kernel.org>
-To:     luca.ceresoli@bootlin.com
-Cc:     linux-doc@vger.kernel.org, linux-i2c@vger.kernel.org,
-        Peter Rosin <peda@axentia.se>, linux-kernel@vger.kernel.org,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v3 3/3] docs: i2c: i2c-topology: reorder sections more
- logically
-Message-ID: <Ywcn9Rz887L69yS8@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa@kernel.org>, luca.ceresoli@bootlin.com,
-        linux-doc@vger.kernel.org, linux-i2c@vger.kernel.org,
-        Peter Rosin <peda@axentia.se>, linux-kernel@vger.kernel.org,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-References: <20220824083104.2267000-1-luca.ceresoli@bootlin.com>
- <20220824083104.2267000-4-luca.ceresoli@bootlin.com>
+        with ESMTP id S232329AbiHYHxl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Aug 2022 03:53:41 -0400
+Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DAA179E8B6;
+        Thu, 25 Aug 2022 00:53:40 -0700 (PDT)
+Received: by mail-pj1-x102b.google.com with SMTP id x14-20020a17090a8a8e00b001fb61a71d99so4100415pjn.2;
+        Thu, 25 Aug 2022 00:53:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc;
+        bh=NIG+DDYxbCv/iOq7O3NIdMgtBDBXDQDO1rp8o3gnBs8=;
+        b=UJ9jj2xfAUv0S7yuC1Sr6lUSqTc8rOcKPZDitVx25eAnl5OB3tQ4zzHXpo032YJN0a
+         HzuDLD+REASEDmfM0YkFadWfne1VXffCP87qm+NbnAiTI5tyUBKNNfcKU8LwMkDYGKIj
+         TZaAFPmEQJs3BmzAkt4maqhdjMp7uLqfQfM67SgwVqDe00wTlk4SYrqN/waBunmtzZ8f
+         1PKuvkdaft4ZqilHcbCJBtcSJmCu+bnVYmpKHEXI9RcZXWGwzVXCBOYrbNKnXnXL5Ire
+         zgIzsIjtLq1QpuA8XBX03XtX9ehcigWc6OO5RQhXmPb/wM6QFNFEM1R2Gg39RtPjJbOu
+         SXPw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc;
+        bh=NIG+DDYxbCv/iOq7O3NIdMgtBDBXDQDO1rp8o3gnBs8=;
+        b=WqmHBa39VkXok/28NJQ/w12ba3upH0FqaMV1H1Eg6nWBJtupPjSqY6lI6RuE5F8xCF
+         YiSQ42/zW8KPnIC3jzQ2+Mi6zB1qydVYMwofptidUx9sy6qFWYNY+OSAZLu3nA/p0MJy
+         +/DDbI1R3BrrGVYh8RO28WoBYTTa5uJW8/HHOEyrr1BhKkBeFuEoTU6vCRk6IVHzVYJC
+         I8y4HZBeA8EQYc1dRjNtEFJiDfMe22p5Ye2MPrrcLKAJd5Cps/o8PnPQ5IBYpsOyNILy
+         2NfwtfwpJ3W8VOhNy4GXEaFYsssNv6j4Su4p3G/YO8llaSEtPY+TaTmDNf9TuUhBNn17
+         yjKg==
+X-Gm-Message-State: ACgBeo1tAvo9NRpDFxNWrJ65Q1qAy6YFuU4WE/yxuv4vI2mlfxM50shJ
+        Mmg5BMt6dvsvY7KvM7eqhemocgvXAJk=
+X-Google-Smtp-Source: AA6agR7FAFvfkMJpNIJ0NKBrdBxU/+OTHblOZkZyKXUVAqCkSjI3cUE+RVf1N0EaLmLnFT1wxNPUvA==
+X-Received: by 2002:a17:90a:1b6e:b0:1f5:1902:af92 with SMTP id q101-20020a17090a1b6e00b001f51902af92mr12698304pjq.238.1661414020436;
+        Thu, 25 Aug 2022 00:53:40 -0700 (PDT)
+Received: from [192.168.43.80] (subs03-180-214-233-68.three.co.id. [180.214.233.68])
+        by smtp.gmail.com with ESMTPSA id b11-20020a170902d50b00b0016dc2366722sm13068630plg.77.2022.08.25.00.53.38
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 25 Aug 2022 00:53:39 -0700 (PDT)
+Message-ID: <76b2dbcf-70cf-aca8-4ccc-b2a73063b8db@gmail.com>
+Date:   Thu, 25 Aug 2022 14:53:35 +0700
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="c+SjLRlJH9IOpbir"
-Content-Disposition: inline
-In-Reply-To: <20220824083104.2267000-4-luca.ceresoli@bootlin.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH] docs: Update version number from 5.x to 6.x in README.rst
+Content-Language: en-US
+To:     Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        Randy Dunlap <rdunlap@infradead.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+References: <20220824080836.23087-1-lukas.bulwahn@gmail.com>
+ <d5eca4a6-8a76-02e0-2f22-645341af8c2b@infradead.org>
+ <CAKXUXMwLofvhBXqzdoq_q_89jZ8THU0WX=DY+RnCo=PN7QqspA@mail.gmail.com>
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <CAKXUXMwLofvhBXqzdoq_q_89jZ8THU0WX=DY+RnCo=PN7QqspA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On 8/25/22 14:35, Lukas Bulwahn wrote:
+> Randy, would you know if there are still users out there?
+> Would it help to replace this script with a minimal script that only
+> reports to "Please use git to obtain a recent repository. Update
+> versions and apply patches with git in a controlled way.".
+> 
+> If someone complains, we revert the patch. If no one complains within
+> a year or two, we could consider shutting down the infrastructure
+> creating those patch archives as well, and delete the documentation
+> referring to that.
 
---c+SjLRlJH9IOpbir
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+As a refresher: besides Linus's tree (mainline), there is also stable
+tree, which is maintained by Greg and Sasha. Most users uses the latter.
+So, in case we add warning message to scripts/patch-kernel, we should say
+"This script is deprecated; please clone stable tree at [1] with git
+instead. If you'd like to apply patches, use git am. If you already have
+the tree, use git fetch and git merge to update stable branch of your
+choosing."
 
-On Wed, Aug 24, 2022 at 10:31:04AM +0200, luca.ceresoli@bootlin.com wrote:
-> From: Luca Ceresoli <luca.ceresoli@bootlin.com>
->=20
-> The sequence of sections is a bit confusing here:
->=20
->  * we list the mux locking scheme for existing drivers before introducing
->    what mux locking schemes are
->  * we list the caveats for each locking scheme (which are tricky) before
->    the example of the simple use case
->=20
-> Restructure it entirely with the following logic:
->=20
->  * Intro ("I2C muxes and complex topologies")
->  * Locking
->    - mux-locked
->      - example
->      - caveats
->    - parent-locked
->      - example
->      - caveats
->  * Complex examples
->  * Mux type of existing device drivers
->=20
-> While there, also apply some other improvements:
->=20
->  * convert the caveat list from a table (with only one column carrying
->    content) to a bullet list.
->  * add a small introductory text to bridge the gap from listing the use
->    cases to telling about the hardware components to handle them and then
->    the device drivers that implement those.
->  * make empty lines usage more uniform
->=20
-> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-> Acked-by: Peter Rosin <peda@axentia.se>
->=20
+Thanks.
 
-Applied to for-current, thanks!
+[1]: https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git
 
-
---c+SjLRlJH9IOpbir
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmMHJ/UACgkQFA3kzBSg
-KbZCDQ/8C8jQRkpXRQPGrAWtKIAt0E0gRrAzlUyMhnCaZInSKYbVfp+J5a0UVB9M
-v3iUU0X2v57DYYBjTbIvOzfjkjJRVDl6zeIlkR1AEwXAscJs74B2tbE7qABQc2By
-8qSLbXIHv05D+Nl5pQPBxDqiHFzLLEVg8pT6vqtPJMhPv+dk0uDpix+2qvVSptdV
-TqSbQTebhg8edil7bbTYeCD2fWSQ5gnMVLxACbU/rW5WhAQNpeEpyICCbGiELa/D
-A2Vq0a4BbFJJ408NEWpyoUJzH0L05B+ZR1JFLjGtOsWJ5YbIzcyOpyTAidd6wxoW
-t83dDzSeaGlZWn/Uf643tVjYIbD2d9aCaLaOlvUBmQ7+JDpDdQYZEcXiciNUwkjg
-6nvgohKAGtgJdywJBMhi4GuZ0mT0QxIAa4+XyWdif6MACLwAy0NapsKjjHT0mnnl
-/OFc2Gw6tqElDjJHRQY+1ApcKeknq2E/y+1Pd+DbpNu4Stg2q0QeIJ3ff01vCTiX
-aL/g/C1g+bIPKBd9C0J6c5Reg0KIrlrFiCIGZBDGKN3JYwBfTtMuhTOXyFA+9RsN
-IiUJQ2OFPK6o7pLvtlwMwOXgp28Vv9hMmD087Wt+xgp1S1cBWQ1d646/qOf5WzZ5
-hS6JEEQcXhqJSI6YZQBUJ6+V6QaO09DBMmYyMsmPed8ijteDv64=
-=WKo+
------END PGP SIGNATURE-----
-
---c+SjLRlJH9IOpbir--
+-- 
+An old man doll... just what I always wanted! - Clara
