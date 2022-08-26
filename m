@@ -2,225 +2,177 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C94BECAAA6
-	for <linux-doc@archiver.kernel.org>; Fri, 26 Aug 2022 16:57:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F4C1ECAAA3
+	for <linux-doc@archiver.kernel.org>; Fri, 26 Aug 2022 17:02:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344562AbiHZQ5s (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 26 Aug 2022 12:57:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39504 "EHLO
+        id S243755AbiHZRCc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 26 Aug 2022 13:02:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47792 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344638AbiHZQ5p (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Aug 2022 12:57:45 -0400
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2054.outbound.protection.outlook.com [40.107.223.54])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B104BA152;
-        Fri, 26 Aug 2022 09:57:33 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=VXuos1Ek8MAER+dFoN6VSTgD8YFUlevLbK1NOeemO5AgHabnjkcZjGo6MBK8rjt/MimidI81CPvDtq44KSdqFH9gE+szjCRcBejr2BhMqkBbUaOFSUdR/u1zLojjgjqvu13SqJXsyEqFpVULDiu3f76dAm9tWI7zLkCyo3H0RbnorRM54g3XQTKEfNdvBv52SOkQnuDRCa2vf4Ta4fWqXy5cnRViRQllehT7xus34nPIg/CmhuOghV49uWtFji9FmeNs5wn5LhnjHNXecA6kFqxzKK6QgWItb1szr6oz61WP7PhQlM04u+HoOLm/5NdbX6TGLZrqXufHXb/Qm+Ytrg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=JOk9ILr5u7EPhTZzrgXaAFvskhr05YV3Ebjy8RZqpvU=;
- b=RmP+NRG8yuziaco4mg7ZYWXVCe3OuJuSdC11wGItgVI+coO/Fax6vrr036mO+m1q6Pn0nNRxeVDJEfOLWbK7P67RQZAG73zViSUilzITzW3Cx5STr7EAumtfcKP61kurwCXrykptR+kpz7wRuMkYmZvHUP8KlomJPB2me607wHVdLfd4f1bCKOmmih/qCasPbYvLHIFsYJbgC5+cc3folsDVHhtroSjLNuLLFFoNMWGEeyANN18IgNPAzvQuG97RSWLm/uaO7fm2uerJRjjVR0nCh1x/X5giehkSUjVCxkEIHuLhwky2ctSm+kuEAqH6mCKdMYYClRMosfHFYngZkQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JOk9ILr5u7EPhTZzrgXaAFvskhr05YV3Ebjy8RZqpvU=;
- b=X2tQX97+Xf8iUJoe2IA1Z4ZHHXn9CYGjwHelXBtVXuRJ1e2kmAHwq2UXpdbEiKuYdZGXZv8vXsbLxMNm5cMyLfE1YT8/DArImycPsWt08xviNUOIZpSYPAGuifgGRuvcSkAzKZAWpbZVsPHWtdyiZ2ugEsWI0OFpKk5gYMRD1r8=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
- by SN6PR12MB2672.namprd12.prod.outlook.com (2603:10b6:805:6f::25) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5566.15; Fri, 26 Aug
- 2022 16:57:30 +0000
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::88f:a211:8c98:a973]) by MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::88f:a211:8c98:a973%7]) with mapi id 15.20.5566.016; Fri, 26 Aug 2022
- 16:57:30 +0000
-Message-ID: <776c8bcf-8a17-58df-7f7b-e8c2ab422a25@amd.com>
-Date:   Fri, 26 Aug 2022 11:57:26 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Reply-To: babu.moger@amd.com
-Subject: Re: [PATCH v3 07/10] x86/resctrl: Add sysfs interface files to
- read/write event configuration
-Content-Language: en-US
-To:     Reinette Chatre <reinette.chatre@intel.com>, fenghua.yu@intel.com,
-        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de
-Cc:     eranian@google.com, dave.hansen@linux.intel.com, x86@kernel.org,
-        hpa@zytor.com, corbet@lwn.net, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, bagasdotme@gmail.com
-References: <166117559756.6695.16047463526634290701.stgit@bmoger-ubuntu>
- <166117583337.6695.3477964609702763678.stgit@bmoger-ubuntu>
- <c5777707-746e-edab-2ce2-3405ff55be56@intel.com>
- <3a306901-4e3c-f11a-f947-9afaa4431b36@amd.com>
- <7cabdefc-7624-84ab-4914-396e94a3e683@intel.com>
-From:   "Moger, Babu" <babu.moger@amd.com>
-In-Reply-To: <7cabdefc-7624-84ab-4914-396e94a3e683@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: BL1PR13CA0374.namprd13.prod.outlook.com
- (2603:10b6:208:2c0::19) To MW3PR12MB4553.namprd12.prod.outlook.com
- (2603:10b6:303:2c::19)
+        with ESMTP id S1344873AbiHZRCR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Aug 2022 13:02:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6165C6B4A
+        for <linux-doc@vger.kernel.org>; Fri, 26 Aug 2022 10:02:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1661533331;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=jD7hXmOLkBQH1CWMlWymLxkZmC0QqnhEG6nyPcsh0A4=;
+        b=GN6vhlrnJCF4yQiQ+szDDuz2v1lFmn41zSF3pBzrx99rKNyCHLfCz+xNHExmwUaieY6GoB
+        zaLcByoN+8KMNIuSfcgccbl6Tfv3k/ssub/+5b6A4Gv7bde26Cvq7k/lWd9GExqm9Wfx2M
+        YFiEP4xauiPwJJhI/QaFbO0bEb/yeck=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-619-0PrB_0EVOWCFmYH4ueFPuw-1; Fri, 26 Aug 2022 13:02:09 -0400
+X-MC-Unique: 0PrB_0EVOWCFmYH4ueFPuw-1
+Received: by mail-wm1-f72.google.com with SMTP id b4-20020a05600c4e0400b003a5a96f1756so4346030wmq.0
+        for <linux-doc@vger.kernel.org>; Fri, 26 Aug 2022 10:02:09 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:subject:organization:from
+         :references:cc:to:content-language:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc;
+        bh=jD7hXmOLkBQH1CWMlWymLxkZmC0QqnhEG6nyPcsh0A4=;
+        b=OkwVDxUaj1fIzPqpbOjKG376qQuonAEq5BT9+kJuoPgB1fIUgsRvyjd+qwBbH9eNEH
+         LE5G9mYnSDzDkGm2TLbtrgQdIbe7VEuKlzkCHF5PJ2jF1/Vygf9QPSUXxektURlamFBL
+         V/LxWidTuugiZCxin/0fKzKW54olA9E2S46sE08OFEO7c8WGu6y7ydZsYReQuZyzetNQ
+         CIZUl2jmH7IMXfuNNwMGcK543NCbHAaX0jUwzpcKbHpYnXH3dwvsvZ2658IKyRzFK6FY
+         j4yU5g1/iCXwAopYj5BVv7dBmKg+dtk2YSJHUpGL3hX6uA4VMl1d2xpwoBztrSEzXNey
+         T0Eg==
+X-Gm-Message-State: ACgBeo0MQ744kaH1xAERQgPwW0mT/4aw9pAqPWSRqZZPjO/ggGn1XBZZ
+        Yq3DIBlSp3Qrc9fgezb1D3Z2rcSfYwxyWP+SbLv95DQI35kkiRsdISOvKF4FJ1/qXtUsHxT8ZJ1
+        CmDj+XO0nmP4CC8Eoy5O0
+X-Received: by 2002:a05:600c:8a7:b0:3a6:85b1:2275 with SMTP id l39-20020a05600c08a700b003a685b12275mr360773wmp.30.1661533328588;
+        Fri, 26 Aug 2022 10:02:08 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR4qNFSQdWdKklLyf6JGMNF43WaQ/tj38zI60Lf4fb7qD47lrMKlJqT7hUbr1HvAPU4X99wkqw==
+X-Received: by 2002:a05:600c:8a7:b0:3a6:85b1:2275 with SMTP id l39-20020a05600c08a700b003a685b12275mr360750wmp.30.1661533328294;
+        Fri, 26 Aug 2022 10:02:08 -0700 (PDT)
+Received: from ?IPV6:2003:cb:c708:f600:abad:360:c840:33fa? (p200300cbc708f600abad0360c84033fa.dip0.t-ipconnect.de. [2003:cb:c708:f600:abad:360:c840:33fa])
+        by smtp.gmail.com with ESMTPSA id l3-20020a1ced03000000b003a32251c3f9sm277131wmh.5.2022.08.26.10.02.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 26 Aug 2022 10:02:07 -0700 (PDT)
+Message-ID: <fe7aee66-d9f7-e472-a13f-e4c5aa176cca@redhat.com>
+Date:   Fri, 26 Aug 2022 19:02:06 +0200
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 408e7f9b-ff21-4411-8c24-08da87841004
-X-MS-TrafficTypeDiagnostic: SN6PR12MB2672:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: JVD0jAJUi0SOG7NLrTWlSkSiytvuELEIiPD60cI9AHnzk6cwKZPZ9EZpWSEDihtBKquMst6WNKMS1M6ZPyT5EDoLduf3DHB3Y12QyAAedLzw+cEvVPzZ2TBIFWPdkCMy+CxELym/74UHbciAEm9kDAiVEByL12yYLoviU1I7NMU9D3Jzx5zIB06F1PxrTBmrzroHLA6nds44qYnR0KHbTzCE8AB33urESjYznUmt5Rckfy8xbRqXJaPFVuDNAwWEJRO4y12NyDQ9TsLfM4CTc7xXC/LZMrEzO+UWVTrGXLI6MLGu1fzy4s9kH/Ugo2tg6hyvakCJdGxgKV8wSsx1VfFgtqNKA3GCpaIkClNfsOpgK0dnoK/JGwsrj8ti/Oa4n2xzhIQT+s+jycSgwG3WrHcBqwpN07E2t7iOXvT0Ujmb4+ICCfgFZ/tT6+PWtSY1s/02leFQdKmoQHJ9fvFnQLDMK9HPDIsMPktLY5+Q39BhmNiKXz16FLkd2Pvn/tbrWbIS6MuIKuiC4Wgw1aOwMW97XvEaRL5Y8QJnIC+A1U36qY9cLLVTP+q6sYWn3eo2jxwXht11xQRZ72dU+yHX6K4mA3hWOMIVvB6UqgYp5DTHW238WvT/itbM7KHyHzeRszHsyLpoKUWdw2YFndGYX+lBlx1x8B0lkxJampCaAoaHxv5EsZCZ0IBnTbxLouROZs1soVAg/y9XAOwdap2lYjkA69WKVWv4HbgUB2fcxCEVN3e02rapnkhtARd8EWTKRF4eKuqxjRXxcgrWilKLkcIvydLqeALi7gZtPUYwC5g=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(366004)(396003)(376002)(136003)(346002)(39860400002)(8676002)(4326008)(66946007)(66556008)(66476007)(41300700001)(38100700002)(6666004)(53546011)(6506007)(478600001)(6486002)(186003)(2616005)(83380400001)(8936002)(26005)(86362001)(6512007)(36756003)(316002)(31696002)(7416002)(31686004)(5660300002)(3450700001)(2906002)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZEo2K0RybUlaRFk0RlFmRDNCMXgxTUhpanM1S1VTUVVwb3REQ1RyR1E3RXJM?=
- =?utf-8?B?RitJR1dpd05SbjcrTDdhNEFtbjhyVjg5T2UyTVNvb2E5dHU2Zmw2NGdIemZt?=
- =?utf-8?B?V1pTcGdiSEtmZm5TN3ZNakJGVE05aTBNNUcybkVMWGVxaFBvVmloWGxOcHJI?=
- =?utf-8?B?R2FkQXpYVkl3ZXpMN1ozZ2N6bWp2YUFuNWIra3MzVEp2OC9PdDVaWFdzbWJW?=
- =?utf-8?B?YjNZODFxcXRKRzdqN1ZEYmlWS09xMW5VSWp0d3hXczZ1b2dwWmJhVUFJZW5h?=
- =?utf-8?B?WWJGVkROL2dNZ0VpbzFMdnFHZ0JSWFlXbmRKaGlwVFRDTTd2bFR1Q3R1RHQw?=
- =?utf-8?B?aExDRVlOVjBGT0tERlJTU3B0M3MrNUVTb0w0aGo5K0IyTzdoRjdSdXYyNSt0?=
- =?utf-8?B?QVlyTEUvL1dFYXZqOGpxcEJ1UkZrbUxtems1N0lBUEpKemRPMkpJMFIxQ0ZI?=
- =?utf-8?B?NE94YTE5RzgxN1lhQ0Fnd2QrUWFlUUlVNll5MmFFTER3dDI5QTE3OGtYeE1p?=
- =?utf-8?B?aGVNN3owT21XbEJkbmxyZVlYK0tEeWdDT1d6dm1SOFlkMTY2Qm1KYWFMMjlo?=
- =?utf-8?B?SUhScG1QRkdQdjNGYkQ1K1ZhWCsvSnVKakdMVHRka09Va2l1VnhjVHo4ZSt2?=
- =?utf-8?B?VVJmbFRpNFhGT1JiWnE2Z3pyMU5yYUtndEdTSFhLdkJEY0tLN0E1dlpQNzdD?=
- =?utf-8?B?SGwycXdCQjU5ckdQQUZ1d1NBc05aQmlHSVQyZjZCRmIzRmx3aVVicW45QXUr?=
- =?utf-8?B?enhMMVFlajY0ZXg4Wms1L1ZkMCtvZzF6Umc3U3M2N1RhUnNEcmlnNlROaEtp?=
- =?utf-8?B?eC9pZGR6a0dKa1pqNzZ5ZjRGYWEvdHlpSEVMdE04dFpJc0YyYUtGZ3djS0dY?=
- =?utf-8?B?Z2xRZHAwVys3T1ltWDNYZ1NreTFQM2pISW45VitiZHg4YmNiQnFRRVlNdWxu?=
- =?utf-8?B?NVhmbXRILzlyT2VLbFNlRFdraGN0Tjg0S0craldFV29lQVQ2cnlxQllSMHRW?=
- =?utf-8?B?Sks4ZGIya1hvVk1zZTNkME1hN3VaVnl0eGN3eGlIeHk4blhUbSsxWUJrL2Fh?=
- =?utf-8?B?b29XV0tHNWJzM010Ykw3ZW9CWUJyczI5Y1lpK09yRVcxaUdaRmJQRTdDanNG?=
- =?utf-8?B?RCtuWkdVZG9FdlRHcmxxVHJiemZ6QTNYdG1IYlZmZW04Ty92R1M0KzBud0p1?=
- =?utf-8?B?RWJiWHR6U2ZqeUJ3d1V4Zk5BYitSQkY4RUtTRXM1cUQraURQczkxYmVCTVpN?=
- =?utf-8?B?YklXSVQvS0YwSnBtc1Y1TGo0NkpjMXZJM1ludWFSM1dQNXhUL05ScDBlTGtM?=
- =?utf-8?B?WVB1cDdBbzJpWTkwUDZuNlBHTEN0TFkvYU1aV0h0cTUvem4rUzVnd0FuYVQ3?=
- =?utf-8?B?T0VNN0FmYmhGZW5vOGxYalRKMjhoMmk3cXBqaWE4eVhPa3MxVnZueGtDUllu?=
- =?utf-8?B?d3dlMnJiREQ1YTllRCtScDczSzZieHhnU2VvOHkzYndxQ0w2OGxwMlI2c1BU?=
- =?utf-8?B?SGMwR1BpbldpKzJPUy9qVE1vb0psU2FITE5yWitvNU8rb2JCVlRIcDdWOFlC?=
- =?utf-8?B?K2R5T1FRRUl6Vnhra2lCbGM4Vnd4VkEvd3B0Wmw4V0hTSUZSeXRNUVVPcWov?=
- =?utf-8?B?LzBzbHZmT0NqSUN4VUxMZXV4NGRHWWZOVVJQV242dXJ1Z2RWTWUxK0cxbDZK?=
- =?utf-8?B?QUQ5enRLZFV5KzdxVWRySWgzelhjcnNwSEY5SFlxanRDOWlIb3AxbDYwUWY0?=
- =?utf-8?B?RmkwYklPRXllRkF1Nmh2T0tHYXd6RWswNGJUSy9xWVRMVzRha01DSWYrOU5P?=
- =?utf-8?B?Vk9sTGhyNS9jT2c3SmJOM2JqeFpwNEF6aUU4TW83K1ArV1RManUyTlZVMkph?=
- =?utf-8?B?QVYzNkFzZXZiMytOdVZkKzhybGFpTE1IangzSXlnemV0OU5RYU9aQVkwWnBU?=
- =?utf-8?B?MVAyZ1lGZUFac21FcVQ1Ny9iVHB6Q1VGN011QVZrbEZlUDVYYkdRMkNzSTVm?=
- =?utf-8?B?MnlmZDcwSm1HZ2FrMkZiaUJYdjN1SjcyUWlqeWN6allNQ3h1bW5pM0FyOVQw?=
- =?utf-8?B?RktuQ2tEQzNUc3ZZK0FYbjd2NGgrUXlUQlhISTB1cXlyRUU2d09ZbVJlTkJH?=
- =?utf-8?Q?4Yww7wdDcaWKdnBvXZtBHi78e?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 408e7f9b-ff21-4411-8c24-08da87841004
-X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Aug 2022 16:57:30.2543
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: GhbBHPUGUKRquvBs/Ocf4LoHHbiQtXOoFuCBcMiX3CD6yhjQDo5XJKi9p7/O9Cz8
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR12MB2672
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Content-Language: en-US
+To:     Dave Young <dyoung@redhat.com>
+Cc:     John Hubbard <jhubbard@nvidia.com>, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-doc@vger.kernel.org,
+        kexec@lists.infradead.org,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Ingo Molnar <mingo@kernel.org>,
+        David Laight <David.Laight@aculab.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Andy Whitcroft <apw@canonical.com>,
+        Joe Perches <joe@perches.com>,
+        Dwaipayan Ray <dwaipayanray1@gmail.com>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        Baoquan He <bhe@redhat.com>, Vivek Goyal <vgoyal@redhat.com>,
+        Stephen Johnston <sjohnsto@redhat.com>,
+        Prarit Bhargava <prarit@redhat.com>
+References: <20220824163100.224449-1-david@redhat.com>
+ <20220824163100.224449-2-david@redhat.com>
+ <0db131cf-013e-6f0e-c90b-5c1e840d869c@nvidia.com>
+ <ea380cf0-acda-aaba-fb63-2834da91b66b@redhat.com>
+ <CALu+AoThhou7z+JCyv44AxGWDLDt2b7h0W6wcKRsJyLvSR1iQA@mail.gmail.com>
+From:   David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+Subject: Re: [PATCH RFC 1/2] coding-style.rst: document BUG() and WARN() rules
+ ("do not crash the kernel")
+In-Reply-To: <CALu+AoThhou7z+JCyv44AxGWDLDt2b7h0W6wcKRsJyLvSR1iQA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On 26.08.22 03:43, Dave Young wrote:
+> Hi David,
+> 
+> [Added more people in cc]
+> 
 
-On 8/26/22 11:35, Reinette Chatre wrote:
-> Hi Babu,
->
-> On 8/26/2022 9:07 AM, Moger, Babu wrote:
->> On 8/24/22 16:15, Reinette Chatre wrote:
->>> On 8/22/2022 6:43 AM, Babu Moger wrote:
-> ...
->
->>>>  static int mkdir_mondata_subdir(struct kernfs_node *parent_kn,
->>>>  				struct rdt_domain *d,
->>>>  				struct rdt_resource *r, struct rdtgroup *prgrp)
->>>> @@ -2568,6 +2591,15 @@ static int mkdir_mondata_subdir(struct kernfs_node *parent_kn,
->>>>  		if (ret)
->>>>  			goto out_destroy;
->>>>  
->>>> +		/* Create the sysfs event configuration files */
->>>> +		if (r->mon_configurable &&
->>>> +		    (mevt->evtid == QOS_L3_MBM_TOTAL_EVENT_ID ||
->>>> +		     mevt->evtid == QOS_L3_MBM_LOCAL_EVENT_ID)) {
->>>> +			ret = mon_config_addfile(kn, mevt->config, priv.priv);
->>>> +			if (ret)
->>>> +				goto out_destroy;
->>>> +		}
->>>> +
->>> This seems complex to have event features embedded in the code in this way. Could
->>> the events not be configured during system enumeration? For example, instead
->>> of hardcoding the config like above to always set:
->>>
->>>   static struct mon_evt mbm_local_event = {
->>>   	.name		= "mbm_local_bytes",
->>>   	.evtid		= QOS_L3_MBM_LOCAL_EVENT_ID,
->>>  +	.config 	= "mbm_local_config",
->>>
->>>
->>> What if instead this information is dynamically set in rdt_get_mon_l3_config()? To
->>> make things simpler struct mon_evt could get a new member "configurable" and the
->>> events that actually support configuration will have this set only
->>> if system has X86_FEATURE_BMEC (struct rdt_resource->configurable then
->>> becomes unnecessary?). Being configurable thus becomes an event property, not
->>> a resource property. The "config" member introduced here could then be "config_name".
->>>
->>> I think doing so will also make this file creation simpler with a single 
->>> mon_config_addfile() (possibly with more parameters) used to add both files to
->>> avoid the code duplication introduced by mon_config_addfile() above.
->>>
->>> What do you think?
->> Yes. We could do that. Something like this.
->>
->> struct mon_evt {
->>         u32                     evtid;
->>         char                    *name;
->>
->> +      bool                     configurable;
->>
->>          char                    *config;
->>         struct list_head        list;
->> };
->>
->> Set the configurable if  the  system has X86_FEATURE_BMEC feature in
->> rdt_get_mon_l3_config.
-> This would work (using bool in struct is something resctrl already do
-> in many places). I also think that "config" should rather be named to
-> "config_name" to make clear that it is not the actual configuration of
-> the event.
-Sure.
-> Remember to update struct mon_evt's kerneldoc (I just noticed it is
-> missing from this series).
+Hi Dave,
 
-Oh,, Will do.
+thanks for your input!
 
-Thanks
+[...]
 
-Babu
+>> Side note: especially with kdump() I feel like we might see much more
+>> widespread use of panic_on_warn to be able to actually extract debug
+>> information in a controlled manner -- for example on enterprise distros.
+>> ... which would then make these systems more likely to crash, because
+>> there is no way to distinguish a rather harmless warning from a severe
+>> warning :/ . But let's see if some kdump() folks will share their
+>> opinion as reply to the cover letter.
+> 
+> I can understand the intention of this patch, and I totally agree that
+> BUG() should be used carefully, this is a good proposal if we can
+> clearly define the standard about when to use BUG().  But I do have
+
+Essentially, the general rule from Linus is "absolutely no new BUG_ON()
+calls ever" -- but I think the consensus in that thread was that there
+are corner cases when it comes to unavoidable data corruption/security
+issues. And these are rare cases, not the usual case where we'd have
+used BUG_ON()/VM_BUG_ON().
+
+> some worries,  I think this standard is different for different sub
+> components, it is not clear to me at least,  so this may introduce an
+> unstable running kernel and cause troubles (eg. data corruption) with
+> a WARN instead of a BUG. Probably it would be better to say "Do not
+> WARN lightly, and do not hesitate to use BUG if it is really needed"?
 
 
->
->> Create both files  mbm_local_bytes and  mbm_local_config in mon_addfile.
->>
->> Change the mon_addfile to pass mon_evt structure, so it have all
->> information to create both the files.
-> Providing the structure to the function would make all the information
-> available but I am not sure that doing so would make it easy to eliminate the
-> duplicate code needed to create the other file. Giving more parameters
-> to mon_addfile() is another option but it should be more clear to
-> you as you write this code.
->
->> Then we can remove  rdt_resource->configurable. 
->>
->> Does that make sense?
->>
-> Yes.
->
-> Reinette
->
+Well, I don't make the rules, I document them and share them for general
+awareness/comments :) Documenting this is valuable, because there seem
+to be quite some different opinions floating around in the community --
+and I've been learning different rules from different people over the years.
+
+> 
+> About "patch_on_warn", it will depend on the admin/end user to set it,
+> it is not a good idea for distribution to set it. It seems we are
+> leaving it to end users to take the risk of a kernel panic even with
+> all kernel WARN even if it is sometimes not necessary.
+
+My question would be what we could add/improve to keep systems with
+kdump armed running as expected for end users, that is most probably:
+
+1) don't crash on harmless WARN() that can just be reported and the
+   machine will continue running mostly fine without real issues.
+2) crash on severe issues (previously BUG) such that we can properly
+   capture a system dump via kdump. The restart the machine.
+
+Of course, once one would run into 2), one could try reproducing with
+"panic_on_warn" to get a reasonable system dump. But I guess that's not
+what enterprise customers expect.
+
+
+One wild idea (in the cover letter) was to add something new that can be
+configured by user space and that expresses that something is more
+severe than just some warning that can be recovered easily. But it can
+eventually be recovered to keep the system running to some degree. But
+still, it's configurable if we want to trigger a panic or let the system
+run.
+
+John mentioned PANIC_ON().
+
+
+What would be your expectation for kdump users under which conditions we
+want to trigger kdump and when not?
+
+Regarding panic_on_warn, how often do e.g., RHEL users observe warnings
+that we're not able to catch during testing, such that "panic_on_warn"
+would be a real no-go?
+
 -- 
-Thanks
-Babu Moger
+Thanks,
+
+David / dhildenb
 
