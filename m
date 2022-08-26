@@ -2,151 +2,122 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6EA87ECAAD4
-	for <linux-doc@archiver.kernel.org>; Fri, 26 Aug 2022 15:36:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E43FECAAD4
+	for <linux-doc@archiver.kernel.org>; Fri, 26 Aug 2022 15:47:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242983AbiHZPf6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 26 Aug 2022 11:35:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59930 "EHLO
+        id S234532AbiHZPrA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 26 Aug 2022 11:47:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55626 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243036AbiHZPfw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Aug 2022 11:35:52 -0400
-Received: from frasgout12.his.huawei.com (frasgout12.his.huawei.com [14.137.139.154])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9263131ECD;
-        Fri, 26 Aug 2022 08:35:45 -0700 (PDT)
-Received: from mail02.huawei.com (unknown [172.18.147.229])
-        by frasgout12.his.huawei.com (SkyGuard) with ESMTP id 4MDkMv6kHZz9xFm3;
-        Fri, 26 Aug 2022 23:31:55 +0800 (CST)
-Received: from roberto-ThinkStation-P620 (unknown [10.204.63.22])
-        by APP1 (Coremail) with SMTP id LxC2BwAHJREl6AhjIoFPAA--.24624S2;
-        Fri, 26 Aug 2022 16:35:16 +0100 (CET)
-Message-ID: <bb4bdd90017d5772bdc31dfac93f2e86c6c61b82.camel@huaweicloud.com>
-Subject: Re: [PATCH v12 02/10] btf: Handle dynamic pointer parameter in
- kfuncs
-From:   Roberto Sassu <roberto.sassu@huaweicloud.com>
-To:     Jarkko Sakkinen <jarkko@kernel.org>,
-        Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Cc:     Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <martin.lau@linux.dev>,
-        Song Liu <song@kernel.org>, Yonghong Song <yhs@fb.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>,
-        Stanislav Fomichev <sdf@google.com>,
-        Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
-        Mykola Lysenko <mykolal@fb.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        David Howells <dhowells@redhat.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Paul Moore <paul@paul-moore.com>,
-        James Morris <jmorris@namei.org>,
-        "Serge E . Hallyn" <serge@hallyn.com>,
-        Shuah Khan <shuah@kernel.org>, bpf <bpf@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        keyrings@vger.kernel.org,
-        LSM List <linux-security-module@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Daniel =?ISO-8859-1?Q?M=FCller?= <deso@posteo.net>,
-        Roberto Sassu <roberto.sassu@huawei.com>,
-        Joanne Koong <joannelkoong@gmail.com>
-Date:   Fri, 26 Aug 2022 17:34:57 +0200
-In-Reply-To: <YwjcItv0q8GdzPbb@kernel.org>
-References: <20220818152929.402605-1-roberto.sassu@huaweicloud.com>
-         <20220818152929.402605-3-roberto.sassu@huaweicloud.com>
-         <YwhSCE0H+JfUe4Ew@kernel.org>
-         <CAADnVQJbTzfe28ife1+vg+ByLfyLBTCoEZW_eg8TEw838JGaog@mail.gmail.com>
-         <YwheJqUDLOxL3iTi@kernel.org> <YwjcItv0q8GdzPbb@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.36.5-0ubuntu1 
+        with ESMTP id S231526AbiHZPq6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Aug 2022 11:46:58 -0400
+Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com [IPv6:2607:f8b0:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3308775486;
+        Fri, 26 Aug 2022 08:46:57 -0700 (PDT)
+Received: by mail-pf1-x443.google.com with SMTP id 142so1895090pfu.10;
+        Fri, 26 Aug 2022 08:46:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc;
+        bh=XLAF4GD1Ll6EGxLanEucHnoexGW6b0Wj5SM8EF5olb0=;
+        b=nEIC1LEVXu9HZ9Ap7ma+49wjUxKvnllTvNhxVnJ0iNzG0QjXr4i59oaxYg8LpfNaSc
+         qgvAD/y8jZVrs+A3OUSvGAtbc4ORLIbG2n1xdhvc4eW7XQecwerCfJu32Z2kCFnNFX9J
+         4Bvq5OvlD9ctCHkgbfanhNXz4Mkqty/ycHMuwLucrfpFX+bEy64EoUDqsr2a6jgIQrj0
+         n2vjPod+lqWc6VCgo9YLCsfBfWVM7AGVxKyu72fXQbsx2D89QGNe7SPaMiz4LToj64KO
+         L4DnbhBuGNu4C7KsHS1KxHXJWxLYNEq2MgupcOiexoVqxJOwWnDMdpszZO6BJvW6fibC
+         6JkQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=XLAF4GD1Ll6EGxLanEucHnoexGW6b0Wj5SM8EF5olb0=;
+        b=uK0EMMu+BwjzrYpGEQbPaDd/dAzXYbrciCjUATq2vl5F05Cx/jzHYSb40DRAufu9qo
+         o0kX/Qu9m6tOB7siItxKtPjYWpo0PeOiOzTedPNVVeRWKt1W1TpC6DLZa3WJ5dlTOhx9
+         y46ENyNKM9hEqo5Ni2zESBvuUvv0nBjK66+aLw8yMmMNqUp2ZuArM8YUZTgqDgxgJASG
+         MUnhpb+/6EcOxZbq9GUO4NgQjTupMCdraU3t3KDxSseE3XHflaso8KtpHbS8jwBAKkXl
+         bRdBtyCqZp+eGxJZEgbIeIQcNbDFT3ne08bmfTsuDtT2/RauNmcCaR5xbQU7dQJbepI7
+         /dfQ==
+X-Gm-Message-State: ACgBeo2GXg89enODuwkCwDLVdsSmfZCEfzzP7g15yWC8bQ0UYxlI+f2l
+        eWK/drU7oTqivm5auH5VWlMjG1P71Y5XE6Xv2Cg=
+X-Google-Smtp-Source: AA6agR44uTEKqoaF0rchbX3O4hiBo4HvONhKxVeO9PKFeq6MXB4FbWxFpufNFUS38KC9iTDhTauKuAujkFb14pgJBr0=
+X-Received: by 2002:a63:fc13:0:b0:42b:890d:5954 with SMTP id
+ j19-20020a63fc13000000b0042b890d5954mr903069pgi.200.1661528816704; Fri, 26
+ Aug 2022 08:46:56 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID: LxC2BwAHJREl6AhjIoFPAA--.24624S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7KrWUCrW8JF18Xw17JF45Awb_yoW8ZFyDpa
-        ykAa9Fkr4UJr45CwnFqF4FyFnavr1Fqr1kury5J34FvFyqgrnFgFs2qw1Yka45Gr4kCF18
-        Xa10qry7X3W5AaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUkYb4IE77IF4wAFF20E14v26rWj6s0DM7CY07I20VC2zVCF04k2
-        6cxKx2IYs7xG6r1S6rWUM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
-        vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7Cj
-        xVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIEc7CjxV
-        AFwI0_Gr1j6F4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG
-        6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFV
-        Cjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4IIrI8v6xkF7I0E8cxan2IY04v7MxAIw28IcxkI
-        7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxV
-        Cjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVW8ZVWrXwCIc40Y0x0EwIxGrwCI42IY
-        6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6x
-        AIw20EY4v20xvaj40_WFyUJVCq3wCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv
-        6xkF7I0E14v26r4UJVWxJrUvcSsGvfC2KfnxnUUI43ZEXa7IU1c4S7UUUUU==
-X-CM-SenderInfo: purev21wro2thvvxqx5xdzvxpfor3voofrz/1tbiAQAQBF1jj4JUwgAAsw
-X-CFilter-Loop: Reflected
+References: <20220826061914.816239-1-imagedong@tencent.com>
+ <YwiU4DPEPryi1cMZ@debian.me> <30415bcb-c367-9ee3-a5bb-4c97510f4749@gmail.com>
+In-Reply-To: <30415bcb-c367-9ee3-a5bb-4c97510f4749@gmail.com>
+From:   Menglong Dong <menglong8.dong@gmail.com>
+Date:   Fri, 26 Aug 2022 23:46:45 +0800
+Message-ID: <CADxym3aYgsEUa-nizq7BRsJHLoHxNcJeqjpiQanaGzpxLw9uwA@mail.gmail.com>
+Subject: Re: [PATCH net-next] docs/conf.py: add function attribute
+ '__fix_address' to conf.py
+To:     Bagas Sanjaya <bagasdotme@gmail.com>
+Cc:     kuba@kernel.org, sfr@canb.auug.org.au, corbet@lwn.net,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Menglong Dong <imagedong@tencent.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 2022-08-26 at 17:43 +0300, Jarkko Sakkinen wrote:
-> On Fri, Aug 26, 2022 at 08:46:14AM +0300, Jarkko Sakkinen wrote:
-> > On Thu, Aug 25, 2022 at 10:16:14PM -0700, Alexei Starovoitov wrote:
-> > > On Thu, Aug 25, 2022 at 9:54 PM Jarkko Sakkinen <
-> > > jarkko@kernel.org> wrote:
-> > > > > -static bool is_dynptr_reg_valid_init(struct bpf_verifier_env
-> > > > > *env, struct bpf_reg_state *reg,
-> > > > > -                                  enum bpf_arg_type
-> > > > > arg_type)
-> > > > > +bool is_dynptr_reg_valid_init(struct bpf_verifier_env *env,
-> > > > > struct bpf_reg_state *reg,
-> > > > > +                           enum bpf_arg_type arg_type)
-> > > > >  {
-> > > > >       struct bpf_func_state *state = func(env, reg);
-> > > > >       int spi = get_spi(reg->off);
-> > > > > --
-> > > > > 2.25.1
-> > > > > 
-> > > > 
-> > > > Might be niticking but generally I'd consider splitting
-> > > > exports as commits of their own.
-> > > 
-> > > -static bool
-> > > +bool
-> > > 
-> > > into a separate commit?
-> > > 
-> > > I guess it makes sense for people whose salary depends on
-> > > number of commits.
-> > > We don't play these games.
-> > 
-> > What kind of argument is that anyway.
-> 
-> "Separate each *logical change* into a separate patch." [*]
+On Fri, Aug 26, 2022 at 8:47 PM Bagas Sanjaya <bagasdotme@gmail.com> wrote:
+>
+> On 8/26/22 16:39, Bagas Sanjaya wrote:
+> > On Fri, Aug 26, 2022 at 02:19:14PM +0800, menglong8.dong@gmail.com wrote:
+> >> From: Menglong Dong <imagedong@tencent.com>
+> >>
+> >> Stephen Rothwell report that the function attribute '__fix_address'
+> >> causes a warning when create html docs with the command:
+> >>
+> >>   make htmldocs
+> >>
+> >> Therefor, add this attribute to c_id_attributes in Documentation/conf.py
+> >> to clean this warning.
+> >>
+> >> BTW, I'm not able to reproduce this warning (both ubuntu and centos are
+> >> tested). I will appreciate it if anyone can have a test for this
+> >> commit.
+> >>
+> > Hi,
+> >
+> > The patch description can be improved, like:
+> > "Stephen Rothwell reported htmldocs warning when merging net-next:
+> >
+> > Documentation/networking/kapi:26: net/core/skbuff.c:780: WARNING: Error in declarator or parameters
+> > Invalid C declaration: Expecting "(" in parameters. [error at 19]
+> >   void __fix_address kfree_skb_reason (struct sk_buff *skb, enum skb_drop_reason reason)
+> >   -------------------^
+> >
+> > Add __fix_address keyword to c_id_attributes array in conf.py to fix the
+> > warning."
+> >
+> > So next time when you spot documentation warnings like above, specify the
+> > exact warning in the patch description. This will help reviewers what warning
+> > the patch is fixing.
+> >
+> >> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+> >> Signed-off-by: Menglong Dong <imagedong@tencent.com>
+> >
+> > Also, don't forget to add Link tag, like:
+> > Link: https://lore.kernel.org/linux-next/20220825154105.534d78ab@canb.auug.org.au/
+> >
+> > Otherwise, the warning disappeared on my htmldocs build, thanks.
+> >
+> > Tested-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> > Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> >
+>
+> Oops, ignore my Reviewed-by above (not LGTM until my comments above
+> are addressed).
 
-The logical change, as per the patch subject, is allowing the
-possibility of including eBPF dynamic pointers in a kfunc definition.
-It requires to call an existing function that was already defined
-elsewhere.
+Thanks for your advice and the testing. I'll send a V2 with your
+comments addressed, and with your Reviewed-by and Tested-by
+tags.
 
-Maybe I'm wrong, but I don't see only exporting a function definition
-to an include file as a logical change. To me, the changes in this
-patch are clearly connected. Or even better, they tell why the function
-definition has been exported, that would not appear if moving the
-function definition is a standalone patch.
+Menglong Dong
 
-> 
-> To add, generally any user space visible space should be an
-> isolated patch.
-
-As far as I understood, definitions visible to user space should be in
-include/uapi.
-
-> 
-> Please, stop posting nonsense.
-
-If I may, saying this does not encourage people to try to submit their
-code. I feel it is a bit strong, and I kindly ask you to express your
-opinion in a more gentle way.
-
-Thanks
-
-Roberto
-
+>
+> --
+> An old man doll... just what I always wanted! - Clara
