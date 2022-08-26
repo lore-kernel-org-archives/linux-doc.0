@@ -2,147 +2,123 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A2000ECAAD2
-	for <linux-doc@archiver.kernel.org>; Fri, 26 Aug 2022 08:22:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 12F76ECAAD2
+	for <linux-doc@archiver.kernel.org>; Fri, 26 Aug 2022 08:28:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244825AbiHZIWX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 26 Aug 2022 04:22:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56056 "EHLO
+        id S245759AbiHZI2T (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 26 Aug 2022 04:28:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39606 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343505AbiHZIWS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Aug 2022 04:22:18 -0400
-Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16862D4F5C;
-        Fri, 26 Aug 2022 01:22:15 -0700 (PDT)
-Received: by mail-pj1-x1032.google.com with SMTP id c16-20020a17090aa61000b001fb3286d9f7so7110651pjq.1;
-        Fri, 26 Aug 2022 01:22:15 -0700 (PDT)
+        with ESMTP id S1343604AbiHZI2G (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Aug 2022 04:28:06 -0400
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C564D51C1;
+        Fri, 26 Aug 2022 01:28:02 -0700 (PDT)
+Received: by mail-wm1-x32e.google.com with SMTP id m17-20020a7bce11000000b003a5bedec07bso4009719wmc.0;
+        Fri, 26 Aug 2022 01:28:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc;
-        bh=fbBxa9mjs9/LeuC1VMhijkCQf3EzJL3oe0B8rWAVysQ=;
-        b=ljneAyibOjyTC05FF6LRfcf4yjqy4gzmq8rkiD/zwxZA/iHd4zBVAWAhkVRJ7V8pr+
-         f04/6gZ4lNPXteJyUUR6WV0ZSB3xd8+yvpSx1lDjW71Nn5u/2aYiCb2B9IJnev/S5AAQ
-         ynWLnSRupPEDX05rNFTnb7a/DWOeFxiYRih5x34K3fBDn2gJvb3CmTc7cBnzuKeiIl5x
-         SqdKLvHUGkogPH0/ZKnHJUPIQ7Y4GwJkZpvhXYHZxB8aGPBo6bvu3E8/jKyz/PVz78Id
-         GJ/1ngJlzLd+KotOBKUrXz+92/SC5Uf3Ix9/VMaAK9raZe8E4PIGkPPkVRAyIDCTpnfX
-         Ci2Q==
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc;
+        bh=GISjr4CEz3TMjLoBvjNME7qQCe5WMZpMgsiNdvZmrbw=;
+        b=gWhi1VqSWlLx+IZ4qMs+3/P16Uw3Xloji/bU53od47g9n9gXXMAJg0dEDZs68/m0u8
+         FD7GYQ+CgQOSBGTzoWHY2Qs6jOggfYN1NQ26ZWxZTwTarQqKorkTbxmuhFdK26iGJDtF
+         tco9TB0LQK+GJ/c8r+QnlFD1kIovdRwwl2YRi/MybydimhkOnlL60OlVCRWdhELF/6TG
+         VBXGRCZwPkWoK1VT3tWfcPUASeCVZR1v/yQF4vSu2oyB28lbnUJIwI6mZsxvm6FcgvEC
+         tUnNQ7x8JBH6A+EEeNUbtkhbSIc6RycNaPiyBHXNvx1oYadj6gbUqECP+zW9Mu0PCRvQ
+         vY+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc;
-        bh=fbBxa9mjs9/LeuC1VMhijkCQf3EzJL3oe0B8rWAVysQ=;
-        b=TgzkcNixo37PXvy6PALP+iTL+ow6HBrrFyKXXIM9b4VrKTox9hn4A/m1Uog+EVSF0f
-         E5CrFC6Dy9gUB4kjJQAUdz/VX6vyMgQ36Y0CBlJrIJLBid3cDO2zG9e8NeWIYcvKqvDp
-         rl9Xcoe6I9tuL+OVllgGg09+eS7xHdlxvDcjehEXPnx07phnltrCBtucLw2t1UjDWL51
-         BzjxkhNNa/8rv1UYkZcfV6Te4E0JkzXIR0PUJmfDUiePojuBrPou8hMiYF45lPSulAuF
-         ko0P7HE1AdYB37qH3GWKQ+67AP/Id18ixt2n7iD78r0pR8tKLmXQtr5z1GWKhN4lqtNQ
-         N50A==
-X-Gm-Message-State: ACgBeo2mJFn2nA6clQpjcHv+nJ8to1loZB3fNYSjmm3/B9f49ZuaOdFa
-        HteMgxy3oqVwu8STF9aj9lI=
-X-Google-Smtp-Source: AA6agR6iJyn0D0eTSc4C3/t2P0r0WATvM3cuFa/W+c4RXrwLlHoQREeqpitVd1G27l3pppCEmhjjTg==
-X-Received: by 2002:a17:90a:8415:b0:1fa:ae71:560d with SMTP id j21-20020a17090a841500b001faae71560dmr3230337pjn.191.1661502134566;
-        Fri, 26 Aug 2022 01:22:14 -0700 (PDT)
-Received: from [192.168.43.80] (subs09a-223-255-225-73.three.co.id. [223.255.225.73])
-        by smtp.gmail.com with ESMTPSA id n6-20020a170902e54600b0016dbb878f8asm949476plf.82.2022.08.26.01.22.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 26 Aug 2022 01:22:14 -0700 (PDT)
-Message-ID: <e819de52-9b35-a698-0b45-80a9b063cf0c@gmail.com>
-Date:   Fri, 26 Aug 2022 15:22:08 +0700
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc;
+        bh=GISjr4CEz3TMjLoBvjNME7qQCe5WMZpMgsiNdvZmrbw=;
+        b=JUvbb5FuzHRATXKes84sqPzUT0sh6ayqu1bbOYg3GP6C/bLlQcg9C6MxDi7b1JvPeC
+         WC1qRliLJvF15+lKkT1txDGMpxtuugiBrqZXaPXmWRChJy4m7kgTEl8CicJpF79sn6qj
+         fgTQ+3DPx/PbBNQENBDv4sLtcann3h2BTjy2nXKVYYlX8HHz3DTaMyEcadGqZsEJVKUA
+         ZScw6GoKC9jaKffuNSyOOyAdsA0KC694/Dv3Mn5noHFX3LzL8XBwKSYly5bzoQxHuKu4
+         R6XiEIS0MrU5aS/cmZBkVkkBWKochdRFYK4jrwHWQmpRtn2pYAhvGQC0zoTJ7TLW6B9p
+         O5Bg==
+X-Gm-Message-State: ACgBeo2CiBNEouXSUkmfryHbUVMItVa22YC6Nus9hkOd8dwfiTKM/Gf7
+        NtfspOb5j83bH0FK67LLs9nVm4drbsRDWg==
+X-Google-Smtp-Source: AA6agR4m1WLBDmghfU+i5RfBzzpR1HzEleNyc7QRsbB0+quU6VGz33ov+4QK7hLIkbVCvNdlONBbVA==
+X-Received: by 2002:a1c:c91a:0:b0:3a6:38bf:2c36 with SMTP id f26-20020a1cc91a000000b003a638bf2c36mr10542000wmb.38.1661502480914;
+        Fri, 26 Aug 2022 01:28:00 -0700 (PDT)
+Received: from eldamar.lan (c-82-192-242-114.customer.ggaweb.ch. [82.192.242.114])
+        by smtp.gmail.com with ESMTPSA id b3-20020a5d4d83000000b0020fff0ea0a3sm1230571wru.116.2022.08.26.01.27.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 26 Aug 2022 01:27:59 -0700 (PDT)
+Sender: Salvatore Bonaccorso <salvatore.bonaccorso@gmail.com>
+Received: by eldamar.lan (Postfix, from userid 1000)
+        id 5CD04BE2F83; Fri, 26 Aug 2022 10:27:58 +0200 (CEST)
+Date:   Fri, 26 Aug 2022 10:27:58 +0200
+From:   Salvatore Bonaccorso <carnil@debian.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Sasha Levin <sashal@kernel.org>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Documentation: stable: Document alternative for
+ referring upstream commit hash
+Message-ID: <YwiEDsngUL//ogBL@eldamar.lan>
+References: <20220809045543.2049293-1-carnil@debian.org>
+ <8735e5a864.fsf@meer.lwn.net>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH v3 4/4] mm: add documentation of the new ioctl on pagemap
-Content-Language: en-US
-To:     Muhammad Usama Anjum <usama.anjum@collabora.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "open list:PROC FILESYSTEM" <linux-fsdevel@vger.kernel.org>,
-        "open list:MEMORY MANAGEMENT" <linux-mm@kvack.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>
-Cc:     kernel@collabora.com,
-        Gabriel Krisman Bertazi <krisman@collabora.com>,
-        David Hildenbrand <david@redhat.com>,
-        Peter Enderborg <peter.enderborg@sony.com>,
-        Greg KH <gregkh@linuxfoundation.org>
-References: <20220826064535.1941190-1-usama.anjum@collabora.com>
- <20220826064535.1941190-5-usama.anjum@collabora.com>
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <20220826064535.1941190-5-usama.anjum@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <8735e5a864.fsf@meer.lwn.net>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 8/26/22 13:45, Muhammad Usama Anjum wrote:
->  The soft-dirty is a bit on a PTE which helps to track which pages a task
-> -writes to. In order to do this tracking one should
-> +writes to.
-> +
-> +Using Proc FS
-> +-------------
-> +
-> +In order to do this tracking one should
->  
->    1. Clear soft-dirty bits from the task's PTEs.
->  
-> @@ -20,6 +25,41 @@ writes to. In order to do this tracking one should
->       64-bit qword is the soft-dirty one. If set, the respective PTE was
->       written to since step 1.
->  
-> +Using IOCTL
-> +-----------
-> +
-> +The IOCTL on the ``/proc/PID/pagemap`` can be can be used to find the dirty pages
-> +atomically. The following commands are supported::
-> +
-> +	MEMWATCH_SD_GET
-> +		Get the page offsets which are soft dirty.
-> +
-> +	MEMWATCH_SD_CLEAR
-> +		Clear the pages which are soft dirty.
-> +
-> +	MEMWATCH_SD_GET_AND_CLEAR
-> +		Get and clear the pages which are soft dirty.
-> +
+Hi Jonathan,
 
-Definition lists are enough, no need to use code block.
+On Tue, Aug 09, 2022 at 06:54:59AM -0600, Jonathan Corbet wrote:
+> Salvatore Bonaccorso <carnil@debian.org> writes:
+> 
+> > Additionally to the "commit <sha1> upstream." variant, "[ Upstream
+> > commit <sha1> ]" is used as well as alternative to refer to the upstream
+> > commit hash.
+> >
+> > Signed-off-by: Salvatore Bonaccorso <carnil@debian.org>
+> > ---
+> >  Documentation/process/stable-kernel-rules.rst | 6 ++++++
+> >  1 file changed, 6 insertions(+)
+> 
+> So this is a nit but...
+> 
+> > diff --git a/Documentation/process/stable-kernel-rules.rst b/Documentation/process/stable-kernel-rules.rst
+> > index c61865e91f52..2fd8aa593a28 100644
+> > --- a/Documentation/process/stable-kernel-rules.rst
+> > +++ b/Documentation/process/stable-kernel-rules.rst
+> > @@ -97,6 +97,12 @@ text, like this:
+> >  
+> >      commit <sha1> upstream.
+> >  
+> > +or alternatively:
+> > +
+> > +.. code-block:: none
+> > +
+> > +    [ Upstream commit <sha1> ]
+> 
+> Can this just be:
+> 
+>   or alternatively::
+> 
+>     [ Upstream commit <sha1> ]
+> 
+> That extra RST markup just clutters things without any advantage.
 
-> +The struct :c:type:`pagemap_sd_args` is used as the argument. In this struct:
-> +
-> +  1. The range is specified through start and len. The len argument need not be
-> +     the multiple of the page size, but since the information is returned for the
-> +     whole pages, len is effectively rounded up to the next multiple of the page
-> +     size.
-> +
-> +  2. The output buffer and size is specified in vec and vec_len. The offsets of
-> +     the dirty pages from start are returned in vec. The ioctl returns when the
-> +     whole range has been searched or vec is completely filled. The whole range
-> +     isn't cleared if vec fills up completely.
-> +
-> +  3. The flags can be specified in flags field. Currently only one flag,
-> +     PAGEMAP_SD_NO_REUSED_REGIONS is supported which can be specified to ignore
-> +     the VMA dirty flags for better performance. This flag shows only those pages
-> +     dirty which have been written to by the user. All new allocations aren't returned
-> +     to be dirty.
-> +
-> +Explanation
-> +-----------
->  
->  Internally, to do this tracking, the writable bit is cleared from PTEs
->  when the soft-dirty bit is cleared. So, after this, when the task tries to
+Btw, after revisiting, I think Greg actually can pick up the first
+version of the patch. Changing the above without adding the
+code-block:node will reformat the
 
-I'd like to see identifier keywords (such as filename, function and variable name)
-are consistently formatted either with inline code (``identifier``) or no
-formatting (all or nothing).
+     [ Upstream commit <sha1> ]
 
--- 
-An old man doll... just what I always wanted! - Clara
+differently when rendering to html.
+
+Greg, so as the patch has not yet been commited, can you pick up the
+first version from
+https://lore.kernel.org/lkml/20220809045543.2049293-1-carnil@debian.org/
+?
+
+Regards,
+Salvatore
