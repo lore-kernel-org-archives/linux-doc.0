@@ -2,105 +2,76 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B35CECAAA3
-	for <linux-doc@archiver.kernel.org>; Fri, 26 Aug 2022 02:20:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D3D4ECAAA3
+	for <linux-doc@archiver.kernel.org>; Fri, 26 Aug 2022 02:25:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244729AbiHZCUA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 25 Aug 2022 22:20:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40150 "EHLO
+        id S244734AbiHZCZD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 25 Aug 2022 22:25:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48974 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244792AbiHZCT4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Aug 2022 22:19:56 -0400
-Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com [IPv6:2607:f8b0:4864:20::42f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08662CAC7D;
-        Thu, 25 Aug 2022 19:19:49 -0700 (PDT)
-Received: by mail-pf1-x42f.google.com with SMTP id z187so253874pfb.12;
-        Thu, 25 Aug 2022 19:19:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc;
-        bh=EKv+05k9JH9Uqt50ieojM3xFY0PImw/aMobYWks+ACU=;
-        b=IR8uNFhKc8EwHSA99QLCf1XBiQI05t1u4FZUAmU/UAAmc6B7Gvv4r0iNBuuklrt/ZS
-         0saapFrEH4ETVuEorR7JHcw369GOP4qzX2pTcY9r9ogmR1lxcUvE5YCyxTVOr4xbCQ4D
-         gKeIXOb5XvVQug1SmxAjDd5DKVtU6yHl4P6ChAZAVfqTnBbp0zYORFmJNAUBUGWXwneW
-         yxV1Q47SPTfBvofihOuCXKEVRb2h12DjamR3ZJPO5kPPpNYy9jd+xRKL0U1Ld5vxDyfN
-         xF07qsz5JdnTPE5w/gf9IUC0JoP8cKGEHeWDziA7XWUQGi3OGncXAGUk59KCKPt09zLR
-         W0Zw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
-        bh=EKv+05k9JH9Uqt50ieojM3xFY0PImw/aMobYWks+ACU=;
-        b=esKGCfztdckVjm5A8h0ZasSdMcPCE2SlwR+RQ/tvLJU1CpDCiRjvou3yswODKJ4FG0
-         Yf9IskJkPidV1Ovqm3hNl4fDxpGuG1UW4mvcE8NY7PF5cruh4MfllQZ4c4DQomcwABlK
-         nqqt15H4L06M5lnHl02IyDZxvFo8q99X57dW9bVfBc3OLi2yc60b8nxnkqJalddxPLs5
-         FqVZfCx4B+tzdrm4IbkjFvgpLaLOCKB55eGJfj5JKAisj848rSoXBKqjWhrFhyRCGWRn
-         bpXlCqDozB2kjPI13yBN3yT+QxcyAX4KhXD2WgjcaPkHjes8ACj4AkU7T6reRyygEmVA
-         OBzQ==
-X-Gm-Message-State: ACgBeo1RNiLfB83eQ2m0gCT5YQCr1/dibZkq0HA91BFXIPWWFBuoo8n8
-        TllWNm0xViXDxjgU6vUt0/jokwab0Qk=
-X-Google-Smtp-Source: AA6agR72Kd9MhYKN4v9ZosUWuPVDW/XsA0f47ZYPY8StQXb+V3ZClucUd3DBGQ6gZGKV7wNijgPNzA==
-X-Received: by 2002:a63:4f10:0:b0:426:9c61:5e48 with SMTP id d16-20020a634f10000000b004269c615e48mr1498704pgb.360.1661480389296;
-        Thu, 25 Aug 2022 19:19:49 -0700 (PDT)
-Received: from debian.me (subs03-180-214-233-18.three.co.id. [180.214.233.18])
-        by smtp.gmail.com with ESMTPSA id z16-20020aa79f90000000b00535dc0a14d1sm331682pfr.130.2022.08.25.19.19.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Aug 2022 19:19:29 -0700 (PDT)
-Received: by debian.me (Postfix, from userid 1000)
-        id C8DEB1037E0; Fri, 26 Aug 2022 09:19:14 +0700 (WIB)
-Date:   Fri, 26 Aug 2022 09:19:14 +0700
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-To:     Jonathan Corbet <corbet@lwn.net>
+        with ESMTP id S244154AbiHZCZC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Aug 2022 22:25:02 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A8CBC71BEC;
+        Thu, 25 Aug 2022 19:24:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+        bh=20px62CgKdyZ2pwfDZVxI7cSmjDuUU373ANc6eVkIj4=; b=yxgPl1jZvpyjIwubW1Rm05LnHa
+        lJDVcwL0p4dPy0yHblGQmZ7aZv/8J22Lpbzr5ZIBCBbsXT+pn/O+CqenKuuhZsO+/vrbZw/SkShrx
+        7m03p1qKYrMMaeugTxjH5X+eEJiS47WZtMAluQUs0lX/ba9ef0HxXQaH7sZO+UeLj3BtSNuzyH03/
+        yC0uxE0VvUMAmn5dDFSzeS143bmBbKxSsIwd7uh6968C7m3uLRqfzL7J+tS1ss425hAisaMBvjnUH
+        IGfTwRmL65p+dvvxbeZzlJVKU9gzivlgNCMYrRVVF7g10CBYXR2UGby3EYcqYE/htZRJbNOtzIbHP
+        xOoNwDeg==;
+Received: from [2601:1c0:6280:3f0::a6b3]
+        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1oRP1m-005Eci-7b; Fri, 26 Aug 2022 02:24:58 +0000
+Message-ID: <090894ea-3539-fdca-b470-49d72cb3228e@infradead.org>
+Date:   Thu, 25 Aug 2022 19:24:55 -0700
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.1.2
+Subject: Re: [PATCH] docs: Update version number from 5.x to 6.x in README.rst
+Content-Language: en-US
+To:     Bagas Sanjaya <bagasdotme@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>
 Cc:     Lukas Bulwahn <lukas.bulwahn@gmail.com>, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs: Update version number from 5.x to 6.x in README.rst
-Message-ID: <YwgtoiKl5Azt7Pre@debian.me>
 References: <20220824080836.23087-1-lukas.bulwahn@gmail.com>
- <87a67syxa0.fsf@meer.lwn.net>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="HcCi7VObJn1wc0Ii"
-Content-Disposition: inline
-In-Reply-To: <87a67syxa0.fsf@meer.lwn.net>
+ <87a67syxa0.fsf@meer.lwn.net> <YwgtoiKl5Azt7Pre@debian.me>
+From:   Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <YwgtoiKl5Azt7Pre@debian.me>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hi--
 
---HcCi7VObJn1wc0Ii
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 8/25/22 19:19, Bagas Sanjaya wrote:
+> On Thu, Aug 25, 2022 at 12:48:39PM -0600, Jonathan Corbet wrote:
+>>  - applying-patches.rst should just go.  I didn't prevail last time I
+>>    tried to make that point, but I still don't think that we help
+>>    anybody by dragging 1990's instructions around now.
+>>
+> 
+> Hi jon,
+> 
+> If we're about to rm applying-patches.rst, at least we also need to add
+> a warning to the doc, saying "This documentation is obsolete and will be
+> removed in the future.", while adding the same deprecation message on
+> scripts/patch-kernel. The script can still be usable and kept around for
+> a cycle. If no users complain, we will go ahead rm-ing.
 
-On Thu, Aug 25, 2022 at 12:48:39PM -0600, Jonathan Corbet wrote:
->  - applying-patches.rst should just go.  I didn't prevail last time I
->    tried to make that point, but I still don't think that we help
->    anybody by dragging 1990's instructions around now.
->=20
+It already says:
 
-Hi jon,
+   This document is obsolete.  In most cases, rather than using ``patch``
+   manually, you'll almost certainly want to look at using Git instead.
 
-If we're about to rm applying-patches.rst, at least we also need to add
-a warning to the doc, saying "This documentation is obsolete and will be
-removed in the future.", while adding the same deprecation message on
-scripts/patch-kernel. The script can still be usable and kept around for
-a cycle. If no users complain, we will go ahead rm-ing.
+although the bit about "will be removed in the [near] future"
+would be a good addition.
 
-Thanks.
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---HcCi7VObJn1wc0Ii
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCYwgtnAAKCRD2uYlJVVFO
-o0QwAQD8+c21JS2Qr4cJ/P+8AzF+0Su0R+RgDEaGY5euIb/adAEA4dngDeR8H67S
-hFwXS0JKA5liKoPRrhI+RdQYE5+M/w4=
-=wX+p
------END PGP SIGNATURE-----
-
---HcCi7VObJn1wc0Ii--
+-- 
+~Randy
