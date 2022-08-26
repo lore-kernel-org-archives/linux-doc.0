@@ -2,202 +2,82 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E90CAECAAD2
-	for <linux-doc@archiver.kernel.org>; Fri, 26 Aug 2022 07:50:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C6B2ECAAD2
+	for <linux-doc@archiver.kernel.org>; Fri, 26 Aug 2022 08:12:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245630AbiHZHuS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 26 Aug 2022 03:50:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55946 "EHLO
+        id S245086AbiHZIMM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 26 Aug 2022 04:12:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38260 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245625AbiHZHuJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Aug 2022 03:50:09 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D66C61726
-        for <linux-doc@vger.kernel.org>; Fri, 26 Aug 2022 00:50:07 -0700 (PDT)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ore@pengutronix.de>)
-        id 1oRU64-0000y3-No; Fri, 26 Aug 2022 09:49:44 +0200
-Received: from ore by ptx.hi.pengutronix.de with local (Exim 4.92)
-        (envelope-from <ore@pengutronix.de>)
-        id 1oRU60-0004kp-Q4; Fri, 26 Aug 2022 09:49:40 +0200
-Date:   Fri, 26 Aug 2022 09:49:40 +0200
-From:   Oleksij Rempel <o.rempel@pengutronix.de>
-To:     Andrew Lunn <andrew@lunn.ch>
-Cc:     Heiner Kallweit <hkallweit1@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>, kernel@pengutronix.de,
-        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
-        David Jander <david@protonic.nl>,
-        Luka Perkov <luka.perkov@sartura.hr>,
-        Robert Marko <robert.marko@sartura.hr>
-Subject: Re: [PATCH net-next v2 1/7] dt-bindings: net: pse-dt: add bindings
- for generic PSE controller
-Message-ID: <20220826074940.GC2116@pengutronix.de>
-References: <20220825130211.3730461-1-o.rempel@pengutronix.de>
- <20220825130211.3730461-2-o.rempel@pengutronix.de>
- <Ywf3Z+1VFy/2+P78@lunn.ch>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <Ywf3Z+1VFy/2+P78@lunn.ch>
-X-Sent-From: Pengutronix Hildesheim
-X-URL:  http://www.pengutronix.de/
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: ore@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+        with ESMTP id S241826AbiHZIMK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Aug 2022 04:12:10 -0400
+Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com [IPv6:2607:f8b0:4864:20::1029])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10852D2B09;
+        Fri, 26 Aug 2022 01:12:09 -0700 (PDT)
+Received: by mail-pj1-x1029.google.com with SMTP id r15-20020a17090a1bcf00b001fabf42a11cso846759pjr.3;
+        Fri, 26 Aug 2022 01:12:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:subject:cc:to:from:from:to:cc;
+        bh=wpZT2rFRVv2cJapem2GAQdmudQUtOAPJxjk3kmyqjyU=;
+        b=Qg+Ry7YPcWaIkCHrQ+gkyQy0x768kinoaUJ+5Iv753QcWK7mrd/1qINpSnQWraIFab
+         uyLoZsFJTL0qJOX17Fjqy3QwG3bXMkDYtNdvl1UUnTWpC86ULKk4CPxtC6VNmeWlM4mW
+         RcBhmRIJHlueJBRGaBpzZ6mW2oSl2R7Wh/cAam5cGH8WIwv48rbJ9KJ4lzQsNCNq+gFy
+         06zDuOVIx5fqsrZiDyNeHmW0OeRuqmgea+HYrlIyHPOLH0/l9EqNgOdRR/FQIwrLYy25
+         SVLknKwBuDGyTgrICrzgtZIIaT+pt2Konc8P22zAfcWJgNld3kAZyLcgI7/LUjRqKZQL
+         HLCQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
+        bh=wpZT2rFRVv2cJapem2GAQdmudQUtOAPJxjk3kmyqjyU=;
+        b=vKqhaLpkZwcN7jzKucPlQDsMb1hDl8qyvoJ7mTa5P82XkDvlOgAa9jQxqapt3ymx/U
+         JgevBmN0f5tbI20pA/w8bnai4b0SThBF2WVDFmN0dIqTT3rXO2VzNjHmiXC9eSR+PkQ4
+         ybBu23AwrqJodCu4IpFwIfehTGCIfroUHr3OetBX+qV3y+KAbYDmo9L7cqwlFx6vodEZ
+         S86KC/qdjGsG+XOmeFNgVP8f0s73tRet0eNyfEnvzJLxBCQP7P9LipN0cuHqmrwAHLiU
+         mBoTCa+ElOAlpMeiDwFePe+Bk04KWBhR7ORYGvcQtAyp5T7P5FdFP53bU5UQbZHe39tx
+         sEWw==
+X-Gm-Message-State: ACgBeo0BZboYzgm4dUbtFtN805wBGWRuTcMPcjqOFgOWExlYlLqZNt/B
+        mCQQSkL0kvVPFDwJpx4GKZA=
+X-Google-Smtp-Source: AA6agR440WLvEELIQOpn6QexLfmNjX5TaWnWiYIHPUSd1eXorlMFFhvNKot34muSWYo9vDLTqFo4JQ==
+X-Received: by 2002:a17:90b:17ce:b0:1f4:d068:5722 with SMTP id me14-20020a17090b17ce00b001f4d0685722mr3162580pjb.28.1661501528567;
+        Fri, 26 Aug 2022 01:12:08 -0700 (PDT)
+Received: from localhost.localdomain ([103.151.209.218])
+        by smtp.gmail.com with ESMTPSA id p8-20020a170902780800b00172de80fec4sm911443pll.69.2022.08.26.01.12.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 26 Aug 2022 01:12:08 -0700 (PDT)
+From:   Akhil Raj <lf32.dev@gmail.com>
+To:     Shuah Khan <skhan@linuxfoundation.org>, corbet@lwn.net
+Cc:     Akhil Raj <lf32.dev@gmail.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] Add leds-qcom-lpg to leds kernel docs tree
+Date:   Fri, 26 Aug 2022 13:41:50 +0530
+Message-Id: <20220826081150.1961-1-lf32.dev@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Aug 26, 2022 at 12:27:51AM +0200, Andrew Lunn wrote:
-> > +  ieee802.3-pairs:
-> > +    $ref: /schemas/types.yaml#/definitions/int8-array
-> > +    description: Array of number of twisted-pairs capable to deliver power.
-> > +      Since not all circuits are able to support all pair variants, the array of
-> > +      supported variants should be specified.
-> > +      Note - single twisted-pair PSE is formally know as PoDL PSE.
-> > +    items:
-> > +      enum: [1, 2, 4]
-> 
-> It is not clear to me what you are describing here. It looks like the
-> number of pairs? That does not seem like a hardware property. The
-> controller itself should be able to tell you how many pairs it can
-> feed.
-> 
-> A hardware property would be which pairs of the socket are connected
-> to a PSE and so can be used to deliver power.
+Warning was within
+./Documentation/leds/leds-qcom-lpg.rst:
+	WARNING: document isn't included in any toctree
 
-Good point, this will be needed as well. But not right now.
+I have added leds-qcom-lpg to the index.rst
 
-> But i'm not sure how
-> that would be useful to know. I suppose a controller capable of
-> powering 4 pair, but connected to a socket only wired to supply 2, can
-> then disable 2 pairs?
+Signed-off-by: Akhil Raj <lf32.dev@gmail.com>
+---
+ Documentation/leds/index.rst | 1 +
+ 1 file changed, 1 insertion(+)
 
-Not only. Here are following reasons:
-- not all boards use a controller in form of IC. Some boards are the
-  controller. So, there is no other place to describe, what kind of
-  controller this board is. For example - currently there are no known
-  ICs to support PoDL (ieee802.3-pairs == 1), early adopters are
-  implementing it by using MOSFETs coupled with ADCs and some extra
-  logic on CPU side:
-  https://www.ti.com/lit/an/snla395/snla395.pdf
-- not all ICs provide a way for advanced communication (I2C, SPI, MDIO).
-  Some of them will provide only bootstrapping and some pin status
-  feedback:
-  https://www.analog.com/media/en/technical-documentation/data-sheets/4279fa.pdf
-- Even if we are able to communicate with the IC, there are still board
-  specific limitations.
-
-I hope we can agree that some property is need to tell what kind of PSE
-specification is used by this node.
-
-The next challenge is to name it. We have following options:
-1. PoE, PoE+, PoE++, 4PPoE, PoDL
-2. 802.3af, 802.3at, 802.bt, 802.3bu, 802.3cg
-3. Physical property of this specifications
-
-Option 1 is mostly using marketing names, except of PoDL. This names are
-not used in the ieee 802.3-2018 specification. Systematic research of
-this marketing names would give following results:
-- PoE is about delivering power over two twisted pairs and is related to
-  802.3af and 802.3at specs.
-- PoE+ is about delivering power over two twisted pairs and is related
-  only to 802.3at.
-- PoE++ is the same as 4PPoE or power over four twisted pairs and is related
-  to 802.3bt.
-- PoDL is related to 802.3bu and 802.3cg. Which is power over one
-  twisted pair
-
-All of this names combine different properties: number of twisted pairs
-used to deliver power, maximal supported power by the system and
-recommendation for digital interface to communicate with the PSE
-controller (MDIO registers). Since system I currently use do not follow
-all of this recommendations, it is needed to describe them separately.
-
-Option 2 is interesting only for archaeological investigation. Final
-snapshots of 802.3 specification do not provide mapping of extensions to
-actual parts of the spec. I assume, no software developer will be able
-to properly set the devicetree property by using specification extension
-names.
-
-Option 3 provide exact physical property of implementation by using same
-wording provided by the  802.3-2018 spec. This option is easy to verify
-by reviewing the board schematics and it is easy to understand without
-doing historical analysis of 802.3 spec.
-
-> > +
-> > +  ieee802.3-pse-type:
-> > +    $ref: /schemas/types.yaml#/definitions/uint8
-> > +    minimum: 1
-> > +    maximum: 2
-> > +    description: PSE Type. Describes classification- and class-capabilities.
-> > +      Not compatible with PoDL PSE Type.
-> > +      Type 1 - provides a Class 0, 1, 2, or 3 signature during Physical Layer
-> > +      classification.
-> > +      Type 2 - provides a Class 4 signature during Physical Layer
-> > +      classification, understands 2-Event classification, and is capable of
-> > +      Data Link Layer classification.
-> 
-> Again, the controller should know what class it can support. Why do we
-> need to specify it?  What could make sense is we want to limit the
-> controller to a specific type? 
-
-If we are using existing controller - yes. But this binding is designed for the
-system where no special PSE IC is used. This Types and Classes depends on the
-board implementation and should be provided by the vendor as part of
-product certification. This information can be used by the system
-administrators to verify compatibility between PSE and PD, especially if
-no automatic classification is not implemented on this board.
-
-And even if auto classification is implemented by the software, we need
-to know which classes we should announce.
-
-> > +  ieee802.3-podl-pse-class:
-> > +    $ref: /schemas/types.yaml#/definitions/int8-array
-> > +    items:
-> > +      enum: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
-> > +    description: PoDL PSE Class. Array of supported classes by the
-> > +      single twisted-pair PoDL PSE.
-> 
-> Why? I could understand we might want to limit the higher classes,
-> because the board is not designed for them, but the controller on the
-> board can actually offer them. But if it tries to use them, the board
-> will melt/blow a fuse.
-> 
-> So i'm wondering if it should actually be something like:
-> 
-> > +  ieee802.3-podl-limit-pse-classes:
-> > +    $ref: /schemas/types.yaml#/definitions/int8-array
-> > +    items:
-> > +      enum: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
-> > +    description: PoDL PSE Class. Limit the PoDL PSE to only these classes,
->          due to hardware design limitations. If not specified, the PoDL PSE
-> 	 will offer all classes its supports.
-
-Sounds good, this can be an extra property for PSE ICs, not for boards
-without dedicated ICs.
-
-> Remember, DT describes the hardware, not software configuration of the
-> hardware.
-
-Ack, I agree.
-
+diff --git a/Documentation/leds/index.rst b/Documentation/leds/index.rst
+index e5d63b940045..014e009b0761 100644
+--- a/Documentation/leds/index.rst
++++ b/Documentation/leds/index.rst
+@@ -25,4 +25,5 @@ LEDs
+    leds-lp5562
+    leds-lp55xx
+    leds-mlxcpld
++   leds-qcom-lpg
+    leds-sc27xx
 -- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+2.17.1
+
