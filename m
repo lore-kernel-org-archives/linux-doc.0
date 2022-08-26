@@ -2,90 +2,277 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A31CCECAAD6
-	for <linux-doc@archiver.kernel.org>; Fri, 26 Aug 2022 08:28:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AD873ECAAA3
+	for <linux-doc@archiver.kernel.org>; Fri, 26 Aug 2022 08:36:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245758AbiHZI2V (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 26 Aug 2022 04:28:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39648 "EHLO
+        id S243761AbiHZIgY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 26 Aug 2022 04:36:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55906 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343611AbiHZI2O (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Aug 2022 04:28:14 -0400
-Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com [IPv6:2607:f8b0:4864:20::634])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E3177D4F6E;
-        Fri, 26 Aug 2022 01:28:11 -0700 (PDT)
-Received: by mail-pl1-x634.google.com with SMTP id l3so989800plb.10;
-        Fri, 26 Aug 2022 01:28:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc;
-        bh=Je++pFVH6dftxScgLrKrV4cRe0HZ+N3IBONYauMAvUs=;
-        b=ktjrg/RO9dx6yW6/C5oYkFoptGIcUR2CniW0Do519mDjqM6uVfaw3UAe314iHZHdHs
-         o74OuXcU8KIpFTiyWfHTn3vnpn7/MWpWFuJ5N4U9AarVHPjUTUbaEd//om9w4c6fC2mF
-         oKZ2lpdP/oznREk7+TAOaDOA0DBbq0k/NUzJ3n0BmxJN8oOaOdn/thzW3GQEJMmLYSTg
-         208tHVXF3vuOQPbZSVVbxn0z7xa5IDshFPpfwR4SOlQ74ie+4ArmzFJ8fy+phJqkGzl+
-         A1NdVTR88U77mxT6ZJf/7B1TcTUd1lsw1i9Dv8xPnJw+a49o/B5MucrYpRRMMsuRT33S
-         hfyg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc;
-        bh=Je++pFVH6dftxScgLrKrV4cRe0HZ+N3IBONYauMAvUs=;
-        b=trgyaQrL67Oxpt0tbYqXpXJt02eSLC2V7yOsTTYddZ6lS7lfNqBadNi0XwBZ6AhIQn
-         fI8fjHTcreAQcmq5SuWYOp25ioHu046M2JMMJjEj/gtgYuRN7X/Whue2qLeSG9akMo4h
-         W57urBOWAscC6mCIfJ94BGXY+PgGaPIKtjvcWP3BAyYv4DGvTs6eNnOHF0vxHMqpmV2P
-         cchm3+Gh46N3s6ry3oozZ1GJx9m1o7Q0SGFPlGV1Ow8AU3jWqOZFz5fe3vivm0ztG/fG
-         Af1MhZMds0TNAT/R4S2SDvarWiQQ9OkNMkveIJQ/FWXWS+dbBtrc5UBqcGOUvrkAEiZo
-         SPvA==
-X-Gm-Message-State: ACgBeo3ZCVLcHMCe6OSvFAKYmVw/OJsk4SdvZy6YMRm1GalyaZX6ZGf1
-        rniMuZBlcQgl1w6XdaCDrtY=
-X-Google-Smtp-Source: AA6agR4YNuOgJ3oOW+shMMHi+GypTijgT6PKZiCxj/6AYkxt8JzVJfblRjSVJ98g1/R3zT0npkyBiQ==
-X-Received: by 2002:a17:902:f787:b0:172:f321:2fd1 with SMTP id q7-20020a170902f78700b00172f3212fd1mr2748367pln.121.1661502491395;
-        Fri, 26 Aug 2022 01:28:11 -0700 (PDT)
-Received: from [192.168.43.80] (subs09a-223-255-225-73.three.co.id. [223.255.225.73])
-        by smtp.gmail.com with ESMTPSA id o5-20020a634e45000000b004161e62a3a5sm887364pgl.78.2022.08.26.01.28.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 26 Aug 2022 01:28:10 -0700 (PDT)
-Message-ID: <6b6e0271-2d39-bf73-8e34-31c120d4c674@gmail.com>
-Date:   Fri, 26 Aug 2022 15:28:07 +0700
+        with ESMTP id S236026AbiHZIgY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Aug 2022 04:36:24 -0400
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0CC05925A;
+        Fri, 26 Aug 2022 01:36:20 -0700 (PDT)
+Received: from dggpeml500023.china.huawei.com (unknown [172.30.72.53])
+        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4MDY5d2BjJzmVZY;
+        Fri, 26 Aug 2022 16:33:57 +0800 (CST)
+Received: from [10.67.110.112] (10.67.110.112) by
+ dggpeml500023.china.huawei.com (7.185.36.114) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Fri, 26 Aug 2022 16:36:18 +0800
+Subject: Re: [PATCH -next 2/5] landlock: add chmod and chown support
+To:     =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>,
+        =?UTF-8?Q?G=c3=bcnther_Noack?= <gnoack3000@gmail.com>
+CC:     <paul@paul-moore.com>, <jmorris@namei.org>, <serge@hallyn.com>,
+        <shuah@kernel.org>, <corbet@lwn.net>,
+        <linux-security-module@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>
+References: <20220822114701.26975-1-xiujianfeng@huawei.com>
+ <20220822114701.26975-3-xiujianfeng@huawei.com> <YwPKG3G9PlStYPkz@nuc>
+ <5873455f-fff9-618c-25b1-8b6a4ec94368@digikod.net>
+ <6d6edd60-5ed7-0f5d-d641-75e006c0e60e@huawei.com>
+ <8cb3b7df-fb2f-3e3f-7805-4b14cf1bdf90@digikod.net>
+From:   xiujianfeng <xiujianfeng@huawei.com>
+Message-ID: <c447b4d3-8bc7-5277-5d49-7f4ffd0b5a5b@huawei.com>
+Date:   Fri, 26 Aug 2022 16:36:18 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.9.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH] docs: Update version number from 5.x to 6.x in README.rst
-Content-Language: en-US
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        linux-doc@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org
-References: <20220824080836.23087-1-lukas.bulwahn@gmail.com>
- <87a67syxa0.fsf@meer.lwn.net>
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <87a67syxa0.fsf@meer.lwn.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <8cb3b7df-fb2f-3e3f-7805-4b14cf1bdf90@digikod.net>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.67.110.112]
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+ dggpeml500023.china.huawei.com (7.185.36.114)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 8/26/22 01:48, Jonathan Corbet wrote:
->  - applying-patches.rst should just go.  I didn't prevail last time I
->    tried to make that point, but I still don't think that we help
->    anybody by dragging 1990's instructions around now.
+Hi,
+
+在 2022/8/24 19:44, Mickaël Salaün 写道:
 > 
+> On 23/08/2022 14:50, xiujianfeng wrote:
+>>
+>>
+>> 在 2022/8/23 5:07, Mickaël Salaün 写道:
+>>>
+>>> On 22/08/2022 20:25, Günther Noack wrote:
+>>>> Hi!
+>>>>
+>>>> Thanks for sending this patch set! :)
+>>>>
+>>>> On Mon, Aug 22, 2022 at 07:46:58PM +0800, Xiu Jianfeng wrote:
+>>>>> Add two flags LANDLOCK_ACCESS_FS_CHMOD and LANDLOCK_ACCESS_FS_CHOWN to
+>>>>> support restriction to chmod(2) and chown(2) with landlock.
+>>>>>
+>>>>> Also change the landlock ABI version from 3 to 4.
+>>>>>
+>>>>> Signed-off-by: Xiu Jianfeng <xiujianfeng@huawei.com>
+>>>>> ---
+>>>>>    include/uapi/linux/landlock.h                |  8 ++++++--
+>>>>>    security/landlock/fs.c                       | 16 +++++++++++++++-
+>>>>>    security/landlock/limits.h                   |  2 +-
+>>>>>    security/landlock/syscalls.c                 |  2 +-
+>>>>>    tools/testing/selftests/landlock/base_test.c |  2 +-
+>>>>>    tools/testing/selftests/landlock/fs_test.c   |  6 ++++--
+>>>>>    6 files changed, 28 insertions(+), 8 deletions(-)
+>>>>>
+>>>>> diff --git a/include/uapi/linux/landlock.h
+>>>>> b/include/uapi/linux/landlock.h
+>>>>> index 735b1fe8326e..5ce633c92722 100644
+>>>>> --- a/include/uapi/linux/landlock.h
+>>>>> +++ b/include/uapi/linux/landlock.h
+>>>>> @@ -141,13 +141,15 @@ struct landlock_path_beneath_attr {
+>>>>>     *   directory) parent.  Otherwise, such actions are denied with
+>>>>> errno set to
+>>>>>     *   EACCES.  The EACCES errno prevails over EXDEV to let user 
+>>>>> space
+>>>>>     *   efficiently deal with an unrecoverable error.
+>>>>> + * - %LANDLOCK_ACCESS_FS_CHMOD: Change the file mode bits of a file.
+>>>>> + * - %LANDLOCK_ACCESS_FS_CHOWN: Change the owner and/or group of a
+>>>>> file.
+>>>
+>>> This section talk about "access rights that only apply to the content of
+>>> a directory, not the directory itself", which is not correct (see
+>>> LANDLOCK_ACCESS_FS_READ_DIR). I'd like these access rights to remain
+>>> here but this kernel patch and the related tests need some changes.
+>>>
+>>> What about a LANDLOCK_ACCESS_FS_CHGRP? I'm not sure if we need to
+>>> differentiate these actions or not, but we need arguments to choose.
+>>>
+>>>
+>>>>>     *
+>>>>>     * .. warning::
+>>>>>     *
+>>>>>     *   It is currently not possible to restrict some file-related
+>>>>> actions
+>>>>>     *   accessible through these syscall families: 
+>>>>> :manpage:`chdir(2)`,
+>>>>> - *   :manpage:`stat(2)`, :manpage:`flock(2)`, :manpage:`chmod(2)`,
+>>>>> - *   :manpage:`chown(2)`, :manpage:`setxattr(2)`, 
+>>>>> :manpage:`utime(2)`,
+>>>>> + *   :manpage:`stat(2)`, :manpage:`flock(2)`,
+>>>>> + *   :manpage:`setxattr(2)`, :manpage:`utime(2)`,
+>>>>
+>>>> *formatting nit*
+>>>> We could fill up the full line width here
+>>>>
+>>>>>     *   :manpage:`ioctl(2)`, :manpage:`fcntl(2)`, 
+>>>>> :manpage:`access(2)`.
+>>>>>     *   Future Landlock evolutions will enable to restrict them.
+>>>>>     */
+>>>>> @@ -167,6 +169,8 @@ struct landlock_path_beneath_attr {
+>>>>>    #define LANDLOCK_ACCESS_FS_MAKE_SYM            (1ULL << 12)
+>>>>>    #define LANDLOCK_ACCESS_FS_REFER            (1ULL << 13)
+>>>>>    #define LANDLOCK_ACCESS_FS_TRUNCATE            (1ULL << 14)
+>>>>> +#define LANDLOCK_ACCESS_FS_CHMOD            (1ULL << 15)
+>>>>> +#define LANDLOCK_ACCESS_FS_CHOWN            (1ULL << 16)
+>>>>>    /* clang-format on */
+>>>>>
+>>>>>    #endif /* _UAPI_LINUX_LANDLOCK_H */
+>>>>> diff --git a/security/landlock/fs.c b/security/landlock/fs.c
+>>>>> index c57f581a9cd5..c25d5f89c8be 100644
+>>>>> --- a/security/landlock/fs.c
+>>>>> +++ b/security/landlock/fs.c
+>>>>> @@ -147,7 +147,9 @@ static struct landlock_object
+>>>>> *get_inode_object(struct inode *const inode)
+>>>>>        LANDLOCK_ACCESS_FS_EXECUTE | \
+>>>>>        LANDLOCK_ACCESS_FS_WRITE_FILE | \
+>>>>>        LANDLOCK_ACCESS_FS_READ_FILE | \
+>>>>> -    LANDLOCK_ACCESS_FS_TRUNCATE)
+>>>>> +    LANDLOCK_ACCESS_FS_TRUNCATE | \
+>>>>> +    LANDLOCK_ACCESS_FS_CHMOD | \
+>>>>> +    LANDLOCK_ACCESS_FS_CHOWN)
+>>>>>    /* clang-format on */
+>>>>>
+>>>>>    /*
+>>>>> @@ -1146,6 +1148,16 @@ static int hook_path_truncate(const struct
+>>>>> path *const path)
+>>>>>        return current_check_access_path(path,
+>>>>> LANDLOCK_ACCESS_FS_TRUNCATE);
+>>>>>    }
+>>>>>
+>>>>> +static int hook_path_chmod(const struct path *const dir, umode_t 
+>>>>> mode)
+>>>
+>>> This is not a "dir" but a "path".
+>>>
+>>>
+>>>>> +{
+>>>>> +    return current_check_access_path(dir, LANDLOCK_ACCESS_FS_CHMOD);
+>>>>> +}
+>>>>> +
+>>>>> +static int hook_path_chown(const struct path *const dir, kuid_t uid,
+>>>>> kgid_t gid)
+>>>
+>>> Same here.
+>>>
+>>>
+>>>>> +{
+>>>>> +    return current_check_access_path(dir, LANDLOCK_ACCESS_FS_CHOWN);
+>>>>> +}
+>>>>
+>>>> One implication of this approach is that the chown+chmod right on a
+>>>> directory's contents are always going together with the same rights on
+>>>> the directory itself.
+>>>>
+>>>> For example, if you grant chmod+chown access rights for "datadir/",
+>>>> the command "chmod 0600 datadir/file1" will work, but so will the
+>>>> command "chmod 0600 datadir". But the approach of checking just the
+>>>> parent directory's rights is also inflexible if you think through the
+>>>> kinds of rights you can grant with it. (It would also not be possible
+>>>> to grant chmod+chown on individual files.)
+>>>
+>>> Good point. For an initial chmod/chown/chgrp access right, I'd prefer to
+>>> be able to set these access rights on a directory but only for its
+>>> content, not the directory itself. I think it is much safer and should
+>>> be enough for the majority of use cases, but let me know if I'm missing
+>>> something. I'm not sure being able to change the root directory access
+>>> rights may be a good idea anyway (even for containers). ;)
+>>>
+>>> A path_beneath rule enables to identify a file hierarchy (i.e. the
+>>> content of a directory), not to make modifications visible outside of
+>>> the directory identifying the hierarchy (hence the "parent_fd" field),
+>>> which would be the case with the current chmod/chown access rights.
+>>>
+>>>
+>>>>
+>>>> Do you have any thoughts on how to resolve this if this flexibility
+>>>> might be needed?
+>>>>
+>>>> I wonder whether the right way to resolve this would be to give users
+>>>> a way to make that distinction at the level of landlock_add_rule(),
+>>>> with an API like this (note the additional flag):
+>>>>
+>>>>     err = landlock_add_rule(ruleset_fd, LANDLOCK_RULE_PATH_BENEATH,
+>>>>                             &path_beneath, LANDLOCK_STRICTLY_BENEATH);
+>>>>                                            ^^^^^^^^^^^^^^^^^^^^^^^^^
+>>>>
+>>>> Multiple calls of landlock_add_rule() on the same file are already
+>>>> today joining the requested access rights, so it would be possible to
+>>>> mix-and-match "strict beneath" with "beneath" rights on the same
+>>>> directory, and it would work in the same way for other access rights
+>>>> as well.
+>>>
+>>> This kind of option is interesting. For now, some access rights are kind
+>>> of "doubled" to enable to differentiate between a file and a directory
+>>> (i.e. READ_DIR/READ_FILE, REMOVE_DIR/REMOVE_FILE, WRITE_FILE/MAKE_*)
+>>> when it may be useful, but this is different.
+>>>
+>>> I think this "strictly beneath" behavior should be the default, which is
+>>> currently the case.
+>>>
+>>>
+>>>>
+>>>> To be clear: I'm proposing this approach not because I think it should
+>>>> be part of this patch set, but because it would be good to have a way
+>>>> forward if that kind of flexibility is needed in the future.
+>>>>
+>>>> Does that seem reasonable?
+>>>
+>>> This is the kind of questions that made such access rights not
+>>> appropriate for the initial version of Landlock. But we should talk
+>>> about that now.
+>>
+>> Hi Günther and Mickaël,
+>>
+>> Thanks for your comments, so I think the conclusion here is that we have
+>> to make sure that in this patchset chown/chmod access rights can be set
+>> on a directory only for its content, not the directory itself, right?
+>> any good idea about how to implement this? :)
+> 
+> In such hook code, you need to get the parent directory of the path 
+> argument. This require to use and refactor the 
+> check_access_path_dual/jump_up part in a dedicated helper (and take care 
+> of all the corner cases).
+> .
 
-Hi jon,
+Sorry, I don't quite understand what you mean, but I have another idea, 
+how about this?
 
-Beside what I say earlier at [1], I also think that we need to have
-documentation on how to use git to obtain kernel tree and how to
-update the tree, with pointers to external resources for advance
-topics on git.
+static int hook_path_chown(const struct path *const path, kuid_t uid, 
+kgid_t gid)
+{
+         int ret;
+         struct dentry *parent_dentry;
+         struct path eff_path;
 
-[1]: https://lore.kernel.org/linux-doc/YwgtoiKl5Azt7Pre@debian.me/
+         eff_path = *path;
+         path_get(&eff_path);
+         if (d_is_dir(eff_path.dentry)) {
+                 parent_dentry = dget_parent(eff_path.dentry);
+                 dput(eff_path.dentry);
+                 eff_path.dentry = parent_dentry;
+         }
+         ret = current_check_access_path(&eff_path, 
+LANDLOCK_ACCESS_FS_CHGRP);
+         path_put(&eff_path);
 
-Thanks.
+         return ret;
+}
 
--- 
-An old man doll... just what I always wanted! - Clara
+
