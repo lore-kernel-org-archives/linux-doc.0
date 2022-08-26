@@ -2,85 +2,87 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F138ECAAA3
-	for <linux-doc@archiver.kernel.org>; Fri, 26 Aug 2022 12:49:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 56095ECAAA3
+	for <linux-doc@archiver.kernel.org>; Fri, 26 Aug 2022 12:56:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245438AbiHZMtf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 26 Aug 2022 08:49:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43906 "EHLO
+        id S243071AbiHZM4d (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 26 Aug 2022 08:56:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53384 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236923AbiHZMtf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Aug 2022 08:49:35 -0400
-Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com [IPv6:2607:f8b0:4864:20::52e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E1F0C7F8F;
-        Fri, 26 Aug 2022 05:49:33 -0700 (PDT)
-Received: by mail-pg1-x52e.google.com with SMTP id d71so1294618pgc.13;
-        Fri, 26 Aug 2022 05:49:33 -0700 (PDT)
+        with ESMTP id S235525AbiHZM4c (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Aug 2022 08:56:32 -0400
+Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5EBF511C03;
+        Fri, 26 Aug 2022 05:56:31 -0700 (PDT)
+Received: by mail-pj1-x102d.google.com with SMTP id r15-20020a17090a1bcf00b001fabf42a11cso1579770pjr.3;
+        Fri, 26 Aug 2022 05:56:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc;
-        bh=GuwsaMvCwAgYPTQhMZtDxDqr9ggINpFfdVcPm87pxtQ=;
-        b=m73g+IL3JFctN/+LhYBY7nIisDKX0erkmn9qLj9SmLqnWMLPUDHFP6c5g/20BnL+32
-         9A+rx2fEq1SKmxNveOUbgu4S8mw28BBOO1z4B2eVXw/GSSQa+v9PL8tqb0nyfpaRxZSn
-         AoTLqcvTSbgXPNjLad7GaAJaFtf2yMGmtrn5ZidLI/bKJmv7NP/InXjIbma42h4J7GUT
-         p6qoRFseKEdorWbKbdJB3V6QljetgyoYjeTq9gZLJkCUV/AbhoBe7oJKhkIcP5JOuQrv
-         7Izc03GWvjd0E5b+BSeOuqDLo/BusaLQQRmMXNrQuiwlh4TcvEQsm5DkYkhX5QhgqWUj
-         AqJg==
+        bh=XkBLXQVJw8ZW86CrFrYiPCfjAUbiqv3sEvOCVb/EvSc=;
+        b=Cqn9u8oNXzI54I0s51Uc2JY/DSQzc1fLIEyKVQeU/0pVyItwl7jNGtoNmcTCuHe7sL
+         b5EapBWbZVp15gPdLMRwcPn3ec9y2ldJxEGH7SXUiCvIDu22+oIdBww4K9o7Zhh66+/B
+         XW7G/b5JASUKQ+83f98p0PR4JsvM/2JGBiYO54jp0pUMhkjBmoNTda0XCSRsEBfAjsac
+         W1wsk1kdNO/zwDIjLjuuuKTx4YsjshP2g7I0jUFcvtdWDcUTEgTQO11JigpgvdIWwZ5q
+         FWFyR5MGMcORMu4VR2nQH8u5uSQthmZ4rFoHkwekLPw3LnZe7wisrH/Ip7X8D6olGdkv
+         5Z1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc;
-        bh=GuwsaMvCwAgYPTQhMZtDxDqr9ggINpFfdVcPm87pxtQ=;
-        b=Pv8HRv6N/1CNm5jfYhxs8IdacywWNrt5ixPP6N7+RJ8yxnomgGau0M84X/KqkBJML3
-         PysAzP3rvgMNxiBqO0ySXx4chd92FCt5zdxqKGSiMfU1gc5QyNAb/An9C6i9oAiaCkUv
-         QPCDAP+PPKYndGgwxBvkwiZEOd6XA3ff7lnSGg7iS3T0/DcIK4vTVJ0mJEMa1qIDRumD
-         oh1sBGwDwLzvRjvFC9OLpx/IUYpeFGDQNO5/J+QK12jvF2t0lz1qm6vuUAWTuNfOc16g
-         ApIxlQIx9yq8wkalsvVXGpeK5q0NiHBS1/5JWKsDKaEJzCPUAcrldT9xm1D+TznHrift
-         adwA==
-X-Gm-Message-State: ACgBeo3JOj2xE4QGIIdkLqyWtWeWj9DuXRSXJuJEsh21+pOIUYNuumga
-        RrAwqT7yrYwF16JfjBNajcQ=
-X-Google-Smtp-Source: AA6agR4FdF9mHbI/LAGkXs6/dzr1IIhdm2xbGyKqr5psK+hbtw4kFYu+w95qboO6ZJ1mEMFbV2b0Wg==
-X-Received: by 2002:a63:4b62:0:b0:421:8c8b:163c with SMTP id k34-20020a634b62000000b004218c8b163cmr3043730pgl.182.1661518173132;
-        Fri, 26 Aug 2022 05:49:33 -0700 (PDT)
+        bh=XkBLXQVJw8ZW86CrFrYiPCfjAUbiqv3sEvOCVb/EvSc=;
+        b=uzhASpnERKvZAookbXxJ4KqZV0t4nIU60rGZReIvd61QSEBVRWUOxb5ccNqhKKmLJv
+         QmR+2HFKDwCkUlQWMS+b7kz0eM9IgOe8pz/Ram15Hr3pQpsSDDSYTUEP6DcSkAR7sVpQ
+         1oelAHugU4nnyqm3cuL/t6LHWdvrsgD2RnIQIWHyy/f+zwpaq1ueUkbnFK/IUSHn87yS
+         ty+gBolLTxgWwhB9Ap3CoPYB7F9CQiSSJTHWFg9uPVfwdW9fgr0H6aNIL9SAFDxkqOOl
+         tCFcK2+lZKqhoKMQx1GEZ0doUHE5zgzXsl5temBtGbQEjGpejz8Uk+UDegU/Lxpmb+Cv
+         5ghA==
+X-Gm-Message-State: ACgBeo1xfJv21VZBKlgloEe+mKs+Vtx8gjXHjbPcXnjZpyApCcc3yfpq
+        6VRP9VF4Mf5rOhfzileRb6c=
+X-Google-Smtp-Source: AA6agR7rUwPxmJVCKQkFKlqzUrQ7J+bAITn1MCH7FHzK84yb7gdtXTu3pmYXx0ipjMuwP52WoAgI8w==
+X-Received: by 2002:a17:90a:7185:b0:1fd:768f:232d with SMTP id i5-20020a17090a718500b001fd768f232dmr641766pjk.149.1661518590971;
+        Fri, 26 Aug 2022 05:56:30 -0700 (PDT)
 Received: from [192.168.43.80] (subs03-180-214-233-70.three.co.id. [180.214.233.70])
-        by smtp.gmail.com with ESMTPSA id 68-20020a620647000000b00537d7cc774bsm581267pfg.139.2022.08.26.05.49.30
+        by smtp.gmail.com with ESMTPSA id s12-20020a17090302cc00b00172ea8ff334sm1527254plk.7.2022.08.26.05.56.27
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 26 Aug 2022 05:49:32 -0700 (PDT)
-Message-ID: <28a70308-a996-7d97-430b-dc18bbd8bbcc@gmail.com>
-Date:   Fri, 26 Aug 2022 19:49:26 +0700
+        Fri, 26 Aug 2022 05:56:30 -0700 (PDT)
+Message-ID: <cc13c32f-0f4f-bb10-c5fa-a04c139cf38d@gmail.com>
+Date:   Fri, 26 Aug 2022 19:56:25 +0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.13.0
-Subject: Re: [PATCH] Add leds-qcom-lpg to leds kernel docs tree
+Subject: Re: [PATCH -next] Documentation/hw-vuln: Update spectre doc
 Content-Language: en-US
-To:     Akhil Raj <lf32.dev@gmail.com>,
-        Shuah Khan <skhan@linuxfoundation.org>, corbet@lwn.net
+To:     Lin Yujun <linyujun809@huawei.com>, corbet@lwn.net, bp@suse.de,
+        keescook@chromium.org, aarcange@redhat.com,
+        daniel.sneddon@linux.intel.com, longman@redhat.com,
+        lukas.bulwahn@gmail.com, peterz@infradead.org, kim.phillips@amd.com
 Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20220826081150.1961-1-lf32.dev@gmail.com>
+References: <20220826065132.112340-1-linyujun809@huawei.com>
 From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <20220826081150.1961-1-lf32.dev@gmail.com>
+In-Reply-To: <20220826065132.112340-1-linyujun809@huawei.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 8/26/22 15:11, Akhil Raj wrote:
-> Warning was within
-> ./Documentation/leds/leds-qcom-lpg.rst:
-> 	WARNING: document isn't included in any toctree
+On 8/26/22 13:51, Lin Yujun wrote:
+> The following patch adds the specre_v2=ibrs option in
+> Documentation/admin-guide/kernel-parameters.txt
+> but omits it to
+> Documentation/admin-guide/hw-vuln/spectre.rst
 > 
-> I have added leds-qcom-lpg to the index.rst
+> commit 7c693f54c873691 ("x86/speculation: Add spectre_v2=ibrs option to support Kernel IBRS")
+> 
+> Supplement the specre_v2=ibrs option to
+> Documentation/admin-guide/hw-vuln/spectre.rst
 > 
 
-Hi,
-
-Mauro had already submitted the same fix at [1]. Thanks anyway.
-
-[1]: https://lore.kernel.org/linux-doc/14865c294b60fef58f660922889775bd57ce44c2.1660829433.git.mchehab@kernel.org/
+Please massage the patch description so that it uses imperative mood.
 
 -- 
 An old man doll... just what I always wanted! - Clara
