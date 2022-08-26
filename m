@@ -2,192 +2,102 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 25CB9ECAAD5
-	for <linux-doc@archiver.kernel.org>; Fri, 26 Aug 2022 15:51:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CAB9DECAAD4
+	for <linux-doc@archiver.kernel.org>; Fri, 26 Aug 2022 16:02:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344582AbiHZPvd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 26 Aug 2022 11:51:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38588 "EHLO
+        id S242917AbiHZQCU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 26 Aug 2022 12:02:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53726 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344497AbiHZPvc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Aug 2022 11:51:32 -0400
-Received: from mail-qt1-x835.google.com (mail-qt1-x835.google.com [IPv6:2607:f8b0:4864:20::835])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27739CEB36;
-        Fri, 26 Aug 2022 08:51:31 -0700 (PDT)
-Received: by mail-qt1-x835.google.com with SMTP id r6so1543307qtx.6;
-        Fri, 26 Aug 2022 08:51:31 -0700 (PDT)
+        with ESMTP id S1344493AbiHZQCQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Aug 2022 12:02:16 -0400
+Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com [IPv6:2607:f8b0:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 979CDD34CC;
+        Fri, 26 Aug 2022 09:02:15 -0700 (PDT)
+Received: by mail-pf1-x443.google.com with SMTP id 199so1898419pfz.2;
+        Fri, 26 Aug 2022 09:02:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc;
-        bh=FesPnI2XuGI2A/F80YHcfjcFtoY5eMqDAbWBbAutgu0=;
-        b=Tb1NPOfLTTuZPV2OEeyPMKLrpCOa8GCeaT0SfZHEK1oPlezyF0I58nu8WzeKr9AW0y
-         Om0g2tQUPpuHWClziyqnLqltAWbr+sjQ1oCYMCnTOchwtO9/Uyq8eW7wrYQlC4G60rjS
-         5KHcMSODDfgszM9scFQhvPE25sO7yDB7vGPEFX1LcFRNNvb/Staxrf8f7pFmIdWmHigQ
-         Dl70sf7T82JxR8xYxTVeRZZE2cNtazPkTwd/SqUGJZLCfIkosqtgwuwuyfBD5pdk18Jy
-         3mYVORFJwlPkuayJ6qdEFEnoariQUKPkvTd0ZlGr3ugh7PGZREdBasFgOQfurMS6fg6e
-         jP5g==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc;
+        bh=4CHMpfodr+A683JL6hoWZB83QwyHqrKIPppn/xZbB0w=;
+        b=AA76Pp5S5oVg5MQorGulxTr60Q4GG6xkAInDgl2SBTq0Y3TVR4M885T9eE6iaw6K5Q
+         sSebgok4lxpfHRpH9z3X02c46fBe3C7f+iApBmD0gUcwbzIPGiWXYdpadbdLvXt7XoXy
+         R4OmhyE9NQtJjbCmG8Df1+tjZw2QC5+zZz0+tEjTzViLkjBFebrMzCs9D+vkyfvxiUyb
+         m7G1dKrPar6uHYBikKEP7kvJuoHTV8PDEW42NSFFsI6wTqF5sx0OasR+fdmn1gh9Tizq
+         jnRlpqzgmEdVrmX+LnsJsz6/9edEUjJUFDwAtCY+Uokcx6+XejOjTOIsSmaibTg79QNV
+         qmBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
-        bh=FesPnI2XuGI2A/F80YHcfjcFtoY5eMqDAbWBbAutgu0=;
-        b=BhEHOPWbDbLGZy8JumzHRvcG5SF/p9cXZqKhVv2HcKRkTAKACQKRS9Ksn5FMXNKrLu
-         vXWx5Hb8f5LDhE/ieIai9XTPD5vMKR4m7uRailHX9yk/u+UAqxpGxa+wWrzf8RjMdPT4
-         LfpKVFzAfeeyyKd2TjDvOnvr0mgmQiAryyhhjcShKyHFzOq+Eh28wwCLBkZpKTB66QPl
-         n646bBbf5vrtsOH0VkW4rc5LeWwcdqg1E0CqpTy4pEDX6BYNeMGEO+tAD+cf0NC3D9tN
-         nDNXlFLAc8SWkjCIFlPP3BrRv8VPstpCBYzBC/rWU/teymoYbWmkd8oMpyqhjRVNeVqr
-         SB4Q==
-X-Gm-Message-State: ACgBeo1oCvvA9domtZh6pjzjtyhWkiPpN1xn5Pt3viTIRivl5ET97kqn
-        YQHHQUixFccvkueVy9kSxgXOae2bA92fV2LSb+4=
-X-Google-Smtp-Source: AA6agR4VGlk6KoIe8nbYogc4V3QKG0ZzM46cFZPVa7XoeVTCBC/6A5ViPmzidBFCq+bvi9tj/xF7S/yx8QEsIIGspxY=
-X-Received: by 2002:ac8:7dd0:0:b0:344:afc1:b11d with SMTP id
- c16-20020ac87dd0000000b00344afc1b11dmr277022qte.195.1661529090174; Fri, 26
- Aug 2022 08:51:30 -0700 (PDT)
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc;
+        bh=4CHMpfodr+A683JL6hoWZB83QwyHqrKIPppn/xZbB0w=;
+        b=htyeoZl2CLQh+TXNkcCWRFTNt9UdLaW6BLJ1JRHn5drfQBydqJbFGtj8XQZ0jRC8qn
+         mswQwGfXaalQCnO6TiNdUdIzaBuZtciqJtQI0KqzJePhwbA2wD59we+gWc0bpULVXzOR
+         Z9XSgNhdE3q/0sxcpPDyulWpQ+zuXpxA0b6ksLoGG1mMLo57GorK3fpaxAIVuRjZfHiz
+         gWhDlb8YOftceGOop9KzuWToZ2nJpM78/zSD/sUCf6p/i3VIkLb6kJlWMjysL1P2zeIS
+         jIUh8+aJ6lR+RAx2BOLsEvJK/Dg9BjfNY22ode41FFns6T34GaJ4N89Wh82LK5MBiTYX
+         bvWA==
+X-Gm-Message-State: ACgBeo17m5CzL3aRA6PsFDKcynWUwq/iKl1HZUk7mSu5ya7/UiVcJqlJ
+        Rr5Hze99dATTu2SnOsruHnemHu3fkhI=
+X-Google-Smtp-Source: AA6agR5LAmpNvBHmm316LUzRkH8Yd0kc5/4dY45ARuAUU5xWjkre45Gqls3bC5TfrLQ1cDP/1ZaCFA==
+X-Received: by 2002:a63:fe12:0:b0:42a:e57:7464 with SMTP id p18-20020a63fe12000000b0042a0e577464mr3772235pgh.552.1661529735028;
+        Fri, 26 Aug 2022 09:02:15 -0700 (PDT)
+Received: from localhost.localdomain ([203.205.141.82])
+        by smtp.gmail.com with ESMTPSA id u1-20020a17090341c100b0016b81679c1fsm1796331ple.216.2022.08.26.09.02.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 26 Aug 2022 09:02:14 -0700 (PDT)
+From:   menglong8.dong@gmail.com
+X-Google-Original-From: imagedong@tencent.com
+To:     kuba@kernel.org, sfr@canb.auug.org.au, bagasdotme@gmail.com
+Cc:     corbet@lwn.net, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Menglong Dong <imagedong@tencent.com>
+Subject: [PATCH net-next v2] docs/conf.py: add function attribute '__fix_address' to conf.py
+Date:   Sat, 27 Aug 2022 00:01:50 +0800
+Message-Id: <20220826160150.834639-1-imagedong@tencent.com>
+X-Mailer: git-send-email 2.37.2
 MIME-Version: 1.0
-References: <20220826144629.11507-1-ilpo.jarvinen@linux.intel.com> <20220826144629.11507-4-ilpo.jarvinen@linux.intel.com>
-In-Reply-To: <20220826144629.11507-4-ilpo.jarvinen@linux.intel.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Fri, 26 Aug 2022 18:50:54 +0300
-Message-ID: <CAHp75Vc4NfZE6DxFnfeAS9fxnZHpxMjacHy1TsG8ib+FiCqFLQ@mail.gmail.com>
-Subject: Re: [PATCH 3/3] serial: Add kserial_rs485 to avoid wasted space due
- to .padding
-To:     =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Vladimir Zapolskiy <vz@mleia.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Richard Genoud <richard.genoud@gmail.com>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Claudiu Beznea <claudiu.beznea@microchip.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Linux Documentation List <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
-        linux-stm32@st-md-mailman.stormreply.com,
-        Lino Sanfilippo <LinoSanfilippo@gmx.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Aug 26, 2022 at 5:51 PM Ilpo J=C3=A4rvinen
-<ilpo.jarvinen@linux.intel.com> wrote:
->
-> Struct serial_rs485 has a .padding field to make uapi updates easier.
+From: Menglong Dong <imagedong@tencent.com>
 
-The struct
+Stephen Rothwell reported htmldocs warning when merging net-next:
 
-> It wastes space, however. Create struct kserial_rs485 which is a kerner
-> counterpart w/o padding.
->
-> kernel_serial_rs485_to_user_rs485()'s rs485 can now become const as
-> padding is dealt within the local variable.
+Documentation/networking/kapi:26: net/core/skbuff.c:780: WARNING: Error in declarator or parameters
+Invalid C declaration: Expecting "(" in parameters. [error at 19]
+  void __fix_address kfree_skb_reason (struct sk_buff *skb, enum skb_drop_reason reason)
+  -------------------^
 
-...
+Add __fix_address keyword to c_id_attributes array in conf.py to fix
+the warning.
 
-> -static int user_rs485_to_kernel_serial_rs485(struct serial_rs485 *rs485,
-> +static int user_rs485_to_kernel_serial_rs485(struct kserial_rs485 *rs485=
-,
->                                              const struct serial_rs485 __=
-user *rs485_user)
->  {
-> -       if (copy_from_user(rs485, rs485_user, sizeof(*rs485)))
-> +       struct serial_rs485 rs485_uapi;
-> +
-> +       if (copy_from_user(&rs485_uapi, rs485_user, sizeof(*rs485)))
->                 return -EFAULT;
+Link: https://lore.kernel.org/linux-next/20220825154105.534d78ab@canb.auug.org.au/
+Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+Signed-off-by: Menglong Dong <imagedong@tencent.com>
+Tested-by: Bagas Sanjaya <bagasdotme@gmail.com>
+Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+---
+v2:
+- optimize the commit log, as Bagas Sanjaya suggested.
+---
+ Documentation/conf.py | 1 +
+ 1 file changed, 1 insertion(+)
 
-> +       *rs485 =3D *((struct kserial_rs485 *)&rs485_uapi);
+diff --git a/Documentation/conf.py b/Documentation/conf.py
+index 934727e23e0e..255384d094bf 100644
+--- a/Documentation/conf.py
++++ b/Documentation/conf.py
+@@ -86,6 +86,7 @@ if major >= 3:
+             "__used",
+             "__weak",
+             "noinline",
++            "__fix_address",
+ 
+             # include/linux/memblock.h:
+             "__init_memblock",
+-- 
+2.37.2
 
-So with all assets we have we can be sure that on BE64 / BE32 machines
-this will be flawless. Is this assumption correct?
-
->         return 0;
->  }
-
-...
-
->  static int kernel_serial_rs485_to_user_rs485(struct serial_rs485 __user =
-*rs485_user,
-> -                                            struct serial_rs485 *rs485)
-> +                                            const struct kserial_rs485 *=
-rs485)
->  {
-> +       struct serial_rs485 rs485_uapi;
-
-> +       *((struct kserial_rs485 *)&rs485_uapi) =3D *rs485;
-
-Ditto.
-
-+ Blank line?
-
->         /* Return clean padding area to userspace */
-> -       memset(rs485->padding0, 0, sizeof(rs485->padding0));
-> -       memset(rs485->padding1, 0, sizeof(rs485->padding1));
-> +       memset(rs485_uapi.padding0, 0, sizeof(rs485_uapi.padding0));
-> +       memset(rs485_uapi.padding1, 0, sizeof(rs485_uapi.padding1));
->
-> -       if (copy_to_user(rs485_user, rs485, sizeof(*rs485)))
-> +       if (copy_to_user(rs485_user, &rs485_uapi, sizeof(rs485_uapi)))
->                 return -EFAULT;
->
->         return 0;
-
-...
-
-> +/* Compile-time asserts for kserial_rs485 and serial_rs485 equality (exc=
-ept padding) */
-
-struct kserial_rs485
-struct serial_rs485
-
-(rationale: standard representation in text / comments and be a link
-in case if this is converted to kernel doc)
-
-...
-
-> +/*
-> + * Must match with serial_rs485 in include/uapi/linux/serial.h excluding=
- the
-
-Ditto.
-
-> + * padding.
-> + */
-> +struct kserial_rs485 {
-> +       __u32   flags;                  /* RS485 feature flags */
-> +       __u32   delay_rts_before_send;  /* Delay before send (millisecond=
-s) */
-> +       __u32   delay_rts_after_send;   /* Delay after send (milliseconds=
-) */
-> +       struct {
-> +               __u8    addr_recv;
-> +               __u8    addr_dest;
-> +       };
-
-Btw, can't we convert them to kernel doc?
-
-> +};
-
-...
-
-> + * There's kernel counterpart kserial_rs485 of this struct without paddi=
-ng.
-
-struct kserial_rs485
-
---=20
-With Best Regards,
-Andy Shevchenko
