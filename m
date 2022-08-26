@@ -2,203 +2,205 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4250DECAAA2
-	for <linux-doc@archiver.kernel.org>; Fri, 26 Aug 2022 01:44:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 36B28ECAAA3
+	for <linux-doc@archiver.kernel.org>; Fri, 26 Aug 2022 01:51:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244544AbiHZBoM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 25 Aug 2022 21:44:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48830 "EHLO
+        id S244637AbiHZBvD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 25 Aug 2022 21:51:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33142 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243719AbiHZBoL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Aug 2022 21:44:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3405EB5E40
-        for <linux-doc@vger.kernel.org>; Thu, 25 Aug 2022 18:44:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1661478248;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=p5oPV+olrHUkMDvetbVRMjHtVUhIxR2PwsRxaCXUCXA=;
-        b=QNwXQkii/uretsmOqu5m/KZTdIz+FTAphV7Oe2X7Hi0sX4o8CvEIbfa3skN3oqcF+kRrlj
-        0RCd+wbKiPiUmklB0fkQu7OKQ7FweqKVX+bDpVvoz4z+YL0EqoDJp4BFKhqGfEN4Zo6itT
-        7n25X15ckdV41vd9lYZ9KgnDAxnkTt8=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-474-2VmAwC0DMJeOtI5neNV73Q-1; Thu, 25 Aug 2022 21:44:07 -0400
-X-MC-Unique: 2VmAwC0DMJeOtI5neNV73Q-1
-Received: by mail-ej1-f69.google.com with SMTP id gt9-20020a1709072d8900b0073d82402ea6so47052ejc.21
-        for <linux-doc@vger.kernel.org>; Thu, 25 Aug 2022 18:44:07 -0700 (PDT)
+        with ESMTP id S244630AbiHZBvC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Aug 2022 21:51:02 -0400
+Received: from mail-il1-x142.google.com (mail-il1-x142.google.com [IPv6:2607:f8b0:4864:20::142])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9138210F4;
+        Thu, 25 Aug 2022 18:51:00 -0700 (PDT)
+Received: by mail-il1-x142.google.com with SMTP id f3so133465ilq.5;
+        Thu, 25 Aug 2022 18:51:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc;
+        bh=TCqawMB1BroOCCY1cc8Q17JbFwztT5yJfejMYO+xyio=;
+        b=A8fs/dlzuT6PUty0lbVyz0q0+xTQqIHFn15K6fRclJhp9s2LfmcuUI1X0RkTD8cJkl
+         JXE+z/4FETSi2C7j2KWcDp0fGPO5GPHUYz3vuJX3TQWvg/WVTZRLbDVyZJwYp/cTFWhu
+         UY3tK01OANEecnfD93Xz1SpRzkCoJ6a8U4N9a1iSg0611WuHVi1I/XB4WQNlk2kYMwMk
+         qSfUSTN/7e/pyxn2/2J7dE+h4MlRptsC+gAtOX9cslMaygc5RSPV63CZOnbWtJ/gYhs9
+         loHwDCFrFXY1SN+EGuWfF7SaLaqRXLeUcyrdctrvKpe5uLjp71c4uKhzfaeKUhc27xlW
+         9THQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc;
-        bh=p5oPV+olrHUkMDvetbVRMjHtVUhIxR2PwsRxaCXUCXA=;
-        b=FKorY6jf7Hk/kBp/MAyvYDzS3zYLRbpE7XzA6VNzm/zLT7HRe+5r+LdrcONSfxkTnF
-         3KxAYHKNfLoAyvIGCXkBg/ykJr41vqFsL+J8fhc7QjlJUOodeTVsH4+LvnAdzOyQ+OkA
-         OG/sjt9455hrRGlh/W1YMmZb8rV9CQgtK0Mq+x28lNF64YQXxuMHXSQoE3mTdFux50YF
-         WiHVKN2ug2s8pU4iIQkyqpLaDrEEncHyVkK+NC/3QgwfRvkKAeMHBq/zh5KePDRrt/O5
-         WO98c6nSmGiO4Mp1PK+IPoXm5H/3gxMduNFhqWm+69sEKrf0GczHzotCbbk9kWHY51n/
-         cw+Q==
-X-Gm-Message-State: ACgBeo0ONPrqByOxONyNWk4mpRJ2f/Z+2J3PCsisvr2N4xmBS+b00TJl
-        oyqjszKtV+nzYBqO5ojS8s1pyqd/oQGt6Jm+ADAPjPJ8p9ooX8ExIiPjEYZp9GfIsuT3ShMLOpi
-        fZZrnb5R0G3HAEpHEM+gCY/9rshbB+0m92fNQ
-X-Received: by 2002:a05:6402:3714:b0:445:d91b:b0aa with SMTP id ek20-20020a056402371400b00445d91bb0aamr4965847edb.313.1661478245820;
-        Thu, 25 Aug 2022 18:44:05 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR5Gd3CcJVFzRVYY80RJx7gEeoPX/9eoVrzEpfthId6lHxXKuIxINBj+TfI9cvakWVM3GP+yI0ItM3UAtuh+2is=
-X-Received: by 2002:a05:6402:3714:b0:445:d91b:b0aa with SMTP id
- ek20-20020a056402371400b00445d91bb0aamr4965825edb.313.1661478245607; Thu, 25
- Aug 2022 18:44:05 -0700 (PDT)
+        bh=TCqawMB1BroOCCY1cc8Q17JbFwztT5yJfejMYO+xyio=;
+        b=dFWW+AMkO4cECtwNiHUInsJqkEYKW1Vt0et2TOUDgIJiwtuKwuD3B3RurzrIjB9Pj6
+         T3h6WVDbbRaI1tPMvOIp4iWYkyQum73PGim2DgfWJdwJBZ3cxdu2ZbmcmAkiOB4geNl9
+         F+Kt6QyWdfkCCeixOV+QWJUA9GjfYpqZjpJ/FBS199zCVPlyOm4Kmq0/HvMDjeV+6hNN
+         MR2/CXCy6KzdfRt3id8fhUi00Z/sjKLMbPnzfE38bd5Xw3H/RixHh4bE4IErHxaXy3V0
+         VLOAzWNk9OkF+iwMIv6erPNkpAxYGAnT+sC2/FBVwsfjoXiyHykM/WshexccXGn9cK+I
+         xIJw==
+X-Gm-Message-State: ACgBeo2RW2ACiWi23ydnBfSLpAZIH+gsyezFsxlsiSDBa/zWCml392Ai
+        PKhtiTQsXclySh9bIEjiTTPoWimkAF3ty2YGsgw=
+X-Google-Smtp-Source: AA6agR7mPpEE04KxGm5s+rx+HDYxbojQyCxdvOMGim2Cjswq1vX3nSCs02H46wmyRz6//iZCZ3W+P59NEF3AZIyCb+M=
+X-Received: by 2002:a05:6e02:1c04:b0:2df:6b58:5fe8 with SMTP id
+ l4-20020a056e021c0400b002df6b585fe8mr3180072ilh.68.1661478659768; Thu, 25 Aug
+ 2022 18:50:59 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220824163100.224449-1-david@redhat.com> <20220824163100.224449-2-david@redhat.com>
- <0db131cf-013e-6f0e-c90b-5c1e840d869c@nvidia.com> <ea380cf0-acda-aaba-fb63-2834da91b66b@redhat.com>
-In-Reply-To: <ea380cf0-acda-aaba-fb63-2834da91b66b@redhat.com>
-From:   Dave Young <dyoung@redhat.com>
-Date:   Fri, 26 Aug 2022 09:43:54 +0800
-Message-ID: <CALu+AoThhou7z+JCyv44AxGWDLDt2b7h0W6wcKRsJyLvSR1iQA@mail.gmail.com>
-Subject: Re: [PATCH RFC 1/2] coding-style.rst: document BUG() and WARN() rules
- ("do not crash the kernel")
-To:     David Hildenbrand <david@redhat.com>
-Cc:     John Hubbard <jhubbard@nvidia.com>, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-doc@vger.kernel.org,
-        kexec@lists.infradead.org,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Ingo Molnar <mingo@kernel.org>,
-        David Laight <David.Laight@aculab.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Andy Whitcroft <apw@canonical.com>,
-        Joe Perches <joe@perches.com>,
-        Dwaipayan Ray <dwaipayanray1@gmail.com>,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        Baoquan He <bhe@redhat.com>, Vivek Goyal <vgoyal@redhat.com>,
-        Stephen Johnston <sjohnsto@redhat.com>,
-        Prarit Bhargava <prarit@redhat.com>
+References: <20220824134055.1328882-1-benjamin.tissoires@redhat.com>
+ <20220824134055.1328882-2-benjamin.tissoires@redhat.com> <CAADnVQKgkFpLh_URJn6qCiAONteA1dwZHd6=4cZn15g1JCAPag@mail.gmail.com>
+In-Reply-To: <CAADnVQKgkFpLh_URJn6qCiAONteA1dwZHd6=4cZn15g1JCAPag@mail.gmail.com>
+From:   Kumar Kartikeya Dwivedi <memxor@gmail.com>
+Date:   Fri, 26 Aug 2022 03:50:23 +0200
+Message-ID: <CAP01T75ec_T0M6DU=JE2tfNsWRZuPSMu_7JHA7ZoOBw5eDh1Bg@mail.gmail.com>
+Subject: Re: [PATCH bpf-next v9 01/23] bpf/verifier: allow all functions to
+ read user provided context
+To:     Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Jiri Kosina <jikos@kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>, Shuah Khan <shuah@kernel.org>,
+        Dave Marchevsky <davemarchevsky@fb.com>,
+        Joe Stringer <joe@cilium.io>, Jonathan Corbet <corbet@lwn.net>,
+        Tero Kristo <tero.kristo@linux.intel.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        Network Development <netdev@vger.kernel.org>,
+        bpf <bpf@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi David,
-
-[Added more people in cc]
-
-On Thu, 25 Aug 2022 at 20:13, David Hildenbrand <david@redhat.com> wrote:
+On Fri, 26 Aug 2022 at 03:42, Alexei Starovoitov
+<alexei.starovoitov@gmail.com> wrote:
 >
-> On 24.08.22 23:59, John Hubbard wrote:
-> > On 8/24/22 09:30, David Hildenbrand wrote:
-> >> diff --git a/Documentation/process/coding-style.rst b/Documentation/process/coding-style.rst
-> >> index 03eb53fd029a..a6d81ff578fe 100644
-> >> --- a/Documentation/process/coding-style.rst
-> >> +++ b/Documentation/process/coding-style.rst
-> >> @@ -1186,6 +1186,33 @@ expression used.  For instance:
-> >>      #endif /* CONFIG_SOMETHING */
-> >>
+> On Wed, Aug 24, 2022 at 6:41 AM Benjamin Tissoires
+> <benjamin.tissoires@redhat.com> wrote:
 > >
-> > I like the idea of adding this documentation, and this is the right
-> > place. Naturally, if one likes something, one must immediately change
-> > it. :) Therefore, here is an alternative writeup that I think captures
-> > what you and the email threads were saying.
+> > When a function was trying to access data from context in a syscall eBPF
+> > program, the verifier was rejecting the call unless it was accessing the
+> > first element.
+> > This is because the syscall context is not known at compile time, and
+> > so we need to check this when actually accessing it.
 > >
-> > How's this sound?
->
-> Much better, thanks! :)
->
+> > Check for the valid memory access if there is no convert_ctx callback,
+> > and allow such situation to happen.
 > >
-> > diff --git a/Documentation/process/coding-style.rst b/Documentation/process/coding-style.rst
-> > index 03eb53fd029a..32df0d503388 100644
-> > --- a/Documentation/process/coding-style.rst
-> > +++ b/Documentation/process/coding-style.rst
-> > @@ -1185,6 +1185,53 @@ expression used.  For instance:
-> >         ...
-> >         #endif /* CONFIG_SOMETHING */
+> > There is a slight hiccup with subprogs. btf_check_subprog_arg_match()
+> > will check that the types are matching, which is a good thing, but to
+> > have an accurate result, it hides the fact that the context register may
+> > be null. This makes env->prog->aux->max_ctx_offset being set to the size
+> > of the context, which is incompatible with a NULL context.
 > >
-> > +22) Do not crash the kernel
-> > +---------------------------
+> > Solve that last problem by storing max_ctx_offset before the type check
+> > and restoring it after.
+> >
+> > Acked-by: Kumar Kartikeya Dwivedi <memxor@gmail.com>
+> > Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+> >
+> > ---
+> >
+> > changes in v9:
+> > - rewrote the commit title and description
+> > - made it so all functions can make use of context even if there is
+> >   no convert_ctx
+> > - remove the is_kfunc field in bpf_call_arg_meta
+> >
+> > changes in v8:
+> > - fixup comment
+> > - return -EACCESS instead of -EINVAL for consistency
+> >
+> > changes in v7:
+> > - renamed access_t into atype
+> > - allow zero-byte read
+> > - check_mem_access() to the correct offset/size
+> >
+> > new in v6
+> > ---
+> >  kernel/bpf/btf.c      | 11 ++++++++++-
+> >  kernel/bpf/verifier.c | 19 +++++++++++++++++++
+> >  2 files changed, 29 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/kernel/bpf/btf.c b/kernel/bpf/btf.c
+> > index 903719b89238..386300f52b23 100644
+> > --- a/kernel/bpf/btf.c
+> > +++ b/kernel/bpf/btf.c
+> > @@ -6443,8 +6443,8 @@ int btf_check_subprog_arg_match(struct bpf_verifier_env *env, int subprog,
+> >  {
+> >         struct bpf_prog *prog = env->prog;
+> >         struct btf *btf = prog->aux->btf;
+> > +       u32 btf_id, max_ctx_offset;
+> >         bool is_global;
+> > -       u32 btf_id;
+> >         int err;
+> >
+> >         if (!prog->aux->func_info)
+> > @@ -6457,9 +6457,18 @@ int btf_check_subprog_arg_match(struct bpf_verifier_env *env, int subprog,
+> >         if (prog->aux->func_info_aux[subprog].unreliable)
+> >                 return -EINVAL;
+> >
+> > +       /* subprogs arguments are not actually accessing the data, we need
+> > +        * to check for the types if they match.
+> > +        * Store the max_ctx_offset and restore it after btf_check_func_arg_match()
+> > +        * given that this function will have a side effect of changing it.
+> > +        */
+> > +       max_ctx_offset = env->prog->aux->max_ctx_offset;
 > > +
-> > +Use WARN() rather than BUG()
-> > +****************************
-> > +
-> > +Do not add new code that uses any of the BUG() variants, such as BUG(),
-> > +BUG_ON(), or VM_BUG_ON(). Instead, use a WARN*() variant, preferably
-> > +WARN_ON_ONCE(), and possibly with recovery code. Recovery code is not required
-> > +if there is no reasonable way to at least partially recover.
+> >         is_global = prog->aux->func_info_aux[subprog].linkage == BTF_FUNC_GLOBAL;
+> >         err = btf_check_func_arg_match(env, btf, btf_id, regs, is_global, 0);
+> >
+> > +       env->prog->aux->max_ctx_offset = max_ctx_offset;
 >
-> I'll tend to keep in this section:
->
-> "Unavoidable data corruption / security issues might be a very rare
-> exception to this rule and need good justification."
->
-> Because there are rare exceptions, and I'd much rather document the
-> clear exception to this rule.
->
-> > +
-> > +Use WARN_ON_ONCE() rather than WARN() or WARN_ON()
-> > +**************************************************
-> > +
-> > +WARN_ON_ONCE() is generally preferred over WARN() or WARN_ON(), because it is
-> > +common for a given warning condition, if it occurs at all, to occur multiple
-> > +times. (For example, once per file, or once per struct page.) This can fill up
->
-> I'll drop the "For example" part. I feel like this doesn't really need
-> an example -- most probably we've all been there already when the kernel
-> log was flooded :)
->
-> > +and wrap the kernel log, and can even slow the system enough that the excessive
-> > +logging turns into its own, additional problem.
-> > +
-> > +Do not WARN lightly
-> > +*******************
-> > +
-> > +WARN*() is intended for unexpected, this-should-never-happen situations. WARN*()
-> > +macros are not to be used for anything that is expected to happen during normal
-> > +operation. These are not pre- or post-condition asserts, for example. Again:
-> > +WARN*() must not be used for a condition that is expected to trigger easily, for
-> > +example, by user space actions. pr_warn_once() is a possible alternative, if you
-> > +need to notify the user of a problem.
-> > +
-> > +Do not worry about panic_on_warn users
-> > +**************************************
-> > +
-> > +A few more words about panic_on_warn: Remember that ``panic_on_warn`` is an
-> > +available kernel option, and that many users set this option. This is why there
-> > +is a "Do not WARN lightly" writeup, above. However, the existence of
-> > +panic_on_warn users is not a valid reason to avoid the judicious use WARN*().
-> > +That is because, whoever enables panic_on_warn has explicitly asked the kernel
-> > +to crash if a WARN*() fires, and such users must be prepared to deal with the
-> > +consequences of a system that is somewhat more likely to crash.
->
-> Side note: especially with kdump() I feel like we might see much more
-> widespread use of panic_on_warn to be able to actually extract debug
-> information in a controlled manner -- for example on enterprise distros.
-> ... which would then make these systems more likely to crash, because
-> there is no way to distinguish a rather harmless warning from a severe
-> warning :/ . But let's see if some kdump() folks will share their
-> opinion as reply to the cover letter.
+> I don't understand this.
+> If we pass a ctx into a helper and it's going to
+> access [0..N] bytes from it why do we need to hide it?
+> max_ctx_offset will be used later raw_tp, tp, syscall progs
+> to determine whether it's ok to load them.
+> By hiding the actual size of access somebody can construct
+> a prog that reads out of bounds.
+> How is this related to NULL-ness property?
 
-I can understand the intention of this patch, and I totally agree that
-BUG() should be used carefully, this is a good proposal if we can
-clearly define the standard about when to use BUG().  But I do have
-some worries,  I think this standard is different for different sub
-components, it is not clear to me at least,  so this may introduce an
-unstable running kernel and cause troubles (eg. data corruption) with
-a WARN instead of a BUG. Probably it would be better to say "Do not
-WARN lightly, and do not hesitate to use BUG if it is really needed"?
-
-About "patch_on_warn", it will depend on the admin/end user to set it,
-it is not a good idea for distribution to set it. It seems we are
-leaving it to end users to take the risk of a kernel panic even with
-all kernel WARN even if it is sometimes not necessary.
-
+Same question, was just typing exactly the same thing.
 
 >
-> --
-> Thanks,
+> > +
+> >         /* Compiler optimizations can remove arguments from static functions
+> >          * or mismatched type can be passed into a global function.
+> >          * In such cases mark the function as unreliable from BTF point of view.
+> > diff --git a/kernel/bpf/verifier.c b/kernel/bpf/verifier.c
+> > index 2c1f8069f7b7..d694f43ab911 100644
+> > --- a/kernel/bpf/verifier.c
+> > +++ b/kernel/bpf/verifier.c
+> > @@ -5229,6 +5229,25 @@ static int check_helper_mem_access(struct bpf_verifier_env *env, int regno,
+> >                                 env,
+> >                                 regno, reg->off, access_size,
+> >                                 zero_size_allowed, ACCESS_HELPER, meta);
+> > +       case PTR_TO_CTX:
+> > +               /* in case the function doesn't know how to access the context,
+> > +                * (because we are in a program of type SYSCALL for example), we
+> > +                * can not statically check its size.
+> > +                * Dynamically check it now.
+> > +                */
+> > +               if (!env->ops->convert_ctx_access) {
+> > +                       enum bpf_access_type atype = meta && meta->raw_mode ? BPF_WRITE : BPF_READ;
+> > +                       int offset = access_size - 1;
+> > +
+> > +                       /* Allow zero-byte read from PTR_TO_CTX */
+> > +                       if (access_size == 0)
+> > +                               return zero_size_allowed ? 0 : -EACCES;
+> > +
+> > +                       return check_mem_access(env, env->insn_idx, regno, offset, BPF_B,
+> > +                                               atype, -1, false);
+> > +               }
 >
-> David / dhildenb
->
+> This part looks good alone. Without max_ctx_offset save/restore.
 
-Thanks
-Dave
-
++1, save/restore would be incorrect.
