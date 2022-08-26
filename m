@@ -2,55 +2,55 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 27D9CECAAD6
-	for <linux-doc@archiver.kernel.org>; Fri, 26 Aug 2022 07:31:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D82DDECAAA3
+	for <linux-doc@archiver.kernel.org>; Fri, 26 Aug 2022 07:31:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245462AbiHZHbE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 26 Aug 2022 03:31:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47186 "EHLO
+        id S245453AbiHZHby (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 26 Aug 2022 03:31:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45004 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245334AbiHZHaq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Aug 2022 03:30:46 -0400
-Received: from mail-vk1-xa30.google.com (mail-vk1-xa30.google.com [IPv6:2607:f8b0:4864:20::a30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1B9789CDB
-        for <linux-doc@vger.kernel.org>; Fri, 26 Aug 2022 00:30:36 -0700 (PDT)
-Received: by mail-vk1-xa30.google.com with SMTP id o198so297505vko.4
-        for <linux-doc@vger.kernel.org>; Fri, 26 Aug 2022 00:30:36 -0700 (PDT)
+        with ESMTP id S245413AbiHZHba (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Aug 2022 03:31:30 -0400
+Received: from mail-vs1-xe35.google.com (mail-vs1-xe35.google.com [IPv6:2607:f8b0:4864:20::e35])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E6CAD3E43
+        for <linux-doc@vger.kernel.org>; Fri, 26 Aug 2022 00:31:12 -0700 (PDT)
+Received: by mail-vs1-xe35.google.com with SMTP id k10so885973vsr.4
+        for <linux-doc@vger.kernel.org>; Fri, 26 Aug 2022 00:31:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc;
-        bh=7Z6amQnsYsm6ESX8P5+NTYnQsewpzwMbY/QVqco9p1M=;
-        b=oM+exJw8bn8uWuTuKKMdGfqGgSMh0P5aIjCxhpzXGsztf3jGawfeNA7KWY591NTVga
-         koQBG6nrfd6YSnGZjNRGN2+EGjMBkOtzG34EOzNjGOOOY8IPyLP5uyNT5qQelCxD5bCf
-         mElbXTE3kcGYk3mxjYkDjhd1wdlNAMwqnp1QFSUzaGGIhOAIqjRj2t+0uUNGJW26liSG
-         MZs/3YJGpLoVefeTzkfMBPHiSige3K9HeRj1zrBrZFnLQE4UYhZvz2pReqStna3Ra+K4
-         sQsllUUYSKvJy4JYM7AO/K1TSnpn4lADD4fgHk4j1pIxGXhHqggOveB1As63NOHJc4Rm
-         g3Gg==
+        bh=Hs37jQpZRDgr1pnRvgT/uAiumbpP9jZ+HIamwzNBmpE=;
+        b=V7tB4iV1oB/9TqJ+ooQZUUhrWOlM1rTkn5FmYwjxugAWScejdfM4vmRzhsygzHVOWm
+         IiVCbe9SxXQRuo8XtmBO2YUMWPYbkdKb62T36EoAdYQ6kyweF8f+5KOZd7SvtnbR4Oa2
+         R8MFYeePnB3ae972UOFlUwnNRRJfvkkkgWtOQRHKC8mbOt52qXeJ0D19LuqGK+PXwhda
+         njGoT+WwjCJpgzm4hIwG5GAYNa8X2E9z/TQD/6iLVdGzx8ffJawuuhReXviQQE6l67nw
+         p2CeHMe68MWuKUS987Iznc0Y2/AilhXc6XPzDnR+aVX8ClTb9L68bqUfK6kIxwFY29jt
+         4tQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc;
-        bh=7Z6amQnsYsm6ESX8P5+NTYnQsewpzwMbY/QVqco9p1M=;
-        b=jsh6wBCKgpGL+L5Tp7Pfy7bQ0k8Kw7IgEXNEz/H9o9FnintRsUuqrAJA9nzj3VoX4w
-         zP10hnChsRgg8tODDH2Yx8dp0ZLCLZJkHUzoi8QYVvvRDURBhvqvpIr0n1NJNdc3bqGH
-         ciGwYgt8ZGnTwmMWi4+NH9QuC2XkDJEDVAUDc9X41WIvkz5kBM1UVXsVdembjksx+CRw
-         BkxGh0F0XdHqEJYCMp4f+Et/8eXIRZUjaoa8NbBlCdeeTBAlzVUU0ZRV94MtRaNGPXkJ
-         5fA+TuYjLaoTOWUbmpikUcTBpXB58Sr7hT1WmjZFPrgDnZS2ckWxbaiw4woiZWLmEZdY
-         Z5DA==
-X-Gm-Message-State: ACgBeo2WeXmJu/QqGEOS4Ob7g1eeoCiBfXTSCdjRBIj86HjsQfxb7P+d
-        UFyCVdb0hcHORngANAmKgbJOX2uMHEdjWgpO72Q1SA==
-X-Google-Smtp-Source: AA6agR6+hMVRSBVwb1X5RxsUTb7998H3zRB+TNRJlKgaL3GMrJjUWnK1MlcyJ9doAB9j4TB/lS0il6sWtJsws5Y3m44=
-X-Received: by 2002:a1f:b248:0:b0:377:aa0c:941 with SMTP id
- b69-20020a1fb248000000b00377aa0c0941mr2815228vkf.37.1661499035088; Fri, 26
- Aug 2022 00:30:35 -0700 (PDT)
+        bh=Hs37jQpZRDgr1pnRvgT/uAiumbpP9jZ+HIamwzNBmpE=;
+        b=3cE30F5qhXH0y+vLVuKtgAaAkalx6Dai0i7UaAL0fpsbSBTQpyiSYjpAEfW6N9GypK
+         NyJiYIlPsAj841WgmU/AlEKdjXuizDyQWqK7zejVm+yM4rBnns29LGpcL1Et00fZB00W
+         esH6E9XU244RZLveYHX3bDQR82eeIE+s9EbQ4653kRQobvCczMam1So0VhF7C/g7Kgqm
+         bZTpKZkVOREyJ7zNpPbch+6A4C9Tm1/qzLznxec2dV3YE4kqlU+eO6RXiAxTey/uA90p
+         X2iuK6LA96pqrAR2sCs9XgSWk815ooskHDrnB5ctCiDMT2e/AI1QP8n5HAMHJ/vK/EvI
+         o0uw==
+X-Gm-Message-State: ACgBeo2sQ8jkEQgq1OAkg9/eai88IIcnssfDTc7LrgbFZnacRhJT+Csv
+        5lu3T/Tstcy7d67WfTJ5Hj3QUTkJf4z4LJJ8P5unFA==
+X-Google-Smtp-Source: AA6agR4zXm9ijjx3BKs5dfze2uuEisXwH+1mn2J40SivxmoNU84HE4GE+w2BTPVMwPKaAQzIK41QlHu8YpWASD/oWic=
+X-Received: by 2002:a67:c18e:0:b0:390:3b4d:4e9d with SMTP id
+ h14-20020a67c18e000000b003903b4d4e9dmr3124907vsj.71.1661499070642; Fri, 26
+ Aug 2022 00:31:10 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220822022646.98581-1-tales.aparecida@gmail.com> <20220822022646.98581-7-tales.aparecida@gmail.com>
-In-Reply-To: <20220822022646.98581-7-tales.aparecida@gmail.com>
+References: <20220822022646.98581-1-tales.aparecida@gmail.com> <20220822022646.98581-8-tales.aparecida@gmail.com>
+In-Reply-To: <20220822022646.98581-8-tales.aparecida@gmail.com>
 From:   David Gow <davidgow@google.com>
-Date:   Fri, 26 Aug 2022 15:30:23 +0800
-Message-ID: <CABVgOSkSMY3ek=5xQL-jPkP53vUCyQXGYmJbwK527fePEEiSxw@mail.gmail.com>
-Subject: Re: [PATCH v2 6/8] Documentation: KUnit: update links in the index page
+Date:   Fri, 26 Aug 2022 15:30:58 +0800
+Message-ID: <CABVgOS=gYJCw=jodCh7Y4rvTdpCkFUSbBZky=URSS7RGAX=7Ng@mail.gmail.com>
+Subject: Re: [PATCH v2 7/8] lib: overflow: update reference to kunit-tool
 To:     Tales Aparecida <tales.aparecida@gmail.com>
 Cc:     Sadiya Kazi <sadiyakazi@google.com>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
@@ -63,86 +63,56 @@ Cc:     Sadiya Kazi <sadiyakazi@google.com>,
         Trevor Woerner <twoerner@gmail.com>, siqueirajordao@riseup.net,
         mwen@igalia.com, andrealmeid@riseup.net,
         =?UTF-8?B?TWHDrXJhIENhbmFs?= <mairacanal@riseup.net>,
-        Isabella Basso <isabbasso@riseup.net>, magalilemes00@gmail.com
+        Isabella Basso <isabbasso@riseup.net>, magalilemes00@gmail.com,
+        Kees Cook <keescook@chromium.org>
 Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
-        boundary="000000000000cc7dca05e71fe30d"
+        boundary="000000000000eb5a9e05e71fe5b6"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
---000000000000cc7dca05e71fe30d
+--000000000000eb5a9e05e71fe5b6
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
 On Mon, Aug 22, 2022 at 10:30 AM Tales Aparecida
 <tales.aparecida@gmail.com> wrote:
 >
-> Replace out-of-date external links with references to the kernel
-> documentation, replacing TAP webpage for the more appropriate KTAP
-> documentation and the UML webpage by its documentation.
+> Replace URL with an updated path to the full Documentation page
 >
 > Signed-off-by: Tales Aparecida <tales.aparecida@gmail.com>
+> Reviewed-by: Kees Cook <keescook@chromium.org>
 > ---
 
-Thanks. These links are definitely better.
-
-(I'm a little sad about losing the link to the TAP page, but it's
-linked-to from the KTAP page, so it's fine.)
-
 Reviewed-by: David Gow <davidgow@google.com>
+
+If no-one objects, I think we'll take this (along with the rest of the
+series) via the kselftest/kunit tree.
 
 Cheers,
 -- David
 
 
->  Documentation/dev-tools/kunit/index.rst | 13 +++++++------
->  1 file changed, 7 insertions(+), 6 deletions(-)
+>  lib/overflow_kunit.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/Documentation/dev-tools/kunit/index.rst b/Documentation/dev-=
-tools/kunit/index.rst
-> index d7187282ba28..f5d13f1d37be 100644
-> --- a/Documentation/dev-tools/kunit/index.rst
-> +++ b/Documentation/dev-tools/kunit/index.rst
-> @@ -28,10 +28,10 @@ KUnit (Kernel unit testing framework) provides a comm=
-on framework for
->  unit tests within the Linux kernel. Using KUnit, you can define groups
->  of test cases called test suites. The tests either run on kernel boot
->  if built-in, or load as a module. KUnit automatically flags and reports
-> -failed test cases in the kernel log. The test results appear in `TAP
-> -(Test Anything Protocol) format <https://testanything.org/>`_. It is ins=
-pired by
-> -JUnit, Python=E2=80=99s unittest.mock, and GoogleTest/GoogleMock (C++ un=
-it testing
-> -framework).
-> +failed test cases in the kernel log. The test results appear in
-> +:doc:`KTAP (Kernel - Test Anything Protocol) format</dev-tools/ktap>`.
-> +It is inspired by JUnit, Python=E2=80=99s unittest.mock, and GoogleTest/=
-GoogleMock
-> +(C++ unit testing framework).
->
->  KUnit tests are part of the kernel, written in the C (programming)
->  language, and test parts of the Kernel implementation (example: a C
-> @@ -45,8 +45,9 @@ internal system functionality. KUnit runs in kernel spa=
-ce and is not
->  restricted to things exposed to user-space.
->
->  In addition, KUnit has kunit_tool, a script (``tools/testing/kunit/kunit=
-.py``)
-> -that configures the Linux kernel, runs KUnit tests under QEMU or UML (`U=
-ser Mode
-> -Linux <http://user-mode-linux.sourceforge.net/>`_), parses the test resu=
-lts and
-> +that configures the Linux kernel, runs KUnit tests under QEMU or UML
-> +(:doc:`User Mode Linux </virt/uml/user_mode_linux_howto_v2>`),
-> +parses the test results and
->  displays them in a user friendly manner.
->
->  Features
+> diff --git a/lib/overflow_kunit.c b/lib/overflow_kunit.c
+> index 7e3e43679b73..78075106c0df 100644
+> --- a/lib/overflow_kunit.c
+> +++ b/lib/overflow_kunit.c
+> @@ -1,7 +1,7 @@
+>  // SPDX-License-Identifier: GPL-2.0 OR MIT
+>  /*
+>   * Test cases for arithmetic overflow checks. See:
+> - * https://www.kernel.org/doc/html/latest/dev-tools/kunit/kunit-tool.html#configuring-building-and-running-tests
+> + * "Running tests with kunit_tool" at Documentation/dev-tools/kunit/start.rst
+>   *     ./tools/testing/kunit/kunit.py run overflow [--raw_output]
+>   */
+>  #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
 > --
 > 2.37.2
 >
 
---000000000000cc7dca05e71fe30d
+--000000000000eb5a9e05e71fe5b6
 Content-Type: application/pkcs7-signature; name="smime.p7s"
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="smime.p7s"
@@ -209,14 +179,14 @@ OOYwT0BUtHYR/3903Dmdx5Alq+NDvUHDjozgo0f6oIkwDXT3yBV36utQ/jFisd36C8RD5mM+NFpu
 3aqLXARRbKtxw29ErCwulof2dcAonG7cd5j+gmS84sLhKU+BhL1OQVXnJ5tj7xZ5Ri5I23brcwk0
 lk/gWqfgs3ppT9Xk7zVit9q8MYICajCCAmYCAQEwaDBUMQswCQYDVQQGEwJCRTEZMBcGA1UEChMQ
 R2xvYmFsU2lnbiBudi1zYTEqMCgGA1UEAxMhR2xvYmFsU2lnbiBBdGxhcyBSMyBTTUlNRSBDQSAy
-MDIwAhABh9LgIPnlfMFHR0Die8n7MA0GCWCGSAFlAwQCAQUAoIHUMC8GCSqGSIb3DQEJBDEiBCA5
-ZDKaDUwVMj1tl9wyLinlP3j9YrShiwQUlSVTa2k1ujAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcB
-MBwGCSqGSIb3DQEJBTEPFw0yMjA4MjYwNzMwMzVaMGkGCSqGSIb3DQEJDzFcMFowCwYJYIZIAWUD
+MDIwAhABh9LgIPnlfMFHR0Die8n7MA0GCWCGSAFlAwQCAQUAoIHUMC8GCSqGSIb3DQEJBDEiBCAM
+oCRtNO6oIhidC0Zh3piBvxjsZ/WTWR+pQVH8uLcOIzAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcB
+MBwGCSqGSIb3DQEJBTEPFw0yMjA4MjYwNzMxMTBaMGkGCSqGSIb3DQEJDzFcMFowCwYJYIZIAWUD
 BAEqMAsGCWCGSAFlAwQBFjALBglghkgBZQMEAQIwCgYIKoZIhvcNAwcwCwYJKoZIhvcNAQEKMAsG
-CSqGSIb3DQEBBzALBglghkgBZQMEAgEwDQYJKoZIhvcNAQEBBQAEggEAnpZKHveGGwup1DczYAhp
-380hJmwlJG48XK0hGqKIEDaPYOFavzstbt/uh1guK8IFksHkfFt+IERpRgJ0em754KGj07YhmdY4
-W3Lgh9rF7vI6icv4WJqSSZjFV5cMtisizjaYO/vkU6b4KVlKtYrY0oMYk4PsKYVxUg8zlWaYQv1m
-A04vsvkBAVc73azlqz3J/gLEt6LOEXst/cRhcErL6HaOzgKlqKfLBRzV+WuvKcw8zHScy0QODK2+
-GnceMqvvLtgPMPmE2uzu1+pnhaVlB6NklRLB7E/AmLTXZC0EoPht5fLU4NxJsgwUR3A0EfWx2gIx
-G5+q/mNJ77x3LiXNHg==
---000000000000cc7dca05e71fe30d--
+CSqGSIb3DQEBBzALBglghkgBZQMEAgEwDQYJKoZIhvcNAQEBBQAEggEAURTFPT8Cgwb7T8d1+sJw
+icmVHBu26KktIaddAOqy+A7608plKDAOTsUFAAffHrQ8fEl4bOgKjqcgZG83VWYbyWB4qYywIyWq
+gpA0Ltfcwv+UDNoEbqL+oPMmZhgRNHr0qs71nFisRTAb7ef0pMhYTeO1pcJCGtDAjKRU6cB1Fa7F
+OTo5hig2i6aijslSukOwmUK7tCz2awcYbgwq25NEfelP5cma5rRonvE5COYK58Ur5FExHbtwYEhH
+ea4OmDe6Zgx+N1oe0Hgs1CV9bLsUpBSxUseSgureZqSsmcWef+hTi/Cj8+0Mncbhn6BRUjy/htc9
+q6IT3a8n8fh+CuS7dA==
+--000000000000eb5a9e05e71fe5b6--
