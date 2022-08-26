@@ -2,77 +2,198 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C1FE4ECAAA3
-	for <linux-doc@archiver.kernel.org>; Fri, 26 Aug 2022 06:55:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E63E0ECAAD6
+	for <linux-doc@archiver.kernel.org>; Fri, 26 Aug 2022 07:02:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229838AbiHZGzk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 26 Aug 2022 02:55:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35192 "EHLO
+        id S243938AbiHZHCE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 26 Aug 2022 03:02:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48000 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237088AbiHZGz0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Aug 2022 02:55:26 -0400
-Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C5D66E2E1;
-        Thu, 25 Aug 2022 23:55:20 -0700 (PDT)
-Received: from dggpeml500021.china.huawei.com (unknown [172.30.72.57])
-        by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4MDVqj73x6z19Vbg;
-        Fri, 26 Aug 2022 14:51:45 +0800 (CST)
-Received: from dggpeml500010.china.huawei.com (7.185.36.155) by
- dggpeml500021.china.huawei.com (7.185.36.21) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Fri, 26 Aug 2022 14:54:49 +0800
-Received: from huawei.com (10.67.175.33) by dggpeml500010.china.huawei.com
- (7.185.36.155) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Fri, 26 Aug
- 2022 14:54:49 +0800
-From:   Lin Yujun <linyujun809@huawei.com>
-To:     <corbet@lwn.net>, <bp@suse.de>, <keescook@chromium.org>,
-        <aarcange@redhat.com>, <daniel.sneddon@linux.intel.com>,
-        <longman@redhat.com>, <lukas.bulwahn@gmail.com>,
-        <peterz@infradead.org>, <kim.phillips@amd.com>,
-        <linyujun809@huawei.com>
-CC:     <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH -next] Documentation/hw-vuln: Update spectre doc
-Date:   Fri, 26 Aug 2022 14:51:32 +0800
-Message-ID: <20220826065132.112340-1-linyujun809@huawei.com>
-X-Mailer: git-send-email 2.17.1
+        with ESMTP id S244694AbiHZHCD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Aug 2022 03:02:03 -0400
+Received: from mail-vk1-xa2b.google.com (mail-vk1-xa2b.google.com [IPv6:2607:f8b0:4864:20::a2b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8533ABA9EB
+        for <linux-doc@vger.kernel.org>; Fri, 26 Aug 2022 00:02:01 -0700 (PDT)
+Received: by mail-vk1-xa2b.google.com with SMTP id b81so279541vkf.1
+        for <linux-doc@vger.kernel.org>; Fri, 26 Aug 2022 00:02:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc;
+        bh=IAhx79PDnnEYrbEaJ9alA7sNYSm3waPMN31hwZ5vLa0=;
+        b=i3FgZy6HpKteJ+yzk2+g2gYn+btC89cb55Vsub76b5kAztpn83T51085PIwzrN05hM
+         i+MZv7ZRdRePtDlhohXjlNMlrcXTX9QyYvRaPgVQmPzKx++0mLDfIsZhzBvxr252bBS6
+         GPTHg+DMyNf163he0Q5cKQLVpjt6lsNbXy2UtK8x8yIVPk82+xDdCbqaeV7ShSzEIh8x
+         voCkLvvQnWc0N6IlvUZNm2FwMofH9ATwwVor6faHI9AI5zW9h7TTXdL7ieMA1zhek9nZ
+         CTxsJ3qphcOWBIRohtqUwKvomSucqnBiW/6KvzghEZ7Hg1BVH304J3VlmP+xh7Dy/WVz
+         7Ovw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=IAhx79PDnnEYrbEaJ9alA7sNYSm3waPMN31hwZ5vLa0=;
+        b=BbV+5RUPumZKJzYB1EzpZPXC6mZKjJNappHmAjFAjVcADEwFT6yUOpX/N0cf73jxQi
+         zttwugoEsApMnEukdmUwD/VN7lD38qhDVXZZyFn6RYPceh76b4IBVkP7cZgFOdi6rfyK
+         /5salKLpc5ZjUyPVxVvLBy9nX6fSV8Sp9V0sczMCrDY5czdHk/AkGDpz5t9EduYEr/cv
+         oN20JfGtEqZIKJrb7WS+A3rsHvh78aAH2QL0p3PG/BLg9AEAmGZjo+YeOX73Vss2LOml
+         uvlmT+Dz8wAp5mASJ6aQYiOztJuEkHAgUjXHiJtCSU5EeX5uNTb4HXE0UoccLxvxEUJr
+         Db/Q==
+X-Gm-Message-State: ACgBeo2GwHhaBKCFUPNllMTO9fXqxnpN9lqhGgQmRZlNjtT3EpLqB8A9
+        fJP/LLe1osd/PwjpPLpi7mhiEBQDPA+BOlcjHriE3Q==
+X-Google-Smtp-Source: AA6agR5YIgRD7icrEPbMo91EGOok4fOYKpDJ8hyhpp8YDdFqB05P37vSLYM6jMxTZZTheFfN3bRbXt/+bNfyIynoR4k=
+X-Received: by 2002:a05:6122:178a:b0:380:c120:6760 with SMTP id
+ o10-20020a056122178a00b00380c1206760mr2698897vkf.7.1661497320522; Fri, 26 Aug
+ 2022 00:02:00 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.67.175.33]
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
- dggpeml500010.china.huawei.com (7.185.36.155)
-X-CFilter-Loop: Reflected
+References: <20220819053234.241501-1-tales.aparecida@gmail.com>
+ <20220819053234.241501-3-tales.aparecida@gmail.com> <f0c491f2-39fd-b778-bc63-99b3338c6d8a@riseup.net>
+In-Reply-To: <f0c491f2-39fd-b778-bc63-99b3338c6d8a@riseup.net>
+From:   David Gow <davidgow@google.com>
+Date:   Fri, 26 Aug 2022 15:01:46 +0800
+Message-ID: <CABVgOSmbU+rrQsKYjiGcx95yJ-hyr5SS9W-oDCHRyH6Sfe_Cvg@mail.gmail.com>
+Subject: Re: [PATCH 2/8] Documentation: KUnit: avoid repeating "kunit.py run"
+ in start.rst
+To:     =?UTF-8?B?TWHDrXJhIENhbmFs?= <mairacanal@riseup.net>
+Cc:     Tales Aparecida <tales.aparecida@gmail.com>,
+        Sadiya Kazi <sadiyakazi@google.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        KUnit Development <kunit-dev@googlegroups.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Brendan Higgins <brendan.higgins@linux.dev>,
+        Trevor Woerner <twoerner@gmail.com>, siqueirajordao@riseup.net,
+        mwen@igalia.com, andrealmeid@riseup.net,
+        Isabella Basso <isabbasso@riseup.net>, magalilemes00@gmail.com
+Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
+        boundary="0000000000009aaeb505e71f7d10"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The following patch adds the specre_v2=ibrs option in
-Documentation/admin-guide/kernel-parameters.txt
-but omits it to
-Documentation/admin-guide/hw-vuln/spectre.rst
+--0000000000009aaeb505e71f7d10
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-commit 7c693f54c873691 ("x86/speculation: Add spectre_v2=ibrs option to support Kernel IBRS")
+On Fri, Aug 19, 2022 at 7:04 PM Ma=C3=ADra Canal <mairacanal@riseup.net> wr=
+ote:
+>
+> Hi Tales
+>
+> On 8/19/22 02:32, Tales Aparecida wrote:
+> > Combine two sections mentioning "kunit.py run" to streamline the
+> > getting-started guide.
+> >
+> > Signed-off-by: Tales Aparecida <tales.aparecida@gmail.com>
+> > ---
+> >  Documentation/dev-tools/kunit/start.rst | 38 ++++++++++---------------
+> >  1 file changed, 15 insertions(+), 23 deletions(-)
+> >
+> > diff --git a/Documentation/dev-tools/kunit/start.rst b/Documentation/de=
+v-tools/kunit/start.rst
+> > index e730df1f468e..165d7964aa13 100644
+> > --- a/Documentation/dev-tools/kunit/start.rst
+> > +++ b/Documentation/dev-tools/kunit/start.rst
+> > @@ -19,7 +19,21 @@ can run kunit_tool:
+> >
+> >       ./tools/testing/kunit/kunit.py run
+> >
+> > -For more information on this wrapper, see:
+> > +If everything worked correctly, you should see the following:
+> > +
+> > +.. code-block::
+> > +
+> > +     Generating .config ...
+>
+> When I run ./tools/testing/kunit/kunit.py run, I usually see
+> "Configuring KUnit Kernel ..." instead of "Generating .config ...".
+> Maybe there was a change in the code that didn't reflect on the docs.
+>
 
-Supplement the specre_v2=ibrs option to
-Documentation/admin-guide/hw-vuln/spectre.rst
+FYI, The "Generating .config..." message will only appear if there's
+no .config file present in the build dir. Since this is the case the
+first time kunit_tool is used, it makes sense to mention it here in
+the "Getting Started" docs, IMHO.
 
-Signed-off-by: Lin Yujun <linyujun809@huawei.com>
----
- Documentation/admin-guide/hw-vuln/spectre.rst | 1 +
- 1 file changed, 1 insertion(+)
+Cheers,
+-- David
 
-diff --git a/Documentation/admin-guide/hw-vuln/spectre.rst b/Documentation/admin-guide/hw-vuln/spectre.rst
-index 2ce2a38cdd55..c4dcdb3d0d45 100644
---- a/Documentation/admin-guide/hw-vuln/spectre.rst
-+++ b/Documentation/admin-guide/hw-vuln/spectre.rst
-@@ -613,6 +613,7 @@ kernel command line.
-                 eibrs                   enhanced IBRS
-                 eibrs,retpoline         enhanced IBRS + Retpolines
-                 eibrs,lfence            enhanced IBRS + LFENCE
-+                ibrs                    use IBRS to protect kernel
- 
- 		Not specifying this option is equivalent to
- 		spectre_v2=auto.
--- 
-2.17.1
+--0000000000009aaeb505e71f7d10
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Description: S/MIME Cryptographic Signature
 
+MIIPnwYJKoZIhvcNAQcCoIIPkDCCD4wCAQExDzANBglghkgBZQMEAgEFADALBgkqhkiG9w0BBwGg
+ggz5MIIEtjCCA56gAwIBAgIQeAMYYHb81ngUVR0WyMTzqzANBgkqhkiG9w0BAQsFADBMMSAwHgYD
+VQQLExdHbG9iYWxTaWduIFJvb3QgQ0EgLSBSMzETMBEGA1UEChMKR2xvYmFsU2lnbjETMBEGA1UE
+AxMKR2xvYmFsU2lnbjAeFw0yMDA3MjgwMDAwMDBaFw0yOTAzMTgwMDAwMDBaMFQxCzAJBgNVBAYT
+AkJFMRkwFwYDVQQKExBHbG9iYWxTaWduIG52LXNhMSowKAYDVQQDEyFHbG9iYWxTaWduIEF0bGFz
+IFIzIFNNSU1FIENBIDIwMjAwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCvLe9xPU9W
+dpiHLAvX7kFnaFZPuJLey7LYaMO8P/xSngB9IN73mVc7YiLov12Fekdtn5kL8PjmDBEvTYmWsuQS
+6VBo3vdlqqXZ0M9eMkjcKqijrmDRleudEoPDzTumwQ18VB/3I+vbN039HIaRQ5x+NHGiPHVfk6Rx
+c6KAbYceyeqqfuJEcq23vhTdium/Bf5hHqYUhuJwnBQ+dAUcFndUKMJrth6lHeoifkbw2bv81zxJ
+I9cvIy516+oUekqiSFGfzAqByv41OrgLV4fLGCDH3yRh1tj7EtV3l2TngqtrDLUs5R+sWIItPa/4
+AJXB1Q3nGNl2tNjVpcSn0uJ7aFPbAgMBAAGjggGKMIIBhjAOBgNVHQ8BAf8EBAMCAYYwHQYDVR0l
+BBYwFAYIKwYBBQUHAwIGCCsGAQUFBwMEMBIGA1UdEwEB/wQIMAYBAf8CAQAwHQYDVR0OBBYEFHzM
+CmjXouseLHIb0c1dlW+N+/JjMB8GA1UdIwQYMBaAFI/wS3+oLkUkrk1Q+mOai97i3Ru8MHsGCCsG
+AQUFBwEBBG8wbTAuBggrBgEFBQcwAYYiaHR0cDovL29jc3AyLmdsb2JhbHNpZ24uY29tL3Jvb3Ry
+MzA7BggrBgEFBQcwAoYvaHR0cDovL3NlY3VyZS5nbG9iYWxzaWduLmNvbS9jYWNlcnQvcm9vdC1y
+My5jcnQwNgYDVR0fBC8wLTAroCmgJ4YlaHR0cDovL2NybC5nbG9iYWxzaWduLmNvbS9yb290LXIz
+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
+z/tQRXr3iPeVmZCr7nttMEwGA1UdIARFMEMwQQYJKwYBBAGgMgEoMDQwMgYIKwYBBQUHAgEWJmh0
+dHBzOi8vd3d3Lmdsb2JhbHNpZ24uY29tL3JlcG9zaXRvcnkvMAwGA1UdEwEB/wQCMAAwgZoGCCsG
+AQUFBwEBBIGNMIGKMD4GCCsGAQUFBzABhjJodHRwOi8vb2NzcC5nbG9iYWxzaWduLmNvbS9jYS9n
+c2F0bGFzcjNzbWltZWNhMjAyMDBIBggrBgEFBQcwAoY8aHR0cDovL3NlY3VyZS5nbG9iYWxzaWdu
+LmNvbS9jYWNlcnQvZ3NhdGxhc3Izc21pbWVjYTIwMjAuY3J0MB8GA1UdIwQYMBaAFHzMCmjXouse
+LHIb0c1dlW+N+/JjMEYGA1UdHwQ/MD0wO6A5oDeGNWh0dHA6Ly9jcmwuZ2xvYmFsc2lnbi5jb20v
+Y2EvZ3NhdGxhc3Izc21pbWVjYTIwMjAuY3JsMA0GCSqGSIb3DQEBCwUAA4IBAQAx+EQjLATc/sze
+VoZkH7OLz+/no1+y31x4BQ3wjW7lKfay9DAAVym896b7ECttSo95GEvS7pYMikzud57WypK7Bjpi
+ep8YLarLRDrvyyvBuYtyDrIewkuASHtV1oy5E6QZZe2VOxMm6e2oJnFFjbflot4A08D3SwqDwV0i
+OOYwT0BUtHYR/3903Dmdx5Alq+NDvUHDjozgo0f6oIkwDXT3yBV36utQ/jFisd36C8RD5mM+NFpu
+3aqLXARRbKtxw29ErCwulof2dcAonG7cd5j+gmS84sLhKU+BhL1OQVXnJ5tj7xZ5Ri5I23brcwk0
+lk/gWqfgs3ppT9Xk7zVit9q8MYICajCCAmYCAQEwaDBUMQswCQYDVQQGEwJCRTEZMBcGA1UEChMQ
+R2xvYmFsU2lnbiBudi1zYTEqMCgGA1UEAxMhR2xvYmFsU2lnbiBBdGxhcyBSMyBTTUlNRSBDQSAy
+MDIwAhABh9LgIPnlfMFHR0Die8n7MA0GCWCGSAFlAwQCAQUAoIHUMC8GCSqGSIb3DQEJBDEiBCDM
+Cizit2CYi+Po7iHI61hdM1Pz0e4JuL/NYSBisvlyqDAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcB
+MBwGCSqGSIb3DQEJBTEPFw0yMjA4MjYwNzAyMDBaMGkGCSqGSIb3DQEJDzFcMFowCwYJYIZIAWUD
+BAEqMAsGCWCGSAFlAwQBFjALBglghkgBZQMEAQIwCgYIKoZIhvcNAwcwCwYJKoZIhvcNAQEKMAsG
+CSqGSIb3DQEBBzALBglghkgBZQMEAgEwDQYJKoZIhvcNAQEBBQAEggEAMGvx4tgK1pbYQPA3f6dN
+/EmQiFaWBkpct8WQ7tbAYfntprvSVMYN9IVOwKxse16btWChe7ASzsXptVNdEqH9yKcB7CA96LWB
+lN6pMf6pIkCgSZ0v71YNDlNEbMTDUnyM+m9OLqdRaAHj2xQqhnXUGM0/Kgu59xHt6MIRQqWDVedx
+g+6fyoFYLqe2SIdk0F8TBwWxLvihKt/g6+pebA+KZRlZZPHWdQ4RAqEIJEDiu2e6kPZB3ITDCa12
+LmBulaE+HTIzmv5xgAKUaj8e36Gd38wqgicZbUvWoPYOxKTMDA4ghAOLUWS9RqaqHhZischB2+Tl
+V/O+hCTfM8WrKPbBHQ==
+--0000000000009aaeb505e71f7d10--
