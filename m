@@ -2,56 +2,55 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 39246ECAAD7
-	for <linux-doc@archiver.kernel.org>; Fri, 26 Aug 2022 07:30:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D526ECAAA3
+	for <linux-doc@archiver.kernel.org>; Fri, 26 Aug 2022 07:30:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245315AbiHZHaA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 26 Aug 2022 03:30:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43244 "EHLO
+        id S245344AbiHZHaL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 26 Aug 2022 03:30:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43790 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245322AbiHZH36 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Aug 2022 03:29:58 -0400
-Received: from mail-ua1-x932.google.com (mail-ua1-x932.google.com [IPv6:2607:f8b0:4864:20::932])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7AA62ADC
-        for <linux-doc@vger.kernel.org>; Fri, 26 Aug 2022 00:29:56 -0700 (PDT)
-Received: by mail-ua1-x932.google.com with SMTP id i5so272692uat.6
-        for <linux-doc@vger.kernel.org>; Fri, 26 Aug 2022 00:29:56 -0700 (PDT)
+        with ESMTP id S245348AbiHZHaH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Aug 2022 03:30:07 -0400
+Received: from mail-ua1-x92f.google.com (mail-ua1-x92f.google.com [IPv6:2607:f8b0:4864:20::92f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF1FC13E09
+        for <linux-doc@vger.kernel.org>; Fri, 26 Aug 2022 00:30:05 -0700 (PDT)
+Received: by mail-ua1-x92f.google.com with SMTP id ay32so274095uab.5
+        for <linux-doc@vger.kernel.org>; Fri, 26 Aug 2022 00:30:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc;
-        bh=57cq3fiEA81rfsCSFoqARMN2OdbUCZeQPm1S95sZkfc=;
-        b=mjEOTHnvFGBSdueJg4owQ0bW5muX+SCgNKUcODOYvG9zGDrRiwJ6Y9asBvnKQYqC9Q
-         ZA21ugQt5Arg7WJsnngFYIyaeJ5pv06geSKeIAgzJGKmz9VqRLj8nNDODD9hyuCv/NzM
-         bkB8/xoBrnGOg0Em5yKBhwItAn+79GixUTLsbLTkx5PF1a6aMT9cGr2JonZzh+IHZcVb
-         LN8y4K8nSGGH38qOWpwYhE5b08m6OAFH9COic4GXf7v7SPu/u/EvuU3VTozLi8mC5E8I
-         8ZM4a7zDYFEWJ8cQ7VXeWSyIousdnoLL83NG50d8PRBoymc80zzEvLuuB0XR8IZqN27V
-         SEYA==
+        bh=HCuuNoUhutN3E1YApEsMni5FWnJl3Y+OYsJmpWBIEHI=;
+        b=tfDDNYBsjvIwOUGzZrbuVyRQwEd8SkPgDnWpqa5e9jli6kN0nv9Te3JRrJ7uk0qmUv
+         bfw+SHxt7WSJ5C8BwXZWaRZ1z07cAtZtcNJFC5iSadWEVgRIRur/WfgKwetRvFMcbZOI
+         mFZ8n6xNUiEFjlhftdO3Ri46kCAASbyvuVOJF9TUWeUnPbrlNm8GpFxHAB3DqYdKk1MD
+         hWtefhh8usat0Im63iLC/P1X9Lr2JnuimbgSFuojHKFcRCZXCxJV7o0KWjWdHYnDg0Zp
+         vi9pEIYLFD3zfQ3FmxHfNoXWPHbPm3hN2p0Q0J5Qsk2NelUHikYUzhlcT14nEbaP56kX
+         IMHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc;
-        bh=57cq3fiEA81rfsCSFoqARMN2OdbUCZeQPm1S95sZkfc=;
-        b=eCUqjbx8GBCQ5CgGNE31aLx/8ERzdNd37zEEJ2UcI95sukNOoVyVhbAZhA0cyPNuD0
-         vXfqrE9Imfx2+QVdpI221SQQg5QdoWhqTbp9OzB9VySNus4j7rvpJcPAqyd6nlCUw8pH
-         FFQHuRzLXnyBRBKXG1T67yKTw5/E8MjGf9Hp+IQ65+PyR2jwGjIBTfc/VDd8dD7qSlcX
-         WCzZiDUA525UvCWRQ3Pr2Xg9M10zXLX8+vyp0Kui6AnDb+VmDB566l4jmo5YyTQVYqyg
-         jXKiuw22fjQXWTzvPO2WUuCbTSBWiKszNbPluXKIvheUMuvw7ktpVxPcZ+r2Dq3Monre
-         C/kg==
-X-Gm-Message-State: ACgBeo0an6Z984XY1hlYOLB4DLw7Tii8ohAyDcpR5/qXao/iL8/JBnbc
-        +l7mrYxPCz1yDiTRLpSYGdYE+vDV9egzg5aOSUtAIA==
-X-Google-Smtp-Source: AA6agR54ZG8qKVeafytfKt1PWeZASXjS48mLkoaHVp+GzzEaQXfM0iQf+IVf9YXNgQYYGxIMCRai/vdomjwPlx9/3Sc=
-X-Received: by 2002:ab0:14ad:0:b0:39f:255c:2ea9 with SMTP id
- d42-20020ab014ad000000b0039f255c2ea9mr2804290uae.52.1661498995743; Fri, 26
- Aug 2022 00:29:55 -0700 (PDT)
+        bh=HCuuNoUhutN3E1YApEsMni5FWnJl3Y+OYsJmpWBIEHI=;
+        b=ap9qO6t2TS2sGy3JWvkAkjUWHgshVU8N0u75xpTHj1ikG5RJNAr99iwt5o7v6pFOQN
+         qK/ZNCa6FNJ2O4OF1eUmVd49utpXxu7/NkP05/DKtfgwxZRFUS80iPPcGOM2bnIr6oLo
+         ObNO1ugVHIba7yi4JmTZ8suAsGGCg8DM5F2TIttxYUTh45Qsyr/TSf3c9D7HDv63G7vk
+         GHmO9k63CUjCp9Sv2W7X67x6b/oXZrE80zuDR+4Kl5WviQkHcaaYi5nv8LxNkHYYYCwQ
+         q6I2/VARl1f792Rr9haKW1EJjf6bwhWHh6HfOwFTkFjeDcrfM0W/JIvxNdyv3/ag8fxc
+         Wg4Q==
+X-Gm-Message-State: ACgBeo3dk+AvwhFTZLpc0ZeG24wqgOUmMPmjQQXS++TlL8ohmSwTbTkL
+        gaQXJrImLiP9n67QTc+XB6aKXzsPWo3yXXSdKJZ5dw==
+X-Google-Smtp-Source: AA6agR5SBoagklscYoWkEDZsLV0jyTfxsuR8cO9C+SujXhYP8kcH2edJjsqJm3xLkiDrmp8jEvE0O5w6WABEjp43tMA=
+X-Received: by 2002:a05:6130:c13:b0:39f:58bb:d51c with SMTP id
+ cg19-20020a0561300c1300b0039f58bbd51cmr2530107uab.104.1661499004733; Fri, 26
+ Aug 2022 00:30:04 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220822022646.98581-1-tales.aparecida@gmail.com> <20220822022646.98581-3-tales.aparecida@gmail.com>
-In-Reply-To: <20220822022646.98581-3-tales.aparecida@gmail.com>
+References: <20220822022646.98581-1-tales.aparecida@gmail.com> <20220822022646.98581-4-tales.aparecida@gmail.com>
+In-Reply-To: <20220822022646.98581-4-tales.aparecida@gmail.com>
 From:   David Gow <davidgow@google.com>
-Date:   Fri, 26 Aug 2022 15:29:44 +0800
-Message-ID: <CABVgOSnmRaSHm5D0DvRW9T2wpaGvzMwUuxPi=tHnLrOATMfEtQ@mail.gmail.com>
-Subject: Re: [PATCH v2 2/8] Documentation: KUnit: avoid repeating "kunit.py
- run" in start.rst
+Date:   Fri, 26 Aug 2022 15:29:52 +0800
+Message-ID: <CABVgOSmwJbdWGrdcmEKi_W+hxv0puGtzfKSXpCg1iqLh1c5JNA@mail.gmail.com>
+Subject: Re: [PATCH v2 3/8] Documentation: KUnit: add note about mrproper in start.rst
 To:     Tales Aparecida <tales.aparecida@gmail.com>
 Cc:     Sadiya Kazi <sadiyakazi@google.com>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
@@ -66,128 +65,83 @@ Cc:     Sadiya Kazi <sadiyakazi@google.com>,
         =?UTF-8?B?TWHDrXJhIENhbmFs?= <mairacanal@riseup.net>,
         Isabella Basso <isabbasso@riseup.net>, magalilemes00@gmail.com
 Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
-        boundary="0000000000007407af05e71fe1ef"
+        boundary="000000000000fd55fa05e71fe19d"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
---0000000000007407af05e71fe1ef
+--000000000000fd55fa05e71fe19d
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
 On Mon, Aug 22, 2022 at 10:30 AM Tales Aparecida
 <tales.aparecida@gmail.com> wrote:
 >
-> Combine two sections mentioning "kunit.py run" to streamline the
-> getting-started guide. Update "kunit.py run" expected output in
-> the guide and run_wrapper.
+> The "Getting Started" guide should be beginner-friendly, therefore
+> add a note about the requirement of a clean source tree when running
+> kunit_tool for the first time, and its related error.
 >
 > Signed-off-by: Tales Aparecida <tales.aparecida@gmail.com>
 >
 > ---
 > Notes:
->     Update the expected output and the note that follows it (Ma=C3=ADra C=
-anal and
->     Sadiya Kazi). The output was updated on the commit: 45ba7a893ad8
->     ("kunit: kunit_tool: Separate out config/build/exec/parse")
->     Add word "step" to note and fix the case of "kernel".
+>     Edit note following suggestions (Sadiya Kazi)
 > ---
 
-Seems okay to me.
+Thanks very much: this is something we've um-ed and ah-ed about
+including a bit. We were worried that it could be confusing to mention
+it when it occurs rarely, but I think your description is detailed
+enough that no-one will be confused.
 
-FYI: The old "Generating .config" message is still technically correct
-for the first time kunit_tool is run. I don't think it matters one way
-or the other, though...
+One note below about how we could use --build_dir=. to set the build
+directory to be equal to the source directory (and hence do an in-tree
+build), but I won't lose any sleep if we don't mention it.
 
 Reviewed-by: David Gow <davidgow@google.com>
 
 Cheers,
+
 -- David
 
-
->  Documentation/dev-tools/kunit/run_wrapper.rst |  2 +-
->  Documentation/dev-tools/kunit/start.rst       | 38 ++++++++-----------
->  2 files changed, 16 insertions(+), 24 deletions(-)
+>  Documentation/dev-tools/kunit/start.rst | 16 ++++++++++++++++
+>  1 file changed, 16 insertions(+)
 >
-> diff --git a/Documentation/dev-tools/kunit/run_wrapper.rst b/Documentatio=
-n/dev-tools/kunit/run_wrapper.rst
-> index 518cf87ea732..6b33caf6c8ab 100644
-> --- a/Documentation/dev-tools/kunit/run_wrapper.rst
-> +++ b/Documentation/dev-tools/kunit/run_wrapper.rst
-> @@ -22,7 +22,7 @@ We should see the following:
->
->  .. code-block::
->
-> -       Generating .config...
-> +       Configuring KUnit Kernel ...
->         Building KUnit kernel...
->         Starting KUnit kernel...
->
-> diff --git a/Documentation/dev-tools/kunit/start.rst b/Documentation/dev-=
-tools/kunit/start.rst
-> index e730df1f468e..2e31350a85e1 100644
+> diff --git a/Documentation/dev-tools/kunit/start.rst b/Documentation/dev-tools/kunit/start.rst
+> index 2e31350a85e1..9beec7d6ac4b 100644
 > --- a/Documentation/dev-tools/kunit/start.rst
 > +++ b/Documentation/dev-tools/kunit/start.rst
-> @@ -19,7 +19,21 @@ can run kunit_tool:
+> @@ -19,6 +19,22 @@ can run kunit_tool:
 >
 >         ./tools/testing/kunit/kunit.py run
 >
-> -For more information on this wrapper, see:
-> +If everything worked correctly, you should see the following:
-> +
-> +.. code-block::
-> +
-> +       Configuring KUnit Kernel ...
-> +       Building KUnit Kernel ...
-> +       Starting KUnit Kernel ...
-> +
-> +The tests will pass or fail.
-> +
 > +.. note ::
-> +   Because it is building a lot of sources for the first time,
-> +   the ``Building KUnit Kernel`` step may take a while.
+> +       You may see the following error:
+> +       "The source tree is not clean, please run 'make ARCH=um mrproper'"
 > +
-> +For detailed information on this wrapper, see:
->  Documentation/dev-tools/kunit/run_wrapper.rst.
+> +       This happens because internally kunit.py specifies ``.kunit``
+> +       (default option) as the build directory in the command ``make O=output/dir``
+> +       through the argument ``--build_dir``.  Hence, before starting an
+> +       out-of-tree build, the source tree must be clean.
+> +
+> +       There is also the same caveat mentioned in the "Build directory for
+> +       the kernel" section of the :doc:`admin-guide </admin-guide/README>`,
+> +       that is, its use, it must be used for all invocations of ``make``.
+> +       The good news is that it can indeed be solved by running
+> +       ``make ARCH=um mrproper``, just be aware that this will delete the
+> +       current configuration and all generated files.
+> +
+
+You could also mention that passing --build_dir=. will cause
+kunit_tool to do an in-tree build.
+
+
+>  If everything worked correctly, you should see the following:
 >
->  Creating a ``.kunitconfig``
-> @@ -74,28 +88,6 @@ you if you have not included dependencies for the opti=
-ons used.
->     tools like ``make menuconfig O=3D.kunit``. As long as its a superset =
-of
->     ``.kunitconfig``, kunit.py won't overwrite your changes.
->
-> -Running Tests (KUnit Wrapper)
-> ------------------------------
-> -1. To make sure that everything is set up correctly, invoke the Python
-> -   wrapper from your kernel repository:
-> -
-> -.. code-block:: bash
-> -
-> -       ./tools/testing/kunit/kunit.py run
-> -
-> -If everything worked correctly, you should see the following:
-> -
-> -.. code-block::
-> -
-> -       Generating .config ...
-> -       Building KUnit Kernel ...
-> -       Starting KUnit Kernel ...
-> -
-> -The tests will pass or fail.
-> -
-> -.. note ::
-> -   Because it is building a lot of sources for the first time, the
-> -   ``Building KUnit kernel`` may take a while.
->
->  Running Tests without the KUnit Wrapper
->  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>  .. code-block::
 > --
 > 2.37.2
 >
 
---0000000000007407af05e71fe1ef
+--000000000000fd55fa05e71fe19d
 Content-Type: application/pkcs7-signature; name="smime.p7s"
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="smime.p7s"
@@ -254,14 +208,14 @@ OOYwT0BUtHYR/3903Dmdx5Alq+NDvUHDjozgo0f6oIkwDXT3yBV36utQ/jFisd36C8RD5mM+NFpu
 3aqLXARRbKtxw29ErCwulof2dcAonG7cd5j+gmS84sLhKU+BhL1OQVXnJ5tj7xZ5Ri5I23brcwk0
 lk/gWqfgs3ppT9Xk7zVit9q8MYICajCCAmYCAQEwaDBUMQswCQYDVQQGEwJCRTEZMBcGA1UEChMQ
 R2xvYmFsU2lnbiBudi1zYTEqMCgGA1UEAxMhR2xvYmFsU2lnbiBBdGxhcyBSMyBTTUlNRSBDQSAy
-MDIwAhABh9LgIPnlfMFHR0Die8n7MA0GCWCGSAFlAwQCAQUAoIHUMC8GCSqGSIb3DQEJBDEiBCBa
-9BIjPuZCvhsJi5VH2KY7R8lNBgkP0XcPPQ5LVHIiQjAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcB
-MBwGCSqGSIb3DQEJBTEPFw0yMjA4MjYwNzI5NTZaMGkGCSqGSIb3DQEJDzFcMFowCwYJYIZIAWUD
+MDIwAhABh9LgIPnlfMFHR0Die8n7MA0GCWCGSAFlAwQCAQUAoIHUMC8GCSqGSIb3DQEJBDEiBCC4
+a7FZbpyI5wh/+L+aDELgCtSv4poG26wl6D/rJX8+1TAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcB
+MBwGCSqGSIb3DQEJBTEPFw0yMjA4MjYwNzMwMDVaMGkGCSqGSIb3DQEJDzFcMFowCwYJYIZIAWUD
 BAEqMAsGCWCGSAFlAwQBFjALBglghkgBZQMEAQIwCgYIKoZIhvcNAwcwCwYJKoZIhvcNAQEKMAsG
-CSqGSIb3DQEBBzALBglghkgBZQMEAgEwDQYJKoZIhvcNAQEBBQAEggEARQ/KD+iIKnMLRvVAQBTp
-ZeKPDBbWWHiuU2ABSxcuBVTWLmYUUagTLRJu9dqQseTNkDhbiD2BC3FCY8G6rAUrh4zPz31a0qRQ
-DBv/dZkpOUMVJVpol9QGUL17EE1V6P1F2hCuBUkIR0vV+Ux3tFbULbdTsaVZwOPstsewN2m4itK2
-yAKwPDzcKWeSVyHCcfhzNaTCkxXj3GgyS3ZkQesF99csk+L1kjk8YoJ9oSV47hXR5VdwhdvbhVsz
-yuEQKvwQxnrdYs2qD/6l01yz2ggVNILDBC/SvBDgh7RJOSEaoTW+RUJ69qdqMJgqAZ1vGGQtnK1S
-p6mIlEvqDymgQTS6dw==
---0000000000007407af05e71fe1ef--
+CSqGSIb3DQEBBzALBglghkgBZQMEAgEwDQYJKoZIhvcNAQEBBQAEggEAlipcdQvksa3725ppW6vG
+uwbKktWBv67xUxRYxE85ICawSjRoO30BPRmZSvfaEOjT2jEPGvyRvNIJbnCm+CkmPRdN/wPETdi0
+Pz+R6gz3uRwhvRYgNFh8j3AUZQUsKJuSaHCBbKyWrcVHrdzV621zrq2ocwjGKpTDnQmzOzrCIir7
+cd1N23sqQcFsKq1DACAerNWYcoRzDWCgTKcYFCFZ+Pww2vhECLJd3SlAJen7PeE9ZYbC4HN1/q/8
+eONRJrmG7BnWrJgp/3QhMoAq55HR43iJBPwxSZSTii+Z7oXdlsB+7wdgQyrqeYDOfh3KajQ/Pwz5
+gP72AZ3+svbevGV+Sw==
+--000000000000fd55fa05e71fe19d--
