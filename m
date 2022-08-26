@@ -2,98 +2,140 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 738ADECAAD2
-	for <linux-doc@archiver.kernel.org>; Fri, 26 Aug 2022 06:19:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DD342ECAAA3
+	for <linux-doc@archiver.kernel.org>; Fri, 26 Aug 2022 06:46:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241183AbiHZGTV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 26 Aug 2022 02:19:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37622 "EHLO
+        id S239601AbiHZGp7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 26 Aug 2022 02:45:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49564 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241159AbiHZGTU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Aug 2022 02:19:20 -0400
-Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com [IPv6:2607:f8b0:4864:20::441])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA182BCC38;
-        Thu, 25 Aug 2022 23:19:19 -0700 (PDT)
-Received: by mail-pf1-x441.google.com with SMTP id a65so687412pfa.1;
-        Thu, 25 Aug 2022 23:19:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc;
-        bh=9wKFe2ysnOXjYOby5ofhokOV07YcBDN9+0+z9LRtL10=;
-        b=F7fr3D1kVeTCiQ9KCREh3wXAhqkxWfinHJYUmokmtkq+XTm4cWq6yt9y6pmMBgse+D
-         Rl4iW9SEJQfVgvPXHvk8SOvR7wPIls0a2dQFYsUHNw1vq0dqTsGe73IlaAzfw6drv9Qq
-         Eo23gUHQ75WmniDPhVuE7Ew+ep69dqR9IrzFH3ooF5NPhwZYboHrYBIWEl/cLZv9hEUG
-         rUrEDTV5DxNBVh5ivHo5JFUDPk5H8fgACvQfRcjzXPYYZzp3CesalhEoGzIFWhGe7hRr
-         apHYFzC/wIVtdZOocIgPbV4+1ZBaoAAlTzKrj65GX5qcFtVx0L+I8uIR/cLZ/YGrNDON
-         y8gg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc;
-        bh=9wKFe2ysnOXjYOby5ofhokOV07YcBDN9+0+z9LRtL10=;
-        b=j5QuwE2mBugNEsN1LOl9lMhTuqZhbQSnQzBlnn4VzAhJRx+TQShalrgCVh8I5R1lQ9
-         /6udPR9keS7pBBG3VqapIvDebvd9ft/3YiA5OPx456NCyYD9wNt8xGa5tJ0KEszyjnxD
-         McmaXVwxzLqXVSGaKtZyPpTqWUUrCtu+afMNKer+1rizuoOV61yTPgCK8RoABCIvPPnU
-         r1CWECgWSZBnsSgd3gYUHitQxPljsala6TZyL5/bgPsXMy8HPbUttssiIrAbpA6pKlFu
-         KK6gRYU0iPnOVkbv2kjnLqvWskh+FcKBi8YJy6gju1jNW+EeL35vIGXda9XSILvNpECr
-         UIVA==
-X-Gm-Message-State: ACgBeo0PvMuI1QKvNXL05706GeEGzb7b+iRK7fjksrL9MUd5UD46I/Bz
-        gw9kStTmZf13oeG/qU2u9wM=
-X-Google-Smtp-Source: AA6agR5aaH/3VU47k5ejJLISacaKchrUtO0rxyvyNIFm8b9udPD6kqbvYr1NiuLAzSaDC059N7TQ5A==
-X-Received: by 2002:a63:66c7:0:b0:429:b6fe:903d with SMTP id a190-20020a6366c7000000b00429b6fe903dmr2136772pgc.33.1661494759224;
-        Thu, 25 Aug 2022 23:19:19 -0700 (PDT)
-Received: from localhost.localdomain ([203.205.141.84])
-        by smtp.gmail.com with ESMTPSA id b10-20020a170902d50a00b001730cf6f839sm672445plg.70.2022.08.25.23.19.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Aug 2022 23:19:18 -0700 (PDT)
-From:   menglong8.dong@gmail.com
-X-Google-Original-From: imagedong@tencent.com
-To:     kuba@kernel.org, sfr@canb.auug.org.au
-Cc:     corbet@lwn.net, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Menglong Dong <imagedong@tencent.com>
-Subject: [PATCH net-next] docs/conf.py: add function attribute '__fix_address' to conf.py
-Date:   Fri, 26 Aug 2022 14:19:14 +0800
-Message-Id: <20220826061914.816239-1-imagedong@tencent.com>
-X-Mailer: git-send-email 2.37.2
+        with ESMTP id S245071AbiHZGp6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Aug 2022 02:45:58 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DCE43BB6AC;
+        Thu, 25 Aug 2022 23:45:56 -0700 (PDT)
+Received: from lenovo.Home (unknown [39.53.61.43])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: usama.anjum)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 6AEE46601EC5;
+        Fri, 26 Aug 2022 07:45:51 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1661496354;
+        bh=IN7X9l9wVicY4dNzgT/RD/PEIb50SV6fqcw6KEssYKM=;
+        h=From:To:Cc:Subject:Date:From;
+        b=T8/ooc3a3tld/c4fwpKspyWrUR2soAQzKuW/L+DKrbYypHWjVrXM+SUdBmh8/fHzI
+         DFa5ZP+jexhPLfQedos91GOw8g+1c6WadRNE+yl3R7Jf6BHW0j6biDvOmzXdO/JX8T
+         smoyd2C9JzIOb3d+bzcztDUC3I3Etl256JgVWbqWL51yoopp/X9xoDqSNQHZGXN4Ou
+         6itnGfHTMPsmKLxMGhgtdC+HbvvEdLI1V71EIIPiB6gkzuEN8u7p30zpDpZ8eUJR93
+         BQXJsR02swvyM3pHHVKw8NERJD4J0Ub5W7zcvGfjpLRmMYOLjPdJHctaZ3acZIUQ+x
+         XTEAdZAh0+a0g==
+From:   Muhammad Usama Anjum <usama.anjum@collabora.com>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>,
+        linux-doc@vger.kernel.org (open list:DOCUMENTATION),
+        linux-kernel@vger.kernel.org (open list),
+        linux-fsdevel@vger.kernel.org (open list:PROC FILESYSTEM),
+        linux-mm@kvack.org (open list:MEMORY MANAGEMENT),
+        linux-kselftest@vger.kernel.org (open list:KERNEL SELFTEST FRAMEWORK)
+Cc:     Muhammad Usama Anjum <usama.anjum@collabora.com>,
+        kernel@collabora.com,
+        Gabriel Krisman Bertazi <krisman@collabora.com>,
+        David Hildenbrand <david@redhat.com>,
+        Peter Enderborg <peter.enderborg@sony.com>,
+        Greg KH <gregkh@linuxfoundation.org>
+Subject: [PATCH v3 0/4] Implement IOCTL to get and clear soft dirty PTE
+Date:   Fri, 26 Aug 2022 11:45:31 +0500
+Message-Id: <20220826064535.1941190-1-usama.anjum@collabora.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Menglong Dong <imagedong@tencent.com>
 
-Stephen Rothwell report that the function attribute '__fix_address'
-causes a warning when create html docs with the command:
+Hello,
 
-  make htmldocs
+This patch series implements a new ioctl on the pagemap proc fs file to
+get, clear and perform both get and clear at the same time atomically on
+the specified range of the memory.
 
-Therefor, add this attribute to c_id_attributes in Documentation/conf.py
-to clean this warning.
+Soft-dirty PTE bit of the memory pages can be viewed by using pagemap
+procfs file. The soft-dirty PTE bit for the whole memory range of the
+process can be cleared by writing to the clear_refs file. This series
+adds features that weren't present earlier.
+- There is no atomic get soft-dirty PTE bit status and clear operation
+  present.
+- The soft-dirty PTE bit of only a part of memory cannot be cleared.
 
-BTW, I'm not able to reproduce this warning (both ubuntu and centos are
-tested). I will appreciate it if anyone can have a test for this
-commit.
+Historically, soft-dirty PTE bit tracking has been used in the CRIU
+project. The proc fs interface is enough for that as I think the process
+is frozen. We have the use case where we need to track the soft-dirty
+PTE bit for the running processes. We need this tracking and clear
+mechanism of a region of memory while the process is running to emulate
+the getWriteWatch() syscall of Windows. This syscall is used by games to
+keep track of dirty pages and keep processing only the dirty pages. This
+new ioctl can be used by the CRIU project and other applications which
+require soft-dirty PTE bit information.
 
-Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-Signed-off-by: Menglong Dong <imagedong@tencent.com>
----
- Documentation/conf.py | 1 +
- 1 file changed, 1 insertion(+)
+As in the current kernel there is no way to clear a part of memory (instead
+of clearing the Soft-Dirty bits for the entire process) and get+clear
+operation cannot be performed atomically, there are other methods to mimic
+this information entirely in userspace with poor performance:
+- The mprotect syscall and SIGSEGV handler for bookkeeping
+- The userfaultfd syscall with the handler for bookkeeping
+Some benchmarks can be seen [1].
 
-diff --git a/Documentation/conf.py b/Documentation/conf.py
-index 934727e23e0e..255384d094bf 100644
---- a/Documentation/conf.py
-+++ b/Documentation/conf.py
-@@ -86,6 +86,7 @@ if major >= 3:
-             "__used",
-             "__weak",
-             "noinline",
-+            "__fix_address",
- 
-             # include/linux/memblock.h:
-             "__init_memblock",
+This ioctl can be used by the CRIU project and other applications which
+require soft-dirty PTE bit information. The following operations are
+supported in this ioctl:
+- Get the pages that are soft-dirty.
+- Clear the pages which are soft-dirty.
+- The optional flag to ignore the VM_SOFTDIRTY and only track per page
+soft-dirty PTE bit
+
+There are two decisions which have been taken about how to get the output
+from the syscall.
+- Return offsets of the pages from the start in the vec
+- Stop execution when vec is filled with dirty pages
+These two arguments doesn't follow the mincore() philosophy where the
+output array corresponds to the address range in one to one fashion, hence
+the output buffer length isn't passed and only a flag is set if the page
+is present. This makes mincore() easy to use with less control. We are
+passing the size of the output array and putting return data consecutively
+which is offset of dirty pages from the start. The user can convert these
+offsets back into the dirty page addresses easily. Suppose, the user want
+to get first 10 dirty pages from a total memory of 100 pages. He'll
+allocate output buffer of size 10 and the ioctl will abort after finding the
+10 pages. This behaviour is needed to support Windows' getWriteWatch(). The
+behaviour like mincore() can be achieved by passing output buffer of 100
+size. This interface can be used for any desired behaviour.
+
+[1] https://lore.kernel.org/lkml/54d4c322-cd6e-eefd-b161-2af2b56aae24@collabora.com/
+
+Regards,
+Muhammad Usama Anjum
+
+Muhammad Usama Anjum (4):
+  fs/proc/task_mmu: update functions to clear the soft-dirty PTE bit
+  fs/proc/task_mmu: Implement IOCTL to get and clear soft dirty PTE bit
+  selftests: vm: add pagemap ioctl tests
+  mm: add documentation of the new ioctl on pagemap
+
+ Documentation/admin-guide/mm/soft-dirty.rst |  42 +-
+ fs/proc/task_mmu.c                          | 342 ++++++++++-
+ include/uapi/linux/fs.h                     |  23 +
+ tools/include/uapi/linux/fs.h               |  23 +
+ tools/testing/selftests/vm/.gitignore       |   1 +
+ tools/testing/selftests/vm/Makefile         |   2 +
+ tools/testing/selftests/vm/pagemap_ioctl.c  | 649 ++++++++++++++++++++
+ 7 files changed, 1050 insertions(+), 32 deletions(-)
+ create mode 100644 tools/testing/selftests/vm/pagemap_ioctl.c
+
 -- 
-2.37.2
+2.30.2
 
