@@ -2,74 +2,79 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E890ECAAD4
-	for <linux-doc@archiver.kernel.org>; Fri, 26 Aug 2022 10:32:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C028ECAAA3
+	for <linux-doc@archiver.kernel.org>; Fri, 26 Aug 2022 10:49:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343681AbiHZKcd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 26 Aug 2022 06:32:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44412 "EHLO
+        id S236397AbiHZKta (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 26 Aug 2022 06:49:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45644 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230205AbiHZKcc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Aug 2022 06:32:32 -0400
-Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com [IPv6:2607:f8b0:4864:20::52a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E369D2905
-        for <linux-doc@vger.kernel.org>; Fri, 26 Aug 2022 03:32:31 -0700 (PDT)
-Received: by mail-pg1-x52a.google.com with SMTP id c24so1013665pgg.11
-        for <linux-doc@vger.kernel.org>; Fri, 26 Aug 2022 03:32:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc;
-        bh=wuqOv6Q2WHJryeaZo/bgjwLA2C78VwpKJa5KV+Zo29w=;
-        b=5G0gjatnKWvLD6IiMZqkJDH3vBec1+BPrqWG5JRapFkq2SQELWs8bdoBDr3zLQ4O2m
-         ToUORBLokZzfB5Zr2MqBrJtaQ7ywCPZJsjcdDyrgk3+DiCDTFWV9j1pSZF+fGuQmGosn
-         Z6maqpnLdrjDEdwrMlpig7s06F8Nt/+rnqlLKevC6P+CwS/HiyQoiEGud03Ykdsuy2HZ
-         MFSa8HUy6lka2IZwEot7Uv5ZjJpY+lO0M8r4nBXGU8SF2Ao2wBN/44WxOaAff5id93/p
-         /Mxi7EX9VAFh+gz4DrTTfKXoxQWCDGIYuzRUSQ0k5ajkoe3e3PYtw6MnMzTfnqOh+4yV
-         viWg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
-        bh=wuqOv6Q2WHJryeaZo/bgjwLA2C78VwpKJa5KV+Zo29w=;
-        b=19+m9VRfqFKfSjJUH0cHgjNPffvVTEz2fFXqiGD7GDYMitvT91uupaDoho+z3mvzZN
-         S15GHOP6jPxuf/yYo6bdsggC6tsl6euzwlL2gNQUjt8wJEwXp/PI55TMUvGhPrXE6+lC
-         o1mmM+NWJL1JCOdkZNZsRE2tEuVhQxJKNlLYzdgJDEr7YXZkMuTHkqVAFzJsMXWUZ/6D
-         kJ+1Nw3lZuULIGyKvuA/VtAuwtF9R3lD/352oZDhJf/b9FTlFTMR5gdVGsRldh6QXzIK
-         b1MrACS9pjOMDyHJTiVb3rXQh4An+e/BG5er/KVPGhPK7x65F89y1hRGZ7A8sE84clfA
-         G4Kg==
-X-Gm-Message-State: ACgBeo3sgofBVTN0zqca6fWzeCAhoamOV6UAZv/I7vpnyS8ZTE7pTUuB
-        rYcCNNjpT70ENVVqL+SbF+BsHw==
-X-Google-Smtp-Source: AA6agR7oM+ZOvnrqUme89chVvcTd9tAj5vskzDUlg5MF6QeOoOQ+AFvBN5KReA7YQ4/gpqtmQq4VWQ==
-X-Received: by 2002:aa7:8393:0:b0:537:701d:e7f3 with SMTP id u19-20020aa78393000000b00537701de7f3mr3297443pfm.50.1661509950855;
-        Fri, 26 Aug 2022 03:32:30 -0700 (PDT)
-Received: from MacBook-Pro.local.bytedance.net ([139.177.225.241])
-        by smtp.gmail.com with ESMTPSA id r27-20020aa7963b000000b0052aaff953aesm1357008pfg.115.2022.08.26.03.32.25
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 26 Aug 2022 03:32:30 -0700 (PDT)
-From:   lizhe.67@bytedance.com
-To:     akpm@linux-foundation.org
-Cc:     Jason@zx2c4.com, corbet@lwn.net, keescook@chromium.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, lizefan.x@bytedance.com,
-        lizhe.67@bytedance.com, mark-pk.tsai@mediatek.com,
-        mhiramat@kernel.org, mhocko@suse.com, rostedt@goodmis.org,
-        vbabka@suse.cz
-Subject: Re: [PATCH v4] page_ext: introduce boot parameter 'early_page_ext'
-Date:   Fri, 26 Aug 2022 18:32:17 +0800
-Message-Id: <20220826103217.17393-1-lizhe.67@bytedance.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20220825212338.e541d29ca3c4d602221f4925@linux-foundation.org>
-References: <20220825212338.e541d29ca3c4d602221f4925@linux-foundation.org>
+        with ESMTP id S235942AbiHZKt2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Aug 2022 06:49:28 -0400
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 016349C518;
+        Fri, 26 Aug 2022 03:49:27 -0700 (PDT)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by smtp-out2.suse.de (Postfix) with ESMTPS id A934E1FD70;
+        Fri, 26 Aug 2022 10:49:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+        t=1661510966; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=aGXZZ/m7SoogwzlUL+uXlfvJVcmYUkZYvpET1c52fwk=;
+        b=dwm/N0A79JigO03wc29QRnnKo/WSIUXnaFMh6W8OD0ASGhDUPMeoZm0sIQadsjrGn3oWej
+        uLTlUgzhboyA04fizKUvw8nlWqy3s+5GGpUt91emgsuaijIPTULCxxPCt+dveAH3IhxW/e
+        nOgcIsBd7tMg4ADA3T+ry1w2Vfv4tiM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+        s=susede2_ed25519; t=1661510966;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=aGXZZ/m7SoogwzlUL+uXlfvJVcmYUkZYvpET1c52fwk=;
+        b=rXAPNaQ6Yv6S62E1pJTbEPNgFg2K/pvVmit+ULFartQQMhb/dIC9+yCYQn3iGRjqf+V3Pn
+        OsdTzXoZFi/YsCBA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 744BC13A7E;
+        Fri, 26 Aug 2022 10:49:26 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id IFJ0GzalCGP9ZAAAMHmgww
+        (envelope-from <vbabka@suse.cz>); Fri, 26 Aug 2022 10:49:26 +0000
+Message-ID: <68133fc4-7034-c07b-f14b-5b4e73e04d2c@suse.cz>
+Date:   Fri, 26 Aug 2022 12:49:25 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.1.2
+Subject: Re: [PATCH v4] page_ext: introduce boot parameter 'early_page_ext'
+Content-Language: en-US
+To:     Andrew Morton <akpm@linux-foundation.org>, lizhe.67@bytedance.com
+Cc:     mhocko@suse.com, mhiramat@kernel.org, keescook@chromium.org,
+        Jason@zx2c4.com, mark-pk.tsai@mediatek.com, rostedt@goodmis.org,
+        corbet@lwn.net, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        lizefan.x@bytedance.com
+References: <20220825102714.669-1-lizhe.67@bytedance.com>
+ <20220825212338.e541d29ca3c4d602221f4925@linux-foundation.org>
+From:   Vlastimil Babka <vbabka@suse.cz>
+In-Reply-To: <20220825212338.e541d29ca3c4d602221f4925@linux-foundation.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 25 Aug 2022 21:23:38 -0700, akpm@linux-foundation.org wrote:
->On Thu, 25 Aug 2022 18:27:14 +0800 lizhe.67@bytedance.com wrote:
->
+
+On 8/26/22 06:23, Andrew Morton wrote:
+> On Thu, 25 Aug 2022 18:27:14 +0800 lizhe.67@bytedance.com wrote:
+> 
 >> From: Li Zhe <lizhe.67@bytedance.com>
 >> 
 >> In 'commit 2f1ee0913ce5 ("Revert "mm: use early_pfn_to_nid in page_ext_init"")',
@@ -85,36 +90,27 @@ On Thu, 25 Aug 2022 21:23:38 -0700, akpm@linux-foundation.org wrote:
 >> especially when we find that the free memory value is not the same right
 >> after different kernel booting.
 >> 
->
->WARNING: modpost: vmlinux.o: section mismatch in reference: early_page_ext_enabled (section: .text.unlikely) -> early_page_ext (section: .meminit.data)
->WARNING: modpost: vmlinux.o: section mismatch in reference: early_page_ext_enabled (section: .text.unlikely) -> early_page_ext (section: .meminit.data)
-
-Sorry for introducing this WARNING. I did multiple checks before submitting
-the patch but unluckily I didn't trigger this WARNING. Maybe there are some
-differences of config in our compilation environment. I have tried gcc 8.3
-and gcc 11.2.1.
-
->
->I did this, but it was lazy - perhaps there's a better-optimized
->combination of section tags.  Please check?
->
->--- a/mm/page_ext.c~page_ext-introduce-boot-parameter-early_page_ext-fix
->+++ a/mm/page_ext.c
->@@ -91,7 +91,7 @@ unsigned long page_ext_size = sizeof(str
-> static unsigned long total_usage;
-> static struct page_ext *lookup_page_ext(const struct page *page);
 > 
->-bool early_page_ext __meminitdata;
->+bool early_page_ext;
-> static int __init setup_early_page_ext(char *str)
-> {
-> 	early_page_ext = true;
->_
+> WARNING: modpost: vmlinux.o: section mismatch in reference: early_page_ext_enabled (section: .text.unlikely) -> early_page_ext (section: .meminit.data)
+> WARNING: modpost: vmlinux.o: section mismatch in reference: early_page_ext_enabled (section: .text.unlikely) -> early_page_ext (section: .meminit.data)
 
-Thanks for the fix.
-I try '__initdata', it triggers another WARNING below.
+Hm it's a very small static inline, shouldn't exist separately anywhere.
+Maybe it's due to that new debug info level thing?
 
-WARNING: modpost: vmlinux.o: section mismatch in reference: memmap_init_range (section: .meminit.text) -> early_page_ext (section: .init.data)
+Would this work instead?
 
-I check the section tags in include/linux/init.h. It seems that we don't have
-a better choise. So in my opinion, your patch is the best solution.
+----8<----
+diff --git a/include/linux/page_ext.h b/include/linux/page_ext.h
+index 884282a7f03a..4bf4e58cf2d4 100644
+--- a/include/linux/page_ext.h
++++ b/include/linux/page_ext.h
+@@ -40,7 +40,7 @@ extern bool early_page_ext;
+ extern unsigned long page_ext_size;
+ extern void pgdat_page_ext_init(struct pglist_data *pgdat);
+ 
+-static inline bool early_page_ext_enabled(void)
++static inline bool __meminit early_page_ext_enabled(void)
+ {
+ 	return early_page_ext;
+ }
+
