@@ -2,185 +2,119 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A96A4ECAAA3
-	for <linux-doc@archiver.kernel.org>; Fri, 26 Aug 2022 10:06:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E890ECAAD4
+	for <linux-doc@archiver.kernel.org>; Fri, 26 Aug 2022 10:32:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244907AbiHZKG4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 26 Aug 2022 06:06:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49616 "EHLO
+        id S1343681AbiHZKcd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 26 Aug 2022 06:32:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44412 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245652AbiHZKGd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Aug 2022 06:06:33 -0400
-X-Greylist: delayed 362 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 26 Aug 2022 03:05:13 PDT
-Received: from smtpout140.security-mail.net (smtpout140.security-mail.net [85.31.212.148])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E7F0B8F2A
-        for <linux-doc@vger.kernel.org>; Fri, 26 Aug 2022 03:05:11 -0700 (PDT)
-Received: from localhost (localhost [127.0.0.1])
-        by fx408.security-mail.net (Postfix) with ESMTP id BE6301B7B20A
-        for <linux-doc@vger.kernel.org>; Fri, 26 Aug 2022 11:59:08 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kalray.eu;
-        s=sec-sig-email; t=1661507948;
-        bh=vr4cwxCfoWqejiHD6pQ9HxA413Tn6PkujH2uBT6h5Og=;
-        h=From:To:Cc:Subject:Date;
-        b=2t7R5pzCxt3rCZOsb0JtJB++PS9qt+DDhfsqBA2TaICtkpno+BofifFwQBYg775n/
-         p9Yfn200DfZXmGkP1OKx15tPCo/TqAaH3eFEhYiQS/OLQVgmvmH1Jt+MUUJzfWyPtd
-         FZrEUOlFjh3tCGy9CzeuXvH7EnpqSS86SxnK9Gs8=
-Received: from fx408 (localhost [127.0.0.1])
-        by fx408.security-mail.net (Postfix) with ESMTP id 6D8BC1B7B2CB;
-        Fri, 26 Aug 2022 11:59:08 +0200 (CEST)
-X-Virus-Scanned: E-securemail
-Secumail-id: <b9e4.6308996b.b4e15.0>
-Received: from zimbra2.kalray.eu (unknown [217.181.231.53])
-        by fx408.security-mail.net (Postfix) with ESMTPS id E69D91B7B20A;
-        Fri, 26 Aug 2022 11:59:07 +0200 (CEST)
-Received: from zimbra2.kalray.eu (localhost [127.0.0.1])
-        by zimbra2.kalray.eu (Postfix) with ESMTPS id 9A86227E0396;
-        Fri, 26 Aug 2022 11:59:07 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-        by zimbra2.kalray.eu (Postfix) with ESMTP id 81FC327E0392;
-        Fri, 26 Aug 2022 11:59:07 +0200 (CEST)
-DKIM-Filter: OpenDKIM Filter v2.10.3 zimbra2.kalray.eu 81FC327E0392
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kalray.eu;
-        s=32AE1B44-9502-11E5-BA35-3734643DEF29; t=1661507947;
-        bh=F197CH4uD1oBPgpHmr8mAOcTlfh38jb9bV8sTFUab+c=;
-        h=From:To:Date:Message-Id;
-        b=XHVp0saWOK1pCEV0Jm6iekB/2+WhWD32Kls4i3iGz0fqN95zlbbTNZvuv0nD/eQE9
-         m1tDmi/c2AH76xHuYVDFTrKDYdxtnKz1cT0p0qBPP1VahjSkUaSn5XgsZltJFBjOuV
-         gtf1cvxnwALosx9bELoSpmpooTusP7bB0KdSw6Qo=
-Received: from zimbra2.kalray.eu ([127.0.0.1])
-        by localhost (zimbra2.kalray.eu [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id tcfx7MeVfYmr; Fri, 26 Aug 2022 11:59:07 +0200 (CEST)
-Received: from tellis.lin.mbt.kalray.eu (unknown [192.168.36.206])
-        by zimbra2.kalray.eu (Postfix) with ESMTPSA id 69C5927E02FA;
-        Fri, 26 Aug 2022 11:59:07 +0200 (CEST)
-From:   Jules Maselbas <jmaselbas@kalray.eu>
-To:     linux-kernel@vger.kernel.org
-Cc:     Jules Maselbas <jmaselbas@kalray.eu>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: [PATCH] Documentation: Fix repeated words in documentation
-Date:   Fri, 26 Aug 2022 11:52:58 +0200
-Message-Id: <20220826095321.21548-1-jmaselbas@kalray.eu>
-X-Mailer: git-send-email 2.17.1
-X-Virus-Scanned: by Secumail
+        with ESMTP id S230205AbiHZKcc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Aug 2022 06:32:32 -0400
+Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com [IPv6:2607:f8b0:4864:20::52a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E369D2905
+        for <linux-doc@vger.kernel.org>; Fri, 26 Aug 2022 03:32:31 -0700 (PDT)
+Received: by mail-pg1-x52a.google.com with SMTP id c24so1013665pgg.11
+        for <linux-doc@vger.kernel.org>; Fri, 26 Aug 2022 03:32:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc;
+        bh=wuqOv6Q2WHJryeaZo/bgjwLA2C78VwpKJa5KV+Zo29w=;
+        b=5G0gjatnKWvLD6IiMZqkJDH3vBec1+BPrqWG5JRapFkq2SQELWs8bdoBDr3zLQ4O2m
+         ToUORBLokZzfB5Zr2MqBrJtaQ7ywCPZJsjcdDyrgk3+DiCDTFWV9j1pSZF+fGuQmGosn
+         Z6maqpnLdrjDEdwrMlpig7s06F8Nt/+rnqlLKevC6P+CwS/HiyQoiEGud03Ykdsuy2HZ
+         MFSa8HUy6lka2IZwEot7Uv5ZjJpY+lO0M8r4nBXGU8SF2Ao2wBN/44WxOaAff5id93/p
+         /Mxi7EX9VAFh+gz4DrTTfKXoxQWCDGIYuzRUSQ0k5ajkoe3e3PYtw6MnMzTfnqOh+4yV
+         viWg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
+        bh=wuqOv6Q2WHJryeaZo/bgjwLA2C78VwpKJa5KV+Zo29w=;
+        b=19+m9VRfqFKfSjJUH0cHgjNPffvVTEz2fFXqiGD7GDYMitvT91uupaDoho+z3mvzZN
+         S15GHOP6jPxuf/yYo6bdsggC6tsl6euzwlL2gNQUjt8wJEwXp/PI55TMUvGhPrXE6+lC
+         o1mmM+NWJL1JCOdkZNZsRE2tEuVhQxJKNlLYzdgJDEr7YXZkMuTHkqVAFzJsMXWUZ/6D
+         kJ+1Nw3lZuULIGyKvuA/VtAuwtF9R3lD/352oZDhJf/b9FTlFTMR5gdVGsRldh6QXzIK
+         b1MrACS9pjOMDyHJTiVb3rXQh4An+e/BG5er/KVPGhPK7x65F89y1hRGZ7A8sE84clfA
+         G4Kg==
+X-Gm-Message-State: ACgBeo3sgofBVTN0zqca6fWzeCAhoamOV6UAZv/I7vpnyS8ZTE7pTUuB
+        rYcCNNjpT70ENVVqL+SbF+BsHw==
+X-Google-Smtp-Source: AA6agR7oM+ZOvnrqUme89chVvcTd9tAj5vskzDUlg5MF6QeOoOQ+AFvBN5KReA7YQ4/gpqtmQq4VWQ==
+X-Received: by 2002:aa7:8393:0:b0:537:701d:e7f3 with SMTP id u19-20020aa78393000000b00537701de7f3mr3297443pfm.50.1661509950855;
+        Fri, 26 Aug 2022 03:32:30 -0700 (PDT)
+Received: from MacBook-Pro.local.bytedance.net ([139.177.225.241])
+        by smtp.gmail.com with ESMTPSA id r27-20020aa7963b000000b0052aaff953aesm1357008pfg.115.2022.08.26.03.32.25
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 26 Aug 2022 03:32:30 -0700 (PDT)
+From:   lizhe.67@bytedance.com
+To:     akpm@linux-foundation.org
+Cc:     Jason@zx2c4.com, corbet@lwn.net, keescook@chromium.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, lizefan.x@bytedance.com,
+        lizhe.67@bytedance.com, mark-pk.tsai@mediatek.com,
+        mhiramat@kernel.org, mhocko@suse.com, rostedt@goodmis.org,
+        vbabka@suse.cz
+Subject: Re: [PATCH v4] page_ext: introduce boot parameter 'early_page_ext'
+Date:   Fri, 26 Aug 2022 18:32:17 +0800
+Message-Id: <20220826103217.17393-1-lizhe.67@bytedance.com>
+X-Mailer: git-send-email 2.32.0
+In-Reply-To: <20220825212338.e541d29ca3c4d602221f4925@linux-foundation.org>
+References: <20220825212338.e541d29ca3c4d602221f4925@linux-foundation.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Remove redundant word `the`.
+On Thu, 25 Aug 2022 21:23:38 -0700, akpm@linux-foundation.org wrote:
+>On Thu, 25 Aug 2022 18:27:14 +0800 lizhe.67@bytedance.com wrote:
+>
+>> From: Li Zhe <lizhe.67@bytedance.com>
+>> 
+>> In 'commit 2f1ee0913ce5 ("Revert "mm: use early_pfn_to_nid in page_ext_init"")',
+>> we call page_ext_init() after page_alloc_init_late() to avoid some panic
+>> problem. It seems that we cannot track early page allocations in current
+>> kernel even if page structure has been initialized early.
+>> 
+>> This patch introduce a new boot parameter 'early_page_ext' to resolve this
+>> problem. If we pass it to kernel, function page_ext_init() will be moved
+>> up and feature 'deferred initialization of struct pages' will be disabled
+>> to initialize the page allocator early and prevent from the panic problem
+>> above. It can help us to catch early page allocations. This is useful
+>> especially when we find that the free memory value is not the same right
+>> after different kernel booting.
+>> 
+>
+>WARNING: modpost: vmlinux.o: section mismatch in reference: early_page_ext_enabled (section: .text.unlikely) -> early_page_ext (section: .meminit.data)
+>WARNING: modpost: vmlinux.o: section mismatch in reference: early_page_ext_enabled (section: .text.unlikely) -> early_page_ext (section: .meminit.data)
 
-CC: Jonathan Corbet <corbet@lwn.net>
-CC: linux-doc@vger.kernel.org
-Signed-off-by: Jules Maselbas <jmaselbas@kalray.eu>
----
- Documentation/admin-guide/kdump/vmcoreinfo.rst    | 2 +-
- Documentation/bpf/map_cgroup_storage.rst          | 4 ++--
- Documentation/core-api/cpu_hotplug.rst            | 2 +-
- Documentation/driver-api/isa.rst                  | 2 +-
- Documentation/filesystems/caching/backend-api.rst | 2 +-
- Documentation/locking/seqlock.rst                 | 2 +-
- Documentation/sphinx/cdomain.py                   | 2 +-
- 7 files changed, 8 insertions(+), 8 deletions(-)
+Sorry for introducing this WARNING. I did multiple checks before submitting
+the patch but unluckily I didn't trigger this WARNING. Maybe there are some
+differences of config in our compilation environment. I have tried gcc 8.3
+and gcc 11.2.1.
 
-diff --git a/Documentation/admin-guide/kdump/vmcoreinfo.rst b/Documentation/admin-guide/kdump/vmcoreinfo.rst
-index 8419019b6a88..6726f439958c 100644
---- a/Documentation/admin-guide/kdump/vmcoreinfo.rst
-+++ b/Documentation/admin-guide/kdump/vmcoreinfo.rst
-@@ -200,7 +200,7 @@ prb
- 
- A pointer to the printk ringbuffer (struct printk_ringbuffer). This
- may be pointing to the static boot ringbuffer or the dynamically
--allocated ringbuffer, depending on when the the core dump occurred.
-+allocated ringbuffer, depending on when the core dump occurred.
- Used by user-space tools to read the active kernel log buffer.
- 
- printk_rb_static
-diff --git a/Documentation/bpf/map_cgroup_storage.rst b/Documentation/bpf/map_cgroup_storage.rst
-index cab9543017bf..8e5fe532c07e 100644
---- a/Documentation/bpf/map_cgroup_storage.rst
-+++ b/Documentation/bpf/map_cgroup_storage.rst
-@@ -31,7 +31,7 @@ The map uses key of type of either ``__u64 cgroup_inode_id`` or
-     };
- 
- ``cgroup_inode_id`` is the inode id of the cgroup directory.
--``attach_type`` is the the program's attach type.
-+``attach_type`` is the program's attach type.
- 
- Linux 5.9 added support for type ``__u64 cgroup_inode_id`` as the key type.
- When this key type is used, then all attach types of the particular cgroup and
-@@ -155,7 +155,7 @@ However, the BPF program can still only associate with one map of each type
- ``BPF_MAP_TYPE_CGROUP_STORAGE`` or more than one
- ``BPF_MAP_TYPE_PERCPU_CGROUP_STORAGE``.
- 
--In all versions, userspace may use the the attach parameters of cgroup and
-+In all versions, userspace may use the attach parameters of cgroup and
- attach type pair in ``struct bpf_cgroup_storage_key`` as the key to the BPF map
- APIs to read or update the storage for a given attachment. For Linux 5.9
- attach type shared storages, only the first value in the struct, cgroup inode
-diff --git a/Documentation/core-api/cpu_hotplug.rst b/Documentation/core-api/cpu_hotplug.rst
-index c6f4ba2fb32d..f75778d37488 100644
---- a/Documentation/core-api/cpu_hotplug.rst
-+++ b/Documentation/core-api/cpu_hotplug.rst
-@@ -560,7 +560,7 @@ available:
-   * cpuhp_state_remove_instance(state, node)
-   * cpuhp_state_remove_instance_nocalls(state, node)
- 
--The arguments are the same as for the the cpuhp_state_add_instance*()
-+The arguments are the same as for the cpuhp_state_add_instance*()
- variants above.
- 
- The functions differ in the way how the installed callbacks are treated:
-diff --git a/Documentation/driver-api/isa.rst b/Documentation/driver-api/isa.rst
-index def4a7b690b5..3df1b1696524 100644
---- a/Documentation/driver-api/isa.rst
-+++ b/Documentation/driver-api/isa.rst
-@@ -100,7 +100,7 @@ I believe platform_data is available for this, but if rather not, moving
- the isa_driver pointer to the private struct isa_dev is ofcourse fine as
- well.
- 
--Then, if the the driver did not provide a .match, it matches. If it did,
-+Then, if the driver did not provide a .match, it matches. If it did,
- the driver match() method is called to determine a match.
- 
- If it did **not** match, dev->platform_data is reset to indicate this to
-diff --git a/Documentation/filesystems/caching/backend-api.rst b/Documentation/filesystems/caching/backend-api.rst
-index d7507becf674..3a199fc50828 100644
---- a/Documentation/filesystems/caching/backend-api.rst
-+++ b/Documentation/filesystems/caching/backend-api.rst
-@@ -122,7 +122,7 @@ volumes, calling::
- to tell fscache that a volume has been withdrawn.  This waits for all
- outstanding accesses on the volume to complete before returning.
- 
--When the the cache is completely withdrawn, fscache should be notified by
-+When the cache is completely withdrawn, fscache should be notified by
- calling::
- 
- 	void fscache_relinquish_cache(struct fscache_cache *cache);
-diff --git a/Documentation/locking/seqlock.rst b/Documentation/locking/seqlock.rst
-index 64405e5da63e..bfda1a5fecad 100644
---- a/Documentation/locking/seqlock.rst
-+++ b/Documentation/locking/seqlock.rst
-@@ -39,7 +39,7 @@ as the writer can invalidate a pointer that the reader is following.
- Sequence counters (``seqcount_t``)
- ==================================
- 
--This is the the raw counting mechanism, which does not protect against
-+This is the raw counting mechanism, which does not protect against
- multiple writers.  Write side critical sections must thus be serialized
- by an external lock.
- 
-diff --git a/Documentation/sphinx/cdomain.py b/Documentation/sphinx/cdomain.py
-index ca8ac9e59ded..a7d1866e72ff 100644
---- a/Documentation/sphinx/cdomain.py
-+++ b/Documentation/sphinx/cdomain.py
-@@ -151,7 +151,7 @@ class CObject(Base_CObject):
-     def handle_func_like_macro(self, sig, signode):
-         u"""Handles signatures of function-like macros.
- 
--        If the objtype is 'function' and the the signature ``sig`` is a
-+        If the objtype is 'function' and the signature ``sig`` is a
-         function-like macro, the name of the macro is returned. Otherwise
-         ``False`` is returned.  """
- 
--- 
-2.17.1
+>
+>I did this, but it was lazy - perhaps there's a better-optimized
+>combination of section tags.  Please check?
+>
+>--- a/mm/page_ext.c~page_ext-introduce-boot-parameter-early_page_ext-fix
+>+++ a/mm/page_ext.c
+>@@ -91,7 +91,7 @@ unsigned long page_ext_size = sizeof(str
+> static unsigned long total_usage;
+> static struct page_ext *lookup_page_ext(const struct page *page);
+> 
+>-bool early_page_ext __meminitdata;
+>+bool early_page_ext;
+> static int __init setup_early_page_ext(char *str)
+> {
+> 	early_page_ext = true;
+>_
 
+Thanks for the fix.
+I try '__initdata', it triggers another WARNING below.
+
+WARNING: modpost: vmlinux.o: section mismatch in reference: memmap_init_range (section: .meminit.text) -> early_page_ext (section: .init.data)
+
+I check the section tags in include/linux/init.h. It seems that we don't have
+a better choise. So in my opinion, your patch is the best solution.
