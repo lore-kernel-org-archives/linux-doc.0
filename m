@@ -2,109 +2,124 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F1974ECAAD2
-	for <linux-doc@archiver.kernel.org>; Fri, 26 Aug 2022 08:40:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DEECBECAAD6
+	for <linux-doc@archiver.kernel.org>; Fri, 26 Aug 2022 09:13:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245009AbiHZIkM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 26 Aug 2022 04:40:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58212 "EHLO
+        id S234289AbiHZJN0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 26 Aug 2022 05:13:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33664 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245188AbiHZIju (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Aug 2022 04:39:50 -0400
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7CDEFD5EA0
-        for <linux-doc@vger.kernel.org>; Fri, 26 Aug 2022 01:38:58 -0700 (PDT)
-Received: by mail-ej1-x629.google.com with SMTP id fy31so1416106ejc.6
-        for <linux-doc@vger.kernel.org>; Fri, 26 Aug 2022 01:38:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=resnulli-us.20210112.gappssmtp.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc;
-        bh=R71pwovWKW2n+2d6b0m1mgjy0dLnYi4JvtwlQD06gkA=;
-        b=HOYhgdUFdplD2/K5nkpukqq6uv07hu/JT8XDpoArdztp2I4032fFuMUGt3qDx/Z2aN
-         G81QFtnRocphML9ByFf3YBnAsnTgYXseUp46UBefnFeLQ/RAdYwH0ND7MHrrrVv/g81D
-         FLNcCXc1h1kM0geWX62XIGz+V1biKkGWZiVA91kN68Iug1cUEE4lrL5gzMBu5u30tYHj
-         BgQVn9bplMsF7NKZHd+1WQyE0BOUT/lzmRYSqzHxODCibb8F75rLqxgnobNQjUSJ0DzA
-         Biij0ShT3EOMaCOLt8e0yZ3zasIjt6JwGL4YezsWpET4KXZ0DSIrPbY4vs41IWhXLiyS
-         9WJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
-        bh=R71pwovWKW2n+2d6b0m1mgjy0dLnYi4JvtwlQD06gkA=;
-        b=Dyzl00t3r1lIFVexD+HlcsR7iUQZ7Yr5BHZcZAmMZtJ0l6jM2MDLqv+35gXjCxS3KV
-         CKB/EFLKiP+dYUiXiYKnp3/VyG/fAJE+1LNf0VImbaXVt4mWx5Mkut/S3loOqydkuLiZ
-         maIPwNj6Ev4vvgmNj538DflJTvCu4zqoZZ6d5oevNgign15i4pMJEblc5AGhBxAozu9U
-         mgu8HXlI4dRM0f2ZsEafdcWIX9iM4CCH6meJkD6VRtDQlFJ2V1PF1cbm6kGLXGegq0K0
-         aW/boF8ZQmnuj/q+FA/cfg7g0buHDqOeEaaDiA9cnXX/T1Vp2fT2iwmZzTBWQC6aFzTV
-         Aa8A==
-X-Gm-Message-State: ACgBeo2/G8AXKV09AroE/gDRiXn2N5m/MObgjmt2IEKAJY+kympehz2i
-        olJYzd4ynIFbQ9ZadsEIc1u7rA==
-X-Google-Smtp-Source: AA6agR7xZ/f2/7JcXvjG+baYgsb4aGLjnb/LeMzknsCulmovamHT43pUaI8v/g1EIwOCnTvvdm+aNQ==
-X-Received: by 2002:a17:907:9710:b0:731:67b1:dc3b with SMTP id jg16-20020a170907971000b0073167b1dc3bmr4825640ejc.709.1661503136627;
-        Fri, 26 Aug 2022 01:38:56 -0700 (PDT)
-Received: from localhost (host-213-179-129-39.customer.m-online.net. [213.179.129.39])
-        by smtp.gmail.com with ESMTPSA id n17-20020aa7c691000000b0044657ecfbb5sm948867edq.13.2022.08.26.01.38.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Aug 2022 01:38:55 -0700 (PDT)
-Date:   Fri, 26 Aug 2022 10:38:54 +0200
-From:   Jiri Pirko <jiri@resnulli.us>
-To:     "Keller, Jacob E" <jacob.e.keller@intel.com>
-Cc:     "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, Jiri Pirko <jiri@nvidia.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        "Nguyen, Anthony L" <anthony.l.nguyen@intel.com>,
-        David Ahern <dsahern@kernel.org>,
-        Stephen Hemminger <stephen@networkplumber.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Subject: Re: [iproute2-next v3 2/3] mnlg: add function to get
- CTRL_ATTR_MAXATTR value
-Message-ID: <YwiGnm3gj9z9FOmP@nanopsycho>
-References: <20220725205650.4018731-1-jacob.e.keller@intel.com>
- <20220725205650.4018731-3-jacob.e.keller@intel.com>
- <Yt+b3XGbAixaf124@nanopsycho>
- <CO1PR11MB50890D5A3470D9921711A91AD6759@CO1PR11MB5089.namprd11.prod.outlook.com>
+        with ESMTP id S233000AbiHZJNZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Aug 2022 05:13:25 -0400
+Received: from frasgout11.his.huawei.com (frasgout11.his.huawei.com [14.137.139.23])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A285DCD78F;
+        Fri, 26 Aug 2022 02:13:23 -0700 (PDT)
+Received: from mail02.huawei.com (unknown [172.18.147.228])
+        by frasgout11.his.huawei.com (SkyGuard) with ESMTP id 4MDYrv5GwNz9v7Gy;
+        Fri, 26 Aug 2022 17:07:59 +0800 (CST)
+Received: from huaweicloud.com (unknown [10.204.63.22])
+        by APP2 (Coremail) with SMTP id GxC2BwCnXxeKjghjdBVRAA--.23684S2;
+        Fri, 26 Aug 2022 10:12:54 +0100 (CET)
+From:   Roberto Sassu <roberto.sassu@huaweicloud.com>
+To:     ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org,
+        martin.lau@linux.dev, song@kernel.org, yhs@fb.com,
+        john.fastabend@gmail.com, kpsingh@kernel.org, sdf@google.com,
+        haoluo@google.com, jolsa@kernel.org, mykolal@fb.com,
+        corbet@lwn.net, dhowells@redhat.com, jarkko@kernel.org,
+        rostedt@goodmis.org, mingo@redhat.com, paul@paul-moore.com,
+        jmorris@namei.org, serge@hallyn.com, shuah@kernel.org
+Cc:     bpf@vger.kernel.org, linux-doc@vger.kernel.org,
+        keyrings@vger.kernel.org, linux-security-module@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
+        deso@posteo.net, Roberto Sassu <roberto.sassu@huawei.com>
+Subject: [PATCH v14 04/10] KEYS: Move KEY_LOOKUP_ to include/linux/key.h and add flags check function
+Date:   Fri, 26 Aug 2022 11:12:28 +0200
+Message-Id: <20220826091228.1701185-1-roberto.sassu@huaweicloud.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <acae432697e854748d9a44c732ec8cab807d9d46.camel@huaweicloud.com>
+References: <acae432697e854748d9a44c732ec8cab807d9d46.camel@huaweicloud.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CO1PR11MB50890D5A3470D9921711A91AD6759@CO1PR11MB5089.namprd11.prod.outlook.com>
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: GxC2BwCnXxeKjghjdBVRAA--.23684S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7urW3JFWUGryftw1rWr4fuFg_yoW8uF1kpF
+        yUCa4rKry8GFy2g3s3GFsIya1ag3yfGr17AFZIgwn0vF9ag3y8Jrn7GF43GF15urWruFy2
+        qr42ga15uw1UA3DanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUkIb4IE77IF4wAFF20E14v26rWj6s0DM7CY07I20VC2zVCF04k2
+        6cxKx2IYs7xG6r1S6rWUM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
+        vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7Cj
+        xVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIEc7CjxV
+        AFwI0_Gr1j6F4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG
+        6I80ewAv7VC0I7IYx2IY67AKxVWUGVWUXwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFV
+        Cjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JM4IIrI8v6xkF7I0E8cxan2IY04v7MxAIw28I
+        cxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2
+        IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVW8ZVWrXwCIc40Y0x0EwIxGrwCI
+        42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42
+        IY6xAIw20EY4v20xvaj40_WFyUJVCq3wCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E
+        87Iv6xkF7I0E14v26r4UJVWxJrUvcSsGvfC2KfnxnUUI43ZEXa7IUbHa0PUUUUU==
+X-CM-SenderInfo: purev21wro2thvvxqx5xdzvxpfor3voofrz/1tbiAQAQBF1jj4JQwgAFsx
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Fri, Aug 26, 2022 at 02:40:20AM CEST, jacob.e.keller@intel.com wrote:
->
->
->> -----Original Message-----
->> From: Jiri Pirko <jiri@resnulli.us>
->> Sent: Tuesday, July 26, 2022 12:47 AM
->> To: Keller, Jacob E <jacob.e.keller@intel.com>
->> Cc: netdev@vger.kernel.org; Jonathan Corbet <corbet@lwn.net>; Jiri Pirko
->> <jiri@nvidia.com>; David S. Miller <davem@davemloft.net>; Eric Dumazet
->> <edumazet@google.com>; Jakub Kicinski <kuba@kernel.org>; Paolo Abeni
->> <pabeni@redhat.com>; Nguyen, Anthony L <anthony.l.nguyen@intel.com>;
->> David Ahern <dsahern@kernel.org>; Stephen Hemminger
->> <stephen@networkplumber.org>; linux-doc@vger.kernel.org
->> Subject: Re: [iproute2-next v3 2/3] mnlg: add function to get
->> CTRL_ATTR_MAXATTR value
->> 
->> Mon, Jul 25, 2022 at 10:56:49PM CEST, jacob.e.keller@intel.com wrote:
->> >Add a new function to extract the CTRL_ATTR_MAXATTR attribute of the
->> >CTRL_CMD_GETFAMILY request. This will be used to allow reading the
->> >maximum supported devlink attribute of the running kernel in an upcoming
->> >change.
->> >
->> >Signed-off-by: Jacob Keller <jacob.e.keller@intel.com>
->> 
->> Reviewed-by: Jiri Pirko <jiri@nvidia.com>
->
->I had a new approach which just extracted maxattr and stored it hwnever we call CTRL_CMD_GETFAMILY, which I think is a preferable approach to this. That was part of the series I sent recently to support policy checking. I think I'd prefer that route now over this patch.
+From: Roberto Sassu <roberto.sassu@huawei.com>
 
-Send it :)
+In preparation for the patch that introduces the bpf_lookup_user_key() eBPF
+kfunc, move KEY_LOOKUP_ definitions to include/linux/key.h, to be able to
+validate the kfunc parameters.
 
->
->Thanks,
->Jake
+Also, introduce key_lookup_flags_valid() to check if the caller set in the
+argument only defined flags. Introduce it directly in include/linux/key.h,
+to reduce the risk that the check is not in sync with currently defined
+flags.
+
+Signed-off-by: Roberto Sassu <roberto.sassu@huawei.com>
+Reviewed-by: KP Singh <kpsingh@kernel.org>
+---
+ include/linux/key.h      | 16 ++++++++++++++++
+ security/keys/internal.h |  2 --
+ 2 files changed, 16 insertions(+), 2 deletions(-)
+
+diff --git a/include/linux/key.h b/include/linux/key.h
+index 7febc4881363..e679dbf0c940 100644
+--- a/include/linux/key.h
++++ b/include/linux/key.h
+@@ -88,6 +88,22 @@ enum key_need_perm {
+ 	KEY_DEFER_PERM_CHECK,	/* Special: permission check is deferred */
+ };
+ 
++#define KEY_LOOKUP_CREATE	0x01
++#define KEY_LOOKUP_PARTIAL	0x02
++
++/**
++ * key_lookup_flags_valid - detect if provided key lookup flags are valid
++ * @flags: key lookup flags.
++ *
++ * Verify whether or not the caller set in the argument only defined flags.
++ *
++ * Return: true if flags are valid, false if not.
++ */
++static inline bool key_lookup_flags_valid(u64 flags)
++{
++	return !(flags & ~(KEY_LOOKUP_CREATE | KEY_LOOKUP_PARTIAL));
++}
++
+ struct seq_file;
+ struct user_struct;
+ struct signal_struct;
+diff --git a/security/keys/internal.h b/security/keys/internal.h
+index 9b9cf3b6fcbb..3c1e7122076b 100644
+--- a/security/keys/internal.h
++++ b/security/keys/internal.h
+@@ -165,8 +165,6 @@ extern struct key *request_key_and_link(struct key_type *type,
+ 
+ extern bool lookup_user_key_possessed(const struct key *key,
+ 				      const struct key_match_data *match_data);
+-#define KEY_LOOKUP_CREATE	0x01
+-#define KEY_LOOKUP_PARTIAL	0x02
+ 
+ extern long join_session_keyring(const char *name);
+ extern void key_change_session_keyring(struct callback_head *twork);
+-- 
+2.25.1
+
