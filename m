@@ -2,110 +2,202 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B344ECAAA3
-	for <linux-doc@archiver.kernel.org>; Fri, 26 Aug 2022 19:55:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AD48EECAAD7
+	for <linux-doc@archiver.kernel.org>; Fri, 26 Aug 2022 20:37:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231760AbiHZTz6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 26 Aug 2022 15:55:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39256 "EHLO
+        id S1344918AbiHZUh2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 26 Aug 2022 16:37:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38494 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231483AbiHZTz5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Aug 2022 15:55:57 -0400
-Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com [IPv6:2607:f8b0:4864:20::436])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 758C7DF0B3
-        for <linux-doc@vger.kernel.org>; Fri, 26 Aug 2022 12:55:56 -0700 (PDT)
-Received: by mail-pf1-x436.google.com with SMTP id x19so635944pfr.1
-        for <linux-doc@vger.kernel.org>; Fri, 26 Aug 2022 12:55:56 -0700 (PDT)
+        with ESMTP id S245076AbiHZUhY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Aug 2022 16:37:24 -0400
+Received: from mail-il1-x141.google.com (mail-il1-x141.google.com [IPv6:2607:f8b0:4864:20::141])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF17AC88BF;
+        Fri, 26 Aug 2022 13:37:22 -0700 (PDT)
+Received: by mail-il1-x141.google.com with SMTP id l16so1197630ilj.2;
+        Fri, 26 Aug 2022 13:37:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc;
-        bh=gnz1q4pz/xVc6tlRyQeVFOV7IZAqBjfIyZ5BI3hft0U=;
-        b=RrQhxaFx2nxyuhtWZesmSEiSBTXd5+FlSRNNc9KxxyKhJ0Bl69zgANMO0CqfLLj8Wp
-         iXKbEy5JuscdAXPSe3gGBQ63tvwMHyDm2gbVkrPza31gsAZYPBPZg9W3zxSSrVKd9Yk/
-         J+/Be93CyeaZPN1+vLYQK9NeE/6QAt0OcrlZs7WSL77ro535BbBF+8p7tRe3Z48slTfH
-         iIe5XE/mQbWLDiWLPvaKtgmQE5QuLz8YkrScaxgHb8tKeFkCD20srFuQ2qBpk5W36v9K
-         kRNALHXmbTvIxGBvpYWid7mpuiPBOXq/uf/Bi6sQ0xgEahLieNidSK48p393xVejDd95
-         6kNA==
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc;
+        bh=WEfgf2R2DJCDs4AKod2m6jqCNNrqV7+4FPWOEmxw+3A=;
+        b=g8/kHbdWdljV6lk39scxyK+hjzhO3FYwd+XGwNJZSS856AA3+YYk0umH9HZ2LQ6uB1
+         WgVaK5PwdsQ4LiW812qON8c6Lx5eUGHVubtjTD5u0hDQtXh16kAo3KEv1zlgaCOhhzBZ
+         aw+xNrIqGMF7r6CEzA/j3mIJI+hnI/gvDWIiajFuVI5BoTQmSIXCljz9nWGiyN6lZRCx
+         PIWXK/Bv8B/IzdU7tOFT+Sa/UEuD/mkg/t5lEi7aD5ZXABQsnwjdWJiRy6BhYpIDgfZN
+         4TtcQHkXszBxP8tDrpf76uB+CXJzfS+TItNBtHR77cghkhpqhqwF+Hm8dER/JoTWsIYS
+         IpuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
-        bh=gnz1q4pz/xVc6tlRyQeVFOV7IZAqBjfIyZ5BI3hft0U=;
-        b=M3AYZ4Tn/LoGGWA18BvrwE/LJb3dk3LmauwvBwc51Pu+dQ91JGRn2xuZuDkV7qAiMu
-         kAwlM/7VaGWZN8c1FNVKMlEPMH3PeBOuPJDH2fLIr6vwJ9r49Oug/F11Zcubw1vHbnzN
-         2Qb6CyZ9w06xDPsyZxojSwn8Vb1k0wPN3UZqD5B8D4FkmsuPsG/bIrmArHkw8qHB3pw3
-         8rjJiaXcFSnJeCDZGaPWaIj2b5HrVVxsPceNzBKGGLOf/Synn/m8D974k5bAV6POsRzu
-         pBt1tJl9vhBUcBkDOriNgl19gr6Yywo83vfizx2mv8qebZh6TiL+YfwV9eMYYzpWIa14
-         ggpQ==
-X-Gm-Message-State: ACgBeo3hgL0zrZ8CIC651pcdMdXji+b3zfarlftc5iwks1N8nvXtvlY3
-        tCR36SeVJx2dduPy5SN5oR5pyg==
-X-Google-Smtp-Source: AA6agR7267EZysjs+BLPWLMdfKPDxv10ovdb1SjTwiW0Aq1A7/N3A/OV6mJ8qbkfeKKwzUr1R4DBNQ==
-X-Received: by 2002:a05:6a00:1588:b0:52f:a5bb:b992 with SMTP id u8-20020a056a00158800b0052fa5bbb992mr5337159pfk.38.1661543755955;
-        Fri, 26 Aug 2022 12:55:55 -0700 (PDT)
-Received: from p14s (S0106889e681aac74.cg.shawcable.net. [68.147.0.187])
-        by smtp.gmail.com with ESMTPSA id t6-20020aa79466000000b0053692028ec1sm2148303pfq.34.2022.08.26.12.55.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Aug 2022 12:55:54 -0700 (PDT)
-Date:   Fri, 26 Aug 2022 13:55:52 -0600
-From:   Mathieu Poirier <mathieu.poirier@linaro.org>
-To:     James Clark <james.clark@arm.com>
-Cc:     suzuki.poulose@arm.com, coresight@lists.linaro.org,
-        mike.leach@linaro.org, leo.yan@linaro.org,
-        linux-kernel@vger.kernel.org, german.gomez@arm.com,
-        Jonathan Corbet <corbet@lwn.net>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v3 0/2] coresight: etm4x: Expose default timestamp source
- in sysfs
-Message-ID: <20220826195552.GA1991601@p14s>
-References: <20220823160650.455823-1-james.clark@arm.com>
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=WEfgf2R2DJCDs4AKod2m6jqCNNrqV7+4FPWOEmxw+3A=;
+        b=A40NbiAGR/Uo1y4UkgWTgeONHF4uPBZPyv5QDDiaiP/CRD/vrwVLtQyxF6h8S37EbP
+         3NIbaCqNaqBQxVG5OtGUggzqQAmIP2YV7Cw1zRWlLB+7rtIOvFDRZmlhxzd/2GJ+0RQh
+         hlDNHXMJIzDiqGPRL1cU3zBhyEe24WsDLmWxEZ5sAfaZL05mXtI8iIOzoO6bBLlaguBx
+         f16gBU8igqrGeZX2DVIS6fPMAAsviTKiVvoUxrwVbd8TU4ee9VCmBQXROuTKqB0ssX4e
+         PW0r2m+rUV5Vx6/WD9/hvJnCR0cR5yGb3lh/i2FW1pu28Ty6SKFyLOUz4nyGhOxM0pXG
+         DQHg==
+X-Gm-Message-State: ACgBeo0Q3n7uSbbnHuTKlV5dpiCqh9VzwcYPMpCMKWTZUnfu6s2qPnRr
+        Bwfk6ZAgn/cUYHA7M3ivlm4N4ivU34NHPOq64EY=
+X-Google-Smtp-Source: AA6agR4OuuzyTi2F9/KR+kfMeIwGonZgjsgtKhvQSq79lYto57sei+AOJAhU1Hd0a9qqnDRUs5bZS+vBJFX5D/QZkG4=
+X-Received: by 2002:a92:ca4e:0:b0:2ea:3f77:a85 with SMTP id
+ q14-20020a92ca4e000000b002ea3f770a85mr4787935ilo.219.1661546241807; Fri, 26
+ Aug 2022 13:37:21 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220823160650.455823-1-james.clark@arm.com>
+References: <20220823150035.711534-1-roberto.sassu@huaweicloud.com> <20220823150035.711534-3-roberto.sassu@huaweicloud.com>
+In-Reply-To: <20220823150035.711534-3-roberto.sassu@huaweicloud.com>
+From:   Kumar Kartikeya Dwivedi <memxor@gmail.com>
+Date:   Fri, 26 Aug 2022 22:36:46 +0200
+Message-ID: <CAP01T75rQZvnk8y+AJr9KDjra1JO8=Q_kuD5TnxJ+4dp455Gyg@mail.gmail.com>
+Subject: Re: [PATCH v13 02/10] btf: Handle dynamic pointer parameter in kfuncs
+To:     Roberto Sassu <roberto.sassu@huaweicloud.com>
+Cc:     ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org,
+        martin.lau@linux.dev, song@kernel.org, yhs@fb.com,
+        john.fastabend@gmail.com, kpsingh@kernel.org, sdf@google.com,
+        haoluo@google.com, jolsa@kernel.org, mykolal@fb.com,
+        corbet@lwn.net, dhowells@redhat.com, jarkko@kernel.org,
+        rostedt@goodmis.org, mingo@redhat.com, paul@paul-moore.com,
+        jmorris@namei.org, serge@hallyn.com, shuah@kernel.org,
+        bpf@vger.kernel.org, linux-doc@vger.kernel.org,
+        keyrings@vger.kernel.org, linux-security-module@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
+        deso@posteo.net, Roberto Sassu <roberto.sassu@huawei.com>,
+        Joanne Koong <joannelkoong@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Aug 23, 2022 at 05:06:48PM +0100, James Clark wrote:
-> I've taken over this one from German because he's moved to a different
-> team. I gave it a quick check and bumped the version number in the docs
-> for the next release, but the month is an estimate.
-> 
-> Thanks
-> 
-> Changes since v2:
-> 
->   * Rebased onto coresight/next (b99ee26a1a)
->   * Bumped release version to 6.1
+On Tue, 23 Aug 2022 at 19:27, Roberto Sassu
+<roberto.sassu@huaweicloud.com> wrote:
+>
+> From: Roberto Sassu <roberto.sassu@huawei.com>
+>
+> Allow the bpf_dynptr_kern parameter to be specified in kfuncs. Also, ensure
+> that the dynamic pointer is valid and initialized.
+>
+> To properly detect whether a parameter is of the desired type, introduce
+> the stringify_struct() macro to compare the returned structure name with
+> the desired name. In addition, protect against structure renames, by
+> halting the build with BUILD_BUG_ON(), so that developers have to revisit
+> the code.
+>
+> Cc: Joanne Koong <joannelkoong@gmail.com>
+> Signed-off-by: Roberto Sassu <roberto.sassu@huawei.com>
+> ---
+>  include/linux/bpf_verifier.h |  3 +++
+>  include/linux/btf.h          |  9 +++++++++
+>  kernel/bpf/btf.c             | 18 ++++++++++++++++++
+>  kernel/bpf/verifier.c        |  4 ++--
+>  4 files changed, 32 insertions(+), 2 deletions(-)
+>
+> diff --git a/include/linux/bpf_verifier.h b/include/linux/bpf_verifier.h
+> index 2e3bad8640dc..55876fbdbae2 100644
+> --- a/include/linux/bpf_verifier.h
+> +++ b/include/linux/bpf_verifier.h
+> @@ -560,6 +560,9 @@ int check_kfunc_mem_size_reg(struct bpf_verifier_env *env, struct bpf_reg_state
+>                              u32 regno);
+>  int check_mem_reg(struct bpf_verifier_env *env, struct bpf_reg_state *reg,
+>                    u32 regno, u32 mem_size);
+> +bool is_dynptr_reg_valid_init(struct bpf_verifier_env *env,
+> +                             struct bpf_reg_state *reg,
+> +                             enum bpf_arg_type arg_type);
+>
+>  /* this lives here instead of in bpf.h because it needs to dereference tgt_prog */
+>  static inline u64 bpf_trampoline_compute_key(const struct bpf_prog *tgt_prog,
+> diff --git a/include/linux/btf.h b/include/linux/btf.h
+> index ad93c2d9cc1c..f546d368ac5d 100644
+> --- a/include/linux/btf.h
+> +++ b/include/linux/btf.h
+> @@ -52,6 +52,15 @@
+>  #define KF_SLEEPABLE    (1 << 5) /* kfunc may sleep */
+>  #define KF_DESTRUCTIVE  (1 << 6) /* kfunc performs destructive actions */
+>
+> +/*
+> + * Return the name of the passed struct, if exists, or halt the build if for
+> + * example the structure gets renamed. In this way, developers have to revisit
+> + * the code using that structure name, and update it accordingly.
+> + */
+> +#define stringify_struct(x)                    \
+> +       ({ BUILD_BUG_ON(sizeof(struct x) < 0);  \
+> +          __stringify(x); })
+> +
+>  struct btf;
+>  struct btf_member;
+>  struct btf_type;
+> diff --git a/kernel/bpf/btf.c b/kernel/bpf/btf.c
+> index e49b3b6d48ad..26cb548420af 100644
+> --- a/kernel/bpf/btf.c
+> +++ b/kernel/bpf/btf.c
+> @@ -6362,15 +6362,20 @@ static int btf_check_func_arg_match(struct bpf_verifier_env *env,
+>
+>                         if (is_kfunc) {
+>                                 bool arg_mem_size = i + 1 < nargs && is_kfunc_arg_mem_size(btf, &args[i + 1], &regs[regno + 1]);
+> +                               bool arg_dynptr = btf_type_is_struct(ref_t) &&
+> +                                                 !strcmp(ref_tname,
+> +                                                         stringify_struct(bpf_dynptr_kern));
+>
+>                                 /* Permit pointer to mem, but only when argument
+>                                  * type is pointer to scalar, or struct composed
+>                                  * (recursively) of scalars.
+>                                  * When arg_mem_size is true, the pointer can be
+>                                  * void *.
+> +                                * Also permit initialized dynamic pointers.
+>                                  */
+>                                 if (!btf_type_is_scalar(ref_t) &&
+>                                     !__btf_type_is_scalar_struct(log, btf, ref_t, 0) &&
+> +                                   !arg_dynptr &&
+>                                     (arg_mem_size ? !btf_type_is_void(ref_t) : 1)) {
+>                                         bpf_log(log,
+>                                                 "arg#%d pointer type %s %s must point to %sscalar, or struct with scalar\n",
+> @@ -6378,6 +6383,19 @@ static int btf_check_func_arg_match(struct bpf_verifier_env *env,
+>                                         return -EINVAL;
+>                                 }
+>
+> +                               if (arg_dynptr) {
+> +                                       if (!is_dynptr_reg_valid_init(env, reg,
+> +                                                       ARG_PTR_TO_DYNPTR)) {
 
-I have applied this set.  Usually I'd let Suzuki handle it since he is already
-familiar with the work but 1) he is currently away and 2) the patchset is fairly
-simple.
+Do you intend to really accept all kinds of dynptr here? In the future
+we will get more, and by default ARG_PTR_TO_DYNPTR accepts all, so it
+seems better to start with a small strict subset.
 
-Thanks,
-Mathieu
+Secondly, you need to also check whether reg is a PTR_TO_STACK inside
+this arg_dynptr branch. It is incorrect to call
+is_dynptr_reg_valid_init for any other type of register. It would also
+be nice to include some tests for that.
 
-> 
-> Changes since v1:
-> 
->   * Inline etmv4_to_ts_source() function.
->   * Collect review tag from Leo.
-> 
-> German Gomez (2):
->   coresight: etm4x: Expose default timestamp source in sysfs
->   coresight: etm4x: docs: Add documentation for 'ts_source' sysfs
->     interface
-> 
->  .../testing/sysfs-bus-coresight-devices-etm4x |  8 +++++
->  .../coresight/coresight-etm4x-reference.rst   | 14 +++++++++
->  arch/arm64/include/asm/sysreg.h               |  1 +
->  .../coresight/coresight-etm4x-sysfs.c         | 29 +++++++++++++++++++
->  4 files changed, 52 insertions(+)
-> 
-> -- 
-> 2.28.0
-> 
+
+
+> +                                               bpf_log(log,
+> +                                                       "arg#%d pointer type %s %s must be initialized\n",
+> +                                                       i, btf_type_str(ref_t),
+> +                                                       ref_tname);
+> +                                               return -EINVAL;
+> +                                       }
+> +
+> +                                       continue;
+> +                               }
+> +
+>                                 /* Check for mem, len pair */
+>                                 if (arg_mem_size) {
+>                                         if (check_kfunc_mem_size_reg(env, &regs[regno + 1], regno + 1)) {
+> diff --git a/kernel/bpf/verifier.c b/kernel/bpf/verifier.c
+> index 2c1f8069f7b7..aa834e7bb296 100644
+> --- a/kernel/bpf/verifier.c
+> +++ b/kernel/bpf/verifier.c
+> @@ -779,8 +779,8 @@ static bool is_dynptr_reg_valid_uninit(struct bpf_verifier_env *env, struct bpf_
+>         return true;
+>  }
+>
+> -static bool is_dynptr_reg_valid_init(struct bpf_verifier_env *env, struct bpf_reg_state *reg,
+> -                                    enum bpf_arg_type arg_type)
+> +bool is_dynptr_reg_valid_init(struct bpf_verifier_env *env, struct bpf_reg_state *reg,
+> +                             enum bpf_arg_type arg_type)
+>  {
+>         struct bpf_func_state *state = func(env, reg);
+>         int spi = get_spi(reg->off);
+> --
+> 2.25.1
+>
