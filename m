@@ -2,69 +2,77 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C18E1ECAAA3
-	for <linux-doc@archiver.kernel.org>; Fri, 26 Aug 2022 20:58:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BFF3ECAAD7
+	for <linux-doc@archiver.kernel.org>; Fri, 26 Aug 2022 21:07:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242176AbiHZU6p (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 26 Aug 2022 16:58:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36970 "EHLO
+        id S234416AbiHZVHD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 26 Aug 2022 17:07:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47606 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234122AbiHZU6p (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Aug 2022 16:58:45 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6F7AE1144;
-        Fri, 26 Aug 2022 13:58:43 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        with ESMTP id S229676AbiHZVHC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Aug 2022 17:07:02 -0400
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B37ADD76C;
+        Fri, 26 Aug 2022 14:06:58 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:281:8300:73::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 54396B832A1;
-        Fri, 26 Aug 2022 20:58:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8AE8C433C1;
-        Fri, 26 Aug 2022 20:58:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1661547521;
-        bh=kOT3h1fXn5VcvlbdUWZYyaMr2lhtbcir1WJpCLzv9bQ=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=HccudtiEYwuEtln5AEZGpFzPWY52pCh72p5qw8fgDo6OyiFElG4CxtPbpwLp1P76u
-         AzWmOMuq14UEEF5v9fVpUTIdGtd/O+HwATv4tsd4R7OjUiRLX9UXN1DWR2+WaKmbgL
-         pv8vCx3NL3oHlq6kYEiasREI8Fg8618lI5kXozMZxq+JdCilfHEW0m1M6NF87Aw5Qk
-         u1VhxS0U5VnNnPh5qNTIa+XtW7RmaSP6NyQsM6/dz3PbFC6NXsfUE+bK7PQhafFmqF
-         MpQKmmw4rRrBzx9nncvlSmujMI6XLAfq5QiLIxqkFEQU1vGvpIlqXErnjTwLli6QOL
-         mlsen36sbZpbQ==
-Date:   Fri, 26 Aug 2022 13:58:39 -0700
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     menglong8.dong@gmail.com
-Cc:     sfr@canb.auug.org.au, bagasdotme@gmail.com, corbet@lwn.net,
+        by ms.lwn.net (Postfix) with ESMTPSA id 997A87C0;
+        Fri, 26 Aug 2022 21:06:58 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 997A87C0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1661548018; bh=G7fZxG3wR/mWq0VmrJmHPyenRxqdQCZ6CdJ0WO+15eM=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=k5yVMbCJeUyPl4YqTiJm7nxEBoZ9IEg2JBldgK5NlRbz8wrKbjdt/f0paAHxCsjQR
+         q+rLPHZYa/RAP7Yr4U//QM7e3mxbmecsYRZ4CMqoGpMCGkKN65OW40yOuFUYi3ZGqV
+         mz8ESuGhsQBow247mvMXSxdMUPzIL64QfdUnQ502PA5z0OHGM+IWuQU88+bpvVaIJK
+         RidppQCuIxT2yv4EMfd88md0EgERLP59VCDCeokkfXTozQRi3LvFaCWx/+XNjdKpyZ
+         w39q3p/672+pRpZkusDbYtNq3iveuV2hC2u1wm0Et4SR6UTca1hqiAf6+wt2tthdLS
+         vjCcfAy0LcthA==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Jakub Kicinski <kuba@kernel.org>, menglong8.dong@gmail.com
+Cc:     sfr@canb.auug.org.au, bagasdotme@gmail.com,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         Menglong Dong <imagedong@tencent.com>
 Subject: Re: [PATCH net-next v2] docs/conf.py: add function attribute
  '__fix_address' to conf.py
-Message-ID: <20220826135839.39c7711f@kernel.org>
-In-Reply-To: <20220826160150.834639-1-imagedong@tencent.com>
+In-Reply-To: <20220826135839.39c7711f@kernel.org>
 References: <20220826160150.834639-1-imagedong@tencent.com>
+ <20220826135839.39c7711f@kernel.org>
+Date:   Fri, 26 Aug 2022 15:06:57 -0600
+Message-ID: <874jxyu32m.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, 27 Aug 2022 00:01:50 +0800 menglong8.dong@gmail.com wrote:
-> From: Menglong Dong <imagedong@tencent.com>
-> 
-> Stephen Rothwell reported htmldocs warning when merging net-next:
-> 
-> Documentation/networking/kapi:26: net/core/skbuff.c:780: WARNING: Error in declarator or parameters
-> Invalid C declaration: Expecting "(" in parameters. [error at 19]
->   void __fix_address kfree_skb_reason (struct sk_buff *skb, enum skb_drop_reason reason)
->   -------------------^
-> 
-> Add __fix_address keyword to c_id_attributes array in conf.py to fix
-> the warning.
+Jakub Kicinski <kuba@kernel.org> writes:
 
-You'll need to CC netdev@ for the patch to get into the net-next tree.
-Since this is a pure Documentation/ patch get_maintainer.pl did not
-produce netdev@ in the recommended addresses.
+> On Sat, 27 Aug 2022 00:01:50 +0800 menglong8.dong@gmail.com wrote:
+>> From: Menglong Dong <imagedong@tencent.com>
+>> 
+>> Stephen Rothwell reported htmldocs warning when merging net-next:
+>> 
+>> Documentation/networking/kapi:26: net/core/skbuff.c:780: WARNING: Error in declarator or parameters
+>> Invalid C declaration: Expecting "(" in parameters. [error at 19]
+>>   void __fix_address kfree_skb_reason (struct sk_buff *skb, enum skb_drop_reason reason)
+>>   -------------------^
+>> 
+>> Add __fix_address keyword to c_id_attributes array in conf.py to fix
+>> the warning.
+>
+> You'll need to CC netdev@ for the patch to get into the net-next tree.
+> Since this is a pure Documentation/ patch get_maintainer.pl did not
+> produce netdev@ in the recommended addresses.
+>
+> Please wait for a review/ack from Jon before reposting, we need his
+> permission to apply this patch.
 
-Please wait for a review/ack from Jon before reposting, we need his
-permission to apply this patch.
+I could also just carry it through docs; I'm about to send a set of
+fixes Linusward in any case.  I wanted to run a couple of tests to be
+sure, but I don't expect any problems with it...
+
+Thanks,
+
+jon
