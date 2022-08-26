@@ -2,85 +2,150 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 54296ECAAD4
-	for <linux-doc@archiver.kernel.org>; Fri, 26 Aug 2022 15:48:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ACCA0ECAAD4
+	for <linux-doc@archiver.kernel.org>; Fri, 26 Aug 2022 15:50:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234340AbiHZPsi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 26 Aug 2022 11:48:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58054 "EHLO
+        id S237300AbiHZPuR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 26 Aug 2022 11:50:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57030 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344678AbiHZPsP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Aug 2022 11:48:15 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95656C04F7;
-        Fri, 26 Aug 2022 08:47:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-        bh=VcIl7KQfuQkkxC9BZ5lEzx4FxsUIlpYy2j1e5QVKu60=; b=cfUSeIA4zNWEefBK2xhtgjN5/G
-        4E8RGuIHaCOJUiAygz3NdigpgChFDP2LmKdPlS6U1Dm3YhUQE42YdV6l7kvmFGxncnmsdr/wpfHG/
-        +iYyxq35+xHiGwewsyNeEKEQYRd3Bp71sfKlIT8zS7mm5wxWxIKkPIawOiej3yKRtF2bqD3zIXD1k
-        SWuR68CPk68BG+4w8ZYC3y3D4mMz/+yRgONe79ireVPREQoqUWxnSdUkg0645gKl996tKTy8L+YHx
-        w/+RKYAIw8EJeZfpfG/SgDcVxpMl0bppf9xkjdPHwHHTPXIrYAHhCBtGq3rYSTMZDNkW2zEh0MTGS
-        cztnNPsQ==;
-Received: from [2601:1c0:6280:3f0::a6b3]
-        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1oRbYh-007CdF-MX; Fri, 26 Aug 2022 15:47:47 +0000
-Message-ID: <3d65fcd8-3010-d132-85d0-249b30ebf50d@infradead.org>
-Date:   Fri, 26 Aug 2022 08:47:46 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.1.2
-Subject: Re: [PATCH v2] Remove duplicated 'the' across the whole documentation
-Content-Language: en-US
-To:     Jules Maselbas <jmaselbas@kalray.eu>, linux-kernel@vger.kernel.org
-Cc:     Bagas Sanjaya <bagasdotme@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-References: <20220826095321.21548-1-jmaselbas@kalray.eu>
- <20220826143300.6794-1-jmaselbas@kalray.eu>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20220826143300.6794-1-jmaselbas@kalray.eu>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+        with ESMTP id S1344732AbiHZPtw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Aug 2022 11:49:52 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19F7260E3;
+        Fri, 26 Aug 2022 08:49:47 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id B19FEB831BF;
+        Fri, 26 Aug 2022 15:49:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5FA0AC433D6;
+        Fri, 26 Aug 2022 15:49:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1661528984;
+        bh=K54SpPn1dkF1YSkCv3pZX5DMshbcliLagDP1w7JkHK8=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=XyGtAHQC8bDQuh5z3roeuf3F7oOT/o24TT23/VB0gxzu/pRzuOmh7+qQIrWBSiYxX
+         +SIitVbdoYfIY2BQgQwcAGyXLjkqcYnDRsh24xpK5O2FuH5dbgYZ0Jyr2YPTWu3Sj9
+         B/PjOu5a0atbxONek8h/twl3bXND9jqNDTZmChRmPscKr3KwBiDyjvgf0dIAwxZBkU
+         xA0G/XSK7CrIGEMFg0RobNRKgCJNxfikx8UWoZevnrrdT8+2IFDGIsrhtq/yuhRWuH
+         +aJqN0S38A6pFafmjSqOO0plKjcIyGKVTyP51CRHkix/OOEWXrvSNjaExHGVOoMIMn
+         Tx3NWbRclwQuQ==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=why.misterjones.org)
+        by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.95)
+        (envelope-from <maz@kernel.org>)
+        id 1oRbaY-005zap-Bd;
+        Fri, 26 Aug 2022 16:49:42 +0100
+Date:   Fri, 26 Aug 2022 16:49:41 +0100
+Message-ID: <8735djvwbu.wl-maz@kernel.org>
+From:   Marc Zyngier <maz@kernel.org>
+To:     Paolo Bonzini <pbonzini@redhat.com>
+Cc:     Peter Xu <peterx@redhat.com>, Gavin Shan <gshan@redhat.com>,
+        kvmarm@lists.cs.columbia.edu, linux-arm-kernel@lists.infradead.org,
+        kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        corbet@lwn.net, james.morse@arm.com, alexandru.elisei@arm.com,
+        suzuki.poulose@arm.com, oliver.upton@linux.dev,
+        catalin.marinas@arm.com, will@kernel.org, shuah@kernel.org,
+        seanjc@google.com, dmatlack@google.com, bgardon@google.com,
+        ricarkol@google.com, zhenyzha@redhat.com, shan.gavin@gmail.com
+Subject: Re: [PATCH v1 1/5] KVM: arm64: Enable ring-based dirty memory tracking
+In-Reply-To: <9e7cb09c-82c5-9492-bccd-5511f5bede26@redhat.com>
+References: <20220819005601.198436-1-gshan@redhat.com>
+        <20220819005601.198436-2-gshan@redhat.com>
+        <87lerkwtm5.wl-maz@kernel.org>
+        <41fb5a1f-29a9-e6bb-9fab-4c83a2a8fce5@redhat.com>
+        <87fshovtu0.wl-maz@kernel.org>
+        <171d0159-4698-354b-8b2f-49d920d03b1b@redhat.com>
+        <YwTc++Lz6lh3aR4F@xz-m1.local>
+        <87bksawz0w.wl-maz@kernel.org>
+        <YwVEoM1pj2MPCELp@xz-m1.local>
+        <878rnewpaw.wl-maz@kernel.org>
+        <9e7cb09c-82c5-9492-bccd-5511f5bede26@redhat.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
+ (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: pbonzini@redhat.com, peterx@redhat.com, gshan@redhat.com, kvmarm@lists.cs.columbia.edu, linux-arm-kernel@lists.infradead.org, kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, corbet@lwn.net, james.morse@arm.com, alexandru.elisei@arm.com, suzuki.poulose@arm.com, oliver.upton@linux.dev, catalin.marinas@arm.com, will@kernel.org, shuah@kernel.org, seanjc@google.com, dmatlack@google.com, bgardon@google.com, ricarkol@google.com, zhenyzha@redhat.com, shan.gavin@gmail.com
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi--
-
-On 8/26/22 07:33, Jules Maselbas wrote:
-> Remove duplicated 'the' across the whole documentation
+On Fri, 26 Aug 2022 11:50:24 +0100,
+Paolo Bonzini <pbonzini@redhat.com> wrote:
 > 
-> CC: Bagas Sanjaya <bagasdotme@gmail.com>
-> CC: Jonathan Corbet <corbet@lwn.net>
-> CC: linux-doc@vger.kernel.org
-> Signed-off-by: Jules Maselbas <jmaselbas@kalray.eu>
-
-These all look good to me.
-You could also do the 2 occurrences of "The the"...
-
-and the other several hundred occurrences of other duplicated words
-in Documentation/.
-
-Thanks.
-
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
-
-> ---
-> in v2:
->  - also remove the second 'the' in one sentence as suggested by
->    Bagas Sanjaya
+> On 8/24/22 00:47, Marc Zyngier wrote:
+> >> I definitely don't think I 100% understand all the ordering things since
+> >> they're complicated.. but my understanding is that the reset procedure
+> >> didn't need memory barrier (unlike pushing, where we have explicit wmb),
+> >> because we assumed the userapp is not hostile so logically it should only
+> >> modify the flags which is a 32bit field, assuming atomicity guaranteed.
+> > Atomicity doesn't guarantee ordering, unfortunately. Take the
+> > following example: CPU0 is changing a bunch of flags for GFNs A, B, C,
+> > D that exist in the ring in that order, and CPU1 performs an ioctl to
+> > reset the page state.
+> > 
+> > CPU0:
+> >      write_flag(A, KVM_DIRTY_GFN_F_RESET)
+> >      write_flag(B, KVM_DIRTY_GFN_F_RESET)
+> >      write_flag(C, KVM_DIRTY_GFN_F_RESET)
+> >      write_flag(D, KVM_DIRTY_GFN_F_RESET)
+> >      [...]
+> > 
+> > CPU1:
+> >     ioctl(KVM_RESET_DIRTY_RINGS)
+> > 
+> > Since CPU0 writes do not have any ordering, CPU1 can observe the
+> > writes in a sequence that have nothing to do with program order, and
+> > could for example observe that GFN A and D have been reset, but not B
+> > and C. This in turn breaks the logic in the reset code (B, C, and D
+> > don't get reset), despite userspace having followed the spec to the
+> > letter. If each was a store-release (which is the case on x86), it
+> > wouldn't be a problem, but nothing calls it in the documentation.
+> > 
+> > Maybe that's not a big deal if it is expected that each CPU will issue
+> > a KVM_RESET_DIRTY_RINGS itself, ensuring that it observe its own
+> > writes. But expecting this to work across CPUs without any barrier is
+> > wishful thinking.
 > 
->  Documentation/admin-guide/kdump/vmcoreinfo.rst    | 2 +-
->  Documentation/bpf/map_cgroup_storage.rst          | 4 ++--
->  Documentation/core-api/cpu_hotplug.rst            | 3 +--
->  Documentation/driver-api/isa.rst                  | 2 +-
->  Documentation/filesystems/caching/backend-api.rst | 2 +-
->  Documentation/locking/seqlock.rst                 | 2 +-
->  Documentation/sphinx/cdomain.py                   | 2 +-
->  7 files changed, 8 insertions(+), 9 deletions(-)
+> Agreed, but that's a problem for userspace to solve.  If userspace
+> wants to reset the fields in different CPUs, it has to synchronize
+> with its own invoking of the ioctl.
 
+userspace has no choice. It cannot order on its own the reads that the
+kernel will do to *other* rings.
+
+> That is, CPU0 must ensure that a ioctl(KVM_RESET_DIRTY_RINGS) is done
+> after (in the memory-ordering sense) its last write_flag(D,
+> KVM_DIRTY_GFN_F_RESET).  If there's no such ordering, there's no
+> guarantee that the write_flag will have any effect.
+
+The problem isn't on CPU0 The problem is that CPU1 does observe
+inconsistent data on arm64, and I don't think this difference in
+behaviour is acceptable. Nothing documents this, and there is a baked
+in assumption that there is a strong ordering between writes as well
+as between writes and read.
+
+> The main reason why I preferred a global KVM_RESET_DIRTY_RINGS ioctl
+> was because it takes kvm->slots_lock so the execution would be
+> serialized anyway.  Turning slots_lock into an rwsem would be even
+> worse because it also takes kvm->mmu_lock (since slots_lock is a
+> mutex, at least two concurrent invocations won't clash with each other
+> on the mmu_lock).
+
+Whatever the reason, the behaviour should be identical on all
+architectures. As is is, it only really works on x86, and I contend
+this is a bug that needs fixing.
+
+Thankfully, this can be done at zero cost for x86, and at that of a
+set of load-acquires on other architectures.
+
+	M.
 
 -- 
-~Randy
+Without deviation from the norm, progress is not possible.
