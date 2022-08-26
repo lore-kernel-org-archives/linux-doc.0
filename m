@@ -2,55 +2,56 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D526ECAAA3
-	for <linux-doc@archiver.kernel.org>; Fri, 26 Aug 2022 07:30:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C7F9ECAAD6
+	for <linux-doc@archiver.kernel.org>; Fri, 26 Aug 2022 07:30:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245344AbiHZHaL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 26 Aug 2022 03:30:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43790 "EHLO
+        id S245333AbiHZHac (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 26 Aug 2022 03:30:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45246 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245348AbiHZHaH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Aug 2022 03:30:07 -0400
-Received: from mail-ua1-x92f.google.com (mail-ua1-x92f.google.com [IPv6:2607:f8b0:4864:20::92f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF1FC13E09
-        for <linux-doc@vger.kernel.org>; Fri, 26 Aug 2022 00:30:05 -0700 (PDT)
-Received: by mail-ua1-x92f.google.com with SMTP id ay32so274095uab.5
-        for <linux-doc@vger.kernel.org>; Fri, 26 Aug 2022 00:30:05 -0700 (PDT)
+        with ESMTP id S245404AbiHZHaY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Aug 2022 03:30:24 -0400
+Received: from mail-vs1-xe36.google.com (mail-vs1-xe36.google.com [IPv6:2607:f8b0:4864:20::e36])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23A2B3D58B
+        for <linux-doc@vger.kernel.org>; Fri, 26 Aug 2022 00:30:17 -0700 (PDT)
+Received: by mail-vs1-xe36.google.com with SMTP id d126so853429vsd.13
+        for <linux-doc@vger.kernel.org>; Fri, 26 Aug 2022 00:30:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc;
-        bh=HCuuNoUhutN3E1YApEsMni5FWnJl3Y+OYsJmpWBIEHI=;
-        b=tfDDNYBsjvIwOUGzZrbuVyRQwEd8SkPgDnWpqa5e9jli6kN0nv9Te3JRrJ7uk0qmUv
-         bfw+SHxt7WSJ5C8BwXZWaRZ1z07cAtZtcNJFC5iSadWEVgRIRur/WfgKwetRvFMcbZOI
-         mFZ8n6xNUiEFjlhftdO3Ri46kCAASbyvuVOJF9TUWeUnPbrlNm8GpFxHAB3DqYdKk1MD
-         hWtefhh8usat0Im63iLC/P1X9Lr2JnuimbgSFuojHKFcRCZXCxJV7o0KWjWdHYnDg0Zp
-         vi9pEIYLFD3zfQ3FmxHfNoXWPHbPm3hN2p0Q0J5Qsk2NelUHikYUzhlcT14nEbaP56kX
-         IMHg==
+        bh=Sm+r293j7DtrJEVTgtDd+PkoFtqsYhvT5y6Wt1A7fq4=;
+        b=lpco+0NQfq1o+CnskzXOTJsZKq27T9FNcd3WHMXy8YOMI9tc5SdgBau/3CZWYNfA9B
+         PFXndH4GAB86OFo38ugowFJLoUGqhuy6fAYpUtjzsNCk/6IILjHT4bVL4dvhPpSk5tBo
+         Aa976WoX9Z9Z5GE15sxFdlTKk0key5tWcVcYsv58zhJfa62n7hIuYKXURWSF7f+tdRlD
+         2numNvzy650tW4u67s0rOgxz2Qnymx1qrNBuLFSAtYBYi6oeI0zS3XWj+77/pOad5RkL
+         6yyXNmb1nGozcuDYvFIJh4+jtZuK87HQa2gwFWvSlC3YXR8ZAIw8HixME86N5hy7CQrG
+         1dfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc;
-        bh=HCuuNoUhutN3E1YApEsMni5FWnJl3Y+OYsJmpWBIEHI=;
-        b=ap9qO6t2TS2sGy3JWvkAkjUWHgshVU8N0u75xpTHj1ikG5RJNAr99iwt5o7v6pFOQN
-         qK/ZNCa6FNJ2O4OF1eUmVd49utpXxu7/NkP05/DKtfgwxZRFUS80iPPcGOM2bnIr6oLo
-         ObNO1ugVHIba7yi4JmTZ8suAsGGCg8DM5F2TIttxYUTh45Qsyr/TSf3c9D7HDv63G7vk
-         GHmO9k63CUjCp9Sv2W7X67x6b/oXZrE80zuDR+4Kl5WviQkHcaaYi5nv8LxNkHYYYCwQ
-         q6I2/VARl1f792Rr9haKW1EJjf6bwhWHh6HfOwFTkFjeDcrfM0W/JIvxNdyv3/ag8fxc
-         Wg4Q==
-X-Gm-Message-State: ACgBeo3dk+AvwhFTZLpc0ZeG24wqgOUmMPmjQQXS++TlL8ohmSwTbTkL
-        gaQXJrImLiP9n67QTc+XB6aKXzsPWo3yXXSdKJZ5dw==
-X-Google-Smtp-Source: AA6agR5SBoagklscYoWkEDZsLV0jyTfxsuR8cO9C+SujXhYP8kcH2edJjsqJm3xLkiDrmp8jEvE0O5w6WABEjp43tMA=
-X-Received: by 2002:a05:6130:c13:b0:39f:58bb:d51c with SMTP id
- cg19-20020a0561300c1300b0039f58bbd51cmr2530107uab.104.1661499004733; Fri, 26
- Aug 2022 00:30:04 -0700 (PDT)
+        bh=Sm+r293j7DtrJEVTgtDd+PkoFtqsYhvT5y6Wt1A7fq4=;
+        b=zlKiBjONIPqpxWXbBCUnrkqNuVQsBcIdCMti/SxXM/3ADsPfTMfBy6S14TCV0G5nsy
+         Z5KWGPhJUWvGIXHMZYeRzxoSn7XztSf9Uq7ECTDMbkOV9pX1TtNfXMHE7tzZ4KjdlrJ2
+         M9nLA2DZ/JvUeY+YfK17M0HNsgAM9REVfH4x+QHwLd6oN7uiRZGzaNl6isxznp4dxC/f
+         s6TXw/OiPKTQF0Rep40pU5NNmhNOq3nWIxshIz0tNakHwUCASLiggG0tkRo91cgl6pzq
+         DbNnN278cXkgBcXh0Ip6zVhxdJ95LbjL8jtUj8EZc4z1iG4ktHgtzQrmlHA/PWFtPtW3
+         HCOw==
+X-Gm-Message-State: ACgBeo3MixMrAhH0Mhd7JjZClz9sJE2aDM3ll60PWT5Pq0wUaoJC6ciC
+        7/KayVOb7KPuFZh4rEV2gPzlYxF4qDTWGy8Nlz+M7w==
+X-Google-Smtp-Source: AA6agR6UOS1O7idUrfet3k/+tK5WhUGoh8zTw/aiWFM/f1r9BjPHUdUGdeZKxPuGA9fli2zLZqBYdpZ86YJKGnRPASo=
+X-Received: by 2002:a67:dc81:0:b0:390:3481:dee2 with SMTP id
+ g1-20020a67dc81000000b003903481dee2mr2943634vsk.18.1661499016561; Fri, 26 Aug
+ 2022 00:30:16 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220822022646.98581-1-tales.aparecida@gmail.com> <20220822022646.98581-4-tales.aparecida@gmail.com>
-In-Reply-To: <20220822022646.98581-4-tales.aparecida@gmail.com>
+References: <20220822022646.98581-1-tales.aparecida@gmail.com> <20220822022646.98581-5-tales.aparecida@gmail.com>
+In-Reply-To: <20220822022646.98581-5-tales.aparecida@gmail.com>
 From:   David Gow <davidgow@google.com>
-Date:   Fri, 26 Aug 2022 15:29:52 +0800
-Message-ID: <CABVgOSmwJbdWGrdcmEKi_W+hxv0puGtzfKSXpCg1iqLh1c5JNA@mail.gmail.com>
-Subject: Re: [PATCH v2 3/8] Documentation: KUnit: add note about mrproper in start.rst
+Date:   Fri, 26 Aug 2022 15:30:03 +0800
+Message-ID: <CABVgOS=w=4dMKN8XZqC53JRgR8iBrwn23G1t_Qcemdoe8qfZVQ@mail.gmail.com>
+Subject: Re: [PATCH v2 4/8] Documentation: KUnit: Reword start guide for
+ selecting tests
 To:     Tales Aparecida <tales.aparecida@gmail.com>
 Cc:     Sadiya Kazi <sadiyakazi@google.com>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
@@ -65,83 +66,215 @@ Cc:     Sadiya Kazi <sadiyakazi@google.com>,
         =?UTF-8?B?TWHDrXJhIENhbmFs?= <mairacanal@riseup.net>,
         Isabella Basso <isabbasso@riseup.net>, magalilemes00@gmail.com
 Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
-        boundary="000000000000fd55fa05e71fe19d"
+        boundary="000000000000b2a59a05e71fe2ce"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
---000000000000fd55fa05e71fe19d
+--000000000000b2a59a05e71fe2ce
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
 On Mon, Aug 22, 2022 at 10:30 AM Tales Aparecida
 <tales.aparecida@gmail.com> wrote:
 >
-> The "Getting Started" guide should be beginner-friendly, therefore
-> add a note about the requirement of a clean source tree when running
-> kunit_tool for the first time, and its related error.
+> Reword "Creating a ``.kunitconfig``" into "Selecting which tests to run"
+> covering the current alternatives for editing configs and glob-filtering
 >
 > Signed-off-by: Tales Aparecida <tales.aparecida@gmail.com>
+> Reviewed-by: Ma=C3=ADra Canal <mairacanal@riseup.net>
 >
 > ---
 > Notes:
->     Edit note following suggestions (Sadiya Kazi)
+>     Avoid hyphen in "test case" and "test suite"
+>     Fix nit: "any test case that match" -> "...matches"
 > ---
 
-Thanks very much: this is something we've um-ed and ah-ed about
-including a bit. We were worried that it could be confusing to mention
-it when it occurs rarely, but I think your description is detailed
-enough that no-one will be confused.
+Thanks very much: I quite like this, more detailed, description.
 
-One note below about how we could use --build_dir=. to set the build
-directory to be equal to the source directory (and hence do an in-tree
-build), but I won't lose any sleep if we don't mention it.
+I'd prefer we tell people explicitly to use ".kunitconfig" files
+rather than "using Kconfig": personally I find the latter is a bit
+ambiguous as to which files are being changed, and whether or not
+you're changing things using .kunitconfig files, or be directly
+modifying .config. "Cutomizing Kconfig" suggests the latter to me.
+Though it is a little awkward to call it kunitconfig when doing the
+--kconfig_add options, too, so if you'd really prefer it as-is, I'll
+live with it.
+
+Other than that, though, I'm really happy with this change. I do think
+it's starting to push against the edges of the "Getting Started"
+guide: I think if we wanted anything more complicated than this, it'd
+be best to just link to the run_wrapper.rst page, but this seems good.
 
 Reviewed-by: David Gow <davidgow@google.com>
 
 Cheers,
+ -- David
 
--- David
-
->  Documentation/dev-tools/kunit/start.rst | 16 ++++++++++++++++
->  1 file changed, 16 insertions(+)
+>  Documentation/dev-tools/kunit/start.rst | 90 +++++++++++++++++--------
+>  1 file changed, 63 insertions(+), 27 deletions(-)
 >
-> diff --git a/Documentation/dev-tools/kunit/start.rst b/Documentation/dev-tools/kunit/start.rst
-> index 2e31350a85e1..9beec7d6ac4b 100644
+> diff --git a/Documentation/dev-tools/kunit/start.rst b/Documentation/dev-=
+tools/kunit/start.rst
+> index 9beec7d6ac4b..adf782507999 100644
 > --- a/Documentation/dev-tools/kunit/start.rst
 > +++ b/Documentation/dev-tools/kunit/start.rst
-> @@ -19,6 +19,22 @@ can run kunit_tool:
+> @@ -52,27 +52,20 @@ The tests will pass or fail.
+>  For detailed information on this wrapper, see:
+>  Documentation/dev-tools/kunit/run_wrapper.rst.
 >
->         ./tools/testing/kunit/kunit.py run
+> -Creating a ``.kunitconfig``
+> ----------------------------
+> -
+> -By default, kunit_tool runs a selection of tests. However, you can speci=
+fy which
+> -unit tests to run by creating a ``.kunitconfig`` file with kernel config=
+ options
+> -that enable only a specific set of tests and their dependencies.
+> -The ``.kunitconfig`` file contains a list of kconfig options which are r=
+equired
+> -to run the desired targets. The ``.kunitconfig`` also contains any other=
+ test
+> -specific config options, such as test dependencies. For example: the
+> -``FAT_FS`` tests - ``FAT_KUNIT_TEST``, depends on
+> -``FAT_FS``. ``FAT_FS`` can be enabled by selecting either ``MSDOS_FS``
+> -or ``VFAT_FS``. To run ``FAT_KUNIT_TEST``, the ``.kunitconfig`` has:
+> +Selecting which tests to run
+> +----------------------------
+>
+> -.. code-block:: none
+> +By default, kunit_tool runs all tests reachable with minimal configurati=
+on,
+> +that is, using default values for most of the kconfig options.  However,
+> +you can select which tests to run by:
+>
+> -       CONFIG_KUNIT=3Dy
+> -       CONFIG_MSDOS_FS=3Dy
+> -       CONFIG_FAT_KUNIT_TEST=3Dy
+> +- `Customizing Kconfig`_ used to compile the kernel, or
+> +- `Filtering tests by name`_ to select specifically which compiled tests=
+ to run.
+>
+> -1. A good starting point for the ``.kunitconfig`` is the KUnit default c=
+onfig.
+> -   You can generate it by running:
+> +Customizing Kconfig
+> +~~~~~~~~~~~~~~~~~~~
+> +A good starting point for the ``.kunitconfig`` is the KUnit default conf=
+ig.
+> +If you didn't run ``kunit.py run`` yet, you can generate it by running:
+>
+>  .. code-block:: bash
+>
+> @@ -84,27 +77,70 @@ or ``VFAT_FS``. To run ``FAT_KUNIT_TEST``, the ``.kun=
+itconfig`` has:
+>     ``.kunitconfig`` lives in the ``--build_dir`` used by kunit.py, which=
+ is
+>     ``.kunit`` by default.
+>
+> -.. note ::
+> +Before running the tests, kunit_tool ensures that all config options
+> +set in ``.kunitconfig`` are set in the kernel ``.config``. It will warn
+> +you if you have not included dependencies for the options used.
+> +
+> +There are many ways to customize the configurations:
+> +
+> +a. Edit ``.kunit/.kunitconfig``. The file should contain the list of kco=
+nfig
+> +   options required to run the desired tests, including their dependenci=
+es.
+>     You may want to remove CONFIG_KUNIT_ALL_TESTS from the ``.kunitconfig=
+`` as
+>     it will enable a number of additional tests that you may not want.
+> +   If you need to run on an architecture other than UML see :ref:`kunit-=
+on-qemu`.
+>
+> -2. You can then add any other Kconfig options, for example:
+> +b. Enable additional kconfig options on top of ``.kunit/.kunitconfig``.
+> +   For example, to include the kernel's linked-list test you can run::
+>
+> -.. code-block:: none
+> +       ./tools/testing/kunit/kunit.py run \
+> +               --kconfig_add CONFIG_LIST_KUNIT_TEST=3Dy
+>
+> -       CONFIG_LIST_KUNIT_TEST=3Dy
+> +c. Provide the path of one or more .kunitconfig files from the tree.
+> +   For example, to run only ``FAT_FS`` and ``EXT4`` tests you can run::
+>
+> -Before running the tests, kunit_tool ensures that all config options
+> -set in ``.kunitconfig`` are set in the kernel ``.config``. It will warn
+> -you if you have not included dependencies for the options used.
+> +       ./tools/testing/kunit/kunit.py run \
+> +               --kunitconfig ./fs/fat/.kunitconfig \
+> +               --kunitconfig ./fs/ext4/.kunitconfig
+>
+> -.. note ::
+> -   If you change the ``.kunitconfig``, kunit.py will trigger a rebuild o=
+f the
+> +d. If you change the ``.kunitconfig``, kunit.py will trigger a rebuild o=
+f the
+>     ``.config`` file. But you can edit the ``.config`` file directly or w=
+ith
+>     tools like ``make menuconfig O=3D.kunit``. As long as its a superset =
+of
+>     ``.kunitconfig``, kunit.py won't overwrite your changes.
+>
 >
 > +.. note ::
-> +       You may see the following error:
-> +       "The source tree is not clean, please run 'make ARCH=um mrproper'"
 > +
-> +       This happens because internally kunit.py specifies ``.kunit``
-> +       (default option) as the build directory in the command ``make O=output/dir``
-> +       through the argument ``--build_dir``.  Hence, before starting an
-> +       out-of-tree build, the source tree must be clean.
+> +       To save a .kunitconfig after finding a satisfactory configuration=
+::
 > +
-> +       There is also the same caveat mentioned in the "Build directory for
-> +       the kernel" section of the :doc:`admin-guide </admin-guide/README>`,
-> +       that is, its use, it must be used for all invocations of ``make``.
-> +       The good news is that it can indeed be solved by running
-> +       ``make ARCH=um mrproper``, just be aware that this will delete the
-> +       current configuration and all generated files.
+> +               make savedefconfig O=3D.kunit
+> +               cp .kunit/defconfig .kunit/.kunitconfig
+> +
+> +Filtering tests by name
+> +~~~~~~~~~~~~~~~~~~~~~~~
+> +If you want to be more specific than Kconfig can provide, it is also pos=
+sible
+> +to select which tests to execute at boot-time by passing a glob filter
+> +(read instructions regarding the pattern in the manpage :manpage:`glob(7=
+)`).
+> +If there is a ``"."`` (period) in the filter, it will be interpreted as =
+a
+> +separator between the name of the test suite and the test case,
+> +otherwise, it will be interpreted as the name of the test suite.
+> +For example, let's assume we are using the default config:
+> +
+> +a. inform the name of a test suite, like ``"kunit_executor_test"``,
+> +   to run every test case it contains::
+> +
+> +       ./tools/testing/kunit/kunit.py run "kunit_executor_test"
+> +
+> +b. inform the name of a test case prefixed by its test suite,
+> +   like ``"example.example_simple_test"``, to run specifically that test=
+ case::
+> +
+> +       ./tools/testing/kunit/kunit.py run "example.example_simple_test"
+> +
+> +c. use wildcard characters (``*?[``) to run any test case that matches t=
+he pattern,
+> +   like ``"*.*64*"`` to run test cases containing ``"64"`` in the name i=
+nside
+> +   any test suite::
+> +
+> +       ./tools/testing/kunit/kunit.py run "*.*64*"
 > +
 
-You could also mention that passing --build_dir=. will cause
-kunit_tool to do an in-tree build.
+Another interesting distinction is that filtering tests can be done
+without using kunit_tool, though that's probably out-of-scope for the
+Getting Started documentation.
 
 
->  If everything worked correctly, you should see the following:
->
->  .. code-block::
+>  Running Tests without the KUnit Wrapper
+>  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>  If you do not want to use the KUnit Wrapper (for example: you want code
 > --
 > 2.37.2
 >
 
---000000000000fd55fa05e71fe19d
+--000000000000b2a59a05e71fe2ce
 Content-Type: application/pkcs7-signature; name="smime.p7s"
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="smime.p7s"
@@ -208,14 +341,14 @@ OOYwT0BUtHYR/3903Dmdx5Alq+NDvUHDjozgo0f6oIkwDXT3yBV36utQ/jFisd36C8RD5mM+NFpu
 3aqLXARRbKtxw29ErCwulof2dcAonG7cd5j+gmS84sLhKU+BhL1OQVXnJ5tj7xZ5Ri5I23brcwk0
 lk/gWqfgs3ppT9Xk7zVit9q8MYICajCCAmYCAQEwaDBUMQswCQYDVQQGEwJCRTEZMBcGA1UEChMQ
 R2xvYmFsU2lnbiBudi1zYTEqMCgGA1UEAxMhR2xvYmFsU2lnbiBBdGxhcyBSMyBTTUlNRSBDQSAy
-MDIwAhABh9LgIPnlfMFHR0Die8n7MA0GCWCGSAFlAwQCAQUAoIHUMC8GCSqGSIb3DQEJBDEiBCC4
-a7FZbpyI5wh/+L+aDELgCtSv4poG26wl6D/rJX8+1TAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcB
-MBwGCSqGSIb3DQEJBTEPFw0yMjA4MjYwNzMwMDVaMGkGCSqGSIb3DQEJDzFcMFowCwYJYIZIAWUD
+MDIwAhABh9LgIPnlfMFHR0Die8n7MA0GCWCGSAFlAwQCAQUAoIHUMC8GCSqGSIb3DQEJBDEiBCCc
+Sx5T28cZoTQ9PHOlRfx27lLMcXYv/oyfObRshewVDzAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcB
+MBwGCSqGSIb3DQEJBTEPFw0yMjA4MjYwNzMwMTZaMGkGCSqGSIb3DQEJDzFcMFowCwYJYIZIAWUD
 BAEqMAsGCWCGSAFlAwQBFjALBglghkgBZQMEAQIwCgYIKoZIhvcNAwcwCwYJKoZIhvcNAQEKMAsG
-CSqGSIb3DQEBBzALBglghkgBZQMEAgEwDQYJKoZIhvcNAQEBBQAEggEAlipcdQvksa3725ppW6vG
-uwbKktWBv67xUxRYxE85ICawSjRoO30BPRmZSvfaEOjT2jEPGvyRvNIJbnCm+CkmPRdN/wPETdi0
-Pz+R6gz3uRwhvRYgNFh8j3AUZQUsKJuSaHCBbKyWrcVHrdzV621zrq2ocwjGKpTDnQmzOzrCIir7
-cd1N23sqQcFsKq1DACAerNWYcoRzDWCgTKcYFCFZ+Pww2vhECLJd3SlAJen7PeE9ZYbC4HN1/q/8
-eONRJrmG7BnWrJgp/3QhMoAq55HR43iJBPwxSZSTii+Z7oXdlsB+7wdgQyrqeYDOfh3KajQ/Pwz5
-gP72AZ3+svbevGV+Sw==
---000000000000fd55fa05e71fe19d--
+CSqGSIb3DQEBBzALBglghkgBZQMEAgEwDQYJKoZIhvcNAQEBBQAEggEATextapLxlP3S51ywoKk0
+jzbB5hgnxtv4QYQX5HGyni5lpThd3MfjZbepvgGMjUDleS6UO4qQD/fPpefdOqNBesEo6w2SSsjX
+fxTM3XRdEieq5sP48uqrYucxlYoolrwqwZNersgDgH5Gb5pmsfRDDECQhmWivjS94cL23SKvT58f
+hjeUI2Set/VhTVtoPKwL2G2vOZZ3SG5ensuo+6mvLrxMkYDwoUjM9koM+FykKWBN8/vQaaNIIUue
+8W4IDzS3fS4SJ63gHvZo2l3p1OlMR5sKA/m10gi4DtuahkcktIY1c5WB+OaWYFZ8ojRd0w352c3A
+PIxl+NmFb0L+nS1MBw==
+--000000000000b2a59a05e71fe2ce--
