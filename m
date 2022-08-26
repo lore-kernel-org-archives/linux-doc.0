@@ -2,110 +2,86 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0CAA4ECAAA3
-	for <linux-doc@archiver.kernel.org>; Fri, 26 Aug 2022 04:16:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D5E54ECAAA3
+	for <linux-doc@archiver.kernel.org>; Fri, 26 Aug 2022 04:23:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244476AbiHZEQa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 26 Aug 2022 00:16:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55286 "EHLO
+        id S231734AbiHZEXl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 26 Aug 2022 00:23:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60094 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244491AbiHZEQa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Aug 2022 00:16:30 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59BA0BB01B;
-        Thu, 25 Aug 2022 21:16:29 -0700 (PDT)
+        with ESMTP id S231315AbiHZEXl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Aug 2022 00:23:41 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 643F4C6FD6;
+        Thu, 25 Aug 2022 21:23:40 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 0FC77B82F5C;
-        Fri, 26 Aug 2022 04:16:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 92375C433C1;
-        Fri, 26 Aug 2022 04:16:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1661487386;
-        bh=dWUP5SzBKFkPPFrG5kSA+6oPlRpqgdw42NE7/hoQ1Qg=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=MiTEg+idY8oPIckibp+T6MYEKDON0WivdR/932DAeaZTSHjcPqZZ6m8grGU6QywGI
-         IaX+jY3R4IUpB7/4unSU8I/6n/nx88snyehJEKZcB5xsSt1m8MhYr2lU4ewqdYLMXv
-         A7GuWyh2bpOeWyAA+TIsFiKl5FG2i+sS2wEkgpAFPZ0BYkXWUkXjnNp7wV32pvEpAT
-         6adymDIBYkqb4ycxpjaJXy42FBqdTeZTUTep08rEQoWQBfqZOYAaz2uIHvAUgIgLrX
-         OR92z3HcoYRgavC0A6gjfQULOQ3ZgLOfstWQpG5+y64WVuj7cr/uiuSqqe0GC3nLtz
-         bglc4YvtgzDjg==
-Date:   Fri, 26 Aug 2022 07:16:12 +0300
-From:   Mike Rapoport <rppt@kernel.org>
-To:     Bagas Sanjaya <bagasdotme@gmail.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Yixuan Cao <caoyixuan2019@email.szu.edu.cn>,
-        akpm@linux-foundation.org, yejiajian2018@email.szu.edu.cn,
-        skhan@linuxfoundation.org, akiyks@gmail.com,
-        zhangyinan2019@email.szu.edu.cn, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Documentation/mm/page_owner.rst: update experimental data
-Message-ID: <YwhJDJQkymdN0E2N@kernel.org>
-References: <20220825172934.4344-1-caoyixuan2019@email.szu.edu.cn>
- <87ilmgyz34.fsf@meer.lwn.net>
- <YwgwVsKYLUq0kbMo@debian.me>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YwgwVsKYLUq0kbMo@debian.me>
+        by dfw.source.kernel.org (Postfix) with ESMTPS id F021A60C8A;
+        Fri, 26 Aug 2022 04:23:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3326C433D6;
+        Fri, 26 Aug 2022 04:23:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+        s=korg; t=1661487819;
+        bh=jcg147D1yDM5q55rbfjcwOEpR6Qg0owFbIE79hxnzdA=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=swRBl+cyscwpbrkmIlJVa2MyakZTR2Xj5+P98F6XCQZ8AmmqwbgR2wcJlW2edLZ5U
+         yQN1WMR68osbCltgUgpxR1+M1PhAAM2NHtlTWrgSnAoxeWGTCkxrIwExVBq31sUkzP
+         WrTk9NO76jkek3Rw2BV+oSvjEDCer18TgD8Hkkho=
+Date:   Thu, 25 Aug 2022 21:23:38 -0700
+From:   Andrew Morton <akpm@linux-foundation.org>
+To:     lizhe.67@bytedance.com
+Cc:     mhocko@suse.com, vbabka@suse.cz, mhiramat@kernel.org,
+        keescook@chromium.org, Jason@zx2c4.com, mark-pk.tsai@mediatek.com,
+        rostedt@goodmis.org, corbet@lwn.net, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        lizefan.x@bytedance.com
+Subject: Re: [PATCH v4] page_ext: introduce boot parameter 'early_page_ext'
+Message-Id: <20220825212338.e541d29ca3c4d602221f4925@linux-foundation.org>
+In-Reply-To: <20220825102714.669-1-lizhe.67@bytedance.com>
+References: <20220825102714.669-1-lizhe.67@bytedance.com>
+X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Aug 26, 2022 at 09:30:46AM +0700, Bagas Sanjaya wrote:
-> On Thu, Aug 25, 2022 at 12:09:35PM -0600, Jonathan Corbet wrote:
-> > >  - Without page owner::
-> > >  
-> > >     text    data     bss     dec     hex filename
-> > > -   48392   2333     644   51369    c8a9 mm/page_alloc.o
-> > > +   58581   3166     652   62399    f3bf mm/page_alloc.o
-> > >  
-> > >  - With page owner::
-> > >  
-> > >     text    data     bss     dec     hex filename
-> > > -   48800   2445     644   51889    cab1 mm/page_alloc.o
-> > > -   6662     108      29    6799    1a8f mm/page_owner.o
-> > > -   1025       8       8    1041     411 mm/page_ext.o
-> > > +   59085   3294     652   63031    f637 mm/page_alloc.o
-> > > +   7464     125      28    7617    1dc1 mm/page_owner.o
-> > > +   1396      32       8    1436     59c mm/page_ext.o
-> > >  
-> > > -Although, roughly, 8 KB code is added in total, page_alloc.o increase by
-> > > -520 bytes and less than half of it is in hotpath. Building the kernel with
-> > > +Although, roughly, 9 KB code is added in total, page_alloc.o increase by
-> > > +632 bytes and less than half of it is in hotpath. Building the kernel with
-> > >  page owner and turning it on if needed would be great option to debug
-> > >  kernel memory problem.
-> > 
-> > This seems like a fine patch...but I do have to wonder if it really
-> > makes sense to maintain this information, which will surely be subject
-> > to frequent change.  Perhaps the whole thing is better replaced with a
-> > line saying that enabling page owner adds ~9KB?
-> > 
-> 
-> The size figure above is from size(1) from binutils, for which the
-> command is run (maybe) against vmlinux.
-> 
-> So I would like to say "Enabling page owner increases vmlinux size by
-> several kilobytes."
+On Thu, 25 Aug 2022 18:27:14 +0800 lizhe.67@bytedance.com wrote:
 
-Looks like original text tried to emphasize that there is no significant
-change to page allocator code, and I think it's worth keeping it. E.g.
-leaving something like
+> From: Li Zhe <lizhe.67@bytedance.com>
+> 
+> In 'commit 2f1ee0913ce5 ("Revert "mm: use early_pfn_to_nid in page_ext_init"")',
+> we call page_ext_init() after page_alloc_init_late() to avoid some panic
+> problem. It seems that we cannot track early page allocations in current
+> kernel even if page structure has been initialized early.
+> 
+> This patch introduce a new boot parameter 'early_page_ext' to resolve this
+> problem. If we pass it to kernel, function page_ext_init() will be moved
+> up and feature 'deferred initialization of struct pages' will be disabled
+> to initialize the page allocator early and prevent from the panic problem
+> above. It can help us to catch early page allocations. This is useful
+> especially when we find that the free memory value is not the same right
+> after different kernel booting.
+> 
 
-"Although, enabling page owner increases kernel size by several kilobytes,
-most of this code is outside page allocator and its hot path."
+WARNING: modpost: vmlinux.o: section mismatch in reference: early_page_ext_enabled (section: .text.unlikely) -> early_page_ext (section: .meminit.data)
+WARNING: modpost: vmlinux.o: section mismatch in reference: early_page_ext_enabled (section: .text.unlikely) -> early_page_ext (section: .meminit.data)
+
+I did this, but it was lazy - perhaps there's a better-optimized
+combination of section tags.  Please check?
+
+--- a/mm/page_ext.c~page_ext-introduce-boot-parameter-early_page_ext-fix
++++ a/mm/page_ext.c
+@@ -91,7 +91,7 @@ unsigned long page_ext_size = sizeof(str
+ static unsigned long total_usage;
+ static struct page_ext *lookup_page_ext(const struct page *page);
  
-instead of size(1) output and the sentences before and after it.
+-bool early_page_ext __meminitdata;
++bool early_page_ext;
+ static int __init setup_early_page_ext(char *str)
+ {
+ 	early_page_ext = true;
+_
 
-> Thanks.
-> 
-> -- 
-> An old man doll... just what I always wanted! - Clara
-
-
-
--- 
-Sincerely yours,
-Mike.
