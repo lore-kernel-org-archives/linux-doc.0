@@ -2,59 +2,59 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A43F1ECAAD2
-	for <linux-doc@archiver.kernel.org>; Sat, 27 Aug 2022 04:37:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 51943C0502A
+	for <linux-doc@archiver.kernel.org>; Sat, 27 Aug 2022 04:38:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232298AbiH0Eh0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 27 Aug 2022 00:37:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50772 "EHLO
+        id S230499AbiH0EiY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 27 Aug 2022 00:38:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51610 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231216AbiH0EhY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 27 Aug 2022 00:37:24 -0400
-Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com [IPv6:2607:f8b0:4864:20::430])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D5991D333;
-        Fri, 26 Aug 2022 21:37:23 -0700 (PDT)
-Received: by mail-pf1-x430.google.com with SMTP id 72so3346671pfx.9;
-        Fri, 26 Aug 2022 21:37:23 -0700 (PDT)
+        with ESMTP id S229983AbiH0EiX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 27 Aug 2022 00:38:23 -0400
+Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1550A5C74;
+        Fri, 26 Aug 2022 21:38:22 -0700 (PDT)
+Received: by mail-pj1-x1036.google.com with SMTP id h11-20020a17090a470b00b001fbc5ba5224so3760007pjg.2;
+        Fri, 26 Aug 2022 21:38:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc;
-        bh=IhCtCt7xUVdmEi8KPUgqmHyWKIflwsN7bIzGfwY7bdQ=;
-        b=GhjKS05oVLRs6NiQ5Evb/3S/bSmoXAWHCZylVi4Poux54vSKgLevmdWB6McKCaXO9b
-         2t2SELt8vH/ki8S4dvp7DwXJDRlzy3EsXW9ozIG/2QZeQT7irAjNbtgZcZnAXi3hSkE4
-         yL9pimCkFF36aZyBCYsmbkJc/8WPj2tOigpUi7PUPtd0dPbQ79RzJcjXx7WExRdH6bSA
-         Qftlioux7MVpq6I0KmZUPNxqoZI96uv2TA8KPxLfk53jQEl6aXeleX//aYmN7WDWZVvB
-         3bmeeRq8wooBKUPKAsorB7erhgJZTvt5nmPZa2gUEQ+m6cHpLliKb1ucq2yiqHJUCS3h
-         RdoA==
+        bh=dEKV5G+5ehJFpFZg02Cmb2rWjLpf+O2SqBExv52ariU=;
+        b=Qm5CZzfYjx1rG2MQoIuxH5kLzDOkH6d0+L/CY2JeQNGo7vL9F9gYBJNreUOEBO7n3p
+         oA+GaUWNg1Oqf+qhs4fXMsGx2Zd+14oQc4M71rgHMuKXJ5Mm0FlbFMltw8vlL9YxLO2C
+         UenvfPRTP/fafcTZbAw4p82nkVwmS8RO6F2iy8RoLJkJBrPCqs5QuwI5o2e5BiIlbYdB
+         Hz54WG+Kz4eg/+VPPBzQX8mBklbNVe6oImi7S7+1xj4xpY+d5yd9f6xqWYop85Z0BRhd
+         9O/V3Y6dLGLZMHgEX2Xzug92bwBZbEP9fkR5gU802xmkEDCR+xsmyNxO3CRUmdmA6oeZ
+         6f0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc;
-        bh=IhCtCt7xUVdmEi8KPUgqmHyWKIflwsN7bIzGfwY7bdQ=;
-        b=ujoNUjyw5xf3PWIto5BKJS/e0CL6uYBcTExgmZWsWx6x8mL54gzPFfgTHDfjbc/W/o
-         jhRxIKL7MjpqsVhS/HauPf4bb/3JeqFo3Tw4TCpFWEO0nMVGDRYw/n2crHl+gRCEUTPr
-         J5x3N7O1yXB1/unw+amqlyQoeCJFbZixx8G4UiRfgYYnfYoHlR6nNhC1xyDB6gV6Yy59
-         adIOEyAuPPb0fOJov961JBKrsovvCJxS46TRQx7CQoCBCFU8XsRbJ6prDAHxyqL4oRNT
-         KpaplOENaYrhX6xjsVuGie3h5ApfQW33x1MWSUnX3DuyvDUQj7x3jFJhiz4kCObCK6Q3
-         Oe2Q==
-X-Gm-Message-State: ACgBeo2wNkE9qikcH6M3BHSpp5F9RBIxcI1pKSrolkD9Y+kSmbvGrro7
-        OBsEwcqle0ePXTyQEQFjMiE=
-X-Google-Smtp-Source: AA6agR5FMIAquCy2mWRAoGIPCDoaF2wtrdSLn37OrQrafMDQzMwLXYekcuDRvSpxQHWTHuMtddVOAQ==
-X-Received: by 2002:a63:914a:0:b0:42b:4eaf:7c75 with SMTP id l71-20020a63914a000000b0042b4eaf7c75mr5798107pge.306.1661575042929;
-        Fri, 26 Aug 2022 21:37:22 -0700 (PDT)
+        bh=dEKV5G+5ehJFpFZg02Cmb2rWjLpf+O2SqBExv52ariU=;
+        b=LSxtkgONVzceIm59TJYzd+g1rM6LQt7qVbA5EnAFj0EGxN0ikG0S2Tp4KxzAYlCYVC
+         /C8c4XWt1XoVlUe15nerQ1ImGX61hAAvq2zCsh9pAa+0eIl72ZFPYk/Tw8rmwZC9bvUB
+         39Uv7wY9BxiOh0jMlOw1mbO1uNKnrOc0JAzWujCt7dfSrp0PAhAXfsRrZRmOq2zytJYV
+         lypf7rNoc6zut13qN50NDTlW9/MKmGm27BC/aISwCw3jnMrtqdeQqlhLm5jzEOEuMsP8
+         mXE481i9wOi2oJNI/eH5mKrS+XzzGOEGf9J5+OV3Xmt7TmyOsuTopylVVE2C3OC0/K+i
+         h0ig==
+X-Gm-Message-State: ACgBeo0VVLGtxVKQIQ2FFkmTZZcCyfbY3EZR/QYAG5bL+f4b23ENlrB1
+        aeS37HkmvDl/A0Fo8wO+LiwlCae14Zk=
+X-Google-Smtp-Source: AA6agR5j9KW+vtffhmUCKZgWhAvVslJ9WVNEtrvHaJty4Vcy7Mxt+MATA+HJ9dfwqD8Heay1Fib9Pg==
+X-Received: by 2002:a17:902:8606:b0:172:fecc:88d with SMTP id f6-20020a170902860600b00172fecc088dmr6662648plo.129.1661575102157;
+        Fri, 26 Aug 2022 21:38:22 -0700 (PDT)
 Received: from [192.168.11.9] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id jj22-20020a170903049600b00172dc6e1916sm2451488plb.220.2022.08.26.21.37.19
+        by smtp.gmail.com with ESMTPSA id p23-20020a17090a0e5700b001f56315f9efsm2487472pja.32.2022.08.26.21.38.19
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 26 Aug 2022 21:37:20 -0700 (PDT)
-Message-ID: <a6a877fc-dc93-2bda-a6d3-37001d99942a@gmail.com>
-Date:   Sat, 27 Aug 2022 13:37:18 +0900
+        Fri, 26 Aug 2022 21:38:21 -0700 (PDT)
+Message-ID: <5a582b2b-d51c-a062-36b2-19479cf68fab@gmail.com>
+Date:   Sat, 27 Aug 2022 13:38:17 +0900
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: [PATCH v3 1/2] docs/conf.py: Treat mathjax as fallback math renderer
+Subject: [PATCH v3 2/2] docs/conf.py: Respect env variable SPHINX_IMGMATH
 Content-Language: en-US
 To:     Jonathan Corbet <corbet@lwn.net>,
         Mauro Carvalho Chehab <mchehab@kernel.org>
@@ -70,84 +70,62 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Currently, math expressions using the "math::" directive or
-the ":math:" role of Sphinx need the imgmath extension for proper
-rendering in html and epub builds.
-imgmath requires dvipng (and latex).
-Otherwise, "make htmldocs" will complain of missing commands.
+On some distros with coarse-grained packaging policy, dvipng is
+installed along with latex.  In such cases, math rendering will
+use imgmath by default.  It is possible to override the choice by
+specifying the option string of "-D html_math_renderer='mathjax'"
+to sphinx-build (Sphinx >= 1.8).
 
-As a matter of fact, the mathjax extension is loaded by default since
-Sphinx v1.8 and it is good enough for html docs without any dependency
-on texlive packages.
+To provide developers an easier-to-use knob, add code for an env
+variable "SPHINX_IMGMATH" which overrides the automatic choice
+of math renderer for html docs.
 
-Stop loading the imgmath extension for html docs unless requirements
-for imgmath are met.
-
-To find out whether required commands are available, add a helper
-find_command(), which is a wrapper of shutil.which().
-
-For epub docs, keep the same behavior of always loading imgmath.
+    SPHINX_IMGMATH=yes : Load imgmath even if dvipng is not found
+    SPHINX_IMGMATH=no  : Don't load imgmath (fall back to mathjax)
 
 Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 Acked-by: Mauro Carvalho Chehab <mchehab@kernel.org>
 ---
 Changes since v2:
- - Mention find_command() in the changelog.
- - Simplify find_command() by using shutil.which().
+ - Emit warning on unknown setting of SPHINX_IMGMATH.
 
-Changes sinve v1:
- - Acked-by from Mauro
+Changes since v1:
+ - No logical changes.
+ - Renames:
+     LOAD_IMGMATH -> SPHINX_IMGMATH (Mauro),
+     opt_load_imgmath -> env_sphinx_imgmath.
+ - Acked-by from Mauro.
 --
- Documentation/conf.py | 29 ++++++++++++++++++++++++++++-
- 1 file changed, 28 insertions(+), 1 deletion(-)
+ Documentation/conf.py | 16 ++++++++++++++--
+ 1 file changed, 14 insertions(+), 2 deletions(-)
 
 diff --git a/Documentation/conf.py b/Documentation/conf.py
-index 255384d094bf..c4aaedd96220 100644
+index c4aaedd96220..9678a8215457 100644
 --- a/Documentation/conf.py
 +++ b/Documentation/conf.py
-@@ -15,6 +15,18 @@
- import sys
- import os
- import sphinx
-+import shutil
+@@ -124,8 +124,20 @@ autosectionlabel_maxdepth = 2
+ # mathjax is the default math renderer since Sphinx 1.8.
+ have_latex =  have_command('latex')
+ have_dvipng = have_command('dvipng')
+-load_imgmath = ((have_latex and have_dvipng)
+-                or (major == 1 and minor < 8)
++load_imgmath = have_latex and have_dvipng
 +
-+# helper
-+# ------
++# Respect SPHINX_IMGMATH (for html docs only)
++if 'SPHINX_IMGMATH' in os.environ:
++    env_sphinx_imgmath = os.environ['SPHINX_IMGMATH']
++    if 'yes' in env_sphinx_imgmath:
++        load_imgmath = True
++    elif 'no' in env_sphinx_imgmath:
++        load_imgmath = False
++    else:
++        sys.stderr.write("Unknown env SPHINX_IMGMATH=%s ignored.\n" % env_sphinx_imgmath)
 +
-+def have_command(cmd):
-+    """Search ``cmd`` in the ``PATH`` environment.
-+
-+    If found, return True.
-+    If not found, return False.
-+    """
-+    return shutil.which(cmd) is not None
++# Always load imgmath for Sphinx <1.8 or for epub docs
++load_imgmath = (load_imgmath or (major == 1 and minor < 8)
+                 or 'epub' in sys.argv)
  
- # Get Sphinx version
- major, minor, patch = sphinx.version_info[:3]
-@@ -107,7 +119,22 @@ else:
- autosectionlabel_prefix_document = True
- autosectionlabel_maxdepth = 2
- 
--extensions.append("sphinx.ext.imgmath")
-+# Load math renderer:
-+# For html builder, load imgmath only when its dependencies are met.
-+# mathjax is the default math renderer since Sphinx 1.8.
-+have_latex =  have_command('latex')
-+have_dvipng = have_command('dvipng')
-+load_imgmath = ((have_latex and have_dvipng)
-+                or (major == 1 and minor < 8)
-+                or 'epub' in sys.argv)
-+
-+if load_imgmath:
-+    extensions.append("sphinx.ext.imgmath")
-+    math_renderer = 'imgmath'
-+else:
-+    math_renderer = 'mathjax'
-+
-+sys.stderr.write("math_renderer: %s\n" % math_renderer)
- 
- # Add any paths that contain templates here, relative to this directory.
- templates_path = ['_templates']
+ if load_imgmath:
 -- 
 2.25.1
 
