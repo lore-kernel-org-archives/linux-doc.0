@@ -2,203 +2,160 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4ADFFECAAD2
-	for <linux-doc@archiver.kernel.org>; Sat, 27 Aug 2022 14:49:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D4371ECAAD2
+	for <linux-doc@archiver.kernel.org>; Sat, 27 Aug 2022 14:54:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232098AbiH0OtN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 27 Aug 2022 10:49:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42004 "EHLO
+        id S230088AbiH0OyX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 27 Aug 2022 10:54:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48756 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229544AbiH0OtK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 27 Aug 2022 10:49:10 -0400
-Received: from vps0.lunn.ch (vps0.lunn.ch [185.16.172.187])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E30B62DA99;
-        Sat, 27 Aug 2022 07:49:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-        bh=vzGjUG2KmG8ef1o5GLkmTdGwjFxgXZdEplq31I8+hac=; b=ldV3exTUP2rgAZgPpQWRvulZf3
-        4sTapavRXepSvDK+XKrE1zl0B8M1sD8gsgFXyx9bY1qVcgao5t1tt3o8ntLM/a3m1c4SEPYF/GN44
-        9/2ZWABqjglHHk6zUuc+ZBbCd1Bc9CCmUayDa86+de+KFDuKNWSgqD5Y8q1cD5/CUMWI=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-        (envelope-from <andrew@lunn.ch>)
-        id 1oRx7C-00Emaz-TM; Sat, 27 Aug 2022 16:48:50 +0200
-Date:   Sat, 27 Aug 2022 16:48:50 +0200
-From:   Andrew Lunn <andrew@lunn.ch>
-To:     Oleksij Rempel <o.rempel@pengutronix.de>
-Cc:     Heiner Kallweit <hkallweit1@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>, kernel@pengutronix.de,
-        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
-        David Jander <david@protonic.nl>,
-        Luka Perkov <luka.perkov@sartura.hr>,
-        Robert Marko <robert.marko@sartura.hr>
-Subject: Re: [PATCH net-next v2 1/7] dt-bindings: net: pse-dt: add bindings
- for generic PSE controller
-Message-ID: <Ywou0na2zy3cLJG+@lunn.ch>
-References: <20220825130211.3730461-1-o.rempel@pengutronix.de>
- <20220825130211.3730461-2-o.rempel@pengutronix.de>
- <Ywf3Z+1VFy/2+P78@lunn.ch>
- <20220826074940.GC2116@pengutronix.de>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220826074940.GC2116@pengutronix.de>
+        with ESMTP id S230006AbiH0OyW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 27 Aug 2022 10:54:22 -0400
+Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com [IPv6:2607:f8b0:4864:20::429])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C64823148;
+        Sat, 27 Aug 2022 07:54:21 -0700 (PDT)
+Received: by mail-pf1-x429.google.com with SMTP id x26so4226452pfo.8;
+        Sat, 27 Aug 2022 07:54:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:subject:cc:to:from:from:to:cc;
+        bh=mTg6igDbv2x2nhOY72675weNCEeFIiVAx94G86DkrY4=;
+        b=BZtLxq5oKbaMB+K8rQ7cur4RAXqDMrrK/ymvF7kCgrzcJcGpliDM0vvwh0jITbTLvv
+         8hR0dK4sEgCUBKUvzX1gDmycnRiG/Lk/jGsm+F7G9WRcgURWQwD8AGKmKoxGwDP597k/
+         /OheIqMGeBgDZ2pwYaaLj8aIzU+z+Edm6NgiDMlqB9C/v52wmQ6haSsiI0IFrUflWxW5
+         ApISflfg6ohCpdl8/ULHC5zp+F55FgMvnqCFg4LRF2KeXqZ+XD6HD9zKv3CQmqDn7GCc
+         Fl3cNds/nqVSHYk1Kdb8A43q+4/PxgYIbs1qY6cJoL5qmpe0Vl7ncqePhpdERx+/8vEW
+         dQeA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
+        bh=mTg6igDbv2x2nhOY72675weNCEeFIiVAx94G86DkrY4=;
+        b=UfsABzTHVMtP4tbf9hP50wT3j2fj/iYJUoJjufqKIcOQNwoqyDhtpX5kCRUDzNmW0G
+         22J7I+qTcG8jX3zCtCF61c8fted6QNaY/eZK5KqniQ3IRYmHCzRyGXoo8b9w0/PEI8HT
+         Qbw6IDIogip1/c+6mwpHhdk8vmvyEuppLjBKNV3YtcoJeaqkZo76gc4qY6LlB8bSGcda
+         CokPoD0S9Wk1PMf8HIWqWjcXzqTKtYoNFzwf7NyHENWiVmuXWbec+wcsSmIlZ7fFleSW
+         YEWUQHHasFcvYA56PNi9SogR0vkPw0QlHnziNtZKJLY7ykiIWxqXwQqr/DrWPjnB7lpU
+         XtiQ==
+X-Gm-Message-State: ACgBeo0p2MTSjsfplwff1WvVd+ATE0H7yM9UcrvXKtZCYUlQ2nO89+U4
+        rd4lEjYTU4LCzd67LQagSG8=
+X-Google-Smtp-Source: AA6agR6JOtuJOZf++Tc0vYHRY8++88ZwrNZSgMiFzy1Hb6UnMQTTusFJsuquMQy1QNcqVkCfLEqk9g==
+X-Received: by 2002:a05:6a00:ac4:b0:535:c08:2da7 with SMTP id c4-20020a056a000ac400b005350c082da7mr8810382pfl.69.1661612060972;
+        Sat, 27 Aug 2022 07:54:20 -0700 (PDT)
+Received: from localhost.localdomain ([103.151.209.218])
+        by smtp.gmail.com with ESMTPSA id n16-20020a170902d2d000b0016c29dcf1f7sm3815720plc.122.2022.08.27.07.54.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 27 Aug 2022 07:54:20 -0700 (PDT)
+From:   Akhil Raj <lf32.dev@gmail.com>
+To:     Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, corbet@lwn.net
+Cc:     Akhil Raj <lf32.dev@gmail.com>
+Subject: [PATCH] Remove duplicate words inside documentation
+Date:   Sat, 27 Aug 2022 20:23:59 +0530
+Message-Id: <20220827145359.32599-1-lf32.dev@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Aug 26, 2022 at 09:49:40AM +0200, Oleksij Rempel wrote:
-> On Fri, Aug 26, 2022 at 12:27:51AM +0200, Andrew Lunn wrote:
-> > > +  ieee802.3-pairs:
-> > > +    $ref: /schemas/types.yaml#/definitions/int8-array
-> > > +    description: Array of number of twisted-pairs capable to deliver power.
-> > > +      Since not all circuits are able to support all pair variants, the array of
-> > > +      supported variants should be specified.
-> > > +      Note - single twisted-pair PSE is formally know as PoDL PSE.
-> > > +    items:
-> > > +      enum: [1, 2, 4]
-> > 
-> > It is not clear to me what you are describing here. It looks like the
-> > number of pairs? That does not seem like a hardware property. The
-> > controller itself should be able to tell you how many pairs it can
-> > feed.
-> > 
-> > A hardware property would be which pairs of the socket are connected
-> > to a PSE and so can be used to deliver power.
-> 
-> Good point, this will be needed as well. But not right now.
+I have removed repeated `the` inside the documentation
 
-That is another point. You are adding properties which no driver
-actually uses. That is unusual.
+Signed-off-by: Akhil Raj <lf32.dev@gmail.com>
+---
+ Documentation/admin-guide/kdump/vmcoreinfo.rst    | 2 +-
+ Documentation/bpf/map_cgroup_storage.rst          | 4 ++--
+ Documentation/core-api/cpu_hotplug.rst            | 2 +-
+ Documentation/driver-api/isa.rst                  | 2 +-
+ Documentation/filesystems/caching/backend-api.rst | 2 +-
+ Documentation/locking/seqlock.rst                 | 2 +-
+ 6 files changed, 7 insertions(+), 7 deletions(-)
 
-I think i would rename your current driver to regulator. That is all
-it is, and it only needs one property, the regulator itself. Its yaml
-description should only have the regulator, and nothing else.
-
-When other drivers start to be added, we can think about each property
-they add, and decided if they are generic, or specific to a
-driver/board. Generic properties we can add to one shared .yaml file,
-device/board specific properties get added to that drivers .yaml
-
-> > But i'm not sure how
-> > that would be useful to know. I suppose a controller capable of
-> > powering 4 pair, but connected to a socket only wired to supply 2, can
-> > then disable 2 pairs?
-> 
-> Not only. Here are following reasons:
-> - not all boards use a controller in form of IC. Some boards are the
->   controller. So, there is no other place to describe, what kind of
->   controller this board is. For example - currently there are no known
->   ICs to support PoDL (ieee802.3-pairs == 1), early adopters are
->   implementing it by using MOSFETs coupled with ADCs and some extra
->   logic on CPU side:
->   https://www.ti.com/lit/an/snla395/snla395.pdf
-> - not all ICs provide a way for advanced communication (I2C, SPI, MDIO).
->   Some of them will provide only bootstrapping and some pin status
->   feedback:
->   https://www.analog.com/media/en/technical-documentation/data-sheets/4279fa.pdf
-> - Even if we are able to communicate with the IC, there are still board
->   specific limitations.
-
-I expect each of these will provide some sort of driver. It could be
-board specific, or it could be MCU specific if the same MCU is used
-multiple times and each implementation looks the same to Linux. I
-suppose there could even be a library which implements SCCP via a
-bit-banging GPIO line, and it has a binding for the two GPIO?
-
-And if there is no communication at all with it, you cannot represent
-it in Linux, so you don't need to worry about it.
-
-Each driver should come with its own .yaml file, and we should review
-it, and decided are the properties common or not.
-
-> I hope we can agree that some property is need to tell what kind of PSE
-> specification is used by this node.
-> 
-> The next challenge is to name it. We have following options:
-> 1. PoE, PoE+, PoE++, 4PPoE, PoDL
-> 2. 802.3af, 802.3at, 802.bt, 802.3bu, 802.3cg
-> 3. Physical property of this specifications
-> 
-> Option 1 is mostly using marketing names, except of PoDL. This names are
-> not used in the ieee 802.3-2018 specification. Systematic research of
-> this marketing names would give following results:
-> - PoE is about delivering power over two twisted pairs and is related to
->   802.3af and 802.3at specs.
-> - PoE+ is about delivering power over two twisted pairs and is related
->   only to 802.3at.
-> - PoE++ is the same as 4PPoE or power over four twisted pairs and is related
->   to 802.3bt.
-> - PoDL is related to 802.3bu and 802.3cg. Which is power over one
->   twisted pair
-> 
-> All of this names combine different properties: number of twisted pairs
-> used to deliver power, maximal supported power by the system and
-> recommendation for digital interface to communicate with the PSE
-> controller (MDIO registers). Since system I currently use do not follow
-> all of this recommendations, it is needed to describe them separately.
-> 
-> Option 2 is interesting only for archaeological investigation. Final
-> snapshots of 802.3 specification do not provide mapping of extensions to
-> actual parts of the spec. I assume, no software developer will be able
-> to properly set the devicetree property by using specification extension
-> names.
-> 
-> Option 3 provide exact physical property of implementation by using same
-> wording provided by the  802.3-2018 spec. This option is easy to verify
-> by reviewing the board schematics and it is easy to understand without
-> doing historical analysis of 802.3 spec.
-
-I would go for option 3. We want well defined concepts, and
-specifications provide that.
-
-> > > +
-> > > +  ieee802.3-pse-type:
-> > > +    $ref: /schemas/types.yaml#/definitions/uint8
-> > > +    minimum: 1
-> > > +    maximum: 2
-> > > +    description: PSE Type. Describes classification- and class-capabilities.
-> > > +      Not compatible with PoDL PSE Type.
-> > > +      Type 1 - provides a Class 0, 1, 2, or 3 signature during Physical Layer
-> > > +      classification.
-> > > +      Type 2 - provides a Class 4 signature during Physical Layer
-> > > +      classification, understands 2-Event classification, and is capable of
-> > > +      Data Link Layer classification.
-> > 
-> > Again, the controller should know what class it can support. Why do we
-> > need to specify it?  What could make sense is we want to limit the
-> > controller to a specific type? 
-> 
-> If we are using existing controller - yes. But this binding is designed for the
-> system where no special PSE IC is used.
-
-I would expect a discreet implementation to also have a driver. The
-specific discreet implementation should have a compatible, and a yaml
-file describing whatever properties it needs. And since the driver is
-specific to the discreet implementation, it should know what it can do
-in terms of PSE Type, etc.
-
-If the same discrete implementation is used on multiple boards, and
-there are board specific limitations, then we need properties to limit
-what it can do. Maybe those limits are then described in the shared
-.yaml file, since limits like this probably are generic.
-
-In general, i expect we will end up with two classes of properties:
-
-Hardware controls: I2C bus address, SPI address, gpios for bit banging
-SCCP, GPIOs for turning power on/off and sensing etc.
-
-Board specific limitations: Max class, Max current, max Type etc.
-
-      Andrew
+diff --git a/Documentation/admin-guide/kdump/vmcoreinfo.rst b/Documentation/admin-guide/kdump/vmcoreinfo.rst
+index 8419019b6a88..6726f439958c 100644
+--- a/Documentation/admin-guide/kdump/vmcoreinfo.rst
++++ b/Documentation/admin-guide/kdump/vmcoreinfo.rst
+@@ -200,7 +200,7 @@ prb
  
+ A pointer to the printk ringbuffer (struct printk_ringbuffer). This
+ may be pointing to the static boot ringbuffer or the dynamically
+-allocated ringbuffer, depending on when the the core dump occurred.
++allocated ringbuffer, depending on when the core dump occurred.
+ Used by user-space tools to read the active kernel log buffer.
+ 
+ printk_rb_static
+diff --git a/Documentation/bpf/map_cgroup_storage.rst b/Documentation/bpf/map_cgroup_storage.rst
+index cab9543017bf..8e5fe532c07e 100644
+--- a/Documentation/bpf/map_cgroup_storage.rst
++++ b/Documentation/bpf/map_cgroup_storage.rst
+@@ -31,7 +31,7 @@ The map uses key of type of either ``__u64 cgroup_inode_id`` or
+     };
+ 
+ ``cgroup_inode_id`` is the inode id of the cgroup directory.
+-``attach_type`` is the the program's attach type.
++``attach_type`` is the program's attach type.
+ 
+ Linux 5.9 added support for type ``__u64 cgroup_inode_id`` as the key type.
+ When this key type is used, then all attach types of the particular cgroup and
+@@ -155,7 +155,7 @@ However, the BPF program can still only associate with one map of each type
+ ``BPF_MAP_TYPE_CGROUP_STORAGE`` or more than one
+ ``BPF_MAP_TYPE_PERCPU_CGROUP_STORAGE``.
+ 
+-In all versions, userspace may use the the attach parameters of cgroup and
++In all versions, userspace may use the attach parameters of cgroup and
+ attach type pair in ``struct bpf_cgroup_storage_key`` as the key to the BPF map
+ APIs to read or update the storage for a given attachment. For Linux 5.9
+ attach type shared storages, only the first value in the struct, cgroup inode
+diff --git a/Documentation/core-api/cpu_hotplug.rst b/Documentation/core-api/cpu_hotplug.rst
+index c6f4ba2fb32d..f75778d37488 100644
+--- a/Documentation/core-api/cpu_hotplug.rst
++++ b/Documentation/core-api/cpu_hotplug.rst
+@@ -560,7 +560,7 @@ available:
+   * cpuhp_state_remove_instance(state, node)
+   * cpuhp_state_remove_instance_nocalls(state, node)
+ 
+-The arguments are the same as for the the cpuhp_state_add_instance*()
++The arguments are the same as for the cpuhp_state_add_instance*()
+ variants above.
+ 
+ The functions differ in the way how the installed callbacks are treated:
+diff --git a/Documentation/driver-api/isa.rst b/Documentation/driver-api/isa.rst
+index def4a7b690b5..3df1b1696524 100644
+--- a/Documentation/driver-api/isa.rst
++++ b/Documentation/driver-api/isa.rst
+@@ -100,7 +100,7 @@ I believe platform_data is available for this, but if rather not, moving
+ the isa_driver pointer to the private struct isa_dev is ofcourse fine as
+ well.
+ 
+-Then, if the the driver did not provide a .match, it matches. If it did,
++Then, if the driver did not provide a .match, it matches. If it did,
+ the driver match() method is called to determine a match.
+ 
+ If it did **not** match, dev->platform_data is reset to indicate this to
+diff --git a/Documentation/filesystems/caching/backend-api.rst b/Documentation/filesystems/caching/backend-api.rst
+index d7507becf674..3a199fc50828 100644
+--- a/Documentation/filesystems/caching/backend-api.rst
++++ b/Documentation/filesystems/caching/backend-api.rst
+@@ -122,7 +122,7 @@ volumes, calling::
+ to tell fscache that a volume has been withdrawn.  This waits for all
+ outstanding accesses on the volume to complete before returning.
+ 
+-When the the cache is completely withdrawn, fscache should be notified by
++When the cache is completely withdrawn, fscache should be notified by
+ calling::
+ 
+ 	void fscache_relinquish_cache(struct fscache_cache *cache);
+diff --git a/Documentation/locking/seqlock.rst b/Documentation/locking/seqlock.rst
+index 64405e5da63e..bfda1a5fecad 100644
+--- a/Documentation/locking/seqlock.rst
++++ b/Documentation/locking/seqlock.rst
+@@ -39,7 +39,7 @@ as the writer can invalidate a pointer that the reader is following.
+ Sequence counters (``seqcount_t``)
+ ==================================
+ 
+-This is the the raw counting mechanism, which does not protect against
++This is the raw counting mechanism, which does not protect against
+ multiple writers.  Write side critical sections must thus be serialized
+ by an external lock.
+ 
+-- 
+2.17.1
+
