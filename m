@@ -2,383 +2,77 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9EF6BECAAD5
-	for <linux-doc@archiver.kernel.org>; Sat, 27 Aug 2022 17:48:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E28D6ECAAD5
+	for <linux-doc@archiver.kernel.org>; Sat, 27 Aug 2022 18:14:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229532AbiH0Rsg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 27 Aug 2022 13:48:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59286 "EHLO
+        id S229884AbiH0SON (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 27 Aug 2022 14:14:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57336 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229379AbiH0Rsf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 27 Aug 2022 13:48:35 -0400
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE60576968;
-        Sat, 27 Aug 2022 10:48:30 -0700 (PDT)
-Received: by mail-wr1-x42c.google.com with SMTP id bu22so4994930wrb.3;
-        Sat, 27 Aug 2022 10:48:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc;
-        bh=3Zdop84jkpxYAhBtGBx+oj5ymYpGJcLf+5H9LufTC0M=;
-        b=AK8F3RM9/QJfP3KjxtMiskPGED6xsI/cDUKKUXQODGIuzmu4vxIB3QdOWwK3/j6oX/
-         3Nsnau4jhoudQePWNp9NsBC06Lu16Y4RfYED3tLdT5Z8wVr/Q/klfibRCozdWC2ExSjg
-         hZjDEutI41cigh56vi2U3ybDYivkTckWageotDtX5Io4rEBzM9L33JIWRcK4pMiymKMR
-         GhwS4VxmHW8Sg/eFkjwOSNIMeungqd4fXl8lE4lFsHFkyfYqCD1IoeZ9RzKGL6y3RXf0
-         Tdi4U/Xlh1uPC/wX3if2+LToN68JVeVvZMyziwQjUKbrh45n/Gn830bx7uibzwEgGD+t
-         DdKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
-        bh=3Zdop84jkpxYAhBtGBx+oj5ymYpGJcLf+5H9LufTC0M=;
-        b=zi129EOgxV82f8XcON23KDvUtF/qkNyKeVLdzkqYU/bpMlUUsehIKMwLNehEy7eIVc
-         7NEJKl4y4IfcKCNz5S3uHW1ANHmHhdEUdPLV8HSMJHYsgtyuAs0JYP8/X9famAbMuAvf
-         OvL4sPxUsTM/lWznvGuCARPeXQ6VaRUoVDueXL19xt04JJvy1a/lLiWJUOmweIfoN0Cy
-         Qmnu6vM2Fnsk8yQ5WTLeZVcr1eTaaEymmSuuKwcWgV9mVhakiUo14RLW7QqPASxyxpW+
-         DIaA6UAuqVtvcIyAg3uOIw4CLiQwMO1EyZ6W52JNNnMRNlvXQx9Kunl+yfj/LqqtfQJa
-         2nRg==
-X-Gm-Message-State: ACgBeo3IwZEXTi/v2uKMvikbG7Wn4C/frtn92zJ3m4QzwSzFOfLKMFB3
-        Bo6Vl9QgfoRsqCwii9yqBss=
-X-Google-Smtp-Source: AA6agR76ClBGY0nAOJeIhs0qFBYcxd89IzO1xCQocK3uIM6tw7eD+jfRNoZniVP+OXHc7O3xI0+/3Q==
-X-Received: by 2002:a5d:4d0b:0:b0:226:d4d8:c3da with SMTP id z11-20020a5d4d0b000000b00226d4d8c3damr825384wrt.370.1661622508071;
-        Sat, 27 Aug 2022 10:48:28 -0700 (PDT)
-Received: from nuc ([2a02:168:633b:1:1e69:7aff:fe05:97e6])
-        by smtp.gmail.com with ESMTPSA id o8-20020a05600c4fc800b003a62400724bsm4392621wmq.0.2022.08.27.10.48.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 27 Aug 2022 10:48:27 -0700 (PDT)
-Date:   Sat, 27 Aug 2022 19:48:25 +0200
-From:   =?iso-8859-1?Q?G=FCnther?= Noack <gnoack3000@gmail.com>
-To:     Xiu Jianfeng <xiujianfeng@huawei.com>
-Cc:     mic@digikod.net, paul@paul-moore.com, jmorris@namei.org,
-        serge@hallyn.com, shuah@kernel.org, corbet@lwn.net,
-        linux-security-module@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH -next v2 4/6] landlock/selftests: add selftests for chmod
- and chown
-Message-ID: <YwpY6UpznnHpweh+@nuc>
-References: <20220827111215.131442-1-xiujianfeng@huawei.com>
- <20220827111215.131442-5-xiujianfeng@huawei.com>
+        with ESMTP id S229445AbiH0SOL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 27 Aug 2022 14:14:11 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C3EBDF8FE8;
+        Sat, 27 Aug 2022 11:14:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:From:Cc:References:To:Subject:MIME-Version:Date:
+        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+        bh=sUguMGpeELC51NsqY2/REHqyVfAcxO10QryURvNRxvA=; b=wIffhsHYLYcLNZloUpBt13xXHP
+        T4G/Emj3HSQ8DUtYa2yOsXJMv+psMjGTS2lzt11aCJwFdlcmbHN8+t8P9KSEtmoJgaY2se++hXBoN
+        +uMnksKSY1P5xb4FwYhYEUe+jZeaB0c7RAidT8HBhXlvTWNcXUXBLw0OzXxD8FGhb05LiA1BYK/KW
+        +21/wptqiyadsXygcPistYKuaNKVTBDaHEjKCSxbzZXkKkpm9jtRQtd00RtTyZQSzg7w8f6Kh32HJ
+        dxM0EeUZ4bt6H/6TnJ22fxfMyDqILFolE4DbR/Uzomeanvy6NQFVEtTBaF4eqRcpQVAHvBWLy7hEO
+        +wr8jNvg==;
+Received: from c-73-157-219-8.hsd1.or.comcast.net ([73.157.219.8] helo=[10.0.0.152])
+        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1oS0Jr-00Gje1-1f; Sat, 27 Aug 2022 18:14:07 +0000
+Message-ID: <e552d98b-f458-05d0-7a2e-b8bc8454f932@infradead.org>
+Date:   Sat, 27 Aug 2022 11:14:06 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220827111215.131442-5-xiujianfeng@huawei.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.1.2
+Subject: Re: [PATCH] Remove duplicate words inside documentation
+Content-Language: en-US
+To:     Akhil Raj <lf32.dev@gmail.com>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        corbet@lwn.net
+References: <20220827145359.32599-1-lf32.dev@gmail.com>
+Cc:     Jules Maselbas <jmaselbas@kalray.eu>
+From:   Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20220827145359.32599-1-lf32.dev@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Aug 27, 2022 at 07:12:13PM +0800, Xiu Jianfeng wrote:
-> The following APIs are tested with simple scenarios.
-> 1. chmod/fchmod/fchmodat;
-> 2. chmod/fchmod/lchown/fchownat;
->
-> The key point is that set these access rights on a directory but only for
-> its content, not the directory itself. this scenario is covered.
->
-> Signed-off-by: Xiu Jianfeng <xiujianfeng@huawei.com>
+Hi--
+
+On 8/27/22 07:53, Akhil Raj wrote:
+> I have removed repeated `the` inside the documentation
+> 
+> Signed-off-by: Akhil Raj <lf32.dev@gmail.com>
 > ---
->  tools/testing/selftests/landlock/fs_test.c | 261 +++++++++++++++++++++
->  1 file changed, 261 insertions(+)
->
-> diff --git a/tools/testing/selftests/landlock/fs_test.c b/tools/testing/selftests/landlock/fs_test.c
-> index f513cd8d9d51..982cb824967c 100644
-> --- a/tools/testing/selftests/landlock/fs_test.c
-> +++ b/tools/testing/selftests/landlock/fs_test.c
-> @@ -3272,6 +3272,267 @@ TEST_F_FORK(layout1, truncate)
->  	EXPECT_EQ(0, test_creat(file_in_dir_w));
->  }
->
-> +/* Invokes chmod(2) and returns its errno or 0. */
-> +static int test_chmod(const char *const path, mode_t mode)
-> +{
-> +	if (chmod(path, mode) < 0)
-> +		return errno;
-> +	return 0;
-> +}
+>  Documentation/admin-guide/kdump/vmcoreinfo.rst    | 2 +-
+>  Documentation/bpf/map_cgroup_storage.rst          | 4 ++--
+>  Documentation/core-api/cpu_hotplug.rst            | 2 +-
+>  Documentation/driver-api/isa.rst                  | 2 +-
+>  Documentation/filesystems/caching/backend-api.rst | 2 +-
+>  Documentation/locking/seqlock.rst                 | 2 +-
+>  6 files changed, 7 insertions(+), 7 deletions(-)
 
-Nice, this is much simpler than in the last revision :)
+Looks good, although parts of it seem to be duplicates of another
+similar patch.
+https://lore.kernel.org/linux-doc/d785f8aa-5a41-006d-394c-2bba64047cb4@infradead.org/T/#me8fa863e9f8c00fbbf4d11af8412c3bd8df5cfc5
 
-> +
-> +/* Invokes fchmod(2) and returns its errno or 0. */
-> +static int test_fchmod(int fd, mode_t mode)
-> +{
-> +	if (fchmod(fd, mode) < 0)
-> +		return errno;
-> +	return 0;
-> +}
-> +
-> +/* Invokes fchmodat(2) and returns its errno or 0. */
-> +static int test_fchmodat(int dirfd, const char *path, mode_t mode, int flags)
 
-Nitpick: Some of these functions have path arguments declared as
+And there are duplicated words other that "the" that could be
+cleaned up.
+E.g.:
+  we trace guest of when and should to in send that is on as can at
+  this are
 
-  const char *path
-
-and others as
-
-  const char *const path
-
--- would be nice to stay consistent.
-
-> +{
-> +	if (fchmodat(dirfd, path, mode, flags) < 0)
-> +		return errno;
-> +	return 0;
-> +}
-> +
-> +/* Invokes chown(2) and returns its errno or 0. */
-> +static int test_chown(const char *path, uid_t uid, gid_t gid)
-> +{
-> +	if (chown(path, uid, gid) < 0)
-> +		return errno;
-> +	return 0;
-> +}
-> +
-> +/* Invokes fchown(2) and returns its errno or 0. */
-> +static int test_fchown(int fd, uid_t uid, gid_t gid)
-> +{
-> +	if (fchown(fd, uid, gid) < 0)
-> +		return errno;
-> +	return 0;
-> +}
-> +
-> +/* Invokes lchown(2) and returns its errno or 0. */
-> +static int test_lchown(const char *path, uid_t uid, gid_t gid)
-> +{
-> +	if (lchown(path, uid, gid) < 0)
-> +		return errno;
-> +	return 0;
-> +}
-> +
-> +/* Invokes fchownat(2) and returns its errno or 0. */
-> +static int test_fchownat(int dirfd, const char *path,
-> +			 uid_t uid, gid_t gid, int flags)
-> +{
-> +	if (fchownat(dirfd, path, uid, gid, flags) < 0)
-> +		return errno;
-> +	return 0;
-> +}
-> +
-> +TEST_F_FORK(layout1, unhandled_chmod)
-> +{
-> +	int ruleset_fd, file1_fd;
-> +	const char *file1 = file1_s1d1;
-> +	const char *file2 = file2_s1d1;
-> +	const char *dir1 = dir_s1d1;
-
-I'd suggest to name these kinds of variables according to the rights
-that are granted on these files and directories, for example as as
-w_file and rw_file. (Then, when looking at the EXPECT_EQ checks below,
-you don't need to jump back up to the start of the test to remember
-which of the rights is being tested.)
-
-Nitpick: The same remark as above about the 'const' modifier applies
-here as well. The rest of the file uses "const char *const varname".
-
-> +	const struct rule rules[] = {
-> +		{
-> +			.path = file1,
-> +			.access = LANDLOCK_ACCESS_FS_WRITE_FILE,
-> +		},
-> +		{
-> +			.path = file2,
-> +			.access = LANDLOCK_ACCESS_FS_READ_FILE |
-> +				  LANDLOCK_ACCESS_FS_WRITE_FILE,
-> +		},
-> +		{
-> +			.path = dir1,
-> +			.access = ACCESS_RW,
-> +		},
-> +		{},
-> +	};
-> +
-> +	ruleset_fd = create_ruleset(_metadata, ACCESS_RW, rules);
-> +	ASSERT_LE(0, ruleset_fd);
-> +	file1_fd = open(file1, O_WRONLY | O_CLOEXEC);
-> +	ASSERT_LE(0, file1_fd);
-> +
-> +	enforce_ruleset(_metadata, ruleset_fd);
-> +	ASSERT_EQ(0, close(ruleset_fd));
-> +
-> +	EXPECT_EQ(0, test_chmod(file1, 0400));
-> +	EXPECT_EQ(0, test_fchmod(file1_fd, 0400));
-> +	EXPECT_EQ(0, test_fchmodat(AT_FDCWD, file1, 0400, 0));
-> +	EXPECT_EQ(0, test_chmod(file2, 0400));
-> +	EXPECT_EQ(0, test_chmod(dir1, 0700));
-> +	ASSERT_EQ(0, close(file1_fd));
-> +}
-> +
-> +TEST_F_FORK(layout1, chmod)
-> +{
-> +	int ruleset_fd, file1_fd;
-> +	const char *file1 = file1_s1d1;
-> +	const char *file2 = file2_s1d1;
-> +	const char *file3 = file1_s2d1;
-> +	const char *dir1 = dir_s1d1;
-> +	const char *dir2 = dir_s2d1;
-> +	const struct rule rules[] = {
-> +		{
-> +			.path = file1,
-> +			.access = LANDLOCK_ACCESS_FS_WRITE_FILE |
-> +				  LANDLOCK_ACCESS_FS_CHMOD,
-> +		},
-> +		{
-> +			.path = file2,
-> +			.access = LANDLOCK_ACCESS_FS_READ_FILE |
-> +				  LANDLOCK_ACCESS_FS_WRITE_FILE,
-> +		},
-> +		{
-> +			.path = dir1,
-> +			.access = ACCESS_RW,
-> +		},
-> +		{
-> +			.path = dir2,
-> +			.access = ACCESS_RW | LANDLOCK_ACCESS_FS_CHMOD,
-> +		},
-> +		{},
-> +	};
-> +
-> +	ruleset_fd = create_ruleset(_metadata, ACCESS_RW | LANDLOCK_ACCESS_FS_CHMOD, rules);
-> +	ASSERT_LE(0, ruleset_fd);
-> +	file1_fd = open(file1, O_WRONLY | O_CLOEXEC);
-> +	ASSERT_LE(0, file1_fd);
-> +
-> +	enforce_ruleset(_metadata, ruleset_fd);
-> +	ASSERT_EQ(0, close(ruleset_fd));
-> +
-> +	EXPECT_EQ(0, test_chmod(file1, 0400));
-> +	EXPECT_EQ(0, test_fchmod(file1_fd, 0400));
-> +	EXPECT_EQ(0, test_fchmodat(AT_FDCWD, file1, 0400, 0));
-> +	EXPECT_EQ(EACCES, test_chmod(file2, 0400));
-> +	EXPECT_EQ(EACCES, test_chmod(dir1, 0700));
-> +	/* set CHMOD right on dir will only affect its context not dir itself*/
-> +	EXPECT_EQ(0, test_chmod(file3, 0400));
-> +	EXPECT_EQ(0, test_fchmodat(AT_FDCWD, file3, 0400, 0));
-> +	EXPECT_EQ(EACCES, test_chmod(dir2, 0700));
-> +	EXPECT_EQ(EACCES, test_fchmodat(AT_FDCWD, dir2, 0700, 0));
-> +	ASSERT_EQ(0, close(file1_fd));
-> +}
-> +
-> +TEST_F_FORK(layout1, unhandled_chown)
-> +{
-> +	int ruleset_fd, file1_fd;
-> +	const char *file1 = file1_s1d1;
-> +	const char *file2 = file2_s1d1;
-> +	const char *dir1 = dir_s1d1;
-> +	const struct rule rules[] = {
-> +		{
-> +			.path = file1,
-> +			.access = LANDLOCK_ACCESS_FS_WRITE_FILE,
-> +		},
-> +		{
-> +			.path = file2,
-> +			.access = LANDLOCK_ACCESS_FS_READ_FILE |
-> +				  LANDLOCK_ACCESS_FS_WRITE_FILE,
-> +		},
-> +		{
-> +			.path = dir1,
-> +			.access = ACCESS_RW,
-> +		},
-> +		{},
-> +	};
-> +	struct stat st;
-> +	uid_t uid;
-> +	gid_t gid;
-> +
-> +	ruleset_fd = create_ruleset(_metadata, ACCESS_RW, rules);
-> +	ASSERT_LE(0, ruleset_fd);
-> +	file1_fd = open(file1, O_WRONLY | O_CLOEXEC);
-> +	ASSERT_LE(0, file1_fd);
-> +	/*
-> +	 * there is no CAP_CHOWN when the testcases framework setup,
-> +	 * and we cannot assume the testcases are run as root, to make
-> +	 * sure {f}chown syscall won't fail, get the original uid/gid and
-> +	 * use them in test_{f}chown.
-> +	 */
-> +	ASSERT_EQ(0, stat(dir1, &st));
-> +	uid = st.st_uid;
-> +	gid = st.st_gid;
-> +
-> +	enforce_ruleset(_metadata, ruleset_fd);
-> +	ASSERT_EQ(0, close(ruleset_fd));
-> +
-> +	EXPECT_EQ(0, test_chown(file1, uid, gid));
-> +	EXPECT_EQ(0, test_fchown(file1_fd, uid, gid));
-> +	EXPECT_EQ(0, test_lchown(file1, uid, gid));
-> +	EXPECT_EQ(0, test_fchownat(AT_FDCWD, file1, uid, gid, 0));
-> +	EXPECT_EQ(0, test_chown(file2, uid, gid));
-> +	EXPECT_EQ(0, test_chown(dir1, uid, gid));
-> +	ASSERT_EQ(0, close(file1_fd));
-> +}
-> +
-> +TEST_F_FORK(layout1, chown)
-> +{
-> +	int ruleset_fd, file1_fd;
-> +	const char *file1 = file1_s1d1;
-> +	const char *file2 = file2_s1d1;
-> +	const char *file3 = file1_s2d1;
-> +	const char *dir1 = dir_s1d1;
-> +	const char *dir2 = dir_s2d1;
-> +	const struct rule rules[] = {
-> +		{
-> +			.path = file1,
-> +			.access = LANDLOCK_ACCESS_FS_WRITE_FILE |
-> +				  LANDLOCK_ACCESS_FS_CHGRP,
-> +		},
-> +		{
-> +			.path = file2,
-> +			.access = LANDLOCK_ACCESS_FS_READ_FILE |
-> +				  LANDLOCK_ACCESS_FS_WRITE_FILE,
-> +		},
-> +		{
-> +			.path = dir1,
-> +			.access = ACCESS_RW,
-> +		},
-> +		{
-> +			.path = dir2,
-> +			.access = ACCESS_RW | LANDLOCK_ACCESS_FS_CHGRP,
-> +		},
-> +		{},
-> +	};
-> +	struct stat st;
-> +	uid_t uid;
-> +	gid_t gid;
-> +
-> +	ruleset_fd = create_ruleset(_metadata, ACCESS_RW | LANDLOCK_ACCESS_FS_CHGRP, rules);
-> +	ASSERT_LE(0, ruleset_fd);
-> +	file1_fd = open(file1, O_WRONLY | O_CLOEXEC);
-> +	ASSERT_LE(0, file1_fd);
-> +	/*
-> +	 * there is no CAP_CHOWN when the testcases framework setup,
-> +	 * and we cannot assume the testcases are run as root, to make
-> +	 * sure {f}chown syscall won't fail, get the original uid/gid and
-> +	 * use them in test_{f}chown.
-> +	 */
-> +	ASSERT_EQ(0, stat(dir1, &st));
-> +	uid = st.st_uid;
-> +	gid = st.st_gid;
-> +
-> +	enforce_ruleset(_metadata, ruleset_fd);
-> +	ASSERT_EQ(0, close(ruleset_fd));
-> +
-> +	EXPECT_EQ(0, test_chown(file1, uid, gid));
-> +	EXPECT_EQ(0, test_fchown(file1_fd, uid, gid));
-> +	EXPECT_EQ(0, test_lchown(file1, uid, gid));
-> +	EXPECT_EQ(0, test_fchownat(AT_FDCWD, file1, uid, gid, 0));
-> +	EXPECT_EQ(EACCES, test_chown(file2, uid, gid));
-> +	EXPECT_EQ(EACCES, test_chown(dir1, uid, gid));
-> +	/* set CHOWN right on dir will only affect its context not dir itself*/
-> +	EXPECT_EQ(0, test_chown(file3, uid, gid));
-> +	EXPECT_EQ(EACCES, test_chown(dir2, uid, gid));
-> +	ASSERT_EQ(0, close(file1_fd));
-> +}
-> +
->  /* clang-format off */
->  FIXTURE(layout1_bind) {};
->  /* clang-format on */
-> --
-> 2.17.1
->
-
---
+-- 
+~Randy
