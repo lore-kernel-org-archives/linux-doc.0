@@ -2,331 +2,203 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B3C58C0502F
-	for <linux-doc@archiver.kernel.org>; Sat, 27 Aug 2022 11:16:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4ADFFECAAD2
+	for <linux-doc@archiver.kernel.org>; Sat, 27 Aug 2022 14:49:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234624AbiH0LQK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 27 Aug 2022 07:16:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47800 "EHLO
+        id S232098AbiH0OtN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 27 Aug 2022 10:49:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42004 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234627AbiH0LP5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 27 Aug 2022 07:15:57 -0400
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5258F222A4;
-        Sat, 27 Aug 2022 04:15:55 -0700 (PDT)
-Received: from dggpeml500023.china.huawei.com (unknown [172.30.72.56])
-        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4MFDY10qwnzYcn5;
-        Sat, 27 Aug 2022 19:11:33 +0800 (CST)
-Received: from ubuntu1804.huawei.com (10.67.174.58) by
- dggpeml500023.china.huawei.com (7.185.36.114) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Sat, 27 Aug 2022 19:15:53 +0800
-From:   Xiu Jianfeng <xiujianfeng@huawei.com>
-To:     <mic@digikod.net>, <paul@paul-moore.com>, <jmorris@namei.org>,
-        <serge@hallyn.com>, <shuah@kernel.org>, <corbet@lwn.net>
-CC:     <linux-security-module@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>
-Subject: [PATCH -next v2 4/6] landlock/selftests: add selftests for chmod and chown
-Date:   Sat, 27 Aug 2022 19:12:13 +0800
-Message-ID: <20220827111215.131442-5-xiujianfeng@huawei.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20220827111215.131442-1-xiujianfeng@huawei.com>
-References: <20220827111215.131442-1-xiujianfeng@huawei.com>
+        with ESMTP id S229544AbiH0OtK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 27 Aug 2022 10:49:10 -0400
+Received: from vps0.lunn.ch (vps0.lunn.ch [185.16.172.187])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E30B62DA99;
+        Sat, 27 Aug 2022 07:49:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+        s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+        Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+        Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+        bh=vzGjUG2KmG8ef1o5GLkmTdGwjFxgXZdEplq31I8+hac=; b=ldV3exTUP2rgAZgPpQWRvulZf3
+        4sTapavRXepSvDK+XKrE1zl0B8M1sD8gsgFXyx9bY1qVcgao5t1tt3o8ntLM/a3m1c4SEPYF/GN44
+        9/2ZWABqjglHHk6zUuc+ZBbCd1Bc9CCmUayDa86+de+KFDuKNWSgqD5Y8q1cD5/CUMWI=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+        (envelope-from <andrew@lunn.ch>)
+        id 1oRx7C-00Emaz-TM; Sat, 27 Aug 2022 16:48:50 +0200
+Date:   Sat, 27 Aug 2022 16:48:50 +0200
+From:   Andrew Lunn <andrew@lunn.ch>
+To:     Oleksij Rempel <o.rempel@pengutronix.de>
+Cc:     Heiner Kallweit <hkallweit1@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>, kernel@pengutronix.de,
+        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
+        David Jander <david@protonic.nl>,
+        Luka Perkov <luka.perkov@sartura.hr>,
+        Robert Marko <robert.marko@sartura.hr>
+Subject: Re: [PATCH net-next v2 1/7] dt-bindings: net: pse-dt: add bindings
+ for generic PSE controller
+Message-ID: <Ywou0na2zy3cLJG+@lunn.ch>
+References: <20220825130211.3730461-1-o.rempel@pengutronix.de>
+ <20220825130211.3730461-2-o.rempel@pengutronix.de>
+ <Ywf3Z+1VFy/2+P78@lunn.ch>
+ <20220826074940.GC2116@pengutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.67.174.58]
-X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
- dggpeml500023.china.huawei.com (7.185.36.114)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220826074940.GC2116@pengutronix.de>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The following APIs are tested with simple scenarios.
-1. chmod/fchmod/fchmodat;
-2. chmod/fchmod/lchown/fchownat;
+On Fri, Aug 26, 2022 at 09:49:40AM +0200, Oleksij Rempel wrote:
+> On Fri, Aug 26, 2022 at 12:27:51AM +0200, Andrew Lunn wrote:
+> > > +  ieee802.3-pairs:
+> > > +    $ref: /schemas/types.yaml#/definitions/int8-array
+> > > +    description: Array of number of twisted-pairs capable to deliver power.
+> > > +      Since not all circuits are able to support all pair variants, the array of
+> > > +      supported variants should be specified.
+> > > +      Note - single twisted-pair PSE is formally know as PoDL PSE.
+> > > +    items:
+> > > +      enum: [1, 2, 4]
+> > 
+> > It is not clear to me what you are describing here. It looks like the
+> > number of pairs? That does not seem like a hardware property. The
+> > controller itself should be able to tell you how many pairs it can
+> > feed.
+> > 
+> > A hardware property would be which pairs of the socket are connected
+> > to a PSE and so can be used to deliver power.
+> 
+> Good point, this will be needed as well. But not right now.
 
-The key point is that set these access rights on a directory but only for
-its content, not the directory itself. this scenario is covered.
+That is another point. You are adding properties which no driver
+actually uses. That is unusual.
 
-Signed-off-by: Xiu Jianfeng <xiujianfeng@huawei.com>
----
- tools/testing/selftests/landlock/fs_test.c | 261 +++++++++++++++++++++
- 1 file changed, 261 insertions(+)
+I think i would rename your current driver to regulator. That is all
+it is, and it only needs one property, the regulator itself. Its yaml
+description should only have the regulator, and nothing else.
 
-diff --git a/tools/testing/selftests/landlock/fs_test.c b/tools/testing/selftests/landlock/fs_test.c
-index f513cd8d9d51..982cb824967c 100644
---- a/tools/testing/selftests/landlock/fs_test.c
-+++ b/tools/testing/selftests/landlock/fs_test.c
-@@ -3272,6 +3272,267 @@ TEST_F_FORK(layout1, truncate)
- 	EXPECT_EQ(0, test_creat(file_in_dir_w));
- }
+When other drivers start to be added, we can think about each property
+they add, and decided if they are generic, or specific to a
+driver/board. Generic properties we can add to one shared .yaml file,
+device/board specific properties get added to that drivers .yaml
+
+> > But i'm not sure how
+> > that would be useful to know. I suppose a controller capable of
+> > powering 4 pair, but connected to a socket only wired to supply 2, can
+> > then disable 2 pairs?
+> 
+> Not only. Here are following reasons:
+> - not all boards use a controller in form of IC. Some boards are the
+>   controller. So, there is no other place to describe, what kind of
+>   controller this board is. For example - currently there are no known
+>   ICs to support PoDL (ieee802.3-pairs == 1), early adopters are
+>   implementing it by using MOSFETs coupled with ADCs and some extra
+>   logic on CPU side:
+>   https://www.ti.com/lit/an/snla395/snla395.pdf
+> - not all ICs provide a way for advanced communication (I2C, SPI, MDIO).
+>   Some of them will provide only bootstrapping and some pin status
+>   feedback:
+>   https://www.analog.com/media/en/technical-documentation/data-sheets/4279fa.pdf
+> - Even if we are able to communicate with the IC, there are still board
+>   specific limitations.
+
+I expect each of these will provide some sort of driver. It could be
+board specific, or it could be MCU specific if the same MCU is used
+multiple times and each implementation looks the same to Linux. I
+suppose there could even be a library which implements SCCP via a
+bit-banging GPIO line, and it has a binding for the two GPIO?
+
+And if there is no communication at all with it, you cannot represent
+it in Linux, so you don't need to worry about it.
+
+Each driver should come with its own .yaml file, and we should review
+it, and decided are the properties common or not.
+
+> I hope we can agree that some property is need to tell what kind of PSE
+> specification is used by this node.
+> 
+> The next challenge is to name it. We have following options:
+> 1. PoE, PoE+, PoE++, 4PPoE, PoDL
+> 2. 802.3af, 802.3at, 802.bt, 802.3bu, 802.3cg
+> 3. Physical property of this specifications
+> 
+> Option 1 is mostly using marketing names, except of PoDL. This names are
+> not used in the ieee 802.3-2018 specification. Systematic research of
+> this marketing names would give following results:
+> - PoE is about delivering power over two twisted pairs and is related to
+>   802.3af and 802.3at specs.
+> - PoE+ is about delivering power over two twisted pairs and is related
+>   only to 802.3at.
+> - PoE++ is the same as 4PPoE or power over four twisted pairs and is related
+>   to 802.3bt.
+> - PoDL is related to 802.3bu and 802.3cg. Which is power over one
+>   twisted pair
+> 
+> All of this names combine different properties: number of twisted pairs
+> used to deliver power, maximal supported power by the system and
+> recommendation for digital interface to communicate with the PSE
+> controller (MDIO registers). Since system I currently use do not follow
+> all of this recommendations, it is needed to describe them separately.
+> 
+> Option 2 is interesting only for archaeological investigation. Final
+> snapshots of 802.3 specification do not provide mapping of extensions to
+> actual parts of the spec. I assume, no software developer will be able
+> to properly set the devicetree property by using specification extension
+> names.
+> 
+> Option 3 provide exact physical property of implementation by using same
+> wording provided by the  802.3-2018 spec. This option is easy to verify
+> by reviewing the board schematics and it is easy to understand without
+> doing historical analysis of 802.3 spec.
+
+I would go for option 3. We want well defined concepts, and
+specifications provide that.
+
+> > > +
+> > > +  ieee802.3-pse-type:
+> > > +    $ref: /schemas/types.yaml#/definitions/uint8
+> > > +    minimum: 1
+> > > +    maximum: 2
+> > > +    description: PSE Type. Describes classification- and class-capabilities.
+> > > +      Not compatible with PoDL PSE Type.
+> > > +      Type 1 - provides a Class 0, 1, 2, or 3 signature during Physical Layer
+> > > +      classification.
+> > > +      Type 2 - provides a Class 4 signature during Physical Layer
+> > > +      classification, understands 2-Event classification, and is capable of
+> > > +      Data Link Layer classification.
+> > 
+> > Again, the controller should know what class it can support. Why do we
+> > need to specify it?  What could make sense is we want to limit the
+> > controller to a specific type? 
+> 
+> If we are using existing controller - yes. But this binding is designed for the
+> system where no special PSE IC is used.
+
+I would expect a discreet implementation to also have a driver. The
+specific discreet implementation should have a compatible, and a yaml
+file describing whatever properties it needs. And since the driver is
+specific to the discreet implementation, it should know what it can do
+in terms of PSE Type, etc.
+
+If the same discrete implementation is used on multiple boards, and
+there are board specific limitations, then we need properties to limit
+what it can do. Maybe those limits are then described in the shared
+.yaml file, since limits like this probably are generic.
+
+In general, i expect we will end up with two classes of properties:
+
+Hardware controls: I2C bus address, SPI address, gpios for bit banging
+SCCP, GPIOs for turning power on/off and sensing etc.
+
+Board specific limitations: Max class, Max current, max Type etc.
+
+      Andrew
  
-+/* Invokes chmod(2) and returns its errno or 0. */
-+static int test_chmod(const char *const path, mode_t mode)
-+{
-+	if (chmod(path, mode) < 0)
-+		return errno;
-+	return 0;
-+}
-+
-+/* Invokes fchmod(2) and returns its errno or 0. */
-+static int test_fchmod(int fd, mode_t mode)
-+{
-+	if (fchmod(fd, mode) < 0)
-+		return errno;
-+	return 0;
-+}
-+
-+/* Invokes fchmodat(2) and returns its errno or 0. */
-+static int test_fchmodat(int dirfd, const char *path, mode_t mode, int flags)
-+{
-+	if (fchmodat(dirfd, path, mode, flags) < 0)
-+		return errno;
-+	return 0;
-+}
-+
-+/* Invokes chown(2) and returns its errno or 0. */
-+static int test_chown(const char *path, uid_t uid, gid_t gid)
-+{
-+	if (chown(path, uid, gid) < 0)
-+		return errno;
-+	return 0;
-+}
-+
-+/* Invokes fchown(2) and returns its errno or 0. */
-+static int test_fchown(int fd, uid_t uid, gid_t gid)
-+{
-+	if (fchown(fd, uid, gid) < 0)
-+		return errno;
-+	return 0;
-+}
-+
-+/* Invokes lchown(2) and returns its errno or 0. */
-+static int test_lchown(const char *path, uid_t uid, gid_t gid)
-+{
-+	if (lchown(path, uid, gid) < 0)
-+		return errno;
-+	return 0;
-+}
-+
-+/* Invokes fchownat(2) and returns its errno or 0. */
-+static int test_fchownat(int dirfd, const char *path,
-+			 uid_t uid, gid_t gid, int flags)
-+{
-+	if (fchownat(dirfd, path, uid, gid, flags) < 0)
-+		return errno;
-+	return 0;
-+}
-+
-+TEST_F_FORK(layout1, unhandled_chmod)
-+{
-+	int ruleset_fd, file1_fd;
-+	const char *file1 = file1_s1d1;
-+	const char *file2 = file2_s1d1;
-+	const char *dir1 = dir_s1d1;
-+	const struct rule rules[] = {
-+		{
-+			.path = file1,
-+			.access = LANDLOCK_ACCESS_FS_WRITE_FILE,
-+		},
-+		{
-+			.path = file2,
-+			.access = LANDLOCK_ACCESS_FS_READ_FILE |
-+				  LANDLOCK_ACCESS_FS_WRITE_FILE,
-+		},
-+		{
-+			.path = dir1,
-+			.access = ACCESS_RW,
-+		},
-+		{},
-+	};
-+
-+	ruleset_fd = create_ruleset(_metadata, ACCESS_RW, rules);
-+	ASSERT_LE(0, ruleset_fd);
-+	file1_fd = open(file1, O_WRONLY | O_CLOEXEC);
-+	ASSERT_LE(0, file1_fd);
-+
-+	enforce_ruleset(_metadata, ruleset_fd);
-+	ASSERT_EQ(0, close(ruleset_fd));
-+
-+	EXPECT_EQ(0, test_chmod(file1, 0400));
-+	EXPECT_EQ(0, test_fchmod(file1_fd, 0400));
-+	EXPECT_EQ(0, test_fchmodat(AT_FDCWD, file1, 0400, 0));
-+	EXPECT_EQ(0, test_chmod(file2, 0400));
-+	EXPECT_EQ(0, test_chmod(dir1, 0700));
-+	ASSERT_EQ(0, close(file1_fd));
-+}
-+
-+TEST_F_FORK(layout1, chmod)
-+{
-+	int ruleset_fd, file1_fd;
-+	const char *file1 = file1_s1d1;
-+	const char *file2 = file2_s1d1;
-+	const char *file3 = file1_s2d1;
-+	const char *dir1 = dir_s1d1;
-+	const char *dir2 = dir_s2d1;
-+	const struct rule rules[] = {
-+		{
-+			.path = file1,
-+			.access = LANDLOCK_ACCESS_FS_WRITE_FILE |
-+				  LANDLOCK_ACCESS_FS_CHMOD,
-+		},
-+		{
-+			.path = file2,
-+			.access = LANDLOCK_ACCESS_FS_READ_FILE |
-+				  LANDLOCK_ACCESS_FS_WRITE_FILE,
-+		},
-+		{
-+			.path = dir1,
-+			.access = ACCESS_RW,
-+		},
-+		{
-+			.path = dir2,
-+			.access = ACCESS_RW | LANDLOCK_ACCESS_FS_CHMOD,
-+		},
-+		{},
-+	};
-+
-+	ruleset_fd = create_ruleset(_metadata, ACCESS_RW | LANDLOCK_ACCESS_FS_CHMOD, rules);
-+	ASSERT_LE(0, ruleset_fd);
-+	file1_fd = open(file1, O_WRONLY | O_CLOEXEC);
-+	ASSERT_LE(0, file1_fd);
-+
-+	enforce_ruleset(_metadata, ruleset_fd);
-+	ASSERT_EQ(0, close(ruleset_fd));
-+
-+	EXPECT_EQ(0, test_chmod(file1, 0400));
-+	EXPECT_EQ(0, test_fchmod(file1_fd, 0400));
-+	EXPECT_EQ(0, test_fchmodat(AT_FDCWD, file1, 0400, 0));
-+	EXPECT_EQ(EACCES, test_chmod(file2, 0400));
-+	EXPECT_EQ(EACCES, test_chmod(dir1, 0700));
-+	/* set CHMOD right on dir will only affect its context not dir itself*/
-+	EXPECT_EQ(0, test_chmod(file3, 0400));
-+	EXPECT_EQ(0, test_fchmodat(AT_FDCWD, file3, 0400, 0));
-+	EXPECT_EQ(EACCES, test_chmod(dir2, 0700));
-+	EXPECT_EQ(EACCES, test_fchmodat(AT_FDCWD, dir2, 0700, 0));
-+	ASSERT_EQ(0, close(file1_fd));
-+}
-+
-+TEST_F_FORK(layout1, unhandled_chown)
-+{
-+	int ruleset_fd, file1_fd;
-+	const char *file1 = file1_s1d1;
-+	const char *file2 = file2_s1d1;
-+	const char *dir1 = dir_s1d1;
-+	const struct rule rules[] = {
-+		{
-+			.path = file1,
-+			.access = LANDLOCK_ACCESS_FS_WRITE_FILE,
-+		},
-+		{
-+			.path = file2,
-+			.access = LANDLOCK_ACCESS_FS_READ_FILE |
-+				  LANDLOCK_ACCESS_FS_WRITE_FILE,
-+		},
-+		{
-+			.path = dir1,
-+			.access = ACCESS_RW,
-+		},
-+		{},
-+	};
-+	struct stat st;
-+	uid_t uid;
-+	gid_t gid;
-+
-+	ruleset_fd = create_ruleset(_metadata, ACCESS_RW, rules);
-+	ASSERT_LE(0, ruleset_fd);
-+	file1_fd = open(file1, O_WRONLY | O_CLOEXEC);
-+	ASSERT_LE(0, file1_fd);
-+	/*
-+	 * there is no CAP_CHOWN when the testcases framework setup,
-+	 * and we cannot assume the testcases are run as root, to make
-+	 * sure {f}chown syscall won't fail, get the original uid/gid and
-+	 * use them in test_{f}chown.
-+	 */
-+	ASSERT_EQ(0, stat(dir1, &st));
-+	uid = st.st_uid;
-+	gid = st.st_gid;
-+
-+	enforce_ruleset(_metadata, ruleset_fd);
-+	ASSERT_EQ(0, close(ruleset_fd));
-+
-+	EXPECT_EQ(0, test_chown(file1, uid, gid));
-+	EXPECT_EQ(0, test_fchown(file1_fd, uid, gid));
-+	EXPECT_EQ(0, test_lchown(file1, uid, gid));
-+	EXPECT_EQ(0, test_fchownat(AT_FDCWD, file1, uid, gid, 0));
-+	EXPECT_EQ(0, test_chown(file2, uid, gid));
-+	EXPECT_EQ(0, test_chown(dir1, uid, gid));
-+	ASSERT_EQ(0, close(file1_fd));
-+}
-+
-+TEST_F_FORK(layout1, chown)
-+{
-+	int ruleset_fd, file1_fd;
-+	const char *file1 = file1_s1d1;
-+	const char *file2 = file2_s1d1;
-+	const char *file3 = file1_s2d1;
-+	const char *dir1 = dir_s1d1;
-+	const char *dir2 = dir_s2d1;
-+	const struct rule rules[] = {
-+		{
-+			.path = file1,
-+			.access = LANDLOCK_ACCESS_FS_WRITE_FILE |
-+				  LANDLOCK_ACCESS_FS_CHGRP,
-+		},
-+		{
-+			.path = file2,
-+			.access = LANDLOCK_ACCESS_FS_READ_FILE |
-+				  LANDLOCK_ACCESS_FS_WRITE_FILE,
-+		},
-+		{
-+			.path = dir1,
-+			.access = ACCESS_RW,
-+		},
-+		{
-+			.path = dir2,
-+			.access = ACCESS_RW | LANDLOCK_ACCESS_FS_CHGRP,
-+		},
-+		{},
-+	};
-+	struct stat st;
-+	uid_t uid;
-+	gid_t gid;
-+
-+	ruleset_fd = create_ruleset(_metadata, ACCESS_RW | LANDLOCK_ACCESS_FS_CHGRP, rules);
-+	ASSERT_LE(0, ruleset_fd);
-+	file1_fd = open(file1, O_WRONLY | O_CLOEXEC);
-+	ASSERT_LE(0, file1_fd);
-+	/*
-+	 * there is no CAP_CHOWN when the testcases framework setup,
-+	 * and we cannot assume the testcases are run as root, to make
-+	 * sure {f}chown syscall won't fail, get the original uid/gid and
-+	 * use them in test_{f}chown.
-+	 */
-+	ASSERT_EQ(0, stat(dir1, &st));
-+	uid = st.st_uid;
-+	gid = st.st_gid;
-+
-+	enforce_ruleset(_metadata, ruleset_fd);
-+	ASSERT_EQ(0, close(ruleset_fd));
-+
-+	EXPECT_EQ(0, test_chown(file1, uid, gid));
-+	EXPECT_EQ(0, test_fchown(file1_fd, uid, gid));
-+	EXPECT_EQ(0, test_lchown(file1, uid, gid));
-+	EXPECT_EQ(0, test_fchownat(AT_FDCWD, file1, uid, gid, 0));
-+	EXPECT_EQ(EACCES, test_chown(file2, uid, gid));
-+	EXPECT_EQ(EACCES, test_chown(dir1, uid, gid));
-+	/* set CHOWN right on dir will only affect its context not dir itself*/
-+	EXPECT_EQ(0, test_chown(file3, uid, gid));
-+	EXPECT_EQ(EACCES, test_chown(dir2, uid, gid));
-+	ASSERT_EQ(0, close(file1_fd));
-+}
-+
- /* clang-format off */
- FIXTURE(layout1_bind) {};
- /* clang-format on */
--- 
-2.17.1
-
