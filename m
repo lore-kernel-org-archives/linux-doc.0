@@ -2,121 +2,157 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8500BECAAD2
-	for <linux-doc@archiver.kernel.org>; Sun, 28 Aug 2022 11:36:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D7D18ECAAD2
+	for <linux-doc@archiver.kernel.org>; Sun, 28 Aug 2022 12:04:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229565AbiH1LgN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 28 Aug 2022 07:36:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46708 "EHLO
+        id S229566AbiH1MEn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 28 Aug 2022 08:04:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43608 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229498AbiH1LgL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 28 Aug 2022 07:36:11 -0400
-Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com [IPv6:2a00:1450:4864:20::634])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C35743314
-        for <linux-doc@vger.kernel.org>; Sun, 28 Aug 2022 04:36:10 -0700 (PDT)
-Received: by mail-ej1-x634.google.com with SMTP id nc14so5799249ejc.4
-        for <linux-doc@vger.kernel.org>; Sun, 28 Aug 2022 04:36:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc;
-        bh=OdQ+Q9qV3LedSJkQfbn2p7WBBrnXUtBV8MUOTrhaEAY=;
-        b=eeBB52Ce3r5kR9Dcp27QVPv61AMhihFpTZYjm3DkOv1VJWc6dejpSJHpOYakb68HeB
-         akvqHdPr6RxF7jBUDq/hyyx8Ub1PLDhFD6VA41pYOF5zCY08yz6bbSY4QqUY2VXPDykb
-         xFjRr29B2z700CCN8O0GJOAN29YA33B1RF54Vhm8aAY9vFQyOy+wSKiEAeTyaOH3wLg7
-         9l7lsS2WzkLlehfx9n6wRdq4L+5Wo5wLhI8erWLJYJZfl0hatDEgJGjjFdCBmAiP4VBc
-         7Bw+VqNTkYXGlAKQEd8bkrAKeig8lYdFPvJbEW/TdPfkpxjnjqqmlWSXuOEDhGhWR4Eq
-         zA9g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc;
-        bh=OdQ+Q9qV3LedSJkQfbn2p7WBBrnXUtBV8MUOTrhaEAY=;
-        b=oYOYfqc3qiNEWlDMBF5bt39z4WRNwzWPZmOtUhEW3KQ3nBdcRnCyo7+wQ4GT4EDZwc
-         X/2LAO5JVMJtrZrOAUu6DOR7aCv/66AkLtC03UaP5vv/FLkrVsvZHInzbmOOEeMQ7LK3
-         h8UjCaR2ahmq24cKl0mGiLA/wjYV59eqWA5wKase5rDTD8GEVoNGpoNAyGKnJNxKKZB6
-         yfIyA30xUCaDsh+KOJfUWBU1ZimGOK7MydJwbHoah20mXd2V7E6HtTGSNWVufWNILJXE
-         c0PmghLtEljWIo0VFpphzrBqgwOSo5cQtmq+jhgp63LoP8ayarJ3SAhEzUJhscoh+C5m
-         7T3w==
-X-Gm-Message-State: ACgBeo2cnKpwyIsMMejwvz4m29ju3Y8dbdGuwEcIodWHicfi1CwaxrX1
-        93YQUpSniaJLKlcRIQuM+vMAnSFfUYQDInEae8zeFg==
-X-Google-Smtp-Source: AA6agR7AmPxeYl/v4RcSVBl9iTpUGDHWyRcltexR6tY4uxIhIlTFbByhTuUZ07p3AOXBLqSGuwkccRVfPDLNHQeyuk8=
-X-Received: by 2002:a17:906:cc5a:b0:741:5240:d91a with SMTP id
- mm26-20020a170906cc5a00b007415240d91amr3390854ejb.500.1661686568986; Sun, 28
- Aug 2022 04:36:08 -0700 (PDT)
+        with ESMTP id S229379AbiH1MEm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 28 Aug 2022 08:04:42 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62D6E1CFC1
+        for <linux-doc@vger.kernel.org>; Sun, 28 Aug 2022 05:04:40 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id A468260F59
+        for <linux-doc@vger.kernel.org>; Sun, 28 Aug 2022 12:04:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03A4CC433B5
+        for <linux-doc@vger.kernel.org>; Sun, 28 Aug 2022 12:04:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1661688279;
+        bh=EPbkOq8JPEc2kCjTiNGhxLiypn6VkEpuIIxi7EoZbZ0=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=SHAE+kGe2sPxFytEMt95ciLuQ+18eacjczlKIjy44AFd4UEoXYe01I/7x9RXuUiaL
+         Lh0xeXhH8x1IxacIkT1oe6NXLdIVp7M+W0MmgsMjkVfEVTLfkTx/91XGQ60ZV6m47S
+         lEMjN340CoOKfGn+bofyy7jYNGSeCj8uQXLhqMFNgpifExeVu7cwfd8Qymz3wX69RM
+         E4laPXbt9RAg/8OBKxNrKX7KdzgQK9DbT5zI3DqeOuWplLDH5+JdyrKfCeNci0D+ee
+         /qGKjunCYPpJKnKbaJds/8RPKFNJH44hlP5PZhs9FbPQ5GDG6fB3mNclT0bDGWj0p+
+         TJyU69cbQXBxQ==
+Received: by mail-qt1-f179.google.com with SMTP id j17so4379998qtp.12
+        for <linux-doc@vger.kernel.org>; Sun, 28 Aug 2022 05:04:38 -0700 (PDT)
+X-Gm-Message-State: ACgBeo2FGVTxDzQh64c+mxxoFCUVudcQrTH6o6kNqCk3p5xtaHwwV6le
+        YeavUt1mtFHcf6EyexS75wp4rYQaTBbmI5Tu7e9v6w==
+X-Google-Smtp-Source: AA6agR4FMRX+TaApxmom9KAlHmydRBHrD8YHW7gavrNzM2Rz3w+Of9yKXe9ON7GTG1+MKtNv47+OtaQujsqaLkSoGgs=
+X-Received: by 2002:a05:620a:45a3:b0:6bb:d296:aa0d with SMTP id
+ bp35-20020a05620a45a300b006bbd296aa0dmr5219938qkb.525.1661688267813; Sun, 28
+ Aug 2022 05:04:27 -0700 (PDT)
 MIME-Version: 1.0
-References: <f31b818cf8d682de61c74b133beffcc8a8202478.1660041358.git.christophe.leroy@csgroup.eu>
- <CACRpkdY53c0qXx24Am1TMivXr-MV+fQ8B0CDjtGi6=+2tn4-7A@mail.gmail.com>
- <CAK8P3a1Vh1Uehuin-u5QrTO5qh+t0aK_hA-QZwqc00Db_+MKcw@mail.gmail.com>
- <CACRpkdbhbwBe=jU5prifXCYUXPqULhst0se3ZRH+sWOh9XeoLQ@mail.gmail.com>
- <CAK8P3a0j-54_OkXC7x3NSNaHhwJ+9umNgbpsrPxUB4dwewK63A@mail.gmail.com>
- <CACRpkda0+iy8H0YmyowSDn8RbYgnVbC1k+o5F67inXg4Qb934Q@mail.gmail.com>
- <CAK8P3a0uuJ_z8wmNmQTW_qPNqzz7XoxZdHgqbzmK+ydtjraeHg@mail.gmail.com>
- <CACRpkdb5ow4hD3td6agCuKWvuxptm5AV4rsCrcxNStNdXnBzrA@mail.gmail.com>
- <87f2ff4c-3426-201c-df86-2d06d3587a20@csgroup.eu> <CACRpkdYizQhiJXzXNHg7TXUVHzhkwXHFN5+e58kH4udGm1ziEA@mail.gmail.com>
- <f76dbc49-526f-6dc7-2ef1-558baea5848b@csgroup.eu> <CACRpkdZpwdP+1VitohznqRfhFGcLT2f+sQnmsRWwMBB3bobwAw@mail.gmail.com>
- <515364a9-33a1-fafa-fdce-dc7dbd5bb7fb@csgroup.eu>
-In-Reply-To: <515364a9-33a1-fafa-fdce-dc7dbd5bb7fb@csgroup.eu>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Sun, 28 Aug 2022 13:35:57 +0200
-Message-ID: <CACRpkdaTSRSGx=SjXJ93tdMEPFD=hb3wbUscGO2Exf709SL5Ow@mail.gmail.com>
-Subject: Re: [PATCH] gpio: Allow user to customise maximum number of GPIOs
-To:     Christophe Leroy <christophe.leroy@csgroup.eu>
-Cc:     Arnd Bergmann <arnd@arndb.de>,
-        Alexandre Courbot <gnurou@gmail.com>,
-        Alexandre Courbot <acourbot@nvidia.com>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Russell King <linux@armlinux.org.uk>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "moderated list:ARM PORT" <linux-arm-kernel@lists.infradead.org>,
-        "open list:GENERIC INCLUDE/ASM HEADER FILES" 
-        <linux-arch@vger.kernel.org>
+References: <20220818152929.402605-1-roberto.sassu@huaweicloud.com>
+ <20220818152929.402605-5-roberto.sassu@huaweicloud.com> <YwhTiGOhzvv+CYYq@kernel.org>
+ <acae432697e854748d9a44c732ec8cab807d9d46.camel@huaweicloud.com> <YwrntbSJUs2cA7Xn@kernel.org>
+In-Reply-To: <YwrntbSJUs2cA7Xn@kernel.org>
+From:   KP Singh <kpsingh@kernel.org>
+Date:   Sun, 28 Aug 2022 14:04:17 +0200
+X-Gmail-Original-Message-ID: <CACYkzJ5zb2L18=ABUO-AnGBi-PG7SZpEA_1vGZWd4S2nC2wzPQ@mail.gmail.com>
+Message-ID: <CACYkzJ5zb2L18=ABUO-AnGBi-PG7SZpEA_1vGZWd4S2nC2wzPQ@mail.gmail.com>
+Subject: Re: [PATCH v12 04/10] KEYS: Move KEY_LOOKUP_ to include/linux/key.h
+To:     Jarkko Sakkinen <jarkko@kernel.org>
+Cc:     Roberto Sassu <roberto.sassu@huaweicloud.com>, ast@kernel.org,
+        daniel@iogearbox.net, andrii@kernel.org, martin.lau@linux.dev,
+        song@kernel.org, yhs@fb.com, john.fastabend@gmail.com,
+        sdf@google.com, haoluo@google.com, jolsa@kernel.org,
+        mykolal@fb.com, corbet@lwn.net, dhowells@redhat.com,
+        rostedt@goodmis.org, mingo@redhat.com, paul@paul-moore.com,
+        jmorris@namei.org, serge@hallyn.com, shuah@kernel.org,
+        bpf@vger.kernel.org, linux-doc@vger.kernel.org,
+        keyrings@vger.kernel.org, linux-security-module@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
+        deso@posteo.net, Roberto Sassu <roberto.sassu@huawei.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Aug 28, 2022 at 11:06 AM Christophe Leroy
-<christophe.leroy@csgroup.eu> wrote:
-
-> And I guess there might be other drivers like that (I found that one
-> because of its comment mentionning ARCH_NR_GPIOS.
-
-Yes there are a bunch of GPIO controllers with fixed base.
-
-These only exist because there is boardfile code that uses
-these fixed GPIO numbers.
-
-> Another solution could be to leave first GPIOs for static allocation,
-> and allocate dynamic ones from 256 or from 512 ?
+On Sun, Aug 28, 2022 at 5:57 AM Jarkko Sakkinen <jarkko@kernel.org> wrote:
 >
-> Maybe in two steps:
-> - First step: Allocate dynamic from 256 upwards and add a pr_warn() for
-> all static allocations.
+> On Fri, Aug 26, 2022 at 09:14:09AM +0200, Roberto Sassu wrote:
+> > On Fri, 2022-08-26 at 08:42 +0300, Jarkko Sakkinen wrote:
+> > > On Thu, Aug 18, 2022 at 05:29:23PM +0200,
+> > > roberto.sassu@huaweicloud.com wrote:
+> > > > From: Roberto Sassu <roberto.sassu@huawei.com>
+> > > >
+> > > > In preparation for the patch that introduces the
+> > > > bpf_lookup_user_key() eBPF
+> > > > kfunc, move KEY_LOOKUP_ definitions to include/linux/key.h, to be
+> > > > able to
+> > > > validate the kfunc parameters.
+> > > >
+> > > > Also, introduce key_lookup_flags_check() directly in
+> > > > include/linux/key.h,
+> > > > to reduce the risk that the check is not in sync with currently
+> > > > defined
+> > > > flags.
+> > >
+> > > Missing the description what the heck this function even is.
+> > >
+> > > Please, explain that.
+> >
+> > Hi Jarkko
+> >
+> > sorry, forgot to update the commit description. Will do it.
+> >
+> > > Also, the short subject is misleading because this *just*
+> > > does not move flags.
+> > >
+> > > > Signed-off-by: Roberto Sassu <roberto.sassu@huawei.com>
+> > > > Reviewed-by: KP Singh <kpsingh@kernel.org>
+> > > > ---
+> > > >  include/linux/key.h      | 11 +++++++++++
+> > > >  security/keys/internal.h |  2 --
+> > > >  2 files changed, 11 insertions(+), 2 deletions(-)
+> > > >
+> > > > diff --git a/include/linux/key.h b/include/linux/key.h
+> > > > index 7febc4881363..b5bbae77a9e7 100644
+> > > > --- a/include/linux/key.h
+> > > > +++ b/include/linux/key.h
+> > > > @@ -88,6 +88,17 @@ enum key_need_perm {
+> > > >   KEY_DEFER_PERM_CHECK,   /* Special: permission check is
+> > > > deferred */
+> > > >  };
+> > > >
+> > > > +#define KEY_LOOKUP_CREATE        0x01
+> > > > +#define KEY_LOOKUP_PARTIAL       0x02
+> > > > +
+> > >
+> > > /*
+> > >  * Explain what the heck this function is.
+> > >  */
+> > > > +static inline int key_lookup_flags_check(u64 flags)
+> > > > +{
+> > > > + if (flags & ~(KEY_LOOKUP_CREATE | KEY_LOOKUP_PARTIAL))
+> > > > +         return -EINVAL;
+> > > > +
+> > > > + return 0;
+> > > > +}
+> > >
+> > > This is essentially a boolean function, right?
+> > >
+> > > I.e. the implementation can be just:
+> > >
+> > > !!(flags & ~(KEY_LOOKUP_CREATE | KEY_LOOKUP_PARTIAL))
+> >
+> > Absolutely fine with that, if you prefer.
+>
+> It can be either, it more depends on if a new function
+> is needed in the first place.
+>
+> E.g. if you are worried about maintaining you could just
+> as well define a constant containing the mask, right?
 
-OK that is reasonable.
++1 A mask is better.
 
-I thought that maybe we could assume the fixed bases to probe first
-and thus reserve the GPIO bases they want before we get to the
-dynamically allocated drivers.
-
-This could be a good first step.
-
-> - Second step later: Allocate dynamic from 0 and forbid static allocation.
-
-What needs to happen for doing that 100% safe is to get rid of all
-board files, mostly in arch/arm/mach* but also elsewhere, or to
-augment all boardfiles to use descriptor tables instead.
-
-But you're right, try the two step approach first.
-
-Yours,
-Linus Walleij
+>
+> >
+> > > Not even sure if this is needed in the first place, or
+> > > would it be better just to open code it. How many call
+> > > sites does it have anyway?
+> > >
+> >
+> > Daniel preferred to have this check here.
+>
+> How many call sites?
+>
+> BR, Jarkko
