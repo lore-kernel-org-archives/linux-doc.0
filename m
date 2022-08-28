@@ -2,87 +2,107 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E470AECAAD5
-	for <linux-doc@archiver.kernel.org>; Sun, 28 Aug 2022 05:32:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 24F2FC0502C
+	for <linux-doc@archiver.kernel.org>; Sun, 28 Aug 2022 06:17:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229527AbiH1FcC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 28 Aug 2022 01:32:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53696 "EHLO
+        id S231496AbiH1GRS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 28 Aug 2022 02:17:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39868 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229493AbiH1FcC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 28 Aug 2022 01:32:02 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74A1B44569;
-        Sat, 27 Aug 2022 22:32:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-        bh=apY3Uy4g7u5jWYvr/Eu34sq+vcsKX0NmxpVfE1iBAy0=; b=ndfPy9KPoY+bett04r1fx880KY
-        DoqEL3ZDMOmsUbYvGrmnSXFQkve+QTZkpDIR7dk6usD0k3JPUbvBCoCy+CoQSXPIB9iWq5JrwV0hT
-        KivGpJKizmxQprKWlOvlpJ7mfPkIW0p5QsgAkCOs4ebFZqeh/4XOAD2fxEYuwyIC13m9xTskwRteC
-        nfh8gmy/Me97pcrAFK73KKqJC+qV4oVc8vyttc4h2e7kP7hBA2vJkmjXcbrAsAP0C7QaJZTI1+XR7
-        iKzKIR1+wFxqSqkdhPTxtfWqGYsJ0Tm9na2jGeyEhJscRN+TtPvjOAyhVITdo/xI2HrmZw98fnZnQ
-        vml+IBhA==;
-Received: from [2601:1c0:6280:3f0::a6b3]
-        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1oSAts-00Djqn-Qd; Sun, 28 Aug 2022 05:32:00 +0000
-Message-ID: <637e5934-7dd2-c77e-748d-f8445acff29e@infradead.org>
-Date:   Sat, 27 Aug 2022 22:31:59 -0700
+        with ESMTP id S231795AbiH1GRQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 28 Aug 2022 02:17:16 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C92B51A0A
+        for <linux-doc@vger.kernel.org>; Sat, 27 Aug 2022 23:17:15 -0700 (PDT)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ore@pengutronix.de>)
+        id 1oSBb0-0002bl-Vt; Sun, 28 Aug 2022 08:16:34 +0200
+Received: from ore by ptx.hi.pengutronix.de with local (Exim 4.92)
+        (envelope-from <ore@pengutronix.de>)
+        id 1oSBau-0003CU-E0; Sun, 28 Aug 2022 08:16:28 +0200
+Date:   Sun, 28 Aug 2022 08:16:28 +0200
+From:   Oleksij Rempel <o.rempel@pengutronix.de>
+To:     Andrew Lunn <andrew@lunn.ch>
+Cc:     Heiner Kallweit <hkallweit1@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        kernel test robot <lkp@intel.com>, kernel@pengutronix.de,
+        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
+        David Jander <david@protonic.nl>,
+        Luka Perkov <luka.perkov@sartura.hr>,
+        Robert Marko <robert.marko@sartura.hr>
+Subject: Re: [PATCH net-next v3 6/7] ethtool: add interface to interact with
+ Ethernet Power Equipment
+Message-ID: <20220828061628.GA26078@pengutronix.de>
+References: <20220827051033.3903585-1-o.rempel@pengutronix.de>
+ <20220827051033.3903585-7-o.rempel@pengutronix.de>
+ <Ywpkqt2pDmpzXWWn@lunn.ch>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.1.2
-Subject: Re: [PATCH] Documentation: fb: udlfb: clean up text and formatting
-Content-Language: en-US
-To:     Bagas Sanjaya <bagasdotme@gmail.com>, linux-kernel@vger.kernel.org
-Cc:     Bernie Thompson <bernie@plugable.com>, linux-fbdev@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, Helge Deller <deller@gmx.de>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-References: <20220827193925.19612-1-rdunlap@infradead.org>
- <6cb3b3fc-30d4-0396-fc95-8182ca72fb1e@gmail.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <6cb3b3fc-30d4-0396-fc95-8182ca72fb1e@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <Ywpkqt2pDmpzXWWn@lunn.ch>
+X-Sent-From: Pengutronix Hildesheim
+X-URL:  http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: ore@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-
-On 8/27/22 18:51, Bagas Sanjaya wrote:
-> On 8/28/22 02:39, Randy Dunlap wrote:
->> -From the command line, pass options to modprobe
->> -modprobe udlfb fb_defio=0 console=1 shadow=1
->> +From the command line, pass options to modprobe::
->>  
->> -Or modify options on the fly at /sys/module/udlfb/parameters directory via
->> -sudo nano fb_defio
->> -change the parameter in place, and save the file.
->> +  modprobe udlfb fb_defio=0 console=1 shadow=1
->> +
->> +Or modify options on the fly at /sys/module/udlfb/parameters directory via::
->> +
->> +  sudo nano fb_defio
->> +  change the parameter in place, and save the file.
->>  
+On Sat, Aug 27, 2022 at 08:38:34PM +0200, Andrew Lunn wrote:
+> > +static int pse_set_pse_config(struct net_device *dev,
+> > +			      struct netlink_ext_ack *extack,
+> > +			      struct nlattr **tb)
+> > +{
+> > +	struct phy_device *phydev = dev->phydev;
+> > +	struct pse_control_config config = {};
+> > +	int ret;
+> > +
+> > +	if (!tb[ETHTOOL_A_PODL_PSE_ADMIN_CONTROL])
+> > +		return -EINVAL;
 > 
-> Better say "Or change the options on the fly by editing
-> /sys/module/udlfb/parameters/fb_defio."
+> I would make use of extack here, and report what is missing.
 > 
->>  Unplug/replug USB device to apply with new settings
->>  
->> -Or for permanent option, create file like /etc/modprobe.d/udlfb.conf with text
->> -options udlfb fb_defio=0 console=1 shadow=1
->> +Or for permanent options, create a file like /etc/modprobe.d/udlfb.conf
->> +with text::
->> +
->> +  options udlfb fb_defio=0 console=1 shadow=1
+> > +
+> > +	config.admin_cotrol = nla_get_u8(tb[ETHTOOL_A_PODL_PSE_ADMIN_CONTROL]);
 > 
-> Maybe we can say "Or to apply options permanently, create modprobe configuration
-> like /etc/modprobe.d/udlfb.conf with::"
+> It would be good to have some basic validation here, make sure user
+> space has passed a reasonable value.
 
-Thanks, I'll send a v2.
+this values are already validate by the ethnl_pse_set_policy
+
+> You should also define what 0 and
+> ETHTOOL_A_PODL_PSE_ADMIN_CONTROL_UNKNOWN means here when passed in. In
+> future, there could be additional things which could be configured, so
+> struct pse_control_config gets additional members.
+> ETHTOOL_A_PODL_PSE_ADMIN_CONTROL appears to be mandatory, you return
+> -EVINAL if missing, so if you don't want to change it, but change some
+> other new thing, maybe 0 should be passed here? And the driver should
+> not consider it an error?
+
+ack. changed to 0 and added comment.
+
+> ETHTOOL_A_PODL_PSE_ADMIN_CONTROL_UNKNOWN
+> however seems invalid and so should be rejected here?
+
+yes. it is already rejected. I added comment to make it more visible
 
 -- 
-~Randy
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
