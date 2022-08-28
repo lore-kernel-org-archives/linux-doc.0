@@ -2,826 +2,343 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5BB02ECAAD5
-	for <linux-doc@archiver.kernel.org>; Sun, 28 Aug 2022 14:13:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 32A2CECAAD2
+	for <linux-doc@archiver.kernel.org>; Sun, 28 Aug 2022 15:09:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229530AbiH1ON1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 28 Aug 2022 10:13:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38808 "EHLO
+        id S229744AbiH1PJT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 28 Aug 2022 11:09:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38026 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229500AbiH1ON0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 28 Aug 2022 10:13:26 -0400
-Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com [IPv6:2a00:1450:4864:20::231])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F14151C100;
-        Sun, 28 Aug 2022 07:13:23 -0700 (PDT)
-Received: by mail-lj1-x231.google.com with SMTP id n24so5741349ljc.13;
-        Sun, 28 Aug 2022 07:13:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc;
-        bh=Hmlqcx5+xVQ1Z2JH6/O/eDkYJY6GIADOa+2xNWA3bo4=;
-        b=XbiFpBgp9/O3A0VjQx7HoOuMm3kPCuK2Nc49QlIC6/yyDuzWlFDzuynpx++710AUJ2
-         jx8lTVOI3acliH/wM64z+sySD3303rdzL+GVJu3VHvRncYT6JaMKMT+Qgt22uRViMufz
-         BetkckvqiZlbPyqWIpLozXU4kOiScoFx/O42masmSLeZ1b+M3Aa2u8ojvU0xbZAa0cFj
-         jziiJw8v/ncXqrJhYoBAGPBpBDC/XR1XGtKL1vWepsZTDnlZm0ewNmtRXIekpczCxkBn
-         DWvtjQjZ2pKDDMMcM6I6AzDXwN5sYL1AIvqeEPYlEk5isaR/YmJjTOT4cg57U3tgKmOE
-         yTqQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
-        bh=Hmlqcx5+xVQ1Z2JH6/O/eDkYJY6GIADOa+2xNWA3bo4=;
-        b=O9z8j1yuUlujkzRJ0Hwp5XHFImn2yNhhVe92bSZdOLjPQAKRtFIM1isXXrMWWUq/k3
-         1XRLFqsxBIp+HBBPerIXNuyKUWt5yd0xCAuLpKyWC7/pFHe+nOJB6ys7vjjHtAYi31qQ
-         qcw89nO60kRB2q+3QeNFeYpY1BmddJjwrnPySw7Q9G7lvythAaXa9r4+Yn7GY1ZbLsL6
-         G8P45J25JFqVs7ImOK1FZocSWKzmwsNUs9f3ruATrL6UmRmZvj9ixUw7j7uBDmHZB8oB
-         fAsx3tgRxAeCrWejyofJSSHWony63c8WJDB8luleemIlavxPFnjiMZE3pvKjWNdxg3un
-         oG5A==
-X-Gm-Message-State: ACgBeo11M2oV9qoAqC0VgEU77xt1wcM0CwGvbnOWwzY4yPgaClNvCQ+V
-        cNRxMJccqHZv+qptIZJjIbP9QpZA/8c=
-X-Google-Smtp-Source: AA6agR6cGCNShC3XYzds+FEmnRSS4C3uYCAtmC2ufv8C3gLoxoCd0gz/Qoee0t3+h+dS9dWb4Z6L9w==
-X-Received: by 2002:a2e:2a02:0:b0:264:435e:f12 with SMTP id q2-20020a2e2a02000000b00264435e0f12mr1003129ljq.298.1661696002086;
-        Sun, 28 Aug 2022 07:13:22 -0700 (PDT)
-Received: from gmail.com (82-209-154-112.cust.bredband2.com. [82.209.154.112])
-        by smtp.gmail.com with ESMTPSA id s4-20020a056512214400b00492d8a0b408sm963864lfr.163.2022.08.28.07.13.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 28 Aug 2022 07:13:20 -0700 (PDT)
-Date:   Sun, 28 Aug 2022 16:18:34 +0200
-From:   Marcus Folkesson <marcus.folkesson@gmail.com>
-To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>, Jiri Kosina <jikos@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>
-Subject: Re: [RESEND PATCH 1/2] HID: Add driver for RC Simulator Controllers
-Message-ID: <Ywt5Oo+kTDoZFbqH@gmail.com>
-References: <20220822060936.769855-1-marcus.folkesson@gmail.com>
- <CAO-hwJ+3Yrr--cr=r5+jvs4A=A-cmDtrKQETo=YOYDC3nXTMBg@mail.gmail.com>
- <YwTvrNuulKx0SB6H@gmail.com>
- <CAO-hwJKiq50fWwXNUGcXeWtWcUXb65ZmJMsADfrsUTac_Xj2dw@mail.gmail.com>
+        with ESMTP id S229686AbiH1PJS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 28 Aug 2022 11:09:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E6CC32B8D
+        for <linux-doc@vger.kernel.org>; Sun, 28 Aug 2022 08:09:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1661699356;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=dUZ5XN+jymdW8KJGpIdlpgkmqrWeffY5qM0+yKmi1UI=;
+        b=W87f4vvzklipSxuXU2N9YwjclutWkIGIXh1REaikAvMWN1Q6SxY20LZOZ7mzM4Wd0BX0ek
+        A92gkAE5bhKLJ4d05nJ/1veHNMPOVdqrUi+sZ+cBXEEOTmMXAclyKDIXygKGRtmqwJnI4k
+        8AegvVwuVNpUi22WtbjkN5aRylpr15c=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-635-MgPHsuI5O5WFipEagucULg-1; Sun, 28 Aug 2022 11:09:13 -0400
+X-MC-Unique: MgPHsuI5O5WFipEagucULg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B9525101A56D;
+        Sun, 28 Aug 2022 15:09:12 +0000 (UTC)
+Received: from localhost (unknown [10.39.193.165])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 0C9882166B26;
+        Sun, 28 Aug 2022 15:09:11 +0000 (UTC)
+Date:   Sun, 28 Aug 2022 16:09:11 +0100
+From:   "Richard W.M. Jones" <rjones@redhat.com>
+To:     Ming Lei <ming.lei@redhat.com>
+Cc:     Jens Axboe <axboe@kernel.dk>, linux-doc@vger.kernel.org,
+        linux-block@vger.kernel.org, Christoph Hellwig <hch@lst.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        ZiyangZhang <ZiyangZhang@linux.alibaba.com>,
+        Stefan Hajnoczi <stefanha@redhat.com>,
+        Xiaoguang Wang <xiaoguang.wang@linux.alibaba.com>
+Subject: Re: [PATCH] Docs: ublk: add ublk document
+Message-ID: <20220828150911.GW7484@redhat.com>
+References: <20220828045003.537131-1-ming.lei@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="0Z4FHod6toqwbRBv"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAO-hwJKiq50fWwXNUGcXeWtWcUXb65ZmJMsADfrsUTac_Xj2dw@mail.gmail.com>
+In-Reply-To: <20220828045003.537131-1-ming.lei@redhat.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Sun, Aug 28, 2022 at 12:50:03PM +0800, Ming Lei wrote:
+> ublk document is missed when merging ublk driver, so add it now.
+> 
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Richard W.M. Jones <rjones@redhat.com>
+> Cc: ZiyangZhang <ZiyangZhang@linux.alibaba.com>
+> Cc: Stefan Hajnoczi <stefanha@redhat.com>
+> Cc: Xiaoguang Wang <xiaoguang.wang@linux.alibaba.com>
+> Signed-off-by: Ming Lei <ming.lei@redhat.com>
+> ---
+>  Documentation/block/ublk.rst | 203 +++++++++++++++++++++++++++++++++++
+>  1 file changed, 203 insertions(+)
+>  create mode 100644 Documentation/block/ublk.rst
 
---0Z4FHod6toqwbRBv
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Thanks for preparing this.  As you know I had a lot of trouble writing
+the NBD ublk daemon and this would have helped.  TBH I would suggest
+anyone trying to write a ublk daemon just looks at this source:
+https://gitlab.com/rwmjones/libnbd/-/tree/nbdublk/ublk
 
-Hi,
+> diff --git a/Documentation/block/ublk.rst b/Documentation/block/ublk.rst
+> new file mode 100644
+> index 000000000000..9e8f7ba518a3
+> --- /dev/null
+> +++ b/Documentation/block/ublk.rst
+> @@ -0,0 +1,203 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +==========================================
+> +Userspace block device driver(ublk driver)
+> +==========================================
+> +
+> +Overview
+> +========
+> +
+> +ublk is one generic framework for implementing block device logic from
 
-On Tue, Aug 23, 2022 at 06:43:47PM +0200, Benjamin Tissoires wrote:
-> On Tue, Aug 23, 2022 at 5:13 PM Marcus Folkesson
-> <marcus.folkesson@gmail.com> wrote:
+"one generic framework" - probably better to say "a generic framework ..."
 
-> >
-> > Thank you  Benjamin,
-> >
-> > On Tue, Aug 23, 2022 at 11:49:59AM +0200, Benjamin Tissoires wrote:
-> > > Hi Marcus,
-> > >
-> > > [and sorry for the delay in the review of your patches]
-> > >
-> > > On Mon, Aug 22, 2022 at 8:04 AM Marcus Folkesson
-> > > <marcus.folkesson@gmail.com> wrote:
-> > > >
-> > > > Several RC Simulator Controllers are HID compliant with similar
-> > > > interface.
-> > > >
-> > > > Add support for these controllers:
-> > > >  - Phoenix RC (HID variant)
-> > > >  - Car VRC2.0
-> > > >  - Real Flight G5/G6/G7
-> > > >  - Aero Fly, FMS
-> > > >  - OrangeRX FrSky
-> > > >
-> > > > Signed-off-by: Marcus Folkesson <marcus.folkesson@gmail.com>
-> > > > ---
-> > > >  Documentation/hid/index.rst |   1 +
-> > > >  Documentation/hid/rcsim.rst | 142 ++++++++++++++++
-> > > >  drivers/hid/Kconfig         |  11 ++
-> > > >  drivers/hid/Makefile        |   1 +
-> > > >  drivers/hid/hid-ids.h       |   5 +
-> > > >  drivers/hid/hid-rcsim.c     | 315 ++++++++++++++++++++++++++++++++=
-++++
-> > > >  6 files changed, 475 insertions(+)
-> > > >  create mode 100644 Documentation/hid/rcsim.rst
-> > > >  create mode 100644 drivers/hid/hid-rcsim.c
-> > > >
-> > > > diff --git a/Documentation/hid/index.rst b/Documentation/hid/index.=
-rst
-> > > > index e50f513c579c..e5813d264f37 100644
-> > > > --- a/Documentation/hid/index.rst
-> > > > +++ b/Documentation/hid/index.rst
-> > > > @@ -17,3 +17,4 @@ Human Interface Devices (HID)
-> > > >     hid-alps
-> > > >     intel-ish-hid
-> > > >     amd-sfh-hid
-> > > > +   rcsim
-> > > > diff --git a/Documentation/hid/rcsim.rst b/Documentation/hid/rcsim.=
-rst
-> > > > new file mode 100644
-> > > > index 000000000000..1a031f7189cb
-> > > > --- /dev/null
-> > > > +++ b/Documentation/hid/rcsim.rst
-> > > > @@ -0,0 +1,142 @@
-> > > > +.. SPDX-License-Identifier: GPL-2.0
-> > > > +
-> > > > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > > > +rcsim - RC Simulator Controllers
-> > > > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > > > +
-> > > > +:Author: Marcus Folkesson <marcus.folkesson@gmail.com>
-> > > > +
-> > > > +This driver let you use your own RC controller plugged
-> > > > +into your computer using an HID compatible USB dongle.
-> > > > +
-> > > > +There are several HID compatible USB dongles from different
-> > > > +vendors. The driver currently supports:
-> > > > +
-> > > > +- Phoenix RC (HID variant) (8ch)
-> > > > +- Car VRC2.0 (2ch)
-> > > > +- Real Flight G5/G6/G7 (6ch)
-> > > > +- Aero Fly, FMS (8ch)
-> > > > +- OrangeRX FrSky (6ch)
-> > > > +
-> > > > +Many RC controllers is able to configure which stick goes to which=
- channel.
-> > > > +This is also configurable in most simulators, so a matching is not=
- necessary.
-> > > > +
-> > > > +Supported dongles
-> > > > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > > > +
-> > > > +PhoenixRC
-> > > > +----------
-> > > > +
-> > > > +The PhoenixRC has one HID compatible variant which is supported by=
- this driver.
-> > > > +The controller has support for 8 analog channels.
-> > > > +
-> > > > +The driver is generating the following input event for on channels:
-> > > > +
-> > > > ++---------+----------------+
-> > > > +| Channel |      Event     |
-> > > > ++=3D=3D=3D=3D=3D=3D=3D=3D=3D+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D+
-> > > > +|     1   |  ABS_Y         |
-> > > > ++---------+----------------+
-> > > > +|     2   |  ABS_X         |
-> > > > ++---------+----------------+
-> > > > +|     3   |  ABS_RY        |
-> > > > ++---------+----------------+
-> > > > +|     4   |  ABS_RX        |
-> > > > ++---------+----------------+
-> > > > +|     5   |  ABS_RUDDER    |
-> > > > ++---------+----------------+
-> > > > +|     6   |  ABS_THROTTLE  |
-> > > > ++---------+----------------+
-> > > > +|     7   |  ABS_Z         |
-> > > > ++---------+----------------+
-> > > > +|     8   |  ABS_RZ        |
-> > > > ++---------+----------------+
-> > > > +
-> > > > +VRC2.0
-> > > > +----------
-> > > > +VRC2.0 is a controller for RC Cars.
-> > > > +The controller has support for 2 analog channels.
-> > > > +
-> > > > +The driver is generating the following input event for on channels:
-> > > > +
-> > > > ++---------+----------------+
-> > > > +| Channel |      Event     |
-> > > > ++=3D=3D=3D=3D=3D=3D=3D=3D=3D+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D+
-> > > > +|     1   |  ABS_GAS       |
-> > > > ++---------+----------------+
-> > > > +|     2   |  ABS_WHEEL     |
-> > > > ++---------+----------------+
-> > > > +
-> > > > +RealFlight
-> > > > +----------
-> > > > +
-> > > > +This driver supports Realflight G4-G7 and above
-> > > > +The controller has support for 4 analog channels and two buttons.
-> > > > +
-> > > > +The driver is generating the following input event for on channels:
-> > > > +
-> > > > ++---------+----------------+
-> > > > +| Channel |      Event     |
-> > > > ++=3D=3D=3D=3D=3D=3D=3D=3D=3D+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D+
-> > > > +|     1   |  ABS_Y         |
-> > > > ++---------+----------------+
-> > > > +|     2   |  ABS_X         |
-> > > > ++---------+----------------+
-> > > > +|     3   |  ABS_RY        |
-> > > > ++---------+----------------+
-> > > > +|     4   |  ABS_RX        |
-> > > > ++---------+----------------+
-> > > > +|     5   |  BTN_A         |
-> > > > ++---------+----------------+
-> > > > +|     6   |  BTN_B         |
-> > > > ++---------+----------------+
-> > > > +
-> > > > +XTR+G2+FMS Controllers
-> > > > +--------------------------------
-> > > > +
-> > > > +The controllers has support for 8 analog channels.
-> > > > +
-> > > > +The driver is generating the following input event for on channels:
-> > > > +
-> > > > ++---------+----------------+
-> > > > +| Channel |      Event     |
-> > > > ++=3D=3D=3D=3D=3D=3D=3D=3D=3D+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D+
-> > > > +|     1   |  ABS_Y         |
-> > > > ++---------+----------------+
-> > > > +|     2   |  ABS_X         |
-> > > > ++---------+----------------+
-> > > > +|     3   |  ABS_RY        |
-> > > > ++---------+----------------+
-> > > > +|     4   |  ABS_RX        |
-> > > > ++---------+----------------+
-> > > > +|     5   |  ABS_RUDDER    |
-> > > > ++---------+----------------+
-> > > > +|     6   |  ABS_THROTTLE  |
-> > > > ++---------+----------------+
-> > > > +|     7   |  ABS_Z         |
-> > > > ++---------+----------------+
-> > > > +|     8   |  ABS_RZ        |
-> > > > ++---------+----------------+
-> > > > +
-> > > > +OrangeRX
-> > > > +----------
-> > > > +
-> > > > +The controllers has support for 6 analog channels.
-> > > > +
-> > > > +The driver is generating the following input event for on channels:
-> > > > +
-> > > > ++---------+----------------+
-> > > > +| Channel |      Event     |
-> > > > ++=3D=3D=3D=3D=3D=3D=3D=3D=3D+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D+
-> > > > +|     1   |  ABS_Y         |
-> > > > ++---------+----------------+
-> > > > +|     2   |  ABS_X         |
-> > > > ++---------+----------------+
-> > > > +|     3   |  ABS_RY        |
-> > > > ++---------+----------------+
-> > > > +|     4   |  ABS_RX        |
-> > > > ++---------+----------------+
-> > > > +|     5   |  ABS_RUDDER    |
-> > > > ++---------+----------------+
-> > > > +|     6   |  ABS_THROTTLE  |
-> > > > ++---------+----------------+
-> > > > diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
-> > > > index 70da5931082f..d8313d36086c 100644
-> > > > --- a/drivers/hid/Kconfig
-> > > > +++ b/drivers/hid/Kconfig
-> > > > @@ -957,6 +957,17 @@ config HID_RAZER
-> > > >         Support for Razer devices that are not fully compliant with=
- the
-> > > >         HID standard.
-> > > >
-> > > > +config HID_RCSIM
-> > > > +       tristate "RC Simulator Controllers"
-> > > > +       depends on HID
-> > > > +       help
-> > > > +       Support for several HID compatible RC Simulator Controllers=
- including
-> > > > +         - Phoenix RC
-> > > > +         - Car VRC2.0
-> > > > +         - Real Flight
-> > > > +         - Aero Fly, FMS
-> > > > +         - OrangeRX FrSky
-> > > > +
-> > > >  config HID_PRIMAX
-> > > >         tristate "Primax non-fully HID-compliant devices"
-> > > >         depends on HID
-> > > > diff --git a/drivers/hid/Makefile b/drivers/hid/Makefile
-> > > > index cac2cbe26d11..85d50ab352ee 100644
-> > > > --- a/drivers/hid/Makefile
-> > > > +++ b/drivers/hid/Makefile
-> > > > @@ -102,6 +102,7 @@ obj-$(CONFIG_HID_PLANTRONICS)       +=3D hid-pl=
-antronics.o
-> > > >  obj-$(CONFIG_HID_PLAYSTATION)  +=3D hid-playstation.o
-> > > >  obj-$(CONFIG_HID_PRIMAX)       +=3D hid-primax.o
-> > > >  obj-$(CONFIG_HID_RAZER)        +=3D hid-razer.o
-> > > > +obj-$(CONFIG_HID_RCSIM)        +=3D hid-rcsim.o
-> > >
-> > > General rule of thumbs, we try to name the drivers after their
-> > > vendors, unless we know we have a generic driver.
-> > >
-> > > Here, this driver seems to be really tied to a small set of devices,
-> > > and thus I don't think we can call it "generic".
-> >
-> > Got it.
-> >
-> > >
-> > > >  obj-$(CONFIG_HID_REDRAGON)     +=3D hid-redragon.o
-> > > >  obj-$(CONFIG_HID_RETRODE)      +=3D hid-retrode.o
-> > > >  obj-$(CONFIG_HID_ROCCAT)       +=3D hid-roccat.o hid-roccat-common=
-=2Eo \
-> > > > diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-> > > > index d9eb676abe96..baf5f74d5bed 100644
-> > > > --- a/drivers/hid/hid-ids.h
-> > > > +++ b/drivers/hid/hid-ids.h
-> > > > @@ -1381,6 +1381,11 @@
-> > > >
-> > > >  #define USB_VENDOR_ID_MULTIPLE_1781    0x1781
-> > > >  #define USB_DEVICE_ID_RAPHNET_4NES4SNES_OLD    0x0a9d
-> > > > +#define USB_DEVICE_ID_PHOENIXRC        0x0898
-> > > > +#define USB_DEVICE_ID_REALFLIGHT       0x0e56
-> > > > +
-> > > > +#define USB_VENDOR_ID_DIPLING  0x0B9B
-> > > > +#define USB_DEVICE_ID_DIPLING_RCCONTROLLER     0x4012
-> > > >
-> > > >  #define USB_VENDOR_ID_DRACAL_RAPHNET   0x289b
-> > > >  #define USB_DEVICE_ID_RAPHNET_2NES2SNES        0x0002
-> > > > diff --git a/drivers/hid/hid-rcsim.c b/drivers/hid/hid-rcsim.c
-> > > > new file mode 100644
-> > > > index 000000000000..0f214cb5816a
-> > > > --- /dev/null
-> > > > +++ b/drivers/hid/hid-rcsim.c
-> > > > @@ -0,0 +1,315 @@
-> > > > +// SPDX-License-Identifier: GPL-2.0-only
-> > > > +/*
-> > > > + * Driver for several HID compatible RC Simulator Controllers.
-> > > > + * Currently supported controllers are:
-> > > > + *
-> > > > + * - Phoenix RC (HID variant) (8ch)
-> > > > + * - Car VRC2.0 (2ch)
-> > > > + * - Real Flight G5/G6/G7 (6ch)
-> > > > + * - Aero Fly, FMS (8ch)
-> > > > + * - OrangeRX FrSky (6ch)
-> > > > + *
-> > > > + * Copyright (C) 2022 Marcus Folkesson <marcus.folkesson@gmail.com>
-> > > > + */
-> > > > +
-> > > > +#include <linux/bitfield.h>
-> > > > +#include <linux/device.h>
-> > > > +#include <linux/input.h>
-> > > > +#include <linux/hid.h>
-> > > > +#include <linux/module.h>
-> > > > +#include <linux/usb.h>
-> > > > +
-> > > > +#include "hid-ids.h"
-> > > > +
-> > > > +/*
-> > > > + * Some of these VID/PID are probably "borrowed", so keep them loc=
-ally and
-> > > > + * do not populate hid-ids.h with those.
-> > > > + */
-> > > > +
-> > > > +/* PHOENIXRC Controlloer (HID variant) */
-> > > > +#define PHOENIXRC_VID  (USB_VENDOR_ID_MULTIPLE_1781)
-> > > > +#define PHOENIXRC_PID  (USB_DEVICE_ID_PHOENIXRC)
-> > > > +#define PHOENIXRC_DSIZE        (8)
-> > > > +
-> > > > +/* VRC2 Controlloer */
-> > > > +#define VRC2_VID       (0x07c0)
-> > > > +#define VRC2_PID       (0x1125)
-> > > > +#define VRC2_DSIZE     (7)
-> > > > +
-> > > > +/* Realflight G4-&7 and Above Controller */
-> > > > +#define REALFLIGHT_VID (USB_VENDOR_ID_MULTIPLE_1781)
-> > > > +#define REALFLIGHT_PID (USB_DEVICE_ID_REALFLIGHT)
-> > > > +#define REALFLIGHT_DSIZE       (8)
-> > > > +
-> > > > +#define REALFLIGHT_BTN_A       BIT(0)
-> > > > +#define REALFLIGHT_BTN_B       BIT(1)
-> > > > +
-> > > > +/* XTR+G2+FMS Controller */
-> > > > +#define XTRG2FMS_VID   (USB_VENDOR_ID_DIPLING)
-> > > > +#define XTRG2FMS_PID   (USB_DEVICE_ID_DIPLING_RCCONTROLLER)
-> > > > +#define XTRG2FMS_DSIZE (8)
-> > > > +
-> > > > +#define XTRG2FMS_X_HI  GENMASK(3, 2)
-> > > > +#define XTRG2FMS_Y_HI  GENMASK(1, 0)
-> > > > +#define XTRG2FMS_RX_HI GENMASK(7, 6)
-> > > > +#define XTRG2FMS_RY_HI GENMASK(5, 4)
-> > > > +#define XTRG2FMS_ALT1_HI       GENMASK(3, 2)
-> > > > +#define XTRG2FMS_ALT2_HI       GENMASK(1, 0)
-> > > > +
-> > > > +/* OrangeRX FrSky */
-> > > > +#define ORANGERX_VID   (0x0451)
-> > > > +#define ORANGERX_PID   (0x16a5)
-> > > > +#define ORANGERX_DSIZE (8)
-> > > > +
-> > > > +enum rcsim_controller {
-> > > > +       PHOENIXRC,
-> > > > +       VRC2,
-> > > > +       REALFLIGHT,
-> > > > +       XTRG2FMS,
-> > > > +       ORANGERX
-> > > > +};
-> > > > +
-> > > > +struct rcsim_priv {
-> > > > +       struct hid_device *hdev;
-> > > > +       struct input_dev *input;
-> > > > +       enum rcsim_controller controller;
-> > > > +       u8 alt;
-> > > > +};
-> > > > +
-> > > > +static int rcsim_open(struct input_dev *dev)
-> > > > +{
-> > > > +       struct rcsim_priv *priv =3D input_get_drvdata(dev);
-> > > > +
-> > > > +       return hid_hw_open(priv->hdev);
-> > > > +}
-> > > > +
-> > > > +static void rcsim_close(struct input_dev *dev)
-> > > > +{
-> > > > +       struct rcsim_priv *priv =3D input_get_drvdata(dev);
-> > > > +
-> > > > +       hid_hw_close(priv->hdev);
-> > > > +}
-> > > > +
-> > > > +static int rcsim_setup_input(struct rcsim_priv *priv)
-> > > > +{
-> > > > +       struct input_dev *input;
-> > > > +
-> > > > +       input =3D devm_input_allocate_device(&priv->hdev->dev);
-> > > > +       if (!input)
-> > > > +               return -ENOMEM;
-> > > > +
-> > > > +       input->id.bustype =3D priv->hdev->bus;
-> > > > +       input->id.vendor  =3D priv->hdev->vendor;
-> > > > +       input->id.product =3D priv->hdev->product;
-> > > > +       input->id.version =3D priv->hdev->bus;
-> > > > +       input->phys =3D priv->hdev->phys;
-> > > > +       input->uniq =3D priv->hdev->uniq;
-> > > > +       input->open =3D rcsim_open;
-> > > > +       input->close =3D rcsim_close;
-> > > > +
-> > > > +       input_set_drvdata(input, priv);
-> > > > +
-> > > > +       switch (priv->controller) {
-> > > > +       case PHOENIXRC:
-> > > > +               input_set_abs_params(input, ABS_X, 0, 255, 0, 0);
-> > > > +               input_set_abs_params(input, ABS_Y, 0, 255, 0, 0);
-> > > > +               input_set_abs_params(input, ABS_RX, 0, 255, 0, 0);
-> > > > +               input_set_abs_params(input, ABS_RY, 0, 255, 0, 0);
-> > > > +               input_set_abs_params(input, ABS_Z, 0, 255, 0, 0);
-> > > > +               input_set_abs_params(input, ABS_RZ, 0, 255, 0, 0);
-> > > > +               input_set_abs_params(input, ABS_RUDDER, 0, 255, 0, =
-0);
-> > > > +               input_set_abs_params(input, ABS_THROTTLE, 0, 255, 0=
-, 0);
-> > > > +               input->name =3D "RC Simuator Controller PhoenixRC";
-> > > > +               break;
-> > > > +       case VRC2:
-> > > > +               input_set_abs_params(input, ABS_GAS, 0, 2048, 0, 0);
-> > > > +               input_set_abs_params(input, ABS_WHEEL, 0, 2048, 0, =
-0);
-> > > > +               input->name =3D "RC Simuator Controller VRC2.0";
-> > > > +               break;
-> > > > +       case REALFLIGHT:
-> > > > +               input_set_abs_params(input, ABS_X, 0, 1024, 0, 0);
-> > > > +               input_set_abs_params(input, ABS_Y, 0, 1024, 0, 0);
-> > > > +               input_set_abs_params(input, ABS_RX, 0, 1024, 0, 0);
-> > > > +               input_set_abs_params(input, ABS_RY, 0, 1024, 0, 0);
-> > > > +               input_set_capability(input, EV_KEY, BTN_A);
-> > > > +               input_set_capability(input, EV_KEY, BTN_B);
-> > > > +               input->name =3D "RC Simuator Controller Realflight";
-> > > > +               break;
-> > > > +       case XTRG2FMS:
-> > > > +               input_set_abs_params(input, ABS_X, 0, 1024, 0, 0);
-> > > > +               input_set_abs_params(input, ABS_Y, 0, 1024, 0, 0);
-> > > > +               input_set_abs_params(input, ABS_RX, 0, 1024, 0, 0);
-> > > > +               input_set_abs_params(input, ABS_RY, 0, 1024, 0, 0);
-> > > > +               input_set_abs_params(input, ABS_Z, 0, 1024, 0, 0);
-> > > > +               input_set_abs_params(input, ABS_RZ, 0, 1024, 0, 0);
-> > > > +               input_set_abs_params(input, ABS_RUDDER, 0, 1024, 0,=
- 0);
-> > > > +               input_set_abs_params(input, ABS_THROTTLE, 0, 1024, =
-0, 0);
-> > > > +               input->name =3D "RC Simuator Controller AeroFly, FM=
-S";
-> > > > +               priv->alt =3D 0;
-> > > > +               break;
-> > > > +       case ORANGERX:
-> > > > +               input_set_abs_params(input, ABS_X, 0, 255, 0, 0);
-> > > > +               input_set_abs_params(input, ABS_Y, 0, 255, 0, 0);
-> > > > +               input_set_abs_params(input, ABS_RX, 0, 255, 0, 0);
-> > > > +               input_set_abs_params(input, ABS_RY, 0, 255, 0, 0);
-> > > > +               input_set_abs_params(input, ABS_RUDDER, 0, 255, 0, =
-0);
-> > > > +               input_set_abs_params(input, ABS_THROTTLE, 0, 255, 0=
-, 0);
-> > > > +               input->name =3D "RC Simuator Controller OrangeRX Fr=
-Sky";
-> > > > +               break;
-> > > > +       };
-> > > > +
-> > > > +       priv->input =3D input;
-> > > > +       return input_register_device(priv->input);
-> > > > +}
-> > >
-> > > You are basically rewriting hid-input.c, which is suboptimal.
-> >
-> > Ouch. I will have a look at hid-input, thanks.
-> >
-> > >
-> > > I guess the report descriptor provided by these devices are basically
-> > > useless, and so you have to parse the reports yourself in the
-> > > raw_event callback.
-> >
-> > Yep.
-> >
-> > >
-> > > But instead of manually doing that, why not overwrite the report
-> > > descriptor (with .rdesc_fixup) and declare here all of the data that
-> >  Do you mean .report_fixup?
->=20
-> yes, sorry :/
->=20
-> >
-> > > needs to be exported. You could remove basically everything in this
-> > > driver by just providing a fixed report descriptor.
-> >
-> > What you are aiming for is to fixup the report descriptor and let the
-> > generic hid-raw driver handle the rest, or do I get you wrong?
->=20
-> yep, exactly
->=20
-> >
-> > How is the report mapped to certain events then?
->=20
-> Have a look at hid_configure_usage in hid-input.c [3]. Most of HID
-> events are mapped to input events with a one to one mapping.
->=20
-> >
-> > I do read at [1] but it is not obvious how to put it together.
-> > Most drivers I've looked at that is using .report_fixup just fix broken
-> > reports. I guess these reports are not "broken", just.. odd?
->=20
-> Have a look at [2], lots of full report descriptors :)
->=20
-> And in your case, the reports are incomplete, not odd.
->=20
-> >
-> >
-> > >
-> > > > +
-> > > > +static int rcsim_raw_event(struct hid_device *hdev,
-> > > > +                              struct hid_report *report,
-> > > > +                              u8 *raw_data, int size)
-> > > > +{
-> > > > +       struct rcsim_priv *priv =3D hid_get_drvdata(hdev);
-> > > > +       u16 value;
-> > > > +
-> > > > +       switch (priv->controller) {
-> > > > +       case PHOENIXRC:
-> > > > +               if (size !=3D PHOENIXRC_DSIZE)
-> > > > +                       break;
-> > > > +
-> > > > +               /* X, RX, Y and RY, RUDDER and THROTTLE are sent ev=
-ery time */
-> > > > +               input_report_abs(priv->input, ABS_X, raw_data[2]);
-> > > > +               input_report_abs(priv->input, ABS_Y, raw_data[0]);
-> > > > +               input_report_abs(priv->input, ABS_RX, raw_data[4]);
-> > > > +               input_report_abs(priv->input, ABS_RY, raw_data[3]);
-> > > > +               input_report_abs(priv->input, ABS_RUDDER, raw_data[=
-5]);
-> > > > +               input_report_abs(priv->input, ABS_THROTTLE, raw_dat=
-a[6]);
-> > > > +
-> > > > +               /* Z and RZ are sent every other time */
-> > > > +               if (priv->alt)
-> > > > +                       input_report_abs(priv->input, ABS_Z, raw_da=
-ta[7]);
-> > > > +               else
-> > > > +                       input_report_abs(priv->input, ABS_RZ, raw_d=
-ata[7]);
-> > > > +
-> > > > +               priv->alt ^=3D 1;
-> > > > +               break;
-> > > > +       case VRC2:
-> > > > +               if (size !=3D VRC2_DSIZE)
-> > > > +                       break;
-> > > > +               value =3D (raw_data[1] << 8 | raw_data[0]) & GENMAS=
-K(10, 0);
-> > > > +               input_report_abs(priv->input, ABS_GAS, value);
-> > > > +               value =3D (raw_data[3] << 8 | raw_data[2]) & GENMAS=
-K(10, 0);
-> > > > +               input_report_abs(priv->input, ABS_WHEEL, value);
-> > > > +               break;
-> > > > +       case REALFLIGHT:
-> > > > +               if (size !=3D REALFLIGHT_DSIZE)
-> > > > +                       break;
-> > > > +               input_report_abs(priv->input, ABS_X, raw_data[2]);
-> > > > +               input_report_abs(priv->input, ABS_Y, raw_data[1]);
-> > > > +               input_report_abs(priv->input, ABS_RX, raw_data[5]);
-> > > > +               input_report_abs(priv->input, ABS_RY, raw_data[3]);
-> > > > +               input_report_abs(priv->input, ABS_MISC, raw_data[4]=
-);
-> > > > +               input_report_key(priv->input, BTN_A,
-> > > > +                               raw_data[7] & REALFLIGHT_BTN_A);
-> > > > +               input_report_key(priv->input, BTN_B,
-> > > > +                               raw_data[7] & REALFLIGHT_BTN_B);
-> > > > +               break;
-> > > > +       case XTRG2FMS:
-> > > > +               if (size !=3D XTRG2FMS_DSIZE)
-> > > > +                       break;
-> > > > +
-> > > > +               /* X, RX, Y and RY are sent every time */
-> > > > +               value =3D FIELD_GET(XTRG2FMS_X_HI, raw_data[3]);
-> > > > +               value =3D (value << 8) | raw_data[1];
-> > > > +               input_report_abs(priv->input, ABS_X, value);
-> > > > +
-> > > > +               value =3D FIELD_GET(XTRG2FMS_Y_HI, raw_data[3]);
-> > > > +               value =3D (value << 8) | raw_data[2];
-> > > > +               input_report_abs(priv->input, ABS_Y, value);
-> > > > +
-> > > > +               value =3D FIELD_GET(XTRG2FMS_RX_HI, raw_data[3]);
-> > > > +               value =3D (value << 8) | raw_data[0];
-> > > > +               input_report_abs(priv->input, ABS_RX, value);
-> > > > +
-> > > > +               value =3D FIELD_GET(XTRG2FMS_RY_HI, raw_data[3]);
-> > > > +               value =3D (value << 8) | raw_data[4];
-> > > > +               input_report_abs(priv->input, ABS_RY, value);
-> > > > +
-> > > > +               /* Z, RZ, RUDDER and THROTTLE are sent every other =
-time */
-> > > > +               value =3D FIELD_GET(XTRG2FMS_ALT1_HI, raw_data[7]);
-> > > > +               value =3D (value << 8) | raw_data[6];
-> > > > +               if (priv->alt)
-> > > > +                       input_report_abs(priv->input, ABS_Z, value);
-> > > > +               else
-> > > > +                       input_report_abs(priv->input, ABS_RUDDER, v=
-alue);
-> > > > +
-> > > > +               value =3D FIELD_GET(XTRG2FMS_ALT2_HI, raw_data[7]);
-> > > > +               value =3D (value << 8) | raw_data[5];
-> > > > +               if (priv->alt)
-> > > > +                       input_report_abs(priv->input, ABS_RZ, value=
-);
-> > > > +               else
-> > > > +                       input_report_abs(priv->input, ABS_THROTTLE,=
- value);
-> > > > +
-> > > > +               priv->alt ^=3D 1;
-> > > > +               break;
-> > > > +       case ORANGERX:
-> > > > +               if (size !=3D ORANGERX_DSIZE)
-> > > > +                       break;
-> > > > +               input_report_abs(priv->input, ABS_X, raw_data[0]);
-> > > > +               input_report_abs(priv->input, ABS_Y, raw_data[2]);
-> > > > +               input_report_abs(priv->input, ABS_RX, raw_data[3]);
-> > > > +               input_report_abs(priv->input, ABS_RY, raw_data[1]);
-> > > > +               input_report_abs(priv->input, ABS_RUDDER, raw_data[=
-5]);
-> > > > +               input_report_abs(priv->input, ABS_THROTTLE, raw_dat=
-a[6]);
-> > > > +               break;
-> > > > +       };
-> > > > +
-> > > > +       input_sync(priv->input);
-> > > > +       return 0;
-> > > > +}
-> > > > +
-> > > > +static int rcsim_probe(struct hid_device *hdev, const struct hid_d=
-evice_id *id)
-> > > > +{
-> > > > +       struct device *dev =3D &hdev->dev;
-> > > > +       struct rcsim_priv *priv;
-> > > > +       int ret;
-> > > > +
-> > > > +       if (!hid_is_using_ll_driver(hdev, &usb_hid_driver))
-> > > > +               return -ENODEV;
-> > >
-> > > You are not accessing anything in the USB stack, so there is no need
-> > > to prevent regression tests that could inject uhid devices to your
-> > > drivers.
-> >
-> > Ok, thanks.
-> >
-> > >
-> > > Cheers,
-> > > Benjamin
-> > >
-> >
-> > Best regards,
-> > Marcus Folkesson
-> >
-> > [1] https://www.usb.org/hid
-> >
->=20
-> If you need help in writing report descriptors, I can give you some,
-> but the easiest might be for you to start from the report descriptor
-> in hid-sony.c. I used to have a tool to dynamically write a report
-> descriptor, but I'm not sure it still works...
+> +userspace. It is very helpful to move virtual block drivers into userspace,
+> +such as loop, nbd and similar block drivers. It can help to implement new
+> +virtual block device, such as ublk-qcow2, and there was several attempts
+> +of implementing qcow2 driver in kernel.
 
-I've worked with the report descriptor for VRC2, and have come up with
-something that works.
+On the general topic of this, the qemu developers would greatly prefer
+that there are not multiple qcow2 implementations.  I believe the plan
+is to modify qemu-storage-daemon (a daemon containing the qemu block
+layer) to implement ublk.  I don't think you really need to mention
+qcow2 though since it'll be implemented.
 
+> +ublk block device(``/dev/ublkb*``) is added by ublk driver. Any IO request
+> +submitted to ublk device will be forwarded to ublk's userspace part(
 
-static __u8 vrc2_rdesc_fixed[] =3D {
-	0x05, 0x01,        // Usage Page (Generic Desktop Ctrls)
-	0x09, 0x04,        // Usage (Joystick)
-	0xA1, 0x01,        // Collection (Application)
-	0x09, 0x01,        //   Usage (Pointer)
-	0xA1, 0x00,        //   Collection (Physical)
-	0x09, 0x30,        //     Usage (X)
-	0x09, 0x31,        //     Usage (Y)
-	0x15, 0x00,        //     Logical Minimum (0)
-	0x26, 0xFF, 0x07,  //     Logical Maximum (2047)
-	0x35, 0x00,        //     Physical Minimum (0)
-	0x46, 0xFF, 0x00,  //     Physical Maximum (255)
-	0x75, 0x10,        //     Report Size (16)
-	0x95, 0x02,        //     Report Count (2)
-	0x81, 0x02,        //     Input (Data,Var,Abs,No Wrap,Linear,Preferred Sta=
-te,No Null Position)
-	0xC0,              //   End Collection
-	0x95, 0x01,        //   Report Count (1)
-	0x75, 0x18,        //   Report Size (24)
-	0x81, 0x01,        //   Input (Const,Array,Abs,No Wrap,Linear,Preferred St=
-ate,No Null Position)
-	0x09, 0x00,        //   Usage (Undefined)
-	0x15, 0x00,        //   Logical Minimum (0)
-	0x26, 0xFF, 0x00,  //   Logical Maximum (255)
-	0x75, 0x08,        //   Report Size (8)
-	0x95, 0x08,        //   Report Count (8)
-	0xB1, 0x02,        //   Feature (Data,Var,Abs,No Wrap,Linear,Preferred Sta=
-te,No Null Position,Non-volatile)
-	0xC0,              // End Collection
-};
+Add a space between "part" and "("?
 
+> +ublksrv [1]), and after the IO is handled by ublksrv, the result is
+> +committed back to ublk driver, then ublk IO request can be completed. With
+> +this way, any specific IO handling logic is totally done inside ublksrv,
+> +and ublk driver doe _not_ handle any device specific IO logic, such as
 
-It is a result of reading specifications and looking at various
-examples.=20
+does
 
-These lines are taken from an example, and I do not know why I need
-those. I think the constant report size is wrong (should be 32 to
-fill up) and I do not know what the Feature is used for.
+> +loop's IO handling, NBD's IO communication, or qcow2's IO mapping, ...
+>
+> +/dev/ublkbN is driven by blk-mq request based driver, each request is
+> +assigned by one queue wide unique tag. ublksrv assigns unique tag to each
+> +IO too, which is 1:1 mapped with IO of /dev/ublkb*.
+> +
+> +Both the IO request forward and IO handling result committing are done via
+> +io_uring passthrough command, that is why ublk is also one io_uring based
+> +block driver. It has been observed that io_uring passthrough command can get
+> +better IOPS than block IO. So ublk is one high performance implementation
+> +of userspace block device. Not only IO request communication is done by
+> +io_uring, but also the preferred IO handling in ublksrv is io_uring based
+> +approach too.
+> +
+> +ublk provides control interface to set/get ublk block device parameters, and
+> +the interface is extendable and kabi compatible, so basically any ublk request
+> +queue's parameter or ublk generic feature parameters can be set/get via this
+> +extendable interface. So ublk is generic userspace block device framework, such
+> +as, it is easy to setup one ublk device with specified block parameters from
+> +userspace.
+> +
+> +How to use ublk
+> +===============
+> +
+> +After building ublksrv[1], ublk block device(``/dev/ublkb*``) can be added
+> +and deleted by the utility, then existed block IO applications can talk with
 
-	0x95, 0x01,        //   Report Count (1)
-	0x75, 0x18,        //   Report Size (24)
-	0x81, 0x01,        //   Input (Const,Array,Abs,No Wrap,Linear,Preferred St=
-ate,No Null Position)
-	0x09, 0x00,        //   Usage (Undefined)
-	0x15, 0x00,        //   Logical Minimum (0)
-	0x26, 0xFF, 0x00,  //   Logical Maximum (255)
-	0x75, 0x08,        //   Report Size (8)
-	0x95, 0x08,        //   Report Count (8)
-	0xB1, 0x02,        //   Feature (Data,Var,Abs,No Wrap,Linear,Preferred Sta=
-te,No Null Position,Non-volatile)
+existing
 
-If I omit any of these lines then I only get tons of
+> +it.
+> +
+> +See usage details in README[2] of ublksrv, for example of ublk-loop:
+> +
+> +- add ublk device:
+> +  ublk add -t loop -f ublk-loop.img
+> +
+> +- use it:
+> +  mkfs.xfs /dev/ublkb0
+> +  mount /dev/ublkb0 /mnt
+> +  ....                     # all IOs are handled by io_uring!!!
+> +  umount /mnt
+> +
+> +- get ublk dev info:
+> +  ublk list
+> +
+> +- delete ublk device
+> +  ublk del -a
+> +  ublk del -n $ublk_dev_id
+> +
+> +Design
+> +======
+> +
+> +Control plane
+> +-------------
+> +
+> +ublk driver provides global misc device node(``/dev/ublk-control``) for
 
-kernel: usb 3-12.3.1.3.3: input irq status -75 received
+Space between "node" and "(".  There are a few more of these below.
 
-In the kernel log.
+> +managing and controlling ublk devices with help of several control commands:
+> +
+> +- UBLK_CMD_ADD_DEV
+> +  Add one ublk char device(``/dev/ublkc*``) which is talked with ublksrv wrt.
+> +  IO command communication. Basic device info is sent together with this
+> +  command, see UAPI structure of ublksrv_ctrl_dev_info, such as nr_hw_queues,
+> +  queue_depth, and max IO request buffer size, which info is negotiated with
+> +  ublk driver and sent back to ublksrv. After this command is completed, the
+> +  basic device info can't be changed any more.
+> +
+> +- UBLK_CMD_SET_PARAMS / UBLK_CMD_GET_PARAMS
+> +  Set or get ublk device's parameters, which can be generic feature related,
+> +  or request queue limit related, but can't be IO logic specific, cause ublk
+> +  driver does not handle any IO logic. This command has to be sent before
+> +  sending UBLK_CMD_START_DEV.
+> +
+> +- UBLK_CMD_START_DEV
+> +  After ublksrv prepares userspace resource such as, creating per-queue
+> +  pthread & io_ruing for handling ublk IO, this command is set for ublk
 
+set -> sent
 
->=20
-> FYI, I just re-read rcsim_raw_event() and there is stuff that would
-> require more than just a report descriptor fixup (the fact that some
-> data is sent every other report is not good and will need some manual
-> handling though).
->=20
-> Cheers,
-> Benjamin
->=20
-> [2] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tr=
-ee/drivers/hid/hid-uclogic-rdesc.c
-> [3] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tr=
-ee/drivers/hid/hid-input.c#n817
->=20
+> +  driver to allocate & expose /dev/ublkb*. Parameters set via
+> +  UBLK_CMD_SET_PARAMS are applied for creating /dev/ublkb*.
 
+Is this command synchronous?  ie. When it completes, is /dev/ublkb*
+definitely present in the /dev filesystem?  (I'm going to guess this
+depends on something complicated about udevd).
 
-Best regards
-Marcus Folkesson
+> +- UBLK_CMD_STOP_DEV
+> +  Quiesce IO on /dev/ublkb* and delete the disk. After this command returns,
+> +  ublksrv can release resource, such as destroy per-queue pthread & io_uring
+> +  for handling io command.
+> +
+> +- UBLK_CMD_DEL_DEV
+> +  Delete /dev/ublkc*. After this command returns, the allocated ublk device
+> +  number can be reused.
+> +
+> +- UBLK_CMD_GET_QUEUE_AFFINITY
+> +  After /dev/ublkc is added, ublk driver creates block layer tagset, so each
+> +  queue's affinity info is available, ublksrv sends UBLK_CMD_GET_QUEUE_AFFINITY
+> +  to retrieve queue affinity info, so ublksrv can setup the per-queue context
+> +  efficiently, such as bind affine CPUs with IO pthread, and try to allocate
+> +  buffers in IO thread context.
+> +
+> +- UBLK_CMD_GET_DEV_INFO
+> +  For retrieve device info of ublksrv_ctrl_dev_info. And it is ublksrv's
+> +  responsibility to save IO target specific info in userspace.
+> +
+> +Data plane
+> +----------
+> +
+> +ublksrv needs to create per-queue IO pthread & io_uring for handling IO
+> +command (io_uring passthrough command), and the per-queue IO pthread
+> +focuses on IO handling and shouldn't handle any control & management
+> +task.
+> +
+> +ublksrv's IO is assigned by one unique tag, which is 1:1 mapping with IO
+> +request of /dev/ublkb*.
+> +
+> +UAPI structure of ublksrv_io_desc is defined for describing each IO from
+> +ublk driver. One fixed mmaped area(array) on /dev/ublkc* is provided for
+> +exporting IO info to ublksrv, such as IO offset, length, OP/flags and
+> +buffer address. Each ublksrv_io_desc instance can be indexed via queue id
+> +and IO tag directly.
+> +
+> +Following IO commands are communicated via io_uring passthrough command,
+> +and each command is only for forwarding ublk IO and committing IO result
+> +with specified IO tag in the command data:
+> +
+> +- UBLK_IO_FETCH_REQ
+> +  Sent from ublksrv IO pthread for fetching future coming IO request
+> +  issued to /dev/ublkb*. This command is just sent once from ublksrv IO
+> +  pthread for ublk driver to setup IO forward environment.
+> +
+> +- UBLK_IO_COMMIT_AND_FETCH_REQ
+> +  After one IO request is issued to /dev/ublkb*, ublk driver stores this
+> +  IO's ublksrv_io_desc to the specified mapped area, then the previous
+> +  received IO command of this IO tag, either UBLK_IO_FETCH_REQ or
+> +  UBLK_IO_COMMIT_AND_FETCH_REQ, is completed, so ulksrv gets the IO
+> +  notification via io_uring.
+> +
+> +  After ublksrv handles this IO, this IO's result is committed back to ublk
+> +  driver by sending UBLK_IO_COMMIT_AND_FETCH_REQ back. Once ublkdrv received
+> +  this command, it parses the IO result and complete the IO request to
+> +  /dev/ublkb*. Meantime setup environment for fetching future IO request
+> +  with this IO tag. So UBLK_IO_COMMIT_AND_FETCH_REQ is reused for both
+> +  fetching request and committing back IO result.
+> +
+> +- UBLK_IO_NEED_GET_DATA
+> +  ublksrv pre-allocates IO buffer for each IO at default, any new project
 
---0Z4FHod6toqwbRBv
-Content-Type: application/pgp-signature; name="signature.asc"
+at default -> by default
 
------BEGIN PGP SIGNATURE-----
+> +  should use this IO buffer to communicate with ublk driver. But existed
 
-iQIzBAEBCAAdFiEEBVGi6LZstU1kwSxliIBOb1ldUjIFAmMLeTUACgkQiIBOb1ld
-UjJ85A//XbWvMCfTf4p6Hmp3z+BK4pR8XGa5A2sfzQ3485xAgNR4MJgKwEduJXYp
-5+zg0IuSYQwsSe2AI6O+aAkoXuxC3hGgl5NrwrdJOuPa7S7P9w9fpX1uzL6KLmtJ
-zFQYbOMoXR0pxLZ7+p4UhCmenA6IRIchnRnYDgo0DpE68sdB/bbnJcztbGd+YKMf
-rb/yEe3xdsgFECV556UoL1bh5OhAyHK8+z9jNbb0p63gO/yuxNbLGoJOW2M2H9WO
-Kz2ZGN2qJJw5zJ7ieg5E02byrxKLgU6DFDpgeQ9G+wJFREu3TPYhLSxR0sv1eX6D
-u5aNr9d4ziM513+AdT63zLFeaIVf+hZuedE5wbDCBmTtPq09/ujgtM9YvEbpsMPA
-zWQ2j7hNjiLAHMkGfq5/02YUODCTkvfidcXBu9I4/dpSVdHz6YLQN7NQtVw7Az3Z
-3/84xOpEGChEC7prGye8MNiwYL2fCMblSAV3IrzPbwOXYwibmSICsc+lIoHBw/io
-rDugrO21PO9MnzL2h0knDqF1hLnu57acCy2I9/iZXD6gR0iBe6FH9Czt774cIpEw
-jmUsCvRVv+DeuQdpup8N61Ae/Xekcdgbq/vVtcekbyEKeOlkg0yUCZNT8aKjaqTh
-wec1fPFAiI43Oz0yNCQNZ1qXSLyOEsSX51hf+4KQwr/Wy97kVfc=
-=oMUH
------END PGP SIGNATURE-----
+existed -> existing
 
---0Z4FHod6toqwbRBv--
+> +  project may not work or be changed to in this way, so add this command
+> +  to provide chance for userspace to use its existed buffer for handling
+
+existed -> existing
+
+> +  IO.
+> +
+> +- data copy between ublkserv IO buffer and ublk block IO request
+> +  ublk driver needs to copy ublk block IO request pages into ublksrv buffer
+> +  (pages) first for WRITE before notifying ublksrv of the coming IO, so
+> +  ublksrv can hanldle WRITE request.
+> +
+> +  After ublksrv handles READ request and sends UBLK_IO_COMMIT_AND_FETCH_REQ
+> +  to ublksrv, ublkdrv needs to copy read ublksrv buffer(pages) to the ublk
+> +  IO request pages.
+> +
+> +Future development
+> +==================
+> +
+> +Container-ware ublk deivice
+
+Container-aware ublk device
+
+> +---------------------------
+> +
+> +ublk driver doesn't handle any IO logic, and its function is well defined
+> +so far, and very limited userspace interfaces are needed, and each one is
+> +well defined too, then it is very likely to make ublk device one
+> +container-ware block device in future, as Stefan Hajnoczi suggested[3], by
+> +removing ADMIN privilege.
+
+Is it advisable for non-root to be able create arbitrary /dev devices?
+It sounds like a security nightmare because you're exposing
+potentially any arbitrary, malicious filesystem to the kernel to
+parse.
+
+> +Zero copy
+> +---------
+> +
+> +Wrt. zero copy support, it is one generic requirement for nbd, fuse or
+> +similar drivers, one problem Xiaoguang mentioned is that pages mapped to
+> +userspace can't be remapped any more in kernel with existed mm interfaces,
+> +and it can be involved when submitting direct IO to /dev/ublkb*. Also
+> +Xiaoguang reported that big request may benefit from zero copy a lot,
+> +such as >= 256KB IO.
+> +
+> +
+> +References
+> +==========
+> +
+> +[1] https://github.com/ming1/ubdsrv
+> +
+> +[2] https://github.com/ming1/ubdsrv/blob/master/README
+> +
+> +[3] https://lore.kernel.org/linux-block/YoOr6jBfgVm8GvWg@stefanha-x1.localdomain/
+> -- 
+> 2.31.1
+
+Rich.
+
+-- 
+Richard Jones, Virtualization Group, Red Hat http://people.redhat.com/~rjones
+Read my programming and virtualization blog: http://rwmj.wordpress.com
+nbdkit - Flexible, fast NBD server with plugins
+https://gitlab.com/nbdkit/nbdkit
+
