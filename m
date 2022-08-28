@@ -2,78 +2,83 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6AC54ECAAD1
-	for <linux-doc@archiver.kernel.org>; Sat, 27 Aug 2022 23:33:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 27535ECAAD1
+	for <linux-doc@archiver.kernel.org>; Sun, 28 Aug 2022 00:28:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229773AbiH0Xdu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 27 Aug 2022 19:33:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38078 "EHLO
+        id S229493AbiH1A25 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 27 Aug 2022 20:28:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36996 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229462AbiH0Xdt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 27 Aug 2022 19:33:49 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC210356ED
-        for <linux-doc@vger.kernel.org>; Sat, 27 Aug 2022 16:33:46 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 5A2B860ECD
-        for <linux-doc@vger.kernel.org>; Sat, 27 Aug 2022 23:33:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA078C433C1
-        for <linux-doc@vger.kernel.org>; Sat, 27 Aug 2022 23:33:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1661643225;
-        bh=gXhVvO/PrBTrxg0AflKNlLBhyVvvXS6mDZ5icDd5kBQ=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=AwLKyyPlYqOWy7CcqMDp34ibb7lWXt63HtZL/XRycT1k4q5Z9LD/RSRaYx1MgRsmA
-         wmHgR7fmBet0W4yR5C7RtoGCrDiKe82wUEGEqchjJp2FncN414CjJPh/6lxpweV0QU
-         oqnMo3tPn2XeRn+Xkje346eGLTvniHVgKQxOfiGzyQ8xOB9sF23b0/FrY7BDFIbtQ5
-         3mE+RREteQin0tAomGqf0B816MacEaof3ig/V66jZkw9/X3VCbzT37XywhU/PIeBEu
-         CgVo3vWcXZvRQmSmDMxto5zbgkm8OhH1j0OoMVfUok4X+hf0LSm9yho5NCfZKLdYhB
-         apKWptAzG2cfA==
-Received: by mail-io1-f42.google.com with SMTP id n202so3948590iod.6
-        for <linux-doc@vger.kernel.org>; Sat, 27 Aug 2022 16:33:45 -0700 (PDT)
-X-Gm-Message-State: ACgBeo1b1x9dQvKhWMgiMBiqeFNx8LgHnzX5mBXIFPjevkl8f8CB1Xib
-        5VxQzocrnHHA+uxl64hMKOdT7qszgOAEybHZ9M9TIQ==
-X-Google-Smtp-Source: AA6agR7NBl/ztDgbInSL8Sv+s9XgjHdMbIPFExqcLxY5tM4RAN1yPQT0pDYb2rd8KKLc4Z42N4jWXz5Imu+YYK+gYoM=
-X-Received: by 2002:ac8:7c47:0:b0:343:5878:83e4 with SMTP id
- o7-20020ac87c47000000b00343587883e4mr5072825qtv.101.1661643214316; Sat, 27
- Aug 2022 16:33:34 -0700 (PDT)
+        with ESMTP id S229445AbiH1A24 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 27 Aug 2022 20:28:56 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC31C33E0E;
+        Sat, 27 Aug 2022 17:28:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
+        Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+        Content-Description:In-Reply-To:References;
+        bh=23ph2otCZCX5I5yCccntprO67HKi3ey2WowmynKONxM=; b=bgCRJmiDBBwSAPbvtovMYFC557
+        wYA4hWSZJbs7tVfOEAUOa8T5Hez4T8u6ZymwZzDt29FxtRl22ljnrU/qzzidp0E57Z3ofJJPdPZ+X
+        gOUgtJLcOe/1mwSJ/cidnEMdS1iI6wa4QtGCpicSNewYIqzQrZe9ZnNJKpjbxU6FEoPtjNrstG4ek
+        CKdExst2zmm7y6NZ6ADM1FPgH375bAO8KUBinzcU14yOw+7jpoS/yEd3bf+k57e7iNIrnzfclxKqS
+        MixqwTPRoE1QGdkmOvxRKzHvriOwfOlLfWQpK/xsMr+U/dvljwMDKlkOOTuJmDJ9lv9OuvDhxjvtV
+        i2skl9tQ==;
+Received: from [2601:1c0:6280:3f0::a6b3] (helo=casper.infradead.org)
+        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1oS6AV-001p4v-KE; Sun, 28 Aug 2022 00:28:52 +0000
+From:   Randy Dunlap <rdunlap@infradead.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        Evgeniy Polyakov <zbr@ioremap.net>
+Subject: [PATCH] Documentation: W1: minor typo corrections
+Date:   Sat, 27 Aug 2022 17:28:45 -0700
+Message-Id: <20220828002845.7022-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.37.2
 MIME-Version: 1.0
-References: <20220823150035.711534-1-roberto.sassu@huaweicloud.com> <20220823150035.711534-4-roberto.sassu@huaweicloud.com>
-In-Reply-To: <20220823150035.711534-4-roberto.sassu@huaweicloud.com>
-From:   KP Singh <kpsingh@kernel.org>
-Date:   Sun, 28 Aug 2022 01:33:23 +0200
-X-Gmail-Original-Message-ID: <CACYkzJ7esNWFHTXF+sW8rgFDtKdPNfePoXQ_xnzP7eQipjKkXw@mail.gmail.com>
-Message-ID: <CACYkzJ7esNWFHTXF+sW8rgFDtKdPNfePoXQ_xnzP7eQipjKkXw@mail.gmail.com>
-Subject: Re: [PATCH v13 03/10] bpf: Export bpf_dynptr_get_size()
-To:     Roberto Sassu <roberto.sassu@huaweicloud.com>
-Cc:     ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org,
-        martin.lau@linux.dev, song@kernel.org, yhs@fb.com,
-        john.fastabend@gmail.com, sdf@google.com, haoluo@google.com,
-        jolsa@kernel.org, mykolal@fb.com, corbet@lwn.net,
-        dhowells@redhat.com, jarkko@kernel.org, rostedt@goodmis.org,
-        mingo@redhat.com, paul@paul-moore.com, jmorris@namei.org,
-        serge@hallyn.com, shuah@kernel.org, bpf@vger.kernel.org,
-        linux-doc@vger.kernel.org, keyrings@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
-        deso@posteo.net, Roberto Sassu <roberto.sassu@huawei.com>,
-        Joanne Koong <joannelkoong@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Aug 23, 2022 at 5:02 PM Roberto Sassu
-<roberto.sassu@huaweicloud.com> wrote:
->
-> From: Roberto Sassu <roberto.sassu@huawei.com>
->
-> Export bpf_dynptr_get_size(), so that kernel code dealing with eBPF dynamic
-> pointers can obtain the real size of data carried by this data structure.
->
-> Reviewed-by: Joanne Koong <joannelkoong@gmail.com>
-> Signed-off-by: Roberto Sassu <roberto.sassu@huawei.com>
+Correct one typo/spello and remove one duplicated word in the
+W1 documentation.
 
-Acked-by: KP Singh <kpsingh@kernel.org>
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org
+Cc: Evgeniy Polyakov <zbr@ioremap.net>
+---
+@Evegniy-
+I notice that ioremap.net web site is not working for me.
+Can you do something about that or modify the URL in
+Documentation/w1/w1-netlink.rst (2. http://www.ioremap.net/archive/w1)
+for source code examples?
+
+ Documentation/w1/masters/ds2490.rst |    2 +-
+ Documentation/w1/w1-generic.rst     |    2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+--- a/Documentation/w1/masters/ds2490.rst
++++ b/Documentation/w1/masters/ds2490.rst
+@@ -52,7 +52,7 @@ Notes and limitations.
+   clear the entire bulk in buffer.  It would be possible to read the
+   maximum buffer size to not run into this error condition, only extra
+   bytes in the buffer is a logic error in the driver.  The code should
+-  should match reads and writes as well as data sizes.  Reads and
++  match reads and writes as well as data sizes.  Reads and
+   writes are serialized and the status verifies that the chip is idle
+   (and data is available) before the read is executed, so it should
+   not happen.
+--- a/Documentation/w1/w1-generic.rst
++++ b/Documentation/w1/w1-generic.rst
+@@ -113,7 +113,7 @@ generally only make sense when searching
+ redetect manually removed devices that are present and timeout manually
+ added devices that aren't on the bus.
+ 
+-Bus searches occur at an interval, specified as a summ of timeout and
++Bus searches occur at an interval, specified as a sum of timeout and
+ timeout_us module parameters (either of which may be 0) for as long as
+ w1_master_search remains greater than 0 or is -1.  Each search attempt
+ decrements w1_master_search by 1 (down to 0) and increments
