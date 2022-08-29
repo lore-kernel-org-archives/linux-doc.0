@@ -2,84 +2,79 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E8E4ECAAD5
-	for <linux-doc@archiver.kernel.org>; Mon, 29 Aug 2022 16:26:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 117DCECAAD2
+	for <linux-doc@archiver.kernel.org>; Mon, 29 Aug 2022 16:29:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230451AbiH2Q0W (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 29 Aug 2022 12:26:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33412 "EHLO
+        id S229882AbiH2Q3I (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 29 Aug 2022 12:29:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36506 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230437AbiH2Q0U (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Aug 2022 12:26:20 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 072527DF77;
-        Mon, 29 Aug 2022 09:26:19 -0700 (PDT)
+        with ESMTP id S229932AbiH2Q3G (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Aug 2022 12:29:06 -0400
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 494639924F
+        for <linux-doc@vger.kernel.org>; Mon, 29 Aug 2022 09:29:06 -0700 (PDT)
 Received: from localhost (unknown [IPv6:2601:281:8300:73:8b7:7001:c8aa:b65f])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 702994B7;
-        Mon, 29 Aug 2022 16:26:19 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 702994B7
+        by ms.lwn.net (Postfix) with ESMTPSA id B6C722E0;
+        Mon, 29 Aug 2022 16:29:05 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net B6C722E0
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1661790379; bh=gwFauWkgqqgf0H4PQVp5F5OjogdUzmVvJgS+PqOMzBE=;
+        t=1661790545; bh=3Bi0B1wCSW08eq/YIPwOMqzymj/1NcTN+JIc+MOrnnM=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=QWpE8BhSYiVVEwwcKtyMOF4N/lCcjt18vYX9IN+UI4y6lZUHPhqn0XakBMmk/ZqXI
-         5l445EvymDaNDToU9NijeQpTiZY7VTLonqyj8dRTBaxBl5r2KdVoGEKA35QymQ2RVh
-         digyjS1JexUvuCrkpKSmd9aNesH0bb9G3aa9f5sYKLp3q9IcdCu8bm7Y4oSD4GlVxi
-         tMkTV/PoP55wFIJnVsl82VhGqFIEJWx8a+CvAFm+M0xvJ0IOUG/e9ES5SHspYJWmmD
-         pOa9jzAxSkp/yRzF4nguVNzw8I5bid/VFlXDkDOjDlZzMg0Amt6BkiiRNp33yyzBuz
-         kIe1u+zJcXuaA==
+        b=RXIX2GxwTbn+SUVsDyw31XAFQYZIqUZxR6o1mi/GpwpE/DCsZPtMGzR0BGn14PgXN
+         UvJbB2VHuEslCFDIlby0s7+fTMYKUiu7obPEzlb4Jp9bbdI99XKLKIz935lpi/RQQi
+         JDiHtTdLklaWqgYeZtXpA6ydRO/x4UOU6RzlFhIi1uBb0yJ1KuAoF6r8icZArDxTgr
+         GvISYS7UoGDeo9grDAbXoz+axTvAfWnx48yUz26cWiCbLQmDwkxiTwMXPXIo0fMwGh
+         ZlcrDBziv/8uHicI2gWoqSnPid8ays9yQ7CvNA6cneguBNY+LlUQoacquNxPBuMR/J
+         fLb/z34/cOT8g==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     JunChao Sun <sunjunchao2870@gmail.com>, linux-ext4@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Cc:     tytso@mit.edu, bagasdotme@gmail.com,
-        JunChao Sun <sunjunchao2870@gmail.com>
-Subject: Re: [PATCH] Documentation: ext4: correct the document about superblock
-In-Reply-To: <20220815125233.2040-1-sunjunchao2870@gmail.com>
-References: <20220815125233.2040-1-sunjunchao2870@gmail.com>
-Date:   Mon, 29 Aug 2022 10:26:18 -0600
-Message-ID: <875yibqamt.fsf@meer.lwn.net>
+To:     Yanteng Si <siyanteng@loongson.cn>, alexs@kernel.org,
+        bobwxc@email.cn, seakeel@gmail.com
+Cc:     Yanteng Si <siyanteng@loongson.cn>, chenhuacai@kernel.org,
+        jiaxun.yang@flygoat.com, linux-doc@vger.kernel.org,
+        siyanteng01@gmail.com, xiyou.wangcong@gmail.com,
+        hidave.darkstar@gmail.com, tekkamanninja@gmail.com,
+        leoyang.li@nxp.com, src.res@email.cn,
+        linux-doc-tw-discuss@lists.sourceforge.net
+Subject: Re: [PATCH v1 0/3] docs: zh_CN/TW: Update and remove some old
+ documents
+In-Reply-To: <cover.1661431365.git.siyanteng@loongson.cn>
+References: <cover.1661431365.git.siyanteng@loongson.cn>
+Date:   Mon, 29 Aug 2022 10:29:05 -0600
+Message-ID: <871qszqai6.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-JunChao Sun <sunjunchao2870@gmail.com> writes:
+Yanteng Si <siyanteng@loongson.cn> writes:
 
-> The description of s_lastcheck_hi, s_first_error_time_hi, and
-> s_last_error_time_hi fields refer to themselves, while these means
-> referring to upper 8 bits (byte) of corresponding fields (s_lastcheck,
-> s_first_error_time, and s_last_error_time). Correct the mistake.
+> v1:
+>  Update the translation of io_ordering to 6.0-rc2.
+>  Remove IRQ(Only zh_CN) and oops-tracing, Because they already have a new translation.
+>  In this way, zh_CN no longer has homeless documents. >_<
 >
-> Signed-off-by: JunChao Sun <sunjunchao2870@gmail.com>
-> ---
->  Documentation/filesystems/ext4/super.rst | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+> Yanteng Si (3):
+>   docs/zh_CN: Update the translation of io_ordering to 6.0-rc2
+>   docs/zh_CN: Remove IRQ and oops-tracing
+>   docs/zh_TW: Remove oops-tracing
 >
-> diff --git a/Documentation/filesystems/ext4/super.rst b/Documentation/filesystems/ext4/super.rst
-> index 268888522e35..0152888cac29 100644
-> --- a/Documentation/filesystems/ext4/super.rst
-> +++ b/Documentation/filesystems/ext4/super.rst
-> @@ -456,15 +456,15 @@ The ext4 superblock is laid out as follows in
->     * - 0x277
->       - __u8
->       - s_lastcheck_hi
-> -     - Upper 8 bits of the s_lastcheck_hi field.
-> +     - Upper 8 bits of the s_lastcheck field.
->     * - 0x278
->       - __u8
->       - s_first_error_time_hi
-> -     - Upper 8 bits of the s_first_error_time_hi field.
-> +     - Upper 8 bits of the s_first_error_time field.
->     * - 0x279
->       - __u8
->       - s_last_error_time_hi
-> -     - Upper 8 bits of the s_last_error_time_hi field.
-> +     - Upper 8 bits of the s_last_error_time field.
->     * - 0x27A
->       - __u8
+>  Documentation/translations/zh_CN/IRQ.txt      |  39 ----
+>  .../translations/zh_CN/driver-api/index.rst   |   2 +-
+>  .../zh_CN/driver-api/io_ordering.rst          |  60 +++++
+>  .../translations/zh_CN/io_ordering.txt        |  67 ------
+>  .../translations/zh_CN/oops-tracing.txt       | 212 ------------------
+>  .../translations/zh_TW/oops-tracing.txt       | 212 ------------------
+>  6 files changed, 61 insertions(+), 531 deletions(-)
+>  delete mode 100644 Documentation/translations/zh_CN/IRQ.txt
+>  create mode 100644 Documentation/translations/zh_CN/driver-api/io_ordering.rst
+>  delete mode 100644 Documentation/translations/zh_CN/io_ordering.txt
+>  delete mode 100644 Documentation/translations/zh_CN/oops-tracing.txt
+>  delete mode 100644 Documentation/translations/zh_TW/oops-tracing.txt
 
-Applied to the docs tree, thanks.
+Applied, thanks.
 
 jon
