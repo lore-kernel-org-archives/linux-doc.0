@@ -2,162 +2,152 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C599ECAAD2
-	for <linux-doc@archiver.kernel.org>; Mon, 29 Aug 2022 15:59:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 30CF9ECAAD2
+	for <linux-doc@archiver.kernel.org>; Mon, 29 Aug 2022 16:01:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229635AbiH2P7n (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 29 Aug 2022 11:59:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38804 "EHLO
+        id S230202AbiH2QBW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 29 Aug 2022 12:01:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44094 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229486AbiH2P7m (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Aug 2022 11:59:42 -0400
-Received: from NAM02-SN1-obe.outbound.protection.outlook.com (mail-sn1anam02on2071.outbound.protection.outlook.com [40.107.96.71])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64F5597B19;
-        Mon, 29 Aug 2022 08:59:41 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=edlGcgDrmC3XMZ/CeXOCNOxhGEqj/Gsw0XM5Uu5t4/uMfWJ7cZVCaAfkqrpNV5dON44GEdVDPPmXgBJHzf4H8nfRuHIwkEdjSFcKiTWypcwgX+eLHD70iSWC4nkGo86fewNGz+zwDg9c8+KQ0qj7L4pQ6DA5BryHkc+zizraOudasrW/6TeAflf0j71RfEhKkhwqCWdVRNijLmK6sS6MFuBzuQhDXbRsqDPE3otCV3oaI/wc2DvWkFFTds1z6i3tEDmupuYox55LRDLBnApUDgN6VcEBx6b2hSvFYTH6asXFJwr7uCrTdWLyYg3TEKTXCVfHFiS1+vqPfGSmypprJQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=DM7yaYW/eClJS9YfGzXtfkljYAyNS+SRRPd3pYmVb20=;
- b=Kv3L2dcEjzYAD6SO6+51mMtzLm0fT4xzTdh41slws5TGMgJXFMB5RTZhgVkbXM/H89fiQtySQQ4BJZmJVEdUSMQKugF+fGKWFtqUo7H11DoshcOY29uEKJe3td2EzSdmZKJX0F+m0WdD4hZD4brOuuggSkdsB5AtgYY3yvM9P79zS5jGNW/3ZpC5l7P6Q+i8JTek7tOnUHEddCrxaloQOpMIhiBw/+zJEhnm9XR+/uyfQZpSyTq9WMCTq0pcl4kwwr7x2yBUy+XokPdFQ8pp5DWDuAq54Q4loCUhPY4uQHFMbENqYVGjC3BATw9tw5PhztoOa/YG3SOpUhBwd2ox6Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DM7yaYW/eClJS9YfGzXtfkljYAyNS+SRRPd3pYmVb20=;
- b=VBlCKMjB5U3iFXtmBbp7VIBgrOfyUYidkJDL6gglKxohM57d/6MUwSSahbD8ObnKr1YZu38WglWcDuj+/sNZst5307WWNFaoipxMOu61BTcFezrY7uNyetWUDokNOoAW+UtdYkZ0O4tcNcc4DUFecSbfx8Roa8NaWjTu1sEtebg=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3108.namprd12.prod.outlook.com (2603:10b6:408:40::20)
- by SJ0PR12MB5611.namprd12.prod.outlook.com (2603:10b6:a03:426::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5566.21; Mon, 29 Aug
- 2022 15:59:39 +0000
-Received: from BN8PR12MB3108.namprd12.prod.outlook.com
- ([fe80::8cb2:3d2f:c63e:be2]) by BN8PR12MB3108.namprd12.prod.outlook.com
- ([fe80::8cb2:3d2f:c63e:be2%5]) with mapi id 15.20.5566.021; Mon, 29 Aug 2022
- 15:59:39 +0000
-Date:   Mon, 29 Aug 2022 15:59:28 +0000
-From:   Yazen Ghannam <yazen.ghannam@amd.com>
-To:     Borislav Petkov <bp@alien8.de>
-Cc:     "Elliott, Robert (Servers)" <elliott@hpe.com>,
-        Jia He <justin.he@arm.com>, Len Brown <lenb@kernel.org>,
-        James Morse <james.morse@arm.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Robert Richter <rric@kernel.org>,
-        Robert Moore <robert.moore@intel.com>,
-        Qiuxu Zhuo <qiuxu.zhuo@intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Jan Luebbe <jlu@pengutronix.de>,
-        Khuong Dinh <khuong@os.amperecomputing.com>,
-        "Kani, Toshi" <toshi.kani@hpe.com>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        "linux-acpi@vger.kernel.org" <linux-acpi@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
-        "devel@acpica.org" <devel@acpica.org>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Shuai Xue <xueshuai@linux.alibaba.com>,
-        Jarkko Sakkinen <jarkko@kernel.org>,
-        "linux-efi@vger.kernel.org" <linux-efi@vger.kernel.org>,
-        "nd@arm.com" <nd@arm.com>, "Paul E. McKenney" <paulmck@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Neeraj Upadhyay <quic_neeraju@quicinc.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-        Muchun Song <songmuchun@bytedance.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "stable@kernel.org" <stable@kernel.org>
-Subject: Re: [RESEND PATCH v3 3/9] EDAC/ghes: Make ghes_edac a proper module
- to remove the dependency on ghes
-Message-ID: <YwziYFGWyEe2/kIp@yaz-fattaah>
-References: <20220822154048.188253-1-justin.he@arm.com>
- <20220822154048.188253-4-justin.he@arm.com>
- <MW5PR84MB1842F7107770654C46CB0311AB759@MW5PR84MB1842.NAMPRD84.PROD.OUTLOOK.COM>
- <YwmqKPaYtgTS4xYT@zn.tnic>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YwmqKPaYtgTS4xYT@zn.tnic>
-X-ClientProxiedBy: CH0PR03CA0299.namprd03.prod.outlook.com
- (2603:10b6:610:e6::34) To BN8PR12MB3108.namprd12.prod.outlook.com
- (2603:10b6:408:40::20)
+        with ESMTP id S229981AbiH2QBU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Aug 2022 12:01:20 -0400
+Received: from smtp-190f.mail.infomaniak.ch (smtp-190f.mail.infomaniak.ch [IPv6:2001:1600:3:17::190f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BFAE67D7B6
+        for <linux-doc@vger.kernel.org>; Mon, 29 Aug 2022 09:01:11 -0700 (PDT)
+Received: from smtp-2-0000.mail.infomaniak.ch (unknown [10.5.36.107])
+        by smtp-2-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4MGZt73sLWzMqD9B;
+        Mon, 29 Aug 2022 18:01:03 +0200 (CEST)
+Received: from ns3096276.ip-94-23-54.eu (unknown [23.97.221.149])
+        by smtp-2-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4MGZt630S8zlh8V4;
+        Mon, 29 Aug 2022 18:01:02 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=digikod.net;
+        s=20191114; t=1661788863;
+        bh=UDehGM8zok+fb4aL9IKQsjADGXsUJoA7AfyxVK4RScI=;
+        h=Date:To:Cc:References:From:Subject:In-Reply-To:From;
+        b=UljJ9FrIJnA4nbsJvP/j21pbDxFUUDdLhmks9Cj0wPynT87BtPv5PPBr7AI+9BGzf
+         7ub5XvC/972M0toGVuazsbSfU7iaoDsgNJipkBR1ZcCsRNGWgn4GnJtlLR/7BlV2sC
+         QyyiRc3PRpqjk6W3cJQwufU2zHjI9yHG9YcbN/2A=
+Message-ID: <de4620d2-3268-b3cc-71dd-acbbd204435e@digikod.net>
+Date:   Mon, 29 Aug 2022 18:01:01 +0200
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 360cc3d5-5c34-4002-a638-08da89d77a2e
-X-MS-TrafficTypeDiagnostic: SJ0PR12MB5611:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: voq359ETNnMX3I/8MsdqnJJsKhtDKoXCOH5PO+l21UCfTkalgkkG6o3NpsFrHzTWY0Pf58fEjEi+iV29l/sxHx8UOROUCrU+9yGDPSOYq6CFdGry0Y1BPdQPP4UHYHkg48KkQFe7B8bR9w6wLUQRnKLupwKSQtd/d+H1/aUxOKK9zA1CxQxiGGXfls5RWkXAWL7keQhW55iwFuywDTNjoGJljwTFzhCQs0irgD2BxA+rdUgAIWG98Jym+Jo4znQF99XcTavWVz7mV8Fn64rTXMHjeDTCtSa5CtzjSEyYJP40ycz6mnVHhNvR3GBQpEJ9ucvm1vT6N29tEQIUGRQY64HuqxzMBmnCkjku5ccvPUmam5YxKDXtzoXTkSqDyMN1iHjbuZeBa3JtsHZ/At0dWJA7r9dOwtxCKoq/WmNkvwsK3AYdo716B8FLESUlBoep4b08kgAi54bituu6PAoe5SFKY2z6tG89XwleMsTv0CMzSgO4goqLsnoDjhHXEj8JuLjOZm8PDbVtETvWBBySi4xuVqmgGPXVkcVMD8HZiCc+n4dG4l36t4UTr1oanpRY4y0QnOwYfjx9Dm9LwhLsHTMOtKEN0hRF8HZdbduH1E90SbpMuJw2wkKmrbeHw+F5vNYjnk38gautQ/LpnGS4DbiM5mPAT1rsJl7hMLOSJig5GGKfODaDv0NXf3RWi5lwO3o5jfD2v9EhC2gT66W08g==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR12MB3108.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(7916004)(4636009)(376002)(39860400002)(346002)(136003)(366004)(396003)(5660300002)(26005)(6512007)(9686003)(38100700002)(41300700001)(44832011)(7406005)(6666004)(4744005)(7416002)(478600001)(86362001)(8936002)(8676002)(4326008)(66476007)(2906002)(6486002)(6506007)(66946007)(66556008)(316002)(54906003)(186003)(6916009)(33716001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?F4vXOe6VyaXa2GYKkA2uqy9qEPgHUB8sZ8lHlXfO3rmY3H9Vg0n/3aICAUwr?=
- =?us-ascii?Q?rwDuqr8ULAfLQQ396A3tMkFsfdBD//ANxCiBfMP8o6Z3Sdovm6BPjzlqwmUK?=
- =?us-ascii?Q?TCd8angQQfhXyIbnRzXd2HYWQERxCiiNCXZJfMheuey4UtxpPZ5FsdQ1b18L?=
- =?us-ascii?Q?EmOSbGi1XOQiCb6XPDnBd+RHLyuoswf8hEmxKDDPGDxXfz8vw7tOLySXF9pE?=
- =?us-ascii?Q?1lbXT5FP4IM9jVN8qu/aSE4BmWrQytGiqnkY3uRhbMPFkxm9ENVm8UHlZtn8?=
- =?us-ascii?Q?eYZKda+hyuIqzPmJKMsq1z38M+WKJjXWEZ9D5OHikrxrAMKjuB5qvKROrG6t?=
- =?us-ascii?Q?8TTjHIdB2eY2kHYQyj7T9LOGKmyiV4cSTVLQJZaOSR25402dNrP7tGzlTIIL?=
- =?us-ascii?Q?og1lzkLwC2K7ZAeVaBEe5tuGmIbkqu4GtsDQFV+pdI288ChSq2JR664NOGV0?=
- =?us-ascii?Q?+qiJg5zg2TG+stSrEl8+nj6gLhhGgf527iEQEyggWX3QnMwMWJrzWwNxRHD3?=
- =?us-ascii?Q?DYhxyigN+4+zWzm5KhEQxqVs8njFtLT2mqivaVUz7oWfOo/WXkcot2mKgVG/?=
- =?us-ascii?Q?PxKOXzoOh2BAgGOAjFEe+Ld4boKLI937hAgqMIhzEKdGK4gy79A6UEvBZ+tg?=
- =?us-ascii?Q?2BCUH0XIvklM8B91PpKcwKaRB6bOs+SFZYLJkY/uhjYunv1MbhrPVVpSaLXZ?=
- =?us-ascii?Q?QwPT28to+lGbytgnR/dn6mOkjyiVoLyrRwkI8QE52weNYssbSKBPNmEWhRIj?=
- =?us-ascii?Q?jZ5yCkPqGOWoQfZJf/h9Xc1IfAk6Om5bSjAPmMz5AfG7wvbxgSWW4ffCGSe7?=
- =?us-ascii?Q?DEfY6/2w7KBJ7tvtOBS/kdlr0cbjvIQbXkOGku/hwfZ731N37jbKJCHj5672?=
- =?us-ascii?Q?nQ68qJZZrHDJIr/3icDAFZOpWFiweBIZZWfiREGpolsDc0Q9nxD6ezSZnRCr?=
- =?us-ascii?Q?rM+4kmu2a78MJH/zUlDTNjSOt7xeADhOF3fwyLSJlEdUxTvUwJ4wpbhFJfpY?=
- =?us-ascii?Q?Xi1VXfluI66zmQWYcDs0W3tP9kOKjFL95sv0LdU98RmTHRrTWrnmIG4mLgkO?=
- =?us-ascii?Q?WkBKnBmiXdrRfzOe8AuJv/F4nLS6BHSOakk5KZv3gNEzeOVgdBMsT9WYs4zn?=
- =?us-ascii?Q?Y/5vMEDnGNayqDD/UmrYasYwivThD3gAKhgULer2RCw4QHRo1qefAY7hb9t1?=
- =?us-ascii?Q?d9fsFnTYyZDyUXk4haa2g9oBI4cwL3udfIvQSoLUaXoy+Rt9lZw5fxZUMLBZ?=
- =?us-ascii?Q?fBFu8BSqquLP3LFetb9spTz5wXccDQ4EZu5lMer89vx56wXws8tcrf1R9OMs?=
- =?us-ascii?Q?mS6y1emcE14XumXZc0cy9jD56VajdsixG1nhG+5trzCVMRlFe2GIVyROrpD2?=
- =?us-ascii?Q?xlcFJmb/TJB+rSIaxygbRkBN0IwTrc1XMW8QMYYEOdM6vCIaP3EiayFpQTVQ?=
- =?us-ascii?Q?ounGH6oP7sJ/Dd2EZSoGnOYKWGpjmxC6Z3Ct2JK7PIElMHY4+4FYD+Ncp/UQ?=
- =?us-ascii?Q?TCORnCbLYkoKJFn+9OVCokRJi3Xrpc79n1Moc2+PjCjWdh+6n2QW0w7dqFbJ?=
- =?us-ascii?Q?Q/prCrwGYKxZECSp6oLnogy7xMGgOg+ZGI9GucJd?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 360cc3d5-5c34-4002-a638-08da89d77a2e
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3108.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Aug 2022 15:59:38.9072
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: F+a48sw9zUVAGV/2Q1b4pdZtMWiHu+HIXxcpKcOrhVdwN5lCpu/FvWm6PVe3UWpKOtpI/FvuOa15UKkVuhQQbA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB5611
+User-Agent: 
+Content-Language: en-US
+To:     xiujianfeng <xiujianfeng@huawei.com>,
+        =?UTF-8?Q?G=c3=bcnther_Noack?= <gnoack3000@gmail.com>
+Cc:     paul@paul-moore.com, jmorris@namei.org, serge@hallyn.com,
+        shuah@kernel.org, corbet@lwn.net,
+        linux-security-module@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-doc@vger.kernel.org
+References: <20220827111215.131442-1-xiujianfeng@huawei.com>
+ <20220827111215.131442-4-xiujianfeng@huawei.com> <Ywpw66EYRDTQIyTx@nuc>
+ <de8834b6-0ff2-1a81-f2d3-af33103e9942@huawei.com>
+From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
+Subject: Re: [PATCH -next v2 3/6] landlock: add chmod and chown support
+In-Reply-To: <de8834b6-0ff2-1a81-f2d3-af33103e9942@huawei.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Aug 27, 2022 at 07:22:48AM +0200, Borislav Petkov wrote:
-> On Fri, Aug 26, 2022 at 10:42:13PM +0000, Elliott, Robert (Servers) wrote:
-> > 4. In the help text for each module that looks for GHES and refuses to load 
-> > (e.g., EDAC_AMD64), add a sentence:
-> > 
-> >   This module does not load on a system supporting ACPI GHES.
-> 
-> It is not "system supporting ACPI GHES." - it is on a system which is
-> *known* to have a more or less tested GHES implementation. The notoriety
-> of firmware RAS brokenness is well known.
-> 
-> So please stop this - there's a world outside HP BIOS.
-> 
-> None of this is needed for this patchset.
->
 
-GHES can be used for more than just memory errors. There are platforms where
-memory errors are handled through the OS MCA, and PCIe AER errors are handled
-through the FW, for example.
+On 29/08/2022 03:17, xiujianfeng wrote:
+> 
+> Hi,
+> 
+> 在 2022/8/28 3:30, Günther Noack 写道:
+>> Hello!
+>>
+>> the mapping between Landlock rights to LSM hooks is now as follows in
+>> your patch set:
+>>
+>> * LANDLOCK_ACCESS_FS_CHMOD controls hook_path_chmod
+>> * LANDLOCK_ACCESS_FS_CHGRP controls hook_path_chown
+>>     (this hook can restrict both the chown(2) and chgrp(2) syscalls)
+>>
+>> Is this the desired mapping?
+>>
+>> The previous discussion I found on the topic was in
+>>
+>> [1] https://lore.kernel.org/all/5873455f-fff9-618c-25b1-8b6a4ec94368@digikod.net/
+>> [2] https://lore.kernel.org/all/b1d69dfa-6d93-2034-7854-e2bc4017d20e@schaufler-ca.com/
+>> [3] https://lore.kernel.org/all/c369c45d-5aa8-3e39-c7d6-b08b165495fd@digikod.net/
+>>
+>> In my understanding the main arguments were the ones in [2] and [3].
+>>
+>> There were no further responses to [3], so I was under the impression
+>> that we were gravitating towards an approach where the
+>> file-metadata-modification operations were grouped more coarsely?
+>>
+>> For example with the approach suggested in [3], which would be to
+>> group the operations coarsely into (a) one Landlock right for
+>> modifying file metadata that is used in security contexts, and (b) one
+>> Landlock right for modifying metadata that was used in non-security
+>> contexts. That would mean that there would be:
+>>
+>> (a) LANDLOCK_ACCESS_FS_MODIFY_SECURITY_ATTRIBUTES to control the
+>> following operations:
+>>     * chmod(2)-variants through hook_path_chmod,
+>>     * chown(2)-variants and chgrp(2)-variants through hook_path_chown,
+>>     * setxattr(2)-variants and removexattr(2)-variants for extended
+>>       attributes that are not "user extended attributes" as described in
+>>       xattr(7) through hook_inode_setxattr and hook_inode_removexattr
+>>
+>> (b) LANDLOCK_ACCESS_FS_MODIFY_NON_SECURITY_ATTRIBUTES to control the
+>> following operations:
+>>     * utimes(2) and other operations for setting other non-security
+>>       sensitive attributes, probably through hook_inode_setattr(?)
+>>     * xattr modifications like above, but for the "user extended
+>>       attributes", though hook_inode_setxattr and hook_inode_removexattr
+>>
+>> In my mind, this would be a sensible grouping, and it would also help
+>> to decouple the userspace-exposed API from the underlying
+>> implementation, as Casey suggested to do in [2].
+>>
+>> Specifically for this patch set, if you want to use this grouping, you
+>> would only need to add one new Landlock right
+>> (LANDLOCK_ACCESS_FS_MODIFY_SECURITY_ATTRIBUTES) as described above
+>> under (a) (and maybe we can find a shorter name for it... :))?
+>>
+>> Did I miss any operations here that would be necessary to restrict?
+>>
+>> Would that make sense to you? Xiu, what is your opinion on how this
+>> should be grouped? Do you have use cases in mind where a more
+>> fine-grained grouping would be required?
+> 
+> I apologize I may missed that discussion when I prepared v2:(
+> 
+> Yes, agreed, this grouping is more sensible and resonnable. so in this
+> patchset only one right will be added, and I suppose the first commit
+> which expand access_mask_t to u32 can be droped.
+> 
+>>
+>> —Günther
+>>
+>> P.S.: Regarding utimes: The hook_inode_setattr hook *also* gets called
+>> on a variety on attribute changes including file ownership, file size
+>> and file mode, so it might potentially interact with a bunch of other
+>> existing Landlock rights. Maybe that is not the right approach. In any
+>> case, it seems like it might require more thinking and it might be
+>> sensible to do that in a separate patch set IMHO.
+> 
+> Thanks for you reminder, that seems it's more complicated to support
+> utimes, so I think we'd better not support it in this patchset.
 
-Is the HPE Server platform guaranteed to always provide memory errors through
-GHES regardless of CPU vendor/architecture?
+The issue with this approach is that it makes it impossible to properly 
+group such access rights. Indeed, to avoid inconsistencies and much more 
+complexity, we cannot extend a Landlock access right once it is defined.
 
-Thanks,
-Yazen
+We also need to consider that file ownership and permissions have a 
+default (e.g. umask), which is also a way to set them. How to 
+consistently manage that? What if the application wants to protect its 
+files with chmod 0400?
+
+About the naming, I think we can start with:
+- LANDLOCK_ACCESS_FS_READ_METADATA (read any file/dir metadata);
+- LANDLOCK_ACCESS_FS_WRITE_SAFE_METADATA: change file times, user xattr;
+- LANDLOCK_ACCESS_FS_WRITE_UNSAFE_METADATA: interpreted by the kernel 
+(could change non-Landlock DAC or MAC, which could be considered as a 
+policy bypass; or other various xattr that might be interpreted by 
+filesystems), this should be denied most of the time.
