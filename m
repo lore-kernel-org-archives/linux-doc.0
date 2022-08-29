@@ -2,181 +2,165 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 77A98C0502E
-	for <linux-doc@archiver.kernel.org>; Mon, 29 Aug 2022 02:44:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3449FC0502A
+	for <linux-doc@archiver.kernel.org>; Mon, 29 Aug 2022 02:50:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229453AbiH2Coa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 28 Aug 2022 22:44:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48204 "EHLO
+        id S229468AbiH2Cuh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 28 Aug 2022 22:50:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53980 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229574AbiH2Co2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 28 Aug 2022 22:44:28 -0400
-Received: from mail-pj1-x104a.google.com (mail-pj1-x104a.google.com [IPv6:2607:f8b0:4864:20::104a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 869063C8F4
-        for <linux-doc@vger.kernel.org>; Sun, 28 Aug 2022 19:44:27 -0700 (PDT)
-Received: by mail-pj1-x104a.google.com with SMTP id lw13-20020a17090b180d00b001fb2be14a3dso8720116pjb.8
-        for <linux-doc@vger.kernel.org>; Sun, 28 Aug 2022 19:44:27 -0700 (PDT)
+        with ESMTP id S229379AbiH2Cuf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 28 Aug 2022 22:50:35 -0400
+Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com [IPv6:2607:f8b0:4864:20::42a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1AB7F6428;
+        Sun, 28 Aug 2022 19:50:35 -0700 (PDT)
+Received: by mail-pf1-x42a.google.com with SMTP id 76so6914219pfy.3;
+        Sun, 28 Aug 2022 19:50:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc;
-        bh=qjyzIwXVkUkDf0UkZRUU6V68vw5g1IkZe/Jh8oGPdDI=;
-        b=U/94KM9NXpZmSc+hMYxHzYRtgMrfoxaVSJnIDlIjpVuok4Zafd/uo0FByTZzwm8ECh
-         cQeGCS7/yGLJTTEjsItsDQuL3o2E/KwhruL7/3LlOtt05TFeyj26v/ULKaaa4q/XuUVY
-         7Fhd2U5nFDMKGztQY9fys/FVlErdiHb8urBk4Ge5vbT8OfafJ4GhXK2nBS4E6nZl32TF
-         giOmkMrtFvFrd+97rdjYqU5TVZEXNoDj7vhJ0tKB/ZOgSlWanSlI0qyVMBkMe0e/t7H6
-         PKhGCjz4CpgJetSeM0BJCZoKrjCUFJYPRAbudlwYiTXei5veMJOuyvWl+sh5T56sOieD
-         nN8g==
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc;
+        bh=tgcW/JyKa8S3I89n0K6qJX6Ukxx8gVo0k/7A+pboipQ=;
+        b=TwjWDc9bC0k5aSO5/UMZ3q+zEBbJnil/P8zwqBQwUwsVlyH/+ISOalqHobz3CC8Ipp
+         bZ+JDiK2B8ChHTwI6LlM1VcnxpcLCgNaUdmQ3Yv6AWLyKrKN56FYJ7R/rCQlOCXEeOz3
+         SfgQ66ZFHyXZ3AK8onoU+tg86z73Lz6jVBJK2cOtmUo/m4UKH7o5PkF37PmE+2S5xW7L
+         bAtoF4fod84P3Hq27YBuh1eoh/mJvxH67EjjNpc7PiUSOxYgdqS8vTwPt26B+9KV2rje
+         Q/Ukr2mHAtczdTh2MiRNDerz6JPqAYbIDwoE6+1SQIb0v6yUXVJ6zgP6uApPwq/WDs2s
+         ZHlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
-         :from:to:cc;
-        bh=qjyzIwXVkUkDf0UkZRUU6V68vw5g1IkZe/Jh8oGPdDI=;
-        b=Js+s1Eamf5e6zrTfcwjfzbT5i48mOKU6twb9oO+QsJso8e+L86b7kFE0tOmbR6NxhO
-         /RCx8YrkkWCYAENOQiNIR1L5wyJMlImWi5QR22fzr+gcoKpNFLmxngeluhFe8r0q21I3
-         bmMBDX+bJeBzQe0cIPbRrK8zvD1MDc5ZpgiNqaCcf/BMsbgwqNq9y35mazLCcZns9n4+
-         cMXyloxx4MzHrS61Hctq3Qjy7HKHwKsFSS07oJyrCj9QteBv3wG/lFGLwtiWmG6OsTc+
-         5T6OQKlCObmTxAI8VAbyHXeK9MxSH0J2Q3F8+Z+fN96hbEdwEJnIkkzeAdk/apx4d4YP
-         RlOg==
-X-Gm-Message-State: ACgBeo1DYJHQfXmqyJF6eLgWYdvEkww5WDMuKoIFk8+Y/byasaIEyunH
-        dk5p0uNy8/rLTkU5yS3vA1oO6DiJmCJHp6N59XkB
-X-Google-Smtp-Source: AA6agR7r5/L5GlvHoc8ZBtvWtojvBBJBXTNkhaXq8PbOl5fMYh4tW7cqCJv7wXyaphWAu0fbcTKiq/EP9RYMga8xn02b
-X-Received: from jsl.c.googlers.com ([fda3:e722:ac3:cc00:24:72f4:c0a8:3cdb])
- (user=justinledford job=sendgmr) by 2002:a05:6a00:1a44:b0:528:6af7:ff4a with
- SMTP id h4-20020a056a001a4400b005286af7ff4amr14728709pfv.78.1661741066972;
- Sun, 28 Aug 2022 19:44:26 -0700 (PDT)
-Date:   Mon, 29 Aug 2022 02:43:51 +0000
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.37.2.672.g94769d06f0-goog
-Message-ID: <20220829024351.2415147-1-justinledford@google.com>
-Subject: [PATCH] hwmon: (max31790) add fanN_enable
-From:   Justin Ledford <justinledford@google.com>
-To:     Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Justin Ledford <justinledford@google.com>
-Content-Type: text/plain; charset="UTF-8"
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
+        bh=tgcW/JyKa8S3I89n0K6qJX6Ukxx8gVo0k/7A+pboipQ=;
+        b=QU+N0A/S1ZrmDfVs+hmet1DifpoyS8i0he1fz99SNnAu4Fjpi9cYXqIEQvZHfYHatY
+         Ds5poSEcMvVzkdjZ1TH9or7OKTRi4A3vRdPj79Mm2qYUBEBFl7RL5MPMtNdXeHLrdDJ8
+         siuOo6IsGxL6rQSWXZk46IRtS+IrjQ6Ul8k2JofBm2zlN7E+hxv4keqgRj1CNStHj0kB
+         OU9sr43860oZkdEoIsc5TciKw6rI15oLn6Z65SsHxVZoJw7VxnIRY9ug4uw8QuN4MoJ+
+         S/0Izq850Ou/NEjQwJQK2S0tiiYWjJytAqru7PhYnLCiezrFCyrA+G5m0ZYnAEsF8sNY
+         OAXQ==
+X-Gm-Message-State: ACgBeo2hrNkKdmWCXwgMHB3aw7BTMb5IiPtXxNSBoAKuJCQrtTGGQafs
+        QvRB6qi7EhqmngF4Nxb8D48=
+X-Google-Smtp-Source: AA6agR5ubpJosJsqdZGRbztGjY5oSq+h0Xm0Dq+kK3BXb6c/CMy8aNIkHl9Cfs3Fsp4qBTrnDPp0fQ==
+X-Received: by 2002:aa7:8653:0:b0:52d:6fc3:1e41 with SMTP id a19-20020aa78653000000b0052d6fc31e41mr14632242pfo.13.1661741434583;
+        Sun, 28 Aug 2022 19:50:34 -0700 (PDT)
+Received: from debian.me (subs09a-223-255-225-73.three.co.id. [223.255.225.73])
+        by smtp.gmail.com with ESMTPSA id y10-20020a17090aca8a00b001fb53587166sm2999416pjt.28.2022.08.28.19.50.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 28 Aug 2022 19:50:34 -0700 (PDT)
+Received: by debian.me (Postfix, from userid 1000)
+        id 9A5961039BD; Mon, 29 Aug 2022 09:50:30 +0700 (WIB)
+Date:   Mon, 29 Aug 2022 09:50:30 +0700
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+To:     Kuppuswamy Sathyanarayanan 
+        <sathyanarayanan.kuppuswamy@linux.intel.com>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+        Shuah Khan <shuah@kernel.org>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Andi Kleen <ak@linux.intel.com>,
+        Kai Huang <kai.huang@intel.com>,
+        Wander Lairson Costa <wander@redhat.com>,
+        Isaku Yamahata <isaku.yamahata@gmail.com>,
+        marcelo.cerri@canonical.com, tim.gardner@canonical.com,
+        khalid.elmously@canonical.com, philip.cox@canonical.com,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH v11 3/3] Documentation/x86: Document TDX attestation
+ process
+Message-ID: <YwwpdsNazNBjRnVU@debian.me>
+References: <20220826150638.2397576-1-sathyanarayanan.kuppuswamy@linux.intel.com>
+ <20220826150638.2397576-3-sathyanarayanan.kuppuswamy@linux.intel.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="Jup6ckWXqdQaixmU"
+Content-Disposition: inline
+In-Reply-To: <20220826150638.2397576-3-sathyanarayanan.kuppuswamy@linux.intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The MAX31790 has a tach input enable bit in each fan's configuration
-register. This is only enabled by the driver if RPM mode is selected,
-but the driver doesn't provide a way to independently enable tachometer
-input regardless of the regulator mode.
 
-By adding the fanN_enable sysfs files, we can decouple the tach input
-from the regulator mode. Also update the documentation.
+--Jup6ckWXqdQaixmU
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Justin Ledford <justinledford@google.com>
----
- Documentation/hwmon/max31790.rst |  1 +
- drivers/hwmon/max31790.c         | 44 +++++++++++++++++++++++++++-----
- 2 files changed, 38 insertions(+), 7 deletions(-)
+On Fri, Aug 26, 2022 at 08:06:38AM -0700, Kuppuswamy Sathyanarayanan wrote:
+> +Input parameters: Parameters passed to the IOCTL and related details.
+> +Output          : Details about output data and return value (with detai=
+ls
+> +                  about the non common error values).
+> +
+> +TDX_CMD_GET_REPORT
+> +------------------
+> +
+> +:Input parameters: struct tdx_report_req
+> +:Output          : Upon successful execution, TDREPORT data is copied to
+> +                   tdx_report_req.tdreport and returns 0 or returns
+> +                   -EIO on TDCALL failure and standard error number on
+> +                   other common failures.
 
-diff --git a/Documentation/hwmon/max31790.rst b/Documentation/hwmon/max31790.rst
-index 7b097c3b9b90..33c5c7330efc 100644
---- a/Documentation/hwmon/max31790.rst
-+++ b/Documentation/hwmon/max31790.rst
-@@ -38,6 +38,7 @@ Sysfs entries
- fan[1-12]_input    RO  fan tachometer speed in RPM
- fan[1-12]_fault    RO  fan experienced fault
- fan[1-6]_target    RW  desired fan speed in RPM
-+fan[1-6]_enable    RW  enable or disable the tachometer input
- pwm[1-6]_enable    RW  regulator mode, 0=disabled (duty cycle=0%), 1=manual mode, 2=rpm mode
- pwm[1-6]           RW  read: current pwm duty cycle,
-                        write: target pwm duty cycle (0-255)
-diff --git a/drivers/hwmon/max31790.c b/drivers/hwmon/max31790.c
-index 7e9362f6dc29..3ae02be4b41e 100644
---- a/drivers/hwmon/max31790.c
-+++ b/drivers/hwmon/max31790.c
-@@ -118,6 +118,12 @@ static struct max31790_data *max31790_update_device(struct device *dev)
- 					goto abort;
- 				data->target_count[i] = rv;
- 			}
-+
-+			rv = i2c_smbus_read_byte_data(client,
-+					MAX31790_REG_FAN_CONFIG(i));
-+			if (rv < 0)
-+				goto abort;
-+			data->fan_config[i] = rv;
- 		}
- 
- 		data->last_updated = jiffies;
-@@ -202,6 +208,9 @@ static int max31790_read_fan(struct device *dev, u32 attr, int channel,
- 		}
- 		mutex_unlock(&data->update_lock);
- 		return 0;
-+	case hwmon_fan_enable:
-+		*val = !!(data->fan_config[channel] & MAX31790_FAN_CFG_TACH_INPUT_EN);
-+		return 0;
- 	default:
- 		return -EOPNOTSUPP;
- 	}
-@@ -214,7 +223,7 @@ static int max31790_write_fan(struct device *dev, u32 attr, int channel,
- 	struct i2c_client *client = data->client;
- 	int target_count;
- 	int err = 0;
--	u8 bits;
-+	u8 bits, fan_config;
- 	int sr;
- 
- 	mutex_lock(&data->update_lock);
-@@ -243,6 +252,23 @@ static int max31790_write_fan(struct device *dev, u32 attr, int channel,
- 					MAX31790_REG_TARGET_COUNT(channel),
- 					data->target_count[channel]);
- 		break;
-+	case hwmon_fan_enable:
-+		fan_config = data->fan_config[channel];
-+		if (val == 0) {
-+			fan_config &= ~MAX31790_FAN_CFG_TACH_INPUT_EN;
-+		} else if (val == 1) {
-+			fan_config |= MAX31790_FAN_CFG_TACH_INPUT_EN;
-+		} else {
-+			err = -EINVAL;
-+			break;
-+		}
-+		if (fan_config != data->fan_config[channel]) {
-+			err = i2c_smbus_write_byte_data(client, MAX31790_REG_FAN_CONFIG(channel),
-+							fan_config);
-+			if (!err)
-+				data->fan_config[channel] = fan_config;
-+		}
-+		break;
- 	default:
- 		err = -EOPNOTSUPP;
- 		break;
-@@ -270,6 +296,10 @@ static umode_t max31790_fan_is_visible(const void *_data, u32 attr, int channel)
- 		    !(fan_config & MAX31790_FAN_CFG_TACH_INPUT))
- 			return 0644;
- 		return 0;
-+	case hwmon_fan_enable:
-+		if (channel < NR_CHANNEL)
-+			return 0644;
-+		return 0;
- 	default:
- 		return 0;
- 	}
-@@ -423,12 +453,12 @@ static umode_t max31790_is_visible(const void *data,
- 
- static const struct hwmon_channel_info *max31790_info[] = {
- 	HWMON_CHANNEL_INFO(fan,
--			   HWMON_F_INPUT | HWMON_F_TARGET | HWMON_F_FAULT,
--			   HWMON_F_INPUT | HWMON_F_TARGET | HWMON_F_FAULT,
--			   HWMON_F_INPUT | HWMON_F_TARGET | HWMON_F_FAULT,
--			   HWMON_F_INPUT | HWMON_F_TARGET | HWMON_F_FAULT,
--			   HWMON_F_INPUT | HWMON_F_TARGET | HWMON_F_FAULT,
--			   HWMON_F_INPUT | HWMON_F_TARGET | HWMON_F_FAULT,
-+			   HWMON_F_INPUT | HWMON_F_TARGET | HWMON_F_FAULT | HWMON_F_ENABLE,
-+			   HWMON_F_INPUT | HWMON_F_TARGET | HWMON_F_FAULT | HWMON_F_ENABLE,
-+			   HWMON_F_INPUT | HWMON_F_TARGET | HWMON_F_FAULT | HWMON_F_ENABLE,
-+			   HWMON_F_INPUT | HWMON_F_TARGET | HWMON_F_FAULT | HWMON_F_ENABLE,
-+			   HWMON_F_INPUT | HWMON_F_TARGET | HWMON_F_FAULT | HWMON_F_ENABLE,
-+			   HWMON_F_INPUT | HWMON_F_TARGET | HWMON_F_FAULT | HWMON_F_ENABLE,
- 			   HWMON_F_INPUT | HWMON_F_FAULT,
- 			   HWMON_F_INPUT | HWMON_F_FAULT,
- 			   HWMON_F_INPUT | HWMON_F_FAULT,
--- 
-2.37.2.672.g94769d06f0-goog
+Hi,
 
+The field lists above trigger htmldocs warnings:
+
+Documentation/x86/tdx.rst:269: WARNING: Unexpected indentation.
+Documentation/x86/tdx.rst:275: WARNING: Field list ends without a blank lin=
+e; unexpected unindent.
+
+I have applied the fixup:
+
+---- >8 ----
+diff --git a/Documentation/x86/tdx.rst b/Documentation/x86/tdx.rst
+index 45db1201b62433..c9e3ecf86e0b43 100644
+--- a/Documentation/x86/tdx.rst
++++ b/Documentation/x86/tdx.rst
+@@ -264,18 +264,18 @@ device to allow user space to get certain TDX guest s=
+pecific details
+ In this section, for each supported IOCTL, following information is
+ provided along with generic description.
+=20
+-Input parameters: Parameters passed to the IOCTL and related details.
+-Output          : Details about output data and return value (with details
+-                  about the non common error values).
++:Input parameters: Parameters passed to the IOCTL and related details.
++:Output: Details about output data and return value (with details
++         about the non common error values).
+=20
+ TDX_CMD_GET_REPORT
+ ------------------
+=20
+ :Input parameters: struct tdx_report_req
+-:Output          : Upon successful execution, TDREPORT data is copied to
+-                   tdx_report_req.tdreport and returns 0 or returns
+-                   -EIO on TDCALL failure and standard error number on
+-                   other common failures.
++:Output: Upon successful execution, TDREPORT data is copied to
++         tdx_report_req.tdreport and returns 0 or returns
++         -EIO on TDCALL failure and standard error number on
++         other common failures.
+=20
+ The TDX_CMD_GET_REPORT IOCTL can be used by the attestation software to
+ get the TDX guest measurements data (with few other info) in the format
+
+Thanks.
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--Jup6ckWXqdQaixmU
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCYwwpcQAKCRD2uYlJVVFO
+owSyAQDog//bC7RKmB123p8NFiowbcFGeiy/wnOgpmTL/ebmXwEA0us8PCWLJwE0
+FztebS9qhcrg4OH5Fb/OEmPWZtKLfQA=
+=igal
+-----END PGP SIGNATURE-----
+
+--Jup6ckWXqdQaixmU--
