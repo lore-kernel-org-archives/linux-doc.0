@@ -2,113 +2,105 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B70AC0502C
-	for <linux-doc@archiver.kernel.org>; Mon, 29 Aug 2022 12:31:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 83928ECAAD5
+	for <linux-doc@archiver.kernel.org>; Mon, 29 Aug 2022 12:49:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229750AbiH2Mbw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 29 Aug 2022 08:31:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58236 "EHLO
+        id S230106AbiH2Mtl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 29 Aug 2022 08:49:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37384 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229926AbiH2Mb1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Aug 2022 08:31:27 -0400
-Received: from mail-qv1-xf2e.google.com (mail-qv1-xf2e.google.com [IPv6:2607:f8b0:4864:20::f2e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07EAE83BD5;
-        Mon, 29 Aug 2022 05:15:29 -0700 (PDT)
-Received: by mail-qv1-xf2e.google.com with SMTP id d1so6123977qvs.0;
-        Mon, 29 Aug 2022 05:15:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc;
-        bh=y92MhY7EE4yvAfEj5TsgHetaWbvxk1FPwg51QUNz2vw=;
-        b=dQuvCfbN+BqLYM2JPF9Jk0JgSIRFxvFp9l5ekLwOhQD94t2iJ3XipOt4C28q9q3jOU
-         oOBbXlAfEnCXBStKk8MQzpdwANPt2An0WRSky8R+nggmsz22HnsvenI2TeydD7zC0Heb
-         X0w5KZ7bEweaLkqAkcEuPEg/sErmxPyEfzFfhxXy/eVniwSHstoclJoNt/R+tsbvIi5y
-         RH+k+UXL6pNkM14cb5LRvi2w7CflG+AimF44FrcxjiN1cZifa5Qfi8KqPQ4+pILlWXPm
-         ySvzLEAfghECl/ZJFS8UDT7kddOlX0Us8JzEI8PsJUfbOL34qeVaph1BxpSgUt+a3QgU
-         f/9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
-        bh=y92MhY7EE4yvAfEj5TsgHetaWbvxk1FPwg51QUNz2vw=;
-        b=QvEvnEPfb2VRmo4eHjON5Xh85xUVPRulMVFI1yedVvt8pm0+T1GVcM5dSnTqv11ZNJ
-         MkarAY8wUSfbHKuqEJR1Za2URpe2JT0ING/9F96fc/VbShFIYZfzzbQs6cz3sYnAr+BV
-         XJf4i9M5jdVZREO+Tbo+6paT8ykYi7P9S9OcBeAy8ZjFMhi6NtPUoUpfMfklP1QTGxZF
-         cD/kjsvrjZ2L8ZLrcdmlFyq236rq3PYOgymZ6BdJXLbKR7k9blfbUPZIY/+U0F+qH44m
-         rk5F5ero5iZOdtHD4NtiiZJVJcNhIII2jVHWfsoqCpLh9k9+FdzkAHyiyqITAZkQZ4L9
-         bc4w==
-X-Gm-Message-State: ACgBeo3AlJL06ogUBJP6lP3B/LhgriaTvlvJeo1s6woEfsD4HWGkmANJ
-        migUuQ6dRyGDiJnQnn48Tuw84DOnkDO81RPY+g4=
-X-Google-Smtp-Source: AA6agR4IaCF2wMNBlOtYMYUc4a6oz+UHbC5LMsSt8YcO74NjWYktGgHWVopBsY6Qa9+qBFsRGpDkq/WY8g8Z4coaPkI=
-X-Received: by 2002:a05:6214:29c2:b0:497:8b2:442 with SMTP id
- gh2-20020a05621429c200b0049708b20442mr10091445qvb.97.1661775279551; Mon, 29
- Aug 2022 05:14:39 -0700 (PDT)
+        with ESMTP id S229788AbiH2MsX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Aug 2022 08:48:23 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72AB829C87;
+        Mon, 29 Aug 2022 05:33:45 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 71332B80EF3;
+        Mon, 29 Aug 2022 12:33:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E524C433D7;
+        Mon, 29 Aug 2022 12:33:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1661776423;
+        bh=BVx7YbyPMDfrYRtpBOz6+GKhJ46zqHQZiBFkpP2hkz4=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=W5uumRxhoH24u+dxOE5PNQTXrfWOPCpXPp+ngZXWVHgFu2b67Ylpp9CB+nRe/3YBf
+         TUBkgCelx4d2fAo4Q74WyvGM43PpeZdKktdwXbQkwCoceJlc+tZnov1wPtznqzGNMQ
+         xiKV9SnGt0gOlj3HQrgx3vlYItWCRrYAuAWcybqBVUWVlOjCwQJO5qSZq4s3x/CBg1
+         ENSSVnwg/ToTp8H1Zi9maNgrcPoU0qyOpvci5nodSdsRSpQ0w9bN2Y6AadQojgQmbo
+         8dkVhnGnS3YvvWz8hmHY87/o616yHrBMKbhd0juM0AFqRGVZxFOHhTHRw+tsOPYKFF
+         GXjqzfKRIEqdw==
+Date:   Mon, 29 Aug 2022 15:33:34 +0300
+From:   Jarkko Sakkinen <jarkko@kernel.org>
+To:     Roberto Sassu <roberto.sassu@huaweicloud.com>
+Cc:     ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org,
+        martin.lau@linux.dev, song@kernel.org, yhs@fb.com,
+        john.fastabend@gmail.com, kpsingh@kernel.org, sdf@google.com,
+        haoluo@google.com, jolsa@kernel.org, mykolal@fb.com,
+        corbet@lwn.net, dhowells@redhat.com, rostedt@goodmis.org,
+        mingo@redhat.com, paul@paul-moore.com, jmorris@namei.org,
+        serge@hallyn.com, shuah@kernel.org, bpf@vger.kernel.org,
+        linux-doc@vger.kernel.org, keyrings@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
+        deso@posteo.net, Roberto Sassu <roberto.sassu@huawei.com>
+Subject: Re: [PATCH v14 04/10] KEYS: Move KEY_LOOKUP_ to include/linux/key.h
+ and add flags check function
+Message-ID: <YwyyHr0udrOIy7IX@kernel.org>
+References: <acae432697e854748d9a44c732ec8cab807d9d46.camel@huaweicloud.com>
+ <20220826091228.1701185-1-roberto.sassu@huaweicloud.com>
+ <6d85d7b1f0c2341698e88bad025bd6e0b34c7666.camel@huaweicloud.com>
+ <YwroKjo7IkQDepp5@kernel.org>
+ <YwrpL9b3NXtjnPru@kernel.org>
+ <cead9f6ad77a66425324a880bd1df389fe258d40.camel@huaweicloud.com>
 MIME-Version: 1.0
-References: <20220826144629.11507-1-ilpo.jarvinen@linux.intel.com>
- <20220826144629.11507-4-ilpo.jarvinen@linux.intel.com> <CAHp75Vc4NfZE6DxFnfeAS9fxnZHpxMjacHy1TsG8ib+FiCqFLQ@mail.gmail.com>
- <1712a4c5-638-4e63-af29-32bdcbaab443@linux.intel.com>
-In-Reply-To: <1712a4c5-638-4e63-af29-32bdcbaab443@linux.intel.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Mon, 29 Aug 2022 15:14:03 +0300
-Message-ID: <CAHp75VcozE+AYMoTpjPf0sdPNMqjdO8Z1cpF2wU4FfzhnAaZng@mail.gmail.com>
-Subject: Re: [PATCH 3/3] serial: Add kserial_rs485 to avoid wasted space due
- to .padding
-To:     =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jirislaby@kernel.org>,
-        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Vladimir Zapolskiy <vz@mleia.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Richard Genoud <richard.genoud@gmail.com>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Claudiu Beznea <claudiu.beznea@microchip.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Linux Documentation List <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
-        linux-stm32@st-md-mailman.stormreply.com,
-        Lino Sanfilippo <LinoSanfilippo@gmx.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cead9f6ad77a66425324a880bd1df389fe258d40.camel@huaweicloud.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Aug 29, 2022 at 3:09 PM Ilpo J=C3=A4rvinen
-<ilpo.jarvinen@linux.intel.com> wrote:
-> On Fri, 26 Aug 2022, Andy Shevchenko wrote:
-> > On Fri, Aug 26, 2022 at 5:51 PM Ilpo J=C3=A4rvinen
-> > <ilpo.jarvinen@linux.intel.com> wrote:
+On Mon, Aug 29, 2022 at 09:25:05AM +0200, Roberto Sassu wrote:
+> On Sun, 2022-08-28 at 07:03 +0300, Jarkko Sakkinen wrote:
+> > On Sun, Aug 28, 2022 at 06:59:41AM +0300, Jarkko Sakkinen wrote:
+> > > On Fri, Aug 26, 2022 at 11:22:54AM +0200, Roberto Sassu wrote:
+> > > > On Fri, 2022-08-26 at 11:12 +0200, Roberto Sassu wrote:
+> > > > > From: Roberto Sassu <roberto.sassu@huawei.com>
+> > > > > 
+> > > > > In preparation for the patch that introduces the
+> > > > > bpf_lookup_user_key() eBPF
+> > > > > kfunc, move KEY_LOOKUP_ definitions to include/linux/key.h, to
+> > > > > be
+> > > > > able to
+> > > > > validate the kfunc parameters.
+> > > > > 
+> > > > > Also, introduce key_lookup_flags_valid() to check if the caller
+> > > > > set
+> > > > > in the
+> > > > > argument only defined flags. Introduce it directly in
+> > > > > include/linux/key.h,
+> > > > > to reduce the risk that the check is not in sync with currently
+> > > > > defined
+> > > > > flags.
+> > > > > 
+> > > > > Signed-off-by: Roberto Sassu <roberto.sassu@huawei.com>
+> > > > > Reviewed-by: KP Singh <kpsingh@kernel.org>
+> > > > 
+> > > > Jarkko, could you please ack it if it is fine?
+> > > 
+> > > So, as said I'm not really confident that a function is
+> > > even needed in the first place. It's fine if there are
+> > > enough call sites to make it legit.
+> > 
+> > And *if* a named constant is enough, you could probably
+> > then just squash to the same patch that uses it, right?
+> 
+> Yes, the constant seems better. Maybe, I would add in the same patch
+> that exports the lookup flags, since we have that.
 
-...
+Yeah, then it would be probably easier to review too
+since it is "in the context".
 
-> > > +       *rs485 =3D *((struct kserial_rs485 *)&rs485_uapi);
-> >
-> > So with all assets we have we can be sure that on BE64 / BE32 machines
-> > this will be flawless. Is this assumption correct?
->
-> I think so. At worst it could trigger a build fail assuming the kernel
-> would do some really odd struct layout reordering (which, according to
-> the build bot, doesn't occur for any currently tested arch).
->
-> Now that you highlighted this line though, I started to wonder if it woul=
-d
-> be just better to use memcpy() instead as it would avoid those casts.
-
-Actually the current version might be better since the compiler will
-be aware of the types, but it still requires a proper layout of the
-fields. That said, I leave it for you.
-
---=20
-With Best Regards,
-Andy Shevchenko
+BR, Jarkko
