@@ -2,77 +2,101 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B551ECAAD2
-	for <linux-doc@archiver.kernel.org>; Mon, 29 Aug 2022 15:41:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C897BECAAD2
+	for <linux-doc@archiver.kernel.org>; Mon, 29 Aug 2022 15:47:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229625AbiH2Plm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 29 Aug 2022 11:41:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42536 "EHLO
+        id S229886AbiH2PrW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 29 Aug 2022 11:47:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48568 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229447AbiH2Plk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Aug 2022 11:41:40 -0400
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9150586703;
-        Mon, 29 Aug 2022 08:41:37 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:73:8b7:7001:c8aa:b65f])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id C75D34B7;
-        Mon, 29 Aug 2022 15:41:36 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net C75D34B7
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1661787696; bh=0+NvBxJ3q6Y6SArSwNFX5UXKy5DkKeZ4bXo8+55AO6E=;
-        h=From:To:Cc:Subject:Date:From;
-        b=WePNp1+Hf8dRm1Xr0+H+EsEz9wyr7pL12TdbsqN6wQbNla3CrJiPUxXZJMoe9jT5m
-         QdnENUHoMhnVIIFA9m2nEydGPKmYWK8wuWbyq82WFRdvqbgYPG2erDXxjFQwWqjiC2
-         0XSzj9iZKGI6ce8bbM0NUlx95HBe+549J8AR6xXWm81PRDq+nQU3e5JHvcHwblQr5b
-         M7T8/eLFmEaz9GmoIqPe1lKXRuSQt3ZmyAPzFkaePs2V9mooruI0eOYmRlxyLN69WB
-         Ydio1e/nkmIryU1iPPcp6PUkemVbs4IyQ+c00HGNs+hBiU/h6WbMVwN3PrMfKY+Bo6
-         PW7ftIM6aG7ow==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Linus Torvalds <torvalds@linuxfoundation.org>
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: [GIT PULL] Documentation fixes for 6.0
-Date:   Mon, 29 Aug 2022 09:41:35 -0600
-Message-ID: <871qszrr9s.fsf@meer.lwn.net>
+        with ESMTP id S229631AbiH2PrV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Aug 2022 11:47:21 -0400
+Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17C4188DE6;
+        Mon, 29 Aug 2022 08:47:19 -0700 (PDT)
+Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
+        by mx07-00178001.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 27TCsCdh017555;
+        Mon, 29 Aug 2022 17:47:01 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=from : to : cc :
+ subject : date : message-id : in-reply-to : references : mime-version :
+ content-transfer-encoding : content-type; s=selector1;
+ bh=RdEwrkIquuRU3qsHgDtPW7Zm8iWX7XLfjhLyYDrAEXE=;
+ b=h/tRsjnSsDIgUejgmJSGoRvD3HBvz04p/OPEXxj/qpTHh6Ip576fJFSMiShQLY9t0Hwq
+ DwIxw5P5wXW9NjgLkPqNYfcPQR6quGFVUPtugYpfFOC5wTwC6KvHaL7KdxbcULWIav/z
+ kf/kGyaKEAteH4PSRbBiXBWwUVzitOmJofFkF7nbCBym1zCMqrOWSpTRYf5G89cx0gab
+ Zdj84FRdlyl865+4YBMGEedS182x0KNlezWbDu61af8zlNRVcMkzcuCYhx2SZF/nUS2w
+ 5rCXyk4Mf7mc7BXYpeo2DZ5S6p6S+QI8hoWn9VNuuYJYvY31meEwNzZeo+s5QLr/P6zF Nw== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+        by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3j7a5htmxd-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 29 Aug 2022 17:47:01 +0200
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 5C231100040;
+        Mon, 29 Aug 2022 17:47:00 +0200 (CEST)
+Received: from Webmail-eu.st.com (shfdag1node2.st.com [10.75.129.70])
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 57E4A236927;
+        Mon, 29 Aug 2022 17:47:00 +0200 (CEST)
+Received: from localhost (10.75.127.44) by SHFDAG1NODE2.st.com (10.75.129.70)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.2375.7; Mon, 29 Aug
+ 2022 17:46:59 +0200
+From:   Amelie Delaunay <amelie.delaunay@foss.st.com>
+To:     Jonathan Corbet <corbet@lwn.net>, Vinod Koul <vkoul@kernel.org>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>
+CC:     <linux-doc@vger.kernel.org>, <dmaengine@vger.kernel.org>,
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>, Marek Vasut <marex@denx.de>,
+        Amelie Delaunay <amelie.delaunay@foss.st.com>
+Subject: [RESEND PATCH v3 4/6] dmaengine: stm32-dmamux: set dmamux channel id in dma features bitfield
+Date:   Mon, 29 Aug 2022 17:46:44 +0200
+Message-ID: <20220829154646.29867-5-amelie.delaunay@foss.st.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220829154646.29867-1-amelie.delaunay@foss.st.com>
+References: <20220829154646.29867-1-amelie.delaunay@foss.st.com>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
+X-Originating-IP: [10.75.127.44]
+X-ClientProxiedBy: SFHDAG2NODE3.st.com (10.75.127.6) To SHFDAG1NODE2.st.com
+ (10.75.129.70)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-08-29_07,2022-08-25_01,2022-06-22_01
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The following changes since commit 568035b01cfb107af8d2e4bd2fb9aea22cf5b868:
+STM32 DMAMUX is used with STM32 DMA1 and DMA2:
+- DMAMUX channels 0 to 7 are connected to DMA1 channels 0 to 7
+- DMAMUX channels 8 to 15 are connected to DMA2 channels 0 to 7
 
-  Linux 6.0-rc1 (2022-08-14 15:50:18 -0700)
+STM32 MDMA can be triggered by DMA1 and DMA2 channels transfer complete,
+and the "request line number" is the DMAMUX channel id (e.g. DMA2 channel 0
+triggers MDMA with request line 8).
 
-are available in the Git repository at:
+To well configure MDMA, set DMAMUX channel id in DMA features bitfield,
+so that DMA can update struct dma_slave_config peripheral_config properly.
 
-  git://git.lwn.net/linux.git tags/docs-6.0-fixes
+Signed-off-by: Amelie Delaunay <amelie.delaunay@foss.st.com>
+---
+ drivers/dma/stm32-dmamux.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-for you to fetch changes up to 5479d6d4bf122d4b137659559a7bd17784b97b7e:
+diff --git a/drivers/dma/stm32-dmamux.c b/drivers/dma/stm32-dmamux.c
+index eee0c5aa5fb5..b431f9da9206 100644
+--- a/drivers/dma/stm32-dmamux.c
++++ b/drivers/dma/stm32-dmamux.c
+@@ -147,7 +147,7 @@ static void *stm32_dmamux_route_allocate(struct of_phandle_args *dma_spec,
+ 	mux->request = dma_spec->args[0];
+ 
+ 	/*  craft DMA spec */
+-	dma_spec->args[3] = dma_spec->args[2];
++	dma_spec->args[3] = dma_spec->args[2] | mux->chan_id << 16;
+ 	dma_spec->args[2] = dma_spec->args[1];
+ 	dma_spec->args[1] = 0;
+ 	dma_spec->args[0] = mux->chan_id - min;
+-- 
+2.25.1
 
-  docs/conf.py: add function attribute '__fix_address' to conf.py (2022-08-26 16:47:13 -0600)
-
-----------------------------------------------------------------
-A handful of fixes for documentation and the docs build system.
-
-----------------------------------------------------------------
-Akira Yokosawa (2):
-      docs: kerneldoc-preamble: Test xeCJK.sty before loading
-      docs/ja_JP/SubmittingPatches: Remove reference to submitting-drivers.rst
-
-Kairui Song (1):
-      Docs/admin-guide/mm/damon/usage: fix the example code snip
-
-Lukas Bulwahn (1):
-      docs: Update version number from 5.x to 6.x in README.rst
-
-Menglong Dong (1):
-      docs/conf.py: add function attribute '__fix_address' to conf.py
-
- Documentation/admin-guide/README.rst               | 30 +++++++++++-----------
- Documentation/admin-guide/mm/damon/usage.rst       | 18 ++++++-------
- Documentation/conf.py                              |  1 +
- Documentation/sphinx/kerneldoc-preamble.sty        | 22 +++++++++++-----
- Documentation/translations/ja_JP/SubmittingPatches |  3 +--
- 5 files changed, 42 insertions(+), 32 deletions(-)
