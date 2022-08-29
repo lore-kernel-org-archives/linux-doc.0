@@ -2,85 +2,142 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B91B1ECAAD4
-	for <linux-doc@archiver.kernel.org>; Mon, 29 Aug 2022 10:00:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CA1BECAAD5
+	for <linux-doc@archiver.kernel.org>; Mon, 29 Aug 2022 12:04:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229876AbiH2J76 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 29 Aug 2022 05:59:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46158 "EHLO
+        id S229851AbiH2MEN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 29 Aug 2022 08:04:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33212 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229844AbiH2J75 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Aug 2022 05:59:57 -0400
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 0895D5F84;
-        Mon, 29 Aug 2022 02:59:53 -0700 (PDT)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 00B3A23A;
-        Mon, 29 Aug 2022 02:59:59 -0700 (PDT)
-Received: from [10.57.14.18] (unknown [10.57.14.18])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C2A483F882;
-        Mon, 29 Aug 2022 02:59:51 -0700 (PDT)
-Message-ID: <9fc3d98c-9262-e737-3bfa-ffd2c913428f@arm.com>
-Date:   Mon, 29 Aug 2022 10:59:50 +0100
+        with ESMTP id S229509AbiH2MDs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Aug 2022 08:03:48 -0400
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C1ED89810;
+        Mon, 29 Aug 2022 04:48:54 -0700 (PDT)
+Received: by mail-wr1-f49.google.com with SMTP id az27so9831033wrb.6;
+        Mon, 29 Aug 2022 04:48:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=user-agent:content-disposition:mime-version:message-id:subject:to
+         :from:date:from:to:cc;
+        bh=/Di7lkoE4PMDXxx+KkgEBZLTyvjkUh6iLYQL6rsJ/+4=;
+        b=kaLiTO3uz69oCN4+obPyA7IvFEwMUQt4ZXB/gpCbSytpTKaDsW0nIRGyUJlrfFsdvE
+         mTMdi/Z4w215r5xJBREm+A9DCZWdKMDh9eP4c8/x3R5xGY1Hj6pf8n0K/p2+vM2pyS5q
+         EH0TfHmeSyxe2CLjCBzM+P4TTrUSlSTU/5kLYioLrW6im0+coy5EfOhPV1wi9aFRYsKQ
+         hdcV+CcTtuR2pH8q0XIYhRZxh8JLh0rNtGd2NdQ2X3bDN1rkv3ZahAOHeRI+AXcweHvy
+         isZDOgf8r2OYCTu57efimyUr2retjmscs1Oo6dcHFsHyruJqIe81Jp4UvEJuyYovbuz2
+         4y9w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=user-agent:content-disposition:mime-version:message-id:subject:to
+         :from:date:x-gm-message-state:from:to:cc;
+        bh=/Di7lkoE4PMDXxx+KkgEBZLTyvjkUh6iLYQL6rsJ/+4=;
+        b=chtjH6W5gh6gGEp5VMHs68GGc3Nr+S0YFlEU2je8FdMhdQbHelfiKvHhH8GKOikjVf
+         QU7XLyuDHXLZUzPfNrSvWqlA6Vl6IZelO2BkJdTn4DQYry147GqCAbAh67vV5fEPdRqN
+         PJuaI/LH96yullbCgk6yYc2CY+cWL0IEMV658D6lia+VWJLuqLmIXC4Sx92UgXI86a0D
+         XksO4wJotQ5LsO2e0hdE/w62dUOm4IpufRH/ktdfyz/jSl/mE/ju+WAMRB+PDYetTXn2
+         LqG3JLyDH9NXsIc+SHIYedpPGSaMucumE2FB4K+OJdvEquQMnLBtT3k6ZswgGiSNQRi3
+         W6nQ==
+X-Gm-Message-State: ACgBeo2dGpJAmrz/DzEbvpwZVbkqKsImg1/+K8tQS117HBZBW6F+e7TU
+        Ooj9Jfufj9PjSWk5LeAOOEE=
+X-Google-Smtp-Source: AA6agR6Q8pcDSR2sGpo6Z+/Xk8vC5hvOIOH6YppdFlNOZIdRGVsL+2Mi1+jD+E1YNRyMMa7NoROLsA==
+X-Received: by 2002:a5d:64e9:0:b0:220:7dd7:63eb with SMTP id g9-20020a5d64e9000000b002207dd763ebmr6085539wri.590.1661773583790;
+        Mon, 29 Aug 2022 04:46:23 -0700 (PDT)
+Received: from debian ([89.238.191.199])
+        by smtp.gmail.com with ESMTPSA id i13-20020a05600c354d00b003a5f4fccd4asm8896858wmq.35.2022.08.29.04.46.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 29 Aug 2022 04:46:23 -0700 (PDT)
+Date:   Mon, 29 Aug 2022 13:44:35 +0200
+From:   Richard Gobert <richardbgobert@gmail.com>
+To:     davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+        pabeni@redhat.com, corbet@lwn.net, yoshfuji@linux-ipv6.org,
+        dsahern@kernel.org, alex.aring@gmail.com,
+        stefan@datenfreihafen.org, pablo@netfilter.org,
+        kadlec@netfilter.org, fw@strlen.de, kafai@fb.com,
+        netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-wpan@vger.kernel.org,
+        netfilter-devel@vger.kernel.org, coreteam@netfilter.org
+Subject: [PATCH 0/4] net-next: frags: add adaptive per-peer timeout under load
+Message-ID: <20220829114427.GA2311@debian>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH] docs: scheduler: Update new path for the sysctl knobs
-Content-Language: en-US
-To:     corbet@lwn.net
-Cc:     siyanteng@loongson.cn, alexs@kernel.org, peterz@infradead.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20220816121907.841-1-lukasz.luba@arm.com>
-From:   Lukasz Luba <lukasz.luba@arm.com>
-In-Reply-To: <20220816121907.841-1-lukasz.luba@arm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Jonathan,
+This patch series introduces an optimization of fragment queues under
+load.
+
+The goal is to improve upon the current approach of static timeouts
+(frag_timeout, 30 seconds by default) by implementing Eric's
+suggestion of reducing timeouts under load [1], with additional
+considerations for peer-specific load.
+
+The timeout reduction is done dynamically per peer, based on both
+global and peer-specific load. low_thresh is reintroduced and now acts 
+as a knob for adjusting per-peer memory limits.
+
+A comparison of netperf results before and after applying the patch:
+
+Before:
+    [vm1 ~]# ./super_netperf.sh 10 -H 172.16.43.3 -l 60 -t UDP_STREAM
+    103.23
+
+After:
+    [vm1 ~]# ./super_netperf.sh 10 -H 172.16.43.3 -l 60 -t UDP_STREAM
+    576.17
+
+And another benchmark of a more specific use case.
+One high-bandwidth memory-hogging peer (vm1), and another "average"
+client (vm2), attempting to communicate with the same server:
+
+Before:
+    [vm1 ~]# ./super_netperf.sh 10 -H 172.16.43.3 -l 60 -t UDP_STREAM
+	42.57
+	[vm2 ~]# ./super_netperf.sh 1 -H 172.16.43.3 -l 60 -t UDP_STREAM
+	50.93
+
+After:
+    [vm1 ~]# ./super_netperf.sh 10 -H 172.16.43.3 -l 60 -t UDP_STREAM
+	420.65
+	[vm2 ~]# ./super_netperf.sh 1 -H 172.16.43.3 -l 60 -t UDP_STREAM
+	624.79
 
 
-On 8/16/22 13:19, Lukasz Luba wrote:
-> Add missing update for the documentation bit of some scheduler knob.
-> The knobs have been moved to /debug/sched/ location (with adjusted names).
-> 
-> Signed-off-by: Lukasz Luba <lukasz.luba@arm.com>
-> ---
->   Documentation/scheduler/sched-design-CFS.rst                    | 2 +-
->   Documentation/translations/zh_CN/scheduler/sched-design-CFS.rst | 2 +-
->   2 files changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/scheduler/sched-design-CFS.rst b/Documentation/scheduler/sched-design-CFS.rst
-> index 59b2d1fb4dc4..03db55504515 100644
-> --- a/Documentation/scheduler/sched-design-CFS.rst
-> +++ b/Documentation/scheduler/sched-design-CFS.rst
-> @@ -94,7 +94,7 @@ other HZ detail.  Thus the CFS scheduler has no notion of "timeslices" in the
->   way the previous scheduler had, and has no heuristics whatsoever.  There is
->   only one central tunable (you have to switch on CONFIG_SCHED_DEBUG):
->   
-> -   /proc/sys/kernel/sched_min_granularity_ns
-> +   /sys/kernel/debug/sched/min_granularity_ns
->   
->   which can be used to tune the scheduler from "desktop" (i.e., low latencies) to
->   "server" (i.e., good batching) workloads.  It defaults to a setting suitable
-> diff --git a/Documentation/translations/zh_CN/scheduler/sched-design-CFS.rst b/Documentation/translations/zh_CN/scheduler/sched-design-CFS.rst
-> index 26b0f36f793d..3076402406c4 100644
-> --- a/Documentation/translations/zh_CN/scheduler/sched-design-CFS.rst
-> +++ b/Documentation/translations/zh_CN/scheduler/sched-design-CFS.rst
-> @@ -80,7 +80,7 @@ p->se.vruntime。一旦p->se.vruntime变得足够大，其它的任务将成为
->   CFS使用纳秒粒度的计时，不依赖于任何jiffies或HZ的细节。因此CFS并不像之前的调度器那样
->   有“时间片”的概念，也没有任何启发式的设计。唯一可调的参数（你需要打开CONFIG_SCHED_DEBUG）是：
->   
-> -   /proc/sys/kernel/sched_min_granularity_ns
-> +   /sys/kernel/debug/sched/min_granularity_ns
->   
->   它可以用来将调度器从“桌面”模式（也就是低时延）调节为“服务器”（也就是高批处理）模式。
->   它的默认设置是适合桌面的工作负载。SCHED_BATCH也被CFS调度器模块处理。
+These benchmarks were done using the following configuration:
 
-
-Gentle ping. Could you take this patch, please?
+[vm3 ~]# grep . /proc/sys/net/ipv4/ipfrag_*
+/proc/sys/net/ipv4/ipfrag_high_thresh:104857600
+/proc/sys/net/ipv4/ipfrag_low_thresh:78643200
+/proc/sys/net/ipv4/ipfrag_max_dist:64
+/proc/sys/net/ipv4/ipfrag_secret_interval:0
+/proc/sys/net/ipv4/ipfrag_time:30
 
 Regards,
-Lukasz
+Richard
+
+[1] https://www.mail-archive.com/netdev@vger.kernel.org/msg242228.html
+
+Richard Gobert (4):
+  net-next: frags: move inetpeer from ip4 to inet
+  net-next: ip6: fetch inetpeer in ip6frag_init
+  net-next: frags: add inetpeer frag_mem tracking
+  net-next: frags: dynamic timeout under load
+
+ Documentation/networking/ip-sysctl.rst  |  3 +
+ include/net/inet_frag.h                 | 13 ++---
+ include/net/inetpeer.h                  |  1 +
+ include/net/ipv6_frag.h                 |  3 +
+ net/ieee802154/6lowpan/reassembly.c     |  2 +-
+ net/ipv4/inet_fragment.c                | 77 ++++++++++++++++++++++---
+ net/ipv4/inetpeer.c                     |  1 +
+ net/ipv4/ip_fragment.c                  | 25 ++------
+ net/ipv6/netfilter/nf_conntrack_reasm.c |  2 +-
+ net/ipv6/reassembly.c                   |  2 +-
+ 10 files changed, 89 insertions(+), 40 deletions(-)
+
+-- 
+2.36.1
+
