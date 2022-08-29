@@ -2,150 +2,77 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0685CECAAD5
-	for <linux-doc@archiver.kernel.org>; Mon, 29 Aug 2022 15:26:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B551ECAAD2
+	for <linux-doc@archiver.kernel.org>; Mon, 29 Aug 2022 15:41:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229753AbiH2P0B (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 29 Aug 2022 11:26:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52306 "EHLO
+        id S229625AbiH2Plm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 29 Aug 2022 11:41:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42536 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229616AbiH2P0A (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Aug 2022 11:26:00 -0400
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A225E4057F;
-        Mon, 29 Aug 2022 08:25:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1661786759; x=1693322759;
-  h=date:from:to:cc:subject:message-id:reply-to:references:
-   mime-version:in-reply-to;
-  bh=xYdvX1PhD3Iug/xG1oZ0ioxeY0YVxwImFkNf9/6SStg=;
-  b=hWdzhzZFwVFA5mNu2jfoAjjGOwCGsK2Gc/vg0/6FixGLwv3ntrqwitCK
-   VE6ndI3r/6otqMBw8JEsVzE5Uvbi/ZSAQykMllBg3Os/pnVAIiKDQ3HlU
-   xY8Mm+ZFTSV9saVBR+6PNPX7tq+VZ9yawCIUBIumHjZdFcPxvgBx/E3Wf
-   JUsBTpRrE9g78IiId9/G7QTrxEnvaGlM/RBE6JeQtJBDW59hyOHCPVh3l
-   fzXbNNS8fkrr/PwYRG00grNSj7LWGVQw2NMn4yVzBs2ZVxNvrULoSRhqH
-   HXjd3AKajILPJoJ8tZPmlIueFtvJCTwUtMVM2nS+Sq6ft3iTb/SW5KvIP
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10454"; a="358886403"
-X-IronPort-AV: E=Sophos;i="5.93,272,1654585200"; 
-   d="scan'208";a="358886403"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2022 08:25:59 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,272,1654585200"; 
-   d="scan'208";a="640973244"
-Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
-  by orsmga008.jf.intel.com with ESMTP; 29 Aug 2022 08:25:49 -0700
-Date:   Mon, 29 Aug 2022 23:21:07 +0800
-From:   Chao Peng <chao.p.peng@linux.intel.com>
-To:     Fuad Tabba <tabba@google.com>
-Cc:     kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-        linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
-        qemu-devel@nongnu.org, linux-kselftest@vger.kernel.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <seanjc@google.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Hugh Dickins <hughd@google.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
-        ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
-        ddutile@redhat.com, dhildenb@redhat.com,
-        Quentin Perret <qperret@google.com>,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        Muchun Song <songmuchun@bytedance.com>
-Subject: Re: [PATCH v7 11/14] KVM: Register/unregister the guest private
- memory regions
-Message-ID: <20220829152107.GD1586678@chaop.bj.intel.com>
-Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
-References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
- <20220706082016.2603916-12-chao.p.peng@linux.intel.com>
- <CA+EHjTzpb2PcGBbN61YqMWdQ5f-55Lt12ALHQ0pdwtGvV8nS8g@mail.gmail.com>
+        with ESMTP id S229447AbiH2Plk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Aug 2022 11:41:40 -0400
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9150586703;
+        Mon, 29 Aug 2022 08:41:37 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:281:8300:73:8b7:7001:c8aa:b65f])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id C75D34B7;
+        Mon, 29 Aug 2022 15:41:36 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net C75D34B7
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1661787696; bh=0+NvBxJ3q6Y6SArSwNFX5UXKy5DkKeZ4bXo8+55AO6E=;
+        h=From:To:Cc:Subject:Date:From;
+        b=WePNp1+Hf8dRm1Xr0+H+EsEz9wyr7pL12TdbsqN6wQbNla3CrJiPUxXZJMoe9jT5m
+         QdnENUHoMhnVIIFA9m2nEydGPKmYWK8wuWbyq82WFRdvqbgYPG2erDXxjFQwWqjiC2
+         0XSzj9iZKGI6ce8bbM0NUlx95HBe+549J8AR6xXWm81PRDq+nQU3e5JHvcHwblQr5b
+         M7T8/eLFmEaz9GmoIqPe1lKXRuSQt3ZmyAPzFkaePs2V9mooruI0eOYmRlxyLN69WB
+         Ydio1e/nkmIryU1iPPcp6PUkemVbs4IyQ+c00HGNs+hBiU/h6WbMVwN3PrMfKY+Bo6
+         PW7ftIM6aG7ow==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Linus Torvalds <torvalds@linuxfoundation.org>
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: [GIT PULL] Documentation fixes for 6.0
+Date:   Mon, 29 Aug 2022 09:41:35 -0600
+Message-ID: <871qszrr9s.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CA+EHjTzpb2PcGBbN61YqMWdQ5f-55Lt12ALHQ0pdwtGvV8nS8g@mail.gmail.com>
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Aug 26, 2022 at 04:19:43PM +0100, Fuad Tabba wrote:
-> > +bool __weak kvm_arch_private_mem_supported(struct kvm *kvm)
-> > +{
-> > +       return false;
-> > +}
-> > +
-> >  static int check_memory_region_flags(const struct kvm_user_mem_region *mem)
-> >  {
-> >         u32 valid_flags = KVM_MEM_LOG_DIRTY_PAGES;
-> > @@ -4689,6 +4729,22 @@ static long kvm_vm_ioctl(struct file *filp,
-> >                 r = kvm_vm_ioctl_set_memory_region(kvm, &mem);
-> >                 break;
-> >         }
-> > +#ifdef CONFIG_HAVE_KVM_PRIVATE_MEM
-> > +       case KVM_MEMORY_ENCRYPT_REG_REGION:
-> > +       case KVM_MEMORY_ENCRYPT_UNREG_REGION: {
-> > +               struct kvm_enc_region region;
-> > +
-> > +               if (!kvm_arch_private_mem_supported(kvm))
-> > +                       goto arch_vm_ioctl;
-> > +
-> > +               r = -EFAULT;
-> > +               if (copy_from_user(&region, argp, sizeof(region)))
-> > +                       goto out;
-> > +
-> > +               r = kvm_vm_ioctl_set_encrypted_region(kvm, ioctl, &region);
-> > +               break;
-> > +       }
-> > +#endif
-> >         case KVM_GET_DIRTY_LOG: {
-> >                 struct kvm_dirty_log log;
-> >
-> > @@ -4842,6 +4898,7 @@ static long kvm_vm_ioctl(struct file *filp,
-> >                 r = kvm_vm_ioctl_get_stats_fd(kvm);
-> >                 break;
-> >         default:
-> > +arch_vm_ioctl:
-> 
-> It might be good to make this label conditional on
-> CONFIG_HAVE_KVM_PRIVATE_MEM, otherwise you get a warning if
-> CONFIG_HAVE_KVM_PRIVATE_MEM isn't defined.
-> 
-> +#ifdef CONFIG_HAVE_KVM_PRIVATE_MEM
->  arch_vm_ioctl:
-> +#endif
+The following changes since commit 568035b01cfb107af8d2e4bd2fb9aea22cf5b868:
 
-Right, as the bot already complains.
+  Linux 6.0-rc1 (2022-08-14 15:50:18 -0700)
 
-Chao
-> 
-> Cheers,
-> /fuad
-> 
-> 
-> 
-> 
-> 
-> >                 r = kvm_arch_vm_ioctl(filp, ioctl, arg);
-> >         }
-> >  out:
-> > --
-> > 2.25.1
-> >
+are available in the Git repository at:
+
+  git://git.lwn.net/linux.git tags/docs-6.0-fixes
+
+for you to fetch changes up to 5479d6d4bf122d4b137659559a7bd17784b97b7e:
+
+  docs/conf.py: add function attribute '__fix_address' to conf.py (2022-08-26 16:47:13 -0600)
+
+----------------------------------------------------------------
+A handful of fixes for documentation and the docs build system.
+
+----------------------------------------------------------------
+Akira Yokosawa (2):
+      docs: kerneldoc-preamble: Test xeCJK.sty before loading
+      docs/ja_JP/SubmittingPatches: Remove reference to submitting-drivers.rst
+
+Kairui Song (1):
+      Docs/admin-guide/mm/damon/usage: fix the example code snip
+
+Lukas Bulwahn (1):
+      docs: Update version number from 5.x to 6.x in README.rst
+
+Menglong Dong (1):
+      docs/conf.py: add function attribute '__fix_address' to conf.py
+
+ Documentation/admin-guide/README.rst               | 30 +++++++++++-----------
+ Documentation/admin-guide/mm/damon/usage.rst       | 18 ++++++-------
+ Documentation/conf.py                              |  1 +
+ Documentation/sphinx/kerneldoc-preamble.sty        | 22 +++++++++++-----
+ Documentation/translations/ja_JP/SubmittingPatches |  3 +--
+ 5 files changed, 42 insertions(+), 32 deletions(-)
