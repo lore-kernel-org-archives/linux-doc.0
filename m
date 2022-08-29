@@ -2,160 +2,301 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C5905ECAAD4
-	for <linux-doc@archiver.kernel.org>; Mon, 29 Aug 2022 22:05:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 514F9ECAAD8
+	for <linux-doc@archiver.kernel.org>; Mon, 29 Aug 2022 22:16:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229796AbiH2WFq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 29 Aug 2022 18:05:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35920 "EHLO
+        id S229896AbiH2WQD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 29 Aug 2022 18:16:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49328 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229561AbiH2WFp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Aug 2022 18:05:45 -0400
-Received: from mx0a-00082601.pphosted.com (mx0b-00082601.pphosted.com [67.231.153.30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD7FF33E09;
-        Mon, 29 Aug 2022 15:05:43 -0700 (PDT)
-Received: from pps.filterd (m0001303.ppops.net [127.0.0.1])
-        by m0001303.ppops.net (8.17.1.5/8.17.1.5) with ESMTP id 27TKdrJs024754;
-        Mon, 29 Aug 2022 15:05:42 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com; h=from : to : cc : subject
- : date : message-id : references : in-reply-to : content-type : content-id
- : mime-version; s=facebook;
- bh=ZcYmNFLxXsRWF4znixJUyLr3Q0wc/lyozG3+ZPl9yJ4=;
- b=greskHZZT/pA/p+wjTXpeyGmNzF6vN9B5fHEbLcPYXT5gn8sbvJqcxnVR0uBR5Bqvgo0
- 5X7H7ambJEJ0lY6P5xO6+jVhu2orogNwGVywredfhalMqF+4p5P5kM8bnc7qq8Fulw8v
- QNO3TGuHpJldSE08SgnRYkTrcXhDmxdNMnI= 
-Received: from nam11-co1-obe.outbound.protection.outlook.com (mail-co1nam11lp2175.outbound.protection.outlook.com [104.47.56.175])
-        by m0001303.ppops.net (PPS) with ESMTPS id 3j7exyd1x8-2
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 29 Aug 2022 15:05:42 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=XYec2DwJpeKBcfxkDABbb+swgPesZAlaAT8m4xAvi/NHggl+tyZTkv1e3PohgZXQqhX8hwIgQPgwrxnmJneW893rlcB5xJzqP4HxIX2vWOKv4czI2iXaP+gsMLq1UnOvVndb1EXbpWkfNAKqb/gGjeFCM6Fcvh2KUrQzxjhS6D80XWSz1e5i08oZt7MB9eskt8105aJVNkq5P1uPX9gwFZu+ki+VoOONbqQUDkbw0cfKeF8bFTJ3fHtTjN3rauaDE59ghCO3KcAywCs5Q75zZKS92YMIVloXTMaE7buBHiAHXE9XzavFUQItimi/vMVQsMiI7WSwKS3qLxgmnozWFg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ZcYmNFLxXsRWF4znixJUyLr3Q0wc/lyozG3+ZPl9yJ4=;
- b=Cyyj4K6/bvKnILMfQrK/7KdgyK6E0mUSkpgDxRYGegjekLfp/XsPP2oUEcFNZV3fJNYJbXWTGoP8IzudeNRtvJmIpDoZ4BUGfE2IHb91J9Cf/vwXBR/OKR02/vx3qGqEoqbysziw03z7XkLZsnmgj/+K1FhU2hmmpOUyJ0IuNkNXahw1ZPIjv1c890TmTvpyVouvFxmUZayehHhLTnSpIbm6ZZFChlhJoAerSUmeaBjpnuISPW+ZFGKFhTiaiXsyX48FYqKyhdus3iT1K6SLW3Z+GfI5bzGTsW65zYa0/GErac5AK2EFI+uM4UeXNnhXvMx6iKWJnSEBys14JARYKQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=fb.com; dmarc=pass action=none header.from=fb.com; dkim=pass
- header.d=fb.com; arc=none
-Received: from CY4PR15MB1781.namprd15.prod.outlook.com (2603:10b6:910:1f::13)
- by DM6PR15MB2921.namprd15.prod.outlook.com (2603:10b6:5:144::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5566.19; Mon, 29 Aug
- 2022 22:05:06 +0000
-Received: from CY4PR15MB1781.namprd15.prod.outlook.com
- ([fe80::351d:e6bc:a9e4:4118]) by CY4PR15MB1781.namprd15.prod.outlook.com
- ([fe80::351d:e6bc:a9e4:4118%12]) with mapi id 15.20.5566.021; Mon, 29 Aug
- 2022 22:05:06 +0000
-From:   "Alex Zhu (Kernel)" <alexlzhu@fb.com>
-To:     Bagas Sanjaya <bagasdotme@gmail.com>,
-        "corbet@lwn.net" <corbet@lwn.net>
-CC:     "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Kernel Team <Kernel-team@fb.com>
-Subject: Re: [PATCH v4] docs: admin-guide/mm: Improve grammar on MM concepts
- documentation
-Thread-Topic: [PATCH v4] docs: admin-guide/mm: Improve grammar on MM concepts
- documentation
-Thread-Index: AQHYtpbbdCVpzKzPj0aoefkHiWC7Zq27zP0AgAqsnoA=
-Date:   Mon, 29 Aug 2022 22:05:06 +0000
-Message-ID: <1A48A718-5327-4D76-8D4D-1058B341220B@fb.com>
-References: <20220823021941.4021897-1-alexlzhu@fb.com>
- <a2d5343b-a159-3e6a-67f8-868e85f51222@gmail.com>
-In-Reply-To: <a2d5343b-a159-3e6a-67f8-868e85f51222@gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 644c3e47-8173-4c66-1a17-08da8a0a8829
-x-ms-traffictypediagnostic: DM6PR15MB2921:EE_
-x-fb-source: Internal
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: af+GWCTkdfSzx1EXwTMjsdWeekoNK8nBFOTkPF7dxa1ZANugwYfo6XwQqUXYj98P7A/P0i2XCO6i7Hys0Nppb8WLKFcfnyZwBJTdpRGVo+3q+RZRNCBBCxY21w1AO1hK3Lc5zah1SNxcEEdkX2kpVPomEky48u4ssVAcv9LjzO934Jc3eDt/ZYrXE6nIa5fWPMNE1mqqChw5xGfEG/QWlGEvNlLYdQzPwNTJU9QOKMaK7ptCU+ubBJ6hF7P4a8TSqRaZfBC5aSFXKXMfC0k+xkXMd7adbow9u9t2z2jIyWpN6fROS3/Lv9u2gIbmM8Fi0c2a4yqukwAEMpWq12EZ9Sb4eZ6SJHOtNRbTHOuxdjCXWqWLTphFG/sOMJyUmY3fKY1ViaPuDAubV6SXf4CXjyjYaSwP8I5FapAK7kNzxAozbNfNPbrCLeZ02GNP+MkXT7U43z1PNX0uccioz6REm9CkwaYAcMWxx2q5sJ2Z7l360fI5jjTKy1vuMrcrH9WFKLYkcBEmKzG2JAv+L7ThmUYlobG/kupgeGcLOCqzx+t227ZZHNgK9ermhaafz7g0Mj1nXQ499uDKw47aFzIYGWlHPoiPGuWsl+q8Mwqwx3kkFF3Dj56TWh+OwNinqGJASNxbWTRuPzRe9we3l2ojTjgPxxGeg7oAsjwar+hzb3PARcBy99F4f+GdmwObKhQcyIbklqua91yc5ve2pHuZUci63Ozeb3/PPLwvRQu8chvsOLcHYYLf0+iUndQFB+B5uedHr8K8Q4p+8i3CARClRDymmJYKeNu4v9u/XsTmTqw=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY4PR15MB1781.namprd15.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(396003)(346002)(376002)(136003)(366004)(39860400002)(186003)(41300700001)(6486002)(478600001)(2616005)(2906002)(4326008)(53546011)(33656002)(6512007)(86362001)(6506007)(71200400001)(36756003)(8676002)(110136005)(4744005)(64756008)(66446008)(54906003)(66556008)(38070700005)(66476007)(91956017)(8936002)(76116006)(66946007)(5660300002)(316002)(38100700002)(122000001)(45980500001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?AbixmuwuVyJAA+KvvWbx8uSPQi/VOIqBDemmSD2SZ1NVRBVXuelU5wXxKOzT?=
- =?us-ascii?Q?Si4xXX0wAU507XK156eVrWODDmOAHLpEOe4dQvTVwm6PejLV9+0GA9cpEGsq?=
- =?us-ascii?Q?p4HC1/zJplJRVaD/wVA4gVGg6Q0Q6wm9AqO4QXYr+YYXD1zT/+6K+3f+zgHb?=
- =?us-ascii?Q?M0BVeL+vtdY9dPyyzGWRMBUDIhx0lCgm2+DAj94JdJo0k0vZQWshKANAXEDj?=
- =?us-ascii?Q?d345vkL9An8PCtMZqsaGd1mFQSlLoJi428kyItbSFJtY2oh1RNhQrh0UNVKF?=
- =?us-ascii?Q?iyDAKXM/fPSFkpXKOczvnNUGWeMscj0tywJYe9sLk2NuQ7bxN6OCynprrmFF?=
- =?us-ascii?Q?ckj+inrLBTsHhHtqDa9m6SYdmuwKw3w/BHnXoMTxoMIlBDWfGDm3dP8xaUkM?=
- =?us-ascii?Q?94yg/foBzBJcQInY5ePYZV9/+8BcQQMqVECttni2wjBvd1CeEombTgkvrygL?=
- =?us-ascii?Q?JfqxJpUawIH7XNMtaDo88f0YUyGeOtejdkJN9Z4QsVz2sXGgKXmQg2OZVEPh?=
- =?us-ascii?Q?tYUOu7J/lFQbTPzk6x6PISgelsbOgEBUZDucI+yWK9oTY5myIT1Zycb/A/cN?=
- =?us-ascii?Q?n4Aii3I7NupTlSsBLaqcgIGN8ihf0R9snxoUfR6V0aTUoHmbdjym/dKCG+fi?=
- =?us-ascii?Q?um4NSFdsapVUCJKhAHFpGww1YUVxD3zjQLxD6BJkaM0TUCzuIqa18fLgyPtw?=
- =?us-ascii?Q?7rKQJT1SZClY13XoLAdEWIOuSat0fhQNbRUdggDR4E2HV8pG7rQP1jXgwCyN?=
- =?us-ascii?Q?8YLGEkLByobczLH4jxjK70+iNEEtQxuoD9dAP41hwkkQdzWUhnjq4Ahkldl0?=
- =?us-ascii?Q?uYY99eRDsmKzaTcBjnRuOgeuolTNx92jIMF5sY5MzJ1Hh53XafDstbDnM2nS?=
- =?us-ascii?Q?yJSBVOs61UR7+pG+G5IyNdi5PWJkU9idymbBy13ws1eElrqvnDcDdFCK4VJ7?=
- =?us-ascii?Q?LE5/ttoe+9XqrgwKEm9dE/IODsytZdTpFnSc8VXE+1zFnzpmoIaPrCQO/9WR?=
- =?us-ascii?Q?JgHV4A4DHuWcWYge6NpQT8AKR3hq9lyPLSMyKUVWI7wGwxg1HDQ591b/AN1K?=
- =?us-ascii?Q?ItzEXW1wV30A5gUo5cUaT0eSyAFQI03talcUWfpeR2c8dVkerO9fbqKWR2uv?=
- =?us-ascii?Q?knv8vbF6yP8Ysri7NRu9FWG+nw5hBz0b0QQYvqLsBrv0qOt6toIjG+pVzRgw?=
- =?us-ascii?Q?0onbiYE896ECU0CYymocuckfjWCdoVrrvOYpXEk687dpskaprNpJ6vSIyesx?=
- =?us-ascii?Q?yZPVQ+wUFMLXdBGqQtnxtcoe0PGkv/0PI1n4sUA3FJT2TrkzjgM/2HXyo31A?=
- =?us-ascii?Q?UqIVTCWVUTZAky6w1lMrcJA083SYNl4QNZB9yx31KIg/Wm3eQhGjWTwHzjnP?=
- =?us-ascii?Q?LZFNaSFOZQLa06lJELNI8pPm01buYizFedMQw3rpADJNidgrqcLrW27hN+w7?=
- =?us-ascii?Q?XOBy/N7IMWtkndYNUCX+DUk0RWCCVD2BcwuSN3TwPBzq3IQqgypJGXAfuRlm?=
- =?us-ascii?Q?lOQJNrpAzsAp/uZiYLOb2GupnJUBGzi86BGgGydICFYMeHTeo/W8axY9xGFz?=
- =?us-ascii?Q?p9Hto+0DdU8WXkR6wcU+ozRaxBsA7QRd1yyH13vp2xRQxc40JfdFkJH3MkcH?=
- =?us-ascii?Q?NmV+0kM/OoHkJ3taxlY6e7g=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <71B09078C4BFD341B357E4B3FF121A39@namprd15.prod.outlook.com>
+        with ESMTP id S229841AbiH2WQC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Aug 2022 18:16:02 -0400
+Received: from mail-yw1-x1130.google.com (mail-yw1-x1130.google.com [IPv6:2607:f8b0:4864:20::1130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20BE36D9C5
+        for <linux-doc@vger.kernel.org>; Mon, 29 Aug 2022 15:16:00 -0700 (PDT)
+Received: by mail-yw1-x1130.google.com with SMTP id 00721157ae682-3378303138bso230632457b3.9
+        for <linux-doc@vger.kernel.org>; Mon, 29 Aug 2022 15:16:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc;
+        bh=rqtjA3ycvFVDXfKtFrFvUJoaJ8uMW4Qj8zP4lq7xxuk=;
+        b=Zcp7TuQVMdNRqCDTjABe+e6bbyC5h/8l5nChIUF6DqtmLLY4/dhuO1NlihVLDETkwP
+         aJd+UJ/ZSS/3BBHWlVnVZiCVTfXAqB2g2pWyOIlilXfXOddpFdRFqNYSmjsaeCC2rzuP
+         dXSPye/2e7cDvPehKkidIlm9/tprvWZYYSd4FQIeXaTUnD0f2kfuqiO+FFv+e7V7dfDH
+         yN2eNXfaiahoymufGhWUbIn5ZST4qseZd91mOeQm6ZvI4X3gf7zXnNxwnOs9esX5wUw4
+         cEjNu1w2xRloqmhhd5u/dOwN2mduw5qa/qq8gocJk3IMeCco/fzQQMT3/JoPKSkfz7kG
+         WnwA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=rqtjA3ycvFVDXfKtFrFvUJoaJ8uMW4Qj8zP4lq7xxuk=;
+        b=rfa8oWrNdO108WRskI7As2gDVysoz0LyDBjR7aBGUGnLRCkYKiKYOWdMk2Dr/qGHLT
+         070NxFJZEwrPBNtxK6IvcfLPYUwtIotWu/5JHHDNM9fZWVALWXCNdvUSzH6AYuL/QBx4
+         5wd+s9Nvq3n2MRHPwh+k2vQxbbpqH0Ovkua2u0uxo+Yhv9rDatMWgPBl46PmN2KKKWSd
+         ZGS9716E0KYhc/ldA/GaLpQQmnnsSqhiHDsU0mgl2BLlAVNwlq+c7A6XvYjz5MEaxQl8
+         sy1F8PnbXpKF1ePPdu59dZyZfWH3n86rbcgg4iLVMhl6WV1OQ45ddx08HGQkX3+IrEHc
+         fHGg==
+X-Gm-Message-State: ACgBeo1WlxH8Ymvl6y+zjS92KOvyadIktJQqfro7JWQdjAar+f3m1477
+        KsSot1KqgBf5yMvlqleA/knucJu8xHzOfeYTHzWMMA==
+X-Google-Smtp-Source: AA6agR42PMhqlidw+YU2MJU+wDfmio2UkR5G8PhTe+66ayL9PeCfHy2X4AoWBqPOLUQHO9ryU1vygZGwJryLUIUd7vw=
+X-Received: by 2002:a25:7cc6:0:b0:67a:6a2e:3d42 with SMTP id
+ x189-20020a257cc6000000b0067a6a2e3d42mr9800590ybc.231.1661811359012; Mon, 29
+ Aug 2022 15:15:59 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: fb.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CY4PR15MB1781.namprd15.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 644c3e47-8173-4c66-1a17-08da8a0a8829
-X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Aug 2022 22:05:06.4891
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 8ae927fe-1255-47a7-a2af-5f3a069daaa2
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: utMpWnfVKYtnX1bJL08RN9Uh0+o9JANQUuyWcWRzhB7kF3W6iH1XqWyBdarDoeA3
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR15MB2921
-X-Proofpoint-GUID: 7vqOGNQjBl1MeVadHK3dnDSZRlNE26iD
-X-Proofpoint-ORIG-GUID: 7vqOGNQjBl1MeVadHK3dnDSZRlNE26iD
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-08-29_11,2022-08-25_01,2022-06-22_01
+References: <20220829114648.GA2409@debian>
+In-Reply-To: <20220829114648.GA2409@debian>
+From:   Eric Dumazet <edumazet@google.com>
+Date:   Mon, 29 Aug 2022 15:15:47 -0700
+Message-ID: <CANn89iLkfMUK8n5w00naST9J+KrLaAqqg2r0X9Sd-L0XzpLzSQ@mail.gmail.com>
+Subject: Re: [PATCH 3/4] net-next: frags: add inetpeer frag_mem tracking
+To:     Richard Gobert <richardbgobert@gmail.com>
+Cc:     David Miller <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>,
+        David Ahern <dsahern@kernel.org>,
+        Alexander Aring <alex.aring@gmail.com>,
+        Stefan Schmidt <stefan@datenfreihafen.org>,
+        Pablo Neira Ayuso <pablo@netfilter.org>,
+        Jozsef Kadlecsik <kadlec@netfilter.org>,
+        Florian Westphal <fw@strlen.de>,
+        Martin KaFai Lau <kafai@fb.com>,
+        netdev <netdev@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>, linux-wpan@vger.kernel.org,
+        netfilter-devel@vger.kernel.org, coreteam@netfilter.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Mon, Aug 29, 2022 at 4:48 AM Richard Gobert <richardbgobert@gmail.com> wrote:
+>
+> Track per-peer fragment memory usage, using the existing per-fqdir
+> memory tracking logic.
 
+This is a rather terse changelog.
 
-> On Aug 22, 2022, at 8:04 PM, Bagas Sanjaya <bagasdotme@gmail.com> wrote:
-> 
-> On 8/23/22 09:19, alexlzhu@fb.com wrote:
->> From: Alexander Zhu <alexlzhu@fb.com>
->> 
->> Improve grammar on MM concepts documentation.
->> 
->> Signed-off-by: Alexander Zhu <alexlzhu@fb.com>
->> ---
->> Changelog: 
->> 
->> Changes in v4:
->> -Adjust changelog to be below the dashes
->> 
->> Changes in v3:
->> -Correct punctuation based on previous comment
->> 
->> Changes in v2:
->> -Correct the subject
->> -Adjust the description
->> 
-> 
-> Nicely done. LGTM.
-> 
-> Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> 
-> -- 
-> An old man doll... just what I always wanted! - Clara
+We tried to get rid of any dependence over inetpeer, which is not
+resistant against DDOS attacks.
 
+So I would not add a new dependency.
+
+Also, tracking memory per peer will not really help in case of bursts ?
+
+>
+> Signed-off-by: Richard Gobert <richardbgobert@gmail.com>
+> ---
+>  include/net/inet_frag.h                 | 11 ++------
+>  include/net/inetpeer.h                  |  1 +
+>  net/ieee802154/6lowpan/reassembly.c     |  2 +-
+>  net/ipv4/inet_fragment.c                | 36 ++++++++++++++++++++-----
+>  net/ipv4/inetpeer.c                     |  1 +
+>  net/ipv4/ip_fragment.c                  |  4 +--
+>  net/ipv6/netfilter/nf_conntrack_reasm.c |  2 +-
+>  net/ipv6/reassembly.c                   |  2 +-
+>  8 files changed, 38 insertions(+), 21 deletions(-)
+>
+> diff --git a/include/net/inet_frag.h b/include/net/inet_frag.h
+> index 05d95fad8a1a..077a0ec78a58 100644
+> --- a/include/net/inet_frag.h
+> +++ b/include/net/inet_frag.h
+> @@ -155,15 +155,8 @@ static inline long frag_mem_limit(const struct fqdir *fqdir)
+>         return atomic_long_read(&fqdir->mem);
+>  }
+>
+> -static inline void sub_frag_mem_limit(struct fqdir *fqdir, long val)
+> -{
+> -       atomic_long_sub(val, &fqdir->mem);
+> -}
+> -
+> -static inline void add_frag_mem_limit(struct fqdir *fqdir, long val)
+> -{
+> -       atomic_long_add(val, &fqdir->mem);
+> -}
+> +void sub_frag_mem_limit(struct inet_frag_queue *q, long val);
+> +void add_frag_mem_limit(struct inet_frag_queue *q, long val);
+>
+>  /* RFC 3168 support :
+>   * We want to check ECN values of all fragments, do detect invalid combinations.
+> diff --git a/include/net/inetpeer.h b/include/net/inetpeer.h
+> index 74ff688568a0..1c602a706742 100644
+> --- a/include/net/inetpeer.h
+> +++ b/include/net/inetpeer.h
+> @@ -41,6 +41,7 @@ struct inet_peer {
+>         u32                     rate_tokens;    /* rate limiting for ICMP */
+>         u32                     n_redirects;
+>         unsigned long           rate_last;
+> +       atomic_long_t           frag_mem;
+>         /*
+>          * Once inet_peer is queued for deletion (refcnt == 0), following field
+>          * is not available: rid
+> diff --git a/net/ieee802154/6lowpan/reassembly.c b/net/ieee802154/6lowpan/reassembly.c
+> index a91283d1e5bf..0bf207e94082 100644
+> --- a/net/ieee802154/6lowpan/reassembly.c
+> +++ b/net/ieee802154/6lowpan/reassembly.c
+> @@ -135,7 +135,7 @@ static int lowpan_frag_queue(struct lowpan_frag_queue *fq,
+>                 fq->q.flags |= INET_FRAG_FIRST_IN;
+>
+>         fq->q.meat += skb->len;
+> -       add_frag_mem_limit(fq->q.fqdir, skb->truesize);
+> +       add_frag_mem_limit(&fq->q, skb->truesize);
+>
+>         if (fq->q.flags == (INET_FRAG_FIRST_IN | INET_FRAG_LAST_IN) &&
+>             fq->q.meat == fq->q.len) {
+> diff --git a/net/ipv4/inet_fragment.c b/net/ipv4/inet_fragment.c
+> index c3ec1dbe7081..8b8d77d548d4 100644
+> --- a/net/ipv4/inet_fragment.c
+> +++ b/net/ipv4/inet_fragment.c
+> @@ -250,6 +250,29 @@ void inet_frag_kill(struct inet_frag_queue *fq)
+>  }
+>  EXPORT_SYMBOL(inet_frag_kill);
+>
+> +static inline long peer_mem_limit(const struct inet_frag_queue *q)
+> +{
+> +       if (!q->peer)
+> +               return 0;
+> +       return atomic_long_read(&q->peer->frag_mem);
+> +}
+> +
+> +void sub_frag_mem_limit(struct inet_frag_queue *q, long val)
+> +{
+> +       if (q->peer)
+> +               atomic_long_sub(val, &q->peer->frag_mem);
+> +       atomic_long_sub(val, &q->fqdir->mem);
+> +}
+> +EXPORT_SYMBOL(sub_frag_mem_limit);
+> +
+> +void add_frag_mem_limit(struct inet_frag_queue *q, long val)
+> +{
+> +       if (q->peer)
+> +               atomic_long_add(val, &q->peer->frag_mem);
+> +       atomic_long_add(val, &q->fqdir->mem);
+> +}
+> +EXPORT_SYMBOL(add_frag_mem_limit);
+> +
+>  static void inet_frag_destroy_rcu(struct rcu_head *head)
+>  {
+>         struct inet_frag_queue *q = container_of(head, struct inet_frag_queue,
+> @@ -306,9 +329,8 @@ void inet_frag_destroy(struct inet_frag_queue *q)
+>         sum_truesize = inet_frag_rbtree_purge(&q->rb_fragments);
+>         sum = sum_truesize + f->qsize;
+>
+> +       sub_frag_mem_limit(q, sum);
+>         inet_frag_free(q);
+> -
+> -       sub_frag_mem_limit(fqdir, sum);
+>  }
+>  EXPORT_SYMBOL(inet_frag_destroy);
+>
+> @@ -324,7 +346,7 @@ static struct inet_frag_queue *inet_frag_alloc(struct fqdir *fqdir,
+>
+>         q->fqdir = fqdir;
+>         f->constructor(q, arg);
+> -       add_frag_mem_limit(fqdir, f->qsize);
+> +       add_frag_mem_limit(q, f->qsize);
+>
+>         timer_setup(&q->timer, f->frag_expire, 0);
+>         spin_lock_init(&q->lock);
+> @@ -483,7 +505,7 @@ void *inet_frag_reasm_prepare(struct inet_frag_queue *q, struct sk_buff *skb,
+>
+>         delta += head->truesize;
+>         if (delta)
+> -               add_frag_mem_limit(q->fqdir, delta);
+> +               add_frag_mem_limit(q, delta);
+>
+>         /* If the first fragment is fragmented itself, we split
+>          * it to two chunks: the first with data and paged part
+> @@ -505,7 +527,7 @@ void *inet_frag_reasm_prepare(struct inet_frag_queue *q, struct sk_buff *skb,
+>                 head->truesize += clone->truesize;
+>                 clone->csum = 0;
+>                 clone->ip_summed = head->ip_summed;
+> -               add_frag_mem_limit(q->fqdir, clone->truesize);
+> +               add_frag_mem_limit(q, clone->truesize);
+>                 skb_shinfo(head)->frag_list = clone;
+>                 nextp = &clone->next;
+>         } else {
+> @@ -575,7 +597,7 @@ void inet_frag_reasm_finish(struct inet_frag_queue *q, struct sk_buff *head,
+>                         rbn = rbnext;
+>                 }
+>         }
+> -       sub_frag_mem_limit(q->fqdir, sum_truesize);
+> +       sub_frag_mem_limit(q, sum_truesize);
+>
+>         *nextp = NULL;
+>         skb_mark_not_on_list(head);
+> @@ -604,7 +626,7 @@ struct sk_buff *inet_frag_pull_head(struct inet_frag_queue *q)
+>         if (head == q->fragments_tail)
+>                 q->fragments_tail = NULL;
+>
+> -       sub_frag_mem_limit(q->fqdir, head->truesize);
+> +       sub_frag_mem_limit(q, head->truesize);
+>
+>         return head;
+>  }
+> diff --git a/net/ipv4/inetpeer.c b/net/ipv4/inetpeer.c
+> index e9fed83e9b3c..6e7325dba417 100644
+> --- a/net/ipv4/inetpeer.c
+> +++ b/net/ipv4/inetpeer.c
+> @@ -216,6 +216,7 @@ struct inet_peer *inet_getpeer(struct inet_peer_base *base,
+>                         p->dtime = (__u32)jiffies;
+>                         refcount_set(&p->refcnt, 2);
+>                         atomic_set(&p->rid, 0);
+> +                       atomic_long_set(&p->frag_mem, 0);
+>                         p->metrics[RTAX_LOCK-1] = INETPEER_METRICS_NEW;
+>                         p->rate_tokens = 0;
+>                         p->n_redirects = 0;
+> diff --git a/net/ipv4/ip_fragment.c b/net/ipv4/ip_fragment.c
+> index d0c22c41cf26..e35061f6aadb 100644
+> --- a/net/ipv4/ip_fragment.c
+> +++ b/net/ipv4/ip_fragment.c
+> @@ -242,7 +242,7 @@ static int ip_frag_reinit(struct ipq *qp)
+>         }
+>
+>         sum_truesize = inet_frag_rbtree_purge(&qp->q.rb_fragments);
+> -       sub_frag_mem_limit(qp->q.fqdir, sum_truesize);
+> +       sub_frag_mem_limit(&qp->q, sum_truesize);
+>
+>         qp->q.flags = 0;
+>         qp->q.len = 0;
+> @@ -339,7 +339,7 @@ static int ip_frag_queue(struct ipq *qp, struct sk_buff *skb)
+>         qp->q.mono_delivery_time = skb->mono_delivery_time;
+>         qp->q.meat += skb->len;
+>         qp->ecn |= ecn;
+> -       add_frag_mem_limit(qp->q.fqdir, skb->truesize);
+> +       add_frag_mem_limit(&qp->q, skb->truesize);
+>         if (offset == 0)
+>                 qp->q.flags |= INET_FRAG_FIRST_IN;
+>
+> diff --git a/net/ipv6/netfilter/nf_conntrack_reasm.c b/net/ipv6/netfilter/nf_conntrack_reasm.c
+> index 7dd3629dd19e..11ce2335c584 100644
+> --- a/net/ipv6/netfilter/nf_conntrack_reasm.c
+> +++ b/net/ipv6/netfilter/nf_conntrack_reasm.c
+> @@ -269,7 +269,7 @@ static int nf_ct_frag6_queue(struct frag_queue *fq, struct sk_buff *skb,
+>         fq->ecn |= ecn;
+>         if (payload_len > fq->q.max_size)
+>                 fq->q.max_size = payload_len;
+> -       add_frag_mem_limit(fq->q.fqdir, skb->truesize);
+> +       add_frag_mem_limit(&fq->q, skb->truesize);
+>
+>         /* The first fragment.
+>          * nhoffset is obtained from the first fragment, of course.
+> diff --git a/net/ipv6/reassembly.c b/net/ipv6/reassembly.c
+> index ff866f2a879e..cd4ba6cc956b 100644
+> --- a/net/ipv6/reassembly.c
+> +++ b/net/ipv6/reassembly.c
+> @@ -197,7 +197,7 @@ static int ip6_frag_queue(struct frag_queue *fq, struct sk_buff *skb,
+>         fq->q.mono_delivery_time = skb->mono_delivery_time;
+>         fq->q.meat += skb->len;
+>         fq->ecn |= ecn;
+> -       add_frag_mem_limit(fq->q.fqdir, skb->truesize);
+> +       add_frag_mem_limit(&fq->q, skb->truesize);
+>
+>         fragsize = -skb_network_offset(skb) + skb->len;
+>         if (fragsize > fq->q.max_size)
+> --
+> 2.36.1
+>
