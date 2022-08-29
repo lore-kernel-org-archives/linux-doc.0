@@ -2,182 +2,127 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 65378ECAAD2
-	for <linux-doc@archiver.kernel.org>; Mon, 29 Aug 2022 12:21:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9876DECAAD2
+	for <linux-doc@archiver.kernel.org>; Mon, 29 Aug 2022 12:27:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231842AbiH2MVP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 29 Aug 2022 08:21:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58408 "EHLO
+        id S231424AbiH2M1L (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 29 Aug 2022 08:27:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35750 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231240AbiH2MU4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Aug 2022 08:20:56 -0400
-Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B077A6C27;
-        Mon, 29 Aug 2022 05:04:19 -0700 (PDT)
-Received: by mail-wm1-x32e.google.com with SMTP id ay39-20020a05600c1e2700b003a5503a80cfso4308443wmb.2;
-        Mon, 29 Aug 2022 05:04:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=user-agent:content-disposition:mime-version:message-id:subject:to
-         :from:date:from:to:cc;
-        bh=hxqAbFcpuVmdCzBbtEdTgdjeLFVRaXCJcGCpu8UlHog=;
-        b=iZzG6XdkeygsKjHjT6RHpXFX6DlmUVFzmovWRy8vNxWLeceNyeXYUKr7L2XB4+8AVq
-         aahDfhtahb9AAneV5jaW2aYoF+XY26cVuqyDoLP5zOeN57xcRIicsllLxN2YrHhBJWFF
-         f2+pHPwMdJOcfsrSB/qE2aIjOGfrwCYmc2X3awL4QPEeLhFp6eR2bQ7uhoxf15GL7Qcc
-         LmA8cXhgJ+zR9f3Bq6Nq7fyPEqxDBuHAEq0wuMSTFfURW3nElycUDfgfX6p1JCsdgyjf
-         XqSL+QnTp4e15Yz/u+jtPc+QXYOvwhTcnS8kLQvdI9J4qFa2KG4qj0bHUmYne1tcX+f4
-         rBFg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=user-agent:content-disposition:mime-version:message-id:subject:to
-         :from:date:x-gm-message-state:from:to:cc;
-        bh=hxqAbFcpuVmdCzBbtEdTgdjeLFVRaXCJcGCpu8UlHog=;
-        b=mJVvjSYyfFUjLfAS/mMZULatd0WHiDEke5qX1UD7NkofsY3tUKOaCykwteyT7ja6j8
-         L/WS8BlGK0cq91vZ/IafHDGGdIoFPe6hNmzt4zLZbZAhvIGZg4o41Oq5JetMmOEAg0zl
-         Ko/n7yLfTLm5/5ABxCStTnfG8ZzUw7NM/3TysTE2XivHSqHCBT2vZGrOuCACEK2Sgy5z
-         qpVNuC3Yxb1QtRmggRYOAlifj2otK/cy7lKICeC66PvdL98fNxswrzCaZwTnkMGeY0op
-         cIqFfWbaQKiY3e4azrXga9BE/htAsSv6ISdCXShC3u/yLR8t8uKr23+tf/20NjG3LnsW
-         rpeA==
-X-Gm-Message-State: ACgBeo0++LOYr2JpCMmdCAaXh6ItEkR0tFUnE/muF0rIPfpKIes5bwh6
-        gj7+cn4gqBmV/8d2eRFfDacmf/tAe5I=
-X-Google-Smtp-Source: AA6agR7YxhHVMj9XWpJVMLkVYl9/G+NCIxQVTy6U5aONCYYoP9w92jav+CBywTEPIw3JdyMrtVUZ+g==
-X-Received: by 2002:a05:600c:3b8c:b0:3a6:71a:f286 with SMTP id n12-20020a05600c3b8c00b003a6071af286mr6463379wms.120.1661773632330;
-        Mon, 29 Aug 2022 04:47:12 -0700 (PDT)
-Received: from debian ([89.238.191.199])
-        by smtp.gmail.com with ESMTPSA id o7-20020adfeac7000000b00226332f9275sm6768446wrn.22.2022.08.29.04.46.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Aug 2022 04:47:12 -0700 (PDT)
-Date:   Mon, 29 Aug 2022 13:45:20 +0200
-From:   Richard Gobert <richardbgobert@gmail.com>
-To:     davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-        pabeni@redhat.com, corbet@lwn.net, yoshfuji@linux-ipv6.org,
-        dsahern@kernel.org, alex.aring@gmail.com,
-        stefan@datenfreihafen.org, pablo@netfilter.org,
-        kadlec@netfilter.org, fw@strlen.de, kafai@fb.com,
-        netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-wpan@vger.kernel.org,
-        netfilter-devel@vger.kernel.org, coreteam@netfilter.org
-Subject: [PATCH 1/4] net-next: frags: move inetpeer from ip4 to inet
-Message-ID: <20220829114507.GA2348@debian>
+        with ESMTP id S229726AbiH2M0m (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Aug 2022 08:26:42 -0400
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F3B191D1A;
+        Mon, 29 Aug 2022 05:10:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1661775027; x=1693311027;
+  h=date:from:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=oxQnpIC7Es3fbk5Y7KL1o+zPbw4eWKeljrhF6pZeVsU=;
+  b=c9n04zJXK+ylVyxhfduX1T3vms3s2gxOxI0408bWObExuazE+SAa2Jg3
+   FFwzXdnNAlhynWoe7iGgJQ12tMKPG3+h4zCdiV+6u9HPR9nlofpBSEDge
+   /kvUtoVRPLSn4QrAePZMy4IKsfuuTuF+Z4yMSZDiFrhGAumz8FT8IChR8
+   PFDAZphQrY7wBjQEzDxjHt7mOtp3ZMXlteIqRDCCBZBiuEY9BcArQ553I
+   ImrvBevAP+JL5HNgWY2FoG9RQkQaZk8iI9nJYjfvkswQh5v+RQ5YMl04x
+   rJLwI0aBos8nIyNiCNkItqNTLTZ2F1/Qj6C2mhhOSCTOEMuk8iefO3ENA
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10454"; a="294886252"
+X-IronPort-AV: E=Sophos;i="5.93,272,1654585200"; 
+   d="scan'208";a="294886252"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2022 05:09:15 -0700
+X-IronPort-AV: E=Sophos;i="5.93,272,1654585200"; 
+   d="scan'208";a="588142891"
+Received: from kvehmane-mobl1.ger.corp.intel.com ([10.251.220.41])
+  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2022 05:09:08 -0700
+Date:   Mon, 29 Aug 2022 15:09:09 +0300 (EEST)
+From:   =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Vladimir Zapolskiy <vz@mleia.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Richard Genoud <richard.genoud@gmail.com>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Claudiu Beznea <claudiu.beznea@microchip.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Linux Documentation List <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
+        linux-stm32@st-md-mailman.stormreply.com,
+        Lino Sanfilippo <LinoSanfilippo@gmx.de>
+Subject: Re: [PATCH 3/3] serial: Add kserial_rs485 to avoid wasted space due
+ to .padding
+In-Reply-To: <CAHp75Vc4NfZE6DxFnfeAS9fxnZHpxMjacHy1TsG8ib+FiCqFLQ@mail.gmail.com>
+Message-ID: <1712a4c5-638-4e63-af29-32bdcbaab443@linux.intel.com>
+References: <20220826144629.11507-1-ilpo.jarvinen@linux.intel.com> <20220826144629.11507-4-ilpo.jarvinen@linux.intel.com> <CAHp75Vc4NfZE6DxFnfeAS9fxnZHpxMjacHy1TsG8ib+FiCqFLQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: multipart/mixed; boundary="8323329-174262208-1661774957=:1928"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Move frags-related inetpeer logic from ip4 to inet. This allows us to
-access peer information inside inet_frag logic.
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-Signed-off-by: Richard Gobert <richardbgobert@gmail.com>
----
- include/net/inet_frag.h  |  1 +
- net/ipv4/inet_fragment.c | 11 ++++++++++-
- net/ipv4/ip_fragment.c   | 19 +++----------------
- 3 files changed, 14 insertions(+), 17 deletions(-)
+--8323329-174262208-1661774957=:1928
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 
-diff --git a/include/net/inet_frag.h b/include/net/inet_frag.h
-index 0b0876610553..05d95fad8a1a 100644
---- a/include/net/inet_frag.h
-+++ b/include/net/inet_frag.h
-@@ -98,6 +98,7 @@ struct inet_frag_queue {
- 	__u8			flags;
- 	u16			max_size;
- 	struct fqdir		*fqdir;
-+	struct inet_peer	*peer;
- 	struct rcu_head		rcu;
- };
- 
-diff --git a/net/ipv4/inet_fragment.c b/net/ipv4/inet_fragment.c
-index c9f9ac5013a7..c3ec1dbe7081 100644
---- a/net/ipv4/inet_fragment.c
-+++ b/net/ipv4/inet_fragment.c
-@@ -23,6 +23,7 @@
- #include <net/inet_ecn.h>
- #include <net/ip.h>
- #include <net/ipv6.h>
-+#include <net/inetpeer.h>
- 
- /* Use skb->cb to track consecutive/adjacent fragments coming at
-  * the end of the queue. Nodes in the rb-tree queue will
-@@ -282,6 +283,14 @@ unsigned int inet_frag_rbtree_purge(struct rb_root *root)
- }
- EXPORT_SYMBOL(inet_frag_rbtree_purge);
- 
-+void inet_frag_free(struct inet_frag_queue *q)
-+{
-+	if (q->peer)
-+		inet_putpeer(q->peer);
-+
-+	call_rcu(&q->rcu, inet_frag_destroy_rcu);
-+}
-+
- void inet_frag_destroy(struct inet_frag_queue *q)
- {
- 	struct fqdir *fqdir;
-@@ -297,7 +306,7 @@ void inet_frag_destroy(struct inet_frag_queue *q)
- 	sum_truesize = inet_frag_rbtree_purge(&q->rb_fragments);
- 	sum = sum_truesize + f->qsize;
- 
--	call_rcu(&q->rcu, inet_frag_destroy_rcu);
-+	inet_frag_free(q);
- 
- 	sub_frag_mem_limit(fqdir, sum);
- }
-diff --git a/net/ipv4/ip_fragment.c b/net/ipv4/ip_fragment.c
-index fb153569889e..d0c22c41cf26 100644
---- a/net/ipv4/ip_fragment.c
-+++ b/net/ipv4/ip_fragment.c
-@@ -65,7 +65,6 @@ struct ipq {
- 	u16		max_df_size; /* largest frag with DF set seen */
- 	int             iif;
- 	unsigned int    rid;
--	struct inet_peer *peer;
- };
- 
- static u8 ip4_frag_ecn(u8 tos)
-@@ -88,21 +87,9 @@ static void ip4_frag_init(struct inet_frag_queue *q, const void *a)
- 
- 	q->key.v4 = *key;
- 	qp->ecn = 0;
--	qp->peer = q->fqdir->max_dist ?
--		inet_getpeer_v4(net->ipv4.peers, key->saddr, key->vif, 1) :
--		NULL;
-+	q->peer = inet_getpeer_v4(net->ipv4.peers, key->saddr, key->vif, 1);
- }
- 
--static void ip4_frag_free(struct inet_frag_queue *q)
--{
--	struct ipq *qp;
--
--	qp = container_of(q, struct ipq, q);
--	if (qp->peer)
--		inet_putpeer(qp->peer);
--}
--
--
- /* Destruction primitives. */
- 
- static void ipq_put(struct ipq *ipq)
-@@ -224,7 +211,7 @@ static struct ipq *ip_find(struct net *net, struct iphdr *iph,
- /* Is the fragment too far ahead to be part of ipq? */
- static int ip_frag_too_far(struct ipq *qp)
- {
--	struct inet_peer *peer = qp->peer;
-+	struct inet_peer *peer = qp->q.peer;
- 	unsigned int max = qp->q.fqdir->max_dist;
- 	unsigned int start, end;
- 
-@@ -741,7 +728,7 @@ static const struct rhashtable_params ip4_rhash_params = {
- void __init ipfrag_init(void)
- {
- 	ip4_frags.constructor = ip4_frag_init;
--	ip4_frags.destructor = ip4_frag_free;
-+	ip4_frags.destructor = NULL;
- 	ip4_frags.qsize = sizeof(struct ipq);
- 	ip4_frags.frag_expire = ip_expire;
- 	ip4_frags.frags_cache_name = ip_frag_cache_name;
+On Fri, 26 Aug 2022, Andy Shevchenko wrote:
+
+> On Fri, Aug 26, 2022 at 5:51 PM Ilpo Järvinen
+> <ilpo.jarvinen@linux.intel.com> wrote:
+> 
+> > -static int user_rs485_to_kernel_serial_rs485(struct serial_rs485 *rs485,
+> > +static int user_rs485_to_kernel_serial_rs485(struct kserial_rs485 *rs485,
+> >                                              const struct serial_rs485 __user *rs485_user)
+> >  {
+> > -       if (copy_from_user(rs485, rs485_user, sizeof(*rs485)))
+> > +       struct serial_rs485 rs485_uapi;
+> > +
+> > +       if (copy_from_user(&rs485_uapi, rs485_user, sizeof(*rs485)))
+> >                 return -EFAULT;
+> 
+> > +       *rs485 = *((struct kserial_rs485 *)&rs485_uapi);
+> 
+> So with all assets we have we can be sure that on BE64 / BE32 machines
+> this will be flawless. Is this assumption correct?
+
+I think so. At worst it could trigger a build fail assuming the kernel 
+would do some really odd struct layout reordering (which, according to 
+the build bot, doesn't occur for any currently tested arch).
+
+Now that you highlighted this line though, I started to wonder if it would 
+be just better to use memcpy() instead as it would avoid those casts.
+
+> > + * padding.
+> > + */
+> > +struct kserial_rs485 {
+> > +       __u32   flags;                  /* RS485 feature flags */
+> > +       __u32   delay_rts_before_send;  /* Delay before send (milliseconds) */
+> > +       __u32   delay_rts_after_send;   /* Delay after send (milliseconds) */
+> > +       struct {
+> > +               __u8    addr_recv;
+> > +               __u8    addr_dest;
+> > +       };
+> 
+> Btw, can't we convert them to kernel doc?
+
+Yes, why not.
+
 -- 
-2.36.1
+ i.
 
+--8323329-174262208-1661774957=:1928--
