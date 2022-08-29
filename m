@@ -2,95 +2,112 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C6317ECAAA2
-	for <linux-doc@archiver.kernel.org>; Mon, 29 Aug 2022 00:18:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DD9D9ECAAA2
+	for <linux-doc@archiver.kernel.org>; Mon, 29 Aug 2022 00:19:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229530AbiH2ASs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 28 Aug 2022 20:18:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38702 "EHLO
+        id S229516AbiH2ATg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 28 Aug 2022 20:19:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39120 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229516AbiH2ASr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 28 Aug 2022 20:18:47 -0400
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08D212A96F;
-        Sun, 28 Aug 2022 17:18:44 -0700 (PDT)
+        with ESMTP id S229446AbiH2ATf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 28 Aug 2022 20:19:35 -0400
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4210E0EF;
+        Sun, 28 Aug 2022 17:19:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1661732325; x=1693268325;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=mk5UPQJPubSdANz7LkgFR4Rv6GSap6ZQud459DTNGWU=;
-  b=mFCVdaO6l0yaIMSftGLkmfKZvtqW2c70EcWwoXPKTXLYhO6jvBK5n1Fn
-   ysG1F8M3j2i7+kAq0CZVCWDz1sn6UCkxzeUJGBlX1nWPLhlpFw9BUrx55
-   ZcBrB1hM6rooKcR9ezK1kR3HggMAUzNzfFORHsHyct7YzQtDVvTZFoL5p
-   KR9kDXhM0OW6RFtPcTuZ967mRJkLUzan+HOTOuyRbdMiNn6H5MEoaPet1
-   uu9AAVDPdlXIEmDSgG8G1gjxC1fIpt7ShJIENaGum+rJkgluJpB0o7kx1
-   Hqb/YdBzC379ybSAc/04BllzA9KtJCdqYrAAjNcYN6wP9Ezj52qHsdkxg
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10453"; a="296053861"
+  t=1661732374; x=1693268374;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=B3Tev0VS3yC7o6xOlmRPAwSGDbYmtAKTYEpG1iByLA8=;
+  b=Jke/eLSHQGlxEBlKr4emyWcg48DRePofsRal4SFnpXXXssS7nFIOgxYe
+   zQ7h5G+umYoJ4BtNnTdSZQG+tDroT6Pw7ke2b0KUUfmhSm2dMGA81ce/S
+   PmrgXklv5ulm6S6iigKzxNWeakhpBUBEXxY+Q3qJEaEk268w60sLmazR7
+   0IjfeVDgDdkr9oOuTDCdeHU7WEmLWvgiEMDWIOoSYCD/1RIS8BbxgVCwZ
+   ildieXL6ZX0iqOUpi1a+U5Ht1obzKA5YIpZiuACAQzR6Gt/obxV/6RbyC
+   NtkaFVbBmtVQ1CRZbeq49QqCMWxlUSErwmxmWiwRLbdtPyqrLMDNEg7Ru
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10453"; a="293523827"
 X-IronPort-AV: E=Sophos;i="5.93,271,1654585200"; 
-   d="scan'208";a="296053861"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Aug 2022 17:18:44 -0700
-X-ExtLoop1: 1
+   d="scan'208";a="293523827"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Aug 2022 17:19:34 -0700
 X-IronPort-AV: E=Sophos;i="5.93,271,1654585200"; 
-   d="scan'208";a="753445007"
-Received: from lkp-server01.sh.intel.com (HELO fc16deae1c42) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 28 Aug 2022 17:18:42 -0700
-Received: from kbuild by fc16deae1c42 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1oSSUD-0001lh-1Y;
-        Mon, 29 Aug 2022 00:18:41 +0000
-Date:   Mon, 29 Aug 2022 08:18:16 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Ming Lei <ming.lei@redhat.com>, Jens Axboe <axboe@kernel.dk>
-Cc:     kbuild-all@lists.01.org, linux-doc@vger.kernel.org,
-        linux-block@vger.kernel.org, Christoph Hellwig <hch@lst.de>,
-        Ming Lei <ming.lei@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "Richard W . M . Jones" <rjones@redhat.com>,
-        ZiyangZhang <ZiyangZhang@linux.alibaba.com>,
-        Stefan Hajnoczi <stefanha@redhat.com>,
-        Xiaoguang Wang <xiaoguang.wang@linux.alibaba.com>
-Subject: Re: [PATCH] Docs: ublk: add ublk document
-Message-ID: <202208290807.1BIaKsuK-lkp@intel.com>
-References: <20220828045003.537131-1-ming.lei@redhat.com>
+   d="scan'208";a="587962411"
+Received: from nehluza-mobl.amr.corp.intel.com (HELO [10.209.6.250]) ([10.209.6.250])
+  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Aug 2022 17:19:33 -0700
+Message-ID: <c6ccbcac-c5b1-f460-01e2-e1b6684b6e65@linux.intel.com>
+Date:   Sun, 28 Aug 2022 17:19:33 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220828045003.537131-1-ming.lei@redhat.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Firefox/91.0 Thunderbird/91.11.0
+Subject: Re: [PATCH v11 1/3] x86/tdx: Add TDX Guest attestation interface
+ driver
+Content-Language: en-US
+To:     Dave Hansen <dave.hansen@intel.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+        Shuah Khan <shuah@kernel.org>
+Cc:     "H . Peter Anvin" <hpa@zytor.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Andi Kleen <ak@linux.intel.com>,
+        Kai Huang <kai.huang@intel.com>,
+        Wander Lairson Costa <wander@redhat.com>,
+        Isaku Yamahata <isaku.yamahata@gmail.com>,
+        marcelo.cerri@canonical.com, tim.gardner@canonical.com,
+        khalid.elmously@canonical.com, philip.cox@canonical.com,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-doc@vger.kernel.org
+References: <20220826150638.2397576-1-sathyanarayanan.kuppuswamy@linux.intel.com>
+ <dcf53e6b-d60f-5d6b-029a-38df68d66302@intel.com>
+From:   Sathyanarayanan Kuppuswamy 
+        <sathyanarayanan.kuppuswamy@linux.intel.com>
+In-Reply-To: <dcf53e6b-d60f-5d6b-029a-38df68d66302@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Ming,
+Hi,
 
-I love your patch! Perhaps something to improve:
+On 8/28/22 1:14 PM, Dave Hansen wrote:
+> On 8/26/22 08:06, Kuppuswamy Sathyanarayanan wrote:
+>> +struct tdx_report_req {
+>> +	__u8  subtype;
+>> +	__u64 reportdata;
+>> +	__u32 rpd_len;
+>> +	__u64 tdreport;
+>> +	__u32 tdr_len;
+>> +};
+> 
+> Please do take a look at how the compiler ends up building that structure.
+> 
+> If you sized things to "save space", the way the compiler treats that
+> structure may surprise you.  You might also want to look at how a 32-bit
+> compile deals with it versus a 64-bit one.
 
-[auto build test WARNING on axboe-block/for-next]
-[also build test WARNING on lwn-2.6/docs-next linus/master v6.0-rc2 next-20220826]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Since it is only used in user/kernel ABI, I did not consider the size
+issue. But I understand your point. The size of this struct in a 64-bit
+system is 40 bytes. So we did not gain anything with using different member
+sizes. In a 32-bit system, size due to padding is less compared to 64-bit.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ming-Lei/Docs-ublk-add-ublk-document/20220828-125214
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-next
-reproduce:
-        # https://github.com/intel-lab-lkp/linux/commit/4cd40d237bac08efb23668766ba39b36a0b1632a
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Ming-Lei/Docs-ublk-add-ublk-document/20220828-125214
-        git checkout 4cd40d237bac08efb23668766ba39b36a0b1632a
-        make menuconfig
-        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
-        make htmldocs
+I will re-arrange the struct as below. With this change, the size will come
+down to 32 bytes.
 
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
+struct tdx_report_req {
+        __u64 reportdata;;
+        __u64 tdreport;
+        __u32 rpd_len
+        __u32 tdr_len;
+        __u8 subtype;
+};
 
-All warnings (new ones prefixed by >>):
 
->> Documentation/block/ublk.rst: WARNING: document isn't included in any toctree
 
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+Sathyanarayanan Kuppuswamy
+Linux Kernel Developer
