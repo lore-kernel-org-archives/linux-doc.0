@@ -2,238 +2,152 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9FD8CECAAD2
-	for <linux-doc@archiver.kernel.org>; Mon, 29 Aug 2022 06:35:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 21EC4ECAAD4
+	for <linux-doc@archiver.kernel.org>; Mon, 29 Aug 2022 06:53:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229785AbiH2GfM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 29 Aug 2022 02:35:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45392 "EHLO
+        id S229560AbiH2GxK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 29 Aug 2022 02:53:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34408 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229766AbiH2GfL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Aug 2022 02:35:11 -0400
-Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1EDE11839;
-        Sun, 28 Aug 2022 23:35:07 -0700 (PDT)
-Received: from dggpeml500023.china.huawei.com (unknown [172.30.72.57])
-        by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4MGLDw4fThz1N7cK;
-        Mon, 29 Aug 2022 14:31:28 +0800 (CST)
-Received: from [10.67.110.112] (10.67.110.112) by
- dggpeml500023.china.huawei.com (7.185.36.114) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Mon, 29 Aug 2022 14:35:04 +0800
-Subject: Re: [PATCH -next v2 3/6] landlock: add chmod and chown support
-From:   xiujianfeng <xiujianfeng@huawei.com>
-To:     <mic@digikod.net>, <paul@paul-moore.com>, <jmorris@namei.org>,
-        <serge@hallyn.com>, <shuah@kernel.org>, <corbet@lwn.net>
-CC:     <linux-security-module@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>
-References: <20220827111215.131442-1-xiujianfeng@huawei.com>
- <20220827111215.131442-4-xiujianfeng@huawei.com>
-Message-ID: <1a6b3217-b709-f401-7007-5452648b70a1@huawei.com>
-Date:   Mon, 29 Aug 2022 14:35:04 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.9.1
-MIME-Version: 1.0
-In-Reply-To: <20220827111215.131442-4-xiujianfeng@huawei.com>
-Content-Type: text/plain; charset="gbk"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.67.110.112]
-X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
- dggpeml500023.china.huawei.com (7.185.36.114)
-X-CFilter-Loop: Reflected
+        with ESMTP id S229459AbiH2GxJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Aug 2022 02:53:09 -0400
+Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com [IPv6:2607:f8b0:4864:20::52e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E21541D30;
+        Sun, 28 Aug 2022 23:53:08 -0700 (PDT)
+Received: by mail-pg1-x52e.google.com with SMTP id f4so6868235pgc.12;
+        Sun, 28 Aug 2022 23:53:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:subject:cc:to:from:from:to:cc;
+        bh=NIKx4BlW3poTb1c1nuidDiosjytUPN6DWa0m2PltNEo=;
+        b=QhfKP+iwo5KUARlBf7/r/Nh9jGn/1pOCGSMl1i6kY9F03IYxF1BOHQojLWStKplsx8
+         lwT1q62fDRSrsLoxsKpVHHQ067165VLgCNESmAumZh52aWUpkNWL6kq1F5p3XFEUG9pd
+         p9uk1ix8Gyi7gxynHeEdkaVLqqBLUE7Yt/uWWOJz+BXCj+tz5TBnqmrtJpuhHWgnIeZ0
+         BZDp0owBN/5bnfukACZ+4z+CWzAROUDwmUOU8HsZHn11PZg5PVC6KAci0zAylin69WWR
+         4qbSmZ0MQrjwbNucHeGZQOEHVHpWkQUfZPclYcNKGOEpzloZAV5LUH/F3OBsoYL2HV8l
+         7qsw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
+        bh=NIKx4BlW3poTb1c1nuidDiosjytUPN6DWa0m2PltNEo=;
+        b=xcGPyKUWiO637prqkZeBAAHU+uEHd91QdM6T/UR1ryBY1yHfS1EO3yi1f/uaLQ1lda
+         kHSPFFL2tDywLe3uemOq6V0pt2x7syU2l1DvvI1sYNWZ+vrG7d7BJG5fv403yZJRRSJw
+         X+uUO2S5QyKLZREwm27dWoq7ThxCVyEk5nP40tKLTgp0kft7coz3tcvPL43DKfpn7A4D
+         /i72gLLj/XYcVRiD9ter2S9u675DE7OEVWhc4yvoJh2TcmrC8ctQb4B/J5SeK9jcspf7
+         dH229YmquInjK3Uh8CryGgT92VQfOqcmcQnsuJU6SRzmfyfcvsulquO8i4fv2tSCwz46
+         Sd8w==
+X-Gm-Message-State: ACgBeo0NUK8DnKarEP8zb6ToVdeXcT0HUbZi5XKcUk6lI/s7mcC3h+0L
+        OCw7I59zgaHTUEHo+fc0qCSkkxdVfqspVA==
+X-Google-Smtp-Source: AA6agR5wz6yGGgQirk7c7Z3zvxorsOjoG00036mXjmBX/bKFHcDaf6ZZnVkpmoWmaquIEax6whalAw==
+X-Received: by 2002:a65:6bc4:0:b0:3c2:2f7c:cc74 with SMTP id e4-20020a656bc4000000b003c22f7ccc74mr12625103pgw.307.1661755988083;
+        Sun, 28 Aug 2022 23:53:08 -0700 (PDT)
+Received: from localhost.localdomain ([103.151.209.218])
+        by smtp.gmail.com with ESMTPSA id z15-20020a170902cccf00b0016c0eb202a5sm6574242ple.225.2022.08.28.23.53.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 28 Aug 2022 23:53:07 -0700 (PDT)
+From:   Akhil Raj <lf32.dev@gmail.com>
+To:     corbet@lwn.net, skhan@linuxfoundation.org
+Cc:     Akhil Raj <lf32.dev@gmail.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] Delete duplicate words from kernel docs
+Date:   Mon, 29 Aug 2022 12:22:39 +0530
+Message-Id: <20220829065239.4531-1-lf32.dev@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+I have deleted duplicate words like
 
-ÔÚ 2022/8/27 19:12, Xiu Jianfeng Ð´µÀ:
-> Add two flags LANDLOCK_ACCESS_FS_CHMOD and LANDLOCK_ACCESS_FS_CHGRP to
-> support restriction to chmod(2) and chown(2) with landlock.
-> 
-> If these two access rights are set on a directory, they only take effect
-> for its context, not the directory itself.
-> 
-> This patch also change the landlock ABI version from 3 to 4.
-> 
-> Signed-off-by: Xiu Jianfeng <xiujianfeng@huawei.com>
-> ---
->   include/uapi/linux/landlock.h                | 10 +++--
->   security/landlock/fs.c                       | 43 +++++++++++++++++++-
->   security/landlock/limits.h                   |  2 +-
->   security/landlock/syscalls.c                 |  2 +-
->   tools/testing/selftests/landlock/base_test.c |  2 +-
->   tools/testing/selftests/landlock/fs_test.c   |  6 ++-
->   6 files changed, 56 insertions(+), 9 deletions(-)
-> 
-> diff --git a/include/uapi/linux/landlock.h b/include/uapi/linux/landlock.h
-> index 735b1fe8326e..07b73626ff20 100644
-> --- a/include/uapi/linux/landlock.h
-> +++ b/include/uapi/linux/landlock.h
-> @@ -141,14 +141,16 @@ struct landlock_path_beneath_attr {
->    *   directory) parent.  Otherwise, such actions are denied with errno set to
->    *   EACCES.  The EACCES errno prevails over EXDEV to let user space
->    *   efficiently deal with an unrecoverable error.
-> + * - %LANDLOCK_ACCESS_FS_CHMOD: Change the file mode bits of a file.
-> + * - %LANDLOCK_ACCESS_FS_CHGRP: Change the owner and/or group of a file.
->    *
->    * .. warning::
->    *
->    *   It is currently not possible to restrict some file-related actions
->    *   accessible through these syscall families: :manpage:`chdir(2)`,
-> - *   :manpage:`stat(2)`, :manpage:`flock(2)`, :manpage:`chmod(2)`,
-> - *   :manpage:`chown(2)`, :manpage:`setxattr(2)`, :manpage:`utime(2)`,
-> - *   :manpage:`ioctl(2)`, :manpage:`fcntl(2)`, :manpage:`access(2)`.
-> + *   :manpage:`stat(2)`, :manpage:`flock(2)`, :manpage:`setxattr(2)`,
-> + *   :manpage:`utime(2)`,:manpage:`ioctl(2)`, :manpage:`fcntl(2)`,
-> + *   :manpage:`access(2)`.
->    *   Future Landlock evolutions will enable to restrict them.
->    */
->   /* clang-format off */
-> @@ -167,6 +169,8 @@ struct landlock_path_beneath_attr {
->   #define LANDLOCK_ACCESS_FS_MAKE_SYM			(1ULL << 12)
->   #define LANDLOCK_ACCESS_FS_REFER			(1ULL << 13)
->   #define LANDLOCK_ACCESS_FS_TRUNCATE			(1ULL << 14)
-> +#define LANDLOCK_ACCESS_FS_CHMOD			(1ULL << 15)
-> +#define LANDLOCK_ACCESS_FS_CHGRP			(1ULL << 16)
->   /* clang-format on */
->   
->   #endif /* _UAPI_LINUX_LANDLOCK_H */
-> diff --git a/security/landlock/fs.c b/security/landlock/fs.c
-> index 4ef614a4ea22..6ac83d96ada7 100644
-> --- a/security/landlock/fs.c
-> +++ b/security/landlock/fs.c
-> @@ -185,7 +185,9 @@ static struct landlock_object *get_inode_object(struct inode *const inode)
->   	LANDLOCK_ACCESS_FS_EXECUTE | \
->   	LANDLOCK_ACCESS_FS_WRITE_FILE | \
->   	LANDLOCK_ACCESS_FS_READ_FILE | \
-> -	LANDLOCK_ACCESS_FS_TRUNCATE)
-> +	LANDLOCK_ACCESS_FS_TRUNCATE | \
-> +	LANDLOCK_ACCESS_FS_CHMOD | \
-> +	LANDLOCK_ACCESS_FS_CHGRP)
->   /* clang-format on */
->   
->   /*
-> @@ -690,6 +692,31 @@ static inline int current_check_access_path(const struct path *const path,
->   	return check_access_path(dom, path, access_request);
->   }
->   
-> +static inline int
-> +current_check_access_path_context_only(const struct path *const path,
-> +				       const access_mask_t access_request)
-> +{
-> +	const struct landlock_ruleset *const dom =
-> +		landlock_get_current_domain();
-> +	struct path eff_path;
-> +	int ret;
-> +
-> +	if (!dom)
-> +		return 0;
-> +	eff_path = *path;
-> +	/* if it's dir, check its visible parent. */
-> +	if (d_is_dir(eff_path.dentry)) {
-> +		path_get(&eff_path);
-> +		/* dont care if reaches the root or not. */
+to, guest, trace, when, we
 
-I may made a mistake here, I think it should return -EACCES directly if 
-the walk result is not WALK_CONTINUE.
+Signed-off-by: Akhil Raj <lf32.dev@gmail.com>
+---
+ Documentation/RCU/checklist.rst         | 2 +-
+ Documentation/RCU/lockdep.rst           | 2 +-
+ Documentation/bpf/instruction-set.rst   | 2 +-
+ Documentation/trace/histogram.rst       | 2 +-
+ Documentation/trace/timerlat-tracer.rst | 2 +-
+ Documentation/virt/kvm/x86/mmu.rst      | 2 +-
+ 6 files changed, 6 insertions(+), 6 deletions(-)
 
-> +		walk_to_visible_parent(&eff_path);
-> +		ret = current_check_access_path(&eff_path, access_request);
-> +		path_put(&eff_path);
-> +	} else {
-> +		ret = current_check_access_path(&eff_path, access_request);
-> +	}
-> +	return ret;
-> +}
-> +
->   static inline access_mask_t get_mode_access(const umode_t mode)
->   {
->   	switch (mode & S_IFMT) {
-> @@ -1177,6 +1204,18 @@ static int hook_path_truncate(const struct path *const path)
->   	return current_check_access_path(path, LANDLOCK_ACCESS_FS_TRUNCATE);
->   }
->   
-> +static int hook_path_chmod(const struct path *const path, umode_t mode)
-> +{
-> +	return current_check_access_path_context_only(path,
-> +					LANDLOCK_ACCESS_FS_CHMOD);
-> +}
-> +
-> +static int hook_path_chown(const struct path *const path, kuid_t uid, kgid_t gid)
-> +{
-> +	return current_check_access_path_context_only(path,
-> +					LANDLOCK_ACCESS_FS_CHGRP);
-> +}
-> +
->   /* File hooks */
->   
->   static inline access_mask_t get_file_access(const struct file *const file)
-> @@ -1230,6 +1269,8 @@ static struct security_hook_list landlock_hooks[] __lsm_ro_after_init = {
->   	LSM_HOOK_INIT(path_unlink, hook_path_unlink),
->   	LSM_HOOK_INIT(path_rmdir, hook_path_rmdir),
->   	LSM_HOOK_INIT(path_truncate, hook_path_truncate),
-> +	LSM_HOOK_INIT(path_chmod, hook_path_chmod),
-> +	LSM_HOOK_INIT(path_chown, hook_path_chown),
->   
->   	LSM_HOOK_INIT(file_open, hook_file_open),
->   };
-> diff --git a/security/landlock/limits.h b/security/landlock/limits.h
-> index 82288f0e9e5e..7cdd7d467d12 100644
-> --- a/security/landlock/limits.h
-> +++ b/security/landlock/limits.h
-> @@ -18,7 +18,7 @@
->   #define LANDLOCK_MAX_NUM_LAYERS		16
->   #define LANDLOCK_MAX_NUM_RULES		U32_MAX
->   
-> -#define LANDLOCK_LAST_ACCESS_FS		LANDLOCK_ACCESS_FS_TRUNCATE
-> +#define LANDLOCK_LAST_ACCESS_FS		LANDLOCK_ACCESS_FS_CHGRP
->   #define LANDLOCK_MASK_ACCESS_FS		((LANDLOCK_LAST_ACCESS_FS << 1) - 1)
->   #define LANDLOCK_NUM_ACCESS_FS		__const_hweight64(LANDLOCK_MASK_ACCESS_FS)
->   
-> diff --git a/security/landlock/syscalls.c b/security/landlock/syscalls.c
-> index f4d6fc7ed17f..469e0e11735c 100644
-> --- a/security/landlock/syscalls.c
-> +++ b/security/landlock/syscalls.c
-> @@ -129,7 +129,7 @@ static const struct file_operations ruleset_fops = {
->   	.write = fop_dummy_write,
->   };
->   
-> -#define LANDLOCK_ABI_VERSION 3
-> +#define LANDLOCK_ABI_VERSION 4
->   
->   /**
->    * sys_landlock_create_ruleset - Create a new ruleset
-> diff --git a/tools/testing/selftests/landlock/base_test.c b/tools/testing/selftests/landlock/base_test.c
-> index 72cdae277b02..9f00582f639c 100644
-> --- a/tools/testing/selftests/landlock/base_test.c
-> +++ b/tools/testing/selftests/landlock/base_test.c
-> @@ -75,7 +75,7 @@ TEST(abi_version)
->   	const struct landlock_ruleset_attr ruleset_attr = {
->   		.handled_access_fs = LANDLOCK_ACCESS_FS_READ_FILE,
->   	};
-> -	ASSERT_EQ(3, landlock_create_ruleset(NULL, 0,
-> +	ASSERT_EQ(4, landlock_create_ruleset(NULL, 0,
->   					     LANDLOCK_CREATE_RULESET_VERSION));
->   
->   	ASSERT_EQ(-1, landlock_create_ruleset(&ruleset_attr, 0,
-> diff --git a/tools/testing/selftests/landlock/fs_test.c b/tools/testing/selftests/landlock/fs_test.c
-> index debe2d9ea6cf..f513cd8d9d51 100644
-> --- a/tools/testing/selftests/landlock/fs_test.c
-> +++ b/tools/testing/selftests/landlock/fs_test.c
-> @@ -404,9 +404,11 @@ TEST_F_FORK(layout1, inval)
->   	LANDLOCK_ACCESS_FS_EXECUTE | \
->   	LANDLOCK_ACCESS_FS_WRITE_FILE | \
->   	LANDLOCK_ACCESS_FS_READ_FILE | \
-> -	LANDLOCK_ACCESS_FS_TRUNCATE)
-> +	LANDLOCK_ACCESS_FS_TRUNCATE | \
-> +	LANDLOCK_ACCESS_FS_CHMOD | \
-> +	LANDLOCK_ACCESS_FS_CHGRP)
->   
-> -#define ACCESS_LAST LANDLOCK_ACCESS_FS_TRUNCATE
-> +#define ACCESS_LAST LANDLOCK_ACCESS_FS_CHGRP
->   
->   #define ACCESS_ALL ( \
->   	ACCESS_FILE | \
-> 
+diff --git a/Documentation/RCU/checklist.rst b/Documentation/RCU/checklist.rst
+index 42cc5d891bd2..7b1c85a16dc3 100644
+--- a/Documentation/RCU/checklist.rst
++++ b/Documentation/RCU/checklist.rst
+@@ -477,6 +477,6 @@ over a rather long period of time, but improvements are always welcome!
+ 	So if you need to wait for both an RCU grace period and for
+ 	all pre-existing call_rcu() callbacks, you will need to execute
+ 	both rcu_barrier() and synchronize_rcu(), if necessary, using
+-	something like workqueues to to execute them concurrently.
++	something like workqueues to execute them concurrently.
+ 
+ 	See rcubarrier.rst for more information.
+diff --git a/Documentation/RCU/lockdep.rst b/Documentation/RCU/lockdep.rst
+index cc860a0c296b..a94f55991a71 100644
+--- a/Documentation/RCU/lockdep.rst
++++ b/Documentation/RCU/lockdep.rst
+@@ -61,7 +61,7 @@ checking of rcu_dereference() primitives:
+ 	rcu_access_pointer(p):
+ 		Return the value of the pointer and omit all barriers,
+ 		but retain the compiler constraints that prevent duplicating
+-		or coalescsing.  This is useful when when testing the
++		or coalescsing.  This is useful when testing the
+ 		value of the pointer itself, for example, against NULL.
+ 
+ The rcu_dereference_check() check expression can be any boolean
+diff --git a/Documentation/bpf/instruction-set.rst b/Documentation/bpf/instruction-set.rst
+index 1b0e6711dec9..0ac7ae40be37 100644
+--- a/Documentation/bpf/instruction-set.rst
++++ b/Documentation/bpf/instruction-set.rst
+@@ -133,7 +133,7 @@ code field of ``BPF_END``.
+ The byte swap instructions operate on the destination register
+ only and do not use a separate source register or immediate value.
+ 
+-The 1-bit source operand field in the opcode is used to to select what byte
++The 1-bit source operand field in the opcode is used to select what byte
+ order the operation convert from or to:
+ 
+   =========  =====  =================================================
+diff --git a/Documentation/trace/histogram.rst b/Documentation/trace/histogram.rst
+index 859fd1b76c63..c1b685a38f6b 100644
+--- a/Documentation/trace/histogram.rst
++++ b/Documentation/trace/histogram.rst
+@@ -412,7 +412,7 @@ Extended error information
+   Because the default sort key above is 'hitcount', the above shows a
+   the list of call_sites by increasing hitcount, so that at the bottom
+   we see the functions that made the most kmalloc calls during the
+-  run.  If instead we we wanted to see the top kmalloc callers in
++  run.  If instead we wanted to see the top kmalloc callers in
+   terms of the number of bytes requested rather than the number of
+   calls, and we wanted the top caller to appear at the top, we can use
+   the 'sort' parameter, along with the 'descending' modifier::
+diff --git a/Documentation/trace/timerlat-tracer.rst b/Documentation/trace/timerlat-tracer.rst
+index d643c95c01eb..db17df312bc8 100644
+--- a/Documentation/trace/timerlat-tracer.rst
++++ b/Documentation/trace/timerlat-tracer.rst
+@@ -20,7 +20,7 @@ For example::
+         [root@f32 ~]# cd /sys/kernel/tracing/
+         [root@f32 tracing]# echo timerlat > current_tracer
+ 
+-It is possible to follow the trace by reading the trace trace file::
++It is possible to follow the trace by reading the trace file::
+ 
+   [root@f32 tracing]# cat trace
+   # tracer: timerlat
+diff --git a/Documentation/virt/kvm/x86/mmu.rst b/Documentation/virt/kvm/x86/mmu.rst
+index 8739120f4300..8364afa228ec 100644
+--- a/Documentation/virt/kvm/x86/mmu.rst
++++ b/Documentation/virt/kvm/x86/mmu.rst
+@@ -377,7 +377,7 @@ Emulating cr0.wp
+ ================
+ 
+ If tdp is not enabled, the host must keep cr0.wp=1 so page write protection
+-works for the guest kernel, not guest guest userspace.  When the guest
++works for the guest kernel, not guest userspace.  When the guest
+ cr0.wp=1, this does not present a problem.  However when the guest cr0.wp=0,
+ we cannot map the permissions for gpte.u=1, gpte.w=0 to any spte (the
+ semantics require allowing any guest kernel access plus user read access).
+-- 
+2.17.1
+
