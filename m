@@ -2,86 +2,202 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 92E8DECAAD2
-	for <linux-doc@archiver.kernel.org>; Mon, 29 Aug 2022 17:10:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C54BCC6FA82
+	for <linux-doc@archiver.kernel.org>; Mon, 29 Aug 2022 17:16:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230231AbiH2RKb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 29 Aug 2022 13:10:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50644 "EHLO
+        id S231402AbiH2RQN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 29 Aug 2022 13:16:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35876 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230034AbiH2RKa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Aug 2022 13:10:30 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7433A4F6A4;
-        Mon, 29 Aug 2022 10:10:29 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:73:8b7:7001:c8aa:b65f])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 78BFD2E0;
-        Mon, 29 Aug 2022 17:10:28 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 78BFD2E0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1661793028; bh=6RcwsS4OrANagoYHogQySR2/On902/U+jByX/Y83jHM=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=iwwgebhZGE8Y//Z8xiIjQHD2CvwzGZKIc2kfO5RWCTXXLGkcs/9jAKQ0zJ3Q0n1se
-         rT8lY+gjbJ37vPzEJl5JtbE7lSGiR+kCZ71MMpsGEwykvgFUCmYckwC3HjCv/ECFX6
-         IGlIsA8aL7afumMMWJ8RG79PYHKE+B1Z2AOWRBrgm3r5ODMjJqvtyleYkJlggRpzta
-         N10H1mMa1TJMj50R76kb14HL54isbjFgn45N5mappruTUc+C2N48+CGH6e6U4VB/2R
-         DecFAdWM3i69/Smh9GGHI1k0bfcDHcoWUv3uEjXVgzyMavdXKoBuYM+xUpq7TLnB1+
-         cTBt9wGUcOhGA==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        Thorsten Leemhuis <linux@leemhuis.info>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-doc@vger.kernel.org
-Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Subject: Re: [RFC PATCH 0/2] Rework the kernel's README.rst
-In-Reply-To: <87czdpb598.fsf@meer.lwn.net>
-References: <20220720041325.15693-1-lukas.bulwahn@gmail.com>
- <87czdpb598.fsf@meer.lwn.net>
-Date:   Mon, 29 Aug 2022 11:10:27 -0600
-Message-ID: <871qszou0s.fsf@meer.lwn.net>
+        with ESMTP id S231373AbiH2RQJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Aug 2022 13:16:09 -0400
+Received: from mail-yw1-x112e.google.com (mail-yw1-x112e.google.com [IPv6:2607:f8b0:4864:20::112e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB47B78BE7
+        for <linux-doc@vger.kernel.org>; Mon, 29 Aug 2022 10:16:07 -0700 (PDT)
+Received: by mail-yw1-x112e.google.com with SMTP id 00721157ae682-333a4a5d495so212057487b3.10
+        for <linux-doc@vger.kernel.org>; Mon, 29 Aug 2022 10:16:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc;
+        bh=Gx2HQD0tpQBbdWem1ACm9Xo5vyJERkm6qbJN/TC6ltY=;
+        b=B7Tf35tRw6Fx3gjD21CLlEspBY/2Z8HSGoqTK8Tg9huokbrUtPaH6Z/cspLcFc2SNf
+         3/3ARPjswphIwIvNvWYPPjCkREnm7BJPdfPKcyMIzqQDeD5Rt58E2HCCC6O5CdcJw7fx
+         3nVMdy7zdOP5tqdQ11duqwxnvNcgy4sMU6BEuaR9pH2DBqSd4YA5yPcZ5+k5aIeHuba3
+         /xYlUKvo8dzzt8BAFRJvUBh3ps/CzBBtVypB1yGWGzJniKIxqdbvZE2ma4XLkS1PBNGz
+         KPsAAwDHZFdr4fz3sWKY0C3m9nsSfdJOVcMi6nTm0ONhvfELwFicDBEENKmeoDNhs7+I
+         dMJw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=Gx2HQD0tpQBbdWem1ACm9Xo5vyJERkm6qbJN/TC6ltY=;
+        b=hhzK/lUbUmnRinn5jDSH4k+v3gK0rxACsZ/g60iO28/tbLDcRzR1EnRrdxO22GbjS8
+         KvgWDbcX0ODNFYrBAgM3SFqb59jrZO9388wFdEq1Nhu9lWuSjly5U4qqYoxn4BnPckLo
+         74syKUn0wDnyZ3UTh30oNHonnERgV5O8dc9nPEMdetW3Kp8sCOtHbIVM6WZ/G4tfWh0a
+         ExfDk4DK5zipjD90HJb0DBOkpCj1WEBaKvXK21quGRjnxgg9vwOQEQQyp1e1MyqXbaRt
+         74ar6UhxXm0YHfs8dcSkVlTm4af4cC9HtfjJUnnc7L22cYzrv39Dn8ahV46i2Lcoq+ci
+         C3Hg==
+X-Gm-Message-State: ACgBeo0QOY0hDG5wrQIQl3mJ2sujWvngEmZlI7tACQSSd1L0UqsBp44I
+        cruGLsgfM5JjFtr7hu3OYS8TmKkhfpRl2FYR8CDkbA==
+X-Google-Smtp-Source: AA6agR4s3M6fT1YIBYTzPwf5QgHCTKfc8Go4cV5CsmWe7M8dZfI4OnqvJFUMFUCnQ0aNZD5HzxPJuzguDe5979zEuYc=
+X-Received: by 2002:a0d:c681:0:b0:33c:2e21:4756 with SMTP id
+ i123-20020a0dc681000000b0033c2e214756mr10499738ywd.467.1661793366537; Mon, 29
+ Aug 2022 10:16:06 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20220829114739.GA2436@debian>
+In-Reply-To: <20220829114739.GA2436@debian>
+From:   Eric Dumazet <edumazet@google.com>
+Date:   Mon, 29 Aug 2022 10:15:55 -0700
+Message-ID: <CANn89iL0hCwDKGquYyGvriPEc+GXSzf+UuZG4vb0Ah-NaVL7cA@mail.gmail.com>
+Subject: Re: [PATCH 4/4] net-next: frags: dynamic timeout under load
+To:     Richard Gobert <richardbgobert@gmail.com>
+Cc:     David Miller <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>,
+        David Ahern <dsahern@kernel.org>,
+        Alexander Aring <alex.aring@gmail.com>,
+        Stefan Schmidt <stefan@datenfreihafen.org>,
+        Pablo Neira Ayuso <pablo@netfilter.org>,
+        Jozsef Kadlecsik <kadlec@netfilter.org>,
+        Florian Westphal <fw@strlen.de>,
+        Martin KaFai Lau <kafai@fb.com>,
+        netdev <netdev@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>, linux-wpan@vger.kernel.org,
+        netfilter-devel@vger.kernel.org, coreteam@netfilter.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Jonathan Corbet <corbet@lwn.net> writes:
-
-> Lukas Bulwahn <lukas.bulwahn@gmail.com> writes:
+On Mon, Aug 29, 2022 at 4:49 AM Richard Gobert <richardbgobert@gmail.com> wrote:
 >
->> As far as I see, the README.rst file in Documentation/admin-guide/ covers
->> three rather outdated (or subsumed) aspects:
->>
->>   1. mentioning that it is possible to "run a.out user programs with this kernel"
->>
->>   2. how to report a kernel bug
->>
->>   3. the explanations around the use of LILO as a boot loader
->>
->> This patch series addressed the first two aspects; the third one simply
->> first needs some more experimenting/experience on my side to update
->> the description of the setup with a GRUB boot loader.
->>
->> I am happy if anyone else contributes or helps with this rework task on
->> the third aspect.
->>
->> I am also adding Linus as recipient, as he seems to be the original author,
->> i.e., in the text, 'me' refers to Linus.
->>
->> Please let me know if you are generally fine with this approach, and
->> if there is something on the other documentation to be done to get this
->> patch accepted.
+> Calculate a dynamic fragment reassembly timeout, taking into
+> consideration the current fqdir load and the load introduced by
+> the peer. Reintroduce low_thresh, which now acts as a knob for
+> adjusting per-peer memory limits.
 >
-> The changes seem fine to me; I'll apply them after the merge window if
-> nobody objects.
+> Signed-off-by: Richard Gobert <richardbgobert@gmail.com>
+> ---
+>  Documentation/networking/ip-sysctl.rst |  3 +++
+>  include/net/inet_frag.h                |  1 +
+>  net/ipv4/inet_fragment.c               | 30 +++++++++++++++++++++++++-
+>  net/ipv4/ip_fragment.c                 |  2 +-
+>  4 files changed, 34 insertions(+), 2 deletions(-)
+>
+> diff --git a/Documentation/networking/ip-sysctl.rst b/Documentation/networking/ip-sysctl.rst
+> index 56cd4ea059b2..fb25aa6e22a2 100644
+> --- a/Documentation/networking/ip-sysctl.rst
+> +++ b/Documentation/networking/ip-sysctl.rst
+> @@ -247,6 +247,9 @@ ipfrag_low_thresh - LONG INTEGER
+>         begins to remove incomplete fragment queues to free up resources.
+>         The kernel still accepts new fragments for defragmentation.
+>
+> +       (Since linux-6.1)
+> +       Maximum memory used to reassemble IP fragments sent by a single peer.
+> +
+>  ipfrag_time - INTEGER
+>         Time in seconds to keep an IP fragment in memory.
+>
+> diff --git a/include/net/inet_frag.h b/include/net/inet_frag.h
+> index 077a0ec78a58..595a6db57a0e 100644
+> --- a/include/net/inet_frag.h
+> +++ b/include/net/inet_frag.h
+> @@ -99,6 +99,7 @@ struct inet_frag_queue {
+>         u16                     max_size;
+>         struct fqdir            *fqdir;
+>         struct inet_peer        *peer;
+> +       u64                     timeout;
 
-I guess I've given people enough time to object :)
+Why u64 ?
 
-Patches are applied, sorry for taking so long.
+This is not what the timer interface uses (look at mod_timer(), it
+uses "unsigned long")
 
-Thanks,
+>         struct rcu_head         rcu;
+>  };
+>
+> diff --git a/net/ipv4/inet_fragment.c b/net/ipv4/inet_fragment.c
+> index 8b8d77d548d4..34c5ebba4951 100644
+> --- a/net/ipv4/inet_fragment.c
+> +++ b/net/ipv4/inet_fragment.c
+> @@ -314,6 +314,30 @@ void inet_frag_free(struct inet_frag_queue *q)
+>         call_rcu(&q->rcu, inet_frag_destroy_rcu);
+>  }
+>
+> +static int inet_frag_update_timeout(struct inet_frag_queue *q)
+> +{
+> +       u64 peer_timeout, inet_timeout;
+> +       long peer_mem, inet_mem;
+> +       long high_thresh = READ_ONCE(q->fqdir->high_thresh);
+> +       long low_thresh  = READ_ONCE(q->fqdir->low_thresh);
+> +       u64 base_timeout = READ_ONCE(q->fqdir->timeout);
+> +
+> +       peer_mem = low_thresh - peer_mem_limit(q);
+> +       inet_mem = high_thresh - frag_mem_limit(q->fqdir);
+> +
+> +       if (peer_mem <= 0 || inet_mem <= 0)
+> +               return -ENOMEM;
+> +
+> +       /* Timeout changes linearly with respect to the amount of free memory.
+> +        * Choose the more permissive of the two timeouts, to avoid limiting
+> +        * the system while there is still enough memory.
+> +        */
+> +       peer_timeout = div64_long(base_timeout * peer_mem, low_thresh);
+> +       inet_timeout = div64_long(base_timeout * inet_mem, high_thresh);
+> +       q->timeout = max_t(u64, peer_timeout, inet_timeout);
 
-jon
+If/when under load, timeout is close to zero,
+we would fire many timers (increased system load) and make impossible
+for datagrams to complete.
+
+In contrast, a reasonable timer and probabilistic drops of new datagrams
+when the queue is full lets some datagrams to complete.
+
+Make sure to test your change under a real DDOS, not only non malicious netperf
+
+> +       return 0;
+> +}
+> +
+>  void inet_frag_destroy(struct inet_frag_queue *q)
+>  {
+>         struct fqdir *fqdir;
+> @@ -346,6 +370,10 @@ static struct inet_frag_queue *inet_frag_alloc(struct fqdir *fqdir,
+>
+>         q->fqdir = fqdir;
+>         f->constructor(q, arg);
+> +       if (inet_frag_update_timeout(q)) {
+> +               inet_frag_free(q);
+> +               return NULL;
+> +       }
+>         add_frag_mem_limit(q, f->qsize);
+>
+>         timer_setup(&q->timer, f->frag_expire, 0);
+> @@ -367,7 +395,7 @@ static struct inet_frag_queue *inet_frag_create(struct fqdir *fqdir,
+>                 *prev = ERR_PTR(-ENOMEM);
+>                 return NULL;
+>         }
+> -       mod_timer(&q->timer, jiffies + fqdir->timeout);
+> +       mod_timer(&q->timer, jiffies + q->timeout);
+>
+>         *prev = rhashtable_lookup_get_insert_key(&fqdir->rhashtable, &q->key,
+>                                                  &q->node, f->rhash_params);
+> diff --git a/net/ipv4/ip_fragment.c b/net/ipv4/ip_fragment.c
+> index e35061f6aadb..88a99242d721 100644
+> --- a/net/ipv4/ip_fragment.c
+> +++ b/net/ipv4/ip_fragment.c
+> @@ -236,7 +236,7 @@ static int ip_frag_reinit(struct ipq *qp)
+>  {
+>         unsigned int sum_truesize = 0;
+>
+> -       if (!mod_timer(&qp->q.timer, jiffies + qp->q.fqdir->timeout)) {
+> +       if (!mod_timer(&qp->q.timer, jiffies + qp->q.timeout)) {
+>                 refcount_inc(&qp->q.refcnt);
+>                 return -ETIMEDOUT;
+>         }
+> --
+> 2.36.1
+>
