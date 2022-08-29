@@ -2,223 +2,91 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2DB90ECAAD2
-	for <linux-doc@archiver.kernel.org>; Mon, 29 Aug 2022 09:15:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F065ECAAD2
+	for <linux-doc@archiver.kernel.org>; Mon, 29 Aug 2022 09:25:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229898AbiH2JPU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 29 Aug 2022 05:15:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39776 "EHLO
+        id S229537AbiH2JZ3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 29 Aug 2022 05:25:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55684 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229754AbiH2JPT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Aug 2022 05:15:19 -0400
-Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 78A5A1C110;
-        Mon, 29 Aug 2022 02:15:17 -0700 (PDT)
-Received: by mail-ej1-x631.google.com with SMTP id se27so6680570ejb.8;
-        Mon, 29 Aug 2022 02:15:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc;
-        bh=vr2KR0kpkzOU3iCxlbjFB0Xu1rOwulObIcfuCs6jByc=;
-        b=P60X7mx3WNgJ/KRbXMDAp/TeiFsnHnV/r3LpHb6fIo+orSmgY6T6CiZTAOTeOgE8kt
-         agJ7G8azspMm2gO8cmCqVTrtp8Sr33B+43aWwnw+8i8cwBDyShtlrBp6nLyaxC7wd2j/
-         mu/Z9Z/fY8iy56saXXthUWFGllG4lyN9Z07+6kNODnGB1ccCeRXWTp7hdFWzn20xBuhO
-         ECSpFHamPKMLdYTJ3Ig8jykKZOZyVhTV0XndWlUAgEyrfq4QednBFjtXEmK7jlbGrG47
-         QBlM0ZW0N99ryHt75lGKN/lIC6JTUe9wDTTz/5v/tfFxO11W8R8ot0Sl0JeAVI5hBecj
-         VVHg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
-        bh=vr2KR0kpkzOU3iCxlbjFB0Xu1rOwulObIcfuCs6jByc=;
-        b=7Ju9p3UdsGsLpn6o/0qYNnHsnzlJlVN+u/1uCeRIyLQ8IZAzon+mfpMCNUe8pNQ/tR
-         NMWX1lEWbYnRHYltWP6Z5qHKx8DxEZPtDagHdNEnl+Dx1IFmAEk06BeWtwlHXodVg6+x
-         1bGN/nREdXEbp4vDaJ2ckoCJYQpJV9OjmwGNr1gqJF9/PYsH5wV9nj4/cFzgqSb33z1F
-         +j7c5STYqXYnxVO+oonfupefsxNBiq18H9hDoA1IcnOuOJiTQalnUG0l86n9Qdrg5Lgg
-         pidwsGq9+H1IEJ0CXKy6C1sUiUZd9EIwukXJ901eh5TeCVNjNqjaVm0IIQaMldVfgktO
-         6/pQ==
-X-Gm-Message-State: ACgBeo1vmOd5FGuyxip/IGe9SEBYbk3yHFmIIYyTRLVSE9K8At2wthmL
-        YmhMcUZV/3FksvvkcUrIFewGdaP9S68=
-X-Google-Smtp-Source: AA6agR4NrMnICbNHKf9+32lw5z0UO62MaAKkuN57ThLlWa6rGHBAa7rzecD3DRLsDm+DgJURwO+TTg==
-X-Received: by 2002:a17:906:4795:b0:73d:d6e8:52a7 with SMTP id cw21-20020a170906479500b0073dd6e852a7mr11607261ejc.59.1661764515543;
-        Mon, 29 Aug 2022 02:15:15 -0700 (PDT)
-Received: from imac.fritz.box ([2a02:8010:60a0:0:612e:4c5:1fc2:7d5d])
-        by smtp.gmail.com with ESMTPSA id r1-20020a17090609c100b0073cb0801104sm4287382eje.147.2022.08.29.02.15.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Aug 2022 02:15:14 -0700 (PDT)
-From:   Donald Hunter <donald.hunter@gmail.com>
-To:     bpf@vger.kernel.org, linux-doc@vger.kernel.org,
+        with ESMTP id S229679AbiH2JZ1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Aug 2022 05:25:27 -0400
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C68BB4A812;
+        Mon, 29 Aug 2022 02:25:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1661765122; x=1693301122;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=6bjFxwLEsKLZFX2cLm7NlJwmIJ4DJEjhNXC6KOzn034=;
+  b=nyjuoEazH8aUUwRUsqh4suVO1afz0fmuGY9alBp7zRXg5FO7FwsuYbyA
+   RqRLIxTesXpMfzORMHXEtJNq1jI/O2oLk3ncmGuLRCnB7gyU/NCG7UDr1
+   eeA0Sx2UHzeo1Vps1nr7puzRIiktzlypACFH96mYeXfyaRi0yxXmiU6AY
+   ot5ws1906Oz0cI5m8fnKnDwdh/lHElULZo/NRtlPI3VvtrDg5666DKQ9n
+   jkltnGTPXYjkBgryR+T+2XukZ/WCDlTCHROZQzKL9SYS42k3plLaZQc3i
+   76iLPVY95itR3vHn9c64ulGvhVsRMlaGe7DpnaBDP+MkbdF+x4Uw1e25x
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10453"; a="292433488"
+X-IronPort-AV: E=Sophos;i="5.93,272,1654585200"; 
+   d="scan'208";a="292433488"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2022 02:25:22 -0700
+X-IronPort-AV: E=Sophos;i="5.93,272,1654585200"; 
+   d="scan'208";a="640869351"
+Received: from idecesar-mobl1.ger.corp.intel.com (HELO localhost) ([10.252.53.198])
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2022 02:25:09 -0700
+From:   Jani Nikula <jani.nikula@linux.intel.com>
+To:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Dave Young <dyoung@redhat.com>
+Cc:     David Hildenbrand <david@redhat.com>,
+        John Hubbard <jhubbard@nvidia.com>,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-doc@vger.kernel.org, kexec@lists.infradead.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Ingo Molnar <mingo@kernel.org>,
+        David Laight <David.Laight@aculab.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Andrii Nakryiko <andrii.nakryiko@gmail.com>
-Cc:     Donald Hunter <donald.hunter@gmail.com>
-Subject: [PATCH bpf-next v3 2/2] Add table of BPF program types to libbpf docs
-Date:   Mon, 29 Aug 2022 10:15:00 +0100
-Message-Id: <20220829091500.24115-3-donald.hunter@gmail.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220829091500.24115-1-donald.hunter@gmail.com>
-References: <20220829091500.24115-1-donald.hunter@gmail.com>
+        Andy Whitcroft <apw@canonical.com>,
+        Joe Perches <joe@perches.com>,
+        Dwaipayan Ray <dwaipayanray1@gmail.com>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        Baoquan He <bhe@redhat.com>, Vivek Goyal <vgoyal@redhat.com>,
+        Stephen Johnston <sjohnsto@redhat.com>,
+        Prarit Bhargava <prarit@redhat.com>
+Subject: Re: [PATCH RFC 1/2] coding-style.rst: document BUG() and WARN()
+ rules ("do not crash the kernel")
+In-Reply-To: <CAHk-=wit-DmhMfQErY29JSPjFgebx_Ld+pnerc4J2Ag990WwAA@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20220824163100.224449-1-david@redhat.com>
+ <20220824163100.224449-2-david@redhat.com>
+ <0db131cf-013e-6f0e-c90b-5c1e840d869c@nvidia.com>
+ <ea380cf0-acda-aaba-fb63-2834da91b66b@redhat.com>
+ <CALu+AoThhou7z+JCyv44AxGWDLDt2b7h0W6wcKRsJyLvSR1iQA@mail.gmail.com>
+ <fe7aee66-d9f7-e472-a13f-e4c5aa176cca@redhat.com>
+ <CALu+AoRwVfr=9KabOLUQigWwCtP5RLQ1YaKbG75ZVM9E-bW2ZQ@mail.gmail.com>
+ <CAHk-=wit-DmhMfQErY29JSPjFgebx_Ld+pnerc4J2Ag990WwAA@mail.gmail.com>
+Date:   Mon, 29 Aug 2022 12:25:02 +0300
+Message-ID: <87tu5vflld.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Extend the libbpf documentation with a table of program types,
-attach points and ELF section names. This table uses data from
-program_types.csv which is generated from tools/lib/bpf/libbpf.c
-during the documentation build.
+On Sun, 28 Aug 2022, Linus Torvalds <torvalds@linux-foundation.org> wrote:
+> So WARN_ON_ONCE() is the thing to aim for. BUG_ON() is the thing for
+> "oops, I really don't know what to do, and I physically *cannot*
+> continue" (and that is *not* "I'm too lazy to do error handling").
 
-Signed-off-by: Donald Hunter <donald.hunter@gmail.com>
----
- Documentation/Makefile                     |  3 +-
- Documentation/bpf/libbpf/Makefile          | 49 ++++++++++++++++++++++
- Documentation/bpf/libbpf/index.rst         |  3 ++
- Documentation/bpf/libbpf/program_types.rst | 32 ++++++++++++++
- Documentation/bpf/programs.rst             |  3 ++
- 5 files changed, 89 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/bpf/libbpf/Makefile
- create mode 100644 Documentation/bpf/libbpf/program_types.rst
+Any insight for the tradeoff between WARN_ON_ONCE() and WARN_ON(),
+i.e. wasting the static once variable per use site vs. littering the
+dmesg on every hit? I see there have been some improvements with the
+__WARN_FLAGS() stuff, but is the data use really neglible?
 
-diff --git a/Documentation/Makefile b/Documentation/Makefile
-index 8a63ef2dcd1c..f007314770e1 100644
---- a/Documentation/Makefile
-+++ b/Documentation/Makefile
-@@ -66,7 +66,8 @@ I18NSPHINXOPTS  = $(PAPEROPT_$(PAPER)) $(SPHINXOPTS) .
- loop_cmd = $(echo-cmd) $(cmd_$(1)) || exit;
- 
- BUILD_SUBDIRS = \
--	Documentation/userspace-api/media
-+	Documentation/userspace-api/media \
-+	Documentation/bpf/libbpf
- 
- quiet_cmd_build_subdir = SUBDIR  $2
-       cmd_build_subdir = $(MAKE) BUILDDIR=$(abspath $(BUILDDIR)) $(build)=$2 $3
-diff --git a/Documentation/bpf/libbpf/Makefile b/Documentation/bpf/libbpf/Makefile
-new file mode 100644
-index 000000000000..b3dc096c4a96
---- /dev/null
-+++ b/Documentation/bpf/libbpf/Makefile
-@@ -0,0 +1,49 @@
-+# SPDX-License-Identifier: GPL-2.0
-+#
-+# Rules to convert BPF program types in tools/lib/bpf/libbpf.c
-+# into a .csv file
-+
-+FILES = program_types.csv
-+
-+TARGETS := $(addprefix $(BUILDDIR)/, $(FILES))
-+
-+# Extract program types and properties from the section definitions in libbpf.c such as
-+# SEC_DEF("socket", SOCKET_FILTER, 0, SEC_NONE) to generate program_types.csv
-+#
-+# Here is a sample of the generated output that includes .rst formatting:
-+#
-+#  Program Type,Attach Type,ELF Section Name,Sleepable
-+#  ``BPF_PROG_TYPE_SOCKET_FILTER``,,``socket``,
-+#  ``BPF_PROG_TYPE_SK_REUSEPORT``,``BPF_SK_REUSEPORT_SELECT_OR_MIGRATE``,``sk_reuseport/migrate``,
-+#  ``BPF_PROG_TYPE_SK_REUSEPORT``,``BPF_SK_REUSEPORT_SELECT``,``sk_reuseport``,
-+#  ``BPF_PROG_TYPE_KPROBE``,,``kprobe+``,
-+#  ``BPF_PROG_TYPE_KPROBE``,,``uprobe+``,
-+#  ``BPF_PROG_TYPE_KPROBE``,,``uprobe.s+``,Yes
-+
-+$(BUILDDIR)/program_types.csv:	$(srctree)/tools/lib/bpf/libbpf.c
-+	$(Q)awk -F'[",[:space:]]+' \
-+	'BEGIN { print "Program Type,Attach Type,ELF Section Name,Sleepable" } \
-+	/SEC_DEF\(\"/ && !/SEC_DEPRECATED/ { \
-+	type = "``BPF_PROG_TYPE_" $$4 "``"; \
-+	attach = index($$5, "0") ? "" : "``" $$5 "``"; \
-+	section = "``" $$3 "``"; \
-+	sleepable = index($$0, "SEC_SLEEPABLE") ? "Yes" : ""; \
-+	print type "," attach "," section "," sleepable }' \
-+	$< > $@
-+
-+.PHONY: all html epub xml latex linkcheck clean
-+
-+all: $(BUILDDIR) ${TARGETS}
-+	@:
-+
-+html: all
-+epub: all
-+xml: all
-+latex: all
-+linkcheck:
-+
-+clean:
-+	-$(Q)rm -f ${TARGETS} 2>/dev/null
-+
-+$(BUILDDIR):
-+	$(Q)mkdir -p $@
-diff --git a/Documentation/bpf/libbpf/index.rst b/Documentation/bpf/libbpf/index.rst
-index 3722537d1384..f9b3b252e28f 100644
---- a/Documentation/bpf/libbpf/index.rst
-+++ b/Documentation/bpf/libbpf/index.rst
-@@ -1,5 +1,7 @@
- .. SPDX-License-Identifier: (LGPL-2.1 OR BSD-2-Clause)
- 
-+.. _libbpf:
-+
- libbpf
- ======
- 
-@@ -7,6 +9,7 @@ libbpf
-    :maxdepth: 1
- 
-    API Documentation <https://libbpf.readthedocs.io/en/latest/api.html>
-+   program_types
-    libbpf_naming_convention
-    libbpf_build
- 
-diff --git a/Documentation/bpf/libbpf/program_types.rst b/Documentation/bpf/libbpf/program_types.rst
-new file mode 100644
-index 000000000000..04fbb48b8a6a
---- /dev/null
-+++ b/Documentation/bpf/libbpf/program_types.rst
-@@ -0,0 +1,32 @@
-+.. SPDX-License-Identifier: (LGPL-2.1 OR BSD-2-Clause)
-+
-+.. _program_types_and_elf:
-+
-+Program Types and ELF Sections
-+==============================
-+
-+The table below lists the program types, their attach types where relevant and the ELF section
-+names supported by libbpf for them. The ELF section names follow these rules:
-+
-+- ``type`` is an exact match, e.g. ``SEC("socket")``
-+- ``type+`` means it can be either exact ``SEC("type")`` or well-formed ``SEC("type/extras")``
-+  with a ‘``/``’ separator between ``type`` and ``extras``.
-+
-+When ``extras`` are specified, they provide details of how to auto-attach the BPF program.
-+The format of ``extras`` depends on the program type, e.g. ``SEC("tracepoint/<category>/<name>")``
-+for tracepoints or ``SEC("usdt/<path-to-binary>:<usdt_provider>:<usdt_name>")`` for USDT probes.
-+
-+..
-+  program_types.csv is generated from tools/lib/bpf/libbpf.c and is fomatted like this:
-+    Program Type,Attach Type,ELF Section Name,Sleepable
-+    ``BPF_PROG_TYPE_SOCKET_FILTER``,,``socket``,
-+    ``BPF_PROG_TYPE_SK_REUSEPORT``,``BPF_SK_REUSEPORT_SELECT_OR_MIGRATE``,``sk_reuseport/migrate``,
-+    ``BPF_PROG_TYPE_SK_REUSEPORT``,``BPF_SK_REUSEPORT_SELECT``,``sk_reuseport``,
-+    ``BPF_PROG_TYPE_KPROBE``,,``kprobe+``,
-+    ``BPF_PROG_TYPE_KPROBE``,,``uprobe+``,
-+    ``BPF_PROG_TYPE_KPROBE``,,``uprobe.s+``,Yes
-+
-+.. csv-table:: Program Types and Their ELF Section Names
-+   :file: ../../output/program_types.csv
-+   :widths: 40 30 20 10
-+   :header-rows: 1
-diff --git a/Documentation/bpf/programs.rst b/Documentation/bpf/programs.rst
-index 620eb667ac7a..c99000ab6d9b 100644
---- a/Documentation/bpf/programs.rst
-+++ b/Documentation/bpf/programs.rst
-@@ -7,3 +7,6 @@ Program Types
-    :glob:
- 
-    prog_*
-+
-+For a list of all program types, see :ref:`program_types_and_elf` in
-+the :ref:`libbpf` documentation.
+BR,
+Jani.
+
+
 -- 
-2.35.1
-
+Jani Nikula, Intel Open Source Graphics Center
