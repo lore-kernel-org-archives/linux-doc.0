@@ -2,109 +2,99 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B077ECAAD2
-	for <linux-doc@archiver.kernel.org>; Mon, 29 Aug 2022 18:58:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 95284ECAAD4
+	for <linux-doc@archiver.kernel.org>; Mon, 29 Aug 2022 19:26:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229486AbiH2S6m (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 29 Aug 2022 14:58:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48736 "EHLO
+        id S229747AbiH2T0H (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 29 Aug 2022 15:26:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51008 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229446AbiH2S6l (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Aug 2022 14:58:41 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8CA3C79A7F;
-        Mon, 29 Aug 2022 11:58:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-        bh=UfXwlVSd9EucvRTINPmg+Nml3ochWNbxQHvsL4Ct3yw=; b=TrBfmeqKVRnF8a9ehAUguspS2y
-        6R6yD/VAm6RJr7iWbzROKDf7OkiH2tP6Uc+zC6neY23VzfzhbHhTemFJcjSq3y+hSiHXSdIJCkMSU
-        8+wmS1lbCkLgUjsU29fuJnHo4zJ/BZcM9AjyC9xVS9wUpDjYA1NombofghdH6QChFJgdgapOhuwIs
-        fFnOsPWNUJtbd7MrDaik38UknXnD2/g+BJRFPVZQyi5n4pXeO4tkVp1gVVrIhzBSi1QFjtnMduiFg
-        I7Qji2dQ1Dn1+ns15GsdFoUgPWRQIOL/HVyp+iemByPxSb18uaIYacihaxc1dw6IkABhi7JHMh6ey
-        6Dno+i0Q==;
-Received: from [2601:1c0:6280:3f0::a6b3]
-        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1oSjy3-00CNpm-NX; Mon, 29 Aug 2022 18:58:39 +0000
-Message-ID: <a733a193-7709-db91-4783-8c09ff41b30f@infradead.org>
-Date:   Mon, 29 Aug 2022 11:58:37 -0700
+        with ESMTP id S229486AbiH2T0F (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Aug 2022 15:26:05 -0400
+Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC6148A7CA
+        for <linux-doc@vger.kernel.org>; Mon, 29 Aug 2022 12:26:02 -0700 (PDT)
+Received: by mail-pj1-x1031.google.com with SMTP id u9-20020a17090a1f0900b001fde6477464so2547437pja.4
+        for <linux-doc@vger.kernel.org>; Mon, 29 Aug 2022 12:26:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc;
+        bh=VhWA9zltNIvjVh8Z8DuaAQPbsy5x2B8HO8rAH51nZcs=;
+        b=eJWdBVSqu/L3b4Gx52Gb4jKAo92U2TKDhf7bztvP63HYkGxkmA2CVM9dFnWwHtbxyi
+         /oqM5qROQsahReI/SrXkrJbmthPE66kBHogzexruiDDXvtE1a30nJPJFmAlle+/lnR0z
+         /2BBq6o/dTJ7AVRL7iOu8FeE1wwhMaUGWML4E=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
+        bh=VhWA9zltNIvjVh8Z8DuaAQPbsy5x2B8HO8rAH51nZcs=;
+        b=h3b/qA0SxH4RDg4lKvc7FEIckOnwbCmuM850SNazXcATk6gzPkIZz7cOeGbjbOQ4CZ
+         22eoQLITjHpknd5Bkj/EEJrKqu7/Eubo1q3nFQcSLks+guA+UN3DDDy0D7zisQLr3+9y
+         vZkFfHfuP32MrSZFSiwK8iaVKnMxOhGLDRkh1GU7uTornpRo1bbcVpHx4WMT41QDi9Pv
+         D9FysTA/L0QARDr7ED7Py44dJQVmp9iE+Tsx8dB/0NHPCIdVO7EGOsXwuXBGmnK6+Xre
+         ZAhf9XefCjke21tLegFw1LrURLiBEDfVQsAO7/SP1IZ5aEx/1CCweQmAdiOBhd5hyq4o
+         66xA==
+X-Gm-Message-State: ACgBeo23uDQZ4YCAKiLsxCqHJfo0HnyQVv9ol9aaKvcMltC07EY2eQe9
+        OgTTnv2IhNCzpdMjIz+EmaIWiA==
+X-Google-Smtp-Source: AA6agR7u3y84UCyhfAk1IOVCe6FUtEm4rdvgw806xCycjSX/X3gzP52Q1hWrrhqe4GxNhc/peNJs5A==
+X-Received: by 2002:a17:902:7003:b0:172:cbb0:9af8 with SMTP id y3-20020a170902700300b00172cbb09af8mr18161965plk.57.1661801161717;
+        Mon, 29 Aug 2022 12:26:01 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id t17-20020a170902e85100b00172e6c66f84sm7901946plg.148.2022.08.29.12.26.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 29 Aug 2022 12:26:00 -0700 (PDT)
+Date:   Mon, 29 Aug 2022 12:25:59 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Robert Elliott <elliott@hpe.com>
+Cc:     mpe@ellerman.id.au, nanya@linux.vnet.ibm.com, asahiroy@kernel.org,
+        michal.lkml@markovi.net, corbet@lwn.net, ndesaulniers@google.com,
+        linux-hardening@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs/core-api: expand Fedora instructions for GCC plugins
+Message-ID: <202208291225.A0D3FAFC@keescook>
+References: <20220827193836.2582079-1-elliott@hpe.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.1.2
-Subject: Re: [PATCH v5] Remove duplicated words across the whole documentation
-Content-Language: en-US
-To:     Jules Maselbas <jmaselbas@kalray.eu>, linux-kernel@vger.kernel.org
-Cc:     Conor.Dooley@microchip.com, Bagas Sanjaya <bagasdotme@gmail.com>,
-        linux-doc@vger.kernel.org
-References: <20220826165634.5617-1-jmaselbas@kalray.eu>
- <20220829092910.12267-1-jmaselbas@kalray.eu>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20220829092910.12267-1-jmaselbas@kalray.eu>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220827193836.2582079-1-elliott@hpe.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-
-On 8/29/22 02:29, Jules Maselbas wrote:
-> Remove duplicated words (the, at, be ...) across the whole documentation.
-> In some cases the duplicated words are replaced by something that makes
-> more sense, for instance: "be be" is replaced by "can be" when possible.
+On Sat, Aug 27, 2022 at 02:38:36PM -0500, Robert Elliott wrote:
+> In Fedora 36, cross-compiling an allmodconfig configuration
+> for other architectures on x86 fails with this problem:
 > 
-> There are likely more duplicated words.
+> In file included from ../scripts/gcc-plugins/gcc-common.h:95,
+>                  from ../scripts/gcc-plugins/latent_entropy_plugin.c:78:
+> /usr/lib/gcc/aarch64-linux-gnu/12/plugin/include/builtins.h:23:10: fatal
+> error: mpc.h: No such file or directory
+>    23 | #include <mpc.h>
+>       |          ^~~~~~~
+> compilation terminated.
 > 
-> CC: Conor.Dooley@microchip.com
-> CC: Randy Dunlap <rdunlap@infradead.org>
-> CC: Bagas Sanjaya <bagasdotme@gmail.com>
-> CC: linux-doc@vger.kernel.org
-> Signed-off-by: Jules Maselbas <jmaselbas@kalray.eu>
+> In that distro, that header file is available in the separate
+> libmpc-devel package.
+> 
+> Although future versions of Fedora might correctly mark
+> that dependency, mention this additional package.
+> 
+> To help detect such problems ahead of time, describe the
+>     gcc -print-file-name=plugin
+> command that is used by scripts/gcc-plugins/Kconfig to detect
+> plugins [1].
+> 
+> [1] https://lore.kernel.org/lkml/CAHk-=wjjiYjCp61gdAMpDOsUBU-A2hFFKJoVx5VAC7yV4K6WYg@xxxxxxxxxxxxxx/
+> 
+> Fixes: 43e96ef8b70c50f ("docs/core-api: Add Fedora instructions for GCC plugins");
+> Signed-off-by: Robert Elliott <elliott@hpe.com>
 
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+Thanks!
 
-Thanks.
+Reviewed-by: Kees Cook <keescook@chromium.org>
 
-> ---
-> in v5:
->  - remove spurious changes reported by Randy Dunlap
-> in v4:
->  - remove spurious changes reported by Conor Dooley
-> in v3:
->  as suggested by Randy Dunlap:
->  - remove duplicated 'The the '
->  - remove duplicated 'at at ' (some are replaced by 'at a ')
->  - remove duplicated be, is, to, we, on ...
-> in v2:
->  - also remove the second 'the' in one sentence as suggested by
->    Bagas Sanjaya
-> ---
->  Documentation/RCU/checklist.rst                               | 2 +-
->  Documentation/admin-guide/kdump/vmcoreinfo.rst                | 2 +-
->  Documentation/bpf/instruction-set.rst                         | 2 +-
->  Documentation/bpf/map_cgroup_storage.rst                      | 4 ++--
->  Documentation/core-api/cpu_hotplug.rst                        | 3 +--
->  Documentation/devicetree/bindings/arm/arm,vexpress-juno.yaml  | 4 ++--
->  .../devicetree/bindings/arm/tegra/nvidia,tegra20-ahb.txt      | 2 +-
->  Documentation/devicetree/bindings/dma/ti-dma-crossbar.txt     | 2 +-
->  Documentation/devicetree/bindings/fpga/fpga-region.txt        | 4 ++--
->  Documentation/devicetree/bindings/mfd/ti,lp87524-q1.yaml      | 2 +-
->  Documentation/devicetree/bindings/mfd/ti,lp87561-q1.yaml      | 2 +-
->  Documentation/devicetree/bindings/mfd/ti,lp87565-q1.yaml      | 2 +-
->  .../devicetree/bindings/net/amlogic,meson-dwmac.yaml          | 2 +-
->  .../devicetree/bindings/net/can/microchip,mcp251xfd.yaml      | 2 +-
->  Documentation/driver-api/isa.rst                              | 2 +-
->  Documentation/filesystems/caching/backend-api.rst             | 2 +-
->  Documentation/filesystems/journalling.rst                     | 2 +-
->  Documentation/hwmon/f71882fg.rst                              | 2 +-
->  Documentation/locking/seqlock.rst                             | 2 +-
->  Documentation/sphinx/cdomain.py                               | 2 +-
->  Documentation/trace/histogram.rst                             | 2 +-
->  Documentation/userspace-api/media/dvb/dmx-reqbufs.rst         | 2 +-
->  Documentation/userspace-api/media/dvb/frontend_f_open.rst     | 2 +-
->  23 files changed, 26 insertions(+), 27 deletions(-)
-
+Jon, do you want to take this since it's entirely in the .rst file?
 
 -- 
-~Randy
+Kees Cook
