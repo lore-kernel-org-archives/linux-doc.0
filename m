@@ -2,66 +2,84 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B0EFEECAAD5
-	for <linux-doc@archiver.kernel.org>; Mon, 29 Aug 2022 16:24:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E8E4ECAAD5
+	for <linux-doc@archiver.kernel.org>; Mon, 29 Aug 2022 16:26:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230411AbiH2QYQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 29 Aug 2022 12:24:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55330 "EHLO
+        id S230451AbiH2Q0W (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 29 Aug 2022 12:26:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33412 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230445AbiH2QYK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Aug 2022 12:24:10 -0400
+        with ESMTP id S230437AbiH2Q0U (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Aug 2022 12:26:20 -0400
 Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E6208E9A1;
-        Mon, 29 Aug 2022 09:24:06 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 072527DF77;
+        Mon, 29 Aug 2022 09:26:19 -0700 (PDT)
 Received: from localhost (unknown [IPv6:2601:281:8300:73:8b7:7001:c8aa:b65f])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id B5F392E0;
-        Mon, 29 Aug 2022 16:24:05 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net B5F392E0
+        by ms.lwn.net (Postfix) with ESMTPSA id 702994B7;
+        Mon, 29 Aug 2022 16:26:19 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 702994B7
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1661790245; bh=XeyUldM2kmPjFp1Z0j6QSolrm05MZv8BAzINIRKoqEY=;
+        t=1661790379; bh=gwFauWkgqqgf0H4PQVp5F5OjogdUzmVvJgS+PqOMzBE=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=RnA5M4bH42RGLuL0ljDzYlRtDkw4JhryUnz2i2GYQpk8Wl5m+XidZYec3ADf7FH/i
-         NHkkMMg6VThGrpS0kyNDpugXnksCcR5Tf41LT5z41jq62QnaJKB+ArlyCEXX2L5xby
-         jRgs8t9PpxTzdovTgn2l9HjWD6G9HYmcWhfh9Sp5uSwtMNu32RylyZ9Vci4itsVmQV
-         d2gY2Cn7DGWxWGpCjNBtrWNCL7GRq57souTK4RuLHq91i2he3VvwNyXrkelsde2BhB
-         wJWaWDBIxbbyN3TwE78EsxsSrTmU9DoBFcREZH/6HmEOaUBqkeRpVNWKOeYxMcPcRz
-         b7uVGXjJoKeqg==
+        b=QWpE8BhSYiVVEwwcKtyMOF4N/lCcjt18vYX9IN+UI4y6lZUHPhqn0XakBMmk/ZqXI
+         5l445EvymDaNDToU9NijeQpTiZY7VTLonqyj8dRTBaxBl5r2KdVoGEKA35QymQ2RVh
+         digyjS1JexUvuCrkpKSmd9aNesH0bb9G3aa9f5sYKLp3q9IcdCu8bm7Y4oSD4GlVxi
+         tMkTV/PoP55wFIJnVsl82VhGqFIEJWx8a+CvAFm+M0xvJ0IOUG/e9ES5SHspYJWmmD
+         pOa9jzAxSkp/yRzF4nguVNzw8I5bid/VFlXDkDOjDlZzMg0Amt6BkiiRNp33yyzBuz
+         kIe1u+zJcXuaA==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     zhaomzhao@126.com, djwong@kernel.org
-Cc:     linux-xfs@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Zhao Mengmeng <zhaomengmeng@kylinos.cn>
-Subject: Re: [PATCH v1] Documentation: filesystems: xfs: update pseudocode
- and typo fixes
-In-Reply-To: <20220823013653.203469-1-zhaomzhao@126.com>
-References: <20220823013653.203469-1-zhaomzhao@126.com>
-Date:   Mon, 29 Aug 2022 10:24:04 -0600
-Message-ID: <87a67nqaqj.fsf@meer.lwn.net>
+To:     JunChao Sun <sunjunchao2870@gmail.com>, linux-ext4@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Cc:     tytso@mit.edu, bagasdotme@gmail.com,
+        JunChao Sun <sunjunchao2870@gmail.com>
+Subject: Re: [PATCH] Documentation: ext4: correct the document about superblock
+In-Reply-To: <20220815125233.2040-1-sunjunchao2870@gmail.com>
+References: <20220815125233.2040-1-sunjunchao2870@gmail.com>
+Date:   Mon, 29 Aug 2022 10:26:18 -0600
+Message-ID: <875yibqamt.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-zhaomzhao@126.com writes:
+JunChao Sun <sunjunchao2870@gmail.com> writes:
 
-> From: Zhao Mengmeng <zhaomengmeng@kylinos.cn>
+> The description of s_lastcheck_hi, s_first_error_time_hi, and
+> s_last_error_time_hi fields refer to themselves, while these means
+> referring to upper 8 bits (byte) of corresponding fields (s_lastcheck,
+> s_first_error_time, and s_last_error_time). Correct the mistake.
 >
-> According to the implementation of xfs_trans_roll(), it calls
-> xfs_trans_reserve(), which reserves not only log space, but also
-> free disk blocks. In short, the "transaction stuff". So change
-> xfs_log_reserve() to xfs_trans_reserve().
->
-> Besides, fix several typo issues.
->
-> Signed-off-by: Zhao Mengmeng <zhaomengmeng@kylinos.cn>
+> Signed-off-by: JunChao Sun <sunjunchao2870@gmail.com>
 > ---
->  .../filesystems/xfs-delayed-logging-design.rst       | 12 ++++++------
->  1 file changed, 6 insertions(+), 6 deletions(-)
+>  Documentation/filesystems/ext4/super.rst | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/Documentation/filesystems/ext4/super.rst b/Documentation/filesystems/ext4/super.rst
+> index 268888522e35..0152888cac29 100644
+> --- a/Documentation/filesystems/ext4/super.rst
+> +++ b/Documentation/filesystems/ext4/super.rst
+> @@ -456,15 +456,15 @@ The ext4 superblock is laid out as follows in
+>     * - 0x277
+>       - __u8
+>       - s_lastcheck_hi
+> -     - Upper 8 bits of the s_lastcheck_hi field.
+> +     - Upper 8 bits of the s_lastcheck field.
+>     * - 0x278
+>       - __u8
+>       - s_first_error_time_hi
+> -     - Upper 8 bits of the s_first_error_time_hi field.
+> +     - Upper 8 bits of the s_first_error_time field.
+>     * - 0x279
+>       - __u8
+>       - s_last_error_time_hi
+> -     - Upper 8 bits of the s_last_error_time_hi field.
+> +     - Upper 8 bits of the s_last_error_time field.
+>     * - 0x27A
+>       - __u8
 
-I've applied this to the docs tree, thanks.
+Applied to the docs tree, thanks.
 
 jon
