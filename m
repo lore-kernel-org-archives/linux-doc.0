@@ -2,92 +2,89 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C900C0502C
-	for <linux-doc@archiver.kernel.org>; Mon, 29 Aug 2022 20:39:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BDEA1ECAAD2
+	for <linux-doc@archiver.kernel.org>; Mon, 29 Aug 2022 20:53:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229644AbiH2Uj0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 29 Aug 2022 16:39:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34114 "EHLO
+        id S229488AbiH2UxL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 29 Aug 2022 16:53:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51838 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229449AbiH2UjZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Aug 2022 16:39:25 -0400
-Received: from mail.skyhub.de (mail.skyhub.de [5.9.137.197])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2E69923F4;
-        Mon, 29 Aug 2022 13:39:24 -0700 (PDT)
-Received: from nazgul.tnic (unknown [78.130.214.203])
+        with ESMTP id S229469AbiH2UxK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Aug 2022 16:53:10 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C965A7C1FE;
+        Mon, 29 Aug 2022 13:53:08 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:281:8300:73:8b7:7001:c8aa:b65f])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 50A9E1EC01D4;
-        Mon, 29 Aug 2022 22:39:19 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1661805559;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=crGRNr6fFKkrhokxbop0wrvY2dC/zvoi9jya+3ZhLN4=;
-        b=fNrFlFmcncZr9VhC1Hyr++19lF8xXPkCzfjmJ2TXYyfslHSSbClD4qFI5qP6TbNV4yDtY2
-        6OQ/2S6w7ZWOw2J4CdB7VW46bvORIOv5W5uuQNLBMporKYT3/aXV6av0UCqE4Fjoy0Yq/M
-        oYPrBFB9Q73eylWY6uKeu+Vwn2snZcg=
-Date:   Mon, 29 Aug 2022 22:39:23 +0200
-From:   Borislav Petkov <bp@alien8.de>
-To:     Yazen Ghannam <yazen.ghannam@amd.com>,
-        "Elliott, Robert (Servers)" <elliott@hpe.com>,
-        "Kani, Toshi" <toshi.kani@hpe.com>
-Cc:     Jia He <justin.he@arm.com>, Len Brown <lenb@kernel.org>,
-        James Morse <james.morse@arm.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Robert Richter <rric@kernel.org>,
-        Robert Moore <robert.moore@intel.com>,
-        Qiuxu Zhuo <qiuxu.zhuo@intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Jan Luebbe <jlu@pengutronix.de>,
-        Khuong Dinh <khuong@os.amperecomputing.com>,
-        Ard Biesheuvel <ardb@kernel.org>,
-        "linux-acpi@vger.kernel.org" <linux-acpi@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
-        "devel@acpica.org" <devel@acpica.org>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Shuai Xue <xueshuai@linux.alibaba.com>,
-        Jarkko Sakkinen <jarkko@kernel.org>,
-        "linux-efi@vger.kernel.org" <linux-efi@vger.kernel.org>,
-        "nd@arm.com" <nd@arm.com>, "Paul E. McKenney" <paulmck@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Neeraj Upadhyay <quic_neeraju@quicinc.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-        Muchun Song <songmuchun@bytedance.com>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "stable@kernel.org" <stable@kernel.org>
-Subject: Re: [RESEND PATCH v3 3/9] EDAC/ghes: Make ghes_edac a proper module
- to remove the dependency on ghes
-Message-ID: <Yw0j+5tSZXGW0gDy@nazgul.tnic>
-References: <20220822154048.188253-1-justin.he@arm.com>
- <20220822154048.188253-4-justin.he@arm.com>
- <MW5PR84MB1842F7107770654C46CB0311AB759@MW5PR84MB1842.NAMPRD84.PROD.OUTLOOK.COM>
- <YwmqKPaYtgTS4xYT@zn.tnic>
- <YwziYFGWyEe2/kIp@yaz-fattaah>
+        by ms.lwn.net (Postfix) with ESMTPSA id 3C39A6E2;
+        Mon, 29 Aug 2022 20:53:08 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 3C39A6E2
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1661806388; bh=FT/boG8NCbfvG3WRa48iItFzgVTCXb0NFZB0UWFeiGg=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=NHC6PkdKcWYSjp44yMzBVq2SxcEc0rM/XOlGel418c+Ab1943ifZ73MffX00kOuKh
+         Xa7NC8qA0v5Rev9CJXWbqtFfKqs6Gn6KdYvh0pnRBF49bb1ScarG5DUi3lP9OgwwTb
+         2umld9zq/1HK9X7Mq5TjVVuDoGLH5CxQ37529ugQJVYLekoxwStQAgw/kT0MIu80yL
+         senCNTHzHIdMRtdGeLWdMqJ77q4+GuhhO7fwwr/ijN+r92oDQAeY9aQUOJ9AXzzwXF
+         xSqyhjWIjCR9na+KhfLwNSSngyshiQXIzEdCutqqhYEsPW9IkyWfKEAm1mJkh3d8Bb
+         sWOJepDQdPRkQ==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Kees Cook <keescook@chromium.org>, Robert Elliott <elliott@hpe.com>
+Cc:     mpe@ellerman.id.au, nanya@linux.vnet.ibm.com, asahiroy@kernel.org,
+        michal.lkml@markovi.net, ndesaulniers@google.com,
+        linux-hardening@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs/core-api: expand Fedora instructions for GCC plugins
+In-Reply-To: <202208291225.A0D3FAFC@keescook>
+References: <20220827193836.2582079-1-elliott@hpe.com>
+ <202208291225.A0D3FAFC@keescook>
+Date:   Mon, 29 Aug 2022 14:53:07 -0600
+Message-ID: <87fsheojpo.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <YwziYFGWyEe2/kIp@yaz-fattaah>
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Aug 29, 2022 at 03:59:28PM +0000, Yazen Ghannam wrote:
-> GHES can be used for more than just memory errors. There are platforms where
-> memory errors are handled through the OS MCA, and PCIe AER errors are handled
-> through the FW, for example.
-> 
-> Is the HPE Server platform guaranteed to always provide memory errors through
-> GHES regardless of CPU vendor/architecture?
+Kees Cook <keescook@chromium.org> writes:
 
-/me looks in the direction of HPE folks...
+> On Sat, Aug 27, 2022 at 02:38:36PM -0500, Robert Elliott wrote:
+>> In Fedora 36, cross-compiling an allmodconfig configuration
+>> for other architectures on x86 fails with this problem:
+>> 
+>> In file included from ../scripts/gcc-plugins/gcc-common.h:95,
+>>                  from ../scripts/gcc-plugins/latent_entropy_plugin.c:78:
+>> /usr/lib/gcc/aarch64-linux-gnu/12/plugin/include/builtins.h:23:10: fatal
+>> error: mpc.h: No such file or directory
+>>    23 | #include <mpc.h>
+>>       |          ^~~~~~~
+>> compilation terminated.
+>> 
+>> In that distro, that header file is available in the separate
+>> libmpc-devel package.
+>> 
+>> Although future versions of Fedora might correctly mark
+>> that dependency, mention this additional package.
+>> 
+>> To help detect such problems ahead of time, describe the
+>>     gcc -print-file-name=plugin
+>> command that is used by scripts/gcc-plugins/Kconfig to detect
+>> plugins [1].
+>> 
+>> [1] https://lore.kernel.org/lkml/CAHk-=wjjiYjCp61gdAMpDOsUBU-A2hFFKJoVx5VAC7yV4K6WYg@xxxxxxxxxxxxxx/
+>> 
+>> Fixes: 43e96ef8b70c50f ("docs/core-api: Add Fedora instructions for GCC plugins");
+>> Signed-off-by: Robert Elliott <elliott@hpe.com>
+>
+> Thanks!
+>
+> Reviewed-by: Kees Cook <keescook@chromium.org>
+>
+> Jon, do you want to take this since it's entirely in the .rst file?
 
--- 
-Regards/Gruss,
-    Boris.
+Yes, I'll do that.
 
-https://people.kernel.org/tglx/notes-about-netiquette
+Thanks,
+
+jon
