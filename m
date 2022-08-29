@@ -2,105 +2,100 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 83928ECAAD5
-	for <linux-doc@archiver.kernel.org>; Mon, 29 Aug 2022 12:49:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B4B61C0502C
+	for <linux-doc@archiver.kernel.org>; Mon, 29 Aug 2022 12:57:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230106AbiH2Mtl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 29 Aug 2022 08:49:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37384 "EHLO
+        id S229955AbiH2M47 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 29 Aug 2022 08:56:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51040 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229788AbiH2MsX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Aug 2022 08:48:23 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72AB829C87;
-        Mon, 29 Aug 2022 05:33:45 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        with ESMTP id S229961AbiH2M42 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Aug 2022 08:56:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0A0176754
+        for <linux-doc@vger.kernel.org>; Mon, 29 Aug 2022 05:48:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1661777289;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=Vq6S9k41K0ozfm3HjX6Hm9UzfxhgAZTgGJlWKH5WN+U=;
+        b=EJa7PW3T1a51/Q0AjIw9TyD2ipL2MjXX/HSFvf0KtWtys/DQRy9eSnL2b8srm/eF8KtKfK
+        qH9wVD22b/dbAHsEsA2u3yP7vltIJT8vMYYMdLoEoKfsLZ/0dWREXdV9L9ktaG3tLHE1fH
+        zHT2OvSXDUMOGaa1oAGMn9OgOh1kGc0=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-206-DhFrdFW-PfKXWzBEp3mNsA-1; Mon, 29 Aug 2022 08:48:00 -0400
+X-MC-Unique: DhFrdFW-PfKXWzBEp3mNsA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com [10.11.54.7])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 71332B80EF3;
-        Mon, 29 Aug 2022 12:33:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E524C433D7;
-        Mon, 29 Aug 2022 12:33:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1661776423;
-        bh=BVx7YbyPMDfrYRtpBOz6+GKhJ46zqHQZiBFkpP2hkz4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=W5uumRxhoH24u+dxOE5PNQTXrfWOPCpXPp+ngZXWVHgFu2b67Ylpp9CB+nRe/3YBf
-         TUBkgCelx4d2fAo4Q74WyvGM43PpeZdKktdwXbQkwCoceJlc+tZnov1wPtznqzGNMQ
-         xiKV9SnGt0gOlj3HQrgx3vlYItWCRrYAuAWcybqBVUWVlOjCwQJO5qSZq4s3x/CBg1
-         ENSSVnwg/ToTp8H1Zi9maNgrcPoU0qyOpvci5nodSdsRSpQ0w9bN2Y6AadQojgQmbo
-         8dkVhnGnS3YvvWz8hmHY87/o616yHrBMKbhd0juM0AFqRGVZxFOHhTHRw+tsOPYKFF
-         GXjqzfKRIEqdw==
-Date:   Mon, 29 Aug 2022 15:33:34 +0300
-From:   Jarkko Sakkinen <jarkko@kernel.org>
-To:     Roberto Sassu <roberto.sassu@huaweicloud.com>
-Cc:     ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org,
-        martin.lau@linux.dev, song@kernel.org, yhs@fb.com,
-        john.fastabend@gmail.com, kpsingh@kernel.org, sdf@google.com,
-        haoluo@google.com, jolsa@kernel.org, mykolal@fb.com,
-        corbet@lwn.net, dhowells@redhat.com, rostedt@goodmis.org,
-        mingo@redhat.com, paul@paul-moore.com, jmorris@namei.org,
-        serge@hallyn.com, shuah@kernel.org, bpf@vger.kernel.org,
-        linux-doc@vger.kernel.org, keyrings@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
-        deso@posteo.net, Roberto Sassu <roberto.sassu@huawei.com>
-Subject: Re: [PATCH v14 04/10] KEYS: Move KEY_LOOKUP_ to include/linux/key.h
- and add flags check function
-Message-ID: <YwyyHr0udrOIy7IX@kernel.org>
-References: <acae432697e854748d9a44c732ec8cab807d9d46.camel@huaweicloud.com>
- <20220826091228.1701185-1-roberto.sassu@huaweicloud.com>
- <6d85d7b1f0c2341698e88bad025bd6e0b34c7666.camel@huaweicloud.com>
- <YwroKjo7IkQDepp5@kernel.org>
- <YwrpL9b3NXtjnPru@kernel.org>
- <cead9f6ad77a66425324a880bd1df389fe258d40.camel@huaweicloud.com>
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BCF091C1BD28;
+        Mon, 29 Aug 2022 12:47:58 +0000 (UTC)
+Received: from vbendel-laptop-2020.redhat.com (unknown [10.40.195.0])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 2DC2E1415117;
+        Mon, 29 Aug 2022 12:47:56 +0000 (UTC)
+From:   vbendel@redhat.com
+To:     linux-doc@vger.kernel.org
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+        trivial@kernel.org, Mike Rapoport <rppt@kernel.org>,
+        Vratislav Bendel <vbendel@redhat.com>,
+        Jozef Bacik <jobacik@redhat.com>
+Subject: [PATCH] docs: mm: fix vm overcommit documentation for OVERCOMMIT_GUESS
+Date:   Mon, 29 Aug 2022 14:46:38 +0200
+Message-Id: <20220829124638.63748-1-vbendel@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cead9f6ad77a66425324a880bd1df389fe258d40.camel@huaweicloud.com>
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Aug 29, 2022 at 09:25:05AM +0200, Roberto Sassu wrote:
-> On Sun, 2022-08-28 at 07:03 +0300, Jarkko Sakkinen wrote:
-> > On Sun, Aug 28, 2022 at 06:59:41AM +0300, Jarkko Sakkinen wrote:
-> > > On Fri, Aug 26, 2022 at 11:22:54AM +0200, Roberto Sassu wrote:
-> > > > On Fri, 2022-08-26 at 11:12 +0200, Roberto Sassu wrote:
-> > > > > From: Roberto Sassu <roberto.sassu@huawei.com>
-> > > > > 
-> > > > > In preparation for the patch that introduces the
-> > > > > bpf_lookup_user_key() eBPF
-> > > > > kfunc, move KEY_LOOKUP_ definitions to include/linux/key.h, to
-> > > > > be
-> > > > > able to
-> > > > > validate the kfunc parameters.
-> > > > > 
-> > > > > Also, introduce key_lookup_flags_valid() to check if the caller
-> > > > > set
-> > > > > in the
-> > > > > argument only defined flags. Introduce it directly in
-> > > > > include/linux/key.h,
-> > > > > to reduce the risk that the check is not in sync with currently
-> > > > > defined
-> > > > > flags.
-> > > > > 
-> > > > > Signed-off-by: Roberto Sassu <roberto.sassu@huawei.com>
-> > > > > Reviewed-by: KP Singh <kpsingh@kernel.org>
-> > > > 
-> > > > Jarkko, could you please ack it if it is fine?
-> > > 
-> > > So, as said I'm not really confident that a function is
-> > > even needed in the first place. It's fine if there are
-> > > enough call sites to make it legit.
-> > 
-> > And *if* a named constant is enough, you could probably
-> > then just squash to the same patch that uses it, right?
-> 
-> Yes, the constant seems better. Maybe, I would add in the same patch
-> that exports the lookup flags, since we have that.
+From: Vratislav Bendel <vbendel@redhat.com>
 
-Yeah, then it would be probably easier to review too
-since it is "in the context".
+Commit 8c7829b04c52 "mm: fix false-positive OVERCOMMIT_GUESS failures"
+changed the behavior of the default OVERCOMMIT_GUESS setting.
+Reflect the change also in the Documentation, namely files:
+    Documentation/admin-guide/sysctl/vm.rst
+    Documentation/mm/overcommit-accounting.rst
 
-BR, Jarkko
+Reported-by: Jozef Bacik <jobacik@redhat.com>
+Signed-off-by: Vratislav Bendel <vbendel@redhat.com>
+---
+ Documentation/admin-guide/sysctl/vm.rst    | 4 ++--
+ Documentation/mm/overcommit-accounting.rst | 3 +--
+ 2 files changed, 3 insertions(+), 4 deletions(-)
+
+diff --git a/Documentation/admin-guide/sysctl/vm.rst b/Documentation/admin-guide/sysctl/vm.rst
+index 9b833e439f09..351443427360 100644
+--- a/Documentation/admin-guide/sysctl/vm.rst
++++ b/Documentation/admin-guide/sysctl/vm.rst
+@@ -742,8 +742,8 @@ overcommit_memory
+ 
+ This value contains a flag that enables memory overcommitment.
+ 
+-When this flag is 0, the kernel attempts to estimate the amount
+-of free memory left when userspace requests more memory.
++When this flag is 0, the kernel compares the userspace memory request
++size against total memory plus swap and rejects obvious overcommits.
+ 
+ When this flag is 1, the kernel pretends there is always enough
+ memory until it actually runs out.
+diff --git a/Documentation/mm/overcommit-accounting.rst b/Documentation/mm/overcommit-accounting.rst
+index a4895d6fc1c2..e2263477f6d5 100644
+--- a/Documentation/mm/overcommit-accounting.rst
++++ b/Documentation/mm/overcommit-accounting.rst
+@@ -8,8 +8,7 @@ The Linux kernel supports the following overcommit handling modes
+ 	Heuristic overcommit handling. Obvious overcommits of address
+ 	space are refused. Used for a typical system. It ensures a
+ 	seriously wild allocation fails while allowing overcommit to
+-	reduce swap usage.  root is allowed to allocate slightly more
+-	memory in this mode. This is the default.
++	reduce swap usage. This is the default.
+ 
+ 1
+ 	Always overcommit. Appropriate for some scientific
+-- 
+2.26.3
+
