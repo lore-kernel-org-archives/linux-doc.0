@@ -2,100 +2,191 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B4B61C0502C
-	for <linux-doc@archiver.kernel.org>; Mon, 29 Aug 2022 12:57:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6732BECAAD5
+	for <linux-doc@archiver.kernel.org>; Mon, 29 Aug 2022 13:24:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229955AbiH2M47 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 29 Aug 2022 08:56:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51040 "EHLO
+        id S229801AbiH2NYR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 29 Aug 2022 09:24:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47542 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229961AbiH2M42 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Aug 2022 08:56:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0A0176754
-        for <linux-doc@vger.kernel.org>; Mon, 29 Aug 2022 05:48:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1661777289;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=Vq6S9k41K0ozfm3HjX6Hm9UzfxhgAZTgGJlWKH5WN+U=;
-        b=EJa7PW3T1a51/Q0AjIw9TyD2ipL2MjXX/HSFvf0KtWtys/DQRy9eSnL2b8srm/eF8KtKfK
-        qH9wVD22b/dbAHsEsA2u3yP7vltIJT8vMYYMdLoEoKfsLZ/0dWREXdV9L9ktaG3tLHE1fH
-        zHT2OvSXDUMOGaa1oAGMn9OgOh1kGc0=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-206-DhFrdFW-PfKXWzBEp3mNsA-1; Mon, 29 Aug 2022 08:48:00 -0400
-X-MC-Unique: DhFrdFW-PfKXWzBEp3mNsA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com [10.11.54.7])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BCF091C1BD28;
-        Mon, 29 Aug 2022 12:47:58 +0000 (UTC)
-Received: from vbendel-laptop-2020.redhat.com (unknown [10.40.195.0])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 2DC2E1415117;
-        Mon, 29 Aug 2022 12:47:56 +0000 (UTC)
-From:   vbendel@redhat.com
-To:     linux-doc@vger.kernel.org
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-        trivial@kernel.org, Mike Rapoport <rppt@kernel.org>,
-        Vratislav Bendel <vbendel@redhat.com>,
-        Jozef Bacik <jobacik@redhat.com>
-Subject: [PATCH] docs: mm: fix vm overcommit documentation for OVERCOMMIT_GUESS
-Date:   Mon, 29 Aug 2022 14:46:38 +0200
-Message-Id: <20220829124638.63748-1-vbendel@redhat.com>
+        with ESMTP id S231222AbiH2NXx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Aug 2022 09:23:53 -0400
+Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com [IPv6:2607:f8b0:4864:20::634])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84662910AB;
+        Mon, 29 Aug 2022 06:21:05 -0700 (PDT)
+Received: by mail-pl1-x634.google.com with SMTP id x23so7959064pll.7;
+        Mon, 29 Aug 2022 06:21:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc;
+        bh=LgF/oNaf8LxpEpIqQcaXZqdbWnQJVUDcVOCF2bUqIdo=;
+        b=aoPhGeJ1kCT2x9VhlhuMthu2wau1MqlvSKTX32ZoxwXfJa9w0n+fpuDP4qe5fr88aX
+         NAwe5fxTht8YRxXXEiju0r5nu1E3Mx5wN8GwW+TwqwVpFi3KQGOPA8IIA1edLIr12lW/
+         jok3jCOPDkDMsIo5DjUsrcWUPZXRX3wH+zCg3Ny3PduhTPGKsf8rXcLdd/QliznWAp3f
+         V1TOZ94Qi2PCKqZJI+KeB7aPvzjpnq6z9goN0jipUIwGJAeZjoNNbZFx6x3Eyf0my+lz
+         88BFxzjQzfKP4juHAzqsdOXVGDMjr11bzFosgwvZPOdrsz1bQuen5kuUg0VFyd5H3iE0
+         qskw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc;
+        bh=LgF/oNaf8LxpEpIqQcaXZqdbWnQJVUDcVOCF2bUqIdo=;
+        b=ML/c8M1PWgcWzuP9u83rscu87QHQly8NIgqNWsACRCNIgIIFAhmqIcXENh2IPjes7C
+         +UrBcCnO8EBpL3uFZ1Mi2DAm5LmX71WBM6ldC83f+fFeZe6uM8gUM46RJGlJ80ERkVLl
+         7X62xA/vBZS6ysVKkiBs8H7aqMdJLXiMQiOTmuEO3PdjyYzZMEdWTgcercSoLuIaklEa
+         gxoA39N8mxqFtFI0v+GAwX2zUL3hdEnF9Z/CXOAk9gGU0z/XH40FxgzNS/U8vpM+v0Lh
+         qRGEVc5+u3ApKhgEcGjEYfZYpXS/r/+Qjyuh9AjbnpOTlqRkMt/ugzH84zK12p3VhaTH
+         ywgQ==
+X-Gm-Message-State: ACgBeo29GwR7LgxdLmeSSgrNh0f3JQVp9xb0LhX/qyrAsyVtiXSkYwki
+        EUAQ6MD63A2V99dzSTJ6SHs=
+X-Google-Smtp-Source: AA6agR6gqOqyfyzd4jDRPi0Q91Y6O6BWH/vghpZqDMO9GiFhOBWYhqOFxQ8m5UQbuihzsdPNhe6tlw==
+X-Received: by 2002:a17:90b:4d8e:b0:1fd:ce88:6920 with SMTP id oj14-20020a17090b4d8e00b001fdce886920mr5022660pjb.175.1661779220314;
+        Mon, 29 Aug 2022 06:20:20 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id j6-20020a170903024600b0016bffc59718sm7559003plh.58.2022.08.29.06.20.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 29 Aug 2022 06:20:19 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date:   Mon, 29 Aug 2022 06:20:17 -0700
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     Justin Ledford <justinledford@google.com>
+Cc:     Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+        linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] hwmon: (max31790) add fanN_enable
+Message-ID: <20220829132017.GA3039965@roeck-us.net>
+References: <20220829024351.2415147-1-justinledford@google.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220829024351.2415147-1-justinledford@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Vratislav Bendel <vbendel@redhat.com>
+On Mon, Aug 29, 2022 at 02:43:51AM +0000, Justin Ledford wrote:
+> The MAX31790 has a tach input enable bit in each fan's configuration
+> register. This is only enabled by the driver if RPM mode is selected,
+> but the driver doesn't provide a way to independently enable tachometer
+> input regardless of the regulator mode.
+> 
+> By adding the fanN_enable sysfs files, we can decouple the tach input
+> from the regulator mode. Also update the documentation.
+> 
+> Signed-off-by: Justin Ledford <justinledford@google.com>
+> ---
+>  Documentation/hwmon/max31790.rst |  1 +
+>  drivers/hwmon/max31790.c         | 44 +++++++++++++++++++++++++++-----
+>  2 files changed, 38 insertions(+), 7 deletions(-)
+> 
+> diff --git a/Documentation/hwmon/max31790.rst b/Documentation/hwmon/max31790.rst
+> index 7b097c3b9b90..33c5c7330efc 100644
+> --- a/Documentation/hwmon/max31790.rst
+> +++ b/Documentation/hwmon/max31790.rst
+> @@ -38,6 +38,7 @@ Sysfs entries
+>  fan[1-12]_input    RO  fan tachometer speed in RPM
+>  fan[1-12]_fault    RO  fan experienced fault
+>  fan[1-6]_target    RW  desired fan speed in RPM
+> +fan[1-6]_enable    RW  enable or disable the tachometer input
+>  pwm[1-6]_enable    RW  regulator mode, 0=disabled (duty cycle=0%), 1=manual mode, 2=rpm mode
+>  pwm[1-6]           RW  read: current pwm duty cycle,
+>                         write: target pwm duty cycle (0-255)
+> diff --git a/drivers/hwmon/max31790.c b/drivers/hwmon/max31790.c
+> index 7e9362f6dc29..3ae02be4b41e 100644
+> --- a/drivers/hwmon/max31790.c
+> +++ b/drivers/hwmon/max31790.c
+> @@ -118,6 +118,12 @@ static struct max31790_data *max31790_update_device(struct device *dev)
+>  					goto abort;
+>  				data->target_count[i] = rv;
+>  			}
+> +
+> +			rv = i2c_smbus_read_byte_data(client,
+> +					MAX31790_REG_FAN_CONFIG(i));
+> +			if (rv < 0)
+> +				goto abort;
+> +			data->fan_config[i] = rv;
 
-Commit 8c7829b04c52 "mm: fix false-positive OVERCOMMIT_GUESS failures"
-changed the behavior of the default OVERCOMMIT_GUESS setting.
-Reflect the change also in the Documentation, namely files:
-    Documentation/admin-guide/sysctl/vm.rst
-    Documentation/mm/overcommit-accounting.rst
+Why is this needed ?
 
-Reported-by: Jozef Bacik <jobacik@redhat.com>
-Signed-off-by: Vratislav Bendel <vbendel@redhat.com>
----
- Documentation/admin-guide/sysctl/vm.rst    | 4 ++--
- Documentation/mm/overcommit-accounting.rst | 3 +--
- 2 files changed, 3 insertions(+), 4 deletions(-)
+Guenter
 
-diff --git a/Documentation/admin-guide/sysctl/vm.rst b/Documentation/admin-guide/sysctl/vm.rst
-index 9b833e439f09..351443427360 100644
---- a/Documentation/admin-guide/sysctl/vm.rst
-+++ b/Documentation/admin-guide/sysctl/vm.rst
-@@ -742,8 +742,8 @@ overcommit_memory
- 
- This value contains a flag that enables memory overcommitment.
- 
--When this flag is 0, the kernel attempts to estimate the amount
--of free memory left when userspace requests more memory.
-+When this flag is 0, the kernel compares the userspace memory request
-+size against total memory plus swap and rejects obvious overcommits.
- 
- When this flag is 1, the kernel pretends there is always enough
- memory until it actually runs out.
-diff --git a/Documentation/mm/overcommit-accounting.rst b/Documentation/mm/overcommit-accounting.rst
-index a4895d6fc1c2..e2263477f6d5 100644
---- a/Documentation/mm/overcommit-accounting.rst
-+++ b/Documentation/mm/overcommit-accounting.rst
-@@ -8,8 +8,7 @@ The Linux kernel supports the following overcommit handling modes
- 	Heuristic overcommit handling. Obvious overcommits of address
- 	space are refused. Used for a typical system. It ensures a
- 	seriously wild allocation fails while allowing overcommit to
--	reduce swap usage.  root is allowed to allocate slightly more
--	memory in this mode. This is the default.
-+	reduce swap usage. This is the default.
- 
- 1
- 	Always overcommit. Appropriate for some scientific
--- 
-2.26.3
-
+>  		}
+>  
+>  		data->last_updated = jiffies;
+> @@ -202,6 +208,9 @@ static int max31790_read_fan(struct device *dev, u32 attr, int channel,
+>  		}
+>  		mutex_unlock(&data->update_lock);
+>  		return 0;
+> +	case hwmon_fan_enable:
+> +		*val = !!(data->fan_config[channel] & MAX31790_FAN_CFG_TACH_INPUT_EN);
+> +		return 0;
+>  	default:
+>  		return -EOPNOTSUPP;
+>  	}
+> @@ -214,7 +223,7 @@ static int max31790_write_fan(struct device *dev, u32 attr, int channel,
+>  	struct i2c_client *client = data->client;
+>  	int target_count;
+>  	int err = 0;
+> -	u8 bits;
+> +	u8 bits, fan_config;
+>  	int sr;
+>  
+>  	mutex_lock(&data->update_lock);
+> @@ -243,6 +252,23 @@ static int max31790_write_fan(struct device *dev, u32 attr, int channel,
+>  					MAX31790_REG_TARGET_COUNT(channel),
+>  					data->target_count[channel]);
+>  		break;
+> +	case hwmon_fan_enable:
+> +		fan_config = data->fan_config[channel];
+> +		if (val == 0) {
+> +			fan_config &= ~MAX31790_FAN_CFG_TACH_INPUT_EN;
+> +		} else if (val == 1) {
+> +			fan_config |= MAX31790_FAN_CFG_TACH_INPUT_EN;
+> +		} else {
+> +			err = -EINVAL;
+> +			break;
+> +		}
+> +		if (fan_config != data->fan_config[channel]) {
+> +			err = i2c_smbus_write_byte_data(client, MAX31790_REG_FAN_CONFIG(channel),
+> +							fan_config);
+> +			if (!err)
+> +				data->fan_config[channel] = fan_config;
+> +		}
+> +		break;
+>  	default:
+>  		err = -EOPNOTSUPP;
+>  		break;
+> @@ -270,6 +296,10 @@ static umode_t max31790_fan_is_visible(const void *_data, u32 attr, int channel)
+>  		    !(fan_config & MAX31790_FAN_CFG_TACH_INPUT))
+>  			return 0644;
+>  		return 0;
+> +	case hwmon_fan_enable:
+> +		if (channel < NR_CHANNEL)
+> +			return 0644;
+> +		return 0;
+>  	default:
+>  		return 0;
+>  	}
+> @@ -423,12 +453,12 @@ static umode_t max31790_is_visible(const void *data,
+>  
+>  static const struct hwmon_channel_info *max31790_info[] = {
+>  	HWMON_CHANNEL_INFO(fan,
+> -			   HWMON_F_INPUT | HWMON_F_TARGET | HWMON_F_FAULT,
+> -			   HWMON_F_INPUT | HWMON_F_TARGET | HWMON_F_FAULT,
+> -			   HWMON_F_INPUT | HWMON_F_TARGET | HWMON_F_FAULT,
+> -			   HWMON_F_INPUT | HWMON_F_TARGET | HWMON_F_FAULT,
+> -			   HWMON_F_INPUT | HWMON_F_TARGET | HWMON_F_FAULT,
+> -			   HWMON_F_INPUT | HWMON_F_TARGET | HWMON_F_FAULT,
+> +			   HWMON_F_INPUT | HWMON_F_TARGET | HWMON_F_FAULT | HWMON_F_ENABLE,
+> +			   HWMON_F_INPUT | HWMON_F_TARGET | HWMON_F_FAULT | HWMON_F_ENABLE,
+> +			   HWMON_F_INPUT | HWMON_F_TARGET | HWMON_F_FAULT | HWMON_F_ENABLE,
+> +			   HWMON_F_INPUT | HWMON_F_TARGET | HWMON_F_FAULT | HWMON_F_ENABLE,
+> +			   HWMON_F_INPUT | HWMON_F_TARGET | HWMON_F_FAULT | HWMON_F_ENABLE,
+> +			   HWMON_F_INPUT | HWMON_F_TARGET | HWMON_F_FAULT | HWMON_F_ENABLE,
+>  			   HWMON_F_INPUT | HWMON_F_FAULT,
+>  			   HWMON_F_INPUT | HWMON_F_FAULT,
+>  			   HWMON_F_INPUT | HWMON_F_FAULT,
+> -- 
+> 2.37.2.672.g94769d06f0-goog
+> 
