@@ -2,43 +2,42 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 95FB1ECAAD2
-	for <linux-doc@archiver.kernel.org>; Mon, 29 Aug 2022 23:54:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2754DECAAD4
+	for <linux-doc@archiver.kernel.org>; Mon, 29 Aug 2022 23:54:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229524AbiH2XyZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 29 Aug 2022 19:54:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51382 "EHLO
+        id S229574AbiH2Xyh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 29 Aug 2022 19:54:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51516 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229508AbiH2XyY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Aug 2022 19:54:24 -0400
+        with ESMTP id S229565AbiH2Xyg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Aug 2022 19:54:36 -0400
 Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65D8D247;
-        Mon, 29 Aug 2022 16:54:23 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B24CE275;
+        Mon, 29 Aug 2022 16:54:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
         Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
         Content-Description:In-Reply-To:References;
-        bh=BsB52UPkydFC8riflUpJ1euNmd4L7oOJVadavpq9VRI=; b=fqHXR03SSArbuxJXHVUXqLVxXg
-        cqOrOk/GOjbFPsqTNVunCgdmfrsaHkJxN6AZ7U7AeoB8JuxlqxaYSc7M2nIXmeZRkHlWMrwKKo/PD
-        avfJzhGqm3ad0BYdlVguIejKLgjnB2kB74ZwYmHWieLrLCty8aOsV5wk5mGsbE8bCP7wE78bl7QQt
-        YEFvs2BSb8rQ5oVItkR+a1DYakziQraLBdPUhGzG7acQLKyrUiVkN5oGD9VFLxY/08ceNXahLj2bP
-        gX5Qy1h5qTftOg4/MZwvI/qjww2x/BcYFQFH3i+CkuJIJqFSjCQV5811wEP8cEAO5jtTp8szCkZ8Z
-        HmNdYaTQ==;
+        bh=9jNTVvjMRAW6grFHfLBzo2F+51I1/cIt+X3djvXT2II=; b=T58qP97pKEyA1GKZgxVdQ9glHA
+        MPSrOCjD6FQsyq1DA/MJj+EGg1/rMoM3bKlxfpiR4QsXgR1tTGxyh8g+y/brA4Ae0AYNkkrfGaL53
+        E7bIR/mKnk+FMW1U6/1RVBZk1nORPnbrd9xs7eJkAXfO6kmTZbaCzQcA1FcAm5GMMzfg7wmA4cO8c
+        oFSejiPfXIp4DDOF5SywFtc2LMlpzJZh08RV4SV+POPKIxRWSAlg9HRglc9QXZMQ5yKjuiBquWagV
+        iyVRDuaE5VMr+pGTGlyVxmtvgALJUSmbc/WujflaVOdJNGDGF6Lsx1MgSASyuNEDoVAqQJJ08Lrwx
+        5XjzLG0g==;
 Received: from [2601:1c0:6280:3f0::a6b3] (helo=casper.infradead.org)
         by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1oSoaD-003WK3-3d; Mon, 29 Aug 2022 23:54:21 +0000
+        id 1oSoaQ-003WLW-OL; Mon, 29 Aug 2022 23:54:35 +0000
 From:   Randy Dunlap <rdunlap@infradead.org>
 To:     linux-doc@vger.kernel.org
 Cc:     Randy Dunlap <rdunlap@infradead.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>, netdev@vger.kernel.org,
-        Jiri Pirko <jiri@nvidia.com>
-Subject: [PATCH] Documentation: networking: correct possessive "its"
-Date:   Mon, 29 Aug 2022 16:54:14 -0700
-Message-Id: <20220829235414.17110-1-rdunlap@infradead.org>
+        linux-fsdevel@vger.kernel.org,
+        linux-f2fs-devel@lists.sourceforge.net, linux-xfs@vger.kernel.org,
+        Christian Brauner <brauner@kernel.org>,
+        Seth Forshee <sforshee@kernel.org>
+Subject: [PATCH] Documentation: filesystems: correct possessive "its"
+Date:   Mon, 29 Aug 2022 16:54:29 -0700
+Message-Id: <20220829235429.17902-1-rdunlap@infradead.org>
 X-Mailer: git-send-email 2.37.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -51,72 +50,76 @@ so that they don't read as "it is".
 
 Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
 Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: "David S. Miller" <davem@davemloft.net>
-Cc: Eric Dumazet <edumazet@google.com>
-Cc: Jakub Kicinski <kuba@kernel.org>
-Cc: Paolo Abeni <pabeni@redhat.com>
-Cc: netdev@vger.kernel.org
-Cc: Jiri Pirko <jiri@nvidia.com>
+Cc: linux-fsdevel@vger.kernel.org
+Cc: linux-f2fs-devel@lists.sourceforge.net
+Cc: linux-xfs@vger.kernel.org
+Cc: Christian Brauner <brauner@kernel.org>
+Cc: Seth Forshee <sforshee@kernel.org>
 ---
- Documentation/networking/devlink/netdevsim.rst |    2 +-
- Documentation/networking/driver.rst            |    2 +-
- Documentation/networking/ipvlan.rst            |    2 +-
- Documentation/networking/l2tp.rst              |    2 +-
- Documentation/networking/switchdev.rst         |    2 +-
- 5 files changed, 5 insertions(+), 5 deletions(-)
+ Documentation/filesystems/f2fs.rst                       |    2 +-
+ Documentation/filesystems/idmappings.rst                 |    2 +-
+ Documentation/filesystems/qnx6.rst                       |    2 +-
+ Documentation/filesystems/xfs-delayed-logging-design.rst |    6 +++---
+ 4 files changed, 6 insertions(+), 6 deletions(-)
 
---- a/Documentation/networking/devlink/netdevsim.rst
-+++ b/Documentation/networking/devlink/netdevsim.rst
-@@ -67,7 +67,7 @@ The ``netdevsim`` driver supports rate o
- - setting tx_share and tx_max rate values for any rate object type;
- - setting parent node for any rate object type.
+--- a/Documentation/filesystems/f2fs.rst
++++ b/Documentation/filesystems/f2fs.rst
+@@ -287,7 +287,7 @@ compress_algorithm=%s:%d Control compres
+ 			 lz4		3 - 16
+ 			 zstd		1 - 22
+ compress_log_size=%u	 Support configuring compress cluster size, the size will
+-			 be 4KB * (1 << %u), 16KB is minimum size, also it's
++			 be 4KB * (1 << %u), 16KB is minimum size, also its
+ 			 default size.
+ compress_extension=%s	 Support adding specified extension, so that f2fs can enable
+ 			 compression on those corresponding files, e.g. if all files
+--- a/Documentation/filesystems/idmappings.rst
++++ b/Documentation/filesystems/idmappings.rst
+@@ -661,7 +661,7 @@ idmappings::
+  mount idmapping:      u0:k10000:r10000
  
--Rate nodes and it's parameters are exposed in ``netdevsim`` debugfs in RO mode.
-+Rate nodes and their parameters are exposed in ``netdevsim`` debugfs in RO mode.
- For example created rate node with name ``some_group``:
+ Assume a file owned by ``u1000`` is read from disk. The filesystem maps this id
+-to ``k21000`` according to it's idmapping. This is what is stored in the
++to ``k21000`` according to its idmapping. This is what is stored in the
+ inode's ``i_uid`` and ``i_gid`` fields.
  
- .. code:: shell
---- a/Documentation/networking/driver.rst
-+++ b/Documentation/networking/driver.rst
-@@ -8,7 +8,7 @@ Transmit path guidelines:
+ When the caller queries the ownership of this file via ``stat()`` the kernel
+--- a/Documentation/filesystems/qnx6.rst
++++ b/Documentation/filesystems/qnx6.rst
+@@ -176,7 +176,7 @@ Then userspace.
+ The requirement for a static, fixed preallocated system area comes from how
+ qnx6fs deals with writes.
  
- 1) The ndo_start_xmit method must not return NETDEV_TX_BUSY under
-    any normal circumstances.  It is considered a hard error unless
--   there is no way your device can tell ahead of time when it's
-+   there is no way your device can tell ahead of time when its
-    transmit function will become busy.
+-Each superblock got it's own half of the system area. So superblock #1
++Each superblock got its own half of the system area. So superblock #1
+ always uses blocks from the lower half while superblock #2 just writes to
+ blocks represented by the upper half bitmap system area bits.
  
-    Instead it must maintain the queue properly.  For example,
---- a/Documentation/networking/ipvlan.rst
-+++ b/Documentation/networking/ipvlan.rst
-@@ -11,7 +11,7 @@ Initial Release:
- ================
- This is conceptually very similar to the macvlan driver with one major
- exception of using L3 for mux-ing /demux-ing among slaves. This property makes
--the master device share the L2 with it's slave devices. I have developed this
-+the master device share the L2 with its slave devices. I have developed this
- driver in conjunction with network namespaces and not sure if there is use case
- outside of it.
+--- a/Documentation/filesystems/xfs-delayed-logging-design.rst
++++ b/Documentation/filesystems/xfs-delayed-logging-design.rst
+@@ -551,14 +551,14 @@ Essentially, this shows that an item tha
+ and relogged, so any tracking must be separate to the AIL infrastructure. As
+ such, we cannot reuse the AIL list pointers for tracking committed items, nor
+ can we store state in any field that is protected by the AIL lock. Hence the
+-committed item tracking needs it's own locks, lists and state fields in the log
++committed item tracking needs its own locks, lists and state fields in the log
+ item.
  
---- a/Documentation/networking/l2tp.rst
-+++ b/Documentation/networking/l2tp.rst
-@@ -530,7 +530,7 @@ its tunnel close actions. For L2TPIP soc
- handler initiates the same tunnel close actions. All sessions are
- first closed. Each session drops its tunnel ref. When the tunnel ref
- reaches zero, the tunnel puts its socket ref. When the socket is
--eventually destroyed, it's sk_destruct finally frees the L2TP tunnel
-+eventually destroyed, its sk_destruct finally frees the L2TP tunnel
- context.
+ Similar to the AIL, tracking of committed items is done through a new list
+ called the Committed Item List (CIL).  The list tracks log items that have been
+ committed and have formatted memory buffers attached to them. It tracks objects
+ in transaction commit order, so when an object is relogged it is removed from
+-it's place in the list and re-inserted at the tail. This is entirely arbitrary
++its place in the list and re-inserted at the tail. This is entirely arbitrary
+ and done to make it easy for debugging - the last items in the list are the
+ ones that are most recently modified. Ordering of the CIL is not necessary for
+ transactional integrity (as discussed in the next section) so the ordering is
+@@ -884,7 +884,7 @@ pin the object the first time it is inse
+ the CIL during a transaction commit, then we do not pin it again. Because there
+ can be multiple outstanding checkpoint contexts, we can still see elevated pin
+ counts, but as each checkpoint completes the pin count will retain the correct
+-value according to it's context.
++value according to its context.
  
- Sessions
---- a/Documentation/networking/switchdev.rst
-+++ b/Documentation/networking/switchdev.rst
-@@ -159,7 +159,7 @@ tools such as iproute2.
- 
- The switchdev driver can know a particular port's position in the topology by
- monitoring NETDEV_CHANGEUPPER notifications.  For example, a port moved into a
--bond will see it's upper master change.  If that bond is moved into a bridge,
-+bond will see its upper master change.  If that bond is moved into a bridge,
- the bond's upper master will change.  And so on.  The driver will track such
- movements to know what position a port is in in the overall topology by
- registering for netdevice events and acting on NETDEV_CHANGEUPPER.
+ Just to make matters more slightly more complex, this checkpoint level context
+ for the pin count means that the pinning of an item must take place under the
