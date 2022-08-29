@@ -2,152 +2,210 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 30CF9ECAAD2
-	for <linux-doc@archiver.kernel.org>; Mon, 29 Aug 2022 16:01:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B666C0502C
+	for <linux-doc@archiver.kernel.org>; Mon, 29 Aug 2022 16:11:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230202AbiH2QBW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 29 Aug 2022 12:01:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44094 "EHLO
+        id S229509AbiH2QLk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 29 Aug 2022 12:11:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58888 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229981AbiH2QBU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Aug 2022 12:01:20 -0400
-Received: from smtp-190f.mail.infomaniak.ch (smtp-190f.mail.infomaniak.ch [IPv6:2001:1600:3:17::190f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BFAE67D7B6
-        for <linux-doc@vger.kernel.org>; Mon, 29 Aug 2022 09:01:11 -0700 (PDT)
-Received: from smtp-2-0000.mail.infomaniak.ch (unknown [10.5.36.107])
-        by smtp-2-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4MGZt73sLWzMqD9B;
-        Mon, 29 Aug 2022 18:01:03 +0200 (CEST)
-Received: from ns3096276.ip-94-23-54.eu (unknown [23.97.221.149])
-        by smtp-2-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4MGZt630S8zlh8V4;
-        Mon, 29 Aug 2022 18:01:02 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=digikod.net;
-        s=20191114; t=1661788863;
-        bh=UDehGM8zok+fb4aL9IKQsjADGXsUJoA7AfyxVK4RScI=;
-        h=Date:To:Cc:References:From:Subject:In-Reply-To:From;
-        b=UljJ9FrIJnA4nbsJvP/j21pbDxFUUDdLhmks9Cj0wPynT87BtPv5PPBr7AI+9BGzf
-         7ub5XvC/972M0toGVuazsbSfU7iaoDsgNJipkBR1ZcCsRNGWgn4GnJtlLR/7BlV2sC
-         QyyiRc3PRpqjk6W3cJQwufU2zHjI9yHG9YcbN/2A=
-Message-ID: <de4620d2-3268-b3cc-71dd-acbbd204435e@digikod.net>
-Date:   Mon, 29 Aug 2022 18:01:01 +0200
+        with ESMTP id S229491AbiH2QLj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Aug 2022 12:11:39 -0400
+Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com [IPv6:2607:f8b0:4864:20::429])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8EBBC7AC27;
+        Mon, 29 Aug 2022 09:11:37 -0700 (PDT)
+Received: by mail-pf1-x429.google.com with SMTP id 142so8641251pfu.10;
+        Mon, 29 Aug 2022 09:11:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc;
+        bh=ZLJprdSF7B9VmDv96y32lbC/nxnuJtlLWqkvWQJI7GM=;
+        b=QNoZpQoksuaTayMbMPSS3WlcUO5QtSSqmsHxgSUZ65MnrVcKCcxL6MKypW/+cwyXni
+         2+Ovg7HruU//xwKfY1FLHjMrN1SAYBJ+Dt3RIA/DzwhtlAUTfIOQSN7vbCCeNxqhj5X6
+         tNgMymMaB4Br9JUZB65cYaxzLfzXbdIUIWcMzOL7QQbfClprpG9BCTxw8Kn+BWUMQNOE
+         4WKpXmY8ZVi1rQcqu+rngsayxfqe+68g/znOhSzbR7GVs5/R+JeBZiOkNdrucnpg2crb
+         wIbyR4P8uD18rrtj6FSPiyw2gaXOOaFAHrqUTobKhBe9CoBmJNpomdIFM0mtgMaTuPuI
+         /gfw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc;
+        bh=ZLJprdSF7B9VmDv96y32lbC/nxnuJtlLWqkvWQJI7GM=;
+        b=PY9tbUsqrerOoSFcD2S4feR35QK1e+1ThJefbj3smBHPeAbAMJmi8Qr9pC7P0OGh8Q
+         IM+I7GjMQkfbB24BLjJie7p+fg2/eGEnIAm/D+skKRq5YZC5HjQnFBoxjODrPmHb/GPz
+         AhI+skcbGbRqhDfh6iDxyMjuJg+766nV8KLhYlSZFtp4pMML16bRfakTfpWLnX6jdKDh
+         m/L0dNpsiYR3gHpg8IsD7w9zFvbUQjhpsX25EXGMDeBtUMbgTPiDL6krU2xevh6dNmlk
+         3MzcewfKpFS1rm+mM3hv7U9N0sz4E7ePUnUM/3v2HgcY4PiSYkF+25AjZGiusg7Tl9yv
+         yp4A==
+X-Gm-Message-State: ACgBeo1/hPQs5Z2RGOnnE2qaJuexxtXGwk9w8FnL5TTQ5rDBJLQIar3X
+        U6M4A9Wo0by2Y1Gw4NTZXX8=
+X-Google-Smtp-Source: AA6agR7Ue+C+yLLKp7/pE8ChoOX6D+a1sm8YZkdo4UfIDyMYoqHe0yfr71HJxLEPtJENEwOfQfub0g==
+X-Received: by 2002:a63:4621:0:b0:429:f162:555e with SMTP id t33-20020a634621000000b00429f162555emr14299561pga.63.1661789497044;
+        Mon, 29 Aug 2022 09:11:37 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id p66-20020a625b45000000b0052e5bb18a41sm7384266pfb.58.2022.08.29.09.11.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 29 Aug 2022 09:11:36 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date:   Mon, 29 Aug 2022 09:11:35 -0700
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     Justin Ledford <justinledford@google.com>
+Cc:     Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+        linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] hwmon: (max31790) add fanN_enable
+Message-ID: <20220829161135.GB1320973@roeck-us.net>
+References: <20220829024351.2415147-1-justinledford@google.com>
+ <20220829132017.GA3039965@roeck-us.net>
+ <CAHCvCEcGvrS=3p2Whj0Cmx9sx+aSzX2097LahQ=f3eRCCAN_bA@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: 
-Content-Language: en-US
-To:     xiujianfeng <xiujianfeng@huawei.com>,
-        =?UTF-8?Q?G=c3=bcnther_Noack?= <gnoack3000@gmail.com>
-Cc:     paul@paul-moore.com, jmorris@namei.org, serge@hallyn.com,
-        shuah@kernel.org, corbet@lwn.net,
-        linux-security-module@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-doc@vger.kernel.org
-References: <20220827111215.131442-1-xiujianfeng@huawei.com>
- <20220827111215.131442-4-xiujianfeng@huawei.com> <Ywpw66EYRDTQIyTx@nuc>
- <de8834b6-0ff2-1a81-f2d3-af33103e9942@huawei.com>
-From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
-Subject: Re: [PATCH -next v2 3/6] landlock: add chmod and chown support
-In-Reply-To: <de8834b6-0ff2-1a81-f2d3-af33103e9942@huawei.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAHCvCEcGvrS=3p2Whj0Cmx9sx+aSzX2097LahQ=f3eRCCAN_bA@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Mon, Aug 29, 2022 at 08:09:21AM -0700, Justin Ledford wrote:
+> The tach input isn't enabled in the device by default. So the only way
+> to start using the fan input sensors is to set the regulator mode
+> through the driver to RPM mode and then back to whatever mode you
+> actually want to use. The I2C interface to the device doesn't couple
+> the tach input to the regulator mode so I don't think it makes sense
+> for the driver to do this either.
+> 
+Please don't top-post.
 
-On 29/08/2022 03:17, xiujianfeng wrote:
-> 
-> Hi,
-> 
-> 在 2022/8/28 3:30, Günther Noack 写道:
->> Hello!
->>
->> the mapping between Landlock rights to LSM hooks is now as follows in
->> your patch set:
->>
->> * LANDLOCK_ACCESS_FS_CHMOD controls hook_path_chmod
->> * LANDLOCK_ACCESS_FS_CHGRP controls hook_path_chown
->>     (this hook can restrict both the chown(2) and chgrp(2) syscalls)
->>
->> Is this the desired mapping?
->>
->> The previous discussion I found on the topic was in
->>
->> [1] https://lore.kernel.org/all/5873455f-fff9-618c-25b1-8b6a4ec94368@digikod.net/
->> [2] https://lore.kernel.org/all/b1d69dfa-6d93-2034-7854-e2bc4017d20e@schaufler-ca.com/
->> [3] https://lore.kernel.org/all/c369c45d-5aa8-3e39-c7d6-b08b165495fd@digikod.net/
->>
->> In my understanding the main arguments were the ones in [2] and [3].
->>
->> There were no further responses to [3], so I was under the impression
->> that we were gravitating towards an approach where the
->> file-metadata-modification operations were grouped more coarsely?
->>
->> For example with the approach suggested in [3], which would be to
->> group the operations coarsely into (a) one Landlock right for
->> modifying file metadata that is used in security contexts, and (b) one
->> Landlock right for modifying metadata that was used in non-security
->> contexts. That would mean that there would be:
->>
->> (a) LANDLOCK_ACCESS_FS_MODIFY_SECURITY_ATTRIBUTES to control the
->> following operations:
->>     * chmod(2)-variants through hook_path_chmod,
->>     * chown(2)-variants and chgrp(2)-variants through hook_path_chown,
->>     * setxattr(2)-variants and removexattr(2)-variants for extended
->>       attributes that are not "user extended attributes" as described in
->>       xattr(7) through hook_inode_setxattr and hook_inode_removexattr
->>
->> (b) LANDLOCK_ACCESS_FS_MODIFY_NON_SECURITY_ATTRIBUTES to control the
->> following operations:
->>     * utimes(2) and other operations for setting other non-security
->>       sensitive attributes, probably through hook_inode_setattr(?)
->>     * xattr modifications like above, but for the "user extended
->>       attributes", though hook_inode_setxattr and hook_inode_removexattr
->>
->> In my mind, this would be a sensible grouping, and it would also help
->> to decouple the userspace-exposed API from the underlying
->> implementation, as Casey suggested to do in [2].
->>
->> Specifically for this patch set, if you want to use this grouping, you
->> would only need to add one new Landlock right
->> (LANDLOCK_ACCESS_FS_MODIFY_SECURITY_ATTRIBUTES) as described above
->> under (a) (and maybe we can find a shorter name for it... :))?
->>
->> Did I miss any operations here that would be necessary to restrict?
->>
->> Would that make sense to you? Xiu, what is your opinion on how this
->> should be grouped? Do you have use cases in mind where a more
->> fine-grained grouping would be required?
-> 
-> I apologize I may missed that discussion when I prepared v2:(
-> 
-> Yes, agreed, this grouping is more sensible and resonnable. so in this
-> patchset only one right will be added, and I suppose the first commit
-> which expand access_mask_t to u32 can be droped.
-> 
->>
->> —Günther
->>
->> P.S.: Regarding utimes: The hook_inode_setattr hook *also* gets called
->> on a variety on attribute changes including file ownership, file size
->> and file mode, so it might potentially interact with a bunch of other
->> existing Landlock rights. Maybe that is not the right approach. In any
->> case, it seems like it might require more thinking and it might be
->> sensible to do that in a separate patch set IMHO.
-> 
-> Thanks for you reminder, that seems it's more complicated to support
-> utimes, so I think we'd better not support it in this patchset.
+The above does not answer my question why fan_config[] wound need to
+be updated repeatedly.
 
-The issue with this approach is that it makes it impossible to properly 
-group such access rights. Indeed, to avoid inconsistencies and much more 
-complexity, we cannot extend a Landlock access right once it is defined.
+Guenter
 
-We also need to consider that file ownership and permissions have a 
-default (e.g. umask), which is also a way to set them. How to 
-consistently manage that? What if the application wants to protect its 
-files with chmod 0400?
-
-About the naming, I think we can start with:
-- LANDLOCK_ACCESS_FS_READ_METADATA (read any file/dir metadata);
-- LANDLOCK_ACCESS_FS_WRITE_SAFE_METADATA: change file times, user xattr;
-- LANDLOCK_ACCESS_FS_WRITE_UNSAFE_METADATA: interpreted by the kernel 
-(could change non-Landlock DAC or MAC, which could be considered as a 
-policy bypass; or other various xattr that might be interpreted by 
-filesystems), this should be denied most of the time.
+> On Mon, Aug 29, 2022 at 6:20 AM Guenter Roeck <linux@roeck-us.net> wrote:
+> >
+> > On Mon, Aug 29, 2022 at 02:43:51AM +0000, Justin Ledford wrote:
+> > > The MAX31790 has a tach input enable bit in each fan's configuration
+> > > register. This is only enabled by the driver if RPM mode is selected,
+> > > but the driver doesn't provide a way to independently enable tachometer
+> > > input regardless of the regulator mode.
+> > >
+> > > By adding the fanN_enable sysfs files, we can decouple the tach input
+> > > from the regulator mode. Also update the documentation.
+> > >
+> > > Signed-off-by: Justin Ledford <justinledford@google.com>
+> > > ---
+> > >  Documentation/hwmon/max31790.rst |  1 +
+> > >  drivers/hwmon/max31790.c         | 44 +++++++++++++++++++++++++++-----
+> > >  2 files changed, 38 insertions(+), 7 deletions(-)
+> > >
+> > > diff --git a/Documentation/hwmon/max31790.rst b/Documentation/hwmon/max31790.rst
+> > > index 7b097c3b9b90..33c5c7330efc 100644
+> > > --- a/Documentation/hwmon/max31790.rst
+> > > +++ b/Documentation/hwmon/max31790.rst
+> > > @@ -38,6 +38,7 @@ Sysfs entries
+> > >  fan[1-12]_input    RO  fan tachometer speed in RPM
+> > >  fan[1-12]_fault    RO  fan experienced fault
+> > >  fan[1-6]_target    RW  desired fan speed in RPM
+> > > +fan[1-6]_enable    RW  enable or disable the tachometer input
+> > >  pwm[1-6]_enable    RW  regulator mode, 0=disabled (duty cycle=0%), 1=manual mode, 2=rpm mode
+> > >  pwm[1-6]           RW  read: current pwm duty cycle,
+> > >                         write: target pwm duty cycle (0-255)
+> > > diff --git a/drivers/hwmon/max31790.c b/drivers/hwmon/max31790.c
+> > > index 7e9362f6dc29..3ae02be4b41e 100644
+> > > --- a/drivers/hwmon/max31790.c
+> > > +++ b/drivers/hwmon/max31790.c
+> > > @@ -118,6 +118,12 @@ static struct max31790_data *max31790_update_device(struct device *dev)
+> > >                                       goto abort;
+> > >                               data->target_count[i] = rv;
+> > >                       }
+> > > +
+> > > +                     rv = i2c_smbus_read_byte_data(client,
+> > > +                                     MAX31790_REG_FAN_CONFIG(i));
+> > > +                     if (rv < 0)
+> > > +                             goto abort;
+> > > +                     data->fan_config[i] = rv;
+> >
+> > Why is this needed ?
+> >
+> > Guenter
+> >
+> > >               }
+> > >
+> > >               data->last_updated = jiffies;
+> > > @@ -202,6 +208,9 @@ static int max31790_read_fan(struct device *dev, u32 attr, int channel,
+> > >               }
+> > >               mutex_unlock(&data->update_lock);
+> > >               return 0;
+> > > +     case hwmon_fan_enable:
+> > > +             *val = !!(data->fan_config[channel] & MAX31790_FAN_CFG_TACH_INPUT_EN);
+> > > +             return 0;
+> > >       default:
+> > >               return -EOPNOTSUPP;
+> > >       }
+> > > @@ -214,7 +223,7 @@ static int max31790_write_fan(struct device *dev, u32 attr, int channel,
+> > >       struct i2c_client *client = data->client;
+> > >       int target_count;
+> > >       int err = 0;
+> > > -     u8 bits;
+> > > +     u8 bits, fan_config;
+> > >       int sr;
+> > >
+> > >       mutex_lock(&data->update_lock);
+> > > @@ -243,6 +252,23 @@ static int max31790_write_fan(struct device *dev, u32 attr, int channel,
+> > >                                       MAX31790_REG_TARGET_COUNT(channel),
+> > >                                       data->target_count[channel]);
+> > >               break;
+> > > +     case hwmon_fan_enable:
+> > > +             fan_config = data->fan_config[channel];
+> > > +             if (val == 0) {
+> > > +                     fan_config &= ~MAX31790_FAN_CFG_TACH_INPUT_EN;
+> > > +             } else if (val == 1) {
+> > > +                     fan_config |= MAX31790_FAN_CFG_TACH_INPUT_EN;
+> > > +             } else {
+> > > +                     err = -EINVAL;
+> > > +                     break;
+> > > +             }
+> > > +             if (fan_config != data->fan_config[channel]) {
+> > > +                     err = i2c_smbus_write_byte_data(client, MAX31790_REG_FAN_CONFIG(channel),
+> > > +                                                     fan_config);
+> > > +                     if (!err)
+> > > +                             data->fan_config[channel] = fan_config;
+> > > +             }
+> > > +             break;
+> > >       default:
+> > >               err = -EOPNOTSUPP;
+> > >               break;
+> > > @@ -270,6 +296,10 @@ static umode_t max31790_fan_is_visible(const void *_data, u32 attr, int channel)
+> > >                   !(fan_config & MAX31790_FAN_CFG_TACH_INPUT))
+> > >                       return 0644;
+> > >               return 0;
+> > > +     case hwmon_fan_enable:
+> > > +             if (channel < NR_CHANNEL)
+> > > +                     return 0644;
+> > > +             return 0;
+> > >       default:
+> > >               return 0;
+> > >       }
+> > > @@ -423,12 +453,12 @@ static umode_t max31790_is_visible(const void *data,
+> > >
+> > >  static const struct hwmon_channel_info *max31790_info[] = {
+> > >       HWMON_CHANNEL_INFO(fan,
+> > > -                        HWMON_F_INPUT | HWMON_F_TARGET | HWMON_F_FAULT,
+> > > -                        HWMON_F_INPUT | HWMON_F_TARGET | HWMON_F_FAULT,
+> > > -                        HWMON_F_INPUT | HWMON_F_TARGET | HWMON_F_FAULT,
+> > > -                        HWMON_F_INPUT | HWMON_F_TARGET | HWMON_F_FAULT,
+> > > -                        HWMON_F_INPUT | HWMON_F_TARGET | HWMON_F_FAULT,
+> > > -                        HWMON_F_INPUT | HWMON_F_TARGET | HWMON_F_FAULT,
+> > > +                        HWMON_F_INPUT | HWMON_F_TARGET | HWMON_F_FAULT | HWMON_F_ENABLE,
+> > > +                        HWMON_F_INPUT | HWMON_F_TARGET | HWMON_F_FAULT | HWMON_F_ENABLE,
+> > > +                        HWMON_F_INPUT | HWMON_F_TARGET | HWMON_F_FAULT | HWMON_F_ENABLE,
+> > > +                        HWMON_F_INPUT | HWMON_F_TARGET | HWMON_F_FAULT | HWMON_F_ENABLE,
+> > > +                        HWMON_F_INPUT | HWMON_F_TARGET | HWMON_F_FAULT | HWMON_F_ENABLE,
+> > > +                        HWMON_F_INPUT | HWMON_F_TARGET | HWMON_F_FAULT | HWMON_F_ENABLE,
+> > >                          HWMON_F_INPUT | HWMON_F_FAULT,
+> > >                          HWMON_F_INPUT | HWMON_F_FAULT,
+> > >                          HWMON_F_INPUT | HWMON_F_FAULT,
+> > > --
+> > > 2.37.2.672.g94769d06f0-goog
+> > >
