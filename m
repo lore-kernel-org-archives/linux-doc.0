@@ -2,109 +2,92 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B17D5ECAAD8
-	for <linux-doc@archiver.kernel.org>; Mon, 29 Aug 2022 20:34:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C900C0502C
+	for <linux-doc@archiver.kernel.org>; Mon, 29 Aug 2022 20:39:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229477AbiH2UeY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 29 Aug 2022 16:34:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52514 "EHLO
+        id S229644AbiH2Uj0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 29 Aug 2022 16:39:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34114 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229449AbiH2UeY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Aug 2022 16:34:24 -0400
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 578A086064;
-        Mon, 29 Aug 2022 13:34:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1661805263; x=1693341263;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=8uSHJfqUknE7dGMkPzrFJmVlMzuB1CY6SWhcH+woX28=;
-  b=HW8hBwSzVC1aa8dUOkwjjM+7abDVicnEEyQlXknOcmYcRyeUwKlf0guj
-   DRXODq1OVmq0GWW/CMXwtvLI9zw9eJ+8KPha+ol3Yad8m7tU2sm4ErLJ8
-   sSw7vWWCoo8R38DULXtLpkws9tWMQlczUmpSLJMDfxXkDtwogscW5EjOd
-   iMqXrAWC96lJyoDDI+RbyKrzvaySRO2W5GYIWA0w9WtxoCthinUR+MDw2
-   MnFeiUstUtN42qwP9AN5k+uxkzJxhEtaod5PhiB0+JVNPQtV5zHmt1M34
-   EXcwym4+lRGfjSvGjWhUldHTP6RZtYc2/12IMuEAoVyFvAyYdCvV/OHVX
-   A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10454"; a="295772210"
-X-IronPort-AV: E=Sophos;i="5.93,273,1654585200"; 
-   d="scan'208";a="295772210"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2022 13:34:22 -0700
-X-IronPort-AV: E=Sophos;i="5.93,273,1654585200"; 
-   d="scan'208";a="679759317"
-Received: from sbhansal-mobl1.amr.corp.intel.com (HELO [10.251.30.71]) ([10.251.30.71])
-  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Aug 2022 13:34:21 -0700
-Message-ID: <9e41582a-425d-5b85-a83a-9590388a0d40@linux.intel.com>
-Date:   Mon, 29 Aug 2022 13:34:20 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Firefox/91.0 Thunderbird/91.11.0
-Subject: Re: [PATCH v11 1/3] x86/tdx: Add TDX Guest attestation interface
- driver
-Content-Language: en-US
-To:     Dave Hansen <dave.hansen@intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        Shuah Khan <shuah@kernel.org>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        with ESMTP id S229449AbiH2UjZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Aug 2022 16:39:25 -0400
+Received: from mail.skyhub.de (mail.skyhub.de [5.9.137.197])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2E69923F4;
+        Mon, 29 Aug 2022 13:39:24 -0700 (PDT)
+Received: from nazgul.tnic (unknown [78.130.214.203])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 50A9E1EC01D4;
+        Mon, 29 Aug 2022 22:39:19 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1661805559;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=crGRNr6fFKkrhokxbop0wrvY2dC/zvoi9jya+3ZhLN4=;
+        b=fNrFlFmcncZr9VhC1Hyr++19lF8xXPkCzfjmJ2TXYyfslHSSbClD4qFI5qP6TbNV4yDtY2
+        6OQ/2S6w7ZWOw2J4CdB7VW46bvORIOv5W5uuQNLBMporKYT3/aXV6av0UCqE4Fjoy0Yq/M
+        oYPrBFB9Q73eylWY6uKeu+Vwn2snZcg=
+Date:   Mon, 29 Aug 2022 22:39:23 +0200
+From:   Borislav Petkov <bp@alien8.de>
+To:     Yazen Ghannam <yazen.ghannam@amd.com>,
+        "Elliott, Robert (Servers)" <elliott@hpe.com>,
+        "Kani, Toshi" <toshi.kani@hpe.com>
+Cc:     Jia He <justin.he@arm.com>, Len Brown <lenb@kernel.org>,
+        James Morse <james.morse@arm.com>,
         Tony Luck <tony.luck@intel.com>,
-        Andi Kleen <ak@linux.intel.com>,
-        Kai Huang <kai.huang@intel.com>,
-        Wander Lairson Costa <wander@redhat.com>,
-        Isaku Yamahata <isaku.yamahata@gmail.com>,
-        marcelo.cerri@canonical.com, tim.gardner@canonical.com,
-        khalid.elmously@canonical.com, philip.cox@canonical.com,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-doc@vger.kernel.org
-References: <20220826150638.2397576-1-sathyanarayanan.kuppuswamy@linux.intel.com>
- <dcf53e6b-d60f-5d6b-029a-38df68d66302@intel.com>
- <c6ccbcac-c5b1-f460-01e2-e1b6684b6e65@linux.intel.com>
- <YwxO2L/MtCw/OHGB@kroah.com>
- <73b375c3-97a7-5f25-5abf-48d9ec6be2db@linux.intel.com>
- <12ab0a8a-a286-4f21-3b44-a506a6c2d008@intel.com>
-From:   Sathyanarayanan Kuppuswamy 
-        <sathyanarayanan.kuppuswamy@linux.intel.com>
-In-Reply-To: <12ab0a8a-a286-4f21-3b44-a506a6c2d008@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Robert Richter <rric@kernel.org>,
+        Robert Moore <robert.moore@intel.com>,
+        Qiuxu Zhuo <qiuxu.zhuo@intel.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Jan Luebbe <jlu@pengutronix.de>,
+        Khuong Dinh <khuong@os.amperecomputing.com>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        "linux-acpi@vger.kernel.org" <linux-acpi@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
+        "devel@acpica.org" <devel@acpica.org>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Shuai Xue <xueshuai@linux.alibaba.com>,
+        Jarkko Sakkinen <jarkko@kernel.org>,
+        "linux-efi@vger.kernel.org" <linux-efi@vger.kernel.org>,
+        "nd@arm.com" <nd@arm.com>, "Paul E. McKenney" <paulmck@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Neeraj Upadhyay <quic_neeraju@quicinc.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+        Muchun Song <songmuchun@bytedance.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "stable@kernel.org" <stable@kernel.org>
+Subject: Re: [RESEND PATCH v3 3/9] EDAC/ghes: Make ghes_edac a proper module
+ to remove the dependency on ghes
+Message-ID: <Yw0j+5tSZXGW0gDy@nazgul.tnic>
+References: <20220822154048.188253-1-justin.he@arm.com>
+ <20220822154048.188253-4-justin.he@arm.com>
+ <MW5PR84MB1842F7107770654C46CB0311AB759@MW5PR84MB1842.NAMPRD84.PROD.OUTLOOK.COM>
+ <YwmqKPaYtgTS4xYT@zn.tnic>
+ <YwziYFGWyEe2/kIp@yaz-fattaah>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <YwziYFGWyEe2/kIp@yaz-fattaah>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-
-On 8/29/22 1:28 PM, Dave Hansen wrote:
-> On 8/29/22 13:09, Sathyanarayanan Kuppuswamy wrote:
->> With the changed format, we avoided the holes, but it still adds 7 bytes of padding.
->>
->> Total size of struct is 32 bytes.
->>
->> struct tdx_report_req {
->> 	__u64                      reportdata;           /*     0     8 */
->> 	__u64                      tdreport;             /*     8     8 */
->> 	__u32                      rpd_len;              /*    16     4 */
->> 	__u32                      tdr_len;              /*    20     4 */
->> 	__u8                       subtype;              /*    24     1 */
->>
->> 	/* size: 32, cachelines: 1, members: 5 */
->> 	/* padding: 7 */
->> 	/* last cacheline: 32 bytes */
->> };
+On Mon, Aug 29, 2022 at 03:59:28PM +0000, Yazen Ghannam wrote:
+> GHES can be used for more than just memory errors. There are platforms where
+> memory errors are handled through the OS MCA, and PCIe AER errors are handled
+> through the FW, for example.
 > 
-> Might as well make some use of the padding and add:
-> 
-> 	u8 reserved[7];
-> 
-> That will ensure that the entire structure is explicitly sized *AND*
-> leave you room to add flags or other fun in the future without a new ABI.
+> Is the HPE Server platform guaranteed to always provide memory errors through
+> GHES regardless of CPU vendor/architecture?
 
-Ok. I will add it in next version.
+/me looks in the direction of HPE folks...
 
 -- 
-Sathyanarayanan Kuppuswamy
-Linux Kernel Developer
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
