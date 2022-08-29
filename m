@@ -2,62 +2,121 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A024ECAAD2
-	for <linux-doc@archiver.kernel.org>; Mon, 29 Aug 2022 23:40:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 95FB1ECAAD2
+	for <linux-doc@archiver.kernel.org>; Mon, 29 Aug 2022 23:54:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229446AbiH2Xkj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 29 Aug 2022 19:40:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56640 "EHLO
+        id S229524AbiH2XyZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 29 Aug 2022 19:54:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51382 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229447AbiH2Xki (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Aug 2022 19:40:38 -0400
-Received: from gandalf.ozlabs.org (mail.ozlabs.org [IPv6:2404:9400:2221:ea00::3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E80602F658
-        for <linux-doc@vger.kernel.org>; Mon, 29 Aug 2022 16:40:36 -0700 (PDT)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by mail.ozlabs.org (Postfix) with ESMTPSA id 4MGn4G5VpBz4x3w;
-        Tue, 30 Aug 2022 09:40:30 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ozlabs.org;
-        s=201707; t=1661816431;
-        bh=kD9DT1iOOQycVbjPgR5ddjhaq7eIsg081yQ+aUUl9UE=;
-        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-        b=ArosEJjFSvmrQqbI0FCPipkYSeCJqhCAuXeMbFuvIFnAGMTeFixxRZjlgtQd20vdc
-         DIpc51GwcbDp0vgTyRK+GSjrdLNQMI/Pf5myeacSaETio82kcCwj7qFNX5ocWUzSWd
-         IfB19atNBoCS03zZRO0zOZK/R5JnI7+DuoH4mjNFRiVF+6LSPRi+7IuvEn+TCedsTC
-         I6z4wYj31mYgsDW+PlcBr0P5S74Iw48HJWdeSuyNYanJodEmuyh8ExJ0KqGGg04HOi
-         1kCSEF+nNCQwZyrPx8uJ8rGhZknvzb80ITaQpaf27ROAH7nj4x5WqJi5Cs/M366ncH
-         0nVEIbUlace7w==
-Message-ID: <bc95ca95965e69aa434454b5f9fd02c378e35b1e.camel@ozlabs.org>
-Subject: Re: [PATCH] Documentation: spufs: correct a duplicate word typo
-From:   Jeremy Kerr <jk@ozlabs.org>
-To:     Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org
-Cc:     Arnd Bergmann <arnd@arndb.de>, linuxppc-dev@lists.ozlabs.org,
-        Jonathan Corbet <corbet@lwn.net>
-Date:   Tue, 30 Aug 2022 07:40:28 +0800
-In-Reply-To: <20220829232908.32437-1-rdunlap@infradead.org>
-References: <20220829232908.32437-1-rdunlap@infradead.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.3-2 
+        with ESMTP id S229508AbiH2XyY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Aug 2022 19:54:24 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65D8D247;
+        Mon, 29 Aug 2022 16:54:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
+        Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+        Content-Description:In-Reply-To:References;
+        bh=BsB52UPkydFC8riflUpJ1euNmd4L7oOJVadavpq9VRI=; b=fqHXR03SSArbuxJXHVUXqLVxXg
+        cqOrOk/GOjbFPsqTNVunCgdmfrsaHkJxN6AZ7U7AeoB8JuxlqxaYSc7M2nIXmeZRkHlWMrwKKo/PD
+        avfJzhGqm3ad0BYdlVguIejKLgjnB2kB74ZwYmHWieLrLCty8aOsV5wk5mGsbE8bCP7wE78bl7QQt
+        YEFvs2BSb8rQ5oVItkR+a1DYakziQraLBdPUhGzG7acQLKyrUiVkN5oGD9VFLxY/08ceNXahLj2bP
+        gX5Qy1h5qTftOg4/MZwvI/qjww2x/BcYFQFH3i+CkuJIJqFSjCQV5811wEP8cEAO5jtTp8szCkZ8Z
+        HmNdYaTQ==;
+Received: from [2601:1c0:6280:3f0::a6b3] (helo=casper.infradead.org)
+        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1oSoaD-003WK3-3d; Mon, 29 Aug 2022 23:54:21 +0000
+From:   Randy Dunlap <rdunlap@infradead.org>
+To:     linux-doc@vger.kernel.org
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>, netdev@vger.kernel.org,
+        Jiri Pirko <jiri@nvidia.com>
+Subject: [PATCH] Documentation: networking: correct possessive "its"
+Date:   Mon, 29 Aug 2022 16:54:14 -0700
+Message-Id: <20220829235414.17110-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.37.2
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Randy,
+Change occurrences of "it's" that are possessive to "its"
+so that they don't read as "it is".
 
-> Fix a typo of "or" which should be "of".
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: "David S. Miller" <davem@davemloft.net>
+Cc: Eric Dumazet <edumazet@google.com>
+Cc: Jakub Kicinski <kuba@kernel.org>
+Cc: Paolo Abeni <pabeni@redhat.com>
+Cc: netdev@vger.kernel.org
+Cc: Jiri Pirko <jiri@nvidia.com>
+---
+ Documentation/networking/devlink/netdevsim.rst |    2 +-
+ Documentation/networking/driver.rst            |    2 +-
+ Documentation/networking/ipvlan.rst            |    2 +-
+ Documentation/networking/l2tp.rst              |    2 +-
+ Documentation/networking/switchdev.rst         |    2 +-
+ 5 files changed, 5 insertions(+), 5 deletions(-)
 
-Nice, people are still reading the spufs docs! :D
-
-Looks good to me, thanks for the patch.
-
-Reviewed-by: Jeremy Kerr <jk@ozlabs.org>
-
-Cheers,
-
-
-Jeremy
+--- a/Documentation/networking/devlink/netdevsim.rst
++++ b/Documentation/networking/devlink/netdevsim.rst
+@@ -67,7 +67,7 @@ The ``netdevsim`` driver supports rate o
+ - setting tx_share and tx_max rate values for any rate object type;
+ - setting parent node for any rate object type.
+ 
+-Rate nodes and it's parameters are exposed in ``netdevsim`` debugfs in RO mode.
++Rate nodes and their parameters are exposed in ``netdevsim`` debugfs in RO mode.
+ For example created rate node with name ``some_group``:
+ 
+ .. code:: shell
+--- a/Documentation/networking/driver.rst
++++ b/Documentation/networking/driver.rst
+@@ -8,7 +8,7 @@ Transmit path guidelines:
+ 
+ 1) The ndo_start_xmit method must not return NETDEV_TX_BUSY under
+    any normal circumstances.  It is considered a hard error unless
+-   there is no way your device can tell ahead of time when it's
++   there is no way your device can tell ahead of time when its
+    transmit function will become busy.
+ 
+    Instead it must maintain the queue properly.  For example,
+--- a/Documentation/networking/ipvlan.rst
++++ b/Documentation/networking/ipvlan.rst
+@@ -11,7 +11,7 @@ Initial Release:
+ ================
+ This is conceptually very similar to the macvlan driver with one major
+ exception of using L3 for mux-ing /demux-ing among slaves. This property makes
+-the master device share the L2 with it's slave devices. I have developed this
++the master device share the L2 with its slave devices. I have developed this
+ driver in conjunction with network namespaces and not sure if there is use case
+ outside of it.
+ 
+--- a/Documentation/networking/l2tp.rst
++++ b/Documentation/networking/l2tp.rst
+@@ -530,7 +530,7 @@ its tunnel close actions. For L2TPIP soc
+ handler initiates the same tunnel close actions. All sessions are
+ first closed. Each session drops its tunnel ref. When the tunnel ref
+ reaches zero, the tunnel puts its socket ref. When the socket is
+-eventually destroyed, it's sk_destruct finally frees the L2TP tunnel
++eventually destroyed, its sk_destruct finally frees the L2TP tunnel
+ context.
+ 
+ Sessions
+--- a/Documentation/networking/switchdev.rst
++++ b/Documentation/networking/switchdev.rst
+@@ -159,7 +159,7 @@ tools such as iproute2.
+ 
+ The switchdev driver can know a particular port's position in the topology by
+ monitoring NETDEV_CHANGEUPPER notifications.  For example, a port moved into a
+-bond will see it's upper master change.  If that bond is moved into a bridge,
++bond will see its upper master change.  If that bond is moved into a bridge,
+ the bond's upper master will change.  And so on.  The driver will track such
+ movements to know what position a port is in in the overall topology by
+ registering for netdevice events and acting on NETDEV_CHANGEUPPER.
