@@ -2,63 +2,63 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6AFB8C0502E
-	for <linux-doc@archiver.kernel.org>; Tue, 30 Aug 2022 13:30:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 86E7DC0502C
+	for <linux-doc@archiver.kernel.org>; Tue, 30 Aug 2022 13:53:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230301AbiH3Nar (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 30 Aug 2022 09:30:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56310 "EHLO
+        id S231337AbiH3NxY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 30 Aug 2022 09:53:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41076 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230281AbiH3Naq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Aug 2022 09:30:46 -0400
+        with ESMTP id S231195AbiH3NxC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Aug 2022 09:53:02 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0CA50A3D15
-        for <linux-doc@vger.kernel.org>; Tue, 30 Aug 2022 06:30:44 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F407426E8
+        for <linux-doc@vger.kernel.org>; Tue, 30 Aug 2022 06:52:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1661866243;
+        s=mimecast20190719; t=1661867524;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=C071C0Fu4zpnzqm2GxjZqFKUf2VQ3Uu+K+WnKl/q7NU=;
-        b=eIIDCdgsdaCqBbIPHAh4P+kl99YhCpf8DlocPkBsz9FF7M22q5AwrsIn8GXUG26OQp91cL
-        RVHfkHtOeXpM9YuGQmrP2IZpoyp0+J9NqRVmCjz/tErlew/HSwcwHWNAethKz4jVKsg8c9
-        O+UOyDH/n5djMQOOTMcltGBo5cXS4cg=
-Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com
- [209.85.214.199]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=UJVr43uWt8PVxH448vHnmIse/JFMIMR/CqYNuTX+I0E=;
+        b=KXBKGY/YWJoofA0YTgA8Z2V33UyC7WvzKa8vxSPA8A4yIZkiHM4pNBKa/m+gUkkylwRH8J
+        +bQs7lfFYoXhJAkQ4QOdOSTGWeQpDbYqMfHatFlIsUeOLjtwzmoeHWxrqSSO9d8L25QIhz
+        3qD+E5nRfnYxiUdnk/EDeEey85zVP7g=
+Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com
+ [209.85.210.198]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-34-85-vCgwNP_687I9GsL87Jg-1; Tue, 30 Aug 2022 09:30:39 -0400
-X-MC-Unique: 85-vCgwNP_687I9GsL87Jg-1
-Received: by mail-pl1-f199.google.com with SMTP id b9-20020a170902d50900b0016f0342a417so8112345plg.21
-        for <linux-doc@vger.kernel.org>; Tue, 30 Aug 2022 06:30:38 -0700 (PDT)
+ us-mta-248-Ag6gdqLQPeStfb6rXuIN8w-1; Tue, 30 Aug 2022 09:52:03 -0400
+X-MC-Unique: Ag6gdqLQPeStfb6rXuIN8w-1
+Received: by mail-pf1-f198.google.com with SMTP id e9-20020aa78249000000b00537a62a6175so4642113pfn.20
+        for <linux-doc@vger.kernel.org>; Tue, 30 Aug 2022 06:52:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc;
-        bh=C071C0Fu4zpnzqm2GxjZqFKUf2VQ3Uu+K+WnKl/q7NU=;
-        b=f3z2XgnBrfFKEEdcQAQ0N1TdQ2HIBQXxZwaDuWeTXb3Yjaz2Y9Gmq9bW9XCn+f8DHn
-         DpUH8mP2yG8C4hFq1C8RlObgYc0LdUvpZ7hvBSWj/ymbcrD6UMIycTJNWvxQN67D2bI1
-         Uegaf9o1eGxN4ymt9F/Ba4mm1y6M4kVgibMYZycFYlH1hdzJr+tnVi7ooPYq4AppktbA
-         fpaL+kSQ76BCkBLNKghRXkqQeuIfzlAIzcKeMktperP/0wQaMiL4RyZ0p34NwqvX8afK
-         MX2K9OsesCtfjYT8lEOyYEo4ddv7d2MgdSM00lNOLjeeBf1UUgSw/TcwiQFxh0xJQFP+
-         fx3w==
-X-Gm-Message-State: ACgBeo14HfZJzxwGrhMpqIkvu7Y6MVrR/75twH3X8HU0LaNq2esFYqO+
-        iDWlDibGWPyczdx+jp2uFej8OSO6OSHNU9OZzc8PXdurkX8gAqry9aOS1LsSupuh20LGjhEFANa
-        HLjpK7DIW1wENntaA8C9PM8r6XTQiyo4HYJA5
-X-Received: by 2002:a63:d10b:0:b0:41d:bd7d:7759 with SMTP id k11-20020a63d10b000000b0041dbd7d7759mr17929693pgg.196.1661866237881;
-        Tue, 30 Aug 2022 06:30:37 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR7CO92TZNx1/ZDyoq+lGXimNNYaqY6rNHmUopJlR2o2q6TOwVRYYUayx8+y1zHvUDGFjESrSTgnSoi2AHd+NLQ=
-X-Received: by 2002:a63:d10b:0:b0:41d:bd7d:7759 with SMTP id
- k11-20020a63d10b000000b0041dbd7d7759mr17929681pgg.196.1661866237660; Tue, 30
- Aug 2022 06:30:37 -0700 (PDT)
+        bh=UJVr43uWt8PVxH448vHnmIse/JFMIMR/CqYNuTX+I0E=;
+        b=dPG89KHkXtCznC0+ps82sjisNOPAm9vQ5WBMmf9WrVyfsAq7pKeXXxB3PX5vulryMg
+         nTAQshFX9zrw5dxz7SJ8YTOhcWhWm047L5VEazBcsY7FXEEHhDSYkw1JBJR8WhZnosFv
+         +w2kuVckwNl+j1IaEbVNE8RL+rf7dlLi6g5iTMM1z1LCRWpOgcbM71qYsokqC1Ih/GH8
+         8ygcJ8mANNj4KLJqWnavQjFUKqYtr2+mjN70//ZJ9T5uvVnyzXGd6mTInEyx4nbrf/WU
+         D4cVYjhfXIYPaDR376+XFEjZ+bVyXy6ShiYqJtXDVFZyx2E4zEQDxjP32Om4iwouAEx8
+         fCnw==
+X-Gm-Message-State: ACgBeo1YDURnySVGlmX4OTgQXOZ7CMbUnDz4RN3JG7APzN13fsqCnrc0
+        m4TThjLEy+xanV3M6mMHwwGl8ar9qV9QO0fuFCgtY2g6t18PSjONJCstGdSzDq5hYQbBuWdvqDb
+        +WOIGlXXzQx7f1xB1MZX6IJZqwWe/8XnKLupO
+X-Received: by 2002:a65:6255:0:b0:42c:87b1:485b with SMTP id q21-20020a656255000000b0042c87b1485bmr3977292pgv.491.1661867522197;
+        Tue, 30 Aug 2022 06:52:02 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR4uttRB0OgUCrHoIJFyDwUqMmth8JbBFJmcReY4G9C4XP9O/bnAzP100AWpX19LwnHtW0ssr0V6liTxxc7zEVI=
+X-Received: by 2002:a65:6255:0:b0:42c:87b1:485b with SMTP id
+ q21-20020a656255000000b0042c87b1485bmr3977270pgv.491.1661867521925; Tue, 30
+ Aug 2022 06:52:01 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220721153625.1282007-1-benjamin.tissoires@redhat.com>
- <20220721153625.1282007-25-benjamin.tissoires@redhat.com> <YwbkC9v83gk0Eq/d@debian.me>
-In-Reply-To: <YwbkC9v83gk0Eq/d@debian.me>
+References: <20220824134055.1328882-1-benjamin.tissoires@redhat.com>
+ <20220824134055.1328882-3-benjamin.tissoires@redhat.com> <CAP01T76tie9dpjacCLxCcAjtra12GxfmeO9f_mYnUU6pO4otzQ@mail.gmail.com>
+In-Reply-To: <CAP01T76tie9dpjacCLxCcAjtra12GxfmeO9f_mYnUU6pO4otzQ@mail.gmail.com>
 From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Tue, 30 Aug 2022 15:30:26 +0200
-Message-ID: <CAO-hwJ+zJZzRXaj3ZGSaz9N3p7hE0mdcbsxTK04L-ep7_podFw@mail.gmail.com>
-Subject: Re: [PATCH bpf-next v7 24/24] Documentation: add HID-BPF docs
-To:     Bagas Sanjaya <bagasdotme@gmail.com>
+Date:   Tue, 30 Aug 2022 15:51:50 +0200
+Message-ID: <CAO-hwJL6cy8JbXFSmSVtkNQHZkuYoHsvb1=JxvLSnBeeRBMZ5A@mail.gmail.com>
+Subject: Re: [PATCH bpf-next v9 02/23] bpf/verifier: do not clear meta in check_mem_size
+To:     Kumar Kartikeya Dwivedi <memxor@gmail.com>
 Cc:     Greg KH <gregkh@linuxfoundation.org>,
         Jiri Kosina <jikos@kernel.org>,
         Alexei Starovoitov <ast@kernel.org>,
@@ -66,7 +66,6 @@ Cc:     Greg KH <gregkh@linuxfoundation.org>,
         Andrii Nakryiko <andrii@kernel.org>,
         Martin KaFai Lau <kafai@fb.com>,
         Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        Kumar Kartikeya Dwivedi <memxor@gmail.com>,
         John Fastabend <john.fastabend@gmail.com>,
         KP Singh <kpsingh@kernel.org>, Shuah Khan <shuah@kernel.org>,
         Dave Marchevsky <davemarchevsky@fb.com>,
@@ -83,39 +82,61 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Aug 25, 2022 at 4:53 AM Bagas Sanjaya <bagasdotme@gmail.com> wrote:
+On Fri, Aug 26, 2022 at 3:55 AM Kumar Kartikeya Dwivedi
+<memxor@gmail.com> wrote:
 >
-> On Thu, Jul 21, 2022 at 05:36:25PM +0200, Benjamin Tissoires wrote:
-> > +When (and why) to use HID-BPF
-> > +=============================
-> > +
-> > +We can enumerate several use cases for when using HID-BPF is better than
-> > +using a standard kernel driver fix:
-> > +
+> On Wed, 24 Aug 2022 at 15:41, Benjamin Tissoires
+> <benjamin.tissoires@redhat.com> wrote:
+> >
+> > The purpose of this clear is to prevent meta->raw_mode to be evaluated
+> > at true, but this also prevents to forward any other data to the other
+> > callees.
+> >
+> > Only switch back raw_mode to false so we don't entirely clear meta.
+> >
+> > Acked-by: Yonghong Song <yhs@fb.com>
+> > Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+> >
+> > ---
+> >
+> > no changes in v9
+> >
+> > no changes in v8
+> >
+> > no changes in v7
+> >
+> > new in v6
+> > ---
+> >  kernel/bpf/verifier.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/kernel/bpf/verifier.c b/kernel/bpf/verifier.c
+> > index d694f43ab911..13190487fb12 100644
+> > --- a/kernel/bpf/verifier.c
+> > +++ b/kernel/bpf/verifier.c
+> > @@ -5287,7 +5287,7 @@ static int check_mem_size_reg(struct bpf_verifier_env *env,
+> >                  * initialize all the memory that the helper could
+> >                  * just partially fill up.
+> >                  */
+> > -               meta = NULL;
+> > +               meta->raw_mode = false;
 >
-> Better say "There are several use cases when using HID-BPF is better
-> than standard kernel driver fix:"
+> But this is adding a side effect, the caller's meta->raw_mode becomes
+> false, which the caller may not expect...
 
-OK, included locally, and will send it in v10.
-
->
-> > +When a BPF program needs to emit input events, it needs to talk HID, and rely
-> > +on the HID kernel processing to translate the HID data into input events.
-> > +
->
-> talk to HID?
-
-Replaced with "it needs to talk with the HID protocol".
-
->
-> Otherwise the documentation LGTM (no new warnings caused by the doc).
-
-Great, thanks a lot for the review :)
+Turns out that I don't need that patch anymore because I am not
+checking against is_kfunc in the previous patch. So dropping it from
+the next revision.
 
 Cheers,
 Benjamin
 
 >
-> --
-> An old man doll... just what I always wanted! - Clara
+> >
+> >         if (reg->smin_value < 0) {
+> >                 verbose(env, "R%d min value is negative, either use unsigned or 'var &= const'\n",
+> > --
+> > 2.36.1
+> >
+>
 
