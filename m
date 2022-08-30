@@ -2,275 +2,261 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C489ECAAD1
-	for <linux-doc@archiver.kernel.org>; Tue, 30 Aug 2022 16:42:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 35799ECAAD8
+	for <linux-doc@archiver.kernel.org>; Tue, 30 Aug 2022 17:21:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229510AbiH3QmT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 30 Aug 2022 12:42:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50134 "EHLO
+        id S231337AbiH3RVo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 30 Aug 2022 13:21:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59246 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229522AbiH3QmS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Aug 2022 12:42:18 -0400
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BFF9882D23;
-        Tue, 30 Aug 2022 09:42:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1661877737; x=1693413737;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=LTuZNOnTP+P7/gVyHhoMMVVMW7lU7Mk0Fa6ZOwh/1ug=;
-  b=jzDsptGgmwO6LqAxWDrjAv7HGm0J6Vqy7DyaTQSwJWJf1opAOO7Ab1EG
-   JcMdq3ES1bXfWh0jTc/NxLReJETn0jXAnU28IfQuRPRIPfwcxHbiFfa2p
-   V3fj+KhLOC0/WcQhjWkl/NgbiHsAdML4msRCtlQX1kvlaCT8K0Q4Q3KfI
-   xrKL2iHFOsAPEJkTGy+s7QcCNvlZS0zOZDuisTLcb9p+CCAyYOAACBND4
-   Z+sxcIH/8Vhp8LiO4u7ht3hCSuJ7EjeGprblj2SXu5lxN6cXC4kkCDEDh
-   jN5WhHz6LPvJbTzsuTsudq5wU97PTcsGdp1BVmVPiIoo2rSSoHqUkyaDJ
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10455"; a="274986788"
-X-IronPort-AV: E=Sophos;i="5.93,275,1654585200"; 
-   d="scan'208";a="274986788"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2022 09:39:45 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,275,1654585200"; 
-   d="scan'208";a="611777144"
-Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
-  by orsmga002.jf.intel.com with ESMTP; 30 Aug 2022 09:39:44 -0700
-Received: from fmsmsx608.amr.corp.intel.com (10.18.126.88) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Tue, 30 Aug 2022 09:39:43 -0700
-Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
- fmsmsx608.amr.corp.intel.com (10.18.126.88) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31; Tue, 30 Aug 2022 09:39:43 -0700
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.31 via Frontend Transport; Tue, 30 Aug 2022 09:39:43 -0700
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.102)
- by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2375.31; Tue, 30 Aug 2022 09:39:42 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=b/tsWE2PaTJLQGmR7dPcRvsL6VoYtQ/rrq6Ux2OM4rQMMDDRSISfP6DDTTT9+Vme0JUBnW78DmvyZRevMtXHrIi1o0D5ZHvpjrGiyX4JHQk6oqIxagnLHg0oRlNEpw7hkpuUR2mTBfXZ9HrF4lIaDeXTV0lR5+5PLFUZ8aM6SxA9mzuLq4F4VxNLZWoSqAf3VE83GVvasqVxxVc1H/Cr9Xt9aoZQ6yJue82+S5AaZR7mZtDIi2M5VNhErlVC7Exh/VRbzJuEifPnj29QXen8WA3c4DW9+6Xci/tnjSeRGl/OEaYH3/hUsPu5g43Wk2OKoVn1bJM/I0JG6IZNyhdL9Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=8sWVicqTzFI68R39QDPgdbYehNX3+EpTMG3sLTJeTbc=;
- b=cwqE20nUxAVjq4d3EJxdT0ls/wdzGyJ0vbMqXYVPsqvDg3NumS5heSEZq8vpVb3S3kFvz4R6Vsaq9E5UKAiiQViijrD6uNWZi1gvLwS68Wt6W1S9UJCOvrxu8nDZKucvEPP2oxVGGkeP+5qMWVOStIb1tza4BPsjXlv44BqQ2/8SY9rECzNnmQhl99LTdH9hEj9cO90ZFghkgKYmxnyo99YsL0ge76kmpxxf74kERj40mxYCk6+L5VGzhv4Sb2ly7rOtDZOUvqbBgk8eIyvftuhSGjS12eJmHwjJvxNXIiQmRPD+fl8iOM/OdBn8G+v/IPfGTGZuoO9tZ0RlQTgADw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from CY4PR11MB1862.namprd11.prod.outlook.com (2603:10b6:903:124::18)
- by MWHPR11MB0080.namprd11.prod.outlook.com (2603:10b6:301:68::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5566.15; Tue, 30 Aug
- 2022 16:39:40 +0000
-Received: from CY4PR11MB1862.namprd11.prod.outlook.com
- ([fe80::a824:112:52f7:5743]) by CY4PR11MB1862.namprd11.prod.outlook.com
- ([fe80::a824:112:52f7:5743%11]) with mapi id 15.20.5566.021; Tue, 30 Aug 2022
- 16:39:40 +0000
-Message-ID: <59259155-6c51-a750-216a-ebbb0702d200@intel.com>
-Date:   Tue, 30 Aug 2022 09:39:37 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.2.0
-Subject: Re: [PATCH v3 02/10] x86/cpufeatures: Add Slow Memory Bandwidth
- Allocation feature flag
-To:     Babu Moger <babu.moger@amd.com>
-CC:     <bagasdotme@gmail.com>, <bp@alien8.de>, <corbet@lwn.net>,
-        <dave.hansen@linux.intel.com>, <eranian@google.com>,
-        <fenghua.yu@intel.com>, <hpa@zytor.com>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <mingo@redhat.com>, <tglx@linutronix.de>, <tony.luck@intel.com>,
-        <x86@kernel.org>
-References: <9965edff-c558-2962-4aad-3342480026bc@intel.com>
- <20220829232554.53763-1-babu.moger@amd.com>
-Content-Language: en-US
-From:   Reinette Chatre <reinette.chatre@intel.com>
-In-Reply-To: <20220829232554.53763-1-babu.moger@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BYAPR11CA0044.namprd11.prod.outlook.com
- (2603:10b6:a03:80::21) To CY4PR11MB1862.namprd11.prod.outlook.com
- (2603:10b6:903:124::18)
+        with ESMTP id S231297AbiH3RVR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Aug 2022 13:21:17 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8FE6619C12;
+        Tue, 30 Aug 2022 10:20:13 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 4A8956172E;
+        Tue, 30 Aug 2022 17:20:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38FB3C433D6;
+        Tue, 30 Aug 2022 17:20:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1661880011;
+        bh=f66oQmEUDi5jyeaVm8jdub++cvX9VjPwNqQpeCKKxp8=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=UyS8WoI31EiDAio0Q0Ru6u1aksV/zi3PpoNb/MEZFKk0FAmz9lDYbtuAx4B5lYbUq
+         I7cJcdYpMuPqjdnElTfB7af/yx8Wb9G1nsn9HqvYRTArtSxGX9+Om16xIsP3bqRTfk
+         J3ce5t8SADt6A3h5QoPFvmz/sGT0gSTKU2xtWkBAChpBO61BEcFaIM6kKb4JwHgEIa
+         2N1xZvoqjs4sVGuI3wIO0IzwpOrPQEVzOfHmKmL+vtYADuWmB9lvsMQuVqBGZFdwOi
+         CXBNKp3NbfJGdkgZsoP1SiuabjuCiUUDjHm/VWSU8zb7icGO3uBl/GIwUXSlSh74LL
+         C9RXfdOqQGhwA==
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Ionela Voinescu <ionela.voinescu@arm.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        James Morse <james.morse@arm.com>,
+        Sasha Levin <sashal@kernel.org>, corbet@lwn.net,
+        anshuman.khandual@arm.com, suzuki.poulose@arm.com,
+        mathieu.poirier@linaro.org, lcherian@marvell.com,
+        broonie@kernel.org, arnd@arndb.de, maz@kernel.org,
+        vladimir.murzin@arm.com, joey.gouly@arm.com, ardb@kernel.org,
+        gshan@redhat.com, song.bao.hua@hisilicon.com, peterz@infradead.org,
+        sudeep.holla@arm.com, Jonathan.Cameron@huawei.com,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.19 18/33] arm64: errata: add detection for AMEVCNTR01 incrementing incorrectly
+Date:   Tue, 30 Aug 2022 13:18:09 -0400
+Message-Id: <20220830171825.580603-18-sashal@kernel.org>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220830171825.580603-1-sashal@kernel.org>
+References: <20220830171825.580603-1-sashal@kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: db89522b-32c7-4892-1bda-08da8aa63c0c
-X-MS-TrafficTypeDiagnostic: MWHPR11MB0080:EE_
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 42Bn4AsJbCQSt5rR6oYz28Dob1WT9bt0C0Ch3mj0vA1aBZQmWzsRqOnRMmAzyWzX7d1BMhP1B78qTNzq8PFvduxizsXX9X4BPBNEeWGHWTexlQwwy5U9Lkb1fNYvXgdn0L8jAY34gUHQ1ZER6EaNJx0ifLSX2UxvofGkiqzZyRdu4qbwB3xVEN2CSx/8gjTIS3QexMWNpfxiAM4ZcBeW8gB/+IUyV90PwUs1fh94d1HOLCsflgp6rTxa1w5MYJ3wBlf3QoXTKDXfXtdeudyzpCy3ohbXGscarAhGIRR3YQtVROE5c/qDOh6ATTr/2GytRUlgDx9G8yYYflmNeDUDo2h7LA5PxjO1pOpLnXxJGpEtMJrw47RqWCeQiPevGpSf6q7625waPxYZX35+USM3czul8UvagWdptXyjNGQC9T5rNUS5ZJSe2/52KZQORPqzfkhvPSUKh3v0HF5B4U+vmqQGuv39sjucHkx0sSguf3YkXVIy4icd71/pwyq7wHprohrBvce/43nlf2tSo/OahPSLnnKqcKlFn+cto8dvWpT9ZZORegfUPHESGW1fzAVz0w0kX+39eP0TSvBZDl2GCpfMbOrYMtpDmRG4Hloz4+EBEk5QST09yisW39GxhixcsnsUWcTG1fuQ6n8T1dcza5GFHItvX22ToRRPekdJjYI6uRxp1kpBD8KtDXCjJd3ByrkeD+c8XkFccrTmlxEluqI3x5K7taT90qI1ULfjrK5l9iboLWuFePE/T5Um4jCZCg1ugXXapGhxSV3btXiy3lFF8Ips00evPbWhChDiHz3RDFYSavdQsX1JmJhRecSxzOSccMN7Q36gzRg/buAnWZGoSuR9Df98QYfOugeJ4gA=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY4PR11MB1862.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(136003)(366004)(396003)(39860400002)(376002)(346002)(8936002)(966005)(8676002)(66946007)(316002)(66476007)(66556008)(4326008)(31696002)(31686004)(6486002)(86362001)(6916009)(478600001)(5660300002)(36756003)(41300700001)(7416002)(82960400001)(53546011)(6506007)(2616005)(6512007)(26005)(2906002)(6666004)(44832011)(38100700002)(83380400001)(186003)(43740500002)(45980500001);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NHF4TTd2MlZ4UFRqTEx4NnRBZ3MzajZqY1JicnQ3bHZpRHhFZEFCWFNEMVpW?=
- =?utf-8?B?NXRsR0ZLVWprVEVBQWg1bmFEVXhUaloyYzJkY2lOQW12VTg5SkdmalBnUUtK?=
- =?utf-8?B?VDJXTElzVXdxUjFocXZPcDUyc3c3YWVuK0FPWk1vVUlEUHdKVVJYdC9Lcml2?=
- =?utf-8?B?dHZYTWVoL2o3R2crajJrVmFMZGthVUZ1WDBUNWZMV1dkdmlYVHEwaXExNG5S?=
- =?utf-8?B?bWcxbDZNb1RFSkdUeVUrU1ZLZXh5T1ovWkRKVzFVVFNYMENORnlENUdtQkFU?=
- =?utf-8?B?b1c5VDRncTRJT2V0Z2V2YldvTmttUzdrWDlCN1VCWHdNdkxNdTZ3TWExZyt2?=
- =?utf-8?B?a2s0Vzh2ZWtmRzY4RkFqWlV1RHEwT3dqMDBnVXJ5MmFtY3hOM0VjMSszV2ZI?=
- =?utf-8?B?b3E2dnVwd3hmREVLbTBabjVFVzNSL3VTbG5tOXN4WmxxVTUzWXd3Zm42bFJM?=
- =?utf-8?B?RlJaUWZleW1kWkJZVStweDFaNVg1UE8wTVNSVlgxaXUzaTRHbHVZZUwrV0hv?=
- =?utf-8?B?Smd5ZnVydGJNMnB3SFVXaSt0WDU4Y2VTRzlXR0dYMVhNWUd2ZFhLL3RMSk1z?=
- =?utf-8?B?czhTUlIvOXhPaFNtZWdxSUZ3dVZGYlV1cFJYYUVDZFVaaGtCaTN0Q3d5d1Vw?=
- =?utf-8?B?L1ZGS0tzSktvUm9pNUU4SHBwUWVGNFA2QkM3M3JrcllpTmpRWllNTUIxUTdx?=
- =?utf-8?B?YVpsK1J4OHVObjNnbVA2MWxYVFZpc0FlMGJQQTY4VFpRTG9XRGVDcXlGM3lN?=
- =?utf-8?B?TXBPRTh2T3hsalZhQ2N4TUZYNjc4ZDMrK0xWc0JoZHhmcjlZaE1YMmd2KzdJ?=
- =?utf-8?B?TnZpOEZodGlzbmZTMU9uUmQzbmNCVFhkZFJTVkRZVTJUYjZYd1RwQUlyN0ho?=
- =?utf-8?B?Uk83aWlHU29WSUhNUHMvWWlZRENUVWlHTHpkOG9kRGJOQVZocjIxODUyS09l?=
- =?utf-8?B?bzJDT0ZQT0c1ZjFzVEliN3pkUVlYVHpYeWR6ZjlDQmk1VXgydmF6azA1RytE?=
- =?utf-8?B?NmxmS3VZM3I0T1JoUkE0b2F4TWVEb3lVUWwxMUxSRld1MmlUOHBMTXN0MWhp?=
- =?utf-8?B?b1I2Zll4Yy9nWDEyQWN3N2t5WUNuYUZiQkJQcmlMZ2J5ZHlndjZKQngxVVor?=
- =?utf-8?B?VXhzNzJCVWdPbElkNmU3K3lmTDVzU0JlUldzdjBWQzFBMjlSbDg5TUxWWjZ4?=
- =?utf-8?B?M3RCMVA2MTRlZ0ZKelpVTFRFZ0RSTDlpbElNc0UyZzNLM2FQSzZWNk0zLzNV?=
- =?utf-8?B?OUxpblNjSEgwMGdWUVpYTVVNU3RwL0p5aUZoVmRRUGFkZjJySWM5MWoySGlD?=
- =?utf-8?B?b0ZzbTUvNWVRVXdaRW1YM0FsRTJpTUJZZTI2VUJrUm44MUw5ZU1xdXV1ZHEv?=
- =?utf-8?B?ais1U0plMUs0RHJiaitCck92bGNKWFZmOXp1OGh5NDhYRU5hUStyaURqdEk3?=
- =?utf-8?B?L0E0dEtJRk43YTdyY3FzdFM5SUJFcU92THpWMFpSN3dSSDd6eFN4YThpcmdM?=
- =?utf-8?B?aTFidjVDNTZJdzRIcmFaT1pSYkR3YjRCVldoUFVrSWVDY3JWNDZFelhPRlNq?=
- =?utf-8?B?UDM3SnMwMjk5TkNEMFJVWWJ4OEpMajRKOUlPaGdCN21wc0hqb0o4NlpyTkFT?=
- =?utf-8?B?dyt0ZmV6eldxb0dMOGVwU1ZqdmJBS005L0FpbHJJbUUvVm9OOUNiaVR3bVpF?=
- =?utf-8?B?cXdaMzdrSHBiR0NPa0NPUlFzOVRwNjdWRUtDeFloaTdWbGMxK3l0aDhPOGdT?=
- =?utf-8?B?cjZJS2tRMTBteU9WSnArTXAwWlJNZ1VwdnAwKzllZmhNZUVuaXBOazkrQ3dx?=
- =?utf-8?B?c2JkVzdDODUxQnR2M1Z3bzBCc0dVWHVxRlRtcnhySFNBOXdQWVZDSFdGVDJN?=
- =?utf-8?B?dndyZkgxTStIYkh5NDBSTDA1YnpBT0ppdXVKOW0vVE01MUcyWW1kc0RKUUkw?=
- =?utf-8?B?cTJwaUh0UHRmSmIxYkdBTU45aHp3dEFaWE1pZzVMMlJtZkFGaURvS3Rxd0pu?=
- =?utf-8?B?TkpHelV2RW54bTVJSUpNS1pNSXZuUExDeG54UFFQQkw4M0hidk9KdVFaVC91?=
- =?utf-8?B?dFlFajh6SkVEc1dpeHZXMU9QWmdBdmhCOXJFajVTeThjR3hXalZvZGhnMVh2?=
- =?utf-8?B?U2V1TWt0czB0SFBHdlAxOTdsQzIxRWR5QXNLK2pQNVBuMG8velRkeEY0ZTVP?=
- =?utf-8?B?OWc9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: db89522b-32c7-4892-1bda-08da8aa63c0c
-X-MS-Exchange-CrossTenant-AuthSource: CY4PR11MB1862.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Aug 2022 16:39:40.5008
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: jkgHxT+ENw/3tpdlcy/Y7ec1p1JnvQnTYNyyquRD6hsKfku+rEC8vYJhHPPpVli6t9RyZRKYgsCXpMMYZtM+uAyTCgwUxR50n+tECRdRO58=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR11MB0080
-X-OriginatorOrg: intel.com
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Babu,
+From: Ionela Voinescu <ionela.voinescu@arm.com>
 
-On 8/29/2022 4:25 PM, Babu Moger wrote:
-> Hi Reinette,
->    Some reason this thread did not land in my mailbox. Replying using git sendmail to the thread 
-> 
->> (snip modified links)
-> 
-> Link: https://www.amd.com/en/support/tech-docs/amd64-technology-platform-quality-service-extensions
-> Link: https://bugzilla.kernel.org/show_bug.cgi?id=206537
-> 
->> When you say "in this case", is there another case?
-> 
-> There is no other interface. It is only CXL memory device.
-> 
->>
->> Should "Slow Memory Bandwidth Allocation" thus be considered to be "CXL.mem
->> Memory Bandwidth Allocation"? Why not call it "CXL(.mem?) Memory Bandwith
->> Allocation"?
-> 
-> Checked with our team here. The currently only supported slow memory is CXL.mem
-> device. As for the naming, the "slow" memory landscape is still evolving.
-> While CXL.mem is the only known type supported right now. The specs says
-> "Slow Memory Bandwidth Allocation". So, we would prefer to keep it that way.
+[ Upstream commit e89d120c4b720e232cc6a94f0fcbd59c15d41489 ]
 
-If you prefer to keep "Slow Memory Bandwidth Allocation" then please also
-provide clear information to the user on what is managed via "Memory Bandwidth
-Allocation" and what is managed via "Slow Memory Bandwidth Allocation". This
-could be in the documentation.
+The AMU counter AMEVCNTR01 (constant counter) should increment at the same
+rate as the system counter. On affected Cortex-A510 cores, AMEVCNTR01
+increments incorrectly giving a significantly higher output value. This
+results in inaccurate task scheduler utilization tracking and incorrect
+feedback on CPU frequency.
 
->> I am not familiar with CXL so please correct me where I am
->> wrong. From what I understand CXL.mem is a protocol and devices that implement
->> it can have different memory types ... some faster than others. So, even if
->> SMBA supports "CXL.mem" devices, could a system have multiple CXL.mem devices,
->> some faster than others? Would all be configured the same with SMBA (they
->> would all be classified as "slow" and throttled the same)?
-> 
-> I have not tested the multiple devices with different memory speeds here.
-> But checking with team here says it should just work the same way. It appears
-> that the throttling logic groups all the slow sources together and applies
-> the limit on them as a whole.
+Work around this problem by returning 0 when reading the affected counter
+in key locations that results in disabling all users of this counter from
+using it either for frequency invariance or as FFH reference counter. This
+effect is the same to firmware disabling affected counters.
 
-"the throttling logic groups all the slow sources together and applies
-the limit on them as a whole.". This is valuable content for
-the documentation about this feature. Could the changes to
-Documentation/x86/resctrl.rst be updated to include a paragraph
-describing SMBA and what is (or is not) considered a "slow resource"? 
+Details on how the two features are affected by this erratum:
 
->> I do not think these devices are invisible to the OS though (after
->> reading Documentation/driver-api/cxl/memory-devices.rst and
->> Documentation/ABI/testing/sysfs-class-cxl).
->>
->> Is there not a way to provide some more clarity to users on what
->> would be throttled? 
->>
+ - AMU counters will not be used for frequency invariance for affected
+   CPUs and CPUs in the same cpufreq policy. AMUs can still be used for
+   frequency invariance for unaffected CPUs in the system. Although
+   unlikely, if no alternative method can be found to support frequency
+   invariance for affected CPUs (cpufreq based or solution based on
+   platform counters) frequency invariance will be disabled. Please check
+   the chapter on frequency invariance at
+   Documentation/scheduler/sched-capacity.rst for details of its effect.
 
-I repeat the question you snipped from my email (please don't do that). Could
-you please answer it?:
-Would the "SMBA" resource be available only when CXL.mem devices are present
-on the system? Since this is a CPU feature it is unclear to me whether
-presence of CXL.mem devices would be known at the time "SMBA" is enumerated.
-Could the "SMBA" resource thus exist without memory to throttle?
+ - Given that FFH can be used to fetch either the core or constant counter
+   values, restrictions are lifted regarding any of these counters
+   returning a valid (!0) value. Therefore FFH is considered supported
+   if there is a least one CPU that support AMUs, independent of any
+   counters being disabled or affected by this erratum. Clarifying
+   comments are now added to the cpc_ffh_supported(), cpu_read_constcnt()
+   and cpu_read_corecnt() functions.
 
->> How does a user know which memory on the system is "slow memory"?
->>
->> It remains unclear to me how a user is intended to use this feature.
->>
->> How will a user know which devices/memory (if any) are being
->> throttled by "SMBA"?
->>
-> This is a new technology. I am still learning. 
-> 
-> Currently, I have tested with CXL 1.1 type of device. CXL 1.1 uses a simple
-> topology structure of direct attachment between host (such as a CPU or GPU)
-> and CXL device.
-> 
-> #numactl -H
-> available: 2 nodes (0-1)
-> node 0 cpus: 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16
-> node 0 size: 63678 MB
-> node 0 free: 59542 MB
-> node 1 cpus:             (CPU list is emply. Node 1 have CXL memory)
-> node 1 size: 16122 MB    (There is 16GB CXL memory) 
-> node 1 free: 15627 MB    
-> node distances:
-> node   0   1
->   0:  10  50
->   1:  50  10
-> 
-> The cpu-cxl node distance is greater than cpu-to-cpu distances.
-> 
-> We can also verify using lsmem
->  
-> #lsmem --output RANGE,SIZE,STATE,NODE,ZONES,BLOCK
-> RANGE                                 SIZE  STATE NODE  ZONES BLOCK
-> 0x0000000000000000-0x000000007fffffff   2G online    0   None     0
-> 0x0000000080000000-0x00000000ffffffff   2G online    0  DMA32     1
-> 0x0000000100000000-0x0000000fffffffff  60G online    0 Normal  2-31
-> 0x0000001000000000-0x000000107fffffff   2G online    0   None    32
-> 0x0000001080000000-0x000000147fffffff  16G online    1 Normal 33-40
-> 
-> Memory block size:         2G
-> Total online memory:      82G
-> Total offline memory:      0B
-> 
-> 
-> We can also verify using ACPI SRAT table and memory maps.
+The above is achieved through adding a new erratum: ARM64_ERRATUM_2457168.
 
-I think that adding (in general terms) that "SMBA throttles CXL.mem
-devices" to Documentation/x86/resctrl.rst may be sufficient for
-a user to understand what will be throttled without needing to go into
-details about CXL device discovery. 
+Signed-off-by: Ionela Voinescu <ionela.voinescu@arm.com>
+Reviewed-by: Catalin Marinas <catalin.marinas@arm.com>
+Cc: Catalin Marinas <catalin.marinas@arm.com>
+Cc: Will Deacon <will@kernel.org>
+Cc: James Morse <james.morse@arm.com>
+Link: https://lore.kernel.org/r/20220819103050.24211-1-ionela.voinescu@arm.com
+Signed-off-by: Will Deacon <will@kernel.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ Documentation/arm64/silicon-errata.rst |  2 ++
+ arch/arm64/Kconfig                     | 17 ++++++++++++++
+ arch/arm64/kernel/cpu_errata.c         | 10 ++++++++
+ arch/arm64/kernel/cpufeature.c         |  5 +++-
+ arch/arm64/kernel/topology.c           | 32 ++++++++++++++++++++++++--
+ arch/arm64/tools/cpucaps               |  1 +
+ 6 files changed, 64 insertions(+), 3 deletions(-)
 
-Reinette
+diff --git a/Documentation/arm64/silicon-errata.rst b/Documentation/arm64/silicon-errata.rst
+index 0b4235b1f8c46..d174df4f0377e 100644
+--- a/Documentation/arm64/silicon-errata.rst
++++ b/Documentation/arm64/silicon-errata.rst
+@@ -52,6 +52,8 @@ stable kernels.
+ | Allwinner      | A64/R18         | UNKNOWN1        | SUN50I_ERRATUM_UNKNOWN1     |
+ +----------------+-----------------+-----------------+-----------------------------+
+ +----------------+-----------------+-----------------+-----------------------------+
++| ARM            | Cortex-A510     | #2457168        | ARM64_ERRATUM_2457168       |
+++----------------+-----------------+-----------------+-----------------------------+
+ | ARM            | Cortex-A510     | #2064142        | ARM64_ERRATUM_2064142       |
+ +----------------+-----------------+-----------------+-----------------------------+
+ | ARM            | Cortex-A510     | #2038923        | ARM64_ERRATUM_2038923       |
+diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
+index a5d1b561ed53f..7bc2fd28dc6ef 100644
+--- a/arch/arm64/Kconfig
++++ b/arch/arm64/Kconfig
+@@ -897,6 +897,23 @@ config ARM64_ERRATUM_1902691
+ 
+ 	  If unsure, say Y.
+ 
++config ARM64_ERRATUM_2457168
++	bool "Cortex-A510: 2457168: workaround for AMEVCNTR01 incrementing incorrectly"
++	depends on ARM64_AMU_EXTN
++	default y
++	help
++	  This option adds the workaround for ARM Cortex-A510 erratum 2457168.
++
++	  The AMU counter AMEVCNTR01 (constant counter) should increment at the same rate
++	  as the system counter. On affected Cortex-A510 cores AMEVCNTR01 increments
++	  incorrectly giving a significantly higher output value.
++
++	  Work around this problem by returning 0 when reading the affected counter in
++	  key locations that results in disabling all users of this counter. This effect
++	  is the same to firmware disabling affected counters.
++
++	  If unsure, say Y.
++
+ config CAVIUM_ERRATUM_22375
+ 	bool "Cavium erratum 22375, 24313"
+ 	default y
+diff --git a/arch/arm64/kernel/cpu_errata.c b/arch/arm64/kernel/cpu_errata.c
+index 6b92989f4cc27..dcffcd43c17f8 100644
+--- a/arch/arm64/kernel/cpu_errata.c
++++ b/arch/arm64/kernel/cpu_errata.c
+@@ -648,6 +648,16 @@ const struct arm64_cpu_capabilities arm64_errata[] = {
+ 		ERRATA_MIDR_REV_RANGE(MIDR_CORTEX_A510, 0, 0, 2)
+ 	},
+ #endif
++#ifdef CONFIG_ARM64_ERRATUM_2457168
++	{
++		.desc = "ARM erratum 2457168",
++		.capability = ARM64_WORKAROUND_2457168,
++		.type = ARM64_CPUCAP_WEAK_LOCAL_CPU_FEATURE,
++
++		/* Cortex-A510 r0p0-r1p1 */
++		CAP_MIDR_RANGE(MIDR_CORTEX_A510, 0, 0, 1, 1)
++	},
++#endif
+ #ifdef CONFIG_ARM64_ERRATUM_2038923
+ 	{
+ 		.desc = "ARM erratum 2038923",
+diff --git a/arch/arm64/kernel/cpufeature.c b/arch/arm64/kernel/cpufeature.c
+index ebdfbd1cf207b..f34c9f8b9ee0a 100644
+--- a/arch/arm64/kernel/cpufeature.c
++++ b/arch/arm64/kernel/cpufeature.c
+@@ -1798,7 +1798,10 @@ static void cpu_amu_enable(struct arm64_cpu_capabilities const *cap)
+ 		pr_info("detected CPU%d: Activity Monitors Unit (AMU)\n",
+ 			smp_processor_id());
+ 		cpumask_set_cpu(smp_processor_id(), &amu_cpus);
+-		update_freq_counters_refs();
++
++		/* 0 reference values signal broken/disabled counters */
++		if (!this_cpu_has_cap(ARM64_WORKAROUND_2457168))
++			update_freq_counters_refs();
+ 	}
+ }
+ 
+diff --git a/arch/arm64/kernel/topology.c b/arch/arm64/kernel/topology.c
+index 9ab78ad826e2a..707b5451929d4 100644
+--- a/arch/arm64/kernel/topology.c
++++ b/arch/arm64/kernel/topology.c
+@@ -310,12 +310,25 @@ core_initcall(init_amu_fie);
+ 
+ static void cpu_read_corecnt(void *val)
+ {
++	/*
++	 * A value of 0 can be returned if the current CPU does not support AMUs
++	 * or if the counter is disabled for this CPU. A return value of 0 at
++	 * counter read is properly handled as an error case by the users of the
++	 * counter.
++	 */
+ 	*(u64 *)val = read_corecnt();
+ }
+ 
+ static void cpu_read_constcnt(void *val)
+ {
+-	*(u64 *)val = read_constcnt();
++	/*
++	 * Return 0 if the current CPU is affected by erratum 2457168. A value
++	 * of 0 is also returned if the current CPU does not support AMUs or if
++	 * the counter is disabled. A return value of 0 at counter read is
++	 * properly handled as an error case by the users of the counter.
++	 */
++	*(u64 *)val = this_cpu_has_cap(ARM64_WORKAROUND_2457168) ?
++		      0UL : read_constcnt();
+ }
+ 
+ static inline
+@@ -342,7 +355,22 @@ int counters_read_on_cpu(int cpu, smp_call_func_t func, u64 *val)
+  */
+ bool cpc_ffh_supported(void)
+ {
+-	return freq_counters_valid(get_cpu_with_amu_feat());
++	int cpu = get_cpu_with_amu_feat();
++
++	/*
++	 * FFH is considered supported if there is at least one present CPU that
++	 * supports AMUs. Using FFH to read core and reference counters for CPUs
++	 * that do not support AMUs, have counters disabled or that are affected
++	 * by errata, will result in a return value of 0.
++	 *
++	 * This is done to allow any enabled and valid counters to be read
++	 * through FFH, knowing that potentially returning 0 as counter value is
++	 * properly handled by the users of these counters.
++	 */
++	if ((cpu >= nr_cpu_ids) || !cpumask_test_cpu(cpu, cpu_present_mask))
++		return false;
++
++	return true;
+ }
+ 
+ int cpc_read_ffh(int cpu, struct cpc_reg *reg, u64 *val)
+diff --git a/arch/arm64/tools/cpucaps b/arch/arm64/tools/cpucaps
+index 8809e14cf86a2..18999f46df19f 100644
+--- a/arch/arm64/tools/cpucaps
++++ b/arch/arm64/tools/cpucaps
+@@ -66,6 +66,7 @@ WORKAROUND_1902691
+ WORKAROUND_2038923
+ WORKAROUND_2064142
+ WORKAROUND_2077057
++WORKAROUND_2457168
+ WORKAROUND_TRBE_OVERWRITE_FILL_MODE
+ WORKAROUND_TSB_FLUSH_FAILURE
+ WORKAROUND_TRBE_WRITE_OUT_OF_RANGE
+-- 
+2.35.1
+
