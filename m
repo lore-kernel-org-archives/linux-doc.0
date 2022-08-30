@@ -2,73 +2,79 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C84BDECAAD2
-	for <linux-doc@archiver.kernel.org>; Tue, 30 Aug 2022 03:07:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0BAD2ECAAD5
+	for <linux-doc@archiver.kernel.org>; Tue, 30 Aug 2022 03:37:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230053AbiH3DHS convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 29 Aug 2022 23:07:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38644 "EHLO
+        id S229793AbiH3DhT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 29 Aug 2022 23:37:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46766 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229577AbiH3DHF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Aug 2022 23:07:05 -0400
-Received: from relay.hostedemail.com (smtprelay0014.hostedemail.com [216.40.44.14])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C167A3D38;
-        Mon, 29 Aug 2022 20:06:47 -0700 (PDT)
-Received: from omf10.hostedemail.com (a10.router.float.18 [10.200.18.1])
-        by unirelay04.hostedemail.com (Postfix) with ESMTP id 457231A0878;
-        Tue, 30 Aug 2022 03:06:46 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf10.hostedemail.com (Postfix) with ESMTPA id 7FA992F;
-        Tue, 30 Aug 2022 03:06:44 +0000 (UTC)
-Message-ID: <dc45a7021bb765ea34c5b9228454f255764c7bc9.camel@perches.com>
+        with ESMTP id S229566AbiH3DhR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Aug 2022 23:37:17 -0400
+Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9BD780B68;
+        Mon, 29 Aug 2022 20:37:16 -0700 (PDT)
+Received: by mail-pl1-x62b.google.com with SMTP id p18so9859037plr.8;
+        Mon, 29 Aug 2022 20:37:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date;
+        bh=cP18/M+EyPxw7T9Zgu8KcrAe0OP5LLjvkZI4wzfWBio=;
+        b=M8CRVnI97CnsiDSOxUnvB8BZE2sgRitkJQS7KraBTYwoj0Cr5UodBBeQ/tstHZaMDP
+         C09qWSWxOj36OfJTBrPWi494nCothF2nYxPbztpFp7Y7wz5CIpmGdDQM+N2h3Tjx75oc
+         wG2Dk8bSUeXHC3F6sAZyS7Hpx5ysSsiaCFP3lQhUGNBJFIeEQOTINOPzkboW6aIAVMTN
+         qYP1fBvF3z/8QJ2yF1QVMLiNXjjDog9BQwOnJSNJA2pbnHeXXnCy26VIkOiXDgffceVS
+         y+VU560sZ8VSpOnQJi0HoiSZ0ttQSPwJnfJh/EUFGiUJzj8yjRr5dh3j1pIzTm+dVRAs
+         Ce0Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date;
+        bh=cP18/M+EyPxw7T9Zgu8KcrAe0OP5LLjvkZI4wzfWBio=;
+        b=Sw/xWHg80LMxmd+NZzD9ZVVbdvmUBfEt5qoCim8Nq07snKksD/3xSuKsXEeYTnWR9h
+         oPzig3N4WW6ohNiupvp1HTZNseNV1ullQbj4pxvkRKRdnQ7F1NrfmQPrOCWUG91S0ROf
+         F9XZ46ls9CHizYYtVjoe0rA5sz4omHRCSeoJpJ/rFj/QjyHGM+tchdMsUrF06UyIoQ14
+         heNWsT5HMsGn2V3/hLzJDSK+Sd5A45UF7hnOfdYR/vh3bO3oOR+Bhry0+Qw71WgfxyiH
+         IIkAmZ7Q9hYU5BVavgzUEwFq6C6GaB/yyziY0XHR8FnpgRZGYOkCScxqQTh8Ara2r7Fg
+         8T0w==
+X-Gm-Message-State: ACgBeo0GJLIoLtFdMF3FKzmMyZNkRZpAF3tn1x4R8yEyZb3XIEEAXZP7
+        YFBrmHVzDMGXLiaPumU7nfpDVy9ZHzY=
+X-Google-Smtp-Source: AA6agR7MqkZjBR+Uf2VT90X9je+mc78Gtjq1L/rq3cjngv/PJOVEhE4zQnc4AT6YKU87YVnbbWuFwg==
+X-Received: by 2002:a17:90b:1e0f:b0:1f5:37f5:159c with SMTP id pg15-20020a17090b1e0f00b001f537f5159cmr21574601pjb.189.1661830636506;
+        Mon, 29 Aug 2022 20:37:16 -0700 (PDT)
+Received: from [192.168.43.80] (subs32-116-206-28-15.three.co.id. [116.206.28.15])
+        by smtp.gmail.com with ESMTPSA id m9-20020a17090a858900b001faf7a88138sm7396957pjn.42.2022.08.29.20.37.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 29 Aug 2022 20:37:16 -0700 (PDT)
+Message-ID: <e79ebc62-7e44-3ec8-fdaf-42572c8ac75c@gmail.com>
+Date:   Tue, 30 Aug 2022 10:37:08 +0700
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
 Subject: Re: [PATCH] checkpatch: warn for non-standard fixes tag style
-From:   Joe Perches <joe@perches.com>
-To:     Niklas =?ISO-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@corigine.com>,
+Content-Language: en-US
+To:     =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@corigine.com>,
         Dwaipayan Ray <dwaipayanray1@gmail.com>,
         Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        Joe Perches <joe@perches.com>,
         Jonathan Corbet <corbet@lwn.net>,
         Andy Whitcroft <apw@canonical.com>, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org
 Cc:     oss-drivers@corigine.com, Simon Horman <simon.horman@corigine.com>,
         Louis Peens <louis.peens@corigine.com>
-Date:   Mon, 29 Aug 2022 23:06:43 -0400
-In-Reply-To: <20220829155358.2546732-1-niklas.soderlund@corigine.com>
 References: <20220829155358.2546732-1-niklas.soderlund@corigine.com>
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: 8BIT
-User-Agent: Evolution 3.44.4 (3.44.4-1.fc36) 
-MIME-Version: 1.0
-X-Rspamd-Server: rspamout03
-X-Rspamd-Queue-Id: 7FA992F
-X-Stat-Signature: xrgf38phz7kpaak68mirho4fc968wqy3
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX19e9kf4kUAZg/cANrnHGmIsQgBksQYMOM0=
-X-HE-Tag: 1661828804-275761
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <20220829155358.2546732-1-niklas.soderlund@corigine.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 2022-08-29 at 17:53 +0200, Niklas Söderlund wrote:
-> Add a warning for fixes tags that does not fall in line with the
-> standards specified by the community.
-> 
-> Signed-off-by: Niklas Söderlund <niklas.soderlund@corigine.com>
-> Reviewed-by: Simon Horman <simon.horman@corigine.com>
-> Reviewed-by: Louis Peens <louis.peens@corigine.com>
-> ---
->  Documentation/dev-tools/checkpatch.rst |  6 ++++
->  scripts/checkpatch.pl                  | 41 ++++++++++++++++++++++++++
->  2 files changed, 47 insertions(+)
-> 
-> diff --git a/Documentation/dev-tools/checkpatch.rst b/Documentation/dev-tools/checkpatch.rst
-> index b52452bc2963..8164f362a2fc 100644
-> --- a/Documentation/dev-tools/checkpatch.rst
-> +++ b/Documentation/dev-tools/checkpatch.rst
-> @@ -612,6 +612,12 @@ Commit message
->  
->      See: https://www.kernel.org/doc/html/latest/process/submitting-patches.html#describe-your-changes
->  
+On 8/29/22 22:53, Niklas SÃ¶derlund wrote:
 > +  **BAD_FIXES_TAG**
 > +    The fixes line does not fall in line with the standards specified by the
 > +    community.
@@ -76,67 +82,14 @@ On Mon, 2022-08-29 at 17:53 +0200, Niklas Söderlund wrote:
 > +    See: https://www.kernel.org/doc/html/latest/process/submitting-patches.html#describe-your-changes
 > +
 >  
->  Comparison style
->  ----------------
-> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-> index 79e759aac543..9b8cdc582fb5 100755
-> --- a/scripts/checkpatch.pl
-> +++ b/scripts/checkpatch.pl
-> @@ -3140,6 +3140,47 @@ sub process {
->  			}
->  		}
->  
-> +# Check Fixes: styles is correct
-> +		if (!$in_header_lines && $line =~ /^fixes:/i) {
-> +			my $orig_commit = "";
-> +			my $id = "0123456789ab";
-> +			my $title = "commit title";
-> +			my $tag_case = 1;
-> +			my $tag_space = 1;
-> +			my $id_length = 1;
-> +			my $id_case = 1;
-> +			my $title_has_quotes = 0;
-> +
-> +			if ($line =~ /(fixes:)\s+([0-9a-f]{5,})\s+($balanced_parens)/i) {
 
-Maybe use fixes:? so the colon is not required in poorly formed uses
+Did you mean "The Fixes: tag is malformed"?
 
-> +				my $tag = $1;
-> +				$orig_commit = $2;
-> +				$title = $3;
-> +
-> +				$tag_case = 0 if $tag eq "Fixes:";
-> +				$tag_space = 0 if ($line =~ /^fixes: [0-9a-f]{5,} ($balanced_parens)/i);
+Also, mention that this message can occur when the tag is split
+into multiple lines (e.g., when pasted in email program with word
+wrapping enabled).
 
-fixes:? here too
+Thanks.
 
-Pity there's no simple way to consolidate this git commit test block
-with the existing git id commit block.
-
-> +
-> +				$id_length = 0 if ($orig_commit =~ /^[0-9a-f]{12}$/i);
-> +				$id_case = 0 if ($orig_commit !~ /[A-F]/);
-> +
-> +				# Always strip leading/trailing parens then double quotes if existing
-> +				$title = substr($title, 1, -1);
-> +				if ($title =~ /^".*"$/) {
-> +					$title = substr($title, 1, -1);
-> +					$title_has_quotes = 1;
-> +				}
-> +			}
-> +
-> +			($id, $title) = git_commit_info($orig_commit, $id,
-> +							$title);
-> +
-> +			if ($tag_case || $tag_space || $id_length || $id_case ||
-> +			    !$title_has_quotes) {
-> +				WARN("BAD_FIXES_TAG",
-> +				     "Please use correct Fixes: style 'Fixes: <12 chars of sha1> (\"<title line>\")' - ie: 'Fixes: $id (\"$title\")'\n" . $herecurr);
-> +
-> +			}
-> +		}
-> +
->  # Check email subject for common tools that don't need to be mentioned
->  		if ($in_header_lines &&
->  		    $line =~ /^Subject:.*\b(?:checkpatch|sparse|smatch)\b[^:]/i) {
-
+-- 
+An old man doll... just what I always wanted! - Clara
