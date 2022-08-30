@@ -2,301 +2,171 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D023ECAAA1
-	for <linux-doc@archiver.kernel.org>; Tue, 30 Aug 2022 08:54:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 24E38C0502A
+	for <linux-doc@archiver.kernel.org>; Tue, 30 Aug 2022 09:03:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230056AbiH3IyC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 30 Aug 2022 04:54:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41584 "EHLO
+        id S229877AbiH3JDH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 30 Aug 2022 05:03:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56558 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229939AbiH3IyB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Aug 2022 04:54:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24FCF2DE0
-        for <linux-doc@vger.kernel.org>; Tue, 30 Aug 2022 01:54:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1661849639;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=TkncoKUbcQiSyO2qtQqHRmi1Ivdoxcpk/h6UyNgf76M=;
-        b=a4V1P1OSi/bRMRSk2KLlPq6nQQV01CDr4hUV4INPZDQ6YPSBUytj97/FAwGdxpaKx+IbO6
-        d9tuvXinsKnYvs2edpueML/PN9RI4xu01tWwJC+oQT2lm0P4gGy5GQ8alSTRSmh7sl68ja
-        MEb+HzP6z0Yzp2fsl+v15MFObsio5/g=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-533-go2HBKg1MROpzJRW97p5lw-1; Tue, 30 Aug 2022 04:53:56 -0400
-X-MC-Unique: go2HBKg1MROpzJRW97p5lw-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 613CF3C0F363;
-        Tue, 30 Aug 2022 08:53:55 +0000 (UTC)
-Received: from T590 (ovpn-8-18.pek2.redhat.com [10.72.8.18])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 6FD6A40315A;
-        Tue, 30 Aug 2022 08:53:46 +0000 (UTC)
-Date:   Tue, 30 Aug 2022 16:53:43 +0800
-From:   Ming Lei <ming.lei@redhat.com>
-To:     Bagas Sanjaya <bagasdotme@gmail.com>
-Cc:     Jens Axboe <axboe@kernel.dk>, linux-doc@vger.kernel.org,
-        linux-block@vger.kernel.org, Christoph Hellwig <hch@lst.de>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "Richard W . M . Jones" <rjones@redhat.com>,
-        ZiyangZhang <ZiyangZhang@linux.alibaba.com>,
-        Stefan Hajnoczi <stefanha@redhat.com>,
-        Xiaoguang Wang <xiaoguang.wang@linux.alibaba.com>
-Subject: Re: [PATCH] Docs: ublk: add ublk document
-Message-ID: <Yw3QF4GnwKBgz9rO@T590>
-References: <20220828045003.537131-1-ming.lei@redhat.com>
- <YwtiTr3E4b9c+Vcl@debian.me>
+        with ESMTP id S229507AbiH3JDG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Aug 2022 05:03:06 -0400
+Received: from FRA01-PR2-obe.outbound.protection.outlook.com (mail-eopbgr120045.outbound.protection.outlook.com [40.107.12.45])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8DBC49F1A6;
+        Tue, 30 Aug 2022 02:03:03 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=jZCnBUWJh4ErL9afKkrtEV242fQ901gPD4HC7ft6D0q6c0/uZvjki9m6sWg8KFQYKo+EnXsoOUzk7BqdK1GmkshXylVb09UhBtWMq1eDxHiSOpN3wc9DYee5zZ7EHAR2K5sVxwrwBJr2QDY0P4DtoyfKViTUQlqbA9OpxfjK57Soul7EVv5Pzrto6wDH4FwQ8k69nhDPiHlCt50KCigmFXqxYe+QzeeBj90XfDRcbF7Yo7OV1EPsCM81EVxqHAoURVe19dooeSxooY66bK4Bk+qJgMqOrPjE6do7z2Tto2F3kAChL88C+YtxJcuWfLJzcg1P1ROC8mY/JKZf0Lx/tg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=qb9M1ZFfklg2EaPjPQr088/O091OOBKKHaKBjISfRL4=;
+ b=TYunSVNqcUoKQiDccIZvhclDK8PKoRLbLqhz75ihpQvLvJ7r+JanWoTVmUyDavD10tsINWR3d7z9FCkc9ew4/o6wJ2/DyIowHXXs7kaL4OJVsdy5+ML5FQnwfBuwXNl8gCcpzw9wVZDQll/QNw5h5Rc0yAHuWWpmfyEeSDVS+/4ul+F0L6gRd8wTEftd8BrCbkt45Y1DslKVdThvoCkcK4YamusiElAoQQ4syWRoSpW2P+vH83qcbMkvIg7t2upF1lCBGTP6Vd0y87ISvPaW15r9t96fJJMGhoxNLtmXyW/kITQpDOK2lIFiPuA5AtA54QcYFXn7b13/umwOyUPS3Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=csgroup.eu; dmarc=pass action=none header.from=csgroup.eu;
+ dkim=pass header.d=csgroup.eu; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=csgroup.eu;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=qb9M1ZFfklg2EaPjPQr088/O091OOBKKHaKBjISfRL4=;
+ b=A21MorpM2vEIDmDaCgzccybT1kTBc7y7/b4j2N3+tyHfkACRDcaVFl0DrYTWKlHaQAGuwklmMn86klyAKXJD5MVlkjC5ve/WGCuROqxd4tDF/vTjh8d3+R1xc2kOu3OW4bLEyHxoxKg7RQ8Ja1WibPlvKMKXttMgeEOEhz9/RhFxNd6Yfgr+yCCMSKOCTCpthlivPLPm8WusXcbl5sm+RSf+jggB/4KHTAl8WXnGpAfAGejoYZnoGZcpaJq9eYGAaJB5hRkGh1CC41QDq8CUx468Vej44noef69m9XcE87SEZXdXnqEoNt0WKOicgo/b+saq7L90maaFwCU5FxQgPA==
+Received: from MRZP264MB2988.FRAP264.PROD.OUTLOOK.COM (2603:10a6:501:31::15)
+ by PR1P264MB2295.FRAP264.PROD.OUTLOOK.COM (2603:10a6:102:1b6::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5566.15; Tue, 30 Aug
+ 2022 09:03:00 +0000
+Received: from MRZP264MB2988.FRAP264.PROD.OUTLOOK.COM
+ ([fe80::382a:ed3b:83d6:e5d8]) by MRZP264MB2988.FRAP264.PROD.OUTLOOK.COM
+ ([fe80::382a:ed3b:83d6:e5d8%4]) with mapi id 15.20.5566.021; Tue, 30 Aug 2022
+ 09:03:00 +0000
+From:   Christophe Leroy <christophe.leroy@csgroup.eu>
+To:     Alessandro Rubini <rubini@gnudd.com>,
+        "ciminaghi@gnudd.com" <ciminaghi@gnudd.com>
+CC:     "arnd@arndb.de" <arnd@arndb.de>,
+        "linus.walleij@linaro.org" <linus.walleij@linaro.org>,
+        "gnurou@gmail.com" <gnurou@gmail.com>,
+        "acourbot@nvidia.com" <acourbot@nvidia.com>,
+        "brgl@bgdev.pl" <brgl@bgdev.pl>, "corbet@lwn.net" <corbet@lwn.net>,
+        "linux@armlinux.org.uk" <linux@armlinux.org.uk>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "mingo@redhat.com" <mingo@redhat.com>,
+        "bp@alien8.de" <bp@alien8.de>,
+        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+        "x86@kernel.org" <x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
+        "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>
+Subject: Re: [PATCH] gpio: Allow user to customise maximum number of GPIOs
+Thread-Topic: [PATCH] gpio: Allow user to customise maximum number of GPIOs
+Thread-Index: AQHYq9yc0+2EsNg9hki12SrFrcAXy620c0uAgAAEKoCAABfpAIAABZOAgAAOlYCAAAXLgIALDnQAgAAGlgCAAY9WgIAAFeqAgABxeACAAk4kAIAAEC+AgAMBeQCAAAmoAIAACFqA
+Date:   Tue, 30 Aug 2022 09:03:00 +0000
+Message-ID: <8f108a8e-339e-9aa3-3279-ea6c9e142df3@csgroup.eu>
+References: <Yw3DKCuDoPkCaqxE@arcana.i.gnudd.com>
+ <CAK8P3a0j-54_OkXC7x3NSNaHhwJ+9umNgbpsrPxUB4dwewK63A@mail.gmail.com>
+ <CACRpkda0+iy8H0YmyowSDn8RbYgnVbC1k+o5F67inXg4Qb934Q@mail.gmail.com>
+ <CAK8P3a0uuJ_z8wmNmQTW_qPNqzz7XoxZdHgqbzmK+ydtjraeHg@mail.gmail.com>
+ <CACRpkdb5ow4hD3td6agCuKWvuxptm5AV4rsCrcxNStNdXnBzrA@mail.gmail.com>
+ <87f2ff4c-3426-201c-df86-2d06d3587a20@csgroup.eu>
+ <CACRpkdYizQhiJXzXNHg7TXUVHzhkwXHFN5+e58kH4udGm1ziEA@mail.gmail.com>
+ <f76dbc49-526f-6dc7-2ef1-558baea5848b@csgroup.eu>
+ <CACRpkdZpwdP+1VitohznqRfhFGcLT2f+sQnmsRWwMBB3bobwAw@mail.gmail.com>
+ <515364a9-33a1-fafa-fdce-dc7dbd5bb7fb@csgroup.eu>
+ <CAK8P3a36qbRW8hd+1Uhi88kh+-KTjDMT-Zr8Jq9h_G3zQLfzgw@mail.gmail.com>
+ <Yw3LQjhZWmZaU2N1@arcana.i.gnudd.com>
+In-Reply-To: <Yw3LQjhZWmZaU2N1@arcana.i.gnudd.com>
+Accept-Language: fr-FR, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=csgroup.eu;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: e2a32559-1a5f-41f6-5970-08da8a667071
+x-ms-traffictypediagnostic: PR1P264MB2295:EE_
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 72cofz/G5kz+gG5DGpz4lqU8mENtzQHzE0XKfD64HmyBdI1S/n2Lfj4iIqWQQVeCqLYQScts8763fnYbItx4mI4eRPmQG4w2lYiBtnwqqtRZunXCrYF6jaTAQw5n8DB3PZM2f9CN8aaplV8v/1YlmxjBR3hy+R4oQEfMy0yQCQrOYbMSl76NlK7x6kx2NvtjGiaKILMiJ+zz1PydtkZBPbzK35GV4VSxCJgTgkEvmNj42mIiqV/uHLwioqZ1/h6TSBsIvZvi/UcCD5jTr55395BzupLMXa095VFK8RoV6/hL16lS3rgljUw4eIG/49e2JxGE7iez/a2zgFDZYxccq2Yp/7q+VInjfXGxMAe7pksORg0Vn3Yi3rMn6/S0Psqz9i7a83gcIaAiRp7ta8rDyJes4KQuD60O9LaVg2Bjup0i7Tw0ST+CL31NT63e8O/8JFYSXbY/3h3OMgEK8bMaRwXQ9xpppZTHVevHrSygEOZBOIyDdDTRDSfwKeHN0SzgjFEHjXLNApwlucbnO1IYxOAyPBPpUL/dPWpIsDmbtvWUPyE+KFN6tH1kwLaVRYyG6zDo2o4ZwwGkatFJgRt7au2eDhqvyDbv8oCAd1yjkkZVx5z3Um1vdZjGkGkUlVE0/pbWP1ujALewOIdZECBvOa1XDw1+tIza6QzrpmrElVAbt217D6rmb4euEbR7EVvU3h0Gl/9CxA0u2w1rpbS7J/Fo8kn8vyBOZKc3HHz8FvbYHzUFDhQLTxxsN1Acb8T827p6v8YgfYDKdHa4G8cjR12tpPpGbPMUT7WEcIRraTI/MqlaeRhp0tb0y5Z7LcWsHwezk12aeO/OjDaVccxSlh3KyabXPVX6zxDDtThJHc8=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MRZP264MB2988.FRAP264.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230016)(4636009)(39850400004)(346002)(136003)(396003)(366004)(376002)(66574015)(2616005)(91956017)(2906002)(186003)(71200400001)(316002)(83380400001)(31686004)(36756003)(44832011)(6506007)(26005)(6512007)(86362001)(38070700005)(54906003)(5660300002)(478600001)(8936002)(6486002)(122000001)(41300700001)(7416002)(966005)(38100700002)(110136005)(66476007)(31696002)(66946007)(4326008)(66556008)(66446008)(8676002)(64756008)(76116006)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?V092bE1PZ0JFSlpudnlYQjlKN2RCUlZNNEJybk1ma3UvcHNNQ2tleGdXa2Za?=
+ =?utf-8?B?d1JDMXM4Qy9WNVd2QXhobWFwSHVQVk5kTEN6ejc0N1NKUFBNN1BwQ1NXakh2?=
+ =?utf-8?B?alhtOVhSeFhpWnBzTVZZLzJsbjM0ZDZPa2RBMFowZ0dJY1FSbUVXTFlmZ01F?=
+ =?utf-8?B?UWxINlpnblpqeHdvQUNJd3pWRkRPamxUMVB3RFAxR21Ba0tRUjMzSjlqejNp?=
+ =?utf-8?B?RitOd1c2WmN6THA2bHdDcG5HR0pjMmZUSjdVQmpIZW5XNHZ1Wnh1aHloYnZq?=
+ =?utf-8?B?M1FBTlhaa2VYWVBrTzZEcVB1YnBpSkhCMWZMT2lKM01pdVIyRGFUQ3g3UDRP?=
+ =?utf-8?B?RHp1ZXBxdmtFS0hrdHBScjhyZ2dYbngzNkpEWkEyLzEreTFtQXpZL2xsMUh1?=
+ =?utf-8?B?TjRIdnVVQlcyaEJob0xxbGRWQU1xT3orcHNQWDlYMjczSy9pT1FXL2src04x?=
+ =?utf-8?B?Wkc2UU9FMVdWc09ONXd3UHcrK2FSeTVuU2Znd3NpaGdkRmtyaWVDUFRPeGVH?=
+ =?utf-8?B?bDlOU3ErcmpMTWZvQVMvOXZJQTFTVjhNRUlJQlNFZWsyekVaQm05bGpDK3Mx?=
+ =?utf-8?B?eExiZTRUWjlQUnR1czNSd3M5NGRyd2I0azA1R0hiM1c5QmdMMWNqb3UybG91?=
+ =?utf-8?B?UlNJOFFRRzZhYUdsWVlCV3pFQ2MyQkt1SW9HYkgrR0F5RWVLWDdtdmZDS3pK?=
+ =?utf-8?B?UTFzMFZzdGtYZXRZQmVWdTZDNi8zakUrM1g3L3NaMEF3ZytSQjkxaklDZzFo?=
+ =?utf-8?B?SWJGMThubEU5ckNFQVhxVTRRNlkwTCtjV21sTmhBTmwwNEEydDM4dkFWVytL?=
+ =?utf-8?B?REJMSzVSMmNkYlpPc0syeXI4a0FJWmRPS3lQYmdFMVh5bU1nQ0UvU3pNZ3VM?=
+ =?utf-8?B?NEthZGF5SkZzSGZjUUo1Z1k4VVJhNzVpbG1qKzNzdG1XREJsL24xUk0wMkpy?=
+ =?utf-8?B?M0NRZjJjbnlIYU5FNUpOajN3V0x4bDd1TnI2RFZ2VnNWMG5iU0dyeUJ2T0NL?=
+ =?utf-8?B?WDdoMnJpYWdaNmxHZEo1c1Vob1VLaXk1YVdBTDAvcVhoYWtBdmN4Vzk5VlZR?=
+ =?utf-8?B?TFZ6TE54UFR6L08xREczTFR6OGEyaXF3VVR1ZTZhLzdCL0lSNlhLek95TS9K?=
+ =?utf-8?B?bWxDWjRkdjdwcERGcjQ5L2dyYXVBRVh3V2w1bmNEZ2pWTUxyRytTMnBwZGg3?=
+ =?utf-8?B?eVBUcytmYk9xTU9aeUI3YnRNNVNPV2xJTUlOdkduZHdFdzJPckhpbTlOam9a?=
+ =?utf-8?B?THJVVEVpZmJOL2YxU01sZFV0ZlQ2TE1IY29YUmlWL2ZhcFozTDlzcU9MYktM?=
+ =?utf-8?B?dmJabmVWOHpOa0NvZDhITTZDc1RWN3Y0ZnhkUm9nQS8rME1xU3VKUHVYbDhV?=
+ =?utf-8?B?cWpSRHJ4UEZtaFp0VnBaeHB5WUlybnQ0UFRTeExUdW0zWXFrSnBtV3BCQmVj?=
+ =?utf-8?B?TmpiQW83Y2RGNGk4RmdZZ0FZUFNCK1lhWWVMY0xBQzY4QXVSR0dsMW95U0Fk?=
+ =?utf-8?B?RHhNbWkvemVrbUFMWDlJUXRncHZlaUVqd0x6eWx0RENIKzNpV1lvcTVONnVi?=
+ =?utf-8?B?UUUvcU80RDg1ZWdoYlRIQ3Rsa3RDOEtHS2MrbTlOMCtyWnA4SUFkUFY5SmRi?=
+ =?utf-8?B?cVdUNWs5Y0p2KzRmc25GdFNKR0hYODNNYysycW80eGtsRGdPSmMyMFFaUFFD?=
+ =?utf-8?B?U0l0UnJWbnc4WmFvcjdzUDB5WDVBcko4ZG9uM0puaG4xWkNWYzFCUEJWdDZw?=
+ =?utf-8?B?bndqWkRKNzBSZG04UXZEUUNkSHhTaGNmTGZYenM1eVFUdmJTbjRNNUp5ZWlu?=
+ =?utf-8?B?VzhDNU5tcWlCNVl1QUM0Y0UxWkhZWi9mRW5tb2xtSnJWYUp3L0w0MEJINy9R?=
+ =?utf-8?B?QktPWUhhZnljUjg0MFpnaE5QZ2lTN0lncDE1K0hSSzVuMkYzR0ZEUmVJUXBK?=
+ =?utf-8?B?TzQ4VDM3ak8rUDVLTjdOT1YrL1VTRnZSRDFpNWZ4NG90NDM3Yjl6RGtoZVNG?=
+ =?utf-8?B?QXpuaWdSRE5ubGE1YjF5cVpjM2QxTTJDWHQweWhHT2hFd2xYdmNYSDBacHc0?=
+ =?utf-8?B?STc2UHlDaEhtdWc3ZmdpaU9QZ3poNEpLSVR6QmFOS1hTZXM0dGZ1YXl0UHdD?=
+ =?utf-8?B?Ri9VbFBwNTFXcFRCQlVMd0xONWlrc2Nzdk9XUU15UUlyeUMwRVBJQUJyOEtk?=
+ =?utf-8?B?V0E9PQ==?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <BAC531872A71F04C8BD5E595BEE74EFC@FRAP264.PROD.OUTLOOK.COM>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YwtiTr3E4b9c+Vcl@debian.me>
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
+X-OriginatorOrg: csgroup.eu
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MRZP264MB2988.FRAP264.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: e2a32559-1a5f-41f6-5970-08da8a667071
+X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Aug 2022 09:03:00.3964
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 9914def7-b676-4fda-8815-5d49fb3b45c8
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: nvoVklja1U9dYR16yKk65r7Kfqn2ty+cNlaecdMeZl4AYqr4u+nfJl/Oyw0YXQxalHr0+Y/BBvXSyW7ZdGaxFYkHpR5N7KCCgethQxM8AmA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PR1P264MB2295
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Aug 28, 2022 at 07:40:46PM +0700, Bagas Sanjaya wrote:
-> On Sun, Aug 28, 2022 at 12:50:03PM +0800, Ming Lei wrote:
-> > ublk document is missed when merging ublk driver, so add it now.
-> > 
-> 
-> Better say "Add documentation for ublk subsystem. It was supposed to be
-> documented when merging the driver, but missing at that time."
-
-OK.
-
-> 
-> > diff --git a/Documentation/block/ublk.rst b/Documentation/block/ublk.rst
-> > new file mode 100644
-> > index 000000000000..9e8f7ba518a3
-> > --- /dev/null
-> > +++ b/Documentation/block/ublk.rst
-> > @@ -0,0 +1,203 @@
-> > +.. SPDX-License-Identifier: GPL-2.0
-> > +
-> > +==========================================
-> > +Userspace block device driver(ublk driver)
-> > +==========================================
-> > +
-> > +Overview
-> > +========
-> > +
-> > +ublk is one generic framework for implementing block device logic from
-> > +userspace. It is very helpful to move virtual block drivers into userspace,
-> > +such as loop, nbd and similar block drivers. It can help to implement new
-> > +virtual block device, such as ublk-qcow2, and there was several attempts
-> > +of implementing qcow2 driver in kernel.
-> > +
-> > +ublk block device(``/dev/ublkb*``) is added by ublk driver. Any IO request
-> > +submitted to ublk device will be forwarded to ublk's userspace part(
-> > +ublksrv [1]), and after the IO is handled by ublksrv, the result is
-> > +committed back to ublk driver, then ublk IO request can be completed. With
-> > +this way, any specific IO handling logic is totally done inside ublksrv,
-> > +and ublk driver doe _not_ handle any device specific IO logic, such as
-> > +loop's IO handling, NBD's IO communication, or qcow2's IO mapping, ...
-> > +
-> > +/dev/ublkbN is driven by blk-mq request based driver, each request is
-> > +assigned by one queue wide unique tag. ublksrv assigns unique tag to each
-> > +IO too, which is 1:1 mapped with IO of /dev/ublkb*.
-> > +
-> > +Both the IO request forward and IO handling result committing are done via
-> > +io_uring passthrough command, that is why ublk is also one io_uring based
-> > +block driver. It has been observed that io_uring passthrough command can get
-> > +better IOPS than block IO. So ublk is one high performance implementation
-> > +of userspace block device. Not only IO request communication is done by
-> > +io_uring, but also the preferred IO handling in ublksrv is io_uring based
-> > +approach too.
-> > +
-> > +ublk provides control interface to set/get ublk block device parameters, and
-> > +the interface is extendable and kabi compatible, so basically any ublk request
-> > +queue's parameter or ublk generic feature parameters can be set/get via this
-> > +extendable interface. So ublk is generic userspace block device framework, such
-> > +as, it is easy to setup one ublk device with specified block parameters from
-> > +userspace.
-> > +
-> > +How to use ublk
-> > +===============
-> > +
-> > +After building ublksrv[1], ublk block device(``/dev/ublkb*``) can be added
-> > +and deleted by the utility, then existed block IO applications can talk with
-> > +it.
-> > +
-> > +See usage details in README[2] of ublksrv, for example of ublk-loop:
-> > +
-> > +- add ublk device:
-> > +  ublk add -t loop -f ublk-loop.img
-> > +
-> > +- use it:
-> > +  mkfs.xfs /dev/ublkb0
-> > +  mount /dev/ublkb0 /mnt
-> > +  ....                     # all IOs are handled by io_uring!!!
-> > +  umount /mnt
-> > +
-> > +- get ublk dev info:
-> > +  ublk list
-> > +
-> > +- delete ublk device
-> > +  ublk del -a
-> > +  ublk del -n $ublk_dev_id
-> > +
-> > +Design
-> > +======
-> > +
-> > +Control plane
-> > +-------------
-> > +
-> > +ublk driver provides global misc device node(``/dev/ublk-control``) for
-> > +managing and controlling ublk devices with help of several control commands:
-> > +
-> > +- UBLK_CMD_ADD_DEV
-> > +  Add one ublk char device(``/dev/ublkc*``) which is talked with ublksrv wrt.
-> > +  IO command communication. Basic device info is sent together with this
-> > +  command, see UAPI structure of ublksrv_ctrl_dev_info, such as nr_hw_queues,
-> > +  queue_depth, and max IO request buffer size, which info is negotiated with
-> > +  ublk driver and sent back to ublksrv. After this command is completed, the
-> > +  basic device info can't be changed any more.
-> > +
-> > +- UBLK_CMD_SET_PARAMS / UBLK_CMD_GET_PARAMS
-> > +  Set or get ublk device's parameters, which can be generic feature related,
-> > +  or request queue limit related, but can't be IO logic specific, cause ublk
-> > +  driver does not handle any IO logic. This command has to be sent before
-> > +  sending UBLK_CMD_START_DEV.
-> > +
-> > +- UBLK_CMD_START_DEV
-> > +  After ublksrv prepares userspace resource such as, creating per-queue
-> > +  pthread & io_ruing for handling ublk IO, this command is set for ublk
-> > +  driver to allocate & expose /dev/ublkb*. Parameters set via
-> > +  UBLK_CMD_SET_PARAMS are applied for creating /dev/ublkb*.
-> > +
-> > +- UBLK_CMD_STOP_DEV
-> > +  Quiesce IO on /dev/ublkb* and delete the disk. After this command returns,
-> > +  ublksrv can release resource, such as destroy per-queue pthread & io_uring
-> > +  for handling io command.
-> > +
-> > +- UBLK_CMD_DEL_DEV
-> > +  Delete /dev/ublkc*. After this command returns, the allocated ublk device
-> > +  number can be reused.
-> > +
-> > +- UBLK_CMD_GET_QUEUE_AFFINITY
-> > +  After /dev/ublkc is added, ublk driver creates block layer tagset, so each
-> > +  queue's affinity info is available, ublksrv sends UBLK_CMD_GET_QUEUE_AFFINITY
-> > +  to retrieve queue affinity info, so ublksrv can setup the per-queue context
-> > +  efficiently, such as bind affine CPUs with IO pthread, and try to allocate
-> > +  buffers in IO thread context.
-> > +
-> > +- UBLK_CMD_GET_DEV_INFO
-> > +  For retrieve device info of ublksrv_ctrl_dev_info. And it is ublksrv's
-> > +  responsibility to save IO target specific info in userspace.
-> > +
-> > +Data plane
-> > +----------
-> > +
-> > +ublksrv needs to create per-queue IO pthread & io_uring for handling IO
-> > +command (io_uring passthrough command), and the per-queue IO pthread
-> > +focuses on IO handling and shouldn't handle any control & management
-> > +task.
-> > +
-> > +ublksrv's IO is assigned by one unique tag, which is 1:1 mapping with IO
-> > +request of /dev/ublkb*.
-> > +
-> > +UAPI structure of ublksrv_io_desc is defined for describing each IO from
-> > +ublk driver. One fixed mmaped area(array) on /dev/ublkc* is provided for
-> > +exporting IO info to ublksrv, such as IO offset, length, OP/flags and
-> > +buffer address. Each ublksrv_io_desc instance can be indexed via queue id
-> > +and IO tag directly.
-> > +
-> > +Following IO commands are communicated via io_uring passthrough command,
-> > +and each command is only for forwarding ublk IO and committing IO result
-> > +with specified IO tag in the command data:
-> > +
-> > +- UBLK_IO_FETCH_REQ
-> > +  Sent from ublksrv IO pthread for fetching future coming IO request
-> > +  issued to /dev/ublkb*. This command is just sent once from ublksrv IO
-> > +  pthread for ublk driver to setup IO forward environment.
-> > +
-> > +- UBLK_IO_COMMIT_AND_FETCH_REQ
-> > +  After one IO request is issued to /dev/ublkb*, ublk driver stores this
-> > +  IO's ublksrv_io_desc to the specified mapped area, then the previous
-> > +  received IO command of this IO tag, either UBLK_IO_FETCH_REQ or
-> > +  UBLK_IO_COMMIT_AND_FETCH_REQ, is completed, so ulksrv gets the IO
-> > +  notification via io_uring.
-> > +
-> > +  After ublksrv handles this IO, this IO's result is committed back to ublk
-> > +  driver by sending UBLK_IO_COMMIT_AND_FETCH_REQ back. Once ublkdrv received
-> > +  this command, it parses the IO result and complete the IO request to
-> > +  /dev/ublkb*. Meantime setup environment for fetching future IO request
-> > +  with this IO tag. So UBLK_IO_COMMIT_AND_FETCH_REQ is reused for both
-> > +  fetching request and committing back IO result.
-> > +
-> > +- UBLK_IO_NEED_GET_DATA
-> > +  ublksrv pre-allocates IO buffer for each IO at default, any new project
-> > +  should use this IO buffer to communicate with ublk driver. But existed
-> > +  project may not work or be changed to in this way, so add this command
-> > +  to provide chance for userspace to use its existed buffer for handling
-> > +  IO.
-> > +
-> > +- data copy between ublkserv IO buffer and ublk block IO request
-> > +  ublk driver needs to copy ublk block IO request pages into ublksrv buffer
-> > +  (pages) first for WRITE before notifying ublksrv of the coming IO, so
-> > +  ublksrv can hanldle WRITE request.
-> > +
-> > +  After ublksrv handles READ request and sends UBLK_IO_COMMIT_AND_FETCH_REQ
-> > +  to ublksrv, ublkdrv needs to copy read ublksrv buffer(pages) to the ublk
-> > +  IO request pages.
-> > +
-> > +Future development
-> > +==================
-> > +
-> > +Container-ware ublk deivice
-> > +---------------------------
-> > +
-> > +ublk driver doesn't handle any IO logic, and its function is well defined
-> > +so far, and very limited userspace interfaces are needed, and each one is
-> > +well defined too, then it is very likely to make ublk device one
-> > +container-ware block device in future, as Stefan Hajnoczi suggested[3], by
-> > +removing ADMIN privilege.
-> > +
-> > +Zero copy
-> > +---------
-> > +
-> > +Wrt. zero copy support, it is one generic requirement for nbd, fuse or
-> > +similar drivers, one problem Xiaoguang mentioned is that pages mapped to
-> > +userspace can't be remapped any more in kernel with existed mm interfaces,
-> > +and it can be involved when submitting direct IO to /dev/ublkb*. Also
-> > +Xiaoguang reported that big request may benefit from zero copy a lot,
-> > +such as >= 256KB IO.
-> > +
-> 
-> At what thread on lore the problem is mentioned?
-
-https://lore.kernel.org/linux-mm/20220318095531.15479-1-xiaoguang.wang@linux.alibaba.com/
-
-> 
-> > +
-> > +References
-> > +==========
-> > +
-> > +[1] https://github.com/ming1/ubdsrv
-> > +
-> > +[2] https://github.com/ming1/ubdsrv/blob/master/README
-> > +
-> > +[3] https://lore.kernel.org/linux-block/YoOr6jBfgVm8GvWg@stefanha-x1.localdomain/
-> 
-> The documentation can be improved:
-> 
->   - Its slug should be added to table of contents (index.rst)
->   - Use footnote syntax for external references
->   - The wordings are weird, almost to the point that I can't comprehend
->     it (barely understand the meaning).
-> 
-> Here's the improv:
-
-OK, I will integrate it in V2.
-
-thanks, 
-Ming
-
+DQoNCkxlIDMwLzA4LzIwMjIgw6AgMTA6MzMsIEFsZXNzYW5kcm8gUnViaW5pIGEgw6ljcml0wqA6
+DQo+IFtWb3VzIG5lIHJlY2V2ZXogcGFzIHNvdXZlbnQgZGUgY291cnJpZXJzIGRlIHJ1YmluaUBn
+bnVkZC5jb20uIEQ/Y291dnJleiBwb3VycXVvaSBjZWNpIGVzdCBpbXBvcnRhbnQgPyBodHRwczov
+L2FrYS5tcy9MZWFybkFib3V0U2VuZGVySWRlbnRpZmljYXRpb24gXQ0KPiANCj4gVGhhbmtzIGRh
+dmlkZSBmb3IgdGhlIGdvb2QgZXhwbGFuYXRpb24NCj4gKGFuZCB0aGUgbGluayB0aGUgdGhlIG9s
+ZCBlbWFpbCBJIGZvcmdvdCBhYm91dCkNCj4gDQo+PiB0bDtkcjogc3RhMngxMSBzdXBwb3J0IGNh
+biBiZSByZW1vdmVkLg0KPiANCj4gQ29uZmlybWVkLg0KPiANCj4gVGhlIHBvaW50IGhlcmUgaXMg
+dGhhdCB3ZSB0YWxrZWQgd2l0aCB0aGUgdmVuZG9yLiBUaGV5IGFyZSBzdGlsbCB1c2luZw0KPiB0
+aGUgZGV2aWNlICh3aXRoIHNvbWUgZXh0cmEgaW50ZXJuYWwgcGF0Y2hlcyksIGJ1dCBuZXcgZGV2
+ZWxvcG1lbnQgYXQNCj4ga2VybmVsIGxldmVsIGlzIHN0b3BwZWQuDQo+IA0KPiBTaW5jZSB0aGUg
+ZGV2aWNlIGlzIG5vdCBjdXJyZW50bHkgYXZhaWxhYmxlIHRvIHRoZSBnZW5lcmFsIHB1YmxpYywN
+Cj4gaXQncyBvayB0byBzYXZlIHRoZSBtYWludGFpbmluZyBlZmZvcnRzLg0KPiANCj4gSSBjYW4g
+c3VibWl0IHBhdGNoW2VzXSBuZXh0IHdlZWsgb3IgYWNrIHJlbW92YWwgaWYgc29tZWJvZHkgc3Vi
+bWl0cw0KPiB0aGVtIGVhcmxpZXIuDQo+IA0KDQpJIGhhdmUgcmVzdXJlY3RlZCByZW1vdmFsIHBh
+dGNoIGZyb20gRGF2aWRlIENpbWluYWdoaSANCmh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL2xrbWwv
+NjQyMzZjOTZmZjYyMGQ2NGFhNDZkMGZjM2RhYzE1OWE5OGM2NDcwOS4xMzc1ODY3MjkxLmdpdC5y
+dWJpbmlAZ251ZGQuY29tLw0KDQpBbmQgSSB3aWxsIGFkZCBpdCBpbiBteSBzZXJpZXMgDQpodHRw
+czovL3BhdGNod29yay5vemxhYnMub3JnL3Byb2plY3QvbGludXgtZ3Bpby9saXN0Lz9zZXJpZXM9
+MzE1ODI2IA0KcHJpb3IgdG8gcGF0Y2ggNCBpbiBuZXh0IHJlLXNwaW4gKGxpa2VseSBpbiBhIGZl
+dyBkYXlzKSBiZWNhdXNlIHBhdGNoIDQgDQppcyBvdGhlcndpc2UgcmVxdWlyaW5nIG1vZGlmaWNh
+dGlvbiBvZiBncGlvLXN0YTJ4MTEuYw0KDQpUaGFua3MNCkNocmlzdG9waGU=
