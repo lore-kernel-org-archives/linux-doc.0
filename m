@@ -2,178 +2,88 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BF48ECAAD4
-	for <linux-doc@archiver.kernel.org>; Tue, 30 Aug 2022 11:22:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BE2CECAAD4
+	for <linux-doc@archiver.kernel.org>; Tue, 30 Aug 2022 12:15:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229740AbiH3LWn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 30 Aug 2022 07:22:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46398 "EHLO
+        id S229736AbiH3MPH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 30 Aug 2022 08:15:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37700 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229949AbiH3LWm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Aug 2022 07:22:42 -0400
-Received: from smtp-8fa8.mail.infomaniak.ch (smtp-8fa8.mail.infomaniak.ch [IPv6:2001:1600:4:17::8fa8])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DDE09AE85D
-        for <linux-doc@vger.kernel.org>; Tue, 30 Aug 2022 04:22:39 -0700 (PDT)
-Received: from smtp-2-0000.mail.infomaniak.ch (unknown [10.5.36.107])
-        by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4MH4fP5JpWzMqZGW;
-        Tue, 30 Aug 2022 13:22:37 +0200 (CEST)
-Received: from ns3096276.ip-94-23-54.eu (unknown [23.97.221.149])
-        by smtp-2-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4MH4fP0wk3zlh8T5;
-        Tue, 30 Aug 2022 13:22:37 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=digikod.net;
-        s=20191114; t=1661858557;
-        bh=oTAsEX4jtRncYkonlQ5yqqIyY7BL0fVt/IXLQVoyFPI=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=Tr1U4QMmwu0OqYWwnPhbq0UjR8tckF+/TQewme/kjKnyXfhUJn3mNSJ+mW0s3g732
-         xcROOERjCIkjegRVNKO96nQPQFimyD5KX0y5tP+q5llD22jdo0Mt0IPDWMY2IBuF3C
-         HDml75lG2XGnYkJ4VW+KwOswrH5CVxE2EJww3Ru0=
-Message-ID: <4f5adce6-50a6-ca2e-6146-71626d2af197@digikod.net>
-Date:   Tue, 30 Aug 2022 13:22:36 +0200
+        with ESMTP id S229781AbiH3MPE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Aug 2022 08:15:04 -0400
+Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 096B61D0EC;
+        Tue, 30 Aug 2022 05:14:59 -0700 (PDT)
+Received: by mail-pl1-x635.google.com with SMTP id m2so10925172pls.4;
+        Tue, 30 Aug 2022 05:14:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date;
+        bh=fJYEc38Yw+lvhMhFHsgvslje7wKIBBoSuOJR/tnkpTo=;
+        b=iav6ByDoj1t+KIwjs/wKPJKseMmwTTNbsSaMDSPSEdsAX0bOLx423c91g/qUE1QWWV
+         hsDW63egxm0McLnp/oUNvKX+9KgwbMjAnCAhXLUYqB89JW6RfsE2c+otccpxAbGHrhv+
+         BUwnReGrdjrGFD0zSQrnZjVXxmC49cEqQ7KV3AYHpwqrZObRLfolAq7EQrIm1Y9Nao1J
+         zBdu/cJfH9G6YQNGOfuhWP2SZ7a9cuoiLJIp/3JJgDTwaWHxjzyx9uSbhOXJZ09TwdiC
+         sspTj3aV2JXfTK7J4dMgcEms/1EEy9hV1pWYIpCMS2vd/CL7PK+BKMnQIxxn+KWaEP+G
+         SHig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date;
+        bh=fJYEc38Yw+lvhMhFHsgvslje7wKIBBoSuOJR/tnkpTo=;
+        b=gGxde9GKPC5HNkRfVptCbSeqrNWnQgZkH0cQFE32q1SCSstuATgKymXCAfF11OhF1d
+         UktRxES/1JWS6mwruXz3ptOD2l0axeC9lDXEsu+XzyUa307gF3IaWcOhU0zTPgfhSEkk
+         J6lHqOnw1FdQO9SZueK+VxQwicBEzvbIBkh2040FMJSHhgVaVRV77V9goDMJIVpG8QRq
+         jScRIFCJYdLdgZNLZw6OC+nl6OSRlSTHoptvBR+jIzVCT6Yg7yMaUDtY8F6sQTtjYyDt
+         zj8tFyiObYAElsyFzmxwQEMrbEAwIrIh3m5I0YWiOBxXmwc90+vPSu9HZqqlF+p5pARB
+         7+1Q==
+X-Gm-Message-State: ACgBeo1BrpzJNO4pe0jBb3cRL532GnSzZL9tf30qFK3vR6AsxOFx1J1u
+        EcdJACLqVXo3QC5omnVwwOo=
+X-Google-Smtp-Source: AA6agR7GYeFJ8cQSDyVYpSw4KU95qia+W8TReIXPVDJltkmKf8PRHulG7d/YfXNEtl/T/mwuGZ67SA==
+X-Received: by 2002:a17:902:d2ce:b0:175:994:7778 with SMTP id n14-20020a170902d2ce00b0017509947778mr4594502plc.43.1661861698605;
+        Tue, 30 Aug 2022 05:14:58 -0700 (PDT)
+Received: from [192.168.43.80] (subs03-180-214-233-68.three.co.id. [180.214.233.68])
+        by smtp.gmail.com with ESMTPSA id y27-20020aa793db000000b00537f7d04fb3sm6973544pff.145.2022.08.30.05.14.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 30 Aug 2022 05:14:58 -0700 (PDT)
+Message-ID: <21e0e256-c223-5395-d992-040e98ce3308@gmail.com>
+Date:   Tue, 30 Aug 2022 19:14:51 +0700
 MIME-Version: 1.0
-User-Agent: 
-Subject: Re: [PATCH -next v2 2/6] landlock: abstract walk_to_visible_parent()
- helper
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH] Docs: ublk: add ublk document
 Content-Language: en-US
-To:     Xiu Jianfeng <xiujianfeng@huawei.com>, paul@paul-moore.com,
-        jmorris@namei.org, serge@hallyn.com, shuah@kernel.org,
-        corbet@lwn.net
-Cc:     linux-security-module@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-doc@vger.kernel.org
-References: <20220827111215.131442-1-xiujianfeng@huawei.com>
- <20220827111215.131442-3-xiujianfeng@huawei.com>
-From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
-In-Reply-To: <20220827111215.131442-3-xiujianfeng@huawei.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To:     Ming Lei <ming.lei@redhat.com>, Jens Axboe <axboe@kernel.dk>
+Cc:     linux-doc@vger.kernel.org, linux-block@vger.kernel.org,
+        Christoph Hellwig <hch@lst.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Richard W . M . Jones" <rjones@redhat.com>,
+        ZiyangZhang <ZiyangZhang@linux.alibaba.com>,
+        Stefan Hajnoczi <stefanha@redhat.com>,
+        Xiaoguang Wang <xiaoguang.wang@linux.alibaba.com>
+References: <20220828045003.537131-1-ming.lei@redhat.com>
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <20220828045003.537131-1-ming.lei@redhat.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-On 27/08/2022 13:12, Xiu Jianfeng wrote:
-> This helper will be used in the next commit which supports chmod and
-> chown access rights restriction.
-> 
-> Signed-off-by: Xiu Jianfeng <xiujianfeng@huawei.com>
-> ---
->   security/landlock/fs.c | 67 ++++++++++++++++++++++++++++++------------
->   1 file changed, 49 insertions(+), 18 deletions(-)
-> 
-> diff --git a/security/landlock/fs.c b/security/landlock/fs.c
-> index c57f581a9cd5..4ef614a4ea22 100644
-> --- a/security/landlock/fs.c
-> +++ b/security/landlock/fs.c
-> @@ -38,6 +38,44 @@
->   #include "ruleset.h"
->   #include "setup.h"
->   
-> +enum walk_result {
-> +	WALK_CONTINUE,
-> +	WALK_TO_REAL_ROOT,
-> +	WALK_TO_DISCONN_ROOT,
-
-Why did you created these results instead of the ones I proposed?
-
-
-> +};
+On 8/28/22 11:50, Ming Lei wrote:
+> +- UBLK_CMD_ADD_DEV
+> +  Add one ublk char device(``/dev/ublkc*``) which is talked with ublksrv wrt.
+> +  IO command communication. Basic device info is sent together with this
+> +  command, see UAPI structure of ublksrv_ctrl_dev_info, such as nr_hw_queues,
+> +  queue_depth, and max IO request buffer size, which info is negotiated with
+> +  ublk driver and sent back to ublksrv. After this command is completed, the
+> +  basic device info can't be changed any more.
 > +
-> +/*
-> + * walk to the visible parent, caller should call path_get()/path_put()
-> + * before/after this helpler.
-> + *
-> + * Returns:
-> + * - WALK_TO_REAL_ROOT if walk to the real root;
-> + * - WALK_TO_DISCONN_ROOT if walk to disconnected root;
-> + * - WALK_CONTINUE otherwise.
-> + */
-> +static enum walk_result walk_to_visible_parent(struct path *path)
-> +{
-> +	struct dentry *parent_dentry;
-> +jump_up:
-> +	if (path->dentry == path->mnt->mnt_root) {
-> +		if (follow_up(path)) {
-> +			/* Ignores hidden mount points. */
-> +			goto jump_up;
-> +		} else {
-> +			/* Stop at the real root. */
-> +			return WALK_TO_REAL_ROOT;
-> +		}
-> +	}
-> +	/* Stops at disconnected root directories. */
-> +	if (unlikely(IS_ROOT(path->dentry)))
-> +		return WALK_TO_DISCONN_ROOT;
-> +	parent_dentry = dget_parent(path->dentry);
-> +	dput(path->dentry);
-> +	path->dentry = parent_dentry;
-> +
-> +	return WALK_CONTINUE;
-> +}
-> +
->   /* Underlying object management */
->   
->   static void release_inode(struct landlock_object *const object)
-> @@ -539,8 +577,8 @@ static int check_access_path_dual(
->   	 * restriction.
->   	 */
->   	while (true) {
-> -		struct dentry *parent_dentry;
->   		const struct landlock_rule *rule;
-> +		enum walk_result wr;
 
-Please make the names understandable. In this case this variable may not 
-be needed anyway.
+Is "see UAPI structure" means set the structure?
 
-
->   
->   		/*
->   		 * If at least all accesses allowed on the destination are
-> @@ -588,20 +626,12 @@ static int check_access_path_dual(
->   		if (allowed_parent1 && allowed_parent2)
->   			break;
->   
-> -jump_up:
-> -		if (walker_path.dentry == walker_path.mnt->mnt_root) {
-> -			if (follow_up(&walker_path)) {
-> -				/* Ignores hidden mount points. */
-> -				goto jump_up;
-> -			} else {
-> -				/*
-> -				 * Stops at the real root.  Denies access
-> -				 * because not all layers have granted access.
-> -				 */
-> -				break;
-> -			}
-> -		}
-> -		if (unlikely(IS_ROOT(walker_path.dentry))) {
-> +		wr = walk_to_visible_parent(&walker_path);
-> +		switch (wr) {
-> +		case WALK_TO_REAL_ROOT:
-> +			/* Stop at the real root. */
-> +			goto out;
-> +		case WALK_TO_DISCONN_ROOT:
->   			/*
->   			 * Stops at disconnected root directories.  Only allows
->   			 * access to internal filesystems (e.g. nsfs, which is
-> @@ -609,12 +639,13 @@ static int check_access_path_dual(
->   			 */
->   			allowed_parent1 = allowed_parent2 =
->   				!!(walker_path.mnt->mnt_flags & MNT_INTERNAL);
-
-Why not include this check in the helper? This is then not checked in 
-patch 3 with current_check_access_path_context_only(), which is a bug.
-
-
-> +			goto out;
-> +		case WALK_CONTINUE:
-> +		default:
->   			break;
->   		}
-> -		parent_dentry = dget_parent(walker_path.dentry);
-> -		dput(walker_path.dentry);
-> -		walker_path.dentry = parent_dentry;
->   	}
-> +out:
->   	path_put(&walker_path);
->   
->   	if (allowed_parent1 && allowed_parent2)
+-- 
+An old man doll... just what I always wanted! - Clara
