@@ -2,78 +2,285 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7273AECAAD1
-	for <linux-doc@archiver.kernel.org>; Tue, 30 Aug 2022 14:14:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2018FECAAA1
+	for <linux-doc@archiver.kernel.org>; Tue, 30 Aug 2022 14:29:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229541AbiH3OOQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 30 Aug 2022 10:14:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52744 "EHLO
+        id S229841AbiH3O3l (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 30 Aug 2022 10:29:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50222 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229972AbiH3OOP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Aug 2022 10:14:15 -0400
+        with ESMTP id S229457AbiH3O3k (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Aug 2022 10:29:40 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43A11F32F9
-        for <linux-doc@vger.kernel.org>; Tue, 30 Aug 2022 07:14:15 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86F44BD2BA
+        for <linux-doc@vger.kernel.org>; Tue, 30 Aug 2022 07:29:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1661868854;
+        s=mimecast20190719; t=1661869777;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=CsVpi3FJ2ALwOSFXBD3Ac1gdDahmthKaIOff9+SMOKM=;
-        b=OI83ah5yOcbT6339kxb04G/p9y014kwZFX5Xi8NeGzbkQKG+KEozqllj0bDYR1ZpbBuW1k
-        RzCYu8oUkvxX6+Ooe6T+4kGh7qmMZtbG4MH7lRvnPic1GeAtlE02A7PjM2aKwGmXjBTtPj
-        5Ls0m8C6WgAow4v4c32y/Tkh3Z5Y2+M=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-255-ACr46tIpP0CuZD2Ixi9pDQ-1; Tue, 30 Aug 2022 10:14:09 -0400
-X-MC-Unique: ACr46tIpP0CuZD2Ixi9pDQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com [10.11.54.2])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5F82A805F38;
-        Tue, 30 Aug 2022 14:14:08 +0000 (UTC)
-Received: from T590 (ovpn-8-18.pek2.redhat.com [10.72.8.18])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 0F80940357BA;
-        Tue, 30 Aug 2022 14:14:00 +0000 (UTC)
-Date:   Tue, 30 Aug 2022 22:13:58 +0800
-From:   Ming Lei <ming.lei@redhat.com>
-To:     Bagas Sanjaya <bagasdotme@gmail.com>
-Cc:     Jens Axboe <axboe@kernel.dk>, linux-doc@vger.kernel.org,
-        linux-block@vger.kernel.org, Christoph Hellwig <hch@lst.de>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "Richard W . M . Jones" <rjones@redhat.com>,
-        ZiyangZhang <ZiyangZhang@linux.alibaba.com>,
-        Stefan Hajnoczi <stefanha@redhat.com>,
-        Xiaoguang Wang <xiaoguang.wang@linux.alibaba.com>
-Subject: Re: [PATCH] Docs: ublk: add ublk document
-Message-ID: <Yw4bJnPdWZPrVJFN@T590>
-References: <20220828045003.537131-1-ming.lei@redhat.com>
- <21e0e256-c223-5395-d992-040e98ce3308@gmail.com>
+        bh=lmXShkPGu5qohlisPijwUoqxiVIKAZ+9/TfZzFh7608=;
+        b=eAZwpzBRq66v6mdO4T8oG9UPPoc/kb9yp97P6UazL9CpW8F5dQPmFTyKof7svpybYwCxjO
+        m2b79YQUVHj7uFoxT+IilbO5glGjw3scJH5NJOb17zjbqbOZH5lekyMIBKZ34fvnH1Sgoo
+        qBe3ZNJx8MgFKh7chIOYczlZDBoy+Zo=
+Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com
+ [209.85.214.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-401-70ppZ-tUMIeCOptwl8IwsA-1; Tue, 30 Aug 2022 10:29:36 -0400
+X-MC-Unique: 70ppZ-tUMIeCOptwl8IwsA-1
+Received: by mail-pl1-f200.google.com with SMTP id q6-20020a17090311c600b0017266460b8fso8088058plh.4
+        for <linux-doc@vger.kernel.org>; Tue, 30 Aug 2022 07:29:36 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=lmXShkPGu5qohlisPijwUoqxiVIKAZ+9/TfZzFh7608=;
+        b=IuPwnYDJKBpp6zAXyxrvGJXzwABtWF+eGstWi0im0OmLZDMTRhdUNWUNXJjTcYch+V
+         YxzYim1vYcnhRlYWrIpWPUNsuUHu8o2VdgM2F/utmDkg4sUqcQPeSFZxrJM+2/1aJDCr
+         6M0Oq6vxjso9BvCY/ky2J6YLWFz0yQ+tRnJtu5RiUqoqBwEAoY6VUcwZsKNf9tod+FwF
+         WoLr2TTNWVIxK6o9AmIsTH0wonQsZJGsKzXLAIvi7xPm4LSdm6omb/pS8d9to/ZbVcSj
+         9UGiG5l5Ltvzu4lBpmk8MvT2AYD+IP43FtPA1SIgBw6RIMFzt7e5zA7y2aquQ6IlQPeY
+         74Tg==
+X-Gm-Message-State: ACgBeo3/c6ddkPnTJEwIVb/u/eXCshH77xyFWJ0JGZL/oMDm0P3NyJoM
+        ksa5Biwqbmrzbp+A2IIJ9yu4hLP4RAFVdmpuZoVv/OpgciPZ71U3WGRU3PNfw8OMYl0uO82jquR
+        kGeYLTJtbzSkGdlzfsab/e8AUX4dDuWf0oy5O
+X-Received: by 2002:a63:d10b:0:b0:41d:bd7d:7759 with SMTP id k11-20020a63d10b000000b0041dbd7d7759mr18107737pgg.196.1661869775380;
+        Tue, 30 Aug 2022 07:29:35 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR6ZkHiVpznHXYfoQbkr7dm3Zi5mkVALp/HWJ4F89gPVcA8KOGuI5YxXe4p2AipIfQA48i4dFJ6SAqik3HjUw/A=
+X-Received: by 2002:a63:d10b:0:b0:41d:bd7d:7759 with SMTP id
+ k11-20020a63d10b000000b0041dbd7d7759mr18107710pgg.196.1661869775042; Tue, 30
+ Aug 2022 07:29:35 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <21e0e256-c223-5395-d992-040e98ce3308@gmail.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+References: <20220824134055.1328882-1-benjamin.tissoires@redhat.com>
+ <20220824134055.1328882-2-benjamin.tissoires@redhat.com> <CAADnVQKgkFpLh_URJn6qCiAONteA1dwZHd6=4cZn15g1JCAPag@mail.gmail.com>
+ <CAP01T75ec_T0M6DU=JE2tfNsWRZuPSMu_7JHA7ZoOBw5eDh1Bg@mail.gmail.com>
+In-Reply-To: <CAP01T75ec_T0M6DU=JE2tfNsWRZuPSMu_7JHA7ZoOBw5eDh1Bg@mail.gmail.com>
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date:   Tue, 30 Aug 2022 16:29:23 +0200
+Message-ID: <CAO-hwJLd9wXx+ppccBYPKZDymO0sk++Nt2E3-R97PY7LbfJfTg@mail.gmail.com>
+Subject: Re: [PATCH bpf-next v9 01/23] bpf/verifier: allow all functions to
+ read user provided context
+To:     Kumar Kartikeya Dwivedi <memxor@gmail.com>
+Cc:     Alexei Starovoitov <alexei.starovoitov@gmail.com>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Jiri Kosina <jikos@kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>, Shuah Khan <shuah@kernel.org>,
+        Dave Marchevsky <davemarchevsky@fb.com>,
+        Joe Stringer <joe@cilium.io>, Jonathan Corbet <corbet@lwn.net>,
+        Tero Kristo <tero.kristo@linux.intel.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        Network Development <netdev@vger.kernel.org>,
+        bpf <bpf@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Aug 30, 2022 at 07:14:51PM +0700, Bagas Sanjaya wrote:
-> On 8/28/22 11:50, Ming Lei wrote:
-> > +- UBLK_CMD_ADD_DEV
-> > +  Add one ublk char device(``/dev/ublkc*``) which is talked with ublksrv wrt.
-> > +  IO command communication. Basic device info is sent together with this
-> > +  command, see UAPI structure of ublksrv_ctrl_dev_info, such as nr_hw_queues,
-> > +  queue_depth, and max IO request buffer size, which info is negotiated with
-> > +  ublk driver and sent back to ublksrv. After this command is completed, the
-> > +  basic device info can't be changed any more.
-> > +
-> 
-> Is "see UAPI structure" means set the structure?
+On Fri, Aug 26, 2022 at 3:51 AM Kumar Kartikeya Dwivedi
+<memxor@gmail.com> wrote:
+>
+> On Fri, 26 Aug 2022 at 03:42, Alexei Starovoitov
+> <alexei.starovoitov@gmail.com> wrote:
+> >
+> > On Wed, Aug 24, 2022 at 6:41 AM Benjamin Tissoires
+> > <benjamin.tissoires@redhat.com> wrote:
+> > >
+> > > When a function was trying to access data from context in a syscall eBPF
+> > > program, the verifier was rejecting the call unless it was accessing the
+> > > first element.
+> > > This is because the syscall context is not known at compile time, and
+> > > so we need to check this when actually accessing it.
+> > >
+> > > Check for the valid memory access if there is no convert_ctx callback,
+> > > and allow such situation to happen.
+> > >
+> > > There is a slight hiccup with subprogs. btf_check_subprog_arg_match()
+> > > will check that the types are matching, which is a good thing, but to
+> > > have an accurate result, it hides the fact that the context register may
+> > > be null. This makes env->prog->aux->max_ctx_offset being set to the size
+> > > of the context, which is incompatible with a NULL context.
+> > >
+> > > Solve that last problem by storing max_ctx_offset before the type check
+> > > and restoring it after.
+> > >
+> > > Acked-by: Kumar Kartikeya Dwivedi <memxor@gmail.com>
+> > > Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+> > >
+> > > ---
+> > >
+> > > changes in v9:
+> > > - rewrote the commit title and description
+> > > - made it so all functions can make use of context even if there is
+> > >   no convert_ctx
+> > > - remove the is_kfunc field in bpf_call_arg_meta
+> > >
+> > > changes in v8:
+> > > - fixup comment
+> > > - return -EACCESS instead of -EINVAL for consistency
+> > >
+> > > changes in v7:
+> > > - renamed access_t into atype
+> > > - allow zero-byte read
+> > > - check_mem_access() to the correct offset/size
+> > >
+> > > new in v6
+> > > ---
+> > >  kernel/bpf/btf.c      | 11 ++++++++++-
+> > >  kernel/bpf/verifier.c | 19 +++++++++++++++++++
+> > >  2 files changed, 29 insertions(+), 1 deletion(-)
+> > >
+> > > diff --git a/kernel/bpf/btf.c b/kernel/bpf/btf.c
+> > > index 903719b89238..386300f52b23 100644
+> > > --- a/kernel/bpf/btf.c
+> > > +++ b/kernel/bpf/btf.c
+> > > @@ -6443,8 +6443,8 @@ int btf_check_subprog_arg_match(struct bpf_verifier_env *env, int subprog,
+> > >  {
+> > >         struct bpf_prog *prog = env->prog;
+> > >         struct btf *btf = prog->aux->btf;
+> > > +       u32 btf_id, max_ctx_offset;
+> > >         bool is_global;
+> > > -       u32 btf_id;
+> > >         int err;
+> > >
+> > >         if (!prog->aux->func_info)
+> > > @@ -6457,9 +6457,18 @@ int btf_check_subprog_arg_match(struct bpf_verifier_env *env, int subprog,
+> > >         if (prog->aux->func_info_aux[subprog].unreliable)
+> > >                 return -EINVAL;
+> > >
+> > > +       /* subprogs arguments are not actually accessing the data, we need
+> > > +        * to check for the types if they match.
+> > > +        * Store the max_ctx_offset and restore it after btf_check_func_arg_match()
+> > > +        * given that this function will have a side effect of changing it.
+> > > +        */
+> > > +       max_ctx_offset = env->prog->aux->max_ctx_offset;
+> > > +
+> > >         is_global = prog->aux->func_info_aux[subprog].linkage == BTF_FUNC_GLOBAL;
+> > >         err = btf_check_func_arg_match(env, btf, btf_id, regs, is_global, 0);
+> > >
+> > > +       env->prog->aux->max_ctx_offset = max_ctx_offset;
+> >
+> > I don't understand this.
+> > If we pass a ctx into a helper and it's going to
+> > access [0..N] bytes from it why do we need to hide it?
+> > max_ctx_offset will be used later raw_tp, tp, syscall progs
+> > to determine whether it's ok to load them.
+> > By hiding the actual size of access somebody can construct
+> > a prog that reads out of bounds.
+> > How is this related to NULL-ness property?
+>
+> Same question, was just typing exactly the same thing.
 
-Yes, but some fields may be changed by driver and sent back.
+The test I have that is failing in patch 2/23 is the following, with
+args being set to NULL by userspace:
 
-thanks,
-Ming
+SEC("syscall")
+int kfunc_syscall_test_null(struct syscall_test_args *args)
+{
+       bpf_kfunc_call_test_mem_len_pass1(args, 0);
+
+       return 0;
+}
+
+Basically:
+if userspace declares the following:
+ DECLARE_LIBBPF_OPTS(bpf_test_run_opts, syscall_topts,
+               .ctx_in = NULL,
+               .ctx_size_in = 0,
+       );
+
+The verifier is happy with the current released kernel:
+kfunc_syscall_test_fail() never dereferences the ctx pointer, it just
+passes it around to bpf_kfunc_call_test_mem_len_pass1(), which in turn
+is also happy because it says it is not accessing the data at all (0
+size memory parameter).
+
+In the current code, check_helper_mem_access() actually returns
+-EINVAL, but doesn't change max_ctx_offset (it's still at the value of
+0 here). The program is now marked as unreliable, but the verifier
+goes on.
+
+When adding this patch, if we declare a syscall eBPF (or any other
+function that doesn't have env->ops->convert_ctx_access), the previous
+"test" is failing because this ensures the syscall program has to have
+a valid ctx pointer.
+btf_check_func_arg_match() now calls check_mem_access() which
+basically validates the fact that the program can dereference the ctx.
+
+So now, without the max_ctx_offset store/restore, the verifier
+enforces that the provided ctx is not null.
+
+What I thought that would happen was that if we were to pass a NULL
+context from userspace, but the eBPF program dereferences it (or in
+that case have a subprog or a function call that dereferences it),
+then max_ctx_offset would still be set to the proper value because of
+that internal dereference, and so the verifier would reject with
+-EINVAL the call to the eBPF program.
+
+If I add another test that has the following ebpf prog (with ctx_in
+being set to NULL by the userspace):
+
+SEC("syscall")
+int kfunc_syscall_test_null_fail(struct syscall_test_args *args)
+{
+       bpf_kfunc_call_test_mem_len_pass1(args, sizeof(*args));
+
+       return 0;
+}
+
+Then the call of the program is actually failing with -EINVAL, even
+with this patch.
+
+But again, if setting from userspace a ctx of NULL with a 0 size is
+not considered as valid, then we can just drop that hunk and add a
+test to enforce it.
+
+Cheers,
+Benjamin
+
+>
+> >
+> > > +
+> > >         /* Compiler optimizations can remove arguments from static functions
+> > >          * or mismatched type can be passed into a global function.
+> > >          * In such cases mark the function as unreliable from BTF point of view.
+> > > diff --git a/kernel/bpf/verifier.c b/kernel/bpf/verifier.c
+> > > index 2c1f8069f7b7..d694f43ab911 100644
+> > > --- a/kernel/bpf/verifier.c
+> > > +++ b/kernel/bpf/verifier.c
+> > > @@ -5229,6 +5229,25 @@ static int check_helper_mem_access(struct bpf_verifier_env *env, int regno,
+> > >                                 env,
+> > >                                 regno, reg->off, access_size,
+> > >                                 zero_size_allowed, ACCESS_HELPER, meta);
+> > > +       case PTR_TO_CTX:
+> > > +               /* in case the function doesn't know how to access the context,
+> > > +                * (because we are in a program of type SYSCALL for example), we
+> > > +                * can not statically check its size.
+> > > +                * Dynamically check it now.
+> > > +                */
+> > > +               if (!env->ops->convert_ctx_access) {
+> > > +                       enum bpf_access_type atype = meta && meta->raw_mode ? BPF_WRITE : BPF_READ;
+> > > +                       int offset = access_size - 1;
+> > > +
+> > > +                       /* Allow zero-byte read from PTR_TO_CTX */
+> > > +                       if (access_size == 0)
+> > > +                               return zero_size_allowed ? 0 : -EACCES;
+> > > +
+> > > +                       return check_mem_access(env, env->insn_idx, regno, offset, BPF_B,
+> > > +                                               atype, -1, false);
+> > > +               }
+> >
+> > This part looks good alone. Without max_ctx_offset save/restore.
+>
+> +1, save/restore would be incorrect.
+>
 
