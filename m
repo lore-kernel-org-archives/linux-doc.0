@@ -2,71 +2,110 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4203DECAAD4
-	for <linux-doc@archiver.kernel.org>; Tue, 30 Aug 2022 22:02:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C74EAECAAD4
+	for <linux-doc@archiver.kernel.org>; Tue, 30 Aug 2022 22:16:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232158AbiH3WCO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 30 Aug 2022 18:02:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56544 "EHLO
+        id S231300AbiH3WQi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 30 Aug 2022 18:16:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48908 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231738AbiH3WBj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Aug 2022 18:01:39 -0400
-Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 454E79C526;
-        Tue, 30 Aug 2022 14:57:23 -0700 (PDT)
-Received: from cwcc.thunk.org (pool-173-48-120-46.bstnma.fios.verizon.net [173.48.120.46])
-        (authenticated bits=0)
-        (User authenticated as tytso@ATHENA.MIT.EDU)
-        by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 27ULutcM017607
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 30 Aug 2022 17:56:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
-        t=1661896617; bh=e6ECjud0RvU+17l0f8ers2t/ZahEM9K2CEQ8DVNTkhU=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To;
-        b=n12BuM4kMIcAtdJ+mN0a3TcF7JAtsz6qkzrCHycY9C77IPBuP1QeuTx3F9IxiXtS/
-         Jf2UdxXOl4lWg8ti1rY/0refzzBzhzHOjyb/N3zV6gEsUbz8wmQcei1H5id9mKQMdP
-         DkswDdUi97sFdw/8zYV6uRLvoPbtiJn4RUPb6uJqbdeo6txLWhpYA5DAEfGY1w24Jw
-         Rk4iO+p39tkxHRDwj1HLmvhfxv3b8/GuGfmCQbEZ0y/p1FAk7hIB1BDNPSG20e2q4e
-         kkw9FDKLA4tSlJvloxDEzePU47rxkLRagsyRDdR0ZEyp4QlgzBTOEm9R3pTLlizQ1X
-         uXoI07k5kUPbg==
-Received: by cwcc.thunk.org (Postfix, from userid 15806)
-        id 5303315C3434; Tue, 30 Aug 2022 17:56:55 -0400 (EDT)
-Date:   Tue, 30 Aug 2022 17:56:55 -0400
-From:   "Theodore Ts'o" <tytso@mit.edu>
-To:     Al Viro <viro@zeniv.linux.org.uk>
-Cc:     Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        linux-fsdevel@vger.kernel.org,
-        linux-f2fs-devel@lists.sourceforge.net, linux-xfs@vger.kernel.org,
-        Christian Brauner <brauner@kernel.org>,
-        Seth Forshee <sforshee@kernel.org>
-Subject: Re: [PATCH] Documentation: filesystems: correct possessive "its"
-Message-ID: <Yw6Hp8l/7p3wbiGq@mit.edu>
-References: <20220829235429.17902-1-rdunlap@infradead.org>
- <Yw56rVwBRg0LbC41@ZenIV>
+        with ESMTP id S229640AbiH3WQh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Aug 2022 18:16:37 -0400
+Received: from mail-ot1-x32f.google.com (mail-ot1-x32f.google.com [IPv6:2607:f8b0:4864:20::32f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96BCF6D57B;
+        Tue, 30 Aug 2022 15:16:36 -0700 (PDT)
+Received: by mail-ot1-x32f.google.com with SMTP id d18-20020a9d72d2000000b0063934f06268so9096097otk.0;
+        Tue, 30 Aug 2022 15:16:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc;
+        bh=E/nyH/3foDxtGmIpzv0kFzFIyfD8qg2WZXXTeapubaI=;
+        b=aleLjERqp1LW6YXXzsbNFYloljaBys8t7B5VCraRETR/5ZqZSHy3oVct65uewmmRO/
+         y84S6F4UZE7GM0ax8bllzZll6ssuZzdOUzMCbm+g0WpYEIoX80pIpENOYzsSmL+3oHkR
+         1tlwWy75lwdts1PGGp1Gin5KtX44Fsby9XATU/UQjtnKg0p8IQ8PqK9ntM4soE4zM0K1
+         33SVv0U3qL0W8C5nF+u7Up/jYYhKovt4jaifGWvn3fmqXXOSz0WUiYhdPIwnNeLvHZuB
+         bIWsFt4iB5GmpDGenTuyrdsMSUKZSf/uTAbyo+xfxFFdzQE/XdAHEVRqpoYLb1x+XnEW
+         UG5A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc;
+        bh=E/nyH/3foDxtGmIpzv0kFzFIyfD8qg2WZXXTeapubaI=;
+        b=gE2RJ7jFJK3/2p5nVJWHkq/wpHCy9R6iNtuEwj5fzObiXo9A1n+iN+7Of9kyTuE6iX
+         OE8KC/mt7oFs2PafoCsuDlAVtp9jYRFhTg4+pfiMpHHy0EnNMYLa96AmyKpHjpJujs3r
+         kejt1h2DVvbH7DaFDrYUmp+1acHucFoPUHJRDbhHHljmw9sj8lwCep7F+CBpreDwSzhs
+         5ryUPyMiuUpkMDNhqA5tvCkT14QMwB1TUEC/fKfhfT5VuU+v49WM0gih0ncMNKSKB7c+
+         9t1LdEXfhiouOydmOvw5yrYEs8gPAoiEkO/mzJKDYffS76o3zUZ2lqXDdrk8kOkk9FaD
+         Q1Pg==
+X-Gm-Message-State: ACgBeo21Isu9IId7w7GRntA48gT5dQmMHQeDSCdAZCkNndQ6yIQ57DYt
+        QRdpupW6Bvgyb8qKWKJunTo=
+X-Google-Smtp-Source: AA6agR5jcgaxWchPKuW3dNX3lxYpGsOf2VOT7pIQ3io1qrIVEaeid8kBi8k2D0V1OkLk5Sr9VSi8Xw==
+X-Received: by 2002:a05:6830:2704:b0:638:8d4f:8eb8 with SMTP id j4-20020a056830270400b006388d4f8eb8mr9786428otu.40.1661897795979;
+        Tue, 30 Aug 2022 15:16:35 -0700 (PDT)
+Received: from ?IPV6:2600:1700:2442:6db0:891d:81c:f58f:3bd4? ([2600:1700:2442:6db0:891d:81c:f58f:3bd4])
+        by smtp.gmail.com with ESMTPSA id s41-20020a056870612900b0011f035022b8sm4064296oae.17.2022.08.30.15.16.34
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 30 Aug 2022 15:16:35 -0700 (PDT)
+Message-ID: <63b5fa8c-9fb8-b2ff-3f15-cc8649224f06@gmail.com>
+Date:   Tue, 30 Aug 2022 17:16:33 -0500
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Yw56rVwBRg0LbC41@ZenIV>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH v3 0/2] begin KTAP spec v2 process
+Content-Language: en-US
+To:     David Gow <davidgow@google.com>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Kees Cook <keescook@chromium.org>, Tim.Bird@sony.com,
+        Brendan Higgins <brendanhiggins@google.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>, rmr167@gmail.com,
+        guillaume.tucker@collabora.com, dlatypov@google.com,
+        kernelci@groups.io, kunit-dev@googlegroups.com,
+        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20220829233150.3564612-1-frowand.list@gmail.com>
+From:   Frank Rowand <frowand.list@gmail.com>
+In-Reply-To: <20220829233150.3564612-1-frowand.list@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Aug 30, 2022 at 10:01:33PM +0100, Al Viro wrote:
-> On Mon, Aug 29, 2022 at 04:54:29PM -0700, Randy Dunlap wrote:
-> >  compress_log_size=%u	 Support configuring compress cluster size, the size will
-> > -			 be 4KB * (1 << %u), 16KB is minimum size, also it's
-> > +			 be 4KB * (1 << %u), 16KB is minimum size, also its
-> >  			 default size.
+On 8/29/22 18:31, frowand.list@gmail.com wrote:
+> From: Frank Rowand <frank.rowand@sony.com>
 > 
-> That one doesn't look like possesive to me - more like "default size is 16KB and
-> values below that are not allowed"...
+> The process to create version 2 of the KTAP Specification is documented
+> in email discussions.  I am attempting to capture this information at
+> 
+>    https://elinux.org/Test_Results_Format_Notes#KTAP_version_2
+> 
+> I am already not following the suggested process, which says:
+> "...please try to follow this principal of one major topic per email
+> thread."  I think that is ok in this case because the two patches
+> are related and (hopefully) not controversial.
+> 
+> Changes since patch version 2:
+>    - correct version 1 change text
+>    - version 1 patch 2/2 had not yet been applied when I created version 2,
+>      refresh version 2 patch 2/2 for new context
+> 
+> Changes since patch version 1:
+>    - drop patch 2/2.  Jonathan Corbet has already applied this patch
+>      into version 1 of the Specification
+>    - add new patch 2/2
+> 
+> Frank Rowand (2):
+>   ktap_v2: change version to 2-rc in KTAP specification
+>   ktap_v2: change "version 1" to "version 2" in examples
+> 
+>  Documentation/dev-tools/ktap.rst | 25 +++++++++++++------------
+>  1 file changed, 13 insertions(+), 12 deletions(-)
+> 
 
-That being said, it could also be rewritten to be easier to
-understand.  e.g., "The default and minimum size is 16kb."
+The process for developing KTAP spec v2 and the status of proposals
+and accepted patches can be found at:
 
-	     	   		    	    	 - Ted
-
-
-
-
+  https://elinux.org/Test_Results_Format_Notes#KTAP_version_2
