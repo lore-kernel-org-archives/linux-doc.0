@@ -2,102 +2,154 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EE389ECAAD3
-	for <linux-doc@archiver.kernel.org>; Tue, 30 Aug 2022 01:48:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B311ECAAD3
+	for <linux-doc@archiver.kernel.org>; Tue, 30 Aug 2022 02:28:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229790AbiH3Bsn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 29 Aug 2022 21:48:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55782 "EHLO
+        id S229975AbiH3C2y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 29 Aug 2022 22:28:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47766 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229620AbiH3Bsl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Aug 2022 21:48:41 -0400
-Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 155698E4EB;
-        Mon, 29 Aug 2022 18:48:40 -0700 (PDT)
-Received: by mail-pj1-x1032.google.com with SMTP id i5-20020a17090a2a0500b001fd8708ffdfso7207107pjd.2;
-        Mon, 29 Aug 2022 18:48:40 -0700 (PDT)
+        with ESMTP id S230004AbiH3C2n (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Aug 2022 22:28:43 -0400
+Received: from mail-vs1-xe30.google.com (mail-vs1-xe30.google.com [IPv6:2607:f8b0:4864:20::e30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CBE689E8AB;
+        Mon, 29 Aug 2022 19:28:38 -0700 (PDT)
+Received: by mail-vs1-xe30.google.com with SMTP id k66so4555935vsc.11;
+        Mon, 29 Aug 2022 19:28:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date;
-        bh=oWRjAoIaNlvdmLgKZycNNcfP1/D8Ayewqywa9DRQlk0=;
-        b=O4dLmmX7YLVw0az9Yp2rt5msHE4Ki55aS6v/djl/z6QNnJLaQvR1oavdPwZU8IMNDN
-         CkCnh1iFH1TA8llLbYtEYKur6bCNuqGcojzMivNV12bgD87vK8naSwa8vXMXvHrpslFw
-         Z0lHGqSLEjjzZGd36B9KAazOrumUCVv5gL2nRKpRuHtNDeASBm3dDDHQm+zbplDghmjl
-         RNkdn3HKpKurjRFUyBTRNCTnDdREjim734yHSDkMudXOP6V22shM3yiCqiYVCd/qbnmD
-         tFoKmrh0a5Lch1q39JrzWQV35Eg87r9gzFja7BWXgK510rbKVwN/lPEMgvuLLsM/JtQs
-         LyhQ==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc;
+        bh=QjrqdkL8EiHyS4Guqm609iRF1yaRNRzIlk5DKbamgo8=;
+        b=mwa2PjStAL2PoYMIfVe51D5frUlZHWSS//ENBMptJb92tASbpJcZKvwQDvO6XWBf/0
+         +5MeLtVVslLDgMPDnDcrVtSzDhio9vc+uX03u6cbzy6SVDfgnfGLEryQU9WRIwGf6/+O
+         WH4zTPszcB7diuZCINwHdTmoP5PBgeXoqfc+CdDjyUoVNN8Rmn42M5+1JX0aUlkJ+NyX
+         GdCmaH77/mhRBZKNObV0l1wVVh5tQpi9pELkAjZB/sInHcGEdAjyVgc63J5tK/Rzy53a
+         vrQn4JyAjfYP3wBaOShM7cNu1zzwZR0/lGlnl9szZIkPRKY2xolJsn1B+TlGyxav30/m
+         rLTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=oWRjAoIaNlvdmLgKZycNNcfP1/D8Ayewqywa9DRQlk0=;
-        b=Q/XQfJxoHBmzbgTEoklq1l8vb+7zEg9c5xmYIWXySfwwXv3bQmt6UUNfgVGcJylK4z
-         DPTCjFPSqYCwW4J28c9P49i5PYStMYYtJv6lBE/daccpX2unNjZlf3LmiUB0nqePQEKK
-         xJ+JV5ttHDFFuINOSyOSr6j4fw/ruttW9riLNjYSZdF/NIPAvLllKTLsLgMyWe/sHYAM
-         5vG+ggl0mEs3kQtu5YkseAk6WObeZU0ITvJub7TWbiQlfjxCZwBomB/wB/eCuCytYZGU
-         wNhRfiS4+DHh3APzgYLKKat5q5JdpVsV2OrrWZMhWU+Y8hwhjamUHbDD9SNJyW9nUxvc
-         liaQ==
-X-Gm-Message-State: ACgBeo38VKjwuDU0RFE4R/HgC72I+lclKAldUgYfrw9/7lLDjGsyY5mK
-        HBf9AzpXrBqYI4G4Y6CVl0E=
-X-Google-Smtp-Source: AA6agR6GNAplD0brROKngQhSCYkkCE/mWRRADuQJpXk+CTtGyDr7TLlfQ6Euy/rMgaGtimJiUChUmw==
-X-Received: by 2002:a17:90a:e4cb:b0:1fd:9626:c7cf with SMTP id e11-20020a17090ae4cb00b001fd9626c7cfmr13752581pju.103.1661824119128;
-        Mon, 29 Aug 2022 18:48:39 -0700 (PDT)
-Received: from [192.168.43.80] (subs02-180-214-232-91.three.co.id. [180.214.232.91])
-        by smtp.gmail.com with ESMTPSA id u23-20020a1709026e1700b0016cf3f124e1sm8277871plk.234.2022.08.29.18.48.34
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 29 Aug 2022 18:48:38 -0700 (PDT)
-Message-ID: <eaf6c56b-c329-2d02-7599-ca83dbe20b0b@gmail.com>
-Date:   Tue, 30 Aug 2022 08:48:32 +0700
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=QjrqdkL8EiHyS4Guqm609iRF1yaRNRzIlk5DKbamgo8=;
+        b=h24R5uxJ4gGJgkJOHmGdwMn0noVHxYvgFgq8o3YaS/OqZ6qxwQEQPpilrAvz2L8DkI
+         Xz9p+uMo/y1NMJNlHgp1qFf0bDN0b8G6oCxMyFSPr0Yr+l1Fwk/dfsoTzPy+n3pWPajT
+         jgFWML+Gl1+zyBfTLPBxl0n020d9Jz8wJwGNU7GMBQbfccLqxqp2NuL7DBw0Qy6SUOoI
+         Jt/ksHXFesH3BE2uT41JWtUkR5vXO1PtBoU6t2XEIvzs0xF6d+b1klXFiqfQfHKjoATg
+         Mu/sjpUx1MHcgUpPOpBux3g82gWDbcXgw4g2WgQNUNmNHRvi3Pw2xOzzGEBgmd/YuG/Y
+         tmwA==
+X-Gm-Message-State: ACgBeo3L21S969tqS0aNxm6hsIpu96HzSP4x5rt3FMsXY/0GMoq+zVv0
+        GaaOBZvFiopPdHxAsPu3jmZTF06NQjTCrJ8Kpf4=
+X-Google-Smtp-Source: AA6agR7xHfa6WrErd9Bk/UWyjKlWX0wCPdyRk3T0VhyapOrfuWCgmK4HjQTqIvw9ODlq9MAc9vqEgE+rKsduq1gTxZU=
+X-Received: by 2002:a67:b445:0:b0:391:92ef:464c with SMTP id
+ c5-20020a67b445000000b0039192ef464cmr94682vsm.22.1661826517920; Mon, 29 Aug
+ 2022 19:28:37 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH v3 1/2] ktap_v2: change version to 2-rc in KTAP
- specification
-Content-Language: en-US
-To:     frowand.list@gmail.com, David Gow <davidgow@google.com>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Kees Cook <keescook@chromium.org>, Tim.Bird@sony.com,
-        Brendan Higgins <brendanhiggins@google.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>, rmr167@gmail.com,
-        guillaume.tucker@collabora.com, dlatypov@google.com,
-        kernelci@groups.io, kunit-dev@googlegroups.com,
-        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20220829233150.3564612-1-frowand.list@gmail.com>
- <20220829233150.3564612-2-frowand.list@gmail.com>
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <20220829233150.3564612-2-frowand.list@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <cover.1651800598.git.peilin.ye@bytedance.com> <cover.1661158173.git.peilin.ye@bytedance.com>
+ <CANn89iJsOHK1qgudpfFW9poC4NRBZiob-ynTOuRBkuJTw6FaJw@mail.gmail.com>
+In-Reply-To: <CANn89iJsOHK1qgudpfFW9poC4NRBZiob-ynTOuRBkuJTw6FaJw@mail.gmail.com>
+From:   Yafang Shao <laoar.shao@gmail.com>
+Date:   Tue, 30 Aug 2022 10:28:01 +0800
+Message-ID: <CALOAHbDQJY-YeOHnLLrZxyR6Xv957qBe+JH4Mq4YQtBB9AM8zQ@mail.gmail.com>
+Subject: Re: [PATCH RFC v2 net-next 0/5] net: Qdisc backpressure infrastructure
+To:     Eric Dumazet <edumazet@google.com>
+Cc:     Peilin Ye <yepeilin.cs@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>,
+        David Ahern <dsahern@kernel.org>,
+        Jamal Hadi Salim <jhs@mojatatu.com>,
+        Cong Wang <xiyou.wangcong@gmail.com>,
+        Jiri Pirko <jiri@resnulli.us>,
+        Peilin Ye <peilin.ye@bytedance.com>,
+        netdev <netdev@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Cong Wang <cong.wang@bytedance.com>,
+        Stephen Hemminger <stephen@networkplumber.org>,
+        Dave Taht <dave.taht@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 8/30/22 06:31, frowand.list@gmail.com wrote:
-> From: Frank Rowand <frank.rowand@sony.com>
-> 
-> Prepare KTAP Specification for the process of creating version 2.
-> 
-> The version will remain "2-rc" until the final commit to complete
-> Version 2.  Adding the "-rc" ensures that none of the development
-> versions will be mistaken for the completed version 2.
-> 
-> After this commit, Sphinx complains that we now need more '=' signs:
-> 
->   Documentation/dev-tools/ktap.rst:3: WARNING: Title overline too short.
->   ===================================================
->   The Kernel Test Anything Protocol (KTAP), version 2-rc
->   ===================================================
-> 
-> This warning will disappear in the final commit for the release of
-> version 2, when the "-rc" is removed.
-> 
+On Tue, Aug 23, 2022 at 1:02 AM Eric Dumazet <edumazet@google.com> wrote:
+>
+> On Mon, Aug 22, 2022 at 2:10 AM Peilin Ye <yepeilin.cs@gmail.com> wrote:
+> >
+> > From: Peilin Ye <peilin.ye@bytedance.com>
+> >
+> > Hi all,
+> >
+> > Currently sockets (especially UDP ones) can drop a lot of packets at TC
+> > egress when rate limited by shaper Qdiscs like HTB.  This patchset series
+> > tries to solve this by introducing a Qdisc backpressure mechanism.
+> >
+> > RFC v1 [1] used a throttle & unthrottle approach, which introduced several
+> > issues, including a thundering herd problem and a socket reference count
+> > issue [2].  This RFC v2 uses a different approach to avoid those issues:
+> >
+> >   1. When a shaper Qdisc drops a packet that belongs to a local socket due
+> >      to TC egress congestion, we make part of the socket's sndbuf
+> >      temporarily unavailable, so it sends slower.
+> >
+> >   2. Later, when TC egress becomes idle again, we gradually recover the
+> >      socket's sndbuf back to normal.  Patch 2 implements this step using a
+> >      timer for UDP sockets.
+> >
+> > The thundering herd problem is avoided, since we no longer wake up all
+> > throttled sockets at the same time in qdisc_watchdog().  The socket
+> > reference count issue is also avoided, since we no longer maintain socket
+> > list on Qdisc.
+> >
+> > Performance is better than RFC v1.  There is one concern about fairness
+> > between flows for TBF Qdisc, which could be solved by using a SFQ inner
+> > Qdisc.
+> >
+> > Please see the individual patches for details and numbers.  Any comments,
+> > suggestions would be much appreciated.  Thanks!
+> >
+> > [1] https://lore.kernel.org/netdev/cover.1651800598.git.peilin.ye@bytedance.com/
+> > [2] https://lore.kernel.org/netdev/20220506133111.1d4bebf3@hermes.local/
+> >
+> > Peilin Ye (5):
+> >   net: Introduce Qdisc backpressure infrastructure
+> >   net/udp: Implement Qdisc backpressure algorithm
+> >   net/sched: sch_tbf: Use Qdisc backpressure infrastructure
+> >   net/sched: sch_htb: Use Qdisc backpressure infrastructure
+> >   net/sched: sch_cbq: Use Qdisc backpressure infrastructure
+> >
+>
+> I think the whole idea is wrong.
+>
+> Packet schedulers can be remote (offloaded, or on another box)
+>
+> The idea of going back to socket level from a packet scheduler should
+> really be a last resort.
+>
+> Issue of having UDP sockets being able to flood a network is tough, I
+> am not sure the core networking stack
+> should pretend it can solve the issue.
+>
+> Note that FQ based packet schedulers can also help already.
 
-I don't see that -rc stripping in patch [2/2], so please fix the Sphinx
-warning above in this patch.
+We encounter a similar issue when using (fq + edt-bpf) to limit UDP
+packet, because of the qdisc buffer limit.
+If the qdisc buffer limit is too small, the UDP packet will be dropped
+in the qdisc layer. But the sender doesn't know that the packets has
+been dropped, so it will continue to send packets, and thus more and
+more packets will be dropped there.  IOW, the qdisc will be a
+bottleneck before the bandwidth limit is reached.
+We workaround this issue by enlarging the buffer limit and flow_limit
+(the proper values can be calculated from net.ipv4.udp_mem and
+net.core.wmem_default).
+But obviously this is not a perfect solution, because
+net.ipv4.udp_mem or net.core.wmem_default may be changed dynamically.
+We also think about a solution to build a connection between udp
+memory and qdisc limit, but not sure if it is a good idea neither.
 
 -- 
-An old man doll... just what I always wanted! - Clara
+Regards
+Yafang
