@@ -2,423 +2,275 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CF6ABECAAA1
-	for <linux-doc@archiver.kernel.org>; Tue, 30 Aug 2022 15:23:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C489ECAAD1
+	for <linux-doc@archiver.kernel.org>; Tue, 30 Aug 2022 16:42:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229985AbiH3PXy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 30 Aug 2022 11:23:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47450 "EHLO
+        id S229510AbiH3QmT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 30 Aug 2022 12:42:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50134 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230505AbiH3PXs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Aug 2022 11:23:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 569E0B8A5C
-        for <linux-doc@vger.kernel.org>; Tue, 30 Aug 2022 08:23:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1661873019;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=WjhzsvqMNmJhQTe8Zak15RNUwW+m+jBfy9RFzSDrKhs=;
-        b=FDSbD38e3CPeNRSxi6oRqAu+/ZNEioOxT3jK9aMXQwJMQ/S3Rnrk0a9PGbj0wrZPD3JQte
-        6HBsAr8LzhM6k6LcI2hhOynJACdp+YlIynGYuDy6AbBRfWO/mNMX721CjCzkN6CZZXK1g0
-        E2zVitQ4G2//AT1nHBVZLJD0pykEC20=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-182-Gi0YWRTbNp-BKV7ai2DnuQ-1; Tue, 30 Aug 2022 11:23:34 -0400
-X-MC-Unique: Gi0YWRTbNp-BKV7ai2DnuQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com [10.11.54.7])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E6945380390D;
-        Tue, 30 Aug 2022 15:23:33 +0000 (UTC)
-Received: from localhost (unknown [10.39.193.81])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 279EB1410DD5;
-        Tue, 30 Aug 2022 15:23:32 +0000 (UTC)
-Date:   Tue, 30 Aug 2022 11:23:31 -0400
-From:   Stefan Hajnoczi <stefanha@redhat.com>
-To:     Ming Lei <ming.lei@redhat.com>
-Cc:     Jens Axboe <axboe@kernel.dk>, linux-doc@vger.kernel.org,
-        linux-block@vger.kernel.org, Christoph Hellwig <hch@lst.de>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "Richard W . M . Jones" <rjones@redhat.com>,
-        ZiyangZhang <ZiyangZhang@linux.alibaba.com>,
-        Xiaoguang Wang <xiaoguang.wang@linux.alibaba.com>
-Subject: Re: [PATCH] Docs: ublk: add ublk document
-Message-ID: <Yw4rcz23R3ofn6H6@fedora>
-References: <20220828045003.537131-1-ming.lei@redhat.com>
+        with ESMTP id S229522AbiH3QmS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Aug 2022 12:42:18 -0400
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BFF9882D23;
+        Tue, 30 Aug 2022 09:42:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1661877737; x=1693413737;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=LTuZNOnTP+P7/gVyHhoMMVVMW7lU7Mk0Fa6ZOwh/1ug=;
+  b=jzDsptGgmwO6LqAxWDrjAv7HGm0J6Vqy7DyaTQSwJWJf1opAOO7Ab1EG
+   JcMdq3ES1bXfWh0jTc/NxLReJETn0jXAnU28IfQuRPRIPfwcxHbiFfa2p
+   V3fj+KhLOC0/WcQhjWkl/NgbiHsAdML4msRCtlQX1kvlaCT8K0Q4Q3KfI
+   xrKL2iHFOsAPEJkTGy+s7QcCNvlZS0zOZDuisTLcb9p+CCAyYOAACBND4
+   Z+sxcIH/8Vhp8LiO4u7ht3hCSuJ7EjeGprblj2SXu5lxN6cXC4kkCDEDh
+   jN5WhHz6LPvJbTzsuTsudq5wU97PTcsGdp1BVmVPiIoo2rSSoHqUkyaDJ
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10455"; a="274986788"
+X-IronPort-AV: E=Sophos;i="5.93,275,1654585200"; 
+   d="scan'208";a="274986788"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Aug 2022 09:39:45 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,275,1654585200"; 
+   d="scan'208";a="611777144"
+Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
+  by orsmga002.jf.intel.com with ESMTP; 30 Aug 2022 09:39:44 -0700
+Received: from fmsmsx608.amr.corp.intel.com (10.18.126.88) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Tue, 30 Aug 2022 09:39:43 -0700
+Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
+ fmsmsx608.amr.corp.intel.com (10.18.126.88) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31; Tue, 30 Aug 2022 09:39:43 -0700
+Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
+ fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.31 via Frontend Transport; Tue, 30 Aug 2022 09:39:43 -0700
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.102)
+ by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2375.31; Tue, 30 Aug 2022 09:39:42 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=b/tsWE2PaTJLQGmR7dPcRvsL6VoYtQ/rrq6Ux2OM4rQMMDDRSISfP6DDTTT9+Vme0JUBnW78DmvyZRevMtXHrIi1o0D5ZHvpjrGiyX4JHQk6oqIxagnLHg0oRlNEpw7hkpuUR2mTBfXZ9HrF4lIaDeXTV0lR5+5PLFUZ8aM6SxA9mzuLq4F4VxNLZWoSqAf3VE83GVvasqVxxVc1H/Cr9Xt9aoZQ6yJue82+S5AaZR7mZtDIi2M5VNhErlVC7Exh/VRbzJuEifPnj29QXen8WA3c4DW9+6Xci/tnjSeRGl/OEaYH3/hUsPu5g43Wk2OKoVn1bJM/I0JG6IZNyhdL9Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=8sWVicqTzFI68R39QDPgdbYehNX3+EpTMG3sLTJeTbc=;
+ b=cwqE20nUxAVjq4d3EJxdT0ls/wdzGyJ0vbMqXYVPsqvDg3NumS5heSEZq8vpVb3S3kFvz4R6Vsaq9E5UKAiiQViijrD6uNWZi1gvLwS68Wt6W1S9UJCOvrxu8nDZKucvEPP2oxVGGkeP+5qMWVOStIb1tza4BPsjXlv44BqQ2/8SY9rECzNnmQhl99LTdH9hEj9cO90ZFghkgKYmxnyo99YsL0ge76kmpxxf74kERj40mxYCk6+L5VGzhv4Sb2ly7rOtDZOUvqbBgk8eIyvftuhSGjS12eJmHwjJvxNXIiQmRPD+fl8iOM/OdBn8G+v/IPfGTGZuoO9tZ0RlQTgADw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from CY4PR11MB1862.namprd11.prod.outlook.com (2603:10b6:903:124::18)
+ by MWHPR11MB0080.namprd11.prod.outlook.com (2603:10b6:301:68::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5566.15; Tue, 30 Aug
+ 2022 16:39:40 +0000
+Received: from CY4PR11MB1862.namprd11.prod.outlook.com
+ ([fe80::a824:112:52f7:5743]) by CY4PR11MB1862.namprd11.prod.outlook.com
+ ([fe80::a824:112:52f7:5743%11]) with mapi id 15.20.5566.021; Tue, 30 Aug 2022
+ 16:39:40 +0000
+Message-ID: <59259155-6c51-a750-216a-ebbb0702d200@intel.com>
+Date:   Tue, 30 Aug 2022 09:39:37 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.2.0
+Subject: Re: [PATCH v3 02/10] x86/cpufeatures: Add Slow Memory Bandwidth
+ Allocation feature flag
+To:     Babu Moger <babu.moger@amd.com>
+CC:     <bagasdotme@gmail.com>, <bp@alien8.de>, <corbet@lwn.net>,
+        <dave.hansen@linux.intel.com>, <eranian@google.com>,
+        <fenghua.yu@intel.com>, <hpa@zytor.com>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <mingo@redhat.com>, <tglx@linutronix.de>, <tony.luck@intel.com>,
+        <x86@kernel.org>
+References: <9965edff-c558-2962-4aad-3342480026bc@intel.com>
+ <20220829232554.53763-1-babu.moger@amd.com>
+Content-Language: en-US
+From:   Reinette Chatre <reinette.chatre@intel.com>
+In-Reply-To: <20220829232554.53763-1-babu.moger@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: BYAPR11CA0044.namprd11.prod.outlook.com
+ (2603:10b6:a03:80::21) To CY4PR11MB1862.namprd11.prod.outlook.com
+ (2603:10b6:903:124::18)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="sH+H0D/dm0CWaq/j"
-Content-Disposition: inline
-In-Reply-To: <20220828045003.537131-1-ming.lei@redhat.com>
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: db89522b-32c7-4892-1bda-08da8aa63c0c
+X-MS-TrafficTypeDiagnostic: MWHPR11MB0080:EE_
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 42Bn4AsJbCQSt5rR6oYz28Dob1WT9bt0C0Ch3mj0vA1aBZQmWzsRqOnRMmAzyWzX7d1BMhP1B78qTNzq8PFvduxizsXX9X4BPBNEeWGHWTexlQwwy5U9Lkb1fNYvXgdn0L8jAY34gUHQ1ZER6EaNJx0ifLSX2UxvofGkiqzZyRdu4qbwB3xVEN2CSx/8gjTIS3QexMWNpfxiAM4ZcBeW8gB/+IUyV90PwUs1fh94d1HOLCsflgp6rTxa1w5MYJ3wBlf3QoXTKDXfXtdeudyzpCy3ohbXGscarAhGIRR3YQtVROE5c/qDOh6ATTr/2GytRUlgDx9G8yYYflmNeDUDo2h7LA5PxjO1pOpLnXxJGpEtMJrw47RqWCeQiPevGpSf6q7625waPxYZX35+USM3czul8UvagWdptXyjNGQC9T5rNUS5ZJSe2/52KZQORPqzfkhvPSUKh3v0HF5B4U+vmqQGuv39sjucHkx0sSguf3YkXVIy4icd71/pwyq7wHprohrBvce/43nlf2tSo/OahPSLnnKqcKlFn+cto8dvWpT9ZZORegfUPHESGW1fzAVz0w0kX+39eP0TSvBZDl2GCpfMbOrYMtpDmRG4Hloz4+EBEk5QST09yisW39GxhixcsnsUWcTG1fuQ6n8T1dcza5GFHItvX22ToRRPekdJjYI6uRxp1kpBD8KtDXCjJd3ByrkeD+c8XkFccrTmlxEluqI3x5K7taT90qI1ULfjrK5l9iboLWuFePE/T5Um4jCZCg1ugXXapGhxSV3btXiy3lFF8Ips00evPbWhChDiHz3RDFYSavdQsX1JmJhRecSxzOSccMN7Q36gzRg/buAnWZGoSuR9Df98QYfOugeJ4gA=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY4PR11MB1862.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(136003)(366004)(396003)(39860400002)(376002)(346002)(8936002)(966005)(8676002)(66946007)(316002)(66476007)(66556008)(4326008)(31696002)(31686004)(6486002)(86362001)(6916009)(478600001)(5660300002)(36756003)(41300700001)(7416002)(82960400001)(53546011)(6506007)(2616005)(6512007)(26005)(2906002)(6666004)(44832011)(38100700002)(83380400001)(186003)(43740500002)(45980500001);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NHF4TTd2MlZ4UFRqTEx4NnRBZ3MzajZqY1JicnQ3bHZpRHhFZEFCWFNEMVpW?=
+ =?utf-8?B?NXRsR0ZLVWprVEVBQWg1bmFEVXhUaloyYzJkY2lOQW12VTg5SkdmalBnUUtK?=
+ =?utf-8?B?VDJXTElzVXdxUjFocXZPcDUyc3c3YWVuK0FPWk1vVUlEUHdKVVJYdC9Lcml2?=
+ =?utf-8?B?dHZYTWVoL2o3R2crajJrVmFMZGthVUZ1WDBUNWZMV1dkdmlYVHEwaXExNG5S?=
+ =?utf-8?B?bWcxbDZNb1RFSkdUeVUrU1ZLZXh5T1ovWkRKVzFVVFNYMENORnlENUdtQkFU?=
+ =?utf-8?B?b1c5VDRncTRJT2V0Z2V2YldvTmttUzdrWDlCN1VCWHdNdkxNdTZ3TWExZyt2?=
+ =?utf-8?B?a2s0Vzh2ZWtmRzY4RkFqWlV1RHEwT3dqMDBnVXJ5MmFtY3hOM0VjMSszV2ZI?=
+ =?utf-8?B?b3E2dnVwd3hmREVLbTBabjVFVzNSL3VTbG5tOXN4WmxxVTUzWXd3Zm42bFJM?=
+ =?utf-8?B?RlJaUWZleW1kWkJZVStweDFaNVg1UE8wTVNSVlgxaXUzaTRHbHVZZUwrV0hv?=
+ =?utf-8?B?Smd5ZnVydGJNMnB3SFVXaSt0WDU4Y2VTRzlXR0dYMVhNWUd2ZFhLL3RMSk1z?=
+ =?utf-8?B?czhTUlIvOXhPaFNtZWdxSUZ3dVZGYlV1cFJYYUVDZFVaaGtCaTN0Q3d5d1Vw?=
+ =?utf-8?B?L1ZGS0tzSktvUm9pNUU4SHBwUWVGNFA2QkM3M3JrcllpTmpRWllNTUIxUTdx?=
+ =?utf-8?B?YVpsK1J4OHVObjNnbVA2MWxYVFZpc0FlMGJQQTY4VFpRTG9XRGVDcXlGM3lN?=
+ =?utf-8?B?TXBPRTh2T3hsalZhQ2N4TUZYNjc4ZDMrK0xWc0JoZHhmcjlZaE1YMmd2KzdJ?=
+ =?utf-8?B?TnZpOEZodGlzbmZTMU9uUmQzbmNCVFhkZFJTVkRZVTJUYjZYd1RwQUlyN0ho?=
+ =?utf-8?B?Uk83aWlHU29WSUhNUHMvWWlZRENUVWlHTHpkOG9kRGJOQVZocjIxODUyS09l?=
+ =?utf-8?B?bzJDT0ZQT0c1ZjFzVEliN3pkUVlYVHpYeWR6ZjlDQmk1VXgydmF6azA1RytE?=
+ =?utf-8?B?NmxmS3VZM3I0T1JoUkE0b2F4TWVEb3lVUWwxMUxSRld1MmlUOHBMTXN0MWhp?=
+ =?utf-8?B?b1I2Zll4Yy9nWDEyQWN3N2t5WUNuYUZiQkJQcmlMZ2J5ZHlndjZKQngxVVor?=
+ =?utf-8?B?VXhzNzJCVWdPbElkNmU3K3lmTDVzU0JlUldzdjBWQzFBMjlSbDg5TUxWWjZ4?=
+ =?utf-8?B?M3RCMVA2MTRlZ0ZKelpVTFRFZ0RSTDlpbElNc0UyZzNLM2FQSzZWNk0zLzNV?=
+ =?utf-8?B?OUxpblNjSEgwMGdWUVpYTVVNU3RwL0p5aUZoVmRRUGFkZjJySWM5MWoySGlD?=
+ =?utf-8?B?b0ZzbTUvNWVRVXdaRW1YM0FsRTJpTUJZZTI2VUJrUm44MUw5ZU1xdXV1ZHEv?=
+ =?utf-8?B?ais1U0plMUs0RHJiaitCck92bGNKWFZmOXp1OGh5NDhYRU5hUStyaURqdEk3?=
+ =?utf-8?B?L0E0dEtJRk43YTdyY3FzdFM5SUJFcU92THpWMFpSN3dSSDd6eFN4YThpcmdM?=
+ =?utf-8?B?aTFidjVDNTZJdzRIcmFaT1pSYkR3YjRCVldoUFVrSWVDY3JWNDZFelhPRlNq?=
+ =?utf-8?B?UDM3SnMwMjk5TkNEMFJVWWJ4OEpMajRKOUlPaGdCN21wc0hqb0o4NlpyTkFT?=
+ =?utf-8?B?dyt0ZmV6eldxb0dMOGVwU1ZqdmJBS005L0FpbHJJbUUvVm9OOUNiaVR3bVpF?=
+ =?utf-8?B?cXdaMzdrSHBiR0NPa0NPUlFzOVRwNjdWRUtDeFloaTdWbGMxK3l0aDhPOGdT?=
+ =?utf-8?B?cjZJS2tRMTBteU9WSnArTXAwWlJNZ1VwdnAwKzllZmhNZUVuaXBOazkrQ3dx?=
+ =?utf-8?B?c2JkVzdDODUxQnR2M1Z3bzBCc0dVWHVxRlRtcnhySFNBOXdQWVZDSFdGVDJN?=
+ =?utf-8?B?dndyZkgxTStIYkh5NDBSTDA1YnpBT0ppdXVKOW0vVE01MUcyWW1kc0RKUUkw?=
+ =?utf-8?B?cTJwaUh0UHRmSmIxYkdBTU45aHp3dEFaWE1pZzVMMlJtZkFGaURvS3Rxd0pu?=
+ =?utf-8?B?TkpHelV2RW54bTVJSUpNS1pNSXZuUExDeG54UFFQQkw4M0hidk9KdVFaVC91?=
+ =?utf-8?B?dFlFajh6SkVEc1dpeHZXMU9QWmdBdmhCOXJFajVTeThjR3hXalZvZGhnMVh2?=
+ =?utf-8?B?U2V1TWt0czB0SFBHdlAxOTdsQzIxRWR5QXNLK2pQNVBuMG8velRkeEY0ZTVP?=
+ =?utf-8?B?OWc9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: db89522b-32c7-4892-1bda-08da8aa63c0c
+X-MS-Exchange-CrossTenant-AuthSource: CY4PR11MB1862.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Aug 2022 16:39:40.5008
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: jkgHxT+ENw/3tpdlcy/Y7ec1p1JnvQnTYNyyquRD6hsKfku+rEC8vYJhHPPpVli6t9RyZRKYgsCXpMMYZtM+uAyTCgwUxR50n+tECRdRO58=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR11MB0080
+X-OriginatorOrg: intel.com
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hi Babu,
 
---sH+H0D/dm0CWaq/j
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 8/29/2022 4:25 PM, Babu Moger wrote:
+> Hi Reinette,
+>    Some reason this thread did not land in my mailbox. Replying using git sendmail to the thread 
+> 
+>> (snip modified links)
+> 
+> Link: https://www.amd.com/en/support/tech-docs/amd64-technology-platform-quality-service-extensions
+> Link: https://bugzilla.kernel.org/show_bug.cgi?id=206537
+> 
+>> When you say "in this case", is there another case?
+> 
+> There is no other interface. It is only CXL memory device.
+> 
+>>
+>> Should "Slow Memory Bandwidth Allocation" thus be considered to be "CXL.mem
+>> Memory Bandwidth Allocation"? Why not call it "CXL(.mem?) Memory Bandwith
+>> Allocation"?
+> 
+> Checked with our team here. The currently only supported slow memory is CXL.mem
+> device. As for the naming, the "slow" memory landscape is still evolving.
+> While CXL.mem is the only known type supported right now. The specs says
+> "Slow Memory Bandwidth Allocation". So, we would prefer to keep it that way.
 
-On Sun, Aug 28, 2022 at 12:50:03PM +0800, Ming Lei wrote:
-> ublk document is missed when merging ublk driver, so add it now.
->=20
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: Richard W.M. Jones <rjones@redhat.com>
-> Cc: ZiyangZhang <ZiyangZhang@linux.alibaba.com>
-> Cc: Stefan Hajnoczi <stefanha@redhat.com>
-> Cc: Xiaoguang Wang <xiaoguang.wang@linux.alibaba.com>
-> Signed-off-by: Ming Lei <ming.lei@redhat.com>
-> ---
->  Documentation/block/ublk.rst | 203 +++++++++++++++++++++++++++++++++++
->  1 file changed, 203 insertions(+)
->  create mode 100644 Documentation/block/ublk.rst
->=20
-> diff --git a/Documentation/block/ublk.rst b/Documentation/block/ublk.rst
-> new file mode 100644
-> index 000000000000..9e8f7ba518a3
-> --- /dev/null
-> +++ b/Documentation/block/ublk.rst
-> @@ -0,0 +1,203 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +Userspace block device driver(ublk driver)
+If you prefer to keep "Slow Memory Bandwidth Allocation" then please also
+provide clear information to the user on what is managed via "Memory Bandwidth
+Allocation" and what is managed via "Slow Memory Bandwidth Allocation". This
+could be in the documentation.
 
-Usually there is a space before '('. There are more instances throughout
-the document.
+>> I am not familiar with CXL so please correct me where I am
+>> wrong. From what I understand CXL.mem is a protocol and devices that implement
+>> it can have different memory types ... some faster than others. So, even if
+>> SMBA supports "CXL.mem" devices, could a system have multiple CXL.mem devices,
+>> some faster than others? Would all be configured the same with SMBA (they
+>> would all be classified as "slow" and throttled the same)?
+> 
+> I have not tested the multiple devices with different memory speeds here.
+> But checking with team here says it should just work the same way. It appears
+> that the throttling logic groups all the slow sources together and applies
+> the limit on them as a whole.
 
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +Overview
-> +=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +ublk is one generic framework for implementing block device logic from
-> +userspace. It is very helpful to move virtual block drivers into userspa=
-ce,
-> +such as loop, nbd and similar block drivers. It can help to implement new
-> +virtual block device, such as ublk-qcow2, and there was several attempts
-> +of implementing qcow2 driver in kernel.
+"the throttling logic groups all the slow sources together and applies
+the limit on them as a whole.". This is valuable content for
+the documentation about this feature. Could the changes to
+Documentation/x86/resctrl.rst be updated to include a paragraph
+describing SMBA and what is (or is not) considered a "slow resource"? 
 
-This paragraph doesn't give specific reasons why userspace block devices
-are "very helpful".
+>> I do not think these devices are invisible to the OS though (after
+>> reading Documentation/driver-api/cxl/memory-devices.rst and
+>> Documentation/ABI/testing/sysfs-class-cxl).
+>>
+>> Is there not a way to provide some more clarity to users on what
+>> would be throttled? 
+>>
 
-Userspace block devices are attractive because:
-- They can be written many programming languages.
-- They can use libraries that are not available in the kernel.
-- They can be debugged with tools familiar to application developers.
-- Crashes do not kernel panic the machine.
-- Bugs are likely to have a lower security impact than bugs in kernel
-  code.
-- They can be installed and updated independently of the kernel.
+I repeat the question you snipped from my email (please don't do that). Could
+you please answer it?:
+Would the "SMBA" resource be available only when CXL.mem devices are present
+on the system? Since this is a CPU feature it is unclear to me whether
+presence of CXL.mem devices would be known at the time "SMBA" is enumerated.
+Could the "SMBA" resource thus exist without memory to throttle?
 
-I think including this list makes it clear why userspace block devices
-are appropriate in certain cases.
+>> How does a user know which memory on the system is "slow memory"?
+>>
+>> It remains unclear to me how a user is intended to use this feature.
+>>
+>> How will a user know which devices/memory (if any) are being
+>> throttled by "SMBA"?
+>>
+> This is a new technology. I am still learning. 
+> 
+> Currently, I have tested with CXL 1.1 type of device. CXL 1.1 uses a simple
+> topology structure of direct attachment between host (such as a CPU or GPU)
+> and CXL device.
+> 
+> #numactl -H
+> available: 2 nodes (0-1)
+> node 0 cpus: 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16
+> node 0 size: 63678 MB
+> node 0 free: 59542 MB
+> node 1 cpus:             (CPU list is emply. Node 1 have CXL memory)
+> node 1 size: 16122 MB    (There is 16GB CXL memory) 
+> node 1 free: 15627 MB    
+> node distances:
+> node   0   1
+>   0:  10  50
+>   1:  50  10
+> 
+> The cpu-cxl node distance is greater than cpu-to-cpu distances.
+> 
+> We can also verify using lsmem
+>  
+> #lsmem --output RANGE,SIZE,STATE,NODE,ZONES,BLOCK
+> RANGE                                 SIZE  STATE NODE  ZONES BLOCK
+> 0x0000000000000000-0x000000007fffffff   2G online    0   None     0
+> 0x0000000080000000-0x00000000ffffffff   2G online    0  DMA32     1
+> 0x0000000100000000-0x0000000fffffffff  60G online    0 Normal  2-31
+> 0x0000001000000000-0x000000107fffffff   2G online    0   None    32
+> 0x0000001080000000-0x000000147fffffff  16G online    1 Normal 33-40
+> 
+> Memory block size:         2G
+> Total online memory:      82G
+> Total offline memory:      0B
+> 
+> 
+> We can also verify using ACPI SRAT table and memory maps.
 
-> +
-> +ublk block device(``/dev/ublkb*``) is added by ublk driver. Any IO reque=
-st
-> +submitted to ublk device will be forwarded to ublk's userspace part(
-> +ublksrv [1]), and after the IO is handled by ublksrv, the result is
-> +committed back to ublk driver, then ublk IO request can be completed. Wi=
-th
-> +this way, any specific IO handling logic is totally done inside ublksrv,
-> +and ublk driver doe _not_ handle any device specific IO logic, such as
+I think that adding (in general terms) that "SMBA throttles CXL.mem
+devices" to Documentation/x86/resctrl.rst may be sufficient for
+a user to understand what will be throttled without needing to go into
+details about CXL device discovery. 
 
-s/doe/does/
-
-> +loop's IO handling, NBD's IO communication, or qcow2's IO mapping, ...
-> +
-> +/dev/ublkbN is driven by blk-mq request based driver, each request is
-> +assigned by one queue wide unique tag. ublksrv assigns unique tag to each
-> +IO too, which is 1:1 mapped with IO of /dev/ublkb*.
-
-Is "/dev/ublkbN" the same as "/dev/ublkb*"? Please use one term consistentl=
-y.
-
-> +
-> +Both the IO request forward and IO handling result committing are done v=
-ia
-> +io_uring passthrough command, that is why ublk is also one io_uring based
-
-s/also one/a/
-
-> +block driver. It has been observed that io_uring passthrough command can=
- get
-> +better IOPS than block IO. So ublk is one high performance implementation
-> +of userspace block device.
-
-I think this sentence means "Therefore ublk uses io_uring passthrough
-commands to implement userspace block devices in a performant way".
-
-> Not only IO request communication is done by
-> +io_uring, but also the preferred IO handling in ublksrv is io_uring based
-> +approach too.
-> +
-> +ublk provides control interface to set/get ublk block device parameters,=
- and
-> +the interface is extendable and kabi compatible, so basically any ublk r=
-equest
-> +queue's parameter or ublk generic feature parameters can be set/get via =
-this
-> +extendable interface. So ublk is generic userspace block device framewor=
-k, such
-> +as, it is easy to setup one ublk device with specified block parameters =
-=66rom
-
-"such as" -> "and as such"
-
-> +userspace.
-> +
-> +How to use ublk
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +After building ublksrv[1], ublk block device(``/dev/ublkb*``) can be add=
-ed
-
-It might be worth separating two use cases:
-
-- Quickstart and people who just want to use existing ublksrv
-  functionality.
-
-- Developers who are writing their own ublk server (e.g. rjones' nbdkit).
-
-ublksrv isn't needed, it's possible to code directly against the ublk
-driver UAPI. I think it's worth pointing this out so it's clear to
-people when and why you would use ublksrv and also when to code against
-the ublk driver UAPI.
-
-The documentation currently leaves it to the reader to figure out that
-ublksrv is just one possible userspace server implementation.
-
-> +and deleted by the utility, then existed block IO applications can talk =
-with
-> +it.
-> +
-> +See usage details in README[2] of ublksrv, for example of ublk-loop:
-> +
-> +- add ublk device:
-> +  ublk add -t loop -f ublk-loop.img
-> +
-> +- use it:
-> +  mkfs.xfs /dev/ublkb0
-> +  mount /dev/ublkb0 /mnt
-> +  ....                     # all IOs are handled by io_uring!!!
-> +  umount /mnt
-> +
-> +- get ublk dev info:
-> +  ublk list
-> +
-> +- delete ublk device
-> +  ublk del -a
-> +  ublk del -n $ublk_dev_id
-> +
-> +Design
-> +=3D=3D=3D=3D=3D=3D
-> +
-> +Control plane
-> +-------------
-> +
-> +ublk driver provides global misc device node(``/dev/ublk-control``) for
-> +managing and controlling ublk devices with help of several control comma=
-nds:
-> +
-> +- UBLK_CMD_ADD_DEV
-> +  Add one ublk char device(``/dev/ublkc*``) which is talked with ublksrv=
- wrt.
-
-It may be clearer to say "the server" or "userspace" instead of
-"ublksrv", since that is the name of a specific server implementation
-and people may develop other servers.
-
-> +  IO command communication. Basic device info is sent together with this
-> +  command, see UAPI structure of ublksrv_ctrl_dev_info, such as nr_hw_qu=
-eues,
-> +  queue_depth, and max IO request buffer size, which info is negotiated =
-with
-> +  ublk driver and sent back to ublksrv. After this command is completed,=
- the
-> +  basic device info can't be changed any more.
-> +
-> +- UBLK_CMD_SET_PARAMS / UBLK_CMD_GET_PARAMS
-> +  Set or get ublk device's parameters, which can be generic feature rela=
-ted,
-> +  or request queue limit related, but can't be IO logic specific, cause =
-ublk
-> +  driver does not handle any IO logic. This command has to be sent before
-> +  sending UBLK_CMD_START_DEV.
-> +
-> +- UBLK_CMD_START_DEV
-> +  After ublksrv prepares userspace resource such as, creating per-queue
-> +  pthread & io_ruing for handling ublk IO, this command is set for ublk
-
-s/io_ruing/io_uring/
-
-> +  driver to allocate & expose /dev/ublkb*. Parameters set via
-> +  UBLK_CMD_SET_PARAMS are applied for creating /dev/ublkb*.
-> +
-> +- UBLK_CMD_STOP_DEV
-> +  Quiesce IO on /dev/ublkb* and delete the disk. After this command retu=
-rns,
-> +  ublksrv can release resource, such as destroy per-queue pthread & io_u=
-ring
-> +  for handling io command.
-> +
-> +- UBLK_CMD_DEL_DEV
-> +  Delete /dev/ublkc*. After this command returns, the allocated ublk dev=
-ice
-> +  number can be reused.
-> +
-> +- UBLK_CMD_GET_QUEUE_AFFINITY
-> +  After /dev/ublkc is added, ublk driver creates block layer tagset, so =
-each
-> +  queue's affinity info is available, ublksrv sends UBLK_CMD_GET_QUEUE_A=
-FFINITY
-> +  to retrieve queue affinity info, so ublksrv can setup the per-queue co=
-ntext
-> +  efficiently, such as bind affine CPUs with IO pthread, and try to allo=
-cate
-> +  buffers in IO thread context.
-> +
-> +- UBLK_CMD_GET_DEV_INFO
-> +  For retrieve device info of ublksrv_ctrl_dev_info. And it is ublksrv's
-> +  responsibility to save IO target specific info in userspace.
-> +
-> +Data plane
-> +----------
-> +
-> +ublksrv needs to create per-queue IO pthread & io_uring for handling IO
-> +command (io_uring passthrough command), and the per-queue IO pthread
-> +focuses on IO handling and shouldn't handle any control & management
-> +task.
-> +
-> +ublksrv's IO is assigned by one unique tag, which is 1:1 mapping with IO
-> +request of /dev/ublkb*.
-> +
-> +UAPI structure of ublksrv_io_desc is defined for describing each IO from
-> +ublk driver. One fixed mmaped area(array) on /dev/ublkc* is provided for
-> +exporting IO info to ublksrv, such as IO offset, length, OP/flags and
-> +buffer address. Each ublksrv_io_desc instance can be indexed via queue id
-> +and IO tag directly.
-> +
-> +Following IO commands are communicated via io_uring passthrough command,
-> +and each command is only for forwarding ublk IO and committing IO result
-> +with specified IO tag in the command data:
-> +
-> +- UBLK_IO_FETCH_REQ
-> +  Sent from ublksrv IO pthread for fetching future coming IO request
-> +  issued to /dev/ublkb*. This command is just sent once from ublksrv IO
-> +  pthread for ublk driver to setup IO forward environment.
-> +
-> +- UBLK_IO_COMMIT_AND_FETCH_REQ
-> +  After one IO request is issued to /dev/ublkb*, ublk driver stores this
-> +  IO's ublksrv_io_desc to the specified mapped area, then the previous
-> +  received IO command of this IO tag, either UBLK_IO_FETCH_REQ or
-> +  UBLK_IO_COMMIT_AND_FETCH_REQ, is completed, so ulksrv gets the IO
-> +  notification via io_uring.
-> +
-> +  After ublksrv handles this IO, this IO's result is committed back to u=
-blk
-> +  driver by sending UBLK_IO_COMMIT_AND_FETCH_REQ back. Once ublkdrv rece=
-ived
-> +  this command, it parses the IO result and complete the IO request to
-> +  /dev/ublkb*. Meantime setup environment for fetching future IO request
-> +  with this IO tag. So UBLK_IO_COMMIT_AND_FETCH_REQ is reused for both
-> +  fetching request and committing back IO result.
-> +
-> +- UBLK_IO_NEED_GET_DATA
-> +  ublksrv pre-allocates IO buffer for each IO at default, any new project
-> +  should use this IO buffer to communicate with ublk driver. But existed
-> +  project may not work or be changed to in this way, so add this command
-> +  to provide chance for userspace to use its existed buffer for handling
-> +  IO.
-
-I find it hard to understand this paragraph. It seems the
-UBLK_IO_NEED_GET_DATA command allows userspace to set up something
-related to IO buffers. What exactly does this command do?
-
-> +
-> +- data copy between ublkserv IO buffer and ublk block IO request
-
-s/ublkserv/ublksrv/
-
-> +  ublk driver needs to copy ublk block IO request pages into ublksrv buf=
-fer
-> +  (pages) first for WRITE before notifying ublksrv of the coming IO, so
-> +  ublksrv can hanldle WRITE request.
-
-s/hanldle/handle/
-
-> +
-> +  After ublksrv handles READ request and sends UBLK_IO_COMMIT_AND_FETCH_=
-REQ
-> +  to ublksrv, ublkdrv needs to copy read ublksrv buffer(pages) to the ub=
-lk
-> +  IO request pages.
-
-In the READ case userspace doesn't know exactly when the ublk driver is
-done copying in the buffer. I guess this isn't a problem because the
-userspace buffer will be reused when the next request is fetched?
-
-> +
-> +Future development
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +Container-ware ublk deivice
-> +---------------------------
-> +
-> +ublk driver doesn't handle any IO logic, and its function is well defined
-> +so far, and very limited userspace interfaces are needed, and each one is
-> +well defined too, then it is very likely to make ublk device one
-> +container-ware block device in future, as Stefan Hajnoczi suggested[3], =
-by
-> +removing ADMIN privilege.
-> +
-> +Zero copy
-> +---------
-> +
-> +Wrt. zero copy support, it is one generic requirement for nbd, fuse or
-> +similar drivers, one problem Xiaoguang mentioned is that pages mapped to
-> +userspace can't be remapped any more in kernel with existed mm interface=
-s,
-> +and it can be involved when submitting direct IO to /dev/ublkb*. Also
-> +Xiaoguang reported that big request may benefit from zero copy a lot,
-> +such as >=3D 256KB IO.
-> +
-> +
-> +References
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +[1] https://github.com/ming1/ubdsrv
-> +
-> +[2] https://github.com/ming1/ubdsrv/blob/master/README
-> +
-> +[3] https://lore.kernel.org/linux-block/YoOr6jBfgVm8GvWg@stefanha-x1.loc=
-aldomain/
-> --=20
-> 2.31.1
->=20
-
---sH+H0D/dm0CWaq/j
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmMOK3MACgkQnKSrs4Gr
-c8hvKwgAmC23bfcc87UoWwLlysio/4ryyrZrto3EILAWSgBu753IOEuuao/DEuOk
-cYPGl4hPraIhlXJu6ntBcH5azzZxqTfQasUheVTnsYV2RKBO/Ab392bzRqIQMnbW
-6fsRSBlpDI9GEyn+opM99yUg6wu3EKcIWpT/pyWZTsJKxzk7SPSYpM2DE+ATtUUg
-/odKnqzsNjNWHU+Jbvv/Ln7FI+A77xqzteyo1/XEhmgAFJx5TEZC8KHYutpT5Z7s
-YUTeCgTL2nKBjLNlO3/3y/o5CnNMPM/+SPt5WoxP6jkbJ0H8bBuYAasZyQBSuOkc
-p3se2AHkK2lt/ntxo45txs8Kj8wZcA==
-=9aKq
------END PGP SIGNATURE-----
-
---sH+H0D/dm0CWaq/j--
-
+Reinette
