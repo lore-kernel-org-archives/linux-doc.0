@@ -2,93 +2,137 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F320ECAAA1
-	for <linux-doc@archiver.kernel.org>; Tue, 30 Aug 2022 17:47:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 63266ECAAD8
+	for <linux-doc@archiver.kernel.org>; Tue, 30 Aug 2022 18:12:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232144AbiH3Rrs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 30 Aug 2022 13:47:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40394 "EHLO
+        id S229876AbiH3SM4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 30 Aug 2022 14:12:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50580 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231933AbiH3RrV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Aug 2022 13:47:21 -0400
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 8E2265A836;
-        Tue, 30 Aug 2022 10:43:47 -0700 (PDT)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 50B461042;
-        Tue, 30 Aug 2022 10:29:55 -0700 (PDT)
-Received: from [10.57.15.35] (unknown [10.57.15.35])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 531493F7B4;
-        Tue, 30 Aug 2022 10:29:47 -0700 (PDT)
-Message-ID: <89287d36-5b29-5fba-db6c-dd1b116489e6@arm.com>
-Date:   Tue, 30 Aug 2022 18:29:45 +0100
+        with ESMTP id S229753AbiH3SM4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Aug 2022 14:12:56 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EFC8398D22;
+        Tue, 30 Aug 2022 11:12:54 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 72B27B81D82;
+        Tue, 30 Aug 2022 18:12:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D7D73C433C1;
+        Tue, 30 Aug 2022 18:12:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1661883172;
+        bh=ixGvOAZh9pbWjDHPBaoYqgLLERvv5DHPj+SuBYJSABI=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=FADst2ftxXUddrz1Yh0jNy7qBJyiTuNUnq0e6Zk8s3pYauTgyExV5Wd/XpGMU/Bxj
+         opKz+AQxYqv6Lrf4Njau7LLZjBlTAcLqXZX+vYEmtgJOaJ7VrDRoCcnZ0mEVMnqVpQ
+         ODHRmPfaQEn8P5UznCx5ddt+BIhCEMdUo92L76MBj/nHwGOCwpQ0ggqqxRa4y59ghi
+         rWZNdsEGNlRfchp2OIQVH60Y4wUFAZnEoG7hxtf0uQOEsKWsCGZpi8j5s3ZHlW4a4K
+         x4qECwL1sI/Es9ODSK999Gp94BP1IMTyMKZFCzYVjaTy1kEdeHS3PToyLkzRhZU7Zj
+         o6ZadaV7wTNTg==
+Date:   Tue, 30 Aug 2022 11:12:50 -0700
+From:   Jaegeuk Kim <jaegeuk@kernel.org>
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-fsdevel@vger.kernel.org,
+        linux-f2fs-devel@lists.sourceforge.net, linux-xfs@vger.kernel.org,
+        Christian Brauner <brauner@kernel.org>,
+        Seth Forshee <sforshee@kernel.org>
+Subject: Re: [PATCH] Documentation: filesystems: correct possessive "its"
+Message-ID: <Yw5TIkHQ6lr+UlfD@google.com>
+References: <20220829235429.17902-1-rdunlap@infradead.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v3 0/2] coresight: etm4x: Expose default timestamp source
- in sysfs
-Content-Language: en-US
-To:     Mathieu Poirier <mathieu.poirier@linaro.org>
-Cc:     suzuki.poulose@arm.com, coresight@lists.linaro.org,
-        mike.leach@linaro.org, leo.yan@linaro.org,
-        linux-kernel@vger.kernel.org, german.gomez@arm.com,
-        Jonathan Corbet <corbet@lwn.net>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org
-References: <20220823160650.455823-1-james.clark@arm.com>
- <20220826195552.GA1991601@p14s>
-From:   James Clark <james.clark@arm.com>
-In-Reply-To: <20220826195552.GA1991601@p14s>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220829235429.17902-1-rdunlap@infradead.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-
-On 26/08/2022 20:55, Mathieu Poirier wrote:
-> On Tue, Aug 23, 2022 at 05:06:48PM +0100, James Clark wrote:
->> I've taken over this one from German because he's moved to a different
->> team. I gave it a quick check and bumped the version number in the docs
->> for the next release, but the month is an estimate.
->>
->> Thanks
->>
->> Changes since v2:
->>
->>   * Rebased onto coresight/next (b99ee26a1a)
->>   * Bumped release version to 6.1
+On 08/29, Randy Dunlap wrote:
+> Change occurrences of "it's" that are possessive to "its"
+> so that they don't read as "it is".
 > 
-> I have applied this set.  Usually I'd let Suzuki handle it since he is already
-> familiar with the work but 1) he is currently away and 2) the patchset is fairly
-> simple.
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: linux-fsdevel@vger.kernel.org
+> Cc: linux-f2fs-devel@lists.sourceforge.net
+> Cc: linux-xfs@vger.kernel.org
+> Cc: Christian Brauner <brauner@kernel.org>
+> Cc: Seth Forshee <sforshee@kernel.org>
 
-Thanks Mathieu
+For f2fs,
 
+Reviewed-by: Jaegeuk Kim <jaegeuk@kernel.org>
+
+Thanks,
+
+> ---
+>  Documentation/filesystems/f2fs.rst                       |    2 +-
+>  Documentation/filesystems/idmappings.rst                 |    2 +-
+>  Documentation/filesystems/qnx6.rst                       |    2 +-
+>  Documentation/filesystems/xfs-delayed-logging-design.rst |    6 +++---
+>  4 files changed, 6 insertions(+), 6 deletions(-)
 > 
-> Thanks,
-> Mathieu
-> 
->>
->> Changes since v1:
->>
->>   * Inline etmv4_to_ts_source() function.
->>   * Collect review tag from Leo.
->>
->> German Gomez (2):
->>   coresight: etm4x: Expose default timestamp source in sysfs
->>   coresight: etm4x: docs: Add documentation for 'ts_source' sysfs
->>     interface
->>
->>  .../testing/sysfs-bus-coresight-devices-etm4x |  8 +++++
->>  .../coresight/coresight-etm4x-reference.rst   | 14 +++++++++
->>  arch/arm64/include/asm/sysreg.h               |  1 +
->>  .../coresight/coresight-etm4x-sysfs.c         | 29 +++++++++++++++++++
->>  4 files changed, 52 insertions(+)
->>
->> -- 
->> 2.28.0
->>
+> --- a/Documentation/filesystems/f2fs.rst
+> +++ b/Documentation/filesystems/f2fs.rst
+> @@ -287,7 +287,7 @@ compress_algorithm=%s:%d Control compres
+>  			 lz4		3 - 16
+>  			 zstd		1 - 22
+>  compress_log_size=%u	 Support configuring compress cluster size, the size will
+> -			 be 4KB * (1 << %u), 16KB is minimum size, also it's
+> +			 be 4KB * (1 << %u), 16KB is minimum size, also its
+>  			 default size.
+>  compress_extension=%s	 Support adding specified extension, so that f2fs can enable
+>  			 compression on those corresponding files, e.g. if all files
+> --- a/Documentation/filesystems/idmappings.rst
+> +++ b/Documentation/filesystems/idmappings.rst
+> @@ -661,7 +661,7 @@ idmappings::
+>   mount idmapping:      u0:k10000:r10000
+>  
+>  Assume a file owned by ``u1000`` is read from disk. The filesystem maps this id
+> -to ``k21000`` according to it's idmapping. This is what is stored in the
+> +to ``k21000`` according to its idmapping. This is what is stored in the
+>  inode's ``i_uid`` and ``i_gid`` fields.
+>  
+>  When the caller queries the ownership of this file via ``stat()`` the kernel
+> --- a/Documentation/filesystems/qnx6.rst
+> +++ b/Documentation/filesystems/qnx6.rst
+> @@ -176,7 +176,7 @@ Then userspace.
+>  The requirement for a static, fixed preallocated system area comes from how
+>  qnx6fs deals with writes.
+>  
+> -Each superblock got it's own half of the system area. So superblock #1
+> +Each superblock got its own half of the system area. So superblock #1
+>  always uses blocks from the lower half while superblock #2 just writes to
+>  blocks represented by the upper half bitmap system area bits.
+>  
+> --- a/Documentation/filesystems/xfs-delayed-logging-design.rst
+> +++ b/Documentation/filesystems/xfs-delayed-logging-design.rst
+> @@ -551,14 +551,14 @@ Essentially, this shows that an item tha
+>  and relogged, so any tracking must be separate to the AIL infrastructure. As
+>  such, we cannot reuse the AIL list pointers for tracking committed items, nor
+>  can we store state in any field that is protected by the AIL lock. Hence the
+> -committed item tracking needs it's own locks, lists and state fields in the log
+> +committed item tracking needs its own locks, lists and state fields in the log
+>  item.
+>  
+>  Similar to the AIL, tracking of committed items is done through a new list
+>  called the Committed Item List (CIL).  The list tracks log items that have been
+>  committed and have formatted memory buffers attached to them. It tracks objects
+>  in transaction commit order, so when an object is relogged it is removed from
+> -it's place in the list and re-inserted at the tail. This is entirely arbitrary
+> +its place in the list and re-inserted at the tail. This is entirely arbitrary
+>  and done to make it easy for debugging - the last items in the list are the
+>  ones that are most recently modified. Ordering of the CIL is not necessary for
+>  transactional integrity (as discussed in the next section) so the ordering is
+> @@ -884,7 +884,7 @@ pin the object the first time it is inse
+>  the CIL during a transaction commit, then we do not pin it again. Because there
+>  can be multiple outstanding checkpoint contexts, we can still see elevated pin
+>  counts, but as each checkpoint completes the pin count will retain the correct
+> -value according to it's context.
+> +value according to its context.
+>  
+>  Just to make matters more slightly more complex, this checkpoint level context
+>  for the pin count means that the pinning of an item must take place under the
