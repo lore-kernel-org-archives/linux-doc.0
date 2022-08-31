@@ -2,383 +2,274 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C4785C3DA6B
-	for <linux-doc@archiver.kernel.org>; Wed, 31 Aug 2022 17:57:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F3E4EECAAD1
+	for <linux-doc@archiver.kernel.org>; Wed, 31 Aug 2022 18:38:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229977AbiHaR5G (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 31 Aug 2022 13:57:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53360 "EHLO
+        id S233089AbiHaSiT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 31 Aug 2022 14:38:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58836 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230497AbiHaR5F (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 31 Aug 2022 13:57:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45825D7CEC
-        for <linux-doc@vger.kernel.org>; Wed, 31 Aug 2022 10:57:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1661968621;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=lKRE16b9MM8u6Z8O6Bdi3U8ibkp6UbNP1fi8My+b5A8=;
-        b=VYG3BHLtpT+3HSAtiCg2HvePBO+xqAACMKFW91pU+WYQMKdCy2/guomaQ0jNd+wIE6Jabn
-        eqb//43YD6bqgQFZPR+8o1XOelDwEI3vNWFPedhg6T2tKoaI+WMZZAjhxVDc3eZgDfV2nN
-        s9pF5aBI+ccvpFjz/0TrlWXz3O9yptE=
-Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com
- [209.85.210.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-512-b7itJxKbMb-2WvtAEsyB4g-1; Wed, 31 Aug 2022 13:56:58 -0400
-X-MC-Unique: b7itJxKbMb-2WvtAEsyB4g-1
-Received: by mail-pf1-f198.google.com with SMTP id y21-20020a056a001c9500b0053817f57e8dso4609184pfw.6
-        for <linux-doc@vger.kernel.org>; Wed, 31 Aug 2022 10:56:57 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc;
-        bh=lKRE16b9MM8u6Z8O6Bdi3U8ibkp6UbNP1fi8My+b5A8=;
-        b=h9n2MDYXnnE6fevHQ0BpO+iBZSlaOX6X/EedGWTRO4pwahoh0H+XOuHg+QM8yKpuBV
-         nR67lsTgtUF3AeN5M7LY1j1DTrDn6L6fdMY/bN7lYH4obiscii1h0TGMwnk7LZx+N4Bq
-         MMzqm0uib8ZBLilW18pYq/b0mlUbIMK3hT/FMp7EVye/n/pm39QrMGz5NGHSLZE8pxPi
-         ug2rCbmsAGU6e0zdlL5Plr0Ebn8/kHGoKcPiC+oKYQo16owpaGMk7lBjcNWzqvzVfHRF
-         Jb14bpMNKuprKaM3uCP3H2mdnHFX4iXBmxRCDf1SsXAcnGI4oimoY0CbxXRMmA7AcSdY
-         Rg3A==
-X-Gm-Message-State: ACgBeo2Sa3XxHzpADOWKKmbA/0i+GtZlDTMlhsjWSU/5CZErnKoqILLV
-        Y/l79Ki32Bq5xKXTmlWTlHjhZPF3kSafUu3ovktoB8POrhWzJr1qbtVK4SjA36x/oIC3ovO/+0F
-        QVBi+hWUDlVRelcFQh1SRgGItsl0YaCoGO34n
-X-Received: by 2002:a65:6255:0:b0:42c:87b1:485b with SMTP id q21-20020a656255000000b0042c87b1485bmr8853668pgv.491.1661968617018;
-        Wed, 31 Aug 2022 10:56:57 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR7yF6XgnbUA7X7pkH/iSvWC9vC651aFLswA1iXydDYqeAQponIFLXm+j24vx9ittOajohLxG7OhhxuSOM34jyE=
-X-Received: by 2002:a65:6255:0:b0:42c:87b1:485b with SMTP id
- q21-20020a656255000000b0042c87b1485bmr8853631pgv.491.1661968616657; Wed, 31
- Aug 2022 10:56:56 -0700 (PDT)
+        with ESMTP id S232885AbiHaSh4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 31 Aug 2022 14:37:56 -0400
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2088.outbound.protection.outlook.com [40.107.223.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EFC3EBF79;
+        Wed, 31 Aug 2022 11:34:56 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Zrbivl8Ph/CJBxHgxpLUkwlzv1zV7vP1HKqRPa2fJzamgY70eWeQulJnfw2RdNY0xQFa3r/2K7WU6rKLoRHYJriT7FmD5xqQhZcbJae7yFg8t5GbqkSXuKrgu0lOWuOeWznpkyN3xkfG4fIg8xYoNhhwoZp4Gd8PZfN6nrJ83vnODCzBxZGFh+5yKwtNv7yep07YAxHxZSUxjmsA2Yj3NpTvAnyVr28GRema7TGRyztNVWcZ1j58IuN4Jm+FtJuqzQk41ZDlmMZZrJmCh57AyfwKNMIKfYp6B4SCo/TYqczeZBwFB8euQ+X1I8Kp4chysEQK6VXxqIyf1po2jqM0DQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=pJSYGo1I0/k1oyjPAXi32o8gHEfwKVXFAzLwgtl9NjY=;
+ b=DZMO0J9ECAlvyfOizgjSmDtWlHPfuYVbmyIDzE3H+X/LO1te+FMkAsyCQclZBYtNhnHt5SM4zr6vHUKIl7vm/GFm5m4REZ11cmcp+1ZBj4QY9MmFS6qWwYgd5eDqGBZ1r9YST2HxT2SFIp3NrL8v1OxaU8YdL6qWpbf3yroxMK7ZajXsoXEqulX95tKrVEW6qCNpK90bz5Kpu4WchuT0DWLt22iTySC/T3we8T5SlRGnQATHAlz8yH+cvlh7WH8zd5vqXpisDOxxsxYfu7CkiQYGwcH32LS+eIXalZeje93h8uipWOvzlt3GStrrEBV6qudqyC3OeeGAAZWDYyL0wA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=pJSYGo1I0/k1oyjPAXi32o8gHEfwKVXFAzLwgtl9NjY=;
+ b=EIp6cx6KmQFZziP0OzTjcIVSFLAZR5PzlfRSrUE79XGKRrAO9d03hxkKsmWJNFv22WXzt6EOr9T0nTY0JbV5Of9zE/eqWXVfNkDAb3VGrVwsjVZ4e3m8NZ6c3PF9kBi5dpQc++bknq0XBAIGkSyreYFrRXygLcKH1e70q8AvlM4=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MN0PR12MB6101.namprd12.prod.outlook.com (2603:10b6:208:3cb::10)
+ by MW4PR12MB7384.namprd12.prod.outlook.com (2603:10b6:303:22b::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5566.15; Wed, 31 Aug
+ 2022 18:34:54 +0000
+Received: from MN0PR12MB6101.namprd12.prod.outlook.com
+ ([fe80::e00a:1f8c:dcd1:afc3]) by MN0PR12MB6101.namprd12.prod.outlook.com
+ ([fe80::e00a:1f8c:dcd1:afc3%6]) with mapi id 15.20.5566.021; Wed, 31 Aug 2022
+ 18:34:54 +0000
+Message-ID: <e74a2c48-fd30-aa4c-9ab6-eafe652f7878@amd.com>
+Date:   Wed, 31 Aug 2022 13:34:50 -0500
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH v2 00/10] Encrypted Hibernation
+Content-Language: en-US
+To:     Evan Green <evgreen@chromium.org>, linux-kernel@vger.kernel.org
+Cc:     gwendal@chromium.org, Eric Biggers <ebiggers@kernel.org>,
+        Matthew Garrett <mgarrett@aurora.tech>, jarkko@kernel.org,
+        zohar@linux.ibm.com, linux-integrity@vger.kernel.org,
+        Pavel Machek <pavel@ucw.cz>, apronin@chromium.org,
+        dlunev@google.com, rjw@rjwysocki.net, linux-pm@vger.kernel.org,
+        corbet@lwn.net, jejb@linux.ibm.com,
+        David Howells <dhowells@redhat.com>,
+        Hao Wu <hao.wu@rubrik.com>, James Morris <jmorris@namei.org>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Len Brown <len.brown@intel.com>,
+        Matthew Garrett <matthewgarrett@google.com>,
+        Paul Moore <paul@paul-moore.com>,
+        Peter Huewe <peterhuewe@gmx.de>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        "Serge E. Hallyn" <serge@hallyn.com>, axelj <axelj@axis.com>,
+        keyrings@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-security-module@vger.kernel.org
+References: <20220823222526.1524851-1-evgreen@chromium.org>
+From:   "Limonciello, Mario" <mario.limonciello@amd.com>
+In-Reply-To: <20220823222526.1524851-1-evgreen@chromium.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: CH0PR03CA0362.namprd03.prod.outlook.com
+ (2603:10b6:610:119::9) To MN0PR12MB6101.namprd12.prod.outlook.com
+ (2603:10b6:208:3cb::10)
 MIME-Version: 1.0
-References: <20220824134055.1328882-1-benjamin.tissoires@redhat.com>
- <20220824134055.1328882-2-benjamin.tissoires@redhat.com> <CAADnVQKgkFpLh_URJn6qCiAONteA1dwZHd6=4cZn15g1JCAPag@mail.gmail.com>
- <CAP01T75ec_T0M6DU=JE2tfNsWRZuPSMu_7JHA7ZoOBw5eDh1Bg@mail.gmail.com>
- <CAO-hwJLd9wXx+ppccBYPKZDymO0sk++Nt2E3-R97PY7LbfJfTg@mail.gmail.com> <CAADnVQK8dS+2KbWsqktvxoNKhHtdD5UPiaWVfNu=ESdn_OHpgQ@mail.gmail.com>
-In-Reply-To: <CAADnVQK8dS+2KbWsqktvxoNKhHtdD5UPiaWVfNu=ESdn_OHpgQ@mail.gmail.com>
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Wed, 31 Aug 2022 19:56:45 +0200
-Message-ID: <CAO-hwJK9uHTWCg3_6jrPF6UKiamkNfj=cuH5mHauoLX+0udV9w@mail.gmail.com>
-Subject: Re: [PATCH bpf-next v9 01/23] bpf/verifier: allow all functions to
- read user provided context
-To:     Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Cc:     Kumar Kartikeya Dwivedi <memxor@gmail.com>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Jiri Kosina <jikos@kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>, Shuah Khan <shuah@kernel.org>,
-        Dave Marchevsky <davemarchevsky@fb.com>,
-        Joe Stringer <joe@cilium.io>, Jonathan Corbet <corbet@lwn.net>,
-        Tero Kristo <tero.kristo@linux.intel.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        Network Development <netdev@vger.kernel.org>,
-        bpf <bpf@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: b0bfd3ab-8380-4573-8335-08da8b7f7f53
+X-MS-TrafficTypeDiagnostic: MW4PR12MB7384:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: B9rYLmwpBBLVxipSQeOlLctu0IyhE3/kvJKYTp1ZE6aXFJe1HSd2BUHJL4sT3CglParp+GMatpfHcHWIztbkEVfEDuip3UDJg71b7aN+xCP3o5URf2r4ADkMyG+q+Y1e8Wu9VPyBRHUIDDJuZZ24cHiO3NtpUcAz+FfcK7lzciV4/aCfp88oFewDpey408oqn5C0D8m9bj+p0UZserKadVo+NTRFmPdANxOdLmOJVTC1xxFkp7hM6TXBz4W2EVUyYgsxsM0tFh9pdiXgLM3ELHvYfiHQxt3+SqU3gd/k63Sl5gnQezhrsnuxDVOqf87gBIBTAxkg/rlASqO/yi/KfDJU3iWSEbRu2DgG7byLSI8X+0be/BD8ZQS8xWnczI04FbqOos+I2sVEWaEWZe3k5cCmS0ZTyBzbONe7gwfZGO9G5Q0QsR/IVPQPphQOLIKK/fxvF+bhVDqgml4J2B5QlQ8T2y3G4QELHDHzqhLl89y6/TptNXcZCLnGi7qeKsaTs1bZg0SM9P0M68gH9mT1Fy5x9r5n68IZMT1tmMEFqieJB9uswGln1Y223lmJp0B8nTTCcPiiaG6TZjNGygPk3HwGHAJ45Sjbk1zxeUbogoGYtYz4pT1H/1vWNVM27lABSGJBf4RZoL8AfgWMj4A7fAjpJHffDmjfJKvesdm4+ZO85zJxBXHxoTtcRGPl0LUlGGeKBtTaylIZULBprDBvTks11uUTZO8Bjv6EQd+ApxpF+5ngggPosJEBM5qAOm+kf88glPTBCjiznN9PhryUwn7zic7iVcD6aoQ15QMlVdOt/sOxe3UDlvor8koOP3e7
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN0PR12MB6101.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(136003)(376002)(39860400002)(396003)(366004)(346002)(6506007)(6512007)(26005)(2906002)(83380400001)(53546011)(6486002)(316002)(54906003)(38100700002)(36756003)(8676002)(66556008)(4326008)(41300700001)(66476007)(86362001)(31686004)(66946007)(6666004)(8936002)(5660300002)(31696002)(186003)(7416002)(478600001)(2616005)(966005)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Z3MzQVBqVzF5WStBT0tNSjlKUDIyOWFQaHRDS3dvS3dEcldyUzVUK3luUHJO?=
+ =?utf-8?B?M2VybmN4MGVNdDlNZEZzdkVMRGxGc2JTbDlRTml5UTkzcVMwdTEvM2tlZUNM?=
+ =?utf-8?B?Zm16c0NSa2U0bUp0bkN1QWVuTWxVakd2SEtIN0FuM1FQTnFHZFc5OVJpd1pC?=
+ =?utf-8?B?bmZMb2VSbDhmK01rM0NZR3BUd3p3M1JpbHVtdzJjNjNHLzdSZytRSGJUT0ZO?=
+ =?utf-8?B?TmtyK1FJUG1MNGN1Y24weWxwMmFoWTNOYkMzcDhyTlgzTEk5YXVVcFZZU0g0?=
+ =?utf-8?B?ODBLdnh3Y3R1WkRmSEEveVRxcWMyV285djR3NUNlMzFoY2FEek4wT1NhbVA0?=
+ =?utf-8?B?VEVPZkhqZjRsZE04ek52a2RsUHkxOHI4OHVWT2NycjJDaWRSSGZCWkhmallV?=
+ =?utf-8?B?dUdnUDNRV2g2eWVPbUxweThGNnBrWnJ3S1VEdi9odGNndXdCeUZzNUlnRGdX?=
+ =?utf-8?B?cG9sdkh1NjhrYi84NG1XdFl4UDJBcmVYN3Mzem9MWnJzOUpxUG9MQXFtTmwz?=
+ =?utf-8?B?V2xLUGZ6bjZvVzZGTytkUm9kMmd6ODBNMUNReWRQMjhWTHBPZ29JUU9kdFhn?=
+ =?utf-8?B?b0o2bUN1MUpBN0RubjdoSk9lMmJIU3UxZnZONkVoR1lXRVY1ai9QdGwrN3JW?=
+ =?utf-8?B?dkVtdktoM1dMbnpxREJRdlNPaU91YmRxcGIzQ25FLzBwWmdiZFhCNmtYN0tm?=
+ =?utf-8?B?L1hrQkIwSExmQUd0SU5MN1E4M3hud04zaVBuU1pXSVdrUUxiMXl1cDZ6NHFQ?=
+ =?utf-8?B?YStjdzhTTFFjK1B6TFg3ZTF4WVZDak5hY0RyK2NnSmxOaDdLYyt6UFl3ZzY0?=
+ =?utf-8?B?cmZOb0pDWlJ4UVBVNkh0bDMrZ1dPNlNGM3BCL3M2ZDJPck9iZVNnRnhyNlRJ?=
+ =?utf-8?B?R1hHWWlFbWFMWEg3T0dKdXpaSVZYUWVDY0xoUFVXc3JnYWZVQXEyUjJJcXZL?=
+ =?utf-8?B?UTU4QmdFN1h4TnowcW44SUtFeVRmTGdTdGRUazl3bnpiMjBqM3g0ZytWYmY4?=
+ =?utf-8?B?VjVzaC9QbG5Vc2FRYjhDT0czZ0pqWHRKRUcxQUdGVDExekE1ZUVFZGJCMXdJ?=
+ =?utf-8?B?clpmUnFMait0R2hMM2xpZ2ZrckhaRmJjeVJkeU9PU3F6T1lnWjBJN285T2Uz?=
+ =?utf-8?B?UXBvRDI5NnZOcCtVdGpQNGFTZE5jSkxjaE80TDVsOGNRUWlBeXpkQm9FZllL?=
+ =?utf-8?B?czRWZy9HTDZoejVyRW5OdHRLeHc4THpIb0xRMG1VYldSQ3VGVHoyWXk4aU5K?=
+ =?utf-8?B?eDJtNll2T2h3R3p1eGRaNFEwMkZkMnhBYWh5T1crMlFPN1dYQ0hGamV6dnpB?=
+ =?utf-8?B?ZDdxT2pxOUlaY1B4SFdxdUJ6WUVqNSt0Uk9wSDM1NC8vVTNMVldaTy9zYnJz?=
+ =?utf-8?B?MS94TUYvMGtzU0JFV2NPbWJZeGN2TlRnMlg2dG5PcHl6VXYxbzZrTVpReHY4?=
+ =?utf-8?B?M3RoZUtzOEgzdzN6U2VnZmlHb0pMSTBhakszcVFBTUlGYklJLzNycXgyMGsx?=
+ =?utf-8?B?aENPdjJpZWpiMXpTZkZ6UW5Vc0xTamZwWmxwYjl6WlVOTFE2ckZHZHZLQzln?=
+ =?utf-8?B?cFJRcFBDbW1rRjFLNGUxQloyeUtuaHcwUFhrNEJrTGJQVkNITnc5bG5UbDFJ?=
+ =?utf-8?B?M2FoSldTcTlTczRvTXBVTEs4STJmYTRZZjd4QTZtaU9WVkdhcDc2Z2RIS2RF?=
+ =?utf-8?B?NU5SNXRXVFVHYnJEbFpsZHk1Ly85SVgwMWtQQ2JZMFFRUmVNcURwdjJiU1pp?=
+ =?utf-8?B?R3VlWUF1dmUyQlQrclBxVWQvVnk4bTMzMjJwZ21RZXJtcUpGRlZQMmZ6c0t2?=
+ =?utf-8?B?NXhUT0l4NE0xdWh2eUFQd2FSVXdLRUlWUlNCV0V1aFMrVjNUVzU3RGI0VUd6?=
+ =?utf-8?B?NjJHNEFhZzVVdXVwYWhUb3JPUE9JOGUzYTdlN0JFUFh5RGVYVENKZGJ4dDh2?=
+ =?utf-8?B?clJCOHVFZTBzK1FyMVZ5NDR6YkJWRXN2WE11Yzd5MUpsMzBlTTREYUM4MHd5?=
+ =?utf-8?B?bjJCRjhQdGpOL0xUejV3YjYzVjZ4TkdjV2k0aWFqNVdmb1VKc29RaThLT3V0?=
+ =?utf-8?B?cHVrNmo3WXcvSlZRcWo5K0hCSitzVWxVVTBoVE1QdzNPbUczbU1hZElBOGRy?=
+ =?utf-8?Q?7muGg2gemYp7Vfs9nijsKSZE5?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b0bfd3ab-8380-4573-8335-08da8b7f7f53
+X-MS-Exchange-CrossTenant-AuthSource: MN0PR12MB6101.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Aug 2022 18:34:54.2314
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Jb5la09YpnyqxQ+MCQuVymErwR/3KlATGVMRfDi2+20GPsU1lZ1SoHtITDqs/qvMl2LYWS9hjsJbdmaJDk8Hng==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB7384
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Aug 31, 2022 at 6:37 PM Alexei Starovoitov
-<alexei.starovoitov@gmail.com> wrote:
->
-> On Tue, Aug 30, 2022 at 7:29 AM Benjamin Tissoires
-> <benjamin.tissoires@redhat.com> wrote:
-> >
-> > On Fri, Aug 26, 2022 at 3:51 AM Kumar Kartikeya Dwivedi
-> > <memxor@gmail.com> wrote:
-> > >
-> > > On Fri, 26 Aug 2022 at 03:42, Alexei Starovoitov
-> > > <alexei.starovoitov@gmail.com> wrote:
-> > > >
-> > > > On Wed, Aug 24, 2022 at 6:41 AM Benjamin Tissoires
-> > > > <benjamin.tissoires@redhat.com> wrote:
-> > > > >
-> > > > > When a function was trying to access data from context in a syscall eBPF
-> > > > > program, the verifier was rejecting the call unless it was accessing the
-> > > > > first element.
-> > > > > This is because the syscall context is not known at compile time, and
-> > > > > so we need to check this when actually accessing it.
-> > > > >
-> > > > > Check for the valid memory access if there is no convert_ctx callback,
-> > > > > and allow such situation to happen.
-> > > > >
-> > > > > There is a slight hiccup with subprogs. btf_check_subprog_arg_match()
-> > > > > will check that the types are matching, which is a good thing, but to
-> > > > > have an accurate result, it hides the fact that the context register may
-> > > > > be null. This makes env->prog->aux->max_ctx_offset being set to the size
-> > > > > of the context, which is incompatible with a NULL context.
-> > > > >
-> > > > > Solve that last problem by storing max_ctx_offset before the type check
-> > > > > and restoring it after.
-> > > > >
-> > > > > Acked-by: Kumar Kartikeya Dwivedi <memxor@gmail.com>
-> > > > > Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-> > > > >
-> > > > > ---
-> > > > >
-> > > > > changes in v9:
-> > > > > - rewrote the commit title and description
-> > > > > - made it so all functions can make use of context even if there is
-> > > > >   no convert_ctx
-> > > > > - remove the is_kfunc field in bpf_call_arg_meta
-> > > > >
-> > > > > changes in v8:
-> > > > > - fixup comment
-> > > > > - return -EACCESS instead of -EINVAL for consistency
-> > > > >
-> > > > > changes in v7:
-> > > > > - renamed access_t into atype
-> > > > > - allow zero-byte read
-> > > > > - check_mem_access() to the correct offset/size
-> > > > >
-> > > > > new in v6
-> > > > > ---
-> > > > >  kernel/bpf/btf.c      | 11 ++++++++++-
-> > > > >  kernel/bpf/verifier.c | 19 +++++++++++++++++++
-> > > > >  2 files changed, 29 insertions(+), 1 deletion(-)
-> > > > >
-> > > > > diff --git a/kernel/bpf/btf.c b/kernel/bpf/btf.c
-> > > > > index 903719b89238..386300f52b23 100644
-> > > > > --- a/kernel/bpf/btf.c
-> > > > > +++ b/kernel/bpf/btf.c
-> > > > > @@ -6443,8 +6443,8 @@ int btf_check_subprog_arg_match(struct bpf_verifier_env *env, int subprog,
-> > > > >  {
-> > > > >         struct bpf_prog *prog = env->prog;
-> > > > >         struct btf *btf = prog->aux->btf;
-> > > > > +       u32 btf_id, max_ctx_offset;
-> > > > >         bool is_global;
-> > > > > -       u32 btf_id;
-> > > > >         int err;
-> > > > >
-> > > > >         if (!prog->aux->func_info)
-> > > > > @@ -6457,9 +6457,18 @@ int btf_check_subprog_arg_match(struct bpf_verifier_env *env, int subprog,
-> > > > >         if (prog->aux->func_info_aux[subprog].unreliable)
-> > > > >                 return -EINVAL;
-> > > > >
-> > > > > +       /* subprogs arguments are not actually accessing the data, we need
-> > > > > +        * to check for the types if they match.
-> > > > > +        * Store the max_ctx_offset and restore it after btf_check_func_arg_match()
-> > > > > +        * given that this function will have a side effect of changing it.
-> > > > > +        */
-> > > > > +       max_ctx_offset = env->prog->aux->max_ctx_offset;
-> > > > > +
-> > > > >         is_global = prog->aux->func_info_aux[subprog].linkage == BTF_FUNC_GLOBAL;
-> > > > >         err = btf_check_func_arg_match(env, btf, btf_id, regs, is_global, 0);
-> > > > >
-> > > > > +       env->prog->aux->max_ctx_offset = max_ctx_offset;
-> > > >
-> > > > I don't understand this.
-> > > > If we pass a ctx into a helper and it's going to
-> > > > access [0..N] bytes from it why do we need to hide it?
-> > > > max_ctx_offset will be used later raw_tp, tp, syscall progs
-> > > > to determine whether it's ok to load them.
-> > > > By hiding the actual size of access somebody can construct
-> > > > a prog that reads out of bounds.
-> > > > How is this related to NULL-ness property?
-> > >
-> > > Same question, was just typing exactly the same thing.
-> >
-> > The test I have that is failing in patch 2/23 is the following, with
-> > args being set to NULL by userspace:
-> >
-> > SEC("syscall")
-> > int kfunc_syscall_test_null(struct syscall_test_args *args)
-> > {
-> >        bpf_kfunc_call_test_mem_len_pass1(args, 0);
-> >
-> >        return 0;
-> > }
-> >
-> > Basically:
-> > if userspace declares the following:
-> >  DECLARE_LIBBPF_OPTS(bpf_test_run_opts, syscall_topts,
-> >                .ctx_in = NULL,
-> >                .ctx_size_in = 0,
-> >        );
-> >
-> > The verifier is happy with the current released kernel:
-> > kfunc_syscall_test_fail() never dereferences the ctx pointer, it just
-> > passes it around to bpf_kfunc_call_test_mem_len_pass1(), which in turn
-> > is also happy because it says it is not accessing the data at all (0
-> > size memory parameter).
-> >
-> > In the current code, check_helper_mem_access() actually returns
-> > -EINVAL, but doesn't change max_ctx_offset (it's still at the value of
-> > 0 here). The program is now marked as unreliable, but the verifier
-> > goes on.
-> >
-> > When adding this patch, if we declare a syscall eBPF (or any other
-> > function that doesn't have env->ops->convert_ctx_access), the previous
-> > "test" is failing because this ensures the syscall program has to have
-> > a valid ctx pointer.
-> > btf_check_func_arg_match() now calls check_mem_access() which
-> > basically validates the fact that the program can dereference the ctx.
-> >
-> > So now, without the max_ctx_offset store/restore, the verifier
-> > enforces that the provided ctx is not null.
-> >
-> > What I thought that would happen was that if we were to pass a NULL
-> > context from userspace, but the eBPF program dereferences it (or in
-> > that case have a subprog or a function call that dereferences it),
-> > then max_ctx_offset would still be set to the proper value because of
-> > that internal dereference, and so the verifier would reject with
-> > -EINVAL the call to the eBPF program.
-> >
-> > If I add another test that has the following ebpf prog (with ctx_in
-> > being set to NULL by the userspace):
-> >
-> > SEC("syscall")
-> > int kfunc_syscall_test_null_fail(struct syscall_test_args *args)
-> > {
-> >        bpf_kfunc_call_test_mem_len_pass1(args, sizeof(*args));
-> >
-> >        return 0;
-> > }
-> >
-> > Then the call of the program is actually failing with -EINVAL, even
-> > with this patch.
-> >
-> > But again, if setting from userspace a ctx of NULL with a 0 size is
-> > not considered as valid, then we can just drop that hunk and add a
-> > test to enforce it.
->
-> PTR_TO_CTX in the verifier always means valid pointer.
-> All code paths in the verifier assumes that it's not NULL.
-> Pointer to skb, to xdp, to pt_regs, etc.
-> The syscall prog type is little bit special, since it
-> makes sense not to pass any argument to such prog.
-> So ctx_size_in == 0 is enforced after the verification:
-> if (ctx_size_in < prog->aux->max_ctx_offset ||
->     ctx_size_in > U16_MAX)
->           return -EINVAL;
-> The verifier should be able to proceed assuming ctx != NULL
-> and remember max max_ctx_offset.
-> If max_ctx_offset == 4 and ctx_size_in == 0 then
-> it doesn't matter whether the actual 'ctx' pointer is NULL
-> or points to a valid memory.
-> So it's ok for the verifier to assume ctx != NULL everywhere.
+On 8/23/2022 17:25, Evan Green wrote:
+> We are exploring enabling hibernation in some new scenarios. However,
+> our security team has a few requirements, listed below:
+> 1. The hibernate image must be encrypted with protection derived from
+>     both the platform (eg TPM) and user authentication data (eg
+>     password).
+> 2. Hibernation must not be a vector by which a malicious userspace can
+>     escalate to the kernel.
+> 
+> Requirement #1 can be achieved solely with uswsusp, however requirement
+> 2 necessitates mechanisms in the kernel to guarantee integrity of the
+> hibernate image. The kernel needs a way to authenticate that it generated
+> the hibernate image being loaded, and that the image has not been tampered
+> with. Adding support for in-kernel AEAD encryption with a TPM-sealed key
+> allows us to achieve both requirements with a single computation pass.
+> 
+> Matthew Garrett published a series [1] that aligns closely with this
+> goal. His series utilized the fact that PCR23 is a resettable PCR that
+> can be blocked from access by usermode. The TPM can create a sealed key
+> tied to PCR23 in two ways. First, the TPM can attest to the value of
+> PCR23 when the key was created, which the kernel can use on resume to
+> verify that the kernel must have created the key (since it is the only
+> one capable of modifying PCR23). It can also create a policy that enforces
+> PCR23 be set to a specific value as a condition of unsealing the key,
+> preventing usermode from unsealing the key by talking directly to the
+> TPM.
+> 
+> This series adopts that primitive as a foundation, tweaking and building
+> on it a bit. Where Matthew's series used the TPM-backed key to encrypt a
+> hash of the image, this series uses the key directly as a gcm(aes)
+> encryption key, which the kernel uses to encrypt and decrypt the
+> hibernate image in chunks of 16 pages. This provides both encryption and
+> integrity, which turns out to be a noticeable performance improvement over
+> separate passes for encryption and hashing.
+> 
+> The series also introduces the concept of mixing user key material into
+> the encryption key. This allows usermode to introduce key material
+> based on unspecified external authentication data (in our case derived
+> from something like the user password or PIN), without requiring
+> usermode to do a separate encryption pass.
+> 
+> Matthew also documented issues his series had [2] related to generating
+> fake images by booting alternate kernels without the PCR23 limiting.
+> With access to PCR23 on the same machine, usermode can create fake
+> hibernate images that are indistinguishable to the new kernel from
+> genuine ones. His post outlines a solution that involves adding more
+> PCRs into the creation data and policy, with some gyrations to make this
+> work well on a standard PC.
+> 
+> Our approach would be similar: on our machines PCR 0 indicates whether
+> the system is booted in secure/verified mode or developer mode. By
+> adding PCR0 to the policy, we can reject hibernate images made in
+> developer mode while in verified mode (or vice versa).
+> 
+> Additionally, mixing in the user authentication data limits both
+> data exfiltration attacks (eg a stolen laptop) and forged hibernation
+> image attacks to attackers that already know the authentication data (eg
+> user's password). This, combined with our relatively sealed userspace
+> (dm-verity on the rootfs), and some judicious clearing of the hibernate
+> image (such as across an OS update) further reduce the risk of an online
+> attack. The remaining attack space of a forgery from someone with
+> physical access to the device and knowledge of the authentication data
+> is out of scope for us, given that flipping to developer mode or
+> reflashing RO firmware trivially achieves the same thing.
+> 
+> A couple of patches still need to be written on top of this series. The
+> generalized functionality to OR in additional PCRs via Kconfig (like PCR
+> 0 or 5) still needs to be added. We'll also need a patch that disallows
+> unencrypted forms of resume from hibernation, to fully close the door
+> to malicious userspace. However, I wanted to get this series out first
+> and get reactions from upstream before continuing to add to it.
 
-Ok, thanks for the detailed explanation.
+Something else to think about in this series is what happens with 
+`hibernation_available` in kernel/power/hibernate.c.  Currently if the 
+system is locked down hibernate is disabled, but I would think that
+with a setup like that described here that should no longer be necessary.
 
->
-> Back to the issue at hand.
-> With this patch the line:
->     bpf_kfunc_call_test_mem_len_pass1(args, sizeof(*args));
-> will be seen as access_size == sizeof(*args), right?
-> So this part:
-> +                       if (access_size == 0)
-> +                               return zero_size_allowed ? 0 : -EACCES;
->
-> will be skipped and
-> the newly added check_mem_access() will call check_ctx_access()
-> which will call syscall_prog_is_valid_access() and it will say
-> that any off < U16_MAX is fine and will simply
-> record max max_ctx_offset.
-> The ctx_size_in < prog->aux->max_ctx_offset check is done later.
-
-Yep, this is correct and this is working now, with a proper error (and
-no, this is not the error I am trying to fix, see below):
-
-eBPF prog:
-```
-  SEC("?syscall")
-  int kfunc_syscall_test_null_fail(struct syscall_test_args *args)
-  {
-          bpf_kfunc_call_test_mem_len_pass1(args, sizeof(*args));
-          return 0;
-  }
-```
-
-before this patch (1/23):
-* with ctx not NULL:
-libbpf: prog 'kfunc_syscall_test_null_fail': BPF program load failed:
-Invalid argument
-R1 type=ctx expected=fp
-arg#0 arg#1 memory, len pair leads to invalid memory access
-
- => this is not correct, we expect the program to be loaded (and it is
-expected, this is the bug that is fixed)
-
-* Same result with ctx being NULL from the caller
-
-With just the hunk in kernel/bpf/verifier.c (so without touching max_ctx_offset:
-* with ctx not NULL:
-program is loaded, and executed correctly
-
-* with ctx being NULL:
-program is now loaded, but execution returns -EINVAL, as expected
-
-So this case is fully solved by just the hunk in verifier.c
-
-With the full patch:
-same results, with or without ctx being set to NULL, so no side effects.
-
->
-> So when you're saying:
-> "call of the program is actually failing with -EINVAL"
-> that's the check you're referring to?
-
-No. I am referring to the following eBPF program:
-```
-  SEC("syscall")
-  int kfunc_syscall_test_null(struct syscall_test_args *args)
-  {
-           return 0;
-  }
-```
-
-(no calls, just the declaration of a program)
-
-This one is supposed to be loaded and properly run whatever the
-context is, right?
-
-However, without the hunk in the btf.c file (max_ctx_offset), we have
-the following (ctx is set to NULL by the userspace):
-verify_success:FAIL:kfunc_syscall_test_null unexpected error: -22 (errno 22)
-
-The reason is that the verifier is calling
-btf_check_subprog_arg_match() on programs too, and considers that ctx
-is not NULL, and bumps the max_ctx_offset value.
-
->
-> If so, everything works as expected.
-
-Not exactly, we can not call a syscall program with a null context
-without this hunk.
-
-> The verifier thinks that bpf_kfunc_call_test_mem_len_pass1()
-> can read that many bytes from args,
-> so it has to reject running the loaded prog in bpf_prog_test_run_syscall().
-
-Yes, that part works. I am focusing on the program declaration.
-
->
-> So what are you trying to achieve ?
-
-See above :)
-
-> Make the verifier understand that ctx can be NULL ?
-
-Nope. I am fine with the way it is. But any eBPF (sub)prog is checked
-against btf_check_subprog_arg_match(), which in turns marks all of
-these calls accessing the entire ctx, even if the ctx is null when
-that case is valid.
-
-> If so that is a probably huge undertaking.
-> Something else?
->
-
-Hopefully this is clearer now.
-
-Cheers,
-Benjamin
+> 
+> [1] https://patchwork.kernel.org/project/linux-pm/cover/20210220013255.1083202-1-matthewgarrett@google.com/
+> [2] https://mjg59.dreamwidth.org/58077.html
+> 
+> Changes in v2:
+>   - Fixed sparse warnings
+>   - Adjust hash len by 2 due to new ASN.1 storage, and add underflow
+>     check.
+>   - Rework load/create_kernel_key() to eliminate a label (Andrey)
+>   - Call put_device() needed from calling tpm_default_chip().
+>   - Add missing static on snapshot_encrypted_byte_count()
+>   - Fold in only the used kernel key bytes to the user key.
+>   - Make the user key length 32 (Eric)
+>   - Use CRYPTO_LIB_SHA256 for less boilerplate (Eric)
+>   - Fixed some sparse warnings
+>   - Use CRYPTO_LIB_SHA256 to get rid of sha256_data() (Eric)
+>   - Adjusted offsets due to new ASN.1 format, and added a creation data
+>     length check.
+>   - Fix sparse warnings
+>   - Fix session type comment (Andrey)
+>   - Eliminate extra label in get/create_kernel_key() (Andrey)
+>   - Call tpm_try_get_ops() before calling tpm2_flush_context().
+> 
+> Evan Green (7):
+>    security: keys: trusted: Include TPM2 creation data
+>    security: keys: trusted: Verify creation data
+>    PM: hibernate: Add kernel-based encryption
+>    PM: hibernate: Use TPM-backed keys to encrypt image
+>    PM: hibernate: Mix user key in encrypted hibernate
+>    PM: hibernate: Verify the digest encryption key
+>    PM: hibernate: seal the encryption key with a PCR policy
+> 
+> Matthew Garrett (3):
+>    tpm: Add support for in-kernel resetting of PCRs
+>    tpm: Allow PCR 23 to be restricted to kernel-only use
+>    security: keys: trusted: Allow storage of PCR values in creation data
+> 
+>   Documentation/power/userland-swsusp.rst       |    8 +
+>   .../security/keys/trusted-encrypted.rst       |    4 +
+>   drivers/char/tpm/Kconfig                      |   10 +
+>   drivers/char/tpm/tpm-dev-common.c             |    8 +
+>   drivers/char/tpm/tpm-interface.c              |   28 +
+>   drivers/char/tpm/tpm.h                        |   23 +
+>   drivers/char/tpm/tpm1-cmd.c                   |   69 ++
+>   drivers/char/tpm/tpm2-cmd.c                   |   58 +
+>   drivers/char/tpm/tpm2-space.c                 |    2 +-
+>   include/keys/trusted-type.h                   |    9 +
+>   include/linux/tpm.h                           |   12 +
+>   include/uapi/linux/suspend_ioctls.h           |   28 +-
+>   kernel/power/Kconfig                          |   16 +
+>   kernel/power/Makefile                         |    1 +
+>   kernel/power/power.h                          |    1 +
+>   kernel/power/snapenc.c                        | 1037 +++++++++++++++++
+>   kernel/power/snapshot.c                       |    5 +
+>   kernel/power/user.c                           |   44 +-
+>   kernel/power/user.h                           |  114 ++
+>   security/keys/trusted-keys/tpm2key.asn1       |    5 +-
+>   security/keys/trusted-keys/trusted_tpm1.c     |    9 +
+>   security/keys/trusted-keys/trusted_tpm2.c     |  304 ++++-
+>   22 files changed, 1754 insertions(+), 41 deletions(-)
+>   create mode 100644 kernel/power/snapenc.c
+>   create mode 100644 kernel/power/user.h
+> 
 
