@@ -2,239 +2,82 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 336F4ECAAD3
-	for <linux-doc@archiver.kernel.org>; Wed, 31 Aug 2022 18:44:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 84731ECAAD4
+	for <linux-doc@archiver.kernel.org>; Wed, 31 Aug 2022 19:50:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232901AbiHaSoa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 31 Aug 2022 14:44:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46528 "EHLO
+        id S229710AbiHaTuS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 31 Aug 2022 15:50:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36902 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232926AbiHaSo2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 31 Aug 2022 14:44:28 -0400
-Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC18025FF
-        for <linux-doc@vger.kernel.org>; Wed, 31 Aug 2022 11:44:20 -0700 (PDT)
-Received: by mail-yb1-xb49.google.com with SMTP id i6-20020a259786000000b0069648392979so2759696ybo.11
-        for <linux-doc@vger.kernel.org>; Wed, 31 Aug 2022 11:44:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc;
-        bh=jeIDU7bkvi8qrUeCQKjSgf4R1NQDEDk5WzvSWsZHRgY=;
-        b=hx1WadVFGfM2WHW+QMiqbRpB+tGtox/ZvfK2iSj6s7TWGpw2+YfDNLd71aeLJikF5A
-         ut7591nG+1XtZZnWDLGHqvw7JJwxJ0XUqThW+DOuVmXx5U3HEA3SXJbmTWIaXpZ2woGZ
-         RTEaI3LgVK8uilz+J1vZWsPlPY0651QNaHnpsTlpgvFMVxMQjssruP9r+aB90KHTVpR/
-         SrpgK6Xxyza7FDY2erOi2mdc5Qq7aDYAg+yKZnkJsavJ/Dfs+V/FjohIVlEbMIrrrnc8
-         VTZr1169mV2GmgrWFZhOXY+DTyvlyMMDWkpUhba503fcTfGVw+anr6JRNo1wjKRsiWNd
-         VysQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc;
-        bh=jeIDU7bkvi8qrUeCQKjSgf4R1NQDEDk5WzvSWsZHRgY=;
-        b=pB/DlRYVFJiX38v5GM+CA/X0wgqViRZCQ5WGfxadedIuDT4Q8GuqgKtjY3p8JUxi7e
-         UoGIPDDwDIY0ou6e8Gq4cEwLyu9McSjLkOOZheILVrG0fgY5FW77i6tvadaq7CusOTkZ
-         doTWlck4t5aZ9c+0rTzGHuW6Ew3nChV7eV+pPUymyjIwu7eiKggvHOKEkXMjygVvLXG5
-         hxGLtPK+aj1eAYiYYywFqc3+46GC+gvcnj/5DroChJPBbrR+zpJNr5RDqnx8p/S2ZTU0
-         p5VK2a4lJlrwEkFNymdVFZaazuJUfjeYwg15/4d2dSH/OPvkFI9OqYGviyJhlE1Aoioh
-         Q36A==
-X-Gm-Message-State: ACgBeo1eJx+M+QwAFyqCi0kMGoqMo+Z+5Ss8uHrfL6ShNjsPFRIJ49lx
-        /iNiLowbu+H25MDpylLDyPLizoilOuP5dwyj8oE=
-X-Google-Smtp-Source: AA6agR7Ag1fKKG3WlrfE60Hng53gw5R2d8mq+Pf+nJEkCn34r/4b9t9bbknLWL4Dz5mBS6VyDJJaVwKf1/TD3gZm/D4=
-X-Received: from ndesaulniers1.mtv.corp.google.com ([2620:0:100e:712:5f5d:95d5:9a3:d41])
- (user=ndesaulniers job=sendgmr) by 2002:a25:7608:0:b0:694:220b:8bf6 with SMTP
- id r8-20020a257608000000b00694220b8bf6mr16732077ybc.210.1661971460048; Wed,
- 31 Aug 2022 11:44:20 -0700 (PDT)
-Date:   Wed, 31 Aug 2022 11:44:06 -0700
-In-Reply-To: <20220831184408.2778264-1-ndesaulniers@google.com>
-Mime-Version: 1.0
-References: <20220831184408.2778264-1-ndesaulniers@google.com>
-X-Developer-Key: i=ndesaulniers@google.com; a=ed25519; pk=lvO/pmg+aaCb6dPhyGC1GyOCvPueDrrc8Zeso5CaGKE=
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1661971448; l=6313;
- i=ndesaulniers@google.com; s=20211004; h=from:subject; bh=4nrhFDfzIr6P2uEi5X9UGCfe5n7Png+PEC4jrJ9T2hY=;
- b=Asevhm76deGOJCh2wzvhWYmHcNqfB9w30KRQRslJFMSwOMNo1qdlvq1fib/n0CQt0uFs4EHOV7W4
- zd9FYCZZAcwt9VhTRml2m/KTX3mSvtSLn8veXUGEL29ZkuqxycP8
-X-Mailer: git-send-email 2.37.2.672.g94769d06f0-goog
-Message-ID: <20220831184408.2778264-4-ndesaulniers@google.com>
-Subject: [PATCH v2 3/5] Makefile.compiler: replace cc-ifversion with
- compiler-specific macros
-From:   Nick Desaulniers <ndesaulniers@google.com>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Michal Marek <michal.lkml@markovi.net>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Tom Rix <trix@redhat.com>, linux-kbuild@vger.kernel.org,
-        linux-kernel@vger.kernel.org, llvm@lists.linux.dev, x86@kernel.org,
-        Dmitrii Bundin <dmitrii.bundin.a@gmail.com>,
-        Fangrui Song <maskray@google.com>,
-        Alexey Alexandrov <aalexand@google.com>,
-        Bill Wendling <morbo@google.com>,
-        Greg Thelen <gthelen@google.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
+        with ESMTP id S230403AbiHaTuS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 31 Aug 2022 15:50:18 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66EB245062;
+        Wed, 31 Aug 2022 12:50:16 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 007626192C;
+        Wed, 31 Aug 2022 19:50:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 409FFC433C1;
+        Wed, 31 Aug 2022 19:50:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1661975415;
+        bh=CwC31PL9899CHPuWsFZ4q787QaQZMEcghhKVzhRL9uA=;
+        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+        b=j2cnR9nb3gQPKAPASfHrnqXNz6J6tJIZQdj+VcB94ekv3iD9vtBruaHgTjxWim+wa
+         9kCQ9UouT9P25sSdRrD59fOy71iHzPkoCf3RtYGWfKJbhWgtpyyPV2/3E7xK7h0YSe
+         rhGoHis06prcYhEAWwxDaqwyVuNXFDrz+ruQ5QOByRJhrfIYCkjbDfN4bQE621VNzn
+         H29f0v6qPOBOhw32iMBZ3B+o04n7kiT/ZH34tMPV2KHLeXnX9jEwNmng+96OAVbuEU
+         0Y/vmuUPJsgWoTwM5Vvt+RAzSPA+GvQRRWpaypRNTFy5pprEtTTySFrazr3PHEnBna
+         uZOK/LiSlJvkw==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 232EDC4166F;
+        Wed, 31 Aug 2022 19:50:15 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH] Documentation: networking: correct possessive "its"
+From:   patchwork-bot+netdevbpf@kernel.org
+Message-Id: <166197541513.20889.3530530600911600939.git-patchwork-notify@kernel.org>
+Date:   Wed, 31 Aug 2022 19:50:15 +0000
+References: <20220829235414.17110-1-rdunlap@infradead.org>
+In-Reply-To: <20220829235414.17110-1-rdunlap@infradead.org>
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     linux-doc@vger.kernel.org, corbet@lwn.net, davem@davemloft.net,
+        edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+        netdev@vger.kernel.org, jiri@nvidia.com
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-cc-ifversion is GCC specific. Replace it with compiler specific
-variants. Update the users of cc-ifversion to use these new macros.
-Provide a helper for checking compiler versions for GCC and Clang
-simultaneously, that will be used in a follow up patch.
+Hello:
 
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org
-Cc: amd-gfx@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org
-Link: https://github.com/ClangBuiltLinux/linux/issues/350
-Link: https://lore.kernel.org/llvm/CAGG=3QWSAUakO42kubrCap8fp-gm1ERJJAYXTnP1iHk_wrH=BQ@mail.gmail.com/
-Suggested-by: Bill Wendling <morbo@google.com>
-Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
----
-Changes v1 -> v2:
-* New patch.
+This patch was applied to netdev/net.git (master)
+by Jakub Kicinski <kuba@kernel.org>:
 
- Documentation/kbuild/makefiles.rst          | 44 +++++++++++++++------
- Makefile                                    |  4 +-
- drivers/gpu/drm/amd/display/dc/dml/Makefile | 12 ++----
- scripts/Makefile.compiler                   | 15 +++++--
- 4 files changed, 49 insertions(+), 26 deletions(-)
+On Mon, 29 Aug 2022 16:54:14 -0700 you wrote:
+> Change occurrences of "it's" that are possessive to "its"
+> so that they don't read as "it is".
+> 
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: "David S. Miller" <davem@davemloft.net>
+> Cc: Eric Dumazet <edumazet@google.com>
+> Cc: Jakub Kicinski <kuba@kernel.org>
+> Cc: Paolo Abeni <pabeni@redhat.com>
+> Cc: netdev@vger.kernel.org
+> Cc: Jiri Pirko <jiri@nvidia.com>
+> 
+> [...]
 
-diff --git a/Documentation/kbuild/makefiles.rst b/Documentation/kbuild/makefiles.rst
-index 11a296e52d68..e46f5b45c422 100644
---- a/Documentation/kbuild/makefiles.rst
-+++ b/Documentation/kbuild/makefiles.rst
-@@ -682,22 +682,42 @@ more details, with real examples.
- 	In the above example, -Wno-unused-but-set-variable will be added to
- 	KBUILD_CFLAGS only if gcc really accepts it.
- 
--    cc-ifversion
--	cc-ifversion tests the version of $(CC) and equals the fourth parameter
--	if version expression is true, or the fifth (if given) if the version
--	expression is false.
-+    gcc-min-version
-+	gcc-min-version tests if the value of $(CONFIG_GCC_VERSION) is greater than
-+	or equal to the provided value and evaluates to y if so.
- 
- 	Example::
- 
--		#fs/reiserfs/Makefile
--		ccflags-y := $(call cc-ifversion, -lt, 0402, -O1)
-+		cflags-$(call gcc-min-version, 70100) := -foo
- 
--	In this example, ccflags-y will be assigned the value -O1 if the
--	$(CC) version is less than 4.2.
--	cc-ifversion takes all the shell operators:
--	-eq, -ne, -lt, -le, -gt, and -ge
--	The third parameter may be a text as in this example, but it may also
--	be an expanded variable or a macro.
-+	In this example, cflags-y will be assigned the value -foo if $(CC) is gcc and
-+	$(CONFIG_GCC_VERSION) is >= 7.1.
-+
-+    clang-min-version
-+	clang-min-version tests if the value of $(CONFIG_CLANG_VERSION) is greater
-+	than or equal to the provided value and evaluates to y if so.
-+
-+	Example::
-+
-+		cflags-$(call clang-min-version, 110000) := -foo
-+
-+	In this example, cflags-y will be assigned the value -foo if $(CC) is clang
-+	and $(CONFIG_CLANG_VERSION) is >= 11.0.0.
-+
-+    cc-min-version
-+	cc-min-version tests if the value of $(CONFIG_GCC_VERSION) is greater
-+	than or equal to the first value provided, or if the value of
-+	$(CONFIG_CLANG_VERSION) is greater than or equal to the second value
-+	provided, and evaluates
-+	to y if so.
-+
-+	Example::
-+
-+		cflags-$(call cc-min-version, 70100, 110000) := -foo
-+
-+	In this example, cflags-y will be assigned the value -foo if $(CC) is gcc and
-+	$(CONFIG_GCC_VERSION) is >= 7.1, or if $(CC) is clang and
-+	$(CONFIG_CLANG_VERSION) is >= 11.0.0.
- 
-     cc-cross-prefix
- 	cc-cross-prefix is used to check if there exists a $(CC) in path with
-diff --git a/Makefile b/Makefile
-index 952d354069a4..caa39ecb1136 100644
---- a/Makefile
-+++ b/Makefile
-@@ -972,7 +972,7 @@ ifdef CONFIG_CC_IS_GCC
- KBUILD_CFLAGS += -Wno-maybe-uninitialized
- endif
- 
--ifdef CONFIG_CC_IS_GCC
-+ifeq ($(call gcc-min-version, 90100),y)
- # The allocators already balk at large sizes, so silence the compiler
- # warnings for bounds checks involving those possible values. While
- # -Wno-alloc-size-larger-than would normally be used here, earlier versions
-@@ -984,7 +984,7 @@ ifdef CONFIG_CC_IS_GCC
- # ignored, continuing to default to PTRDIFF_MAX. So, left with no other
- # choice, we must perform a versioned check to disable this warning.
- # https://lore.kernel.org/lkml/20210824115859.187f272f@canb.auug.org.au
--KBUILD_CFLAGS += $(call cc-ifversion, -ge, 0901, -Wno-alloc-size-larger-than)
-+KBUILD_CFLAGS += -Wno-alloc-size-larger-than
- endif
- 
- # disable invalid "can't wrap" optimizations for signed / pointers
-diff --git a/drivers/gpu/drm/amd/display/dc/dml/Makefile b/drivers/gpu/drm/amd/display/dc/dml/Makefile
-index 86a3b5bfd699..d8ee4743b2e3 100644
---- a/drivers/gpu/drm/amd/display/dc/dml/Makefile
-+++ b/drivers/gpu/drm/amd/display/dc/dml/Makefile
-@@ -33,20 +33,14 @@ ifdef CONFIG_PPC64
- dml_ccflags := -mhard-float -maltivec
- endif
- 
--ifdef CONFIG_CC_IS_GCC
--ifeq ($(call cc-ifversion, -lt, 0701, y), y)
--IS_OLD_GCC = 1
--endif
--endif
--
- ifdef CONFIG_X86
--ifdef IS_OLD_GCC
-+ifeq ($(call gcc-min-version, 70100),y)
-+dml_ccflags += -msse2
-+else
- # Stack alignment mismatch, proceed with caution.
- # GCC < 7.1 cannot compile code using `double` and -mpreferred-stack-boundary=3
- # (8B stack alignment).
- dml_ccflags += -mpreferred-stack-boundary=4
--else
--dml_ccflags += -msse2
- endif
- endif
- 
-diff --git a/scripts/Makefile.compiler b/scripts/Makefile.compiler
-index d1739f0d3ce3..13dade724fa3 100644
---- a/scripts/Makefile.compiler
-+++ b/scripts/Makefile.compiler
-@@ -61,9 +61,18 @@ cc-option-yn = $(call try-run,\
- cc-disable-warning = $(call try-run,\
- 	$(CC) -Werror $(KBUILD_CPPFLAGS) $(KBUILD_CFLAGS) -W$(strip $(1)) -c -x c /dev/null -o "$$TMP",-Wno-$(strip $(1)))
- 
--# cc-ifversion
--# Usage:  EXTRA_CFLAGS += $(call cc-ifversion, -lt, 0402, -O1)
--cc-ifversion = $(shell [ $(CONFIG_GCC_VERSION)0 $(1) $(2)000 ] && echo $(3) || echo $(4))
-+# gcc-min-version
-+# Usage: cflags-$(call gcc-min-version, 70100) += -foo
-+gcc-min-version = $(shell [ $(CONFIG_GCC_VERSION) -ge $(1) ] && echo y)
-+
-+# clang-min-version
-+# Usage: cflags-$(call clang-min-version, 110000) += -foo
-+clang-min-version = $(shell [ $(CONFIG_CLANG_VERSION) -ge $(1) ] && echo y)
-+
-+# cc-min-version
-+# Usage: cflags-$(call cc-min-version, 701000, 110000)
-+#                                      ^ GCC   ^ Clang
-+cc-min-version = $(filter y, $(call gcc-min-version, $(1)), $(call clang-min-version, $(2)))
- 
- # ld-option
- # Usage: KBUILD_LDFLAGS += $(call ld-option, -X, -Y)
+Here is the summary with links:
+  - Documentation: networking: correct possessive "its"
+    https://git.kernel.org/netdev/net/c/404a5ad72011
+
+You are awesome, thank you!
 -- 
-2.37.2.672.g94769d06f0-goog
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 
