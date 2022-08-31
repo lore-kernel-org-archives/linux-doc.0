@@ -2,124 +2,83 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A8D7ECAAD4
-	for <linux-doc@archiver.kernel.org>; Wed, 31 Aug 2022 13:34:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 172A7C0502A
+	for <linux-doc@archiver.kernel.org>; Wed, 31 Aug 2022 14:13:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231294AbiHaNeo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 31 Aug 2022 09:34:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45838 "EHLO
+        id S232067AbiHaONu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 31 Aug 2022 10:13:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59588 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231879AbiHaNeW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 31 Aug 2022 09:34:22 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B9E8D4BF8
-        for <linux-doc@vger.kernel.org>; Wed, 31 Aug 2022 06:33:32 -0700 (PDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ore@pengutronix.de>)
-        id 1oTNpl-0004Aj-Sv; Wed, 31 Aug 2022 15:32:45 +0200
-Received: from [2a0a:edc0:0:1101:1d::ac] (helo=dude04.red.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-        (envelope-from <ore@pengutronix.de>)
-        id 1oTNpj-0034tE-3P; Wed, 31 Aug 2022 15:32:43 +0200
-Received: from ore by dude04.red.stw.pengutronix.de with local (Exim 4.94.2)
-        (envelope-from <ore@pengutronix.de>)
-        id 1oTNph-00Da3Y-Vd; Wed, 31 Aug 2022 15:32:41 +0200
-From:   Oleksij Rempel <o.rempel@pengutronix.de>
-To:     Andrew Lunn <andrew@lunn.ch>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
+        with ESMTP id S232106AbiHaONe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 31 Aug 2022 10:13:34 -0400
+Received: from mail.gnudd.com (mail.gnudd.com [93.91.132.248])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44C23D75A2;
+        Wed, 31 Aug 2022 07:13:19 -0700 (PDT)
+Received: from dciminaghi by mail.gnudd.com with local (Exim 4.94.2)
+        (envelope-from <dciminaghi@arcana.gnudd.com>)
+        id 1oTOSL-0004O9-3A; Wed, 31 Aug 2022 16:12:37 +0200
+Date:   Wed, 31 Aug 2022 16:12:36 +0200
+From:   Davide Ciminaghi <ciminaghi@gnudd.com>
+To:     Linus Walleij <linus.walleij@linaro.org>
+Cc:     Arnd Bergmann <arnd@arndb.de>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Alexandre Courbot <gnurou@gmail.com>,
+        Alexandre Courbot <acourbot@nvidia.com>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Jonathan Corbet <corbet@lwn.net>,
         Russell King <linux@armlinux.org.uk>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     Oleksij Rempel <o.rempel@pengutronix.de>, kernel@pengutronix.de,
-        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
-        David Jander <david@protonic.nl>,
-        Luka Perkov <luka.perkov@sartura.hr>,
-        Robert Marko <robert.marko@sartura.hr>
-Subject: [PATCH net-next v5 3/7] net: mdiobus: fwnode_mdiobus_register_phy() rework error handling
-Date:   Wed, 31 Aug 2022 15:32:36 +0200
-Message-Id: <20220831133240.3236779-4-o.rempel@pengutronix.de>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220831133240.3236779-1-o.rempel@pengutronix.de>
-References: <20220831133240.3236779-1-o.rempel@pengutronix.de>
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        "moderated list:ARM PORT" <linux-arm-kernel@lists.infradead.org>,
+        "open list:GENERIC INCLUDE/ASM HEADER FILES" 
+        <linux-arch@vger.kernel.org>, Alessandro Rubini <rubini@gnudd.com>
+Subject: Re: [PATCH] gpio: Allow user to customise maximum number of GPIOs
+Message-ID: <Yw9sVCNtaLUjZH/F@arcana.i.gnudd.com>
+References: <CAK8P3a0uuJ_z8wmNmQTW_qPNqzz7XoxZdHgqbzmK+ydtjraeHg@mail.gmail.com>
+ <CACRpkdb5ow4hD3td6agCuKWvuxptm5AV4rsCrcxNStNdXnBzrA@mail.gmail.com>
+ <87f2ff4c-3426-201c-df86-2d06d3587a20@csgroup.eu>
+ <CACRpkdYizQhiJXzXNHg7TXUVHzhkwXHFN5+e58kH4udGm1ziEA@mail.gmail.com>
+ <f76dbc49-526f-6dc7-2ef1-558baea5848b@csgroup.eu>
+ <CACRpkdZpwdP+1VitohznqRfhFGcLT2f+sQnmsRWwMBB3bobwAw@mail.gmail.com>
+ <515364a9-33a1-fafa-fdce-dc7dbd5bb7fb@csgroup.eu>
+ <CAK8P3a36qbRW8hd+1Uhi88kh+-KTjDMT-Zr8Jq9h_G3zQLfzgw@mail.gmail.com>
+ <Yw3DKCuDoPkCaqxE@arcana.i.gnudd.com>
+ <CACRpkdZeAAZYqV3ccd-X=ZwdnfSwRUdXchGETB-WTkgSZQL=Pw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ore@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+In-Reply-To: <CACRpkdZeAAZYqV3ccd-X=ZwdnfSwRUdXchGETB-WTkgSZQL=Pw@mail.gmail.com>
+X-Face: #Q;A)@_4.#>0+_%y]7aBr:c"ndLp&#+2?]J;lkse\^)FP^Lr5@O0{)J;'nny4%74.fM'n)M
+ >ISCj.KmsL/HTxz!:Ju'pnj'Gz&.
+Sender: ciminaghi@gnudd.com
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Rework error handling as preparation for PSE patch. This patch should
-make it easier to extend this function.
+On Wed, Aug 31, 2022 at 03:32:25PM +0200, Linus Walleij wrote:
+> On Tue, Aug 30, 2022 at 9:58 AM Davide Ciminaghi <ciminaghi@gnudd.com> wrote:
+> 
+> > the sta2x11 was a chip containing AMBA peripherals and a PCIe to AMBA bridge
+> > (it is still in production as far as I know, but deprecated for new designs).
+> > It would typically be installed on x86 machines, so you needed to build and
+> > run AMBA drivers in an x86 environment. The original drivers we started from
+> > had platform data, but then we were told to switch to DTS.
+> 
+> For the record I think that was bad advice, I hope it wasn't me.
+> But the world was different back then I suppose.
+> Adding DTS to x86 which is inherently ACPI is not a good idea.
+> Especially if you look at how SBSA ACPI UARTS were done
+> in drivers/tty/serial/amba-pl011.c.
+>
+now that I think of it, ACPI was also listed as a possible choice, but the
+problem was that we didn't know much about ACPI, and took the DTS way.
+So there was no bad advice, just fear of the unknown :-)
 
-Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
-Reviewed-by: Andrew Lunn <andrew@lunn.ch>
----
-changes v4
-- add Reviewed-by: Andrew Lunn
----
- drivers/net/mdio/fwnode_mdio.c | 21 ++++++++++++---------
- 1 file changed, 12 insertions(+), 9 deletions(-)
-
-diff --git a/drivers/net/mdio/fwnode_mdio.c b/drivers/net/mdio/fwnode_mdio.c
-index 3e79c2c519298..e78ad55c0e091 100644
---- a/drivers/net/mdio/fwnode_mdio.c
-+++ b/drivers/net/mdio/fwnode_mdio.c
-@@ -108,8 +108,8 @@ int fwnode_mdiobus_register_phy(struct mii_bus *bus,
- 	else
- 		phy = phy_device_create(bus, addr, phy_id, 0, NULL);
- 	if (IS_ERR(phy)) {
--		unregister_mii_timestamper(mii_ts);
--		return PTR_ERR(phy);
-+		rc = PTR_ERR(phy);
-+		goto clean_mii_ts;
- 	}
- 
- 	if (is_acpi_node(child)) {
-@@ -123,17 +123,13 @@ int fwnode_mdiobus_register_phy(struct mii_bus *bus,
- 		/* All data is now stored in the phy struct, so register it */
- 		rc = phy_device_register(phy);
- 		if (rc) {
--			phy_device_free(phy);
- 			fwnode_handle_put(phy->mdio.dev.fwnode);
--			return rc;
-+			goto clean_phy;
- 		}
- 	} else if (is_of_node(child)) {
- 		rc = fwnode_mdiobus_phy_device_register(bus, phy, child, addr);
--		if (rc) {
--			unregister_mii_timestamper(mii_ts);
--			phy_device_free(phy);
--			return rc;
--		}
-+		if (rc)
-+			goto clean_phy;
- 	}
- 
- 	/* phy->mii_ts may already be defined by the PHY driver. A
-@@ -143,5 +139,12 @@ int fwnode_mdiobus_register_phy(struct mii_bus *bus,
- 	if (mii_ts)
- 		phy->mii_ts = mii_ts;
- 	return 0;
-+
-+clean_phy:
-+	phy_device_free(phy);
-+clean_mii_ts:
-+	unregister_mii_timestamper(mii_ts);
-+
-+	return rc;
- }
- EXPORT_SYMBOL(fwnode_mdiobus_register_phy);
--- 
-2.30.2
-
+Thanks
+Davide
