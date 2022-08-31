@@ -2,96 +2,132 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E3524ECAAD4
-	for <linux-doc@archiver.kernel.org>; Wed, 31 Aug 2022 21:49:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 30ECAECAAD4
+	for <linux-doc@archiver.kernel.org>; Wed, 31 Aug 2022 22:19:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232007AbiHaVtI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 31 Aug 2022 17:49:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54154 "EHLO
+        id S232152AbiHaWTc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 31 Aug 2022 18:19:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46018 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232050AbiHaVtI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 31 Aug 2022 17:49:08 -0400
-Received: from mail.gnudd.com (mail.gnudd.com [93.91.132.248])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 559EDF72CB;
-        Wed, 31 Aug 2022 14:49:04 -0700 (PDT)
-Received: from dciminaghi by mail.gnudd.com with local (Exim 4.94.2)
-        (envelope-from <dciminaghi@arcana.gnudd.com>)
-        id 1oTVZO-0004bU-3K; Wed, 31 Aug 2022 23:48:22 +0200
-Date:   Wed, 31 Aug 2022 23:48:22 +0200
-From:   Davide Ciminaghi <ciminaghi@gnudd.com>
-Sender: ciminaghi@gnudd.com
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        Alexandre Courbot <gnurou@gmail.com>,
-        Alexandre Courbot <acourbot@nvidia.com>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Russell King <linux@armlinux.org.uk>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "moderated list:ARM PORT" <linux-arm-kernel@lists.infradead.org>,
-        "open list:GENERIC INCLUDE/ASM HEADER FILES" 
-        <linux-arch@vger.kernel.org>, Alessandro Rubini <rubini@gnudd.com>
-Subject: Re: [PATCH] gpio: Allow user to customise maximum number of GPIOs
-Message-ID: <Yw/XJstLR++AuULV@arcana.i.gnudd.com>
-References: <87f2ff4c-3426-201c-df86-2d06d3587a20@csgroup.eu>
- <CACRpkdYizQhiJXzXNHg7TXUVHzhkwXHFN5+e58kH4udGm1ziEA@mail.gmail.com>
- <f76dbc49-526f-6dc7-2ef1-558baea5848b@csgroup.eu>
- <CACRpkdZpwdP+1VitohznqRfhFGcLT2f+sQnmsRWwMBB3bobwAw@mail.gmail.com>
- <515364a9-33a1-fafa-fdce-dc7dbd5bb7fb@csgroup.eu>
- <CAK8P3a36qbRW8hd+1Uhi88kh+-KTjDMT-Zr8Jq9h_G3zQLfzgw@mail.gmail.com>
- <Yw3DKCuDoPkCaqxE@arcana.i.gnudd.com>
- <CACRpkdZeAAZYqV3ccd-X=ZwdnfSwRUdXchGETB-WTkgSZQL=Pw@mail.gmail.com>
- <Yw9sVCNtaLUjZH/F@arcana.i.gnudd.com>
- <CAHp75Vff0GUQXD8zstEFwXNcnbxKEc7Gqahoo_kZp69MyKWskg@mail.gmail.com>
+        with ESMTP id S230455AbiHaWTb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 31 Aug 2022 18:19:31 -0400
+Received: from mail-vs1-xe2d.google.com (mail-vs1-xe2d.google.com [IPv6:2607:f8b0:4864:20::e2d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 13E8FEA8AE
+        for <linux-doc@vger.kernel.org>; Wed, 31 Aug 2022 15:19:30 -0700 (PDT)
+Received: by mail-vs1-xe2d.google.com with SMTP id i12so9201141vsr.10
+        for <linux-doc@vger.kernel.org>; Wed, 31 Aug 2022 15:19:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc;
+        bh=AWZYQnfan1bJ9GVCNBmyZROKJBcbdAllrd1bujLULUY=;
+        b=dIvdefwaZbVNNqxh58j/aN2+eJRZ99cdEUmZC1J0cvPnn8cQuWt1+PInXHWHuD86Ro
+         kUUwpAt8eLCA1sOqsb23HOTSSSoFU8FV9mURgEs1ycFph/6ImAZMOpyQGA2HHzU/WQj6
+         qbvtJIAFvKWzXCkus1+g/Ks1t9ag0iaV+KhvBBU/KEtVQ1oxAITPF8No6eMViA8oktNL
+         fj+WxeXrs49XTdF0UWkU474Bg5OYUt/4xAyqLxWNwsHFVm9wECowDjpI1a6GFj+otplu
+         VlhUILHGh6hu65+zZSjlpg2G2QL32OR+YKzids3xS0QPdZFGBnezavGjEnHtulocVp+C
+         BmeA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=AWZYQnfan1bJ9GVCNBmyZROKJBcbdAllrd1bujLULUY=;
+        b=eEcrbZGArz9S4kkXT5BbkYt6F42D3S88luHVdxa6zdsgzSRxLUFG5/ndYnnvJEEP0m
+         a4sVcE2cNTfZYTov2FQta104Vi5o2Nak/U41VO26waKHJFLmz0MG1qVtzRXUdInWdSYQ
+         g/8RvUKb7pBr71DtiqB/vfa1OQcQbLfJfUB2ctLbCbnudjB1x6YL93ZfEscM81dxsCv0
+         Jibwp1qEOTUAkBEl6805zPbJh6kReixTgNY+kaPowAHOuJmnh3uKwmByIq3d6SdwofR1
+         OwC2kr63lJ3n218mpiZJILJBQYQY8CYwJsm38vddLZ0GXjMTIzUWsk1Y9LojuWpImxOp
+         tAgA==
+X-Gm-Message-State: ACgBeo0Ak7ZaSEzgZVMkZCmL/+HYCHv6mGXpml8cHNTDr9KVNH9KmMMF
+        hWPU2tcl/2M7+BRyj9eJjeuYPkmptyV/AbFgtFwl8w==
+X-Google-Smtp-Source: AA6agR6qB/hK2H0DqIQnLfQXxQ5YBcusYTQ4Uhij460P3WvW0T5tBjs9Eu81k8/3Y7BrMETRjUoukeCZSc+ZR44TKS0=
+X-Received: by 2002:a67:f909:0:b0:390:e960:7f5a with SMTP id
+ t9-20020a67f909000000b00390e9607f5amr4984075vsq.50.1661984369049; Wed, 31 Aug
+ 2022 15:19:29 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-In-Reply-To: <CAHp75Vff0GUQXD8zstEFwXNcnbxKEc7Gqahoo_kZp69MyKWskg@mail.gmail.com>
-X-Face: #Q;A)@_4.#>0+_%y]7aBr:c"ndLp&#+2?]J;lkse\^)FP^Lr5@O0{)J;'nny4%74.fM'n)M
- >ISCj.KmsL/HTxz!:Ju'pnj'Gz&.
+References: <20220815071332.627393-1-yuzhao@google.com> <20220831041731.3836322-1-yuzhao@google.com>
+In-Reply-To: <20220831041731.3836322-1-yuzhao@google.com>
+From:   Yu Zhao <yuzhao@google.com>
+Date:   Wed, 31 Aug 2022 16:18:50 -0600
+Message-ID: <CAOUHufamkHsCTckj5hBCTZoM-W-awdoQMVOP5_KswDW_VLJEoA@mail.gmail.com>
+Subject: Re: OpenWrt / MIPS benchmark with MGLRU
+To:     Arnd Bergmann <arnd@arndb.de>, Dave Hansen <dave.hansen@intel.com>
+Cc:     Linux-MM <linux-mm@kvack.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Andi Kleen <ak@linux.intel.com>,
+        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        Mel Gorman <mgorman@suse.de>,
+        Michael Larabel <Michael@michaellarabel.com>,
+        Michal Hocko <mhocko@kernel.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Tejun Heo <tj@kernel.org>, Vlastimil Babka <vbabka@suse.cz>,
+        Will Deacon <will@kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        Kernel Page Reclaim v2 <page-reclaim@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Sep 01, 2022 at 12:07:26AM +0300, Andy Shevchenko wrote:
-> On Wed, Aug 31, 2022 at 5:14 PM Davide Ciminaghi <ciminaghi@gnudd.com> wrote:
-> > On Wed, Aug 31, 2022 at 03:32:25PM +0200, Linus Walleij wrote:
-> > > On Tue, Aug 30, 2022 at 9:58 AM Davide Ciminaghi <ciminaghi@gnudd.com> wrote:
-> > >
-> > > > the sta2x11 was a chip containing AMBA peripherals and a PCIe to AMBA bridge
-> > > > (it is still in production as far as I know, but deprecated for new designs).
-> > > > It would typically be installed on x86 machines, so you needed to build and
-> > > > run AMBA drivers in an x86 environment. The original drivers we started from
-> > > > had platform data, but then we were told to switch to DTS.
-> > >
-> > > For the record I think that was bad advice, I hope it wasn't me.
-> > > But the world was different back then I suppose.
-> > > Adding DTS to x86 which is inherently ACPI is not a good idea.
-> > > Especially if you look at how SBSA ACPI UARTS were done
-> > > in drivers/tty/serial/amba-pl011.c.
-> > >
-> > now that I think of it, ACPI was also listed as a possible choice, but the
-> > problem was that we didn't know much about ACPI, and took the DTS way.
-> > So there was no bad advice, just fear of the unknown :-)
-> 
-> Feel free to ask, we have experts in the mailing list(s).
+On Tue, Aug 30, 2022 at 10:17 PM Yu Zhao <yuzhao@google.com> wrote:
 >
-Thanks ! I'll keep that in mind in case I need some ACPI advice.
-I'm afraid it's too late for the sta2x11, though. Its kernel is now a
-downstream one, and it's been freezed, as the SOC has been deprecated
-for new designs.
-As Alessandro said, we'll submit (or ack) patches for removal.
+> TLDR
+> ====
+> RAM utilization  Throughput (95% CI)  P99 Latency (95% CI)
+> ----------------------------------------------------------
+> ~90%             NS                   NS
+> ~110%            +[12, 16]%           -[20, 22]%
+>
+> Abbreviations
+> =============
+> CI:   confidence interval
+> NS:   no statistically significant difference
+> DUT:  device under test
+> ATE:  automatic test equipment
+>
+> Rational
+> ========
+> 1. OpenWrt is the most popular distro for WiFi routers; many of its
+>    targets use big endianness [1].
+> 2. 4 out of the top 5 bestselling WiFi routers in the US use MIPS [2];
+>    MIPS uses software-managed TLB.
+> 3. Memcached is the best available memory benchmark on OpenWrt;
+>    admittedly such a use case is very limited in the real world.
 
+Thanks.
 
+My goal is to encourage MM people to extend their test coverage to
+some commonly used but less tested configurations. I carefully
+constructed this benchmark with the balance between its
+representativeness and the effort to reproduce.
 
-Thanks again and regards
-Davide
+When I wear my MM hat, I see ER-8 as the ideal choice because it comes
+with a serial port, a replaceable memory DIMM and one of the two cores
+that can be disabled. The same SoC is also what the Debian MIPS port
+mainly uses for their testing [1]. So if I need help, I might be able
+to get it from them.
+
+From OpenWrt's / MIPS OEMs' POVs, I do see ER-8 as an uninteresting
+platform. Currently the best selling WiFi router on Amazon US is
+Archer A7, a knockoff of Archer C7. The latter comes with not only the
+serial port header but also the JTAG header, and that's what I use.
+But I seriously doubt showing how I work on C7 would encourage MM
+people to try it. I snapped a pictures of it during lunch:
+https://drive.google.com/file/d/1rYBwLOyMqBSr6WKUZd7Gbf9RfwA641X5/
+And other boards I routinely test the MM performance on:
+https://drive.google.com/file/d/1yBMx9OPWw-5czvz3maNUy6WBFwPvAqG5/
+All the way dates back to this vintage:
+https://drive.google.com/file/d/12N21qiWSoyJgZwVkwAhY8_5Fj4dKftqD/
+
+[1] https://wiki.debian.org/MIPSPort
