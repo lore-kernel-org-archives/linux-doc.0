@@ -2,324 +2,157 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 36193C0502C
-	for <linux-doc@archiver.kernel.org>; Wed, 31 Aug 2022 04:17:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A64F1C0502C
+	for <linux-doc@archiver.kernel.org>; Wed, 31 Aug 2022 05:39:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229723AbiHaERf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 31 Aug 2022 00:17:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40942 "EHLO
+        id S229647AbiHaFjs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 31 Aug 2022 01:39:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54882 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229476AbiHaERe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 31 Aug 2022 00:17:34 -0400
-Received: from mail-oo1-xc4a.google.com (mail-oo1-xc4a.google.com [IPv6:2607:f8b0:4864:20::c4a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17F6FA8CFC
-        for <linux-doc@vger.kernel.org>; Tue, 30 Aug 2022 21:17:33 -0700 (PDT)
-Received: by mail-oo1-xc4a.google.com with SMTP id e24-20020a4a91d8000000b0044894b6503dso6220217ooh.5
-        for <linux-doc@vger.kernel.org>; Tue, 30 Aug 2022 21:17:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:from:subject:references:mime-version:message-id:in-reply-to
-         :date:from:to:cc;
-        bh=2WLkoSjROr4dVg417JvRyW3lh8V45iB1BA/WLXoVDwU=;
-        b=Q/NeHipnwhKmx3pm3k4gks3o8edSuETNqiubQqLpCOTog2jIvfr7k3DvFS/jBq0dyh
-         twz6SUtKyMZXsokG28aUtkvyel454tb89m/BHuekcTWU2R+6Y6k6Iyw82P2J5tA0V/qA
-         5K9izJtVosFUTabjVjHk+MiujLLrzfstFnkQhRZQAhbF2rxu3RGYI3irnR0rEYZHTa/j
-         X5HDdmbvWm5Y6GCfbCSSRwzdrev/X6ALbSGOJdaKI1+VinJPPL2ZJWgbRwBkLsrMwLzO
-         n9OLG1TXYU+dXASpYchWbP7elmYi4Svrt9OsU29QeTSH0TkVWRR5vjDLpgEPkNnWSkIX
-         Jy4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:from:subject:references:mime-version:message-id:in-reply-to
-         :date:x-gm-message-state:from:to:cc;
-        bh=2WLkoSjROr4dVg417JvRyW3lh8V45iB1BA/WLXoVDwU=;
-        b=vw7OgpfUTEtjK1sMFXi3OANmKK2N4VCB9clTZObnz/wQqbawb+3CplOnpNNljZ58kM
-         06OuuBM3ugXzJLGLjMrsfg5UgLL5xX2nfddsX/uniKUx0tWBzijPR80ArmkrSf8gpB9A
-         MLmRZUgD78CsQTu8iRNtHaylCQoJhX3E2FeK7nPJcAZwRxQsgYF9w/JeQKBhMKiOY2fy
-         Edix4TxbAu6SxuaqkwwpmLQO/osF8ThZTjMKIOxK9KAN2OE77EUb4qxbjyAja30/8IEr
-         hJoqlxS7MlOgZQiQ14IL1E0EvfT/yU9AVn7Nz5gutg2tlK7EFL8b8b3S3jVU6bJIZoBc
-         BM/A==
-X-Gm-Message-State: ACgBeo3R1BmbTN22Dtk+zc/zmAdhD5M2M51VIrWDXwpvSOhPJPXl7RM2
-        7d/MnOb4JHTDDu6BVgz7AV0qMO0EjEg=
-X-Google-Smtp-Source: AA6agR75Q0XVPlf3icInNGSIRS0IdIWElwixKSUIneiAq5sNLZxjdixFpkzHz4f5gvYnzc9T2TZqXFHJGLI=
-X-Received: from yuzhao.bld.corp.google.com ([2620:15c:183:200:103:daa9:a72c:751a])
- (user=yuzhao job=sendgmr) by 2002:a9d:27a8:0:b0:637:8ef:ba3d with SMTP id
- c37-20020a9d27a8000000b0063708efba3dmr9853871otb.48.1661919452445; Tue, 30
- Aug 2022 21:17:32 -0700 (PDT)
-Date:   Tue, 30 Aug 2022 22:17:31 -0600
-In-Reply-To: <20220815071332.627393-1-yuzhao@google.com>
-Message-Id: <20220831041731.3836322-1-yuzhao@google.com>
-Mime-Version: 1.0
-References: <20220815071332.627393-1-yuzhao@google.com>
-X-Mailer: git-send-email 2.37.2.672.g94769d06f0-goog
-Subject: OpenWrt / MIPS benchmark with MGLRU
-From:   Yu Zhao <yuzhao@google.com>
-To:     linux-mm@kvack.org
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Andi Kleen <ak@linux.intel.com>,
-        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
-        Johannes Weiner <hannes@cmpxchg.org>,
+        with ESMTP id S229453AbiHaFjr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 31 Aug 2022 01:39:47 -0400
+Received: from FRA01-PR2-obe.outbound.protection.outlook.com (mail-eopbgr120045.outbound.protection.outlook.com [40.107.12.45])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1E48B99F6;
+        Tue, 30 Aug 2022 22:39:43 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=NOX6EpZtUnWMYTxDhN1NwNjGSb4C12WcSsWfEIRLdaIDlzyHLQgf9i5eFIc5EwUowKUtuWgCBEvg3J599Q1I8CMd/pSYq2cIBkbYNcj9ViqUfNX5JLO6XSyQbfEorKLzZtzUECqvobGqNmHnUWOQOOPMouyT039Yn2+eoAc1xrPcWvn78Etvp559A9GhaoLkkCLcBI8X5Qf/YM3w1lQCLojVFen8CjoPzmHypdcnftsSBKR6xi6DJNfynN86CXEmAgAg5VpLIKGqU13USZ0F5qn8ZoNY/yEKO1gFeqvnwNBUg29nWiZkcch6wG20WUm+yfEEjCvgjdz9ZFjnZ4x1yw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Q0bZ2yAGp51k8nGHReN3js6BV/7yzCJTP4MVT5moiG8=;
+ b=Uyo3SSNZUw3HHzS/IPRt6Mwo7JhL4XmxEWtbABwmQU0Y16r8oY8HFvSZZ52eCUvsOS+7/Uz7HZlYo0X6KCq6fCvq/5ndWz6Wn4hb/Bb/oEfWGXo+DHoAdNw15IFA/kp5tEeEtr3VI8vFEviufWJuNlSHEeJHtlWaqHiZfVIOXJ5U1c2LYiKat+5J9Sm55ImRhrp6yrR94uN0Tk10ivUrwM9PSVJdCRVTSv0E3oVPR0QDpkikhM+16IXixIUuHNU0JvUuujejqUi64bvGqDFcvUFx8SZ8+zmygQv7dBI/tXT4M4iYX5eCVWZuKbxx7B5gLIasvHrzfh8RvUey8Jzg6w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=csgroup.eu; dmarc=pass action=none header.from=csgroup.eu;
+ dkim=pass header.d=csgroup.eu; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=csgroup.eu;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Q0bZ2yAGp51k8nGHReN3js6BV/7yzCJTP4MVT5moiG8=;
+ b=Br0Sd4ls+KFChP6H+XCal7rHSuN05ruvST/EzkHZsX33OFGWhrCC+/bM18HnwznLHUST+L3DKD9gGrkirEvclKkSMse+vaPoDdaaJIRRSWJ1fYoCEOwEUzn27Rh6y+6o+QTicowcsnccdoZCHkKW4DohR9H62JdyOPJkMq9MCWKPxI8RkPltowf0ChF0knETNMGul9a9dGnhuf2sCQ7qDsQwduZ4qZRpp6oOjijit0h0ePHPo0vqUxDzEbFxjOsnCbQn2PwxvR/6nElUKB7ebDkHm420oFuVHsPGBj2A9lv3jDt/o6v7Lr/CEvdtaTrOR1C9tQQaF3bDm/+qYOaUoA==
+Received: from MRZP264MB2988.FRAP264.PROD.OUTLOOK.COM (2603:10a6:501:31::15)
+ by MR1P264MB4258.FRAP264.PROD.OUTLOOK.COM (2603:10a6:501:27::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5588.10; Wed, 31 Aug
+ 2022 05:39:41 +0000
+Received: from MRZP264MB2988.FRAP264.PROD.OUTLOOK.COM
+ ([fe80::382a:ed3b:83d6:e5d8]) by MRZP264MB2988.FRAP264.PROD.OUTLOOK.COM
+ ([fe80::382a:ed3b:83d6:e5d8%4]) with mapi id 15.20.5588.010; Wed, 31 Aug 2022
+ 05:39:41 +0000
+From:   Christophe Leroy <christophe.leroy@csgroup.eu>
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+CC:     Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Keerthy <j-keerthy@ti.com>, Russell King <linux@armlinux.org.uk>,
+        Arnd Bergmann <arnd@arndb.de>,
         Jonathan Corbet <corbet@lwn.net>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mel Gorman <mgorman@suse.de>,
-        Michael Larabel <Michael@michaellarabel.com>,
-        Michal Hocko <mhocko@kernel.org>,
-        Mike Rapoport <rppt@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Tejun Heo <tj@kernel.org>, Vlastimil Babka <vbabka@suse.cz>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
         Will Deacon <will@kernel.org>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, x86@kernel.org,
-        page-reclaim@google.com
-Content-Type: text/plain; charset="UTF-8"
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
+        Linux-Arch <linux-arch@vger.kernel.org>,
+        Linux Documentation List <linux-doc@vger.kernel.org>,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>
+Subject: Re: [PATCH v1 3/8] gpiolib: Warn on drivers still using static
+ gpiobase allocation
+Thread-Topic: [PATCH v1 3/8] gpiolib: Warn on drivers still using static
+ gpiobase allocation
+Thread-Index: AQHYu8KbMU3zGFPEjkivUBYIE3z1O63H4r6AgACd3IA=
+Date:   Wed, 31 Aug 2022 05:39:40 +0000
+Message-ID: <22c001c0-1109-5579-7420-2e37707688a9@csgroup.eu>
+References: <cover.1661789204.git.christophe.leroy@csgroup.eu>
+ <92aaf098d7039fd4040015b07ba1f99daf674f50.1661789204.git.christophe.leroy@csgroup.eu>
+ <CAHp75VesQgR9arwnvsBZKwm6-skOJQCc9xex5NZsE8cQG_1CwQ@mail.gmail.com>
+In-Reply-To: <CAHp75VesQgR9arwnvsBZKwm6-skOJQCc9xex5NZsE8cQG_1CwQ@mail.gmail.com>
+Accept-Language: fr-FR, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=csgroup.eu;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 0598020e-28c0-4848-b2c8-08da8b133375
+x-ms-traffictypediagnostic: MR1P264MB4258:EE_
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: DtWr5Aywesys7xFlm53LzOphyxPY3HDZFiMjXqoZYCOU+xhh7hfq/Qwevo5a09fr9Gq86/XhCneNPF3bw/b8+vKzJheGed3nf9Hx8eu33MorulGG7oA/RA2zJyt7oj6Fi1O+sIvudHMbjApYi6LczNJoIXNoRKUQP+FS7FtqoqVpd9Azn/0Xkz0Mkic61Vtwl1IjqbHvRCxUP3yKMyxWOc/iHda5nPmkISYMBl9JBN0hKr3eb0jjTu9u3Y+EDawLzUBew5NxA7DXTbvRt2z5HMEnttsIcK1oWNbzWpJ95KSqsrY8/PhZophv0kkoZs4xVV0EBywLmxX3d8kGTXDC0z+tGC2CVDJqMR1w0pDec368qQ+78gLKWrhzB76eku/07PGQ0EbcvqECCd67rUNIcUj5tPWwIuKh0WWkodjQqRnVN0Q3jqdGikJIRT89ICWitKMLfOkkBElZQkmKw0U76b8L6CUMGz4nf4E8atxGiGx3ZqvWeeMCno01zGrNBqe06ltTAWUnncwjbB1YBuoMrLjI9/pbLsPtgUdZ29MHoiKxg+n9ifUaAAwhQIfCM4jUHawVzsAH+FpDyz2nSbNx6UN4gI/1hgxu8lhCZBssLslGk7HR3qdDzveewpVjU83bu3rVJGhEzrCTxbCGzlviApL2/VKxS9/ezhp3BNEtvnpAQn+flhMG1mDbgu4BdL94KAGFnf4w3aUdmLW3A5ZLH0o6WBVtBNQLekoYrjMWXxvJbjltNj55Z5pLSDEKnOvmA8Kdahd5netPuGIC2vF7L31F2w5OlBqawnfYSMx6kwz1hWuwf+ptv7gMJ2w498KqJa2VIAxtmglwxUpP/LEyDA==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MRZP264MB2988.FRAP264.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230016)(4636009)(39850400004)(396003)(376002)(346002)(136003)(366004)(478600001)(6486002)(71200400001)(66476007)(76116006)(8676002)(64756008)(4326008)(66556008)(66446008)(66946007)(91956017)(316002)(6916009)(54906003)(38070700005)(186003)(2616005)(66574015)(83380400001)(6506007)(38100700002)(53546011)(41300700001)(122000001)(6512007)(26005)(7416002)(5660300002)(31696002)(44832011)(8936002)(2906002)(4744005)(86362001)(36756003)(31686004)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?SUVoV3ZOekJCZ1Y2VDBZRGtyanpMUlJFSTQ5Tmt5VVYvRWh3bjZGNXR2ckpE?=
+ =?utf-8?B?cHB6dk5qUDFwdGQzOGdPZ2JVbmlrUGt6MFQrU2VaMjVHcDB3bEt3VGNEMUwx?=
+ =?utf-8?B?bk0vOXlvdkt5SG1qd0hqMHM1dFRydTZycU1zWlVGaEhZZVBnVThEYnhnOTUz?=
+ =?utf-8?B?eDgrTHN2b3ZPSlZuQ2FrMzVqUHh5enArbk5KSWhrcFlkZnlxN09zejhoOEtL?=
+ =?utf-8?B?UkJtaklzc3RqZmF4WjhYOU5KQm5KNkRHOVJjaDBsZE1SRC9ZTUxBaXlkTmVz?=
+ =?utf-8?B?K0ZxdlpWMVlOd0dmcHRYMnQ3MFdMaDNlNlBuYmU2K3dOZkpjdDRaZXVDMXV3?=
+ =?utf-8?B?NHhFZklKRTRRL1c3MXdPTGhvYTEzTHFyUDNtUG5vTnBFaXphTTBzVVZwbHk3?=
+ =?utf-8?B?TlVLV2ZnaHFRTXBqOEFHdlN1aWpGOFd0anY4RTJ2Vjh6MUxKMXlmSFE1MmNG?=
+ =?utf-8?B?WTNka0ZVMjRhMGJsd0QrbzdXbEJvd2pMZyt6REl3WDBjZmRKQWpGT3VOemti?=
+ =?utf-8?B?a3BNOTdVT0ZMUjBSZnB4QU50ZnlRYThwcXhTajA1eWVXR2h3TXREM1hjRmQx?=
+ =?utf-8?B?blZja3J5TVBvMlpRTUtjakV3VHYrcCtJTjVPUmUvL1MwNFN2UzNwOVhWZlhU?=
+ =?utf-8?B?cmVGRlEwWmhkZkdkanB3ejF3UUx1S1NWcnN2QmdramRiVkdPY3BOaEdPQSsz?=
+ =?utf-8?B?ZkRyY09OOXN0TmRsVXpXdHBhZVdzelpCalFKQ2NBOUFrSnFFZEc2UGgvVG9P?=
+ =?utf-8?B?VGdDaVNpTm1yVldmcWxRWTZkc0hUdnlOai9vdzhZZXZLUUdiUGlXai9KVUpX?=
+ =?utf-8?B?bVpPVk9Zc1M1UnorZndwQkFFMXR3NmliV2VJcVI4TVpjYnpvcEg4UzFsaC9a?=
+ =?utf-8?B?eW5FcytuWkpPTGVxSEFzS3BrcXJtVEtwbUxTNjg1Rnhabm9vd1U0LzgrenBL?=
+ =?utf-8?B?dXBHS3V0L1U3WVZNd0c2Q1JTeHh2OWFoenRwcGVJWnNXdjJyYW1MRk0rZlBw?=
+ =?utf-8?B?ZVYycEdJLzNMdzEvYyt1bTRSS1BEUm10ZUw3dGF3ckNxS3o1UTJ3bkFiMTlt?=
+ =?utf-8?B?eXBYbjVWTGx6Nng5OEVaUEhLQXpOMHlKL0JKNDIxNjgyRFV0K1VVMU0rRjc4?=
+ =?utf-8?B?QW9RSkp2SzlvbXdOOGJ5QWJBWTd6Z3UvK0FjckpRN0tLQWsyQ2JzMis0bWNX?=
+ =?utf-8?B?VGs1NmhNbTNHSDNPdEJhYlNpanpqZVVuem8wbEQvbTkvVUREU2ZqbG9BQjV4?=
+ =?utf-8?B?MEZMVG10UGlQNTVaSWlkMXFaVHhhRnlJMWtoMU5LMlZDSmNUc003QmNUcURt?=
+ =?utf-8?B?R3Q2TWZZckxEeXFVNzBQL3FLR1VZWGF4b2RBN1BBQWpFTU9TSkd5VkJXUmov?=
+ =?utf-8?B?aU16K29yYng1TEJkK05Kd3B3cWMxbzNMeSsvaW5xV1VpSnpWVFlDRGw5VmYv?=
+ =?utf-8?B?WktMWnVmWUtkWDdWREIwRGc1N2w3YVhEQ0pkeG5wYzFnajJQaHd1cmVCWGlB?=
+ =?utf-8?B?UHRaSTJ1Wmx0UU1Sdm8wSGUrbTRwUDdyWUhrUkl5aHAvVFJZNUlHNm91TWQ4?=
+ =?utf-8?B?VXhUcXdhcEl1REJYbDgyUXRFN3hFT3ZKcnFIV2E0ZUVvKytkbUlRSGJWcGYr?=
+ =?utf-8?B?d3RIM3ZzcXpuN3BIbjRzUnFIYVBPVHlETU5NMTMwVTNJOCtjZ0VVWEZkRVBz?=
+ =?utf-8?B?aUtxOW1NZmhSTndNeDJWUGlZc2RVN1RreGJGUVlFc1h4UGFsRko5QUZ5TEhi?=
+ =?utf-8?B?MHpDWU1HZGptS0prQVJXYnZCN2w5S2M4U2JqS3REdjI2SWMzd1pEbXVwbmtS?=
+ =?utf-8?B?dWtFaUo4WFMyTDVNNVJlTXJBY3FCcGxTTFRXdW9URzRVVFZZNTJJL3dVSHhx?=
+ =?utf-8?B?T2RTaFdVVDdFM3Z2R0tFK3pYeDlmVjUyK3BERzloc1hjeFIzYWtvWmx6V1pQ?=
+ =?utf-8?B?ZXZLbE13dGV2R3JKL0pneXNIU253WUFQa3pXZlVwVWY0SkJmZDNSOU5GemtO?=
+ =?utf-8?B?MGN1b1IvZWdORzFTbHNESm5wRGdMZHRrcmR0SzZrQzlvb3dpVzlBa281ekVi?=
+ =?utf-8?B?U2l3SUs4c05INGVKV08xMHppVzJBbHUyM1hHblpVREtGR1BlekwwS2pidWZ6?=
+ =?utf-8?B?Z0tYQzZuWnJ5dDRuTHlQSGowK2Z4N1I5MldtL09wa0dFclRwdVRSU2VQYXFP?=
+ =?utf-8?B?T1E9PQ==?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <5E23C35932F9E546899A3C821229686A@FRAP264.PROD.OUTLOOK.COM>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: csgroup.eu
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MRZP264MB2988.FRAP264.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0598020e-28c0-4848-b2c8-08da8b133375
+X-MS-Exchange-CrossTenant-originalarrivaltime: 31 Aug 2022 05:39:40.9868
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 9914def7-b676-4fda-8815-5d49fb3b45c8
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: OXhUhghcNx8A8BOEvc5DqKNirYYPxEJmh3COs9GGk2nKXCPQ/oSZeJ3xvSklwZOfxacJ8BlZIA3VR+735+JXaUJZei0hEn/HBTy0fpDZovE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MR1P264MB4258
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-TLDR
-====
-RAM utilization  Throughput (95% CI)  P99 Latency (95% CI)
-----------------------------------------------------------
-~90%             NS                   NS
-~110%            +[12, 16]%           -[20, 22]%
-
-Abbreviations
-=============
-CI:   confidence interval
-NS:   no statistically significant difference
-DUT:  device under test
-ATE:  automatic test equipment
-
-Rational
-========
-1. OpenWrt is the most popular distro for WiFi routers; many of its
-   targets use big endianness [1].
-2. 4 out of the top 5 bestselling WiFi routers in the US use MIPS [2];
-   MIPS uses software-managed TLB.
-3. Memcached is the best available memory benchmark on OpenWrt;
-   admittedly such a use case is very limited in the real world.
-
-Hardware
-========
-DUT: Ubiquiti EdgeRouter (ER-8) [3]
-
-DUT # cat /proc/cpuinfo
-system type             : UBNT_E200 (CN6120p1.1-800-NSP)
-machine                 : Unknown
-processor               : 0
-cpu model               : Cavium Octeon II V0.1
-BogoMIPS                : 1600.00
-wait instruction        : yes
-microsecond timers      : yes
-tlb_entries             : 128
-extra interrupt vector  : yes
-hardware watchpoint     : yes, count: 2, address/irw mask: [0x0ffc, 0x0ffb]
-isa                     : mips1 mips2 mips3 mips4 mips5 mips32r1 mips32r2 mips64r1 mips64r2
-ASEs implemented        :
-Options implemented     : tlb rixiex 4kex octeon_cache 32fpr prefetch mcheck ejtag llsc rixi lpa vtag_icache userlocal perf_cntr_intr_bit perf
-shadow register sets    : 1
-kscratch registers      : 3
-package                 : 0
-core                    : 0
-VCED exceptions         : not available
-VCEI exceptions         : not available
-
-processor               : 1
-cpu model               : Cavium Octeon II V0.1
-BogoMIPS                : 1600.00
-wait instruction        : yes
-microsecond timers      : yes
-tlb_entries             : 128
-extra interrupt vector  : yes
-hardware watchpoint     : yes, count: 2, address/irw mask: [0x0ffc, 0x0ffb]
-isa                     : mips1 mips2 mips3 mips4 mips5 mips32r1 mips32r2 mips64r1 mips64r2
-ASEs implemented        :
-Options implemented     : tlb rixiex 4kex octeon_cache 32fpr prefetch mcheck ejtag llsc rixi lpa vtag_icache userlocal perf_cntr_intr_bit perf
-shadow register sets    : 1
-kscratch registers      : 3
-package                 : 0
-core                    : 1
-VCED exceptions         : not available
-VCEI exceptions         : not available
-
-DUT # cat /proc/meminfo
-MemTotal:        1991964 kB
-MemFree:         1917304 kB
-MemAvailable:    1896856 kB
-Buffers:               4 kB
-Cached:            33464 kB
-SwapCached:            0 kB
-Active:             1316 kB
-Inactive:          33500 kB
-Active(anon):       1316 kB
-Inactive(anon):    33496 kB
-Active(file):          0 kB
-Inactive(file):        4 kB
-Unevictable:           0 kB
-Mlocked:               0 kB
-SwapTotal:        995324 kB
-SwapFree:         995324 kB
-Dirty:                 0 kB
-Writeback:             0 kB
-AnonPages:          1360 kB
-Mapped:             2688 kB
-Shmem:             33464 kB
-KReclaimable:       8244 kB
-Slab:              19772 kB
-SReclaimable:       8244 kB
-SUnreclaim:        11528 kB
-KernelStack:        1056 kB
-PageTables:          336 kB
-NFS_Unstable:          0 kB
-Bounce:                0 kB
-WritebackTmp:          0 kB
-CommitLimit:     1991304 kB
-Committed_AS:      38916 kB
-VmallocTotal: 1069547512 kB
-VmallocUsed:        4856 kB
-VmallocChunk:          0 kB
-Percpu:              272 kB
-
-Software
-========
-DUT # cat /etc/openwrt_release
-DISTRIB_ID='OpenWrt'
-DISTRIB_RELEASE='22.03.0-rc6'
-DISTRIB_REVISION='r19590-042d558536'
-DISTRIB_TARGET='octeon/generic'
-DISTRIB_ARCH='mips64_octeonplus'
-DISTRIB_DESCRIPTION='OpenWrt 22.03.0-rc6 r19590-042d558536'
-DISTRIB_TAINTS='no-all no-ipv6'
-
-DUT # uname -a
-Linux OpenWrt 6.0.0-rc3+ #0 SMP Sun Jul 31 15:12:47 2022 mips64 GNU/Linux
-
-DUT # cat /proc/swaps
-Filename    Type       Size    Used  Priority
-/dev/zram0  partition  995324  0     100
-
-DUT # memcached -V
-memcached 1.6.9
-
-DUT # cat /etc/config/memcached
-config memcached
-        option user 'memcached'
-        option maxconn '1024'
-        option listen '0.0.0.0'
-        option port '11211'
-        option memory '6400'
-
-ATE $ memtier_benchmark -v
-memtier_benchmark 1.3.0
-Copyright (C) 2011-2022 Redis Ltd.
-This is free software.  You may redistribute copies of it under the terms of
-the GNU General Public License <http://www.gnu.org/licenses/gpl.html>.
-There is NO WARRANTY, to the extent permitted by law.
-
-Procedure
-=========
-ATE $ cat run_benchmark_matrix.sh
-run_memtier_benchmark()
-{
-    # boot to kernel $3
-
-    # populate dataset
-    memtier_benchmark/memtier_benchmark -s $DUT_IP -p 11211 \
-        -P memcache_binary -n allkeys -c 1 --ratio 1:0 --pipeline 8 \
-        --key-minimum=1 --key-maximum=$2 --key-pattern=P:P \
-        -d 1000
-
-    # access dataset using Guassian pattern
-    memtier_benchmark/memtier_benchmark -s $DUT_IP -p 11211 \
-        -P memcache_binary --test-time $1 -c 1 --ratio 0:1 \
-        --pipeline 8 --key-minimum=1 --key-maximum=$2 \
-        --key-pattern=G:G --randomize --distinct-client-seed
-
-    # collect results
-}
-
-run_duration_secs=1200
-mem_utils_90_110=(1600000 2000000)
-kernels=("baseline" "patched")
-
-for mem_util in ${mem_utils_90_110[@]}; do
-    for kernel in ${kernels[@]}; do
-        run_memtier_benchmark $run_duration_secs $mem_util $kernel
-    done
-done
-
-Results
-=======
-Baseline                                 90% RAM utilization
-------------------------------------------------------------
-Ops/sec   Avg. Lat.  p50 Lat.  p99 Lat.  p99.9 Lat.  KB/sec
-------------------------------------------------------------
-48550.71  0.65687    0.48700   2.84700   5.56700     1812.25
-48600.55  0.65629    0.48700   2.86300   5.59900     1814.11
-48562.37  0.65674    0.48700   2.84700   5.50300     1812.68
-48556.66  0.65688    0.48700   2.84700   5.53500     1812.47
-48619.50  0.65600    0.48700   2.87900   5.63100     1814.82
-48579.74  0.65654    0.48700   2.84700   5.56700     1813.33
-48593.25  0.65764    0.48700   2.86300   5.56700     1814.10
-48535.52  0.65716    0.48700   2.86300   5.56700     1811.68
-48587.24  0.65645    0.48700   2.83100   5.50300     1813.61
-48541.92  0.65704    0.48700   2.81500   5.47100     1811.92
-
-MGLRU                                    90% RAM utilization
-------------------------------------------------------------
-Ops/sec   Avg. Lat.  p50 Lat.  p99 Lat.  p99.9 Lat.  KB/sec
-------------------------------------------------------------
-48622.38  0.65594    0.48700   2.81500   5.47100     1814.92
-48537.74  0.65715    0.48700   2.84700   5.53500     1811.76
-48586.82  0.65646    0.48700   2.84700   5.50300     1813.59
-48552.44  0.65695    0.48700   2.83100   5.43900     1812.31
-48557.35  0.65680    0.49500   2.83100   5.53500     1812.49
-48625.48  0.65593    0.48700   2.81500   5.43900     1815.04
-48655.75  0.65557    0.48700   2.84700   5.53500     1816.17
-48625.67  0.65595    0.48700   2.84700   5.53500     1815.04
-48622.22  0.65600    0.48700   2.84700   5.47100     1814.91
-48617.10  0.65610    0.48700   2.84700   5.56700     1814.73
-
-Baseline                                110% RAM utilization
-------------------------------------------------------------
-Ops/sec   Avg. Lat.  p50 Lat.  p99 Lat.  p99.9 Lat.  KB/sec
-------------------------------------------------------------
-19813.79  1.61245    0.63100   17.79100  31.74300    744.91
-20328.29  1.57158    0.62300   17.27900  31.10300    764.25
-20104.12  1.58913    0.62300   17.40700  31.10300    755.82
-20342.03  1.57053    0.61500   17.27900  30.84700    764.77
-19688.05  1.62268    0.62300   17.91900  31.35900    740.18
-19607.31  1.62943    0.63900   17.91900  31.23100    737.15
-19250.96  1.65963    0.65500   17.91900  31.10300    723.75
-20182.79  1.58290    0.63100   17.40700  30.84700    758.78
-20181.88  1.58299    0.63100   17.40700  30.84700    758.75
-20615.90  1.54963    0.62300   17.02300  30.84700    775.06
-
-MGLRU                                   110% RAM utilization
-------------------------------------------------------------
-Ops/sec   Avg. Lat.  p50 Lat.  p99 Lat.  p99.9 Lat.  KB/sec
-------------------------------------------------------------
-22911.33  1.39405    0.61500   13.69500  28.79900    861.36
-22339.08  1.42989    0.61500   14.07900  30.07900    839.85
-23394.22  1.36521    0.59900   13.56700  29.05500    879.51
-22521.48  1.41830    0.61500   13.88700  29.82300    846.70
-22678.10  1.40818    0.61500   13.82300  29.69500    852.59
-22344.50  1.42952    0.61500   14.07900  29.95100    840.05
-23245.65  1.37406    0.60700   13.50300  28.92700    873.93
-23140.17  1.38032    0.59900   13.69500  29.18300    869.96
-23003.34  1.38856    0.61500   13.63100  29.05500    864.82
-22937.52  1.39253    0.61500   13.69500  29.43900    862.35
-
-Flame graphs
-------------
-Baseline: https://drive.google.com/file/d/1-Ac4HMPAyZIqxtvKerUTqNNAgBLhpX9R
-MGLRU: https://drive.google.com/file/d/1-9x0W2yIYeiRvXWiYRzL6niTqW7zCVPX
-
-References
-==========
-[1] https://openwrt.org/docs/platforms/start
-[2] https://www.amazon.com/bestsellers/pc/300189
-[3] https://openwrt.org/toh/ubiquiti/edgerouter
+DQoNCkxlIDMwLzA4LzIwMjIgw6AgMjI6MTQsIEFuZHkgU2hldmNoZW5rbyBhIMOpY3JpdMKgOg0K
+PiBPbiBNb24sIEF1ZyAyOSwgMjAyMiBhdCA3OjE4IFBNIENocmlzdG9waGUgTGVyb3kNCj4gPGNo
+cmlzdG9waGUubGVyb3lAY3Nncm91cC5ldT4gd3JvdGU6DQo+Pg0KPj4gSW4gdGhlIHByZXBhcmF0
+aW9uIG9mIGdldHRpbmcgY29tcGxldGVseSByaWQgb2Ygc3RhdGljIGdwaW9iYXNlDQo+PiBhbGxv
+Y2F0aW9uIGluIHRoZSBmdXR1cmUsIGVtaXQgYSB3YXJuaW5nIGluIGRyaXZlcnMgc3RpbGwgZG9p
+bmcgc28uDQo+IA0KPiAuLi4NCj4gDQo+PiArICAgICAgICAgICAgICAgZGV2X3dhcm4oJmdkZXYt
+PmRldiwgIlN0YXRpYyBhbGxvY2F0aW9uIG9mIEdQSU8gYmFzZSBpcyAiDQo+PiArICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgImRlcHJlY2F0ZWQsIHVzZSBkeW5hbWljIGFsbG9j
+YXRpb24uIik7DQo+IA0KPiBGaXJzdCBvZiBhbGwsIGRvIG5vdCBzcGxpdCBzdHJpbmcgbGl0ZXJh
+bHMuIFNlY29uZCwgeW91IGZvcmdvdCAnXG4nLg0KPiANCg0KVGhlbiBJIGdldCBhIGxpbmUgbG9u
+Z2VyIHRoYW4gMTAwIGNoYXJzLCBpcyB0aGF0IGFjY2VwdGFibGUgPw0KDQpTaW5jZSBjb21taXQg
+NWZkMjlkNmNjYmM5ICgicHJpbnRrOiBjbGVhbiB1cCBoYW5kbGluZyBvZiBsb2ctbGV2ZWxzIGFu
+ZCANCm5ld2xpbmVzIiksICJcbiIgYXJlIGp1c3QgdmlzdWFsIHBvbGx1dGlvbiwgYXJlbid0IHRo
+ZXkgPw0KDQpDaHJpc3RvcGhl
