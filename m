@@ -2,125 +2,103 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B63AECAAD1
-	for <linux-doc@archiver.kernel.org>; Wed, 31 Aug 2022 12:21:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A6FDECAAD4
+	for <linux-doc@archiver.kernel.org>; Wed, 31 Aug 2022 13:32:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229456AbiHaMVC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 31 Aug 2022 08:21:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35722 "EHLO
+        id S231580AbiHaNcm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 31 Aug 2022 09:32:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42854 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229804AbiHaMVB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 31 Aug 2022 08:21:01 -0400
-X-Greylist: delayed 455 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 31 Aug 2022 05:21:00 PDT
-Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com [66.111.4.221])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 093D6C6CEE
-        for <linux-doc@vger.kernel.org>; Wed, 31 Aug 2022 05:20:59 -0700 (PDT)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-        by mailnew.nyi.internal (Postfix) with ESMTP id D8463580469;
-        Wed, 31 Aug 2022 08:13:20 -0400 (EDT)
-Received: from imap51 ([10.202.2.101])
-  by compute3.internal (MEProxy); Wed, 31 Aug 2022 08:13:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-        :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
-        :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to; s=fm1; t=1661948000; x=1661951600; bh=PwHKpVPJmM
-        UmUrzEC5wfEwU2vtgowOlvFWw9meu7ZZI=; b=LnQqu8M2MveQUmyS+/mKijGNEZ
-        LvA1dXxbxJ5tbX8N7d5ECV86C6tCcYUvSm7qbdusUJZczGN+O276+pTomUqApjYc
-        2iDIzyCJw57HNp4k5oew9PCTBl4U6XGh4HfFLkMgxs7xfs/N32MHV1JvuYdClnTG
-        gZVx5Jovcgvk79mmUaEI+ovyXtHPCbtojR/6ZmFfC9fiE9MbhC+LHs5e1qktbRj3
-        oInoXOk2+AWsJRNNTgbuuqlrP/rxN3on+Ziy+YbvI7LFzOktv/75PlYoWqr+v/8t
-        eznmjPvhQQ/sXgrJ7GbB3AjNg/fyXqP6xqaguqjAUb/KNIoPv3f8wcyxDuSg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
-        :mime-version:references:reply-to:sender:subject:subject:to:to
-        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        i56a14606.fm1; t=1661948000; x=1661951600; bh=PwHKpVPJmMUmUrzEC5
-        wfEwU2vtgowOlvFWw9meu7ZZI=; b=JulZysPIyyY6WOOwRIu/Dzy6xwpTz6y+C9
-        q4OioxpJwBb2rStOMqN3hfKZ+CnFOnGdgembcokJNJ/lFXrKfwu7QK0BDw5m+Tje
-        +gp2c4yO+YeVNlHA25CWbDhj1LEfD1EJAU/yAJ4yK/9K29qXeFY0drrz+2X2VUuz
-        X7aFoO9jGvsbAl//27gZQzBwKadANCClBHNdOwSg+wZttvxW3uDdNn9yJJKGIdkV
-        0JX5pwsoWuDl6gb3mGVS0ef/ZFAHGiixiRFz3VOTnrKicox47QU5897yrN+xCkZZ
-        bUcLKmyCI0R8CY9JtlwJKZgz9Y+pAhvfYDgtg2XCOjstN1UjI49A==
-X-ME-Sender: <xms:X1APY6JfgN_PcfNrF-bVdDD_lTXUtXNSGxLQi_YVqOfLdEGAwX5IgQ>
-    <xme:X1APYyJg4mzXcGraDVa6ucFLj1zJ32id5xXd9G3A0xVeIjuhi_hUdq__Jc1Iq7NfC
-    Sz91hqUOWrDQNuOyeI>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdekiedgvdduucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
-    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
-    htvghrnhepffehueegteeihfegtefhjefgtdeugfegjeelheejueethfefgeeghfektdek
-    teffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
-    hrnhgusegrrhhnuggsrdguvg
-X-ME-Proxy: <xmx:X1APY6vSedG5ktQePDJKhpYYdtNpEl25bCvd-9ifk2f8dlFXLErOoA>
-    <xmx:X1APY_bAq2htx5EfBG_j3WFjDREYqgnndq7r8H4LiFlj116fQdFg9w>
-    <xmx:X1APYxbxiVPkDLEtx5MzrZzyWuvMzvGr-KKVXbX_ShcIilkGf2q1dg>
-    <xmx:YFAPY-LyF5BNHAta84pdv5r1wXRl8eruHHZg1KQqDzd-PwZmkZ2A5Q>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-        id 360BEB60083; Wed, 31 Aug 2022 08:13:19 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.7.0-alpha0-841-g7899e99a45-fm-20220811.002-g7899e99a
-Mime-Version: 1.0
-Message-Id: <b48f5edd-7f6e-48e3-9f72-61cd8e1a21e7@www.fastmail.com>
-In-Reply-To: <20220831041731.3836322-1-yuzhao@google.com>
-References: <20220815071332.627393-1-yuzhao@google.com>
- <20220831041731.3836322-1-yuzhao@google.com>
-Date:   Wed, 31 Aug 2022 14:12:59 +0200
-From:   "Arnd Bergmann" <arnd@arndb.de>
-To:     linux-arm-kernel@lists.infradead.org, "Yu Zhao" <yuzhao@google.com>
-Cc:     "Andrew Morton" <akpm@linux-foundation.org>,
-        "Andi Kleen" <ak@linux.intel.com>,
-        "Aneesh Kumar" <aneesh.kumar@linux.ibm.com>,
-        "Catalin Marinas" <catalin.marinas@arm.com>,
-        "Dave Hansen" <dave.hansen@linux.intel.com>,
-        "Hillf Danton" <hdanton@sina.com>, "Jens Axboe" <axboe@kernel.dk>,
-        "Johannes Weiner" <hannes@cmpxchg.org>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        "Linus Torvalds" <torvalds@linux-foundation.org>,
-        "Matthew Wilcox" <willy@infradead.org>,
-        "Mel Gorman" <mgorman@suse.de>,
-        "Michael Larabel" <Michael@michaellarabel.com>,
-        "Michal Hocko" <mhocko@kernel.org>,
-        "Mike Rapoport" <rppt@kernel.org>,
-        "Peter Zijlstra" <peterz@infradead.org>,
-        "Tejun Heo" <tj@kernel.org>, "Vlastimil Babka" <vbabka@suse.cz>,
-        "Will Deacon" <will@kernel.org>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, x86@kernel.org,
-        page-reclaim@google.com
-Subject: Re: OpenWrt / MIPS benchmark with MGLRU
-Content-Type: text/plain
+        with ESMTP id S231358AbiHaNcl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 31 Aug 2022 09:32:41 -0400
+Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0DDCCCD79
+        for <linux-doc@vger.kernel.org>; Wed, 31 Aug 2022 06:32:38 -0700 (PDT)
+Received: by mail-ed1-x52f.google.com with SMTP id s11so18381490edd.13
+        for <linux-doc@vger.kernel.org>; Wed, 31 Aug 2022 06:32:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc;
+        bh=CgFPDK2LvRhAS6goxi4X/Ic8NNdHal1iYUOcFxcfEdk=;
+        b=OihL0qcd7WTm78kvrrTsnVuXk1//E+pKPWsyjcGbB/P4HjEZXfREd/CjogrV6SDOlL
+         GsHoAFIvYgnKbfcx6ccWiSl/xuBdQG3P5vgPFA8wCFCPYFhzTVSvCx3jIWFOrPt68oMR
+         qUwnav9c//Odlu5krHpyk+sUs7gdRgOWz0XpnFbonZzefWiC4MhVBSZ3S2qO0xugA1Ov
+         AYmMZUOVp+svGZPETa8oThZlCTa0q8zfwEfoUmRrznv3BP2HFAI0R6ZJICBLg/fmdhkh
+         BaKfz/hMLg5YOV9680dDdCjKdeV3uupWudbX/ipOad25UYmOrgCvX6SUubv1SUxPTtZN
+         rsOQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=CgFPDK2LvRhAS6goxi4X/Ic8NNdHal1iYUOcFxcfEdk=;
+        b=aV7UBPUXTavv00z2UrGDr4rSlrXV8fV4ih+ootsY5OUk9ADeDfsBi2x6rJSaHYhGOj
+         PzZyqGQGV1bsNF35sjT9uxhG8K45yT/OXpWwj1eqSpcO6EHGV4sOu9kNleRCtuCyxoz3
+         yOE/3lX7Vr/Ha3WS4+MaAhN8flkdTsJNSXtr9GBr4TgczZ/vkrDRjyTwAB87q6WOVOWG
+         t+rrr4tEBGHcJWZ49oCxXp7UJHse4hHw1WxDI25eM95GtQqHBbqMb/Zo8eeq1Dd2D4sh
+         lcN47KZLFZC0+uA8YvN2aXfBIx7dzV2H5cwtwrLUaAuSdpt4iuyNmbSDwJcewqkCDGyO
+         gvYA==
+X-Gm-Message-State: ACgBeo3LFGndjqZfOCSelPhm1+uMShFu7gWpRkBh/blmGfaTf3N/AlkW
+        74xvtowVBau37wTXQEMWBDaoNiyf0JUn89fMvTMVTA==
+X-Google-Smtp-Source: AA6agR4gJIbhP+4ApJR2yhAwf3e1Odkz7EHU+179Wq7SwkPr/9kSVAUOmgosnJMFlpXFsd/QDaxBnLupLFuZc97eYn0=
+X-Received: by 2002:a05:6402:2691:b0:43d:ba10:854b with SMTP id
+ w17-20020a056402269100b0043dba10854bmr23759195edd.158.1661952757218; Wed, 31
+ Aug 2022 06:32:37 -0700 (PDT)
+MIME-Version: 1.0
+References: <CAK8P3a0j-54_OkXC7x3NSNaHhwJ+9umNgbpsrPxUB4dwewK63A@mail.gmail.com>
+ <CACRpkda0+iy8H0YmyowSDn8RbYgnVbC1k+o5F67inXg4Qb934Q@mail.gmail.com>
+ <CAK8P3a0uuJ_z8wmNmQTW_qPNqzz7XoxZdHgqbzmK+ydtjraeHg@mail.gmail.com>
+ <CACRpkdb5ow4hD3td6agCuKWvuxptm5AV4rsCrcxNStNdXnBzrA@mail.gmail.com>
+ <87f2ff4c-3426-201c-df86-2d06d3587a20@csgroup.eu> <CACRpkdYizQhiJXzXNHg7TXUVHzhkwXHFN5+e58kH4udGm1ziEA@mail.gmail.com>
+ <f76dbc49-526f-6dc7-2ef1-558baea5848b@csgroup.eu> <CACRpkdZpwdP+1VitohznqRfhFGcLT2f+sQnmsRWwMBB3bobwAw@mail.gmail.com>
+ <515364a9-33a1-fafa-fdce-dc7dbd5bb7fb@csgroup.eu> <CAK8P3a36qbRW8hd+1Uhi88kh+-KTjDMT-Zr8Jq9h_G3zQLfzgw@mail.gmail.com>
+ <Yw3DKCuDoPkCaqxE@arcana.i.gnudd.com>
+In-Reply-To: <Yw3DKCuDoPkCaqxE@arcana.i.gnudd.com>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Wed, 31 Aug 2022 15:32:25 +0200
+Message-ID: <CACRpkdZeAAZYqV3ccd-X=ZwdnfSwRUdXchGETB-WTkgSZQL=Pw@mail.gmail.com>
+Subject: Re: [PATCH] gpio: Allow user to customise maximum number of GPIOs
+To:     Davide Ciminaghi <ciminaghi@gnudd.com>
+Cc:     Arnd Bergmann <arnd@arndb.de>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Alexandre Courbot <gnurou@gmail.com>,
+        Alexandre Courbot <acourbot@nvidia.com>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Russell King <linux@armlinux.org.uk>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        "moderated list:ARM PORT" <linux-arm-kernel@lists.infradead.org>,
+        "open list:GENERIC INCLUDE/ASM HEADER FILES" 
+        <linux-arch@vger.kernel.org>, Alessandro Rubini <rubini@gnudd.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Aug 31, 2022, at 6:17 AM, Yu Zhao wrote:
->
-> Rational
-> ========
-> 1. OpenWrt is the most popular distro for WiFi routers; many of its
->    targets use big endianness [1].
-> 2. 4 out of the top 5 bestselling WiFi routers in the US use MIPS [2];
->    MIPS uses software-managed TLB.
-> 3. Memcached is the best available memory benchmark on OpenWrt;
->    admittedly such a use case is very limited in the real world.
->
-> Hardware
-> ========
-> DUT: Ubiquiti EdgeRouter (ER-8) [3]
+On Tue, Aug 30, 2022 at 9:58 AM Davide Ciminaghi <ciminaghi@gnudd.com> wrote:
 
-I don't know if it makes any difference to your findings, but
-I would point out the test hardware is neither representative
-of most devices supported by OpenWRT, nor those on the amazon
-best-seller list that I see looking from Germany:
+> the sta2x11 was a chip containing AMBA peripherals and a PCIe to AMBA bridge
+> (it is still in production as far as I know, but deprecated for new designs).
+> It would typically be installed on x86 machines, so you needed to build and
+> run AMBA drivers in an x86 environment. The original drivers we started from
+> had platform data, but then we were told to switch to DTS.
 
-Five of the top-10 devices on that list are arm64 (little-endian,
-hardware TLB walker, typically 512MB of RAM), the others are
-mips32 (typically only 128MB, mostly single-core) and only
-the oldest one (Archer C7) of them is big-endian. I would not
-expect endianness to make any difference, but the 16x smaller
-memory of typical mips devices (ath79, mt76) might.
+For the record I think that was bad advice, I hope it wasn't me.
+But the world was different back then I suppose.
+Adding DTS to x86 which is inherently ACPI is not a good idea.
+Especially if you look at how SBSA ACPI UARTS were done
+in drivers/tty/serial/amba-pl011.c.
 
-       Arnd
+Today I think we would solve this by simply creating software nodes, which
+are the same no matter if you're doing device tree or ACPI, so it would
+have been much easier now, I think. :/
+
+Yours,
+Linus Walleij
