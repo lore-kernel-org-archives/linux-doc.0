@@ -2,147 +2,258 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F23D7ECAAD1
-	for <linux-doc@archiver.kernel.org>; Wed, 31 Aug 2022 20:00:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 15867ECAAD5
+	for <linux-doc@archiver.kernel.org>; Wed, 31 Aug 2022 20:08:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229481AbiHaUAR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 31 Aug 2022 16:00:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50888 "EHLO
+        id S232008AbiHaUIQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 31 Aug 2022 16:08:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59506 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230455AbiHaUAQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 31 Aug 2022 16:00:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80C2E760FD
-        for <linux-doc@vger.kernel.org>; Wed, 31 Aug 2022 13:00:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1661976013;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=NZSBGjtmVjGMgM+CxXs9jtX0UzV7LjjMgYj58UR9vM0=;
-        b=VD+8TV6hieXo5ZoJrQ+BDJZw2oEyP7GSLaQ4Ab2yP6b2BE7lL5+wM4wdPnde/P5DB/R0yk
-        y0ARQPJ0St2SthoPwmEuVa/Sthj3axOY4i+QuB8A8QFfXkCERgBaHjMNmrr0bnjBxc/s8a
-        Fqfz60hWz96CyeMIfaJtzka3/VwuzQ8=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-255-mvcKhCd7Memq8jXq-lDU4w-1; Wed, 31 Aug 2022 16:00:09 -0400
-X-MC-Unique: mvcKhCd7Memq8jXq-lDU4w-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        with ESMTP id S230437AbiHaUIO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 31 Aug 2022 16:08:14 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EED0DC6964;
+        Wed, 31 Aug 2022 13:08:13 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F04A9964082;
-        Wed, 31 Aug 2022 20:00:08 +0000 (UTC)
-Received: from localhost (unknown [10.39.192.75])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 40B702166B2A;
-        Wed, 31 Aug 2022 20:00:07 +0000 (UTC)
-Date:   Wed, 31 Aug 2022 16:00:06 -0400
-From:   Stefan Hajnoczi <stefanha@redhat.com>
-To:     Ziyang Zhang <ZiyangZhang@linux.alibaba.com>
-Cc:     Ming Lei <ming.lei@redhat.com>, Jens Axboe <axboe@kernel.dk>,
-        linux-doc@vger.kernel.org, linux-block@vger.kernel.org,
-        Christoph Hellwig <hch@lst.de>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "Richard W . M . Jones" <rjones@redhat.com>,
-        Xiaoguang Wang <xiaoguang.wang@linux.alibaba.com>
-Subject: Re: [PATCH] Docs: ublk: add ublk document
-Message-ID: <Yw+9xkKx6cgeiSyN@fedora>
-References: <20220828045003.537131-1-ming.lei@redhat.com>
- <Yw4rcz23R3ofn6H6@fedora>
- <e9df4ed8-a0ea-661f-9947-b18fa1d2145f@linux.alibaba.com>
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 71DA661922;
+        Wed, 31 Aug 2022 20:08:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E5457C433D6;
+        Wed, 31 Aug 2022 20:08:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1661976492;
+        bh=zKMHNZ+XLBme4WkFy77n13v6pA/KXZ5Eql5mbdiwYIY=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=cLb7sXLuNwOZot0OZeBWG/0+l7IPTuYWZ3wBEg+BzhOwAA/0ZICj41rSVegYddNjv
+         n42Mn2JRIyMPbLKqj3N4uO8pOqZJbV3ChRs+/dqGgs4KxenXScsNYhypbcVFj+rGE8
+         AoBGY878hEQZwCF8o7USVP1MpLA5PI2UicNRTNbu3LsFwv2FozWXsRIyR1DhDuFPgW
+         Hfwrl1TCvoWA68ZwccdQzWkXWv5l2dTksjFtdzHiWCDTmnN6Jd/M94lkIpbtbNxorI
+         x6xXurY5CWW64KBR/AzYLLFgpPDUR7fMESwNCWjqTlmJwlVDfQpgllHJRWlXF/Veup
+         BzsPHoHJjhXPQ==
+Date:   Wed, 31 Aug 2022 13:08:10 -0700
+From:   Nathan Chancellor <nathan@kernel.org>
+To:     Nick Desaulniers <ndesaulniers@google.com>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Tom Rix <trix@redhat.com>, linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org, llvm@lists.linux.dev, x86@kernel.org,
+        Dmitrii Bundin <dmitrii.bundin.a@gmail.com>,
+        Fangrui Song <maskray@google.com>,
+        Alexey Alexandrov <aalexand@google.com>,
+        Bill Wendling <morbo@google.com>,
+        Greg Thelen <gthelen@google.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v2 3/5] Makefile.compiler: replace cc-ifversion with
+ compiler-specific macros
+Message-ID: <Yw+/qjgveoN0q89t@dev-arch.thelio-3990X>
+References: <20220831184408.2778264-1-ndesaulniers@google.com>
+ <20220831184408.2778264-4-ndesaulniers@google.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="cC3A+mjn3pxIXJxb"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <e9df4ed8-a0ea-661f-9947-b18fa1d2145f@linux.alibaba.com>
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
+In-Reply-To: <20220831184408.2778264-4-ndesaulniers@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Wed, Aug 31, 2022 at 11:44:06AM -0700, Nick Desaulniers wrote:
+> cc-ifversion is GCC specific. Replace it with compiler specific
+> variants. Update the users of cc-ifversion to use these new macros.
+> Provide a helper for checking compiler versions for GCC and Clang
+> simultaneously, that will be used in a follow up patch.
+> 
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: linux-doc@vger.kernel.org
+> Cc: amd-gfx@lists.freedesktop.org
+> Cc: dri-devel@lists.freedesktop.org
+> Link: https://github.com/ClangBuiltLinux/linux/issues/350
+> Link: https://lore.kernel.org/llvm/CAGG=3QWSAUakO42kubrCap8fp-gm1ERJJAYXTnP1iHk_wrH=BQ@mail.gmail.com/
+> Suggested-by: Bill Wendling <morbo@google.com>
+> Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
 
---cC3A+mjn3pxIXJxb
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+These are so much nicer. I find the name kind of awkward but the only
+thing I could come up with that sounded better was 'gcc-is-at-least' or
+'clang-is-at-least' and I don't really feel like painting sheds today,
+it's hot outside :)
 
-On Wed, Aug 31, 2022 at 02:31:12PM +0800, Ziyang Zhang wrote:
-> On 2022/8/30 23:23, Stefan Hajnoczi wrote:
-> > On Sun, Aug 28, 2022 at 12:50:03PM +0800, Ming Lei wrote:
-> >> +- UBLK_IO_NEED_GET_DATA
-> >> +  ublksrv pre-allocates IO buffer for each IO at default, any new pro=
-ject
-> >> +  should use this IO buffer to communicate with ublk driver. But exis=
-ted
-> >> +  project may not work or be changed to in this way, so add this comm=
-and
-> >> +  to provide chance for userspace to use its existed buffer for handl=
-ing
-> >> +  IO.
-> >=20
-> > I find it hard to understand this paragraph. It seems the
-> > UBLK_IO_NEED_GET_DATA command allows userspace to set up something
-> > related to IO buffers. What exactly does this command do?
->=20
-> Let me explain UBLK_IO_NEED_GET_DATA since it is designed by myself.
->=20
-> Without UBLK_IO_NEED_GET_DATA, ublk_drv will copy data from biovecs
-> into a pre-allocated buffer(addr is passed with the last COMMIT_AMD_FETCH=
- ioucmd)
-> while processing a WRITE request. Please consider two cases:
->=20
-> (1)  if the backend(such as a dist-storage system using RPC) provides the=
- data
->      buffer, it has to provide the buffer IN ADVANCE(before sending the l=
-ast
->      COMMIT_AMD_FETCH) without knowing any knowledge of this incoming req=
-uest.
->      This makes existing backend very hard to adapt to ublk because they =
-may
->      want to know the data length or other attributes of the new request.
->=20
-> (2) If the backend does not provide the data buffer IN ADVANCE, ublksrv m=
-ust
->     pre-allocates data buffer. So a additional data copy from ublksrv to
->     the backend(such as a RPC mempool) is unavoidable.
->=20
-> With UBLK_IO_NEED_GET_DATA, the WRITE request will be firstly issued to u=
-blksrv
-> without data copy. Then, backend gets the request and it can allocate data
-> buffer and embed its addr inside a new ioucmd. After the kernel driver ge=
-ts the
-> ioucmd, the data copy happens(from biovecs to backend's buffer). Finally,
-> the backend gets the request again with data to be written and it can tru=
-ly
-> handle the request.
+Reviewed-by: Nathan Chancellor <nathan@kernel.org>
 
-Thanks for the explanation. Maybe it can be included in the
-documentation.
+Some comments below.
 
-This reminds me of io_uring's IOSQE_BUFFER_SELECT where userspace
-provides the kernel with a buffer pool and the kernel selects buffers.
-It doesn't require an extra io_uring command roundtrip
-(UBLK_IO_NEED_GET_DATA).
+> ---
+> Changes v1 -> v2:
+> * New patch.
+> 
+>  Documentation/kbuild/makefiles.rst          | 44 +++++++++++++++------
+>  Makefile                                    |  4 +-
+>  drivers/gpu/drm/amd/display/dc/dml/Makefile | 12 ++----
+>  scripts/Makefile.compiler                   | 15 +++++--
+>  4 files changed, 49 insertions(+), 26 deletions(-)
+> 
+> diff --git a/Documentation/kbuild/makefiles.rst b/Documentation/kbuild/makefiles.rst
+> index 11a296e52d68..e46f5b45c422 100644
+> --- a/Documentation/kbuild/makefiles.rst
+> +++ b/Documentation/kbuild/makefiles.rst
+> @@ -682,22 +682,42 @@ more details, with real examples.
+>  	In the above example, -Wno-unused-but-set-variable will be added to
+>  	KBUILD_CFLAGS only if gcc really accepts it.
+>  
+> -    cc-ifversion
+> -	cc-ifversion tests the version of $(CC) and equals the fourth parameter
+> -	if version expression is true, or the fifth (if given) if the version
+> -	expression is false.
+> +    gcc-min-version
+> +	gcc-min-version tests if the value of $(CONFIG_GCC_VERSION) is greater than
+> +	or equal to the provided value and evaluates to y if so.
+>  
+>  	Example::
+>  
+> -		#fs/reiserfs/Makefile
+> -		ccflags-y := $(call cc-ifversion, -lt, 0402, -O1)
+> +		cflags-$(call gcc-min-version, 70100) := -foo
+>  
+> -	In this example, ccflags-y will be assigned the value -O1 if the
+> -	$(CC) version is less than 4.2.
+> -	cc-ifversion takes all the shell operators:
+> -	-eq, -ne, -lt, -le, -gt, and -ge
+> -	The third parameter may be a text as in this example, but it may also
+> -	be an expanded variable or a macro.
+> +	In this example, cflags-y will be assigned the value -foo if $(CC) is gcc and
+> +	$(CONFIG_GCC_VERSION) is >= 7.1.
+> +
+> +    clang-min-version
+> +	clang-min-version tests if the value of $(CONFIG_CLANG_VERSION) is greater
+> +	than or equal to the provided value and evaluates to y if so.
+> +
+> +	Example::
+> +
+> +		cflags-$(call clang-min-version, 110000) := -foo
+> +
+> +	In this example, cflags-y will be assigned the value -foo if $(CC) is clang
+> +	and $(CONFIG_CLANG_VERSION) is >= 11.0.0.
+> +
+> +    cc-min-version
+> +	cc-min-version tests if the value of $(CONFIG_GCC_VERSION) is greater
+> +	than or equal to the first value provided, or if the value of
+> +	$(CONFIG_CLANG_VERSION) is greater than or equal to the second value
+> +	provided, and evaluates
+> +	to y if so.
+> +
+> +	Example::
+> +
+> +		cflags-$(call cc-min-version, 70100, 110000) := -foo
+> +
+> +	In this example, cflags-y will be assigned the value -foo if $(CC) is gcc and
+> +	$(CONFIG_GCC_VERSION) is >= 7.1, or if $(CC) is clang and
+> +	$(CONFIG_CLANG_VERSION) is >= 11.0.0.
+>  
+>      cc-cross-prefix
+>  	cc-cross-prefix is used to check if there exists a $(CC) in path with
+> diff --git a/Makefile b/Makefile
+> index 952d354069a4..caa39ecb1136 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -972,7 +972,7 @@ ifdef CONFIG_CC_IS_GCC
+>  KBUILD_CFLAGS += -Wno-maybe-uninitialized
+>  endif
+>  
+> -ifdef CONFIG_CC_IS_GCC
+> +ifeq ($(call gcc-min-version, 90100),y)
+>  # The allocators already balk at large sizes, so silence the compiler
+>  # warnings for bounds checks involving those possible values. While
+>  # -Wno-alloc-size-larger-than would normally be used here, earlier versions
+> @@ -984,7 +984,7 @@ ifdef CONFIG_CC_IS_GCC
+>  # ignored, continuing to default to PTRDIFF_MAX. So, left with no other
+>  # choice, we must perform a versioned check to disable this warning.
+>  # https://lore.kernel.org/lkml/20210824115859.187f272f@canb.auug.org.au
+> -KBUILD_CFLAGS += $(call cc-ifversion, -ge, 0901, -Wno-alloc-size-larger-than)
+> +KBUILD_CFLAGS += -Wno-alloc-size-larger-than
+>  endif
 
-Did you already look at IOSQE_BUFFER_SELECT and decide a similar
-approach won't work for your use case?
+It might be interesting to move this up to where KBUILD_CFLAGS-y is used
+to make it:
 
-Stefan
+  KBUILD_CFLAGS-$(call gcc-min-version, 90100) += -Wno-alloc-size-larger-than
 
---cC3A+mjn3pxIXJxb
-Content-Type: application/pgp-signature; name="signature.asc"
+But the comment would have to come with so it probably isn't worth
+doing. Just throwing it out as an observation.
 
------BEGIN PGP SIGNATURE-----
+>  
+>  # disable invalid "can't wrap" optimizations for signed / pointers
+> diff --git a/drivers/gpu/drm/amd/display/dc/dml/Makefile b/drivers/gpu/drm/amd/display/dc/dml/Makefile
+> index 86a3b5bfd699..d8ee4743b2e3 100644
+> --- a/drivers/gpu/drm/amd/display/dc/dml/Makefile
+> +++ b/drivers/gpu/drm/amd/display/dc/dml/Makefile
+> @@ -33,20 +33,14 @@ ifdef CONFIG_PPC64
+>  dml_ccflags := -mhard-float -maltivec
+>  endif
+>  
+> -ifdef CONFIG_CC_IS_GCC
+> -ifeq ($(call cc-ifversion, -lt, 0701, y), y)
+> -IS_OLD_GCC = 1
+> -endif
+> -endif
+> -
+>  ifdef CONFIG_X86
+> -ifdef IS_OLD_GCC
+> +ifeq ($(call gcc-min-version, 70100),y)
+> +dml_ccflags += -msse2
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmMPvcYACgkQnKSrs4Gr
-c8jgfgf/QEpkKMLMe8nPNb1uSxKF82wwizozhSZjPK3s/hWDuH8q26FDCmtJcCrD
-9vanvREyKgUcRxhsDDcly0ng0groWGNZEB1j2zvdmHE9AwizLoQIFcdmPXlNEcwu
-1i8L7m8pJIpQ+ED9eMBv0mfgRuXK5JqD5DteSvDF/vqfcgkBvFr14yaBdTyKm7UX
-Id+/jNhzEeIK/I5vQ5C5nuHQrHPF5M5Rlu9YPLiVKa5o/mjK8G5AoaZcA8Jn4KID
-t6BSWE8NUWTHWcThz1JH96d1MZhx3neF86WpBMhiSYMSnNFa1kXPUdxD3IKUh6tO
-oQErGxR8YERTSLYkOVOWOncTCmr5UA==
-=AVxB
------END PGP SIGNATURE-----
+I think you just dropped '-msse2' for clang.
 
---cC3A+mjn3pxIXJxb--
+I guess this wants to be:
 
+  ifeq ($(call cc-min-version, 70100, 110000),y)
+
+but it kind of feels bad to hardcode the kernel's minimum supported
+version of clang somewhere that is not super easy to grep for when we
+upgrade it (I guess I'll add cc-min-version to my list of things to look
+for, in addition to the Kconfig variables). Perhaps we should codify it
+in a place that can be used within make (using
+'scripts/min-tool-version.sh' even) so that we could do something like:
+
+  ifeq ($(call cc-min-version, 70100, $(MIN_CLANG_VERSION)),y)
+
+Up to you though.
+
+> +else
+>  # Stack alignment mismatch, proceed with caution.
+>  # GCC < 7.1 cannot compile code using `double` and -mpreferred-stack-boundary=3
+>  # (8B stack alignment).
+>  dml_ccflags += -mpreferred-stack-boundary=4
+> -else
+> -dml_ccflags += -msse2
+>  endif
+>  endif
+>  
+> diff --git a/scripts/Makefile.compiler b/scripts/Makefile.compiler
+> index d1739f0d3ce3..13dade724fa3 100644
+> --- a/scripts/Makefile.compiler
+> +++ b/scripts/Makefile.compiler
+> @@ -61,9 +61,18 @@ cc-option-yn = $(call try-run,\
+>  cc-disable-warning = $(call try-run,\
+>  	$(CC) -Werror $(KBUILD_CPPFLAGS) $(KBUILD_CFLAGS) -W$(strip $(1)) -c -x c /dev/null -o "$$TMP",-Wno-$(strip $(1)))
+>  
+> -# cc-ifversion
+> -# Usage:  EXTRA_CFLAGS += $(call cc-ifversion, -lt, 0402, -O1)
+> -cc-ifversion = $(shell [ $(CONFIG_GCC_VERSION)0 $(1) $(2)000 ] && echo $(3) || echo $(4))
+> +# gcc-min-version
+> +# Usage: cflags-$(call gcc-min-version, 70100) += -foo
+> +gcc-min-version = $(shell [ $(CONFIG_GCC_VERSION) -ge $(1) ] && echo y)
+> +
+> +# clang-min-version
+> +# Usage: cflags-$(call clang-min-version, 110000) += -foo
+> +clang-min-version = $(shell [ $(CONFIG_CLANG_VERSION) -ge $(1) ] && echo y)
+> +
+> +# cc-min-version
+> +# Usage: cflags-$(call cc-min-version, 701000, 110000)
+> +#                                      ^ GCC   ^ Clang
+> +cc-min-version = $(filter y, $(call gcc-min-version, $(1)), $(call clang-min-version, $(2)))
+>  
+>  # ld-option
+>  # Usage: KBUILD_LDFLAGS += $(call ld-option, -X, -Y)
+> -- 
+> 2.37.2.672.g94769d06f0-goog
+> 
