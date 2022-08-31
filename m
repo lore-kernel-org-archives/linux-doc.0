@@ -2,82 +2,147 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84731ECAAD4
-	for <linux-doc@archiver.kernel.org>; Wed, 31 Aug 2022 19:50:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F23D7ECAAD1
+	for <linux-doc@archiver.kernel.org>; Wed, 31 Aug 2022 20:00:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229710AbiHaTuS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 31 Aug 2022 15:50:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36902 "EHLO
+        id S229481AbiHaUAR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 31 Aug 2022 16:00:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50888 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230403AbiHaTuS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 31 Aug 2022 15:50:18 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66EB245062;
-        Wed, 31 Aug 2022 12:50:16 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        with ESMTP id S230455AbiHaUAQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 31 Aug 2022 16:00:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80C2E760FD
+        for <linux-doc@vger.kernel.org>; Wed, 31 Aug 2022 13:00:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1661976013;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=NZSBGjtmVjGMgM+CxXs9jtX0UzV7LjjMgYj58UR9vM0=;
+        b=VD+8TV6hieXo5ZoJrQ+BDJZw2oEyP7GSLaQ4Ab2yP6b2BE7lL5+wM4wdPnde/P5DB/R0yk
+        y0ARQPJ0St2SthoPwmEuVa/Sthj3axOY4i+QuB8A8QFfXkCERgBaHjMNmrr0bnjBxc/s8a
+        Fqfz60hWz96CyeMIfaJtzka3/VwuzQ8=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-255-mvcKhCd7Memq8jXq-lDU4w-1; Wed, 31 Aug 2022 16:00:09 -0400
+X-MC-Unique: mvcKhCd7Memq8jXq-lDU4w-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 007626192C;
-        Wed, 31 Aug 2022 19:50:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 409FFC433C1;
-        Wed, 31 Aug 2022 19:50:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1661975415;
-        bh=CwC31PL9899CHPuWsFZ4q787QaQZMEcghhKVzhRL9uA=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=j2cnR9nb3gQPKAPASfHrnqXNz6J6tJIZQdj+VcB94ekv3iD9vtBruaHgTjxWim+wa
-         9kCQ9UouT9P25sSdRrD59fOy71iHzPkoCf3RtYGWfKJbhWgtpyyPV2/3E7xK7h0YSe
-         rhGoHis06prcYhEAWwxDaqwyVuNXFDrz+ruQ5QOByRJhrfIYCkjbDfN4bQE621VNzn
-         H29f0v6qPOBOhw32iMBZ3B+o04n7kiT/ZH34tMPV2KHLeXnX9jEwNmng+96OAVbuEU
-         0Y/vmuUPJsgWoTwM5Vvt+RAzSPA+GvQRRWpaypRNTFy5pprEtTTySFrazr3PHEnBna
-         uZOK/LiSlJvkw==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 232EDC4166F;
-        Wed, 31 Aug 2022 19:50:15 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F04A9964082;
+        Wed, 31 Aug 2022 20:00:08 +0000 (UTC)
+Received: from localhost (unknown [10.39.192.75])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 40B702166B2A;
+        Wed, 31 Aug 2022 20:00:07 +0000 (UTC)
+Date:   Wed, 31 Aug 2022 16:00:06 -0400
+From:   Stefan Hajnoczi <stefanha@redhat.com>
+To:     Ziyang Zhang <ZiyangZhang@linux.alibaba.com>
+Cc:     Ming Lei <ming.lei@redhat.com>, Jens Axboe <axboe@kernel.dk>,
+        linux-doc@vger.kernel.org, linux-block@vger.kernel.org,
+        Christoph Hellwig <hch@lst.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Richard W . M . Jones" <rjones@redhat.com>,
+        Xiaoguang Wang <xiaoguang.wang@linux.alibaba.com>
+Subject: Re: [PATCH] Docs: ublk: add ublk document
+Message-ID: <Yw+9xkKx6cgeiSyN@fedora>
+References: <20220828045003.537131-1-ming.lei@redhat.com>
+ <Yw4rcz23R3ofn6H6@fedora>
+ <e9df4ed8-a0ea-661f-9947-b18fa1d2145f@linux.alibaba.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH] Documentation: networking: correct possessive "its"
-From:   patchwork-bot+netdevbpf@kernel.org
-Message-Id: <166197541513.20889.3530530600911600939.git-patchwork-notify@kernel.org>
-Date:   Wed, 31 Aug 2022 19:50:15 +0000
-References: <20220829235414.17110-1-rdunlap@infradead.org>
-In-Reply-To: <20220829235414.17110-1-rdunlap@infradead.org>
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     linux-doc@vger.kernel.org, corbet@lwn.net, davem@davemloft.net,
-        edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
-        netdev@vger.kernel.org, jiri@nvidia.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="cC3A+mjn3pxIXJxb"
+Content-Disposition: inline
+In-Reply-To: <e9df4ed8-a0ea-661f-9947-b18fa1d2145f@linux.alibaba.com>
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello:
 
-This patch was applied to netdev/net.git (master)
-by Jakub Kicinski <kuba@kernel.org>:
+--cC3A+mjn3pxIXJxb
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 29 Aug 2022 16:54:14 -0700 you wrote:
-> Change occurrences of "it's" that are possessive to "its"
-> so that they don't read as "it is".
-> 
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: "David S. Miller" <davem@davemloft.net>
-> Cc: Eric Dumazet <edumazet@google.com>
-> Cc: Jakub Kicinski <kuba@kernel.org>
-> Cc: Paolo Abeni <pabeni@redhat.com>
-> Cc: netdev@vger.kernel.org
-> Cc: Jiri Pirko <jiri@nvidia.com>
-> 
-> [...]
+On Wed, Aug 31, 2022 at 02:31:12PM +0800, Ziyang Zhang wrote:
+> On 2022/8/30 23:23, Stefan Hajnoczi wrote:
+> > On Sun, Aug 28, 2022 at 12:50:03PM +0800, Ming Lei wrote:
+> >> +- UBLK_IO_NEED_GET_DATA
+> >> +  ublksrv pre-allocates IO buffer for each IO at default, any new pro=
+ject
+> >> +  should use this IO buffer to communicate with ublk driver. But exis=
+ted
+> >> +  project may not work or be changed to in this way, so add this comm=
+and
+> >> +  to provide chance for userspace to use its existed buffer for handl=
+ing
+> >> +  IO.
+> >=20
+> > I find it hard to understand this paragraph. It seems the
+> > UBLK_IO_NEED_GET_DATA command allows userspace to set up something
+> > related to IO buffers. What exactly does this command do?
+>=20
+> Let me explain UBLK_IO_NEED_GET_DATA since it is designed by myself.
+>=20
+> Without UBLK_IO_NEED_GET_DATA, ublk_drv will copy data from biovecs
+> into a pre-allocated buffer(addr is passed with the last COMMIT_AMD_FETCH=
+ ioucmd)
+> while processing a WRITE request. Please consider two cases:
+>=20
+> (1)  if the backend(such as a dist-storage system using RPC) provides the=
+ data
+>      buffer, it has to provide the buffer IN ADVANCE(before sending the l=
+ast
+>      COMMIT_AMD_FETCH) without knowing any knowledge of this incoming req=
+uest.
+>      This makes existing backend very hard to adapt to ublk because they =
+may
+>      want to know the data length or other attributes of the new request.
+>=20
+> (2) If the backend does not provide the data buffer IN ADVANCE, ublksrv m=
+ust
+>     pre-allocates data buffer. So a additional data copy from ublksrv to
+>     the backend(such as a RPC mempool) is unavoidable.
+>=20
+> With UBLK_IO_NEED_GET_DATA, the WRITE request will be firstly issued to u=
+blksrv
+> without data copy. Then, backend gets the request and it can allocate data
+> buffer and embed its addr inside a new ioucmd. After the kernel driver ge=
+ts the
+> ioucmd, the data copy happens(from biovecs to backend's buffer). Finally,
+> the backend gets the request again with data to be written and it can tru=
+ly
+> handle the request.
 
-Here is the summary with links:
-  - Documentation: networking: correct possessive "its"
-    https://git.kernel.org/netdev/net/c/404a5ad72011
+Thanks for the explanation. Maybe it can be included in the
+documentation.
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+This reminds me of io_uring's IOSQE_BUFFER_SELECT where userspace
+provides the kernel with a buffer pool and the kernel selects buffers.
+It doesn't require an extra io_uring command roundtrip
+(UBLK_IO_NEED_GET_DATA).
 
+Did you already look at IOSQE_BUFFER_SELECT and decide a similar
+approach won't work for your use case?
+
+Stefan
+
+--cC3A+mjn3pxIXJxb
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmMPvcYACgkQnKSrs4Gr
+c8jgfgf/QEpkKMLMe8nPNb1uSxKF82wwizozhSZjPK3s/hWDuH8q26FDCmtJcCrD
+9vanvREyKgUcRxhsDDcly0ng0groWGNZEB1j2zvdmHE9AwizLoQIFcdmPXlNEcwu
+1i8L7m8pJIpQ+ED9eMBv0mfgRuXK5JqD5DteSvDF/vqfcgkBvFr14yaBdTyKm7UX
+Id+/jNhzEeIK/I5vQ5C5nuHQrHPF5M5Rlu9YPLiVKa5o/mjK8G5AoaZcA8Jn4KID
+t6BSWE8NUWTHWcThz1JH96d1MZhx3neF86WpBMhiSYMSnNFa1kXPUdxD3IKUh6tO
+oQErGxR8YERTSLYkOVOWOncTCmr5UA==
+=AVxB
+-----END PGP SIGNATURE-----
+
+--cC3A+mjn3pxIXJxb--
 
