@@ -2,229 +2,205 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EA28FECAAD3
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Sep 2022 16:53:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F485ECAAD1
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Sep 2022 17:35:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234256AbiIAQx6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 1 Sep 2022 12:53:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38782 "EHLO
+        id S232539AbiIARfY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 1 Sep 2022 13:35:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45110 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234782AbiIAQxo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Sep 2022 12:53:44 -0400
-Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com [IPv6:2a00:1450:4864:20::52d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83BF1985B0
-        for <linux-doc@vger.kernel.org>; Thu,  1 Sep 2022 09:53:42 -0700 (PDT)
-Received: by mail-ed1-x52d.google.com with SMTP id t5so23363747edc.11
-        for <linux-doc@vger.kernel.org>; Thu, 01 Sep 2022 09:53:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date;
-        bh=Utwb8GsJ5vvsHM/8ip4meWVPitKeqc5FGHGRSAfVV1w=;
-        b=uuVU7Qb42ctTfJWZO3i/M1EEOb/t50IiLitHlYcYPqXB7Gn3xj8XYN6XUsanpJg2x8
-         D0wcHWl2TQOkRbNEQO6vErb2UHK4FGfZP4FHbIKiAD0nZOpJG7laRyNm0j4PgcojrDKY
-         DiLLA7+KYZfpzxh3tcEHBxzNg1d3mIiPu+JAkvfg2rMHJ9BUjTgG+2hWxYYabAk26Jfp
-         DMniZkCg9c8JGKFQvZ83biVv0rZAO4ENk1r/8ZNAxYEry8r8RS04sk1bgdKXeO2zQS/x
-         Eg+Z+TgX4tK+nd2Q8+mFFFS6mkedtRxaxcCy22i1A8nFjOcWwX+gaPIzXBkdqUf5A38o
-         Gpjg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=Utwb8GsJ5vvsHM/8ip4meWVPitKeqc5FGHGRSAfVV1w=;
-        b=WSNr5g2I/NV8TtudN0EGnCJ2MCDEG/j2usItTH5HqJKCVsN3+bDeGeul7nNPCONy3A
-         2Ld5tM32hsGQVBGm/r/vFHXFhQctR4ynlQv1NvyDIvPQSz8DQ0sbPe3hyW2NHL10ypyn
-         QNrqZSauEeAIXQwk8zeprTULBE0uu8QqJmUlentJulJ0mNgWBxKjoGrua4QxkO0gk1lY
-         EQxFX5zPYbfQaGwtDRQsEdRyjkopdZq8rBfe01cUxK0aqJLxZvfL+CroYHbZM89aWrhQ
-         yc2BSd3WVzVa5Ez29ru6sHYZrqyrtuEKALdlgkqBxIk1FhN6rQHCdUKq2jl0H1c3B57K
-         VuhQ==
-X-Gm-Message-State: ACgBeo2Tges2qoiwXL3ogsP0CWMQuIubMzIH3+j+YAyapXYmsBWdXo9P
-        RaJyiwdsHbN9mZ5w3uzNKpRzPJ7b4u7zGInvsZt9hg==
-X-Google-Smtp-Source: AA6agR45bngCQB/O3nd8cwlu63JO4zrVqmKjTWp+JWEZlCfacAqcPmpOQjDaXmcnIvtxZi2/S+7XjXZbpQpcxHRwemY=
-X-Received: by 2002:a05:6402:538f:b0:444:c17b:1665 with SMTP id
- ew15-20020a056402538f00b00444c17b1665mr29843511edb.98.1662051221046; Thu, 01
- Sep 2022 09:53:41 -0700 (PDT)
+        with ESMTP id S234310AbiIARfD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Sep 2022 13:35:03 -0400
+Received: from smtp-42af.mail.infomaniak.ch (smtp-42af.mail.infomaniak.ch [IPv6:2001:1600:3:17::42af])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0017295E78
+        for <linux-doc@vger.kernel.org>; Thu,  1 Sep 2022 10:34:14 -0700 (PDT)
+Received: from smtp-2-0000.mail.infomaniak.ch (unknown [10.5.36.107])
+        by smtp-2-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4MJSpD2KxYzMqK1f;
+        Thu,  1 Sep 2022 19:34:12 +0200 (CEST)
+Received: from ns3096276.ip-94-23-54.eu (unknown [23.97.221.149])
+        by smtp-2-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4MJSpC0M5lzlh8TN;
+        Thu,  1 Sep 2022 19:34:10 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=digikod.net;
+        s=20191114; t=1662053652;
+        bh=o/v/WCsruLFuIKPLYfYVi2ZWkfCBoZTi3cgn9QP8x2I=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=lxSMPoQjcyoYGPH2mJTUzxKF7Ho3MUUpp+fWEFqTQ8uzen1kRgFn9QuD+UtiBMvEW
+         ogKQt0Rv1c0+NKP8Lu+L8IxKLcP/2SlmPj7KlIizHPH/6PpMYnoQfEdWjFbXVdCu/s
+         LRxd+4c+cKCcHjUi+4MagOS5S7RdvtzEa3ogkYco=
+Message-ID: <4b69a4ac-28ab-16aa-14b1-04a6f64d5490@digikod.net>
+Date:   Thu, 1 Sep 2022 19:34:10 +0200
 MIME-Version: 1.0
-References: <20220816114414.4092-1-yangyicong@huawei.com> <86bfaabc-43e3-bcfb-faf9-74a0d79ab2ec@huawei.com>
-In-Reply-To: <86bfaabc-43e3-bcfb-faf9-74a0d79ab2ec@huawei.com>
-From:   Mathieu Poirier <mathieu.poirier@linaro.org>
-Date:   Thu, 1 Sep 2022 10:53:29 -0600
-Message-ID: <CANLsYkwqXQxBCYAHhd4Txv+AZVKgeX+C4kE0b1t3aytTthjNtQ@mail.gmail.com>
-Subject: Re: [PATCH v12 0/5] Add driver support for HiSilicon PCIe Tune and
- Trace device
-To:     Yicong Yang <yangyicong@huawei.com>
-Cc:     alexander.shishkin@linux.intel.com, peterz@infradead.org,
-        corbet@lwn.net, gregkh@linuxfoundation.org,
-        yangyicong@hisilicon.com, helgaas@kernel.org,
-        lorenzo.pieralisi@arm.com, suzuki.poulose@arm.com, joro@8bytes.org,
-        shameerali.kolothum.thodi@huawei.com, mingo@redhat.com,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-pci@vger.kernel.org, linux-perf-users@vger.kernel.org,
-        iommu@lists.linux-foundation.org, iommu@lists.linux.dev,
-        linux-doc@vger.kernel.org, prime.zeng@huawei.com,
-        liuqi115@huawei.com, zhangshaokun@hisilicon.com,
-        linuxarm@huawei.com, bagasdotme@gmail.com, john.garry@huawei.com,
-        jonathan.cameron@huawei.com, leo.yan@linaro.org,
-        james.clark@arm.com, robin.murphy@arm.com, will@kernel.org,
-        acme@kernel.org, mark.rutland@arm.com
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: 
+Subject: Re: [PATCH -next v2 3/6] landlock: add chmod and chown support
+Content-Language: en-US
+To:     xiujianfeng <xiujianfeng@huawei.com>,
+        =?UTF-8?Q?G=c3=bcnther_Noack?= <gnoack3000@gmail.com>
+Cc:     paul@paul-moore.com, jmorris@namei.org, serge@hallyn.com,
+        shuah@kernel.org, corbet@lwn.net,
+        linux-security-module@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        Christian Brauner <brauner@kernel.org>
+References: <20220827111215.131442-1-xiujianfeng@huawei.com>
+ <20220827111215.131442-4-xiujianfeng@huawei.com> <Ywpw66EYRDTQIyTx@nuc>
+ <de8834b6-0ff2-1a81-f2d3-af33103e9942@huawei.com>
+ <de4620d2-3268-b3cc-71dd-acbbd204435e@digikod.net>
+ <2f286496-f4f8-76f7-2fb6-cc3dd5ffdeaa@huawei.com>
+From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
+In-Reply-To: <2f286496-f4f8-76f7-2fb6-cc3dd5ffdeaa@huawei.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 30 Aug 2022 at 04:59, Yicong Yang <yangyicong@huawei.com> wrote:
->
-> A gentle ping for this...
->
+CCing linux-fsdevel@vger.kernel.org
 
-I will look at this set next week.
 
-> Thanks.
->
-> On 2022/8/16 19:44, Yicong Yang wrote:
-> > From: Yicong Yang <yangyicong@hisilicon.com>
-> >
-> > HiSilicon PCIe tune and trace device (PTT) is a PCIe Root Complex integrated
-> > Endpoint (RCiEP) device, providing the capability to dynamically monitor and
-> > tune the PCIe traffic (tune), and trace the TLP headers (trace).
-> >
-> > PTT tune is designed for monitoring and adjusting PCIe link parameters. We provide
-> > several parameters of the PCIe link. Through the driver, user can adjust the value
-> > of certain parameter to affect the PCIe link for the purpose of enhancing the
-> > performance in certian situation.
-> >
-> > PTT trace is designed for dumping the TLP headers to the memory, which can be
-> > used to analyze the transactions and usage condition of the PCIe Link. Users
-> > can choose filters to trace headers, by either requester ID, or those downstream
-> > of a set of Root Ports on the same core of the PTT device. It's also supported
-> > to trace the headers of certain type and of certain direction.
-> >
-> > The driver registers a PMU device for each PTT device. The trace can be used
-> > through `perf record` and the traced headers can be decoded by `perf report`.
-> > The tune can be used through the sysfs attributes of related PMU device. See
-> > the documentation for the detailed usage.
-> >
-> > This patchset adds an initial driver support for the PTT device. The userspace
-> > perf tool support will be sent in a separate patchset.
-> >
-> > Change since v11:
-> > - Drop WARN_ON() for irq_set_affinity() failure per Greg
-> > - Split out userspace perf support patches according to the comments
-> > Link: https://lore.kernel.org/lkml/20220721130116.43366-1-yangyicong@huawei.com/
-> >
-> > Change since v10:
-> > - Use title case in the documentation
-> > - Add RB from Bagas, thanks.
-> > Link: https://lore.kernel.org/lkml/20220714092710.53486-1-yangyicong@hisilicon.com/
-> >
-> > Change since v9:
-> > - Add sysfs ABI description documentation
-> > - Remove the controversial available_{root_port, requester}_filters sysfs file
-> > - Shorten 2 tune sysfs attributes name and add some comments
-> > - Move hisi_ptt_process_auxtrace_info() to Patch 6.
-> > - Add RB from Leo and Ack-by from Mathieu, thanks!
-> > Link: https://lore.kernel.org/lkml/20220606115555.41103-1-yangyicong@hisilicon.com/
-> >
-> > Change since v8:
-> > - Cleanups and one minor fix from Jonathan and John, thanks
-> > Link: https://lore.kernel.org/lkml/20220516125223.32012-1-yangyicong@hisilicon.com/
-> >
-> > Change since v7:
-> > - Configure the DMA in probe rather than in runtime. Also use devres to manage
-> >   PMU device as we have no order problem now
-> > - Refactor the config validation function per John and Leo
-> > - Use a spinlock hisi_ptt::pmu_lock instead of mutex to serialize the perf process
-> >   in pmu::start as it's in atomic context
-> > - Only commit the traced data when stop, per Leo and James
-> > - Drop the filter dynamically updating patch from this series to simply the review
-> >   of the driver. That patch will be send separately.
-> > - add a cpumask sysfs attribute and handle the cpu hotplug events, follow the
-> >   uncore PMU convention
-> > - Other cleanups and fixes, both in driver and perf tool
-> > Link: https://lore.kernel.org/lkml/20220407125841.3678-1-yangyicong@hisilicon.com/
-> >
-> > Change since v6:
-> > - Fix W=1 errors reported by lkp test, thanks
-> >
-> > Change since v5:
-> > - Squash the PMU patch into PATCH 2 suggested by John
-> > - refine the commit message of PATCH 1 and some comments
-> > Link: https://lore.kernel.org/lkml/20220308084930.5142-1-yangyicong@hisilicon.com/
-> >
-> > Change since v4:
-> > Address the comments from Jonathan, John and Ma Ca, thanks.
-> > - Use devm* also for allocating the DMA buffers
-> > - Remove the IRQ handler stub in Patch 2
-> > - Make functions waiting for hardware state return boolean
-> > - Manual remove the PMU device as it should be removed first
-> > - Modifier the orders in probe and removal to make them matched well
-> > - Make available {directions,type,format} array const and non-global
-> > - Using the right filter list in filters show and well protect the
-> >   list with mutex
-> > - Record the trace status with a boolean @started rather than enum
-> > - Optimize the process of finding the PTT devices of the perf-tool
-> > Link: https://lore.kernel.org/linux-pci/20220221084307.33712-1-yangyicong@hisilicon.com/
-> >
-> > Change since v3:
-> > Address the comments from Jonathan and John, thanks.
-> > - drop members in the common struct which can be get on the fly
-> > - reduce buffer struct and organize the buffers with array instead of list
-> > - reduce the DMA reset wait time to avoid long time busy loop
-> > - split the available_filters sysfs attribute into two files, for root port
-> >   and requester respectively. Update the documentation accordingly
-> > - make IOMMU mapping check earlier in probe to avoid race condition. Also
-> >   make IOMMU quirk patch prior to driver in the series
-> > - Cleanups and typos fixes from John and Jonathan
-> > Link: https://lore.kernel.org/linux-pci/20220124131118.17887-1-yangyicong@hisilicon.com/
-> >
-> > Change since v2:
-> > - address the comments from Mathieu, thanks.
-> >   - rename the directory to ptt to match the function of the device
-> >   - spinoff the declarations to a separate header
-> >   - split the trace function to several patches
-> >   - some other comments.
-> > - make default smmu domain type of PTT device to identity
-> >   Drop the RMR as it's not recommended and use an iommu_def_domain_type
-> >   quirk to passthrough the device DMA as suggested by Robin.
-> > Link: https://lore.kernel.org/linux-pci/20211116090625.53702-1-yangyicong@hisilicon.com/
-> >
-> > Change since v1:
-> > - switch the user interface of trace to perf from debugfs
-> > - switch the user interface of tune to sysfs from debugfs
-> > - add perf tool support to start trace and decode the trace data
-> > - address the comments of documentation from Bjorn
-> > - add RMR[1] support of the device as trace works in RMR mode or
-> >   direct DMA mode. RMR support is achieved by common APIs rather
-> >   than the APIs implemented in [1].
-> > Link: https://lore.kernel.org/lkml/1618654631-42454-1-git-send-email-yangyicong@hisilicon.com/
-> > [1] https://lore.kernel.org/linux-acpi/20210805080724.480-1-shameerali.kolothum.thodi@huawei.com/
-> >
-> > Yicong Yang (5):
-> >   iommu/arm-smmu-v3: Make default domain type of HiSilicon PTT device to
-> >     identity
-> >   hwtracing: hisi_ptt: Add trace function support for HiSilicon PCIe
-> >     Tune and Trace device
-> >   hwtracing: hisi_ptt: Add tune function support for HiSilicon PCIe Tune
-> >     and Trace device
-> >   docs: trace: Add HiSilicon PTT device driver documentation
-> >   MAINTAINERS: Add maintainer for HiSilicon PTT driver
-> >
-> >  .../ABI/testing/sysfs-devices-hisi_ptt        |   61 +
-> >  Documentation/trace/hisi-ptt.rst              |  298 +++++
-> >  Documentation/trace/index.rst                 |    1 +
-> >  MAINTAINERS                                   |    8 +
-> >  drivers/Makefile                              |    1 +
-> >  drivers/hwtracing/Kconfig                     |    2 +
-> >  drivers/hwtracing/ptt/Kconfig                 |   12 +
-> >  drivers/hwtracing/ptt/Makefile                |    2 +
-> >  drivers/hwtracing/ptt/hisi_ptt.c              | 1047 +++++++++++++++++
-> >  drivers/hwtracing/ptt/hisi_ptt.h              |  200 ++++
-> >  drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c   |   21 +
-> >  11 files changed, 1653 insertions(+)
-> >  create mode 100644 Documentation/ABI/testing/sysfs-devices-hisi_ptt
-> >  create mode 100644 Documentation/trace/hisi-ptt.rst
-> >  create mode 100644 drivers/hwtracing/ptt/Kconfig
-> >  create mode 100644 drivers/hwtracing/ptt/Makefile
-> >  create mode 100644 drivers/hwtracing/ptt/hisi_ptt.c
-> >  create mode 100644 drivers/hwtracing/ptt/hisi_ptt.h
-> >
+On 01/09/2022 15:06, xiujianfeng wrote:
+> Hi,
+> 
+> 在 2022/8/30 0:01, Mickaël Salaün 写道:
+>>
+>> On 29/08/2022 03:17, xiujianfeng wrote:
+>>>
+>>> Hi,
+>>>
+>>> 在 2022/8/28 3:30, Günther Noack 写道:
+>>>> Hello!
+>>>>
+>>>> the mapping between Landlock rights to LSM hooks is now as follows in
+>>>> your patch set:
+>>>>
+>>>> * LANDLOCK_ACCESS_FS_CHMOD controls hook_path_chmod
+>>>> * LANDLOCK_ACCESS_FS_CHGRP controls hook_path_chown
+>>>>      (this hook can restrict both the chown(2) and chgrp(2) syscalls)
+>>>>
+>>>> Is this the desired mapping?
+>>>>
+>>>> The previous discussion I found on the topic was in
+>>>>
+>>>> [1]
+>>>> https://lore.kernel.org/all/5873455f-fff9-618c-25b1-8b6a4ec94368@digikod.net/
+>>>>
+>>>> [2]
+>>>> https://lore.kernel.org/all/b1d69dfa-6d93-2034-7854-e2bc4017d20e@schaufler-ca.com/
+>>>>
+>>>> [3]
+>>>> https://lore.kernel.org/all/c369c45d-5aa8-3e39-c7d6-b08b165495fd@digikod.net/
+>>>>
+>>>>
+>>>> In my understanding the main arguments were the ones in [2] and [3].
+>>>>
+>>>> There were no further responses to [3], so I was under the impression
+>>>> that we were gravitating towards an approach where the
+>>>> file-metadata-modification operations were grouped more coarsely?
+>>>>
+>>>> For example with the approach suggested in [3], which would be to
+>>>> group the operations coarsely into (a) one Landlock right for
+>>>> modifying file metadata that is used in security contexts, and (b) one
+>>>> Landlock right for modifying metadata that was used in non-security
+>>>> contexts. That would mean that there would be:
+>>>>
+>>>> (a) LANDLOCK_ACCESS_FS_MODIFY_SECURITY_ATTRIBUTES to control the
+>>>> following operations:
+>>>>      * chmod(2)-variants through hook_path_chmod,
+>>>>      * chown(2)-variants and chgrp(2)-variants through hook_path_chown,
+>>>>      * setxattr(2)-variants and removexattr(2)-variants for extended
+>>>>        attributes that are not "user extended attributes" as described in
+>>>>        xattr(7) through hook_inode_setxattr and hook_inode_removexattr
+>>>>
+>>>> (b) LANDLOCK_ACCESS_FS_MODIFY_NON_SECURITY_ATTRIBUTES to control the
+>>>> following operations:
+>>>>      * utimes(2) and other operations for setting other non-security
+>>>>        sensitive attributes, probably through hook_inode_setattr(?)
+>>>>      * xattr modifications like above, but for the "user extended
+>>>>        attributes", though hook_inode_setxattr and hook_inode_removexattr
+>>>>
+>>>> In my mind, this would be a sensible grouping, and it would also help
+>>>> to decouple the userspace-exposed API from the underlying
+>>>> implementation, as Casey suggested to do in [2].
+>>>>
+>>>> Specifically for this patch set, if you want to use this grouping, you
+>>>> would only need to add one new Landlock right
+>>>> (LANDLOCK_ACCESS_FS_MODIFY_SECURITY_ATTRIBUTES) as described above
+>>>> under (a) (and maybe we can find a shorter name for it... :))?
+>>>>
+>>>> Did I miss any operations here that would be necessary to restrict?
+>>>>
+>>>> Would that make sense to you? Xiu, what is your opinion on how this
+>>>> should be grouped? Do you have use cases in mind where a more
+>>>> fine-grained grouping would be required?
+>>>
+>>> I apologize I may missed that discussion when I prepared v2:(
+>>>
+>>> Yes, agreed, this grouping is more sensible and resonnable. so in this
+>>> patchset only one right will be added, and I suppose the first commit
+>>> which expand access_mask_t to u32 can be droped.
+>>>
+>>>>
+>>>> —Günther
+>>>>
+>>>> P.S.: Regarding utimes: The hook_inode_setattr hook *also* gets called
+>>>> on a variety on attribute changes including file ownership, file size
+>>>> and file mode, so it might potentially interact with a bunch of other
+>>>> existing Landlock rights. Maybe that is not the right approach. In any
+>>>> case, it seems like it might require more thinking and it might be
+>>>> sensible to do that in a separate patch set IMHO.
+>>>
+>>> Thanks for you reminder, that seems it's more complicated to support
+>>> utimes, so I think we'd better not support it in this patchset.
+>>
+>> The issue with this approach is that it makes it impossible to properly
+>> group such access rights. Indeed, to avoid inconsistencies and much more
+>> complexity, we cannot extend a Landlock access right once it is defined.
+>>
+>> We also need to consider that file ownership and permissions have a
+>> default (e.g. umask), which is also a way to set them. How to
+>> consistently manage that? What if the application wants to protect its
+>> files with chmod 0400?
+> 
+> what do you mean by this? do you mean that we should have a set of
+> default permissions for files created by applications within the
+> sandbox, so that it can update metadata of its own file.
+
+I mean that we need a consistent access control system, and for this we 
+need to consider all the ways an extended attribute can be set.
+
+We can either extend the meaning of current access rights (controlled 
+with a ruleset flag for compatibility reasons), or create new access 
+rights. I think it would be better to add new dedicated rights to make 
+it more explicit and flexible.
+
+I'm not sure about the right approach to properly control file 
+permission. We need to think about it. Do you have some ideas?
+
+BTW, utimes can be controlled with the inode_setattr() LSM hook. Being 
+able to control arbitrary file time modification could be part of the 
+FS_WRITE_SAFE_METADATA, but modification and access time should always 
+be updated according to the file operation.
+
+
+> 
+>>
+>> About the naming, I think we can start with:
+>> - LANDLOCK_ACCESS_FS_READ_METADATA (read any file/dir metadata);
+>> - LANDLOCK_ACCESS_FS_WRITE_SAFE_METADATA: change file times, user xattr;
+> 
+> do you mean we should have permission controls on metadata level or
+> operation level? e.g. should we allow update on user xattr but deny
+> update on security xattr? or should we disallow update on any xattr?
+> 
+>> - LANDLOCK_ACCESS_FS_WRITE_UNSAFE_METADATA: interpreted by the kernel
+>> (could change non-Landlock DAC or MAC, which could be considered as a
+>> policy bypass; or other various xattr that might be interpreted by
+>> filesystems), this should be denied most of the time.
+> 
+> do you mean FS_WRITE_UNSAFE_METADATA is security-related? and
+> FS_WRITE_SAFE_METADATA is non-security-related?
+
+Yes, FS_WRITE_UNSAFE_METADATA would be for security related 
+xattr/chmod/chown, and FS_WRITE_SAFE_METADATA for non-security xattr. 
+Both are mutually exclusive. This would involve the inode_setattr and 
+inode_setxattr LSM hooks. Looking at the calling sites, it seems 
+possible to replace all inode arguments with paths.
