@@ -2,226 +2,82 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B5C61C6FA82
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Sep 2022 20:58:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 89074ECAAD3
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Sep 2022 21:23:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235002AbiIAU64 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 1 Sep 2022 16:58:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54598 "EHLO
+        id S233034AbiIAVXY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 1 Sep 2022 17:23:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39112 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234998AbiIAU6d (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Sep 2022 16:58:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8E569AFA1
-        for <linux-doc@vger.kernel.org>; Thu,  1 Sep 2022 13:58:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1662065906;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=2vcxKMjXClmm1CGJHlAQCcN01M2QmT/+Q6JHJZbXLhs=;
-        b=O+hjnpFUQ9dLJehg+zihTYzeccXdBs0aCC+CBsxNPdpHWkGb3mII+JmQjpZUQLs1YpaViw
-        rKfrfH/R8U5N/SjtFWQBMGsQqmxNVzLo6tCfGMwp3aBm5xjE7zxYhe1wx84htpzHbxEnDa
-        kecHAQcDm5DFHA4pkt6sPuDHTTXdjWY=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-463-PwzinuI9PW-4acSwvQ_56w-1; Thu, 01 Sep 2022 16:58:22 -0400
-X-MC-Unique: PwzinuI9PW-4acSwvQ_56w-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com [10.11.54.7])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4F1541C0896F;
-        Thu,  1 Sep 2022 20:58:21 +0000 (UTC)
-Received: from llong.com (unknown [10.22.17.199])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id A67EF1415137;
-        Thu,  1 Sep 2022 20:58:20 +0000 (UTC)
-From:   Waiman Long <longman@redhat.com>
-To:     Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>
-Cc:     cgroups@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Roman Gushchin <guro@fb.com>, Phil Auld <pauld@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Marcelo Tosatti <mtosatti@redhat.com>,
-        =?UTF-8?q?Michal=20Koutn=C3=BD?= <mkoutny@suse.com>,
-        Waiman Long <longman@redhat.com>
-Subject: [PATCH v12 08/10] cgroup/cpuset: Make partition invalid if cpumask change violates exclusivity rule
-Date:   Thu,  1 Sep 2022 16:57:43 -0400
-Message-Id: <20220901205745.323326-9-longman@redhat.com>
-In-Reply-To: <20220901205745.323326-1-longman@redhat.com>
-References: <20220901205745.323326-1-longman@redhat.com>
+        with ESMTP id S231650AbiIAVXX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Sep 2022 17:23:23 -0400
+Received: from mail-oa1-x2f.google.com (mail-oa1-x2f.google.com [IPv6:2001:4860:4864:20::2f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3962892F40
+        for <linux-doc@vger.kernel.org>; Thu,  1 Sep 2022 14:23:23 -0700 (PDT)
+Received: by mail-oa1-x2f.google.com with SMTP id 586e51a60fabf-11f11d932a8so413666fac.3
+        for <linux-doc@vger.kernel.org>; Thu, 01 Sep 2022 14:23:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date;
+        bh=//ULS9Zb97N/4Yv+yOVhZmRoDVyyid6vRrjZb2izzYo=;
+        b=Ild0fr/Bo/d+eU32YpIS4qV07R3n8jic/XXbvDwHx7N6KuxNLq5TbGQ2g9LLRgfE3K
+         +T7QVQExvLmxMEHTTd78L31EhHx6DpP76KmPl0iPQt3J8tEv/JF/AjsB+8cZEFxLuPkK
+         ZnGbdGES67gy6M2YjYKDzES5dMv2Z+6Ug9w2c=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date;
+        bh=//ULS9Zb97N/4Yv+yOVhZmRoDVyyid6vRrjZb2izzYo=;
+        b=56XEhkq2uTdPsVN68ncfaSob6T2sypoxPVbFN/A5vw4tB3BPR6cZt+/NnUn++RaE35
+         Io3Xq+OFpdqoxW4GULSgUh1LuaxUuX0yfTHAk+MqXeca0N267bWYaqV8NGHFIlyH/d1o
+         FGEfDBs4h+DWVsyo1r/a5fYu9ef/d8Mz4urEh8Ly+Xn+PJN7bIEPZMillS+4XxYASePZ
+         vCfxVguMpSfebuMZkGhLOm/K9QSHB+UgqtEX+N6rE5VO/Lk+8R35OW6NYjqK/qBvne7t
+         fXla2RFriiRRYUiZrsUHgSeV2XkaVVMoi9LUM6HM/FedPDs7KiRFkAKpMvIysP3n2tpJ
+         esWQ==
+X-Gm-Message-State: ACgBeo37CacY/lBdAt/jaK+8mLigUCip6XC811dUMKFtPFqSo0jMg17o
+        TUmbEavyE2K56c2TATJLANqydA==
+X-Google-Smtp-Source: AA6agR5HjnUA9kZExmsvmX0g3NeFaEZgpWhKxVEXFWtzcBLkFy2AMwnGLmPO4EVE30Z5o2EWk/Ostg==
+X-Received: by 2002:a05:6870:1481:b0:120:6e1b:8594 with SMTP id k1-20020a056870148100b001206e1b8594mr604785oab.277.1662067401783;
+        Thu, 01 Sep 2022 14:23:21 -0700 (PDT)
+Received: from shuah-tx13.internal ([38.15.45.1])
+        by smtp.gmail.com with ESMTPSA id l15-20020a4ab0cf000000b0044884c40c8asm64153oon.30.2022.09.01.14.23.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 01 Sep 2022 14:23:21 -0700 (PDT)
+From:   Shuah Khan <skhan@linuxfoundation.org>
+To:     gregkh@linuxfoundation.org, corbet@lwn.net
+Cc:     Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, joanna.lee@gesmer.com
+Subject: [PATCH] docs: update mediator information in CoC docs
+Date:   Thu,  1 Sep 2022 15:23:19 -0600
+Message-Id: <20220901212319.56644-1-skhan@linuxfoundation.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Currently, changes in "cpust.cpus" of a partition root is not allowed if
-it violates the sibling cpu exclusivity rule when the check is done
-in the validate_change() function. That is inconsistent with the
-other cpuset changes that are always allowed but may make a partition
-invalid.
+Update mediator information in the CoC interpretation document.
 
-Update the cpuset code to allow cpumask change even if it violates the
-sibling cpu exclusivity rule, but invalidate the partition instead
-just like the other changes. However, other sibling partitions with
-conflicting cpumask will also be invalidated in order to not violating
-the exclusivity rule. This behavior is specific to this partition
-rule violation.
-
-Note that a previous commit has made sibling cpu exclusivity rule check
-the last check of validate_change(). So if -EINVAL is returned, we can
-be sure that sibling cpu exclusivity rule violation is the only rule
-that is broken.
-
-Signed-off-by: Waiman Long <longman@redhat.com>
+Signed-off-by: Shuah Khan <skhan@linuxfoundation.org>
 ---
- kernel/cgroup/cpuset.c | 69 ++++++++++++++++++++++++++++++++++++------
- 1 file changed, 60 insertions(+), 9 deletions(-)
+ Documentation/process/code-of-conduct-interpretation.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/kernel/cgroup/cpuset.c b/kernel/cgroup/cpuset.c
-index b0d921d03f62..6baa977a71ba 100644
---- a/kernel/cgroup/cpuset.c
-+++ b/kernel/cgroup/cpuset.c
-@@ -1256,6 +1256,7 @@ enum subparts_cmd {
- 	partcmd_enable,		/* Enable partition root	 */
- 	partcmd_disable,	/* Disable partition root	 */
- 	partcmd_update,		/* Update parent's subparts_cpus */
-+	partcmd_invalidate,	/* Make partition invalid	 */
- };
+diff --git a/Documentation/process/code-of-conduct-interpretation.rst b/Documentation/process/code-of-conduct-interpretation.rst
+index e899f14a4ba2..4f8a06b00f60 100644
+--- a/Documentation/process/code-of-conduct-interpretation.rst
++++ b/Documentation/process/code-of-conduct-interpretation.rst
+@@ -51,7 +51,7 @@ the Technical Advisory Board (TAB) or other maintainers if you're
+ uncertain how to handle situations that come up.  It will not be
+ considered a violation report unless you want it to be.  If you are
+ uncertain about approaching the TAB or any other maintainers, please
+-reach out to our conflict mediator, Mishi Choudhary <mishi@linux.com>.
++reach out to our conflict mediator, Joanna Lee <joanna.lee@gesmer.com>.
  
- static int update_flag(cpuset_flagbits_t bit, struct cpuset *cs,
-@@ -1286,13 +1287,17 @@ static int update_flag(cpuset_flagbits_t bit, struct cpuset *cs,
-  * or vice versa. An error code will only be returned if transitioning from
-  * invalid to valid violates the exclusivity rule.
-  *
-+ * For partcmd_invalidate, the current partition will be made invalid.
-+ *
-  * The partcmd_enable and partcmd_disable commands are used by
-  * update_prstate(). An error code may be returned and the caller will check
-  * for error.
-  *
-  * The partcmd_update command is used by update_cpumasks_hier() with newmask
-- * NULL and update_cpumask() with newmask set. The callers won't check for
-- * error and so partition_root_state and prs_error will be updated directly.
-+ * NULL and update_cpumask() with newmask set. The partcmd_invalidate is used
-+ * by update_cpumask() with NULL newmask. In both cases, the callers won't
-+ * check for error and so partition_root_state and prs_error will be updated
-+ * directly.
-  */
- static int update_parent_subparts_cpumask(struct cpuset *cs, int cmd,
- 					  struct cpumask *newmask,
-@@ -1320,7 +1325,8 @@ static int update_parent_subparts_cpumask(struct cpuset *cs, int cmd,
- 		return PERR_CPUSEMPTY;
- 
- 	/*
--	 * new_prs will only be changed for the partcmd_update command.
-+	 * new_prs will only be changed for the partcmd_update and
-+	 * partcmd_invalidate commands.
- 	 */
- 	adding = deleting = false;
- 	old_prs = new_prs = cs->partition_root_state;
-@@ -1350,6 +1356,20 @@ static int update_parent_subparts_cpumask(struct cpuset *cs, int cmd,
- 		deleting = !is_prs_invalid(old_prs) &&
- 			   cpumask_and(tmp->delmask, cs->cpus_allowed,
- 				       parent->subparts_cpus);
-+	} else if (cmd == partcmd_invalidate) {
-+		if (is_prs_invalid(old_prs))
-+			return 0;
-+
-+		/*
-+		 * Make the current partition invalid. It is assumed that
-+		 * invalidation is caused by violating cpu exclusivity rule.
-+		 */
-+		deleting = cpumask_and(tmp->delmask, cs->cpus_allowed,
-+				       parent->subparts_cpus);
-+		if (old_prs > 0) {
-+			new_prs = -old_prs;
-+			part_error = PERR_NOTEXCL;
-+		}
- 	} else if (newmask) {
- 		/*
- 		 * partcmd_update with newmask:
-@@ -1403,6 +1423,7 @@ static int update_parent_subparts_cpumask(struct cpuset *cs, int cmd,
- 					  parent->cpus_allowed);
- 		adding = cpumask_andnot(tmp->addmask, tmp->addmask,
- 					parent->subparts_cpus);
-+
- 		if ((is_partition_valid(cs) && !parent->nr_subparts_cpus) ||
- 		    (adding &&
- 		     cpumask_subset(parent->effective_cpus, tmp->addmask) &&
-@@ -1709,6 +1730,7 @@ static int update_cpumask(struct cpuset *cs, struct cpuset *trialcs,
- {
- 	int retval;
- 	struct tmpmasks tmp;
-+	bool invalidate = false;
- 
- 	/* top_cpuset.cpus_allowed tracks cpu_online_mask; it's read-only */
- 	if (cs == &top_cpuset)
-@@ -1736,10 +1758,6 @@ static int update_cpumask(struct cpuset *cs, struct cpuset *trialcs,
- 	if (cpumask_equal(cs->cpus_allowed, trialcs->cpus_allowed))
- 		return 0;
- 
--	retval = validate_change(cs, trialcs);
--	if (retval < 0)
--		return retval;
--
- #ifdef CONFIG_CPUMASK_OFFSTACK
- 	/*
- 	 * Use the cpumasks in trialcs for tmpmasks when they are pointers
-@@ -1750,9 +1768,42 @@ static int update_cpumask(struct cpuset *cs, struct cpuset *trialcs,
- 	tmp.new_cpus = trialcs->cpus_allowed;
- #endif
- 
-+	retval = validate_change(cs, trialcs);
-+
-+	if ((retval == -EINVAL) && cgroup_subsys_on_dfl(cpuset_cgrp_subsys)) {
-+		struct cpuset *cp, *parent;
-+		struct cgroup_subsys_state *css;
-+
-+		/*
-+		 * The -EINVAL error code indicates that partition sibling
-+		 * CPU exclusivity rule has been violated. We still allow
-+		 * the cpumask change to proceed while invalidating the
-+		 * partition. However, any conflicting sibling partitions
-+		 * have to be marked as invalid too.
-+		 */
-+		invalidate = true;
-+		rcu_read_lock();
-+		parent = parent_cs(cs);
-+		cpuset_for_each_child(cp, css, parent)
-+			if (is_partition_valid(cp) &&
-+			    cpumask_intersects(trialcs->cpus_allowed, cp->cpus_allowed)) {
-+				rcu_read_unlock();
-+				update_parent_subparts_cpumask(cp, partcmd_invalidate, NULL, &tmp);
-+				rcu_read_lock();
-+			}
-+		rcu_read_unlock();
-+		retval = 0;
-+	}
-+	if (retval < 0)
-+		return retval;
-+
- 	if (cs->partition_root_state) {
--		update_parent_subparts_cpumask(cs, partcmd_update,
--					       trialcs->cpus_allowed, &tmp);
-+		if (invalidate)
-+			update_parent_subparts_cpumask(cs, partcmd_invalidate,
-+						       NULL, &tmp);
-+		else
-+			update_parent_subparts_cpumask(cs, partcmd_update,
-+						trialcs->cpus_allowed, &tmp);
- 	}
- 
- 	compute_effective_cpumask(trialcs->effective_cpus, trialcs,
+ In the end, "be kind to each other" is really what the end goal is for
+ everybody.  We know everyone is human and we all fail at times, but the
 -- 
-2.31.1
+2.34.1
 
