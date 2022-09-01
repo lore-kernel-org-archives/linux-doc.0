@@ -2,378 +2,161 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 52909ECAAD1
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Sep 2022 04:15:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 52A99ECAAD1
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Sep 2022 04:35:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231249AbiIAEP3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 1 Sep 2022 00:15:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49310 "EHLO
+        id S230148AbiIAEfe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 1 Sep 2022 00:35:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50534 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231211AbiIAEP1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Sep 2022 00:15:27 -0400
-Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com [IPv6:2a00:1450:4864:20::535])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 649F52ED58;
-        Wed, 31 Aug 2022 21:15:22 -0700 (PDT)
-Received: by mail-ed1-x535.google.com with SMTP id s11so20884543edd.13;
-        Wed, 31 Aug 2022 21:15:22 -0700 (PDT)
+        with ESMTP id S229473AbiIAEfd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Sep 2022 00:35:33 -0400
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76D487A520;
+        Wed, 31 Aug 2022 21:35:31 -0700 (PDT)
+Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
+        by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 27VNnUee017482;
+        Thu, 1 Sep 2022 04:35:21 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=to : cc : subject :
+ from : message-id : references : date : in-reply-to : content-type :
+ mime-version; s=corp-2022-7-12;
+ bh=pG1aggXHKX5vGL/gKZn0qmnbG7Hw4nuNdMS7OS+zjoI=;
+ b=ACAnuOak07IVoraAdenojDGD8grIgmsYs1RjeYntnqsdoIEa6GPPoFSU6rSZoz5phTHZ
+ cqtDSHHyLrtwuhWeJ4wAwxpnrQDshHA3nAI7oFXuFRaBKriupAmS3yxb/rXWJbO++QVT
+ suETZJka8Ib2ACjdaUW56jsilJf9fKfjTaqdkskAhpxhm3StLd30QdI6xlEhR8x0IFL5
+ VfrmucBjaH+9+M0zt66tBUpp2u2/57GTuo2sOkDPDUPxHAstNBcLs5XX5KiyO7i5Psiw
+ YmoWkM6iPkBGCAPeZgIXB9B0IET2NSIjTpaybVDDYjtDuNpvgVVpMSxsWGV4C/F2d1hY 0Q== 
+Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
+        by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3j79v0txrk-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 01 Sep 2022 04:35:21 +0000
+Received: from pps.filterd (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+        by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.5/8.17.1.5) with ESMTP id 2813QKP8033605;
+        Thu, 1 Sep 2022 04:35:20 GMT
+Received: from nam12-dm6-obe.outbound.protection.outlook.com (mail-dm6nam12lp2173.outbound.protection.outlook.com [104.47.59.173])
+        by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 3ja6gr2rya-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 01 Sep 2022 04:35:20 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=jG+te/tGA2qNg3xQZrTsSpPWlB/r2dC63cjIv05Na533hapZtQLJ57J5yZ3edLRTFrzLrek7uVKyeDlDrEhfCeEyYCdn9MHxIybdQHFrSTYPT7q64l4oVzaGIwBSZ+yzd8HFaq4YS4lBXhAE41fZdTGP9/Q5fuyF6yJs5CPTQ7hKqvHl2UaurAHAYhVOsnymDdoOQL7wwwsj88khdem9ptjE5uJ2aFqPRelK1AVzoofna1yTEySNNcTcunR9rzu6GhSbtkJ9LEnwDHQeTFICGHUXSHmFvoEIJo6vGlpl3mWrKa/xVnQ0Fr27DxYbHJ5DiV+rVCm27DXIQW4i5HJtNw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=pG1aggXHKX5vGL/gKZn0qmnbG7Hw4nuNdMS7OS+zjoI=;
+ b=j+72/prUQqNF/LPmaJJ4iQ43JBFYu5rLZaRmG4Do20zV2Fhntai9r3iXKL1XOmM7Au8AGKJH59EF9tYWeLJOvv22yKSU6fWHM9B/4UVsZ1YIh9WSgX+ltDNFFIoj5QmrIFtMqyzEmBeAwZBvrJuAkn/xyi8orRi+oLq3YtFxicVFwa5JeRJ5heR8vz4DrqsX7aT1+zYcLTrHY+zvIDDl4njyAh0yZA/hU1ql1TK3cUnlyLYF0cpBgznHkI33/nQ7Fg9x8Qwxbv/g2jVRPak9wPgKoi+g6WBPOlJFWytMPZ/tDAJUrA8sfTW2sHtN7gsA6gaaEkgRsy6CZn3Ll6IRGg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc;
-        bh=5JSpU1QR2YVELHFzvSSyyf2pVK2J22SigUM2w1BDKSc=;
-        b=HHTdkimlsO8d5i+9a9C62dYNhCVIDoasqJPBl+1Ci5DORlMl5s0ewUa1M2r76LeL9P
-         57MCShbyOsPYCJC8qsLDv6gJEOPOFxdec7Y5kjfjUR38G61oO8WbbJyt9ILu9rsonr6P
-         4f4/aoh3yPQXpzlrcp1jw38/FQ8lIJ9gmV3QzCKzlVWMR/nUOPcYfG44XW5rUGl1lwBT
-         Fq+SjXsYQo5yV8fGJmIGB/fDcAlVZg9BUZ6MoqvdoTbIBriGCvS08R/hvGD7R0XdaL5C
-         ZHiUQJYPOp+H1rfgwTCgiLadQWKjkZVwpN7MLf7fCfA8rKz6fPo4A5OyHofUejikBBxg
-         HXig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc;
-        bh=5JSpU1QR2YVELHFzvSSyyf2pVK2J22SigUM2w1BDKSc=;
-        b=5Fk6ynNKZDXzn+c7Z+ZzSSy/R65hb2TaZA1C3IdqgMCCqkvNbrbRfLFfibTHpxIg3G
-         Cq0lsgmRF/osfcC56pCULfvf6L62J2nZgSw6lXhS6QhAmYUjM6zmU9K9FiJJ44qnHz6j
-         qoZaroBZ0spNnfqA9eGJyuXYMC5rICRMn4YmtE5BTLbv3pgg3zA7mQLmlo51ktnRkNFJ
-         7JuCRt1BrCCN2E6EPtngd7hPiWYuUXBjzcgVNESbtPkl+ioFfa+esYDAYpllBHu7BPiO
-         sVQ1ExEemb6b2aaUiMcFZHC8PKm/kK48t6ALQZ+lQ8gwawDOWMhCoE36AcUlbG4/5IT+
-         D8yA==
-X-Gm-Message-State: ACgBeo13xKFxfBoMb9S2x5lNgVCDMNm8mCFOEZ8dZsV4X90+GqLk1jRx
-        6zuDuMO5c1Byu3PxOXvrcfeapinhehW6mJUtmQQ=
-X-Google-Smtp-Source: AA6agR4qfIZbsIxB5vAtgKbtbizFNfSi9/4OOkflwc7Ld+WvJXNJpXsrW4Es6OlINw66dA2471PUDgLTa9cjvXB6L2s=
-X-Received: by 2002:a05:6402:28cb:b0:43b:c6d7:ef92 with SMTP id
- ef11-20020a05640228cb00b0043bc6d7ef92mr27420244edb.333.1662005720762; Wed, 31
- Aug 2022 21:15:20 -0700 (PDT)
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=pG1aggXHKX5vGL/gKZn0qmnbG7Hw4nuNdMS7OS+zjoI=;
+ b=UTeA4e5CXw+Owk7kAsdiIgDM+cS2dsloWj3VpBsKkmwg5kbXrROgjYG7fJVplRy6U0zz2usFEP4lDeXI7K5SvPifjv7fmH/DELAR4NNjatVV5zLPNIx2Z2Fkm7hs4Yh1+iTtlnCJpXq8jBoqWdQjtCKSei+fmqGqcsTXvHn3r/Y=
+Received: from PH0PR10MB4759.namprd10.prod.outlook.com (2603:10b6:510:3d::12)
+ by DM4PR10MB5943.namprd10.prod.outlook.com (2603:10b6:8:ac::9) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5504.28; Thu, 1 Sep 2022 04:35:18 +0000
+Received: from PH0PR10MB4759.namprd10.prod.outlook.com
+ ([fe80::297f:836:f424:cd75]) by PH0PR10MB4759.namprd10.prod.outlook.com
+ ([fe80::297f:836:f424:cd75%3]) with mapi id 15.20.5566.021; Thu, 1 Sep 2022
+ 04:35:18 +0000
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     linux-doc@vger.kernel.org,
+        "James E.J. Bottomley" <jejb@linux.ibm.com>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        linux-scsi@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH] Documentation/SCSI: fix a few typos
+From:   "Martin K. Petersen" <martin.petersen@oracle.com>
+Organization: Oracle Corporation
+Message-ID: <yq1wnanlnmm.fsf@ca-mkp.ca.oracle.com>
+References: <20220827221719.11006-1-rdunlap@infradead.org>
+Date:   Thu, 01 Sep 2022 00:35:15 -0400
+In-Reply-To: <20220827221719.11006-1-rdunlap@infradead.org> (Randy Dunlap's
+        message of "Sat, 27 Aug 2022 15:17:19 -0700")
+Content-Type: text/plain
+X-ClientProxiedBy: BL0PR02CA0034.namprd02.prod.outlook.com
+ (2603:10b6:207:3c::47) To PH0PR10MB4759.namprd10.prod.outlook.com
+ (2603:10b6:510:3d::12)
 MIME-Version: 1.0
-References: <20220824134055.1328882-1-benjamin.tissoires@redhat.com>
- <20220824134055.1328882-2-benjamin.tissoires@redhat.com> <CAADnVQKgkFpLh_URJn6qCiAONteA1dwZHd6=4cZn15g1JCAPag@mail.gmail.com>
- <CAP01T75ec_T0M6DU=JE2tfNsWRZuPSMu_7JHA7ZoOBw5eDh1Bg@mail.gmail.com>
- <CAO-hwJLd9wXx+ppccBYPKZDymO0sk++Nt2E3-R97PY7LbfJfTg@mail.gmail.com>
- <CAADnVQK8dS+2KbWsqktvxoNKhHtdD5UPiaWVfNu=ESdn_OHpgQ@mail.gmail.com> <CAO-hwJK9uHTWCg3_6jrPF6UKiamkNfj=cuH5mHauoLX+0udV9w@mail.gmail.com>
-In-Reply-To: <CAO-hwJK9uHTWCg3_6jrPF6UKiamkNfj=cuH5mHauoLX+0udV9w@mail.gmail.com>
-From:   Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Date:   Wed, 31 Aug 2022 21:15:09 -0700
-Message-ID: <CAADnVQLuL045Sxdvh8kfcNkmD55+Wz8fHU3RtH+oQyOgePU5Pw@mail.gmail.com>
-Subject: Re: [PATCH bpf-next v9 01/23] bpf/verifier: allow all functions to
- read user provided context
-To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     Kumar Kartikeya Dwivedi <memxor@gmail.com>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Jiri Kosina <jikos@kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>, Shuah Khan <shuah@kernel.org>,
-        Dave Marchevsky <davemarchevsky@fb.com>,
-        Joe Stringer <joe@cilium.io>, Jonathan Corbet <corbet@lwn.net>,
-        Tero Kristo <tero.kristo@linux.intel.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        Network Development <netdev@vger.kernel.org>,
-        bpf <bpf@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: e2ab061b-57f1-4473-6e0e-08da8bd35f35
+X-MS-TrafficTypeDiagnostic: DM4PR10MB5943:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 64unhDPJve0BrVP8GnJTk1GjrLtl9BbrQJFmka/KhMsrDIAxPbRxsuv6LbN1urs2A7qWRqrBQEm37sHxokXFSw/VFBNaV7RZ8i2L1ughQ7ZtyHEyIqlFddIuBzGXXkpegJRSKoIb4PKB1iKzxvGuX8satdPNOeqQRQf747nxgALN0cl6OA+oai/plV7DkY96/zJT11EynRTw0DA2P7KRG/4/cRmMEnzmoirMgJd5IYhmvEcseYUDhXXcCVi4zC6yuZj7u4UY5UCv5X381WT9mnuUJOGGJZxflH1J3K/Wy5ayPFyAj0uFUNgwhFFANpNckmBztNtQweUmFrvENFO5+8TtqHqL8hNl9MLGGSOf3O/e1xMpEVo01lXbDXFWu49i5s4wGYqrs0KRmLfq2o1ztv4sufaMbcyB0t3oSr19LBMWfbJm4dPqwDrk49qybSyCDM0zHvFnaa47rVeQB3J0+idzxyWjuu93CGbwzBbyj3RWmrpFuU5YSlmvGRCUc+41ZnQbLcBy+NJAxpBlYIPhFgXiAOBhTRB1T075v4siazNR6Y0R7sK+khFIuGTX1idwHKytXv/FLg1W9wHgiHd3uWHWC/TJG/qVvA4zHhNArunuaoWl5EXlIEdGIdHzpIXpuegBUamMXywcDuiIjmbovUFKRkrB8ASzqPSmnufipXAUbnpGoC878OBvT6X1drVv8hEk8y9EUQNFuXhY/GZkIJObX9SKYtRNTKgQuRqyZJVA4hdHitXCgKDgwNzLxio84fmexlzR5NiTr+o+yji8kg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR10MB4759.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(39860400002)(376002)(346002)(136003)(396003)(366004)(66556008)(8676002)(66946007)(66476007)(478600001)(6486002)(316002)(54906003)(6916009)(4326008)(2906002)(4744005)(5660300002)(8936002)(6506007)(86362001)(186003)(41300700001)(6666004)(52116002)(36916002)(38100700002)(26005)(38350700002)(6512007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?u3nfQ6HaV4zLC0/3QuYbeTbny1eHnjWmWdNpsDBHzNZOLLMm6pW0Kvqpefwg?=
+ =?us-ascii?Q?imDtvwNuQcGrMwgfy9ai+aGlbZlHZtYCcmThoKAyXt5JIaUZA3/Z9v60Lq0J?=
+ =?us-ascii?Q?DHi1qYt9wtNPDCUz+lJZUjfJNdy5qmsZF0V/3iv0THs7Ow8eq4m1cuAXmOyC?=
+ =?us-ascii?Q?DEgwsQ0d4lVxZtv7k5K7N/t+N7lPCU2cg8hWjfVl+qYP2ADDSMBEjUkDObsE?=
+ =?us-ascii?Q?nsS9I6MBKH78ynu+T+24sCiZBeVwZLAnqe/NC59QufAQsq+eLn66Z+uetp++?=
+ =?us-ascii?Q?eKfzjcfBEWbL2WK4MyQ4LRPa5D5n9xDz26Q+waPilrvxmllM/H22jgVkQ8Zi?=
+ =?us-ascii?Q?UL8GwJx4g4EPwniYWJ661689BlxG1rCbeT2aJsZMGNH5QyurSLOAPFvdY5DB?=
+ =?us-ascii?Q?pcn8zkxxFcZAkuKkM7VtXbAwn9SyHHQdBgQ/CO81x6Z5VxvrgYG6ibUMn7Gz?=
+ =?us-ascii?Q?4aGi4iwaJHcw/gV5/umBVO79e/2Sbq77/VqbCUeto/zs7Mj3oqFgaec+BO9p?=
+ =?us-ascii?Q?/nSIlzJBgjPdAOzvAV6DP3A+k7VtChoDPNXJqA5JAFpefzyYAGDQYyfQ1a/R?=
+ =?us-ascii?Q?Dp0ppixBToH097d8PS/fdUr8cwx7MEmGPbhHvpXYYCkj3rVcmrwufXuebOvG?=
+ =?us-ascii?Q?OWk3eVoLtE0CD3lHB3FuHVCKVqbEKjgRW3mPy8dzymdeCG6SJNele9vbObY2?=
+ =?us-ascii?Q?mZfJesozGM0uFrxfdqcYK9aeaAqy0hDWtiWxNAO//wYNN4V4u6d4j5NHjq7o?=
+ =?us-ascii?Q?VlEoIWWKbu6DP4bUkIQReQVSONz2hXPxq7DrD4LGvXZesHyM4YbzvO+hnYiS?=
+ =?us-ascii?Q?bKQNQC+OcPTnT2ckcQgMYXkkEQVP9HwuUuVqIyQAzwQRi9AN2Y9hCLSfrdlt?=
+ =?us-ascii?Q?qEAlJ/5qMvR4sMo302YCz4QkHev/o1YmF8ZZRXup28nH3D+6gP/M/zrZlxGh?=
+ =?us-ascii?Q?kLriOk9cbEoW8uPTZue6BLcFL4b4GSU5XFeUD1FrRLvD3Q1ICuuQvWl8fC4B?=
+ =?us-ascii?Q?jXmG0pCvC4R+mhG6zbiyiTUCb52ZTxyjBLda4NwXSc1rb7jeRghgzLyKJas5?=
+ =?us-ascii?Q?4IPJZ4/XDPnzNZdltFVFwUc4VdIWtnvatSVIJZRwgVZWKg3z60DI50Zch3Zo?=
+ =?us-ascii?Q?X/uQQWVK3uIQyzK8F1r+cLUAjGMNbr3n/K2Kn+bjOMI1Vbqaconyghdzk3Rm?=
+ =?us-ascii?Q?5f96VO/c9OXlybV21q4Iw8mQ10kQgdaGOreLd7UXFaKq6vUDACs1nKoWZPK1?=
+ =?us-ascii?Q?yHdz8g1uq855VJtNAUyiV/cLcy8DMghairSHVwGI0hKmkyP2l2KY5PYrl2hg?=
+ =?us-ascii?Q?HBD+wEkbElQMyHSAMQu6XZ+9bnL4R6MEVtuCkBUBDMWTsOqRRTNMdGfftwED?=
+ =?us-ascii?Q?4Dfw+qggXWOsDc0m+vXmVQch+/uGi19zhDHhe7t8ay31fSEIIEzWlaXCBGF0?=
+ =?us-ascii?Q?pYvDXbGmb1H6A6CbnAjYC9fJ9RIY4jqyTzVeqmvKzrGfmvOgaKph/lwJMfUt?=
+ =?us-ascii?Q?IemlBxyeCOURATTn6CwJ2wnTGoTH2rRjl2ZCQpSA7Gge7EhGfLceNgf8aNLx?=
+ =?us-ascii?Q?O54b0ou/4cEVuNL3CTb8Rxv/33QO769AY10NKzky+xUDtWcSMLkdP+e9q8g/?=
+ =?us-ascii?Q?4Q=3D=3D?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e2ab061b-57f1-4473-6e0e-08da8bd35f35
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR10MB4759.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Sep 2022 04:35:17.9978
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: S5CRiwi3aPBQVGREUzCAxIt7LlyOrPJ2jWjDWuKn2qI/EYM9A9wRAgAkRWXnqH0FpE01dU0D0+UyXlwte7900R3IbyT7AIh8zVbSio5Z1A4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR10MB5943
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.895,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-09-01_02,2022-08-31_03,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 suspectscore=0
+ mlxscore=0 spamscore=0 phishscore=0 mlxlogscore=999 adultscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2207270000 definitions=main-2209010020
+X-Proofpoint-GUID: lP5T0JleYnhlj-R7Lx5uX6LscwZ0mL7D
+X-Proofpoint-ORIG-GUID: lP5T0JleYnhlj-R7Lx5uX6LscwZ0mL7D
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Aug 31, 2022 at 10:56 AM Benjamin Tissoires
-<benjamin.tissoires@redhat.com> wrote:
->
-> On Wed, Aug 31, 2022 at 6:37 PM Alexei Starovoitov
-> <alexei.starovoitov@gmail.com> wrote:
-> >
-> > On Tue, Aug 30, 2022 at 7:29 AM Benjamin Tissoires
-> > <benjamin.tissoires@redhat.com> wrote:
-> > >
-> > > On Fri, Aug 26, 2022 at 3:51 AM Kumar Kartikeya Dwivedi
-> > > <memxor@gmail.com> wrote:
-> > > >
-> > > > On Fri, 26 Aug 2022 at 03:42, Alexei Starovoitov
-> > > > <alexei.starovoitov@gmail.com> wrote:
-> > > > >
-> > > > > On Wed, Aug 24, 2022 at 6:41 AM Benjamin Tissoires
-> > > > > <benjamin.tissoires@redhat.com> wrote:
-> > > > > >
-> > > > > > When a function was trying to access data from context in a syscall eBPF
-> > > > > > program, the verifier was rejecting the call unless it was accessing the
-> > > > > > first element.
-> > > > > > This is because the syscall context is not known at compile time, and
-> > > > > > so we need to check this when actually accessing it.
-> > > > > >
-> > > > > > Check for the valid memory access if there is no convert_ctx callback,
-> > > > > > and allow such situation to happen.
-> > > > > >
-> > > > > > There is a slight hiccup with subprogs. btf_check_subprog_arg_match()
-> > > > > > will check that the types are matching, which is a good thing, but to
-> > > > > > have an accurate result, it hides the fact that the context register may
-> > > > > > be null. This makes env->prog->aux->max_ctx_offset being set to the size
-> > > > > > of the context, which is incompatible with a NULL context.
-> > > > > >
-> > > > > > Solve that last problem by storing max_ctx_offset before the type check
-> > > > > > and restoring it after.
-> > > > > >
-> > > > > > Acked-by: Kumar Kartikeya Dwivedi <memxor@gmail.com>
-> > > > > > Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-> > > > > >
-> > > > > > ---
-> > > > > >
-> > > > > > changes in v9:
-> > > > > > - rewrote the commit title and description
-> > > > > > - made it so all functions can make use of context even if there is
-> > > > > >   no convert_ctx
-> > > > > > - remove the is_kfunc field in bpf_call_arg_meta
-> > > > > >
-> > > > > > changes in v8:
-> > > > > > - fixup comment
-> > > > > > - return -EACCESS instead of -EINVAL for consistency
-> > > > > >
-> > > > > > changes in v7:
-> > > > > > - renamed access_t into atype
-> > > > > > - allow zero-byte read
-> > > > > > - check_mem_access() to the correct offset/size
-> > > > > >
-> > > > > > new in v6
-> > > > > > ---
-> > > > > >  kernel/bpf/btf.c      | 11 ++++++++++-
-> > > > > >  kernel/bpf/verifier.c | 19 +++++++++++++++++++
-> > > > > >  2 files changed, 29 insertions(+), 1 deletion(-)
-> > > > > >
-> > > > > > diff --git a/kernel/bpf/btf.c b/kernel/bpf/btf.c
-> > > > > > index 903719b89238..386300f52b23 100644
-> > > > > > --- a/kernel/bpf/btf.c
-> > > > > > +++ b/kernel/bpf/btf.c
-> > > > > > @@ -6443,8 +6443,8 @@ int btf_check_subprog_arg_match(struct bpf_verifier_env *env, int subprog,
-> > > > > >  {
-> > > > > >         struct bpf_prog *prog = env->prog;
-> > > > > >         struct btf *btf = prog->aux->btf;
-> > > > > > +       u32 btf_id, max_ctx_offset;
-> > > > > >         bool is_global;
-> > > > > > -       u32 btf_id;
-> > > > > >         int err;
-> > > > > >
-> > > > > >         if (!prog->aux->func_info)
-> > > > > > @@ -6457,9 +6457,18 @@ int btf_check_subprog_arg_match(struct bpf_verifier_env *env, int subprog,
-> > > > > >         if (prog->aux->func_info_aux[subprog].unreliable)
-> > > > > >                 return -EINVAL;
-> > > > > >
-> > > > > > +       /* subprogs arguments are not actually accessing the data, we need
-> > > > > > +        * to check for the types if they match.
-> > > > > > +        * Store the max_ctx_offset and restore it after btf_check_func_arg_match()
-> > > > > > +        * given that this function will have a side effect of changing it.
-> > > > > > +        */
-> > > > > > +       max_ctx_offset = env->prog->aux->max_ctx_offset;
-> > > > > > +
-> > > > > >         is_global = prog->aux->func_info_aux[subprog].linkage == BTF_FUNC_GLOBAL;
-> > > > > >         err = btf_check_func_arg_match(env, btf, btf_id, regs, is_global, 0);
-> > > > > >
-> > > > > > +       env->prog->aux->max_ctx_offset = max_ctx_offset;
-> > > > >
-> > > > > I don't understand this.
-> > > > > If we pass a ctx into a helper and it's going to
-> > > > > access [0..N] bytes from it why do we need to hide it?
-> > > > > max_ctx_offset will be used later raw_tp, tp, syscall progs
-> > > > > to determine whether it's ok to load them.
-> > > > > By hiding the actual size of access somebody can construct
-> > > > > a prog that reads out of bounds.
-> > > > > How is this related to NULL-ness property?
-> > > >
-> > > > Same question, was just typing exactly the same thing.
-> > >
-> > > The test I have that is failing in patch 2/23 is the following, with
-> > > args being set to NULL by userspace:
-> > >
-> > > SEC("syscall")
-> > > int kfunc_syscall_test_null(struct syscall_test_args *args)
-> > > {
-> > >        bpf_kfunc_call_test_mem_len_pass1(args, 0);
-> > >
-> > >        return 0;
-> > > }
-> > >
-> > > Basically:
-> > > if userspace declares the following:
-> > >  DECLARE_LIBBPF_OPTS(bpf_test_run_opts, syscall_topts,
-> > >                .ctx_in = NULL,
-> > >                .ctx_size_in = 0,
-> > >        );
-> > >
-> > > The verifier is happy with the current released kernel:
-> > > kfunc_syscall_test_fail() never dereferences the ctx pointer, it just
-> > > passes it around to bpf_kfunc_call_test_mem_len_pass1(), which in turn
-> > > is also happy because it says it is not accessing the data at all (0
-> > > size memory parameter).
-> > >
-> > > In the current code, check_helper_mem_access() actually returns
-> > > -EINVAL, but doesn't change max_ctx_offset (it's still at the value of
-> > > 0 here). The program is now marked as unreliable, but the verifier
-> > > goes on.
-> > >
-> > > When adding this patch, if we declare a syscall eBPF (or any other
-> > > function that doesn't have env->ops->convert_ctx_access), the previous
-> > > "test" is failing because this ensures the syscall program has to have
-> > > a valid ctx pointer.
-> > > btf_check_func_arg_match() now calls check_mem_access() which
-> > > basically validates the fact that the program can dereference the ctx.
-> > >
-> > > So now, without the max_ctx_offset store/restore, the verifier
-> > > enforces that the provided ctx is not null.
-> > >
-> > > What I thought that would happen was that if we were to pass a NULL
-> > > context from userspace, but the eBPF program dereferences it (or in
-> > > that case have a subprog or a function call that dereferences it),
-> > > then max_ctx_offset would still be set to the proper value because of
-> > > that internal dereference, and so the verifier would reject with
-> > > -EINVAL the call to the eBPF program.
-> > >
-> > > If I add another test that has the following ebpf prog (with ctx_in
-> > > being set to NULL by the userspace):
-> > >
-> > > SEC("syscall")
-> > > int kfunc_syscall_test_null_fail(struct syscall_test_args *args)
-> > > {
-> > >        bpf_kfunc_call_test_mem_len_pass1(args, sizeof(*args));
-> > >
-> > >        return 0;
-> > > }
-> > >
-> > > Then the call of the program is actually failing with -EINVAL, even
-> > > with this patch.
-> > >
-> > > But again, if setting from userspace a ctx of NULL with a 0 size is
-> > > not considered as valid, then we can just drop that hunk and add a
-> > > test to enforce it.
-> >
-> > PTR_TO_CTX in the verifier always means valid pointer.
-> > All code paths in the verifier assumes that it's not NULL.
-> > Pointer to skb, to xdp, to pt_regs, etc.
-> > The syscall prog type is little bit special, since it
-> > makes sense not to pass any argument to such prog.
-> > So ctx_size_in == 0 is enforced after the verification:
-> > if (ctx_size_in < prog->aux->max_ctx_offset ||
-> >     ctx_size_in > U16_MAX)
-> >           return -EINVAL;
-> > The verifier should be able to proceed assuming ctx != NULL
-> > and remember max max_ctx_offset.
-> > If max_ctx_offset == 4 and ctx_size_in == 0 then
-> > it doesn't matter whether the actual 'ctx' pointer is NULL
-> > or points to a valid memory.
-> > So it's ok for the verifier to assume ctx != NULL everywhere.
->
-> Ok, thanks for the detailed explanation.
->
-> >
-> > Back to the issue at hand.
-> > With this patch the line:
-> >     bpf_kfunc_call_test_mem_len_pass1(args, sizeof(*args));
-> > will be seen as access_size == sizeof(*args), right?
-> > So this part:
-> > +                       if (access_size == 0)
-> > +                               return zero_size_allowed ? 0 : -EACCES;
-> >
-> > will be skipped and
-> > the newly added check_mem_access() will call check_ctx_access()
-> > which will call syscall_prog_is_valid_access() and it will say
-> > that any off < U16_MAX is fine and will simply
-> > record max max_ctx_offset.
-> > The ctx_size_in < prog->aux->max_ctx_offset check is done later.
->
-> Yep, this is correct and this is working now, with a proper error (and
-> no, this is not the error I am trying to fix, see below):
->
-> eBPF prog:
-> ```
->   SEC("?syscall")
->   int kfunc_syscall_test_null_fail(struct syscall_test_args *args)
->   {
->           bpf_kfunc_call_test_mem_len_pass1(args, sizeof(*args));
->           return 0;
->   }
-> ```
->
-> before this patch (1/23):
-> * with ctx not NULL:
-> libbpf: prog 'kfunc_syscall_test_null_fail': BPF program load failed:
-> Invalid argument
-> R1 type=ctx expected=fp
-> arg#0 arg#1 memory, len pair leads to invalid memory access
->
->  => this is not correct, we expect the program to be loaded (and it is
-> expected, this is the bug that is fixed)
->
-> * Same result with ctx being NULL from the caller
->
-> With just the hunk in kernel/bpf/verifier.c (so without touching max_ctx_offset:
-> * with ctx not NULL:
-> program is loaded, and executed correctly
->
-> * with ctx being NULL:
-> program is now loaded, but execution returns -EINVAL, as expected
->
-> So this case is fully solved by just the hunk in verifier.c
->
-> With the full patch:
-> same results, with or without ctx being set to NULL, so no side effects.
->
-> >
-> > So when you're saying:
-> > "call of the program is actually failing with -EINVAL"
-> > that's the check you're referring to?
->
-> No. I am referring to the following eBPF program:
-> ```
->   SEC("syscall")
->   int kfunc_syscall_test_null(struct syscall_test_args *args)
->   {
->            return 0;
->   }
-> ```
->
-> (no calls, just the declaration of a program)
->
-> This one is supposed to be loaded and properly run whatever the
-> context is, right?
 
-Got it. Yes. Indeed.
-The if (!env->ops->convert_ctx_access)
-hunk alone would break existing progs because of
-side effect of max_ctx_offset.
-We have this unfortunate bit of code:
-                ret = btf_check_subprog_arg_match(env, subprog, regs);
-                if (ret == -EFAULT)
-                        /* unlikely verifier bug. abort.
-                         * ret == 0 and ret < 0 are sadly acceptable for
-                         * main() function due to backward compatibility.
-                         * Like socket filter program may be written as:
-                         * int bpf_prog(struct pt_regs *ctx)
-                         * and never dereference that ctx in the program.
-                         * 'struct pt_regs' is a type mismatch for socket
-                         * filter that should be using 'struct __sk_buff'.
-                         */
-                        goto out;
+Randy,
 
-because btf_check_subprog_arg_match() is used to match arguments
-for calling into a function and when the verifier just starts
-to analyze a function.
-Before this patch the btf_check_subprog_arg_match() would just
-EINVAL on your above example and will proceed,
-but with the patch the non zero max_ctx_offset will
-disallow execution later and break things.
-I think we need to clean up this bit of code.
-Just save/restore of max_ctx_offset isn't going to work.
-How about adding a flag to btf_check_subprog_arg_match
-to indicate whether the verifier is processing 'call' insn
-or just starting processing a function body and
-then do
-if (ptr_to_mem_ok && processing_call) ?
-Still feels like a hack.
-Maybe btf_check_func_arg_match() needs to be split to
-disambiguate calling vs processing the body ?
-And may cleanup the rest of that function ?
-Like all of if (is_kfunc) applies only to 'calling' case.
-Other ideas?
+> Correct some spelling typos in SCSI documentation.
+
+Partially applied to 6.1/scsi-staging, thanks!
+
+> --- a/Documentation/scsi/scsi_eh.rst
+> +++ b/Documentation/scsi/scsi_eh.rst
+> @@ -206,7 +206,7 @@ again.
+>  To achieve these goals, EH performs recovery actions with increasing
+>  severity.  Some actions are performed by issuing SCSI commands and
+>  others are performed by invoking one of the following fine-grained
+> -hostt EH callbacks.  Callbacks may be omitted and omitted ones are
+> +host EH callbacks.  Callbacks may be omitted and omitted ones are
+>  considered to fail always.
+
+This one is correct, hostt is shorthand for "host template" in SCSI.
+
+-- 
+Martin K. Petersen	Oracle Linux Engineering
