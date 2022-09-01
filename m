@@ -2,146 +2,175 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 24D76ECAAD1
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Sep 2022 11:16:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 203F5C0502C
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Sep 2022 13:11:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234012AbiIALQY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 1 Sep 2022 07:16:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37234 "EHLO
+        id S233977AbiIANLk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 1 Sep 2022 09:11:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55316 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233998AbiIALQY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Sep 2022 07:16:24 -0400
-Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 0F8761243EA
-        for <linux-doc@vger.kernel.org>; Thu,  1 Sep 2022 04:16:21 -0700 (PDT)
-Received: from localhost.localdomain (unknown [112.20.110.237])
-        by localhost.localdomain (Coremail) with SMTP id AQAAf8Bx32t4lBBjyrkOAA--.58656S7;
-        Thu, 01 Sep 2022 19:16:16 +0800 (CST)
-From:   Yanteng Si <siyanteng@loongson.cn>
-To:     alexs@kernel.org, bobwxc@email.cn, seakeel@gmail.com
-Cc:     Yanteng Si <siyanteng@loongson.cn>, corbet@lwn.net,
-        chenhuacai@kernel.org, jiaxun.yang@flygoat.com,
-        linux-doc@vger.kernel.org, siyanteng01@gmail.com
-Subject: [PATCH v1 5/5] docs/zh_CN: add dt kernel-api translation
-Date:   Thu,  1 Sep 2022 19:15:46 +0800
-Message-Id: <0f2bfe28c1bdbc84b0085ba184675ea04f5e60b1.1662022757.git.siyanteng@loongson.cn>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <cover.1662022757.git.siyanteng@loongson.cn>
-References: <cover.1662022757.git.siyanteng@loongson.cn>
+        with ESMTP id S233286AbiIANLM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Sep 2022 09:11:12 -0400
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A41A68A1FA;
+        Thu,  1 Sep 2022 06:06:12 -0700 (PDT)
+Received: from dggpeml500023.china.huawei.com (unknown [172.30.72.53])
+        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4MJLlk58jDzYd63;
+        Thu,  1 Sep 2022 21:01:38 +0800 (CST)
+Received: from [10.67.110.112] (10.67.110.112) by
+ dggpeml500023.china.huawei.com (7.185.36.114) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Thu, 1 Sep 2022 21:06:03 +0800
+Subject: Re: [PATCH -next v2 3/6] landlock: add chmod and chown support
+To:     =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>,
+        =?UTF-8?Q?G=c3=bcnther_Noack?= <gnoack3000@gmail.com>
+CC:     <paul@paul-moore.com>, <jmorris@namei.org>, <serge@hallyn.com>,
+        <shuah@kernel.org>, <corbet@lwn.net>,
+        <linux-security-module@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>
+References: <20220827111215.131442-1-xiujianfeng@huawei.com>
+ <20220827111215.131442-4-xiujianfeng@huawei.com> <Ywpw66EYRDTQIyTx@nuc>
+ <de8834b6-0ff2-1a81-f2d3-af33103e9942@huawei.com>
+ <de4620d2-3268-b3cc-71dd-acbbd204435e@digikod.net>
+From:   xiujianfeng <xiujianfeng@huawei.com>
+Message-ID: <2f286496-f4f8-76f7-2fb6-cc3dd5ffdeaa@huawei.com>
+Date:   Thu, 1 Sep 2022 21:06:02 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.9.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <de4620d2-3268-b3cc-71dd-acbbd204435e@digikod.net>
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8Bx32t4lBBjyrkOAA--.58656S7
-X-Coremail-Antispam: 1UD129KBjvJXoW7tFyxGr1kuFy8JFWkuF17Jrb_yoW8uF47pF
-        9akryxGF1fu347u3yxWF48GFy3J3Wfuw45KFyxtwnagr1YyFyrtr4jqFykKF9rGry0kFWU
-        WFWUKrWjk3Wqyr7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUBl14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-        rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_JF0E3s1l82xGYI
-        kIc2x26xkF7I0E14v26ryj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2
-        z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j6F
-        4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq
-        3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7
-        IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4U
-        M4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCY02Avz4vE14v_Gw4l42
-        xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWU
-        GwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI4
-        8JMIIF0xvE2Ix0cI8IcVAFwI0_JFI_Gr1lIxAIcVC0I7IYx2IY6xkF7I0E14v26F4j6r4U
-        JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcV
-        C2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUjivttUUUUU==
-X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
+X-Originating-IP: [10.67.110.112]
+X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
+ dggpeml500023.china.huawei.com (7.185.36.114)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Translte .../devicetree/kernel-api.rst into Chinese.
+Hi,
 
-Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
----
- .../translations/zh_CN/devicetree/index.rst   |  5 +-
- .../zh_CN/devicetree/kernel-api.rst           | 58 +++++++++++++++++++
- 2 files changed, 59 insertions(+), 4 deletions(-)
- create mode 100644 Documentation/translations/zh_CN/devicetree/kernel-api.rst
+在 2022/8/30 0:01, Mickaël Salaün 写道:
+> 
+> On 29/08/2022 03:17, xiujianfeng wrote:
+>>
+>> Hi,
+>>
+>> 在 2022/8/28 3:30, Günther Noack 写道:
+>>> Hello!
+>>>
+>>> the mapping between Landlock rights to LSM hooks is now as follows in
+>>> your patch set:
+>>>
+>>> * LANDLOCK_ACCESS_FS_CHMOD controls hook_path_chmod
+>>> * LANDLOCK_ACCESS_FS_CHGRP controls hook_path_chown
+>>>     (this hook can restrict both the chown(2) and chgrp(2) syscalls)
+>>>
+>>> Is this the desired mapping?
+>>>
+>>> The previous discussion I found on the topic was in
+>>>
+>>> [1] 
+>>> https://lore.kernel.org/all/5873455f-fff9-618c-25b1-8b6a4ec94368@digikod.net/ 
+>>>
+>>> [2] 
+>>> https://lore.kernel.org/all/b1d69dfa-6d93-2034-7854-e2bc4017d20e@schaufler-ca.com/ 
+>>>
+>>> [3] 
+>>> https://lore.kernel.org/all/c369c45d-5aa8-3e39-c7d6-b08b165495fd@digikod.net/ 
+>>>
+>>>
+>>> In my understanding the main arguments were the ones in [2] and [3].
+>>>
+>>> There were no further responses to [3], so I was under the impression
+>>> that we were gravitating towards an approach where the
+>>> file-metadata-modification operations were grouped more coarsely?
+>>>
+>>> For example with the approach suggested in [3], which would be to
+>>> group the operations coarsely into (a) one Landlock right for
+>>> modifying file metadata that is used in security contexts, and (b) one
+>>> Landlock right for modifying metadata that was used in non-security
+>>> contexts. That would mean that there would be:
+>>>
+>>> (a) LANDLOCK_ACCESS_FS_MODIFY_SECURITY_ATTRIBUTES to control the
+>>> following operations:
+>>>     * chmod(2)-variants through hook_path_chmod,
+>>>     * chown(2)-variants and chgrp(2)-variants through hook_path_chown,
+>>>     * setxattr(2)-variants and removexattr(2)-variants for extended
+>>>       attributes that are not "user extended attributes" as described in
+>>>       xattr(7) through hook_inode_setxattr and hook_inode_removexattr
+>>>
+>>> (b) LANDLOCK_ACCESS_FS_MODIFY_NON_SECURITY_ATTRIBUTES to control the
+>>> following operations:
+>>>     * utimes(2) and other operations for setting other non-security
+>>>       sensitive attributes, probably through hook_inode_setattr(?)
+>>>     * xattr modifications like above, but for the "user extended
+>>>       attributes", though hook_inode_setxattr and hook_inode_removexattr
+>>>
+>>> In my mind, this would be a sensible grouping, and it would also help
+>>> to decouple the userspace-exposed API from the underlying
+>>> implementation, as Casey suggested to do in [2].
+>>>
+>>> Specifically for this patch set, if you want to use this grouping, you
+>>> would only need to add one new Landlock right
+>>> (LANDLOCK_ACCESS_FS_MODIFY_SECURITY_ATTRIBUTES) as described above
+>>> under (a) (and maybe we can find a shorter name for it... :))?
+>>>
+>>> Did I miss any operations here that would be necessary to restrict?
+>>>
+>>> Would that make sense to you? Xiu, what is your opinion on how this
+>>> should be grouped? Do you have use cases in mind where a more
+>>> fine-grained grouping would be required?
+>>
+>> I apologize I may missed that discussion when I prepared v2:(
+>>
+>> Yes, agreed, this grouping is more sensible and resonnable. so in this
+>> patchset only one right will be added, and I suppose the first commit
+>> which expand access_mask_t to u32 can be droped.
+>>
+>>>
+>>> —Günther
+>>>
+>>> P.S.: Regarding utimes: The hook_inode_setattr hook *also* gets called
+>>> on a variety on attribute changes including file ownership, file size
+>>> and file mode, so it might potentially interact with a bunch of other
+>>> existing Landlock rights. Maybe that is not the right approach. In any
+>>> case, it seems like it might require more thinking and it might be
+>>> sensible to do that in a separate patch set IMHO.
+>>
+>> Thanks for you reminder, that seems it's more complicated to support
+>> utimes, so I think we'd better not support it in this patchset.
+> 
+> The issue with this approach is that it makes it impossible to properly 
+> group such access rights. Indeed, to avoid inconsistencies and much more 
+> complexity, we cannot extend a Landlock access right once it is defined.
+> 
+> We also need to consider that file ownership and permissions have a 
+> default (e.g. umask), which is also a way to set them. How to 
+> consistently manage that? What if the application wants to protect its 
+> files with chmod 0400?
 
-diff --git a/Documentation/translations/zh_CN/devicetree/index.rst b/Documentation/translations/zh_CN/devicetree/index.rst
-index 9d95d2629b38..7451dbfdd3e5 100644
---- a/Documentation/translations/zh_CN/devicetree/index.rst
-+++ b/Documentation/translations/zh_CN/devicetree/index.rst
-@@ -24,10 +24,7 @@ Open Firmware 和 Devicetree
- 
-    usage-model
-    of_unittest
--
--Todolist:
--
--*   kernel-api
-+   kernel-api
- 
- Devicetree Overlays
- ===================
-diff --git a/Documentation/translations/zh_CN/devicetree/kernel-api.rst b/Documentation/translations/zh_CN/devicetree/kernel-api.rst
-new file mode 100644
-index 000000000000..6aa3b685494e
---- /dev/null
-+++ b/Documentation/translations/zh_CN/devicetree/kernel-api.rst
-@@ -0,0 +1,58 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+.. include:: ../disclaimer-zh_CN.rst
-+
-+:Original: Documentation/Devicetree/kernel-api.rst
-+
-+:翻译:
-+
-+ 司延腾 Yanteng Si <siyanteng@loongson.cn>
-+
-+:校译:
-+
-+
-+=================
-+内核中的设备树API
-+=================
-+
-+核心函数
-+--------
-+
-+该API在以下内核代码中:
-+
-+drivers/of/base.c
-+
-+include/linux/of.h
-+
-+drivers/of/property.c
-+
-+include/linux/of_graph.h
-+
-+drivers/of/address.c
-+
-+drivers/of/irq.c
-+
-+drivers/of/fdt.c
-+
-+驱动模型函数
-+------------
-+
-+该API在以下内核代码中:
-+
-+include/linux/of_device.h
-+
-+drivers/of/device.c
-+
-+include/linux/of_platform.h
-+
-+drivers/of/platform.c
-+
-+覆盖和动态DT函数
-+----------------
-+
-+该API在以下内核代码中:
-+
-+drivers/of/resolver.c
-+
-+drivers/of/dynamic.c
-+
-+drivers/of/overlay.c
--- 
-2.31.1
+what do you mean by this? do you mean that we should have a set of 
+default permissions for files created by applications within the 
+sandbox, so that it can update metadata of its own file.
 
+> 
+> About the naming, I think we can start with:
+> - LANDLOCK_ACCESS_FS_READ_METADATA (read any file/dir metadata);
+> - LANDLOCK_ACCESS_FS_WRITE_SAFE_METADATA: change file times, user xattr;
+
+do you mean we should have permission controls on metadata level or 
+operation level? e.g. should we allow update on user xattr but deny 
+update on security xattr? or should we disallow update on any xattr?
+
+> - LANDLOCK_ACCESS_FS_WRITE_UNSAFE_METADATA: interpreted by the kernel 
+> (could change non-Landlock DAC or MAC, which could be considered as a 
+> policy bypass; or other various xattr that might be interpreted by 
+> filesystems), this should be denied most of the time.
+
+do you mean FS_WRITE_UNSAFE_METADATA is security-related? and 
+FS_WRITE_SAFE_METADATA is non-security-related?
+
+> .
