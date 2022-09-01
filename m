@@ -2,132 +2,144 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 30ECAECAAD4
-	for <linux-doc@archiver.kernel.org>; Wed, 31 Aug 2022 22:19:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6674AECAAD4
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Sep 2022 00:28:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232152AbiHaWTc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 31 Aug 2022 18:19:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46018 "EHLO
+        id S229638AbiIAA2m (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 31 Aug 2022 20:28:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44932 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230455AbiHaWTb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 31 Aug 2022 18:19:31 -0400
-Received: from mail-vs1-xe2d.google.com (mail-vs1-xe2d.google.com [IPv6:2607:f8b0:4864:20::e2d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 13E8FEA8AE
-        for <linux-doc@vger.kernel.org>; Wed, 31 Aug 2022 15:19:30 -0700 (PDT)
-Received: by mail-vs1-xe2d.google.com with SMTP id i12so9201141vsr.10
-        for <linux-doc@vger.kernel.org>; Wed, 31 Aug 2022 15:19:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc;
-        bh=AWZYQnfan1bJ9GVCNBmyZROKJBcbdAllrd1bujLULUY=;
-        b=dIvdefwaZbVNNqxh58j/aN2+eJRZ99cdEUmZC1J0cvPnn8cQuWt1+PInXHWHuD86Ro
-         kUUwpAt8eLCA1sOqsb23HOTSSSoFU8FV9mURgEs1ycFph/6ImAZMOpyQGA2HHzU/WQj6
-         qbvtJIAFvKWzXCkus1+g/Ks1t9ag0iaV+KhvBBU/KEtVQ1oxAITPF8No6eMViA8oktNL
-         fj+WxeXrs49XTdF0UWkU474Bg5OYUt/4xAyqLxWNwsHFVm9wECowDjpI1a6GFj+otplu
-         VlhUILHGh6hu65+zZSjlpg2G2QL32OR+YKzids3xS0QPdZFGBnezavGjEnHtulocVp+C
-         BmeA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc;
-        bh=AWZYQnfan1bJ9GVCNBmyZROKJBcbdAllrd1bujLULUY=;
-        b=eEcrbZGArz9S4kkXT5BbkYt6F42D3S88luHVdxa6zdsgzSRxLUFG5/ndYnnvJEEP0m
-         a4sVcE2cNTfZYTov2FQta104Vi5o2Nak/U41VO26waKHJFLmz0MG1qVtzRXUdInWdSYQ
-         g/8RvUKb7pBr71DtiqB/vfa1OQcQbLfJfUB2ctLbCbnudjB1x6YL93ZfEscM81dxsCv0
-         Jibwp1qEOTUAkBEl6805zPbJh6kReixTgNY+kaPowAHOuJmnh3uKwmByIq3d6SdwofR1
-         OwC2kr63lJ3n218mpiZJILJBQYQY8CYwJsm38vddLZ0GXjMTIzUWsk1Y9LojuWpImxOp
-         tAgA==
-X-Gm-Message-State: ACgBeo0Ak7ZaSEzgZVMkZCmL/+HYCHv6mGXpml8cHNTDr9KVNH9KmMMF
-        hWPU2tcl/2M7+BRyj9eJjeuYPkmptyV/AbFgtFwl8w==
-X-Google-Smtp-Source: AA6agR6qB/hK2H0DqIQnLfQXxQ5YBcusYTQ4Uhij460P3WvW0T5tBjs9Eu81k8/3Y7BrMETRjUoukeCZSc+ZR44TKS0=
-X-Received: by 2002:a67:f909:0:b0:390:e960:7f5a with SMTP id
- t9-20020a67f909000000b00390e9607f5amr4984075vsq.50.1661984369049; Wed, 31 Aug
- 2022 15:19:29 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220815071332.627393-1-yuzhao@google.com> <20220831041731.3836322-1-yuzhao@google.com>
-In-Reply-To: <20220831041731.3836322-1-yuzhao@google.com>
-From:   Yu Zhao <yuzhao@google.com>
-Date:   Wed, 31 Aug 2022 16:18:50 -0600
-Message-ID: <CAOUHufamkHsCTckj5hBCTZoM-W-awdoQMVOP5_KswDW_VLJEoA@mail.gmail.com>
-Subject: Re: OpenWrt / MIPS benchmark with MGLRU
-To:     Arnd Bergmann <arnd@arndb.de>, Dave Hansen <dave.hansen@intel.com>
-Cc:     Linux-MM <linux-mm@kvack.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andi Kleen <ak@linux.intel.com>,
-        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
-        Johannes Weiner <hannes@cmpxchg.org>,
+        with ESMTP id S231700AbiIAA2i (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 31 Aug 2022 20:28:38 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0992107C52;
+        Wed, 31 Aug 2022 17:28:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
+        Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+        Content-Description:In-Reply-To:References;
+        bh=j0HvPtELhH3B71uPg+RoqV/ydt8FuGjBSysvzMxQlCE=; b=bsHxTyn4JVY22blRnvC8UcfNri
+        bHP70HiTpbP59JKneE75L8iZ3h7LXhCKW8bL6yPBZhJ8qG3lfvv565pU+Fswh/3hjd8clIH014LwY
+        i/cLz+NBFDDae8CYdrnWZ+hhrVKz+vCnT7vh6/wkvCCTv8tO066H7VkwwrT2apY/cUPvHVHQlPdhP
+        eJ4KNl74rUbaJQRo2S+QcleBlfPGUbU0OWO+9F+VBzUyDLf7o6lL1pogPy4pNAbzQTr0N5YuEHxf/
+        74ysh1xTDDZ4SnKrMNHR6t1K+E/qOLG7F6mg8uUotHEqq0sWup2Ki3vfWPbnIR5x83sGcHEg3r4kV
+        EtnP2voA==;
+Received: from [2601:1c0:6280:3f0::a6b3] (helo=casper.infradead.org)
+        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1oTY4R-005Zgq-10; Thu, 01 Sep 2022 00:28:35 +0000
+From:   Randy Dunlap <rdunlap@infradead.org>
+To:     linux-doc@vger.kernel.org
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mel Gorman <mgorman@suse.de>,
-        Michael Larabel <Michael@michaellarabel.com>,
-        Michal Hocko <mhocko@kernel.org>,
-        Mike Rapoport <rppt@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Tejun Heo <tj@kernel.org>, Vlastimil Babka <vbabka@suse.cz>,
-        Will Deacon <will@kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
-        Kernel Page Reclaim v2 <page-reclaim@google.com>
-Content-Type: text/plain; charset="UTF-8"
+        linux-fsdevel@vger.kernel.org,
+        linux-f2fs-devel@lists.sourceforge.net, linux-xfs@vger.kernel.org,
+        Christian Brauner <brauner@kernel.org>,
+        Seth Forshee <sforshee@kernel.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Theodore Ts'o <tytso@mit.edu>,
+        Jaegeuk Kim <jaegeuk@kernel.org>,
+        "Darrick J . Wong" <djwong@kernel.org>
+Subject: [PATCH v2] Documentation: filesystems: correct possessive "its"
+Date:   Wed, 31 Aug 2022 17:28:28 -0700
+Message-Id: <20220901002828.25102-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.37.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Aug 30, 2022 at 10:17 PM Yu Zhao <yuzhao@google.com> wrote:
->
-> TLDR
-> ====
-> RAM utilization  Throughput (95% CI)  P99 Latency (95% CI)
-> ----------------------------------------------------------
-> ~90%             NS                   NS
-> ~110%            +[12, 16]%           -[20, 22]%
->
-> Abbreviations
-> =============
-> CI:   confidence interval
-> NS:   no statistically significant difference
-> DUT:  device under test
-> ATE:  automatic test equipment
->
-> Rational
-> ========
-> 1. OpenWrt is the most popular distro for WiFi routers; many of its
->    targets use big endianness [1].
-> 2. 4 out of the top 5 bestselling WiFi routers in the US use MIPS [2];
->    MIPS uses software-managed TLB.
-> 3. Memcached is the best available memory benchmark on OpenWrt;
->    admittedly such a use case is very limited in the real world.
+Change occurrences of "it's" that are possessive to "its"
+so that they don't read as "it is".
 
-Thanks.
+For f2fs.rst, reword one description for better clarity.
 
-My goal is to encourage MM people to extend their test coverage to
-some commonly used but less tested configurations. I carefully
-constructed this benchmark with the balance between its
-representativeness and the effort to reproduce.
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-fsdevel@vger.kernel.org
+Cc: linux-f2fs-devel@lists.sourceforge.net
+Cc: linux-xfs@vger.kernel.org
+Cc: Christian Brauner <brauner@kernel.org>
+Cc: Seth Forshee <sforshee@kernel.org>
+Cc: Al Viro <viro@zeniv.linux.org.uk>
+Cc: Theodore Ts'o <tytso@mit.edu>
+Cc: Jaegeuk Kim <jaegeuk@kernel.org>
+Reviewed-by: Darrick J. Wong <djwong@kernel.org>
+Reviewed-by: "Christian Brauner (Microsoft)" <brauner@kernel.org>
+---
+v2: Reword the compress_log_size description.
+    Rebase (the xfs file changed).
+    Add Reviewed-by: tags.
 
-When I wear my MM hat, I see ER-8 as the ideal choice because it comes
-with a serial port, a replaceable memory DIMM and one of the two cores
-that can be disabled. The same SoC is also what the Debian MIPS port
-mainly uses for their testing [1]. So if I need help, I might be able
-to get it from them.
+Thanks for Al and Ted for suggesting rewording the f2fs.rst description.
 
-From OpenWrt's / MIPS OEMs' POVs, I do see ER-8 as an uninteresting
-platform. Currently the best selling WiFi router on Amazon US is
-Archer A7, a knockoff of Archer C7. The latter comes with not only the
-serial port header but also the JTAG header, and that's what I use.
-But I seriously doubt showing how I work on C7 would encourage MM
-people to try it. I snapped a pictures of it during lunch:
-https://drive.google.com/file/d/1rYBwLOyMqBSr6WKUZd7Gbf9RfwA641X5/
-And other boards I routinely test the MM performance on:
-https://drive.google.com/file/d/1yBMx9OPWw-5czvz3maNUy6WBFwPvAqG5/
-All the way dates back to this vintage:
-https://drive.google.com/file/d/12N21qiWSoyJgZwVkwAhY8_5Fj4dKftqD/
+ Documentation/filesystems/f2fs.rst                       |    5 ++---
+ Documentation/filesystems/idmappings.rst                 |    2 +-
+ Documentation/filesystems/qnx6.rst                       |    2 +-
+ Documentation/filesystems/xfs-delayed-logging-design.rst |    6 +++---
+ 4 files changed, 7 insertions(+), 8 deletions(-)
 
-[1] https://wiki.debian.org/MIPSPort
+--- a/Documentation/filesystems/f2fs.rst
++++ b/Documentation/filesystems/f2fs.rst
+@@ -286,9 +286,8 @@ compress_algorithm=%s:%d Control compres
+ 			 algorithm	level range
+ 			 lz4		3 - 16
+ 			 zstd		1 - 22
+-compress_log_size=%u	 Support configuring compress cluster size, the size will
+-			 be 4KB * (1 << %u), 16KB is minimum size, also it's
+-			 default size.
++compress_log_size=%u	 Support configuring compress cluster size. The size will
++			 be 4KB * (1 << %u). The default and minimum sizes are 16KB.
+ compress_extension=%s	 Support adding specified extension, so that f2fs can enable
+ 			 compression on those corresponding files, e.g. if all files
+ 			 with '.ext' has high compression rate, we can set the '.ext'
+--- a/Documentation/filesystems/idmappings.rst
++++ b/Documentation/filesystems/idmappings.rst
+@@ -661,7 +661,7 @@ idmappings::
+  mount idmapping:      u0:k10000:r10000
+ 
+ Assume a file owned by ``u1000`` is read from disk. The filesystem maps this id
+-to ``k21000`` according to it's idmapping. This is what is stored in the
++to ``k21000`` according to its idmapping. This is what is stored in the
+ inode's ``i_uid`` and ``i_gid`` fields.
+ 
+ When the caller queries the ownership of this file via ``stat()`` the kernel
+--- a/Documentation/filesystems/qnx6.rst
++++ b/Documentation/filesystems/qnx6.rst
+@@ -176,7 +176,7 @@ Then userspace.
+ The requirement for a static, fixed preallocated system area comes from how
+ qnx6fs deals with writes.
+ 
+-Each superblock got it's own half of the system area. So superblock #1
++Each superblock got its own half of the system area. So superblock #1
+ always uses blocks from the lower half while superblock #2 just writes to
+ blocks represented by the upper half bitmap system area bits.
+ 
+--- a/Documentation/filesystems/xfs-delayed-logging-design.rst
++++ b/Documentation/filesystems/xfs-delayed-logging-design.rst
+@@ -551,14 +551,14 @@ Essentially, this shows that an item tha
+ and relogged, so any tracking must be separate to the AIL infrastructure. As
+ such, we cannot reuse the AIL list pointers for tracking committed items, nor
+ can we store state in any field that is protected by the AIL lock. Hence the
+-committed item tracking needs it's own locks, lists and state fields in the log
++committed item tracking needs its own locks, lists and state fields in the log
+ item.
+ 
+ Similar to the AIL, tracking of committed items is done through a new list
+ called the Committed Item List (CIL).  The list tracks log items that have been
+ committed and have formatted memory buffers attached to them. It tracks objects
+ in transaction commit order, so when an object is relogged it is removed from
+-it's place in the list and re-inserted at the tail. This is entirely arbitrary
++its place in the list and re-inserted at the tail. This is entirely arbitrary
+ and done to make it easy for debugging - the last items in the list are the
+ ones that are most recently modified. Ordering of the CIL is not necessary for
+ transactional integrity (as discussed in the next section) so the ordering is
+@@ -884,7 +884,7 @@ pin the object the first time it is inse
+ the CIL during a transaction commit, then we do not pin it again. Because there
+ can be multiple outstanding checkpoint contexts, we can still see elevated pin
+ counts, but as each checkpoint completes the pin count will retain the correct
+-value according to it's context.
++value according to its context.
+ 
+ Just to make matters slightly more complex, this checkpoint level context
+ for the pin count means that the pinning of an item must take place under the
