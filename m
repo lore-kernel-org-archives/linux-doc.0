@@ -2,54 +2,54 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 96034ECAAD3
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Sep 2022 14:22:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A88D5ECAAD1
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Sep 2022 14:24:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234595AbiIAOWs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 1 Sep 2022 10:22:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50946 "EHLO
+        id S234693AbiIAOYJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 1 Sep 2022 10:24:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49268 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234697AbiIAOWQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Sep 2022 10:22:16 -0400
-Received: from mail-yw1-x112b.google.com (mail-yw1-x112b.google.com [IPv6:2607:f8b0:4864:20::112b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5FC6E74DDB;
-        Thu,  1 Sep 2022 07:22:11 -0700 (PDT)
-Received: by mail-yw1-x112b.google.com with SMTP id 00721157ae682-3378303138bso338299287b3.9;
-        Thu, 01 Sep 2022 07:22:11 -0700 (PDT)
+        with ESMTP id S234790AbiIAOXo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Sep 2022 10:23:44 -0400
+Received: from mail-yb1-xb2b.google.com (mail-yb1-xb2b.google.com [IPv6:2607:f8b0:4864:20::b2b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0FFAB7697A;
+        Thu,  1 Sep 2022 07:23:18 -0700 (PDT)
+Received: by mail-yb1-xb2b.google.com with SMTP id p204so8816594yba.3;
+        Thu, 01 Sep 2022 07:23:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date;
-        bh=llgzYf8llaL/EQFs3tuAuAqt9Z5KoWpl+4uUr05iaK8=;
-        b=fcbSSEhR2ZsvmYNnB/aQXc9F/i+SM/d8jxzsdHWSMPfcgdbV3linpJ3wj3+SnkwD/F
-         o2AqZR86xlBVfHaLatuNGZp/wIvsXTblUOiZhNZ0VGvX05Zas9Iy9jJ6Yd7UqidYl8jp
-         HqNqfkE3mL8FomBZh6rlRAQANs9ddDhQ6WeoLi402TMQnOzCD73ebnojKbyajx7ZhVvc
-         aNOk7ww7q9txqFLIwp3OA4NGG6nnNwHH5ZoxKJ0EWKjQEsRMa6olk9yvYTbD7afvYMVY
-         oUxxCFYT5z78M7jb1PlHwG/YwY+6FJ8jrhbEXt6/0ansIhBJ7G9n1mxaebM3nIwx1me4
-         bO6A==
+        bh=yjsiVQepq35EGTK84629jF2eYJo/jmeOJnE+I0lw51U=;
+        b=ZZDXAY8mRNBsgqhlnI69ATec9eNCrkYjTjm2kbQe51apRDVr60N0C4aQ1LfTfGjZPG
+         GxrvhMscreJS2TgZ7hiOEdR5xQqXJT7ODJCE6O7j3sxZaE63ATsi59xSi5cdybabJV14
+         o3fPD1Qy2oHwZVK3Zi8MNb9n4HXwpwoTT/Q2JSP4VuKzraxhznqIsXeMVEcFS8+W+MGw
+         pIVYCt7tnymXSDcUhdrp2r/evzF7DJrgDhWc80h0NuR1XeeXJ+QI7xRdSZ4ChIJwtS2y
+         MlpcR48eauVXUYOWqUqW/0KginnB4ORDkB+BSIiH/AecgS6SQEvGVPTNrhcAiZWfGddT
+         lWRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=llgzYf8llaL/EQFs3tuAuAqt9Z5KoWpl+4uUr05iaK8=;
-        b=2wbW5l1mZKQjHq97p7jrRkmRLrIdnpDYaBGBlORlXAYsxfMFuRYQRrAWEjSrLfD6PR
-         UJUr6BdHPjf9+byWWULwdUXFOnttbbtgq6+BGsFv/4YLyDV+Yaic31hn2+UAUF1F7Mcu
-         X2Y3GgD+JGzvJ3QxdmbX8oRakNPKoDU5nak2vA2v+lNLXv6dwYtoW2v3jRIxmc6rIkXM
-         SuAaNkYrxL5NJw+FABYmjElZRMVb1pcH2CK3rzWyWQlXvyxQ0Ur4NpOFi3+/142D3Vyy
-         QS1k8H5j2apULSYjs1YVADt+WV/j5u19WHIXe3iFCVwPqt7/u5+CdyjJrb6IxZ3PSKzj
-         4NFw==
-X-Gm-Message-State: ACgBeo2ZwfwJnQeEbXcbkyZft8mG4zPKQIUijiuR+KPiY6u7FMlM5w3h
-        qzL+7sEQzOKpyHIYbTbZ4nwDgZf4kl4XN/FdhI6MRK/Ayrw=
-X-Google-Smtp-Source: AA6agR6fFQP4CuyJerD+YutxFwlcsRBQyahL7qL90WE1xL3YQzvbookqIiRTL+KO+aqqpWa+nD9OWIyOWVuuhH0vIko=
-X-Received: by 2002:a81:8984:0:b0:33e:1114:2598 with SMTP id
- z126-20020a818984000000b0033e11142598mr23329655ywf.75.1662042129959; Thu, 01
- Sep 2022 07:22:09 -0700 (PDT)
+        bh=yjsiVQepq35EGTK84629jF2eYJo/jmeOJnE+I0lw51U=;
+        b=l9vrxolZerpx35v4jkGMEKvKOx74YqXcyE6WCmsgUFmFwPw3b1UToWQNetWBLfwQFw
+         sThg8Yg71wzGh57o1jnpvXZ6hm4Cm2yAqtHxScukFYY20MCWEjdz2CYStlX8Oy9DJ3CX
+         c+IqXwSEAKRfN4NHARFlI0rT0+b2wm36WYqVeQtOznVQNoGYi0lphn6ei22y2oicEmiF
+         b6iDz7uAVkuWReVtX/TyzHTuIlP3faEu58uLyEv4LhxcH1Cx2hx5qRlHobu72wYiKa80
+         mvJ3CXs/EbwcDuNhj7byq/RB2TdDYb4mgAXC0cCbelTN9a/EEiznVrSNCCDWLLYApMn3
+         D9Rw==
+X-Gm-Message-State: ACgBeo0uxdmoviLj6tk22W4Y2sCbIslVnfk5NuhCqV127pGsnurobDIB
+        4GWCW29tSP8Cr0NjHqr2DQEIP7B9cGYN1Bbd6ow=
+X-Google-Smtp-Source: AA6agR5uTWiMTt7m10PFuJKf70QYxNEnmXqFR0fAnz57Kjx4J9qqQajusRpMBVAfZOkrYxVPaaiHDQrOBkB1DRFMahA=
+X-Received: by 2002:a25:afc6:0:b0:695:8a28:1dc6 with SMTP id
+ d6-20020a25afc6000000b006958a281dc6mr18836213ybj.500.1662042197300; Thu, 01
+ Sep 2022 07:23:17 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220829065239.4531-1-lf32.dev@gmail.com> <87wnarnf4k.fsf@meer.lwn.net>
 In-Reply-To: <87wnarnf4k.fsf@meer.lwn.net>
 From:   lf32 dev <lf32.dev@gmail.com>
-Date:   Thu, 1 Sep 2022 19:51:59 +0530
-Message-ID: <CAOUyfw0aoZaaJ0yZzAVDQO=RHvNa=ZAXRDTO7yiNEomtyKb9-g@mail.gmail.com>
+Date:   Thu, 1 Sep 2022 19:53:06 +0530
+Message-ID: <CAOUyfw00gGT=wFBZ9O3fZdzQ8hkgjUL37F__rpuZH+9=WwjOBQ@mail.gmail.com>
 Subject: Re: [PATCH] Delete duplicate words from kernel docs
 To:     Jonathan Corbet <corbet@lwn.net>,
         Shuah Khan <skhan@linuxfoundation.org>
@@ -60,7 +60,6 @@ List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 Awesome, thanks for merging this!
-
 
 On Mon, Aug 29, 2022 at 10:47 PM Jonathan Corbet <corbet@lwn.net> wrote:
 >
