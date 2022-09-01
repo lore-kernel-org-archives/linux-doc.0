@@ -2,102 +2,136 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D0A5CECAAD3
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Sep 2022 18:43:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 74925ECAAD1
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Sep 2022 18:46:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234043AbiIASnx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 1 Sep 2022 14:43:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59874 "EHLO
+        id S234299AbiIASq3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 1 Sep 2022 14:46:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33550 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234304AbiIASnj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Sep 2022 14:43:39 -0400
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 075DE57577;
-        Thu,  1 Sep 2022 11:43:38 -0700 (PDT)
-Received: by mail-wr1-x432.google.com with SMTP id u18so10840628wrq.10;
-        Thu, 01 Sep 2022 11:43:37 -0700 (PDT)
+        with ESMTP id S234217AbiIASp5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Sep 2022 14:45:57 -0400
+Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com [IPv6:2a00:1450:4864:20::62d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72EFC273A;
+        Thu,  1 Sep 2022 11:45:37 -0700 (PDT)
+Received: by mail-ej1-x62d.google.com with SMTP id y3so36606082ejc.1;
+        Thu, 01 Sep 2022 11:45:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:sender:from:to:cc:subject:date;
-        bh=tDY9KLkecT8kusGcpl2bZ2yreiehkuHM3UUVtCjmsPU=;
-        b=cRpiB7VJPxof+TbCRpjBn2kZebccN+Y20+JcQ/ZDCHdNYW7XWtmQOElqX308u2e6WH
-         zdH+XfgNLPKk67s6Y8V8mzI9SF7rK2O1zlfbQR41yTKwv2KEqMOWVshHvV0XHS4UVLdv
-         6sHO45KmtXRcimrGN5IXFt9mQ8QsPsalQVNBTdYJbofz69jxK10K3M8M72Hekz9rs/WZ
-         vWsqpnFD//u7x0mujoeNY8WKjZY90XmAISxuuY6OA1IkqGqUm/JfV06I5XKS8FyaFtBF
-         wJGhJe3dlr5Oq9720Y6HEyOUefG/GAlrmSCCb27F/yz5WFa1Fti3ScGVqh4RhhgwUDIT
-         I46w==
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date;
+        bh=EI+1N/llj9L85b9NcuYg64P4zBWYxAlSDInm7LZKJiE=;
+        b=AOnpLzASJSI5wTZShO7PVB+6AfPc3VOoQ+Dh4ohASVvg2bAjptrWh951uiGYqtwS8+
+         Q+ULbBcsPtGcSpNmn+tL4QjZR5Sm81/TF6v/uz96xeYcjOoZASF8NXWk0jRu4GAGki9V
+         R9xg93hvODgA+wHeHCjaeO/MvHfRHnQs2ayWw3GlGoXt4m+yJt37julvliDDjiHtKliJ
+         3GWPNu+wc8pUD0FhwIbtPBP+koH3/eKL5ccCwJ/YAL6a2P6c9+QeagaA9NMfyt1PxYIX
+         sG1A8VciClCYmgkZIcF9gbNDvoKTzuP2bpBwZVtcHa/iQp2nrSHYIH+iQpbd2VssX8nc
+         eAgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:sender:x-gm-message-state:from:to:cc:subject:date;
-        bh=tDY9KLkecT8kusGcpl2bZ2yreiehkuHM3UUVtCjmsPU=;
-        b=kVzeLf4xMjP3LwNjsZin5RxPx4+/RmmHEBLmBj0wugBIQr2mKG58NYocbvdGyYpm2U
-         7IMtEaTr07roh9/Npei0lQLM3EUoJhs+qlHxzS22jOWQSIZCdPLLev5sURCIp4Ww8Aq7
-         olb69YxqRiDgBC7yIvFQ9lkibp80weLDwjzkOha9vPkTVsplOE0/D6g60X4kLevFCcbK
-         SrEB0EXpiFiV/3kday/I9zpOqWfrA9Xt08/cZvsotPi/7zl/uKjQaETr0jHJnGtW3jnn
-         cZaUBwovuwTsN2eWGDl5Uv5y5Kalw8d8v6F/iBW887qO3qQHNf+aMVs2AlmukDU/IAsW
-         oJig==
-X-Gm-Message-State: ACgBeo2NWGrbvtgO3sXe/X8WQP1+Rl3qK0Bw/PdavtfkoC/RQZuGWZBj
-        Y9tblE+MMZwEmMpgQVlQDN4=
-X-Google-Smtp-Source: AA6agR5xxGKb3IZESDBG+vlIDLuSiBO/5TT+x5KouHhG1Bx8oYWCNN6xIZr/GYugI7Vr3PvRCrEw5g==
-X-Received: by 2002:adf:df84:0:b0:226:db0a:d8e5 with SMTP id z4-20020adfdf84000000b00226db0ad8e5mr11728021wrl.21.1662057816040;
-        Thu, 01 Sep 2022 11:43:36 -0700 (PDT)
-Received: from elende (elende.valinor.li. [2a01:4f9:6a:1c47::2])
-        by smtp.gmail.com with ESMTPSA id n5-20020a05600c3b8500b003a319b67f64sm13103849wms.0.2022.09.01.11.43.33
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+         :subject:date;
+        bh=EI+1N/llj9L85b9NcuYg64P4zBWYxAlSDInm7LZKJiE=;
+        b=ALeSa76n6MoTRMNYEYPosFzfD6AxE+Uc0lhGMK3Fw0AxS1zYX201kW1DG416Y4IijP
+         4tnbQea4/sDaS/YXes5lJ6cxUkJR/PnDfxWgIPaaZeVOuezoLEL69rH3uvZDwWGUQ2XJ
+         5Jq7XNH/hErp2tZQtygU3gsLe/+whV8pup7mQuo+BToInCgomVV0hcMUhrOjh5jnwBUD
+         oLOggRaNUOIfH1WF4u48qtQTV4+0kj3mvHa7QEypNMzW3ATK6j/BKnxKsTlCGlYDlG1g
+         y7aPjfibWMC9XRMn8o+qqMSC5o/faLUaxeTX1AxCwhTmyJ6ArwQ8Xi0aeUn2OYPYh79k
+         n0Cg==
+X-Gm-Message-State: ACgBeo3+B5iQ63Ypk9GN2/7gLB9/CceBJmld7wvlSLb2q1601T62M3kp
+        lqWhsWRO90Ge65YwHWo5wmA=
+X-Google-Smtp-Source: AA6agR7C1eNnJDOfnfQVBMk+BdAAEzf0m1yz4gzcFBN0vOhoBtPP59mO1qv9UrCu1Rr4D+ejcMKY9w==
+X-Received: by 2002:a17:906:8450:b0:741:5b1b:5c7f with SMTP id e16-20020a170906845000b007415b1b5c7fmr16853312ejy.766.1662057936037;
+        Thu, 01 Sep 2022 11:45:36 -0700 (PDT)
+Received: from eldamar.lan (c-82-192-242-114.customer.ggaweb.ch. [82.192.242.114])
+        by smtp.gmail.com with ESMTPSA id k8-20020a17090632c800b0074134543f82sm11682ejk.90.2022.09.01.11.45.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Sep 2022 11:43:34 -0700 (PDT)
+        Thu, 01 Sep 2022 11:45:34 -0700 (PDT)
 Sender: Salvatore Bonaccorso <salvatore.bonaccorso@gmail.com>
+Received: by eldamar.lan (Postfix, from userid 1000)
+        id 2233DBE41F1; Thu,  1 Sep 2022 20:45:34 +0200 (CEST)
+Date:   Thu, 1 Sep 2022 20:45:34 +0200
 From:   Salvatore Bonaccorso <carnil@debian.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Sasha Levin <sashal@kernel.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Salvatore Bonaccorso <carnil@debian.org>
-Subject: [PATCH v3] Documentation: stable: Document alternative for referring upstream commit hash
-Date:   Thu,  1 Sep 2022 20:43:28 +0200
-Message-Id: <20220901184328.4075701-1-carnil@debian.org>
-X-Mailer: git-send-email 2.37.2
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>, Sasha Levin <sashal@kernel.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Documentation: stable: Document alternative for
+ referring upstream commit hash
+Message-ID: <YxD9zpYyL08sh2jd@eldamar.lan>
+References: <20220809045543.2049293-1-carnil@debian.org>
+ <8735e5a864.fsf@meer.lwn.net>
+ <YwiEDsngUL//ogBL@eldamar.lan>
+ <YxDWzCoQJwWEnKXw@kroah.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YxDWzCoQJwWEnKXw@kroah.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Additionally to the "commit <sha1> upstream." variant, "[ Upstream
-commit <sha1> ]" is used as well as alternative to refer to the upstream
-commit hash.
+Hi Greg,
 
-Signed-off-by: Salvatore Bonaccorso <carnil@debian.org>
----
-Changes in v3:
- - Revert to initial version as not adding the code-block:: none will
-   reformat the block differently than the first variant.
+On Thu, Sep 01, 2022 at 05:59:08PM +0200, Greg Kroah-Hartman wrote:
+> On Fri, Aug 26, 2022 at 10:27:58AM +0200, Salvatore Bonaccorso wrote:
+> > Hi Jonathan,
+> > 
+> > On Tue, Aug 09, 2022 at 06:54:59AM -0600, Jonathan Corbet wrote:
+> > > Salvatore Bonaccorso <carnil@debian.org> writes:
+> > > 
+> > > > Additionally to the "commit <sha1> upstream." variant, "[ Upstream
+> > > > commit <sha1> ]" is used as well as alternative to refer to the upstream
+> > > > commit hash.
+> > > >
+> > > > Signed-off-by: Salvatore Bonaccorso <carnil@debian.org>
+> > > > ---
+> > > >  Documentation/process/stable-kernel-rules.rst | 6 ++++++
+> > > >  1 file changed, 6 insertions(+)
+> > > 
+> > > So this is a nit but...
+> > > 
+> > > > diff --git a/Documentation/process/stable-kernel-rules.rst b/Documentation/process/stable-kernel-rules.rst
+> > > > index c61865e91f52..2fd8aa593a28 100644
+> > > > --- a/Documentation/process/stable-kernel-rules.rst
+> > > > +++ b/Documentation/process/stable-kernel-rules.rst
+> > > > @@ -97,6 +97,12 @@ text, like this:
+> > > >  
+> > > >      commit <sha1> upstream.
+> > > >  
+> > > > +or alternatively:
+> > > > +
+> > > > +.. code-block:: none
+> > > > +
+> > > > +    [ Upstream commit <sha1> ]
+> > > 
+> > > Can this just be:
+> > > 
+> > >   or alternatively::
+> > > 
+> > >     [ Upstream commit <sha1> ]
+> > > 
+> > > That extra RST markup just clutters things without any advantage.
+> > 
+> > Btw, after revisiting, I think Greg actually can pick up the first
+> > version of the patch. Changing the above without adding the
+> > code-block:node will reformat the
+> > 
+> >      [ Upstream commit <sha1> ]
+> > 
+> > differently when rendering to html.
+> > 
+> > Greg, so as the patch has not yet been commited, can you pick up the
+> > first version from
+> > https://lore.kernel.org/lkml/20220809045543.2049293-1-carnil@debian.org/
+> > ?
+> 
+> Please resend it as v3 so that our tools don't try to apply v2.
 
-Changes in v2:
- - Drop extra RST markup which just only clutters things without any
-   advantage.
+Okay right, make sense! Just sumitted v3 with the original version of
+the documentation patch.
 
- Documentation/process/stable-kernel-rules.rst | 6 ++++++
- 1 file changed, 6 insertions(+)
+https://lore.kernel.org/lkml/20220901184328.4075701-1-carnil@debian.org/
 
-diff --git a/Documentation/process/stable-kernel-rules.rst b/Documentation/process/stable-kernel-rules.rst
-index c61865e91f52..2fd8aa593a28 100644
---- a/Documentation/process/stable-kernel-rules.rst
-+++ b/Documentation/process/stable-kernel-rules.rst
-@@ -97,6 +97,12 @@ text, like this:
- 
-     commit <sha1> upstream.
- 
-+or alternatively:
-+
-+.. code-block:: none
-+
-+    [ Upstream commit <sha1> ]
-+
- Additionally, some patches submitted via :ref:`option_1` may have additional
- patch prerequisites which can be cherry-picked. This can be specified in the
- following format in the sign-off area:
--- 
-2.37.2
-
+Regards,
+Salvatore
