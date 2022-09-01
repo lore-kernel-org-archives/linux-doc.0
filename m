@@ -2,439 +2,229 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 154CEECAAD3
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Sep 2022 16:48:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EA28FECAAD3
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Sep 2022 16:53:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234700AbiIAQsG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 1 Sep 2022 12:48:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58248 "EHLO
+        id S234256AbiIAQx6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 1 Sep 2022 12:53:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38782 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233576AbiIAQsC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Sep 2022 12:48:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27A4F98353
-        for <linux-doc@vger.kernel.org>; Thu,  1 Sep 2022 09:48:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1662050880;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=JmSTZNuoR5/0BLeN7G1KPisKeeRorhWXxUEtlv0SKGg=;
-        b=EInNRLD/ShoVHoC+qC8nvhLqeBqMrK2mYZ1Xunag6uDPzVo42+gGrR5TJvtt9BwikvXr78
-        iZPl6y9FmoqWWwVhCdVccdJIVc1194+DzCz5nJqJH0f1wEmgJqU3Cd7TaWzWRgGToTFPyb
-        MWC04EYwHPfmXY97h+C5GmfL29+l96I=
-Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com
- [209.85.216.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-111-wGcCrp3DMR6C5DNco-gtvQ-1; Thu, 01 Sep 2022 12:47:59 -0400
-X-MC-Unique: wGcCrp3DMR6C5DNco-gtvQ-1
-Received: by mail-pj1-f70.google.com with SMTP id a17-20020a17090abe1100b001fda49516e2so1686978pjs.2
-        for <linux-doc@vger.kernel.org>; Thu, 01 Sep 2022 09:47:58 -0700 (PDT)
+        with ESMTP id S234782AbiIAQxo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Sep 2022 12:53:44 -0400
+Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com [IPv6:2a00:1450:4864:20::52d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83BF1985B0
+        for <linux-doc@vger.kernel.org>; Thu,  1 Sep 2022 09:53:42 -0700 (PDT)
+Received: by mail-ed1-x52d.google.com with SMTP id t5so23363747edc.11
+        for <linux-doc@vger.kernel.org>; Thu, 01 Sep 2022 09:53:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date;
+        bh=Utwb8GsJ5vvsHM/8ip4meWVPitKeqc5FGHGRSAfVV1w=;
+        b=uuVU7Qb42ctTfJWZO3i/M1EEOb/t50IiLitHlYcYPqXB7Gn3xj8XYN6XUsanpJg2x8
+         D0wcHWl2TQOkRbNEQO6vErb2UHK4FGfZP4FHbIKiAD0nZOpJG7laRyNm0j4PgcojrDKY
+         DiLLA7+KYZfpzxh3tcEHBxzNg1d3mIiPu+JAkvfg2rMHJ9BUjTgG+2hWxYYabAk26Jfp
+         DMniZkCg9c8JGKFQvZ83biVv0rZAO4ENk1r/8ZNAxYEry8r8RS04sk1bgdKXeO2zQS/x
+         Eg+Z+TgX4tK+nd2Q8+mFFFS6mkedtRxaxcCy22i1A8nFjOcWwX+gaPIzXBkdqUf5A38o
+         Gpjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc;
-        bh=JmSTZNuoR5/0BLeN7G1KPisKeeRorhWXxUEtlv0SKGg=;
-        b=0O1ql6vrBm1mwgBVJ6OJRVsQWdQmXuTKX2XGNU1P3uCLJmY41WXI8012I8fS31X3cO
-         clR4HVBEtpuOpALqnnDY42bD89Q+VUGPGyYHE+iAEvsxRNY1LAbVclaIwgsUF6hYmH+x
-         3c/THRpEhVbFW7AjVumhTemuTOJgbOy1dgXKr3mDu5y+eNHqoBL3JGEDpYr/gfgkj+Iu
-         P3vJ5F2DEGA3gUhLZYo+1/dLuQ1rFMDNW4Lhx5ha59QhRvB7t/Vjl2u4y9XB6R/xtFA2
-         ks6u3H13fkrSjsl93DSpU326qFIefor3CUzlUiItPcrJmWyKrnAl2q8UYf+AzwEGSTW2
-         Kh9w==
-X-Gm-Message-State: ACgBeo3lh3CCxzMLCeOJj8hFAzLZrNkF0gV1xAKupeUbpHIUHspr2DBS
-        idujesl5sD86WZC16hW2iS/aOTWBdN4u6Bhj3lVLsThl3hGyi0WjS/iPN5PlWiYm6SaV3w4ioaR
-        e3QdnjxC7erHhQJmJ9XKmkhkgZNtx+gTaPWRf
-X-Received: by 2002:a17:903:120c:b0:172:728a:3b24 with SMTP id l12-20020a170903120c00b00172728a3b24mr31230809plh.61.1662050877615;
-        Thu, 01 Sep 2022 09:47:57 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR5V9baM7wbECIOLU2cc4dJ4lH8MVOMc1IGV9dE9JUZaUiy83PnHLzx+/7PJ3+AQ4GLfQUWhZJDTtOuHTUEUFkY=
-X-Received: by 2002:a17:903:120c:b0:172:728a:3b24 with SMTP id
- l12-20020a170903120c00b00172728a3b24mr31230768plh.61.1662050877195; Thu, 01
- Sep 2022 09:47:57 -0700 (PDT)
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=Utwb8GsJ5vvsHM/8ip4meWVPitKeqc5FGHGRSAfVV1w=;
+        b=WSNr5g2I/NV8TtudN0EGnCJ2MCDEG/j2usItTH5HqJKCVsN3+bDeGeul7nNPCONy3A
+         2Ld5tM32hsGQVBGm/r/vFHXFhQctR4ynlQv1NvyDIvPQSz8DQ0sbPe3hyW2NHL10ypyn
+         QNrqZSauEeAIXQwk8zeprTULBE0uu8QqJmUlentJulJ0mNgWBxKjoGrua4QxkO0gk1lY
+         EQxFX5zPYbfQaGwtDRQsEdRyjkopdZq8rBfe01cUxK0aqJLxZvfL+CroYHbZM89aWrhQ
+         yc2BSd3WVzVa5Ez29ru6sHYZrqyrtuEKALdlgkqBxIk1FhN6rQHCdUKq2jl0H1c3B57K
+         VuhQ==
+X-Gm-Message-State: ACgBeo2Tges2qoiwXL3ogsP0CWMQuIubMzIH3+j+YAyapXYmsBWdXo9P
+        RaJyiwdsHbN9mZ5w3uzNKpRzPJ7b4u7zGInvsZt9hg==
+X-Google-Smtp-Source: AA6agR45bngCQB/O3nd8cwlu63JO4zrVqmKjTWp+JWEZlCfacAqcPmpOQjDaXmcnIvtxZi2/S+7XjXZbpQpcxHRwemY=
+X-Received: by 2002:a05:6402:538f:b0:444:c17b:1665 with SMTP id
+ ew15-20020a056402538f00b00444c17b1665mr29843511edb.98.1662051221046; Thu, 01
+ Sep 2022 09:53:41 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220824134055.1328882-1-benjamin.tissoires@redhat.com>
- <20220824134055.1328882-2-benjamin.tissoires@redhat.com> <CAADnVQKgkFpLh_URJn6qCiAONteA1dwZHd6=4cZn15g1JCAPag@mail.gmail.com>
- <CAP01T75ec_T0M6DU=JE2tfNsWRZuPSMu_7JHA7ZoOBw5eDh1Bg@mail.gmail.com>
- <CAO-hwJLd9wXx+ppccBYPKZDymO0sk++Nt2E3-R97PY7LbfJfTg@mail.gmail.com>
- <CAADnVQK8dS+2KbWsqktvxoNKhHtdD5UPiaWVfNu=ESdn_OHpgQ@mail.gmail.com>
- <CAO-hwJK9uHTWCg3_6jrPF6UKiamkNfj=cuH5mHauoLX+0udV9w@mail.gmail.com> <CAADnVQLuL045Sxdvh8kfcNkmD55+Wz8fHU3RtH+oQyOgePU5Pw@mail.gmail.com>
-In-Reply-To: <CAADnVQLuL045Sxdvh8kfcNkmD55+Wz8fHU3RtH+oQyOgePU5Pw@mail.gmail.com>
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Thu, 1 Sep 2022 18:47:45 +0200
-Message-ID: <CAO-hwJJJJRtoq2uTXRKCck6QSH8SFDSTpHmvTyOieczY7bdm8g@mail.gmail.com>
-Subject: Re: [PATCH bpf-next v9 01/23] bpf/verifier: allow all functions to
- read user provided context
-To:     Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Cc:     Kumar Kartikeya Dwivedi <memxor@gmail.com>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Jiri Kosina <jikos@kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>, Shuah Khan <shuah@kernel.org>,
-        Dave Marchevsky <davemarchevsky@fb.com>,
-        Joe Stringer <joe@cilium.io>, Jonathan Corbet <corbet@lwn.net>,
-        Tero Kristo <tero.kristo@linux.intel.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        Network Development <netdev@vger.kernel.org>,
-        bpf <bpf@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+References: <20220816114414.4092-1-yangyicong@huawei.com> <86bfaabc-43e3-bcfb-faf9-74a0d79ab2ec@huawei.com>
+In-Reply-To: <86bfaabc-43e3-bcfb-faf9-74a0d79ab2ec@huawei.com>
+From:   Mathieu Poirier <mathieu.poirier@linaro.org>
+Date:   Thu, 1 Sep 2022 10:53:29 -0600
+Message-ID: <CANLsYkwqXQxBCYAHhd4Txv+AZVKgeX+C4kE0b1t3aytTthjNtQ@mail.gmail.com>
+Subject: Re: [PATCH v12 0/5] Add driver support for HiSilicon PCIe Tune and
+ Trace device
+To:     Yicong Yang <yangyicong@huawei.com>
+Cc:     alexander.shishkin@linux.intel.com, peterz@infradead.org,
+        corbet@lwn.net, gregkh@linuxfoundation.org,
+        yangyicong@hisilicon.com, helgaas@kernel.org,
+        lorenzo.pieralisi@arm.com, suzuki.poulose@arm.com, joro@8bytes.org,
+        shameerali.kolothum.thodi@huawei.com, mingo@redhat.com,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-pci@vger.kernel.org, linux-perf-users@vger.kernel.org,
+        iommu@lists.linux-foundation.org, iommu@lists.linux.dev,
+        linux-doc@vger.kernel.org, prime.zeng@huawei.com,
+        liuqi115@huawei.com, zhangshaokun@hisilicon.com,
+        linuxarm@huawei.com, bagasdotme@gmail.com, john.garry@huawei.com,
+        jonathan.cameron@huawei.com, leo.yan@linaro.org,
+        james.clark@arm.com, robin.murphy@arm.com, will@kernel.org,
+        acme@kernel.org, mark.rutland@arm.com
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Sep 1, 2022 at 6:15 AM Alexei Starovoitov
-<alexei.starovoitov@gmail.com> wrote:
+On Tue, 30 Aug 2022 at 04:59, Yicong Yang <yangyicong@huawei.com> wrote:
 >
-> On Wed, Aug 31, 2022 at 10:56 AM Benjamin Tissoires
-> <benjamin.tissoires@redhat.com> wrote:
-> >
-> > On Wed, Aug 31, 2022 at 6:37 PM Alexei Starovoitov
-> > <alexei.starovoitov@gmail.com> wrote:
-> > >
-> > > On Tue, Aug 30, 2022 at 7:29 AM Benjamin Tissoires
-> > > <benjamin.tissoires@redhat.com> wrote:
-> > > >
-> > > > On Fri, Aug 26, 2022 at 3:51 AM Kumar Kartikeya Dwivedi
-> > > > <memxor@gmail.com> wrote:
-> > > > >
-> > > > > On Fri, 26 Aug 2022 at 03:42, Alexei Starovoitov
-> > > > > <alexei.starovoitov@gmail.com> wrote:
-> > > > > >
-> > > > > > On Wed, Aug 24, 2022 at 6:41 AM Benjamin Tissoires
-> > > > > > <benjamin.tissoires@redhat.com> wrote:
-> > > > > > >
-> > > > > > > When a function was trying to access data from context in a syscall eBPF
-> > > > > > > program, the verifier was rejecting the call unless it was accessing the
-> > > > > > > first element.
-> > > > > > > This is because the syscall context is not known at compile time, and
-> > > > > > > so we need to check this when actually accessing it.
-> > > > > > >
-> > > > > > > Check for the valid memory access if there is no convert_ctx callback,
-> > > > > > > and allow such situation to happen.
-> > > > > > >
-> > > > > > > There is a slight hiccup with subprogs. btf_check_subprog_arg_match()
-> > > > > > > will check that the types are matching, which is a good thing, but to
-> > > > > > > have an accurate result, it hides the fact that the context register may
-> > > > > > > be null. This makes env->prog->aux->max_ctx_offset being set to the size
-> > > > > > > of the context, which is incompatible with a NULL context.
-> > > > > > >
-> > > > > > > Solve that last problem by storing max_ctx_offset before the type check
-> > > > > > > and restoring it after.
-> > > > > > >
-> > > > > > > Acked-by: Kumar Kartikeya Dwivedi <memxor@gmail.com>
-> > > > > > > Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-> > > > > > >
-> > > > > > > ---
-> > > > > > >
-> > > > > > > changes in v9:
-> > > > > > > - rewrote the commit title and description
-> > > > > > > - made it so all functions can make use of context even if there is
-> > > > > > >   no convert_ctx
-> > > > > > > - remove the is_kfunc field in bpf_call_arg_meta
-> > > > > > >
-> > > > > > > changes in v8:
-> > > > > > > - fixup comment
-> > > > > > > - return -EACCESS instead of -EINVAL for consistency
-> > > > > > >
-> > > > > > > changes in v7:
-> > > > > > > - renamed access_t into atype
-> > > > > > > - allow zero-byte read
-> > > > > > > - check_mem_access() to the correct offset/size
-> > > > > > >
-> > > > > > > new in v6
-> > > > > > > ---
-> > > > > > >  kernel/bpf/btf.c      | 11 ++++++++++-
-> > > > > > >  kernel/bpf/verifier.c | 19 +++++++++++++++++++
-> > > > > > >  2 files changed, 29 insertions(+), 1 deletion(-)
-> > > > > > >
-> > > > > > > diff --git a/kernel/bpf/btf.c b/kernel/bpf/btf.c
-> > > > > > > index 903719b89238..386300f52b23 100644
-> > > > > > > --- a/kernel/bpf/btf.c
-> > > > > > > +++ b/kernel/bpf/btf.c
-> > > > > > > @@ -6443,8 +6443,8 @@ int btf_check_subprog_arg_match(struct bpf_verifier_env *env, int subprog,
-> > > > > > >  {
-> > > > > > >         struct bpf_prog *prog = env->prog;
-> > > > > > >         struct btf *btf = prog->aux->btf;
-> > > > > > > +       u32 btf_id, max_ctx_offset;
-> > > > > > >         bool is_global;
-> > > > > > > -       u32 btf_id;
-> > > > > > >         int err;
-> > > > > > >
-> > > > > > >         if (!prog->aux->func_info)
-> > > > > > > @@ -6457,9 +6457,18 @@ int btf_check_subprog_arg_match(struct bpf_verifier_env *env, int subprog,
-> > > > > > >         if (prog->aux->func_info_aux[subprog].unreliable)
-> > > > > > >                 return -EINVAL;
-> > > > > > >
-> > > > > > > +       /* subprogs arguments are not actually accessing the data, we need
-> > > > > > > +        * to check for the types if they match.
-> > > > > > > +        * Store the max_ctx_offset and restore it after btf_check_func_arg_match()
-> > > > > > > +        * given that this function will have a side effect of changing it.
-> > > > > > > +        */
-> > > > > > > +       max_ctx_offset = env->prog->aux->max_ctx_offset;
-> > > > > > > +
-> > > > > > >         is_global = prog->aux->func_info_aux[subprog].linkage == BTF_FUNC_GLOBAL;
-> > > > > > >         err = btf_check_func_arg_match(env, btf, btf_id, regs, is_global, 0);
-> > > > > > >
-> > > > > > > +       env->prog->aux->max_ctx_offset = max_ctx_offset;
-> > > > > >
-> > > > > > I don't understand this.
-> > > > > > If we pass a ctx into a helper and it's going to
-> > > > > > access [0..N] bytes from it why do we need to hide it?
-> > > > > > max_ctx_offset will be used later raw_tp, tp, syscall progs
-> > > > > > to determine whether it's ok to load them.
-> > > > > > By hiding the actual size of access somebody can construct
-> > > > > > a prog that reads out of bounds.
-> > > > > > How is this related to NULL-ness property?
-> > > > >
-> > > > > Same question, was just typing exactly the same thing.
-> > > >
-> > > > The test I have that is failing in patch 2/23 is the following, with
-> > > > args being set to NULL by userspace:
-> > > >
-> > > > SEC("syscall")
-> > > > int kfunc_syscall_test_null(struct syscall_test_args *args)
-> > > > {
-> > > >        bpf_kfunc_call_test_mem_len_pass1(args, 0);
-> > > >
-> > > >        return 0;
-> > > > }
-> > > >
-> > > > Basically:
-> > > > if userspace declares the following:
-> > > >  DECLARE_LIBBPF_OPTS(bpf_test_run_opts, syscall_topts,
-> > > >                .ctx_in = NULL,
-> > > >                .ctx_size_in = 0,
-> > > >        );
-> > > >
-> > > > The verifier is happy with the current released kernel:
-> > > > kfunc_syscall_test_fail() never dereferences the ctx pointer, it just
-> > > > passes it around to bpf_kfunc_call_test_mem_len_pass1(), which in turn
-> > > > is also happy because it says it is not accessing the data at all (0
-> > > > size memory parameter).
-> > > >
-> > > > In the current code, check_helper_mem_access() actually returns
-> > > > -EINVAL, but doesn't change max_ctx_offset (it's still at the value of
-> > > > 0 here). The program is now marked as unreliable, but the verifier
-> > > > goes on.
-> > > >
-> > > > When adding this patch, if we declare a syscall eBPF (or any other
-> > > > function that doesn't have env->ops->convert_ctx_access), the previous
-> > > > "test" is failing because this ensures the syscall program has to have
-> > > > a valid ctx pointer.
-> > > > btf_check_func_arg_match() now calls check_mem_access() which
-> > > > basically validates the fact that the program can dereference the ctx.
-> > > >
-> > > > So now, without the max_ctx_offset store/restore, the verifier
-> > > > enforces that the provided ctx is not null.
-> > > >
-> > > > What I thought that would happen was that if we were to pass a NULL
-> > > > context from userspace, but the eBPF program dereferences it (or in
-> > > > that case have a subprog or a function call that dereferences it),
-> > > > then max_ctx_offset would still be set to the proper value because of
-> > > > that internal dereference, and so the verifier would reject with
-> > > > -EINVAL the call to the eBPF program.
-> > > >
-> > > > If I add another test that has the following ebpf prog (with ctx_in
-> > > > being set to NULL by the userspace):
-> > > >
-> > > > SEC("syscall")
-> > > > int kfunc_syscall_test_null_fail(struct syscall_test_args *args)
-> > > > {
-> > > >        bpf_kfunc_call_test_mem_len_pass1(args, sizeof(*args));
-> > > >
-> > > >        return 0;
-> > > > }
-> > > >
-> > > > Then the call of the program is actually failing with -EINVAL, even
-> > > > with this patch.
-> > > >
-> > > > But again, if setting from userspace a ctx of NULL with a 0 size is
-> > > > not considered as valid, then we can just drop that hunk and add a
-> > > > test to enforce it.
-> > >
-> > > PTR_TO_CTX in the verifier always means valid pointer.
-> > > All code paths in the verifier assumes that it's not NULL.
-> > > Pointer to skb, to xdp, to pt_regs, etc.
-> > > The syscall prog type is little bit special, since it
-> > > makes sense not to pass any argument to such prog.
-> > > So ctx_size_in == 0 is enforced after the verification:
-> > > if (ctx_size_in < prog->aux->max_ctx_offset ||
-> > >     ctx_size_in > U16_MAX)
-> > >           return -EINVAL;
-> > > The verifier should be able to proceed assuming ctx != NULL
-> > > and remember max max_ctx_offset.
-> > > If max_ctx_offset == 4 and ctx_size_in == 0 then
-> > > it doesn't matter whether the actual 'ctx' pointer is NULL
-> > > or points to a valid memory.
-> > > So it's ok for the verifier to assume ctx != NULL everywhere.
-> >
-> > Ok, thanks for the detailed explanation.
-> >
-> > >
-> > > Back to the issue at hand.
-> > > With this patch the line:
-> > >     bpf_kfunc_call_test_mem_len_pass1(args, sizeof(*args));
-> > > will be seen as access_size == sizeof(*args), right?
-> > > So this part:
-> > > +                       if (access_size == 0)
-> > > +                               return zero_size_allowed ? 0 : -EACCES;
-> > >
-> > > will be skipped and
-> > > the newly added check_mem_access() will call check_ctx_access()
-> > > which will call syscall_prog_is_valid_access() and it will say
-> > > that any off < U16_MAX is fine and will simply
-> > > record max max_ctx_offset.
-> > > The ctx_size_in < prog->aux->max_ctx_offset check is done later.
-> >
-> > Yep, this is correct and this is working now, with a proper error (and
-> > no, this is not the error I am trying to fix, see below):
-> >
-> > eBPF prog:
-> > ```
-> >   SEC("?syscall")
-> >   int kfunc_syscall_test_null_fail(struct syscall_test_args *args)
-> >   {
-> >           bpf_kfunc_call_test_mem_len_pass1(args, sizeof(*args));
-> >           return 0;
-> >   }
-> > ```
-> >
-> > before this patch (1/23):
-> > * with ctx not NULL:
-> > libbpf: prog 'kfunc_syscall_test_null_fail': BPF program load failed:
-> > Invalid argument
-> > R1 type=ctx expected=fp
-> > arg#0 arg#1 memory, len pair leads to invalid memory access
-> >
-> >  => this is not correct, we expect the program to be loaded (and it is
-> > expected, this is the bug that is fixed)
-> >
-> > * Same result with ctx being NULL from the caller
-> >
-> > With just the hunk in kernel/bpf/verifier.c (so without touching max_ctx_offset:
-> > * with ctx not NULL:
-> > program is loaded, and executed correctly
-> >
-> > * with ctx being NULL:
-> > program is now loaded, but execution returns -EINVAL, as expected
-> >
-> > So this case is fully solved by just the hunk in verifier.c
-> >
-> > With the full patch:
-> > same results, with or without ctx being set to NULL, so no side effects.
-> >
-> > >
-> > > So when you're saying:
-> > > "call of the program is actually failing with -EINVAL"
-> > > that's the check you're referring to?
-> >
-> > No. I am referring to the following eBPF program:
-> > ```
-> >   SEC("syscall")
-> >   int kfunc_syscall_test_null(struct syscall_test_args *args)
-> >   {
-> >            return 0;
-> >   }
-> > ```
-> >
-> > (no calls, just the declaration of a program)
-> >
-> > This one is supposed to be loaded and properly run whatever the
-> > context is, right?
->
-> Got it. Yes. Indeed.
-> The if (!env->ops->convert_ctx_access)
-> hunk alone would break existing progs because of
-> side effect of max_ctx_offset.
-> We have this unfortunate bit of code:
->                 ret = btf_check_subprog_arg_match(env, subprog, regs);
->                 if (ret == -EFAULT)
->                         /* unlikely verifier bug. abort.
->                          * ret == 0 and ret < 0 are sadly acceptable for
->                          * main() function due to backward compatibility.
->                          * Like socket filter program may be written as:
->                          * int bpf_prog(struct pt_regs *ctx)
->                          * and never dereference that ctx in the program.
->                          * 'struct pt_regs' is a type mismatch for socket
->                          * filter that should be using 'struct __sk_buff'.
->                          */
->                         goto out;
->
-> because btf_check_subprog_arg_match() is used to match arguments
-> for calling into a function and when the verifier just starts
-> to analyze a function.
-> Before this patch the btf_check_subprog_arg_match() would just
-> EINVAL on your above example and will proceed,
-> but with the patch the non zero max_ctx_offset will
-> disallow execution later and break things.
-> I think we need to clean up this bit of code.
-> Just save/restore of max_ctx_offset isn't going to work.
-> How about adding a flag to btf_check_subprog_arg_match
-> to indicate whether the verifier is processing 'call' insn
-> or just starting processing a function body and
-> then do
-> if (ptr_to_mem_ok && processing_call) ?
-> Still feels like a hack.
-> Maybe btf_check_func_arg_match() needs to be split to
-> disambiguate calling vs processing the body ?
-
-Just to be sure I understand the problem correctly:
-btf_check_subprog_arg_match() is called twice only in verifier.c
-  - first time (in do_check_common()):
-               /* 1st arg to a function */
-               regs[BPF_REG_1].type = PTR_TO_CTX;
-               mark_reg_known_zero(env, regs, BPF_REG_1);
-               ret = btf_check_subprog_arg_match(env, subprog, regs);
-
-AFAICT this call is the "starting processing a function body", and
-thus we should only match whether the function definition is correct
-compared to the BTF (whether the program is correctly defined or not),
-and thus should not have side effects like changing max_ctx_offset
-
-  - second time (in __check_func_call()):
-          func_info_aux = env->prog->aux->func_info_aux;
-          if (func_info_aux)
-                  is_global = func_info_aux[subprog].linkage == BTF_FUNC_GLOBAL;
-          err = btf_check_subprog_arg_match(env, subprog, caller->regs);
-
-This time we are in the "processing 'call' insn" part and this is
-where we need to also ensure that the register we access is correctly
-set, so max_ctx_offset needs to be updated.
-
-If the above is correct, then yes, it would make sense to me to have 2
-distinct functions: one to check for the args types only (does the
-function definition in the problem matches BTF), and one to check for
-its use.
-Behind the scenes, btf_check_subprog_arg_match() calls
-btf_check_func_arg_match() which is the one function with entangled
-arguments type checking and actually assessing that the values
-provided are correct.
-
-I can try to split that  btf_check_func_arg_match() into 2 distinct
-functions, though I am not sure I'll get it right.
-Maybe the hack about having "processing_call" for
-btf_check_func_arg_match() only will be good enough as a first step
-towards a better solution?
-
-> And may cleanup the rest of that function ?
-> Like all of if (is_kfunc) applies only to 'calling' case.
-> Other ideas?
+> A gentle ping for this...
 >
 
-I was trying to understand the problem most of today, and the only
-other thing I could think of was "why is the assumption that
-PTR_TO_CTX is not NULL actually required?". But again, this question
-is "valid" in the function declaration part, but not in the caller
-insn part. So I think splitting btf_check_subprog_arg_match() in 2 is
-probably the best.
+I will look at this set next week.
 
-Cheers,
-Benjamin
-
+> Thanks.
+>
+> On 2022/8/16 19:44, Yicong Yang wrote:
+> > From: Yicong Yang <yangyicong@hisilicon.com>
+> >
+> > HiSilicon PCIe tune and trace device (PTT) is a PCIe Root Complex integrated
+> > Endpoint (RCiEP) device, providing the capability to dynamically monitor and
+> > tune the PCIe traffic (tune), and trace the TLP headers (trace).
+> >
+> > PTT tune is designed for monitoring and adjusting PCIe link parameters. We provide
+> > several parameters of the PCIe link. Through the driver, user can adjust the value
+> > of certain parameter to affect the PCIe link for the purpose of enhancing the
+> > performance in certian situation.
+> >
+> > PTT trace is designed for dumping the TLP headers to the memory, which can be
+> > used to analyze the transactions and usage condition of the PCIe Link. Users
+> > can choose filters to trace headers, by either requester ID, or those downstream
+> > of a set of Root Ports on the same core of the PTT device. It's also supported
+> > to trace the headers of certain type and of certain direction.
+> >
+> > The driver registers a PMU device for each PTT device. The trace can be used
+> > through `perf record` and the traced headers can be decoded by `perf report`.
+> > The tune can be used through the sysfs attributes of related PMU device. See
+> > the documentation for the detailed usage.
+> >
+> > This patchset adds an initial driver support for the PTT device. The userspace
+> > perf tool support will be sent in a separate patchset.
+> >
+> > Change since v11:
+> > - Drop WARN_ON() for irq_set_affinity() failure per Greg
+> > - Split out userspace perf support patches according to the comments
+> > Link: https://lore.kernel.org/lkml/20220721130116.43366-1-yangyicong@huawei.com/
+> >
+> > Change since v10:
+> > - Use title case in the documentation
+> > - Add RB from Bagas, thanks.
+> > Link: https://lore.kernel.org/lkml/20220714092710.53486-1-yangyicong@hisilicon.com/
+> >
+> > Change since v9:
+> > - Add sysfs ABI description documentation
+> > - Remove the controversial available_{root_port, requester}_filters sysfs file
+> > - Shorten 2 tune sysfs attributes name and add some comments
+> > - Move hisi_ptt_process_auxtrace_info() to Patch 6.
+> > - Add RB from Leo and Ack-by from Mathieu, thanks!
+> > Link: https://lore.kernel.org/lkml/20220606115555.41103-1-yangyicong@hisilicon.com/
+> >
+> > Change since v8:
+> > - Cleanups and one minor fix from Jonathan and John, thanks
+> > Link: https://lore.kernel.org/lkml/20220516125223.32012-1-yangyicong@hisilicon.com/
+> >
+> > Change since v7:
+> > - Configure the DMA in probe rather than in runtime. Also use devres to manage
+> >   PMU device as we have no order problem now
+> > - Refactor the config validation function per John and Leo
+> > - Use a spinlock hisi_ptt::pmu_lock instead of mutex to serialize the perf process
+> >   in pmu::start as it's in atomic context
+> > - Only commit the traced data when stop, per Leo and James
+> > - Drop the filter dynamically updating patch from this series to simply the review
+> >   of the driver. That patch will be send separately.
+> > - add a cpumask sysfs attribute and handle the cpu hotplug events, follow the
+> >   uncore PMU convention
+> > - Other cleanups and fixes, both in driver and perf tool
+> > Link: https://lore.kernel.org/lkml/20220407125841.3678-1-yangyicong@hisilicon.com/
+> >
+> > Change since v6:
+> > - Fix W=1 errors reported by lkp test, thanks
+> >
+> > Change since v5:
+> > - Squash the PMU patch into PATCH 2 suggested by John
+> > - refine the commit message of PATCH 1 and some comments
+> > Link: https://lore.kernel.org/lkml/20220308084930.5142-1-yangyicong@hisilicon.com/
+> >
+> > Change since v4:
+> > Address the comments from Jonathan, John and Ma Ca, thanks.
+> > - Use devm* also for allocating the DMA buffers
+> > - Remove the IRQ handler stub in Patch 2
+> > - Make functions waiting for hardware state return boolean
+> > - Manual remove the PMU device as it should be removed first
+> > - Modifier the orders in probe and removal to make them matched well
+> > - Make available {directions,type,format} array const and non-global
+> > - Using the right filter list in filters show and well protect the
+> >   list with mutex
+> > - Record the trace status with a boolean @started rather than enum
+> > - Optimize the process of finding the PTT devices of the perf-tool
+> > Link: https://lore.kernel.org/linux-pci/20220221084307.33712-1-yangyicong@hisilicon.com/
+> >
+> > Change since v3:
+> > Address the comments from Jonathan and John, thanks.
+> > - drop members in the common struct which can be get on the fly
+> > - reduce buffer struct and organize the buffers with array instead of list
+> > - reduce the DMA reset wait time to avoid long time busy loop
+> > - split the available_filters sysfs attribute into two files, for root port
+> >   and requester respectively. Update the documentation accordingly
+> > - make IOMMU mapping check earlier in probe to avoid race condition. Also
+> >   make IOMMU quirk patch prior to driver in the series
+> > - Cleanups and typos fixes from John and Jonathan
+> > Link: https://lore.kernel.org/linux-pci/20220124131118.17887-1-yangyicong@hisilicon.com/
+> >
+> > Change since v2:
+> > - address the comments from Mathieu, thanks.
+> >   - rename the directory to ptt to match the function of the device
+> >   - spinoff the declarations to a separate header
+> >   - split the trace function to several patches
+> >   - some other comments.
+> > - make default smmu domain type of PTT device to identity
+> >   Drop the RMR as it's not recommended and use an iommu_def_domain_type
+> >   quirk to passthrough the device DMA as suggested by Robin.
+> > Link: https://lore.kernel.org/linux-pci/20211116090625.53702-1-yangyicong@hisilicon.com/
+> >
+> > Change since v1:
+> > - switch the user interface of trace to perf from debugfs
+> > - switch the user interface of tune to sysfs from debugfs
+> > - add perf tool support to start trace and decode the trace data
+> > - address the comments of documentation from Bjorn
+> > - add RMR[1] support of the device as trace works in RMR mode or
+> >   direct DMA mode. RMR support is achieved by common APIs rather
+> >   than the APIs implemented in [1].
+> > Link: https://lore.kernel.org/lkml/1618654631-42454-1-git-send-email-yangyicong@hisilicon.com/
+> > [1] https://lore.kernel.org/linux-acpi/20210805080724.480-1-shameerali.kolothum.thodi@huawei.com/
+> >
+> > Yicong Yang (5):
+> >   iommu/arm-smmu-v3: Make default domain type of HiSilicon PTT device to
+> >     identity
+> >   hwtracing: hisi_ptt: Add trace function support for HiSilicon PCIe
+> >     Tune and Trace device
+> >   hwtracing: hisi_ptt: Add tune function support for HiSilicon PCIe Tune
+> >     and Trace device
+> >   docs: trace: Add HiSilicon PTT device driver documentation
+> >   MAINTAINERS: Add maintainer for HiSilicon PTT driver
+> >
+> >  .../ABI/testing/sysfs-devices-hisi_ptt        |   61 +
+> >  Documentation/trace/hisi-ptt.rst              |  298 +++++
+> >  Documentation/trace/index.rst                 |    1 +
+> >  MAINTAINERS                                   |    8 +
+> >  drivers/Makefile                              |    1 +
+> >  drivers/hwtracing/Kconfig                     |    2 +
+> >  drivers/hwtracing/ptt/Kconfig                 |   12 +
+> >  drivers/hwtracing/ptt/Makefile                |    2 +
+> >  drivers/hwtracing/ptt/hisi_ptt.c              | 1047 +++++++++++++++++
+> >  drivers/hwtracing/ptt/hisi_ptt.h              |  200 ++++
+> >  drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c   |   21 +
+> >  11 files changed, 1653 insertions(+)
+> >  create mode 100644 Documentation/ABI/testing/sysfs-devices-hisi_ptt
+> >  create mode 100644 Documentation/trace/hisi-ptt.rst
+> >  create mode 100644 drivers/hwtracing/ptt/Kconfig
+> >  create mode 100644 drivers/hwtracing/ptt/Makefile
+> >  create mode 100644 drivers/hwtracing/ptt/hisi_ptt.c
+> >  create mode 100644 drivers/hwtracing/ptt/hisi_ptt.h
+> >
