@@ -2,91 +2,105 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 885F0ECAAD1
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Sep 2022 15:03:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6ECB6ECAAD8
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Sep 2022 15:59:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233267AbiIAPD4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 1 Sep 2022 11:03:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52872 "EHLO
+        id S234746AbiIAP7R (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 1 Sep 2022 11:59:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43344 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234227AbiIAPDz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Sep 2022 11:03:55 -0400
-Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ACF9083BE5;
-        Thu,  1 Sep 2022 08:03:53 -0700 (PDT)
-Received: by mail-ed1-x52f.google.com with SMTP id s11so22930722edd.13;
-        Thu, 01 Sep 2022 08:03:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date;
-        bh=vcK8Y9RIhCFnLAHNF1ma+eBloNnCb12iQrkaA2RWwss=;
-        b=CLVGkKkq/LgD+cnFQOBUzqNyMDKzqCmneML9igIGH21aL1qaB01IR1MGTfUeaE+mkC
-         P0Bqs5Hm2jJX4LghL1s25mvHgPqhSusaATiSomUqcmb5pyZ+Ut59gpyDQvfGacFJokdx
-         zL46/UrTEHe1u6MiaxkzdjZZFP8bN24zSYxvcOVV+sEpteyIik5m4Ot6jLpL4O1xS1Ci
-         3LHN0Xuchj4i1ranV/AIN7UQR9JYaovQJ903/yHm3bEVhAwtc73gMdwiTWTITKWITJBZ
-         clsHHPSng+BYK9GNC4JOrZb96p4jjl8m0+6QRH/+Pl4m16Qde9xKgZOqn9abEW6UOcYq
-         Hk7Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date;
-        bh=vcK8Y9RIhCFnLAHNF1ma+eBloNnCb12iQrkaA2RWwss=;
-        b=Q5tM1knmNpefvTpECdUpQZ14L7p4R/sGEjFsLo56ojjAmCmCJKhg+WBMiPCHoDuO2I
-         a6zFGKyq9wr+c7Af+pP7uDgf8LzHH8UJ5JwLzMgUspWfowm20Lzc4JCh3Go7Dcwouh/H
-         Yr0WFl+WjZrcfYECBgQQhmGkURG4yQlV/WECuoTNjSWgNrTnMalMC1AIMrBnsWSaTxyn
-         jwDi77CbD0ayvqKHQfOpD7J9ozAxiUNQGl/0F4Mr3caHyvWpzA4c198n/rl36efi1kNS
-         phfqxUPxPlqgvrUKsdJ7Mxy2XZTUpkC+98iBBYBYdsRtTGsNDtXSFdNtVSXl75Uqw/nP
-         FxZQ==
-X-Gm-Message-State: ACgBeo2vQDtRkoBqvrow7sT/7VQHJY1orR8MU3hUg4zMBSZ14W7KtXm+
-        /AVBJxtCAsMG+V29hLv4ePE=
-X-Google-Smtp-Source: AA6agR6ecAmWtCB5BI8iMnmqsmfam7Lue/g0foYnFCgWMZksqtn0CBXZVzGuccTxeDYuPlKSHE2oAg==
-X-Received: by 2002:a05:6402:268b:b0:446:381d:7b45 with SMTP id w11-20020a056402268b00b00446381d7b45mr29179355edd.372.1662044632304;
-        Thu, 01 Sep 2022 08:03:52 -0700 (PDT)
-Received: from debian ([89.238.191.199])
-        by smtp.gmail.com with ESMTPSA id o18-20020a170906601200b007314a01766asm8545273ejj.211.2022.09.01.08.02.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Sep 2022 08:03:51 -0700 (PDT)
-Date:   Thu, 1 Sep 2022 17:01:18 +0200
-From:   Richard Gobert <richardbgobert@gmail.com>
-To:     Eric Dumazet <edumazet@google.com>
-Cc:     David Miller <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>,
-        David Ahern <dsahern@kernel.org>,
-        Alexander Aring <alex.aring@gmail.com>,
-        Stefan Schmidt <stefan@datenfreihafen.org>,
-        Pablo Neira Ayuso <pablo@netfilter.org>,
-        Jozsef Kadlecsik <kadlec@netfilter.org>,
-        Florian Westphal <fw@strlen.de>,
-        Martin KaFai Lau <kafai@fb.com>,
-        netdev <netdev@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>, linux-wpan@vger.kernel.org,
-        netfilter-devel@vger.kernel.org, coreteam@netfilter.org
-Subject: Re: [PATCH 3/4] net-next: frags: add inetpeer frag_mem tracking
-Message-ID: <20220901150115.GB31767@debian>
-References: <20220829114648.GA2409@debian>
- <CANn89iLkfMUK8n5w00naST9J+KrLaAqqg2r0X9Sd-L0XzpLzSQ@mail.gmail.com>
+        with ESMTP id S233264AbiIAP7P (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Sep 2022 11:59:15 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73ADD82FA7;
+        Thu,  1 Sep 2022 08:59:14 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 068C0B82841;
+        Thu,  1 Sep 2022 15:59:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A064C433D6;
+        Thu,  1 Sep 2022 15:59:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1662047951;
+        bh=TY+3JNGsmVP31B0gqfliPrc5PDpyouCFib5eIBdb/cw=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=kKrIXPXazfWGZURlJasnI78CokOXK89HMELlDMpDsIUhu7ydMIleOAt0l+gFycRgr
+         lgFv/N/CqciZRY507JMwhxgcuDDqQlomvw6d1V32QgYQxJSi9Lz2j9l/4IGZd1gVIe
+         ZQftD2GqIVkYc9oDWR+BmREgh3CXCg0RIkmgxcLM=
+Date:   Thu, 1 Sep 2022 17:59:08 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Salvatore Bonaccorso <carnil@debian.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>, Sasha Levin <sashal@kernel.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Documentation: stable: Document alternative for
+ referring upstream commit hash
+Message-ID: <YxDWzCoQJwWEnKXw@kroah.com>
+References: <20220809045543.2049293-1-carnil@debian.org>
+ <8735e5a864.fsf@meer.lwn.net>
+ <YwiEDsngUL//ogBL@eldamar.lan>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CANn89iLkfMUK8n5w00naST9J+KrLaAqqg2r0X9Sd-L0XzpLzSQ@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <YwiEDsngUL//ogBL@eldamar.lan>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Aug 29, 2022 at 03:15:47PM -0700, Eric Dumazet wrote:
-> We tried to get rid of any dependence over inetpeer, which is not
-> resistant against DDOS attacks.
+On Fri, Aug 26, 2022 at 10:27:58AM +0200, Salvatore Bonaccorso wrote:
+> Hi Jonathan,
 > 
-> So I would not add a new dependency.
+> On Tue, Aug 09, 2022 at 06:54:59AM -0600, Jonathan Corbet wrote:
+> > Salvatore Bonaccorso <carnil@debian.org> writes:
+> > 
+> > > Additionally to the "commit <sha1> upstream." variant, "[ Upstream
+> > > commit <sha1> ]" is used as well as alternative to refer to the upstream
+> > > commit hash.
+> > >
+> > > Signed-off-by: Salvatore Bonaccorso <carnil@debian.org>
+> > > ---
+> > >  Documentation/process/stable-kernel-rules.rst | 6 ++++++
+> > >  1 file changed, 6 insertions(+)
+> > 
+> > So this is a nit but...
+> > 
+> > > diff --git a/Documentation/process/stable-kernel-rules.rst b/Documentation/process/stable-kernel-rules.rst
+> > > index c61865e91f52..2fd8aa593a28 100644
+> > > --- a/Documentation/process/stable-kernel-rules.rst
+> > > +++ b/Documentation/process/stable-kernel-rules.rst
+> > > @@ -97,6 +97,12 @@ text, like this:
+> > >  
+> > >      commit <sha1> upstream.
+> > >  
+> > > +or alternatively:
+> > > +
+> > > +.. code-block:: none
+> > > +
+> > > +    [ Upstream commit <sha1> ]
+> > 
+> > Can this just be:
+> > 
+> >   or alternatively::
+> > 
+> >     [ Upstream commit <sha1> ]
+> > 
+> > That extra RST markup just clutters things without any advantage.
+> 
+> Btw, after revisiting, I think Greg actually can pick up the first
+> version of the patch. Changing the above without adding the
+> code-block:node will reformat the
+> 
+>      [ Upstream commit <sha1> ]
+> 
+> differently when rendering to html.
+> 
+> Greg, so as the patch has not yet been commited, can you pick up the
+> first version from
+> https://lore.kernel.org/lkml/20220809045543.2049293-1-carnil@debian.org/
+> ?
 
-I see your point. What do you suggest doing differently?
+Please resend it as v3 so that our tools don't try to apply v2.
 
-The inetpeer mechanism is used for IPv4 frags. If it isn't resistant
-against DDoS attacks, can it perhaps be improved?
+thanks,
+
+greg k-h
