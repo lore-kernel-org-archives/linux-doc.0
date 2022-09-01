@@ -2,73 +2,113 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9976AECAAD1
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Sep 2022 01:35:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B552CECAAD4
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Sep 2022 02:47:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232541AbiIABf0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 31 Aug 2022 21:35:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58068 "EHLO
+        id S231137AbiIACrn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 31 Aug 2022 22:47:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56168 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232538AbiIABfY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 31 Aug 2022 21:35:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE6874AD66
-        for <linux-doc@vger.kernel.org>; Wed, 31 Aug 2022 18:35:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1661996120;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=sgRY6AVpYxwTFhEBEfeVojP2/QykwLDt049VIzQbuBQ=;
-        b=FO7JueCAOUq26vS3mWTzksXFI6K5Cjn6gOvlVmplCB2IgJsz4cu22HXXdiMb+ImqPSapYq
-        Qxk9fdoS/S/EpFECg0GWqj3c2s7GmtFGSrTRSC+THpYnuEOvGs/z21is0QO++0mNmJ5pWy
-        vyUM1ypQPWjRlHlsekf2W6tWz9E1Dwc=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-596-K66Me4ORN4utVuvpyb3dhA-1; Wed, 31 Aug 2022 21:35:16 -0400
-X-MC-Unique: K66Me4ORN4utVuvpyb3dhA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com [10.11.54.7])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 70C593C0E214;
-        Thu,  1 Sep 2022 01:35:16 +0000 (UTC)
-Received: from T590 (ovpn-8-28.pek2.redhat.com [10.72.8.28])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 089981415125;
-        Thu,  1 Sep 2022 01:35:09 +0000 (UTC)
-Date:   Thu, 1 Sep 2022 09:35:06 +0800
-From:   Ming Lei <ming.lei@redhat.com>
-To:     Jens Axboe <axboe@kernel.dk>
-Cc:     linux-doc@vger.kernel.org, linux-block@vger.kernel.org,
-        Christoph Hellwig <hch@lst.de>,
+        with ESMTP id S229682AbiIACrm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 31 Aug 2022 22:47:42 -0400
+Received: from out30-56.freemail.mail.aliyun.com (out30-56.freemail.mail.aliyun.com [115.124.30.56])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D69FB637C;
+        Wed, 31 Aug 2022 19:47:40 -0700 (PDT)
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R131e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018045170;MF=ziyangzhang@linux.alibaba.com;NM=1;PH=DS;RN=9;SR=0;TI=SMTPD_---0VNuYYTO_1662000457;
+Received: from 30.97.56.214(mailfrom:ZiyangZhang@linux.alibaba.com fp:SMTPD_---0VNuYYTO_1662000457)
+          by smtp.aliyun-inc.com;
+          Thu, 01 Sep 2022 10:47:38 +0800
+Message-ID: <2fc49714-695b-a4df-509e-5fe61c642918@linux.alibaba.com>
+Date:   Thu, 1 Sep 2022 10:47:36 +0800
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.13.0
+Subject: Re: [PATCH] Docs: ublk: add ublk document
+Content-Language: en-US
+To:     Ming Lei <ming.lei@redhat.com>
+Cc:     Stefan Hajnoczi <stefanha@redhat.com>,
+        Jens Axboe <axboe@kernel.dk>, linux-doc@vger.kernel.org,
+        linux-block@vger.kernel.org, Christoph Hellwig <hch@lst.de>,
         Jonathan Corbet <corbet@lwn.net>,
         "Richard W . M . Jones" <rjones@redhat.com>,
-        ZiyangZhang <ZiyangZhang@linux.alibaba.com>,
-        Stefan Hajnoczi <stefanha@redhat.com>,
         Xiaoguang Wang <xiaoguang.wang@linux.alibaba.com>
-Subject: Re: [PATCH] Docs: ublk: add ublk document
-Message-ID: <YxAMSjrs3cuj5O3o@T590>
 References: <20220828045003.537131-1-ming.lei@redhat.com>
- <1a9815d4-7c99-81c0-8f9c-958fd3eef91d@kernel.dk>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1a9815d4-7c99-81c0-8f9c-958fd3eef91d@kernel.dk>
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
+ <Yw4rcz23R3ofn6H6@fedora>
+ <e9df4ed8-a0ea-661f-9947-b18fa1d2145f@linux.alibaba.com>
+ <YxAMDBCOshzQqSfq@T590>
+From:   Ziyang Zhang <ZiyangZhang@linux.alibaba.com>
+In-Reply-To: <YxAMDBCOshzQqSfq@T590>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Aug 31, 2022 at 07:04:33PM -0600, Jens Axboe wrote:
-> On 8/27/22 10:50 PM, Ming Lei wrote:
-> > ublk document is missed when merging ublk driver, so add it now.
+On 2022/9/1 09:34, Ming Lei wrote:
 > 
-> Ming, and you send a v2 of this so we can get it queued up for
-> 6.0?
+>>      This makes existing backend very hard to adapt to ublk because they may
+>>      want to know the data length or other attributes of the new request.
+> 
+> It is just for existing project.
 
-OK, I will send v2 soon.
+Existing project is very important. I believe that embedding libublksrv/UAPI
+into existing projects(products) makes ublk more popular and useful.
 
+> 
+> Any new project can read the data from the pre-allocated buffer
+> directly. That is exactly the handling flow: ublksrv gets one request from
+> ublk driver, then let backend handle the request.
 
-Thanks,
-Ming
+Your are correct, Ming. ublksrv tgts does not need UBLK_IO_NEED_GET_DATA.
 
+> 
+>>
+>> (2) If the backend does not provide the data buffer IN ADVANCE, ublksrv must
+>>     pre-allocates data buffer. So a additional data copy from ublksrv to
+>>     the backend(such as a RPC mempool) is unavoidable.
+> 
+> Can you explain why backend can't use the pre-allocated buffer directly? Before
+> backend completes the io request, the io request and buffer won't be reused, that
+> is owned by this tag/slot.
+
+For existing projects using ublksrv, why it must use ublksrv's pre-allocated buffer?
+The backend has its own buffer management.
+
+Besides, existing projects may directly embed libublksrv/UAPI into it.
+UBLK_IO_NEED_GET_DATA is just an option for them.
+
+Ming, UBLK_IO_NEED_GET_DATA usecases has been proved useful and we have discussed
+it when I introduced it into kernel driver. Really (1)users use ublksrv directly
+or (2)developers implement new ublksrv targets do not have to care about it.
+
+> 
+>>
+>> With UBLK_IO_NEED_GET_DATA, the WRITE request will be firstly issued to ublksrv
+>> without data copy. Then, backend gets the request and it can allocate data
+>> buffer and embed its addr inside a new ioucmd. After the kernel driver gets the
+>> ioucmd, the data copy happens(from biovecs to backend's buffer). Finally,
+>> the backend gets the request again with data to be written and it can truly
+>> handle the request.
+> 
+> That is definitely inefficient, and I won't encourage any new project to
+> use this command.
+
+UBLK_IO_NEED_GET_DATA is an option. Any user thinks that it may lower performance
+should not use it.
+
+BTW, our tests shows that UBLK_IO_NEED_GET_DATA add one additional
+round-trip in ublk_drv and one io_uring_enter() syscall.
+
+UBLK_IO_NEED_GET_DATA does not lower the IOPS too much if:
+(1) iodepth is bigger. This is because io_uring batches sqes(ioucmds) so the
+    syscall overhead is not significant.
+(2) the backend is slow. For example, with a network(RPC) backend, we really
+    do not care this round-trip since the backend IO handling
+    is far slower than ublk_drv's data path.
+
+In conclusion, UBLK_IO_NEED_GET_DATA is designed for existing projects, not for
+ublksrv(though it supports this feature) targets. UBLK_IO_NEED_GET_DATA is COMPLETELY
+motivated by our real practice in developing userspace storage products.
+
+Regards,
+Zhang
