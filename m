@@ -2,205 +2,102 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F485ECAAD1
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Sep 2022 17:35:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D0A5CECAAD3
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Sep 2022 18:43:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232539AbiIARfY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 1 Sep 2022 13:35:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45110 "EHLO
+        id S234043AbiIASnx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 1 Sep 2022 14:43:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59874 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234310AbiIARfD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Sep 2022 13:35:03 -0400
-Received: from smtp-42af.mail.infomaniak.ch (smtp-42af.mail.infomaniak.ch [IPv6:2001:1600:3:17::42af])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0017295E78
-        for <linux-doc@vger.kernel.org>; Thu,  1 Sep 2022 10:34:14 -0700 (PDT)
-Received: from smtp-2-0000.mail.infomaniak.ch (unknown [10.5.36.107])
-        by smtp-2-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4MJSpD2KxYzMqK1f;
-        Thu,  1 Sep 2022 19:34:12 +0200 (CEST)
-Received: from ns3096276.ip-94-23-54.eu (unknown [23.97.221.149])
-        by smtp-2-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4MJSpC0M5lzlh8TN;
-        Thu,  1 Sep 2022 19:34:10 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=digikod.net;
-        s=20191114; t=1662053652;
-        bh=o/v/WCsruLFuIKPLYfYVi2ZWkfCBoZTi3cgn9QP8x2I=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=lxSMPoQjcyoYGPH2mJTUzxKF7Ho3MUUpp+fWEFqTQ8uzen1kRgFn9QuD+UtiBMvEW
-         ogKQt0Rv1c0+NKP8Lu+L8IxKLcP/2SlmPj7KlIizHPH/6PpMYnoQfEdWjFbXVdCu/s
-         LRxd+4c+cKCcHjUi+4MagOS5S7RdvtzEa3ogkYco=
-Message-ID: <4b69a4ac-28ab-16aa-14b1-04a6f64d5490@digikod.net>
-Date:   Thu, 1 Sep 2022 19:34:10 +0200
+        with ESMTP id S234304AbiIASnj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Sep 2022 14:43:39 -0400
+Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 075DE57577;
+        Thu,  1 Sep 2022 11:43:38 -0700 (PDT)
+Received: by mail-wr1-x432.google.com with SMTP id u18so10840628wrq.10;
+        Thu, 01 Sep 2022 11:43:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:sender:from:to:cc:subject:date;
+        bh=tDY9KLkecT8kusGcpl2bZ2yreiehkuHM3UUVtCjmsPU=;
+        b=cRpiB7VJPxof+TbCRpjBn2kZebccN+Y20+JcQ/ZDCHdNYW7XWtmQOElqX308u2e6WH
+         zdH+XfgNLPKk67s6Y8V8mzI9SF7rK2O1zlfbQR41yTKwv2KEqMOWVshHvV0XHS4UVLdv
+         6sHO45KmtXRcimrGN5IXFt9mQ8QsPsalQVNBTdYJbofz69jxK10K3M8M72Hekz9rs/WZ
+         vWsqpnFD//u7x0mujoeNY8WKjZY90XmAISxuuY6OA1IkqGqUm/JfV06I5XKS8FyaFtBF
+         wJGhJe3dlr5Oq9720Y6HEyOUefG/GAlrmSCCb27F/yz5WFa1Fti3ScGVqh4RhhgwUDIT
+         I46w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:sender:x-gm-message-state:from:to:cc:subject:date;
+        bh=tDY9KLkecT8kusGcpl2bZ2yreiehkuHM3UUVtCjmsPU=;
+        b=kVzeLf4xMjP3LwNjsZin5RxPx4+/RmmHEBLmBj0wugBIQr2mKG58NYocbvdGyYpm2U
+         7IMtEaTr07roh9/Npei0lQLM3EUoJhs+qlHxzS22jOWQSIZCdPLLev5sURCIp4Ww8Aq7
+         olb69YxqRiDgBC7yIvFQ9lkibp80weLDwjzkOha9vPkTVsplOE0/D6g60X4kLevFCcbK
+         SrEB0EXpiFiV/3kday/I9zpOqWfrA9Xt08/cZvsotPi/7zl/uKjQaETr0jHJnGtW3jnn
+         cZaUBwovuwTsN2eWGDl5Uv5y5Kalw8d8v6F/iBW887qO3qQHNf+aMVs2AlmukDU/IAsW
+         oJig==
+X-Gm-Message-State: ACgBeo2NWGrbvtgO3sXe/X8WQP1+Rl3qK0Bw/PdavtfkoC/RQZuGWZBj
+        Y9tblE+MMZwEmMpgQVlQDN4=
+X-Google-Smtp-Source: AA6agR5xxGKb3IZESDBG+vlIDLuSiBO/5TT+x5KouHhG1Bx8oYWCNN6xIZr/GYugI7Vr3PvRCrEw5g==
+X-Received: by 2002:adf:df84:0:b0:226:db0a:d8e5 with SMTP id z4-20020adfdf84000000b00226db0ad8e5mr11728021wrl.21.1662057816040;
+        Thu, 01 Sep 2022 11:43:36 -0700 (PDT)
+Received: from elende (elende.valinor.li. [2a01:4f9:6a:1c47::2])
+        by smtp.gmail.com with ESMTPSA id n5-20020a05600c3b8500b003a319b67f64sm13103849wms.0.2022.09.01.11.43.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 01 Sep 2022 11:43:34 -0700 (PDT)
+Sender: Salvatore Bonaccorso <salvatore.bonaccorso@gmail.com>
+From:   Salvatore Bonaccorso <carnil@debian.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Sasha Levin <sashal@kernel.org>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Salvatore Bonaccorso <carnil@debian.org>
+Subject: [PATCH v3] Documentation: stable: Document alternative for referring upstream commit hash
+Date:   Thu,  1 Sep 2022 20:43:28 +0200
+Message-Id: <20220901184328.4075701-1-carnil@debian.org>
+X-Mailer: git-send-email 2.37.2
 MIME-Version: 1.0
-User-Agent: 
-Subject: Re: [PATCH -next v2 3/6] landlock: add chmod and chown support
-Content-Language: en-US
-To:     xiujianfeng <xiujianfeng@huawei.com>,
-        =?UTF-8?Q?G=c3=bcnther_Noack?= <gnoack3000@gmail.com>
-Cc:     paul@paul-moore.com, jmorris@namei.org, serge@hallyn.com,
-        shuah@kernel.org, corbet@lwn.net,
-        linux-security-module@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        Christian Brauner <brauner@kernel.org>
-References: <20220827111215.131442-1-xiujianfeng@huawei.com>
- <20220827111215.131442-4-xiujianfeng@huawei.com> <Ywpw66EYRDTQIyTx@nuc>
- <de8834b6-0ff2-1a81-f2d3-af33103e9942@huawei.com>
- <de4620d2-3268-b3cc-71dd-acbbd204435e@digikod.net>
- <2f286496-f4f8-76f7-2fb6-cc3dd5ffdeaa@huawei.com>
-From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
-In-Reply-To: <2f286496-f4f8-76f7-2fb6-cc3dd5ffdeaa@huawei.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-CCing linux-fsdevel@vger.kernel.org
+Additionally to the "commit <sha1> upstream." variant, "[ Upstream
+commit <sha1> ]" is used as well as alternative to refer to the upstream
+commit hash.
 
+Signed-off-by: Salvatore Bonaccorso <carnil@debian.org>
+---
+Changes in v3:
+ - Revert to initial version as not adding the code-block:: none will
+   reformat the block differently than the first variant.
 
-On 01/09/2022 15:06, xiujianfeng wrote:
-> Hi,
-> 
-> 在 2022/8/30 0:01, Mickaël Salaün 写道:
->>
->> On 29/08/2022 03:17, xiujianfeng wrote:
->>>
->>> Hi,
->>>
->>> 在 2022/8/28 3:30, Günther Noack 写道:
->>>> Hello!
->>>>
->>>> the mapping between Landlock rights to LSM hooks is now as follows in
->>>> your patch set:
->>>>
->>>> * LANDLOCK_ACCESS_FS_CHMOD controls hook_path_chmod
->>>> * LANDLOCK_ACCESS_FS_CHGRP controls hook_path_chown
->>>>      (this hook can restrict both the chown(2) and chgrp(2) syscalls)
->>>>
->>>> Is this the desired mapping?
->>>>
->>>> The previous discussion I found on the topic was in
->>>>
->>>> [1]
->>>> https://lore.kernel.org/all/5873455f-fff9-618c-25b1-8b6a4ec94368@digikod.net/
->>>>
->>>> [2]
->>>> https://lore.kernel.org/all/b1d69dfa-6d93-2034-7854-e2bc4017d20e@schaufler-ca.com/
->>>>
->>>> [3]
->>>> https://lore.kernel.org/all/c369c45d-5aa8-3e39-c7d6-b08b165495fd@digikod.net/
->>>>
->>>>
->>>> In my understanding the main arguments were the ones in [2] and [3].
->>>>
->>>> There were no further responses to [3], so I was under the impression
->>>> that we were gravitating towards an approach where the
->>>> file-metadata-modification operations were grouped more coarsely?
->>>>
->>>> For example with the approach suggested in [3], which would be to
->>>> group the operations coarsely into (a) one Landlock right for
->>>> modifying file metadata that is used in security contexts, and (b) one
->>>> Landlock right for modifying metadata that was used in non-security
->>>> contexts. That would mean that there would be:
->>>>
->>>> (a) LANDLOCK_ACCESS_FS_MODIFY_SECURITY_ATTRIBUTES to control the
->>>> following operations:
->>>>      * chmod(2)-variants through hook_path_chmod,
->>>>      * chown(2)-variants and chgrp(2)-variants through hook_path_chown,
->>>>      * setxattr(2)-variants and removexattr(2)-variants for extended
->>>>        attributes that are not "user extended attributes" as described in
->>>>        xattr(7) through hook_inode_setxattr and hook_inode_removexattr
->>>>
->>>> (b) LANDLOCK_ACCESS_FS_MODIFY_NON_SECURITY_ATTRIBUTES to control the
->>>> following operations:
->>>>      * utimes(2) and other operations for setting other non-security
->>>>        sensitive attributes, probably through hook_inode_setattr(?)
->>>>      * xattr modifications like above, but for the "user extended
->>>>        attributes", though hook_inode_setxattr and hook_inode_removexattr
->>>>
->>>> In my mind, this would be a sensible grouping, and it would also help
->>>> to decouple the userspace-exposed API from the underlying
->>>> implementation, as Casey suggested to do in [2].
->>>>
->>>> Specifically for this patch set, if you want to use this grouping, you
->>>> would only need to add one new Landlock right
->>>> (LANDLOCK_ACCESS_FS_MODIFY_SECURITY_ATTRIBUTES) as described above
->>>> under (a) (and maybe we can find a shorter name for it... :))?
->>>>
->>>> Did I miss any operations here that would be necessary to restrict?
->>>>
->>>> Would that make sense to you? Xiu, what is your opinion on how this
->>>> should be grouped? Do you have use cases in mind where a more
->>>> fine-grained grouping would be required?
->>>
->>> I apologize I may missed that discussion when I prepared v2:(
->>>
->>> Yes, agreed, this grouping is more sensible and resonnable. so in this
->>> patchset only one right will be added, and I suppose the first commit
->>> which expand access_mask_t to u32 can be droped.
->>>
->>>>
->>>> —Günther
->>>>
->>>> P.S.: Regarding utimes: The hook_inode_setattr hook *also* gets called
->>>> on a variety on attribute changes including file ownership, file size
->>>> and file mode, so it might potentially interact with a bunch of other
->>>> existing Landlock rights. Maybe that is not the right approach. In any
->>>> case, it seems like it might require more thinking and it might be
->>>> sensible to do that in a separate patch set IMHO.
->>>
->>> Thanks for you reminder, that seems it's more complicated to support
->>> utimes, so I think we'd better not support it in this patchset.
->>
->> The issue with this approach is that it makes it impossible to properly
->> group such access rights. Indeed, to avoid inconsistencies and much more
->> complexity, we cannot extend a Landlock access right once it is defined.
->>
->> We also need to consider that file ownership and permissions have a
->> default (e.g. umask), which is also a way to set them. How to
->> consistently manage that? What if the application wants to protect its
->> files with chmod 0400?
-> 
-> what do you mean by this? do you mean that we should have a set of
-> default permissions for files created by applications within the
-> sandbox, so that it can update metadata of its own file.
+Changes in v2:
+ - Drop extra RST markup which just only clutters things without any
+   advantage.
 
-I mean that we need a consistent access control system, and for this we 
-need to consider all the ways an extended attribute can be set.
+ Documentation/process/stable-kernel-rules.rst | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-We can either extend the meaning of current access rights (controlled 
-with a ruleset flag for compatibility reasons), or create new access 
-rights. I think it would be better to add new dedicated rights to make 
-it more explicit and flexible.
+diff --git a/Documentation/process/stable-kernel-rules.rst b/Documentation/process/stable-kernel-rules.rst
+index c61865e91f52..2fd8aa593a28 100644
+--- a/Documentation/process/stable-kernel-rules.rst
++++ b/Documentation/process/stable-kernel-rules.rst
+@@ -97,6 +97,12 @@ text, like this:
+ 
+     commit <sha1> upstream.
+ 
++or alternatively:
++
++.. code-block:: none
++
++    [ Upstream commit <sha1> ]
++
+ Additionally, some patches submitted via :ref:`option_1` may have additional
+ patch prerequisites which can be cherry-picked. This can be specified in the
+ following format in the sign-off area:
+-- 
+2.37.2
 
-I'm not sure about the right approach to properly control file 
-permission. We need to think about it. Do you have some ideas?
-
-BTW, utimes can be controlled with the inode_setattr() LSM hook. Being 
-able to control arbitrary file time modification could be part of the 
-FS_WRITE_SAFE_METADATA, but modification and access time should always 
-be updated according to the file operation.
-
-
-> 
->>
->> About the naming, I think we can start with:
->> - LANDLOCK_ACCESS_FS_READ_METADATA (read any file/dir metadata);
->> - LANDLOCK_ACCESS_FS_WRITE_SAFE_METADATA: change file times, user xattr;
-> 
-> do you mean we should have permission controls on metadata level or
-> operation level? e.g. should we allow update on user xattr but deny
-> update on security xattr? or should we disallow update on any xattr?
-> 
->> - LANDLOCK_ACCESS_FS_WRITE_UNSAFE_METADATA: interpreted by the kernel
->> (could change non-Landlock DAC or MAC, which could be considered as a
->> policy bypass; or other various xattr that might be interpreted by
->> filesystems), this should be denied most of the time.
-> 
-> do you mean FS_WRITE_UNSAFE_METADATA is security-related? and
-> FS_WRITE_SAFE_METADATA is non-security-related?
-
-Yes, FS_WRITE_UNSAFE_METADATA would be for security related 
-xattr/chmod/chown, and FS_WRITE_SAFE_METADATA for non-security xattr. 
-Both are mutually exclusive. This would involve the inode_setattr and 
-inode_setxattr LSM hooks. Looking at the calling sites, it seems 
-possible to replace all inode arguments with paths.
