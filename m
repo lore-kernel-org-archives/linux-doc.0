@@ -2,75 +2,146 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C613ECAAD1
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Sep 2022 04:41:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 67F2FECAAD3
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Sep 2022 09:18:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229571AbiIAElN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 1 Sep 2022 00:41:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57642 "EHLO
+        id S233920AbiIAJSU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 1 Sep 2022 05:18:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49604 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229473AbiIAElM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Sep 2022 00:41:12 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 055BB7644F;
-        Wed, 31 Aug 2022 21:41:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-        Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-        bh=tsM4k25GM4BwwXU6z3TF/EMT998kaXys+OXpMKtm2tE=; b=H2jHD48BwQsrZeZuv01EOyl4Nk
-        veiO/GrOtXpxw/DcIIp39p0UxtuspGUmw6LARZaD3OL0n0CAjpjrNCIux/reyaz+H1wBiq7G61R9I
-        E4RAnuWKn0W2E3aWeyuE8xcA2qmCzyGH/Y9OZa2VBynJzGvYRPa/O0xtFKAa8HvBtmYsgRS4tsRbg
-        FDxgYzaXJg+3Wc8RsWh3E6FuLoPmTxeOgc3o96gqo9mas2vl6eWg5I/xBUIXv5teBsLlDV4cYnB3r
-        BCSYQDXYxESGA0E3T40k4Ib00c6m12bRIw4gxryX1BXCqbesvl5QwmrttTKbec1ND7TkQxdTnUh/T
-        3CnN83Wg==;
-Received: from [2601:1c0:6280:3f0::a6b3]
-        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1oTc0o-009cWs-FN; Thu, 01 Sep 2022 04:41:06 +0000
-Message-ID: <bfa99e6f-8c11-eec0-dfab-7779b74c801f@infradead.org>
-Date:   Wed, 31 Aug 2022 21:41:05 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.0
-Subject: Re: [PATCH] Documentation/SCSI: fix a few typos
-Content-Language: en-US
-To:     "Martin K. Petersen" <martin.petersen@oracle.com>
-Cc:     linux-doc@vger.kernel.org,
-        "James E.J. Bottomley" <jejb@linux.ibm.com>,
-        linux-scsi@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-References: <20220827221719.11006-1-rdunlap@infradead.org>
- <yq1wnanlnmm.fsf@ca-mkp.ca.oracle.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <yq1wnanlnmm.fsf@ca-mkp.ca.oracle.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+        with ESMTP id S233913AbiIAJSS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Sep 2022 05:18:18 -0400
+Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com [IPv6:2607:f8b0:4864:20::42f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B0A2121431;
+        Thu,  1 Sep 2022 02:18:17 -0700 (PDT)
+Received: by mail-pf1-x42f.google.com with SMTP id 72so16915617pfx.9;
+        Thu, 01 Sep 2022 02:18:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:from:to:cc;
+        bh=EHj+UQ7Tu6usfmBtBbDH78MoNwVO7qgjOcn++ecvlvY=;
+        b=aMwYpy2KmhETBuSWfDOMI/KUwUdaiz66ylUoOKLq/yZ8fmJ+Ul7XISdXpYSPdOs5aZ
+         hZtBfzrZqXVL7x14Wk9CnFzHh2iORZE3AZbAV2KF9NTQVMQ9Tq/p/uMR1sOCGRSFPQ66
+         ZxgiRXFlzY376dnus4ZOMl/YJ6CvYDbuGf/ya2l4+ggklFsSC0Csoz5MNHaAIpsXzACZ
+         F72/kjARU9SXz10euMoRn8wBl8jW+cmz05VTepLee1r5K7llYtEnoNJ4X/sBptiPyqUb
+         ULchk4Bw0rjEzTOAKJ7oVVnRzfDmJhGmI8RAHAHgkISeioj2Zms3zL+ab3biVreZPpj7
+         NCBA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc;
+        bh=EHj+UQ7Tu6usfmBtBbDH78MoNwVO7qgjOcn++ecvlvY=;
+        b=h7PjYcJ6i+uqbFxxsZN3oO9cHM7hoRHHtSYoeF4meKQvyeaZCFTnsKgcfBfzog/Vbk
+         LG7WPLYgM91cmfB33wHZfyFY3MNKoxQYO7d3QbpaONr/S6tAjbJ6hhwGcbQsbcBVCWWm
+         ODCVTTBnGAVn4ErvWtqNrfMCKAuCxAiPi7Ff+fz/p+VgrrMjikM7/01A1FCCOPFFbBff
+         c2UbwfycjzxZvw/vmjcKuVnuGEQlUCI0UHfRLSX0SgVjZK6t50LvZ4rmVVOccEmTl1BI
+         m6xo3/8qM3FMiXrA2RgIf88pkryrQi1cjDOQn57eEmHX8gLLMaXn5rGO8TI9CiUcXLMW
+         qEHg==
+X-Gm-Message-State: ACgBeo2paTpH31Dc8vv2GLtsUF7cvn1cJuw0nhvWbwtoEyh8nguHSnRM
+        ldK751/gKvknrkEqWOoVj8I=
+X-Google-Smtp-Source: AA6agR76OOzHcAQSPNDhPXO6cgJytqnQSy7k6ZWl7/3QSAmuwkzg82qYETdDuikHUMV5zDmsOuUM4g==
+X-Received: by 2002:a05:6a00:850:b0:536:341b:99b7 with SMTP id q16-20020a056a00085000b00536341b99b7mr30073896pfk.47.1662023896175;
+        Thu, 01 Sep 2022 02:18:16 -0700 (PDT)
+Received: from smtpclient.apple (c-24-6-216-183.hsd1.ca.comcast.net. [24.6.216.183])
+        by smtp.gmail.com with ESMTPSA id bg8-20020a056a02010800b0042a5e8486a1sm4782830pgb.42.2022.09.01.02.18.12
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 01 Sep 2022 02:18:15 -0700 (PDT)
+Content-Type: text/plain;
+        charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3696.120.41.1.1\))
+Subject: Re: [PATCH v14 07/14] mm: multi-gen LRU: exploit locality in rmap
+From:   Nadav Amit <nadav.amit@gmail.com>
+In-Reply-To: <20220815071332.627393-8-yuzhao@google.com>
+Date:   Thu, 1 Sep 2022 02:18:10 -0700
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Andi Kleen <ak@linux.intel.com>,
+        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        Mel Gorman <mgorman@suse.de>,
+        Michael Larabel <Michael@michaellarabel.com>,
+        Michal Hocko <mhocko@kernel.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Tejun Heo <tj@kernel.org>, Vlastimil Babka <vbabka@suse.cz>,
+        Will Deacon <will@kernel.org>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux MM <linux-mm@kvack.org>, X86 ML <x86@kernel.org>,
+        page-reclaim@google.com, Barry Song <baohua@kernel.org>,
+        Brian Geffon <bgeffon@google.com>,
+        Jan Alexander Steffens <heftig@archlinux.org>,
+        Oleksandr Natalenko <oleksandr@natalenko.name>,
+        Steven Barrett <steven@liquorix.net>,
+        Suleiman Souhlal <suleiman@google.com>,
+        Daniel Byrne <djbyrne@mtu.edu>,
+        Donald Carr <d@chaos-reins.com>,
+        =?utf-8?Q?Holger_Hoffst=C3=A4tte?= <holger@applied-asynchrony.com>,
+        Konstantin Kharlamov <Hi-Angel@yandex.ru>,
+        Shuang Zhai <szhai2@cs.rochester.edu>,
+        Sofia Trinh <sofia.trinh@edi.works>,
+        Vaibhav Jain <vaibhav@linux.ibm.com>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <0F7CF2A7-F671-4196-B8FD-F35E9556391B@gmail.com>
+References: <20220815071332.627393-1-yuzhao@google.com>
+ <20220815071332.627393-8-yuzhao@google.com>
+To:     Yu Zhao <yuzhao@google.com>
+X-Mailer: Apple Mail (2.3696.120.41.1.1)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
 
-On 8/31/22 21:35, Martin K. Petersen wrote:
-> 
-> Randy,
-> 
->> Correct some spelling typos in SCSI documentation.
-> 
-> Partially applied to 6.1/scsi-staging, thanks!
-> 
->> --- a/Documentation/scsi/scsi_eh.rst
->> +++ b/Documentation/scsi/scsi_eh.rst
->> @@ -206,7 +206,7 @@ again.
->>  To achieve these goals, EH performs recovery actions with increasing
->>  severity.  Some actions are performed by issuing SCSI commands and
->>  others are performed by invoking one of the following fine-grained
->> -hostt EH callbacks.  Callbacks may be omitted and omitted ones are
->> +host EH callbacks.  Callbacks may be omitted and omitted ones are
->>  considered to fail always.
-> 
-> This one is correct, hostt is shorthand for "host template" in SCSI.
+> On Aug 15, 2022, at 12:13 AM, Yu Zhao <yuzhao@google.com> wrote:
+>=20
+> Searching the rmap for PTEs mapping each page on an LRU list (to test
+> and clear the accessed bit) can be expensive because pages from
+> different VMAs (PA space) are not cache friendly to the rmap (VA
+> space). For workloads mostly using mapped pages, searching the rmap
+> can incur the highest CPU cost in the reclaim path.
 
-Aha. Thanks.
+Impressive work. Sorry if my feedback is not timely.
 
--- 
-~Randy
+Just one minor point for thought, that can be left for a later cleanup.
+
+>=20
+> +	for (i =3D 0, addr =3D start; addr !=3D end; i++, addr +=3D =
+PAGE_SIZE) {
+> +		unsigned long pfn;
+> +
+> +		pfn =3D get_pte_pfn(pte[i], pvmw->vma, addr);
+> +		if (pfn =3D=3D -1)
+> +			continue;
+> +
+> +		if (!pte_young(pte[i]))
+> +			continue;
+> +
+> +		folio =3D get_pfn_folio(pfn, memcg, pgdat);
+> +		if (!folio)
+> +			continue;
+> +
+> +		if (!ptep_test_and_clear_young(pvmw->vma, addr, pte + =
+i))
+> +			continue;
+> +
+
+You have already checked that the PTE is old (not young), so this check
+seems redundant. I do not see a way in which the access-bit can be =
+cleared
+since you hold the ptl. IOW, there is no need for the =E2=80=9Cif" and =
+=E2=80=9Ccontinue".
+
+Makes me also wonder whether having a separate ptep_clear_young() can
+slightly help, since anyhow the access-bit is more of an estimation,
+and having a separate ptep_clear_young() can enable optimizations.
+
+On x86, for instance, if the PTE is dirty, we may be able to clear the
+access-bit without an atomic operation, which should be faster.
+
