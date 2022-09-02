@@ -2,120 +2,99 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1DE36ECAAD2
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Sep 2022 01:53:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E6B20ECAAD2
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Sep 2022 02:12:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231438AbiIBBxm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 1 Sep 2022 21:53:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52842 "EHLO
+        id S233289AbiIBCMW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 1 Sep 2022 22:12:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51402 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230091AbiIBBxl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Sep 2022 21:53:41 -0400
-Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com [IPv6:2607:f8b0:4864:20::52c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D05EA927A;
-        Thu,  1 Sep 2022 18:53:40 -0700 (PDT)
-Received: by mail-pg1-x52c.google.com with SMTP id s206so723263pgs.3;
-        Thu, 01 Sep 2022 18:53:40 -0700 (PDT)
+        with ESMTP id S230313AbiIBCMV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Sep 2022 22:12:21 -0400
+Received: from mail-ot1-x32d.google.com (mail-ot1-x32d.google.com [IPv6:2607:f8b0:4864:20::32d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E2E5A5C44;
+        Thu,  1 Sep 2022 19:12:21 -0700 (PDT)
+Received: by mail-ot1-x32d.google.com with SMTP id 6-20020a9d0106000000b0063963134d04so580457otu.3;
+        Thu, 01 Sep 2022 19:12:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date;
-        bh=AO+iD8/ND+0+YgmXrFc7bXRlSy/yl/dmt5F+NlX7ri0=;
-        b=op8Taa6drdciJKjFm46xGztxaYxY6UY11Y7IBFgfd/2C+pbRhmFlz8EH48Lnh1qa9p
-         KVxI2NAXssheZNNVVEHBRxoIPc0QPTyfZZmccm4rn+ZmVl8XbyKZJIlk2IunXL6EjflQ
-         uPQ1owHyBpNIqa/h5GCi9lwOtiEF1Dxwt08TQtKFHcyNP5223g25IyynhgBFzvTBi8tB
-         YwClvnCGR7UUgPpJuSslqwXNPXDQf0UO2OTR1PJyhPerz02SM5bbmENgQa0R0Yw18R1D
-         FQ/YSKFciCu8nCxwtqf8imOiPpxGDLP3C17kAMGCcG0iB0uFzO/JTu8nMsGEZMMjCsHk
-         Gf5A==
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date;
+        bh=T7qq37umgy6ILkKn2p66Hov6G9QBZKLlte3WFGWCXUk=;
+        b=kShF43PTGAVnO6M2WEQ62vKFE2hZjX+s0ksKCv0m3dl5S8SK7Jz1dRr/0kRRo3QShN
+         9L7CO1GKaelow0O6Kp+3Mw8xsVjH31dgo5hQmyxrJyIlDgpDYWSXa+81rZilAv92uPYJ
+         RCtoQ1coMkX3Vl7RBFTbjcBa57Gx6nSqBbvGSVvELhOJGjb0rkx7gKQ9myot+5Rxys3Q
+         EygA98Q2JyxZCSOlssAY58hjIJ2ial7vtoiTgTypn+qbbpmcqL0dDCmOA9KXllk+QlZN
+         fTBm+SFVDHWLmw6DEDN0JxBfx2wxEgeSfKa8aa7Fb3Gu6n5p27Szv/DCTM1uKxpV2SZh
+         F1Jg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=AO+iD8/ND+0+YgmXrFc7bXRlSy/yl/dmt5F+NlX7ri0=;
-        b=YpXjZ10F3Fha0oOyav4J86sWMeOTe2h2UPaP+BSsDsbV595VJX920cfZppqy888Ipl
-         RiU/i/lXlOhw/vHavApCsCKyMB9ItyznlQyTL2nvMvdBZ/B2JL3KFMYevGf/QptTc+UU
-         FkxcQENWuc9E16u+iQo2xnGjplwLUvNdPEmdM4QZ5+h5fteF73niebDbCbWurgmS7aGf
-         OH7h7jjXPFCnfP11RnSktOuhY+bGWqhdy7Or0s6NETSLtvzXJj6ROWmkyyahybhxnCGz
-         rmPbtBbV57JgOOizq+Q8mWKE2SW7m2h8yD4wQtCfGO2IyjPVYLVGVpdajvdiqL6vXJCp
-         I8pQ==
-X-Gm-Message-State: ACgBeo3KsVAZCJqIBNZymlRt60GeEQkf9UtlaqcY2cX5ec8nX64zpPRM
-        PD/rJ/dlwO37yNPLEJYXuvQ=
-X-Google-Smtp-Source: AA6agR55VB8kobBINExhpqw6xUyQgHx5tu5ajEBmpC+2oGJQSX7q6Q+GJVQkNw2f21a3Zb1yKew05w==
-X-Received: by 2002:a62:b614:0:b0:537:6d2:85e0 with SMTP id j20-20020a62b614000000b0053706d285e0mr33826053pff.40.1662083619775;
-        Thu, 01 Sep 2022 18:53:39 -0700 (PDT)
-Received: from [192.168.43.80] (subs28-116-206-12-57.three.co.id. [116.206.12.57])
-        by smtp.gmail.com with ESMTPSA id n10-20020a170902d2ca00b001755ac7dd0asm232158plc.290.2022.09.01.18.53.35
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 01 Sep 2022 18:53:39 -0700 (PDT)
-Message-ID: <88e8b096-aa04-2447-cb21-a83b5e57e963@gmail.com>
-Date:   Fri, 2 Sep 2022 08:53:34 +0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH v2] string: Introduce strtomem() and strtomem_pad()
-Content-Language: en-US
-To:     Kees Cook <keescook@chromium.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+        bh=T7qq37umgy6ILkKn2p66Hov6G9QBZKLlte3WFGWCXUk=;
+        b=Tuz5o2iBla/iL9g1lkYdrR4f0ASnB0Vl7WShoDTNge0m24KxTmBaf4XNxtKAeczZ/Z
+         h+4MmvLtNPx4Rw7+uVbgd4YaJYihjfWSSDEa/Wv50lcEGYR/T8DAA6PQ/EkxFjQG7Fa0
+         QDvsMBUa2xwM1LeCW79tTAs3ESneKZfR96rAytI/fDcQBq+kUv8H3nwPRzW6IwzAkh3n
+         hiQ5CKWBYU3h9Cv6TQD8cTVYIYuxrEeIIy5q4rqYAMKhzuiyr4vsn8WpAyaQcbrnJnPU
+         kEzcZNP9bmUsFG3x4ZWkZSH5O1PH+maJaB5w4kyLLbQWXsEVeqqtOj6M3W0LYru9eoXN
+         HEYA==
+X-Gm-Message-State: ACgBeo1+pU/9KtSiPjaVxQQsyYPi1jlhtqRutyFgPy2ODkSoZjLCt7qJ
+        IeElLhV1aWj8NWnVf/kxY40=
+X-Google-Smtp-Source: AA6agR6iWK5m7HDr3+E8mKvzZRfJotVF8JW4zDXRnMAg4Z9wqwnLCN5eXp2jwPO3KSVC3xbefMevEg==
+X-Received: by 2002:a05:6830:1544:b0:63b:2c65:9081 with SMTP id l4-20020a056830154400b0063b2c659081mr9134823otp.193.1662084740432;
+        Thu, 01 Sep 2022 19:12:20 -0700 (PDT)
+Received: from localhost ([12.97.180.36])
+        by smtp.gmail.com with ESMTPSA id 97-20020a9d036a000000b006371af665c5sm418990otv.56.2022.09.01.19.12.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 01 Sep 2022 19:12:20 -0700 (PDT)
+Date:   Thu, 1 Sep 2022 19:10:09 -0700
+From:   Yury Norov <yury.norov@gmail.com>
+To:     Matthew Wilcox <willy@infradead.org>
+Cc:     linux-kernel@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        David Howells <dhowells@redhat.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Len Baker <len.baker@gmx.com>,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        Francis Laniel <laniel_francis@privacyrequired.com>,
-        Paolo Abeni <pabeni@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-hardening@vger.kernel.org
-References: <20220901190952.2229696-1-keescook@chromium.org>
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <20220901190952.2229696-1-keescook@chromium.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        NeilBrown <neilb@suse.de>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Russell King <linux@armlinux.org.uk>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        William Kucharski <william.kucharski@oracle.com>,
+        linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mm@kvack.org
+Subject: Re: [PATCH 08/10] headers/deps: mm: Split <linux/gfp_types.h> out of
+ <linux/gfp.h>
+Message-ID: <YxFmAcrDkFuIsuOu@yury-laptop>
+References: <20220706174253.4175492-1-yury.norov@gmail.com>
+ <20220706174253.4175492-9-yury.norov@gmail.com>
+ <YxEZYUCA0b8Cd1/S@casper.infradead.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YxEZYUCA0b8Cd1/S@casper.infradead.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 9/2/22 02:09, Kees Cook wrote:
-> One of the "legitimate" uses of strncpy() is copying a NUL-terminated
-> string into a fixed-size non-NUL-terminated character array. To avoid
-> the weaknesses and ambiguity of intent when using strncpy(), provide
-> replacement functions that explicitly distinguish between trailing
-> padding and not, and require the destination buffer size be discoverable
-> by the compiler.
->> For example:
+On Thu, Sep 01, 2022 at 09:43:13PM +0100, Matthew Wilcox wrote:
+> On Wed, Jul 06, 2022 at 10:42:51AM -0700, Yury Norov wrote:
+> > From: Ingo Molnar <mingo@kernel.org>
+> > 
+> > This is a much smaller header.
+> > 
+> > Signed-off-by: Ingo Molnar <mingo@kernel.org>
+> > Signed-off-by: Yury Norov <yury.norov@gmail.com>
+> > ---
+> >  include/linux/gfp.h       | 345 +------------------------------------
+> >  include/linux/gfp_types.h | 348 ++++++++++++++++++++++++++++++++++++++
+> >  2 files changed, 350 insertions(+), 343 deletions(-)
 > 
-> struct obj {
-> 	int foo;
-> 	char small[4] __nonstring;
-> 	char big[8] __nonstring;
-> 	int bar;
-> };
-> 
-> struct obj p;
-> 
-> /* This will truncate to 4 chars with no trailing NUL */
-> strncpy(p.small, "hello", sizeof(p.small));
-> /* p.small contains 'h', 'e', 'l', 'l' */
-> 
-> /* This will NUL pad to 8 chars. */
-> strncpy(p.big, "hello", sizeof(p.big));
-> /* p.big contains 'h', 'e', 'l', 'l', 'o', '\0', '\0', '\0' */
-> 
-> When the "__nonstring" attributes are missing, the intent of the
-> programmer becomes ambiguous for whether the lack of a trailing NUL
-> in the p.small copy is a bug. Additionally, it's not clear whether
-> the trailing padding in the p.big copy is _needed_. Both cases
-> become unambiguous with:
-> 
-> strtomem(p.small, "hello");
-> strtomem_pad(p.big, "hello", 0);
-> 
-> See also https://github.com/KSPP/linux/issues/90
-> 
+> You move a lot of kernel-doc.  Where do you change the rst files?
 
-Should'nt strscpy() do the job?
+Ingo - nowhere. So I did it in the next patch:
 
--- 
-An old man doll... just what I always wanted! - Clara
+7343f2b0db4961d ("headers/deps: mm: align MANITAINERS and Docs with new
+gfp.h structure")
