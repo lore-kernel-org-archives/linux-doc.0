@@ -2,64 +2,85 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 09874C38145
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Sep 2022 15:30:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 28F8BC001B5
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Sep 2022 15:32:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236844AbiIBPaW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 2 Sep 2022 11:30:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39670 "EHLO
+        id S236911AbiIBPcM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 2 Sep 2022 11:32:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41392 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236500AbiIBPaD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Sep 2022 11:30:03 -0400
-Received: from www62.your-server.de (www62.your-server.de [213.133.104.62])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 748151DA49;
-        Fri,  2 Sep 2022 08:08:11 -0700 (PDT)
-Received: from sslproxy04.your-server.de ([78.46.152.42])
-        by www62.your-server.de with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
-        (Exim 4.92.3)
-        (envelope-from <daniel@iogearbox.net>)
-        id 1oU8HB-00011S-MS; Fri, 02 Sep 2022 17:08:09 +0200
-Received: from [85.1.206.226] (helo=linux-4.home)
-        by sslproxy04.your-server.de with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <daniel@iogearbox.net>)
-        id 1oU8HB-000Sv5-GY; Fri, 02 Sep 2022 17:08:09 +0200
-Subject: Re: [PATCH bpf-next v3 1/2] Add subdir support to Documentation
- makefile
-To:     Donald Hunter <donald.hunter@gmail.com>, bpf@vger.kernel.org,
-        linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Andrii Nakryiko <andrii.nakryiko@gmail.com>
-References: <20220829091500.24115-1-donald.hunter@gmail.com>
- <20220829091500.24115-2-donald.hunter@gmail.com>
-From:   Daniel Borkmann <daniel@iogearbox.net>
-Message-ID: <3d08894c-b3d1-37e8-664e-48e66dc664ac@iogearbox.net>
-Date:   Fri, 2 Sep 2022 17:08:09 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+        with ESMTP id S237023AbiIBPbc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Sep 2022 11:31:32 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CCF77F4936;
+        Fri,  2 Sep 2022 08:13:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=LWi1NrY2/7cJMZdtMXH/O4pRfZOaLxdRq+GMfQXVvRQ=; b=Xv3sPjQRmqKS1aW/0flFzEXOKF
+        YeFzZj81isOzd57n7rr1POEqSH4mN90s7zgHGD8EUU//0PYExrjy8v7tJTN9obAgKv5WHTMOsUlcL
+        eqrJspMGV6DHYIBHP+F5i0Gz7ToByvO/rFL3+NypQJaLUH/+XL3LdU/mQGj7GcuR3plhfbxFnR3Tc
+        ZD5FQ15unahGX7PWrxBvJ8tG6rOogtRN1KT8DgO2uuVLUNX3jqgHAxxGMiHMrbsZw2fowHy06zPPB
+        ApupSFMb/0IN4VaAjY+dBM+GpgbTNYooKyq7vxT+qRHn3L+leIVOBYvPHASIA2ztDCBkMMtaK6q6b
+        p4MlMVSw==;
+Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1oU8Lq-0077ZP-UO; Fri, 02 Sep 2022 15:12:59 +0000
+Date:   Fri, 2 Sep 2022 16:12:58 +0100
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Yury Norov <yury.norov@gmail.com>
+Cc:     linux-kernel@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        David Howells <dhowells@redhat.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+        NeilBrown <neilb@suse.de>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Russell King <linux@armlinux.org.uk>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        William Kucharski <william.kucharski@oracle.com>,
+        linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mm@kvack.org
+Subject: Re: [PATCH 08/10] headers/deps: mm: Split <linux/gfp_types.h> out of
+ <linux/gfp.h>
+Message-ID: <YxIdeiL0iOsN3zv8@casper.infradead.org>
+References: <20220706174253.4175492-1-yury.norov@gmail.com>
+ <20220706174253.4175492-9-yury.norov@gmail.com>
+ <YxEZYUCA0b8Cd1/S@casper.infradead.org>
+ <YxFmAcrDkFuIsuOu@yury-laptop>
 MIME-Version: 1.0
-In-Reply-To: <20220829091500.24115-2-donald.hunter@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Authenticated-Sender: daniel@iogearbox.net
-X-Virus-Scanned: Clear (ClamAV 0.103.6/26646/Fri Sep  2 09:55:25 2022)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YxFmAcrDkFuIsuOu@yury-laptop>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 8/29/22 11:14 AM, Donald Hunter wrote:
-> Run make in list of subdirs to build generated sources and migrate
-> userspace-api/media to use this instead of being a special case.
+On Thu, Sep 01, 2022 at 07:10:09PM -0700, Yury Norov wrote:
+> On Thu, Sep 01, 2022 at 09:43:13PM +0100, Matthew Wilcox wrote:
+> > On Wed, Jul 06, 2022 at 10:42:51AM -0700, Yury Norov wrote:
+> > > From: Ingo Molnar <mingo@kernel.org>
+> > > 
+> > > This is a much smaller header.
+> > > 
+> > > Signed-off-by: Ingo Molnar <mingo@kernel.org>
+> > > Signed-off-by: Yury Norov <yury.norov@gmail.com>
+> > > ---
+> > >  include/linux/gfp.h       | 345 +------------------------------------
+> > >  include/linux/gfp_types.h | 348 ++++++++++++++++++++++++++++++++++++++
+> > >  2 files changed, 350 insertions(+), 343 deletions(-)
+> > 
+> > You move a lot of kernel-doc.  Where do you change the rst files?
 > 
-> Signed-off-by: Donald Hunter <donald.hunter@gmail.com>
+> Ingo - nowhere. So I did it in the next patch:
+> 
+> 7343f2b0db4961d ("headers/deps: mm: align MANITAINERS and Docs with new
+> gfp.h structure")
 
-Jonathan, given this touches Documentation/Makefile, could you ACK if
-it looks good to you? Noticed both patches don't have doc: $subj prefix,
-but that's something we could fix up.
+That's not the right way to do it.  Don't merge a patch with bugs and
+then fix it up in the next patch.  Just fix the patch.  This is covered
+in Documentation/process/.
 
-Maybe one small request, would be nice to build Documentation/bpf/libbpf/
-also with every BPF CI run to avoid breakage of program_types.csv. Donald
-could you check if feasible? Follow-up might be ok too, but up to Andrii.
-
-Thanks,
-Daniel
