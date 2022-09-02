@@ -2,99 +2,207 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E6B20ECAAD2
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Sep 2022 02:12:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B94D8ECAAD3
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Sep 2022 03:22:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233289AbiIBCMW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 1 Sep 2022 22:12:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51402 "EHLO
+        id S233481AbiIBDWF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 1 Sep 2022 23:22:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57820 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230313AbiIBCMV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Sep 2022 22:12:21 -0400
-Received: from mail-ot1-x32d.google.com (mail-ot1-x32d.google.com [IPv6:2607:f8b0:4864:20::32d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E2E5A5C44;
-        Thu,  1 Sep 2022 19:12:21 -0700 (PDT)
-Received: by mail-ot1-x32d.google.com with SMTP id 6-20020a9d0106000000b0063963134d04so580457otu.3;
-        Thu, 01 Sep 2022 19:12:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date;
-        bh=T7qq37umgy6ILkKn2p66Hov6G9QBZKLlte3WFGWCXUk=;
-        b=kShF43PTGAVnO6M2WEQ62vKFE2hZjX+s0ksKCv0m3dl5S8SK7Jz1dRr/0kRRo3QShN
-         9L7CO1GKaelow0O6Kp+3Mw8xsVjH31dgo5hQmyxrJyIlDgpDYWSXa+81rZilAv92uPYJ
-         RCtoQ1coMkX3Vl7RBFTbjcBa57Gx6nSqBbvGSVvELhOJGjb0rkx7gKQ9myot+5Rxys3Q
-         EygA98Q2JyxZCSOlssAY58hjIJ2ial7vtoiTgTypn+qbbpmcqL0dDCmOA9KXllk+QlZN
-         fTBm+SFVDHWLmw6DEDN0JxBfx2wxEgeSfKa8aa7Fb3Gu6n5p27Szv/DCTM1uKxpV2SZh
-         F1Jg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
-        bh=T7qq37umgy6ILkKn2p66Hov6G9QBZKLlte3WFGWCXUk=;
-        b=Tuz5o2iBla/iL9g1lkYdrR4f0ASnB0Vl7WShoDTNge0m24KxTmBaf4XNxtKAeczZ/Z
-         h+4MmvLtNPx4Rw7+uVbgd4YaJYihjfWSSDEa/Wv50lcEGYR/T8DAA6PQ/EkxFjQG7Fa0
-         QDvsMBUa2xwM1LeCW79tTAs3ESneKZfR96rAytI/fDcQBq+kUv8H3nwPRzW6IwzAkh3n
-         hiQ5CKWBYU3h9Cv6TQD8cTVYIYuxrEeIIy5q4rqYAMKhzuiyr4vsn8WpAyaQcbrnJnPU
-         kEzcZNP9bmUsFG3x4ZWkZSH5O1PH+maJaB5w4kyLLbQWXsEVeqqtOj6M3W0LYru9eoXN
-         HEYA==
-X-Gm-Message-State: ACgBeo1+pU/9KtSiPjaVxQQsyYPi1jlhtqRutyFgPy2ODkSoZjLCt7qJ
-        IeElLhV1aWj8NWnVf/kxY40=
-X-Google-Smtp-Source: AA6agR6iWK5m7HDr3+E8mKvzZRfJotVF8JW4zDXRnMAg4Z9wqwnLCN5eXp2jwPO3KSVC3xbefMevEg==
-X-Received: by 2002:a05:6830:1544:b0:63b:2c65:9081 with SMTP id l4-20020a056830154400b0063b2c659081mr9134823otp.193.1662084740432;
-        Thu, 01 Sep 2022 19:12:20 -0700 (PDT)
-Received: from localhost ([12.97.180.36])
-        by smtp.gmail.com with ESMTPSA id 97-20020a9d036a000000b006371af665c5sm418990otv.56.2022.09.01.19.12.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Sep 2022 19:12:20 -0700 (PDT)
-Date:   Thu, 1 Sep 2022 19:10:09 -0700
-From:   Yury Norov <yury.norov@gmail.com>
-To:     Matthew Wilcox <willy@infradead.org>
-Cc:     linux-kernel@vger.kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        David Howells <dhowells@redhat.com>,
-        Ingo Molnar <mingo@kernel.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-        NeilBrown <neilb@suse.de>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        with ESMTP id S229804AbiIBDWD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Sep 2022 23:22:03 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21549564C8;
+        Thu,  1 Sep 2022 20:22:02 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id B09CC61EA4;
+        Fri,  2 Sep 2022 03:22:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8643EC433C1;
+        Fri,  2 Sep 2022 03:22:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1662088921;
+        bh=vgggjnwSi12Tj/VroAR1dh/1zC4HRD7ys9U3EW00yBs=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=B4ju/ZJAY/x9d5wubi8BI/qiyIH6e1/H/3vvbuUnU1OuMy5g2ND5CFLnvITdI7Ino
+         2RgSzAxcV9/lpoJQiQU29BgdPN/sNXt4mfKJX3Nhe++rJ5AWXenrQ+FW3awuA/TDwL
+         DxjLhC2Qe0XaaglRgq/smKHuWOKzZNjMyRR5Y0bDHXO0jjJiMpv5krSe2Of3NAB+mv
+         JCdADVEtY83uoAW4PROkd2fS54gpbg8mytaGbbqpmJS2jFYjrUOgwlry7b2dOFl+st
+         uYICNyPJUDSHMgBW6Z3BKnjUVcaKJvZ2FO5fEfpSVVeUdt4pO0td0zCwlQslfQib8P
+         pH8qr2BfOmxmQ==
+Date:   Thu, 1 Sep 2022 20:21:59 -0700
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     Oleksij Rempel <o.rempel@pengutronix.de>
+Cc:     Andrew Lunn <andrew@lunn.ch>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Paolo Abeni <pabeni@redhat.com>,
         Russell King <linux@armlinux.org.uk>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        William Kucharski <william.kucharski@oracle.com>,
-        linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mm@kvack.org
-Subject: Re: [PATCH 08/10] headers/deps: mm: Split <linux/gfp_types.h> out of
- <linux/gfp.h>
-Message-ID: <YxFmAcrDkFuIsuOu@yury-laptop>
-References: <20220706174253.4175492-1-yury.norov@gmail.com>
- <20220706174253.4175492-9-yury.norov@gmail.com>
- <YxEZYUCA0b8Cd1/S@casper.infradead.org>
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        kernel test robot <lkp@intel.com>, kernel@pengutronix.de,
+        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
+        David Jander <david@protonic.nl>,
+        Luka Perkov <luka.perkov@sartura.hr>,
+        Robert Marko <robert.marko@sartura.hr>
+Subject: Re: [PATCH net-next v5 5/7] ethtool: add interface to interact with
+ Ethernet Power Equipment
+Message-ID: <20220901202159.2a600c70@kernel.org>
+In-Reply-To: <20220831133240.3236779-6-o.rempel@pengutronix.de>
+References: <20220831133240.3236779-1-o.rempel@pengutronix.de>
+        <20220831133240.3236779-6-o.rempel@pengutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YxEZYUCA0b8Cd1/S@casper.infradead.org>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Sep 01, 2022 at 09:43:13PM +0100, Matthew Wilcox wrote:
-> On Wed, Jul 06, 2022 at 10:42:51AM -0700, Yury Norov wrote:
-> > From: Ingo Molnar <mingo@kernel.org>
-> > 
-> > This is a much smaller header.
-> > 
-> > Signed-off-by: Ingo Molnar <mingo@kernel.org>
-> > Signed-off-by: Yury Norov <yury.norov@gmail.com>
-> > ---
-> >  include/linux/gfp.h       | 345 +------------------------------------
-> >  include/linux/gfp_types.h | 348 ++++++++++++++++++++++++++++++++++++++
-> >  2 files changed, 350 insertions(+), 343 deletions(-)
-> 
-> You move a lot of kernel-doc.  Where do you change the rst files?
+On Wed, 31 Aug 2022 15:32:38 +0200 Oleksij Rempel wrote:
+> +/**
+> + * pse_ethtool_get_status - get status of PSE control
+> + * @psec: PSE control pointer
+> + * @extack: extack for reporting useful error messages
+> + * @status: struct to store PSE status
+> + */
+> +int pse_ethtool_get_status(struct pse_control *psec,
+> +			   struct netlink_ext_ack *extack,
+> +			   struct pse_control_status *status)
+> +{
+> +	const struct pse_controller_ops *ops;
+> +	int err;
+> +
+> +	if (!psec)
+> +		return 0;
 
-Ingo - nowhere. So I did it in the next patch:
+Defensive programming?
 
-7343f2b0db4961d ("headers/deps: mm: align MANITAINERS and Docs with new
-gfp.h structure")
+> +	if (WARN_ON(IS_ERR(psec)))
+> +		return -EINVAL;
+> +
+> +	ops = psec->pcdev->ops;
+> +
+> +	if (!ops->ethtool_get_status) {
+> +		NL_SET_ERR_MSG(extack,
+> +			       "PSE driver does not support status report");
+> +		return -EOPNOTSUPP;
+> +	}
+> +
+> +	mutex_lock(&psec->pcdev->lock);
+> +	err = ops->ethtool_get_status(psec->pcdev, psec->id, extack, status);
+> +	mutex_unlock(&psec->pcdev->lock);
+> +
+> +	return err;
+> +}
+> +EXPORT_SYMBOL_GPL(pse_ethtool_get_status);
+> +
+> +/**
+> + * pse_ethtool_set_config - set PSE control configuration
+> + * @psec: PSE control pointer
+> + * @extack: extack for reporting useful error messages
+> + * @config: Configuration of the test to run
+> + */
+> +int pse_ethtool_set_config(struct pse_control *psec,
+> +			   struct netlink_ext_ack *extack,
+> +			   const struct pse_control_config *config)
+> +{
+> +	const struct pse_controller_ops *ops;
+> +	int err;
+> +
+> +	if (!psec)
+> +		return 0;
+> +
+> +	if (WARN_ON(IS_ERR(psec)))
+> +		return -EINVAL;
+
+ditto
+
+> +	ops = psec->pcdev->ops;
+> +
+> +	if (!ops->ethtool_set_config) {
+> +		NL_SET_ERR_MSG(extack,
+> +			       "PSE driver does not configuration");
+> +		return -EOPNOTSUPP;
+> +	}
+> +
+> +	mutex_lock(&psec->pcdev->lock);
+> +	err = ops->ethtool_set_config(psec->pcdev, psec->id, extack, config);
+> +	mutex_unlock(&psec->pcdev->lock);
+> +
+> +	return err;
+> +}
+> +EXPORT_SYMBOL_GPL(pse_ethtool_set_config);
+
+> +int pse_ethtool_get_status(struct pse_control *psec,
+> +			   struct netlink_ext_ack *extack,
+> +			   struct pse_control_status *status)
+> +{
+> +	return -ENOTSUPP;
+
+EOPNOTSUPP, please run checkpatch --strict on this patch.
+All of the complaints look legit at a glance.
+
+
+> +	ETHTOOL_MSG_PSE_NTF,
+
+I don't see you calling the ethtool_notify() function, does this ever
+
+> +static int pse_prepare_data(const struct ethnl_req_info *req_base,
+> +			       struct ethnl_reply_data *reply_base,
+> +			       struct genl_info *info)
+> +{
+> +	struct pse_reply_data *data = PSE_REPDATA(reply_base);
+> +	struct net_device *dev = reply_base->dev;
+> +	int ret;
+> +
+> +	ret = ethnl_ops_begin(dev);
+> +	if (ret < 0)
+> +		return 0;
+
+humpf, return ret;?
+
+> +	ret = pse_get_pse_attributs(dev, info->extack, data);
+> +
+> +	ethnl_ops_complete(dev);
+> +
+> +	return ret;
+> +}
+> +
+> +static int pse_reply_size(const struct ethnl_req_info *req_base,
+> +			  const struct ethnl_reply_data *reply_base)
+> +{
+> +	const struct pse_reply_data *data = PSE_REPDATA(reply_base);
+> +	const struct pse_control_status *st = &data->status;
+> +	int len = 0;
+> +
+> +	if (st->podl_admin_state >= 0)
+
+UNKNOWN is now 1, should be > 0 ?
+
+> +		len += nla_total_size(sizeof(u32)); /* _PODL_PSE_ADMIN_STATE */
+> +	if (st->podl_pw_status >= 0)
+> +		len += nla_total_size(sizeof(u32)); /* _PODL_PSE_PW_D_STATUS */
+> +
+> +	return len;
+> +}
+
+> +	if (!phydev)
+> +		return -EOPNOTSUPP;
+> +
+> +	if (!phydev->psec)
+> +		ret = -EOPNOTSUPP;
+
+Would be good to slap an extack msg on the two errors here.
+
+> +	else
+> +		ret = pse_ethtool_set_config(phydev->psec, extack, &config);
+
+And avoid indenting the success path. So the !phydev->psec should
+contain a return.
+
+> +	return ret;
+> +}
