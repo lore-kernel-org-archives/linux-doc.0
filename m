@@ -2,157 +2,115 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B0AD5ECAAD5
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Sep 2022 12:01:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16316C6FA82
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Sep 2022 12:42:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232815AbiIBMA5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 2 Sep 2022 08:00:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39872 "EHLO
+        id S237349AbiIBMmW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 2 Sep 2022 08:42:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44796 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235614AbiIBMAw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Sep 2022 08:00:52 -0400
-Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com [66.111.4.230])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2CBF932EE9;
-        Fri,  2 Sep 2022 05:00:48 -0700 (PDT)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-        by mailnew.nyi.internal (Postfix) with ESMTP id 05520580E63;
-        Fri,  2 Sep 2022 08:00:45 -0400 (EDT)
-Received: from imap51 ([10.202.2.101])
-  by compute3.internal (MEProxy); Fri, 02 Sep 2022 08:00:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-        :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
-        :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to; s=fm1; t=1662120045; x=1662123645; bh=ZOo52ojNLD
-        +QQW1owuGlJGIJHO9inLm8ClF8VUiGMYc=; b=Q5LypI9JctwwOK78feEceNVi9z
-        mxfNcLR/Jr4MB9NTHeYJiHLefznX6HqRh6CiZvo1s/eRDzJ670NSZN2e2i+Fc7t/
-        ZdFzJtd0Ct06j6/lCrkdTQuc7BEdm0b726E16z+A38p/+rOnXKPeMSAnC7pozGyS
-        6LHwx11Ik1NmqfJlvPhWnbaw5ebEDvsbNdMkZN8g4WOrGEsqQWCRtu6Nc+KKLiho
-        MkqZpq7U0aQ2IjWx4UFJNZkc169bO+S4kLlj7u9QlxTpC3Q48s5HY7A4wJHVAWsN
-        uviiLlU190bmFHfBqdbNuWPA9Bl/oorH0qcnJRzDoDZTEOzV99ax1d6g+CXQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
-        :mime-version:references:reply-to:sender:subject:subject:to:to
-        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        i56a14606.fm1; t=1662120045; x=1662123645; bh=ZOo52ojNLD+QQW1owu
-        GlJGIJHO9inLm8ClF8VUiGMYc=; b=RiVPKGcUZp5HCdJHIyJkhIwH94i5ibwBiY
-        oIFBEtvkT5pEFqhCw8suvvo7zv+tFQylSuIgMGfzqvRjfMsr09J8LJ25TAG4A1Og
-        ZvgL5Yawofqm5gp1rqdKtCSfr5Y6feD3oZ+Xcs2wJcvV9YKY7FblBQlDZYdj18F+
-        ieBUJRAGKot6vy/iMUWaAxvCiXfr7dD2j3nweX3d+fo89N6tfjQufBXjRjzYiNr0
-        0swaOd8oblHwLSMK5LzNxEFrmHggOx0jKAYA/QZ0/nnsRPklrgz1CDkNYwUqhZ6h
-        D8bKPP++xX+JoFHh4uBKaHJJsbmr46Yeuoj//lmBLDDq0srXLCQQ==
-X-ME-Sender: <xms:avARY_2heRUfPqzyIL4IWlfH7Os1mu-7k3xmipOo1apEBOFrm-xOow>
-    <xme:avARY-FihW90435Acqlsl7wZZKrtjU8wiT0q7xaxcnUAkZrAyt6HpLLPkSJC6ooLC
-    mqW6FTXNKxnVPxQyG4>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdeltddggeelucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
-    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
-    htvghrnhepffehueegteeihfegtefhjefgtdeugfegjeelheejueethfefgeeghfektdek
-    teffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
-    hrnhgusegrrhhnuggsrdguvg
-X-ME-Proxy: <xmx:avARY_6XbY9hs3wScqe1qqj7Xf1BthXQwtKpnCrpx_-P-A-QUs9BXA>
-    <xmx:avARY01XQy-i_4phqIgYyyKTukNtLkEINc--1WuLQR9mcTJtQQDpKA>
-    <xmx:avARYyEeWx3R73AJIrsgUSWMqyoneyLQ7lQOaM1kr4Pu7SL78CqP4g>
-    <xmx:bPARYyKt9OEaSeHAoGO_VplbOvjcsP71GId8kxYOMELNnqTZReQByw>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-        id 83F4AB60083; Fri,  2 Sep 2022 08:00:42 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.7.0-alpha0-841-g7899e99a45-fm-20220811.002-g7899e99a
-Mime-Version: 1.0
-Message-Id: <254b7b9d-72b7-4b3a-821a-51a2745ebac5@www.fastmail.com>
-In-Reply-To: <CAHp75VfF78rWpC6+i2Hu6-PMULFeFMbqXhBVRkx5aFGFTU3U4A@mail.gmail.com>
-References: <cover.1661789204.git.christophe.leroy@csgroup.eu>
- <abb46a587b76d379ad32d53817d837d8a5fea8bd.1661789204.git.christophe.leroy@csgroup.eu>
- <CAHp75VcngRihpfUkeKs-g+TbPnpOsZ+-Q37zDVoWp8p_2GbSvQ@mail.gmail.com>
- <18cda49e-84f0-a806-566a-6e77705e98b3@csgroup.eu>
- <1d548a19-feec-42b9-944d-890d6dde2fb8@www.fastmail.com>
- <CAHp75VfF78rWpC6+i2Hu6-PMULFeFMbqXhBVRkx5aFGFTU3U4A@mail.gmail.com>
-Date:   Fri, 02 Sep 2022 14:00:21 +0200
-From:   "Arnd Bergmann" <arnd@arndb.de>
-To:     "Andy Shevchenko" <andy.shevchenko@gmail.com>,
-        =?UTF-8?Q?Nuno_S=C3=A1?= <nuno.sa@analog.com>
-Cc:     "Christophe Leroy" <christophe.leroy@csgroup.eu>,
-        "Linus Walleij" <linus.walleij@linaro.org>,
-        "Bartosz Golaszewski" <brgl@bgdev.pl>,
-        "Geert Uytterhoeven" <geert+renesas@glider.be>,
-        Keerthy <j-keerthy@ti.com>,
-        "Russell King" <linux@armlinux.org.uk>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        "Thomas Gleixner" <tglx@linutronix.de>,
-        "Ingo Molnar" <mingo@redhat.com>, "Borislav Petkov" <bp@alien8.de>,
-        "Dave Hansen" <dave.hansen@linux.intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        "Catalin Marinas" <catalin.marinas@arm.com>,
-        "Will Deacon" <will@kernel.org>,
-        "Linux Kernel Mailing List" <linux-kernel@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        "linux-arm Mailing List" <linux-arm-kernel@lists.infradead.org>,
-        Linux-Arch <linux-arch@vger.kernel.org>,
-        "Linux Documentation List" <linux-doc@vger.kernel.org>,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>
-Subject: Re: [PATCH v1 4/8] gpiolib: Get rid of ARCH_NR_GPIOS
-Content-Type: text/plain
+        with ESMTP id S237278AbiIBMlH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Sep 2022 08:41:07 -0400
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E3798E868D;
+        Fri,  2 Sep 2022 05:31:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1662121886; x=1693657886;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=fDpXS+mwMN4S7KTgnVwvjs5feZwWXlXraJAIEBzDX2M=;
+  b=X5d4yMTdb9rqtJD/vFsu0rl5cEeihbax9+NUBhn3Tz/9DdE4C77fA9/x
+   GoZxapb2TGuT6GuW9i0/rpEFS202ZVzf43K/cWLgLOHFal5NcV2llukp5
+   hX93eW6BqcrWARumP4aPweBKwUO4zGhuhVSB1mVvFnix2jUoMwJODE0A3
+   IjSrGO3s0+ewxi+P4F9JbmuTxkYsiRVkI6qi7Zqs2115FRKiEpVRzjmmR
+   4CGGTnIPsPPChV5v0UoXcmiamjo+uaDcv5GNc24O8JU0Y1KkhBbb/xVJn
+   RW0T3o4nBWLF0srw1o5c96COprmU6l6nr/Z5RnWNsI2MP8/yLkYTGjHeu
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10457"; a="382268005"
+X-IronPort-AV: E=Sophos;i="5.93,283,1654585200"; 
+   d="scan'208";a="382268005"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2022 05:30:23 -0700
+X-IronPort-AV: E=Sophos;i="5.93,283,1654585200"; 
+   d="scan'208";a="674338766"
+Received: from azmijews-mobl2.ger.corp.intel.com (HELO box.shutemov.name) ([10.252.45.129])
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2022 05:30:12 -0700
+Received: by box.shutemov.name (Postfix, from userid 1000)
+        id 5AC6D10484B; Fri,  2 Sep 2022 15:30:10 +0300 (+03)
+Date:   Fri, 2 Sep 2022 15:30:10 +0300
+From:   "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
+To:     Chao Peng <chao.p.peng@linux.intel.com>
+Cc:     Hugh Dickins <hughd@google.com>,
+        "Kirill A. Shutemov" <kirill@shutemov.name>, kvm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+        linux-kselftest@vger.kernel.org,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sean Christopherson <seanjc@google.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Jim Mattson <jmattson@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+        Jeff Layton <jlayton@kernel.org>,
+        "J . Bruce Fields" <bfields@fieldses.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Vishal Annapurve <vannapurve@google.com>,
+        Yu Zhang <yu.c.zhang@linux.intel.com>, luto@kernel.org,
+        jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
+        david@redhat.com, aarcange@redhat.com, ddutile@redhat.com,
+        dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
+        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+        Muchun Song <songmuchun@bytedance.com>,
+        "Gupta, Pankaj" <pankaj.gupta@amd.com>,
+        Elena Reshetova <elena.reshetova@intel.com>
+Subject: Re: [PATCH v7 00/14] KVM: mm: fd-based approach for supporting KVM
+ guest private memory
+Message-ID: <20220902123010.zfyv6apmo3v67a2i@box.shutemov.name>
+References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
+ <ff5c5b97-acdf-9745-ebe5-c6609dd6322e@google.com>
+ <20220818132421.6xmjqduempmxnnu2@box>
+ <c6ccbb96-5849-2e2f-3b49-4ea711af525d@google.com>
+ <20220820002700.6yflrxklmpsavdzi@box.shutemov.name>
+ <c194262b-b634-4baf-abf0-dc727e8f1d7@google.com>
+ <20220831142439.65q2gi4g2d2z4ofh@box.shutemov.name>
+ <20220902102757.GB1712673@chaop.bj.intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220902102757.GB1712673@chaop.bj.intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Sep 2, 2022, at 12:52 PM, Andy Shevchenko wrote:
-> On Wed, Aug 31, 2022 at 11:55 PM Arnd Bergmann <arnd@arndb.de> wrote:
->
-> ...
->
->> drivers/gpio/gpio-adp5520.c:    gc->base = pdata->gpio_start; // unused
->> drivers/gpio/gpio-adp5588.c:            gc->base = pdata->gpio_start; // unused
->> drivers/input/keyboard/adp5588-keys.c:  kpad->gc.base = gpio_data->gpio_start; // unused
->> drivers/input/keyboard/adp5589-keys.c:  kpad->gc.base = gpio_data->gpio_start; // unused
->
-> I believe we should convert them to -1.
+On Fri, Sep 02, 2022 at 06:27:57PM +0800, Chao Peng wrote:
+> > +	if (flags & MFD_INACCESSIBLE) {
+> > +		struct file *inaccessible_file;
+> > +
+> > +		inaccessible_file = memfd_mkinaccessible(file);
+> > +		if (IS_ERR(inaccessible_file)) {
+> > +			error = PTR_ERR(inaccessible_file);
+> > +			goto err_file;
+> > +		}
+> 
+> The new file should alse be marked as O_LARGEFILE otherwise setting the
+> initial size greater than 2^31 on the fd will be refused by ftruncate().
+> 
+> +               inaccessible_file->f_flags |= O_LARGEFILE;
+> +
 
-This is probably something we should do separately, but a lot of the
-drivers currently don't have support for probing from DT or any other
-firmware interface but rely on platform_data definitions from a
-board file that was never part of the upstream kernel.
+Good catch. Thanks.
 
-We are going to remove a lot more board files early next year,
-and I was hoping to follow up with a treewide cleanup of such
-drivers and remove a lot of them entirely.
+I will modify memfd_mkinaccessible() to do this.
 
->> drivers/gpio/gpio-dwapb.c:      port->gc.base = pp->gpio_base; // from DT, deprecated
->
-> From board files, since some platforms expect a fixed number for it.
-
->> drivers/gpio/gpio-pca953x.c:    gc->base = chip->gpio_start; // ???? used a lot
->
-> To answer this one needs to go via all board files (most of them ARM
-> 32-bit based) and look, but it means almost the same case as per Intel
-> above: 512-ngpios.
-
-Right, I went through all the board files the other drivers,
-this one just happens to be used more than the others:
-
-arch/arm/mach-davinci/board-da850-evm.c:#include <linux/platform_data/pca953x.h>
-arch/arm/mach-ep93xx/vision_ep9307.c:#include <linux/platform_data/pca953x.h>
-arch/arm/mach-mmp/ttc_dkb.c:#include <linux/platform_data/pca953x.h>
-arch/arm/mach-pxa/cm-x300.c:#include <linux/platform_data/pca953x.h>
-arch/arm/mach-pxa/spitz.c:#include <linux/platform_data/pca953x.h>
-arch/arm/mach-pxa/zeus.c:#include <linux/platform_data/pca953x.h>
-arch/arm/mach-pxa/zylonite_pxa300.c:#include <linux/platform_data/pca953x.h>
-arch/arm/mach-s3c/mach-crag6410.c:#include <linux/platform_data/pca953x.h>
-
-The only ones that have known users though are crag6410
-and vision_ep9307, the other ones will be removed.
-
-Vision-ep9307 has 128 GPIOs total, crag6410 is complicated because it
-many different GPIO controllers in various combinations.
-
->> drivers/pinctrl/renesas/gpio.c: gc->base = pfc->nr_gpio_pins; // ??? don't understand
->
-> I think, w/o looking into the code, that this just guarantees the
-> continuous numbering for all banks (chips) on the platform.
-
-Yes, that seems to be the idea most of the pinctrl drivers.
-
-      Arnd
+-- 
+  Kiryl Shutsemau / Kirill A. Shutemov
