@@ -2,41 +2,41 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 39FC3C38145
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Sep 2022 14:04:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 00A92C38145
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Sep 2022 14:04:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237154AbiIBOEJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 2 Sep 2022 10:04:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51960 "EHLO
+        id S238162AbiIBOEq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 2 Sep 2022 10:04:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54400 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238874AbiIBOD0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Sep 2022 10:03:26 -0400
+        with ESMTP id S237144AbiIBOE2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Sep 2022 10:04:28 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96551159A49
-        for <linux-doc@vger.kernel.org>; Fri,  2 Sep 2022 06:32:26 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EBD29148D0B
+        for <linux-doc@vger.kernel.org>; Fri,  2 Sep 2022 06:33:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1662125458;
+        s=mimecast20190719; t=1662125580;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=jnqQvP0cTU/dFTonPHoQpVpyDjLmSs7Rj6BKnLij0H4=;
-        b=TCd/Xt/LQKfnQJvGL/+FkIfn8Fg8Ndkdmo7ML/V07rXLU+7IAKJ2s/V5XuonmlREt0LaeH
-        A57mogayg9VeZs2R+A3VF+t2dw2BBFHIQiQtSS17kpcve9IT3aKSSZmGxY0RDdJSOhgBJi
-        uhkZCY6s1NsIv8cIni3J6rTwKl9UjQQ=
+        bh=46mxyRINAwXH1hQbHvRS6x0ECDUnr04nQdzD2pI2obU=;
+        b=WcrA3oTBI+MPUe++Izs84+ZRZdsh8rstXZ5nplvdqBPHCANBy2FNJQfG8olmLyfKWFJsWX
+        XGlY07+9rU5N34+nmUscoRnsh9C+vA3mwYVkGvF/b1mAzJFGawA5iZjxnvPF93HhaOPWFx
+        ZH1V6tscz62nwg8utwvZJccfgN5TQck=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-192-xYGKQ4PGPeqGkUZmsZtZDQ-1; Fri, 02 Sep 2022 09:30:56 -0400
-X-MC-Unique: xYGKQ4PGPeqGkUZmsZtZDQ-1
+ us-mta-199-DAMr-CBTN7ePSwB02vo_dQ-1; Fri, 02 Sep 2022 09:29:49 -0400
+X-MC-Unique: DAMr-CBTN7ePSwB02vo_dQ-1
 Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6027B823F14;
-        Fri,  2 Sep 2022 13:30:55 +0000 (UTC)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5CABF18A64EB;
+        Fri,  2 Sep 2022 13:29:48 +0000 (UTC)
 Received: from plouf.redhat.com (unknown [10.39.193.218])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 33E24492CA2;
-        Fri,  2 Sep 2022 13:30:52 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 3486D492C3B;
+        Fri,  2 Sep 2022 13:29:45 +0000 (UTC)
 From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
 To:     Greg KH <gregkh@linuxfoundation.org>,
         Jiri Kosina <jikos@kernel.org>,
@@ -55,9 +55,9 @@ Cc:     Tero Kristo <tero.kristo@linux.intel.com>,
         netdev@vger.kernel.org, bpf@vger.kernel.org,
         linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Subject: [PATCH bpf-next v10 18/23] HID: bpf: allow to change the report descriptor
-Date:   Fri,  2 Sep 2022 15:29:33 +0200
-Message-Id: <20220902132938.2409206-19-benjamin.tissoires@redhat.com>
+Subject: [PATCH bpf-next v10 01/23] selftests/bpf: regroup and declare similar kfuncs selftests in an array
+Date:   Fri,  2 Sep 2022 15:29:16 +0200
+Message-Id: <20220902132938.2409206-2-benjamin.tissoires@redhat.com>
 In-Reply-To: <20220902132938.2409206-1-benjamin.tissoires@redhat.com>
 References: <20220902132938.2409206-1-benjamin.tissoires@redhat.com>
 MIME-Version: 1.0
@@ -67,248 +67,134 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add a new tracepoint hid_bpf_rdesc_fixup() so we can trigger a
-report descriptor fixup in the bpf world.
+Similar to tools/testing/selftests/bpf/prog_tests/dynptr.c:
+we declare an array of tests that we run one by one in a for loop.
 
-Whenever the program gets attached/detached, the device is reconnected
-meaning that userspace will see it disappearing and reappearing with
-the new report descriptor.
+Followup patches will add more similar-ish tests, so avoid a lot of copy
+paste by grouping the declaration in an array.
 
-Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To be able to call bpf_object__find_program_by_name(), we need to use
+plain libbpf calls, and not light skeletons. So also change the Makefile
+to not generate light skeletons.
+
 Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
 
 ---
 
-no changes in v10
-
-no changes in v9
-
-no changes in v8
-
-no changes in v7
-
-changes in v6:
-- use BTF_ID to get the btf_id of hid_bpf_rdesc_fixup
-
-changes in v5:
-- adapted for new API
-
-not in v4
-
-changes in v3:
-- ensure the ctx.size is properly bounded by allocated size
-- s/link_attached/post_link_attach/
-- removed the switch statement with only one case
-
-changes in v2:
-- split the series by bpf/libbpf/hid/selftests and samples
+new in v10
 ---
- drivers/hid/bpf/hid_bpf_dispatch.c  | 77 ++++++++++++++++++++++++++++-
- drivers/hid/bpf/hid_bpf_dispatch.h  |  1 +
- drivers/hid/bpf/hid_bpf_jmp_table.c |  7 +++
- drivers/hid/hid-core.c              |  3 +-
- include/linux/hid_bpf.h             |  8 +++
- 5 files changed, 94 insertions(+), 2 deletions(-)
+ tools/testing/selftests/bpf/Makefile          |  2 +-
+ .../selftests/bpf/prog_tests/kfunc_call.c     | 56 +++++++++++++------
+ 2 files changed, 39 insertions(+), 19 deletions(-)
 
-diff --git a/drivers/hid/bpf/hid_bpf_dispatch.c b/drivers/hid/bpf/hid_bpf_dispatch.c
-index 85186640e5af..830ae2cfca14 100644
---- a/drivers/hid/bpf/hid_bpf_dispatch.c
-+++ b/drivers/hid/bpf/hid_bpf_dispatch.c
-@@ -85,6 +85,63 @@ dispatch_hid_bpf_device_event(struct hid_device *hdev, enum hid_report_type type
- }
- EXPORT_SYMBOL_GPL(dispatch_hid_bpf_device_event);
+diff --git a/tools/testing/selftests/bpf/Makefile b/tools/testing/selftests/bpf/Makefile
+index eecad99f1735..b19b0b35aec8 100644
+--- a/tools/testing/selftests/bpf/Makefile
++++ b/tools/testing/selftests/bpf/Makefile
+@@ -351,7 +351,7 @@ LINKED_SKELS := test_static_linked.skel.h linked_funcs.skel.h		\
+ 		test_subskeleton.skel.h test_subskeleton_lib.skel.h	\
+ 		test_usdt.skel.h
  
-+/**
-+ * hid_bpf_rdesc_fixup - Called when the probe function parses the report
-+ * descriptor of the HID device
-+ *
-+ * @ctx: The HID-BPF context
-+ *
-+ * @return 0 on success and keep processing; a positive value to change the
-+ * incoming size buffer; a negative error code to interrupt the processing
-+ * of this event
-+ *
-+ * Declare an %fmod_ret tracing bpf program to this function and attach this
-+ * program through hid_bpf_attach_prog() to have this helper called before any
-+ * parsing of the report descriptor by HID.
-+ */
-+/* never used by the kernel but declared so we can load and attach a tracepoint */
-+__weak noinline int hid_bpf_rdesc_fixup(struct hid_bpf_ctx *ctx)
-+{
-+	return 0;
-+}
-+ALLOW_ERROR_INJECTION(hid_bpf_rdesc_fixup, ERRNO);
-+
-+u8 *call_hid_bpf_rdesc_fixup(struct hid_device *hdev, u8 *rdesc, unsigned int *size)
-+{
-+	int ret;
-+	struct hid_bpf_ctx_kern ctx_kern = {
-+		.ctx = {
-+			.hid = hdev,
-+			.size = *size,
-+			.allocated_size = HID_MAX_DESCRIPTOR_SIZE,
-+		},
-+	};
-+
-+	ctx_kern.data = kmemdup(rdesc, ctx_kern.ctx.allocated_size, GFP_KERNEL);
-+	if (!ctx_kern.data)
-+		goto ignore_bpf;
-+
-+	ret = hid_bpf_prog_run(hdev, HID_BPF_PROG_TYPE_RDESC_FIXUP, &ctx_kern);
-+	if (ret < 0)
-+		goto ignore_bpf;
-+
-+	if (ret) {
-+		if (ret > ctx_kern.ctx.allocated_size)
-+			goto ignore_bpf;
-+
-+		*size = ret;
-+	}
-+
-+	rdesc = krealloc(ctx_kern.data, *size, GFP_KERNEL);
-+
-+	return rdesc;
-+
-+ ignore_bpf:
-+	kfree(ctx_kern.data);
-+	return kmemdup(rdesc, *size, GFP_KERNEL);
-+}
-+EXPORT_SYMBOL_GPL(call_hid_bpf_rdesc_fixup);
-+
- /**
-  * hid_bpf_get_data - Get the kernel memory pointer associated with the context @ctx
-  *
-@@ -176,6 +233,14 @@ static int hid_bpf_allocate_event_data(struct hid_device *hdev)
- 	return __hid_bpf_allocate_data(hdev, &hdev->bpf.device_data, &hdev->bpf.allocated_data);
- }
+-LSKELS := kfunc_call_test.c fentry_test.c fexit_test.c fexit_sleep.c \
++LSKELS := fentry_test.c fexit_test.c fexit_sleep.c \
+ 	test_ringbuf.c atomics.c trace_printk.c trace_vprintk.c \
+ 	map_ptr_kern.c core_kern.c core_kern_overflow.c
+ # Generate both light skeleton and libbpf skeleton for these
+diff --git a/tools/testing/selftests/bpf/prog_tests/kfunc_call.c b/tools/testing/selftests/bpf/prog_tests/kfunc_call.c
+index eede7c304f86..21e347f46c93 100644
+--- a/tools/testing/selftests/bpf/prog_tests/kfunc_call.c
++++ b/tools/testing/selftests/bpf/prog_tests/kfunc_call.c
+@@ -2,16 +2,28 @@
+ /* Copyright (c) 2021 Facebook */
+ #include <test_progs.h>
+ #include <network_helpers.h>
+-#include "kfunc_call_test.lskel.h"
++#include "kfunc_call_test.skel.h"
+ #include "kfunc_call_test_subprog.skel.h"
+ #include "kfunc_call_test_subprog.lskel.h"
+ #include "kfunc_call_destructive.skel.h"
  
-+int hid_bpf_reconnect(struct hid_device *hdev)
-+{
-+	if (!test_and_set_bit(ffs(HID_STAT_REPROBED), &hdev->status))
-+		return device_reprobe(&hdev->dev);
+ #include "cap_helpers.h"
+ 
+-static void test_main(void)
++struct kfunc_test_params {
++	const char *prog_name;
++	int retval;
++};
 +
-+	return 0;
-+}
++static struct kfunc_test_params kfunc_tests[] = {
++	{"kfunc_call_test1", 12},
++	{"kfunc_call_test2", 3},
++	{"kfunc_call_test_ref_btf_id", 0},
++};
 +
- /**
-  * hid_bpf_attach_prog - Attach the given @prog_fd to the given HID device
-  *
-@@ -217,7 +282,17 @@ hid_bpf_attach_prog(unsigned int hid_id, int prog_fd, __u32 flags)
- 			return err;
- 	}
- 
--	return __hid_bpf_attach_prog(hdev, prog_type, prog_fd, flags);
-+	err = __hid_bpf_attach_prog(hdev, prog_type, prog_fd, flags);
-+	if (err)
-+		return err;
-+
-+	if (prog_type == HID_BPF_PROG_TYPE_RDESC_FIXUP) {
-+		err = hid_bpf_reconnect(hdev);
-+		if (err)
-+			return err;
-+	}
-+
-+	return 0;
- }
- 
- /**
-diff --git a/drivers/hid/bpf/hid_bpf_dispatch.h b/drivers/hid/bpf/hid_bpf_dispatch.h
-index 98c378e18b2b..1d1d5bcccbd7 100644
---- a/drivers/hid/bpf/hid_bpf_dispatch.h
-+++ b/drivers/hid/bpf/hid_bpf_dispatch.h
-@@ -18,6 +18,7 @@ int __hid_bpf_attach_prog(struct hid_device *hdev, enum hid_bpf_prog_type prog_t
- void __hid_bpf_destroy_device(struct hid_device *hdev);
- int hid_bpf_prog_run(struct hid_device *hdev, enum hid_bpf_prog_type type,
- 		     struct hid_bpf_ctx_kern *ctx_kern);
-+int hid_bpf_reconnect(struct hid_device *hdev);
- 
- struct bpf_prog;
- 
-diff --git a/drivers/hid/bpf/hid_bpf_jmp_table.c b/drivers/hid/bpf/hid_bpf_jmp_table.c
-index 0f20deab81ff..3a5ab70d1a95 100644
---- a/drivers/hid/bpf/hid_bpf_jmp_table.c
-+++ b/drivers/hid/bpf/hid_bpf_jmp_table.c
-@@ -59,12 +59,15 @@ static DECLARE_WORK(release_work, hid_bpf_release_progs);
- 
- BTF_ID_LIST(hid_bpf_btf_ids)
- BTF_ID(func, hid_bpf_device_event)			/* HID_BPF_PROG_TYPE_DEVICE_EVENT */
-+BTF_ID(func, hid_bpf_rdesc_fixup)			/* HID_BPF_PROG_TYPE_RDESC_FIXUP */
- 
- static int hid_bpf_max_programs(enum hid_bpf_prog_type type)
++static void verify_success(struct kfunc_test_params *param)
  {
- 	switch (type) {
- 	case HID_BPF_PROG_TYPE_DEVICE_EVENT:
- 		return HID_BPF_MAX_PROGS_PER_DEV;
-+	case HID_BPF_PROG_TYPE_RDESC_FIXUP:
-+		return 1;
- 	default:
- 		return -EINVAL;
- 	}
-@@ -234,6 +237,10 @@ static void hid_bpf_release_progs(struct work_struct *work)
- 				if (next->hdev == hdev && next->type == type)
- 					next->hdev = NULL;
- 			}
+-	struct kfunc_call_test_lskel *skel;
++	struct kfunc_call_test *skel;
++	struct bpf_program *prog;
+ 	int prog_fd, err;
+ 	LIBBPF_OPTS(bpf_test_run_opts, topts,
+ 		.data_in = &pkt_v4,
+@@ -19,26 +31,35 @@ static void test_main(void)
+ 		.repeat = 1,
+ 	);
+ 
+-	skel = kfunc_call_test_lskel__open_and_load();
++	skel = kfunc_call_test__open_and_load();
+ 	if (!ASSERT_OK_PTR(skel, "skel"))
+ 		return;
+ 
+-	prog_fd = skel->progs.kfunc_call_test1.prog_fd;
+-	err = bpf_prog_test_run_opts(prog_fd, &topts);
+-	ASSERT_OK(err, "bpf_prog_test_run(test1)");
+-	ASSERT_EQ(topts.retval, 12, "test1-retval");
++	prog = bpf_object__find_program_by_name(skel->obj, param->prog_name);
++	if (!ASSERT_OK_PTR(prog, "bpf_object__find_program_by_name"))
++		goto cleanup;
+ 
+-	prog_fd = skel->progs.kfunc_call_test2.prog_fd;
++	prog_fd = bpf_program__fd(prog);
+ 	err = bpf_prog_test_run_opts(prog_fd, &topts);
+-	ASSERT_OK(err, "bpf_prog_test_run(test2)");
+-	ASSERT_EQ(topts.retval, 3, "test2-retval");
++	if (!ASSERT_OK(err, param->prog_name))
++		goto cleanup;
+ 
+-	prog_fd = skel->progs.kfunc_call_test_ref_btf_id.prog_fd;
+-	err = bpf_prog_test_run_opts(prog_fd, &topts);
+-	ASSERT_OK(err, "bpf_prog_test_run(test_ref_btf_id)");
+-	ASSERT_EQ(topts.retval, 0, "test_ref_btf_id-retval");
++	ASSERT_EQ(topts.retval, param->retval, "retval");
 +
-+			/* if type was rdesc fixup, reconnect device */
-+			if (type == HID_BPF_PROG_TYPE_RDESC_FIXUP)
-+				hid_bpf_reconnect(hdev);
- 		}
- 	}
- 
-diff --git a/drivers/hid/hid-core.c b/drivers/hid/hid-core.c
-index 9d86f6fb5a45..af67a527e0b1 100644
---- a/drivers/hid/hid-core.c
-+++ b/drivers/hid/hid-core.c
-@@ -1218,7 +1218,8 @@ int hid_open_report(struct hid_device *device)
- 		return -ENODEV;
- 	size = device->dev_rsize;
- 
--	buf = kmemdup(start, size, GFP_KERNEL);
-+	/* call_hid_bpf_rdesc_fixup() ensures we work on a copy of rdesc */
-+	buf = call_hid_bpf_rdesc_fixup(device, start, &size);
- 	if (buf == NULL)
- 		return -ENOMEM;
- 
-diff --git a/include/linux/hid_bpf.h b/include/linux/hid_bpf.h
-index ef76894f7705..2fad6bb489ca 100644
---- a/include/linux/hid_bpf.h
-+++ b/include/linux/hid_bpf.h
-@@ -59,6 +59,7 @@ struct hid_bpf_ctx {
- 
- /* Following functions are tracepoints that BPF programs can attach to */
- int hid_bpf_device_event(struct hid_bpf_ctx *ctx);
-+int hid_bpf_rdesc_fixup(struct hid_bpf_ctx *ctx);
- 
- /* Following functions are kfunc that we export to BPF programs */
- /* available everywhere in HID-BPF */
-@@ -85,6 +86,7 @@ int __hid_bpf_tail_call(struct hid_bpf_ctx *ctx);
- enum hid_bpf_prog_type {
- 	HID_BPF_PROG_TYPE_UNDEF = -1,
- 	HID_BPF_PROG_TYPE_DEVICE_EVENT,			/* an event is emitted from the device */
-+	HID_BPF_PROG_TYPE_RDESC_FIXUP,
- 	HID_BPF_PROG_TYPE_MAX,
- };
- 
-@@ -128,6 +130,7 @@ int hid_bpf_connect_device(struct hid_device *hdev);
- void hid_bpf_disconnect_device(struct hid_device *hdev);
- void hid_bpf_destroy_device(struct hid_device *hid);
- void hid_bpf_device_init(struct hid_device *hid);
-+u8 *call_hid_bpf_rdesc_fixup(struct hid_device *hdev, u8 *rdesc, unsigned int *size);
- #else /* CONFIG_HID_BPF */
- static inline u8 *dispatch_hid_bpf_device_event(struct hid_device *hid, enum hid_report_type type, u8 *data,
- 						u32 *size, int interrupt) { return 0; }
-@@ -135,6 +138,11 @@ static inline int hid_bpf_connect_device(struct hid_device *hdev) { return 0; }
- static inline void hid_bpf_disconnect_device(struct hid_device *hdev) {}
- static inline void hid_bpf_destroy_device(struct hid_device *hid) {}
- static inline void hid_bpf_device_init(struct hid_device *hid) {}
-+static inline u8 *call_hid_bpf_rdesc_fixup(struct hid_device *hdev, u8 *rdesc, unsigned int *size)
-+{
-+	return kmemdup(rdesc, *size, GFP_KERNEL);
++cleanup:
++	kfunc_call_test__destroy(skel);
 +}
 +
- #endif /* CONFIG_HID_BPF */
++static void test_main(void)
++{
++	int i;
++
++	for (i = 0; i < ARRAY_SIZE(kfunc_tests); i++) {
++		if (!test__start_subtest(kfunc_tests[i].prog_name))
++			continue;
  
- #endif /* __HID_BPF_H */
+-	kfunc_call_test_lskel__destroy(skel);
++		verify_success(&kfunc_tests[i]);
++	}
+ }
+ 
+ static void test_subprog(void)
+@@ -121,8 +142,7 @@ static void test_destructive(void)
+ 
+ void test_kfunc_call(void)
+ {
+-	if (test__start_subtest("main"))
+-		test_main();
++	test_main();
+ 
+ 	if (test__start_subtest("subprog"))
+ 		test_subprog();
 -- 
 2.36.1
 
