@@ -2,248 +2,86 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 870DDC001B5
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Sep 2022 15:52:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 15230ECAAD5
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Sep 2022 16:11:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237137AbiIBPwQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 2 Sep 2022 11:52:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59358 "EHLO
+        id S237175AbiIBQL4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 2 Sep 2022 12:11:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58822 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237148AbiIBPv7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Sep 2022 11:51:59 -0400
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79F1B5D0D1;
-        Fri,  2 Sep 2022 08:43:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1662133381; x=1693669381;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version:content-transfer-encoding;
-  bh=LOXSAYrWSIIaBywrC/lBKnhNNi0w24u7+batpcmQSJE=;
-  b=H6MTZguxvJFXUY2ogVUaIFosP/jNXFabyiqIUTEC796SqgNm9O/Ur/UQ
-   FHEQF+lN3gXBdEeD/T/E4PU65F3D07BQysUu6FGgFgYMgTsB1bzIFImQB
-   5TZ0zRvMhvfrmJwgoBJai/0glgYOpUgAiWHiBM2QqmszSoUmp7yXRM3fI
-   Q+NqFw9JMhn6/QEM0iJKPMAbtqdcXuVuh4bGPCueTh9pTNZ892/DaIQSF
-   HvRFRuRVSVbi5iyygb1omVl9KLJblQyyqwp3Bx4WnBhlUG8MVzXIktC22
-   LuaswKnpv1UfkLZ8hzCVPTxtnRfcmAErANlt4Hwt8LFKzzH1Xdd6JDqoy
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10458"; a="294745370"
-X-IronPort-AV: E=Sophos;i="5.93,283,1654585200"; 
-   d="scan'208";a="294745370"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2022 08:42:49 -0700
-X-IronPort-AV: E=Sophos;i="5.93,283,1654585200"; 
-   d="scan'208";a="674396460"
-Received: from svandene-mobl.ger.corp.intel.com (HELO localhost) ([10.252.55.245])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2022 08:42:47 -0700
-From:   Jani Nikula <jani.nikula@linux.intel.com>
-To:     Donald Hunter <donald.hunter@gmail.com>, bpf@vger.kernel.org,
-        linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Andrii Nakryiko <andrii.nakryiko@gmail.com>
-Cc:     Donald Hunter <donald.hunter@gmail.com>
-Subject: Re: [PATCH bpf-next v3 2/2] Add table of BPF program types to
- libbpf docs
-In-Reply-To: <20220829091500.24115-3-donald.hunter@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20220829091500.24115-1-donald.hunter@gmail.com>
- <20220829091500.24115-3-donald.hunter@gmail.com>
-Date:   Fri, 02 Sep 2022 18:42:35 +0300
-Message-ID: <875yi5dbpw.fsf@intel.com>
+        with ESMTP id S236676AbiIBQLU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Sep 2022 12:11:20 -0400
+Received: from mail-oa1-x2d.google.com (mail-oa1-x2d.google.com [IPv6:2001:4860:4864:20::2d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CAC42D83FF
+        for <linux-doc@vger.kernel.org>; Fri,  2 Sep 2022 09:05:37 -0700 (PDT)
+Received: by mail-oa1-x2d.google.com with SMTP id 586e51a60fabf-1225219ee46so5833559fac.2
+        for <linux-doc@vger.kernel.org>; Fri, 02 Sep 2022 09:05:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date;
+        bh=8dCdssbHxdmRg9kpNW1ckRyuV7LDGfaqP/6/uKsyA1k=;
+        b=fH+pptMq+fzJaMfs68XlpqPxyFpFVU5P+jgfcIrvSKlqXkGr2og+zut6xQy1B8HKtT
+         FlknUkaqp8FLsUPDCaZcJJSWNR98iC9ADZFCL+hlNCmWQqcippLqfqQC9MBXs1UWOpT2
+         qJpVMLKofbgE37SZf8SHZM4txDIxvQHAbuc6A=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date;
+        bh=8dCdssbHxdmRg9kpNW1ckRyuV7LDGfaqP/6/uKsyA1k=;
+        b=Fa2KkgJP8Q1pkVgMr1ziM+zBPjzCjAd6f5LpKhUXUatL6cZDaS89RBrauwCY44bYLi
+         5XNxSj76gjMXMSx4hgsSXclLDvCEhN5DtdEp2VblR0FMo/iVQ7nzKjgfrN973M5QXCLs
+         uvsGm22fsPWsN3txNZ3lEg4GvjvS7wK2R7g4RlxJb0q6/OJ9FX8/Tlf0Zogn0OQPNc6K
+         ostkadDmHF6As7eKpWCLqCcWfVUzZ7mjgJznigMLbVRko1XxI5RTgC9EQHkDHsOL5EJL
+         MR7LVbZ3+rfHxZVo04U4dslN0lcNnJ9y8aIjSwN/BPu+mxQiXNj7BAQDSCKhc26TyGLH
+         R7+A==
+X-Gm-Message-State: ACgBeo1UTYhnzxzIEzCGy5RNo53agPPbIg7DlNCJ2DR0r0E7GURwsfMm
+        ruL/eGd56yJjhcza6HQ6wGYxnA==
+X-Google-Smtp-Source: AA6agR66E1bSPsaHYaDn0YGw+zMoKwav/GR23CH3g9BlJpDKjnsPtKUuIGRmWLldPjfWxdVoiI3ggw==
+X-Received: by 2002:a05:6870:a7a5:b0:125:76da:1bc1 with SMTP id x37-20020a056870a7a500b0012576da1bc1mr81319oao.272.1662134737084;
+        Fri, 02 Sep 2022 09:05:37 -0700 (PDT)
+Received: from [192.168.1.128] ([38.15.45.1])
+        by smtp.gmail.com with ESMTPSA id x5-20020a9d4585000000b0063711d42df5sm1196165ote.30.2022.09.02.09.05.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 02 Sep 2022 09:05:36 -0700 (PDT)
+Message-ID: <270dc10d-bc25-0b88-7eaf-b97fb68fc010@linuxfoundation.org>
+Date:   Fri, 2 Sep 2022 10:05:34 -0600
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH] docs: update mediator information in CoC docs
+Content-Language: en-US
+To:     Bagas Sanjaya <bagasdotme@gmail.com>, gregkh@linuxfoundation.org,
+        corbet@lwn.net
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        joanna.lee@gesmer.com, Shuah Khan <skhan@linuxfoundation.org>
+References: <20220901212319.56644-1-skhan@linuxfoundation.org>
+ <110faf8f-2578-67f3-741c-02182b485769@gmail.com>
+From:   Shuah Khan <skhan@linuxfoundation.org>
+In-Reply-To: <110faf8f-2578-67f3-741c-02182b485769@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 29 Aug 2022, Donald Hunter <donald.hunter@gmail.com> wrote:
-> Extend the libbpf documentation with a table of program types,
-> attach points and ELF section names. This table uses data from
-> program_types.csv which is generated from tools/lib/bpf/libbpf.c
-> during the documentation build.
+On 9/2/22 01:57, Bagas Sanjaya wrote:
+> On 9/2/22 04:23, Shuah Khan wrote:
+>> @@ -51,7 +51,7 @@ the Technical Advisory Board (TAB) or other maintainers if you're
+>>   uncertain how to handle situations that come up.  It will not be
+>>   considered a violation report unless you want it to be.  If you are
+>>   uncertain about approaching the TAB or any other maintainers, please
+>> -reach out to our conflict mediator, Mishi Choudhary <mishi@linux.com>.
+>> +reach out to our conflict mediator, Joanna Lee <joanna.lee@gesmer.com>.
+>>   
+> 
+> Why had Mishi be replaced with Joanna?
+> 
 
-Oh, would be nice to turn all of these into proper but simple Sphinx
-extensions that take the deps into account in the Sphinx build
-process. And, of course, would be pure python instead of a combo of
-Make, shell, and awk.
+Mishi is unable to continue to serve on the committee due
+to her current commitments.
 
-That's one of the reasons we chose Sphinx originally, to be able to
-write Sphinx extensions and avoid complicated pipelines.
-
-BR,
-Jani.
-
-
->
-> Signed-off-by: Donald Hunter <donald.hunter@gmail.com>
-> ---
->  Documentation/Makefile                     |  3 +-
->  Documentation/bpf/libbpf/Makefile          | 49 ++++++++++++++++++++++
->  Documentation/bpf/libbpf/index.rst         |  3 ++
->  Documentation/bpf/libbpf/program_types.rst | 32 ++++++++++++++
->  Documentation/bpf/programs.rst             |  3 ++
->  5 files changed, 89 insertions(+), 1 deletion(-)
->  create mode 100644 Documentation/bpf/libbpf/Makefile
->  create mode 100644 Documentation/bpf/libbpf/program_types.rst
->
-> diff --git a/Documentation/Makefile b/Documentation/Makefile
-> index 8a63ef2dcd1c..f007314770e1 100644
-> --- a/Documentation/Makefile
-> +++ b/Documentation/Makefile
-> @@ -66,7 +66,8 @@ I18NSPHINXOPTS  =3D $(PAPEROPT_$(PAPER)) $(SPHINXOPTS) .
->  loop_cmd =3D $(echo-cmd) $(cmd_$(1)) || exit;
->=20=20
->  BUILD_SUBDIRS =3D \
-> -	Documentation/userspace-api/media
-> +	Documentation/userspace-api/media \
-> +	Documentation/bpf/libbpf
->=20=20
->  quiet_cmd_build_subdir =3D SUBDIR  $2
->        cmd_build_subdir =3D $(MAKE) BUILDDIR=3D$(abspath $(BUILDDIR)) $(b=
-uild)=3D$2 $3
-> diff --git a/Documentation/bpf/libbpf/Makefile b/Documentation/bpf/libbpf=
-/Makefile
-> new file mode 100644
-> index 000000000000..b3dc096c4a96
-> --- /dev/null
-> +++ b/Documentation/bpf/libbpf/Makefile
-> @@ -0,0 +1,49 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +#
-> +# Rules to convert BPF program types in tools/lib/bpf/libbpf.c
-> +# into a .csv file
-> +
-> +FILES =3D program_types.csv
-> +
-> +TARGETS :=3D $(addprefix $(BUILDDIR)/, $(FILES))
-> +
-> +# Extract program types and properties from the section definitions in l=
-ibbpf.c such as
-> +# SEC_DEF("socket", SOCKET_FILTER, 0, SEC_NONE) to generate program_type=
-s.csv
-> +#
-> +# Here is a sample of the generated output that includes .rst formatting:
-> +#
-> +#  Program Type,Attach Type,ELF Section Name,Sleepable
-> +#  ``BPF_PROG_TYPE_SOCKET_FILTER``,,``socket``,
-> +#  ``BPF_PROG_TYPE_SK_REUSEPORT``,``BPF_SK_REUSEPORT_SELECT_OR_MIGRATE``=
-,``sk_reuseport/migrate``,
-> +#  ``BPF_PROG_TYPE_SK_REUSEPORT``,``BPF_SK_REUSEPORT_SELECT``,``sk_reuse=
-port``,
-> +#  ``BPF_PROG_TYPE_KPROBE``,,``kprobe+``,
-> +#  ``BPF_PROG_TYPE_KPROBE``,,``uprobe+``,
-> +#  ``BPF_PROG_TYPE_KPROBE``,,``uprobe.s+``,Yes
-> +
-> +$(BUILDDIR)/program_types.csv:	$(srctree)/tools/lib/bpf/libbpf.c
-> +	$(Q)awk -F'[",[:space:]]+' \
-> +	'BEGIN { print "Program Type,Attach Type,ELF Section Name,Sleepable" } \
-> +	/SEC_DEF\(\"/ && !/SEC_DEPRECATED/ { \
-> +	type =3D "``BPF_PROG_TYPE_" $$4 "``"; \
-> +	attach =3D index($$5, "0") ? "" : "``" $$5 "``"; \
-> +	section =3D "``" $$3 "``"; \
-> +	sleepable =3D index($$0, "SEC_SLEEPABLE") ? "Yes" : ""; \
-> +	print type "," attach "," section "," sleepable }' \
-> +	$< > $@
-> +
-> +.PHONY: all html epub xml latex linkcheck clean
-> +
-> +all: $(BUILDDIR) ${TARGETS}
-> +	@:
-> +
-> +html: all
-> +epub: all
-> +xml: all
-> +latex: all
-> +linkcheck:
-> +
-> +clean:
-> +	-$(Q)rm -f ${TARGETS} 2>/dev/null
-> +
-> +$(BUILDDIR):
-> +	$(Q)mkdir -p $@
-> diff --git a/Documentation/bpf/libbpf/index.rst b/Documentation/bpf/libbp=
-f/index.rst
-> index 3722537d1384..f9b3b252e28f 100644
-> --- a/Documentation/bpf/libbpf/index.rst
-> +++ b/Documentation/bpf/libbpf/index.rst
-> @@ -1,5 +1,7 @@
->  .. SPDX-License-Identifier: (LGPL-2.1 OR BSD-2-Clause)
->=20=20
-> +.. _libbpf:
-> +
->  libbpf
->  =3D=3D=3D=3D=3D=3D
->=20=20
-> @@ -7,6 +9,7 @@ libbpf
->     :maxdepth: 1
->=20=20
->     API Documentation <https://libbpf.readthedocs.io/en/latest/api.html>
-> +   program_types
->     libbpf_naming_convention
->     libbpf_build
->=20=20
-> diff --git a/Documentation/bpf/libbpf/program_types.rst b/Documentation/b=
-pf/libbpf/program_types.rst
-> new file mode 100644
-> index 000000000000..04fbb48b8a6a
-> --- /dev/null
-> +++ b/Documentation/bpf/libbpf/program_types.rst
-> @@ -0,0 +1,32 @@
-> +.. SPDX-License-Identifier: (LGPL-2.1 OR BSD-2-Clause)
-> +
-> +.. _program_types_and_elf:
-> +
-> +Program Types and ELF Sections
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D
-> +
-> +The table below lists the program types, their attach types where releva=
-nt and the ELF section
-> +names supported by libbpf for them. The ELF section names follow these r=
-ules:
-> +
-> +- ``type`` is an exact match, e.g. ``SEC("socket")``
-> +- ``type+`` means it can be either exact ``SEC("type")`` or well-formed =
-``SEC("type/extras")``
-> +  with a =E2=80=98``/``=E2=80=99 separator between ``type`` and ``extras=
-``.
-> +
-> +When ``extras`` are specified, they provide details of how to auto-attac=
-h the BPF program.
-> +The format of ``extras`` depends on the program type, e.g. ``SEC("tracep=
-oint/<category>/<name>")``
-> +for tracepoints or ``SEC("usdt/<path-to-binary>:<usdt_provider>:<usdt_na=
-me>")`` for USDT probes.
-> +
-> +..
-> +  program_types.csv is generated from tools/lib/bpf/libbpf.c and is foma=
-tted like this:
-> +    Program Type,Attach Type,ELF Section Name,Sleepable
-> +    ``BPF_PROG_TYPE_SOCKET_FILTER``,,``socket``,
-> +    ``BPF_PROG_TYPE_SK_REUSEPORT``,``BPF_SK_REUSEPORT_SELECT_OR_MIGRATE`=
-`,``sk_reuseport/migrate``,
-> +    ``BPF_PROG_TYPE_SK_REUSEPORT``,``BPF_SK_REUSEPORT_SELECT``,``sk_reus=
-eport``,
-> +    ``BPF_PROG_TYPE_KPROBE``,,``kprobe+``,
-> +    ``BPF_PROG_TYPE_KPROBE``,,``uprobe+``,
-> +    ``BPF_PROG_TYPE_KPROBE``,,``uprobe.s+``,Yes
-> +
-> +.. csv-table:: Program Types and Their ELF Section Names
-> +   :file: ../../output/program_types.csv
-> +   :widths: 40 30 20 10
-> +   :header-rows: 1
-> diff --git a/Documentation/bpf/programs.rst b/Documentation/bpf/programs.=
-rst
-> index 620eb667ac7a..c99000ab6d9b 100644
-> --- a/Documentation/bpf/programs.rst
-> +++ b/Documentation/bpf/programs.rst
-> @@ -7,3 +7,6 @@ Program Types
->     :glob:
->=20=20
->     prog_*
-> +
-> +For a list of all program types, see :ref:`program_types_and_elf` in
-> +the :ref:`libbpf` documentation.
-
---=20
-Jani Nikula, Intel Open Source Graphics Center
+thanks,
+-- Shuah
