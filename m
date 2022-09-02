@@ -2,179 +2,120 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2345AECAAD2
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Sep 2022 01:29:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1DE36ECAAD2
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Sep 2022 01:53:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235193AbiIBB3N (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 1 Sep 2022 21:29:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43506 "EHLO
+        id S231438AbiIBBxm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 1 Sep 2022 21:53:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52842 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234693AbiIBB3J (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Sep 2022 21:29:09 -0400
-Received: from mail-vs1-xe33.google.com (mail-vs1-xe33.google.com [IPv6:2607:f8b0:4864:20::e33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76E579351F
-        for <linux-doc@vger.kernel.org>; Thu,  1 Sep 2022 18:29:08 -0700 (PDT)
-Received: by mail-vs1-xe33.google.com with SMTP id n125so657528vsc.5
-        for <linux-doc@vger.kernel.org>; Thu, 01 Sep 2022 18:29:08 -0700 (PDT)
+        with ESMTP id S230091AbiIBBxl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Sep 2022 21:53:41 -0400
+Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com [IPv6:2607:f8b0:4864:20::52c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D05EA927A;
+        Thu,  1 Sep 2022 18:53:40 -0700 (PDT)
+Received: by mail-pg1-x52c.google.com with SMTP id s206so723263pgs.3;
+        Thu, 01 Sep 2022 18:53:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date;
-        bh=S/fTF/4dM/pEqTpy2bm0bAwsPgRgvgo33NrrNtuAix8=;
-        b=drzeCFI6C3D4GkZ2WMTCU8o1/1IhLN/qaofev4e6fi1mIufwzBZlDMul7pVTnFowrj
-         UckddCVK33VtTWFTYgSwggcc35E+H7akCFrt9aaUc+lQxJdtPiXUuUrFpYBqX8whJFLb
-         maD1mApMxPqykVUQY8do9X2znhlNAa8zwt8fqeqCHOMVM2U4Lclb9fGQz7L2MFxi6a/X
-         GAjAqGed8QjLRpy9QHJoiiouQPeURRiKw4HyoZ1wrnLam2rEtSyGqPqRP92Js5aUIZV+
-         TR+++JpoQg+gEp4AScIH3ekOAcuqFdJ3sGEG67PWwlb6Flin6pQOiyjE829Zn852Pf+l
-         XUKw==
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date;
+        bh=AO+iD8/ND+0+YgmXrFc7bXRlSy/yl/dmt5F+NlX7ri0=;
+        b=op8Taa6drdciJKjFm46xGztxaYxY6UY11Y7IBFgfd/2C+pbRhmFlz8EH48Lnh1qa9p
+         KVxI2NAXssheZNNVVEHBRxoIPc0QPTyfZZmccm4rn+ZmVl8XbyKZJIlk2IunXL6EjflQ
+         uPQ1owHyBpNIqa/h5GCi9lwOtiEF1Dxwt08TQtKFHcyNP5223g25IyynhgBFzvTBi8tB
+         YwClvnCGR7UUgPpJuSslqwXNPXDQf0UO2OTR1PJyhPerz02SM5bbmENgQa0R0Yw18R1D
+         FQ/YSKFciCu8nCxwtqf8imOiPpxGDLP3C17kAMGCcG0iB0uFzO/JTu8nMsGEZMMjCsHk
+         Gf5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date;
-        bh=S/fTF/4dM/pEqTpy2bm0bAwsPgRgvgo33NrrNtuAix8=;
-        b=trwWRHOk44PyCy0wNJI5R8iOIQYZbjS/HfQC+stWUnqP0egnCh1hSKZXhfFnOhQtP1
-         8y2C1RCwxA+mhdCzldOSBOu5tVqPYzP60E52pBDpWrUF+5j9qP/MXNQHf14M1CRCVBJh
-         mA/q2HRvDKxjmUnchCraIan3l+CVWWG7JGInOprUH20QVA9LUilhlO5ubRKinDgkrKvN
-         oL5L/7FoVV9fw421odeRSGJVw01y96HvoQofeF9nNX3YMz6Dr8M2GJvbxydVTiu/Az4G
-         NtzrOiUGDZGsnCWOUDAquGWz7ip01qYZ7MCa/NmjsTU0Z55ZlLz9esendJL1MMuN2RFM
-         HNJg==
-X-Gm-Message-State: ACgBeo3a5MYLtuE2/QP9yCOpJl0kexfhWGRkgQP2e+1NeMQCnLfcv+wy
-        3ZGAO5Aw1p5Jp1zBwa71iXzLl1Z/88sGX78c36UfLw==
-X-Google-Smtp-Source: AA6agR4+ZFKFADL/9cwQOj7+rGh6g92ApnvKD8hhwNx3e9lydmKFAO6gZ8jfP/eZABigIsOdyeih9cEJv0DekXvb/JQ=
-X-Received: by 2002:a67:f909:0:b0:390:e960:7f5a with SMTP id
- t9-20020a67f909000000b00390e9607f5amr7264884vsq.50.1662082147436; Thu, 01 Sep
- 2022 18:29:07 -0700 (PDT)
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date;
+        bh=AO+iD8/ND+0+YgmXrFc7bXRlSy/yl/dmt5F+NlX7ri0=;
+        b=YpXjZ10F3Fha0oOyav4J86sWMeOTe2h2UPaP+BSsDsbV595VJX920cfZppqy888Ipl
+         RiU/i/lXlOhw/vHavApCsCKyMB9ItyznlQyTL2nvMvdBZ/B2JL3KFMYevGf/QptTc+UU
+         FkxcQENWuc9E16u+iQo2xnGjplwLUvNdPEmdM4QZ5+h5fteF73niebDbCbWurgmS7aGf
+         OH7h7jjXPFCnfP11RnSktOuhY+bGWqhdy7Or0s6NETSLtvzXJj6ROWmkyyahybhxnCGz
+         rmPbtBbV57JgOOizq+Q8mWKE2SW7m2h8yD4wQtCfGO2IyjPVYLVGVpdajvdiqL6vXJCp
+         I8pQ==
+X-Gm-Message-State: ACgBeo3KsVAZCJqIBNZymlRt60GeEQkf9UtlaqcY2cX5ec8nX64zpPRM
+        PD/rJ/dlwO37yNPLEJYXuvQ=
+X-Google-Smtp-Source: AA6agR55VB8kobBINExhpqw6xUyQgHx5tu5ajEBmpC+2oGJQSX7q6Q+GJVQkNw2f21a3Zb1yKew05w==
+X-Received: by 2002:a62:b614:0:b0:537:6d2:85e0 with SMTP id j20-20020a62b614000000b0053706d285e0mr33826053pff.40.1662083619775;
+        Thu, 01 Sep 2022 18:53:39 -0700 (PDT)
+Received: from [192.168.43.80] (subs28-116-206-12-57.three.co.id. [116.206.12.57])
+        by smtp.gmail.com with ESMTPSA id n10-20020a170902d2ca00b001755ac7dd0asm232158plc.290.2022.09.01.18.53.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 01 Sep 2022 18:53:39 -0700 (PDT)
+Message-ID: <88e8b096-aa04-2447-cb21-a83b5e57e963@gmail.com>
+Date:   Fri, 2 Sep 2022 08:53:34 +0700
 MIME-Version: 1.0
-References: <20220815071332.627393-1-yuzhao@google.com> <20220815071332.627393-8-yuzhao@google.com>
- <0F7CF2A7-F671-4196-B8FD-F35E9556391B@gmail.com> <CAOUHufZ6LGyBoPBkniB63-77r5=1POWpEWmUTESFtJo2bwbi-w@mail.gmail.com>
-In-Reply-To: <CAOUHufZ6LGyBoPBkniB63-77r5=1POWpEWmUTESFtJo2bwbi-w@mail.gmail.com>
-From:   Yu Zhao <yuzhao@google.com>
-Date:   Thu, 1 Sep 2022 19:28:31 -0600
-Message-ID: <CAOUHufa+WpwP5NENgQ5jqgsVwqvK8vaayyJ4hT5071y=+ZYF6A@mail.gmail.com>
-Subject: Re: [PATCH v14 07/14] mm: multi-gen LRU: exploit locality in rmap
-To:     Nadav Amit <nadav.amit@gmail.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Andi Kleen <ak@linux.intel.com>,
-        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH v2] string: Introduce strtomem() and strtomem_pad()
+Content-Language: en-US
+To:     Kees Cook <keescook@chromium.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Guenter Roeck <linux@roeck-us.net>,
         Linus Torvalds <torvalds@linux-foundation.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        Mel Gorman <mgorman@suse.de>,
-        Michael Larabel <Michael@michaellarabel.com>,
-        Michal Hocko <mhocko@kernel.org>,
-        Mike Rapoport <rppt@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Tejun Heo <tj@kernel.org>, Vlastimil Babka <vbabka@suse.cz>,
-        Will Deacon <will@kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux MM <linux-mm@kvack.org>, X86 ML <x86@kernel.org>,
-        Kernel Page Reclaim v2 <page-reclaim@google.com>,
-        Barry Song <baohua@kernel.org>,
-        Brian Geffon <bgeffon@google.com>,
-        Jan Alexander Steffens <heftig@archlinux.org>,
-        Oleksandr Natalenko <oleksandr@natalenko.name>,
-        Steven Barrett <steven@liquorix.net>,
-        Suleiman Souhlal <suleiman@google.com>,
-        Daniel Byrne <djbyrne@mtu.edu>,
-        Donald Carr <d@chaos-reins.com>,
-        =?UTF-8?Q?Holger_Hoffst=C3=A4tte?= <holger@applied-asynchrony.com>,
-        Konstantin Kharlamov <Hi-Angel@yandex.ru>,
-        Shuang Zhai <szhai2@cs.rochester.edu>,
-        Sofia Trinh <sofia.trinh@edi.works>,
-        Vaibhav Jain <vaibhav@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        Jonathan Corbet <corbet@lwn.net>,
+        Len Baker <len.baker@gmx.com>,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        Francis Laniel <laniel_francis@privacyrequired.com>,
+        Paolo Abeni <pabeni@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-hardening@vger.kernel.org
+References: <20220901190952.2229696-1-keescook@chromium.org>
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <20220901190952.2229696-1-keescook@chromium.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Sep 1, 2022 at 7:17 PM Yu Zhao <yuzhao@google.com> wrote:
->
-> On Thu, Sep 1, 2022 at 3:18 AM Nadav Amit <nadav.amit@gmail.com> wrote:
-> >
-> >
-> >
-> > > On Aug 15, 2022, at 12:13 AM, Yu Zhao <yuzhao@google.com> wrote:
-> > >
-> > > Searching the rmap for PTEs mapping each page on an LRU list (to test
-> > > and clear the accessed bit) can be expensive because pages from
-> > > different VMAs (PA space) are not cache friendly to the rmap (VA
-> > > space). For workloads mostly using mapped pages, searching the rmap
-> > > can incur the highest CPU cost in the reclaim path.
-> >
-> > Impressive work.
+On 9/2/22 02:09, Kees Cook wrote:
+> One of the "legitimate" uses of strncpy() is copying a NUL-terminated
+> string into a fixed-size non-NUL-terminated character array. To avoid
+> the weaknesses and ambiguity of intent when using strncpy(), provide
+> replacement functions that explicitly distinguish between trailing
+> padding and not, and require the destination buffer size be discoverable
+> by the compiler.
+>> For example:
+> 
+> struct obj {
+> 	int foo;
+> 	char small[4] __nonstring;
+> 	char big[8] __nonstring;
+> 	int bar;
+> };
+> 
+> struct obj p;
+> 
+> /* This will truncate to 4 chars with no trailing NUL */
+> strncpy(p.small, "hello", sizeof(p.small));
+> /* p.small contains 'h', 'e', 'l', 'l' */
+> 
+> /* This will NUL pad to 8 chars. */
+> strncpy(p.big, "hello", sizeof(p.big));
+> /* p.big contains 'h', 'e', 'l', 'l', 'o', '\0', '\0', '\0' */
+> 
+> When the "__nonstring" attributes are missing, the intent of the
+> programmer becomes ambiguous for whether the lack of a trailing NUL
+> in the p.small copy is a bug. Additionally, it's not clear whether
+> the trailing padding in the p.big copy is _needed_. Both cases
+> become unambiguous with:
+> 
+> strtomem(p.small, "hello");
+> strtomem_pad(p.big, "hello", 0);
+> 
+> See also https://github.com/KSPP/linux/issues/90
+> 
 
-Thanks.
+Should'nt strscpy() do the job?
 
-> > Sorry if my feedback is not timely.
-> >
-> > Just one minor point for thought, that can be left for a later cleanup.
-> >
-> > >
-> > > +     for (i =3D 0, addr =3D start; addr !=3D end; i++, addr +=3D PAG=
-E_SIZE) {
-> > > +             unsigned long pfn;
-> > > +
-> > > +             pfn =3D get_pte_pfn(pte[i], pvmw->vma, addr);
-> > > +             if (pfn =3D=3D -1)
-> > > +                     continue;
-> > > +
-> > > +             if (!pte_young(pte[i]))
-> > > +                     continue;
-> > > +
-> > > +             folio =3D get_pfn_folio(pfn, memcg, pgdat);
-> > > +             if (!folio)
-> > > +                     continue;
-> > > +
-> > > +             if (!ptep_test_and_clear_young(pvmw->vma, addr, pte + i=
-))
-> > > +                     continue;
-> > > +
-> >
-> > You have already checked that the PTE is old (not young) so this check
-> > seems redundant.
->
-> You are right, for x86, which belongs to category 1: hardware and
-> OS share the same paging data structure.
->
-> > I do not see a way in which the access-bit can be cleared
-> > since you hold the ptl.
->
-> There is also category 2: the OS paging data structure is a shadow of wha=
-t
-> hardware actually uses, e.g., POWER9 radix.
->
-> To make both categories work, the general rule is that the OS paging
-> data structure must be more strict, i.e., it can have A/D bits set
-> while the hardware paging data structure may not. The opposite is not
-> allowed, even for the A bit, because the A bit can also be used to
-> determine whether a TLB flush is required. The Linux kernel doesn't do
-> this but there are other OSes that do.
->
-> For prefaulted PTEs, we generally mark them young unless
-> arch_wants_old_prefaulted_pte() returns true (currently only ARMv8.2+
-> do). On POWER9, we'd see those PTEs pass the first check but fail the
-> second.
-
-Because the first check (non-atomic) is allowed to fetch from the OS
-paging data structure (which is more strict) while the second check
-(atomic) must fetch from the hardware page data structure (which does
-not have the A bit because those PTEs are preffaulted).
-
-> > IOW, there is no need for the =E2=80=9Cif" and =E2=80=9Ccontinue".
-> >
-> > Makes me also wonder whether having a separate ptep_clear_young() can
-> > slightly help, since anyhow the access-bit is more of an estimation,
-> > and having a separate ptep_clear_young() can enable optimizations.
-> >
-> > On x86, for instance, if the PTE is dirty, we may be able to clear the
-> > access-bit without an atomic operation, which should be faster.
->
-> Agreed.
+-- 
+An old man doll... just what I always wanted! - Clara
