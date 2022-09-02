@@ -2,139 +2,171 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7BD65ECAAD5
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Sep 2022 08:28:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 19E46ECAAD5
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Sep 2022 08:29:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235198AbiIBI2T (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 2 Sep 2022 04:28:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54374 "EHLO
+        id S234406AbiIBI3w (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 2 Sep 2022 04:29:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55916 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234788AbiIBI2S (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Sep 2022 04:28:18 -0400
+        with ESMTP id S232239AbiIBI3v (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Sep 2022 04:29:51 -0400
 Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38051A2DB9;
-        Fri,  2 Sep 2022 01:28:17 -0700 (PDT)
-Received: by mail-lf1-x12e.google.com with SMTP id z25so2267461lfr.2;
-        Fri, 02 Sep 2022 01:28:17 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E0B7BE7
+        for <linux-doc@vger.kernel.org>; Fri,  2 Sep 2022 01:29:46 -0700 (PDT)
+Received: by mail-lf1-x12e.google.com with SMTP id m7so2227741lfq.8
+        for <linux-doc@vger.kernel.org>; Fri, 02 Sep 2022 01:29:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date;
-        bh=opRGhrIs3n7jb7ROo4sypmxZSciZpsuGWorQ3lNduHk=;
-        b=mpnlFPTfY0jIYFG2era/324D1pL7w83PFX+gDfzRNlmBw9L97B8lJSzKMQ3F9sz8kS
-         cFFqQbvhWTkoxj//GUtD59jJw7rNECywIUFSlUj4/aI00pDCIt3VHtT2g6OV50oDaZ3Z
-         UpM4Xkzp3ciiE5MmR5K2GFS/0IlOcUU+jaxmc+kyGoDaDQAIaHecgtXMrpnAH521lfJK
-         dZpOgivEA9WEdp4ISrOJJli02/seFNND+ssxiRV9ns2CkAmh/uBX41svkx2WA7YtstWj
-         8DIaKmfgwR4L/3pMtLUr8JjEUnPlmMUT7pe7rVcUBYIC1gF0aTPuZjntWdHy+mRZz/O+
-         rGWA==
+        bh=5V84ORK4wAWwN5/gNnFBkJfnWsaLRi0Hlbjhdvbzy0M=;
+        b=PvCT/+PiWrlJWq0c6A1x7Po+9ZHH4pfuu2N8frCKyuR1vE1avr5DPNdz/r3zl5YrfJ
+         OyhsbF2DYgHwrKC/LXbzAgWWq1ZX6ZY4GbgynZg/mSyv+TwtGp16gV/WOtK0lEsHTu9b
+         TeuYtqk7B6Nlp2dQlZBPBGIMmHlso5MNlwxHRkEdW4Q9fbj+PZSe6MKwoxogkIkDBKAL
+         w0wA0nUfPiFLxCSTV3C81vux47pQpuPRESiQ83U3Wh2eVGbWSRgvP2b7VwkBeY6B5YPF
+         MMLTX7sh4o/4nBYbcw1kXBP5nBwNx0RH+rKZZDg1DIrgWl8Jxh6BMYOGiSYRFvaJHPUO
+         vXQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date;
-        bh=opRGhrIs3n7jb7ROo4sypmxZSciZpsuGWorQ3lNduHk=;
-        b=lhPxArTaP6iO8V1jNnSGebd2/uYSuDEqFAsVSk363O71OLj5JvqdDUJWH2LaJ/uyXH
-         t7H+B9HOXKmBsVo50x/sDLwgklMUKHr2fh5uYP8JHdSYip8hLhkmtzR3grKIN7GlsQgV
-         b4A6gn6dUMTyAflIPWvHWl0OB+cf/A7Ftqi1eds889uZ0IuO/k51E2YDTPEsSukclnob
-         sgeMA4kZ6hhMQm0yDOeZKzDLcqgDI6rFhdE297RGkoyBantaiG5z8dFjxYcfkDtBXanN
-         1z2zqbaRpPwY9nUxKfMdfzIY3HOu7WG7DG3xv/dJ3+1xCHoLkk9o16N2kknUR0SrJlvM
-         2/DQ==
-X-Gm-Message-State: ACgBeo188icDGBiWKAIwBwX7eCiegyDeJvv1LLaplBmKjJ4ysn8hZLiG
-        ZA1KNXHOvdlz1Ypkz2X2nTj9fcqhUYQPmZvYASo=
-X-Google-Smtp-Source: AA6agR54eq1V2yKXHNCNnLKLBW6tVZbCgT+d+saY/E6rAQL3DkTpV059eKg2GCHxqPKpXw6O6JcXLpfNhoHrM4k9Png=
-X-Received: by 2002:a19:5e01:0:b0:492:c03a:aa8e with SMTP id
- s1-20020a195e01000000b00492c03aaa8emr12996258lfb.139.1662107295496; Fri, 02
- Sep 2022 01:28:15 -0700 (PDT)
+        bh=5V84ORK4wAWwN5/gNnFBkJfnWsaLRi0Hlbjhdvbzy0M=;
+        b=lfba5avpRF9RLkL1J/jI6cY7qDnXCHWKqo+eAqmhUdMXbY12HLg0esPJO5vd9qjj+m
+         WRQRoA4ilp4tEHhuTV4J69sHipg6fUIqUKP8BqpiVIjyajhxvno+Mjzes6jIEHIF4Euc
+         TpWA1Y09aPdF+crq1gJuzZ9lcYPHldWM9xL/rC8oPJRQhqktwmIpMPAhti6/TrHdPG1Z
+         xgtgY/q4+zH/jeZJTAbVBOnOWSps9Mpb0ND74hI6ZQFqpXNHLzgmwA0vUHHnACT7O4mB
+         3/OgHu4HcBIqjf5FSoMXzusvOOxiP4EUKQEiviX4uXTrsswYJ/aEFTH7rcXZYwfR54mb
+         WNbA==
+X-Gm-Message-State: ACgBeo1Bof3Y8uY3AYrkZYVzk8wqgoPMr4jYshgrEv8G64EZShi7GPXa
+        S2rSmaljQ4d66qEbSnX9q/m5OghWfP3pD94UARw=
+X-Google-Smtp-Source: AA6agR52wYicUuR78UWeIiDaX3G6nkVDGRdiCC3cvRdWmelKJqytzdudtHfTUOmLlLk/+JKSE3Q8Svs40PBnG+Lnkh4=
+X-Received: by 2002:ac2:41c1:0:b0:494:65a7:43ef with SMTP id
+ d1-20020ac241c1000000b0049465a743efmr9161750lfi.592.1662107384845; Fri, 02
+ Sep 2022 01:29:44 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220902081304.2259706-1-zhao1.liu@linux.intel.com>
-In-Reply-To: <20220902081304.2259706-1-zhao1.liu@linux.intel.com>
+References: <cover.1662022757.git.siyanteng@loongson.cn> <0f2bfe28c1bdbc84b0085ba184675ea04f5e60b1.1662022757.git.siyanteng@loongson.cn>
+In-Reply-To: <0f2bfe28c1bdbc84b0085ba184675ea04f5e60b1.1662022757.git.siyanteng@loongson.cn>
 From:   Alex Shi <seakeel@gmail.com>
-Date:   Fri, 2 Sep 2022 16:27:39 +0800
-Message-ID: <CAJy-AmnOwM+CMu-8PaAvXfq2h==vrAX08=aJktHjUYXkjxh0FQ@mail.gmail.com>
-Subject: Re: [PATCH] Documentation/zh_CN: add latest kmap_local_page translation
-To:     Zhao Liu <zhao1.liu@linux.intel.com>
-Cc:     Alex Shi <alexs@kernel.org>, Yanteng Si <siyanteng@loongson.cn>,
+Date:   Fri, 2 Sep 2022 16:29:08 +0800
+Message-ID: <CAJy-Amktdy99ix7h_AQkTJLwLK1em6eM=84SrVTyynko0fnGNA@mail.gmail.com>
+Subject: Re: [PATCH v1 5/5] docs/zh_CN: add dt kernel-api translation
+To:     Yanteng Si <siyanteng@loongson.cn>
+Cc:     Alex Shi <alexs@kernel.org>, "Wu X.C." <bobwxc@email.cn>,
         Jonathan Corbet <corbet@lwn.net>,
-        Wu XiangCheng <bobwxc@email.cn>,
-        Mike Rapoport <rppt@kernel.org>,
+        Huacai Chen <chenhuacai@kernel.org>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Ira Weiny <ira.weiny@intel.com>,
-        "Fabio M . De Francesco" <fmdefrancesco@gmail.com>,
-        Zhenyu Wang <zhenyu.z.wang@intel.com>,
-        Zhao Liu <zhao1.liu@intel.com>
+        yanteng si <siyanteng01@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-T24gRnJpLCBTZXAgMiwgMjAyMiBhdCA0OjA4IFBNIFpoYW8gTGl1IDx6aGFvMS5saXVAbGludXgu
-aW50ZWwuY29tPiB3cm90ZToNCj4NCj4gRnJvbTogWmhhbyBMaXUgPHpoYW8xLmxpdUBpbnRlbC5j
-b20+DQo+DQo+IFRyYW5zbGF0ZSB0aGUgbGFzdGVzdCBkZXNjcmlwdGlvbiBvZiBrbWFwX2xvY2Fs
-X3BhZ2UgaW50byBDaGluZXNlLg0KPg0KPiBUaGUgdHJhbnNsYXRpb24gaXMgYmFzZWQgb24gdGhl
-c2UgY29tbWl0czoNCj4NCj4gY29tbWl0IDUxNmVhMDQ2ZWM1NTUgKCJEb2N1bWVudGF0aW9uL21t
-OiBkb24ndCBrbWFwKigpIHBhZ2VzIHdoaWNoDQo+IGNhbid0IGNvbWUgZnJvbSBISUdITUVNIikN
-Cj4NCj4gY29tbWl0IDZiM2FmZTJlZWVjMjcgKCJEb2N1bWVudGF0aW9uL21tOiBhdm9pZCBpbnZh
-bGlkIHVzZSBvZg0KPiBhZGRyZXNzZXMgZnJvbSBrbWFwX2xvY2FsX3BhZ2UoKSIpDQo+DQo+IGNv
-bW1pdCA4NGI4NmY2MDU0YzQyICgiRG9jdW1lbnRhdGlvbi9tbTogcnJlZmVyIGttYXBfbG9jYWxf
-cGFnZSgpDQo+IGFuZCBhdm9pZCBrbWFwKCkiKQ0KPg0KPiBjb21taXQgYTllOWM5Mzk2NmFmZCAo
-IkRvY3VtZW50YXRpb24vbW06IGFkZCBkZXRhaWxzIGFib3V0DQo+IGttYXBfbG9jYWxfcGFnZSgp
-IGFuZCBwcmVlbXB0aW9uIikNCj4NCj4gU3VnZ2VzdGVkLWJ5OiBJcmEgV2VpbnkgPGlyYS53ZWlu
-eUBpbnRlbC5jb20+DQo+IFN1Z2dlc3RlZC1ieTogRmFiaW8gTS4gRGUgRnJhbmNlc2NvIDxmbWRl
-ZnJhbmNlc2NvQGdtYWlsLmNvbT4NCj4gU2lnbmVkLW9mZi1ieTogWmhhbyBMaXUgPHpoYW8xLmxp
-dUBpbnRlbC5jb20+DQoNCkdvb2Qgam9i77yBDQpSZXZpZXdlZC1ieTogQWxleCBTaGkgPGFsZXhz
-QGtlcm5lbC5vcmc+DQoNCj4gLS0tDQo+IFN1Z2dlc3RlZCBieSBjcmVkaXRzLg0KPiAgICAgICAg
-IElyYTogUmVmZXJyZWQgdG8gaGlzIHRhc2sgZG9jdW1lbnQuDQo+ICAgICAgICAgRmFiaW86IFJl
-ZmVycmVkIHRvIGhpcyB3b3JrIG9uIHRoZSBvcmlnaW5hbCBFbmdsaXNoIGRvY3VtZW50Lg0KPg0K
-PiAtLS0NCj4gIC4uLi90cmFuc2xhdGlvbnMvemhfQ04vbW0vaGlnaG1lbS5yc3QgICAgICAgICB8
-IDIwICsrKysrKysrKysrKysrKystLS0NCj4gIDEgZmlsZSBjaGFuZ2VkLCAxNyBpbnNlcnRpb25z
-KCspLCAzIGRlbGV0aW9ucygtKQ0KPg0KPiBkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi90cmFu
-c2xhdGlvbnMvemhfQ04vbW0vaGlnaG1lbS5yc3QgYi9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9u
-cy96aF9DTi9tbS9oaWdobWVtLnJzdA0KPiBpbmRleCBmNzQ4MDBhNmQ5YTcuLmFjNGM4NmVkNzRk
-OCAxMDA2NDQNCj4gLS0tIGEvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vbW0vaGln
-aG1lbS5yc3QNCj4gKysrIGIvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vbW0vaGln
-aG1lbS5yc3QNCj4gQEAgLTU4LDE0ICs1OCwyOCBAQA0KPiAgICDlnKjlj6/ooYznmoTmg4XlhrXk
-uIvvvIzov5nkuKrlh73mlbDlupTor6Xmr5Tlhbbku5bmiYDmnInnmoTlh73mlbDkvJjlhYjkvb/n
-lKjjgIINCj4NCj4gICAg6L+Z5Lqb5pig5bCE5piv57q/56iL5pys5Zyw5ZKMQ1BV5pys5Zyw55qE
-77yM6L+Z5oSP5ZGz552A5pig5bCE5Y+q6IO95LuO6L+Z5Liq57q/56iL5Lit6K6/6Zeu77yM5bm2
-5LiU5b2T5pig5bCE5aSE5LqO5rS75Yqo54q2DQo+IC0gIOaAgeaXtu+8jOivpee6v+eoi+S4jkNQ
-Vee7keWumuOAguWNs+S9v+e6v+eoi+iiq+aKouWNoOS6hu+8iOWboOS4uuaKouWNoOawuOi/nOS4
-jeS8muiiq+WHveaVsOemgeeUqO+8ie+8jENQVeS5n+S4jeiDvemAmui/hw0KPiAtICBDUFUtaG90
-cGx1Z+S7juezu+e7n+S4reaLlOWHuu+8jOebtOWIsOaYoOWwhOiiq+WkhOeQhuaOieOAgg0KPiAr
-ICDmgIHml7bvvIzor6Xnur/nqIvkuI5DUFXnu5HlrprjgILljbPkvb/miqLljaDmsLjov5zkuI3k
-vJrooqvov5nkuKrlh73mlbDnpoHnlKjvvIxDUFXkuZ/kuI3og73pgJrov4dDUFUtaG90cGx1Z+S7
-juezuw0KPiArICDnu5/kuK3mi5Tlh7rvvIznm7TliLDmmKDlsITooqvlpITnkIbmjonjgIINCj4N
-Cj4gLSAg5Zyo5pys5Zyw55qEa21hcOWMuuWfn+S4remHh+WPlnBhZ2VmYXVsdHPmmK/mnInmlYjn
-moTvvIzpmaTpnZ7ojrflj5bmnKzlnLDmmKDlsITnmoTkuIrkuIvmlofnlLHkuo7lhbbku5bljp/l
-m6DkuI3lhYHorrgNCj4gKyAg5Zyo5pys5Zyw55qEa21hcOWMuuWfn+S4reiOt+WPlnBhZ2VmYXVs
-dHPmmK/mnInmlYjnmoTvvIzpmaTpnZ7ojrflj5bmnKzlnLDmmKDlsITnmoTkuIrkuIvmlofnlLHk
-uo7lhbbku5bljp/lm6DkuI3lhYHorrgNCj4gICAg6L+Z5qC35YGa44CCDQo+DQo+ICsgIOWmguWJ
-jeaJgOi/sO+8jHBhZ2VmYXVsdOWSjOaKouWNoOawuOi/nOS4jeS8muiiq+emgeeUqOOAguS4jemc
-gOimgeemgeeUqOaKouWNoO+8jOWboOS4uuW9k+S4iuS4i+aWh+WIh+aNouWIsOS4jeWQjOeahOS7
-u+WKoQ0KPiArICDml7bvvIzkvKDlh7rku7vliqHnmoTmmKDlsITkvJrooqvkv53lrZjvvIzogIzk
-vKDlhaXku7vliqHnmoTmmKDlsITkvJrooqvmgaLlpI3jgIINCj4gKw0KPiAgICBrbWFwX2xvY2Fs
-X3BhZ2UoKeaAu+aYr+i/lOWbnuS4gOS4quacieaViOeahOiZmuaLn+WcsOWdgO+8jOW5tuS4lOWB
-h+Wummt1bm1hcF9sb2NhbCgp5LiN5Lya5aSx6LSl44CCDQo+DQo+ICsgIOWcqENPTkZJR19ISUdI
-TUVNPW7lhoXmoLjlkozkvY7lhoXlrZjpobXpnaLkuIrvvIzov5nlsIbov5Tlm57nm7TmjqXmmKDl
-sITnmoTomZrmi5/lnLDlnYDjgILlj6rmnInnnJ/mraPnmoTpq5jlhoXlrZjpobUNCj4gKyAg6Z2i
-5Lya6KKr5Li05pe25pig5bCE44CC5Zug5q2k77yM55So5oi35Y+v5Lul5Li65bey55+l5LiN5piv
-5p2l6IeqWk9ORV9ISUdITUVN55qE6aG16Z2i6LCD55So5pmu6YCa55qEDQo+ICsgIHBhZ2VfYWRk
-cmVzcygp77yM5L2G5piv77yM5L2/55Soa21hcF9sb2NhbF9wYWdlKCkgLyBrdW5tYXBfbG9jYWwo
-KeaAu+aYr+WuieWFqOeahOOAgg0KPiArDQo+ICsgIOiZveeEtuWug+avlGttYXAoKeW/q+W+l+Wk
-mu+8jOS9huWvueS6jumrmOWGheWtmOaDheWGte+8jOWug+W4puacieaMh+mSiOacieaViOaAp+ea
-hOmZkOWItuOAguWSjGttYXAoKeaYoOWwhOebuOWPje+8jOacrOWcsA0KPiArICDmmKDlsITku4Xl
-nKjosIPnlKjogIXnmoTkuIrkuIvmlofkuK3mnInmlYjvvIzlubbkuI3og73ooqvkuqTnu5nlhbbk
-u5bnmoTkuIrkuIvmlofjgILov5nmhI/lkbPnnYDnlKjmiLflv4Xpobvnu53lr7nnoa7kv53ov5Tl
-m57nmoTlnLDlnYANCj4gKyAg5LuF5Zyo5pig5bCE5a6D55qE57q/56iL55qE5pys5Zyw5L2/55So
-44CCDQo+ICsNCj4gKyAg5aSn5aSa5pWw5Luj56CB5Y+v5Lul6K6+6K6h5Li65L2/55So57q/56iL
-5pys5Zyw5pig5bCE44CC5Zug5q2k77yM55So5oi35bqU6K+l5bCd6K+V6L+Z5qC35Y676K6+6K6h
-5LuW5Lus55qE5Luj56CB77yM5Zyo5Zyw5Z2A5Lya6KKr5L2/DQo+ICsgIOeUqOeahOWQjOS4gOe6
-v+eoi+S4reaYoOWwhOmhtemdouadpemBv+WFjeS9v+eUqGttYXAoKe+8jOW5tuS4lOabtOWAvuWQ
-keS6juWOu+S9v+eUqGttYXBfbG9jYWxfcGFnZSgp44CCDQo+ICsNCj4gICAg5bWM5aWXa21hcF9s
-b2NhbF9wYWdlKCnlkoxrbWFwX2F0b21pYygp5pig5bCE5Zyo5LiA5a6a56iL5bqm5LiK5piv5YWB
-6K6455qE77yI5pyA5aSa5YiwS01BUF9UWVBFX05S77yJ77yMDQo+ICAgIOS9huaYr+Wug+S7rOea
-hOiwg+eUqOW/hemhu+S4peagvOaOkuW6j++8jOWboOS4uuaYoOWwhOeahOWunueOsOaYr+WfuuS6
-juWghuagiOeahOOAguWFs+S6juWmguS9leeuoeeQhuW1jOWll+aYoOWwhOeahOe7huiKgu+8jA0K
-PiAgICDor7flj4Lop4FrbWFwX2xvY2FsX3BhZ2UoKSBrZG9jc++8iOWMheWQq+WcqCAi5Ye95pWw
-ICLpg6jliIbvvInjgIINCj4gLS0NCj4gMi4zNC4xDQo+DQo=
+On Thu, Sep 1, 2022 at 7:16 PM Yanteng Si <siyanteng@loongson.cn> wrote:
+>
+> Translte .../devicetree/kernel-api.rst into Chinese.
+>
+> Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
+
+Uh, no much useful info.
+
+Reviewed-by: Alex Shi <alexs@kernel.org>
+
+> ---
+>  .../translations/zh_CN/devicetree/index.rst   |  5 +-
+>  .../zh_CN/devicetree/kernel-api.rst           | 58 +++++++++++++++++++
+>  2 files changed, 59 insertions(+), 4 deletions(-)
+>  create mode 100644 Documentation/translations/zh_CN/devicetree/kernel-ap=
+i.rst
+>
+> diff --git a/Documentation/translations/zh_CN/devicetree/index.rst b/Docu=
+mentation/translations/zh_CN/devicetree/index.rst
+> index 9d95d2629b38..7451dbfdd3e5 100644
+> --- a/Documentation/translations/zh_CN/devicetree/index.rst
+> +++ b/Documentation/translations/zh_CN/devicetree/index.rst
+> @@ -24,10 +24,7 @@ Open Firmware =E5=92=8C Devicetree
+>
+>     usage-model
+>     of_unittest
+> -
+> -Todolist:
+> -
+> -*   kernel-api
+> +   kernel-api
+>
+>  Devicetree Overlays
+>  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> diff --git a/Documentation/translations/zh_CN/devicetree/kernel-api.rst b=
+/Documentation/translations/zh_CN/devicetree/kernel-api.rst
+> new file mode 100644
+> index 000000000000..6aa3b685494e
+> --- /dev/null
+> +++ b/Documentation/translations/zh_CN/devicetree/kernel-api.rst
+> @@ -0,0 +1,58 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +.. include:: ../disclaimer-zh_CN.rst
+> +
+> +:Original: Documentation/Devicetree/kernel-api.rst
+> +
+> +:=E7=BF=BB=E8=AF=91:
+> +
+> + =E5=8F=B8=E5=BB=B6=E8=85=BE Yanteng Si <siyanteng@loongson.cn>
+> +
+> +:=E6=A0=A1=E8=AF=91:
+> +
+> +
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +=E5=86=85=E6=A0=B8=E4=B8=AD=E7=9A=84=E8=AE=BE=E5=A4=87=E6=A0=91API
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +=E6=A0=B8=E5=BF=83=E5=87=BD=E6=95=B0
+> +--------
+> +
+> +=E8=AF=A5API=E5=9C=A8=E4=BB=A5=E4=B8=8B=E5=86=85=E6=A0=B8=E4=BB=A3=E7=A0=
+=81=E4=B8=AD:
+> +
+> +drivers/of/base.c
+> +
+> +include/linux/of.h
+> +
+> +drivers/of/property.c
+> +
+> +include/linux/of_graph.h
+> +
+> +drivers/of/address.c
+> +
+> +drivers/of/irq.c
+> +
+> +drivers/of/fdt.c
+> +
+> +=E9=A9=B1=E5=8A=A8=E6=A8=A1=E5=9E=8B=E5=87=BD=E6=95=B0
+> +------------
+> +
+> +=E8=AF=A5API=E5=9C=A8=E4=BB=A5=E4=B8=8B=E5=86=85=E6=A0=B8=E4=BB=A3=E7=A0=
+=81=E4=B8=AD:
+> +
+> +include/linux/of_device.h
+> +
+> +drivers/of/device.c
+> +
+> +include/linux/of_platform.h
+> +
+> +drivers/of/platform.c
+> +
+> +=E8=A6=86=E7=9B=96=E5=92=8C=E5=8A=A8=E6=80=81DT=E5=87=BD=E6=95=B0
+> +----------------
+> +
+> +=E8=AF=A5API=E5=9C=A8=E4=BB=A5=E4=B8=8B=E5=86=85=E6=A0=B8=E4=BB=A3=E7=A0=
+=81=E4=B8=AD:
+> +
+> +drivers/of/resolver.c
+> +
+> +drivers/of/dynamic.c
+> +
+> +drivers/of/overlay.c
+> --
+> 2.31.1
+>
