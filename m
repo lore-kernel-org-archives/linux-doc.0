@@ -2,56 +2,56 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F5E9ECAAD3
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Sep 2022 01:18:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2345AECAAD2
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Sep 2022 01:29:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235083AbiIBBSG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 1 Sep 2022 21:18:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55516 "EHLO
+        id S235193AbiIBB3N (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 1 Sep 2022 21:29:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43506 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234867AbiIBBSF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Sep 2022 21:18:05 -0400
-Received: from mail-vs1-xe2b.google.com (mail-vs1-xe2b.google.com [IPv6:2607:f8b0:4864:20::e2b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0DCDEA3D5C
-        for <linux-doc@vger.kernel.org>; Thu,  1 Sep 2022 18:18:04 -0700 (PDT)
-Received: by mail-vs1-xe2b.google.com with SMTP id j6so698125vsr.0
-        for <linux-doc@vger.kernel.org>; Thu, 01 Sep 2022 18:18:04 -0700 (PDT)
+        with ESMTP id S234693AbiIBB3J (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Sep 2022 21:29:09 -0400
+Received: from mail-vs1-xe33.google.com (mail-vs1-xe33.google.com [IPv6:2607:f8b0:4864:20::e33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76E579351F
+        for <linux-doc@vger.kernel.org>; Thu,  1 Sep 2022 18:29:08 -0700 (PDT)
+Received: by mail-vs1-xe33.google.com with SMTP id n125so657528vsc.5
+        for <linux-doc@vger.kernel.org>; Thu, 01 Sep 2022 18:29:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20210112;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date;
-        bh=rTzDP//vpfHx0nVWxJbV0HFrI6D0C5HQYNSPKTmQmqc=;
-        b=UWgThLj5qQy1WVf4h5Ch3hkbBGqp3/CtfM0uY0BEiBrEmfKmoOMhR9TKodXHXQ8UZI
-         Nps5eH9fwSuxS1+/Kpa/4rK/MRM5r5tRDduhRCq8fKqe8yv0MTE5YWK6lJZr7U3Jolcb
-         8ZeQtzQywmft38Mjk6K0YLw6peWxrRLhr7EWznpYO3b4hO0iexzPpulNjFSfTQZxKspw
-         XpfMEuCDg7sCgaYl9UdRJUa36ssv+biiXphvOPD6fo0JdXpQUVd4pLJ0Y4/SyNJhRTHC
-         j9MbKYChOijhjoCVpKNC/fLAUPWifHdbz2EqRZrbosyYkPYxfMGuUMyUiKg+WkmZWK4Y
-         tBPg==
+        bh=S/fTF/4dM/pEqTpy2bm0bAwsPgRgvgo33NrrNtuAix8=;
+        b=drzeCFI6C3D4GkZ2WMTCU8o1/1IhLN/qaofev4e6fi1mIufwzBZlDMul7pVTnFowrj
+         UckddCVK33VtTWFTYgSwggcc35E+H7akCFrt9aaUc+lQxJdtPiXUuUrFpYBqX8whJFLb
+         maD1mApMxPqykVUQY8do9X2znhlNAa8zwt8fqeqCHOMVM2U4Lclb9fGQz7L2MFxi6a/X
+         GAjAqGed8QjLRpy9QHJoiiouQPeURRiKw4HyoZ1wrnLam2rEtSyGqPqRP92Js5aUIZV+
+         TR+++JpoQg+gEp4AScIH3ekOAcuqFdJ3sGEG67PWwlb6Flin6pQOiyjE829Zn852Pf+l
+         XUKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date;
-        bh=rTzDP//vpfHx0nVWxJbV0HFrI6D0C5HQYNSPKTmQmqc=;
-        b=tThzOy0v6QQdZDC5S3mssDZ1ncwfXzF5Wnr7biREZzi7w8zMT0XSaPs/ivtH/Pxfvn
-         /In7ZWs0zVgJ7RAHiv1SZLDpuFBYZSwyjR+r0GwqRmW1izg42VW9P/w6WBmXBF8+cNq+
-         +KEHeUVCBYj6aX0kfNsd/mCkxy0iUbRPQ/n+TWnyIkl1OrmhugmSTDk+N8rDEjEOq+R8
-         MxwtjFI+/O+9NnIJ0Gvfswc9SOHxhEMNiufFoGq85Oj0Wgk6eNlv0v153xrMVOi54wr2
-         FVOnDJcrbryVsfJizTj2y8TQaWLdDSdsPtGZPJ01iRcrmXLHLLeMOiwCNeKeOFb/fSxA
-         /sYw==
-X-Gm-Message-State: ACgBeo3VufqZPAFqm4xU036/ynz7cVGQwJsxKd+Kvl2lqxqjuAO2ZVWT
-        DI+IeSISQl58BFHmyrgyJAh3DPwt5MDtVlbz9LkB8g==
-X-Google-Smtp-Source: AA6agR7Tip6gCheFWRsDQxtd28hkc6ZUgXtTAsFe4eAmn5ExZQLdjvj3BoPN4Q/OdMBoJts2UxkQZmxs+NLu6F9s1wI=
-X-Received: by 2002:a67:d512:0:b0:390:db32:a96 with SMTP id
- l18-20020a67d512000000b00390db320a96mr8270856vsj.15.1662081482992; Thu, 01
- Sep 2022 18:18:02 -0700 (PDT)
+        bh=S/fTF/4dM/pEqTpy2bm0bAwsPgRgvgo33NrrNtuAix8=;
+        b=trwWRHOk44PyCy0wNJI5R8iOIQYZbjS/HfQC+stWUnqP0egnCh1hSKZXhfFnOhQtP1
+         8y2C1RCwxA+mhdCzldOSBOu5tVqPYzP60E52pBDpWrUF+5j9qP/MXNQHf14M1CRCVBJh
+         mA/q2HRvDKxjmUnchCraIan3l+CVWWG7JGInOprUH20QVA9LUilhlO5ubRKinDgkrKvN
+         oL5L/7FoVV9fw421odeRSGJVw01y96HvoQofeF9nNX3YMz6Dr8M2GJvbxydVTiu/Az4G
+         NtzrOiUGDZGsnCWOUDAquGWz7ip01qYZ7MCa/NmjsTU0Z55ZlLz9esendJL1MMuN2RFM
+         HNJg==
+X-Gm-Message-State: ACgBeo3a5MYLtuE2/QP9yCOpJl0kexfhWGRkgQP2e+1NeMQCnLfcv+wy
+        3ZGAO5Aw1p5Jp1zBwa71iXzLl1Z/88sGX78c36UfLw==
+X-Google-Smtp-Source: AA6agR4+ZFKFADL/9cwQOj7+rGh6g92ApnvKD8hhwNx3e9lydmKFAO6gZ8jfP/eZABigIsOdyeih9cEJv0DekXvb/JQ=
+X-Received: by 2002:a67:f909:0:b0:390:e960:7f5a with SMTP id
+ t9-20020a67f909000000b00390e9607f5amr7264884vsq.50.1662082147436; Thu, 01 Sep
+ 2022 18:29:07 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220815071332.627393-1-yuzhao@google.com> <20220815071332.627393-8-yuzhao@google.com>
- <0F7CF2A7-F671-4196-B8FD-F35E9556391B@gmail.com>
-In-Reply-To: <0F7CF2A7-F671-4196-B8FD-F35E9556391B@gmail.com>
+ <0F7CF2A7-F671-4196-B8FD-F35E9556391B@gmail.com> <CAOUHufZ6LGyBoPBkniB63-77r5=1POWpEWmUTESFtJo2bwbi-w@mail.gmail.com>
+In-Reply-To: <CAOUHufZ6LGyBoPBkniB63-77r5=1POWpEWmUTESFtJo2bwbi-w@mail.gmail.com>
 From:   Yu Zhao <yuzhao@google.com>
-Date:   Thu, 1 Sep 2022 19:17:26 -0600
-Message-ID: <CAOUHufZ6LGyBoPBkniB63-77r5=1POWpEWmUTESFtJo2bwbi-w@mail.gmail.com>
+Date:   Thu, 1 Sep 2022 19:28:31 -0600
+Message-ID: <CAOUHufa+WpwP5NENgQ5jqgsVwqvK8vaayyJ4hT5071y=+ZYF6A@mail.gmail.com>
 Subject: Re: [PATCH v14 07/14] mm: multi-gen LRU: exploit locality in rmap
 To:     Nadav Amit <nadav.amit@gmail.com>
 Cc:     Andrew Morton <akpm@linux-foundation.org>,
@@ -95,73 +95,86 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Sep 1, 2022 at 3:18 AM Nadav Amit <nadav.amit@gmail.com> wrote:
+On Thu, Sep 1, 2022 at 7:17 PM Yu Zhao <yuzhao@google.com> wrote:
 >
->
->
-> > On Aug 15, 2022, at 12:13 AM, Yu Zhao <yuzhao@google.com> wrote:
+> On Thu, Sep 1, 2022 at 3:18 AM Nadav Amit <nadav.amit@gmail.com> wrote:
 > >
-> > Searching the rmap for PTEs mapping each page on an LRU list (to test
-> > and clear the accessed bit) can be expensive because pages from
-> > different VMAs (PA space) are not cache friendly to the rmap (VA
-> > space). For workloads mostly using mapped pages, searching the rmap
-> > can incur the highest CPU cost in the reclaim path.
->
-> Impressive work. Sorry if my feedback is not timely.
->
-> Just one minor point for thought, that can be left for a later cleanup.
->
 > >
-> > +     for (i =3D 0, addr =3D start; addr !=3D end; i++, addr +=3D PAGE_=
-SIZE) {
-> > +             unsigned long pfn;
-> > +
-> > +             pfn =3D get_pte_pfn(pte[i], pvmw->vma, addr);
-> > +             if (pfn =3D=3D -1)
-> > +                     continue;
-> > +
-> > +             if (!pte_young(pte[i]))
-> > +                     continue;
-> > +
-> > +             folio =3D get_pfn_folio(pfn, memcg, pgdat);
-> > +             if (!folio)
-> > +                     continue;
-> > +
-> > +             if (!ptep_test_and_clear_young(pvmw->vma, addr, pte + i))
-> > +                     continue;
-> > +
+> >
+> > > On Aug 15, 2022, at 12:13 AM, Yu Zhao <yuzhao@google.com> wrote:
+> > >
+> > > Searching the rmap for PTEs mapping each page on an LRU list (to test
+> > > and clear the accessed bit) can be expensive because pages from
+> > > different VMAs (PA space) are not cache friendly to the rmap (VA
+> > > space). For workloads mostly using mapped pages, searching the rmap
+> > > can incur the highest CPU cost in the reclaim path.
+> >
+> > Impressive work.
+
+Thanks.
+
+> > Sorry if my feedback is not timely.
+> >
+> > Just one minor point for thought, that can be left for a later cleanup.
+> >
+> > >
+> > > +     for (i =3D 0, addr =3D start; addr !=3D end; i++, addr +=3D PAG=
+E_SIZE) {
+> > > +             unsigned long pfn;
+> > > +
+> > > +             pfn =3D get_pte_pfn(pte[i], pvmw->vma, addr);
+> > > +             if (pfn =3D=3D -1)
+> > > +                     continue;
+> > > +
+> > > +             if (!pte_young(pte[i]))
+> > > +                     continue;
+> > > +
+> > > +             folio =3D get_pfn_folio(pfn, memcg, pgdat);
+> > > +             if (!folio)
+> > > +                     continue;
+> > > +
+> > > +             if (!ptep_test_and_clear_young(pvmw->vma, addr, pte + i=
+))
+> > > +                     continue;
+> > > +
+> >
+> > You have already checked that the PTE is old (not young) so this check
+> > seems redundant.
 >
-> You have already checked that the PTE is old (not young) so this check
-> seems redundant.
-
-You are right, for x86, which belongs to category 1: hardware and
-OS share the same paging data structure.
-
-> I do not see a way in which the access-bit can be cleared
-> since you hold the ptl.
-
-There is also category 2: the OS paging data structure is a shadow of what
-hardware actually uses, e.g., POWER9 radix.
-
-To make both categories work, the general rule is that the OS paging
-data structure must be more strict, i.e., it can have A/D bits set
-while the hardware paging data structure may not. The opposite is not
-allowed, even for the A bit, because the A bit can also be used to
-determine whether a TLB flush is required. The Linux kernel doesn't do
-this but there are other OSes that do.
-
-For prefaulted PTEs, we generally mark them young unless
-arch_wants_old_prefaulted_pte() returns true (currently only ARMv8.2+
-do). On POWER9, we'd see those PTEs pass the first check but fail the
-second.
-
-> IOW, there is no need for the =E2=80=9Cif" and =E2=80=9Ccontinue".
+> You are right, for x86, which belongs to category 1: hardware and
+> OS share the same paging data structure.
 >
-> Makes me also wonder whether having a separate ptep_clear_young() can
-> slightly help, since anyhow the access-bit is more of an estimation,
-> and having a separate ptep_clear_young() can enable optimizations.
+> > I do not see a way in which the access-bit can be cleared
+> > since you hold the ptl.
 >
-> On x86, for instance, if the PTE is dirty, we may be able to clear the
-> access-bit without an atomic operation, which should be faster.
+> There is also category 2: the OS paging data structure is a shadow of wha=
+t
+> hardware actually uses, e.g., POWER9 radix.
+>
+> To make both categories work, the general rule is that the OS paging
+> data structure must be more strict, i.e., it can have A/D bits set
+> while the hardware paging data structure may not. The opposite is not
+> allowed, even for the A bit, because the A bit can also be used to
+> determine whether a TLB flush is required. The Linux kernel doesn't do
+> this but there are other OSes that do.
+>
+> For prefaulted PTEs, we generally mark them young unless
+> arch_wants_old_prefaulted_pte() returns true (currently only ARMv8.2+
+> do). On POWER9, we'd see those PTEs pass the first check but fail the
+> second.
 
-Agreed.
+Because the first check (non-atomic) is allowed to fetch from the OS
+paging data structure (which is more strict) while the second check
+(atomic) must fetch from the hardware page data structure (which does
+not have the A bit because those PTEs are preffaulted).
+
+> > IOW, there is no need for the =E2=80=9Cif" and =E2=80=9Ccontinue".
+> >
+> > Makes me also wonder whether having a separate ptep_clear_young() can
+> > slightly help, since anyhow the access-bit is more of an estimation,
+> > and having a separate ptep_clear_young() can enable optimizations.
+> >
+> > On x86, for instance, if the PTE is dirty, we may be able to clear the
+> > access-bit without an atomic operation, which should be faster.
+>
+> Agreed.
