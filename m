@@ -2,183 +2,130 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 715D6C54EE9
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Sep 2022 10:32:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A3EB8ECAAD5
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Sep 2022 10:42:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235878AbiIBKcz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 2 Sep 2022 06:32:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49140 "EHLO
+        id S235543AbiIBKmI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 2 Sep 2022 06:42:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40364 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235841AbiIBKcu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Sep 2022 06:32:50 -0400
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1BAF1B0292;
-        Fri,  2 Sep 2022 03:32:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1662114770; x=1693650770;
-  h=date:from:to:cc:subject:message-id:reply-to:references:
-   mime-version:in-reply-to;
-  bh=Ws38xTyai1UArcptdFTCO63DRGm+K11UNHn/R44NQ2A=;
-  b=Mb/5VAfA17yHlt35Ao2Hl/TpXeVFkd3x+CULkkBnLJPuHRW2iPXaCxsi
-   mN/6BInmSKgsBEOz3veXRo7SzXTljMuFuuSpMuM0B6Q7KDJIXhc9yBT+0
-   xFhL1/LtWLTIlRwe0fPfrc6eOD2/ZB0V1IAB3CYHLOmFogOXNdWWgMaWh
-   r4/jx2GM5q+oD6SWo43ztbUngcDGYo4zatmjx2sqiBVqLR3ZxMkDzGcL8
-   yJc71Tu+A3zbMjUvhKRH+5pPec3nGAOAaffKFu2Y2nsl0T70SxnGIunQ+
-   Npw1jHYBTwsGAt7tJ9C8evXPgAsEqOI2BHugwGjvvoGBdZvnS+yIBEgtI
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10457"; a="278969000"
-X-IronPort-AV: E=Sophos;i="5.93,283,1654585200"; 
-   d="scan'208";a="278969000"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2022 03:32:49 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,283,1654585200"; 
-   d="scan'208";a="608945519"
-Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
-  by orsmga007.jf.intel.com with ESMTP; 02 Sep 2022 03:32:39 -0700
-Date:   Fri, 2 Sep 2022 18:27:57 +0800
-From:   Chao Peng <chao.p.peng@linux.intel.com>
-To:     "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
-Cc:     Hugh Dickins <hughd@google.com>,
-        "Kirill A. Shutemov" <kirill@shutemov.name>, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
-        linux-kselftest@vger.kernel.org,
-        Paolo Bonzini <pbonzini@redhat.com>,
+        with ESMTP id S235127AbiIBKmG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Sep 2022 06:42:06 -0400
+Received: from out2.migadu.com (out2.migadu.com [IPv6:2001:41d0:2:aacc::])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A7DBC8891;
+        Fri,  2 Sep 2022 03:42:03 -0700 (PDT)
+Date:   Fri, 2 Sep 2022 18:41:38 +0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+        t=1662115321;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=/xxuhxcM6QfkTylQcvhMIIqWokz6VUXQjhsUn1n4Pd8=;
+        b=aMn6cAlb11q4RMMVIdJPsmR9U9jN9LCVN7BpsTYey3XHwseSB40ft8d2dIs2tgGkDPYFzC
+        Kyl+SY+BssuuZszpxfOLx92DCAnwWhkTGiJIZEwOJvmY8nXHLJC0VN/HSkIAtY9TctsVdw
+        5XvdFob1yUgw6lDH79GYQudWm8iaVBw=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From:   Wu XiangCheng <wu.xiangcheng@linux.dev>
+To:     Zhao Liu <zhao1.liu@linux.intel.com>
+Cc:     Alex Shi <alexs@kernel.org>, Yanteng Si <siyanteng@loongson.cn>,
         Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <seanjc@google.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Jim Mattson <jmattson@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
-        Jeff Layton <jlayton@kernel.org>,
-        "J . Bruce Fields" <bfields@fieldses.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Vishal Annapurve <vannapurve@google.com>,
-        Yu Zhang <yu.c.zhang@linux.intel.com>, luto@kernel.org,
-        jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
-        david@redhat.com, aarcange@redhat.com, ddutile@redhat.com,
-        dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
-        Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
-        Muchun Song <songmuchun@bytedance.com>,
-        "Gupta, Pankaj" <pankaj.gupta@amd.com>,
-        Elena Reshetova <elena.reshetova@intel.com>
-Subject: Re: [PATCH v7 00/14] KVM: mm: fd-based approach for supporting KVM
- guest private memory
-Message-ID: <20220902102757.GB1712673@chaop.bj.intel.com>
-Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
-References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
- <ff5c5b97-acdf-9745-ebe5-c6609dd6322e@google.com>
- <20220818132421.6xmjqduempmxnnu2@box>
- <c6ccbb96-5849-2e2f-3b49-4ea711af525d@google.com>
- <20220820002700.6yflrxklmpsavdzi@box.shutemov.name>
- <c194262b-b634-4baf-abf0-dc727e8f1d7@google.com>
- <20220831142439.65q2gi4g2d2z4ofh@box.shutemov.name>
+        Wu XiangCheng <bobwxc@email.cn>,
+        Mike Rapoport <rppt@kernel.org>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Ira Weiny <ira.weiny@intel.com>,
+        "Fabio M . De Francesco" <fmdefrancesco@gmail.com>,
+        Zhenyu Wang <zhenyu.z.wang@intel.com>,
+        Zhao Liu <zhao1.liu@intel.com>
+Subject: Re: [PATCH] Documentation/zh_CN: add latest kmap_local_page
+ translation
+Message-ID: <YxHd4tjI+OxhALWC@bobwxc.mipc>
+References: <20220902081304.2259706-1-zhao1.liu@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="d9cWTGeOJTPHR27D"
 Content-Disposition: inline
-In-Reply-To: <20220831142439.65q2gi4g2d2z4ofh@box.shutemov.name>
+In-Reply-To: <20220902081304.2259706-1-zhao1.liu@linux.intel.com>
+X-Migadu-Flow: FLOW_OUT
+X-Migadu-Auth-User: linux.dev
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Aug 31, 2022 at 05:24:39PM +0300, Kirill A . Shutemov wrote:
-> On Sat, Aug 20, 2022 at 10:15:32PM -0700, Hugh Dickins wrote:
-> > > I will try next week to rework it as shim to top of shmem. Does it work
-> > > for you?
-> > 
-> > Yes, please do, thanks.  It's a compromise between us: the initial TDX
-> > case has no justification to use shmem at all, but doing it that way
-> > will help you with some of the infrastructure, and will probably be
-> > easiest for KVM to extend to other more relaxed fd cases later.
-> 
-> Okay, below is my take on the shim approach.
-> 
-> I don't hate how it turned out. It is easier to understand without
-> callback exchange thing.
-> 
-> The only caveat is I had to introduce external lock to protect against
-> race between lookup and truncate. Otherwise, looks pretty reasonable to me.
-> 
-> I did very limited testing. And it lacks integration with KVM, but API
-> changed not substantially, any it should be easy to adopt.
 
-I have integrated this patch with other KVM patches and verified the
-functionality works well in TDX environment with a minor fix below.
+--d9cWTGeOJTPHR27D
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> 
-> Any comments?
-> 
+Hi Liu,
 
-...
+1. It is better to give this patch a more meaningful name, like:
+	update something to 6.0-rc2
+   "latest" is too ambiguous.
 
-> diff --git a/mm/memfd.c b/mm/memfd.c
-> index 08f5f8304746..1853a90f49ff 100644
-> --- a/mm/memfd.c
-> +++ b/mm/memfd.c
-> @@ -261,7 +261,8 @@ long memfd_fcntl(struct file *file, unsigned int cmd, unsigned long arg)
->  #define MFD_NAME_PREFIX_LEN (sizeof(MFD_NAME_PREFIX) - 1)
->  #define MFD_NAME_MAX_LEN (NAME_MAX - MFD_NAME_PREFIX_LEN)
->  
-> -#define MFD_ALL_FLAGS (MFD_CLOEXEC | MFD_ALLOW_SEALING | MFD_HUGETLB)
-> +#define MFD_ALL_FLAGS (MFD_CLOEXEC | MFD_ALLOW_SEALING | MFD_HUGETLB | \
-> +		       MFD_INACCESSIBLE)
->  
->  SYSCALL_DEFINE2(memfd_create,
->  		const char __user *, uname,
-> @@ -283,6 +284,14 @@ SYSCALL_DEFINE2(memfd_create,
->  			return -EINVAL;
->  	}
->  
-> +	/* Disallow sealing when MFD_INACCESSIBLE is set. */
-> +	if ((flags & MFD_INACCESSIBLE) && (flags & MFD_ALLOW_SEALING))
-> +		return -EINVAL;
-> +
-> +	/* TODO: add hugetlb support */
-> +	if ((flags & MFD_INACCESSIBLE) && (flags & MFD_HUGETLB))
-> +		return -EINVAL;
-> +
->  	/* length includes terminating zero */
->  	len = strnlen_user(uname, MFD_NAME_MAX_LEN + 1);
->  	if (len <= 0)
-> @@ -331,10 +340,24 @@ SYSCALL_DEFINE2(memfd_create,
->  		*file_seals &= ~F_SEAL_SEAL;
->  	}
->  
-> +	if (flags & MFD_INACCESSIBLE) {
-> +		struct file *inaccessible_file;
-> +
-> +		inaccessible_file = memfd_mkinaccessible(file);
-> +		if (IS_ERR(inaccessible_file)) {
-> +			error = PTR_ERR(inaccessible_file);
-> +			goto err_file;
-> +		}
+2022-09-02 (=E4=BA=94) 16:13:04 +0800 Zhao Liu =E6=9B=B0=EF=BC=9A
+> From: Zhao Liu <zhao1.liu@intel.com>
+>=20
+> Translate the lastest description of kmap_local_page into Chinese.
+>=20
+> The translation is based on these commits:
+>=20
+> commit 516ea046ec555 ("Documentation/mm: don't kmap*() pages which
+> can't come from HIGHMEM")
+>=20
+> commit 6b3afe2eeec27 ("Documentation/mm: avoid invalid use of
+> addresses from kmap_local_page()")
+>=20
+> commit 84b86f6054c42 ("Documentation/mm: rrefer kmap_local_page()
+> and avoid kmap()")
+>=20
+> commit a9e9c93966afd ("Documentation/mm: add details about
+> kmap_local_page() and preemption")
+>=20
 
-The new file should alse be marked as O_LARGEFILE otherwise setting the
-initial size greater than 2^31 on the fd will be refused by ftruncate().
+2. Just list the latest commit, that's enough.
 
-+               inaccessible_file->f_flags |= O_LARGEFILE;
-+
+> Suggested-by: Ira Weiny <ira.weiny@intel.com>
+> Suggested-by: Fabio M. De Francesco <fmdefrancesco@gmail.com>
+> Signed-off-by: Zhao Liu <zhao1.liu@intel.com>
 
-> +
-> +		file = inaccessible_file;
-> +	}
-> +
->  	fd_install(fd, file);
->  	kfree(name);
->  	return fd;
->  
-> +err_file:
-> +	fput(file);
->  err_fd:
->  	put_unused_fd(fd);
->  err_name:
+Please remember above two next time ;)
+
+Anyway,
+
+Reviewed-by: Wu XiangCheng <bobwxc@email.cn>
+
+> ---
+> Suggested by credits.
+>         Ira: Referred to his task document.
+>         Fabio: Referred to his work on the original English document.
+>=20
+> ---
+>  .../translations/zh_CN/mm/highmem.rst         | 20 ++++++++++++++++---
+>  1 file changed, 17 insertions(+), 3 deletions(-)
+>=20
+
+Thanks,
+
+--=20
+Wu XiangCheng	0x32684A40BCA7AEA7
+
+
+--d9cWTGeOJTPHR27D
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQGzBAABCgAdFiEERbo3U5kJpaCtFl1PtlsoEiKCsIUFAmMR3d4ACgkQtlsoEiKC
+sIVhBAv/QeyFp7DE867xPC3T+tLUZhxe+hm6kFkeM7dwn3LPYG1flH/EU4M2AU+F
+M6CfFdtHklv4eNfvm8puCqjsg/NroFq37fb54xmKdIp+8CW2tcCdxub39ehceRMz
+3af3W5bkjPje9FzAujHs3c9l1FqwaJHM7+oNm7dEFYSVqsA1fHFptSeogSz2YREp
+DTxoBQlOWsvqOYOb0MXE7ul91uZVoG9DOV5wfvXNMZlx316AJa5rvN+gE9IDn6wq
+cUIMwKia66ges1LkYqgYEJYy9VvxZ55kSz507uuCQ2epcTNlodjWeS7kSG7nZaKN
+KMlFpXTZP1hfGlI6+C9y7VsnCh5Txm9EczIf2QS0lCuY9kFYW9iuQHwldAsFfsJe
+1bW3nmxOgxef5R0aJ5NRpciChoWmseiVzT5WmMYgFhTveyrFqcNqoT8tttIj2yML
+Cx9jHaanWvatLLdO8Q9aBTwbdVQ6GTCn4oTv79stx4BMxqJ5/MbrjXwlMezzoGij
+9Lnwhmqk
+=CoVp
+-----END PGP SIGNATURE-----
+
+--d9cWTGeOJTPHR27D--
