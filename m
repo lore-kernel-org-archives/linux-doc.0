@@ -2,182 +2,374 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9495DECAAD5
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Sep 2022 15:36:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D5CCDC54EE9
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Sep 2022 15:36:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236876AbiIBPgT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 2 Sep 2022 11:36:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48492 "EHLO
+        id S236460AbiIBPgm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 2 Sep 2022 11:36:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49180 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236810AbiIBPfo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Sep 2022 11:35:44 -0400
-Received: from FRA01-MR2-obe.outbound.protection.outlook.com (mail-eopbgr90070.outbound.protection.outlook.com [40.107.9.70])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB7862191;
-        Fri,  2 Sep 2022 08:22:23 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Q7WCa0VUnV3giQTsCR/iyh5othPeGYLFViePGLB20vpGL+5wKudtUADglEIm6GoIpxnGg9XyybRKc+8yLDdqN7zttJmuBIoBVahVRegpa8sgd6mmi1WyEF6lUcr5B57dXWM1DFK62kV2RJeYnYGV1cXiVYgtGTRrgyNjNnNCD3bIXDFS7BxtXwNQKWfBM+HRnGz6whA9ozJ0xomKcDW+w95TPdO35ZIqaJfWBFuzkWqOLE8nyez4nQYSmi7p17bEa2WiWfj1lMzfQ3Ill6TM5NQmADX9zjnac/JzXyWpNgJCnRXVQYp16WRsBnYcZ2O9H9NcDOH6vg9tVfR+nqhTXw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=wb5MMmLVuJB6nwAxSyt2ImUV36/E6Ixrp0KzWRY0bds=;
- b=bAbNb3mKkmBgMQ64AE4MyU6snsJZnW8MmqHoEysNfC8GKV16//gMAQunM/BWVftq9XMHa0b6x0cBnQTJ5clEuldO6brZMM8zF6VuTsR8cAcIO3IW9Hd9OC1pjidoBb5ozXHEGddD9fJnXipyV3eWr56dvA09Q+3wrUYC9wCHOE3rvPUuE56Y3lEnNLUUprIaE19XKAuuISxG0xQdLZcenj56MRC47LXZ+wBydjCb3OFmxYd2nzYDcnmcjY7rj+VfaQOH1KJydq9PEX1slzKS/+fIJypHPc2bsiTdBwLxHdGjiTmiM4sn8Y6e2B5TPwaydUfwLYNSE81wgznisf6XJg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=csgroup.eu; dmarc=pass action=none header.from=csgroup.eu;
- dkim=pass header.d=csgroup.eu; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=csgroup.eu;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wb5MMmLVuJB6nwAxSyt2ImUV36/E6Ixrp0KzWRY0bds=;
- b=tLpPWBi2c36zqZPADPGZU+LP7sqQP+BI89sVgK5Nj/cS3O15bylUb+HND3sPispYkKu3xtAOxdBSlBNlbmmxSq3TZjnskKwZLHxRGaiLWpj+YMdIyFs6d7llNV9FBzUPIgwazRt/BFv6trTcbqGya9kfxeTupsUcRdCvDempW8TD8ydeC59d+DZy5GP6NayQuR48nsfKzajR9cbsVYRLboUGjOC3bkHOJ9yN8EnZYoBNhWQsaJ6NukvEx3wMrO1/YHn0u2KkNJrGOFN//uGnG0ShaJ8/bMyqRhXqjOJgM7h7Pwu4/cz7OccnNaufAXjQx2wRqv8mMsHC+o87KKXeyA==
-Received: from MRZP264MB2988.FRAP264.PROD.OUTLOOK.COM (2603:10a6:501:31::15)
- by PR1P264MB3406.FRAP264.PROD.OUTLOOK.COM (2603:10a6:102:1d::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5588.10; Fri, 2 Sep
- 2022 15:22:20 +0000
-Received: from MRZP264MB2988.FRAP264.PROD.OUTLOOK.COM
- ([fe80::382a:ed3b:83d6:e5d8]) by MRZP264MB2988.FRAP264.PROD.OUTLOOK.COM
- ([fe80::382a:ed3b:83d6:e5d8%4]) with mapi id 15.20.5588.014; Fri, 2 Sep 2022
- 15:22:20 +0000
-From:   Christophe Leroy <christophe.leroy@csgroup.eu>
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-CC:     Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Keerthy <j-keerthy@ti.com>, Russell King <linux@armlinux.org.uk>,
-        Arnd Bergmann <arnd@arndb.de>,
+        with ESMTP id S236462AbiIBPgF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Sep 2022 11:36:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7079F32EFE
+        for <linux-doc@vger.kernel.org>; Fri,  2 Sep 2022 08:23:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1662132188;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=CDGdbHFqa7i9J43dGRJwuYHzAKBveVK/qbBaL0hU8KY=;
+        b=WdtR8P3Gw2SSXLVbeWeYX3kwCaKDBQ7h8ppPgTqIsimqXuKEbRyD/i3g+Iu6qT+Qh9K6dD
+        7aamPUF9KkRugTmW4kkwwRQXuYxCnCDEZX+9tFe+VcmltAvFDkdA/zGtHei4hJWl0Vb0jn
+        srCTi2cQQnzCqHPLczIh/Kab0gTqwUw=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-182-vmysYn2AOZ6KQRFkHfzhFA-1; Fri, 02 Sep 2022 11:23:05 -0400
+X-MC-Unique: vmysYn2AOZ6KQRFkHfzhFA-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5D62218E0044;
+        Fri,  2 Sep 2022 15:23:04 +0000 (UTC)
+Received: from localhost (ovpn-8-17.pek2.redhat.com [10.72.8.17])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 22D44492C3B;
+        Fri,  2 Sep 2022 15:23:02 +0000 (UTC)
+From:   Ming Lei <ming.lei@redhat.com>
+To:     Jens Axboe <axboe@kernel.dk>
+Cc:     linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
+        Ming Lei <ming.lei@redhat.com>,
+        Bagas Sanjaya <bagasdotme@gmail.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Davide Ciminaghi <ciminaghi@gnudd.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
-        Linux-Arch <linux-arch@vger.kernel.org>,
-        Linux Documentation List <linux-doc@vger.kernel.org>,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>
-Subject: Re: [PATCH v2 5/9] gpiolib: Get rid of ARCH_NR_GPIOS
-Thread-Topic: [PATCH v2 5/9] gpiolib: Get rid of ARCH_NR_GPIOS
-Thread-Index: AQHYvsmEfS3tQkOA1Uengw0AnlxVLa3MOzeAgAAGyoA=
-Date:   Fri, 2 Sep 2022 15:22:20 +0000
-Message-ID: <63b3c26a-be33-6ef3-7feb-ff7997fbc752@csgroup.eu>
-References: <cover.1662116601.git.christophe.leroy@csgroup.eu>
- <97011204619556ecb3d8c9aaff2b58c28790fe8a.1662116601.git.christophe.leroy@csgroup.eu>
- <CAHp75Ve6zMC9s=TZT_pWoyxnKtXE0xipFCv_RDY4r4amnVbVxQ@mail.gmail.com>
-In-Reply-To: <CAHp75Ve6zMC9s=TZT_pWoyxnKtXE0xipFCv_RDY4r4amnVbVxQ@mail.gmail.com>
-Accept-Language: fr-FR, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.0
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=csgroup.eu;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: c586c10c-7429-441f-ca8f-08da8cf6ede6
-x-ms-traffictypediagnostic: PR1P264MB3406:EE_
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: JnaH/LViDbXu69+L63d2C4x66HtlJBmvMgesikmSctUcF6/AKPg/ztAMCIkL8YkgW4aAAQ9NtY8Xgfy1/g5bm2vP7BBL284Tk4AkNJ39h24VZauErb1FkavJ0zNxucC58S3QqroRdfpJKyAufubM4EvCqWAU6+Qo91iN2CMtGm+4NFYKMGrfUi9+PJfvjyTSZFS/MLBXHzZn9kuD8MEqYZd6H/xrIUH6H/Ghrl7Pi7dYtvBpYFuTZ5RSZW762uVzG5bzXv068xE3UHqEySSir26rFsMLnYq7XKpBzkeYDho3DeNcyPsoyBwTYAH2UX1Z0hk8qK2a++zr+Na9bLMTOu03WusbR1oMzcHIg+rojLSJsrupeYtZs42tYSM1xG+xpyv7PPtXftXzgalt21l1EhfzVpMxvIOb2cDdL4de3f91qa8MCaq103w8BoV6CIXbg1Pke928EC0WuoH5fAUZqIxk2UTpoDaax11BCGQkUOCunQ6cbo1ifT/IX8xIgMiKK4MdCuy7GJ7nNFHCL+HdqyvIAAEv0NiGl7FiSFFuVJoLEPQKnkNEv6/0CdrtPjVE/Xk6v5SnH74DGe/JGOKR3n62HU0iU4LxWJqffK5e7EPG7B8hROPV6blnJ1iWA3LSWf60fgPAuy5EuvQ5JNM7hbgY+kBYzoggcte/jTP5ilTkDOe8pvbQoRXwgL364BQpzzcrzwTL4miylrhs3rIqtlZX3h9/T4sRDSv7CaaobT4YQLUCb8VStN0KgMup8QIHc0XZXdHZDfBZojKOKqe00lpbezP+qqs1Rokt5WQiutRIOa8RAXEts3mEMNlGXnECUaJGDVRInJPQ6QP6csRUw8eWsH70Z3Il3ul1RQ1V7OU=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MRZP264MB2988.FRAP264.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230016)(4636009)(136003)(346002)(376002)(39850400004)(366004)(396003)(41300700001)(6486002)(6506007)(86362001)(6916009)(54906003)(71200400001)(478600001)(316002)(83380400001)(53546011)(31696002)(122000001)(38100700002)(38070700005)(26005)(6512007)(66574015)(186003)(2616005)(8936002)(7416002)(36756003)(2906002)(5660300002)(4326008)(76116006)(66476007)(91956017)(64756008)(66946007)(8676002)(44832011)(31686004)(66556008)(66446008)(26583001)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?YzVXcC91bmRIamNNT09oRTFvVVBheUY2OW1vcEZtUVJ6OFFQaHkwMzVLZ1E0?=
- =?utf-8?B?TnVuSG9IU3Q4ZDRjV0kwWFAvd0xaeVdhdzh6TWZ5REZhSWpkaHBaaTdXbm9Q?=
- =?utf-8?B?cnR4cHNRUlJwbnJqalIzRFRqbmV4My85OVJQN09zOXVxUWZKcWdIcXUyUGxa?=
- =?utf-8?B?TXZDR0VMQXVsTHBlajdUaTFRWnRvaVdFYXJaR2R1NnY0eGY5NmRQbk9FU0RQ?=
- =?utf-8?B?c1JlSHZnc2pSLzhObk5MOXREU2xUL0dncnZoZDdaLzVucWo2YmxBdy9oWmdS?=
- =?utf-8?B?TDlYWnN6cVFZL0h1UTJHUUdkUXJpTmxRM0JLK0pVYm5vMDhNalZrZXp3K2sy?=
- =?utf-8?B?Z2VmbDVnUHRhV1VrTG13R0ZPL3RiOTBFaXlWQmx4V25yMXVnREZMVTliQUVa?=
- =?utf-8?B?RHBYNGQxK3JsdVFpaWdZN2prQWthd2lkdVI2aTA5ZUtweFBkQlZZZmZDUjVt?=
- =?utf-8?B?UjQ1cXc2aE5TM3VEV21BNEY3OGZTSVAxdjRUOHZCREhaU204VTQ4d0FISi9l?=
- =?utf-8?B?bFRYTGlIR1Y4amF5UDY3VFR5bTBGQ2t3cmFvNk4xcEZVNkNqRnBLcTdEaUo5?=
- =?utf-8?B?dW9XUVhOVkVvNTVPcjJDZWZ0eFlia2JhMFV3ZFVlV2h4MTFsaEx5MnlwQytj?=
- =?utf-8?B?Vk5zQWxmU1VXbEJQbktFS2xzSll5U1Y4ei9pa0FnVmxuNko5dnI4NysvV20v?=
- =?utf-8?B?WGFIUWczQ0NyREVSVk9JaFl5bFlUd3FEQTV1QmlONkgxSTVIS0xXTVowY1I1?=
- =?utf-8?B?MVFRNDd3dkdJcnl4OEVOTjJHTHBRWWtLK3Z0bzQvd2NaU0h5eGx0ancxVUEv?=
- =?utf-8?B?QlREUFQ3ODV6QktjOTh0TEs3V1lzNVU4NkdXMi9KNGNmMGc5TmtxWURoS0FO?=
- =?utf-8?B?aWhNejdOU0I0ZFA1Yy9YUnFZcmJJT01zNThob0Z2djJQaVllMmN4ZUNKMDVp?=
- =?utf-8?B?MFdDMDlsajZqbnlpVVZCbnZTRE1ONzA2L3lOd05xcWh4QlRpN2FHOTlGcGNq?=
- =?utf-8?B?eUg3T1BYNWFZcEhUZFlTV0I5R3JEdUExaUttL1A5Q0RnQkxvQnZiM3d0eFh2?=
- =?utf-8?B?bWsvM2xWZXlUTWdmVEVTTTFrUjBzM3lPSVRNbjIyQWVmV1RxaUs1WXVZSTNu?=
- =?utf-8?B?NkpHMGxvbXp6WFM3L1Y1UXVQWm5EME02Y3NSNzY5dkR0dFR5RGZXZHhQbGNX?=
- =?utf-8?B?bWdvSVR3Qk40Nm5JVnJQbExFbURkY0hEczhaVlpoeEtpOHUvK0syY2poN1JN?=
- =?utf-8?B?SDVnd3hjcWdkL2pvZWlIWm5qRmhCOTErNFVSVGZDSDRDa2Jxd1ljSk1kZ0tn?=
- =?utf-8?B?ejNMN3kyRzhvUGY3ODRKbDltRUVpbmYramJSQkhFQThzLzZOd1liSmpIbXlk?=
- =?utf-8?B?cjlDQW1kU2k3SjBiWWFjbGtsVjY5V0Z5ZVVQT1lZdG43UEhsWjhtRS9nTTRi?=
- =?utf-8?B?OWI0ejMwUmVpc01vRUlXSzZjMFFJVUNvbjRCb2NFU1dWNXRod3h3S3dkMEJa?=
- =?utf-8?B?NnZVUTkrZVZKQlZkZ3Aza1lqNDRSOHJLazBKUDdXRFg3MVZXQmp2WE43Wkp0?=
- =?utf-8?B?SXpScXpObmxQUzUzeTBWV3ZNVjlScHB2YWxGM0R0SEo4WHZBK2VGUFlQUWtr?=
- =?utf-8?B?bWZHOW9wMTc0eXFscjh0Q0JJaFFuU21MNzVqUmJ4OFNQa1RHMUdHdEFxdEd4?=
- =?utf-8?B?MCs0UnJkMDk4V1RrT2psYjUvNEpiSVZYZkN1M1NzM1ZLQ2RYL3dQNjBYVzVs?=
- =?utf-8?B?K0R4Q0tvUzFEQnB5MTZBU1J0R0x2bDhXSzM0VEY2djcvSHFvSG9DRlJIUDJj?=
- =?utf-8?B?a2dyZXFMcU1WZEhtREQ1eHcxcnMxWXJEYk81a3g0RWlTZkhpdTFVUHJwZTVw?=
- =?utf-8?B?cXFOSFRsQzl1YjdyMldHbytBZWl4bUdkbFRnWTByK1VMWm1VVHVsQ1FCdHdE?=
- =?utf-8?B?MTVYQkR6WGRHbHBpMEQ2MjRsTk9rdVdnVHRXRGxub3hPU1Jia1p6bVBLNGQ3?=
- =?utf-8?B?anpjSm1iQ3lhMVhDSlo2cjRaVHJsaTRTdnVOV1dteGVvMUMrdkYrelFraEF6?=
- =?utf-8?B?WTd4VGdwK0Q0cGZLRXlMNXZ1dy9MK1NBMTNTclUxS3Zvd0ZrMjFIT01yN0o2?=
- =?utf-8?B?Z0RJTFBYbE9VbnNpaXBZazMvbGliVHNNL0VmQVNiTUEwVTNCaCtleENHWnlP?=
- =?utf-8?Q?FL1uKpfmuJJ34akf7b6XEmQ=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <FDD03A698AFC6649BA481F8FC235B2C9@FRAP264.PROD.OUTLOOK.COM>
-Content-Transfer-Encoding: base64
+        "Richard W . M . Jones" <rjones@redhat.com>,
+        Xiaoguang Wang <xiaoguang.wang@linux.alibaba.com>,
+        Stefan Hajnoczi <stefanha@redhat.com>,
+        ZiyangZhang <ZiyangZhang@linux.alibaba.com>
+Subject: [PATCH V4 1/1] Documentation: document ublk
+Date:   Fri,  2 Sep 2022 23:23:02 +0800
+Message-Id: <20220902152302.757375-1-ming.lei@redhat.com>
 MIME-Version: 1.0
-X-OriginatorOrg: csgroup.eu
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MRZP264MB2988.FRAP264.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: c586c10c-7429-441f-ca8f-08da8cf6ede6
-X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Sep 2022 15:22:20.7359
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 9914def7-b676-4fda-8815-5d49fb3b45c8
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: LoXTCUfvdmpRlwppmnZOuumg3jGMO8UhVGEAyONckIL5J9yNc+eE5Y2GnGVeCrobkuWaVqKuyrvG1NtJQX5lL5mpm/UGo8oggHg8xarDzoE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PR1P264MB3406
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-DQoNCkxlIDAyLzA5LzIwMjIgw6AgMTY6NTgsIEFuZHkgU2hldmNoZW5rbyBhIMOpY3JpdMKgOg0K
-PiBPbiBGcmksIFNlcCAyLCAyMDIyIGF0IDQ6NTcgUE0gQ2hyaXN0b3BoZSBMZXJveQ0KPiA8Y2hy
-aXN0b3BoZS5sZXJveUBjc2dyb3VwLmV1PiB3cm90ZToNCj4+DQo+PiBTaW5jZSBjb21taXQgMTRl
-ODVjMGU2OWQ1ICgiZ3BpbzogcmVtb3ZlIGdwaW9fZGVzY3MgZ2xvYmFsIGFycmF5IikNCj4+IHRo
-ZXJlIGlzIG5vIGxpbWl0YXRpb24gb24gdGhlIG51bWJlciBvZiBHUElPcyB0aGF0IGNhbiBiZSBh
-bGxvY2F0ZWQNCj4+IGluIHRoZSBzeXN0ZW0gc2luY2UgdGhlIGFsbG9jYXRpb24gaXMgZnVsbHkg
-ZHluYW1pYy4NCj4+DQo+PiBBUkNIX05SX0dQSU9TIGlzIHRvZGF5IG9ubHkgdXNlZCBpbiBvcmRl
-ciB0byBwcm92aWRlIGRvd253YXJkcw0KPj4gZ3Bpb2Jhc2UgYWxsb2NhdGlvbiBmcm9tIHRoYXQg
-dmFsdWUsIHdoaWxlIHN0YXRpYyBhbGxvY2F0aW9uIGlzDQo+PiBwZXJmb3JtZWQgdXB3YXJkcyBm
-cm9tIDAuIEhvd2V2ZXIgdGhhdCBoYXMgdGhlIGRpc2FkdmFudGFnZSBvZg0KPj4gbGltaXRpbmcg
-dGhlIG51bWJlciBvZiBHUElPcyB0aGF0IGNhbiBiZSByZWdpc3RlcmVkIGluIHRoZSBzeXN0ZW0u
-DQo+Pg0KPj4gVG8gb3ZlcmNvbWUgdGhpcyBsaW1pdGF0aW9uIHdpdGhvdXQgcmVxdWlyaW5nIGVh
-Y2ggYW5kIGV2ZXJ5DQo+PiBwbGF0Zm9ybSB0byBwcm92aWRlIGl0cyAnYmVzdC1ndWVzcycgbWF4
-aW11bSBudW1iZXIsIHJld29yayB0aGUNCj4+IGFsbG9jYXRpb24gdG8gYWxsb2NhdGUgdXB3YXJk
-cywgYWxsb3dpbmcgYXBwcm94IDIgbWlsbGlvbnMgb2YNCj4+IEdQSU9zLg0KPj4NCj4+IEluIG9y
-ZGVyIHRvIHN0aWxsIGFsbG93IHN0YXRpYyBhbGxvY2F0aW9uIGZvciBsZWdhY3kgZHJpdmVycywg
-ZGVmaW5lDQo+PiBHUElPX0RZTkFNSUNfQkFTRSB3aXRoIHRoZSB2YWx1ZSA1MTIgYXMgdGhlIHN0
-YXJ0IGZvciBkeW5hbWljDQo+PiBhbGxvY2F0aW9uLiBUaGUgNTEyIHZhbHVlIGlzIGNob3NlbiBi
-ZWNhdXNlIGl0IGlzIHRoZSBlbmQgb2YNCj4+IHRoZSBjdXJyZW50IGRlZmF1bHQgcmFuZ2Ugc28g
-YWxsIGN1cnJlbnQgc3RhdGljIGFsbG9jYXRpb25zIGFyZQ0KPj4gZXhwZWN0ZWQgdG8gYmUgYmVs
-b3cgdGhhdCB2YWx1ZS4gT2YgY291cnNlIHRoYXQncyBqdXN0IGEgcm91Z2gNCj4+IGVzdGltYXRl
-IGJhc2VkIG9uIHRoZSBkZWZhdWx0IHZhbHVlLCBidXQgYXNzdW1pbmcgc3RhdGljDQo+PiBhbGxv
-Y2F0aW9ucyBjb21lIGZpcnN0LCBldmVuIGlmIHRoZXJlIGFyZSBtb3JlIHN0YXRpYyBhbGxvY2F0
-aW9ucw0KPj4gaXQgc2hvdWxkIGZpdCB1bmRlciB0aGUgNTEyIHZhbHVlLg0KPj4NCj4+IEluIHRo
-ZSBmdXR1cmUsIGl0IGlzIGV4cGVjdGVkIHRoYXQgYWxsIHN0YXRpYyBhbGxvY2F0aW9ucyBnbyBh
-d2F5DQo+PiBhbmQgdGhlbiBkeW5hbWljIGFsbG9jYXRpb24gd2lsbCBiZSBwYXRjaGVkIHRvIHN0
-YXJ0IGF0IDAuDQo+IA0KPiBFdmVudHVhbGx5IHdlIGhhdmUgdG8gZ2V0IHJpZCBvZiBncGlvX2lz
-X3ZhbGlkKCkgY29tcGxldGVseS4uLg0KPiBCdXQgdGhpcyBpcyBhbm90aGVyIHN0b3J5Lg0KPiBS
-ZXZpZXdlZC1ieTogQW5keSBTaGV2Y2hlbmtvIDxhbmR5LnNoZXZjaGVua29AZ21haWwuY29tPg0K
-DQpZZXMgdGhhdCBjb3VsZCBiZSBkb25lIGFzIGEgZm9sbG93LXVwLg0KDQpUaGVyZSBhcmUgYWJv
-dXQgMzAwIGNhbGwgc2l0ZXMuDQoNClNob3VsZCBzaW1wbHkgcmVwbGFjZSBncGlvX2lzX3ZhbGlk
-KGdwaW8pIGJ5IGdwaW8gPj0gMC4gQW5kIHRoZW4gdmVyaWZ5IA0KdGhhdCB0aGUgY2hlY2sgaXMg
-cmVhbGx5IHJlcXVpcmVkLiBCdXQgbmVlZHMgdG8gY2hlY2sgc2lnbm5lc3Mgb2YgZ3BpbyANCmF0
-IGV2ZXJ5IHBsYWNlLg0KDQpGaXJzdCBsb29rIHNlZW1zIGFscmVhZHkgcHJvbWlzc2luZzoNCg0K
-DQppbnQgZ3Bpb19yZXF1ZXN0X29uZSh1bnNpZ25lZCBncGlvLCB1bnNpZ25lZCBsb25nIGZsYWdz
-LCBjb25zdCBjaGFyICpsYWJlbCkNCnsNCglzdHJ1Y3QgZ3Bpb19kZXNjICpkZXNjOw0KCWludCBl
-cnI7DQoNCglkZXNjID0gZ3Bpb190b19kZXNjKGdwaW8pOw0KDQoJLyogQ29tcGF0aWJpbGl0eTog
-YXNzdW1lIHVuYXZhaWxhYmxlICJ2YWxpZCIgR1BJT3Mgd2lsbCBhcHBlYXIgbGF0ZXIgKi8NCglp
-ZiAoIWRlc2MgJiYgZ3Bpb19pc192YWxpZChncGlvKSkNCgkJcmV0dXJuIC1FUFJPQkVfREVGRVI7
-DQoNCg==
+Add documentation for ublk subsystem. It was supposed to be documented when
+merging the driver, but missing at that time.
+
+Cc: Bagas Sanjaya <bagasdotme@gmail.com>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Richard W.M. Jones <rjones@redhat.com>
+Cc: Xiaoguang Wang <xiaoguang.wang@linux.alibaba.com>
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+Reviewed-by: ZiyangZhang <ZiyangZhang@linux.alibaba.com>
+Signed-off-by: Ming Lei <ming.lei@redhat.com>
+---
+V4:
+    - trivial grammar fix and patch subject change, from Bagas Sanjaya 
+V3:
+    - add more words on UBLK_IO_NEED_GET_DATA, from Ziyang
+    - improve grammar & fix warning on 'make htmldocs', from Bagas Sanjaya
+    - other trivial change, suggested by Richard W.M. Jones
+V2:
+    - integrate all kinds of cleanup from Bagas Sanjaya
+    - add 'why useful' paragraph from Stefan
+    - replace ublksrv with ublksrv for representing generic ublk
+      userspace for convenience of reference, as suggested by Stefan
+    - add entry to block/index.rst for removing ktest waring
+    - add MAINTAINER entry
+    - add more references, such as zero copy and nbdublk
+    - thanks review/suggestion from Bagas Sanjaya, Richard W.M. Jones, Stefan Hajnoczi
+    and ZiyangZhang
+
+ Documentation/block/index.rst |   1 +
+ Documentation/block/ublk.rst  | 253 ++++++++++++++++++++++++++++++++++
+ MAINTAINERS                   |   1 +
+ 3 files changed, 255 insertions(+)
+ create mode 100644 Documentation/block/ublk.rst
+
+diff --git a/Documentation/block/index.rst b/Documentation/block/index.rst
+index 68f115f2b1c6..c4c73db748a8 100644
+--- a/Documentation/block/index.rst
++++ b/Documentation/block/index.rst
+@@ -23,3 +23,4 @@ Block
+    stat
+    switching-sched
+    writeback_cache_control
++   ublk
+diff --git a/Documentation/block/ublk.rst b/Documentation/block/ublk.rst
+new file mode 100644
+index 000000000000..2122d1a4a541
+--- /dev/null
++++ b/Documentation/block/ublk.rst
+@@ -0,0 +1,253 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++===========================================
++Userspace block device driver (ublk driver)
++===========================================
++
++Overview
++========
++
++ublk is a generic framework for implementing block device logic from userspace.
++The motivation behind it is that moving virtual block drivers into userspace,
++such as loop, nbd and similar can be very helpful. It can help to implement
++new virtual block device such as ublk-qcow2 (there are several attempts of
++implementing qcow2 driver in kernel).
++
++Userspace block devices are attractive because:
++
++- They can be written many programming languages.
++- They can use libraries that are not available in the kernel.
++- They can be debugged with tools familiar to application developers.
++- Crashes do not kernel panic the machine.
++- Bugs are likely to have a lower security impact than bugs in kernel
++  code.
++- They can be installed and updated independently of the kernel.
++- They can be used to simulate block device easily with user specified
++  parameters/setting for test/debug purpose
++
++ublk block device (``/dev/ublkb*``) is added by ublk driver. Any IO request
++on the device will be forwarded to ublk userspace program. For convenience,
++in this document, ``ublk server`` refers to generic ublk userspace
++program. ``ublksrv`` [#userspace]_ is one of such implementation. It
++provides ``libublksrv`` [#userspace_lib]_ library for developing specific
++user block device conveniently, while also generic type block device is
++included, such as loop and null. Richard W.M. Jones wrote userspace nbd device
++``nbdublk`` [#userspace_nbdublk]_  based on ``libublksrv`` [#userspace_lib]_.
++
++After the IO is handled by userspace, the result is committed back to the
++driver, thus completing the request cycle. This way, any specific IO handling
++logic is totally done by userspace, such as loop's IO handling, NBD's IO
++communication, or qcow2's IO mapping.
++
++``/dev/ublkb*`` is driven by blk-mq request-based driver. Each request is
++assigned by one queue wide unique tag. ublk server assigns unique tag to each
++IO too, which is 1:1 mapped with IO of ``/dev/ublkb*``.
++
++Both the IO request forward and IO handling result committing are done via
++``io_uring`` passthrough command; that is why ublk is also one io_uring based
++block driver. It has been observed that using io_uring passthrough command can
++give better IOPS than block IO; which is why ublk is one of high performance
++implementation of userspace block device: not only IO request communication is
++done by io_uring, but also the preferred IO handling in ublk server is io_uring
++based approach too.
++
++ublk provides control interface to set/get ublk block device parameters.
++The interface is extendable and kabi compatible: basically any ublk request
++queue's parameter or ublk generic feature parameters can be set/get via the
++interface. Thus, ublk is generic userspace block device framework.
++For example, it is easy to setup a ublk device with specified block
++parameters from userspace.
++
++Using ublk
++==========
++
++ublk requires userspace ublk server to handle real block device logic.
++
++Below is example of using ``ublksrv`` to provide ublk-based loop device.
++
++- add a device::
++
++     ublk add -t loop -f ublk-loop.img
++
++- format with xfs, then use it::
++
++     mkfs.xfs /dev/ublkb0
++     mount /dev/ublkb0 /mnt
++     # do anything. all IOs are handled by io_uring
++     ...
++     umount /mnt
++
++- list the devices with their info::
++
++     ublk list
++
++- delete the device::
++
++     ublk del -a
++     ublk del -n $ublk_dev_id
++
++See usage details in README of ``ublksrv`` [#userspace_readme]_.
++
++Design
++======
++
++Control plane
++-------------
++
++ublk driver provides global misc device node (``/dev/ublk-control``) for
++managing and controlling ublk devices with help of several control commands:
++
++- ``UBLK_CMD_ADD_DEV``
++
++  Add a ublk char device (``/dev/ublkc*``) which is talked with ublk server
++  WRT IO command communication. Basic device info is sent together with this
++  command. It sets UAPI structure of ``ublksrv_ctrl_dev_info``,
++  such as ``nr_hw_queues``, ``queue_depth``, and max IO request buffer size,
++  for which the info is negotiated with the driver and sent back to the server.
++  When this command is completed, the basic device info is immutable.
++
++- ``UBLK_CMD_SET_PARAMS`` / ``UBLK_CMD_GET_PARAMS``
++
++  Set or get parameters of the device, which can be either generic feature
++  related, or request queue limit related, but can't be IO logic specific,
++  because the driver does not handle any IO logic. This command has to be
++  sent before sending ``UBLK_CMD_START_DEV``.
++
++- ``UBLK_CMD_START_DEV``
++
++  After the server prepares userspace resources (such as creating per-queue
++  pthread & io_uring for handling ublk IO), this command is sent to the
++  driver for allocating & exposing ``/dev/ublkb*``. Parameters set via
++  ``UBLK_CMD_SET_PARAMS`` are applied for creating the device.
++
++- ``UBLK_CMD_STOP_DEV``
++
++  Halt IO on ``/dev/ublkb*`` and remove the device. When this command returns,
++  ublk server will release resources (such as destroying per-queue pthread &
++  io_uring).
++
++- ``UBLK_CMD_DEL_DEV``
++
++  Remove ``/dev/ublkc*``. When this command returns, the allocated ublk device
++  number can be reused.
++
++- ``UBLK_CMD_GET_QUEUE_AFFINITY``
++
++  When ``/dev/ublkc`` is added, the driver creates block layer tagset, so
++  that each queue's affinity info is available. The server sends
++  ``UBLK_CMD_GET_QUEUE_AFFINITY`` to retrieve queue affinity info. It can
++  set up the per-queue context efficiently, such as bind affine CPUs with IO
++  pthread and try to allocate buffers in IO thread context.
++
++- ``UBLK_CMD_GET_DEV_INFO``
++
++  For retrieving device info via ``ublksrv_ctrl_dev_info``. It is the server's
++  responsibility to save IO target specific info in userspace.
++
++Data plane
++----------
++
++ublk server needs to create per-queue IO pthread & io_uring for handling IO
++commands via io_uring passthrough. The per-queue IO pthread
++focuses on IO handling and shouldn't handle any control & management
++tasks.
++
++The's IO is assigned by a unique tag, which is 1:1 mapping with IO
++request of ``/dev/ublkb*``.
++
++UAPI structure of ``ublksrv_io_desc`` is defined for describing each IO from
++the driver. A fixed mmaped area (array) on ``/dev/ublkc*`` is provided for
++exporting IO info to the server; such as IO offset, length, OP/flags and
++buffer address. Each ``ublksrv_io_desc`` instance can be indexed via queue id
++and IO tag directly.
++
++The following IO commands are communicated via io_uring passthrough command,
++and each command is only for forwarding the IO and committing the result
++with specified IO tag in the command data:
++
++- ``UBLK_IO_FETCH_REQ``
++
++  Sent from the server IO pthread for fetching future incoming IO requests
++  destined to ``/dev/ublkb*``. This command is sent only once from the server
++  IO pthread for ublk driver to setup IO forward environment.
++
++- ``UBLK_IO_COMMIT_AND_FETCH_REQ``
++
++  When an IO request is destined to ``/dev/ublkb*``, the driver stores
++  the IO's ``ublksrv_io_desc`` to the specified mapped area; then the
++  previous received IO command of this IO tag (either ``UBLK_IO_FETCH_REQ``
++  or ``UBLK_IO_COMMIT_AND_FETCH_REQ)`` is completed, so the server gets
++  the IO notification via io_uring.
++
++  After the server handles the IO, its result is committed back to the
++  driver by sending ``UBLK_IO_COMMIT_AND_FETCH_REQ`` back. Once ublkdrv
++  received this command, it parses the result and complete the request to
++  ``/dev/ublkb*``. In the meantime setup environment for fetching future
++  requests with the same IO tag. That is, ``UBLK_IO_COMMIT_AND_FETCH_REQ``
++  is reused for both fetching request and committing back IO result.
++
++- ``UBLK_IO_NEED_GET_DATA``
++
++  With ``UBLK_F_NEED_GET_DATA`` enabled, the WRITE request will be firstly
++  issued to ublk server without data copy. Then, IO backend of ublk server
++  receives the request and it can allocate data buffer and embed its addr
++  inside this new io command. After the kernel driver gets the command,
++  data copy is done from request pages to this backend's buffer. Finally,
++  backend receives the request again with data to be written and it can
++  truly handle the request.
++
++  ``UBLK_IO_NEED_GET_DATA`` adds one additional round-trip and one
++  io_uring_enter() syscall. Any user thinks that it may lower performance
++  should not enable UBLK_F_NEED_GET_DATA. ublk server pre-allocates IO
++  buffer for each IO by default. Any new project should try to use this
++  buffer to communicate with ublk driver. However, existing project may
++  break or not able to consume the new buffer interface; that's why this
++  command is added for backwards compatibility so that existing projects
++  can still consume existing buffers.
++
++- data copy between ublk server IO buffer and ublk block IO request
++
++  The driver needs to copy the block IO request pages into the server buffer
++  (pages) first for WRITE before notifying the server of the coming IO, so
++  that the server can handle WRITE request.
++
++  When the server handles READ request and sends
++  ``UBLK_IO_COMMIT_AND_FETCH_REQ`` to the server, ublkdrv needs to copy
++  the server buffer (pages) read to the IO request pages.
++
++Future development
++==================
++
++Container-aware ublk deivice
++----------------------------
++
++ublk driver doesn't handle any IO logic. Its function is well defined
++for now and very limited userspace interfaces are needed, which is also
++well defined too. It is possible to make ublk devices container-aware block
++devices in future as Stefan Hajnoczi suggested [#stefan]_, by removing
++ADMIN privilege.
++
++Zero copy
++---------
++
++Zero copy is a generic requirement for nbd, fuse or similar drivers. A
++problem [#xiaoguang]_ Xiaoguang mentioned is that pages mapped to userspace
++can't be remapped any more in kernel with existing mm interfaces. This can
++occurs when destining direct IO to ``/dev/ublkb*``. Also, he reported that
++big requests (IO size >= 256 KB) may benefit a lot from zero copy.
++
++
++References
++==========
++
++.. [#userspace] https://github.com/ming1/ubdsrv
++
++.. [#userspace_lib] https://github.com/ming1/ubdsrv/tree/master/lib
++
++.. [#userspace_nbdublk] https://gitlab.com/rwmjones/libnbd/-/tree/nbdublk
++
++.. [#userspace_readme] https://github.com/ming1/ubdsrv/blob/master/README
++
++.. [#stefan] https://lore.kernel.org/linux-block/YoOr6jBfgVm8GvWg@stefanha-x1.localdomain/
++
++.. [#xiaoguang] https://lore.kernel.org/linux-block/YoOr6jBfgVm8GvWg@stefanha-x1.localdomain/
+diff --git a/MAINTAINERS b/MAINTAINERS
+index f512b430c7cb..08a5c465a160 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -20760,6 +20760,7 @@ UBLK USERSPACE BLOCK DRIVER
+ M:	Ming Lei <ming.lei@redhat.com>
+ L:	linux-block@vger.kernel.org
+ S:	Maintained
++F:	Documentation/block/index.rst
+ F:	drivers/block/ublk_drv.c
+ F:	include/uapi/linux/ublk_cmd.h
+ 
+-- 
+2.31.1
+
