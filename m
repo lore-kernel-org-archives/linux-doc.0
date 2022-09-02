@@ -2,280 +2,183 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D16F0ECAAD5
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Sep 2022 13:47:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F1CFC6FA82
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Sep 2022 13:57:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238085AbiIBNrb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 2 Sep 2022 09:47:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50790 "EHLO
+        id S236983AbiIBN5M (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 2 Sep 2022 09:57:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35882 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237956AbiIBNrQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Sep 2022 09:47:16 -0400
-Received: from out1.migadu.com (out1.migadu.com [IPv6:2001:41d0:2:863f::])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5CB94A6C32
-        for <linux-doc@vger.kernel.org>; Fri,  2 Sep 2022 06:22:35 -0700 (PDT)
-Date:   Fri, 2 Sep 2022 20:56:15 +0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-        t=1662123398;
+        with ESMTP id S238510AbiIBN4u (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Sep 2022 09:56:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A4ED5E642
+        for <linux-doc@vger.kernel.org>; Fri,  2 Sep 2022 06:30:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1662125389;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=NU0T4jkqXK1GA+sw+LS7fvIgrHGZV2kbK32JJbNiTDc=;
-        b=fJY+b0DuHL6vlz7NZgjgfbLqesZ41ak+2ob5fl3EulVdJF6flS7fZd/GlVlQyjva2DF3mo
-        XjXSQfPVc33/MJWgh/kR6taeMTuYgR2ZL1HXsHugByHElqNSJvPt1juM7QNeF4nMUC0t57
-        nAujQBxoAoBu0iJJT0SAInRQA7+Kl8k=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From:   Wu XiangCheng <wu.xiangcheng@linux.dev>
-To:     Yanteng Si <siyanteng@loongson.cn>
-Cc:     alexs@kernel.org, bobwxc@email.cn, seakeel@gmail.com,
-        corbet@lwn.net, chenhuacai@kernel.org, jiaxun.yang@flygoat.com,
-        linux-doc@vger.kernel.org, siyanteng01@gmail.com
-Subject: Re: [PATCH v1 1/5] docs/zh_CN: add PCI acpi-info translation
-Message-ID: <YxH9b+m8iRn/GRH2@bobwxc.mipc>
-References: <cover.1662022757.git.siyanteng@loongson.cn>
- <b872e46c98551f94bdae4a8a5f3ed328b9070bd4.1662022757.git.siyanteng@loongson.cn>
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=lzxLFwuf/sIbhXE8ylkRHPZIoLPKTHRY8OYjNIVtYi0=;
+        b=Fg8QTDDablTwYBBafVUx7jaALAdV0gRTDYdlt5S/4TH/O4rcn0iSXSBW2oDOOYi1z+u5ij
+        6xnBjvJSw3RrMSKgYl84AUz/FHkjok/tD5HEfplyBCqpIWQbRmajnma3PmaL7k/tOykbnQ
+        32jGG+T4KB8cPnyjfPv/L/P7mdyBiT8=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-326-rU2S2oHGPvalT-aTdDn89g-1; Fri, 02 Sep 2022 09:29:45 -0400
+X-MC-Unique: rU2S2oHGPvalT-aTdDn89g-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id ECC3E1C05AC2;
+        Fri,  2 Sep 2022 13:29:44 +0000 (UTC)
+Received: from plouf.redhat.com (unknown [10.39.193.218])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 8F39D492C3B;
+        Fri,  2 Sep 2022 13:29:41 +0000 (UTC)
+From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
+To:     Greg KH <gregkh@linuxfoundation.org>,
+        Jiri Kosina <jikos@kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <kafai@fb.com>,
+        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
+        Kumar Kartikeya Dwivedi <memxor@gmail.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>, Shuah Khan <shuah@kernel.org>,
+        Dave Marchevsky <davemarchevsky@fb.com>,
+        Joe Stringer <joe@cilium.io>, Jonathan Corbet <corbet@lwn.net>
+Cc:     Tero Kristo <tero.kristo@linux.intel.com>,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        netdev@vger.kernel.org, bpf@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Subject: [PATCH bpf-next v10 00/23] Introduce eBPF support for HID devices
+Date:   Fri,  2 Sep 2022 15:29:15 +0200
+Message-Id: <20220902132938.2409206-1-benjamin.tissoires@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <b872e46c98551f94bdae4a8a5f3ed328b9070bd4.1662022757.git.siyanteng@loongson.cn>
-X-Migadu-Flow: FLOW_OUT
-X-Migadu-Auth-User: linux.dev
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-2022-09-01 (四) 19:15:42 +0800 Yanteng Si 曰：
-> Translate .../PCI/acpi-info.rst into Chinese.
-> Add PCI into .../zh_CN/index.rst.
-> 
-> Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
-> ---
->  .../translations/zh_CN/PCI/acpi-info.rst      | 139 ++++++++++++++++++
->  .../translations/zh_CN/PCI/index.rst          |  13 +-
->  Documentation/translations/zh_CN/index.rst    |   2 +-
->  3 files changed, 145 insertions(+), 9 deletions(-)
->  create mode 100644 Documentation/translations/zh_CN/PCI/acpi-info.rst
-> 
-> diff --git a/Documentation/translations/zh_CN/PCI/acpi-info.rst b/Documentation/translations/zh_CN/PCI/acpi-info.rst
-> new file mode 100644
-> index 000000000000..74405a0360dc
-> --- /dev/null
-> +++ b/Documentation/translations/zh_CN/PCI/acpi-info.rst
-@@ -0,0 +1,24 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +.. include:: ../disclaimer-zh_CN.rst
-> +
-> +:Original: Documentation/PCI/acpi-info.rst
-> +
-> +:翻译:
-> +
-> + 司延腾 Yanteng Si <siyanteng@loongson.cn>
-> +
-> +:校译:
-> +
-> +
-> +=====================
-> +PCI主桥的ACPI注意事项
-> +=====================
-> +
-> +一般的规则是，ACPI命名空间应该描述操作系统可能使用的所有东西，除非有其他方法让操作系
-> +统找到它[1, 2]。
-> +
-> +例如，没有标准的硬件机制来枚举PCI主桥，所以ACPI命名空间必须描述每个主桥、访问它
-> +下面的PCI配置空间的方法、主桥转发到PCI的地址空间窗口（使用_CRS）以及传统的INTx
-> +中断的路由（使用_PRT）。
-> +
-> +PCI设备，在主桥下面，通常不需要通过ACPI描述。操作系统可以通过标准的PCI枚举机制来
+Hi,
 
-在主桥下面的PCI设备
+here comes the v10 of the HID-BPF series.
 
-> +发现它们，使用配置访问来发现和识别设备，并读取和测量它们的BAR。然而，如果ACPI为它们
-> +提供电源管理或热插拔功能，或者如果设备有INTx中断，由平台中断控制器连接，需要一个_PRT
+Again, for a full explanation of HID-BPF, please refer to the last patch
+in this series (23/23).
 
-设备有由平台中断控制器连接的INTx中断
+Hopefully we are getting closer to merging the bpf-core changes that
+are pre-requesite of the HID work.
 
-> +来描述这些连接，这种情况下ACPI可以描述PCI设备。
-> +
-> +ACPI资源描述是通过ACPI命名空间中设备的_CRS对象完成的[2]。_CRS就像一个通用的PCI BAR：
-> +操作系统可以读取_CRS并找出正在消耗的资源，即使它没有该设备的驱动程序[3]。这一点很重要，
-> +因为它意味着一个旧的操作系统可以正确地工作，即使是在操作系统不知道的新设备的系统上。新设
-> +备可能什么都不做，但操作系统至少可以确保没有资源与它们冲突。
-> +
-> +像MCFG、HPET、ECDT等静态表，不是保留地址空间的机制。静态表是在操作系统在启动初期且在它
-> +能够解析ACPI命名空间之前需要知道的东西。如果定义了一个新的表，即使旧的操作系统忽略了这
-> +个表，它也需要正常运行。_CRS允许这样做，因为它是通用的，可以被旧的操作系统解析；而静态表
-> +则不允许。
-> +
-> +如果操作系统要管理一个通过ACPI描述的不可发现的设备，该设备将有一个特定的_HID/_CID，操
-> +作系统将其告诉与之绑定的驱动程序，并且_CRS告诉操作系统和驱动程序该设备的寄存器在哪里。
+This revision of the series focused on those bpf-core changes with
+a hopefully proper way of fixing access to ctx pointers, and a few more
+selftests to cover those changes.
 
-以告诉操作系统与之绑定的驱动程序
+Once those bpf changes are in, the HID changes are pretty much self
+consistent, which is a good thing, but I still wonder how we are going
+to merge the selftests. I'd rather have the selftests in the bpf tree to
+prevent any regression on bpf-core changes, but that might require some
+coordination between the HID and bpf trees.
 
-> +
-> +PCI主桥是PNP0A03或PNP0A08设备。它们的_CRS应该描述它们所消耗的所有地址空间。这包括它
-> +们转发到PCI总线上的所有窗口，以及不转发到PCI的主桥本身的寄存器。主桥的寄存器包括次要/下
-> +级总线寄存器，决定了桥下面的总线范围，窗口寄存器描述了桥洞，等等。这些都是设备相关的，非
-> +架构相关的东西，所以PNP0A03/PNP0A08驱动可以管理它们的唯一方法是通过_PRS/_CRS/_SRS，
-> +它包含了特定于设备的细节。主桥寄存器也包括ECAM空间，因为它是由主桥消耗的。
-> +
+Anyway, let's hope we are getting closer to the end of those revisions :)
 
-以下6段，检查多余的空格
+Cheers,
+Benjamin
 
-> +ACPI 定义了一个 Consumer/Producer 位来区分桥寄存器（“Consumer”下文译作消费者）和
-> +桥洞（“Producer”下文译作生产者）[4, 5]，但是早期的 BIOS 没有正确使用这个位。其结果
-> +是，目前的ACPI规范只为扩展地址空间描述符定义了消费者/生产者；在旧的QWord/Word/Word地
-> +址空间描述符中，该位应该被忽略。因此，操作系统必须假定所有的QWord/Word/Word描述符都是
-> +窗口。
-> +
-> +在增加扩展地址空间描述符之前，消费者/生产者的失败意味着没有办法描述PNP0A03/PNP0A08设
-> +备本身的桥寄存器。解决办法是在 PNP0C02 捕捉器中描述桥寄存器（包括 ECAM 空间）[6]。
-> +除了 ECAM 之外，桥寄存器空间反正是特定于设备的，所以通用的 PNP0A03/PNP0A08 驱动程
-> +序 (pci_root.c) 没有必要了解它。
-> +
-> +新的架构应该能够在 PNP0A03 设备中使用“消费者”扩展地址空间描述符，用于桥寄存器，包括
-> +ECAM，尽管对 [6] 的严格解释可能禁止这样做。旧的 x86 和 ia64 内核假定所有的地址空间
-> +描述符，包括“消费者”扩展地址空间的描述符，都是窗口，所以在这些架构上以这种方式描述桥寄
-> +存器是不安全的。
-> +
-> +PNP0C02 “主板”设备基本上是万能的。除了“不要将这些资源用于其他用途”之外，没有其他的编
-> +程模型。因此，PNP0C02 _CRS应该声明ACPI命名空间中(1)没有被_CRS声明的任何其他设备对
-> +象的地址空间，(2)不应该被OS分配给其他东西。
-> +
-> +除非有一个标准的固件接口用于配置访问，例如ia64 SAL接口[7], 否则PCIe规范要求使用增强
-> +型配置访问方法（ECAM）。主桥消耗ECAM内存地址空间并将内存访问转换为PCI配置访问。该规范
-> +定义了ECAM地址空间的布局和功能；只有地址空间的基础是特定于设备的。ACPI操作系统从静态
-> +MCFG表或PNP0A03设备中的_CBA方法中了解基础地址。
-> +
-> +MCFG表必须描述非热插拔主桥的ECAM空间[8]。由于MCFG是一个静态表，不能通过热插拔更新，
-> +PNP0A03设备中的_CBA方法描述了可热插拔主桥的ECAM空间[9]。请注意，对于 MCFG 和 _CBA，
-> +基址总是对应于总线 0，即使桥器下面的总线范围（通过 _CRS 报告）不从 0 开始。
-> +
-> +
-> +[1] ACPI 6.2, sec 6.1:
-> +    对于任何在非枚举类型的总线上的设备（例如，ISA总线），OSPM会枚举设备的标识符，ACPI
-> +    系统固件必须为每个设备提供一个_HID对象...以使OSPM能够做到这一点。
-> +
-> +[2] ACPI 6.2, sec 3.7:
-> +    操作系统枚举主板设备时，只需通过读取ACPI命名空间来寻找具有硬件ID的设备。
-> +
-> +    ACPI枚举的每个设备都包括ACPI命名空间中ACPI定义的对象，该对象报告设备可能占用的硬
-> +    件资源[_PRS]，报告设备当前使用的资源[_CRS]的对象，以及配置这些资源的对象[_SRS]。
-> +    这些信息被即插即用操作系统（OSPM）用来配置设备。
-> +
-> +[3] ACPI 6.2, sec 6.2:
-> +    OSPM使用设备配置对象来配置通过ACPI列举的设备的硬件资源。设备配置对象提供了关于当前
-> +    和可能的资源需求的信息，共享资源之间的关系，以及配置硬件资源的方法。
-> +
-> +    当OSPM枚举一个设备时，它调用_PRS来确定该设备的资源需求。它也可以调用_CRS来找到该设
-> +    备的当前资源设置。利用这些信息，即插即用系统决定设备应该消耗什么资源，并通过调用设备
-> +    的_SRS控制方法来设置这些资源。
-> +
-> +    在ACPI中，设备可以消耗资源（例如，传统的键盘），提供资源（例如，一个专有的PCI桥），
-> +    或者两者都做。除非另有规定，设备的资源被假定为来自设备层次结构中设备上方最近的匹配资
-> +    源。
-> +
-> +[4] ACPI 6.2, sec 6.4.3.5.1, 2, 3, 4:
-> +    QWord/DWord/Word 地址空间描述符 (.1, .2, .3)
-> +      常规标志: Bit [0] 被忽略。
-> +
-> +    扩展地址空间描述符 (.4)
-> +      常规标志: Bit [0] 消费者/生产者:
-> +
-> +        * 1 – 这个设备消费这个资源
-> +        * 0 – 该设备生产和消费该资源
-> +
-> +[5] ACPI 6.2, sec 19.6.43:
-> +    ResourceUsage指定内存范围是由这个设备（ResourceConsumer）消费还是传递给子设备
-> +    （ResourceProducer）。如果没有指定，那么就假定是ResourceConsumer。
-> +
-> +[6] PCI Firmware 3.2, sec 4.1.2:
-> +    如果操作系统不能原生的懂得保留MMCFG区域，MMCFG区域必须由固件保留。在MCFG表中或通
-> +    过_CBA方法（见第4.1.3节）报告的地址范围必须通过声明主板资源来保留。对于大多数系统，
-> +    主板资源将出现在ACPI命名空间的根部（在_SB下），在一个节点的_HID为EISAID（PNP0C0
-> +    2），在这种情况下的资源不应该要求在根PCI总线的_CRS。这些资源可以选择在Int15 E820
-> +    或EFIGetMemoryMap中作为保留内存返回，但必须始终通过ACPI作为主板资源报告。
-> +
-> +[7] PCI Express 4.0, sec 7.2.2:
-> +    对于PC兼容的系统，或者没有实现允许访问配置空间的处理器架构特定固件接口标准的系统，需
-> +    要使用本节中定义的ECAM。
-> +
-> +[8] PCI Firmware 3.2, sec 4.1.2:
-> +    MCFG表是一个ACPI表，用于沟通的基础地址对应的非热的可移动的PCI段组范围内的PCI段组在
-> +    启动时提供给操作系统。这对PC兼容系统来说是必需的。
-> +
-> +    MCFG表仅用于通信的基地址对应的PCI段组可用的系统在启动。
 
-MCFG表仅用于沟通在启动时系统可用的PCI段组对应的基址。
+Benjamin Tissoires (23):
+  selftests/bpf: regroup and declare similar kfuncs selftests in an
+    array
+  bpf: split btf_check_subprog_arg_match in two
+  bpf/verifier: allow all functions to read user provided context
+  selftests/bpf: add test for accessing ctx from syscall program type
+  bpf/btf: bump BTF_KFUNC_SET_MAX_CNT
+  bpf/verifier: allow kfunc to return an allocated mem
+  selftests/bpf: Add tests for kfunc returning a memory pointer
+  HID: core: store the unique system identifier in hid_device
+  HID: export hid_report_type to uapi
+  HID: convert defines of HID class requests into a proper enum
+  HID: Kconfig: split HID support and hid-core compilation
+  HID: initial BPF implementation
+  selftests/bpf: add tests for the HID-bpf initial implementation
+  HID: bpf: allocate data memory for device_event BPF programs
+  selftests/bpf/hid: add test to change the report size
+  HID: bpf: introduce hid_hw_request()
+  selftests/bpf: add tests for bpf_hid_hw_request
+  HID: bpf: allow to change the report descriptor
+  selftests/bpf: add report descriptor fixup tests
+  selftests/bpf: Add a test for BPF_F_INSERT_HEAD
+  samples/bpf: HID: add new hid_mouse example
+  samples/bpf: HID: add Surface Dial example
+  Documentation: add HID-BPF docs
 
-> +
-> +[9] PCI Firmware 3.2, sec 4.1.3:
-> +    _CBA (Memory mapped Configuration Base Address) 控制方法是一个可选的ACPI对
-> +    象，用于返回热插拔主桥的64位内存映射的配置基址。_CBA 返回的基址是与处理器相关的地址。
-> +    _CBA 控制方法被评估为一个整数。
-> +
-> +    这个控制方法出现在主桥对象下。当_CBA方法出现在一个活动的主桥对象下时，操作系统会评
-> +    估这个结构，以确定内存映射的配置基址，对应于_CRS方法中指定的总线编号范围的PCI段组。
-> +    一个包含_CBA方法的ACPI命名空间对象也必须包含一个相应的_SEG方法。
-> diff --git a/Documentation/translations/zh_CN/PCI/index.rst b/Documentation/translations/zh_CN/PCI/index.rst
-> index 16acb2bd9b58..cbeb33c34a98 100644
-> --- a/Documentation/translations/zh_CN/PCI/index.rst
-> +++ b/Documentation/translations/zh_CN/PCI/index.rst
-> @@ -10,9 +10,6 @@
->  :校译:
->  
->  
-> -
-> -.. _cn_PCI_index.rst:
-> -
->  ===================
->  Linux PCI总线子系统
->  ===================
-> @@ -26,12 +23,12 @@ Linux PCI总线子系统
->     pci-iov-howto
->     msi-howto
->     sysfs-pci
-> +   acpi-info
->  
->  
->  Todolist:
->  
-> -   acpi-info
-> -   pci-error-recovery
-> -   pcieaer-howto
-> -   endpoint/index
-> -   boot-interrupts
-> +* pci-error-recovery
-> +* pcieaer-howto
-> +* endpoint/index
-> +* boot-interrupts
-> diff --git a/Documentation/translations/zh_CN/index.rst b/Documentation/translations/zh_CN/index.rst
-> index 4f04367a4c5e..2fc60e60feb4 100644
-> --- a/Documentation/translations/zh_CN/index.rst
-> +++ b/Documentation/translations/zh_CN/index.rst
-> @@ -121,6 +121,7 @@ TODOList:
->     scheduler/index
->     mm/index
->     peci/index
-> +   PCI/index
->  
->  TODOList:
->  
-> @@ -148,7 +149,6 @@ TODOList:
->  * crypto/index
->  * bpf/index
->  * usb/index
-> -* PCI/index
->  * scsi/index
->  * misc-devices/index
->  * mhi/index
-> -- 
-> 2.31.1
-> 
-
-Thanks,
+ Documentation/hid/hid-bpf.rst                 | 513 +++++++++
+ Documentation/hid/index.rst                   |   1 +
+ drivers/Makefile                              |   2 +-
+ drivers/hid/Kconfig                           |  20 +-
+ drivers/hid/Makefile                          |   2 +
+ drivers/hid/bpf/Kconfig                       |  17 +
+ drivers/hid/bpf/Makefile                      |  11 +
+ drivers/hid/bpf/entrypoints/Makefile          |  93 ++
+ drivers/hid/bpf/entrypoints/README            |   4 +
+ drivers/hid/bpf/entrypoints/entrypoints.bpf.c |  66 ++
+ .../hid/bpf/entrypoints/entrypoints.lskel.h   | 682 ++++++++++++
+ drivers/hid/bpf/hid_bpf_dispatch.c            | 526 ++++++++++
+ drivers/hid/bpf/hid_bpf_dispatch.h            |  28 +
+ drivers/hid/bpf/hid_bpf_jmp_table.c           | 577 ++++++++++
+ drivers/hid/hid-core.c                        |  49 +-
+ include/linux/bpf.h                           |  11 +-
+ include/linux/bpf_verifier.h                  |   2 +
+ include/linux/btf.h                           |  10 +
+ include/linux/hid.h                           |  38 +-
+ include/linux/hid_bpf.h                       | 148 +++
+ include/uapi/linux/hid.h                      |  26 +-
+ include/uapi/linux/hid_bpf.h                  |  25 +
+ kernel/bpf/btf.c                              | 149 ++-
+ kernel/bpf/verifier.c                         |  66 +-
+ net/bpf/test_run.c                            |  37 +
+ samples/bpf/.gitignore                        |   2 +
+ samples/bpf/Makefile                          |  27 +
+ samples/bpf/hid_mouse.bpf.c                   | 134 +++
+ samples/bpf/hid_mouse.c                       | 161 +++
+ samples/bpf/hid_surface_dial.bpf.c            | 161 +++
+ samples/bpf/hid_surface_dial.c                | 232 ++++
+ tools/include/uapi/linux/hid.h                |  62 ++
+ tools/include/uapi/linux/hid_bpf.h            |  25 +
+ tools/testing/selftests/bpf/Makefile          |   2 +-
+ tools/testing/selftests/bpf/config            |   3 +
+ tools/testing/selftests/bpf/prog_tests/hid.c  | 990 ++++++++++++++++++
+ .../selftests/bpf/prog_tests/kfunc_call.c     | 182 +++-
+ tools/testing/selftests/bpf/progs/hid.c       | 206 ++++
+ .../selftests/bpf/progs/kfunc_call_fail.c     | 160 +++
+ .../selftests/bpf/progs/kfunc_call_test.c     |  71 ++
+ 40 files changed, 5416 insertions(+), 105 deletions(-)
+ create mode 100644 Documentation/hid/hid-bpf.rst
+ create mode 100644 drivers/hid/bpf/Kconfig
+ create mode 100644 drivers/hid/bpf/Makefile
+ create mode 100644 drivers/hid/bpf/entrypoints/Makefile
+ create mode 100644 drivers/hid/bpf/entrypoints/README
+ create mode 100644 drivers/hid/bpf/entrypoints/entrypoints.bpf.c
+ create mode 100644 drivers/hid/bpf/entrypoints/entrypoints.lskel.h
+ create mode 100644 drivers/hid/bpf/hid_bpf_dispatch.c
+ create mode 100644 drivers/hid/bpf/hid_bpf_dispatch.h
+ create mode 100644 drivers/hid/bpf/hid_bpf_jmp_table.c
+ create mode 100644 include/linux/hid_bpf.h
+ create mode 100644 include/uapi/linux/hid_bpf.h
+ create mode 100644 samples/bpf/hid_mouse.bpf.c
+ create mode 100644 samples/bpf/hid_mouse.c
+ create mode 100644 samples/bpf/hid_surface_dial.bpf.c
+ create mode 100644 samples/bpf/hid_surface_dial.c
+ create mode 100644 tools/include/uapi/linux/hid.h
+ create mode 100644 tools/include/uapi/linux/hid_bpf.h
+ create mode 100644 tools/testing/selftests/bpf/prog_tests/hid.c
+ create mode 100644 tools/testing/selftests/bpf/progs/hid.c
+ create mode 100644 tools/testing/selftests/bpf/progs/kfunc_call_fail.c
 
 -- 
-Wu XiangCheng	0x32684A40BCA7AEA7
+2.36.1
 
