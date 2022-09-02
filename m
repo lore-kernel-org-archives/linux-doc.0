@@ -2,172 +2,166 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A979BC6FA82
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Sep 2022 00:19:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F5E9ECAAD3
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Sep 2022 01:18:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233521AbiIBAT4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 1 Sep 2022 20:19:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48426 "EHLO
+        id S235083AbiIBBSG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 1 Sep 2022 21:18:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55516 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229584AbiIBATz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Sep 2022 20:19:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24E795FC8
-        for <linux-doc@vger.kernel.org>; Thu,  1 Sep 2022 17:19:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1662077991;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=dO2Mn5n5WZ/MoIF+K7eeDvmnGSBHo08xkcQ+P3b4bKQ=;
-        b=OdrEFSSLjxcA3x3TNPFIqhu1g1YyQPk8argzLbuW2lofAtVHbahEgP7RZu4G4Eiwu2YGj0
-        vbDHcJntDhUp320HB+cZ+dUD0gO2ctKTHZmMlh3zkzNrijkMHF7qAhMhPF9y30xVeyTE9E
-        ltEBTUYzopBoLssnGL3OoUXtADuViQs=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-14-siqlneo7OvimNZP12Jr7SQ-1; Thu, 01 Sep 2022 20:19:49 -0400
-X-MC-Unique: siqlneo7OvimNZP12Jr7SQ-1
-Received: by mail-ej1-f69.google.com with SMTP id ho13-20020a1709070e8d00b00730a655e173so174694ejc.8
-        for <linux-doc@vger.kernel.org>; Thu, 01 Sep 2022 17:19:49 -0700 (PDT)
+        with ESMTP id S234867AbiIBBSF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Sep 2022 21:18:05 -0400
+Received: from mail-vs1-xe2b.google.com (mail-vs1-xe2b.google.com [IPv6:2607:f8b0:4864:20::e2b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0DCDEA3D5C
+        for <linux-doc@vger.kernel.org>; Thu,  1 Sep 2022 18:18:04 -0700 (PDT)
+Received: by mail-vs1-xe2b.google.com with SMTP id j6so698125vsr.0
+        for <linux-doc@vger.kernel.org>; Thu, 01 Sep 2022 18:18:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date;
+        bh=rTzDP//vpfHx0nVWxJbV0HFrI6D0C5HQYNSPKTmQmqc=;
+        b=UWgThLj5qQy1WVf4h5Ch3hkbBGqp3/CtfM0uY0BEiBrEmfKmoOMhR9TKodXHXQ8UZI
+         Nps5eH9fwSuxS1+/Kpa/4rK/MRM5r5tRDduhRCq8fKqe8yv0MTE5YWK6lJZr7U3Jolcb
+         8ZeQtzQywmft38Mjk6K0YLw6peWxrRLhr7EWznpYO3b4hO0iexzPpulNjFSfTQZxKspw
+         XpfMEuCDg7sCgaYl9UdRJUa36ssv+biiXphvOPD6fo0JdXpQUVd4pLJ0Y4/SyNJhRTHC
+         j9MbKYChOijhjoCVpKNC/fLAUPWifHdbz2EqRZrbosyYkPYxfMGuUMyUiKg+WkmZWK4Y
+         tBPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
-         :content-language:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=dO2Mn5n5WZ/MoIF+K7eeDvmnGSBHo08xkcQ+P3b4bKQ=;
-        b=ibbnLYOOVhTGxdcEPsTdwFu3xOlQD7BbtnIWJ9shVfHkV8yNYBsU0Cn1xayI5fW9c4
-         PSv/JIA8lIqfUjVdHadHWFH8OCiGqAZOKVGRrlPiFtRo8PKp554Z03UVPgSvm4pGUnqK
-         ssQIbWCcqsPMAQ45n/KBua0heh1SLV/5eJu779Jv8dcSzDpqS1zKpHiTA8ERVQ2lpFmZ
-         dkrqODHS7OG18bUd4iw9pFynP0uppBfVp7zPTpbumRoVoJjPnHZc32tEnNbK946Bbo1u
-         XtoztUDNYJ7uc+LWBePP8hAKWZC+MDGJKO6YOYG8uhnMMXxrMICJPDBIn8zP/JMNK1md
-         A6kg==
-X-Gm-Message-State: ACgBeo3cWpwRC1xiRHqXDd3GIOBcV6A2iTzTdXpnwxF8eCSBL/I/xSRX
-        sGbSN42w0c7RJ86yOO72xZZ7cJgNqQrKzApPOeUTYguEuE6A2I15MdgnIuyyw9CKYRksfzqn5mD
-        gyIQCQCQ0awG+x03Flnza
-X-Received: by 2002:a17:906:4795:b0:73d:d6e8:52a7 with SMTP id cw21-20020a170906479500b0073dd6e852a7mr23729558ejc.59.1662077988837;
-        Thu, 01 Sep 2022 17:19:48 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR71etqoXM4HGXVz/MwtlqW3T8BbNkFPT5a/e9qOoDZWnrG77GI6lD81PpRdFOR9EqVhGDa/oA==
-X-Received: by 2002:a17:906:4795:b0:73d:d6e8:52a7 with SMTP id cw21-20020a170906479500b0073dd6e852a7mr23729550ejc.59.1662077988617;
-        Thu, 01 Sep 2022 17:19:48 -0700 (PDT)
-Received: from ?IPV6:2001:b07:6468:f312:9af8:e5f5:7516:fa89? ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
-        by smtp.googlemail.com with ESMTPSA id lb14-20020a170907784e00b00741a0c3f4cdsm352041ejc.189.2022.09.01.17.19.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 01 Sep 2022 17:19:48 -0700 (PDT)
-Message-ID: <44a42d03-4dd1-3f1c-3a60-7c2a6a7d417a@redhat.com>
-Date:   Fri, 2 Sep 2022 02:19:46 +0200
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date;
+        bh=rTzDP//vpfHx0nVWxJbV0HFrI6D0C5HQYNSPKTmQmqc=;
+        b=tThzOy0v6QQdZDC5S3mssDZ1ncwfXzF5Wnr7biREZzi7w8zMT0XSaPs/ivtH/Pxfvn
+         /In7ZWs0zVgJ7RAHiv1SZLDpuFBYZSwyjR+r0GwqRmW1izg42VW9P/w6WBmXBF8+cNq+
+         +KEHeUVCBYj6aX0kfNsd/mCkxy0iUbRPQ/n+TWnyIkl1OrmhugmSTDk+N8rDEjEOq+R8
+         MxwtjFI+/O+9NnIJ0Gvfswc9SOHxhEMNiufFoGq85Oj0Wgk6eNlv0v153xrMVOi54wr2
+         FVOnDJcrbryVsfJizTj2y8TQaWLdDSdsPtGZPJ01iRcrmXLHLLeMOiwCNeKeOFb/fSxA
+         /sYw==
+X-Gm-Message-State: ACgBeo3VufqZPAFqm4xU036/ynz7cVGQwJsxKd+Kvl2lqxqjuAO2ZVWT
+        DI+IeSISQl58BFHmyrgyJAh3DPwt5MDtVlbz9LkB8g==
+X-Google-Smtp-Source: AA6agR7Tip6gCheFWRsDQxtd28hkc6ZUgXtTAsFe4eAmn5ExZQLdjvj3BoPN4Q/OdMBoJts2UxkQZmxs+NLu6F9s1wI=
+X-Received: by 2002:a67:d512:0:b0:390:db32:a96 with SMTP id
+ l18-20020a67d512000000b00390db320a96mr8270856vsj.15.1662081482992; Thu, 01
+ Sep 2022 18:18:02 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.0
-Content-Language: en-US
-To:     Peter Xu <peterx@redhat.com>, Marc Zyngier <maz@kernel.org>
-Cc:     Oliver Upton <oliver.upton@linux.dev>,
-        Gavin Shan <gshan@redhat.com>, kvmarm@lists.cs.columbia.edu,
-        linux-arm-kernel@lists.infradead.org, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, corbet@lwn.net,
-        james.morse@arm.com, alexandru.elisei@arm.com,
-        suzuki.poulose@arm.com, catalin.marinas@arm.com, will@kernel.org,
-        shuah@kernel.org, seanjc@google.com, drjones@redhat.com,
-        dmatlack@google.com, bgardon@google.com, ricarkol@google.com,
-        zhenyzha@redhat.com, shan.gavin@gmail.com
-References: <20220819005601.198436-1-gshan@redhat.com>
- <20220819005601.198436-2-gshan@redhat.com> <87lerkwtm5.wl-maz@kernel.org>
- <41fb5a1f-29a9-e6bb-9fab-4c83a2a8fce5@redhat.com>
- <87fshovtu0.wl-maz@kernel.org> <YwTn2r6FLCx9mAU7@google.com>
- <87a67uwve8.wl-maz@kernel.org>
- <99364855-b4e9-8a69-e1ca-ed09d103e4c8@redhat.com>
- <874jxzvxak.wl-maz@kernel.org> <Yw4hyEAyivKT35vQ@xz-m1.local>
-From:   Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH v1 1/5] KVM: arm64: Enable ring-based dirty memory
- tracking
-In-Reply-To: <Yw4hyEAyivKT35vQ@xz-m1.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20220815071332.627393-1-yuzhao@google.com> <20220815071332.627393-8-yuzhao@google.com>
+ <0F7CF2A7-F671-4196-B8FD-F35E9556391B@gmail.com>
+In-Reply-To: <0F7CF2A7-F671-4196-B8FD-F35E9556391B@gmail.com>
+From:   Yu Zhao <yuzhao@google.com>
+Date:   Thu, 1 Sep 2022 19:17:26 -0600
+Message-ID: <CAOUHufZ6LGyBoPBkniB63-77r5=1POWpEWmUTESFtJo2bwbi-w@mail.gmail.com>
+Subject: Re: [PATCH v14 07/14] mm: multi-gen LRU: exploit locality in rmap
+To:     Nadav Amit <nadav.amit@gmail.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Andi Kleen <ak@linux.intel.com>,
+        Aneesh Kumar <aneesh.kumar@linux.ibm.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Hillf Danton <hdanton@sina.com>, Jens Axboe <axboe@kernel.dk>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        Mel Gorman <mgorman@suse.de>,
+        Michael Larabel <Michael@michaellarabel.com>,
+        Michal Hocko <mhocko@kernel.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Tejun Heo <tj@kernel.org>, Vlastimil Babka <vbabka@suse.cz>,
+        Will Deacon <will@kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux MM <linux-mm@kvack.org>, X86 ML <x86@kernel.org>,
+        Kernel Page Reclaim v2 <page-reclaim@google.com>,
+        Barry Song <baohua@kernel.org>,
+        Brian Geffon <bgeffon@google.com>,
+        Jan Alexander Steffens <heftig@archlinux.org>,
+        Oleksandr Natalenko <oleksandr@natalenko.name>,
+        Steven Barrett <steven@liquorix.net>,
+        Suleiman Souhlal <suleiman@google.com>,
+        Daniel Byrne <djbyrne@mtu.edu>,
+        Donald Carr <d@chaos-reins.com>,
+        =?UTF-8?Q?Holger_Hoffst=C3=A4tte?= <holger@applied-asynchrony.com>,
+        Konstantin Kharlamov <Hi-Angel@yandex.ru>,
+        Shuang Zhai <szhai2@cs.rochester.edu>,
+        Sofia Trinh <sofia.trinh@edi.works>,
+        Vaibhav Jain <vaibhav@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 8/30/22 16:42, Peter Xu wrote:
-> Marc,
-> 
-> I thought we won't hit this as long as we properly take care of other
-> orderings of (a) gfn push, and (b) gfn collect, but after a second thought
-> I think it's indeed logically possible that with a reversed ordering here
-> we can be reading some garbage gfn before (a) happens butt also read the
-> valid flag after (b).
-> 
-> It seems we must have all the barriers correctly applied always.  If that's
-> correct, do you perhaps mean something like this to just add the last piece
-> of barrier?
+On Thu, Sep 1, 2022 at 3:18 AM Nadav Amit <nadav.amit@gmail.com> wrote:
+>
+>
+>
+> > On Aug 15, 2022, at 12:13 AM, Yu Zhao <yuzhao@google.com> wrote:
+> >
+> > Searching the rmap for PTEs mapping each page on an LRU list (to test
+> > and clear the accessed bit) can be expensive because pages from
+> > different VMAs (PA space) are not cache friendly to the rmap (VA
+> > space). For workloads mostly using mapped pages, searching the rmap
+> > can incur the highest CPU cost in the reclaim path.
+>
+> Impressive work. Sorry if my feedback is not timely.
+>
+> Just one minor point for thought, that can be left for a later cleanup.
+>
+> >
+> > +     for (i =3D 0, addr =3D start; addr !=3D end; i++, addr +=3D PAGE_=
+SIZE) {
+> > +             unsigned long pfn;
+> > +
+> > +             pfn =3D get_pte_pfn(pte[i], pvmw->vma, addr);
+> > +             if (pfn =3D=3D -1)
+> > +                     continue;
+> > +
+> > +             if (!pte_young(pte[i]))
+> > +                     continue;
+> > +
+> > +             folio =3D get_pfn_folio(pfn, memcg, pgdat);
+> > +             if (!folio)
+> > +                     continue;
+> > +
+> > +             if (!ptep_test_and_clear_young(pvmw->vma, addr, pte + i))
+> > +                     continue;
+> > +
+>
+> You have already checked that the PTE is old (not young) so this check
+> seems redundant.
 
-Okay, so I thought about it some more and it's quite tricky.
+You are right, for x86, which belongs to category 1: hardware and
+OS share the same paging data structure.
 
-Strictly speaking, the synchronization is just between userspace and 
-kernel. The fact that the actual producer of dirty pages is in another 
-CPU is a red herring, because reset only cares about harvested pages.
+> I do not see a way in which the access-bit can be cleared
+> since you hold the ptl.
 
-In other words, the dirty page ring is essentially two ring buffers in 
-one and we only care about the "harvested ring", not the "produced ring".
+There is also category 2: the OS paging data structure is a shadow of what
+hardware actually uses, e.g., POWER9 radix.
 
-On the other hand, it may happen that userspace has set more RESET flags 
-while the ioctl is ongoing:
+To make both categories work, the general rule is that the OS paging
+data structure must be more strict, i.e., it can have A/D bits set
+while the hardware paging data structure may not. The opposite is not
+allowed, even for the A bit, because the A bit can also be used to
+determine whether a TLB flush is required. The Linux kernel doesn't do
+this but there are other OSes that do.
 
+For prefaulted PTEs, we generally mark them young unless
+arch_wants_old_prefaulted_pte() returns true (currently only ARMv8.2+
+do). On POWER9, we'd see those PTEs pass the first check but fail the
+second.
 
-     CPU0                     CPU1               CPU2
-                                                 fill gfn0
-                                                 store-rel flags for gfn0
-                                                 fill gfn1
-                                                 store-rel flags for gfn1
-     load-acq flags for gfn0
-     set RESET for gfn0
-     load-acq flags for gfn1
-     set RESET for gfn1
-     do ioctl! ----------->
-                              ioctl(RESET_RINGS)
-                                                 fill gfn2
-                                                 store-rel flags for gfn2
-     load-acq flags for gfn2
-     set RESET for gfn2
-                              process gfn0
-                              process gfn1
-                              process gfn2
-     do ioctl!
-     etc.
+> IOW, there is no need for the =E2=80=9Cif" and =E2=80=9Ccontinue".
+>
+> Makes me also wonder whether having a separate ptep_clear_young() can
+> slightly help, since anyhow the access-bit is more of an estimation,
+> and having a separate ptep_clear_young() can enable optimizations.
+>
+> On x86, for instance, if the PTE is dirty, we may be able to clear the
+> access-bit without an atomic operation, which should be faster.
 
-The three load-acquire in CPU0 synchronize with the three store-release 
-in CPU2, but CPU0 and CPU1 are only synchronized up to gfn1 and CPU1 may 
-miss gfn2's fields other than flags.
-
-The kernel must be able to cope with invalid values of the fields, and 
-userspace will invoke the ioctl once more.  However, once the RESET flag 
-is cleared on gfn2, it is lost forever, therefore in the above scenario 
-CPU1 must read the correct value of gfn2's fields.
-
-Therefore RESET must be set with a store-release, that will synchronize 
-with a load-acquire in CPU1 as you suggested.
-
-Paolo
-
-> diff --git a/virt/kvm/dirty_ring.c b/virt/kvm/dirty_ring.c
-> index f4c2a6eb1666..ea620bfb012d 100644
-> --- a/virt/kvm/dirty_ring.c
-> +++ b/virt/kvm/dirty_ring.c
-> @@ -84,7 +84,7 @@ static inline void kvm_dirty_gfn_set_dirtied(struct kvm_dirty_gfn *gfn)
->  
->  static inline bool kvm_dirty_gfn_harvested(struct kvm_dirty_gfn *gfn)
->  {
-> -       return gfn->flags & KVM_DIRTY_GFN_F_RESET;
-> +       return smp_load_acquire(&gfn->flags) & KVM_DIRTY_GFN_F_RESET;
->  }
->  
->  int kvm_dirty_ring_reset(struct kvm *kvm, struct kvm_dirty_ring *ring)
-> ===8<===
-> 
-> Thanks,
-> 
-> -- 
-> Peter Xu
-> 
-
+Agreed.
