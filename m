@@ -2,128 +2,233 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CF68C38145
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Sep 2022 13:37:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E61CBC6FA87
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Sep 2022 13:45:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236780AbiIBNhw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 2 Sep 2022 09:37:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51028 "EHLO
+        id S237971AbiIBNpw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 2 Sep 2022 09:45:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44878 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237411AbiIBNhD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Sep 2022 09:37:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E1761F7B28
-        for <linux-doc@vger.kernel.org>; Fri,  2 Sep 2022 06:16:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1662124500;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=10S2baNmGpvfbB3rWC8TV3GU8jc51um5+NmqwLplTxA=;
-        b=bbnPFkQtBv7JPymZRoXwdz+lQun4uZkFf1l8XQ+jUrHqg/S9evJ3dug7DJQHZiIC3TJX6S
-        NyPeGnqV+DigYEU2R97h4tgNaql/URtrnUPzwVHVo81JSgIIQ4dbF4xOF15MRtv50O/yis
-        ZUfo3Ouuwm8J89Rl0zLozX9BHs/BpDg=
-Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com
- [209.85.214.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-306-iRc7c65JMsmO9vciXBmG-g-1; Fri, 02 Sep 2022 09:11:50 -0400
-X-MC-Unique: iRc7c65JMsmO9vciXBmG-g-1
-Received: by mail-pl1-f197.google.com with SMTP id n1-20020a170902d2c100b0017520dd4a0eso1270643plc.8
-        for <linux-doc@vger.kernel.org>; Fri, 02 Sep 2022 06:11:50 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=10S2baNmGpvfbB3rWC8TV3GU8jc51um5+NmqwLplTxA=;
-        b=yBPgrHnrEmuO+GsGXmRs+BI1hoRHCOKgxGSNYTEDs1z2zFrVXdUYXAaK0org8KOQEd
-         8hrNTBT8du5uLwRbf807Cla1V+Ivq0kkMTWzEWvpgnOAKDOQmLFMnz8GhplTUxItndWO
-         pOa7WUSt9wYJlmLhd6HwGh164ErcedKhPAEoW3j9lGRtwHf/KjjFu93N0O6fd7ZCJWH0
-         16dQC2I5884HGXirFxjnQo88oL4nyPiidV5aHGzZa/1HVN5RN7eXp+i3mbNDsiYeNlh+
-         1oQS5MkjQ45gQudb611ij33lpL3lRB50VH725NQe/jTLNbc3x9svJaVNuG48N3qtWewA
-         Hj8Q==
-X-Gm-Message-State: ACgBeo3zk8eZOkxF9Qe3snoaRPk3KUGRa6xXRb4CmqLuXkxBNWUdx2fO
-        fcxHXIcxtjrNGZE7NfkNWdliKZPY4qRlEdJJ6POwFGFO24oJIqRIdtGRdX482EQo30aJIaGBLXw
-        ER209P7Sii8/cGZR4IpCbwQcHwOsn7szkZ7Wr
-X-Received: by 2002:a17:902:b58a:b0:16e:f91a:486b with SMTP id a10-20020a170902b58a00b0016ef91a486bmr36558487pls.119.1662124309710;
-        Fri, 02 Sep 2022 06:11:49 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR72EpfhkEK4ko7qYW4nPa0blgG/78lQfqmeZeVLgOOiuWSw4Fu8+YGj6zLNMt/u79Hm3xPofVjqghC/L9D7cM4=
-X-Received: by 2002:a17:902:b58a:b0:16e:f91a:486b with SMTP id
- a10-20020a170902b58a00b0016ef91a486bmr36558475pls.119.1662124309461; Fri, 02
- Sep 2022 06:11:49 -0700 (PDT)
+        with ESMTP id S236986AbiIBNpS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Sep 2022 09:45:18 -0400
+Received: from pegase2.c-s.fr (pegase2.c-s.fr [93.17.235.10])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 566C612D515;
+        Fri,  2 Sep 2022 06:21:19 -0700 (PDT)
+Received: from localhost (mailhub3.si.c-s.fr [172.26.127.67])
+        by localhost (Postfix) with ESMTP id 4MJyHb0wlzz9slp;
+        Fri,  2 Sep 2022 14:42:51 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from pegase2.c-s.fr ([172.26.127.65])
+        by localhost (pegase2.c-s.fr [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id t6fBFsb4UbyX; Fri,  2 Sep 2022 14:42:51 +0200 (CEST)
+Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
+        by pegase2.c-s.fr (Postfix) with ESMTP id 4MJyHS0zPBz9sls;
+        Fri,  2 Sep 2022 14:42:44 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+        by messagerie.si.c-s.fr (Postfix) with ESMTP id 0C99A8B78C;
+        Fri,  2 Sep 2022 14:42:44 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from messagerie.si.c-s.fr ([127.0.0.1])
+        by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
+        with ESMTP id TIqipSHIuhEZ; Fri,  2 Sep 2022 14:42:43 +0200 (CEST)
+Received: from PO20335.IDSI0.si.c-s.fr (unknown [192.168.232.39])
+        by messagerie.si.c-s.fr (Postfix) with ESMTP id CDF5D8B78D;
+        Fri,  2 Sep 2022 14:42:42 +0200 (CEST)
+Received: from PO20335.IDSI0.si.c-s.fr (localhost [127.0.0.1])
+        by PO20335.IDSI0.si.c-s.fr (8.17.1/8.16.1) with ESMTPS id 282CgYdb2141515
+        (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+        Fri, 2 Sep 2022 14:42:34 +0200
+Received: (from chleroy@localhost)
+        by PO20335.IDSI0.si.c-s.fr (8.17.1/8.17.1/Submit) id 282CgY0K2141514;
+        Fri, 2 Sep 2022 14:42:34 +0200
+X-Authentication-Warning: PO20335.IDSI0.si.c-s.fr: chleroy set sender to christophe.leroy@csgroup.eu using -f
+From:   Christophe Leroy <christophe.leroy@csgroup.eu>
+To:     Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Keerthy <j-keerthy@ti.com>, Russell King <linux@armlinux.org.uk>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Davide Ciminaghi <ciminaghi@gnudd.com>
+Cc:     Christophe Leroy <christophe.leroy@csgroup.eu>,
+        linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-arch@vger.kernel.org,
+        linux-doc@vger.kernel.org, x86@kernel.org
+Subject: [PATCH v2 5/9] gpiolib: Get rid of ARCH_NR_GPIOS
+Date:   Fri,  2 Sep 2022 14:42:05 +0200
+Message-Id: <97011204619556ecb3d8c9aaff2b58c28790fe8a.1662116601.git.christophe.leroy@csgroup.eu>
+X-Mailer: git-send-email 2.37.1
+In-Reply-To: <cover.1662116601.git.christophe.leroy@csgroup.eu>
+References: <cover.1662116601.git.christophe.leroy@csgroup.eu>
 MIME-Version: 1.0
-References: <20220824134055.1328882-1-benjamin.tissoires@redhat.com>
- <20220824134055.1328882-2-benjamin.tissoires@redhat.com> <CAADnVQKgkFpLh_URJn6qCiAONteA1dwZHd6=4cZn15g1JCAPag@mail.gmail.com>
- <CAP01T75ec_T0M6DU=JE2tfNsWRZuPSMu_7JHA7ZoOBw5eDh1Bg@mail.gmail.com>
- <CAO-hwJLd9wXx+ppccBYPKZDymO0sk++Nt2E3-R97PY7LbfJfTg@mail.gmail.com>
- <CAADnVQK8dS+2KbWsqktvxoNKhHtdD5UPiaWVfNu=ESdn_OHpgQ@mail.gmail.com>
- <CAO-hwJK9uHTWCg3_6jrPF6UKiamkNfj=cuH5mHauoLX+0udV9w@mail.gmail.com>
- <CAADnVQLuL045Sxdvh8kfcNkmD55+Wz8fHU3RtH+oQyOgePU5Pw@mail.gmail.com>
- <CAO-hwJJJJRtoq2uTXRKCck6QSH8SFDSTpHmvTyOieczY7bdm8g@mail.gmail.com> <CAP01T77SJyiDxv0A++_mNw7JZ-Mzh4B1FAM6zLiP6n75MNY0uQ@mail.gmail.com>
-In-Reply-To: <CAP01T77SJyiDxv0A++_mNw7JZ-Mzh4B1FAM6zLiP6n75MNY0uQ@mail.gmail.com>
-From:   Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Fri, 2 Sep 2022 15:11:38 +0200
-Message-ID: <CAO-hwJLbbB0Abw3d4pJPnYTAzQNdtgBTpuNz4zVUTFXCbZEEbQ@mail.gmail.com>
-Subject: Re: [PATCH bpf-next v9 01/23] bpf/verifier: allow all functions to
- read user provided context
-To:     Kumar Kartikeya Dwivedi <memxor@gmail.com>
-Cc:     Alexei Starovoitov <alexei.starovoitov@gmail.com>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Jiri Kosina <jikos@kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>, Shuah Khan <shuah@kernel.org>,
-        Dave Marchevsky <davemarchevsky@fb.com>,
-        Joe Stringer <joe@cilium.io>, Jonathan Corbet <corbet@lwn.net>,
-        Tero Kristo <tero.kristo@linux.intel.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
-        Network Development <netdev@vger.kernel.org>,
-        bpf <bpf@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1662122527; l=5608; s=20211009; h=from:subject:message-id; bh=627tvaA946/n4BKkAs3Ap6n2Spr0bzlnkVDrEw1Weh4=; b=oK8L6x4YO0/Tfv1rrveqxWyPzUigpLkkcs3kpG/V0GCD1hH9rQwWg26uIXH5pm4hEOPy17HUWSCs RlrtLGZNAGwtNu+GH+gFces0cecHaH5Rk0+Fg/FbRiFpz6clOxDG
+X-Developer-Key: i=christophe.leroy@csgroup.eu; a=ed25519; pk=HIzTzUj91asvincQGOFx6+ZF5AoUuP9GdOtQChs7Mm0=
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Sep 2, 2022 at 5:50 AM Kumar Kartikeya Dwivedi <memxor@gmail.com> wrote:
->
-> On Thu, 1 Sept 2022 at 18:48, Benjamin Tissoires
-> <benjamin.tissoires@redhat.com> wrote:
-> >
-> > [...]
-> > If the above is correct, then yes, it would make sense to me to have 2
-> > distinct functions: one to check for the args types only (does the
-> > function definition in the problem matches BTF), and one to check for
-> > its use.
-> > Behind the scenes, btf_check_subprog_arg_match() calls
-> > btf_check_func_arg_match() which is the one function with entangled
-> > arguments type checking and actually assessing that the values
-> > provided are correct.
-> >
-> > I can try to split that  btf_check_func_arg_match() into 2 distinct
-> > functions, though I am not sure I'll get it right.
->
-> FYI, I've already split them into separate functions in my tree
-> because it had become super ugly at this point with all the new
-> support and I refactored it to add the linked list helpers support
-> using kfuncs (which requires some special handling for the args), so I
-> think you can just leave it with a "processing_call" check in for your
-> series for now.
->
+Since commit 14e85c0e69d5 ("gpio: remove gpio_descs global array")
+there is no limitation on the number of GPIOs that can be allocated
+in the system since the allocation is fully dynamic.
 
-great, thanks a lot.
-Actually, writing the patch today with the "processing_call" was
-really easy now that I have turned the problem in my head a lot
-yesterday.
+ARCH_NR_GPIOS is today only used in order to provide downwards
+gpiobase allocation from that value, while static allocation is
+performed upwards from 0. However that has the disadvantage of
+limiting the number of GPIOs that can be registered in the system.
 
-I am about to send v10 with the reviews addressed.
+To overcome this limitation without requiring each and every
+platform to provide its 'best-guess' maximum number, rework the
+allocation to allocate upwards, allowing approx 2 millions of
+GPIOs.
 
-Cheers,
-Benjamin
+In order to still allow static allocation for legacy drivers, define
+GPIO_DYNAMIC_BASE with the value 512 as the start for dynamic
+allocation. The 512 value is chosen because it is the end of
+the current default range so all current static allocations are
+expected to be below that value. Of course that's just a rough
+estimate based on the default value, but assuming static
+allocations come first, even if there are more static allocations
+it should fit under the 512 value.
+
+In the future, it is expected that all static allocations go away
+and then dynamic allocation will be patched to start at 0.
+
+Signed-off-by: Christophe Leroy <christophe.leroy@csgroup.eu>
+---
+v2: Enhanced commit description and change from 256 to 512.
+---
+ arch/arm/include/asm/gpio.h |  1 -
+ drivers/gpio/gpiolib.c      | 10 +++----
+ include/asm-generic/gpio.h  | 55 ++++++++++++++-----------------------
+ 3 files changed, 26 insertions(+), 40 deletions(-)
+
+diff --git a/arch/arm/include/asm/gpio.h b/arch/arm/include/asm/gpio.h
+index f3bb8a2bf788..4ebbb58f06ea 100644
+--- a/arch/arm/include/asm/gpio.h
++++ b/arch/arm/include/asm/gpio.h
+@@ -2,7 +2,6 @@
+ #ifndef _ARCH_ARM_GPIO_H
+ #define _ARCH_ARM_GPIO_H
+ 
+-/* Note: this may rely upon the value of ARCH_NR_GPIOS set in mach/gpio.h */
+ #include <asm-generic/gpio.h>
+ 
+ /* The trivial gpiolib dispatchers */
+diff --git a/drivers/gpio/gpiolib.c b/drivers/gpio/gpiolib.c
+index 4e2fcb7b0a01..1846f24971e3 100644
+--- a/drivers/gpio/gpiolib.c
++++ b/drivers/gpio/gpiolib.c
+@@ -183,14 +183,14 @@ EXPORT_SYMBOL_GPL(gpiod_to_chip);
+ static int gpiochip_find_base(int ngpio)
+ {
+ 	struct gpio_device *gdev;
+-	int base = ARCH_NR_GPIOS - ngpio;
++	int base = GPIO_DYNAMIC_BASE;
+ 
+-	list_for_each_entry_reverse(gdev, &gpio_devices, list) {
++	list_for_each_entry(gdev, &gpio_devices, list) {
+ 		/* found a free space? */
+-		if (gdev->base + gdev->ngpio <= base)
++		if (gdev->base >= base + ngpio)
+ 			break;
+-		/* nope, check the space right before the chip */
+-		base = gdev->base - ngpio;
++		/* nope, check the space right after the chip */
++		base = gdev->base + gdev->ngpio;
+ 	}
+ 
+ 	if (gpio_is_valid(base)) {
+diff --git a/include/asm-generic/gpio.h b/include/asm-generic/gpio.h
+index aea9aee1f3e9..a7752cf152ce 100644
+--- a/include/asm-generic/gpio.h
++++ b/include/asm-generic/gpio.h
+@@ -11,40 +11,18 @@
+ #include <linux/gpio/driver.h>
+ #include <linux/gpio/consumer.h>
+ 
+-/* Platforms may implement their GPIO interface with library code,
++/*
++ * Platforms may implement their GPIO interface with library code,
+  * at a small performance cost for non-inlined operations and some
+  * extra memory (for code and for per-GPIO table entries).
+- *
+- * While the GPIO programming interface defines valid GPIO numbers
+- * to be in the range 0..MAX_INT, this library restricts them to the
+- * smaller range 0..ARCH_NR_GPIOS-1.
+- *
+- * ARCH_NR_GPIOS is somewhat arbitrary; it usually reflects the sum of
+- * builtin/SoC GPIOs plus a number of GPIOs on expanders; the latter is
+- * actually an estimate of a board-specific value.
+  */
+ 
+-#ifndef ARCH_NR_GPIOS
+-#if defined(CONFIG_ARCH_NR_GPIO) && CONFIG_ARCH_NR_GPIO > 0
+-#define ARCH_NR_GPIOS CONFIG_ARCH_NR_GPIO
+-#else
+-#define ARCH_NR_GPIOS		512
+-#endif
+-#endif
+-
+ /*
+- * "valid" GPIO numbers are nonnegative and may be passed to
+- * setup routines like gpio_request().  only some valid numbers
+- * can successfully be requested and used.
+- *
+- * Invalid GPIO numbers are useful for indicating no-such-GPIO in
+- * platform data and other tables.
++ * At the end we want all GPIOs to be dynamically allocated from 0.
++ * However, some legacy drivers still perform fixed allocation.
++ * Until they are all fixed, leave 0-512 space for them.
+  */
+-
+-static inline bool gpio_is_valid(int number)
+-{
+-	return number >= 0 && number < ARCH_NR_GPIOS;
+-}
++#define GPIO_DYNAMIC_BASE	512
+ 
+ struct device;
+ struct gpio;
+@@ -140,12 +118,6 @@ static inline void gpio_unexport(unsigned gpio)
+ 
+ #include <linux/kernel.h>
+ 
+-static inline bool gpio_is_valid(int number)
+-{
+-	/* only non-negative numbers are valid */
+-	return number >= 0;
+-}
+-
+ /* platforms that don't directly support access to GPIOs through I2C, SPI,
+  * or other blocking infrastructure can use these wrappers.
+  */
+@@ -169,4 +141,19 @@ static inline void gpio_set_value_cansleep(unsigned gpio, int value)
+ 
+ #endif /* !CONFIG_GPIOLIB */
+ 
++/*
++ * "valid" GPIO numbers are nonnegative and may be passed to
++ * setup routines like gpio_request().  only some valid numbers
++ * can successfully be requested and used.
++ *
++ * Invalid GPIO numbers are useful for indicating no-such-GPIO in
++ * platform data and other tables.
++ */
++
++static inline bool gpio_is_valid(int number)
++{
++	/* only non-negative numbers are valid */
++	return number >= 0;
++}
++
+ #endif /* _ASM_GENERIC_GPIO_H */
+-- 
+2.37.1
 
