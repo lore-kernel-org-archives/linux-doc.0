@@ -2,189 +2,98 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 648BAECAAA1
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Sep 2022 20:51:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B40A3C6FA83
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Sep 2022 20:52:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230262AbiIBUu7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 2 Sep 2022 16:50:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42760 "EHLO
+        id S230360AbiIBUwm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 2 Sep 2022 16:52:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45040 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229579AbiIBUu6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Sep 2022 16:50:58 -0400
-Received: from mail-oa1-f54.google.com (mail-oa1-f54.google.com [209.85.160.54])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88DB4A723E;
-        Fri,  2 Sep 2022 13:50:52 -0700 (PDT)
-Received: by mail-oa1-f54.google.com with SMTP id 586e51a60fabf-12566bc8e52so4435724fac.12;
-        Fri, 02 Sep 2022 13:50:52 -0700 (PDT)
+        with ESMTP id S230342AbiIBUwk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Sep 2022 16:52:40 -0400
+Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com [IPv6:2607:f8b0:4864:20::532])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BFAB2FE079
+        for <linux-doc@vger.kernel.org>; Fri,  2 Sep 2022 13:52:38 -0700 (PDT)
+Received: by mail-pg1-x532.google.com with SMTP id s206so2946307pgs.3
+        for <linux-doc@vger.kernel.org>; Fri, 02 Sep 2022 13:52:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date;
+        bh=Xrq0xaJscCe2LFXho6Z5SMg88GSPjvsfWB0TByS7koM=;
+        b=dW6kpbSaQbTaWbefqRhfls6POnB8wBk8wGzkDF9+nJ5/pcLz8aoEXVHn1hfwQ8qSmI
+         gTUfl8RmLPi4xMR/CEUEejkZt9/CrkSBMb1JENOoRm/X6w2XKKYXhRg/L5kU7h+bf6R/
+         dMY+E+nekbCc6QVsSHSYwXdscdb6ETn1htOiI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
-        bh=EOpW4WejvYrrZZZ/HuJUkBNhBHbazAogZY3qNbeFoIE=;
-        b=1wMI1uEW3gqE0RtsGS5DDkVyA5/M0C1nhP8xWlck6Y4Nep1B6JRetlSKMp1N39S/p5
-         WzVBqc2A92HTreTwOdnb09cIaKIJb2MBtCJqkkUvFpCdHyx0sdV7rd7fcbX49bZOAuCX
-         d8QzJh7tMbm5cYY+dV2A4HAoYOUTeiIkPecQaGq0ejE1MjZIc5GIgsONv56ugnpaNvtu
-         xRR3urmAqAKMp3VjbF9zXpZopKTyLXiHrNdwp9j5ZhySwUdmEE8SmDq4FJJ7JwTpjFGE
-         qfT2bGKZfyFFKoSrxDHmMos+qwLjjugPutr1B3SKA7XHeh8H1fyKXVuGBretMTAnYArp
-         Brbw==
-X-Gm-Message-State: ACgBeo3Xjpg2S/hshI8xWb0uQewkTgPs4p3RyoGDYllfDPEkGWY1LbXa
-        d0uPt7UupyPl0Xplgfs/JQ==
-X-Google-Smtp-Source: AA6agR6pbUe/gxk0J9hqcfJSe/UXp4BZrJcIVle5VJp0L2jHl3JHWDzqJYX6EIL/eM+UckcDY9L+/w==
-X-Received: by 2002:a05:6808:1a13:b0:344:d744:5950 with SMTP id bk19-20020a0568081a1300b00344d7445950mr2661425oib.243.1662151851753;
-        Fri, 02 Sep 2022 13:50:51 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id h34-20020a9d2f25000000b00638ab4c953asm1429274otb.74.2022.09.02.13.50.50
+        bh=Xrq0xaJscCe2LFXho6Z5SMg88GSPjvsfWB0TByS7koM=;
+        b=tTs7C1+9cvMBKy8NtUKUrQM9Q03o4Rdp/ASROk05kyvfDCDbEC0Lby/5LGDc1qx3Vq
+         9aw9dNG3MD5MVivZnUwY5ZXbglgSUJ+ogEUS+rxDQgM6gkE7Z/R8tjUOdjanuVtWkMDv
+         vtYBLHOXyeU/2P9C8veofNLTGwuSVYvLOvrsJm9EegrNwiBYVg4VAldAB/cCzwW2uwjb
+         +RHNA5nUGEa/MNmpXNQa0BmPyYOpLVsmFb+Ws2A4uin7WQpyVjcUR8liqCvhylqb6PPr
+         nlAB0AXvThD3eyeE60ijr2McnDb4lQ+B3Y7IvGKTJMQ526wFTUGb1WybI4f8WPeenbQY
+         3gOw==
+X-Gm-Message-State: ACgBeo0Huj9eKCxmC6kOI2c0aca755lyBvIYXtodofPtfHJ8JEN5SF9R
+        06xC+6z963/QMttBmA8aPZ+/ZQ==
+X-Google-Smtp-Source: AA6agR6/sc1utJRqox+EQ93nbssyjmVQ0KWuz5zOB6kpLHeqaFwQE7wdrUV35UzfGFi9zmreSk3vTw==
+X-Received: by 2002:a65:4c09:0:b0:430:8422:9642 with SMTP id u9-20020a654c09000000b0043084229642mr7559187pgq.322.1662151958218;
+        Fri, 02 Sep 2022 13:52:38 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id i71-20020a639d4a000000b0041b667a1b69sm1867398pgd.36.2022.09.02.13.52.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 Sep 2022 13:50:51 -0700 (PDT)
-Received: (nullmailer pid 392304 invoked by uid 1000);
-        Fri, 02 Sep 2022 20:50:50 -0000
-Date:   Fri, 2 Sep 2022 15:50:50 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Oleksij Rempel <o.rempel@pengutronix.de>
-Cc:     Andrew Lunn <andrew@lunn.ch>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>, kernel@pengutronix.de,
-        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
-        David Jander <david@protonic.nl>,
-        Luka Perkov <luka.perkov@sartura.hr>,
-        Robert Marko <robert.marko@sartura.hr>
-Subject: Re: [PATCH net-next v5 6/7] dt-bindings: net: pse-dt: add bindings
- for regulator based PoDL PSE controller
-Message-ID: <20220902205050.GA382567-robh@kernel.org>
-References: <20220831133240.3236779-1-o.rempel@pengutronix.de>
- <20220831133240.3236779-7-o.rempel@pengutronix.de>
+        Fri, 02 Sep 2022 13:52:37 -0700 (PDT)
+Date:   Fri, 2 Sep 2022 13:52:35 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Guenter Roeck <linux@roeck-us.net>
+Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Len Baker <len.baker@gmx.com>,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        Francis Laniel <laniel_francis@privacyrequired.com>,
+        Paolo Abeni <pabeni@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-hardening@vger.kernel.org
+Subject: Re: [PATCH v2] string: Introduce strtomem() and strtomem_pad()
+Message-ID: <202209021351.13203B669@keescook>
+References: <20220901190952.2229696-1-keescook@chromium.org>
+ <ba161718-bc61-57b8-dfbe-dee666fd06e8@roeck-us.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220831133240.3236779-7-o.rempel@pengutronix.de>
+In-Reply-To: <ba161718-bc61-57b8-dfbe-dee666fd06e8@roeck-us.net>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Aug 31, 2022 at 03:32:39PM +0200, Oleksij Rempel wrote:
-> Add bindings for the regulator based Ethernet PoDL PSE controller and
-> generic bindings for all PSE controllers.
+On Thu, Sep 01, 2022 at 12:34:34PM -0700, Guenter Roeck wrote:
+> On 9/1/22 12:09, Kees Cook wrote:
+> > [...]
+> > -If a caller is using non-NUL-terminated strings, strncpy() can
+> > -still be used, but destinations should be marked with the `__nonstring
+> > +If a caller is using non-NUL-terminated strings, strtomem() should be
+> > +be used, and the destinations should be marked with the `__nonstring
 > 
-> Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
-> ---
-> changes v5:
-> - rename to podl-pse-regulator.yaml
-> - remove compatible description
-> - remove "-1" on node name
-> - add pse-controller.yaml for common properties
-> changes v4:
-> - rename to PSE regulator
-> - drop currently unused properties
-> - use own compatible for PoDL PSE
-> changes v2:
-> - rename compatible to more generic "ieee802.3-pse"
-> - add class and type properties for PoDL and PoE variants
-> - add pairs property
-> ---
->  .../net/pse-pd/podl-pse-regulator.yaml        | 40 +++++++++++++++++++
->  .../bindings/net/pse-pd/pse-controller.yaml   | 28 +++++++++++++
->  2 files changed, 68 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/net/pse-pd/podl-pse-regulator.yaml
->  create mode 100644 Documentation/devicetree/bindings/net/pse-pd/pse-controller.yaml
+> s/be //
+
+Thanks!
+
+> > [...]
+> > +++ b/include/linux/fortify-string.h
+> > @@ -77,6 +77,36 @@ extern char *__underlying_strncpy(char *p, const char *q, __kernel_size_t size)
+> >   #define POS	__pass_object_size(1)
+> >   #define POS0	__pass_object_size(0)
+> > +/** strncpy - Copy a string to memory with non-guaranteed NUL padding
 > 
-> diff --git a/Documentation/devicetree/bindings/net/pse-pd/podl-pse-regulator.yaml b/Documentation/devicetree/bindings/net/pse-pd/podl-pse-regulator.yaml
-> new file mode 100644
-> index 0000000000000..c6b1c188abf7e
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/net/pse-pd/podl-pse-regulator.yaml
-> @@ -0,0 +1,40 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/net/pse-pd/podl-pse-regulator.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Regulator based Power Sourcing Equipment
-> +
-> +maintainers:
-> +  - Oleksij Rempel <o.rempel@pengutronix.de>
-> +
-> +description: Regulator based PoDL PSE controller. The device must be referenced
-> +  by the PHY node to control power injection to the Ethernet cable.
-> +
-> +allOf:
-> +  - $ref: "pse-controller.yaml#"
-> +
-> +properties:
-> +  compatible:
-> +    const: podl-pse-regulator
-> +
-> +  '#pse-cells':
-> +    const: 0
-> +
-> +  pse-supply:
-> +    description: Power supply for the PSE controller
-> +
-> +additionalProperties: false
-> +
-> +required:
-> +  - compatible
-> +  - pse-supply
-> +
-> +examples:
-> +  - |
-> +    ethernet-pse {
-> +      compatible = "podl-pse-regulator";
-> +      pse-supply = <&reg_t1l1>;
-> +      #pse-cells = <0>;
-> +    };
-> diff --git a/Documentation/devicetree/bindings/net/pse-pd/pse-controller.yaml b/Documentation/devicetree/bindings/net/pse-pd/pse-controller.yaml
-> new file mode 100644
-> index 0000000000000..36e398fea220c
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/net/pse-pd/pse-controller.yaml
-> @@ -0,0 +1,28 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/net/pse-pd/pse-controller.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: PSE Generic Bindings
+> Does that need a newline before strncpy() ?
 
-What is PSE?
+What do you mean here? I think this is valid kerndoc, but I'll
+double-check. (And will continue in the neighboring htmldoc build thread.)
 
-When would I use this binding? Does this follow some spec? Who is 
-the consumer? Please answer all those questions in this doc.
+-Kees
 
-> +
-> +maintainers:
-> +  - Oleksij Rempel <o.rempel@pengutronix.de>
-> +
-> +properties:
-> +  $nodename:
-> +    pattern: "^ethernet-pse(@[a-f0-9]+)?$"
-
-The format of the unit-address depends on the bus, so it shouldn't be 
-defined here. Just '^ethernet-pse(@.*)?$'.
-
-> +
-> +  "#pse-cells":
-> +    description:
-> +      Used to uniquely identify a PSE instance within an IC. Will be
-> +      0 on PSE nodes with only a single output and at least 1 on nodes
-> +      controlling several outputs.
-> +    enum: [0, 1]
-> +
-> +required:
-> +  - "#pse-cells"
-> +
-> +additionalProperties: true
-> +
-> +...
-> -- 
-> 2.30.2
-> 
-> 
+-- 
+Kees Cook
