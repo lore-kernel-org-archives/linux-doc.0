@@ -2,74 +2,80 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A722C6FA82
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Sep 2022 17:41:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B64F1ECAAD5
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Sep 2022 19:14:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236668AbiIBRl0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 2 Sep 2022 13:41:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48246 "EHLO
+        id S230207AbiIBTO2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 2 Sep 2022 15:14:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49416 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237080AbiIBRlZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Sep 2022 13:41:25 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D36A2DF4CD;
-        Fri,  2 Sep 2022 10:41:23 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 4E70362211;
-        Fri,  2 Sep 2022 17:41:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA429C433D6;
-        Fri,  2 Sep 2022 17:41:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1662140482;
-        bh=Fhpz1/e1H4HMa8Jtwgh0t8VzDicCBOWzSpuCa2Lmwbo=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=gFBRhA2BOL7MvGuouJRoyb3fUbvKNAtmooGPN+NY6lYQwKCWYUiVKqhmMGr1JJ7BC
-         KqMafQu/Vw8/9bCWvPOnB9H1oN/sJflozPajNK7ujhSWPHfyp8CwbZ8QisTz/3qJGT
-         tL6tdsfQZhbV0pEF05vlIQi8kFS93RdBj+GFQDTS9Q3hQgN4RocJelo1+EIuXH0wpj
-         6dKpnCSnz8P+osDbw3jxnHdFHLjnYLcWLDIdIaMXa7yjhOhP+QGev9O6YZVMi0VSHy
-         3MivnCmDTGiqZh2ZazTkJseGCB8J1Hqi4qpKpWr5PWZtqki0NGeaTXYsiBUnd7fPDE
-         YYguD0oecoW9Q==
-Date:   Fri, 2 Sep 2022 23:11:17 +0530
-From:   Vinod Koul <vkoul@kernel.org>
-To:     Sean Anderson <sean.anderson@seco.com>
-Cc:     Kishon Vijay Abraham I <kishon@ti.com>,
-        linux-phy@lists.infradead.org, devicetree@vger.kernel.org,
-        Madalin Bucur <madalin.bucur@nxp.com>,
-        Camelia Alexandra Groza <camelia.groza@nxp.com>,
-        linuxppc-dev@lists.ozlabs.org, Rob Herring <robh+dt@kernel.org>,
-        linux-arm-kernel@lists.infradead.org,
-        Ioana Ciornei <ioana.ciornei@nxp.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>, Li Yang <leoyang.li@nxp.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Stephen Boyd <sboyd@kernel.org>, linux-clk@vger.kernel.org,
+        with ESMTP id S229731AbiIBTO1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Sep 2022 15:14:27 -0400
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE37DB3D;
+        Fri,  2 Sep 2022 12:14:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1662146062; x=1693682062;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=LGelK57um33buhYq2dvNurCSd5PhnvJUO/tfyE/kfyE=;
+  b=F07sro2+c3zqlAmPcFfcQFx5NAzvyclbbvzygia7acbp0LUJ69uhU0EQ
+   hjG1cmJqKgNYCVoScjfEO4RSZBp1dMxU4i8TqdXXhs/qk0ZKCBQjWfIlf
+   emqhwUeP62UrNAKs2bJKoXxCOmHnWAOPm0upVdT8PzTdShvKMQvSWeSNA
+   tF/MjQUgJP8l/5lsAX7GlGRpwtbWZwAaxH7rkYv3glSU25b8aP/dLHPNW
+   J8LnRw5ZxsNPXzRaPNPsIIDuOB7vTBXuE0HP2TMLxSfRDpoyBuxNrysJs
+   X1CYM8ZBDywEoIG2gaq8vvGvUiOTcFHLy+w3NSmqGMr1HwmZq36ufOsvU
+   g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10458"; a="275806606"
+X-IronPort-AV: E=Sophos;i="5.93,285,1654585200"; 
+   d="scan'208";a="275806606"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2022 12:01:18 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,285,1654585200"; 
+   d="scan'208";a="681381055"
+Received: from lkp-server02.sh.intel.com (HELO 95dfd251caa2) ([10.239.97.151])
+  by fmsmga004.fm.intel.com with ESMTP; 02 Sep 2022 12:01:17 -0700
+Received: from kbuild by 95dfd251caa2 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1oUBum-0000UT-2a;
+        Fri, 02 Sep 2022 19:01:16 +0000
+Date:   Sat, 3 Sep 2022 03:01:02 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Alan Stern <stern@rowland.harvard.edu>
+Cc:     kbuild-all@lists.01.org, linux-usb@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         linux-doc@vger.kernel.org
-Subject: Re: [PATCH v4 0/8] phy: Add support for Lynx 10G SerDes
-Message-ID: <YxJAPbfBpUpHeiqX@matsya>
-References: <20220804220602.477589-1-sean.anderson@seco.com>
- <6d312336-4bfc-a8d4-783c-116a21284edf@seco.com>
+Subject: [usb:usb-linus 36/44] htmldocs:
+ Documentation/driver-api/usb/usb:176: ./drivers/usb/core/hub.c:6040:
+ WARNING: Unknown target name: "pre".
+Message-ID: <202209030207.7BTPa8q0-lkp@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <6d312336-4bfc-a8d4-783c-116a21284edf@seco.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 30-08-22, 17:44, Sean Anderson wrote:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-linus
+head:   fe0a2ac7c627b064c479ad0c3b25e531d342e048
+commit: 9c6d778800b921bde3bff3cff5003d1650f942d1 [36/44] USB: core: Prevent nested device-reset calls
+reproduce:
+        # https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git/commit/?id=9c6d778800b921bde3bff3cff5003d1650f942d1
+        git remote add usb https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git
+        git fetch --no-tags usb usb-linus
+        git checkout 9c6d778800b921bde3bff3cff5003d1650f942d1
+        make menuconfig
+        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
+        make htmldocs
 
-> 
-> ping?
-> 
-> Vinod/Kishon: any comments on the driver itself?
+If you fix the issue, kindly add following tag where applicable
+Reported-by: kernel test robot <lkp@intel.com>
 
-Not sure why this is not in my queue or pw, can you please rebase and
-resend
+All warnings (new ones prefixed by >>):
 
-Thanks
+>> Documentation/driver-api/usb/usb:176: ./drivers/usb/core/hub.c:6040: WARNING: Unknown target name: "pre".
 
 -- 
-~Vinod
+0-DAY CI Kernel Test Service
+https://01.org/lkp
