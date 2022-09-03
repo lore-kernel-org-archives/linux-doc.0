@@ -2,84 +2,135 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F41BC38145
-	for <linux-doc@archiver.kernel.org>; Sat,  3 Sep 2022 02:02:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F3BEC6FA82
+	for <linux-doc@archiver.kernel.org>; Sat,  3 Sep 2022 06:43:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230429AbiICCC1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 2 Sep 2022 22:02:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44982 "EHLO
+        id S232600AbiICGnt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 3 Sep 2022 02:43:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50910 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229995AbiICCC0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Sep 2022 22:02:26 -0400
-Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2457C8754;
-        Fri,  2 Sep 2022 19:02:25 -0700 (PDT)
-Received: by mail-pl1-x62a.google.com with SMTP id l3so3460305plb.10;
-        Fri, 02 Sep 2022 19:02:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date;
-        bh=0r8NdBT69RFwnbmp10XxWtUK9Y1Ejmq1k4v6A4hzneo=;
-        b=GhQjQLoIoAvqMoQdOANmkoeHLSE0pfXQtORW3OTALIpdmNgRKWcTj481ookqkXtJll
-         N5BX0QDe8XZOZXxEGdZIWkkjfkXWCIvNvPWumc656iaJBhspBURL6EfMDRb6oB67dLHI
-         8GqLsOJHDlgwyJiTM3YdK8/grJv8GDu/H5zvS3G4KbRPwGHSTTTkXbwakL8OoPDBdtEA
-         0As0hbx8ITZTzkb3d2CXPSxTu7HEIpqR8tT9Chq4MlErDkn6jjsed0MmMAMZfexgF2V8
-         sB+mKnoctKtxw8ce81j1VQruXQHPXvTkYo2mb7q6+C4P+dxpkVCnYxWFreHTd+wttLPG
-         E2tA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=0r8NdBT69RFwnbmp10XxWtUK9Y1Ejmq1k4v6A4hzneo=;
-        b=iwmrETAm1FSgL2BpbBGzgC8UmVywgIzBz6GwZSc0hA9mLazHVxhJ8eBCzBNdh+s/aE
-         slNlYKnP2yKg54suTT/sBeYR/f+X6bPO2oPUDxV/D3N4MWcz+4Kf8J2+XciKTQO96JaT
-         W+30UJhh5rRlsaOsFgRByV3oyXpQyh3i6jP1QQ0b+lndbodAPWYATnV7kXkhdSJWU13k
-         jn3hwKQBacnTagYZaEIstjGe5ZR3l79IO89Ks09gsfnpnrck3d9R1OYsbixZIH4XHhyX
-         AcBHSnC97BL7thvLDYij9SjQ2+yRNwUO6mjQDk7sVHVJCH5ixEBC2VU3qCk4tq8gOZ6V
-         Kgog==
-X-Gm-Message-State: ACgBeo1Xc0Q6gyECPzvzACsze73EJcMtFZJQCxF8Ie5lTUWzblm5T91E
-        fUUbqIBJ2yzs1bo0MA7tuLo=
-X-Google-Smtp-Source: AA6agR5umDytfLJWGJ31jQHzA1SX7xHEXon07O/CUD2fTkmCYxtzjkRskWzMLHTeROQFqXiAFfWPtQ==
-X-Received: by 2002:a17:90b:4f44:b0:1f5:1310:9e7f with SMTP id pj4-20020a17090b4f4400b001f513109e7fmr7787676pjb.235.1662170545075;
-        Fri, 02 Sep 2022 19:02:25 -0700 (PDT)
-Received: from [192.168.43.80] (subs09b-223-255-225-224.three.co.id. [223.255.225.224])
-        by smtp.gmail.com with ESMTPSA id u195-20020a6279cc000000b00537eb00850asm2584816pfc.130.2022.09.02.19.02.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 02 Sep 2022 19:02:24 -0700 (PDT)
-Message-ID: <103bba65-cc98-fd83-515a-de7dfa719e5a@gmail.com>
-Date:   Sat, 3 Sep 2022 09:02:14 +0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH V4 1/1] Documentation: document ublk
-Content-Language: en-US
-To:     Ming Lei <ming.lei@redhat.com>, Jens Axboe <axboe@kernel.dk>
-Cc:     linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
+        with ESMTP id S232557AbiICGnl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 3 Sep 2022 02:43:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F9DE8FD50
+        for <linux-doc@vger.kernel.org>; Fri,  2 Sep 2022 23:43:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1662187419;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=zZUo4Yh/oc1vNFvxaSNW3YUhPsCaAqVSFhhyRBZevNo=;
+        b=HEGwQ0QEkOa04ixL6nFP8zHsFDOLmbfKj+N9Q5BOCcrr6WhWO2l0G9UdrVoabLnq8p1FWp
+        QWSkY11VdtcMlkg01e8Ct2/D6sy6mPVeetnOXJ0xTlsUpnPohfL7D4CrNaDTBFzdy3w1f5
+        7zxFYTBkkb+J4K+4xjJh9pux0/Xvmjs=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-435-Sqaui8VDPACHMNd1m7TfYg-1; Sat, 03 Sep 2022 02:43:33 -0400
+X-MC-Unique: Sqaui8VDPACHMNd1m7TfYg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 88DE8805B9A;
+        Sat,  3 Sep 2022 06:43:32 +0000 (UTC)
+Received: from localhost (unknown [10.40.192.22])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 6FAFAC15BBD;
+        Sat,  3 Sep 2022 06:43:31 +0000 (UTC)
+From:   Oleksandr Natalenko <oleksandr@redhat.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
         Jonathan Corbet <corbet@lwn.net>,
-        "Richard W . M . Jones" <rjones@redhat.com>,
-        Xiaoguang Wang <xiaoguang.wang@linux.alibaba.com>,
-        Stefan Hajnoczi <stefanha@redhat.com>,
-        ZiyangZhang <ZiyangZhang@linux.alibaba.com>
-References: <20220902152302.757375-1-ming.lei@redhat.com>
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <20220902152302.757375-1-ming.lei@redhat.com>
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Huang Ying <ying.huang@intel.com>,
+        "Jason A . Donenfeld" <Jason@zx2c4.com>,
+        Will Deacon <will@kernel.org>,
+        "Guilherme G . Piccoli" <gpiccoli@igalia.com>,
+        Laurent Dufour <ldufour@linux.ibm.com>,
+        Stephen Kitt <steve@sk2.org>, Rob Herring <robh@kernel.org>,
+        Joel Savitz <jsavitz@redhat.com>,
+        "Eric W . Biederman" <ebiederm@xmission.com>,
+        Kees Cook <keescook@chromium.org>,
+        Xiaoming Ni <nixiaoming@huawei.com>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        =?UTF-8?q?Renaud=20M=C3=A9trich?= <rmetrich@redhat.com>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Grzegorz Halat <ghalat@redhat.com>, Qi Guo <qguo@redhat.com>
+Subject: [PATCH] core_pattern: add CPU specifier
+Date:   Sat,  3 Sep 2022 08:43:30 +0200
+Message-Id: <20220903064330.20772-1-oleksandr@redhat.com>
+MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 9/2/22 22:23, Ming Lei wrote:
-> Add documentation for ublk subsystem. It was supposed to be documented when
-> merging the driver, but missing at that time.
-> 
+Statistically, in a large deployment regular segfaults may indicate a CPU issue.
 
-LGTM, thanks.
+Currently, it is not possible to find out what CPU the segfault happened on.
+There are at least two attempts to improve segfault logging with this regard,
+but they do not help in case the logs rotate.
 
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+Hence, lets make sure it is possible to permanently record a CPU
+the task ran on using a new core_pattern specifier.
 
+Suggested-by: Renaud Métrich <rmetrich@redhat.com>
+Signed-off-by: Oleksandr Natalenko <oleksandr@redhat.com>
+---
+ Documentation/admin-guide/sysctl/kernel.rst | 1 +
+ fs/coredump.c                               | 5 +++++
+ include/linux/coredump.h                    | 1 +
+ 3 files changed, 7 insertions(+)
+
+diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
+index 835c8844bba48..b566fff04946b 100644
+--- a/Documentation/admin-guide/sysctl/kernel.rst
++++ b/Documentation/admin-guide/sysctl/kernel.rst
+@@ -169,6 +169,7 @@ core_pattern
+ 	%f      	executable filename
+ 	%E		executable path
+ 	%c		maximum size of core file by resource limit RLIMIT_CORE
++	%C		CPU the task ran on
+ 	%<OTHER>	both are dropped
+ 	========	==========================================
+ 
+diff --git a/fs/coredump.c b/fs/coredump.c
+index a8661874ac5b6..166d1f84a9b17 100644
+--- a/fs/coredump.c
++++ b/fs/coredump.c
+@@ -325,6 +325,10 @@ static int format_corename(struct core_name *cn, struct coredump_params *cprm,
+ 				err = cn_printf(cn, "%lu",
+ 					      rlimit(RLIMIT_CORE));
+ 				break;
++			/* CPU the task ran on */
++			case 'C':
++				err = cn_printf(cn, "%d", cprm->cpu);
++				break;
+ 			default:
+ 				break;
+ 			}
+@@ -535,6 +539,7 @@ void do_coredump(const kernel_siginfo_t *siginfo)
+ 		 */
+ 		.mm_flags = mm->flags,
+ 		.vma_meta = NULL,
++		.cpu = raw_smp_processor_id(),
+ 	};
+ 
+ 	audit_core_dumps(siginfo->si_signo);
+diff --git a/include/linux/coredump.h b/include/linux/coredump.h
+index 08a1d3e7e46d0..191dcf5af6cb9 100644
+--- a/include/linux/coredump.h
++++ b/include/linux/coredump.h
+@@ -22,6 +22,7 @@ struct coredump_params {
+ 	struct file *file;
+ 	unsigned long limit;
+ 	unsigned long mm_flags;
++	int cpu;
+ 	loff_t written;
+ 	loff_t pos;
+ 	loff_t to_skip;
 -- 
-An old man doll... just what I always wanted! - Clara
+2.37.2
+
