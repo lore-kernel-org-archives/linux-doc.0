@@ -2,95 +2,93 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9709FECAAD3
-	for <linux-doc@archiver.kernel.org>; Sun,  4 Sep 2022 19:38:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 362CDC6FA82
+	for <linux-doc@archiver.kernel.org>; Sun,  4 Sep 2022 20:48:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234865AbiIDTi6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 4 Sep 2022 15:38:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48286 "EHLO
+        id S233715AbiIDUso (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 4 Sep 2022 16:48:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56172 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234810AbiIDTi6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 4 Sep 2022 15:38:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8CD851AD87
-        for <linux-doc@vger.kernel.org>; Sun,  4 Sep 2022 12:38:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1662320335;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=y3ABpshjkv87/QevZMgt/Jxr8eWoaETBvCY6qeXNguA=;
-        b=W+rMuawP19AH4zfVeb3khRqyNpSLsDOGUllW2dCe++/Zw8tjYJLDQAyzLF5IR0RHSAXet6
-        yLdMpPTSbSUyd4A6tGgVrQ88IB0cHmuaCNiRy8Ug5FzAWzgmjgEg0iQwWPxDTlScD58WgQ
-        /6QcQP8x5vH9ZWS3LZqjbMxLmS8na0o=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-447-6vRjenz8Ng6psc4gk-hN4A-1; Sun, 04 Sep 2022 15:38:52 -0400
-X-MC-Unique: 6vRjenz8Ng6psc4gk-hN4A-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6A9B880A0AE;
-        Sun,  4 Sep 2022 19:38:51 +0000 (UTC)
-Received: from dhcp-27-174.brq.redhat.com (unknown [10.40.192.67])
-        by smtp.corp.redhat.com (Postfix) with SMTP id 3367B40B40C9;
-        Sun,  4 Sep 2022 19:38:45 +0000 (UTC)
-Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
-        oleg@redhat.com; Sun,  4 Sep 2022 21:38:50 +0200 (CEST)
-Date:   Sun, 4 Sep 2022 21:38:44 +0200
-From:   Oleg Nesterov <oleg@redhat.com>
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     Oleksandr Natalenko <oleksandr@redhat.com>,
+        with ESMTP id S230090AbiIDUsm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 4 Sep 2022 16:48:42 -0400
+Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com [IPv6:2607:f8b0:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32A612ED65;
+        Sun,  4 Sep 2022 13:48:41 -0700 (PDT)
+Received: by mail-pf1-x431.google.com with SMTP id 72so6882934pfx.9;
+        Sun, 04 Sep 2022 13:48:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date;
+        bh=l3XlvtUxRBxEdbMEdKHUlRAxmIFOa1PhP6QcRf9whvo=;
+        b=CTdZcGNlqVJCtE/o2YQJgHj2u1letdzly71G8AwP+23usqZVUHLIE4Oz3/6KDs4S/k
+         xDVHrwKau2bdDO3p+4GJEE4K7QECOh3FVRneojsgcLqQYwzUA5pvl4Yvan5dpVZbzmnj
+         zEwEP/xpz/w8QJ1Xp4WhhURNX3I5WhNWJivedm5ORPCrVqUmrPIKRy1zFldhV5dNTRoq
+         V23Zef6lxQSydwiS4VjveXx6w3ImkA3qsLIQevMCoDrtHryqAG0gDcf7EhpcC4gyjlsD
+         XzkCRIGAwLFS1oyrxeott3phfyF91tvQ/Ujs2x48XZwLbJcl0iw4nXvv9FP/95crcZo6
+         nckw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+         :subject:date;
+        bh=l3XlvtUxRBxEdbMEdKHUlRAxmIFOa1PhP6QcRf9whvo=;
+        b=ZZJZygjwsotbatM4dXu6QoQFFBQu59FfySlY0bYYT7RA04BfH9dAlzxA7mFzwvLh3f
+         SGtFaKUuquELYi08tASJqRpagxjhkENSXN+EoBS9mj+z5+Fvoed+uHRAc2BmNshbbgFx
+         ggnuppWt+lddsZY8tznGW7AjXeab9Ja8RydTQhj6/WLoVpmBGA3JwljPArnACFH79H/t
+         fqZJpE7t8zTWR9tAbqx2KcxFlvz81+eev6YTu0x3u4jbR+ErtjheCTjZvj2LvQ3OCBrt
+         piWo64d+T4QRDeX5fBQ0aF5dTC8gEqXYe7jZxmItBZZiTxU2T9E2sRS4PjonXwGpROoW
+         Tp1Q==
+X-Gm-Message-State: ACgBeo2jbWVjVMYX5N0eJNlIeyPZyVI/yHhCihtDxv4LbyaK+FalfQLm
+        u3BG6As+Gmgg+j/7eEprfh3+APox1Ro=
+X-Google-Smtp-Source: AA6agR5fTjM5aOjIQNIvJoMbCufh+V86U4zOLIq1jJ4Ofug6Sl8MxWFCI17WLwd+dHmRMlh2PyDbGQ==
+X-Received: by 2002:a63:a541:0:b0:432:6d53:9870 with SMTP id r1-20020a63a541000000b004326d539870mr9143304pgu.382.1662324520564;
+        Sun, 04 Sep 2022 13:48:40 -0700 (PDT)
+Received: from localhost ([2620:10d:c090:400::5:291b])
+        by smtp.gmail.com with ESMTPSA id c3-20020aa79523000000b0053813de1fdasm6087063pfp.28.2022.09.04.13.48.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 04 Sep 2022 13:48:40 -0700 (PDT)
+Sender: Tejun Heo <htejun@gmail.com>
+Date:   Sun, 4 Sep 2022 10:48:38 -1000
+From:   Tejun Heo <tj@kernel.org>
+To:     Waiman Long <longman@redhat.com>
+Cc:     Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <shuah@kernel.org>, cgroups@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Huang Ying <ying.huang@intel.com>,
-        "Jason A . Donenfeld" <Jason@zx2c4.com>,
-        Will Deacon <will@kernel.org>,
-        "Guilherme G . Piccoli" <gpiccoli@igalia.com>,
-        Laurent Dufour <ldufour@linux.ibm.com>,
-        Stephen Kitt <steve@sk2.org>, Rob Herring <robh@kernel.org>,
-        Joel Savitz <jsavitz@redhat.com>,
-        "Eric W . Biederman" <ebiederm@xmission.com>,
-        Kees Cook <keescook@chromium.org>,
-        Xiaoming Ni <nixiaoming@huawei.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Renaud =?iso-8859-1?Q?M=E9trich?= <rmetrich@redhat.com>,
-        Grzegorz Halat <ghalat@redhat.com>, Qi Guo <qguo@redhat.com>
-Subject: Re: [PATCH] core_pattern: add CPU specifier
-Message-ID: <20220904193844.GA7953@redhat.com>
-References: <20220903064330.20772-1-oleksandr@redhat.com>
- <20220904112718.b7feead47012600ef255dfdf@linux-foundation.org>
+        linux-kselftest@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Roman Gushchin <guro@fb.com>, Phil Auld <pauld@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Marcelo Tosatti <mtosatti@redhat.com>,
+        Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>
+Subject: Re: [PATCH v12 00/10] cgroup/cpuset: cpu partition code fixes &
+ enhancements
+Message-ID: <YxUPJqrsWvZoXXhZ@slm.duckdns.org>
+References: <20220901205745.323326-1-longman@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220904112718.b7feead47012600ef255dfdf@linux-foundation.org>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
+In-Reply-To: <20220901205745.323326-1-longman@redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 09/04, Andrew Morton wrote:
->
-> On Sat,  3 Sep 2022 08:43:30 +0200 Oleksandr Natalenko <oleksandr@redhat.com> wrote:
->
-> > @@ -535,6 +539,7 @@ void do_coredump(const kernel_siginfo_t *siginfo)
-> >  		 */
-> >  		.mm_flags = mm->flags,
-> >  		.vma_meta = NULL,
-> > +		.cpu = raw_smp_processor_id(),
-> >  	};
->
-> Why use the "raw_" function here?
+On Thu, Sep 01, 2022 at 04:57:35PM -0400, Waiman Long wrote:
+> v12:
+>  - Change patch 1 to enable update_tasks_cpumask() for top_cpuset except
+>    for percpu kthreads.
+>  - Add 2 more patches to make exclusivity rule violations invalidate the
+>    partition and its siblings instead of failing the change to make it
+>    consistent with other cpuset changes.
+>  - Update documentation and test script accordingly.
 
-To avoid check_preemption_disabled() from debug_smp_processor_id().
+Applied to cgroup/for-6.1 with the doc tables fixed.
 
-We do not disable preemption because this is pointless, this is the
-"racy snapshot" anyway. The coredumping task can migrate to another
-CPU even before get_signal/do_coredump, right after exit-to-user
-path enables irqs.
+Thanks a lot for sticking with it. This looks great.
 
-Oleg.
-
+-- 
+tejun
