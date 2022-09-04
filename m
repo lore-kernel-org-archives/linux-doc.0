@@ -2,147 +2,212 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9CFDFC6FA86
-	for <linux-doc@archiver.kernel.org>; Sun,  4 Sep 2022 04:21:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D8633C6FA89
+	for <linux-doc@archiver.kernel.org>; Sun,  4 Sep 2022 08:27:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229478AbiIDEVT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 4 Sep 2022 00:21:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51514 "EHLO
+        id S233370AbiIDI1P (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 4 Sep 2022 04:27:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59708 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229540AbiIDEVS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 4 Sep 2022 00:21:18 -0400
-Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com [IPv6:2607:f8b0:4864:20::434])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86FF11F603;
-        Sat,  3 Sep 2022 21:21:17 -0700 (PDT)
-Received: by mail-pf1-x434.google.com with SMTP id y127so5693083pfy.5;
-        Sat, 03 Sep 2022 21:21:17 -0700 (PDT)
+        with ESMTP id S229537AbiIDI1L (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 4 Sep 2022 04:27:11 -0400
+Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0608941D1C;
+        Sun,  4 Sep 2022 01:27:09 -0700 (PDT)
+Received: by mail-pj1-x102a.google.com with SMTP id s14-20020a17090a6e4e00b0020057c70943so231627pjm.1;
+        Sun, 04 Sep 2022 01:27:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date;
-        bh=KOCmeCOmCproKzPB5kG3OeB8CLLbxI0u7IFRDyHEKhI=;
-        b=CtnghyDNGabGTEYePnFVXhcKJyISoXtJgXWlUZa6QP/h6WBU6jZF0myKuUwTVNFYwg
-         ko72WRJHCCh6cnuIQe8mfl4umlI0Sw0jkOSKoBxZFjd+0QlknkrPV4/1V3gO1O26SxrM
-         xZ8r6yo3XkLAgRJyr2zGtVNGGG+gwkegjT9F66a7PwfWSnnHzEMmcZ4Hq9mO6s7vEXDx
-         lRM7AwcDpA6eYanvInxLgTH9NtLjJbQ6fNlKuwXS8CTy6vz55LBcDq9fNbjJunatGZ3d
-         FRKKDuScJTZS796r4agAIYqwZvAniZU2OBNpDOCSfvryN/2Jiw5GwGfHcIE7QrK899Iw
-         hE/A==
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date;
+        bh=zfiWejN/Bz3YBQupNom1bcY/9klYVsjCN66XEd476z0=;
+        b=SBEuv7blCe057KcuIJdNRyj3g2VOPTQq1llrfLNFf289npI8wf/m4D6m8V6XY3lUXp
+         Re5/g1GMCzHeowzixKLlyMxv657lA13nPeZhWWJ2OC266RIOX72T1P7U1QIAkGITZTkZ
+         OhFiv4GP/cj1MqfFk/e6TYkNwyKqbZZknzVH95RjMeoEs2gWuzEfbEQyCHG1wbtuLJHO
+         pjSg3+fSIKJmTcugr2ndTCmihpEGjkt8TbVpopZ7zzVFWdZ8gYe+YJI8gXqyPjNVYdVK
+         Rz3pc71J6gK/cLFZWzrR+DMSWgYikjoU/F8/eqeKn7KVfwAFofKX6tJeywPhCEF2HQqP
+         7Blw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=KOCmeCOmCproKzPB5kG3OeB8CLLbxI0u7IFRDyHEKhI=;
-        b=fLKB+pDntgDhultrOcB55XmtN6/huQTllVA8CbxDcrKJPxDtlXO8pXBphqUfixAHIL
-         7sShd5ZmcWap43qNS5GblG7/lw3Nxm8VeBVUO87CrEQPpN2yUHeNP1H/FsiQ81B7JE84
-         fAnhu+uzVZ+cJFfaypUg/z5uUWbRRTeorqr605F/JRXdN6jT5wdVX9I/wsOgSx+SSmws
-         uwoI/PGalvv8RGKyxVc6GEkbmHE1ieQ2vrkZ+Khs4O1cZVMqYuFD/BPFACZb8Pd55FCw
-         JcEDdkF+yMNfFun9ogwvZf0Pn22cAzWNjn42x3ZNMWfnCf4DNBjMTjEBbixFwM1LEfVm
-         i9+g==
-X-Gm-Message-State: ACgBeo3ll4oqrotpW3k7haVdkbfmK1FFZ054VIraxhpeSu59LadlCy2Y
-        3HB/YDOSHiMzTbF3q+6Msjo=
-X-Google-Smtp-Source: AA6agR6hYZTrBTkQDJUvLxug9VjHl2U7wqhCxdOP0fZhzFz4LN8BZe62Mra7ccoVXm6UQ4BWC3/T8A==
-X-Received: by 2002:a62:1ac5:0:b0:538:3332:d531 with SMTP id a188-20020a621ac5000000b005383332d531mr32734750pfa.46.1662265277037;
-        Sat, 03 Sep 2022 21:21:17 -0700 (PDT)
-Received: from [192.168.43.80] (subs32-116-206-28-57.three.co.id. [116.206.28.57])
-        by smtp.gmail.com with ESMTPSA id z16-20020aa79f90000000b0052deda6e3d2sm4914291pfr.98.2022.09.03.21.21.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 03 Sep 2022 21:21:16 -0700 (PDT)
-Message-ID: <d17bd7f8-a70e-dac3-be69-3cf10c2f19e4@gmail.com>
-Date:   Sun, 4 Sep 2022 11:21:10 +0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH v3] string: Introduce strtomem() and strtomem_pad()
-Content-Language: en-US
-To:     Kees Cook <keescook@chromium.org>,
-        Guenter Roeck <linux@roeck-us.net>
-Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Len Baker <len.baker@gmx.com>,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@intel.com>,
-        Francis Laniel <laniel_francis@privacyrequired.com>,
-        Paolo Abeni <pabeni@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-hardening@vger.kernel.org
-References: <20220902224951.2625138-1-keescook@chromium.org>
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date;
+        bh=zfiWejN/Bz3YBQupNom1bcY/9klYVsjCN66XEd476z0=;
+        b=gkb7W3gUoeEZxpMzzIclRYJJa2pHcrDJ+1jVRnHM2CW9ehjuYjXLvAXk6f/LWQb/K5
+         VnOhJPAnq8O8UqR0vEOTUFMCOShg/+m/xcIjS6uvCMGab9ZRsKTvVHpColDVJzNfa4uc
+         tvlaon62fjei1jT4JBZYBkAS23qpNVmVUKhXZpGFjnC5nqmVpcoNmelufXN5fagunMAR
+         H85xuZPrRESC7pYcv4vtle8yGqol89VEH7rBp0rN4TiSxwiFDr0cUcs8+LK5tsfxsnkD
+         xIcOws+M/Xl/x1RgyzSiJWKEgoRj138U8/jLYdQi3I/9GaVSY1JlpSQIoiR8zA93ufPN
+         VkiQ==
+X-Gm-Message-State: ACgBeo1vymS+0VUVjsXKMdixhPKv8I96PsIXcpdcmcC7EBnIG372qad4
+        vlAvFdvAggwFOiiKybqZmyo=
+X-Google-Smtp-Source: AA6agR6p1vnEmVhMR4O8lPoCRt91HpCjcE3g3bJe1rFhs/kMi/uJluoc3/u+nZq0YPRXXKdaBaDdUg==
+X-Received: by 2002:a17:90b:3a81:b0:1fd:c490:4f08 with SMTP id om1-20020a17090b3a8100b001fdc4904f08mr13328363pjb.105.1662280028369;
+        Sun, 04 Sep 2022 01:27:08 -0700 (PDT)
+Received: from debian.me (subs02-180-214-232-16.three.co.id. [180.214.232.16])
+        by smtp.gmail.com with ESMTPSA id y11-20020a17090322cb00b001744018def7sm4901806plg.90.2022.09.04.01.27.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 04 Sep 2022 01:27:08 -0700 (PDT)
+Received: by debian.me (Postfix, from userid 1000)
+        id 521D0102D35; Sun,  4 Sep 2022 15:20:28 +0700 (WIB)
+Date:   Sun, 4 Sep 2022 15:20:27 +0700
 From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <20220902224951.2625138-1-keescook@chromium.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+To:     Waiman Long <longman@redhat.com>
+Cc:     Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <shuah@kernel.org>, cgroups@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Roman Gushchin <guro@fb.com>, Phil Auld <pauld@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Marcelo Tosatti <mtosatti@redhat.com>,
+        Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>
+Subject: Re: [PATCH v12 09/10] cgroup/cpuset: Update description of
+ cpuset.cpus.partition in cgroup-v2.rst
+Message-ID: <YxRfy/SaKkJSm5jY@debian.me>
+References: <20220901205745.323326-1-longman@redhat.com>
+ <20220901205745.323326-10-longman@redhat.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="oIHDfZi7tkZKklmK"
+Content-Disposition: inline
+In-Reply-To: <20220901205745.323326-10-longman@redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 9/3/22 05:49, Kees Cook wrote:
-> +/**
-> + * strncpy - Copy a string to memory with non-guaranteed NUL padding
-> + *
-> + * @p: pointer to destination of copy
-> + * @q: pointer to NUL-terminated source string to copy
-> + * @size: bytes to write at @p
-> + *
-> + * If strlen(@q) >= @size, the copy of @q will stop after @size bytes,
-> + * and @p will NOT be NUL-terminated
-> + *
-> + * If strlen(@q) < @size, following the copy of @q, trailing NUL bytes
-> + * will be written to @p until @size total bytes have been written.
-> + *
-> + * Do not use this function. While FORTIFY_SOURCE tries to avoid
-> + * over-reads of @q, it cannot defend against writing unterminated
-> + * results to @p. Using strncpy() remains ambiguous and fragile.
-> + * Instead, please choose an alternative, so that the expectation
-> + * of @p's contents is unambiguous:
-> + *
-> + * +--------------------+-----------------+------------+
-> + * | @p needs to be:    | padded to @size | not padded |
-> + * +====================+=================+============+
-> + * |     NUL-terminated | strscpy_pad()   | strscpy()  |
-> + * +--------------------+-----------------+------------+
-> + * | not NUL-terminated | strtomem_pad()  | strtomem() |
-> + * +--------------------+-----------------+------------+
-> + *
-> + * Note strscpy*()'s differing return values for detecting truncation,
-> + * and strtomem*()'s expectation that the destination is marked with
-> + * __nonstring when it is a character array.
-> + *
-> + */
 
-Hi,
+--oIHDfZi7tkZKklmK
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I don't see the strncpy description above rendered in htmldocs output.
-Instead, I got:
+On Thu, Sep 01, 2022 at 04:57:44PM -0400, Waiman Long wrote:
+>  	It accepts only the following input values when written to.
+> =20
+>  	  =3D=3D=3D=3D=3D=3D=3D=3D	=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> -	  "root"	a partition root
+> -	  "member"	a non-root member of a partition
+> +	  "member"	Non-root member of a partition
+> +	  "root"	Partition root
+> +	  "isolated"	Partition root without load balancing
+>  	  =3D=3D=3D=3D=3D=3D=3D=3D	=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> =20
+><snipped>
+> +	On read, the "cpuset.cpus.partition" file can show the following
+> +	values.
+> +
+> +	  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D	=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D
+> +	  "member"			Non-root member of a partition
+> +	  "root"			Partition root
+> +	  "isolated"			Partition root without load balancing
+> +	  "root invalid (<reason>)"	Invalid partition root
+> +	  "isolated invalid (<reason>)"	Invalid isolated partition root
+> +	  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D	=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D
+> +
 
-```
+These tables above produced htmldocs warnings:
 
-char * strncpy(char *dest, const char *src, size_t count)¶
+Documentation/admin-guide/cgroup-v2.rst:2191: WARNING: Malformed table.
+Text in column margin in table line 4.
 
-    Copy a length-limited, C-string
+=3D=3D=3D=3D=3D=3D=3D=3D      =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+"member"      Non-root member of a partition
+"root"        Partition root
+"isolated"    Partition root without load balancing
+=3D=3D=3D=3D=3D=3D=3D=3D      =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+Documentation/admin-guide/cgroup-v2.rst:2229: WARNING: Malformed table.
+Text in column margin in table line 5.
 
-Parameters
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D        =
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D
+"member"                      Non-root member of a partition
+"root"                        Partition root
+"isolated"                    Partition root without load balancing
+"root invalid (<reason>)"     Invalid partition root
+"isolated invalid (<reason>)" Invalid isolated partition root
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D        =
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D
 
-char *dest
+I have applied the fixup:
 
-    Where to copy the string to
-const char *src
+---- >8 ----
 
-    Where to copy the string from
-size_t count
-
-    The maximum number of bytes to copy
-
-Description
-
-The result is not NUL-terminated if the source exceeds count bytes.
-
-In the case where the length of src is less than that of count, the remainder of dest will be padded with NUL.
-```
+diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-=
+guide/cgroup-v2.rst
+index 76b3ea9fd5c560..77b6faecf066cb 100644
+--- a/Documentation/admin-guide/cgroup-v2.rst
++++ b/Documentation/admin-guide/cgroup-v2.rst
+@@ -2185,11 +2185,11 @@ Cpuset Interface Files
+=20
+ 	It accepts only the following input values when written to.
+=20
+-	  =3D=3D=3D=3D=3D=3D=3D=3D	=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++	  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D	=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+ 	  "member"	Non-root member of a partition
+ 	  "root"	Partition root
+ 	  "isolated"	Partition root without load balancing
+-	  =3D=3D=3D=3D=3D=3D=3D=3D	=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++	  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D	=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+=20
+ 	The root cgroup is always a partition root and its state
+ 	cannot be changed.  All other non-root cgroups start out as
+@@ -2222,13 +2222,13 @@ Cpuset Interface Files
+ 	On read, the "cpuset.cpus.partition" file can show the following
+ 	values.
+=20
+-	  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D	=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D
++	  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D	=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+ 	  "member"			Non-root member of a partition
+ 	  "root"			Partition root
+ 	  "isolated"			Partition root without load balancing
+ 	  "root invalid (<reason>)"	Invalid partition root
+ 	  "isolated invalid (<reason>)"	Invalid isolated partition root
+-	  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D	=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D
++	  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D	=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+=20
+ 	In the case of an invalid partition root, a descriptive string on
+ 	why the partition is invalid is included within parentheses.
 
 Thanks.
 
--- 
+--=20
 An old man doll... just what I always wanted! - Clara
+
+--oIHDfZi7tkZKklmK
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCYxRfxAAKCRD2uYlJVVFO
+o3SHAQClBqZgslhw004gM4yBhkfde6wdEJ2nw/MXorNJ8fTClQD+JtUvFXJzGoUu
+rSAT7jqqrPGSs2nO4gsLQKWjeu/V6gQ=
+=Tjsc
+-----END PGP SIGNATURE-----
+
+--oIHDfZi7tkZKklmK--
