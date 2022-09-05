@@ -2,301 +2,102 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ABC81C6FA86
-	for <linux-doc@archiver.kernel.org>; Mon,  5 Sep 2022 06:44:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2255EECAAD5
+	for <linux-doc@archiver.kernel.org>; Mon,  5 Sep 2022 08:30:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235313AbiIEGo4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 5 Sep 2022 02:44:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37896 "EHLO
+        id S237847AbiIEIaj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 5 Sep 2022 04:30:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55960 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235644AbiIEGoz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Sep 2022 02:44:55 -0400
-Received: from conssluserg-05.nifty.com (conssluserg-05.nifty.com [210.131.2.90])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04139DEF9;
-        Sun,  4 Sep 2022 23:44:53 -0700 (PDT)
-Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com [209.85.210.47]) (authenticated)
-        by conssluserg-05.nifty.com with ESMTP id 2856icQV020648;
-        Mon, 5 Sep 2022 15:44:39 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 2856icQV020648
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1662360279;
-        bh=2/aEuTIGQY1eRCS8ZnFpEZnaZhJYBAN2YOqc0m45zS0=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=lKAB6BQc70nahRxqaJZNtnfMD+5Yec10/NkTOmFn2bNQNge2AgFZW7dBoRJqR6MnI
-         xPC/bll5EYabRy5wk4VM/2t1rCwklXfH+QePUY2EHAAwAI/+OQYY/bQlEF+vfb41jq
-         O+0v+kq1iRSwlgz/idsyDS/fER9XuSMbET7bpuSSVbebJZfGOYlSQyXUZJAfiTqkJD
-         WW1rymTI7myf1KQPXzI+OEG5yl2tukVLr+4rx+aN9kYriAWLRWx3bo0/AFtZfrskkb
-         dN6ZtLlo7S6u9OdbHj7cLg6CxD2bQaclRl5Me77fQNz7p8voW1WVLVPGvzKwUB5QB3
-         cxlaHRJ2p496g==
-X-Nifty-SrcIP: [209.85.210.47]
-Received: by mail-ot1-f47.google.com with SMTP id m21-20020a9d6ad5000000b00638df677850so5607439otq.5;
-        Sun, 04 Sep 2022 23:44:39 -0700 (PDT)
-X-Gm-Message-State: ACgBeo34pR0nBHRTtuT612LgxjSXtyvh58ogT003WVxEgvc1w62HPVfJ
-        1OKRW1bUZrAgAxDGgkKgq7cGN9/KoBTzNYmBKNk=
-X-Google-Smtp-Source: AA6agR5eDbGMjw3wtK6ZZjfyuxTtPhmoA7XbU6Z2YqLR6PluQmowVmlHe933hVZ0RY1QlSEEKDQLiJ+SNF7QSFqwxdE=
-X-Received: by 2002:a05:6830:658b:b0:63b:3501:7167 with SMTP id
- cn11-20020a056830658b00b0063b35017167mr12590275otb.343.1662360278092; Sun, 04
- Sep 2022 23:44:38 -0700 (PDT)
+        with ESMTP id S237686AbiIEIaI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Sep 2022 04:30:08 -0400
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CFDC14F652;
+        Mon,  5 Sep 2022 01:28:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1662366506; x=1693902506;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version:content-transfer-encoding;
+  bh=DLTuQGZ9IZSga0Dpa9lI7WYVAW6V0NwfP+YcJ2Yf+P0=;
+  b=FElm3Tv6JNzuk1PV5mVuYKI9hNE7RQe+vVU0bmAX8XnDCn5R4BEaC4zM
+   xPNp2LZ0hFRogrVlqBRmmc6TcJlmdUNWajqmXZfV185gNcCCH2op8NkLG
+   5zTnPhzs2drb53kad0ATdSymSoj8s3MxBksOJzBB9aKKuTagZ1yjNYNq0
+   TEIQJ42c9jNOQXLF04yMdZXeHM3ve733JBR7mFpR6g7yQeGeYYTQAFtNU
+   m2b7S2QenGOxb0BiRDkxmAMo8egha73NVOtkVthp3FU+kLnkNxkry+djB
+   TnETEGul0nPM12rffFslz77ctP9wcFr9TW8/8MoPuedR/BniAeIO5XQWE
+   w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10460"; a="276732615"
+X-IronPort-AV: E=Sophos;i="5.93,290,1654585200"; 
+   d="scan'208";a="276732615"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2022 01:28:26 -0700
+X-IronPort-AV: E=Sophos;i="5.93,290,1654585200"; 
+   d="scan'208";a="675191211"
+Received: from smaciag-mobl2.ger.corp.intel.com (HELO localhost) ([10.252.57.57])
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2022 01:28:24 -0700
+From:   Jani Nikula <jani.nikula@linux.intel.com>
+To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH 2/4] docs: Rewrite the front page
+In-Reply-To: <20220901231632.518583-3-corbet@lwn.net>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20220901231632.518583-1-corbet@lwn.net>
+ <20220901231632.518583-3-corbet@lwn.net>
+Date:   Mon, 05 Sep 2022 11:28:08 +0300
+Message-ID: <8735d6cjjb.fsf@intel.com>
 MIME-Version: 1.0
-References: <20220831184408.2778264-1-ndesaulniers@google.com> <20220831184408.2778264-4-ndesaulniers@google.com>
-In-Reply-To: <20220831184408.2778264-4-ndesaulniers@google.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Mon, 5 Sep 2022 15:44:01 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQsAwUX-w8YQTxPRSi8S0MRcDtv2mc=umjF_3C3dA1-Kg@mail.gmail.com>
-Message-ID: <CAK7LNAQsAwUX-w8YQTxPRSi8S0MRcDtv2mc=umjF_3C3dA1-Kg@mail.gmail.com>
-Subject: Re: [PATCH v2 3/5] Makefile.compiler: replace cc-ifversion with
- compiler-specific macros
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Michal Marek <michal.lkml@markovi.net>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Tom Rix <trix@redhat.com>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        clang-built-linux <llvm@lists.linux.dev>,
-        X86 ML <x86@kernel.org>,
-        Dmitrii Bundin <dmitrii.bundin.a@gmail.com>,
-        Fangrui Song <maskray@google.com>,
-        Alexey Alexandrov <aalexand@google.com>,
-        Bill Wendling <morbo@google.com>,
-        Greg Thelen <gthelen@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        amd-gfx list <amd-gfx@lists.freedesktop.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Sep 1, 2022 at 3:44 AM Nick Desaulniers <ndesaulniers@google.com> wrote:
+On Thu, 01 Sep 2022, Jonathan Corbet <corbet@lwn.net> wrote:
+> The front page is the entry point to the documentation, especially for
+> people who read it online.  It's a big mess of everything we could think =
+to
+> toss into it.  Rewrite the page with an eye toward simplicity and making =
+it
+> easy for readers to get going toward what they really want to find.
 >
-> cc-ifversion is GCC specific. Replace it with compiler specific
-> variants. Update the users of cc-ifversion to use these new macros.
-> Provide a helper for checking compiler versions for GCC and Clang
-> simultaneously, that will be used in a follow up patch.
->
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: linux-doc@vger.kernel.org
-> Cc: amd-gfx@lists.freedesktop.org
-> Cc: dri-devel@lists.freedesktop.org
-> Link: https://github.com/ClangBuiltLinux/linux/issues/350
-> Link: https://lore.kernel.org/llvm/CAGG=3QWSAUakO42kubrCap8fp-gm1ERJJAYXTnP1iHk_wrH=BQ@mail.gmail.com/
-> Suggested-by: Bill Wendling <morbo@google.com>
-> Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
-> ---
-> Changes v1 -> v2:
-> * New patch.
->
->  Documentation/kbuild/makefiles.rst          | 44 +++++++++++++++------
->  Makefile                                    |  4 +-
->  drivers/gpu/drm/amd/display/dc/dml/Makefile | 12 ++----
->  scripts/Makefile.compiler                   | 15 +++++--
->  4 files changed, 49 insertions(+), 26 deletions(-)
->
-> diff --git a/Documentation/kbuild/makefiles.rst b/Documentation/kbuild/makefiles.rst
-> index 11a296e52d68..e46f5b45c422 100644
-> --- a/Documentation/kbuild/makefiles.rst
-> +++ b/Documentation/kbuild/makefiles.rst
-> @@ -682,22 +682,42 @@ more details, with real examples.
->         In the above example, -Wno-unused-but-set-variable will be added to
->         KBUILD_CFLAGS only if gcc really accepts it.
->
-> -    cc-ifversion
-> -       cc-ifversion tests the version of $(CC) and equals the fourth parameter
-> -       if version expression is true, or the fifth (if given) if the version
-> -       expression is false.
-> +    gcc-min-version
-> +       gcc-min-version tests if the value of $(CONFIG_GCC_VERSION) is greater than
-> +       or equal to the provided value and evaluates to y if so.
->
->         Example::
->
-> -               #fs/reiserfs/Makefile
-> -               ccflags-y := $(call cc-ifversion, -lt, 0402, -O1)
-> +               cflags-$(call gcc-min-version, 70100) := -foo
->
-> -       In this example, ccflags-y will be assigned the value -O1 if the
-> -       $(CC) version is less than 4.2.
-> -       cc-ifversion takes all the shell operators:
-> -       -eq, -ne, -lt, -le, -gt, and -ge
-> -       The third parameter may be a text as in this example, but it may also
-> -       be an expanded variable or a macro.
-> +       In this example, cflags-y will be assigned the value -foo if $(CC) is gcc and
-> +       $(CONFIG_GCC_VERSION) is >= 7.1.
+> This is only a beginning, but it makes our docs more approachable than
+> before.
+
+\o/
+
+> diff --git a/Documentation/subsystem-apis.rst b/Documentation/subsystem-a=
+pis.rst
+> new file mode 100644
+> index 000000000000..f5d8bcc023c8
+> --- /dev/null
+> +++ b/Documentation/subsystem-apis.rst
+> @@ -0,0 +1,56 @@
+> +.. SPDX-License-Identifier: GPL-2.0
 > +
-> +    clang-min-version
-> +       clang-min-version tests if the value of $(CONFIG_CLANG_VERSION) is greater
-> +       than or equal to the provided value and evaluates to y if so.
-> +
-> +       Example::
-> +
-> +               cflags-$(call clang-min-version, 110000) := -foo
-> +
-> +       In this example, cflags-y will be assigned the value -foo if $(CC) is clang
-> +       and $(CONFIG_CLANG_VERSION) is >= 11.0.0.
-> +
-> +    cc-min-version
-> +       cc-min-version tests if the value of $(CONFIG_GCC_VERSION) is greater
-> +       than or equal to the first value provided, or if the value of
-> +       $(CONFIG_CLANG_VERSION) is greater than or equal to the second value
-> +       provided, and evaluates
-> +       to y if so.
-> +
-> +       Example::
-> +
-> +               cflags-$(call cc-min-version, 70100, 110000) := -foo
-> +
-> +       In this example, cflags-y will be assigned the value -foo if $(CC) is gcc and
-> +       $(CONFIG_GCC_VERSION) is >= 7.1, or if $(CC) is clang and
-> +       $(CONFIG_CLANG_VERSION) is >= 11.0.0.
->
->      cc-cross-prefix
->         cc-cross-prefix is used to check if there exists a $(CC) in path with
-> diff --git a/Makefile b/Makefile
-> index 952d354069a4..caa39ecb1136 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -972,7 +972,7 @@ ifdef CONFIG_CC_IS_GCC
->  KBUILD_CFLAGS += -Wno-maybe-uninitialized
->  endif
->
-> -ifdef CONFIG_CC_IS_GCC
-> +ifeq ($(call gcc-min-version, 90100),y)
->  # The allocators already balk at large sizes, so silence the compiler
->  # warnings for bounds checks involving those possible values. While
->  # -Wno-alloc-size-larger-than would normally be used here, earlier versions
-> @@ -984,7 +984,7 @@ ifdef CONFIG_CC_IS_GCC
->  # ignored, continuing to default to PTRDIFF_MAX. So, left with no other
->  # choice, we must perform a versioned check to disable this warning.
->  # https://lore.kernel.org/lkml/20210824115859.187f272f@canb.auug.org.au
-> -KBUILD_CFLAGS += $(call cc-ifversion, -ge, 0901, -Wno-alloc-size-larger-than)
-> +KBUILD_CFLAGS += -Wno-alloc-size-larger-than
->  endif
->
->  # disable invalid "can't wrap" optimizations for signed / pointers
-> diff --git a/drivers/gpu/drm/amd/display/dc/dml/Makefile b/drivers/gpu/drm/amd/display/dc/dml/Makefile
-> index 86a3b5bfd699..d8ee4743b2e3 100644
-> --- a/drivers/gpu/drm/amd/display/dc/dml/Makefile
-> +++ b/drivers/gpu/drm/amd/display/dc/dml/Makefile
-> @@ -33,20 +33,14 @@ ifdef CONFIG_PPC64
->  dml_ccflags := -mhard-float -maltivec
->  endif
->
-> -ifdef CONFIG_CC_IS_GCC
-> -ifeq ($(call cc-ifversion, -lt, 0701, y), y)
-> -IS_OLD_GCC = 1
-> -endif
-> -endif
-> -
->  ifdef CONFIG_X86
-> -ifdef IS_OLD_GCC
-> +ifeq ($(call gcc-min-version, 70100),y)
-> +dml_ccflags += -msse2
-> +else
->  # Stack alignment mismatch, proceed with caution.
->  # GCC < 7.1 cannot compile code using `double` and -mpreferred-stack-boundary=3
->  # (8B stack alignment).
->  dml_ccflags += -mpreferred-stack-boundary=4
-> -else
-> -dml_ccflags += -msse2
->  endif
->  endif
->
-> diff --git a/scripts/Makefile.compiler b/scripts/Makefile.compiler
-> index d1739f0d3ce3..13dade724fa3 100644
-> --- a/scripts/Makefile.compiler
-> +++ b/scripts/Makefile.compiler
-> @@ -61,9 +61,18 @@ cc-option-yn = $(call try-run,\
->  cc-disable-warning = $(call try-run,\
->         $(CC) -Werror $(KBUILD_CPPFLAGS) $(KBUILD_CFLAGS) -W$(strip $(1)) -c -x c /dev/null -o "$$TMP",-Wno-$(strip $(1)))
->
-> -# cc-ifversion
-> -# Usage:  EXTRA_CFLAGS += $(call cc-ifversion, -lt, 0402, -O1)
-> -cc-ifversion = $(shell [ $(CONFIG_GCC_VERSION)0 $(1) $(2)000 ] && echo $(3) || echo $(4))
-> +# gcc-min-version
-> +# Usage: cflags-$(call gcc-min-version, 70100) += -foo
-> +gcc-min-version = $(shell [ $(CONFIG_GCC_VERSION) -ge $(1) ] && echo y)
-> +
-> +# clang-min-version
-> +# Usage: cflags-$(call clang-min-version, 110000) += -foo
-> +clang-min-version = $(shell [ $(CONFIG_CLANG_VERSION) -ge $(1) ] && echo y)
-> +
-> +# cc-min-version
-> +# Usage: cflags-$(call cc-min-version, 701000, 110000)
-> +#                                      ^ GCC   ^ Clang
-> +cc-min-version = $(filter y, $(call gcc-min-version, $(1)), $(call clang-min-version, $(2)))
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +Kernel subsystem API documentation
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
 
+How about making this "Kernel subsystem documentation"?
 
+For example the GPU documentation is so much more than just API
+documentation. And the paragraph below is more generic too, "how
+specific subsystems work".
 
+BR,
+Jani.
 
-A more intuitive and more efficient form would be:
+> +These books get into the details of how specific kernel subsystems work
+> +from the point of view of a kernel developer.  Much of the information h=
+ere
+> +is taken directly from the kernel source, with supplemental material add=
+ed
+> +as needed (or at least as we managed to add it =E2=80=94 probably *not* =
+all that is
+> +needed).
 
-  cc-min-version = $(or $(call gcc-min-version, $(1)), $(call
-clang-min-version, $(2)))
-
-
-
-In your implementation, both gcc-min-version and clang-min-version are
-expanded before being passed to $(filter ...).
-So the shell is always invoked twice.
-
-
-$(or A, B) is lazily expanded; A is evaluated first.
-If and only if A is empty, B is expanded.
-
-If gcc-min-version is met, the shell invocation in clang-min-version
-will be short-cut.
-
-
-
-But, I do not find a place where cc-min-version is useful.
-
-
-Looking at the next patch,
-
-
-
-# gcc-11+, clang-14+
-ifeq ($(call cc-min-version, 110000, 140000),y)
-dwarf-version-y := 5
-else
-dwarf-version-y := 4
-endif
-
-
- ... can be written in a more simpler way:
-
-
-dwarf-version-y                                 := 4
-dwarf-version-$(call gcc-min-version, 110000)   := 5
-dwarf-version-$(call clang-min-version, 140000) := 5
-
-
-
-
-
-With $(call cc-min-version, 110000, 140000),
-you never know the meaning of 110000, 140000
-until you see the definition of this macro.
-So, you feel like adding the comment "gcc-11+, clang-14+".
-
-
-The latter form, the code is self-documenting.
-
-
-
-
-
-
-
-
->  # ld-option
->  # Usage: KBUILD_LDFLAGS += $(call ld-option, -X, -Y)
-> --
-> 2.37.2.672.g94769d06f0-goog
->
-
-
--- 
-Best Regards
-Masahiro Yamada
+--=20
+Jani Nikula, Intel Open Source Graphics Center
