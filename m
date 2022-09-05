@@ -2,102 +2,89 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2255EECAAD5
-	for <linux-doc@archiver.kernel.org>; Mon,  5 Sep 2022 08:30:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DF660ECAAD5
+	for <linux-doc@archiver.kernel.org>; Mon,  5 Sep 2022 08:34:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237847AbiIEIaj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 5 Sep 2022 04:30:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55960 "EHLO
+        id S236095AbiIEIeI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 5 Sep 2022 04:34:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40108 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237686AbiIEIaI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Sep 2022 04:30:08 -0400
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CFDC14F652;
-        Mon,  5 Sep 2022 01:28:26 -0700 (PDT)
+        with ESMTP id S237791AbiIEIdT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Sep 2022 04:33:19 -0400
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A7C050180;
+        Mon,  5 Sep 2022 01:32:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1662366506; x=1693902506;
+  t=1662366724; x=1693902724;
   h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version:content-transfer-encoding;
-  bh=DLTuQGZ9IZSga0Dpa9lI7WYVAW6V0NwfP+YcJ2Yf+P0=;
-  b=FElm3Tv6JNzuk1PV5mVuYKI9hNE7RQe+vVU0bmAX8XnDCn5R4BEaC4zM
-   xPNp2LZ0hFRogrVlqBRmmc6TcJlmdUNWajqmXZfV185gNcCCH2op8NkLG
-   5zTnPhzs2drb53kad0ATdSymSoj8s3MxBksOJzBB9aKKuTagZ1yjNYNq0
-   TEIQJ42c9jNOQXLF04yMdZXeHM3ve733JBR7mFpR6g7yQeGeYYTQAFtNU
-   m2b7S2QenGOxb0BiRDkxmAMo8egha73NVOtkVthp3FU+kLnkNxkry+djB
-   TnETEGul0nPM12rffFslz77ctP9wcFr9TW8/8MoPuedR/BniAeIO5XQWE
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10460"; a="276732615"
+   message-id:mime-version;
+  bh=NPV+Iryp0p0KjJxr1+rCy91TFkXF6Rdv2ie/zgRFU0Y=;
+  b=iORZebpbGW+Zza/wsvYKdOEy4t+wlq3+DOM+S0HyoL522+UC8eTiDDKa
+   USjswTqz3AaXzXx8ggKV0fQB9YqlJhmoKbaffAkufTVBuhsWmrOrVittk
+   6mVP6pGoGgq8NPy6Z9DqEJ3kIPvqZvwEyNOmfuKZs8479uWiABXHEfVcJ
+   5/4zZxJ0YC1/9f+RIbnegFifevWHrHKtP3SCFy2a3ADFZXnrzLdxi4lUQ
+   59E10tjLtjfn/tMXD1y6nIQrQgf96uV46aoDMamhKrarxpCSoWw6Edse8
+   L+kf9bOSwGR9YJxxdZhLDObZ9WSN36Li8Ez+cyPHCGXbarokfxlKgIFWX
+   Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10460"; a="283333255"
 X-IronPort-AV: E=Sophos;i="5.93,290,1654585200"; 
-   d="scan'208";a="276732615"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2022 01:28:26 -0700
+   d="scan'208";a="283333255"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2022 01:32:02 -0700
 X-IronPort-AV: E=Sophos;i="5.93,290,1654585200"; 
-   d="scan'208";a="675191211"
+   d="scan'208";a="590834788"
 Received: from smaciag-mobl2.ger.corp.intel.com (HELO localhost) ([10.252.57.57])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2022 01:28:24 -0700
+  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2022 01:31:59 -0700
 From:   Jani Nikula <jani.nikula@linux.intel.com>
 To:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
 Cc:     linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH 2/4] docs: Rewrite the front page
-In-Reply-To: <20220901231632.518583-3-corbet@lwn.net>
+Subject: Re: [PATCH 3/4] docs: reconfigure the HTML left column
+In-Reply-To: <20220901231632.518583-4-corbet@lwn.net>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 References: <20220901231632.518583-1-corbet@lwn.net>
- <20220901231632.518583-3-corbet@lwn.net>
-Date:   Mon, 05 Sep 2022 11:28:08 +0300
-Message-ID: <8735d6cjjb.fsf@intel.com>
+ <20220901231632.518583-4-corbet@lwn.net>
+Date:   Mon, 05 Sep 2022 11:31:43 +0300
+Message-ID: <87zgfeb4sw.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 On Thu, 01 Sep 2022, Jonathan Corbet <corbet@lwn.net> wrote:
-> The front page is the entry point to the documentation, especially for
-> people who read it online.  It's a big mess of everything we could think =
-to
-> toss into it.  Rewrite the page with an eye toward simplicity and making =
-it
-> easy for readers to get going toward what they really want to find.
+> Use the html_sidebars directive to get a more useful set of links in the
+> left column.
 >
-> This is only a beginning, but it makes our docs more approachable than
-> before.
+> Unfortunately, this is a no-op with the default RTD theme, but others
+> observe it.
 
-\o/
-
-> diff --git a/Documentation/subsystem-apis.rst b/Documentation/subsystem-a=
-pis.rst
-> new file mode 100644
-> index 000000000000..f5d8bcc023c8
-> --- /dev/null
-> +++ b/Documentation/subsystem-apis.rst
-> @@ -0,0 +1,56 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +Kernel subsystem API documentation
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-
-How about making this "Kernel subsystem documentation"?
-
-For example the GPU documentation is so much more than just API
-documentation. And the paragraph below is more generic too, "how
-specific subsystems work".
+I regret picking the RTD theme way back when, on more of a whim than
+anything else, and claiming we could change it later on. :(
 
 BR,
 Jani.
 
-> +These books get into the details of how specific kernel subsystems work
-> +from the point of view of a kernel developer.  Much of the information h=
-ere
-> +is taken directly from the kernel source, with supplemental material add=
-ed
-> +as needed (or at least as we managed to add it =E2=80=94 probably *not* =
-all that is
-> +needed).
+>
+> Signed-off-by: Jonathan Corbet <corbet@lwn.net>
+> ---
+>  Documentation/conf.py | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/Documentation/conf.py b/Documentation/conf.py
+> index 78dd6d1e7b88..22c9d4df1967 100644
+> --- a/Documentation/conf.py
+> +++ b/Documentation/conf.py
+> @@ -370,7 +370,8 @@ html_static_path = ['sphinx-static']
+>  html_use_smartypants = False
+>  
+>  # Custom sidebar templates, maps document names to template names.
+> -#html_sidebars = {}
+> +# Note that the RTD theme ignores this
+> +html_sidebars = { '**': ['searchbox.html', 'localtoc.html', 'sourcelink.html']}
+>  
+>  # Additional templates that should be rendered to pages, maps page names to
+>  # template names.
 
---=20
+-- 
 Jani Nikula, Intel Open Source Graphics Center
