@@ -2,317 +2,429 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 63307C6FA83
-	for <linux-doc@archiver.kernel.org>; Mon,  5 Sep 2022 12:34:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5509AECAAD5
+	for <linux-doc@archiver.kernel.org>; Mon,  5 Sep 2022 13:56:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238384AbiIEMe6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 5 Sep 2022 08:34:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43650 "EHLO
+        id S237199AbiIEN4j (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 5 Sep 2022 09:56:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40318 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238198AbiIEMed (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Sep 2022 08:34:33 -0400
-Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 29AF65E575
-        for <linux-doc@vger.kernel.org>; Mon,  5 Sep 2022 05:27:58 -0700 (PDT)
-Received: from [192.168.100.8] (unknown [112.20.112.163])
-        by localhost.localdomain (Coremail) with SMTP id AQAAf8Cx9OFF6xVjJMgRAA--.7055S3;
-        Mon, 05 Sep 2022 20:27:50 +0800 (CST)
-Message-ID: <65774b2e-0a58-590d-0be3-84e8fb9a22da@loongson.cn>
-Date:   Mon, 5 Sep 2022 20:27:42 +0800
+        with ESMTP id S231187AbiIEN4i (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Sep 2022 09:56:38 -0400
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com (mail-bn8nam04on2049.outbound.protection.outlook.com [40.107.100.49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CDDAA59256;
+        Mon,  5 Sep 2022 06:56:35 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=LMjKGZ1WrgiHGYZlnZmjnl0+UCprK096yuGsWOOw079uHGgatgW1bCyZ7ulo4Tr45diwJeA3lbWWb25WsbwpZ2gf2OvnOWdwY4HO2RUr4qGkcIt/drS5L0fzZ1BLqyL/Nv7jE/A++Ek7Eh7asvebohQDcHQ5ogj8dYgcoynDDt5JfaQm8b69iu71C9CzQq6RChLz5I/7SP9yQjZ4PPT+UNmbknb61HL3BRPfb11wJTi2exoZ1RnsTB9QBXhHL2gC9oxR38xQe8HLUf/L2AyukKPKlpTsG1fShMe+dOnLfaW0vGkYaUgcRNYapANFn1NefIPYFEuFZb8chtkIhkAgcg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=c2HJhcAIHq3Ep+UWAyX38FarJsxjGbelFKHII0mhI74=;
+ b=YtGfasfxbsrCbPEMYmaq4Lol2eASo2aej6HUmuBv2V5Mjt8ftMzP2nO8/ErNnwJgIS4ihzhPdLXyovzYZScsKWWawfI8uHT2szqjx94Fm6YwRyWjfBM6x1Y0fOmTI3zNmrbLF46YA8/MSTz/HWirKfzI7XZW6eDpok1mWlwAIm0Ch48ETbVvJLrlrS0hcKTEHMr0IThTsJ6XuUyvmgupNiW1iKfBkfXpujx82dldUU5oTmW94UpPeFk2GkZ7EA7jpwZWdsecwPQjaLZGjZphCDlSuyQxrOcdQ/alWH+OP20zkUYzFBwUD5G6NCyyF1kV6wyRInYBqDWlP5fPPZzOVA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=amd.com;
+ dmarc=fail (p=none sp=none pct=100) action=none header.from=xilinx.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector1-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=c2HJhcAIHq3Ep+UWAyX38FarJsxjGbelFKHII0mhI74=;
+ b=qaOQMhXznbT5qO+Z/BV6od4HTwUPZUPtMN0OcPUhbfUuezLJT1qLQAuIe9kLqwFGTR6H6qk+dRtqC5CvIyTWADxf3JaeJRNzRqc7omcfPqLVk6g/ToJMZtxzkedkLoLz7bGAUr7bfSpKWKgsf5in0Zf/oG2JF3PIfQh7Rm3GgdPVh+8kudcMYFSkVEipgUbStsW8iCbOLkFXp39wA//JNR/E18fy0MaJdEZaSms6TRvorzIQJ4piaZIPaaIUWf/H4M0u3kJ2goIqJ6egVP7lrK/+zeAsiSjWOx19R0jPiKtD2PJ3yXidn9lLiqJoIA6PzXsoHArZcYw1vNU3ChOrcA==
+Received: from BN0PR02CA0013.namprd02.prod.outlook.com (2603:10b6:408:e4::18)
+ by BY5PR12MB4260.namprd12.prod.outlook.com (2603:10b6:a03:206::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5588.10; Mon, 5 Sep
+ 2022 13:56:32 +0000
+Received: from BN8NAM11FT018.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:408:e4:cafe::88) by BN0PR02CA0013.outlook.office365.com
+ (2603:10b6:408:e4::18) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5588.10 via Frontend
+ Transport; Mon, 5 Sep 2022 13:56:32 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=none header.from=xilinx.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB03.amd.com; pr=C
+Received: from SATLEXMB03.amd.com (165.204.84.17) by
+ BN8NAM11FT018.mail.protection.outlook.com (10.13.176.89) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.5588.10 via Frontend Transport; Mon, 5 Sep 2022 13:56:32 +0000
+Received: from SATLEXMB07.amd.com (10.181.41.45) by SATLEXMB03.amd.com
+ (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.28; Mon, 5 Sep
+ 2022 08:56:31 -0500
+Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB07.amd.com
+ (10.181.41.45) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.28; Mon, 5 Sep
+ 2022 06:56:30 -0700
+Received: from xcbecree41x.xilinx.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.28 via Frontend
+ Transport; Mon, 5 Sep 2022 08:56:26 -0500
+From:   <ecree@xilinx.com>
+To:     <netdev@vger.kernel.org>, <linux-net-drivers@amd.com>
+CC:     <davem@davemloft.net>, <kuba@kernel.org>, <pabeni@redhat.com>,
+        <edumazet@google.com>, <corbet@lwn.net>,
+        <linux-doc@vger.kernel.org>, <jacob.e.keller@intel.com>,
+        <jesse.brandeburg@intel.com>, <michael.chan@broadcom.com>,
+        <andy@greyhouse.net>, <saeed@kernel.org>, <jiri@resnulli.us>,
+        <snelson@pensando.io>, <simon.horman@corigine.com>,
+        <alexander.duyck@gmail.com>, <rdunlap@infradead.org>,
+        <parav@nvidia.com>, <roid@nvidia.com>,
+        <marcin.szycik@linux.intel.com>,
+        Edward Cree <ecree.xilinx@gmail.com>
+Subject: [PATCH v3 net-next] docs: net: add an explanation of VF (and other) Representors
+Date:   Mon, 5 Sep 2022 14:55:57 +0100
+Message-ID: <20220905135557.39233-1-ecree@xilinx.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH v1 1/5] docs/zh_CN: add PCI acpi-info translation
-To:     Wu XiangCheng <wu.xiangcheng@linux.dev>
-Cc:     alexs@kernel.org, bobwxc@email.cn, seakeel@gmail.com,
-        corbet@lwn.net, chenhuacai@kernel.org, jiaxun.yang@flygoat.com,
-        linux-doc@vger.kernel.org, siyanteng01@gmail.com
-References: <cover.1662022757.git.siyanteng@loongson.cn>
- <b872e46c98551f94bdae4a8a5f3ed328b9070bd4.1662022757.git.siyanteng@loongson.cn>
- <YxH9b+m8iRn/GRH2@bobwxc.mipc>
-From:   YanTeng Si <siyanteng@loongson.cn>
-In-Reply-To: <YxH9b+m8iRn/GRH2@bobwxc.mipc>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8Cx9OFF6xVjJMgRAA--.7055S3
-X-Coremail-Antispam: 1UD129KBjvAXoW3tw1xtry3tF47XFWDGFyfJFb_yoW8GF1fKo
-        ZIkrZIkws7C343X3W5Wa1fG3sIvw4fCF17Jan5GrsrAr1jyF1rGr4ktw15Aay7urZ8GF1f
-        Ka4Iq3y5C3WUJ3W5n29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
-        AaLaJ3UjIYCTnIWjp_UUUYx7k0a2IF6w4kM7kC6x804xWl14x267AKxVW8JVW5JwAFc2x0
-        x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj4
-        1l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0
-        I7IYx2IY6xkF7I0E14v26F4j6r4UJwA2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4
-        vEx4A2jsIEc7CjxVAFwI0_GcCE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xv
-        F2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r
-        4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCYjI0SjxkI62AI1cAE67vIY487
-        MxkIecxEwVAFwVW5JwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s
-        026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_
-        Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20x
-        vEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE
-        14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf
-        9x07bOXd8UUUUU=
-X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 51e0d24b-c708-4333-9d8a-08da8f467061
+X-MS-TrafficTypeDiagnostic: BY5PR12MB4260:EE_
+X-MS-Exchange-SenderADCheck: 0
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: GgG2qku4o5RDVtf7h4kRu9Ryp3uj2QIA7YndbB/Eypefz+0lSnPQ+3+gvhMD58gkjYKh6gQH+vLtYsPwdwc4WqeK9DBVEzPUKqfbr7ULRnOUCdivVThFfWkQ5A3tnOzw4fXEdDgX8z36Kow/fy5g4MopaHkPBzNBNA3FBq8LB1VUQDluUSnZxlPicMUGug21ciuI0Yd0hVEbqY4VDpzBjLBgWvy7+MNlzW8PpmTr9kRuyDbsqqgW8gCTIHpbqULwO0WESNMxIlVXur9KiwNygmZLQvfPH9IWVok3QwueZUbQ2YxyE6SGbGkvm8jXeOycZzCGfQB9yx7DtL7GINJtUccvsOcZy8dlctkiKCHhiEmB8uU1+0QHTH5nSr05UUpmm2sFC/vJ8KNFEyYPSxEA2O95kbuKW2VZrCxHPMdV+1dnjxChLjwcP30BwF9x2IISNo1o6arSj0TmsrUWn8k3sGq9QbwlbBhkCKsnMnBYRHBokLaFzXduWmRKOH9CzNq0gelbryyChldtFU2Px/ZgeodL5a3UejBapdNZCb0mMgid6zweVbHbtm218KtSkzNXEvpruJY0mSyH+7bUss5TzLpMnl8JkUBrCZtug/pNDoE6FX4kaAeT4RymimKTaiQo5VhwRRtYQtZNSEu6oNrhb8iezxa11hbcWaslVFWzmazVtgYj4xasEU1DUJwMnWXtng7Zq1svMcKMKfEeTbxJMCZto07/plQUKV68ZOqcxVob7rZSMCzN/jHcfhpRNfwgzIOUBj5BHQkFsnbRnqxavFLy4Ed0PcrVpPxOc+yzQ5uWXSV/me81Kkj9sYcYW8sP
+X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB03.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230016)(4636009)(396003)(136003)(346002)(376002)(39860400002)(40470700004)(36840700001)(46966006)(40480700001)(82310400005)(2906002)(110136005)(54906003)(36756003)(40460700003)(316002)(356005)(81166007)(2876002)(83170400001)(8676002)(8936002)(5660300002)(336012)(36860700001)(7416002)(4326008)(82740400003)(83380400001)(47076005)(70206006)(70586007)(42882007)(41300700001)(186003)(2616005)(1076003)(30864003)(7696005)(6666004)(478600001)(26005)(36900700001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Sep 2022 13:56:32.1649
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 51e0d24b-c708-4333-9d8a-08da8f467061
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB03.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT018.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4260
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+From: Edward Cree <ecree.xilinx@gmail.com>
 
-在 2022/9/2 20:56, Wu XiangCheng 写道:
-> 2022-09-01 (四) 19:15:42 +0800 Yanteng Si 曰：
->> Translate .../PCI/acpi-info.rst into Chinese.
->> Add PCI into .../zh_CN/index.rst.
->>
->> Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
->> ---
->>   .../translations/zh_CN/PCI/acpi-info.rst      | 139 ++++++++++++++++++
->>   .../translations/zh_CN/PCI/index.rst          |  13 +-
->>   Documentation/translations/zh_CN/index.rst    |   2 +-
->>   3 files changed, 145 insertions(+), 9 deletions(-)
->>   create mode 100644 Documentation/translations/zh_CN/PCI/acpi-info.rst
->>
->> diff --git a/Documentation/translations/zh_CN/PCI/acpi-info.rst b/Documentation/translations/zh_CN/PCI/acpi-info.rst
->> new file mode 100644
->> index 000000000000..74405a0360dc
->> --- /dev/null
->> +++ b/Documentation/translations/zh_CN/PCI/acpi-info.rst
-> @@ -0,0 +1,24 @@
->> +.. SPDX-License-Identifier: GPL-2.0
->> +.. include:: ../disclaimer-zh_CN.rst
->> +
->> +:Original: Documentation/PCI/acpi-info.rst
->> +
->> +:翻译:
->> +
->> + 司延腾 Yanteng Si <siyanteng@loongson.cn>
->> +
->> +:校译:
->> +
->> +
->> +=====================
->> +PCI主桥的ACPI注意事项
->> +=====================
->> +
->> +一般的规则是，ACPI命名空间应该描述操作系统可能使用的所有东西，除非有其他方法让操作系
->> +统找到它[1, 2]。
->> +
->> +例如，没有标准的硬件机制来枚举PCI主桥，所以ACPI命名空间必须描述每个主桥、访问它
->> +下面的PCI配置空间的方法、主桥转发到PCI的地址空间窗口（使用_CRS）以及传统的INTx
->> +中断的路由（使用_PRT）。
->> +
->> +PCI设备，在主桥下面，通常不需要通过ACPI描述。操作系统可以通过标准的PCI枚举机制来
-> 在主桥下面的PCI设备
-OK!
->
->> +发现它们，使用配置访问来发现和识别设备，并读取和测量它们的BAR。然而，如果ACPI为它们
->> +提供电源管理或热插拔功能，或者如果设备有INTx中断，由平台中断控制器连接，需要一个_PRT
-> 设备有由平台中断控制器连接的INTx中断
-OK!
->
->> +来描述这些连接，这种情况下ACPI可以描述PCI设备。
->> +
->> +ACPI资源描述是通过ACPI命名空间中设备的_CRS对象完成的[2]。_CRS就像一个通用的PCI BAR：
->> +操作系统可以读取_CRS并找出正在消耗的资源，即使它没有该设备的驱动程序[3]。这一点很重要，
->> +因为它意味着一个旧的操作系统可以正确地工作，即使是在操作系统不知道的新设备的系统上。新设
->> +备可能什么都不做，但操作系统至少可以确保没有资源与它们冲突。
->> +
->> +像MCFG、HPET、ECDT等静态表，不是保留地址空间的机制。静态表是在操作系统在启动初期且在它
->> +能够解析ACPI命名空间之前需要知道的东西。如果定义了一个新的表，即使旧的操作系统忽略了这
->> +个表，它也需要正常运行。_CRS允许这样做，因为它是通用的，可以被旧的操作系统解析；而静态表
->> +则不允许。
->> +
->> +如果操作系统要管理一个通过ACPI描述的不可发现的设备，该设备将有一个特定的_HID/_CID，操
->> +作系统将其告诉与之绑定的驱动程序，并且_CRS告诉操作系统和驱动程序该设备的寄存器在哪里。
-> 以告诉操作系统与之绑定的驱动程序
-OK!
->
->> +
->> +PCI主桥是PNP0A03或PNP0A08设备。它们的_CRS应该描述它们所消耗的所有地址空间。这包括它
->> +们转发到PCI总线上的所有窗口，以及不转发到PCI的主桥本身的寄存器。主桥的寄存器包括次要/下
->> +级总线寄存器，决定了桥下面的总线范围，窗口寄存器描述了桥洞，等等。这些都是设备相关的，非
->> +架构相关的东西，所以PNP0A03/PNP0A08驱动可以管理它们的唯一方法是通过_PRS/_CRS/_SRS，
->> +它包含了特定于设备的细节。主桥寄存器也包括ECAM空间，因为它是由主桥消耗的。
->> +
-> 以下6段，检查多余的空格
+There's no clear explanation of what VF Representors are for, their
+ semantics, etc., outside of vendor docs and random conference slides.
+Add a document explaining Representors and defining what drivers that
+ implement them are expected to do.
 
-OK!
+Signed-off-by: Edward Cree <ecree.xilinx@gmail.com>
+---
+Changed in v3:
+ - renamed "master PF" to "switchdev function" (Parav)
+ - reworded sentence in Motivation that caused some confusion (Marcin)
+ - fixed preposition to->by (Parav)
+ - used the word "external" when talking about other PCIe controllers, for
+   consistency with devlink port documentation (Parav)
+ - added more explanation about virtio-blk representors, and the conceptual
+   point I was trying to use them to illustrate
+ - made it more explicit that vswitch ports, and thus representors, can appear
+   dynamically at run time, not just at probe (Parav)
+ - used $VARIABLES for netdev names in TC rule examples (Marcin)
 
+Changed in v2:
+ - incorporated feedback from Jakub including rewrite of the Motivation section,
+   representors for uplink/phys port, replace phys_port_name conventions with
+   devlink port.
+ - fixed archaic spelling (Randy)
+ - painted the bike shed blue ("master PF") for now, we can always change it
+   again later
+ - added Definitions section
+---
+ Documentation/networking/index.rst        |   1 +
+ Documentation/networking/representors.rst | 259 ++++++++++++++++++++++
+ Documentation/networking/switchdev.rst    |   1 +
+ 3 files changed, 261 insertions(+)
+ create mode 100644 Documentation/networking/representors.rst
 
-BTW:
-
-
-I have received some feedback from readers that
-
-
-They are used to writing with spaces between Chinese and English, and I 
-found that some of the documents we translated have spaces and some do not.
-
-
-As the number of documents rises, do we need to follow some conventions 
-to make the documents look better?
-
-
-Readers gave me this link 
-<https://github.com/sparanoid/chinese-copywriting-guidelines/blob/master/README.zh-Hans.md> 
-.
-
->
->> +ACPI 定义了一个 Consumer/Producer 位来区分桥寄存器（“Consumer”下文译作消费者）和
->> +桥洞（“Producer”下文译作生产者）[4, 5]，但是早期的 BIOS 没有正确使用这个位。其结果
->> +是，目前的ACPI规范只为扩展地址空间描述符定义了消费者/生产者；在旧的QWord/Word/Word地
->> +址空间描述符中，该位应该被忽略。因此，操作系统必须假定所有的QWord/Word/Word描述符都是
->> +窗口。
->> +
->> +在增加扩展地址空间描述符之前，消费者/生产者的失败意味着没有办法描述PNP0A03/PNP0A08设
->> +备本身的桥寄存器。解决办法是在 PNP0C02 捕捉器中描述桥寄存器（包括 ECAM 空间）[6]。
->> +除了 ECAM 之外，桥寄存器空间反正是特定于设备的，所以通用的 PNP0A03/PNP0A08 驱动程
->> +序 (pci_root.c) 没有必要了解它。
->> +
->> +新的架构应该能够在 PNP0A03 设备中使用“消费者”扩展地址空间描述符，用于桥寄存器，包括
->> +ECAM，尽管对 [6] 的严格解释可能禁止这样做。旧的 x86 和 ia64 内核假定所有的地址空间
->> +描述符，包括“消费者”扩展地址空间的描述符，都是窗口，所以在这些架构上以这种方式描述桥寄
->> +存器是不安全的。
->> +
->> +PNP0C02 “主板”设备基本上是万能的。除了“不要将这些资源用于其他用途”之外，没有其他的编
->> +程模型。因此，PNP0C02 _CRS应该声明ACPI命名空间中(1)没有被_CRS声明的任何其他设备对
->> +象的地址空间，(2)不应该被OS分配给其他东西。
->> +
->> +除非有一个标准的固件接口用于配置访问，例如ia64 SAL接口[7], 否则PCIe规范要求使用增强
->> +型配置访问方法（ECAM）。主桥消耗ECAM内存地址空间并将内存访问转换为PCI配置访问。该规范
->> +定义了ECAM地址空间的布局和功能；只有地址空间的基础是特定于设备的。ACPI操作系统从静态
->> +MCFG表或PNP0A03设备中的_CBA方法中了解基础地址。
->> +
->> +MCFG表必须描述非热插拔主桥的ECAM空间[8]。由于MCFG是一个静态表，不能通过热插拔更新，
->> +PNP0A03设备中的_CBA方法描述了可热插拔主桥的ECAM空间[9]。请注意，对于 MCFG 和 _CBA，
->> +基址总是对应于总线 0，即使桥器下面的总线范围（通过 _CRS 报告）不从 0 开始。
->> +
->> +
->> +[1] ACPI 6.2, sec 6.1:
->> +    对于任何在非枚举类型的总线上的设备（例如，ISA总线），OSPM会枚举设备的标识符，ACPI
->> +    系统固件必须为每个设备提供一个_HID对象...以使OSPM能够做到这一点。
->> +
->> +[2] ACPI 6.2, sec 3.7:
->> +    操作系统枚举主板设备时，只需通过读取ACPI命名空间来寻找具有硬件ID的设备。
->> +
->> +    ACPI枚举的每个设备都包括ACPI命名空间中ACPI定义的对象，该对象报告设备可能占用的硬
->> +    件资源[_PRS]，报告设备当前使用的资源[_CRS]的对象，以及配置这些资源的对象[_SRS]。
->> +    这些信息被即插即用操作系统（OSPM）用来配置设备。
->> +
->> +[3] ACPI 6.2, sec 6.2:
->> +    OSPM使用设备配置对象来配置通过ACPI列举的设备的硬件资源。设备配置对象提供了关于当前
->> +    和可能的资源需求的信息，共享资源之间的关系，以及配置硬件资源的方法。
->> +
->> +    当OSPM枚举一个设备时，它调用_PRS来确定该设备的资源需求。它也可以调用_CRS来找到该设
->> +    备的当前资源设置。利用这些信息，即插即用系统决定设备应该消耗什么资源，并通过调用设备
->> +    的_SRS控制方法来设置这些资源。
->> +
->> +    在ACPI中，设备可以消耗资源（例如，传统的键盘），提供资源（例如，一个专有的PCI桥），
->> +    或者两者都做。除非另有规定，设备的资源被假定为来自设备层次结构中设备上方最近的匹配资
->> +    源。
->> +
->> +[4] ACPI 6.2, sec 6.4.3.5.1, 2, 3, 4:
->> +    QWord/DWord/Word 地址空间描述符 (.1, .2, .3)
->> +      常规标志: Bit [0] 被忽略。
->> +
->> +    扩展地址空间描述符 (.4)
->> +      常规标志: Bit [0] 消费者/生产者:
->> +
->> +        * 1 – 这个设备消费这个资源
->> +        * 0 – 该设备生产和消费该资源
->> +
->> +[5] ACPI 6.2, sec 19.6.43:
->> +    ResourceUsage指定内存范围是由这个设备（ResourceConsumer）消费还是传递给子设备
->> +    （ResourceProducer）。如果没有指定，那么就假定是ResourceConsumer。
->> +
->> +[6] PCI Firmware 3.2, sec 4.1.2:
->> +    如果操作系统不能原生的懂得保留MMCFG区域，MMCFG区域必须由固件保留。在MCFG表中或通
->> +    过_CBA方法（见第4.1.3节）报告的地址范围必须通过声明主板资源来保留。对于大多数系统，
->> +    主板资源将出现在ACPI命名空间的根部（在_SB下），在一个节点的_HID为EISAID（PNP0C0
->> +    2），在这种情况下的资源不应该要求在根PCI总线的_CRS。这些资源可以选择在Int15 E820
->> +    或EFIGetMemoryMap中作为保留内存返回，但必须始终通过ACPI作为主板资源报告。
->> +
->> +[7] PCI Express 4.0, sec 7.2.2:
->> +    对于PC兼容的系统，或者没有实现允许访问配置空间的处理器架构特定固件接口标准的系统，需
->> +    要使用本节中定义的ECAM。
->> +
->> +[8] PCI Firmware 3.2, sec 4.1.2:
->> +    MCFG表是一个ACPI表，用于沟通的基础地址对应的非热的可移动的PCI段组范围内的PCI段组在
->> +    启动时提供给操作系统。这对PC兼容系统来说是必需的。
->> +
->> +    MCFG表仅用于通信的基地址对应的PCI段组可用的系统在启动。
-> MCFG表仅用于沟通在启动时系统可用的PCI段组对应的基址。
-
-OK!
-
-
-Thanks,
-
-Yanteng
-
->
->> +
->> +[9] PCI Firmware 3.2, sec 4.1.3:
->> +    _CBA (Memory mapped Configuration Base Address) 控制方法是一个可选的ACPI对
->> +    象，用于返回热插拔主桥的64位内存映射的配置基址。_CBA 返回的基址是与处理器相关的地址。
->> +    _CBA 控制方法被评估为一个整数。
->> +
->> +    这个控制方法出现在主桥对象下。当_CBA方法出现在一个活动的主桥对象下时，操作系统会评
->> +    估这个结构，以确定内存映射的配置基址，对应于_CRS方法中指定的总线编号范围的PCI段组。
->> +    一个包含_CBA方法的ACPI命名空间对象也必须包含一个相应的_SEG方法。
->> diff --git a/Documentation/translations/zh_CN/PCI/index.rst b/Documentation/translations/zh_CN/PCI/index.rst
->> index 16acb2bd9b58..cbeb33c34a98 100644
->> --- a/Documentation/translations/zh_CN/PCI/index.rst
->> +++ b/Documentation/translations/zh_CN/PCI/index.rst
->> @@ -10,9 +10,6 @@
->>   :校译:
->>   
->>   
->> -
->> -.. _cn_PCI_index.rst:
->> -
->>   ===================
->>   Linux PCI总线子系统
->>   ===================
->> @@ -26,12 +23,12 @@ Linux PCI总线子系统
->>      pci-iov-howto
->>      msi-howto
->>      sysfs-pci
->> +   acpi-info
->>   
->>   
->>   Todolist:
->>   
->> -   acpi-info
->> -   pci-error-recovery
->> -   pcieaer-howto
->> -   endpoint/index
->> -   boot-interrupts
->> +* pci-error-recovery
->> +* pcieaer-howto
->> +* endpoint/index
->> +* boot-interrupts
->> diff --git a/Documentation/translations/zh_CN/index.rst b/Documentation/translations/zh_CN/index.rst
->> index 4f04367a4c5e..2fc60e60feb4 100644
->> --- a/Documentation/translations/zh_CN/index.rst
->> +++ b/Documentation/translations/zh_CN/index.rst
->> @@ -121,6 +121,7 @@ TODOList:
->>      scheduler/index
->>      mm/index
->>      peci/index
->> +   PCI/index
->>   
->>   TODOList:
->>   
->> @@ -148,7 +149,6 @@ TODOList:
->>   * crypto/index
->>   * bpf/index
->>   * usb/index
->> -* PCI/index
->>   * scsi/index
->>   * misc-devices/index
->>   * mhi/index
->> -- 
->> 2.31.1
->>
-> Thanks,
->
-
+diff --git a/Documentation/networking/index.rst b/Documentation/networking/index.rst
+index 03b215bddde8..c37ea2b54c29 100644
+--- a/Documentation/networking/index.rst
++++ b/Documentation/networking/index.rst
+@@ -93,6 +93,7 @@ Contents:
+    radiotap-headers
+    rds
+    regulatory
++   representors
+    rxrpc
+    sctp
+    secid
+diff --git a/Documentation/networking/representors.rst b/Documentation/networking/representors.rst
+new file mode 100644
+index 000000000000..ee1f5cd54496
+--- /dev/null
++++ b/Documentation/networking/representors.rst
+@@ -0,0 +1,259 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++=============================
++Network Function Representors
++=============================
++
++This document describes the semantics and usage of representor netdevices, as
++used to control internal switching on SmartNICs.  For the closely-related port
++representors on physical (multi-port) switches, see
++:ref:`Documentation/networking/switchdev.rst <switchdev>`.
++
++Motivation
++----------
++
++Since the mid-2010s, network cards have started offering more complex
++virtualisation capabilities than the legacy SR-IOV approach (with its simple
++MAC/VLAN-based switching model) can support.  This led to a desire to offload
++software-defined networks (such as OpenVSwitch) to these NICs to specify the
++network connectivity of each function.  The resulting designs are variously
++called SmartNICs or DPUs.
++
++Network function representors bring the standard Linux networking stack to
++virtual switches and IOV devices.  Just as each physical port of a Linux-
++controlled switch has a separate netdev, so does each virtual port of a virtual
++switch.
++When the system boots, and before any offload is configured, all packets from
++the virtual functions appear in the networking stack of the PF via the
++representors.  The PF can thus always communicate freely with the virtual
++functions.
++The PF can configure standard Linux forwarding between representors, the uplink
++or any other netdev (routing, bridging, TC classifiers).
++
++Thus, a representor is both a control plane object (representing the function in
++administrative commands) and a data plane object (one end of a virtual pipe).
++As a virtual link endpoint, the representor can be configured like any other
++netdevice; in some cases (e.g. link state) the representee will follow the
++representor's configuration, while in others there are separate APIs to
++configure the representee.
++
++Definitions
++-----------
++
++This document uses the term "switchdev function" to refer to the PCIe function
++which has administrative control over the virtual switch on the device.
++Typically, this will be a PF, but conceivably a NIC could be configured to grant
++these administrative privileges instead to a VF or SF (subfunction).
++Depending on NIC design, a multi-port NIC might have a single switchdev function
++for the whole device or might have a separate virtual switch, and hence
++switchdev function, for each physical network port.
++If the NIC supports nested switching, there might be separate switchdev
++functions for each nested switch, in which case each switchdev function should
++only create representors for the ports on the (sub-)switch it directly
++administers.
++
++A "representee" is the object that a representor represents.  So for example in
++the case of a VF representor, the representee is the corresponding VF.
++
++What does a representor do?
++---------------------------
++
++A representor has three main roles.
++
++1. It is used to configure the network connection the representee sees, e.g.
++   link up/down, MTU, etc.  For instance, bringing the representor
++   administratively UP should cause the representee to see a link up / carrier
++   on event.
++2. It provides the slow path for traffic which does not hit any offloaded
++   fast-path rules in the virtual switch.  Packets transmitted on the
++   representor netdevice should be delivered to the representee; packets
++   transmitted by the representee which fail to match any switching rule should
++   be received on the representor netdevice.  (That is, there is a virtual pipe
++   connecting the representor to the representee, similar in concept to a veth
++   pair.)
++   This allows software switch implementations (such as OpenVSwitch or a Linux
++   bridge) to forward packets between representees and the rest of the network.
++3. It acts as a handle by which switching rules (such as TC filters) can refer
++   to the representee, allowing these rules to be offloaded.
++
++The combination of 2) and 3) means that the behaviour (apart from performance)
++should be the same whether a TC filter is offloaded or not.  E.g. a TC rule
++on a VF representor applies in software to packets received on that representor
++netdevice, while in hardware offload it would apply to packets transmitted by
++the representee VF.  Conversely, a mirred egress redirect to a VF representor
++corresponds in hardware to delivery directly to the representee VF.
++
++What functions should have a representor?
++-----------------------------------------
++
++Essentially, for each virtual port on the device's internal switch, there
++should be a representor.
++Some vendors have chosen to omit representors for the uplink and the physical
++network port, which can simplify usage (the uplink netdev becomes in effect the
++physical port's representor) but does not generalise to devices with multiple
++ports or uplinks.
++
++Thus, the following should all have representors:
++
++ - VFs belonging to the switchdev function.
++ - Other PFs on the local PCIe controller, and any VFs belonging to them.
++ - PFs and VFs on external PCIe controllers on the device (e.g. for any embedded
++   System-on-Chip within the SmartNIC).
++ - PFs and VFs with other personalities, including network block devices (such
++   as a vDPA virtio-blk PF backed by remote/distributed storage), if (and only
++   if) their network access is implemented through a virtual switch port. [#]_
++   Note that such functions can require a representor despite the representee
++   not having a netdev.
++ - Subfunctions (SFs) belonging to any of the above PFs or VFs, if they have
++   their own port on the switch (as opposed to using their parent PF's port).
++ - Any accelerators or plugins on the device whose interface to the network is
++   through a virtual switch port, even if they do not have a corresponding PCIe
++   PF or VF.
++
++This allows the entire switching behaviour of the NIC to be controlled through
++representor TC rules.
++
++It is a common misunderstanding to conflate virtual ports with PCIe virtual
++functions or their netdevs.  While in simple cases there will be a 1:1
++correspondence between VF netdevices and VF representors, more advanced device
++configurations may not follow this.
++A PCIe function which does not have network access through the internal switch
++(not even indirectly through the hardware implementation of whatever services
++the function provides) should *not* have a representor (even if it has a
++netdev).
++Such a function has no switch virtual port for the representor to configure or
++to be the other end of the virtual pipe.
++The representor represents the virtual port, not the PCIe function nor the 'end
++user' netdevice.
++
++.. [#] The concept here is that a hardware IP stack in the device performs the
++   translation between block DMA requests and network packets, so that only
++   network packets pass through the virtual port onto the switch.  The network
++   access that the IP stack "sees" would then be configurable through tc rules;
++   e.g. its traffic might all be wrapped in a specific VLAN or VxLAN.  However,
++   any needed configuration of the block device *qua* block device, not being a
++   networking entity, would not be appropriate for the representor and would
++   thus use some other channel such as devlink.
++   Contrast this with the case of a virtio-blk implementation which forwards the
++   DMA requests unchanged to another PF whose driver then initiates and
++   terminates IP traffic in software; in that case the DMA traffic would *not*
++   run over the virtual switch and the virtio-blk PF should thus *not* have a
++   representor.
++
++How are representors created?
++-----------------------------
++
++The driver instance attached to the switchdev function should, for each virtual
++port on the switch, create a pure-software netdevice which has some form of
++in-kernel reference to the switchdev function's own netdevice or driver private
++data (``netdev_priv()``).
++This may be by enumerating ports at probe time, reacting dynamically to the
++creation and destruction of ports at run time, or a combination of the two.
++
++The operations of the representor netdevice will generally involve acting
++through the switchdev function.  For example, ``ndo_start_xmit()`` might send
++the packet through a hardware TX queue attached to the switchdev function, with
++either packet metadata or queue configuration marking it for delivery to the
++representee.
++
++How are representors identified?
++--------------------------------
++
++The representor netdevice should *not* directly refer to a PCIe device (e.g.
++through ``net_dev->dev.parent`` / ``SET_NETDEV_DEV()``), either of the
++representee or of the switchdev function.
++Instead, it should implement the ``ndo_get_devlink_port()`` netdevice op, which
++the kernel uses to provide the ``phys_switch_id`` and ``phys_port_name`` sysfs
++nodes.  (Some legacy drivers implement ``ndo_get_port_parent_id()`` and
++``ndo_get_phys_port_name()`` directly, but this is deprecated.)  See
++:ref:`Documentation/networking/devlink/devlink-port.rst <devlink_port>` for the
++details of this API.
++
++It is expected that userland will use this information (e.g. through udev rules)
++to construct an appropriately informative name or alias for the netdevice.  For
++instance if the switchdev function is ``eth4`` then a representor with a
++``phys_port_name`` of ``p0pf1vf2`` might be renamed ``eth4pf1vf2rep``.
++
++There are as yet no established conventions for naming representors which do not
++correspond to PCIe functions (e.g. accelerators and plugins).
++
++How do representors interact with TC rules?
++-------------------------------------------
++
++Any TC rule on a representor applies (in software TC) to packets received by
++that representor netdevice.  Thus, if the delivery part of the rule corresponds
++to another port on the virtual switch, the driver may choose to offload it to
++hardware, applying it to packets transmitted by the representee.
++
++Similarly, since a TC mirred egress action targeting the representor would (in
++software) send the packet through the representor (and thus indirectly deliver
++it to the representee), hardware offload should interpret this as delivery to
++the representee.
++
++As a simple example, if ``PORT_DEV`` is the physical port representor and
++``REP_DEV`` is a VF representor, the following rules::
++
++    tc filter add dev $REP_DEV parent ffff: protocol ipv4 flower \
++        action mirred egress redirect dev $PORT_DEV
++    tc filter add dev $PORT_DEV parent ffff: protocol ipv4 flower skip_sw \
++        action mirred egress mirror dev $REP_DEV
++
++would mean that all IPv4 packets from the VF are sent out the physical port, and
++all IPv4 packets received on the physical port are delivered to the VF in
++addition to ``PORT_DEV``.  (Note that without ``skip_sw`` on the second rule,
++the VF would get two copies, as the packet reception on ``PORT_DEV`` would
++trigger the TC rule again and mirror the packet to ``REP_DEV``.)
++
++On devices without separate port and uplink representors, ``PORT_DEV`` would
++instead be the switchdev function's own uplink netdevice.
++
++Of course the rules can (if supported by the NIC) include packet-modifying
++actions (e.g. VLAN push/pop), which should be performed by the virtual switch.
++
++Tunnel encapsulation and decapsulation are rather more complicated, as they
++involve a third netdevice (a tunnel netdev operating in metadata mode, such as
++a VxLAN device created with ``ip link add vxlan0 type vxlan external``) and
++require an IP address to be bound to the underlay device (e.g. switchdev
++function uplink netdev or port representor).  TC rules such as::
++
++    tc filter add dev $REP_DEV parent ffff: flower \
++        action tunnel_key set id $VNI src_ip $LOCAL_IP dst_ip $REMOTE_IP \
++                              dst_port 4789 \
++        action mirred egress redirect dev vxlan0
++    tc filter add dev vxlan0 parent ffff: flower enc_src_ip $REMOTE_IP \
++        enc_dst_ip $LOCAL_IP enc_key_id $VNI enc_dst_port 4789 \
++        action tunnel_key unset action mirred egress redirect dev $REP_DEV
++
++where ``LOCAL_IP`` is an IP address bound to ``PORT_DEV``, and ``REMOTE_IP`` is
++another IP address on the same subnet, mean that packets sent by the VF should
++be VxLAN encapsulated and sent out the physical port (the driver has to deduce
++this by a route lookup of ``LOCAL_IP`` leading to ``PORT_DEV``, and also
++perform an ARP/neighbour table lookup to find the MAC addresses to use in the
++outer Ethernet frame), while UDP packets received on the physical port with UDP
++port 4789 should be parsed as VxLAN and, if their VSID matches ``$VNI``,
++decapsulated and forwarded to the VF.
++
++If this all seems complicated, just remember the 'golden rule' of TC offload:
++the hardware should ensure the same final results as if the packets were
++processed through the slow path, traversed software TC (except ignoring any
++``skip_hw`` rules and applying any ``skip_sw`` rules) and were transmitted or
++received through the representor netdevices.
++
++Configuring the representee's MAC
++---------------------------------
++
++The representee's link state is controlled through the representor.  Setting the
++representor administratively UP or DOWN should cause carrier ON or OFF at the
++representee.
++
++Setting an MTU on the representor should cause that same MTU to be reported to
++the representee.
++(On hardware that allows configuring separate and distinct MTU and MRU values,
++the representor MTU should correspond to the representee's MRU and vice-versa.)
++
++Currently there is no way to use the representor to set the station permanent
++MAC address of the representee; other methods available to do this include:
++
++ - legacy SR-IOV (``ip link set DEVICE vf NUM mac LLADDR``)
++ - devlink port function (see **devlink-port(8)** and
++   :ref:`Documentation/networking/devlink/devlink-port.rst <devlink_port>`)
+diff --git a/Documentation/networking/switchdev.rst b/Documentation/networking/switchdev.rst
+index f1f4e6a85a29..21e80c8e661b 100644
+--- a/Documentation/networking/switchdev.rst
++++ b/Documentation/networking/switchdev.rst
+@@ -1,5 +1,6 @@
+ .. SPDX-License-Identifier: GPL-2.0
+ .. include:: <isonum.txt>
++.. _switchdev:
+ 
+ ===============================================
+ Ethernet switch device driver model (switchdev)
