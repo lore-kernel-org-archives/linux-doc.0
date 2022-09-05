@@ -2,94 +2,128 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CEEC9ECAAD5
-	for <linux-doc@archiver.kernel.org>; Mon,  5 Sep 2022 16:42:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A2257C6FA83
+	for <linux-doc@archiver.kernel.org>; Mon,  5 Sep 2022 16:48:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231360AbiIEQmB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 5 Sep 2022 12:42:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53976 "EHLO
+        id S237249AbiIEQsJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 5 Sep 2022 12:48:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34400 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231296AbiIEQmA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Sep 2022 12:42:00 -0400
-Received: from out0.migadu.com (out0.migadu.com [IPv6:2001:41d0:2:267::])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF0EA61705
-        for <linux-doc@vger.kernel.org>; Mon,  5 Sep 2022 09:41:57 -0700 (PDT)
-Date:   Tue, 6 Sep 2022 00:41:35 +0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-        t=1662396115;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=jyLVuub9uM5Bf3NcGkkjvfqR8HwJTNgQZ5CABq3x5Fk=;
-        b=M/oXMx4k6e8IHTiM7RidbArRhMP89lcBmMubb62c7KgmWt88RCKVF5VA86TdY8ZqpeT0dE
-        eTn6TyGTUMHdKPXS0DZHNSma17ZU0qFudbFm1/G1cdiwYYUnZJMm5wHC+4z9PZsMA9/Qpq
-        KsnFdnWZ9W+uVCYoKLeXNJJ3Wm1PppY=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From:   Wu XiangCheng <wu.xiangcheng@linux.dev>
-To:     YanTeng Si <siyanteng@loongson.cn>
-Cc:     alexs@kernel.org, bobwxc@email.cn, seakeel@gmail.com,
-        corbet@lwn.net, chenhuacai@kernel.org, jiaxun.yang@flygoat.com,
-        linux-doc@vger.kernel.org, siyanteng01@gmail.com
-Subject: Re: [PATCH v1 1/5] docs/zh_CN: add PCI acpi-info translation
-Message-ID: <YxYmvxbCIuFV8S0O@bobwxc.mipc>
-References: <cover.1662022757.git.siyanteng@loongson.cn>
- <b872e46c98551f94bdae4a8a5f3ed328b9070bd4.1662022757.git.siyanteng@loongson.cn>
- <YxH9b+m8iRn/GRH2@bobwxc.mipc>
- <65774b2e-0a58-590d-0be3-84e8fb9a22da@loongson.cn>
+        with ESMTP id S231174AbiIEQsH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Sep 2022 12:48:07 -0400
+Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com [IPv6:2a00:1450:4864:20::22c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6485361D54
+        for <linux-doc@vger.kernel.org>; Mon,  5 Sep 2022 09:48:06 -0700 (PDT)
+Received: by mail-lj1-x22c.google.com with SMTP id l12so1345961ljg.9
+        for <linux-doc@vger.kernel.org>; Mon, 05 Sep 2022 09:48:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=brouer-com.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:cc:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date;
+        bh=eBPc8+lw+EthbmoJDVfsiUIub6fYAfy3lSFevqTwdLo=;
+        b=En9kd4oHs7ZiMDWysTVzFkwgkH1GBSna1/f4J7enbLjUZsf45f6OYgEl2he4kLnYsn
+         ev7Eizw/O5cLP0Fw2TzMAKWRK4swcR0frYnErngKmdhhAFR/OwLATgnc251hcM63q8Gs
+         S4YAy5Q0FcQsgCFw1y+7nCP8FAhARUwsLC8N4cGgUEuz1LF27VvXCpT1r26Hxiw3JF2o
+         0lf5Y2K4WJ3NhuaXbtJuXA+2OZDxyYnqBKdQ/V1e59Z9/fl9Cx8yT33guIUKmQLMZuCK
+         JiGq58JFJaDLyUkrT7be1Pf3hpDzEa0zkFf/Pi88aaOofXOnUSSVFZ9WMelQeoOPAaGe
+         0Ljg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:cc:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date;
+        bh=eBPc8+lw+EthbmoJDVfsiUIub6fYAfy3lSFevqTwdLo=;
+        b=63Fxl4R/SKZIH3QRXqlW/3LrffeBBehZaK+ozbWgV7BiuVFz+b8c6jBxTYKiDqYwoq
+         pk3mrYVs9ep9aDkVpnRnQP2GIcTu0aFgd+s/ye5fWwze7DbM5+nu1duT7MXV7Xh73ewZ
+         dUvVoPpovnP036tMVkqd5IF9gZjKOf2J0JAJ+aXSPZFLkonV2I58IcY/UC0dxYHh90Jw
+         pFx908P7OquYFg6hBEC0z1MCf2XHJDVON6TKm2cTkcfy3TPk4cW78DsArt58ggvity7t
+         HSh8GiU3syE+aFCJkt+jYaBlbiwbpJ0pvLNFpLlqPFuZXXLv8JIWgevnuOs8xpSNHslf
+         t5gQ==
+X-Gm-Message-State: ACgBeo0nJBpdNQmLRJuz0QwQ6zgSiRA0nSwuM9b+JE9FDPGhS3DkkPkJ
+        Bgm9oLAgxzH6Z5CsexchX/3hKA==
+X-Google-Smtp-Source: AA6agR5Gl3F9BkviHh6nUidmO/FxQm0p+I+k9XcQpfgXdLrhhs5wYrLP6/Z4VmpPSz+3Un25DU2egQ==
+X-Received: by 2002:a2e:6e14:0:b0:268:8813:f997 with SMTP id j20-20020a2e6e14000000b002688813f997mr8133895ljc.519.1662396484774;
+        Mon, 05 Sep 2022 09:48:04 -0700 (PDT)
+Received: from [192.168.41.81] (83-90-141-187-cable.dk.customer.tdc.net. [83.90.141.187])
+        by smtp.gmail.com with ESMTPSA id p4-20020a2e9ac4000000b0026a7199e526sm385233ljj.52.2022.09.05.09.48.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 05 Sep 2022 09:48:04 -0700 (PDT)
+Message-ID: <4c78f2c6-be9e-a85a-2846-f21e9e8bc536@brouer.com>
+Date:   Mon, 5 Sep 2022 18:48:03 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.0
+Cc:     brouer@redhat.com
+Subject: Re: [PATCH bpf-next v3 2/2] Add table of BPF program types to libbpf
+ docs
+Content-Language: en-US
+To:     Donald Hunter <donald.hunter@gmail.com>, bpf@vger.kernel.org,
+        linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Andrii Nakryiko <andrii.nakryiko@gmail.com>
+References: <20220829091500.24115-1-donald.hunter@gmail.com>
+ <20220829091500.24115-3-donald.hunter@gmail.com>
+From:   "Jesper D. Brouer" <netdev@brouer.com>
+In-Reply-To: <20220829091500.24115-3-donald.hunter@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <65774b2e-0a58-590d-0be3-84e8fb9a22da@loongson.cn>
-X-Migadu-Flow: FLOW_OUT
-X-Migadu-Auth-User: linux.dev
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-2022-09-05 (一) 20:27:42 +0800 YanTeng Si 曰：
-> BTW:
-> 
-> 
-> I have received some feedback from readers that
-> 
-> 
-> They are used to writing with spaces between Chinese and English, and I
-> found that some of the documents we translated have spaces and some do not.
-> 
-> 
-> As the number of documents rises, do we need to follow some conventions to
-> make the documents look better?
 
-"spaces between Chinese and English" are not actual document
-informations. Such style/display issue should be implemented by
-rendering software rather than add space manually. If someone want a
-perfect view experience, they might try Word, Latex or something else
-and generate a pdf, those tools will auto add proper spaces. Or they may
-improve the sphinx to get a better html.
-
-And one more important, these spaces are easy to add automatically by
-the tools, but difficult to remove later.
-
-Existing documents, let it go. New documents, should not go back to this
-outdated rule.
- 
+On 29/08/2022 11.15, Donald Hunter wrote:
+> Extend the libbpf documentation with a table of program types,
+> attach points and ELF section names. This table uses data from
+> program_types.csv which is generated from tools/lib/bpf/libbpf.c
+> during the documentation build.
 > 
-> Readers gave me this link <https://github.com/sparanoid/chinese-copywriting-guidelines/blob/master/README.zh-Hans.md>
-> .
+> Signed-off-by: Donald Hunter <donald.hunter@gmail.com>
+> ---
+[...]
+> diff --git a/Documentation/bpf/libbpf/program_types.rst b/Documentation/bpf/libbpf/program_types.rst
+> new file mode 100644
+> index 000000000000..04fbb48b8a6a
+> --- /dev/null
+> +++ b/Documentation/bpf/libbpf/program_types.rst
+> @@ -0,0 +1,32 @@
+> +.. SPDX-License-Identifier: (LGPL-2.1 OR BSD-2-Clause)
+> +
+> +.. _program_types_and_elf:
+> +
+> +Program Types and ELF Sections
+> +==============================
+> +
+> +The table below lists the program types, their attach types where relevant and the ELF section
+> +names supported by libbpf for them. The ELF section names follow these rules:
+> +
+> +- ``type`` is an exact match, e.g. ``SEC("socket")``
+> +- ``type+`` means it can be either exact ``SEC("type")`` or well-formed ``SEC("type/extras")``
+> +  with a ‘``/``’ separator between ``type`` and ``extras``.
+> +
+> +When ``extras`` are specified, they provide details of how to auto-attach the BPF program.
+> +The format of ``extras`` depends on the program type, e.g. ``SEC("tracepoint/<category>/<name>")``
+> +for tracepoints or ``SEC("usdt/<path-to-binary>:<usdt_provider>:<usdt_name>")`` for USDT probes.
+> +
+> +..
+> +  program_types.csv is generated from tools/lib/bpf/libbpf.c and is fomatted like this:
+                                                                        ^
+Typo:  s/fomatted/formatted
 
-以及我本来不想说的一点，把“「有研究显示，打字的时候不喜欢在中文和英文之间加空
-格的人，感情路都走得很辛苦，有七成的比例会在 34 岁的时候跟自己不爱的人结婚，
-而其余三成的人最后只能把遗产留给自己的猫。毕竟爱情跟书写都需要适时地留白。
-与大家共勉之。」——vinta/paranoid-auto-spacing”这种东西放在教程开头，实在不
-是什么好主意，我建议给出参考文献。否则我就得说“有研究显示，打字的时候喜欢乱加
-空格的人，一般大脑都比较空白，有七成的比例会在34岁的时候被公司优化，而其余的
-三成最后只能去当产品经理。毕竟思考这种东西是不能在空白基础上展开的。与大家
-共勉”，权当博各位一笑。
+> +    Program Type,Attach Type,ELF Section Name,Sleepable
+> +    ``BPF_PROG_TYPE_SOCKET_FILTER``,,``socket``,
+> +    ``BPF_PROG_TYPE_SK_REUSEPORT``,``BPF_SK_REUSEPORT_SELECT_OR_MIGRATE``,``sk_reuseport/migrate``,
+> +    ``BPF_PROG_TYPE_SK_REUSEPORT``,``BPF_SK_REUSEPORT_SELECT``,``sk_reuseport``,
+> +    ``BPF_PROG_TYPE_KPROBE``,,``kprobe+``,
+> +    ``BPF_PROG_TYPE_KPROBE``,,``uprobe+``,
+> +    ``BPF_PROG_TYPE_KPROBE``,,``uprobe.s+``,Yes
+> +
+> +.. csv-table:: Program Types and Their ELF Section Names
+> +   :file: ../../output/program_types.csv
+> +   :widths: 40 30 20 10
+> +   :header-rows: 1
 
-Thanks,
+Nice, I didn't know this formatting trick :-)
 
--- 
-Wu XiangCheng	0x32684A40BCA7AEA7
-
+Appreciate you are working on this :-)
+--Jesper
