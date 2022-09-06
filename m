@@ -2,163 +2,130 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 53859ECAAD5
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Sep 2022 15:49:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7277DC6FA86
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Sep 2022 15:51:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231887AbiIFPtM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 6 Sep 2022 11:49:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35386 "EHLO
+        id S234667AbiIFPvO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 6 Sep 2022 11:51:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37588 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233991AbiIFPrw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Sep 2022 11:47:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C55D5BA9CF
-        for <linux-doc@vger.kernel.org>; Tue,  6 Sep 2022 07:57:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1662476277;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=uYOnT3WdHbcwCr8H+t7+tWjbf0atY1c9YvOA6+hgbSo=;
-        b=RjGFvg8y7LdOxKtY8SSlQcZo90aboDDyS4fSMv2DVxE17U2CN8ak3Jbht2bN1wN0sGTs2E
-        bnsJdgLHFgUdOSKN+WgFSwpbE6KUE9kPX08xnNgUMLk1UnkEYC8+NdCbbBFYp8ixtLSb3h
-        UUkUwXuxq+L3329amCPaCcOyhaapXNM=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-457-_IgzUhngPAiRRZqjq7yHDw-1; Tue, 06 Sep 2022 10:57:54 -0400
-X-MC-Unique: _IgzUhngPAiRRZqjq7yHDw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com [10.11.54.7])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C8C1B1C0BDEA;
-        Tue,  6 Sep 2022 14:57:53 +0000 (UTC)
-Received: from [10.18.17.215] (dhcp-17-215.bos.redhat.com [10.18.17.215])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 120181410F3C;
-        Tue,  6 Sep 2022 14:57:52 +0000 (UTC)
-Message-ID: <323f6375-0e1b-8326-2c74-b7a4db4693a1@redhat.com>
-Date:   Tue, 6 Sep 2022 10:57:51 -0400
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH v12 09/10] cgroup/cpuset: Update description of
- cpuset.cpus.partition in cgroup-v2.rst
-Content-Language: en-US
-To:     Bagas Sanjaya <bagasdotme@gmail.com>
-Cc:     Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <shuah@kernel.org>, cgroups@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kselftest@vger.kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Roman Gushchin <guro@fb.com>, Phil Auld <pauld@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Marcelo Tosatti <mtosatti@redhat.com>,
-        =?UTF-8?Q?Michal_Koutn=c3=bd?= <mkoutny@suse.com>
-References: <20220901205745.323326-1-longman@redhat.com>
- <20220901205745.323326-10-longman@redhat.com> <YxRfy/SaKkJSm5jY@debian.me>
-From:   Waiman Long <longman@redhat.com>
-In-Reply-To: <YxRfy/SaKkJSm5jY@debian.me>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
+        with ESMTP id S234754AbiIFPuo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Sep 2022 11:50:44 -0400
+Received: from sibelius.xs4all.nl (80-61-163-207.fixed.kpn.net [80.61.163.207])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36AA03A0;
+        Tue,  6 Sep 2022 08:04:16 -0700 (PDT)
+Received: from localhost (bloch.sibelius.xs4all.nl [local])
+        by bloch.sibelius.xs4all.nl (OpenSMTPD) with ESMTPA id 81783d33;
+        Tue, 6 Sep 2022 16:04:14 +0200 (CEST)
+Date:   Tue, 6 Sep 2022 16:04:14 +0200 (CEST)
+From:   Mark Kettenis <mark.kettenis@xs4all.nl>
+To:     "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
+Cc:     arnd@arndb.de, lee@kernel.org, linus.walleij@linaro.org,
+        alyssa@rosenzweig.io, andriy.shevchenko@linux.intel.com,
+        asahi@lists.linux.dev, brgl@bgdev.pl, devicetree@vger.kernel.org,
+        marcan@marcan.st, corbet@lwn.net,
+        krzysztof.kozlowski+dt@linaro.org,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-gpio@vger.kernel.org, pmladek@suse.com,
+        linux@rasmusvillemoes.dk, robh+dt@kernel.org,
+        senozhatsky@chromium.org, rostedt@goodmis.org, sven@svenpeter.dev
+In-Reply-To: <E1oVYUD-005Cm5-3Z@rmk-PC.armlinux.org.uk>
+        (rmk+kernel@armlinux.org.uk)
+Subject: Re: [PATCH 1/7] dt-bindings: mfd: add binding for Apple Mac System
+ Management Controller
+References: <YxdInl2qzQWM+3bs@shell.armlinux.org.uk> <E1oVYUD-005Cm5-3Z@rmk-PC.armlinux.org.uk>
+Message-ID: <d3ced06b04394f98@bloch.sibelius.xs4all.nl>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+> From: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
+> Date: Tue, 06 Sep 2022 14:19:29 +0100
+> 
+> Add a DT binding for the Apple Mac System Management Controller.
+> 
+> Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
 
-On 9/4/22 04:20, Bagas Sanjaya wrote:
-> On Thu, Sep 01, 2022 at 04:57:44PM -0400, Waiman Long wrote:
->>   	It accepts only the following input values when written to.
->>   
->>   	  ========	================================
->> -	  "root"	a partition root
->> -	  "member"	a non-root member of a partition
->> +	  "member"	Non-root member of a partition
->> +	  "root"	Partition root
->> +	  "isolated"	Partition root without load balancing
->>   	  ========	================================
->>   
->> <snipped>
->> +	On read, the "cpuset.cpus.partition" file can show the following
->> +	values.
->> +
->> +	  ======================	==============================
->> +	  "member"			Non-root member of a partition
->> +	  "root"			Partition root
->> +	  "isolated"			Partition root without load balancing
->> +	  "root invalid (<reason>)"	Invalid partition root
->> +	  "isolated invalid (<reason>)"	Invalid isolated partition root
->> +	  ======================	==============================
->> +
-> These tables above produced htmldocs warnings:
->
-> Documentation/admin-guide/cgroup-v2.rst:2191: WARNING: Malformed table.
-> Text in column margin in table line 4.
->
-> ========      ================================
-> "member"      Non-root member of a partition
-> "root"        Partition root
-> "isolated"    Partition root without load balancing
-> ========      ================================
-> Documentation/admin-guide/cgroup-v2.rst:2229: WARNING: Malformed table.
-> Text in column margin in table line 5.
->
-> ======================        ==============================
-> "member"                      Non-root member of a partition
-> "root"                        Partition root
-> "isolated"                    Partition root without load balancing
-> "root invalid (<reason>)"     Invalid partition root
-> "isolated invalid (<reason>)" Invalid isolated partition root
-> ======================        ==============================
->
-> I have applied the fixup:
->
-> ---- >8 ----
->
-> diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-> index 76b3ea9fd5c560..77b6faecf066cb 100644
-> --- a/Documentation/admin-guide/cgroup-v2.rst
-> +++ b/Documentation/admin-guide/cgroup-v2.rst
-> @@ -2185,11 +2185,11 @@ Cpuset Interface Files
->   
->   	It accepts only the following input values when written to.
->   
-> -	  ========	================================
-> +	  ==========	================================
->   	  "member"	Non-root member of a partition
->   	  "root"	Partition root
->   	  "isolated"	Partition root without load balancing
-> -	  ========	================================
-> +	  ==========	================================
->   
->   	The root cgroup is always a partition root and its state
->   	cannot be changed.  All other non-root cgroups start out as
-> @@ -2222,13 +2222,13 @@ Cpuset Interface Files
->   	On read, the "cpuset.cpus.partition" file can show the following
->   	values.
->   
-> -	  ======================	==============================
-> +	  =============================	=====================================
->   	  "member"			Non-root member of a partition
->   	  "root"			Partition root
->   	  "isolated"			Partition root without load balancing
->   	  "root invalid (<reason>)"	Invalid partition root
->   	  "isolated invalid (<reason>)"	Invalid isolated partition root
-> -	  ======================	==============================
-> +	  =============================	=====================================
->   
->   	In the case of an invalid partition root, a descriptive string on
->   	why the partition is invalid is included within parentheses.
->
-> Thanks.
+Reviewed-by: Mark Kettenis <kettenis@openbsd.org>
 
-Thanks for the fixes. Will apply that.
-
-Cheers,
-Longman
-
+> ---
+>  .../devicetree/bindings/mfd/apple,smc.yaml    | 61 +++++++++++++++++++
+>  1 file changed, 61 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/mfd/apple,smc.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/mfd/apple,smc.yaml b/Documentation/devicetree/bindings/mfd/apple,smc.yaml
+> new file mode 100644
+> index 000000000000..168f237c2962
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/mfd/apple,smc.yaml
+> @@ -0,0 +1,61 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/mfd/apple,smc.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Apple Mac System Management Controller
+> +
+> +maintainers:
+> +  - Hector Martin <marcan@marcan.st>
+> +
+> +description:
+> +  Apple Mac System Management Controller implements various functions
+> +  such as GPIO, RTC, power, reboot.
+> +
+> +properties:
+> +  compatible:
+> +    items:
+> +      - enum:
+> +          - apple,t6000-smc
+> +          - apple,t8103-smc
+> +          - apple,t8112-smc
+> +      - const: apple,smc
+> +
+> +  reg:
+> +    items:
+> +      - description: SMC area
+> +      - description: SRAM area
+> +
+> +  reg-names:
+> +    items:
+> +      - const: smc
+> +      - const: sram
+> +
+> +  mboxes:
+> +    maxItems: 1
+> +    description:
+> +      A phandle to the mailbox channel
+> +
+> +additionalProperties: false
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - reg-names
+> +  - mboxes
+> +
+> +examples:
+> +  - |
+> +    soc {
+> +      #address-cells = <2>;
+> +      #size-cells = <2>;
+> +
+> +      smc@23e400000 {
+> +        compatible = "apple,t8103-smc", "apple,smc";
+> +        reg = <0x2 0x3e400000 0x0 0x4000>,
+> +               <0x2 0x3fe00000 0x0 0x100000>;
+> +        reg-names = "smc", "sram";
+> +        mboxes = <&smc_mbox>;
+> +      };
+> +    };
+> -- 
+> 2.30.2
+> 
+> 
+> _______________________________________________
+> linux-arm-kernel mailing list
+> linux-arm-kernel@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
+> 
