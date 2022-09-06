@@ -2,185 +2,130 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AC9DCECAAA1
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Sep 2022 16:49:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5CCE6C38145
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Sep 2022 17:07:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232417AbiIFQtT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 6 Sep 2022 12:49:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46046 "EHLO
+        id S236695AbiIFRH1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 6 Sep 2022 13:07:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53078 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238729AbiIFQsh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Sep 2022 12:48:37 -0400
-Received: from EUR04-DB3-obe.outbound.protection.outlook.com (mail-eopbgr60069.outbound.protection.outlook.com [40.107.6.69])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 299D81B786;
-        Tue,  6 Sep 2022 09:33:12 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=EUb8JmpiuxwWAVZGbfE/Mqc/xQuNCvxS3GO6WBzRGq27AS+FBhxVs+u6ge+JkEF11x7l68Z8KrOWiNAMeqVb8REZZ9FPWfN4xQFQR4D1aVgCDDZlyFqH7absrs0y6hg2Av4qVjjgD3wMuU/O1zLrzaE3j6R7Udnz3rs+38HjhomQpn6EaFSWDN86EW4BdXolqxnov+PsKT+0eFUi0UZaZcayVCnDBv9gZrjzfJ20+UrxGS2kUQmKM13IyVPM5ilMbpw3P0PKsHEzBpSadQ5bDJsW/9e1uM7iLU8zTANDE4fluLpTPmLKPLJu7Ym1e0ylpIPhG+QrsiiyaC6Aymey+A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=k+1LO3SsvLV3dl+8y0DscovSx1BrFvLkdH8sfZGVOhs=;
- b=coPZ9iA/wIsxzR2JXbuBw1vew+KSu17CvHrZNMk5SFkxHEWp2JZHg1Ui7oeBZG4GV9Wg7he1nCOyvB25ESffuVn/C6efrpuDnrPA9eXxzkFO9n9qbrBYekLwTkPMukkElIQOfg+Onim/NdPghJ+HF938HxmAi+xFd1ktmXb/7AVEiEs9svMT350Vu9OM1EaRoLOJqHGGyFU+ZduMA/WRcQwAGCpSMInq9ZwNZPE20OSGkUKx32Rl84BUN2Pl0OJ5RzFDeWELm8j6Dlqk7E1e0AaBeU3YbxxoHek7He2I9pszpJ3/C/gRhB93dt0VFOWxv/Ne6tfpubQbIeNWTH8aiQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=seco.com; dmarc=pass action=none header.from=seco.com;
- dkim=pass header.d=seco.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=seco.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=k+1LO3SsvLV3dl+8y0DscovSx1BrFvLkdH8sfZGVOhs=;
- b=xh7furVwdMBcktP6Eih2gwPIO4h7wKfAqiM8J2DA6uO37PeW4B28gu0PI2Sgb0hYzTbe1rtcWmfMNM6xFdxO0EKcM7kRj0sG24u2KAMnpRBla1RKmOTqBsBFNi81oKhu298OLJUyYygJN7WDtGrYwX+loLuaWsfhkA2kDWNXrjnAI9DDResAbXWS7dGugsALvWLWazMjgE51klgJI/SwsSg99/ABIspi77/c0Ob4FdVIt4h8USzJyblP63YiXvaV9CcG3RH63bqF6mLqnUXqD4jwyQJX99moB0FuD/PxJQHtci5sgIvAQqSj6TkcovFcgvWe03xHcMdT12G6J4RANQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=seco.com;
-Received: from DB7PR03MB4972.eurprd03.prod.outlook.com (2603:10a6:10:7d::22)
- by GV2PR03MB8560.eurprd03.prod.outlook.com (2603:10a6:150:7e::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5588.16; Tue, 6 Sep
- 2022 16:33:08 +0000
-Received: from DB7PR03MB4972.eurprd03.prod.outlook.com
- ([fe80::ecaa:a5a9:f0d5:27a2]) by DB7PR03MB4972.eurprd03.prod.outlook.com
- ([fe80::ecaa:a5a9:f0d5:27a2%4]) with mapi id 15.20.5588.018; Tue, 6 Sep 2022
- 16:33:07 +0000
-Subject: Re: [PATCH v5 4/8] phy: fsl: Add Lynx 10G SerDes driver
-To:     kernel test robot <lkp@intel.com>, Vinod Koul <vkoul@kernel.org>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        linux-phy@lists.infradead.org
-Cc:     kbuild-all@lists.01.org, devicetree@vger.kernel.org,
-        Ioana Ciornei <ioana.ciornei@nxp.com>,
-        linux-arm-kernel@lists.infradead.org,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Madalin Bucur <madalin.bucur@nxp.com>,
-        Camelia Alexandra Groza <camelia.groza@nxp.com>,
-        linuxppc-dev@lists.ozlabs.org, Rob Herring <robh+dt@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>, linux-clk@vger.kernel.org,
-        linux-doc@vger.kernel.org
-References: <20220902213721.946138-5-sean.anderson@seco.com>
- <202209032301.fWPibuKq-lkp@intel.com>
-From:   Sean Anderson <sean.anderson@seco.com>
-Message-ID: <826afda9-9ad4-ccf1-1568-d3a43948a7be@seco.com>
-Date:   Tue, 6 Sep 2022 12:33:03 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-In-Reply-To: <202209032301.fWPibuKq-lkp@intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BL0PR05CA0002.namprd05.prod.outlook.com
- (2603:10b6:208:91::12) To DB7PR03MB4972.eurprd03.prod.outlook.com
- (2603:10a6:10:7d::22)
+        with ESMTP id S233777AbiIFRG4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Sep 2022 13:06:56 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C0E4186F7;
+        Tue,  6 Sep 2022 09:54:40 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 25ECE615D3;
+        Tue,  6 Sep 2022 16:54:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C67EC43148;
+        Tue,  6 Sep 2022 16:54:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1662483279;
+        bh=dlrLPJ9VW2sLiclVTeLOaDTCcrNnK0V5SGX9NqEZ+bQ=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=mSScNXV5eNPo8Q03hxNBF1E7GxbLAdR4dQrRxWkLjglRTK1xh+T/4rqOjmigwjTY8
+         gqSPY7pxM2Ggi0f2szfwrD3iVoWzDhGiGopM1Z0DZ7FgzkuBRRMu/ufwHNQr3lGO7j
+         /bkDMZKGzDzt/B1TAdERWfCMAbQS3UYGOsU/xKBZKEhubggqoxorkrPeHBQQKTlyPd
+         npaAXKqlrsRd5G9PKa1D94x4RQ6LtShUNfs0BPs3MrpeW0KfYSXtMfF21voGUHmoTV
+         bKiCT3FrX8wBWHqftjbcK61d54GS/r0D9M9Z3nC68WpMODqU0FdeTJ6FFOtAEjC9Ln
+         IDwSJC/VY+Big==
+Received: by mail-lf1-f53.google.com with SMTP id bq23so18315491lfb.7;
+        Tue, 06 Sep 2022 09:54:39 -0700 (PDT)
+X-Gm-Message-State: ACgBeo2h9Bjy83Bq1Js+bL7jx7EklI+g3ln/wafF3nQTFGWnb+vMEse0
+        6DomiANrPTYqE2KRWiAj2OB5aIptzKDCQiXg4OM=
+X-Google-Smtp-Source: AA6agR4ZsAa0US91WfUU+IaEHtFS7q8sGZYyOWOHOoq1tpEGuakqhXudOy2kGnEsGzQpN8MaarQDnosu8Aj4ieKBKDQ=
+X-Received: by 2002:a05:6512:2294:b0:494:8dc5:10af with SMTP id
+ f20-20020a056512229400b004948dc510afmr9295038lfu.426.1662483277282; Tue, 06
+ Sep 2022 09:54:37 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: db802a2a-bd1b-4334-0955-08da90257adf
-X-MS-TrafficTypeDiagnostic: GV2PR03MB8560:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: uhvBvo7614Ckv0b3H0XxHVoRAZafnZ9CWVhOVr69xmD+S9y6WKGMKb9CfqbPLezWh8k956qQOPx5XhjAx6+Fn64IVjTMdGmGPQie0TCt3NHcMoK7VGgWKJfkxe8fK47BMc0yQsaC0+g3knHCNyaoK9I9djcBb+F//TPyfDTvVlJ8RqNAGN0A4wcIxaM1nxTCe6fHnUotYaK6Ch6ocjz6Tj0Nt4q6s2+aIvQj46vYZIgWcB14Hpb4ONGrRWIOzM5Dj53iMnMS4m9u5o94ZqeZpnf7bzabSWwWBI1ypBdKKTtgL+lTICsp+vfnPkS1Odqc4jhScvfh980110KgA4FZcX2JAW+jUrZiJ7cZlDHTERcDL8AHeqTcfm1wDKoaE8B/obC3hPDGX+7PSZVW1LkyPQuiSKjobgnr3PlmUa0zfpHkHKaRzObFO56cisu9ppYSh8omN+UPKyflj9v7T4kynzvcYfoIUkmEzR0BUb2Z7DLmd1bFP2dXEtokR082ZKqFPLaFNxycRSvnmBcHBBJQJcM7p2OPJmRCxHm1GjPnO4B5oCJvoXKM/TQgoTywAmjibYCozFoMVyWyVWhWTzuSoWP1SzkNfygEudb6nmimPQFTogL6BQSMgz8PjFPJQkJW3RhRMfierkUfYuNF48AlVnJvPusdvBUTEnSMo/yTU/6uDyi+yUJlVnVLEpMJ9XC2HKV4XNaMghSrrZAU62Ktveucf9p20D2dUhqWihr8VYDtoh8F1KQLqk/gHFj4D6xzEbCjlZeWkUZiH4i+uOngnb82iZtP5e7KZvvZquTulfZF5k0nOBWn2a2TXDdzXmcDb1qhi9PBa+fuSvgf8ANeIjTrraV1i6/iAmNlFYtvXdY1Pkgmm+FzUEWZyBvSfIbKnzaClyiZTUtAiaoXbzs8Mg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB7PR03MB4972.eurprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(366004)(396003)(39850400004)(376002)(136003)(346002)(83380400001)(36756003)(38100700002)(38350700002)(66476007)(8676002)(4326008)(66946007)(66556008)(110136005)(2906002)(86362001)(54906003)(8936002)(316002)(31696002)(7416002)(6666004)(5660300002)(52116002)(26005)(53546011)(6512007)(6506007)(186003)(478600001)(41300700001)(6486002)(966005)(44832011)(2616005)(31686004)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZitvMnJkeXkrK1hDeGpPYWE3ODhMOUJtZ3ZQN1lQT2hQaUgrY2R2dTNyemRu?=
- =?utf-8?B?ZS9NcjNMcTNuMnh6b2RnZXl4TkFFcXR1Y2FNVU9OWjlwOEpSZ3dDcFpDcDJi?=
- =?utf-8?B?L2JSN2I5cFFlNEhnUjZGaHpOU1lvQzBGbzhwY3A1bUVQU0xuQ3pVb2Zyd3pP?=
- =?utf-8?B?UjE3RlczWjBkakJqL3oyb1VDakZrWnFtNHgwaGlVZFFrKzVDVThaeTgrV1VK?=
- =?utf-8?B?eFZZc2pweThQZzkyV3J2emJXNUtLZVByamZIZHZoVGxwTTRtSFNDaTJSOEVS?=
- =?utf-8?B?YWpORmFBalBoZk5TeDMrMDgvVDc2Z3VyQVZqanB0Ym9XaHgrV3RQNlFaWUpu?=
- =?utf-8?B?WlNlemFLTFluc0x0YnhRWVFSWWlPaDlHUEwvZWN2cTNQSi9Ud0RXUkFsUmtj?=
- =?utf-8?B?K0o4ZEN0V1F6a0xLYTBuVkp2ejUrK1dDbmZEbG9zN2FsdTc0ZlR1eVNLblNq?=
- =?utf-8?B?ODl5YS9GTk01bFFackR2M0VZN0RLSFU5KzM1OENXS0ExVDl2Mytnc2lnNlVq?=
- =?utf-8?B?TTVUc3l1TitOYkwwc1N6TStCak1zYkRnZGQvYzNmaTJUQkpQbmZTejltYk5Q?=
- =?utf-8?B?d2c0ZDN0L2NGSlQyeTB4OFhGZUppRmJUeWRRK2ZJME5OVmJ0ZHR1VERhZVkz?=
- =?utf-8?B?TGxPcE4xWURtMk9yb0NKejc5VjVqRjlpZHRPZzcyVnBWRllyMnRMSUpHVWp4?=
- =?utf-8?B?UCswU0h5Z3lJUm5uUzIzZjNMdXFGbDZ1VTJZekJiVGNIUm05WG0wOWlCMllT?=
- =?utf-8?B?ZUZ2V0VDTGtvZTZ3Q3hCSU9MNFRzRm96MmFFUTFuaW8vT2IwMHRLOVlaNGcy?=
- =?utf-8?B?NmF5SnQ2WTZYdW90cGE1RmloMW82SlNzZEcyVSt6RVFQWmVyZFVyajdQUTNq?=
- =?utf-8?B?TEgrdGZ0RjFtWllXMUFvY3RVRjN0VjFFcnA5S3pRcmMxZDdRV2VwYVpWM0pt?=
- =?utf-8?B?UTdBZDNoZlh3TDk5VFBwYmhGdk1tQ21RMC9UaGJDOE9TZzJaNHdidlJFaGxP?=
- =?utf-8?B?VUliT21pSzl5OXo1ekxjaHMyN2l6Z1BlZzF3eWw4dUIxbGRVWGpybUYrZlFW?=
- =?utf-8?B?d0Y0YUNnLzh6aGg5akIyTC9xd0tBbmlNWGs2RjMwR0ltRUJKYzV2Z09LYWpD?=
- =?utf-8?B?VkZ1VkVGVFZvQjNaSVNKcFA4QWhmYlFuMTNsK1BzQU8vZGVOaVI0a1htcmlU?=
- =?utf-8?B?U2tEWUdzaXFpcVZHbDBwQU5VdVJMeXpEclhzSzQzUWhWNlhKNnRsUHFNZTl2?=
- =?utf-8?B?cGJNb1FCUWwzdEZkWXBXdHFLTXVEdGgwb0RzTFpqbmNNTUdkQzhubDEvbzRL?=
- =?utf-8?B?di9TWSs5eUpnalRtOVptWVZDMWZuS2VlZmFjUUZ1V1ZpUmJMbnhXYkozUkl4?=
- =?utf-8?B?eVFkaDJrUFNzWlNoc0UzVTBYZHAxSnNHei9TVks5YktNY0Rsb3pFV3UwVGtP?=
- =?utf-8?B?Ri9ERk4wVEZTckRvdnF0QlJQOXBoUXVjbGxFbTNsQy9oU09rVDBTZ3ZJWDBw?=
- =?utf-8?B?YUVnbEYya2xwWmJwbnZyTTNNUlI2TUh6ZnE1emtqRm1pajNKMXdJeW5HMXky?=
- =?utf-8?B?Z0gzSEMycHlQRTV1TDZIMGFQV1pvRTY1Y1o1RWl1SkQvblo3WGNVdFAxeGJy?=
- =?utf-8?B?WlVqaFIvQTRiMTJ1THFQTTVCQjFVZzBFWFE5VC9GanZnZUJZWCtkV0FoRW1w?=
- =?utf-8?B?YzRNVTBqcjFHZ0lCTFdHUkxDTlFWL3pVcDNqRkFlMkxUT25zK001UkZ6aUtK?=
- =?utf-8?B?L0pQa3pZTUlHQmR0T2hjZHNmVjArN0JncmhRVUdxZW9aVTRxMlZUd3JYaUZQ?=
- =?utf-8?B?Rnc1MnIvTHVSZzdUMkZFdWx1UmJ2MjA4QmpyYVhkUzRqTVNmZEsyTzdmRnlv?=
- =?utf-8?B?ZHJNSE9KT2d1VDlVLzAvVkc1clZoMkk4alJ6NWpGSHA1L3NLQUc5Qm81enJm?=
- =?utf-8?B?ak81ck1BMVRLNk9xRy85bGtvSkZsQWJHS2UveUYycm9lZUQzMWNJRGJVTHd1?=
- =?utf-8?B?VDM4elV3Y3haUDRiWmovbHVWTm9LWkg0cHdJNzVpRzk5djRjZEd4QnZHc1JM?=
- =?utf-8?B?U1RCSmZ0a1g1MTBkYUtRaHp4UGh1NVlGOXhGbGJJS2NEemRZMXdXa3dXMXFw?=
- =?utf-8?B?RldVTkNmQ1dKeDBiRGFua1RpZU9qQ29uME5mVG15UU9abzVYR2V2VW5xcGdN?=
- =?utf-8?B?b0E9PQ==?=
-X-OriginatorOrg: seco.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: db802a2a-bd1b-4334-0955-08da90257adf
-X-MS-Exchange-CrossTenant-AuthSource: DB7PR03MB4972.eurprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Sep 2022 16:33:07.7535
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bebe97c3-6438-442e-ade3-ff17aa50e733
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: xz3FG07/zRfnMpUVlW+Ib99WDzAhnwPy1oLeQiYfAfxou+mO7WsuC/3o7LifMi6bAIZPXSK6jDalPaPRxJ1Byw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV2PR03MB8560
+References: <20220806163255.10404-1-markuss.broks@gmail.com>
+In-Reply-To: <20220806163255.10404-1-markuss.broks@gmail.com>
+From:   Ard Biesheuvel <ardb@kernel.org>
+Date:   Tue, 6 Sep 2022 18:54:26 +0200
+X-Gmail-Original-Message-ID: <CAMj1kXHWWciFcO-ub4U4MB1VDifD_=bxiTVaTcBjTvYXzVTkgQ@mail.gmail.com>
+Message-ID: <CAMj1kXHWWciFcO-ub4U4MB1VDifD_=bxiTVaTcBjTvYXzVTkgQ@mail.gmail.com>
+Subject: Re: [PATCH v2 0/3] Add generic framebuffer support to EFI earlycon driver
+To:     Markuss Broks <markuss.broks@gmail.com>
+Cc:     linux-kernel@vger.kernel.org,
+        ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Helge Deller <deller@gmx.de>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Borislav Petkov <bp@suse.de>,
+        Kees Cook <keescook@chromium.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Michal Suchanek <msuchanek@suse.de>,
+        Javier Martinez Canillas <javierm@redhat.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Wei Ming Chen <jj251510319013@gmail.com>,
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+        Tony Lindgren <tony@atomide.com>, linux-doc@vger.kernel.org,
+        linux-efi@vger.kernel.org, linux-serial@vger.kernel.org,
+        linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Sat, 6 Aug 2022 at 18:34, Markuss Broks <markuss.broks@gmail.com> wrote:
+>
+> Make the EFI earlycon driver be suitable for any linear framebuffers.
+> This should be helpful for early porting of boards with no other means of
+> output, like smartphones/tablets. There seems to be an issue with early_ioremap
+> function on ARM32, but I am unable to find the exact cause. It appears the mappings
+> returned by it are somehow incorrect, thus the driver is disabled on ARM. EFI early
+> console was disabled on IA64 previously because of missing early_memremap_prot,
+> and this is inherited to this driver.
+>
+> This patch also changes behavior on EFI systems, by selecting the mapping type
+> based on if the framebuffer region intersects with system RAM. If it does, it's
+> common sense that it should be in RAM as a whole, and so the system RAM mapping is
+> used. It was tested to be working on my PC (Intel Z490 platform), as well as several
+> ARM64 boards (Samsung Galaxy S9 (Exynos), iPad Air 2, Xiaomi Mi Pad 4, ...).
+>
+> Markuss Broks (2):
+>   drivers: serial: earlycon: Pass device-tree node
+>   efi: earlycon: Add support for generic framebuffers and move to fbdev
+>     subsystem
+>
+>
+> v1 -> v2:
+>
+> - a new patch correcting serial/earlycon.c argument name to "offset" instead
+>   of "node"
+> - move IA64 exclusion from EFI earlycon Kconfig to earlycon driver Kconfig
+>   (IA64 has no early_memremap_prot)
+> - move driver from fbdev to console subsystem
+> - select EFI earlycon by default
 
+Wasn't EFI earlycon already enabled by default?
 
-On 9/3/22 11:23 AM, kernel test robot wrote:
-> Hi Sean,
-> 
-> I love your patch! Yet something to improve:
-> 
-> [auto build test ERROR on shawnguo/for-next]
-> [also build test ERROR on robh/for-next clk/clk-next arm/for-next arm64/for-next/core rockchip/for-next soc/for-next linus/master v6.0-rc3]
-> [cannot apply to xilinx-xlnx/master next-20220901]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Sean-Anderson/phy-Add-support-for-Lynx-10G-SerDes/20220903-053840
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/shawnguo/linux.git for-next
-> config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20220903/202209032301.fWPibuKq-lkp@intel.com/config)
-> compiler: arceb-elf-gcc (GCC) 12.1.0
-> reproduce (this is a W=1 build):
->         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->         chmod +x ~/bin/make.cross
->         # https://github.com/intel-lab-lkp/linux/commit/cbfe9294ef583cc8dffd9cebf9ff325bbcdb4cef
->         git remote add linux-review https://github.com/intel-lab-lkp/linux
->         git fetch --no-tags linux-review Sean-Anderson/phy-Add-support-for-Lynx-10G-SerDes/20220903-053840
->         git checkout cbfe9294ef583cc8dffd9cebf9ff325bbcdb4cef
->         # save the config file
->         mkdir build_dir && cp config build_dir/.config
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash
-> 
-> If you fix the issue, kindly add following tag where applicable
-> Reported-by: kernel test robot <lkp@intel.com>
-> 
-> All errors (new ones prefixed by >>):
-> 
->    drivers/phy/freescale/phy-fsl-lynx-10g-clk.c: In function 'lynx_pll_recalc_rate':
->>> drivers/phy/freescale/phy-fsl-lynx-10g-clk.c:255:25: error: implicit declaration of function 'FIELD_GET' [-Werror=implicit-function-declaration]
->      255 |         u32 frate_sel = FIELD_GET(PLLaCR0_FRATE_SEL, cr0);
->          |                         ^~~~~~~~~
->    drivers/phy/freescale/phy-fsl-lynx-10g-clk.c: In function 'lynx_pll_set_rate':
->>> drivers/phy/freescale/phy-fsl-lynx-10g-clk.c:340:16: error: implicit declaration of function 'FIELD_PREP' [-Werror=implicit-function-declaration]
->      340 |         cr0 |= FIELD_PREP(PLLaCR0_RFCLK_SEL, rfclk_sel);
->          |                ^~~~~~~~~~
->    drivers/phy/freescale/phy-fsl-lynx-10g-clk.c: In function 'lynx_clk_init':
->>> drivers/phy/freescale/phy-fsl-lynx-10g-clk.c:466:9: error: implicit declaration of function 'kfree'; did you mean 'vfree'? [-Werror=implicit-function-declaration]
->      466 |         kfree(ref_name);
->          |         ^~~~~
->          |         vfree
->    cc1: some warnings being treated as errors
-
-It looks like bitfield.h and slab.h are included transitively on
-arm64 but not on other arches. I will update this file to include
-these headers.
-
---Sean
+> - fetch stride manually from device-tree, as on some devices it seems stride
+>   doesn't match the horizontal resolution * bpp.
+> - use saner format (e.g. 1920x1080x32 instead of 1920,1080,32).
+>
+>  .../admin-guide/kernel-parameters.txt         |  12 +-
+>  MAINTAINERS                                   |   5 +
+>  drivers/firmware/efi/Kconfig                  |   6 +-
+>  drivers/firmware/efi/Makefile                 |   1 -
+>  drivers/firmware/efi/earlycon.c               | 246 --------------
+>  drivers/tty/serial/earlycon.c                 |   3 +
+>  drivers/video/fbdev/Kconfig                   |  11 +
+>  drivers/video/fbdev/Makefile                  |   1 +
+>  drivers/video/fbdev/earlycon.c                | 301 ++++++++++++++++++
+>  include/linux/serial_core.h                   |   1 +
+>  10 files changed, 331 insertions(+), 256 deletions(-)
+>  delete mode 100644 drivers/firmware/efi/earlycon.c
+>  create mode 100644 drivers/video/fbdev/earlycon.c
+>
+> --
+> 2.37.0
+>
