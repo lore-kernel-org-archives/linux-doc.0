@@ -2,164 +2,119 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B5815C38145
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Sep 2022 09:19:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CC6FFECAAA1
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Sep 2022 09:29:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232732AbiIFJTn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 6 Sep 2022 05:19:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55774 "EHLO
+        id S239549AbiIFJ3p (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 6 Sep 2022 05:29:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39612 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232943AbiIFJTm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Sep 2022 05:19:42 -0400
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2098.outbound.protection.outlook.com [40.107.223.98])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E586418B37;
-        Tue,  6 Sep 2022 02:19:39 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ThSumuE/joT3E52EaGw7pMrWqJwaCkQtRmvqFuV7rdFAb7eSjdVWZntAom/fjkQG5wq4yhwSq3ElxYUw5eh7qNAfJhsovizYKPDNVKWDjHyVNmEJW7OBjqr5TqTBHcvjfa43Txxb4L2XHg5X5oOVSNxzVVMfXR66auesn62f+IhyUB6lJeK4QacdJmozyaeWqvuSbm3ZHjjW87HwnkdjKWBBDntWprIK1qRd/+HJQfN8EK/Grrjh/Pi/NmSA/9iAiMsIIXqJ52iy5ZP3Ykq99dDJrMu91jzdCemLg+2xACSL4Mzxl7BK/ASkb5xXTUMkSloAlN1cC9feQwwaTMlgOQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=cNCdYaujXQVmnaQGQejquyujF0XwaKE88MaiFyQ3+l4=;
- b=Pk8+NDijdOjWb9rFiQsNRhfxRQnrcOUD2uSCDlXUgBHEnPnXxXYijgyy76le0pGNZ2YRoUjAFIo2ztweQ6yjn7Cn2I5/hWdGvQ5HGXfQvI6qmn82bwbCfRIzR3yvm7AE4xK6XBBP3kipV8wC781r4I4EHI+KDhDB3lCr19JAmY391vxb7NMQItHY/QKyayW0kXs4G8GmhwMzg3sQOHM/L93R/ZfREL/k1bhFG41JMlkcyxDqTJbCXJbK0xSi7COiAHuV1M+LvfwlVk+xWuC0oWe8nVIjxhmJq3Tf4idib8rNIGc1fc+fN1l5x48rfoJbTnsVXCaEwhkLWKwzLTZUrA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=corigine.com; dmarc=pass action=none header.from=corigine.com;
- dkim=pass header.d=corigine.com; arc=none
+        with ESMTP id S239476AbiIFJ3h (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Sep 2022 05:29:37 -0400
+Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com [IPv6:2607:f8b0:4864:20::62c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00FE89FE6;
+        Tue,  6 Sep 2022 02:29:35 -0700 (PDT)
+Received: by mail-pl1-x62c.google.com with SMTP id t3so5646061ply.2;
+        Tue, 06 Sep 2022 02:29:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=corigine.onmicrosoft.com; s=selector2-corigine-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cNCdYaujXQVmnaQGQejquyujF0XwaKE88MaiFyQ3+l4=;
- b=r6/ATYAmNMCEtUUxifGioFiW78006ozvXnnuOJJBcZExxEIvK3F6g/y7sYH82K1dlVYIX+Rc7dE6NBtvRIQa/vVnneO7PG7Ff7GRnINznqTbZkqKrut/5ZlBPECEDvqgo5RPItQwBFSJX06MAGVjWSFv3sYwsjASJru+urqeazc=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=corigine.com;
-Received: from DM6PR13MB4431.namprd13.prod.outlook.com (2603:10b6:5:1bb::21)
- by SN4PR13MB5277.namprd13.prod.outlook.com (2603:10b6:806:204::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5612.12; Tue, 6 Sep
- 2022 09:19:38 +0000
-Received: from DM6PR13MB4431.namprd13.prod.outlook.com
- ([fe80::2944:20ba:ee80:b9c7]) by DM6PR13MB4431.namprd13.prod.outlook.com
- ([fe80::2944:20ba:ee80:b9c7%3]) with mapi id 15.20.5612.011; Tue, 6 Sep 2022
- 09:19:37 +0000
-Date:   Tue, 6 Sep 2022 11:19:30 +0200
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@corigine.com>
-To:     Joe Perches <joe@perches.com>
-Cc:     Dwaipayan Ray <dwaipayanray1@gmail.com>,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Andy Whitcroft <apw@canonical.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, oss-drivers@corigine.com,
-        Simon Horman <simon.horman@corigine.com>,
-        Louis Peens <louis.peens@corigine.com>
-Subject: Re: [PATCH] checkpatch: warn for non-standard fixes tag style
-Message-ID: <YxcQou32EAGWwNhM@oden.dyn.berto.se>
-References: <20220829155358.2546732-1-niklas.soderlund@corigine.com>
- <dc45a7021bb765ea34c5b9228454f255764c7bc9.camel@perches.com>
- <YxXUHPWtyrt6kNI1@sleipner.dyn.berto.se>
- <f550b468064c61e3550b50da37138802d7e9415a.camel@perches.com>
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <f550b468064c61e3550b50da37138802d7e9415a.camel@perches.com>
-X-ClientProxiedBy: GV3P280CA0032.SWEP280.PROD.OUTLOOK.COM
- (2603:10a6:150:9::33) To DM6PR13MB4431.namprd13.prod.outlook.com
- (2603:10b6:5:1bb::21)
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date;
+        bh=nwwWl+D6Cbqti98AYLwJCMw6j9XEvZlxYSURArm6zSc=;
+        b=DINTbITVkqBl6NnHryAPut6WB8f1LiW4BD953VsZQp2iBmABJIWKe9e91vAiVHyC9P
+         WzvP0xuXkfImIe/voYMU/VrozNBhygAuvC/2HJW67gkB4JELQpTM9H68XJd4BMyMUxJn
+         iYxpww5GDgDgaz9dEH/yMxMMxJw9NSM/tRMFOIz8JOySq32GJZaXpDxV7ZR2wLmTWwYu
+         bJF3p2iFOjdEkYzSlzsLDOBs7w/2Q0ylf2zKdZGCkjmTHdmBOTRX6FJvGzldZzNKNCkN
+         CCS77bCSxqUl4hsyNIOPD3R2Gg13cOcQkvZyty57k6t2CJHE1fmyoeOhH0iIchPKrws/
+         v1eQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date;
+        bh=nwwWl+D6Cbqti98AYLwJCMw6j9XEvZlxYSURArm6zSc=;
+        b=MaxEfpI2jqrWVFQ8inICXQHRaa+VZitmvnPQpn9tZ0SaS7XNJ9/9sWCqjAuciFQrXU
+         4JRkGpugFzm2l3bkiURbwTV4lVq0fOClN6Q4E84E0CqIOChWrH+H+GDMq3DQA4M7I4EW
+         JJz1QVYoZ7xHAt3c+oBdr8p2oHzkc7lhRT0S4vGQMwq12zrqs1L0OGg89m6STPeAXjaE
+         PjJuLxuwRmliTyt+OEEAsmdVO9sNJpr8BKhttpZa0r3IdB8p1rrolbc73XFk48Y3WyMh
+         O6Cq+9tc6PRq+Fr/xsOP2fdR8kpkai9atF93VX3KWX5a+yMkXToHQkotgjgrYdwQkgf8
+         ALXA==
+X-Gm-Message-State: ACgBeo2OF3/N94VWIhf3tbkNFn7pWV2MfjByBFNqIs6doK4syL5CwEt5
+        Tt1qeKD4GOEnajJoh0XH60w=
+X-Google-Smtp-Source: AA6agR5PS+mibtWvHVZbg3Sz+aoKp0kun0uzmNDbXq35hKAC7/FNVppil5VPWfu41hY9owryQJNNhA==
+X-Received: by 2002:a17:90b:1b45:b0:1ff:fa05:1049 with SMTP id nv5-20020a17090b1b4500b001fffa051049mr21200997pjb.68.1662456575283;
+        Tue, 06 Sep 2022 02:29:35 -0700 (PDT)
+Received: from [192.168.43.80] (subs02-180-214-232-72.three.co.id. [180.214.232.72])
+        by smtp.gmail.com with ESMTPSA id d9-20020a170902f14900b00174f7d107c8sm1512675plb.293.2022.09.06.02.29.28
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 06 Sep 2022 02:29:35 -0700 (PDT)
+Message-ID: <228fb86d-4239-0aa9-ba88-e3fdc7cbe99f@gmail.com>
+Date:   Tue, 6 Sep 2022 16:29:27 +0700
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6PR13MB4431:EE_|SN4PR13MB5277:EE_
-X-MS-Office365-Filtering-Correlation-Id: 436d11f4-9de0-46de-6442-08da8fe8ebad
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: E1Fvnea1DrgZXnFSuyZFp1B+tH0zJndiv42KmE4JDLQlJi4rx/EQo13Bdyxk67f1FTZ04ft/69GSivkUf0/QdXLX4GpHGYD0zt+llokfNdP8QXxL7GiyoiTGRspH7Qx+JLa9Hr9YpOO5nRX8UMo6I195ZhIBCOVaRKwnL3z/V5Bfp2E5cPeYvew+eueaqP6KF0ugdHE8SRcSy6Cbrqd6xM/Ve9fgCBheFrpSQA+3l5II6LXFaQxCMhTARZFREmvmRrMPImeJo3pXDyquWmAiOLnJVd+eQX8LVZaqdjiafFeW6honKTxoVf5SiACkq0MjjsUsvmCtYJn3LvBannsI7p4v4/5Y94RKE3mPYpSSy1CN2pT11WKusHlcqCEgmsqbawt99GNX45CzMOgl9G72PEGlgB0bD5hZpwMGL4iE/XOczWWaemLOwJ9LAiPeF9ekW5jwVZPgub69UraqPC6Y6BTuxzVzhHCah7xt40VBiZ0LMETyYVV8pov9Av76vaP7UhtIU1WdU/HwAQQUMfaNdVb2aJKxD1xmZ0H64uwg9l5EWn9Y5d2Gr8VZnIE2AzTGgbrwDCeMES3DL//orGEMPBaeIptR7AieGEBZozF7YTVLNmx3LvvEH16rY7yUqg6GbekOVc+DrdSp8+i7gWnBJ4gzA3MKcHJAr7JXgqtogKNuQsCLIt2WnozIhdFDEQR4lSrfuWovJlR3ANzRApxVYwhqQ+tEu2HpHj+JJ6f6yQl+MVQkrii4Hmx2dBOMpFM+
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR13MB4431.namprd13.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(4636009)(39840400004)(396003)(346002)(366004)(136003)(376002)(107886003)(86362001)(6666004)(66574015)(316002)(54906003)(6916009)(41300700001)(53546011)(52116002)(6486002)(478600001)(6512007)(9686003)(6506007)(186003)(26005)(2906002)(8936002)(5660300002)(66476007)(8676002)(66556008)(4326008)(66946007)(38100700002)(38350700002)(83380400001);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?37VJ8z+ssh9Thp+Q50+8tOtl36eBcH6ZhWZV0gjiGyrW1BuVG5Lua+yzlu?=
- =?iso-8859-1?Q?KTYxq2o5wiElKl0i55BNxEcrmZhL2KbEVjKh6tAapLLK3bo7dwM17vA8yv?=
- =?iso-8859-1?Q?bzYLb8GavAir+wqYIRT9sx8ljZA38M/YMXh1oMsuS4IdJA3XLP9Pw9n/PC?=
- =?iso-8859-1?Q?YcF2MRAi8K7uzFcmD5jTsKFgIs4zFIqF9US2IIpvNgG+V42UPT4CjI1ND3?=
- =?iso-8859-1?Q?skR3tekEFQxv/kWbqXFfWjPxlQM8EauxxFjIq4z5zOMrw+fJKt+mT1g1vG?=
- =?iso-8859-1?Q?Sm9FDjbGtXWZE+AqOf2mgXj8NWQtVtZDuINHZ8gvHhp+mBOXVUyVbk03B2?=
- =?iso-8859-1?Q?vClNeWzQefUeshSWUV2JNmg3ewa2JoubjI3juPAWOdxxPUBK2NBpkTz7I5?=
- =?iso-8859-1?Q?letPf+UdQMRMevAPmoeJGoQocIPMAPt06/KQDAUVXZZhObSdXhABGJHwky?=
- =?iso-8859-1?Q?HfR7bQftP5nWJrwmqXLTX3S7TMlW7B14chrjUnRWACrJpKNUsh5vEuc6pv?=
- =?iso-8859-1?Q?sCxuGqc8KzxWIFwuVu1T/zR6Wm+3TXdLuLdGKTV4ew9Xb5YjpFdNehe2IP?=
- =?iso-8859-1?Q?k0LUNGFdGIrhfuUbjiRcav4v4X3OfCzMJa7foOsDV0GKrCH3Tn9qP23Rc/?=
- =?iso-8859-1?Q?biOIWZjvyQjp9FhGwoiNXeM2+kA14z0yeZ1aBFYnKJklycZv7Y9XStqjnv?=
- =?iso-8859-1?Q?C99mfcqAufso90KTUCV9Z8kMBTHv+uP6mmZfoVX25rNCPoKiwXHapyuW9A?=
- =?iso-8859-1?Q?UONQ6+lehX+S7S/ntqshxbZ6qdTTqCrySHaheIJL3u3ZTDWE2yd7mJnkaH?=
- =?iso-8859-1?Q?sczt+WhQbAEpHFVFi93eGmLM3Xo00B2lL6LyQr4OBzjkYdPaxWgHI3MEBv?=
- =?iso-8859-1?Q?LBENLJbJiqojHOPet5HkLkJ4lLBvvRowV+GiziCJ9eFy2i0tmZgIFK3YOo?=
- =?iso-8859-1?Q?BiHSsJgIaxry/GQuylVgnSKC5gl+LphkFieaUd2R8vMtFvM/8C5kP/tz+i?=
- =?iso-8859-1?Q?DGI2B8cgdKj//jq8LOs08Npn5/CXXNnR8iIg9AbLS+WRyEDnYQ9i/Irsz8?=
- =?iso-8859-1?Q?/N6n1WKMWxAHJKcZQo33CYriNT69qCiofXGh54+qHUCnUO5/LJ8IUDoQut?=
- =?iso-8859-1?Q?3gcSJbEkMb5IPHnjH1tSgRcMDQwnIC66RCqLjVBAry9Q6NMdZkvDd6vQ+O?=
- =?iso-8859-1?Q?cb7PWrwlVB5TZ66F3KX5EpYBleU2fbRfJMp8TRGW5PkUHFvRtgSUhtiIoX?=
- =?iso-8859-1?Q?dsCTRUH1jaQz4HQXMYwJxIwGk7O7yymeOTDSxh/ZpyYOSw/QPFbnhPRdui?=
- =?iso-8859-1?Q?iNd8w+1IEGCCCMzUa5kyJVn73Q7teZaotLKL2ZYBqkxamXzev/OzlRPzQ5?=
- =?iso-8859-1?Q?fHZBJ1UOj8yGpp+loMDeLpBiPJ3+MhtYP+WlxWN9ZA/7pqqg7jdI6wBq0N?=
- =?iso-8859-1?Q?pcY3nDWbADRWXQWUk0t5IG7SOzSWAB+gVCUrtDC4Fj969HkQIXL8FB9f8u?=
- =?iso-8859-1?Q?/dKoDQZjJcOeoHvhuB4NePBhQ6snHkO2Z7nB8gBuRPhd1YPRBYIMnvv6ar?=
- =?iso-8859-1?Q?etih2J1L0jJu8VyYm376Y6+v3bYLkq9aHz9fPt8KjtlTD6gzmvW5a9gyxS?=
- =?iso-8859-1?Q?5Qlkm3dLCSjrhHUvPbh1ymKs6i7VIaeDGzzgZRUhAfLk2ATVPl0NjYdw?=
- =?iso-8859-1?Q?=3D=3D?=
-X-OriginatorOrg: corigine.com
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN4PR13MB5277
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH v3 net-next] docs: net: add an explanation of VF (and
+ other) Representors
+Content-Language: en-US
+To:     ecree@xilinx.com, netdev@vger.kernel.org, linux-net-drivers@amd.com
+Cc:     davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com,
+        edumazet@google.com, corbet@lwn.net, linux-doc@vger.kernel.org,
+        jacob.e.keller@intel.com, jesse.brandeburg@intel.com,
+        michael.chan@broadcom.com, andy@greyhouse.net, saeed@kernel.org,
+        jiri@resnulli.us, snelson@pensando.io, simon.horman@corigine.com,
+        alexander.duyck@gmail.com, rdunlap@infradead.org, parav@nvidia.com,
+        roid@nvidia.com, marcin.szycik@linux.intel.com,
+        Edward Cree <ecree.xilinx@gmail.com>
+References: <20220905135557.39233-1-ecree@xilinx.com>
+From:   Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <20220905135557.39233-1-ecree@xilinx.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello Joe,
+On 9/5/22 20:55, ecree@xilinx.com wrote:
+> +Thus, the following should all have representors:
+> +
+> + - VFs belonging to the switchdev function.
+> + - Other PFs on the local PCIe controller, and any VFs belonging to them.
+> + - PFs and VFs on external PCIe controllers on the device (e.g. for any embedded
+> +   System-on-Chip within the SmartNIC).
+> + - PFs and VFs with other personalities, including network block devices (such
+> +   as a vDPA virtio-blk PF backed by remote/distributed storage), if (and only
+> +   if) their network access is implemented through a virtual switch port. [#]_
+> +   Note that such functions can require a representor despite the representee
+> +   not having a netdev.
+> + - Subfunctions (SFs) belonging to any of the above PFs or VFs, if they have
+> +   their own port on the switch (as opposed to using their parent PF's port).
+> + - Any accelerators or plugins on the device whose interface to the network is
+> +   through a virtual switch port, even if they do not have a corresponding PCIe
+> +   PF or VF.
+> +
+<snipped>
+> +
+> +.. [#] The concept here is that a hardware IP stack in the device performs the
+> +   translation between block DMA requests and network packets, so that only
+> +   network packets pass through the virtual port onto the switch.  The network
+> +   access that the IP stack "sees" would then be configurable through tc rules;
+> +   e.g. its traffic might all be wrapped in a specific VLAN or VxLAN.  However,
+> +   any needed configuration of the block device *qua* block device, not being a
+> +   networking entity, would not be appropriate for the representor and would
+> +   thus use some other channel such as devlink.
+> +   Contrast this with the case of a virtio-blk implementation which forwards the
+> +   DMA requests unchanged to another PF whose driver then initiates and
+> +   terminates IP traffic in software; in that case the DMA traffic would *not*
+> +   run over the virtual switch and the virtio-blk PF should thus *not* have a
+> +   representor.
+> +
 
-On 2022-09-05 11:00:35 -0700, Joe Perches wrote:
-> On Mon, 2022-09-05 at 12:49 +0200, Niklas Söderlund wrote:
-> > Hi Joe,
-> > 
-> > Thanks for your feedback.
-> > 
-> > On 2022-08-29 23:06:43 -0400, Joe Perches wrote:
-> > > > +			if ($line =~ 
-> > > > /(fixes:)\s+([0-9a-f]{5,})\s+($balanced_parens)/i) {
-> > > 
-> > > Maybe use fixes:? so the colon is not required in poorly formed uses
-> > 
-> > I tried that but I think it brings more problems then it is worth. With 
-> > that change the check would run for each line of the commit message that 
-> > begins with the string 'fixes', not just in the tags section of the 
-> > message. So it would warn for the commit message,
-> 
-> I think it's not a problem.
-> Look at the results of:
-> 
-> $ git log -100000 --no-merges --format=email --grep="^fixes" -i | \
->   grep -i -P -oh '^fixes:?\s*[0-9a-f]{5,}\s*..' | \
->   sed -r -e 's/^(fixes:?\s*)[0-9a-f]+/\1/i' | \
->   sort | uniq -c | sort -rn | head -20
->   73974 Fixes:  ("
->    1345 Fixes:  ('
->     399 Fixes: 
->     246 Fixes:  (A
->     215 Fixes: ("
->     172 Fixes:  (c
->     121 Fixes:  (s
->     114 Fixes:  (d
->     110 Fixes:  (P
->      98 Fixes:  (i
->      90 Fixes:  (m
->      86 Fixes:  (n
->      78 Fixes: : 
->      57 Fixes  ("
->      51 Fixes:  "n
->      47 Fixes:  (a
->      46 Fixes:  (t
->      43 fixes:  ("
->      42 Fixes:  (p
->      41 Fixes: ('
+I think by convention, footnotes should be put on bottom of the doc.
 
-Thanks for checking this. With this background I agree with you, there 
-is no problem here. I will spin a v3 with your suggestion.
-> 
+Other than that, LGTM.
+
+Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
 -- 
-Kind Regards,
-Niklas Söderlund
+An old man doll... just what I always wanted! - Clara
