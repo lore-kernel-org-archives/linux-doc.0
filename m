@@ -2,114 +2,79 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A6604C6FA83
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Sep 2022 15:22:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D9974C6FA86
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Sep 2022 15:33:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239205AbiIFPWA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 6 Sep 2022 11:22:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40876 "EHLO
+        id S239658AbiIFPdV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 6 Sep 2022 11:33:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34078 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239070AbiIFPVh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Sep 2022 11:21:37 -0400
-X-Greylist: delayed 75 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 06 Sep 2022 07:33:30 PDT
-Received: from sibelius.xs4all.nl (80-61-163-207.fixed.kpn.net [80.61.163.207])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB97582774;
-        Tue,  6 Sep 2022 07:33:28 -0700 (PDT)
-Received: from localhost (bloch.sibelius.xs4all.nl [local])
-        by bloch.sibelius.xs4all.nl (OpenSMTPD) with ESMTPA id 59c289f3;
-        Tue, 6 Sep 2022 16:05:16 +0200 (CEST)
-Date:   Tue, 6 Sep 2022 16:05:16 +0200 (CEST)
-From:   Mark Kettenis <mark.kettenis@xs4all.nl>
-To:     "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
-Cc:     arnd@arndb.de, lee@kernel.org, linus.walleij@linaro.org,
-        alyssa@rosenzweig.io, andriy.shevchenko@linux.intel.com,
-        asahi@lists.linux.dev, brgl@bgdev.pl, devicetree@vger.kernel.org,
-        marcan@marcan.st, corbet@lwn.net,
-        krzysztof.kozlowski+dt@linaro.org,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-gpio@vger.kernel.org, pmladek@suse.com,
-        linux@rasmusvillemoes.dk, robh+dt@kernel.org,
-        senozhatsky@chromium.org, rostedt@goodmis.org, sven@svenpeter.dev
-In-Reply-To: <E1oVYUI-005CmB-84@rmk-PC.armlinux.org.uk>
-        (rmk+kernel@armlinux.org.uk)
-Subject: Re: [PATCH 2/7] dt-bindings: gpio: add binding for the GPIO block for
- Apple Mac SMC
-References: <YxdInl2qzQWM+3bs@shell.armlinux.org.uk> <E1oVYUI-005CmB-84@rmk-PC.armlinux.org.uk>
-Message-ID: <d3ced0a542757823@bloch.sibelius.xs4all.nl>
+        with ESMTP id S239610AbiIFPdD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Sep 2022 11:33:03 -0400
+Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B51759DB7A;
+        Tue,  6 Sep 2022 07:43:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=Jx46skhkYJ7CRZ0Qm2k8P6SrP0P68ycbdV/aTLvLqRE=; b=NZnEwekYJDhfBID21ehPz4VPhB
+        kMsNTUZWCVo3xCgP3gXXbsHeAgXYdPwC3KIgIiuG2fhaBrd7WB5A1WuY0xke7TV9h8WLtsUeWjpHm
+        otfpdfYaVqF1HNcjENHzZocgs2UpVFKV/FfKAdbUpDbb83unT/KRxCQSrWdgBhxLWYdsn/zzTwMYF
+        DEm7B5ZyJtS8c2mbEH0+EN6bin+ZFXeQEyOiniVwIEUtFLrrW2MXgZnO0N+uF3D+YKMnTj/1SOBbD
+        BHA3AgC5E/QSycFaXcosebs6LqOfpq8PmRh6+B0ljbJe9OqCsNgjBU6PffHz/j7n2yyZtMlrn5m/p
+        evQDbwXw==;
+Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
+        by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1oVZnD-00ABOr-Fl; Tue, 06 Sep 2022 14:43:14 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits))
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id D08D0300023;
+        Tue,  6 Sep 2022 16:43:09 +0200 (CEST)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 7C3FA2B928DEC; Tue,  6 Sep 2022 16:43:09 +0200 (CEST)
+Date:   Tue, 6 Sep 2022 16:43:09 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Chengming Zhou <zhouchengming@bytedance.com>
+Cc:     hannes@cmpxchg.org, tj@kernel.org, surenb@google.com,
+        mkoutny@suse.com, mingo@redhat.com, gregkh@linuxfoundation.org,
+        corbet@lwn.net, cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, songmuchun@bytedance.com
+Subject: Re: [PATCH v4 00/10] sched/psi: some optimizations and extensions
+Message-ID: <YxdcfX4Ss/9k8qA9@hirez.programming.kicks-ass.net>
+References: <20220825164111.29534-1-zhouchengming@bytedance.com>
+ <be071d5a-ff2d-d06e-2f89-f2ca247dd19e@bytedance.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <be071d5a-ff2d-d06e-2f89-f2ca247dd19e@bytedance.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> From: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
-> Date: Tue, 06 Sep 2022 14:19:34 +0100
-> 
-> Add the DT binding for the Apple Mac System Management Controller GPIOs.
-> 
-> Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
+On Tue, Sep 06, 2022 at 09:13:27PM +0800, Chengming Zhou wrote:
 
-Reviewed-by: Mark Kettenis <kettenis@openbsd.org>
+Ah, I see Johannes has acked them all, I missed that.
 
-> ---
->  .../devicetree/bindings/gpio/gpio-macsmc.yaml | 28 +++++++++++++++++++
->  .../devicetree/bindings/mfd/apple,smc.yaml    |  4 +++
->  2 files changed, 32 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/gpio/gpio-macsmc.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/gpio/gpio-macsmc.yaml b/Documentation/devicetree/bindings/gpio/gpio-macsmc.yaml
-> new file mode 100644
-> index 000000000000..ee620fe50ca8
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/gpio/gpio-macsmc.yaml
-> @@ -0,0 +1,28 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/gpio/gpio-macsmc.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Apple Mac System Management Controller GPIO
-> +
-> +maintainers:
-> +  - Hector Martin <marcan@marcan.st>
-> +
-> +description:
-> +  This describes the binding for the Apple Mac System Management Controller
-> +  GPIO block.
-> +
-> +properties:
-> +  gpio-controller: true
-> +  '#gpio-cells':
-> +    const: 2
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    smc_gpio: gpio {
-> +      gpio-controller;
-> +      #gpio-cells = <2>;
-> +    };
-> diff --git a/Documentation/devicetree/bindings/mfd/apple,smc.yaml b/Documentation/devicetree/bindings/mfd/apple,smc.yaml
-> index 168f237c2962..47e3cd58bf19 100644
-> --- a/Documentation/devicetree/bindings/mfd/apple,smc.yaml
-> +++ b/Documentation/devicetree/bindings/mfd/apple,smc.yaml
-> @@ -37,6 +37,10 @@ title: Apple Mac System Management Controller
->      description:
->        A phandle to the mailbox channel
->  
-> +patternProperties:
-> +  gpio:
-> +    $ref: /schemas/gpio/gpio-macsmc.yaml
-> +
->  additionalProperties: false
->  
->  required:
-> -- 
-> 2.30.2
-> 
-> 
-> _______________________________________________
-> linux-arm-kernel mailing list
-> linux-arm-kernel@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
-> 
+> > Chengming Zhou (9):
+> >   sched/psi: fix periodic aggregation shut off
+> >   sched/psi: don't create cgroup PSI files when psi_disabled
+> >   sched/psi: save percpu memory when !psi_cgroups_enabled
+> >   sched/psi: move private helpers to sched/stats.h
+> >   sched/psi: optimize task switch inside shared cgroups again
+> >   sched/psi: add PSI_IRQ to track IRQ/SOFTIRQ pressure
+> >   sched/psi: consolidate cgroup_psi()
+> >   sched/psi: cache parent psi_group to speed up groups iterate
+> >   sched/psi: per-cgroup PSI accounting disable/re-enable interface
+> > 
+> > Johannes Weiner (1):
+> >   sched/psi: remove NR_ONCPU task accounting
+
+For future reference:
+
+  https://www.kernel.org/doc/html/latest/process/maintainer-tip.html
+
+Note all patches violate 1.2.2 for not starting the patch description
+with a uppercase letter. I'll go manually fix up this time.
