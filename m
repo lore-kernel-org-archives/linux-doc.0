@@ -2,119 +2,88 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CC6FFECAAA1
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Sep 2022 09:29:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 57049C38145
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Sep 2022 10:53:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239549AbiIFJ3p (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 6 Sep 2022 05:29:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39612 "EHLO
+        id S234140AbiIFKwx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 6 Sep 2022 06:52:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48440 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239476AbiIFJ3h (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Sep 2022 05:29:37 -0400
-Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com [IPv6:2607:f8b0:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00FE89FE6;
-        Tue,  6 Sep 2022 02:29:35 -0700 (PDT)
-Received: by mail-pl1-x62c.google.com with SMTP id t3so5646061ply.2;
-        Tue, 06 Sep 2022 02:29:35 -0700 (PDT)
+        with ESMTP id S239681AbiIFKw0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Sep 2022 06:52:26 -0400
+Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com [IPv6:2a00:1450:4864:20::329])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4E547C52A;
+        Tue,  6 Sep 2022 03:50:58 -0700 (PDT)
+Received: by mail-wm1-x329.google.com with SMTP id z14-20020a7bc7ce000000b003a5db0388a8so7896579wmk.1;
+        Tue, 06 Sep 2022 03:50:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date;
-        bh=nwwWl+D6Cbqti98AYLwJCMw6j9XEvZlxYSURArm6zSc=;
-        b=DINTbITVkqBl6NnHryAPut6WB8f1LiW4BD953VsZQp2iBmABJIWKe9e91vAiVHyC9P
-         WzvP0xuXkfImIe/voYMU/VrozNBhygAuvC/2HJW67gkB4JELQpTM9H68XJd4BMyMUxJn
-         iYxpww5GDgDgaz9dEH/yMxMMxJw9NSM/tRMFOIz8JOySq32GJZaXpDxV7ZR2wLmTWwYu
-         bJF3p2iFOjdEkYzSlzsLDOBs7w/2Q0ylf2zKdZGCkjmTHdmBOTRX6FJvGzldZzNKNCkN
-         CCS77bCSxqUl4hsyNIOPD3R2Gg13cOcQkvZyty57k6t2CJHE1fmyoeOhH0iIchPKrws/
-         v1eQ==
+        h=mime-version:user-agent:references:message-id:date:in-reply-to
+         :subject:cc:to:from:from:to:cc:subject:date;
+        bh=b1zh3Myo6jU2fqhvORGPXUCfBSeS9QtYiYf8N35O2G8=;
+        b=BCOPqG0yChofOoj0r9oHxKJbYuhNfnuLxdUdm4eBHhojDQ2/p2F6Oe+P1CerRJwt4/
+         O1xjMkpEGjCZz6ig+13Jawcyekt2YZ0+PBNDeMisA1Lz40Q6l2dR1skFMlpplAGBKZPk
+         V9TIM0nranK9ozI5eVZr8Y2E2xVGDiMpois9P+AZue3xDJhyandWfW0fEeD1pyoxH8z4
+         1KQ2cTdqDFBLg+T+C2xDnuVbsbzuib6Ne2tt9Wp2yNYrYhq/AxSw1eDaTEpkJWJ62ztx
+         x5qJ5+a0PqG6OS/Lj4bKc1qI1ZoV/58xjjWWB0YTgb5fDqPqGMsAvIyG7+wpH3efHOjP
+         ATJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=nwwWl+D6Cbqti98AYLwJCMw6j9XEvZlxYSURArm6zSc=;
-        b=MaxEfpI2jqrWVFQ8inICXQHRaa+VZitmvnPQpn9tZ0SaS7XNJ9/9sWCqjAuciFQrXU
-         4JRkGpugFzm2l3bkiURbwTV4lVq0fOClN6Q4E84E0CqIOChWrH+H+GDMq3DQA4M7I4EW
-         JJz1QVYoZ7xHAt3c+oBdr8p2oHzkc7lhRT0S4vGQMwq12zrqs1L0OGg89m6STPeAXjaE
-         PjJuLxuwRmliTyt+OEEAsmdVO9sNJpr8BKhttpZa0r3IdB8p1rrolbc73XFk48Y3WyMh
-         O6Cq+9tc6PRq+Fr/xsOP2fdR8kpkai9atF93VX3KWX5a+yMkXToHQkotgjgrYdwQkgf8
-         ALXA==
-X-Gm-Message-State: ACgBeo2OF3/N94VWIhf3tbkNFn7pWV2MfjByBFNqIs6doK4syL5CwEt5
-        Tt1qeKD4GOEnajJoh0XH60w=
-X-Google-Smtp-Source: AA6agR5PS+mibtWvHVZbg3Sz+aoKp0kun0uzmNDbXq35hKAC7/FNVppil5VPWfu41hY9owryQJNNhA==
-X-Received: by 2002:a17:90b:1b45:b0:1ff:fa05:1049 with SMTP id nv5-20020a17090b1b4500b001fffa051049mr21200997pjb.68.1662456575283;
-        Tue, 06 Sep 2022 02:29:35 -0700 (PDT)
-Received: from [192.168.43.80] (subs02-180-214-232-72.three.co.id. [180.214.232.72])
-        by smtp.gmail.com with ESMTPSA id d9-20020a170902f14900b00174f7d107c8sm1512675plb.293.2022.09.06.02.29.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 06 Sep 2022 02:29:35 -0700 (PDT)
-Message-ID: <228fb86d-4239-0aa9-ba88-e3fdc7cbe99f@gmail.com>
-Date:   Tue, 6 Sep 2022 16:29:27 +0700
+        h=mime-version:user-agent:references:message-id:date:in-reply-to
+         :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date;
+        bh=b1zh3Myo6jU2fqhvORGPXUCfBSeS9QtYiYf8N35O2G8=;
+        b=sxHcSffQkcp+6GJH6MSXGIos9IPF6nGLMqlO7i8eyTFDzou0BEOy9EgRoNQbhYyJPl
+         y0ClFcIBXm2SPRatKV+roVSuHjxfDRqjc5n3J4j/RyVorVAwq7Fu5RpMGhKCwLbtJyOk
+         YlPCcvvP8sWsskGCo/sYhziDg8/8eAKD/VGP7l7Uox8MG3lRJj1HNIDq072hFW1OLiBT
+         lDxrEi3nXTPEv/lmCuGzw+ojyXtiD8ZSHM7tSSLi8TwYba1X+WDGVaIr2OKepmMGkUGW
+         CCvdK0dsnVQ+JuJWp0hUMS/yDdIiTIfuukjuJ2cu19bwuEToH5k9pyPMxF5TFV/j/KLc
+         e/Dg==
+X-Gm-Message-State: ACgBeo3d6NU1cPAz5zvek5bAcVJwby/6zW0I5HMR0OPme1s6/FTIZSZ5
+        JBX5VbydrlvFRjvURXRiths=
+X-Google-Smtp-Source: AA6agR7H+Ae4hheQrM5Be9dOg7JU2kpa1pWsVb2R/E4T4iMLEPoqt6gYIa7fUtYa7zp/8lwVctmsXA==
+X-Received: by 2002:a05:600c:4e8b:b0:3a5:f5bf:9c5a with SMTP id f11-20020a05600c4e8b00b003a5f5bf9c5amr13639171wmq.85.1662461457391;
+        Tue, 06 Sep 2022 03:50:57 -0700 (PDT)
+Received: from imac ([88.97.103.74])
+        by smtp.gmail.com with ESMTPSA id h23-20020a05600c2cb700b003a2f2bb72d5sm25353742wmc.45.2022.09.06.03.50.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 06 Sep 2022 03:50:56 -0700 (PDT)
+From:   Donald Hunter <donald.hunter@gmail.com>
+To:     Jani Nikula <jani.nikula@linux.intel.com>
+Cc:     bpf@vger.kernel.org, linux-doc@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        Andrii Nakryiko <andrii.nakryiko@gmail.com>
+Subject: Re: [PATCH bpf-next v3 2/2] Add table of BPF program types to
+ libbpf docs
+In-Reply-To: <875yi5dbpw.fsf@intel.com> (Jani Nikula's message of "Fri, 02 Sep
+        2022 18:42:35 +0300")
+Date:   Tue, 06 Sep 2022 11:49:25 +0100
+Message-ID: <m2czc86ami.fsf@gmail.com>
+References: <20220829091500.24115-1-donald.hunter@gmail.com>
+        <20220829091500.24115-3-donald.hunter@gmail.com>
+        <875yi5dbpw.fsf@intel.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.1 (darwin)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH v3 net-next] docs: net: add an explanation of VF (and
- other) Representors
-Content-Language: en-US
-To:     ecree@xilinx.com, netdev@vger.kernel.org, linux-net-drivers@amd.com
-Cc:     davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com,
-        edumazet@google.com, corbet@lwn.net, linux-doc@vger.kernel.org,
-        jacob.e.keller@intel.com, jesse.brandeburg@intel.com,
-        michael.chan@broadcom.com, andy@greyhouse.net, saeed@kernel.org,
-        jiri@resnulli.us, snelson@pensando.io, simon.horman@corigine.com,
-        alexander.duyck@gmail.com, rdunlap@infradead.org, parav@nvidia.com,
-        roid@nvidia.com, marcin.szycik@linux.intel.com,
-        Edward Cree <ecree.xilinx@gmail.com>
-References: <20220905135557.39233-1-ecree@xilinx.com>
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <20220905135557.39233-1-ecree@xilinx.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 9/5/22 20:55, ecree@xilinx.com wrote:
-> +Thus, the following should all have representors:
-> +
-> + - VFs belonging to the switchdev function.
-> + - Other PFs on the local PCIe controller, and any VFs belonging to them.
-> + - PFs and VFs on external PCIe controllers on the device (e.g. for any embedded
-> +   System-on-Chip within the SmartNIC).
-> + - PFs and VFs with other personalities, including network block devices (such
-> +   as a vDPA virtio-blk PF backed by remote/distributed storage), if (and only
-> +   if) their network access is implemented through a virtual switch port. [#]_
-> +   Note that such functions can require a representor despite the representee
-> +   not having a netdev.
-> + - Subfunctions (SFs) belonging to any of the above PFs or VFs, if they have
-> +   their own port on the switch (as opposed to using their parent PF's port).
-> + - Any accelerators or plugins on the device whose interface to the network is
-> +   through a virtual switch port, even if they do not have a corresponding PCIe
-> +   PF or VF.
-> +
-<snipped>
-> +
-> +.. [#] The concept here is that a hardware IP stack in the device performs the
-> +   translation between block DMA requests and network packets, so that only
-> +   network packets pass through the virtual port onto the switch.  The network
-> +   access that the IP stack "sees" would then be configurable through tc rules;
-> +   e.g. its traffic might all be wrapped in a specific VLAN or VxLAN.  However,
-> +   any needed configuration of the block device *qua* block device, not being a
-> +   networking entity, would not be appropriate for the representor and would
-> +   thus use some other channel such as devlink.
-> +   Contrast this with the case of a virtio-blk implementation which forwards the
-> +   DMA requests unchanged to another PF whose driver then initiates and
-> +   terminates IP traffic in software; in that case the DMA traffic would *not*
-> +   run over the virtual switch and the virtio-blk PF should thus *not* have a
-> +   representor.
-> +
+Jani Nikula <jani.nikula@linux.intel.com> writes:
 
-I think by convention, footnotes should be put on bottom of the doc.
+> On Mon, 29 Aug 2022, Donald Hunter <donald.hunter@gmail.com> wrote:
+>> Extend the libbpf documentation with a table of program types,
+>> attach points and ELF section names. This table uses data from
+>> program_types.csv which is generated from tools/lib/bpf/libbpf.c
+>> during the documentation build.
+>
+> Oh, would be nice to turn all of these into proper but simple Sphinx
+> extensions that take the deps into account in the Sphinx build
+> process. And, of course, would be pure python instead of a combo of
+> Make, shell, and awk.
+>
+> That's one of the reasons we chose Sphinx originally, to be able to
+> write Sphinx extensions and avoid complicated pipelines.
 
-Other than that, LGTM.
-
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
-
--- 
-An old man doll... just what I always wanted! - Clara
+I could look at this as a followup patch since I would need to learn how
+to write Sphinx extensions first. It seems that it will require a new
+reST directive, is that right?
