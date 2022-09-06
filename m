@@ -2,186 +2,121 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C84EECAAD5
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Sep 2022 13:13:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 037C8ECAAA1
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Sep 2022 13:18:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234103AbiIFNNr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 6 Sep 2022 09:13:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50322 "EHLO
+        id S240392AbiIFNSn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 6 Sep 2022 09:18:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57724 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240195AbiIFNNp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Sep 2022 09:13:45 -0400
-Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com [IPv6:2607:f8b0:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 815276D546
-        for <linux-doc@vger.kernel.org>; Tue,  6 Sep 2022 06:13:37 -0700 (PDT)
-Received: by mail-pf1-x42b.google.com with SMTP id r12so2110184pfl.10
-        for <linux-doc@vger.kernel.org>; Tue, 06 Sep 2022 06:13:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date;
-        bh=z0xoCgZ6OB1X6I9K+Q5ULkuyhW887KdUWlCNKEVd8bw=;
-        b=w4ajL+gQDWI7cKBhAtKnr5qiDWAGO/We8uLJbQKU9jAQnQUOLx2qHZbOX1l7S4G5vh
-         FTv/eIZt6wZzqvcB84yAV4NpuX6QTsIKU7iaREKywsVq5rv3CoX7ve7fE1emDVz8Wsm1
-         CpFQY3aXhwzLmE/6c5T+vB4eaQmq7GzcLBit1y2HOBkyyT2cib4/TYiGZM75X83eooWc
-         3q5VLPpsM6sdGE5mNxACCk/J7RvSfk9HVtQeGEAyga1gZMPAWkgI3qVa1+hPcM5yOeJe
-         ++tbjev/riu9AwiHLXMbADkvtn/E8Y1wHQZZNCuZ7tCnq1rV3W+rNPALMR5xkExUIWCa
-         jDCw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=z0xoCgZ6OB1X6I9K+Q5ULkuyhW887KdUWlCNKEVd8bw=;
-        b=R86aC2rkzdvCw6LEZf+Q+/TjtSbhgNZNCYcjD6Bz/rqWnCMur/XF3/u7JbLqXmdxcB
-         ZDv66RF2QU+tdDBKdgDKhyVA8b39gsHOzQHick8KDcG8WSdzcx9N4/TsGg/uy1sDiFXN
-         iSHbYg1GQ7uRcp0z0V8/dDWoIhNIUbaklh2WdCQgJlF1C5DvTsensP/m5oAu00m+vhX8
-         Ha/B0e3dnILjUgM0Jvd/feinnnTqT1eTmPyaH1b9HnYaQkAvKtCVCnnfa47aXA7NV7j0
-         jR+J6CedtWFOcjp4/yiWA2X+56KtHz3clBQ6mIqX+OVnfHXnPh6xMViNOG+i5tW3xXfW
-         GVcg==
-X-Gm-Message-State: ACgBeo0kGekTPiy1TotPDIZzDr61ko5OA+11pi70dYZ2eeJYHUUt9CmA
-        yHxyTeXafMvKOGB/sCN7rjImcw==
-X-Google-Smtp-Source: AA6agR7azsge6TFNAr9bF+JPxyoBWZJ1WthoY2HFC76CWhDoB+va44aEwoh3LRpXMQfydp0cB3+i6g==
-X-Received: by 2002:a62:3347:0:b0:53d:f935:9f01 with SMTP id z68-20020a623347000000b0053df9359f01mr4811289pfz.8.1662470016946;
-        Tue, 06 Sep 2022 06:13:36 -0700 (PDT)
-Received: from [10.255.159.85] ([139.177.225.233])
-        by smtp.gmail.com with ESMTPSA id y1-20020a17090264c100b00172b87d97cbsm1778071pli.67.2022.09.06.06.13.29
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 06 Sep 2022 06:13:35 -0700 (PDT)
-Message-ID: <be071d5a-ff2d-d06e-2f89-f2ca247dd19e@bytedance.com>
-Date:   Tue, 6 Sep 2022 21:13:27 +0800
+        with ESMTP id S239997AbiIFNSm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Sep 2022 09:18:42 -0400
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [IPv6:2001:4d48:ad52:32c8:5054:ff:fe00:142])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B3684F1A2;
+        Tue,  6 Sep 2022 06:18:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=armlinux.org.uk; s=pandora-2019; h=Sender:Content-Type:MIME-Version:
+        Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:
+        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+        Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=abOmnhnyd+sWtL9SSFYhJDEb2jQ0BuhJ03Z3IXa5TEI=; b=SU+8sj/4hl+sw0I48s5fZ3iBM+
+        Nk6Tq+n+HmeldWmI2R6oLROiYD/GtVJFqdWaVMy+pYzgwn9+jZkqwSIqgN53v74dLPFV2smVXDvQ0
+        f9Grp8po3LJSbx1xkU7N/HfwJiudIM3umIePLrMAP9xa9M1gkFpKvM0S59LulOs8l7D4et4aiQq3M
+        NAWoD072DAi4BDe6MkFpMQnYax9+0jmMDept6EyJubKr+NbHSo2wqQFmlM+bb54iZcsG2c21oboie
+        TlAiBbDyT9grJNjMXgpodwTW54AcS6EaaD/IgBhtltyQg0YAGDNhk9BX5f7auMFLOOr8w/dapvRJI
+        vSAkyB0w==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:34146)
+        by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.94.2)
+        (envelope-from <linux@armlinux.org.uk>)
+        id 1oVYTD-0003qY-55; Tue, 06 Sep 2022 14:18:27 +0100
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
+        (envelope-from <linux@shell.armlinux.org.uk>)
+        id 1oVYT8-0008IJ-Ka; Tue, 06 Sep 2022 14:18:22 +0100
+Date:   Tue, 6 Sep 2022 14:18:22 +0100
+From:   "Russell King (Oracle)" <linux@armlinux.org.uk>
+To:     Arnd Bergmann <arnd@arndb.de>, Lee Jones <lee@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>
+Cc:     Alyssa Rosenzweig <alyssa@rosenzweig.io>, asahi@lists.linux.dev,
+        Bartosz Golaszewski <brgl@bgdev.pl>,
+        devicetree@vger.kernel.org, Hector Martin <marcan@marcan.st>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-gpio@vger.kernel.org, Petr Mladek <pmladek@suse.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Rob Herring <robh+dt@kernel.org>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Sven Peter <sven@svenpeter.dev>
+Subject: [PATCH v2 0/7] Add Apple Mac System Management Controller GPIOs
+Message-ID: <YxdInl2qzQWM+3bs@shell.armlinux.org.uk>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.2.1
-Subject: Re: [PATCH v4 00/10] sched/psi: some optimizations and extensions
-To:     hannes@cmpxchg.org, tj@kernel.org
-Cc:     surenb@google.com, mkoutny@suse.com, mingo@redhat.com,
-        peterz@infradead.org, gregkh@linuxfoundation.org, corbet@lwn.net,
-        cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, songmuchun@bytedance.com
-References: <20220825164111.29534-1-zhouchengming@bytedance.com>
-Content-Language: en-US
-From:   Chengming Zhou <zhouchengming@bytedance.com>
-In-Reply-To: <20220825164111.29534-1-zhouchengming@bytedance.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Sender: Russell King (Oracle) <linux@armlinux.org.uk>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello,
+Hi,
 
-Could this series be merged into the linux-next?
+[Andy dropped from the Cc lists; he's taking a break.]
 
-Thanks.
+This series adds support for the Apple Mac GPIO driver. These GPIOs
+are hadled via the System Management Controller.
 
+The first two patches add the DT binding documentation for the new
+drivers. No changes from the first posting (I think there's still
+some discussion going on about how best to handle these.)
 
-On 2022/8/26 00:41, Chengming Zhou wrote:
-> Hi all,
-> 
-> This patch series are some optimizations and extensions for PSI.
-> 
-> patch 1/10 fix periodic aggregation shut off problem introduced by earlier
-> commit 4117cebf1a9f ("psi: Optimize task switch inside shared cgroups").
-> 
-> patch 2-4 are some misc optimizations, so put them in front of this series.
-> 
-> patch 5/10 optimize task switch inside shared cgroups when in_memstall status
-> of prev task and next task are different.
-> 
-> patch 6/10 remove NR_ONCPU task accounting to save 4 bytes in the first
-> cacheline to be used by the following patch 7/10, which introduce new
-> PSI resource PSI_IRQ to track IRQ/SOFTIRQ pressure stall information.
-> 
-> patch 8-9 cache parent psi_group in struct psi_group to speed up the
-> hot iteration path.
-> 
-> patch 10/10 introduce a per-cgroup interface "cgroup.pressure" to disable
-> or re-enable PSI in the cgroup level, and we implement hiding and unhiding
-> the pressure files per Tejun's suggestion[1], which depends on his work[2].
-> 
-> [1] https://lore.kernel.org/all/YvqjhqJQi2J8RG3X@slm.duckdns.org/
-> [2] https://lore.kernel.org/all/20220820000550.367085-1-tj@kernel.org/
-> 
-> Performance test using mmtests/config-scheduler-perfpipe in
-> /user.slice/user-0.slice/session-4.scope:
-> 
->                                  next                patched       patched/only-leaf
-> Min       Time        8.82 (   0.00%)        8.49 (   3.74%)        8.00 (   9.32%)
-> 1st-qrtle Time        8.90 (   0.00%)        8.58 (   3.63%)        8.05 (   9.58%)
-> 2nd-qrtle Time        8.94 (   0.00%)        8.61 (   3.65%)        8.09 (   9.50%)
-> 3rd-qrtle Time        8.99 (   0.00%)        8.65 (   3.75%)        8.15 (   9.35%)
-> Max-1     Time        8.82 (   0.00%)        8.49 (   3.74%)        8.00 (   9.32%)
-> Max-5     Time        8.82 (   0.00%)        8.49 (   3.74%)        8.00 (   9.32%)
-> Max-10    Time        8.84 (   0.00%)        8.55 (   3.20%)        8.04 (   9.05%)
-> Max-90    Time        9.04 (   0.00%)        8.67 (   4.10%)        8.18 (   9.51%)
-> Max-95    Time        9.04 (   0.00%)        8.68 (   4.03%)        8.20 (   9.26%)
-> Max-99    Time        9.07 (   0.00%)        8.73 (   3.82%)        8.25 (   9.11%)
-> Max       Time        9.12 (   0.00%)        8.89 (   2.54%)        8.27 (   9.29%)
-> Amean     Time        8.95 (   0.00%)        8.62 *   3.67%*        8.11 *   9.43%*
-> 
-> Big thanks to Johannes Weiner, Tejun Heo and Michal Koutný for your
-> suggestions and review!
-> 
-> 
-> Changes in v4:
->  - Collect Acked-by tags from Johannes Weiner.
->  - Add many clear comments and changelogs per Johannes Weiner.
->  - Replace for_each_psi_group() with better open-code.
->  - Change to use better names cgroup_pressure_show() and
->    cgroup_pressure_write().
->  - Change to use better name psi_cgroup_restart() and only
->    call it on enabling.
-> 
-> Changes in v3:
->  - Rebase on linux-next and reorder patches to put misc optimizations
->    patches in the front of this series.
->  - Drop patch "sched/psi: don't change task psi_flags when migrate CPU/group"
->    since it caused a little performance regression and it's just
->    code refactoring, so drop it.
->  - Don't define PSI_IRQ and PSI_IRQ_FULL when !CONFIG_IRQ_TIME_ACCOUNTING,
->    in which case they are not used.
->  - Add patch 8/10 "sched/psi: consolidate cgroup_psi()" make cgroup_psi()
->    can handle all cgroups including root cgroup, make patch 9/10 simpler.
->  - Rename interface to "cgroup.pressure" and add some explanation
->    per Michal's suggestion.
->  - Hide and unhide pressure files when disable/re-enable cgroup PSI,
->    depends on Tejun's work.
-> 
-> Changes in v2:
->  - Add Acked-by tags from Johannes Weiner. Thanks for review!
->  - Fix periodic aggregation wakeup for common ancestors in
->    psi_task_switch().
->  - Add patch 7/10 from Johannes Weiner, which remove NR_ONCPU
->    task accounting to save 4 bytes in the first cacheline.
->  - Remove "psi_irq=" kernel cmdline parameter in last version.
->  - Add per-cgroup interface "cgroup.psi" to disable/re-enable
->    PSI stats accounting in the cgroup level.
-> 
-> 
-> Chengming Zhou (9):
->   sched/psi: fix periodic aggregation shut off
->   sched/psi: don't create cgroup PSI files when psi_disabled
->   sched/psi: save percpu memory when !psi_cgroups_enabled
->   sched/psi: move private helpers to sched/stats.h
->   sched/psi: optimize task switch inside shared cgroups again
->   sched/psi: add PSI_IRQ to track IRQ/SOFTIRQ pressure
->   sched/psi: consolidate cgroup_psi()
->   sched/psi: cache parent psi_group to speed up groups iterate
->   sched/psi: per-cgroup PSI accounting disable/re-enable interface
-> 
-> Johannes Weiner (1):
->   sched/psi: remove NR_ONCPU task accounting
-> 
->  Documentation/admin-guide/cgroup-v2.rst |  23 ++
->  include/linux/cgroup-defs.h             |   3 +
->  include/linux/cgroup.h                  |   5 -
->  include/linux/psi.h                     |  12 +-
->  include/linux/psi_types.h               |  29 ++-
->  kernel/cgroup/cgroup.c                  | 106 ++++++++-
->  kernel/sched/core.c                     |   1 +
->  kernel/sched/psi.c                      | 280 +++++++++++++++++-------
->  kernel/sched/stats.h                    |   6 +
->  9 files changed, 362 insertions(+), 103 deletions(-)
-> 
+Patch 3 adds apple_rtkit_poll() and has had no changes since v1.
+
+Patch 4 is new, extending the existing FourCC format code to be able
+to print other endian FourCC codes.
+
+Patch 5 adds the SMC core and rtkit driver. Changes in v2 include
+properly limiting the data size (since it is limited to the width of
+the size fields in the mailbox messages, not the shmem size) and also
+to properly cleanup after failure to send the initialisation message.
+
+Patch 6 adds the SMC GPIO support. Changes in v2 include some of the
+issues Andy pointed out,
+
+Patch 7 is new, adding the SMC nodes to the dtsi.
+
+Patches taken from the Asahi project.
+
+ Documentation/core-api/printk-formats.rst          |  32 ++
+ .../devicetree/bindings/gpio/gpio-macsmc.yaml      |  28 ++
+ .../devicetree/bindings/mfd/apple,smc.yaml         |  65 +++
+ arch/arm64/boot/dts/apple/t8103.dtsi               |  26 ++
+ drivers/gpio/Kconfig                               |  11 +
+ drivers/gpio/Makefile                              |   1 +
+ drivers/gpio/gpio-macsmc.c                         | 242 +++++++++++
+ drivers/platform/Kconfig                           |   2 +
+ drivers/platform/Makefile                          |   1 +
+ drivers/platform/apple/Kconfig                     |  49 +++
+ drivers/platform/apple/Makefile                    |  11 +
+ drivers/platform/apple/smc.h                       |  28 ++
+ drivers/platform/apple/smc_core.c                  | 249 +++++++++++
+ drivers/platform/apple/smc_rtkit.c                 | 453 +++++++++++++++++++++
+ drivers/soc/apple/rtkit.c                          |   6 +
+ include/linux/mfd/macsmc.h                         |  86 ++++
+ include/linux/soc/apple/rtkit.h                    |  12 +
+ lib/vsprintf.c                                     |  35 +-
+ 18 files changed, 1331 insertions(+), 6 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/gpio/gpio-macsmc.yaml
+ create mode 100644 Documentation/devicetree/bindings/mfd/apple,smc.yaml
+ create mode 100644 drivers/gpio/gpio-macsmc.c
+ create mode 100644 drivers/platform/apple/Kconfig
+ create mode 100644 drivers/platform/apple/Makefile
+ create mode 100644 drivers/platform/apple/smc.h
+ create mode 100644 drivers/platform/apple/smc_core.c
+ create mode 100644 drivers/platform/apple/smc_rtkit.c
+ create mode 100644 include/linux/mfd/macsmc.h
+
+-- 
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
