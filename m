@@ -2,109 +2,93 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 36DF1ECAAD3
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Sep 2022 03:29:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A3A85ECAAA1
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Sep 2022 06:32:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238333AbiIFD3B (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 5 Sep 2022 23:29:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51582 "EHLO
+        id S238376AbiIFGcn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 6 Sep 2022 02:32:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53454 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238278AbiIFD2U (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Sep 2022 23:28:20 -0400
-Received: from mail-io1-xd41.google.com (mail-io1-xd41.google.com [IPv6:2607:f8b0:4864:20::d41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D84E76D559;
-        Mon,  5 Sep 2022 20:27:50 -0700 (PDT)
-Received: by mail-io1-xd41.google.com with SMTP id q81so7953947iod.9;
-        Mon, 05 Sep 2022 20:27:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date;
-        bh=edqEW8K/wxMVRZ77yuARzYVZRubfPFDmCU9QJYmWr3A=;
-        b=MLwGeAaD9znffyX/kWEqH875dsCLjLaKVS4+g2FKPQR7nWcZ7pD6/jY9dFb61amb4t
-         hJlTn4vnrh/k8Wuko4UunAbnzAP2Ypu4ybqL5zfK3z6lq0GlOVfWyORMIfOJn6RSDixy
-         mfs2zYMPGjd+EXtn9USuUM5909gZ8I9dLsNuFYsnjwoE4glRl8VT/PwuJcQUpKy5JDb+
-         slCkhaOv0wplD3HU88SF5Q4+kqG1/usozqeZ+WSA93AHZNJcmYva96j4WUXQnkTexw8J
-         WgtiRWEzHwDTbqhFnLd46Z8SJYeIe/IgxrRxSNdKqcBALSjNRF+P5t9nfmDMZl6A671+
-         wKrA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=edqEW8K/wxMVRZ77yuARzYVZRubfPFDmCU9QJYmWr3A=;
-        b=x9S0xf30rZFMZ7k/ewMIWJPkz3YTHwU6CL278RDDNzpdFGWcJkNJhHxNu2LpVc7SzA
-         RNZJfIZ+HwNGx9C/9EHyotC6LWACxesw7K2hSAUL71pWZFMGC9b+dVN1W+RlzP/F+hz+
-         L63hDjS1U20Ycbc1s7P9pr22V4N9d703aG6YfNmLUXiMXjQOoRNK/yBaphQyypgsXnrl
-         ncKLgy9OIYKNMveWvmFn1jEbsYKD4VO4bcHR80JWfsnCxGQKd9Q3XwgoxluTb4eVQ2J+
-         smxXKyxCDZXT5VxPINsfp7Iicyt+kcYn/1TDE2GPaqMMhEuVOVNY0qhjgbED8o1R/dCV
-         SqRg==
-X-Gm-Message-State: ACgBeo3uhPmvHtJzA+pKXQPnzFnXpgGZXyWlGrnogwNQpVch1Nl7iV7i
-        6lmVZ+0afNXvn4+yY3M4YMOKwGS4xJLaqYw8M/I=
-X-Google-Smtp-Source: AA6agR4hdPeg8VFYGGLwYbUrwahqoCx4oP7yfw2h/x1rR+5//miHeZ4c2j3vtktiaeBEAjP14I7O2+M5eP10fGewESw=
-X-Received: by 2002:a05:6638:3802:b0:351:d8a5:6d58 with SMTP id
- i2-20020a056638380200b00351d8a56d58mr5441296jav.206.1662434870210; Mon, 05
- Sep 2022 20:27:50 -0700 (PDT)
+        with ESMTP id S238389AbiIFGcl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Sep 2022 02:32:41 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B43076BD79
+        for <linux-doc@vger.kernel.org>; Mon,  5 Sep 2022 23:32:38 -0700 (PDT)
+Received: from gallifrey.ext.pengutronix.de ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=bjornoya.blackshift.org)
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mkl@pengutronix.de>)
+        id 1oVS8N-0006wF-KZ; Tue, 06 Sep 2022 08:32:31 +0200
+Received: from pengutronix.de (unknown [IPv6:2a0a:edc0:0:701:a3ba:d49d:1749:550])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (Client did not present a certificate)
+        (Authenticated sender: mkl-all@blackshift.org)
+        by smtp.blackshift.org (Postfix) with ESMTPSA id E6C53DB57C;
+        Tue,  6 Sep 2022 06:32:29 +0000 (UTC)
+Date:   Tue, 6 Sep 2022 08:32:28 +0200
+From:   Marc Kleine-Budde <mkl@pengutronix.de>
+To:     Dario Binacchi <dario.binacchi@amarulasolutions.com>
+Cc:     linux-kernel@vger.kernel.org,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Paolo Abeni <pabeni@redhat.com>, linux-doc@vger.kernel.org,
+        netdev@vger.kernel.org
+Subject: Re: [PATCH] docs: networking: device drivers: flexcan: fix invalid
+ email
+Message-ID: <20220906063228.evruouqqbeh737f5@pengutronix.de>
+References: <20220828134442.794990-1-dario.binacchi@amarulasolutions.com>
 MIME-Version: 1.0
-References: <20220902132938.2409206-1-benjamin.tissoires@redhat.com>
- <20220902132938.2409206-2-benjamin.tissoires@redhat.com> <CAP01T75KTjawtsvQmhZhj0=tEJVwc7UewRqdT1ui+uKONg07Zw@mail.gmail.com>
-In-Reply-To: <CAP01T75KTjawtsvQmhZhj0=tEJVwc7UewRqdT1ui+uKONg07Zw@mail.gmail.com>
-From:   Kumar Kartikeya Dwivedi <memxor@gmail.com>
-Date:   Tue, 6 Sep 2022 05:27:14 +0200
-Message-ID: <CAP01T74zEuSfTYhkKieU1B5YwzdXhKWxPX55AabV84j-=virwA@mail.gmail.com>
-Subject: Re: [PATCH bpf-next v10 01/23] selftests/bpf: regroup and declare
- similar kfuncs selftests in an array
-To:     Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc:     Greg KH <gregkh@linuxfoundation.org>,
-        Jiri Kosina <jikos@kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>, Shuah Khan <shuah@kernel.org>,
-        Dave Marchevsky <davemarchevsky@fb.com>,
-        Joe Stringer <joe@cilium.io>, Jonathan Corbet <corbet@lwn.net>,
-        Tero Kristo <tero.kristo@linux.intel.com>,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        netdev@vger.kernel.org, bpf@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="agwluqgtxlz3sxir"
+Content-Disposition: inline
+In-Reply-To: <20220828134442.794990-1-dario.binacchi@amarulasolutions.com>
+X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
+X-SA-Exim-Mail-From: mkl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 6 Sept 2022 at 05:25, Kumar Kartikeya Dwivedi <memxor@gmail.com> wrote:
->
-> On Fri, 2 Sept 2022 at 15:29, Benjamin Tissoires
-> <benjamin.tissoires@redhat.com> wrote:
-> >
-> > Similar to tools/testing/selftests/bpf/prog_tests/dynptr.c:
-> > we declare an array of tests that we run one by one in a for loop.
-> >
-> > Followup patches will add more similar-ish tests, so avoid a lot of copy
-> > paste by grouping the declaration in an array.
-> >
-> > To be able to call bpf_object__find_program_by_name(), we need to use
-> > plain libbpf calls, and not light skeletons. So also change the Makefile
-> > to not generate light skeletons.
-> >
-> > Signed-off-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-> >
-> > ---
->
-> I see your point, but this is also a test so that we keep verifying
-> kfunc call in light skeleton.
-> Code for relocating both is different in libbpf (we generate BPF ASM
-> for light skeleton so it is done inside a loader BPF program instead
-> of userspace).
 
-Err, hit send too early.
-We can probably use a macro to hide how program is called, then do
-X(prog1)
-X(prog2)
-in a series, won't look too bad and avoids duplication at the same time.
+--agwluqgtxlz3sxir
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> You might then be able to make it work for both light and normal skeleton.
->
-WDYT?
+On 28.08.2022 15:44:42, Dario Binacchi wrote:
+> The Amarula contact info email address is wrong, so fix it up to use the
+> correct one.
+>=20
+> Signed-off-by: Dario Binacchi <dario.binacchi@amarulasolutions.com>
+
+Applied to linux-can-next.
+
+Thanks,
+Marc
+
+--=20
+Pengutronix e.K.                 | Marc Kleine-Budde           |
+Embedded Linux                   | https://www.pengutronix.de  |
+Vertretung West/Dortmund         | Phone: +49-231-2826-924     |
+Amtsgericht Hildesheim, HRA 2686 | Fax:   +49-5121-206917-5555 |
+
+--agwluqgtxlz3sxir
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEBsvAIBsPu6mG7thcrX5LkNig010FAmMW6XkACgkQrX5LkNig
+011CewgAh/0isgB9H3tAaQXwXufKklY44Xo0Cy/VlLJYRvIpiEJPVSk9KtB51rOE
+I4mzbxTuj1nA/+CfsOmXcgS4unNPQYpOpSrFxEUf1eJDZuwhh0Xq8g5eWKCIpylN
+fepOmCadyLUQkgtpDZMnCWcF3LPL2w3OYrV9CCfR/POEDGo6+gUBuUEy9AmvGGL0
+ELQM25x9qNNEhWHP88G+DcWxgPyGTa10fxU6zK2Yd9a0bwt2tg465ow+XpAP0hFB
+d9aq4vzaSs/dbIMV6Xiu40azJ1j1Q8uLt8Vm+sUy3q+kb2jexzcnHW0YArV87Jmu
+flosg9GTXLlmY26J83+vFBeAe2fslg==
+=QnEP
+-----END PGP SIGNATURE-----
+
+--agwluqgtxlz3sxir--
