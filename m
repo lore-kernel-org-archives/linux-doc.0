@@ -2,126 +2,74 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AD4B5C6FA8B
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Sep 2022 08:53:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6126DECAAA1
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Sep 2022 08:54:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233044AbiIFIx0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 6 Sep 2022 04:53:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48898 "EHLO
+        id S234001AbiIFIyF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 6 Sep 2022 04:54:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49382 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231502AbiIFIx0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Sep 2022 04:53:26 -0400
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D67395B5;
-        Tue,  6 Sep 2022 01:53:23 -0700 (PDT)
-Received: from canpemm500009.china.huawei.com (unknown [172.30.72.53])
-        by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4MMJwq2Zl9zmVCj;
-        Tue,  6 Sep 2022 16:49:47 +0800 (CST)
-Received: from [10.67.102.169] (10.67.102.169) by
- canpemm500009.china.huawei.com (7.192.105.203) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Tue, 6 Sep 2022 16:53:20 +0800
-CC:     <corbet@lwn.net>, <peterz@infradead.org>, <arnd@arndb.de>,
-        <linux-kernel@vger.kernel.org>, <darren@os.amperecomputing.com>,
-        <yangyicong@hisilicon.com>, <huzhanyuan@oppo.com>,
-        <lipeifeng@oppo.com>, <zhangshiming@oppo.com>, <guojian@oppo.com>,
-        <realmz6@gmail.com>, <linux-mips@vger.kernel.org>,
-        <openrisc@lists.librecores.org>, <linuxppc-dev@lists.ozlabs.org>,
-        <linux-riscv@lists.infradead.org>, <linux-s390@vger.kernel.org>,
-        Barry Song <21cnbao@gmail.com>, <wangkefeng.wang@huawei.com>,
-        <xhao@linux.alibaba.com>, <prime.zeng@hisilicon.com>,
-        <anshuman.khandual@arm.com>
-Subject: Re: [PATCH v3 0/4] mm: arm64: bring up BATCHED_UNMAP_TLB_FLUSH
-From:   Yicong Yang <yangyicong@huawei.com>
-To:     <akpm@linux-foundation.org>, <linux-mm@kvack.org>,
-        <linux-arm-kernel@lists.infradead.org>, <x86@kernel.org>,
-        <catalin.marinas@arm.com>, <will@kernel.org>,
-        <linux-doc@vger.kernel.org>
-References: <20220822082120.8347-1-yangyicong@huawei.com>
-Message-ID: <34762b48-3da4-4f2e-64a7-68a44f21d4fd@huawei.com>
-Date:   Tue, 6 Sep 2022 16:53:20 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.1
+        with ESMTP id S239604AbiIFIxy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Sep 2022 04:53:54 -0400
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E6243BD2;
+        Tue,  6 Sep 2022 01:53:53 -0700 (PDT)
+Received: from localhost (unknown [151.19.254.92])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id BC3656D6;
+        Tue,  6 Sep 2022 08:53:52 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net BC3656D6
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1662454433; bh=U64JMGXBUPe/rjMxKId+7kfdVmV5H1yEQOvihO0gvi8=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=pSlGHOirOVXiWeeAe2zmYD1aw2cIr79HhSif7hs4Nhzn38Dqs9Otwx6hImJZ6Pimp
+         O3+UeSjlgAwV7yeL8yVgGM7X35uD6aBuxn91BcCCI5RqBtYG58HmYXA9vS2eVA3Aub
+         uC1jA+X7TSlhaU1+VWBXX7Ko9L0e1PbCblTMSxSKo5iOdL1g0v6Y2U3It/IU0QB5VE
+         AZp6CR0A+kXtOdJLq79gVigR7+Tg1D/i1GNE7Co2kYGu9COdEdr3m6oaxQg003D4uf
+         5dJ3W85jqxn1oeqtBI2bSss87BXTpsADeqJ2wuMhOGiFaqIlLcdhJpktVu9E4l10va
+         CRPh0M4wd7fLA==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     =?utf-8?Q?Micha=C5=82?= Winiarski <michal.winiarski@intel.com>,
+        Bagas Sanjaya <bagasdotme@gmail.com>
+Cc:     dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Maxime Ripard <mripard@kernel.org>,
+        David Gow <davidgow@google.com>,
+        Javier Martinez Canillas <javierm@redhat.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        =?utf-8?Q?Jos=C3=A9_Exp=C3=B3sito?= <jose.exposito89@gmail.com>
+Subject: Re: [PATCH] drm/doc: Custom Kconfig for KUnit is no longer needed
+In-Reply-To: <20220906081211.i6r3fhopkd76w7vw@nostramo>
+References: <20220905184711.391022-1-michal.winiarski@intel.com>
+ <0131b046-a891-2fae-d2a5-6510455c3449@gmail.com>
+ <20220906081211.i6r3fhopkd76w7vw@nostramo>
+Date:   Tue, 06 Sep 2022 02:53:48 -0600
+Message-ID: <87v8q09943.fsf@meer.lwn.net>
 MIME-Version: 1.0
-In-Reply-To: <20220822082120.8347-1-yangyicong@huawei.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.67.102.169]
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
- canpemm500009.china.huawei.com (7.192.105.203)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi mm and arm64 maintainers,
+Micha=C5=82 Winiarski <michal.winiarski@intel.com> writes:
 
-a gentle ping for this..
+> On Tue, Sep 06, 2022 at 08:37:00AM +0700, Bagas Sanjaya wrote:
+>> On 9/6/22 01:47, Micha=C5=82 Winiarski wrote:
+>> > References: commit 6fc3a8636a7b ("kunit: tool: Enable virtio/PCI by de=
+fault on UML")
+>>=20
+>> Use Fixes: tag for bugfix patches instead.
+>
+> Can documentation update (when the referenced patch didn't touch the docs)
+> really be treated as a bugfix?
+> Or is it just a reference, validating the reasoning behind this patch?
 
-Thanks.
+I kind of agree; I'm not sure that a Fixes tag is really warranted here.
 
-On 2022/8/22 16:21, Yicong Yang wrote:
-> From: Yicong Yang <yangyicong@hisilicon.com>
-> 
-> Though ARM64 has the hardware to do tlb shootdown, the hardware
-> broadcasting is not free.
-> A simplest micro benchmark shows even on snapdragon 888 with only
-> 8 cores, the overhead for ptep_clear_flush is huge even for paging
-> out one page mapped by only one process:
-> 5.36%  a.out    [kernel.kallsyms]  [k] ptep_clear_flush
-> 
-> While pages are mapped by multiple processes or HW has more CPUs,
-> the cost should become even higher due to the bad scalability of
-> tlb shootdown.
-> 
-> The same benchmark can result in 16.99% CPU consumption on ARM64
-> server with around 100 cores according to Yicong's test on patch
-> 4/4.
-> 
-> This patchset leverages the existing BATCHED_UNMAP_TLB_FLUSH by
-> 1. only send tlbi instructions in the first stage -
-> 	arch_tlbbatch_add_mm()
-> 2. wait for the completion of tlbi by dsb while doing tlbbatch
-> 	sync in arch_tlbbatch_flush()
-> My testing on snapdragon shows the overhead of ptep_clear_flush
-> is removed by the patchset. The micro benchmark becomes 5% faster
-> even for one page mapped by single process on snapdragon 888.
-> 
-> -v3:
-> 1. Declare arch's tlbbatch defer support by arch_tlbbatch_should_defer() instead
->    of ARCH_HAS_MM_CPUMASK, per Barry and Kefeng
-> 2. Add Tested-by from Xin Hao
-> Link: https://lore.kernel.org/linux-mm/20220711034615.482895-1-21cnbao@gmail.com/
-> 
-> -v2:
-> 1. Collected Yicong's test result on kunpeng920 ARM64 server;
-> 2. Removed the redundant vma parameter in arch_tlbbatch_add_mm()
->    according to the comments of Peter Zijlstra and Dave Hansen
-> 3. Added ARCH_HAS_MM_CPUMASK rather than checking if mm_cpumask
->    is empty according to the comments of Nadav Amit
-> 
-> Thanks, Peter, Dave and Nadav for your testing or reviewing
-> , and comments.
-> 
-> -v1:
-> https://lore.kernel.org/lkml/20220707125242.425242-1-21cnbao@gmail.com/
-> 
-> Anshuman Khandual (1):
->   mm/tlbbatch: Introduce arch_tlbbatch_should_defer()
-> 
-> Barry Song (3):
->   Revert "Documentation/features: mark BATCHED_UNMAP_TLB_FLUSH doesn't
->     apply to ARM64"
->   mm: rmap: Extend tlbbatch APIs to fit new platforms
->   arm64: support batched/deferred tlb shootdown during page reclamation
-> 
->  Documentation/features/arch-support.txt       |  1 -
->  .../features/vm/TLB/arch-support.txt          |  2 +-
->  arch/arm64/Kconfig                            |  1 +
->  arch/arm64/include/asm/tlbbatch.h             | 12 ++++++++
->  arch/arm64/include/asm/tlbflush.h             | 28 +++++++++++++++++--
->  arch/x86/include/asm/tlbflush.h               | 15 +++++++++-
->  mm/rmap.c                                     | 19 +++++--------
->  7 files changed, 61 insertions(+), 17 deletions(-)
->  create mode 100644 arch/arm64/include/asm/tlbbatch.h
-> 
+Thanks,
+
+jon
