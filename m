@@ -2,78 +2,92 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 037A0C6FA8B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5946AC38145
 	for <linux-doc@archiver.kernel.org>; Tue,  6 Sep 2022 08:27:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233147AbiIFI1c (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 6 Sep 2022 04:27:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51350 "EHLO
+        id S233863AbiIFI1d (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 6 Sep 2022 04:27:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51354 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233863AbiIFI1a (ORCPT
+        with ESMTP id S233886AbiIFI1a (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Sep 2022 04:27:30 -0400
 Received: from loongson.cn (mail.loongson.cn [114.242.206.163])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 0604B43315
-        for <linux-doc@vger.kernel.org>; Tue,  6 Sep 2022 01:27:27 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 5843B6E8A4
+        for <linux-doc@vger.kernel.org>; Tue,  6 Sep 2022 01:27:28 -0700 (PDT)
 Received: from localhost.localdomain (unknown [112.20.112.163])
-        by localhost.localdomain (Coremail) with SMTP id AQAAf8Bx5OFpBBdjpJMSAA--.10497S3;
-        Tue, 06 Sep 2022 16:27:23 +0800 (CST)
+        by localhost.localdomain (Coremail) with SMTP id AQAAf8Bx5OFpBBdjpJMSAA--.10497S6;
+        Tue, 06 Sep 2022 16:27:25 +0800 (CST)
 From:   Yanteng Si <siyanteng@loongson.cn>
 To:     alexs@kernel.org, bobwxc@email.cn, seakeel@gmail.com
 Cc:     Yanteng Si <siyanteng@loongson.cn>, corbet@lwn.net,
         chenhuacai@kernel.org, jiaxun.yang@flygoat.com,
         linux-doc@vger.kernel.org, siyanteng01@gmail.com
-Subject: [PATCH v2 1/5] docs/zh_CN: add PCI acpi-info translation
-Date:   Tue,  6 Sep 2022 16:26:47 +0800
-Message-Id: <f07ba17ae9c6d728d6135ecc0577a932e9836fba.1662449105.git.siyanteng@loongson.cn>
+Subject: [PATCH v2 4/5] docs/zh_CN: add dt overlay-notes translation
+Date:   Tue,  6 Sep 2022 16:26:50 +0800
+Message-Id: <b957580e448e2d0ab7917644c8f8f1614060b20a.1662449105.git.siyanteng@loongson.cn>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cover.1662449105.git.siyanteng@loongson.cn>
 References: <cover.1662449105.git.siyanteng@loongson.cn>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf8Bx5OFpBBdjpJMSAA--.10497S3
-X-Coremail-Antispam: 1UD129KBjvAXoWfGr15uFy3AFWfAF48Cw1kGrg_yoW8JrW5Ao
-        ZIyws0kws7J3y3J3W5Wa1rJ3srCr4fCF4Ivan3GrsFyryjyr18Gw1ktw13AasrurW5WF1f
-        K34Iqay5C3WUG3Z8n29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
-        AaLaJ3UjIYCTnIWjp_UUUYu7AC8VAFwI0_Xr0_Wr1l1xkIjI8I6I8E6xAIw20EY4v20xva
-        j40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l82xGYIkIc2x26280x7IE14v26r18M28IrcIa0x
-        kI8VCY1x0267AKxVWUCVW8JwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84AC
-        jcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j6r4UJw
-        A2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1l
-        e2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI
-        8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwAC
-        jcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc2xSY4AK67AK6r43MxAIw2
-        8IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4l
-        x2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrw
-        CI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI
-        42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z2
-        80aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUjzVbPUUUUU==
+X-CM-TRANSID: AQAAf8Bx5OFpBBdjpJMSAA--.10497S6
+X-Coremail-Antispam: 1UD129KBjvJXoW3WryxWFWDZr18Zw13ury5CFg_yoWxtryxpr
+        y3urZ3W3W3Cry7XryDKF4UXr17JF1UAayUK3Wjq3W8Xry8AryrAw1UtF95tryDWry8AFyU
+        tFWUtFy8Cr18ArUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUBl14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+        rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_JF0E3s1l82xGYI
+        kIc2x26xkF7I0E14v26ryj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2
+        z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j6F
+        4UJwA2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE
+        3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2I
+        x0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8
+        JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc2xSY4AK67AK6r43Mx
+        AIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_
+        Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwI
+        xGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWx
+        JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcV
+        C2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUjGNt3UUUUU==
 X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Translate .../PCI/acpi-info.rst into Chinese.
-Add PCI into .../zh_CN/index.rst.
+Translate .../devicetree/overlay-notes.rst into Chinese.
 
 Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
 ---
- .../translations/zh_CN/PCI/acpi-info.rst      | 139 ++++++++++++++++++
- .../translations/zh_CN/PCI/index.rst          |  13 +-
- Documentation/translations/zh_CN/index.rst    |   2 +-
- 3 files changed, 145 insertions(+), 9 deletions(-)
- create mode 100644 Documentation/translations/zh_CN/PCI/acpi-info.rst
+ .../translations/zh_CN/devicetree/index.rst   |   5 +-
+ .../zh_CN/devicetree/overlay-notes.rst        | 140 ++++++++++++++++++
+ 2 files changed, 141 insertions(+), 4 deletions(-)
+ create mode 100644 Documentation/translations/zh_CN/devicetree/overlay-notes.rst
 
-diff --git a/Documentation/translations/zh_CN/PCI/acpi-info.rst b/Documentation/translations/zh_CN/PCI/acpi-info.rst
+diff --git a/Documentation/translations/zh_CN/devicetree/index.rst b/Documentation/translations/zh_CN/devicetree/index.rst
+index be5b974c6e68..9d95d2629b38 100644
+--- a/Documentation/translations/zh_CN/devicetree/index.rst
++++ b/Documentation/translations/zh_CN/devicetree/index.rst
+@@ -36,10 +36,7 @@ Devicetree Overlays
+ 
+    changesets
+    dynamic-resolution-notes
+-
+-Todolist:
+-
+-*   overlay-notes
++   overlay-notes
+ 
+ Devicetree Bindings
+ ===================
+diff --git a/Documentation/translations/zh_CN/devicetree/overlay-notes.rst b/Documentation/translations/zh_CN/devicetree/overlay-notes.rst
 new file mode 100644
-index 000000000000..a35f39dcd858
+index 000000000000..1bd482cb0a1b
 --- /dev/null
-+++ b/Documentation/translations/zh_CN/PCI/acpi-info.rst
-@@ -0,0 +1,139 @@
++++ b/Documentation/translations/zh_CN/devicetree/overlay-notes.rst
+@@ -0,0 +1,140 @@
 +.. SPDX-License-Identifier: GPL-2.0
 +.. include:: ../disclaimer-zh_CN.rst
 +
-+:Original: Documentation/PCI/acpi-info.rst
++:Original: Documentation/Devicetree/overlay-notes.rst
 +
 +:翻译:
 +
@@ -81,186 +95,135 @@ index 000000000000..a35f39dcd858
 +
 +:校译:
 +
++==============
++设备树覆盖说明
++==============
 +
-+=====================
-+PCI主桥的ACPI注意事项
-+=====================
++本文档描述了drivers/of/overlay.c中的内核内设备树覆盖功能的实现，是
++Documentation/devicetree/dynamic-resolution-notes.rst[1]的配套文档。
 +
-+一般的规则是，ACPI命名空间应该描述操作系统可能使用的所有东西，除非有其他方法让操作系
-+统找到它[1, 2]。
++覆盖如何工作
++------------
 +
-+例如，没有标准的硬件机制来枚举PCI主桥，所以ACPI命名空间必须描述每个主桥、访问它
-+下面的PCI配置空间的方法、主桥转发到PCI的地址空间窗口（使用_CRS）以及传统的INTx
-+中断的路由（使用_PRT）。
++设备树覆盖的目的是修改内核的实时树，并使修改以反映变化的方式影响内核的状态。
++由于内核主要处理的是设备，任何新的设备节点如果导致一个活动的设备，就应该创建它，
++而如果设备节点被禁用或被全部删除，受影响的设备应该被取消注册。
 +
-+在主桥下面的PCI设备，通常不需要通过ACPI描述。操作系统可以通过标准的PCI枚举机制来
-+发现它们，使用配置访问来发现和识别设备，并读取和测量它们的BAR。然而，如果ACPI为它们
-+提供电源管理或热插拔功能，或者如果设备有由平台中断控制器连接的INTx中断，需要一个_PRT
-+来描述这些连接，这种情况下ACPI可以描述PCI设备。
++让我们举个例子，我们有一个foo板，它的基本树形图如下::
 +
-+ACPI资源描述是通过ACPI命名空间中设备的_CRS对象完成的[2]。_CRS就像一个通用的PCI BAR：
-+操作系统可以读取_CRS并找出正在消耗的资源，即使它没有该设备的驱动程序[3]。这一点很重要，
-+因为它意味着一个旧的操作系统可以正确地工作，即使是在操作系统不知道的新设备的系统上。新设
-+备可能什么都不做，但操作系统至少可以确保没有资源与它们冲突。
++    ---- foo.dts ---------------------------------------------------------------
++	/* FOO平台 */
++	/dts-v1/;
++	/ {
++		compatible = "corp,foo";
 +
-+像MCFG、HPET、ECDT等静态表，不是保留地址空间的机制。静态表是在操作系统在启动初期且在它
-+能够解析ACPI命名空间之前需要知道的东西。如果定义了一个新的表，即使旧的操作系统忽略了这
-+个表，它也需要正常运行。_CRS允许这样做，因为它是通用的，可以被旧的操作系统解析；而静态表
-+则不允许。
++		/* 共享的资源 */
++		res: res {
++		};
 +
-+如果操作系统要管理一个通过ACPI描述的不可发现的设备，该设备将有一个特定的_HID/_CID，以
-+告诉操作系统与之绑定的驱动程序，并且_CRS告诉操作系统和驱动程序该设备的寄存器在哪里。
++		/* 芯片上的外围设备 */
++		ocp: ocp {
++			/* 总是被实例化的外围设备 */
++			peripheral1 { ... };
++		};
++	};
++    ---- foo.dts ---------------------------------------------------------------
 +
-+PCI主桥是PNP0A03或PNP0A08设备。它们的_CRS应该描述它们所消耗的所有地址空间。这包括它
-+们转发到PCI总线上的所有窗口，以及不转发到PCI的主桥本身的寄存器。主桥的寄存器包括次要/下
-+级总线寄存器，决定了桥下面的总线范围，窗口寄存器描述了桥洞，等等。这些都是设备相关的，非
-+架构相关的东西，所以PNP0A03/PNP0A08驱动可以管理它们的唯一方法是通过_PRS/_CRS/_SRS，
-+它包含了特定于设备的细节。主桥寄存器也包括ECAM空间，因为它是由主桥消耗的。
++覆盖bar.dts,
++::
 +
-+ACPI定义了一个Consumer/Producer位来区分桥寄存器（“Consumer”下文译作消费者）和
-+桥洞（“Producer”下文译作生产者）[4, 5]，但是早期的BIOS没有正确使用这个位。其结果
-+是，目前的ACPI规范只为扩展地址空间描述符定义了消费者/生产者；在旧的QWord/Word/Word地
-+址空间描述符中，该位应该被忽略。因此，操作系统必须假定所有的QWord/Word/Word描述符都是
-+窗口。
++    ---- bar.dts - 按标签覆盖目标位置 ----------------------------
++	/dts-v1/;
++	/插件/;
++	&ocp {
++		/* bar外围 */
++		bar {
++			compatible = "corp,bar";
++			... /* 各种属性和子节点 */
++		};
++	};
++    ---- bar.dts ---------------------------------------------------------------
 +
-+在增加扩展地址空间描述符之前，消费者/生产者的失败意味着没有办法描述PNP0A03/PNP0A08设
-+备本身的桥寄存器。解决办法是在PNP0C02捕捉器中描述桥寄存器（包括ECAM空间）[6]。
-+除了ECAM之外，桥寄存器空间反正是特定于设备的，所以通用的PNP0A03/PNP0A08驱动程
-+序(pci_root.c)没有必要了解它。
++当加载（并按照[1]中描述的方式解决）时，应该产生foo+bar.dts::
 +
-+新的架构应该能够在PNP0A03设备中使用“消费者”扩展地址空间描述符，用于桥寄存器，包括
-+ECAM，尽管对[6]的严格解释可能禁止这样做。旧的x86和ia64内核假定所有的地址空间描述
-+符，包括“消费者”扩展地址空间的描述符，都是窗口，所以在这些架构上以这种方式描述桥寄
-+存器是不安全的。
++    ---- foo+bar.dts -----------------------------------------------------------
++	/* FOO平台 + bar外围 */
++	/ {
++		compatible = "corp,foo";
 +
-+PNP0C02“主板”设备基本上是万能的。除了“不要将这些资源用于其他用途”之外，没有其他的编
-+程模型。因此，PNP0C02 _CRS应该声明ACPI命名空间中(1)没有被_CRS声明的任何其他设备对
-+象的地址空间，(2)不应该被OS分配给其他东西。
++		/* 共享资源 */
++		res: res {
++		};
 +
-+除非有一个标准的固件接口用于配置访问，例如ia64 SAL接口[7]，否则PCIe规范要求使用增强
-+型配置访问方法（ECAM）。主桥消耗ECAM内存地址空间并将内存访问转换为PCI配置访问。该规范
-+定义了ECAM地址空间的布局和功能；只有地址空间的基础是特定于设备的。ACPI操作系统从静态
-+MCFG表或PNP0A03设备中的_CBA方法中了解基础地址。
++		/* 芯片上的外围设备 */
++		ocp: ocp {
++			/* 总是被实例化的外围设备 */
++			peripheral1 { ... };
 +
-+MCFG表必须描述非热插拔主桥的ECAM空间[8]。由于MCFG是一个静态表，不能通过热插拔更新，
-+PNP0A03设备中的_CBA方法描述了可热插拔主桥的ECAM空间[9]。请注意，对于MCFG和_CBA，
-+基址总是对应于总线0，即使桥器下面的总线范围（通过_CRS报告）不从0开始。
++			/* bar外围 */
++			bar {
++				compatible = "corp,bar";
++				... /* 各种属性和子节点 */
++			};
++		};
++	};
++    ---- foo+bar.dts -----------------------------------------------------------
++
++作为覆盖的结果，已经创建了一个新的设备节点（bar），因此将注册一个bar平台设备，
++如果加载了匹配的设备驱动程序，将按预期创建设备。
++
++如果基础DT不是用-@选项编译的，那么“&ocp”标签将不能用于将覆盖节点解析到基础
++DT中的适当位置。在这种情况下，可以提供目标路径。通过标签的目标位置的语法是比
++较好的，因为不管标签在DT中出现在哪里，覆盖都可以被应用到任何包含标签的基础DT上。
++
++上面的bar.dts例子被修改为使用目标路径语法，即为::
++
++    ---- bar.dts - 通过明确的路径覆盖目标位置 --------------------
++	/dts-v1/;
++	/插件/;
++	&{/ocp} {
++		/* bar外围 */
++		bar {
++			compatible = "corp,bar";
++			... /* 各种外围设备和子节点 */
++		}
++	};
++    ---- bar.dts ---------------------------------------------------------------
 +
 +
-+[1] ACPI 6.2, sec 6.1:
-+    对于任何在非枚举类型的总线上的设备（例如，ISA总线），OSPM会枚举设备的标识符，ACPI
-+    系统固件必须为每个设备提供一个_HID对象...以使OSPM能够做到这一点。
++内核中关于覆盖的API
++-------------------
 +
-+[2] ACPI 6.2, sec 3.7:
-+    操作系统枚举主板设备时，只需通过读取ACPI命名空间来寻找具有硬件ID的设备。
++该API相当容易使用。
 +
-+    ACPI枚举的每个设备都包括ACPI命名空间中ACPI定义的对象，该对象报告设备可能占用的硬
-+    件资源[_PRS]，报告设备当前使用的资源[_CRS]的对象，以及配置这些资源的对象[_SRS]。
-+    这些信息被即插即用操作系统（OSPM）用来配置设备。
++1) 调用of_overlay_fdt_apply()来创建和应用一个覆盖的变更集。返回值是一个
++   错误或一个识别这个覆盖的cookie。
 +
-+[3] ACPI 6.2, sec 6.2:
-+    OSPM使用设备配置对象来配置通过ACPI列举的设备的硬件资源。设备配置对象提供了关于当前
-+    和可能的资源需求的信息，共享资源之间的关系，以及配置硬件资源的方法。
++2) 调用of_overlay_remove()来删除和清理先前通过调用of_overlay_fdt_apply()
++   而创建的覆盖变更集。不允许删除一个被另一个覆盖的覆盖变化集。
 +
-+    当OSPM枚举一个设备时，它调用_PRS来确定该设备的资源需求。它也可以调用_CRS来找到该设
-+    备的当前资源设置。利用这些信息，即插即用系统决定设备应该消耗什么资源，并通过调用设备
-+    的_SRS控制方法来设置这些资源。
++最后，如果你需要一次性删除所有的覆盖，只需调用of_overlay_remove_all()，
++它将以正确的顺序删除每一个覆盖。
 +
-+    在ACPI中，设备可以消耗资源（例如，传统的键盘），提供资源（例如，一个专有的PCI桥），
-+    或者两者都做。除非另有规定，设备的资源被假定为来自设备层次结构中设备上方最近的匹配资
-+    源。
++你可以选择注册在覆盖操作中被调用的通知器。详见
++of_overlay_notifier_register/unregister和enum of_overlay_notify_action。
 +
-+[4] ACPI 6.2, sec 6.4.3.5.1, 2, 3, 4:
-+    QWord/DWord/Word 地址空间描述符 (.1, .2, .3)
-+      常规标志: Bit [0] 被忽略。
++OF_OVERLAY_PRE_APPLY、OF_OVERLAY_POST_APPLY或OF_OVERLAY_PRE_REMOVE
++的通知器回调可以存储指向覆盖层中的设备树节点或其内容的指针，但这些指针不能持
++续到OF_OVERLAY_POST_REMOVE的通知器回调。在OF_OVERLAY_POST_REMOVE通
++知器被调用后，包含覆盖层的内存将被kfree()ed。请注意，即使OF_OVERLAY_POST_REMOVE
++的通知器返回错误，内存也会被kfree()ed。
 +
-+    扩展地址空间描述符 (.4)
-+      常规标志: Bit [0] 消费者/生产者:
++drivers/of/dynamic.c中的变更集通知器是第二种类型的通知器，可以通过应用或移除
++覆盖层来触发。这些通知器不允许在覆盖层或其内容中存储指向设备树节点的指针。当包含
++覆盖层的内存因移除覆盖层而被释放时，覆盖层代码并不能防止这类指针仍然有效。
 +
-+        * 1 – 这个设备消费这个资源
-+        * 0 – 该设备生产和消费该资源
++任何其他保留指向覆盖层节点或数据的指针的代码都被认为是一个错误，因为在移除覆盖层
++后，该指针将指向已释放的内存。
 +
-+[5] ACPI 6.2, sec 19.6.43:
-+    ResourceUsage指定内存范围是由这个设备（ResourceConsumer）消费还是传递给子设备
-+    （ResourceProducer）。如果没有指定，那么就假定是ResourceConsumer。
-+
-+[6] PCI Firmware 3.2, sec 4.1.2:
-+    如果操作系统不能原生的懂得保留MMCFG区域，MMCFG区域必须由固件保留。在MCFG表中或通
-+    过_CBA方法（见第4.1.3节）报告的地址范围必须通过声明主板资源来保留。对于大多数系统，
-+    主板资源将出现在ACPI命名空间的根部（在_SB下），在一个节点的_HID为EISAID（PNP0C0
-+    2），在这种情况下的资源不应该要求在根PCI总线的_CRS。这些资源可以选择在Int15 E820
-+    或EFIGetMemoryMap中作为保留内存返回，但必须始终通过ACPI作为主板资源报告。
-+
-+[7] PCI Express 4.0, sec 7.2.2:
-+    对于PC兼容的系统，或者没有实现允许访问配置空间的处理器架构特定固件接口标准的系统，需
-+    要使用本节中定义的ECAM。
-+
-+[8] PCI Firmware 3.2, sec 4.1.2:
-+    MCFG表是一个ACPI表，用于沟通的基础地址对应的非热的可移动的PCI段组范围内的PCI段组在
-+    启动时提供给操作系统。这对PC兼容系统来说是必需的。
-+
-+    MCFG表仅用于沟通在启动时系统可用的PCI段组对应的基址。
-+
-+[9] PCI Firmware 3.2, sec 4.1.3:
-+    _CBA (Memory mapped Configuration Base Address) 控制方法是一个可选的ACPI对
-+    象，用于返回热插拔主桥的64位内存映射的配置基址。_CBA 返回的基址是与处理器相关的地址。
-+    _CBA 控制方法被评估为一个整数。
-+
-+    这个控制方法出现在主桥对象下。当_CBA方法出现在一个活动的主桥对象下时，操作系统会评
-+    估这个结构，以确定内存映射的配置基址，对应于_CRS方法中指定的总线编号范围的PCI段组。
-+    一个包含_CBA方法的ACPI命名空间对象也必须包含一个相应的_SEG方法。
-diff --git a/Documentation/translations/zh_CN/PCI/index.rst b/Documentation/translations/zh_CN/PCI/index.rst
-index 16acb2bd9b58..cbeb33c34a98 100644
---- a/Documentation/translations/zh_CN/PCI/index.rst
-+++ b/Documentation/translations/zh_CN/PCI/index.rst
-@@ -10,9 +10,6 @@
- :校译:
- 
- 
--
--.. _cn_PCI_index.rst:
--
- ===================
- Linux PCI总线子系统
- ===================
-@@ -26,12 +23,12 @@ Linux PCI总线子系统
-    pci-iov-howto
-    msi-howto
-    sysfs-pci
-+   acpi-info
- 
- 
- Todolist:
- 
--   acpi-info
--   pci-error-recovery
--   pcieaer-howto
--   endpoint/index
--   boot-interrupts
-+* pci-error-recovery
-+* pcieaer-howto
-+* endpoint/index
-+* boot-interrupts
-diff --git a/Documentation/translations/zh_CN/index.rst b/Documentation/translations/zh_CN/index.rst
-index 4f04367a4c5e..2fc60e60feb4 100644
---- a/Documentation/translations/zh_CN/index.rst
-+++ b/Documentation/translations/zh_CN/index.rst
-@@ -121,6 +121,7 @@ TODOList:
-    scheduler/index
-    mm/index
-    peci/index
-+   PCI/index
- 
- TODOList:
- 
-@@ -148,7 +149,6 @@ TODOList:
- * crypto/index
- * bpf/index
- * usb/index
--* PCI/index
- * scsi/index
- * misc-devices/index
- * mhi/index
++覆盖层的用户必须特别注意系统上发生的整体操作，以确保其他内核代码不保留任何指向覆
++盖层节点或数据的指针。任何无意中使用这种指针的例子是，如果一个驱动或子系统模块在
++应用了覆盖后被加载，并且该驱动或子系统扫描了整个设备树或其大部分，包括覆盖节点。
 -- 
 2.31.1
 
