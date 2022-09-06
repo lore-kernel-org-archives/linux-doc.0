@@ -2,84 +2,85 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E399EECAAD3
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Sep 2022 01:37:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 557EAECAAA1
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Sep 2022 02:20:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232858AbiIFBhU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 5 Sep 2022 21:37:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42220 "EHLO
+        id S231906AbiIFCU3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 5 Sep 2022 22:20:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59218 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232900AbiIFBhQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Sep 2022 21:37:16 -0400
-Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com [IPv6:2607:f8b0:4864:20::434])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F86440BF3;
-        Mon,  5 Sep 2022 18:37:06 -0700 (PDT)
-Received: by mail-pf1-x434.google.com with SMTP id 123so507511pfy.2;
-        Mon, 05 Sep 2022 18:37:06 -0700 (PDT)
+        with ESMTP id S232100AbiIFCU2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Sep 2022 22:20:28 -0400
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 308532A713
+        for <linux-doc@vger.kernel.org>; Mon,  5 Sep 2022 19:20:27 -0700 (PDT)
+Received: by mail-lf1-x12d.google.com with SMTP id v26so15270465lfd.10
+        for <linux-doc@vger.kernel.org>; Mon, 05 Sep 2022 19:20:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date;
-        bh=Rliz2J/fL/mT/nveVEiYF2XOZEPNoVbCQ7gKvs6TmIk=;
-        b=dyZxo/QNxSEmfklK5GtIfepHhpi/gcIrEQ/36n0Xh43mPKhLod+8VsIZDA/600z5br
-         CegJjhn4YMetXny/afIO+CT8u4rOROGbhISNUME6+ve55EOx/bfe/wnFcymzDWGZIgiV
-         6410z3Nkmdik728SN0AoVP/B1RWscTOUCDY3Dh+M22sV8brD2Wgo/vNE3ttSlWJkQDNi
-         1z/k+a+StVXzGtgBpSb8z6LmTDtgPYSz8X7Cu7VUXTydOwh/s6eTIAF2DXLMkeY8gIgE
-         p6VFbzLH6F4YXYwUi1PNnvb3KQAzFzP1izcqFmHqjSHmRH6Lf/pmvxe8P8YcWb7sORd/
-         R9Bg==
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date;
+        bh=JM+u37djEQRb9R46HRmoMBdTms/tCJxVvjQ7V2rlp4w=;
+        b=IIQGyCgRpGhBUI+TPOp2mTS/R1IGjpY0DuXfo43RBwtzWmWy0T51HCQz43oBrHwY1I
+         398iPZMcIjE6h9qNyntaPQwHv00oxalJPJt7yVtZrUAPUfIZ1mfXVIpnsjZ4DT+Sx3zP
+         y5dnEuw4Bkp8M4TGqg12oTOVZW9Fg+wI6ENeNc461v6VcxmRMr69ZAYZz1A1+Pmp3Pqj
+         EW6ek5/Ec4xUSvDVBnKKN9qY+a3EaSwufHu1G7Vro3L5X78W9m/RiLxixAi4nZrDIDTQ
+         l0wV4s7yTZYw1sFhF8KmQSdPaa5kfmPhNxb+ySZaE8yL5J03Dnv2xwSvZamQXujLUWnZ
+         OpZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date;
-        bh=Rliz2J/fL/mT/nveVEiYF2XOZEPNoVbCQ7gKvs6TmIk=;
-        b=0GEFIE+QjrCZ1o3uTOUAYCH0TO6SDibx+DMZBlBurtiVHEIbUJgJl+EZ+eomZxLMov
-         +/Kme2CSwV5E7SsB0Ud8DJt/heViZGSp7gP+kYwQb1xt59PnFKZCt1R8iLtib63xfbhh
-         WHNDuBz9WJ/taezu/Bay+V0tnbRRLEckxNln7rp7FhUdfbLzfbMMO5whm9jxxc9WSGeK
-         Orz1qolPNZDAypg9hPmWUhlP6eyyNprj6YULYnF5/BkbY1godp6ZmQnZdk63K83KtDKM
-         2PmIgqlPU1MAL4CDFG9CWbhr8T8UAiVc+dUNRzCm6SNpqTTpgA9GlNu0e90XYVtPfJjU
-         N5mw==
-X-Gm-Message-State: ACgBeo2eFezimX4Oypd62HUYvW9I7gASn4WL5gA0ugr83GcghNoCsiKh
-        W3IK0QziKOkyQlJxA+M/0kk=
-X-Google-Smtp-Source: AA6agR6GiPB6m9Uu6wCaPkJluTD1w4fYadPNmDx1bmbbFooklisV9LCCT66FaFzn48+loAp3mYDmdg==
-X-Received: by 2002:a63:da49:0:b0:434:459:307e with SMTP id l9-20020a63da49000000b004340459307emr12360634pgj.105.1662428225949;
-        Mon, 05 Sep 2022 18:37:05 -0700 (PDT)
-Received: from [192.168.43.80] (subs03-180-214-233-83.three.co.id. [180.214.233.83])
-        by smtp.gmail.com with ESMTPSA id e11-20020a170902784b00b001769ee307d8sm332884pln.59.2022.09.05.18.37.01
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 05 Sep 2022 18:37:05 -0700 (PDT)
-Message-ID: <0131b046-a891-2fae-d2a5-6510455c3449@gmail.com>
-Date:   Tue, 6 Sep 2022 08:37:00 +0700
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date;
+        bh=JM+u37djEQRb9R46HRmoMBdTms/tCJxVvjQ7V2rlp4w=;
+        b=IhNx4+Tj2Z1wJu9Gn/5eUbWYR+wPLYRORVRLLzTL+FufAiO2c9kOgs/CKDRxCuuA49
+         yQPoNIo7xebEHGWZ226BpjpA1divRDW8ZXQgZcebM/Z8r3EW4noU2+O9a05Mnqr8TBKn
+         okCQitDKJDYXoXUjFQCo/2z+Jfz3OjAZ98tj9Ln0At83je3fFFn9S+vlPDh3LpzbrHH0
+         v348L5ckBx8M7TCri1Yum+zBhwAGtwPshqSgux27r6DBThxa6rcxOZmowsjw7uE+0xcQ
+         1gpqWwDgSKq+JPy84MFzv8j+tulB3oQM47tt7NdVKuJseQ1wqleCxnO3s7RMOFgxMb4C
+         o/Jg==
+X-Gm-Message-State: ACgBeo1GHlUGcYrTHZHk/EAWIU4SZrVdoVT+kSAW91iQC+hv1DuSWT2b
+        rMeque/433wrDc/XFPHd0Srl7eTxIbdl5H353a8=
+X-Google-Smtp-Source: AA6agR4l6HgRPWntetsPFHnyMx+zgXUYnmCh6/eLITLSoOj9XXE69K6IO+01G/HMYQ1j5g054cdDicODNiQYe04Iu6w=
+X-Received: by 2002:a19:5e01:0:b0:492:c03a:aa8e with SMTP id
+ s1-20020a195e01000000b00492c03aaa8emr18740699lfb.139.1662430825457; Mon, 05
+ Sep 2022 19:20:25 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH] drm/doc: Custom Kconfig for KUnit is no longer needed
-Content-Language: en-US
-To:     =?UTF-8?Q?Micha=c5=82_Winiarski?= <michal.winiarski@intel.com>,
-        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
-        Maxime Ripard <mripard@kernel.org>,
-        David Gow <davidgow@google.com>,
-        Javier Martinez Canillas <javierm@redhat.com>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Jonathan Corbet <corbet@lwn.net>,
-        =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>
-References: <20220905184711.391022-1-michal.winiarski@intel.com>
-From:   Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <20220905184711.391022-1-michal.winiarski@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <cover.1662022757.git.siyanteng@loongson.cn> <b872e46c98551f94bdae4a8a5f3ed328b9070bd4.1662022757.git.siyanteng@loongson.cn>
+ <YxH9b+m8iRn/GRH2@bobwxc.mipc> <65774b2e-0a58-590d-0be3-84e8fb9a22da@loongson.cn>
+ <YxYmvxbCIuFV8S0O@bobwxc.mipc>
+In-Reply-To: <YxYmvxbCIuFV8S0O@bobwxc.mipc>
+From:   Alex Shi <seakeel@gmail.com>
+Date:   Tue, 6 Sep 2022 10:19:48 +0800
+Message-ID: <CAJy-AmnANW+FRQ6Th5PULg=kq-vpYPL=B4dtV9rErj9nK4xRww@mail.gmail.com>
+Subject: Re: [PATCH v1 1/5] docs/zh_CN: add PCI acpi-info translation
+To:     Wu XiangCheng <wu.xiangcheng@linux.dev>
+Cc:     YanTeng Si <siyanteng@loongson.cn>, Alex Shi <alexs@kernel.org>,
+        "Wu X.C." <bobwxc@email.cn>, Jonathan Corbet <corbet@lwn.net>,
+        Huacai Chen <chenhuacai@kernel.org>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        yanteng si <siyanteng01@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 9/6/22 01:47, Michał Winiarski wrote:
-> References: commit 6fc3a8636a7b ("kunit: tool: Enable virtio/PCI by default on UML")
-
-Use Fixes: tag for bugfix patches instead.
-
--- 
-An old man doll... just what I always wanted! - Clara
+T24gVHVlLCBTZXAgNiwgMjAyMiBhdCAxMjo0MSBBTSBXdSBYaWFuZ0NoZW5nIDx3dS54aWFuZ2No
+ZW5nQGxpbnV4LmRldj4gd3JvdGU6DQo+DQouDQo+DQo+IOS7peWPiuaIkeacrOadpeS4jeaDs+iv
+tOeahOS4gOeCue+8jOaKiuKAnOOAjOacieeglOeptuaYvuekuu+8jOaJk+Wtl+eahOaXtuWAmeS4
+jeWWnOasouWcqOS4reaWh+WSjOiLseaWh+S5i+mXtOWKoOepug0KPiDmoLznmoTkurrvvIzmhJ/m
+g4Xot6/pg73otbDlvpflvojovpvoi6bvvIzmnInkuIPmiJDnmoTmr5TkvovkvJrlnKggMzQg5bKB
+55qE5pe25YCZ6Lef6Ieq5bex5LiN54ix55qE5Lq657uT5ama77yMDQo+IOiAjOWFtuS9meS4ieaI
+kOeahOS6uuacgOWQjuWPquiDveaKiumBl+S6p+eVmee7meiHquW3seeahOeMq+OAguavleern+eI
+seaDhei3n+S5puWGmemDvemcgOimgemAguaXtuWcsOeVmeeZveOAgg0KPiDkuI7lpKflrrblhbHl
+i4nkuYvjgILjgI3igJTigJR2aW50YS9wYXJhbm9pZC1hdXRvLXNwYWNpbmfigJ3ov5nnp43kuJzo
+pb/mlL7lnKjmlZnnqIvlvIDlpLTvvIzlrp7lnKjkuI0NCj4g5piv5LuA5LmI5aW95Li75oSP77yM
+5oiR5bu66K6u57uZ5Ye65Y+C6ICD5paH54yu44CC5ZCm5YiZ5oiR5bCx5b6X6K+04oCc5pyJ56CU
+56m25pi+56S677yM5omT5a2X55qE5pe25YCZ5Zac5qyi5Lmx5YqgDQo+IOepuuagvOeahOS6uu+8
+jOS4gOiIrOWkp+iEkemDveavlOi+g+epuueZve+8jOacieS4g+aIkOeahOavlOS+i+S8muWcqDM0
+5bKB55qE5pe25YCZ6KKr5YWs5Y+45LyY5YyW77yM6ICM5YW25L2Z55qEDQo+IOS4ieaIkOacgOWQ
+juWPquiDveWOu+W9k+S6p+WTgee7j+eQhuOAguavleern+aAneiAg+i/meenjeS4nOilv+aYr+S4
+jeiDveWcqOepuueZveWfuuehgOS4iuWxleW8gOeahOOAguS4juWkp+Wutg0KPiDlhbHli4nigJ3v
+vIzmnYPlvZPljZrlkITkvY3kuIDnrJHjgIINCj4NCg0K5ZOI5ZOIIOeskeatu+aIkeS6hg0K
