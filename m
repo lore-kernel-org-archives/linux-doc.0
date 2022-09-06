@@ -2,253 +2,155 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AFDD9ECAAA1
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Sep 2022 20:00:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 36A09C54EE9
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Sep 2022 20:04:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229735AbiIFUAl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 6 Sep 2022 16:00:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57446 "EHLO
+        id S231216AbiIFUE3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 6 Sep 2022 16:04:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46116 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230525AbiIFUAL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Sep 2022 16:00:11 -0400
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51D93BD147;
-        Tue,  6 Sep 2022 12:56:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1662494172; x=1694030172;
-  h=date:from:to:cc:subject:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=ogqkU6hwz+5RMxgjJdnuLelA2xSDzawITgx7hiHuXjg=;
-  b=SIRbunZ5rXxy0hyllUzfpA5wZ/PRgjhx9+6rVdle9PxfQuq0szzz5VRM
-   KXi3VEb0zKb8CU3VcQReZTT98SAiI9DhM3NIP8sBVFX4QXI3wsioAUOuc
-   VMQmCLYbfOZd20wYC7hseXNm3cGzTTmDYKT9v2+t7zw4dgKykjeI9b01V
-   j0li7bfZnf0JD3rQV1Yyp0IkQjdeKasYiI2zLvrwmIVcw8Qefk4o/FG2R
-   /E0k7+YX+PcxiB7oq9KJcik/rsE9s5P9aZoLiRNhSfkBYPNql0fRf+dD2
-   xeHBbiY5eMiMAqgfX/IfYmqc2S5CkLzlLkh0b+zqTw96BEPM/hb0x4fDt
-   w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10462"; a="298004947"
-X-IronPort-AV: E=Sophos;i="5.93,294,1654585200"; 
-   d="scan'208";a="298004947"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Sep 2022 12:52:39 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,294,1654585200"; 
-   d="scan'208";a="675842746"
-Received: from linux.intel.com ([10.54.29.200])
-  by fmsmga008.fm.intel.com with ESMTP; 06 Sep 2022 12:52:38 -0700
-Received: from maurocar-mobl2 (maurocar-mobl2.ger.corp.intel.com [10.252.44.186])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by linux.intel.com (Postfix) with ESMTPS id 14A6F580890;
-        Tue,  6 Sep 2022 12:52:35 -0700 (PDT)
-Date:   Tue, 6 Sep 2022 21:43:30 +0200
-From:   Mauro Carvalho Chehab <mauro.chehab@linux.intel.com>
-To:     Rodrigo Vivi <rodrigo.vivi@intel.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-doc@vger.kernel.org, David Airlie <airlied@linux.ie>,
-        intel-gfx@lists.freedesktop.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [Intel-gfx] [PATCH v2 35/39] docs: gpu: i915.rst: add the
- remaining kernel-doc markup files
-Message-ID: <20220906214323.3d3a0db4@maurocar-mobl2>
-In-Reply-To: <YvI1CbsIZIG7FVBP@intel.com>
-References: <cover.1657699522.git.mchehab@kernel.org>
-        <5630ff7f2d5a99fc78b4fc2fa7e63649d23f226c.1657699522.git.mchehab@kernel.org>
-        <YvI1CbsIZIG7FVBP@intel.com>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
+        with ESMTP id S231372AbiIFUD7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Sep 2022 16:03:59 -0400
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 7C0FD13E20;
+        Tue,  6 Sep 2022 12:59:39 -0700 (PDT)
+Received: from pwmachine.numericable.fr (85-170-34-72.rev.numericable.fr [85.170.34.72])
+        by linux.microsoft.com (Postfix) with ESMTPSA id 75B6B2049BAE;
+        Tue,  6 Sep 2022 12:58:07 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 75B6B2049BAE
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+        s=default; t=1662494291;
+        bh=Lgwyo8Ll4+9QdK81IgZHqZgwpIfKReyUkVrwZ38RZ/g=;
+        h=From:To:Cc:Subject:Date:From;
+        b=nGUfhT1FwKDLYsJ/h/Ti7q5o0kYXfbMN+89/95xvNzhZ/rtKBNnt3IX/eX+TvuKDt
+         31GSY8fFtsRsRLw1O4nL6lTrYFhJKOq8uQqo5l8ERPFEWN4QJFddO7Xsc5xcCB9RS6
+         3pAVIUm6K/+SrNUm3X4yNIjGkP7YE5WAq+A4E9eQ=
+From:   Francis Laniel <flaniel@linux.microsoft.com>
+To:     bpf@vger.kernel.org
+Cc:     Francis Laniel <flaniel@linux.microsoft.com>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Andrii Nakryiko <andrii@kernel.org>,
+        Martin KaFai Lau <martin.lau@linux.dev>,
+        Song Liu <song@kernel.org>, Yonghong Song <yhs@fb.com>,
+        John Fastabend <john.fastabend@gmail.com>,
+        KP Singh <kpsingh@kernel.org>,
+        Stanislav Fomichev <sdf@google.com>,
+        Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mykola Lysenko <mykolal@fb.com>, Shuah Khan <shuah@kernel.org>,
+        Joanne Koong <joannelkoong@gmail.com>,
+        Lorenzo Bianconi <lorenzo@kernel.org>,
+        Dave Marchevsky <davemarchevsky@fb.com>,
+        Maxim Mikityanskiy <maximmi@nvidia.com>,
+        Geliang Tang <geliang.tang@suse.com>,
+        "Naveen N. Rao" <naveen.n.rao@linux.vnet.ibm.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org
+Subject: [RFC PATCH v2 0/5] Make BPF ring buffer overwritable
+Date:   Tue,  6 Sep 2022 21:56:41 +0200
+Message-Id: <20220906195656.33021-1-flaniel@linux.microsoft.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 9 Aug 2022 06:20:57 -0400
-Rodrigo Vivi <rodrigo.vivi@intel.com> wrote:
+Hi.
 
-> On Wed, Jul 13, 2022 at 09:12:23AM +0100, Mauro Carvalho Chehab wrote:
-> > There are other files with kernel-doc markups:
-> > 
-> > 	$ git grep -l "/\*\*" $(git ls-files|grep drivers/gpu/drm/i915/) >kernel-doc-files
-> > 	$ for i in $(cat kernel-doc-files); do if [ "$(git grep $i Documentation/)" == "" ]; then echo "$i"; fi; done >aaa
-> > 
-> > Add them to i915.rst as well.
-> > 
-> > Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
-> > ---
-> > 
-> > To avoid mailbombing on a large number of people, only mailing lists were C/C on the cover.
-> > See [PATCH v2 00/39] at: https://lore.kernel.org/all/cover.1657699522.git.mchehab@kernel.org/
-> > 
-> >  Documentation/gpu/i915.rst | 87 ++++++++++++++++++++++++++++++++++++++
-> >  1 file changed, 87 insertions(+)
-> > 
-> > diff --git a/Documentation/gpu/i915.rst b/Documentation/gpu/i915.rst
-> > index 974754586be8..6bb50edc6d79 100644
-> > --- a/Documentation/gpu/i915.rst
-> > +++ b/Documentation/gpu/i915.rst
-> > @@ -13,6 +13,11 @@ Core Driver Infrastructure
-> >  This section covers core driver infrastructure used by both the display
-> >  and the GEM parts of the driver.
-> >  
-> > +Core driver
-> > +-----------
-> > +
-> > +.. kernel-doc:: drivers/gpu/drm/i915/i915_driver.c
-> > +
-> >  Runtime Power Management
-> >  ------------------------
-> >  
-> > @@ -29,6 +34,10 @@ Runtime Power Management
-> >  
-> >  .. kernel-doc:: drivers/gpu/drm/i915/intel_pm.c
-> >  
-> > +.. kernel-doc:: drivers/gpu/drm/i915/intel_wakeref.h
-> > +
-> > +.. kernel-doc:: drivers/gpu/drm/i915/i915_active.h  
-> 
-> not sure if this belongs to this group...
-> 
-> > +
-> >  Interrupt Handling
-> >  ------------------
-> >  
-> > @@ -44,6 +53,28 @@ Interrupt Handling
-> >  .. kernel-doc:: drivers/gpu/drm/i915/i915_irq.c
-> >     :functions: intel_runtime_pm_enable_interrupts
-> >  
-> > +Error handling
-> > +--------------
-> > +
-> > +.. kernel-doc:: drivers/gpu/drm/i915/i915_gpu_error.c  
-> 
-> not sure if this gt hang stuff deserves a separated section
-> alone and if the name is the best one....
-> 
-> > +
-> > +Memory Handling
-> > +---------------
-> > +
-> > +.. kernel-doc:: drivers/gpu/drm/i915/i915_vma_resource.h
-> > +
-> > +.. kernel-doc:: drivers/gpu/drm/i915/i915_vma_resource.c
-> > +
-> > +.. kernel-doc:: drivers/gpu/drm/i915/i915_vma.h
-> > +
-> > +.. kernel-doc:: drivers/gpu/drm/i915/i915_vma.c
-> > +
-> > +.. kernel-doc:: drivers/gpu/drm/i915/i915_mm.c
-> > +
-> > +.. kernel-doc:: drivers/gpu/drm/i915/intel_memory_region.c
-> > +
-> > +.. kernel-doc:: drivers/gpu/drm/i915/i915_memcpy.c
-> > +
-> >  Intel GVT-g Guest Support(vGPU)  
-> 
->                             ^ missing space
-> 
-> >  -------------------------------
-> >  
-> > @@ -109,6 +140,54 @@ Workarounds
-> >  .. kernel-doc:: drivers/gpu/drm/i915/gt/intel_workarounds.c
-> >     :doc: Hardware workarounds
-> >  
-> > +32-bits compatible ioctl Logic
-> > +------------------------------
-> > +
-> > +.. kernel-doc:: drivers/gpu/drm/i915/i915_ioc32.c
-> > +
-> > +Scatterlist handling
-> > +--------------------
-> > +
-> > +.. kernel-doc:: drivers/gpu/drm/i915/i915_scatterlist.h
-> > +
-> > +.. kernel-doc:: drivers/gpu/drm/i915/i915_scatterlist.c
-> > +
-> > +i915 request
-> > +------------
-> > +
-> > +.. kernel-doc:: drivers/gpu/drm/i915/i915_request.h
-> > +
-> > +.. kernel-doc:: drivers/gpu/drm/i915/i915_request.c
-> > +
-> > +Ancillary routines  
-> 
-> maybe simply have an "Others" section and put everything
-> that has only one item like the gpu hang one?
 
-OK!
+First, I hope you are fine and the same for your relatives.
 
-> 
-> > +------------------
-> > +
-> > +.. kernel-doc:: drivers/gpu/drm/i915/i915_deps.c
-> > +
-> > +.. kernel-doc:: drivers/gpu/drm/i915/i915_deps.h
-> > +
-> > +.. kernel-doc:: drivers/gpu/drm/i915/intel_device_info.c
-> > +
-> > +.. kernel-doc:: drivers/gpu/drm/i915/i915_params.c
-> > +
-> > +.. kernel-doc:: drivers/gpu/drm/i915/i915_sw_fence_work.h
-> > +
-> > +.. kernel-doc:: drivers/gpu/drm/i915/i915_syncmap.c
-> > +
-> > +.. kernel-doc:: drivers/gpu/drm/i915/intel_pcode.c
-> > +
-> > +.. kernel-doc:: drivers/gpu/drm/i915/i915_reg_defs.h
-> > +
-> > +.. kernel-doc:: drivers/gpu/drm/i915/intel_wopcm.h
-> > +
-> > +
-> > +PXP  
-> 
-> Protected Xe Path (PXP)
-> 
-> 
-> > +---
-> > +
-> > +.. kernel-doc:: drivers/gpu/drm/i915/pxp/intel_pxp_irq.c
-> > +
-> > +.. kernel-doc:: drivers/gpu/drm/i915/pxp/intel_pxp_tee.c
-> > +
-> >  Display Hardware Handling
-> >  =========================
-> >  
-> > @@ -618,6 +697,12 @@ Protected Objects
-> >  Table Manager (TTM)
-> >  -------------------
-> >  
-> > +.. kernel-doc:: drivers/gpu/drm/i915/i915_ttm_buddy_manager.h
-> > +
-> > +.. kernel-doc:: drivers/gpu/drm/i915/i915_ttm_buddy_manager.c
-> > +
-> > +.. kernel-doc:: drivers/gpu/drm/i915/intel_region_ttm.c
-> > +
-> >  .. kernel-doc:: drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-> >  
-> >  .. kernel-doc:: drivers/gpu/drm/i915/gem/i915_gem_ttm.h
-> > @@ -627,6 +712,8 @@ Table Manager (TTM)
-> >  Graphics Execution Manager (GEM)
-> >  --------------------------------
-> >  
-> > +.. kernel-doc:: drivers/gpu/drm/i915/i915_gem.c
-> > +
-> >  .. kernel-doc:: drivers/gpu/drm/i915/gem/i915_gem_create.c
-> >  
-> >  .. kernel-doc:: drivers/gpu/drm/i915/gem/i915_gem_domain.c  
-> 
-> in many cases I see only the .h or only the .c... why is that?
-> wouldn't be better already put both in all the cases?
+Normally, when BPF ring buffer are full, producers cannot write anymore and
+need to wait for consumer to get some data.
+As a consequence, calling bpf_ringbuf_reserve() from eBPF code returns NULL.
 
-No. Adding kernel-doc files that doesn't contain any markups
-will produce warnings.
+This contribution adds a new flag to make BPF ring buffer overwritable.
+Perf ring buffers already implement an option to be overwritable. In order to
+avoid data corruption, the data is written backward, see
+commit 9ecda41acb97 ("perf/core: Add ::write_backward attribute to perf event").
+This patch series re-uses the same idea from perf ring buffers but in BPF ring
+buffers.
+So, calling bpf_ringbuf_reserve() on an overwritable BPF ring buffer never
+returns NULL.
+As a consequence, oldest data will be overwritten by the newest so consumer will
+loose data.
 
-We're working hard upstream to have a zero-warnings policy for
-documentation.
+Overwritable ring buffers are useful in BPF programs that are permanently
+enabled but rarely read, only on-demand, for example in case of a user request
+to investigate problems. We would like to use this in the Traceloop project [1].
 
-Regards,
-Mauro
+The self test added in this series was tested and validated in a VM:
+you@vm# ./share/linux/tools/testing/selftests/bpf/test_progs -t ringbuf_over
+Can't find bpf_testmod.ko kernel module: -2
+WARNING! Selftests relying on bpf_testmod.ko will be skipped.
+#135     ringbuf_over_writable:OK
+Summary: 1/0 PASSED, 0 SKIPPED, 0 FAILED
+
+You can also test the libbpf implementation by using the last patch of this
+series which should be applied to iovisor/bcc:
+you@home$ cd /path/to/iovisor/bcc
+you@home$ git am -3 v2-0005-for-test-purpose-only-Add-toy-to-play-with-BPF-ri.patch
+you@home$ cd /path/to/linux/tools/lib/bpf
+you@home$ make -j$(nproc)
+you@home$ cp libbpf.a /path/to/iovisor/bcc/libbpf-tools/.output
+you@home$ cd /path/to/iovisor/bcc/libbpf-tools/
+you@home$ make -j toy
+# Start your VM and copy toy executable inside it.
+root@vm-amd64:~# ./share/toy &
+[1] 287
+root@vm-amd64:~# for i in {1..16}; do ls > /dev/null; done
+16
+15
+14
+13
+12
+11
+10
+9
+root@vm-amd64:~# ls > /dev/null && ls > /dev/null
+18
+17
+
+As you can see, the first eight events are overwritten.
+
+If you see any way to improve this contribution, feel free to share.
+
+Changes since:
+ v1:
+  * Made producers write backward like perf ring buffer, so it permits avoiding
+  memory corruption.
+  * Added libbpf implementation to consume all events available.
+  * Added selftest.
+  * Added documentation.
+
+Francis Laniel (5):
+  bpf: Make ring buffer overwritable.
+  selftests: Add BPF overwritable ring buffer self tests.
+  docs/bpf: Add documentation for overwritable ring buffer.
+  libbpf: Add implementation to consume overwritable BPF ring buffer.
+  for test purpose only: Add toy to play with BPF ring.
+
+ ...-only-Add-toy-to-play-with-BPF-ring-.patch | 147 ++++++++++++++++
+ Documentation/bpf/ringbuf.rst                 |  18 +-
+ include/uapi/linux/bpf.h                      |   3 +
+ kernel/bpf/ringbuf.c                          |  43 +++--
+ tools/include/uapi/linux/bpf.h                |   3 +
+ tools/lib/bpf/ringbuf.c                       | 106 ++++++++++++
+ tools/testing/selftests/bpf/Makefile          |   5 +-
+ .../bpf/prog_tests/ringbuf_overwritable.c     | 158 ++++++++++++++++++
+ .../bpf/progs/test_ringbuf_overwritable.c     |  61 +++++++
+ 9 files changed, 531 insertions(+), 13 deletions(-)
+ create mode 100644 0001-for-test-purpose-only-Add-toy-to-play-with-BPF-ring-.patch
+ create mode 100644 tools/testing/selftests/bpf/prog_tests/ringbuf_overwritable.c
+ create mode 100644 tools/testing/selftests/bpf/progs/test_ringbuf_overwritable.c
+
+
+Best regards and thank you in advance.
+---
+[1] https://github.com/kinvolk/traceloop
+Traceloop was presented at LPC 2020 (https://lpc.events/event/7/contributions/667/)
+--
+2.25.1
+
