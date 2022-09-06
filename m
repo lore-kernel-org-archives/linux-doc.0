@@ -2,192 +2,177 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 78338C38145
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Sep 2022 19:05:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 19BABECAAA1
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Sep 2022 19:40:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229566AbiIFTEe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 6 Sep 2022 15:04:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51388 "EHLO
+        id S229959AbiIFTkU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 6 Sep 2022 15:40:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49116 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229717AbiIFTEa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Sep 2022 15:04:30 -0400
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3AFDA6146;
-        Tue,  6 Sep 2022 12:04:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1662491065; x=1694027065;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=ICHPytA3pO1SwHmblkHrU9c7giwKu6jTGgG0MhX7gT0=;
-  b=MtbNYrgRUd2hSeawg8wOIPwwkhSZe6o65izj/vwR4GTpK0XkQP0k0PC7
-   9DE8FVsgq3a7GLeA3Y5PR1yhV4uLdQNYN1Cx3ZAn61b0icprfYZpyozih
-   mBIZKKiRt57+1nBIabrADQDJMFf4cyDHQe5RkxXRSqWBgcy0B4S9aWW8U
-   9tnnA9LrokrDmOHPZ+nPhYYDVe5w+ozq1nHKjnklYLHkon+RA0FCpYU0T
-   ZKlZc0ljs9FwxPFT+VtzcLhMNi4jqZt4io2g9iTlJllJs7+kE/O0RNjRZ
-   gxDfZgjM6qSK3vIdfZ9C6TioSx0C2egX27rGooCR21b5pi/OBvzDY+NWu
-   Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10462"; a="283677339"
-X-IronPort-AV: E=Sophos;i="5.93,294,1654585200"; 
-   d="scan'208";a="283677339"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Sep 2022 12:04:18 -0700
-X-IronPort-AV: E=Sophos;i="5.93,294,1654585200"; 
-   d="scan'208";a="789782551"
-Received: from rhweight-wrk1.ra.intel.com ([137.102.106.43])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Sep 2022 12:04:18 -0700
-From:   matthew.gerlach@linux.intel.com
-To:     hao.wu@intel.com, yilun.xu@intel.com, russell.h.weight@intel.com,
-        basheer.ahmed.muddebihal@intel.com, trix@redhat.com,
-        mdf@kernel.org, linux-fpga@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        tianfei.zhang@intel.com, corbet@lwn.net,
-        gregkh@linuxfoundation.org, linux-serial@vger.kernel.org,
-        jirislaby@kernel.org, geert+renesas@glider.be,
-        andriy.shevchenko@linux.intel.com,
-        niklas.soderlund+renesas@ragnatech.se, phil.edworthy@renesas.com,
-        macro@orcam.me.uk, johan@kernel.org, lukas@wunner.de
-Cc:     Matthew Gerlach <matthew.gerlach@linux.intel.com>
-Subject: [PATCH v1 4/5] fpga: dfl: add generic support for MSIX interrupts
-Date:   Tue,  6 Sep 2022 12:04:25 -0700
-Message-Id: <20220906190426.3139760-5-matthew.gerlach@linux.intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220906190426.3139760-1-matthew.gerlach@linux.intel.com>
-References: <20220906190426.3139760-1-matthew.gerlach@linux.intel.com>
+        with ESMTP id S229921AbiIFTkK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Sep 2022 15:40:10 -0400
+Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com [IPv6:2a00:1450:4864:20::330])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21EBE2180E
+        for <linux-doc@vger.kernel.org>; Tue,  6 Sep 2022 12:39:50 -0700 (PDT)
+Received: by mail-wm1-x330.google.com with SMTP id ay12so7429660wmb.1
+        for <linux-doc@vger.kernel.org>; Tue, 06 Sep 2022 12:39:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=in-reply-to:content-disposition:mime-version:references
+         :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
+         :subject:date;
+        bh=Q7k34QMFna+VMCWcVTBpDYwMMQqIocaQ24VXbz0U53E=;
+        b=fSlBCXUTu5f+ysIYWkhIOcXEh0jK1dX6We3GoYUzQZD/pi1UP7PLGgh3ddRR5nF4bd
+         IXrbHJCXywJEJD1/6lFMXsX2r6MtDTGZWi+ivQLGsdFh0rfWi0HwvRiTFhb2CKJArtDF
+         0cOn3TBXU4djET4/KpQEUGdEZGhaaUKc7Vuxs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references
+         :mail-followup-to:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date;
+        bh=Q7k34QMFna+VMCWcVTBpDYwMMQqIocaQ24VXbz0U53E=;
+        b=q1ikfpEA5sQ68dZgRaFCM4UhMNBPAx8e5yaD5EEBrHwh0Uedpkoazks2mCzqDavvAf
+         JnyMS7SkA5vgwRFGr7Cz8VnFAUGseTNQOYkMJmPp9Rvwjb6DPXPz7rja7iJ8v3q90CuC
+         XmFug+7d4Qp/opIuVxIRG4XJv5fgsHKhynROzue8Q8OQp3MyE9g1rGqtvJsYszPyJ20/
+         0/wkujgzzMPonbSAGI1s5BaODPTQQJqcmweV4nBHNXmmt1HdW+SYCj5SsNmZv3wMB1Uv
+         x8G9ERup2X31QJM3aI1TFXwGthnS3GT/SsLecZAGLvQhU6ZdXFC6BdfjHiXznDbd9SAQ
+         wNNw==
+X-Gm-Message-State: ACgBeo2m88r0r/evBFPllJc1zOMLmnm0vRjT6uNggZtRUd1EvXESmqV7
+        Z4hJoTKfcAbr+C3YNIMyox+aJw==
+X-Google-Smtp-Source: AA6agR7dO/5mx+p7Bq5UKEq1+BC5n76RbAm/1S4e5aby/E5HZfLdP8Mmz+/OpcL0OycEbj++i728uQ==
+X-Received: by 2002:a05:600c:1554:b0:3a6:23d7:1669 with SMTP id f20-20020a05600c155400b003a623d71669mr14922175wmg.70.1662493188711;
+        Tue, 06 Sep 2022 12:39:48 -0700 (PDT)
+Received: from phenom.ffwll.local (212-51-149-33.fiber7.init7.net. [212.51.149.33])
+        by smtp.gmail.com with ESMTPSA id e27-20020adf9bdb000000b0021f0ff1bc6csm8083000wrc.41.2022.09.06.12.39.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 06 Sep 2022 12:39:48 -0700 (PDT)
+Date:   Tue, 6 Sep 2022 21:39:45 +0200
+From:   Daniel Vetter <daniel@ffwll.ch>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Markuss Broks <markuss.broks@gmail.com>,
+        linux-kernel@vger.kernel.org,
+        ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Helge Deller <deller@gmx.de>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Borislav Petkov <bp@suse.de>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Kees Cook <keescook@chromium.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Javier Martinez Canillas <javierm@redhat.com>,
+        Michal Suchanek <msuchanek@suse.de>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Wei Ming Chen <jj251510319013@gmail.com>,
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+        Tony Lindgren <tony@atomide.com>, linux-doc@vger.kernel.org,
+        linux-efi@vger.kernel.org, linux-serial@vger.kernel.org,
+        linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH 2/2] efi: earlycon: Add support for generic framebuffers
+ and move to fbdev subsystem
+Message-ID: <YxeiAbw0OLb7OP7V@phenom.ffwll.local>
+Mail-Followup-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Markuss Broks <markuss.broks@gmail.com>,
+        linux-kernel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht,
+        phone-devel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Ard Biesheuvel <ardb@kernel.org>, Jiri Slaby <jirislaby@kernel.org>,
+        Helge Deller <deller@gmx.de>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Borislav Petkov <bp@suse.de>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Kees Cook <keescook@chromium.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Javier Martinez Canillas <javierm@redhat.com>,
+        Michal Suchanek <msuchanek@suse.de>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Wei Ming Chen <jj251510319013@gmail.com>,
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+        Tony Lindgren <tony@atomide.com>, linux-doc@vger.kernel.org,
+        linux-efi@vger.kernel.org, linux-serial@vger.kernel.org,
+        linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        Rob Herring <robh@kernel.org>
+References: <20220728142824.3836-1-markuss.broks@gmail.com>
+ <20220728142824.3836-3-markuss.broks@gmail.com>
+ <YuKfnAjB4gV0ki4A@kroah.com>
+ <30ce6f21-0a91-81cb-8b03-5acff17c59ee@gmail.com>
+ <YuKkxb7u3piHytJ8@kroah.com>
+ <27b40940-b8a7-2755-1ef5-e97d6b35dd2a@gmail.com>
+ <Yu9hWu8IseJlpCUK@kroah.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Yu9hWu8IseJlpCUK@kroah.com>
+X-Operating-System: Linux phenom 5.18.0-4-amd64 
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Matthew Gerlach <matthew.gerlach@linux.intel.com>
+On Sun, Aug 07, 2022 at 08:53:14AM +0200, Greg Kroah-Hartman wrote:
+> On Sat, Aug 06, 2022 at 07:26:07PM +0300, Markuss Broks wrote:
+> > Hi Greg,
+> > 
+> > On 7/28/22 18:01, Greg Kroah-Hartman wrote:
+> > > On Thu, Jul 28, 2022 at 05:52:04PM +0300, Markuss Broks wrote:
+> > > > Hi Greg,
+> > > > 
+> > > > On 7/28/22 17:39, Greg Kroah-Hartman wrote:
+> > > > > On Thu, Jul 28, 2022 at 05:28:19PM +0300, Markuss Broks wrote:
+> > > > > > Add early console support for generic linear framebuffer devices.
+> > > > > > This driver supports probing from cmdline early parameters
+> > > > > > or from the device-tree using information in simple-framebuffer node.
+> > > > > > The EFI functionality should be retained in whole.
+> > > > > > The driver was disabled on ARM because of a bug in early_ioremap
+> > > > > > implementation on ARM.
+> > > > > > 
+> > > > > > Signed-off-by: Markuss Broks <markuss.broks@gmail.com>
+> > > > > > ---
+> > > > > >    .../admin-guide/kernel-parameters.txt         |  12 +-
+> > > > > >    MAINTAINERS                                   |   5 +
+> > > > > >    drivers/firmware/efi/Kconfig                  |   6 +-
+> > > > > >    drivers/firmware/efi/Makefile                 |   1 -
+> > > > > >    drivers/firmware/efi/earlycon.c               | 246 --------------
+> > > > > >    drivers/video/fbdev/Kconfig                   |  11 +
+> > > > > >    drivers/video/fbdev/Makefile                  |   1 +
+> > > > > >    drivers/video/fbdev/earlycon.c                | 301 ++++++++++++++++++
+> > > > > >    8 files changed, 327 insertions(+), 256 deletions(-)
+> > > > > >    delete mode 100644 drivers/firmware/efi/earlycon.c
+> > > > > >    create mode 100644 drivers/video/fbdev/earlycon.c
+> > > > > 
+> > > > > That should be a rename, not a delete/create, right?
+> > > > 
+> > > > Should this change be split into two separate commits,
+> > > > one for moving the file and the second for making changes?
+> > > 
+> > > Git will show a rename and modification properly, if you use -M to git
+> > > format-patch, so it should be fine.
+> > 
+> > It appears that there are so many changes Git would refuse to make it a
+> > "move" no matter what I do. What should be done here: should it be two
+> > separate commits for move/change or should it just be kept as delete/create?
+> 
+> One commit to move the file, and then add your changes on top of it
+> might be the easiest to review, right?
 
-Define and use a DFHv1 parameter to add generic support for MSIX
-interrupts for DFL devices.
++1
 
-Signed-off-by: Matthew Gerlach <matthew.gerlach@linux.intel.com>
----
- drivers/fpga/dfl.c  | 59 +++++++++++++++++++++++++++++++++------------
- include/linux/dfl.h | 13 ++++++++++
- 2 files changed, 57 insertions(+), 15 deletions(-)
+I think this should be a least
+- commit to move the file, as unchanged as possible
+- commit to auto-select the right mapping mode (or maybe that's only in
+  v2)
+- actual change to add the simplefb support with a clearly readable diff
 
-diff --git a/drivers/fpga/dfl.c b/drivers/fpga/dfl.c
-index b9aae85ba930..17f704dc8483 100644
---- a/drivers/fpga/dfl.c
-+++ b/drivers/fpga/dfl.c
-@@ -941,25 +941,11 @@ static int parse_feature_irqs(struct build_feature_devs_info *binfo,
- 	void __iomem *base = binfo->ioaddr + ofst;
- 	unsigned int i, ibase, inr = 0;
- 	enum dfl_id_type type;
--	int virq;
-+	int virq, off;
- 	u64 v;
- 
- 	type = feature_dev_id_type(binfo->feature_dev);
- 
--	/*
--	 * Ideally DFL framework should only read info from DFL header, but
--	 * current version DFL only provides mmio resources information for
--	 * each feature in DFL Header, no field for interrupt resources.
--	 * Interrupt resource information is provided by specific mmio
--	 * registers of each private feature which supports interrupt. So in
--	 * order to parse and assign irq resources, DFL framework has to look
--	 * into specific capability registers of these private features.
--	 *
--	 * Once future DFL version supports generic interrupt resource
--	 * information in common DFL headers, the generic interrupt parsing
--	 * code will be added. But in order to be compatible to old version
--	 * DFL, the driver may still fall back to these quirks.
--	 */
- 	if (type == PORT_ID) {
- 		switch (fid) {
- 		case PORT_FEATURE_ID_UINT:
-@@ -981,6 +967,28 @@ static int parse_feature_irqs(struct build_feature_devs_info *binfo,
- 		}
- 	}
- 
-+	if (fid != FEATURE_ID_AFU && fid != PORT_FEATURE_ID_ERROR &&
-+	    fid != PORT_FEATURE_ID_UINT && fid != FME_FEATURE_ID_GLOBAL_ERR) {
-+		v = readq(base);
-+		v = FIELD_GET(DFH_VERSION, v);
-+
-+		if (v == 1) {
-+			v =  readq(base + DFHv1_CSR_SIZE_GRP);
-+			if (FIELD_GET(DFHv1_CSR_SIZE_GRP_HAS_PARAMS, v)) {
-+				off = dfl_find_param(base + DFHv1_PARAM_HDR, ofst,
-+						     DFHv1_PARAM_ID_MSIX);
-+				if (off >= 0) {
-+					ibase = readl(base + DFHv1_PARAM_HDR +
-+						      off + DFHv1_PARAM_MSIX_STARTV);
-+					inr = readl(base + DFHv1_PARAM_HDR +
-+						    off + DFHv1_PARAM_MSIX_NUMV);
-+					dev_dbg(binfo->dev, "%s start %d num %d fid 0x%x\n",
-+						__func__, ibase, inr, fid);
-+				}
-+			}
-+		}
-+	}
-+
- 	if (!inr) {
- 		*irq_base = 0;
- 		*nr_irqs = 0;
-@@ -1879,6 +1887,27 @@ long dfl_feature_ioctl_set_irq(struct platform_device *pdev,
- }
- EXPORT_SYMBOL_GPL(dfl_feature_ioctl_set_irq);
- 
-+int dfl_find_param(void __iomem *base, resource_size_t max, int param)
-+{
-+	int off = 0;
-+	u64 v, next;
-+
-+	while (off < max) {
-+		v = readq(base + off);
-+		if (param == FIELD_GET(DFHv1_PARAM_HDR_ID, v))
-+			return off;
-+
-+		next = FIELD_GET(DFHv1_PARAM_HDR_NEXT_OFFSET, v);
-+		if (!next)
-+			break;
-+
-+		off += next;
-+	}
-+
-+	return -ENOENT;
-+}
-+EXPORT_SYMBOL_GPL(dfl_find_param);
-+
- static void __exit dfl_fpga_exit(void)
- {
- 	dfl_chardev_uinit();
-diff --git a/include/linux/dfl.h b/include/linux/dfl.h
-index 61bcf20c1bc8..5652879ab48e 100644
---- a/include/linux/dfl.h
-+++ b/include/linux/dfl.h
-@@ -69,6 +69,10 @@
- #define DFHv1_PARAM_HDR_VERSION		GENMASK_ULL(31, 16) /* Version Param */
- #define DFHv1_PARAM_HDR_NEXT_OFFSET	GENMASK_ULL(63, 32) /* Offset of next Param */
- 
-+#define DFHv1_PARAM_ID_MSIX	0x1
-+#define DFHv1_PARAM_MSIX_STARTV	0x8
-+#define DFHv1_PARAM_MSIX_NUMV	0xc
-+
- /**
-  * enum dfl_id_type - define the DFL FIU types
-  */
-@@ -142,4 +146,13 @@ void dfl_driver_unregister(struct dfl_driver *dfl_drv);
- 	module_driver(__dfl_driver, dfl_driver_register, \
- 		      dfl_driver_unregister)
- 
-+/*
-+ * dfl_find_param() - find the offset of the given parameter
-+ * @base: base pointer to start of dfl parameters in DFH
-+ * @max: maximum offset to search
-+ * @param: id of dfl parameter
-+ *
-+ * Return: positive offset on success, negative error code otherwise.
-+ */
-+int dfl_find_param(void __iomem *base, resource_size_t max, int param);
- #endif /* __LINUX_DFL_H */
+But also video/console is for Greg to maintain, I'm trying hard to not go
+even more stupid :-)
+-Daniel
 -- 
-2.25.1
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
